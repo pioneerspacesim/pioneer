@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="..\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,6 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="sdl.lib sdlmain.lib ode.lib sigc-2.0d.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib"
+				OutputFile="..\data_win32\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -139,6 +141,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="sdl.lib sdlmain.lib ode.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib"
+				OutputFile="..\data_win32\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -291,6 +294,10 @@
 			</File>
 			<File
 				RelativePath="..\src\ShipCpanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ShipType.cpp"
 				>
 			</File>
 			<File
@@ -513,6 +520,58 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="sbre"
+			>
+			<File
+				RelativePath="..\src\sbre\brender.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\fastmath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\jjtypes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\jjvector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\jjvector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\models.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\primfunc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\sbre.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\sbre_anim.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\sbre_int.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\simtriang.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\transp.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

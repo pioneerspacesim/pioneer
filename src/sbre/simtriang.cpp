@@ -48,7 +48,7 @@ void ResolveHermiteSpline (Vector *p0, Vector *p1, Vector *n0, Vector *n1, float
 	VecAdd (&tv1, &tv2, pRes);
 }
 
-void ResolveHermiteNormal (Vector *p0, Vector *p1, Vector *n0, Vector *n1, float t, Vector *pRes)
+void ResolveHermiteTangent (Vector *p0, Vector *p1, Vector *n0, Vector *n1, float t, Vector *pRes)
 {
 	float t2 = t*t;
 	Vector tv1, tv2, tv;
@@ -68,10 +68,10 @@ struct TriangPoint
 	Vector pos;					// base pos, norm
 	Vector norm;
 	int num;			// count of valid vertices
-	Uint16 pIndex[TRIANG_MAXSTEPS+1];		// index of each vertex, inside to outside
+	uint16 pIndex[TRIANG_MAXSTEPS+1];		// index of each vertex, inside to outside
 };
 
-static Uint16 pIndex[6*TRIANG_MAXPOINTS*(TRIANG_MAXSTEPS+1)];
+static uint16 pIndex[6*TRIANG_MAXPOINTS*(TRIANG_MAXSTEPS+1)];
 static Vector pVertex[2*TRIANG_MAXPOINTS*(TRIANG_MAXSTEPS+1)];
 
 static TriangPoint pPoint[TRIANG_MAXPOINTS];
@@ -86,7 +86,7 @@ void TriangAddPoint (Vector *pPos, Vector *pNorm)
 }
 
 void Triangulate (Vector *pCPos, Vector *pCNorm, int steps,
-	Vector **ppVtx, int *pNV, Uint16 **ppIndex, int *pNI)
+	Vector **ppVtx, int *pNV, uint16 **ppIndex, int *pNI)
 {
 	// Ok. For each point, find number of increments
 	// and generate intermediate values
@@ -94,11 +94,14 @@ void Triangulate (Vector *pCPos, Vector *pCNorm, int steps,
 	int nv = 0, ni = 0;
 	int i; for (int i=0; i<numPoints; i++)
 	{
-		Vector tv;
+		Vector tv;			//, tnorm, tnorm2;
 		TriangPoint *pCur = pPoint+i;
 		VecSub (pCPos, &pCur->pos, &tv);
-		float len = sqrt (VecDot (&tv, &tv));
-
+//		float len = sqrt (VecDot (&tv, &tv));
+//		VecCross (&pCur->norm, pCNorm, &tnorm);
+//		VecCross (pCNorm, &tv, &tnorm2);
+//		if (VecDot (&tnorm, &tnorm2) < 0.0f) VecInv (&tnorm, &tnorm);
+	
 		pVertex[nv] = pCur->pos;			// add first vertex to array
 		pVertex[nv+1] = pCur->norm;
 		pCur->pIndex[0] = nv>>1; nv+=2;
@@ -118,6 +121,8 @@ void Triangulate (Vector *pCPos, Vector *pCNorm, int steps,
 		int j; for (t=inc, j=1; j<=pCur->num; j++, t+=inc)
 		{
 			ResolveHermiteSpline (&pCur->pos, pCPos, &t0, &t1, t, pVertex+nv);
+//			ResolveHermiteTangent (&pCur->pos, pCPos, &t0, &t1, t, &tv);
+//			VecCross (&tv, &tnorm, pVertex+nv+1);
 			ResolveLinearInterp (&pCur->norm, pCNorm, t, pVertex+nv+1);
 			pCur->pIndex[j] = nv>>1; nv+=2;
 		}

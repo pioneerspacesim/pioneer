@@ -21,7 +21,7 @@ enum animflag
 struct ObjParams
 {
 	float pAnim[10];
-	Uint8 pFlag[10];
+	uint8 pFlag[10];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
@@ -39,6 +39,7 @@ struct ObjParams
 
 void sbreSetViewport (int w, int h, int d, float zn, float zf, float dn, float df);
 void sbreSetDirLight (float *pColor, float *pDir);
+void sbreSetWireframe (int val);
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s=1.0f);
 
 #endif /* __SBRE_H__ */

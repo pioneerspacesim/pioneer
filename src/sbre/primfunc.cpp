@@ -3,17 +3,17 @@
 #include "sbre_int.h"
 #include "sbre_anim.h"
 #include "sbre.h"			// for subobject
-#include "../glfreetype.h"
+#include "glfreetype.h"
 
 
 /*
-Uint16 PFUNC_MATANIM
-	Uint16 animfunc
-	Uint16 dr1, dg1, db1, sr1, sg1, sb1, sh1, er1, eg1, eb1
-	Uint16 dr2, dg2, db2, sr2, sg2, sb2, sh2, er2, eg2, eb2
+uint16 PFUNC_MATANIM
+	uint16 animfunc
+	uint16 dr1, dg1, db1, sr1, sg1, sb1, sh1, er1, eg1, eb1
+	uint16 dr2, dg2, db2, sr2, sg2, sb2, sh2, er2, eg2, eb2
 */
 
-static int PrimFuncMatAnim (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncMatAnim (uint16 *pData, Model *pMod, RState *pState)
 {
 	float anim = 0.01f * ResolveAnim (pState->pObjParam, pData[1]);
 	float ianim = 0.01f - anim;
@@ -36,14 +36,14 @@ static int PrimFuncMatAnim (Uint16 *pData, Model *pMod, RState *pState)
 }
 
 /*
-Uint16 PFUNC_MATFIXED
-	Uint16 dr, dg, db
-	Uint16 sr, sg, sb
-	Uint16 shiny
-	Uint16 er, eg, eb
+uint16 PFUNC_MATFIXED
+	uint16 dr, dg, db
+	uint16 sr, sg, sb
+	uint16 shiny
+	uint16 er, eg, eb
 */
 
-static int PrimFuncMatFixed (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncMatFixed (uint16 *pData, Model *pMod, RState *pState)
 {
 	int i;
 	float pDiff[4] = { 0, 0, 0, 1.0f }, shiny;
@@ -63,11 +63,11 @@ static int PrimFuncMatFixed (Uint16 *pData, Model *pMod, RState *pState)
 }
 
 /*
-Uint16 PFUNC_MATVAR
-	Uint16 index
+uint16 PFUNC_MATVAR
+	uint16 index
 */
 
-static int PrimFuncMatVar (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncMatVar (uint16 *pData, Model *pMod, RState *pState)
 {
 	int i;
 	float pDiff[4] = { 0, 0, 0, 1.0f }, shiny;
@@ -88,12 +88,12 @@ static int PrimFuncMatVar (Uint16 *pData, Model *pMod, RState *pState)
 }
 
 /*
-Uint16 PFUNC_ZBIAS
-	Uint16 offset		// to test if nearer - 0x8000 = reset
-	Uint16 units		// integer units. not used
+uint16 PFUNC_ZBIAS
+	uint16 offset		// to test if nearer - 0x8000 = reset
+	uint16 units		// integer units. not used
 */
 
-static int PrimFuncZBias (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncZBias (uint16 *pData, Model *pMod, RState *pState)
 {
 	if (pData[1] & 0x8000) glDepthRange (pState->dn+SBRE_ZBIAS, pState->df);
 	else if (VecDot (pState->pVtx+pData[1], &pState->campos) > 0.0f)
@@ -101,7 +101,7 @@ static int PrimFuncZBias (Uint16 *pData, Model *pMod, RState *pState)
 	return 3;
 }
 
-static int PrimFuncTriFlat (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Vector *pVec;
@@ -133,7 +133,7 @@ static int PrimFuncTriFlat (Uint16 *pData, Model *pMod, RState *pState)
 	return 4;
 }
 
-static int PrimFuncQuadFlat (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncQuadFlat (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Vector *pVec;
@@ -172,7 +172,7 @@ static int PrimFuncQuadFlat (Uint16 *pData, Model *pMod, RState *pState)
 }
 
 
-void RenderArray (int nv, int ni, Vector *pVertex, Uint16 *pIndex, Uint16 flags)
+void RenderArray (int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16 flags)
 {
 	glNormalPointer (GL_FLOAT, 2*sizeof(Vector), pVertex+1);
 	glVertexPointer (3, GL_FLOAT, 2*sizeof(Vector), pVertex);
@@ -190,43 +190,43 @@ void RenderArray (int nv, int ni, Vector *pVertex, Uint16 *pIndex, Uint16 flags)
 	}
 }
 
-void CopyArrayToCache (int nv, int ni, Vector *pVertex, Uint16 *pIndex, int ci, Model *pModel)
+void CopyArrayToCache (int nv, int ni, Vector *pVertex, uint16 *pIndex, int ci, Model *pModel)
 {
 	pModel->pNumIdx[ci] = ni;
 	pModel->pNumVtx[ci] = nv;
-	pModel->ppICache[ci] = (Uint16 *) malloc (ni*sizeof(Uint16));
-	memcpy (pModel->ppICache[ci], pIndex, ni*sizeof(Uint16));
+	pModel->ppICache[ci] = (uint16 *) malloc (ni*sizeof(uint16));
+	memcpy (pModel->ppICache[ci], pIndex, ni*sizeof(uint16));
 	pModel->ppVCache[ci] = (Vector *) malloc (2*nv*sizeof(Vector));
 	memcpy (pModel->ppVCache[ci], pVertex, 2*nv*sizeof(Vector));
 }
 
 /*
-Uint16 PFUNC_COMPSMOOTH
-	Uint16 cacheidx
-	Uint16 steps
-	Uint16 centpos
-	Uint16 centnorm
-	Uint16 startpos
-	Uint16 startnorm
-		Uint16 COMP_END
-		Uint16 COMP_LINE
-			Uint16 pos
-			Uint16 norm
-		Uint16 COMP_HERMITE
-			Uint16 pos
-			Uint16 norm
-			Uint16 tan0
-			Uint16 tan1
+uint16 PFUNC_COMPSMOOTH
+	uint16 cacheidx
+	uint16 steps
+	uint16 centpos
+	uint16 centnorm
+	uint16 startpos
+	uint16 startnorm
+		uint16 COMP_END
+		uint16 COMP_LINE
+			uint16 pos
+			uint16 norm
+		uint16 COMP_HERMITE
+			uint16 pos
+			uint16 norm
+			uint16 tan0
+			uint16 tan1
 
 // tangents should be prescaled
 */
 
-int PrimFuncCompoundSmooth (Uint16 *pData, Model *pMod, RState *pState)
+int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Model *pModel = pState->pModel;
 
-	Uint16 ci = pData[1];
+	uint16 ci = pData[1];
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
@@ -244,30 +244,35 @@ int PrimFuncCompoundSmooth (Uint16 *pData, Model *pMod, RState *pState)
 
 	while (pData[c] != COMP_END)
 	{
-		switch (pData[c])
+		if (pData[c] == COMP_STEPS)	steps = pData[c+1];
+		else if (pData[c] == COMP_LINE)	
 		{
-			case COMP_STEPS:
-			steps = pData[c+1];
-			c += 2; break;
-			
-			case COMP_LINE:
 			pLPos = pVtx+pData[c+1], pLNorm = pVtx+pData[c+2];
 			TriangAddPoint (pLPos, pLNorm);
-			c += 3; break;
-			
-			case COMP_HERMITE:
-			case COMP_HERM_NOTAN:
+		}
+		else
+		{
+			Vector t0, t1;
+			if (pData[c] == COMP_HERMITE)
+				{ t0 = pVtx[pData[c+3]]; t1 = pVtx[pData[c+4]]; }
+			else if (pData[c] == COMP_HERM_NOTAN)
+				{ VecSub (pVtx+pData[c+1], pLPos, &t0); t1 = t0; }
+			else if (pData[c] == COMP_HERM_AUTOTAN)
+			{
+				Vector tv; VecSub (pVtx+pData[c+1], pLPos, &tv);
+				VecMul (pLNorm, VecDot (&tv, pLNorm), &t0);
+				VecSub (&tv, &t0, &t0);
+				VecMul (pVtx+pData[c+2], VecDot (&tv, pVtx+pData[c+2]), &t1);
+				VecSub (&tv, &t1, &t1);
+			}
+//			else { //crash? };
+
 			// Now add points along spline
 			float t, incstep = 1.0f / (steps+1);
 			int i; for (i=0, t=incstep; i<steps; i++, t+=incstep)
 			{
 				Vector pos, norm;
-				if (pData[c] == COMP_HERM_NOTAN) {
-					Vector tan; VecSub (pVtx+pData[c+1], pLPos, &tan);
-					ResolveHermiteSpline (pLPos, pVtx+pData[c+1], &tan, &tan, t, &pos);
-				}
-				else ResolveHermiteSpline (pLPos, pVtx+pData[c+1],
-						pVtx+pData[c+3], pVtx+pData[c+4], t, &pos);
+				ResolveHermiteSpline (pLPos, pVtx+pData[c+1], &t0, &t1, t, &pos);
 				ResolveLinearInterp (pLNorm, pVtx+pData[c+2], t, &norm);
 				VecNorm (&norm, &norm);
 				TriangAddPoint (&pos, &norm);
@@ -275,13 +280,13 @@ int PrimFuncCompoundSmooth (Uint16 *pData, Model *pMod, RState *pState)
 			// add end point
 			pLPos = pVtx+pData[c+1], pLNorm = pVtx+pData[c+2];
 			TriangAddPoint (pLPos, pLNorm);
-			c += pCompSize[pData[c]]; break;
 		}
+		c += pCompSize[pData[c]];
 	}
 
 	int ni, nv;
 	Vector *pVertex;
-	Uint16 *pIndex;
+	uint16 *pIndex;
 	if ((pData[0]&0xff) == PTYPE_COMPFLAT) steps = 0;
 	Triangulate (pCPos, pCNorm, steps, &pVertex, &nv, &pIndex, &ni);
 
@@ -291,21 +296,21 @@ int PrimFuncCompoundSmooth (Uint16 *pData, Model *pMod, RState *pState)
 }
 
 /*
-Uint16 PFUNC_CYLINDER
-	Uint16 cacheidx		-1 => uncacheable
-	Uint16 steps		8 => octagonal
-	Uint16 startvtx
-	Uint16 endvtx
-	Uint16 updir
-	Uint16 rad
+uint16 PFUNC_CYLINDER
+	uint16 cacheidx		-1 => uncacheable
+	uint16 steps		8 => octagonal
+	uint16 startvtx
+	uint16 endvtx
+	uint16 updir
+	uint16 rad
 */
 
-static int PrimFuncCylinder (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Model *pModel = pState->pModel;
 
-	Uint16 ci = pData[1];
+	uint16 ci = pData[1];
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
@@ -316,7 +321,7 @@ static int PrimFuncCylinder (Uint16 *pData, Model *pMod, RState *pState)
 	int steps = pData[2];
 	float rad = pData[6] * 0.01f;
 	Vector *pVertex = (Vector *) alloca (8*steps*sizeof(Vector));
-	Uint16 *pIndex = (Uint16 *) alloca (12*steps*sizeof(Vector));
+	uint16 *pIndex = (uint16 *) alloca (12*steps*sizeof(Vector));
 	int ni = 0;
 
 	// generate cylinder axes
@@ -370,21 +375,21 @@ static int PrimFuncCylinder (Uint16 *pData, Model *pMod, RState *pState)
 }
 
 /*
-Uint16 PFUNC_CIRCLE
-	Uint16 cacheidx		-1 => uncacheable
-	Uint16 steps		8 => octagonal
-	Uint16 vtx
-	Uint16 norm
-	Uint16 updir		
-	Uint16 rad
+uint16 PFUNC_CIRCLE
+	uint16 cacheidx		-1 => uncacheable
+	uint16 steps		8 => octagonal
+	uint16 vtx
+	uint16 norm
+	uint16 updir		
+	uint16 rad
 */
 
-static int PrimFuncCircle (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Model *pModel = pState->pModel;
 
-	Uint16 ci = pData[1];
+	uint16 ci = pData[1];
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
@@ -395,7 +400,7 @@ static int PrimFuncCircle (Uint16 *pData, Model *pMod, RState *pState)
 	int steps = pData[2];
 	float rad = pData[6] * 0.01f;
 	Vector *pVertex = (Vector *) alloca (2*steps*sizeof(Vector));
-	Uint16 *pIndex = (Uint16 *) alloca (3*steps*sizeof(Vector));
+	uint16 *pIndex = (uint16 *) alloca (3*steps*sizeof(Vector));
 	int ni = 0;
 
 	// generate axes
@@ -428,22 +433,22 @@ static int PrimFuncCircle (Uint16 *pData, Model *pMod, RState *pState)
 
 
 /*
-Uint16 PFUNC_TUBE
-	Uint16 cacheidx		-1 => uncacheable
-	Uint16 steps		8 => octagonal
-	Uint16 startvtx
-	Uint16 endvtx
-	Uint16 updir
-	Uint16 outerrad
-	Uint16 innerrad
+uint16 PFUNC_TUBE
+	uint16 cacheidx		-1 => uncacheable
+	uint16 steps		8 => octagonal
+	uint16 startvtx
+	uint16 endvtx
+	uint16 updir
+	uint16 outerrad
+	uint16 innerrad
 */
 
-static int PrimFuncTube (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncTube (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Model *pModel = pState->pModel;
 
-	Uint16 ci = pData[1];
+	uint16 ci = pData[1];
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
@@ -453,7 +458,7 @@ static int PrimFuncTube (Uint16 *pData, Model *pMod, RState *pState)
 
 	int steps = pData[2];
 	Vector *pVertex = (Vector *) alloca (16*steps*sizeof(Vector));
-	Uint16 *pIndex = (Uint16 *) alloca (24*steps*sizeof(Vector));
+	uint16 *pIndex = (uint16 *) alloca (24*steps*sizeof(Vector));
 	int ni = 0;
 
 	// generate cylinder axes
@@ -525,16 +530,16 @@ steps*7: end, inner, axial
 
 
 /*
-Uint16 PFUNC_SUBOBJECT
-	Uint16 anim
-	Uint16 modelnum
-	Uint16 offset
-	Uint16 xaxis
-	Uint16 yaxis
-	Uint16 scale
+uint16 PFUNC_SUBOBJECT
+	uint16 anim
+	uint16 modelnum
+	uint16 offset
+	uint16 xaxis
+	uint16 yaxis
+	uint16 scale
 */
 
-static int PrimFuncSubObject (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 {
 	// return immediately if object is not present
 	if (pData[1] != 0x8000 && !pState->pObjParam->pFlag[pData[1]]) return 7;
@@ -567,22 +572,22 @@ static int glfinit = 0;
 static FontFace *pFace = 0;
 
 /*
-Uint16 PFUNC_TEXT
-	Uint16 anim
-	Uint16 textnum
-	Uint16 pos
-	Uint16 norm
-	Uint16 xaxis
-	Uint16 xoff
-	Uint16 yoff
-	Uint16 scale
+uint16 PFUNC_TEXT
+	uint16 anim
+	uint16 textnum
+	uint16 pos
+	uint16 norm
+	uint16 xaxis
+	uint16 xoff
+	uint16 yoff
+	uint16 scale
 */
 
-static int PrimFuncText (Uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 {
 	if (!glfinit) {
 		GLFTInit ();
-		pFace = new FontFace ("font.ttf");
+		pFace = new FontFace ("arial.ttf");
 		glfinit = 1;
 	}
 
@@ -630,21 +635,105 @@ static int PrimFuncText (Uint16 *pData, Model *pMod, RState *pState)
 	return 9;
 }
 
+/*
+uint16 PFUNC_EXTRUSION
+	uint16 cacheidx		-1 => uncacheable
+	uint16 count
+	uint16 startvtx
+	uint16 endvtx
+	uint16 updir
+	uint16 rad
+	uint16 firstvtx
+*/
+
+static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
+{
+	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		glShadeModel (GL_FLAT);
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0]);
+		glShadeModel (GL_SMOOTH);
+		return 8;
+	}
+
+	int steps = pData[2];
+	float rad = pData[6] * 0.01f;
+	Vector *pVertex = (Vector *) alloca (8*steps*sizeof(Vector));
+	uint16 *pIndex = (uint16 *) alloca (12*steps*sizeof(Vector));
+	int ni = 0;
+
+	// generate cylinder axes
+
+	Vector yax = pVtx[pData[5]], xax, zax;
+	VecSub (pVtx+pData[4], pVtx+pData[3], &zax);	// dir = end-start
+	VecNorm (&zax, &zax);
+	VecCross (&yax, &zax, &xax);
+
+	int i; for (i=0; i<steps; i++)
+	{
+		Vector tv, norm;
+		VecMul (&xax, pVtx[pData[7]+i].x, &tv);
+		VecMul (&yax, pVtx[pData[7]+i].y, &norm);
+		VecAdd (&tv, &norm, &norm);
+		pVertex[1+(i+steps*3)*2] = zax; VecInv (&zax, &tv);	// endcap
+		pVertex[1+(i+steps*2)*2] = tv;						// startcap
+		
+		VecMul (&norm, rad, &tv);
+		VecAdd (pVtx+pData[3], &tv, pVertex+i*2);			// start
+		VecAdd (pVtx+pData[4], &tv, pVertex+(i+steps)*2);	// end
+		pVertex[(i+steps*2)*2] = pVertex[i*2];				// startcap
+		pVertex[(i+steps*3)*2] = pVertex[(i+steps)*2];		// endcap
+	}
+
+	// render sides
+	for (i=0; i<steps; i++)
+	{
+		int i1 = i+1==steps?0:i+1;
+		FindNormal (pVertex+i*2, pVertex+(i+steps)*2, pVertex+i1*2, pVertex+i*2+1);
+		pVertex[(i+steps)*2+1] = pVertex[i*2+1];
+
+		pIndex[ni++] = i; pIndex[ni++] = i+steps; pIndex[ni++] = i1;
+		pIndex[ni++] = i+steps; pIndex[ni++] = i1+steps; pIndex[ni++] = i1;
+	}	
+
+	// render ends
+	for (i=1; i<steps-1; i++) {
+		pIndex[ni++] = steps*2;
+		pIndex[ni++] = i+steps*2;
+		pIndex[ni++] = i+1+steps*2;
+	}
+	for (i=steps-1; i>1; i--) {
+		pIndex[ni++] = steps*3;
+		pIndex[ni++] = i+steps*3;
+		pIndex[ni++] = i-1+steps*3;
+	}
+
+	RenderArray (4*steps, ni, pVertex, pIndex, pData[0]);
+	if (ci != 0x8000) CopyArrayToCache (4*steps, ni, pVertex, pIndex, ci, pModel);
+	return 8;
+}
+
+
 
 /*
-Uint16 PFUNC_WINDOWS
-	Uint16 
-	Uint16 textnum
-	Uint16 pos
-	Uint16 norm
-	Uint16 xaxis
-	Uint16 xoff
-	Uint16 yoff
-	Uint16 scale
+uint16 PFUNC_WINDOWS
+	uint16 
+	uint16 textnum
+	uint16 pos
+	uint16 norm
+	uint16 xaxis
+	uint16 xoff
+	uint16 yoff
+	uint16 scale
 */
 
 
-int (*pPrimFuncTable[])(Uint16 *, Model *, RState *) = {
+int (*pPrimFuncTable[])(uint16 *, Model *, RState *) = {
 	0,		// end
 	PrimFuncMatAnim,
 	PrimFuncMatFixed,
@@ -659,6 +748,7 @@ int (*pPrimFuncTable[])(Uint16 *, Model *, RState *) = {
 	PrimFuncTube,
 	PrimFuncSubObject,
 	PrimFuncText,
+	PrimFuncExtrusion,
 };
 
 

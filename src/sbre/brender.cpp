@@ -6,7 +6,7 @@
 #include "sbre_int.h"
 #include "sbre_anim.h"
 
-float ResolveAnim (ObjParams *pObjParam, Uint16 type)
+float ResolveAnim (ObjParams *pObjParam, uint16 type)
 {
 	const AnimFunc *pFunc = pAFunc+type;
 	float anim = pObjParam->pAnim[pFunc->src];
@@ -92,6 +92,7 @@ static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 }
 
 static float g_dn, g_df;
+static int g_wireframe = 0;
 
 void sbreSetViewport (int w, int h, int d, float zn, float zf, float dn, float df)
 {
@@ -128,17 +129,27 @@ void sbreSetDirLight (float *pColor, float *pDir)
 	glLightfv (GL_LIGHT0, GL_SPECULAR, pColor4);
 }
 
+void sbreSetWireframe (int val)
+{
+	g_wireframe = val;
+}
+
 void SetGeneralState ()
 {
 	float ambient[4] = { SBRE_AMB, SBRE_AMB, SBRE_AMB, 1.0f };
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
 
 	glDisable (GL_TEXTURE_2D);
-	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
-
 	glFrontFace (GL_CW);
-	glEnable (GL_CULL_FACE);
 	glEnable (GL_DEPTH_TEST);
+
+	if (g_wireframe) {
+		glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
+		glDisable (GL_CULL_FACE);
+	} else {
+		glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
+		glEnable (GL_CULL_FACE);
+	}	
 
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState (GL_COLOR_ARRAY);
@@ -201,13 +212,13 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 		pModel->pNumVtx = (int *) calloc (pModel->numCache, sizeof(int));
 		pModel->pNumIdx = (int *) calloc (pModel->numCache, sizeof(int));
 		pModel->ppVCache = (Vector **) calloc (pModel->numCache, sizeof(Vector *));
-		pModel->ppICache = (Uint16 **) calloc (pModel->numCache, sizeof(Uint16 *));
+		pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
 	}
 
 	SetGeneralState ();
 	SetOpaqueState ();
 
-	Uint16 *pData = pModel->pData;
+	uint16 *pData = pModel->pData;
 	while (*pData != PTYPE_END)
 	{	
 		pData += pPrimFuncTable[*pData & 0xff] (pData, pModel, &rstate);
@@ -217,4 +228,6 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	SetTransState ();
 	RenderTransparencies (&rstate);
 
+	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
+	glEnable (GL_CULL_FACE);
 }

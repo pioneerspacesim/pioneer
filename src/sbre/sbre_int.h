@@ -20,30 +20,30 @@ enum vtxtype
 
 struct PlainVertex
 {
-	Uint32 type;
+	uint32 type;
 	Vector pos;
 };
 
 struct CompoundVertex
 {
-	Uint16 type;
-	Uint16 pParam[5];
+	uint16 type;
+	uint16 pParam[5];
 };
 
 //**************************************************************************
 
 struct Thruster
 {
-	Uint16 pos;			// index into vertices
-	Uint16 dir;
+	uint16 pos;			// index into vertices
+	uint16 dir;
 	float power;
 };
 
 struct Light
 {
-	Uint8 animcolor;
-	Uint8 animpower;
-	Uint16 vtx;
+	uint8 animcolor;
+	uint8 animpower;
+	uint16 vtx;
 	float power;
 	float pColor[3];
 };
@@ -65,12 +65,12 @@ struct Model
 	int numThrusters;
 	Thruster *pThruster;
 
-	Uint16 *pData;
+	uint16 *pData;
 
 	int numCache;				// number of cached primitives
 	int *pNumVtx, *pNumIdx;
 	Vector **ppVCache;
-	Uint16 **ppICache;
+	uint16 **ppICache;
 };
 
 extern Model *ppModel[];
@@ -88,7 +88,7 @@ void ResolveHermiteNormal (Vector *p0, Vector *p1, Vector *n0, Vector *n1, float
 
 void TriangAddPoint (Vector *pPos, Vector *pNorm);
 void Triangulate (Vector *pCPos, Vector *pCNorm, int steps,
-	Vector **ppVtx, int *pNV, Uint16 **ppIndex, int *pNI);
+	Vector **ppVtx, int *pNV, uint16 **ppIndex, int *pNI);
 
 //******************************************************************************
 
@@ -120,9 +120,10 @@ enum primtype
 	PTYPE_TUBE,
 	PTYPE_SUBOBJECT,
 	PTYPE_TEXT,
+	PTYPE_EXTRUSION,
 };
 
-extern int (*pPrimFuncTable[])(Uint16 *, Model *, RState *);
+extern int (*pPrimFuncTable[])(uint16 *, Model *, RState *);
 
 static const int RFLAG_XREF = 0x8000;
 
@@ -138,16 +139,17 @@ enum comptype
 	COMP_LINE,
 	COMP_HERMITE,
 	COMP_HERM_NOTAN,
+	COMP_HERM_AUTOTAN,
 	COMP_STEPS,
 };
 
-const int pCompSize[] = { 1, 3, 5, 3, 2 };
+const int pCompSize[] = { 1, 3, 5, 3, 3, 2 };
 
 const char pModelString[1][256] = {
 	"Bollocks",
 };
 
 void RenderTransparencies (RState *pState);
-float ResolveAnim (ObjParams *pObjParam, Uint16 type);
+float ResolveAnim (ObjParams *pObjParam, uint16 type);
 
 #endif /* __SBRE_INT_H__ */

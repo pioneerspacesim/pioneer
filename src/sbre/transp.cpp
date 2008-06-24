@@ -10,14 +10,14 @@ static Vector pTVertex4pt[2*4+2];
 static Vector pTVertex8pt[6*8+2];
 static Vector pTVertex16pt[14*16+2];
 
-static Uint16 pTIndex4pt[(2*4+1*8)*3];
-static Uint16 pTIndex8pt[(2*8+5*16)*3];
-static Uint16 pTIndex16pt[(2*16+13*32)*3];
+static uint16 pTIndex4pt[(2*4+1*8)*3];
+static uint16 pTIndex8pt[(2*8+5*16)*3];
+static uint16 pTIndex16pt[(2*16+13*32)*3];
 
 static Vector *ppTVertex[3] =
 	{ pTVertex4pt, pTVertex8pt, pTVertex16pt };
 
-static Uint16 *ppTIndex[3] =
+static uint16 *ppTIndex[3] =
 	{ pTIndex4pt, pTIndex8pt, pTIndex16pt };
 
 
@@ -72,7 +72,7 @@ static void GenerateThrusters ()
 		*pCur = pos1; pCur++;
 
 		int ni=0, k;
-		Uint16 *pIndex = ppTIndex[j];
+		uint16 *pIndex = ppTIndex[j];
 
 		for (k=0; k<n; k++) {
 			int k1 = k+1==n ? 0 : k+1;
