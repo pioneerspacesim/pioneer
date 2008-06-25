@@ -96,27 +96,28 @@ static void RenderThruster (RState *pState, Thruster *pThruster, Vector *pPos, V
 {
 //	Thruster *pThruster = pState->pModel->pThruster + index;
 
-	Vector start = *pPos;
-	Vector dir = *pDir;
-	Vector end;
+	Vector start, end, dir = *pDir;
+	VecMul (pPos, pState->scale, &start);
 	float power = -VecDot (&dir, (Vector *)pState->pObjParam->linthrust);
 
 	if (!(pThruster->dir & THRUST_NOANG))
 	{
-		Vector angdir, *pAT = (Vector *)pState->pObjParam->angthrust;
-		VecCross (&start, &dir, &angdir);
+		Vector angdir, *pAT = (Vector *)pState->pObjParam->angthrust, cpos;
+		VecAdd (&pState->compos, &start, &cpos);
+		VecCross (&cpos, &dir, &angdir);
 //		VecNorm (&angdir, &angdir);
 		float xp = angdir.x * pAT->x;
 		float yp = angdir.y * pAT->y;
 		float zp = angdir.z * pAT->z;
 		if (xp+yp+zp > 0) {
-			if (xp > yp && xp > zp && pAT->x > power) power = pAT->x;
-			else if (yp > xp && yp > zp && pAT->y > power) power = pAT->y;
-			else if (zp > xp && zp > yp && pAT->z > power) power = pAT->z;
+			if (xp > yp && xp > zp && fabs(pAT->x) > power) power = fabs(pAT->x);
+			else if (yp > xp && yp > zp && fabs(pAT->y) > power) power = fabs(pAT->y);
+			else if (zp > xp && zp > yp && fabs(pAT->z) > power) power = fabs(pAT->z);
 		}
 	}
 
 	if (power <= 0.001f) return;
+	power *= pState->scale;
 	float width = sqrt(power)*pThruster->power*0.6f;
 	float len = power*pThruster->power;
 	VecMul (&dir, len, &end);

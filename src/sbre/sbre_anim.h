@@ -27,6 +27,7 @@ enum animfunc
 	AFUNC_GEAR = 0,
 	AFUNC_GFLAP,
 	AFUNC_THRUSTPULSE,
+	AFUNC_LIN4SEC,
 };
 
 const AnimFunc pAFunc[] =
@@ -34,6 +35,7 @@ const AnimFunc pAFunc[] =
 	{ ASRC_GEAR, AMOD_CLIP, -1.0f, 2.0f, 0.0f, 0.0f },
 	{ ASRC_GEAR, AMOD_CLIP, 0.0f, 2.0f, 0.0f, 0.0f },
 	{ ASRC_MINFRAC, AMOD_REF, 0.0f, 30.0f, 0.0f, 0.0f },
+	{ ASRC_MINFRAC, AMOD_MOD1, 0.0f, 15.0f, 0.0f, 0.0f },
 };
 
 

@@ -33,7 +33,7 @@ static Vector pUnitVec[6] = {
 static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 {
 	Vector *pCur = pRes;
-	Vector tv1, tv2;
+	Vector tv1, tv2, xax, yax;
 	float anim;
 
 	int i; for (i=0; i<6; i++) *(pCur++) = pUnitVec[i];
@@ -84,6 +84,16 @@ static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 			anim = ResolveAnim (pObjParam, pCVtx->pParam[4]);
 			ResolveHermiteSpline (pRes+pCVtx->pParam[0], pRes+pCVtx->pParam[1],
 				pRes+pCVtx->pParam[2], pRes+pCVtx->pParam[3], anim, pCur);
+			break;
+
+		case VTYPE_ANIMROTATE:
+			anim = ResolveAnim (pObjParam, pCVtx->pParam[4]) * 2.0f * 3.141592f;
+			xax = pRes[pCVtx->pParam[1]];
+			VecCross (pRes+pCVtx->pParam[0], &xax, &yax);
+			VecNorm (&xax, &xax); VecNorm (&yax, &yax);
+			VecMul (&xax, sin(anim), &tv1);
+			VecMul (&yax, cos(anim), &tv2);
+			VecAdd (&tv1, &tv2, pCur);
 			break;
 
 		default: *pCur = zero_vector; break;
@@ -179,7 +189,7 @@ void SetTransState ()
 }
 
 
-void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s)
+void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, Vector *pCompos)
 {
 	Model *pModel = ppModel[model];
 	s *= pModel->scale;
@@ -206,6 +216,8 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	rstate.df = g_df;
 	MatTVecMult (pOrient, pPos, &rstate.campos);
 	VecInv (&rstate.campos, &rstate.campos);
+	if (pCompos) rstate.compos = *pCompos;
+	else rstate.compos = zero_vector;
 
 	if (pModel->numCache && !pModel->ppVCache)
 	{

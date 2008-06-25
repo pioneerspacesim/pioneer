@@ -1,6 +1,7 @@
 #include "sbre_int.h"
 #include "sbre_anim.h"
 
+const int SUB_WING2 = 1;
 const int SUB_DISH = 2;
 const int SUB_NOSEWHEEL = 3;
 const int SUB_WING = 4;
@@ -100,7 +101,7 @@ static uint16 nwunitdata[] = {
 
 //	PTYPE_CYLINDER, 3, 8, 6, 7, 0, 1000,
 
-	PTYPE_SUBOBJECT, 0x8000, SUB_NOSEWHEEL, 14, 0, 22, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_NOSEWHEEL, 14, 22, 2, 100,
 
 	PTYPE_END,
 };	
@@ -158,7 +159,7 @@ static uint16 mwunitdata[] = {
 
 //	PTYPE_CYLINDER, 3, 8, 6, 7, 0, 1000,
 
-	PTYPE_SUBOBJECT, 0x8000, SUB_MAINWHEEL, 14, 0, 22, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_MAINWHEEL, 14, 22, 2, 100,
 
 	PTYPE_END,
 };	
@@ -305,9 +306,9 @@ static uint16 shipdata[] = {
 	PTYPE_TRIFLAT | RFLAG_XREF, 6, 18, 10,		// front side top
 	PTYPE_TRIFLAT | RFLAG_XREF, 10, 18, 11,		// front side bottom
 
-	PTYPE_SUBOBJECT, 0x8000, SUB_WING, 20, 21, 22, 100,
-	PTYPE_SUBOBJECT, 0x8000, SUB_WING, 23, 51, 50, 100,
-	PTYPE_SUBOBJECT, 0x8000, SUB_WING, 26, 53, 52, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING, 20, 22, 2, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING, 23, 50, 2, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING, 26, 52, 2, 100,
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 54, 5,
@@ -316,8 +317,8 @@ static uint16 shipdata[] = {
 	PTYPE_TEXT, 0, 0x8000, 12, 55, 2, 1100, 200, 1000,
 
 	PTYPE_ZBIAS, 4, 5,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 40, 0, 4, 200,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 41, 0, 4, 200,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 40, 4, 5, 200,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 41, 4, 5, 200,
 
 //	PTYPE_TEXT, -1, -1, 12, 0, 1, 5000,
 	PTYPE_ZBIAS, 0x8000, 5,
@@ -591,9 +592,9 @@ static uint16 ship2data[] = {
 	PTYPE_TEXT, 0, 0x8000, 97, 96, 5, 400, 50, 250,
 
 	PTYPE_ZBIAS, 4, 5,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 73, 0, 4, 100,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 74, 0, 4, 64,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 75, 0, 4, 64,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 73, 4, 5, 100,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 74, 4, 5, 64,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 75, 4, 5, 64,
 
 	PTYPE_END,
 
@@ -874,9 +875,9 @@ static uint16 ship3data[] = {
 	PTYPE_TEXT, 0, 0x8000, 97, 96, 5, 400, 50, 250,
 */
 	PTYPE_ZBIAS, 4, 5,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 35, 0, 4, 100,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 36, 0, 4, 100,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 37, 0, 4, 100,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 35, 4, 5, 100,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 36, 4, 5, 100,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 37, 4, 5, 100,
 
 	PTYPE_END,
 };
@@ -941,7 +942,7 @@ static PlainVertex ship4vtx1[] = {
 	{ VTYPE_PLAIN, { 0.05f, 8.0f, -15.0f } },			// 40, dish pos
 };
 static CompoundVertex ship4vtx2[] = {
-	{ VTYPE_CROSS, { 0, 1, 2, -1, -1 } },			// dummy
+	{ VTYPE_ANIMROTATE, { 1, 0, -1, -1, AFUNC_LIN4SEC } },			// dummy
 };
 static uint16 ship4data[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
@@ -982,15 +983,15 @@ static uint16 ship4data[] = {
 	PTYPE_TEXT, 0, 0x8000, 33, 3, 5, 300, 250, 400,
 
 	PTYPE_ZBIAS, 4, 5,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 34, 0, 4, 60,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 35, 0, 4, 60,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 36, 0, 4, 50,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 37, 0, 4, 50,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 38, 0, 4, 50,
-	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 39, 0, 4, 50,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 34, 4, 5, 60,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 35, 4, 5, 60,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 36, 4, 5, 50,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 37, 4, 5, 50,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 38, 4, 5, 50,
+	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 39, 4, 5, 50,
 
 	PTYPE_ZBIAS, 1, 5,
-	PTYPE_SUBOBJECT, 0x8000, SUB_DISH, 40, 0, 1, 200,
+	PTYPE_SUBOBJECT, 0x8000, SUB_DISH, 40, 1, 100, 200,
 
 	PTYPE_END,
 };	
@@ -1004,7 +1005,7 @@ static Thruster ship4thruster[] = {
 //	{ 42, 1 | THRUST_XREF, 15.0f },
 //	{ 43, 0 | THRUST_XREF, 15.0f },
 };
-static Model ship4model = { 1.0f, 41, ship4vtx1, 100, 0, ship4vtx2,
+static Model ship4model = { 1.0f, 41, ship4vtx1, 100, 1, ship4vtx2,
 	0, 0, 4, ship4thruster, ship4data, 10 };
 
 
@@ -1056,9 +1057,164 @@ static Model dishmodel = { 1.0f, 19, dishvtx1, 40, 0, dishvtx2,
 	0, 0, 0, 0, dishdata, 5 };
 
 
+static PlainVertex ship5vtx1[] = {
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, 20.0f } },			// 6, right nose vertex
+	{ VTYPE_PLAIN, { 0.0f, 1.0f, 0.4f } },
+	{ VTYPE_PLAIN, { 0.0f, -1.0f, 0.4f } },
+
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, 20.0f } },		// 9, left nose vertex
+	{ VTYPE_PLAIN, { 0.0f, 1.0f, 0.4f } },
+	{ VTYPE_PLAIN, { 0.0f, -1.0f, 0.4f } },
+
+	{ VTYPE_PLAIN, { -2.0f, 2.0f, 10.0f } },			// 12, nose section back
+	{ VTYPE_PLAIN, { 2.0f, 2.0f, 10.0f } },				// and extrusion area
+	{ VTYPE_PLAIN, { 3.0f, 0.0f, 10.0f } },			
+	{ VTYPE_PLAIN, { 2.0f, -2.0f, 10.0f } },			
+	{ VTYPE_PLAIN, { -2.0f, -2.0f, 10.0f } },
+	{ VTYPE_PLAIN, { -3.0f, 0.0f, 10.0f } },
+
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, 10.0f } },			// 18, extrusion start/end
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, -15.0f } },
+
+	// tangents
+
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, 10.0f } },			// 20, 12->6 and 16->6 s
+	{ VTYPE_PLAIN, { 1.0f, -4.0f, 10.0f } },		// 12->6 e
+	{ VTYPE_PLAIN, { -1.0f, 4.0f, -10.0f } },		// 6-12 e
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, -10.0f } },		// 6->12 and 6->16 s
+
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, 10.0f } },			// 24, 13->9
+	{ VTYPE_PLAIN, { -1.0f, -4.0f, 10.0f } },
+	{ VTYPE_PLAIN, { 1.0f, 4.0f, -10.0f } },
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, -10.0f } },			// 9->13 and 9->
+
+	{ VTYPE_PLAIN, { 1.0f, 4.0f, 10.0f } },			// 28, 16->6 e
+	{ VTYPE_PLAIN, { -1.0f, -4.0f, -10.0f } },		// 6-16 e
+
+	{ VTYPE_PLAIN, { -1.0f, 4.0f, 10.0f } },		// 30, 15->9 e
+	{ VTYPE_PLAIN, { 1.0f, -4.0f, -10.0f } },		// 9-15 e
+	
+	{ VTYPE_PLAIN, { 0.0f, 1.333f, 15.0f } },		// 32, nose top midpoint
+	{ VTYPE_PLAIN, { 0.0f, 1.0f, 0.2f } },
+
+	{ VTYPE_PLAIN, { 0.0f, -1.333f, 15.0f } },		// 34, nose bottom midpoint
+	{ VTYPE_PLAIN, { 0.0f, -1.0f, 0.2f } },
+
+
+	// wing positions
+	{ VTYPE_PLAIN, { 2.5f, 1.0f, -5.0f } },			// 36
+	{ VTYPE_PLAIN, { 2.5f, -1.0f, -5.0f } },
+	{ VTYPE_PLAIN, { -2.5f, -1.0f, -5.0f } },
+	{ VTYPE_PLAIN, { -2.5f, 1.0f, -5.0f } },
+
+	// wing normals
+	{ VTYPE_DIR, { 2.0f, 1.0f, 0.0f } },			// 40
+	{ VTYPE_DIR, { 2.0f, -1.0f, 0.0f } },
+	{ VTYPE_DIR, { -2.0f, -1.0f, 0.0f } },
+	{ VTYPE_DIR, { -2.0f, 1.0f, 0.0f } },
+
+};
+static CompoundVertex ship5vtx2[] = {
+	{ VTYPE_NORM, { 9, 14, 13, -1, -1 } },			// 100, nose side normals
+	{ VTYPE_NORM, { 9, 15, 14, -1, -1 } },
+
+};
+static uint16 ship5data[] = {
+	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
+//	PTYPE_TRIFLAT | RFLAG_XREF, 9, 14, 13,
+//	PTYPE_TRIFLAT | RFLAG_XREF, 9, 15, 14,
+//	PTYPE_QUADFLAT, 6, 9, 13, 12,
+//	PTYPE_QUADFLAT, 9, 6, 16, 15,
+
+	PTYPE_EXTRUSION, 0, 6, 18, 19, 1, 100, 12,
+
+	PTYPE_COMPSMOOTH, 1, 5, 32, 33, 13, 1,
+		COMP_LINE, 12, 1,
+		COMP_HERMITE, 6, 7, 20, 21,
+		COMP_LINE, 9, 10,
+		COMP_HERMITE, 13, 1, 26, 27,
+		COMP_END,
+	PTYPE_COMPSMOOTH, 2, 5, 34, 35, 16, 4,
+		COMP_LINE, 15, 4,
+		COMP_HERMITE, 9, 11, 24, 30,
+		COMP_LINE, 6, 8,
+		COMP_HERMITE, 16, 4, 29, 23,
+		COMP_END,
+
+	PTYPE_COMPFLAT | RFLAG_XREF, 3, 5, 14, 100, 13, 100,
+		COMP_HERMITE, 9, 100, 24, 25,
+		COMP_LINE, 14, 100,
+		COMP_LINE, 13, 100,
+		COMP_END,
+	PTYPE_COMPFLAT | RFLAG_XREF, 4, 5, 14, 101, 9, 101,
+		COMP_HERMITE, 15, 101, 31, 27,
+		COMP_LINE, 14, 101,
+		COMP_LINE, 9, 101,
+		COMP_END,
+
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING2, 36, 40, 2, 70,
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING2, 37, 41, 2, 70,
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING2, 38, 42, 2, 70,
+	PTYPE_SUBOBJECT, 0x8000, SUB_WING2, 39, 43, 2, 70,
+
+	PTYPE_END,
+};	
+static Model ship5model = { 1.0f, 44, ship5vtx1, 100, 2, ship5vtx2,
+	0, 0, 0, 0, ship5data, 5 };
+
+
+static PlainVertex wing2vtx1[] = {
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, 3.5f } },			// 6, bottom front
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, -3.5f } },			// bottom back
+	{ VTYPE_PLAIN, { 0.0f, 20.0f, 3.5f } },			// top front
+	{ VTYPE_PLAIN, { 0.0f, 20.0f, -3.5f } },		// top back
+
+	{ VTYPE_DIR, { 0.0f, 0.0f, 1.0f } },			// 10, front norm
+	{ VTYPE_DIR, { 3.0f, 0.0f, -1.0f } },			// back norm
+
+	{ VTYPE_PLAIN, { 0.8f, 10.0f, 0.0f } },			// 12, sidecentre
+	{ VTYPE_DIR, { 1.0f, 0.0f, 0.20f } },			// sidenorm
+
+	{ VTYPE_PLAIN, { -2.8f, 0.0f, 0.0f } },			// 14, front tan, forward
+	{ VTYPE_PLAIN, { 2.8f, 0.0f, 0.0f } },			// front tan, backward
+
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, 3.0f } },			// 16, back tan, forward
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, -3.0f } },		// back tan, backward
+
+	{ VTYPE_PLAIN, { 0.3826834f, 0.9238795f, 0.0f } },			// 18, tube norm
+	{ VTYPE_PLAIN, { 0.0f, 21.5f, 5.0f } },		// tube start
+	{ VTYPE_PLAIN, { 0.0f, 21.5f, -5.0f } },		// 
+	{ VTYPE_PLAIN, { 0.0f, 22.0f, 4.0f } },			// 
+	{ VTYPE_PLAIN, { 0.0f, 22.0f, -4.0f } },		// 
+	
+};
+static CompoundVertex wing2vtx2[] = {
+	{ VTYPE_CROSS, { 19, 14, -1, -1, -1 } },		// dummy
+};
+static uint16 wing2data[] = {
+	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0, 10, 12, 13, 6, 10,		// side
+		COMP_HERMITE, 7, 11, 15, 17, 
+		COMP_HERM_NOTAN, 9, 11,
+		COMP_HERMITE, 8, 10, 16, 14,
+		COMP_HERM_NOTAN, 6, 10, 
+		COMP_END,
+
+	PTYPE_TUBE, 1, 8, 19, 20, 18, 162, 140,
+
+	PTYPE_END,
+};
+static Thruster wing2thruster[] = {
+	{ 20, 5, 25.0f },
+	{ 19, 2, 20.0f },
+};
+static Model wing2model = { 1.0f, 23, wing2vtx1, 30, 0, wing2vtx2,
+	0, 0, 2, wing2thruster, wing2data, 2 };
+
+
 Model *ppModel[] = {
-	&ship4model,
-	&circlemodel,
+	&ship5model,
+	&wing2model,
 	&dishmodel,
 	&nosewheelmodel,
 	&wingmodel,
@@ -1071,6 +1227,7 @@ Model *ppModel[] = {
 	&shipmodel,
 	&station1model,
 	&ship3model,
+	&ship4model,
 	0,
 };
 

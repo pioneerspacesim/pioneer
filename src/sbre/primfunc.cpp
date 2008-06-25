@@ -3,7 +3,7 @@
 #include "sbre_int.h"
 #include "sbre_anim.h"
 #include "sbre.h"			// for subobject
-#include "../glfreetype.h"
+#include "glfreetype.h"
 
 
 /*
@@ -534,8 +534,8 @@ uint16 PFUNC_SUBOBJECT
 	uint16 anim
 	uint16 modelnum
 	uint16 offset
-	uint16 xaxis
-	uint16 yaxis
+	uint16 norm
+	uint16 zaxis
 	uint16 scale
 */
 
@@ -546,9 +546,9 @@ static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 	
 	// build transform matrix, offset
 	Vector v1, v2, v3, pos; Matrix m, orient;
-	VecNorm (pState->pVtx+pData[4], &v1);
-	VecNorm (pState->pVtx+pData[5], &v2);
-	VecCross (&v1, &v2, &v3);
+	VecNorm (pState->pVtx+pData[4], &v2);
+	VecNorm (pState->pVtx+pData[5], &v3);
+	VecCross (&v2, &v3, &v1);
 	m.x1 = v1.x; m.x2 = v2.x; m.x3 = v3.x;
 	m.y1 = v1.y; m.y2 = v2.y; m.y3 = v3.y;
 	m.z1 = v1.z; m.z2 = v2.z; m.z3 = v3.z;
@@ -561,7 +561,24 @@ static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 	glPushAttrib (GL_LIGHTING_BIT);
 	glPushMatrix ();
 
-	sbreRenderModel (&pos, &orient, pData[2], pState->pObjParam, scale);
+	// transform lin & ang thrust
+	if (ppModel[pData[2]]->numThrusters)
+	{
+		Vector compos;
+		MatTVecMult (&m, pState->pVtx+pData[3], &compos);
+		VecInv (&compos, &compos);
+
+		ObjParams *pParam = pState->pObjParam;
+		Vector oldlin = *(Vector *)pParam->linthrust;
+		Vector oldang = *(Vector *)pParam->angthrust;
+		MatTVecMult (&m, &oldlin, (Vector *)pParam->linthrust);
+		MatTVecMult (&m, &oldang, (Vector *)pParam->angthrust);
+
+		sbreRenderModel (&pos, &orient, pData[2], pParam, scale, &compos);
+		*(Vector *)pParam->linthrust = oldlin;
+		*(Vector *)pParam->angthrust = oldang;
+	}
+	else sbreRenderModel (&pos, &orient, pData[2], pState->pObjParam, scale);
 
 	glPopMatrix ();
 	glPopAttrib ();
@@ -694,9 +711,7 @@ static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
 	for (i=0; i<steps; i++)
 	{
 		int i1 = i+1==steps?0:i+1;
-		FindNormal (pVertex+i*2, pVertex+(i+steps)*2, pVertex+i1*2, pVertex+i*2+1);
-		pVertex[(i+steps)*2+1] = pVertex[i*2+1];
-
+		FindNormal (pVertex+i*2, pVertex+(i+steps)*2, pVertex+i1*2, pVertex+i1*2+1);
 		pIndex[ni++] = i; pIndex[ni++] = i+steps; pIndex[ni++] = i1;
 		pIndex[ni++] = i+steps; pIndex[ni++] = i1+steps; pIndex[ni++] = i1;
 	}	

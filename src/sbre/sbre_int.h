@@ -15,7 +15,7 @@ enum vtxtype
 	VTYPE_ANIMLIN,
 	VTYPE_ANIMCUBIC,
 	VTYPE_ANIMHERM,
-	VTYPE_ANIMDIR,
+	VTYPE_ANIMROTATE,
 };
 
 struct PlainVertex
@@ -102,6 +102,7 @@ struct RState
 	float scale;		// current GL modelview scale
 	ObjParams *pObjParam;	// dynamic object parameters
 	float dn, df;		// near/far depth range
+	Vector compos;		// object relative centre of mass
 };
 
 enum primtype
