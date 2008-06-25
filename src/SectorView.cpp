@@ -32,14 +32,14 @@ SectorView::SectorView(): GenericSystemView()
 
 	GLUquadricObj *qobj = gluNewQuadric();
 	
-	m_gluSphereDlist = glGenLists(1);
+/*	m_gluSphereDlist = glGenLists(1);
 	glNewList(m_gluSphereDlist, GL_COMPILE);
-	gluSphere(qobj, 0.2, 10, 10);
+	gluDisk(qobj, 0.0, 0.2, 32, 1);
 	glEndList();
-	
+*/	
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
-	gluDisk(qobj, 0.0, 0.4, 32, 1);
+	gluDisk(qobj, 0.0, 0.2, 20, 1);
 	glEndList();
 	
 	gluDeleteQuadric(qobj);
@@ -47,7 +47,6 @@ SectorView::SectorView(): GenericSystemView()
 
 SectorView::~SectorView()
 {
-	glDeleteLists(m_gluSphereDlist, 1);
 	glDeleteLists(m_gluDiskDlist, 1);
 }
 
@@ -146,16 +145,17 @@ void SectorView::DrawSector(int sx, int sy)
 		glEnd();
 		glTranslatef(0, 0, (*i).p.z);
 		
-		glCallList(m_gluSphereDlist);
+		glPushMatrix();
+		glRotatef(-m_rot_z, 0, 0, 1);
+		glRotatef(-m_rot_x, 1, 0, 0);
+		glCallList(m_gluDiskDlist);
 		// selected indicator
 		if ((sx == m_secx) && (sy == m_secy) && (num == m_selected)) {
 			glColor3f(0,0.8,0);
-			glPushMatrix();
-			glRotatef(-m_rot_z, 0, 0, 1);
-			glRotatef(-m_rot_x, 1, 0, 0);
+			glScalef(2,2,2);
 			glCallList(m_gluDiskDlist);
-			glPopMatrix();
 		}
+		glPopMatrix();
 		glColor3f(.7,.7,.7);
 		PutText((*i).name);
 

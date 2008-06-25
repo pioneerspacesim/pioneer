@@ -28,7 +28,7 @@ private:
 	Gui::Label *m_infoLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
-	GLuint m_gluSphereDlist, m_gluDiskDlist;
+	GLuint m_gluDiskDlist;
 };
 
 #endif /* _SECTORVIEW_H */
