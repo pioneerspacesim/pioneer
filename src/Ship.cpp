@@ -143,5 +143,5 @@ void Ship::Render(const Frame *camFrame)
 	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REAR] - m_thrusters[ShipType::THRUSTER_FRONT];
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 
-	RenderSbreModel(camFrame, 13, &params);
+	RenderSbreModel(camFrame, 10, &params);
 }

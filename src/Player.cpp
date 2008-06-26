@@ -62,6 +62,10 @@ void Player::AITurn()
 	float time_step = Pi::GetTimeStep();
 	float ts2 = time_step*time_step;
 
+	SetAngThrusterState(0, 0.0f);
+	SetAngThrusterState(1, 0.0f);
+	SetAngThrusterState(2, 0.0f);
+
 	if (time_step == 0) return;
 	if (GetDockedWith()) return;
 
@@ -109,9 +113,6 @@ void Player::AITurn()
 	}
 	if (time_step > 10) {
 		dBodySetAngularVel(m_body, 0, 0, 0);
-		SetAngThrusterState(0, 0.0f);
-		SetAngThrusterState(1, 0.0f);
-		SetAngThrusterState(2, 0.0f);
 	}
 	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
 		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 1;
