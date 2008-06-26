@@ -183,14 +183,14 @@ void Pi::MainLoop()
 	earth_frame->SetPosition(vector3d(149598000000.0,0,0));
 	earth_frame->SetRadius(2*380000000); // 2 moon orbital radii
 
-	player = new Player();
+	player = new Player(ShipType::SWANKY);
 	player->SetLabel("me");
 	player->SetFrame(earth_frame);
 	player->SetPosition(vector3d(100,0,0));
 	Space::AddBody(player);
 
 	for (int i=0; i<4; i++) {
-		Ship *body = new Ship();
+		Ship *body = new Ship(ShipType::LADYBIRD);
 		char buf[64];
 		snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
 		body->SetLabel(buf);

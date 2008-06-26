@@ -9,7 +9,7 @@ class SpaceStation;
 
 class Ship: public RigidBody {
 public:
-	Ship();
+	Ship(ShipType::Type shipType);
 	virtual void AITurn();
 	virtual Object::Type GetType() { return Object::SHIP; }
 	virtual void SetDockedWith(SpaceStation *);

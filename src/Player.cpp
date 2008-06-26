@@ -8,10 +8,11 @@
 
 #define DEG_2_RAD	0.0174532925
 
-Player::Player(): Ship()
+Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_external_view_rotx = m_external_view_roty = 0;
 	m_external_view_dist = 200;
+	m_mouseCMov[0] = m_mouseCMov[1] = 0;
 }
 
 void Player::Render(const Frame *camFrame)
@@ -54,7 +55,8 @@ void Player::ApplyExternalViewRotation()
 	glRotatef(-m_external_view_roty, 0, 1, 0);
 }
 
-#define MOUSE_ACCEL	400
+#define MOUSE_CTRL_AREA		10.0f
+#define MOUSE_RESTITUTION	0.9f
 
 void Player::AITurn()
 {
@@ -69,10 +71,18 @@ void Player::AITurn()
 	if (time_step == 0) return;
 	if (GetDockedWith()) return;
 
-	Pi::GetMouseMotion(mouseMotion);
 	float mx, my;
-	mx = -mouseMotion[0]*time_step*MOUSE_ACCEL;
-	my = mouseMotion[1]*time_step*MOUSE_ACCEL;
+	{
+		float restitution = powf(MOUSE_RESTITUTION, time_step);
+		Pi::GetMouseMotion(mouseMotion);
+		m_mouseCMov[0] += mouseMotion[0];
+		m_mouseCMov[1] += mouseMotion[1];
+		m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
+		m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
+		mx = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
+		my = m_mouseCMov[1] / MOUSE_CTRL_AREA;
+//		printf("%f,%f\n", mx,my);
+	}
 	
 	ClearThrusterState();
 	if (Pi::KeyState(SDLK_w)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
@@ -91,11 +101,10 @@ void Player::AITurn()
 		// used at 10x accel
 		mx /= ts2;
 		my /= ts2;
-		if (Pi::MouseButtonState(3) && (mouseMotion[0] || mouseMotion[1])) {
+		if (Pi::MouseButtonState(3)) {
 			SetAngThrusterState(1, mx);
 			SetAngThrusterState(0, my);
 		} else if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
-			float tq = 100/ts2;
 			float ax = 0;
 			float ay = 0;
 			if (Pi::KeyState(SDLK_LEFT)) ay += 1;

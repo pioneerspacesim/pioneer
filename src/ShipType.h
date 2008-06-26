@@ -7,10 +7,12 @@
 struct ShipType {
 	public:
 	enum Thruster { THRUSTER_FRONT, THRUSTER_REAR, THRUSTER_TOP, THRUSTER_BOTTOM, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
-	enum Type { COBRA3 };
+	enum Type { SWANKY, LADYBIRD, FLOWERFAIRY };
 	enum { GUNMOUNT_MAX = 2 };
 	
 	////////
+	const char *name;
+	int sbreModel;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	struct GunMount {
@@ -19,7 +21,7 @@ struct ShipType {
 	} gunMount[GUNMOUNT_MAX];
 	///////
 
-	static const ShipType types[1];
+	static const ShipType types[];
 };
 
 #endif /* _SHIPTYPE_H */

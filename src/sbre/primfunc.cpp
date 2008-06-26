@@ -3,7 +3,7 @@
 #include "sbre_int.h"
 #include "sbre_anim.h"
 #include "sbre.h"			// for subobject
-#include "glfreetype.h"
+#include "../glfreetype.h"
 
 
 /*

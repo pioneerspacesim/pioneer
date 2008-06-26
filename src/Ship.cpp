@@ -6,11 +6,11 @@
 #include "sbre/sbre.h"
 #include "Space.h"
 
-Ship::Ship(): RigidBody()
+Ship::Ship(ShipType::Type shipType): RigidBody()
 {
 	m_dockedWith = 0;
 	m_mesh = 0;
-	m_shipType = ShipType::COBRA3;
+	m_shipType = shipType;
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_laserCollisionObj.owner = this;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
@@ -135,6 +135,7 @@ static ObjParams params = {
 
 void Ship::Render(const Frame *camFrame)
 {
+	const ShipType &stype = GetShipType();
 	params.angthrust[0] = m_angThrusters[0];
 	params.angthrust[1] = m_angThrusters[1];
 	params.angthrust[2] = m_angThrusters[2];
@@ -143,5 +144,5 @@ void Ship::Render(const Frame *camFrame)
 	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REAR] - m_thrusters[ShipType::THRUSTER_FRONT];
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 
-	RenderSbreModel(camFrame, 10, &params);
+	RenderSbreModel(camFrame, stype.sbreModel, &params);
 }
