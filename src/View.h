@@ -14,7 +14,7 @@
 class View: public Gui::Fixed {
 public:
 	View(): Gui::Fixed(0, 64, 640, 416) {
-		m_rightButtonBar = new Gui::Fixed(480, 0, 160, 26);
+		m_rightButtonBar = new Gui::Fixed(512, 0, 128, 26);
 		m_rightButtonBar->SetBgColor(.65, .65, .65);
 
 		m_rightRegion2 = new Gui::Fixed(517, 26, 122, 17);
