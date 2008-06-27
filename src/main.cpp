@@ -16,6 +16,7 @@
 #include "StarSystem.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
+#include "InfoView.h"
 
 float Pi::timeStep = 1.0f;
 int Pi::scrWidth;
@@ -35,6 +36,7 @@ Player *Pi::player;
 View *Pi::current_view;
 WorldView *Pi::world_view;
 SpaceStationView *Pi::spaceStationView;
+InfoView *Pi::infoView;
 SectorView *Pi::sector_view;
 SystemView *Pi::system_view;
 SystemInfoView *Pi::system_info_view;
@@ -243,6 +245,7 @@ void Pi::MainLoop()
 	system_info_view = new SystemInfoView();
 	world_view = new WorldView();
 	spaceStationView = new SpaceStationView();
+	infoView = new InfoView();
 
 	SetView(world_view);
 

@@ -16,6 +16,7 @@ class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
 class SpaceStationView;
+class InfoView;
 
 class IniConfig: private std::map<std::string, std::string> {
 	public:
@@ -77,6 +78,7 @@ public:
 	static SystemInfoView *system_info_view;
 	static WorldView *world_view;
 	static SpaceStationView *spaceStationView;
+	static InfoView *infoView;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 private:

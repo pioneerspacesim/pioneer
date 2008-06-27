@@ -13,6 +13,8 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_external_view_rotx = m_external_view_roty = 0;
 	m_external_view_dist = 200;
 	m_mouseCMov[0] = m_mouseCMov[1] = 0;
+	m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+	UpdateMass();
 }
 
 void Player::Render(const Frame *camFrame)
@@ -71,17 +73,17 @@ void Player::AITurn()
 	if (time_step == 0) return;
 	if (GetDockedWith()) return;
 
-	float mx, my;
-	{
+	vector3f angThrust(0.0f);
+
+	if (Pi::MouseButtonState(3)) {
 		float restitution = powf(MOUSE_RESTITUTION, time_step);
 		Pi::GetMouseMotion(mouseMotion);
 		m_mouseCMov[0] += mouseMotion[0];
 		m_mouseCMov[1] += mouseMotion[1];
 		m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
 		m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-		mx = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
-		my = m_mouseCMov[1] / MOUSE_CTRL_AREA;
-//		printf("%f,%f\n", mx,my);
+		angThrust.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
+		angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 	}
 	
 	ClearThrusterState();
@@ -97,28 +99,30 @@ void Player::AITurn()
 	
 	// no torques at huge time accels -- ODE hates it
 	if (time_step <= 10) {
+		if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
+			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
+			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
+			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
+			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
+		}
+		// rotation damping.
+		const dReal *_av = dBodyGetAngularVel(m_body);
+		vector3d angVel(_av[0], _av[1], _av[2]);
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		angVel = rot.InverseOf() * angVel;
+
+		angVel *= 0.4;
+		angThrust.x -= angVel.x;
+		angThrust.y -= angVel.y;
+		angThrust.z -= angVel.z;
+
 		// dividing by time step so controls don't go totally mental when
 		// used at 10x accel
-		mx /= ts2;
-		my /= ts2;
-		if (Pi::MouseButtonState(3)) {
-			SetAngThrusterState(1, mx);
-			SetAngThrusterState(0, my);
-		} else if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
-			float ax = 0;
-			float ay = 0;
-			if (Pi::KeyState(SDLK_LEFT)) ay += 1;
-			if (Pi::KeyState(SDLK_RIGHT)) ay += -1;
-			if (Pi::KeyState(SDLK_UP)) ax += -1;
-			if (Pi::KeyState(SDLK_DOWN)) ax += 1;
-			SetAngThrusterState(2, 0);
-			SetAngThrusterState(1, ay);
-			SetAngThrusterState(0, ax);
-		}
-
-		// rotation damping.
-		vector3d angDrag = GetAngularMomentum() * time_step;
-		dBodyAddTorque(m_body, -angDrag.x, -angDrag.y, -angDrag.z);
+		angThrust *= 1.0f/ts2;
+		SetAngThrusterState(0, angThrust.x);
+		SetAngThrusterState(1, angThrust.y);
+		SetAngThrusterState(2, angThrust.z);
 	}
 	if (time_step > 10) {
 		dBodySetAngularVel(m_body, 0, 0, 0);

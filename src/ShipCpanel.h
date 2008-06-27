@@ -12,6 +12,7 @@ public:
 private:
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
+	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(Gui::ISelectable *i, double step);
 	void OnClickComms();
 

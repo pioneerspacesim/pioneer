@@ -13,11 +13,19 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 	m_shipType = shipType;
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_laserCollisionObj.owner = this;
+	m_equipment = EquipSet(shipType);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_tempLaserGeom[i] = 0;
 		m_gunState[i] = 0;
 	}
 	dGeomSetData(m_geom, static_cast<Body*>(this));
+}
+
+void Ship::UpdateMass()
+{
+	shipstats_t s;
+	CalcStats(&s);
+	dMassAdjust(&m_mass, s.total_mass*1000);
 }
 
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
@@ -28,6 +36,25 @@ void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 void Ship::ClearThrusterState()
 {
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = 0;
+}
+
+// hyperspace range is:
+// (200 * hyperspace_class^2) / total mass (in tonnes)
+
+void Ship::CalcStats(shipstats_t *stats)
+{
+	const ShipType &stype = GetShipType();
+	stats->max_capacity = stype.capacity;
+	stats->used_capacity = 0;
+
+	for (int i=0; i<Equip::SLOT_MAX; i++) {
+		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
+			Equip::Type t = m_equipment.Get((Equip::Slot)i, j);
+			if (t) stats->used_capacity += EquipType::types[t].mass;
+		}
+	}
+	stats->free_capacity = stats->max_capacity - stats->used_capacity;
+	stats->total_mass = stats->used_capacity + stype.hullMass;
 }
 
 void Ship::AITurn()
@@ -58,7 +85,6 @@ void Ship::AITurn()
 		m_tempLaserGeom[i] = 0;
 		if (!m_gunState[i]) continue;
 		dGeomID ray = dCreateRay(GetFrame()->GetSpaceID(), 10000);
-		const dReal *r = dGeomGetRotation(m_geom);
 		const vector3d pos = GetPosition();
 		const vector3f _dir = stype.gunMount[i].dir;
 		vector3d dir = vector3d(_dir.x, _dir.y, _dir.z);

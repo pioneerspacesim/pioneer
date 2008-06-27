@@ -18,6 +18,7 @@ public:
 	virtual void TransformToModelCoords(const Frame *camFrame);
 	virtual void TransformCameraTo() {};
 	virtual void SetFrame(Frame *f);
+	virtual bool OnCollision(Body *b) { return true; }
 private:
 	vector3d m_pos;
 	double m_radius;

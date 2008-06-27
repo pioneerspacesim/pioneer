@@ -3,6 +3,7 @@
 #include "ShipCpanel.h"
 #include "SpaceStationView.h"
 #include "Player.h"
+#include "InfoView.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(0, 0, 640, 64)
 {
@@ -59,6 +60,14 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(0, 0, 640, 64)
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView));
 	Add(map_button, 34, 2);
 
+	Gui::MultiStateImageButton *info_button = new Gui::MultiStateImageButton();
+	g->Add(info_button);
+	info_button->SetSelected(false);
+	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
+	info_button->AddState(0, "icons/cpan_f3_shipinfo.png");
+	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
+	Add(info_button, 66, 2);
+
 	Gui::ImageButton *comms_button = new Gui::ImageButton("icons/comms_f4.png");
 //	g->Add(comms_button);
 	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
@@ -89,6 +98,12 @@ void ShipCpanel::SetScannerWidget(Widget *w)
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
 	Pi::SetCamType((enum Pi::CamType)b->GetState());
+}
+
+void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
+{
+	Pi::infoView->UpdateInfo();
+	Pi::SetView(Pi::infoView);
 }
 
 void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)

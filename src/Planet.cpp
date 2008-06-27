@@ -8,6 +8,7 @@ Planet::Planet(StarSystem::SBody::SubType subtype): Body()
 	m_radius = 6378135.0;
 	m_pos = vector3d(0,0,0);
 	m_geom = dCreateSphere(0, m_radius);
+	dGeomSetData(m_geom, static_cast<Body*>(this));
 	m_subtype = subtype;
 }
 	

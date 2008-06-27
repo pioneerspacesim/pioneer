@@ -7,6 +7,14 @@
 
 class SpaceStation;
 
+struct shipstats_t {
+	int max_capacity;
+	int used_capacity;
+	int free_capacity;
+	int total_mass; // cargo, equipment + hull
+	float hyperspace_range;
+};
+
 class Ship: public RigidBody {
 public:
 	Ship(ShipType::Type shipType);
@@ -20,16 +28,21 @@ public:
 	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }
 	void ClearThrusterState();
 	void SetGunState(int idx, int state);
+	const ShipType &GetShipType();
+	void CalcStats(shipstats_t *stats);
+	void UpdateMass();
 	
 	class LaserObj: public Object {
 	public:
 		virtual Object::Type GetType() { return Object::LASER; }
 		Ship *owner;
 	};
+
+	EquipSet m_equipment;
+
 protected:
 	void RenderLaserfire();
 
-	const ShipType &GetShipType();
 	SpaceStation *m_dockedWith;
 	enum ShipType::Type m_shipType;
 	ObjMesh *m_mesh;
