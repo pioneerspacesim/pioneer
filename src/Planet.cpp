@@ -1,6 +1,7 @@
 #include "libs.h"
 #include "Planet.h"
 #include "Frame.h"
+#include "Pi.h"
 
 Planet::Planet(StarSystem::SBody::SubType subtype): Body()
 {
@@ -40,10 +41,6 @@ void Planet::SetRadius(double radius)
 
 void Planet::Render(const Frame *a_camFrame)
 {
-	static GLUquadricObj *qobj = NULL;
-
-	if (!qobj) qobj = gluNewQuadric();
-
 	glPushMatrix();
 	glDisable(GL_DEPTH_TEST);
 	
@@ -70,7 +67,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnd();
 		glEnable(GL_LIGHTING);
 	} else {
-		gluSphere(qobj, rad, 100, 100);
+		gluSphere(Pi::gluQuadric, rad, 100, 100);
 	}
 	glEnable(GL_DEPTH_TEST);
 	glPopMatrix();

@@ -77,8 +77,8 @@ public:
 	static SystemInfoView *system_info_view;
 	static WorldView *world_view;
 	static SpaceStationView *spaceStationView;
-
 	static ShipCpanel *cpan;
+	static GLUquadric *gluQuadric;
 private:
 	static void InitOpenGL();
 	static void HandleEvents();

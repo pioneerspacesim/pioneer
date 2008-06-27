@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "Star.h"
+#include "Pi.h"
 
 Star::Star(StarSystem::SBody::SubType subtype): Body()
 {
@@ -26,10 +27,6 @@ void Star::TransformToModelCoords(const Frame *camFrame)
 
 void Star::Render(const Frame *a_camFrame)
 {
-	static GLUquadricObj *qobj = NULL;
-
-	if (!qobj) qobj = gluNewQuadric();
-
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
@@ -49,7 +46,7 @@ void Star::Render(const Frame *a_camFrame)
 	
 	//TransformToModelCoords(a_camFrame);
 	glColor3fv(StarSystem::starColors[m_subtype]);
-	gluSphere(qobj, rad, 100, 100);
+	gluSphere(Pi::gluQuadric, rad, 100, 100);
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);

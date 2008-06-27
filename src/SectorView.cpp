@@ -30,19 +30,10 @@ SectorView::SectorView(): GenericSystemView()
 	m_zoomOutButton->SetShortcut(SDLK_F8, KMOD_NONE);
 	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
 
-	GLUquadricObj *qobj = gluNewQuadric();
-	
-/*	m_gluSphereDlist = glGenLists(1);
-	glNewList(m_gluSphereDlist, GL_COMPILE);
-	gluDisk(qobj, 0.0, 0.2, 32, 1);
-	glEndList();
-*/	
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
-	gluDisk(qobj, 0.0, 0.2, 20, 1);
+	gluDisk(Pi::gluQuadric, 0.0, 0.2, 20, 1);
 	glEndList();
-	
-	gluDeleteQuadric(qobj);
 }
 
 SectorView::~SectorView()

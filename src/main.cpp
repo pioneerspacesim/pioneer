@@ -43,6 +43,7 @@ StarSystem *Pi::selected_system;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
+GLUquadric *Pi::gluQuadric;
 
 void Pi::Init(IniConfig &config)
 {
@@ -106,6 +107,8 @@ void Pi::InitOpenGL()
 
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, scrWidth, scrHeight);
+
+	gluQuadric = gluNewQuadric ();
 }
 
 void Pi::Quit()
@@ -242,9 +245,6 @@ void Pi::MainLoop()
 	spaceStationView = new SpaceStationView();
 
 	SetView(world_view);
-
-	GLUquadric *quad = gluNewQuadric ();
-	gluQuadricOrientation(quad, GLU_INSIDE);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;

@@ -145,4 +145,8 @@ void Ship::Render(const Frame *camFrame)
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 
 	RenderSbreModel(camFrame, stype.sbreModel, &params);
+	glPushMatrix();
+	TransformToModelCoords(camFrame);
+	RenderLaserfire();
+	glPopMatrix();
 }
