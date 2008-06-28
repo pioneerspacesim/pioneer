@@ -258,6 +258,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\InfoView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\main.cpp"
 				>
 			</File>
@@ -421,6 +425,10 @@
 			</File>
 			<File
 				RelativePath="..\src\GuiWidget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\InfoView.h"
 				>
 			</File>
 			<File
