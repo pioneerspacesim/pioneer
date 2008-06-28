@@ -75,15 +75,20 @@ void Pi::Init(IniConfig &config)
 			fprintf(stderr, "Fatal error. Invalid screen depth in config.ini.\n");
 			Pi::Quit();
 	} 
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	Uint32 flags = SDL_OPENGL;
 	if (config.Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
 	if ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
-		fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
-		exit(-1);
+		// fall back on 16-bit depth buffer...
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
+		if ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
+			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
+			exit(-1);
+		}
 	}
 
 	Pi::scrWidth = width;
