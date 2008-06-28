@@ -192,6 +192,7 @@ void Ship::Render(const Frame *camFrame)
 	params.pAnim[ASRC_HOURFRAC] = Pi::GetGameTime() / 3600.0f;
 	params.pAnim[ASRC_DAYFRAC] = Pi::GetGameTime() / (24*3600.0f);
 	params.pAnim[ASRC_GEAR] = m_wheelState;
+	params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
 
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 
