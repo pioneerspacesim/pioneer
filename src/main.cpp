@@ -263,7 +263,6 @@ void Pi::MainLoop()
 	for (;;) {
 		frame_stat++;
 		glMatrixMode(GL_MODELVIEW);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 
 		current_view->Draw3D();

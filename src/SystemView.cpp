@@ -163,6 +163,8 @@ void SystemView::Draw3D()
 	gluPerspective(50, Pi::GetScrAspect(), 1.0, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	int sector_x, sector_y, system_idx;
 	Pi::sector_view->GetSelectedSystem(&sector_x, &sector_y, &system_idx);

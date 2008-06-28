@@ -56,6 +56,8 @@ void WorldView::Draw3D()
 		   Pi::GetScrWidth()*.5, 100000);
 	glDepthRange (-10, -100000);
 	glMatrixMode(GL_MODELVIEW);
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// make temporary camera frame at player
 	Frame *cam_frame = new Frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);

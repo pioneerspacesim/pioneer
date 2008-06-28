@@ -69,6 +69,8 @@ void SectorView::Draw3D()
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	char buf[80];
 	snprintf(buf, sizeof(buf), "Sector: %d,%d", m_secx, m_secy);

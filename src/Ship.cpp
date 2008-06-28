@@ -26,6 +26,7 @@ void Ship::UpdateMass()
 	shipstats_t s;
 	CalcStats(&s);
 	dMassAdjust(&m_mass, s.total_mass*1000);
+	dBodySetMass(m_body, &m_mass);
 }
 
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
