@@ -204,9 +204,9 @@ void SystemView::Update()
 {
 	const float ft = Pi::GetFrameTime();
 	if (Pi::KeyState(SDLK_EQUALS) ||
-	    m_zoomInButton->IsPressed()) m_zoom *= pow(4, ft);
+	    m_zoomInButton->IsPressed()) m_zoom *= pow(4.0f, ft);
 	if (Pi::KeyState(SDLK_MINUS) ||
-	    m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25, ft);
+	    m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25f, ft);
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
