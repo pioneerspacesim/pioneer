@@ -173,6 +173,11 @@ void Ship::Render(const Frame *camFrame)
 	params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
 	params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
 	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REAR] - m_thrusters[ShipType::THRUSTER_FRONT];
+	params.pAnim[ASRC_SECFRAC] = Pi::GetGameTime();
+	params.pAnim[ASRC_MINFRAC] = Pi::GetGameTime() / 60;
+	params.pAnim[ASRC_HOURFRAC] = Pi::GetGameTime() / 3600.0f;
+	params.pAnim[ASRC_DAYFRAC] = Pi::GetGameTime() / (24*3600.0f);
+
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 
 	RenderSbreModel(camFrame, stype.sbreModel, &params);
