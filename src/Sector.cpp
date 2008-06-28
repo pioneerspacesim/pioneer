@@ -12,15 +12,16 @@ static const char *sys_names[SYS_NAME_FRAGS] =
 Sector::Sector(int x, int y)
 {
 	unsigned long _init[2] = { x, y };
+	sx = x; sy = y;
 	MTRand rand(_init, 2);
 
 	m_numSystems = rand(3,6);
 
 	for (int i=0; i<m_numSystems; i++) {
 		System s;
-		s.p.x = rand(1.0);
-		s.p.y = rand(1.0);
-		s.p.z = 20.0*(rand(1.0)-0.5);
+		s.p.x = rand(SIZE);
+		s.p.y = rand(SIZE);
+		s.p.z = rand(2*SIZE)-SIZE;
 		s.name = GenName(rand);
 		
 		float spec = rand(1.0);
@@ -45,11 +46,18 @@ Sector::Sector(int x, int y)
 	}
 }
 
+float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
+{
+	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
+	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, 0);
+	return dv.Length();
+}
+
 std::string Sector::GenName(MTRand &rand)
 {
 	std::string name;
 
-	int len = rand(2,4);
+	int len = rand(2,3);
 	for (int i=0; i<len; i++) {
 		name += sys_names[rand(0,SYS_NAME_FRAGS-1)];
 	}

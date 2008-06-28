@@ -35,6 +35,9 @@ void InfoView::UpdateInfo()
 			stats.free_capacity, stats.used_capacity, stats.total_mass);
 	nfo += std::string(buf);
 
+	snprintf(buf, sizeof(buf), "\n\nHyperspace range:  %.2f light years", stats.hyperspace_range);
+	nfo += std::string(buf);
+
 	info1->SetText(nfo);
 }
 

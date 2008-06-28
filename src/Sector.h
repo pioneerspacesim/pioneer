@@ -8,7 +8,10 @@
 
 class Sector {
 public:
+	// lightyears
+	enum { SIZE=8 };
 	Sector(int x, int y);
+	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
 	
 	int m_numSystems;
 	struct System {
@@ -19,6 +22,7 @@ public:
 	std::vector<System> m_systems;
 private:
 	std::string GenName(MTRand &rand);
+	int sx, sy;
 };
 
 #endif /* _SECTOR_H */

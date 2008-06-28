@@ -1,6 +1,7 @@
 #include "Pi.h"
 #include "GenericSystemView.h"
 #include "SectorView.h"
+#include "Sector.h"
 
 
 GenericSystemView::GenericSystemView(): View()
@@ -32,9 +33,14 @@ void GenericSystemView::Draw3D()
 
 	if (s && !s->IsSystem(px, py, pidx)) {
 		s->GetPos(&px, &py, &pidx);
+		Sector sec(px, py);
+		Sector psec(Pi::playerLoc.secX, Pi::playerLoc.secY);
+		const float dist = Sector::DistanceBetween(&sec, pidx, &psec, Pi::playerLoc.sysIdx);
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Dist. %.2f light years", dist);
 
 		m_systemName->SetText(s->rootBody->name);
-		m_distance->SetText("Dist. XX.XX light years");
+		m_distance->SetText(buf);
 		m_starType->SetText(s->rootBody->GetAstroDescription());
 		m_shortDesc->SetText("Short description of system");
 

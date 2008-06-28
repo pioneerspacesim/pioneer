@@ -225,9 +225,9 @@ void StarSystem::SBody::EliminateBadChildren()
 StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
 	unsigned long _init[3] = { system_idx, sector_x, sector_y };
-	m_sectorX = sector_x;
-	m_sectorY = sector_y;
-	m_systemIdx = system_idx;
+	loc.secX = sector_x;
+	loc.secY = sector_y;
+	loc.sysIdx = system_idx;
 	rootBody = 0;
 	if (system_idx == -1) return;
 	rand.seed(_init, 3);
@@ -436,7 +436,7 @@ StarSystem::~StarSystem()
 
 bool StarSystem::IsSystem(int sector_x, int sector_y, int system_idx)
 {
-	return (sector_x == m_sectorX) && (sector_y == m_sectorY) && (system_idx == m_systemIdx);
+	return (sector_x == loc.secX) && (sector_y == loc.secY) && (system_idx == loc.sysIdx);
 }
 
 StarSystem::SBody::~SBody()

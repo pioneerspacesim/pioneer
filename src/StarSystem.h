@@ -15,6 +15,9 @@
 #define AU		149598000000.0
 #define G		6.67428e-11
 
+struct systemloc_t {
+	int secX, secY, sysIdx;
+};
 
 // all masses in Kg, all lengths in meters
 
@@ -23,8 +26,9 @@ public:
 	StarSystem(int sector_x, int sector_y, int system_idx);
 	~StarSystem();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
+	void GetPos(systemloc_t *l) { *l = loc;	}
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
-		*sec_x = m_sectorX; *sec_y = m_sectorY; *sys_idx = m_systemIdx;
+		*sec_x = loc.secX; *sec_y = loc.secY; *sys_idx = loc.sysIdx;
 	}
 
 	static float starColors[7][3];
@@ -88,7 +92,7 @@ public:
 	
 	SBody *rootBody;
 private:
-	int m_sectorX, m_sectorY, m_systemIdx;
+	systemloc_t loc;
 
 	MTRand rand;
 };

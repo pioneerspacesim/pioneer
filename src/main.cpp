@@ -46,6 +46,7 @@ MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
+systemloc_t Pi::playerLoc;
 
 void Pi::Init(IniConfig &config)
 {
@@ -334,6 +335,7 @@ void Pi::HyperspaceTo(StarSystem *dest)
 	Space::BuildSystem(dest);
 	float ang = rng(M_PI);
 	Pi::player->SetPosition(vector3d(sin(ang)*8*AU,cos(ang)*8*AU,0));
+	dest->GetPos(&Pi::playerLoc);
 }
 
 IniConfig::IniConfig(const char *filename)

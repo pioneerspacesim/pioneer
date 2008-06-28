@@ -57,6 +57,7 @@ struct EquipType {
 	const char *name;
 	Equip::Slot slot;
 	int mass;
+	int pval; // hello angband. used for general 'power' attribute...
 	
 	static const EquipType types[];
 };

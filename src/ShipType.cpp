@@ -43,18 +43,18 @@ const ShipType ShipType::types[] = {
 const EquipType EquipType::types[] = {
 	{ "None",
 	  Equip::SLOT_ENGINE,
-	  0,
+	  0, 0
 	},{
 	  "Interplanetary Drive",
 	  Equip::SLOT_ENGINE,
-	  1
+	  1, 0
 	},{
 	  "Class 1 Hyperdrive",
 	  Equip::SLOT_ENGINE,
-	  4
+	  4, 1
 	},{
 	  "1MW beam laser",
 	  Equip::SLOT_LASER,
-	  1
+	  1, 1
 	}
 };

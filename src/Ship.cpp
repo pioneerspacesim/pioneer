@@ -55,6 +55,10 @@ void Ship::CalcStats(shipstats_t *stats)
 	}
 	stats->free_capacity = stats->max_capacity - stats->used_capacity;
 	stats->total_mass = stats->used_capacity + stype.hullMass;
+
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	float hyperclass = EquipType::types[t].pval;
+	stats->hyperspace_range = 200 * hyperclass * hyperclass / stats->total_mass;
 }
 
 void Ship::AITurn()

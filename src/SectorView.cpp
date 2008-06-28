@@ -4,6 +4,7 @@
 #include "SectorView.h"
 #include "Sector.h"
 #include "SystemInfoView.h"
+#include "Player.h"
 		
 SectorView::SectorView(): GenericSystemView()
 {
@@ -54,7 +55,6 @@ bool SectorView::GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx
 	return m_selected != -1;
 }
 
-#define SEC_SIZE	8
 #define DRAW_RAD	2
 
 #define FFRAC(_x)	((_x)-floor(_x))
@@ -78,13 +78,13 @@ void SectorView::Draw3D()
 	glTranslatef(0, 0, -10-10*m_zoom);
 	glRotatef(m_rot_x, 1, 0, 0);
 	glRotatef(m_rot_z, 0, 0, 1);
-	glTranslatef(-FFRAC(m_px)*SEC_SIZE, -FFRAC(m_py)*SEC_SIZE, 0);
+	glTranslatef(-FFRAC(m_px)*Sector::SIZE, -FFRAC(m_py)*Sector::SIZE, 0);
 	glDisable(GL_LIGHTING);
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			glPushMatrix();
-			glTranslatef(sx*SEC_SIZE, sy*SEC_SIZE, 0);
+			glTranslatef(sx*Sector::SIZE, sy*Sector::SIZE, 0);
 			DrawSector(m_secx+sx, m_secy+sy);
 			glPopMatrix();
 		}
@@ -119,9 +119,9 @@ void SectorView::DrawSector(int sx, int sy)
 	glColor3f(0,.8,0);
 	glBegin(GL_LINE_LOOP);
 		glVertex3f(0, 0, 0);
-		glVertex3f(0, SEC_SIZE, 0);
-		glVertex3f(SEC_SIZE, SEC_SIZE, 0);
-		glVertex3f(SEC_SIZE, 0, 0);
+		glVertex3f(0, Sector::SIZE, 0);
+		glVertex3f(Sector::SIZE, Sector::SIZE, 0);
+		glVertex3f(Sector::SIZE, 0, 0);
 	glEnd();
 	
 	if (!(sx || sy)) glColor3f(1,1,0);
@@ -129,7 +129,7 @@ void SectorView::DrawSector(int sx, int sy)
 	for (std::vector<Sector::System>::iterator i = s.m_systems.begin(); i != s.m_systems.end(); ++i) {
 		glColor3fv(StarSystem::starColors[(*i).primaryStarClass]);
 		glPushMatrix();
-		glTranslatef((*i).p.x*SEC_SIZE, (*i).p.y*SEC_SIZE, 0);
+		glTranslatef((*i).p.x, (*i).p.y, 0);
 		glBegin(GL_LINES);
 			glVertex3f(0, 0, 0);
 			glVertex3f(0, 0, (*i).p.z);
@@ -140,12 +140,33 @@ void SectorView::DrawSector(int sx, int sy)
 		glRotatef(-m_rot_z, 0, 0, 1);
 		glRotatef(-m_rot_x, 1, 0, 0);
 		glCallList(m_gluDiskDlist);
+		// player location indicator
+		if ((sx == Pi::playerLoc.secX) && (sy == Pi::playerLoc.secY) && (num == Pi::playerLoc.sysIdx)) {
+			shipstats_t stats;
+			Pi::player->CalcStats(&stats);
+			glColor3f(0,0,1);
+			glBegin(GL_LINE_LOOP);
+			// draw a lovely circle around our beloved player
+			for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
+				glVertex3f(stats.hyperspace_range*sin(theta), stats.hyperspace_range*cos(theta), 0);
+			}
+			glEnd();
+
+			glPushMatrix();
+			glDepthRange(0.2,1.2);
+			glColor3f(0,0,0.8);
+			glScalef(3,3,3);
+			glCallList(m_gluDiskDlist);
+			glPopMatrix();
+		}
 		// selected indicator
 		if ((sx == m_secx) && (sy == m_secy) && (num == m_selected)) {
+			glDepthRange(0.1,1.1);
 			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
 			glCallList(m_gluDiskDlist);
 		}
+		glDepthRange(0,1);
 		glPopMatrix();
 		glColor3f(.7,.7,.7);
 		PutText((*i).name);
@@ -178,8 +199,8 @@ void SectorView::Update()
 	m_secy = (int)floor(m_py);
 
 	Sector s = Sector(m_secx, m_secy);
-	float px = FFRAC(m_px);
-	float py = FFRAC(m_py);
+	float px = FFRAC(m_px)*Sector::SIZE;
+	float py = FFRAC(m_py)*Sector::SIZE;
 
 	m_selected = -1;
 	float min_dist = FLT_MAX;
