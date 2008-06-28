@@ -90,6 +90,7 @@ static CompoundVertex nwunitvtx2[] = {
 	{ VTYPE_ANIMHERM, { 8, 10, 12, 13, AFUNC_GFLAP } },		// 20, flap paths
 	{ VTYPE_ANIMHERM, { 9, 11, 12, 13, AFUNC_GFLAP } },		// 
 	{ VTYPE_ANIMLIN, { 2, 1, -1, -1, AFUNC_GEAR } },		// gear y axis
+	{ VTYPE_CROSS, { 0, 22, -1, -1, -1 } },					// gear z axis
 };
 static uint16 nwunitdata[] = {
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
@@ -101,11 +102,11 @@ static uint16 nwunitdata[] = {
 
 //	PTYPE_CYLINDER, 3, 8, 6, 7, 0, 1000,
 
-	PTYPE_SUBOBJECT, 0x8000, SUB_NOSEWHEEL, 14, 22, 2, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_NOSEWHEEL, 14, 22, 23, 100,
 
 	PTYPE_END,
 };	
-static Model nwunitmodel = { 1.0f, 15, nwunitvtx1, 20, 3, nwunitvtx2,
+static Model nwunitmodel = { 1.0f, 15, nwunitvtx1, 20, 4, nwunitvtx2,
 	0, 0, 0, 0, nwunitdata, 0 };
 
 
@@ -148,6 +149,7 @@ static CompoundVertex mwunitvtx2[] = {
 	{ VTYPE_ANIMHERM, { 8, 10, 12, 13, AFUNC_GFLAP } },		// 20, flap paths
 	{ VTYPE_ANIMHERM, { 9, 11, 12, 13, AFUNC_GFLAP } },		// 
 	{ VTYPE_ANIMLIN, { 2, 1, -1, -1, AFUNC_GEAR } },		// gear y axis
+	{ VTYPE_CROSS, { 0, 22, -1, -1, -1 } },					// gear z axis
 };
 static uint16 mwunitdata[] = {
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
@@ -159,11 +161,11 @@ static uint16 mwunitdata[] = {
 
 //	PTYPE_CYLINDER, 3, 8, 6, 7, 0, 1000,
 
-	PTYPE_SUBOBJECT, 0x8000, SUB_MAINWHEEL, 14, 22, 2, 100,
+	PTYPE_SUBOBJECT, 0x8000, SUB_MAINWHEEL, 14, 22, 23, 100,
 
 	PTYPE_END,
 };	
-static Model mwunitmodel = { 1.0f, 15, mwunitvtx1, 20, 3, mwunitvtx2,
+static Model mwunitmodel = { 1.0f, 15, mwunitvtx1, 20, 4, mwunitvtx2,
 	0, 0, 0, 0, mwunitdata, 0 };
 
 
