@@ -8,6 +8,8 @@
 
 Ship::Ship(ShipType::Type shipType): RigidBody()
 {
+	m_wheelTransition = 0;
+	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_mesh = 0;
 	m_shipType = shipType;
@@ -100,6 +102,12 @@ void Ship::AITurn()
 		dGeomSetData(ray, static_cast<Object*>(&m_laserCollisionObj));
 		m_tempLaserGeom[i] = ray;
 	}
+
+	if (m_wheelTransition != 0.0f) {
+		m_wheelState += m_wheelTransition*timeStep*0.001;
+		m_wheelState = CLAMP(m_wheelState, 0, 1);
+		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
+	}
 }
 
 const ShipType &Ship::GetShipType()
@@ -131,6 +139,12 @@ void Ship::SetMesh(ObjMesh *m)
 void Ship::SetGunState(int idx, int state)
 {
 	m_gunState[idx] = state;
+}
+
+void Ship::SetWheelState(bool down)
+{
+	if (down) m_wheelTransition = 1;
+	else m_wheelTransition = -1;
 }
 
 /* Assumed to be at model coords */
@@ -177,6 +191,7 @@ void Ship::Render(const Frame *camFrame)
 	params.pAnim[ASRC_MINFRAC] = Pi::GetGameTime() / 60;
 	params.pAnim[ASRC_HOURFRAC] = Pi::GetGameTime() / 3600.0f;
 	params.pAnim[ASRC_DAYFRAC] = Pi::GetGameTime() / (24*3600.0f);
+	params.pAnim[ASRC_GEAR] = m_wheelState;
 
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 

@@ -13,6 +13,7 @@ public:
 	matrix4x4d viewingRotation;
 private:
 	void OnClickHyperspace();
+	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsDlist;
 };

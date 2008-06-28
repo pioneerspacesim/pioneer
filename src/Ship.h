@@ -31,6 +31,7 @@ public:
 	const ShipType &GetShipType();
 	void CalcStats(shipstats_t *stats);
 	void UpdateMass();
+	void SetWheelState(bool down);
 	
 	class LaserObj: public Object {
 	public:
@@ -48,6 +49,9 @@ protected:
 	ObjMesh *m_mesh;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 private:
+	float m_wheelState;
+	float m_wheelTransition;
+
 	float m_thrusters[ShipType::THRUSTER_MAX];
 	float m_angThrusters[3];
 	dGeomID m_tempLaserGeom[ShipType::GUNMOUNT_MAX];

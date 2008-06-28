@@ -11,6 +11,13 @@ static const float lightCol[] = { 1,1,.9,0 };
 WorldView::WorldView(): View()
 {
 	SetTransparency(true);
+	
+	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
+	wheels_button->SetShortcut(SDLK_F7, KMOD_NONE);
+	wheels_button->AddState(0, "icons/wheels_up.png");
+	wheels_button->AddState(1, "icons/wheels_down.png");
+	wheels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
+	m_rightButtonBar->Add(wheels_button, 34, 2);
 
 	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
 	m_hyperspaceButton->SetShortcut(SDLK_F8, KMOD_NONE);
@@ -36,6 +43,12 @@ WorldView::WorldView(): View()
 
 	glEndList();
 }
+
+void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
+{
+	Pi::player->SetWheelState(b->GetState());
+}
+
 
 void WorldView::OnClickHyperspace()
 {
