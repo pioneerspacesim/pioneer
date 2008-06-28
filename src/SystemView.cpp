@@ -202,14 +202,15 @@ void SystemView::Draw3D()
 
 void SystemView::Update()
 {
+	const float ft = Pi::GetFrameTime();
 	if (Pi::KeyState(SDLK_EQUALS) ||
-	    m_zoomInButton->IsPressed()) m_zoom *= 1.01;
+	    m_zoomInButton->IsPressed()) m_zoom *= pow(4, ft);
 	if (Pi::KeyState(SDLK_MINUS) ||
-	    m_zoomOutButton->IsPressed()) m_zoom *= 0.99;
+	    m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25, ft);
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
-		m_rot_x += motion[1]/4.0;
-		m_rot_z += motion[0]/4.0;
+		m_rot_x += motion[1]*20*ft;
+		m_rot_z += motion[0]*20*ft;
 	}
 }

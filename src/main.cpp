@@ -177,9 +177,9 @@ void Pi::HandleEvents()
 						event.button.x, event.button.y);
 				break;
 			case SDL_MOUSEMOTION:
-			//	Pi::mouseMotion[0] += event.motion.xrel;
-			//	Pi::mouseMotion[1] += event.motion.yrel;
-				SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
+				Pi::mouseMotion[0] += event.motion.xrel;
+				Pi::mouseMotion[1] += event.motion.yrel;
+		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
 				break;
 			case SDL_QUIT:
 				Pi::Quit();
