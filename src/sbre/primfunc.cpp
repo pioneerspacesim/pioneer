@@ -604,7 +604,7 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 {
 	if (!glfinit) {
 		GLFTInit ();
-		pFace = new FontFace ("arial.ttf");
+		pFace = new FontFace ("font.ttf");
 		glfinit = 1;
 	}
 
@@ -625,6 +625,7 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 	VecMul (&v2, pData[7]*0.01f, &pos);
 	VecAdd (&pos, &tv, &tv);
 	VecAdd (pState->pVtx+pData[3], &tv, &tv);
+	VecMul (&tv, pState->scale, &tv);
 	MatVecMult (&pState->objorient, &tv, &pos);
 	VecAdd (&pos, &pState->objpos, &pos);
 

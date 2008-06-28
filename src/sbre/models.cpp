@@ -1214,6 +1214,36 @@ static Model wing2model = { 1.0f, 23, wing2vtx1, 30, 0, wing2vtx2,
 	0, 0, 2, wing2thruster, wing2data, 2 };
 
 
+static PlainVertex tombstonevtx1[] = {
+	{ VTYPE_PLAIN, { 0.6f, 1.0f, -0.1f } }, // front quad
+	{ VTYPE_PLAIN, { 0.6f, -1.0f, -0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, -1.0f, -0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, 1.0f, -0.1f } },
+	{ VTYPE_PLAIN, { 0, 1, 0.1 } }, // cylinder
+	{ VTYPE_PLAIN, { 0, 1, -0.1 } },
+	{ VTYPE_PLAIN, { 0.6f, 1.0f, 0.1f } }, // rear quad
+	{ VTYPE_PLAIN, { 0.6f, -1.0f, 0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, -1.0f, 0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, 1.0f, 0.1f } },
+	{ VTYPE_PLAIN, { -0.5, 0.8, -0.1 } }, // text start
+};
+static uint16 tombstonedata[] = {
+	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_QUADFLAT, 6, 7, 8, 9,
+	PTYPE_QUADFLAT, 15, 14, 13, 12,
+	PTYPE_QUADFLAT, 6, 12, 13, 7,
+	PTYPE_QUADFLAT, 9, 8, 14, 15,
+	PTYPE_QUADFLAT, 8, 7, 13, 14,
+	PTYPE_CYLINDER, 0x8000, 16, 10, 11, 1, 60,
+	PTYPE_MATFIXED, 100, 0, 0, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_ZBIAS, 5, 5,
+	PTYPE_TEXT, 0, 0x8000, 16, 5, 0, 0, 0, 30,
+	PTYPE_END
+};
+static Model tombstonemodel = { 10.0f, 17, tombstonevtx1, 17, 0, 0,
+	0, 0, 0, 0, tombstonedata, 1 };
+
+
 Model *ppModel[] = {
 	&ship5model,
 	&wing2model,
@@ -1230,6 +1260,9 @@ Model *ppModel[] = {
 	&station1model,
 	&ship3model,
 	&ship4model,
+	0,
+	// 0x10
+	&tombstonemodel,
 	0,
 };
 
