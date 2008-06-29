@@ -257,7 +257,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 
 void Player::DrawTargetSquare()
 {
-	if(GetTarget()) {
+	if(GetTarget() && GetTarget()->IsOnscreen()) {
 		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 		glColor3f(0.0f, 1.0f, 0.0f);
 		glLineWidth(2.0f);
