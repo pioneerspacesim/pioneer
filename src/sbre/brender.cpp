@@ -104,6 +104,12 @@ static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 static float g_dn, g_df, g_sd;
 static int g_wireframe = 0;
 
+void sbreSetDepthRange (float sd, float dn, float df)
+{
+	glDepthRange (dn+SBRE_ZBIAS, df);
+	g_dn = dn; g_df = df; g_sd = sd;
+}
+
 void sbreSetViewport (int w, int h, float d, float zn, float zf, float dn, float df)
 {
 	glViewport (0, 0, w, h);

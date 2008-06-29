@@ -33,7 +33,7 @@ static int CollFuncMatVar (uint16 *pData, Model *pMod, RState *pState)
 }
 static int CollFuncZBias (uint16 *pData, Model *pMod, RState *pState)
 {
-	return 3;
+	return 4;
 }
 
 static int CollFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)

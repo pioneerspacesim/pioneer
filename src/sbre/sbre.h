@@ -47,11 +47,17 @@ struct CollMesh
 	int cflag;
 };
 
+// if you don't call SetDepthRange, z bias and LOD will fail
+// sd is screen depth in pixels, dn and df are like glDepthRange params
+void sbreSetDepthRange (float sd, float dn, float df);
 void sbreSetViewport (int w, int h, float d, float zn, float zf, float dn, float df);
 void sbreSetDirLight (float *pColor, float *pDir);
 void sbreSetWireframe (int val);
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam,
 	float s=1.0f, Vector *pCompos=0);
+
+// will preserve and realloc pointers in pCMesh
+// maxv/maxi should match allocated sizes
 void sbreGenCollMesh (CollMesh *pCMesh, int model, ObjParams *pParam, float s=1.0f);
 
 #endif /* __SBRE_H__ */

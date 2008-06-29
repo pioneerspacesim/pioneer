@@ -9,6 +9,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "StarSystem.h"
+#include "sbre/sbre.h"
 
 dWorldID Space::world;
 std::list<Body*> Space::bodies;
@@ -231,6 +232,10 @@ void Space::Render(const Frame *cam_frame)
 		idx++;
 	}
 	sort(bz, bz+bodies.size(), body_zsort_compare());
+
+	// Probably the right place for this when partitioning is done
+	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
+
 	for (unsigned int i=0; i<bodies.size(); i++) {
 		bz[i].b->Render(cam_frame);
 	}

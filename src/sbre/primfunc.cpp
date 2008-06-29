@@ -88,16 +88,21 @@ static int PrimFuncMatVar (uint16 *pData, Model *pMod, RState *pState)
 
 /*
 uint16 PFUNC_ZBIAS
-	uint16 offset		// to test if nearer - 0x8000 = reset
+	uint16 pos			// to test if nearer - 0x8000 = reset
+	uint16 norm
 	uint16 units		// integer units. not used
 */
 
 static int PrimFuncZBias (uint16 *pData, Model *pMod, RState *pState)
 {
 	if (pData[1] & 0x8000) glDepthRange (pState->dn+SBRE_ZBIAS, pState->df);
-	else if (VecDot (pState->pVtx+pData[1], &pState->campos) > 0.0f)
-		glDepthRange (pState->dn, pState->df-SBRE_ZBIAS);
-	return 3;
+	else {
+		Vector tv;
+		VecSub (&pState->campos, pState->pVtx+pData[1], &tv);
+		if (VecDot (&tv, pState->pVtx+pData[2]) > 0.0f)
+			glDepthRange (pState->dn, pState->df-SBRE_ZBIAS);
+	}
+	return 4;
 }
 
 static int PrimFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)
