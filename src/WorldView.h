@@ -5,6 +5,8 @@
 #include "Gui.h"
 #include "View.h"
 
+class Body;
+
 class WorldView: public View {
 public:
 	WorldView();
