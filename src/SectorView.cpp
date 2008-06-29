@@ -155,7 +155,7 @@ void SectorView::DrawSector(int sx, int sy)
 			glEnd();
 
 			glPushMatrix();
-			glDepthRange(0.2,1.2);
+			glDepthRange(0.2,1.0);
 			glColor3f(0,0,0.8);
 			glScalef(3,3,3);
 			glCallList(m_gluDiskDlist);
@@ -163,7 +163,7 @@ void SectorView::DrawSector(int sx, int sy)
 		}
 		// selected indicator
 		if ((sx == m_secx) && (sy == m_secy) && (num == m_selected)) {
-			glDepthRange(0.1,1.1);
+			glDepthRange(0.1,1.0);
 			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
 			glCallList(m_gluDiskDlist);
