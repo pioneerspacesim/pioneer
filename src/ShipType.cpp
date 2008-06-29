@@ -5,7 +5,7 @@ const ShipType ShipType::types[] = {
 		// besides running a wicked corporatist regime in the
 		// sirius system, Sirius corporation make a range of
 		// lovely starships
-		"Sirius Interdictor", 10,
+		"Sirius Interdictor", 61,
 		{ 1e7,-1e7,1e6,-1e6,-1e6,1e6 },
 		1e7,
 		{
@@ -17,7 +17,7 @@ const ShipType ShipType::types[] = {
 	}, {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
-		13,
+		62,
 		{ 1e7,-1e7,1e6,-1e6,-1e6,1e6 },
 		1e7,
 		{
@@ -28,7 +28,7 @@ const ShipType ShipType::types[] = {
 		60, 15,
 	}, {
 		"Flowerfairy Heavy Trader",
-		14,
+		63,
 		{ 1e7,-1e7,1e6,-1e6,-1e6,1e6 },
 		1e7,
 		{

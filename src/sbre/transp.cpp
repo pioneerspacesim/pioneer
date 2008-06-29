@@ -203,23 +203,19 @@ static void QuickSort (TransElem *pA, int end)
 
 static int thrustgen = 0;
 
-void RenderTransparencies (RState *pState) 
+void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters) 
 {
 	Vector *pVtx = pState->pVtx;
-	Model *pModel = pState->pModel;
 
 	if (!thrustgen) GenerateThrusters ();
 	thrustgen = 1;
 
-	int maxElem = pModel->numThrusters*2;
-	if (!maxElem) return;
-	TransElem *pList = (TransElem *) alloca (maxElem*sizeof(TransElem));
-
+	TransElem *pList = (TransElem *) alloca (numThrusters*2*sizeof(TransElem));
 	Vector tv;
 	int i, numElem = 0;
-	for (i=0; i<pModel->numThrusters; i++)
+	for (i=0; i<numThrusters; i++)
 	{
-		Thruster *pThruster = pModel->pThruster+i;
+		Thruster *pThruster = pThrusters+i;
 		pList[numElem].pThruster = pThruster;
 		pList[numElem].pos = pVtx[pThruster->pos];
 		pList[numElem].dir = pVtx[pThruster->dir&0xff];

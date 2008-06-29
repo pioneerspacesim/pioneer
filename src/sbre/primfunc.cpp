@@ -1,7 +1,6 @@
 #include <SDL_opengl.h>
 #include <malloc.h>
 #include "sbre_int.h"
-#include "sbre_anim.h"
 #include "sbre.h"			// for subobject
 #include "../glfreetype.h"
 
@@ -562,7 +561,7 @@ static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 	glPushMatrix ();
 
 	// transform lin & ang thrust
-	if (ppModel[pData[2]]->numThrusters)
+	if (pData[0] & SUBOBJ_THRUST)
 	{
 		Vector compos;
 		MatTVecMult (&m, pState->pVtx+pData[3], &compos);

@@ -52,5 +52,5 @@ static ObjParams params = {
 
 void SpaceStation::Render(const Frame *camFrame)
 {
-	RenderSbreModel(camFrame, 12, &params);
+	RenderSbreModel(camFrame, 65, &params);
 }

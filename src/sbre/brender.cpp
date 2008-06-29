@@ -4,7 +4,7 @@
 #include <malloc.h>
 #include "sbre.h"
 #include "sbre_int.h"
-#include "sbre_anim.h"
+#include "sbre_models.h"
 
 float ResolveAnim (ObjParams *pObjParam, uint16 type)
 {
@@ -101,10 +101,10 @@ static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 	}		
 }
 
-static float g_dn, g_df;
+static float g_dn, g_df, g_sd;
 static int g_wireframe = 0;
 
-void sbreSetViewport (int w, int h, int d, float zn, float zf, float dn, float df)
+void sbreSetViewport (int w, int h, float d, float zn, float zf, float dn, float df)
 {
 	glViewport (0, 0, w, h);
 
@@ -121,7 +121,7 @@ void sbreSetViewport (int w, int h, int d, float zn, float zf, float dn, float d
 	glMatrixMode (GL_PROJECTION);
 	glLoadMatrixf (pProjMat);
 	glDepthRange (dn+SBRE_ZBIAS, df);
-	g_dn = dn; g_df = df;
+	g_dn = dn; g_df = df; g_sd = d;
 }
 
 void sbreSetDirLight (float *pColor, float *pDir)
@@ -202,6 +202,80 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	glLoadMatrixf (pMV);
 
 	Vector *pVtx = (Vector *) alloca (sizeof(Vector)*(pModel->cvStart+pModel->numCVtx));
+	ResolveVertices (pModel, pVtx, pParam);
+
+	RState rstate;
+	rstate.pVtx = pVtx;
+	rstate.objpos = *pPos;
+	rstate.objorient = *pOrient;
+	rstate.scale = s;
+	rstate.pModel = pModel;
+	rstate.pObjParam = pParam;
+	rstate.dn = g_dn;
+	rstate.df = g_df;
+	MatTVecMult (pOrient, pPos, &rstate.campos);
+	VecInv (&rstate.campos, &rstate.campos);
+	if (pCompos) rstate.compos = *pCompos;
+	else rstate.compos = zero_vector;
+
+	if (pModel->numCache && !pModel->ppVCache)
+	{
+		pModel->pNumVtx = (int *) calloc (pModel->numCache, sizeof(int));
+		pModel->pNumIdx = (int *) calloc (pModel->numCache, sizeof(int));
+		pModel->ppVCache = (Vector **) calloc (pModel->numCache, sizeof(Vector *));
+		pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
+	}
+
+	SetGeneralState ();
+	SetOpaqueState ();
+
+	// Find suitable LOD
+	float dist = sqrt(VecDot(pPos, pPos));
+	float pixrad = g_sd * pModel->radius*s / dist;
+
+	int i; for (i=0; i<4; i++)
+	{
+		if (pModel->pLOD[i].pixrad <= 0.0f) break;
+		if (pixrad <= pModel->pLOD[i].pixrad) break;
+	}
+
+	uint16 *pData = pModel->pLOD[i].pData1;
+	if (pData) while (*pData != PTYPE_END)	{	
+		pData += pPrimFuncTable[*pData & 0xff] (pData, pModel, &rstate);
+	}
+	pData = pModel->pLOD[i].pData2;
+	if (pData) while (*pData != PTYPE_END)	{
+		pData += pPrimFuncTable[*pData & 0xff] (pData, pModel, &rstate);
+	}
+
+//	glDepthRange (g_dn+SBRE_ZBIAS, g_df);
+	if (pModel->pLOD[i].numThrusters)
+	{
+		SetTransState ();
+		RenderThrusters (&rstate, pModel->pLOD[i].numThrusters,	pModel->pLOD[i].pThruster);
+	}
+
+	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
+	glEnable (GL_CULL_FACE);
+}
+
+
+
+// fuck, needs to recurse too...
+/*
+void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, Vector *pCompos)
+{
+	Model *pModel = ppModel[model];
+	s *= pModel->scale;
+	float pMV[16];
+	pMV[0] = s*pOrient->x1; pMV[1] = s*pOrient->y1; pMV[2] = s*pOrient->z1; pMV[3] = 0.0f;
+	pMV[4] = s*pOrient->x2; pMV[5] = s*pOrient->y2; pMV[6] = s*pOrient->z2; pMV[7] = 0.0f;
+	pMV[8] = s*pOrient->x3; pMV[9] = s*pOrient->y3; pMV[10] = s*pOrient->z3; pMV[11] = 0.0f;
+	pMV[12] = pPos->x; pMV[13] = pPos->y; pMV[14] = pPos->z; pMV[15] = 1.0f;
+	glMatrixMode (GL_MODELVIEW);
+	glLoadMatrixf (pMV);
+
+	Vector *pVtx = (Vector *) alloca (sizeof(Vector)*(pModel->cvStart+pModel->numCVtx));
 
 	ResolveVertices (pModel, pVtx, pParam);
 
@@ -230,7 +304,15 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	SetGeneralState ();
 	SetOpaqueState ();
 
-	uint16 *pData = pModel->pData;
+	float dist = sqrt(VecDot(pPos, pPos));
+	float pixrad = g_sd * pModel->radius*s / dist;
+	int i; for (i=0; i<4; i++)
+	{
+		if (pModel->pLOD[i].pixrad >= 1000.0f) break;
+		if (pixrad <= pModel->pLOD[i].pixrad) break;
+	}
+	uint16 *pData = pModel->pLOD[i].pData;
+
 	while (*pData != PTYPE_END)
 	{	
 		pData += pPrimFuncTable[*pData & 0xff] (pData, pModel, &rstate);
@@ -242,4 +324,4 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 
 	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
 	glEnable (GL_CULL_FACE);
-}
+}*/
