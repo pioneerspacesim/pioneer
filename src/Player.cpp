@@ -94,7 +94,7 @@ void Player::AITurn()
 	if (Pi::KeyState(SDLK_a)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
 	if (Pi::KeyState(SDLK_d)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 
-	if (Pi::KeyState(SDLK_SPACE)) SetGunState(0,1);
+	if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) SetGunState(0,1);
 	else SetGunState(0,0);
 	
 	// no torques at huge time accels -- ODE hates it
