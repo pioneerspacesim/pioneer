@@ -65,9 +65,8 @@ void WorldView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// why the hell do i give these functions such big names..
-	float fracH = Pi::GetScrHeight() * 0.5f / Pi::GetScrWidth();
-	glFrustum(-0.5, 0.5, -fracH, fracH, 1.0f, 1000.0f);
-//	glDepthRange (-10, -100000);		// JJ: uh, what
+	float fracH = Pi::GetScrHeight() / (float)Pi::GetScrWidth();
+	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
