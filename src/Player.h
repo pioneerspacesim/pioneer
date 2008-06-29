@@ -14,6 +14,7 @@ public:
 	vector3d GetExternalViewTranslation();
 	void ApplyExternalViewRotation();
 private:
+	void DrawTargetSquare();
 	float m_mouseCMov[2];
 	float m_external_view_rotx, m_external_view_roty;
 	float m_external_view_dist;

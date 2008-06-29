@@ -162,17 +162,23 @@ void Player::DrawHUD(const Frame *cam_frame)
 	{
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			Body *b = *i;
-			if (b == this) continue;
 			vector3d _pos = b->GetPositionRelTo(cam_frame);
 			vector3d cam_coord = rot*_pos;
 
 			//printf("%s: %.1f,%.1f,%.1f\n", b->GetLabel().c_str(), _pos.x, _pos.y, _pos.z);
 
-			if (cam_coord.z < 0) if (Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
+			if (cam_coord.z < 0
+				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
+				b->SetProjectedPos(_pos);
+				b->SetOnscreen(true);
 				Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
 			}
+			else
+				b->SetOnscreen(false);
 		}
 	}
+
+	DrawTargetSquare();
 
 	GLdouble pos[3];
 
@@ -249,3 +255,27 @@ void Player::DrawHUD(const Frame *cam_frame)
 	Gui::Screen::LeaveOrtho();
 }
 
+void Player::DrawTargetSquare()
+{
+	if(GetTarget()) {
+		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glLineWidth(2.0f);
+
+		const vector3d& _pos = GetTarget()->GetProjectedPos();
+		const float x1 = _pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
+		const float x2 = x1 + WorldView::PICK_OBJECT_RECT_SIZE;
+		const float y1 = _pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
+		const float y2 = y1 + WorldView::PICK_OBJECT_RECT_SIZE;
+
+		glBegin(GL_LINE_STRIP);
+		glVertex2f(x1, y1);
+		glVertex2f(x2, y1);
+		glVertex2f(x2, y2);
+		glVertex2f(x1, y2);
+		glVertex2f(x1, y1);
+		glEnd();
+
+		glPopAttrib();
+	}
+}

@@ -22,6 +22,8 @@ public:
 	virtual Object::Type GetType() { return Object::SHIP; }
 	virtual void SetDockedWith(SpaceStation *);
 	SpaceStation *GetDockedWith() { return m_dockedWith; }
+	void SetTarget(Body* const target) { m_target = target; }
+	Body *GetTarget() const { return m_target; }
 	virtual void Render(const Frame *camFrame);
 	void SetMesh(ObjMesh *m);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
@@ -57,6 +59,7 @@ private:
 	dGeomID m_tempLaserGeom[ShipType::GUNMOUNT_MAX];
 
 	LaserObj m_laserCollisionObj;
+	Body* m_target;
 };
 
 #endif /* _SHIP_H */

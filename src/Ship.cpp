@@ -11,6 +11,7 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
+	m_target = 0;
 	m_mesh = 0;
 	m_shipType = shipType;
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
@@ -154,12 +155,15 @@ void Ship::RenderLaserfire()
 	glDisable(GL_LIGHTING);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		if (!m_gunState[i]) continue;
+		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 		glColor3f(1,0,0);
+		glLineWidth(2.0f);
 		glBegin(GL_LINES);
 		vector3f pos = stype.gunMount[i].pos;
 		glVertex3f(pos.x, pos.y, pos.z);
 		glVertex3fv(&((10000)*stype.gunMount[i].dir)[0]);
 		glEnd();
+		glPopAttrib();
 	}
 	glEnable(GL_LIGHTING);
 }

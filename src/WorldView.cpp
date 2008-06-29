@@ -5,6 +5,7 @@
 #include "Space.h"
 
 static const float lightCol[] = { 1,1,.9,0 };
+const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
 #define BG_STAR_MAX	2000
 
@@ -115,4 +116,39 @@ void WorldView::Update()
 	}
 	// player control inputs
 	Pi::player->AITurn();
+}
+
+void WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
+{
+	if(1 == e->button) {
+		// Left click in view => Select target.
+		float screenPos[2];
+		GetPosition(screenPos);
+		// Put mouse coords into screen space.
+		screenPos[0] += e->x;
+		screenPos[1] += e->y;
+		Pi::player->SetTarget(PickBody(screenPos[0], screenPos[1]));
+	}
+}
+#include <windows.h>
+Body* WorldView::PickBody(const float screenX, const float screenY) const
+{
+	Body *selected = 0;
+
+	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		Body *b = *i;
+		if(b->IsOnscreen()) {
+			const vector3d& _pos = b->GetProjectedPos();
+			const float x1 = _pos.x - PICK_OBJECT_RECT_SIZE * 0.5f;
+			const float x2 = x1 + PICK_OBJECT_RECT_SIZE;
+			const float y1 = _pos.y - PICK_OBJECT_RECT_SIZE * 0.5f;
+			const float y2 = y1 + PICK_OBJECT_RECT_SIZE;
+			if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2) {
+				selected = b;
+				break;
+			}			
+		}
+	}
+
+	return selected;
 }

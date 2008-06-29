@@ -27,6 +27,12 @@ public:
 	unsigned int GetFlags() { return m_flags; }
 	// return true if to apply damage
 	virtual bool OnCollision(Body *b) { return false; }
+	void SetProjectedPos(const vector3d& projectedPos) { m_projectedPos = projectedPos; }
+	// Only valid if IsOnscreen() is true.
+	const vector3d& GetProjectedPos() const;
+	bool IsOnscreen() const { return m_onscreen; }
+	void SetOnscreen(const bool onscreen) { m_onscreen = onscreen; }
+
 
 	enum { FLAG_CAN_MOVE_FRAME = 1 };
 protected:
@@ -35,6 +41,8 @@ private:
 	// frame of reference
 	Frame *m_frame;
 	std::string m_label;
+	bool m_onscreen;
+	vector3d m_projectedPos;
 };
 
 #endif /* _BODY_H */
