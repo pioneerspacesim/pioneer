@@ -130,7 +130,7 @@ void WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
 		Pi::player->SetTarget(PickBody(screenPos[0], screenPos[1]));
 	}
 }
-#include <windows.h>
+
 Body* WorldView::PickBody(const float screenX, const float screenY) const
 {
 	Body *selected = 0;
