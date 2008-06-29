@@ -188,6 +188,13 @@ void SetTransState ()
 	glDisableClientState (GL_NORMAL_ARRAY);
 }
 
+void AllocModelCaches (Model *pModel)
+{
+	pModel->pNumVtx = (int *) calloc (pModel->numCache, sizeof(int));
+	pModel->pNumIdx = (int *) calloc (pModel->numCache, sizeof(int));
+	pModel->ppVCache = (Vector **) calloc (pModel->numCache, sizeof(Vector *));
+	pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
+}
 
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, Vector *pCompos)
 {
@@ -217,14 +224,9 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	VecInv (&rstate.campos, &rstate.campos);
 	if (pCompos) rstate.compos = *pCompos;
 	else rstate.compos = zero_vector;
+	rstate.pCallback = 0;
 
-	if (pModel->numCache && !pModel->ppVCache)
-	{
-		pModel->pNumVtx = (int *) calloc (pModel->numCache, sizeof(int));
-		pModel->pNumIdx = (int *) calloc (pModel->numCache, sizeof(int));
-		pModel->ppVCache = (Vector **) calloc (pModel->numCache, sizeof(Vector *));
-		pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
-	}
+	if (pModel->numCache && !pModel->ppVCache) AllocModelCaches (pModel);
 
 	SetGeneralState ();
 	SetOpaqueState ();
@@ -261,23 +263,31 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 
 
 
-// fuck, needs to recurse too...
-/*
-void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, Vector *pCompos)
+void sbreGenCollMesh (CollMesh *pCMesh, int model, ObjParams *pParam, float s)
+{
+	pCMesh->cflag = pCMesh->nv = pCMesh->ni = 0;
+	Vector pos = zero_vector; Matrix orient = identity_matrix;
+	GenCollMeshInternal (&pos, &orient, model, pParam, s, pCMesh);
+}
+
+void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh)
 {
 	Model *pModel = ppModel[model];
 	s *= pModel->scale;
-	float pMV[16];
-	pMV[0] = s*pOrient->x1; pMV[1] = s*pOrient->y1; pMV[2] = s*pOrient->z1; pMV[3] = 0.0f;
-	pMV[4] = s*pOrient->x2; pMV[5] = s*pOrient->y2; pMV[6] = s*pOrient->z2; pMV[7] = 0.0f;
-	pMV[8] = s*pOrient->x3; pMV[9] = s*pOrient->y3; pMV[10] = s*pOrient->z3; pMV[11] = 0.0f;
-	pMV[12] = pPos->x; pMV[13] = pPos->y; pMV[14] = pPos->z; pMV[15] = 1.0f;
-	glMatrixMode (GL_MODELVIEW);
-	glLoadMatrixf (pMV);
+	Matrix m = *pOrient;
+	m.x1 *= s; m.x2 *= s; m.x3 *= s;
+	m.y1 *= s; m.y2 *= s; m.y3 *= s;
+	m.z1 *= s; m.z2 *= s; m.z3 *= s;
 
 	Vector *pVtx = (Vector *) alloca (sizeof(Vector)*(pModel->cvStart+pModel->numCVtx));
-
 	ResolveVertices (pModel, pVtx, pParam);
+	for (int i=6; i<pModel->cvStart+pModel->numCVtx; i++)
+	{
+		Vector tv;
+		MatVecMult (&m, pVtx+i, &tv);
+		VecAdd (&tv, pPos, pVtx+i);
+		if (i == pModel->numPVtx-1) i = pModel->cvStart-1;
+	}
 
 	RState rstate;
 	rstate.pVtx = pVtx;
@@ -286,42 +296,18 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	rstate.scale = s;
 	rstate.pModel = pModel;
 	rstate.pObjParam = pParam;
-	rstate.dn = g_dn;
-	rstate.df = g_df;
 	MatTVecMult (pOrient, pPos, &rstate.campos);
 	VecInv (&rstate.campos, &rstate.campos);
-	if (pCompos) rstate.compos = *pCompos;
-	else rstate.compos = zero_vector;
+	rstate.pCMesh = pCMesh;
 
-	if (pModel->numCache && !pModel->ppVCache)
-	{
-		pModel->pNumVtx = (int *) calloc (pModel->numCache, sizeof(int));
-		pModel->pNumIdx = (int *) calloc (pModel->numCache, sizeof(int));
-		pModel->ppVCache = (Vector **) calloc (pModel->numCache, sizeof(Vector *));
-		pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
+	if (pModel->numCache && !pModel->ppVCache) AllocModelCaches (pModel);
+
+	uint16 *pData = pModel->pLOD[0].pData1;
+	if (pData) while (*pData != PTYPE_END)	{
+		pData += pCollFuncTable[*pData & 0xff] (pData, pModel, &rstate);
 	}
-
-	SetGeneralState ();
-	SetOpaqueState ();
-
-	float dist = sqrt(VecDot(pPos, pPos));
-	float pixrad = g_sd * pModel->radius*s / dist;
-	int i; for (i=0; i<4; i++)
-	{
-		if (pModel->pLOD[i].pixrad >= 1000.0f) break;
-		if (pixrad <= pModel->pLOD[i].pixrad) break;
+	pData = pModel->pLOD[0].pData2;
+	if (pData) while (*pData != PTYPE_END)	{
+		pData += pCollFuncTable[*pData & 0xff] (pData, pModel, &rstate);
 	}
-	uint16 *pData = pModel->pLOD[i].pData;
-
-	while (*pData != PTYPE_END)
-	{	
-		pData += pPrimFuncTable[*pData & 0xff] (pData, pModel, &rstate);
-	}
-
-//	glDepthRange (g_dn+SBRE_ZBIAS, g_df);
-	SetTransState ();
-	RenderTransparencies (&rstate);
-
-	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
-	glEnable (GL_CULL_FACE);
-}*/
+}

@@ -16,6 +16,8 @@ const int SUB_MAINWHEEL = 3;
 const int SUB_MWUNIT = 4;
 const int SUB_DISH = 5;
 
+// other subobject indices
+
 const int SUB_WING1 = 30;
 const int SUB_WING2 = 31;
 

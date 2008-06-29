@@ -171,8 +171,13 @@ static int PrimFuncQuadFlat (uint16 *pData, Model *pMod, RState *pState)
 }
 
 
-void RenderArray (int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16 flags)
+static void RenderArray (int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16 flags, RState *pState)
 {
+	if (pState->pCallback) {
+		pState->pCallback (nv, ni, pVertex, pIndex, flags, pState);
+		return;
+	}
+
 	glNormalPointer (GL_FLOAT, 2*sizeof(Vector), pVertex+1);
 	glVertexPointer (3, GL_FLOAT, 2*sizeof(Vector), pVertex);
 	glDrawElements (GL_TRIANGLES, ni, GL_UNSIGNED_SHORT, pIndex);
@@ -189,7 +194,7 @@ void RenderArray (int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16 flags)
 	}
 }
 
-void CopyArrayToCache (int nv, int ni, Vector *pVertex, uint16 *pIndex, int ci, Model *pModel)
+static void CopyArrayToCache (int nv, int ni, Vector *pVertex, uint16 *pIndex, int ci, Model *pModel)
 {
 	pModel->pNumIdx[ci] = ni;
 	pModel->pNumVtx[ci] = nv;
@@ -220,7 +225,7 @@ uint16 PFUNC_COMPSMOOTH
 // tangents should be prescaled
 */
 
-int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Model *pModel = pState->pModel;
@@ -229,7 +234,7 @@ int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
-			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0]);
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
 		int c; for (c=7; pData[c] != COMP_END; c+=pCompSize[pData[c]]);
 		return c+1;
 	}
@@ -289,7 +294,7 @@ int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
 	if ((pData[0]&0xff) == PTYPE_COMPFLAT) steps = 0;
 	Triangulate (pCPos, pCNorm, steps, &pVertex, &nv, &pIndex, &ni);
 
-	RenderArray (nv, ni, pVertex, pIndex, pData[0]);
+	RenderArray (nv, ni, pVertex, pIndex, pData[0], pState);
 	if (ci != 0x8000) CopyArrayToCache (nv, ni, pVertex, pIndex, ci, pModel);
 	return c+1;		// +1 for COMP_END
 }
@@ -313,7 +318,7 @@ static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
-			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0]);
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
 		return 7;
 	}
 
@@ -368,7 +373,7 @@ static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 		pIndex[ni++] = i-1+steps*3;
 	}
 
-	RenderArray (4*steps, ni, pVertex, pIndex, pData[0]);
+	RenderArray (4*steps, ni, pVertex, pIndex, pData[0], pState);
 	if (ci != 0x8000) CopyArrayToCache (4*steps, ni, pVertex, pIndex, ci, pModel);
 	return 7;
 }
@@ -392,7 +397,7 @@ static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
-			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0]);
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
 		return 7;
 	}
 
@@ -425,7 +430,7 @@ static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 		pIndex[ni++] = i;
 	}
 
-	RenderArray (steps, ni, pVertex, pIndex, pData[0]);
+	RenderArray (steps, ni, pVertex, pIndex, pData[0], pState);
 	if (ci != 0x8000) CopyArrayToCache (steps, ni, pVertex, pIndex, ci, pModel);
 	return 7;
 }
@@ -451,7 +456,7 @@ static int PrimFuncTube (uint16 *pData, Model *pMod, RState *pState)
 	if (ci != 0x8000 && pModel->pNumIdx[ci])
 	{
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
-			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0]);
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
 		return 8;
 	}
 
@@ -522,7 +527,7 @@ steps*7: end, inner, axial
 		pIndex[ni++] = i1+steps*7; pIndex[ni++] = i1+steps*5; pIndex[ni++] = i+steps*5;
 	}	
 
-	RenderArray (8*steps, ni, pVertex, pIndex, pData[0]);
+	RenderArray (8*steps, ni, pVertex, pIndex, pData[0], pState);
 	if (ci != 0x8000) CopyArrayToCache (8*steps, ni, pVertex, pIndex, ci, pModel);
 	return 8;
 }
@@ -673,7 +678,7 @@ static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
 	{
 		glShadeModel (GL_FLAT);
 		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
-			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0]);
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
 		glShadeModel (GL_SMOOTH);
 		return 8;
 	}
@@ -728,9 +733,19 @@ static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
 		pIndex[ni++] = i-1+steps*3;
 	}
 
-	RenderArray (4*steps, ni, pVertex, pIndex, pData[0]);
+	RenderArray (4*steps, ni, pVertex, pIndex, pData[0], pState);
 	if (ci != 0x8000) CopyArrayToCache (4*steps, ni, pVertex, pIndex, ci, pModel);
 	return 8;
+}
+
+/*
+uint16 PFUNC_SETCFLAG
+	uint16 flag
+*/
+
+static int PrimFuncSetCFlag (uint16 *pData, Model *pMod, RState *pState)
+{
+	return 2;
 }
 
 
@@ -764,6 +779,7 @@ int (*pPrimFuncTable[])(uint16 *, Model *, RState *) = {
 	PrimFuncSubObject,
 	PrimFuncText,
 	PrimFuncExtrusion,
+	PrimFuncSetCFlag,
 };
 
 

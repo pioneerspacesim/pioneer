@@ -137,11 +137,11 @@ struct RState
 	Vector compos;		// object relative centre of mass
 
 	// Collision output stuff
-	int maxCVtx, maxCIdx;
-	int numCVtx, numCIdx;
-	Vector *pCollVtx;
-	int *pCollIdx;
+	CollMesh *pCMesh;
+	void (*pCallback)(int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16 flags, RState *);
 };
+
+
 
 enum primtype
 {
@@ -160,6 +160,7 @@ enum primtype
 	PTYPE_SUBOBJECT,
 	PTYPE_TEXT,
 	PTYPE_EXTRUSION,
+	PTYPE_SETCFLAG,
 };
 
 extern int (*pPrimFuncTable[])(uint16 *, Model *, RState *);
@@ -193,6 +194,7 @@ const char pModelString[1][256] = {
 
 void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters);
 float ResolveAnim (ObjParams *pObjParam, uint16 type);
+void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh);
 
 
 #endif /* __SBRE_INT_H__ */

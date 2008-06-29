@@ -46,9 +46,12 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="pch.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles="pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -272,6 +275,18 @@
 			<File
 				RelativePath="..\src\objimport.cpp"
 				>
+			</File>
+			<File
+				RelativePath=".\pch.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\src\Planet.cpp"
@@ -535,6 +550,10 @@
 			>
 			<File
 				RelativePath="..\src\sbre\brender.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\collfunc.cpp"
 				>
 			</File>
 			<File
