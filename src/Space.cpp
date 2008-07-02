@@ -163,12 +163,11 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 
 	for (int i = 0; i < MAX_CONTACTS; i++)
 	{
-		contact[i].surface.mode = dContactBounce | dContactSoftCFM;
-		contact[i].surface.mu = dInfinity;
+		contact[i].surface.mode = dContactBounce;
+		contact[i].surface.mu = 0;
 		contact[i].surface.mu2 = 0;
-		contact[i].surface.bounce = 0.8;
+		contact[i].surface.bounce = 0;
 		contact[i].surface.bounce_vel = 0.1;
-		contact[i].surface.soft_cfm = 0.01;
 	}
 	if (int numc = dCollide(o0, o1, MAX_CONTACTS, &contact[0].geom, sizeof(dContact)))
 	{

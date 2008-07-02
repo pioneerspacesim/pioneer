@@ -12,8 +12,6 @@ RigidBody::RigidBody(): StaticRigidBody()
 	dMassAdjust(&m_mass, 1.0f);
 
 	dBodySetMass(m_body, &m_mass);
-	dGeomSetBody(m_geom, m_body);
-	SetPosition(vector3d(0,0,0));
 }
 
 vector3d RigidBody::GetAngularMomentum()

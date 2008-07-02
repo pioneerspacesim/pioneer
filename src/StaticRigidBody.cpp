@@ -8,14 +8,46 @@
 
 StaticRigidBody::StaticRigidBody(): Body()
 {
-	m_geom = dCreateSphere(0, 50.0f);
-	dGeomSetBody(m_geom, 0);
-	SetPosition(vector3d(0,0,0));
+	m_geom = 0;
+	sbreCollMesh = 0;
 }
 
 StaticRigidBody::~StaticRigidBody()
 {
+	if (sbreCollMesh) {
+		free(sbreCollMesh->pVertex);
+		free(sbreCollMesh->pIndex);
+		free(sbreCollMesh->pFlag);
+		free(sbreCollMesh);
+	}
 	dGeomDestroy(m_geom);
+}
+
+void StaticRigidBody::SetGeomSphere(double radius)
+{
+	assert(!m_geom);
+	m_geom = dCreateSphere(0, radius);
+}
+
+void StaticRigidBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
+{
+	assert(!m_geom);
+	assert(sbreCollMesh == 0);
+	sbreCollMesh = (CollMesh*)calloc(1, sizeof(CollMesh));
+	sbreGenCollMesh(sbreCollMesh, sbreModel, params);
+	// XXX flip Z & X because sbre is in magicspace
+	for (int i=0; i<3*sbreCollMesh->nv; i+=3) {
+		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
+		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
+	}
+	dTriMeshDataID triMeshDataID = dGeomTriMeshDataCreate();
+	dGeomTriMeshDataBuildSingle(triMeshDataID, (void*)sbreCollMesh->pVertex,
+		3*sizeof(float), sbreCollMesh->nv, (void*)sbreCollMesh->pIndex,
+		sbreCollMesh->ni, 3*sizeof(int));
+
+	// XXX leaking StaticRigidBody m_geom
+	m_geom = dCreateTriMesh(0, triMeshDataID, NULL, NULL, NULL);
+	dGeomSetData(m_geom, static_cast<Body*>(this));
 }
 
 void StaticRigidBody::SetPosition(vector3d p)
@@ -75,6 +107,20 @@ void StaticRigidBody::SetFrame(Frame *f)
 	if (GetFrame()) GetFrame()->RemoveGeom(m_geom);
 	Body::SetFrame(f);
 	if (f) f->AddGeom(m_geom);
+}
+	
+void StaticRigidBody::TriMeshUpdateLastPos()
+{
+	// ode tri mesh turd likes to know our old position
+	const dReal *r = dGeomGetRotation(m_geom);
+	vector3d pos = GetPosition();
+	dMatrix4 t;
+	// row-major
+	t[0] = r[0]; t[1] = r[1]; t[2] = r[2]; t[3] = pos.x;
+	t[4] = r[4]; t[5] = r[5]; t[6] = r[6]; t[7] = pos.y;
+	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = pos.z;
+	t[12] = t[13] = t[14] = t[15] = 0;
+	dGeomTriMeshSetLastTransform(m_geom, t);
 }
 
 void StaticRigidBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)

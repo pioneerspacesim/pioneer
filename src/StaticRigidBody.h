@@ -21,10 +21,15 @@ public:
 	void ViewingRotation();
 	void GetRotMatrix(matrix4x4d &m);
 	virtual void SetFrame(Frame *f);
+	
+	void TriMeshUpdateLastPos();
+	void SetGeomFromSBREModel(int sbreModel, ObjParams *params);
+	void SetGeomSphere(double radius);
 
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
 protected:
 	dGeomID m_geom;
+	CollMesh *sbreCollMesh;
 };
 
 #endif /* _STATICRIGIDBODY_H */

@@ -161,6 +161,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 
 	{
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			if ((Pi::GetCamType() != Pi::CAM_EXTERNAL) && (*i == this)) continue;
 			Body *b = *i;
 			vector3d _pos = b->GetPositionRelTo(cam_frame);
 			vector3d cam_coord = rot*_pos;

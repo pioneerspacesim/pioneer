@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "RigidBody.h"
 #include "ShipType.h"
+#include "sbre/sbre.h"
 
 class SpaceStation;
 
@@ -25,7 +26,6 @@ public:
 	void SetTarget(Body* const target) { m_target = target; }
 	Body *GetTarget() const { return m_target; }
 	virtual void Render(const Frame *camFrame);
-	void SetMesh(ObjMesh *m);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
 	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }
 	void ClearThrusterState();
@@ -48,7 +48,6 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	enum ShipType::Type m_shipType;
-	ObjMesh *m_mesh;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 private:
 	float m_wheelState;

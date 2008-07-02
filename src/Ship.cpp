@@ -3,8 +3,21 @@
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
-#include "sbre/sbre.h"
 #include "Space.h"
+
+static ObjParams params = {
+	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
+
+	{	// pColor[3]
+	{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+
+	// pText[3][256]	
+	{ "IR-L33T", "ME TOO" },
+};
 
 Ship::Ship(ShipType::Type shipType): RigidBody()
 {
@@ -12,7 +25,6 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_target = 0;
-	m_mesh = 0;
 	m_shipType = shipType;
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_laserCollisionObj.owner = this;
@@ -21,7 +33,10 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 		m_tempLaserGeom[i] = 0;
 		m_gunState[i] = 0;
 	}
-	dGeomSetData(m_geom, static_cast<Body*>(this));
+	
+	const ShipType &stype = GetShipType();
+	SetGeomFromSBREModel(stype.sbreModel, &params);
+	dGeomSetBody(m_geom, m_body);
 }
 
 void Ship::UpdateMass()
@@ -67,6 +82,9 @@ void Ship::CalcStats(shipstats_t *stats)
 
 void Ship::AITurn()
 {
+	// ode tri mesh turd likes to know our old position
+	TriMeshUpdateLastPos();
+
 	const ShipType &stype = GetShipType();
 	float timeStep = Pi::GetTimeStep();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
@@ -132,11 +150,6 @@ void Ship::SetDockedWith(SpaceStation *s)
 	}
 }
 
-void Ship::SetMesh(ObjMesh *m)
-{
-	m_mesh = m;
-}
-
 void Ship::SetGunState(int idx, int state)
 {
 	m_gunState[idx] = state;
@@ -168,19 +181,20 @@ void Ship::RenderLaserfire()
 	glEnable(GL_LIGHTING);
 }
 
-static ObjParams params = {
-	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-	// pText[3][256]	
-	{ "IR-L33T", "ME TOO" },
-};
+/*
+static void render_coll_mesh(const CollMesh *m)
+{
+	glDisable(GL_LIGHTING);
+	glColor3f(1,0,1);
+	glBegin(GL_TRIANGLES);
+	for (int i=0; i<m->ni; i+=3) {
+		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
+	}
+	glEnd();
+	glEnable(GL_LIGHTING);
+}*/
 
 void Ship::Render(const Frame *camFrame)
 {
@@ -197,10 +211,9 @@ void Ship::Render(const Frame *camFrame)
 	params.pAnim[ASRC_DAYFRAC] = Pi::GetGameTime() / (24*3600.0f);
 	params.pAnim[ASRC_GEAR] = m_wheelState;
 	params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
-
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-
 	RenderSbreModel(camFrame, stype.sbreModel, &params);
+
 	glPushMatrix();
 	TransformToModelCoords(camFrame);
 	RenderLaserfire();
