@@ -1,6 +1,5 @@
 #ifndef __SBRE_H__
 #define __SBRE_H__
-#include "jjtypes.h"
 #include "jjvector.h"
 
 
@@ -21,7 +20,7 @@ enum animflag
 struct ObjParams
 {
 	float pAnim[10];
-	uint8 pFlag[10];
+	unsigned char pFlag[10];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
@@ -50,6 +49,7 @@ struct CollMesh
 // if you don't call SetDepthRange, z bias and LOD will fail
 // sd is screen depth in pixels, dn and df are like glDepthRange params
 void sbreSetDepthRange (float sd, float dn, float df);
+void sbreSetZBias (float zbias);
 void sbreSetViewport (int w, int h, float d, float zn, float zf, float dn, float df);
 void sbreSetDirLight (float *pColor, float *pDir);
 void sbreSetWireframe (int val);
