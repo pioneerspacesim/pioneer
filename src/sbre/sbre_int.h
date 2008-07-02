@@ -167,16 +167,16 @@ extern int (*pPrimFuncTable[])(uint16 *, Model *, RState *);
 extern int (*pCollFuncTable[])(uint16 *, Model *, RState *);
 
 static const int RFLAG_XREF = 0x8000;
+static const int RFLAG_INVISIBLE = 0x4000;
 static const int SUBOBJ_THRUST = 0x4000;
 
 static const int THRUST_XREF = 0x8000;
 static const int THRUST_NOANG = 0x4000;
 
-// proper val for 16-bit depth buffer
 //static const float SBRE_ZBIAS = 0.00002f;
-static const float SBRE_ZBIAS = 0.00002f;
 static const float SBRE_AMB = 0.3f;
 
+extern float SBRE_ZBIAS;
 
 enum comptype
 {

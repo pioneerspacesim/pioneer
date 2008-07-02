@@ -107,6 +107,7 @@ static int PrimFuncZBias (uint16 *pData, Model *pMod, RState *pState)
 
 static int PrimFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)
 {
+	if (pData[0] & RFLAG_INVISIBLE) return 4;
 	Vector *pVtx = pState->pVtx;
 	Vector *pVec;
 	Vector norm, tv1, tv2;
@@ -139,6 +140,7 @@ static int PrimFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)
 
 static int PrimFuncQuadFlat (uint16 *pData, Model *pMod, RState *pState)
 {
+	if (pData[0] & RFLAG_INVISIBLE) return 5;
 	Vector *pVtx = pState->pVtx;
 	Vector *pVec;
 	Vector norm, tv1, tv2;

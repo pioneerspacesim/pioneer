@@ -88,7 +88,8 @@ void InfoView::Draw3D()
 	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];
 	m.z1 = -rot[2]; m.z2 = -rot[6]; m.z3 = rot[10];
 	const ShipType &stype = Pi::player->GetShipType();
-	
+
+	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
 	sbreRenderModel(&p, &m, stype.sbreModel, &params);
 	glPopAttrib();
 }
