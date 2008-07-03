@@ -566,6 +566,7 @@ static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 	MatMatMult (&pState->objorient, &m, &orient);
 
 	MatVecMult (&pState->objorient, pState->pVtx+pData[3], &pos);
+	VecMul (&pos, pState->scale, &pos);
 	VecAdd (&pos, &pState->objpos, &pos);
 	float scale = pState->scale*pData[6]*0.01f;
 	

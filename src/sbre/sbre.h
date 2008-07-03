@@ -59,5 +59,6 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 // will preserve and realloc pointers in pCMesh
 // maxv/maxi should match allocated sizes
 void sbreGenCollMesh (CollMesh *pCMesh, int model, ObjParams *pParam, float s=1.0f);
+void sbreRenderCollMesh (CollMesh *pCMesh, Vector *pPos, Matrix *pOrient);
 
 #endif /* __SBRE_H__ */

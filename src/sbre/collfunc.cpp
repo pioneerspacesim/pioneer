@@ -18,6 +18,14 @@ static void ExpandIndices (CollMesh *pCMesh, int n)
 	pCMesh->pFlag = (int *) realloc (pCMesh->pFlag, sizeof(int) * n/3);
 }
 
+void ResolveVtx (Vector *pIn, Vector *pOut, RState *pState)
+{
+	Vector tv;
+	MatVecMult (&pState->objorient, pIn, &tv);
+	VecMul (&tv, pState->scale, &tv);
+	VecAdd (&tv, &pState->objpos, pOut);
+}
+
 
 static int CollFuncMatAnim (uint16 *pData, Model *pMod, RState *pState)
 {
@@ -49,7 +57,7 @@ static int CollFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)
 	pCMesh->pFlag[ni/3] = pCMesh->cflag;
 
 	for (int i=0; i<3; i++) {
-		pOut[nv] = pVtx[pData[i+1]];
+		ResolveVtx (pVtx+pData[i+1], pOut+nv, pState);
 		pIdx[ni++] = nv++;
 	}
 
@@ -60,6 +68,7 @@ static int CollFuncTriFlat (uint16 *pData, Model *pMod, RState *pState)
 		for (int i=0; i<3; i++) {
 			Vector *pVec = pVtx + pData[3-i];
 			VecSet (-pVec->x, pVec->y, pVec->z, pOut+nv);
+			ResolveVtx (pOut+nv, pOut+nv, pState);
 			pIdx[ni++] = nv++;
 		}
 	}
@@ -79,7 +88,7 @@ static int CollFuncQuadFlat (uint16 *pData, Model *pMod, RState *pState)
 	int *pIdx = pCMesh->pIndex;
 	pCMesh->pFlag[ni/3] = pCMesh->pFlag[1+ni/3] = pCMesh->cflag;
 
-	for (int i=0; i<4; i++) pOut[nv+i] = pVtx[pData[i+1]];
+	for (int i=0; i<4; i++) ResolveVtx (pVtx+pData[i+1], pOut+nv+i, pState);
 	pIdx[ni+0] = nv; pIdx[ni+1] = nv+1; pIdx[ni+2] = nv+2;
 	pIdx[ni+3] = nv; pIdx[ni+4] = nv+2; pIdx[ni+5] = nv+3;
 	ni += 6; nv += 4;
@@ -91,6 +100,7 @@ static int CollFuncQuadFlat (uint16 *pData, Model *pMod, RState *pState)
 		for (int i=0; i<4; i++) {
 			Vector *pVec = pVtx + pData[i+1];
 			VecSet (-pVec->x, pVec->y, pVec->z, pOut+nv+i);
+			ResolveVtx (pOut+nv+i, pOut+nv+i, pState);
 		}
 		pIdx[ni+0] = nv; pIdx[ni+1] = nv+2; pIdx[ni+2] = nv+1;
 		pIdx[ni+3] = nv; pIdx[ni+4] = nv+3; pIdx[ni+5] = nv+2;
@@ -113,7 +123,7 @@ static void ArrayCallback (int nv2, int ni2, Vector *pVertex, uint16 *pIndex,
 	int *pIdx = pCMesh->pIndex;
 	int *pFlag = pCMesh->pFlag;
 
-	for (int i=0; i<nv2; i++) pOut[nv+i] = pVertex[i*2];
+	for (int i=0; i<nv2; i++) ResolveVtx (pVertex+i*2, pOut+nv+i, pState);
 	for (int i=0; i<ni2; i++) pIdx[ni+i] = nv+pIndex[i];
 	for (int i=0; i<ni2/3; i++) pFlag[ni/3+i] = pCMesh->cflag;
 	ni += ni2; nv += nv2;
@@ -123,7 +133,8 @@ static void ArrayCallback (int nv2, int ni2, Vector *pVertex, uint16 *pIndex,
 		for (int i=0; i<nv2; i++) {
 			Vector *pVec = pVertex + i*2;
 			VecSet (-pVec->x, pVec->y, pVec->z, pOut+nv+i);
-		}		
+			ResolveVtx (pOut+nv+i, pOut+nv+i, pState);
+		}
 		for (int i=0; i<ni2; i+=3) {
 			pIdx[ni+i+0] = nv+pIndex[i];
 			pIdx[ni+i+1] = nv+pIndex[i+2];
@@ -192,6 +203,7 @@ static int CollFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 	MatMatMult (&pState->objorient, &m, &orient);
 
 	MatVecMult (&pState->objorient, pState->pVtx+pData[3], &pos);
+	VecMul (&pos, pState->scale, &pos);
 	VecAdd (&pos, &pState->objpos, &pos);
 	float scale = pState->scale*pData[6]*0.01f;
 	

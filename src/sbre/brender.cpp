@@ -285,14 +285,9 @@ void sbreGenCollMesh (CollMesh *pCMesh, int model, ObjParams *pParam, float s)
 void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh)
 {
 	Model *pModel = ppModel[model];
-	s *= pModel->scale;
-	Matrix m = *pOrient;
-	m.x1 *= s; m.x2 *= s; m.x3 *= s;
-	m.y1 *= s; m.y2 *= s; m.y3 *= s;
-	m.z1 *= s; m.z2 *= s; m.z3 *= s;
-
 	Vector *pVtx = (Vector *) alloca (sizeof(Vector)*(pModel->cvStart+pModel->numCVtx));
 	ResolveVertices (pModel, pVtx, pParam);
+/*
 	for (int i=6; i<pModel->cvStart+pModel->numCVtx; i++)
 	{
 		Vector tv;
@@ -300,12 +295,12 @@ void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *p
 		VecAdd (&tv, pPos, pVtx+i);
 		if (i == pModel->numPVtx-1) i = pModel->cvStart-1;
 	}
-
+*/
 	RState rstate;
 	rstate.pVtx = pVtx;
 	rstate.objpos = *pPos;
 	rstate.objorient = *pOrient;
-	rstate.scale = s;
+	rstate.scale = s*pModel->scale;
 	rstate.pModel = pModel;
 	rstate.pObjParam = pParam;
 	MatTVecMult (pOrient, pPos, &rstate.campos);
@@ -322,4 +317,26 @@ void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *p
 	if (pData) while (*pData != PTYPE_END)	{
 		pData += pCollFuncTable[*pData & 0xff] (pData, pModel, &rstate);
 	}
+}
+
+void sbreRenderCollMesh (CollMesh *pCMesh, Vector *pPos, Matrix *pOrient)
+{
+	float pMV[16];
+	pMV[0] = pOrient->x1; pMV[1] = pOrient->y1; pMV[2] = pOrient->z1; pMV[3] = 0.0f;
+	pMV[4] = pOrient->x2; pMV[5] = pOrient->y2; pMV[6] = pOrient->z2; pMV[7] = 0.0f;
+	pMV[8] = pOrient->x3; pMV[9] = pOrient->y3; pMV[10] = pOrient->z3; pMV[11] = 0.0f;
+	pMV[12] = pPos->x; pMV[13] = pPos->y; pMV[14] = pPos->z; pMV[15] = 1.0f;
+	glMatrixMode (GL_MODELVIEW);
+	glLoadMatrixf (pMV);
+
+	SetGeneralState ();
+	SetTransState ();
+	glDisable (GL_BLEND);
+	glColor3f (1.0f, 1.0f, 1.0f);
+
+	glVertexPointer (3, GL_FLOAT, sizeof(Vector), pCMesh->pVertex);
+	glDrawElements (GL_TRIANGLES, pCMesh->ni, GL_UNSIGNED_INT, pCMesh->pIndex);
+
+	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
+	glEnable (GL_CULL_FACE);
 }
