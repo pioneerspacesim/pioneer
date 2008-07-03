@@ -33,6 +33,7 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 		m_tempLaserGeom[i] = 0;
 		m_gunState[i] = 0;
 	}
+	memset(m_thrusters, 0, sizeof(m_thrusters));
 	
 	const ShipType &stype = GetShipType();
 	SetGeomFromSBREModel(stype.sbreModel, &params);
