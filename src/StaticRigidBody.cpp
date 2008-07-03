@@ -10,6 +10,7 @@ StaticRigidBody::StaticRigidBody(): Body()
 {
 	m_geom = 0;
 	sbreCollMesh = 0;
+	triMeshLastMatrixIndex = 0;
 }
 
 StaticRigidBody::~StaticRigidBody()
@@ -40,10 +41,25 @@ void StaticRigidBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
 		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
 		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
 	}
+	// make normals
+	meshNormals = new float[sbreCollMesh->ni];
+	for (int i=0; i<sbreCollMesh->ni; i+=3) {
+		float *vtx1 = sbreCollMesh->pVertex + 3*sbreCollMesh->pIndex[i];
+		float *vtx2 = sbreCollMesh->pVertex + 3*sbreCollMesh->pIndex[i+1];
+		float *vtx3 = sbreCollMesh->pVertex + 3*sbreCollMesh->pIndex[i+2];
+		vector3f v1(vtx1[0], vtx1[1], vtx1[2]);
+		vector3f v2(vtx2[0], vtx2[1], vtx2[2]);
+		vector3f v3(vtx3[0], vtx3[1], vtx3[2]);
+		vector3f n = vector3f::Cross(v1-v2, v1-v3);
+		n.Normalize();
+		meshNormals[i] = n.x;
+		meshNormals[i+1] = n.y;
+		meshNormals[i+2] = n.z;
+	}
 	dTriMeshDataID triMeshDataID = dGeomTriMeshDataCreate();
-	dGeomTriMeshDataBuildSingle(triMeshDataID, (void*)sbreCollMesh->pVertex,
+	dGeomTriMeshDataBuildSingle1(triMeshDataID, (void*)sbreCollMesh->pVertex,
 		3*sizeof(float), sbreCollMesh->nv, (void*)sbreCollMesh->pIndex,
-		sbreCollMesh->ni, 3*sizeof(int));
+		sbreCollMesh->ni, 3*sizeof(int), NULL/*meshNormals*/);
 
 	// XXX leaking StaticRigidBody m_geom
 	m_geom = dCreateTriMesh(0, triMeshDataID, NULL, NULL, NULL);
@@ -114,13 +130,13 @@ void StaticRigidBody::TriMeshUpdateLastPos()
 	// ode tri mesh turd likes to know our old position
 	const dReal *r = dGeomGetRotation(m_geom);
 	vector3d pos = GetPosition();
-	dMatrix4 t;
-	// row-major
-	t[0] = r[0]; t[1] = r[1]; t[2] = r[2]; t[3] = pos.x;
-	t[4] = r[4]; t[5] = r[5]; t[6] = r[6]; t[7] = pos.y;
-	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = pos.z;
-	t[12] = t[13] = t[14] = t[15] = 0;
-	dGeomTriMeshSetLastTransform(m_geom, t);
+	dReal *t = triMeshTrans + 16*triMeshLastMatrixIndex;
+	t[0] = r[0]; t[1] = r[1]; t[2] = r[2]; t[3] = 0;
+	t[4] = r[4]; t[5] = r[5]; t[6] = r[6]; t[7] = 0;
+	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = 0;
+	t[12] = pos.x; t[13] = pos.y; t[14] = pos.z; t[15] = 1;
+	triMeshLastMatrixIndex = !triMeshLastMatrixIndex;
+	dGeomTriMeshSetLastTransform(m_geom, *(dMatrix4*)(triMeshTrans + 16*triMeshLastMatrixIndex));
 }
 
 void StaticRigidBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)

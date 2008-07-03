@@ -7,7 +7,7 @@
 class Player: public Ship {
 public:
 	Player(ShipType::Type shipType);
-	virtual void AITurn();
+	void PollControls();
 	virtual void Render(const Frame *camFrame);
 	void DrawHUD(const Frame *cam_frame);
 	virtual void SetDockedWith(SpaceStation *);

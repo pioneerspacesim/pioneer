@@ -19,7 +19,6 @@ struct shipstats_t {
 class Ship: public RigidBody {
 public:
 	Ship(ShipType::Type shipType);
-	virtual void AITurn();
 	virtual Object::Type GetType() { return Object::SHIP; }
 	virtual void SetDockedWith(SpaceStation *);
 	SpaceStation *GetDockedWith() { return m_dockedWith; }
@@ -34,6 +33,7 @@ public:
 	void CalcStats(shipstats_t *stats);
 	void UpdateMass();
 	void SetWheelState(bool down);
+	virtual void TimeStepUpdate(const float timeStep);
 	
 	class LaserObj: public Object {
 	public:

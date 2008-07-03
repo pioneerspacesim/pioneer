@@ -45,8 +45,9 @@ public:
 	static void Quit();
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
-	static void SetTimeStep(float s) { timeStep = s; }
-	static float GetTimeStep() { return timeStep; }
+	static void SetTimeAccel(float s) { timeAccel = s; }
+	static float GetTimeAccel() { return timeAccel; }
+	static float GetTimeStep() { return timeAccel*frameTime; }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
@@ -94,7 +95,7 @@ private:
 	static StarSystem *selected_system;
 	static enum CamType cam_type;
 	static enum MapView map_view;
-	static float timeStep;
+	static float timeAccel;
 	static float frameTime;
 	static int scrWidth, scrHeight;
 	static float scrAspect;

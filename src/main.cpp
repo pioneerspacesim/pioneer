@@ -18,7 +18,7 @@
 #include "SpaceStationView.h"
 #include "InfoView.h"
 
-float Pi::timeStep = 1.0f;
+float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
 int Pi::scrHeight;
 float Pi::scrAspect;
@@ -206,7 +206,7 @@ void Pi::MainLoop()
 		snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
 		body->SetLabel(buf);
 		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(i*200,0,-200));
+		body->SetPosition(vector3d(i*2000,0,-400));
 		Space::AddBody(body);
 	}
 		
@@ -214,7 +214,7 @@ void Pi::MainLoop()
 		SpaceStation *body = new SpaceStation();
 		body->SetLabel("Some joint");
 		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(0,0,6000));
+		body->SetPosition(vector3d(0,0,600));
 		Space::AddBody(body);
 	}
 
@@ -295,7 +295,7 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - time_before_frame);
-		float step = Pi::timeStep * Pi::frameTime;
+		float step = Pi::timeAccel * Pi::frameTime;
 		
 		time_before_frame = SDL_GetTicks();
 		// game state update crud

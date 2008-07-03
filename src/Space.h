@@ -22,6 +22,7 @@ public:
 
 	static dWorldID world;
 	static std::list<Body*> bodies;
+	typedef std::list<Body*>::iterator bodiesIter_t;
 private:
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);

@@ -58,25 +58,26 @@ void Player::ApplyExternalViewRotation()
 }
 
 #define MOUSE_CTRL_AREA		10.0f
-#define MOUSE_RESTITUTION	0.9f
+#define MOUSE_RESTITUTION	0.01f
 
-void Player::AITurn()
+void Player::PollControls()
 {
 	int mouseMotion[2];
-	float time_step = Pi::GetTimeStep();
-	float ts2 = time_step*time_step;
+	float time_accel = Pi::GetTimeAccel();
+	float ta2 = time_accel*time_accel;
 
 	SetAngThrusterState(0, 0.0f);
 	SetAngThrusterState(1, 0.0f);
 	SetAngThrusterState(2, 0.0f);
 
-	if (time_step == 0) return;
-	if (GetDockedWith()) return;
+	if ((time_accel == 0) || GetDockedWith()) {
+		return;
+	}
 
 	vector3f angThrust(0.0f);
 
 	if (Pi::MouseButtonState(3)) {
-		float restitution = powf(MOUSE_RESTITUTION, time_step);
+		float restitution = powf(MOUSE_RESTITUTION, Pi::GetTimeStep());
 		Pi::GetMouseMotion(mouseMotion);
 		m_mouseCMov[0] += mouseMotion[0];
 		m_mouseCMov[1] += mouseMotion[1];
@@ -98,7 +99,7 @@ void Player::AITurn()
 	else SetGunState(0,0);
 	
 	// no torques at huge time accels -- ODE hates it
-	if (time_step <= 10) {
+	if (time_accel <= 10) {
 		if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
 			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
 			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
@@ -112,19 +113,19 @@ void Player::AITurn()
 		GetRotMatrix(rot);
 		angVel = rot.InverseOf() * angVel;
 
-		angVel *= 0.4;
+		angVel *= 0.6;
 		angThrust.x -= angVel.x;
 		angThrust.y -= angVel.y;
 		angThrust.z -= angVel.z;
 
 		// dividing by time step so controls don't go totally mental when
 		// used at 10x accel
-		angThrust *= 1.0f/ts2;
+		angThrust *= 1.0f/ta2;
 		SetAngThrusterState(0, angThrust.x);
 		SetAngThrusterState(1, angThrust.y);
 		SetAngThrusterState(2, angThrust.z);
 	}
-	if (time_step > 10) {
+	if (time_accel > 10) {
 		dBodySetAngularVel(m_body, 0, 0, 0);
 	}
 	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
@@ -136,7 +137,6 @@ void Player::AITurn()
 		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 10;
 		m_external_view_dist = MAX(50, m_external_view_dist);
 	}
-	Ship::AITurn();
 }
 
 #define HUD_CROSSHAIR_SIZE	24.0f

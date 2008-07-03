@@ -11,9 +11,7 @@ public:
 	virtual bool OnCollision(Body *b);
 	virtual Object::Type GetType() { return Object::SPACESTATION; }
 	virtual void Render(const Frame *camFrame);
-	void SetMesh(ObjMesh *m);
 protected:
-	ObjMesh *m_mesh;
 };
 
 #endif /* _SPACESTATION_H */

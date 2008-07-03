@@ -30,6 +30,9 @@ public:
 protected:
 	dGeomID m_geom;
 	CollMesh *sbreCollMesh;
+	float *meshNormals;
+	dReal triMeshTrans[32];
+	int triMeshLastMatrixIndex;
 };
 
 #endif /* _STATICRIGIDBODY_H */

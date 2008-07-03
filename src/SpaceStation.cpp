@@ -21,16 +21,16 @@ static ObjParams params = {
 SpaceStation::SpaceStation(): StaticRigidBody()
 {
 	SetGeomFromSBREModel(STATION_SBRE_MODEL, &params);
-	matrix4x4d m = matrix4x4d::RotateYMatrix(M_PI);
+	matrix4x4d m = matrix4x4d::RotateYMatrix(-M_PI/4);
 	dMatrix3 _m;
 	m.SaveToOdeMatrix(_m);
 	dGeomSetRotation(m_geom, _m);
-	m_mesh = 0;
+	dGeomSetBody(m_geom, 0);
 }
 
 SpaceStation::~SpaceStation()
 {
-//	dGeomDestroy(m_geom);
+	dGeomDestroy(m_geom);
 }
 
 bool SpaceStation::OnCollision(Body *b)
@@ -47,10 +47,6 @@ bool SpaceStation::OnCollision(Body *b)
 	} else {
 		return true;
 	}
-}
-void SpaceStation::SetMesh(ObjMesh *m)
-{
-	m_mesh = m;
 }
 
 void SpaceStation::Render(const Frame *camFrame)

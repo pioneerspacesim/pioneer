@@ -37,7 +37,9 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 	
 	const ShipType &stype = GetShipType();
 	SetGeomFromSBREModel(stype.sbreModel, &params);
+	SetMassDistributionFromCollMesh(sbreCollMesh);
 	dGeomSetBody(m_geom, m_body);
+	UpdateMass();
 }
 
 void Ship::UpdateMass()
@@ -81,13 +83,12 @@ void Ship::CalcStats(shipstats_t *stats)
 	stats->hyperspace_range = 200 * hyperclass * hyperclass / stats->total_mass;
 }
 
-void Ship::AITurn()
+void Ship::TimeStepUpdate(const float timeStep)
 {
 	// ode tri mesh turd likes to know our old position
 	TriMeshUpdateLastPos();
 
 	const ShipType &stype = GetShipType();
-	float timeStep = Pi::GetTimeStep();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
 		float force = timeStep * stype.linThrust[i] * m_thrusters[i];
 		switch (i) {
@@ -182,7 +183,7 @@ void Ship::RenderLaserfire()
 	glEnable(GL_LIGHTING);
 }
 
-/*
+
 static void render_coll_mesh(const CollMesh *m)
 {
 	glDisable(GL_LIGHTING);
@@ -194,8 +195,18 @@ static void render_coll_mesh(const CollMesh *m)
 		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
 	}
 	glEnd();
+	glColor3f(1,1,1);
+	glDepthRange(0,1.0f-0.0002f);
+	for (int i=0; i<m->ni; i+=3) {
+		glBegin(GL_LINE_LOOP);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
+		glEnd();
+	}
+	glDepthRange(0.0,1.0);
 	glEnable(GL_LIGHTING);
-}*/
+}
 
 void Ship::Render(const Frame *camFrame)
 {
@@ -217,6 +228,7 @@ void Ship::Render(const Frame *camFrame)
 
 	glPushMatrix();
 	TransformToModelCoords(camFrame);
+//	render_coll_mesh(sbreCollMesh);
 	RenderLaserfire();
 	glPopMatrix();
 }

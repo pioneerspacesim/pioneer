@@ -166,7 +166,7 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 		contact[i].surface.mode = dContactBounce;
 		contact[i].surface.mu = 0;
 		contact[i].surface.mu2 = 0;
-		contact[i].surface.bounce = 0;
+		contact[i].surface.bounce = 0.5;
 		contact[i].surface.bounce_vel = 0.1;
 	}
 	if (int numc = dCollide(o0, o1, MAX_CONTACTS, &contact[0].geom, sizeof(dContact)))
@@ -186,6 +186,13 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 			// object itself. It returns a new dJointID which we then use with dJointAttach to finally create the
 			// temporary contact joint between the two geom bodies.
 			dJointID c = dJointCreateContact(Space::world, _contactgroup, contact + i);
+			printf("depth %f\n", contact[i].geom.depth);
+/*			struct dContactGeom {
+  dVector3 pos;       // contact position
+  dVector3 normal;    // normal vector
+  dReal depth;        // penetration depth
+  dGeomID g1,g2;      // the colliding geoms
+};*/
 			dJointAttach(c, b1, b2);
 		}
 	}	
@@ -202,12 +209,14 @@ void Space::CollideFrame(Frame *f)
 void Space::TimeStep(float step)
 {
 	CollideFrame(rootFrame);
-//	CollideFrame(Pi::player->GetFrame());
 	dWorldQuickStep(world, step);
 	dJointGroupEmpty(_contactgroup);
-
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
+	
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		(*i)->TimeStepUpdate(step);
+	}
 }
 
 struct body_zsort_t {

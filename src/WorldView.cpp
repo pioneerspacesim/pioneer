@@ -114,7 +114,7 @@ void WorldView::Update()
 		m_hyperspaceButton->Hide();
 	}
 	// player control inputs
-	Pi::player->AITurn();
+	Pi::player->PollControls();
 }
 
 void WorldView::OnMouseDown(Gui::MouseButtonEvent *e)

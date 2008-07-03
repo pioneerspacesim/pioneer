@@ -16,6 +16,7 @@ public:
 	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Body *b) { return true; }
 	vector3d GetAngularMomentum();
+	void SetMassDistributionFromCollMesh(const CollMesh *m);
 	
 	dBodyID m_body;
 	dMass m_mass;

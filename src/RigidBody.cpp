@@ -14,6 +14,22 @@ RigidBody::RigidBody(): StaticRigidBody()
 	dBodySetMass(m_body, &m_mass);
 }
 
+void RigidBody::SetMassDistributionFromCollMesh(const CollMesh *m)
+{
+	vector3d min = vector3d(FLT_MAX);
+	vector3d max = vector3d(-FLT_MAX);
+	for (int i=0; i<3*m->nv; i+=3) {
+		min.x = MIN(m->pVertex[i], min.x);
+		min.y = MIN(m->pVertex[i+1], min.y);
+		min.z = MIN(m->pVertex[i+2], min.z);
+		max.x = MAX(m->pVertex[i], max.x);
+		max.y = MAX(m->pVertex[i+1], max.y);
+		max.z = MAX(m->pVertex[i+2], max.z);
+	}
+	dMassSetBox(&m_mass, 1, max.x-min.x, max.y-min.y, max.z-min.z);
+	dBodySetMass(m_body, &m_mass);
+}
+
 vector3d RigidBody::GetAngularMomentum()
 {
 	matrix4x4d I;

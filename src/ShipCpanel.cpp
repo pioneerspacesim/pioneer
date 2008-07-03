@@ -113,7 +113,7 @@ void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, double step)
 {
-	Pi::SetTimeStep(step);
+	Pi::SetTimeAccel(step);
 }
 
 void ShipCpanel::OnClickComms()

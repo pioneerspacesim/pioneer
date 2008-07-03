@@ -32,6 +32,7 @@ public:
 	const vector3d& GetProjectedPos() const;
 	bool IsOnscreen() const { return m_onscreen; }
 	void SetOnscreen(const bool onscreen) { m_onscreen = onscreen; }
+	virtual void TimeStepUpdate(const float timeStep) {}
 
 
 	enum { FLAG_CAN_MOVE_FRAME = 1 };
