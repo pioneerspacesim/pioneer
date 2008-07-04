@@ -158,7 +158,7 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 {
 	// Create an array of dContact objects to hold the contact joints
-	static const int MAX_CONTACTS = 10;
+	static const int MAX_CONTACTS = 20;
 	dContact contact[MAX_CONTACTS];
 
 	for (int i = 0; i < MAX_CONTACTS; i++)
@@ -166,11 +166,12 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 		contact[i].surface.mode = dContactBounce;
 		contact[i].surface.mu = 0;
 		contact[i].surface.mu2 = 0;
-		contact[i].surface.bounce = 0.5;
+		contact[i].surface.bounce = 0.1;
 		contact[i].surface.bounce_vel = 0.1;
 	}
 	if (int numc = dCollide(o0, o1, MAX_CONTACTS, &contact[0].geom, sizeof(dContact)))
 	{
+		printf("%d contacts\n", numc);
 		// don't ye get confused between Pi Body class and libODE bodies
 		Object *po1 = static_cast<Object*>(dGeomGetData(o0));
 		Object *po2 = static_cast<Object*>(dGeomGetData(o1));

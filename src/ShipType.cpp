@@ -6,7 +6,7 @@ const ShipType ShipType::types[] = {
 		// sirius system, Sirius corporation make a range of
 		// lovely starships
 		"Sirius Interdictor", 61,
-		{ 1e8,-1e8,1e7,-1e7,-1e7,1e7 },
+		{ 4e8,-4e8,1e8,-1e8,-1e8,1e8 },
 		1e7,
 		{
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },

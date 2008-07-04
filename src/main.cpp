@@ -197,7 +197,7 @@ void Pi::MainLoop()
 	player = new Player(ShipType::SWANKY);
 	player->SetLabel("me");
 	player->SetFrame(earth_frame);
-	player->SetPosition(vector3d(100,0,0));
+	player->SetPosition(vector3d(0,0,8000000.0));
 	Space::AddBody(player);
 
 	for (int i=0; i<4; i++) {
@@ -206,7 +206,7 @@ void Pi::MainLoop()
 		snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
 		body->SetLabel(buf);
 		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(i*2000,0,-400));
+		body->SetPosition(vector3d(i*2000,0,8000400));
 		Space::AddBody(body);
 	}
 		
@@ -214,13 +214,13 @@ void Pi::MainLoop()
 		SpaceStation *body = new SpaceStation();
 		body->SetLabel("Some joint");
 		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(0,0,600));
+		body->SetPosition(vector3d(0,0,7999400));
 		Space::AddBody(body);
 	}
 
 	Planet *planet = new Planet(StarSystem::SBody::SUBTYPE_PLANET_INDIGENOUS_LIFE);
 	planet->SetLabel("Earth");
-	planet->SetPosition(vector3d(0,0,-8000000.0));
+	planet->SetPosition(vector3d(0,0,0));
 	planet->SetFrame(earth_frame);
 	Space::AddBody(planet);
 

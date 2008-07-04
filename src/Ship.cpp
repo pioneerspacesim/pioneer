@@ -125,7 +125,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	}
 
 	if (m_wheelTransition != 0.0f) {
-		m_wheelState += m_wheelTransition*timeStep*0.001;
+		m_wheelState += m_wheelTransition*timeStep;
 		m_wheelState = CLAMP(m_wheelState, 0, 1);
 		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
 	}
