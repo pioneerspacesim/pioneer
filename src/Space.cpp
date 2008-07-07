@@ -30,16 +30,16 @@ void Space::Clear()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->SetFrame(NULL);
-		if ((*i) != (Body*)Pi::player) delete *i;
+		if ((*i) != (Body*)Pi::player) {
+			KillBody(*i);
+		}
 	}
-	bodies.clear();
-	// player now removed also, but not freed
+	PruneCorpses();
+
 	for (std::list<Frame*>::iterator i = rootFrame->m_children.begin(); i != rootFrame->m_children.end(); ++i) delete *i;
 	rootFrame->m_children.clear();
 
 	Pi::player->SetFrame(rootFrame);
-	bodies.push_back(Pi::player);
-
 }
 
 void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
@@ -226,20 +226,18 @@ void Space::TimeStep(float step)
 		(*i)->TimeStepUpdate(step);
 	}
 
-	// Prune dead bodies.
-	for (bodiesIter_t i = corpses.begin(); i != corpses.end(); ++i) {
-		ProcessCorpse(*i);
-	}
-	corpses.clear();
+	PruneCorpses();
 }
 
-void Space::ProcessCorpse(Body* const b)
+void Space::PruneCorpses()
 {
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->NotifyDeath(b);
+	for (bodiesIter_t corpse = corpses.begin(); corpse != corpses.end(); ++corpse) {
+		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
+			(*i)->NotifyDeath(*corpse);
+		bodies.remove(*corpse);
+		delete *corpse;
 	}
-	bodies.remove(b);
-	delete b;
+	corpses.clear();
 }
 
 struct body_zsort_t {

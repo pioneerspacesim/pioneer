@@ -27,7 +27,7 @@ public:
 private:
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);
-	static void ProcessCorpse(Body* const b);
+	static void PruneCorpses();
 
 	static Frame *rootFrame;
 //	static std::list<Frame*> rootFrames;
