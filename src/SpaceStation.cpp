@@ -30,7 +30,6 @@ SpaceStation::SpaceStation(): StaticRigidBody()
 
 SpaceStation::~SpaceStation()
 {
-	dGeomDestroy(m_geom);
 }
 
 bool SpaceStation::OnCollision(Body *b)

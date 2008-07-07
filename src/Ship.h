@@ -22,8 +22,10 @@ public:
 	virtual Object::Type GetType() { return Object::SHIP; }
 	virtual void SetDockedWith(SpaceStation *);
 	SpaceStation *GetDockedWith() { return m_dockedWith; }
-	void SetTarget(Body* const target) { m_target = target; }
-	Body *GetTarget() const { return m_target; }
+	void SetNavTarget(Body* const target) { m_navTarget = target; }
+	Body *GetNavTarget() const { return m_navTarget; }
+	void SetCombatTarget(Body* const target) { m_combatTarget = target; }
+	Body *GetCombatTarget() const { return m_combatTarget; }
 	virtual void Render(const Frame *camFrame);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
 	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }
@@ -34,6 +36,7 @@ public:
 	void UpdateMass();
 	void SetWheelState(bool down);
 	virtual void TimeStepUpdate(const float timeStep);
+	virtual void NotifyDeath(const Body* const dyingBody);
 	
 	class LaserObj: public Object {
 	public:
@@ -58,7 +61,8 @@ private:
 	dGeomID m_tempLaserGeom[ShipType::GUNMOUNT_MAX];
 
 	LaserObj m_laserCollisionObj;
-	Body* m_target;
+	Body* m_navTarget;
+	Body* m_combatTarget;
 };
 
 #endif /* _SHIP_H */

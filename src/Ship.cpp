@@ -24,7 +24,8 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
-	m_target = 0;
+	m_navTarget = 0;
+	m_combatTarget = 0;
 	m_shipType = shipType;
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_laserCollisionObj.owner = this;
@@ -129,6 +130,14 @@ void Ship::TimeStepUpdate(const float timeStep)
 		m_wheelState = CLAMP(m_wheelState, 0, 1);
 		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
 	}
+}
+
+void Ship::NotifyDeath(const Body* const dyingBody)
+{
+	if(GetNavTarget() == dyingBody)
+		SetNavTarget(0);
+	if(GetCombatTarget() == dyingBody)
+		SetCombatTarget(0);
 }
 
 const ShipType &Ship::GetShipType()

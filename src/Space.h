@@ -17,6 +17,7 @@ public:
 	static void GenBody(StarSystem *s, StarSystem::SBody *b, Frame *f);
 	static void TimeStep(float step);
 	static void AddBody(Body *);
+	static void KillBody(Body *);
 	static void Render(const Frame *cam_frame);
 	static Frame *GetRootFrame() { return rootFrame; }
 
@@ -26,9 +27,11 @@ public:
 private:
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);
+	static void ProcessCorpse(Body* const b);
 
 	static Frame *rootFrame;
 //	static std::list<Frame*> rootFrames;
+	static std::list<Body*> corpses;
 };
 
 

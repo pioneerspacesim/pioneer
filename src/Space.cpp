@@ -15,6 +15,7 @@ dWorldID Space::world;
 std::list<Body*> Space::bodies;
 Frame *Space::rootFrame;
 static dJointGroupID _contactgroup;
+std::list<Body*> Space::corpses;
 
 void Space::Init()
 {
@@ -84,6 +85,12 @@ void Space::BuildSystem(StarSystem *system)
 void Space::AddBody(Body *b)
 {
 	bodies.push_back(b);
+}
+
+void Space::KillBody(Body* const b)
+{
+	b->MarkDead();
+	corpses.push_back(b);
 }
 
 void Space::UpdateFramesOfReference()
@@ -218,6 +225,21 @@ void Space::TimeStep(float step)
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->TimeStepUpdate(step);
 	}
+
+	// Prune dead bodies.
+	for (bodiesIter_t i = corpses.begin(); i != corpses.end(); ++i) {
+		ProcessCorpse(*i);
+	}
+	corpses.clear();
+}
+
+void Space::ProcessCorpse(Body* const b)
+{
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		(*i)->NotifyDeath(b);
+	}
+	bodies.remove(b);
+	delete b;
 }
 
 struct body_zsort_t {

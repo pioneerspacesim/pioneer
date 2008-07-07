@@ -17,6 +17,12 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	UpdateMass();
 }
 
+Player::~Player()
+{
+	assert(this == Pi::player);
+	Pi::player = 0;
+}
+
 void Player::Render(const Frame *camFrame)
 {
 	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
@@ -137,6 +143,11 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 10;
 		m_external_view_dist = MAX(50, m_external_view_dist);
 	}
+
+	if(GetNavTarget() && Pi::KeyState(SDLK_END)) {
+		// Temp test: Kill ("end") the target.
+		Space::KillBody(GetNavTarget());
+	}
 }
 
 #define HUD_CROSSHAIR_SIZE	24.0f
@@ -179,7 +190,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 		}
 	}
 
-	DrawTargetSquare();
+	DrawTargetSquares();
 
 	GLdouble pos[3];
 
@@ -256,14 +267,30 @@ void Player::DrawHUD(const Frame *cam_frame)
 	Gui::Screen::LeaveOrtho();
 }
 
-void Player::DrawTargetSquare()
+void Player::DrawTargetSquares()
 {
-	if(GetTarget() && GetTarget()->IsOnscreen()) {
-		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glLineWidth(2.0f);
+	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
+	glLineWidth(2.0f);
 
-		const vector3d& _pos = GetTarget()->GetProjectedPos();
+	if(GetNavTarget()) {
+		glColor3f(0.0f, 1.0f, 0.0f);
+		DrawTargetSquare(GetNavTarget());
+	}
+
+	if(GetCombatTarget()) {
+		glColor3f(1.0f, 0.0f, 0.0f);
+		DrawTargetSquare(GetNavTarget());
+	}
+
+	glPopAttrib();
+}
+
+void Player::DrawTargetSquare(const Body* const target)
+{
+	if(target->IsOnscreen()) {
+		glColor3f(0.0f, 1.0f, 0.0f);
+
+		const vector3d& _pos = target->GetProjectedPos();
 		const float x1 = _pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
 		const float x2 = x1 + WorldView::PICK_OBJECT_RECT_SIZE;
 		const float y1 = _pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
@@ -276,7 +303,5 @@ void Player::DrawTargetSquare()
 		glVertex2f(x1, y2);
 		glVertex2f(x1, y1);
 		glEnd();
-
-		glPopAttrib();
 	}
 }

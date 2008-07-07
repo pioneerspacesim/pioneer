@@ -21,6 +21,7 @@ StaticRigidBody::~StaticRigidBody()
 		free(sbreCollMesh->pFlag);
 		free(sbreCollMesh);
 	}
+	GetFrame()->RemoveGeom(m_geom);
 	dGeomDestroy(m_geom);
 }
 

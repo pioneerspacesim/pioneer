@@ -12,7 +12,7 @@ class ObjMesh;
 class Body: public Object {
 public:
 	Body();
-	virtual ~Body() {};
+	virtual ~Body();
 	virtual Object::Type GetType() { return Object::BODY; }
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() = 0; // within frame
@@ -33,6 +33,10 @@ public:
 	bool IsOnscreen() const { return m_onscreen; }
 	void SetOnscreen(const bool onscreen) { m_onscreen = onscreen; }
 	virtual void TimeStepUpdate(const float timeStep) {}
+	// Override to clear any pointers you hold to the dying body.
+	virtual void NotifyDeath(const Body* const dyingBody) {}
+	// Only Space::KillBody() should call this method.
+	void MarkDead() { m_dead = true; }
 
 
 	enum { FLAG_CAN_MOVE_FRAME = 1 };
@@ -44,6 +48,8 @@ private:
 	std::string m_label;
 	bool m_onscreen;
 	vector3d m_projectedPos;
+	// Checked in destructor to make sure body has been marked dead.
+	bool m_dead;
 };
 
 #endif /* _BODY_H */

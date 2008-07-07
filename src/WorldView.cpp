@@ -71,39 +71,40 @@ void WorldView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// make temporary camera frame at player
-	Frame *cam_frame = new Frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
-	
-	if (Pi::GetCamType() == Pi::CAM_FRONT) {
-		cam_frame->SetPosition(Pi::player->GetPosition());
-	} else if (Pi::GetCamType() == Pi::CAM_REAR) {
-		glRotatef(180.0f, 0, 1, 0);
-		cam_frame->SetPosition(Pi::player->GetPosition());
-	} else /* CAM_EXTERNAL */ {
-		cam_frame->SetPosition(Pi::player->GetPosition() + Pi::player->GetExternalViewTranslation());
-		Pi::player->ApplyExternalViewRotation();
+	if(Pi::player) {
+		// make temporary camera frame at player
+		Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
+		
+		if (Pi::GetCamType() == Pi::CAM_FRONT) {
+			cam_frame.SetPosition(Pi::player->GetPosition());
+		} else if (Pi::GetCamType() == Pi::CAM_REAR) {
+			glRotatef(180.0f, 0, 1, 0);
+			cam_frame.SetPosition(Pi::player->GetPosition());
+		} else /* CAM_EXTERNAL */ {
+			cam_frame.SetPosition(Pi::player->GetPosition() + Pi::player->GetExternalViewTranslation());
+			Pi::player->ApplyExternalViewRotation();
+		}
+		Pi::player->ViewingRotation();
+		
+		glGetDoublev (GL_MODELVIEW_MATRIX, &viewingRotation[0]);
+
+		glCallList(m_bgstarsDlist);
+		// position light at sol
+		vector3d lpos = Frame::GetFramePosRelativeToOther(Space::GetRootFrame(), &cam_frame);
+		float lightPos[4];
+		lightPos[0] = lpos.x;
+		lightPos[1] = lpos.y;
+		lightPos[2] = lpos.z;
+		lightPos[3] = 0;
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+
+		Space::Render(&cam_frame);
+		Pi::player->DrawHUD(&cam_frame);
+
+		Pi::player->GetFrame()->RemoveChild(&cam_frame);
 	}
-	Pi::player->ViewingRotation();
-	
-	glGetDoublev (GL_MODELVIEW_MATRIX, &viewingRotation[0]);
-
-	glCallList(m_bgstarsDlist);
-	// position light at sol
-	vector3d lpos = Frame::GetFramePosRelativeToOther(Space::GetRootFrame(), cam_frame);
-	float lightPos[4];
-	lightPos[0] = lpos.x;
-	lightPos[1] = lpos.y;
-	lightPos[2] = lpos.z;
-	lightPos[3] = 0;
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-
-	Space::Render(cam_frame);
-	Pi::player->DrawHUD(cam_frame);
-
-	Pi::player->GetFrame()->RemoveChild(cam_frame);
-	delete cam_frame;
 }
 
 void WorldView::Update()
@@ -114,19 +115,24 @@ void WorldView::Update()
 		m_hyperspaceButton->Hide();
 	}
 	// player control inputs
-	Pi::player->PollControls();
+	if(Pi::player)
+		Pi::player->PollControls();
 }
 
 void WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
 {
-	if(1 == e->button) {
-		// Left click in view => Select target.
+	if(1 == e->button && !Pi::MouseButtonState(3)) {
+		// Left click in view when RMB not pressed => Select target.
 		float screenPos[2];
 		GetPosition(screenPos);
 		// Put mouse coords into screen space.
 		screenPos[0] += e->x;
 		screenPos[1] += e->y;
-		Pi::player->SetTarget(PickBody(screenPos[0], screenPos[1]));
+		Body* const target = PickBody(screenPos[0], screenPos[1]);
+		if(Pi::player) {
+			//TODO: if in nav mode, SetNavTarget(), else SetCombatTarget().
+			Pi::player->SetNavTarget(target);
+		}
 	}
 }
 
