@@ -42,25 +42,10 @@ void StaticRigidBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
 		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
 		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
 	}
-	// make normals
-	meshNormals = new float[sbreCollMesh->ni];
-	for (int i=0; i<sbreCollMesh->ni; i+=3) {
-		float *vtx1 = sbreCollMesh->pVertex + 3*sbreCollMesh->pIndex[i];
-		float *vtx2 = sbreCollMesh->pVertex + 3*sbreCollMesh->pIndex[i+1];
-		float *vtx3 = sbreCollMesh->pVertex + 3*sbreCollMesh->pIndex[i+2];
-		vector3f v1(vtx1[0], vtx1[1], vtx1[2]);
-		vector3f v2(vtx2[0], vtx2[1], vtx2[2]);
-		vector3f v3(vtx3[0], vtx3[1], vtx3[2]);
-		vector3f n = vector3f::Cross(v1-v2, v1-v3);
-		n.Normalize();
-		meshNormals[i] = n.x;
-		meshNormals[i+1] = n.y;
-		meshNormals[i+2] = n.z;
-	}
 	dTriMeshDataID triMeshDataID = dGeomTriMeshDataCreate();
-	dGeomTriMeshDataBuildSingle1(triMeshDataID, (void*)sbreCollMesh->pVertex,
+	dGeomTriMeshDataBuildSingle(triMeshDataID, (void*)sbreCollMesh->pVertex,
 		3*sizeof(float), sbreCollMesh->nv, (void*)sbreCollMesh->pIndex,
-		sbreCollMesh->ni, 3*sizeof(int), NULL/*meshNormals*/);
+		sbreCollMesh->ni, 3*sizeof(int));
 
 	// XXX leaking StaticRigidBody m_geom
 	m_geom = dCreateTriMesh(0, triMeshDataID, NULL, NULL, NULL);

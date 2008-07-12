@@ -165,7 +165,7 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 {
 	// Create an array of dContact objects to hold the contact joints
-	static const int MAX_CONTACTS = 20;
+	static const int MAX_CONTACTS = 100;
 	dContact contact[MAX_CONTACTS];
 
 	for (int i = 0; i < MAX_CONTACTS; i++)
@@ -194,7 +194,6 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 			// object itself. It returns a new dJointID which we then use with dJointAttach to finally create the
 			// temporary contact joint between the two geom bodies.
 			dJointID c = dJointCreateContact(Space::world, _contactgroup, contact + i);
-			printf("depth %f\n", contact[i].geom.depth);
 /*			struct dContactGeom {
   dVector3 pos;       // contact position
   dVector3 normal;    // normal vector
