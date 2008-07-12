@@ -653,6 +653,12 @@ static PlainVertex station1vtx1[] = {
 	{ VTYPE_PLAIN, { 0.0f, 0.0f, 25.0f } },			// 34, ring start, end
 	{ VTYPE_PLAIN, { 0.0f, 0.0f, -25.0f } },		
 
+	{ VTYPE_PLAIN, { -10.0f, 5.0f, 10.0f } },			// 36, inlet middle (for docking)
+	{ VTYPE_PLAIN, { 10.0f, 5.0f, 10.0f } },
+	{ VTYPE_PLAIN, { 10.0f, -5.0f, 10.0f } },
+	{ VTYPE_PLAIN, { -10.0f, -5.0f, 10.0f } },
+
+
 /*	{ VTYPE_PLAIN, { 0.0f, 120.0f, 15.0f } },			// 34, ring top 
 	{ VTYPE_PLAIN, { 0.0f, 100.0f, 15.0f } },
 	{ VTYPE_PLAIN, { 0.0f, 100.0f, -15.0f } },
@@ -746,12 +752,16 @@ static uint16 station1data[] = {
 
 	PTYPE_TUBE | RFLAG_XREF, 0, 38, 34, 35, 1, 11500, 10000,
 
+	PTYPE_SETCFLAG, 1,
+	PTYPE_QUADFLAT | RFLAG_INVISIBLE, 39, 38, 37, 36,
+	PTYPE_SETCFLAG, 0,
+
 //	PTYPE_QUADFLAT | RFLAG_XREF,
 //	PTYPE_SUBOBJECT, 0x8000, SUB_NOSEWHEEL, 10, 0, 4, 100,
 
 	PTYPE_END,
 };	
-Model station1model = { 1.0f, 120.0f, 36, station1vtx1, 100, 0, station1vtx2, 1, 
+Model station1model = { 4.0f, 120.0f, 40, station1vtx1, 100, 0, station1vtx2, 1, 
 	{ { 0, station1data, 0, 0, 0 } } };
 
 
