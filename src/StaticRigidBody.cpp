@@ -5,56 +5,49 @@
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
+#include "ModelCollMeshData.h"
 
 StaticRigidBody::StaticRigidBody(): Body()
 {
-	m_geom = 0;
-	sbreCollMesh = 0;
 	triMeshLastMatrixIndex = 0;
 }
 
 StaticRigidBody::~StaticRigidBody()
 {
-	if (sbreCollMesh) {
-		free(sbreCollMesh->pVertex);
-		free(sbreCollMesh->pIndex);
-		free(sbreCollMesh->pFlag);
-		free(sbreCollMesh);
-	}
 	SetFrame(0);	// Will remove geom from frame if necessary.
-	dGeomDestroy(m_geom);
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomDestroy(geoms[i]);
+	}
 }
 
-void StaticRigidBody::SetGeomSphere(double radius)
+void StaticRigidBody::GeomsSetBody(dBodyID body)
 {
-	assert(!m_geom);
-	m_geom = dCreateSphere(0, radius);
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomSetBody(geoms[i], body);
+	}
 }
 
 void StaticRigidBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
 {
-	assert(!m_geom);
-	assert(sbreCollMesh == 0);
-	sbreCollMesh = (CollMesh*)calloc(1, sizeof(CollMesh));
-	sbreGenCollMesh(sbreCollMesh, sbreModel, params);
-	// XXX flip Z & X because sbre is in magicspace
-	for (int i=0; i<3*sbreCollMesh->nv; i+=3) {
-		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
-		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
-	}
-	dTriMeshDataID triMeshDataID = dGeomTriMeshDataCreate();
-	dGeomTriMeshDataBuildSingle(triMeshDataID, (void*)sbreCollMesh->pVertex,
-		3*sizeof(float), sbreCollMesh->nv, (void*)sbreCollMesh->pIndex,
-		sbreCollMesh->ni, 3*sizeof(int));
+	assert(geoms.size() == 0);
+	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
+	
+	geomColl.resize(mset->numMeshParts);
+	geoms.resize(mset->numMeshParts);
 
-	// XXX leaking StaticRigidBody m_geom
-	m_geom = dCreateTriMesh(0, triMeshDataID, NULL, NULL, NULL);
-	dGeomSetData(m_geom, static_cast<Body*>(this));
+	for (unsigned int i=0; i<mset->numMeshParts; i++) {
+		geoms[i] = dCreateTriMesh(0, mset->meshParts[i], NULL, NULL, NULL);
+		geomColl[i].parent = this;
+		geomColl[i].flags = mset->meshFlags[i];
+		dGeomSetData(geoms[i], static_cast<Object*>(&geomColl[i]));
+	}
 }
 
 void StaticRigidBody::SetPosition(vector3d p)
 {
-	dGeomSetPosition(m_geom, p.x, p.y, p.z);
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomSetPosition(geoms[i], p.x, p.y, p.z);
+	}
 }
 
 void StaticRigidBody::SetVelocity(vector3d v)
@@ -64,13 +57,13 @@ void StaticRigidBody::SetVelocity(vector3d v)
 
 vector3d StaticRigidBody::GetPosition()
 {
-	const dReal *pos = dGeomGetPosition(m_geom);
+	const dReal *pos = dGeomGetPosition(geoms[0]);
 	return vector3d(pos[0], pos[1], pos[2]);
 }
 
 void StaticRigidBody::GetRotMatrix(matrix4x4d &m)
 {
-	m.LoadFromOdeMatrix(dGeomGetRotation(m_geom));
+	m.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
 }
 
 void StaticRigidBody::ViewingRotation()
@@ -83,7 +76,7 @@ void StaticRigidBody::ViewingRotation()
 
 void StaticRigidBody::TransformCameraTo()
 {
-	const dReal *p = dGeomGetPosition(m_geom);
+	const dReal *p = dGeomGetPosition(geoms[0]);
 	matrix4x4d m;
 	GetRotMatrix(m);
 	m = m.InverseOf();
@@ -95,7 +88,7 @@ void StaticRigidBody::TransformToModelCoords(const Frame *camFrame)
 {
 	vector3d fpos = GetPositionRelTo(camFrame);
 
-	const dReal *r = dGeomGetRotation(m_geom);
+	const dReal *r = dGeomGetRotation(geoms[0]);
 	matrix4x4d m;
 	m[ 0] = r[ 0];m[ 1] = r[ 4];m[ 2] = r[ 8];m[ 3] = 0;
 	m[ 4] = r[ 1];m[ 5] = r[ 5];m[ 6] = r[ 9];m[ 7] = 0;
@@ -106,15 +99,23 @@ void StaticRigidBody::TransformToModelCoords(const Frame *camFrame)
 
 void StaticRigidBody::SetFrame(Frame *f)
 {
-	if (GetFrame()) GetFrame()->RemoveGeom(m_geom);
+	if (GetFrame()) {
+		for (unsigned int i=0; i<geoms.size(); i++) {
+			GetFrame()->RemoveGeom(geoms[i]);
+		}
+	}
 	Body::SetFrame(f);
-	if (f) f->AddGeom(m_geom);
+	if (f) {
+		for (unsigned int i=0; i<geoms.size(); i++) {
+			f->AddGeom(geoms[i]);
+		}
+	}
 }
 	
 void StaticRigidBody::TriMeshUpdateLastPos()
 {
 	// ode tri mesh turd likes to know our old position
-	const dReal *r = dGeomGetRotation(m_geom);
+	const dReal *r = dGeomGetRotation(geoms[0]);
 	vector3d pos = GetPosition();
 	dReal *t = triMeshTrans + 16*triMeshLastMatrixIndex;
 	t[0] = r[0]; t[1] = r[1]; t[2] = r[2]; t[3] = 0;
@@ -122,7 +123,9 @@ void StaticRigidBody::TriMeshUpdateLastPos()
 	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = 0;
 	t[12] = pos.x; t[13] = pos.y; t[14] = pos.z; t[15] = 1;
 	triMeshLastMatrixIndex = !triMeshLastMatrixIndex;
-	dGeomTriMeshSetLastTransform(m_geom, *(dMatrix4*)(triMeshTrans + 16*triMeshLastMatrixIndex));
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomTriMeshSetLastTransform(geoms[i], *(dMatrix4*)(triMeshTrans + 16*triMeshLastMatrixIndex));
+	}
 }
 
 void StaticRigidBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)
@@ -158,7 +161,7 @@ void StaticRigidBody::RenderSbreModel(const Frame *camFrame, int model, ObjParam
 	pos = Pi::world_view->viewingRotation * pos;
 	Vector p; p.x = pos.x; p.y = pos.y; p.z = -pos.z;
 	matrix4x4d rot;
-	rot.LoadFromOdeMatrix(dGeomGetRotation(m_geom));
+	rot.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
 	rot = Pi::world_view->viewingRotation * rot;
 	Matrix m;
 	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];

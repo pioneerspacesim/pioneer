@@ -4,6 +4,7 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "Space.h"
+#include "ModelCollMeshData.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -38,8 +39,8 @@ Ship::Ship(ShipType::Type shipType): RigidBody()
 	
 	const ShipType &stype = GetShipType();
 	SetGeomFromSBREModel(stype.sbreModel, &params);
-	SetMassDistributionFromCollMesh(sbreCollMesh);
-	dGeomSetBody(m_geom, m_body);
+	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
+	GeomsSetBody(m_body);
 	UpdateMass();
 }
 

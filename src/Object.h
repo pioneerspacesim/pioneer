@@ -3,7 +3,7 @@
 
 class Object {
 	public:
-	enum Type { NONE, BODY, SHIP, SPACESTATION, LASER };
+	enum Type { NONE, BODY, SHIP, SPACESTATION, LASER, GEOM };
 	virtual Type GetType() = 0;
 };
 
