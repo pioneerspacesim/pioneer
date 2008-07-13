@@ -23,6 +23,9 @@ public:
 	void GetRotMatrix(matrix4x4d &m);
 	virtual void SetFrame(Frame *f);
 	void GeomsSetBody(dBodyID body);
+	// to remove from simulation for a period
+	virtual void Disable();
+	virtual void Enable();
 	
 	void TriMeshUpdateLastPos();
 	void SetGeomFromSBREModel(int sbreModel, ObjParams *params);

@@ -32,15 +32,17 @@ SpaceStation::~SpaceStation()
 {
 }
 
-bool SpaceStation::OnCollision(Body *b)
+bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 {
-	return true;
-
-	if (b->GetType() == Object::SHIP) {
-		Ship *s = static_cast<Ship*>(b);
-		if (!s->GetDockedWith()) {
-			s->SetDockedWith(this);
-			printf("docking!\n");
+	if (flags == 1) {
+		// hitting docking area of a station
+		if (b->GetType() == Object::SHIP) {
+			Ship *s = static_cast<Ship*>(b);
+			if (!s->GetDockedWith()) {
+				s->Disable();
+				s->SetDockedWith(this);
+				printf("docking!\n");
+			}
 		}
 		return false;
 	} else {

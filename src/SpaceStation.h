@@ -8,7 +8,7 @@ class SpaceStation: public ModelBody {
 public:
 	SpaceStation();
 	virtual ~SpaceStation();
-	virtual bool OnCollision(Body *b);
+	virtual bool OnCollision(Body *b, Uint32 flags);
 	virtual Object::Type GetType() { return Object::SPACESTATION; }
 	virtual void Render(const Frame *camFrame);
 protected:

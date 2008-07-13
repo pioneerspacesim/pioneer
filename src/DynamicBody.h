@@ -14,9 +14,11 @@ public:
 	void SetVelocity(vector3d v);
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
-	virtual bool OnCollision(Body *b) { return true; }
+	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	vector3d GetAngularMomentum();
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
+	virtual void Disable();
+	virtual void Enable();
 	
 	dBodyID m_body;
 	dMass m_mass;

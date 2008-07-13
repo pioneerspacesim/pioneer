@@ -169,7 +169,7 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 		} else pb2 = static_cast<Body*>(o2);
 
 		printf("Collision flags %x\n", flags);
-		if ((pb1 && !pb1->OnCollision(pb2)) || (pb2 && !pb2->OnCollision(pb1))) return false;
+		if ((pb1 && !pb1->OnCollision(pb2, flags)) || (pb2 && !pb2->OnCollision(pb1, flags))) return false;
 	}
 	return true;
 }

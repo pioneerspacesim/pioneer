@@ -14,6 +14,18 @@ DynamicBody::DynamicBody(): ModelBody()
 	dBodySetMass(m_body, &m_mass);
 }
 
+void DynamicBody::Enable()
+{
+	ModelBody::Enable();
+	dBodyEnable(m_body);
+}
+
+void DynamicBody::Disable()
+{
+	ModelBody::Disable();
+	dBodyDisable(m_body);
+}
+
 void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 {
 	vector3d min = vector3d(FLT_MAX);

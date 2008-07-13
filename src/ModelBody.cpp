@@ -20,6 +20,20 @@ ModelBody::~ModelBody()
 	}
 }
 
+void ModelBody::Disable()
+{
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomDisable(geoms[i]);
+	}
+}
+
+void ModelBody::Enable()
+{
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomEnable(geoms[i]);
+	}
+}
+
 void ModelBody::GeomsSetBody(dBodyID body)
 {
 	for (unsigned int i=0; i<geoms.size(); i++) {

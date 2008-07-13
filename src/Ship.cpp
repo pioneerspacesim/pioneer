@@ -152,6 +152,7 @@ void Ship::SetDockedWith(SpaceStation *s)
 		// launching. jesus wept this is advanced
 		printf("BAIBAI!!!!!!!\n");
 		m_dockedWith = 0;
+		Enable();
 		vector3d pos = GetPosition();
 		pos.x += 5000;
 		SetPosition(pos);
