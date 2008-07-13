@@ -13,9 +13,8 @@ public:
 	ModelBody();
 	virtual ~ModelBody();
 	void SetPosition(vector3d p);
-	// not valid to do SetVelocity on these. they are for huge things like
-	// space stations and will be static relative to their frame of reference
-	void SetVelocity(vector3d v);
+	virtual void SetRotation(const matrix4x4d &r);
+	// not valid to do SetVelocity on these. if you want them to move then use a DynamicBody
 	vector3d GetPosition();
 	void TransformToModelCoords(const Frame *camFrame);
 	void TransformCameraTo();
@@ -28,7 +27,7 @@ public:
 	virtual void Enable();
 	
 	void TriMeshUpdateLastPos();
-	void SetGeomFromSBREModel(int sbreModel, ObjParams *params);
+	void SetModel(int sbreModel);
 
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
 	class Geom: public Object {

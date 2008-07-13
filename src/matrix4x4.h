@@ -31,12 +31,12 @@ class matrix4x4 {
 		cell[3] = 0;    cell[7] = 0;    cell[11] = 0;    cell[15] = 1;
 	}
 	// row-major
-	void SaveTo3x3Matrix(T *r) {
+	void SaveTo3x3Matrix(T *r) const {
 		r[0] = cell[0]; r[1] = cell[4]; r[2] = cell[8];
 		r[3] = cell[1]; r[4] = cell[5]; r[5] = cell[9];
 		r[6] = cell[2]; r[7] = cell[6]; r[8] = cell[10];
 	}
-	void SaveToOdeMatrix(T r[12]) {
+	void SaveToOdeMatrix(T r[12]) const {
 		r[0] = cell[0]; r[1] = cell[4]; r[2] = cell[8]; r[3] = 0;
 		r[4] = cell[1]; r[5] = cell[5]; r[6] = cell[9]; r[7] = 0;
 		r[8] = cell[2]; r[9] = cell[6]; r[10] = cell[10]; r[11] = 0;

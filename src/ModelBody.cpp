@@ -41,7 +41,7 @@ void ModelBody::GeomsSetBody(dBodyID body)
 	}
 }
 
-void ModelBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
+void ModelBody::SetModel(int sbreModel)
 {
 	assert(geoms.size() == 0);
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
@@ -64,15 +64,19 @@ void ModelBody::SetPosition(vector3d p)
 	}
 }
 
-void ModelBody::SetVelocity(vector3d v)
-{
-	assert(0);
-}
-
 vector3d ModelBody::GetPosition()
 {
 	const dReal *pos = dGeomGetPosition(geoms[0]);
 	return vector3d(pos[0], pos[1], pos[2]);
+}
+
+void ModelBody::SetRotation(const matrix4x4d &r)
+{
+	dMatrix3 _m;
+	r.SaveToOdeMatrix(_m);
+	for (unsigned int i=0; i<geoms.size(); i++) {
+		dGeomSetRotation(geoms[i], _m);
+	}
 }
 
 void ModelBody::GetRotMatrix(matrix4x4d &m)

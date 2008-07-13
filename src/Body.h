@@ -25,7 +25,7 @@ public:
 	void SetLabel(const char *label) { m_label = label; }
 	std::string &GetLabel() { return m_label; }
 	unsigned int GetFlags() { return m_flags; }
-	// return true if to apply damage
+	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Body *b, Uint32 flags) { return false; }
 	void SetProjectedPos(const vector3d& projectedPos) { m_projectedPos = projectedPos; }
 	// Only valid if IsOnscreen() is true.

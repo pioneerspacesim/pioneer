@@ -20,12 +20,9 @@ static ObjParams params = {
 
 SpaceStation::SpaceStation(): ModelBody()
 {
-	SetGeomFromSBREModel(STATION_SBRE_MODEL, &params);
-	matrix4x4d m = matrix4x4d::RotateYMatrix(-M_PI/4);
-	dMatrix3 _m;
-	m.SaveToOdeMatrix(_m);
-//	dGeomSetRotation(m_geom, _m);
-//	dGeomSetBody(m_geom, 0);
+	SetModel(STATION_SBRE_MODEL);
+	matrix4x4d m = matrix4x4d::RotateYMatrix(M_PI);
+	SetRotation(m);
 }
 
 SpaceStation::~SpaceStation()

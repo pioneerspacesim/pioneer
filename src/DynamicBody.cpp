@@ -26,6 +26,13 @@ void DynamicBody::Disable()
 	dBodyDisable(m_body);
 }
 
+void DynamicBody::SetRotation(const matrix4x4d &r)
+{
+	dMatrix3 _m;
+	r.SaveToOdeMatrix(_m);
+	dBodySetRotation(m_body, _m);
+}
+
 void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 {
 	vector3d min = vector3d(FLT_MAX);

@@ -38,7 +38,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	memset(m_thrusters, 0, sizeof(m_thrusters));
 	
 	const ShipType &stype = GetShipType();
-	SetGeomFromSBREModel(stype.sbreModel, &params);
+	SetModel(stype.sbreModel);
 	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
 	GeomsSetBody(m_body);
 	UpdateMass();
@@ -221,6 +221,7 @@ static void render_coll_mesh(const CollMesh *m)
 
 void Ship::Render(const Frame *camFrame)
 {
+	if (!dBodyIsEnabled(m_body)) return;
 	const ShipType &stype = GetShipType();
 	params.angthrust[0] = m_angThrusters[0];
 	params.angthrust[1] = m_angThrusters[1];
