@@ -1,6 +1,7 @@
 #include "libs.h"
 #include "ModelCollMeshData.h"
 #include <map>
+#include <algorithm>
 #include "sbre/sbre.h"
 
 // In order to do space station doors and other flagged bits of collision
