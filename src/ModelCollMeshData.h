@@ -8,12 +8,18 @@ struct coltri_t {
 	int v1, v2, v3, flags;
 };
 
+struct meshinfo_t {
+	int flags;
+	int triStart; // into triIndices
+	int numTris;
+};
+
 class CollMeshSet {
 public:
 	CollMesh *sbreCollMesh;
 	coltri_t *triIndices;
 	dTriMeshDataID *meshParts;
-	int *meshFlags;
+	meshinfo_t *meshInfo;
 	int numMeshParts;
 
 	CollMeshSet(int sbreModel);

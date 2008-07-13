@@ -11,7 +11,8 @@ class vector3 {
 	vector3 () {}
 	vector3 (T val): x(val), y(val), z(val) {}
 	vector3 (T _x, T _y, T _z): x(_x), y(_y), z(_z) {}
-	vector3 (const T vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
+	vector3 (const double vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
+	vector3 (const float vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
 
 	T& operator [] (const int i) { return ((T *)this)[i]; }
 	vector3 operator+ (const vector3 a) const { return vector3 (a.x+x, a.y+y, a.z+z); }

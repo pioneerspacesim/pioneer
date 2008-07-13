@@ -212,9 +212,9 @@ void Pi::MainLoop()
 		
 	{
 		SpaceStation *body = new SpaceStation();
-		body->SetLabel("Some joint");
+		body->SetLabel("Poemi-chan's Folly");
 		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(0,0,7999400));
+		body->SetPosition(vector3d(0,0,7998000));
 		Space::AddBody(body);
 	}
 

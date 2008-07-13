@@ -49,10 +49,10 @@ void ModelBody::SetModel(int sbreModel)
 	geomColl.resize(mset->numMeshParts);
 	geoms.resize(mset->numMeshParts);
 
-	for (unsigned int i=0; i<mset->numMeshParts; i++) {
+	for (int i=0; i<mset->numMeshParts; i++) {
 		geoms[i] = dCreateTriMesh(0, mset->meshParts[i], NULL, NULL, NULL);
 		geomColl[i].parent = this;
-		geomColl[i].flags = mset->meshFlags[i];
+		geomColl[i].flags = mset->meshInfo[i].flags;
 		dGeomSetData(geoms[i], static_cast<Object*>(&geomColl[i]));
 	}
 }

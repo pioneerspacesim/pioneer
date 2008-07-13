@@ -36,9 +36,9 @@ public:
 		Body *parent;
 		int flags;
 	};
-private:
-
+protected:
 	std::vector<Geom> geomColl;
+private:
 	std::vector<dGeomID> geoms;
 	dReal triMeshTrans[32];
 	int triMeshLastMatrixIndex;

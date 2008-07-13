@@ -190,7 +190,6 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 	}
 	if (int numc = dCollide(o0, o1, MAX_CONTACTS, &contact[0].geom, sizeof(dContact)))
 	{
-		printf("%d contacts\n", numc);
 		// don't ye get confused between Pi Body class and libODE bodies
 		Object *po1 = static_cast<Object*>(dGeomGetData(o0));
 		Object *po2 = static_cast<Object*>(dGeomGetData(o1));

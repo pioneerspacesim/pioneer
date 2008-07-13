@@ -54,6 +54,14 @@ class matrix4x4 {
 		m[12] = m[13] = m[14] = 0; m[15] = 1;
 		return m;
 	}
+	static matrix4x4 MakeRotMatrix(vector3<T> rx, vector3<T> ry, vector3<T> rz) {
+		matrix4x4 m;
+		m[0] = rx.x; m[4] = rx.y; m[8] = rx.z; m[12] = 0;
+		m[1] = ry.x; m[5] = ry.y; m[9] = ry.z; m[13] = 0;
+		m[2] = rz.x; m[6] = rz.y; m[10] = rz.z; m[14] = 0;
+		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
+		return m;
+	}
 	void RotateZ (T radians) { *this = (*this) * RotateZMatrix (radians); }
 	void RotateY (T radians) { *this = (*this) * RotateYMatrix (radians); }
 	void RotateX (T radians) { *this = (*this) * RotateXMatrix (radians); }

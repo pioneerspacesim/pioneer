@@ -5,6 +5,7 @@
 #include "WorldView.h"
 #include "Space.h"
 #include "ModelCollMeshData.h"
+#include "SpaceStation.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -149,13 +150,22 @@ const ShipType &Ship::GetShipType()
 void Ship::SetDockedWith(SpaceStation *s)
 {
 	if (m_dockedWith && !s) {
-		// launching. jesus wept this is advanced
-		printf("BAIBAI!!!!!!!\n");
-		m_dockedWith = 0;
-		Enable();
-		vector3d pos = GetPosition();
-		pos.x += 5000;
+		// position player in middle of docking bay, pointing out of it
+		// XXX need to do forced thrusting thingy...
+		// XXX ang vel not zeroed for some reason...
+		matrix4x4d stationRot;
+		m_dockedWith->GetRotMatrix(stationRot);
+		vector3d port_y = vector3d::Cross(-m_dockedWith->port.horiz, m_dockedWith->port.normal);
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(m_dockedWith->port.horiz, port_y, m_dockedWith->port.normal);
+		rot.Print();
+		vector3d pos = m_dockedWith->GetPosition() + stationRot*m_dockedWith->port.center;
 		SetPosition(pos);
+		SetRotation(rot);
+		SetVelocity(vector3d(0,0,0));
+		SetAngVelocity(vector3d(0,0,0));
+		Enable();
+		
+		m_dockedWith = 0;
 	} else {
 		m_dockedWith = s;
 		SetVelocity(vector3d(0,0,0));

@@ -761,7 +761,7 @@ static uint16 station1data[] = {
 
 	PTYPE_END,
 };	
-Model station1model = { 4.0f, 120.0f, 40, station1vtx1, 100, 0, station1vtx2, 1, 
+Model station1model = { 10.0f, 120.0f, 40, station1vtx1, 100, 0, station1vtx2, 1, 
 	{ { 0, station1data, 0, 0, 0 } } };
 
 
