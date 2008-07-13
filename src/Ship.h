@@ -2,7 +2,7 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "RigidBody.h"
+#include "DynamicBody.h"
 #include "ShipType.h"
 #include "sbre/sbre.h"
 
@@ -16,7 +16,7 @@ struct shipstats_t {
 	float hyperspace_range;
 };
 
-class Ship: public RigidBody {
+class Ship: public DynamicBody {
 public:
 	Ship(ShipType::Type shipType);
 	virtual Object::Type GetType() { return Object::SHIP; }

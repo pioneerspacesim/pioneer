@@ -1,16 +1,16 @@
-#ifndef _RIGIDBODY_H
-#define _RIGIDBODY_H
+#ifndef _DYNAMICBODY_H
+#define _DYNAMICBODY_H
 
 #include "Body.h"
-#include "StaticRigidBody.h"
+#include "ModelBody.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 class ObjMesh;
 
-class RigidBody: public StaticRigidBody {
+class DynamicBody: public ModelBody {
 public:
-	RigidBody();
-	virtual ~RigidBody();
+	DynamicBody();
+	virtual ~DynamicBody();
 	void SetVelocity(vector3d v);
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
@@ -25,4 +25,4 @@ private:
 	ObjMesh *m_mesh;
 };
 
-#endif /* _RIGIDBODY_H */
+#endif /* _DYNAMICBODY_H */

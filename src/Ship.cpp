@@ -20,7 +20,7 @@ static ObjParams params = {
 	{ "IR-L33T", "ME TOO" },
 };
 
-Ship::Ship(ShipType::Type shipType): RigidBody()
+Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
 	m_wheelTransition = 0;
 	m_wheelState = 0;

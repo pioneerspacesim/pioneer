@@ -1,5 +1,5 @@
 #include "libs.h"
-#include "StaticRigidBody.h"
+#include "ModelBody.h"
 #include "Space.h"
 #include "matrix4x4.h"
 #include "Frame.h"
@@ -7,12 +7,12 @@
 #include "WorldView.h"
 #include "ModelCollMeshData.h"
 
-StaticRigidBody::StaticRigidBody(): Body()
+ModelBody::ModelBody(): Body()
 {
 	triMeshLastMatrixIndex = 0;
 }
 
-StaticRigidBody::~StaticRigidBody()
+ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
 	for (unsigned int i=0; i<geoms.size(); i++) {
@@ -20,14 +20,14 @@ StaticRigidBody::~StaticRigidBody()
 	}
 }
 
-void StaticRigidBody::GeomsSetBody(dBodyID body)
+void ModelBody::GeomsSetBody(dBodyID body)
 {
 	for (unsigned int i=0; i<geoms.size(); i++) {
 		dGeomSetBody(geoms[i], body);
 	}
 }
 
-void StaticRigidBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
+void ModelBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
 {
 	assert(geoms.size() == 0);
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
@@ -43,30 +43,30 @@ void StaticRigidBody::SetGeomFromSBREModel(int sbreModel, ObjParams *params)
 	}
 }
 
-void StaticRigidBody::SetPosition(vector3d p)
+void ModelBody::SetPosition(vector3d p)
 {
 	for (unsigned int i=0; i<geoms.size(); i++) {
 		dGeomSetPosition(geoms[i], p.x, p.y, p.z);
 	}
 }
 
-void StaticRigidBody::SetVelocity(vector3d v)
+void ModelBody::SetVelocity(vector3d v)
 {
 	assert(0);
 }
 
-vector3d StaticRigidBody::GetPosition()
+vector3d ModelBody::GetPosition()
 {
 	const dReal *pos = dGeomGetPosition(geoms[0]);
 	return vector3d(pos[0], pos[1], pos[2]);
 }
 
-void StaticRigidBody::GetRotMatrix(matrix4x4d &m)
+void ModelBody::GetRotMatrix(matrix4x4d &m)
 {
 	m.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
 }
 
-void StaticRigidBody::ViewingRotation()
+void ModelBody::ViewingRotation()
 {
 	matrix4x4d m;
 	GetRotMatrix(m);
@@ -74,7 +74,7 @@ void StaticRigidBody::ViewingRotation()
 	glMultMatrixd(&m[0]);
 }
 
-void StaticRigidBody::TransformCameraTo()
+void ModelBody::TransformCameraTo()
 {
 	const dReal *p = dGeomGetPosition(geoms[0]);
 	matrix4x4d m;
@@ -84,7 +84,7 @@ void StaticRigidBody::TransformCameraTo()
 	glTranslated(-p[0], -p[1], -p[2]);
 }
 
-void StaticRigidBody::TransformToModelCoords(const Frame *camFrame)
+void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
 	vector3d fpos = GetPositionRelTo(camFrame);
 
@@ -97,7 +97,7 @@ void StaticRigidBody::TransformToModelCoords(const Frame *camFrame)
 	glMultMatrixd(&m[0]);
 }
 
-void StaticRigidBody::SetFrame(Frame *f)
+void ModelBody::SetFrame(Frame *f)
 {
 	if (GetFrame()) {
 		for (unsigned int i=0; i<geoms.size(); i++) {
@@ -112,7 +112,7 @@ void StaticRigidBody::SetFrame(Frame *f)
 	}
 }
 	
-void StaticRigidBody::TriMeshUpdateLastPos()
+void ModelBody::TriMeshUpdateLastPos()
 {
 	// ode tri mesh turd likes to know our old position
 	const dReal *r = dGeomGetRotation(geoms[0]);
@@ -128,7 +128,7 @@ void StaticRigidBody::TriMeshUpdateLastPos()
 	}
 }
 
-void StaticRigidBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)
+void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)
 {
 	glPushMatrix();
 	

@@ -1,5 +1,5 @@
-#ifndef _STATICRIGIDBODY_H
-#define _STATICRIGIDBODY_H
+#ifndef _MODELBODY_H
+#define _MODELBODY_H
 
 #include "Body.h"
 #include "vector3.h"
@@ -8,10 +8,10 @@
 #include <vector>
 class ObjMesh;
 
-class StaticRigidBody: public Body {
+class ModelBody: public Body {
 public:
-	StaticRigidBody();
-	virtual ~StaticRigidBody();
+	ModelBody();
+	virtual ~ModelBody();
 	void SetPosition(vector3d p);
 	// not valid to do SetVelocity on these. they are for huge things like
 	// space stations and will be static relative to their frame of reference
@@ -42,4 +42,4 @@ private:
 	int triMeshLastMatrixIndex;
 };
 
-#endif /* _STATICRIGIDBODY_H */
+#endif /* _MODELBODY_H */

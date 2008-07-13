@@ -18,7 +18,7 @@ static ObjParams params = {
 	{ "Hello old bean", "DIET STEAKETTE" },
 };
 
-SpaceStation::SpaceStation(): StaticRigidBody()
+SpaceStation::SpaceStation(): ModelBody()
 {
 	SetGeomFromSBREModel(STATION_SBRE_MODEL, &params);
 	matrix4x4d m = matrix4x4d::RotateYMatrix(-M_PI/4);

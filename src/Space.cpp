@@ -138,11 +138,11 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 		}
 		Ship::LaserObj *lobj = static_cast<Ship::LaserObj*>(o2);
 		if (o1 == lobj->owner) return false;
-		printf("%s (geom flag %x) was shot by %s\n", ((StaticRigidBody::Geom*)o1)->parent->GetLabel().c_str(), 
-			((StaticRigidBody::Geom*)o1)->flags, lobj->owner->GetLabel().c_str());
+		printf("%s (geom flag %x) was shot by %s\n", ((ModelBody::Geom*)o1)->parent->GetLabel().c_str(), 
+			((ModelBody::Geom*)o1)->flags, lobj->owner->GetLabel().c_str());
 
 		if (o1->GetType() == Object::SHIP) {
-			RigidBody *rb = (RigidBody*)o1;
+			DynamicBody *rb = (DynamicBody*)o1;
 			dVector3 start,dir;
 			dGeomRayGet(g2, start, dir);
 			dBodyAddForceAtPos(rb->m_body,
@@ -160,12 +160,12 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 		int flags = 0;
 		// geom bodies point to their parents
 		if (o1->GetType() == Object::GEOM) {
-			pb1 = static_cast<StaticRigidBody::Geom*>(o1)->parent;
-			flags |= static_cast<StaticRigidBody::Geom*>(o1)->flags;
+			pb1 = static_cast<ModelBody::Geom*>(o1)->parent;
+			flags |= static_cast<ModelBody::Geom*>(o1)->flags;
 		} else pb1 = static_cast<Body*>(o1);
 		if (o2->GetType() == Object::GEOM) {
-			pb2 = static_cast<StaticRigidBody::Geom*>(o2)->parent;
-			flags |= static_cast<StaticRigidBody::Geom*>(o2)->flags;
+			pb2 = static_cast<ModelBody::Geom*>(o2)->parent;
+			flags |= static_cast<ModelBody::Geom*>(o2)->flags;
 		} else pb2 = static_cast<Body*>(o2);
 
 		printf("Collision flags %x\n", flags);

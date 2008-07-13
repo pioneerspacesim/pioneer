@@ -2,9 +2,9 @@
 #define _SPACESTATION_H
 
 #include "libs.h"
-#include "StaticRigidBody.h"
+#include "ModelBody.h"
 
-class SpaceStation: public StaticRigidBody {
+class SpaceStation: public ModelBody {
 public:
 	SpaceStation();
 	virtual ~SpaceStation();
