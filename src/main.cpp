@@ -13,6 +13,7 @@
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "WorldView.h"
+#include "ObjectViewerView.h"
 #include "StarSystem.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
@@ -35,6 +36,7 @@ enum Pi::MapView Pi::map_view;
 Player *Pi::player;
 View *Pi::current_view;
 WorldView *Pi::world_view;
+ObjectViewerView *Pi::objectViewerView;
 SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
 SectorView *Pi::sector_view;
@@ -159,6 +161,7 @@ void Pi::HandleEvents()
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_q) Pi::Quit();
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
+				if (event.key.keysym.sym == SDLK_F12) Pi::SetView(Pi::objectViewerView);
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::onKeyPress.emit(&event.key.keysym);
 				break;
@@ -250,6 +253,7 @@ void Pi::MainLoop()
 	system_view = new SystemView();
 	system_info_view = new SystemInfoView();
 	world_view = new WorldView();
+	objectViewerView = new ObjectViewerView();
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 

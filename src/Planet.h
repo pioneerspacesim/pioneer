@@ -15,8 +15,6 @@ public:
 	void SetRadius(double radius);
 	double GetRadius() { return m_radius; }
 	virtual void Render(const Frame *camFrame);
-	virtual void TransformToModelCoords(const Frame *camFrame);
-	virtual void TransformCameraTo() {};
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 private:

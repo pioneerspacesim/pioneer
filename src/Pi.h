@@ -13,6 +13,7 @@ class Player;
 class SectorView;
 class SystemView;
 class WorldView;
+class ObjectViewerView;
 class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
@@ -80,6 +81,7 @@ public:
 	static SectorView *sector_view;
 	static SystemInfoView *system_info_view;
 	static WorldView *world_view;
+	static ObjectViewerView *objectViewerView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
 	static ShipCpanel *cpan;

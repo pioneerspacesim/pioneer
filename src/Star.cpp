@@ -19,12 +19,6 @@ void Star::SetPosition(vector3d p)
 	m_pos = p;
 }
 
-void Star::TransformToModelCoords(const Frame *camFrame)
-{
-	vector3d fpos = GetPositionRelTo(camFrame);
-	glTranslatef(m_pos[0]+fpos.x, m_pos[1]+fpos.y, m_pos[2]+fpos.z);
-}
-
 void Star::Render(const Frame *a_camFrame)
 {
 	glDisable(GL_LIGHTING);
@@ -44,7 +38,6 @@ void Star::Render(const Frame *a_camFrame)
 
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	
-	//TransformToModelCoords(a_camFrame);
 	glColor3fv(StarSystem::starColors[m_subtype]);
 	gluSphere(Pi::gluQuadric, rad, 100, 100);
 	glPopMatrix();

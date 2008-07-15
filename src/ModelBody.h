@@ -17,7 +17,6 @@ public:
 	// not valid to do SetVelocity on these. if you want them to move then use a DynamicBody
 	vector3d GetPosition();
 	void TransformToModelCoords(const Frame *camFrame);
-	void TransformCameraTo();
 	void ViewingRotation();
 	void GetRotMatrix(matrix4x4d &m);
 	virtual void SetFrame(Frame *f);

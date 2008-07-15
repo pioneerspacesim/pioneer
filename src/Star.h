@@ -15,8 +15,6 @@ public:
 	void SetRadius(double radius) { m_radius = radius; }
 	double GetRadius() { return m_radius; }
 	virtual void Render(const Frame *camFrame);
-	virtual void TransformToModelCoords(const Frame *camFrame);
-	virtual void TransformCameraTo() {};
 	
 private:
 	StarSystem::SBody::SubType m_subtype;

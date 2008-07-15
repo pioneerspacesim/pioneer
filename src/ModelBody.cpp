@@ -92,16 +92,6 @@ void ModelBody::ViewingRotation()
 	glMultMatrixd(&m[0]);
 }
 
-void ModelBody::TransformCameraTo()
-{
-	const dReal *p = dGeomGetPosition(geoms[0]);
-	matrix4x4d m;
-	GetRotMatrix(m);
-	m = m.InverseOf();
-	glMultMatrixd(&m[0]);
-	glTranslated(-p[0], -p[1], -p[2]);
-}
-
 void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
 	vector3d fpos = GetPositionRelTo(camFrame);
