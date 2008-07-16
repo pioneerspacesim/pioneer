@@ -68,6 +68,7 @@ void WorldView::Draw3D()
 	float fracH = Pi::GetScrHeight() / (float)Pi::GetScrWidth();
 	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -90,7 +91,7 @@ void WorldView::Draw3D()
 
 		glCallList(m_bgstarsDlist);
 		// position light at sol
-		vector3d lpos = Frame::GetFramePosRelativeToOther(Space::GetRootFrame(), &cam_frame);
+		vector3d lpos = vector3d::Normalize(Frame::GetFramePosRelativeToOther(Space::GetRootFrame(), &cam_frame));
 		float lightPos[4];
 		lightPos[0] = lpos.x;
 		lightPos[1] = lpos.y;

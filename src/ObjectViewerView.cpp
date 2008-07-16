@@ -15,27 +15,6 @@ ObjectViewerView::ObjectViewerView(): View()
 	Add(m_infoLabel, 2, 2);
 }
 
-/*
-vector3d Player::GetExternalViewTranslation()
-{
-	vector3d p = vector3d(0, 0, m_external_view_dist);
-	p = matrix4x4d::RotateXMatrix(-DEG_2_RAD*m_external_view_rotx) * p;
-	p = matrix4x4d::RotateYMatrix(-DEG_2_RAD*m_external_view_roty) * p;
-	matrix4x4d m;
-	GetRotMatrix(m);
-	p = m*p;
-//	printf("%f,%f,%f\n", p.x, p.y, p.z);
-	return p;
-}
-
-void Player::ApplyExternalViewRotation()
-{
-//	glTranslatef(0, 0, m_external_view_dist);
-	glRotatef(-m_external_view_rotx, 1, 0, 0);
-	glRotatef(-m_external_view_roty, 0, 1, 0);
-}
-*/
-#define DEG_2_RAD	0.0174532925
 void ObjectViewerView::Draw3D()
 {
 	static float rot;

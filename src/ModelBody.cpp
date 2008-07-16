@@ -146,22 +146,14 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	{
-		// XXX need to use correct starlight colour
-		float lightCol[3] = { 1,1,1 };
-		float lightDir[3];
-		vector3d _lightDir = Frame::GetFramePosRelativeToOther(Space::GetRootFrame(), camFrame);
-
-		matrix4x4d poo = Pi::world_view->viewingRotation;
-		poo[2] = -poo[2];
-		poo[6] = -poo[6];
-		poo[8] = -poo[8];
-		poo[9] = -poo[9];
-		_lightDir = poo * _lightDir;
-
-		lightDir[0] = _lightDir.x;
-		lightDir[1] = _lightDir.y;
-		lightDir[2] = _lightDir.z;
-
+		GLfloat lightCol[4];
+		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+		lightCol[3] = 0;
+		
+		GLfloat lightDir[4];
+		glGetLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+		lightDir[2] = -lightDir[2];
+		
 		sbreSetDirLight (lightCol, lightDir);
 	}
 	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 5.0f, 100000.0f, 0.0f, 1.0f);

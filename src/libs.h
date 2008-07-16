@@ -46,5 +46,6 @@
 #define MIN(x,y)        ((x)<(y)?(x):(y))
 #define MAX(x,y)        ((x)>(y)?(x):(y))
 #define CLAMP(a, min, max)      (((a) > (max)) ? (max) : (((a) < (min)) ? (min) : (a)))
+#define DEG_2_RAD	0.0174532925
 
 #endif /* _LIBS_H */
