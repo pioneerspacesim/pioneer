@@ -285,6 +285,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ObjectViewerView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\objimport.cpp"
 				>
 			</File>
@@ -475,7 +479,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ObjectViewerView.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\objimport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pch.h"
 				>
 			</File>
 			<File
