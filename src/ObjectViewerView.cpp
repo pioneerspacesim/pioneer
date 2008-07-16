@@ -33,13 +33,13 @@ void ObjectViewerView::Draw3D()
 	pos = matrix4x4d::RotateYMatrix(-DEG_2_RAD*rot) * pos;
 	pos = matrix4x4d::RotateXMatrix(-DEG_2_RAD*rot) * pos;
 		
-/*	float lightPos[4];
-	lightPos[0] = 0;
-	lightPos[1] = 0;
-	lightPos[2] = 0;
+	float lightPos[4];
+	lightPos[0] = 1;
+	lightPos[1] = 1;
+	lightPos[2] = 1;
 	lightPos[3] = 0;
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-*/	
+	
 	// sbre rendering (see ModelBody.cpp) uses this...
 	glRotatef(-rot,0,1,0);
 	glRotatef(-rot,1,0,0);

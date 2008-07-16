@@ -111,6 +111,9 @@ double pdrand(int p) {
 	return o;
 }
 
+  double drange(double min, double max) {
+	  return (*this)(max-min)+min;
+  }
   double operator()(double max) {
     return max*static_cast<double>(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
 private:

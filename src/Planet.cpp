@@ -87,11 +87,6 @@ void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth
 
 void DrawShittyRoundCube(double radius)
 {
-	const float mdiff[] = { 1.0, 0.8, 0.5, 1.0 };
-	const float mambient[] = { 0.1, 0.08, 0.05, 1.0 };
-	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
-	glMaterialfv (GL_FRONT, GL_DIFFUSE, mdiff);
-
 	vector3d p1(1,1,1);
 	vector3d p2(-1,1,1);
 	vector3d p3(-1,-1,1);
@@ -133,17 +128,10 @@ void DrawShittyRoundCube(double radius)
 }
 
 // both arguments in radians
-void DrawHoop(float latitude, float width, const float col[4])
+void DrawHoop(float latitude, float width, float wobble, MTRand &rng)
 {
 	glPushAttrib(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
-	float mambient[4];
-	mambient[0] = col[0]*.1;
-	mambient[1] = col[1]*.1;
-	mambient[2] = col[2]*.1;
-	mambient[3] = col[3];
-	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
-	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_BLEND);
 	
@@ -151,7 +139,7 @@ void DrawHoop(float latitude, float width, const float col[4])
 	for (double longitude=0.0f; longitude < 2*M_PI; longitude += 0.02) {
 		vector3d v;
 		double l;
-		l = latitude+0.5*width;
+		l = latitude+0.5*width+rng(wobble*width);
 		v.x = sin(longitude)*cos(l);
 		v.y = sin(l);
 		v.z = cos(longitude)*cos(l);
@@ -159,7 +147,7 @@ void DrawHoop(float latitude, float width, const float col[4])
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 		
-		l = latitude-0.5*width;
+		l = latitude-0.5*width-rng(wobble*width);
 		v.x = sin(longitude)*cos(l);
 		v.y = sin(l);
 		v.z = cos(longitude)*cos(l);
@@ -168,17 +156,13 @@ void DrawHoop(float latitude, float width, const float col[4])
 	}
 	double l = latitude+0.5*width;
 	vector3d v;
-	v.x = 0;
-	v.y = sin(l);
-	v.z = cos(l);
+	v.x = 0; v.y = sin(l); v.z = cos(l);
 	v.Normalize();
 	glNormal3dv(&v.x);
 	glVertex3dv(&v.x);
 	
 	l = latitude-0.5*width;
-	v.x = 0;
-	v.y = sin(l);
-	v.z = cos(l);
+	v.x = 0; v.y = sin(l); v.z = cos(l);
 	glNormal3dv(&v.x);
 	glVertex3dv(&v.x);
 
@@ -200,17 +184,10 @@ static void PutPolarPoint(float latitude, float longitude)
 	glVertex3dv(&v.x);
 }
 
-void DrawBlob(float latitude, float longitude, float a, float b, const float col[4])
+void DrawBlob(float latitude, float longitude, float a, float b)
 {
-	float mambient[4];
 	glPushAttrib(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
-	mambient[0] = col[0]*.1;
-	mambient[1] = col[1]*.1;
-	mambient[2] = col[2]*.1;
-	mambient[3] = col[3];
-	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
-	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_BLEND);
 
@@ -237,14 +214,17 @@ static void DrawRing(double inner, double outer, const float color[4])
 {
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
 		GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color);
+	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glDisable(GL_CULL_FACE);
+
+	glColor4fv(color);
 	
 	glBegin(GL_TRIANGLE_STRIP);
+	glNormal3f(0,1,0);
 	for (float ang=0; ang<2*M_PI; ang+=0.1) {
 		glVertex3f(inner*sin(ang), 0, inner*cos(ang));
 		glVertex3f(outer*sin(ang), 0, outer*cos(ang));
@@ -283,27 +263,21 @@ static void SphereTriSubdivide(vector3d &v1, vector3d &v2, vector3d &v3, int dep
 
 // yPos should be 1.0 for north pole, -1.0 for south pole
 // size in radians
-static void DrawPole(double yPos, double size, const float col[4])
+static void DrawPole(double yPos, double size)
 {
-	float mambient[4];
 	glPushAttrib(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
-	mambient[0] = col[0]*.1;
-	mambient[1] = col[1]*.1;
-	mambient[2] = col[2]*.1;
-	mambient[3] = col[3];
-	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
-	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_BLEND);
 
 	const bool southPole = yPos < 0;
+	size = size*4/M_PI;
 	
 	vector3d center(0, yPos, 0);
 	glBegin(GL_TRIANGLES);
 	for (float ang=2*M_PI; ang>0; ang-=0.1) {
-		vector3d v1(sin(ang), yPos, cos(ang));
-		vector3d v2(sin(ang+0.1), yPos, cos(ang+0.1));
+		vector3d v1(size*sin(ang), yPos, size*cos(ang));
+		vector3d v2(size*sin(ang+0.1), yPos, size*cos(ang+0.1));
 		v1.Normalize();
 		v2.Normalize();
 		if (southPole)
@@ -317,6 +291,146 @@ static void DrawPole(double yPos, double size, const float col[4])
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
 	glPopAttrib();
+}
+
+struct ColRangeObj_t {
+	float baseCol[4]; float modCol[4]; float modAll;
+
+	void GenCol(float col[4], MTRand &rng) const {
+		float ma = 1 + (rng(modAll*2)-modAll);
+		for (int i=0; i<4; i++) col[i] = baseCol[i] + rng.drange(-modCol[i], modCol[i]);
+		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
+	}
+};
+
+struct GasGiantDef_t {
+	int hoopMin, hoopMax; float hoopWobble;
+	int blobMin, blobMax;
+	float poleMin, poleMax; // size range in radians. zero for no poles.
+	float ringProbability;
+	ColRangeObj_t ringCol;
+	ColRangeObj_t bodyCol;
+	ColRangeObj_t hoopCol;
+	ColRangeObj_t blobCol;
+	ColRangeObj_t poleCol;
+};
+
+static GasGiantDef_t ggdefs[] = {
+{
+	/* jupiter */
+	30, 40, 0.05,
+	20, 30,
+	0, 0,
+	0.5,
+	{ { .61,.48,.384,.1 }, {0,0,0,.9}, 0.3 },
+	{ { .99,.76,.62,1 }, { 0,.1,.1,0 }, 0.3 },
+	{ { .99,.76,.62,.5 }, { 0,.1,.1,0 }, 0.3 },
+	{ { .99,.76,.62,1 }, { 0,.1,.1,0 }, 0.7 },
+}, {
+	/* saturnish */
+	10, 15, 0.0,
+	8, 20, // blob range
+	0.2, 0.2, // pole size
+	0.5,
+	{ { .61,.48,.384,.1 }, {0,0,0,.9}, 0.3 },
+	{ { .87, .68, .39, 1 }, { 0,0,0,0 }, 0.1 },
+	{ { .87, .68, .39, 1 }, { 0,0,0,0 }, 0.1 },
+	{ { .87, .68, .39, 1 }, { 0,0,0,0 }, 0.1 },
+	{ { .77, .58, .29, 1 }, { 0,0,0,0 }, 0.1 },
+}, {
+	/* neptunish */
+	3, 6, 0.0,
+	2, 6,
+	0, 0,
+	0.5,
+	{ { .61,.48,.384,.1 }, {0,0,0,.9}, 0.3 },
+	{ { .31,.44,.73,1 }, {0,0,0,0}, .05}, // body col
+	{ { .31,.44,.73,0.5 }, {0,0,0,0}, .1},// hoop col
+	{ { .21,.34,.54,1 }, {0,0,0,0}, .05},// blob col
+}, {
+	/* uranus-like *wink* */
+	0, 0, 0.0,
+	0, 0,
+	0, 0,
+	0.5,
+	{ { .61,.48,.384,.1 }, {0,0,0,.9}, 0.3 },
+	{ { .70,.85,.86,1 }, {.1,.1,.1,0}, 0 },
+	{ { .70,.85,.86,1 }, {.1,.1,.1,0}, 0 },
+	{ { .70,.85,.86,1 }, {.1,.1,.1,0}, 0 },
+	{ { .70,.85,.86,1 }, {.1,.1,.1,0}, 0 }
+}, {
+	/* brown dwarf-like */
+	0, 0, 0.05,
+	10, 20,
+	0, 0,
+	0.5,
+	{ { .81,.48,.384,.1 }, {0,0,0,.9}, 0.3 },
+	{ { .4,.1,0,1 }, {0,0,0,0}, 0.1 },
+	{ { .4,.1,0,1 }, {0,0,0,0}, 0.1 },
+	{ { .4,.1,0,1 }, {0,0,0,0}, 0.1 },
+},
+};
+
+static GasGiantDef_t &ggdef = ggdefs[0];
+
+#define PLANET_AMBIENT	0.1
+
+static void SetMaterialColor(const float col[4])
+{
+	float mambient[4];
+	mambient[0] = col[0]*PLANET_AMBIENT;
+	mambient[1] = col[1]*PLANET_AMBIENT;
+	mambient[2] = col[2]*PLANET_AMBIENT;
+	mambient[3] = col[3];
+	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
+	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
+}
+
+static void DrawGasGiant()
+{
+	MTRand rng((int)Pi::GetGameTime());
+	float col[4];
+
+	ggdef.bodyCol.GenCol(col, rng);
+	SetMaterialColor(col);
+	DrawShittyRoundCube(1.0f);
+	
+	int n = rng(ggdef.hoopMin, ggdef.hoopMax);
+
+	while (n-- > 0) {
+		ggdef.hoopCol.GenCol(col, rng);
+		SetMaterialColor(col);
+		DrawHoop(rng(0.9*M_PI)-0.45*M_PI, rng(0.25), ggdef.hoopWobble, rng);
+	}
+
+	n = rng(ggdef.blobMin, ggdef.blobMax);
+	while (n-- > 0) {
+		float a = rng.drange(0.01, 0.03);
+		float b = a+rng(0.2)+0.1;
+		ggdef.blobCol.GenCol(col, rng);
+		SetMaterialColor(col);
+		DrawBlob(rng.drange(-0.3*M_PI, 0.3*M_PI), rng(2*M_PI), a, b);
+	}
+
+	if (ggdef.poleMin != 0) {
+		float size = rng.drange(ggdef.poleMin, ggdef.poleMax);
+		ggdef.poleCol.GenCol(col, rng);
+		SetMaterialColor(col);
+		DrawPole(1.0, size);
+		DrawPole(-1.0, size);
+	}
+	
+	if (rng(1.0) < ggdef.ringProbability) {
+		float pos = rng.drange(1.2,1.7);
+		float end = pos + rng.drange(0.1, 1.0);
+		end = MIN(end, 2.5);
+		while (pos < end) {
+			float size = rng(0.1);
+			ggdef.ringCol.GenCol(col, rng);
+			DrawRing(pos, pos+size, col);
+			pos += size;
+		}
+	}
 }
 
 void Planet::Render(const Frame *a_camFrame)
@@ -347,29 +461,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_LIGHTING);
 	} else {
 		glScalef(rad,rad,rad);
-		DrawShittyRoundCube(1.0f);
-		const float col1[] = { 1,1,0,.7 };
-		const float col2[] = { 1,.2,0,.7 };
-		const float col3[] = { .3,1,0,.7 };
-		const float col4[] = { 1,.6,0,.7 };
-		const float col5[] = { 0,0,0.8,.7 };
-		const float white[] = { 1,1,1,1 };
-		DrawHoop(M_PI/10.0, M_PI/20.0, col1);
-		DrawHoop(M_PI/12.0, M_PI/20.0, col2);
-		DrawHoop(0, M_PI/20.0, col2);
-		DrawHoop(-M_PI/10.0, M_PI/20.0, col3);
-		DrawHoop(M_PI/2 - M_PI/10.0, M_PI/20.0, col4);
-		DrawBlob(.2, -0.3, 0.05, 0.2, col5);
-		DrawBlob(.3, M_PI/2, 0.05, 0.2, col5);
-		DrawBlob(-.1, -M_PI/2, 0.05, 0.2, col5);
-		DrawPole(1.0, 0.1, white);
-		DrawPole(-1.0, 0.1, white);
-		DrawRing(1.5, 1.8, col1);
-		DrawRing(1.5, 1.8, col1);
-		DrawRing(1.9, 2.0, col1);
-		DrawRing(2.04, 2.3, col1);
-//		DrawBlob(1.0, 0, 0.02, 0.5, col5);
-//		DrawBlob(-1.0, 0, 0.02, 0.5, col5);
+		DrawGasGiant();
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	glPopMatrix();
