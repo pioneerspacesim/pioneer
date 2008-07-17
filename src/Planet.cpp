@@ -13,6 +13,7 @@ Planet::Planet(StarSystem::SBody *sbody): Body()
 	this->sbody = *sbody;
 	this->sbody.children.clear();
 	this->sbody.parent = 0;
+	crudDList = 0;
 }
 	
 Planet::~Planet()
@@ -580,6 +581,10 @@ void Planet::Render(const Frame *a_camFrame)
 	glColor3f(1,1,1);
 
 	if (apparent_size < 0.001) {
+		if (crudDList) {
+			glDeleteLists(crudDList, 1);
+			crudDList = 0;
+		}
 		glDisable(GL_LIGHTING);
 		glPointSize(1.0);
 		glBegin(GL_POINTS);
@@ -587,13 +592,19 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnd();
 		glEnable(GL_LIGHTING);
 	} else {
-		glScalef(rad,rad,rad);
-		// this is a rather brittle test..........
-		if (sbody.type < StarSystem::TYPE_PLANET_DWARF) {
-			DrawGasGiant();
-		} else {
-			DrawRockyPlanet();
+		if (!crudDList) {
+			crudDList = glGenLists(1);
+			glNewList(crudDList, GL_COMPILE);
+			// this is a rather brittle test..........
+			if (sbody.type < StarSystem::TYPE_PLANET_DWARF) {
+				DrawGasGiant();
+			} else {
+				DrawRockyPlanet();
+			}
+			glEndList();
 		}
+		glScalef(rad,rad,rad);
+		glCallList(crudDList);
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	glPopMatrix();

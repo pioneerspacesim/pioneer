@@ -25,6 +25,7 @@ private:
 	double radius;
 	dGeomID geom;
 	StarSystem::SBody sbody;
+	GLuint crudDList;
 };
 
 #endif /* _PLANET_H */
