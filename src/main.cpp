@@ -193,56 +193,35 @@ void Pi::HandleEvents()
 
 void Pi::MainLoop()
 {
-	Frame *earth_frame = new Frame(Space::GetRootFrame(), "Earth");
-	earth_frame->SetPosition(vector3d(149598000000.0,0,0));
-	earth_frame->SetRadius(2*380000000); // 2 moon orbital radii
-
 	player = new Player(ShipType::SWANKY);
 	player->SetLabel("me");
-	player->SetFrame(earth_frame);
-	player->SetPosition(vector3d(0,0,8000000.0));
 	Space::AddBody(player);
 
+	StarSystem s(0,0,0);
+	HyperspaceTo(&s);
+	
+	// linked list eh... put player at planet f
+	Frame *pframe = *(++(++(++(++(Space::rootFrame->m_children.begin())))));
+	player->SetFrame(pframe);
+	player->SetPosition(vector3d(0,100000,10000000.0));
+	
 	for (int i=0; i<4; i++) {
 		Ship *body = new Ship(ShipType::LADYBIRD);
 		char buf[64];
 		snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
 		body->SetLabel(buf);
-		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(i*2000,0,8000400));
+		body->SetFrame(pframe);
+		body->SetPosition(vector3d(i*2000,100000,10001000));
 		Space::AddBody(body);
 	}
 		
 	{
 		SpaceStation *body = new SpaceStation();
 		body->SetLabel("Poemi-chan's Folly");
-		body->SetFrame(earth_frame);
-		body->SetPosition(vector3d(0,0,7998000));
+		body->SetFrame(pframe);
+		body->SetPosition(vector3d(5000,100000,9990000.0));
 		Space::AddBody(body);
 	}
-
-	Planet *planet = new Planet(StarSystem::SBody::SUBTYPE_PLANET_INDIGENOUS_LIFE);
-	planet->SetLabel("Earth");
-	planet->SetPosition(vector3d(0,0,0));
-	planet->SetFrame(earth_frame);
-	Space::AddBody(planet);
-
-	Frame *moon_frame = new Frame(earth_frame, "Moon");
-	moon_frame->SetPosition(vector3d(0,-380000000.0,0));
-	moon_frame->SetRadius(10*1738140.0); //10 moon radii
-	Planet *moon = new Planet(StarSystem::SBody::SUBTYPE_PLANET_DWARF);
-	moon->SetLabel("Moon");
-	moon->SetPosition(vector3d(0,0,0));
-	moon->SetRadius(1738140.0);
-	moon->SetFrame(moon_frame);
-	Space::AddBody(moon);
-
-	Star *sol = new Star(StarSystem::SBody::SUBTYPE_STAR_G);
-	sol->SetLabel("Sol");
-	sol->SetRadius(6.955e8);
-	sol->SetPosition(vector3d(0,0,0));
-	sol->SetFrame(Space::GetRootFrame());
-	Space::AddBody(sol);
 
 	Gui::Init(scrWidth, scrHeight, 640, 480);
 

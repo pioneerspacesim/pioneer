@@ -116,6 +116,10 @@ double pdrand(int p) {
   }
   double operator()(double max) {
     return max*static_cast<double>(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
+  unsigned int Int32(int min, int max) {
+	  return (rand_int32()%(1+max-min))+min;
+  }
+  unsigned int Int32() { return rand_int32(); }
 private:
   MTRand(const MTRand&); // copy constructor not defined
   void operator=(const MTRand&); // assignment operator not defined

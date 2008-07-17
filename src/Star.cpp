@@ -2,21 +2,21 @@
 #include "Star.h"
 #include "Pi.h"
 
-Star::Star(StarSystem::SBody::SubType subtype): Body()
+Star::Star(StarSystem::BodyType type): Body()
 {
-	m_subtype = subtype;
-	m_radius = 6378135.0;
-	m_pos = vector3d(0,0,0);
+	this->type = type;
+	radius = 6378135.0;
+	pos = vector3d(0,0,0);
 }
 
 vector3d Star::GetPosition()
 {
-	return m_pos;
+	return pos;
 }
 
 void Star::SetPosition(vector3d p)
 {
-	m_pos = p;
+	pos = p;
 }
 
 void Star::Render(const Frame *a_camFrame)
@@ -26,7 +26,7 @@ void Star::Render(const Frame *a_camFrame)
 	glPushMatrix();
 	
 	/* XXX duplicates code from Planet.cpp. bad. */
-	double rad = m_radius;
+	double rad = radius;
 	vector3d fpos = GetPositionRelTo(a_camFrame);
 	double len = fpos.Length();
 
@@ -38,7 +38,7 @@ void Star::Render(const Frame *a_camFrame)
 
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	
-	glColor3fv(StarSystem::starColors[m_subtype]);
+	glColor3fv(StarSystem::starColors[type]);
 	gluSphere(Pi::gluQuadric, rad, 100, 100);
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);

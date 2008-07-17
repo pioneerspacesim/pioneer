@@ -27,19 +27,19 @@ Sector::Sector(int x, int y)
 		float spec = rand(1.0);
 		// frequencies from wikipedia
 		if (spec < 0.0000003) {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_O;
+			s.primaryStarClass = StarSystem::TYPE_STAR_O;
 		} else if (spec < 0.0013) {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_B;
+			s.primaryStarClass = StarSystem::TYPE_STAR_B;
 		} else if (spec < 0.0073) {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_A;
+			s.primaryStarClass = StarSystem::TYPE_STAR_A;
 		} else if (spec < 0.0373) {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_F;
+			s.primaryStarClass = StarSystem::TYPE_STAR_F;
 		} else if (spec < 0.1133) {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_G;
+			s.primaryStarClass = StarSystem::TYPE_STAR_G;
 		} else if (spec < 0.2343) {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_K;
+			s.primaryStarClass = StarSystem::TYPE_STAR_K;
 		} else {
-			s.primaryStarClass = StarSystem::SBody::SUBTYPE_STAR_M;
+			s.primaryStarClass = StarSystem::TYPE_STAR_M;
 		}
 
 		m_systems.push_back(s);

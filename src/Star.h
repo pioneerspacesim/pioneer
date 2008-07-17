@@ -8,18 +8,18 @@ class Frame;
 
 class Star: public Body {
 public:
-	Star(StarSystem::SBody::SubType subtype);
+	Star(StarSystem::BodyType type);
 	virtual ~Star() {};
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition();
-	void SetRadius(double radius) { m_radius = radius; }
-	double GetRadius() { return m_radius; }
+	void SetRadius(double radius) { this->radius = radius; }
+	double GetRadius() { return radius; }
 	virtual void Render(const Frame *camFrame);
 	
 private:
-	StarSystem::SBody::SubType m_subtype;
-	vector3d m_pos;
-	double m_radius;
+	StarSystem::BodyType type;
+	vector3d pos;
+	double radius;
 };
 
 #endif /* _STAR_H */

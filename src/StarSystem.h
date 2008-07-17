@@ -41,6 +41,41 @@ public:
 		double period; // seconds
 		matrix4x4d rotMatrix;
 	};
+	
+	enum BodyType {
+		TYPE_STAR_M,
+		TYPE_STAR_K,
+		TYPE_STAR_G,
+		TYPE_STAR_F,
+		TYPE_STAR_A,
+		TYPE_STAR_B,
+		TYPE_STAR_O,
+		TYPE_BROWN_DWARF,
+		TYPE_PLANET_SMALL_GAS_GIANT,
+		TYPE_PLANET_MEDIUM_GAS_GIANT,
+		TYPE_PLANET_LARGE_GAS_GIANT,
+		TYPE_PLANET_VERY_LARGE_GAS_GIANT,
+		TYPE_PLANET_DWARF,
+		TYPE_PLANET_SMALL,
+		TYPE_PLANET_WATER,
+		TYPE_PLANET_CO2,
+		TYPE_PLANET_METHANE,
+		TYPE_PLANET_WATER_THICK_ATMOS,
+		TYPE_PLANET_CO2_THICK_ATMOS,
+		TYPE_PLANET_METHANE_THICK_ATMOS,
+		TYPE_PLANET_HIGHLY_VOLCANIC,
+		TYPE_PLANET_INDIGENOUS_LIFE,
+		TYPE_MAX
+		// XXX need larger atmosphereless thing
+	};
+
+	enum BodySuperType {
+		SUPERTYPE_STAR, SUPERTYPE_ROCKY_PLANET, SUPERTYPE_GAS_GIANT
+	};
+
+	struct BodyStats {
+
+	};
 
 	struct SBody {
 		~SBody();
@@ -48,46 +83,20 @@ public:
 		void PickPlanetType(SBody *, double distToPrimary, MTRand &drand, bool genMoons);
 		SBody *parent;
 		std::vector<SBody*> children;
-		Orbit orbit;
 
 		const char *GetAstroDescription();
 		const char *GetIcon();
 
 		int temp;
+		Orbit orbit;
+		int seed; // Planet.cpp can use to generate terrain
 		std::string name;
 		double radius; 
 		double mass;
 		double radMin, radMax;
 		double averageTemp;
-		enum {
-			TYPE_STAR, TYPE_ROCKY_PLANET, TYPE_GAS_GIANT
-		} type;
-		enum SubType {
-			SUBTYPE_STAR_M,
-			SUBTYPE_STAR_K,
-			SUBTYPE_STAR_G,
-			SUBTYPE_STAR_F,
-			SUBTYPE_STAR_A,
-			SUBTYPE_STAR_B,
-			SUBTYPE_STAR_O,
-			SUBTYPE_BROWN_DWARF,
-			SUBTYPE_PLANET_SMALL_GAS_GIANT,
-			SUBTYPE_PLANET_MEDIUM_GAS_GIANT,
-			SUBTYPE_PLANET_LARGE_GAS_GIANT,
-			SUBTYPE_PLANET_VERY_LARGE_GAS_GIANT,
-			SUBTYPE_PLANET_DWARF,
-			SUBTYPE_PLANET_SMALL,
-			SUBTYPE_PLANET_WATER,
-			SUBTYPE_PLANET_CO2,
-			SUBTYPE_PLANET_METHANE,
-			SUBTYPE_PLANET_WATER_THICK_ATMOS,
-			SUBTYPE_PLANET_CO2_THICK_ATMOS,
-			SUBTYPE_PLANET_METHANE_THICK_ATMOS,
-			SUBTYPE_PLANET_HIGHLY_VOLCANIC,
-			SUBTYPE_PLANET_INDIGENOUS_LIFE,
-			SUBTYPE_MAX
-			// XXX need larger atmosphereless thing
-		} subtype;
+		BodySuperType supertype;
+		BodyType type;
 	};
 	
 	SBody *rootBody;

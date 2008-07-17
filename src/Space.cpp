@@ -45,13 +45,13 @@ void Space::Clear()
 void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
 {
 	Body *b;
-	if (sbody->type == StarSystem::SBody::TYPE_STAR) {
-		Star *star = new Star(sbody->subtype);
+	if (sbody->supertype == StarSystem::SUPERTYPE_STAR) {
+		Star *star = new Star(sbody->type);
 		star->SetRadius(sbody->radius);
 		b = star;
 	} else {
-		Planet *planet = new Planet(sbody->subtype);
-		planet->SetRadius(sbody->radius);
+		Planet *planet = new Planet(sbody);
+		//planet->SetRadius(sbody->radius);
 		b = planet;
 	}
 	b->SetLabel(sbody->name.c_str());

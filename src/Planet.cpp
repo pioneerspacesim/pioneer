@@ -4,38 +4,40 @@
 #include "Pi.h"
 #include "WorldView.h"
 
-Planet::Planet(StarSystem::SBody::SubType subtype): Body()
+Planet::Planet(StarSystem::SBody *sbody): Body()
 {
-	m_radius = 6378135.0;
-	m_pos = vector3d(0,0,0);
-	m_geom = dCreateSphere(0, m_radius);
-	dGeomSetData(m_geom, static_cast<Body*>(this));
-	m_subtype = subtype;
+	radius = 6378135.0;
+	pos = vector3d(0,0,0);
+	geom = dCreateSphere(0, radius);
+	dGeomSetData(geom, static_cast<Body*>(this));
+	this->sbody = *sbody;
+	this->sbody.children.clear();
+	this->sbody.parent = 0;
 }
 	
 Planet::~Planet()
 {
-	dGeomDestroy(m_geom);
+	dGeomDestroy(geom);
 }
 
 vector3d Planet::GetPosition()
 {
-	return m_pos;
+	return pos;
 }
 
 void Planet::SetPosition(vector3d p)
 {
-	m_pos = p;
-	dGeomSetPosition(m_geom, p.x, p.y, p.z);
+	pos = p;
+	dGeomSetPosition(geom, p.x, p.y, p.z);
 }
 
 void Planet::SetRadius(double radius)
 {
-	m_radius = radius;
-	dGeomSphereSetRadius(m_geom, radius);
+	this->radius = radius;
+	dGeomSphereSetRadius(geom, radius);
 }
 
-void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth)
+static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth)
 {
 	if (depth) {
 		depth--;
@@ -85,7 +87,7 @@ void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth
 	}
 }
 
-void DrawShittyRoundCube(double radius)
+static void DrawShittyRoundCube(double radius)
 {
 	vector3d p1(1,1,1);
 	vector3d p2(-1,1,1);
@@ -371,8 +373,6 @@ static GasGiantDef_t ggdefs[] = {
 },
 };
 
-static GasGiantDef_t &ggdef = ggdefs[0];
-
 #define PLANET_AMBIENT	0.1
 
 static void SetMaterialColor(const float col[4])
@@ -386,10 +386,137 @@ static void SetMaterialColor(const float col[4])
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
 }
 
-static void DrawGasGiant()
+/*
+ * 1980s graphics
+ */
+#define GEOSPLIT	4
+#define GEOROUGHNESS	0.7
+static const float _yes[] = { 1.0, 0.5, 0.25, 0.126, 0.0625, 0.03125 };
+static void SubdivideTriangularContinent2(std::vector<vector3d> &verts, int sidx, int eidx, int depth, MTRand &rng)
 {
-	MTRand rng((int)Pi::GetGameTime());
+	vector3d &v1 = verts[sidx];
+	vector3d &v2 = verts[eidx];
+	if (depth > 0) {
+		int midx = (sidx+eidx)>>1;
+		vector3d c = vector3d::Normalize(vector3d::Cross(v2-v1,v1));
+		c *= rng(1.0);
+		verts[midx] = vector3d::Normalize(v1+v2+0.7*_yes[GEOSPLIT-depth]*c);
+		SubdivideTriangularContinent2(verts, sidx, midx, depth-1, rng);
+		SubdivideTriangularContinent2(verts, midx, eidx, depth-1, rng);
+	}
+}
+
+static void SubdivideVeryLongTri(vector3d &tip, vector3d &v1, vector3d &v2, int bits)
+{
+	vector3d v;
+	vector3d tip2v1 = v1-tip;
+	vector3d tip2v2 = v2-tip;
+
+	tip2v1 *= 1.0/bits;
+	tip2v2 *= 1.0/bits;
+
+	// tip triangle
+	glBegin(GL_TRIANGLES);
+	glNormal3dv(&tip.x);
+	glVertex3dv(&tip.x);
+	v = vector3d::Normalize(tip+tip2v1);
+	glNormal3dv(&v.x);
+	glVertex3dv(&v.x);
+	v = vector3d::Normalize(tip+tip2v2);
+	glNormal3dv(&v.x);
+	glVertex3dv(&v.x);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	for (int i=1; i<bits; i++) {
+		v = vector3d::Normalize(tip+(tip2v1*i));
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+		v = vector3d::Normalize(tip+(tip2v1*(i+1)));
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+		v = vector3d::Normalize(tip+(tip2v2*(i+1)));
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+		v = vector3d::Normalize(tip+(tip2v2*i));
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+	}
+	glEnd();
+}
+
+static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
+{
+	const int nvps = exp2(GEOSPLIT);
+	const int numVertices = nvps*3 + 1;
+	// this is a continent centred on the north pole, of size roughly 45
+	// degrees in each direction (although it is based on a triangle, so
+	// the actual shape will be a load of crap)
+	vector3d v1(0,1,scale*1);
+	vector3d v2(scale*sin(2*M_PI/3.0),1,scale*cos(2*M_PI/3.0));
+	vector3d v3(-scale*sin(2*M_PI/3.0),1,scale*cos(2*M_PI/3.0));
+	v1 = rot*v1;
+	v2 = rot*v2;
+	v3 = rot*v3;
+	v1.Normalize();
+	v2.Normalize();
+	v3.Normalize();
+	std::vector<vector3d> edgeVerts(numVertices);
+	edgeVerts[0] = v1;
+	edgeVerts[nvps] = v2;
+	edgeVerts[2*nvps] = v3;
+	edgeVerts[3*nvps] = v1;
+	SubdivideTriangularContinent2(edgeVerts, 0, nvps, GEOSPLIT, rng);
+	SubdivideTriangularContinent2(edgeVerts, nvps, 2*nvps, GEOSPLIT, rng);
+	SubdivideTriangularContinent2(edgeVerts, 2*nvps, 3*nvps, GEOSPLIT, rng);
+
+	vector3d centre = vector3d::Normalize(v1+v2+v3);
+	for (unsigned int i=0; i<edgeVerts.size()-1; i++) {
+		SubdivideVeryLongTri(centre, edgeVerts[i], edgeVerts[i+1], 16);
+	}
+}
+
+void Planet::DrawRockyPlanet()
+{
+//	MTRand rng((int)Pi::GetGameTime());
+	MTRand rng(sbody.seed);
+	float blue[4] = { .2, .2, 1, 1 };
+	float green[4] = { .2, .8, .2, 1 };
+	float white[4] = { 1, 1, 1, 1 };
+
+	SetMaterialColor(blue);
+	DrawShittyRoundCube(1.0f);
+	
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	
+	matrix4x4d rot;
+	int n = rng(3,10);
+	while (n--) {
+		SetMaterialColor(green);
+		rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.drange(-M_PI/3, M_PI/3));
+		rot.RotateZ(rng(M_PI*2));
+		MakeContinent(rot, rng.drange(0.1,0.5), rng);
+	}
+	/* poles */
+	SetMaterialColor(white);
+	rot = matrix4x4d::Identity();
+	MakeContinent(rot, 0.25, rng);
+	rot = matrix4x4d::RotateXMatrix(M_PI);
+	MakeContinent(rot, 0.25, rng);
+	
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_NORMALIZE);
+}
+
+void Planet::DrawGasGiant()
+{
+//	MTRand rng((int)Pi::GetGameTime());
+	MTRand rng(sbody.seed+9);
 	float col[4];
+	
+	// just use a random gas giant flavour for the moment
+	GasGiantDef_t &ggdef = ggdefs[rng(0,3)];
 
 	ggdef.bodyCol.GenCol(col, rng);
 	SetMaterialColor(col);
@@ -437,7 +564,7 @@ void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
 	
-	double rad = m_radius;
+	double rad = radius;
 	vector3d fpos = GetPositionRelTo(a_camFrame);
 
 	double apparent_size = rad / fpos.Length();
@@ -461,7 +588,12 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_LIGHTING);
 	} else {
 		glScalef(rad,rad,rad);
-		DrawGasGiant();
+		// this is a rather brittle test..........
+		if (sbody.type < StarSystem::TYPE_PLANET_DWARF) {
+			DrawGasGiant();
+		} else {
+			DrawRockyPlanet();
+		}
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	glPopMatrix();
@@ -469,8 +601,8 @@ void Planet::Render(const Frame *a_camFrame)
 
 void Planet::SetFrame(Frame *f)
 {
-	if (GetFrame()) GetFrame()->RemoveGeom(m_geom);
+	if (GetFrame()) GetFrame()->RemoveGeom(geom);
 	Body::SetFrame(f);
-	if (f) f->AddGeom(m_geom);
+	if (f) f->AddGeom(geom);
 }
 

@@ -24,12 +24,12 @@ public:
 	static dWorldID world;
 	static std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;
+	static Frame *rootFrame;
 private:
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);
 	static void PruneCorpses();
 
-	static Frame *rootFrame;
 //	static std::list<Frame*> rootFrames;
 	static std::list<Body*> corpses;
 };

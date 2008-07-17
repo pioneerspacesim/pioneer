@@ -8,20 +8,23 @@ class Frame;
 
 class Planet: public Body {
 public:
-	Planet(StarSystem::SBody::SubType);
+	Planet(StarSystem::SBody*);
 	virtual ~Planet();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition();
 	void SetRadius(double radius);
-	double GetRadius() { return m_radius; }
+	double GetRadius() { return radius; }
 	virtual void Render(const Frame *camFrame);
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 private:
-	vector3d m_pos;
-	double m_radius;
-	dGeomID m_geom;
-	StarSystem::SBody::SubType m_subtype;
+	void DrawRockyPlanet();
+	void DrawGasGiant();
+
+	vector3d pos;
+	double radius;
+	dGeomID geom;
+	StarSystem::SBody sbody;
 };
 
 #endif /* _PLANET_H */

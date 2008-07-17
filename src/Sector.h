@@ -17,7 +17,7 @@ public:
 	struct System {
 		std::string name;
 		vector3f p;
-		StarSystem::SBody::SubType primaryStarClass;
+		StarSystem::BodyType primaryStarClass;
 	};
 	std::vector<System> m_systems;
 private:

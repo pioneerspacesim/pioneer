@@ -3,7 +3,7 @@
 
 #define CELSIUS	273.15
 
-// indexed by enum subtype turd  
+// indexed by enum type turd  
 float StarSystem::starColors[7][3] = {
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.6, 0.1 }, // K
@@ -20,7 +20,7 @@ static const struct SBodySubTypeInfo {
 	const char *description;
 	const char *icon;
 	float tempMin, tempMax;
-} subTypeInfo[StarSystem::SBody::SUBTYPE_MAX] = {
+} bodyTypeInfo[StarSystem::TYPE_MAX] = {
 	{
 		0.4, 0.5, "Type 'M' red star",
 		"icons/object_star_m.png",
@@ -99,12 +99,12 @@ static const struct SBodySubTypeInfo {
 
 const char *StarSystem::SBody::GetAstroDescription()
 {
-	return subTypeInfo[subtype].description;
+	return bodyTypeInfo[type].description;
 }
 
 const char *StarSystem::SBody::GetIcon()
 {
-	return subTypeInfo[subtype].icon;
+	return bodyTypeInfo[type].icon;
 }
 
 static const double boltzman_const = 5.6704e-8;
@@ -236,17 +236,17 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	// primary
 	SBody *primary = new SBody;
 
-	StarSystem::SBody::SubType subtype = s.m_systems[system_idx].primaryStarClass;
-	primary->subtype = subtype;
+	StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
+	primary->type = type;
 	primary->parent = NULL;
-	primary->radius = SOL_RADIUS*subTypeInfo[subtype].radius;
-	primary->mass = SOL_MASS*subTypeInfo[subtype].mass;
-	primary->type = SBody::TYPE_STAR;
-	primary->averageTemp = rand((int)subTypeInfo[subtype].tempMin,
-				(int)subTypeInfo[subtype].tempMax);
+	primary->radius = SOL_RADIUS*bodyTypeInfo[type].radius;
+	primary->mass = SOL_MASS*bodyTypeInfo[type].mass;
+	primary->supertype = SUPERTYPE_STAR;
+	primary->averageTemp = rand((int)bodyTypeInfo[type].tempMin,
+				(int)bodyTypeInfo[type].tempMax);
 	rootBody = primary;
 
-	int disc_size = rand(6,100) + rand(60,140)*primary->subtype*primary->subtype;
+	int disc_size = rand(6,100) + rand(60,140)*primary->type*primary->type;
 	//printf("disc_size %.1fAU\n", disc_size/10.0);
 
 	std::vector<float> *disc = AccreteDisc(disc_size, 0.1+rand(1.5), rand);
@@ -255,7 +255,8 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		if (mass == 0) continue;
 
 		SBody *planet = new SBody;
-		planet->subtype = SBody::SUBTYPE_PLANET_DWARF;
+		planet->type = TYPE_PLANET_DWARF;
+		planet->seed = rand.Int32();
 		planet->temp = 0;
 		planet->parent = primary;
 		planet->radius = EARTH_RADIUS;
@@ -344,21 +345,21 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 
 	if (emass > 317.8*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
-		subtype = SBody::SUBTYPE_BROWN_DWARF;
+		type = TYPE_BROWN_DWARF;
 		// XXX should prevent mass exceeding 65 jupiter masses or so,
 		// when it becomes a star
 	} else if (emass > 300) {
-		subtype = SBody::SUBTYPE_PLANET_LARGE_GAS_GIANT;
+		type = TYPE_PLANET_LARGE_GAS_GIANT;
 	} else if (emass > 90) {
-		subtype = SBody::SUBTYPE_PLANET_MEDIUM_GAS_GIANT;
+		type = TYPE_PLANET_MEDIUM_GAS_GIANT;
 	} else if (emass > 6) {
-		subtype = SBody::SUBTYPE_PLANET_SMALL_GAS_GIANT;
+		type = TYPE_PLANET_SMALL_GAS_GIANT;
 	} else {
 		// terrestrial planets
 		if (emass < 0.02) {
-			subtype = SBody::SUBTYPE_PLANET_DWARF;
+			type = TYPE_PLANET_DWARF;
 		} else if ((emass < 0.2) && (globalwarming < 0.05)) {
-			subtype = SBody::SUBTYPE_PLANET_SMALL;
+			type = TYPE_PLANET_SMALL;
 		} else if (emass < 3) {
 			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
 				// try for life
@@ -367,24 +368,24 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 
 				if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {
-					subtype = SBody::SUBTYPE_PLANET_INDIGENOUS_LIFE;
+					type = TYPE_PLANET_INDIGENOUS_LIFE;
 				} else {
-					subtype = SBody::SUBTYPE_PLANET_WATER;
+					type = TYPE_PLANET_WATER;
 				}
 			} else {
-				if (rand(0,1)) subtype = SBody::SUBTYPE_PLANET_CO2;
-				else subtype = SBody::SUBTYPE_PLANET_METHANE;
+				if (rand(0,1)) type = TYPE_PLANET_CO2;
+				else type = TYPE_PLANET_METHANE;
 			}
 		} else /* 3 < emass < 6 */ {
 			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
-				subtype = SBody::SUBTYPE_PLANET_WATER_THICK_ATMOS;
+				type = TYPE_PLANET_WATER_THICK_ATMOS;
 			} else {
-				if (rand(0,1)) subtype = SBody::SUBTYPE_PLANET_CO2_THICK_ATMOS;
-				else subtype = SBody::SUBTYPE_PLANET_METHANE_THICK_ATMOS;
+				if (rand(0,1)) type = TYPE_PLANET_CO2_THICK_ATMOS;
+				else type = TYPE_PLANET_METHANE_THICK_ATMOS;
 			}
 		}
 		// kind of crappy
-		if ((emass > 0.8) && (!rand(0,15))) subtype = SBody::SUBTYPE_PLANET_HIGHLY_VOLCANIC;
+		if ((emass > 0.8) && (!rand(0,15))) type = TYPE_PLANET_HIGHLY_VOLCANIC;
 	}
 	// generate moons
 	if (genMoons) {
@@ -394,7 +395,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 			if (mass == 0) continue;
 
 			SBody *moon = new SBody;
-			moon->subtype = SBody::SUBTYPE_PLANET_DWARF;
+			moon->type = TYPE_PLANET_DWARF;
+			moon->seed = rand.Int32();
 			moon->temp = 0;
 			moon->parent = this;
 			moon->radius = EARTH_RADIUS;
