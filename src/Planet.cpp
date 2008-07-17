@@ -447,6 +447,9 @@ static void SubdivideVeryLongTri(vector3d &tip, vector3d &v1, vector3d &v2, int 
 
 static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 {
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+		
 	const int nvps = exp2(GEOSPLIT);
 	const int numVertices = nvps*3 + 1;
 	// this is a continent centred on the north pole, of size roughly 45
@@ -474,39 +477,155 @@ static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 	for (unsigned int i=0; i<edgeVerts.size()-1; i++) {
 		SubdivideVeryLongTri(centre, edgeVerts[i], edgeVerts[i+1], 16);
 	}
+	
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_NORMALIZE);
+}
+
+/*
+ * draws at north pole
+ */
+void DrawCircle(float rad)
+{
+	glPushAttrib(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_BLEND);
+
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3d(0,1,0);
+	for (double theta=0; theta<M_PI*2; theta+=0.1) {
+		vector3d v(rad*sin(theta), 1, rad*cos(theta));
+		v.Normalize();
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+	}
+	{
+		vector3d v(0,1,rad);
+		v.Normalize();
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+	}
+	glEnd();
+
+	glDisable(GL_BLEND);
+	glDisable(GL_NORMALIZE);
+	glPopAttrib();
+}
+
+/*
+ * draws at north pole
+ */
+void DrawHollowCircle(float rad1, float rad2)
+{
+	glPushAttrib(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_BLEND);
+
+	glBegin(GL_TRIANGLE_STRIP);
+	for (double theta=0; theta<2*M_PI; theta+=0.1) {
+		vector3d v(rad1*sin(theta), 1, rad1*cos(theta));
+		v.Normalize();
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+
+		v = vector3d(rad2*sin(theta), 1, rad2*cos(theta));
+		v.Normalize();
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+	}
+	{
+		vector3d v(0,1,rad1);
+		v.Normalize();
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+
+		v = vector3d(0,1,rad2);
+		v.Normalize();
+		glNormal3dv(&v.x);
+		glVertex3dv(&v.x);
+	}
+	glEnd();
+
+	glDisable(GL_BLEND);
+	glDisable(GL_NORMALIZE);
+	glPopAttrib();
 }
 
 void Planet::DrawRockyPlanet()
 {
+	int n;
+	float r;
+	matrix4x4d rot;
+	float col[4];
 //	MTRand rng((int)Pi::GetGameTime());
 	MTRand rng(sbody.seed);
 	float blue[4] = { .2, .2, 1, 1 };
 	float green[4] = { .2, .8, .2, 1 };
 	float white[4] = { 1, 1, 1, 1 };
+	ColRangeObj_t barrenBodyCol = { { .3,.3,.3,1 },{0,0,0,0},.3 };
+	ColRangeObj_t barrenContCol = { { .2,.2,.2,.6 },{0,0,0,0},.3 };
 
-	SetMaterialColor(blue);
-	DrawShittyRoundCube(1.0f);
-	
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	
-	matrix4x4d rot;
-	int n = rng(3,10);
-	while (n--) {
-		SetMaterialColor(green);
-		rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.drange(-M_PI/3, M_PI/3));
-		rot.RotateZ(rng(M_PI*2));
-		MakeContinent(rot, rng.drange(0.1,0.5), rng);
+	switch (sbody.type) {
+	case StarSystem::TYPE_PLANET_DWARF:
+		barrenBodyCol.GenCol(col, rng);
+		SetMaterialColor(col);
+		DrawShittyRoundCube(1.0f);
+
+		n = rng(3,10);
+		barrenContCol.GenCol(col, rng);
+		SetMaterialColor(col);
+		while (n--) {
+			rot = matrix4x4d::RotateXMatrix(rng(M_PI/2));
+			rot.RotateZ(rng(M_PI*2));
+			MakeContinent(rot, rng.drange(0.1,0.5), rng);
+		}
+
+		n = rng(10,30);
+		while (n--) {
+			r = rng.drange(0.02, 0.1);
+			glPushMatrix();
+			glRotatef(rng.drange(0, 360), 1, 0, 0);
+			glRotatef(rng.drange(0, 360), 0, 0, 1);
+			DrawCircle(r);
+			glPopMatrix();
+		}
+		n = rng(10,30);
+		while (n--) {
+			r = rng.drange(0.02, 0.1);
+			glPushMatrix();
+			glRotatef(rng.drange(0, 360), 1, 0, 0);
+			glRotatef(rng.drange(0, 360), 0, 0, 1);
+			DrawHollowCircle(r, r*1.3);
+			glPopMatrix();
+		}
+		break;
+		
+	case StarSystem::TYPE_PLANET_INDIGENOUS_LIFE:
+		SetMaterialColor(blue);
+		DrawShittyRoundCube(1.0f);
+		
+		n = rng(3,10);
+		while (n--) {
+			SetMaterialColor(green);
+			rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.drange(-M_PI/3, M_PI/3));
+			rot.RotateZ(rng(M_PI*2));
+			MakeContinent(rot, rng.drange(0.1,0.5), rng);
+		}
+		/* poles */
+		SetMaterialColor(white);
+		rot = matrix4x4d::Identity();
+		MakeContinent(rot, 0.25, rng);
+		rot = matrix4x4d::RotateXMatrix(M_PI);
+		MakeContinent(rot, 0.25, rng);
+		break;
+	default:
+		barrenBodyCol.GenCol(col, rng);
+		SetMaterialColor(col);
+		DrawShittyRoundCube(1.0f);
+		break;
 	}
-	/* poles */
-	SetMaterialColor(white);
-	rot = matrix4x4d::Identity();
-	MakeContinent(rot, 0.25, rng);
-	rot = matrix4x4d::RotateXMatrix(M_PI);
-	MakeContinent(rot, 0.25, rng);
-	
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_NORMALIZE);
 }
 
 void Planet::DrawGasGiant()

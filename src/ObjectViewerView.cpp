@@ -62,7 +62,8 @@ void ObjectViewerView::Update()
 	viewingDist = CLAMP(viewingDist, 10, 1e10);
 
 	char buf[128];
-	snprintf(buf, sizeof(buf), "View dist: %.2f", viewingDist);
+	Body *body = Pi::player->GetNavTarget();
+	snprintf(buf, sizeof(buf), "View dist: %.2f     Object: %s", viewingDist, (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
 }
 
