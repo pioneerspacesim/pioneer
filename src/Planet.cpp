@@ -6,9 +6,8 @@
 
 Planet::Planet(StarSystem::SBody *sbody): Body()
 {
-	radius = 6378135.0;
 	pos = vector3d(0,0,0);
-	geom = dCreateSphere(0, radius);
+	geom = dCreateSphere(0, sbody->radius);
 	dGeomSetData(geom, static_cast<Body*>(this));
 	this->sbody = *sbody;
 	this->sbody.children.clear();
@@ -34,8 +33,8 @@ void Planet::SetPosition(vector3d p)
 
 void Planet::SetRadius(double radius)
 {
-	this->radius = radius;
-	dGeomSphereSetRadius(geom, radius);
+	assert(0);
+	//dGeomSphereSetRadius(geom, radius);
 }
 
 static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth)
@@ -565,7 +564,7 @@ void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
 	
-	double rad = radius;
+	double rad = sbody.radius;
 	vector3d fpos = GetPositionRelTo(a_camFrame);
 
 	double apparent_size = rad / fpos.Length();

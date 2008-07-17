@@ -16,7 +16,7 @@ float StarSystem::starColors[7][3] = {
 
 static const struct SBodySubTypeInfo {
 	float mass;
-	float radius;
+	float radius; // sol radii for stars, earth radii for planets
 	const char *description;
 	const char *icon;
 	float tempMin, tempMax;
@@ -53,46 +53,46 @@ static const struct SBodySubTypeInfo {
 		0, 0, "Brown dwarf sub-stellar object",
 		"icons/object_brown_dwarf.png"
 	}, {
-		0, 0, "Small gas giant",
+		0, 3.9, "Small gas giant",
 		"icons/object_planet_small_gas_giant.png"
 	}, {
-		0, 0, "Medium gas giant",
+		0, 9.5, "Medium gas giant",
 		"icons/object_planet_medium_gas_giant.png"
 	}, {
-		0, 0, "Large gas giant",
+		0, 11.1, "Large gas giant",
 		"icons/object_planet_large_gas_giant.png"
 	}, {
-		0, 0, "Very large gas giant",
+		0, 15.0, "Very large gas giant",
 		"icons/object_planet_large_gas_giant.png"
 	}, {
-		0, 0, "Small, rocky dwarf planet",
+		0, 0.26, "Small, rocky dwarf planet", // moon radius
 		"icons/object_planet_dwarf.png"
 	}, {
-		0, 0, "Small, rocky planet with a thin atmosphere",
+		0, 0.52, "Small, rocky planet with a thin atmosphere", // mars radius
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Rocky planet with liquid water and a nitrogen atmosphere",
+		0, 1.0, "Rocky planet with liquid water and a nitrogen atmosphere", // earth radius
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Rocky planet with a carbon dioxide atmosphere",
+		0, 1.0, "Rocky planet with a carbon dioxide atmosphere",
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Rocky planet with a methane atmosphere",
+		0, 1.0, "Rocky planet with a methane atmosphere",
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Rocky planet with running water and a thick nitrogen atmosphere",
+		0, 1.0, "Rocky planet with liquid water and a thick nitrogen atmosphere",
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Rocky planet with a thick carbon dioxide atmosphere",
+		0, 1.0, "Rocky planet with a thick carbon dioxide atmosphere",
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Rocky planet with a thick methane atmosphere",
+		0, 1.0, "Rocky planet with a thick methane atmosphere",
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "Highly volcanic world",
+		0, 1.0, "Highly volcanic world",
 		"icons/object_planet_small.png"
 	}, {
-		0, 0, "World with indigenous life and an oxygen atmosphere",
+		0, 1.0, "World with indigenous life and an oxygen atmosphere",
 		"icons/object_planet_life.png"
 	}
 };
@@ -259,7 +259,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		planet->seed = rand.Int32();
 		planet->temp = 0;
 		planet->parent = primary;
-		planet->radius = EARTH_RADIUS;
+	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 		planet->mass = mass * EARTH_MASS;
 		planet->orbit.eccentricity = rand.pdrand(3);
 		planet->orbit.semiMajorAxis = ((i+1)*0.1)*AU;
@@ -387,6 +387,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 		// kind of crappy
 		if ((emass > 0.8) && (!rand(0,15))) type = TYPE_PLANET_HIGHLY_VOLCANIC;
 	}
+	radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
+
 	// generate moons
 	if (genMoons) {
 		std::vector<float> *disc = AccreteDisc(2*sqrt(emass), 0.001, rand);
@@ -399,7 +401,7 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 			moon->seed = rand.Int32();
 			moon->temp = 0;
 			moon->parent = this;
-			moon->radius = EARTH_RADIUS;
+		//	moon->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 			moon->mass = mass * EARTH_MASS;
 			moon->orbit.eccentricity = rand.pdrand(3);
 			moon->orbit.semiMajorAxis = ((i+1)*0.001)*AU;

@@ -13,7 +13,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition();
 	void SetRadius(double radius);
-	double GetRadius() { return radius; }
+	double GetRadius() { return sbody.radius; }
 	virtual void Render(const Frame *camFrame);
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
@@ -22,7 +22,6 @@ private:
 	void DrawGasGiant();
 
 	vector3d pos;
-	double radius;
 	dGeomID geom;
 	StarSystem::SBody sbody;
 	GLuint crudDList;

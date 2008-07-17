@@ -201,9 +201,10 @@ void Pi::MainLoop()
 	HyperspaceTo(&s);
 	
 	// linked list eh... put player at planet f
+	const float zpos = EARTH_RADIUS * 7;
 	Frame *pframe = *(++(++(++(++(Space::rootFrame->m_children.begin())))));
 	player->SetFrame(pframe);
-	player->SetPosition(vector3d(0,100000,10000000.0));
+	player->SetPosition(vector3d(0,zpos*0.1,zpos));
 	
 	for (int i=0; i<4; i++) {
 		Ship *body = new Ship(ShipType::LADYBIRD);
@@ -211,7 +212,7 @@ void Pi::MainLoop()
 		snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
 		body->SetLabel(buf);
 		body->SetFrame(pframe);
-		body->SetPosition(vector3d(i*2000,100000,10001000));
+		body->SetPosition(vector3d(i*2000,zpos*0.1,zpos+1000));
 		Space::AddBody(body);
 	}
 		
@@ -219,7 +220,7 @@ void Pi::MainLoop()
 		SpaceStation *body = new SpaceStation();
 		body->SetLabel("Poemi-chan's Folly");
 		body->SetFrame(pframe);
-		body->SetPosition(vector3d(5000,100000,9990000.0));
+		body->SetPosition(vector3d(5000,zpos*0.1,zpos-10000));
 		Space::AddBody(body);
 	}
 
