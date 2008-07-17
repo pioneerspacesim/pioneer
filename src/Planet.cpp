@@ -445,12 +445,13 @@ static void SubdivideVeryLongTri(vector3d &tip, vector3d &v1, vector3d &v2, int 
 	glEnd();
 }
 
+static int exp2i(int poo) { int n=2; while (--poo) n*=2; return n; }
 static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 {
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 		
-	const int nvps = exp2(GEOSPLIT);
+	const int nvps = exp2i(GEOSPLIT);
 	const int numVertices = nvps*3 + 1;
 	// this is a continent centred on the north pole, of size roughly 45
 	// degrees in each direction (although it is based on a triangle, so
@@ -493,6 +494,7 @@ void DrawCircle(float rad)
 	glEnable(GL_BLEND);
 
 	glBegin(GL_TRIANGLE_FAN);
+	glNormal3d(0,1,0);
 	glVertex3d(0,1,0);
 	for (double theta=0; theta<M_PI*2; theta+=0.1) {
 		vector3d v(rad*sin(theta), 1, rad*cos(theta));
@@ -508,6 +510,47 @@ void DrawCircle(float rad)
 	}
 	glEnd();
 
+	glDisable(GL_BLEND);
+	glDisable(GL_NORMALIZE);
+	glPopAttrib();
+}
+
+/*
+ * draws at north pole
+ */
+static void DrawEjecta(float rad1, float rad2, int points) // that's a star shape
+{
+	glPushAttrib(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_BLEND);
+
+	double step = 2*M_PI/points;
+
+	for (int p=0; p<points; p++) {
+		double ang0 = step*p;
+		double ang1 = step*(p+1);
+		double ang2 = (ang0+ang1)*.5;
+		vector3d v1(rad1*sin(ang0), 1, rad1*cos(ang0));
+		vector3d v2(rad2*sin(ang2), 1, rad2*cos(ang2));
+		vector3d v3(rad1*sin(ang1), 1, rad1*cos(ang1));
+		v1.Normalize();
+		v2.Normalize();
+		v3.Normalize();
+		
+		SubdivideVeryLongTri(v2, v3, v1, 6);
+
+		glBegin(GL_TRIANGLES);
+		// tri to center
+		glNormal3dv(&v1.x);
+		glVertex3dv(&v1.x);
+		glNormal3dv(&v3.x);
+		glVertex3dv(&v3.x);
+		glNormal3d(0,1,0);
+		glVertex3d(0,1,0);
+		glEnd();
+	}
+	
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
 	glPopAttrib();
@@ -556,21 +599,21 @@ void DrawHollowCircle(float rad1, float rad2)
 void Planet::DrawRockyPlanet()
 {
 	int n;
-	float r;
+	float r, tmp;
 	matrix4x4d rot;
-	float col[4];
+	float col[4], col2[4];
 //	MTRand rng((int)Pi::GetGameTime());
 	MTRand rng(sbody.seed);
 	float blue[4] = { .2, .2, 1, 1 };
 	float green[4] = { .2, .8, .2, 1 };
 	float white[4] = { 1, 1, 1, 1 };
 	ColRangeObj_t barrenBodyCol = { { .3,.3,.3,1 },{0,0,0,0},.3 };
-	ColRangeObj_t barrenContCol = { { .2,.2,.2,.6 },{0,0,0,0},.3 };
+	ColRangeObj_t barrenContCol = { { .2,.2,.2,1 },{0,0,0,0},.3 };
 
 	switch (sbody.type) {
 	case StarSystem::TYPE_PLANET_DWARF:
-		barrenBodyCol.GenCol(col, rng);
-		SetMaterialColor(col);
+		barrenBodyCol.GenCol(col2, rng);
+		SetMaterialColor(col2);
 		DrawShittyRoundCube(1.0f);
 
 		n = rng(3,10);
@@ -579,25 +622,36 @@ void Planet::DrawRockyPlanet()
 		while (n--) {
 			rot = matrix4x4d::RotateXMatrix(rng(M_PI/2));
 			rot.RotateZ(rng(M_PI*2));
-			MakeContinent(rot, rng.drange(0.1,0.5), rng);
+			MakeContinent(rot, rng.drange(0.05,0.2), rng);
 		}
 
-		n = rng(10,30);
+		SetMaterialColor(col);
+		n = rng(50,100);
+		printf("%d\n", n);
 		while (n--) {
+			barrenContCol.GenCol(col, rng);
 			r = rng.drange(0.02, 0.1);
 			glPushMatrix();
-			glRotatef(rng.drange(0, 360), 1, 0, 0);
-			glRotatef(rng.drange(0, 360), 0, 0, 1);
-			DrawCircle(r);
-			glPopMatrix();
-		}
-		n = rng(10,30);
-		while (n--) {
-			r = rng.drange(0.02, 0.1);
-			glPushMatrix();
-			glRotatef(rng.drange(0, 360), 1, 0, 0);
-			glRotatef(rng.drange(0, 360), 0, 0, 1);
-			DrawHollowCircle(r, r*1.3);
+			vector3d rx(rng(1.0)-.5, rng(1.0)-.5, rng(1.0)-.5);
+			rx.Normalize();
+			glRotatef(rng.drange(0, 360), rx.x, rx.y, rx.z);
+
+			tmp = rng(1.0);
+			if (tmp < .46) {
+				DrawCircle(r);
+			} else if (tmp < .92) {
+				//DrawHollowCircle(r, r*1.3);
+				DrawCircle(r*1.3);
+				// erm yeah
+				SetMaterialColor(col2);
+				DrawCircle(r);
+				SetMaterialColor(col);
+			} else {
+				SetMaterialColor(col);
+				DrawEjecta(r*0.6, 3*r, 6);
+				SetMaterialColor(col2);
+				DrawCircle(r*0.4);
+			}
 			glPopMatrix();
 		}
 		break;
