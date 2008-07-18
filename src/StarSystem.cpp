@@ -256,6 +256,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 
 		SBody *planet = new SBody;
 		planet->type = TYPE_PLANET_DWARF;
+		planet->supertype = SUPERTYPE_NONE;
 		planet->seed = rand.Int32();
 		planet->temp = 0;
 		planet->parent = primary;
@@ -398,6 +399,7 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 
 			SBody *moon = new SBody;
 			moon->type = TYPE_PLANET_DWARF;
+			moon->supertype = SUPERTYPE_NONE;
 			moon->seed = rand.Int32();
 			moon->temp = 0;
 			moon->parent = this;
