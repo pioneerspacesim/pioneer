@@ -72,25 +72,25 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_small.png"
 	}, {
 		0, 1.0, "Rocky planet with liquid water and a nitrogen atmosphere", // earth radius
-		"icons/object_planet_small.png"
+		"icons/object_planet_water_n2.png"
 	}, {
 		0, 1.0, "Rocky planet with a carbon dioxide atmosphere",
-		"icons/object_planet_small.png"
+		"icons/object_planet_co2.png"
 	}, {
 		0, 1.0, "Rocky planet with a methane atmosphere",
-		"icons/object_planet_small.png"
+		"icons/object_planet_methane.png"
 	}, {
 		0, 1.0, "Rocky planet with liquid water and a thick nitrogen atmosphere",
-		"icons/object_planet_small.png"
+		"icons/object_planet_water_n2.png"
 	}, {
 		0, 1.0, "Rocky planet with a thick carbon dioxide atmosphere",
-		"icons/object_planet_small.png"
+		"icons/object_planet_co2.png"
 	}, {
 		0, 1.0, "Rocky planet with a thick methane atmosphere",
-		"icons/object_planet_small.png"
+		"icons/object_planet_methane.png"
 	}, {
 		0, 1.0, "Highly volcanic world",
-		"icons/object_planet_small.png"
+		"icons/object_planet_volcanic.png"
 	}, {
 		0, 1.0, "World with indigenous life and an oxygen atmosphere",
 		"icons/object_planet_life.png"
