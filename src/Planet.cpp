@@ -53,26 +53,10 @@ static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, in
 		v8.Normalize();
 		v9.Normalize();
 
-		// XXX wrong wrong wrong wrong. need to do projection turd and stuff
-#if 0
-		// front-facing
-		bool ff1, ff2, ff3, ff4, ff5, ff6, ff7, ff8, ff9;
-		const matrix4x4d &r = Pi::world_view->viewingRotation;
-
-		ff1 = (r*v1).z > 0; 
-		ff2 = (r*v2).z > 0; 
-		ff3 = (r*v3).z > 0; 
-		ff4 = (r*v4).z > 0; 
-		ff5 = (r*v5).z > 0; 
-		ff6 = (r*v6).z > 0; 
-		ff7 = (r*v7).z > 0; 
-		ff8 = (r*v8).z > 0; 
-		ff9 = (r*v9).z > 0; 
-#endif
-/*		if (ff1 || ff5 || ff9 || ff8)*/ subdivide(v1,v5,v9,v8,depth);
-/*		if (ff5 || ff2 || ff6 || ff9)*/ subdivide(v5,v2,v6,v9,depth);
-/*		if (ff9 || ff6 || ff3 || ff7)*/ subdivide(v9,v6,v3,v7,depth);
-/*		if (ff8 || ff9 || ff7 || ff4)*/ subdivide(v8,v9,v7,v4,depth);
+		subdivide(v1,v5,v9,v8,depth);
+		subdivide(v5,v2,v6,v9,depth);
+		subdivide(v9,v6,v3,v7,depth);
+		subdivide(v8,v9,v7,v4,depth);
 	} else {
 		glBegin(GL_TRIANGLE_STRIP);
 		glNormal3dv(&v1.x);
@@ -449,8 +433,6 @@ static void SphereBlobTess(vector3d &centre, std::vector<vector3d> &edgeVerts)
 {
 	const int s = edgeVerts.size();
 	std::vector<char> vDead(s);
-	for (unsigned int i=0; i<vDead.size(); i++) vDead[i] = 0;
-	//vDead.reserve(s);
 	int iters =0;
 	int v1 = 0;
 	int v2 = 1;
@@ -644,6 +626,7 @@ void Planet::DrawRockyPlanet()
 	float white[4] = { 1, 1, 1, 1 };
 	ColRangeObj_t barrenBodyCol = { { .3,.3,.3,1 },{0,0,0,0},.3 };
 	ColRangeObj_t barrenContCol = { { .2,.2,.2,1 },{0,0,0,0},.3 };
+	ColRangeObj_t barrenEjectaCraterCol = { { .5,.5,.5,1 },{0,0,0,0},.2 };
 
 	switch (sbody.type) {
 	case StarSystem::TYPE_PLANET_DWARF:
@@ -681,6 +664,7 @@ void Planet::DrawRockyPlanet()
 				DrawCircle(r);
 				SetMaterialColor(col);
 			} else {
+				barrenEjectaCraterCol.GenCol(col, rng);
 				SetMaterialColor(col);
 				DrawEjecta(r*0.6, 3*r, 6);
 				SetMaterialColor(col2);
