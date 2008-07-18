@@ -63,6 +63,11 @@ void ObjectViewerView::Update()
 
 	char buf[128];
 	Body *body = Pi::player->GetNavTarget();
+	if(body && body != lastTarget) {
+		// Reset view distance for new target.
+		viewingDist = body->GetRadius() * 2.0f;
+		lastTarget = body;
+	}
 	snprintf(buf, sizeof(buf), "View dist: %.2f     Object: %s", viewingDist, (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
 }

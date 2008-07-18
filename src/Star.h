@@ -13,7 +13,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition();
 	void SetRadius(double radius) { this->radius = radius; }
-	double GetRadius() { return radius; }
+	virtual double GetRadius() const { return radius; }
 	virtual void Render(const Frame *camFrame);
 	
 private:

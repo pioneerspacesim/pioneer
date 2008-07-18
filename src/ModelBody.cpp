@@ -70,6 +70,33 @@ vector3d ModelBody::GetPosition()
 	return vector3d(pos[0], pos[1], pos[2]);
 }
 
+double ModelBody::GetRadius() const
+{
+	// Calculate single AABB containing all geoms.
+	dReal aabbAll[6] = {
+		std::numeric_limits<double>::max(),
+		std::numeric_limits<double>::min(),
+		std::numeric_limits<double>::max(),
+		std::numeric_limits<double>::min(),
+		std::numeric_limits<double>::max(),
+		std::numeric_limits<double>::min()
+	};
+
+	for(size_t i = 0; i < geoms.size(); ++i) {
+		dReal aabbGeom[6];
+		dGeomGetAABB(geoms[i], aabbGeom);
+		aabbAll[0] = std::min(aabbAll[0], aabbGeom[0]);
+		aabbAll[1] = std::max(aabbAll[1], aabbGeom[1]);
+		aabbAll[2] = std::min(aabbAll[2], aabbGeom[2]);
+		aabbAll[3] = std::max(aabbAll[3], aabbGeom[3]);
+		aabbAll[4] = std::min(aabbAll[4], aabbGeom[4]);
+		aabbAll[5] = std::max(aabbAll[5], aabbGeom[5]);
+	}
+
+	// Return size of largest dimension.
+	return std::max(aabbAll[1] - aabbAll[0], std::max(aabbAll[3] - aabbAll[2], aabbAll[5] - aabbAll[4]));
+}
+
 void ModelBody::SetRotation(const matrix4x4d &r)
 {
 	dMatrix3 _m;

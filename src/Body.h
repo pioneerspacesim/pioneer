@@ -16,6 +16,7 @@ public:
 	virtual Object::Type GetType() { return Object::BODY; }
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() = 0; // within frame
+	virtual double GetRadius() const = 0;
 	virtual void Render(const Frame *camFrame) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage

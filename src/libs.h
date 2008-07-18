@@ -9,6 +9,7 @@
 #include <SDL_image.h>
 #include <ode/ode.h>
 #include <float.h>
+#include <limits>
 
 #ifdef _WIN32
 #include <windows.h>

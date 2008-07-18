@@ -161,7 +161,7 @@ void Pi::HandleEvents()
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_q) Pi::Quit();
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
-				if (event.key.keysym.sym == SDLK_F12) Pi::SetView(Pi::objectViewerView);
+				if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::onKeyPress.emit(&event.key.keysym);
 				break;

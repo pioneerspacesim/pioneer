@@ -17,6 +17,7 @@ private:
 	matrix4x4d viewingRotation;
 	float viewingDist;
 	Gui::Label *m_infoLabel;
+	const Body* lastTarget;
 };
 
 #endif /* _OBJECTVIEWERVIEW_H */
