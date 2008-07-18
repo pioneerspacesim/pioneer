@@ -445,6 +445,43 @@ static void SubdivideVeryLongTri(vector3d &tip, vector3d &v1, vector3d &v2, int 
 	glEnd();
 }
 
+static void SphereBlobTess(vector3d &centre, std::vector<vector3d> &edgeVerts)
+{
+	const int s = edgeVerts.size();
+	std::vector<char> vDead(s);
+	for (unsigned int i=0; i<vDead.size(); i++) vDead[i] = 0;
+	//vDead.reserve(s);
+	int iters =0;
+	int v1 = 0;
+	int v2 = 1;
+	int v3 = 2;
+	do {
+		vector3d v2dir = edgeVerts[v3] - edgeVerts[v2];
+		vector3d v1norm = vector3d::Cross(edgeVerts[v1], edgeVerts[v2] - edgeVerts[v1]);
+
+		const float dot = vector3d::Dot(v1norm, v2dir);
+
+		if (dot >= 0.0) {
+			glBegin(GL_TRIANGLES);
+			// makes like a billion tris...
+			SphereTriSubdivide(edgeVerts[v1], edgeVerts[v2], edgeVerts[v3], 3);
+			glEnd();
+			vDead[v2] = 1;
+
+			v2 = v3;
+			do { v3 = (v3+1)%s; } while (vDead[v3]);
+		} else {
+			v1 = v2;
+			v2 = v3;
+			do { v3 = (v3+1)%s; } while (vDead[v3]);
+		}
+		if (++iters > 1000) { printf("wanked out %d(%d),%d(%d),%d(%d)!\n", v1, vDead[v1],v2,vDead[v2],v3,vDead[v3]); break; }
+	} while ((v1!=v2)&&(v2!=v3)&&(v3!=v1));
+	int notDead = 0;
+	for (unsigned int i=0; i<vDead.size(); i++) if (!vDead[i]) notDead++;
+	printf("%d not dead (%d iters)\n", notDead, iters);
+}
+
 static int exp2i(int poo) { int n=2; while (--poo) n*=2; return n; }
 static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 {
@@ -475,9 +512,7 @@ static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 	SubdivideTriangularContinent2(edgeVerts, 2*nvps, 3*nvps, GEOSPLIT, rng);
 
 	vector3d centre = vector3d::Normalize(v1+v2+v3);
-	for (unsigned int i=0; i<edgeVerts.size()-1; i++) {
-		SubdivideVeryLongTri(centre, edgeVerts[i], edgeVerts[i+1], 16);
-	}
+	SphereBlobTess(centre, edgeVerts);
 	
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_NORMALIZE);
