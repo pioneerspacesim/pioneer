@@ -7,7 +7,7 @@
 static const float lightCol[] = { 1,1,.9,0 };
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
-#define BG_STAR_MAX	2000
+#define BG_STAR_MAX	5000
 
 WorldView::WorldView(): View()
 {
@@ -34,7 +34,8 @@ WorldView::WorldView(): View()
 	glPointSize(1.0);
 	glBegin(GL_POINTS);
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = 0.2+Pi::rng(0.8);
+		float col = 0.05+Pi::rng.pdrand(4);
+		col = CLAMP(col, 0, 1);
 		glColor3f(col, col, col);
 		glVertex3f(1000-Pi::rng(2000.0), 1000-Pi::rng(2000.0), 1000-Pi::rng(2000.0));
 	}

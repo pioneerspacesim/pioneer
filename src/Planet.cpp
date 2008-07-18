@@ -627,7 +627,6 @@ void Planet::DrawRockyPlanet()
 
 		SetMaterialColor(col);
 		n = rng(50,100);
-		printf("%d\n", n);
 		while (n--) {
 			barrenContCol.GenCol(col, rng);
 			r = rng.drange(0.02, 0.1);
