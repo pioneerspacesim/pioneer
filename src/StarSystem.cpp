@@ -153,18 +153,22 @@ vector3d StarSystem::Orbit::CartesianPosAtTime(double t)
 	return pos;
 }
 
-static std::vector<float> *AccreteDisc(int size, float density, MTRand &rand)
+static std::vector<int> *AccreteDisc(int size, int bandSize, int density, MTRand &rand)
 {
-	std::vector<float> *disc = new std::vector<float>();
+	printf("Size %d\n", size);
+	std::vector<int> *disc = new std::vector<int>(size);
 
+	int bandDensity = 0;
 	for (int i=0; i<size; i++) {
-		disc->push_back(density*rand.Double(1.0));
+		if (!(i%bandSize)) bandDensity = rand.Int32(density);
+		(*disc)[i] = bandDensity * rand.Int32(density);
 	}
-
 
 	for (int iter=0; iter<20; iter++) {
 		for (int i=0; i<(signed)disc->size(); i++) {
-			for (int d=ceil(sqrtf((*disc)[i])+(i/5)); d>0; d--) {
+			int d=1+(i/3);
+
+			for (; d>0; d--) {
 				if ((i+d < (signed)disc->size()) && ((*disc)[i] > (*disc)[i+d])) {
 					(*disc)[i] += (*disc)[i+d];
 					(*disc)[i+d] = 0;
@@ -249,9 +253,9 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*primary->type*primary->type;
 	//printf("disc_size %.1fAU\n", disc_size/10.0);
 
-	std::vector<float> *disc = AccreteDisc(disc_size, 0.1+rand.Double(1.5), rand);
+	std::vector<int> *disc = AccreteDisc(disc_size, 10, rand.Int32(10,400), rand);
 	for (unsigned int i=0; i<disc->size(); i++) {
-		float mass = (*disc)[i];
+		float mass = (*disc)[i]/65536.0;
 		if (mass == 0) continue;
 
 		SBody *planet = new SBody;
@@ -391,10 +395,10 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 	radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 
 	// generate moons
-	if (genMoons) {
-		std::vector<float> *disc = AccreteDisc(2*sqrt(emass), 0.001, rand);
+	if ((genMoons) && (emass > 0.5)) {
+		std::vector<int> *disc = AccreteDisc(2*sqrt(emass), 10, rand.Int32(1,40), rand);
 		for (unsigned int i=0; i<disc->size(); i++) {
-			float mass = (*disc)[i];
+			float mass = (*disc)[i]/65536.0;
 			if (mass == 0) continue;
 
 			SBody *moon = new SBody;
