@@ -56,10 +56,6 @@ public:
 // the two seed functions
   void seed(unsigned long); // seed with 32 bit integer
   void seed(const unsigned long*, int size); // seed with array
-// overload operator() to make this a generator (functor)
-  unsigned long operator()(int min, int max) {
-	  return (rand_int32()%(1+max-min))+min;
-  }
 // 2007-02-11: made the destructor virtual; thanks "double more" for pointing this out
   virtual ~MTRand_int32() {} // destructor
 protected: // used by derived classes, otherwise not accessible; use the ()-operator
@@ -95,77 +91,48 @@ inline unsigned long MTRand_int32::rand_int32() { // generate 32 bit random int
   return x ^ (x >> 18);
 }
 
-// generates double floating point numbers in the half-open interval [0, 1)
 class MTRand : public MTRand_int32 {
 public:
   MTRand() : MTRand_int32() {}
   MTRand(unsigned long seed) : MTRand_int32(seed) {}
   MTRand(const unsigned long* seed, int size) : MTRand_int32(seed, size) {}
   ~MTRand() {}
-  unsigned long operator()(int min, int max) {
-	  return (rand_int32()%(1+max-min))+min;
+  double NDouble(int p) {
+    double o = Double(1.0);
+    while (--p) o *= Double(1.0);
+    return o;
   }
-double pdrand(int p) {
-	double o = (*this)(1.0);
-	while (--p) o *= (*this)(1.0);
-	return o;
-}
 
-  double drange(double min, double max) {
-	  return (*this)(max-min)+min;
+  double Double(double min, double max) {
+	  return Double(max-min)+min;
   }
-  double operator()(double max) {
+  // interval [0, 1)
+  double Double(double max) {
     return max*static_cast<double>(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
+  // interval [0, 1)
+  double Double() {
+    return static_cast<double>(rand_int32()) * (1. / 4294967296.); } // divided by 2^32
+  // [0, 1]
+  double Double_closed() {
+    return static_cast<double>(rand_int32()) * (1. / 4294967295.); } // divided by 2^32 - 1
+  // (0, 1)
+  double Double_open() {
+    return (static_cast<double>(rand_int32()) + .5) * (1. / 4294967296.); } // divided by 2^32
+  // generates 53 bit resolution doubles in the half-open interval [0, 1)
+  double Double53() {
+    return (static_cast<double>(rand_int32() >> 5) * 67108864. + 
+      static_cast<double>(rand_int32() >> 6)) * (1. / 9007199254740992.);
+  }
+  // [min,max]
   unsigned int Int32(int min, int max) {
 	  return (rand_int32()%(1+max-min))+min;
   }
+  // [0,max)
+  unsigned int Int32(int max) { return rand_int32()%max; }
   unsigned int Int32() { return rand_int32(); }
 private:
   MTRand(const MTRand&); // copy constructor not defined
   void operator=(const MTRand&); // assignment operator not defined
-};
-
-// generates double floating point numbers in the closed interval [0, 1]
-class MTRand_closed : public MTRand_int32 {
-public:
-  MTRand_closed() : MTRand_int32() {}
-  MTRand_closed(unsigned long seed) : MTRand_int32(seed) {}
-  MTRand_closed(const unsigned long* seed, int size) : MTRand_int32(seed, size) {}
-  ~MTRand_closed() {}
-  double operator()() {
-    return static_cast<double>(rand_int32()) * (1. / 4294967295.); } // divided by 2^32 - 1
-private:
-  MTRand_closed(const MTRand_closed&); // copy constructor not defined
-  void operator=(const MTRand_closed&); // assignment operator not defined
-};
-
-// generates double floating point numbers in the open interval (0, 1)
-class MTRand_open : public MTRand_int32 {
-public:
-  MTRand_open() : MTRand_int32() {}
-  MTRand_open(unsigned long seed) : MTRand_int32(seed) {}
-  MTRand_open(const unsigned long* seed, int size) : MTRand_int32(seed, size) {}
-  ~MTRand_open() {}
-  double operator()() {
-    return (static_cast<double>(rand_int32()) + .5) * (1. / 4294967296.); } // divided by 2^32
-private:
-  MTRand_open(const MTRand_open&); // copy constructor not defined
-  void operator=(const MTRand_open&); // assignment operator not defined
-};
-
-// generates 53 bit resolution doubles in the half-open interval [0, 1)
-class MTRand53 : public MTRand_int32 {
-public:
-  MTRand53() : MTRand_int32() {}
-  MTRand53(unsigned long seed) : MTRand_int32(seed) {}
-  MTRand53(const unsigned long* seed, int size) : MTRand_int32(seed, size) {}
-  ~MTRand53() {}
-  double operator()() {
-    return (static_cast<double>(rand_int32() >> 5) * 67108864. + 
-      static_cast<double>(rand_int32() >> 6)) * (1. / 9007199254740992.); }
-private:
-  MTRand53(const MTRand53&); // copy constructor not defined
-  void operator=(const MTRand53&); // assignment operator not defined
 };
 
 #endif // MTRAND_H

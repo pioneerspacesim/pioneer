@@ -158,7 +158,7 @@ static std::vector<float> *AccreteDisc(int size, float density, MTRand &rand)
 	std::vector<float> *disc = new std::vector<float>();
 
 	for (int i=0; i<size; i++) {
-		disc->push_back(density*rand(1.0));
+		disc->push_back(density*rand.Double(1.0));
 	}
 
 
@@ -242,14 +242,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	primary->radius = SOL_RADIUS*bodyTypeInfo[type].radius;
 	primary->mass = SOL_MASS*bodyTypeInfo[type].mass;
 	primary->supertype = SUPERTYPE_STAR;
-	primary->averageTemp = rand((int)bodyTypeInfo[type].tempMin,
+	primary->averageTemp = rand.Int32((int)bodyTypeInfo[type].tempMin,
 				(int)bodyTypeInfo[type].tempMax);
 	rootBody = primary;
 
-	int disc_size = rand(6,100) + rand(60,140)*primary->type*primary->type;
+	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*primary->type*primary->type;
 	//printf("disc_size %.1fAU\n", disc_size/10.0);
 
-	std::vector<float> *disc = AccreteDisc(disc_size, 0.1+rand(1.5), rand);
+	std::vector<float> *disc = AccreteDisc(disc_size, 0.1+rand.Double(1.5), rand);
 	for (unsigned int i=0; i<disc->size(); i++) {
 		float mass = (*disc)[i];
 		if (mass == 0) continue;
@@ -262,11 +262,11 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		planet->parent = primary;
 	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 		planet->mass = mass * EARTH_MASS;
-		planet->orbit.eccentricity = rand.pdrand(3);
+		planet->orbit.eccentricity = rand.NDouble(3);
 		planet->orbit.semiMajorAxis = ((i+1)*0.1)*AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->mass);
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.pdrand(5)*M_PI/2.0) *
-					  matrix4x4d::RotateZMatrix(rand(M_PI));
+		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
+					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
 		primary->children.push_back(planet);
 
 		double ang;
@@ -304,8 +304,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 	// surface temperature
 	// http://en.wikipedia.org/wiki/Black_body
 	const double d = distToPrimary;
-	double albedo = rand(0.5);
-	double globalwarming = rand(0.9);
+	double albedo = rand.Double(0.5);
+	double globalwarming = rand.Double(0.9);
 	// light planets have bugger all atmosphere
 	if (emass < 1) globalwarming *= emass;
 	// big planets get high global warming due to thick atmos
@@ -337,7 +337,7 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 	// components of it in the previous loop
 	if ((bbody_temp < FREEZE_TEMP_CUTOFF) && (emass < 5)) {
 		globalwarming *= 0.2;
-		albedo = rand(0.05) + 0.9;
+		albedo = rand.Double(0.05) + 0.9;
 	}
 	bbody_temp = calcSurfaceTemp(star->radius, star->averageTemp, d, albedo, globalwarming);
 //	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
@@ -374,19 +374,19 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 					type = TYPE_PLANET_WATER;
 				}
 			} else {
-				if (rand(0,1)) type = TYPE_PLANET_CO2;
+				if (rand.Int32(0,1)) type = TYPE_PLANET_CO2;
 				else type = TYPE_PLANET_METHANE;
 			}
 		} else /* 3 < emass < 6 */ {
 			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
 				type = TYPE_PLANET_WATER_THICK_ATMOS;
 			} else {
-				if (rand(0,1)) type = TYPE_PLANET_CO2_THICK_ATMOS;
+				if (rand.Int32(0,1)) type = TYPE_PLANET_CO2_THICK_ATMOS;
 				else type = TYPE_PLANET_METHANE_THICK_ATMOS;
 			}
 		}
 		// kind of crappy
-		if ((emass > 0.8) && (!rand(0,15))) type = TYPE_PLANET_HIGHLY_VOLCANIC;
+		if ((emass > 0.8) && (!rand.Int32(0,15))) type = TYPE_PLANET_HIGHLY_VOLCANIC;
 	}
 	radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 
@@ -405,11 +405,11 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 			moon->parent = this;
 		//	moon->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 			moon->mass = mass * EARTH_MASS;
-			moon->orbit.eccentricity = rand.pdrand(3);
+			moon->orbit.eccentricity = rand.NDouble(3);
 			moon->orbit.semiMajorAxis = ((i+1)*0.001)*AU;
 			moon->orbit.period = calc_orbital_period(moon->orbit.semiMajorAxis, this->mass);
-			moon->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.pdrand(5)*M_PI/2.0) *
-						  matrix4x4d::RotateZMatrix(rand(M_PI));
+			moon->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
+						  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
 			this->children.push_back(moon);
 
 			double ang;

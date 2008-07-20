@@ -13,18 +13,18 @@ Sector::Sector(int x, int y)
 {
 	unsigned long _init[2] = { x, y };
 	sx = x; sy = y;
-	MTRand rand(_init, 2);
+	MTRand rng(_init, 2);
 
-	m_numSystems = rand(3,6);
+	m_numSystems = rng.Int32(3,6);
 
 	for (int i=0; i<m_numSystems; i++) {
 		System s;
-		s.p.x = rand(SIZE);
-		s.p.y = rand(SIZE);
-		s.p.z = rand(2*SIZE)-SIZE;
-		s.name = GenName(rand);
+		s.p.x = rng.Double(SIZE);
+		s.p.y = rng.Double(SIZE);
+		s.p.z = rng.Double(2*SIZE)-SIZE;
+		s.name = GenName(rng);
 		
-		float spec = rand(1.0);
+		float spec = rng.Double(1.0);
 		// frequencies from wikipedia
 		if (spec < 0.0000003) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_O;
@@ -53,13 +53,13 @@ float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int
 	return dv.Length();
 }
 
-std::string Sector::GenName(MTRand &rand)
+std::string Sector::GenName(MTRand &rng)
 {
 	std::string name;
 
-	int len = rand(2,3);
+	int len = rng.Int32(2,3);
 	for (int i=0; i<len; i++) {
-		name += sys_names[rand(0,SYS_NAME_FRAGS-1)];
+		name += sys_names[rng.Int32(0,SYS_NAME_FRAGS-1)];
 	}
 	name[0] = toupper(name[0]);
 	return name;

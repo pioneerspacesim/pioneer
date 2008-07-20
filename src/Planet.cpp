@@ -125,7 +125,7 @@ void DrawHoop(float latitude, float width, float wobble, MTRand &rng)
 	for (double longitude=0.0f; longitude < 2*M_PI; longitude += 0.02) {
 		vector3d v;
 		double l;
-		l = latitude+0.5*width+rng(wobble*width);
+		l = latitude+0.5*width+rng.Double(wobble*width);
 		v.x = sin(longitude)*cos(l);
 		v.y = sin(l);
 		v.z = cos(longitude)*cos(l);
@@ -133,7 +133,7 @@ void DrawHoop(float latitude, float width, float wobble, MTRand &rng)
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 		
-		l = latitude-0.5*width-rng(wobble*width);
+		l = latitude-0.5*width-rng.Double(wobble*width);
 		v.x = sin(longitude)*cos(l);
 		v.y = sin(l);
 		v.z = cos(longitude)*cos(l);
@@ -283,8 +283,8 @@ struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
 
 	void GenCol(float col[4], MTRand &rng) const {
-		float ma = 1 + (rng(modAll*2)-modAll);
-		for (int i=0; i<4; i++) col[i] = baseCol[i] + rng.drange(-modCol[i], modCol[i]);
+		float ma = 1 + (rng.Double(modAll*2)-modAll);
+		for (int i=0; i<4; i++) col[i] = baseCol[i] + rng.Double(-modCol[i], modCol[i]);
 		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
 	}
 };
@@ -383,7 +383,7 @@ static void SubdivideTriangularContinent2(std::vector<vector3d> &verts, int sidx
 	if (depth > 0) {
 		int midx = (sidx+eidx)>>1;
 		vector3d c = vector3d::Normalize(vector3d::Cross(v2-v1,v1));
-		c *= rng(1.0);
+		c *= rng.Double(1.0);
 		verts[midx] = vector3d::Normalize(v1+v2+0.7*_yes[GEOSPLIT-depth]*c);
 		SubdivideTriangularContinent2(verts, sidx, midx, depth-1, rng);
 		SubdivideTriangularContinent2(verts, midx, eidx, depth-1, rng);
@@ -634,26 +634,26 @@ void Planet::DrawRockyPlanet()
 		SetMaterialColor(col2);
 		DrawShittyRoundCube(1.0f);
 
-		n = rng(3,10);
+		n = rng.Int32(3,10);
 		barrenContCol.GenCol(col, rng);
 		SetMaterialColor(col);
 		while (n--) {
-			rot = matrix4x4d::RotateXMatrix(rng(M_PI/2));
-			rot.RotateZ(rng(M_PI*2));
-			MakeContinent(rot, rng.drange(0.05,0.2), rng);
+			rot = matrix4x4d::RotateXMatrix(rng.Double(M_PI/2));
+			rot.RotateZ(rng.Double(M_PI*2));
+			MakeContinent(rot, rng.Double(0.05,0.2), rng);
 		}
 
 		SetMaterialColor(col);
-		n = rng(50,100);
+		n = rng.Int32(50,100);
 		while (n--) {
 			barrenContCol.GenCol(col, rng);
-			r = rng.drange(0.02, 0.1);
+			r = rng.Double(0.02, 0.1);
 			glPushMatrix();
-			vector3d rx(rng(1.0)-.5, rng(1.0)-.5, rng(1.0)-.5);
+			vector3d rx(rng.Double(1.0)-.5, rng.Double(1.0)-.5, rng.Double(1.0)-.5);
 			rx.Normalize();
-			glRotatef(rng.drange(0, 360), rx.x, rx.y, rx.z);
+			glRotatef(rng.Double(0, 360), rx.x, rx.y, rx.z);
 
-			tmp = rng(1.0);
+			tmp = rng.Double(1.0);
 			if (tmp < .46) {
 				DrawCircle(r);
 			} else if (tmp < .92) {
@@ -678,12 +678,12 @@ void Planet::DrawRockyPlanet()
 		SetMaterialColor(blue);
 		DrawShittyRoundCube(1.0f);
 		
-		n = rng(3,10);
+		n = rng.Int32(3,10);
 		while (n--) {
 			SetMaterialColor(green);
-			rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.drange(-M_PI/3, M_PI/3));
-			rot.RotateZ(rng(M_PI*2));
-			MakeContinent(rot, rng.drange(0.1,0.5), rng);
+			rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.Double(-M_PI/3, M_PI/3));
+			rot.RotateZ(rng.Double(M_PI*2));
+			MakeContinent(rot, rng.Double(0.1,0.5), rng);
 		}
 		/* poles */
 		SetMaterialColor(white);
@@ -707,43 +707,43 @@ void Planet::DrawGasGiant()
 	float col[4];
 	
 	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng(0,3)];
+	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
 
 	ggdef.bodyCol.GenCol(col, rng);
 	SetMaterialColor(col);
 	DrawShittyRoundCube(1.0f);
 	
-	int n = rng(ggdef.hoopMin, ggdef.hoopMax);
+	int n = rng.Int32(ggdef.hoopMin, ggdef.hoopMax);
 
 	while (n-- > 0) {
 		ggdef.hoopCol.GenCol(col, rng);
 		SetMaterialColor(col);
-		DrawHoop(rng(0.9*M_PI)-0.45*M_PI, rng(0.25), ggdef.hoopWobble, rng);
+		DrawHoop(rng.Double(0.9*M_PI)-0.45*M_PI, rng.Double(0.25), ggdef.hoopWobble, rng);
 	}
 
-	n = rng(ggdef.blobMin, ggdef.blobMax);
+	n = rng.Int32(ggdef.blobMin, ggdef.blobMax);
 	while (n-- > 0) {
-		float a = rng.drange(0.01, 0.03);
-		float b = a+rng(0.2)+0.1;
+		float a = rng.Double(0.01, 0.03);
+		float b = a+rng.Double(0.2)+0.1;
 		ggdef.blobCol.GenCol(col, rng);
 		SetMaterialColor(col);
-		DrawBlob(rng.drange(-0.3*M_PI, 0.3*M_PI), rng(2*M_PI), a, b);
+		DrawBlob(rng.Double(-0.3*M_PI, 0.3*M_PI), rng.Double(2*M_PI), a, b);
 	}
 
 	if (ggdef.poleMin != 0) {
-		float size = rng.drange(ggdef.poleMin, ggdef.poleMax);
+		float size = rng.Double(ggdef.poleMin, ggdef.poleMax);
 		ggdef.poleCol.GenCol(col, rng);
 		SetMaterialColor(col);
 		DrawPole(1.0, size);
 		DrawPole(-1.0, size);
 	}
 	
-	if (rng(1.0) < ggdef.ringProbability) {
-		float pos = rng.drange(1.2,1.7);
-		float end = pos + rng.drange(0.1, 1.0);
+	if (rng.Double(1.0) < ggdef.ringProbability) {
+		float pos = rng.Double(1.2,1.7);
+		float end = pos + rng.Double(0.1, 1.0);
 		end = MIN(end, 2.5);
 		while (pos < end) {
-			float size = rng(0.1);
+			float size = rng.Double(0.1);
 			ggdef.ringCol.GenCol(col, rng);
 			DrawRing(pos, pos+size, col);
 			pos += size;

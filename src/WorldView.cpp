@@ -34,10 +34,10 @@ WorldView::WorldView(): View()
 	glPointSize(1.0);
 	glBegin(GL_POINTS);
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = 0.05+Pi::rng.pdrand(4);
+		float col = 0.05+Pi::rng.NDouble(4);
 		col = CLAMP(col, 0, 1);
 		glColor3f(col, col, col);
-		glVertex3f(1000-Pi::rng(2000.0), 1000-Pi::rng(2000.0), 1000-Pi::rng(2000.0));
+		glVertex3f(1000-Pi::rng.Double(2000.0), 1000-Pi::rng.Double(2000.0), 1000-Pi::rng.Double(2000.0));
 	}
 	glEnd();
 	glEnable(GL_DEPTH_TEST);
