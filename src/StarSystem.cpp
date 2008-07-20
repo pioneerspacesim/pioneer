@@ -2,6 +2,7 @@
 #include "Sector.h"
 
 #define CELSIUS	273.15
+#define DEBUG_DUMP
 
 // indexed by enum type turd  
 float StarSystem::starColors[7][3] = {
@@ -155,7 +156,6 @@ vector3d StarSystem::Orbit::CartesianPosAtTime(double t)
 
 static std::vector<int> *AccreteDisc(int size, int bandSize, int density, MTRand &rand)
 {
-	printf("Size %d\n", size);
 	std::vector<int> *disc = new std::vector<int>(size);
 
 	int bandDensity = 0;
@@ -284,7 +284,6 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	// merge children with overlapping or very close orbits
 	primary->EliminateBadChildren();
 	primary->name = s.m_systems[system_idx].name;
-
 	int idx=0;
 	for (std::vector<SBody*>::iterator i = primary->children.begin(); i != primary->children.end(); ++i) {
 		// Turn them into something!!!!!!!
@@ -295,6 +294,11 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		(*i)->name = primary->name+buf;
 		double d = 0.5*((*i)->radMin + (*i)->radMax);
 		(*i)->PickPlanetType(primary, d, rand, true);
+
+#ifdef DEBUG_DUMP
+		printf("%s: mass %f, semi-major axis %fAU, ecc %f\n", (*i)->name.c_str(), (*i)->mass/EARTH_MASS, (*i)->orbit.semiMajorAxis/AU, (*i)->orbit.eccentricity);
+#endif /* DEBUG_DUMP */
+
 	}
 }
 
@@ -396,7 +400,7 @@ void StarSystem::SBody::PickPlanetType(SBody *star, double distToPrimary, MTRand
 
 	// generate moons
 	if ((genMoons) && (emass > 0.5)) {
-		std::vector<int> *disc = AccreteDisc(2*sqrt(emass), 10, rand.Int32(1,40), rand);
+		std::vector<int> *disc = AccreteDisc(2*sqrt(emass), 10, rand.Int32(1,10), rand);
 		for (unsigned int i=0; i<disc->size(); i++) {
 			float mass = (*disc)[i]/65536.0;
 			if (mass == 0) continue;
