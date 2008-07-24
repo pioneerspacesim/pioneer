@@ -24,19 +24,19 @@ Sector::Sector(int x, int y)
 		s.p.z = rng.Double(2*SIZE)-SIZE;
 		s.name = GenName(rng);
 		
-		float spec = rng.Double(1.0);
+		float spec = rng.Int32(1000000);
 		// frequencies from wikipedia
-		if (spec < 0.0000003) {
+		if (spec < 1) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_O;
-		} else if (spec < 0.0013) {
+		} else if (spec < 1300) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_B;
-		} else if (spec < 0.0073) {
+		} else if (spec < 7300) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_A;
-		} else if (spec < 0.0373) {
+		} else if (spec < 37300) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_F;
-		} else if (spec < 0.1133) {
+		} else if (spec < 113300) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_G;
-		} else if (spec < 0.2343) {
+		} else if (spec < 234300) {
 			s.primaryStarClass = StarSystem::TYPE_STAR_K;
 		} else {
 			s.primaryStarClass = StarSystem::TYPE_STAR_M;

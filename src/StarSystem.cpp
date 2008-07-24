@@ -226,6 +226,12 @@ void StarSystem::SBody::EliminateBadChildren()
 	}
 }
 
+/*
+ * As my excellent comrades have pointed out, choices that depend on floating
+ * point crap will result in different universes on different platforms.
+ *
+ * We must be sneaky and avoid floating point in these places.
+ */
 StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
 	unsigned long _init[3] = { system_idx, sector_x, sector_y };
@@ -250,6 +256,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 				(int)bodyTypeInfo[type].tempMax);
 	rootBody = primary;
 
+	// XXX bad if the enum is fiddled with........
 	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*primary->type*primary->type;
 	//printf("disc_size %.1fAU\n", disc_size/10.0);
 
@@ -273,11 +280,9 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
 		primary->children.push_back(planet);
 
-		double ang;
-		planet->orbit.KeplerPosAtTime(0, &planet->radMin, &ang);
-		planet->orbit.KeplerPosAtTime(planet->orbit.period*0.5, &planet->radMax, &ang);
-//		printf("%f,%f\n", min/AU, max/AU);
-//		printf("%f year orbital period\n", planet->orbit.period / (60*60*24*365));
+		// perihelion and aphelion
+		planet->radMin = planet->orbit.semiMajorAxis - planet->orbit.eccentricity*planet->orbit.semiMajorAxis;
+		planet->radMax = 2*planet->orbit.semiMajorAxis - planet->radMin;
 	}
 	delete disc;
 
