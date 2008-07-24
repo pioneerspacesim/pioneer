@@ -1,0 +1,20 @@
+Compiling ODE for Pioneer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pioneer wants ODE v 0.10. Don't use that crusty old 0.9 you see on the offical
+ODE website. Instead get 0.10 from the sourceforge page:
+
+http://sourceforge.net/projects/opende
+
+Pioneer is very picky about how you compile the ODE library. On unix you
+should compile ODE like so:
+
+./configure --enable-double-precision --disable-asserts --enable-new-trimesh
+make
+make install
+
+--enable-double-precision and --enable-new-trimesh are essential. It will not
+compile without the former, and collisions will go totally mental without
+the latter.
+
+YOU HAVE BEEN WARNED
