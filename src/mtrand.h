@@ -45,6 +45,8 @@
 #ifndef MTRAND_H
 #define MTRAND_H
 
+#include "fixed.h"
+
 class MTRand_int32 { // Mersenne Twister random number generator
 public:
 // default constructor: uses default seed only if this is the first instance
@@ -99,7 +101,7 @@ public:
   ~MTRand() {}
   double NDouble(int p) {
     double o = Double(1.0);
-    while (--p) o *= Double(1.0);
+    while (--p > 0) o *= Double(1.0);
     return o;
   }
 
@@ -122,6 +124,15 @@ public:
   double Double53() {
     return (static_cast<double>(rand_int32() >> 5) * 67108864. + 
       static_cast<double>(rand_int32() >> 6)) * (1. / 9007199254740992.);
+  }
+  // [0,1)
+  fixed Fixed() {
+	  return fixed(rand_int32() >> fixed::FRAC);
+  }
+  fixed NFixed(int p) {
+	  fixed o(1 << fixed::FRAC);
+	  while (--p > 0) o *= Fixed();
+	  return o;
   }
   // [min,max]
   unsigned int Int32(int min, int max) {

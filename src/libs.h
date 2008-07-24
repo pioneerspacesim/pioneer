@@ -17,6 +17,7 @@
 #define alloca _alloca
 #endif
 
+#include "fixed.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "mtrand.h"
