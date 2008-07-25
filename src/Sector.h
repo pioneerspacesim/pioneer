@@ -6,6 +6,8 @@
 #include <vector>
 #include "StarSystem.h"
 
+class CustomSBody;
+
 class Sector {
 public:
 	// lightyears
@@ -13,14 +15,15 @@ public:
 	Sector(int x, int y);
 	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
 	
-	int m_numSystems;
 	struct System {
 		std::string name;
 		vector3f p;
 		StarSystem::BodyType primaryStarClass;
+		const CustomSBody *customDef;
 	};
 	std::vector<System> m_systems;
 private:
+	void GetCustomSystems();
 	std::string GenName(MTRand &rand);
 	int sx, sy;
 };

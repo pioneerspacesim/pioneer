@@ -22,7 +22,7 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	snprintf(buf, sizeof(buf), "%s: %s\n"
 		"Mass                       %.2f %s masses\n",
 		b->name.c_str(), b->GetAstroDescription(), b->mass.ToDouble(),
-		(b->supertype == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
+		(b->GetSuperType() == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
 	desc += buf;
 
 	snprintf(buf, sizeof(buf), "Surface temperature        %d C\n", b->averageTemp-273);

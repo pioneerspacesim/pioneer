@@ -19,6 +19,8 @@ struct systemloc_t {
 	int secX, secY, sysIdx;
 };
 
+class CustomSBody;
+
 // doubles: all masses in Kg, all lengths in meters
 // fixed: any mad scheme
 
@@ -87,14 +89,21 @@ public:
 
 		const char *GetAstroDescription();
 		const char *GetIcon();
+		BodySuperType GetSuperType() const;
 		double GetRadius() const {
-			if (supertype == SUPERTYPE_STAR)
+			if (GetSuperType() == SUPERTYPE_STAR)
 				return radius.ToDouble() * SOL_RADIUS;
 			else
 				return radius.ToDouble() * EARTH_RADIUS;
 		}
+		double GetMass() const {
+			if (GetSuperType() == SUPERTYPE_STAR)
+				return mass.ToDouble() * SOL_MASS;
+			else
+				return mass.ToDouble() * EARTH_MASS;
+		}
 
-		int temp;
+		int tmp;
 		Orbit orbit;
 		int seed; // Planet.cpp can use to generate terrain
 		std::string name;
@@ -102,12 +111,14 @@ public:
 		fixed mass; // earth masses if planet, solar masses if star
 		fixed radMin, radMax; // in AUs
 		int averageTemp;
-		BodySuperType supertype;
 		BodyType type;
 	};
 	
 	SBody *rootBody;
 private:
+	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
+	void GenerateFromCustom(const CustomSBody *);
+
 	systemloc_t loc;
 
 	MTRand rand;

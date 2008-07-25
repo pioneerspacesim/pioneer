@@ -45,7 +45,7 @@ void Space::Clear()
 void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
 {
 	Body *b;
-	if (sbody->supertype == StarSystem::SUPERTYPE_STAR) {
+	if (sbody->GetSuperType() == StarSystem::SUPERTYPE_STAR) {
 		Star *star = new Star(sbody);
 		b = star;
 	} else {

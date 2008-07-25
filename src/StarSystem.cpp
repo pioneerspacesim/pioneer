@@ -1,5 +1,6 @@
 #include "StarSystem.h"
 #include "Sector.h"
+#include "custom_starsystems.h"
 
 #define CELSIUS	273.15
 #define DEBUG_DUMP
@@ -16,6 +17,7 @@ float StarSystem::starColors[7][3] = {
 };
 
 static const struct SBodySubTypeInfo {
+	StarSystem::BodySuperType supertype;
 	int mass; // % sol for stars, unused for planets
 	int radius; // % sol radii for stars, % earth radii for planets
 	const char *description;
@@ -23,80 +25,107 @@ static const struct SBodySubTypeInfo {
 	int tempMin, tempMax;
 } bodyTypeInfo[StarSystem::TYPE_MAX] = {
 	{
+		StarSystem::SUPERTYPE_STAR,
 		40, 50, "Type 'M' red star",
 		"icons/object_star_m.png",
 		2000, 3500
 	}, {
+		StarSystem::SUPERTYPE_STAR,
 		80, 90, "Type 'K' orange star",
 		"icons/object_star_k.png",
 		3500, 5000
 	}, { 
+		StarSystem::SUPERTYPE_STAR,
 		110, 110, "Type 'G' yellow star",
 		"icons/object_star_g.png",
 		5000, 6000
 	}, {
+		StarSystem::SUPERTYPE_STAR,
 		170, 140, "Type 'F' white star",
 		"icons/object_star_f.png",
 		6000, 7500
 	}, {
+		StarSystem::SUPERTYPE_STAR,
 		310, 210, "Type 'A' hot white star",
 		"icons/object_star_a.png",
 		7500, 10000
 	}, {
+		StarSystem::SUPERTYPE_STAR,
 		1800, 700, "Bright type 'B' blue star",
 		"icons/object_star_b.png",
 		10000, 30000
 	}, {
+		StarSystem::SUPERTYPE_STAR,
 		6400, 1600, "Hot, massive type 'O' blue star",
 		"icons/object_star_o.png",
 		30000, 60000
 	}, {
+		StarSystem::SUPERTYPE_GAS_GIANT,
 		0, 30, "Brown dwarf sub-stellar object",
 		"icons/object_brown_dwarf.png"
 	}, {
+		StarSystem::SUPERTYPE_GAS_GIANT,
 		0, 390, "Small gas giant",
 		"icons/object_planet_small_gas_giant.png"
 	}, {
+		StarSystem::SUPERTYPE_GAS_GIANT,
 		0, 950, "Medium gas giant",
 		"icons/object_planet_medium_gas_giant.png"
 	}, {
+		StarSystem::SUPERTYPE_GAS_GIANT,
 		0, 1110, "Large gas giant",
 		"icons/object_planet_large_gas_giant.png"
 	}, {
+		StarSystem::SUPERTYPE_GAS_GIANT,
 		0, 1500, "Very large gas giant",
 		"icons/object_planet_large_gas_giant.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 26, "Small, rocky dwarf planet", // moon radius
 		"icons/object_planet_dwarf.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 52, "Small, rocky planet with a thin atmosphere", // mars radius
 		"icons/object_planet_small.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Rocky planet with liquid water and a nitrogen atmosphere", // earth radius
 		"icons/object_planet_water_n2.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Rocky planet with a carbon dioxide atmosphere",
 		"icons/object_planet_co2.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Rocky planet with a methane atmosphere",
 		"icons/object_planet_methane.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Rocky planet with liquid water and a thick nitrogen atmosphere",
 		"icons/object_planet_water_n2.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Rocky planet with a thick carbon dioxide atmosphere",
 		"icons/object_planet_co2.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Rocky planet with a thick methane atmosphere",
 		"icons/object_planet_methane.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "Highly volcanic world",
 		"icons/object_planet_volcanic.png"
 	}, {
+		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		0, 100, "World with indigenous life and an oxygen atmosphere",
 		"icons/object_planet_life.png"
 	}
 };
+
+StarSystem::BodySuperType StarSystem::SBody::GetSuperType() const
+{
+	return bodyTypeInfo[type].supertype;
+}
 
 const char *StarSystem::SBody::GetAstroDescription()
 {
@@ -239,7 +268,7 @@ void StarSystem::SBody::EliminateBadChildren()
 {
 	// now check for overlapping & unacceptably close orbits. merge planets
 	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end(); ++i) {
-		if ((*i)->temp) continue;
+		if ((*i)->tmp) continue;
 
 		for (std::vector<SBody*>::iterator j = children.begin(); j != children.end(); ++j) {
 			if ((*j) == (*i)) continue;
@@ -253,13 +282,13 @@ void StarSystem::SBody::EliminateBadChildren()
 			fixed j_avg = (j_min+j_max)>>1;
 			bool eat = false;
 			if (i_avg > j_avg) {
-				if (i_min < j_max*fixed(12,10)) eat = true;
+				if (i_min < j_max*fixed(13,10)) eat = true;
 			} else {
-				if (i_max > j_min*fixed(8,10)) eat = true;
+				if (i_max > j_min*fixed(7,10)) eat = true;
 			}
 			if (eat) {
 				(*i)->mass += (*j)->mass;
-				(*j)->temp = 1;
+				(*j)->tmp = 1;
 			}
 		}
 
@@ -267,12 +296,76 @@ void StarSystem::SBody::EliminateBadChildren()
 
 	// kill the eaten ones
 	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end();) {
-		if ((*i)->temp) {
+		if ((*i)->tmp) {
 			i = children.erase(i);
 		}
 		else
 			++i;
 	}
+}
+
+/*
+struct CustomSBody {
+	const char *name; // null to end system
+	StarSystem::BodyType type;
+	int primaryIdx;  // -1 for primary
+	fixed radius; // in earth radii for planets, sol radii for stars
+	fixed mass; // earth masses or sol masses
+	int averageTemp; // kelvin
+	fixed semiMajorAxis; // in AUs
+	fixed eccentricity;
+};
+*/
+void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx)
+{
+	const CustomSBody *c = customDef;
+	for (int i=0; c->name; c++, i++) {
+		if (c->primaryIdx != primaryIdx) continue;
+		
+		SBody *kid = new SBody;
+		StarSystem::BodyType type = c->type;
+		kid->type = type;
+		kid->parent = parent;
+		kid->radius = c->radius;
+		kid->mass = c->mass;
+		kid->averageTemp = c->averageTemp;
+		kid->name = c->name;
+		
+		kid->orbit.eccentricity = c->eccentricity.ToDouble();
+		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
+		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->inclination) *
+					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
+		parent->children.push_back(kid);
+
+		// perihelion and aphelion (in AUs)
+		kid->radMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
+		kid->radMax = 2*c->semiMajorAxis - kid->radMin;
+
+		CustomGetKidsOf(kid, customDef, i);
+	}
+}
+
+void StarSystem::GenerateFromCustom(const CustomSBody *customDef)
+{
+	// find primary
+	const CustomSBody *csbody = customDef;
+
+	int idx = 0;
+	while ((csbody->name) && (csbody->primaryIdx != -1)) { csbody++; idx++; }
+	assert(csbody->primaryIdx == -1);
+
+	rootBody = new SBody;
+	StarSystem::BodyType type = csbody->type;
+	rootBody->type = type;
+	rootBody->parent = NULL;
+	rootBody->radius = csbody->radius;
+	rootBody->mass = csbody->mass;
+	rootBody->averageTemp = csbody->averageTemp;
+	rootBody->name = csbody->name;
+	
+	CustomGetKidsOf(rootBody, customDef, idx);
+
 }
 
 /*
@@ -283,15 +376,21 @@ void StarSystem::SBody::EliminateBadChildren()
  */
 StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
-	unsigned long _init[3] = { system_idx, sector_x, sector_y };
+	unsigned long _init[4] = { system_idx, sector_x, sector_y, UNIVERSE_SEED };
 	loc.secX = sector_x;
 	loc.secY = sector_y;
 	loc.sysIdx = system_idx;
 	rootBody = 0;
 	if (system_idx == -1) return;
-	rand.seed(_init, 3);
+	rand.seed(_init, 4);
 
 	Sector s = Sector(sector_x, sector_y);
+
+	if (s.m_systems[system_idx].customDef) {
+		GenerateFromCustom(s.m_systems[system_idx].customDef);
+		return;
+	}
+
 	// primary
 	SBody *primary = new SBody;
 
@@ -300,7 +399,6 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	primary->parent = NULL;
 	primary->radius = fixed(bodyTypeInfo[type].radius, 100);
 	primary->mass = fixed(bodyTypeInfo[type].mass, 100);
-	primary->supertype = SUPERTYPE_STAR;
 	primary->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
 				bodyTypeInfo[type].tempMax);
 	rootBody = primary;
@@ -316,9 +414,8 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 
 		SBody *planet = new SBody;
 		planet->type = TYPE_PLANET_DWARF;
-		planet->supertype = SUPERTYPE_NONE;
 		planet->seed = rand.Int32();
-		planet->temp = 0;
+		planet->tmp = 0;
 		planet->parent = primary;
 	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 		planet->mass = mass;
@@ -447,21 +544,20 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 
 	// generate moons
 	if ((genMoons) && (mass > fixed(1,2))) {
-		std::vector<int> *disc = AccreteDisc(isqrt(mass.v>>12), 10, rand.Int32(1,10), rand);
+		std::vector<int> *disc = AccreteDisc(isqrt(mass.v>>13), 10, rand.Int32(1,10), rand);
 		for (unsigned int i=0; i<disc->size(); i++) {
 			fixed mass = fixed((*disc)[i]);
 			if (mass == 0) continue;
 
 			SBody *moon = new SBody;
 			moon->type = TYPE_PLANET_DWARF;
-			moon->supertype = SUPERTYPE_NONE;
 			moon->seed = rand.Int32();
-			moon->temp = 0;
+			moon->tmp = 0;
 			moon->parent = this;
 		//	moon->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 			moon->mass = mass;
 			fixed ecc = rand.NFixed(3);
-			fixed semiMajorAxis = fixed(i+1, 2000);
+			fixed semiMajorAxis = fixed(i+2, 2000);
 			moon->orbit.eccentricity = ecc.ToDouble();
 			moon->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
 			moon->orbit.period = calc_orbital_period(moon->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);

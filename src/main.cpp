@@ -200,9 +200,8 @@ void Pi::MainLoop()
 	StarSystem s(0,0,0);
 	HyperspaceTo(&s);
 	
-	// linked list eh... put player at planet f
 	const float zpos = EARTH_RADIUS * 7;
-	Frame *pframe = *(++(++(++(Space::rootFrame->m_children.begin()))));
+	Frame *pframe = *(Space::rootFrame->m_children.begin());
 	player->SetFrame(pframe);
 	player->SetPosition(vector3d(0,zpos*0.1,zpos));
 	
