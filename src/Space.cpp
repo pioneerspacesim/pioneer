@@ -46,12 +46,10 @@ void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
 {
 	Body *b;
 	if (sbody->supertype == StarSystem::SUPERTYPE_STAR) {
-		Star *star = new Star(sbody->type);
-		star->SetRadius(sbody->radius);
+		Star *star = new Star(sbody);
 		b = star;
 	} else {
 		Planet *planet = new Planet(sbody);
-		//planet->SetRadius(sbody->radius);
 		b = planet;
 	}
 	b->SetLabel(sbody->name.c_str());
@@ -61,7 +59,7 @@ void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
 		myframe = new Frame(f, sbody->name.c_str());
 		vector3d pos = sbody->orbit.CartesianPosAtTime(0);
 		myframe->SetPosition(pos);
-		myframe->SetRadius(10*sbody->radius);
+		myframe->SetRadius(10*sbody->GetRadius());
 		b->SetFrame(myframe);
 	} else {
 		b->SetFrame(f);

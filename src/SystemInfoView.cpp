@@ -20,11 +20,12 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	char buf[1024];
 
 	snprintf(buf, sizeof(buf), "%s: %s\n"
-		"Mass                       %.2f Earth masses\n",
-		b->name.c_str(), b->GetAstroDescription(), b->mass/EARTH_MASS);
+		"Mass                       %.2f %s masses\n",
+		b->name.c_str(), b->GetAstroDescription(), b->mass.ToDouble(),
+		(b->supertype == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
 	desc += buf;
 
-	snprintf(buf, sizeof(buf), "Surface temperature        %.0f C\n", b->averageTemp-273.15);
+	snprintf(buf, sizeof(buf), "Surface temperature        %d C\n", b->averageTemp-273);
 	desc += buf;
 
 	// surface temperature
@@ -41,9 +42,9 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 			snprintf(buf, sizeof(buf), "Orbital period             %.1f days\n", b->orbit.period / (60*60*24));
 		}
 		desc += buf;
-		snprintf(buf, sizeof(buf), "Perihelion distance        %.2f AU\n", b->radMin / AU);
+		snprintf(buf, sizeof(buf), "Perihelion distance        %.2f AU\n", b->radMin.ToDouble());
 		desc += buf;
-		snprintf(buf, sizeof(buf), "Aphelion distance          %.2f AU\n", b->radMax / AU);
+		snprintf(buf, sizeof(buf), "Aphelion distance          %.2f AU\n", b->radMax.ToDouble());
 		desc += buf;
 		snprintf(buf, sizeof(buf), "Eccentricity               %.2f\n", b->orbit.eccentricity);
 		desc += buf;

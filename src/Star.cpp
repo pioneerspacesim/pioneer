@@ -3,10 +3,10 @@
 #include "Pi.h"
 #include "WorldView.h"
 
-Star::Star(StarSystem::BodyType type): Body()
+Star::Star(StarSystem::SBody *sbody): Body()
 {
-	this->type = type;
-	radius = 6378135.0;
+	this->type = sbody->type;
+	radius = sbody->GetRadius();
 	pos = vector3d(0,0,0);
 }
 

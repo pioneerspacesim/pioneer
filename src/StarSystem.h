@@ -19,7 +19,8 @@ struct systemloc_t {
 	int secX, secY, sysIdx;
 };
 
-// all masses in Kg, all lengths in meters
+// doubles: all masses in Kg, all lengths in meters
+// fixed: any mad scheme
 
 class StarSystem {
 public:
@@ -80,21 +81,27 @@ public:
 	struct SBody {
 		~SBody();
 		void EliminateBadChildren();
-		void PickPlanetType(SBody *, double distToPrimary, MTRand &drand, bool genMoons);
+		void PickPlanetType(SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
 		SBody *parent;
 		std::vector<SBody*> children;
 
 		const char *GetAstroDescription();
 		const char *GetIcon();
+		double GetRadius() const {
+			if (supertype == SUPERTYPE_STAR)
+				return radius.ToDouble() * SOL_RADIUS;
+			else
+				return radius.ToDouble() * EARTH_RADIUS;
+		}
 
 		int temp;
 		Orbit orbit;
 		int seed; // Planet.cpp can use to generate terrain
 		std::string name;
-		double radius; 
-		double mass;
-		double radMin, radMax;
-		double averageTemp;
+		fixed radius; 
+		fixed mass; // earth masses if planet, solar masses if star
+		fixed radMin, radMax; // in AUs
+		int averageTemp;
 		BodySuperType supertype;
 		BodyType type;
 	};

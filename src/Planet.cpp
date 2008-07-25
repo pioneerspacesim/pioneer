@@ -7,7 +7,7 @@
 Planet::Planet(StarSystem::SBody *sbody): Body()
 {
 	pos = vector3d(0,0,0);
-	geom = dCreateSphere(0, sbody->radius);
+	geom = dCreateSphere(0, sbody->GetRadius());
 	dGeomSetData(geom, static_cast<Body*>(this));
 	this->sbody = *sbody;
 	this->sbody.children.clear();
@@ -755,7 +755,7 @@ void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
 	
-	double rad = sbody.radius;
+	double rad = sbody.GetRadius();
 	vector3d fpos = GetPositionRelTo(a_camFrame);
 
 	double apparent_size = rad / fpos.Length();
