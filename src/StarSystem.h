@@ -19,7 +19,7 @@ struct systemloc_t {
 	int secX, secY, sysIdx;
 };
 
-class CustomSBody;
+struct CustomSBody;
 
 // doubles: all masses in Kg, all lengths in meters
 // fixed: any mad scheme

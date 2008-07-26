@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\custom_starsystems.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\date.cpp"
 				>
 			</File>
@@ -386,6 +390,10 @@
 			>
 			<File
 				RelativePath="..\src\Body.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\custom_starsystems.h"
 				>
 			</File>
 			<File
