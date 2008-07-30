@@ -65,7 +65,7 @@ void SectorView::Draw3D()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(50, Pi::GetScrAspect(), 1.0, 100.0);
+	gluPerspective(40, Pi::GetScrAspect(), 1.0, 100.0);
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
