@@ -24,12 +24,10 @@ static void DrawCorona(double rad, vector3d &pos, const float col[3])
 {
 	glPushMatrix();
 	// face the camera dammit
-	vector3d dir = vector3d::Normalize(pos);
-	vector3d d2 = vector3d(0, 1, 0);
-	vector3d d3 = vector3d::Cross(dir,d2);
-	d3.Normalize();
-	d2 = vector3d::Cross(dir,d3);
-	matrix4x4d rot = matrix4x4d::MakeRotMatrix(d3, d2, dir);
+	vector3d zaxis = vector3d::Normalize(pos);
+	vector3d xaxis = vector3d::Normalize(vector3d::Cross(zaxis, vector3d(0,1,0)));
+	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	glMultMatrixd(&rot[0]);
 
 	glEnable(GL_BLEND);
