@@ -20,6 +20,7 @@ public:
 private:
 	void DrawRockyPlanet();
 	void DrawGasGiant();
+	void DrawAtmosphere(double rad, vector3d &pos);
 
 	vector3d pos;
 	dGeomID geom;

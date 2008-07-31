@@ -621,6 +621,7 @@ void Planet::DrawRockyPlanet()
 	float col[4], col2[4];
 //	MTRand rng((int)Pi::GetGameTime());
 	MTRand rng(sbody.seed);
+	float darkblue[4] = { .05, .05, .2, 1 };
 	float blue[4] = { .2, .2, 1, 1 };
 	float green[4] = { .2, .8, .2, 1 };
 	float white[4] = { 1, 1, 1, 1 };
@@ -630,6 +631,7 @@ void Planet::DrawRockyPlanet()
 
 	switch (sbody.type) {
 	case StarSystem::TYPE_PLANET_DWARF:
+	case StarSystem::TYPE_PLANET_SMALL:
 		barrenBodyCol.GenCol(col2, rng);
 		SetMaterialColor(col2);
 		DrawShittyRoundCube(1.0f);
@@ -672,6 +674,27 @@ void Planet::DrawRockyPlanet()
 			}
 			glPopMatrix();
 		}
+		break;
+	
+	case StarSystem::TYPE_PLANET_WATER:
+	case StarSystem::TYPE_PLANET_WATER_THICK_ATMOS:
+		SetMaterialColor(darkblue);
+		DrawShittyRoundCube(1.0f);
+		
+		n = rng.Int32(3,10);
+		while (n--) {
+			barrenBodyCol.GenCol(col2, rng);
+			SetMaterialColor(col2);
+			rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.Double(-M_PI/3, M_PI/3));
+			rot.RotateZ(rng.Double(M_PI*2));
+			MakeContinent(rot, rng.Double(0.1,0.5), rng);
+		}
+		/* poles */
+		SetMaterialColor(white);
+		rot = matrix4x4d::Identity();
+		MakeContinent(rot, 0.25, rng);
+		rot = matrix4x4d::RotateXMatrix(M_PI);
+		MakeContinent(rot, 0.25, rng);
 		break;
 		
 	case StarSystem::TYPE_PLANET_INDIGENOUS_LIFE:
@@ -751,6 +774,94 @@ void Planet::DrawGasGiant()
 	}
 }
 
+static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float col[4])
+{
+	glPushMatrix();
+	// face the camera dammit
+	vector3d zaxis = vector3d::Normalize(-pos);
+	vector3d xaxis = vector3d::Normalize(vector3d::Cross(zaxis, vector3d(0,1,0)));
+	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+	glMultMatrixd(&rot[0]);
+
+	const double angStep = M_PI/32;
+	// find angle player -> centre -> tangent point
+	// tangent is from player to surface of sphere
+	float tanAng = acos(rad1 / pos.Length());
+
+	// then we can put the fucking atmosphere on the horizon
+	vector3d r1(0.0, 0.0, rad1);
+	vector3d r2(0.0, 0.0, rad2);
+	rot = matrix4x4d::RotateYMatrix(tanAng);
+	r1 = rot * r1;
+	r2 = rot * r2;
+
+	rot = matrix4x4d::RotateZMatrix(angStep);
+
+	glDisable(GL_LIGHTING);
+	glEnable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
+	glBegin(GL_TRIANGLE_STRIP);
+	for (float ang=0; ang<2*M_PI; ang+=angStep) {
+		glColor4fv(col);
+		glVertex3dv(&r1.x);
+		glColor4f(0,0,0,0);
+		glVertex3dv(&r2.x);
+		r1 = rot * r1;
+		r2 = rot * r2;
+	}
+	glColor4fv(col);
+	glVertex3dv(&r1.x);
+	glColor4f(0,0,0,0);
+	glVertex3dv(&r2.x);
+	
+	glEnd();
+	glEnable(GL_CULL_FACE);
+	glDisable(GL_BLEND);
+	glEnable(GL_LIGHTING);
+	glPopMatrix();
+}
+
+void Planet::DrawAtmosphere(double rad, vector3d &pos)
+{
+	if (sbody.type == StarSystem::TYPE_PLANET_SMALL) {
+		const float c[4] = { .2, .2, .3, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_CO2_THICK_ATMOS) {
+		const float c[4] = { .8, .8, .8, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_CO2) {
+		const float c[4] = { .5, .5, .5, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_METHANE_THICK_ATMOS) {
+		const float c[4] = { .2, .6, .3, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_METHANE) {
+		const float c[4] = { .2, .6, .3, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_HIGHLY_VOLCANIC) {
+		const float c[4] = { .5, .2, .2, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_WATER_THICK_ATMOS) {
+		const float c[4] = { .8, .8, .8, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_WATER) {
+		const float c[4] = { .2, .2, .4, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
+	}
+	else if (sbody.type == StarSystem::TYPE_PLANET_INDIGENOUS_LIFE) {
+		const float c[4] = { .2, .2, .5, .8 };
+		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
+	}
+}
+
 void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
@@ -793,8 +904,13 @@ void Planet::Render(const Frame *a_camFrame)
 			}
 			glEndList();
 		}
+		glPushMatrix();
 		glScalef(rad,rad,rad);
 		glCallList(crudDList);
+		glPopMatrix();
+
+		DrawAtmosphere(rad, fpos);
+
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	glPopMatrix();
