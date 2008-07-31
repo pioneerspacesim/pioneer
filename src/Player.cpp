@@ -76,6 +76,16 @@ void Player::PollControls()
 	SetAngThrusterState(1, 0.0f);
 	SetAngThrusterState(2, 0.0f);
 
+	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
+		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 1;
+		if (Pi::KeyState(SDLK_DOWN)) m_external_view_rotx += 1;
+		if (Pi::KeyState(SDLK_LEFT)) m_external_view_roty -= 1;
+		if (Pi::KeyState(SDLK_RIGHT)) m_external_view_roty += 1;
+		if (Pi::KeyState(SDLK_EQUALS)) m_external_view_dist -= 10;
+		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 10;
+		m_external_view_dist = MAX(50, m_external_view_dist);
+	}
+
 	if ((time_accel == 0) || GetDockedWith()) {
 		return;
 	}
@@ -134,16 +144,6 @@ void Player::PollControls()
 	if (time_accel > 10) {
 		dBodySetAngularVel(m_body, 0, 0, 0);
 	}
-	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
-		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 1;
-		if (Pi::KeyState(SDLK_DOWN)) m_external_view_rotx += 1;
-		if (Pi::KeyState(SDLK_LEFT)) m_external_view_roty -= 1;
-		if (Pi::KeyState(SDLK_RIGHT)) m_external_view_roty += 1;
-		if (Pi::KeyState(SDLK_EQUALS)) m_external_view_dist -= 10;
-		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 10;
-		m_external_view_dist = MAX(50, m_external_view_dist);
-	}
-
 	if(GetNavTarget() && Pi::KeyState(SDLK_END)) {
 		// Temp test: Kill ("end") the target.
 		Space::KillBody(GetNavTarget());
