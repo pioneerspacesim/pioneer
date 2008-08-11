@@ -10,7 +10,7 @@
 namespace Gui {
 	class Fixed: public Container {
 	public:
-		Fixed(float x, float y, float w, float h);
+		Fixed(float w, float h);
 		void Add(Widget *child, float x, float y);
 		void Remove(Widget *child);
 		virtual void Draw();

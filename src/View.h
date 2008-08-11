@@ -13,12 +13,16 @@
  */
 class View: public Gui::Fixed {
 public:
-	View(): Gui::Fixed(0, 64, 640, 416) {
-		m_rightButtonBar = new Gui::Fixed(512, 0, 128, 26);
+	View(): Gui::Fixed(640, 416) {
+		Gui::Screen::AddBaseWidget(this, 0, 64);
+		
+		m_rightButtonBar = new Gui::Fixed(128, 26);
 		m_rightButtonBar->SetBgColor(.65, .65, .65);
+		Gui::Screen::AddBaseWidget(m_rightButtonBar, 512, 0);
 
-		m_rightRegion2 = new Gui::Fixed(517, 26, 122, 17);
+		m_rightRegion2 = new Gui::Fixed(122, 17);
 		m_rightRegion2->SetTransparency(true);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, 517, 26);
 	}
 	virtual ~View() { delete m_rightButtonBar; delete m_rightRegion2; }
 	virtual void ShowAll() {

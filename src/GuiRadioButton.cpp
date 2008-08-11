@@ -14,10 +14,11 @@ RadioButton::~RadioButton()
 {
 	
 }
-void RadioButton::OnMouseDown(MouseButtonEvent *e)
+bool RadioButton::OnMouseDown(MouseButtonEvent *e)
 {
 	onPress.emit();
 	OnActivate();
+	return false;
 }
 void RadioButton::OnActivate()
 {

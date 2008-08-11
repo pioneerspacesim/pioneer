@@ -4,11 +4,14 @@
 #include "libs.h"
 #include "Gui.h"
 
+class Body;
+
 class ShipCpanel: public Gui::Fixed {
 public:
 	ShipCpanel();
 	virtual void Draw();
 	void SetScannerWidget(Widget *w); // must be done each frame
+	void SetTemporaryMessage(Body * const sender, std::string msg);
 private:
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
@@ -18,6 +21,9 @@ private:
 
 	Widget *m_scannerWidget;
 	Gui::Label *m_clock;
+
+	Gui::Label *tempMsg;
+	float tempMsgAge;
 };
 
 #endif /* _SHIP_CPANEL_H */

@@ -309,6 +309,37 @@ void FontFace::RenderString(const char *str)
 	glPopMatrix();
 }
 
+// 'Markup' indeed. #rgb hex is change color, no sensible escape
+void FontFace::RenderMarkup(const char *str)
+{
+	glPushMatrix();
+	int len = strlen(str);
+	for (unsigned int i=0; i<len; i++) {
+		if (str[i] == '#') {
+			int hexcol;
+			if (sscanf(str+i, "#%3x", &hexcol)==1) {
+				Uint8 col[3];
+				col[0] = (hexcol&0xf00)>>4;
+				col[1] = (hexcol&0xf0);
+				col[2] = (hexcol&0xf)<<4;
+				glColor3ubv(col);
+				i+=3;
+				continue;
+			}
+		}
+		if (str[i] == '\n') {
+			glPopMatrix();
+			glTranslatef(0,-m_height,0);
+			glPushMatrix();
+		} else {
+			glfglyph_t *glyph = &m_glyphs[str[i]];
+			if (glyph->numidx) RenderGlyph(str[i]);
+			glTranslatef(glyph->advx,0,0);
+		}
+	}
+	glPopMatrix();
+}
+
 FontFace::FontFace(const char *filename_ttf)
 {
 	FT_Face face;

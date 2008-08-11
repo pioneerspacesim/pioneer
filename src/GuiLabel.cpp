@@ -27,7 +27,7 @@ void Label::SetText(std::string &text)
 void Label::Draw()
 {
 	glColor3fv(m_color);
-	Screen::RenderString(m_text);
+	Screen::RenderMarkup(m_text);
 }
 
 void Label::GetSizeRequested(float size[2])

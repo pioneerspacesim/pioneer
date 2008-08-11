@@ -3,6 +3,8 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Space.h"
+#include "SpaceStation.h"
+#include "ShipCpanel.h"
 
 static const float lightCol[] = { 1,1,.9,0 };
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
@@ -11,8 +13,15 @@ const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
 WorldView::WorldView(): View()
 {
+	float size[2];
+	GetSize(size);
+	
 	SetTransparency(true);
 	
+	commsOptions = new Fixed(size[0], size[1]/2);
+	commsOptions->SetTransparency(true);
+	Add(commsOptions, 10, 20);
+
 	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
 	wheels_button->SetShortcut(SDLK_F7, KMOD_NONE);
 	wheels_button->AddState(0, "icons/wheels_up.png");
@@ -119,23 +128,70 @@ void WorldView::Update()
 	// player control inputs
 	if(Pi::player)
 		Pi::player->PollControls();
+
+	Body *target = Pi::player->GetNavTarget();
+	if (target) {
+		commsOptions->ShowAll();
+	} else {
+		//commsOptions->HideAll();
+	}
 }
 
-void WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
+Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos)
 {
-	if(1 == e->button && !Pi::MouseButtonState(3)) {
-		// Left click in view when RMB not pressed => Select target.
-		float screenPos[2];
-		GetPosition(screenPos);
-		// Put mouse coords into screen space.
-		screenPos[0] += e->x;
-		screenPos[1] += e->y;
-		Body* const target = PickBody(screenPos[0], screenPos[1]);
-		if(Pi::player) {
-			//TODO: if in nav mode, SetNavTarget(), else SetCombatTarget().
-			Pi::player->SetNavTarget(target);
+	Gui::Label *l = new Gui::Label(msg);
+	commsOptions->Add(l, 50, ypos);
+
+	Gui::TransparentButton *b = new Gui::TransparentButton();
+	commsOptions->Add(b, 16, ypos);
+	return b;
+}
+
+static void PlayerRequestDockingClearance(SpaceStation *s)
+{
+	s->GetDockingClearance(Pi::player);
+	Pi::cpan->SetTemporaryMessage(s, "Docking clearance granted.");
+}
+
+void WorldView::UpdateCommsOptions()
+{
+	Body * const navtarget = Pi::player->GetNavTarget();
+	commsOptions->DeleteAllChildren();
+	
+	float size[2];
+	commsOptions->GetSize(size);
+	int ypos = size[1]-16;
+	if (navtarget) {
+		if (navtarget->GetType() == Object::SPACESTATION) {
+			commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
+			ypos -= 32;
+			Gui::Button *b = AddCommsOption("Request docking clearance", ypos);
+			b->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
+			ypos -= 32;
+		} else {
+			commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
+			ypos -= 32;
+			std::string msg = "Do something to "+navtarget->GetLabel();
+			Gui::Button *b = AddCommsOption(msg, ypos);
+			ypos -= 32;
 		}
 	}
+}
+
+bool WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
+{
+	// if continuing to propagate mouse event, see if target is clicked on
+	if (Container::OnMouseDown(e)) {
+		if(1 == e->button && !Pi::MouseButtonState(3)) {
+			// Left click in view when RMB not pressed => Select target.
+			Body* const target = PickBody(e->screenX, e->screenY);
+			if(Pi::player) {
+				//TODO: if in nav mode, SetNavTarget(), else SetCombatTarget().
+				Pi::player->SetNavTarget(target);
+			}
+		}
+	}
+	return true;
 }
 
 Body* WorldView::PickBody(const float screenX, const float screenY) const

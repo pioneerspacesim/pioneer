@@ -5,7 +5,8 @@ namespace Gui {
 	struct MouseButtonEvent {
 		Uint8 isdown;
 		Uint8 button;
-		float x, y;
+		float x, y; // widget coords
+		float screenX, screenY; // screen coords
 	};
 }
 

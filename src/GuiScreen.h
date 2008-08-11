@@ -11,11 +11,12 @@ namespace Gui {
 	public:
 		static void Init(int real_width, int real_height, int ui_width, int ui_height);
 		static void Draw();
-		static void AddBaseWidget(Widget *w);
+		static void AddBaseWidget(Widget *w, int x, int y);
 		static void RemoveBaseWidget(Widget *w);
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_keysym *sym);
 		static void RenderString(const std::string &s);
+		static void RenderMarkup(const std::string &s);
 		static void PutClickableLabel(const std::string &s, float x, float y, sigc::slot<void, const Gui::MouseButtonEvent*> slot);
 		static void RenderLabel(const std::string &s, float x, float y);
 		static void EnterOrtho();

@@ -14,7 +14,7 @@ namespace Gui {
 		virtual ~RadioButton();
 		virtual void Draw();
 		virtual void GetSizeRequested(float &w, float &h);
-		virtual void OnMouseDown(MouseButtonEvent *e);
+		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual void OnActivate();
 		virtual void SetSelected(bool state) { m_pressed = state; }
 		bool GetSelected() { return m_pressed; }

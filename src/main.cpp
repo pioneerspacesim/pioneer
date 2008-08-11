@@ -200,7 +200,7 @@ void Pi::MainLoop()
 	StarSystem s(0,0,0);
 	HyperspaceTo(&s);
 	
-	const float zpos = EARTH_RADIUS * 7;
+	const float zpos = EARTH_RADIUS * 1;
 	Frame *pframe = *(Space::rootFrame->m_children.begin());
 	player->SetFrame(pframe);
 	player->SetPosition(vector3d(0,zpos*0.1,zpos));
@@ -215,13 +215,11 @@ void Pi::MainLoop()
 		Space::AddBody(body);
 	}
 		
-	{
-		SpaceStation *body = new SpaceStation();
-		body->SetLabel("Poemi-chan's Folly");
-		body->SetFrame(pframe);
-		body->SetPosition(vector3d(5000,zpos*0.1,zpos-10000));
-		Space::AddBody(body);
-	}
+	SpaceStation *station = new SpaceStation();
+	station->SetLabel("Poemi-chan's Folly");
+	station->SetFrame(pframe);
+	station->SetPosition(vector3d(5000,zpos*0.1,zpos-10000));
+	Space::AddBody(station);
 
 	Gui::Init(scrWidth, scrHeight, 640, 480);
 
@@ -237,6 +235,7 @@ void Pi::MainLoop()
 	infoView = new InfoView();
 
 	SetView(world_view);
+	player->SetDockedWith(station);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;

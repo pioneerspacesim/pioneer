@@ -3,7 +3,7 @@
 
 namespace Gui {
 
-void Container::HandleMouseEvent(MouseButtonEvent *e)
+bool Container::HandleMouseEvent(MouseButtonEvent *e)
 {
 	float x = e->x;
 	float y = e->y;
@@ -23,13 +23,16 @@ void Container::HandleMouseEvent(MouseButtonEvent *e)
 		    (y >= pos[1]) && (y < pos[1]+size[1])) {
 			e->x = x-pos[0];
 			e->y = y-pos[1];
+			bool alive;
 			if (e->isdown) {
-				(*i).w->OnMouseDown(e);
+				alive = (*i).w->OnMouseDown(e);
 			} else {
-				(*i).w->OnMouseUp(e);
+				alive = (*i).w->OnMouseUp(e);
 			}
+			if (!alive) return false;
 		}
 	}
+	return true;
 }
 
 void Container::DeleteAllChildren()
@@ -71,14 +74,14 @@ void Container::Draw()
 	}
 }
 
-void Container::OnMouseDown(MouseButtonEvent *e)
+bool Container::OnMouseDown(MouseButtonEvent *e)
 {
-	HandleMouseEvent(e);
+	return HandleMouseEvent(e);
 }
 
-void Container::OnMouseUp(MouseButtonEvent *e)
+bool Container::OnMouseUp(MouseButtonEvent *e)
 {
-	HandleMouseEvent(e);
+	return HandleMouseEvent(e);
 }
 
 void Container::ShowAll()

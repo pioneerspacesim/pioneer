@@ -26,6 +26,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
+	dockingTimer = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	m_shipType = shipType;
@@ -88,6 +89,7 @@ void Ship::CalcStats(shipstats_t *stats)
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
+	dockingTimer = (dockingTimer-timeStep > 0 ? dockingTimer-timeStep : 0);
 	// ode tri mesh turd likes to know our old position
 	TriMeshUpdateLastPos();
 
@@ -168,6 +170,7 @@ void Ship::SetDockedWith(SpaceStation *s)
 		m_dockedWith = 0;
 	} else {
 		m_dockedWith = s;
+		dockingTimer = 0.0f;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 	}
@@ -182,6 +185,18 @@ void Ship::SetWheelState(bool down)
 {
 	if (down) m_wheelTransition = 1;
 	else m_wheelTransition = -1;
+}
+
+void Ship::SetNavTarget(Body* const target)
+{
+	m_navTarget = target;
+	Pi::world_view->UpdateCommsOptions();
+}
+
+void Ship::SetCombatTarget(Body* const target)
+{
+	m_combatTarget = target;
+	Pi::world_view->UpdateCommsOptions();
 }
 
 /* Assumed to be at model coords */

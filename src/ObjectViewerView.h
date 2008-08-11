@@ -13,7 +13,6 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 private:
-	virtual void OnMouseDown(Gui::MouseButtonEvent *e) {}
 	matrix4x4d viewingRotation;
 	float viewingDist;
 	Gui::Label *m_infoLabel;

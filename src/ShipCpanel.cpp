@@ -5,9 +5,9 @@
 #include "Player.h"
 #include "InfoView.h"
 
-ShipCpanel::ShipCpanel(): Gui::Fixed(0, 0, 640, 64)
+ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 {
-//	SetBgColor(1, 0, 0);
+	Gui::Screen::AddBaseWidget(this, 0, 0);
 	SetTransparency(true);
 
 	Gui::Image *img = new Gui::Image("icons/cpanel.png");
@@ -77,12 +77,32 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(0, 0, 640, 64)
 	m_clock = new Gui::Label("");
 	m_clock->SetColor(1,0.7,0);
 	Add(m_clock, 2, 48);
+
+	tempMsg = new Gui::Label("");
+	Add(tempMsg, 170, 44);
+}
+
+void ShipCpanel::SetTemporaryMessage(Body * const sender, std::string msg)
+{
+	std::string poo = "#0f0"+msg;
+	if (sender) {
+		poo = std::string("#ca0")+"Message from "+sender->GetLabel()+":\n"+poo;
+	}
+	tempMsg->SetText(poo);
+	tempMsgAge = Pi::GetGameTime();
 }
 
 void ShipCpanel::Draw()
 {
 	std::string time = date_format(Pi::GetGameTime());
 	m_clock->SetText(time);
+
+	if (tempMsgAge) {
+		if (Pi::GetGameTime() - tempMsgAge > 5.0) {
+			tempMsg->SetText("");
+			tempMsgAge = 0;
+		}
+	}
 
 	Gui::Fixed::Draw();
 	Remove(m_scannerWidget);

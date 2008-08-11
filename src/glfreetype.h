@@ -11,6 +11,7 @@ class FontFace
 	FontFace(const char *filename_ttf);
 	void RenderGlyph(int chr);
 	void RenderString(const char *str);
+	void RenderMarkup(const char *str);
 	// of Ms
 	float GetHeight() { return m_height; }
 	float GetWidth() { return m_width; }

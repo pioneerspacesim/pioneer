@@ -4,15 +4,13 @@
 
 namespace Gui {
 
-Fixed::Fixed(float x, float y, float w, float h)
+Fixed::Fixed(float w, float h)
 {
-	SetPosition(x, y);
 	SetSize(w, h);
 	memcpy(m_bgcol, Color::bg, 3*sizeof(float));
 	m_w = w; m_h = h;
 	m_transparent = false;
 	m_eventMask = EVENT_ALL;
-	Screen::AddBaseWidget(this);
 }
 
 void Fixed::GetSizeRequested(float size[2])

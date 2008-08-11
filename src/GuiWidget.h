@@ -23,8 +23,9 @@ namespace Gui {
 		Container *GetParent() { return m_parent; }
 		void SetParent(Container *p) { m_parent = p; }
 
-		virtual void OnMouseDown(MouseButtonEvent *e) {}
-		virtual void OnMouseUp(MouseButtonEvent *e) {}
+		// event handlers should return false to stop propagating event
+		virtual bool OnMouseDown(MouseButtonEvent *e) { return true; }
+		virtual bool OnMouseUp(MouseButtonEvent *e) { return true; }
 		virtual void OnActivate() {}
 		// only to be called by Screen::OnKeyDown
 		void OnPreShortcut(const SDL_keysym *sym);

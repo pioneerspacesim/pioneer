@@ -10,7 +10,7 @@ Button::Button()
 	m_eventMask = EVENT_MOUSEDOWN | EVENT_MOUSEUP;
 	SetSize(BUTTON_SIZE, BUTTON_SIZE);
 }
-void Button::OnMouseDown(MouseButtonEvent *e)
+bool Button::OnMouseDown(MouseButtonEvent *e)
 {
 	if (e->button == 1) {
 		m_isPressed = true;
@@ -18,14 +18,16 @@ void Button::OnMouseDown(MouseButtonEvent *e)
 		// wait for mouse release, regardless of where on screen
 		_m_release = RawEvents::onMouseUp.connect(sigc::mem_fun(this, &Button::OnRawMouseUp));
 	}
+	return false;
 }
 
-void Button::OnMouseUp(MouseButtonEvent *e)
+bool Button::OnMouseUp(MouseButtonEvent *e)
 {
 	if ((e->button == 1) && m_isPressed) {
 		m_isPressed = false;
 		onClick.emit();
 	}
+	return false;
 }
 
 void Button::OnActivate()

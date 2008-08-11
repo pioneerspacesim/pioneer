@@ -7,8 +7,9 @@
 GenericSystemView::GenericSystemView(): View()
 {
 	px = py = pidx = 0xdeadbeef;
-	m_scannerLayout = new Gui::Fixed(140, 2, 360, 60);
+	m_scannerLayout = new Gui::Fixed(360, 60);
 	m_scannerLayout->SetTransparency(true);
+	Gui::Screen::AddBaseWidget(m_scannerLayout, 140, 2);
 
 	m_systemName = new Gui::Label("");
 	m_systemName->SetColor(1,1,0);

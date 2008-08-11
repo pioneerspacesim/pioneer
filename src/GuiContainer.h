@@ -10,14 +10,14 @@
 namespace Gui {
 	class Container: public Widget {
 	public:
-		void OnMouseDown(MouseButtonEvent *e);
-		void OnMouseUp(MouseButtonEvent *e);
+		bool OnMouseDown(MouseButtonEvent *e);
+		bool OnMouseUp(MouseButtonEvent *e);
 		void DeleteAllChildren();
 		virtual void Draw();
 		virtual void ShowAll();
 		virtual void HideAll();
 	private:
-		void HandleMouseEvent(MouseButtonEvent *e);
+		bool HandleMouseEvent(MouseButtonEvent *e);
 	protected:
 		void PrependChild(Widget *w, float x, float y);
 		void AppendChild(Widget *w, float x, float y);

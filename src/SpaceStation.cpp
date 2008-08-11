@@ -55,7 +55,6 @@ void SpaceStation::GetDockingSurface(CollMeshSet *mset, int midx)
 
 SpaceStation::SpaceStation(): ModelBody()
 {
-	allowDocking = true;
 	SetModel(STATION_SBRE_MODEL);
 	matrix4x4d m = matrix4x4d::RotateYMatrix(M_PI-M_PI/6);
 	SetRotation(m);
@@ -80,14 +79,19 @@ SpaceStation::~SpaceStation()
 {
 }
 
+bool SpaceStation::GetDockingClearance(Ship *s)
+{
+	s->SetDockingTimer(60*10);
+	return true;
+}
+
 bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 {
 	if (flags == 1) {
 		// hitting docking area of a station
 		if (b->GetType() == Object::SHIP) {
 			Ship *s = static_cast<Ship*>(b);
-			if ((!s->GetDockedWith()) && allowDocking) {
-				allowDocking = false;
+			if ((!s->GetDockedWith()) && (s->GetDockingTimer()!=0.0f)) {
 				s->Disable();
 				s->SetDockedWith(this);
 				printf("docking!\n");

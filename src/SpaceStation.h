@@ -5,6 +5,7 @@
 #include "ModelBody.h"
 
 class CollMeshSet;
+class Ship;
 
 class SpaceStation: public ModelBody {
 public:
@@ -14,13 +15,12 @@ public:
 	virtual Object::Type GetType() { return Object::SPACESTATION; }
 	virtual void Render(const Frame *camFrame);
 	void GetDockingSurface(CollMeshSet *mset, int midx);
+	bool GetDockingClearance(Ship *s);
 	struct dockingport_t {
 		vector3d center;
 		vector3d normal;
 		vector3d horiz;
 	} port;
-private:
-	bool allowDocking;
 };
 
 #endif /* _SPACESTATION_H */

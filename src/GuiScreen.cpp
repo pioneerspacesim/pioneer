@@ -82,8 +82,9 @@ void Screen::Draw()
 	LeaveOrtho();
 }
 
-void Screen::AddBaseWidget(Widget *w)
+void Screen::AddBaseWidget(Widget *w, int x, int y)
 {
+	w->SetPosition(x, y);
 	Screen::widgets.push_back(w);
 }
 
@@ -103,6 +104,8 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 	ev.isdown = (e->type == SDL_MOUSEBUTTONDOWN);
 	ev.x = x;
 	ev.y = y;
+	ev.screenX = x;
+	ev.screenY = y;
 	OnClickTestLabels(ev);
 	for (std::list<Widget*>::iterator i = Screen::widgets.begin(); i != Screen::widgets.end(); ++i) {
 		float size[2],pos[2];
@@ -157,6 +160,14 @@ void Screen::RenderString(const std::string &s)
 	glPushMatrix();
 	glScalef(Screen::font_xsize, Screen::font_ysize, 1);
 	font->RenderString(s.c_str());
+	glPopMatrix();
+}
+
+void Screen::RenderMarkup(const std::string &s)
+{
+	glPushMatrix();
+	glScalef(Screen::font_xsize, Screen::font_ysize, 1);
+	font->RenderMarkup(s.c_str());
 	glPopMatrix();
 }
 

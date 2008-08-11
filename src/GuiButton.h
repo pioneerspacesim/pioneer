@@ -9,8 +9,8 @@ namespace Gui {
 	public:
 		Button();
 		virtual ~Button() {}
-		virtual void OnMouseDown(MouseButtonEvent *e);
-		virtual void OnMouseUp(MouseButtonEvent *e);
+		virtual bool OnMouseDown(MouseButtonEvent *e);
+		virtual bool OnMouseUp(MouseButtonEvent *e);
 		virtual void OnActivate();
 		
 		// onClick only happens when press and release are both on widget (release can be elsewhere)
