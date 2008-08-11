@@ -14,12 +14,14 @@ public:
 	virtual void SetDockedWith(SpaceStation *);
 	vector3d GetExternalViewTranslation();
 	void ApplyExternalViewRotation();
+	void TimeStepUpdate(const float timeStep);
 private:
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
 	float m_mouseCMov[2];
 	float m_external_view_rotx, m_external_view_roty;
 	float m_external_view_dist;
+	bool polledControlsThisTurn;
 };
 
 #endif /* _PLAYER_H */

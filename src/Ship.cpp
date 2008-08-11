@@ -54,6 +54,18 @@ void Ship::UpdateMass()
 	dBodySetMass(m_body, &m_mass);
 }
 
+vector3d Ship::CalcRotDamping()
+{
+	// rotation damping.
+	const dReal *_av = dBodyGetAngularVel(m_body);
+	vector3d angVel(_av[0], _av[1], _av[2]);
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	angVel = rot.InverseOf() * angVel;
+
+	return angVel * 0.6;
+}
+
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 {
 	m_thrusters[t] = level;
@@ -61,6 +73,10 @@ void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 
 void Ship::ClearThrusterState()
 {
+	SetAngThrusterState(0, 0.0f);
+	SetAngThrusterState(1, 0.0f);
+	SetAngThrusterState(2, 0.0f);
+
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = 0;
 }
 
@@ -159,7 +175,6 @@ void Ship::SetDockedWith(SpaceStation *s)
 		m_dockedWith->GetRotMatrix(stationRot);
 		vector3d port_y = vector3d::Cross(-m_dockedWith->port.horiz, m_dockedWith->port.normal);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(m_dockedWith->port.horiz, port_y, m_dockedWith->port.normal);
-		rot.Print();
 		vector3d pos = m_dockedWith->GetPosition() + stationRot*m_dockedWith->port.center;
 		SetPosition(pos);
 		SetRotation(rot);

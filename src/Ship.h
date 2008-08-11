@@ -34,6 +34,7 @@ public:
 	const ShipType &GetShipType();
 	void CalcStats(shipstats_t *stats);
 	void UpdateMass();
+	vector3d CalcRotDamping();
 	void SetWheelState(bool down);
 	float GetDockingTimer() { return dockingTimer; }
 	void SetDockingTimer(float t) { dockingTimer = t; }

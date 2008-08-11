@@ -63,6 +63,24 @@ void Player::ApplyExternalViewRotation()
 	glRotatef(-m_external_view_roty, 0, 1, 0);
 }
 
+void Player::TimeStepUpdate(const float timeStep)
+{
+	// when world view not selected
+	if (!polledControlsThisTurn) {
+		const float time_accel = Pi::GetTimeAccel();
+		const float ta2 = time_accel*time_accel;
+		ClearThrusterState();
+		// still must apply rotation damping
+		vector3d damping = CalcRotDamping();
+		damping *= 1.0f/ta2;
+		SetAngThrusterState(0, -damping.x);
+		SetAngThrusterState(1, -damping.y);
+		SetAngThrusterState(2, -damping.z);
+	}
+	polledControlsThisTurn = false;
+	Ship::TimeStepUpdate(timeStep);
+}
+
 #define MOUSE_CTRL_AREA		10.0f
 #define MOUSE_RESTITUTION	0.01f
 
@@ -72,9 +90,7 @@ void Player::PollControls()
 	float time_accel = Pi::GetTimeAccel();
 	float ta2 = time_accel*time_accel;
 
-	SetAngThrusterState(0, 0.0f);
-	SetAngThrusterState(1, 0.0f);
-	SetAngThrusterState(2, 0.0f);
+	polledControlsThisTurn = true;
 
 	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
 		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 1;
@@ -90,6 +106,8 @@ void Player::PollControls()
 		return;
 	}
 
+	ClearThrusterState();
+	
 	vector3f angThrust(0.0f);
 
 	if (Pi::MouseButtonState(3)) {
@@ -103,7 +121,6 @@ void Player::PollControls()
 		angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 	}
 	
-	ClearThrusterState();
 	if (Pi::KeyState(SDLK_w)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
 	if (Pi::KeyState(SDLK_s)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
 	if (Pi::KeyState(SDLK_2)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
@@ -123,16 +140,11 @@ void Player::PollControls()
 			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
 		}
 		// rotation damping.
-		const dReal *_av = dBodyGetAngularVel(m_body);
-		vector3d angVel(_av[0], _av[1], _av[2]);
-		matrix4x4d rot;
-		GetRotMatrix(rot);
-		angVel = rot.InverseOf() * angVel;
+		vector3d damping = CalcRotDamping();
 
-		angVel *= 0.6;
-		angThrust.x -= angVel.x;
-		angThrust.y -= angVel.y;
-		angThrust.z -= angVel.z;
+		angThrust.x -= damping.x;
+		angThrust.y -= damping.y;
+		angThrust.z -= damping.z;
 
 		// dividing by time step so controls don't go totally mental when
 		// used at 10x accel
