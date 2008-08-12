@@ -1,5 +1,4 @@
 #include "Ship.h"
-#include "objimport.h"
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"

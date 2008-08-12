@@ -1,6 +1,5 @@
 #include "SpaceStation.h"
 #include "Ship.h"
-#include "objimport.h"
 #include "ModelCollMeshData.h"
 
 #define STATION_SBRE_MODEL	65

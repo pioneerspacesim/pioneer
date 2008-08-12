@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "DynamicBody.h"
 #include "Space.h"
-#include "objimport.h"
 #include "Frame.h"
 
 DynamicBody::DynamicBody(): ModelBody()

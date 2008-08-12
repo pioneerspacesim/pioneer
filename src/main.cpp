@@ -2,7 +2,6 @@
 #include "Pi.h"
 #include "Gui.h"
 #include "glfreetype.h"
-#include "objimport.h"
 #include "Player.h"
 #include "Space.h"
 #include "Planet.h"
