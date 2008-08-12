@@ -26,6 +26,7 @@ struct CustomSBody;
 
 class StarSystem {
 public:
+	StarSystem() { rootBody = 0; }
 	StarSystem(int sector_x, int sector_y, int system_idx);
 	~StarSystem();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
@@ -34,7 +35,7 @@ public:
 		*sec_x = loc.secX; *sec_y = loc.secY; *sys_idx = loc.sysIdx;
 	}
 
-	static float starColors[7][3];
+	static float starColors[][3];
 
 	struct Orbit {
 		void KeplerPosAtTime(double t, double *dist, double *ang);
@@ -46,6 +47,7 @@ public:
 	};
 	
 	enum BodyType {
+		TYPE_GRAVPOINT,
 		TYPE_STAR_M,
 		TYPE_STAR_K,
 		TYPE_STAR_G,

@@ -86,6 +86,7 @@ public:
 	static InfoView *infoView;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
+	static StarSystem *current_system;
 private:
 	static void InitOpenGL();
 	static void HandleEvents();

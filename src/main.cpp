@@ -44,6 +44,7 @@ SystemView *Pi::system_view;
 SystemInfoView *Pi::system_info_view;
 ShipCpanel *Pi::cpan;
 StarSystem *Pi::selected_system;
+StarSystem *Pi::current_system;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
@@ -317,8 +318,14 @@ StarSystem *Pi::GetSelectedSystem()
 
 void Pi::HyperspaceTo(StarSystem *dest)
 {
+	int sec_x, sec_y, sys_idx;
+	dest->GetPos(&sec_x, &sec_y, &sys_idx);
+
+	if (current_system) delete current_system;
+	current_system = new StarSystem(sec_x, sec_y, sys_idx);
+
 	Space::Clear();
-	Space::BuildSystem(dest);
+	Space::BuildSystem();
 	float ang = rng.Double(M_PI);
 	Pi::player->SetPosition(vector3d(sin(ang)*8*AU,cos(ang)*8*AU,0));
 	dest->GetPos(&Pi::playerLoc);

@@ -42,9 +42,25 @@ void Space::Clear()
 	Pi::player->SetFrame(rootFrame);
 }
 
-void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
+void Space::MoveFramesOfReference(Frame *f)
+{
+	if (f->sBody) {
+		vector3d pos = f->sBody->orbit.CartesianPosAtTime(Pi::GetGameTime());
+		f->SetPosition(pos);
+	}
+
+	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
+		MoveFramesOfReference(*i);
+	}
+}
+
+void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 {
 	Body *b;
+
+	// yay goto
+	if (sbody->type == StarSystem::TYPE_GRAVPOINT) goto just_make_kids;
+
 	if (sbody->GetSuperType() == StarSystem::SUPERTYPE_STAR) {
 		Star *star = new Star(sbody);
 		b = star;
@@ -60,24 +76,27 @@ void Space::GenBody(StarSystem *system, StarSystem::SBody *sbody, Frame *f)
 		vector3d pos = sbody->orbit.CartesianPosAtTime(0);
 		myframe->SetPosition(pos);
 		myframe->SetRadius(10*sbody->GetRadius());
+		myframe->sBody = sbody;
 		b->SetFrame(myframe);
 	} else {
 		b->SetFrame(f);
 		myframe = f;
 	}
+	f = myframe;
 
 	b->SetPosition(vector3d(0,0,0));
 	
 	AddBody(b);
 
+just_make_kids:
 	for (std::vector<StarSystem::SBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
-		GenBody(system, *i, myframe);
+		GenBody(*i, f);
 	}
 }
 
-void Space::BuildSystem(StarSystem *system)
+void Space::BuildSystem()
 {
-	GenBody(system, system->rootBody, rootFrame);
+	GenBody(Pi::current_system->rootBody, rootFrame);
 }
 
 void Space::AddBody(Body *b)
@@ -228,6 +247,7 @@ void Space::TimeStep(float step)
 	dJointGroupEmpty(_contactgroup);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
+	MoveFramesOfReference(rootFrame);
 	
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->TimeStepUpdate(step);

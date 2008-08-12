@@ -120,7 +120,7 @@ void WorldView::Draw3D()
 
 void WorldView::Update()
 {
-	if (Pi::GetSelectedSystem() /* && isn't current system */ ) {
+	if (Pi::GetSelectedSystem() && !Pi::player->GetDockedWith()/* && isn't current system */ ) {
 		m_hyperspaceButton->Show();
 	} else {
 		m_hyperspaceButton->Hide();

@@ -57,22 +57,48 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
 	float csize[2];
+	int majorBodies = 0;
 	GetSize(csize);
 
 	float xpos = 0;
 	float size[2];
-	Gui::ImageButton *ib = new Gui::ImageButton(s->rootBody->GetIcon());
-	ib->GetSize(size);
-	ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), s->rootBody));
-	Add(ib, 0, csize[1] - size[1]);
-	xpos += size[0];
-	float ycent = csize[1] - size[1]*0.5;
+	float ycent;
+	std::vector<StarSystem::SBody*>::iterator i = s->rootBody->children.begin();
 
-	for (std::vector<StarSystem::SBody*>::iterator i = s->rootBody->children.begin(); i != s->rootBody->children.end(); ++i) {
+	if (s->rootBody->type == StarSystem::TYPE_GRAVPOINT) {
+		// binary system
+		Gui::ImageButton *ib = new Gui::ImageButton((*i)->GetIcon());
+		ib->GetSize(size);
+		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
+		Add(ib, 0, csize[1] - size[1]);
+		float yoffset = size[1];
+		float xoffset = size[0];
+		++i; majorBodies++;
+		
+		ib = new Gui::ImageButton((*i)->GetIcon());
+		ib->GetSize(size);
+		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
+		Add(ib, 0, csize[1] - size[1] - yoffset);
+		++i; majorBodies++;
+		
+		xpos += xoffset;
+		ycent = csize[1] - yoffset*0.5;
+	} else {
+		Gui::ImageButton *ib = new Gui::ImageButton(s->rootBody->GetIcon());
+		ib->GetSize(size);
+		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), s->rootBody));
+		Add(ib, 0, csize[1] - size[1]);
+		xpos += size[0];
+		ycent = csize[1] - size[1]*0.5;
+		majorBodies++;
+	}
+
+	for (; i != s->rootBody->children.end(); ++i) {
 		Gui::ImageButton *ib = new Gui::ImageButton((*i)->GetIcon());
 		ib->GetSize(size);
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
 		Add(ib, xpos, ycent - 0.5*size[1]);
+		majorBodies++;
 
 		float moon_ypos = ycent - size[1] - 5;
 		if ((*i)->children.size()) for(std::vector<StarSystem::SBody*>::iterator moon = (*i)->children.begin(); moon != (*i)->children.end(); ++moon) {
@@ -87,7 +113,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	}
 	
 	char buf[512];
-	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", 1+s->rootBody->children.size());
+	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
 	m_infoText = new Gui::Label(buf);
 	m_infoText->SetColor(1,1,0);
 	Add(m_infoText, 50, 200);

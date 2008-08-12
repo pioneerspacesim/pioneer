@@ -6,7 +6,8 @@
 #define DEBUG_DUMP
 
 // indexed by enum type turd  
-float StarSystem::starColors[7][3] = {
+float StarSystem::starColors[][3] = {
+	{ 0, 0, 0 }, // gravpoint
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.6, 0.1 }, // K
 	{ 1.0, 1.0, 0.4 }, // G
@@ -25,6 +26,8 @@ static const struct SBodySubTypeInfo {
 	int tempMin, tempMax;
 } bodyTypeInfo[StarSystem::TYPE_MAX] = {
 	{
+		StarSystem::SUPERTYPE_NONE, 0, 0, "Shouldn't see this!",
+	}, {
 		StarSystem::SUPERTYPE_STAR,
 		40, 50, "Type 'M' red star",
 		"icons/object_star_m.png",
@@ -394,14 +397,82 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	// primary
 	SBody *primary = new SBody;
 
-	StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
-	primary->type = type;
-	primary->parent = NULL;
-	primary->radius = fixed(bodyTypeInfo[type].radius, 100);
-	primary->mass = fixed(bodyTypeInfo[type].mass, 100);
-	primary->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
-				bodyTypeInfo[type].tempMax);
-	rootBody = primary;
+	int isBinary = rand.Int32(2);
+	if (!isBinary) {
+		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
+		primary->type = type;
+		primary->parent = NULL;
+		primary->radius = fixed(bodyTypeInfo[type].radius, 100);
+		primary->mass = fixed(bodyTypeInfo[type].mass, 100);
+		primary->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
+					bodyTypeInfo[type].tempMax);
+		primary->name = s.m_systems[system_idx].name;
+		rootBody = primary;
+	} else {
+		SBody *centGrav = new SBody;
+		centGrav->type = TYPE_GRAVPOINT;
+		centGrav->parent = NULL;
+		centGrav->name = s.m_systems[system_idx].name;
+		rootBody = centGrav;
+
+		fixed ecc = rand.NFixed(3);
+		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
+		SBody *star[2];
+		star[0] = new SBody;
+		star[0]->type = type;
+		star[0]->name = s.m_systems[system_idx].name+" A";
+		star[0]->parent = centGrav;
+		star[0]->radius = fixed(bodyTypeInfo[type].radius, 100);
+		star[0]->mass = fixed(bodyTypeInfo[type].mass, 100);
+		star[0]->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
+					bodyTypeInfo[type].tempMax);
+		
+		// normally star types are picked by spectral class distribution in
+		// our galactic neighbourhood. in binary systems instead just pick
+		// random companion types up to spectral class of primary.
+		StarSystem::BodyType type2 = (BodyType)rand.Int32(TYPE_STAR_M, type);
+		star[1] = new SBody;
+		star[1]->type = type2;
+		star[1]->name = s.m_systems[system_idx].name+" B";
+		star[1]->parent = centGrav;
+		star[1]->radius = fixed(bodyTypeInfo[type2].radius, 100);
+		star[1]->mass = fixed(bodyTypeInfo[type2].mass, 100);
+		star[1]->averageTemp = rand.Int32(bodyTypeInfo[type2].tempMin,
+					bodyTypeInfo[type2].tempMax);
+		fixed m = star[0]->mass + star[1]->mass;
+		fixed a0 = star[1]->mass / m;
+		fixed a1 = star[0]->mass / m;
+		fixed semiMajorAxis;
+
+		switch (rand.Int32(3)) {
+			case 2: semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
+			case 1: semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
+			default:
+			case 0: semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
+		}
+		printf("Binary separation: %.2fAU\n", semiMajorAxis.ToDouble());
+
+		star[0]->orbit.eccentricity = ecc.ToDouble();
+		star[0]->orbit.semiMajorAxis = AU * (semiMajorAxis * a0).ToDouble();
+		star[0]->orbit.period = 60*60*24*365* semiMajorAxis.ToDouble() * sqrt(semiMajorAxis.ToDouble() / m.ToDouble());
+		star[0]->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
+
+		star[1]->orbit.eccentricity = ecc.ToDouble();
+		star[1]->orbit.semiMajorAxis = AU * (semiMajorAxis * a1).ToDouble();
+		star[1]->orbit.period = star[0]->orbit.period;
+		star[1]->orbit.rotMatrix = matrix4x4d::Identity();
+		
+		fixed radMin = semiMajorAxis - ecc*semiMajorAxis;
+		fixed radMax = 2*semiMajorAxis - radMin;
+		star[0]->radMin = radMin;
+		star[1]->radMin = radMin;
+		star[0]->radMax = radMax;
+		star[1]->radMax = radMax;
+
+		centGrav->children.push_back(star[0]);
+		centGrav->children.push_back(star[1]);
+		return;
+	}
 
 	// XXX bad if the enum is fiddled with........
 	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*primary->type*primary->type;

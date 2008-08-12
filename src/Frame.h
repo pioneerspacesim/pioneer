@@ -4,6 +4,7 @@
 #include "libs.h"
 #include <string>
 #include <list>
+#include "StarSystem.h"
 
 /*
  * Frame of reference.
@@ -36,6 +37,7 @@ public:
 	/* if parent is null then frame position is absolute */
 	Frame *m_parent;
 	std::list<Frame*> m_children;
+	StarSystem::SBody *sBody; // points to SBodies in Pi::current_system
 	
 	enum { TEMP_VIEWING=1 };
 private:

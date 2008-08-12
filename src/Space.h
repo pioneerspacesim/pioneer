@@ -13,8 +13,8 @@ class Space {
 public:
 	static void Init();
 	static void Clear();
-	static void BuildSystem(StarSystem *s);
-	static void GenBody(StarSystem *s, StarSystem::SBody *b, Frame *f);
+	static void BuildSystem();
+	static void GenBody(StarSystem::SBody *b, Frame *f);
 	static void TimeStep(float step);
 	static void AddBody(Body *);
 	static void KillBody(Body *);
@@ -26,6 +26,7 @@ public:
 	typedef std::list<Body*>::iterator bodiesIter_t;
 	static Frame *rootFrame;
 private:
+	static void MoveFramesOfReference(Frame *f);
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);
 	static void PruneCorpses();

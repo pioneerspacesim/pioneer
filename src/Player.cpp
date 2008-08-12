@@ -253,11 +253,11 @@ void Player::DrawHUD(const Frame *cam_frame)
 		vector3d abs_pos = GetPositionRelTo(Space::GetRootFrame());
 		const char *rel_to = (GetFrame() ? GetFrame()->GetLabel() : "System");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
-			"AbsPos: %.1f,%.1f,%.1f\n"
-			"Rel-to: %s",
+			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
+			"Rel-to: %s (%.0f km)",
 			pos.x, pos.y, pos.z,
-			abs_pos.x, abs_pos.y, abs_pos.z,
-			rel_to);
+			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
+			rel_to, pos.Length()/1000);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}

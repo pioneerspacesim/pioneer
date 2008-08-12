@@ -117,13 +117,15 @@ void SystemView::PutLabel(StarSystem::SBody *b)
 
 void SystemView::PutBody(StarSystem::SBody *b)
 {
-	glPointSize(5);
-	glColor3f(1,1,1);
-	glBegin(GL_POINTS);
-	glVertex3f(0,0,0);
-	glEnd();
+	if (b->type != StarSystem::TYPE_GRAVPOINT) {
+		glPointSize(5);
+		glColor3f(1,1,1);
+		glBegin(GL_POINTS);
+		glVertex3f(0,0,0);
+		glEnd();
 
-	PutLabel(b);
+		PutLabel(b);
+	}
 
 	if (b->children.size()) for(std::vector<StarSystem::SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
