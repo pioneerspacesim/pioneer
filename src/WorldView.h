@@ -15,15 +15,18 @@ public:
 	matrix4x4d viewingRotation;
 	static const float PICK_OBJECT_RECT_SIZE;
 	void UpdateCommsOptions();
+	bool GetShowLabels() { return labelsOn; }
 private:
 	Gui::Button *AddCommsOption(const std::string msg, int ypos);
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
+	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	Body* PickBody(const float screenX, const float screenY) const;
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsDlist;
 	Gui::Fixed *commsOptions;
+	bool labelsOn;
 };
 
 #endif /* _WORLDVIEW_H */

@@ -182,7 +182,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 	Gui::Screen::EnterOrtho();
 	glColor3f(.7,.7,.7);
 
-	{
+	if (Pi::world_view->GetShowLabels()) {
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((Pi::GetCamType() != Pi::CAM_EXTERNAL) && (*i == this)) continue;
 			Body *b = *i;

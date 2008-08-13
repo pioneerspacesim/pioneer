@@ -16,6 +16,7 @@ WorldView::WorldView(): View()
 	float size[2];
 	GetSize(size);
 	
+	labelsOn = true;
 	SetTransparency(true);
 	
 	commsOptions = new Fixed(size[0], size[1]/2);
@@ -28,6 +29,13 @@ WorldView::WorldView(): View()
 	wheels_button->AddState(1, "icons/wheels_down.png");
 	wheels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
 	m_rightButtonBar->Add(wheels_button, 34, 2);
+
+	Gui::MultiStateImageButton *labels_button = new Gui::MultiStateImageButton();
+	labels_button->SetShortcut(SDLK_F9, KMOD_NONE);
+	labels_button->AddState(1, "icons/labels_on.png");
+	labels_button->AddState(0, "icons/labels_off.png");
+	labels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeLabelsState));
+	m_rightButtonBar->Add(labels_button, 98, 2);
 
 	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
 	m_hyperspaceButton->SetShortcut(SDLK_F8, KMOD_NONE);
@@ -60,6 +68,10 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 	Pi::player->SetWheelState(b->GetState());
 }
 
+void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
+{
+	labelsOn = b->GetState();
+}
 
 void WorldView::OnClickHyperspace()
 {
