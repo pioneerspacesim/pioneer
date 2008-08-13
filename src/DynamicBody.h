@@ -12,7 +12,8 @@ public:
 	DynamicBody();
 	virtual ~DynamicBody();
 	virtual void SetRotation(const matrix4x4d &r);
-	void SetVelocity(vector3d v);
+	virtual void SetVelocity(vector3d v);
+	virtual vector3d GetVelocity();
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }

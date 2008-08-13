@@ -18,6 +18,9 @@ public:
 	const char *GetLabel() { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	vector3d GetPosition() { return m_pos; }
+	void SetVelocity(const vector3d &vel) { m_vel = vel; }
+	vector3d GetVelocity() { return m_vel; }
 	void SetRadius(double radius) { m_radius = radius; }
 	void RemoveChild(Frame *f);
 	void AddGeom(dGeomID g) { dSpaceAdd(m_dSpaceID, g); }
@@ -43,6 +46,8 @@ public:
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);
 	vector3d m_pos;
+	vector3d m_vel; // note we don't use this to move frame. rather,
+			// orbital rails determine velocity.
 	std::string m_label;
 	double m_radius;
 	int m_flags;

@@ -42,15 +42,19 @@ void Space::Clear()
 	Pi::player->SetFrame(rootFrame);
 }
 
-void Space::MoveFramesOfReference(Frame *f)
+void Space::MoveOrbitingObjectFrames(Frame *f)
 {
 	if (f->sBody) {
+		// this isn't very smegging efficient
 		vector3d pos = f->sBody->orbit.CartesianPosAtTime(Pi::GetGameTime());
+		vector3d pos2 = f->sBody->orbit.CartesianPosAtTime(Pi::GetGameTime()+1.0);
+		vector3d vel = pos2 - pos;
 		f->SetPosition(pos);
+		f->SetVelocity(vel);
 	}
 
 	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
-		MoveFramesOfReference(*i);
+		MoveOrbitingObjectFrames(*i);
 	}
 }
 
@@ -73,8 +77,6 @@ void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 	Frame *myframe;
 	if (sbody->parent) {
 		myframe = new Frame(f, sbody->name.c_str());
-		vector3d pos = sbody->orbit.CartesianPosAtTime(0);
-		myframe->SetPosition(pos);
 		myframe->SetRadius(10*sbody->GetRadius());
 		myframe->sBody = sbody;
 		b->SetFrame(myframe);
@@ -97,6 +99,7 @@ just_make_kids:
 void Space::BuildSystem()
 {
 	GenBody(Pi::current_system->rootBody, rootFrame);
+	MoveOrbitingObjectFrames(rootFrame);
 }
 
 void Space::AddBody(Body *b)
@@ -120,6 +123,8 @@ void Space::UpdateFramesOfReference()
 		// falling out of frames
 		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
 			printf("%s leaves frame %s\n", b->GetLabel().c_str(), b->GetFrame()->GetLabel());
+
+			b->SetVelocity(b->GetVelocity() + b->GetFrame()->GetVelocity());
 			
 			Frame *new_frame = b->GetFrame()->m_parent;
 			if (new_frame) { // don't let fall out of root frame
@@ -137,6 +142,7 @@ void Space::UpdateFramesOfReference()
 				printf("%s enters frame %s\n", b->GetLabel().c_str(), kid->GetLabel());
 				b->SetPosition(pos);
 				b->SetFrame(kid);
+				b->SetVelocity(b->GetVelocity() - kid->GetVelocity());
 				break;
 			}
 		}
@@ -247,7 +253,7 @@ void Space::TimeStep(float step)
 	dJointGroupEmpty(_contactgroup);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
-	MoveFramesOfReference(rootFrame);
+	MoveOrbitingObjectFrames(rootFrame);
 	
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->TimeStepUpdate(step);

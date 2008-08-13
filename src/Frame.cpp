@@ -28,6 +28,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_flags = flags;
 	m_radius = 0;
 	m_pos = vector3d(0.0f);
+	m_vel = vector3d(0.0);
 	m_dSpaceID = dHashSpaceCreate(0);
 	if (m_parent) {
 		m_parent->m_children.push_back(this);

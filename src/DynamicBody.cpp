@@ -60,6 +60,12 @@ DynamicBody::~DynamicBody()
 	dBodyDestroy(m_body);
 }
 
+vector3d DynamicBody::GetVelocity()
+{
+	const dReal *v = dBodyGetLinearVel(m_body);
+	return vector3d(v[0], v[1], v[2]);
+}
+
 void DynamicBody::SetVelocity(vector3d v)
 {
 	dBodySetLinearVel(m_body, v.x, v.y, v.z);

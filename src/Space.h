@@ -26,7 +26,7 @@ public:
 	typedef std::list<Body*>::iterator bodiesIter_t;
 	static Frame *rootFrame;
 private:
-	static void MoveFramesOfReference(Frame *f);
+	static void MoveOrbitingObjectFrames(Frame *f);
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);
 	static void PruneCorpses();

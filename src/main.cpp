@@ -326,7 +326,8 @@ void Pi::HyperspaceTo(StarSystem *dest)
 	Space::Clear();
 	Space::BuildSystem();
 	float ang = rng.Double(M_PI);
-	Pi::player->SetPosition(vector3d(sin(ang)*8*AU,cos(ang)*8*AU,0));
+	Pi::player->SetPosition(vector3d(sin(ang)*AU,cos(ang)*AU,0));
+	Pi::player->SetVelocity(vector3d(0.0));
 	dest->GetPos(&Pi::playerLoc);
 }
 

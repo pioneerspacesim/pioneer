@@ -16,6 +16,8 @@ public:
 	virtual Object::Type GetType() { return Object::BODY; }
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() = 0; // within frame
+	virtual void SetVelocity(vector3d v) { assert(0); }
+	virtual vector3d GetVelocity() { assert(0); return vector3d(0.0); }
 	virtual double GetRadius() const = 0;
 	virtual void Render(const Frame *camFrame) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
