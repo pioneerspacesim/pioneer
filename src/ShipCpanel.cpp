@@ -39,6 +39,11 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1000.0));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
 	Add(b, 88, 26);
+	
+	b = new Gui::ImageRadioButton(g, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 10000.0));
+	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
+	Add(b, 110, 26);
 		
 	g = new Gui::RadioGroup();
 	Gui::MultiStateImageButton *cam_button = new Gui::MultiStateImageButton();
