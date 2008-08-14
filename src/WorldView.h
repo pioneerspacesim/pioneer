@@ -12,7 +12,6 @@ public:
 	WorldView();
 	virtual void Update();
 	virtual void Draw3D();
-	matrix4x4d viewingRotation;
 	static const float PICK_OBJECT_RECT_SIZE;
 	void UpdateCommsOptions();
 	bool GetShowLabels() { return labelsOn; }

@@ -18,7 +18,6 @@ public:
 	vector3d GetPosition();
 	virtual double GetRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
-	void ViewingRotation();
 	void GetRotMatrix(matrix4x4d &m);
 	virtual void SetFrame(Frame *f);
 	void GeomsSetBody(dBodyID body);

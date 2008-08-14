@@ -62,3 +62,4 @@ void sbreGenCollMesh (CollMesh *pCMesh, int model, ObjParams *pParam, float s=1.
 void sbreRenderCollMesh (CollMesh *pCMesh, Vector *pPos, Matrix *pOrient);
 
 #endif /* __SBRE_H__ */
+

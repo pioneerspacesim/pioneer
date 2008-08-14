@@ -56,6 +56,8 @@ protected:
 	enum ShipType::Type m_shipType;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 private:
+	bool IsFiringLasers();
+
 	float m_wheelState;
 	float m_wheelTransition;
 

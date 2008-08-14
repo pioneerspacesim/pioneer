@@ -98,20 +98,33 @@ void WorldView::Draw3D()
 		// make temporary camera frame at player
 		Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
 
+		matrix4x4d camRot = matrix4x4d::Identity();
+
 		if (Pi::GetCamType() == Pi::CAM_FRONT) {
 			cam_frame.SetPosition(Pi::player->GetPosition());
 		} else if (Pi::GetCamType() == Pi::CAM_REAR) {
-			glRotatef(180.0f, 0, 1, 0);
+			camRot.RotateY(M_PI);
+		//	glRotatef(180.0f, 0, 1, 0);
 			cam_frame.SetPosition(Pi::player->GetPosition());
 		} else /* CAM_EXTERNAL */ {
 			cam_frame.SetPosition(Pi::player->GetPosition() + Pi::player->GetExternalViewTranslation());
-			Pi::player->ApplyExternalViewRotation();
+			Pi::player->ApplyExternalViewRotation(camRot);
 		}
-		Pi::player->ViewingRotation();
-		
-		glGetDoublev (GL_MODELVIEW_MATRIX, &viewingRotation[0]);
 
+		{
+			matrix4x4d prot;
+			Pi::player->GetRotMatrix(prot);
+			camRot = prot * camRot;
+		}
+		cam_frame.SetOrientation(camRot);
+		
+		matrix4x4d trans2bg;
+		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, trans2bg);
+		trans2bg.ClearToRotOnly();
+		glPushMatrix();
+		glMultMatrixd(&trans2bg[0]);
 		glCallList(m_bgstarsDlist);
+		glPopMatrix();
 		// position light at sol
 		matrix4x4d m;
 		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, m);

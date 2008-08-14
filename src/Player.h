@@ -13,7 +13,7 @@ public:
 	void DrawHUD(const Frame *cam_frame);
 	virtual void SetDockedWith(SpaceStation *);
 	vector3d GetExternalViewTranslation();
-	void ApplyExternalViewRotation();
+	void ApplyExternalViewRotation(matrix4x4d &m);
 	void TimeStepUpdate(const float timeStep);
 private:
 	void DrawTargetSquares();

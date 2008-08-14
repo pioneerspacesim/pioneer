@@ -214,6 +214,14 @@ void Ship::SetCombatTarget(Body* const target)
 	Pi::world_view->UpdateCommsOptions();
 }
 
+bool Ship::IsFiringLasers()
+{
+	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
+		if (m_gunState[i]) return true;
+	}
+	return false;
+}
+
 /* Assumed to be at model coords */
 void Ship::RenderLaserfire()
 {
@@ -278,9 +286,10 @@ void Ship::Render(const Frame *camFrame)
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderSbreModel(camFrame, stype.sbreModel, &params);
 
-	glPushMatrix();
-	TransformToModelCoords(camFrame);
-//	render_coll_mesh(sbreCollMesh);
-	RenderLaserfire();
-	glPopMatrix();
+	if (IsFiringLasers()) {
+		glPushMatrix();
+		TransformToModelCoords(camFrame);
+		RenderLaserfire();
+		glPopMatrix();
+	}
 }

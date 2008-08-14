@@ -111,25 +111,21 @@ void ModelBody::GetRotMatrix(matrix4x4d &m)
 	m.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
 }
 
-void ModelBody::ViewingRotation()
-{
-	matrix4x4d m;
-	GetRotMatrix(m);
-	m = m.InverseOf();
-	glMultMatrixd(&m[0]);
-}
-
 void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
-	vector3d fpos = GetPositionRelTo(camFrame);
-
+	const vector3d pos = GetPosition();
 	const dReal *r = dGeomGetRotation(geoms[0]);
 	matrix4x4d m;
+	
+	Frame::GetFrameTransform(GetFrame(), camFrame, m);
+	glMultMatrixd(&m[0]);
+	
 	m[ 0] = r[ 0];m[ 1] = r[ 4];m[ 2] = r[ 8];m[ 3] = 0;
 	m[ 4] = r[ 1];m[ 5] = r[ 5];m[ 6] = r[ 9];m[ 7] = 0;
 	m[ 8] = r[ 2];m[ 9] = r[ 6];m[10] = r[10];m[11] = 0;
-	m[12] = fpos.x; m[13] = fpos.y; m[14] = fpos.z; m[15] = 1;
+	m[12] = pos.x; m[13] = pos.y; m[14] = pos.z; m[15] = 1;
 	glMultMatrixd(&m[0]);
+	
 }
 
 void ModelBody::SetFrame(Frame *f)
@@ -189,11 +185,12 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
 
 	vector3d pos = GetPosition();//GetPositionRelTo(camFrame);
-	pos = Pi::world_view->viewingRotation * frameTrans * pos;
+	pos = frameTrans * pos;
 	Vector p; p.x = pos.x; p.y = pos.y; p.z = -pos.z;
 	matrix4x4d rot;
 	rot.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
-	rot = Pi::world_view->viewingRotation * frameTrans * rot;
+	frameTrans.ClearToRotOnly();
+	rot = frameTrans * rot;
 	Matrix m;
 	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];
 	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];

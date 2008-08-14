@@ -6,8 +6,6 @@
 #include "WorldView.h"
 #include "SpaceStationView.h"
 
-#define DEG_2_RAD	0.0174532925
-
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_external_view_rotx = m_external_view_roty = 0;
@@ -30,7 +28,6 @@ void Player::Render(const Frame *camFrame)
 	} else {
 		glPushMatrix();
 		// could only rotate, since transform is zero (camFrame is at player origin)
-		TransformToModelCoords(camFrame);
 		RenderLaserfire();
 		glPopMatrix();
 	}
@@ -47,8 +44,8 @@ void Player::SetDockedWith(SpaceStation *s)
 vector3d Player::GetExternalViewTranslation()
 {
 	vector3d p = vector3d(0, 0, m_external_view_dist);
-	p = matrix4x4d::RotateXMatrix(-DEG_2_RAD*m_external_view_rotx) * p;
-	p = matrix4x4d::RotateYMatrix(-DEG_2_RAD*m_external_view_roty) * p;
+	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_external_view_rotx)) * p;
+	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_external_view_roty)) * p;
 	matrix4x4d m;
 	GetRotMatrix(m);
 	p = m*p;
@@ -56,11 +53,10 @@ vector3d Player::GetExternalViewTranslation()
 	return p;
 }
 
-void Player::ApplyExternalViewRotation()
+void Player::ApplyExternalViewRotation(matrix4x4d &m)
 {
-//	glTranslatef(0, 0, m_external_view_dist);
-	glRotatef(-m_external_view_rotx, 1, 0, 0);
-	glRotatef(-m_external_view_roty, 0, 1, 0);
+	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_external_view_rotx)) * m;
+	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_external_view_roty)) * m;
 }
 
 void Player::TimeStepUpdate(const float timeStep)
@@ -174,24 +170,17 @@ void Player::DrawHUD(const Frame *cam_frame)
 	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
 	glGetIntegerv (GL_VIEWPORT, viewport);
 
-	const dReal *vel = dBodyGetLinearVel(m_body);
-
-	const matrix4x4d &rot = Pi::world_view->viewingRotation;
-	vector3d loc_v = rot * vector3d(vel[0], vel[1], vel[2]);
-
 	Gui::Screen::EnterOrtho();
 	glColor3f(.7,.7,.7);
 
+	// Object labels
 	{
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((Pi::GetCamType() != Pi::CAM_EXTERNAL) && (*i == this)) continue;
 			Body *b = *i;
 			vector3d _pos = b->GetPositionRelTo(cam_frame);
-			vector3d cam_coord = rot*_pos;
 
-			//printf("%s: %.1f,%.1f,%.1f\n", b->GetLabel().c_str(), _pos.x, _pos.y, _pos.z);
-
-			if (cam_coord.z < 0
+			if (_pos.z < 0
 				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
 				b->SetProjectedPos(_pos);
 				b->SetOnscreen(true);
@@ -204,12 +193,13 @@ void Player::DrawHUD(const Frame *cam_frame)
 
 	DrawTargetSquares();
 
-	GLdouble pos[3];
-
+	// Direction indicator
 	const float sz = HUD_CROSSHAIR_SIZE;
-	// if velocity vector is in front of us. draw indicator
+	const dReal *vel = dBodyGetLinearVel(m_body);
+	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vector3d(vel[0], vel[1], vel[2]);
 	if (loc_v.z < 0) {
-		if (Gui::Screen::Project (vel[0],vel[1],vel[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+		GLdouble pos[3];
+		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
 			glBegin(GL_LINES);
 			glVertex2f(pos[0]-sz, pos[1]-sz);
 			glVertex2f(pos[0]-0.5*sz, pos[1]-0.5*sz);
@@ -226,8 +216,8 @@ void Player::DrawHUD(const Frame *cam_frame)
 		}
 	}
 
+	// normal crosshairs
 	if (Pi::GetCamType() == Pi::CAM_FRONT) {
-		// normal crosshairs
 		float px = Gui::Screen::GetWidth()/2.0;
 		float py = Gui::Screen::GetHeight()/2.0;
 		glBegin(GL_LINES);

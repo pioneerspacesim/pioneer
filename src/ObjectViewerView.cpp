@@ -8,7 +8,6 @@
 ObjectViewerView::ObjectViewerView(): View()
 {
 	SetTransparency(true);
-	viewingRotation = matrix4x4d::Identity();
 	viewingDist = 1000.0f;
 	
 	m_infoLabel = new Gui::Label("");
@@ -18,7 +17,7 @@ ObjectViewerView::ObjectViewerView(): View()
 void ObjectViewerView::Draw3D()
 {
 	static float rot;
-	rot+= 0.1;
+	rot += 0.1;
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
@@ -28,27 +27,18 @@ void ObjectViewerView::Draw3D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	vector3d pos = vector3d(0,0,viewingDist);
-//	p = matrix4x4d::RotateXMatrix(-DEG_2_RAD*m_external_view_rotx) * p;
-	pos = matrix4x4d::RotateYMatrix(-DEG_2_RAD*rot) * pos;
-	pos = matrix4x4d::RotateXMatrix(-DEG_2_RAD*rot) * pos;
+	matrix4x4d camRot;
+	camRot = matrix4x4d::RotateXMatrix(-DEG2RAD(rot));
+	camRot = matrix4x4d::RotateYMatrix(-DEG2RAD(rot)) * camRot;
+	vector3d pos = camRot * vector3d(0,0,viewingDist);
 		
-	float lightPos[4];
-	lightPos[0] = 1;
-	lightPos[1] = 1;
-	lightPos[2] = 1;
-	lightPos[3] = 0;
+	float lightPos[4] = { 1, 1, 1, 0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	
-	// sbre rendering (see ModelBody.cpp) uses this...
-	glRotatef(-rot,0,1,0);
-	glRotatef(-rot,1,0,0);
-	//Pi::world_view->viewingRotation = matrix4x4d::Identity();
-	glGetDoublev (GL_MODELVIEW_MATRIX, &Pi::world_view->viewingRotation[0]);
 	
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
 		Frame cam_frame(body->GetFrame(), "", Frame::TEMP_VIEWING);
+		cam_frame.SetOrientation(camRot);
 		cam_frame.SetPosition(body->GetPosition()+pos);
 		body->Render(&cam_frame);
 		body->GetFrame()->RemoveChild(&cam_frame);

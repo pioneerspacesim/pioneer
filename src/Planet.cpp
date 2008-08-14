@@ -867,7 +867,9 @@ void Planet::Render(const Frame *a_camFrame)
 	glPushMatrix();
 	
 	double rad = sbody.GetRadius();
-	vector3d fpos = GetPositionRelTo(a_camFrame);
+	matrix4x4d ftran;
+	Frame::GetFrameTransform(GetFrame(), a_camFrame, ftran);
+	vector3d fpos = ftran * GetPosition();
 
 	double apparent_size = rad / fpos.Length();
 	double len = fpos.Length();
@@ -880,6 +882,9 @@ void Planet::Render(const Frame *a_camFrame)
 
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	glColor3f(1,1,1);
+
+	ftran.ClearToRotOnly();
+	glMultMatrixd(&ftran[0]);
 
 	if (apparent_size < 0.001) {
 		if (crudDList) {
@@ -908,6 +913,8 @@ void Planet::Render(const Frame *a_camFrame)
 		glScalef(rad,rad,rad);
 		glCallList(crudDList);
 		glPopMatrix();
+
+		fpos = ftran.InverseOf() * fpos;
 
 		DrawAtmosphere(rad, fpos);
 
