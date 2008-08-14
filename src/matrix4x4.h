@@ -62,6 +62,29 @@ class matrix4x4 {
 		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
 		return m;
 	}
+	// (x,y,z) must be normalized
+	static matrix4x4 RotateMatrix (T ang, T x, T y, T z) {
+		matrix4x4 m;
+		T c = cos(ang);
+		T s = sin(ang);
+		m[0] = x*x*(1-c)+c;
+		m[1] = y*x*(1-c)+z*s;
+		m[2] = x*z*(1-c)-y*s;
+		m[3] = 0;
+		m[4] = x*y*(1-c)-z*s;
+		m[5] = y*y*(1-c)+c;
+		m[6] = y*z*(1-c)+x*s;
+		m[7] = 0;
+		m[8] = x*z*(1-c)+y*s;
+		m[9] = y*z*(1-c)-x*s;
+		m[10] = z*z*(1-c)+c;
+		m[11] = 0;
+		m[12] = 0;
+		m[13] = 0;
+		m[14] = 0;
+		m[15] = 1;
+		return m;
+	}
 	void RotateZ (T radians) { *this = (*this) * RotateZMatrix (radians); }
 	void RotateY (T radians) { *this = (*this) * RotateYMatrix (radians); }
 	void RotateX (T radians) { *this = (*this) * RotateXMatrix (radians); }
