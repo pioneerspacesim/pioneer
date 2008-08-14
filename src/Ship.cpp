@@ -187,6 +187,7 @@ void Ship::SetDockedWith(SpaceStation *s)
 		dockingTimer = 0.0f;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
+		Disable();
 	}
 }
 

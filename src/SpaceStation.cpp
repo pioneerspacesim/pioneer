@@ -91,7 +91,6 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 		if (b->GetType() == Object::SHIP) {
 			Ship *s = static_cast<Ship*>(b);
 			if ((!s->GetDockedWith()) && (s->GetDockingTimer()!=0.0f)) {
-				s->Disable();
 				s->SetDockedWith(this);
 				printf("docking!\n");
 			}

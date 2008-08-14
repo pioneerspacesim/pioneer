@@ -182,7 +182,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 	Gui::Screen::EnterOrtho();
 	glColor3f(.7,.7,.7);
 
-	if (Pi::world_view->GetShowLabels()) {
+	{
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((Pi::GetCamType() != Pi::CAM_EXTERNAL) && (*i == this)) continue;
 			Body *b = *i;
@@ -195,7 +195,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
 				b->SetProjectedPos(_pos);
 				b->SetOnscreen(true);
-				Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
+				if (Pi::world_view->GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
 			}
 			else
 				b->SetOnscreen(false);
