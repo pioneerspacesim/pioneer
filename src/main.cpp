@@ -202,8 +202,6 @@ void Pi::MainLoop()
 	
 	const float zpos = EARTH_RADIUS * 1;
 	Frame *pframe = *(Space::rootFrame->m_children.begin());
-	player->SetFrame(pframe);
-	player->SetPosition(vector3d(0,zpos*0.1,zpos));
 	
 	for (int i=0; i<4; i++) {
 		Ship *body = new Ship(ShipType::LADYBIRD);
@@ -215,11 +213,20 @@ void Pi::MainLoop()
 		Space::AddBody(body);
 	}
 		
+	Frame *stationFrame = new Frame(pframe, "Station frame...");
+	stationFrame->SetRadius(5000);
+	stationFrame->sBody = 0;
+	stationFrame->SetPosition(vector3d(0,0,zpos));
+	stationFrame->SetAngVelocity(vector3d(0,0,0.5));
+
 	SpaceStation *station = new SpaceStation();
 	station->SetLabel("Poemi-chan's Folly");
-	station->SetFrame(pframe);
-	station->SetPosition(vector3d(5000,zpos*0.1,zpos-10000));
+	station->SetFrame(stationFrame);
+	station->SetPosition(vector3d(0,0,0));
 	Space::AddBody(station);
+
+	player->SetFrame(stationFrame);
+	player->SetPosition(vector3d(0,0,2000));
 
 	Gui::Init(scrWidth, scrHeight, 640, 480);
 
@@ -235,7 +242,7 @@ void Pi::MainLoop()
 	infoView = new InfoView();
 
 	SetView(world_view);
-	player->SetDockedWith(station);
+//	player->SetDockedWith(station);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;

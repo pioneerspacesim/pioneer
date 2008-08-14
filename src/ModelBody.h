@@ -13,7 +13,7 @@ public:
 	ModelBody();
 	virtual ~ModelBody();
 	void SetPosition(vector3d p);
-	virtual void SetRotation(const matrix4x4d &r);
+	virtual void SetRotMatrix(const matrix4x4d &r);
 	// not valid to do SetVelocity on these. if you want them to move then use a DynamicBody
 	vector3d GetPosition();
 	virtual double GetRadius() const;

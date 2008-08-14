@@ -15,24 +15,27 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
-	const char *GetLabel() { return m_label.c_str(); }
+	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_pos = pos; }
-	vector3d GetPosition() { return m_pos; }
+	vector3d GetPosition() const { return m_pos; }
 	void SetVelocity(const vector3d &vel) { m_vel = vel; }
-	vector3d GetVelocity() { return m_vel; }
+	vector3d GetVelocity() const { return m_vel; }
+	void SetAngVelocity(const vector3d &angvel) { m_angVel = angvel; }
+	vector3d GetAngVelocity() const { return m_angVel; }
+	const matrix4x4d &GetOrientation() const { return m_orient; }
+	void SetOrientation(const matrix4x4d &m) { m_orient = m; }
 	void SetRadius(double radius) { m_radius = radius; }
 	void RemoveChild(Frame *f);
 	void AddGeom(dGeomID g) { dSpaceAdd(m_dSpaceID, g); }
 	void RemoveGeom(dGeomID g) { dSpaceRemove(m_dSpaceID, g); }
-	dSpaceID GetSpaceID() { return m_dSpaceID; }
+	dSpaceID GetSpaceID() const { return m_dSpaceID; }
+	void RotateInTimestep(double step);
 
-	static vector3d GetFramePosRelativeToOther(const Frame *frame, const Frame *relTo);
+	void ApplyLeavingTransform(matrix4x4d &m) const;
+	void ApplyEnteringTransform(matrix4x4d &m) const;
 
-	vector3d GetPosRelativeToOtherFrame(const Frame *relTo) const
-	{
-		return GetFramePosRelativeToOther(this, relTo);
-	}
+	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 
 	bool IsLocalPosInFrame(const vector3d &pos) {
 		return (pos.Length() < m_radius);
@@ -48,6 +51,8 @@ private:
 	vector3d m_pos;
 	vector3d m_vel; // note we don't use this to move frame. rather,
 			// orbital rails determine velocity.
+	vector3d m_angVel; // this however *is* directly applied (for rotating frames)
+	matrix4x4d m_orient;
 	std::string m_label;
 	double m_radius;
 	int m_flags;

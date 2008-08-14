@@ -36,6 +36,7 @@ class IniConfig: private std::map<std::string, std::string> {
 	}
 };
 
+class Frame;
 /*
  * Implementation is in main.cpp, just to confuse you.
  */

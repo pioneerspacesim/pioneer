@@ -97,7 +97,7 @@ double ModelBody::GetRadius() const
 	return std::max(aabbAll[1] - aabbAll[0], std::max(aabbAll[3] - aabbAll[2], aabbAll[5] - aabbAll[4]));
 }
 
-void ModelBody::SetRotation(const matrix4x4d &r)
+void ModelBody::SetRotMatrix(const matrix4x4d &r)
 {
 	dMatrix3 _m;
 	r.SaveToOdeMatrix(_m);
@@ -184,12 +184,16 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 		sbreSetDirLight (lightCol, lightDir);
 	}
 	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 5.0f, 100000.0f, 0.0f, 1.0f);
-	vector3d pos = GetPositionRelTo(camFrame);
-	pos = Pi::world_view->viewingRotation * pos;
+
+	matrix4x4d frameTrans;
+	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
+
+	vector3d pos = GetPosition();//GetPositionRelTo(camFrame);
+	pos = Pi::world_view->viewingRotation * frameTrans * pos;
 	Vector p; p.x = pos.x; p.y = pos.y; p.z = -pos.z;
 	matrix4x4d rot;
 	rot.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
-	rot = Pi::world_view->viewingRotation * rot;
+	rot = Pi::world_view->viewingRotation * frameTrans * rot;
 	Matrix m;
 	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];
 	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];

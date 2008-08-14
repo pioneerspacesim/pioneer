@@ -55,8 +55,6 @@ void SpaceStation::GetDockingSurface(CollMeshSet *mset, int midx)
 SpaceStation::SpaceStation(): ModelBody()
 {
 	SetModel(STATION_SBRE_MODEL);
-	matrix4x4d m = matrix4x4d::RotateYMatrix(M_PI-M_PI/6);
-	SetRotation(m);
 
 	CollMeshSet *mset = GetModelCollMeshSet(STATION_SBRE_MODEL);
 	for (unsigned int i=0; i<geomColl.size(); i++) {

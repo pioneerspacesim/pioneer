@@ -19,6 +19,8 @@ public:
 	virtual void SetVelocity(vector3d v) { assert(0); }
 	virtual vector3d GetVelocity() { assert(0); return vector3d(0.0); }
 	virtual double GetRadius() const = 0;
+	virtual void SetRotMatrix(const matrix4x4d &r) {};
+	virtual void GetRotMatrix(matrix4x4d &m) { };
 	virtual void Render(const Frame *camFrame) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage

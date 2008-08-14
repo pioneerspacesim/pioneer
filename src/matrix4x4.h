@@ -163,6 +163,11 @@ class matrix4x4 {
 		m[15] = 1.0f;
 		return m;
 	}
+	void ClearToRotOnly() {
+		cell[12] = 0;
+		cell[13] = 0;
+		cell[14] = 0;
+	}
 	T& operator [] (const int i) { return cell[i]; }
 	friend matrix4x4 operator+ (const matrix4x4 &a, const matrix4x4 &b) {
 		matrix4x4 m;
@@ -211,12 +216,25 @@ class matrix4x4 {
 		out.z = cell[2]*v.x + cell[6]*v.y + cell[10]*v.z;
 		return out;
 	}
-	void Translatef (T x, T y, T z) {
+	void Translate(vector3<T> t) {
+		Translate(t.x, t.y, t.z);
+	}
+	void Translate(T x, T y, T z) {
 		matrix4x4 m = Identity ();
 		m[12] = x;
 		m[13] = y;
 		m[14] = z;
-		*this = (*this) * m;
+		*this = m * (*this);
+	}
+	static matrix4x4 Translation(vector3<T> v) {
+		return Translation(v.x, v.y, v.z);
+	}
+	static matrix4x4 Translation(T x, T y, T z) {
+		matrix4x4 m = Identity ();
+		m[12] = x;
+		m[13] = y;
+		m[14] = z;
+		return m;
 	}
 	matrix4x4 InverseOf () const {
 		matrix4x4 m;

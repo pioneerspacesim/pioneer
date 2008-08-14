@@ -52,6 +52,7 @@ void Space::MoveOrbitingObjectFrames(Frame *f)
 		f->SetPosition(pos);
 		f->SetVelocity(vel);
 	}
+	f->RotateInTimestep(Pi::GetTimeStep());
 
 	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
 		MoveOrbitingObjectFrames(*i);
@@ -123,26 +124,50 @@ void Space::UpdateFramesOfReference()
 		// falling out of frames
 		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
 			printf("%s leaves frame %s\n", b->GetLabel().c_str(), b->GetFrame()->GetLabel());
-
-			b->SetVelocity(b->GetVelocity() + b->GetFrame()->GetVelocity());
+			
+			vector3d oldFrameVel = b->GetFrame()->GetVelocity();
 			
 			Frame *new_frame = b->GetFrame()->m_parent;
 			if (new_frame) { // don't let fall out of root frame
-				vector3d new_pos = b->GetPositionRelTo(new_frame);
+				matrix4x4d m = matrix4x4d::Identity();
+				b->GetFrame()->ApplyLeavingTransform(m);
+
+				vector3d new_pos = m * b->GetPosition();//b->GetPositionRelTo(new_frame);
+
+				matrix4x4d rot;
+				b->GetRotMatrix(rot);
+				b->SetRotMatrix(m * rot);
+				
+
 				b->SetFrame(new_frame);
 				b->SetPosition(new_pos);
+
+				// get rid of transforms
+				m.ClearToRotOnly();
+				b->SetVelocity(m*b->GetVelocity() + oldFrameVel);
+			} else {
+				b->SetVelocity(b->GetVelocity() + oldFrameVel);
 			}
 		}
 
 		// entering into frames
 		for (std::list<Frame*>::iterator j = b->GetFrame()->m_children.begin(); j != b->GetFrame()->m_children.end(); ++j) {
 			Frame *kid = *j;
-			vector3d pos = b->GetFrame()->GetPosRelativeToOtherFrame(kid) + b->GetPosition();
+			matrix4x4d m;
+			Frame::GetFrameTransform(b->GetFrame(), kid, m);
+			vector3d pos = m * b->GetPosition();
 			if (kid->IsLocalPosInFrame(pos)) {
 				printf("%s enters frame %s\n", b->GetLabel().c_str(), kid->GetLabel());
 				b->SetPosition(pos);
 				b->SetFrame(kid);
-				b->SetVelocity(b->GetVelocity() - kid->GetVelocity());
+
+				matrix4x4d rot;
+				b->GetRotMatrix(rot);
+				b->SetRotMatrix(m * rot);
+				
+				// get rid of transforms
+				m.ClearToRotOnly();
+				b->SetVelocity(m*b->GetVelocity() - kid->GetVelocity());
 				break;
 			}
 		}

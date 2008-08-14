@@ -20,7 +20,9 @@ Body::~Body()
 /* f == NULL, then absolute position within system */
 vector3d Body::GetPositionRelTo(const Frame *relTo)
 {
-	return m_frame->GetPosRelativeToOtherFrame(relTo) + GetPosition();
+	matrix4x4d m;
+	Frame::GetFrameTransform(m_frame, relTo, m);
+	return m * GetPosition();
 }
 
 const vector3d& Body::GetProjectedPos() const

@@ -97,7 +97,7 @@ void WorldView::Draw3D()
 	if(Pi::player) {
 		// make temporary camera frame at player
 		Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
-		
+
 		if (Pi::GetCamType() == Pi::CAM_FRONT) {
 			cam_frame.SetPosition(Pi::player->GetPosition());
 		} else if (Pi::GetCamType() == Pi::CAM_REAR) {
@@ -113,7 +113,9 @@ void WorldView::Draw3D()
 
 		glCallList(m_bgstarsDlist);
 		// position light at sol
-		vector3d lpos = vector3d::Normalize(Frame::GetFramePosRelativeToOther(Space::GetRootFrame(), &cam_frame));
+		matrix4x4d m;
+		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, m);
+		vector3d lpos = vector3d::Normalize(m * vector3d(0,0,0));
 		float lightPos[4];
 		lightPos[0] = lpos.x;
 		lightPos[1] = lpos.y;
