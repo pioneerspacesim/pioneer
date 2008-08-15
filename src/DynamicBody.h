@@ -19,6 +19,7 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	vector3d GetAngularMomentum();
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
+	virtual void TimeStepUpdate(const float timeStep);
 	virtual void Disable();
 	virtual void Enable();
 	

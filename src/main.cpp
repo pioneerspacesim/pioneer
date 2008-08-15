@@ -160,6 +160,16 @@ void Pi::HandleEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_q) Pi::Quit();
+#ifdef DEBUG
+				if (event.key.keysym.sym == SDLK_F12) {
+					/* add test object */
+					Ship *body = new Ship(ShipType::LADYBIRD);
+					body->SetLabel("A friend");
+					body->SetFrame(Pi::player->GetFrame());
+					body->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-1000));
+					Space::AddBody(body);
+				}
+#endif /* DEBUG */
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
 				if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
 				Pi::keyState[event.key.keysym.sym] = 1;

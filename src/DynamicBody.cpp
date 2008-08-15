@@ -60,6 +60,18 @@ DynamicBody::~DynamicBody()
 	dBodyDestroy(m_body);
 }
 
+void DynamicBody::TimeStepUpdate(const float timeStep)
+{
+	// XXX Terrible hack!!!!
+	// Prevent huge ang velocities because ode hates them!
+	const dReal *v = dBodyGetAngularVel(m_body);
+	vector3d vel;
+	vel.x = CLAMP(v[0], -50.0, 50.0);
+	vel.y = CLAMP(v[1], -50.0, 50.0);
+	vel.z = CLAMP(v[2], -50.0, 50.0);
+	dBodySetAngularVel(m_body, vel.x, vel.y, vel.z);
+}
+
 vector3d DynamicBody::GetVelocity()
 {
 	const dReal *v = dBodyGetLinearVel(m_body);

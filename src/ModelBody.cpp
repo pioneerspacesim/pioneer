@@ -113,6 +113,7 @@ void ModelBody::GetRotMatrix(matrix4x4d &m)
 
 void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
+	printf("ModelBody::TransformToModelCoords(): Warning! This becomes hideously inaccurate if the Body is in the root frame, and a few AUs out.\n");
 	const vector3d pos = GetPosition();
 	const dReal *r = dGeomGetRotation(geoms[0]);
 	matrix4x4d m;
