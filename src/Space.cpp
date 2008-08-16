@@ -59,6 +59,42 @@ void Space::MoveOrbitingObjectFrames(Frame *f)
 	}
 }
 
+static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
+{
+	Frame *orbFrame, *rotFrame;
+
+	if (!sbody->parent) {
+		b->SetFrame(f);
+		return f;
+	}
+
+	switch (sbody->GetSuperType()) {
+		// for planets we want an non-rotating frame for a few radii
+		// and a rotating frame in the same position but with maybe 1.1*radius,
+		// which actually contains the object.
+		case StarSystem::SUPERTYPE_GAS_GIANT:
+		case StarSystem::SUPERTYPE_ROCKY_PLANET:
+			orbFrame = new Frame(f, sbody->name.c_str());
+			orbFrame->sBody = sbody;
+			orbFrame->SetRadius(10*sbody->GetRadius());
+		
+			assert(sbody->GetRotationPeriod() != 0);
+			rotFrame = new Frame(orbFrame, sbody->name.c_str());
+			rotFrame->SetRadius(1.1*sbody->GetRadius());
+			rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+			b->SetFrame(rotFrame);
+			return orbFrame;
+		// stars want a single small non-rotating frame
+		case StarSystem::SUPERTYPE_STAR:
+		default:
+			orbFrame = new Frame(f, sbody->name.c_str());
+			orbFrame->sBody = sbody;
+			orbFrame->SetRadius(1.2*sbody->GetRadius());
+			b->SetFrame(orbFrame);
+			return orbFrame;
+	}		
+}
+
 void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 {
 	Body *b;
@@ -74,20 +110,8 @@ void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 		b = planet;
 	}
 	b->SetLabel(sbody->name.c_str());
-	
-	Frame *myframe;
-	if (sbody->parent) {
-		myframe = new Frame(f, sbody->name.c_str());
-		myframe->SetRadius(10*sbody->GetRadius());
-		myframe->sBody = sbody;
-		b->SetFrame(myframe);
-	} else {
-		b->SetFrame(f);
-		myframe = f;
-	}
-	f = myframe;
-
 	b->SetPosition(vector3d(0,0,0));
+	f = MakeFrameFor(sbody, b, f);
 	
 	AddBody(b);
 

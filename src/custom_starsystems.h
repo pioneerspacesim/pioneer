@@ -14,6 +14,7 @@ struct CustomSBody {
 	fixed semiMajorAxis; // in AUs
 	fixed eccentricity;
 	float inclination; // radians
+	fixed rotationPeriod; // in days
 };
 
 struct CustomSystem {

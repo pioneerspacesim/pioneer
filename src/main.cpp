@@ -210,8 +210,8 @@ void Pi::MainLoop()
 	StarSystem s(0,0,0);
 	HyperspaceTo(&s);
 	
-	const float zpos = EARTH_RADIUS * 1;
-	Frame *pframe = *(Space::rootFrame->m_children.begin());
+	const float zpos = EARTH_RADIUS * 3;
+	Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
 	
 	Frame *stationFrame = new Frame(pframe, "Station frame...");
 	stationFrame->SetRadius(5000);
@@ -252,7 +252,7 @@ void Pi::MainLoop()
 	infoView = new InfoView();
 
 	SetView(world_view);
-//	player->SetDockedWith(station);
+	player->SetDockedWith(station);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;

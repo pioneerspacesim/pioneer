@@ -333,6 +333,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->mass = c->mass;
 		kid->averageTemp = c->averageTemp;
 		kid->name = c->name;
+		kid->rotationPeriod = c->rotationPeriod;
 		
 		kid->orbit.eccentricity = c->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
@@ -490,6 +491,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		planet->parent = primary;
 	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 		planet->mass = mass;
+		planet->rotationPeriod = fixed(rand.Int32(1,200), 24);
 
 		fixed ecc = rand.NFixed(3);
 		fixed semiMajorAxis = fixed(i+1, 10); // in AUs
@@ -626,6 +628,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 			moon->tmp = 0;
 			moon->parent = this;
 		//	moon->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
+			moon->rotationPeriod = fixed(rand.Int32(1,200), 24);
+
 			moon->mass = mass;
 			fixed ecc = rand.NFixed(3);
 			fixed semiMajorAxis = fixed(i+2, 2000);

@@ -47,7 +47,6 @@ void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 		max.z = MAX(m->pVertex[i+2], max.z);
 	}
 	float size = ((max.x-min.x) + (max.y-min.y) + (max.z-min.z)) / 6.0f;
-	printf("size %f\n", size);
 	dMassSetSphere(&m_mass, 1, size);
 	// boxes go mental after a while due to inertia tensor being fishy
 //	dMassSetBox(&m_mass, 1, max.x-min.x, max.y-min.y, max.z-min.z);

@@ -104,6 +104,10 @@ public:
 			else
 				return mass.ToDouble() * EARTH_MASS;
 		}
+		// returned in seconds
+		double GetRotationPeriod() const {
+			return rotationPeriod.ToDouble()*60*60*24;
+		}
 
 		int tmp;
 		Orbit orbit;
@@ -112,6 +116,7 @@ public:
 		fixed radius; 
 		fixed mass; // earth masses if planet, solar masses if star
 		fixed radMin, radMax; // in AUs
+		fixed rotationPeriod; // in days
 		int averageTemp;
 		BodyType type;
 	};
