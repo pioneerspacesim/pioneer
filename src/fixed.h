@@ -54,6 +54,7 @@ public:
 	friend bool operator<=(const fixed a, const fixed b) { return a.v <= b.v; }
 
 	/* implicit operator float() bad */
+	Sint64 ToInt64() const { return v>>FRAC; }
 	float ToFloat() const { return v/(float)(1<<FRAC); }
 	double ToDouble() const { return v/(double)(1<<FRAC); }
 

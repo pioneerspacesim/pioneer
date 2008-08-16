@@ -275,11 +275,16 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 
 void StarSystem::SBody::EliminateBadChildren()
 {
+	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end(); ++i) {
+		(*i)->tmp = 0;
+	}
 	// now check for overlapping & unacceptably close orbits. merge planets
 	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end(); ++i) {
+		if ((*i)->GetSuperType() == SUPERTYPE_STAR) continue;
 		if ((*i)->tmp) continue;
 
 		for (std::vector<SBody*>::iterator j = children.begin(); j != children.end(); ++j) {
+			if ((*j)->GetSuperType() == SUPERTYPE_STAR) continue;
 			if ((*j) == (*i)) continue;
 			// don't eat anything bigger than self
 			if ((*j)->mass > (*i)->mass) continue;
@@ -465,50 +470,52 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		return;
 	}
 
-	// primary
-	SBody *primary = new SBody;
+	SBody *star[4];
+	SBody *centGrav1, *centGrav2;
 
 	int isBinary = rand.Int32(2);
 	if (!isBinary) {
 		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
-		primary->parent = NULL;
-		primary->name = s.m_systems[system_idx].name;
-		MakeStarOfType(primary, type, rand);
-		rootBody = primary;
+		star[0] = new SBody;
+		star[0]->parent = NULL;
+		star[0]->name = s.m_systems[system_idx].name;
+		star[0]->orbMin = 0;
+		star[0]->orbMax = 0;
+		MakeStarOfType(star[0], type, rand);
+		rootBody = star[0];
 		m_numStars = 1;
 	} else {
-		SBody *centGrav = new SBody;
-		centGrav->type = TYPE_GRAVPOINT;
-		centGrav->parent = NULL;
-		centGrav->name = s.m_systems[system_idx].name;
-		rootBody = centGrav;
+		centGrav1 = new SBody;
+		centGrav1->type = TYPE_GRAVPOINT;
+		centGrav1->parent = NULL;
+		centGrav1->name = s.m_systems[system_idx].name;
+		rootBody = centGrav1;
 
 		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
-		SBody *star[4];
 		star[0] = new SBody;
 		star[0]->name = s.m_systems[system_idx].name+" A";
-		star[0]->parent = centGrav;
+		star[0]->parent = centGrav1;
 		MakeStarOfType(star[0], type, rand);
 		
 		star[1] = new SBody;
 		star[1]->name = s.m_systems[system_idx].name+" B";
-		star[1]->parent = centGrav;
+		star[1]->parent = centGrav1;
 		MakeRandomStarLighterThan(star[1], star[0]->mass, rand);
 
 		MakeBinaryPair(star[0], star[1], fixed(0), rand);
 
-		centGrav->mass = star[0]->mass + star[1]->mass;
-		centGrav->children.push_back(star[0]);
-		centGrav->children.push_back(star[1]);
+		centGrav1->mass = star[0]->mass + star[1]->mass;
+		centGrav1->children.push_back(star[0]);
+		centGrav1->children.push_back(star[1]);
 		m_numStars = 2;
 
 		if ((star[0]->orbMax < fixed(100,1)) &&
 		    (!rand.Int32(3))) {
-			SBody *centGrav2;
 			// 3rd and maybe 4th star
 			if (!rand.Int32(2)) {
 				star[2] = new SBody;
 				star[2]->name = s.m_systems[system_idx].name+" C";
+				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
 				MakeRandomStarLighterThan(star[2], star[0]->mass, rand);
 				centGrav2 = star[2];
@@ -539,27 +546,56 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 			superCentGrav->type = TYPE_GRAVPOINT;
 			superCentGrav->parent = NULL;
 			superCentGrav->name = s.m_systems[system_idx].name;
-			centGrav->parent = superCentGrav;
+			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
 			const fixed minDist = star[0]->orbMax + star[2]->orbMax;
-			MakeBinaryPair(centGrav, centGrav2, 4*minDist, rand);
-			superCentGrav->children.push_back(centGrav);
+			MakeBinaryPair(centGrav1, centGrav2, 4*minDist, rand);
+			superCentGrav->children.push_back(centGrav1);
 			superCentGrav->children.push_back(centGrav2);
 
 		}
-		return;
 	}
 
-	// XXX bad if the enum is fiddled with........
-	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*primary->type*primary->type;
+	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i]);
+
+	if (m_numStars > 1) MakePlanetsAround(centGrav1);
+	if (m_numStars == 4) MakePlanetsAround(centGrav2);
+}
+
+void StarSystem::MakePlanetsAround(SBody *primary)
+{
+	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*(10*primary->mass*primary->mass).ToInt64();
 	//printf("disc_size %.1fAU\n", disc_size/10.0);
+	
+	// some restrictions on planet formation due to binary star orbits
+	fixed orbMinKill = fixed(0);
+	fixed orbMaxKill = fixed(disc_size, 10);
+	if (primary->type == TYPE_GRAVPOINT) {
+		SBody *star = primary->children[0];
+		orbMinKill = star->orbMax*10;
+		// XXX need to consider triple and quadruple systems -
+		// the other pair will obstruct also
+	}
+	else if ((primary->GetSuperType() == SUPERTYPE_STAR) && (primary->parent)) {
+		// limit planets out to 10% distance to star's binary companion
+		orbMaxKill = primary->orbMin * fixed(1,10);
+	}
+	printf("kill at %f,%f AU\n", orbMinKill.ToDouble(), orbMaxKill.ToDouble());
 
 	std::vector<int> *disc = AccreteDisc(disc_size, 10, rand.Int32(10,400), rand);
 	for (unsigned int i=0; i<disc->size(); i++) {
 		fixed mass = fixed((*disc)[i]);
 		if (mass == 0) continue;
+		fixed semiMajorAxis = fixed(i+1, 10); // in AUs
+		fixed ecc = rand.NFixed(3);
+		// perihelion and aphelion (in AUs)
+		fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
+		fixed orbMax = 2*semiMajorAxis - orbMin;
 
+		if ((orbMin < orbMinKill) ||
+		    (orbMax > orbMaxKill)) continue;
+		
 		SBody *planet = new SBody;
 		planet->type = TYPE_PLANET_DWARF;
 		planet->seed = rand.Int32();
@@ -569,26 +605,23 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		planet->mass = mass;
 		planet->rotationPeriod = fixed(rand.Int32(1,200), 24);
 
-		fixed ecc = rand.NFixed(3);
-		fixed semiMajorAxis = fixed(i+1, 10); // in AUs
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, SOL_MASS*primary->mass.ToDouble());
 		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
 					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
+		planet->orbMin = orbMin;
+		planet->orbMax = orbMax;
 		primary->children.push_back(planet);
-
-		// perihelion and aphelion (in AUs)
-		planet->orbMin = semiMajorAxis - ecc*semiMajorAxis;
-		planet->orbMax = 2*semiMajorAxis - planet->orbMin;
 	}
 	delete disc;
 
 	// merge children with overlapping or very close orbits
 	primary->EliminateBadChildren();
-	primary->name = s.m_systems[system_idx].name;
 	int idx=0;
+	
 	for (std::vector<SBody*>::iterator i = primary->children.begin(); i != primary->children.end(); ++i) {
+		if ((*i)->GetSuperType() == SUPERTYPE_STAR) continue;
 		// Turn them into something!!!!!!!
 		char buf[3];
 		buf[0] = ' ';
@@ -599,7 +632,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		(*i)->PickPlanetType(primary, d, rand, true);
 
 #ifdef DEBUG_DUMP
-		printf("%s: mass %f, semi-major axis %fAU, ecc %f\n", (*i)->name.c_str(), (*i)->mass.ToDouble(), (*i)->orbit.semiMajorAxis/AU, (*i)->orbit.eccentricity);
+//		printf("%s: mass %f, semi-major axis %fAU, ecc %f\n", (*i)->name.c_str(), (*i)->mass.ToDouble(), (*i)->orbit.semiMajorAxis/AU, (*i)->orbit.eccentricity);
 #endif /* DEBUG_DUMP */
 
 	}

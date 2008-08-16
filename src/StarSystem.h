@@ -126,6 +126,7 @@ public:
 	
 	SBody *rootBody;
 private:
+	void MakePlanetsAround(SBody *primary);
 	void MakeRandomStar(SBody *sbody, MTRand &rand);
 	void MakeRandomStarLighterThan(SBody *sbody, fixed maxMass, MTRand &rand);
 	void MakeStarOfType(SBody *sbody, BodyType type, MTRand &rand);
