@@ -104,7 +104,6 @@ void Ship::CalcStats(shipstats_t *stats)
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
-	DynamicBody::TimeStepUpdate(timeStep);
 	dockingTimer = (dockingTimer-timeStep > 0 ? dockingTimer-timeStep : 0);
 	// ode tri mesh turd likes to know our old position
 	TriMeshUpdateLastPos();

@@ -34,6 +34,8 @@ void DynamicBody::SetRotation(const matrix4x4d &r)
 
 void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 {
+	// XXX this is stupid. the radius of mass distribution should be
+	// defined on the model, not cooked up in some moronic way
 	vector3d min = vector3d(FLT_MAX);
 	vector3d max = vector3d(-FLT_MAX);
 	for (int i=0; i<3*m->nv; i+=3) {
@@ -44,7 +46,11 @@ void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 		max.y = MAX(m->pVertex[i+1], max.y);
 		max.z = MAX(m->pVertex[i+2], max.z);
 	}
-	dMassSetBox(&m_mass, 1, max.x-min.x, max.y-min.y, max.z-min.z);
+	float size = ((max.x-min.x) + (max.y-min.y) + (max.z-min.z)) / 6.0f;
+	printf("size %f\n", size);
+	dMassSetSphere(&m_mass, 1, size);
+	// boxes go mental after a while due to inertia tensor being fishy
+//	dMassSetBox(&m_mass, 1, max.x-min.x, max.y-min.y, max.z-min.z);
 	dBodySetMass(m_body, &m_mass);
 }
 
@@ -58,18 +64,6 @@ vector3d DynamicBody::GetAngularMomentum()
 DynamicBody::~DynamicBody()
 {
 	dBodyDestroy(m_body);
-}
-
-void DynamicBody::TimeStepUpdate(const float timeStep)
-{
-	// XXX Terrible hack!!!!
-	// Prevent huge ang velocities because ode hates them!
-	const dReal *v = dBodyGetAngularVel(m_body);
-	vector3d vel;
-	vel.x = CLAMP(v[0], -50.0, 50.0);
-	vel.y = CLAMP(v[1], -50.0, 50.0);
-	vel.z = CLAMP(v[2], -50.0, 50.0);
-	dBodySetAngularVel(m_body, vel.x, vel.y, vel.z);
 }
 
 vector3d DynamicBody::GetVelocity()
