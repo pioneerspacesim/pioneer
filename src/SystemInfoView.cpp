@@ -58,7 +58,7 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	m_infoText->SetText(desc);
 }
 
-void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies)
+void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies, float prevSize)
 {
 	float size[2];
 	float myPos[2];
@@ -68,20 +68,25 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
 		ib->GetSize(size);
 		size[1] = -size[1];
-		pos[dir] += size[dir];
-		myPos[dir] += size[dir];
+		if (prevSize == -1) prevSize = size[!dir];
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
-		Add(ib, pos[0]-0.5*size[0], pos[1]+0.5*size[1]);
+		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
+		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
+		Add(ib, myPos[0],
+			myPos[1]+size[1]);
 		majorBodies++;
+		pos[dir] += size[dir];
 		dir = !dir;
-		myPos[dir] += 0.5*size[dir];
+		myPos[dir] += size[dir];
 	} else {
+		size[0] = -1;
+		size[1] = -1;
 		pos[!dir] += 320;
 	}
 
 	for (std::vector<StarSystem::SBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
-		PutBodies(*i, dir, myPos, majorBodies);
+		PutBodies(*i, dir, myPos, majorBodies, size[!dir]);
 	}
 }
 
@@ -93,10 +98,10 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	GetSize(csize);
 
 	float pos[2];
-	pos[0] = 50;
-	pos[1] = csize[1]+40;
+	pos[0] = 0;
+	pos[1] = csize[1];
 
-	PutBodies(s->rootBody, 1, pos, majorBodies);
+	PutBodies(s->rootBody, 1, pos, majorBodies, -1);
 	
 	char buf[512];
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);

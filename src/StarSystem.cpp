@@ -519,7 +519,6 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 				centGrav2->name = s.m_systems[system_idx].name;
 				centGrav2->orbMax = 0;
 
-				StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
 				star[2] = new SBody;
 				star[2]->name = s.m_systems[system_idx].name+" C";
 				star[2]->parent = centGrav2;

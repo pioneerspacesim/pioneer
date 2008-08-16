@@ -16,7 +16,7 @@ private:
 
 	void SystemChanged(StarSystem *s);
 	void OnBodySelected(StarSystem::SBody *b);
-	void PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies);
+	void PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies, float prevSize);
 	StarSystem::SBody *m_bodySelected;
 	Gui::Label *m_infoText;
 };
