@@ -48,7 +48,9 @@ MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
-systemloc_t Pi::playerLoc;
+int Pi::playerLocSecX;
+int Pi::playerLocSecY;
+int Pi::playerLocSysIdx;
 
 void Pi::Init(IniConfig &config)
 {
@@ -345,7 +347,7 @@ void Pi::HyperspaceTo(StarSystem *dest)
 	float ang = rng.Double(M_PI);
 	Pi::player->SetPosition(vector3d(sin(ang)*AU,cos(ang)*AU,0));
 	Pi::player->SetVelocity(vector3d(0.0));
-	dest->GetPos(&Pi::playerLoc);
+	dest->GetPos(&Pi::playerLocSecX, &Pi::playerLocSecY, &Pi::playerLocSysIdx);
 }
 
 IniConfig::IniConfig(const char *filename)

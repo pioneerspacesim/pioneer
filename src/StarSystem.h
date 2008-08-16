@@ -15,10 +15,6 @@
 #define AU		149598000000.0
 #define G		6.67428e-11
 
-struct systemloc_t {
-	int secX, secY, sysIdx;
-};
-
 struct CustomSBody;
 
 // doubles: all masses in Kg, all lengths in meters
@@ -30,9 +26,8 @@ public:
 	StarSystem(int sector_x, int sector_y, int system_idx);
 	~StarSystem();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	void GetPos(systemloc_t *l) { *l = loc;	}
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
-		*sec_x = loc.secX; *sec_y = loc.secY; *sys_idx = loc.sysIdx;
+		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
 	}
 
 	static float starColors[][3];
@@ -118,7 +113,7 @@ public:
 		std::string name;
 		fixed radius; 
 		fixed mass; // earth masses if planet, solar masses if star
-		fixed radMin, radMax; // in AUs
+		fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 		fixed rotationPeriod; // in days
 		int averageTemp;
 		BodyType type;
@@ -130,7 +125,7 @@ private:
 	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
 	void GenerateFromCustom(const CustomSBody *);
 
-	systemloc_t loc;
+	int m_secx, m_secy, m_sysIdx;
 
 	MTRand rand;
 };

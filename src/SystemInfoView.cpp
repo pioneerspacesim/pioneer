@@ -42,11 +42,14 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 			snprintf(buf, sizeof(buf), "Orbital period             %.1f days\n", b->orbit.period / (60*60*24));
 		}
 		desc += buf;
-		snprintf(buf, sizeof(buf), "Perihelion distance        %.2f AU\n", b->radMin.ToDouble());
+		snprintf(buf, sizeof(buf), "Perihelion distance        %.2f AU\n", b->orbMin.ToDouble());
 		desc += buf;
-		snprintf(buf, sizeof(buf), "Aphelion distance          %.2f AU\n", b->radMax.ToDouble());
+		snprintf(buf, sizeof(buf), "Aphelion distance          %.2f AU\n", b->orbMax.ToDouble());
 		desc += buf;
 		snprintf(buf, sizeof(buf), "Eccentricity               %.2f\n", b->orbit.eccentricity);
+		desc += buf;
+		const float dayLen = b->GetRotationPeriod();
+		if (dayLen) snprintf(buf, sizeof(buf), "Day length                 %.1f earth days\n", dayLen/(60*60*24));
 		desc += buf;
 	}
 

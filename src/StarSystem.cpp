@@ -277,10 +277,10 @@ void StarSystem::SBody::EliminateBadChildren()
 			if ((*j) == (*i)) continue;
 			// don't eat anything bigger than self
 			if ((*j)->mass > (*i)->mass) continue;
-			fixed i_min = (*i)->radMin;
-			fixed i_max = (*i)->radMax;
-			fixed j_min = (*j)->radMin;
-			fixed j_max = (*j)->radMax;
+			fixed i_min = (*i)->orbMin;
+			fixed i_max = (*i)->orbMax;
+			fixed j_min = (*j)->orbMin;
+			fixed j_max = (*j)->orbMax;
 			fixed i_avg = (i_min+i_max)>>1;
 			fixed j_avg = (j_min+j_max)>>1;
 			bool eat = false;
@@ -343,8 +343,8 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		parent->children.push_back(kid);
 
 		// perihelion and aphelion (in AUs)
-		kid->radMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
-		kid->radMax = 2*c->semiMajorAxis - kid->radMin;
+		kid->orbMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
+		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
 
 		CustomGetKidsOf(kid, customDef, i);
 	}
@@ -381,9 +381,9 @@ void StarSystem::GenerateFromCustom(const CustomSBody *customDef)
 StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
 	unsigned long _init[4] = { system_idx, sector_x, sector_y, UNIVERSE_SEED };
-	loc.secX = sector_x;
-	loc.secY = sector_y;
-	loc.sysIdx = system_idx;
+	m_secx = sector_x;
+	m_secy = sector_y;
+	m_sysIdx = system_idx;
 	rootBody = 0;
 	if (system_idx == -1) return;
 	rand.seed(_init, 4);
@@ -463,12 +463,12 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		star[1]->orbit.period = star[0]->orbit.period;
 		star[1]->orbit.rotMatrix = matrix4x4d::Identity();
 		
-		fixed radMin = semiMajorAxis - ecc*semiMajorAxis;
-		fixed radMax = 2*semiMajorAxis - radMin;
-		star[0]->radMin = radMin;
-		star[1]->radMin = radMin;
-		star[0]->radMax = radMax;
-		star[1]->radMax = radMax;
+		fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
+		fixed orbMax = 2*semiMajorAxis - orbMin;
+		star[0]->orbMin = orbMin;
+		star[1]->orbMin = orbMin;
+		star[0]->orbMax = orbMax;
+		star[1]->orbMax = orbMax;
 
 		centGrav->children.push_back(star[0]);
 		centGrav->children.push_back(star[1]);
@@ -503,8 +503,8 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		primary->children.push_back(planet);
 
 		// perihelion and aphelion (in AUs)
-		planet->radMin = semiMajorAxis - ecc*semiMajorAxis;
-		planet->radMax = 2*semiMajorAxis - planet->radMin;
+		planet->orbMin = semiMajorAxis - ecc*semiMajorAxis;
+		planet->orbMax = 2*semiMajorAxis - planet->orbMin;
 	}
 	delete disc;
 
@@ -519,7 +519,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		buf[1] = 'b'+(idx++);
 		buf[2] = 0;
 		(*i)->name = primary->name+buf;
-		fixed d = ((*i)->radMin + (*i)->radMax) >> 1;
+		fixed d = ((*i)->orbMin + (*i)->orbMax) >> 1;
 		(*i)->PickPlanetType(primary, d, rand, true);
 
 #ifdef DEBUG_DUMP
@@ -589,8 +589,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 		} else if (mass < 3) {
 			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
 				// try for life
-				int minTemp = calcSurfaceTemp(star->radius, star->averageTemp, radMax, albedo, globalwarming);
-				int maxTemp = calcSurfaceTemp(star->radius, star->averageTemp, radMin, albedo, globalwarming);
+				int minTemp = calcSurfaceTemp(star->radius, star->averageTemp, orbMax, albedo, globalwarming);
+				int maxTemp = calcSurfaceTemp(star->radius, star->averageTemp, orbMin, albedo, globalwarming);
 
 				if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {
@@ -640,8 +640,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 						  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
 			this->children.push_back(moon);
 
-			moon->radMin = semiMajorAxis - ecc*semiMajorAxis;
-			moon->radMax = 2*semiMajorAxis - moon->radMin;
+			moon->orbMin = semiMajorAxis - ecc*semiMajorAxis;
+			moon->orbMax = 2*semiMajorAxis - moon->orbMin;
 		}
 		delete disc;
 	
@@ -667,7 +667,7 @@ StarSystem::~StarSystem()
 
 bool StarSystem::IsSystem(int sector_x, int sector_y, int system_idx)
 {
-	return (sector_x == loc.secX) && (sector_y == loc.secY) && (system_idx == loc.sysIdx);
+	return (sector_x == m_secx) && (sector_y == m_secy) && (system_idx == m_sysIdx);
 }
 
 StarSystem::SBody::~SBody()

@@ -35,8 +35,8 @@ void GenericSystemView::Draw3D()
 	if (s && !s->IsSystem(px, py, pidx)) {
 		s->GetPos(&px, &py, &pidx);
 		Sector sec(px, py);
-		Sector psec(Pi::playerLoc.secX, Pi::playerLoc.secY);
-		const float dist = Sector::DistanceBetween(&sec, pidx, &psec, Pi::playerLoc.sysIdx);
+		Sector psec(Pi::playerLocSecX, Pi::playerLocSecY);
+		const float dist = Sector::DistanceBetween(&sec, pidx, &psec, Pi::playerLocSysIdx);
 		char buf[256];
 		snprintf(buf, sizeof(buf), "Dist. %.2f light years", dist);
 

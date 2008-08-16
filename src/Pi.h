@@ -5,7 +5,6 @@
 #include "Gui.h"
 #include "View.h"
 #include "mtrand.h"
-#include "StarSystem.h"
 #include <map>
 #include <string>
 
@@ -77,7 +76,9 @@ public:
 	static View *GetView() { return currentView; }
 	static StarSystem *GetSelectedSystem();
 
-	static systemloc_t playerLoc;
+	static int playerLocSecX;
+	static int playerLocSecY;
+	static int playerLocSysIdx;
 	static Player *player;
 	static SectorView *sectorView;
 	static SystemInfoView *systemInfoView;

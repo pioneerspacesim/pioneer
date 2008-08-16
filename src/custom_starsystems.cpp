@@ -34,10 +34,10 @@ const CustomSBody sol_system[] = {
 	// moons of jupiter
 	{ "Io", StarSystem::TYPE_PLANET_HIGHLY_VOLCANIC,
 	  6, fixed(286,1000), fixed(15,1000), 130,
-	  fixed(282,100000), fixed(41,10000), DEG2RAD(2.21), fixed(177,10) },
+	  fixed(282,100000), fixed(41,10000), DEG2RAD(2.21), fixed(177,100) },
 	{ "Europa", StarSystem::TYPE_PLANET_WATER,
 	  6, fixed(245,1000), fixed(8,1000), 102,
-	  fixed(441,100000), fixed(9,1000), 0.0, fixed(355,10) },
+	  fixed(441,100000), fixed(9,1000), 0.0, fixed(355,100) },
 	  
 	{ 0 }
 };

@@ -143,7 +143,7 @@ void SectorView::DrawSector(int sx, int sy)
 		glRotatef(-m_rot_x, 1, 0, 0);
 		glCallList(m_gluDiskDlist);
 		// player location indicator
-		if ((sx == Pi::playerLoc.secX) && (sy == Pi::playerLoc.secY) && (num == Pi::playerLoc.sysIdx)) {
+		if ((sx == Pi::playerLocSecX) && (sy == Pi::playerLocSecY) && (num == Pi::playerLocSysIdx)) {
 			shipstats_t stats;
 			Pi::player->CalcStats(&stats);
 			glColor3f(0,0,1);
