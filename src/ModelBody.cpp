@@ -113,18 +113,18 @@ void ModelBody::GetRotMatrix(matrix4x4d &m)
 
 void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
-	printf("ModelBody::TransformToModelCoords(): Warning! This becomes hideously inaccurate if the Body is in the root frame, and a few AUs out.\n");
 	const vector3d pos = GetPosition();
 	const dReal *r = dGeomGetRotation(geoms[0]);
-	matrix4x4d m;
+	matrix4x4d m, m2;
 	
-	Frame::GetFrameTransform(GetFrame(), camFrame, m);
-	glMultMatrixd(&m[0]);
+	Frame::GetFrameTransform(GetFrame(), camFrame, m2);
 	
 	m[ 0] = r[ 0];m[ 1] = r[ 4];m[ 2] = r[ 8];m[ 3] = 0;
 	m[ 4] = r[ 1];m[ 5] = r[ 5];m[ 6] = r[ 9];m[ 7] = 0;
 	m[ 8] = r[ 2];m[ 9] = r[ 6];m[10] = r[10];m[11] = 0;
 	m[12] = pos.x; m[13] = pos.y; m[14] = pos.z; m[15] = 1;
+	
+	m = m2 * m;
 	glMultMatrixd(&m[0]);
 	
 }
