@@ -58,6 +58,33 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	m_infoText->SetText(desc);
 }
 
+void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies)
+{
+	float size[2];
+	float myPos[2];
+	myPos[0] = pos[0];
+	myPos[1] = pos[1];
+	if (body->type != StarSystem::TYPE_GRAVPOINT) {
+		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
+		ib->GetSize(size);
+		size[1] = -size[1];
+		pos[dir] += size[dir];
+		myPos[dir] += size[dir];
+		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
+		Add(ib, pos[0]-0.5*size[0], pos[1]+0.5*size[1]);
+		majorBodies++;
+		dir = !dir;
+		myPos[dir] += 0.5*size[dir];
+	} else {
+		pos[!dir] += 320;
+	}
+
+	for (std::vector<StarSystem::SBody*>::iterator i = body->children.begin();
+	     i != body->children.end(); ++i) {
+		PutBodies(*i, dir, myPos, majorBodies);
+	}
+}
+
 void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
@@ -65,61 +92,11 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	int majorBodies = 0;
 	GetSize(csize);
 
-	float xpos = 0;
-	float size[2];
-	float ycent;
-	std::vector<StarSystem::SBody*>::iterator i = s->rootBody->children.begin();
+	float pos[2];
+	pos[0] = 50;
+	pos[1] = csize[1]+40;
 
-	if (s->rootBody->type == StarSystem::TYPE_GRAVPOINT) {
-		// binary system
-		Gui::ImageButton *ib = new Gui::ImageButton((*i)->GetIcon());
-		ib->GetSize(size);
-		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
-		Add(ib, 0, csize[1] - size[1]);
-		float yoffset = size[1];
-		float xoffset = size[0];
-		++i; majorBodies++;
-		
-		ib = new Gui::ImageButton((*i)->GetIcon());
-		ib->GetSize(size);
-		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
-		Add(ib, 0, csize[1] - size[1] - yoffset);
-		++i; majorBodies++;
-		
-		xpos += xoffset;
-		ycent = csize[1] - yoffset*0.5;
-	} else {
-		Gui::ImageButton *ib = new Gui::ImageButton(s->rootBody->GetIcon());
-		ib->GetSize(size);
-		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), s->rootBody));
-		Add(ib, 0, csize[1] - size[1]);
-		xpos += size[0];
-		ycent = csize[1] - size[1]*0.5;
-		majorBodies++;
-	}
-
-	for (; i != s->rootBody->children.end(); ++i) {
-		if ((*i)->type == StarSystem::TYPE_GRAVPOINT) {
-
-		} else {
-			Gui::ImageButton *ib = new Gui::ImageButton((*i)->GetIcon());
-			ib->GetSize(size);
-			ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
-			Add(ib, xpos, ycent - 0.5*size[1]);
-			majorBodies++;
-		}
-
-		float moon_ypos = ycent - size[1] - 5;
-		if ((*i)->children.size()) for(std::vector<StarSystem::SBody*>::iterator moon = (*i)->children.begin(); moon != (*i)->children.end(); ++moon) {
-			float msize[2];
-			Gui::ImageButton *ib = new Gui::ImageButton((*moon)->GetIcon());
-			ib->GetSize(msize);
-			ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *moon));
-			Add(ib, xpos+0.5*size[0] - 0.5*msize[0], moon_ypos);
-			moon_ypos -= msize[1];
-		}
-		xpos += size[0];
-	}
+	PutBodies(s->rootBody, 1, pos, majorBodies);
 	
 	char buf[512];
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);

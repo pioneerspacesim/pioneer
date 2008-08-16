@@ -475,6 +475,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		primary->name = s.m_systems[system_idx].name;
 		MakeStarOfType(primary, type, rand);
 		rootBody = primary;
+		m_numStars = 1;
 	} else {
 		SBody *centGrav = new SBody;
 		centGrav->type = TYPE_GRAVPOINT;
@@ -499,6 +500,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		centGrav->mass = star[0]->mass + star[1]->mass;
 		centGrav->children.push_back(star[0]);
 		centGrav->children.push_back(star[1]);
+		m_numStars = 2;
 
 		if ((star[0]->orbMax < fixed(100,1)) &&
 		    (!rand.Int32(3))) {
@@ -510,6 +512,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 				star[2]->orbMax = 0;
 				MakeRandomStarLighterThan(star[2], star[0]->mass, rand);
 				centGrav2 = star[2];
+				m_numStars = 3;
 			} else {
 				centGrav2 = new SBody;
 				centGrav2->type = TYPE_GRAVPOINT;
@@ -531,6 +534,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
 				centGrav2->children.push_back(star[3]);
+				m_numStars = 4;
 			}
 			SBody *superCentGrav = new SBody;
 			superCentGrav->type = TYPE_GRAVPOINT;

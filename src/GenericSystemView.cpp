@@ -40,9 +40,20 @@ void GenericSystemView::Draw3D()
 		char buf[256];
 		snprintf(buf, sizeof(buf), "Dist. %.2f light years", dist);
 
+		std::string desc;
+		if (s->GetNumStars() == 4) {
+			desc = "Quadruple system. ";
+		} else if (s->GetNumStars() == 3) {
+			desc = "Triple system. ";
+		} else if (s->GetNumStars() == 2) {
+			desc = "Binary system. ";
+		} else {
+			desc = s->rootBody->GetAstroDescription();
+		}
+
 		m_systemName->SetText(s->rootBody->name);
 		m_distance->SetText(buf);
-		m_starType->SetText(s->rootBody->GetAstroDescription());
+		m_starType->SetText(desc);
 		m_shortDesc->SetText("Short description of system");
 
 		onSelectedSystemChanged.emit(s);

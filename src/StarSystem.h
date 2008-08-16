@@ -29,6 +29,7 @@ public:
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
 		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
 	}
+	int GetNumStars() const { return m_numStars; }
 
 	static float starColors[][3];
 
@@ -133,6 +134,7 @@ private:
 	void GenerateFromCustom(const CustomSBody *);
 
 	int m_secx, m_secy, m_sysIdx;
+	int m_numStars;
 
 	MTRand rand;
 };
