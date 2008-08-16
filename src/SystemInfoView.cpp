@@ -49,8 +49,10 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 		snprintf(buf, sizeof(buf), "Eccentricity               %.2f\n", b->orbit.eccentricity);
 		desc += buf;
 		const float dayLen = b->GetRotationPeriod();
-		if (dayLen) snprintf(buf, sizeof(buf), "Day length                 %.1f earth days\n", dayLen/(60*60*24));
-		desc += buf;
+		if (dayLen) {
+			snprintf(buf, sizeof(buf), "Day length                 %.1f earth days\n", dayLen/(60*60*24));
+			desc += buf;
+		}
 	}
 
 	m_infoText->SetText(desc);
@@ -97,11 +99,15 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	}
 
 	for (; i != s->rootBody->children.end(); ++i) {
-		Gui::ImageButton *ib = new Gui::ImageButton((*i)->GetIcon());
-		ib->GetSize(size);
-		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
-		Add(ib, xpos, ycent - 0.5*size[1]);
-		majorBodies++;
+		if ((*i)->type == StarSystem::TYPE_GRAVPOINT) {
+
+		} else {
+			Gui::ImageButton *ib = new Gui::ImageButton((*i)->GetIcon());
+			ib->GetSize(size);
+			ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), *i));
+			Add(ib, xpos, ycent - 0.5*size[1]);
+			majorBodies++;
+		}
 
 		float moon_ypos = ycent - size[1] - 5;
 		if ((*i)->children.size()) for(std::vector<StarSystem::SBody*>::iterator moon = (*i)->children.begin(); moon != (*i)->children.end(); ++moon) {

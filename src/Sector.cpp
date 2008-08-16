@@ -54,9 +54,9 @@ Sector::Sector(int x, int y)
 			
 			float spec = rng.Int32(1000000);
 			// frequencies from wikipedia
-			if (spec < 1) {
+		/*	if (spec < 1) {
 				s.primaryStarClass = StarSystem::TYPE_STAR_O;
-			} else if (spec < 1300) {
+			} else*/ if (spec < 1300) {
 				s.primaryStarClass = StarSystem::TYPE_STAR_B;
 			} else if (spec < 7300) {
 				s.primaryStarClass = StarSystem::TYPE_STAR_A;
@@ -66,6 +66,8 @@ Sector::Sector(int x, int y)
 				s.primaryStarClass = StarSystem::TYPE_STAR_G;
 			} else if (spec < 234300) {
 				s.primaryStarClass = StarSystem::TYPE_STAR_K;
+			} else if (spec < 250000) {
+				s.primaryStarClass = StarSystem::TYPE_WHITE_DWARF;
 			} else {
 				s.primaryStarClass = StarSystem::TYPE_STAR_M;
 			}

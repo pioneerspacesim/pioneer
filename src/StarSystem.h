@@ -50,6 +50,7 @@ public:
 		TYPE_STAR_A,
 		TYPE_STAR_B,
 		TYPE_STAR_O,
+		TYPE_WHITE_DWARF,
 		TYPE_BROWN_DWARF,
 		TYPE_PLANET_SMALL_GAS_GIANT,
 		TYPE_PLANET_MEDIUM_GAS_GIANT,
@@ -65,7 +66,9 @@ public:
 		TYPE_PLANET_METHANE_THICK_ATMOS,
 		TYPE_PLANET_HIGHLY_VOLCANIC,
 		TYPE_PLANET_INDIGENOUS_LIFE,
-		TYPE_MAX
+		TYPE_MAX,
+		TYPE_STAR_MIN = TYPE_STAR_M,
+		TYPE_STAR_MAX = TYPE_WHITE_DWARF
 		// XXX need larger atmosphereless thing
 	};
 
@@ -122,6 +125,10 @@ public:
 	
 	SBody *rootBody;
 private:
+	void MakeRandomStar(SBody *sbody, MTRand &rand);
+	void MakeRandomStarLighterThan(SBody *sbody, fixed maxMass, MTRand &rand);
+	void MakeStarOfType(SBody *sbody, BodyType type, MTRand &rand);
+	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
 	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
 	void GenerateFromCustom(const CustomSBody *);
 

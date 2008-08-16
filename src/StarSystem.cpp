@@ -14,113 +14,119 @@ float StarSystem::starColors[][3] = {
 	{ 1.0, 1.0, 0.8 }, // F
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.7, 0.7, 1.0 }, // B
-	{ 1.0, 0.7, 1.0 } // O
+	{ 1.0, 0.7, 1.0 }, // O
+	{ 0.4, 0.4, 0.8 } // white dwarf
 };
 
 static const struct SBodySubTypeInfo {
 	StarSystem::BodySuperType supertype;
-	int mass; // % sol for stars, unused for planets
+	int mass[2]; // min,max % sol for stars, unused for planets
 	int radius; // % sol radii for stars, % earth radii for planets
 	const char *description;
 	const char *icon;
 	int tempMin, tempMax;
 } bodyTypeInfo[StarSystem::TYPE_MAX] = {
 	{
-		StarSystem::SUPERTYPE_NONE, 0, 0, "Shouldn't see this!",
+		StarSystem::SUPERTYPE_NONE, {}, 0, "Shouldn't see this!",
 	}, {
 		StarSystem::SUPERTYPE_STAR,
-		40, 50, "Type 'M' red star",
+		{10,47}, 50, "Type 'M' red star",
 		"icons/object_star_m.png",
 		2000, 3500
 	}, {
 		StarSystem::SUPERTYPE_STAR,
-		80, 90, "Type 'K' orange star",
+		{50,78}, 90, "Type 'K' orange star",
 		"icons/object_star_k.png",
 		3500, 5000
 	}, { 
 		StarSystem::SUPERTYPE_STAR,
-		110, 110, "Type 'G' yellow star",
+		{80,110}, 110, "Type 'G' yellow star",
 		"icons/object_star_g.png",
 		5000, 6000
 	}, {
 		StarSystem::SUPERTYPE_STAR,
-		170, 140, "Type 'F' white star",
+		{115,170}, 140, "Type 'F' white star",
 		"icons/object_star_f.png",
 		6000, 7500
 	}, {
 		StarSystem::SUPERTYPE_STAR,
-		310, 210, "Type 'A' hot white star",
+		{180,320}, 210, "Type 'A' hot white star",
 		"icons/object_star_a.png",
 		7500, 10000
 	}, {
 		StarSystem::SUPERTYPE_STAR,
-		1800, 700, "Bright type 'B' blue star",
+		{400,1800}, 700, "Bright type 'B' blue star",
 		"icons/object_star_b.png",
 		10000, 30000
 	}, {
 		StarSystem::SUPERTYPE_STAR,
-		6400, 1600, "Hot, massive type 'O' blue star",
+		{2000,4000}, 1600, "Hot, massive type 'O' blue star",
 		"icons/object_star_o.png",
 		30000, 60000
 	}, {
+		StarSystem::SUPERTYPE_STAR,
+		{20,100}, 1, "White dwarf",
+		"icons/object_white_dwarf.png",
+		4000, 40000
+	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
-		0, 30, "Brown dwarf sub-stellar object",
+		{}, 30, "Brown dwarf sub-stellar object",
 		"icons/object_brown_dwarf.png"
 	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
-		0, 390, "Small gas giant",
+		{}, 390, "Small gas giant",
 		"icons/object_planet_small_gas_giant.png"
 	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
-		0, 950, "Medium gas giant",
+		{}, 950, "Medium gas giant",
 		"icons/object_planet_medium_gas_giant.png"
 	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
-		0, 1110, "Large gas giant",
+		{}, 1110, "Large gas giant",
 		"icons/object_planet_large_gas_giant.png"
 	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
-		0, 1500, "Very large gas giant",
+		{}, 1500, "Very large gas giant",
 		"icons/object_planet_large_gas_giant.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 26, "Small, rocky dwarf planet", // moon radius
+		{}, 26, "Small, rocky dwarf planet", // moon radius
 		"icons/object_planet_dwarf.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 52, "Small, rocky planet with a thin atmosphere", // mars radius
+		{}, 52, "Small, rocky planet with a thin atmosphere", // mars radius
 		"icons/object_planet_small.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Rocky planet with liquid water and a nitrogen atmosphere", // earth radius
+		{}, 100, "Rocky planet with liquid water and a nitrogen atmosphere", // earth radius
 		"icons/object_planet_water_n2.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Rocky planet with a carbon dioxide atmosphere",
+		{}, 100, "Rocky planet with a carbon dioxide atmosphere",
 		"icons/object_planet_co2.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Rocky planet with a methane atmosphere",
+		{}, 100, "Rocky planet with a methane atmosphere",
 		"icons/object_planet_methane.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Rocky planet with liquid water and a thick nitrogen atmosphere",
+		{}, 100, "Rocky planet with liquid water and a thick nitrogen atmosphere",
 		"icons/object_planet_water_n2.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Rocky planet with a thick carbon dioxide atmosphere",
+		{}, 100, "Rocky planet with a thick carbon dioxide atmosphere",
 		"icons/object_planet_co2.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Rocky planet with a thick methane atmosphere",
+		{}, 100, "Rocky planet with a thick methane atmosphere",
 		"icons/object_planet_methane.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "Highly volcanic world",
+		{}, 100, "Highly volcanic world",
 		"icons/object_planet_volcanic.png"
 	}, {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
-		0, 100, "World with indigenous life and an oxygen atmosphere",
+		{}, 100, "World with indigenous life and an oxygen atmosphere",
 		"icons/object_planet_life.png"
 	}
 };
@@ -372,6 +378,70 @@ void StarSystem::GenerateFromCustom(const CustomSBody *customDef)
 
 }
 
+void StarSystem::MakeStarOfType(SBody *sbody, BodyType type, MTRand &rand)
+{
+	sbody->type = type;
+	sbody->radius = fixed(bodyTypeInfo[type].radius, 100);
+	sbody->mass = fixed(rand.Int32(bodyTypeInfo[type].mass[0],
+				bodyTypeInfo[type].mass[1]), 100);
+	sbody->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
+				bodyTypeInfo[type].tempMax);
+}
+
+void StarSystem::MakeRandomStar(SBody *sbody, MTRand &rand)
+{
+	BodyType type = (BodyType)rand.Int32((int)TYPE_STAR_MIN, (int)TYPE_STAR_MAX);
+	MakeStarOfType(sbody, type, rand);
+}
+
+void StarSystem::MakeRandomStarLighterThan(SBody *sbody, fixed maxMass, MTRand &rand)
+{
+	do {
+		MakeRandomStar(sbody, rand);
+	} while (sbody->mass > maxMass);
+}
+
+void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
+{
+	fixed ecc = rand.NFixed(3);
+	fixed m = a->mass + b->mass;
+	fixed a0 = b->mass / m;
+	fixed a1 = a->mass / m;
+	fixed semiMajorAxis;
+	int mul = 1;
+
+	do {
+		switch (rand.Int32(3)) {
+			case 2: semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
+			case 1: semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
+			default:
+			case 0: semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
+		}
+		semiMajorAxis *= mul;
+		mul *= 2;
+	} while (semiMajorAxis < minDist);
+
+	a->orbit.eccentricity = ecc.ToDouble();
+	a->orbit.semiMajorAxis = AU * (semiMajorAxis * a0).ToDouble();
+	a->orbit.period = 60*60*24*365* semiMajorAxis.ToDouble() * sqrt(semiMajorAxis.ToDouble() / m.ToDouble());
+	
+	const float rotY = rand.Double()*M_PI/2.0;
+	const float rotZ = rand.Double(M_PI);
+	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateZMatrix(rotZ);
+	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateZMatrix(rotZ-M_PI);
+
+	b->orbit.eccentricity = ecc.ToDouble();
+	b->orbit.semiMajorAxis = AU * (semiMajorAxis * a1).ToDouble();
+	b->orbit.period = a->orbit.period;
+	
+	fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
+	fixed orbMax = 2*semiMajorAxis - orbMin;
+	a->orbMin = orbMin;
+	b->orbMin = orbMin;
+	a->orbMax = orbMax;
+	b->orbMax = orbMax;
+}
+
 /*
  * As my excellent comrades have pointed out, choices that depend on floating
  * point crap will result in different universes on different platforms.
@@ -401,13 +471,9 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	int isBinary = rand.Int32(2);
 	if (!isBinary) {
 		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
-		primary->type = type;
 		primary->parent = NULL;
-		primary->radius = fixed(bodyTypeInfo[type].radius, 100);
-		primary->mass = fixed(bodyTypeInfo[type].mass, 100);
-		primary->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
-					bodyTypeInfo[type].tempMax);
 		primary->name = s.m_systems[system_idx].name;
+		MakeStarOfType(primary, type, rand);
 		rootBody = primary;
 	} else {
 		SBody *centGrav = new SBody;
@@ -416,62 +482,69 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		centGrav->name = s.m_systems[system_idx].name;
 		rootBody = centGrav;
 
-		fixed ecc = rand.NFixed(3);
 		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
-		SBody *star[2];
+		SBody *star[4];
 		star[0] = new SBody;
-		star[0]->type = type;
 		star[0]->name = s.m_systems[system_idx].name+" A";
 		star[0]->parent = centGrav;
-		star[0]->radius = fixed(bodyTypeInfo[type].radius, 100);
-		star[0]->mass = fixed(bodyTypeInfo[type].mass, 100);
-		star[0]->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
-					bodyTypeInfo[type].tempMax);
+		MakeStarOfType(star[0], type, rand);
 		
-		// normally star types are picked by spectral class distribution in
-		// our galactic neighbourhood. in binary systems instead just pick
-		// random companion types up to spectral class of primary.
-		StarSystem::BodyType type2 = (BodyType)rand.Int32(TYPE_STAR_M, type);
 		star[1] = new SBody;
-		star[1]->type = type2;
 		star[1]->name = s.m_systems[system_idx].name+" B";
 		star[1]->parent = centGrav;
-		star[1]->radius = fixed(bodyTypeInfo[type2].radius, 100);
-		star[1]->mass = fixed(bodyTypeInfo[type2].mass, 100);
-		star[1]->averageTemp = rand.Int32(bodyTypeInfo[type2].tempMin,
-					bodyTypeInfo[type2].tempMax);
-		fixed m = star[0]->mass + star[1]->mass;
-		fixed a0 = star[1]->mass / m;
-		fixed a1 = star[0]->mass / m;
-		fixed semiMajorAxis;
+		MakeRandomStarLighterThan(star[1], star[0]->mass, rand);
 
-		switch (rand.Int32(3)) {
-			case 2: semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
-			case 1: semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
-			default:
-			case 0: semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
-		}
-		printf("Binary separation: %.2fAU\n", semiMajorAxis.ToDouble());
+		MakeBinaryPair(star[0], star[1], fixed(0), rand);
 
-		star[0]->orbit.eccentricity = ecc.ToDouble();
-		star[0]->orbit.semiMajorAxis = AU * (semiMajorAxis * a0).ToDouble();
-		star[0]->orbit.period = 60*60*24*365* semiMajorAxis.ToDouble() * sqrt(semiMajorAxis.ToDouble() / m.ToDouble());
-		star[0]->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-
-		star[1]->orbit.eccentricity = ecc.ToDouble();
-		star[1]->orbit.semiMajorAxis = AU * (semiMajorAxis * a1).ToDouble();
-		star[1]->orbit.period = star[0]->orbit.period;
-		star[1]->orbit.rotMatrix = matrix4x4d::Identity();
-		
-		fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
-		fixed orbMax = 2*semiMajorAxis - orbMin;
-		star[0]->orbMin = orbMin;
-		star[1]->orbMin = orbMin;
-		star[0]->orbMax = orbMax;
-		star[1]->orbMax = orbMax;
-
+		centGrav->mass = star[0]->mass + star[1]->mass;
 		centGrav->children.push_back(star[0]);
 		centGrav->children.push_back(star[1]);
+
+		if ((star[0]->orbMax < fixed(100,1)) &&
+		    (!rand.Int32(3))) {
+			SBody *centGrav2;
+			// 3rd and maybe 4th star
+			if (!rand.Int32(2)) {
+				star[2] = new SBody;
+				star[2]->name = s.m_systems[system_idx].name+" C";
+				star[2]->orbMax = 0;
+				MakeRandomStarLighterThan(star[2], star[0]->mass, rand);
+				centGrav2 = star[2];
+			} else {
+				centGrav2 = new SBody;
+				centGrav2->type = TYPE_GRAVPOINT;
+				centGrav2->name = s.m_systems[system_idx].name;
+				centGrav2->orbMax = 0;
+
+				StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
+				star[2] = new SBody;
+				star[2]->name = s.m_systems[system_idx].name+" C";
+				star[2]->parent = centGrav2;
+				MakeRandomStarLighterThan(star[2], star[0]->mass, rand);
+				
+				star[3] = new SBody;
+				star[3]->name = s.m_systems[system_idx].name+" D";
+				star[3]->parent = centGrav2;
+				MakeRandomStarLighterThan(star[3], star[2]->mass, rand);
+
+				MakeBinaryPair(star[2], star[3], fixed(0), rand);
+				centGrav2->mass = star[2]->mass + star[3]->mass;
+				centGrav2->children.push_back(star[2]);
+				centGrav2->children.push_back(star[3]);
+			}
+			SBody *superCentGrav = new SBody;
+			superCentGrav->type = TYPE_GRAVPOINT;
+			superCentGrav->parent = NULL;
+			superCentGrav->name = s.m_systems[system_idx].name;
+			centGrav->parent = superCentGrav;
+			centGrav2->parent = superCentGrav;
+			rootBody = superCentGrav;
+			const fixed minDist = star[0]->orbMax + star[2]->orbMax;
+			MakeBinaryPair(centGrav, centGrav2, 4*minDist, rand);
+			superCentGrav->children.push_back(centGrav);
+			superCentGrav->children.push_back(centGrav2);
+
+		}
 		return;
 	}
 
