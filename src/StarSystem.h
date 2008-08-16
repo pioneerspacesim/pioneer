@@ -82,7 +82,10 @@ public:
 
 	};
 
-	struct SBody {
+	class SBody {
+	public:
+		friend class StarSystem;
+
 		~SBody();
 		void EliminateBadChildren();
 		void PickPlanetType(SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
@@ -119,6 +122,7 @@ public:
 		fixed rotationPeriod; // in days
 		int averageTemp;
 		BodyType type;
+	private:
 	};
 	
 	SBody *rootBody;

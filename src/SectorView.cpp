@@ -44,7 +44,7 @@ SectorView::~SectorView()
 
 void SectorView::OnClickSystemInfo()
 {
-	Pi::SetView(Pi::system_info_view);
+	Pi::SetView(Pi::systemInfoView);
 }
 
 bool SectorView::GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx)

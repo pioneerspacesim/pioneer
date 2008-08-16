@@ -169,7 +169,7 @@ void SystemView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	int sector_x, sector_y, system_idx;
-	Pi::sector_view->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
+	Pi::sectorView->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
 	if (m_system) {
 		if (!m_system->IsSystem(sector_x, sector_y, system_idx)) {
 			delete m_system;

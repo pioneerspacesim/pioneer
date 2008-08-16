@@ -43,7 +43,7 @@ public:
 	/* if parent is null then frame position is absolute */
 	Frame *m_parent;
 	std::list<Frame*> m_children;
-	StarSystem::SBody *sBody; // points to SBodies in Pi::current_system
+	StarSystem::SBody *m_sbody; // points to SBodies in Pi::current_system
 	
 	enum { TEMP_VIEWING=1 };
 private:

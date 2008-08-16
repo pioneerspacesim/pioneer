@@ -184,7 +184,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
 				b->SetProjectedPos(_pos);
 				b->SetOnscreen(true);
-				if (Pi::world_view->GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
+				if (Pi::worldView->GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
 			}
 			else
 				b->SetOnscreen(false);

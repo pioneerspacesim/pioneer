@@ -30,20 +30,20 @@ sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
 int Pi::mouseMotion[2];
-enum Pi::CamType Pi::cam_type;
-enum Pi::MapView Pi::map_view;
+enum Pi::CamType Pi::camType;
+enum Pi::MapView Pi::mapView;
 Player *Pi::player;
-View *Pi::current_view;
-WorldView *Pi::world_view;
+View *Pi::currentView;
+WorldView *Pi::worldView;
 ObjectViewerView *Pi::objectViewerView;
 SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
-SectorView *Pi::sector_view;
-SystemView *Pi::system_view;
-SystemInfoView *Pi::system_info_view;
+SectorView *Pi::sectorView;
+SystemView *Pi::systemView;
+SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
-StarSystem *Pi::selected_system;
-StarSystem *Pi::current_system;
+StarSystem *Pi::selectedSystem;
+StarSystem *Pi::currentSystem;
 MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
@@ -129,25 +129,25 @@ void Pi::Quit()
 
 void Pi::SetCamType(enum CamType c)
 {
-	cam_type = c;
-	map_view = MAP_NOMAP;
-	SetView(world_view);
+	camType = c;
+	mapView = MAP_NOMAP;
+	SetView(worldView);
 }
 
 void Pi::SetMapView(enum MapView v)
 {
-	map_view = v;
+	mapView = v;
 	if (v == MAP_SECTOR)
-		SetView(sector_view);
+		SetView(sectorView);
 	else
-		SetView(system_view);
+		SetView(systemView);
 }
 
 void Pi::SetView(View *v)
 {
-	if (current_view) current_view->HideAll();
-	current_view = v;
-	current_view->ShowAll();
+	if (currentView) currentView->HideAll();
+	currentView = v;
+	currentView->ShowAll();
 }
 
 void Pi::HandleEvents()
@@ -215,7 +215,7 @@ void Pi::MainLoop()
 	
 	Frame *stationFrame = new Frame(pframe, "Station frame...");
 	stationFrame->SetRadius(5000);
-	stationFrame->sBody = 0;
+	stationFrame->m_sbody = 0;
 	stationFrame->SetPosition(vector3d(0,0,zpos));
 	stationFrame->SetAngVelocity(vector3d(0,0,0.5));
 
@@ -243,15 +243,15 @@ void Pi::MainLoop()
 	cpan = new ShipCpanel();
 	cpan->ShowAll();
 
-	sector_view = new SectorView();
-	system_view = new SystemView();
-	system_info_view = new SystemInfoView();
-	world_view = new WorldView();
+	sectorView = new SectorView();
+	systemView = new SystemView();
+	systemInfoView = new SystemInfoView();
+	worldView = new WorldView();
 	objectViewerView = new ObjectViewerView();
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 
-	SetView(world_view);
+	SetView(worldView);
 	player->SetDockedWith(station);
 
 	Uint32 last_stats = SDL_GetTicks();
@@ -264,7 +264,7 @@ void Pi::MainLoop()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		current_view->Draw3D();
+		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.
@@ -302,7 +302,7 @@ void Pi::MainLoop()
 			Space::TimeStep(step);
 			gameTime += step;
 		}
-		current_view->Update();
+		currentView->Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
 			snprintf(fps_readout, sizeof(fps_readout), "%d fps", frame_stat);
@@ -315,21 +315,21 @@ void Pi::MainLoop()
 StarSystem *Pi::GetSelectedSystem()
 {
 	int sector_x, sector_y, system_idx;
-	Pi::sector_view->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
+	Pi::sectorView->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
 	if (system_idx == -1) {
-		selected_system = 0;
+		selectedSystem = 0;
 		return NULL;
 	}
-	if (selected_system) {
-		if (!selected_system->IsSystem(sector_x, sector_y, system_idx)) {
-			delete selected_system;
-			selected_system = 0;
+	if (selectedSystem) {
+		if (!selectedSystem->IsSystem(sector_x, sector_y, system_idx)) {
+			delete selectedSystem;
+			selectedSystem = 0;
 		}
 	}
-	if (!selected_system) {
-		selected_system = new StarSystem(sector_x, sector_y, system_idx);
+	if (!selectedSystem) {
+		selectedSystem = new StarSystem(sector_x, sector_y, system_idx);
 	}
-	return selected_system;
+	return selectedSystem;
 }
 
 void Pi::HyperspaceTo(StarSystem *dest)
@@ -337,8 +337,8 @@ void Pi::HyperspaceTo(StarSystem *dest)
 	int sec_x, sec_y, sys_idx;
 	dest->GetPos(&sec_x, &sec_y, &sys_idx);
 
-	if (current_system) delete current_system;
-	current_system = new StarSystem(sec_x, sec_y, sys_idx);
+	if (currentSystem) delete currentSystem;
+	currentSystem = new StarSystem(sec_x, sec_y, sys_idx);
 
 	Space::Clear();
 	Space::BuildSystem();

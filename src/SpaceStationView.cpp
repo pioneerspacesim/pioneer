@@ -36,7 +36,7 @@ SpaceStationView::SpaceStationView(): View()
 void SpaceStationView::OnClickRequestLaunch()
 {
 	Pi::player->SetDockedWith(0);
-	Pi::SetView(Pi::world_view);
+	Pi::SetView(Pi::worldView);
 }
 
 void SpaceStationView::Draw3D()

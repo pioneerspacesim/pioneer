@@ -44,10 +44,10 @@ void Space::Clear()
 
 void Space::MoveOrbitingObjectFrames(Frame *f)
 {
-	if (f->sBody) {
+	if (f->m_sbody) {
 		// this isn't very smegging efficient
-		vector3d pos = f->sBody->orbit.CartesianPosAtTime(Pi::GetGameTime());
-		vector3d pos2 = f->sBody->orbit.CartesianPosAtTime(Pi::GetGameTime()+1.0);
+		vector3d pos = f->m_sbody->orbit.CartesianPosAtTime(Pi::GetGameTime());
+		vector3d pos2 = f->m_sbody->orbit.CartesianPosAtTime(Pi::GetGameTime()+1.0);
 		vector3d vel = pos2 - pos;
 		f->SetPosition(pos);
 		f->SetVelocity(vel);
@@ -75,7 +75,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		case StarSystem::SUPERTYPE_GAS_GIANT:
 		case StarSystem::SUPERTYPE_ROCKY_PLANET:
 			orbFrame = new Frame(f, sbody->name.c_str());
-			orbFrame->sBody = sbody;
+			orbFrame->m_sbody = sbody;
 			orbFrame->SetRadius(10*sbody->GetRadius());
 		
 			assert(sbody->GetRotationPeriod() != 0);
@@ -88,7 +88,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		case StarSystem::SUPERTYPE_STAR:
 		default:
 			orbFrame = new Frame(f, sbody->name.c_str());
-			orbFrame->sBody = sbody;
+			orbFrame->m_sbody = sbody;
 			orbFrame->SetRadius(1.2*sbody->GetRadius());
 			b->SetFrame(orbFrame);
 			return orbFrame;
@@ -123,7 +123,7 @@ just_make_kids:
 
 void Space::BuildSystem()
 {
-	GenBody(Pi::current_system->rootBody, rootFrame);
+	GenBody(Pi::currentSystem->rootBody, rootFrame);
 	MoveOrbitingObjectFrames(rootFrame);
 }
 

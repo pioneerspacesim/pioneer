@@ -71,34 +71,34 @@ public:
 	enum MapView { MAP_NOMAP, MAP_SECTOR, MAP_SYSTEM };
 	static void SetCamType(enum CamType);
 	static void SetMapView(enum MapView);
-	static enum CamType GetCamType() { return cam_type; }
-	static enum MapView GetMapView() { return map_view; }
+	static enum CamType GetCamType() { return camType; }
+	static enum MapView GetMapView() { return mapView; }
 	static void SetView(View *v);
-	static View *GetView() { return current_view; }
+	static View *GetView() { return currentView; }
 	static StarSystem *GetSelectedSystem();
 
 	static systemloc_t playerLoc;
 	static Player *player;
-	static SectorView *sector_view;
-	static SystemInfoView *system_info_view;
-	static WorldView *world_view;
+	static SectorView *sectorView;
+	static SystemInfoView *systemInfoView;
+	static WorldView *worldView;
 	static ObjectViewerView *objectViewerView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
-	static StarSystem *current_system;
+	static StarSystem *currentSystem;
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
 	
-	static View *current_view;
-	static SystemView *system_view;
+	static View *currentView;
+	static SystemView *systemView;
 	
 	static double gameTime;
-	static StarSystem *selected_system;
-	static enum CamType cam_type;
-	static enum MapView map_view;
+	static StarSystem *selectedSystem;
+	static enum CamType camType;
+	static enum MapView mapView;
 	static float timeAccel;
 	static float frameTime;
 	static int scrWidth, scrHeight;
