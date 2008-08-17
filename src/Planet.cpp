@@ -9,6 +9,7 @@ Planet::Planet(StarSystem::SBody *sbody): Body()
 	pos = vector3d(0,0,0);
 	geom = dCreateSphere(0, sbody->GetRadius());
 	dGeomSetData(geom, static_cast<Body*>(this));
+	m_mass = sbody->GetMass();
 	this->sbody = *sbody;
 	this->sbody.children.clear();
 	this->sbody.parent = 0;

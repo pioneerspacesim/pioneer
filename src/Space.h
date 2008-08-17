@@ -30,6 +30,7 @@ private:
 	static void UpdateFramesOfReference();
 	static void CollideFrame(Frame *f);
 	static void PruneCorpses();
+	static void ApplyGravity();
 
 //	static std::list<Frame*> rootFrames;
 	static std::list<Body*> corpses;

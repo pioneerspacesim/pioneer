@@ -51,7 +51,7 @@ void GenericSystemView::Draw3D()
 			desc = s->rootBody->GetAstroDescription();
 		}
 
-		m_systemName->SetText(s->rootBody->name);
+		m_systemName->SetText(sec.m_systems[pidx].name);
 		m_distance->SetText(buf);
 		m_starType->SetText(desc);
 		m_shortDesc->SetText("Short description of system");

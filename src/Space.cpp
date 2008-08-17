@@ -82,6 +82,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 			rotFrame = new Frame(orbFrame, sbody->name.c_str());
 			rotFrame->SetRadius(1.1*sbody->GetRadius());
 			rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+			rotFrame->m_astroBody = b;
 			b->SetFrame(rotFrame);
 			return orbFrame;
 		// stars want a single small non-rotating frame
@@ -89,6 +90,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		default:
 			orbFrame = new Frame(f, sbody->name.c_str());
 			orbFrame->m_sbody = sbody;
+			orbFrame->m_astroBody = b;
 			orbFrame->SetRadius(1.2*sbody->GetRadius());
 			b->SetFrame(orbFrame);
 			return orbFrame;
@@ -295,8 +297,26 @@ void Space::CollideFrame(Frame *f)
 	}
 }
 
+void Space::ApplyGravity()
+{
+	// just to the player and only in the most stupid way for the moment
+	if (Pi::player->GetFrame()->m_astroBody) {
+		Body *other = Pi::player->GetFrame()->m_astroBody;
+		vector3d b1b2 = other->GetPosition() - Pi::player->GetPosition();
+		const double m1m2 = Pi::player->GetMass() * other->GetMass();
+		const double r = b1b2.Length();
+		const double force = G*m1m2 / (r*r);
+		b1b2.Normalize();
+		b1b2 = b1b2 * force;
+		dBodyAddForce(Pi::player->m_body, b1b2.x, b1b2.y, b1b2.z);
+	}
+
+}
+
 void Space::TimeStep(float step)
 {
+	ApplyGravity();
+
 	CollideFrame(rootFrame);
 	dWorldQuickStep(world, step);
 	dJointGroupEmpty(_contactgroup);

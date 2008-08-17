@@ -17,11 +17,13 @@ public:
 	virtual void Render(const Frame *camFrame);
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
+	virtual double GetMass() const { return m_mass; }
 private:
 	void DrawRockyPlanet();
 	void DrawGasGiant();
 	void DrawAtmosphere(double rad, vector3d &pos);
 
+	double m_mass;
 	vector3d pos;
 	dGeomID geom;
 	StarSystem::SBody sbody;

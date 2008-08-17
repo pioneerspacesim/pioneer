@@ -178,7 +178,7 @@ static double calcEnergyPerUnitAreaAtDist(double star_radius, double star_temp, 
 }
 
 // bond albedo, not geometric
-static double calcSurfaceTemp(double star_radius, double star_temp, double object_dist, double albedo, double greenhouse)
+static double CalcSurfaceTemp(double star_radius, double star_temp, double object_dist, double albedo, double greenhouse)
 {
 	const double energy_per_meter2 = calcEnergyPerUnitAreaAtDist(star_radius, star_temp, object_dist);
 	const double surface_temp = pow(energy_per_meter2*(1-albedo)/(4*(1-greenhouse)*boltzman_const), 0.25);
@@ -203,14 +203,21 @@ static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed
 	return fixed(1744665451,100000)*(total_solar_emission / (object_dist*object_dist));
 }
 
-static int calcSurfaceTemp(fixed star_radius, int star_temp, fixed object_dist, fixed albedo, fixed greenhouse)
+static int CalcSurfaceTemp(StarSystem::SBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
 {
-	const fixed energy_per_meter2 = calcEnergyPerUnitAreaAtDist(star_radius, star_temp, object_dist);
+	fixed energy_per_meter2;
+	if (primary->type == StarSystem::TYPE_GRAVPOINT) {
+		// binary. take energies of both stars
+		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->children[0]->radius,
+			primary->children[0]->averageTemp, distToPrimary);
+		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(primary->children[1]->radius,
+			primary->children[1]->averageTemp, distToPrimary);
+	} else {
+		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->radius, primary->averageTemp, distToPrimary);
+	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
 	return isqrt(isqrt((surface_temp_pow4.v>>16)*4409673));
 }
-
-
 
 void StarSystem::Orbit::KeplerPosAtTime(double t, double *dist, double *ang)
 {
@@ -488,7 +495,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		centGrav1 = new SBody;
 		centGrav1->type = TYPE_GRAVPOINT;
 		centGrav1->parent = NULL;
-		centGrav1->name = s.m_systems[system_idx].name;
+		centGrav1->name = s.m_systems[system_idx].name+" A,B";
 		rootBody = centGrav1;
 
 		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
@@ -523,7 +530,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 			} else {
 				centGrav2 = new SBody;
 				centGrav2->type = TYPE_GRAVPOINT;
-				centGrav2->name = s.m_systems[system_idx].name;
+				centGrav2->name = s.m_systems[system_idx].name+" C,D";
 				centGrav2->orbMax = 0;
 
 				star[2] = new SBody;
@@ -574,14 +581,14 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 	if (primary->type == TYPE_GRAVPOINT) {
 		SBody *star = primary->children[0];
 		orbMinKill = star->orbMax*10;
-		// XXX need to consider triple and quadruple systems -
-		// the other pair will obstruct also
 	}
 	else if ((primary->GetSuperType() == SUPERTYPE_STAR) && (primary->parent)) {
 		// limit planets out to 10% distance to star's binary companion
 		orbMaxKill = primary->orbMin * fixed(1,10);
 	}
-	printf("kill at %f,%f AU\n", orbMinKill.ToDouble(), orbMaxKill.ToDouble());
+	if (m_numStars >= 3) {
+		orbMaxKill = MIN(orbMaxKill, fixed(5,100)*rootBody->children[0]->orbMin);
+	}
 
 	std::vector<int> *disc = AccreteDisc(disc_size, 10, rand.Int32(10,400), rand);
 	for (unsigned int i=0; i<disc->size(); i++) {
@@ -652,7 +659,7 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 	int bbody_temp;
 	bool fiddle = false;
 	for (int i=0; i<10; i++) {
-		bbody_temp = calcSurfaceTemp(star->radius, star->averageTemp, distToPrimary, albedo, globalwarming);
+		bbody_temp = CalcSurfaceTemp(star, distToPrimary, albedo, globalwarming);
 		//printf("temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
 		// extreme high temperature and low mass causes atmosphere loss
 #define ATMOS_LOSS_MASS_CUTOFF	2
@@ -673,7 +680,7 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 		globalwarming *= 0.2;
 		albedo = rand.Double(0.05) + 0.9;
 	}
-	bbody_temp = calcSurfaceTemp(star->radius, star->averageTemp, distToPrimary, albedo, globalwarming);
+	bbody_temp = CalcSurfaceTemp(star, distToPrimary, albedo, globalwarming);
 //	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
 
 	averageTemp = bbody_temp;
@@ -698,8 +705,8 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 		} else if (mass < 3) {
 			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
 				// try for life
-				int minTemp = calcSurfaceTemp(star->radius, star->averageTemp, orbMax, albedo, globalwarming);
-				int maxTemp = calcSurfaceTemp(star->radius, star->averageTemp, orbMin, albedo, globalwarming);
+				int minTemp = CalcSurfaceTemp(star, orbMax, albedo, globalwarming);
+				int maxTemp = CalcSurfaceTemp(star, orbMin, albedo, globalwarming);
 
 				if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {

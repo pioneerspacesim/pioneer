@@ -266,6 +266,19 @@ void Player::DrawHUD(const Frame *cam_frame)
 		glPopMatrix();
 	}
 
+	// altitude
+	if (GetFrame()->m_astroBody) {
+		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
+		double radius = GetFrame()->m_astroBody->GetRadius();
+		double altitude = GetPosition().Length() - radius;
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
+		glPushMatrix();
+		glTranslatef(400, 66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
 	Gui::Screen::LeaveOrtho();
 }
 

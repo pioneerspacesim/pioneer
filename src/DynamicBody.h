@@ -21,6 +21,7 @@ public:
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
 	virtual void Disable();
 	virtual void Enable();
+	virtual double GetMass() const { return m_mass.mass; }
 	
 	dBodyID m_body;
 	dMass m_mass;

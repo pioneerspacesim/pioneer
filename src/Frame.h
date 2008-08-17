@@ -6,6 +6,8 @@
 #include <list>
 #include "StarSystem.h"
 
+class Body;
+
 /*
  * Frame of reference.
  */
@@ -44,6 +46,7 @@ public:
 	Frame *m_parent;
 	std::list<Frame*> m_children;
 	StarSystem::SBody *m_sbody; // points to SBodies in Pi::current_system
+	Body *m_astroBody; // if frame contains a star or planet or something
 	
 	enum { TEMP_VIEWING=1 };
 private:

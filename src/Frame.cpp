@@ -24,6 +24,7 @@ void Frame::RemoveChild(Frame *f)
 void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 {
 	m_sbody = 0;
+	m_astroBody = 0;
 	m_parent = parent;
 	m_flags = flags;
 	m_radius = 0;
