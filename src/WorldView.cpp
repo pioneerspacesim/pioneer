@@ -73,7 +73,9 @@ WorldView::WorldView(): View()
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 {
-	Pi::player->SetWheelState(b->GetState());
+	if (!Pi::player->SetWheelState(b->GetState())) {
+		b->StatePrev();
+	}
 }
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)

@@ -28,7 +28,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
-	dockingTimer = 0;
+	m_dockingTimer = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	m_shipType = shipType;
@@ -141,43 +141,50 @@ void Ship::Blastoff()
 void Ship::TestLanded()
 {
 	if (m_launchLockTimeout != 0) return;
+	if (m_wheelState != 1.0) return;
 	if (GetFrame()->m_astroBody) {
 		const dReal *vel = dBodyGetLinearVel(m_body);
 		double speed = vector3d(vel[0], vel[1], vel[2]).Length();
 		const double planetRadius = GetFrame()->m_astroBody->GetRadius();
 
 		if (speed < 20) {
-			printf("Landed!\n");	
-
 			// orient the damn thing right
+			// Q: i'm totally lost. why is the inverse of the body rot matrix being used?
+			// A: NFI. it just works this way
 			matrix4x4d rot;
 			GetRotMatrix(rot);
+			matrix4x4d invRot = rot.InverseOf();
 
 			vector3d up = vector3d::Normalize(GetPosition());
 
-			// position at zero altitude
-			SetPosition(up * planetRadius);
+			// check player is sortof sensibly oriented for landing
+			const double dot = vector3d::Dot( vector3d::Normalize(vector3d(invRot[1], invRot[5], invRot[9])), up);
+			if (dot > 0.99) {
 
-			vector3d forward = rot * vector3d(0,0,1);
-			vector3d other = vector3d::Normalize(vector3d::Cross(up, forward));
-			forward = vector3d::Cross(other, up);
+				// position at zero altitude
+				SetPosition(up * planetRadius);
 
-			rot = matrix4x4d::MakeRotMatrix(other, up, forward);
-			rot = rot.InverseOf();
-			SetRotMatrix(rot);
+				vector3d forward = rot * vector3d(0,0,1);
+				vector3d other = vector3d::Normalize(vector3d::Cross(up, forward));
+				forward = vector3d::Cross(other, up);
 
-			// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
-			dBodyDisable(m_body);
-			ClearThrusterState();
-			m_flightState = LANDED;
-			m_testLanded = false;
+				rot = matrix4x4d::MakeRotMatrix(other, up, forward);
+				rot = rot.InverseOf();
+				SetRotMatrix(rot);
+
+				// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
+				dBodyDisable(m_body);
+				ClearThrusterState();
+				m_flightState = LANDED;
+				m_testLanded = false;
+			}
 		}
 	}
 }
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
-	dockingTimer = (dockingTimer-timeStep > 0 ? dockingTimer-timeStep : 0);
+	m_dockingTimer = (m_dockingTimer-timeStep > 0 ? m_dockingTimer-timeStep : 0);
 	// ode tri mesh turd likes to know our old position
 	TriMeshUpdateLastPos();
 
@@ -262,7 +269,7 @@ void Ship::SetDockedWith(SpaceStation *s)
 		m_dockedWith = 0;
 	} else {
 		m_dockedWith = s;
-		dockingTimer = 0.0f;
+		m_dockingTimer = 0.0f;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
@@ -274,10 +281,12 @@ void Ship::SetGunState(int idx, int state)
 	m_gunState[idx] = state;
 }
 
-void Ship::SetWheelState(bool down)
+bool Ship::SetWheelState(bool down)
 {
+	if (m_flightState != FLYING) return false;
 	if (down) m_wheelTransition = 1;
 	else m_wheelTransition = -1;
+	return true;
 }
 
 void Ship::SetNavTarget(Body* const target)
