@@ -11,7 +11,8 @@ class DynamicBody: public ModelBody {
 public:
 	DynamicBody();
 	virtual ~DynamicBody();
-	virtual void SetRotation(const matrix4x4d &r);
+	virtual void SetRotMatrix(const matrix4x4d &r);
+	virtual void GetRotMatrix(matrix4x4d &m);
 	virtual void SetVelocity(vector3d v);
 	virtual vector3d GetVelocity();
 	void SetAngVelocity(vector3d v);

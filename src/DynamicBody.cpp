@@ -25,11 +25,16 @@ void DynamicBody::Disable()
 	dBodyDisable(m_body);
 }
 
-void DynamicBody::SetRotation(const matrix4x4d &r)
+void DynamicBody::SetRotMatrix(const matrix4x4d &r)
 {
 	dMatrix3 _m;
 	r.SaveToOdeMatrix(_m);
 	dBodySetRotation(m_body, _m);
+}
+
+void DynamicBody::GetRotMatrix(matrix4x4d &m)
+{
+	m.LoadFromOdeMatrix(dBodyGetRotation(m_body));
 }
 
 void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)

@@ -22,6 +22,8 @@ static ObjParams params = {
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
+	m_isLanded = false;
+	m_testLanded = false;
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
@@ -51,6 +53,15 @@ void Ship::UpdateMass()
 	CalcStats(&s);
 	dMassAdjust(&m_mass, s.total_mass*1000);
 	dBodySetMass(m_body, &m_mass);
+}
+
+bool Ship::OnCollision(Body *b, Uint32 flags)
+{
+	if (b->GetType() == Object::PLANET) {
+		if (m_isLanded) return false;
+		else m_testLanded = true;
+	}
+	return true;
 }
 
 vector3d Ship::CalcRotDamping()
@@ -102,6 +113,42 @@ void Ship::CalcStats(shipstats_t *stats)
 	stats->hyperspace_range = 200 * hyperclass * hyperclass / stats->total_mass;
 }
 
+void Ship::TestLanded()
+{
+	if (GetFrame()->m_astroBody) {
+		const dReal *vel = dBodyGetLinearVel(m_body);
+		double speed = vector3d(vel[0], vel[1], vel[2]).Length();
+		const double planetRadius = GetFrame()->m_astroBody->GetRadius();
+
+		if (speed < 15) {
+			printf("Landed!\n");	
+
+			// orient the damn thing right
+			matrix4x4d rot;
+			GetRotMatrix(rot);
+
+			vector3d up = vector3d::Normalize(GetPosition());
+
+			// position at zero altitude
+			SetPosition(up * planetRadius);
+
+			vector3d forward = rot * vector3d(0,0,1);
+			vector3d other = vector3d::Normalize(vector3d::Cross(up, forward));
+			forward = vector3d::Cross(other, up);
+
+			rot = matrix4x4d::MakeRotMatrix(other, up, forward);
+			rot = rot.InverseOf();
+			SetRotMatrix(rot);
+
+			// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
+			dBodyDisable(m_body);
+			ClearThrusterState();
+			m_isLanded = true;
+			m_testLanded = false;
+		}
+	}
+}
+
 void Ship::TimeStepUpdate(const float timeStep)
 {
 	dockingTimer = (dockingTimer-timeStep > 0 ? dockingTimer-timeStep : 0);
@@ -149,6 +196,8 @@ void Ship::TimeStepUpdate(const float timeStep)
 		m_wheelState = CLAMP(m_wheelState, 0, 1);
 		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
 	}
+
+	if (m_testLanded) TestLanded();
 }
 
 void Ship::NotifyDeath(const Body* const dyingBody)
@@ -176,7 +225,7 @@ void Ship::SetDockedWith(SpaceStation *s)
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(m_dockedWith->port.horiz, port_y, m_dockedWith->port.normal);
 		vector3d pos = m_dockedWith->GetPosition() + stationRot*m_dockedWith->port.center;
 		SetPosition(pos);
-		SetRotation(rot);
+		SetRotMatrix(rot);
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Enable();
@@ -269,7 +318,7 @@ static void render_coll_mesh(const CollMesh *m)
 
 void Ship::Render(const Frame *camFrame)
 {
-	if (!dBodyIsEnabled(m_body)) return;
+	if ((!dBodyIsEnabled(m_body)) && !m_isLanded) return;
 	const ShipType &stype = GetShipType();
 	params.angthrust[0] = m_angThrusters[0];
 	params.angthrust[1] = m_angThrusters[1];

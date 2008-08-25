@@ -40,6 +40,7 @@ public:
 	void SetDockingTimer(float t) { dockingTimer = t; }
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void NotifyDeath(const Body* const dyingBody);
+	virtual bool OnCollision(Body *b, Uint32 flags);
 	
 	class LaserObj: public Object {
 	public:
@@ -53,11 +54,14 @@ protected:
 	void RenderLaserfire();
 
 	SpaceStation *m_dockedWith;
+	bool m_isLanded;
 	enum ShipType::Type m_shipType;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 private:
 	bool IsFiringLasers();
+	void TestLanded();
 
+	bool m_testLanded;
 	float m_wheelState;
 	float m_wheelTransition;
 

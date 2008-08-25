@@ -96,6 +96,9 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_EQUALS)) m_external_view_dist -= 10;
 		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 10;
 		m_external_view_dist = MAX(50, m_external_view_dist);
+
+		// when landed don't let external view look from below
+		if (m_isLanded) m_external_view_rotx = CLAMP(m_external_view_rotx, -170.0, -10);
 	}
 
 	if ((time_accel == 0) || GetDockedWith()) {
@@ -271,6 +274,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 		double radius = GetFrame()->m_astroBody->GetRadius();
 		double altitude = GetPosition().Length() - radius;
+		if (altitude < 0) altitude = 0;
 		char buf[128];
 		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
 		glPushMatrix();
