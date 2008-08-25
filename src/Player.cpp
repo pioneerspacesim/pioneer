@@ -241,7 +241,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 		glEnd();
 	}
 	
-	{
+	if (Pi::showDebugInfo) {
 		char buf[1024];
 		glPushMatrix();
 		glTranslatef(0,440,0);

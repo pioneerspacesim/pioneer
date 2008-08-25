@@ -76,6 +76,7 @@ public:
 	static View *GetView() { return currentView; }
 	static StarSystem *GetSelectedSystem();
 
+	static bool showDebugInfo;
 	static int playerLocSecX;
 	static int playerLocSecY;
 	static int playerLocSysIdx;

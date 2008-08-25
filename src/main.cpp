@@ -51,6 +51,7 @@ GLUquadric *Pi::gluQuadric;
 int Pi::playerLocSecX;
 int Pi::playerLocSecY;
 int Pi::playerLocSysIdx;
+bool Pi::showDebugInfo;
 
 void Pi::Init(IniConfig &config)
 {
@@ -164,6 +165,7 @@ void Pi::HandleEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_q) Pi::Quit();
+				if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {
 					/* add test object */
@@ -290,7 +292,7 @@ void Pi::MainLoop()
 
 		Gui::Draw();
 #ifdef DEBUG
-		{
+		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
 			glTranslatef(0, Gui::Screen::GetHeight()-20, 0);
