@@ -172,6 +172,10 @@ void Ship::TestLanded()
 				rot = rot.InverseOf();
 				SetRotMatrix(rot);
 
+				dBodySetLinearVel(m_body, 0, 0, 0);
+				dBodySetAngularVel(m_body, 0, 0, 0);
+				dBodySetForce(m_body, 0, 0, 0);
+				dBodySetTorque(m_body, 0, 0, 0);
 				// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
 				dBodyDisable(m_body);
 				ClearThrusterState();
