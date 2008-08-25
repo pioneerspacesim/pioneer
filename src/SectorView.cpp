@@ -180,14 +180,15 @@ void SectorView::DrawSector(int sx, int sy)
 
 void SectorView::Update()
 {
-	if (Pi::KeyState(SDLK_LEFT)) m_px -= 0.01;
-	if (Pi::KeyState(SDLK_RIGHT)) m_px += 0.01;
-	if (Pi::KeyState(SDLK_UP)) m_py += 0.01;
-	if (Pi::KeyState(SDLK_DOWN)) m_py -= 0.01;
-	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= 0.99;
-	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= 1.01;
-	if (m_zoomInButton->IsPressed()) m_zoom *= 0.99;
-	if (m_zoomOutButton->IsPressed()) m_zoom *= 1.01;
+	const float frameTime = Pi::GetFrameTime();
+	if (Pi::KeyState(SDLK_LEFT)) m_px -= 1*frameTime;
+	if (Pi::KeyState(SDLK_RIGHT)) m_px += 1*frameTime;
+	if (Pi::KeyState(SDLK_UP)) m_py += 1*frameTime;
+	if (Pi::KeyState(SDLK_DOWN)) m_py -= 1*frameTime;
+	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5, frameTime);
+	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0, frameTime);
+	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5, frameTime);
+	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0, frameTime);
 	m_zoom = CLAMP(m_zoom, 0.1, 5.0);
 	
 	if (Pi::MouseButtonState(3)) {

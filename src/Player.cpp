@@ -83,18 +83,19 @@ void Player::TimeStepUpdate(const float timeStep)
 void Player::PollControls()
 {
 	int mouseMotion[2];
+	const float frameTime = Pi::GetFrameTime();
 	float time_accel = Pi::GetTimeAccel();
 	float ta2 = time_accel*time_accel;
 
 	polledControlsThisTurn = true;
 
 	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
-		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 1;
-		if (Pi::KeyState(SDLK_DOWN)) m_external_view_rotx += 1;
-		if (Pi::KeyState(SDLK_LEFT)) m_external_view_roty -= 1;
-		if (Pi::KeyState(SDLK_RIGHT)) m_external_view_roty += 1;
-		if (Pi::KeyState(SDLK_EQUALS)) m_external_view_dist -= 10;
-		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 10;
+		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 45*frameTime;
+		if (Pi::KeyState(SDLK_DOWN)) m_external_view_rotx += 45*frameTime;
+		if (Pi::KeyState(SDLK_LEFT)) m_external_view_roty -= 45*frameTime;
+		if (Pi::KeyState(SDLK_RIGHT)) m_external_view_roty += 45*frameTime;
+		if (Pi::KeyState(SDLK_EQUALS)) m_external_view_dist -= 400*frameTime;
+		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 400*frameTime;
 		m_external_view_dist = MAX(50, m_external_view_dist);
 
 		// when landed don't let external view look from below
