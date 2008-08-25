@@ -18,6 +18,7 @@ public:
 private:
 	Gui::Button *AddCommsOption(const std::string msg, int ypos);
 	void OnClickHyperspace();
+	void OnClickBlastoff();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
@@ -25,6 +26,8 @@ private:
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsDlist;
 	Gui::Fixed *commsOptions;
+	Gui::Label *flightStatus;
+	Gui::ImageButton *launchButton;
 	bool labelsOn;
 };
 

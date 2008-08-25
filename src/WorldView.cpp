@@ -23,23 +23,32 @@ WorldView::WorldView(): View()
 	Add(commsOptions, 10, 20);
 
 	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
-	wheels_button->SetShortcut(SDLK_F7, KMOD_NONE);
+	wheels_button->SetShortcut(SDLK_F6, KMOD_NONE);
 	wheels_button->AddState(0, "icons/wheels_up.png");
 	wheels_button->AddState(1, "icons/wheels_down.png");
 	wheels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
 	m_rightButtonBar->Add(wheels_button, 34, 2);
 
 	Gui::MultiStateImageButton *labels_button = new Gui::MultiStateImageButton();
-	labels_button->SetShortcut(SDLK_F9, KMOD_NONE);
+	labels_button->SetShortcut(SDLK_F8, KMOD_NONE);
 	labels_button->AddState(1, "icons/labels_on.png");
 	labels_button->AddState(0, "icons/labels_off.png");
 	labels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeLabelsState));
 	m_rightButtonBar->Add(labels_button, 98, 2);
 
 	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
-	m_hyperspaceButton->SetShortcut(SDLK_F8, KMOD_NONE);
+	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
+
+	launchButton = new Gui::ImageButton("icons/blastoff.png");
+	launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
+	launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
+	m_rightButtonBar->Add(launchButton, 2, 2);
+	
+	flightStatus = new Gui::Label("");
+	flightStatus->SetColor(1,.7,0);
+	m_rightRegion2->Add(flightStatus, 10, 3);
 	
 	m_bgstarsDlist = glGenLists(1);
 
@@ -70,6 +79,11 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 {
 	labelsOn = b->GetState();
+}
+
+void WorldView::OnClickBlastoff()
+{
+	Pi::player->Blastoff();
 }
 
 void WorldView::OnClickHyperspace()
@@ -167,6 +181,14 @@ void WorldView::Update()
 		commsOptions->ShowAll();
 	} else {
 		//commsOptions->HideAll();
+	}
+
+	if (Pi::player->GetFlightState() == Ship::LANDED) {
+		flightStatus->SetText("Landed");
+		launchButton->Show();
+	} else {
+		flightStatus->SetText("Manual Control");
+		launchButton->Hide();
 	}
 }
 

@@ -22,8 +22,9 @@ static ObjParams params = {
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
-	m_isLanded = false;
+	m_flightState = FLYING;
 	m_testLanded = false;
+	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
@@ -58,7 +59,8 @@ void Ship::UpdateMass()
 bool Ship::OnCollision(Body *b, Uint32 flags)
 {
 	if (b->GetType() == Object::PLANET) {
-		if (m_isLanded) return false;
+		// geoms still enabled when landed
+		if (m_flightState != FLYING) return false;
 		else m_testLanded = true;
 	}
 	return true;
@@ -87,7 +89,9 @@ void Ship::ClearThrusterState()
 	SetAngThrusterState(1, 0.0f);
 	SetAngThrusterState(2, 0.0f);
 
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = 0;
+	if (m_launchLockTimeout == 0) {
+		for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = 0;
+	}
 }
 
 // hyperspace range is:
@@ -113,14 +117,36 @@ void Ship::CalcStats(shipstats_t *stats)
 	stats->hyperspace_range = 200 * hyperclass * hyperclass / stats->total_mass;
 }
 
+void Ship::Blastoff()
+{
+	if (m_flightState != LANDED) return;
+
+	ClearThrusterState();
+	m_flightState = FLYING;
+	m_testLanded = false;
+	m_dockedWith = 0;
+	m_launchLockTimeout = 1.0; // one second of applying thrusters
+
+	Enable();
+	const double planetRadius = GetFrame()->m_astroBody->GetRadius();
+	vector3d up = vector3d::Normalize(GetPosition());
+	dBodySetLinearVel(m_body, 0, 0, 0);
+	dBodySetAngularVel(m_body, 0, 0, 0);
+	dBodySetForce(m_body, 0, 0, 0);
+	dBodySetTorque(m_body, 0, 0, 0);
+	SetPosition(up*planetRadius + 10.0*up);
+	SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
+}
+
 void Ship::TestLanded()
 {
+	if (m_launchLockTimeout != 0) return;
 	if (GetFrame()->m_astroBody) {
 		const dReal *vel = dBodyGetLinearVel(m_body);
 		double speed = vector3d(vel[0], vel[1], vel[2]).Length();
 		const double planetRadius = GetFrame()->m_astroBody->GetRadius();
 
-		if (speed < 15) {
+		if (speed < 20) {
 			printf("Landed!\n");	
 
 			// orient the damn thing right
@@ -143,7 +169,7 @@ void Ship::TestLanded()
 			// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
 			dBodyDisable(m_body);
 			ClearThrusterState();
-			m_isLanded = true;
+			m_flightState = LANDED;
 			m_testLanded = false;
 		}
 	}
@@ -154,6 +180,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 	dockingTimer = (dockingTimer-timeStep > 0 ? dockingTimer-timeStep : 0);
 	// ode tri mesh turd likes to know our old position
 	TriMeshUpdateLastPos();
+
+	m_launchLockTimeout -= timeStep;
+	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
 
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
@@ -318,7 +347,7 @@ static void render_coll_mesh(const CollMesh *m)
 
 void Ship::Render(const Frame *camFrame)
 {
-	if ((!dBodyIsEnabled(m_body)) && !m_isLanded) return;
+	if ((!dBodyIsEnabled(m_body)) && !m_flightState) return;
 	const ShipType &stype = GetShipType();
 	params.angthrust[0] = m_angThrusters[0];
 	params.angthrust[1] = m_angThrusters[1];

@@ -61,17 +61,19 @@ void Player::ApplyExternalViewRotation(matrix4x4d &m)
 
 void Player::TimeStepUpdate(const float timeStep)
 {
-	// when world view not selected
-	if (!polledControlsThisTurn) {
-		const float time_accel = Pi::GetTimeAccel();
-		const float ta2 = time_accel*time_accel;
-		ClearThrusterState();
-		// still must apply rotation damping
-		vector3d damping = CalcRotDamping();
-		damping *= 1.0f/ta2;
-		SetAngThrusterState(0, -damping.x);
-		SetAngThrusterState(1, -damping.y);
-		SetAngThrusterState(2, -damping.z);
+	if (GetFlightState() == Ship::FLYING) {
+		// when world view not selected
+		if (!polledControlsThisTurn) {
+			const float time_accel = Pi::GetTimeAccel();
+			const float ta2 = time_accel*time_accel;
+			ClearThrusterState();
+			// still must apply rotation damping
+			vector3d damping = CalcRotDamping();
+			damping *= 1.0f/ta2;
+			SetAngThrusterState(0, -damping.x);
+			SetAngThrusterState(1, -damping.y);
+			SetAngThrusterState(2, -damping.z);
+		}
 	}
 	polledControlsThisTurn = false;
 	Ship::TimeStepUpdate(timeStep);
@@ -99,66 +101,66 @@ void Player::PollControls()
 		m_external_view_dist = MAX(50, m_external_view_dist);
 
 		// when landed don't let external view look from below
-		if (m_isLanded) m_external_view_rotx = CLAMP(m_external_view_rotx, -170.0, -10);
+		if (GetFlightState() == LANDED) m_external_view_rotx = CLAMP(m_external_view_rotx, -170.0, -10);
 	}
 
-	if ((time_accel == 0) || GetDockedWith()) {
+	if ((time_accel == 0) || GetDockedWith() ||
+	    (GetFlightState() != FLYING)) {
 		return;
 	}
 
-	ClearThrusterState();
-	
-	vector3f angThrust(0.0f);
+	/* if flying */
+	{
+		ClearThrusterState();
+		
+		vector3f angThrust(0.0f);
 
-	if (Pi::MouseButtonState(3)) {
-		float restitution = powf(MOUSE_RESTITUTION, Pi::GetTimeStep());
-		Pi::GetMouseMotion(mouseMotion);
-		m_mouseCMov[0] += mouseMotion[0];
-		m_mouseCMov[1] += mouseMotion[1];
-		m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-		m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-		angThrust.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
-		angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
-	}
-	
-	if (Pi::KeyState(SDLK_w)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
-	if (Pi::KeyState(SDLK_s)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
-	if (Pi::KeyState(SDLK_2)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
-	if (Pi::KeyState(SDLK_x)) SetThrusterState(ShipType::THRUSTER_BOTTOM, 1.0f);
-	if (Pi::KeyState(SDLK_a)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
-	if (Pi::KeyState(SDLK_d)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
-
-	if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) SetGunState(0,1);
-	else SetGunState(0,0);
-	
-	// no torques at huge time accels -- ODE hates it
-	if (time_accel <= 10) {
-		if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
-			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
-			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
-			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
-			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
+		if (Pi::MouseButtonState(3)) {
+			float restitution = powf(MOUSE_RESTITUTION, Pi::GetTimeStep());
+			Pi::GetMouseMotion(mouseMotion);
+			m_mouseCMov[0] += mouseMotion[0];
+			m_mouseCMov[1] += mouseMotion[1];
+			m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
+			m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
+			angThrust.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
+			angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 		}
-		// rotation damping.
-		vector3d damping = CalcRotDamping();
+		
+		if (Pi::KeyState(SDLK_w)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
+		if (Pi::KeyState(SDLK_s)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
+		if (Pi::KeyState(SDLK_2)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
+		if (Pi::KeyState(SDLK_x)) SetThrusterState(ShipType::THRUSTER_BOTTOM, 1.0f);
+		if (Pi::KeyState(SDLK_a)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
+		if (Pi::KeyState(SDLK_d)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 
-		angThrust.x -= damping.x;
-		angThrust.y -= damping.y;
-		angThrust.z -= damping.z;
+		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) SetGunState(0,1);
+		else SetGunState(0,0);
+		
+		// no torques at huge time accels -- ODE hates it
+		if (time_accel <= 10) {
+			if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
+				if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
+				if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
+				if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
+				if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
+			}
+			// rotation damping.
+			vector3d damping = CalcRotDamping();
 
-		// dividing by time step so controls don't go totally mental when
-		// used at 10x accel
-		angThrust *= 1.0f/ta2;
-		SetAngThrusterState(0, angThrust.x);
-		SetAngThrusterState(1, angThrust.y);
-		SetAngThrusterState(2, angThrust.z);
-	}
-	if (time_accel > 10) {
-		dBodySetAngularVel(m_body, 0, 0, 0);
-	}
-	if(GetNavTarget() && Pi::KeyState(SDLK_END)) {
-		// Temp test: Kill ("end") the target.
-		Space::KillBody(GetNavTarget());
+			angThrust.x -= damping.x;
+			angThrust.y -= damping.y;
+			angThrust.z -= damping.z;
+
+			// dividing by time step so controls don't go totally mental when
+			// used at 10x accel
+			angThrust *= 1.0f/ta2;
+			SetAngThrusterState(0, angThrust.x);
+			SetAngThrusterState(1, angThrust.y);
+			SetAngThrusterState(2, angThrust.z);
+		}
+		if (time_accel > 10) {
+			dBodySetAngularVel(m_body, 0, 0, 0);
+		}
 	}
 }
 
