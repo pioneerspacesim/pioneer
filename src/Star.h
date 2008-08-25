@@ -14,11 +14,13 @@ public:
 	virtual vector3d GetPosition();
 	virtual double GetRadius() const { return radius; }
 	virtual void Render(const Frame *camFrame);
+	virtual double GetMass() const { return mass; }
 	
 private:
 	StarSystem::BodyType type;
 	vector3d pos;
 	double radius;
+	double mass;
 };
 
 #endif /* _STAR_H */

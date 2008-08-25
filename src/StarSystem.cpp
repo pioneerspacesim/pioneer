@@ -146,6 +146,18 @@ const char *StarSystem::SBody::GetIcon()
 	return bodyTypeInfo[type].icon;
 }
 
+double StarSystem::SBody::GetMaxChildOrbitalDistance() const
+{
+	double max = 0;
+	for (unsigned int i=0; i<children.size(); i++) {
+		if (children[i]->orbMax.ToDouble() > max) {
+			max = children[i]->orbMax.ToDouble();	
+		}
+	}
+	return AU * max;
+}
+
+
 static inline Sint64 isqrt(Sint64 a)
 {
 	Sint64 ret=0;

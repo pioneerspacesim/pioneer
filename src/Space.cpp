@@ -58,66 +58,75 @@ void Space::MoveOrbitingObjectFrames(Frame *f)
 		MoveOrbitingObjectFrames(*i);
 	}
 }
-
 static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
+	double frameRadius;
 
 	if (!sbody->parent) {
-		b->SetFrame(f);
+		if (b) b->SetFrame(f);
+		f->m_sbody = sbody;
+		f->m_astroBody = b;
 		return f;
 	}
 
-	switch (sbody->GetSuperType()) {
+	if (sbody->type == StarSystem::TYPE_GRAVPOINT) {
+		orbFrame = new Frame(f, sbody->name.c_str());
+		orbFrame->m_sbody = sbody;
+		orbFrame->m_astroBody = b;
+		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
+		return orbFrame;
+	}
+
+	StarSystem::BodySuperType supertype = sbody->GetSuperType();
+
+	if ((supertype == StarSystem::SUPERTYPE_GAS_GIANT) ||
+	    (supertype == StarSystem::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame in the same position but with maybe 1.1*radius,
 		// which actually contains the object.
-		case StarSystem::SUPERTYPE_GAS_GIANT:
-		case StarSystem::SUPERTYPE_ROCKY_PLANET:
-			orbFrame = new Frame(f, sbody->name.c_str());
-			orbFrame->m_sbody = sbody;
-			orbFrame->SetRadius(10*sbody->GetRadius());
-		
-			assert(sbody->GetRotationPeriod() != 0);
-			rotFrame = new Frame(orbFrame, sbody->name.c_str());
-			rotFrame->SetRadius(1.1*sbody->GetRadius());
-			rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
-			rotFrame->m_astroBody = b;
-			b->SetFrame(rotFrame);
-			return orbFrame;
+		frameRadius = sbody->GetMaxChildOrbitalDistance()*1.1;
+		orbFrame = new Frame(f, sbody->name.c_str());
+		orbFrame->m_sbody = sbody;
+		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+	
+		assert(sbody->GetRotationPeriod() != 0);
+		rotFrame = new Frame(orbFrame, sbody->name.c_str());
+		rotFrame->SetRadius(1.1*sbody->GetRadius());
+		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		rotFrame->m_astroBody = b;
+		b->SetFrame(rotFrame);
+		return orbFrame;
+	}
+	else /*if (supertype == StarSystem::SUPERTYPE_STAR)*/ {
 		// stars want a single small non-rotating frame
-		case StarSystem::SUPERTYPE_STAR:
-		default:
-			orbFrame = new Frame(f, sbody->name.c_str());
-			orbFrame->m_sbody = sbody;
-			orbFrame->m_astroBody = b;
-			orbFrame->SetRadius(1.2*sbody->GetRadius());
-			b->SetFrame(orbFrame);
-			return orbFrame;
+		orbFrame = new Frame(f, sbody->name.c_str());
+		orbFrame->m_sbody = sbody;
+		orbFrame->m_astroBody = b;
+		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
+		b->SetFrame(orbFrame);
+		return orbFrame;
 	}		
 }
 
 void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 {
-	Body *b;
+	Body *b = 0;
 
-	// yay goto
-	if (sbody->type == StarSystem::TYPE_GRAVPOINT) goto just_make_kids;
-
-	if (sbody->GetSuperType() == StarSystem::SUPERTYPE_STAR) {
-		Star *star = new Star(sbody);
-		b = star;
-	} else {
-		Planet *planet = new Planet(sbody);
-		b = planet;
+	if (sbody->type != StarSystem::TYPE_GRAVPOINT) {
+		if (sbody->GetSuperType() == StarSystem::SUPERTYPE_STAR) {
+			Star *star = new Star(sbody);
+			b = star;
+		} else {
+			Planet *planet = new Planet(sbody);
+			b = planet;
+		}
+		b->SetLabel(sbody->name.c_str());
+		b->SetPosition(vector3d(0,0,0));
+		AddBody(b);
 	}
-	b->SetLabel(sbody->name.c_str());
-	b->SetPosition(vector3d(0,0,0));
 	f = MakeFrameFor(sbody, b, f);
-	
-	AddBody(b);
 
-just_make_kids:
 	for (std::vector<StarSystem::SBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
 		GenBody(*i, f);
 	}
@@ -299,11 +308,21 @@ void Space::CollideFrame(Frame *f)
 
 void Space::ApplyGravity()
 {
-	// just to the player and only in the most stupid way for the moment
+	Body *lump = 0;
+	// gravity is applied when our frame contains an 'astroBody', ie a star or planet,
+	// or when our frame contains a rotating frame which contains this body.
 	if (Pi::player->GetFrame()->m_astroBody) {
-		Body *other = Pi::player->GetFrame()->m_astroBody;
-		vector3d b1b2 = other->GetPosition() - Pi::player->GetPosition();
-		const double m1m2 = Pi::player->GetMass() * other->GetMass();
+		lump = Pi::player->GetFrame()->m_astroBody;
+	} else if (Pi::player->GetFrame()->m_sbody &&
+		(Pi::player->GetFrame()->m_children.begin() !=
+	           Pi::player->GetFrame()->m_children.end())) {
+
+		lump = (*Pi::player->GetFrame()->m_children.begin())->m_astroBody;
+	}
+	// just to the player and only in the most stupid way for the moment
+	if (lump) {
+		vector3d b1b2 = lump->GetPosition() - Pi::player->GetPosition();
+		const double m1m2 = Pi::player->GetMass() * lump->GetMass();
 		const double r = b1b2.Length();
 		const double force = G*m1m2 / (r*r);
 		b1b2.Normalize();

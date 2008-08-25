@@ -6,7 +6,6 @@
 #include "SpaceStation.h"
 #include "ShipCpanel.h"
 
-static const float lightCol[] = { 1,1,.9,0 };
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
 #define BG_STAR_MAX	5000
@@ -134,8 +133,15 @@ void WorldView::Draw3D()
 		lightPos[1] = lpos.y;
 		lightPos[2] = lpos.z;
 		lightPos[3] = 0;
+		
+		const float *col = StarSystem::starColors[Pi::currentSystem->rootBody->type];
+		float lightCol[4] = { col[0], col[1], col[2], 0 };
+		float ambCol[4] = { col[0]*0.1, col[1]*0.1, col[2]*0.1, 0 };
+
+		//glColor3fv(StarSystem::starColors[(*i).primaryStarClass]);
 		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-		glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
 		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 
 		Space::Render(&cam_frame);

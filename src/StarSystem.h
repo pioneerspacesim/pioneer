@@ -111,6 +111,8 @@ public:
 			return rotationPeriod.ToDouble()*60*60*24;
 		}
 
+		double GetMaxChildOrbitalDistance() const;
+
 		int tmp;
 		Orbit orbit;
 		int seed; // Planet.cpp can use to generate terrain

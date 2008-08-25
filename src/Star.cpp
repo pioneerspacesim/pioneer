@@ -7,6 +7,7 @@ Star::Star(StarSystem::SBody *sbody): Body()
 {
 	this->type = sbody->type;
 	radius = sbody->GetRadius();
+	mass = sbody->GetMass();
 	pos = vector3d(0,0,0);
 }
 
