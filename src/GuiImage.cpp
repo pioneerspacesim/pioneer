@@ -1,6 +1,5 @@
 #include "libs.h"
 #include "GuiImage.h"
-#include "Pi.h"
 
 namespace Gui {
 
@@ -14,7 +13,7 @@ Image::Image(const char *filename): Widget()
 	SDL_Surface *is = IMG_Load(filename);
 	if (!is) {
 		fprintf(stderr, "Could not load %s\n", filename);
-		Pi::Quit();
+		exit(0);
 	}
 	m_imgw = is->w;
 	m_imgh = is->h;

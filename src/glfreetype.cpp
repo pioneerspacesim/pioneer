@@ -314,7 +314,7 @@ void FontFace::RenderMarkup(const char *str)
 {
 	glPushMatrix();
 	int len = strlen(str);
-	for (unsigned int i=0; i<len; i++) {
+	for (int i=0; i<len; i++) {
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
@@ -343,8 +343,9 @@ void FontFace::RenderMarkup(const char *str)
 FontFace::FontFace(const char *filename_ttf)
 {
 	FT_Face face;
-	if (0 != FT_New_Face(library, filename_ttf, 0, &face)) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'\n", filename_ttf);
+	int err;
+	if (0 != (err = FT_New_Face(library, filename_ttf, 0, &face))) {
+		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf, err);
 	} else {
 		FT_Set_Char_Size(face, 50*64, 0, 100, 0);
 		for (int chr=32; chr<127; chr++) {

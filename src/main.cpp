@@ -241,13 +241,20 @@ void Pi::MainLoop()
 	station->SetPosition(vector3d(0,0,0));
 	Space::AddBody(station);
 
-//	player->SetFrame(stationFrame);
+	SpaceStation *station2 = new SpaceStation();
+	station2->SetLabel("Conor's End");
+	station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
+	station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
+	Space::AddBody(station2);
+
+	player->SetFrame(stationFrame);
+	player->SetPosition(vector3d(0,0,0));
 //	player->SetPosition(vector3d(0,0,2000));
-	player->SetFrame(pframe);
+//	player->SetFrame(pframe);
 	float ang1 = Pi::rng.Double(0,M_PI);
 	float ang2 = Pi::rng.Double(0,M_PI);
 	double r = EARTH_RADIUS*1.0001;
-	player->SetPosition(vector3d(r*cos(ang1)*cos(ang2), r*sin(ang1)*cos(ang2), r*sin(ang2)));
+//	player->SetPosition(vector3d(r*cos(ang1)*cos(ang2), r*sin(ang1)*cos(ang2), r*sin(ang2)));
 //	player->SetPosition(vector3d(r,0,0));
 
 	Gui::Init(scrWidth, scrHeight, 640, 480);
@@ -264,7 +271,7 @@ void Pi::MainLoop()
 	infoView = new InfoView();
 
 	SetView(worldView);
-//	player->SetDockedWith(station);
+	player->SetDockedWith(station);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;

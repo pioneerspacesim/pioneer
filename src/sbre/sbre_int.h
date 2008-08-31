@@ -190,8 +190,10 @@ enum comptype
 
 const int pCompSize[] = { 1, 3, 5, 3, 3, 2 };
 
-const char pModelString[1][256] = {
-	"Bollocks",
+const char pModelString[][256] = {
+	"Bollocks", "Yo", "","","","","","","","",
+	// 10 - landing pad messages
+	"1"
 };
 
 void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters);

@@ -15,17 +15,28 @@ bool ToggleButton::OnMouseDown(MouseButtonEvent *e)
 		onPress.emit();
 		m_pressed = !m_pressed;
 		if (m_pressed) {
-			onSelect.emit(this);
+			onChange.emit(this, true);
 		} else {
-			onDeselect.emit(this);
+			onChange.emit(this, false);
 		}
 	}
 	return false;
 }
-void ToggleButton::GetSizeRequested(float &w, float &h)
+
+void ToggleButton::OnActivate()
 {
-	w = BUTTON_SIZE;
-	h = BUTTON_SIZE;
+	m_pressed = !m_pressed;
+	if (m_pressed) {
+		onChange.emit(this, true);
+	} else {
+		onChange.emit(this, false);
+	}
+}
+
+void ToggleButton::GetSizeRequested(float size[2])
+{
+	size[0] = BUTTON_SIZE;
+	size[1] = BUTTON_SIZE;
 }
 
 void ToggleButton::Draw()

@@ -10,13 +10,13 @@ namespace Gui {
 		ToggleButton();
 		virtual void Draw();
 		virtual ~ToggleButton() {}
-		virtual void GetSizeRequested(float &w, float &h);
+		virtual void GetSizeRequested(float size[2]);
 		virtual bool OnMouseDown(MouseButtonEvent *e);
+		virtual void OnActivate();
 		void SetPressed(bool s) { m_pressed = s; }
 		bool GetPressed() { return m_pressed; }
 		
-		sigc::signal<void, ToggleButton *> onSelect;
-		sigc::signal<void, ToggleButton *> onDeselect;
+		sigc::signal<void, ToggleButton *, bool> onChange;
 	private:
 		int m_pressed;
 	};

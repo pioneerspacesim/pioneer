@@ -6,6 +6,9 @@ enum AxisIndex {
 	A_X = 0, A_Y, A_Z, A_NX, A_NY, A_NZ,
 };
 
+static CompoundVertex dummyvtx2[] = {
+	{ VTYPE_CROSS, { 0, 1, 2, -1, -1 } },			// dummy
+};
 
 static PlainVertex tetravtx1[] = {
 	{ VTYPE_PLAIN, { 0.0f, 50.0f, 0.0f } },			// 6
@@ -1220,5 +1223,21 @@ Model wing2model = { 1.0f, 25.0f, 23, wing2vtx1, 30, 0, wing2vtx2, 2,
 	{ { 0, wing2data, 0, 2, wing2thruster } } };
 
 
+static PlainVertex starport1vtx1[] = {
+	{ VTYPE_PLAIN, { 0,0,0 } },
+	{ VTYPE_PLAIN, { 0,.01,0 } },
+	{ VTYPE_PLAIN, { -0.1,.01,-0.1 } },
+};
 
+static uint16 starport1data[] = {
+	PTYPE_MATFIXED, 30, 30, 30, 0, 0, 0, 0, 0, 0, 0,
+	PTYPE_CYLINDER, 0x8000, 8, 6, 7, 0, 50,
+	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0,
+	PTYPE_ZBIAS, 6, 1, 0,
+	PTYPE_TEXT, 0, 10, 8, 1, 0, 0, 0, 20,
+	PTYPE_END,
+};
+
+Model starport1model = { 100.0f, 55.0f, 9, starport1vtx1, 9, 0, dummyvtx2, 1,
+	{ { 0, starport1data, 0, 0, 0 } } };
 

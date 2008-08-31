@@ -29,7 +29,8 @@ public:
 	virtual void TimeStepUpdate(const float timeStep) {}
 	// Override to clear any pointers you hold to the dying body.
 	virtual void NotifyDeath(const Body* const dyingBody) {}
-	
+	// for putting on planet surface, oriented +y up
+	void OrientOnSurface(double radius, double latitude, double longitude);
 	vector3d GetPositionRelTo(const Frame *);
 	Frame *GetFrame() { return m_frame; }
 	void SetLabel(const char *label) { m_label = label; }

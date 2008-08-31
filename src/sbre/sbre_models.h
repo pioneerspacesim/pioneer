@@ -6,7 +6,7 @@
 extern Model dishmodel, nosewheelmodel, nwunitmodel, mainwheelmodel, mwunitmodel;
 extern Model wing1model, wing2model;
 extern Model ship1model, ship2model, ship3model, ship4model, ship5model;
-extern Model station1model;
+extern Model station1model, starport1model;
 
 // common subobject indices
 
@@ -25,7 +25,7 @@ const int SUB_WING2 = 31;
 Model * const ppModel[] =
 {
 	// 0, current test object
-	&ship5model,
+	&ship2model,
 	// 1, common subobjects
 	&nosewheelmodel,
 	&nwunitmodel,
@@ -58,6 +58,7 @@ Model * const ppModel[] =
 	// 80
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	// 90, other people's ships
+	&starport1model
 
 };
 
