@@ -1222,22 +1222,60 @@ static Thruster wing2thruster[] = {
 Model wing2model = { 1.0f, 25.0f, 23, wing2vtx1, 30, 0, wing2vtx2, 2,
 	{ { 0, wing2data, 0, 2, wing2thruster } } };
 
+static PlainVertex metalFrameTowerVtx1[] = {
+	{ VTYPE_PLAIN, { -1, 0, 1 } },
+	{ VTYPE_PLAIN, { 1, 0, 1 } },
+	{ VTYPE_PLAIN, { 1, 0, -1 } },
+	{ VTYPE_PLAIN, { -1, 0, -1 } },
+	{ VTYPE_PLAIN, { -1, 10, 1 } },
+	{ VTYPE_PLAIN, { 1, 10, 1 } },
+	{ VTYPE_PLAIN, { 1, 10, -1 } },
+	{ VTYPE_PLAIN, { -1, 10, -1 } },
+};
+static CompoundVertex metalFrameTowerVtx2[] = {
+	{ VTYPE_ANIMLIN, { 6, 10, -1, -1, 0 } },
+	{ VTYPE_ANIMLIN, { 7, 11, -1, -1, 0 } },
+	{ VTYPE_ANIMLIN, { 8, 12, -1, -1, 0 } },
+	{ VTYPE_ANIMLIN, { 9, 13, -1, -1, 0 } },
+};
+static uint16 metalFrameTowerData[] = {
+	PTYPE_CYLINDER, 0x8000, 4, 6, 14, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 7, 15, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 8, 16, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 9, 17, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 6, 15, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 7, 14, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 7, 16, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 8, 15, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 8, 17, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 9, 16, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 6, 17, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 9, 14, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 14, 15, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 15, 16, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 16, 17, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 17, 14, 1, 10,
+	PTYPE_END,
+};
+Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, metalFrameTowerVtx2, 0,
+	{ { 0, metalFrameTowerData, 0, 0, 0 } } };
 
 static PlainVertex starport1vtx1[] = {
 	{ VTYPE_PLAIN, { 0,0,0 } },
 	{ VTYPE_PLAIN, { 0,.01,0 } },
 	{ VTYPE_PLAIN, { -0.1,.01,-0.1 } },
 };
-
 static uint16 starport1data[] = {
 	PTYPE_MATFIXED, 30, 30, 30, 0, 0, 0, 0, 0, 0, 0,
 	PTYPE_CYLINDER, 0x8000, 8, 6, 7, 0, 50,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0,
 	PTYPE_ZBIAS, 6, 1, 0,
 	PTYPE_TEXT, 0, 10, 8, 1, 0, 0, 0, 20,
+	PTYPE_ZBIAS, 0x8000, 0, 0,
+	PTYPE_SUBOBJECT, 0x8000, 100, 0, 1, 2, 100,
+	PTYPE_SUBOBJECT, 0x8000, 100, 3, 1, 2, 100,
 	PTYPE_END,
 };
-
 Model starport1model = { 100.0f, 55.0f, 9, starport1vtx1, 9, 0, dummyvtx2, 1,
 	{ { 0, starport1data, 0, 0, 0 } } };
 

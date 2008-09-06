@@ -7,6 +7,7 @@ extern Model dishmodel, nosewheelmodel, nwunitmodel, mainwheelmodel, mwunitmodel
 extern Model wing1model, wing2model;
 extern Model ship1model, ship2model, ship3model, ship4model, ship5model;
 extern Model station1model, starport1model;
+extern Model metalFrameTowerModel;
 
 // common subobject indices
 
@@ -58,7 +59,9 @@ Model * const ppModel[] =
 	// 80
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	// 90, other people's ships
-	&starport1model
+	&starport1model,0,0,0,0,0,0,0,0,0,
+	// 100, more sub-objects
+	&metalFrameTowerModel
 
 };
 
