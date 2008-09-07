@@ -43,7 +43,8 @@ public:
 	virtual void NotifyDeath(const Body* const dyingBody);
 	virtual bool OnCollision(Body *b, Uint32 flags);
 	enum FlightState { FLYING, LANDED };
-       	FlightState GetFlightState() { return m_flightState; }
+       	FlightState GetFlightState() const { return m_flightState; }
+	float GetWheelState() const { return m_wheelState; }
 	
 	class LaserObj: public Object {
 	public:

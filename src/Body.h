@@ -15,13 +15,13 @@ public:
 	virtual ~Body();
 	virtual Object::Type GetType() { return Object::BODY; }
 	virtual void SetPosition(vector3d p) = 0;
-	virtual vector3d GetPosition() = 0; // within frame
+	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }
 	virtual vector3d GetVelocity() { assert(0); return vector3d(0.0); }
 	virtual double GetRadius() const = 0;
 	virtual double GetMass() const { assert(0); return 0; }
 	virtual void SetRotMatrix(const matrix4x4d &r) {};
-	virtual void GetRotMatrix(matrix4x4d &m) { };
+	virtual void GetRotMatrix(matrix4x4d &m) const { };
 	virtual void Render(const Frame *camFrame) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage

@@ -11,7 +11,7 @@ Star::Star(StarSystem::SBody *sbody): Body()
 	pos = vector3d(0,0,0);
 }
 
-vector3d Star::GetPosition()
+vector3d Star::GetPosition() const
 {
 	return pos;
 }

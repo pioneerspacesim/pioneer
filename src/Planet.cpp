@@ -21,7 +21,7 @@ Planet::~Planet()
 	dGeomDestroy(geom);
 }
 
-vector3d Planet::GetPosition()
+vector3d Planet::GetPosition() const
 {
 	return pos;
 }

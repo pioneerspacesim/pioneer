@@ -11,7 +11,7 @@ public:
 	Planet(StarSystem::SBody*);
 	virtual ~Planet();
 	virtual void SetPosition(vector3d p);
-	virtual vector3d GetPosition();
+	virtual vector3d GetPosition() const;
 	void SetRadius(double radius);
 	virtual double GetRadius() const { return sbody.GetRadius(); }
 	virtual void Render(const Frame *camFrame);

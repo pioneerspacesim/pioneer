@@ -1232,42 +1232,63 @@ static PlainVertex metalFrameTowerVtx1[] = {
 	{ VTYPE_PLAIN, { 1, 10, -1 } },
 	{ VTYPE_PLAIN, { -1, 10, -1 } },
 };
-static CompoundVertex metalFrameTowerVtx2[] = {
-	{ VTYPE_ANIMLIN, { 6, 10, -1, -1, 0 } },
-	{ VTYPE_ANIMLIN, { 7, 11, -1, -1, 0 } },
-	{ VTYPE_ANIMLIN, { 8, 12, -1, -1, 0 } },
-	{ VTYPE_ANIMLIN, { 9, 13, -1, -1, 0 } },
-};
 static uint16 metalFrameTowerData[] = {
-	PTYPE_CYLINDER, 0x8000, 4, 6, 14, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 7, 15, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 8, 16, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 9, 17, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 6, 15, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 7, 14, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 7, 16, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 8, 15, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 8, 17, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 9, 16, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 6, 17, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 9, 14, 0, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 14, 15, 1, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 15, 16, 1, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 16, 17, 1, 10,
-	PTYPE_CYLINDER, 0x8000, 4, 17, 14, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 6, 10, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 7, 11, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 8, 12, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 9, 13, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 6, 11, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 7, 10, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 7, 12, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 8, 11, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 8, 13, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 9, 12, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 6, 13, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 9, 10, 0, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 10, 11, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 11, 12, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 12, 13, 1, 10,
+	PTYPE_CYLINDER, 0x8000, 4, 13, 10, 1, 10,
 	PTYPE_END,
 };
-Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, metalFrameTowerVtx2, 0,
+Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, dummyvtx2, 0,
 	{ { 0, metalFrameTowerData, 0, 0, 0 } } };
 
 static PlainVertex starport1vtx1[] = {
 	{ VTYPE_PLAIN, { 0,0,0 } },
 	{ VTYPE_PLAIN, { 0,.01,0 } },
 	{ VTYPE_PLAIN, { -0.1,.01,-0.1 } },
+	{ VTYPE_PLAIN, { 0, 0, -2 } },
+	{ VTYPE_PLAIN, { 0, 0, 2 } },
+	{ VTYPE_PLAIN, { 0.5, 0, 0 } },
+	{ VTYPE_PLAIN, { -0.5, 0, 0 } },
 };
+/*uint16 PFUNC_COMPSMOOTH
+	uint16 cacheidx
+	uint16 steps
+	uint16 centpos
+	uint16 centnorm
+	uint16 startpos
+	uint16 startnorm
+		uint16 COMP_END
+		uint16 COMP_LINE
+			uint16 pos
+			uint16 norm
+		uint16 COMP_HERMITE
+			uint16 pos
+			uint16 norm
+			uint16 tan0
+			uint16 tan1
+*/
 static uint16 starport1data[] = {
 	PTYPE_MATFIXED, 30, 30, 30, 0, 0, 0, 0, 0, 0, 0,
-	PTYPE_CYLINDER, 0x8000, 8, 6, 7, 0, 50,
+	PTYPE_SETCFLAG, 1,
+	PTYPE_COMPFLAT, 0x8000, 20, 6, 1, 11, 1,
+		COMP_HERMITE, 12, 1, 9, 10,
+		COMP_HERMITE, 11, 1, 10, 9,
+		COMP_END,
+//	PTYPE_CYLINDER, 0x8000, 8, 6, 7, 0, 50,
+	PTYPE_SETCFLAG, 0,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0,
 	PTYPE_ZBIAS, 6, 1, 0,
 	PTYPE_TEXT, 0, 10, 8, 1, 0, 0, 0, 20,
@@ -1276,6 +1297,6 @@ static uint16 starport1data[] = {
 	PTYPE_SUBOBJECT, 0x8000, 100, 3, 1, 2, 100,
 	PTYPE_END,
 };
-Model starport1model = { 100.0f, 55.0f, 9, starport1vtx1, 9, 0, dummyvtx2, 1,
+Model starport1model = { 100.0f, 55.0f, 13, starport1vtx1, 13, 0, dummyvtx2, 1,
 	{ { 0, starport1data, 0, 0, 0 } } };
 

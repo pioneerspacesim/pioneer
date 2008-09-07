@@ -5,6 +5,7 @@
 #include "Gui.h"
 #include "View.h"
 #include "mtrand.h"
+#include "gameconsts.h"
 #include <map>
 #include <string>
 

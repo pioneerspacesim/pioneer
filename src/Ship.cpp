@@ -134,6 +134,7 @@ void Ship::Blastoff()
 	dBodySetAngularVel(m_body, 0, 0, 0);
 	dBodySetForce(m_body, 0, 0, 0);
 	dBodySetTorque(m_body, 0, 0, 0);
+	// XXX hm. we need to be able to get sbre aabb
 	SetPosition(up*planetRadius + 10.0*up);
 	SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
 }
@@ -147,7 +148,7 @@ void Ship::TestLanded()
 		double speed = vector3d(vel[0], vel[1], vel[2]).Length();
 		const double planetRadius = GetFrame()->m_astroBody->GetRadius();
 
-		if (speed < 20) {
+		if (speed < MAX_LANDING_SPEED) {
 			// orient the damn thing right
 			// Q: i'm totally lost. why is the inverse of the body rot matrix being used?
 			// A: NFI. it just works this way
@@ -194,6 +195,11 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
+	/* can't orient ships in SetDockedWith() because it gets
+	 * called from ode collision handler, and body is locked
+	 * and can't be positioned. instead we do it every fucking
+	 * update which is retarded but hey */
+	if (m_dockedWith) m_dockedWith->OrientDockedShip(this);
 
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
@@ -256,24 +262,13 @@ const ShipType &Ship::GetShipType()
 void Ship::SetDockedWith(SpaceStation *s)
 {
 	if (m_dockedWith && !s) {
-		// position player in middle of docking bay, pointing out of it
-		// XXX need to do forced thrusting thingy...
-		// XXX ang vel not zeroed for some reason...
-		matrix4x4d stationRot;
-		m_dockedWith->GetRotMatrix(stationRot);
-		vector3d port_y = vector3d::Cross(-m_dockedWith->port.horiz, m_dockedWith->port.normal);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(m_dockedWith->port.horiz, port_y, m_dockedWith->port.normal);
-		vector3d pos = m_dockedWith->GetPosition() + stationRot*m_dockedWith->port.center;
-		SetPosition(pos);
-		SetRotMatrix(rot);
-		SetVelocity(vector3d(0,0,0));
-		SetAngVelocity(vector3d(0,0,0));
+		m_dockedWith->OrientLaunchingShip(this);
 		Enable();
-		
 		m_dockedWith = 0;
 	} else {
 		m_dockedWith = s;
 		m_dockingTimer = 0.0f;
+		if (s->IsGroundStation()) m_flightState = LANDED;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();

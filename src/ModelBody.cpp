@@ -64,7 +64,7 @@ void ModelBody::SetPosition(vector3d p)
 	}
 }
 
-vector3d ModelBody::GetPosition()
+vector3d ModelBody::GetPosition() const
 {
 	const dReal *pos = dGeomGetPosition(geoms[0]);
 	return vector3d(pos[0], pos[1], pos[2]);
@@ -106,7 +106,7 @@ void ModelBody::SetRotMatrix(const matrix4x4d &r)
 	}
 }
 
-void ModelBody::GetRotMatrix(matrix4x4d &m)
+void ModelBody::GetRotMatrix(matrix4x4d &m) const
 {
 	m.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
 }
