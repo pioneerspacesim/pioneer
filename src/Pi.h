@@ -47,7 +47,7 @@ public:
 	static void Quit();
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
-	static void SetTimeAccel(float s) { timeAccel = s; }
+	static void SetTimeAccel(float s);
 	static float GetTimeAccel() { return timeAccel; }
 	static float GetTimeStep() { return timeAccel*frameTime; }
 	static int GetScrWidth() { return scrWidth; }

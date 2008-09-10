@@ -15,6 +15,7 @@ public:
 	virtual void GetRotMatrix(matrix4x4d &m);
 	virtual void SetVelocity(vector3d v);
 	virtual vector3d GetVelocity();
+	vector3d GetAngVelocity();
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }

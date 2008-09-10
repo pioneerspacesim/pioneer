@@ -80,7 +80,7 @@ void Player::TimeStepUpdate(const float timeStep)
 }
 
 #define MOUSE_CTRL_AREA		10.0f
-#define MOUSE_RESTITUTION	0.01f
+#define MOUSE_RESTITUTION	0.75f
 
 void Player::PollControls()
 {
@@ -116,12 +116,11 @@ void Player::PollControls()
 		vector3f angThrust(0.0f);
 
 		if (Pi::MouseButtonState(3)) {
-			float restitution = powf(MOUSE_RESTITUTION, Pi::GetTimeStep());
 			Pi::GetMouseMotion(mouseMotion);
 			m_mouseCMov[0] += mouseMotion[0];
 			m_mouseCMov[1] += mouseMotion[1];
-			m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-			m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*restitution, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
+			m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
+			m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
 			angThrust.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
 			angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 		}
@@ -136,31 +135,25 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) SetGunState(0,1);
 		else SetGunState(0,0);
 		
-		// no torques at huge time accels -- ODE hates it
-		if (time_accel <= 10) {
-			if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
-				if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
-				if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
-				if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
-				if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
-			}
-			// rotation damping.
-			vector3d damping = CalcRotDamping();
-
-			angThrust.x -= damping.x;
-			angThrust.y -= damping.y;
-			angThrust.z -= damping.z;
-
-			// dividing by time step so controls don't go totally mental when
-			// used at 10x accel
-			angThrust *= 1.0f/ta2;
-			SetAngThrusterState(0, angThrust.x);
-			SetAngThrusterState(1, angThrust.y);
-			SetAngThrusterState(2, angThrust.z);
+		if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
+			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
+			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
+			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
+			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
 		}
-		if (time_accel > 10) {
-			dBodySetAngularVel(m_body, 0, 0, 0);
-		}
+		// rotation damping.
+		vector3d damping = time_accel*CalcRotDamping();
+
+		angThrust.x -= damping.x;
+		angThrust.y -= damping.y;
+		angThrust.z -= damping.z;
+
+		// dividing by time step so controls don't go totally mental when
+		// used at 10x accel
+		angThrust *= 1.0f/ta2;
+		SetAngThrusterState(0, angThrust.x);
+		SetAngThrusterState(1, angThrust.y);
+		SetAngThrusterState(2, angThrust.z);
 	}
 }
 

@@ -70,6 +70,11 @@ DynamicBody::~DynamicBody()
 	dBodyDestroy(m_body);
 }
 
+vector3d DynamicBody::GetAngVelocity()
+{
+	return vector3d(dBodyGetAngularVel(m_body));
+}
+
 vector3d DynamicBody::GetVelocity()
 {
 	const dReal *v = dBodyGetLinearVel(m_body);
