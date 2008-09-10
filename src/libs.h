@@ -10,6 +10,7 @@
 #include <ode/ode.h>
 #include <float.h>
 #include <limits>
+#include <time.h>
 
 #ifdef _WIN32
 #include <windows.h>

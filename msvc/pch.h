@@ -32,7 +32,6 @@
 #include "mtrand.h"
 #include "Object.h"
 #include "ObjectViewerView.h"
-#include "objimport.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"

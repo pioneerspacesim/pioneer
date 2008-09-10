@@ -185,10 +185,10 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_RIGHT)) m_px += 1*frameTime;
 	if (Pi::KeyState(SDLK_UP)) m_py += 1*frameTime;
 	if (Pi::KeyState(SDLK_DOWN)) m_py -= 1*frameTime;
-	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5, frameTime);
-	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0, frameTime);
-	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5, frameTime);
-	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0, frameTime);
+	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
+	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
+	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
+	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
 	m_zoom = CLAMP(m_zoom, 0.1, 5.0);
 	
 	if (Pi::MouseButtonState(3)) {
