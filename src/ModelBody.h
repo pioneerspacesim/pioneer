@@ -7,6 +7,7 @@
 #include "sbre/sbre.h"
 #include <vector>
 class ObjMesh;
+class CollMeshSet;
 
 class ModelBody: public Body {
 public:
@@ -24,6 +25,7 @@ public:
 	// to remove from simulation for a period
 	virtual void Disable();
 	virtual void Enable();
+	void GetAabb(Aabb &aabb);
 	
 	void TriMeshUpdateLastPos();
 	void SetModel(int sbreModel);
@@ -38,9 +40,10 @@ public:
 protected:
 	std::vector<Geom> geomColl;
 private:
+	CollMeshSet *m_collMeshSet;
 	std::vector<dGeomID> geoms;
-	dReal triMeshTrans[32];
-	int triMeshLastMatrixIndex;
+	dReal m_triMeshTrans[32];
+	int m_triMeshLastMatrixIndex;
 };
 
 #endif /* _MODELBODY_H */

@@ -129,14 +129,17 @@ void Ship::Blastoff()
 	m_launchLockTimeout = 1.0; // one second of applying thrusters
 
 	Enable();
-	const double planetRadius = GetFrame()->m_astroBody->GetRadius();
+	const double planetRadius = 0.1 + GetFrame()->m_astroBody->GetRadius();
 	vector3d up = vector3d::Normalize(GetPosition());
 	dBodySetLinearVel(m_body, 0, 0, 0);
 	dBodySetAngularVel(m_body, 0, 0, 0);
 	dBodySetForce(m_body, 0, 0, 0);
 	dBodySetTorque(m_body, 0, 0, 0);
+	
+	Aabb aabb;
+	GetAabb(aabb);
 	// XXX hm. we need to be able to get sbre aabb
-	SetPosition(up*planetRadius + 10.0*up);
+	SetPosition(up*planetRadius - aabb.min.y*up);
 	SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
 }
 
@@ -163,8 +166,11 @@ void Ship::TestLanded()
 			const double dot = vector3d::Dot( vector3d::Normalize(vector3d(invRot[1], invRot[5], invRot[9])), up);
 			if (dot > 0.99) {
 
+				Aabb aabb;
+				GetAabb(aabb);
+
 				// position at zero altitude
-				SetPosition(up * planetRadius);
+				SetPosition(up * (planetRadius - aabb.min.y));
 
 				vector3d forward = rot * vector3d(0,0,1);
 				vector3d other = vector3d::Normalize(vector3d::Cross(up, forward));

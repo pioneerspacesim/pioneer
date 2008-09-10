@@ -21,6 +21,7 @@ public:
 	dTriMeshDataID *meshParts;
 	meshinfo_t *meshInfo;
 	int numMeshParts;
+	Aabb aabb;
 
 	CollMeshSet(int sbreModel);
 private:

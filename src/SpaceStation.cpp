@@ -110,7 +110,13 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 		vector3d port_y = vector3d::Cross(-dport->horiz, dport->normal);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(-dport->horiz, -dport->normal, -port_y);
 		vector3d pos = GetPosition() + stationRot*dport->center;
-		ship->SetPosition(pos - stationRot*dport->normal);
+
+		// position with wheels perfectly on ground :D
+		Aabb aabb;
+		ship->GetAabb(aabb);
+		pos += stationRot*vector3d(0,-aabb.min.y,0);
+
+		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
 	}
 }

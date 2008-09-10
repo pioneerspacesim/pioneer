@@ -9,7 +9,8 @@
 
 ModelBody::ModelBody(): Body()
 {
-	triMeshLastMatrixIndex = 0;
+	m_triMeshLastMatrixIndex = 0;
+	m_collMeshSet = 0;
 }
 
 ModelBody::~ModelBody()
@@ -41,6 +42,11 @@ void ModelBody::GeomsSetBody(dBodyID body)
 	}
 }
 
+void ModelBody::GetAabb(Aabb &aabb)
+{
+	aabb = m_collMeshSet->aabb;
+}
+
 void ModelBody::SetModel(int sbreModel)
 {
 	assert(geoms.size() == 0);
@@ -55,6 +61,7 @@ void ModelBody::SetModel(int sbreModel)
 		geomColl[i].flags = mset->meshInfo[i].flags;
 		dGeomSetData(geoms[i], static_cast<Object*>(&geomColl[i]));
 	}
+	m_collMeshSet = mset;
 }
 
 void ModelBody::SetPosition(vector3d p)
@@ -149,14 +156,14 @@ void ModelBody::TriMeshUpdateLastPos()
 	// ode tri mesh turd likes to know our old position
 	const dReal *r = dGeomGetRotation(geoms[0]);
 	vector3d pos = GetPosition();
-	dReal *t = triMeshTrans + 16*triMeshLastMatrixIndex;
+	dReal *t = m_triMeshTrans + 16*m_triMeshLastMatrixIndex;
 	t[0] = r[0]; t[1] = r[1]; t[2] = r[2]; t[3] = 0;
 	t[4] = r[4]; t[5] = r[5]; t[6] = r[6]; t[7] = 0;
 	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = 0;
 	t[12] = pos.x; t[13] = pos.y; t[14] = pos.z; t[15] = 1;
-	triMeshLastMatrixIndex = !triMeshLastMatrixIndex;
+	m_triMeshLastMatrixIndex = !m_triMeshLastMatrixIndex;
 	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomTriMeshSetLastTransform(geoms[i], *(dMatrix4*)(triMeshTrans + 16*triMeshLastMatrixIndex));
+		dGeomTriMeshSetLastTransform(geoms[i], *(dMatrix4*)(m_triMeshTrans + 16*m_triMeshLastMatrixIndex));
 	}
 }
 
