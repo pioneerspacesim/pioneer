@@ -128,6 +128,13 @@ static const struct SBodySubTypeInfo {
 		StarSystem::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "World with indigenous life and an oxygen atmosphere",
 		"icons/object_planet_life.png"
+	}, {
+		StarSystem::SUPERTYPE_STARPORT,
+		{}, 0, "Orbital starport",
+		"icons/object_orbital_starport.png"
+	}, {
+		StarSystem::SUPERTYPE_STARPORT,
+		{}, 0, "Starport",
 	}
 };
 
@@ -576,6 +583,12 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		}
 	}
 
+	{ /* decide how infested the joint is */
+		const int dist = 1+MAX(abs(sector_x), abs(sector_y));
+		m_humanInfested = (fixed(1,2)+fixed(1,2)*rand.Fixed()) / dist;
+		printf("Infested %f\n", m_humanInfested.ToDouble());
+	}
+
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i]);
 
 	if (m_numStars > 1) MakePlanetsAround(centGrav1);
@@ -648,7 +661,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		buf[2] = 0;
 		(*i)->name = primary->name+buf;
 		fixed d = ((*i)->orbMin + (*i)->orbMax) >> 1;
-		(*i)->PickPlanetType(primary, d, rand, true);
+		(*i)->PickPlanetType(this, primary, d, rand, true);
 
 #ifdef DEBUG_DUMP
 //		printf("%s: mass %f, semi-major axis %fAU, ecc %f\n", (*i)->name.c_str(), (*i)->mass.ToDouble(), (*i)->orbit.semiMajorAxis/AU, (*i)->orbit.eccentricity);
@@ -657,7 +670,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 	}
 }
 
-void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, MTRand &rand, bool genMoons)
+void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPrimary, MTRand &rand, bool genMoons)
 {
 	fixed albedo = rand.Fixed() * fixed(1,2);
 	fixed globalwarming = rand.Fixed() * fixed(9,10);
@@ -783,8 +796,30 @@ void StarSystem::SBody::PickPlanetType(SBody *star, const fixed distToPrimary, M
 			buf[0] = '1'+(idx++);
 			buf[1] = 0;
 			(*i)->name = name+buf;
-			(*i)->PickPlanetType(star, distToPrimary, rand, false);
+			(*i)->PickPlanetType(system, star, distToPrimary, rand, false);
 		}
+	}
+	
+	// starports
+	if ((averageTemp < CELSIUS+100) && (averageTemp > 100) &&
+		(rand.Fixed() < system->m_humanInfested)) {
+		SBody *sp = new SBody;
+		sp->type = TYPE_STARPORT_ORBITAL;
+		sp->seed = rand.Int32();
+		sp->tmp = 0;
+		sp->parent = this;
+		sp->rotationPeriod = fixed(1,3600);
+		sp->averageTemp = this->averageTemp;
+		sp->mass = 0;
+		sp->name = "Starport";
+		fixed semiMajorAxis = fixed(1, 2000);
+		sp->orbit.eccentricity = 0;
+		sp->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
+		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
+		sp->orbit.rotMatrix = matrix4x4d::Identity();
+		this->children.push_back(sp);
+		sp->orbMin = semiMajorAxis;
+		sp->orbMax = semiMajorAxis;
 	}
 }
 

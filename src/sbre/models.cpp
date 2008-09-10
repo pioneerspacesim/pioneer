@@ -618,48 +618,48 @@ Model ship2model = { 1.0f, 35.0f, 98, ship2vtx1, 120, 1, ship2vtx2, 10,
 
 
 static PlainVertex station1vtx1[] = {
-	{ VTYPE_PLAIN, { -15.0f, 30.0f, 20.0f } },			// 6, front octagon
-	{ VTYPE_PLAIN, { 15.0f, 30.0f, 20.0f } },
-	{ VTYPE_PLAIN, { 30.0f, 15.0f, 20.0f } },
-	{ VTYPE_PLAIN, { 30.0f, -15.0f, 20.0f } },
-	{ VTYPE_PLAIN, { 15.0f, -30.0f, 20.0f } },
-	{ VTYPE_PLAIN, { -15.0f, -30.0f, 20.0f } },
+	{ VTYPE_PLAIN, { -15.0f, -20.0f, 30.0f } },			// 6, front octagon
+	{ VTYPE_PLAIN, { 15.0f, -20.0f, 30.0f } },
+	{ VTYPE_PLAIN, { 30.0f, -20.0f, 15.0f } },
+	{ VTYPE_PLAIN, { 30.0f, -20.0f, -15.0f } },
+	{ VTYPE_PLAIN, { 15.0f, -20.0f, -30.0f } },
+	{ VTYPE_PLAIN, { -15.0f, -20.0f, -30.0f } },
 
-	{ VTYPE_PLAIN, { -15.0f, 30.0f, -20.0f } }, 		// 12, back octagon
-	{ VTYPE_PLAIN, { 15.0f, 30.0f, -20.0f } },
-	{ VTYPE_PLAIN, { 30.0f, 15.0f, -20.0f } },
-	{ VTYPE_PLAIN, { 30.0f, -15.0f, -20.0f } },
-	{ VTYPE_PLAIN, { 15.0f, -30.0f, -20.0f } },
-	{ VTYPE_PLAIN, { -15.0f, -30.0f, -20.0f } },
+	{ VTYPE_PLAIN, { -15.0f, 20.0f, 30.0f } }, 		// 12, back octagon
+	{ VTYPE_PLAIN, { 15.0f, 20.0f, 30.0f } },
+	{ VTYPE_PLAIN, { 30.0f, 20.0f, 15.0f } },
+	{ VTYPE_PLAIN, { 30.0f, 20.0f, -15.0f } },
+	{ VTYPE_PLAIN, { 15.0f, 20.0f, -30.0f } },
+	{ VTYPE_PLAIN, { -15.0f, 20.0f, -30.0f } },
 
-	{ VTYPE_PLAIN, { -10.0f, 5.0f, 20.0f } },			// 18, inlet front
-	{ VTYPE_PLAIN, { 10.0f, 5.0f, 20.0f } },
-	{ VTYPE_PLAIN, { 10.0f, -5.0f, 20.0f } },
-	{ VTYPE_PLAIN, { -10.0f, -5.0f, 20.0f } },
+	{ VTYPE_PLAIN, { -10.0f, -20.0f, 5.0f } },			// 18, inlet front
+	{ VTYPE_PLAIN, { 10.0f, -20.0f, 5.0f } },
+	{ VTYPE_PLAIN, { 10.0f, -20.0f, -5.0f } },
+	{ VTYPE_PLAIN, { -10.0f, -20.0f, -5.0f } },
 
-	{ VTYPE_PLAIN, { -10.0f, 5.0f, 0.0f } },			// 22, inlet rear
-	{ VTYPE_PLAIN, { 10.0f, 5.0f, 0.0f } },
-	{ VTYPE_PLAIN, { 10.0f, -5.0f, 0.0f } },
-	{ VTYPE_PLAIN, { -10.0f, -5.0f, 0.0f } },
+	{ VTYPE_PLAIN, { -10.0f, 0.0f, 5.0f } },			// 22, inlet rear
+	{ VTYPE_PLAIN, { 10.0f, 0.0f, 5.0f } },
+	{ VTYPE_PLAIN, { 10.0f, 0.0f, -5.0f } },
+	{ VTYPE_PLAIN, { -10.0f, 0.0f, -5.0f } },
 
 
-	{ VTYPE_PLAIN, { 30.0f, 10.0f, 10.0f } },			// 26, strut inner
-	{ VTYPE_PLAIN, { 30.0f, -10.0f, 10.0f } },
+	{ VTYPE_PLAIN, { 30.0f, -10.0f, 10.0f } },			// 26, strut inner
 	{ VTYPE_PLAIN, { 30.0f, -10.0f, -10.0f } },
 	{ VTYPE_PLAIN, { 30.0f, 10.0f, -10.0f } },
+	{ VTYPE_PLAIN, { 30.0f, 10.0f, 10.0f } },
 
-	{ VTYPE_PLAIN, { 100.0f, 10.0f, 10.0f } },			// 30, strut outer
-	{ VTYPE_PLAIN, { 100.0f, -10.0f, 10.0f } },
+	{ VTYPE_PLAIN, { 100.0f, -10.0f, 10.0f } },			// 30, strut outer
 	{ VTYPE_PLAIN, { 100.0f, -10.0f, -10.0f } },
 	{ VTYPE_PLAIN, { 100.0f, 10.0f, -10.0f } },
+	{ VTYPE_PLAIN, { 100.0f, 10.0f, 10.0f } },
 
-	{ VTYPE_PLAIN, { 0.0f, 0.0f, 25.0f } },			// 34, ring start, end
-	{ VTYPE_PLAIN, { 0.0f, 0.0f, -25.0f } },		
+	{ VTYPE_PLAIN, { 0.0f, -25.0f, 0.0f } },			// 34, ring start, end
+	{ VTYPE_PLAIN, { 0.0f, 25.0f, 0.0f } },		
 
-	{ VTYPE_PLAIN, { -9.0f, 4.5f, 10.0f } },			// 36, inlet middle (for docking)
-	{ VTYPE_PLAIN, { 9.0f, 4.5f, 10.0f } },
-	{ VTYPE_PLAIN, { 9.0f, -4.5f, 10.0f } },
-	{ VTYPE_PLAIN, { -9.0f, -4.5f, 10.0f } },
+	{ VTYPE_PLAIN, { -9.0f, -10.0f, 4.5f } },			// 36, inlet middle (for docking)
+	{ VTYPE_PLAIN, { 9.0f, -10.0f, 4.5f } },
+	{ VTYPE_PLAIN, { 9.0f, -10.0f, -4.5f } },
+	{ VTYPE_PLAIN, { -9.0f, -10.0f, -4.5f } },
 
 
 /*	{ VTYPE_PLAIN, { 0.0f, 120.0f, 15.0f } },			// 34, ring top 
@@ -753,7 +753,7 @@ static uint16 station1data[] = {
 	PTYPE_QUADFLAT | RFLAG_XREF, 28, 29, 33, 32,
 	PTYPE_QUADFLAT | RFLAG_XREF, 29, 26, 30, 33,
 
-	PTYPE_TUBE | RFLAG_XREF, 0, 38, 34, 35, 1, 11500, 10000,
+	PTYPE_TUBE | RFLAG_XREF, 0, 38, 34, 35, 2, 11500, 10000,
 
 	PTYPE_SETCFLAG, 0x10,
 	PTYPE_QUADFLAT | RFLAG_INVISIBLE, 39, 38, 37, 36,

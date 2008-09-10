@@ -67,6 +67,8 @@ public:
 		TYPE_PLANET_METHANE_THICK_ATMOS,
 		TYPE_PLANET_HIGHLY_VOLCANIC,
 		TYPE_PLANET_INDIGENOUS_LIFE,
+		TYPE_STARPORT_ORBITAL,
+		TYPE_STARPORT_SURFACE,
 		TYPE_MAX,
 		TYPE_STAR_MIN = TYPE_STAR_M,
 		TYPE_STAR_MAX = TYPE_WHITE_DWARF
@@ -74,7 +76,7 @@ public:
 	};
 
 	enum BodySuperType {
-		SUPERTYPE_NONE, SUPERTYPE_STAR, SUPERTYPE_ROCKY_PLANET, SUPERTYPE_GAS_GIANT
+		SUPERTYPE_NONE, SUPERTYPE_STAR, SUPERTYPE_ROCKY_PLANET, SUPERTYPE_GAS_GIANT, SUPERTYPE_STARPORT
 	};
 
 	struct BodyStats {
@@ -87,7 +89,7 @@ public:
 
 		~SBody();
 		void EliminateBadChildren();
-		void PickPlanetType(SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
+		void PickPlanetType(StarSystem *, SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
 		SBody *parent;
 		std::vector<SBody*> children;
 
@@ -127,6 +129,7 @@ public:
 	};
 	
 	SBody *rootBody;
+	fixed m_humanInfested; // 0 to 1
 private:
 	void MakePlanetsAround(SBody *primary);
 	void MakeRandomStar(SBody *sbody, MTRand &rand);

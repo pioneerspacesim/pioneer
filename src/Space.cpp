@@ -9,6 +9,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "StarSystem.h"
+#include "SpaceStation.h"
 #include "sbre/sbre.h"
 
 dWorldID Space::world;
@@ -98,7 +99,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
-	else /*if (supertype == StarSystem::SUPERTYPE_STAR)*/ {
+	else if (supertype == StarSystem::SUPERTYPE_STAR) {
 		// stars want a single small non-rotating frame
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
@@ -106,7 +107,24 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
 		b->SetFrame(orbFrame);
 		return orbFrame;
-	}		
+	}
+	else if (supertype == StarSystem::SUPERTYPE_STARPORT) {
+		// space stations want non-rotating frame to some distance
+		// and a much closer rotating frame
+		frameRadius = 1000000.0; // XXX NFI!
+		orbFrame = new Frame(f, sbody->name.c_str());
+		orbFrame->m_sbody = sbody;
+		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+	
+		assert(sbody->GetRotationPeriod() != 0);
+		rotFrame = new Frame(orbFrame, sbody->name.c_str());
+		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
+		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		b->SetFrame(rotFrame);
+		return orbFrame;
+	} else {
+		assert(0);
+	}
 }
 
 void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
@@ -117,6 +135,9 @@ void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 		if (sbody->GetSuperType() == StarSystem::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
+		} else if (sbody->type == StarSystem::TYPE_STARPORT_ORBITAL) {
+			SpaceStation *ss = new SpaceStation(SpaceStation::JJHOOP);
+			b = ss;
 		} else {
 			Planet *planet = new Planet(sbody);
 			b = planet;
