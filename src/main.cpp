@@ -253,7 +253,7 @@ void Pi::MainLoop()
 //	player->SetPosition(vector3d(0,0,2000));
 //	player->SetFrame(pframe);
 
-	Gui::Init(scrWidth, scrHeight, 640, 480);
+	Gui::Init(scrWidth, scrHeight, 800, 600);
 
 	cpan = new ShipCpanel();
 	cpan->ShowAll();
