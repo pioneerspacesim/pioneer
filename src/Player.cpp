@@ -33,9 +33,9 @@ void Player::Render(const Frame *camFrame)
 	}
 }
 
-void Player::SetDockedWith(SpaceStation *s)
+void Player::SetDockedWith(SpaceStation *s, int port)
 {
-	Ship::SetDockedWith(s);
+	Ship::SetDockedWith(s, port);
 	if (s) {
 		Pi::SetView(Pi::spaceStationView);
 	}

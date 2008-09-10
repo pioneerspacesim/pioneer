@@ -20,7 +20,7 @@ class Ship: public DynamicBody {
 public:
 	Ship(ShipType::Type shipType);
 	virtual Object::Type GetType() { return Object::SHIP; }
-	virtual void SetDockedWith(SpaceStation *);
+	virtual void SetDockedWith(SpaceStation *, int port);
 	SpaceStation *GetDockedWith() { return m_dockedWith; }
 	void SetNavTarget(Body* const target);
 	Body *GetNavTarget() const { return m_navTarget; }
@@ -58,6 +58,7 @@ protected:
 	void RenderLaserfire();
 
 	SpaceStation *m_dockedWith;
+	int m_dockedWithPort;
 	enum ShipType::Type m_shipType;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 private:

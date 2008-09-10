@@ -755,7 +755,7 @@ static uint16 station1data[] = {
 
 	PTYPE_TUBE | RFLAG_XREF, 0, 38, 34, 35, 1, 11500, 10000,
 
-	PTYPE_SETCFLAG, 1,
+	PTYPE_SETCFLAG, 0x10,
 	PTYPE_QUADFLAT | RFLAG_INVISIBLE, 39, 38, 37, 36,
 	PTYPE_SETCFLAG, 0,
 
@@ -1262,6 +1262,11 @@ static PlainVertex starport1vtx1[] = {
 	{ VTYPE_PLAIN, { 0, 0, 2 } },
 	{ VTYPE_PLAIN, { 0.5, 0, 0 } },
 	{ VTYPE_PLAIN, { -0.5, 0, 0 } },
+
+	{ VTYPE_PLAIN, { 0, 0, 2 } },
+	{ VTYPE_PLAIN, { 0.5, 0, 2 } },
+	{ VTYPE_PLAIN, { -0.5, 0, 2 } },
+	{ VTYPE_PLAIN, { -0.1,.01, 2-0.1 } },
 };
 /*uint16 PFUNC_COMPSMOOTH
 	uint16 cacheidx
@@ -1282,21 +1287,26 @@ static PlainVertex starport1vtx1[] = {
 */
 static uint16 starport1data[] = {
 	PTYPE_MATFIXED, 30, 30, 30, 0, 0, 0, 0, 0, 0, 0,
-	PTYPE_SETCFLAG, 1,
+	PTYPE_SETCFLAG, 0x10,
 	PTYPE_COMPFLAT, 0x8000, 20, 6, 1, 11, 1,
 		COMP_HERMITE, 12, 1, 9, 10,
 		COMP_HERMITE, 11, 1, 10, 9,
 		COMP_END,
-//	PTYPE_CYLINDER, 0x8000, 8, 6, 7, 0, 50,
+	PTYPE_SETCFLAG, 0x11,
+	PTYPE_COMPFLAT, 0x8000, 20, 13, 1, 14, 1,
+		COMP_HERMITE, 15, 1, 9, 10,
+		COMP_HERMITE, 14, 1, 10, 9,
+		COMP_END,
 	PTYPE_SETCFLAG, 0,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0,
 	PTYPE_ZBIAS, 6, 1, 0,
 	PTYPE_TEXT, 0, 10, 8, 1, 0, 0, 0, 20,
+	PTYPE_TEXT, 0, 11, 16, 1, 0, 0, 0, 20,
 	PTYPE_ZBIAS, 0x8000, 0, 0,
 	PTYPE_SUBOBJECT, 0x8000, 100, 0, 1, 2, 100,
 	PTYPE_SUBOBJECT, 0x8000, 100, 3, 1, 2, 100,
 	PTYPE_END,
 };
-Model starport1model = { 100.0f, 55.0f, 13, starport1vtx1, 13, 0, dummyvtx2, 1,
+Model starport1model = { 100.0f, 55.0f, 17, starport1vtx1, 17, 0, dummyvtx2, 1,
 	{ { 0, starport1data, 0, 0, 0 } } };
 

@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "ModelBody.h"
 
+#define MAX_DOCKING_PORTS	4
+
 class CollMeshSet;
 class Ship;
 
@@ -15,8 +17,8 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags);
 	virtual Object::Type GetType() { return Object::SPACESTATION; }
 	virtual void Render(const Frame *camFrame);
-	void OrientLaunchingShip(Ship *ship) const;
-	void OrientDockedShip(Ship *ship) const;
+	void OrientLaunchingShip(Ship *ship, int port) const;
+	void OrientDockedShip(Ship *ship, int port) const;
 	void GetDockingSurface(CollMeshSet *mset, int midx);
 	bool GetDockingClearance(Ship *s);
 	bool IsGroundStation() const;
@@ -24,9 +26,10 @@ public:
 		vector3d center;
 		vector3d normal;
 		vector3d horiz;
-	} port;
+	} port[MAX_DOCKING_PORTS];
 private:
 	TYPE m_type;
+	int m_numPorts;
 };
 
 #endif /* _SPACESTATION_H */

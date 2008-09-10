@@ -28,6 +28,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_wheelTransition = 0;
 	m_wheelState = 0;
 	m_dockedWith = 0;
+	m_dockedWithPort = 0;
 	m_dockingTimer = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
@@ -199,7 +200,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	 * called from ode collision handler, and body is locked
 	 * and can't be positioned. instead we do it every fucking
 	 * update which is retarded but hey */
-	if (m_dockedWith) m_dockedWith->OrientDockedShip(this);
+	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
 
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
@@ -259,14 +260,15 @@ const ShipType &Ship::GetShipType()
 	return ShipType::types[m_shipType];
 }
 
-void Ship::SetDockedWith(SpaceStation *s)
+void Ship::SetDockedWith(SpaceStation *s, int port)
 {
 	if (m_dockedWith && !s) {
-		m_dockedWith->OrientLaunchingShip(this);
+		m_dockedWith->OrientLaunchingShip(this, port);
 		Enable();
 		m_dockedWith = 0;
 	} else {
 		m_dockedWith = s;
+		m_dockedWithPort = port;
 		m_dockingTimer = 0.0f;
 		if (s->IsGroundStation()) m_flightState = LANDED;
 		SetVelocity(vector3d(0,0,0));

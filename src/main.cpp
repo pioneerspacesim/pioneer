@@ -267,7 +267,7 @@ void Pi::MainLoop()
 	infoView = new InfoView();
 
 	SetView(worldView);
-	player->SetDockedWith(station2);
+	player->SetDockedWith(station2, 0);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;

@@ -11,7 +11,7 @@ public:
 	void PollControls();
 	virtual void Render(const Frame *camFrame);
 	void DrawHUD(const Frame *cam_frame);
-	virtual void SetDockedWith(SpaceStation *);
+	virtual void SetDockedWith(SpaceStation *, int port);
 	vector3d GetExternalViewTranslation();
 	void ApplyExternalViewRotation(matrix4x4d &m);
 	void TimeStepUpdate(const float timeStep);
