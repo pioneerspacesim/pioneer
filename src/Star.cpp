@@ -21,39 +21,12 @@ void Star::SetPosition(vector3d p)
 	pos = p;
 }
 
-static void DrawCorona(double rad, vector3d &pos, const float col[3])
-{
-	glPushMatrix();
-	// face the camera dammit
-	vector3d zaxis = vector3d::Normalize(pos);
-	vector3d xaxis = vector3d::Normalize(vector3d::Cross(zaxis, vector3d(0,1,0)));
-	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
-	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
-	glMultMatrixd(&rot[0]);
-
-	glEnable(GL_BLEND);
-	glDisable(GL_CULL_FACE);
-	glBegin(GL_TRIANGLE_FAN);
-	glColor4f(col[0], col[1], col[2], 1);
-	glVertex3f(0, 0, 0);
-	glColor4f(0,0,0,0);
-	for (float ang=0; ang<2*M_PI; ang+=0.2) {
-		glVertex3f(rad*sin(ang), rad*cos(ang), 0);
-	}
-	glVertex3f(0, rad, 0);
-	glEnd();
-	glEnable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
-	glPopMatrix();
-}
-
 void Star::Render(const Frame *a_camFrame)
 {
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
 	
-	/* XXX duplicates code from Planet.cpp. bad. */
 	double rad = radius;
 	vector3d fpos = GetPositionRelTo(a_camFrame);
 	double len = fpos.Length();
@@ -66,9 +39,37 @@ void Star::Render(const Frame *a_camFrame)
 
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	
-	glColor3fv(StarSystem::starColors[type]);
-	gluSphere(Pi::gluQuadric, rad, 100, 100);
-	DrawCorona(rad*4, fpos, StarSystem::starColors[type]);
+	{	
+		const float *col = StarSystem::starRealColors[type];
+		// face the camera dammit
+		vector3d zaxis = vector3d::Normalize(fpos);
+		vector3d xaxis = vector3d::Normalize(vector3d::Cross(vector3d(0,1,0), zaxis));
+		vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+		matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+		glMultMatrixd(&rot[0]);
+
+		glEnable(GL_BLEND);
+		glBegin(GL_TRIANGLE_FAN);
+		glColor4f(col[0], col[1], col[2], 1);
+		glVertex3f(0, 0, 0);
+		glColor4f(0,0,0,0);
+		for (float ang=0; ang<2*M_PI; ang+=0.2) {
+			glVertex3f(4*rad*sin(ang), 4*rad*cos(ang), 0);
+		}
+		glVertex3f(0, 4*rad, 0);
+		glEnd();
+		glDisable(GL_BLEND);
+		
+		glBegin(GL_TRIANGLE_FAN);
+		glColor4f(col[0], col[1], col[2], 1);
+		glVertex3f(0, 0, 0);
+		for (float ang=0; ang<2*M_PI; ang+=0.1) {
+			glVertex3f(rad*sin(ang), rad*cos(ang), 0);
+		}
+		glVertex3f(0, rad, 0);
+		glEnd();
+	}
+	
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);

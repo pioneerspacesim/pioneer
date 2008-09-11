@@ -20,6 +20,13 @@ X - Down thruster
 Rotation:
 ~~~~~~~~~
 
+Q - Spin left
+E - Spin right
+<left cursor> - yaw left
+<right cursor> - yaw right
+<up cursor> - pitch up
+<down cursor> - pitch down
+
 You can rotate your craft either with the cursor keys or by holding down the
 right mouse button and moving the mouse. Only mouse rotation is available
 in the external view.
@@ -33,6 +40,6 @@ Cursor keys - Rotate view, pitch and yaw
 Special things:
 ~~~~~~~~~~~~~~~
 
-q - quit
+ctrl-q - quit
 i - show some ugly debug info
 

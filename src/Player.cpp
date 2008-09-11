@@ -141,6 +141,8 @@ void Player::PollControls()
 			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
 			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
 		}
+		if (Pi::KeyState(SDLK_q)) angThrust.z += 1;
+		if (Pi::KeyState(SDLK_e)) angThrust.z -= 1;
 		// rotation damping.
 		vector3d damping = time_accel*CalcRotDamping();
 

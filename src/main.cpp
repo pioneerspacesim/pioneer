@@ -177,7 +177,7 @@ void Pi::HandleEvents()
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_q) Pi::Quit();
+				if (KeyState(SDLK_LCTRL) && (event.key.keysym.sym == SDLK_q)) Pi::Quit();
 				if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {

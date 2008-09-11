@@ -1,0 +1,56 @@
+Making models using SBRE
+========================
+
+Look at examples in src/sbre/models.cpp
+
+SBRE models are made of 4 things:
+
+* Plain vertices
+* Compound vertices
+* Model bytecode
+* Model definition
+
+
+Plain vertices:
+~~~~~~~~~~~~~~~~
+
+Plain vertices have type, and float x,y,z components.
+
+valid types:
+	VTYPE_PLAIN. Vertex will be unchanged.
+	VTYPE_DIR. Vertex will be normalized.
+
+Compound vertices:
+~~~~~~~~~~~~~~~~~~
+
+blah
+
+Model Definition:
+~~~~~~~~~~~~~~~~~
+
+blah
+
+Model bytecode:
+~~~~~~~~~~~~~~~
+
+PTYPE_SETCFLAG
+
+	Args: flag
+
+	Set collision mesh flag for geometry created after this point.
+
+	Pioneer uses these flag values:
+		For starports:
+		0x10 indicates starport
+		0x10 - 1st docking port
+		0x11 - 2nd docking port
+		0x12 - 3rd docking port
+		0x13 - 4th docking port
+
+Some Pioneer Model Conventions:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Objects which sit in a rotating frame (ie orbital starports) rotate in
+the Y axis.
+
+

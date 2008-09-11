@@ -32,6 +32,7 @@ public:
 	int GetNumStars() const { return m_numStars; }
 
 	static float starColors[][3];
+	static float starRealColors[][3];
 
 	struct Orbit {
 		void KeplerPosAtTime(double t, double *dist, double *ang);
