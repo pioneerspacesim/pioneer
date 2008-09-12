@@ -242,8 +242,6 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 		}
 		Ship::LaserObj *lobj = static_cast<Ship::LaserObj*>(o2);
 		if (o1 == lobj->owner) return false;
-		printf("%s (geom flag %x) was shot by %s\n", ((ModelBody::Geom*)o1)->parent->GetLabel().c_str(), 
-			((ModelBody::Geom*)o1)->flags, lobj->owner->GetLabel().c_str());
 
 		if (o1->GetType() == Object::SHIP) {
 			DynamicBody *rb = (DynamicBody*)o1;
