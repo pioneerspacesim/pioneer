@@ -284,8 +284,10 @@ void Pi::MainLoop()
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
+	int phys_stat = 0;
 	char fps_readout[32];
 	Uint32 time_before_frame = SDL_GetTicks();
+	Uint32 last_phys_update = time_before_frame;
 
 	for (;;) {
 		frame_stat++;
@@ -322,19 +324,22 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - time_before_frame);
-		float step = Pi::timeAccel * Pi::frameTime;
-		
 		time_before_frame = SDL_GetTicks();
-		// game state update crud
-		if (step) {
+		
+		// Fixed 62.5hz physics
+		while (time_before_frame - last_phys_update > 16) {
+			last_phys_update += 16;
+			const float step = Pi::GetTimeStep();
 			Space::TimeStep(step);
 			gameTime += step;
+			phys_stat++;
 		}
 		currentView->Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
-			snprintf(fps_readout, sizeof(fps_readout), "%d fps", frame_stat);
+			snprintf(fps_readout, sizeof(fps_readout), "%d fps, %d phys updates", frame_stat, phys_stat);
 			frame_stat = 0;
+			phys_stat = 0;
 			last_stats += 1000;
 		}
 	}

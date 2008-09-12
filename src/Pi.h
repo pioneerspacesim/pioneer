@@ -49,7 +49,7 @@ public:
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(float s);
 	static float GetTimeAccel() { return timeAccel; }
-	static float GetTimeStep() { return timeAccel*frameTime; }
+	static float GetTimeStep() { return timeAccel*(1.0/62.5); }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
