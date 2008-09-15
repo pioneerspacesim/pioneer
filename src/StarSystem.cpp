@@ -813,8 +813,8 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 		}
 	}
 	
-	// starports
-	if ((averageTemp < CELSIUS+100) && (averageTemp > 100) &&
+	// starports - orbital
+	if ((genMoons) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
 		(rand.Fixed() < system->m_humanInfested)) {
 		SBody *sp = new SBody;
 		sp->type = TYPE_STARPORT_ORBITAL;
@@ -825,14 +825,51 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
 		sp->name = "Starport";
-		fixed semiMajorAxis = fixed(1, 2000);
+		fixed semiMajorAxis;
+		if (children.size()) {
+			semiMajorAxis = fixed(1,2) * children[0]->orbMin;
+		} else {
+			semiMajorAxis = fixed(1, 3557);
+		}
 		sp->orbit.eccentricity = 0;
 		sp->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
 		sp->orbit.rotMatrix = matrix4x4d::Identity();
-		this->children.push_back(sp);
+		children.insert(children.begin(), sp);
 		sp->orbMin = semiMajorAxis;
 		sp->orbMax = semiMajorAxis;
+
+		if (rand.Fixed() < system->m_humanInfested) {
+			SBody *sp2 = new SBody;
+			*sp2 = *sp;
+			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
+			children.insert(children.begin(), sp2);
+		}
+	}
+	// starports - surface
+	if ((averageTemp < CELSIUS+80) && (averageTemp > 100) &&
+		(type == TYPE_PLANET_DWARF) ||
+		(type == TYPE_PLANET_SMALL) ||
+		(type == TYPE_PLANET_WATER) ||
+		(type == TYPE_PLANET_CO2) ||
+		(type == TYPE_PLANET_METHANE) ||
+		(type == TYPE_PLANET_INDIGENOUS_LIFE)) {
+
+		int max = 6;
+		while ((max-- > 0) && (rand.Fixed() < system->m_humanInfested)) {
+			SBody *sp = new SBody;
+			sp->type = TYPE_STARPORT_SURFACE;
+			sp->seed = rand.Int32();
+			sp->tmp = 0;
+			sp->parent = this;
+			sp->averageTemp = this->averageTemp;
+			sp->mass = 0;
+			sp->name = "Starport";
+			// used for orientation on planet surface
+			sp->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*rand.Double()) *
+					      matrix4x4d::RotateYMatrix(2*M_PI*rand.Double());
+			children.insert(children.begin(), sp);
+		}
 	}
 }
 

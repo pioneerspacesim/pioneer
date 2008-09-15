@@ -53,6 +53,17 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 			snprintf(buf, sizeof(buf), "Day length                 %.1f earth days\n", dayLen/(60*60*24));
 			desc += buf;
 		}
+		int numSurfaceStarports = 0;
+		std::string nameList;
+		for (std::vector<StarSystem::SBody*>::iterator i = b->children.begin(); i != b->children.end(); ++i) {
+			if ((*i)->type == StarSystem::TYPE_STARPORT_SURFACE) {
+				nameList += (numSurfaceStarports ? ", " : "") + (*i)->name;
+				numSurfaceStarports++;
+			}
+		}
+		if (numSurfaceStarports) {
+			desc += "Starports                  "+nameList+"\n";
+		}
 	}
 
 	m_infoText->SetText(desc);
@@ -64,6 +75,7 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
+	if (body->type == StarSystem::TYPE_STARPORT_SURFACE) return;
 	if (body->type != StarSystem::TYPE_GRAVPOINT) {
 		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
 		ib->GetSize(size);

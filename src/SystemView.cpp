@@ -117,6 +117,7 @@ void SystemView::PutLabel(StarSystem::SBody *b)
 
 void SystemView::PutBody(StarSystem::SBody *b)
 {
+	if (b->type == StarSystem::TYPE_STARPORT_SURFACE) return;
 	if (b->type != StarSystem::TYPE_GRAVPOINT) {
 		glPointSize(5);
 		glColor3f(1,1,1);

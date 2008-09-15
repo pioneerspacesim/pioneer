@@ -226,13 +226,14 @@ void Pi::MainLoop()
 	player->SetLabel("me");
 	Space::AddBody(player);
 
-	StarSystem s(0,0,0);
+	StarSystem s(0,0,1);
 	HyperspaceTo(&s);
 	
 	const float zpos = EARTH_RADIUS * 3;
-	Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
-	
-	Frame *stationFrame = new Frame(pframe, "Station frame...");
+//	Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
+	Frame *pframe = *(Space::rootFrame->m_children.begin());
+
+/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 	stationFrame->SetRadius(5000);
 	stationFrame->m_sbody = 0;
 	stationFrame->SetPosition(vector3d(0,0,zpos));
@@ -259,11 +260,11 @@ void Pi::MainLoop()
 	station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
 	station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
 	Space::AddBody(station2);
-
+*/
 	player->SetFrame(pframe);
 	//player->SetPosition(vector3d(0,0,0));
-	player->OrientOnSurface(EARTH_RADIUS*1.001, M_PI/4, M_PI/4);
-//	player->SetPosition(vector3d(0,0,2000));
+//	player->OrientOnSurface(EARTH_RADIUS*1.001, M_PI/4, M_PI/4);
+	player->SetPosition(vector3d(0,0,EARTH_RADIUS));
 //	player->SetFrame(pframe);
 
 	Gui::Init(scrWidth, scrHeight, 800, 600);
@@ -280,7 +281,7 @@ void Pi::MainLoop()
 	infoView = new InfoView();
 
 	SetView(worldView);
-	player->SetDockedWith(station2, 0);
+//	player->SetDockedWith(station2, 0);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
@@ -330,7 +331,7 @@ void Pi::MainLoop()
 		while (time_before_frame - last_phys_update > 16) {
 			last_phys_update += 16;
 			const float step = Pi::GetTimeStep();
-			Space::TimeStep(step);
+			if (step) Space::TimeStep(step);
 			gameTime += step;
 			phys_stat++;
 		}

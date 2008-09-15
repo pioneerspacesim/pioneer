@@ -108,7 +108,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
-	else if (supertype == StarSystem::SUPERTYPE_STARPORT) {
+	else if (sbody->type == StarSystem::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a much closer rotating frame
 		frameRadius = 1000000.0; // XXX NFI!
@@ -122,6 +122,15 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
 		b->SetFrame(rotFrame);
 		return orbFrame;
+	} else if (sbody->type == StarSystem::TYPE_STARPORT_SURFACE) {
+		// just put body into rotating frame of planet, not in its own frame
+		// (because collisions only happen between objects in same frame,
+		// and we want collisions on starport and on planet itself)
+		Frame *frame = *f->m_children.begin();
+		b->SetFrame(frame);
+		b->SetPosition(sbody->orbit.rotMatrix * (frame->m_astroBody->GetRadius()*vector3d(0,1,0)));
+		b->SetRotMatrix(sbody->orbit.rotMatrix);
+		return frame;
 	} else {
 		assert(0);
 	}
@@ -137,6 +146,9 @@ void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 			b = star;
 		} else if (sbody->type == StarSystem::TYPE_STARPORT_ORBITAL) {
 			SpaceStation *ss = new SpaceStation(SpaceStation::JJHOOP);
+			b = ss;
+		} else if (sbody->type == StarSystem::TYPE_STARPORT_SURFACE) {
+			SpaceStation *ss = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
 			b = ss;
 		} else {
 			Planet *planet = new Planet(sbody);
