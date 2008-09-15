@@ -54,19 +54,19 @@ WorldView::WorldView(): View()
 
 	glNewList(m_bgstarsDlist, GL_COMPILE);
 
+	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glPointSize(1.0);
 	glBegin(GL_POINTS);
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = 0.05+Pi::rng.NDouble(4);
+		float col = 0.05+Pi::rng.NDouble(3);
 		col = CLAMP(col, 0, 1);
 		glColor3f(col, col, col);
 		glVertex3f(1000-Pi::rng.Double(2000.0), 1000-Pi::rng.Double(2000.0), 1000-Pi::rng.Double(2000.0));
 	}
 	glEnd();
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
+	glPopAttrib();
 
 	glEndList();
 }
@@ -95,6 +95,11 @@ void WorldView::OnClickHyperspace()
 		printf("Hyperspace!!!!!! zoooooooom!!!!!!!\n");
 		Pi::HyperspaceTo(s);
 	}
+}
+
+void WorldView::DrawBgStars()
+{
+	glCallList(m_bgstarsDlist);
 }
 
 void WorldView::Draw3D()
@@ -138,7 +143,7 @@ void WorldView::Draw3D()
 		trans2bg.ClearToRotOnly();
 		glPushMatrix();
 		glMultMatrixd(&trans2bg[0]);
-		glCallList(m_bgstarsDlist);
+		DrawBgStars();
 		glPopMatrix();
 		// position light at sol
 		matrix4x4d m;

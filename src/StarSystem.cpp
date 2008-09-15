@@ -644,6 +644,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		SBody *planet = new SBody;
 		planet->type = TYPE_PLANET_DWARF;
 		planet->seed = rand.Int32();
+		planet->humanActivity = m_humanInfested * rand.Fixed();
 		planet->tmp = 0;
 		planet->parent = primary;
 	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
@@ -783,6 +784,7 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 			moon->parent = this;
 		//	moon->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 			moon->rotationPeriod = fixed(rand.Int32(1,200), 24);
+			moon->humanActivity = system->m_humanInfested * rand.Fixed();
 
 			moon->mass = mass;
 			fixed ecc = rand.NFixed(3);
@@ -815,7 +817,7 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 	
 	// starports - orbital
 	if ((genMoons) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
-		(rand.Fixed() < system->m_humanInfested)) {
+		(rand.Fixed() < humanActivity)) {
 		SBody *sp = new SBody;
 		sp->type = TYPE_STARPORT_ORBITAL;
 		sp->seed = rand.Int32();
@@ -825,6 +827,7 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
 		sp->name = "Starport";
+		sp->humanActivity = humanActivity;
 		fixed semiMajorAxis;
 		if (children.size()) {
 			semiMajorAxis = fixed(1,2) * children[0]->orbMin;
@@ -839,7 +842,7 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 		sp->orbMin = semiMajorAxis;
 		sp->orbMax = semiMajorAxis;
 
-		if (rand.Fixed() < system->m_humanInfested) {
+		if (rand.Fixed() < humanActivity) {
 			SBody *sp2 = new SBody;
 			*sp2 = *sp;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
@@ -855,14 +858,18 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 		(type == TYPE_PLANET_METHANE) ||
 		(type == TYPE_PLANET_INDIGENOUS_LIFE)) {
 
+		fixed activ = humanActivity;
+		if (type == TYPE_PLANET_INDIGENOUS_LIFE) humanActivity *= 2;
+
 		int max = 6;
-		while ((max-- > 0) && (rand.Fixed() < system->m_humanInfested)) {
+		while ((max-- > 0) && (rand.Fixed() < activ)) {
 			SBody *sp = new SBody;
 			sp->type = TYPE_STARPORT_SURFACE;
 			sp->seed = rand.Int32();
 			sp->tmp = 0;
 			sp->parent = this;
 			sp->averageTemp = this->averageTemp;
+			sp->humanActivity = activ;
 			sp->mass = 0;
 			sp->name = "Starport";
 			// used for orientation on planet surface

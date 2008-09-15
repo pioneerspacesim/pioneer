@@ -124,6 +124,7 @@ public:
 		fixed mass; // earth masses if planet, solar masses if star
 		fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 		fixed rotationPeriod; // in days
+		fixed humanActivity; // 0 - 1
 		int averageTemp;
 		BodyType type;
 	private:

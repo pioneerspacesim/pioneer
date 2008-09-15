@@ -43,6 +43,7 @@ class Frame;
 class Pi {
 public:
 	static void Init(IniConfig &config);
+	static void Start();
 	static void MainLoop();
 	static void Quit();
 	static float GetFrameTime() { return frameTime; }

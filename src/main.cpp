@@ -107,6 +107,8 @@ void Pi::Init(IniConfig &config)
 	dInitODE();
 	GLFTInit();
 	Space::Init();
+	
+	Gui::Init(scrWidth, scrHeight, 800, 600);
 }
 
 void Pi::InitOpenGL()
@@ -220,58 +222,45 @@ void Pi::HandleEvents()
 	}
 }
 
-void Pi::MainLoop()
+static void draw_intro(float _time)
+{
+	static float lightCol[4] = { 1,1,1,0 };
+	static float lightDir[4] = { 0,1,0,0 };
+
+	static ObjParams params = {
+		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
+		{	// pColor[3]
+		{ { 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ "PIONEER" },
+	};
+	glRotatef(_time*10, 1, 0, 0);
+	Pi::worldView->DrawBgStars();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 1.0f, 1000.0f, 0.0f, 1.0f);
+	sbreSetDirLight (lightCol, lightDir);
+	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time) * matrix4x4d::RotateZMatrix(0.6*_time) *
+			matrix4x4d::RotateXMatrix(_time*.7);
+	Matrix m;
+	Vector p;
+	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
+	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
+	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
+	p.x = 0; p.y = 0; p.z = 80;
+	sbreRenderModel(&p, &m, 61, &params);
+	glPopAttrib();
+}
+
+void Pi::Start()
 {
 	player = new Player(ShipType::SWANKY);
 	player->SetLabel("me");
 	Space::AddBody(player);
-
-	StarSystem s(0,0,1);
-	HyperspaceTo(&s);
 	
-	const float zpos = EARTH_RADIUS * 3;
-//	Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
-	Frame *pframe = *(Space::rootFrame->m_children.begin());
-
-/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
-	stationFrame->SetRadius(5000);
-	stationFrame->m_sbody = 0;
-	stationFrame->SetPosition(vector3d(0,0,zpos));
-	stationFrame->SetAngVelocity(vector3d(0,0,0.5));
-
-	for (int i=0; i<4; i++) {
-		Ship *body = new Ship(ShipType::LADYBIRD);
-		char buf[64];
-		snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
-		body->SetLabel(buf);
-		body->SetFrame(stationFrame);
-		body->SetPosition(vector3d(200*(i+1), 0, 2000));
-		Space::AddBody(body);
-	}
-		
-	SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-	station->SetLabel("Poemi-chan's Folly");
-	station->SetFrame(stationFrame);
-	station->SetPosition(vector3d(0,0,0));
-	Space::AddBody(station);
-
-	SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
-	station2->SetLabel("Conor's End");
-	station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
-	station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
-	Space::AddBody(station2);
-*/
-	player->SetFrame(pframe);
-	//player->SetPosition(vector3d(0,0,0));
-//	player->OrientOnSurface(EARTH_RADIUS*1.001, M_PI/4, M_PI/4);
-	player->SetPosition(vector3d(0,0,EARTH_RADIUS));
-//	player->SetFrame(pframe);
-
-	Gui::Init(scrWidth, scrHeight, 800, 600);
-
 	cpan = new ShipCpanel();
-	cpan->ShowAll();
-
 	sectorView = new SectorView();
 	systemView = new SystemView();
 	systemInfoView = new SystemInfoView();
@@ -280,8 +269,114 @@ void Pi::MainLoop()
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 
+	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
+	Gui::Screen::AddBaseWidget(splash, 0, 0);
+	splash->SetTransparency(true);
+
+	const float w = Gui::Screen::GetWidth() / 2;
+	const float h = Gui::Screen::GetHeight() / 2;
+	const int OPTS = 3;
+	Gui::ToggleButton *opts[OPTS];
+	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
+	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
+	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
+	splash->Add(opts[0], w, h+64);
+	splash->Add(new Gui::Label("New game starting on Earth"), w+32, h+64);
+	splash->Add(opts[1], w, h+32);
+	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h+32);
+	splash->Add(opts[2], w, h);
+	splash->Add(new Gui::Label("Quit"), w+32, h);
+
+	splash->ShowAll();
+
+	int choice = 0;
+	Uint32 last_time = SDL_GetTicks();
+	float _time = 0;
+	do {
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		Pi::HandleEvents();
+		SDL_ShowCursor(1);
+		SDL_WM_GrabInput(SDL_GRAB_OFF);
+
+		draw_intro(_time);
+		Gui::Draw();
+		glFlush();
+		SDL_GL_SwapBuffers();
+		
+		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
+		_time += Pi::frameTime;
+		last_time = SDL_GetTicks();
+
+		// poll ui instead of using callbacks :-J
+		for (int i=0; i<OPTS; i++) if (opts[i]->GetPressed()) choice = i+1;
+	} while (!choice);
+	splash->HideAll();
+
+	if (choice == 1) {
+		/* Earth start point */
+		StarSystem s(0,0,0);
+		HyperspaceTo(&s);
+		//Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
+		//player->SetFrame(pframe);
+		// XXX there isn't a sensible way to find stations for a planet.
+		SpaceStation *station = 0;
+		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
+			if ((*i)->GetType() == Object::SPACESTATION) { station = (SpaceStation*)*i; break; }
+		}
+		assert(station);
+		player->SetFrame(station->GetFrame());
+		player->SetDockedWith(station, 0);
+		MainLoop();
+	} else if (choice == 2) {
+		/* debug start point */
+		StarSystem s(0,0,1);
+		HyperspaceTo(&s);
+		Frame *pframe = *(Space::rootFrame->m_children.begin());
+		player->SetFrame(pframe);
+		player->SetPosition(vector3d(0,0,EARTH_RADIUS));
+	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
+		stationFrame->SetRadius(5000);
+		stationFrame->m_sbody = 0;
+		stationFrame->SetPosition(vector3d(0,0,zpos));
+		stationFrame->SetAngVelocity(vector3d(0,0,0.5));
+
+		for (int i=0; i<4; i++) {
+			Ship *body = new Ship(ShipType::LADYBIRD);
+			char buf[64];
+			snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
+			body->SetLabel(buf);
+			body->SetFrame(stationFrame);
+			body->SetPosition(vector3d(200*(i+1), 0, 2000));
+			Space::AddBody(body);
+		}
+			
+		SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
+		station->SetLabel("Poemi-chan's Folly");
+		station->SetFrame(stationFrame);
+		station->SetPosition(vector3d(0,0,0));
+		Space::AddBody(station);
+
+		SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
+		station2->SetLabel("Conor's End");
+		station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
+		station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
+		Space::AddBody(station2);
+	*/
+	//	player->SetDockedWith(station2, 0);
+
+		MainLoop();
+	}
+}
+
+void Pi::MainLoop()
+{
+	cpan->ShowAll();
+
 	SetView(worldView);
-//	player->SetDockedWith(station2, 0);
 
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
@@ -416,6 +511,7 @@ int main(int argc, char**)
 	IniConfig cfg("config.ini");
 
 	Pi::Init(cfg);
-	Pi::MainLoop();
+	Pi::Start();
+	Pi::Quit();
 	return 0;
 }

@@ -15,6 +15,7 @@ public:
 	static const float PICK_OBJECT_RECT_SIZE;
 	void UpdateCommsOptions();
 	bool GetShowLabels() { return labelsOn; }
+	void DrawBgStars();
 private:
 	Gui::Button *AddCommsOption(const std::string msg, int ypos);
 	void OnClickHyperspace();
