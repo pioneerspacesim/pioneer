@@ -11,6 +11,7 @@
 #include "StarSystem.h"
 #include "SpaceStation.h"
 #include "sbre/sbre.h"
+#include "Serializer.h"
 
 dWorldID Space::world;
 std::list<Body*> Space::bodies;
@@ -41,6 +42,28 @@ void Space::Clear()
 	rootFrame->m_children.clear();
 
 	Pi::player->SetFrame(rootFrame);
+}
+
+void Space::Serialize()
+{
+	using namespace Serializer::Write;
+	Serializer::IndexFrames();
+	printf("%d bodies to write\n", bodies.size());
+	wr_int(bodies.size());
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		(*i)->Serialize();
+	}
+}
+
+void Space::Unserialize()
+{
+	using namespace Serializer::Read;
+	Serializer::IndexFrames();
+	int num_bodies = rd_int();
+	printf("%d bodies to read\n", num_bodies);
+	for (int i=0; i<num_bodies; i++) {
+		bodies.push_back(Body::Unserialize());
+	}
 }
 
 void Space::MoveOrbitingObjectFrames(Frame *f)
@@ -247,15 +270,15 @@ void Space::UpdateFramesOfReference()
  */
 static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int numContacts, dContact contacts[])
 {
-	if ((o1->GetType() == Object::LASER) || (o2->GetType() == Object::LASER)) {
-		if (o1->GetType() == Object::LASER) {
+	if ((o1->IsType(Object::LASER)) || (o2->IsType(Object::LASER))) {
+		if (o1->IsType(Object::LASER)) {
 			std::swap<Object*>(o1, o2);
 			std::swap<dGeomID>(g1, g2);
 		}
 		Ship::LaserObj *lobj = static_cast<Ship::LaserObj*>(o2);
 		if (o1 == lobj->owner) return false;
 
-		if (o1->GetType() == Object::SHIP) {
+		if (o1->IsType(Object::SHIP)) {
 			DynamicBody *rb = (DynamicBody*)o1;
 			dVector3 start,dir;
 			dGeomRayGet(g2, start, dir);
@@ -273,11 +296,11 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 		Body *pb1, *pb2;
 		int flags = 0;
 		// geom bodies point to their parents
-		if (o1->GetType() == Object::GEOM) {
+		if (o1->IsType(Object::GEOM)) {
 			pb1 = static_cast<ModelBody::Geom*>(o1)->parent;
 			flags |= static_cast<ModelBody::Geom*>(o1)->flags;
 		} else pb1 = static_cast<Body*>(o1);
-		if (o2->GetType() == Object::GEOM) {
+		if (o2->IsType(Object::GEOM)) {
 			pb2 = static_cast<ModelBody::Geom*>(o2)->parent;
 			flags |= static_cast<ModelBody::Geom*>(o2)->flags;
 		} else pb2 = static_cast<Body*>(o2);

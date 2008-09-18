@@ -6,6 +6,7 @@
 
 class Player: public Ship {
 public:
+	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
 	virtual ~Player();
 	void PollControls();

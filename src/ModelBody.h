@@ -11,6 +11,7 @@ class CollMeshSet;
 
 class ModelBody: public Body {
 public:
+	OBJDEF(ModelBody, Body, MODELBODY);
 	ModelBody();
 	virtual ~ModelBody();
 	void SetPosition(vector3d p);
@@ -33,7 +34,7 @@ public:
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
 	class Geom: public Object {
 	public:
-		virtual Type GetType() { return Object::GEOM; }
+		OBJDEF(Geom, Object, GEOM);
 		Body *parent;
 		int flags;
 	};

@@ -1,3 +1,4 @@
+#include <signal.h>
 #include "libs.h"
 #include "Pi.h"
 #include "Gui.h"
@@ -17,6 +18,7 @@
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "InfoView.h"
+#include "Serializer.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -193,6 +195,7 @@ void Pi::HandleEvents()
 #endif /* DEBUG */
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
 				if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
+				if (event.key.keysym.sym == SDLK_F9) Serializer::Write::Game("quicksave.sav");
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::onKeyPress.emit(&event.key.keysym);
 				break;
@@ -275,17 +278,20 @@ void Pi::Start()
 
 	const float w = Gui::Screen::GetWidth() / 2;
 	const float h = Gui::Screen::GetHeight() / 2;
-	const int OPTS = 3;
+	const int OPTS = 4;
 	Gui::ToggleButton *opts[OPTS];
 	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
 	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
 	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
+	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
 	splash->Add(opts[0], w, h+64);
 	splash->Add(new Gui::Label("New game starting on Earth"), w+32, h+64);
 	splash->Add(opts[1], w, h+32);
 	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h+32);
 	splash->Add(opts[2], w, h);
-	splash->Add(new Gui::Label("Quit"), w+32, h);
+	splash->Add(new Gui::Label("Load quicksave"), w+32, h);
+	splash->Add(opts[3], w, h-32);
+	splash->Add(new Gui::Label("Quit"), w+32, h-32);
 
 	splash->ShowAll();
 
@@ -325,7 +331,7 @@ void Pi::Start()
 		// XXX there isn't a sensible way to find stations for a planet.
 		SpaceStation *station = 0;
 		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-			if ((*i)->GetType() == Object::SPACESTATION) { station = (SpaceStation*)*i; break; }
+			if ((*i)->IsType(Object::SPACESTATION)) { station = (SpaceStation*)*i; break; }
 		}
 		assert(station);
 		player->SetFrame(station->GetFrame());
@@ -368,6 +374,10 @@ void Pi::Start()
 	*/
 	//	player->SetDockedWith(station2, 0);
 
+		MainLoop();
+	} else if (choice == 3) {
+		// load quicksave
+		Serializer::Read::Game("quicksave.sav");
 		MainLoop();
 	}
 }
@@ -477,6 +487,24 @@ void Pi::HyperspaceTo(StarSystem *dest)
 	dest->GetPos(&Pi::playerLocSecX, &Pi::playerLocSecY, &Pi::playerLocSysIdx);
 }
 
+void Pi::Serialize()
+{
+	using namespace Serializer::Write;
+	StarSystem::Serialize(selectedSystem);
+	wr_double(gameTime);
+	StarSystem::Serialize(currentSystem);
+	Space::Serialize();
+}
+
+void Pi::Unserialize()
+{
+	using namespace Serializer::Read;
+	selectedSystem = StarSystem::Unserialize();
+	gameTime = rd_double();
+	currentSystem = StarSystem::Unserialize();
+	Space::Unserialize();
+}
+
 IniConfig::IniConfig(const char *filename)
 {
 	FILE *f = fopen(filename, "r");
@@ -504,12 +532,20 @@ IniConfig::IniConfig(const char *filename)
 	fclose(f);
 }
 
+void sigsegv_handler(int signum)
+{
+	if (signum == SIGSEGV) {
+		printf("Segfault! All is lost! Abandon ship!\n");
+		SDL_Quit();
+		abort();
+	}
+}
+
 int main(int argc, char**)
 {
 	printf("Pioneer ultra high tech tech demo dude!\n");
-
+	signal(SIGSEGV, sigsegv_handler);
 	IniConfig cfg("config.ini");
-
 	Pi::Init(cfg);
 	Pi::Start();
 	Pi::Quit();

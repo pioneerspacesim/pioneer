@@ -170,7 +170,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 	if (flags & 0x10) {
 		dockingport_t *dport = &port[flags & 0xf];
 		// hitting docking area of a station
-		if (b->GetType() == Object::SHIP) {
+		if (b->IsType(Object::SHIP)) {
 			Ship *s = static_cast<Ship*>(b);
 		
 			const dReal *vel = dBodyGetLinearVel(s->m_body);

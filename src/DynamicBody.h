@@ -9,6 +9,7 @@ class ObjMesh;
 
 class DynamicBody: public ModelBody {
 public:
+	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
 	virtual ~DynamicBody();
 	virtual void SetRotMatrix(const matrix4x4d &r);

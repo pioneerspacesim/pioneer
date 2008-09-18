@@ -18,8 +18,8 @@ struct shipstats_t {
 
 class Ship: public DynamicBody {
 public:
+	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
-	virtual Object::Type GetType() { return Object::SHIP; }
 	virtual void SetDockedWith(SpaceStation *, int port);
 	SpaceStation *GetDockedWith() { return m_dockedWith; }
 	void SetNavTarget(Body* const target);
@@ -48,7 +48,7 @@ public:
 	
 	class LaserObj: public Object {
 	public:
-		virtual Object::Type GetType() { return Object::LASER; }
+		OBJDEF(LaserObj, Object, LASER);
 		Ship *owner;
 	};
 

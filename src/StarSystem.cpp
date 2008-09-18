@@ -1,6 +1,7 @@
 #include "StarSystem.h"
 #include "Sector.h"
 #include "custom_starsystems.h"
+#include "Serializer.h"
 
 #define CELSIUS	273.15
 #define DEBUG_DUMP
@@ -894,6 +895,32 @@ StarSystem::SBody::~SBody()
 {
 	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end(); ++i) {
 		delete (*i);
+	}
+}
+
+void StarSystem::Serialize(StarSystem *s)
+{
+	using namespace Serializer::Write;
+	if (s) {
+		wr_byte(1);
+		wr_int(s->m_secx);
+		wr_int(s->m_secy);
+		wr_int(s->m_sysIdx);
+	} else {
+		wr_byte(0);
+	}
+}
+
+StarSystem *StarSystem::Unserialize()
+{
+	using namespace Serializer::Read;
+	if (rd_byte()) {
+		int sec_x = rd_int();
+		int sec_y = rd_int();
+		int sys_idx = rd_int();
+		return new StarSystem(sec_x, sec_y, sys_idx);
+	} else {
+		return 0;
 	}
 }
 

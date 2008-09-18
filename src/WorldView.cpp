@@ -223,7 +223,7 @@ void WorldView::UpdateCommsOptions()
 	commsOptions->GetSize(size);
 	int ypos = size[1]-16;
 	if (navtarget) {
-		if (navtarget->GetType() == Object::SPACESTATION) {
+		if (navtarget->IsType(Object::SPACESTATION)) {
 			commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
 			ypos -= 32;
 			Gui::Button *b = AddCommsOption("Request docking clearance", ypos);

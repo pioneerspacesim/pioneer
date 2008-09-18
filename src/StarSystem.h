@@ -25,6 +25,8 @@ public:
 	StarSystem() { rootBody = 0; }
 	StarSystem(int sector_x, int sector_y, int system_idx);
 	~StarSystem();
+	static void Serialize(StarSystem *);
+	static StarSystem *Unserialize();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
 		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;

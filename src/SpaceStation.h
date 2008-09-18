@@ -11,11 +11,11 @@ class Ship;
 
 class SpaceStation: public ModelBody {
 public:
+	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 	SpaceStation(TYPE);
 	virtual ~SpaceStation();
 	virtual bool OnCollision(Body *b, Uint32 flags);
-	virtual Object::Type GetType() { return Object::SPACESTATION; }
 	virtual void Render(const Frame *camFrame);
 	void OrientLaunchingShip(Ship *ship, int port) const;
 	void OrientDockedShip(Ship *ship, int port) const;

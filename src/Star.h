@@ -8,6 +8,7 @@ class Frame;
 
 class Star: public Body {
 public:
+	OBJDEF(Star, Body, STAR);
 	Star(StarSystem::SBody *sbody);
 	virtual ~Star() {};
 	virtual void SetPosition(vector3d p);

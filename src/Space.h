@@ -14,6 +14,8 @@ public:
 	static void Init();
 	static void Clear();
 	static void BuildSystem();
+	static void Serialize();
+	static void Unserialize();
 	static void GenBody(StarSystem::SBody *b, Frame *f);
 	static void TimeStep(float step);
 	static void AddBody(Body *);
@@ -32,7 +34,6 @@ private:
 	static void PruneCorpses();
 	static void ApplyGravity();
 
-//	static std::list<Frame*> rootFrames;
 	static std::list<Body*> corpses;
 };
 

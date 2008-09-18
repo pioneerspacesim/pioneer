@@ -11,9 +11,11 @@ class ObjMesh;
 
 class Body: public Object {
 public:
+	OBJDEF(Body, Object, BODY);
 	Body();
 	virtual ~Body();
-	virtual Object::Type GetType() { return Object::BODY; }
+	void Serialize();
+	static Body *Unserialize();
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }

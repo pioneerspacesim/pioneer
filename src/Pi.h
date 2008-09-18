@@ -46,6 +46,8 @@ public:
 	static void Start();
 	static void MainLoop();
 	static void Quit();
+	static void Serialize();
+	static void Unserialize();
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(float s);

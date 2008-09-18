@@ -8,6 +8,7 @@ class Frame;
 
 class Planet: public Body {
 public:
+	OBJDEF(Planet, Body, PLANET);
 	Planet(StarSystem::SBody*);
 	virtual ~Planet();
 	virtual void SetPosition(vector3d p);
@@ -18,7 +19,6 @@ public:
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	virtual double GetMass() const { return m_mass; }
-	virtual Object::Type GetType() { return Object::PLANET; }
 private:
 	void DrawRockyPlanet();
 	void DrawGasGiant();

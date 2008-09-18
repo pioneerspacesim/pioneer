@@ -17,6 +17,8 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
+	static void Serialize(Frame *);
+	static Frame *Unserialize(Frame *parent);
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_pos = pos; }

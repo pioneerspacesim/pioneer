@@ -59,7 +59,7 @@ void Ship::UpdateMass()
 
 bool Ship::OnCollision(Body *b, Uint32 flags)
 {
-	if (b->GetType() == Object::PLANET) {
+	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;
 		else m_testLanded = true;

@@ -17,6 +17,16 @@ Body::~Body()
 	assert(m_dead);
 }
 
+void Body::Serialize()
+{
+
+}
+
+Body *Body::Unserialize()
+{
+
+}
+
 /* f == NULL, then absolute position within system */
 vector3d Body::GetPositionRelTo(const Frame *relTo)
 {

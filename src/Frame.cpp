@@ -1,5 +1,6 @@
 #include "Frame.h"
 #include "Space.h"
+//#include "Serializer.h"
 
 Frame::Frame()
 {
@@ -16,6 +17,43 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 	Init(parent, label, flags);
 }
 
+/*
+void Frame::Serialize(Frame *f)
+{
+	using namespace Serializer::Write;
+	wr_int(f->m_flags);
+	wr_double(f->m_radius);
+	wr_string(f->m_label);
+	for (int i=0; i<16; i++) wr_double(f->m_orient[i]);
+	wr_vector3d(f->m_angVel);
+	wr_vector3d(f->m_pos);
+
+	wr_int(f->m_children.size());
+	for (std::list<Frame*>::iterator i = f->m_children.begin();
+			i != f->m_children.end(); ++i) {
+		Serialize(*i);
+	}
+}
+
+Frame *Frame::Unserialize(Frame *parent)
+{
+	using namespace Serializer::Read;
+	Frame *f = new Frame();
+	f->m_parent = parent;
+	f->m_flags = rd_int();
+	f->m_radius = rd_double();
+	f->m_label = rd_string();
+	for (int i=0; i<16; i++) f->m_orient[i] = rd_double();
+	f->m_angVel = rd_vector3d();
+	f->m_pos = rd_vector3d();
+	printf("Frame rad %f, called %s\n", f->m_radius, f->m_label.c_str());
+	for (int i=rd_int(); i>0; --i) {
+		f->m_children.push_back(Unserialize(f));
+	}
+	
+	return f;
+}
+*/
 void Frame::RemoveChild(Frame *f)
 {
 	m_children.remove(f);
