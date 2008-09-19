@@ -8,6 +8,7 @@ class Player: public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
 	Player(ShipType::Type shipType);
+	Player() {}
 	virtual ~Player();
 	void PollControls();
 	virtual void Render(const Frame *camFrame);

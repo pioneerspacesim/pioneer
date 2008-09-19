@@ -18,6 +18,7 @@ public:
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
 	static void Serialize(Frame *);
+	static void PostUnserializeFixup(Frame *f);
 	static Frame *Unserialize(Frame *parent);
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }

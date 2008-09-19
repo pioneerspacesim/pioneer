@@ -502,6 +502,13 @@ void Pi::Unserialize()
 	selectedSystem = StarSystem::Unserialize();
 	gameTime = rd_double();
 	currentSystem = StarSystem::Unserialize();
+	Space::Clear();
+	if (Pi::player) {
+		Pi::player->MarkDead();
+		Space::bodies.remove(Pi::player);
+		delete Pi::player;
+		Pi::player = 0;
+	}
 	Space::Unserialize();
 }
 

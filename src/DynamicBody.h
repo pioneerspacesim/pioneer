@@ -29,6 +29,8 @@ public:
 	dBodyID m_body;
 	dMass m_mass;
 protected:
+	virtual void Save();
+	virtual void Load();
 private:
 	ObjMesh *m_mesh;
 };

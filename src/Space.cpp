@@ -48,9 +48,13 @@ void Space::Serialize()
 {
 	using namespace Serializer::Write;
 	Serializer::IndexFrames();
+	Serializer::IndexBodies();
+	Serializer::IndexSystemBodies(Pi::currentSystem);
+	Frame::Serialize(rootFrame);
 	printf("%d bodies to write\n", bodies.size());
 	wr_int(bodies.size());
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		printf("Serializing %s\n", (*i)->GetLabel().c_str());
 		(*i)->Serialize();
 	}
 }
@@ -58,12 +62,23 @@ void Space::Serialize()
 void Space::Unserialize()
 {
 	using namespace Serializer::Read;
+	Serializer::IndexSystemBodies(Pi::currentSystem);
+	rootFrame = Frame::Unserialize(0);
 	Serializer::IndexFrames();
 	int num_bodies = rd_int();
 	printf("%d bodies to read\n", num_bodies);
 	for (int i=0; i<num_bodies; i++) {
-		bodies.push_back(Body::Unserialize());
+		Body *b = Body::Unserialize();
+		if (b) bodies.push_back(b);
+		if (b->IsType(Object::PLAYER)) Pi::player = (Player*)b;
 	}
+	printf("%d bodies read\n", bodies.size());
+	// bodies with references to others must fix these up
+	Serializer::IndexBodies();
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		(*i)->PostLoadFixup();
+	}
+	Frame::PostUnserializeFixup(rootFrame);
 }
 
 void Space::MoveOrbitingObjectFrames(Frame *f)

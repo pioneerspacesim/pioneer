@@ -1,4 +1,5 @@
 
+#include "StarSystem.h"
 #include "Serializer.h"
 #include "Pi.h"
 #include "Frame.h"
@@ -7,6 +8,8 @@
 namespace Serializer {
 
 static std::vector<Frame*> g_frames;
+static std::vector<Body*> g_bodies;
+static std::vector<StarSystem::SBody*> g_sbodies;
 
 Frame *LookupFrame(int index)
 {
@@ -34,7 +37,47 @@ void IndexFrames()
 {
 	g_frames.clear();
 	AddFrame(Space::rootFrame);
-	printf("%d frames indexed\n", g_frames.size());
+}
+
+StarSystem::SBody *LookupSystemBody(int index) { return (index == -1 ? 0 : g_sbodies[index]); }
+int LookupSystemBody(StarSystem::SBody *b)
+{
+	if (!b) return -1;
+	for (unsigned int i=0; i<g_sbodies.size(); i++) {
+		if (g_sbodies[i] == b) return i;
+	}
+	assert(0);
+}
+static void add_sbody(StarSystem::SBody *b)
+{
+	g_sbodies.push_back(b);
+	for (unsigned int i=0; i<b->children.size(); i++) {
+		add_sbody(b->children[i]);
+	}
+}
+void IndexSystemBodies(StarSystem *s)
+{
+	g_sbodies.clear();
+	add_sbody(s->rootBody);
+}
+
+
+Body *LookupBody(int index) { return (index == -1 ? 0 : g_bodies[index]); }
+int LookupBody(Body *b)
+{
+	if (!b) return -1;
+	for (unsigned int i=0; i<g_bodies.size(); i++) {
+		if (g_bodies[i] == b) return i;
+	}
+	assert(0);
+}
+
+void IndexBodies()
+{
+	g_bodies.clear();
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		g_bodies.push_back(*i);
+	}
 }
 
 namespace Write {
@@ -43,7 +86,6 @@ namespace Write {
 
 	bool Game(const char *filename)
 	{
-		struct Object *o;
 		sfptr = fopen(filename, "wb");
 
 		if (sfptr == NULL) {
@@ -77,6 +119,11 @@ namespace Write {
 	{
 		putc(x, sfptr);
 		checksum += x;
+	}
+
+	void wr_bool(bool x)
+	{
+		wr_byte((unsigned char)x);
 	}
 
 	void wr_short(short x)
@@ -137,7 +184,7 @@ namespace Write {
 		wr_string(s.c_str());
 	}
 
-	void wr_vector3d(vector3d &vec)
+	void wr_vector3d(vector3d vec)
 	{
 		wr_double(vec.x);
 		wr_double(vec.y);
@@ -196,6 +243,11 @@ namespace Read {
 		int x = getc(lfptr) & 0xff;
 		loadsum += x;
 		return x;
+	}
+
+	bool rd_bool()
+	{
+		return (bool)rd_byte();
 	}
 
 	short rd_short(void)

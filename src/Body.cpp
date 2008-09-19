@@ -1,6 +1,12 @@
 #include "libs.h"
 #include "Body.h"
 #include "Frame.h"
+#include "Serializer.h"
+#include "Star.h"
+#include "Planet.h"
+#include "SpaceStation.h"
+#include "Ship.h"
+#include "Player.h"
 
 Body::Body()
 {
@@ -17,14 +23,78 @@ Body::~Body()
 	assert(m_dead);
 }
 
+void Body::Save()
+{
+	using namespace Serializer::Write;
+	wr_int(Serializer::LookupFrame(m_frame));
+	wr_string(m_label);
+	wr_bool(m_onscreen);
+	wr_vector3d(m_projectedPos);
+	wr_bool(m_dead);
+}
+
+void Body::Load()
+{
+	using namespace Serializer::Read;
+	m_frame = Serializer::LookupFrame(rd_int());
+	m_label = rd_string();
+	m_onscreen = rd_bool();
+	m_projectedPos = rd_vector3d();
+	m_dead = rd_bool();
+}	
+
 void Body::Serialize()
 {
-
+	using namespace Serializer::Write;
+	wr_int((int)GetType());
+	switch (GetType()) {
+		case Object::STAR:
+		case Object::PLANET:
+		case Object::SPACESTATION:
+		case Object::SHIP:
+		case Object::PLAYER:
+			Save();
+			break;
+		default:
+			assert(0);
+	}
+	wr_vector3d(GetPosition());
+	matrix4x4d m;
+	GetRotMatrix(m);
+	for (int i=0; i<16; i++) wr_double(m[i]);
 }
 
 Body *Body::Unserialize()
 {
-
+	Body *b = 0;
+	using namespace Serializer::Read;
+	Object::Type type = (Object::Type)rd_int();
+	switch (type) {
+		case Object::STAR:
+			b = new Star(); break;
+		case Object::PLANET:
+			b = new Planet(); break;
+		case Object::SPACESTATION:
+			b = new SpaceStation(); break;
+		case Object::SHIP:
+			b = new Ship(); break;
+		case Object::PLAYER:
+			b = new Player(); break;
+		default:
+			// XXX bad. should assert
+			return 0;
+	}
+	b->Load();
+	// must SetFrame() correctly so ModelBodies can add geom to space
+	Frame *f = b->m_frame;
+	b->m_frame = 0;
+	b->SetFrame(f);
+	//
+	b->SetPosition(rd_vector3d());
+	matrix4x4d m;
+	for (int i=0; i<16; i++) m[i] = rd_double();
+	b->SetRotMatrix(m);
+	return b;
 }
 
 /* f == NULL, then absolute position within system */

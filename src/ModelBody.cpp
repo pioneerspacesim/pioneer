@@ -6,6 +6,7 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "ModelCollMeshData.h"
+#include "Serializer.h"
 
 ModelBody::ModelBody(): Body()
 {
@@ -19,6 +20,18 @@ ModelBody::~ModelBody()
 	for (unsigned int i=0; i<geoms.size(); i++) {
 		dGeomDestroy(geoms[i]);
 	}
+}
+
+void ModelBody::Save()
+{
+	using namespace Serializer::Write;
+	Body::Save();
+}
+
+void ModelBody::Load()
+{
+	using namespace Serializer::Read;
+	Body::Load();
 }
 
 void ModelBody::Disable()

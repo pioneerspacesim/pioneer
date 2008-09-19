@@ -39,6 +39,8 @@ public:
 		int flags;
 	};
 protected:
+	virtual void Save();
+	virtual void Load();
 	std::vector<Geom> geomColl;
 private:
 	CollMeshSet *m_collMeshSet;

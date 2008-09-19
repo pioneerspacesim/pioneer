@@ -6,6 +6,9 @@
 #define SAVEFILE_VERSION	1
 
 class Frame;
+class Body;
+class StarSystem;
+class StarSystem::SBody;
 
 namespace Serializer {
 
@@ -13,8 +16,17 @@ namespace Serializer {
 	Frame *LookupFrame(int index);
 	int LookupFrame(Frame *f);
 
+	void IndexBodies();
+	Body *LookupBody(int index);
+	int LookupBody(Body *);
+
+	void IndexSystemBodies(StarSystem *);
+	StarSystem::SBody *LookupSystemBody(int index);
+	int LookupSystemBody(StarSystem::SBody*);
+
 	namespace Write {
 		bool Game(const char *filename);
+		void wr_bool(bool x);
 		void wr_byte(unsigned char x);
 		void wr_short(short x);
 		void wr_int(int x);
@@ -22,12 +34,13 @@ namespace Serializer {
 		void wr_double (double f);
 		void wr_cstring(const char* s);
 		void wr_string(std::string &s);
-		void wr_vector3d(vector3d &vec);
+		void wr_vector3d(vector3d vec);
 	}
 
 	namespace Read {
 		bool Game(const char *filename);
 		bool is_olderthan (int version);
+		bool rd_bool();
 		unsigned char rd_byte ();
 		short rd_short ();
 		int rd_int ();

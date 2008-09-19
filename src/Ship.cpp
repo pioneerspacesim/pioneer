@@ -5,6 +5,7 @@
 #include "Space.h"
 #include "ModelCollMeshData.h"
 #include "SpaceStation.h"
+#include "Serializer.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -19,6 +20,74 @@ static ObjParams params = {
 	// pText[3][256]	
 	{ "IR-L33T", "ME TOO" },
 };
+
+void Ship::Save()
+{
+	using namespace Serializer::Write;
+	DynamicBody::Save();
+	wr_int(Serializer::LookupBody(m_combatTarget));
+	wr_int(Serializer::LookupBody(m_navTarget));
+	wr_float(m_dockingTimer);
+	wr_float(m_angThrusters[0]);
+	wr_float(m_angThrusters[1]);
+	wr_float(m_angThrusters[2]);
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) wr_float(m_thrusters[i]);
+	wr_float(m_wheelTransition);
+	wr_float(m_wheelState);
+	wr_float(m_launchLockTimeout);
+	wr_bool(m_testLanded);
+	wr_int((int)m_flightState);
+	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) wr_int(m_gunState[i]);
+	wr_int((int)m_shipType);
+	wr_int(m_dockedWithPort);
+	wr_int(Serializer::LookupBody(m_dockedWith));
+	printf("XXXXXXX NOT SAVING SHIP EQUIPMENT YET!!!!!!!!!!!!!!\n");
+}
+
+void Ship::Load()
+{
+	using namespace Serializer::Read;
+	DynamicBody::Load();
+	// needs fixups
+	m_combatTarget = (Body*)rd_int();
+	m_navTarget = (Body*)rd_int();
+	m_dockingTimer = rd_float();
+	m_angThrusters[0] = rd_float();
+	m_angThrusters[1] = rd_float();
+	m_angThrusters[2] = rd_float();
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = rd_float();
+	m_wheelTransition = rd_float();
+	m_wheelState = rd_float();
+	m_launchLockTimeout = rd_float();
+	m_testLanded = rd_bool();
+	m_flightState = (FlightState) rd_int();
+	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
+		m_gunState[i] = rd_int();
+		m_tempLaserGeom[i] = 0;
+	}
+	m_shipType = (ShipType::Type)rd_int();
+	m_dockedWithPort = rd_int();
+	m_dockedWith = (SpaceStation*)rd_int();
+	/// XXXXXXXXXXXXXXX
+	m_equipment = EquipSet(m_shipType);
+	Init();
+}
+
+void Ship::Init()
+{
+	const ShipType &stype = GetShipType();
+	SetModel(stype.sbreModel);
+	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
+	GeomsSetBody(m_body);
+	UpdateMass();
+}
+
+void Ship::PostLoadFixup()
+{
+	m_combatTarget = Serializer::LookupBody((int)m_combatTarget);
+	m_navTarget = Serializer::LookupBody((int)m_navTarget);
+	m_dockedWith = (SpaceStation*)Serializer::LookupBody((int)m_dockedWith);
+}
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
@@ -41,12 +110,8 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 		m_gunState[i] = 0;
 	}
 	memset(m_thrusters, 0, sizeof(m_thrusters));
-	
-	const ShipType &stype = GetShipType();
-	SetModel(stype.sbreModel);
-	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
-	GeomsSetBody(m_body);
-	UpdateMass();
+
+	Init();	
 }
 
 void Ship::UpdateMass()

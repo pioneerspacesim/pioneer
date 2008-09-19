@@ -2,6 +2,7 @@
 #include "Star.h"
 #include "Pi.h"
 #include "WorldView.h"
+#include "Serializer.h"
 
 Star::Star(StarSystem::SBody *sbody): Body()
 {
@@ -19,6 +20,26 @@ vector3d Star::GetPosition() const
 void Star::SetPosition(vector3d p)
 {
 	pos = p;
+}
+
+void Star::Save()
+{
+	using namespace Serializer::Write;
+	Body::Save();
+	wr_int(type);
+	wr_vector3d(pos);
+	wr_double(radius);
+	wr_double(mass);
+}
+
+void Star::Load()
+{
+	using namespace Serializer::Read;
+	Body::Load();
+	type = (StarSystem::BodyType)rd_int();
+	pos = rd_vector3d();
+	radius = rd_double();
+	mass = rd_double();
 }
 
 void Star::Render(const Frame *a_camFrame)

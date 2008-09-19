@@ -16,6 +16,7 @@ public:
 	virtual ~Body();
 	void Serialize();
 	static Body *Unserialize();
+	virtual void PostLoadFixup() {};
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }
@@ -48,6 +49,8 @@ public:
 
 	enum { FLAG_CAN_MOVE_FRAME = 1 };
 protected:
+	virtual void Save();
+	virtual void Load();
 	unsigned int m_flags;
 private:
 	// frame of reference

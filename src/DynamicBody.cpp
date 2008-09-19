@@ -2,6 +2,7 @@
 #include "DynamicBody.h"
 #include "Space.h"
 #include "Frame.h"
+#include "Serializer.h"
 
 DynamicBody::DynamicBody(): ModelBody()
 {
@@ -11,6 +12,18 @@ DynamicBody::DynamicBody(): ModelBody()
 	dMassAdjust(&m_mass, 1.0f);
 
 	dBodySetMass(m_body, &m_mass);
+}
+
+void DynamicBody::Save()
+{
+	using namespace Serializer::Write;
+	ModelBody::Save();
+}
+
+void DynamicBody::Load()
+{
+	using namespace Serializer::Read;
+	ModelBody::Load();
 }
 
 void DynamicBody::Enable()

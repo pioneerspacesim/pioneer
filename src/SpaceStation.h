@@ -14,6 +14,7 @@ public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 	SpaceStation(TYPE);
+	SpaceStation() {}
 	virtual ~SpaceStation();
 	virtual bool OnCollision(Body *b, Uint32 flags);
 	virtual void Render(const Frame *camFrame);
@@ -27,7 +28,11 @@ public:
 		vector3d normal;
 		vector3d horiz;
 	} port[MAX_DOCKING_PORTS];
+protected:
+	virtual void Save();
+	virtual void Load();
 private:
+	void Init();
 	TYPE m_type;
 	int m_numPorts;
 };

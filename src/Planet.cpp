@@ -3,22 +3,48 @@
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
+#include "Serializer.h"
 
 Planet::Planet(StarSystem::SBody *sbody): Body()
 {
 	pos = vector3d(0,0,0);
+	this->sbody = sbody;
+	Init();
+}
+
+void Planet::Init()
+{
 	geom = dCreateSphere(0, sbody->GetRadius());
 	dGeomSetData(geom, static_cast<Body*>(this));
 	m_mass = sbody->GetMass();
-	this->sbody = *sbody;
-	this->sbody.children.clear();
-	this->sbody.parent = 0;
 	crudDList = 0;
 }
 	
+void Planet::Save()
+{
+	using namespace Serializer::Write;
+	Body::Save();
+	wr_vector3d(pos);
+	wr_int(Serializer::LookupSystemBody(sbody));
+}
+
+void Planet::Load()
+{
+	using namespace Serializer::Read;
+	Body::Load();
+	pos = rd_vector3d();
+	sbody = Serializer::LookupSystemBody(rd_int());
+	Init();
+}
+
 Planet::~Planet()
 {
 	dGeomDestroy(geom);
+}
+
+double Planet::GetRadius() const
+{
+	return sbody->GetRadius();
 }
 
 vector3d Planet::GetPosition() const
@@ -621,7 +647,7 @@ void Planet::DrawRockyPlanet()
 	matrix4x4d rot;
 	float col[4], col2[4];
 //	MTRand rng((int)Pi::GetGameTime());
-	MTRand rng(sbody.seed);
+	MTRand rng(sbody->seed);
 	float darkblue[4] = { .05, .05, .2, 1 };
 	float blue[4] = { .2, .2, 1, 1 };
 	float green[4] = { .2, .8, .2, 1 };
@@ -630,7 +656,7 @@ void Planet::DrawRockyPlanet()
 	ColRangeObj_t barrenContCol = { { .2,.2,.2,1 },{0,0,0,0},.3 };
 	ColRangeObj_t barrenEjectaCraterCol = { { .5,.5,.5,1 },{0,0,0,0},.2 };
 
-	switch (sbody.type) {
+	switch (sbody->type) {
 	case StarSystem::TYPE_PLANET_DWARF:
 	case StarSystem::TYPE_PLANET_SMALL:
 		barrenBodyCol.GenCol(col2, rng);
@@ -727,7 +753,7 @@ void Planet::DrawRockyPlanet()
 void Planet::DrawGasGiant()
 {
 //	MTRand rng((int)Pi::GetGameTime());
-	MTRand rng(sbody.seed+9);
+	MTRand rng(sbody->seed+9);
 	float col[4];
 	
 	// just use a random gas giant flavour for the moment
@@ -825,39 +851,39 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 
 void Planet::DrawAtmosphere(double rad, vector3d &pos)
 {
-	if (sbody.type == StarSystem::TYPE_PLANET_SMALL) {
+	if (sbody->type == StarSystem::TYPE_PLANET_SMALL) {
 		const float c[4] = { .2, .2, .3, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_CO2_THICK_ATMOS) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_CO2_THICK_ATMOS) {
 		const float c[4] = { .8, .8, .8, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_CO2) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_CO2) {
 		const float c[4] = { .5, .5, .5, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_METHANE_THICK_ATMOS) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_METHANE_THICK_ATMOS) {
 		const float c[4] = { .2, .6, .3, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_METHANE) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_METHANE) {
 		const float c[4] = { .2, .6, .3, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_HIGHLY_VOLCANIC) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_HIGHLY_VOLCANIC) {
 		const float c[4] = { .5, .2, .2, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_WATER_THICK_ATMOS) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_WATER_THICK_ATMOS) {
 		const float c[4] = { .8, .8, .8, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_WATER) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_WATER) {
 		const float c[4] = { .2, .2, .4, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody.type == StarSystem::TYPE_PLANET_INDIGENOUS_LIFE) {
+	else if (sbody->type == StarSystem::TYPE_PLANET_INDIGENOUS_LIFE) {
 		const float c[4] = { .2, .2, .5, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
@@ -867,7 +893,7 @@ void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
 	
-	double rad = sbody.GetRadius();
+	double rad = sbody->GetRadius();
 	matrix4x4d ftran;
 	Frame::GetFrameTransform(GetFrame(), a_camFrame, ftran);
 	vector3d fpos = ftran * GetPosition();
@@ -903,7 +929,7 @@ void Planet::Render(const Frame *a_camFrame)
 			crudDList = glGenLists(1);
 			glNewList(crudDList, GL_COMPILE);
 			// this is a rather brittle test..........
-			if (sbody.type < StarSystem::TYPE_PLANET_DWARF) {
+			if (sbody->type < StarSystem::TYPE_PLANET_DWARF) {
 				DrawGasGiant();
 			} else {
 				DrawRockyPlanet();

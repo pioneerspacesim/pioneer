@@ -2,6 +2,8 @@
 #include "Ship.h"
 #include "ModelCollMeshData.h"
 #include "gameconsts.h"
+#include "StarSystem.h"
+#include "Serializer.h"
 
 struct SpaceStationType {
 	Uint32 sbreModel;
@@ -12,6 +14,22 @@ struct SpaceStationType stationTypes[SpaceStation::TYPE_MAX] = {
 	{ 65, SpaceStationType::ORBITAL },
 	{ 90, SpaceStationType::SURFACE },
 };
+
+void SpaceStation::Save()
+{
+	using namespace Serializer::Write;
+	ModelBody::Save();
+	wr_int((int)m_type);
+}
+
+void SpaceStation::Load()
+{
+	using namespace Serializer::Read;
+	ModelBody::Load();
+	m_type = (TYPE)rd_int();
+	m_numPorts = 0;
+	Init();
+}
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -69,9 +87,14 @@ void SpaceStation::GetDockingSurface(CollMeshSet *mset, int midx)
 
 SpaceStation::SpaceStation(TYPE type): ModelBody()
 {
-	const Uint32 sbreModel = stationTypes[type].sbreModel;
 	m_type = type;
 	m_numPorts = 0;
+	Init();
+}
+
+void SpaceStation::Init()
+{
+	const Uint32 sbreModel = stationTypes[m_type].sbreModel;
 	SetModel(sbreModel);
 
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
@@ -79,13 +102,6 @@ SpaceStation::SpaceStation(TYPE type): ModelBody()
 		if (geomColl[i].flags & 0x10) {
 			// docking surface
 			GetDockingSurface(mset, i);
-	//		mset->meshInfo[i]
-/*struct meshinfo_t {
-	int flags;
-	int triStart; // into triIndices
-	int numTris;
-};*/
-
 		}
 	}
 }
