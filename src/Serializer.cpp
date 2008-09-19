@@ -11,7 +11,7 @@ static std::vector<Frame*> g_frames;
 static std::vector<Body*> g_bodies;
 static std::vector<StarSystem::SBody*> g_sbodies;
 
-Frame *LookupFrame(int index)
+Frame *LookupFrame(size_t index)
 {
 	return g_frames[index];
 }
@@ -39,7 +39,7 @@ void IndexFrames()
 	AddFrame(Space::rootFrame);
 }
 
-StarSystem::SBody *LookupSystemBody(int index) { return (index == -1 ? 0 : g_sbodies[index]); }
+StarSystem::SBody *LookupSystemBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_sbodies[index]); }
 int LookupSystemBody(StarSystem::SBody *b)
 {
 	if (!b) return -1;
@@ -62,7 +62,7 @@ void IndexSystemBodies(StarSystem *s)
 }
 
 
-Body *LookupBody(int index) { return (index == -1 ? 0 : g_bodies[index]); }
+Body *LookupBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_bodies[index]); }
 int LookupBody(Body *b)
 {
 	if (!b) return -1;

@@ -13,15 +13,15 @@ class StarSystem::SBody;
 namespace Serializer {
 
 	void IndexFrames();
-	Frame *LookupFrame(int index);
+	Frame *LookupFrame(size_t index);
 	int LookupFrame(Frame *f);
 
 	void IndexBodies();
-	Body *LookupBody(int index);
+	Body *LookupBody(size_t index);
 	int LookupBody(Body *);
 
 	void IndexSystemBodies(StarSystem *);
-	StarSystem::SBody *LookupSystemBody(int index);
+	StarSystem::SBody *LookupSystemBody(size_t index);
 	int LookupSystemBody(StarSystem::SBody*);
 
 	namespace Write {

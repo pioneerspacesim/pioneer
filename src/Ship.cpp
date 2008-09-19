@@ -84,9 +84,9 @@ void Ship::Init()
 
 void Ship::PostLoadFixup()
 {
-	m_combatTarget = Serializer::LookupBody((int)m_combatTarget);
-	m_navTarget = Serializer::LookupBody((int)m_navTarget);
-	m_dockedWith = (SpaceStation*)Serializer::LookupBody((int)m_dockedWith);
+	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
+	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
+	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()

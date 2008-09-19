@@ -58,7 +58,7 @@ Frame *Frame::Unserialize(Frame *parent)
 
 void Frame::PostUnserializeFixup(Frame *f)
 {
-	f->m_astroBody = Serializer::LookupBody((int)f->m_astroBody);
+	f->m_astroBody = Serializer::LookupBody((size_t)f->m_astroBody);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		PostUnserializeFixup(*i);
