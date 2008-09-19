@@ -9,6 +9,7 @@ static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
 static int g_model = 0; // sbre model number. set with argc
+static float g_zbias;
 
 static void PollEvents()
 {
@@ -124,6 +125,31 @@ public:
 	void MainLoop();
 };
 
+static void render_coll_mesh(const CollMesh *m)
+{
+	glDisable(GL_LIGHTING);
+	glColor3f(1,0,1);
+	glBegin(GL_TRIANGLES);
+	glDepthRange(0.0+g_zbias,1.0);
+	for (int i=0; i<m->ni; i+=3) {
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
+	}
+	glEnd();
+	glColor3f(1,1,1);
+	glDepthRange(0,1.0f-g_zbias);
+	for (int i=0; i<m->ni; i+=3) {
+		glBegin(GL_LINE_LOOP);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
+		glEnd();
+	}
+	glDepthRange(0,1);
+	glEnable(GL_LIGHTING);
+}
+
 void Viewer::MainLoop()
 {
 	matrix4x4d rot = matrix4x4d::Identity();
@@ -170,7 +196,14 @@ void Viewer::MainLoop()
 		m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
 		m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
 		p.x = 0; p.y = 0; p.z = distance;
-		if (g_renderCollMesh) sbreRenderCollMesh(cmesh, &p, &m);
+		if (g_renderCollMesh) {
+			glPushMatrix();
+			glTranslatef(p.x, p.y, p.z);
+			glMultMatrixd(&rot[0]);
+			render_coll_mesh(cmesh);
+			glPopMatrix();
+			//sbreRenderCollMesh(cmesh, &p, &m);
+		}
 		else sbreRenderModel(&p, &m, g_model, &params);
 		glPopAttrib();
 		
@@ -212,7 +245,8 @@ int main(int argc, char **argv)
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	sbreSetZBias(2.0/(1<<24));
+	g_zbias = 2.0/(1<<24);
+	sbreSetZBias(g_zbias);
 
 	Uint32 flags = SDL_OPENGL;
 
@@ -222,7 +256,8 @@ int main(int argc, char **argv)
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-		sbreSetZBias(2.0/(1<<16));
+		g_zbias = 2.0/(1<<16);
+		sbreSetZBias(g_zbias);
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
 		if ((g_screen = SDL_SetVideoMode(g_width, g_height, info->vfmt->BitsPerPixel, flags)) == 0) {
 			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());

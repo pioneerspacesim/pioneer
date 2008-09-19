@@ -16,6 +16,16 @@ public:
 	void UpdateCommsOptions();
 	bool GetShowLabels() { return labelsOn; }
 	void DrawBgStars();
+	vector3d GetExternalViewTranslation();
+	void ApplyExternalViewRotation(matrix4x4d &m);
+	virtual void Save();
+	virtual void Load();
+	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
+	void SetCamType(enum CamType);
+	enum CamType GetCamType() { return m_camType; }
+	
+	float m_externalViewRotX, m_externalViewRotY;
+	float m_externalViewDist;
 private:
 	Gui::Button *AddCommsOption(const std::string msg, int ypos);
 	void OnClickHyperspace();
@@ -30,6 +40,7 @@ private:
 	Gui::Label *flightStatus;
 	Gui::ImageButton *launchButton;
 	bool labelsOn;
+	enum CamType m_camType;
 };
 
 #endif /* _WORLDVIEW_H */

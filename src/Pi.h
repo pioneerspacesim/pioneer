@@ -70,20 +70,14 @@ public:
 	static MTRand rng;
 
 	static void HyperspaceTo(StarSystem *destination);
-	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
 	enum MapView { MAP_NOMAP, MAP_SECTOR, MAP_SYSTEM };
-	static void SetCamType(enum CamType);
 	static void SetMapView(enum MapView);
-	static enum CamType GetCamType() { return camType; }
 	static enum MapView GetMapView() { return mapView; }
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 	static StarSystem *GetSelectedSystem();
 
 	static bool showDebugInfo;
-	static int playerLocSecX;
-	static int playerLocSecY;
-	static int playerLocSysIdx;
 	static Player *player;
 	static SectorView *sectorView;
 	static SystemInfoView *systemInfoView;
@@ -103,7 +97,6 @@ private:
 	
 	static double gameTime;
 	static StarSystem *selectedSystem;
-	static enum CamType camType;
 	static enum MapView mapView;
 	static float timeAccel;
 	static float frameTime;

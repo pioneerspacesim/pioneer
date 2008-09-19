@@ -5,6 +5,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "ShipCpanel.h"
+#include "Serializer.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
@@ -16,7 +17,10 @@ WorldView::WorldView(): View()
 	GetSize(size);
 	
 	labelsOn = true;
+	m_camType = CAM_FRONT;
 	SetTransparency(true);
+	m_externalViewRotX = m_externalViewRotY = 0;
+	m_externalViewDist = 200;
 	
 	commsOptions = new Fixed(size[0], size[1]/2);
 	commsOptions->SetTransparency(true);
@@ -71,6 +75,46 @@ WorldView::WorldView(): View()
 	glEndList();
 }
 
+void WorldView::Save()
+{
+	using namespace Serializer::Write;
+	wr_float(m_externalViewRotX);
+	wr_float(m_externalViewRotY);
+	wr_float(m_externalViewDist);
+	wr_int((int)m_camType);
+}
+
+void WorldView::Load()
+{
+	using namespace Serializer::Read;
+	m_externalViewRotX = rd_float();
+	m_externalViewRotY = rd_float();
+	m_externalViewDist = rd_float();
+	m_camType = (CamType)rd_int();
+}
+
+void WorldView::SetCamType(enum CamType c)
+{
+	m_camType = c;
+}
+
+vector3d WorldView::GetExternalViewTranslation()
+{
+	vector3d p = vector3d(0, 0, m_externalViewDist);
+	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * p;
+	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * p;
+	matrix4x4d m;
+	Pi::player->GetRotMatrix(m);
+	p = m*p;
+	return p;
+}
+
+void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
+{
+	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * m;
+	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * m;
+}
+
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 {
 	if (!Pi::player->SetWheelState(b->GetState())) {
@@ -120,15 +164,15 @@ void WorldView::Draw3D()
 
 		matrix4x4d camRot = matrix4x4d::Identity();
 
-		if (Pi::GetCamType() == Pi::CAM_FRONT) {
+		if (m_camType == CAM_FRONT) {
 			cam_frame.SetPosition(Pi::player->GetPosition());
-		} else if (Pi::GetCamType() == Pi::CAM_REAR) {
+		} else if (m_camType == CAM_REAR) {
 			camRot.RotateY(M_PI);
 		//	glRotatef(180.0f, 0, 1, 0);
 			cam_frame.SetPosition(Pi::player->GetPosition());
 		} else /* CAM_EXTERNAL */ {
-			cam_frame.SetPosition(Pi::player->GetPosition() + Pi::player->GetExternalViewTranslation());
-			Pi::player->ApplyExternalViewRotation(camRot);
+			cam_frame.SetPosition(Pi::player->GetPosition() + GetExternalViewTranslation());
+			ApplyExternalViewRotation(camRot);
 		}
 
 		{

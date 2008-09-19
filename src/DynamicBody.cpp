@@ -19,6 +19,7 @@ void DynamicBody::Save()
 	using namespace Serializer::Write;
 	ModelBody::Save();
 	wr_vector3d(GetAngVelocity());
+	wr_vector3d(GetVelocity());
 }
 
 void DynamicBody::Load()
@@ -26,6 +27,7 @@ void DynamicBody::Load()
 	using namespace Serializer::Read;
 	ModelBody::Load();
 	SetAngVelocity(rd_vector3d());
+	SetVelocity(rd_vector3d());
 }
 
 void DynamicBody::Enable()

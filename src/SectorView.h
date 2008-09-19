@@ -15,6 +15,8 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	bool GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx);
+	virtual void Save();
+	virtual void Load();
 private:
 	void DrawSector(int x, int y);
 	void PutText(std::string &text);

@@ -30,13 +30,15 @@ GenericSystemView::GenericSystemView(): View()
 	
 void GenericSystemView::Draw3D()
 {
+	int playerLocSecX, playerLocSecY, playerLocSysIdx;
+	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
 	StarSystem *s = Pi::GetSelectedSystem();
 
 	if (s && !s->IsSystem(px, py, pidx)) {
 		s->GetPos(&px, &py, &pidx);
 		Sector sec(px, py);
-		Sector psec(Pi::playerLocSecX, Pi::playerLocSecY);
-		const float dist = Sector::DistanceBetween(&sec, pidx, &psec, Pi::playerLocSysIdx);
+		Sector psec(playerLocSecX, playerLocSecY);
+		const float dist = Sector::DistanceBetween(&sec, pidx, &psec, playerLocSysIdx);
 		char buf[256];
 		snprintf(buf, sizeof(buf), "Dist. %.2f light years", dist);
 

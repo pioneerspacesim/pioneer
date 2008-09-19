@@ -8,8 +8,6 @@
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
-	m_external_view_rotx = m_external_view_roty = 0;
-	m_external_view_dist = 200;
 	m_mouseCMov[0] = m_mouseCMov[1] = 0;
 	m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 	UpdateMass();
@@ -23,7 +21,7 @@ Player::~Player()
 
 void Player::Render(const Frame *camFrame)
 {
-	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
+	if (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) {
 		Ship::Render(camFrame);
 	} else {
 		glPushMatrix();
@@ -39,24 +37,6 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	if (s) {
 		Pi::SetView(Pi::spaceStationView);
 	}
-}
-
-vector3d Player::GetExternalViewTranslation()
-{
-	vector3d p = vector3d(0, 0, m_external_view_dist);
-	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_external_view_rotx)) * p;
-	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_external_view_roty)) * p;
-	matrix4x4d m;
-	GetRotMatrix(m);
-	p = m*p;
-//	printf("%f,%f,%f\n", p.x, p.y, p.z);
-	return p;
-}
-
-void Player::ApplyExternalViewRotation(matrix4x4d &m)
-{
-	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_external_view_rotx)) * m;
-	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_external_view_roty)) * m;
 }
 
 void Player::TimeStepUpdate(const float timeStep)
@@ -91,17 +71,17 @@ void Player::PollControls()
 
 	polledControlsThisTurn = true;
 
-	if (Pi::GetCamType() == Pi::CAM_EXTERNAL) {
-		if (Pi::KeyState(SDLK_UP)) m_external_view_rotx -= 45*frameTime;
-		if (Pi::KeyState(SDLK_DOWN)) m_external_view_rotx += 45*frameTime;
-		if (Pi::KeyState(SDLK_LEFT)) m_external_view_roty -= 45*frameTime;
-		if (Pi::KeyState(SDLK_RIGHT)) m_external_view_roty += 45*frameTime;
-		if (Pi::KeyState(SDLK_EQUALS)) m_external_view_dist -= 400*frameTime;
-		if (Pi::KeyState(SDLK_MINUS)) m_external_view_dist += 400*frameTime;
-		m_external_view_dist = MAX(50, m_external_view_dist);
+	if (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) {
+		if (Pi::KeyState(SDLK_UP)) Pi::worldView->m_externalViewRotX -= 45*frameTime;
+		if (Pi::KeyState(SDLK_DOWN)) Pi::worldView->m_externalViewRotX += 45*frameTime;
+		if (Pi::KeyState(SDLK_LEFT)) Pi::worldView->m_externalViewRotY -= 45*frameTime;
+		if (Pi::KeyState(SDLK_RIGHT)) Pi::worldView->m_externalViewRotY += 45*frameTime;
+		if (Pi::KeyState(SDLK_EQUALS)) Pi::worldView->m_externalViewDist -= 400*frameTime;
+		if (Pi::KeyState(SDLK_MINUS)) Pi::worldView->m_externalViewDist += 400*frameTime;
+		Pi::worldView->m_externalViewDist = MAX(50, Pi::worldView->m_externalViewDist);
 
 		// when landed don't let external view look from below
-		if (GetFlightState() == LANDED) m_external_view_rotx = CLAMP(m_external_view_rotx, -170.0, -10);
+		if (GetFlightState() == LANDED) Pi::worldView->m_externalViewRotX = CLAMP(Pi::worldView->m_externalViewRotX, -170.0, -10);
 	}
 
 	if ((time_accel == 0) || GetDockedWith() ||
@@ -135,7 +115,7 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) SetGunState(0,1);
 		else SetGunState(0,0);
 		
-		if (Pi::GetCamType() != Pi::CAM_EXTERNAL) {
+		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
 			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
 			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
 			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
@@ -177,7 +157,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 	// Object labels
 	{
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-			if ((Pi::GetCamType() != Pi::CAM_EXTERNAL) && (*i == this)) continue;
+			if ((Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) && (*i == this)) continue;
 			Body *b = *i;
 			vector3d _pos = b->GetPositionRelTo(cam_frame);
 
@@ -218,7 +198,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 	}
 
 	// normal crosshairs
-	if (Pi::GetCamType() == Pi::CAM_FRONT) {
+	if (Pi::worldView->GetCamType() == WorldView::CAM_FRONT) {
 		float px = Gui::Screen::GetWidth()/2.0;
 		float py = Gui::Screen::GetHeight()/2.0;
 		glBegin(GL_LINES);

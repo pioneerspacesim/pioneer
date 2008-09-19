@@ -5,6 +5,7 @@
 #include "Sector.h"
 #include "SystemInfoView.h"
 #include "Player.h"
+#include "Serializer.h"
 		
 SectorView::SectorView(): GenericSystemView()
 {
@@ -40,6 +41,32 @@ SectorView::SectorView(): GenericSystemView()
 SectorView::~SectorView()
 {
 	glDeleteLists(m_gluDiskDlist, 1);
+}
+
+void SectorView::Save()
+{
+	using namespace Serializer::Write;
+	wr_float(m_zoom);
+	wr_int(m_secx);
+	wr_int(m_secy);
+	wr_int(m_selected);
+	wr_float(m_px);
+	wr_float(m_py);
+	wr_float(m_rot_x);
+	wr_float(m_rot_z);
+}
+
+void SectorView::Load()
+{
+	using namespace Serializer::Read;
+	m_zoom = rd_float();
+	m_secx = rd_int();
+	m_secy = rd_int();
+	m_selected = rd_int();
+	m_px = rd_float();
+	m_py = rd_float();
+	m_rot_x = rd_float();
+	m_rot_z = rd_float();
 }
 
 void SectorView::OnClickSystemInfo()
@@ -117,6 +144,8 @@ void SectorView::PutText(std::string &text)
 
 void SectorView::DrawSector(int sx, int sy)
 {
+	int playerLocSecX, playerLocSecY, playerLocSysIdx;
+	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
 	Sector s = Sector(sx, sy);
 	glColor3f(0,.8,0);
 	glBegin(GL_LINE_LOOP);
@@ -143,7 +172,7 @@ void SectorView::DrawSector(int sx, int sy)
 		glRotatef(-m_rot_x, 1, 0, 0);
 		glCallList(m_gluDiskDlist);
 		// player location indicator
-		if ((sx == Pi::playerLocSecX) && (sy == Pi::playerLocSecY) && (num == Pi::playerLocSysIdx)) {
+		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
 			shipstats_t stats;
 			Pi::player->CalcStats(&stats);
 			glColor3f(0,0,1);

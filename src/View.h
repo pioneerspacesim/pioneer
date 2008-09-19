@@ -39,6 +39,8 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
+	virtual void Save() {}
+	virtual void Load() {}
 protected:
 	// each view can put some buttons in the bottom right of the cpanel
 	Gui::Fixed *m_rightButtonBar;

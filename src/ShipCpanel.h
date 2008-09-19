@@ -17,7 +17,7 @@ private:
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(Gui::ISelectable *i, double step);
-	void OnClickComms();
+	void OnClickComms(Gui::MultiStateImageButton *b);
 
 	Widget *m_scannerWidget;
 	Gui::Label *m_clock;

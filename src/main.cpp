@@ -32,7 +32,6 @@ sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
 int Pi::mouseMotion[2];
-enum Pi::CamType Pi::camType;
 enum Pi::MapView Pi::mapView;
 Player *Pi::player;
 View *Pi::currentView;
@@ -50,9 +49,6 @@ MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
-int Pi::playerLocSecX;
-int Pi::playerLocSecY;
-int Pi::playerLocSysIdx;
 bool Pi::showDebugInfo;
 
 void Pi::Init(IniConfig &config)
@@ -147,13 +143,6 @@ void Pi::SetTimeAccel(float s)
 		player->SetAngThrusterState(2, 0.0f);
 	}
 	timeAccel = s;
-}
-
-void Pi::SetCamType(enum CamType c)
-{
-	camType = c;
-	mapView = MAP_NOMAP;
-	SetView(worldView);
 }
 
 void Pi::SetMapView(enum MapView v)
@@ -484,7 +473,6 @@ void Pi::HyperspaceTo(StarSystem *dest)
 	float ang = rng.Double(M_PI);
 	Pi::player->SetPosition(vector3d(sin(ang)*AU,cos(ang)*AU,0));
 	Pi::player->SetVelocity(vector3d(0.0));
-	dest->GetPos(&Pi::playerLocSecX, &Pi::playerLocSecY, &Pi::playerLocSysIdx);
 }
 
 void Pi::Serialize()
@@ -494,6 +482,8 @@ void Pi::Serialize()
 	wr_double(gameTime);
 	StarSystem::Serialize(currentSystem);
 	Space::Serialize();
+	sectorView->Save();
+	worldView->Save();
 }
 
 void Pi::Unserialize()
@@ -510,6 +500,8 @@ void Pi::Unserialize()
 		Pi::player = 0;
 	}
 	Space::Unserialize();
+	sectorView->Load();
+	worldView->Load();
 }
 
 IniConfig::IniConfig(const char *filename)
