@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = sbre/
+SUBDIRS = sbre/ collider/
 
 bin_PROGRAMS = pioneer sbreviewer
 noinst_LIBRARIES = libgui.a
@@ -19,8 +19,8 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp date.cpp SpaceStation.cpp \
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp
-pioneer_LDADD = sbre/libsbre.a libgui.a
+pioneer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp
-sbreviewer_LDADD = sbre/libsbre.a libgui.a
+sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
