@@ -38,10 +38,9 @@ void Space::Clear()
 	}
 	PruneCorpses();
 
+	Pi::player->SetFrame(rootFrame);
 	for (std::list<Frame*>::iterator i = rootFrame->m_children.begin(); i != rootFrame->m_children.end(); ++i) delete *i;
 	rootFrame->m_children.clear();
-
-	Pi::player->SetFrame(rootFrame);
 }
 
 void Space::Serialize()

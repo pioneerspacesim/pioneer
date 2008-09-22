@@ -852,12 +852,12 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 	}
 	// starports - surface
 	if ((averageTemp < CELSIUS+80) && (averageTemp > 100) &&
-		(type == TYPE_PLANET_DWARF) ||
+		((type == TYPE_PLANET_DWARF) ||
 		(type == TYPE_PLANET_SMALL) ||
 		(type == TYPE_PLANET_WATER) ||
 		(type == TYPE_PLANET_CO2) ||
 		(type == TYPE_PLANET_METHANE) ||
-		(type == TYPE_PLANET_INDIGENOUS_LIFE)) {
+		(type == TYPE_PLANET_INDIGENOUS_LIFE))) {
 
 		fixed activ = humanActivity;
 		if (type == TYPE_PLANET_INDIGENOUS_LIFE) humanActivity *= 2;

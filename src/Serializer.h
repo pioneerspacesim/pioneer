@@ -8,7 +8,6 @@
 class Frame;
 class Body;
 class StarSystem;
-class StarSystem::SBody;
 
 namespace Serializer {
 
