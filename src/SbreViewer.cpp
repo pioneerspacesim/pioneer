@@ -3,6 +3,8 @@
 #include "glfreetype.h"
 #include "Gui.h"
 #include "collider/GeomTree.h"
+#include "collider/CollisionSpace.h"
+#include "collider/Geom.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
@@ -54,7 +56,7 @@ static void PollEvents()
 
 static int g_wheelMoveDir = -1;
 static float g_wheelPos = 0;
-static bool g_renderCollMesh = false;
+static int g_renderType = 0;
 static float lightCol[4] = { 1,1,1,0 };
 static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
@@ -99,11 +101,11 @@ public:
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 		{
-			Gui::ToggleButton *b = new Gui::ToggleButton();
+			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_c, KMOD_NONE);
-			b->onChange.connect(sigc::mem_fun(*this, &Viewer::OnToggleCollMesh));
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
 			Add(b, 10, 10);
-			Add(new Gui::Label("[c] Show collision mesh"), 30, 10);
+			Add(new Gui::Label("[c] Change view (normal, collision mesh, raytraced collision mesh)"), 30, 10);
 		} {
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_g, KMOD_NONE);
@@ -121,8 +123,9 @@ public:
 		else g_wheelMoveDir = -1;
 	}
 
-	void OnToggleCollMesh(Gui::ToggleButton *b, bool state) {
-		g_renderCollMesh = state;
+	void OnClickChangeView() {
+		g_renderType++;
+		if (g_renderType > 2) g_renderType = 0;
 	}
 
 	void MainLoop();
@@ -135,8 +138,8 @@ static void render_coll_mesh(const CollMesh *m)
 	glBegin(GL_TRIANGLES);
 	glDepthRange(0.0+g_zbias,1.0);
 	for (int i=0; i<m->ni; i+=3) {
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
 		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
+		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
 		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
 	}
 	glEnd();
@@ -156,15 +159,15 @@ static void render_coll_mesh(const CollMesh *m)
 float wank[512][512];
 float aspectRatio = 1.0;
 float camera_zoom = 1.0;
-static void raytraceCollMesh(vector3f camPos, vector3f camera_up, vector3f camera_forward, GeomTree *geomtree)
+static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)
 {
 	memset(wank, 0, sizeof(float)*512*512);
 
-	vector3f toPoint, xMov, yMov;
+	vector3d toPoint, xMov, yMov;
 
-	vector3f topLeft, topRight, botRight, cross;
+	vector3d topLeft, topRight, botRight, cross;
 	topLeft = topRight = botRight = camera_forward * camera_zoom;
-	cross = vector3f::Cross (camera_forward, camera_up) * aspectRatio;
+	cross = vector3d::Cross (camera_forward, camera_up) * aspectRatio;
 	topLeft = topLeft + camera_up - cross;
 	topRight = topRight + camera_up + cross;
 	botRight = botRight - camera_up + cross;
@@ -185,7 +188,7 @@ static void raytraceCollMesh(vector3f camPos, vector3f camera_up, vector3f camer
 			toPoint *= 10000;
 			
 			isect_t isect;
-			geomtree->TraceRay(camPos, toPoint, &isect);
+			space->TraceRay(camPos, toPoint, &isect);
 
 			if (isect.triIdx != -1) {
 				wank[x][y] = 10.0/isect.dist;
@@ -213,17 +216,19 @@ static void raytraceCollMesh(vector3f camPos, vector3f camera_up, vector3f camer
 	glBindTexture(GL_TEXTURE_2D, mytexture);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glBegin(GL_TRIANGLE_FAN);
-		glTexCoord2i(1,1);
-		glVertex3f(1,1,0);
 		glTexCoord2i(0,1);
-		glVertex3f(0,1,0);
+		glVertex3f(1,1,0);
+
 		glTexCoord2i(0,0);
-		glVertex3f(0,0,0);
+		glVertex3f(0,1,0);
+		
 		glTexCoord2i(1,0);
+		glVertex3f(0,0,0);
+		
+		glTexCoord2i(1,1);
 		glVertex3f(1,0,0);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
-	printf("done..\n");
 }
 
 void Viewer::MainLoop()
@@ -235,9 +240,18 @@ void Viewer::MainLoop()
 	CollMesh *cmesh = (CollMesh*)calloc(1, sizeof(CollMesh));
 	sbreGenCollMesh (cmesh, g_model, &params, 1.0f);
 
+	// XXX flip Z & X because sbre is in magicspace
+	for (int i=0; i<3*cmesh->nv; i+=3) {
+		cmesh->pVertex[i] = -cmesh->pVertex[i];
+		cmesh->pVertex[i+2] = -cmesh->pVertex[i+2];
+	}
+
 	Uint32 t = SDL_GetTicks();
 	GeomTree *geomtree = new GeomTree(cmesh->ni/3, cmesh->pVertex, cmesh->pIndex);
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
+	Geom *geom = new Geom(geomtree);
+	CollisionSpace *space = new CollisionSpace();
+	space->AddGeom(geom);
 
 	for (;;) {
 		PollEvents();
@@ -249,8 +263,8 @@ void Viewer::MainLoop()
 		if (g_keyState[SDLK_EQUALS]) distance *= pow(0.5,g_frameTime);
 		if (g_keyState[SDLK_MINUS]) distance *= pow(2.0,g_frameTime);
 		if (g_mouseButton[1] || g_mouseButton[3]) {
-			float rx = 0.01*g_mouseMotion[1];
-			float ry = 0.01*g_mouseMotion[0];
+			float rx = -0.01*g_mouseMotion[1];
+			float ry = -0.01*g_mouseMotion[0];
 			rot = matrix4x4d::RotateXMatrix(rx) * rot;
 			rot = matrix4x4d::RotateYMatrix(ry) * rot;
 		}
@@ -265,38 +279,34 @@ void Viewer::MainLoop()
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		if (!g_renderCollMesh) {
-		SetSbreParams();
-		sbreSetViewport(g_width, g_height, g_width*0.5, 1.0f, 10000.0f, 0.0f, 1.0f);
-		sbreSetDirLight (lightCol, lightDir);
-	
-		Matrix m;
-		Vector p;
-		m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
-		m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
-		m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
-		p.x = 0; p.y = 0; p.z = distance;
-		if (g_renderCollMesh) {
+		if (g_renderType == 0) {
+			glPushAttrib(GL_ALL_ATTRIB_BITS);
+			SetSbreParams();
+			sbreSetViewport(g_width, g_height, g_width*0.5, 1.0f, 10000.0f, 0.0f, 1.0f);
+			sbreSetDirLight (lightCol, lightDir);
+		
+			Matrix m;
+			Vector p;
+			m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];
+			m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];
+			m.z1 = -rot[2]; m.z2 = -rot[6]; m.z3 = rot[10];
+			p.x = 0; p.y = 0; p.z = distance;
+			sbreRenderModel(&p, &m, g_model, &params);
+			glPopAttrib();
+		} else if (g_renderType == 1) {
 			glPushMatrix();
-			glTranslatef(p.x, p.y, p.z);
+			glTranslatef(0, 0, -distance);
 			glMultMatrixd(&rot[0]);
 			render_coll_mesh(cmesh);
 			glPopMatrix();
 			//sbreRenderCollMesh(cmesh, &p, &m);
-		}
-		else sbreRenderModel(&p, &m, g_model, &params);
-		
 		} else {
-			vector3d _p = rot * vector3d(0,0,-distance);
-			vector3f camPos(_p.x, _p.y, _p.z);
-			vector3f forward = -vector3f::Normalize(camPos);
-			vector3f up = vector3f::Cross(vector3f(0,1,0), forward);
-			up.Normalize();
-			raytraceCollMesh(camPos, up, forward, geomtree);
+			geom->SetOrientation(rot);
+			vector3d camPos = vector3d(0,0,distance);
+			vector3d forward = vector3d(0,0,-1);
+			vector3d up = vector3d(0,1,0);
+			raytraceCollMesh(camPos, up, forward, space);
 		}
-
-		glPopAttrib();
 		
 		Gui::Draw();
 		

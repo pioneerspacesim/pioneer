@@ -20,7 +20,6 @@
 #include "../Aabb.h"
 #include "GeomTree.h"
 
-#define DEBUG
 #define MIN(a,b) ((a)<(b) ? (a) : (b))
 #define MAX(a,b) ((a)>(b) ? (a) : (b))
 
@@ -39,8 +38,6 @@ class BIHNode {
 		tri->next = GetList ();
 		SetList (tri);
 	}
-	float FindNiceSplitPos (int splitAxis, int *numPoints, int *numPrims);
-	void Dump (int depth, Aabb &box);
 	void SetAxis (int axis) { m_axis = axis; }
 	int GetAxis () const { return m_axis; };
 	void SetSplitPos1 (float p) { splitPos1 = p; }
@@ -264,8 +261,6 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 	else right->SetLeaf (true);
 }
 
-#define SIGN_OF(f)	(  *((unsigned int *)(&f)) >> 31 )
-
 void GeomTree::TraceRay(vector3f &start, vector3f &dir, isect_t *isect)
 {
 	float len = dir.Length();
@@ -280,9 +275,6 @@ void GeomTree::TraverseRay(vector3f &a_origin, vector3f &a_dir, isect_t *isect)
 	float entry_t = 0, exit_t = isect->dist;
 	vector3f rcpD = vector3f(1.0f/a_dir.x, 1.0f/a_dir.y, 1.0f/a_dir.z);
 	int Dneg[3];
-#ifdef DEBUG
-	int num_raytri_tests = 0;
-#endif
 
 	Dneg[0] = (a_dir.x < 0 ? 1 : 0);
 	Dneg[1] = (a_dir.y < 0 ? 1 : 0);
@@ -341,9 +333,6 @@ void GeomTree::TraverseRay(vector3f &a_origin, vector3f &a_dir, isect_t *isect)
 	{
 		while (!currnode->IsLeaf())
 		{
-#ifdef DEBUG
-			//m_stats.treeNodeTraversals++;
-#endif /* DEBUG */
 			const int axis = currnode->GetAxis();
 			
 			float d[2];
@@ -385,9 +374,6 @@ void GeomTree::TraverseRay(vector3f &a_origin, vector3f &a_dir, isect_t *isect)
 
 		// yay we are a leaf node 
 		for (tri_t *p = currnode->GetList (); p != NULL; p = p->next) {
-#ifdef DEBUG
-			num_raytri_tests++;
-#endif /* DEBUG */
 			RayTriIntersect (a_origin, a_dir, p->triIdx, isect);
 		}
 pop_bstack:

@@ -168,7 +168,8 @@ class matrix4x4 {
 		cell[13] = 0;
 		cell[14] = 0;
 	}
-	T& operator [] (const int i) { return cell[i]; }
+	T& operator [] (const size_t i) { return cell[i]; }
+	const T& operator[] (const size_t i) const { return cell[i]; }
 	friend matrix4x4 operator+ (const matrix4x4 &a, const matrix4x4 &b) {
 		matrix4x4 m;
 		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] + b.cell[i];
