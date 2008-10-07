@@ -16,7 +16,7 @@ public:
 	void TraceRay(const vector3d &start, const vector3d &dir, isect_t *isect);
 	void Collide(void (*callback)(CollisionContact*));
 private:
-	void CollideGeoms(Geom *a, Geom *b, void (*callback)(CollisionContact*));
+	void CollideGeoms(Geom *a, void (*callback)(CollisionContact*));
 	std::list<Geom*> m_geoms;
 	
 };

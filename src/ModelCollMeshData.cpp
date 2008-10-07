@@ -80,7 +80,7 @@ CollMeshSet::CollMeshSet(int sbreModel)
 				aabb.max[a] = sbreCollMesh->pVertex[i+a];
 		}
 	}
-	m_geomTree = new GeomTree(sbreCollMesh->nv, sbreCollMesh->ni/3, sbreCollMesh->pVertex, sbreCollMesh->pIndex);
+	m_geomTree = new GeomTree(sbreCollMesh->nv, sbreCollMesh->ni/3, sbreCollMesh->pVertex, sbreCollMesh->pIndex, sbreCollMesh->pFlag);
 
 	triIndices = new coltri_t[sbreCollMesh->ni/3];
 	int tidx = 0;

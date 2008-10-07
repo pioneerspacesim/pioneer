@@ -11,6 +11,7 @@ Geom::Geom(GeomTree *geomtree)
 	m_invOrient = matrix4x4d::Identity();
 	m_orientIdx = 0;
 	m_active = true;
+	m_moved = false;
 	m_data = 0;
 }
 
@@ -19,6 +20,7 @@ void Geom::MoveTo(const matrix4x4d &m)
 	m_orientIdx = !m_orientIdx;
 	m_orient[m_orientIdx] = m;
 	m_invOrient = m.InverseOf();
+	m_moved = true;
 }
 
 void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
@@ -31,8 +33,16 @@ void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
 	m_invOrient = m_orient[m_orientIdx].InverseOf();
 }
 
+vector3d Geom::GetPosition() const
+{
+	return vector3d(m_orient[m_orientIdx][12],
+		m_orient[m_orientIdx][13],
+		m_orient[m_orientIdx][14]);
+}
+
 void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 {
+	m_moved = false;
 	for (int i=0; i<m_geomtree->m_numVertices; i++) {
 		vector3d v(&m_geomtree->m_vertices[3*i]);
 		vector3d from = m_orient[!m_orientIdx] * v;

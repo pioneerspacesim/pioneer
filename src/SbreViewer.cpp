@@ -158,6 +158,7 @@ static void render_coll_mesh(const CollMesh *m)
 float wank[TEXSIZE][TEXSIZE];
 float aspectRatio = 1.0;
 float camera_zoom = 1.0;
+float distance = 100;
 static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)
 {
 	memset(wank, 0, sizeof(float)*TEXSIZE*TEXSIZE);
@@ -191,7 +192,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 			space->TraceRay(camPos, toPoint, &isect);
 
 			if (isect.triIdx != -1) {
-				wank[x][y] = 10.0/isect.dist;
+				wank[x][y] = distance/(10*isect.dist);
 			} else {
 				wank[x][y] = 0;
 			}
@@ -240,7 +241,6 @@ static void onCollision(CollisionContact *c)
 void Viewer::MainLoop()
 {
 	matrix4x4d rot = matrix4x4d::Identity();
-	float distance = 100;
 	Uint32 lastTurd = SDL_GetTicks();
 
 	CollMesh *cmesh = (CollMesh*)calloc(1, sizeof(CollMesh));
@@ -253,15 +253,15 @@ void Viewer::MainLoop()
 	}
 
 	Uint32 t = SDL_GetTicks();
-	GeomTree *geomtree = new GeomTree(cmesh->nv, cmesh->ni/3, cmesh->pVertex, cmesh->pIndex);
+	GeomTree *geomtree = new GeomTree(cmesh->nv, cmesh->ni/3, cmesh->pVertex, cmesh->pIndex, cmesh->pFlag);
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 	Geom *geom = new Geom(geomtree);
-	Geom *geom2 = new Geom(geomtree);
+	//Geom *geom2 = new Geom(geomtree);
 	CollisionSpace *space = new CollisionSpace();
-	space->AddGeom(geom2);
+//	space->AddGeom(geom2);
 	space->AddGeom(geom);
-	geom2->MoveTo(rot, vector3d(80,0,0));
-	geom2->MoveTo(rot, vector3d(80,0,0));
+//	geom2->MoveTo(rot, vector3d(80,0,0));
+//	geom2->MoveTo(rot, vector3d(80,0,0));
 
 	for (;;) {
 		PollEvents();

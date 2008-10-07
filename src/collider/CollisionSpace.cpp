@@ -32,18 +32,34 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, isect_
 	}
 }
 
-void CollisionSpace::CollideGeoms(Geom *a, Geom *b, void (*callback)(CollisionContact*))
+void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
 {
-	a->Collide(b, callback);
-	b->Collide(a, callback);
+	// our big aabb
+	vector3d pos = a->GetPosition();
+	Aabb bigAabb;
+	bigAabb = a->GetGeomTree()->GetMaxAabb();
+	bigAabb.min += pos;
+	bigAabb.max += pos;
+
+	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+		if ((*i) != a) {
+			Aabb bigAabb2;
+			bigAabb2 = (*i)->GetGeomTree()->GetMaxAabb();
+			vector3d pos2 = (*i)->GetPosition();
+			bigAabb2.min += pos2;
+			bigAabb2.max += pos2;
+			if (bigAabb.Intersects(bigAabb2)) {
+				a->Collide(*i, callback);
+				if (!(*i)->HasMoved()) (*i)->Collide(a, callback);
+			}
+		}
+	}
 }
 
 void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 {
 	// for the time being do a totally retarded intersection of every body on every other
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		for (std::list<Geom*>::iterator j = m_geoms.begin(); j != m_geoms.end(); ++j) {
-			if ((*i) != (*j)) CollideGeoms(*i, *j, callback);
-		}
+		if ((*i)->HasMoved()) CollideGeoms(*i, callback);
 	}
 }

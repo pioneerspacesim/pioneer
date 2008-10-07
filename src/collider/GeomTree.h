@@ -14,14 +14,16 @@ struct isect_t {
 
 class GeomTree {
 public:
-	GeomTree(int numVerts, int numTris, float *vertices, int *indices);
+	GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags);
 	~GeomTree();
-	Aabb GetAabb() { return m_aabb; }
+	const Aabb &GetAabb() { return m_aabb; }
+	const Aabb &GetMaxAabb() { return m_maxAabb; }
 	// dir should be unit length,
 	// isect.dist should be ray length
 	// isect.triIdx should be -1 unless repeat calls with same isect_t
 	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect);
 	vector3f GetTriNormal(int triIdx) const;
+	int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	
 	const int m_numVertices;
 	const float *m_vertices;
@@ -33,6 +35,7 @@ private:
 	void BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, int a_depth, int a_prims);
 
 	Aabb m_aabb;
+	Aabb m_maxAabb; // an aabb that still contains the object regardless of rotation
 	BIHNode *m_nodes;
 	int m_nodesAllocPos;
 	int m_nodesAllocSize;
@@ -41,6 +44,7 @@ private:
 	int m_triAllocSize;
 
 	const int *m_indices;
+	const int *m_triFlags;
 };
 
 #endif /* _GEOMTREE_H */

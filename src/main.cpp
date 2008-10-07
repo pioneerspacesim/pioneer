@@ -175,16 +175,17 @@ void Pi::HandleEvents()
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {
 					/* add test object */
-					Ship *body = new Ship(ShipType::LADYBIRD);
+					/*Ship *body = new Ship(ShipType::LADYBIRD);
 					body->SetLabel("A friend");
 					body->SetFrame(Pi::player->GetFrame());
 					body->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-1000));
 					Space::AddBody(body);
-					/*SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
+					*/SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
 					station->SetLabel("Poemi-chan's Folly");
 					station->SetFrame(Pi::player->GetFrame());
-					station->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-1000));
-					Space::AddBody(station);*/
+					station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
+					station->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-5000));
+					Space::AddBody(station);
 				}
 #endif /* DEBUG */
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
@@ -427,12 +428,14 @@ void Pi::MainLoop()
 		time_before_frame = SDL_GetTicks();
 		
 		// Fixed 62.5hz physics
+		int num_steps = 0;
 		while (time_before_frame - last_phys_update > 16) {
 			last_phys_update += 16;
 			const float step = Pi::GetTimeStep();
 			if (step) Space::TimeStep(step);
 			gameTime += step;
 			phys_stat++;
+			if (++num_steps > 3) break;
 		}
 		currentView->Update();
 

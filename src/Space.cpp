@@ -334,6 +334,25 @@ static void dump_contact(const dContact *c)
 	printf("fdir1 %f,%f,%f\n", c->fdir1[0], c->fdir1[1], c->fdir1[2]);
 }
 
+static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
+{
+	Body *pb1, *pb2;
+	int flags = c->g2->GetGeomTree()->GetTriFlag(c->triIdx);
+//	printf("Collision flags %x (triIdx %d)\n", flags, c->triIdx);
+	// geom bodies point to their parents
+	if (o1->IsType(Object::GEOM)) {
+		pb1 = static_cast<ModelBody::GeomBit*>(o1)->parent;
+		flags |= static_cast<ModelBody::GeomBit*>(o1)->flags;
+	} else pb1 = static_cast<Body*>(o1);
+	if (o2->IsType(Object::GEOM)) {
+		pb2 = static_cast<ModelBody::GeomBit*>(o2)->parent;
+		flags |= static_cast<ModelBody::GeomBit*>(o2)->flags;
+	} else pb2 = static_cast<Body*>(o2);
+
+	if ((pb1 && !pb1->OnCollision(pb2, flags)) || (pb2 && !pb2->OnCollision(pb1, flags))) return false;
+	return true;
+}
+
 #define MAX_CONTACTS	10
 static int contact_num;
 static void hitCallback(CollisionContact *c)
@@ -362,8 +381,19 @@ static void hitCallback(CollisionContact *c)
 	contact.fdir1[1] = 0;
 	contact.fdir1[2] = 0;
 
+	Object *po1 = static_cast<Object*>(c->g1->GetUserData());
+	Object *po2 = static_cast<Object*>(c->g2->GetUserData());
+
+	if (!_OnCollision2(po1, po2, c)) return;
+	
+	dBodyID b1 = 0;
+	dBodyID b2 = 0;
+	// Get the dynamics body for each geom
+	if (po1->IsType(Object::DYNAMICBODY)) b1 = static_cast<DynamicBody*>(po1)->m_body;
+	if (po2->IsType(Object::DYNAMICBODY)) b2 = static_cast<DynamicBody*>(po2)->m_body;
+
 	dJointID j = dJointCreateContact(Space::world, _contactgroup, &contact);
-	dJointAttach(j, (dBodyID)c->g1->GetUserData(), (dBodyID)c->g2->GetUserData());
+	dJointAttach(j, b1, b2);
 }
 #if 0
 static void nearCallback(void *data, dGeomID o0, dGeomID o1)

@@ -84,10 +84,11 @@ GeomTree::~GeomTree()
 	delete [] m_triAlloc;
 }
 
-GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices): m_numVertices(numVerts)
+GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags): m_numVertices(numVerts)
 {
 	m_vertices = vertices;
 	m_indices = indices;
+	m_triFlags = triflags;
 	m_aabb.min = vector3d(FLT_MAX,FLT_MAX,FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX,-FLT_MAX,-FLT_MAX);
 
@@ -99,6 +100,15 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices): m_
 	}
 	m_triAlloc[numTris-1].next = 0;
 
+	// make big rotation aabb
+	{
+		vector3d cent = 0.5*(m_aabb.min+m_aabb.max);
+		double mdim = (cent - m_aabb.min).Length();
+		mdim = MAX(mdim, (m_aabb.max - cent).Length());
+		m_maxAabb.min = vector3d(cent.x - mdim, cent.y - mdim, cent.z - mdim);
+		m_maxAabb.max = vector3d(cent.x + mdim, cent.y + mdim, cent.z + mdim);
+	}
+
 	printf("Building BIHTree of %d triangles\n", numTris);
 	printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
 		m_aabb.min.x,
@@ -107,6 +117,13 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices): m_
 		m_aabb.max.x,
 		m_aabb.max.y,
 		m_aabb.max.z);
+	printf("MaxAabb: %f,%f,%f -> %f,%f,%f\n",
+		m_maxAabb.min.x,
+		m_maxAabb.min.y,
+		m_maxAabb.min.z,
+		m_maxAabb.max.x,
+		m_maxAabb.max.y,
+		m_maxAabb.max.z);
 	m_nodes = new BIHNode[numTris*4];
 	m_nodesAllocSize = numTris*4;
 	m_nodesAllocPos = 0;
@@ -185,7 +202,6 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 //		if (axis != -1) printf("Best is axis %d on %s (cost %f%%)\n", axis, (isTop ? "top" : "bottom"), bestCost*100);
 		// cut off whitespace
 		if ((bestCost > MIN_SPACE_CUTOFF) && (bestCost < 1.0f)) {
-			printf("slicing off %f%%\n", bestCost*100);
 			a_node->SetLeaf (false);
 			a_node->SetAxis (axis);
 
@@ -473,22 +489,23 @@ void GeomTree::RayTriIntersect(const vector3f &origin, const vector3f &dir, int 
 	const float v1d = vector3f::Dot(v1_cross,dir);
 	const float v2d = vector3f::Dot(v2_cross,dir);
 
-	if ((v0d > 0) && (v1d > 0) && (v2d > 0)) {
+	if (((v0d > 0) && (v1d > 0) && (v2d > 0)) ||
+	    ((v0d < 0) && (v1d < 0) && (v2d < 0))) {
 		const vector3f n = vector3f::Cross(c-a, b-a);
 		const float nominator = vector3f::Dot(n, (a-origin));
 		const float dist = nominator / vector3f::Dot(dir,n);
 		if ((dist > EPSILON) && (dist < isect->dist)) {
 			isect->dist = dist;
-			isect->triIdx = triIdx;
+			isect->triIdx = triIdx/3;
 		}
 	}
 }
 
 vector3f GeomTree::GetTriNormal(int triIdx) const
 {
-	const vector3f a(&m_vertices[3*m_indices[triIdx]]);
-	const vector3f b(&m_vertices[3*m_indices[triIdx+1]]);
-	const vector3f c(&m_vertices[3*m_indices[triIdx+2]]);
+	const vector3f a(&m_vertices[3*m_indices[3*triIdx]]);
+	const vector3f b(&m_vertices[3*m_indices[3*triIdx+1]]);
+	const vector3f c(&m_vertices[3*m_indices[3*triIdx+2]]);
 	
 	return vector3f::Normalize(vector3f::Cross(b-a, c-a));
 }

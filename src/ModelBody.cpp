@@ -69,6 +69,7 @@ void ModelBody::SetModel(int sbreModel)
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
 	
 	m_geom = new Geom(mset->m_geomTree);
+	m_geom->SetUserData((void*)this);
 
 	geomColl.resize(mset->numMeshParts);
 	geoms.resize(mset->numMeshParts);
@@ -86,6 +87,7 @@ void ModelBody::SetPosition(vector3d p)
 {
 	matrix4x4d m;
 	GetRotMatrix(m);
+	m_geom->MoveTo(m, p);
 	m_geom->MoveTo(m, p);
 
 	for (unsigned int i=0; i<geoms.size(); i++) {
@@ -133,6 +135,9 @@ void ModelBody::SetRotMatrix(const matrix4x4d &r)
 	for (unsigned int i=0; i<geoms.size(); i++) {
 		dGeomSetRotation(geoms[i], _m);
 	}
+	vector3d pos = m_geom->GetPosition();
+	m_geom->MoveTo(r, pos);
+	m_geom->MoveTo(r, pos);
 }
 
 void ModelBody::GetRotMatrix(matrix4x4d &m) const
@@ -190,7 +195,6 @@ void ModelBody::TriMeshUpdateLastPos()
 	matrix4x4d cunt;
 	memcpy(&cunt[0], t, 16*sizeof(double));
 	m_geom->MoveTo(cunt);
-	m_geom->SetUserData(dGeomGetBody(geoms[0]));
 
 	m_triMeshLastMatrixIndex = !m_triMeshLastMatrixIndex;
 	for (unsigned int i=0; i<geoms.size(); i++) {
