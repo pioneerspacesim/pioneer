@@ -8,6 +8,7 @@
 #include <vector>
 class ObjMesh;
 class CollMeshSet;
+class Geom;
 
 class ModelBody: public Body {
 public:
@@ -32,19 +33,20 @@ public:
 	void SetModel(int sbreModel);
 
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
-	class Geom: public Object {
+	class GeomBit: public Object {
 	public:
-		OBJDEF(Geom, Object, GEOM);
+		OBJDEF(GeomBit, Object, GEOM);
 		Body *parent;
 		int flags;
 	};
 protected:
 	virtual void Save();
 	virtual void Load();
-	std::vector<Geom> geomColl;
+	std::vector<GeomBit> geomColl;
 private:
 	CollMeshSet *m_collMeshSet;
 	std::vector<dGeomID> geoms;
+	Geom *m_geom;
 	dReal m_triMeshTrans[32];
 	int m_triMeshLastMatrixIndex;
 };

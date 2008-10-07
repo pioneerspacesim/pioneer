@@ -3,6 +3,7 @@
 #include <map>
 #include <algorithm>
 #include "sbre/sbre.h"
+#include "collider/collider.h"
 
 // In order to do space station doors and other flagged bits of collision
 // meshes, you have to make a different dTriMeshData thing for each.
@@ -79,6 +80,7 @@ CollMeshSet::CollMeshSet(int sbreModel)
 				aabb.max[a] = sbreCollMesh->pVertex[i+a];
 		}
 	}
+	m_geomTree = new GeomTree(sbreCollMesh->nv, sbreCollMesh->ni/3, sbreCollMesh->pVertex, sbreCollMesh->pIndex);
 
 	triIndices = new coltri_t[sbreCollMesh->ni/3];
 	int tidx = 0;

@@ -2,9 +2,7 @@
 #include "sbre/sbre.h"
 #include "glfreetype.h"
 #include "Gui.h"
-#include "collider/GeomTree.h"
-#include "collider/CollisionSpace.h"
-#include "collider/Geom.h"
+#include "collider/collider.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
@@ -156,12 +154,13 @@ static void render_coll_mesh(const CollMesh *m)
 	glEnable(GL_LIGHTING);
 }
 
-float wank[512][512];
+#define TEXSIZE 512
+float wank[TEXSIZE][TEXSIZE];
 float aspectRatio = 1.0;
 float camera_zoom = 1.0;
 static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)
 {
-	memset(wank, 0, sizeof(float)*512*512);
+	memset(wank, 0, sizeof(float)*TEXSIZE*TEXSIZE);
 
 	vector3d toPoint, xMov, yMov;
 
@@ -174,20 +173,21 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 
 	xMov = topRight - topLeft;
 	yMov = botRight - topRight;
-	float xstep = 1.0f / 512;
-	float ystep = 1.0f / 512;
+	float xstep = 1.0f / TEXSIZE;
+	float ystep = 1.0f / TEXSIZE;
 	float xpos, ypos;
 	ypos = 0.0f;
 
 	Uint32 t = SDL_GetTicks();
-	for (int y=0; y<512; y++, ypos += ystep) {
+	for (int y=0; y<TEXSIZE; y++, ypos += ystep) {
 		xpos = 0.0f;
-		for (int x=0; x<512; x++, xpos += xstep) {
+		for (int x=0; x<TEXSIZE; x++, xpos += xstep) {
 			toPoint = topLeft + (xMov * xpos) + (yMov * ypos);
-			toPoint.Normalize ();
-			toPoint *= 10000;
+			toPoint.Normalize();
 			
 			isect_t isect;
+			isect.triIdx = -1;
+			isect.dist = 10000;
 			space->TraceRay(camPos, toPoint, &isect);
 
 			if (isect.triIdx != -1) {
@@ -197,8 +197,8 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 			}
 		}
 	}
-	printf("%.3f million rays/sec\n", (512*512)/(1000.0*(SDL_GetTicks()-t)));
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_LUMINANCE, GL_FLOAT, wank);
+	printf("%.3f million rays/sec\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)));
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_FLOAT, wank);
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
@@ -231,6 +231,12 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	glDisable(GL_TEXTURE_2D);
 }
 
+static void onCollision(CollisionContact *c)
+{
+	printf("depth %f\n", c->depth);
+//	printf("%d: %d\n", SDL_GetTicks(), c->triIdx);
+}
+
 void Viewer::MainLoop()
 {
 	matrix4x4d rot = matrix4x4d::Identity();
@@ -247,11 +253,15 @@ void Viewer::MainLoop()
 	}
 
 	Uint32 t = SDL_GetTicks();
-	GeomTree *geomtree = new GeomTree(cmesh->ni/3, cmesh->pVertex, cmesh->pIndex);
+	GeomTree *geomtree = new GeomTree(cmesh->nv, cmesh->ni/3, cmesh->pVertex, cmesh->pIndex);
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 	Geom *geom = new Geom(geomtree);
+	Geom *geom2 = new Geom(geomtree);
 	CollisionSpace *space = new CollisionSpace();
+	space->AddGeom(geom2);
 	space->AddGeom(geom);
+	geom2->MoveTo(rot, vector3d(80,0,0));
+	geom2->MoveTo(rot, vector3d(80,0,0));
 
 	for (;;) {
 		PollEvents();
@@ -268,6 +278,7 @@ void Viewer::MainLoop()
 			rot = matrix4x4d::RotateXMatrix(rx) * rot;
 			rot = matrix4x4d::RotateYMatrix(ry) * rot;
 		}
+		geom->MoveTo(rot, vector3d(0,0,0));
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -301,7 +312,6 @@ void Viewer::MainLoop()
 			glPopMatrix();
 			//sbreRenderCollMesh(cmesh, &p, &m);
 		} else {
-			geom->SetOrientation(rot);
 			vector3d camPos = vector3d(0,0,distance);
 			vector3d forward = vector3d(0,0,-1);
 			vector3d up = vector3d(0,1,0);
@@ -313,6 +323,8 @@ void Viewer::MainLoop()
 		SDL_GL_SwapBuffers();
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001;
 		lastTurd = SDL_GetTicks();
+
+		space->Collide(onCollision);
 	}
 	delete geomtree;
 }

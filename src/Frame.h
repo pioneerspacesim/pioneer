@@ -7,6 +7,8 @@
 #include "StarSystem.h"
 
 class Body;
+class CollisionSpace;
+class Geom;
 
 /*
  * Frame of reference.
@@ -32,9 +34,12 @@ public:
 	void SetOrientation(const matrix4x4d &m) { m_orient = m; }
 	void SetRadius(double radius) { m_radius = radius; }
 	void RemoveChild(Frame *f);
-	void AddGeom(dGeomID g) { dSpaceAdd(m_dSpaceID, g); }
-	void RemoveGeom(dGeomID g) { dSpaceRemove(m_dSpaceID, g); }
+	void _AddGeom(dGeomID g) { dSpaceAdd(m_dSpaceID, g); }
+	void _RemoveGeom(dGeomID g) { dSpaceRemove(m_dSpaceID, g); }
+	void AddGeom(Geom *);
+	void RemoveGeom(Geom *);
 	dSpaceID GetSpaceID() const { return m_dSpaceID; }
+	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;
@@ -63,6 +68,7 @@ private:
 	double m_radius;
 	int m_flags;
 	dSpaceID m_dSpaceID;
+	CollisionSpace *m_collisionSpace;
 };
 
 #endif /* _FRAME_H */

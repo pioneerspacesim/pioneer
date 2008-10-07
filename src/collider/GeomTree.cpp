@@ -82,7 +82,7 @@ GeomTree::~GeomTree()
 	delete [] m_triAlloc;
 }
 
-GeomTree::GeomTree(int numTris, float *vertices, int *indices)
+GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices): m_numVertices(numVerts)
 {
 	m_vertices = vertices;
 	m_indices = indices;
@@ -261,16 +261,12 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 	else right->SetLeaf (true);
 }
 
-void GeomTree::TraceRay(vector3f &start, vector3f &dir, isect_t *isect)
+void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect)
 {
-	float len = dir.Length();
-	isect->dist = len;
-	isect->triIdx = -1;
-	vector3f normDir = dir * (1.0f/len);
-	TraverseRay(start, normDir, isect);
+	TraverseRay(start, dir, isect);
 }
 
-void GeomTree::TraverseRay(vector3f &a_origin, vector3f &a_dir, isect_t *isect)
+inline void GeomTree::TraverseRay(const vector3f &a_origin, const vector3f &a_dir, isect_t *isect)
 {
 	float entry_t = 0, exit_t = isect->dist;
 	vector3f rcpD = vector3f(1.0f/a_dir.x, 1.0f/a_dir.y, 1.0f/a_dir.z);
@@ -387,26 +383,25 @@ pop_bstack:
 }
 
 #define EPSILON 0.00001f
-void GeomTree::RayTriIntersect(vector3f &origin, vector3f &dir, int triIdx, isect_t *isect)
+void GeomTree::RayTriIntersect(const vector3f &origin, const vector3f &dir, int triIdx, isect_t *isect)
 {
-	vector3f a(&m_vertices[3*m_indices[triIdx]]);
-	vector3f b(&m_vertices[3*m_indices[triIdx+1]]);
-	vector3f c(&m_vertices[3*m_indices[triIdx+2]]);
+	const vector3f a(&m_vertices[3*m_indices[triIdx]]);
+	const vector3f b(&m_vertices[3*m_indices[triIdx+1]]);
+	const vector3f c(&m_vertices[3*m_indices[triIdx+2]]);
 
 	vector3f v0_cross, v1_cross, v2_cross;
-	const vector3f n = vector3f::Cross(c-a, b-a);
 
+	v0_cross = vector3f::Cross(c-origin, b-origin);
 	v1_cross = vector3f::Cross(b-origin, a-origin);
 	v2_cross = vector3f::Cross(a-origin, c-origin);
-	v0_cross = vector3f::Cross(c-origin, b-origin);
-	float nominator = vector3f::Dot(n, (a-origin));
 
 	const float v0d = vector3f::Dot(v0_cross,dir);
 	const float v1d = vector3f::Dot(v1_cross,dir);
 	const float v2d = vector3f::Dot(v2_cross,dir);
 
-	if ( ((v0d > 0) && (v1d > 0) && (v2d > 0)) ||
-	     ((v0d < 0) && (v1d < 0) && (v2d < 0))) {
+	if ((v0d > 0) && (v1d > 0) && (v2d > 0)) {
+		const vector3f n = vector3f::Cross(c-a, b-a);
+		const float nominator = vector3f::Dot(n, (a-origin));
 		const float dist = nominator / vector3f::Dot(dir,n);
 		if ((dist > EPSILON) && (dist < isect->dist)) {
 			isect->dist = dist;
@@ -415,3 +410,11 @@ void GeomTree::RayTriIntersect(vector3f &origin, vector3f &dir, int triIdx, isec
 	}
 }
 
+vector3f GeomTree::GetTriNormal(int triIdx) const
+{
+	const vector3f a(&m_vertices[3*m_indices[triIdx]]);
+	const vector3f b(&m_vertices[3*m_indices[triIdx+1]]);
+	const vector3f c(&m_vertices[3*m_indices[triIdx+2]]);
+	
+	return vector3f::Normalize(vector3f::Cross(b-a, c-a));
+}

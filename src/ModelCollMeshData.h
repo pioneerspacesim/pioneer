@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "sbre/sbre.h"
 
+class GeomTree;
+
 struct coltri_t {
 	int v1, v2, v3, flags;
 };
@@ -22,6 +24,8 @@ public:
 	meshinfo_t *meshInfo;
 	int numMeshParts;
 	Aabb aabb;
+
+	GeomTree *m_geomTree;
 
 	CollMeshSet(int sbreModel);
 private:

@@ -1,32 +1,69 @@
+#include <float.h>
 #include "Geom.h"
+#include "GeomTree.h"
+#include "collider.h"
 
 Geom::Geom(GeomTree *geomtree)
 {
 	m_geomtree = geomtree;
-	m_orient = matrix4x4d::Identity();
+	m_orient[0] = matrix4x4d::Identity();
+	m_orient[1] = matrix4x4d::Identity();
 	m_invOrient = matrix4x4d::Identity();
+	m_orientIdx = 0;
 	m_active = true;
+	m_data = 0;
 }
 
-void Geom::SetPosition(vector3d pos)
+void Geom::MoveTo(const matrix4x4d &m)
 {
-	m_orient[12] = pos.x;
-	m_orient[13] = pos.y;
-	m_orient[14] = pos.z;
-	m_invOrient = m_orient.InverseOf();
+	m_orientIdx = !m_orientIdx;
+	m_orient[m_orientIdx] = m;
+	m_invOrient = m.InverseOf();
 }
 
-void Geom::SetOrientation(const matrix4x4d &rot)
+void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
 {
-	m_orient[0] = rot[0];
-	m_orient[1] = rot[1];
-	m_orient[2] = rot[2];
-	m_orient[4] = rot[4];
-	m_orient[5] = rot[5];
-	m_orient[6] = rot[6];
-	m_orient[8] = rot[8];
-	m_orient[9] = rot[9];
-	m_orient[10] = rot[10];
-	m_invOrient = m_orient.InverseOf();
+	m_orientIdx = !m_orientIdx;
+	m_orient[m_orientIdx] = m;
+	m_orient[m_orientIdx][12] = pos.x;
+	m_orient[m_orientIdx][13] = pos.y;
+	m_orient[m_orientIdx][14] = pos.z;
+	m_invOrient = m_orient[m_orientIdx].InverseOf();
 }
 
+void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
+{
+	for (int i=0; i<m_geomtree->m_numVertices; i++) {
+		vector3d v(&m_geomtree->m_vertices[3*i]);
+		vector3d from = m_orient[!m_orientIdx] * v;
+		vector3d to = m_orient[m_orientIdx] * v;
+		from = b->m_invOrient * from;
+		to = b->m_invOrient * to;
+		vector3d dir = to - from;
+		const double len = dir.Length();
+		dir *= 1.0f/len;
+
+		vector3f _from(from.x, from.y, from.z);
+		vector3f _dir(dir.x, dir.y, dir.z);
+
+		isect_t isect;
+		isect.dist = len;
+		isect.triIdx = -1;
+		_dir.Normalize();
+		b->m_geomtree->TraceRay(_from, _dir, &isect);
+		if (isect.triIdx != -1) {
+			CollisionContact c;
+			// in world coords
+			c.pos = b->GetTransform() * (from + dir*isect.dist);
+			vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
+			c.normal = vector3d(n.x, n.y, n.z);
+			c.normal = b->GetTransform().ApplyRotationOnly(c.normal);
+		
+			c.depth = len - isect.dist;
+			c.triIdx = isect.triIdx;
+			c.g1 = this;
+			c.g2 = b;
+			(*callback)(&c);
+		}
+	}
+}

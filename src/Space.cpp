@@ -12,6 +12,7 @@
 #include "SpaceStation.h"
 #include "sbre/sbre.h"
 #include "Serializer.h"
+#include "collider/collider.h"
 
 dWorldID Space::world;
 std::list<Body*> Space::bodies;
@@ -311,12 +312,12 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 		int flags = 0;
 		// geom bodies point to their parents
 		if (o1->IsType(Object::GEOM)) {
-			pb1 = static_cast<ModelBody::Geom*>(o1)->parent;
-			flags |= static_cast<ModelBody::Geom*>(o1)->flags;
+			pb1 = static_cast<ModelBody::GeomBit*>(o1)->parent;
+			flags |= static_cast<ModelBody::GeomBit*>(o1)->flags;
 		} else pb1 = static_cast<Body*>(o1);
 		if (o2->IsType(Object::GEOM)) {
-			pb2 = static_cast<ModelBody::Geom*>(o2)->parent;
-			flags |= static_cast<ModelBody::Geom*>(o2)->flags;
+			pb2 = static_cast<ModelBody::GeomBit*>(o2)->parent;
+			flags |= static_cast<ModelBody::GeomBit*>(o2)->flags;
 		} else pb2 = static_cast<Body*>(o2);
 
 		if ((pb1 && !pb1->OnCollision(pb2, flags)) || (pb2 && !pb2->OnCollision(pb1, flags))) return false;
@@ -324,6 +325,47 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 	return true;
 }
 
+static void dump_contact(const dContact *c)
+{
+	printf("pos %f,%f,%f\n", c->geom.pos[0], c->geom.pos[1], c->geom.pos[2]);
+	printf("normal %f,%f,%f\n", c->geom.normal[0], c->geom.normal[1], c->geom.normal[2]);
+	printf("depth %f\n", c->geom.depth);
+	printf("side1:side2 %d:%d\n", c->geom.side1, c->geom.side2);
+	printf("fdir1 %f,%f,%f\n", c->fdir1[0], c->fdir1[1], c->fdir1[2]);
+}
+
+#define MAX_CONTACTS	10
+static int contact_num;
+static void hitCallback(CollisionContact *c)
+{
+	if (contact_num++ >= MAX_CONTACTS) return;
+	dContact contact;
+
+	contact.surface.mode = dContactBounce;
+	contact.surface.mu = 0.8;
+	contact.surface.mu2 = 0;
+	contact.surface.bounce = 0.1;
+	contact.surface.bounce_vel = 0.1;
+
+	contact.geom.pos[0] = c->pos.x;
+	contact.geom.pos[1] = c->pos.y;
+	contact.geom.pos[2] = c->pos.z;
+	contact.geom.pos[3] = 1;
+	contact.geom.normal[0] = c->normal.x;
+	contact.geom.normal[1] = c->normal.y;
+	contact.geom.normal[2] = c->normal.z;
+	contact.geom.normal[3] = 1;
+	contact.geom.depth = c->depth;
+	contact.geom.g1 = 0;
+	contact.geom.g2 = 0;
+	contact.fdir1[0] = 0;
+	contact.fdir1[1] = 0;
+	contact.fdir1[2] = 0;
+
+	dJointID j = dJointCreateContact(Space::world, _contactgroup, &contact);
+	dJointAttach(j, (dBodyID)c->g1->GetUserData(), (dBodyID)c->g2->GetUserData());
+}
+#if 0
 static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 {
 	// Create an array of dContact objects to hold the contact joints
@@ -351,24 +393,27 @@ static void nearCallback(void *data, dGeomID o0, dGeomID o1)
 		// different joint types available.  
 		for (int i = 0; i < numc; i++)
 		{
+			printf("\nODE collision:\n");
+			dump_contact(contact+i);
 			// dJointCreateContact needs to know which world and joint group to work with as well as the dContact
 			// object itself. It returns a new dJointID which we then use with dJointAttach to finally create the
 			// temporary contact joint between the two geom bodies.
-			dJointID c = dJointCreateContact(Space::world, _contactgroup, contact + i);
+			//dJointID c = dJointCreateContact(Space::world, _contactgroup, contact + i);
 /*			struct dContactGeom {
   dVector3 pos;       // contact position
   dVector3 normal;    // normal vector
   dReal depth;        // penetration depth
   dGeomID g1,g2;      // the colliding geoms
 };*/
-			dJointAttach(c, b1, b2);
+			//dJointAttach(c, b1, b2);
 		}
 	}	
 }
-
+#endif
 void Space::CollideFrame(Frame *f)
 {
-	dSpaceCollide(f->GetSpaceID(), NULL, &nearCallback);
+	f->GetCollisionSpace()->Collide(&hitCallback);
+	//dSpaceCollide(f->GetSpaceID(), NULL, &nearCallback);
 	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
 		CollideFrame(*i);
 	}
@@ -404,6 +449,7 @@ void Space::TimeStep(float step)
 {
 	ApplyGravity();
 
+	contact_num = 0;
 	CollideFrame(rootFrame);
 	dWorldQuickStep(world, step);
 	dJointGroupEmpty(_contactgroup);

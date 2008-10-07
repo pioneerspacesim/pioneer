@@ -952,8 +952,8 @@ void Planet::Render(const Frame *a_camFrame)
 
 void Planet::SetFrame(Frame *f)
 {
-	if (GetFrame()) GetFrame()->RemoveGeom(geom);
+	if (GetFrame()) GetFrame()->_RemoveGeom(geom);
 	Body::SetFrame(f);
-	if (f) f->AddGeom(geom);
+	if (f) f->_AddGeom(geom);
 }
 

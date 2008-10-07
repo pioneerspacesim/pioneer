@@ -7,11 +7,13 @@
 #include "WorldView.h"
 #include "ModelCollMeshData.h"
 #include "Serializer.h"
+#include "collider/collider.h"
 
 ModelBody::ModelBody(): Body()
 {
 	m_triMeshLastMatrixIndex = 0;
 	m_collMeshSet = 0;
+	m_geom = 0;
 }
 
 ModelBody::~ModelBody()
@@ -63,8 +65,11 @@ void ModelBody::GetAabb(Aabb &aabb)
 void ModelBody::SetModel(int sbreModel)
 {
 	assert(geoms.size() == 0);
+	assert(m_geom == 0);
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
 	
+	m_geom = new Geom(mset->m_geomTree);
+
 	geomColl.resize(mset->numMeshParts);
 	geoms.resize(mset->numMeshParts);
 
@@ -79,6 +84,10 @@ void ModelBody::SetModel(int sbreModel)
 
 void ModelBody::SetPosition(vector3d p)
 {
+	matrix4x4d m;
+	GetRotMatrix(m);
+	m_geom->MoveTo(m, p);
+
 	for (unsigned int i=0; i<geoms.size(); i++) {
 		dGeomSetPosition(geoms[i], p.x, p.y, p.z);
 	}
@@ -153,14 +162,16 @@ void ModelBody::SetFrame(Frame *f)
 {
 	if (GetFrame()) {
 		for (unsigned int i=0; i<geoms.size(); i++) {
-			GetFrame()->RemoveGeom(geoms[i]);
+			GetFrame()->_RemoveGeom(geoms[i]);
 		}
+		GetFrame()->RemoveGeom(m_geom);
 	}
 	Body::SetFrame(f);
 	if (f) {
 		for (unsigned int i=0; i<geoms.size(); i++) {
-			f->AddGeom(geoms[i]);
+			f->_AddGeom(geoms[i]);
 		}
+		f->AddGeom(m_geom);
 	}
 }
 	
@@ -174,6 +185,13 @@ void ModelBody::TriMeshUpdateLastPos()
 	t[4] = r[4]; t[5] = r[5]; t[6] = r[6]; t[7] = 0;
 	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = 0;
 	t[12] = pos.x; t[13] = pos.y; t[14] = pos.z; t[15] = 1;
+	
+	/* this is fucking crap */
+	matrix4x4d cunt;
+	memcpy(&cunt[0], t, 16*sizeof(double));
+	m_geom->MoveTo(cunt);
+	m_geom->SetUserData(dGeomGetBody(geoms[0]));
+
 	m_triMeshLastMatrixIndex = !m_triMeshLastMatrixIndex;
 	for (unsigned int i=0; i<geoms.size(); i++) {
 		dGeomTriMeshSetLastTransform(geoms[i], *(dMatrix4*)(m_triMeshTrans + 16*m_triMeshLastMatrixIndex));

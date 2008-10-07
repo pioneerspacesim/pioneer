@@ -1,6 +1,7 @@
 #include "Frame.h"
 #include "Space.h"
 #include "Serializer.h"
+#include "collider/collider.h"
 
 Frame::Frame()
 {
@@ -82,6 +83,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_angVel = vector3d(0.0);
 	m_orient = matrix4x4d::Identity();
 	m_dSpaceID = dHashSpaceCreate(0);
+	m_collisionSpace = new CollisionSpace();
 	if (m_parent) {
 		m_parent->m_children.push_back(this);
 	}
@@ -91,8 +93,12 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 Frame::~Frame()
 {
 	dSpaceDestroy(m_dSpaceID);
+	delete m_collisionSpace;
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) delete *i;
 }
+
+void Frame::AddGeom(Geom *g) { m_collisionSpace->AddGeom(g); }
+void Frame::RemoveGeom(Geom *g) { m_collisionSpace->RemoveGeom(g); }
 
 void Frame::ApplyLeavingTransform(matrix4x4d &m) const
 {
