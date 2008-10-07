@@ -12,6 +12,8 @@
 #define MAX_LEAF_PRIMS	2
 #define MAX_DEPTH	20
 #define MAX_SPLITPOS_RETRIES	32
+#define MIN_SPACE_CUTOFF	0.33
+#define EPSILON 0.00001
 
 #include <float.h>
 #include <stdio.h>
@@ -105,8 +107,8 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices): m_
 		m_aabb.max.x,
 		m_aabb.max.y,
 		m_aabb.max.z);
-	m_nodes = new BIHNode[numTris*2];
-	m_nodesAllocSize = numTris*2;
+	m_nodes = new BIHNode[numTris*4];
+	m_nodesAllocSize = numTris*4;
 	m_nodesAllocPos = 0;
 	m_triAllocPos = 0;
 
@@ -138,7 +140,79 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 
 	int s1count, s2count, splitAxis, attempt;
 	attempt = 0;
-	
+
+	Aabb realAabb;
+	realAabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
+	realAabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	// make actual objects aabb, to see if we can usefully cut off some empty space
+	for (int i=0; i<a_prims; i++) {
+		vector3d v0 = vector3d(&m_vertices[3*m_indices[prim_lump[i]->triIdx]]);
+		vector3d v1 = vector3d(&m_vertices[3*m_indices[prim_lump[i]->triIdx+1]]);
+		vector3d v2 = vector3d(&m_vertices[3*m_indices[prim_lump[i]->triIdx+2]]);
+		realAabb.Update(v0);
+		realAabb.Update(v1);
+		realAabb.Update(v2);
+	}
+/*	printf("Empty space: (%f,%f,%f), (%f,%f,%f)\n",
+		(realAabb.min-a_box.min).x, 
+		(realAabb.min-a_box.min).y, 
+		(realAabb.min-a_box.min).z, 
+		(a_box.max - realAabb.max).x,
+		(a_box.max - realAabb.max).y,
+		(a_box.max - realAabb.max).z);
+*/	{
+		vector3d boxSize = a_box.max - a_box.min;
+		vector3d lowSpace = realAabb.min - a_box.min;
+		vector3d highSpace = a_box.max - realAabb.max;
+		// pick best
+		float bestCost = 0;
+		int axis = -1;
+		int isTop = false;
+		for (int i=0; i<3; i++) {
+			float cost = (lowSpace[i]+EPSILON) / boxSize[i];
+			if (cost > bestCost) {
+				bestCost = cost;
+				axis = i;
+				isTop = false;
+			}
+			cost = (highSpace[i]+EPSILON) / boxSize[i];
+			if (cost > bestCost) {
+				bestCost = cost;
+				axis = i;
+				isTop = true;
+			}
+		}
+//		if (axis != -1) printf("Best is axis %d on %s (cost %f%%)\n", axis, (isTop ? "top" : "bottom"), bestCost*100);
+		// cut off whitespace
+		if ((bestCost > MIN_SPACE_CUTOFF) && (bestCost < 1.0f)) {
+			printf("slicing off %f%%\n", bestCost*100);
+			a_node->SetLeaf (false);
+			a_node->SetAxis (axis);
+
+			Aabb newAabb = a_box;
+			if (isTop) {
+				newAabb.max[axis] = realAabb.max[axis]+EPSILON;
+				a_node->SetSplitPos1 (realAabb.max[axis]);
+				a_node->SetSplitPos2 (newAabb.max[axis]);
+				
+				Aabb splitBox = newAabb;
+				left->SetList(prim_lump[0]);
+				BihTreeGhBuild(left, newAabb, splitBox, a_depth+1, a_prims);
+				right->SetLeaf(true);
+			} else {
+				newAabb.min[axis] = realAabb.min[axis] - EPSILON;
+				a_node->SetSplitPos1 (a_box.min[axis]);
+				a_node->SetSplitPos2 (newAabb.min[axis]);
+				
+				Aabb splitBox = newAabb;
+				right->SetList(prim_lump[0]);
+				BihTreeGhBuild(right, newAabb, splitBox, a_depth+1, a_prims);
+				left->SetLeaf(true);
+			}
+			return;
+		}
+	}
+
 	for (;;) {
 		splitAxis = 0;
 		vector3d splitBoxSize = a_splitBox.max - a_splitBox.min;
@@ -228,8 +302,9 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 		}
 		break;
 	}
-	//printf ("prims total %d, left %d, right %d\n", a_prims, s1count, s2count);
-	
+	// Traversal algo can't handle completely flat cells..
+	splitPos1 += EPSILON;
+	splitPos2 -= EPSILON;
 	
 	a_node->SetLeaf (false);
 	a_node->SetAxis (splitAxis);
@@ -382,7 +457,6 @@ pop_bstack:
 	}
 }
 
-#define EPSILON 0.00001f
 void GeomTree::RayTriIntersect(const vector3f &origin, const vector3f &dir, int triIdx, isect_t *isect)
 {
 	const vector3f a(&m_vertices[3*m_indices[triIdx]]);
