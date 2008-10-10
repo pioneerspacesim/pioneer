@@ -4,7 +4,7 @@
 
 CollisionSpace::CollisionSpace()
 {
-
+	sphere.radius = 0;
 }
 
 void CollisionSpace::AddGeom(Geom *geom)
@@ -16,6 +16,36 @@ void CollisionSpace::AddGeom(Geom *geom)
 void CollisionSpace::RemoveGeom(Geom *geom)
 {
 	m_geoms.remove(geom);
+}
+
+void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect)
+{
+	if (sphere.radius != 0) {
+		/* Collide with lovely sphere! */
+		const vector3d v = start - sphere.pos;
+		const double b = -vector3d::Dot (v, dir);
+		double det = (b * b) - vector3d::Dot (v, v) + (sphere.radius*sphere.radius);
+		if (det > 0) {
+			det = sqrt(det);
+			const double i1 = b - det;
+			const double i2 = b + det;
+			if (i2 > 0) {
+				/*if (i1 < 0) {
+					if (i2 < *dist) {
+						*dist = i2;
+						//retval = INPRIM;
+						retval = true;
+					}
+				}*/
+				if (i1 > 0) {
+					if (i1 < isect->dist) {
+						isect->dist = i1;
+						isect->triIdx = 0;
+					}
+				}
+			}
+		}
+	}
 }
 
 void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, isect_t *isect)
@@ -30,6 +60,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, isect_
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, isect);
 		}
 	}
+	CollideRaySphere(start, dir, isect);
 }
 
 void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
@@ -40,6 +71,12 @@ void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
 	bigAabb = a->GetGeomTree()->GetMaxAabb();
 	bigAabb.min += pos;
 	bigAabb.max += pos;
+
+
+	/* first test the fucker against the planet sphere thing */
+	if (sphere.radius != 0) {
+		a->CollideSphere(sphere, callback);
+	}
 
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
 		if ((*i) != a) {

@@ -337,7 +337,7 @@ static void dump_contact(const dContact *c)
 static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
 {
 	Body *pb1, *pb2;
-	int flags = c->g2->GetGeomTree()->GetTriFlag(c->triIdx);
+	int flags = c->geomFlag;
 //	printf("Collision flags %x (triIdx %d)\n", flags, c->triIdx);
 	// geom bodies point to their parents
 	if (o1->IsType(Object::GEOM)) {
@@ -381,8 +381,8 @@ static void hitCallback(CollisionContact *c)
 	contact.fdir1[1] = 0;
 	contact.fdir1[2] = 0;
 
-	Object *po1 = static_cast<Object*>(c->g1->GetUserData());
-	Object *po2 = static_cast<Object*>(c->g2->GetUserData());
+	Object *po1 = static_cast<Object*>(c->userData1);
+	Object *po2 = static_cast<Object*>(c->userData2);
 
 	if (!_OnCollision2(po1, po2, c)) return;
 	

@@ -27,6 +27,7 @@ public:
 	
 	const int m_numVertices;
 	const float *m_vertices;
+	static int stats_rayTriIntersections;
 private:
 	friend class BIHNode;
 	void RayTriIntersect(const vector3f &a_origin, const vector3f &a_dir, int triIdx, isect_t *isect);

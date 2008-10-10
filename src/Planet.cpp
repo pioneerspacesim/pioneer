@@ -952,8 +952,14 @@ void Planet::Render(const Frame *a_camFrame)
 
 void Planet::SetFrame(Frame *f)
 {
-	if (GetFrame()) GetFrame()->_RemoveGeom(geom);
+	if (GetFrame()) {
+		GetFrame()->_RemoveGeom(geom);
+		GetFrame()->SetPlanetGeom(0, 0);
+	}
 	Body::SetFrame(f);
-	if (f) f->_AddGeom(geom);
+	if (f) {
+		f->_AddGeom(geom);
+		GetFrame()->SetPlanetGeom(GetRadius(), this);
+	}
 }
 

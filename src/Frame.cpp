@@ -99,6 +99,10 @@ Frame::~Frame()
 
 void Frame::AddGeom(Geom *g) { m_collisionSpace->AddGeom(g); }
 void Frame::RemoveGeom(Geom *g) { m_collisionSpace->RemoveGeom(g); }
+void Frame::SetPlanetGeom(double radius, Body *obj)
+{
+	m_collisionSpace->SetSphere(vector3d(0,0,0), radius, static_cast<void*>(obj));
+}
 
 void Frame::ApplyLeavingTransform(matrix4x4d &m) const
 {

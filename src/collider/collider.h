@@ -13,7 +13,8 @@ struct CollisionContact {
 	vector3d normal;
 	double depth;
 	int triIdx;
-	Geom *g1, *g2;
+	void *userData1, *userData2;
+	int geomFlag;
 };
 
 #endif /* _COLLISION_H */

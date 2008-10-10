@@ -38,6 +38,7 @@ public:
 	void _RemoveGeom(dGeomID g) { dSpaceRemove(m_dSpaceID, g); }
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
+	void SetPlanetGeom(double radius, Body *);
 	dSpaceID GetSpaceID() const { return m_dSpaceID; }
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);

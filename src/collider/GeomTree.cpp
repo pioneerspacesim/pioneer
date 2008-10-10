@@ -9,10 +9,12 @@
  *   single ray traversal performance is comparable to kd-tree and way faster than bvh
  */
 
-#define MAX_LEAF_PRIMS	2
+#define MAX_LEAF_PRIMS	1
 #define MAX_DEPTH	20
 #define MAX_SPLITPOS_RETRIES	32
-#define MIN_SPACE_CUTOFF	0.33
+#define MIN_SPACE_CUTOFF	0.5
+//#define DO_SPACE_CUTOFF
+#define NODE_ALLOC_MULT		8
 #define EPSILON 0.00001
 
 #include <float.h>
@@ -26,6 +28,7 @@
 #define MAX(a,b) ((a)>(b) ? (a) : (b))
 
 class DisplayList;
+int GeomTree::stats_rayTriIntersections;
 
 struct tri_t {
 	int triIdx;
@@ -124,8 +127,8 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_maxAabb.max.x,
 		m_maxAabb.max.y,
 		m_maxAabb.max.z);
-	m_nodes = new BIHNode[numTris*4];
-	m_nodesAllocSize = numTris*4;
+	m_nodes = new BIHNode[numTris*NODE_ALLOC_MULT];
+	m_nodesAllocSize = numTris*NODE_ALLOC_MULT;
 	m_nodesAllocPos = 0;
 	m_triAllocPos = 0;
 
@@ -158,6 +161,7 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 	int s1count, s2count, splitAxis, attempt;
 	attempt = 0;
 
+#ifdef DO_SPACE_CUTOFF
 	Aabb realAabb;
 	realAabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	realAabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -228,6 +232,7 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 			return;
 		}
 	}
+#endif /* DO_SPACE_CUTOFF */
 
 	for (;;) {
 		splitAxis = 0;
@@ -475,6 +480,7 @@ pop_bstack:
 
 void GeomTree::RayTriIntersect(const vector3f &origin, const vector3f &dir, int triIdx, isect_t *isect)
 {
+	stats_rayTriIntersections++;
 	const vector3f a(&m_vertices[3*m_indices[triIdx]]);
 	const vector3f b(&m_vertices[3*m_indices[triIdx+1]]);
 	const vector3f c(&m_vertices[3*m_indices[triIdx+2]]);

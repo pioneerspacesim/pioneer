@@ -159,6 +159,7 @@ float wank[TEXSIZE][TEXSIZE];
 float aspectRatio = 1.0;
 float camera_zoom = 1.0;
 float distance = 100;
+extern int stat_rayTriIntersections;
 static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)
 {
 	memset(wank, 0, sizeof(float)*TEXSIZE*TEXSIZE);
@@ -178,6 +179,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	float ystep = 1.0f / TEXSIZE;
 	float xpos, ypos;
 	ypos = 0.0f;
+	GeomTree::stats_rayTriIntersections = 0;
 
 	Uint32 t = SDL_GetTicks();
 	for (int y=0; y<TEXSIZE; y++, ypos += ystep) {
@@ -198,7 +200,8 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 			}
 		}
 	}
-	printf("%.3f million rays/sec\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)));
+	printf("%.3f million rays/sec, %.2f tri isect tests per ray\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)),
+				GeomTree::stats_rayTriIntersections/(float)(TEXSIZE*TEXSIZE));
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_FLOAT, wank);
 
 	glDisable(GL_DEPTH_TEST);

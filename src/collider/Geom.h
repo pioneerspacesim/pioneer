@@ -7,6 +7,7 @@
 class GeomTree;
 class isect_t;
 class CollisionContact;
+class Sphere;
 
 class Geom {
 public:
@@ -22,6 +23,7 @@ public:
 	bool HasMoved() { return m_moved; }
 	GeomTree *GetGeomTree() { return m_geomtree; }
 	void Collide(Geom *b, void (*callback)(CollisionContact*));
+	void CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*));
 	void SetUserData(void *d) { m_data = d; }
 	void *GetUserData() { return m_data; }
 private:
