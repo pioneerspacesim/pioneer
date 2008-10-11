@@ -210,6 +210,7 @@ void Ship::Blastoff()
 
 void Ship::TestLanded()
 {
+	m_testLanded = false;
 	if (m_launchLockTimeout != 0) return;
 	if (m_wheelState != 1.0) return;
 	if (GetFrame()->m_astroBody) {
@@ -253,7 +254,6 @@ void Ship::TestLanded()
 				dBodyDisable(m_body);
 				ClearThrusterState();
 				m_flightState = LANDED;
-				m_testLanded = false;
 			}
 		}
 	}

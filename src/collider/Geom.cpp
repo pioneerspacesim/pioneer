@@ -42,6 +42,22 @@ vector3d Geom::GetPosition() const
 
 void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 {
+	/* if the geom is actually within the sphere, create a contact so
+	 * that we can't fall into spheres forever and ever */
+	vector3d v = GetPosition() - sphere.pos;
+	const double len = v.Length();
+	if (len < sphere.radius) {
+		CollisionContact c;
+		c.pos = GetPosition();
+		c.normal = (1.0/len)*v;
+		c.depth = sphere.radius - len;
+		c.triIdx = 0;
+		c.userData1 = this->m_data;
+		c.userData2 = sphere.userData;
+		c.geomFlag = 0;
+		(*callback)(&c);
+		return;
+	}
 	for (int i=0; i<m_geomtree->m_numVertices; i++) {
 		vector3d vtx(&m_geomtree->m_vertices[3*i]);
 		vector3d from = m_orient[!m_orientIdx] * vtx;
@@ -50,13 +66,8 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 		const double len = dir.Length();
 		dir *= 1.0f/len;
 
-		vector3d _from(from.x, from.y, from.z);
-		vector3d _dir(dir.x, dir.y, dir.z);
-
-		_dir.Normalize();
-
 		/* Collide with lovely sphere! */
-		const vector3d v = _from - sphere.pos;
+		const vector3d v = from - sphere.pos;
 		const double b = -vector3d::Dot (v, dir);
 		double det = (b * b) - vector3d::Dot (v, v) + (sphere.radius*sphere.radius);
 		if (det > 0) {
@@ -67,7 +78,7 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 				if (i1 > 0) {
 					if (i1 < len) {
 						CollisionContact c;
-						c.pos = _from + _dir*i1;
+						c.pos = from + dir*i1;
 						c.normal = vector3d::Normalize(v);
 						c.depth = len - i1;
 						c.triIdx = 0;
@@ -101,7 +112,6 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 		isect_t isect;
 		isect.dist = len;
 		isect.triIdx = -1;
-		_dir.Normalize();
 		b->m_geomtree->TraceRay(_from, _dir, &isect);
 		if (isect.triIdx != -1) {
 			CollisionContact c;
