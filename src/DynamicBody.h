@@ -15,6 +15,7 @@ public:
 	virtual void SetRotMatrix(const matrix4x4d &r);
 	virtual void GetRotMatrix(matrix4x4d &m);
 	virtual void SetVelocity(vector3d v);
+	virtual void SetPosition(vector3d p);
 	virtual vector3d GetVelocity();
 	vector3d GetAngVelocity();
 	void SetAngVelocity(vector3d v);
@@ -25,6 +26,7 @@ public:
 	virtual void Disable();
 	virtual void Enable();
 	virtual double GetMass() const { return m_mass.mass; }
+	virtual void TimeStepUpdate(const float timeStep);
 	
 	dBodyID m_body;
 	dMass m_mass;

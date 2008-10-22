@@ -53,7 +53,6 @@ void SpaceStation::GetDockingSurface(CollMeshSet *mset, int midx)
 	
 	assert(m_numPorts <= MAX_DOCKING_PORTS);
 	assert((minfo->flags & 0xf) < MAX_DOCKING_PORTS);
-	assert(minfo->flags & 0x10);
 	assert(minfo->numTris);
 	
 	dport->center = vector3d(0.0);
@@ -98,11 +97,8 @@ void SpaceStation::Init()
 	SetModel(sbreModel);
 
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
-	for (unsigned int i=0; i<geomColl.size(); i++) {
-		if (geomColl[i].flags & 0x10) {
-			// docking surface
-			GetDockingSurface(mset, i);
-		}
+	for (int i=0; i<mset->numMeshParts; i++) {
+		if (mset->meshInfo[i].flags & 0x10) GetDockingSurface(mset, i);
 	}
 }
 

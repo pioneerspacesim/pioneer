@@ -15,6 +15,13 @@ Geom::Geom(GeomTree *geomtree)
 	m_data = 0;
 }
 
+matrix4x4d Geom::GetRotation() const
+{
+	matrix4x4d m = GetTransform();
+	m[12] = 0; m[13] = 0; m[14] = 0;
+	return m;
+}
+
 void Geom::MoveTo(const matrix4x4d &m)
 {
 	m_orientIdx = !m_orientIdx;

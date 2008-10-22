@@ -29,7 +29,7 @@ public:
 	virtual void Enable();
 	void GetAabb(Aabb &aabb);
 	
-	void TriMeshUpdateLastPos();
+	void TriMeshUpdateLastPos(matrix4x4d currentTransform);
 	void SetModel(int sbreModel);
 
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
@@ -42,13 +42,9 @@ public:
 protected:
 	virtual void Save();
 	virtual void Load();
-	std::vector<GeomBit> geomColl;
 private:
 	CollMeshSet *m_collMeshSet;
-	std::vector<dGeomID> geoms;
 	Geom *m_geom;
-	dReal m_triMeshTrans[32];
-	int m_triMeshLastMatrixIndex;
 };
 
 #endif /* _MODELBODY_H */

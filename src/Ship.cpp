@@ -261,9 +261,9 @@ void Ship::TestLanded()
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
+	DynamicBody::TimeStepUpdate(timeStep);
+
 	m_dockingTimer = (m_dockingTimer-timeStep > 0 ? m_dockingTimer-timeStep : 0);
-	// ode tri mesh turd likes to know our old position
-	TriMeshUpdateLastPos();
 
 	m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;

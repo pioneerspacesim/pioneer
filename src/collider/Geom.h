@@ -14,8 +14,9 @@ public:
 	Geom(GeomTree *);
 	void MoveTo(const matrix4x4d &m);
 	void MoveTo(const matrix4x4d &m, const vector3d pos);
-	const matrix4x4d &GetInvTransform() { return m_invOrient; }
-	const matrix4x4d &GetTransform() { return m_orient[m_orientIdx]; }
+	const matrix4x4d &GetInvTransform() const { return m_invOrient; }
+	const matrix4x4d &GetTransform() const { return m_orient[m_orientIdx]; }
+	matrix4x4d GetRotation() const;
 	vector3d GetPosition() const;
 	void Enable() { m_active = true; }
 	void Disable() { m_active = false; }

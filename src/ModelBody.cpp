@@ -11,7 +11,6 @@
 
 ModelBody::ModelBody(): Body()
 {
-	m_triMeshLastMatrixIndex = 0;
 	m_collMeshSet = 0;
 	m_geom = 0;
 }
@@ -19,9 +18,7 @@ ModelBody::ModelBody(): Body()
 ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomDestroy(geoms[i]);
-	}
+	delete m_geom;
 }
 
 void ModelBody::Save()
@@ -38,23 +35,16 @@ void ModelBody::Load()
 
 void ModelBody::Disable()
 {
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomDisable(geoms[i]);
-	}
+	m_geom->Disable();
 }
 
 void ModelBody::Enable()
 {
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomEnable(geoms[i]);
-	}
+	m_geom->Enable();
 }
 
 void ModelBody::GeomsSetBody(dBodyID body)
 {
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomSetBody(geoms[i], body);
-	}
 }
 
 void ModelBody::GetAabb(Aabb &aabb)
@@ -64,22 +54,12 @@ void ModelBody::GetAabb(Aabb &aabb)
 
 void ModelBody::SetModel(int sbreModel)
 {
-	assert(geoms.size() == 0);
 	assert(m_geom == 0);
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
 	
 	m_geom = new Geom(mset->m_geomTree);
 	m_geom->SetUserData((void*)this);
 
-	geomColl.resize(mset->numMeshParts);
-	geoms.resize(mset->numMeshParts);
-
-	for (int i=0; i<mset->numMeshParts; i++) {
-		geoms[i] = dCreateTriMesh(0, mset->meshParts[i], NULL, NULL, NULL);
-		geomColl[i].parent = this;
-		geomColl[i].flags = mset->meshInfo[i].flags;
-		dGeomSetData(geoms[i], static_cast<Object*>(&geomColl[i]));
-	}
 	m_collMeshSet = mset;
 }
 
@@ -89,52 +69,22 @@ void ModelBody::SetPosition(vector3d p)
 	GetRotMatrix(m);
 	m_geom->MoveTo(m, p);
 	m_geom->MoveTo(m, p);
-
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomSetPosition(geoms[i], p.x, p.y, p.z);
-	}
 }
 
 vector3d ModelBody::GetPosition() const
 {
-	const dReal *pos = dGeomGetPosition(geoms[0]);
-	return vector3d(pos[0], pos[1], pos[2]);
+	return m_geom->GetPosition();
 }
 
 double ModelBody::GetRadius() const
 {
-	// Calculate single AABB containing all geoms.
-	dReal aabbAll[6] = {
-		std::numeric_limits<double>::max(),
-		std::numeric_limits<double>::min(),
-		std::numeric_limits<double>::max(),
-		std::numeric_limits<double>::min(),
-		std::numeric_limits<double>::max(),
-		std::numeric_limits<double>::min()
-	};
-
-	for(size_t i = 0; i < geoms.size(); ++i) {
-		dReal aabbGeom[6];
-		dGeomGetAABB(geoms[i], aabbGeom);
-		aabbAll[0] = std::min(aabbAll[0], aabbGeom[0]);
-		aabbAll[1] = std::max(aabbAll[1], aabbGeom[1]);
-		aabbAll[2] = std::min(aabbAll[2], aabbGeom[2]);
-		aabbAll[3] = std::max(aabbAll[3], aabbGeom[3]);
-		aabbAll[4] = std::min(aabbAll[4], aabbGeom[4]);
-		aabbAll[5] = std::max(aabbAll[5], aabbGeom[5]);
-	}
-
+	Aabb aabb = m_geom->GetGeomTree()->GetAabb();
 	// Return size of largest dimension.
-	return std::max(aabbAll[1] - aabbAll[0], std::max(aabbAll[3] - aabbAll[2], aabbAll[5] - aabbAll[4]));
+	return std::max(aabb.max.x - aabb.min.x, std::max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
 }
 
 void ModelBody::SetRotMatrix(const matrix4x4d &r)
 {
-	dMatrix3 _m;
-	r.SaveToOdeMatrix(_m);
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomSetRotation(geoms[i], _m);
-	}
 	vector3d pos = m_geom->GetPosition();
 	m_geom->MoveTo(r, pos);
 	m_geom->MoveTo(r, pos);
@@ -142,64 +92,32 @@ void ModelBody::SetRotMatrix(const matrix4x4d &r)
 
 void ModelBody::GetRotMatrix(matrix4x4d &m) const
 {
-	m.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
+	m = m_geom->GetRotation();
 }
 
 void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
-	const vector3d pos = GetPosition();
-	const dReal *r = dGeomGetRotation(geoms[0]);
-	matrix4x4d m, m2;
-	
+	matrix4x4d m = m_geom->GetTransform();
+	matrix4x4d m2;
 	Frame::GetFrameTransform(GetFrame(), camFrame, m2);
-	
-	m[ 0] = r[ 0];m[ 1] = r[ 4];m[ 2] = r[ 8];m[ 3] = 0;
-	m[ 4] = r[ 1];m[ 5] = r[ 5];m[ 6] = r[ 9];m[ 7] = 0;
-	m[ 8] = r[ 2];m[ 9] = r[ 6];m[10] = r[10];m[11] = 0;
-	m[12] = pos.x; m[13] = pos.y; m[14] = pos.z; m[15] = 1;
-	
 	m = m2 * m;
 	glMultMatrixd(&m[0]);
-	
 }
 
 void ModelBody::SetFrame(Frame *f)
 {
 	if (GetFrame()) {
-		for (unsigned int i=0; i<geoms.size(); i++) {
-			GetFrame()->_RemoveGeom(geoms[i]);
-		}
 		GetFrame()->RemoveGeom(m_geom);
 	}
 	Body::SetFrame(f);
 	if (f) {
-		for (unsigned int i=0; i<geoms.size(); i++) {
-			f->_AddGeom(geoms[i]);
-		}
 		f->AddGeom(m_geom);
 	}
 }
 	
-void ModelBody::TriMeshUpdateLastPos()
+void ModelBody::TriMeshUpdateLastPos(matrix4x4d currentTransform)
 {
-	// ode tri mesh turd likes to know our old position
-	const dReal *r = dGeomGetRotation(geoms[0]);
-	vector3d pos = GetPosition();
-	dReal *t = m_triMeshTrans + 16*m_triMeshLastMatrixIndex;
-	t[0] = r[0]; t[1] = r[1]; t[2] = r[2]; t[3] = 0;
-	t[4] = r[4]; t[5] = r[5]; t[6] = r[6]; t[7] = 0;
-	t[8] = r[8]; t[9] = r[9]; t[10] = r[10]; t[11] = 0;
-	t[12] = pos.x; t[13] = pos.y; t[14] = pos.z; t[15] = 1;
-	
-	/* this is fucking crap */
-	matrix4x4d cunt;
-	memcpy(&cunt[0], t, 16*sizeof(double));
-	m_geom->MoveTo(cunt);
-
-	m_triMeshLastMatrixIndex = !m_triMeshLastMatrixIndex;
-	for (unsigned int i=0; i<geoms.size(); i++) {
-		dGeomTriMeshSetLastTransform(geoms[i], *(dMatrix4*)(m_triMeshTrans + 16*m_triMeshLastMatrixIndex));
-	}
+	m_geom->MoveTo(currentTransform);
 }
 
 void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)
@@ -231,7 +149,7 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 	pos = frameTrans * pos;
 	Vector p; p.x = pos.x; p.y = pos.y; p.z = -pos.z;
 	matrix4x4d rot;
-	rot.LoadFromOdeMatrix(dGeomGetRotation(geoms[0]));
+	GetRotMatrix(rot);
 	frameTrans.ClearToRotOnly();
 	rot = frameTrans * rot;
 	Matrix m;

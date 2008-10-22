@@ -30,6 +30,24 @@ void DynamicBody::Load()
 	SetVelocity(rd_vector3d());
 }
 
+void DynamicBody::SetPosition(vector3d p)
+{
+	dBodySetPosition(m_body, p.x, p.y, p.z);
+	ModelBody::SetPosition(p);
+}
+
+void DynamicBody::TimeStepUpdate(const float timeStep)
+{
+	matrix4x4d t;
+	GetRotMatrix(t);
+	const dReal *v = dBodyGetPosition(m_body);
+	t[12] = v[0];
+	t[13] = v[1];
+	t[14] = v[2];
+	
+	TriMeshUpdateLastPos(t);
+}
+
 void DynamicBody::Enable()
 {
 	ModelBody::Enable();
