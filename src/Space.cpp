@@ -297,13 +297,8 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 			DynamicBody *rb = (DynamicBody*)o1;
 			dVector3 start,dir;
 			dGeomRayGet(g2, start, dir);
-			dBodyAddForceAtPos(rb->m_body,
-				100*dir[0],
-				100*dir[1],
-				100*dir[2],
-				contacts[0].geom.pos[0],
-				contacts[0].geom.pos[1],
-				contacts[0].geom.pos[2]);
+			rb->AddForceAtPos(vector3d(dir[0], dir[1], dir[2])*100, 
+				vector3d(contacts[0].geom.pos[0], contacts[0].geom.pos[1], contacts[0].geom.pos[2]));
 		}
 
 		return false;
@@ -471,7 +466,7 @@ void Space::ApplyGravity()
 		const double force = G*m1m2 / (r*r);
 		b1b2.Normalize();
 		b1b2 = b1b2 * force;
-		dBodyAddForce(Pi::player->m_body, b1b2.x, b1b2.y, b1b2.z);
+		Pi::player->AddForce(b1b2);
 	}
 
 }

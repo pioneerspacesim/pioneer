@@ -14,6 +14,32 @@ DynamicBody::DynamicBody(): ModelBody()
 	dBodySetMass(m_body, &m_mass);
 }
 
+void DynamicBody::SetForce(const vector3d f)
+{
+	dBodySetForce(m_body, f.x, f.y, f.z);
+}
+
+void DynamicBody::AddForce(const vector3d f)
+{
+	dBodyAddForce(m_body, f.x, f.y, f.z);
+}
+
+void DynamicBody::AddForceAtPos(const vector3d force, const vector3d pos)
+{
+	dBodyAddForceAtPos(m_body, force.x, force.y, force.z,
+			pos.x, pos.y, pos.z);
+}
+
+void DynamicBody::AddRelForce(const vector3d f)
+{
+	dBodyAddRelForce(m_body, f.x, f.y, f.z);
+}
+
+void DynamicBody::AddRelTorque(const vector3d t)
+{
+	dBodyAddRelTorque(m_body, t.x, t.y, t.z);
+}
+
 void DynamicBody::Save()
 {
 	using namespace Serializer::Write;
@@ -28,6 +54,17 @@ void DynamicBody::Load()
 	ModelBody::Load();
 	SetAngVelocity(rd_vector3d());
 	SetVelocity(rd_vector3d());
+}
+
+void DynamicBody::SetTorque(const vector3d t)
+{
+	dBodySetTorque(m_body, t.x, t.y, t.z);
+}
+
+void DynamicBody::SetMass(double mass)
+{
+	dMassAdjust(&m_mass, mass);
+	dBodySetMass(m_body, &m_mass);
 }
 
 void DynamicBody::SetPosition(vector3d p)

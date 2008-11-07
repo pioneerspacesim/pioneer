@@ -185,8 +185,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 		if (b->IsType(Object::SHIP)) {
 			Ship *s = static_cast<Ship*>(b);
 		
-			const dReal *vel = dBodyGetLinearVel(s->m_body);
-			double speed = vector3d(vel[0], vel[1], vel[2]).Length();
+			double speed = s->GetVelocity().Length();
 			
 			// must be oriented sensibly and have wheels down
 			if (IsGroundStation()) {

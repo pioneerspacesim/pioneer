@@ -117,8 +117,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 void Ship::UpdateMass()
 {
 	CalcStats();
-	dMassAdjust(&m_mass, m_stats.total_mass*1000);
-	dBodySetMass(m_body, &m_mass);
+	SetMass(m_stats.total_mass*1000);
 }
 
 bool Ship::OnCollision(Body *b, Uint32 flags)
@@ -146,8 +145,7 @@ bool Ship::OnCollision(Body *b, Uint32 flags)
 vector3d Ship::CalcRotDamping()
 {
 	// rotation damping.
-	const dReal *_av = dBodyGetAngularVel(m_body);
-	vector3d angVel(_av[0], _av[1], _av[2]);
+	vector3d angVel = GetAngVelocity();
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 	angVel = rot.InverseOf() * angVel;
@@ -208,10 +206,13 @@ void Ship::Blastoff()
 	Enable();
 	const double planetRadius = 0.1 + GetFrame()->m_astroBody->GetRadius();
 	vector3d up = vector3d::Normalize(GetPosition());
-	dBodySetLinearVel(m_body, 0, 0, 0);
-	dBodySetAngularVel(m_body, 0, 0, 0);
-	dBodySetForce(m_body, 0, 0, 0);
-	dBodySetTorque(m_body, 0, 0, 0);
+	SetVelocity(vector3d(0,0,0));
+	SetAngVelocity(vector3d(0,0,0));
+	
+	SetVelocity(vector3d(0, 0, 0));
+	SetAngVelocity(vector3d(0, 0, 0));
+	SetForce(vector3d(0, 0, 0));
+	SetTorque(vector3d(0, 0, 0));
 	
 	Aabb aabb;
 	GetAabb(aabb);
@@ -226,8 +227,7 @@ void Ship::TestLanded()
 	if (m_launchLockTimeout != 0) return;
 	if (m_wheelState != 1.0) return;
 	if (GetFrame()->m_astroBody) {
-		const dReal *vel = dBodyGetLinearVel(m_body);
-		double speed = vector3d(vel[0], vel[1], vel[2]).Length();
+		double speed = GetVelocity().Length();
 		const double planetRadius = GetFrame()->m_astroBody->GetRadius();
 
 		if (speed < MAX_LANDING_SPEED) {
@@ -258,12 +258,12 @@ void Ship::TestLanded()
 				rot = rot.InverseOf();
 				SetRotMatrix(rot);
 
-				dBodySetLinearVel(m_body, 0, 0, 0);
-				dBodySetAngularVel(m_body, 0, 0, 0);
-				dBodySetForce(m_body, 0, 0, 0);
-				dBodySetTorque(m_body, 0, 0, 0);
+				SetVelocity(vector3d(0, 0, 0));
+				SetAngVelocity(vector3d(0, 0, 0));
+				SetForce(vector3d(0, 0, 0));
+				SetTorque(vector3d(0, 0, 0));
 				// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
-				dBodyDisable(m_body);
+				DisableBodyOnly();
 				ClearThrusterState();
 				m_flightState = LANDED;
 			}
@@ -291,18 +291,18 @@ void Ship::TimeStepUpdate(const float timeStep)
 		switch (i) {
 		case ShipType::THRUSTER_REAR: 
 		case ShipType::THRUSTER_FRONT:
-			dBodyAddRelForce(m_body, 0, 0, force); break;
+			AddRelForce(vector3d(0, 0, force)); break;
 		case ShipType::THRUSTER_TOP:
 		case ShipType::THRUSTER_BOTTOM:
-			dBodyAddRelForce(m_body, 0, force, 0); break;
+			AddRelForce(vector3d(0, force, 0)); break;
 		case ShipType::THRUSTER_LEFT:
 		case ShipType::THRUSTER_RIGHT:
-			dBodyAddRelForce(m_body, force, 0, 0); break;
+			AddRelForce(vector3d(force, 0, 0)); break;
 		}
 	}
-	dBodyAddRelTorque(m_body, stype.angThrust*m_angThrusters[0],
+	AddRelTorque(vector3d(stype.angThrust*m_angThrusters[0],
 				  stype.angThrust*m_angThrusters[1],
-				  stype.angThrust*m_angThrusters[2]);
+				  stype.angThrust*m_angThrusters[2]));
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		// free old temp laser geoms
@@ -441,7 +441,7 @@ static void render_coll_mesh(const CollMesh *m)
 
 void Ship::Render(const Frame *camFrame)
 {
-	if ((!dBodyIsEnabled(m_body)) && !m_flightState) return;
+	if ((!IsEnabled()) && !m_flightState) return;
 	const ShipType &stype = GetShipType();
 	params.angthrust[0] = m_angThrusters[0];
 	params.angthrust[1] = m_angThrusters[1];

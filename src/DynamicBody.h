@@ -22,17 +22,28 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	vector3d GetAngularMomentum();
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
+	void DisableBodyOnly() { dBodyDisable(m_body); }
+	bool IsEnabled() { return dBodyIsEnabled(m_body); }
 	virtual void Disable();
 	virtual void Enable();
 	virtual double GetMass() const { return m_mass.mass; }
 	virtual void TimeStepUpdate(const float timeStep);
 	
+	void SetMass(double);
+	void AddForceAtPos(const vector3d force, const vector3d pos);
+	void AddForce(const vector3d);
+	void SetForce(const vector3d);
+	void SetTorque(const vector3d);
+	// body-relative forces
+	void AddRelForce(const vector3d);
+	void AddRelTorque(const vector3d);
+
 	dBodyID m_body;
-	dMass m_mass;
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
+	dMass m_mass;
 };
 
 #endif /* _DYNAMICBODY_H */

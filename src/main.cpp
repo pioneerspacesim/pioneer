@@ -137,7 +137,7 @@ void Pi::SetTimeAccel(float s)
 	// don't want player to spin like mad when hitting time accel
 	if (s > 10) {
 		player->SetAngVelocity(vector3d(0,0,0));
-		dBodySetTorque(player->m_body, 0, 0, 0);
+		player->SetTorque(vector3d(0,0,0));
 		player->SetAngThrusterState(0, 0.0f);
 		player->SetAngThrusterState(1, 0.0f);
 		player->SetAngThrusterState(2, 0.0f);
