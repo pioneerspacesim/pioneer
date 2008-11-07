@@ -25,16 +25,16 @@ void InfoView::UpdateInfo()
 	Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
 	nfo += std::string("\n\nDrive system:      ")+EquipType::types[e].name;
 
-	shipstats_t stats;
-	Pi::player->CalcStats(&stats);
+	const shipstats_t *stats;
+	stats = Pi::player->CalcStats();
 	snprintf(buf, sizeof(buf), "\n\nCapacity:          %dt\n"
 				       "Free:              %dt\n"
 			               "Used:              %dt\n"
-				       "All-up weight:     %dt", stats.max_capacity,
-			stats.free_capacity, stats.used_capacity, stats.total_mass);
+				       "All-up weight:     %dt", stats->max_capacity,
+			stats->free_capacity, stats->used_capacity, stats->total_mass);
 	nfo += std::string(buf);
 
-	snprintf(buf, sizeof(buf), "\n\nHyperspace range:  %.2f light years", stats.hyperspace_range);
+	snprintf(buf, sizeof(buf), "\n\nHyperspace range:  %.2f light years", stats->hyperspace_range);
 	nfo += std::string(buf);
 
 	info1->SetText(nfo);

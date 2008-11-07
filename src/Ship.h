@@ -33,7 +33,7 @@ public:
 	void ClearThrusterState();
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType();
-	void CalcStats(shipstats_t *stats);
+	const shipstats_t *CalcStats();
 	void UpdateMass();
 	vector3d CalcRotDamping();
 	bool SetWheelState(bool down); // returns success of state change, NOT state itself
@@ -84,6 +84,7 @@ private:
 	LaserObj m_laserCollisionObj;
 	Body* m_navTarget;
 	Body* m_combatTarget;
+	shipstats_t m_stats;
 };
 
 #endif /* _SHIP_H */

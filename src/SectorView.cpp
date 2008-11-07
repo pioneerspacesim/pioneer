@@ -173,13 +173,13 @@ void SectorView::DrawSector(int sx, int sy)
 		glCallList(m_gluDiskDlist);
 		// player location indicator
 		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
-			shipstats_t stats;
-			Pi::player->CalcStats(&stats);
+			const shipstats_t *stats;
+			stats = Pi::player->CalcStats();
 			glColor3f(0,0,1);
 			glBegin(GL_LINE_LOOP);
 			// draw a lovely circle around our beloved player
 			for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
-				glVertex3f(stats.hyperspace_range*sin(theta), stats.hyperspace_range*cos(theta), 0);
+				glVertex3f(stats->hyperspace_range*sin(theta), stats->hyperspace_range*cos(theta), 0);
 			}
 			glEnd();
 

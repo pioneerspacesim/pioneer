@@ -5,7 +5,6 @@
 #include "ModelBody.h"
 #include "vector3.h"
 #include "matrix4x4.h"
-class ObjMesh;
 
 class DynamicBody: public ModelBody {
 public:
@@ -34,7 +33,6 @@ protected:
 	virtual void Save();
 	virtual void Load();
 private:
-	ObjMesh *m_mesh;
 };
 
 #endif /* _DYNAMICBODY_H */

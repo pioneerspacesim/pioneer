@@ -116,9 +116,8 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 
 void Ship::UpdateMass()
 {
-	shipstats_t s;
-	CalcStats(&s);
-	dMassAdjust(&m_mass, s.total_mass*1000);
+	CalcStats();
+	dMassAdjust(&m_mass, m_stats.total_mass*1000);
 	dBodySetMass(m_body, &m_mass);
 }
 
@@ -128,6 +127,18 @@ bool Ship::OnCollision(Body *b, Uint32 flags)
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;
 		else m_testLanded = true;
+	}
+	if (b->IsType(Object::MODELBODY)) {
+		vector3d relVel;
+		if (b->IsType(Object::DYNAMICBODY)) {
+			relVel = static_cast<DynamicBody*>(b)->GetVelocity() - GetVelocity();
+		} else {
+			relVel = GetVelocity();
+		}
+		// crappy recalculation of all this...
+		float v = relVel.Length();
+		float kineticEnergy = m_stats.total_mass * v * v;
+		printf("%f ek\n", kineticEnergy);
 	}
 	return true;
 }
@@ -163,24 +174,25 @@ void Ship::ClearThrusterState()
 // hyperspace range is:
 // (200 * hyperspace_class^2) / total mass (in tonnes)
 
-void Ship::CalcStats(shipstats_t *stats)
+const shipstats_t *Ship::CalcStats()
 {
 	const ShipType &stype = GetShipType();
-	stats->max_capacity = stype.capacity;
-	stats->used_capacity = 0;
+	m_stats.max_capacity = stype.capacity;
+	m_stats.used_capacity = 0;
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
 			Equip::Type t = m_equipment.Get((Equip::Slot)i, j);
-			if (t) stats->used_capacity += EquipType::types[t].mass;
+			if (t) m_stats.used_capacity += EquipType::types[t].mass;
 		}
 	}
-	stats->free_capacity = stats->max_capacity - stats->used_capacity;
-	stats->total_mass = stats->used_capacity + stype.hullMass;
+	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
+	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	float hyperclass = EquipType::types[t].pval;
-	stats->hyperspace_range = 200 * hyperclass * hyperclass / stats->total_mass;
+	m_stats.hyperspace_range = 200 * hyperclass * hyperclass / m_stats.total_mass;
+	return &m_stats;
 }
 
 void Ship::Blastoff()

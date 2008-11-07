@@ -214,7 +214,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	glPushMatrix();
 	glLoadIdentity();
 	
-	glActiveTextureARB(GL_TEXTURE0_ARB);
+	//glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 	glBindTexture(GL_TEXTURE_2D, mytexture);

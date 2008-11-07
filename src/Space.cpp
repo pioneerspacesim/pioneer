@@ -353,11 +353,12 @@ static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
 	return true;
 }
 
-#define MAX_CONTACTS	10
+#define MAX_CONTACTS	1
 static int contact_num;
 static void hitCallback(CollisionContact *c)
 {
 	if (contact_num++ >= MAX_CONTACTS) return;
+	printf("OUCH! %x\n", SDL_GetTicks());
 	dContact contact;
 
 	contact.surface.mode = dContactBounce;
