@@ -174,17 +174,20 @@ void Pi::HandleEvents()
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {
 					/* add test object */
-					/*Ship *body = new Ship(ShipType::LADYBIRD);
-					body->SetLabel("A friend");
-					body->SetFrame(Pi::player->GetFrame());
-					body->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-1000));
-					Space::AddBody(body);
-					*/SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-					station->SetLabel("Poemi-chan's Folly");
-					station->SetFrame(Pi::player->GetFrame());
-					station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
-					station->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-5000));
-					Space::AddBody(station);
+					if (KeyState(SDLK_LSHIFT)) {
+						SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
+						station->SetLabel("Poemi-chan's Folly");
+						station->SetFrame(Pi::player->GetFrame());
+						station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
+						station->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-5000));
+						Space::AddBody(station);
+					} else {
+						Ship *body = new Ship(ShipType::LADYBIRD);
+						body->SetLabel("A friend");
+						body->SetFrame(Pi::player->GetFrame());
+						body->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-1000));
+						Space::AddBody(body);
+					}
 				}
 #endif /* DEBUG */
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);

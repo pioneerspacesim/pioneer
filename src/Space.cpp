@@ -339,7 +339,7 @@ static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
 
 static void hitCallback(CollisionContact *c)
 {
-	printf("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
+	//printf("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
 
 	Object *po1 = static_cast<Object*>(c->userData1);
 	Object *po2 = static_cast<Object*>(c->userData2);
@@ -352,17 +352,37 @@ static void hitCallback(CollisionContact *c)
 	assert(po1_isDynBody || po2_isDynBody);
 
 	if (po1_isDynBody && po2_isDynBody) {
+		DynamicBody *b1 = static_cast<DynamicBody*>(po1);
+		DynamicBody *b2 = static_cast<DynamicBody*>(po2);
+		vector3d vel1 = b1->GetVelocity();
+		vector3d vel2 = b2->GetVelocity();
+		const vector3d relVel = vel2 - vel1;
+		const double invMass1 = 1.0 / b1->GetMass();
+		const double invMass2 = 1.0 / b2->GetMass();
 
+		const double coeff_rest = 0.8;
+		const double j = (-(1+coeff_rest) * (vector3d::Dot(relVel, c->normal))) /
+		    ( vector3d::Dot(c->normal, c->normal) *
+		    ( invMass1 + invMass2 ) );
+		
+		// step back
+		b1->TimeStepUpdate(-Pi::GetTimeStep());
+		b2->TimeStepUpdate(-Pi::GetTimeStep());
+		// apply impulse
+		b1->SetVelocity(vel1 - (j*c->normal)*invMass1);
+		b2->SetVelocity(vel2 + (j*c->normal)*invMass2);
 	} else {
 		// one body is static
 		vector3d hitNormal;
-		if (po2_isDynBody) hitNormal = -c->normal;
-		else hitNormal = c->normal;
-		printf("Hi! %f,%f,%f\n", hitNormal.x, hitNormal.y, hitNormal.z);
-
 		DynamicBody *mover;
-		if (po1_isDynBody) mover = static_cast<DynamicBody*>(po1);
-		else mover = static_cast<DynamicBody*>(po2);
+		
+		if (po1_isDynBody) {
+			mover = static_cast<DynamicBody*>(po1);
+			hitNormal = c->normal;
+		} else {
+			mover = static_cast<DynamicBody*>(po2);
+			hitNormal = -c->normal;
+		}
 
 		const vector3d vel = mover->GetVelocity();
 		vector3d reflect = vel - (hitNormal * vector3d::Dot(vel, hitNormal) * 2.0f);
