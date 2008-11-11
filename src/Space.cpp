@@ -354,6 +354,8 @@ static void hitCallback(CollisionContact *c)
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody*>(po1);
 		DynamicBody *b2 = static_cast<DynamicBody*>(po2);
+		vector3d hitPos1 = c->pos - b1->GetPosition();
+		vector3d hitPos2 = c->pos - b2->GetPosition();
 		vector3d vel1 = b1->GetVelocity();
 		vector3d vel2 = b2->GetVelocity();
 		const vector3d relVel = vel2 - vel1;
@@ -362,15 +364,18 @@ static void hitCallback(CollisionContact *c)
 
 		const double coeff_rest = 0.8;
 		const double j = (-(1+coeff_rest) * (vector3d::Dot(relVel, c->normal))) /
-		    ( vector3d::Dot(c->normal, c->normal) *
-		    ( invMass1 + invMass2 ) );
-		
+			( (invMass1 + invMass2) +
+			( vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal) * (1.0/b1->GetAngularInertia()), hitPos1) )) +
+			( vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos2, c->normal) * (1.0/b2->GetAngularInertia()), hitPos2) ))
+			);
 		// step back
-		b1->TimeStepUpdate(-Pi::GetTimeStep());
-		b2->TimeStepUpdate(-Pi::GetTimeStep());
+	//	b1->UndoTimestep();
+	//	b2->UndoTimestep();
 		// apply impulse
 		b1->SetVelocity(vel1 - (j*c->normal)*invMass1);
 		b2->SetVelocity(vel2 + (j*c->normal)*invMass2);
+		b1->SetAngVelocity(b1->GetAngVelocity() - vector3d::Cross(hitPos1, (j*c->normal))*(1.0/b1->GetAngularInertia()));
+		b2->SetAngVelocity(b2->GetAngVelocity() + vector3d::Cross(hitPos2, (j*c->normal))*(1.0/b2->GetAngularInertia()));
 	} else {
 		// one body is static
 		vector3d hitNormal;
@@ -390,7 +395,7 @@ static void hitCallback(CollisionContact *c)
 		reflect = reflect * 0.5;
 
 		// step back
-		mover->TimeStepUpdate(-Pi::GetTimeStep());
+		mover->UndoTimestep();
 		// and set altered velocity
 		mover->SetVelocity(reflect);
 	}

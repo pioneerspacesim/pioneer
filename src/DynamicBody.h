@@ -22,6 +22,7 @@ public:
 	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	vector3d GetAngularMomentum();
+	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
 	void DisableBodyOnly() { m_enabled = false; }
 	bool IsEnabled() { return m_enabled; }
@@ -29,10 +30,12 @@ public:
 	virtual void Enable();
 	virtual double GetMass() const { return m_mass; }
 	virtual void TimeStepUpdate(const float timeStep);
+	void UndoTimestep();
 	
 	void SetMass(double);
 	void AddForceAtPos(const vector3d force, const vector3d pos);
 	void AddForce(const vector3d);
+	void AddTorque(const vector3d);
 	void SetForce(const vector3d);
 	void SetTorque(const vector3d);
 	// body-relative forces
@@ -45,6 +48,7 @@ protected:
 private:
 	// new odeless turd
 	matrix4x4d m_orient; // contains pos
+	matrix4x4d m_oldOrient;
 	vector3d m_force;
 	vector3d m_torque;
 	vector3d m_vel;

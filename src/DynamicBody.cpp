@@ -8,6 +8,7 @@ DynamicBody::DynamicBody(): ModelBody()
 {
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_orient = matrix4x4d::Identity();
+	m_oldOrient = m_orient;
 	m_force = vector3d(0.0);
 	m_torque = vector3d(0.0);
 	m_vel = vector3d(0.0);
@@ -26,6 +27,11 @@ void DynamicBody::SetForce(const vector3d f)
 void DynamicBody::AddForce(const vector3d f)
 {
 	m_force += f;
+}
+
+void DynamicBody::AddTorque(const vector3d t)
+{
+	m_torque += t;
 }
 
 void DynamicBody::AddForceAtPos(const vector3d force, const vector3d pos)
@@ -66,6 +72,7 @@ void DynamicBody::Load()
 	using namespace Serializer::Read;
 	ModelBody::Load();
 	for (int i=0; i<16; i++) m_orient[i] = rd_double();
+	m_oldOrient = m_orient;
 	m_force = rd_vector3d();
 	m_torque = rd_vector3d();
 	m_vel = rd_vector3d();
@@ -104,9 +111,8 @@ vector3d DynamicBody::GetPosition() const
 
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
-	/* XXX remember this is used to step back also in the collision code.
-	 * very fucking stupid, if i might add. */
 	if (m_enabled) {
+		m_oldOrient = m_orient;
 		m_vel += timeStep * m_force * (1.0 / m_mass);
 		m_angVel += timeStep * m_torque * (1.0 / m_angInertia);
 		
@@ -131,6 +137,13 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
 	}
+}
+
+void DynamicBody::UndoTimestep()
+{
+	m_orient = m_oldOrient;
+	TriMeshUpdateLastPos(m_orient);
+	TriMeshUpdateLastPos(m_orient);
 }
 
 void DynamicBody::Enable()
