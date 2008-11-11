@@ -27,7 +27,7 @@ public:
 		sphere.pos = pos; sphere.radius = radius; sphere.userData = user_data;
 	}
 private:
-	void CollideGeoms(Geom *a, void (*callback)(CollisionContact*));
+	void CollideGeoms(Geom *a);
 	void CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect);
 	std::list<Geom*> m_geoms;
 	Sphere sphere;

@@ -104,6 +104,8 @@ vector3d DynamicBody::GetPosition() const
 
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
+	/* XXX remember this is used to step back also in the collision code.
+	 * very fucking stupid, if i might add. */
 	if (m_enabled) {
 		m_vel += timeStep * m_force * (1.0 / m_mass);
 		m_angVel += timeStep * m_torque * (1.0 / m_angInertia);

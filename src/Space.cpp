@@ -278,6 +278,7 @@ void Space::UpdateFramesOfReference()
 /*
  * return false if ode is not to apply collision
  */
+#if 0
 static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int numContacts, dContact contacts[])
 {
 	if ((o1->IsType(Object::LASER)) || (o2->IsType(Object::LASER))) {
@@ -314,16 +315,7 @@ static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int num
 	}
 	return true;
 }
-
-static void dump_contact(const dContact *c)
-{
-	printf("pos %f,%f,%f\n", c->geom.pos[0], c->geom.pos[1], c->geom.pos[2]);
-	printf("normal %f,%f,%f\n", c->geom.normal[0], c->geom.normal[1], c->geom.normal[2]);
-	printf("depth %f\n", c->geom.depth);
-	printf("side1:side2 %d:%d\n", c->geom.side1, c->geom.side2);
-	printf("fdir1 %f,%f,%f\n", c->fdir1[0], c->fdir1[1], c->fdir1[2]);
-}
-
+#endif
 static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
 {
 	Body *pb1, *pb2;
@@ -343,51 +335,45 @@ static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
 	return true;
 }
 
-#define MAX_CONTACTS	1
-// XXX THIS IS UTTER JIZZ. 1 CONTACT PER PHYSICS TICK. WTF
-static int contact_num;
+
+
 static void hitCallback(CollisionContact *c)
 {
-	if (contact_num++ >= MAX_CONTACTS) return;
 	printf("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
-#if 0
-	dContact contact;
-
-	contact.surface.mode = dContactBounce;
-	contact.surface.mu = 0.8;
-	contact.surface.mu2 = 0;
-	contact.surface.bounce = 0.1;
-	contact.surface.bounce_vel = 0.1;
-
-	contact.geom.pos[0] = c->pos.x;
-	contact.geom.pos[1] = c->pos.y;
-	contact.geom.pos[2] = c->pos.z;
-	contact.geom.pos[3] = 1;
-	contact.geom.normal[0] = c->normal.x;
-	contact.geom.normal[1] = c->normal.y;
-	contact.geom.normal[2] = c->normal.z;
-	contact.geom.normal[3] = 1;
-	contact.geom.depth = c->depth;
-	contact.geom.g1 = 0;
-	contact.geom.g2 = 0;
-	contact.fdir1[0] = 0;
-	contact.fdir1[1] = 0;
-	contact.fdir1[2] = 0;
 
 	Object *po1 = static_cast<Object*>(c->userData1);
 	Object *po2 = static_cast<Object*>(c->userData2);
-
+	
 	if (!_OnCollision2(po1, po2, c)) return;
 
-	dBodyID b1 = 0;
-	dBodyID b2 = 0;
-	// Get the dynamics body for each geom
-	if (po1->IsType(Object::DYNAMICBODY)) b1 = static_cast<DynamicBody*>(po1)->m_body;
-	if (po2->IsType(Object::DYNAMICBODY)) b2 = static_cast<DynamicBody*>(po2)->m_body;
+	const bool po1_isDynBody = po1->IsType(Object::DYNAMICBODY);
+	const bool po2_isDynBody = po2->IsType(Object::DYNAMICBODY);
+	// collision response
+	assert(po1_isDynBody || po2_isDynBody);
 
-	dJointID j = dJointCreateContact(Space::world, _contactgroup, &contact);
-	dJointAttach(j, b1, b2);
-#endif
+	if (po1_isDynBody && po2_isDynBody) {
+
+	} else {
+		// one body is static
+		vector3d hitNormal;
+		if (po2_isDynBody) hitNormal = -c->normal;
+		else hitNormal = c->normal;
+		printf("Hi! %f,%f,%f\n", hitNormal.x, hitNormal.y, hitNormal.z);
+
+		DynamicBody *mover;
+		if (po1_isDynBody) mover = static_cast<DynamicBody*>(po1);
+		else mover = static_cast<DynamicBody*>(po2);
+
+		const vector3d vel = mover->GetVelocity();
+		vector3d reflect = vel - (hitNormal * vector3d::Dot(vel, hitNormal) * 2.0f);
+		// dampen a little
+		reflect = reflect * 0.5;
+
+		// step back
+		mover->TimeStepUpdate(-Pi::GetTimeStep());
+		// and set altered velocity
+		mover->SetVelocity(reflect);
+	}
 }
 #if 0
 static void nearCallback(void *data, dGeomID o0, dGeomID o1)
@@ -473,7 +459,6 @@ void Space::TimeStep(float step)
 {
 	ApplyGravity();
 
-	contact_num = 0;
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();

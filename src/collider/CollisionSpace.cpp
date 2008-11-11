@@ -63,7 +63,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, isect_
 	CollideRaySphere(start, dir, isect);
 }
 
-void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
+void CollisionSpace::CollideGeoms(Geom *a)
 {
 	// our big aabb
 	vector3d pos = a->GetPosition();
@@ -75,7 +75,7 @@ void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
 
 	/* first test the fucker against the planet sphere thing */
 	if (sphere.radius != 0) {
-		a->CollideSphere(sphere, callback);
+		a->CollideSphere(sphere);
 	}
 
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
@@ -86,8 +86,8 @@ void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
 			bigAabb2.min += pos2;
 			bigAabb2.max += pos2;
 			if (bigAabb.Intersects(bigAabb2)) {
-				a->Collide(*i, callback);
-				if (!(*i)->HasMoved()) (*i)->Collide(a, callback);
+				a->Collide(*i);
+				if (!(*i)->HasMoved()) (*i)->Collide(a);
 			}
 		}
 	}
@@ -95,8 +95,12 @@ void CollisionSpace::CollideGeoms(Geom *a, void (*callback)(CollisionContact*))
 
 void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 {
-	// for the time being do a totally retarded intersection of every body on every other
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		if ((*i)->HasMoved()) CollideGeoms(*i, callback);
+		(*i)->contact = CollisionContact();
+		if ((*i)->HasMoved()) {
+			CollideGeoms(*i);
+			if ((*i)->contact.triIdx != -1)
+				(*callback)(&(*i)->contact);
+		}
 	}
 }

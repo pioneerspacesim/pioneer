@@ -3,10 +3,10 @@
 
 #include "../matrix4x4.h"
 #include "../vector3.h"
+#include "CollisionContact.h"
 
 class GeomTree;
 class isect_t;
-class CollisionContact;
 class Sphere;
 
 class Geom {
@@ -23,10 +23,12 @@ public:
 	bool IsEnabled() { return m_active; }
 	bool HasMoved() { return m_moved; }
 	GeomTree *GetGeomTree() { return m_geomtree; }
-	void Collide(Geom *b, void (*callback)(CollisionContact*));
-	void CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*));
+	void Collide(Geom *b);
+	void CollideSphere(Sphere &sphere);
 	void SetUserData(void *d) { m_data = d; }
 	void *GetUserData() { return m_data; }
+
+	CollisionContact contact;
 private:
 	// double-buffer position so we can keep previous position
 	matrix4x4d m_orient[2], m_invOrient;

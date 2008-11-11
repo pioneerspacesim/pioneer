@@ -47,22 +47,20 @@ vector3d Geom::GetPosition() const
 		m_orient[m_orientIdx][14]);
 }
 
-void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
+void Geom::CollideSphere(Sphere &sphere)
 {
 	/* if the geom is actually within the sphere, create a contact so
 	 * that we can't fall into spheres forever and ever */
 	vector3d v = GetPosition() - sphere.pos;
 	const double len = v.Length();
 	if (len < sphere.radius) {
-		CollisionContact c;
-		c.pos = GetPosition();
-		c.normal = (1.0/len)*v;
-		c.depth = sphere.radius - len;
-		c.triIdx = 0;
-		c.userData1 = this->m_data;
-		c.userData2 = sphere.userData;
-		c.geomFlag = 0;
-		(*callback)(&c);
+		contact.pos = GetPosition();
+		contact.normal = (1.0/len)*v;
+		contact.depth = sphere.radius - len;
+		contact.triIdx = 0;
+		contact.userData1 = this->m_data;
+		contact.userData2 = sphere.userData;
+		contact.geomFlag = 0;
 		return;
 	}
 	for (int i=0; i<m_geomtree->m_numVertices; i++) {
@@ -84,15 +82,13 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 			if (i2 > 0) {
 				if (i1 > 0) {
 					if (i1 < len) {
-						CollisionContact c;
-						c.pos = from + dir*i1;
-						c.normal = vector3d::Normalize(v);
-						c.depth = len - i1;
-						c.triIdx = 0;
-						c.userData1 = this->m_data;
-						c.userData2 = sphere.userData;
-						c.geomFlag = 0;
-						(*callback)(&c);
+						contact.pos = from + dir*i1;
+						contact.normal = vector3d::Normalize(v);
+						contact.depth = len - i1;
+						contact.triIdx = 0;
+						contact.userData1 = this->m_data;
+						contact.userData2 = sphere.userData;
+						contact.geomFlag = 0;
 					}
 				}
 			}
@@ -100,7 +96,7 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 	}
 }
 
-void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
+void Geom::Collide(Geom *b)
 {
 	m_moved = false;
 	for (int i=0; i<m_geomtree->m_numVertices; i++) {
@@ -121,19 +117,20 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 		isect.triIdx = -1;
 		b->m_geomtree->TraceRay(_from, _dir, &isect);
 		if (isect.triIdx != -1) {
-			CollisionContact c;
-			// in world coords
-			c.pos = b->GetTransform() * (from + dir*isect.dist);
-			vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
-			c.normal = vector3d(n.x, n.y, n.z);
-			c.normal = b->GetTransform().ApplyRotationOnly(c.normal);
-		
-			c.depth = len - isect.dist;
-			c.triIdx = isect.triIdx;
-			c.userData1 = m_data;
-			c.userData2 = b->m_data;
-			c.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx);
-			(*callback)(&c);
+			const double depth = len - isect.dist;
+			if (depth > contact.depth) {
+				// in world coords
+				contact.pos = b->GetTransform() * (from + dir*isect.dist);
+				vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
+				contact.normal = vector3d(n.x, n.y, n.z);
+				contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);
+			
+				contact.depth = len - isect.dist;
+				contact.triIdx = isect.triIdx;
+				contact.userData1 = m_data;
+				contact.userData2 = b->m_data;
+				contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx);
+			}
 		}
 	}
 }
