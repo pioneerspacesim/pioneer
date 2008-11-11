@@ -48,19 +48,32 @@ void DynamicBody::AddRelTorque(const vector3d t)
 
 void DynamicBody::Save()
 {
-	assert(0); // add new dynamics shite
 	using namespace Serializer::Write;
 	ModelBody::Save();
-	wr_vector3d(GetAngVelocity());
-	wr_vector3d(GetVelocity());
+	for (int i=0; i<16; i++) wr_double(m_orient[i]);
+	wr_vector3d(m_force);
+	wr_vector3d(m_torque);
+	wr_vector3d(m_vel);
+	wr_vector3d(m_angVel);
+	wr_double(m_mass);
+	wr_double(m_massRadius);
+	wr_double(m_angInertia);
+	wr_bool(m_enabled);
 }
 
 void DynamicBody::Load()
 {
 	using namespace Serializer::Read;
 	ModelBody::Load();
-	SetAngVelocity(rd_vector3d());
-	SetVelocity(rd_vector3d());
+	for (int i=0; i<16; i++) m_orient[i] = rd_double();
+	m_force = rd_vector3d();
+	m_torque = rd_vector3d();
+	m_vel = rd_vector3d();
+	m_angVel = rd_vector3d();
+	m_mass = rd_double();
+	m_massRadius = rd_double();
+	m_angInertia = rd_double();
+	m_enabled = rd_bool();
 }
 
 void DynamicBody::SetTorque(const vector3d t)
@@ -95,7 +108,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_vel += timeStep * m_force * (1.0 / m_mass);
 		m_angVel += timeStep * m_torque * (1.0 / m_angInertia);
 		
-		const vector3d pos = GetPosition();
+		vector3d pos = GetPosition();
 		// applying angular velocity :-/
 		{
 			double len = m_angVel.Length();
@@ -107,25 +120,27 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			}
 		}
 
-		SetPosition(pos + m_vel*timeStep);
+		pos += m_vel * timeStep;
+		m_orient[12] = pos.x;
+		m_orient[13] = pos.y;
+		m_orient[14] = pos.z;
+		TriMeshUpdateLastPos(m_orient);
+
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
-
-
-		TriMeshUpdateLastPos(m_orient);
 	}
 }
 
 void DynamicBody::Enable()
 {
 	ModelBody::Enable();
-	//dBodyEnable(m_body);
+	m_enabled = true;
 }
 
 void DynamicBody::Disable()
 {
 	ModelBody::Disable();
-	//dBodyDisable(m_body);
+	m_enabled = false;
 }
 
 void DynamicBody::SetRotMatrix(const matrix4x4d &r)

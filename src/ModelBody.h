@@ -27,7 +27,7 @@ public:
 	virtual void Enable();
 	void GetAabb(Aabb &aabb);
 	
-	void TriMeshUpdateLastPos(matrix4x4d currentTransform);
+	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(int sbreModel);
 
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);

@@ -344,11 +344,12 @@ static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
 }
 
 #define MAX_CONTACTS	1
+// XXX THIS IS UTTER JIZZ. 1 CONTACT PER PHYSICS TICK. WTF
 static int contact_num;
 static void hitCallback(CollisionContact *c)
 {
 	if (contact_num++ >= MAX_CONTACTS) return;
-	printf("OUCH! %x\n", SDL_GetTicks());
+	printf("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
 #if 0
 	dContact contact;
 

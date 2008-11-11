@@ -111,7 +111,7 @@ void ModelBody::SetFrame(Frame *f)
 	}
 }
 	
-void ModelBody::TriMeshUpdateLastPos(matrix4x4d currentTransform)
+void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 {
 	m_geom->MoveTo(currentTransform);
 }
