@@ -832,10 +832,6 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 		r1 = rot * r1;
 		r2 = rot * r2;
 	}
-	glColor4fv(col);
-	glVertex3dv(&r1.x);
-	glColor4f(0,0,0,0);
-	glVertex3dv(&r2.x);
 	
 	glEnd();
 	glEnable(GL_CULL_FACE);
