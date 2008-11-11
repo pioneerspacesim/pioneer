@@ -31,7 +31,6 @@ private:
 
 	double m_mass;
 	vector3d pos;
-	dGeomID geom;
 	StarSystem::SBody *sbody;
 	GLuint crudDList;
 };

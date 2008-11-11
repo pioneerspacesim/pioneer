@@ -23,8 +23,6 @@ CFLAGS="$CFLAGS `pkg-config --cflags sigc++-2.0`"
 LIBS="$LIBS `pkg-config --libs sigc++-2.0` -lGL -lGLU"
 CFLAGS="$CFLAGS `pkg-config --cflags freetype2`"
 LIBS="$LIBS `pkg-config --libs freetype2`"
-CFLAGS="$CFLAGS `ode-config --cflags`"
-LIBS="$LIBS `ode-config --libs`"
 
 PKG_CHECK_MODULES(SDL, sdl)
 CFLAGS="$CFLAGS $SDL_CFLAGS"

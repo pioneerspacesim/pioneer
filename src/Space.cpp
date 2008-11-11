@@ -14,19 +14,14 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 
-dWorldID Space::world;
 std::list<Body*> Space::bodies;
 Frame *Space::rootFrame;
-static dJointGroupID _contactgroup;
 std::list<Body*> Space::corpses;
 
 void Space::Init()
 {
-	world = dWorldCreate();
 	rootFrame = new Frame(NULL, "System");
 	rootFrame->SetRadius(FLT_MAX);
-	_contactgroup = dJointGroupCreate(0);
-	//dWorldSetGravity(world, 0,-9.81,0);
 }
 
 void Space::Clear()
@@ -354,6 +349,7 @@ static void hitCallback(CollisionContact *c)
 {
 	if (contact_num++ >= MAX_CONTACTS) return;
 	printf("OUCH! %x\n", SDL_GetTicks());
+#if 0
 	dContact contact;
 
 	contact.surface.mode = dContactBounce;
@@ -381,7 +377,7 @@ static void hitCallback(CollisionContact *c)
 	Object *po2 = static_cast<Object*>(c->userData2);
 
 	if (!_OnCollision2(po1, po2, c)) return;
-	
+
 	dBodyID b1 = 0;
 	dBodyID b2 = 0;
 	// Get the dynamics body for each geom
@@ -390,6 +386,7 @@ static void hitCallback(CollisionContact *c)
 
 	dJointID j = dJointCreateContact(Space::world, _contactgroup, &contact);
 	dJointAttach(j, b1, b2);
+#endif
 }
 #if 0
 static void nearCallback(void *data, dGeomID o0, dGeomID o1)
@@ -477,8 +474,6 @@ void Space::TimeStep(float step)
 
 	contact_num = 0;
 	CollideFrame(rootFrame);
-	dWorldQuickStep(world, step);
-	dJointGroupEmpty(_contactgroup);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
 	MoveOrbitingObjectFrames(rootFrame);

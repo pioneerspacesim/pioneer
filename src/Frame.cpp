@@ -82,7 +82,6 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_vel = vector3d(0.0);
 	m_angVel = vector3d(0.0);
 	m_orient = matrix4x4d::Identity();
-	m_dSpaceID = dHashSpaceCreate(0);
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) {
 		m_parent->m_children.push_back(this);
@@ -92,7 +91,6 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 
 Frame::~Frame()
 {
-	dSpaceDestroy(m_dSpaceID);
 	delete m_collisionSpace;
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) delete *i;
 }
@@ -142,5 +140,5 @@ void Frame::RotateInTimestep(double step)
 	vector3d rotAxis = vector3d::Normalize(m_angVel);
 	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
 
-	m_orient = m_orient * rotMatrix;
+	m_orient = rotMatrix * m_orient;
 }

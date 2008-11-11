@@ -14,8 +14,6 @@ Planet::Planet(StarSystem::SBody *sbody): Body()
 
 void Planet::Init()
 {
-	geom = dCreateSphere(0, sbody->GetRadius());
-	dGeomSetData(geom, static_cast<Body*>(this));
 	m_mass = sbody->GetMass();
 	crudDList = 0;
 }
@@ -39,7 +37,6 @@ void Planet::Load()
 
 Planet::~Planet()
 {
-	dGeomDestroy(geom);
 }
 
 double Planet::GetRadius() const
@@ -55,13 +52,11 @@ vector3d Planet::GetPosition() const
 void Planet::SetPosition(vector3d p)
 {
 	pos = p;
-	dGeomSetPosition(geom, p.x, p.y, p.z);
 }
 
 void Planet::SetRadius(double radius)
 {
 	assert(0);
-	//dGeomSphereSetRadius(geom, radius);
 }
 
 static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth)
@@ -953,12 +948,10 @@ void Planet::Render(const Frame *a_camFrame)
 void Planet::SetFrame(Frame *f)
 {
 	if (GetFrame()) {
-		GetFrame()->_RemoveGeom(geom);
 		GetFrame()->SetPlanetGeom(0, 0);
 	}
 	Body::SetFrame(f);
 	if (f) {
-		f->_AddGeom(geom);
 		GetFrame()->SetPlanetGeom(GetRadius(), this);
 	}
 }

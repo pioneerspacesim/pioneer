@@ -43,10 +43,6 @@ void ModelBody::Enable()
 	m_geom->Enable();
 }
 
-void ModelBody::GeomsSetBody(dBodyID body)
-{
-}
-
 void ModelBody::GetAabb(Aabb &aabb)
 {
 	aabb = m_collMeshSet->aabb;

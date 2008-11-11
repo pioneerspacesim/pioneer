@@ -17,13 +17,11 @@ public:
 	virtual ~ModelBody();
 	void SetPosition(vector3d p);
 	virtual void SetRotMatrix(const matrix4x4d &r);
-	// not valid to do SetVelocity on these. if you want them to move then use a DynamicBody
 	vector3d GetPosition() const;
 	virtual double GetRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
 	void GetRotMatrix(matrix4x4d &m) const;
 	virtual void SetFrame(Frame *f);
-	void GeomsSetBody(dBodyID body);
 	// to remove from simulation for a period
 	virtual void Disable();
 	virtual void Enable();

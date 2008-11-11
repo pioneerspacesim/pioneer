@@ -23,7 +23,6 @@ public:
 	static void Render(const Frame *cam_frame);
 	static Frame *GetRootFrame() { return rootFrame; }
 
-	static dWorldID world;
 	static std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;
 	static Frame *rootFrame;

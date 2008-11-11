@@ -7,41 +7,48 @@
 DynamicBody::DynamicBody(): ModelBody()
 {
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
-	m_body = dBodyCreate(Space::world);
-	dMassSetBox(&m_mass, 1,50,50,50);
-	dMassAdjust(&m_mass, 1.0f);
-
-	dBodySetMass(m_body, &m_mass);
+	m_orient = matrix4x4d::Identity();
+	m_force = vector3d(0.0);
+	m_torque = vector3d(0.0);
+	m_vel = vector3d(0.0);
+	m_angVel = vector3d(0.0);
+	m_mass = 1;
+	m_angInertia = 1;
+	m_massRadius = 1;
+	m_enabled = true;
 }
 
 void DynamicBody::SetForce(const vector3d f)
 {
-	dBodySetForce(m_body, f.x, f.y, f.z);
+	m_force = f;
 }
 
 void DynamicBody::AddForce(const vector3d f)
 {
-	dBodyAddForce(m_body, f.x, f.y, f.z);
+	m_force += f;
 }
 
 void DynamicBody::AddForceAtPos(const vector3d force, const vector3d pos)
 {
-	dBodyAddForceAtPos(m_body, force.x, force.y, force.z,
+	assert(0);
+/*	dBodyAddForceAtPos(m_body, force.x, force.y, force.z,
 			pos.x, pos.y, pos.z);
+*/
 }
 
 void DynamicBody::AddRelForce(const vector3d f)
 {
-	dBodyAddRelForce(m_body, f.x, f.y, f.z);
+	m_force += m_orient.ApplyRotationOnly(f);
 }
 
 void DynamicBody::AddRelTorque(const vector3d t)
 {
-	dBodyAddRelTorque(m_body, t.x, t.y, t.z);
+	m_torque += m_orient.ApplyRotationOnly(t);
 }
 
 void DynamicBody::Save()
 {
+	assert(0); // add new dynamics shite
 	using namespace Serializer::Write;
 	ModelBody::Save();
 	wr_vector3d(GetAngVelocity());
@@ -58,55 +65,82 @@ void DynamicBody::Load()
 
 void DynamicBody::SetTorque(const vector3d t)
 {
-	dBodySetTorque(m_body, t.x, t.y, t.z);
+	m_torque = t;
 }
 
 void DynamicBody::SetMass(double mass)
 {
-	dMassAdjust(&m_mass, mass);
-	dBodySetMass(m_body, &m_mass);
+	m_mass = mass;
+	// This is solid sphere mass distribution, my friend
+	m_angInertia = (2/5.0)*m_mass*m_massRadius*m_massRadius;
+	printf("radius %f, angInert %f\n", m_massRadius, m_angInertia);
 }
 
 void DynamicBody::SetPosition(vector3d p)
 {
-	dBodySetPosition(m_body, p.x, p.y, p.z);
+	m_orient[12] = p.x;
+	m_orient[13] = p.y;
+	m_orient[14] = p.z;
 	ModelBody::SetPosition(p);
+}
+
+vector3d DynamicBody::GetPosition() const
+{
+	return vector3d(m_orient[12], m_orient[13], m_orient[14]);
 }
 
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
-	matrix4x4d t;
-	GetRotMatrix(t);
-	const dReal *v = dBodyGetPosition(m_body);
-	t[12] = v[0];
-	t[13] = v[1];
-	t[14] = v[2];
-	
-	TriMeshUpdateLastPos(t);
+	if (m_enabled) {
+		m_vel += timeStep * m_force * (1.0 / m_mass);
+		m_angVel += timeStep * m_torque * (1.0 / m_angInertia);
+		
+		const vector3d pos = GetPosition();
+		// applying angular velocity :-/
+		{
+			double len = m_angVel.Length();
+			if (len != 0) {
+				vector3d rotAxis = m_angVel * (1.0 / len);
+				matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len * timeStep,
+						rotAxis.x, rotAxis.y, rotAxis.z);
+				m_orient = rotMatrix * m_orient;
+			}
+		}
+
+		SetPosition(pos + m_vel*timeStep);
+		m_force = vector3d(0.0);
+		m_torque = vector3d(0.0);
+
+
+		TriMeshUpdateLastPos(m_orient);
+	}
 }
 
 void DynamicBody::Enable()
 {
 	ModelBody::Enable();
-	dBodyEnable(m_body);
+	//dBodyEnable(m_body);
 }
 
 void DynamicBody::Disable()
 {
 	ModelBody::Disable();
-	dBodyDisable(m_body);
+	//dBodyDisable(m_body);
 }
 
 void DynamicBody::SetRotMatrix(const matrix4x4d &r)
 {
-	dMatrix3 _m;
-	r.SaveToOdeMatrix(_m);
-	dBodySetRotation(m_body, _m);
+	vector3d pos = GetPosition();
+	m_orient = r;
+	SetPosition(pos);
 }
 
 void DynamicBody::GetRotMatrix(matrix4x4d &m)
 {
-	m.LoadFromOdeMatrix(dBodyGetRotation(m_body));
+	m = m_orient;
+	m[12] = 0;
+	m[13] = 0;
+	m[14] = 0;
 }
 
 void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
@@ -123,42 +157,36 @@ void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 		max.y = MAX(m->pVertex[i+1], max.y);
 		max.z = MAX(m->pVertex[i+2], max.z);
 	}
-	float size = ((max.x-min.x) + (max.y-min.y) + (max.z-min.z)) / 6.0f;
-	dMassSetSphere(&m_mass, 1, size);
-	// boxes go mental after a while due to inertia tensor being fishy
-//	dMassSetBox(&m_mass, 1, max.x-min.x, max.y-min.y, max.z-min.z);
-	dBodySetMass(m_body, &m_mass);
+	const vector3d size = max-min;
+	m_massRadius = (size.x + size.y + size.z) * 0.333;
+	SetMass(m_mass);
 }
 
 vector3d DynamicBody::GetAngularMomentum()
 {
-	matrix4x4d I;
-	I.LoadFromOdeMatrix(m_mass.I);
-	return I * vector3d(dBodyGetAngularVel(m_body));
+	return m_angInertia * m_angVel;
 }
 
 DynamicBody::~DynamicBody()
 {
-	dBodyDestroy(m_body);
 }
 
 vector3d DynamicBody::GetAngVelocity()
 {
-	return vector3d(dBodyGetAngularVel(m_body));
+	return m_angVel;
 }
 
 vector3d DynamicBody::GetVelocity()
 {
-	const dReal *v = dBodyGetLinearVel(m_body);
-	return vector3d(v[0], v[1], v[2]);
+	return m_vel;
 }
 
 void DynamicBody::SetVelocity(vector3d v)
 {
-	dBodySetLinearVel(m_body, v.x, v.y, v.z);
+	m_vel = v;
 }
 
 void DynamicBody::SetAngVelocity(vector3d v)
 {
-	dBodySetAngularVel(m_body, v.x, v.y, v.z);
+	m_angVel = v;
 }

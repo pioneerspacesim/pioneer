@@ -26,10 +26,6 @@
 
 #include "date.h"
 
-#ifndef dDOUBLE
-# error LibODE is not compiled with double-precision floating point. Please get/compile libode with double-precision floating point.
-#endif
-
 #define DEBUG
 
 #define UNIVERSE_SEED	0xabcd1234

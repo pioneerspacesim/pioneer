@@ -34,12 +34,9 @@ public:
 	void SetOrientation(const matrix4x4d &m) { m_orient = m; }
 	void SetRadius(double radius) { m_radius = radius; }
 	void RemoveChild(Frame *f);
-	void _AddGeom(dGeomID g) { dSpaceAdd(m_dSpaceID, g); }
-	void _RemoveGeom(dGeomID g) { dSpaceRemove(m_dSpaceID, g); }
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
 	void SetPlanetGeom(double radius, Body *);
-	dSpaceID GetSpaceID() const { return m_dSpaceID; }
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
 
@@ -68,7 +65,6 @@ private:
 	std::string m_label;
 	double m_radius;
 	int m_flags;
-	dSpaceID m_dSpaceID;
 	CollisionSpace *m_collisionSpace;
 };
 

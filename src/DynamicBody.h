@@ -15,6 +15,7 @@ public:
 	virtual void GetRotMatrix(matrix4x4d &m);
 	virtual void SetVelocity(vector3d v);
 	virtual void SetPosition(vector3d p);
+	virtual vector3d GetPosition() const;
 	virtual vector3d GetVelocity();
 	vector3d GetAngVelocity();
 	void SetAngVelocity(vector3d v);
@@ -22,11 +23,11 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	vector3d GetAngularMomentum();
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
-	void DisableBodyOnly() { dBodyDisable(m_body); }
-	bool IsEnabled() { return dBodyIsEnabled(m_body); }
+	void DisableBodyOnly() { m_enabled = false; }
+	bool IsEnabled() { return m_enabled; }
 	virtual void Disable();
 	virtual void Enable();
-	virtual double GetMass() const { return m_mass.mass; }
+	virtual double GetMass() const { return m_mass; }
 	virtual void TimeStepUpdate(const float timeStep);
 	
 	void SetMass(double);
@@ -38,12 +39,20 @@ public:
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
 
-	dBodyID m_body;
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
-	dMass m_mass;
+	// new odeless turd
+	matrix4x4d m_orient; // contains pos
+	vector3d m_force;
+	vector3d m_torque;
+	vector3d m_vel;
+	vector3d m_angVel;
+	double m_mass;
+	double m_massRadius; // set in a mickey-mouse fashion from the collision mesh and used to calculate m_angInertia
+	double m_angInertia; // always sphere mass distribution
+	bool m_enabled;
 };
 
 #endif /* _DYNAMICBODY_H */

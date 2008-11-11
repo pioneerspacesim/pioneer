@@ -78,7 +78,6 @@ void Ship::Init()
 	const ShipType &stype = GetShipType();
 	SetModel(stype.sbreModel);
 	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
-	GeomsSetBody(m_body);
 	UpdateMass();
 }
 
@@ -306,7 +305,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		// free old temp laser geoms
-		if (m_tempLaserGeom[i]) dGeomDestroy(m_tempLaserGeom[i]);
+		/*if (m_tempLaserGeom[i]) dGeomDestroy(m_tempLaserGeom[i]);
 		m_tempLaserGeom[i] = 0;
 		if (!m_gunState[i]) continue;
 		dGeomID ray = dCreateRay(GetFrame()->GetSpaceID(), 10000);
@@ -319,6 +318,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 		dGeomRaySet(ray, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z);
 		dGeomSetData(ray, static_cast<Object*>(&m_laserCollisionObj));
 		m_tempLaserGeom[i] = ray;
+		*/
 	}
 
 	if (m_wheelTransition != 0.0f) {

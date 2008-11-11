@@ -102,7 +102,6 @@ void Pi::Init(IniConfig &config)
 
 	InitOpenGL();
 
-	dInitODE();
 	GLFTInit();
 	Space::Init();
 	

@@ -39,7 +39,6 @@ void CollMeshSet::GetMeshParts()
 		curFlag = triIndices[i].flags;
 	}
 //	printf("%d parts\n", numMeshParts);
-	meshParts = new dTriMeshDataID[numMeshParts];
 	meshInfo = new meshinfo_t[numMeshParts];
 
 	int tidx = 0;
@@ -48,16 +47,10 @@ void CollMeshSet::GetMeshParts()
 		int len = 0;
 		int flag = triIndices[tidx].flags;
 		while ((len < sbreCollMesh->ni/3) && (triIndices[tidx+len].flags == flag)) len++;
-//		printf("%d: len %d\n", tidx, len);
-
-		dTriMeshDataID triMeshDataID = dGeomTriMeshDataCreate();
-		dGeomTriMeshDataBuildSingle(triMeshDataID, (void*)sbreCollMesh->pVertex,
-			3*sizeof(float), sbreCollMesh->nv, (void*)&triIndices[tidx],
-			3*len, 4*sizeof(int));
 		meshInfo[midx].flags = flag;
 		meshInfo[midx].triStart = tidx;
 		meshInfo[midx].numTris = len;
-		meshParts[midx++] = triMeshDataID;
+		midx++;
 		tidx += len;
 	} while (tidx < sbreCollMesh->ni/3);
 }

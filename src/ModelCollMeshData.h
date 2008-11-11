@@ -20,7 +20,6 @@ class CollMeshSet {
 public:
 	CollMesh *sbreCollMesh;
 	coltri_t *triIndices;
-	dTriMeshDataID *meshParts;
 	meshinfo_t *meshInfo;
 	int numMeshParts;
 	Aabb aabb;
