@@ -7,7 +7,6 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
-#include <ode/ode.h>
 #include <float.h>
 #include <limits>
 #include <time.h>

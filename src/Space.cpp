@@ -275,67 +275,13 @@ void Space::UpdateFramesOfReference()
 	}
 }
 
-/*
- * return false if ode is not to apply collision
- */
-#if 0
-static bool _OnCollision(dGeomID g1, dGeomID g2, Object *o1, Object *o2, int numContacts, dContact contacts[])
+static bool OnCollision(Object *o1, Object *o2, CollisionContact *c)
 {
-	if ((o1->IsType(Object::LASER)) || (o2->IsType(Object::LASER))) {
-		if (o1->IsType(Object::LASER)) {
-			std::swap<Object*>(o1, o2);
-			std::swap<dGeomID>(g1, g2);
-		}
-		Ship::LaserObj *lobj = static_cast<Ship::LaserObj*>(o2);
-		if (o1 == lobj->owner) return false;
-
-		if (o1->IsType(Object::SHIP)) {
-			DynamicBody *rb = (DynamicBody*)o1;
-			dVector3 start,dir;
-			dGeomRayGet(g2, start, dir);
-			rb->AddForceAtPos(vector3d(dir[0], dir[1], dir[2])*100, 
-				vector3d(contacts[0].geom.pos[0], contacts[0].geom.pos[1], contacts[0].geom.pos[2]));
-		}
-
-		return false;
-	} else {
-		Body *pb1, *pb2;
-		int flags = 0;
-		// geom bodies point to their parents
-		if (o1->IsType(Object::GEOM)) {
-			pb1 = static_cast<ModelBody::GeomBit*>(o1)->parent;
-			flags |= static_cast<ModelBody::GeomBit*>(o1)->flags;
-		} else pb1 = static_cast<Body*>(o1);
-		if (o2->IsType(Object::GEOM)) {
-			pb2 = static_cast<ModelBody::GeomBit*>(o2)->parent;
-			flags |= static_cast<ModelBody::GeomBit*>(o2)->flags;
-		} else pb2 = static_cast<Body*>(o2);
-
-		if ((pb1 && !pb1->OnCollision(pb2, flags)) || (pb2 && !pb2->OnCollision(pb1, flags))) return false;
-	}
+	Body *pb1 = static_cast<Body*>(o1);
+	Body *pb2 = static_cast<Body*>(o2);
+	if ((pb1 && !pb1->OnCollision(pb2, c->geomFlag)) || (pb2 && !pb2->OnCollision(pb1, c->geomFlag))) return false;
 	return true;
 }
-#endif
-static bool _OnCollision2(Object *o1, Object *o2, CollisionContact *c)
-{
-	Body *pb1, *pb2;
-	int flags = c->geomFlag;
-//	printf("Collision flags %x (triIdx %d)\n", flags, c->triIdx);
-	// geom bodies point to their parents
-	if (o1->IsType(Object::GEOM)) {
-		pb1 = static_cast<ModelBody::GeomBit*>(o1)->parent;
-		flags |= static_cast<ModelBody::GeomBit*>(o1)->flags;
-	} else pb1 = static_cast<Body*>(o1);
-	if (o2->IsType(Object::GEOM)) {
-		pb2 = static_cast<ModelBody::GeomBit*>(o2)->parent;
-		flags |= static_cast<ModelBody::GeomBit*>(o2)->flags;
-	} else pb2 = static_cast<Body*>(o2);
-
-	if ((pb1 && !pb1->OnCollision(pb2, flags)) || (pb2 && !pb2->OnCollision(pb1, flags))) return false;
-	return true;
-}
-
-
 
 static void hitCallback(CollisionContact *c)
 {
@@ -344,7 +290,7 @@ static void hitCallback(CollisionContact *c)
 	Object *po1 = static_cast<Object*>(c->userData1);
 	Object *po2 = static_cast<Object*>(c->userData2);
 	
-	if (!_OnCollision2(po1, po2, c)) return;
+	if (!OnCollision(po1, po2, c)) return;
 
 	const bool po1_isDynBody = po1->IsType(Object::DYNAMICBODY);
 	const bool po2_isDynBody = po2->IsType(Object::DYNAMICBODY);
@@ -410,55 +356,10 @@ static void hitCallback(CollisionContact *c)
 		mover->SetAngVelocity(mover->GetAngVelocity() - vector3d::Cross(hitPos1, (j*c->normal))*(1.0/mover->GetAngularInertia()));
 	}
 }
-#if 0
-static void nearCallback(void *data, dGeomID o0, dGeomID o1)
-{
-	// Create an array of dContact objects to hold the contact joints
-	static const int MAX_CONTACTS = 100;
-	dContact contact[MAX_CONTACTS];
 
-	for (int i = 0; i < MAX_CONTACTS; i++)
-	{
-		contact[i].surface.mode = dContactBounce;
-		contact[i].surface.mu = 0.8;
-		contact[i].surface.mu2 = 0;
-		contact[i].surface.bounce = 0.1;
-		contact[i].surface.bounce_vel = 0.1;
-	}
-	if (int numc = dCollide(o0, o1, MAX_CONTACTS, &contact[0].geom, sizeof(dContact)))
-	{
-		// don't ye get confused between Pi Body class and libODE bodies
-		Object *po1 = static_cast<Object*>(dGeomGetData(o0));
-		Object *po2 = static_cast<Object*>(dGeomGetData(o1));
-		if (!_OnCollision(o0, o1, po1, po2, numc, contact)) return;
-		// Get the dynamics body for each geom
-		dBodyID b1 = dGeomGetBody(o0);
-		dBodyID b2 = dGeomGetBody(o1);
-		// To add each contact point found to our joint group we call dJointCreateContact which is just one of the many
-		// different joint types available.  
-		for (int i = 0; i < numc; i++)
-		{
-			printf("\nODE collision:\n");
-			dump_contact(contact+i);
-			// dJointCreateContact needs to know which world and joint group to work with as well as the dContact
-			// object itself. It returns a new dJointID which we then use with dJointAttach to finally create the
-			// temporary contact joint between the two geom bodies.
-			//dJointID c = dJointCreateContact(Space::world, _contactgroup, contact + i);
-/*			struct dContactGeom {
-  dVector3 pos;       // contact position
-  dVector3 normal;    // normal vector
-  dReal depth;        // penetration depth
-  dGeomID g1,g2;      // the colliding geoms
-};*/
-			//dJointAttach(c, b1, b2);
-		}
-	}	
-}
-#endif
 void Space::CollideFrame(Frame *f)
 {
 	f->GetCollisionSpace()->Collide(&hitCallback);
-	//dSpaceCollide(f->GetSpaceID(), NULL, &nearCallback);
 	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
 		CollideFrame(*i);
 	}

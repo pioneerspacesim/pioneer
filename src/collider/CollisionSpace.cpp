@@ -63,6 +63,51 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, isect_
 	CollideRaySphere(start, dir, isect);
 }
 
+void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float len, CollisionContact *c, Geom *ignore)
+{
+	double dist = len;
+	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+		if ((*i) == ignore) continue;
+		if ((*i)->IsEnabled()) {
+			const matrix4x4d &invTrans = (*i)->GetInvTransform();
+			vector3d ms = invTrans * start;
+			vector3d md = invTrans.ApplyRotationOnly(dir);
+			vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
+			vector3f modelDir = vector3f(md.x, md.y, md.z);
+	
+			isect_t isect;
+			isect.dist = dist;
+			isect.triIdx = -1;
+			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
+			if (isect.triIdx != -1) {
+				c->pos = start + dir*isect.dist;
+				c->normal = vector3d(0.0);
+				c->depth = len - isect.dist;
+				c->triIdx = isect.triIdx;
+				c->userData1 = (*i)->GetUserData();
+				c->userData2 = 0;
+				c->geomFlag = (*i)->GetGeomTree()->GetTriFlag(isect.triIdx);
+				dist = isect.dist;
+			}
+		}
+	}
+	{
+		isect_t isect;
+		isect.dist = dist;
+		isect.triIdx = -1;
+		CollideRaySphere(start, dir, &isect);
+		if (isect.triIdx != -1) {
+			c->pos = start + dir*isect.dist;
+			c->normal = vector3d(0.0);
+			c->depth = len - isect.dist;
+			c->triIdx = -1;
+			c->userData1 = sphere.userData;
+			c->userData2 = 0;
+			c->geomFlag = 0;
+		}
+	}
+}
+
 void CollisionSpace::CollideGeoms(Geom *a)
 {
 	// our big aabb

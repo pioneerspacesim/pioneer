@@ -3,7 +3,7 @@
 
 class Object {
 	public:
-	enum Type { OBJECT, BODY, MODELBODY, DYNAMICBODY, SHIP, PLAYER, SPACESTATION, LASER, GEOM, PLANET, STAR };
+	enum Type { OBJECT, BODY, MODELBODY, DYNAMICBODY, SHIP, PLAYER, SPACESTATION, PLANET, STAR };
 	virtual Type GetType() { return OBJECT; }
 	virtual bool IsType(Type c) { return GetType() == c; }
 };

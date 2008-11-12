@@ -47,12 +47,6 @@ public:
        	FlightState GetFlightState() const { return m_flightState; }
 	float GetWheelState() const { return m_wheelState; }
 	
-	class LaserObj: public Object {
-	public:
-		OBJDEF(LaserObj, Object, LASER);
-		Ship *owner;
-	};
-
 	EquipSet m_equipment;
 
 	virtual void PostLoadFixup();
@@ -79,9 +73,6 @@ private:
 	float m_thrusters[ShipType::THRUSTER_MAX];
 	float m_angThrusters[3];
 	float m_dockingTimer;
-	dGeomID m_tempLaserGeom[ShipType::GUNMOUNT_MAX];
-
-	LaserObj m_laserCollisionObj;
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;

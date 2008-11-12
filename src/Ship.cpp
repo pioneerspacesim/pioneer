@@ -6,6 +6,7 @@
 #include "ModelCollMeshData.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
+#include "collider/collider.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -63,7 +64,6 @@ void Ship::Load()
 	m_flightState = (FlightState) rd_int();
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd_int();
-		m_tempLaserGeom[i] = 0;
 	}
 	m_shipType = (ShipType::Type)rd_int();
 	m_dockedWithPort = rd_int();
@@ -102,10 +102,8 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_combatTarget = 0;
 	m_shipType = shipType;
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
-	m_laserCollisionObj.owner = this;
 	m_equipment = EquipSet(shipType);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_tempLaserGeom[i] = 0;
 		m_gunState[i] = 0;
 	}
 	memset(m_thrusters, 0, sizeof(m_thrusters));
@@ -304,21 +302,26 @@ void Ship::TimeStepUpdate(const float timeStep)
 				  stype.angThrust*m_angThrusters[2]));
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		// free old temp laser geoms
-		/*if (m_tempLaserGeom[i]) dGeomDestroy(m_tempLaserGeom[i]);
-		m_tempLaserGeom[i] = 0;
 		if (!m_gunState[i]) continue;
-		dGeomID ray = dCreateRay(GetFrame()->GetSpaceID(), 10000);
-		const vector3d pos = GetPosition();
 		const vector3f _dir = stype.gunMount[i].dir;
 		vector3d dir = vector3d(_dir.x, _dir.y, _dir.z);
+		const vector3f _pos = stype.gunMount[i].pos;
+		vector3d pos = vector3d(_pos.x, _pos.y, _pos.z);
+
 		matrix4x4d m;
 		GetRotMatrix(m);
 		dir = m.ApplyRotationOnly(dir);
-		dGeomRaySet(ray, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z);
-		dGeomSetData(ray, static_cast<Object*>(&m_laserCollisionObj));
-		m_tempLaserGeom[i] = ray;
-		*/
+		pos = m.ApplyRotationOnly(pos);
+		pos += GetPosition();
+		
+		CollisionContact c;
+		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, GetGeom());
+		if (c.userData1) {
+			Body *hit = static_cast<Body*>(c.userData1);
+			printf("Hit %s\n", hit->GetLabel().c_str());
+		} else {
+			printf("Hit nothing\n");
+		}
 	}
 
 	if (m_wheelTransition != 0.0f) {

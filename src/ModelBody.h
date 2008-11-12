@@ -26,17 +26,12 @@ public:
 	virtual void Disable();
 	virtual void Enable();
 	void GetAabb(Aabb &aabb);
+	Geom *GetGeom() { return m_geom; }
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(int sbreModel);
 
 	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
-	class GeomBit: public Object {
-	public:
-		OBJDEF(GeomBit, Object, GEOM);
-		Body *parent;
-		int flags;
-	};
 protected:
 	virtual void Save();
 	virtual void Load();

@@ -22,6 +22,7 @@ public:
 	void AddGeom(Geom*);
 	void RemoveGeom(Geom*);
 	void TraceRay(const vector3d &start, const vector3d &dir, isect_t *isect);
+	void TraceRay(const vector3d &start, const vector3d &dir, float len, CollisionContact *c, Geom *ignore = 0);
 	void Collide(void (*callback)(CollisionContact*));
 	void SetSphere(const vector3d &pos, double radius, void *user_data) {
 		sphere.pos = pos; sphere.radius = radius; sphere.userData = user_data;
