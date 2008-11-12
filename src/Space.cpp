@@ -389,15 +389,25 @@ static void hitCallback(CollisionContact *c)
 			hitNormal = -c->normal;
 		}
 
+		const double coeff_rest = 0.5;
 		const vector3d vel = mover->GetVelocity();
 		vector3d reflect = vel - (hitNormal * vector3d::Dot(vel, hitNormal) * 2.0f);
-		// dampen a little
-		reflect = reflect * 0.5;
 
 		// step back
 		mover->UndoTimestep();
 		// and set altered velocity
-		mover->SetVelocity(reflect);
+		mover->SetVelocity(reflect * coeff_rest);
+
+		// angular effects
+		const double invMass1 = 1.0 / mover->GetMass();
+
+		const vector3d hitPos1 = c->pos - mover->GetPosition();
+		const double j = (-(1+coeff_rest) * (vector3d::Dot(mover->GetVelocity(), c->normal))) /
+			( invMass1 +
+			( vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal) * (1.0/mover->GetAngularInertia()), hitPos1) ))
+			);
+
+		mover->SetAngVelocity(mover->GetAngVelocity() - vector3d::Cross(hitPos1, (j*c->normal))*(1.0/mover->GetAngularInertia()));
 	}
 }
 #if 0
