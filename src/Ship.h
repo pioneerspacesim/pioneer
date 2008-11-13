@@ -13,6 +13,7 @@ struct shipstats_t {
 	int used_capacity;
 	int free_capacity;
 	int total_mass; // cargo, equipment + hull
+	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 };
 
@@ -43,6 +44,7 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void NotifyDeath(const Body* const dyingBody);
 	virtual bool OnCollision(Body *b, Uint32 flags);
+	virtual bool OnDamage(Body *attacker, float kgDamage);
 	enum FlightState { FLYING, LANDED };
        	FlightState GetFlightState() const { return m_flightState; }
 	float GetWheelState() const { return m_wheelState; }

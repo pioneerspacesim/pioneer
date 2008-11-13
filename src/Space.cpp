@@ -409,6 +409,12 @@ void Space::TimeStep(float step)
 		(*i)->TimeStepUpdate(step);
 	}
 
+	if (Pi::player->IsDead()) {
+		printf("PLAYER IS DEAD :-(\n");
+		Pi::TombStoneLoop();
+		Pi::Quit();
+	}
+
 	PruneCorpses();
 }
 

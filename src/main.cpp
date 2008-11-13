@@ -173,19 +173,21 @@ void Pi::HandleEvents()
 				if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {
+					matrix4x4d m; Pi::player->GetRotMatrix(m);
+					vector3d dir = m*vector3d(0,0,-1);
 					/* add test object */
 					if (KeyState(SDLK_LSHIFT)) {
 						SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
 						station->SetLabel("Poemi-chan's Folly");
 						station->SetFrame(Pi::player->GetFrame());
 						station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
-						station->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-5000));
+						station->SetPosition(Pi::player->GetPosition()+5000.0*dir);
 						Space::AddBody(station);
 					} else {
 						Ship *body = new Ship(ShipType::LADYBIRD);
 						body->SetLabel("A friend");
 						body->SetFrame(Pi::player->GetFrame());
-						body->SetPosition(Pi::player->GetPosition()+vector3d(0,0,-1000));
+						body->SetPosition(Pi::player->GetPosition()+1000.0*dir);
 						Space::AddBody(body);
 					}
 				}
@@ -252,6 +254,62 @@ static void draw_intro(float _time)
 	p.x = 0; p.y = 0; p.z = 80;
 	sbreRenderModel(&p, &m, 61, &params);
 	glPopAttrib();
+}
+
+static void draw_tombstone(float _time)
+{
+	static float lightCol[4] = { 1,1,1,0 };
+	static float lightDir[4] = { 0,1,0,0 };
+
+	static ObjParams params = {
+		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
+		{	// pColor[3]
+		{ { 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ "RIP OLD BEAN" },
+	};
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 1.0f, 1000.0f, 0.0f, 1.0f);
+	sbreSetDirLight (lightCol, lightDir);
+	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time*2);
+	Matrix m;
+	Vector p;
+	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
+	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
+	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
+	p.x = 0; p.y = 0; p.z = MAX(150 - 30*_time, 30);
+	sbreRenderModel(&p, &m, 91, &params);
+	glPopAttrib();
+}
+
+void Pi::TombStoneLoop()
+{
+	Uint32 last_time = SDL_GetTicks();
+	float _time = 0;
+	cpan->HideAll();
+	currentView->HideAll();
+	do {
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		Pi::HandleEvents();
+		SDL_ShowCursor(1);
+		SDL_WM_GrabInput(SDL_GRAB_OFF);
+
+		draw_tombstone(_time);
+		Gui::Draw();
+		glFlush();
+		SDL_GL_SwapBuffers();
+		
+		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
+		_time += Pi::frameTime;
+		last_time = SDL_GetTicks();
+	} while (!((_time > 2.0) && ((Pi::MouseButtonState(1)) || Pi::KeyState(SDLK_SPACE)) ));
 }
 
 void Pi::Start()

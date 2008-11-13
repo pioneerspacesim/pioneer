@@ -29,6 +29,7 @@ public:
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Body *b, Uint32 flags) { return false; }
+	virtual bool OnDamage(Body *attacker, float kgDamage) { return false; }
 	virtual void TimeStepUpdate(const float timeStep) {}
 	// Override to clear any pointers you hold to the dying body.
 	virtual void NotifyDeath(const Body* const dyingBody) {}
@@ -46,6 +47,7 @@ public:
 	void SetOnscreen(const bool onscreen) { m_onscreen = onscreen; }
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
+	bool IsDead() const { return m_dead; }
 
 	enum { FLAG_CAN_MOVE_FRAME = 1 };
 protected:

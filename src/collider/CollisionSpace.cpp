@@ -81,7 +81,11 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 			if (isect.triIdx != -1) {
 				c->pos = start + dir*isect.dist;
-				c->normal = vector3d(0.0);
+				
+				vector3f n = (*i)->GetGeomTree()->GetTriNormal(isect.triIdx);
+				c->normal = vector3d(n.x, n.y, n.z);
+				c->normal = (*i)->GetTransform().ApplyRotationOnly(c->normal);
+				
 				c->depth = len - isect.dist;
 				c->triIdx = isect.triIdx;
 				c->userData1 = (*i)->GetUserData();

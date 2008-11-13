@@ -43,6 +43,7 @@ void Ship::Save()
 	wr_int(m_dockedWithPort);
 	wr_int(Serializer::LookupBody(m_dockedWith));
 	printf("XXXXXXX NOT SAVING SHIP EQUIPMENT YET!!!!!!!!!!!!!!\n");
+	wr_float(m_stats.hull_mass_left);
 }
 
 void Ship::Load()
@@ -71,6 +72,7 @@ void Ship::Load()
 	/// XXXXXXXXXXXXXXX
 	m_equipment = EquipSet(m_shipType);
 	Init();
+	m_stats.hull_mass_left = rd_float(); // must be after Init()...
 }
 
 void Ship::Init()
@@ -79,6 +81,7 @@ void Ship::Init()
 	SetModel(stype.sbreModel);
 	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
 	UpdateMass();
+	m_stats.hull_mass_left = stype.hullMass;
 }
 
 void Ship::PostLoadFixup()
@@ -117,25 +120,42 @@ void Ship::UpdateMass()
 	SetMass(m_stats.total_mass*1000);
 }
 
+bool Ship::OnDamage(Body *attacker, float kgDamage)
+{
+	m_stats.hull_mass_left -= kgDamage*0.001;
+	if (m_stats.hull_mass_left < 0) Space::KillBody(this);
+	printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(),
+		m_stats.hull_mass_left);
+	return true;
+}
+
+#define KINETIC_ENERGY_MULT	0.01
 bool Ship::OnCollision(Body *b, Uint32 flags)
 {
+	float kineticEnergy = 0;
+	if (b->IsType(Object::DYNAMICBODY)) {
+		const vector3d relVel = static_cast<DynamicBody*>(b)->GetVelocity() - GetVelocity();
+		const float v = relVel.Length();
+		kineticEnergy = KINETIC_ENERGY_MULT * m_stats.total_mass * v * v;
+	} else {
+		const float v = GetVelocity().Length();
+		kineticEnergy = KINETIC_ENERGY_MULT * m_stats.total_mass * v * v;
+	}
+	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
+		kineticEnergy = 0;
+	}
+
 	if (b->IsType(Object::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING) return false;
-		else m_testLanded = true;
-	}
-	if (b->IsType(Object::MODELBODY)) {
-		vector3d relVel;
-		if (b->IsType(Object::DYNAMICBODY)) {
-			relVel = static_cast<DynamicBody*>(b)->GetVelocity() - GetVelocity();
-		} else {
-			relVel = GetVelocity();
+		else {
+			if (GetVelocity().Length() < MAX_LANDING_SPEED) {
+				m_testLanded = true;
+				kineticEnergy = 0;
+			}
 		}
-		// crappy recalculation of all this...
-		float v = relVel.Length();
-		float kineticEnergy = m_stats.total_mass * v * v;
-		printf("%f ek\n", kineticEnergy);
 	}
+	if (kineticEnergy) OnDamage(b, kineticEnergy);
 	return true;
 }
 
@@ -318,9 +338,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, GetGeom());
 		if (c.userData1) {
 			Body *hit = static_cast<Body*>(c.userData1);
-			printf("Hit %s\n", hit->GetLabel().c_str());
-		} else {
-			printf("Hit nothing\n");
+			hit->OnDamage(this, 1000.0);
 		}
 	}
 

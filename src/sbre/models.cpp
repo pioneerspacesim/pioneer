@@ -1310,3 +1310,35 @@ static uint16 starport1data[] = {
 Model starport1model = { 100.0f, 55.0f, 17, starport1vtx1, 17, 0, dummyvtx2, 1,
 	{ { 0, starport1data, 0, 0, 0 } } };
 
+static PlainVertex tombstonevtx1[] = {
+	{ VTYPE_PLAIN, { 0.6f, 1.0f, -0.1f } }, // front quad
+	{ VTYPE_PLAIN, { 0.6f, -1.0f, -0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, -1.0f, -0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, 1.0f, -0.1f } },
+	{ VTYPE_PLAIN, { 0, 1, 0.1 } }, // cylinder
+	{ VTYPE_PLAIN, { 0, 1, -0.1 } },
+	{ VTYPE_PLAIN, { 0.6f, 1.0f, 0.1f } }, // rear quad
+	{ VTYPE_PLAIN, { 0.6f, -1.0f, 0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, -1.0f, 0.1f } },
+	{ VTYPE_PLAIN, { -0.6f, 1.0f, 0.1f } },
+	{ VTYPE_PLAIN, { -0.5, 0.8, -0.1 } }, // text start
+	{ VTYPE_PLAIN, { 0.5, 0.8, 0.1 } }, // text start
+};
+static uint16 tombstonedata[] = {
+	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_QUADFLAT, 6, 7, 8, 9,
+	PTYPE_QUADFLAT, 15, 14, 13, 12,
+	PTYPE_QUADFLAT, 6, 12, 13, 7,
+	PTYPE_QUADFLAT, 9, 8, 14, 15,
+	PTYPE_QUADFLAT, 8, 7, 13, 14,
+	PTYPE_CYLINDER, 0x8000, 16, 10, 11, 1, 60,
+	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 100, 100, 100, 0,
+	PTYPE_ZBIAS, 16, 5, 0,
+	PTYPE_TEXT, 0, 0x8000, 16, 5, 0, 0, 0, 10,
+	PTYPE_ZBIAS, 17, 2, 0,
+	PTYPE_TEXT, 0, 0x8000, 17, 2, 3, 0, 0, 10,
+	PTYPE_END
+};
+Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
+	{ { 0, tombstonedata, 0, 0, 0 } } };
+

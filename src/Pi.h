@@ -45,6 +45,7 @@ public:
 	static void Init(IniConfig &config);
 	static void Start();
 	static void MainLoop();
+	static void TombStoneLoop();
 	static void Quit();
 	static void Serialize();
 	static void Unserialize();
