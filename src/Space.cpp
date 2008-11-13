@@ -378,15 +378,20 @@ void Space::ApplyGravity()
 
 		lump = (*Pi::player->GetFrame()->m_children.begin())->m_astroBody;
 	}
-	// just to the player and only in the most stupid way for the moment
-	if (lump) {
-		vector3d b1b2 = lump->GetPosition() - Pi::player->GetPosition();
-		const double m1m2 = Pi::player->GetMass() * lump->GetMass();
-		const double r = b1b2.Length();
-		const double force = G*m1m2 / (r*r);
-		b1b2.Normalize();
-		b1b2 = b1b2 * force;
-		Pi::player->AddForce(b1b2);
+	// just to crap in the player's frame
+	if (lump) { 
+		for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+			if ((*i)->GetFrame() != Pi::player->GetFrame()) continue;
+			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
+
+			vector3d b1b2 = lump->GetPosition() - (*i)->GetPosition();
+			const double m1m2 = (*i)->GetMass() * lump->GetMass();
+			const double r = b1b2.Length();
+			const double force = G*m1m2 / (r*r);
+			b1b2.Normalize();
+			b1b2 = b1b2 * force;
+			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
+		}
 	}
 
 }
