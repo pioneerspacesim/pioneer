@@ -93,7 +93,7 @@ void Pi::Init(IniConfig &config)
 			exit(-1);
 		}
 	}
-
+	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;
 	Pi::scrHeight = height;
 	Pi::scrAspect = width / (float)height;
@@ -160,6 +160,24 @@ void Pi::SetView(View *v)
 	currentView->ShowAll();
 }
 
+void Screendump(char *destFile)
+{
+	const int W = Pi::GetScrWidth();
+	const int H = Pi::GetScrHeight();
+	char pixel_data[3*W*H];
+	short TGAhead[] = {0, 2, 0, 0, 0, 0, W, H, 24};
+	FILE *out = fopen(destFile, "w");
+	if (!out) goto error;
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, pixel_data);
+	if (fwrite(&TGAhead, sizeof(TGAhead), 3, out) != 3) goto error;
+	if (fwrite(pixel_data, 3*W*H, 1, out) != 1) goto error;
+	fclose(out);
+	return;
+error:
+	printf("Failed to write screendump.\n");
+}
+
 void Pi::HandleEvents()
 {
 	SDL_Event event;
@@ -171,6 +189,13 @@ void Pi::HandleEvents()
 			case SDL_KEYDOWN:
 				if (KeyState(SDLK_LCTRL) && (event.key.keysym.sym == SDLK_q)) Pi::Quit();
 				if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
+				if ((event.key.keysym.sym == SDLK_PRINT) && KeyState(SDLK_LCTRL)) {
+					char buf[256];
+					const time_t t = time(0);
+					struct tm *_tm = localtime(&t);
+					strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
+					Screendump(buf);
+				}
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {
 					matrix4x4d m; Pi::player->GetRotMatrix(m);

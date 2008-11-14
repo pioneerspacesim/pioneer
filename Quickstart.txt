@@ -40,6 +40,11 @@ Cursor keys - Rotate view, pitch and yaw
 Special things:
 ~~~~~~~~~~~~~~~
 
-ctrl-q - quit
-i - show some ugly debug info
+ctrl-q           - quit
+i                - show some ugly debug info
+ctrl-printscreen - screenshot
+F11              - fullscreen
+F12              - add a ship
+shift-F12        - add a station
+F9               - quicksave
 
