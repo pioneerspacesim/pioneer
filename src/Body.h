@@ -36,7 +36,7 @@ public:
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 	vector3d GetPositionRelTo(const Frame *);
-	Frame *GetFrame() { return m_frame; }
+	Frame *GetFrame() const { return m_frame; }
 	void SetLabel(const char *label) { m_label = label; }
 	std::string &GetLabel() { return m_label; }
 	unsigned int GetFlags() { return m_flags; }

@@ -7,6 +7,7 @@
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
+#include "Sfx.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -123,9 +124,11 @@ void Ship::UpdateMass()
 bool Ship::OnDamage(Body *attacker, float kgDamage)
 {
 	m_stats.hull_mass_left -= kgDamage*0.001;
-	if (m_stats.hull_mass_left < 0) Space::KillBody(this);
-	printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(),
-		m_stats.hull_mass_left);
+	if (m_stats.hull_mass_left < 0) {
+		Space::KillBody(this);
+		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+	}
+	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
 }
 
@@ -141,6 +144,7 @@ bool Ship::OnCollision(Body *b, Uint32 flags)
 		const float v = GetVelocity().Length();
 		kineticEnergy = KINETIC_ENERGY_MULT * m_stats.total_mass * v * v;
 	}
+	// hitting space station docking surfaces shouldn't do damage
 	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
 		kineticEnergy = 0;
 	}

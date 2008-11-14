@@ -7,6 +7,7 @@
 #include "SpaceStation.h"
 #include "Ship.h"
 #include "Player.h"
+#include "Sfx.h"
 
 Body::Body()
 {
@@ -53,6 +54,7 @@ void Body::Serialize()
 		case Object::SPACESTATION:
 		case Object::SHIP:
 		case Object::PLAYER:
+		case Object::SFX:
 			Save();
 			break;
 		default:
@@ -80,6 +82,8 @@ Body *Body::Unserialize()
 			b = new Ship(); break;
 		case Object::PLAYER:
 			b = new Player(); break;
+		case Object::SFX:
+			b = new Sfx(); break;
 		default:
 			// XXX bad. should assert
 			return 0;
