@@ -45,6 +45,16 @@ void Ship::Save()
 	wr_int(Serializer::LookupBody(m_dockedWith));
 	printf("XXXXXXX NOT SAVING SHIP EQUIPMENT YET!!!!!!!!!!!!!!\n");
 	wr_float(m_stats.hull_mass_left);
+	wr_int(m_todo.size());
+	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
+		wr_int((int)(*i).cmd);
+		switch ((*i).cmd) {
+			case DO_KILL:
+				wr_int(Serializer::LookupBody(static_cast<Ship*>((*i).arg)));
+				break;
+			case DO_NOTHING: wr_int(0); break;
+		}
+	}
 }
 
 void Ship::Load()
@@ -74,6 +84,13 @@ void Ship::Load()
 	m_equipment = EquipSet(m_shipType);
 	Init();
 	m_stats.hull_mass_left = rd_float(); // must be after Init()...
+	int num = rd_int();
+	while (num-- > 0) {
+		AICommand c = (AICommand)rd_int();
+		void *arg = (void*)rd_int();
+		printf("COMMAND %d:%p\n", c, arg);
+		m_todo.push_back(AIInstruction(c, arg));
+	}
 }
 
 void Ship::Init()
@@ -90,6 +107,14 @@ void Ship::PostLoadFixup()
 	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
 	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
 	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
+	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
+		switch ((*i).cmd) {
+			case DO_KILL:
+				(*i).arg = Serializer::LookupBody((size_t)(*i).arg);
+				break;
+			case DO_NOTHING: break;
+		}
+	}
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
@@ -296,6 +321,7 @@ void Ship::TestLanded()
 void Ship::TimeStepUpdate(const float timeStep)
 {
 	DynamicBody::TimeStepUpdate(timeStep);
+	AITimeStep(timeStep);
 
 	m_dockingTimer = (m_dockingTimer-timeStep > 0 ? m_dockingTimer-timeStep : 0);
 
@@ -354,6 +380,41 @@ void Ship::TimeStepUpdate(const float timeStep)
 	}
 
 	if (m_testLanded) TestLanded();
+}
+
+void Ship::AITimeStep(const float timeStep)
+{
+	bool done = false;
+
+	if (m_todo.size() != 0) {
+		AIInstruction &inst = m_todo.front();
+		switch (inst.cmd) {
+			case DO_KILL:
+				done = AICmdKill(static_cast<const Ship*>(inst.arg));
+				break;
+			case DO_NOTHING: done = true; break;
+		}
+	}
+	if (done) { 
+		printf("AI '%s' successfully executed %d:'%s'\n", GetLabel().c_str(), m_todo.front().cmd,
+				static_cast<Ship*>(m_todo.front().arg)->GetLabel().c_str());
+		m_todo.pop_front();
+	}
+}
+
+bool Ship::AICmdKill(const Ship *enemy)
+{
+	/* needs to deal with frames, large distances, and success */
+	if (GetFrame() == enemy->GetFrame()) {
+		vector3d dir = vector3d::Normalize(enemy->GetPosition() - GetPosition());
+		AIFaceDirection(dir);
+	}
+	return false;
+}
+
+void Ship::AIInstruct(enum AICommand cmd, void *arg)
+{
+	m_todo.push_back(AIInstruction(cmd, arg));
 }
 
 void Ship::NotifyDeath(const Body* const dyingBody)

@@ -19,7 +19,6 @@
 #include "SpaceStationView.h"
 #include "InfoView.h"
 #include "Serializer.h"
-#include "AIShip.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -210,8 +209,8 @@ void Pi::HandleEvents()
 						station->SetPosition(Pi::player->GetPosition()+5000.0*dir);
 						Space::AddBody(station);
 					} else {
-						AIShip *ship = new AIShip(ShipType::LADYBIRD);
-						ship->Instruct(AIShip::DO_KILL, Pi::player);
+						Ship *ship = new Ship(ShipType::LADYBIRD);
+						ship->AIInstruct(Ship::DO_KILL, Pi::player);
 						ship->SetLabel("A friend");
 						ship->SetFrame(Pi::player->GetFrame());
 						ship->SetPosition(Pi::player->GetPosition()+100.0*dir);

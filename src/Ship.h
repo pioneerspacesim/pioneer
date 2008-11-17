@@ -5,6 +5,7 @@
 #include "DynamicBody.h"
 #include "ShipType.h"
 #include "sbre/sbre.h"
+#include <list>
 
 class SpaceStation;
 
@@ -52,6 +53,9 @@ public:
 	
 	EquipSet m_equipment;
 
+	enum AICommand { DO_NOTHING, DO_KILL };
+	void AIInstruct(enum AICommand, void *arg);
+	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
 protected:
 	virtual void Save();
@@ -63,6 +67,7 @@ protected:
 	enum ShipType::Type m_shipType;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 private:
+	void AITimeStep(const float timeStep);
 	void Init();
 	bool IsFiringLasers();
 	void TestLanded();
@@ -79,6 +84,14 @@ private:
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;
+	class AIInstruction {
+	public:
+		AICommand cmd;
+		void *arg;
+		AIInstruction(AICommand c, void *a): cmd(c), arg(a) {}
+	};
+	std::list<AIInstruction> m_todo;
+	bool AICmdKill(const Ship *);
 };
 
 #endif /* _SHIP_H */

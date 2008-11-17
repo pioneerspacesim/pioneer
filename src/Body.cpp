@@ -6,7 +6,6 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "Ship.h"
-#include "AIShip.h"
 #include "Player.h"
 #include "Sfx.h"
 
@@ -54,7 +53,6 @@ void Body::Serialize()
 		case Object::PLANET:
 		case Object::SPACESTATION:
 		case Object::SHIP:
-		case Object::AISHIP:
 		case Object::PLAYER:
 		case Object::SFX:
 			Save();
@@ -82,8 +80,6 @@ Body *Body::Unserialize()
 			b = new SpaceStation(); break;
 		case Object::SHIP:
 			b = new Ship(); break;
-		case Object::AISHIP:
-			b = new AIShip(); break;
 		case Object::PLAYER:
 			b = new Player(); break;
 		case Object::SFX:
