@@ -9,7 +9,7 @@ include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h Gu
 		Planet.h Player.h DynamicBody.h Sector.h SectorView.h ShipCpanel.h Ship.h Space.h Star.h StarSystem.h SystemInfoView.h \
 		SystemView.h vector3.h View.h WorldView.h date.h SpaceStation.h SpaceStationView.h ModelBody.h GuiISelectable.h \
 		ShipType.h Object.h InfoView.h ModelCollMeshData.h ObjectViewerView.h custom_starsystems.h Aabb.h Serializer.h \
-		Sfx.h
+		Sfx.h AIShip.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -19,7 +19,7 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp date.cpp SpaceStation.cpp \
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
-		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp
+		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp AIShip.cpp
 pioneer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp

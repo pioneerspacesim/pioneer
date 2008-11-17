@@ -18,7 +18,7 @@ const ShipType ShipType::types[] = {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
 		62,
-		{ 1e7,-1e7,1e6,-1e6,-1e6,1e6 },
+		{ 2e8,-2e8,1e8,-1e8,-1e8,1e8 },
 		1e7,
 		{
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },

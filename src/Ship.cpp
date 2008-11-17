@@ -291,6 +291,7 @@ void Ship::TestLanded()
 		}
 	}
 }
+#include "Player.h"
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
@@ -409,6 +410,29 @@ void Ship::SetCombatTarget(Body* const target)
 {
 	m_combatTarget = target;
 	Pi::worldView->UpdateCommsOptions();
+}
+
+/* Orient so our -ve z axis == dir. ie so that dir points forwards */
+void Ship::AIFaceDirection(const vector3d &dir)
+{
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	rot = rot.InverseOf();
+	const vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
+	vector3d rotaxis = vector3d::Cross(zaxis, dir);
+	const float dot = vector3d::Dot(dir, zaxis);
+	// if facing > 90 degrees away then max turn rate
+	if (dot < 0) rotaxis.Normalize();
+	rotaxis = rot*rotaxis;
+	ClearThrusterState();
+	// still must apply rotation damping
+	rotaxis -= CalcRotDamping();
+	SetAngThrusterState(0, rotaxis.x);
+	SetAngThrusterState(1, rotaxis.y);
+	SetAngThrusterState(2, rotaxis.z);
+	if (dot > 0) SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
+	if (dot > 0.95f) SetGunState(0,1);
+	else SetGunState(0,0);
 }
 
 bool Ship::IsFiringLasers()

@@ -2,6 +2,7 @@
 #define _SERIALIZE_H
 
 #include "libs.h"
+#include "StarSystem.h"
 #include <vector>
 #define SAVEFILE_VERSION	1
 

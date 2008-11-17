@@ -48,6 +48,7 @@ public:
 	enum FlightState { FLYING, LANDED };
        	FlightState GetFlightState() const { return m_flightState; }
 	float GetWheelState() const { return m_wheelState; }
+	void AIFaceDirection(const vector3d &dir);
 	
 	EquipSet m_equipment;
 
