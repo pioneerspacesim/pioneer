@@ -3,6 +3,40 @@
 
 namespace Gui {
 
+bool Container::OnMouseMotion(MouseMotionEvent *e)
+{
+	float x = e->x;
+	float y = e->y;
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		float pos[2],size[2];
+		if (!(*i).w->IsVisible()) {
+			if ((*i).w->IsMouseOver() == true)
+				(*i).w->OnMouseLeave();
+			continue;
+		}
+		int evmask = (*i).w->GetEventMask();
+		if (!(evmask & Widget::EVENT_MOUSEMOTION)) continue;
+
+		(*i).w->GetPosition(pos);
+		(*i).w->GetSize(size);
+
+		if ((x >= pos[0]) && (x < pos[0]+size[0]) &&
+		    (y >= pos[1]) && (y < pos[1]+size[1])) {
+			e->x = x-pos[0];
+			e->y = y-pos[1];
+			if ((*i).w->IsMouseOver() == false) {
+				(*i).w->OnMouseEnter();
+			}
+			bool alive = (*i).w->OnMouseMotion(e);
+			if (!alive) return false;
+		} else {
+			if ((*i).w->IsMouseOver() == true)
+				(*i).w->OnMouseLeave();
+		}
+	}
+	return true;
+}
+
 bool Container::HandleMouseEvent(MouseButtonEvent *e)
 {
 	float x = e->x;

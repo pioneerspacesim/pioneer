@@ -292,6 +292,23 @@ void FontFace::RenderGlyph(int chr)
 	glDrawElements (GL_TRIANGLES, glyph->numidx, GL_UNSIGNED_SHORT, glyph->iarray);
 }
 
+void FontFace::MeasureString(const char *str, float &w, float &h)
+{
+	w = 0;
+	h = GetHeight();
+	float line_width = 0;
+	for (unsigned int i=0; i<strlen(str); i++) {
+		if (str[i] == '\n') {
+			if (line_width > w) w = line_width;
+			line_width = 0;
+			h += GetHeight();
+		} else {
+			line_width += m_glyphs[str[i]].advx;
+		}
+	}
+	if (line_width > w) w = line_width;
+}
+
 void FontFace::RenderString(const char *str)
 {
 	glPushMatrix();

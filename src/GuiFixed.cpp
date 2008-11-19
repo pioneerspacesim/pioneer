@@ -8,7 +8,7 @@ Fixed::Fixed(float w, float h)
 	SetSize(w, h);
 	memcpy(m_bgcol, Color::bg, 3*sizeof(float));
 	m_w = w; m_h = h;
-	m_transparent = false;
+	m_transparent = true;
 	m_eventMask = EVENT_ALL;
 }
 

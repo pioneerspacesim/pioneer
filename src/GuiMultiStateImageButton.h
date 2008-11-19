@@ -14,16 +14,20 @@ namespace Gui {
 		virtual ~MultiStateImageButton();
 		virtual void GetSizeRequested(float size[2]);
 		void AddState(int state, const char *filename);
+		void AddState(int state, const char *filename, std::string tooltip);
 		int GetState() { return m_states[m_curState].state; }
 		void StateNext();
 		void StatePrev();
 		virtual void OnActivate();
 		sigc::signal<void, MultiStateImageButton*> onClick;
 		virtual void SetSelected(bool state);
+	protected:
+		virtual std::string GetOverrideTooltip();
 	private:
 		struct State {
 			int state;
 			Image *image;
+			std::string tooltip;
 		};
 		std::vector<State> m_states;
 		int m_curState;

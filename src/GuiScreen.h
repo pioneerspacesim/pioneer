@@ -13,9 +13,11 @@ namespace Gui {
 		static void Draw();
 		static void AddBaseWidget(Widget *w, int x, int y);
 		static void RemoveBaseWidget(Widget *w);
+		static void OnMouseMotion(SDL_MouseMotionEvent *e);
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_keysym *sym);
 		static void RenderString(const std::string &s);
+		static void MeasureString(const std::string &s, float &w, float &h);
 		static void RenderMarkup(const std::string &s);
 		static void PutClickableLabel(const std::string &s, float x, float y, sigc::slot<void, const Gui::MouseButtonEvent*> slot);
 		static void RenderLabel(const std::string &s, float x, float y);
@@ -36,16 +38,18 @@ namespace Gui {
 		static void OnClickTestLabels(const Gui::MouseButtonEvent &ev);
 		static bool CanPutLabel(float x, float y);
 		static void AddShortcutWidget(Widget *w);
+		static void SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y);
 
 		static bool initted;
 		static int width, height;
 		static int realWidth, realHeight;
 		static float invRealWidth, invRealHeight;
-		static std::list<Widget*> widgets;
 		static std::list<Widget*> kbshortcut_widgets;
+		static std::list<Widget*> mouseHoveredWidgets;
 		static FontFace *font;
 		static float font_xsize;
 		static float font_ysize;
+		static Gui::Fixed *baseContainer;
 	};
 }
 

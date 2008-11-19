@@ -8,6 +8,10 @@ namespace Gui {
 		float x, y; // widget coords
 		float screenX, screenY; // screen coords
 	};
+	struct MouseMotionEvent {
+		float x, y; // widget coords
+		float screenX, screenY; // screen coords
+	};
 }
 
 #endif /* _GUIEVENTS_H */

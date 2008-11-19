@@ -16,6 +16,7 @@ namespace Gui {
 		void SetText(std::string &text);
 		void SetColor(float r, float g, float b);
 	private:
+		void RecalcSize();
 		std::string m_text;
 		float m_color[3];
 	};

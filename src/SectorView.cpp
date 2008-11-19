@@ -22,14 +22,17 @@ SectorView::SectorView(): GenericSystemView()
 	Gui::ImageButton *ib = new Gui::ImageButton("icons/sectorview_f6_systeminfo.png");
 	ib->onClick.connect(sigc::mem_fun(this, &SectorView::OnClickSystemInfo));
 	ib->SetShortcut(SDLK_F5, KMOD_NONE);
+	ib->SetToolTip("Star system information");
 	m_rightButtonBar->Add(ib, 2, 2);
 	
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
 	m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	m_zoomInButton->SetToolTip("Zoom in");
 	m_rightButtonBar->Add(m_zoomInButton, 34, 2);
 	
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out_f8.png");
 	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
+	m_zoomOutButton->SetToolTip("Zoom out");
 	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
 
 	m_gluDiskDlist = glGenLists(1);

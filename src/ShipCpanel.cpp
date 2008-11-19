@@ -50,9 +50,9 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	Gui::MultiStateImageButton *cam_button = new Gui::MultiStateImageButton();
 	g->Add(cam_button);
 	cam_button->SetSelected(true);
-	cam_button->AddState(WorldView::CAM_FRONT, "icons/cam_front.png");
-	cam_button->AddState(WorldView::CAM_REAR, "icons/cam_rear.png");
-	cam_button->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png");
+	cam_button->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "Front view");
+	cam_button->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "Rear view");
+	cam_button->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "External view");
 	cam_button->SetShortcut(SDLK_F1, KMOD_NONE);
 	cam_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
 	Add(cam_button, 2, 2);
@@ -61,8 +61,8 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	g->Add(map_button);
 	map_button->SetSelected(false);
 	map_button->SetShortcut(SDLK_F2, KMOD_NONE);
-	map_button->AddState(Pi::MAP_SECTOR, "icons/cpan_f2_map.png");
-	map_button->AddState(Pi::MAP_SYSTEM, "icons/cpan_f2_normal.png");
+	map_button->AddState(Pi::MAP_SECTOR, "icons/cpan_f2_map.png", "Galaxy sector map");
+	map_button->AddState(Pi::MAP_SYSTEM, "icons/cpan_f2_normal.png", "Star system view");
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView));
 	Add(map_button, 34, 2);
 
@@ -70,7 +70,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	g->Add(info_button);
 	info_button->SetSelected(false);
 	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
-	info_button->AddState(0, "icons/cpan_f3_shipinfo.png");
+	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "Ship information");
 	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
 	Add(info_button, 66, 2);
 
@@ -78,7 +78,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	g->Add(comms_button);
 	comms_button->SetSelected(false);
 	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
-	comms_button->AddState(0, "icons/comms_f4.png");
+	comms_button->AddState(0, "icons/comms_f4.png", "Comms");
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
 	Add(comms_button, 98, 2);
 

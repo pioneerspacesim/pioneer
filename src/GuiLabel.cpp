@@ -14,14 +14,23 @@ Label::Label(std::string &text)
 	m_color[0] = m_color[1] = m_color[2] = 1.0f;
 }
 
+void Label::RecalcSize()
+{
+	float w, h;
+	Screen::MeasureString(m_text, w, h);
+	SetSize(w, h);
+}
+
 void Label::SetText(const char *text)
 {
 	m_text = text;
+	RecalcSize();
 }
 
 void Label::SetText(std::string &text)
 {
 	m_text = text;
+	RecalcSize();
 }
 
 void Label::Draw()
@@ -32,9 +41,8 @@ void Label::Draw()
 
 void Label::GetSizeRequested(float size[2])
 {
-#pragma message("not setting size correctly")
-	size[0] = 70;
-	size[1] = 10;
+	RecalcSize();
+	GetSize(size);
 }
 
 void Label::SetColor(float r, float g, float b)

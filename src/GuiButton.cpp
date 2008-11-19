@@ -7,7 +7,7 @@ namespace Gui {
 Button::Button() 
 {
 	m_isPressed = false;
-	m_eventMask = EVENT_MOUSEDOWN | EVENT_MOUSEUP;
+	m_eventMask = EVENT_MOUSEDOWN | EVENT_MOUSEUP | EVENT_MOUSEMOTION;
 	SetSize(BUTTON_SIZE, BUTTON_SIZE);
 }
 bool Button::OnMouseDown(MouseButtonEvent *e)

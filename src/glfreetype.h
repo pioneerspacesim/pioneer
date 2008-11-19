@@ -12,6 +12,7 @@ class FontFace
 	void RenderGlyph(int chr);
 	void RenderString(const char *str);
 	void RenderMarkup(const char *str);
+	void MeasureString(const char *str, float &w, float &h);
 	// of Ms
 	float GetHeight() { return m_height; }
 	float GetWidth() { return m_width; }

@@ -11,11 +11,11 @@ int Screen::realWidth;
 int Screen::realHeight;
 float Screen::invRealWidth;
 float Screen::invRealHeight;
-std::list<Widget*> Screen::widgets;
 std::list<Widget*> Screen::kbshortcut_widgets;
 float Screen::font_xsize;
 float Screen::font_ysize;
 std::vector<Screen::LabelPos> Screen::labelPositions;
+Gui::Fixed *Screen::baseContainer;
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -29,6 +29,8 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::font = new FontFace("font.ttf");
 	Screen::font_xsize = 16*0.8;
 	Screen::font_ysize = 16;
+	Screen::baseContainer = new Gui::Fixed(Screen::width, Screen::height);
+	Screen::baseContainer->SetPosition(0,0);
 }
 
 GLint Screen::Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ)
@@ -46,7 +48,6 @@ void Screen::EnterOrtho()
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	//glOrtho(0, 320, 0, 200, -1, 1);
 	glOrtho(0, width, 0, height, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -68,70 +69,48 @@ void Screen::Draw()
 	assert(Screen::initted);
 	labelPositions.clear();
 	EnterOrtho();
-	
-	for (std::list<Widget*>::iterator i = Screen::widgets.begin(); i != Screen::widgets.end(); ++i) {
-		if (!(*i)->IsVisible()) continue;
-		glPushMatrix();
-		float pos[2];
-		(*i)->GetPosition(pos);
-		glTranslatef(pos[0], pos[1], 0);
-		(*i)->Draw();
-		glPopMatrix();
-	}
-
+	baseContainer->Draw();
 	LeaveOrtho();
 }
 
 void Screen::AddBaseWidget(Widget *w, int x, int y)
 {
-	w->SetPosition(x, y);
-	Screen::widgets.push_back(w);
+	baseContainer->Add(w, x, y);
 }
 
 void Screen::RemoveBaseWidget(Widget *w)
 {
-	Screen::widgets.remove(w);
+	baseContainer->Remove(w);
+}
+	
+void Screen::SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y)
+{
+	*y = height-(sdlev_y*height*invRealHeight);
+	*x = sdlev_x*width*invRealWidth;
+}
+
+void Screen::OnMouseMotion(SDL_MouseMotionEvent *e)
+{
+	MouseMotionEvent ev;
+	float x, y;
+	Screen::SDLEventCoordToScreenCoord(e->x, e->y, &x, &y);
+	ev.screenX = ev.x = x;
+	ev.screenY = ev.y = y;
+	baseContainer->OnMouseMotion(&ev);
 }
 
 void Screen::OnClick(SDL_MouseButtonEvent *e)
 {
 	MouseButtonEvent ev;
-	float x = e->x;
-	float y = e->y;
-	y = height-(y*height*invRealHeight);
-	x = x*width*invRealWidth;
+	float x, y;
+	Screen::SDLEventCoordToScreenCoord(e->x, e->y, &x, &y);
 	ev.button = e->button;
 	ev.isdown = (e->type == SDL_MOUSEBUTTONDOWN);
-	ev.x = x;
-	ev.y = y;
-	ev.screenX = x;
-	ev.screenY = y;
+	ev.screenX = ev.x = x;
+	ev.screenY = ev.y = y;
 	OnClickTestLabels(ev);
-	for (std::list<Widget*>::iterator i = Screen::widgets.begin(); i != Screen::widgets.end(); ++i) {
-		float size[2],pos[2];
-		if (!(*i)->IsVisible()) continue;
-		int evmask = (*i)->GetEventMask();
-		if (ev.isdown) {
-			if (!(evmask & Widget::EVENT_MOUSEDOWN)) continue;
-		} else {
-			if (!(evmask & Widget::EVENT_MOUSEUP)) continue;
-		}
-		(*i)->GetPosition(pos);
-		(*i)->GetSize(size);
-
-		if ((x >= pos[0]) && (x < pos[0]+size[0]) &&
-		    (y >= pos[1]) && (y < pos[1]+size[1])) {
-
-			ev.x = x-pos[0];
-			ev.y = y-pos[1];
-
-			if (ev.isdown) {
-				(*i)->OnMouseDown(&ev);
-			} else {
-				(*i)->OnMouseUp(&ev);
-			}
-		}
-	}
+	if (ev.isdown) baseContainer->OnMouseDown(&ev);
+	else baseContainer->OnMouseUp(&ev);
 }
 
 void Screen::OnClickTestLabels(const Gui::MouseButtonEvent &ev)
@@ -153,6 +132,13 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 		if (!(*i)->IsVisible()) continue;
 		(*i)->OnPreShortcut(sym);
 	}
+}
+
+void Screen::MeasureString(const std::string &s, float &w, float &h)
+{
+	font->MeasureString(s.c_str(), w, h);
+	w *= Screen::font_xsize;
+	h *= Screen::font_ysize;
 }
 
 void Screen::RenderString(const std::string &s)

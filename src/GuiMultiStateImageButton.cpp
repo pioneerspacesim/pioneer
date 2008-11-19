@@ -20,12 +20,14 @@ void MultiStateImageButton::StateNext()
 {
 	m_curState++;
 	if (m_curState >= (signed)m_states.size()) m_curState = 0;
+	UpdateOverriddenTooltip();
 }
 
 void MultiStateImageButton::StatePrev()
 {
 	m_curState--;
 	if (m_curState < 0) m_curState = (signed)m_states.size()-1;
+	UpdateOverriddenTooltip();
 }
 
 void MultiStateImageButton::OnActivate()
@@ -57,13 +59,24 @@ void MultiStateImageButton::Draw()
 
 void MultiStateImageButton::AddState(int state, const char *filename)
 {
+	AddState(state, filename, "");
+}
+
+void MultiStateImageButton::AddState(int state, const char *filename, std::string tooltip)
+{
 	State s;
 	s.state = state;
 	s.image = new Image(filename);
+	s.tooltip = tooltip;
 	m_states.push_back(s);
 	float size[2];
 	s.image->GetSizeRequested(size);
 	SetSize(size[0], size[1]);
+}
+
+std::string MultiStateImageButton::GetOverrideTooltip()
+{
+	return m_states[m_curState].tooltip;
 }
 
 }
