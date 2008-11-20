@@ -15,11 +15,18 @@ public:
 	void DrawHUD(const Frame *cam_frame);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void TimeStepUpdate(const float timeStep);
+	enum FlightControlState { CONTROL_MANUAL, CONTROL_AUTOPILOT };
+	FlightControlState GetFlightControlState() const { return m_flightControlState; }
+	void SetFlightControlState(FlightControlState s);
+protected:
+	virtual void Save();
+	virtual void Load();
 private:
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
 	float m_mouseCMov[2];
 	bool polledControlsThisTurn;
+	enum FlightControlState m_flightControlState;
 };
 
 #endif /* _PLAYER_H */

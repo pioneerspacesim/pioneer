@@ -16,15 +16,15 @@ WorldView::WorldView(): View()
 	float size[2];
 	GetSize(size);
 	
-	labelsOn = true;
+	m_labelsOn = true;
 	m_camType = CAM_FRONT;
 	SetTransparency(true);
 	m_externalViewRotX = m_externalViewRotY = 0;
 	m_externalViewDist = 200;
 	
-	commsOptions = new Fixed(size[0], size[1]/2);
-	commsOptions->SetTransparency(true);
-	Add(commsOptions, 10, 20);
+	m_commsOptions = new Fixed(size[0], size[1]/2);
+	m_commsOptions->SetTransparency(true);
+	Add(m_commsOptions, 10, 20);
 
 	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
 	wheels_button->SetShortcut(SDLK_F6, KMOD_NONE);
@@ -46,15 +46,22 @@ WorldView::WorldView(): View()
 	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
 
-	launchButton = new Gui::ImageButton("icons/blastoff.png");
-	launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
-	launchButton->SetToolTip("Takeoff");
-	launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
-	m_rightButtonBar->Add(launchButton, 2, 2);
+	m_launchButton = new Gui::ImageButton("icons/blastoff.png");
+	m_launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
+	m_launchButton->SetToolTip("Takeoff");
+	m_launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
+	m_rightButtonBar->Add(m_launchButton, 2, 2);
+
+	m_flightControlButton = new Gui::MultiStateImageButton();
+	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
+	m_flightControlButton->AddState(Player::CONTROL_MANUAL, "icons/manual_control.png", "Manual control");
+	m_flightControlButton->AddState(Player::CONTROL_AUTOPILOT, "icons/autopilot.png", "Autopilot on");
+	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
+	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 	
-	flightStatus = new Gui::Label("");
-	flightStatus->SetColor(1,.7,0);
-	m_rightRegion2->Add(flightStatus, 10, 3);
+	m_flightStatus = new Gui::Label("");
+	m_flightStatus->SetColor(1,.7,0);
+	m_rightRegion2->Add(m_flightStatus, 10, 3);
 	
 	m_bgstarsDlist = glGenLists(1);
 
@@ -124,9 +131,14 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 	}
 }
 
+void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
+{
+	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
+}
+
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 {
-	labelsOn = b->GetState();
+	m_labelsOn = b->GetState();
 }
 
 void WorldView::OnClickBlastoff()
@@ -230,27 +242,29 @@ void WorldView::Update()
 
 	Body *target = Pi::player->GetNavTarget();
 	if (target) {
-		commsOptions->ShowAll();
+		m_commsOptions->ShowAll();
 	} else {
-		//commsOptions->HideAll();
+		//m_commsOptions->HideAll();
 	}
 
 	if (Pi::player->GetFlightState() == Ship::LANDED) {
-		flightStatus->SetText("Landed");
-		launchButton->Show();
+		m_flightStatus->SetText("Landed");
+		m_launchButton->Show();
+		m_flightControlButton->Hide();
 	} else {
-		flightStatus->SetText("Manual Control");
-		launchButton->Hide();
+		m_flightStatus->SetText("Manual Control");
+		m_launchButton->Hide();
+		m_flightControlButton->Show();
 	}
 }
 
 Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos)
 {
 	Gui::Label *l = new Gui::Label(msg);
-	commsOptions->Add(l, 50, ypos);
+	m_commsOptions->Add(l, 50, ypos);
 
 	Gui::TransparentButton *b = new Gui::TransparentButton();
-	commsOptions->Add(b, 16, ypos);
+	m_commsOptions->Add(b, 16, ypos);
 	return b;
 }
 
@@ -263,20 +277,20 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 void WorldView::UpdateCommsOptions()
 {
 	Body * const navtarget = Pi::player->GetNavTarget();
-	commsOptions->DeleteAllChildren();
+	m_commsOptions->DeleteAllChildren();
 	
 	float size[2];
-	commsOptions->GetSize(size);
+	m_commsOptions->GetSize(size);
 	int ypos = size[1]-16;
 	if (navtarget) {
 		if (navtarget->IsType(Object::SPACESTATION)) {
-			commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
+			m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
 			ypos -= 32;
 			Gui::Button *b = AddCommsOption("Request docking clearance", ypos);
 			b->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
 			ypos -= 32;
 		} else {
-			commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
+			m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
 			ypos -= 32;
 			std::string msg = "Do something to "+navtarget->GetLabel();
 			Gui::Button *b = AddCommsOption(msg, ypos);

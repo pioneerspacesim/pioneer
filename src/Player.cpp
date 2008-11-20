@@ -5,11 +5,13 @@
 #include "Gui.h"
 #include "WorldView.h"
 #include "SpaceStationView.h"
+#include "Serializer.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_mouseCMov[0] = m_mouseCMov[1] = 0;
 	m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+	m_flightControlState = CONTROL_MANUAL;
 	UpdateMass();
 }
 
@@ -17,6 +19,36 @@ Player::~Player()
 {
 	assert(this == Pi::player);
 	Pi::player = 0;
+}
+
+void Player::Save()
+{
+	using namespace Serializer::Write;
+	Ship::Save();
+	wr_int(static_cast<int>(m_flightControlState));
+}
+
+void Player::Load()
+{
+	using namespace Serializer::Read;
+	Ship::Load();
+	m_flightControlState = static_cast<FlightControlState>(rd_int());
+}
+
+void Player::SetFlightControlState(enum FlightControlState s)
+{
+	m_flightControlState = s;
+	if (m_flightControlState == CONTROL_AUTOPILOT) {
+		Body *target = GetNavTarget();
+		AIClearInstructions();
+		if (target && target->IsType(Object::SHIP)) {
+			AIInstruct(Ship::DO_KILL, target);
+		} else if (target) {
+			AIInstruct(Ship::DO_KILL, target);
+		}
+	} else {
+		AIClearInstructions();
+	}
 }
 
 void Player::Render(const Frame *camFrame)

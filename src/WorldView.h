@@ -14,7 +14,7 @@ public:
 	virtual void Draw3D();
 	static const float PICK_OBJECT_RECT_SIZE;
 	void UpdateCommsOptions();
-	bool GetShowLabels() { return labelsOn; }
+	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
 	void ApplyExternalViewRotation(matrix4x4d &m);
@@ -32,14 +32,16 @@ private:
 	void OnClickBlastoff();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
+	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	Body* PickBody(const float screenX, const float screenY) const;
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsDlist;
-	Gui::Fixed *commsOptions;
-	Gui::Label *flightStatus;
-	Gui::ImageButton *launchButton;
-	bool labelsOn;
+	Gui::Fixed *m_commsOptions;
+	Gui::Label *m_flightStatus;
+	Gui::ImageButton *m_launchButton;
+	Gui::MultiStateImageButton *m_flightControlButton;
+	bool m_labelsOn;
 	enum CamType m_camType;
 };
 
