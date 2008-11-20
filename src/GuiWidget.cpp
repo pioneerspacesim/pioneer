@@ -42,6 +42,7 @@ void Widget::OnMouseEnter()
 {
 	m_mouseOver = true;
 	Gui::AddTimer(1000, &m_tooltipTimerSignal);
+	onMouseEnter.emit();
 }
 
 void Widget::OnMouseLeave()
@@ -52,6 +53,7 @@ void Widget::OnMouseLeave()
 		m_tooltipWidget = 0;
 	}
 	Gui::RemoveTimer(&m_tooltipTimerSignal);
+	onMouseLeave.emit();
 }
 
 void Widget::UpdateOverriddenTooltip()

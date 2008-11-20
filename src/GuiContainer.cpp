@@ -3,6 +3,19 @@
 
 namespace Gui {
 
+Container::Container()
+{
+	onMouseLeave.connect(sigc::mem_fun(this, &Container::_OnMouseLeave));
+}
+
+void Container::_OnMouseLeave()
+{
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		if ((*i).w->IsMouseOver() == true)
+			(*i).w->OnMouseLeave();
+	}
+}
+
 bool Container::OnMouseMotion(MouseMotionEvent *e)
 {
 	float x = e->x;

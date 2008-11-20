@@ -46,6 +46,9 @@ namespace Gui {
 			EVENT_ALL = 0xffffffff
 		};
 		unsigned int GetEventMask() { return m_eventMask; }
+
+		sigc::signal<void> onMouseEnter;
+		sigc::signal<void> onMouseLeave;
 	protected:
 		unsigned int m_eventMask;
 		struct {

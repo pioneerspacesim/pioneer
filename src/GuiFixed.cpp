@@ -3,7 +3,7 @@
 
 namespace Gui {
 
-Fixed::Fixed(float w, float h)
+Fixed::Fixed(float w, float h): Container()
 {
 	SetSize(w, h);
 	memcpy(m_bgcol, Color::bg, 3*sizeof(float));

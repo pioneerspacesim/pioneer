@@ -10,6 +10,7 @@
 namespace Gui {
 	class Container: public Widget {
 	public:
+		Container();
 		bool OnMouseDown(MouseButtonEvent *e);
 		bool OnMouseUp(MouseButtonEvent *e);
 		bool OnMouseMotion(MouseMotionEvent *e);
@@ -18,6 +19,7 @@ namespace Gui {
 		virtual void ShowAll();
 		virtual void HideAll();
 	private:
+		void _OnMouseLeave();
 		bool HandleMouseEvent(MouseButtonEvent *e);
 	protected:
 		void PrependChild(Widget *w, float x, float y);
