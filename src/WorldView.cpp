@@ -55,6 +55,7 @@ WorldView::WorldView(): View()
 	m_flightControlButton = new Gui::MultiStateImageButton();
 	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	m_flightControlButton->AddState(Player::CONTROL_MANUAL, "icons/manual_control.png", "Manual control");
+	m_flightControlButton->AddState(Player::CONTROL_FIXSPEED, "icons/manual_control.png", "Computer speed control");
 	m_flightControlButton->AddState(Player::CONTROL_AUTOPILOT, "icons/autopilot.png", "Autopilot on");
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
@@ -236,9 +237,6 @@ void WorldView::Update()
 	} else {
 		m_hyperspaceButton->Hide();
 	}
-	// player control inputs
-	if(Pi::player)
-		Pi::player->PollControls();
 
 	Body *target = Pi::player->GetNavTarget();
 	if (target) {
@@ -252,7 +250,15 @@ void WorldView::Update()
 		m_launchButton->Show();
 		m_flightControlButton->Hide();
 	} else {
-		m_flightStatus->SetText("Manual Control");
+		Player::FlightControlState fstate = Pi::player->GetFlightControlState();
+		switch (fstate) {
+			case Player::CONTROL_MANUAL:
+				m_flightStatus->SetText("Manual Control"); break;
+			case Player::CONTROL_FIXSPEED:
+				m_flightStatus->SetText("Speed Control"); break;
+			case Player::CONTROL_AUTOPILOT:
+				m_flightStatus->SetText("Autopilot"); break;
+		}
 		m_launchButton->Hide();
 		m_flightControlButton->Show();
 	}

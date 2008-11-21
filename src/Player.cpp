@@ -26,6 +26,7 @@ void Player::Save()
 	using namespace Serializer::Write;
 	Ship::Save();
 	wr_int(static_cast<int>(m_flightControlState));
+	wr_float(m_setSpeed);
 }
 
 void Player::Load()
@@ -33,6 +34,7 @@ void Player::Load()
 	using namespace Serializer::Read;
 	Ship::Load();
 	m_flightControlState = static_cast<FlightControlState>(rd_int());
+	m_setSpeed = rd_float();
 }
 
 void Player::SetFlightControlState(enum FlightControlState s)
@@ -46,6 +48,9 @@ void Player::SetFlightControlState(enum FlightControlState s)
 		} else if (target) {
 			AIInstruct(Ship::DO_KILL, target);
 		}
+	} else if (m_flightControlState == CONTROL_FIXSPEED) {
+		AIClearInstructions();
+		m_setSpeed = GetVelocity().Length();
 	} else {
 		AIClearInstructions();
 	}
@@ -73,21 +78,35 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 
 void Player::TimeStepUpdate(const float timeStep)
 {
-	if (GetFlightState() == Ship::FLYING) {
-		// when world view not selected
-		if (!polledControlsThisTurn) {
-			const float time_accel = Pi::GetTimeAccel();
-			const float ta2 = time_accel*time_accel;
-			ClearThrusterState();
-			// still must apply rotation damping
-			vector3d damping = CalcRotDamping();
-			damping *= 1.0f/ta2;
-			SetAngThrusterState(0, -damping.x);
-			SetAngThrusterState(1, -damping.y);
-			SetAngThrusterState(2, -damping.z);
-		}
-	}
+	ClearThrusterState();
 	polledControlsThisTurn = false;
+	if (Pi::GetView() == Pi::worldView) PollControls();
+
+	if (GetFlightState() == Ship::FLYING) {
+		switch (m_flightControlState) {
+		case CONTROL_MANUAL:
+			// when world view not selected
+			if (!polledControlsThisTurn) {
+				const float time_accel = Pi::GetTimeAccel();
+				const float ta2 = time_accel*time_accel;
+				// still must apply rotation damping
+				vector3d damping = CalcRotDamping();
+				damping *= 1.0f/ta2;
+				SetAngThrusterState(0, -damping.x);
+				SetAngThrusterState(1, -damping.y);
+				SetAngThrusterState(2, -damping.z);
+			}
+			break;
+		case CONTROL_FIXSPEED:
+			AIAccelToModelRelativeVelocity(vector3d(0,0,-m_setSpeed));
+			break;
+		case CONTROL_AUTOPILOT:
+			break;
+		}
+	} else {
+		m_flightControlState = CONTROL_MANUAL;
+		AIClearInstructions();
+	}
 	Ship::TimeStepUpdate(timeStep);
 }
 
@@ -137,6 +156,10 @@ void Player::PollControls()
 			angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 		}
 		
+		if (m_flightControlState == CONTROL_FIXSPEED) {
+			if (Pi::KeyState(SDLK_RETURN)) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
+			if (Pi::KeyState(SDLK_RSHIFT)) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
+		}
 		if (Pi::KeyState(SDLK_w)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
 		if (Pi::KeyState(SDLK_s)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
 		if (Pi::KeyState(SDLK_2)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
@@ -275,6 +298,19 @@ void Player::DrawHUD(const Frame *cam_frame)
 		}
 		glPushMatrix();
 		glTranslatef(2, 66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+	
+	if (m_flightControlState == CONTROL_FIXSPEED) {
+		char buf[128];
+		if (m_setSpeed > 1000) {
+			snprintf(buf,sizeof(buf), "Set speed: %.2f km/s", m_setSpeed*0.001);
+		} else {
+			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", m_setSpeed);
+		}
+		glPushMatrix();
+		glTranslatef(200, 66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}

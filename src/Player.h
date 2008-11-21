@@ -15,7 +15,7 @@ public:
 	void DrawHUD(const Frame *cam_frame);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void TimeStepUpdate(const float timeStep);
-	enum FlightControlState { CONTROL_MANUAL, CONTROL_AUTOPILOT };
+	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
 protected:
@@ -27,6 +27,7 @@ private:
 	float m_mouseCMov[2];
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
+	float m_setSpeed;
 };
 
 #endif /* _PLAYER_H */
