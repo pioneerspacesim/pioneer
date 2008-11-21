@@ -50,6 +50,8 @@ public:
        	FlightState GetFlightState() const { return m_flightState; }
 	float GetWheelState() const { return m_wheelState; }
 	void AIFaceDirection(const vector3d &dir);
+	void AIAccelToModelRelativeVelocity(const vector3d v);
+	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
 	
 	EquipSet m_equipment;
 

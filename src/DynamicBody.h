@@ -12,20 +12,20 @@ public:
 	DynamicBody();
 	virtual ~DynamicBody();
 	virtual void SetRotMatrix(const matrix4x4d &r);
-	virtual void GetRotMatrix(matrix4x4d &m);
+	virtual void GetRotMatrix(matrix4x4d &m) const;
 	virtual void SetVelocity(vector3d v);
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;
-	virtual vector3d GetVelocity();
-	vector3d GetAngVelocity();
+	virtual vector3d GetVelocity() const;
+	vector3d GetAngVelocity() const;
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
-	vector3d GetAngularMomentum();
+	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
 	void DisableBodyOnly() { m_enabled = false; }
-	bool IsEnabled() { return m_enabled; }
+	bool IsEnabled() const { return m_enabled; }
 	virtual void Disable();
 	virtual void Enable();
 	virtual double GetMass() const { return m_mass; }

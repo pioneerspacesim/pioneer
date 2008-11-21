@@ -201,7 +201,7 @@ vector3d Ship::CalcRotDamping()
 
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 {
-	m_thrusters[t] = level;
+	m_thrusters[t] = CLAMP(level, 0.0, 1.0);
 }
 
 void Ship::ClearThrusterState()
@@ -335,7 +335,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		float force = timeStep * stype.linThrust[i] * m_thrusters[i];
+		float force = stype.linThrust[i] * m_thrusters[i];
 		switch (i) {
 		case ShipType::THRUSTER_REAR: 
 		case ShipType::THRUSTER_FRONT:
@@ -380,41 +380,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	}
 
 	if (m_testLanded) TestLanded();
-}
-
-void Ship::AITimeStep(const float timeStep)
-{
-	bool done = false;
-
-	if (m_todo.size() != 0) {
-		AIInstruction &inst = m_todo.front();
-		switch (inst.cmd) {
-			case DO_KILL:
-				done = AICmdKill(static_cast<const Ship*>(inst.arg));
-				break;
-			case DO_NOTHING: done = true; break;
-		}
-	}
-	if (done) { 
-		printf("AI '%s' successfully executed %d:'%s'\n", GetLabel().c_str(), m_todo.front().cmd,
-				static_cast<Ship*>(m_todo.front().arg)->GetLabel().c_str());
-		m_todo.pop_front();
-	}
-}
-
-bool Ship::AICmdKill(const Ship *enemy)
-{
-	/* needs to deal with frames, large distances, and success */
-	if (GetFrame() == enemy->GetFrame()) {
-		vector3d dir = vector3d::Normalize(enemy->GetPosition() - GetPosition());
-		AIFaceDirection(dir);
-	}
-	return false;
-}
-
-void Ship::AIInstruct(enum AICommand cmd, void *arg)
-{
-	m_todo.push_back(AIInstruction(cmd, arg));
 }
 
 void Ship::NotifyDeath(const Body* const dyingBody)
@@ -471,29 +436,6 @@ void Ship::SetCombatTarget(Body* const target)
 {
 	m_combatTarget = target;
 	Pi::worldView->UpdateCommsOptions();
-}
-
-/* Orient so our -ve z axis == dir. ie so that dir points forwards */
-void Ship::AIFaceDirection(const vector3d &dir)
-{
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	rot = rot.InverseOf();
-	const vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
-	vector3d rotaxis = vector3d::Cross(zaxis, dir);
-	const float dot = vector3d::Dot(dir, zaxis);
-	// if facing > 90 degrees away then max turn rate
-	if (dot < 0) rotaxis.Normalize();
-	rotaxis = rot*rotaxis;
-	ClearThrusterState();
-	// still must apply rotation damping
-	rotaxis -= CalcRotDamping();
-	SetAngThrusterState(0, rotaxis.x);
-	SetAngThrusterState(1, rotaxis.y);
-	SetAngThrusterState(2, rotaxis.z);
-	if (dot > 0) SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
-	if (dot > 0.95f) SetGunState(0,1);
-	else SetGunState(0,0);
 }
 
 bool Ship::IsFiringLasers()

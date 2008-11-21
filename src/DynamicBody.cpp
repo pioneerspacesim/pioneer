@@ -165,7 +165,7 @@ void DynamicBody::SetRotMatrix(const matrix4x4d &r)
 	SetPosition(pos);
 }
 
-void DynamicBody::GetRotMatrix(matrix4x4d &m)
+void DynamicBody::GetRotMatrix(matrix4x4d &m) const
 {
 	m = m_orient;
 	m[12] = 0;
@@ -192,7 +192,7 @@ void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
 	SetMass(m_mass);
 }
 
-vector3d DynamicBody::GetAngularMomentum()
+vector3d DynamicBody::GetAngularMomentum() const
 {
 	return m_angInertia * m_angVel;
 }
@@ -201,12 +201,12 @@ DynamicBody::~DynamicBody()
 {
 }
 
-vector3d DynamicBody::GetAngVelocity()
+vector3d DynamicBody::GetAngVelocity() const
 {
 	return m_angVel;
 }
 
-vector3d DynamicBody::GetVelocity()
+vector3d DynamicBody::GetVelocity() const
 {
 	return m_vel;
 }

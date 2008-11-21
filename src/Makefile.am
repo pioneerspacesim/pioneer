@@ -19,7 +19,7 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp date.cpp SpaceStation.cpp \
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
-		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp
+		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp
 pioneer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp

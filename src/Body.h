@@ -20,7 +20,7 @@ public:
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }
-	virtual vector3d GetVelocity() { assert(0); return vector3d(0.0); }
+	virtual vector3d GetVelocity() const { assert(0); return vector3d(0.0); }
 	virtual double GetRadius() const = 0;
 	virtual double GetMass() const { assert(0); return 0; }
 	virtual void SetRotMatrix(const matrix4x4d &r) {};
