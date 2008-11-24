@@ -43,7 +43,7 @@ void Ship::Save()
 	wr_int((int)m_shipType);
 	wr_int(m_dockedWithPort);
 	wr_int(Serializer::LookupBody(m_dockedWith));
-	printf("XXXXXXX NOT SAVING SHIP EQUIPMENT YET!!!!!!!!!!!!!!\n");
+	m_equipment.Save();
 	wr_float(m_stats.hull_mass_left);
 	wr_int(m_todo.size());
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
@@ -80,8 +80,8 @@ void Ship::Load()
 	m_shipType = (ShipType::Type)rd_int();
 	m_dockedWithPort = rd_int();
 	m_dockedWith = (SpaceStation*)rd_int();
-	/// XXXXXXXXXXXXXXX
 	m_equipment = EquipSet(m_shipType);
+	m_equipment.Load();
 	Init();
 	m_stats.hull_mass_left = rd_float(); // must be after Init()...
 	int num = rd_int();
@@ -369,7 +369,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, GetGeom());
 		if (c.userData1) {
 			Body *hit = static_cast<Body*>(c.userData1);
-			hit->OnDamage(this, 1000.0);
+			Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, i);
+			const float damage = 100.0 * EquipType::types[t].pval;
+			hit->OnDamage(this, damage);
 		}
 	}
 
@@ -415,7 +417,9 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 
 void Ship::SetGunState(int idx, int state)
 {
-	m_gunState[idx] = state;
+	if (m_equipment.Get(Equip::SLOT_LASER, idx) != Equip::NONE) {
+		m_gunState[idx] = state;
+	}
 }
 
 bool Ship::SetWheelState(bool down)
@@ -454,7 +458,15 @@ void Ship::RenderLaserfire()
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		if (!m_gunState[i]) continue;
 		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
-		glColor3f(1,0,0);
+		switch (m_equipment.Get(Equip::SLOT_LASER, i)) {
+			case Equip::LASER_2MW_BEAM:
+				glColor3f(1,.5,0); break;
+			case Equip::LASER_4MW_BEAM:
+				glColor3f(1,1,0); break;
+			default:
+			case Equip::LASER_1MW_BEAM:
+				glColor3f(1,0,0); break;
+		}
 		glLineWidth(2.0f);
 		glBegin(GL_LINES);
 		vector3f pos = stype.gunMount[i].pos;

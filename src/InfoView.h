@@ -11,6 +11,7 @@ public:
 	void UpdateInfo();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void OnSwitchTo() {}
 private:
 	Gui::Label *info1;
 };

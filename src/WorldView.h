@@ -12,6 +12,7 @@ public:
 	WorldView();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void OnSwitchTo() {}
 	static const float PICK_OBJECT_RECT_SIZE;
 	void UpdateCommsOptions();
 	bool GetShowLabels() { return m_labelsOn; }

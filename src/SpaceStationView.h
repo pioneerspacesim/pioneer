@@ -5,13 +5,20 @@
 #include "Gui.h"
 #include "View.h"
 
+class StationSubView;
+
 class SpaceStationView: public View {
 public:
 	SpaceStationView();
 	virtual void Update();
 	virtual void Draw3D();
+	void GotoShipyard();
+	void SwitchView(StationSubView *v);
+	virtual void OnSwitchTo();
 private:
-	void OnClickRequestLaunch();
+	StationSubView *m_subview,
+		*m_frontview,
+		*m_shipyard;
 };
 
 #endif /* _SPACESTATIONVIEW_H */

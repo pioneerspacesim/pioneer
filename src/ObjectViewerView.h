@@ -12,6 +12,7 @@ public:
 	ObjectViewerView();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void OnSwitchTo() {}
 private:
 	float viewingDist;
 	Gui::Label *m_infoLabel;

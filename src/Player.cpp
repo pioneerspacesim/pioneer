@@ -10,7 +10,6 @@
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_mouseCMov[0] = m_mouseCMov[1] = 0;
-	m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 	m_flightControlState = CONTROL_MANUAL;
 	UpdateMass();
 }
@@ -167,8 +166,13 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_a)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
 		if (Pi::KeyState(SDLK_d)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 
-		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) SetGunState(0,1);
-		else SetGunState(0,0);
+		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
+			if (Pi::worldView->GetCamType() == WorldView::CAM_REAR) SetGunState(1,1);
+			else SetGunState(0,1);
+		} else {
+			SetGunState(0,0);
+			SetGunState(1,0);
+		}
 		
 		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
 			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
@@ -256,6 +260,23 @@ void Player::DrawHUD(const Frame *cam_frame)
 	if (Pi::worldView->GetCamType() == WorldView::CAM_FRONT) {
 		float px = Gui::Screen::GetWidth()/2.0;
 		float py = Gui::Screen::GetHeight()/2.0;
+		glBegin(GL_LINES);
+		glVertex2f(px-sz, py);
+		glVertex2f(px-0.5*sz, py);
+		
+		glVertex2f(px+sz, py);
+		glVertex2f(px+0.5*sz, py);
+		
+		glVertex2f(px, py-sz);
+		glVertex2f(px, py-0.5*sz);
+		
+		glVertex2f(px, py+sz);
+		glVertex2f(px, py+0.5*sz);
+		glEnd();
+	} else if (Pi::worldView->GetCamType() == WorldView::CAM_REAR) {
+		float px = Gui::Screen::GetWidth()/2.0;
+		float py = Gui::Screen::GetHeight()/2.0;
+		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
 		glBegin(GL_LINES);
 		glVertex2f(px-sz, py);
 		glVertex2f(px-0.5*sz, py);

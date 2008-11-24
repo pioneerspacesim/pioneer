@@ -34,6 +34,11 @@ void InfoView::UpdateInfo()
 			stats->free_capacity, stats->used_capacity, stats->total_mass);
 	nfo += std::string(buf);
 
+	e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
+	nfo += std::string("\n\nFront weapon:      ")+EquipType::types[e].name;
+	e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
+	nfo += std::string("\nRear weapon:       ")+EquipType::types[e].name;
+
 	snprintf(buf, sizeof(buf), "\n\nHyperspace range:  %.2f light years", stats->hyperspace_range);
 	nfo += std::string(buf);
 

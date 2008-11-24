@@ -157,6 +157,7 @@ void Pi::SetView(View *v)
 {
 	if (currentView) currentView->HideAll();
 	currentView = v;
+	currentView->OnSwitchTo();
 	currentView->ShowAll();
 }
 
@@ -214,6 +215,7 @@ void Pi::HandleEvents()
 						ship->SetLabel("A friend");
 						ship->SetFrame(Pi::player->GetFrame());
 						ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+						ship->SetVelocity(Pi::player->GetVelocity());
 						Space::AddBody(ship);
 					}
 				}
@@ -341,6 +343,9 @@ void Pi::TombStoneLoop()
 void Pi::Start()
 {
 	player = new Player(ShipType::SWANKY);
+	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
+	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::LASER_4MW_BEAM);
 	player->SetLabel("me");
 	Space::AddBody(player);
 	

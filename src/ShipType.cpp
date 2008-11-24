@@ -1,4 +1,5 @@
 #include "ShipType.h"
+#include "Serializer.h"
 
 const ShipType ShipType::types[] = {
 	{
@@ -10,7 +11,7 @@ const ShipType ShipType::types[] = {
 		1e7,
 		{
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
+			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
 		{ 1, 2, 0 },
 		100, 20,
@@ -56,5 +57,37 @@ const EquipType EquipType::types[] = {
 	  "1MW beam laser",
 	  Equip::SLOT_LASER,
 	  1, 1
+	},{
+	  "2MW beam laser",
+	  Equip::SLOT_LASER,
+	  1, 2
+	},{
+	  "4MW beam laser",
+	  Equip::SLOT_LASER,
+	  1, 4
 	}
 };
+
+void EquipSet::Save()
+{
+	using namespace Serializer::Write;
+	for (int i=0; i<Equip::SLOT_MAX; i++) {
+		for (unsigned int j=0; j<equip[i].size(); j++) {
+			wr_int(static_cast<int>(equip[i][j]));
+		}
+	}
+}
+
+/*
+ * Should have initialised with EquipSet(ShipType::Type) first
+ */
+void EquipSet::Load()
+{
+	using namespace Serializer::Read;
+	for (int i=0; i<Equip::SLOT_MAX; i++) {
+		for (unsigned int j=0; j<equip[i].size(); j++) {
+			equip[i][j] = static_cast<Equip::Type>(rd_int());
+		}
+	}
+}
+

@@ -7,13 +7,14 @@
 
 namespace Equip {
 	enum Slot { SLOT_ENGINE, SLOT_LASER, SLOT_MISSILE, SLOT_MAX };
-	enum Type { NONE, DRIVE_INTERPLANETARY, DRIVE_CLASS1, LASER_1MW_BEAM };
+	enum Type { NONE, DRIVE_INTERPLANETARY, DRIVE_CLASS1,
+	LASER_1MW_BEAM, LASER_2MW_BEAM, LASER_4MW_BEAM };
 };
 	
 struct ShipType {
 	enum Thruster { THRUSTER_FRONT, THRUSTER_REAR, THRUSTER_TOP, THRUSTER_BOTTOM, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
 	enum Type { SWANKY, LADYBIRD, FLOWERFAIRY };
-	enum { GUNMOUNT_MAX = 2 };
+	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
 
 	////////
 	const char *name;
@@ -49,6 +50,8 @@ public:
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
 	}
+	void Save();
+	void Load();
 private:
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };

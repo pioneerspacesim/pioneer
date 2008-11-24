@@ -12,6 +12,7 @@ public:
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void OnSwitchTo() {}
 private:
 	void PutOrbit(StarSystem::SBody *b);
 	void PutBody(StarSystem::SBody *b);

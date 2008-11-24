@@ -3,7 +3,34 @@
 #include "Player.h"
 #include "WorldView.h"
 
-SpaceStationView::SpaceStationView(): View()
+class StationSubView: public Gui::Fixed {
+public:
+	StationSubView(SpaceStationView *parent): Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()-64) {
+		m_parent = parent;
+	}
+protected:
+	SpaceStationView *m_parent;
+};
+
+/////////////////////////////////////////////////////////////////////////////
+
+class StationFrontView: public StationSubView {
+public:
+	StationFrontView(SpaceStationView *parent);
+private:
+	void OnClickRequestLaunch()
+	{
+		Pi::player->SetDockedWith(0,0);
+		Pi::SetView(Pi::worldView);
+	}
+
+	void OnClickGotoShipYard()
+	{
+		m_parent->GotoShipyard();
+	}
+};
+
+StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(parent)
 {
 	SetTransparency(false);
 
@@ -22,21 +49,67 @@ SpaceStationView::SpaceStationView(): View()
 	Add(l, 40, size[1]-100);
 
 	Gui::SolidButton *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::OnClickRequestLaunch));
+	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickRequestLaunch));
 	Add(b, 40, size[1]-300);
 	l = new Gui::Label("Request Launch");
 	Add(l, 65, size[1]-300);
 
+	b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickGotoShipYard));
+	Add(b, 40, size[1]-360);
+	l = new Gui::Label("Shipyard");
+	Add(l, 65, size[1]-360);
 
-	l = new Gui::Label("Comms Link");
+}
+
+////////////////////////////////////////////////////////////////////
+
+class StationShipyardView: public StationSubView {
+public:
+	StationShipyardView(SpaceStationView *parent);
+private:
+	
+};
+
+
+StationShipyardView::StationShipyardView(SpaceStationView *parent): StationSubView(parent)
+{
+	SetTransparency(false);
+}
+
+/////////////////////////////////////////////////////////////////////
+
+SpaceStationView::SpaceStationView(): View()
+{
+	m_frontview = new StationFrontView(this);
+	m_shipyard = new StationShipyardView(this);
+	m_subview = 0;
+	SwitchView(m_frontview);
+
+	Gui::Label *l = new Gui::Label("Comms Link");
 	l->SetColor(1,.7,0);
 	m_rightRegion2->Add(l, 10, 3);
 }
 
-void SpaceStationView::OnClickRequestLaunch()
+void SpaceStationView::SwitchView(StationSubView *v)
 {
-	Pi::player->SetDockedWith(0,0);
-	Pi::SetView(Pi::worldView);
+	if (m_subview) {
+		m_subview->HideAll();
+		Remove(m_subview);
+	}
+	m_subview = v;
+	Add(m_subview, 0, 0);
+	m_subview->ShowAll();
+}
+
+void SpaceStationView::GotoShipyard()
+{
+	SwitchView(m_shipyard);
+}
+
+void SpaceStationView::OnSwitchTo()
+{
+	SwitchView(m_frontview);
 }
 
 void SpaceStationView::Draw3D()

@@ -12,6 +12,7 @@ public:
 	SystemInfoView();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void OnSwitchTo() {}
 private:
 
 	void SystemChanged(StarSystem *s);
