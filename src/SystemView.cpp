@@ -10,7 +10,7 @@ SystemView::SystemView(): View()
 
 	m_timePoint = new Gui::Label("");
 	m_timePoint->SetColor(.7,.7,.7);
-	Add(m_timePoint, 24, 5);
+	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
 	m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);

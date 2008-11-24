@@ -37,7 +37,7 @@ GLint Screen::Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdoubl
 {
 	GLint o = gluProject(objX, objY, objZ, model, proj, view, winX, winY, winZ);
 	*winX = (*winX) * width * invRealWidth;
-	*winY = (*winY) * height * invRealHeight;
+	*winY = GetHeight() - (*winY) * height * invRealHeight;
 	return o;
 }
 
@@ -48,7 +48,7 @@ void Screen::EnterOrtho()
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glOrtho(0, width, 0, height, -1, 1);
+	glOrtho(0, width, height, 0, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
@@ -85,7 +85,7 @@ void Screen::RemoveBaseWidget(Widget *w)
 	
 void Screen::SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y)
 {
-	*y = height-(sdlev_y*height*invRealHeight);
+	*y = sdlev_y*height*invRealHeight;
 	*x = sdlev_x*width*invRealWidth;
 }
 
@@ -134,6 +134,11 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 	}
 }
 
+float Screen::GetFontHeight()
+{
+	return font->GetHeight()*Screen::font_ysize;
+}
+
 void Screen::MeasureString(const std::string &s, float &w, float &h)
 {
 	font->MeasureString(s.c_str(), w, h);
@@ -144,16 +149,26 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 void Screen::RenderString(const std::string &s)
 {
 	glPushMatrix();
-	glScalef(Screen::font_xsize, Screen::font_ysize, 1);
+	{
+		glTranslatef(0,Screen::font_ysize*Screen::font->GetHeight(),0);
+		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
+		glDisable(GL_CULL_FACE);
+	}
 	font->RenderString(s.c_str());
+	glEnable(GL_CULL_FACE);
 	glPopMatrix();
 }
 
 void Screen::RenderMarkup(const std::string &s)
 {
 	glPushMatrix();
-	glScalef(Screen::font_xsize, Screen::font_ysize, 1);
+	{
+		glTranslatef(0,Screen::font_ysize*Screen::font->GetHeight(),0);
+		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
+		glDisable(GL_CULL_FACE);
+	}
 	font->RenderMarkup(s.c_str());
+	glEnable(GL_CULL_FACE);
 	glPopMatrix();
 }
 
@@ -171,12 +186,14 @@ void Screen::RenderLabel(const std::string &s, float x, float y)
 {
 	if (CanPutLabel(x, y)) {
 		labelPositions.push_back(LabelPos(x,y));
+		glDisable(GL_CULL_FACE);
 		glPushMatrix();
 		glTranslatef(x, y, 0);
-		glScalef(Screen::font_xsize, Screen::font_ysize, 1);
+		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
 		glTranslatef(0.5*font->GetWidth(), -0.4*font->GetHeight(), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
+		glEnable(GL_CULL_FACE);
 	}
 }
 
@@ -186,12 +203,14 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 		LabelPos p = LabelPos(x,y);
 		p.onClick.connect(slot);
 		labelPositions.push_back(p);
+		glDisable(GL_CULL_FACE);
 		glPushMatrix();
 		glTranslatef(x, y, 0);
-		glScalef(Screen::font_xsize, Screen::font_ysize, 1);
+		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
 		glTranslatef(0.5*font->GetWidth(), -0.4*font->GetHeight(), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
+		glEnable(GL_CULL_FACE);
 	}
 }
 

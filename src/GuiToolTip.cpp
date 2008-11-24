@@ -47,10 +47,10 @@ void ToolTip::Draw()
 	GetSize(size);
 	glColor4f(.2,.2,.6,alpha);
 	glBegin(GL_QUADS);
-		glVertex2f(size[0], 0);
-		glVertex2f(size[0], size[1]);
-		glVertex2f(0, size[1]);
 		glVertex2f(0, 0);
+		glVertex2f(0, size[1]);
+		glVertex2f(size[0], size[1]);
+		glVertex2f(size[0], 0);
 	glEnd();
 	glColor4f(.0,.0,.8,alpha);
 	glBegin(GL_LINE_LOOP);

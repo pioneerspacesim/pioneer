@@ -12,6 +12,33 @@ Widget::Widget()
 	m_tooltipTimerSignal.connect(sigc::mem_fun(this, &Widget::OnToolTip));
 }
 
+void Widget::SetClipping(float width, float height)
+{
+	const GLdouble eqn1[4] = {1,0,0,0};
+	const GLdouble eqn2[4] = {0,1,0,0};
+	const GLdouble eqn3[4] = {-1,0,0,0};
+	const GLdouble eqn4[4] = {0,-1,0,0};
+	glClipPlane(GL_CLIP_PLANE0, eqn1);
+	glClipPlane(GL_CLIP_PLANE1, eqn2);
+	glPushMatrix();
+	glTranslatef(width, height, 0);
+	glClipPlane(GL_CLIP_PLANE2, eqn3);
+	glClipPlane(GL_CLIP_PLANE3, eqn4);
+	glPopMatrix();
+	glEnable(GL_CLIP_PLANE0);
+	glEnable(GL_CLIP_PLANE1);
+	glEnable(GL_CLIP_PLANE2);
+	glEnable(GL_CLIP_PLANE3);
+}
+
+void Widget::EndClipping()
+{
+	glDisable(GL_CLIP_PLANE0);
+	glDisable(GL_CLIP_PLANE1);
+	glDisable(GL_CLIP_PLANE2);
+	glDisable(GL_CLIP_PLANE3);
+}
+
 void Widget::SetShortcut(SDLKey key, SDLMod mod)
 {
 	m_shortcut.sym = key;

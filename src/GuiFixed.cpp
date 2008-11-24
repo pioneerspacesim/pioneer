@@ -27,9 +27,9 @@ void Fixed::Draw()
 	if (!m_transparent) {
 		glBegin(GL_QUADS);
 			glColor3f(m_bgcol[0], m_bgcol[1], m_bgcol[2]);
-			glVertex2f(m_w, 0);
-			glVertex2f(m_w, m_h);
 			glVertex2f(0, m_h);
+			glVertex2f(m_w, m_h);
+			glVertex2f(m_w, 0);
 			glVertex2f(0, 0);
 		glEnd();
 	}

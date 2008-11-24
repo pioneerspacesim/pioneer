@@ -9,23 +9,23 @@ GenericSystemView::GenericSystemView(): View()
 	px = py = pidx = 0xdeadbeef;
 	m_scannerLayout = new Gui::Fixed(360, 60);
 	m_scannerLayout->SetTransparency(true);
-	Gui::Screen::AddBaseWidget(m_scannerLayout, 140, 2);
+	Gui::Screen::AddBaseWidget(m_scannerLayout, 140, Gui::Screen::GetHeight()-62);
 
 	m_systemName = new Gui::Label("");
 	m_systemName->SetColor(1,1,0);
-	m_scannerLayout->Add(m_systemName, 40, 44);
+	m_scannerLayout->Add(m_systemName, 40, 4);
 	
 	m_distance = new Gui::Label("");
 	m_distance->SetColor(1,0,0);
-	m_scannerLayout->Add(m_distance, 150, 44);
+	m_scannerLayout->Add(m_distance, 150, 4);
 
 	m_starType = new Gui::Label("");
 	m_starType->SetColor(1,0,1);
-	m_scannerLayout->Add(m_starType, 22, 26);
+	m_scannerLayout->Add(m_starType, 22, 20);
 
 	m_shortDesc = new Gui::Label("");
 	m_shortDesc->SetColor(1,0,1);
-	m_scannerLayout->Add(m_shortDesc, 5, 8);
+	m_scannerLayout->Add(m_shortDesc, 5, 38);
 }
 	
 void GenericSystemView::Draw3D()

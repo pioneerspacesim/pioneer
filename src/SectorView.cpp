@@ -17,7 +17,7 @@ SectorView::SectorView(): GenericSystemView()
 	m_zoom = 1;
 
 	m_infoLabel = new Gui::Label("");
-	Add(m_infoLabel, 2, 2);
+	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	Gui::ImageButton *ib = new Gui::ImageButton("icons/sectorview_f6_systeminfo.png");
 	ib->onClick.connect(sigc::mem_fun(this, &SectorView::OnClickSystemInfo));

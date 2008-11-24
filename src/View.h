@@ -14,15 +14,15 @@
 class View: public Gui::Fixed {
 public:
 	View(): Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()-64) {
-		Gui::Screen::AddBaseWidget(this, 0, 64);
+		Gui::Screen::AddBaseWidget(this, 0, 0);
 		
 		m_rightButtonBar = new Gui::Fixed(128, 26);
 		m_rightButtonBar->SetBgColor(.65, .65, .65);
-		Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, 0);
+		Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, Gui::Screen::GetHeight()-26);
 
 		m_rightRegion2 = new Gui::Fixed(122, 17);
 		m_rightRegion2->SetTransparency(true);
-		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-123, 26);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-44);
 	}
 	virtual ~View() { delete m_rightButtonBar; delete m_rightRegion2; }
 	virtual void ShowAll() {

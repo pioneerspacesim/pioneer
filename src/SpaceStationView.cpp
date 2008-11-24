@@ -44,21 +44,19 @@ StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(par
 	"can offer you this promotional message from one of the station's sponsors:\n\n"
 	"                       DIET STEAKETTE: IT'S BAD");
 
-	float size[2];
-	GetSize(size);
-	Add(l, 40, size[1]-100);
+	Add(l, 40, 100);
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickRequestLaunch));
-	Add(b, 40, size[1]-300);
+	Add(b, 40, 300);
 	l = new Gui::Label("Request Launch");
-	Add(l, 65, size[1]-300);
+	Add(l, 65, 300);
 
 	b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickGotoShipYard));
-	Add(b, 40, size[1]-360);
+	Add(b, 40, 360);
 	l = new Gui::Label("Shipyard");
-	Add(l, 65, size[1]-360);
+	Add(l, 65, 360);
 
 }
 

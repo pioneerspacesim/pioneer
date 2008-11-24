@@ -8,11 +8,8 @@ InfoView::InfoView(): View()
 {
 	SetTransparency(true);
 
-	float size[2];
-	GetSize(size);
-	
 	info1 = new Gui::Label("some crap starshit");
-	Add(info1, 40, size[1]-40);
+	Add(info1, 40, 40);
 }
 
 void InfoView::UpdateInfo()

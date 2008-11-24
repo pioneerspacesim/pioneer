@@ -6,9 +6,9 @@
 #include "InfoView.h"
 #include "WorldView.h"
 
-ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
+ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
 {
-	Gui::Screen::AddBaseWidget(this, 0, 0);
+	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-64);
 	SetTransparency(true);
 
 	Gui::Image *img = new Gui::Image("icons/cpanel.png");
@@ -18,33 +18,33 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(g, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 0.0));
 	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
-	Add(b, 0, 26);
+	Add(b, 0, 20);
 	
 	b = new Gui::ImageRadioButton(g, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1.0));
 	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
-	Add(b, 22, 26);
+	Add(b, 22, 20);
 	
 	b = new Gui::ImageRadioButton(g, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 10.0));
 	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
-	Add(b, 44, 26);
+	Add(b, 44, 20);
 	
 	b = new Gui::ImageRadioButton(g, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 100.0));
 	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
-	Add(b, 66, 26);
+	Add(b, 66, 20);
 	
 	b = new Gui::ImageRadioButton(g, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1000.0));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
-	Add(b, 88, 26);
+	Add(b, 88, 20);
 	
 	b = new Gui::ImageRadioButton(g, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 10000.0));
 	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
-	Add(b, 110, 26);
+	Add(b, 110, 20);
 		
 	g = new Gui::RadioGroup();
 	Gui::MultiStateImageButton *cam_button = new Gui::MultiStateImageButton();
@@ -55,7 +55,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	cam_button->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "External view");
 	cam_button->SetShortcut(SDLK_F1, KMOD_NONE);
 	cam_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
-	Add(cam_button, 2, 2);
+	Add(cam_button, 2, 40);
 
 	Gui::MultiStateImageButton *map_button = new Gui::MultiStateImageButton();
 	g->Add(map_button);
@@ -64,7 +64,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	map_button->AddState(Pi::MAP_SECTOR, "icons/cpan_f2_map.png", "Galaxy sector map");
 	map_button->AddState(Pi::MAP_SYSTEM, "icons/cpan_f2_normal.png", "Star system view");
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView));
-	Add(map_button, 34, 2);
+	Add(map_button, 34, 40);
 
 	Gui::MultiStateImageButton *info_button = new Gui::MultiStateImageButton();
 	g->Add(info_button);
@@ -72,7 +72,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
 	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "Ship information");
 	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
-	Add(info_button, 66, 2);
+	Add(info_button, 66, 40);
 
 	Gui::MultiStateImageButton *comms_button = new Gui::MultiStateImageButton();
 	g->Add(comms_button);
@@ -80,11 +80,11 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(640, 64)
 	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
 	comms_button->AddState(0, "icons/comms_f4.png", "Comms");
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
-	Add(comms_button, 98, 2);
+	Add(comms_button, 98, 40);
 
 	m_clock = new Gui::Label("");
 	m_clock->SetColor(1,0.7,0);
-	Add(m_clock, 2, 48);
+	Add(m_clock, 2, 3);
 
 	tempMsg = new Gui::Label("");
 	Add(tempMsg, 170, 44);

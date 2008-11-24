@@ -18,6 +18,8 @@ namespace Gui {
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; }
 		void SetShortcut(SDLKey key, SDLMod mod);
+		void SetClipping(float width, float height);
+		void EndClipping();
 		virtual void Show() { m_visible = true; }
 		virtual void Hide();
 		bool IsVisible() { return m_visible; }

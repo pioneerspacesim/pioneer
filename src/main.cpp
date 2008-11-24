@@ -370,14 +370,14 @@ void Pi::Start()
 	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
 	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
 	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
-	splash->Add(opts[0], w, h+64);
-	splash->Add(new Gui::Label("New game starting on Earth"), w+32, h+64);
-	splash->Add(opts[1], w, h+32);
-	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h+32);
+	splash->Add(opts[0], w, h-64);
+	splash->Add(new Gui::Label("New game starting on Earth"), w+32, h-64);
+	splash->Add(opts[1], w, h-32);
+	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h-32);
 	splash->Add(opts[2], w, h);
 	splash->Add(new Gui::Label("Load quicksave"), w+32, h);
-	splash->Add(opts[3], w, h-32);
-	splash->Add(new Gui::Label("Quit"), w+32, h-32);
+	splash->Add(opts[3], w, h+32);
+	splash->Add(new Gui::Label("Quit"), w+32, h+32);
 
 	splash->ShowAll();
 

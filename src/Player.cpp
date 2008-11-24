@@ -294,8 +294,6 @@ void Player::DrawHUD(const Frame *cam_frame)
 	
 	if (Pi::showDebugInfo) {
 		char buf[1024];
-		glPushMatrix();
-		glTranslatef(0,440,0);
 		vector3d pos = GetPosition();
 		vector3d abs_pos = GetPositionRelTo(Space::GetRootFrame());
 		const char *rel_to = (GetFrame() ? GetFrame()->GetLabel() : "System");
@@ -306,7 +304,6 @@ void Player::DrawHUD(const Frame *cam_frame)
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
 			rel_to, pos.Length()/1000);
 		Gui::Screen::RenderString(buf);
-		glPopMatrix();
 	}
 
 	{
@@ -318,7 +315,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s", _vel);
 		}
 		glPushMatrix();
-		glTranslatef(2, 66, 0);
+		glTranslatef(2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
@@ -331,7 +328,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", m_setSpeed);
 		}
 		glPushMatrix();
-		glTranslatef(200, 66, 0);
+		glTranslatef(200, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
@@ -345,7 +342,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 		char buf[128];
 		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
 		glPushMatrix();
-		glTranslatef(400, 66, 0);
+		glTranslatef(400, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}

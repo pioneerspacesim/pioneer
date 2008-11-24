@@ -79,13 +79,12 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 	if (body->type != StarSystem::TYPE_GRAVPOINT) {
 		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
 		ib->GetSize(size);
-		size[1] = -size[1];
 		if (prevSize == -1) prevSize = size[!dir];
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		Add(ib, myPos[0],
-			myPos[1]+size[1]);
+			myPos[1]);
 		majorBodies++;
 		pos[dir] += size[dir];
 		dir = !dir;
@@ -105,21 +104,15 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
-	float csize[2];
 	int majorBodies = 0;
-	GetSize(csize);
-
-	float pos[2];
-	pos[0] = 0;
-	pos[1] = csize[1];
-
+	float pos[2] = { 0, 0 };
 	PutBodies(s->rootBody, 1, pos, majorBodies, -1);
 	
 	char buf[512];
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
 	m_infoText = new Gui::Label(buf);
 	m_infoText->SetColor(1,1,0);
-	Add(m_infoText, 50, 200);
+	Add(m_infoText, 50, 400);
 	
 	ShowAll();
 }

@@ -25,6 +25,7 @@ namespace Gui {
 		static void LeaveOrtho();
 		static int GetWidth() { return width; }
 		static int GetHeight() { return height; }
+		static float GetFontHeight();
 		// gluProject but fixes UI/screen size mismatch
 		static GLint Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ);
 		friend void Widget::SetShortcut(SDLKey key, SDLMod mod);
