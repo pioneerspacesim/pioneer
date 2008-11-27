@@ -16,7 +16,6 @@ void ToolTip::CalcSize()
 	float w, h;
 	Screen::MeasureString(m_text, w, h);
 	w += 2*TOOLTIP_PADDING;
-	h += 2*TOOLTIP_PADDING;
 	SetSize(w, h);
 }
 
@@ -60,7 +59,7 @@ void ToolTip::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 	glPushMatrix();
-	glTranslatef(TOOLTIP_PADDING,TOOLTIP_PADDING,0);
+	glTranslatef(TOOLTIP_PADDING,0,0);
 	glColor4f(1,1,1,alpha);
 	Screen::RenderMarkup(m_text);
 	glPopMatrix();

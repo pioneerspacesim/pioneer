@@ -4,7 +4,7 @@
 #include "Gui.h"
 #include <list>
 
-class FontFace;
+class TextureFontFace;
 
 namespace Gui {
 	class Screen {
@@ -16,6 +16,7 @@ namespace Gui {
 		static void OnMouseMotion(SDL_MouseMotionEvent *e);
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_keysym *sym);
+		static void LayoutString(const std::string &s, float width);
 		static void RenderString(const std::string &s);
 		static void MeasureString(const std::string &s, float &w, float &h);
 		static void RenderMarkup(const std::string &s);
@@ -47,9 +48,8 @@ namespace Gui {
 		static float invRealWidth, invRealHeight;
 		static std::list<Widget*> kbshortcut_widgets;
 		static std::list<Widget*> mouseHoveredWidgets;
-		static FontFace *font;
-		static float font_xsize;
-		static float font_ysize;
+		static TextureFontFace *font;
+		static float fontScale;
 		static Gui::Fixed *baseContainer;
 	};
 }

@@ -10,6 +10,8 @@
 #include <float.h>
 #include <limits>
 #include <time.h>
+#include <stdarg.h>
+#include <alloca.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -23,7 +25,7 @@
 #include "matrix4x4.h"
 #include "mtrand.h"
 
-#include "date.h"
+#include "utils.h"
 
 #define DEBUG
 

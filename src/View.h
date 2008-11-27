@@ -22,7 +22,7 @@ public:
 
 		m_rightRegion2 = new Gui::Fixed(122, 17);
 		m_rightRegion2->SetTransparency(true);
-		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-44);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-43);
 	}
 	virtual ~View() { delete m_rightButtonBar; delete m_rightRegion2; }
 	virtual void ShowAll() {

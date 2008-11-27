@@ -419,6 +419,292 @@ FontFace::FontFace(const char *filename_ttf)
 	}
 }
 
+
+void TextureFontFace::RenderGlyph(int chr)
+{
+	glfglyph_t *glyph = &m_glyphs[chr];
+	glPushMatrix();
+	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, glyph->tex);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTranslatef(glyph->offx, m_pixSize-glyph->offy, 0);
+	glBegin(GL_QUADS);
+		int allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
+		const float w = glyph->width;
+		const float h = glyph->height;
+		glTexCoord2f(0,h);
+		glVertex2f(0,allocSize[1]);
+		glTexCoord2f(w,h);
+		glVertex2f(allocSize[0],allocSize[1]);
+		glTexCoord2f(w,0);
+		glVertex2f(allocSize[0],0);
+		glTexCoord2f(0,0);
+		glVertex2f(0,0);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	glDisable(GL_BLEND);
+}
+
+void TextureFontFace::MeasureString(const char *str, float &w, float &h)
+{
+	w = 0;
+	h = GetHeight();
+	float line_width = 0;
+	for (unsigned int i=0; i<strlen(str); i++) {
+		if (str[i] == '\n') {
+			if (line_width > w) w = line_width;
+			line_width = 0;
+			h += GetHeight();
+		} else {
+			line_width += m_glyphs[str[i]].advx;
+		}
+	}
+	if (line_width > w) w = line_width;
+	h += m_descender;
+}
+
+struct word_t {
+	char *word;
+	float advx;
+	word_t(char *_word, float _advx): word(_word), advx(_advx) {}
+};
+#include <list>
+void TextureFontFace::LayoutString(const char *_str, float maxWidth)
+{
+	glPushMatrix();
+	std::list<word_t> words;
+
+	char *str = (char*)alloca(strlen(_str)+1);
+	strncpy(str, _str, strlen(_str)+1);
+	
+	bool justify = true;
+	float wordWidth = 0;
+	const float spaceWidth = m_glyphs[' '].advx;
+	char *wordstart = str;
+
+	for (int i=0; i<strlen(_str);) {
+		wordWidth = 0;
+//		while (isspace(str[i])) i++;
+		wordstart = str+i;
+		while (str[i] && !isspace(str[i])) {
+			glfglyph_t *glyph = &m_glyphs[str[i]];
+			wordWidth += glyph->advx;
+			i++;
+		}
+		words.push_back(word_t(wordstart, wordWidth));
+		if (str[i] == '\n') words.push_back(word_t(0,0));
+		str[i++] = 0;
+	}
+	printf("Split '%s' into:\n", _str);
+
+	for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
+		printf("'%s'\n", (*j).word);
+	}
+
+	// build lines of text
+	while (words.size()) {
+		float len = 0;
+		int num = 0;
+
+		std::list<word_t>::iterator i = words.begin();
+		len += (*i).advx;
+		num++;
+		bool overflow = false;
+		if ((*i).word != 0) {
+			++i;
+			for (; i != words.end(); ++i) {
+				if ((*i).word == 0) { num++; break; } // newline
+				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
+				len += (*i).advx + spaceWidth;
+				num++;
+			}
+		}
+
+		float _spaceWidth;
+		if ((justify) && (num>1) && overflow) {
+			float spaceleft = maxWidth - len;
+			_spaceWidth = spaceWidth + (spaceleft/(float)(num-1));
+		} else {
+			_spaceWidth = spaceWidth;
+		}
+
+		glPushMatrix();
+		for (int i=0; i<num; i++) {
+			word_t word = words.front();
+			if (word.word) RenderString(word.word);
+			glTranslatef(word.advx + _spaceWidth, 0, 0);
+			words.pop_front();
+		}
+		glPopMatrix();
+		glTranslatef(0, GetHeight(), 0);
+
+	}
+
+	/*
+
+		bool cr = str[i] == '\n';
+		// snip snip
+		str[i] = 0;
+		words.push_back(word_t(wordstart, wordWidth));
+		wordstart = str+i+1;
+
+		if ((pos > maxWidth) || (cr)) {
+			// last one fell off end so put on next line
+			word_t last = words.back();
+			if (!cr) {
+				words.pop_back();
+			}
+			float _spaceWidth;
+			if ((justify) && (pos > maxWidth) && (words.size()>1)) {
+				float spaceleft = maxWidth - pos + wordWidth + spaceWidth;
+				_spaceWidth = spaceWidth + (spaceleft/(float)(words.size()-1));
+			} else {
+				_spaceWidth = spaceWidth;
+			}
+
+			glPushMatrix();
+			// draw the previous line
+			for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
+				RenderString((*j).word);
+				glTranslatef((*j).advx + _spaceWidth, 0, 0);
+			}
+			glPopMatrix();
+			glTranslatef(0, GetHeight(), 0);
+			words.clear();
+			pos = 0;
+			if (!cr) {
+				words.push_front(last);
+				pos = wordWidth + spaceWidth;
+			}
+		} else if (i >= strlen(_str)) {
+			glPushMatrix();
+			for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
+				RenderString((*j).word);
+				glTranslatef((*j).advx + spaceWidth, 0, 0);
+			}
+			glPopMatrix();
+		} else {
+			pos += spaceWidth;
+		}
+	}*/
+	glPopMatrix();
+}
+
+void TextureFontFace::RenderString(const char *str)
+{
+	glPushMatrix();
+	for (unsigned int i=0; i<strlen(str); i++) {
+		if (str[i] == '\n') {
+			glPopMatrix();
+			glTranslatef(0,GetHeight(),0);
+			glPushMatrix();
+		} else {
+			glfglyph_t *glyph = &m_glyphs[str[i]];
+			if (glyph->tex) RenderGlyph(str[i]);
+			glTranslatef(glyph->advx,0,0);
+		}
+	}
+	glPopMatrix();
+}
+
+void TextureFontFace::RenderMarkup(const char *str)
+{
+	glPushMatrix();
+	int len = strlen(str);
+	for (int i=0; i<len; i++) {
+		if (str[i] == '#') {
+			int hexcol;
+			if (sscanf(str+i, "#%3x", &hexcol)==1) {
+				Uint8 col[3];
+				col[0] = (hexcol&0xf00)>>4;
+				col[1] = (hexcol&0xf0);
+				col[2] = (hexcol&0xf)<<4;
+				glColor3ubv(col);
+				i+=3;
+				continue;
+			}
+		}
+		if (str[i] == '\n') {
+			glPopMatrix();
+			glTranslatef(0,GetHeight(),0);
+			glPushMatrix();
+		} else {
+			glfglyph_t *glyph = &m_glyphs[str[i]];
+			if (glyph->tex) RenderGlyph(str[i]);
+			glTranslatef(glyph->advx,0,0);
+		}
+	}
+	glPopMatrix();
+}
+
+TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_height)
+{
+	FT_Face face;
+	int err;
+	m_pixSize = a_height;
+	if (0 != (err = FT_New_Face(library, filename_ttf, 0, &face))) {
+		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf, err);
+	} else {
+		FT_Set_Pixel_Sizes(face, a_width, a_height);
+		int nbit = 0;
+		int sz = a_height;
+		while (sz) { sz >>= 1; nbit++; }
+		sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
+		m_texSize = sz;
+
+		printf("Using size %d\n", sz);
+		unsigned char *pixBuf = new unsigned char[2*sz*sz];
+
+		for (int chr=32; chr<127; chr++) {
+			memset(pixBuf, 0, 2*sz*sz);
+
+			if (0 != FT_Load_Char(face, chr, FT_LOAD_RENDER)) {
+				printf("Couldn't load glyph\n");
+				continue;
+			}
+
+			// face->glyph->bitmap
+			// copy to square buffer GL can stomach
+			const int pitch = face->glyph->bitmap.pitch;
+	//		const int xs = face->glyph->bitmap_left;
+	//		const int ys = face->glyph->bitmap_top;
+			for (int row=0; row<face->glyph->bitmap.rows; row++) {
+				for (int col=0; col<face->glyph->bitmap.width; col++) {
+					pixBuf[2*sz*row + 2*col] = face->glyph->bitmap.buffer[pitch*row + col];
+					pixBuf[2*sz*row + 2*col+1] = face->glyph->bitmap.buffer[pitch*row + col];
+				}
+			}
+
+			glfglyph_t _face;
+			glEnable (GL_TEXTURE_2D);
+			glGenTextures (1, &_face.tex);
+			glBindTexture (GL_TEXTURE_2D, _face.tex);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
+			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glDisable (GL_TEXTURE_2D);
+
+			_face.width = face->glyph->bitmap.width / (float)sz;
+			_face.height = face->glyph->bitmap.rows / (float)sz;
+			_face.offx = face->glyph->bitmap_left;
+			_face.offy = face->glyph->bitmap_top;
+			_face.advx = face->glyph->advance.x >> 6;
+			_face.advy = face->glyph->advance.y >> 6;
+			m_glyphs[chr] = _face;
+		}
+
+		delete pixBuf;
+		
+		m_height = a_height;
+		m_width = a_width;
+		m_descender = -(face->descender >> 6);
+	}
+}
+
 void GLFTInit()
 {
 	if (0 != FT_Init_FreeType(&library)) {

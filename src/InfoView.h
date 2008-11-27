@@ -13,7 +13,7 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
 private:
-	Gui::Label *info1;
+	Gui::Label *info1, *info2;
 };
 
 #endif /* _INFOVIEW */

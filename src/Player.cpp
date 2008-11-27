@@ -303,7 +303,11 @@ void Player::DrawHUD(const Frame *cam_frame)
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
 			rel_to, pos.Length()/1000);
+
+		glPushMatrix();
+		glTranslatef(2, Gui::Screen::GetFontHeight(), 0);
 		Gui::Screen::RenderString(buf);
+		glPopMatrix();
 	}
 
 	{

@@ -3,7 +3,7 @@
 
 namespace Gui {
 
-FontFace *Screen::font;
+TextureFontFace *Screen::font;
 bool Screen::initted = false;
 int Screen::width;
 int Screen::height;
@@ -11,9 +11,8 @@ int Screen::realWidth;
 int Screen::realHeight;
 float Screen::invRealWidth;
 float Screen::invRealHeight;
+float Screen::fontScale;
 std::list<Widget*> Screen::kbshortcut_widgets;
-float Screen::font_xsize;
-float Screen::font_ysize;
 std::vector<Screen::LabelPos> Screen::labelPositions;
 Gui::Fixed *Screen::baseContainer;
 
@@ -26,9 +25,12 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::invRealWidth = 1.0f/real_width;
 	Screen::invRealHeight = 1.0f/real_height;
 	Screen::initted = true;
-	Screen::font = new FontFace("font.ttf");
-	Screen::font_xsize = 16*0.8;
-	Screen::font_ysize = 16;
+	const float fontscale = real_height / (float)ui_height;
+	Screen::font = new TextureFontFace("guifont.ttf", 15*fontscale, 15*fontscale);
+	// Why? because although our font textures get bigger with screen
+	// resolution, our Gui Ortho projection is still 800x600 so vertex
+	// coords must be scaled.
+	Screen::fontScale = 1.0/fontscale;
 	Screen::baseContainer = new Gui::Fixed(Screen::width, Screen::height);
 	Screen::baseContainer->SetPosition(0,0);
 }
@@ -136,39 +138,37 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 
 float Screen::GetFontHeight()
 {
-	return font->GetHeight()*Screen::font_ysize;
+	return font->GetHeight() * fontScale;
 }
 
 void Screen::MeasureString(const std::string &s, float &w, float &h)
 {
 	font->MeasureString(s.c_str(), w, h);
-	w *= Screen::font_xsize;
-	h *= Screen::font_ysize;
+	w *= fontScale;
+	h *= fontScale;
+}
+
+void Screen::LayoutString(const std::string &s, float width)
+{
+	glPushMatrix();
+	glScalef(Screen::fontScale, Screen::fontScale, 1);
+	font->LayoutString(s.c_str(), width);
+	glPopMatrix();
 }
 
 void Screen::RenderString(const std::string &s)
 {
 	glPushMatrix();
-	{
-		glTranslatef(0,Screen::font_ysize*Screen::font->GetHeight(),0);
-		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
-		glDisable(GL_CULL_FACE);
-	}
+	glScalef(Screen::fontScale, Screen::fontScale, 1);
 	font->RenderString(s.c_str());
-	glEnable(GL_CULL_FACE);
 	glPopMatrix();
 }
 
 void Screen::RenderMarkup(const std::string &s)
 {
 	glPushMatrix();
-	{
-		glTranslatef(0,Screen::font_ysize*Screen::font->GetHeight(),0);
-		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
-		glDisable(GL_CULL_FACE);
-	}
+	glScalef(Screen::fontScale, Screen::fontScale, 1);
 	font->RenderMarkup(s.c_str());
-	glEnable(GL_CULL_FACE);
 	glPopMatrix();
 }
 
@@ -186,14 +186,12 @@ void Screen::RenderLabel(const std::string &s, float x, float y)
 {
 	if (CanPutLabel(x, y)) {
 		labelPositions.push_back(LabelPos(x,y));
-		glDisable(GL_CULL_FACE);
 		glPushMatrix();
 		glTranslatef(x, y, 0);
-		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
-		glTranslatef(0.5*font->GetWidth(), -0.4*font->GetHeight(), 0);
+		glScalef(Screen::fontScale, Screen::fontScale, 1);
+		glTranslatef(0.5*font->GetWidth(), -0.5*font->GetHeight(), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
-		glEnable(GL_CULL_FACE);
 	}
 }
 
@@ -203,14 +201,12 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 		LabelPos p = LabelPos(x,y);
 		p.onClick.connect(slot);
 		labelPositions.push_back(p);
-		glDisable(GL_CULL_FACE);
 		glPushMatrix();
 		glTranslatef(x, y, 0);
-		glScalef(Screen::font_xsize, -Screen::font_ysize, 1);
-		glTranslatef(0.5*font->GetWidth(), -0.4*font->GetHeight(), 0);
+		glScalef(Screen::fontScale, Screen::fontScale, 1);
+		glTranslatef(0.5*font->GetWidth(), -0.5*font->GetHeight(), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
-		glEnable(GL_CULL_FACE);
 	}
 }
 

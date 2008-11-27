@@ -84,7 +84,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
 
 	m_clock = new Gui::Label("");
 	m_clock->SetColor(1,0.7,0);
-	Add(m_clock, 2, 3);
+	Add(m_clock, 2, 1);
 
 	tempMsg = new Gui::Label("");
 	Add(tempMsg, 170, 44);

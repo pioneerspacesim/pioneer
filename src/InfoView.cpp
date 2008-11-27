@@ -8,8 +8,10 @@ InfoView::InfoView(): View()
 {
 	SetTransparency(true);
 
-	info1 = new Gui::Label("some crap starshit");
+	info1 = new Gui::Label("");
+	info2 = new Gui::Label("");
 	Add(info1, 40, 40);
+	Add(info2, 300, 40);
 }
 
 void InfoView::UpdateInfo()
@@ -18,28 +20,39 @@ void InfoView::UpdateInfo()
 	std::string nfo;
 	const ShipType &stype = Pi::player->GetShipType();
 	nfo = "SHIP INFORMATION:  "+std::string(stype.name);
+	nfo += "\n\nDrive system:"
+		"\n\nCapacity:"
+		"\nFree:"
+		"\nUsed:"
+		"\nAll-up weight:"
+		"\n\nFront weapon:"
+		"\nRear weapon:"
+		"\n\nHyperspace range:";
+	info1->SetText(nfo);
 	
+	nfo = "\n\n";
+
 	Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
-	nfo += std::string("\n\nDrive system:      ")+EquipType::types[e].name;
+	nfo += std::string(EquipType::types[e].name);
 
 	const shipstats_t *stats;
 	stats = Pi::player->CalcStats();
-	snprintf(buf, sizeof(buf), "\n\nCapacity:          %dt\n"
-				       "Free:              %dt\n"
-			               "Used:              %dt\n"
-				       "All-up weight:     %dt", stats->max_capacity,
+	snprintf(buf, sizeof(buf), "\n\n%dt\n"
+				       "%dt\n"
+			               "%dt\n"
+				       "%dt", stats->max_capacity,
 			stats->free_capacity, stats->used_capacity, stats->total_mass);
 	nfo += std::string(buf);
 
 	e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
-	nfo += std::string("\n\nFront weapon:      ")+EquipType::types[e].name;
+	nfo += std::string("\n\n")+EquipType::types[e].name;
 	e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
-	nfo += std::string("\nRear weapon:       ")+EquipType::types[e].name;
+	nfo += std::string("\n")+EquipType::types[e].name;
 
-	snprintf(buf, sizeof(buf), "\n\nHyperspace range:  %.2f light years", stats->hyperspace_range);
+	snprintf(buf, sizeof(buf), "\n\n%.1f light years", stats->hyperspace_range);
 	nfo += std::string(buf);
 
-	info1->SetText(nfo);
+	info2->SetText(nfo);
 }
 
 static ObjParams params = {

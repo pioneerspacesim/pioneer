@@ -1,7 +1,7 @@
-#include "date.h"
 #include <stdlib.h>
 #include <math.h>
 #include "libs.h"
+#include "utils.h"
 
 /*
  * jesus wept

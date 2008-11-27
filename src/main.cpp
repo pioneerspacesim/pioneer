@@ -505,7 +505,6 @@ void Pi::MainLoop()
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
-			glTranslatef(0, Gui::Screen::GetHeight()-20, 0);
 			Gui::Screen::RenderString(fps_readout);
 			Gui::Screen::LeaveOrtho();
 		}

@@ -62,7 +62,7 @@ WorldView::WorldView(): View()
 	
 	m_flightStatus = new Gui::Label("");
 	m_flightStatus->SetColor(1,.7,0);
-	m_rightRegion2->Add(m_flightStatus, 10, 3);
+	m_rightRegion2->Add(m_flightStatus, 10, 0);
 	
 	m_bgstarsDlist = glGenLists(1);
 

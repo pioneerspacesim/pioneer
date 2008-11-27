@@ -15,18 +15,19 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 {
 	m_bodySelected = b;
 
-	std::string desc;
+	std::string desc, data;
 
 	char buf[1024];
 
-	snprintf(buf, sizeof(buf), "%s: %s\n"
-		"Mass                       %.2f %s masses\n",
-		b->name.c_str(), b->GetAstroDescription(), b->mass.ToDouble(),
-		(b->GetSuperType() == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
-	desc += buf;
+	desc += stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
+	data += "\n";
 
-	snprintf(buf, sizeof(buf), "Surface temperature        %d C\n", b->averageTemp-273);
-	desc += buf;
+	desc += "Mass\n";
+	data += stringf(64, "%.2f %s masses\n", b->mass.ToDouble(), 
+		(b->GetSuperType() == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
+
+	desc += "Surface temperature\n";
+	data += stringf(64, "%d C\n", b->averageTemp-273);
 
 	// surface temperature
 	// major starports
@@ -36,22 +37,22 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 
 	if (b->parent) {
 		float days = b->orbit.period / (60*60*24);
+		desc += "Orbital period\n";
 		if (days > 1000) {
-			snprintf(buf, sizeof(buf), "Orbital period             %.1f years\n", days / 365);
+			data += stringf(64, "%.1f years\n", days/365);
 		} else {
-			snprintf(buf, sizeof(buf), "Orbital period             %.1f days\n", b->orbit.period / (60*60*24));
+			data += stringf(64, "%.1f days\n", b->orbit.period / (60*60*24));
 		}
-		desc += buf;
-		snprintf(buf, sizeof(buf), "Perihelion distance        %.2f AU\n", b->orbMin.ToDouble());
-		desc += buf;
-		snprintf(buf, sizeof(buf), "Aphelion distance          %.2f AU\n", b->orbMax.ToDouble());
-		desc += buf;
-		snprintf(buf, sizeof(buf), "Eccentricity               %.2f\n", b->orbit.eccentricity);
-		desc += buf;
+		desc += "Perihelion distance\n";
+		data += stringf(64, "%.2f AU\n", b->orbMin.ToDouble());
+		desc += "Aphelion distance\n";
+		data += stringf(64, "%.2f AU\n", b->orbMax.ToDouble());
+		desc += "Eccentricity\n";
+		data += stringf(64, "%.2f AU\n", b->orbit.eccentricity);
 		const float dayLen = b->GetRotationPeriod();
 		if (dayLen) {
-			snprintf(buf, sizeof(buf), "Day length                 %.1f earth days\n", dayLen/(60*60*24));
-			desc += buf;
+			desc += "Day length\n";
+			data += stringf(64, "%.1f earth days\n", dayLen/(60*60*24));
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
@@ -62,11 +63,13 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 			}
 		}
 		if (numSurfaceStarports) {
-			desc += "Starports                  "+nameList+"\n";
+			desc += "Starports\n";
+			data += nameList+"\n";
 		}
 	}
 
-	m_infoText->SetText(desc);
+	m_infoLabel->SetText(desc);
+	m_infoData->SetText(data);
 }
 
 void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies, float prevSize)
@@ -110,9 +113,13 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	
 	char buf[512];
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
-	m_infoText = new Gui::Label(buf);
-	m_infoText->SetColor(1,1,0);
-	Add(m_infoText, 50, 400);
+	m_infoLabel = new Gui::Label(buf);
+	m_infoLabel->SetColor(1,1,0);
+	Add(m_infoLabel, 50, 350);
+
+	m_infoData = new Gui::Label("");
+	m_infoData->SetColor(1,1,0);
+	Add(m_infoData, 300, 350);
 	
 	ShowAll();
 }
