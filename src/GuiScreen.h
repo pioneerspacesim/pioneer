@@ -50,7 +50,7 @@ namespace Gui {
 		static std::list<Widget*> kbshortcut_widgets;
 		static std::list<Widget*> mouseHoveredWidgets;
 		static TextureFontFace *font;
-		static float fontScale;
+		static float fontScale[2];
 		static Gui::Fixed *baseContainer;
 	};
 }
