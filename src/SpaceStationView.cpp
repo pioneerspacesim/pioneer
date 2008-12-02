@@ -34,6 +34,12 @@ StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(par
 {
 	SetTransparency(false);
 
+	Gui::Fixed *fbox = new Gui::Fixed(720, 150);
+	Add(fbox, 40, 100);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *box = new Gui::VScrollPortal(400,150);
+	scroll->SetAdjustment(&box->vscrollAdjust);
 	Gui::Label *l = new Gui::Label("Hello friend! Thankyou for docking with this space station!\n"
 	"You may have noticed that the docking procedure was not entirely "
 	"physically correct. This is a result of unimplemented physics in this "
@@ -44,7 +50,11 @@ StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(par
 	"can offer you this promotional message from one of the station's sponsors:\n"
 	"                       DIET STEAKETTE: IT'S BAD");
 
-	Add(l, 40, 100);
+	fbox->Add(box, 0, 0);
+	fbox->Add(scroll, 405, 0);
+	box->Add(l);
+	box->ShowAll();
+	fbox->ShowAll();
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickRequestLaunch));

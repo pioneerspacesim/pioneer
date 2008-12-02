@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <map>
+#include <list>
 #include <ft2build.h>
 #include "glfreetype.h"
 
@@ -470,7 +471,78 @@ struct word_t {
 	float advx;
 	word_t(char *_word, float _advx): word(_word), advx(_advx) {}
 };
-#include <list>
+
+void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, float outSize[2])
+{
+	std::list<word_t> words;
+	outSize[0] = 0;
+	outSize[1] = 0;
+
+	char *str = (char*)alloca(strlen(_str)+1);
+	strncpy(str, _str, strlen(_str)+1);
+	
+	bool justify = true;
+	float wordWidth = 0;
+	const float spaceWidth = m_glyphs[' '].advx;
+	char *wordstart = str;
+
+	for (unsigned int i=0; i<strlen(_str);) {
+		wordWidth = 0;
+		wordstart = str+i;
+		while (str[i] && !isspace(str[i])) {
+			glfglyph_t *glyph = &m_glyphs[str[i]];
+			wordWidth += glyph->advx;
+			i++;
+		}
+		words.push_back(word_t(wordstart, wordWidth));
+		if (str[i] == '\n') words.push_back(word_t(0,0));
+		str[i++] = 0;
+	}
+	//printf("Split '%s' into:\n", _str);
+	//for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
+	//	printf("'%s'\n", (*j).word);
+	//}
+
+	// build lines of text
+	while (words.size()) {
+		float len = 0;
+		int num = 0;
+
+		std::list<word_t>::iterator i = words.begin();
+		len += (*i).advx;
+		num++;
+		bool overflow = false;
+		if ((*i).word != 0) {
+			++i;
+			for (; i != words.end(); ++i) {
+				if ((*i).word == 0) { num++; break; } // newline
+				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
+				len += (*i).advx + spaceWidth;
+				num++;
+			}
+		}
+
+		float _spaceWidth;
+		if ((justify) && (num>1) && overflow) {
+			float spaceleft = maxWidth - len;
+			_spaceWidth = spaceWidth + (spaceleft/(float)(num-1));
+		} else {
+			_spaceWidth = spaceWidth;
+		}
+
+		float lineLen = 0;
+		for (int i=0; i<num; i++) {
+			word_t word = words.front();
+			lineLen += word.advx;
+			if (i < num-1) lineLen += _spaceWidth;
+			words.pop_front();
+		}
+		if (lineLen > outSize[0]) outSize[0] = lineLen;
+		outSize[1] += GetHeight();
+	}
+	if (outSize[1]) outSize[1] += m_descender;
+}
+
 void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 {
 	glPushMatrix();
@@ -484,9 +556,8 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 	const float spaceWidth = m_glyphs[' '].advx;
 	char *wordstart = str;
 
-	for (int i=0; i<strlen(_str);) {
+	for (unsigned int i=0; i<strlen(_str);) {
 		wordWidth = 0;
-//		while (isspace(str[i])) i++;
 		wordstart = str+i;
 		while (str[i] && !isspace(str[i])) {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
@@ -497,11 +568,10 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 		if (str[i] == '\n') words.push_back(word_t(0,0));
 		str[i++] = 0;
 	}
-	printf("Split '%s' into:\n", _str);
-
-	for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
-		printf("'%s'\n", (*j).word);
-	}
+	//printf("Split '%s' into:\n", _str);
+	//for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
+	//	printf("'%s'\n", (*j).word);
+	//}
 
 	// build lines of text
 	while (words.size()) {
@@ -541,54 +611,6 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 		glTranslatef(0, GetHeight(), 0);
 
 	}
-
-	/*
-
-		bool cr = str[i] == '\n';
-		// snip snip
-		str[i] = 0;
-		words.push_back(word_t(wordstart, wordWidth));
-		wordstart = str+i+1;
-
-		if ((pos > maxWidth) || (cr)) {
-			// last one fell off end so put on next line
-			word_t last = words.back();
-			if (!cr) {
-				words.pop_back();
-			}
-			float _spaceWidth;
-			if ((justify) && (pos > maxWidth) && (words.size()>1)) {
-				float spaceleft = maxWidth - pos + wordWidth + spaceWidth;
-				_spaceWidth = spaceWidth + (spaceleft/(float)(words.size()-1));
-			} else {
-				_spaceWidth = spaceWidth;
-			}
-
-			glPushMatrix();
-			// draw the previous line
-			for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
-				RenderString((*j).word);
-				glTranslatef((*j).advx + _spaceWidth, 0, 0);
-			}
-			glPopMatrix();
-			glTranslatef(0, GetHeight(), 0);
-			words.clear();
-			pos = 0;
-			if (!cr) {
-				words.push_front(last);
-				pos = wordWidth + spaceWidth;
-			}
-		} else if (i >= strlen(_str)) {
-			glPushMatrix();
-			for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
-				RenderString((*j).word);
-				glTranslatef((*j).advx + spaceWidth, 0, 0);
-			}
-			glPopMatrix();
-		} else {
-			pos += spaceWidth;
-		}
-	}*/
 	glPopMatrix();
 }
 

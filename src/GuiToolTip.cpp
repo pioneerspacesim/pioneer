@@ -68,9 +68,8 @@ void ToolTip::Draw()
 
 void ToolTip::GetSizeRequested(float size[2])
 {
-#pragma message("not setting size correctly")
-	size[0] = 70;
-	size[1] = 10;
+	Screen::MeasureString(m_text, size[0], size[1]);
+	size[0] += 2*TOOLTIP_PADDING;
 }
 
 }

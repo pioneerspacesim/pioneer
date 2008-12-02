@@ -16,6 +16,7 @@ namespace Gui {
 		virtual void Draw();
 		virtual ~Fixed();
 		virtual void GetSizeRequested(float size[2]);
+		virtual void OnChildResizeRequest(Widget *);
 		void SetBgColor(float rgb[3]);
 		void SetBgColor(float r, float g, float b);
 		void SetTransparency(bool a) { m_transparent = a; }

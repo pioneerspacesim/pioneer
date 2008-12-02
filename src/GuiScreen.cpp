@@ -148,7 +148,14 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 	h *= fontScale;
 }
 
-void Screen::LayoutString(const std::string &s, float width)
+void Screen::MeasureLayout(const std::string &s, const float width, float outSize[2])
+{
+	font->MeasureLayout(s.c_str(), width, outSize);
+	outSize[0] *= Screen::fontScale;
+	outSize[1] *= Screen::fontScale;
+}
+
+void Screen::LayoutString(const std::string &s, const float width)
 {
 	glPushMatrix();
 	glScalef(Screen::fontScale, Screen::fontScale, 1);

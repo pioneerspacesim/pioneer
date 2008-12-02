@@ -109,6 +109,17 @@ void Container::AppendChild(Widget *child, float x, float y)
 	child->SetParent(this);
 	m_children.push_back(wp);
 }
+
+void Container::RemoveChild(Widget *child)
+{
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		if ((*i).w == child) {
+			m_children.erase(i);
+			return;
+		}
+	}
+}
+
 	
 void Container::Draw()
 {

@@ -121,6 +121,16 @@ void Widget::Hide()
 	}
 }
 
+void Widget::ResizeRequest()
+{
+	if (m_parent) m_parent->OnChildResizeRequest(this);
+	else {
+		float size[2] = { FLT_MAX, FLT_MAX };
+		GetSizeRequested(size);
+		SetSize(size[0], size[1]);
+	}
+}
+
 Widget::~Widget()
 {
 	if (m_tooltipWidget) {

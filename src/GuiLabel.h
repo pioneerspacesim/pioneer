@@ -19,6 +19,7 @@ namespace Gui {
 		void RecalcSize();
 		std::string m_text;
 		float m_color[3];
+		GLuint m_dlist;
 	};
 }
 

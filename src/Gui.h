@@ -21,6 +21,7 @@ namespace Gui {
 
 namespace Gui {
 	namespace RawEvents {
+		extern sigc::signal<void, SDL_MouseMotionEvent *> onMouseMotion;
 		extern sigc::signal<void, SDL_MouseButtonEvent *> onMouseDown;
 		extern sigc::signal<void, SDL_MouseButtonEvent *> onMouseUp;
 		extern sigc::signal<void, SDL_KeyboardEvent *> onKeyDown;
@@ -29,6 +30,7 @@ namespace Gui {
 }
 
 #include "GuiWidget.h"
+#include "GuiAdjustment.h"
 #include "GuiImage.h"
 #include "GuiButton.h"
 #include "GuiToggleButton.h"
@@ -39,6 +41,8 @@ namespace Gui {
 #include "GuiImageRadioButton.h"
 #include "GuiRadioGroup.h"
 #include "GuiFixed.h"
+#include "GuiVScrollPortal.h"
+#include "GuiVScrollBar.h"
 #include "GuiLabel.h"
 #include "GuiToolTip.h"
 #include "GuiScreen.h"

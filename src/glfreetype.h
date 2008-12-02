@@ -32,6 +32,7 @@ class TextureFontFace
 	TextureFontFace(const char *filename_ttf, int width, int height);
 	void RenderGlyph(int chr);
 	void LayoutString(const char *_str, float maxWidth);
+	void MeasureLayout(const char *_str, const float maxWidth, float outSize[2]);
 	void RenderString(const char *str);
 	void RenderMarkup(const char *str);
 	void MeasureString(const char *str, float &w, float &h);

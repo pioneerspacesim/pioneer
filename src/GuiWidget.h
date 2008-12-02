@@ -11,12 +11,15 @@ namespace Gui {
 		Widget();
 		virtual void Draw() = 0;
 		virtual ~Widget();
+		/** containers call this on children. input: size[] will contain max permissible size
+		 *  output: size[] will contain what space the widget desires */
 		virtual void GetSizeRequested(float size[2]) = 0;
 		void GetPosition(float pos[2]) const { pos[0] = m_size.x; pos[1] = m_size.y; }
 		void GetAbsolutePosition(float pos[2]);
 		void SetPosition(float x, float y) { m_size.x = x; m_size.y = y; }
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; }
+		void ResizeRequest();
 		void SetShortcut(SDLKey key, SDLMod mod);
 		void SetClipping(float width, float height);
 		void EndClipping();

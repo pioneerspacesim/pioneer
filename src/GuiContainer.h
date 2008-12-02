@@ -18,12 +18,14 @@ namespace Gui {
 		virtual void Draw();
 		virtual void ShowAll();
 		virtual void HideAll();
+		virtual void OnChildResizeRequest(Widget *) = 0;
 	private:
 		void _OnMouseLeave();
 		bool HandleMouseEvent(MouseButtonEvent *e);
 	protected:
 		void PrependChild(Widget *w, float x, float y);
 		void AppendChild(Widget *w, float x, float y);
+		void RemoveChild(Widget *w);
 
 		struct widget_pos {
 			Widget *w;
