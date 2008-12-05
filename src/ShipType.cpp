@@ -48,23 +48,43 @@ const EquipType EquipType::types[] = {
 	},{
 	  "Interplanetary Drive",
 	  Equip::SLOT_ENGINE,
-	  1, 0
+	  4000, 1, 0
 	},{
 	  "Class 1 Hyperdrive",
 	  Equip::SLOT_ENGINE,
-	  4, 1
+	  7000, 4, 1
+	},{
+	  "Class 2 Hyperdrive",
+	  Equip::SLOT_ENGINE,
+	  13000, 10, 2
+	},{
+	  "Class 3 Hyperdrive",
+	  Equip::SLOT_ENGINE,
+	  25000, 20, 3
+	},{
+	  "Class 4 Hyperdrive",
+	  Equip::SLOT_ENGINE,
+	  50000, 40, 4
+	},{
+	  "Class 5 Hyperdrive",
+	  Equip::SLOT_ENGINE,
+	  100000, 120, 4
+	},{
+	  "Class 6 Hyperdrive",
+	  Equip::SLOT_ENGINE,
+	  200000, 225, 4
 	},{
 	  "1MW beam laser",
 	  Equip::SLOT_LASER,
-	  1, 1
+	  6000, 1, 1
 	},{
 	  "2MW beam laser",
 	  Equip::SLOT_LASER,
-	  1, 2
+	  10000, 1, 2
 	},{
 	  "4MW beam laser",
 	  Equip::SLOT_LASER,
-	  1, 4
+	  22000, 1, 4
 	}
 };
 

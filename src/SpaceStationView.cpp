@@ -1,3 +1,4 @@
+#include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "Pi.h"
 #include "Player.h"
@@ -34,12 +35,6 @@ StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(par
 {
 	SetTransparency(false);
 
-	Gui::Fixed *fbox = new Gui::Fixed(720, 150);
-	Add(fbox, 40, 100);
-
-	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *box = new Gui::VScrollPortal(400,150);
-	scroll->SetAdjustment(&box->vscrollAdjust);
 	Gui::Label *l = new Gui::Label("Hello friend! Thankyou for docking with this space station!\n"
 	"You may have noticed that the docking procedure was not entirely "
 	"physically correct. This is a result of unimplemented physics in this "
@@ -50,10 +45,9 @@ StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(par
 	"can offer you this promotional message from one of the station's sponsors:\n"
 	"                       DIET STEAKETTE: IT'S BAD");
 
-	fbox->Add(box, 0, 0);
-	fbox->Add(scroll, 405, 0);
-	box->Add(l);
-	box->ShowAll();
+	Gui::Fixed *fbox = new Gui::Fixed(720, 400);
+	fbox->Add(l, 0, 0);
+	Add(fbox, 40, 100);
 	fbox->ShowAll();
 
 	Gui::SolidButton *b = new Gui::SolidButton();
@@ -76,13 +70,65 @@ class StationShipyardView: public StationSubView {
 public:
 	StationShipyardView(SpaceStationView *parent);
 private:
-	
+	virtual void ShowAll();
 };
-
 
 StationShipyardView::StationShipyardView(SpaceStationView *parent): StationSubView(parent)
 {
 	SetTransparency(false);
+}
+
+void StationShipyardView::ShowAll()
+{
+	DeleteAllChildren();
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	assert(station);
+	SetTransparency(false);
+	
+	Gui::Fixed *fbox = new Gui::Fixed(500, 200);
+	Add(fbox, 300, 100);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,200);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
+
+	int NUM_ITEMS = 0;
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
+	}
+
+	Gui::Fixed *innerbox = new Gui::Fixed(400, NUM_ITEMS*YSEP);
+	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
+		int stock = station->GetEquipmentStock(static_cast<Equip::Type>(i));
+		if (!stock) continue;
+		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
+		innerbox->Add(l,0,num*YSEP);
+		innerbox->Add(new Gui::SolidButton(), 275, num*YSEP);
+		innerbox->Add(new Gui::SolidButton(), 300, num*YSEP);
+		char buf[128];
+		snprintf(buf, sizeof(buf), "$%d", station->GetEquipmentPrice(static_cast<Equip::Type>(i)));
+		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
+		snprintf(buf, sizeof(buf), "%dt", EquipType::types[i].mass);
+		innerbox->Add(new Gui::Label(buf), 370, num*YSEP);
+		num++;
+	}
+	innerbox->ShowAll();
+
+	fbox->Add(new Gui::Label("Item"), 0, 0);
+	fbox->Add(new Gui::Label("Price"), 200, 0);
+	fbox->Add(new Gui::Label("Fit"), 275, 0);
+	fbox->Add(new Gui::Label("Remove"), 300, 0);
+	fbox->Add(new Gui::Label("Wt"), 370, 0);
+	fbox->Add(portal, 0, YSEP);
+	fbox->Add(scroll, 455, YSEP);
+	portal->Add(innerbox);
+	portal->ShowAll();
+	fbox->ShowAll();
+
+	Gui::Fixed::ShowAll();
 }
 
 /////////////////////////////////////////////////////////////////////

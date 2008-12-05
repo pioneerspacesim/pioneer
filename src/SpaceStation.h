@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "ModelBody.h"
+#include "ShipType.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -28,6 +29,8 @@ public:
 		vector3d normal;
 		vector3d horiz;
 	} port[MAX_DOCKING_PORTS];
+	int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
+	int GetEquipmentPrice(Equip::Type t) const;
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -35,6 +38,7 @@ private:
 	void Init();
 	TYPE m_type;
 	int m_numPorts;
+	int m_equipmentStock[Equip::TYPE_MAX];
 };
 
 #endif /* _SPACESTATION_H */

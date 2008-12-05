@@ -15,8 +15,8 @@ namespace Gui {
 			m_adjustment = adj;
 		}
 	private:
-		void OnRawMouseUp(SDL_MouseButtonEvent *e);
-		void OnRawMouseMotion(SDL_MouseMotionEvent *e);
+		void OnRawMouseUp(MouseButtonEvent *e);
+		void OnRawMouseMotion(MouseMotionEvent *e);
 		bool m_isPressed;
 		sigc::connection _m_release, _m_motion;
 		Adjustment *m_adjustment;

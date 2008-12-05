@@ -42,6 +42,29 @@ void VScrollPortal::Remove(Widget *child)
 	m_childSizeY = 0;
 }
 
+float VScrollPortal::GetScrollPixels()
+{
+	float size[2];
+	GetSize(size);
+	return m_scrollY*(m_childSizeY-size[1]);
+}
+
+bool VScrollPortal::OnMouseDown(MouseButtonEvent *e)
+{
+	e->y += GetScrollPixels();
+	return Container::OnMouseDown(e);
+}
+bool VScrollPortal::OnMouseUp(MouseButtonEvent *e)
+{
+	e->y += GetScrollPixels();
+	return Container::OnMouseUp(e);
+}
+bool VScrollPortal::OnMouseMotion(MouseMotionEvent *e)
+{
+	e->y += GetScrollPixels();
+	return Container::OnMouseMotion(e);
+}
+
 void VScrollPortal::Draw()
 {
 	float size[2];

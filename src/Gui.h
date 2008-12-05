@@ -5,6 +5,12 @@
 
 namespace Gui {
 
+	namespace Theme {
+		void DrawIndent(const float size[2]);
+		void DrawOutdent(const float size[2]);
+		void DrawHollowRect(const float size[2]);
+	}
+
 	namespace Color {
 		extern const float bg[];
 		extern const float bgShadow[];
@@ -21,9 +27,9 @@ namespace Gui {
 
 namespace Gui {
 	namespace RawEvents {
-		extern sigc::signal<void, SDL_MouseMotionEvent *> onMouseMotion;
-		extern sigc::signal<void, SDL_MouseButtonEvent *> onMouseDown;
-		extern sigc::signal<void, SDL_MouseButtonEvent *> onMouseUp;
+		extern sigc::signal<void, MouseMotionEvent *> onMouseMotion;
+		extern sigc::signal<void, MouseButtonEvent *> onMouseDown;
+		extern sigc::signal<void, MouseButtonEvent *> onMouseUp;
 		extern sigc::signal<void, SDL_KeyboardEvent *> onKeyDown;
 		extern sigc::signal<void, SDL_KeyboardEvent *> onKeyUp;
 	}

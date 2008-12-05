@@ -26,7 +26,7 @@ bool VScrollBar::OnMouseDown(MouseButtonEvent *e)
 	return false;
 }
 
-void VScrollBar::OnRawMouseUp(SDL_MouseButtonEvent *e) {
+void VScrollBar::OnRawMouseUp(MouseButtonEvent *e) {
 	if (e->button == 1) {
 		m_isPressed = false;
 		_m_release.disconnect();
@@ -34,7 +34,7 @@ void VScrollBar::OnRawMouseUp(SDL_MouseButtonEvent *e) {
 	}
 }
 
-void VScrollBar::OnRawMouseMotion(SDL_MouseMotionEvent *e)
+void VScrollBar::OnRawMouseMotion(MouseMotionEvent *e)
 {
 	if (m_isPressed) {
 		float pos[2];
@@ -48,27 +48,7 @@ void VScrollBar::OnRawMouseMotion(SDL_MouseMotionEvent *e)
 void VScrollBar::Draw()
 {
 	float size[2]; GetSize(size);
-	glColor3f(1,1,0);
-	glBegin(GL_QUADS);
-		glColor3f(.6,.6,.6);
-		glVertex2f(0, size[1]);
-		glVertex2f(size[0], size[1]);
-		glVertex2f(size[0], 0);
-		glVertex2f(0, 0);
-
-		glColor3fv(Color::bgShadow);
-		glVertex2f(0, size[1]-BORDER);
-		glVertex2f(size[0]-BORDER, size[1]-BORDER);
-		glVertex2f(size[0]-BORDER, 0);
-		glVertex2f(0, 0);
-
-		glColor3fv(Color::bg);
-		glVertex2f(BORDER, size[1]-BORDER);
-		glVertex2f(size[0]-BORDER, size[1]-BORDER);
-		glVertex2f(size[0]-BORDER, BORDER);
-		glVertex2f(BORDER, BORDER);
-
-	glEnd();
+	Theme::DrawIndent(size);
 	float pos = m_adjustment->GetValue();
 	glColor3f(1,1,1);
 	glBegin(GL_LINES);

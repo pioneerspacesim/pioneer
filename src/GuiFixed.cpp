@@ -14,7 +14,8 @@ Fixed::Fixed(float w, float h): Container()
 
 void Fixed::GetSizeRequested(float size[2])
 {
-	GetSize(size);
+	size[0] = m_w;
+	size[1] = m_h;
 }
 
 Fixed::~Fixed()

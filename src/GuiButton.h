@@ -19,7 +19,7 @@ namespace Gui {
 		sigc::signal<void> onClick;
 		bool IsPressed() { return m_isPressed; }
 	private:
-		void OnRawMouseUp(SDL_MouseButtonEvent *e);
+		void OnRawMouseUp(MouseButtonEvent *e);
 		void OnRawKeyUp(SDL_KeyboardEvent *e);
 
 		bool m_isPressed;

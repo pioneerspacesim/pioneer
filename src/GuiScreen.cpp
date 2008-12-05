@@ -99,6 +99,9 @@ void Screen::OnMouseMotion(SDL_MouseMotionEvent *e)
 	ev.screenX = ev.x = x;
 	ev.screenY = ev.y = y;
 	baseContainer->OnMouseMotion(&ev);
+	ev.screenX = ev.x = x;
+	ev.screenY = ev.y = y;
+	RawEvents::onMouseMotion.emit(&ev);
 }
 
 void Screen::OnClick(SDL_MouseButtonEvent *e)
@@ -111,8 +114,13 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 	ev.screenX = ev.x = x;
 	ev.screenY = ev.y = y;
 	OnClickTestLabels(ev);
-	if (ev.isdown) baseContainer->OnMouseDown(&ev);
-	else baseContainer->OnMouseUp(&ev);
+	if (ev.isdown) {
+		baseContainer->OnMouseDown(&ev);
+		RawEvents::onMouseDown.emit(&ev);
+	} else {
+		baseContainer->OnMouseUp(&ev);
+		RawEvents::onMouseUp.emit(&ev);
+	}
 }
 
 void Screen::OnClickTestLabels(const Gui::MouseButtonEvent &ev)

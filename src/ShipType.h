@@ -7,8 +7,9 @@
 
 namespace Equip {
 	enum Slot { SLOT_ENGINE, SLOT_LASER, SLOT_MISSILE, SLOT_MAX };
-	enum Type { NONE, DRIVE_INTERPLANETARY, DRIVE_CLASS1,
-	LASER_1MW_BEAM, LASER_2MW_BEAM, LASER_4MW_BEAM };
+	enum Type { NONE, DRIVE_INTERPLANETARY, DRIVE_CLASS1, DRIVE_CLASS2,
+	DRIVE_CLASS3, DRIVE_CLASS4, DRIVE_CLASS5, DRIVE_CLASS6,
+	LASER_1MW_BEAM, LASER_2MW_BEAM, LASER_4MW_BEAM, TYPE_MAX };
 };
 	
 struct ShipType {
@@ -59,6 +60,7 @@ private:
 struct EquipType {
 	const char *name;
 	Equip::Slot slot;
+	int basePrice;
 	int mass;
 	int pval; // hello angband. used for general 'power' attribute...
 	

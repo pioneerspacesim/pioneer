@@ -4,6 +4,7 @@
 #include "gameconsts.h"
 #include "StarSystem.h"
 #include "Serializer.h"
+#include "Pi.h"
 
 struct SpaceStationType {
 	Uint32 sbreModel;
@@ -20,6 +21,9 @@ void SpaceStation::Save()
 	using namespace Serializer::Write;
 	ModelBody::Save();
 	wr_int((int)m_type);
+	for (int i=0; i<Equip::TYPE_MAX; i++) {
+		wr_int((int)m_equipmentStock[i]);
+	}
 }
 
 void SpaceStation::Load()
@@ -28,6 +32,9 @@ void SpaceStation::Load()
 	ModelBody::Load();
 	m_type = (TYPE)rd_int();
 	m_numPorts = 0;
+	for (int i=0; i<Equip::TYPE_MAX; i++) {
+		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
+	}
 	Init();
 }
 
@@ -88,6 +95,9 @@ SpaceStation::SpaceStation(TYPE type): ModelBody()
 {
 	m_type = type;
 	m_numPorts = 0;
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		m_equipmentStock[i] = Pi::rng.Int32(0,100);
+	}
 	Init();
 }
 
@@ -175,6 +185,11 @@ bool SpaceStation::GetDockingClearance(Ship *s)
 {
 	s->SetDockingTimer(60*10);
 	return true;
+}
+
+int SpaceStation::GetEquipmentPrice(Equip::Type t) const
+{
+	return EquipType::types[t].basePrice;
 }
 
 bool SpaceStation::OnCollision(Body *b, Uint32 flags)

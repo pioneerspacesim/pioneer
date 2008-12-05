@@ -48,7 +48,7 @@ void Button::OnRawKeyUp(SDL_KeyboardEvent *e)
 	}
 }
 
-void Button::OnRawMouseUp(SDL_MouseButtonEvent *e)
+void Button::OnRawMouseUp(MouseButtonEvent *e)
 {
 	if (e->button == 1) {
 		m_isPressed = false;
@@ -69,43 +69,20 @@ void TransparentButton::GetSizeRequested(float size[2])
 
 void SolidButton::Draw()
 {
-	glBegin(GL_QUADS);
-		glColor3f(.6,.6,.6);
-		glVertex2f(0,15);
-		glVertex2f(15,15);
-		glVertex2f(15,0);
-		glVertex2f(0,0);
-		
-		glColor3fv(Color::bgShadow);
-		glVertex2f(2,15);
-		glVertex2f(15,15);
-		glVertex2f(15,2);
-		glVertex2f(2,2);
-		
-		glColor3fv(Color::bg);
-		glVertex2f(2,13);
-		glVertex2f(13,13);
-		glVertex2f(13,2);
-		glVertex2f(2,2);
-	glEnd();
+	float size[2];
+	GetSize(size);
+	if (IsPressed()) {
+		Theme::DrawIndent(size);
+	} else {
+		Theme::DrawOutdent(size);
+	}
 }
 void TransparentButton::Draw()
 {
+	float size[2];
+	GetSize(size);
 	glColor3f(1,1,1);
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(0,0);
-		glVertex2f(15,0);
-		glVertex2f(15,15);
-		glVertex2f(0,15);
-	glEnd();
-
-	glBegin(GL_LINE_LOOP);
-		glVertex2f(1,1);
-		glVertex2f(14,1);
-		glVertex2f(14,14);
-		glVertex2f(1,14);
-	glEnd();
-
+	Theme::DrawHollowRect(size);
 }
 
 }

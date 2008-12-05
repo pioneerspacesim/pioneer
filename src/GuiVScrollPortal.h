@@ -10,6 +10,9 @@ namespace Gui {
 		VScrollPortal(float w, float h);
 		void Add(Widget *child);
 		void Remove(Widget *child);
+		virtual bool OnMouseDown(MouseButtonEvent *e);
+		virtual bool OnMouseUp(MouseButtonEvent *e);
+		virtual bool OnMouseMotion(MouseMotionEvent *e);
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
 		virtual void OnChildResizeRequest(Widget *);
@@ -17,6 +20,7 @@ namespace Gui {
 		void SetBgColor(float r, float g, float b);
 		Adjustment vscrollAdjust;
 	private:
+		float GetScrollPixels();
 		void OnScroll(float);
 		float m_scrollY, m_childSizeY;
 		Widget *m_child;
