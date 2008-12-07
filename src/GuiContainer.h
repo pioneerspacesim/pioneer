@@ -11,6 +11,7 @@ namespace Gui {
 	class Container: public Widget {
 	public:
 		Container();
+		virtual ~Container();
 		bool OnMouseDown(MouseButtonEvent *e);
 		bool OnMouseUp(MouseButtonEvent *e);
 		bool OnMouseMotion(MouseMotionEvent *e);

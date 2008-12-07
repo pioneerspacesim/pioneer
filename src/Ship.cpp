@@ -403,6 +403,8 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWith->OrientLaunchingShip(this, port);
 		Enable();
 		m_dockedWith = 0;
+	} else if (!s) {
+	
 	} else {
 		m_dockedWith = s;
 		m_dockedWithPort = port;

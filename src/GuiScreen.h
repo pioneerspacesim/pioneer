@@ -31,6 +31,8 @@ namespace Gui {
 		// gluProject but fixes UI/screen size mismatch
 		static GLint Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ);
 		friend void Widget::SetShortcut(SDLKey key, SDLMod mod);
+		friend Widget::~Widget();
+		static bool IsBaseWidget(const Widget *);
 	private:
 		struct LabelPos {
 			LabelPos(float _x, float _y): x(_x), y(_y) {}
@@ -41,6 +43,7 @@ namespace Gui {
 		static void OnClickTestLabels(const Gui::MouseButtonEvent &ev);
 		static bool CanPutLabel(float x, float y);
 		static void AddShortcutWidget(Widget *w);
+		static void RemoveShortcutWidget(Widget *w);
 		static void SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y);
 
 		static bool initted;

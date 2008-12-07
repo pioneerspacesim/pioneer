@@ -25,7 +25,7 @@ namespace Gui {
 		void EndClipping();
 		virtual void Show() { m_visible = true; }
 		virtual void Hide();
-		bool IsVisible() { return m_visible; }
+		bool IsVisible() const;
 		Container *GetParent() const { return m_parent; }
 		void SetParent(Container *p) { m_parent = p; }
 		void SetToolTip(std::string s) { m_tooltip = s; }

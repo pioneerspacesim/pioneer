@@ -4,6 +4,90 @@
 #include "Player.h"
 #include "WorldView.h"
 
+#define TEXSIZE	128
+#define ADD_VIDEO_WIDGET	Add(new DeadVideoLink(295,285), 5, 40)
+
+class DeadVideoLink: public Gui::Widget {
+public:
+	void PutRandomCrapIntoTexture() {
+		int *randcrap = (int*)alloca(TEXSIZE*TEXSIZE);
+		for (unsigned int i=0; i<TEXSIZE*TEXSIZE/sizeof(int); i++) randcrap[i] = (Pi::rng.Int32() & 0xfcfcfcfc) >> 2;
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, randcrap);
+	}
+	DeadVideoLink(float w, float h) {
+		m_w = w; m_h = h;
+		m_created = SDL_GetTicks();
+		m_message = new Gui::ToolTip("Video link down");
+		glEnable (GL_TEXTURE_2D);
+		glGenTextures (1, &m_tex);
+		glBindTexture (GL_TEXTURE_2D, m_tex);
+		PutRandomCrapIntoTexture();
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glDisable (GL_TEXTURE_2D);
+	}
+	virtual ~DeadVideoLink() {
+		delete m_message;
+	}
+	virtual void Draw() {
+		float size[2]; GetSize(size);
+		if (SDL_GetTicks() - m_created < 1500) {
+			m_message->SetText("Connecting...");
+			glBegin(GL_QUADS);
+				glColor3f(0,0,0);
+				glVertex2f(0,0);
+				glVertex2f(0,size[1]);
+				glVertex2f(size[0],size[1]);
+				glVertex2f(size[0],0);
+			glEnd();
+			DrawMessage();
+		} else {
+			m_message->SetText("Video link down");
+
+			glEnable (GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, m_tex);
+			PutRandomCrapIntoTexture();
+			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			glBegin(GL_QUADS);
+				glColor3f(0,0,0);
+				glTexCoord2f(0,0);
+				glVertex2f(0,0);
+				glTexCoord2f(0,1);
+				glVertex2f(0,size[1]);
+				glTexCoord2f(1,1);
+				glVertex2f(size[0],size[1]);
+				glTexCoord2f(1,0);
+				glVertex2f(size[0],0);
+			glEnd();
+			glDisable (GL_TEXTURE_2D);
+			if (SDL_GetTicks() & 0x400) {
+				DrawMessage();
+			}
+		}
+	}
+	virtual void GetSizeRequested(float size[2]) {
+		size[0] = m_w;
+		size[1] = m_h;
+	}
+private:
+	void DrawMessage() {
+		float size[2];
+		float msgSize[2];
+		GetSize(size);
+		m_message->GetSize(msgSize);
+		glPushMatrix();
+		glTranslatef(size[0]*0.5-msgSize[0]*0.5, size[1]*0.5-msgSize[1]*0.5, 0);
+		m_message->Draw();
+		glPopMatrix();
+	}
+	Uint32 m_created;
+	GLuint m_tex;
+	float m_w, m_h;
+	Gui::ToolTip *m_message;
+};
+
 class StationSubView: public Gui::Fixed {
 public:
 	StationSubView(SpaceStationView *parent): Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()-64) {
@@ -18,6 +102,7 @@ protected:
 class StationFrontView: public StationSubView {
 public:
 	StationFrontView(SpaceStationView *parent);
+	virtual void ShowAll();
 private:
 	void OnClickRequestLaunch()
 	{
@@ -34,7 +119,18 @@ private:
 StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(parent)
 {
 	SetTransparency(false);
+}
 
+void StationFrontView::ShowAll()
+{
+	DeleteAllChildren();
+	SpaceStation *station = Pi::player->GetDockedWith();
+	if (!station) return;
+	{
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Welcome to %s", station->GetLabel().c_str());
+		Add(new Gui::Label(buf), 10, 10);
+	}
 	Gui::Label *l = new Gui::Label("Hello friend! Thankyou for docking with this space station!\n"
 	"You may have noticed that the docking procedure was not entirely "
 	"physically correct. This is a result of unimplemented physics in this "
@@ -45,23 +141,28 @@ StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(par
 	"can offer you this promotional message from one of the station's sponsors:\n"
 	"                       DIET STEAKETTE: IT'S BAD");
 
-	Gui::Fixed *fbox = new Gui::Fixed(720, 400);
+	Gui::Fixed *fbox = new Gui::Fixed(450, 400);
 	fbox->Add(l, 0, 0);
-	Add(fbox, 40, 100);
+	Add(fbox, 320, 40);
 	fbox->ShowAll();
 
 	Gui::SolidButton *b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_1, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickRequestLaunch));
-	Add(b, 40, 300);
+	Add(b, 340, 240);
 	l = new Gui::Label("Request Launch");
-	Add(l, 65, 300);
+	Add(l, 365, 240);
 
 	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_2, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickGotoShipYard));
-	Add(b, 40, 360);
+	Add(b, 340, 300);
 	l = new Gui::Label("Shipyard");
-	Add(l, 65, 360);
+	Add(l, 365, 300);
 
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -85,9 +186,14 @@ void StationShipyardView::ShowAll()
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
+	{
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Welcome to %s shipyard", station->GetLabel().c_str());
+		Add(new Gui::Label(buf), 10, 10);
+	}
 	
-	Gui::Fixed *fbox = new Gui::Fixed(500, 200);
-	Add(fbox, 300, 100);
+	Gui::Fixed *fbox = new Gui::Fixed(470, 200);
+	Add(fbox, 320, 40);
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,200);
@@ -127,6 +233,7 @@ void StationShipyardView::ShowAll()
 	portal->Add(innerbox);
 	portal->ShowAll();
 	fbox->ShowAll();
+	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
 }

@@ -10,6 +10,22 @@ Widget::Widget()
 	m_eventMask = EVENT_NONE;
 	m_tooltipWidget = 0;
 	m_tooltipTimerSignal.connect(sigc::mem_fun(this, &Widget::OnToolTip));
+	m_shortcut.sym = (SDLKey)0;
+	m_shortcut.mod = (SDLMod)0;
+}
+
+bool Widget::IsVisible() const
+{
+	if (!m_visible) return false;
+	Container *parent = m_parent;
+	while ((parent) && (parent->m_parent)) {
+		if (parent->m_visible == false) return false;
+		parent = parent->m_parent;
+	}
+	if (Screen::IsBaseWidget(parent))
+		return parent->m_visible;
+	else
+		return false;
 }
 
 void Widget::SetClipping(float width, float height)
@@ -41,6 +57,7 @@ void Widget::EndClipping()
 
 void Widget::SetShortcut(SDLKey key, SDLMod mod)
 {
+	assert(m_shortcut.sym == 0); // because AddShortcutWidget will add more than once. fix this otherwise on destruct we leave bad pointers in the Screen shortcut widgets list
 	m_shortcut.sym = key;
 	m_shortcut.mod = mod;
 	Screen::AddShortcutWidget(this);
@@ -137,6 +154,8 @@ Widget::~Widget()
 		Screen::RemoveBaseWidget(m_tooltipWidget);
 		delete m_tooltipWidget;
 	}
+	Screen::RemoveShortcutWidget(this);
+	Gui::RemoveTimer(&m_tooltipTimerSignal);
 }
 
 }

@@ -33,6 +33,7 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::font = new TextureFontFace("guifont.ttf", 15/fontScale[0], 15/fontScale[1]);
 	Screen::baseContainer = new Gui::Fixed(Screen::width, Screen::height);
 	Screen::baseContainer->SetPosition(0,0);
+	Screen::baseContainer->Show();
 }
 
 GLint Screen::Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ)
@@ -73,6 +74,11 @@ void Screen::Draw()
 	EnterOrtho();
 	baseContainer->Draw();
 	LeaveOrtho();
+}
+
+bool Screen::IsBaseWidget(const Widget *w)
+{
+	return w == static_cast<const Widget*>(baseContainer);
 }
 
 void Screen::AddBaseWidget(Widget *w, int x, int y)
@@ -228,6 +234,11 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 void Screen::AddShortcutWidget(Widget *w)
 {
 	kbshortcut_widgets.push_back(w);
+}
+
+void Screen::RemoveShortcutWidget(Widget *w)
+{
+	kbshortcut_widgets.remove(w);
 }
 
 }

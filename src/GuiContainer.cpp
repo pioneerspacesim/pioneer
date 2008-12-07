@@ -8,6 +8,11 @@ Container::Container()
 	onMouseLeave.connect(sigc::mem_fun(this, &Container::_OnMouseLeave));
 }
 
+Container::~Container()
+{
+	DeleteAllChildren();
+}
+
 void Container::_OnMouseLeave()
 {
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
