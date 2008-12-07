@@ -29,6 +29,7 @@ public:
 		glDisable (GL_TEXTURE_2D);
 	}
 	virtual ~DeadVideoLink() {
+		glDeleteTextures(1, &m_tex);
 		delete m_message;
 	}
 	virtual void Draw() {

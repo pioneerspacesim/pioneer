@@ -5,7 +5,7 @@ namespace Gui {
 
 Image::~Image()
 {
-#pragma message("warning leaking gl textures")
+	glDeleteTextures(1, &m_tex);
 }
 
 Image::Image(const char *filename): Widget()
