@@ -122,11 +122,6 @@ void CollisionSpace::CollideGeoms(Geom *a)
 	bigAabb.max += pos;
 
 
-	/* first test the fucker against the planet sphere thing */
-	if (sphere.radius != 0) {
-		a->CollideSphere(sphere);
-	}
-
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
 		if ((*i) != a) {
 			Aabb bigAabb2;
@@ -140,6 +135,12 @@ void CollisionSpace::CollideGeoms(Geom *a)
 			}
 		}
 	}
+	/* test the fucker against the planet sphere thing
+	 * (only if no geomFlag. they can be important like docking pads) */
+	if ((!a->contact.geomFlag) && (sphere.radius != 0)) {
+		a->CollideSphere(sphere);
+	}
+
 }
 
 void CollisionSpace::Collide(void (*callback)(CollisionContact*))

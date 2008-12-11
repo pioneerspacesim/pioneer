@@ -9,7 +9,7 @@ struct CollisionContact {
 	void *userData1, *userData2;
 	int geomFlag;
 	CollisionContact() {
-		depth = 0; triIdx = -1; userData1 = userData2 = 0;
+		depth = 0; triIdx = -1; userData1 = userData2 = 0; geomFlag = 0;
 	}
 };
 

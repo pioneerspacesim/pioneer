@@ -1255,17 +1255,17 @@ Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, dumm
 	{ { 0, metalFrameTowerData, 0, 0, 0 } } };
 
 static PlainVertex starport1vtx1[] = {
-	{ VTYPE_PLAIN, { 0,0,0 } },
+	{ VTYPE_PLAIN, { 0,0,0 } }, // 6: pad centre
 	{ VTYPE_PLAIN, { 0,.01,0 } },
 	{ VTYPE_PLAIN, { -0.1,.01,-0.1 } },
-	{ VTYPE_PLAIN, { 0, 0, -2 } },
-	{ VTYPE_PLAIN, { 0, 0, 2 } },
-	{ VTYPE_PLAIN, { 0.5, 0, 0 } },
-	{ VTYPE_PLAIN, { -0.5, 0, 0 } },
+	{ VTYPE_PLAIN, { 0, 0, -2 } }, // 9: hermite norm
+	{ VTYPE_PLAIN, { 0, 0, 2 } }, // 10: hermite norm
+	{ VTYPE_PLAIN, { 0.5, 0, 0 } }, // 11: pad vtx
+	{ VTYPE_PLAIN, { -0.5, 0, 0 } }, // 12: pad vtx
 
-	{ VTYPE_PLAIN, { 0, 0, 2 } },
-	{ VTYPE_PLAIN, { 0.5, 0, 2 } },
-	{ VTYPE_PLAIN, { -0.5, 0, 2 } },
+	{ VTYPE_PLAIN, { 0, 0, 2 } }, // 13: pad2 centre
+	{ VTYPE_PLAIN, { 0.5, 0, 2 } }, // 14: pad2 vtx
+	{ VTYPE_PLAIN, { -0.5, 0, 2 } }, // 15: pad2 vtx
 	{ VTYPE_PLAIN, { -0.1,.01, 2-0.1 } },
 };
 /*uint16 PFUNC_COMPSMOOTH
