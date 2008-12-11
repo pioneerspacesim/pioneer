@@ -87,7 +87,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
 	Add(m_clock, 2, 1);
 
 	tempMsg = new Gui::Label("");
-	Add(tempMsg, 170, 44);
+	Add(tempMsg, 170, 4);
 }
 
 void ShipCpanel::SetTemporaryMessage(Body * const sender, std::string msg)

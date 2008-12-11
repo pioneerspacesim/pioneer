@@ -603,7 +603,7 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 		glPushMatrix();
 		for (int i=0; i<num; i++) {
 			word_t word = words.front();
-			if (word.word) RenderString(word.word);
+			if (word.word) RenderMarkup(word.word);
 			glTranslatef(word.advx + _spaceWidth, 0, 0);
 			words.pop_front();
 		}

@@ -112,16 +112,35 @@ vector3d DynamicBody::GetPosition() const
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
 	if (m_enabled) {
+		/* This shit is for rotating frames. It is a bit smelly */
+		vector3d angRot = GetFrame()->GetAngVelocity();
+		{
+			double omega = angRot.Length();
+			if (omega) {
+			
+				// centrifugal force
+				vector3d perpend = vector3d::Cross(angRot, GetPosition());
+				perpend = vector3d::Normalize(vector3d::Cross(perpend, angRot));
+				double R = vector3d::Dot(perpend, GetPosition());
+				double centrifugal = m_mass * omega * omega * R;
+				m_force += centrifugal*perpend;
+				// coriolis force
+				m_force += -2*m_mass*vector3d::Cross(angRot, GetVelocity());
+			}
+
+		}
+
 		m_oldOrient = m_orient;
 		m_vel += timeStep * m_force * (1.0 / m_mass);
 		m_angVel += timeStep * m_torque * (1.0 / m_angInertia);
+		vector3d consideredAngVel = m_angVel - angRot;
 		
 		vector3d pos = GetPosition();
 		// applying angular velocity :-/
 		{
-			double len = m_angVel.Length();
+			double len = consideredAngVel.Length();
 			if (len != 0) {
-				vector3d rotAxis = m_angVel * (1.0 / len);
+				vector3d rotAxis = consideredAngVel * (1.0 / len);
 				matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len * timeStep,
 						rotAxis.x, rotAxis.y, rotAxis.z);
 				m_orient = rotMatrix * m_orient;

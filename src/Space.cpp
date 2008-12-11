@@ -239,13 +239,11 @@ void Space::UpdateFramesOfReference()
 				b->GetRotMatrix(rot);
 				b->SetRotMatrix(m * rot);
 				
+				b->SetVelocity(oldFrameVel + m.ApplyRotationOnly(b->GetVelocity() - 
+					b->GetFrame()->GetStasisVelocityAtPosition(b->GetPosition())));
 
 				b->SetFrame(new_frame);
 				b->SetPosition(new_pos);
-
-				// get rid of transforms
-				m.ClearToRotOnly();
-				b->SetVelocity(m*b->GetVelocity() + oldFrameVel);
 			} else {
 				b->SetVelocity(b->GetVelocity() + oldFrameVel);
 			}
@@ -268,7 +266,9 @@ void Space::UpdateFramesOfReference()
 				
 				// get rid of transforms
 				m.ClearToRotOnly();
-				b->SetVelocity(m*b->GetVelocity() - kid->GetVelocity());
+				b->SetVelocity(m*b->GetVelocity()
+					- kid->GetVelocity()
+					+ kid->GetStasisVelocityAtPosition(pos));
 				break;
 			}
 		}

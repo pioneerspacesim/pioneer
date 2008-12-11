@@ -203,11 +203,14 @@ void Pi::HandleEvents()
 					vector3d dir = m*vector3d(0,0,-1);
 					/* add test object */
 					if (KeyState(SDLK_LSHIFT)) {
+						Frame *rotFrame = new Frame(Pi::player->GetFrame(), "Station rot frame");
+						rotFrame->SetRadius(3000.0);//(1.1*sbody->GetRadius());
+						rotFrame->SetPosition(Pi::player->GetPosition()+5000.0*dir);
+						rotFrame->SetAngVelocity(vector3d(0,2*M_PI/10,0));
 						SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
 						station->SetLabel("Poemi-chan's Folly");
-						station->SetFrame(Pi::player->GetFrame());
+						station->SetFrame(rotFrame);
 						station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
-						station->SetPosition(Pi::player->GetPosition()+5000.0*dir);
 						Space::AddBody(station);
 					} else {
 						Ship *ship = new Ship(ShipType::LADYBIRD);

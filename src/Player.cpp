@@ -235,7 +235,9 @@ void Player::DrawHUD(const Frame *cam_frame)
 
 	// Direction indicator
 	const float sz = HUD_CROSSHAIR_SIZE;
-	const vector3d vel = GetVelocity();
+	vector3d vel = GetVelocity();
+	vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
+
 	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
 	if (loc_v.z < 0) {
 		GLdouble pos[3];

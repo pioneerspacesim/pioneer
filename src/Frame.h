@@ -30,6 +30,7 @@ public:
 	vector3d GetVelocity() const { return m_vel; }
 	void SetAngVelocity(const vector3d &angvel) { m_angVel = angvel; }
 	vector3d GetAngVelocity() const { return m_angVel; }
+	vector3d GetStasisVelocityAtPosition(const vector3d &pos) const;
 	const matrix4x4d &GetOrientation() const { return m_orient; }
 	void SetOrientation(const matrix4x4d &m) { m_orient = m; }
 	void SetRadius(double radius) { m_radius = radius; }

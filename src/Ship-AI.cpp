@@ -82,6 +82,7 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 	AIAccelToModelRelativeVelocity(relToVel);
 }
 
+#include "Frame.h"
 /* Try to reach this model-relative velocity.
  * (0,0,-100) would mean going 100m/s forward.
  */
@@ -89,7 +90,14 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
 	const ShipType &stype = GetShipType();
 	
-	vector3d relVel = GetVelocity();// - enemy->GetVelocity();
+	// OK. For rotating frames linked to space stations we want to set
+	// speed relative to non-rotating frame (so we apply Frame::GetStasisVelocityAtPosition.
+	// For rotating frames linked to planets we want to set velocity relative to
+	// surface, so we do not apply Frame::GetStasisVelocityAtPosition
+	vector3d relVel = GetVelocity();
+	if (!GetFrame()->m_astroBody) {
+		relVel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
+	}
 	matrix4x4d m; GetRotMatrix(m);
 	relVel = m.InverseOf() * relVel;
 
