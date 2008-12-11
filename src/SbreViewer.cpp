@@ -202,6 +202,8 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	}
 	printf("%.3f million rays/sec, %.2f tri isect tests per ray\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)),
 				GeomTree::stats_rayTriIntersections/(float)(TEXSIZE*TEXSIZE));
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, mytexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_FLOAT, wank);
 
 	glDisable(GL_DEPTH_TEST);
@@ -215,9 +217,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	glLoadIdentity();
 	
 	//glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
-	glBindTexture(GL_TEXTURE_2D, mytexture);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glBegin(GL_TRIANGLE_FAN);
 		glTexCoord2i(0,1);
