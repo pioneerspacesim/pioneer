@@ -350,6 +350,7 @@ void Pi::Start()
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
 	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::LASER_4MW_BEAM);
 	player->SetLabel("me");
+	player->SetMoney(1000);
 	Space::AddBody(player);
 	
 	cpan = new ShipCpanel();

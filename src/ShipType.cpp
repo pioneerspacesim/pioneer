@@ -13,7 +13,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
-		{ 1, 2, 0 },
+		{ 50, 1, 2, 0 },
 		100, 20,
 	}, {
 		// john - you should pick names yourself or this happens
@@ -25,7 +25,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 1, 1, 0 },
+		{ 20, 1, 1, 0 },
 		60, 15,
 	}, {
 		"Flowerfairy Heavy Trader",
@@ -36,15 +36,111 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 1, 2, 0 },
+		{ 200, 1, 2, 0 },
 		500, 125,
 	}
 };
 
 const EquipType EquipType::types[] = {
 	{ "None",
-	  Equip::SLOT_ENGINE,
+	  Equip::SLOT_CARGO,
 	  0, 0
+	},{
+	  "Hydrogen",
+	  Equip::SLOT_CARGO,
+	  5, 1, 0
+	},{
+	  "Liquid Oxygen",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Metal ore",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Oil",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Metal alloys",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Plastics",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Fruit and Veg",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Animal Meat",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Liquor",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Grain",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Textiles",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Fertilizer",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Water",
+	  Equip::SLOT_CARGO,
+	  8, 1, 0
+	},{
+	  "Medicines",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Consumer goods",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Computers",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Robots",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Precious metals",
+	  Equip::SLOT_CARGO,
+	  500, 1, 0
+	},{
+	  "Industrial machinery",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Farm machinery",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Air processors",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Hand weapons",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Battle weapons",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
+	},{
+	  "Narcotics",
+	  Equip::SLOT_CARGO,
+	  20, 1, 0
 	},{
 	  "Interplanetary Drive",
 	  Equip::SLOT_ENGINE,

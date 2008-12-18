@@ -20,6 +20,7 @@ void SpaceStation::Save()
 {
 	using namespace Serializer::Write;
 	ModelBody::Save();
+	MarketAgent::Save();
 	wr_int((int)m_type);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr_int((int)m_equipmentStock[i]);
@@ -30,6 +31,7 @@ void SpaceStation::Load()
 {
 	using namespace Serializer::Read;
 	ModelBody::Load();
+	MarketAgent::Load();
 	m_type = (TYPE)rd_int();
 	m_numPorts = 0;
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
@@ -187,8 +189,20 @@ bool SpaceStation::GetDockingClearance(Ship *s)
 	return true;
 }
 
-int SpaceStation::GetEquipmentPrice(Equip::Type t) const
-{
+/* MarketAgent shite */
+void SpaceStation::Bought(Equip::Type t) {
+	m_equipmentStock[(int)t]++;
+}
+void SpaceStation::Sold(Equip::Type t) {
+	m_equipmentStock[(int)t]--;
+}
+bool SpaceStation::CanBuy(Equip::Type t) const {
+	return true;
+}
+bool SpaceStation::CanSell(Equip::Type t) const {
+	return m_equipmentStock[(int)t] > 0;
+}
+int SpaceStation::GetPrice(Equip::Type t) const {
 	return EquipType::types[t].basePrice;
 }
 

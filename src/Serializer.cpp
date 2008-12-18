@@ -139,6 +139,18 @@ namespace Write {
 		wr_byte((unsigned char)((x>>16) & 0xff));
 		wr_byte((unsigned char)((x>>24) & 0xff));
 	}
+	
+	void wr_int64(Sint64 x)
+	{
+		wr_byte((unsigned char)(x & 0xff));
+		wr_byte((unsigned char)((x>>8) & 0xff));
+		wr_byte((unsigned char)((x>>16) & 0xff));
+		wr_byte((unsigned char)((x>>24) & 0xff));
+		wr_byte((unsigned char)((x>>32) & 0xff));
+		wr_byte((unsigned char)((x>>40) & 0xff));
+		wr_byte((unsigned char)((x>>48) & 0xff));
+		wr_byte((unsigned char)((x>>56) & 0xff));
+	}
 
 	/* not portable */
 	void wr_float (float f)
@@ -266,6 +278,20 @@ namespace Read {
 		t2 = rd_byte();
 		t1 = rd_byte();
 		return ((t1 << 24) | (t2 << 16) | (t3 << 8) | t4);
+	}
+
+	Sint64 rd_int64(void)
+	{
+		Sint64 t1, t2, t3, t4, t5, t6, t7, t8;
+		t8 = rd_byte();
+		t7 = rd_byte();
+		t6 = rd_byte();
+		t5 = rd_byte();
+		t4 = rd_byte();
+		t3 = rd_byte();
+		t2 = rd_byte();
+		t1 = rd_byte();
+		return ((t1<<56) | (t2<<48) | (t3<<40) | (t4<<32) | (t5 << 24) | (t6 << 16) | (t7 << 8) | t8);
 	}
 
 	float rd_float ()

@@ -5,6 +5,7 @@
 #include "DynamicBody.h"
 #include "ShipType.h"
 #include "sbre/sbre.h"
+#include "MarketAgent.h"
 #include <list>
 
 class SpaceStation;
@@ -18,7 +19,7 @@ struct shipstats_t {
 	float hyperspace_range;
 };
 
-class Ship: public DynamicBody {
+class Ship: public DynamicBody, public MarketAgent {
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
@@ -59,6 +60,10 @@ public:
 	void AIInstruct(enum AICommand, void *arg);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
+	/* MarketAgent stuff */
+	bool CanBuy(Equip::Type t) const;
+	bool CanSell(Equip::Type t) const;
+	int GetPrice(Equip::Type t) const;
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -68,6 +73,9 @@ protected:
 	int m_dockedWithPort;
 	enum ShipType::Type m_shipType;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
+	/* MarketAgent stuff */
+	void Bought(Equip::Type t);
+	void Sold(Equip::Type t);
 private:
 	void AITimeStep(const float timeStep);
 	void Init();

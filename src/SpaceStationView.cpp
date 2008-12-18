@@ -111,9 +111,12 @@ private:
 		Pi::SetView(Pi::worldView);
 	}
 
-	void OnClickGotoShipYard()
-	{
+	void OnClickGotoShipYard() {
 		m_parent->GotoShipyard();
+	}
+
+	void OnClickGotoCommodities() {
+		m_parent->GotoCommodities();
 	}
 };
 
@@ -161,6 +164,133 @@ void StationFrontView::ShowAll()
 	l = new Gui::Label("Shipyard");
 	Add(l, 365, 300);
 
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_3, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickGotoCommodities));
+	Add(b, 340, 360);
+	l = new Gui::Label("Commodity market");
+	Add(l, 365, 360);
+
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
+}
+
+#include <map>
+////////////////////////////////////////////////////////////////////
+
+class StationCommoditiesView: public StationSubView {
+public:
+	StationCommoditiesView(SpaceStationView *parent);
+private:
+	virtual void ShowAll();
+	void OnClickBuy(int commodity_type) {
+		m_station->SellItemTo(Pi::player, (Equip::Type)commodity_type);
+		UpdateStock(commodity_type);
+		UpdateStats();
+	}
+	void OnClickSell(int commodity_type) {
+		Pi::player->SellItemTo(m_station, (Equip::Type)commodity_type);
+		UpdateStock(commodity_type);
+		UpdateStats();
+	}
+	void UpdateStock(int commodity_type) {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
+		m_cargoLabels[commodity_type]->SetText(buf);
+		
+		snprintf(buf, sizeof(buf), "%dt", m_station->GetEquipmentStock(static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
+		m_stockLabels[commodity_type]->SetText(buf);
+	}
+	void UpdateStats() {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Credits: $%lld", Pi::player->GetMoney());
+		m_money->SetText(buf);
+	}
+	std::map<int, Gui::Label*> m_stockLabels;
+	std::map<int, Gui::Label*> m_cargoLabels;
+	Gui::Label *m_money;
+	SpaceStation *m_station;
+};
+
+StationCommoditiesView::StationCommoditiesView(SpaceStationView *parent): StationSubView(parent)
+{
+	SetTransparency(false);
+}
+
+void StationCommoditiesView::ShowAll()
+{
+	DeleteAllChildren();
+	m_stockLabels.clear();
+	m_cargoLabels.clear();
+
+	m_station = Pi::player->GetDockedWith();
+	assert(m_station);
+	SetTransparency(false);
+	{
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Welcome to %s commodities market", m_station->GetLabel().c_str());
+		Add(new Gui::Label(buf), 10, 10);
+	}
+
+	m_money = new Gui::Label("");
+	Add(m_money, 10, 450);
+	
+	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
+	Add(fbox, 320, 40);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
+
+	int NUM_ITEMS = 0;
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (EquipType::types[i].slot == Equip::SLOT_CARGO) NUM_ITEMS++;
+	}
+
+	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
+	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
+		if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
+		int stock = m_station->GetEquipmentStock(static_cast<Equip::Type>(i));
+		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
+		innerbox->Add(l,0,num*YSEP);
+		Gui::Button *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy), i));
+		innerbox->Add(b, 380, num*YSEP);
+		b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell), i));
+		innerbox->Add(b, 415, num*YSEP);
+		char buf[128];
+		snprintf(buf, sizeof(buf), "$%d", m_station->GetPrice(static_cast<Equip::Type>(i)));
+		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
+		
+		snprintf(buf, sizeof(buf), "%dt", stock*EquipType::types[i].mass);
+		Gui::Label *stocklabel = new Gui::Label(buf);
+		m_stockLabels[i] = stocklabel;
+		innerbox->Add(stocklabel, 275, num*YSEP);
+		
+		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(i))*EquipType::types[i].mass);
+		Gui::Label *cargolabel = new Gui::Label(buf);
+		m_cargoLabels[i] = cargolabel;
+		innerbox->Add(cargolabel, 325, num*YSEP);
+		num++;
+	}
+	innerbox->ShowAll();
+
+	fbox->Add(new Gui::Label("Item"), 0, 0);
+	fbox->Add(new Gui::Label("Price"), 200, 0);
+	fbox->Add(new Gui::Label("Buy"), 380, 0);
+	fbox->Add(new Gui::Label("Sell"), 415, 0);
+	fbox->Add(new Gui::Label("Stock"), 275, 0);
+	fbox->Add(new Gui::Label("Cargo"), 325, 0);
+	fbox->Add(portal, 0, YSEP);
+	fbox->Add(scroll, 455, YSEP);
+	portal->Add(innerbox);
+	portal->ShowAll();
+	fbox->ShowAll();
+	UpdateStats();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -216,7 +346,7 @@ void StationShipyardView::ShowAll()
 		innerbox->Add(new Gui::SolidButton(), 275, num*YSEP);
 		innerbox->Add(new Gui::SolidButton(), 300, num*YSEP);
 		char buf[128];
-		snprintf(buf, sizeof(buf), "$%d", station->GetEquipmentPrice(static_cast<Equip::Type>(i)));
+		snprintf(buf, sizeof(buf), "$%d", station->GetPrice(static_cast<Equip::Type>(i)));
 		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
 		snprintf(buf, sizeof(buf), "%dt", EquipType::types[i].mass);
 		innerbox->Add(new Gui::Label(buf), 370, num*YSEP);
@@ -245,6 +375,7 @@ SpaceStationView::SpaceStationView(): View()
 {
 	m_frontview = new StationFrontView(this);
 	m_shipyard = new StationShipyardView(this);
+	m_commodities = new StationCommoditiesView(this);
 	m_subview = 0;
 	SwitchView(m_frontview);
 
@@ -262,6 +393,11 @@ void SpaceStationView::SwitchView(StationSubView *v)
 	m_subview = v;
 	Add(m_subview, 0, 0);
 	m_subview->ShowAll();
+}
+
+void SpaceStationView::GotoCommodities()
+{
+	SwitchView(m_commodities);
 }
 
 void SpaceStationView::GotoShipyard()

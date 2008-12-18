@@ -6,8 +6,8 @@
 #include <vector>
 
 namespace Equip {
-	enum Slot { SLOT_ENGINE, SLOT_LASER, SLOT_MISSILE, SLOT_MAX };
-	enum Type { NONE, DRIVE_INTERPLANETARY, DRIVE_CLASS1, DRIVE_CLASS2,
+	enum Slot { SLOT_CARGO, SLOT_ENGINE, SLOT_LASER, SLOT_MISSILE, SLOT_MAX };
+	enum Type { NONE, HYDROGEN, LIQUID_OXYGEN, METAL_ORE, OIL, METAL_ALLOYS, PLASTICS, FRUIT_AND_VEG, ANIMAL_MEAT, LIQUOR, GRAIN, TEXTILES, FERTILIZER, WATER, MEDICINES, CONSUMER_GOODS, COMPUTERS, ROBOTS, PRECIOUS_METALS, INDUSTRIAL_MACHINERY, FARM_MACHINERY, AIR_PROCESSORS, HAND_WEAPONS, BATTLE_WEAPONS, NARCOTICS, DRIVE_INTERPLANETARY, DRIVE_CLASS1, DRIVE_CLASS2,
 	DRIVE_CLASS3, DRIVE_CLASS4, DRIVE_CLASS5, DRIVE_CLASS6,
 	LASER_1MW_BEAM, LASER_2MW_BEAM, LASER_4MW_BEAM, TYPE_MAX };
 };
@@ -50,6 +50,38 @@ public:
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
+	}
+	bool Add(Equip::Slot s, Equip::Type e) {
+		for (unsigned int i=0; i<equip[s].size(); i++) {
+			if (equip[s][i] == Equip::NONE) {
+				equip[s][i] = e;
+				return true;
+			}
+		}
+		return false;
+	}
+	void Remove(Equip::Slot s, Equip::Type e, int num) {
+		for (unsigned int i=0; i<equip[s].size(); i++) {
+			if (equip[s][i] == e) {
+				equip[s][i] = Equip::NONE;
+				num--;
+			}
+			if (num == 0) break;
+		}
+	}
+	int Count(Equip::Slot s, Equip::Type e) const {
+		int num = 0;
+		for (unsigned int i=0; i<equip[s].size(); i++) {
+			if (equip[s][i] == e) num++;
+		}
+		return num;
+	}
+	int FreeSpace(Equip::Slot s) const {
+		int free = 0;
+		for (unsigned int i=0; i<equip[s].size(); i++) {
+			if (equip[s][i] == Equip::NONE) free++;
+		}
+		return free;
 	}
 	void Save();
 	void Load();

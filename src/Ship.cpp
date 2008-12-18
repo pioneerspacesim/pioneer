@@ -27,6 +27,7 @@ void Ship::Save()
 {
 	using namespace Serializer::Write;
 	DynamicBody::Save();
+	MarketAgent::Save();
 	wr_int(Serializer::LookupBody(m_combatTarget));
 	wr_int(Serializer::LookupBody(m_navTarget));
 	wr_float(m_dockingTimer);
@@ -61,6 +62,7 @@ void Ship::Load()
 {
 	using namespace Serializer::Read;
 	DynamicBody::Load();
+	MarketAgent::Load();
 	// needs fixups
 	m_combatTarget = (Body*)rd_int();
 	m_navTarget = (Body*)rd_int();
@@ -529,5 +531,31 @@ void Ship::Render(const Frame *camFrame)
 		TransformToModelCoords(camFrame);
 		RenderLaserfire();
 		glPopMatrix();
+	}
+}
+
+/* MarketAgent shite */
+void Ship::Bought(Equip::Type t) {
+	Equip::Slot slot = EquipType::types[(int)t].slot;
+	m_equipment.Add(slot, t);
+}
+void Ship::Sold(Equip::Type t) {
+	Equip::Slot slot = EquipType::types[(int)t].slot;
+	m_equipment.Remove(slot, t, 1);
+}
+bool Ship::CanBuy(Equip::Type t) const {
+	Equip::Slot slot = EquipType::types[(int)t].slot;
+	return m_equipment.FreeSpace(slot);
+}
+bool Ship::CanSell(Equip::Type t) const {
+	Equip::Slot slot = EquipType::types[(int)t].slot;
+	return m_equipment.Count(slot, t) > 0;
+}
+int Ship::GetPrice(Equip::Type t) const {
+	if (m_dockedWith) {
+		return m_dockedWith->GetPrice(t);
+	} else {
+		assert(0);
+		return 0;
 	}
 }

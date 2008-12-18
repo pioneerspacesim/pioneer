@@ -4,13 +4,14 @@
 #include "libs.h"
 #include "ModelBody.h"
 #include "ShipType.h"
+#include "MarketAgent.h"
 
 #define MAX_DOCKING_PORTS	4
 
 class CollMeshSet;
 class Ship;
 
-class SpaceStation: public ModelBody {
+class SpaceStation: public ModelBody, public MarketAgent {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
@@ -30,10 +31,16 @@ public:
 		vector3d horiz;
 	} port[MAX_DOCKING_PORTS];
 	int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
-	int GetEquipmentPrice(Equip::Type t) const;
+	/* MarketAgent stuff */
+	int GetPrice(Equip::Type t) const;
+	bool CanBuy(Equip::Type t) const;
+	bool CanSell(Equip::Type t) const;
 protected:
 	virtual void Save();
 	virtual void Load();
+	/* MarketAgent stuff */
+	void Bought(Equip::Type t);
+	void Sold(Equip::Type t);
 private:
 	void Init();
 	TYPE m_type;

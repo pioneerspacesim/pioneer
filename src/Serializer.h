@@ -30,6 +30,7 @@ namespace Serializer {
 		void wr_byte(unsigned char x);
 		void wr_short(short x);
 		void wr_int(int x);
+		void wr_int64(Sint64 x);
 		void wr_float (float f);
 		void wr_double (double f);
 		void wr_cstring(const char* s);
@@ -44,6 +45,7 @@ namespace Serializer {
 		unsigned char rd_byte ();
 		short rd_short ();
 		int rd_int ();
+		Sint64 rd_int64 ();
 		float rd_float ();
 		double rd_double ();
 		std::string rd_string();
