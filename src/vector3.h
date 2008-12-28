@@ -24,11 +24,13 @@ class vector3 {
 	vector3 operator- () const { return vector3 (-x, -y, -z); }
 	bool operator== (const vector3 a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
 	bool operator!= (const vector3 a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
-	friend vector3 operator* (const vector3 a, const vector3 b) { return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
+//	friend vector3 operator* (const vector3 a, const vector3 b) 
+//	{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
 	friend vector3 operator* (const vector3 a, const T scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
 	friend vector3 operator* (const T scalar, const vector3 a) { return a*scalar; }
 
-	static vector3 Cross (const vector3 a, const vector3 b) { return a*b; }
+	static vector3 Cross (const vector3 a, const vector3 b)
+		{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
 	static T Dot (const vector3 a, const vector3 b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
 
 	T Length () const {

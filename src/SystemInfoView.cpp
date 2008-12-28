@@ -22,6 +22,17 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	desc += stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
 	data += "\n";
 
+	if (b->econType) {
+		desc += "Economy\n";
+
+		std::vector<std::string> v;
+		if (b->econType & ECON_AGRICULTURE) v.push_back("Agricultural");
+		if (b->econType & ECON_MINING) v.push_back("Mining");
+		if (b->econType & ECON_INDUSTRY) v.push_back("Industrial");
+		data += string_join(v, ", ");
+		data += "\n";
+	}
+
 	desc += "Mass\n";
 	data += stringf(64, "%.2f %s masses\n", b->mass.ToDouble(), 
 		(b->GetSuperType() == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));

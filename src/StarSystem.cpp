@@ -382,6 +382,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->parent = parent;
 		kid->radius = c->radius;
 		kid->mass = c->mass;
+		kid->econType = c->econType;
 		kid->averageTemp = c->averageTemp;
 		kid->name = c->name;
 		kid->rotationPeriod = c->rotationPeriod;
@@ -485,6 +486,11 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 	b->orbMin = orbMin;
 	a->orbMax = orbMax;
 	b->orbMax = orbMax;
+}
+
+StarSystem::SBody::SBody()
+{
+	econType = 0;
 }
 
 /*
@@ -724,6 +730,7 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 //	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
 
 	averageTemp = bbody_temp;
+	econType = 0;
 
 	if (mass > 317*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
@@ -814,15 +821,19 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 			(*i)->name = name+buf;
 			(*i)->PickPlanetType(system, star, distToPrimary, rand, false);
 		}
+
 	}
-	
+
+	bool has_starports = false;
 	// starports - orbital
 	if ((genMoons) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
 		(rand.Fixed() < humanActivity)) {
+		has_starports = true;
 		SBody *sp = new SBody;
 		sp->type = TYPE_STARPORT_ORBITAL;
 		sp->seed = rand.Int32();
 		sp->tmp = 0;
+		sp->econType = econType;
 		sp->parent = this;
 		sp->rotationPeriod = fixed(1,3600);
 		sp->averageTemp = this->averageTemp;
@@ -864,6 +875,7 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 
 		int max = 6;
 		while ((max-- > 0) && (rand.Fixed() < activ)) {
+			has_starports = true;
 			SBody *sp = new SBody;
 			sp->type = TYPE_STARPORT_SURFACE;
 			sp->seed = rand.Int32();
@@ -878,6 +890,15 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 					      matrix4x4d::RotateYMatrix(2*M_PI*rand.Double());
 			children.insert(children.begin(), sp);
 		}
+	}
+
+	if (has_starports) {
+		if (type == TYPE_PLANET_INDIGENOUS_LIFE)
+			econType |= ECON_AGRICULTURE;
+		else
+			econType |= ECON_MINING;
+		if (rand.Int32(2)) econType |= ECON_INDUSTRY;
+		else econType |= ECON_MINING;
 	}
 }
 

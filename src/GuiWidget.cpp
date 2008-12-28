@@ -7,7 +7,7 @@ Widget::Widget()
 	m_parent = 0;
 	m_visible = false;
 	m_mouseOver = false;
-	m_eventMask = EVENT_NONE;
+	m_eventMask = EVENT_MOUSEMOTION;
 	m_tooltipWidget = 0;
 	m_tooltipTimerSignal.connect(sigc::mem_fun(this, &Widget::OnToolTip));
 	m_shortcut.sym = (SDLKey)0;

@@ -78,3 +78,16 @@ std::string date_format(double t)
 	return buf;
 }
 
+std::string string_join(std::vector<std::string> &v, std::string sep)
+{
+	std::vector<std::string>::iterator i = v.begin();
+	std::string out;
+
+	while (i != v.end()) {
+		out += *i;
+		++i;
+		if (i != v.end()) out += sep;
+	}
+	return out;
+}
+

@@ -2,7 +2,9 @@
 #define _UTILS_H
 
 #include <string>
+#include <vector>
 
+std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string date_format(double time);
 
 #ifndef __GNUC__

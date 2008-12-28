@@ -40,6 +40,7 @@ public:
 	void SetPlanetGeom(double radius, Body *);
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
+	StarSystem::SBody *GetSBody();
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;
 	void ApplyEnteringTransform(matrix4x4d &m) const;

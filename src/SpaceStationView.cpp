@@ -255,6 +255,8 @@ void StationCommoditiesView::ShowAll()
 		if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
 		int stock = m_station->GetEquipmentStock(static_cast<Equip::Type>(i));
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
+		if (EquipType::types[i].description)
+			l->SetToolTip(EquipType::types[i].description);
 		innerbox->Add(l,0,num*YSEP);
 		Gui::Button *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy), i));

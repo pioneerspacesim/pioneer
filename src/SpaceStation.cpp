@@ -4,6 +4,7 @@
 #include "gameconsts.h"
 #include "StarSystem.h"
 #include "Serializer.h"
+#include "Frame.h"
 #include "Pi.h"
 
 struct SpaceStationType {
@@ -203,7 +204,14 @@ bool SpaceStation::CanSell(Equip::Type t) const {
 	return m_equipmentStock[(int)t] > 0;
 }
 int SpaceStation::GetPrice(Equip::Type t) const {
-	return EquipType::types[t].basePrice;
+	int mul = 100;
+	StarSystem::SBody *sbody = GetFrame()->GetSBody();
+	if (sbody) {
+		if (EquipType::types[t].econType == (EquipType::types[t].econType & sbody->econType)) {
+			mul = 90;
+		}
+	}
+	return (mul * EquipType::types[t].basePrice) / 100;
 }
 
 bool SpaceStation::OnCollision(Body *b, Uint32 flags)

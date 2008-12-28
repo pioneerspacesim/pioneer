@@ -20,6 +20,10 @@ struct CustomSBody;
 // doubles: all masses in Kg, all lengths in meters
 // fixed: any mad scheme
 
+enum {  ECON_MINING = (1<<0), 
+	ECON_AGRICULTURE = (1<<1), 
+	ECON_INDUSTRY = (1<<2) };	
+
 class StarSystem {
 public:
 	StarSystem() { rootBody = 0; }
@@ -90,6 +94,7 @@ public:
 	public:
 		friend class StarSystem;
 
+		SBody();
 		~SBody();
 		void EliminateBadChildren();
 		void PickPlanetType(StarSystem *, SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
@@ -129,6 +134,8 @@ public:
 		fixed humanActivity; // 0 - 1
 		int averageTemp;
 		BodyType type;
+
+		int econType;
 	private:
 	};
 	

@@ -13,10 +13,10 @@ ToolTip::ToolTip(const char *text)
 
 void ToolTip::CalcSize()
 {
-	float w, h;
-	Screen::MeasureString(m_text, w, h);
-	w += 2*TOOLTIP_PADDING;
-	SetSize(w, h);
+	float size[2];
+	Screen::MeasureLayout(m_text, 400.0, size);
+	size[0] += 2*TOOLTIP_PADDING;
+	SetSize(size[0], size[1]);
 }
 
 ToolTip::ToolTip(std::string &text)
@@ -61,14 +61,14 @@ void ToolTip::Draw()
 	glPushMatrix();
 	glTranslatef(TOOLTIP_PADDING,0,0);
 	glColor4f(1,1,1,alpha);
-	Screen::RenderMarkup(m_text);
+	Screen::LayoutString(m_text, size[0]-2*TOOLTIP_PADDING);
 	glPopMatrix();
 	glDisable(GL_BLEND);
 }
 
 void ToolTip::GetSizeRequested(float size[2])
 {
-	Screen::MeasureString(m_text, size[0], size[1]);
+	Screen::MeasureLayout(m_text, size[0] - 2*TOOLTIP_PADDING, size);
 	size[0] += 2*TOOLTIP_PADDING;
 }
 

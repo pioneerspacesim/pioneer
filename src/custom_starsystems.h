@@ -15,6 +15,7 @@ struct CustomSBody {
 	fixed eccentricity;
 	float inclination; // radians
 	fixed rotationPeriod; // in days
+	int econType; // StarSystem.cpp enum ECON_XXX
 };
 
 struct CustomSystem {
