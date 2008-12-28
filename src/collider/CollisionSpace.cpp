@@ -10,7 +10,6 @@ CollisionSpace::CollisionSpace()
 void CollisionSpace::AddGeom(Geom *geom)
 {
 	m_geoms.push_back(geom);
-	printf("%d geoms in space\n", m_geoms.size());
 }
 
 void CollisionSpace::RemoveGeom(Geom *geom)

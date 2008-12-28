@@ -483,7 +483,7 @@ static void SphereBlobTess(vector3d &centre, std::vector<vector3d> &edgeVerts)
 	} while ((v1!=v2)&&(v2!=v3)&&(v3!=v1));
 	int notDead = 0;
 	for (unsigned int i=0; i<vDead.size(); i++) if (!vDead[i]) notDead++;
-	if (notDead > 2) printf("Strange sphere tesselator: %d not dead (%d iters)\n", notDead, iters);
+	//if (notDead > 2) printf("Strange sphere tesselator: %d not dead (%d iters)\n", notDead, iters);
 }
 
 static int exp2i(int poo) { int n=2; while (--poo) n*=2; return n; }

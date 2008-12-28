@@ -676,7 +676,6 @@ TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_he
 		sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
 		m_texSize = sz;
 
-		printf("Using size %d\n", sz);
 		unsigned char *pixBuf = new unsigned char[2*sz*sz];
 
 		for (int chr=32; chr<127; chr++) {

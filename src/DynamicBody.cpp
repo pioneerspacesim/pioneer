@@ -93,7 +93,6 @@ void DynamicBody::SetMass(double mass)
 	m_mass = mass;
 	// This is solid sphere mass distribution, my friend
 	m_angInertia = (2/5.0)*m_mass*m_massRadius*m_massRadius;
-	printf("radius %f, angInert %f\n", m_massRadius, m_angInertia);
 }
 
 void DynamicBody::SetPosition(vector3d p)

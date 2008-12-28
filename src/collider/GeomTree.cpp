@@ -113,7 +113,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	}
 
 	printf("Building BIHTree of %d triangles\n", numTris);
-	printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
+	/*printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
 		m_aabb.min.x,
 		m_aabb.min.y,
 		m_aabb.min.z,
@@ -126,7 +126,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_maxAabb.min.z,
 		m_maxAabb.max.x,
 		m_maxAabb.max.y,
-		m_maxAabb.max.z);
+		m_maxAabb.max.z);*/
 	m_nodes = new BIHNode[numTris*NODE_ALLOC_MULT];
 	m_nodesAllocSize = numTris*NODE_ALLOC_MULT;
 	m_nodesAllocPos = 0;
