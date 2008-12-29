@@ -92,6 +92,9 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	data += "\n";
 	desc += "#ff0Imports:\n";
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (b->tradeLevel[i]) printf("Trade %s at %d%%\n", EquipType::types[i].name, b->tradeLevel[i]);
+	}
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (b->tradeLevel[i] > 5)
 			crud.push_back(std::string("#fff")+EquipType::types[i].name);
 	}
@@ -196,10 +199,10 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	
 	m_econLabel = new Gui::Label("");
 	m_econLabel->SetColor(1,1,0);
-	m_econInfoTab->Add(m_econLabel, 50, 350);
+	m_econInfoTab->Add(m_econLabel, 50, 300);
 	m_econData = new Gui::Label("");
 	m_econData->SetColor(1,1,0);
-	m_econInfoTab->Add(m_econData, 300, 350);
+	m_econInfoTab->Add(m_econData, 300, 300);
 
 	m_econInfoTab->ShowAll();
 	

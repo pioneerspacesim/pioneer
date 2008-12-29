@@ -910,14 +910,45 @@ void StarSystem::PickEconomicStuff(SBody *b)
 	int tries = rand.Int32(10, 20);
 	// This is a fucking mess. why is econType being decided before
 	// getting here...
+	
+	// things we produce, plus their inputs
 	while (tries--) {
 		Equip::Type t = static_cast<Equip::Type>(rand.Int32(Equip::FIRST_COMMODITY, Equip::LAST_COMMODITY));
 		const EquipType &type = EquipType::types[t];
-		if ((type.econType & b->econType) != type.econType) continue;
+		if (!(type.econType & b->econType)) continue;
 		// XXX techlevel??
-		int wank = rand.Int32(2,15);
-		b->tradeLevel[t] = -wank;
-		b->tradeLevel[type.require] = wank;
+		int howmuch = rand.Int32(1,5);
+		b->tradeLevel[t] += -howmuch;
+		for (int i=0; i<EQUIP_INPUTS; i++) {
+			b->tradeLevel[type.inputs[i]] += howmuch;
+		}
+	}
+	// Add a bunch of things people consume
+	const int NUM_CONSUMABLES = 10;
+	const Equip::Type consumables[NUM_CONSUMABLES] = { 
+		Equip::AIR_PROCESSORS,
+		Equip::GRAIN,
+		Equip::FRUIT_AND_VEG,
+		Equip::ANIMAL_MEAT,
+		Equip::LIQUOR,
+		Equip::CONSUMER_GOODS,
+		Equip::MEDICINES,
+		Equip::HAND_WEAPONS,
+		Equip::NARCOTICS,
+		Equip::LIQUID_OXYGEN
+	};
+
+	tries = rand.Int32(3,6);
+	while (tries--) {
+		Equip::Type t = consumables[rand.Int32(0, NUM_CONSUMABLES)];
+		if ((t == Equip::AIR_PROCESSORS) ||
+		    (t == Equip::LIQUID_OXYGEN)) {
+			if (b->type == TYPE_PLANET_INDIGENOUS_LIFE)
+				continue;
+		}
+		if (b->tradeLevel[t] >= 0) {
+			b->tradeLevel[t] += rand.Int32(1,4);
+		}
 	}
 }
 
