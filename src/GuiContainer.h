@@ -26,6 +26,7 @@ namespace Gui {
 	protected:
 		void PrependChild(Widget *w, float x, float y);
 		void AppendChild(Widget *w, float x, float y);
+		void MoveChild(Widget *w, float x, float y);
 		void RemoveChild(Widget *w);
 
 		struct widget_pos {

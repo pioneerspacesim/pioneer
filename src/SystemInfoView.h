@@ -20,6 +20,7 @@ private:
 	void PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies, float prevSize);
 	StarSystem::SBody *m_bodySelected;
 	Gui::Label *m_infoLabel, *m_infoData;
+	Gui::Fixed *m_sbodyInfoTab;
 };
 
 #endif /* _SYSTEMINFOVIEW_H */

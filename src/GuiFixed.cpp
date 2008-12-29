@@ -14,8 +14,10 @@ Fixed::Fixed(float w, float h): Container()
 
 void Fixed::GetSizeRequested(float size[2])
 {
-	size[0] = m_w;
-	size[1] = m_h;
+	if (m_w && m_w) {
+		size[0] = m_w;
+		size[1] = m_h;
+	}
 }
 
 Fixed::~Fixed()
@@ -41,13 +43,15 @@ void Fixed::Draw()
 
 void Fixed::OnChildResizeRequest(Widget *child)
 {
+	float size[2];
+	GetSize(size);
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		if ((*i).w == child) {
-			float rsize[2] = { m_w - (*i).pos[0],
-					   m_h - (*i).pos[1] };
+			float rsize[2] = { size[0] - (*i).pos[0],
+					   size[1] - (*i).pos[1] };
 			child->GetSizeRequested(rsize);
-			if ((*i).pos[0] + rsize[0] > m_w) rsize[0] = m_w - (*i).pos[0];
-			if ((*i).pos[1] + rsize[1] > m_h) rsize[1] = m_w - (*i).pos[1];
+			if ((*i).pos[0] + rsize[0] > size[0]) rsize[0] = size[0] - (*i).pos[0];
+			if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[0] - (*i).pos[1];
 			child->SetSize(rsize[0], rsize[1]);
 		}
 	}
@@ -55,11 +59,13 @@ void Fixed::OnChildResizeRequest(Widget *child)
 
 void Fixed::Add(Widget *child, float x, float y)
 {
+	float size[2];
+	GetSize(size);
 	AppendChild(child, x, y);
-	float rsize[2] = { m_w - x, m_h - y };
+	float rsize[2] = { size[0] - x, size[1] - y };
 	child->GetSizeRequested(rsize);
-	if (x+rsize[0] > m_w) rsize[0] = m_w-x;
-	if (y+rsize[1] > m_h) rsize[1] = m_h-y;
+	if (x+rsize[0] > size[0]) rsize[0] = size[0]-x;
+	if (y+rsize[1] > size[1]) rsize[1] = size[1]-y;
 	child->SetSize(rsize[0], rsize[1]);
 }
 

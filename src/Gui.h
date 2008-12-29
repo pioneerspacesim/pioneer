@@ -51,6 +51,7 @@ namespace Gui {
 #include "GuiVScrollBar.h"
 #include "GuiLabel.h"
 #include "GuiToolTip.h"
+#include "GuiTabbed.h"
 #include "GuiScreen.h"
 
 #endif /* _GUI_H */

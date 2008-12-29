@@ -59,7 +59,7 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 		desc += "Aphelion distance\n";
 		data += stringf(64, "%.2f AU\n", b->orbMax.ToDouble());
 		desc += "Eccentricity\n";
-		data += stringf(64, "%.2f AU\n", b->orbit.eccentricity);
+		data += stringf(64, "%.2f\n", b->orbit.eccentricity);
 		const float dayLen = b->GetRotationPeriod();
 		if (dayLen) {
 			desc += "Day length\n";
@@ -118,19 +118,33 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
+	
+	m_sbodyInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(),Gui::Screen::GetHeight());
+	Gui::Fixed *econInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
+	
+	Gui::Tabbed *tabbed = new Gui::Tabbed();
+	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
+	tabbed->AddPage(new Gui::Label("Economic info"), econInfoTab);
+	Add(tabbed, 0, 0);
+	
 	int majorBodies = 0;
-	float pos[2] = { 0, 0 };
+	float pos[2] = { 0, 24 };
 	PutBodies(s->rootBody, 1, pos, majorBodies, -1);
+
+	float size[2];
+	GetSize(size);
+	printf("size %f,%f\n", size[0], size[1]);
 	
 	char buf[512];
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
 	m_infoLabel = new Gui::Label(buf);
 	m_infoLabel->SetColor(1,1,0);
-	Add(m_infoLabel, 50, 350);
+	m_sbodyInfoTab->Add(m_infoLabel, 50, 350);
 
 	m_infoData = new Gui::Label("");
 	m_infoData->SetColor(1,1,0);
-	Add(m_infoData, 300, 350);
+	m_sbodyInfoTab->Add(m_infoData, 300, 350);
+	m_sbodyInfoTab->ShowAll();
 	
 	ShowAll();
 }
