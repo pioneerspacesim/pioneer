@@ -207,9 +207,7 @@ int SpaceStation::GetPrice(Equip::Type t) const {
 	int mul = 100;
 	StarSystem::SBody *sbody = GetFrame()->GetSBody();
 	if (sbody) {
-		if (EquipType::types[t].econType == (EquipType::types[t].econType & sbody->econType)) {
-			mul = 90;
-		}
+		mul += sbody->tradeLevel[t];
 	}
 	return (mul * EquipType::types[t].basePrice) / 100;
 }

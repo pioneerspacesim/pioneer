@@ -2,6 +2,7 @@
 #define _STARSYSTEM_H
 
 #include "libs.h"
+#include "EquipType.h"
 #include <vector>
 #include <string>
 
@@ -135,6 +136,8 @@ public:
 		int averageTemp;
 		BodyType type;
 
+		// percent price alteration
+		int tradeLevel[Equip::TYPE_MAX];
 		int econType;
 	private:
 	};
@@ -149,6 +152,7 @@ private:
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
 	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
 	void GenerateFromCustom(const CustomSBody *);
+	void PickEconomicStuff(SBody *b);
 
 	int m_secx, m_secy, m_sysIdx;
 	int m_numStars;

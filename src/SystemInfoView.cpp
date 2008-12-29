@@ -86,6 +86,37 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 		data += "\n";
 	}
 
+	/* imports and exports */
+	std::vector<std::string> crud;
+	desc += "\n";
+	data += "\n";
+	desc += "#ff0Imports:\n";
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (b->tradeLevel[i] > 5)
+			crud.push_back(std::string("#fff")+EquipType::types[i].name);
+	}
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if ((b->tradeLevel[i] > 0) && (b->tradeLevel[i] <= 5))
+			crud.push_back(std::string("#777")+EquipType::types[i].name);
+	}
+	if (crud.size()) desc += string_join(crud, "\n")+"\n";
+	else desc += "None\n";
+	crud.clear();
+
+	data += "#ff0Exports:\n";
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (b->tradeLevel[i] < -5)
+			crud.push_back(std::string("#fff")+EquipType::types[i].name);
+	}
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if ((b->tradeLevel[i] < 0) && (b->tradeLevel[i] >= -5))
+			crud.push_back(std::string("#777")+EquipType::types[i].name);
+	}
+	if (crud.size()) data += string_join(crud, "\n")+"\n";
+	else data += "None\n";
+	crud.clear();
+	data += " #ff0";
+
 	m_econLabel->SetText(desc);
 	m_econData->SetText(data);
 }

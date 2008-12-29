@@ -398,6 +398,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
 		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
 
+		PickEconomicStuff(kid);
 		CustomGetKidsOf(kid, customDef, i);
 	}
 }
@@ -491,6 +492,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 StarSystem::SBody::SBody()
 {
 	econType = 0;
+	memset(tradeLevel, 0, sizeof(tradeLevel));
 }
 
 /*
@@ -899,6 +901,23 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 			econType |= ECON_MINING;
 		if (rand.Int32(2)) econType |= ECON_INDUSTRY;
 		else econType |= ECON_MINING;
+		system->PickEconomicStuff(this);
+	}
+}
+
+void StarSystem::PickEconomicStuff(SBody *b)
+{
+	int tries = rand.Int32(10, 20);
+	// This is a fucking mess. why is econType being decided before
+	// getting here...
+	while (tries--) {
+		Equip::Type t = static_cast<Equip::Type>(rand.Int32(Equip::FIRST_COMMODITY, Equip::LAST_COMMODITY));
+		const EquipType &type = EquipType::types[t];
+		if ((type.econType & b->econType) != type.econType) continue;
+		// XXX techlevel??
+		int wank = rand.Int32(2,15);
+		b->tradeLevel[t] = -wank;
+		b->tradeLevel[type.require] = wank;
 	}
 }
 
