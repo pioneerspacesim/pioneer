@@ -560,6 +560,14 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 		wordWidth = 0;
 		wordstart = str+i;
 		while (str[i] && !isspace(str[i])) {
+			/* skip color control code things! */
+			if (str[i] == '#') {
+				int hexcol;
+				if (sscanf(str+i, "#%3x", &hexcol)==1) {
+					i+=4;
+					continue;
+				}
+			}
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			wordWidth += glyph->advx;
 			i++;
