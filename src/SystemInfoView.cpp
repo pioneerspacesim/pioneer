@@ -22,17 +22,6 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	desc += stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
 	data += "\n";
 
-	if (b->econType) {
-		desc += "Economy\n";
-
-		std::vector<std::string> v;
-		if (b->econType & ECON_AGRICULTURE) v.push_back("Agricultural");
-		if (b->econType & ECON_MINING) v.push_back("Mining");
-		if (b->econType & ECON_INDUSTRY) v.push_back("Industrial");
-		data += string_join(v, ", ");
-		data += "\n";
-	}
-
 	desc += "Mass\n";
 	data += stringf(64, "%.2f %s masses\n", b->mass.ToDouble(), 
 		(b->GetSuperType() == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
@@ -81,9 +70,27 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 
 	m_infoLabel->SetText(desc);
 	m_infoData->SetText(data);
+	
+	/* Economy info page */
+	desc = stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
+	data = "\n";
+	
+	if (b->econType) {
+		desc += "Economy\n";
+
+		std::vector<std::string> v;
+		if (b->econType & ECON_AGRICULTURE) v.push_back("Agricultural");
+		if (b->econType & ECON_MINING) v.push_back("Mining");
+		if (b->econType & ECON_INDUSTRY) v.push_back("Industrial");
+		data += string_join(v, ", ");
+		data += "\n";
+	}
+
+	m_econLabel->SetText(desc);
+	m_econData->SetText(data);
 }
 
-void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies, float prevSize)
+void SystemInfoView::PutBodies(StarSystem::SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize)
 {
 	float size[2];
 	float myPos[2];
@@ -97,8 +104,12 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
-		Add(ib, myPos[0],
+		container->Add(ib, myPos[0],
 			myPos[1]);
+		if (container == m_econInfoTab) {
+			/* Grey out planets with no human habitation */
+			if (body->econType == 0) ib->SetEnabled(false);
+		}
 		majorBodies++;
 		pos[dir] += size[dir];
 		dir = !dir;
@@ -111,7 +122,7 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, int dir, float pos[2], i
 
 	for (std::vector<StarSystem::SBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
-		PutBodies(*i, dir, myPos, majorBodies, size[!dir]);
+		PutBodies(*i, container, dir, myPos, majorBodies, size[!dir]);
 	}
 }
 
@@ -120,17 +131,23 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	DeleteAllChildren();
 	
 	m_sbodyInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(),Gui::Screen::GetHeight());
-	Gui::Fixed *econInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
+	m_econInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	
 	Gui::Tabbed *tabbed = new Gui::Tabbed();
 	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
-	tabbed->AddPage(new Gui::Label("Economic info"), econInfoTab);
+	tabbed->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
 	Add(tabbed, 0, 0);
 	
-	int majorBodies = 0;
-	float pos[2] = { 0, 24 };
-	PutBodies(s->rootBody, 1, pos, majorBodies, -1);
+	{
+		int majorBodies = 0;
+		float pos[2] = { 0, 0 };
+		PutBodies(s->rootBody, m_econInfoTab, 1, pos, majorBodies, -1);
+	}
 
+	int majorBodies = 0;
+	float pos[2] = { 0, 0 };
+	PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, -1);
+	
 	float size[2];
 	GetSize(size);
 	printf("size %f,%f\n", size[0], size[1]);
@@ -145,6 +162,15 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	m_infoData->SetColor(1,1,0);
 	m_sbodyInfoTab->Add(m_infoData, 300, 350);
 	m_sbodyInfoTab->ShowAll();
+	
+	m_econLabel = new Gui::Label("");
+	m_econLabel->SetColor(1,1,0);
+	m_econInfoTab->Add(m_econLabel, 50, 350);
+	m_econData = new Gui::Label("");
+	m_econData->SetColor(1,1,0);
+	m_econInfoTab->Add(m_econData, 300, 350);
+
+	m_econInfoTab->ShowAll();
 	
 	ShowAll();
 }

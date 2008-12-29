@@ -11,10 +11,12 @@ namespace Gui {
 		virtual void Draw();
 		virtual ~Image();
 		virtual void GetSizeRequested(float size[2]);
+		void SetModulateColor(float r, float g, float b, float a);
 	private:
 		GLuint m_tex;
 		int m_imgw, m_imgh;
 		float m_invtexw, m_invtexh;
+		float m_col[4];
 	};
 }
 

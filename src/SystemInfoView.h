@@ -17,10 +17,11 @@ private:
 
 	void SystemChanged(StarSystem *s);
 	void OnBodySelected(StarSystem::SBody *b);
-	void PutBodies(StarSystem::SBody *body, int dir, float pos[2], int &majorBodies, float prevSize);
+	void PutBodies(StarSystem::SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize);
 	StarSystem::SBody *m_bodySelected;
-	Gui::Label *m_infoLabel, *m_infoData;
-	Gui::Fixed *m_sbodyInfoTab;
+	Gui::Label *m_infoLabel, *m_infoData,
+		*m_econLabel, *m_econData;
+	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
 };
 
 #endif /* _SYSTEMINFOVIEW_H */

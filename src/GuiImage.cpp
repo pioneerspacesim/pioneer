@@ -10,6 +10,7 @@ Image::~Image()
 
 Image::Image(const char *filename): Widget()
 {
+	m_col[0] = m_col[1] = m_col[2] = m_col[3] = 1.0f;
 	SDL_Surface *is = IMG_Load(filename);
 	if (!is) {
 		fprintf(stderr, "Could not load %s\n", filename);
@@ -72,6 +73,14 @@ void Image::GetSizeRequested(float size[2])
 	size[1] = m_imgh;
 }
 
+void Image::SetModulateColor(float r, float g, float b, float a)
+{
+	m_col[0] = r;
+	m_col[1] = g;
+	m_col[2] = b;
+	m_col[3] = a;
+}
+
 void Image::Draw()
 {
 	float allocSize[2];
@@ -80,7 +89,12 @@ void Image::Draw()
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_tex);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	if ((m_col[0]==1) && (m_col[1]==1) && (m_col[2]==1) && (m_col[3]==1)) {
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	} else {
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glColor4fv(m_col);
+	}
 	glBegin(GL_QUADS);
 		float w = m_imgw * m_invtexw;
 		float h = m_imgh * m_invtexh;

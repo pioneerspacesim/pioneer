@@ -62,6 +62,7 @@ bool Container::HandleMouseEvent(MouseButtonEvent *e)
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		float pos[2],size[2];
 		if (!(*i).w->IsVisible()) continue;
+		if (!(*i).w->GetEnabled()) continue;
 		int evmask = (*i).w->GetEventMask();
 		if (e->isdown) {
 			if (!(evmask & Widget::EVENT_MOUSEDOWN)) continue;

@@ -23,6 +23,8 @@ namespace Gui {
 		void SetShortcut(SDLKey key, SDLMod mod);
 		void SetClipping(float width, float height);
 		void EndClipping();
+		bool GetEnabled() { return m_enabled; }
+		void SetEnabled(bool v) { m_enabled = v; }
 		virtual void Show() { m_visible = true; }
 		virtual void Hide();
 		bool IsVisible() const;
@@ -69,6 +71,7 @@ namespace Gui {
 		} m_size;
 		bool m_visible;
 		bool m_mouseOver;
+		bool m_enabled;
 		Container *m_parent;
 		std::string m_tooltip;
 		sigc::signal<void> m_tooltipTimerSignal;

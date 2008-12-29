@@ -146,6 +146,7 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 {
 	for (std::list<Widget*>::iterator i = kbshortcut_widgets.begin(); i != kbshortcut_widgets.end(); ++i) {
 		if (!(*i)->IsVisible()) continue;
+		if (!(*i)->GetEnabled()) continue;
 		(*i)->OnPreShortcut(sym);
 	}
 }

@@ -39,6 +39,10 @@ void ImageButton::Draw()
 		img = m_imgPressed;
 	else
 		img = m_imgNormal;
+	if (GetEnabled())
+		img->SetModulateColor(1,1,1,1);
+	else
+		img->SetModulateColor(.5,.5,.5,1);
 	img->SetSize(size[0], size[1]);
 	img->Draw();
 }

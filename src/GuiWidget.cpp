@@ -5,6 +5,7 @@ namespace Gui {
 Widget::Widget()
 {
 	m_parent = 0;
+	m_enabled = true;
 	m_visible = false;
 	m_mouseOver = false;
 	m_eventMask = EVENT_MOUSEMOTION;
