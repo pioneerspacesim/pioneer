@@ -101,6 +101,7 @@ SpaceStation::SpaceStation(TYPE type): ModelBody()
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = Pi::rng.Int32(0,100);
 	}
+	SetMoney(1000000000);
 	Init();
 }
 
