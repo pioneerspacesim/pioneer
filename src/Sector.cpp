@@ -22,7 +22,7 @@ void Sector::GetCustomSystems()
 			System s;
 			s.p = SIZE*sys->pos;
 			s.name = custom_systems[i].name;
-			s.primaryStarClass = custom_systems[i].primaryType;
+			s.primaryStarClass = custom_systems[i].primaryType[0];
 			s.customDef = sys->sbodies;
 			m_systems.push_back(s);
 		}
@@ -49,7 +49,6 @@ Sector::Sector(int x, int y)
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
 			s.p.z = rng.Double(2*SIZE)-SIZE;
-			s.name = GenName(rng);
 			s.customDef = 0;
 			
 			float spec = rng.Int32(1000000);
@@ -71,6 +70,7 @@ Sector::Sector(int x, int y)
 			} else {
 				s.primaryStarClass = StarSystem::TYPE_STAR_M;
 			}
+			s.name = GenName(s, rng);
 
 			m_systems.push_back(s);
 		}
@@ -84,15 +84,33 @@ float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int
 	return dv.Length();
 }
 
-std::string Sector::GenName(MTRand &rng)
+std::string Sector::GenName(System &sys, MTRand &rng)
 {
 	std::string name;
+	const int dist = MAX(abs(sx),abs(sy));
 
-	int len = rng.Int32(2,3);
-	for (int i=0; i<len; i++) {
-		name += sys_names[rng.Int32(0,SYS_NAME_FRAGS-1)];
+	int chance = 100;
+	switch (sys.primaryStarClass) {
+		case StarSystem::TYPE_STAR_O:
+		case StarSystem::TYPE_STAR_B: break;
+		case StarSystem::TYPE_STAR_A: chance += dist; break;
+		case StarSystem::TYPE_STAR_F: chance += 2*dist; break;
+		case StarSystem::TYPE_STAR_G: chance += 4*dist; break;
+		case StarSystem::TYPE_STAR_K: chance += 8*dist; break;
+		default: chance += 16*dist; break;
 	}
-	name[0] = toupper(name[0]);
-	return name;
+	if (rng.Int32(chance) < 100) {
+		/* well done. you get a real name */
+		int len = rng.Int32(2,3);
+		for (int i=0; i<len; i++) {
+			name += sys_names[rng.Int32(0,SYS_NAME_FRAGS-1)];
+		}
+		name[0] = toupper(name[0]);
+		return name;
+	} else {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy);
+		return buf;
+	}
 }
 

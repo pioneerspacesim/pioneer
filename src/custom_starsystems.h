@@ -21,7 +21,7 @@ struct CustomSBody {
 struct CustomSystem {
 	const char *name;
 	const CustomSBody *sbodies; // 0 to let system be random
-	StarSystem::BodyType primaryType;
+	StarSystem::BodyType primaryType[4];
 	int sectorX, sectorY;
 	vector3f pos;
 };

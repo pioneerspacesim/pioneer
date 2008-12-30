@@ -14,7 +14,7 @@ SectorView::SectorView(): GenericSystemView()
 	m_rot_x = m_rot_z = 0;
 	m_secx = m_secy = 0;
 	m_selected = -1;
-	m_zoom = 1;
+	m_zoom = 1.2;
 
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);

@@ -24,7 +24,7 @@ public:
 	std::vector<System> m_systems;
 private:
 	void GetCustomSystems();
-	std::string GenName(MTRand &rand);
+	std::string GenName(System &sys, MTRand &rand);
 	int sx, sy;
 };
 

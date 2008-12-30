@@ -284,6 +284,7 @@ vector3d StarSystem::Orbit::CartesianPosAtTime(double t)
  */
 static std::vector<int> *AccreteDisc(int size, int bandSize, int density, MTRand &rand)
 {
+	if (size > 10000) size = 10000;
 	std::vector<int> *disc = new std::vector<int>(size);
 
 	int bandDensity = 0;
