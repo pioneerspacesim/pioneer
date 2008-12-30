@@ -88,6 +88,8 @@ bool SectorView::GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx
 #define DRAW_RAD	2
 
 #define FFRAC(_x)	((_x)-floor(_x))
+static const GLfloat fogDensity = 0.03;
+static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 
 void SectorView::Draw3D()
 {
@@ -112,6 +114,11 @@ void SectorView::Draw3D()
 	glRotatef(m_rot_z, 0, 0, 1);
 	glTranslatef(-FFRAC(m_px)*Sector::SIZE, -FFRAC(m_py)*Sector::SIZE, 0);
 	glDisable(GL_LIGHTING);
+	glEnable(GL_FOG);
+	glFogi(GL_FOG_MODE, GL_EXP2);
+	glFogfv(GL_FOG_COLOR, fogColor);
+	glFogf(GL_FOG_DENSITY, fogDensity);
+	glHint(GL_FOG_HINT, GL_NICEST);
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -122,6 +129,7 @@ void SectorView::Draw3D()
 		}
 	}
 
+	glDisable(GL_FOG);
 	glEnable(GL_LIGHTING);
 }
 	
@@ -173,7 +181,9 @@ void SectorView::DrawSector(int sx, int sy)
 		glPushMatrix();
 		glRotatef(-m_rot_z, 0, 0, 1);
 		glRotatef(-m_rot_x, 1, 0, 0);
+		glScalef(.5,.5,.5);
 		glCallList(m_gluDiskDlist);
+		glScalef(2,2,2);
 		// player location indicator
 		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
 			const shipstats_t *stats;

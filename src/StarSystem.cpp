@@ -279,6 +279,9 @@ vector3d StarSystem::Orbit::CartesianPosAtTime(double t)
 	return pos;
 }
 
+/*
+ * This can be very slow when the disc is big
+ */
 static std::vector<int> *AccreteDisc(int size, int bandSize, int density, MTRand &rand)
 {
 	std::vector<int> *disc = new std::vector<int>(size);
@@ -289,7 +292,7 @@ static std::vector<int> *AccreteDisc(int size, int bandSize, int density, MTRand
 		(*disc)[i] = bandDensity * rand.Int32(density);
 	}
 
-	for (int iter=0; iter<20; iter++) {
+	for (int iter=0; iter<4; iter++) {
 		for (int i=0; i<(signed)disc->size(); i++) {
 			int d=1+(i/3);
 

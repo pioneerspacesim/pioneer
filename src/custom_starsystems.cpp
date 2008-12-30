@@ -56,8 +56,20 @@ const CustomSBody sol_system[] = {
 };
 
 const CustomSystem custom_systems[] = {
-	{ "Sol", sol_system, StarSystem::TYPE_STAR_G, 0, 0, vector3f(.5, .5, .5) },
-	{ "Barnard's Star", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.2, .3, .2) },
-	{ "Ross 154", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.1, .6, -.2) },
+	{ "Sol", sol_system, StarSystem::TYPE_STAR_G, 0, 0, vector3f(.5, .5, 0) },
+	{ "Alpha Centauri", 0, StarSystem::TYPE_STAR_G, 0, 0, vector3f(.1, .9, -0.05) },
+	{ "Proxima Centauri", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.127, .87, -0.05) },
+	{ "Barnard's Star", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.1, .15, .2) },
+	{ "Lalande 21185", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.8, .52, .95) },
+	{ "Tau Ceti", 0, StarSystem::TYPE_STAR_G, 0, 0, vector3f(.72, .49, -.95) },
+	{ "Luyten 726-8", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.64, .6, -.75) },
+	{ "Wolf 359", 0, StarSystem::TYPE_STAR_M, 0, 0, vector3f(.55, .8, .80) },
+	{ "Ross 128", 0, StarSystem::TYPE_STAR_M, 0, 1, vector3f(.48, .3, .98) },
+	{ "Ross 154", 0, StarSystem::TYPE_STAR_M, -1, 0, vector3f(.5, .4, -.2) },
+	{ "Sirius", 0, StarSystem::TYPE_STAR_A, 0, 1, vector3f(.7, .5, -.1) },
+	{ "Procyon", 0, StarSystem::TYPE_STAR_F, 1, 1, vector3f(.4, .55, .3) },
+	{ "Luyten's Star", 0, StarSystem::TYPE_STAR_M, 1, 1, vector3f(.55, .65, .2) },
+	{ "G51-15", 0, StarSystem::TYPE_STAR_M, 1, 1, vector3f(.41, .2, .8) },
+	{ "Epsilon Eridani", 0, StarSystem::TYPE_STAR_K, 1, 1, vector3f(.01, .15, -.8) },
 	{ 0 }
 };
