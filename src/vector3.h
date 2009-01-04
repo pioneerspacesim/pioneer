@@ -37,18 +37,9 @@ class vector3 {
 		return sqrt (x*x + y*y + z*z);
 	}
 
-	void Normalize () {
+	vector3 Normalized() const {
 		T l = 1.0f / sqrtf(x*x + y*y + z*z);
-		x *= l;	y *= l;	z *= l;
-	}
-
-	static vector3 Normalize (const vector3 v) {
-		vector3 r;
-		T l = 1.0f / sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
-		r.x = v.x * l;
-		r.y = v.y * l;
-		r.z = v.z * l;
-		return r;
+		return vector3(x*l, y*l, z*l);
 	}
 
 	/* Rotate this vector about point o, in axis defined by v. */

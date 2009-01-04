@@ -118,11 +118,11 @@ const vector3d& Body::GetProjectedPos() const
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
 	vector3d pos = vector3d(radius*cos(latitude)*cos(longitude), radius*sin(latitude)*cos(longitude), radius*sin(longitude));
-	vector3d up = vector3d::Normalize(pos);
+	vector3d up = pos.Normalized();
 	SetPosition(pos);
 
 	vector3d forward = vector3d(0,0,1);
-	vector3d other = vector3d::Normalize(vector3d::Cross(up, forward));
+	vector3d other = vector3d::Cross(up, forward).Normalized();
 	forward = vector3d::Cross(other, up);
 
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(other, up, forward);

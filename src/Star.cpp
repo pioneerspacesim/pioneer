@@ -63,8 +63,8 @@ void Star::Render(const Frame *a_camFrame)
 	{	
 		const float *col = StarSystem::starRealColors[type];
 		// face the camera dammit
-		vector3d zaxis = vector3d::Normalize(fpos);
-		vector3d xaxis = vector3d::Normalize(vector3d::Cross(vector3d(0,1,0), zaxis));
+		vector3d zaxis = fpos.Normalized();
+		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
 		vector3d yaxis = vector3d::Cross(zaxis,xaxis);
 		matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 		glMultMatrixd(&rot[0]);

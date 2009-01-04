@@ -83,7 +83,7 @@ void Geom::CollideSphere(Sphere &sphere)
 				if (i1 > 0) {
 					if (i1 < len) {
 						contact.pos = from + dir*i1;
-						contact.normal = vector3d::Normalize(v);
+						contact.normal = v.Normalized();
 						contact.depth = len - i1;
 						contact.triIdx = 0;
 						contact.userData1 = this->m_data;

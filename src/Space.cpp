@@ -388,8 +388,7 @@ void Space::ApplyGravity()
 			const double m1m2 = (*i)->GetMass() * lump->GetMass();
 			const double r = b1b2.Length();
 			const double force = G*m1m2 / (r*r);
-			b1b2.Normalize();
-			b1b2 = b1b2 * force;
+			b1b2 = b1b2.Normalized() * force;
 			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
 		}
 	}

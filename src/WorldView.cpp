@@ -207,7 +207,7 @@ void WorldView::Draw3D()
 		// position light at sol
 		matrix4x4d m;
 		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, m);
-		vector3d lpos = vector3d::Normalize(m * vector3d(0,0,0));
+		vector3d lpos = (m * vector3d(0,0,0)).Normalized();
 		float lightPos[4];
 		lightPos[0] = lpos.x;
 		lightPos[1] = lpos.y;

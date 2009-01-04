@@ -75,9 +75,8 @@ void SpaceStation::GetDockingSurface(CollMeshSet *mset, int midx)
 		// use first tri to get docking port normal (which points out of the
 		// docking port)
 		if (pos == 0) {
-			dport->normal = vector3d::Cross(v2-v1,v2-v3);
-			dport->normal.Normalize();
-			dport->horiz = vector3d::Normalize(v1-v2);
+			dport->normal = vector3d::Cross(v2-v1,v2-v3).Normalized();
+			dport->horiz = (v1-v2).Normalized();
 		}
 		dport->center += v1+v2+v3;
 	}

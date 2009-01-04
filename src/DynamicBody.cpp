@@ -119,7 +119,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			
 				// centrifugal force
 				vector3d perpend = vector3d::Cross(angRot, GetPosition());
-				perpend = vector3d::Normalize(vector3d::Cross(perpend, angRot));
+				perpend = vector3d::Cross(perpend, angRot).Normalized();
 				double R = vector3d::Dot(perpend, GetPosition());
 				double centrifugal = m_mass * omega * omega * R;
 				m_force += centrifugal*perpend;

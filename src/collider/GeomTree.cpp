@@ -513,5 +513,5 @@ vector3f GeomTree::GetTriNormal(int triIdx) const
 	const vector3f b(&m_vertices[3*m_indices[3*triIdx+1]]);
 	const vector3f c(&m_vertices[3*m_indices[3*triIdx+2]]);
 	
-	return vector3f::Normalize(vector3f::Cross(b-a, c-a));
+	return vector3f::Cross(b-a, c-a).Normalized();
 }

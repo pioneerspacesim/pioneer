@@ -253,7 +253,7 @@ void Ship::Blastoff()
 
 	Enable();
 	const double planetRadius = 0.1 + GetFrame()->m_astroBody->GetRadius();
-	vector3d up = vector3d::Normalize(GetPosition());
+	vector3d up = GetPosition().Normalized();
 	SetVelocity(vector3d(0,0,0));
 	SetAngVelocity(vector3d(0,0,0));
 	
@@ -286,10 +286,10 @@ void Ship::TestLanded()
 			GetRotMatrix(rot);
 			matrix4x4d invRot = rot.InverseOf();
 
-			vector3d up = vector3d::Normalize(GetPosition());
+			vector3d up = GetPosition().Normalized();
 
 			// check player is sortof sensibly oriented for landing
-			const double dot = vector3d::Dot( vector3d::Normalize(vector3d(invRot[1], invRot[5], invRot[9])), up);
+			const double dot = vector3d::Dot( vector3d(invRot[1], invRot[5], invRot[9]).Normalized(), up);
 			if (dot > 0.99) {
 
 				Aabb aabb;
@@ -299,7 +299,7 @@ void Ship::TestLanded()
 				SetPosition(up * (planetRadius - aabb.min.y));
 
 				vector3d forward = rot * vector3d(0,0,1);
-				vector3d other = vector3d::Normalize(vector3d::Cross(up, forward));
+				vector3d other = vector3d::Cross(up, forward).Normalized();
 				forward = vector3d::Cross(other, up);
 
 				rot = matrix4x4d::MakeRotMatrix(other, up, forward);

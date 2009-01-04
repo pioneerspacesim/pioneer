@@ -185,8 +185,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	for (int y=0; y<TEXSIZE; y++, ypos += ystep) {
 		xpos = 0.0f;
 		for (int x=0; x<TEXSIZE; x++, xpos += xstep) {
-			toPoint = topLeft + (xMov * xpos) + (yMov * ypos);
-			toPoint.Normalize();
+			toPoint = (topLeft + (xMov * xpos) + (yMov * ypos)).Normalized();
 			
 			isect_t isect;
 			isect.triIdx = -1;

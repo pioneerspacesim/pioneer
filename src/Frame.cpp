@@ -137,7 +137,7 @@ void Frame::RotateInTimestep(double step)
 {
 	double ang = m_angVel.Length() * step;
 	if (ang == 0) return;
-	vector3d rotAxis = vector3d::Normalize(m_angVel);
+	vector3d rotAxis = m_angVel.Normalized();
 	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
 
 	m_orient = rotMatrix * m_orient;
@@ -152,7 +152,7 @@ vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 	const double omega = m_angVel.Length();
 	if (omega) {
 		vector3d perpend = vector3d::Cross(m_angVel, pos);
-		perpend = vector3d::Normalize(vector3d::Cross(perpend, m_angVel));
+		perpend = vector3d::Cross(perpend, m_angVel).Normalized();
 		double R = vector3d::Dot(perpend, pos);
 		perpend *= R;
 		return -vector3d::Cross(m_angVel, perpend);

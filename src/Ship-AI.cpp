@@ -28,7 +28,7 @@ bool Ship::AICmdKill(const Ship *enemy)
 	/* needs to deal with frames, large distances, and success */
 	if (GetFrame() == enemy->GetFrame()) {
 		const float dist = (enemy->GetPosition() - GetPosition()).Length();
-		vector3d dir = vector3d::Normalize(enemy->GetPosition() - GetPosition());
+		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
 		if (dist > 500.0) {
 			AIFaceDirection(dir);
 			// thunder at player at 400m/sec
@@ -64,7 +64,7 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	vector3d angVel = rot * GetAngVelocity();
 	const float dot = vector3d::Dot(dir, zaxis);
 	// if facing > 90 degrees away then max turn rate
-	if (dot < 0) rotaxis.Normalize();
+	if (dot < 0) rotaxis = rotaxis.Normalized();
 	rotaxis = rot*rotaxis;
 	vector3d desiredAngVelChange = 4*(rotaxis - angVel);
 	ClearThrusterState();

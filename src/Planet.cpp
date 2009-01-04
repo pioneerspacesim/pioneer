@@ -63,17 +63,11 @@ static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, in
 {
 	if (depth) {
 		depth--;
-		vector3d v5 = v1+v2;
-		vector3d v6 = v2+v3;
-		vector3d v7 = v3+v4;
-		vector3d v8 = v4+v1;
-		vector3d v9 = v1+v2+v3+v4;
-
-		v5.Normalize();
-		v6.Normalize();
-		v7.Normalize();
-		v8.Normalize();
-		v9.Normalize();
+		vector3d v5 = (v1+v2).Normalized();
+		vector3d v6 = (v2+v3).Normalized();
+		vector3d v7 = (v3+v4).Normalized();
+		vector3d v8 = (v4+v1).Normalized();
+		vector3d v9 = (v1+v2+v3+v4).Normalized();
 
 		subdivide(v1,v5,v9,v8,depth);
 		subdivide(v5,v2,v6,v9,depth);
@@ -105,14 +99,14 @@ static void DrawShittyRoundCube(double radius)
 	vector3d p7(-1,-1,-1);
 	vector3d p8(1,-1,-1);
 
-	p1.Normalize();
-	p2.Normalize();
-	p3.Normalize();
-	p4.Normalize();
-	p5.Normalize();
-	p6.Normalize();
-	p7.Normalize();
-	p8.Normalize();
+	p1 = p1.Normalized();
+	p2 = p2.Normalized();
+	p3 = p3.Normalized();
+	p4 = p4.Normalized();
+	p5 = p5.Normalized();
+	p6 = p6.Normalized();
+	p7 = p7.Normalized();
+	p8 = p8.Normalized();
 
 //	p1 *= radius;
 //	p2 *= radius;
@@ -151,7 +145,7 @@ void DrawHoop(float latitude, float width, float wobble, MTRand &rng)
 		v.x = sin(longitude)*cos(l);
 		v.y = sin(l);
 		v.z = cos(longitude)*cos(l);
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 		
@@ -165,7 +159,7 @@ void DrawHoop(float latitude, float width, float wobble, MTRand &rng)
 	double l = latitude+0.5*width;
 	vector3d v;
 	v.x = 0; v.y = sin(l); v.z = cos(l);
-	v.Normalize();
+	v = v.Normalized();
 	glNormal3dv(&v.x);
 	glVertex3dv(&v.x);
 	
@@ -187,7 +181,7 @@ static void PutPolarPoint(float latitude, float longitude)
 	v.x = sin(longitude)*cos(latitude);
 	v.y = sin(latitude);
 	v.z = cos(longitude)*cos(latitude);
-	v.Normalize();
+	v = v.Normalized();
 	glNormal3dv(&v.x);
 	glVertex3dv(&v.x);
 }
@@ -252,9 +246,9 @@ static void DrawRing(double inner, double outer, const float color[4])
 static void SphereTriSubdivide(vector3d &v1, vector3d &v2, vector3d &v3, int depth)
 {
 	if (--depth > 0) {
-		vector3d v4 = vector3d::Normalize(v1+v2);
-		vector3d v5 = vector3d::Normalize(v2+v3);
-		vector3d v6 = vector3d::Normalize(v1+v3);
+		vector3d v4 = (v1+v2).Normalized();
+		vector3d v5 = (v2+v3).Normalized();
+		vector3d v6 = (v1+v3).Normalized();
 		SphereTriSubdivide(v1,v4,v6,depth);
 		SphereTriSubdivide(v4,v2,v5,depth);
 		SphereTriSubdivide(v6,v4,v5,depth);
@@ -286,8 +280,8 @@ static void DrawPole(double yPos, double size)
 	for (float ang=2*M_PI; ang>0; ang-=0.1) {
 		vector3d v1(size*sin(ang), yPos, size*cos(ang));
 		vector3d v2(size*sin(ang+0.1), yPos, size*cos(ang+0.1));
-		v1.Normalize();
-		v2.Normalize();
+		v1 = v1.Normalized();
+		v2 = v2.Normalized();
 		if (southPole)
 			SphereTriSubdivide(center, v2, v1, 4);
 		else
@@ -404,9 +398,9 @@ static void SubdivideTriangularContinent2(std::vector<vector3d> &verts, int sidx
 	vector3d &v2 = verts[eidx];
 	if (depth > 0) {
 		int midx = (sidx+eidx)>>1;
-		vector3d c = vector3d::Normalize(vector3d::Cross(v2-v1,v1));
+		vector3d c = vector3d::Cross(v2-v1,v1).Normalized();
 		c *= rng.Double(1.0);
-		verts[midx] = vector3d::Normalize(v1+v2+0.7*_yes[GEOSPLIT-depth]*c);
+		verts[midx] = (v1+v2+0.7*_yes[GEOSPLIT-depth]*c).Normalized();
 		SubdivideTriangularContinent2(verts, sidx, midx, depth-1, rng);
 		SubdivideTriangularContinent2(verts, midx, eidx, depth-1, rng);
 	}
@@ -425,26 +419,26 @@ static void SubdivideVeryLongTri(vector3d &tip, vector3d &v1, vector3d &v2, int 
 	glBegin(GL_TRIANGLES);
 	glNormal3dv(&tip.x);
 	glVertex3dv(&tip.x);
-	v = vector3d::Normalize(tip+tip2v1);
+	v = (tip+tip2v1).Normalized();
 	glNormal3dv(&v.x);
 	glVertex3dv(&v.x);
-	v = vector3d::Normalize(tip+tip2v2);
+	v = (tip+tip2v2).Normalized();
 	glNormal3dv(&v.x);
 	glVertex3dv(&v.x);
 	glEnd();
 
 	glBegin(GL_QUADS);
 	for (int i=1; i<bits; i++) {
-		v = vector3d::Normalize(tip+(tip2v1*i));
+		v = (tip+(tip2v1*i)).Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
-		v = vector3d::Normalize(tip+(tip2v1*(i+1)));
+		v = (tip+(tip2v1*(i+1))).Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
-		v = vector3d::Normalize(tip+(tip2v2*(i+1)));
+		v = (tip+(tip2v2*(i+1))).Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
-		v = vector3d::Normalize(tip+(tip2v2*i));
+		v = (tip+(tip2v2*i)).Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 	}
@@ -500,12 +494,9 @@ static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 	vector3d v1(0,1,scale*1);
 	vector3d v2(scale*sin(2*M_PI/3.0),1,scale*cos(2*M_PI/3.0));
 	vector3d v3(-scale*sin(2*M_PI/3.0),1,scale*cos(2*M_PI/3.0));
-	v1 = rot*v1;
-	v2 = rot*v2;
-	v3 = rot*v3;
-	v1.Normalize();
-	v2.Normalize();
-	v3.Normalize();
+	v1 = (rot*v1).Normalized();
+	v2 = (rot*v2).Normalized();
+	v3 = (rot*v3).Normalized();
 	std::vector<vector3d> edgeVerts(numVertices);
 	edgeVerts[0] = v1;
 	edgeVerts[nvps] = v2;
@@ -515,7 +506,7 @@ static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
 	SubdivideTriangularContinent2(edgeVerts, nvps, 2*nvps, GEOSPLIT, rng);
 	SubdivideTriangularContinent2(edgeVerts, 2*nvps, 3*nvps, GEOSPLIT, rng);
 
-	vector3d centre = vector3d::Normalize(v1+v2+v3);
+	vector3d centre = (v1+v2+v3).Normalized();
 	SphereBlobTess(centre, edgeVerts);
 	
 	glEnable(GL_DEPTH_TEST);
@@ -537,13 +528,13 @@ void DrawCircle(float rad)
 	glVertex3d(0,1,0);
 	for (double theta=0; theta<M_PI*2; theta+=0.1) {
 		vector3d v(rad*sin(theta), 1, rad*cos(theta));
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 	}
 	{
 		vector3d v(0,1,rad);
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 	}
@@ -573,9 +564,9 @@ static void DrawEjecta(float rad1, float rad2, int points) // that's a star shap
 		vector3d v1(rad1*sin(ang0), 1, rad1*cos(ang0));
 		vector3d v2(rad2*sin(ang2), 1, rad2*cos(ang2));
 		vector3d v3(rad1*sin(ang1), 1, rad1*cos(ang1));
-		v1.Normalize();
-		v2.Normalize();
-		v3.Normalize();
+		v1 = v1.Normalized();
+		v2 = v2.Normalized();
+		v3 = v3.Normalized();
 		
 		SubdivideVeryLongTri(v2, v3, v1, 6);
 
@@ -608,23 +599,23 @@ void DrawHollowCircle(float rad1, float rad2)
 	glBegin(GL_TRIANGLE_STRIP);
 	for (double theta=0; theta<2*M_PI; theta+=0.1) {
 		vector3d v(rad1*sin(theta), 1, rad1*cos(theta));
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 
 		v = vector3d(rad2*sin(theta), 1, rad2*cos(theta));
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 	}
 	{
 		vector3d v(0,1,rad1);
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 
 		v = vector3d(0,1,rad2);
-		v.Normalize();
+		v = v.Normalized();
 		glNormal3dv(&v.x);
 		glVertex3dv(&v.x);
 	}
@@ -674,7 +665,7 @@ void Planet::DrawRockyPlanet()
 			r = rng.Double(0.02, 0.1);
 			glPushMatrix();
 			vector3d rx(rng.Double(1.0)-.5, rng.Double(1.0)-.5, rng.Double(1.0)-.5);
-			rx.Normalize();
+			rx = rx.Normalized();
 			glRotatef(rng.Double(0, 360), rx.x, rx.y, rx.z);
 
 			tmp = rng.Double(1.0);
@@ -800,8 +791,8 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 {
 	glPushMatrix();
 	// face the camera dammit
-	vector3d zaxis = vector3d::Normalize(-pos);
-	vector3d xaxis = vector3d::Normalize(vector3d::Cross(zaxis, vector3d(0,1,0)));
+	vector3d zaxis = (-pos).Normalized();
+	vector3d xaxis = (vector3d::Cross(zaxis, vector3d(0,1,0))).Normalized();
 	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	glMultMatrixd(&rot[0]);
