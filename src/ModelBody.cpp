@@ -125,7 +125,13 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 	// XXX reduce
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	{
+	for (int i=0; i<4; i++) {
+		GLfloat lightDir[4];
+		glGetLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+		lightDir[2] = -lightDir[2];
+		glLightfv(GL_LIGHT0+i, GL_POSITION, lightDir);
+	}
+/*	{
 		GLfloat lightCol[4];
 		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
 		lightCol[3] = 0;
@@ -135,7 +141,7 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 		lightDir[2] = -lightDir[2];
 		
 		sbreSetDirLight (lightCol, lightDir);
-	}
+	}*/
 	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 5.0f, 100000.0f, 0.0f, 1.0f);
 
 	matrix4x4d frameTrans;
@@ -155,6 +161,12 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 
 	sbreRenderModel(&p, &m, model, params);
 	
+	for (int i=0; i<4; i++) {
+		GLfloat lightDir[4];
+		glGetLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+		lightDir[2] = -lightDir[2];
+		glLightfv(GL_LIGHT0+i, GL_POSITION, lightDir);
+	}
 	glPopAttrib();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

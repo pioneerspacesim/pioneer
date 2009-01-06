@@ -161,6 +161,47 @@ void WorldView::DrawBgStars()
 	glCallList(m_bgstarsDlist);
 }
 
+static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
+{
+	if (lightNum > 3) return;
+	StarSystem::SBody *body = frame->GetSBody();
+
+	if (body && (body->GetSuperType() == StarSystem::SUPERTYPE_STAR)) {
+		int light;
+		switch (lightNum) {
+			case 3: light = GL_LIGHT3; break;
+			case 2: light = GL_LIGHT2; break;
+			case 1: light = GL_LIGHT1; break;
+			default: light = GL_LIGHT0; break;
+		}
+		// position light at sol
+		matrix4x4d m;
+		Frame::GetFrameTransform(frame, camFrame, m);
+		vector3d lpos = (m * vector3d(0,0,0)).Normalized();
+		float lightPos[4];
+		lightPos[0] = lpos.x;
+		lightPos[1] = lpos.y;
+		lightPos[2] = lpos.z;
+		lightPos[3] = 0;
+		
+		const float *col = StarSystem::starRealColors[body->type];
+		float lightCol[4] = { col[0], col[1], col[2], 0 };
+		float ambCol[4] = { col[0]*0.1, col[1]*0.1, col[2]*0.1, 0 };
+
+		glLightfv(light, GL_POSITION, lightPos);
+		glLightfv(light, GL_DIFFUSE, lightCol);
+		glLightfv(light, GL_AMBIENT, ambCol);
+		glLightfv(light, GL_SPECULAR, lightCol);
+		glEnable(light);
+		
+		lightNum++;
+	}
+
+	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
+		position_system_lights(camFrame, *i, lightNum);
+	}
+}
+
 void WorldView::Draw3D()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -204,6 +245,10 @@ void WorldView::Draw3D()
 		glMultMatrixd(&trans2bg[0]);
 		DrawBgStars();
 		glPopMatrix();
+
+		int l=0;
+		position_system_lights(&cam_frame, Space::GetRootFrame(), l);
+/*
 		// position light at sol
 		matrix4x4d m;
 		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, m);
@@ -222,12 +267,16 @@ void WorldView::Draw3D()
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
 		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
 		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-
+*/
 		Space::Render(&cam_frame);
 		Pi::player->DrawHUD(&cam_frame);
 
 		Pi::player->GetFrame()->RemoveChild(&cam_frame);
 	}
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT1);
+	glDisable(GL_LIGHT2);
+	glDisable(GL_LIGHT3);
 }
 
 void WorldView::Update()

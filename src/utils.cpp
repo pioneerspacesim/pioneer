@@ -66,7 +66,7 @@ int wankmod(int a, int b)
 	return r>=0 ? r : r+b;
 }
 
-std::string date_format(double t)
+std::string format_date(double t)
 {
 	int year = floor(t/(60*60*24*365)); year += 3200;
 	int day = floor(t/(60*60*24)); day = wankmod(day, 365);
@@ -89,5 +89,17 @@ std::string string_join(std::vector<std::string> &v, std::string sep)
 		if (i != v.end()) out += sep;
 	}
 	return out;
+}
+
+#define AU		149598000000.0
+std::string format_distance(double dist)
+{
+	if (dist < 1000) {
+		return stringf(128, "%.0f m", dist);
+	} else if (dist < AU*0.1) {
+		return stringf(128, "%.2f km", dist*0.001);
+	} else {
+		return stringf(128, "%.2f AU", dist/AU);
+	}
 }
 

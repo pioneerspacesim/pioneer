@@ -26,6 +26,7 @@ void ObjectViewerView::Draw3D()
 	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	glEnable(GL_LIGHT0);
 
 	matrix4x4d camRot;
 	camRot = matrix4x4d::RotateXMatrix(-DEG2RAD(rot));
@@ -49,7 +50,7 @@ void ObjectViewerView::Update()
 {
 	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99;
 	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01;
-	viewingDist = CLAMP(viewingDist, 10, 1e10);
+	viewingDist = CLAMP(viewingDist, 10, 1e12);
 
 	char buf[128];
 	Body *body = Pi::player->GetNavTarget();

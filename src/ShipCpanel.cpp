@@ -102,7 +102,7 @@ void ShipCpanel::SetTemporaryMessage(Body * const sender, std::string msg)
 
 void ShipCpanel::Draw()
 {
-	std::string time = date_format(Pi::GetGameTime());
+	std::string time = format_date(Pi::GetGameTime());
 	m_clock->SetText(time);
 
 	if (tempMsgAge) {

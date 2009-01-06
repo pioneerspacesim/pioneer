@@ -882,6 +882,7 @@ void Planet::Render(const Frame *a_camFrame)
 
 	double apparent_size = rad / fpos.Length();
 	double len = fpos.Length();
+	double origLen = len;
 
 	while (len > 5000.0f) {
 		rad *= 0.25;
@@ -892,21 +893,69 @@ void Planet::Render(const Frame *a_camFrame)
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	glColor3f(1,1,1);
 
-	ftran.ClearToRotOnly();
-	glMultMatrixd(&ftran[0]);
-
 	if (apparent_size < 0.001) {
 		if (crudDList) {
 			glDeleteLists(crudDList, 1);
 			crudDList = 0;
 		}
+		/* XXX WRONG. need to pick light from appropriate turd. */
+		GLfloat col[4];
+		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
+		// face the camera dammit
+		vector3d zaxis = fpos.Normalized();
+		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
+		vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+		matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+		glMultMatrixd(&rot[0]);
+
 		glDisable(GL_LIGHTING);
-		glPointSize(1.0);
-		glBegin(GL_POINTS);
+		glDisable(GL_DEPTH_TEST);
+		
+		glEnable(GL_BLEND);
+		glColor4f(col[0], col[1], col[2], 1);
+		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(0,0,0);
+		glColor4f(col[0],col[1],col[2],0);
+		
+		const float spikerad = 0.005*len +  1e1*(1.0*sbody->GetRadius()*len)/origLen;
+		{
+			/* bezier with (0,0,0) control points */
+			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
+			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
+			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
+			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
+			float t=0.1; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
 		glEnd();
+		glDisable(GL_BLEND);
+
 		glEnable(GL_LIGHTING);
+		glEnable(GL_DEPTH_TEST);
 	} else {
+		ftran.ClearToRotOnly();
+		glMultMatrixd(&ftran[0]);
+
 		if (!crudDList) {
 			crudDList = glGenLists(1);
 			glNewList(crudDList, GL_COMPILE);

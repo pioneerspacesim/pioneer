@@ -353,6 +353,17 @@ void Player::DrawHUD(const Frame *cam_frame)
 		glPopMatrix();
 	}
 
+	if (GetNavTarget()) {
+		Body *target = GetNavTarget();
+		vector3d pos = target->GetPositionRelTo(GetFrame()) - GetPosition();
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Target distance: %s", format_distance(pos.Length()).c_str());
+		glPushMatrix();
+		glTranslatef(0, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-90, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
 	Gui::Screen::LeaveOrtho();
 }
 

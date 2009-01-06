@@ -5,7 +5,8 @@
 #include <vector>
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
-std::string date_format(double time);
+std::string format_date(double time);
+std::string format_distance(double dist);
 
 #ifndef __GNUC__
 #define __attribute(x)

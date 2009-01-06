@@ -181,7 +181,7 @@ void SystemView::Draw3D()
 		}
 	}
 	m_time += m_timeStep*Pi::GetFrameTime();
-	std::string t = "Time point: "+date_format(m_time);
+	std::string t = "Time point: "+format_date(m_time);
 	m_timePoint->SetText(t);
 
 	if (!m_system) m_system = new StarSystem(sector_x, sector_y, system_idx);
