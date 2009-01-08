@@ -339,6 +339,14 @@ void Player::DrawHUD(const Frame *cam_frame)
 		glPopMatrix();
 	}
 
+	{ /* relative to */
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Relative-to: %s", GetFrame()->GetLabel());
+		glPushMatrix();
+		glTranslatef(600, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
 	// altitude
 	if (GetFrame()->m_astroBody) {
 		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
@@ -379,7 +387,7 @@ void Player::DrawTargetSquares()
 
 	if(GetCombatTarget()) {
 		glColor3f(1.0f, 0.0f, 0.0f);
-		DrawTargetSquare(GetNavTarget());
+		DrawTargetSquare(GetCombatTarget());
 	}
 
 	glPopAttrib();
@@ -388,20 +396,17 @@ void Player::DrawTargetSquares()
 void Player::DrawTargetSquare(const Body* const target)
 {
 	if(target->IsOnscreen()) {
-		glColor3f(0.0f, 1.0f, 0.0f);
-
 		const vector3d& _pos = target->GetProjectedPos();
 		const float x1 = _pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
 		const float x2 = x1 + WorldView::PICK_OBJECT_RECT_SIZE;
 		const float y1 = _pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
 		const float y2 = y1 + WorldView::PICK_OBJECT_RECT_SIZE;
 
-		glBegin(GL_LINE_STRIP);
+		glBegin(GL_LINE_LOOP);
 		glVertex2f(x1, y1);
 		glVertex2f(x2, y1);
 		glVertex2f(x2, y2);
 		glVertex2f(x1, y2);
-		glVertex2f(x1, y1);
 		glEnd();
 	}
 }

@@ -4,7 +4,7 @@
 
 namespace Gui {
 
-#define TAB_BAR_HEIGHT	23.0f
+#define TAB_BAR_HEIGHT	20.0f
 #define LABEL_PADDING	10.0f
 
 Tabbed::Tabbed()

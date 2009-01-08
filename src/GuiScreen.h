@@ -33,6 +33,10 @@ namespace Gui {
 		friend void Widget::SetShortcut(SDLKey key, SDLMod mod);
 		friend Widget::~Widget();
 		static bool IsBaseWidget(const Widget *);
+		static void GetCoords2Pixels(float scale[2]) {
+			scale[0] = fontScale[0];
+			scale[1] = fontScale[1];
+		}
 	private:
 		struct LabelPos {
 			LabelPos(float _x, float _y): x(_x), y(_y) {}

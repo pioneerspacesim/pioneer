@@ -24,7 +24,7 @@ WorldView::WorldView(): View()
 	
 	m_commsOptions = new Fixed(size[0], size[1]/2);
 	m_commsOptions->SetTransparency(true);
-	Add(m_commsOptions, 10, 20);
+	Add(m_commsOptions, 10, 200);
 
 	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
 	wheels_button->SetShortcut(SDLK_F6, KMOD_NONE);
@@ -334,22 +334,18 @@ void WorldView::UpdateCommsOptions()
 	Body * const navtarget = Pi::player->GetNavTarget();
 	m_commsOptions->DeleteAllChildren();
 	
-	float size[2];
-	m_commsOptions->GetSize(size);
-	int ypos = size[1]-16;
+	int ypos = 0;
 	if (navtarget) {
+		m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
+		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
-			m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
-			ypos -= 32;
 			Gui::Button *b = AddCommsOption("Request docking clearance", ypos);
 			b->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
-			ypos -= 32;
+			ypos += 32;
 		} else {
-			m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
-			ypos -= 32;
 			std::string msg = "Do something to "+navtarget->GetLabel();
 			Gui::Button *b = AddCommsOption(msg, ypos);
-			ypos -= 32;
+			ypos += 32;
 		}
 	}
 }
@@ -361,9 +357,19 @@ bool WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
 		if(1 == e->button && !Pi::MouseButtonState(3)) {
 			// Left click in view when RMB not pressed => Select target.
 			Body* const target = PickBody(e->screenX, e->screenY);
-			if(Pi::player) {
-				//TODO: if in nav mode, SetNavTarget(), else SetCombatTarget().
-				Pi::player->SetNavTarget(target);
+			
+			if (!target) {
+
+			} else if (target->IsType(Object::SHIP)) {
+				if (Pi::player->GetCombatTarget() == target)
+					Pi::player->SetCombatTarget(0);
+				else
+					Pi::player->SetCombatTarget(target);
+			} else {
+				if (Pi::player->GetNavTarget() == target)
+					Pi::player->SetNavTarget(0);
+				else
+					Pi::player->SetNavTarget(target);
 			}
 		}
 	}

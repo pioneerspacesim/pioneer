@@ -5,6 +5,116 @@
 #include "Player.h"
 #include "InfoView.h"
 #include "WorldView.h"
+#include "Space.h"
+
+#define SCALE	0.01f
+#define YSHRINK 0.75f
+class ScannerWidget: public Gui::Widget {
+public:
+	void GetSizeRequested(float size[2]) {
+		size[0] = 400;
+		size[1] = 62;
+	}
+
+	void Draw() {
+		float size[2];
+		GetSize(size);
+		const float mx = size[0]*0.5;
+		const float my = size[1]*0.5;
+		float c2p[2];
+		Widget::SetClipping(size[0], size[1]);
+		Gui::Screen::GetCoords2Pixels(c2p);
+		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_POINT_BIT | GL_LINE_BIT);
+		
+		// draw objects below player (and below scanner)
+		DrawBlobs(true);
+		/* disc */
+		glEnable(GL_BLEND);
+		glColor4f(0,1,0,0.1);
+		glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(mx, my);
+		for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
+			glVertex2f(mx + mx*sin(a), my + YSHRINK*my*cos(a));
+		}
+		glEnd();
+		glDisable(GL_BLEND);
+		
+		glLineWidth(1);
+		glColor3f(0,1,0);
+		DrawDistanceRings();
+		glPushMatrix();
+		glEnable(GL_BLEND);
+		glColor4f(0,1,0,0.25);
+		glTranslatef(0.5*c2p[0],0.5*c2p[1],0);
+		DrawDistanceRings();
+		glTranslatef(0,-c2p[1],0);
+		DrawDistanceRings();
+		glTranslatef(-c2p[0],0,0);
+		DrawDistanceRings();
+		glTranslatef(0,c2p[1],0);
+		DrawDistanceRings();
+		glPopMatrix();
+		glDisable(GL_BLEND);
+		DrawBlobs(false);
+		glPopAttrib();
+		Widget::EndClipping();
+	}
+private:
+	void DrawBlobs(bool below) {
+		float size[2];
+		GetSize(size);
+		float mx = size[0]*0.5;
+		float my = size[1]*0.5;
+		glColor3f(1,0,0);
+		glLineWidth(2);
+		glPointSize(4);
+		for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			if ((*i) == Pi::player) continue;
+			if (!(*i)->IsType(Object::SHIP)) continue;
+			if ((*i)->GetFrame() == Pi::player->GetFrame()) {
+				vector3d pos = (*i)->GetPosition() - Pi::player->GetPosition();
+				matrix4x4d rot;
+				Pi::player->GetRotMatrix(rot);
+				pos = rot.InverseOf() * pos;
+
+				if ((pos.y>0)&&(below)) continue;
+				if ((pos.y<0)&&(!below)) continue;
+
+				glBegin(GL_LINES);
+				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE);
+				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
+				glEnd();
+				
+				glBegin(GL_POINTS);
+				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
+				glEnd();
+			}
+		}
+	}
+	void DrawDistanceRings() {
+		float size[2];
+		GetSize(size);
+		float mx = size[0]*0.5;
+		float my = size[1]*0.5;
+
+		/* soicles */
+		for (float sz=1.0f; sz>0.1f; sz-=0.33) {
+			glBegin(GL_LINE_LOOP);
+			for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
+				glVertex2f(mx + sz*mx*sin(a), my + YSHRINK*sz*my*cos(a));
+			}
+			glEnd();
+		}
+		/* schpokes */
+		glBegin(GL_LINES);
+		for (float a=0; a<2*M_PI; a+=M_PI*0.25) {
+			glVertex2f(mx, my);
+			glVertex2f(mx + mx*sin(a), my + YSHRINK*my*cos(a));
+		}
+		glEnd();
+
+	}
+};
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
 {
@@ -13,6 +123,8 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
 
 	Gui::Image *img = new Gui::Image("icons/cpanel.png");
 	Add(img, 0, 0);
+
+	Add(new ScannerWidget(), 200, 2);
 
 	Gui::RadioGroup *g = new Gui::RadioGroup();
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(g, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
@@ -84,7 +196,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
 
 	m_clock = new Gui::Label("");
 	m_clock->SetColor(1,0.7,0);
-	Add(m_clock, 2, 1);
+	Add(m_clock, 4, 1);
 
 	tempMsg = new Gui::Label("");
 	Add(tempMsg, 170, 4);

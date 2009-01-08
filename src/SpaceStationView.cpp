@@ -336,11 +336,13 @@ void StationShipyardView::ShowAll()
 	int NUM_ITEMS = 0;
 	const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
+		if ((!(EquipType::types[i].slot == Equip::SLOT_CARGO)) &&
+		    station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
 	}
 
 	Gui::Fixed *innerbox = new Gui::Fixed(400, NUM_ITEMS*YSEP);
 	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
+		if (EquipType::types[i].slot == Equip::SLOT_CARGO) continue;
 		int stock = station->GetEquipmentStock(static_cast<Equip::Type>(i));
 		if (!stock) continue;
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
