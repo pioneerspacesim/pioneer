@@ -3,20 +3,37 @@
 
 namespace Gui {
 
+Fixed::Fixed(): Container()
+{
+	_Init();
+}
+
 Fixed::Fixed(float w, float h): Container()
 {
-	SetSize(w, h);
+	float s[2] = { w, h };
+	_Init();
+	SetSizeRequest(s);
+}
+
+void Fixed::_Init()
+{
 	memcpy(m_bgcol, Color::bg, 3*sizeof(float));
-	m_w = w; m_h = h;
+	m_wantedSize[0] = m_wantedSize[1] = 0;
 	m_transparent = true;
 	m_eventMask = EVENT_ALL;
 }
 
+void Fixed::SetSizeRequest(float size[2])
+{
+	m_wantedSize[0] = size[0];
+	m_wantedSize[1] = size[1];
+}
+
 void Fixed::GetSizeRequested(float size[2])
 {
-	if (m_w && m_w) {
-		size[0] = m_w;
-		size[1] = m_h;
+	if (m_wantedSize[0] && m_wantedSize[1]) {
+		size[0] = m_wantedSize[0];
+		size[1] = m_wantedSize[1];
 	}
 }
 

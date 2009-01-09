@@ -17,6 +17,7 @@
 #include "StarSystem.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
+#include "CargoBody.h"
 #include "InfoView.h"
 #include "Serializer.h"
 
@@ -212,6 +213,12 @@ void Pi::HandleEvents()
 						station->SetFrame(rotFrame);
 						station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
 						Space::AddBody(station);
+					} else if (KeyState(SDLK_RSHIFT)) {
+						CargoBody *cargo = new CargoBody(Equip::HYDROGEN);
+						cargo->SetFrame(Pi::player->GetFrame());
+						cargo->SetPosition(Pi::player->GetPosition()+100.0*dir);
+						cargo->SetVelocity(Pi::player->GetVelocity());
+						Space::AddBody(cargo);
 					} else {
 						Ship *ship = new Ship(ShipType::LADYBIRD);
 						ship->AIInstruct(Ship::DO_KILL, Pi::player);
@@ -349,6 +356,9 @@ void Pi::Start()
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
 	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::LASER_4MW_BEAM);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->SetLabel("me");
 	player->SetMoney(1000);
 	Space::AddBody(player);

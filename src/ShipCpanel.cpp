@@ -40,11 +40,11 @@ public:
 		glDisable(GL_BLEND);
 		
 		glLineWidth(1);
-		glColor3f(0,1,0);
+		glColor3f(0,.4,0);
 		DrawDistanceRings();
 		glPushMatrix();
 		glEnable(GL_BLEND);
-		glColor4f(0,1,0,0.25);
+		glColor4f(0,.4,0,0.25);
 		glTranslatef(0.5*c2p[0],0.5*c2p[1],0);
 		DrawDistanceRings();
 		glTranslatef(0,-c2p[1],0);
@@ -65,12 +65,18 @@ private:
 		GetSize(size);
 		float mx = size[0]*0.5;
 		float my = size[1]*0.5;
-		glColor3f(1,0,0);
 		glLineWidth(2);
 		glPointSize(4);
 		for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((*i) == Pi::player) continue;
-			if (!(*i)->IsType(Object::SHIP)) continue;
+			if ((!(*i)->IsType(Object::SHIP)) &&
+			    (!(*i)->IsType(Object::CARGOBODY))) continue;
+			switch ((*i)->GetType()) {
+				case Object::SHIP: glColor3f(1,0,0); break;
+				case Object::CARGOBODY:
+					glColor3f(.5,.5,1); break;
+				default: continue;
+			}
 			if ((*i)->GetFrame() == Pi::player->GetFrame()) {
 				vector3d pos = (*i)->GetPosition() - Pi::player->GetPosition();
 				matrix4x4d rot;
@@ -243,8 +249,12 @@ void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 {
-	Pi::infoView->UpdateInfo();
-	Pi::SetView(Pi::infoView);
+	if (Pi::GetView() == Pi::infoView) {
+		Pi::infoView->NextPage();
+	} else {
+		Pi::infoView->UpdateInfo();
+		Pi::SetView(Pi::infoView);
+	}
 }
 
 void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)

@@ -11,6 +11,7 @@ namespace Gui {
 	class Fixed: public Container {
 	public:
 		Fixed(float w, float h);
+		Fixed();
 		void Add(Widget *child, float x, float y);
 		void Remove(Widget *child);
 		virtual void Draw();
@@ -20,8 +21,10 @@ namespace Gui {
 		void SetBgColor(float rgb[3]);
 		void SetBgColor(float r, float g, float b);
 		void SetTransparency(bool a) { m_transparent = a; }
+		void SetSizeRequest(float size[2]);
 	private:
-		float m_w, m_h;
+		void _Init();
+		float m_wantedSize[2];
 		float m_bgcol[3];
 		bool m_transparent;
 	};

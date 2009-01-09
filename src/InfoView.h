@@ -5,6 +5,8 @@
 #include "Gui.h"
 #include "View.h"
 
+class InfoViewPage;
+
 class InfoView: public View {
 public:
 	InfoView();
@@ -12,8 +14,10 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
+	void NextPage();
 private:
-	Gui::Label *info1, *info2;
+	std::list<InfoViewPage*> m_pages;
+	Gui::Tabbed *m_tabs;
 };
 
 #endif /* _INFOVIEW */

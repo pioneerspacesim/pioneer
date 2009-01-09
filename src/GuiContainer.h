@@ -22,6 +22,7 @@ namespace Gui {
 		virtual void OnChildResizeRequest(Widget *) = 0;
 	private:
 		void _OnMouseLeave();
+		void _OnSetSize();
 		bool HandleMouseEvent(MouseButtonEvent *e);
 	protected:
 		void PrependChild(Widget *w, float x, float y);

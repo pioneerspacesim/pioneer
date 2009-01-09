@@ -4,6 +4,7 @@
 #include "Serializer.h"
 #include "Star.h"
 #include "Planet.h"
+#include "CargoBody.h"
 #include "SpaceStation.h"
 #include "Ship.h"
 #include "Player.h"
@@ -55,6 +56,7 @@ void Body::Serialize()
 		case Object::SHIP:
 		case Object::PLAYER:
 		case Object::SFX:
+		case Object::CARGOBODY:
 			Save();
 			break;
 		default:
@@ -84,9 +86,10 @@ Body *Body::Unserialize()
 			b = new Player(); break;
 		case Object::SFX:
 			b = new Sfx(); break;
+		case Object::CARGOBODY:
+			b = new CargoBody(); break;
 		default:
-			// XXX bad. should assert
-			return 0;
+			assert(0);
 	}
 	b->Load();
 	// must SetFrame() correctly so ModelBodies can add geom to space

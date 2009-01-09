@@ -44,6 +44,11 @@ void Tabbed::SelectPage(int page)
 	Show();
 }
 
+void Tabbed::OnActivate()
+{
+	SelectPage((m_page+1)%m_pages.size());
+}
+
 bool Tabbed::OnMouseDown(MouseButtonEvent *e)
 {
 	if (e->y < TAB_BAR_HEIGHT) {

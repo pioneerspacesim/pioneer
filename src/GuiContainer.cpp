@@ -6,11 +6,19 @@ namespace Gui {
 Container::Container()
 {
 	onMouseLeave.connect(sigc::mem_fun(this, &Container::_OnMouseLeave));
+	onSetSize.connect(sigc::mem_fun(this, &Container::_OnSetSize));
 }
 
 Container::~Container()
 {
 	DeleteAllChildren();
+}
+
+void Container::_OnSetSize()
+{
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		OnChildResizeRequest((*i).w);
+	}
 }
 
 void Container::_OnMouseLeave()

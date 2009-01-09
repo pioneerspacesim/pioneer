@@ -18,7 +18,7 @@ namespace Gui {
 		void GetAbsolutePosition(float pos[2]);
 		void SetPosition(float x, float y) { m_size.x = x; m_size.y = y; }
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
-		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; }
+		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
 		void ResizeRequest();
 		void SetShortcut(SDLKey key, SDLMod mod);
 		void SetClipping(float width, float height);
@@ -56,6 +56,7 @@ namespace Gui {
 
 		sigc::signal<void> onMouseEnter;
 		sigc::signal<void> onMouseLeave;
+		sigc::signal<void> onSetSize;
 	protected:
 		unsigned int m_eventMask;
 		struct {

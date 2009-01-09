@@ -17,7 +17,9 @@ namespace Gui {
 		virtual void OnChildResizeRequest(Widget *);
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		void SelectPage(int page);
+		int GetCurrentPage() const { return m_page; }
 		sigc::signal<void,int> onSelectPage;
+		virtual void OnActivate();
 	private:
 		bool IsLabelWidget(const Widget *);
 		void ShuffleLabels();

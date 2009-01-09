@@ -50,6 +50,7 @@ public:
 	enum FlightState { FLYING, LANDED };
        	FlightState GetFlightState() const { return m_flightState; }
 	float GetWheelState() const { return m_wheelState; }
+	bool Jettison(Equip::Type t);
 	void AIFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);

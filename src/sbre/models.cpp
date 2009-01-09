@@ -510,7 +510,7 @@ static CompoundVertex ship2vtx2[] = {
 	{ VTYPE_NORM, { 77, 78, 80, -1, -1 } },			// 120, retro norm
 };
 static uint16 ship2data[] = {
-	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0, 
+	PTYPE_MATFIXED, 20, 20, 50, 100, 100, 100, 10000, 0, 0, 0, 
 	PTYPE_COMPSMOOTH | RFLAG_XREF, 0, 5, 26, 27, 6, 7,		// front edge
 		COMP_HERM_NOTAN, 8, 9,
 		COMP_HERMITE, 16, 1, 37, 38,
@@ -542,6 +542,7 @@ static uint16 ship2data[] = {
 		COMP_HERM_NOTAN, 24, 25,
 		COMP_HERMITE, 22, 23, 59, 60,
 		COMP_END,
+	PTYPE_MATFIXED, 80, 80, 80, 0, 0, 0, 100, 0, 0, 0, 
 	PTYPE_COMPFLAT | RFLAG_XREF, 6, 5, 70, 4, 12, 4,		// rear underside
 		COMP_HERMITE, 10, 4, 56, 55, 
 		COMP_LINE, 71, 4,
@@ -1341,4 +1342,17 @@ static uint16 tombstonedata[] = {
 };
 Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
 	{ { 0, tombstonedata, 0, 0, 0 } } };
+
+static PlainVertex cargovtx1[] = {
+};
+
+static uint16 cargodata[] = {
+	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_CYLINDER, 0x8000, 16, 1, 4, 0, 100,
+	PTYPE_END
+};
+
+Model cargomodel = { 1.0f, 2.0f, 6, cargovtx1, 6, 0, dummyvtx2, 1,
+	{ { 0, cargodata, 0, 0, 0 } } };
+
 

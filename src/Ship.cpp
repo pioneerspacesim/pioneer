@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Sfx.h"
+#include "CargoBody.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -531,6 +532,29 @@ void Ship::Render(const Frame *camFrame)
 		TransformToModelCoords(camFrame);
 		RenderLaserfire();
 		glPopMatrix();
+	}
+}
+
+bool Ship::Jettison(Equip::Type t)
+{
+	if (m_flightState != FLYING) return false;
+	Equip::Slot slot = EquipType::types[(int)t].slot;
+	if (m_equipment.Count(slot, t) > 0) {
+		m_equipment.Remove(slot, t, 1);
+
+		Aabb aabb;
+		GetAabb(aabb);
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		vector3d pos = rot * vector3d(0, aabb.min.y-5, 0);
+		CargoBody *cargo = new CargoBody(t);
+		cargo->SetFrame(GetFrame());
+		cargo->SetPosition(Pi::player->GetPosition()+pos);
+		cargo->SetVelocity(Pi::player->GetVelocity() + rot*vector3d(0,-10,0));
+		Space::AddBody(cargo);
+		return true;
+	} else {
+		return false;
 	}
 }
 
