@@ -36,6 +36,7 @@ public:
 		for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
 			glVertex2f(mx + mx*sin(a), my + YSHRINK*my*cos(a));
 		}
+		glVertex2f(mx, my + YSHRINK*my);
 		glEnd();
 		glDisable(GL_BLEND);
 		

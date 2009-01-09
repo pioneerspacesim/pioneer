@@ -18,6 +18,7 @@ public:
 private:
 	std::list<InfoViewPage*> m_pages;
 	Gui::Tabbed *m_tabs;
+	bool m_doUpdate;
 };
 
 #endif /* _INFOVIEW */

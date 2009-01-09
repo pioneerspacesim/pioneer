@@ -17,6 +17,8 @@ namespace Gui {
 		bool OnMouseMotion(MouseMotionEvent *e);
 		void DeleteAllChildren();
 		virtual void Draw();
+		void ShowChildren();
+		void HideChildren();
 		virtual void ShowAll();
 		virtual void HideAll();
 		virtual void OnChildResizeRequest(Widget *) = 0;

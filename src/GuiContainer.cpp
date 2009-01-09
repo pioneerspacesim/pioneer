@@ -168,19 +168,29 @@ bool Container::OnMouseUp(MouseButtonEvent *e)
 	return HandleMouseEvent(e);
 }
 
-void Container::ShowAll()
+void Container::ShowChildren()
 {
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i).w->Show();
 	}
+}
+
+void Container::HideChildren()
+{
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		(*i).w->Hide();
+	}
+}
+
+void Container::ShowAll()
+{
+	ShowChildren();
 	Show();
 }
 
 void Container::HideAll()
 {
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i).w->Hide();
-	}
+	HideChildren();
 	Hide();
 }
 
