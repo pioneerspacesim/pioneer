@@ -33,6 +33,7 @@ public:
 	virtual void Render(const Frame *camFrame);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
 	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }
+	vector3f GetAngThrusterState() const { return vector3f(m_angThrusters); }
 	void ClearThrusterState();
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType();

@@ -156,13 +156,19 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 		// XXX ang vel not zeroed for some reason...
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_y = vector3d::Cross(-dport->horiz, dport->normal);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->horiz, port_y, dport->normal);
+		vector3d port_y = vector3d::Cross(dport->horiz, dport->normal);
+
+		vector3d port_x = vector3d::Cross(port_y, dport->normal).Normalized();
+		port_y = vector3d::Cross(dport->normal, port_x).Normalized();
+
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(port_x, port_y, dport->normal);
 		vector3d pos = GetPosition() + stationRot*dport->center;
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
-		ship->SetVelocity(vector3d(0,0,0));
-		ship->SetAngVelocity(vector3d(0,0,0));
+		ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(pos));
+		ship->SetAngVelocity(GetFrame()->GetAngVelocity());
+		ship->SetForce(vector3d(0,0,0));
+		ship->SetTorque(vector3d(0,0,0));
 	}
 	else if (dockMethod == SpaceStationType::SURFACE) {
 		ship->Blastoff();

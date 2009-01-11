@@ -245,9 +245,6 @@ void Ship::Blastoff()
 	Enable();
 	const double planetRadius = 0.1 + GetFrame()->m_astroBody->GetRadius();
 	vector3d up = GetPosition().Normalized();
-	SetVelocity(vector3d(0,0,0));
-	SetAngVelocity(vector3d(0,0,0));
-	
 	SetVelocity(vector3d(0, 0, 0));
 	SetAngVelocity(vector3d(0, 0, 0));
 	SetForce(vector3d(0, 0, 0));

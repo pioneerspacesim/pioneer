@@ -281,6 +281,21 @@ void WorldView::Draw3D()
 
 void WorldView::Update()
 {
+	const float frameTime = Pi::GetFrameTime();
+
+	if (GetCamType() == CAM_EXTERNAL) {
+		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
+		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
+		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
+		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
+		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
+		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
+		m_externalViewDist = MAX(50, m_externalViewDist);
+
+		// when landed don't let external view look from below
+		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0, -10);
+	}
+
 	if (Pi::GetSelectedSystem() && !Pi::player->GetDockedWith()/* && isn't current system */ ) {
 		m_hyperspaceButton->Show();
 	} else {

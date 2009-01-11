@@ -78,22 +78,27 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 void Player::TimeStepUpdate(const float timeStep)
 {
 	ClearThrusterState();
-	polledControlsThisTurn = false;
 	if (Pi::GetView() == Pi::worldView) PollControls();
 
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_MANUAL:
-			// when world view not selected
-			if (!polledControlsThisTurn) {
-				const float time_accel = Pi::GetTimeAccel();
-				const float ta2 = time_accel*time_accel;
-				// still must apply rotation damping
-				vector3d damping = CalcRotDamping();
-				damping *= 1.0f/ta2;
-				SetAngThrusterState(0, -damping.x);
-				SetAngThrusterState(1, -damping.y);
-				SetAngThrusterState(2, -damping.z);
+			// apply rotation damping
+			{const float time_accel = Pi::GetTimeAccel();
+			const float invTa2 = 1.0f/(time_accel*time_accel);
+		
+			vector3f angThrust = GetAngThrusterState();
+			vector3d damping = time_accel*CalcRotDamping();
+
+			angThrust.x -= damping.x * invTa2;
+			angThrust.y -= damping.y * invTa2;
+			angThrust.z -= damping.z * invTa2;
+
+			// dividing by time step so controls don't go totally mental when
+			// used at 10x accel
+			SetAngThrusterState(0, angThrust.x);
+			SetAngThrusterState(1, angThrust.y);
+			SetAngThrusterState(2, angThrust.z);
 			}
 			break;
 		case CONTROL_FIXSPEED:
@@ -115,24 +120,8 @@ void Player::TimeStepUpdate(const float timeStep)
 void Player::PollControls()
 {
 	int mouseMotion[2];
-	const float frameTime = Pi::GetFrameTime();
 	float time_accel = Pi::GetTimeAccel();
 	float ta2 = time_accel*time_accel;
-
-	polledControlsThisTurn = true;
-
-	if (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) {
-		if (Pi::KeyState(SDLK_UP)) Pi::worldView->m_externalViewRotX -= 45*frameTime;
-		if (Pi::KeyState(SDLK_DOWN)) Pi::worldView->m_externalViewRotX += 45*frameTime;
-		if (Pi::KeyState(SDLK_LEFT)) Pi::worldView->m_externalViewRotY -= 45*frameTime;
-		if (Pi::KeyState(SDLK_RIGHT)) Pi::worldView->m_externalViewRotY += 45*frameTime;
-		if (Pi::KeyState(SDLK_EQUALS)) Pi::worldView->m_externalViewDist -= 400*frameTime;
-		if (Pi::KeyState(SDLK_MINUS)) Pi::worldView->m_externalViewDist += 400*frameTime;
-		Pi::worldView->m_externalViewDist = MAX(50, Pi::worldView->m_externalViewDist);
-
-		// when landed don't let external view look from below
-		if (GetFlightState() == LANDED) Pi::worldView->m_externalViewRotX = CLAMP(Pi::worldView->m_externalViewRotX, -170.0, -10);
-	}
 
 	if ((time_accel == 0) || GetDockedWith() ||
 	    (GetFlightState() != FLYING)) {
@@ -182,13 +171,6 @@ void Player::PollControls()
 		}
 		if (Pi::KeyState(SDLK_q)) angThrust.z += 1;
 		if (Pi::KeyState(SDLK_e)) angThrust.z -= 1;
-		// rotation damping.
-		vector3d damping = time_accel*CalcRotDamping();
-
-		angThrust.x -= damping.x;
-		angThrust.y -= damping.y;
-		angThrust.z -= damping.z;
-
 		// dividing by time step so controls don't go totally mental when
 		// used at 10x accel
 		angThrust *= 1.0f/ta2;
