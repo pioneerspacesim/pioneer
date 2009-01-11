@@ -22,7 +22,10 @@ void Sector::GetCustomSystems()
 			System s;
 			s.p = SIZE*sys->pos;
 			s.name = custom_systems[i].name;
-			s.primaryStarClass = custom_systems[i].primaryType[0];
+			for (s.numStars=0; s.numStars<4; s.numStars++) {
+				if (custom_systems[i].primaryType[s.numStars] == 0) break;
+				s.starType[s.numStars] = custom_systems[i].primaryType[s.numStars];
+			}
 			s.customDef = sys->sbodies;
 			m_systems.push_back(s);
 		}
@@ -46,6 +49,17 @@ Sector::Sector(int x, int y)
 
 		for (int i=0; i<numSystems; i++) {
 			System s;
+			switch (rng.Int32(15)) {
+				case 0:
+					s.numStars = 4; break;
+				case 1: case 2:
+					s.numStars = 3; break;
+				case 3: case 4: case 5: case 6:
+					s.numStars = 2; break;
+				default:
+					s.numStars = 1; break;
+			}
+
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
 			s.p.z = rng.Double(2*SIZE)-SIZE;
@@ -53,23 +67,34 @@ Sector::Sector(int x, int y)
 			
 			float spec = rng.Int32(1000000);
 			// frequencies from wikipedia
-		/*	if (spec < 1) {
-				s.primaryStarClass = StarSystem::TYPE_STAR_O;
-			} else*/ if (spec < 1300) {
-				s.primaryStarClass = StarSystem::TYPE_STAR_B;
+			if (spec < 100) { // should be 1 but that is boring
+				s.starType[0] = StarSystem::TYPE_STAR_O;
+			} else if (spec < 1300) {
+				s.starType[0] = StarSystem::TYPE_STAR_B;
 			} else if (spec < 7300) {
-				s.primaryStarClass = StarSystem::TYPE_STAR_A;
+				s.starType[0] = StarSystem::TYPE_STAR_A;
 			} else if (spec < 37300) {
-				s.primaryStarClass = StarSystem::TYPE_STAR_F;
+				s.starType[0] = StarSystem::TYPE_STAR_F;
 			} else if (spec < 113300) {
-				s.primaryStarClass = StarSystem::TYPE_STAR_G;
+				s.starType[0] = StarSystem::TYPE_STAR_G;
 			} else if (spec < 234300) {
-				s.primaryStarClass = StarSystem::TYPE_STAR_K;
+				s.starType[0] = StarSystem::TYPE_STAR_K;
 			} else if (spec < 250000) {
-				s.primaryStarClass = StarSystem::TYPE_WHITE_DWARF;
+				s.starType[0] = StarSystem::TYPE_WHITE_DWARF;
+			} else if (spec < 900000) {
+				s.starType[0] = StarSystem::TYPE_STAR_M;
 			} else {
-				s.primaryStarClass = StarSystem::TYPE_STAR_M;
+				s.starType[0] = StarSystem::TYPE_BROWN_DWARF;
 			}
+
+			if (s.numStars > 1) {
+				s.starType[1] = (StarSystem::BodyType)rng.Int32(StarSystem::TYPE_STAR_MIN, s.starType[0]);
+				if (s.numStars > 2) {
+					s.starType[2] = (StarSystem::BodyType)rng.Int32(StarSystem::TYPE_STAR_MIN, s.starType[0]);
+					s.starType[3] = (StarSystem::BodyType)rng.Int32(StarSystem::TYPE_STAR_MIN, s.starType[2]);
+				}
+			}
+
 			s.name = GenName(s, rng);
 
 			m_systems.push_back(s);
@@ -90,7 +115,7 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 	const int dist = MAX(abs(sx),abs(sy));
 
 	int chance = 100;
-	switch (sys.primaryStarClass) {
+	switch (sys.starType[0]) {
 		case StarSystem::TYPE_STAR_O:
 		case StarSystem::TYPE_STAR_B: break;
 		case StarSystem::TYPE_STAR_A: chance += dist; break;

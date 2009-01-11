@@ -169,7 +169,7 @@ void SectorView::DrawSector(int sx, int sy)
 	if (!(sx || sy)) glColor3f(1,1,0);
 	int num=0;
 	for (std::vector<Sector::System>::iterator i = s.m_systems.begin(); i != s.m_systems.end(); ++i) {
-		glColor3fv(StarSystem::starColors[(*i).primaryStarClass]);
+		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, 0);
 		glBegin(GL_LINES);

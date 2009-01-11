@@ -18,7 +18,8 @@ public:
 	struct System {
 		std::string name;
 		vector3f p;
-		StarSystem::BodyType primaryStarClass;
+		int numStars;
+		StarSystem::BodyType starType[4];
 		const CustomSBody *customDef;
 	};
 	std::vector<System> m_systems;

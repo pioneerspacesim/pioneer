@@ -9,27 +9,29 @@
 // indexed by enum type turd  
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
+	{ 0.5, 0.0, 0.0 }, // brown dwarf
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.6, 0.1 }, // K
+	{ 0.4, 0.4, 0.8 }, // white dwarf
 	{ 1.0, 1.0, 0.4 }, // G
 	{ 1.0, 1.0, 0.8 }, // F
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.7, 0.7, 1.0 }, // B
-	{ 1.0, 0.7, 1.0 }, // O
-	{ 0.4, 0.4, 0.8 } // white dwarf
+	{ 1.0, 0.7, 1.0 }  // O
 };
 
 // indexed by enum type turd  
 float StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
+	{ 0.5, 0.0, 0.0 }, // brown dwarf
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.7, 0.1 }, // K
+	{ 1.0, 1.0, 1.0 }, // white dwarf
 	{ 1.0, 1.0, 0.9 }, // G
 	{ 1.0, 1.0, 1.0 }, // F
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.7, 0.7, 1.0 }, // B
-	{ 1.0, 0.7, 1.0 }, // O
-	{ 1.0, 1.0, 1.0 } // white dwarf
+	{ 1.0, 0.7, 1.0 }  // O
 };
 
 static const struct SBodySubTypeInfo {
@@ -42,6 +44,11 @@ static const struct SBodySubTypeInfo {
 } bodyTypeInfo[StarSystem::TYPE_MAX] = {
 	{
 		StarSystem::SUPERTYPE_NONE, {}, 0, "Shouldn't see this!",
+	}, {
+		StarSystem::SUPERTYPE_STAR,
+		{2,8}, 30, "Brown dwarf sub-stellar object",
+		"icons/object_brown_dwarf.png",
+		1000, 2000
 	}, {
 		StarSystem::SUPERTYPE_STAR,
 		{10,47}, 50, "Type 'M' red star",
@@ -82,10 +89,6 @@ static const struct SBodySubTypeInfo {
 		{20,100}, 1, "White dwarf",
 		"icons/object_white_dwarf.png",
 		4000, 40000
-	}, {
-		StarSystem::SUPERTYPE_GAS_GIANT,
-		{}, 30, "Brown dwarf sub-stellar object",
-		"icons/object_brown_dwarf.png"
 	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
 		{}, 390, "Small gas giant",
@@ -445,11 +448,12 @@ void StarSystem::MakeRandomStar(SBody *sbody, MTRand &rand)
 	MakeStarOfType(sbody, type, rand);
 }
 
-void StarSystem::MakeRandomStarLighterThan(SBody *sbody, fixed maxMass, MTRand &rand)
+void StarSystem::MakeStarOfTypeLighterThan(SBody *sbody, BodyType type, fixed maxMass, MTRand &rand)
 {
+	int tries = 16;
 	do {
-		MakeRandomStar(sbody, rand);
-	} while (sbody->mass > maxMass);
+		MakeStarOfType(sbody, type, rand);
+	} while ((sbody->mass > maxMass) && (--tries));
 }
 
 void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
@@ -525,9 +529,11 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	SBody *star[4];
 	SBody *centGrav1, *centGrav2;
 
-	int isBinary = rand.Int32(2);
-	if (!isBinary) {
-		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
+	const int numStars = s.m_systems[system_idx].numStars;
+	assert((numStars >= 1) && (numStars <= 4));
+
+	if (numStars == 1) {
+		StarSystem::BodyType type = s.m_systems[system_idx].starType[0];
 		star[0] = new SBody;
 		star[0]->parent = NULL;
 		star[0]->name = s.m_systems[system_idx].name;
@@ -543,7 +549,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		centGrav1->name = s.m_systems[system_idx].name+" A,B";
 		rootBody = centGrav1;
 
-		StarSystem::BodyType type = s.m_systems[system_idx].primaryStarClass;
+		StarSystem::BodyType type = s.m_systems[system_idx].starType[0];
 		star[0] = new SBody;
 		star[0]->name = s.m_systems[system_idx].name+" A";
 		star[0]->parent = centGrav1;
@@ -552,7 +558,8 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		star[1] = new SBody;
 		star[1]->name = s.m_systems[system_idx].name+" B";
 		star[1]->parent = centGrav1;
-		MakeRandomStarLighterThan(star[1], star[0]->mass, rand);
+		MakeStarOfTypeLighterThan(star[1], s.m_systems[system_idx].starType[1],
+				star[0]->mass, rand);
 
 		MakeBinaryPair(star[0], star[1], fixed(0), rand);
 
@@ -561,15 +568,19 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		centGrav1->children.push_back(star[1]);
 		m_numStars = 2;
 
-		if ((star[0]->orbMax < fixed(100,1)) &&
-		    (!rand.Int32(3))) {
+		if (numStars > 2) {
+			if (star[0]->orbMax > fixed(100,1)) {
+				// reduce to < 100 AU...
+				printf("Bad. big turd\n");
+			}
 			// 3rd and maybe 4th star
-			if (!rand.Int32(2)) {
+			if (numStars == 3) {
 				star[2] = new SBody;
 				star[2]->name = s.m_systems[system_idx].name+" C";
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
-				MakeRandomStarLighterThan(star[2], star[0]->mass, rand);
+				MakeStarOfTypeLighterThan(star[2], s.m_systems[system_idx].starType[2],
+					star[0]->mass, rand);
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
@@ -581,12 +592,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 				star[2] = new SBody;
 				star[2]->name = s.m_systems[system_idx].name+" C";
 				star[2]->parent = centGrav2;
-				MakeRandomStarLighterThan(star[2], star[0]->mass, rand);
+				MakeStarOfTypeLighterThan(star[2], s.m_systems[system_idx].starType[2],
+					star[0]->mass, rand);
 				
 				star[3] = new SBody;
 				star[3]->name = s.m_systems[system_idx].name+" D";
 				star[3]->parent = centGrav2;
-				MakeRandomStarLighterThan(star[3], star[2]->mass, rand);
+				MakeStarOfTypeLighterThan(star[3], s.m_systems[system_idx].starType[3],
+					star[2]->mass, rand);
 
 				MakeBinaryPair(star[2], star[3], fixed(0), rand);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
