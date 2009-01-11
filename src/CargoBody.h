@@ -12,12 +12,14 @@ public:
 	CargoBody(Equip::Type t);
 	CargoBody() {}
 	virtual void Render(const Frame *camFrame);
+	virtual bool OnDamage(Body *attacker, float kgDamage);
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
 	void Init();
 	Equip::Type m_type;
+	float m_hitpoints;
 };
 
 #endif /* _CARGOBODY_H */

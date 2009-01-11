@@ -1,7 +1,6 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Now there is more than one DynamicBody flavour (CargoBody), need to move shit from Ship.cpp to DynamicBody.cpp
 * Make scanner only appear at appropriate times
 * Make sure custom systems without body definitions have the stars specified
  - Perhaps use partial system definitions where stars are defined but planets are generated

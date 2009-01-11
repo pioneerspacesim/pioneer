@@ -4,6 +4,7 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Sfx.h"
+#include "Space.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -24,6 +25,7 @@ void CargoBody::Save()
 	using namespace Serializer::Write;
 	DynamicBody::Save();
 	wr_int(static_cast<int>(m_type));
+	wr_float(m_hitpoints);
 }
 
 void CargoBody::Load()
@@ -32,10 +34,12 @@ void CargoBody::Load()
 	DynamicBody::Load();
 	m_type = static_cast<Equip::Type>(rd_int());
 	Init();
+	m_hitpoints = rd_float();
 }
 
 void CargoBody::Init()
 {
+	m_hitpoints = 1.0f;
 	SetLabel(EquipType::types[m_type].name);
 	SetModel(92);
 	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(92));
@@ -48,17 +52,15 @@ CargoBody::CargoBody(Equip::Type t)
 	SetMass(1.0);
 }
 
-#if 0
-bool Cargo::OnDamage(Body *attacker, float kgDamage)
+bool CargoBody::OnDamage(Body *attacker, float kgDamage)
 {
-/*	m_stats.hull_mass_left -= kgDamage*0.001;
-	if (m_stats.hull_mass_left < 0) {
+	m_hitpoints -= kgDamage*0.001;
+	if (m_hitpoints < 0) {
 		Space::KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
-	}*/
+	}
 	return true;
 }
-#endif
 
 void CargoBody::Render(const Frame *camFrame)
 {

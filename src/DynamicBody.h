@@ -20,7 +20,7 @@ public:
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
-	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
+	virtual bool OnCollision(Body *b, Uint32 flags);
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromCollMesh(const CollMesh *m);
