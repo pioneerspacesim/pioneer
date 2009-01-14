@@ -36,7 +36,7 @@ const CustomSBody sol_system[] = {
 	  0, fixed(11,1), fixed(3178,10), 165,
 	  fixed(5204,1000), fixed(488,10000), DEG2RAD(1.305), fixed(4,10) },
 	{ "Saturn", StarSystem::TYPE_PLANET_MEDIUM_GAS_GIANT,
-	  0, fixed(9,1), fixed(95152,100), 134,
+	  0, fixed(9,1), fixed(95152,1000), 134,
 	  fixed(9582,1000), fixed(557,10000), DEG2RAD(2.485), fixed(4,10) },
 	{ "Uranus", StarSystem::TYPE_PLANET_SMALL_GAS_GIANT,
 	  0, fixed(4,1), fixed(145,10), 76,

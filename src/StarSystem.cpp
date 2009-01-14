@@ -6,6 +6,11 @@
 #define CELSIUS	273.15
 #define DEBUG_DUMP
 
+// minimum moon mass a little under Europa's
+const fixed MIN_MOON_MASS = fixed(6,1000); // earth masses
+const fixed MIN_MOON_DIST = fixed(15,10000); // AUs
+const fixed MAX_MOON_DIST = fixed(2, 100); // AUs
+
 // indexed by enum type turd  
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
@@ -59,6 +64,11 @@ static const struct SBodySubTypeInfo {
 		{50,78}, 90, "Type 'K' orange star",
 		"icons/object_star_k.png",
 		3500, 5000
+	}, {
+		StarSystem::SUPERTYPE_STAR,
+		{20,100}, 1, "White dwarf",
+		"icons/object_white_dwarf.png",
+		4000, 40000
 	}, { 
 		StarSystem::SUPERTYPE_STAR,
 		{80,110}, 110, "Type 'G' yellow star",
@@ -84,11 +94,6 @@ static const struct SBodySubTypeInfo {
 		{2000,4000}, 1600, "Hot, massive type 'O' blue star",
 		"icons/object_star_o.png",
 		30000, 60000
-	}, {
-		StarSystem::SUPERTYPE_STAR,
-		{20,100}, 1, "White dwarf",
-		"icons/object_white_dwarf.png",
-		4000, 40000
 	}, {
 		StarSystem::SUPERTYPE_GAS_GIANT,
 		{}, 390, "Small gas giant",
@@ -282,36 +287,58 @@ vector3d StarSystem::Orbit::CartesianPosAtTime(double t)
 	return pos;
 }
 
-/*
- * This can be very slow when the disc is big
- */
-static std::vector<int> *AccreteDisc(int size, int bandSize, int density, MTRand &rand)
-{
-	if (size > 10000) size = 10000;
-	std::vector<int> *disc = new std::vector<int>(size);
 
-	int bandDensity = 0;
-	for (int i=0; i<size; i++) {
-		if (!(i%bandSize)) bandDensity = rand.Int32(density);
-		(*disc)[i] = bandDensity * rand.Int32(density);
+struct ring_t {
+	fixed dist;
+	fixed mass;
+};
+
+#define BAND_SIZE	25
+static std::list<ring_t> *AccreteDisc2(fixed size, fixed density, MTRand &rand)
+{
+	std::list<ring_t> *disc = new std::list<ring_t>;
+	const int NUM_RINGS = rand.Int32(250, 500);
+	fixed scale = size/NUM_RINGS;
+
+	fixed bandDensity = fixed(0);
+	for (int i=0; i<NUM_RINGS; i++) {
+		if ((i%BAND_SIZE)==0) bandDensity = rand.Fixed() * scale;
+		ring_t r;
+		r.dist = (i+1)*size/NUM_RINGS;
+		r.dist -= rand.Fixed() * scale;
+		r.mass = bandDensity * rand.Fixed() * density;
+		disc->push_back(r);
 	}
 
-	for (int iter=0; iter<4; iter++) {
-		for (int i=0; i<(signed)disc->size(); i++) {
-			int d=1+(i/3);
-
-			for (; d>0; d--) {
-				if ((i+d < (signed)disc->size()) && ((*disc)[i] > (*disc)[i+d])) {
-					(*disc)[i] += (*disc)[i+d];
-					(*disc)[i+d] = 0;
-				}
-				if (((i-d) >= 0) && ((*disc)[i] > (*disc)[i-d])) {
-					(*disc)[i] += (*disc)[i-d];
-					(*disc)[i-d] = 0;
-				}
+	bool changed;
+	do {
+		changed = false;
+		for (std::list<ring_t>::iterator i = disc->begin(); i != disc->end();) {
+			std::list<ring_t>::iterator n = i;
+			++n;
+			if (n == disc->end()) break;
+			
+			fixed totalmass = (*i).mass + (*n).mass;
+			if (!totalmass.v) { ++i; continue; }
+	
+			fixed range = (*i).dist / 3;
+			fixed dist = (*n).dist - (*i).dist;
+			if ((dist < range) && (
+				((*i).mass > (*n).mass) ||
+				((*n).mass > (*i).mass))) {
+				
+				(*n).dist = ((*n).dist*(*n).mass + (*i).dist*(*i).mass) / totalmass;
+				(*n).mass += (*i).mass;
+				i = disc->erase(i);
+				changed = true;
+				// because otherwise one blob can acrete and accrete in one step
+				++i;
+			} else {
+				++i;
 			}
 		}
-	}
+	} while (changed);
+
 	return disc;
 }
 
@@ -561,6 +588,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		MakeStarOfTypeLighterThan(star[1], s.m_systems[system_idx].starType[1],
 				star[0]->mass, rand);
 
+try_that_again_guvnah:
 		MakeBinaryPair(star[0], star[1], fixed(0), rand);
 
 		centGrav1->mass = star[0]->mass + star[1]->mass;
@@ -571,7 +599,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		if (numStars > 2) {
 			if (star[0]->orbMax > fixed(100,1)) {
 				// reduce to < 100 AU...
-				printf("Bad. big turd\n");
+				goto try_that_again_guvnah;
 			}
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
@@ -625,7 +653,6 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	{ /* decide how infested the joint is */
 		const int dist = 1+MAX(abs(sector_x), abs(sector_y));
 		m_humanInfested = (fixed(1,2)+fixed(1,2)*rand.Fixed()) / dist;
-		printf("Infested %f\n", m_humanInfested.ToDouble());
 	}
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i]);
@@ -636,7 +663,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 
 void StarSystem::MakePlanetsAround(SBody *primary)
 {
-	int disc_size = rand.Int32(6,100) + rand.Int32(60,140)*(10*primary->mass*primary->mass).ToInt64();
+	int disc_size = rand.Int32(10,100) + rand.Int32(60,140)*(10*primary->mass*primary->mass).ToInt64();
 	//printf("disc_size %.1fAU\n", disc_size/10.0);
 	
 	// some restrictions on planet formation due to binary star orbits
@@ -654,11 +681,12 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		orbMaxKill = MIN(orbMaxKill, fixed(5,100)*rootBody->children[0]->orbMin);
 	}
 
-	std::vector<int> *disc = AccreteDisc(disc_size, 10, rand.Int32(10,400), rand);
-	for (unsigned int i=0; i<disc->size(); i++) {
-		fixed mass = fixed((*disc)[i]);
+	std::list<ring_t> *disc = AccreteDisc2(fixed(disc_size,10), 10*rand.Fixed(), rand);
+	for (std::list<ring_t>::iterator i = disc->begin(); i != disc->end(); ++i) {
+		if ((*i).dist < fixed(1,10)) continue;
+		fixed mass = (*i).mass;
 		if (mass == 0) continue;
-		fixed semiMajorAxis = fixed(i+1, 10); // in AUs
+		fixed semiMajorAxis = (*i).dist;
 		fixed ecc = rand.NFixed(3);
 		// perihelion and aphelion (in AUs)
 		fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
@@ -799,11 +827,14 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 
 	// generate moons
 	if ((genMoons) && (mass > fixed(1,2))) {
-		std::vector<int> *disc = AccreteDisc(isqrt(mass.v>>13), 10, rand.Int32(1,10), rand);
-		for (unsigned int i=0; i<disc->size(); i++) {
-			fixed mass = fixed((*disc)[i]);
-			if (mass == 0) continue;
-
+		// min/max distances taken roughly from jovian and .. um.. saturnianish moons
+		std::list<ring_t> *disc = AccreteDisc2(fixed(1,1), fixed(rand.Int32(1,5),1000)*mass, rand);
+		for (std::list<ring_t>::iterator i = disc->begin(); i != disc->end(); ++i) {
+//		std::vector<int> *disc = AccreteDisc(isqrt(mass.v>>13), 10, rand.Int32(1,10), rand);
+//		for (unsigned int i=0; i<disc->size(); i++) {
+			if ((*i).dist * MAX_MOON_DIST < MIN_MOON_DIST) continue;
+			fixed moonmass = (*i).mass;
+			if (moonmass < MIN_MOON_MASS) continue;
 			SBody *moon = new SBody;
 			moon->type = TYPE_PLANET_DWARF;
 			moon->seed = rand.Int32();
@@ -813,9 +844,9 @@ void StarSystem::SBody::PickPlanetType(StarSystem *system, SBody *star, const fi
 			moon->rotationPeriod = fixed(rand.Int32(1,200), 24);
 			moon->humanActivity = system->m_humanInfested * rand.Fixed();
 
-			moon->mass = mass;
+			moon->mass = moonmass;
 			fixed ecc = rand.NFixed(3);
-			fixed semiMajorAxis = fixed(i+2, 2000);
+			fixed semiMajorAxis = (*i).dist/100;
 			moon->orbit.eccentricity = ecc.ToDouble();
 			moon->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
 			moon->orbit.period = calc_orbital_period(moon->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
