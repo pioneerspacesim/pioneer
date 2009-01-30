@@ -164,7 +164,9 @@ void WorldView::DrawBgStars()
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 {
 	if (lightNum > 3) return;
-	StarSystem::SBody *body = frame->GetSBody();
+	// not using frame->GetSBodyFor() because it snoops into parent frames,
+	// causing duplicate finds for static and rotating frame
+	StarSystem::SBody *body = frame->m_sbody;
 
 	if (body && (body->GetSuperType() == StarSystem::SUPERTYPE_STAR)) {
 		int light;
@@ -207,7 +209,7 @@ void WorldView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// why the hell do i give these functions such big names..
-	float fracH = Pi::GetScrHeight() / (float)Pi::GetScrWidth();
+	float fracH = 1.0 / Pi::GetScrAspect();
 	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -248,26 +250,6 @@ void WorldView::Draw3D()
 
 		int l=0;
 		position_system_lights(&cam_frame, Space::GetRootFrame(), l);
-/*
-		// position light at sol
-		matrix4x4d m;
-		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, m);
-		vector3d lpos = (m * vector3d(0,0,0)).Normalized();
-		float lightPos[4];
-		lightPos[0] = lpos.x;
-		lightPos[1] = lpos.y;
-		lightPos[2] = lpos.z;
-		lightPos[3] = 0;
-		
-		const float *col = StarSystem::starRealColors[Pi::currentSystem->rootBody->type];
-		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { col[0]*0.1, col[1]*0.1, col[2]*0.1, 0 };
-
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-*/
 		Space::Render(&cam_frame);
 		Pi::player->DrawHUD(&cam_frame);
 

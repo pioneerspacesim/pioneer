@@ -64,9 +64,9 @@ static ObjParams params = {
 	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	{ { .2f, .2f, .5f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
+	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.8f, 0.8f, 0.8f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 
 	// pText[3][256]	
 	{ "IR-L33T", "ME TOO" },
@@ -248,12 +248,6 @@ void Viewer::MainLoop()
 	CollMesh *cmesh = (CollMesh*)calloc(1, sizeof(CollMesh));
 	sbreGenCollMesh (cmesh, g_model, &params, 1.0f);
 
-	// XXX flip Z & X because sbre is in magicspace
-	for (int i=0; i<3*cmesh->nv; i+=3) {
-		cmesh->pVertex[i] = -cmesh->pVertex[i];
-		cmesh->pVertex[i+2] = -cmesh->pVertex[i+2];
-	}
-
 	Uint32 t = SDL_GetTicks();
 	GeomTree *geomtree = new GeomTree(cmesh->nv, cmesh->ni/3, cmesh->pVertex, cmesh->pIndex, cmesh->pFlag);
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
@@ -284,7 +278,6 @@ void Viewer::MainLoop()
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		// why the hell do i give these functions such big names..
 		float fracH = g_height / (float)g_width;
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
@@ -295,15 +288,15 @@ void Viewer::MainLoop()
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			SetSbreParams();
-			sbreSetViewport(g_width, g_height, g_width*0.5, 1.0f, 10000.0f, 0.0f, 1.0f);
+			sbreSetDepthRange(g_width*0.5, 0.0, 1.0f);
 			sbreSetDirLight (lightCol, lightDir);
 		
 			Matrix m;
 			Vector p;
-			m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];
-			m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];
-			m.z1 = -rot[2]; m.z2 = -rot[6]; m.z3 = rot[10];
-			p.x = 0; p.y = 0; p.z = distance;
+			m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
+			m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
+			m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
+			p.x = 0; p.y = 0; p.z = -distance;
 			sbreRenderModel(&p, &m, g_model, &params);
 			glPopAttrib();
 		} else if (g_renderType == 1) {

@@ -116,26 +116,6 @@ void sbreSetDepthRange (float sd, float dn, float df)
 	g_dn = dn; g_df = df; g_sd = sd;
 }
 
-void sbreSetViewport (int w, int h, float d, float zn, float zf, float dn, float df)
-{
-	glViewport (0, 0, w, h);
-
-	float pProjMat[16] = { 1.0f, 0.0f, 0.0f, 0.0f,
-							0.0f, 1.0f, 0.0f, 0.0f,
-							0.0f, 0.0f, 1.0f, 1.0f,
-							0.0f, 0.0f, 1.0f, 0.0f };
-
-	pProjMat[0] = (2.0f*d)/w;
-	pProjMat[5] = (2.0f*d)/h;
-	pProjMat[10] = (zf+zn)/(zf-zn);
-	pProjMat[14] = (-2.0f*zn*zf)/(zf-zn);
-
-	glMatrixMode (GL_PROJECTION);
-	glLoadMatrixf (pProjMat);
-	glDepthRange (dn+SBRE_ZBIAS, df);
-	g_dn = dn; g_df = df; g_sd = d;
-}
-
 void sbreSetDirLight (float *pColor, float *pDir)
 {
 	glMatrixMode (GL_MODELVIEW);
@@ -162,7 +142,7 @@ void SetGeneralState ()
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
 
 	glDisable (GL_TEXTURE_2D);
-	glFrontFace (GL_CW);
+//	glFrontFace (GL_CW);
 	glEnable (GL_DEPTH_TEST);
 
 	if (g_wireframe) {

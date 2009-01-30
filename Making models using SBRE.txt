@@ -47,6 +47,14 @@ PTYPE_SETCFLAG
 		0x12 - 3rd docking port
 		0x13 - 4th docking port
 
+PTYPE_MATVAR
+	Args: index (into params.pText)
+
+	Pick material from params. By convention 0 and 1 are primary and
+	secondary object colours (ie ship coloured bits), and 2 is underside
+	colour (undercarriage doors will take colour 2)
+
+
 Some Pioneer Model Conventions:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -17,7 +17,6 @@ static ObjParams params = {
 	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 
 	// pText[3][256]	
-	{ "IR-L33T", "ME TOO" },
 };
 
 void CargoBody::Save()
@@ -65,6 +64,7 @@ bool CargoBody::OnDamage(Body *attacker, float kgDamage)
 void CargoBody::Render(const Frame *camFrame)
 {
 	if (!IsEnabled()) return;
+	strncpy(params.pText[0], EquipType::types[m_type].name, 256);
 	RenderSbreModel(camFrame, 92, &params);
 }
 

@@ -211,7 +211,7 @@ bool SpaceStation::CanSell(Equip::Type t) const {
 }
 int SpaceStation::GetPrice(Equip::Type t) const {
 	int mul = 100;
-	StarSystem::SBody *sbody = GetFrame()->GetSBody();
+	StarSystem::SBody *sbody = GetFrame()->GetSBodyFor();
 	if (sbody) {
 		mul += sbody->tradeLevel[t];
 	}

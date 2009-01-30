@@ -272,15 +272,15 @@ static void draw_intro(float _time)
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ { .2f, .2f, .5f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
+		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.8f, 0.8f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 		{ "PIONEER" },
 	};
 	glRotatef(_time*10, 1, 0, 0);
 	Pi::worldView->DrawBgStars();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 1.0f, 1000.0f, 0.0f, 1.0f);
+	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 	sbreSetDirLight (lightCol, lightDir);
 	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time) * matrix4x4d::RotateZMatrix(0.6*_time) *
 			matrix4x4d::RotateXMatrix(_time*.7);
@@ -289,7 +289,7 @@ static void draw_intro(float _time)
 	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
 	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
 	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
-	p.x = 0; p.y = 0; p.z = 80;
+	p.x = 0; p.y = 0; p.z = -80;
 	sbreRenderModel(&p, &m, 61, &params);
 	glPopAttrib();
 }
@@ -310,7 +310,7 @@ static void draw_tombstone(float _time)
 		{ "RIP OLD BEAN" },
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 1.0f, 1000.0f, 0.0f, 1.0f);
+	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 	sbreSetDirLight (lightCol, lightDir);
 	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time*2);
 	Matrix m;
@@ -318,7 +318,7 @@ static void draw_tombstone(float _time)
 	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
 	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
 	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
-	p.x = 0; p.y = 0; p.z = MAX(150 - 30*_time, 30);
+	p.x = 0; p.y = 0; p.z = -MAX(150 - 30*_time, 30);
 	sbreRenderModel(&p, &m, 91, &params);
 	glPopAttrib();
 }
@@ -330,6 +330,10 @@ void Pi::TombStoneLoop()
 	cpan->HideAll();
 	currentView->HideAll();
 	do {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		float fracH = 1.0 / Pi::GetScrAspect();
+		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glClearColor(0,0,0,0);
@@ -399,6 +403,10 @@ void Pi::Start()
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		float fracH = 1.0 / Pi::GetScrAspect();
+		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glClearColor(0,0,0,0);

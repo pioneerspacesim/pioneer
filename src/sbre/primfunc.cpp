@@ -192,11 +192,11 @@ static void RenderArray (int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16
 	if (flags & RFLAG_XREF)
 	{
 		glPushMatrix ();
-		glFrontFace (GL_CCW);
+		glFrontFace (GL_CW);
 		const float pMV[16] = { -1, 0, 0, 0,  0, 1, 0, 0,  0, 0, 1, 0,  0, 0, 0, 1 };
 		glMultMatrixf (pMV);
 		glDrawElements (GL_TRIANGLES, ni, GL_UNSIGNED_SHORT, pIndex);
-		glFrontFace (GL_CW);
+		glFrontFace (GL_CCW);
 		glPopMatrix ();
 	}
 }
@@ -627,40 +627,51 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 	Vector v1, v2, v3, pos, tv; Matrix m, m2;
 	VecNorm (pState->pVtx+pData[4], &v3);
 	VecNorm (pState->pVtx+pData[5], &v1);
-	VecInv (&v3, &v3); VecCross (&v3, &v1, &v2);
+	VecInv (&v1, &v1); VecCross (&v3, &v1, &v2);
 	m.x1 = v1.x; m.x2 = v2.x; m.x3 = v3.x;
 	m.y1 = v1.y; m.y2 = v2.y; m.y3 = v3.y;
 	m.z1 = v1.z; m.z2 = v2.z; m.z3 = v3.z;
 	MatMatMult (&pState->objorient, &m, &m2);
 
-	VecMul (&v1, pData[6]*0.01f, &tv);
-	VecMul (&v2, pData[7]*0.01f, &pos);
+	const char *pText;
+	if (pData[2] != 0x8000) pText = pModelString[pData[2]];
+	else pText = pState->pObjParam->pText[pData[1]];
+	float xoff = 0, yoff = 0;
+
+	/* Centre the damn thing if wanted!!!!!!!!!!!!!!!!!!! */
+	if (pData[0] & (TFLAG_XCENTER | TFLAG_YCENTER)) {
+		pFace->MeasureString(pText, xoff, yoff);
+		xoff *= pData[8]*0.01f / pFace->GetHeight();
+		yoff *= pData[8]*0.01f / pFace->GetHeight();
+		if (!(pData[0] & TFLAG_XCENTER)) xoff = 0;
+		if (!(pData[0] & TFLAG_YCENTER)) yoff = 0;
+	}
+	
+	VecMul (&v1, pData[6]*0.01f - xoff*0.5, &tv);
+	VecMul (&v2, pData[7]*0.01f - yoff*0.5, &pos);
 	VecAdd (&pos, &tv, &tv);
 	VecAdd (pState->pVtx+pData[3], &tv, &tv);
 	VecMul (&tv, pState->scale, &tv);
 	MatVecMult (&pState->objorient, &tv, &pos);
 	VecAdd (&pos, &pState->objpos, &pos);
 
-	float s = pState->scale*pData[8]*0.01f / pFace->GetHeight();
 	glPushMatrix ();
+	
+	//void MeasureString(const char *str, float &w, float &h);
 
 	float pMV[16];
+	float s = pState->scale*pData[8]*0.01f / pFace->GetHeight();
 	pMV[0] = s*m2.x1; pMV[1] = s*m2.y1; pMV[2] = s*m2.z1; pMV[3] = 0.0f;
 	pMV[4] = s*m2.x2; pMV[5] = s*m2.y2; pMV[6] = s*m2.z2; pMV[7] = 0.0f;
 	pMV[8] = s*m2.x3; pMV[9] = s*m2.y3; pMV[10] = s*m2.z3; pMV[11] = 0.0f;
 	pMV[12] = pos.x; pMV[13] = pos.y; pMV[14] = pos.z; pMV[15] = 1.0f;
 	glLoadMatrixf (pMV);
 
-	glFrontFace (GL_CCW);
-	glNormal3f (0.0f, 0.0f, -1.0f);
+	glNormal3f (0.0f, 0.0f, 1.0f);
 //	glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
 
-	const char *pText;
-	if (pData[2] != 0x8000) pText = pModelString[pData[2]];
-	else pText = pState->pObjParam->pText[pData[1]];
 	pFace->RenderString(pText);
 
-	glFrontFace (GL_CW);
 	glPopMatrix ();
 	return 9;
 }

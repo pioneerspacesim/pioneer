@@ -50,7 +50,6 @@ struct CollMesh
 // sd is screen depth in pixels, dn and df are like glDepthRange params
 void sbreSetDepthRange (float sd, float dn, float df);
 void sbreSetZBias (float zbias);
-void sbreSetViewport (int w, int h, float d, float zn, float zf, float dn, float df);
 void sbreSetDirLight (float *pColor, float *pDir);
 void sbreSetWireframe (int val);
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam,

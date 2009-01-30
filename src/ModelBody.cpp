@@ -119,54 +119,30 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)
 {
 	glPushMatrix();
-	
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	// XXX reduce
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	for (int i=0; i<4; i++) {
-		GLfloat lightDir[4];
-		glGetLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-		lightDir[2] = -lightDir[2];
-		glLightfv(GL_LIGHT0+i, GL_POSITION, lightDir);
-	}
-/*	{
-		GLfloat lightCol[4];
-		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-		lightCol[3] = 0;
-		
-		GLfloat lightDir[4];
-		glGetLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-		lightDir[2] = -lightDir[2];
-		
-		sbreSetDirLight (lightCol, lightDir);
-	}*/
-	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 5.0f, 100000.0f, 0.0f, 1.0f);
+	
+	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 
 	matrix4x4d frameTrans;
 	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
 
-	vector3d pos = GetPosition();//GetPositionRelTo(camFrame);
-	pos = frameTrans * pos;
-	Vector p; p.x = pos.x; p.y = pos.y; p.z = -pos.z;
+	vector3d pos = frameTrans * GetPosition();
+
+	Vector p; p.x = pos.x; p.y = pos.y; p.z = pos.z;
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 	frameTrans.ClearToRotOnly();
 	rot = frameTrans * rot;
+	rot = rot * matrix4x4d::RotateYMatrix(M_PI); // sbre ships are pointing down +ve z axis, pioneer likes -ve z
 	Matrix m;
-	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];
-	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];
-	m.z1 = -rot[2]; m.z2 = -rot[6]; m.z3 = rot[10];
+	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
+	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
+	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
 
 	sbreRenderModel(&p, &m, model, params);
 	
-	for (int i=0; i<4; i++) {
-		GLfloat lightDir[4];
-		glGetLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-		lightDir[2] = -lightDir[2];
-		glLightfv(GL_LIGHT0+i, GL_POSITION, lightDir);
-	}
 	glPopAttrib();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

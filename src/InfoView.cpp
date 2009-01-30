@@ -156,31 +156,28 @@ void InfoView::Draw3D()
 	} glEnd();
 	Gui::Screen::LeaveOrtho();
 	
-	// why the hell do i give these functions such big names..
-	glFrustum(-Pi::GetScrWidth()*.5, Pi::GetScrWidth()*.5,
-		  -Pi::GetScrHeight()*.5, Pi::GetScrHeight()*.5,
-		   Pi::GetScrWidth()*.5, 100000);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	float fracH = 1.0 / Pi::GetScrAspect();
+	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 	glDepthRange (-10, -100000);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
 	
 	float lightCol[] = { 1,1,1 };
-	float lightDir[] = { 1,0,0 };
+	float lightDir[] = { 1,1,0 };
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	sbreSetDirLight (lightCol, lightDir);
-	sbreSetViewport(Pi::GetScrWidth(), Pi::GetScrHeight(), Pi::GetScrWidth()*0.5, 5.0f, 100000.0f, 0.0f, 1.0f);
-	// sod you sbre i want my own viewport!
 	glViewport(Pi::GetScrWidth()/3.8, Pi::GetScrHeight()/6, Pi::GetScrWidth(), Pi::GetScrHeight());
 	
-	Vector p; p.x = 0; p.y = 0; p.z = 100;
+	Vector p; p.x = 0; p.y = 0; p.z = -100;
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	Matrix m;
-	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = -rot[8];
-	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = -rot[9];
-	m.z1 = -rot[2]; m.z2 = -rot[6]; m.z3 = rot[10];
+	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
+	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
+	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
 	const ShipType &stype = Pi::player->GetShipType();
 
 	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
