@@ -171,17 +171,14 @@ void InfoView::Draw3D()
 	sbreSetDirLight (lightCol, lightDir);
 	glViewport(Pi::GetScrWidth()/3.8, Pi::GetScrHeight()/6, Pi::GetScrWidth(), Pi::GetScrHeight());
 	
-	Vector p; p.x = 0; p.y = 0; p.z = -100;
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	Matrix m;
-	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
-	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
-	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
 	const ShipType &stype = Pi::player->GetShipType();
 
+	vector3d p(0, 0, -100);
 	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
-	sbreRenderModel(&p, &m, stype.sbreModel, &params);
+	sbreRenderModel(&p.x, &rot[0], stype.sbreModel, &params);
 	glPopAttrib();
 }
 

@@ -284,13 +284,8 @@ static void draw_intro(float _time)
 	sbreSetDirLight (lightCol, lightDir);
 	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time) * matrix4x4d::RotateZMatrix(0.6*_time) *
 			matrix4x4d::RotateXMatrix(_time*.7);
-	Matrix m;
-	Vector p;
-	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
-	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
-	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
-	p.x = 0; p.y = 0; p.z = -80;
-	sbreRenderModel(&p, &m, 61, &params);
+	vector3d p(0, 0, -80);
+	sbreRenderModel(&p.x, &rot[0], 61, &params);
 	glPopAttrib();
 }
 
@@ -313,13 +308,8 @@ static void draw_tombstone(float _time)
 	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 	sbreSetDirLight (lightCol, lightDir);
 	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time*2);
-	Matrix m;
-	Vector p;
-	m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
-	m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
-	m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
-	p.x = 0; p.y = 0; p.z = -MAX(150 - 30*_time, 30);
-	sbreRenderModel(&p, &m, 91, &params);
+	vector3d p(0, 0, -MAX(150 - 30*_time, 30));
+	sbreRenderModel(&p.x, &rot[0], 91, &params);
 	glPopAttrib();
 }
 

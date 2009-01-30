@@ -52,6 +52,8 @@ void sbreSetDepthRange (float sd, float dn, float df);
 void sbreSetZBias (float zbias);
 void sbreSetDirLight (float *pColor, float *pDir);
 void sbreSetWireframe (int val);
+void sbreRenderModel(const double pos[3], const double orient[16], int model, ObjParams *pParam,
+	float s=1.0f, Vector *pCompos=0);
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam,
 	float s=1.0f, Vector *pCompos=0);
 
