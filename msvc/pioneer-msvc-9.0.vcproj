@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\src"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="true"
@@ -126,7 +126,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="false"
 				AdditionalIncludeDirectories="..\src"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
@@ -195,15 +195,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\CargoBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\CollisionSpace.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\custom_starsystems.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\date.cpp"
+				RelativePath="..\src\DynamicBody.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\DynamicBody.cpp"
+				RelativePath="..\src\EquipType.cpp"
 				>
 			</File>
 			<File
@@ -212,6 +220,14 @@
 			</File>
 			<File
 				RelativePath="..\src\GenericSystemView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\Geom.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\GeomTree.cpp"
 				>
 			</File>
 			<File
@@ -267,7 +283,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTabbed.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiToggleButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiToolTip.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiVScrollBar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiVScrollPortal.cpp"
 				>
 			</File>
 			<File
@@ -280,6 +312,10 @@
 			</File>
 			<File
 				RelativePath="..\src\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\MarketAgent.cpp"
 				>
 			</File>
 			<File
@@ -335,6 +371,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Serializer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Sfx.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Ship-AI.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Ship.cpp"
 				>
 			</File>
@@ -375,6 +423,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\utils.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\WorldView.cpp"
 				>
 			</File>
@@ -385,7 +437,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\src\Aabb.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Body.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\CargoBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\collider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\CollisionContact.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\CollisionSpace.h"
 				>
 			</File>
 			<File
@@ -393,11 +465,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\date.h"
+				RelativePath="..\src\DynamicBody.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\DynamicBody.h"
+				RelativePath="..\src\EquipType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\fixed.h"
 				>
 			</File>
 			<File
@@ -405,7 +481,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\gameconsts.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GenericSystemView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\Geom.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\GeomTree.h"
 				>
 			</File>
 			<File
@@ -414,6 +502,10 @@
 			</File>
 			<File
 				RelativePath="..\src\Gui.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiAdjustment.h"
 				>
 			</File>
 			<File
@@ -445,6 +537,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiISelectable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiLabel.h"
 				>
 			</File>
@@ -465,7 +561,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTabbed.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiToggleButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiToolTip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiVScrollBar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiVScrollPortal.h"
 				>
 			</File>
 			<File
@@ -478,6 +590,10 @@
 			</File>
 			<File
 				RelativePath="..\src\libs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\MarketAgent.h"
 				>
 			</File>
 			<File
@@ -494,6 +610,10 @@
 			</File>
 			<File
 				RelativePath="..\src\mtrand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Object.h"
 				>
 			</File>
 			<File
@@ -521,6 +641,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\sbre\sbre_anim.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Sector.h"
 				>
 			</File>
@@ -529,11 +653,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Serializer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Sfx.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Ship.h"
 				>
 			</File>
 			<File
 				RelativePath="..\src\ShipCpanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ShipType.h"
 				>
 			</File>
 			<File
@@ -562,6 +698,10 @@
 			</File>
 			<File
 				RelativePath="..\src\SystemView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\utils.h"
 				>
 			</File>
 			<File

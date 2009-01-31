@@ -988,7 +988,7 @@ void StarSystem::PickEconomicStuff(SBody *b)
 
 	tries = rand.Int32(3,6);
 	while (tries--) {
-		Equip::Type t = consumables[rand.Int32(0, NUM_CONSUMABLES)];
+		Equip::Type t = consumables[rand.Int32(0, NUM_CONSUMABLES - 1)];
 		if ((t == Equip::AIR_PROCESSORS) ||
 		    (t == Equip::LIQUID_OXYGEN)) {
 			if (b->type == TYPE_PLANET_INDIGENOUS_LIFE)

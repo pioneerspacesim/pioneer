@@ -5,7 +5,6 @@
 #include "sbre/sbre_models.h"
 
 #include "Body.h"
-#include "date.h"
 #include "DynamicBody.h"
 #include "Frame.h"
 #include "GenericSystemView.h"

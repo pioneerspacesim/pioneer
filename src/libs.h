@@ -11,12 +11,17 @@
 #include <limits>
 #include <time.h>
 #include <stdarg.h>
+
+#ifdef _WIN32
+#include <malloc.h>
+#define alloca _alloca
+#else
 #include <alloca.h>
+#endif
 
 #ifdef _WIN32
 #include <windows.h>
 #define snprintf _snprintf
-#define alloca _alloca
 #endif
 
 #include "fixed.h"

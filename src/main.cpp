@@ -166,14 +166,14 @@ void Screendump(char *destFile)
 {
 	const int W = Pi::GetScrWidth();
 	const int H = Pi::GetScrHeight();
-	char pixel_data[3*W*H];
+	std::vector<char> pixel_data(3*W*H);
 	short TGAhead[] = {0, 2, 0, 0, 0, 0, W, H, 24};
 	FILE *out = fopen(destFile, "w");
 	if (!out) goto error;
 	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, pixel_data);
+	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, &pixel_data[0]);
 	if (fwrite(&TGAhead, sizeof(TGAhead), 3, out) != 3) goto error;
-	if (fwrite(pixel_data, 3*W*H, 1, out) != 1) goto error;
+	if (fwrite(&pixel_data[0], 3*W*H, 1, out) != 1) goto error;
 	fclose(out);
 	return;
 error:

@@ -266,8 +266,8 @@ void Viewer::MainLoop()
 		if (g_keyState[SDLK_DOWN]) rot = matrix4x4d::RotateXMatrix(-g_frameTime) * rot;
 		if (g_keyState[SDLK_LEFT]) rot = matrix4x4d::RotateYMatrix(g_frameTime) * rot;
 		if (g_keyState[SDLK_RIGHT]) rot = matrix4x4d::RotateYMatrix(-g_frameTime) * rot;
-		if (g_keyState[SDLK_EQUALS]) distance *= pow(0.5,g_frameTime);
-		if (g_keyState[SDLK_MINUS]) distance *= pow(2.0,g_frameTime);
+		if (g_keyState[SDLK_EQUALS]) distance *= powf(0.5f,g_frameTime);
+		if (g_keyState[SDLK_MINUS]) distance *= powf(2.0f,g_frameTime);
 		if (g_mouseButton[1] || g_mouseButton[3]) {
 			float rx = -0.01*g_mouseMotion[1];
 			float ry = -0.01*g_mouseMotion[0];

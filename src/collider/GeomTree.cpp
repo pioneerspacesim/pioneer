@@ -20,7 +20,11 @@
 #include <float.h>
 #include <stdio.h>
 #include <assert.h>
+#ifdef _WIN32
+#include <malloc.h>
+#else
 #include <alloca.h>
+#endif
 #include "../Aabb.h"
 #include "GeomTree.h"
 
