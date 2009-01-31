@@ -61,11 +61,8 @@ CollMeshSet::CollMeshSet(int sbreModel)
 	aabb.max = vector3d(-FLT_MIN, -FLT_MIN, -FLT_MIN);
 	sbreCollMesh = (CollMesh*)calloc(1, sizeof(CollMesh));
 	sbreGenCollMesh(sbreCollMesh, sbreModel, &params);
-	// XXX flip Z & X because sbre is in magicspace
+	// make axis aligned bounding box
 	for (int i=0; i<3*sbreCollMesh->nv; i+=3) {
-		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
-		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
-		// making axis aligned bounding box
 		for (int a=0; a<3; a++) {
 			if (sbreCollMesh->pVertex[i+a] < aabb.min[a])
 				aabb.min[a] = sbreCollMesh->pVertex[i+a];

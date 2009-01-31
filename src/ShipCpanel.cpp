@@ -88,12 +88,12 @@ private:
 				if ((pos.y<0)&&(!below)) continue;
 
 				glBegin(GL_LINES);
-				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE);
-				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
+				glVertex2f(mx + pos.x*SCALE, my - YSHRINK*pos.z*SCALE);
+				glVertex2f(mx + pos.x*SCALE, my - YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
 				glEnd();
 				
 				glBegin(GL_POINTS);
-				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
+				glVertex2f(mx + pos.x*SCALE, my - YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
 				glEnd();
 			}
 		}

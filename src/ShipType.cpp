@@ -7,11 +7,11 @@ const ShipType ShipType::types[] = {
 		// sirius system, Sirius corporation make a range of
 		// lovely starships
 		"Sirius Interdictor", 61,
-		{ 4e6,-4e6,1e6,-1e6,-1e6,1e6 },
+		{ -4e6,4e6,1e6,-1e6,1e6,-1e6 },
 		1e7,
 		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
+			{ vector3f(0,-0.5,0), vector3f(0,0,1) },
+			{ vector3f(0,-0.5,0), vector3f(0,0,-1) }
 		},
 		{ 50, 1, 2, 0 },
 		100, 20,
@@ -19,22 +19,22 @@ const ShipType ShipType::types[] = {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
 		62,
-		{ 2e6,-2e6,1e6,-1e6,-1e6,1e6 },
+		{ -2e6,2e6,1e6,-1e6,1e6,-1e6 },
 		1e7,
 		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
+			{ vector3f(0,-0.5,0), vector3f(0,0,1) },
+			{ vector3f(0,0,0), vector3f(0,0,-1) }
 		},
 		{ 20, 1, 1, 0 },
 		60, 15,
 	}, {
 		"Flowerfairy Heavy Trader",
 		63,
-		{ 1e6,-1e6,1e6,-1e6,-1e6,1e6 },
+		{ -1e6,1e6,1e6,-1e6,1e6,-1e6 },
 		1e7,
 		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
+			{ vector3f(0,-0.5,0), vector3f(0,0,1) },
+			{ vector3f(0,0,0), vector3f(0,0,-1) }
 		},
 		{ 200, 1, 2, 0 },
 		500, 125,
