@@ -512,30 +512,30 @@ static CompoundVertex ship2vtx2[] = {
 };
 static uint16 ship2data[] = {
 	PTYPE_MATVAR, 0,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 0, 5, 26, 27, 6, 7,		// front edge
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 26, 27, 6, 7,		// front edge
 		COMP_HERM_NOTAN, 8, 9,
 		COMP_HERMITE, 16, 1, 37, 38,
 		COMP_HERMITE, 14, 1, 49, 48,
 		COMP_HERMITE, 6, 7, 41, 42,
 		COMP_END,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 1, 5, 28, 29, 8, 9,		// mid edge
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 28, 29, 8, 9,		// mid edge
 		COMP_HERM_NOTAN, 10, 11,
 		COMP_HERMITE, 22, 1, 37, 38,
 		COMP_HERM_NOTAN, 16, 1,
 		COMP_HERMITE, 8, 9, 43, 44,
 		COMP_END,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 2, 5, 30, 31, 10, 11,		// rear edge
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 30, 31, 10, 11,		// rear edge
 		COMP_HERMITE, 12, 13, 53, 54, 
 		COMP_HERMITE, 22, 1, 39, 40,
 		COMP_HERMITE, 10, 11, 43, 44,
 		COMP_END,
-	PTYPE_COMPFLAT | RFLAG_XREF, 3, 5, 32, 1, 16, 1,		// centre
+	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 5, 32, 1, 16, 1,		// centre
 		COMP_HERM_NOTAN, 22, 1,
 		COMP_HERMITE, 24, 1, 59, 60,
 		COMP_HERM_NOTAN, 18, 1,
 		COMP_HERMITE, 16, 1, 47, 51, 
 		COMP_END,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 5, 5, 34, 1, 22, 23,		// nacelle
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 34, 1, 22, 23,		// nacelle
 		COMP_HERMITE, 12, 0, 45, 46,
 		COMP_HERM_NOTAN, 35, 0,
 		COMP_HERMITE, 61, 1, 57, 63,
@@ -544,7 +544,7 @@ static uint16 ship2data[] = {
 		COMP_HERMITE, 22, 23, 59, 60,
 		COMP_END,
 	PTYPE_MATVAR, 2,
-	PTYPE_COMPFLAT | RFLAG_XREF, 6, 5, 70, 4, 12, 4,		// rear underside
+	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 5, 70, 4, 12, 4,		// rear underside
 		COMP_HERMITE, 10, 4, 56, 55, 
 		COMP_LINE, 71, 4,
 		COMP_LINE, 12, 4,
@@ -565,7 +565,7 @@ static uint16 ship2data[] = {
 		COMP_END,
 
 	PTYPE_MATFIXED, 30, 30, 30, 30, 30, 30, 200, 0, 0, 0,
-	PTYPE_COMPSMOOTH, 4, 5, 33, 1, 16, 0,		// cockpit
+	PTYPE_COMPSMOOTH, 0x8000, 5, 33, 1, 16, 0,		// cockpit
 		COMP_HERMITE, 18, 5, 52, 48,
 		COMP_HERMITE, 20, 3, 48, 51,
 		COMP_HERMITE, 14, 2, 49, 47,
@@ -600,6 +600,92 @@ static uint16 ship2data[] = {
 	PTYPE_END,
 
 };	
+static uint16 ship2data_lod2[] = {
+	PTYPE_MATVAR, 0,
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 1, 26, 27, 6, 7,		// front edge
+		COMP_HERM_NOTAN, 8, 9,
+		COMP_HERMITE, 16, 1, 37, 38,
+		COMP_HERMITE, 14, 1, 49, 48,
+		COMP_HERMITE, 6, 7, 41, 42,
+		COMP_END,
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 1, 28, 29, 8, 9,		// mid edge
+		COMP_HERM_NOTAN, 10, 11,
+		COMP_HERMITE, 22, 1, 37, 38,
+		COMP_HERM_NOTAN, 16, 1,
+		COMP_HERMITE, 8, 9, 43, 44,
+		COMP_END,
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 1, 30, 31, 10, 11,		// rear edge
+		COMP_HERMITE, 12, 13, 53, 54, 
+		COMP_HERMITE, 22, 1, 39, 40,
+		COMP_HERMITE, 10, 11, 43, 44,
+		COMP_END,
+	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 1, 32, 1, 16, 1,		// centre
+		COMP_HERM_NOTAN, 22, 1,
+		COMP_HERMITE, 24, 1, 59, 60,
+		COMP_HERM_NOTAN, 18, 1,
+		COMP_HERMITE, 16, 1, 47, 51, 
+		COMP_END,
+	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 1, 34, 1, 22, 23,		// nacelle
+		COMP_HERMITE, 12, 0, 45, 46,
+		COMP_HERM_NOTAN, 35, 0,
+		COMP_HERMITE, 61, 1, 57, 63,
+		COMP_HERMITE, 36, 3, 63, 58,
+		COMP_HERM_NOTAN, 24, 25,
+		COMP_HERMITE, 22, 23, 59, 60,
+		COMP_END,
+	PTYPE_MATVAR, 2,
+	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 1, 70, 4, 12, 4,		// rear underside
+		COMP_HERMITE, 10, 4, 56, 55, 
+		COMP_LINE, 71, 4,
+		COMP_LINE, 12, 4,
+		COMP_END,
+	PTYPE_QUADFLAT | RFLAG_XREF, 8, 6, 65, 64,			// other underside
+	PTYPE_QUADFLAT | RFLAG_XREF, 8, 64, 71, 10,
+	PTYPE_QUADFLAT | RFLAG_XREF, 64, 65, 67, 66,
+	PTYPE_TRIFLAT | RFLAG_XREF, 71, 64, 66,
+	PTYPE_QUADFLAT | RFLAG_XREF, 71, 66, 68, 12,
+	PTYPE_TRIFLAT | RFLAG_XREF, 12, 68, 35,
+	PTYPE_QUADFLAT | RFLAG_XREF, 66, 67, 69, 68,
+	PTYPE_COMPFLAT | RFLAG_XREF, 7, 1, 72, 5, 36, 5,		// engine back face
+		COMP_HERMITE, 61, 5, 57, 62, 
+		COMP_HERMITE, 35, 5, 62, 58,
+		COMP_LINE, 68, 5,
+		COMP_LINE, 69, 5,
+		COMP_LINE, 36, 5,
+		COMP_END,
+
+	PTYPE_MATFIXED, 30, 30, 30, 30, 30, 30, 200, 0, 0, 0,
+	PTYPE_COMPSMOOTH, 0x8000, 1, 33, 1, 16, 0,		// cockpit
+		COMP_HERMITE, 18, 5, 52, 48,
+		COMP_HERMITE, 20, 3, 48, 51,
+		COMP_HERMITE, 14, 2, 49, 47,
+		COMP_HERMITE, 16, 0, 47, 50, 
+		COMP_END,
+
+	PTYPE_ZBIAS, 72, 5, 5,
+	PTYPE_MATFIXED, 30, 30, 30, 30, 30, 30, 200, 0, 0, 0,
+	PTYPE_TUBE | RFLAG_XREF, 8, 12, 72, 76, 1, 250, 200,
+	PTYPE_MATANIM, AFUNC_THRUSTPULSE,
+		0, 0, 0, 0, 0, 0, 100, 50, 50, 100,
+		0, 0, 0, 0, 0, 0, 100, 0, 0, 50,
+	PTYPE_CIRCLE | RFLAG_XREF, 9, 12, 72, 5, 1, 200,
+
+	PTYPE_ZBIAS, 77, 120, 5,
+//	PTYPE_MATFIXED, 30, 30, 30, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_QUADFLAT | RFLAG_XREF, 77, 78, 80, 79,
+
+	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
+
+	PTYPE_ZBIAS, 73, 4, 5,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 73, 4, 5, 100,
+	PTYPE_ZBIAS, 74, 4, 5,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 74, 4, 5, 64,
+	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 75, 4, 5, 64,
+	
+	PTYPE_ZBIAS, 0x8000, 0, 0,
+	PTYPE_END,
+
+};	
 static Thruster ship2thruster[] = {
 	{ 81, 5 | THRUST_NOANG, 30.0f },
 	{ 82, 5 | THRUST_NOANG, 30.0f },
@@ -614,7 +700,10 @@ static Thruster ship2thruster[] = {
 	{ 93, 0, 15.0f }, { 94, 3, 15.0f },
 };
 Model ship2model = { 1.0f, 35.0f, 100, ship2vtx1, 120, 1, ship2vtx2, 10,
-	{ { 0, ship2data, 0, 14, ship2thruster } } };
+	{ 
+		{ 50, ship2data_lod2, 0, 14, ship2thruster },
+		{ 0, ship2data, 0, 14, ship2thruster }
+	} };
 
 
 
@@ -1346,20 +1435,32 @@ Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
 	{ { 0, tombstonedata, 0, 0, 0 } } };
 
 static PlainVertex cargovtx1[] = {
+	{ VTYPE_PLAIN, { 0, 0.8, 0 } },
+	{ VTYPE_PLAIN, { 0, -0.8, 0 } },
 };
 
 static uint16 cargodata[] = {
 	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_CYLINDER, 0x8000, 16, 1, 4, 0, 100,
+	PTYPE_TUBE, 0x8000, 16, 1, 4, 0, 100, 90,
+	PTYPE_CYLINDER, 0x8000, 16, 6, 7, 0, 90,
 	PTYPE_MATFIXED, 100, 0, 0, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 1, 1, 0,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 1, 1, 0, 0, 0, 10,
+	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 6, 1, 0, 0, 0, 10,
 	PTYPE_ZBIAS, 4, 4, 0,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 4, 4, 3, 0, 0, 10,
+	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 7, 4, 3, 0, 0, 10,
 	PTYPE_END
 };
 
-Model cargomodel = { 1.0f, 2.0f, 6, cargovtx1, 6, 0, dummyvtx2, 1,
-	{ { 0, cargodata, 0, 0, 0 } } };
+static uint16 cargodata_lod2[] = {
+	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_CYLINDER, 0x8000, 8, 1, 4, 0, 100,
+	PTYPE_END
+};
+
+Model cargomodel = { 1.0f, 2.0f, 8, cargovtx1, 8, 0, dummyvtx2, 1,
+	{ 
+		{ 20, cargodata_lod2, 0, 0, 0 } ,
+		{ 0, cargodata, 0, 0, 0  },
+	} };
 
 
