@@ -150,7 +150,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib ode.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib"
+				AdditionalDependencies="sdl.lib sdlmain.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib"
 				OutputFile="..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
