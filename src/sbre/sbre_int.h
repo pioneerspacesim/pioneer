@@ -53,6 +53,8 @@ struct Model
 	int numCVtx;
 	CompoundVertex *pCVtx;
 
+	int numCache;				// number of cached primitives
+
 	struct {
 		float pixrad;			// size in screen pixels below which LOD applies
 		uint16 *pData1;			// pixrad <= 0.0f is top LOD - kinda backward
@@ -60,6 +62,10 @@ struct Model
 		int numThrusters;
 		Thruster *pThruster;
 	} pLOD[4];
+
+	int *pNumVtx, *pNumIdx;		// caches
+	Vector **ppVCache;
+	uint16 **ppICache;
 };
 
 

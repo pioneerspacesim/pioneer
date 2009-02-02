@@ -29,7 +29,7 @@ static uint16 tetradata[] = {
 	PTYPE_SUBOBJECT, 0x8000, SUB_NOSEWHEEL, 10, 0, 4, 100,
 	PTYPE_END,
 };	
-Model tetramodel = { 1.0f, 66.0f, 11, tetravtx1, 20, 0, tetravtx2, 
+Model tetramodel = { 1.0f, 66.0f, 11, tetravtx1, 20, 0, tetravtx2, 0,
 	{ { 0, tetradata, 0, 0, 0 } } };
 
 
@@ -46,7 +46,7 @@ static uint16 circledata[] = {
 	PTYPE_CIRCLE, 0, 12, 6, 5, 1, 2000,
 	PTYPE_END,
 };	
-Model circlemodel = { 1.0f, 20.0f, 7, circlevtx1, 20, 0, circlevtx2, 
+Model circlemodel = { 1.0f, 20.0f, 7, circlevtx1, 20, 0, circlevtx2, 1,
 	{ { 0, circledata, 0, 0, 0 } } };
 
 
@@ -64,7 +64,7 @@ static uint16 cyldata[] = {
 	PTYPE_TUBE, 0, 8, 6, 7, 20, 2000, 1000,
 	PTYPE_END,
 };	
-Model cylmodel = { 1.0f, 120.0f, 9, cylvtx1, 20, 1, cylvtx2, 
+Model cylmodel = { 1.0f, 120.0f, 9, cylvtx1, 20, 1, cylvtx2, 1,
 	{ { 0, cyldata, 0, 0, 0 } } };
 
 
@@ -101,7 +101,7 @@ static uint16 nwunitdata[] = {
 
 	PTYPE_END,
 };	
-Model nwunitmodel = { 1.0f, 7.0f, 15, nwunitvtx1, 20, 4, nwunitvtx2,  
+Model nwunitmodel = { 1.0f, 7.0f, 15, nwunitvtx1, 20, 4, nwunitvtx2, 0, 
 	{ { 0, nwunitdata, 0, 0, 0 } } };
 
 
@@ -123,7 +123,7 @@ static uint16 nosewheeldata[] = {
 	PTYPE_CYLINDER | RFLAG_XREF, 2, 8, 9, 10, 2, 100,
 	PTYPE_END,
 };	
-Model nosewheelmodel = { 1.0f, 7.0f, 11, nosewheelvtx1, 20, 0, nosewheelvtx2, 
+Model nosewheelmodel = { 1.0f, 7.0f, 11, nosewheelvtx1, 20, 0, nosewheelvtx2, 3,
 	{ { 0, nosewheeldata, 0, 0, 0 } } };
 
 
@@ -160,7 +160,7 @@ static uint16 mwunitdata[] = {
 
 	PTYPE_END,
 };	
-Model mwunitmodel = { 1.0f, 8.0f, 15, mwunitvtx1, 20, 4, mwunitvtx2, 
+Model mwunitmodel = { 1.0f, 8.0f, 15, mwunitvtx1, 20, 4, mwunitvtx2, 0,
 	{ { 0, mwunitdata, 0, 0, 0 } } };
 
 
@@ -189,7 +189,7 @@ static uint16 mainwheeldata[] = {
 	PTYPE_CYLINDER | RFLAG_XREF, 3, 8, 11, 12, 2, 100,
 	PTYPE_END,
 };	
-Model mainwheelmodel = { 1.0f, 8.0f, 15, mainwheelvtx1, 20, 0, mainwheelvtx2, 
+Model mainwheelmodel = { 1.0f, 8.0f, 15, mainwheelvtx1, 20, 0, mainwheelvtx2, 5,
 	{ { 0, mainwheeldata, 0, 0, 0 } } };
 
 
@@ -225,7 +225,7 @@ static uint16 nacelledata[] = {
 		COMP_END,
 	PTYPE_END,
 };
-Model nacellemodel = { 1.0f, 30.0f, 16, nacellevtx1, 20, 0, nacellevtx2,  
+Model nacellemodel = { 1.0f, 30.0f, 16, nacellevtx1, 20, 0, nacellevtx2, 2, 
 	{ { 0, nacelledata, 0, 0, 0 } } };
 
 
@@ -331,7 +331,7 @@ static Thruster ship1thruster[] = {
 	{ 36, 1, 25.0f }, { 37, 1, 25.0f },	// top
 	{ 38, 4, 25.0f }, { 39, 4, 25.0f },	// bottom
 };
-Model ship1model = { 1.0f, 40.0f, 42, ship1vtx1, 50, 6, ship1vtx2, 
+Model ship1model = { 1.0f, 40.0f, 42, ship1vtx1, 50, 6, ship1vtx2, 0,
 	{ { 0, ship1data, 0, 11, ship1thruster } } };
 
 
@@ -379,7 +379,7 @@ static uint16 wing1data[] = {
 		COMP_END,
 	PTYPE_END,
 };
-Model wing1model = { 25.0f, 2.0f, 24, wing1vtx1, 30, 4, wing1vtx2,  
+Model wing1model = { 25.0f, 2.0f, 24, wing1vtx1, 30, 4, wing1vtx2, 2, 
 	{ { 0, wing1data, 0, 0, 0 } } };
 
 
@@ -699,7 +699,7 @@ static Thruster ship2thruster[] = {
 	{ 91, 0, 15.0f }, { 92, 3, 15.0f },
 	{ 93, 0, 15.0f }, { 94, 3, 15.0f },
 };
-Model ship2model = { 1.0f, 35.0f, 100, ship2vtx1, 120, 1, ship2vtx2, 
+Model ship2model = { 1.0f, 35.0f, 100, ship2vtx1, 120, 1, ship2vtx2, 10,
 	{ 
 		{ 50, ship2data_lod2, 0, 14, ship2thruster },
 		{ 0, ship2data, 0, 14, ship2thruster }
@@ -855,7 +855,7 @@ static uint16 station1data[] = {
 
 	PTYPE_END,
 };	
-Model station1model = { 10.0f, 120.0f, 40, station1vtx1, 100, 0, station1vtx2,  
+Model station1model = { 10.0f, 120.0f, 40, station1vtx1, 100, 0, station1vtx2, 1, 
 	{ { 0, station1data, 0, 0, 0 } } };
 
 
@@ -991,7 +991,7 @@ static Thruster ship3thruster[] = {
 	{ 42, 1 | THRUST_XREF, 15.0f },
 	{ 43, 0 | THRUST_XREF, 15.0f },
 };
-Model ship3model = { 1.0f, 35.0f, 44, ship3vtx1, 100, 2, ship3vtx2, 
+Model ship3model = { 1.0f, 35.0f, 44, ship3vtx1, 100, 2, ship3vtx2, 6, 
 	{ { 0, ship3data, 0, 6, ship3thruster } } };
 
 
@@ -1108,7 +1108,7 @@ static Thruster ship4thruster[] = {
 //	{ 42, 1 | THRUST_XREF, 15.0f },
 //	{ 43, 0 | THRUST_XREF, 15.0f },
 };
-Model ship4model = { 1.0f, 40.0f, 41, ship4vtx1, 100, 1, ship4vtx2, 
+Model ship4model = { 1.0f, 40.0f, 41, ship4vtx1, 100, 1, ship4vtx2, 10,
 	{ { 0, ship4data, 0, 4, ship4thruster } } };
 
 
@@ -1156,7 +1156,7 @@ static uint16 dishdata[] = {
 
 	PTYPE_END,
 };	
-Model dishmodel = { 1.0f, 4.0f, 19, dishvtx1, 40, 0, dishvtx2,
+Model dishmodel = { 1.0f, 4.0f, 19, dishvtx1, 40, 0, dishvtx2, 5,
 	{ { 0, dishdata, 0, 0, 0 } } };
 
 
@@ -1262,7 +1262,7 @@ static uint16 ship5data[] = {
 
 	PTYPE_END,
 };	
-Model ship5model = { 1.0f, 25.0f, 44, ship5vtx1, 100, 2, ship5vtx2, 
+Model ship5model = { 1.0f, 25.0f, 44, ship5vtx1, 100, 2, ship5vtx2, 5, 
 	{ { 0, ship5data, 0, 0, 0 } } };
 
 
@@ -1311,7 +1311,7 @@ static Thruster wing2thruster[] = {
 	{ 20, 5, 25.0f },
 	{ 19, 2, 20.0f },
 };
-Model wing2model = { 1.0f, 25.0f, 23, wing2vtx1, 30, 0, wing2vtx2,
+Model wing2model = { 1.0f, 25.0f, 23, wing2vtx1, 30, 0, wing2vtx2, 2,
 	{ { 0, wing2data, 0, 2, wing2thruster } } };
 
 static PlainVertex metalFrameTowerVtx1[] = {
@@ -1343,7 +1343,7 @@ static uint16 metalFrameTowerData[] = {
 	PTYPE_CYLINDER, 0x8000, 4, 13, 10, 1, 10,
 	PTYPE_END,
 };
-Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, dummyvtx2, 
+Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, dummyvtx2, 0,
 	{ { 0, metalFrameTowerData, 0, 0, 0 } } };
 
 static PlainVertex starport1vtx1[] = {
@@ -1399,7 +1399,7 @@ static uint16 starport1data[] = {
 	PTYPE_SUBOBJECT, 0x8000, 100, 3, 1, 2, 100,
 	PTYPE_END,
 };
-Model starport1model = { 100.0f, 55.0f, 17, starport1vtx1, 17, 0, dummyvtx2,
+Model starport1model = { 100.0f, 55.0f, 17, starport1vtx1, 17, 0, dummyvtx2, 1,
 	{ { 0, starport1data, 0, 0, 0 } } };
 
 static PlainVertex tombstonevtx1[] = {
@@ -1431,7 +1431,7 @@ static uint16 tombstonedata[] = {
 	PTYPE_TEXT | TFLAG_XCENTER, 0, 0x8000, 17, 2, 3, 0, 0, 10,
 	PTYPE_END
 };
-Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2,
+Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
 	{ { 0, tombstonedata, 0, 0, 0 } } };
 
 static PlainVertex cargovtx1[] = {
@@ -1457,7 +1457,7 @@ static uint16 cargodata_lod2[] = {
 	PTYPE_END
 };
 
-Model cargomodel = { 1.0f, 2.0f, 8, cargovtx1, 8, 0, dummyvtx2, 
+Model cargomodel = { 1.0f, 2.0f, 8, cargovtx1, 8, 0, dummyvtx2, 1,
 	{ 
 		{ 20, cargodata_lod2, 0, 0, 0 } ,
 		{ 0, cargodata, 0, 0, 0  },

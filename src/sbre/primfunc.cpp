@@ -201,6 +201,16 @@ static void RenderArray (int nv, int ni, Vector *pVertex, uint16 *pIndex, uint16
 	}
 }
 
+static void CopyArrayToCache (int nv, int ni, Vector *pVertex, uint16 *pIndex, int ci, Model *pModel)
+{
+	pModel->pNumIdx[ci] = ni;
+	pModel->pNumVtx[ci] = nv;
+	pModel->ppICache[ci] = (uint16 *) malloc (ni*sizeof(uint16));
+	memcpy (pModel->ppICache[ci], pIndex, ni*sizeof(uint16));
+	pModel->ppVCache[ci] = (Vector *) malloc (2*nv*sizeof(Vector));
+	memcpy (pModel->ppVCache[ci], pVertex, 2*nv*sizeof(Vector));
+}
+
 /*
 uint16 PFUNC_COMPSMOOTH
 	uint16 cacheidx
@@ -225,6 +235,16 @@ uint16 PFUNC_COMPSMOOTH
 static int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		int c; for (c=7; pData[c] != COMP_END; c+=pCompSize[pData[c]]);
+		return c+1;
+	}
 
 	int steps = pData[2];				// detail factor...
 	Vector *pCPos = pVtx+pData[3];
@@ -282,6 +302,7 @@ static int PrimFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
 	Triangulate (pCPos, pCNorm, steps, &pVertex, &nv, &pIndex, &ni);
 
 	RenderArray (nv, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (nv, ni, pVertex, pIndex, ci, pModel);
 	return c+1;		// +1 for COMP_END
 }
 
@@ -298,6 +319,15 @@ uint16 PFUNC_CYLINDER
 static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		return 7;
+	}
 
 	int steps = pData[2];
 	float rad = pData[6] * 0.01f;
@@ -351,6 +381,7 @@ static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 	}
 
 	RenderArray (4*steps, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (4*steps, ni, pVertex, pIndex, ci, pModel);
 	return 7;
 }
 
@@ -367,6 +398,15 @@ uint16 PFUNC_CIRCLE
 static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		return 7;
+	}
 
 	int steps = pData[2];
 	float rad = pData[6] * 0.01f;
@@ -398,6 +438,7 @@ static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 	}
 
 	RenderArray (steps, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (steps, ni, pVertex, pIndex, ci, pModel);
 	return 7;
 }
 
@@ -416,6 +457,15 @@ uint16 PFUNC_TUBE
 static int PrimFuncTube (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		return 8;
+	}
 
 	int steps = pData[2];
 	Vector *pVertex = (Vector *) alloca (16*steps*sizeof(Vector));
@@ -485,6 +535,7 @@ steps*7: end, inner, axial
 	}	
 
 	RenderArray (8*steps, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (8*steps, ni, pVertex, pIndex, ci, pModel);
 	return 8;
 }
 
@@ -639,6 +690,17 @@ uint16 PFUNC_EXTRUSION
 static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		glShadeModel (GL_FLAT);
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		glShadeModel (GL_SMOOTH);
+		return 8;
+	}
 
 	int steps = pData[2];
 	float rad = pData[6] * 0.01f;
@@ -691,6 +753,7 @@ static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
 	}
 
 	RenderArray (4*steps, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (4*steps, ni, pVertex, pIndex, ci, pModel);
 	return 8;
 }
 
