@@ -180,14 +180,6 @@ void SetTransState ()
 	glDisableClientState (GL_NORMAL_ARRAY);
 }
 
-void AllocModelCaches (Model *pModel)
-{
-	pModel->pNumVtx = (int *) calloc (pModel->numCache, sizeof(int));
-	pModel->pNumIdx = (int *) calloc (pModel->numCache, sizeof(int));
-	pModel->ppVCache = (Vector **) calloc (pModel->numCache, sizeof(Vector *));
-	pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
-}
-
 void sbreRenderModel(const double pos[3], const double orient[16], int model, ObjParams *pParam, float s, Vector *pCompos)
 {
 	Vector p;
@@ -230,8 +222,6 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 	if (pCompos) rstate.compos = *pCompos;
 	else rstate.compos = zero_vector;
 	rstate.pCallback = 0;
-
-	if (pModel->numCache && !pModel->ppVCache) AllocModelCaches (pModel);
 
 	SetGeneralState ();
 	SetOpaqueState ();
@@ -299,8 +289,6 @@ void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *p
 	MatTVecMult (pOrient, pPos, &rstate.campos);
 	VecInv (&rstate.campos, &rstate.campos);
 	rstate.pCMesh = pCMesh;
-
-	if (pModel->numCache && !pModel->ppVCache) AllocModelCaches (pModel);
 
 	uint16 *pData = pModel->pLOD[0].pData1;
 	if (pData) while (*pData != PTYPE_END)	{

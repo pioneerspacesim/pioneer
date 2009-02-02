@@ -1,7 +1,6 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Get rid of sbre object caching (or fix it) because it is broken with LOD.
 * Make scanner only appear at appropriate times
 * Make sure custom systems without body definitions have the stars specified
  - Perhaps use partial system definitions where stars are defined but planets are generated
