@@ -32,17 +32,17 @@ bool Ship::AICmdKill(const Ship *enemy)
 		if (dist > 500.0) {
 			AIFaceDirection(dir);
 			// thunder at player at 400m/sec
-			AIModelCoordsMatchSpeedRelTo(vector3d(0,0,400), enemy);
+			AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), enemy);
 			// fire guns if aiming well enough	
 			matrix4x4d rot;
 			GetRotMatrix(rot);
-			const vector3d zaxis = vector3d(rot[8], rot[9], rot[10]);
-			const float dot = vector3d::Dot(dir, zaxis);
+			const vector3d zaxis = vector3d(-rot[8], -rot[9], -rot[10]);
+			const float dot = vector3d::Dot(dir, vector3d(-rot[8], -rot[9], -rot[10]));
 			if (dot > 0.95f) SetGunState(0,1);
 		} else {
 			// if too close turn away!
 			AIFaceDirection(-dir);
-			AIModelCoordsMatchSpeedRelTo(vector3d(0,0,1000), enemy);
+			AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-1000), enemy);
 		}
 	}
 	return false;
@@ -53,13 +53,13 @@ void Ship::AIInstruct(enum AICommand cmd, void *arg)
 	m_todo.push_back(AIInstruction(cmd, arg));
 }
 
-/* Orient so our +ve z axis == dir. ie so that dir points forwards */
+/* Orient so our -ve z axis == dir. ie so that dir points forwards */
 void Ship::AIFaceDirection(const vector3d &dir)
 {
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 	rot = rot.InverseOf();
-	const vector3d zaxis = vector3d(rot[2], rot[6], rot[10]);
+	const vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
 	vector3d rotaxis = vector3d::Cross(zaxis, dir);
 	vector3d angVel = rot * GetAngVelocity();
 	const float dot = vector3d::Dot(dir, zaxis);
@@ -84,7 +84,7 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 
 #include "Frame.h"
 /* Try to reach this model-relative velocity.
- * (0,0,100) would mean going 100m/s forward.
+ * (0,0,-100) would mean going 100m/s forward.
  */
 void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
@@ -108,19 +108,19 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 
 	if (difVel.x > 0) {
 		// figure out biggest accel can get, and then what we need this timestep.
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_LEFT] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_RIGHT] * invMass;
 		float thrust;
 		if (velChange < difVel.x) thrust = 1.0;
 		else thrust = difVel.x / velChange;
 		thrust *= thrust; // this is just to hide control jiggle
-		SetThrusterState(ShipType::THRUSTER_LEFT, thrust);
+		SetThrusterState(ShipType::THRUSTER_RIGHT, thrust);
 	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_RIGHT] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_LEFT] * invMass;
 		float thrust;
 		if (velChange > difVel.x) thrust = 1.0;
 		else thrust = difVel.x / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_RIGHT, thrust);
+		SetThrusterState(ShipType::THRUSTER_LEFT, thrust);
 	}
 
 	if (difVel.y > 0) {
@@ -140,19 +140,19 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	}
 
 	if (difVel.z > 0) {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_REAR] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_FRONT] * invMass;
 		float thrust;
 		if (velChange < difVel.z) thrust = 1.0;
 		else thrust = difVel.z / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_REAR, thrust);
+		SetThrusterState(ShipType::THRUSTER_FRONT, thrust);
 	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_FRONT] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_REAR] * invMass;
 		float thrust;
 		if (velChange > difVel.z) thrust = 1.0;
 		else thrust = difVel.z / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_FRONT, thrust);
+		SetThrusterState(ShipType::THRUSTER_REAR, thrust);
 	}
 }
 

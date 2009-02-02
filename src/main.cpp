@@ -201,7 +201,7 @@ void Pi::HandleEvents()
 #ifdef DEBUG
 				if (event.key.keysym.sym == SDLK_F12) {
 					matrix4x4d m; Pi::player->GetRotMatrix(m);
-					vector3d dir = m*vector3d(0,0,1);
+					vector3d dir = m*vector3d(0,0,-1);
 					/* add test object */
 					if (KeyState(SDLK_LSHIFT)) {
 						Frame *rotFrame = new Frame(Pi::player->GetFrame(), "Station rot frame");
@@ -441,7 +441,7 @@ void Pi::Start()
 		HyperspaceTo(&s);
 		Frame *pframe = *(Space::rootFrame->m_children.begin());
 		player->SetFrame(pframe);
-		player->SetPosition(vector3d(0,0,-2*EARTH_RADIUS));
+		player->SetPosition(vector3d(0,0,EARTH_RADIUS));
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
 		stationFrame->m_sbody = 0;

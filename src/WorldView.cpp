@@ -112,7 +112,7 @@ vector3d WorldView::GetExternalViewTranslation()
 {
 	vector3d p = vector3d(0, 0, m_externalViewDist);
 	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * p;
-	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)+M_PI) * p;
+	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * p;
 	matrix4x4d m;
 	Pi::player->GetRotMatrix(m);
 	p = m*p;
@@ -122,7 +122,7 @@ vector3d WorldView::GetExternalViewTranslation()
 void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
 {
 	m = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * m;
-	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)+M_PI) * m;
+	m = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * m;
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -223,9 +223,10 @@ void WorldView::Draw3D()
 		matrix4x4d camRot = matrix4x4d::Identity();
 
 		if (m_camType == CAM_FRONT) {
-			camRot.RotateY(M_PI);
 			cam_frame.SetPosition(Pi::player->GetPosition());
 		} else if (m_camType == CAM_REAR) {
+			camRot.RotateY(M_PI);
+		//	glRotatef(180.0f, 0, 1, 0);
 			cam_frame.SetPosition(Pi::player->GetPosition());
 		} else /* CAM_EXTERNAL */ {
 			cam_frame.SetPosition(Pi::player->GetPosition() + GetExternalViewTranslation());

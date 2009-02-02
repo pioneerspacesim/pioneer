@@ -61,7 +61,7 @@ void Player::Render(const Frame *camFrame)
 		Ship::Render(camFrame);
 	} else {
 		glPushMatrix();
-		glRotatef(180, 0, 1, 0);
+		// could only rotate, since transform is zero (camFrame is at player origin)
 		RenderLaserfire();
 		glPopMatrix();
 	}
@@ -102,7 +102,7 @@ void Player::TimeStepUpdate(const float timeStep)
 			}
 			break;
 		case CONTROL_FIXSPEED:
-			AIAccelToModelRelativeVelocity(vector3d(0,0,m_setSpeed));
+			AIAccelToModelRelativeVelocity(vector3d(0,0,-m_setSpeed));
 			break;
 		case CONTROL_AUTOPILOT:
 			break;
@@ -141,7 +141,7 @@ void Player::PollControls()
 			m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
 			m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
 			angThrust.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
-			angThrust.x = -m_mouseCMov[1] / MOUSE_CTRL_AREA;
+			angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 		}
 		
 		if (m_flightControlState == CONTROL_FIXSPEED) {
@@ -166,11 +166,11 @@ void Player::PollControls()
 		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
 			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
 			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
-			if (Pi::KeyState(SDLK_UP)) angThrust.x += 1;
-			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += -1;
+			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
+			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
 		}
-		if (Pi::KeyState(SDLK_q)) angThrust.z -= 1;
-		if (Pi::KeyState(SDLK_e)) angThrust.z += 1;
+		if (Pi::KeyState(SDLK_q)) angThrust.z += 1;
+		if (Pi::KeyState(SDLK_e)) angThrust.z -= 1;
 		// dividing by time step so controls don't go totally mental when
 		// used at 10x accel
 		angThrust *= 1.0f/ta2;
