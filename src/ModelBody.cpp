@@ -133,7 +133,7 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 	frameTrans.ClearToRotOnly();
-	rot = frameTrans * rot * matrix4x4d::RotateYMatrix(M_PI); // sbre ships are pointing down +ve z axis, pioneer likes -ve z
+	rot = frameTrans * rot;
 
 	sbreRenderModel(&pos.x, &rot[0], model, params);
 	

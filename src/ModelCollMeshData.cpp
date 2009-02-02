@@ -63,8 +63,8 @@ CollMeshSet::CollMeshSet(int sbreModel)
 	sbreGenCollMesh(sbreCollMesh, sbreModel, &params);
 	// XXX flip Z & X because sbre is in magicspace
 	for (int i=0; i<3*sbreCollMesh->nv; i+=3) {
-		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
-		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
+//		sbreCollMesh->pVertex[i] = -sbreCollMesh->pVertex[i];
+//		sbreCollMesh->pVertex[i+2] = -sbreCollMesh->pVertex[i+2];
 		// making axis aligned bounding box
 		for (int a=0; a<3; a++) {
 			if (sbreCollMesh->pVertex[i+a] < aabb.min[a])

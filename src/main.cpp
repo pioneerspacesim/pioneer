@@ -270,7 +270,7 @@ static void draw_intro(float _time)
 	static ObjParams params = {
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
+		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
@@ -441,7 +441,7 @@ void Pi::Start()
 		HyperspaceTo(&s);
 		Frame *pframe = *(Space::rootFrame->m_children.begin());
 		player->SetFrame(pframe);
-		player->SetPosition(vector3d(0,0,EARTH_RADIUS));
+		player->SetPosition(vector3d(0,0,2*EARTH_RADIUS));
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
 		stationFrame->m_sbody = 0;

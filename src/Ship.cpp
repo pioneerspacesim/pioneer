@@ -499,12 +499,12 @@ void Ship::Render(const Frame *camFrame)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
 	const ShipType &stype = GetShipType();
-	params.angthrust[0] = m_angThrusters[0];
-	params.angthrust[1] = m_angThrusters[1];
-	params.angthrust[2] = m_angThrusters[2];
+	params.angthrust[0] = -m_angThrusters[0];
+	params.angthrust[1] = -m_angThrusters[1];
+	params.angthrust[2] = -m_angThrusters[2];
 	params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
 	params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
-	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REAR] - m_thrusters[ShipType::THRUSTER_FRONT];
+	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
 	params.pAnim[ASRC_SECFRAC] = Pi::GetGameTime();
 	params.pAnim[ASRC_MINFRAC] = Pi::GetGameTime() / 60;
 	params.pAnim[ASRC_HOURFRAC] = Pi::GetGameTime() / 3600.0f;
