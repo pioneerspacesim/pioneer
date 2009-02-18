@@ -6,16 +6,6 @@
 #include <vector>
 #include <string>
 
-#define EARTH_RADIUS	6378135.0
-#define EARTH_MASS	5.9742e24
-#define JUPITER_MASS	(317.8*EARTH_MASS)
-// brown dwarfs above 13 jupiter masses fuse deuterium
-#define MIN_BROWN_DWARF	(13.0*JUPITER_MASS)
-#define SOL_RADIUS	6.955e8
-#define SOL_MASS	1.98892e30
-#define AU		149598000000.0
-#define G		6.67428e-11
-
 struct CustomSBody;
 
 // doubles: all masses in Kg, all lengths in meters
@@ -25,31 +15,26 @@ enum {  ECON_MINING = (1<<0),
 	ECON_AGRICULTURE = (1<<1), 
 	ECON_INDUSTRY = (1<<2) };	
 
-class StarSystem {
+class StarSystem;
+
+struct Orbit {
+	void KeplerPosAtTime(double t, double *dist, double *ang);
+	vector3d CartesianPosAtTime(double t);
+	double eccentricity;
+	double semiMajorAxis;
+	double period; // seconds
+	matrix4x4d rotMatrix;
+};
+
+class SBody {
 public:
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
-	~StarSystem();
-	static void Serialize(StarSystem *);
-	static StarSystem *Unserialize();
-	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
-		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
-	}
-	int GetNumStars() const { return m_numStars; }
+	SBody();
+	~SBody();
+	void EliminateBadChildren();
+	void PickPlanetType(StarSystem *, SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
+	SBody *parent;
+	std::vector<SBody*> children;
 
-	static float starColors[][3];
-	static float starRealColors[][3];
-
-	struct Orbit {
-		void KeplerPosAtTime(double t, double *dist, double *ang);
-		vector3d CartesianPosAtTime(double t);
-		double eccentricity;
-		double semiMajorAxis;
-		double period; // seconds
-		matrix4x4d rotMatrix;
-	};
-	
 	enum BodyType {
 		TYPE_GRAVPOINT,
 		TYPE_BROWN_DWARF,
@@ -82,73 +67,80 @@ public:
 		TYPE_STAR_MAX = TYPE_STAR_O
 		// XXX need larger atmosphereless thing
 	};
-
+	
 	enum BodySuperType {
 		SUPERTYPE_NONE, SUPERTYPE_STAR, SUPERTYPE_ROCKY_PLANET, SUPERTYPE_GAS_GIANT, SUPERTYPE_STARPORT
 	};
+
+	const char *GetAstroDescription();
+	const char *GetIcon();
+	BodySuperType GetSuperType() const;
+	double GetRadius() const {
+		if (GetSuperType() == SUPERTYPE_STAR)
+			return radius.ToDouble() * SOL_RADIUS;
+		else
+			return radius.ToDouble() * EARTH_RADIUS;
+	}
+	double GetMass() const {
+		if (GetSuperType() == SUPERTYPE_STAR)
+			return mass.ToDouble() * SOL_MASS;
+		else
+			return mass.ToDouble() * EARTH_MASS;
+	}
+	// returned in seconds
+	double GetRotationPeriod() const {
+		return rotationPeriod.ToDouble()*60*60*24;
+	}
+
+	double GetMaxChildOrbitalDistance() const;
+
+	int tmp;
+	Orbit orbit;
+	int seed; // Planet.cpp can use to generate terrain
+	std::string name;
+	fixed radius; 
+	fixed mass; // earth masses if planet, solar masses if star
+	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
+	fixed rotationPeriod; // in days
+	fixed humanActivity; // 0 - 1
+	int averageTemp;
+	BodyType type;
+
+	// percent price alteration
+	int tradeLevel[Equip::TYPE_MAX];
+	int econType;
+private:
+};
+	
+class StarSystem {
+public:
+	friend class SBody;
+	StarSystem() { rootBody = 0; }
+	StarSystem(int sector_x, int sector_y, int system_idx);
+	~StarSystem();
+	static void Serialize(StarSystem *);
+	static StarSystem *Unserialize();
+	bool IsSystem(int sector_x, int sector_y, int system_idx);
+	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
+		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
+	}
+	int GetNumStars() const { return m_numStars; }
+
+	static float starColors[][3];
+	static float starRealColors[][3];
+
 
 	struct BodyStats {
 
 	};
 
-	class SBody {
-	public:
-		friend class StarSystem;
-
-		SBody();
-		~SBody();
-		void EliminateBadChildren();
-		void PickPlanetType(StarSystem *, SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
-		SBody *parent;
-		std::vector<SBody*> children;
-
-		const char *GetAstroDescription();
-		const char *GetIcon();
-		BodySuperType GetSuperType() const;
-		double GetRadius() const {
-			if (GetSuperType() == SUPERTYPE_STAR)
-				return radius.ToDouble() * SOL_RADIUS;
-			else
-				return radius.ToDouble() * EARTH_RADIUS;
-		}
-		double GetMass() const {
-			if (GetSuperType() == SUPERTYPE_STAR)
-				return mass.ToDouble() * SOL_MASS;
-			else
-				return mass.ToDouble() * EARTH_MASS;
-		}
-		// returned in seconds
-		double GetRotationPeriod() const {
-			return rotationPeriod.ToDouble()*60*60*24;
-		}
-
-		double GetMaxChildOrbitalDistance() const;
-
-		int tmp;
-		Orbit orbit;
-		int seed; // Planet.cpp can use to generate terrain
-		std::string name;
-		fixed radius; 
-		fixed mass; // earth masses if planet, solar masses if star
-		fixed orbMin, orbMax; // periapsism, apoapsis in AUs
-		fixed rotationPeriod; // in days
-		fixed humanActivity; // 0 - 1
-		int averageTemp;
-		BodyType type;
-
-		// percent price alteration
-		int tradeLevel[Equip::TYPE_MAX];
-		int econType;
-	private:
-	};
-	
 	SBody *rootBody;
 	fixed m_humanInfested; // 0 to 1
 private:
 	void MakePlanetsAround(SBody *primary);
 	void MakeRandomStar(SBody *sbody, MTRand &rand);
-	void MakeStarOfType(SBody *sbody, BodyType type, MTRand &rand);
-	void MakeStarOfTypeLighterThan(SBody *sbody, BodyType type, fixed maxMass, MTRand &rand);
+	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
+	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
 	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
 	void GenerateFromCustom(const CustomSBody *);
@@ -160,4 +152,6 @@ private:
 	MTRand rand;
 };
 
+
+	
 #endif /* _STARSYSTEM_H */

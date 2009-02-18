@@ -164,7 +164,7 @@ vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 /*
  * Find system body this frame is for.
  */
-StarSystem::SBody *Frame::GetSBodyFor()
+SBody *Frame::GetSBodyFor()
 {
 	if (m_sbody) return m_sbody;
 	if (m_parent) return m_parent->m_sbody; // rotating frame of planet

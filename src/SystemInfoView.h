@@ -4,8 +4,10 @@
 #include "libs.h"
 #include "Gui.h"
 #include "View.h"
-#include "StarSystem.h"
 #include "GenericSystemView.h"
+
+class StarSystem;
+class SBody;
 
 class SystemInfoView: public GenericSystemView {
 public:
@@ -16,9 +18,9 @@ public:
 private:
 
 	void SystemChanged(StarSystem *s);
-	void OnBodySelected(StarSystem::SBody *b);
-	void PutBodies(StarSystem::SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize);
-	StarSystem::SBody *m_bodySelected;
+	void OnBodySelected(SBody *b);
+	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize);
+	SBody *m_bodySelected;
 	Gui::Label *m_infoLabel, *m_infoData,
 		*m_econLabel, *m_econData;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;

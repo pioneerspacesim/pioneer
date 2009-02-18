@@ -2,13 +2,13 @@
 #define _SERIALIZE_H
 
 #include "libs.h"
-#include "StarSystem.h"
 #include <vector>
 #define SAVEFILE_VERSION	1
 
 class Frame;
 class Body;
 class StarSystem;
+class SBody;
 
 namespace Serializer {
 
@@ -21,8 +21,8 @@ namespace Serializer {
 	int LookupBody(Body *);
 
 	void IndexSystemBodies(StarSystem *);
-	StarSystem::SBody *LookupSystemBody(size_t index);
-	int LookupSystemBody(StarSystem::SBody*);
+	SBody *LookupSystemBody(size_t index);
+	int LookupSystemBody(SBody*);
 
 	namespace Write {
 		bool Game(const char *filename);

@@ -73,7 +73,7 @@ void SystemView::ResetViewpoint()
 	m_time = Pi::GetGameTime();
 }
 
-void SystemView::PutOrbit(StarSystem::SBody *b)
+void SystemView::PutOrbit(SBody *b)
 {
 	glColor3f(0,1,0);
 	glBegin(GL_LINE_LOOP);
@@ -86,12 +86,12 @@ void SystemView::PutOrbit(StarSystem::SBody *b)
 	glEnd();
 }
 
-void SystemView::OnClickObject(StarSystem::SBody *b, const Gui::MouseButtonEvent *ev)
+void SystemView::OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev)
 {
 	m_selectedObject = b;
 }
 
-void SystemView::PutLabel(StarSystem::SBody *b)
+void SystemView::PutLabel(SBody *b)
 {
 	GLdouble modelMatrix[16];
 	GLdouble projMatrix[16];
@@ -117,10 +117,10 @@ void SystemView::PutLabel(StarSystem::SBody *b)
 // i don't know how to name it
 #define ROUGH_SIZE_OF_TURD	10.0
 
-void SystemView::PutBody(StarSystem::SBody *b)
+void SystemView::PutBody(SBody *b)
 {
-	if (b->type == StarSystem::TYPE_STARPORT_SURFACE) return;
-	if (b->type != StarSystem::TYPE_GRAVPOINT) {
+	if (b->type == SBody::TYPE_STARPORT_SURFACE) return;
+	if (b->type != SBody::TYPE_GRAVPOINT) {
 		glPointSize(5);
 		glColor3f(1,1,1);
 		glBegin(GL_POINTS);
@@ -130,7 +130,7 @@ void SystemView::PutBody(StarSystem::SBody *b)
 		PutLabel(b);
 	}
 
-	if (b->children.size()) for(std::vector<StarSystem::SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
+	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD)
 			PutOrbit(*kid);
@@ -151,7 +151,7 @@ void SystemView::PutBody(StarSystem::SBody *b)
 static const GLfloat fogDensity = 0.1;
 static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 
-void SystemView::ViewingTransformTo(StarSystem::SBody *b)
+void SystemView::ViewingTransformTo(SBody *b)
 {
 	if (b->parent) {
 		ViewingTransformTo(b->parent);

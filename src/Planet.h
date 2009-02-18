@@ -2,14 +2,14 @@
 #define _PLANET_H
 
 #include "Body.h"
-#include "StarSystem.h"
 
 class Frame;
+class SBody;
 
 class Planet: public Body {
 public:
 	OBJDEF(Planet, Body, PLANET);
-	Planet(StarSystem::SBody*);
+	Planet(SBody*);
 	Planet() {}
 	virtual ~Planet();
 	virtual void SetPosition(vector3d p);
@@ -31,7 +31,7 @@ private:
 
 	double m_mass;
 	vector3d pos;
-	StarSystem::SBody *sbody;
+	SBody *sbody;
 	GLuint crudDList;
 };
 

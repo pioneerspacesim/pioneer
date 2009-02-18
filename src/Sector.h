@@ -19,7 +19,7 @@ public:
 		std::string name;
 		vector3f p;
 		int numStars;
-		StarSystem::BodyType starType[4];
+		SBody::BodyType starType[4];
 		const CustomSBody *customDef;
 	};
 	std::vector<System> m_systems;

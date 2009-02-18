@@ -9,7 +9,7 @@ class Frame;
 class Star: public Body {
 public:
 	OBJDEF(Star, Body, STAR);
-	Star(StarSystem::SBody *sbody);
+	Star(SBody *sbody);
 	Star() {}
 	virtual ~Star() {};
 	virtual void SetPosition(vector3d p);
@@ -21,7 +21,7 @@ protected:
 	virtual void Save();
 	virtual void Load();
 private:
-	StarSystem::BodyType type;
+	SBody::BodyType type;
 	vector3d pos;
 	double radius;
 	double mass;

@@ -11,7 +11,7 @@ SystemInfoView::SystemInfoView(): GenericSystemView()
 	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
-void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
+void SystemInfoView::OnBodySelected(SBody *b)
 {
 	m_bodySelected = b;
 
@@ -24,7 +24,7 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 
 	desc += "Mass\n";
 	data += stringf(64, "%.2f %s masses\n", b->mass.ToDouble(), 
-		(b->GetSuperType() == StarSystem::SUPERTYPE_STAR ? "Solar" : "Earth"));
+		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? "Solar" : "Earth"));
 
 	desc += "Surface temperature\n";
 	data += stringf(64, "%d C\n", b->averageTemp-273);
@@ -56,8 +56,8 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
-		for (std::vector<StarSystem::SBody*>::iterator i = b->children.begin(); i != b->children.end(); ++i) {
-			if ((*i)->type == StarSystem::TYPE_STARPORT_SURFACE) {
+		for (std::vector<SBody*>::iterator i = b->children.begin(); i != b->children.end(); ++i) {
+			if ((*i)->type == SBody::TYPE_STARPORT_SURFACE) {
 				nameList += (numSurfaceStarports ? ", " : "") + (*i)->name;
 				numSurfaceStarports++;
 			}
@@ -124,14 +124,14 @@ void SystemInfoView::OnBodySelected(StarSystem::SBody *b)
 	m_econData->SetText(data);
 }
 
-void SystemInfoView::PutBodies(StarSystem::SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize)
+void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize)
 {
 	float size[2];
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
-	if (body->type == StarSystem::TYPE_STARPORT_SURFACE) return;
-	if (body->type != StarSystem::TYPE_GRAVPOINT) {
+	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
+	if (body->type != SBody::TYPE_GRAVPOINT) {
 		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
 		ib->GetSize(size);
 		if (prevSize == -1) prevSize = size[!dir];
@@ -154,7 +154,7 @@ void SystemInfoView::PutBodies(StarSystem::SBody *body, Gui::Fixed *container, i
 		pos[!dir] += 320;
 	}
 
-	for (std::vector<StarSystem::SBody*>::iterator i = body->children.begin();
+	for (std::vector<SBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
 		PutBodies(*i, container, dir, myPos, majorBodies, size[!dir]);
 	}

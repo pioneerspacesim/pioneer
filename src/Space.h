@@ -3,10 +3,10 @@
 
 #include <list>
 #include "vector3.h"
-#include "StarSystem.h"
 
 class Body;
 class Frame;
+class SBody;
 
 // The place all the 'Body's exist in
 class Space {
@@ -16,7 +16,7 @@ public:
 	static void BuildSystem();
 	static void Serialize();
 	static void Unserialize();
-	static void GenBody(StarSystem::SBody *b, Frame *f);
+	static void GenBody(SBody *b, Frame *f);
 	static void TimeStep(float step);
 	static void AddBody(Body *);
 	static void KillBody(Body *);

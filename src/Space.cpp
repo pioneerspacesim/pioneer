@@ -46,7 +46,6 @@ void Space::Serialize()
 	Serializer::IndexBodies();
 	Serializer::IndexSystemBodies(Pi::currentSystem);
 	Frame::Serialize(rootFrame);
-	printf("%d bodies to write\n", bodies.size());
 	wr_int(bodies.size());
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		printf("Serializing %s\n", (*i)->GetLabel().c_str());
@@ -67,7 +66,6 @@ void Space::Unserialize()
 		if (b) bodies.push_back(b);
 		if (b->IsType(Object::PLAYER)) Pi::player = (Player*)b;
 	}
-	printf("%d bodies read\n", bodies.size());
 	// bodies with references to others must fix these up
 	Serializer::IndexBodies();
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
@@ -92,7 +90,7 @@ void Space::MoveOrbitingObjectFrames(Frame *f)
 		MoveOrbitingObjectFrames(*i);
 	}
 }
-static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
+static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
 	double frameRadius;
@@ -104,7 +102,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		return f;
 	}
 
-	if (sbody->type == StarSystem::TYPE_GRAVPOINT) {
+	if (sbody->type == SBody::TYPE_GRAVPOINT) {
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->m_astroBody = b;
@@ -112,10 +110,10 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		return orbFrame;
 	}
 
-	StarSystem::BodySuperType supertype = sbody->GetSuperType();
+	SBody::BodySuperType supertype = sbody->GetSuperType();
 
-	if ((supertype == StarSystem::SUPERTYPE_GAS_GIANT) ||
-	    (supertype == StarSystem::SUPERTYPE_ROCKY_PLANET)) {
+	if ((supertype == SBody::SUPERTYPE_GAS_GIANT) ||
+	    (supertype == SBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame in the same position but with maybe 1.1*radius,
 		// which actually contains the object.
@@ -132,7 +130,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
-	else if (supertype == StarSystem::SUPERTYPE_STAR) {
+	else if (supertype == SBody::SUPERTYPE_STAR) {
 		// stars want a single small non-rotating frame
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
@@ -141,7 +139,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
-	else if (sbody->type == StarSystem::TYPE_STARPORT_ORBITAL) {
+	else if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a much closer rotating frame
 		frameRadius = 1000000.0; // XXX NFI!
@@ -155,7 +153,7 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
 		b->SetFrame(rotFrame);
 		return orbFrame;
-	} else if (sbody->type == StarSystem::TYPE_STARPORT_SURFACE) {
+	} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
@@ -169,18 +167,18 @@ static Frame *MakeFrameFor(StarSystem::SBody *sbody, Body *b, Frame *f)
 	}
 }
 
-void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
+void Space::GenBody(SBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
-	if (sbody->type != StarSystem::TYPE_GRAVPOINT) {
-		if (sbody->GetSuperType() == StarSystem::SUPERTYPE_STAR) {
+	if (sbody->type != SBody::TYPE_GRAVPOINT) {
+		if (sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
-		} else if (sbody->type == StarSystem::TYPE_STARPORT_ORBITAL) {
+		} else if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 			SpaceStation *ss = new SpaceStation(SpaceStation::JJHOOP);
 			b = ss;
-		} else if (sbody->type == StarSystem::TYPE_STARPORT_SURFACE) {
+		} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
 			SpaceStation *ss = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
 			b = ss;
 		} else {
@@ -193,7 +191,7 @@ void Space::GenBody(StarSystem::SBody *sbody, Frame *f)
 	}
 	f = MakeFrameFor(sbody, b, f);
 
-	for (std::vector<StarSystem::SBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
+	for (std::vector<SBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
 		GenBody(*i, f);
 	}
 }

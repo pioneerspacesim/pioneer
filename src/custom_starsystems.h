@@ -6,7 +6,7 @@
 
 struct CustomSBody {
 	const char *name; // null to end system
-	StarSystem::BodyType type;
+	SBody::BodyType type;
 	int primaryIdx;  // -1 for primary
 	fixed radius; // in earth radii for planets, sol radii for stars
 	fixed mass; // earth masses or sol masses
@@ -21,7 +21,7 @@ struct CustomSBody {
 struct CustomSystem {
 	const char *name;
 	const CustomSBody *sbodies; // 0 to let system be random
-	StarSystem::BodyType primaryType[4];
+	SBody::BodyType primaryType[4];
 	int sectorX, sectorY;
 	vector3f pos;
 };

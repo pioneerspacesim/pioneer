@@ -9,7 +9,7 @@ namespace Serializer {
 
 static std::vector<Frame*> g_frames;
 static std::vector<Body*> g_bodies;
-static std::vector<StarSystem::SBody*> g_sbodies;
+static std::vector<SBody*> g_sbodies;
 
 Frame *LookupFrame(size_t index)
 {
@@ -39,8 +39,8 @@ void IndexFrames()
 	AddFrame(Space::rootFrame);
 }
 
-StarSystem::SBody *LookupSystemBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_sbodies[index]); }
-int LookupSystemBody(StarSystem::SBody *b)
+SBody *LookupSystemBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_sbodies[index]); }
+int LookupSystemBody(SBody *b)
 {
 	if (!b) return -1;
 	for (unsigned int i=0; i<g_sbodies.size(); i++) {
@@ -48,7 +48,7 @@ int LookupSystemBody(StarSystem::SBody *b)
 	}
 	assert(0);
 }
-static void add_sbody(StarSystem::SBody *b)
+static void add_sbody(SBody *b)
 {
 	g_sbodies.push_back(b);
 	for (unsigned int i=0; i<b->children.size(); i++) {

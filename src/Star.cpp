@@ -4,7 +4,7 @@
 #include "WorldView.h"
 #include "Serializer.h"
 
-Star::Star(StarSystem::SBody *sbody): Body()
+Star::Star(SBody *sbody): Body()
 {
 	this->type = sbody->type;
 	radius = sbody->GetRadius();
@@ -36,7 +36,7 @@ void Star::Load()
 {
 	using namespace Serializer::Read;
 	Body::Load();
-	type = (StarSystem::BodyType)rd_int();
+	type = (SBody::BodyType)rd_int();
 	pos = rd_vector3d();
 	radius = rd_double();
 	mass = rd_double();

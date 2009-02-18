@@ -68,30 +68,30 @@ Sector::Sector(int x, int y)
 			float spec = rng.Int32(1000000);
 			// frequencies from wikipedia
 			if (spec < 100) { // should be 1 but that is boring
-				s.starType[0] = StarSystem::TYPE_STAR_O;
+				s.starType[0] = SBody::TYPE_STAR_O;
 			} else if (spec < 1300) {
-				s.starType[0] = StarSystem::TYPE_STAR_B;
+				s.starType[0] = SBody::TYPE_STAR_B;
 			} else if (spec < 7300) {
-				s.starType[0] = StarSystem::TYPE_STAR_A;
+				s.starType[0] = SBody::TYPE_STAR_A;
 			} else if (spec < 37300) {
-				s.starType[0] = StarSystem::TYPE_STAR_F;
+				s.starType[0] = SBody::TYPE_STAR_F;
 			} else if (spec < 113300) {
-				s.starType[0] = StarSystem::TYPE_STAR_G;
+				s.starType[0] = SBody::TYPE_STAR_G;
 			} else if (spec < 234300) {
-				s.starType[0] = StarSystem::TYPE_STAR_K;
+				s.starType[0] = SBody::TYPE_STAR_K;
 			} else if (spec < 250000) {
-				s.starType[0] = StarSystem::TYPE_WHITE_DWARF;
+				s.starType[0] = SBody::TYPE_WHITE_DWARF;
 			} else if (spec < 900000) {
-				s.starType[0] = StarSystem::TYPE_STAR_M;
+				s.starType[0] = SBody::TYPE_STAR_M;
 			} else {
-				s.starType[0] = StarSystem::TYPE_BROWN_DWARF;
+				s.starType[0] = SBody::TYPE_BROWN_DWARF;
 			}
 
 			if (s.numStars > 1) {
-				s.starType[1] = (StarSystem::BodyType)rng.Int32(StarSystem::TYPE_STAR_MIN, s.starType[0]);
+				s.starType[1] = (SBody::BodyType)rng.Int32(SBody::TYPE_STAR_MIN, s.starType[0]);
 				if (s.numStars > 2) {
-					s.starType[2] = (StarSystem::BodyType)rng.Int32(StarSystem::TYPE_STAR_MIN, s.starType[0]);
-					s.starType[3] = (StarSystem::BodyType)rng.Int32(StarSystem::TYPE_STAR_MIN, s.starType[2]);
+					s.starType[2] = (SBody::BodyType)rng.Int32(SBody::TYPE_STAR_MIN, s.starType[0]);
+					s.starType[3] = (SBody::BodyType)rng.Int32(SBody::TYPE_STAR_MIN, s.starType[2]);
 				}
 			}
 
@@ -116,12 +116,12 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 
 	int chance = 100;
 	switch (sys.starType[0]) {
-		case StarSystem::TYPE_STAR_O:
-		case StarSystem::TYPE_STAR_B: break;
-		case StarSystem::TYPE_STAR_A: chance += dist; break;
-		case StarSystem::TYPE_STAR_F: chance += 2*dist; break;
-		case StarSystem::TYPE_STAR_G: chance += 4*dist; break;
-		case StarSystem::TYPE_STAR_K: chance += 8*dist; break;
+		case SBody::TYPE_STAR_O:
+		case SBody::TYPE_STAR_B: break;
+		case SBody::TYPE_STAR_A: chance += dist; break;
+		case SBody::TYPE_STAR_F: chance += 2*dist; break;
+		case SBody::TYPE_STAR_G: chance += 4*dist; break;
+		case SBody::TYPE_STAR_K: chance += 8*dist; break;
 		default: chance += 16*dist; break;
 	}
 	if (rng.Int32(chance) < 100) {

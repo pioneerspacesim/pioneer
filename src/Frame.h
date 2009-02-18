@@ -4,11 +4,11 @@
 #include "libs.h"
 #include <string>
 #include <list>
-#include "StarSystem.h"
 
 class Body;
 class CollisionSpace;
 class Geom;
+class SBody;
 
 /*
  * Frame of reference.
@@ -41,7 +41,7 @@ public:
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
 	// snoops into parent frames so beware
-	StarSystem::SBody *GetSBodyFor();
+	SBody *GetSBodyFor();
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;
 	void ApplyEnteringTransform(matrix4x4d &m) const;
@@ -54,7 +54,7 @@ public:
 	/* if parent is null then frame position is absolute */
 	Frame *m_parent;
 	std::list<Frame*> m_children;
-	StarSystem::SBody *m_sbody; // points to SBodies in Pi::current_system
+	SBody *m_sbody; // points to SBodies in Pi::current_system
 	Body *m_astroBody; // if frame contains a star or planet or something
 	
 	enum { TEMP_VIEWING=1 };

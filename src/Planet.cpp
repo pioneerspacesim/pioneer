@@ -4,8 +4,9 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "Serializer.h"
+#include "StarSystem.h"
 
-Planet::Planet(StarSystem::SBody *sbody): Body()
+Planet::Planet(SBody *sbody): Body()
 {
 	pos = vector3d(0,0,0);
 	this->sbody = sbody;
@@ -643,8 +644,8 @@ void Planet::DrawRockyPlanet()
 	ColRangeObj_t barrenEjectaCraterCol = { { .5,.5,.5,1 },{0,0,0,0},.2 };
 
 	switch (sbody->type) {
-	case StarSystem::TYPE_PLANET_DWARF:
-	case StarSystem::TYPE_PLANET_SMALL:
+	case SBody::TYPE_PLANET_DWARF:
+	case SBody::TYPE_PLANET_SMALL:
 		barrenBodyCol.GenCol(col2, rng);
 		SetMaterialColor(col2);
 		DrawShittyRoundCube(1.0f);
@@ -689,8 +690,8 @@ void Planet::DrawRockyPlanet()
 		}
 		break;
 	
-	case StarSystem::TYPE_PLANET_WATER:
-	case StarSystem::TYPE_PLANET_WATER_THICK_ATMOS:
+	case SBody::TYPE_PLANET_WATER:
+	case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
 		SetMaterialColor(darkblue);
 		DrawShittyRoundCube(1.0f);
 		
@@ -710,7 +711,7 @@ void Planet::DrawRockyPlanet()
 		MakeContinent(rot, 0.25, rng);
 		break;
 		
-	case StarSystem::TYPE_PLANET_INDIGENOUS_LIFE:
+	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 		SetMaterialColor(blue);
 		DrawShittyRoundCube(1.0f);
 		
@@ -833,39 +834,39 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 
 void Planet::DrawAtmosphere(double rad, vector3d &pos)
 {
-	if (sbody->type == StarSystem::TYPE_PLANET_SMALL) {
+	if (sbody->type == SBody::TYPE_PLANET_SMALL) {
 		const float c[4] = { .2, .2, .3, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_CO2_THICK_ATMOS) {
+	else if (sbody->type == SBody::TYPE_PLANET_CO2_THICK_ATMOS) {
 		const float c[4] = { .8, .8, .8, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_CO2) {
+	else if (sbody->type == SBody::TYPE_PLANET_CO2) {
 		const float c[4] = { .5, .5, .5, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_METHANE_THICK_ATMOS) {
+	else if (sbody->type == SBody::TYPE_PLANET_METHANE_THICK_ATMOS) {
 		const float c[4] = { .2, .6, .3, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_METHANE) {
+	else if (sbody->type == SBody::TYPE_PLANET_METHANE) {
 		const float c[4] = { .2, .6, .3, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_HIGHLY_VOLCANIC) {
+	else if (sbody->type == SBody::TYPE_PLANET_HIGHLY_VOLCANIC) {
 		const float c[4] = { .5, .2, .2, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_WATER_THICK_ATMOS) {
+	else if (sbody->type == SBody::TYPE_PLANET_WATER_THICK_ATMOS) {
 		const float c[4] = { .8, .8, .8, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_WATER) {
+	else if (sbody->type == SBody::TYPE_PLANET_WATER) {
 		const float c[4] = { .2, .2, .4, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
-	else if (sbody->type == StarSystem::TYPE_PLANET_INDIGENOUS_LIFE) {
+	else if (sbody->type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) {
 		const float c[4] = { .2, .2, .5, .8 };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
@@ -960,7 +961,7 @@ void Planet::Render(const Frame *a_camFrame)
 			crudDList = glGenLists(1);
 			glNewList(crudDList, GL_COMPILE);
 			// this is a rather brittle test..........
-			if (sbody->type < StarSystem::TYPE_PLANET_DWARF) {
+			if (sbody->type < SBody::TYPE_PLANET_DWARF) {
 				DrawGasGiant();
 			} else {
 				DrawRockyPlanet();

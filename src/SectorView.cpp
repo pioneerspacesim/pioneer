@@ -6,6 +6,7 @@
 #include "SystemInfoView.h"
 #include "Player.h"
 #include "Serializer.h"
+#include "StarSystem.h"
 		
 SectorView::SectorView(): GenericSystemView()
 {
