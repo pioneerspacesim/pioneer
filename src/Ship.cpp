@@ -368,14 +368,10 @@ void Ship::TimeStepUpdate(const float timeStep)
 		pos = m.ApplyRotationOnly(pos);
 		pos += GetPosition();
 		
-		CollisionContact c;
-		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, GetGeom());
-		if (c.userData1) {
-			Body *hit = static_cast<Body*>(c.userData1);
-			Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, i);
-			const float damage = 100.0 * EquipType::types[t].pval;
-			hit->OnDamage(this, damage);
-		}
+		Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, i);
+		const float damage = 100.0 * EquipType::types[t].pval;
+		
+		Space::AddLaserBeam(GetFrame(), pos, dir, 10000.0, this, damage);
 	}
 
 	if (m_wheelTransition != 0.0f) {

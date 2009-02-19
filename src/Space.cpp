@@ -412,10 +412,48 @@ void Space::ApplyGravity()
 
 }
 
+struct laserBeam_t {
+	Frame *frame;
+	vector3d pos, dir;
+	double length;
+	Ship *firer;
+	float damage;
+};
+// laser beams fired this physics tick
+static std::vector<laserBeam_t> s_laserBeams;
+
+void Space::AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
+	double length, Ship *firer, float damage)
+{
+	laserBeam_t l;
+	l.frame = f;
+	l.pos = pos; l.dir = dir;
+	l.length = length;
+	l.firer = firer;
+	l.damage = damage;
+
+	s_laserBeams.push_back(l);
+}
+
+void test_laser_beams()
+{
+	for (unsigned int i=0; i<s_laserBeams.size(); i++) {
+		CollisionContact c;
+		s_laserBeams[i].frame->GetCollisionSpace()->TraceRay(
+			s_laserBeams[i].pos, s_laserBeams[i].dir,
+			s_laserBeams[i].length, &c,
+			s_laserBeams[i].firer->GetGeom());
+		if (c.userData1) {
+			Body *hit = static_cast<Body*>(c.userData1);
+			hit->OnDamage(s_laserBeams[i].firer, s_laserBeams[i].damage);
+		}
+	}
+}
+
 void Space::TimeStep(float step)
 {
+	s_laserBeams.clear();
 	ApplyGravity();
-
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
@@ -424,6 +462,8 @@ void Space::TimeStep(float step)
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->TimeStepUpdate(step);
 	}
+	// see if anyone has been shot
+	test_laser_beams();
 
 	if (Pi::player->IsDead()) {
 		printf("PLAYER IS DEAD :-(\n");

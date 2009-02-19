@@ -7,6 +7,7 @@
 class Body;
 class Frame;
 class SBody;
+class Ship;
 
 // The place all the 'Body's exist in
 class Space {
@@ -21,6 +22,8 @@ public:
 	static void AddBody(Body *);
 	static void KillBody(Body *);
 	static void Render(const Frame *cam_frame);
+	static void AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
+		double length, Ship *firer, float damage);
 	// make sure SBody* is in Pi::currentSystem
 	static Frame *GetFrameWithSBody(const SBody *b);
 	static Frame *GetRootFrame() { return rootFrame; }
