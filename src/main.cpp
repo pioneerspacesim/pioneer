@@ -439,9 +439,8 @@ void Pi::Start()
 	} else if (choice == 2) {
 		/* debug start point */
 		SBodyPath path(0,0,1);
+		path.elem[0] = 0; // zeroth child of root body
 		HyperspaceTo(&path);
-		Frame *pframe = *(Space::rootFrame->m_children.begin());
-		player->SetFrame(pframe);
 		player->SetPosition(vector3d(0,0,2*EARTH_RADIUS));
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);

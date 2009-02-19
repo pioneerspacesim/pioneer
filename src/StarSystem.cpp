@@ -664,12 +664,12 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		MakeStarOfTypeLighterThan(star[1], s.m_systems[system_idx].starType[1],
 				star[0]->mass, rand);
 
-try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], fixed(0), rand);
-
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
+try_that_again_guvnah:
+		MakeBinaryPair(star[0], star[1], fixed(0), rand);
+
 		m_numStars = 2;
 
 		if (numStars > 2) {
