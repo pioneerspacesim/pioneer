@@ -17,7 +17,9 @@ AC_PROG_RANLIB
 #CFLAGS="$CFLAGS $LIB3DS_CFLAGS"
 #LIBS="$LIBS $LIB3DS_LIBS"
 
-CFLAGS="-g -O2 -Wall"
+CFLAGS="-g -Wall"
+AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
+AC_ARG_WITH(fno-inline, [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CPPFLAGS -fno-inline")
 
 CFLAGS="$CFLAGS `pkg-config --cflags sigc++-2.0`"
 LIBS="$LIBS `pkg-config --libs sigc++-2.0` -lGL -lGLU"

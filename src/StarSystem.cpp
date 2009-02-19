@@ -464,7 +464,7 @@ void StarSystem::GetPathOf(const SBody *sbody, SBodyPath *path) const
 		assert(found);
 	}
 	path->sectorX = m_secx;
-	path->sectorY = m_secx;
+	path->sectorY = m_secy;
 	path->systemIdx = m_sysIdx;
 }
 
