@@ -8,7 +8,7 @@ class Frame;
 class Sfx: public Body {
 public:
 	OBJDEF(Sfx, Body, SFX);
-	enum TYPE { TYPE_EXPLOSION };
+	enum TYPE { TYPE_EXPLOSION, TYPE_DAMAGE };
 
 	static void Add(const Body *, TYPE);
 
@@ -25,6 +25,7 @@ protected:
 	virtual void Load();
 private:
 	vector3d m_pos;
+	vector3d m_vel;
 	float m_age;
 	enum TYPE m_type;
 };

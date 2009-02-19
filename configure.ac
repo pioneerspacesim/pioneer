@@ -32,5 +32,5 @@ LIBS="$LIBS $SDL_LIBS -lSDL_image"
 
 CXXFLAGS="$CFLAGS"
 
-AC_CONFIG_FILES([Makefile src/Makefile src/sbre/Makefile src/collider/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile src/sbre/Makefile src/collider/Makefile src/mods/Makefile])
 AC_OUTPUT

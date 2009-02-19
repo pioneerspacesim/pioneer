@@ -120,6 +120,16 @@ void Ship::PostLoadFixup()
 	}
 }
 
+static std::string make_random_ship_registration()
+{
+	char buf[32];
+	snprintf(buf, sizeof(buf), "%c%c-%04d",
+		'A' + Pi::rng.Int32(26),
+		'A' + Pi::rng.Int32(26),
+		Pi::rng.Int32(10000));
+	return std::string(buf);
+}
+
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
 	m_flightState = FLYING;
@@ -139,6 +149,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 		m_gunState[i] = 0;
 	}
 	memset(m_thrusters, 0, sizeof(m_thrusters));
+	SetLabel(make_random_ship_registration().c_str());
 
 	Init();	
 }
@@ -155,6 +166,8 @@ bool Ship::OnDamage(Body *attacker, float kgDamage)
 	if (m_stats.hull_mass_left < 0) {
 		Space::KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+	} else {
+		Sfx::Add(this, Sfx::TYPE_DAMAGE);
 	}
 	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
@@ -445,8 +458,16 @@ bool Ship::IsFiringLasers()
 /* Assumed to be at model coords */
 void Ship::RenderLaserfire()
 {
+	static const GLfloat fogDensity = 0.001;
+	static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 	const ShipType &stype = GetShipType();
 	glDisable(GL_LIGHTING);
+	glEnable(GL_FOG);
+	glFogi(GL_FOG_MODE, GL_EXP2);
+	glFogfv(GL_FOG_COLOR, fogColor);
+	glFogf(GL_FOG_DENSITY, fogDensity);
+	glHint(GL_FOG_HINT, GL_NICEST);
+	
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		if (!m_gunState[i]) continue;
 		glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
@@ -467,6 +488,7 @@ void Ship::RenderLaserfire()
 		glEnd();
 		glPopAttrib();
 	}
+	glDisable(GL_FOG);
 	glEnable(GL_LIGHTING);
 }
 

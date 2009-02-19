@@ -69,6 +69,7 @@ public:
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
 	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
+	static sigc::signal<void> onPlayerHyperspaceToNewSystem;
 
 	static MTRand rng;
 

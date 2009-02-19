@@ -39,10 +39,14 @@ void Sfx::SetPosition(vector3d p)
 void Sfx::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
+	m_pos += m_vel * timeStep;
 
 	switch (m_type) {
 		case TYPE_EXPLOSION:
 			if (m_age > 0.2) Space::KillBody(this);
+			break;
+		case TYPE_DAMAGE:
+			if (m_age > 2.0) Space::KillBody(this);
 			break;
 	}
 }
@@ -69,6 +73,14 @@ void Sfx::Render(const Frame *camFrame)
 			gluSphere(Pi::gluQuadric, 2000*m_age, 20,20);
 			glPopAttrib();
 			break;
+		case TYPE_DAMAGE:
+			glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
+			glDisable(GL_LIGHTING);
+			float s = 0.5*sin(m_age*10);
+			glColor3f(.5,.5,.5);
+			gluSphere(Pi::gluQuadric, 5+s*s*8, 10,10);
+			glPopAttrib();
+			break;
 	}
 
 	glPopMatrix();
@@ -80,5 +92,6 @@ void Sfx::Add(const Body *b, TYPE t)
 	sfx->m_type = t;
 	sfx->SetFrame(b->GetFrame());
 	sfx->SetPosition(b->GetPosition());
+	sfx->m_vel = b->GetVelocity();
 	Space::AddBody(sfx);
 }

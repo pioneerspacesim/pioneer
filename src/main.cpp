@@ -20,6 +20,7 @@
 #include "CargoBody.h"
 #include "InfoView.h"
 #include "Serializer.h"
+#include "mods/Mods.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -31,6 +32,7 @@ sigc::signal<void, SDL_keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
 sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
+sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
 int Pi::mouseMotion[2];
@@ -108,6 +110,7 @@ void Pi::Init(IniConfig &config)
 	Space::Init();
 	
 	Gui::Init(scrWidth, scrHeight, 800, 600);
+	Mods::Init();
 }
 
 void Pi::InitOpenGL()
@@ -223,7 +226,6 @@ void Pi::HandleEvents()
 					} else {
 						Ship *ship = new Ship(ShipType::LADYBIRD);
 						ship->AIInstruct(Ship::DO_KILL, Pi::player);
-						ship->SetLabel("A friend");
 						ship->SetFrame(Pi::player->GetFrame());
 						ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 						ship->SetVelocity(Pi::player->GetVelocity());
@@ -572,6 +574,7 @@ StarSystem *Pi::GetSelectedSystem()
 
 void Pi::HyperspaceTo(const SBodyPath *dest)
 {
+	bool new_system = false;
 	if (currentSystem) {
 		if (!currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
 			delete currentSystem;
@@ -582,6 +585,7 @@ void Pi::HyperspaceTo(const SBodyPath *dest)
 		currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemIdx);
 		Space::Clear();
 		Space::BuildSystem();
+		new_system = true;
 	}
 	
 	
@@ -596,6 +600,8 @@ void Pi::HyperspaceTo(const SBodyPath *dest)
 			cos(longitude)*cos(latitude)*dist));
 	Pi::player->SetVelocity(vector3d(0.0));
 	Pi::player->SetFrame(pframe);
+
+	if (new_system) Pi::onPlayerHyperspaceToNewSystem.emit();
 }
 
 void Pi::Serialize()
