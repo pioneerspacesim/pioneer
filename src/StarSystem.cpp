@@ -392,6 +392,82 @@ void SBody::EliminateBadChildren()
 	}
 }
 
+SBodyPath::SBodyPath()
+{
+	sectorX = sectorY = systemIdx = 0;
+	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
+}
+SBodyPath::SBodyPath(int sectorX, int sectorY, int systemIdx)
+{
+	this->sectorX = sectorX;
+	this->sectorY = sectorY;
+	this->systemIdx = systemIdx;
+	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
+}
+
+void SBodyPath::Serialize() const
+{
+	using namespace Serializer::Write;
+	wr_int(sectorX);
+	wr_int(sectorY);
+	wr_int(systemIdx);
+	for (int i=0; i<SBODYPATHLEN; i++) wr_byte(elem[i]);
+}
+
+void SBodyPath::Unserialize(SBodyPath *path)
+{
+	using namespace Serializer::Read;
+	path->sectorX = rd_int();
+	path->sectorY = rd_int();
+	path->systemIdx = rd_int();
+	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd_byte();
+}
+
+SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
+{
+	assert((m_secx == path->sectorX) || (m_secy == path->sectorY) ||
+	       (m_sysIdx == path->systemIdx));
+
+	SBody *body = rootBody;
+	for (int i=0; i<SBODYPATHLEN; i++) {
+		if (path->elem[i] == -1) continue;
+		else {
+			body = body->children[path->elem[i]];
+		}
+	}
+	return body;
+}
+
+void StarSystem::GetPathOf(const SBody *sbody, SBodyPath *path) const
+{
+	*path = SBodyPath();
+
+	int pos = SBODYPATHLEN-1;
+
+	for (const SBody *parent = sbody->parent;;) {
+		if (!parent) break;
+		assert((pos>=0) && (pos < SBODYPATHLEN));
+
+		// find position of sbody in parent
+		unsigned int index = 0;
+		bool found = false;
+		for (; index < parent->children.size(); index++) {
+			if (parent->children[index] == sbody) {
+				assert(index < 128);
+				path->elem[pos--] = index;
+				sbody = parent;
+				parent = parent->parent;
+				found = true;
+				break;
+			}
+		}
+		assert(found);
+	}
+	path->sectorX = m_secx;
+	path->sectorY = m_secx;
+	path->systemIdx = m_sysIdx;
+}
+
 /*
 struct CustomSBody {
 	const char *name; // null to end system

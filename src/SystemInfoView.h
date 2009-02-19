@@ -24,6 +24,7 @@ private:
 	Gui::Label *m_infoLabel, *m_infoData,
 		*m_econLabel, *m_econData;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
+	StarSystem *m_system;
 };
 
 #endif /* _SYSTEMINFOVIEW_H */

@@ -23,16 +23,22 @@ public:
 		m_rightRegion2 = new Gui::Fixed(122, 17);
 		m_rightRegion2->SetTransparency(true);
 		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-43);
+		
+		m_rightRegion1 = new Gui::Fixed(122, 17);
+		m_rightRegion1->SetTransparency(true);
+		Gui::Screen::AddBaseWidget(m_rightRegion1, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-62);
 	}
 	virtual ~View() { delete m_rightButtonBar; delete m_rightRegion2; }
 	virtual void ShowAll() {
 		m_rightButtonBar->ShowAll();
 		m_rightRegion2->ShowAll();
+		m_rightRegion1->ShowAll();
 		Gui::Fixed::ShowAll();
 	}
 	virtual void HideAll() {
 		m_rightButtonBar->HideAll();
 		m_rightRegion2->HideAll();
+		m_rightRegion1->HideAll();
 		Gui::Fixed::HideAll();
 	}
 	// called before Gui::Draw will call widget ::Draw methods.
@@ -45,7 +51,7 @@ public:
 protected:
 	// each view can put some buttons in the bottom right of the cpanel
 	Gui::Fixed *m_rightButtonBar;
-//	Gui::Fixed *m_rightRegion1;
+	Gui::Fixed *m_rightRegion1;
 	Gui::Fixed *m_rightRegion2;
 };
 

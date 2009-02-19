@@ -21,6 +21,8 @@ public:
 	static void AddBody(Body *);
 	static void KillBody(Body *);
 	static void Render(const Frame *cam_frame);
+	// make sure SBody* is in Pi::currentSystem
+	static Frame *GetFrameWithSBody(const SBody *b);
 	static Frame *GetRootFrame() { return rootFrame; }
 
 	static std::list<Body*> bodies;

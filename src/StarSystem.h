@@ -26,6 +26,18 @@ struct Orbit {
 	matrix4x4d rotMatrix;
 };
 
+#define SBODYPATHLEN	8
+
+struct SBodyPath {
+	SBodyPath();
+	SBodyPath(int sectorX, int sectorY, int systemIdx);
+	int sectorX, sectorY, systemIdx;
+	Sint8 elem[SBODYPATHLEN];
+	
+	void Serialize() const;
+	static void Unserialize(SBodyPath *path);
+};
+
 class SBody {
 public:
 	SBody();
@@ -118,6 +130,8 @@ public:
 	StarSystem() { rootBody = 0; }
 	StarSystem(int sector_x, int sector_y, int system_idx);
 	~StarSystem();
+	void GetPathOf(const SBody *body, SBodyPath *path) const;
+	SBody *GetBodyByPath(const SBodyPath *path) const;
 	static void Serialize(StarSystem *);
 	static StarSystem *Unserialize();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);

@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "Ship.h"
+#include "StarSystem.h"
 
 class Player: public Ship {
 public:
@@ -18,6 +19,8 @@ public:
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
+	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspaceTarget; }
+	void SetHyperspaceTarget(const SBodyPath *path);
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -28,6 +31,7 @@ private:
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	float m_setSpeed;
+	SBodyPath m_hyperspaceTarget;
 };
 
 #endif /* _PLAYER_H */

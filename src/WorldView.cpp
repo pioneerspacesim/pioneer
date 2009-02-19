@@ -64,6 +64,12 @@ WorldView::WorldView(): View()
 	m_flightStatus = new Gui::Label("");
 	m_flightStatus->SetColor(1,.7,0);
 	m_rightRegion2->Add(m_flightStatus, 10, 0);
+
+	m_hyperTargetLabel = new Gui::Label("");
+	m_hyperTargetLabel->SetColor(1,.7,0);
+	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
+	
+	Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	
 	m_bgstarsDlist = glGenLists(1);
 
@@ -150,11 +156,9 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace()
 {
-	StarSystem *s = Pi::GetSelectedSystem();
-	if (s /* && isn't current system */ ) {
-		printf("Hyperspace!!!!!! zoooooooom!!!!!!!\n");
-		Pi::HyperspaceTo(s);
-	}
+	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+	printf("Hyperspace!!!!!! zoooooooom!!!!!!!\n");
+	Pi::HyperspaceTo(path);
 }
 
 void WorldView::DrawBgStars()
@@ -279,7 +283,7 @@ void WorldView::Update()
 		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0, -10);
 	}
 
-	if (Pi::GetSelectedSystem() && !Pi::player->GetDockedWith()/* && isn't current system */ ) {
+	if (!Pi::player->GetDockedWith()) {
 		m_hyperspaceButton->Show();
 	} else {
 		m_hyperspaceButton->Hide();
@@ -327,6 +331,22 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 	Pi::cpan->SetTemporaryMessage(s, "Docking clearance granted.");
 }
 
+static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
+{
+	Pi::player->SetHyperspaceTarget(&path);
+}
+	
+void WorldView::OnChangeHyperspaceTarget()
+{
+	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+	StarSystem *system = new StarSystem(path->sectorX, path->sectorY, path->systemIdx);
+	SBody *b = system->GetBodyByPath(path);
+	Pi::cpan->SetTemporaryMessage(0, std::string("Set hyperspace destination to ")+b->name);
+	std::string msg = "To: "+b->name;
+	m_hyperTargetLabel->SetText(msg);
+	delete system;
+}
+
 void WorldView::UpdateCommsOptions()
 {
 	Body * const navtarget = Pi::player->GetNavTarget();
@@ -343,6 +363,16 @@ void WorldView::UpdateCommsOptions()
 		} else {
 			std::string msg = "Do something to "+navtarget->GetLabel();
 			Gui::Button *b = AddCommsOption(msg, ypos);
+			ypos += 32;
+		}
+		Frame *f = navtarget->GetFrame();
+		SBody *b = f->GetSBodyFor();
+		if (b) {
+			SBodyPath path;
+			Pi::currentSystem->GetPathOf(b, &path);
+			std::string msg = "Set hyperspace target to " + navtarget->GetLabel();
+			Gui::Button *b = AddCommsOption(msg, ypos);
+			b->onClick.connect(sigc::bind(sigc::ptr_fun(&OnPlayerSetHyperspaceTargetTo), path));
 			ypos += 32;
 		}
 	}

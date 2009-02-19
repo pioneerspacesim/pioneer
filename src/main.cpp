@@ -30,6 +30,7 @@ sigc::signal<void, SDL_keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
 sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
+sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
 int Pi::mouseMotion[2];
@@ -422,8 +423,8 @@ void Pi::Start()
 
 	if (choice == 1) {
 		/* Earth start point */
-		StarSystem s(0,0,0);
-		HyperspaceTo(&s);
+		SBodyPath path(0,0,0);
+		HyperspaceTo(&path);
 		//Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
 		//player->SetFrame(pframe);
 		// XXX there isn't a sensible way to find stations for a planet.
@@ -437,8 +438,8 @@ void Pi::Start()
 		MainLoop();
 	} else if (choice == 2) {
 		/* debug start point */
-		StarSystem s(0,0,1);
-		HyperspaceTo(&s);
+		SBodyPath path(0,0,1);
+		HyperspaceTo(&path);
 		Frame *pframe = *(Space::rootFrame->m_children.begin());
 		player->SetFrame(pframe);
 		player->SetPosition(vector3d(0,0,2*EARTH_RADIUS));
@@ -570,19 +571,32 @@ StarSystem *Pi::GetSelectedSystem()
 	return selectedSystem;
 }
 
-void Pi::HyperspaceTo(StarSystem *dest)
+void Pi::HyperspaceTo(const SBodyPath *dest)
 {
-	int sec_x, sec_y, sys_idx;
-	dest->GetPos(&sec_x, &sec_y, &sys_idx);
-
-	if (currentSystem) delete currentSystem;
-	currentSystem = new StarSystem(sec_x, sec_y, sys_idx);
-
-	Space::Clear();
-	Space::BuildSystem();
-	float ang = rng.Double(M_PI);
-	Pi::player->SetPosition(vector3d(sin(ang)*AU,cos(ang)*AU,0));
+	if (currentSystem) {
+		if (!currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+			delete currentSystem;
+			currentSystem = 0;
+		}
+	}
+	if (!currentSystem) {
+		currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemIdx);
+		Space::Clear();
+		Space::BuildSystem();
+	}
+	
+	
+	SBody *targetBody = currentSystem->GetBodyByPath(dest);
+	Frame *pframe = Space::GetFrameWithSBody(targetBody);
+	assert(pframe);
+	float longitude = rng.Double(M_PI);
+	float latitude = rng.Double(M_PI);
+	float dist = (0.4 + rng.Double(0.2)) * AU;
+	Pi::player->SetPosition(vector3d(sin(longitude)*cos(latitude)*dist,
+			sin(latitude)*dist,
+			cos(longitude)*cos(latitude)*dist));
 	Pi::player->SetVelocity(vector3d(0.0));
+	Pi::player->SetFrame(pframe);
 }
 
 void Pi::Serialize()

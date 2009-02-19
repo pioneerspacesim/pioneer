@@ -74,6 +74,25 @@ void Space::Unserialize()
 	Frame::PostUnserializeFixup(rootFrame);
 }
 
+static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
+{
+	if (f->m_sbody == b) return f;
+	else {
+		for (std::list<Frame*>::iterator i = f->m_children.begin();
+			i != f->m_children.end(); ++i) {
+			
+			Frame *found = find_frame_with_sbody(*i, b);
+			if (found) return found;
+		}
+	}
+	return 0;
+}
+
+Frame *Space::GetFrameWithSBody(const SBody *b)
+{
+	return find_frame_with_sbody(Space::rootFrame, b);
+}
+
 void Space::MoveOrbitingObjectFrames(Frame *f)
 {
 	if (f->m_sbody) {

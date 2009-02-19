@@ -6,6 +6,7 @@
 #include "View.h"
 
 class Body;
+class SBodyPath;
 
 class WorldView: public View {
 public:
@@ -34,12 +35,13 @@ private:
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
+	void OnChangeHyperspaceTarget();
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	Body* PickBody(const float screenX, const float screenY) const;
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsDlist;
 	Gui::Fixed *m_commsOptions;
-	Gui::Label *m_flightStatus;
+	Gui::Label *m_flightStatus, *m_hyperTargetLabel;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
 	bool m_labelsOn;

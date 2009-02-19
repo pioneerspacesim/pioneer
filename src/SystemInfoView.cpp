@@ -3,6 +3,7 @@
 #include "SectorView.h"
 #include "SystemInfoView.h"
 #include "ShipCpanel.h"
+#include "Player.h"
 
 SystemInfoView::SystemInfoView(): GenericSystemView()
 {
@@ -14,6 +15,10 @@ SystemInfoView::SystemInfoView(): GenericSystemView()
 void SystemInfoView::OnBodySelected(SBody *b)
 {
 	m_bodySelected = b;
+
+	SBodyPath path;
+	m_system->GetPathOf(b, &path);
+	Pi::player->SetHyperspaceTarget(&path);
 
 	std::string desc, data;
 
@@ -164,6 +169,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
 	
+	m_system = s;
 	m_sbodyInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(),Gui::Screen::GetHeight());
 	m_econInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	

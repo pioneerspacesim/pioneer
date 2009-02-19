@@ -19,6 +19,7 @@ class ShipCpanel;
 class StarSystem;
 class SpaceStationView;
 class InfoView;
+class SBodyPath;
 
 class IniConfig: private std::map<std::string, std::string> {
 	public:
@@ -67,10 +68,11 @@ public:
 	static sigc::signal<void, SDL_keysym*> onKeyRelease;
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
+	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
 
 	static MTRand rng;
 
-	static void HyperspaceTo(StarSystem *destination);
+	static void HyperspaceTo(const SBodyPath *path);
 	enum MapView { MAP_NOMAP, MAP_SECTOR, MAP_SYSTEM };
 	static void SetMapView(enum MapView);
 	static enum MapView GetMapView() { return mapView; }

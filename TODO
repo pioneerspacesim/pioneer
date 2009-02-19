@@ -1,11 +1,7 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Get rid of sbre object caching (or fix it) because it is broken with LOD.
 * Make scanner only appear at appropriate times
-* Make sure custom systems without body definitions have the stars specified
- - Perhaps use partial system definitions where stars are defined but planets are generated
-* Precise selection of hyperspace destination (by planet, not just system).
 * Internal engine fuel usage (refuel on inventory page)
 * Political alignments of systems (probably needed for trade model):
  * Piracy level

@@ -36,6 +36,12 @@ void Player::Load()
 	m_setSpeed = rd_float();
 }
 
+void Player::SetHyperspaceTarget(const SBodyPath *path)
+{
+	m_hyperspaceTarget = *path;
+	Pi::onPlayerChangeHyperspaceTarget.emit();
+}
+
 void Player::SetFlightControlState(enum FlightControlState s)
 {
 	m_flightControlState = s;
