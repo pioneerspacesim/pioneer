@@ -118,7 +118,7 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::GetRootFrame();
+	const Frame *root = Space::rootFrame;
 
 	while ((f!=root) && (fTo != f)) {
 		f->ApplyLeavingTransform(m);

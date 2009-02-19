@@ -285,7 +285,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 	if (Pi::showDebugInfo) {
 		char buf[1024];
 		vector3d pos = GetPosition();
-		vector3d abs_pos = GetPositionRelTo(Space::GetRootFrame());
+		vector3d abs_pos = GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (GetFrame() ? GetFrame()->GetLabel() : "System");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"

@@ -246,7 +246,7 @@ void WorldView::Draw3D()
 		cam_frame.SetOrientation(camRot);
 		
 		matrix4x4d trans2bg;
-		Frame::GetFrameTransform(Space::GetRootFrame(), &cam_frame, trans2bg);
+		Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
 		trans2bg.ClearToRotOnly();
 		glPushMatrix();
 		glMultMatrixd(&trans2bg[0]);
@@ -254,7 +254,7 @@ void WorldView::Draw3D()
 		glPopMatrix();
 
 		int l=0;
-		position_system_lights(&cam_frame, Space::GetRootFrame(), l);
+		position_system_lights(&cam_frame, Space::rootFrame, l);
 		Space::Render(&cam_frame);
 		Pi::player->DrawHUD(&cam_frame);
 

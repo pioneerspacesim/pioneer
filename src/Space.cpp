@@ -14,17 +14,34 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 
-std::list<Body*> Space::bodies;
-Frame *Space::rootFrame;
-std::list<Body*> Space::corpses;
+namespace Space {
 
-void Space::Init()
+struct laserBeam_t {
+	Frame *frame;
+	vector3d pos, dir;
+	double length;
+	Ship *firer;
+	float damage;
+};
+
+std::list<Body*> bodies;
+Frame *rootFrame;
+static void MoveOrbitingObjectFrames(Frame *f);
+static void UpdateFramesOfReference();
+static void CollideFrame(Frame *f);
+static void PruneCorpses();
+static void ApplyGravity();
+static std::list<Body*> corpses;
+// laser beams fired this physics tick
+static std::vector<laserBeam_t> laserBeams;
+
+void Init()
 {
 	rootFrame = new Frame(NULL, "System");
 	rootFrame->SetRadius(FLT_MAX);
 }
 
-void Space::Clear()
+void Clear()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->SetFrame(NULL);
@@ -39,7 +56,7 @@ void Space::Clear()
 	rootFrame->m_children.clear();
 }
 
-void Space::Serialize()
+void Serialize()
 {
 	using namespace Serializer::Write;
 	Serializer::IndexFrames();
@@ -53,7 +70,7 @@ void Space::Serialize()
 	}
 }
 
-void Space::Unserialize()
+void Unserialize()
 {
 	using namespace Serializer::Read;
 	Serializer::IndexSystemBodies(Pi::currentSystem);
@@ -88,12 +105,12 @@ static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 	return 0;
 }
 
-Frame *Space::GetFrameWithSBody(const SBody *b)
+Frame *GetFrameWithSBody(const SBody *b)
 {
-	return find_frame_with_sbody(Space::rootFrame, b);
+	return find_frame_with_sbody(rootFrame, b);
 }
 
-void Space::MoveOrbitingObjectFrames(Frame *f)
+void MoveOrbitingObjectFrames(Frame *f)
 {
 	if (f->m_sbody) {
 		// this isn't very smegging efficient
@@ -186,7 +203,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 	}
 }
 
-void Space::GenBody(SBody *sbody, Frame *f)
+void GenBody(SBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
@@ -215,24 +232,24 @@ void Space::GenBody(SBody *sbody, Frame *f)
 	}
 }
 
-void Space::BuildSystem()
+void BuildSystem()
 {
 	GenBody(Pi::currentSystem->rootBody, rootFrame);
 	MoveOrbitingObjectFrames(rootFrame);
 }
 
-void Space::AddBody(Body *b)
+void AddBody(Body *b)
 {
 	bodies.push_back(b);
 }
 
-void Space::KillBody(Body* const b)
+void KillBody(Body* const b)
 {
 	b->MarkDead();
 	corpses.push_back(b);
 }
 
-void Space::UpdateFramesOfReference()
+void UpdateFramesOfReference()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		Body *b = *i;
@@ -374,7 +391,7 @@ static void hitCallback(CollisionContact *c)
 	}
 }
 
-void Space::CollideFrame(Frame *f)
+void CollideFrame(Frame *f)
 {
 	f->GetCollisionSpace()->Collide(&hitCallback);
 	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
@@ -382,7 +399,7 @@ void Space::CollideFrame(Frame *f)
 	}
 }
 
-void Space::ApplyGravity()
+void ApplyGravity()
 {
 	Body *lump = 0;
 	// gravity is applied when our frame contains an 'astroBody', ie a star or planet,
@@ -412,17 +429,7 @@ void Space::ApplyGravity()
 
 }
 
-struct laserBeam_t {
-	Frame *frame;
-	vector3d pos, dir;
-	double length;
-	Ship *firer;
-	float damage;
-};
-// laser beams fired this physics tick
-static std::vector<laserBeam_t> s_laserBeams;
-
-void Space::AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
+void AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
 	double length, Ship *firer, float damage)
 {
 	laserBeam_t l;
@@ -432,27 +439,27 @@ void Space::AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
 	l.firer = firer;
 	l.damage = damage;
 
-	s_laserBeams.push_back(l);
+	laserBeams.push_back(l);
 }
 
 void test_laser_beams()
 {
-	for (unsigned int i=0; i<s_laserBeams.size(); i++) {
+	for (unsigned int i=0; i<laserBeams.size(); i++) {
 		CollisionContact c;
-		s_laserBeams[i].frame->GetCollisionSpace()->TraceRay(
-			s_laserBeams[i].pos, s_laserBeams[i].dir,
-			s_laserBeams[i].length, &c,
-			s_laserBeams[i].firer->GetGeom());
+		laserBeams[i].frame->GetCollisionSpace()->TraceRay(
+			laserBeams[i].pos, laserBeams[i].dir,
+			laserBeams[i].length, &c,
+			laserBeams[i].firer->GetGeom());
 		if (c.userData1) {
 			Body *hit = static_cast<Body*>(c.userData1);
-			hit->OnDamage(s_laserBeams[i].firer, s_laserBeams[i].damage);
+			hit->OnDamage(laserBeams[i].firer, laserBeams[i].damage);
 		}
 	}
 }
 
-void Space::TimeStep(float step)
+void TimeStep(float step)
 {
-	s_laserBeams.clear();
+	laserBeams.clear();
 	ApplyGravity();
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
@@ -474,7 +481,7 @@ void Space::TimeStep(float step)
 	PruneCorpses();
 }
 
-void Space::PruneCorpses()
+void PruneCorpses()
 {
 	for (bodiesIter_t corpse = corpses.begin(); corpse != corpses.end(); ++corpse) {
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
@@ -494,7 +501,7 @@ struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort
 	bool operator()(body_zsort_t a, body_zsort_t b) { return a.dist > b.dist; }
 };
 
-void Space::Render(const Frame *cam_frame)
+void Render(const Frame *cam_frame)
 {
 	// simple z-sort!!!!!!!!!!!!!11
 	body_zsort_t *bz = new body_zsort_t[bodies.size()];
@@ -515,3 +522,6 @@ void Space::Render(const Frame *cam_frame)
 	}
 	delete [] bz;
 }
+
+}
+
