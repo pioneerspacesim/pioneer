@@ -2,6 +2,17 @@
 #include <math.h>
 #include "libs.h"
 #include "utils.h"
+#include "Pi.h"
+
+FILE *fopen_or_die(const char *filename, const char *mode)
+{
+	FILE *f = fopen(filename, mode);
+	if (!f) {
+		printf("Error: could not open file '%s'\n", filename);
+		Pi::Quit();
+	}
+	return f;
+}
 
 /*
  * jesus wept

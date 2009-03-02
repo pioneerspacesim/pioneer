@@ -105,6 +105,7 @@ public:
 	}
 
 	double GetMaxChildOrbitalDistance() const;
+	void AddHumanStuff(StarSystem *system);
 
 	int tmp;
 	Orbit orbit;

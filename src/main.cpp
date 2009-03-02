@@ -20,6 +20,7 @@
 #include "CargoBody.h"
 #include "InfoView.h"
 #include "Serializer.h"
+#include "NameGenerator.h"
 #include "mods/Mods.h"
 
 float Pi::timeAccel = 1.0f;
@@ -104,6 +105,7 @@ void Pi::Init(IniConfig &config)
 
 	Pi::rng.seed(time(NULL));
 
+	NameGenerator::Init();
 	InitOpenGL();
 
 	GLFTInit();
@@ -635,11 +637,7 @@ void Pi::Unserialize()
 
 IniConfig::IniConfig(const char *filename)
 {
-	FILE *f = fopen(filename, "r");
-	if (!f) {
-		fprintf(stderr, "Could not open '%s'.\n", filename);
-		Pi::Quit();
-	}
+	FILE *f = fopen_or_die(filename, "r");
 	char buf[1024];
 	while (fgets(buf, sizeof(buf), f)) {
 		if (buf[0] == '#') continue;

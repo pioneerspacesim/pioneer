@@ -2,6 +2,7 @@
 #include "Sector.h"
 #include "custom_starsystems.h"
 #include "Serializer.h"
+#include "NameGenerator.h"
 
 #define CELSIUS	273.15
 #define DEBUG_DUMP
@@ -360,6 +361,7 @@ void SBody::EliminateBadChildren()
 		for (std::vector<SBody*>::iterator j = children.begin(); j != children.end(); ++j) {
 			if ((*j)->GetSuperType() == SBody::SUPERTYPE_STAR) continue;
 			if ((*j) == (*i)) continue;
+			if ((*j)->tmp) continue;
 			// don't eat anything bigger than self
 			if ((*j)->mass > (*i)->mass) continue;
 			fixed i_min = (*i)->orbMin;
@@ -735,6 +737,8 @@ try_that_again_guvnah:
 
 	if (m_numStars > 1) MakePlanetsAround(centGrav1);
 	if (m_numStars == 4) MakePlanetsAround(centGrav2);
+
+	rootBody->AddHumanStuff(this);
 }
 
 void StarSystem::MakePlanetsAround(SBody *primary)
@@ -847,7 +851,7 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 	// components of it in the previous loop
 	if ((bbody_temp < FREEZE_TEMP_CUTOFF) && (mass < 5)) {
 		globalwarming *= 0.2;
-		albedo = rand.Double(0.05) + 0.9;
+		albedo = rand.Fixed()*fixed(5,100) + 0.9;
 	}
 	bbody_temp = CalcSurfaceTemp(star, distToPrimary, albedo, globalwarming);
 //	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
@@ -950,83 +954,6 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 
 	}
 
-	bool has_starports = false;
-	// starports - orbital
-	if ((genMoons) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
-		(rand.Fixed() < humanActivity)) {
-		has_starports = true;
-		SBody *sp = new SBody;
-		sp->type = SBody::TYPE_STARPORT_ORBITAL;
-		sp->seed = rand.Int32();
-		sp->tmp = 0;
-		sp->econType = econType;
-		sp->parent = this;
-		sp->rotationPeriod = fixed(1,3600);
-		sp->averageTemp = this->averageTemp;
-		sp->mass = 0;
-		sp->name = "Starport";
-		sp->humanActivity = humanActivity;
-		fixed semiMajorAxis;
-		if (children.size()) {
-			semiMajorAxis = fixed(1,2) * children[0]->orbMin;
-		} else {
-			semiMajorAxis = fixed(1, 3557);
-		}
-		sp->orbit.eccentricity = 0;
-		sp->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
-		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
-		sp->orbit.rotMatrix = matrix4x4d::Identity();
-		children.insert(children.begin(), sp);
-		sp->orbMin = semiMajorAxis;
-		sp->orbMax = semiMajorAxis;
-
-		if (rand.Fixed() < humanActivity) {
-			SBody *sp2 = new SBody;
-			*sp2 = *sp;
-			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-			children.insert(children.begin(), sp2);
-		}
-	}
-	// starports - surface
-	if ((averageTemp < CELSIUS+80) && (averageTemp > 100) &&
-		((type == SBody::TYPE_PLANET_DWARF) ||
-		(type == SBody::TYPE_PLANET_SMALL) ||
-		(type == SBody::TYPE_PLANET_WATER) ||
-		(type == SBody::TYPE_PLANET_CO2) ||
-		(type == SBody::TYPE_PLANET_METHANE) ||
-		(type == SBody::TYPE_PLANET_INDIGENOUS_LIFE))) {
-
-		fixed activ = humanActivity;
-		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) humanActivity *= 2;
-
-		int max = 6;
-		while ((max-- > 0) && (rand.Fixed() < activ)) {
-			has_starports = true;
-			SBody *sp = new SBody;
-			sp->type = SBody::TYPE_STARPORT_SURFACE;
-			sp->seed = rand.Int32();
-			sp->tmp = 0;
-			sp->parent = this;
-			sp->averageTemp = this->averageTemp;
-			sp->humanActivity = activ;
-			sp->mass = 0;
-			sp->name = "Starport";
-			// used for orientation on planet surface
-			sp->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*rand.Double()) *
-					      matrix4x4d::RotateYMatrix(2*M_PI*rand.Double());
-			children.insert(children.begin(), sp);
-		}
-	}
-
-	if (has_starports) {
-		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)
-			econType |= ECON_AGRICULTURE;
-		else
-			econType |= ECON_MINING;
-		if (rand.Int32(2)) econType |= ECON_INDUSTRY;
-		else econType |= ECON_MINING;
-		system->PickEconomicStuff(this);
-	}
 }
 
 void StarSystem::PickEconomicStuff(SBody *b)
@@ -1073,6 +1000,96 @@ void StarSystem::PickEconomicStuff(SBody *b)
 		if (b->tradeLevel[t] >= 0) {
 			b->tradeLevel[t] += rand.Int32(1,4);
 		}
+	}
+}
+
+void SBody::AddHumanStuff(StarSystem *system)
+{
+	for (unsigned int i=0; i<children.size(); i++) {
+		children[i]->AddHumanStuff(system);
+	}
+
+	unsigned long _init[5] = { system->m_sysIdx, system->m_secx,
+			system->m_secy, UNIVERSE_SEED, this->seed };
+	MTRand rand;
+	rand.seed(_init, 5);
+
+	bool has_starports = false;
+	// starports - orbital
+	if ((averageTemp < CELSIUS+100) && (averageTemp > 100) &&
+		(rand.Fixed() < humanActivity)) {
+		has_starports = true;
+		SBody *sp = new SBody;
+		sp->type = SBody::TYPE_STARPORT_ORBITAL;
+		sp->seed = rand.Int32();
+		sp->tmp = 0;
+		sp->econType = econType;
+		sp->parent = this;
+		sp->rotationPeriod = fixed(1,3600);
+		sp->averageTemp = this->averageTemp;
+		sp->mass = 0;
+		sp->name = NameGenerator::Surname(rand) + " Spaceport";
+		sp->humanActivity = humanActivity;
+		fixed semiMajorAxis;
+		if (children.size()) {
+			semiMajorAxis = fixed(1,2) * children[0]->orbMin;
+		} else {
+			semiMajorAxis = fixed(1, 3557);
+		}
+		sp->orbit.eccentricity = 0;
+		sp->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
+		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
+		sp->orbit.rotMatrix = matrix4x4d::Identity();
+		children.insert(children.begin(), sp);
+		sp->orbMin = semiMajorAxis;
+		sp->orbMax = semiMajorAxis;
+
+		if (rand.Fixed() < humanActivity) {
+			SBody *sp2 = new SBody;
+			*sp2 = *sp;
+			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
+			children.insert(children.begin(), sp2);
+		}
+	}
+	// starports - surface
+	if ((averageTemp < CELSIUS+80) && (averageTemp > 100) &&
+		((type == SBody::TYPE_PLANET_DWARF) ||
+		(type == SBody::TYPE_PLANET_SMALL) ||
+		(type == SBody::TYPE_PLANET_WATER) ||
+		(type == SBody::TYPE_PLANET_CO2) ||
+		(type == SBody::TYPE_PLANET_METHANE) ||
+		(type == SBody::TYPE_PLANET_INDIGENOUS_LIFE))) {
+
+		fixed activ = humanActivity;
+		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) humanActivity *= 4;
+
+		int max = 6;
+		while ((max-- > 0) && (rand.Fixed() < activ)) {
+			has_starports = true;
+			SBody *sp = new SBody;
+			sp->type = SBody::TYPE_STARPORT_SURFACE;
+			sp->seed = rand.Int32();
+			sp->tmp = 0;
+			sp->parent = this;
+			sp->averageTemp = this->averageTemp;
+			sp->humanActivity = activ;
+			sp->mass = 0;
+			sp->name = NameGenerator::Surname(rand) + " Starport";
+			// used for orientation on planet surface
+			sp->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*rand.Double()) *
+					      matrix4x4d::RotateYMatrix(2*M_PI*rand.Double());
+			children.insert(children.begin(), sp);
+		}
+	}
+
+	if (has_starports) {
+		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)
+			econType |= ECON_AGRICULTURE;
+		else
+			econType |= ECON_MINING;
+		if (rand.Int32(2)) econType |= ECON_INDUSTRY;
+		else econType |= ECON_MINING;
+		system->PickEconomicStuff(this);
 	}
 }
 
