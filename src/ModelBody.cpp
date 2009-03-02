@@ -121,7 +121,6 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 	glPushMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	
 	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 
@@ -130,14 +129,25 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 
 	vector3d pos = frameTrans * GetPosition();
 
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	frameTrans.ClearToRotOnly();
-	rot = frameTrans * rot;
+	if (pos.Length() > WORLDVIEW_ZFAR) {
+		glPushAttrib(GL_LIGHTING_BIT);
+		glDisable(GL_LIGHTING);
+		glColor3f(1,1,1);
+		glBegin(GL_POINTS);
+		pos = pos.Normalized() * 0.99*WORLDVIEW_ZFAR;
+		glVertex3dv(&pos[0]);
+		glEnd();
+		glPopAttrib();
+	} else {
+		glPushAttrib(GL_ALL_ATTRIB_BITS);
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		frameTrans.ClearToRotOnly();
+		rot = frameTrans * rot;
 
-	sbreRenderModel(&pos.x, &rot[0], model, params);
-	
-	glPopAttrib();
+		sbreRenderModel(&pos.x, &rot[0], model, params);
+		glPopAttrib();
+	}
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);

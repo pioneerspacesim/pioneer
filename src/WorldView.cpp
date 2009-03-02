@@ -214,8 +214,8 @@ void WorldView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// why the hell do i give these functions such big names..
-	float fracH = 1.0 / Pi::GetScrAspect();
-	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
+	float fracH = WORLDVIEW_ZNEAR / Pi::GetScrAspect();
+	glFrustum(-WORLDVIEW_ZNEAR, WORLDVIEW_ZNEAR, -fracH, fracH, WORLDVIEW_ZNEAR, WORLDVIEW_ZFAR);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glClearColor(0,0,0,0);

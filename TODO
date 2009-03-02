@@ -1,8 +1,8 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Collision fuckup: sometimes you can be shot by pirates but you cannot score hits on them...
 * Sfx look utterly shit
+* sbre stuff suddenly appears at zfar. Need to do proper hierarchical Z
 
 * Make scanner only appear at appropriate times
 * Internal engine fuel usage (refuel on inventory page)

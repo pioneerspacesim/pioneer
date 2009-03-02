@@ -46,6 +46,9 @@
 #define AU		149598000000.0
 #define G		6.67428e-11
 
+#define WORLDVIEW_ZNEAR	10.0
+#define WORLDVIEW_ZFAR	10000.0
+
 /* 
  * Normal use:
  * foreach (container, iter) { do_something (*iter); }
