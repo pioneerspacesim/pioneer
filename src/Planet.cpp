@@ -885,7 +885,7 @@ void Planet::Render(const Frame *a_camFrame)
 	double len = fpos.Length();
 	double origLen = len;
 
-	while (len > 5000.0f) {
+	while (len > WORLDVIEW_ZFAR*0.5) {
 		rad *= 0.25;
 		fpos = 0.25*fpos;
 		len *= 0.25;
