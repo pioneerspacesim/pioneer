@@ -872,6 +872,71 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 	}
 }
 
+
+#define NUS_X	0.525731112119133606
+#define NUS_Z	0.850650808352039932
+
+static float nus_vdata[12][3] = {
+	{-NUS_X, 0.0, NUS_Z}, {NUS_X, 0.0, NUS_Z}, {-NUS_X, 0.0, -NUS_Z}, {NUS_X, 0.0, -NUS_Z},
+	{0.0, NUS_Z, NUS_X}, {0.0, NUS_Z, -NUS_X}, {0.0, -NUS_Z, NUS_X}, {0.0, -NUS_Z, -NUS_X},
+	{NUS_Z, NUS_X, 0.0}, {-NUS_Z, NUS_X, 0.0}, {NUS_Z, -NUS_X, 0.0}, {-NUS_Z, -NUS_X, 0.0}
+};
+
+static int nus_tindices[20][3] = {
+	{0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
+	{8,10,1}, {8,3,10},{5,3,8}, {5,2,3}, {2,7,3},
+	{7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
+	{6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
+};
+
+// tri edge lengths
+#define SUBDIVIDE_AT_CAMDIST	8.0
+#define NUSPHERE_MAX_SUBDIVS	10
+#define NUSPHERE_MIN_SUBDIVS	2
+
+static void nuSubdivide (vector3d v1, vector3d v2, vector3d v3, vector3d campos, int depth)
+{
+	vector3d v12, v23, v31;
+	int i;
+
+	vector3d centroid = (v1+v2+v3)*0.33333333333333333333333333333333333333333333;
+	if ((NUSPHERE_MAX_SUBDIVS-depth) > NUSPHERE_MIN_SUBDIVS) {
+		if (((campos - centroid).Length() > (v1-v2).Length()*SUBDIVIDE_AT_CAMDIST) ||
+		    (depth == 0)) {
+			glBegin (GL_POLYGON);
+				glNormal3dv (&v1.x); glVertex3dv (&v1.x);
+				glNormal3dv (&v3.x); glVertex3dv (&v3.x);
+				glNormal3dv (&v2.x); glVertex3dv (&v2.x);
+			glEnd ();
+			return;
+		}
+	}
+
+	v12 = (v1+v2).Normalized();
+	v23 = (v2+v3).Normalized();
+	v31 = (v3+v1).Normalized();
+	nuSubdivide(v1, v12, v31, campos, depth-1);
+	nuSubdivide(v2, v23, v12, campos, depth-1);
+	nuSubdivide(v3, v31, v23, campos, depth-1);
+	nuSubdivide(v12, v23, v31, campos, depth-1);
+}
+
+void nuSphere (float size, vector3d campos)
+{
+	int i;
+	glScalef (size, size, size);
+	campos = campos * (1.0/size);
+	for (i=0; i<20; i++) {
+		nuSubdivide (vector3d(nus_vdata[nus_tindices[i][0]]),
+				vector3d(nus_vdata[nus_tindices[i][1]]),
+				vector3d(nus_vdata[nus_tindices[i][2]]),
+				campos,
+				NUSPHERE_MAX_SUBDIVS);
+	}
+}
+
+
+
 void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
@@ -885,12 +950,12 @@ void Planet::Render(const Frame *a_camFrame)
 	double len = fpos.Length();
 	double origLen = len;
 
-	while (len > WORLDVIEW_ZFAR*0.5) {
+	do {
 		rad *= 0.25;
 		fpos = 0.25*fpos;
 		len *= 0.25;
-	}
-
+	} while ((len-rad)*0.25 > 4*WORLDVIEW_ZNEAR);
+		
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	glColor3f(1,1,1);
 
@@ -954,6 +1019,18 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_LIGHTING);
 		glEnable(GL_DEPTH_TEST);
 	} else {
+		vector3d campos = -fpos;
+		ftran.ClearToRotOnly();
+		campos = ftran.InverseOf() * campos;
+		glMultMatrixd(&ftran[0]);
+		const float poo[4] = { 1,1,1,1};
+		SetMaterialColor(poo);
+		glEnable(GL_NORMALIZE);
+		glShadeModel(GL_FLAT);
+		nuSphere(rad, campos);
+		glShadeModel(GL_SMOOTH);
+		glDisable(GL_NORMALIZE);
+		/*
 		ftran.ClearToRotOnly();
 		glMultMatrixd(&ftran[0]);
 
@@ -976,7 +1053,7 @@ void Planet::Render(const Frame *a_camFrame)
 		fpos = ftran.InverseOf() * fpos;
 
 		DrawAtmosphere(rad, fpos);
-
+*/
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	glPopMatrix();
