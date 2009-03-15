@@ -875,72 +875,31 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 }
 
 
-#define NUS_X	0.525731112119133606
-#define NUS_Z	0.850650808352039932
-
-static float nus_vdata[12][3] = {
-	{-NUS_X, 0.0, NUS_Z}, {NUS_X, 0.0, NUS_Z}, {-NUS_X, 0.0, -NUS_Z}, {NUS_X, 0.0, -NUS_Z},
-	{0.0, NUS_Z, NUS_X}, {0.0, NUS_Z, -NUS_X}, {0.0, -NUS_Z, NUS_X}, {0.0, -NUS_Z, -NUS_X},
-	{NUS_Z, NUS_X, 0.0}, {-NUS_Z, NUS_X, 0.0}, {NUS_Z, -NUS_X, 0.0}, {-NUS_Z, -NUS_X, 0.0}
-};
-
-static int nus_tindices[20][3] = {
-	{0,4,1}, // 0
-	{0,9,4}, // 1
-	{9,5,4}, // 2
-	{4,5,8}, // 3
-	{4,8,1}, // 4
-	{8,10,1}, //5
-	{8,3,10}, //6
-	{5,3,8}, // 7
-	{5,2,3}, // 8
-	{2,7,3}, // 9
-	{7,10,3}, // 10
-       	{7,6,10}, // 11
-	{7,11,6}, // 12
-	{11,0,6}, // 13
-	{0,1,6}, // 14
-	{6,1,10}, // 15
-	{9,0,11}, // 16
-	{9,11,2}, // 17
-	{9,2,5}, // 18
-	{7,2,11} // 19
-};
-
-// which face (of the 20) is on our edge for edge {v01, v12, v20}
-static int nus_edgecomrade[20][3] = {
-	{1,4,14}, {16,2,0}, {18,3,1}, {2,7,4}, {3,5,0},
-	{6,15,4}, {7,10,5}, {8,6,3}, {18,9,7}, {19,10,8},
-	{11,6,9}, {12,15,10}, {19,13,11}, {16,14,12}, {0,15,13},
-	{14,5,11}, {1,13,17}, {16,19,18}, {17,8,2}, {9,17,12}
-};
-
 // tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	0.5
-#define GEOPATCH_MAX_DEPTH	6
+#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.0
+#define GEOPATCH_MAX_DEPTH	12
 // should be power of two + 1
-#define GEOPATCH_EDGELEN	33
-static unsigned short *geovtxidx;
+#define GEOPATCH_EDGELEN	17
 
 #define PRINT_VECTOR(_v) printf("%.2f,%.2f,%.2f\n", (_v).x, (_v).y, (_v).z);
 
 class GeoPatch {
 public:
-	vector3d v[3];
+	vector3d v[4];
 	GLdouble *vertices;
 	GLdouble *normals;
 	GLuint *indices;
 	GeoPatch *kids[4];
 	GeoPatch *parent;
-	GeoPatch *edgeFriend[3]; // [0]=v01, [1]=v12, [2]=v20
+	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
 	int m_numVertices;
 	int m_depth;
 	GeoPatch() {
 		memset(this, 0, sizeof(GeoPatch));
 	}
-	GeoPatch(vector3d v0, vector3d v1, vector3d v2) {
+	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
 		memset(this, 0, sizeof(GeoPatch));
-		v[0] = v0; v[1] = v1; v[2] = v2;
+		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 	}
 	~GeoPatch() {
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
@@ -948,76 +907,13 @@ public:
 		if (indices) delete indices;
 	}
 	void GetEdgeVertices(int edge, GLdouble ev[3*GEOPATCH_EDGELEN]) {
-		int pos, elen;
-		if (edge == 1) {
-			pos = m_numVertices - GEOPATCH_EDGELEN;
-			for (; pos<m_numVertices; pos++) {
-				ev[0] = vertices[3*pos];
-				ev[1] = vertices[3*pos+1];
-				ev[2] = vertices[3*pos+2];
-				ev += 3;
-			}
-		} else {
-			pos = 0;
-			elen = ((edge == 0) ? 1 : 2);
-
-			for (; pos<m_numVertices; pos+=elen, elen++) {
-				ev[0] = vertices[3*pos];
-				ev[1] = vertices[3*pos+1];
-				ev[2] = vertices[3*pos+2];
-				ev += 3;
-			}
-		}
 	}
 	void SetEdgeVertices(int edge, GLdouble ev[3*GEOPATCH_EDGELEN]) {
-		int pos, elen;
-		//memset(ev, 0, sizeof(double)*3*GEOPATCH_EDGELEN);
-		if (edge == 1) {
-			pos = m_numVertices - GEOPATCH_EDGELEN;
-			for (; pos<m_numVertices; pos++) {
-				vertices[3*pos] = ev[0];
-				vertices[3*pos+1] = ev[1];
-				vertices[3*pos+2] = ev[2];
-				ev += 3;
-			}
-		} else {
-			pos = 0;
-			elen = ((edge == 0) ? 1 : 2);
-
-			for (; pos<m_numVertices; pos+=elen, elen++) {
-				vertices[3*pos] = ev[0];
-				vertices[3*pos+1] = ev[1];
-				vertices[3*pos+2] = ev[2];
-				ev += 3;
-			}
-		}
 	}
 	void SetEdgeVerticesFlipped(int edge, GLdouble ev[3*GEOPATCH_EDGELEN]) {
-		int pos, elen;
-		ev += 3*GEOPATCH_EDGELEN;
-		//memset(ev, 0, sizeof(double)*3*GEOPATCH_EDGELEN);
-		if (edge == 1) {
-			pos = m_numVertices - GEOPATCH_EDGELEN;
-			for (; pos<m_numVertices; pos++) {
-				ev -= 3;
-				vertices[3*pos] = ev[0];
-				vertices[3*pos+1] = ev[1];
-				vertices[3*pos+2] = ev[2];
-			}
-		} else {
-			pos = 0;
-			elen = ((edge == 0) ? 1 : 2);
-
-			for (; pos<m_numVertices; pos+=elen, elen++) {
-				ev -= 3;
-				vertices[3*pos] = ev[0];
-				vertices[3*pos+1] = ev[1];
-				vertices[3*pos+2] = ev[2];
-			}
-		}
 	}
 	int GetEdgeIdxOf(GeoPatch *e) {
-		for (int i=0; i<3; i++) {
+		for (int i=0; i<4; i++) {
 			if (edgeFriend[i] == e) return i;
 		}
 		return -1;
@@ -1025,12 +921,58 @@ public:
 
 	void Generate() {
 		if (!vertices) {
-			m_numVertices = 0;
-			for (int i=1; i<=GEOPATCH_EDGELEN; i++) m_numVertices += i;
+			m_numVertices = GEOPATCH_EDGELEN*GEOPATCH_EDGELEN;
 			vertices = new GLdouble[3*m_numVertices];
 			normals = new GLdouble[3*m_numVertices];
 			GLdouble *vts = vertices;
-			for (int elen = 1; elen<=GEOPATCH_EDGELEN; elen++) {
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) {
+				for (int y=0; y<GEOPATCH_EDGELEN; y++) {
+					double xpos = x/(double)(GEOPATCH_EDGELEN-1);
+					double ypos = y/(double)(GEOPATCH_EDGELEN-1);
+					vector3d p = v[0] + xpos*(1.0-ypos)*(v[1]-v[0]) +
+						            xpos*ypos*(v[2]-v[0]) +
+							    (1.0-xpos)*ypos*(v[3]-v[0]);
+					p = p.Normalized();
+
+					double n = noise(64*p.x, 64*p.y, 64*p.z);
+					n *= noise(128*p.x, 128*p.y, 128*p.z);
+					n *= noise(256*p.x, 256*p.y, 256*p.z);
+					n *= noise(512*p.x, 512*p.y, 512*p.z);
+					n *= noise(1024*p.x, 1024*p.y, 1024*p.z);
+					//n = n*n*noise(10*p.x, 10*p.y, 10*p.z);
+					p = p + p*0.1*n;
+					vts[0] = p.x; vts[1] = p.y; vts[2] = p.z;
+					vts+=3;
+				}
+			}
+
+			for (int x=0; x<GEOPATCH_EDGELEN-1; x++) {
+				for (int y=0; y<GEOPATCH_EDGELEN-1; y++) {
+					vector3d a = vector3d(&vertices[3*(x + y*GEOPATCH_EDGELEN)]);
+					vector3d b = vector3d(&vertices[3*(x+1 + y*GEOPATCH_EDGELEN)]);
+					vector3d c = vector3d(&vertices[3*(x + (y+1)*GEOPATCH_EDGELEN)]);
+
+					vector3d n = vector3d::Cross(c-a, b-a);
+					n = n.Normalized();
+					GLdouble *vts = &normals[3*(x + y*GEOPATCH_EDGELEN)];
+					vts[0] = n.x; vts[1] = n.y; vts[2] = n.z;
+				}
+			}
+			// XXX crap
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
+				GLdouble *poo = &normals[3*(GEOPATCH_EDGELEN-1 + y*GEOPATCH_EDGELEN)];
+				*poo = *(poo-3);
+				*(poo+1) = *(poo-2);
+				*(poo+2) = *(poo-1);
+			}
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) {
+				GLdouble *poo = &normals[3*(x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN)];
+				*poo = *(poo-3*GEOPATCH_EDGELEN);
+				*(poo+1) = *(poo+1-3*GEOPATCH_EDGELEN);
+				*(poo+2) = *(poo+2-3*GEOPATCH_EDGELEN);
+			}
+
+			/*for (int elen = 1; elen<=GEOPATCH_EDGELEN; elen++) {
 				for (int pos=0; pos<elen; pos++) {
 					double ucoord, vcoord;
 					if (elen == 1) {
@@ -1048,11 +990,27 @@ public:
 					vts[0] = p.x; vts[1] = p.y; vts[2] = p.z;
 					vts+=3;
 				}
-			}
+			}*/
 
 			assert(vts == &vertices[3*m_numVertices]);
-			indices = new GLuint[(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
+			indices = new GLuint[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
 			GLuint *idx = indices;
+			int wank=0;
+			for (int x=0; x<GEOPATCH_EDGELEN-1; x++) {
+				for (int y=0; y<GEOPATCH_EDGELEN-1; y++) {
+					idx[0] = x + GEOPATCH_EDGELEN*y;
+					idx[2] = x+1 + GEOPATCH_EDGELEN*y;
+					idx[1] = x + GEOPATCH_EDGELEN*(y+1);
+					idx+=3;
+					wank++;
+
+					idx[0] = x+1 + GEOPATCH_EDGELEN*y;
+					idx[2] = x+1 + GEOPATCH_EDGELEN*(y+1);
+					idx[1] = x + GEOPATCH_EDGELEN*(y+1);
+					idx+=3;
+					wank++;
+				}
+			}/*
 			int abspos = 0;
 			int wank  = 0;
 			for (int elen = 1; elen<GEOPATCH_EDGELEN; elen++) {
@@ -1071,9 +1029,9 @@ public:
 					}
 					abspos++;
 				}
-			}
-			assert(wank == (GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
-
+			}*/
+			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
+#if 0
 			/* take edge vertices from adjacent tiles if they
 			 * exist, so there are no breaks in the terrain */
 			GLdouble ev[3*GEOPATCH_EDGELEN];
@@ -1100,6 +1058,7 @@ public:
 					SetEdgeVerticesFlipped(j, ev);
 				}
 			}
+#endif
 #if 0
 			/* XXX some tests to ensure vertices match */
 			for (int i=0; i<3; i++) {
@@ -1117,26 +1076,26 @@ public:
 	void Render(vector3d &campos) {
 		Generate();
 				
-		vector3d centroid = (v[0]+v[1]+v[2])*0.33333333333333333333333333333333333333333333;
+		vector3d centroid = (v[0]+v[1]+v[2]+v[3])*0.25;
 		if ((m_depth < GEOPATCH_MAX_DEPTH) &&
-		    ((campos - centroid).Length() < (v[0]-v[1]).Length()*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
-
+		    ((campos - centroid).Length() < (v[0]-v[2]).Length()*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
 
 			if (!kids[0]) {
-				vector3d v01, v12, v20;
+				vector3d v01, v12, v23, v30;
 				v01 = (v[0]+v[1]).Normalized();
 				v12 = (v[1]+v[2]).Normalized();
-				v20 = (v[2]+v[0]).Normalized();
-				kids[0] = new GeoPatch(v[0], v01, v20);
-				kids[1] = new GeoPatch(v01, v[1], v12);
-				kids[2] = new GeoPatch(v20, v12, v[2]);
-				kids[3] = new GeoPatch(v01, v12, v20);
+				v23 = (v[2]+v[3]).Normalized();
+				v30 = (v[3]+v[0]).Normalized();
+				kids[0] = new GeoPatch(v[0], v01, centroid, v30);
+				kids[1] = new GeoPatch(v01, v[1], v12, centroid);
+				kids[2] = new GeoPatch(centroid, v12, v[2], v23);
+				kids[3] = new GeoPatch(v30, centroid, v23, v[3]);
 				kids[0]->m_depth = m_depth+1;
 				kids[1]->m_depth = m_depth+1;
 				kids[2]->m_depth = m_depth+1;
 				kids[3]->m_depth = m_depth+1;
 				// hm.. edges.
-				kids[0]->edgeFriend[0] = edgeFriend[0]; // XXX giving parent's neighbour...
+			/*	kids[0]->edgeFriend[0] = edgeFriend[0]; // XXX giving parent's neighbour...
 				kids[0]->edgeFriend[1] = kids[3];
 				kids[0]->edgeFriend[2] = edgeFriend[2]; // XXX
 				kids[1]->edgeFriend[0] = edgeFriend[0]; // XXX
@@ -1147,7 +1106,7 @@ public:
 				kids[2]->edgeFriend[2] = edgeFriend[2]; // XXX
 				kids[3]->edgeFriend[0] = kids[1];
 				kids[3]->edgeFriend[1] = kids[2];
-				kids[3]->edgeFriend[2] = kids[0];
+				kids[3]->edgeFriend[2] = kids[0];*/
 				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
 			}
 			for (int i=0; i<4; i++) kids[i]->Render(campos);
@@ -1155,11 +1114,12 @@ public:
 			if (kids[0]) {
 				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
 			}
+			glShadeModel(GL_SMOOTH);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glVertexPointer(3, GL_DOUBLE, 0, vertices);
-			glNormalPointer(GL_DOUBLE, 0, vertices);
-			glDrawElements(GL_TRIANGLES, (GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, indices);
+			glNormalPointer(GL_DOUBLE, 0, normals);
+			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, indices);
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 		}
@@ -1170,49 +1130,46 @@ class GeoSphere {
 
 public:
 	GeoSphere() {
-		for (int i=0; i<20; i++) {
-			GeoPatch *p = &m_patches[i];
-			*p = GeoPatch(vector3d(nus_vdata[nus_tindices[i][0]]),
-				vector3d(nus_vdata[nus_tindices[i][1]]),
-				vector3d(nus_vdata[nus_tindices[i][2]]));
-			for (int j=0; j<3; j++) {
-				p->edgeFriend[j] = &m_patches[nus_edgecomrade[i][j]];
-			}
-		}
-		for (int i=0; i<20; i++) {
+		vector3d p1(1,1,1);
+		vector3d p2(-1,1,1);
+		vector3d p3(-1,-1,1);
+		vector3d p4(1,-1,1);
+		vector3d p5(1,1,-1);
+		vector3d p6(-1,1,-1);
+		vector3d p7(-1,-1,-1);
+		vector3d p8(1,-1,-1);
+		p1 = p1.Normalized();
+		p2 = p2.Normalized();
+		p3 = p3.Normalized();
+		p4 = p4.Normalized();
+		p5 = p5.Normalized();
+		p6 = p6.Normalized();
+		p7 = p7.Normalized();
+		p8 = p8.Normalized();
+
+		m_patches[0] = GeoPatch(p1, p2, p3, p4);
+		m_patches[1] = GeoPatch(p4, p3, p7, p8);
+		m_patches[2] = GeoPatch(p1, p4, p8, p5);
+		m_patches[3] = GeoPatch(p2, p1, p5, p6);
+		m_patches[4] = GeoPatch(p3, p2, p6, p7);
+		m_patches[5] = GeoPatch(p8, p7, p6, p5);
+		//	for (int j=0; j<3; j++) {
+		//		p->edgeFriend[j] = &m_patches[nus_edgecomrade[i][j]];
+		//	}
+		for (int i=0; i<6; i++) {
 			m_patches[i].Generate();
 		}
 	}
 	void Render(vector3d campos) {
-		for (int i=0; i<20; i++) {
+		for (int i=0; i<6; i++) {
 			m_patches[i].Render(campos);
 		}
 	}
-	GeoPatch m_patches[20];
+	GeoPatch m_patches[6];
 };
 
 void Planet::Render(const Frame *a_camFrame)
 {
-	if (!geovtxidx) {
-		/* build this funny array to make indexing the vertices less
-		 * of a total fucking nightmare */
-		/* looks like: {
-		 * 0, -1, -1, -1, ..
-		 * 1,  2, -1, -1, ..
-		 * 3,  4,  5, -1, .. */
-		geovtxidx = new unsigned short[GEOPATCH_EDGELEN*GEOPATCH_EDGELEN];
-		unsigned short *p = geovtxidx;
-		int abspos = 0;
-		for (int elen=1; elen<=GEOPATCH_EDGELEN; elen++) {
-			int i=0;
-			for (; i<elen; i++) {
-				*(p++) = abspos++;
-			}
-			for (; i<GEOPATCH_EDGELEN; i++) {
-				*(p++) = -1;
-			}
-		}
-	}
 	glPushMatrix();
 
 	if (!m_geosphere) m_geosphere = new GeoSphere();
