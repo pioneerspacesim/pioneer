@@ -331,6 +331,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\NameGenerator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ObjectViewerView.cpp"
 				>
 			</File>
@@ -353,6 +357,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\perlin.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\src\Planet.cpp"
@@ -613,6 +621,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\NameGenerator.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Object.h"
 				>
 			</File>
@@ -626,6 +638,10 @@
 			</File>
 			<File
 				RelativePath=".\pch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\perlin.h"
 				>
 			</File>
 			<File
@@ -776,6 +792,22 @@
 			</File>
 			<File
 				RelativePath="..\src\sbre\transp.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="mods"
+			>
+			<File
+				RelativePath="..\src\mods\Mods.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\mods\Mods.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\mods\pirates.cpp"
 				>
 			</File>
 		</Filter>
