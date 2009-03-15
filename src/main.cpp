@@ -22,6 +22,7 @@
 #include "Serializer.h"
 #include "NameGenerator.h"
 #include "mods/Mods.h"
+#include "perlin.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -671,6 +672,7 @@ int main(int argc, char**)
 {
 	printf("Pioneer ultra high tech tech demo dude!\n");
 	signal(SIGSEGV, sigsegv_handler);
+	perlin_init();
 	IniConfig cfg("config.ini");
 	Pi::Init(cfg);
 	Pi::Start();
