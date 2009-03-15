@@ -876,9 +876,9 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 
 
 // tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.0
+#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.5
 #define GEOPATCH_MAX_DEPTH	16
-#define GEOPATCH_EDGELEN	32
+#define GEOPATCH_EDGELEN	16
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 
 #define PRINT_VECTOR(_v) printf("%.2f,%.2f,%.2f\n", (_v).x, (_v).y, (_v).z);
@@ -1394,7 +1394,7 @@ void Planet::Render(const Frame *a_camFrame)
 			SetMaterialColor(poo);
 			campos = campos * (1.0/rad);
 			m_geosphere->Render(campos);
-			//printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
+			printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
 		}
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
