@@ -877,7 +877,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.0
-#define GEOPATCH_MAX_DEPTH	12
+#define GEOPATCH_MAX_DEPTH	16
 #define GEOPATCH_EDGELEN	16
 
 #define PRINT_VECTOR(_v) printf("%.2f,%.2f,%.2f\n", (_v).x, (_v).y, (_v).z);
@@ -956,7 +956,7 @@ public:
 		double scale = 128.0;
 		double n = 0;
 		while (iters--) {
-			n += div*noise(scale*p.x, scale*p.y, scale*p.z);
+			n += div*noise(scale*p);
 			div *= 0.5;
 			scale *= 2.0;
 		}
@@ -981,8 +981,8 @@ public:
 		}
 		vector3d ev[4][GEOPATCH_EDGELEN];
 		for (int i=0; i<4; i++) {
-			if (edgeFriend[i]) {
-				GeoPatch *e = edgeFriend[i];
+			GeoPatch *e = edgeFriend[i];
+			if (e) {
 				int we_are = e->GetEdgeIdxOf(this);
 				assert(we_are != -1);
 				e->GetEdgeMinusOneVerticesFlipped(we_are, ev[i]);
@@ -1102,21 +1102,74 @@ public:
 			}
 			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
 			/* XXX some tests to ensure vertices match */
-			for (int i=0; i<4; i++) {
+		/*	for (int i=0; i<4; i++) {
 				GeoPatch *edge = edgeFriend[i];
 				if (edge) {
 					int we_are = edge->GetEdgeIdxOf(this);
 					assert(v[i] == edge->v[(1+we_are)%4]);
 					assert(v[(i+1)%4] == edge->v[(we_are)%4]);
 				}
-			}
+			}*/
 		}
 
 	}
+	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
+
+	}
+	void NotifyEdgeFriendSplit(GeoPatch *e) {
+		int idx = GetEdgeIdxOf(e);
+		assert(idx != -1);
+		int we_are = e->GetEdgeIdxOf(this);
+		assert(we_are != -1);
+		if (!kids[0]) return;
+		// match e's new kids to our own... :/
+		kids[idx]->edgeFriend[idx] = e->kids[(we_are+1)%4];
+		kids[(idx+1)%4]->edgeFriend[idx] = e->kids[we_are];
+	}
+	void NotifyEdgeFriendMerged(GeoPatch *e) {
+		int idx = GetEdgeIdxOf(e);
+		assert(idx != -1);
+		if (!kids[0]) return;
+		if (idx == 0) {
+			kids[0]->edgeFriend[0] = 0;
+			kids[1]->edgeFriend[0] = 0;
+		} else if (idx == 1) {
+			kids[1]->edgeFriend[1] = 0;
+			kids[2]->edgeFriend[1] = 0;
+		} else if (idx == 2) {
+			kids[2]->edgeFriend[2] = 0;
+			kids[3]->edgeFriend[2] = 0;
+		} else {
+			kids[3]->edgeFriend[3] = 0;
+			kids[0]->edgeFriend[3] = 0;
+		}
+	}
+
+	GeoPatch *GetEdgeFriendForKid(int kid, int edge) {
+		GeoPatch *e = edgeFriend[edge];
+		assert (e && ((e->m_depth == m_depth) || (e->m_depth == m_depth+1)));
+		const int we_are = e->GetEdgeIdxOf(this);
+		assert(we_are != -1);
+		// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
+		// not have same detail level neighbours yet
+		if (edge == kid) return e->kids[(we_are+1)%4];
+		else return e->kids[we_are];
+	}
+
 	void Render(vector3d &campos) {
 				
 		vector3d centroid = (v[0]+v[1]+v[2]+v[3])*0.25;
-		if ((m_depth < GEOPATCH_MAX_DEPTH) &&
+
+		bool canSplit = true;
+		for (int i=0; i<4; i++) {
+			if (!edgeFriend[i]) { canSplit = false; break; }
+	///		if (edgeFriend[i] && (edgeFriend[i]->m_depth < m_depth)) {
+	//			canSplit = false;
+	//			break;
+	//		}
+		}
+
+		if (canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
 		    ((campos - centroid).Length() < (v[0]-v[2]).Length()*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
 
 			if (!kids[0]) {
@@ -1135,31 +1188,33 @@ public:
 				kids[3]->m_depth = m_depth+1;
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
-				kids[0]->edgeFriend[0] = 0;//edgeFriend[0];
+				kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);//edgeFriend[0];
 				kids[0]->edgeFriend[1] = kids[1];
 				kids[0]->edgeFriend[2] = kids[3];
-				kids[0]->edgeFriend[3] = 0;//edgeFriend[3];
-				kids[1]->edgeFriend[0] = 0;//edgeFriend[0];
-				kids[1]->edgeFriend[1] = 0;//edgeFriend[1];
+				kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);//edgeFriend[3];
+				kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);//edgeFriend[0];
+				kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);//edgeFriend[1];
 				kids[1]->edgeFriend[2] = kids[2];
 				kids[1]->edgeFriend[3] = kids[0];
 				kids[2]->edgeFriend[0] = kids[1];
-				kids[2]->edgeFriend[1] = 0;//edgeFriend[1];
-				kids[2]->edgeFriend[2] = 0;//edgeFriend[2];
+				kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);//edgeFriend[1];
+				kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);//edgeFriend[2];
 				kids[2]->edgeFriend[3] = kids[3];
 				kids[3]->edgeFriend[0] = kids[0];
 				kids[3]->edgeFriend[1] = kids[2];
-				kids[3]->edgeFriend[2] = 0;//edgeFriend[2];
-				kids[3]->edgeFriend[3] = 0;//edgeFriend[3];
+				kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);//edgeFriend[2];
+				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);//edgeFriend[3];
 				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
 				for (int i=0; i<4; i++) kids[i]->GenerateMesh();
+				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
 				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
 			}
 			for (int i=0; i<4; i++) kids[i]->Render(campos);
 		} else {
-			if (kids[0]) {
-				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
-			}
+		//	if (kids[0]) {
+		//		for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
+		//		for (int i=0; i<4; i++) if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendMerged(this);
+		//	}
 			geo_patch_tri_count += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glShadeModel(GL_SMOOTH);
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -1326,7 +1381,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glShadeModel(GL_SMOOTH);
 		glDisable(GL_NORMALIZE);
 		
-		printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
+		//printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
 
 		/*
 		ftran.ClearToRotOnly();
