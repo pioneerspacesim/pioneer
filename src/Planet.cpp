@@ -10,6 +10,7 @@ Planet::Planet(SBody *sbody): Body()
 {
 	pos = vector3d(0,0,0);
 	this->sbody = sbody;
+	this->m_geosphere = 0;
 	Init();
 }
 
@@ -890,56 +891,134 @@ static int nus_tindices[20][3] = {
 };
 
 // tri edge lengths
-#define SUBDIVIDE_AT_CAMDIST	8.0
-#define NUSPHERE_MAX_SUBDIVS	10
-#define NUSPHERE_MIN_SUBDIVS	2
+#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	0.5
+#define GEOPATCH_MAX_DEPTH	4
+class GeoPatch {
+public:
+	vector3d v[3];
+	GLdouble *vertices;
+	GLuint *indices;
+	GeoPatch *kids[4];
+	int m_depth;
+	GeoPatch() {
+		memset(this, 0, sizeof(GeoPatch));
+	}
+	GeoPatch(vector3d v0, vector3d v1, vector3d v2) {
+		memset(this, 0, sizeof(GeoPatch));
+		v[0] = v0; v[1] = v1; v[2] = v2;
+	}
+	~GeoPatch() {
+		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
+		if (vertices) delete vertices;
+		if (indices) delete indices;
+	}
+	void Render(vector3d &campos) {
+// should be power of two + 1
+#define GEOPATCH_EDGELEN	33
+		if (!vertices) {
+			int num_verts = 0;
+			for (int i=1; i<=GEOPATCH_EDGELEN; i++) num_verts += i;
+			vertices = new GLdouble[3*num_verts];
+			GLdouble *vts = vertices;
+			for (int elen = 1; elen<=GEOPATCH_EDGELEN; elen++) {
+				for (int pos=0; pos<elen; pos++) {
+					double ucoord, vcoord;
+					if (elen == 1) {
+						ucoord = 0;
+						vcoord = 0;
+					} else {
+						double jizz = (elen-1)/(double)(GEOPATCH_EDGELEN-1);
+						ucoord = jizz*pos/(double)(elen-1);
+						vcoord = jizz*((elen-1)-pos)/(double)(elen-1);
+					}
+					vector3d p = (v[0] + ucoord*(v[1]-v[0]) + vcoord*(v[2]-v[0])).Normalized();
+					vts[0] = p.x; vts[1] = p.y; vts[2] = p.z;
+					vts+=3;
+				}
+			}
+			assert(vts == &vertices[3*num_verts]);
+			indices = new GLuint[(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
+			GLuint *idx = indices;
+			int abspos = 0;
+			int wank  = 0;
+			for (int elen = 1; elen<GEOPATCH_EDGELEN; elen++) {
+				for (int pos=0; pos<elen; pos++) {
+					idx[0] = abspos;
+					idx[1] = abspos+elen;
+					idx[2] = abspos+elen+1;
+					idx+=3;
+					wank++;
+					if (pos < elen-1) {
+						idx[0] = abspos;
+						idx[1] = abspos+elen+1;
+						idx[2] = abspos+1;
+						idx+=3;
+						wank++;
+					}
+					abspos++;
+				}
+			}
+			assert(wank == (GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
+		}
 
-static void nuSubdivide (vector3d v1, vector3d v2, vector3d v3, vector3d campos, int depth)
-{
-	vector3d v12, v23, v31;
-	int i;
-
-	vector3d centroid = (v1+v2+v3)*0.33333333333333333333333333333333333333333333;
-	if ((NUSPHERE_MAX_SUBDIVS-depth) > NUSPHERE_MIN_SUBDIVS) {
-		if (((campos - centroid).Length() > (v1-v2).Length()*SUBDIVIDE_AT_CAMDIST) ||
-		    (depth == 0)) {
-			glBegin (GL_POLYGON);
-				glNormal3dv (&v1.x); glVertex3dv (&v1.x);
-				glNormal3dv (&v3.x); glVertex3dv (&v3.x);
-				glNormal3dv (&v2.x); glVertex3dv (&v2.x);
-			glEnd ();
-			return;
+				
+		vector3d centroid = (v[0]+v[1]+v[2])*0.33333333333333333333333333333333333333333333;
+		if ((m_depth < GEOPATCH_MAX_DEPTH) &&
+		    ((campos - centroid).Length() < (v[0]-v[1]).Length()*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
+			if (!kids[0]) {
+				vector3d v01, v12, v20;
+				v01 = (v[0]+v[1]).Normalized();
+				v12 = (v[1]+v[2]).Normalized();
+				v20 = (v[2]+v[0]).Normalized();
+				kids[0] = new GeoPatch(v[0], v01, v20);
+				kids[1] = new GeoPatch(v[1], v12, v01);
+				kids[2] = new GeoPatch(v[2], v20, v12);
+				kids[3] = new GeoPatch(v01, v12, v20);
+				kids[0]->m_depth = m_depth+1;
+				kids[1]->m_depth = m_depth+1;
+				kids[2]->m_depth = m_depth+1;
+				kids[3]->m_depth = m_depth+1;
+			}
+			for (int i=0; i<4; i++) kids[i]->Render(campos);
+		} else {
+			if (kids[0]) {
+				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
+			}
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glVertexPointer(3, GL_DOUBLE, 0, vertices);
+			glNormalPointer(GL_DOUBLE, 0, vertices);
+			glDrawElements(GL_TRIANGLES, (GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, indices);
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glDisableClientState(GL_NORMAL_ARRAY);
 		}
 	}
+};
 
-	v12 = (v1+v2).Normalized();
-	v23 = (v2+v3).Normalized();
-	v31 = (v3+v1).Normalized();
-	nuSubdivide(v1, v12, v31, campos, depth-1);
-	nuSubdivide(v2, v23, v12, campos, depth-1);
-	nuSubdivide(v3, v31, v23, campos, depth-1);
-	nuSubdivide(v12, v23, v31, campos, depth-1);
-}
+class GeoSphere {
 
-void nuSphere (float size, vector3d campos)
-{
-	int i;
-	glScalef (size, size, size);
-	campos = campos * (1.0/size);
-	for (i=0; i<20; i++) {
-		nuSubdivide (vector3d(nus_vdata[nus_tindices[i][0]]),
-				vector3d(nus_vdata[nus_tindices[i][1]]),
-				vector3d(nus_vdata[nus_tindices[i][2]]),
-				campos,
-				NUSPHERE_MAX_SUBDIVS);
+public:
+	GeoSphere() {
+		for (int i=0; i<20; i++) {
+			GeoPatch *p = &m_patches[i];
+			p->v[0] = vector3d(nus_vdata[nus_tindices[i][0]]);
+			p->v[1] = vector3d(nus_vdata[nus_tindices[i][1]]);
+			p->v[2] = vector3d(nus_vdata[nus_tindices[i][2]]);
+		}
 	}
-}
-
-
+	void Render(vector3d campos) {
+		for (int i=0; i<20; i++) {
+			m_patches[i].Render(campos);
+		}
+	}
+	GeoPatch m_patches[20];
+};
 
 void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
+
+	if (!m_geosphere) m_geosphere = new GeoSphere();
 	
 	double rad = sbody->GetRadius();
 	matrix4x4d ftran;
@@ -1027,9 +1106,14 @@ void Planet::Render(const Frame *a_camFrame)
 		SetMaterialColor(poo);
 		glEnable(GL_NORMALIZE);
 		glShadeModel(GL_FLAT);
-		nuSphere(rad, campos);
+		glPushMatrix();
+		glScalef(rad,rad,rad);
+		campos = campos * (1.0/rad);
+		m_geosphere->Render(campos);
+		glPopMatrix();
 		glShadeModel(GL_SMOOTH);
 		glDisable(GL_NORMALIZE);
+
 		/*
 		ftran.ClearToRotOnly();
 		glMultMatrixd(&ftran[0]);
@@ -1049,11 +1133,11 @@ void Planet::Render(const Frame *a_camFrame)
 		glScalef(rad,rad,rad);
 		glCallList(crudDList);
 		glPopMatrix();
+*/
 
 		fpos = ftran.InverseOf() * fpos;
 
 		DrawAtmosphere(rad, fpos);
-*/
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	glPopMatrix();

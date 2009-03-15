@@ -5,6 +5,7 @@
 
 class Frame;
 class SBody;
+class GeoSphere;
 
 class Planet: public Body {
 public:
@@ -33,6 +34,7 @@ private:
 	vector3d pos;
 	SBody *sbody;
 	GLuint crudDList;
+	GeoSphere *m_geosphere;
 };
 
 #endif /* _PLANET_H */
