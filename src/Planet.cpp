@@ -969,6 +969,51 @@ public:
 		return p + p*0.001*n*noise(64.0*p);
 	}
 
+	void FixEdgeNormals(const int edge, const vector3d ev[GEOPATCH_EDGELEN]) {
+		vector3d x1, x2, y1, y2;
+		int x, y;
+		switch (edge) {
+		case 0:
+			for (x=1; x<GEOPATCH_EDGELEN-1; x++) {
+				vector3d x1 = vertices[x-1];
+				vector3d x2 = vertices[x+1];
+				vector3d y1 = ev[x];
+				vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
+				normals[x] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			}
+			break;
+		case 1:
+			x = GEOPATCH_EDGELEN-1;
+			for (y=1; y<GEOPATCH_EDGELEN-1; y++) {
+				vector3d x1 = vertices[(x-1) + y*GEOPATCH_EDGELEN];
+				vector3d x2 = ev[y];
+				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
+				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
+				normals[x + y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			}
+			break;
+		case 2:
+			y = GEOPATCH_EDGELEN-1;
+			for (x=1; x<GEOPATCH_EDGELEN-1; x++) {
+				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
+				vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
+				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
+				vector3d y2 = ev[GEOPATCH_EDGELEN-1-x];
+				normals[x + y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			}
+			break;
+		case 3:
+			for (y=1; y<GEOPATCH_EDGELEN-1; y++) {
+				vector3d x1 = ev[GEOPATCH_EDGELEN-1-y];
+				vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
+				vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
+				vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
+				normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			}
+			break;
+		}
+	}
+
 	void GenerateNormals() {
 		if (normals) return;
 
@@ -1001,10 +1046,6 @@ public:
 			}
 		}
 
-	//	normals[0] = vertices[0];
-	//	normals[GEOPATCH_EDGELEN-1] = vertices[GEOPATCH_EDGELEN-1];
-	//	normals[(GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN] = vertices[(GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN];
-	//	normals[GEOPATCH_EDGELEN*GEOPATCH_EDGELEN-1] = vertices[GEOPATCH_EDGELEN*GEOPATCH_EDGELEN-1];
 		// corners
 		vector3d x1 = ev[3][GEOPATCH_EDGELEN-1];
 		vector3d x2 = vertices[1];
@@ -1037,44 +1078,7 @@ public:
 			normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
 		}
 
-		// fix normals for edge 0
-		for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
-			vector3d x1 = vertices[x-1];
-			vector3d x2 = vertices[x+1];
-			vector3d y1 = ev[0][x];
-			vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-			vector3d n = vector3d::Cross(x2-x1, y2-y1);
-			normals[x] = n.Normalized();
-		}
-		const int x=GEOPATCH_EDGELEN-1;
-		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
-			vector3d x1 = vertices[(x-1) + y*GEOPATCH_EDGELEN];
-			vector3d x2 = ev[1][y];
-			vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-			vector3d n = vector3d::Cross(x2-x1, y2-y1);
-			//n = vertices[x + GEOPATCH_EDGELEN*y];
-			normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
-		}
-		int y = GEOPATCH_EDGELEN-1;
-		for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
-			vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
-			vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
-			vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = ev[2][GEOPATCH_EDGELEN-1-x];
-			vector3d n = vector3d::Cross(x2-x1, y2-y1);
-			//n = vertices[x + GEOPATCH_EDGELEN*y];
-			normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
-		}
-		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
-			vector3d x1 = ev[3][GEOPATCH_EDGELEN-1-y];
-			vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
-			vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
-			vector3d n = vector3d::Cross(x2-x1, y2-y1);
-			//n = vertices[1 + GEOPATCH_EDGELEN*y];
-			normals[y*GEOPATCH_EDGELEN] = n.Normalized();
-		}
+		for (int i=0; i<4; i++) FixEdgeNormals(i, ev[i]);
 	}
 
 	void GenerateMesh() {
@@ -1119,7 +1123,12 @@ public:
 
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
-
+		edgeFriend[edge] = e;
+		vector3d ev[GEOPATCH_EDGELEN];
+		int we_are = e->GetEdgeIdxOf(this);
+		assert(we_are != -1);
+		e->GetEdgeMinusOneVerticesFlipped(we_are, ev);
+		FixEdgeNormals(edge, ev);
 	}
 	void NotifyEdgeFriendSplit(GeoPatch *e) {
 		int idx = GetEdgeIdxOf(e);
@@ -1128,8 +1137,8 @@ public:
 		assert(we_are != -1);
 		if (!kids[0]) return;
 		// match e's new kids to our own... :/
-		kids[idx]->edgeFriend[idx] = e->kids[(we_are+1)%4];
-		kids[(idx+1)%4]->edgeFriend[idx] = e->kids[we_are];
+		kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%4]);
+		kids[(idx+1)%4]->OnEdgeFriendChanged(idx, e->kids[we_are]);
 	}
 	
 	void NotifyEdgeFriendDeleted(GeoPatch *e) {
