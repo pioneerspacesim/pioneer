@@ -878,7 +878,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.0
 #define GEOPATCH_MAX_DEPTH	16
-#define GEOPATCH_EDGELEN	16
+#define GEOPATCH_EDGELEN	32
 
 #define PRINT_VECTOR(_v) printf("%.2f,%.2f,%.2f\n", (_v).x, (_v).y, (_v).z);
 
@@ -953,14 +953,14 @@ public:
 
 		int iters=8;
 		double div = 1.0;
-		double scale = 128.0;
+		double scale = 256.0;
 		double n = 0;
 		while (iters--) {
 			n += div*noise(scale*p);
 			div *= 0.5;
 			scale *= 2.0;
 		}
-		return p + p*0.001*n;
+		return p + p*0.001*n*noise(64.0*p);
 	}
 
 	void GenerateNormals() {
@@ -1147,7 +1147,8 @@ public:
 
 	GeoPatch *GetEdgeFriendForKid(int kid, int edge) {
 		GeoPatch *e = edgeFriend[edge];
-		assert (e && ((e->m_depth == m_depth) || (e->m_depth == m_depth+1)));
+		if (!e) return 0;
+		//assert (e);// && (e->m_depth >= m_depth));
 		const int we_are = e->GetEdgeIdxOf(this);
 		assert(we_are != -1);
 		// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
@@ -1162,7 +1163,7 @@ public:
 
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
-			if (!edgeFriend[i]) { canSplit = false; break; }
+	//		if (!edgeFriend[i]) { canSplit = false; break; }
 	///		if (edgeFriend[i] && (edgeFriend[i]->m_depth < m_depth)) {
 	//			canSplit = false;
 	//			break;
@@ -1206,7 +1207,7 @@ public:
 				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);//edgeFriend[3];
 				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
 				for (int i=0; i<4; i++) kids[i]->GenerateMesh();
-				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
+				for (int i=0; i<4; i++) if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this);
 				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
 			}
 			for (int i=0; i<4; i++) kids[i]->Render(campos);
