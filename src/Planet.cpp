@@ -879,6 +879,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.0
 #define GEOPATCH_MAX_DEPTH	16
 #define GEOPATCH_EDGELEN	32
+#define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 
 #define PRINT_VECTOR(_v) printf("%.2f,%.2f,%.2f\n", (_v).x, (_v).y, (_v).z);
 
@@ -893,7 +894,7 @@ public:
 	GeoPatch *kids[4];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
-	int m_numVertices;
+	double m_roughLength;
 	int m_depth;
 	GeoPatch() {
 		memset(this, 0, sizeof(GeoPatch));
@@ -901,6 +902,7 @@ public:
 	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
 		memset(this, 0, sizeof(GeoPatch));
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
+		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
 	}
 	~GeoPatch() {
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
@@ -966,7 +968,7 @@ public:
 	void GenerateNormals() {
 		if (normals) return;
 
-		normals = new vector3d[m_numVertices];
+		normals = new vector3d[GEOPATCH_NUMVERTICES];
 		
 		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
 			for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
@@ -1073,15 +1075,14 @@ public:
 
 	void GenerateMesh() {
 		if (!vertices) {
-			m_numVertices = GEOPATCH_EDGELEN*GEOPATCH_EDGELEN;
-			vertices = new vector3d[m_numVertices];
+			vertices = new vector3d[GEOPATCH_NUMVERTICES];
 			vector3d *vts = vertices;
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
 				for (int x=0; x<GEOPATCH_EDGELEN; x++) {
 					*(vts++) = GenPoint(x, y);
 				}
 			}
-			assert(vts == &vertices[m_numVertices]);
+			assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
 			indices = new GLuint[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
 			GLuint *idx = indices;
 			int wank=0;
@@ -1171,7 +1172,7 @@ public:
 		}
 
 		if (canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
-		    ((campos - centroid).Length() < (v[0]-v[2]).Length()*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
+		    ((campos - centroid).Length() < m_roughLength*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
 
 			if (!kids[0]) {
 				vector3d v01, v12, v23, v30;
