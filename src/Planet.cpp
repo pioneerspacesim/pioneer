@@ -1370,19 +1370,34 @@ void Planet::Render(const Frame *a_camFrame)
 		ftran.ClearToRotOnly();
 		campos = ftran.InverseOf() * campos;
 		glMultMatrixd(&ftran[0]);
-		const float poo[4] = { 1,1,1,1};
-		SetMaterialColor(poo);
 		glEnable(GL_NORMALIZE);
-		glShadeModel(GL_FLAT);
 		glPushMatrix();
 		glScalef(rad,rad,rad);
-		campos = campos * (1.0/rad);
-		m_geosphere->Render(campos);
+		
+		// this is a rather brittle test..........
+		if (sbody->type < SBody::TYPE_PLANET_DWARF) {
+			if (!crudDList) {
+				crudDList = glGenLists(1);
+				glNewList(crudDList, GL_COMPILE);
+				// this is a rather brittle test..........
+				if (sbody->type < SBody::TYPE_PLANET_DWARF) {
+					DrawGasGiant();
+				} else {
+					DrawRockyPlanet();
+				}
+				glEndList();
+			}
+			glCallList(crudDList);
+		} else {
+			const float poo[4] = { 1,1,1,1};
+			SetMaterialColor(poo);
+			campos = campos * (1.0/rad);
+			m_geosphere->Render(campos);
+			//printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
+		}
 		glPopMatrix();
-		glShadeModel(GL_SMOOTH);
 		glDisable(GL_NORMALIZE);
 		
-		//printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
 
 		/*
 		ftran.ClearToRotOnly();
