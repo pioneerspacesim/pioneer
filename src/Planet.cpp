@@ -905,8 +905,12 @@ public:
 		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
 	}
 	~GeoPatch() {
+		for (int i=0; i<4; i++) {
+			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
+		}
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
 		if (vertices) delete vertices;
+		if (normals) delete normals;
 		if (indices) delete indices;
 	}
 	/* not quite edge, since we share edge vertices so that would be
@@ -1127,23 +1131,11 @@ public:
 		kids[idx]->edgeFriend[idx] = e->kids[(we_are+1)%4];
 		kids[(idx+1)%4]->edgeFriend[idx] = e->kids[we_are];
 	}
-	void NotifyEdgeFriendMerged(GeoPatch *e) {
+	
+	void NotifyEdgeFriendDeleted(GeoPatch *e) {
 		int idx = GetEdgeIdxOf(e);
 		assert(idx != -1);
-		if (!kids[0]) return;
-		if (idx == 0) {
-			kids[0]->edgeFriend[0] = 0;
-			kids[1]->edgeFriend[0] = 0;
-		} else if (idx == 1) {
-			kids[1]->edgeFriend[1] = 0;
-			kids[2]->edgeFriend[1] = 0;
-		} else if (idx == 2) {
-			kids[2]->edgeFriend[2] = 0;
-			kids[3]->edgeFriend[2] = 0;
-		} else {
-			kids[3]->edgeFriend[3] = 0;
-			kids[0]->edgeFriend[3] = 0;
-		}
+		edgeFriend[idx] = 0;
 	}
 
 	GeoPatch *GetEdgeFriendForKid(int kid, int edge) {
@@ -1190,22 +1182,22 @@ public:
 				kids[3]->m_depth = m_depth+1;
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
-				kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);//edgeFriend[0];
+				kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
 				kids[0]->edgeFriend[1] = kids[1];
 				kids[0]->edgeFriend[2] = kids[3];
-				kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);//edgeFriend[3];
-				kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);//edgeFriend[0];
-				kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);//edgeFriend[1];
+				kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
+				kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
+				kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
 				kids[1]->edgeFriend[2] = kids[2];
 				kids[1]->edgeFriend[3] = kids[0];
 				kids[2]->edgeFriend[0] = kids[1];
-				kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);//edgeFriend[1];
-				kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);//edgeFriend[2];
+				kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
+				kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
 				kids[2]->edgeFriend[3] = kids[3];
 				kids[3]->edgeFriend[0] = kids[0];
 				kids[3]->edgeFriend[1] = kids[2];
-				kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);//edgeFriend[2];
-				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);//edgeFriend[3];
+				kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
+				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
 				for (int i=0; i<4; i++) kids[i]->GenerateMesh();
 				for (int i=0; i<4; i++) if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this);
@@ -1213,10 +1205,9 @@ public:
 			}
 			for (int i=0; i<4; i++) kids[i]->Render(campos);
 		} else {
-		//	if (kids[0]) {
-		//		for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
-		//		for (int i=0; i<4; i++) if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendMerged(this);
-		//	}
+			if (kids[0]) {
+				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
+			}
 			geo_patch_tri_count += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glShadeModel(GL_SMOOTH);
 			glEnableClientState(GL_VERTEX_ARRAY);
