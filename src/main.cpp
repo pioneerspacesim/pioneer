@@ -98,6 +98,8 @@ void Pi::Init(IniConfig &config)
 			exit(-1);
 		}
 	}
+	glewInit();
+	assert(GLEW_ARB_vertex_buffer_object);
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;
 	Pi::scrHeight = height;

@@ -7,6 +7,7 @@
 #include "StarSystem.h"
 #include "perlin.h"
 
+
 Planet::Planet(SBody *sbody): Body()
 {
 	pos = vector3d(0,0,0);
@@ -886,12 +887,15 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 
 static int geo_patch_tri_count;
 
+//#define USE_VBO
 class GeoPatch {
 public:
 	vector3d v[4];
 	vector3d *vertices;
 	vector3d *normals;
+	GLuint m_vbo[2];
 	static GLuint *indices;
+	static GLuint indices_vbo;
 	GeoPatch *kids[4];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
@@ -904,6 +908,36 @@ public:
 		memset(this, 0, sizeof(GeoPatch));
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
+#ifdef USE_VBO
+		glGenBuffersARB(2, m_vbo);
+#endif /* USE_VBO */
+		if (!indices) {
+			indices = new GLuint[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
+			GLuint *idx = indices;
+			int wank=0;
+			for (int x=0; x<GEOPATCH_EDGELEN-1; x++) {
+				for (int y=0; y<GEOPATCH_EDGELEN-1; y++) {
+					idx[0] = x + GEOPATCH_EDGELEN*y;
+					idx[1] = x+1 + GEOPATCH_EDGELEN*y;
+					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
+					idx+=3;
+					wank++;
+
+					idx[0] = x+1 + GEOPATCH_EDGELEN*y;
+					idx[1] = x+1 + GEOPATCH_EDGELEN*(y+1);
+					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
+					idx+=3;
+					wank++;
+				}
+			}
+			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
+#ifdef USE_VBO
+			glGenBuffersARB(1, &indices_vbo);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3,
+					indices, GL_STATIC_DRAW);
+#endif /* USE_VBO */
+		}
 	}
 	~GeoPatch() {
 		for (int i=0; i<4; i++) {
@@ -912,7 +946,18 @@ public:
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
 		if (vertices) delete vertices;
 		if (normals) delete normals;
+#ifdef USE_VBO
+		if (m_vbo[0]) glDeleteBuffersARB(2, m_vbo);
+#endif /* USE_VBO */
 	}
+	void UpdateVBOs() {
+#ifdef USE_VBO
+		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, vertices, GL_STATIC_DRAW);
+		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, normals, GL_STATIC_DRAW);
+#endif /* USE_VBO */
+	}	
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
 	 * for adjacent tiles */
@@ -962,6 +1007,7 @@ public:
 		abort();
 		return -1;
 	}
+
 
 	inline vector3d GenPoint(int x, int y) {
 		double xpos = x/(double)(GEOPATCH_EDGELEN-1);
@@ -1140,6 +1186,8 @@ public:
 		}
 
 		for (int i=0; i<4; i++) if(!doneEdge[i]) FixEdgeNormals(i, ev[i]);
+
+		UpdateVBOs();
 	}
 
 	void GenerateMesh() {
@@ -1152,27 +1200,6 @@ public:
 				}
 			}
 			assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
-		}
-		if (!indices) {
-			indices = new GLuint[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
-			GLuint *idx = indices;
-			int wank=0;
-			for (int x=0; x<GEOPATCH_EDGELEN-1; x++) {
-				for (int y=0; y<GEOPATCH_EDGELEN-1; y++) {
-					idx[0] = x + GEOPATCH_EDGELEN*y;
-					idx[1] = x+1 + GEOPATCH_EDGELEN*y;
-					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
-					idx+=3;
-					wank++;
-
-					idx[0] = x+1 + GEOPATCH_EDGELEN*y;
-					idx[1] = x+1 + GEOPATCH_EDGELEN*(y+1);
-					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
-					idx+=3;
-					wank++;
-				}
-			}
-			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
 		}
 			/* XXX some tests to ensure vertices match */
 		/*	for (int i=0; i<4; i++) {
@@ -1205,20 +1232,29 @@ public:
 		}
 
 		FixEdgeNormals(edge, ev);
+		UpdateVBOs();
 
 		if (kids[0]) {
 			if (edge == 0) {
 				kids[0]->FixEdgeFromParentInterpolated(0);
+				kids[0]->UpdateVBOs();
 				kids[1]->FixEdgeFromParentInterpolated(0);
+				kids[1]->UpdateVBOs();
 			} else if (edge == 1) {
 				kids[1]->FixEdgeFromParentInterpolated(1);
+				kids[1]->UpdateVBOs();
 				kids[2]->FixEdgeFromParentInterpolated(1);
+				kids[2]->UpdateVBOs();
 			} else if (edge == 2) {
 				kids[2]->FixEdgeFromParentInterpolated(2);
+				kids[2]->UpdateVBOs();
 				kids[3]->FixEdgeFromParentInterpolated(2);
+				kids[3]->UpdateVBOs();
 			} else {
 				kids[3]->FixEdgeFromParentInterpolated(3);
+				kids[3]->UpdateVBOs();
 				kids[0]->FixEdgeFromParentInterpolated(3);
+				kids[0]->UpdateVBOs();
 			}
 		}
 	}
@@ -1234,8 +1270,10 @@ public:
 	void NotifyEdgeFriendDeleted(GeoPatch *e) {
 		int idx = GetEdgeIdxOf(e);
 		edgeFriend[idx] = 0;
-		if (parent->edgeFriend[idx]) FixEdgeFromParentInterpolated(idx);
-		else {
+		if (parent->edgeFriend[idx]) {
+			FixEdgeFromParentInterpolated(idx);
+			UpdateVBOs();
+		} else {
 			fprintf(stderr, "Bad. not fixing up edge\n");
 		}
 	}
@@ -1250,8 +1288,38 @@ public:
 		if (edge == kid) return e->kids[(we_are+1)%4];
 		else return e->kids[we_are];
 	}
-
+	
 	void Render(vector3d &campos) {
+		if (kids[0]) {
+			for (int i=0; i<4; i++) kids[i]->Render(campos);
+		} else {
+			geo_patch_tri_count += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
+			glShadeModel(GL_SMOOTH);
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
+
+#ifdef USE_VBO
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
+			glVertexPointer(3, GL_DOUBLE, 0, 0);
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
+			glNormalPointer(GL_DOUBLE, 0, 0);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, 0);
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+#else
+			glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
+			glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
+			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, indices);
+#endif /* USE_VBO */
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glDisableClientState(GL_NORMAL_ARRAY);
+			glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+		}
+	}
+
+	void LODUpdate(vector3d &campos) {
 				
 		vector3d centroid = (v[0]+v[1]+v[2]+v[3])*0.25;
 
@@ -1309,25 +1377,17 @@ public:
 				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
 				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
 			}
-			for (int i=0; i<4; i++) kids[i]->Render(campos);
+			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
 		} else {
 			if (canMerge && kids[0]) {
 				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
 			}
-			geo_patch_tri_count += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
-			glShadeModel(GL_SMOOTH);
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
-			glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
-			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, indices);
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glDisableClientState(GL_NORMAL_ARRAY);
 		}
 	}
 };
 
 GLuint *GeoPatch::indices = 0;
+GLuint GeoPatch::indices_vbo = 0;
 
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },
@@ -1374,6 +1434,9 @@ public:
 		for (int i=0; i<6; i++) m_patches[i].GenerateNormals();
 	}
 	void Render(vector3d campos) {
+		for (int i=0; i<6; i++) {
+			m_patches[i].LODUpdate(campos);
+		}
 		for (int i=0; i<6; i++) {
 			m_patches[i].Render(campos);
 		}
