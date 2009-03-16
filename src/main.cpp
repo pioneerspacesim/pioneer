@@ -55,6 +55,7 @@ double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
+int Pi::statSceneTris;
 
 void Pi::Init(IniConfig &config)
 {
@@ -495,7 +496,7 @@ void Pi::MainLoop()
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
 	int phys_stat = 0;
-	char fps_readout[32];
+	char fps_readout[128];
 	Uint32 time_before_frame = SDL_GetTicks();
 	Uint32 last_phys_update = time_before_frame;
 
@@ -548,11 +549,12 @@ void Pi::MainLoop()
 		currentView->Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
-			snprintf(fps_readout, sizeof(fps_readout), "%d fps, %d phys updates", frame_stat, phys_stat);
+			snprintf(fps_readout, sizeof(fps_readout), "%d fps, %d phys updates, %d triangles, %.3f M tris/sec", frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6);
 			frame_stat = 0;
 			phys_stat = 0;
 			last_stats += 1000;
 		}
+		Pi::statSceneTris = 0;
 	}
 }
 
