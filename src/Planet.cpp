@@ -878,10 +878,11 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.5
 #define GEOPATCH_MAX_DEPTH	16
-#define GEOPATCH_EDGELEN	16
+// must be power of two + 1
+#define GEOPATCH_EDGELEN	17
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 
-#define PRINT_VECTOR(_v) printf("%.2f,%.2f,%.2f\n", (_v).x, (_v).y, (_v).z);
+#define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 static int geo_patch_tri_count;
 
@@ -890,7 +891,7 @@ public:
 	vector3d v[4];
 	vector3d *vertices;
 	vector3d *normals;
-	GLuint *indices;
+	static GLuint *indices;
 	GeoPatch *kids[4];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
@@ -911,7 +912,6 @@ public:
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
 		if (vertices) delete vertices;
 		if (normals) delete normals;
-		if (indices) delete indices;
 	}
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
@@ -929,23 +929,37 @@ public:
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[GEOPATCH_EDGELEN-1-y] = vertices[1 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
 		}
 	}
-	void GetEdgeVertices(int edge, vector3d ev[GEOPATCH_EDGELEN]) {
+	static void GetEdge(vector3d *array, int edge, vector3d ev[GEOPATCH_EDGELEN]) {
 		if (edge == 0) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = vertices[x];
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = array[x];
 		} else if (edge == 1) {
 			const int x = GEOPATCH_EDGELEN-1;
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = vertices[x + y*GEOPATCH_EDGELEN];
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = array[x + y*GEOPATCH_EDGELEN];
 		} else if (edge == 2) {
 			const int y = GEOPATCH_EDGELEN-1;
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = vertices[(GEOPATCH_EDGELEN-1)-x + y*GEOPATCH_EDGELEN];
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = array[(GEOPATCH_EDGELEN-1)-x + y*GEOPATCH_EDGELEN];
 		} else {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = vertices[0 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = array[0 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
+		}
+	}
+	static void SetEdge(vector3d *array, int edge, const vector3d ev[GEOPATCH_EDGELEN]) {
+		if (edge == 0) {
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) array[x] = ev[x];
+		} else if (edge == 1) {
+			const int x = GEOPATCH_EDGELEN-1;
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) array[x + y*GEOPATCH_EDGELEN] = ev[y];
+		} else if (edge == 2) {
+			const int y = GEOPATCH_EDGELEN-1;
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) array[(GEOPATCH_EDGELEN-1)-x + y*GEOPATCH_EDGELEN] = ev[x];
+		} else {
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) array[0 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN] = ev[y];
 		}
 	}
 	int GetEdgeIdxOf(GeoPatch *e) {
 		for (int i=0; i<4; i++) {
 			if (edgeFriend[i] == e) return i;
 		}
+		abort();
 		return -1;
 	}
 
@@ -1014,6 +1028,48 @@ public:
 		}
 	}
 
+	int GetChildIdx(GeoPatch *child) {
+		for (int i=0; i<4; i++) {
+			if (kids[i] == child) return i;
+		}
+		abort();
+		return -1;
+	}
+	
+	void FixEdgeFromParentInterpolated(int edge) {
+		//assert(parent->edgeFriend[edge]);
+		//GeoPatch *e = parent->edgeFriend[edge];
+		//int we_are = e->GetEdgeIdxOf(parent);
+		vector3d ev[GEOPATCH_EDGELEN];
+		vector3d en[GEOPATCH_EDGELEN];
+		vector3d ev2[GEOPATCH_EDGELEN];
+		vector3d en2[GEOPATCH_EDGELEN];
+		GetEdge(parent->vertices, edge, ev);
+		GetEdge(parent->normals, edge, en);
+
+		int kid_idx = parent->GetChildIdx(this);
+		if (edge == kid_idx) {
+			// use first half of edge
+			for (int i=0; i<=GEOPATCH_EDGELEN/2; i++) {
+				ev2[i<<1] = ev[i];
+				en2[i<<1] = en[i];
+			}
+		} else {
+			// use 2nd half of edge
+			for (int i=GEOPATCH_EDGELEN/2; i<GEOPATCH_EDGELEN; i++) {
+				ev2[(i-(GEOPATCH_EDGELEN/2))<<1] = ev[i];
+				en2[(i-(GEOPATCH_EDGELEN/2))<<1] = en[i];
+			}
+		}
+		// interpolate!!
+		for (int i=1; i<GEOPATCH_EDGELEN; i+=2) {
+			ev2[i] = (ev2[i-1]+ev2[i+1]) * 0.5;
+			en2[i] = (en2[i-1]+en2[i+1]).Normalized();
+		}
+		SetEdge(this->vertices, edge, ev2);
+		SetEdge(this->normals, edge, en2);
+	}
+
 	void GenerateNormals() {
 		if (normals) return;
 
@@ -1031,28 +1087,33 @@ public:
 			}
 		}
 		vector3d ev[4][GEOPATCH_EDGELEN];
+		bool doneEdge[4];
+		memset(doneEdge, 0, sizeof(doneEdge));
 		for (int i=0; i<4; i++) {
 			GeoPatch *e = edgeFriend[i];
 			if (e) {
 				int we_are = e->GetEdgeIdxOf(this);
-				assert(we_are != -1);
 				e->GetEdgeMinusOneVerticesFlipped(we_are, ev[i]);
 			} else {
-				// XXX XXX bad fallback
-				// need to find proper edge vertices ... this
-				// is for kids with non-sibling edge. TODO
-				// TODO
-				GetEdgeVertices(i, ev[i]);
+				assert(parent->edgeFriend[i]);
+				doneEdge[i] = true;
+				// parent has valid edge, so take our
+				// bit of that, interpolated.
+				FixEdgeFromParentInterpolated(i);
+				// XXX needed for corners... probably not
+				// correct
+				GetEdge(vertices, i, ev[i]);
 			}
 		}
 
 		// corners
-		vector3d x1 = ev[3][GEOPATCH_EDGELEN-1];
-		vector3d x2 = vertices[1];
-		vector3d y1 = ev[0][0];
-		vector3d y2 = vertices[GEOPATCH_EDGELEN];
-		normals[0] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-			
+		{
+			vector3d x1 = ev[3][GEOPATCH_EDGELEN-1];
+			vector3d x2 = vertices[1];
+			vector3d y1 = ev[0][0];
+			vector3d y2 = vertices[GEOPATCH_EDGELEN];
+			normals[0] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+		}	
 		{
 			const int x = GEOPATCH_EDGELEN-1;
 			vector3d x1 = vertices[x-1];
@@ -1078,7 +1139,7 @@ public:
 			normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
 		}
 
-		for (int i=0; i<4; i++) FixEdgeNormals(i, ev[i]);
+		for (int i=0; i<4; i++) if(!doneEdge[i]) FixEdgeNormals(i, ev[i]);
 	}
 
 	void GenerateMesh() {
@@ -1091,6 +1152,8 @@ public:
 				}
 			}
 			assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
+		}
+		if (!indices) {
 			indices = new GLuint[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
 			GLuint *idx = indices;
 			int wank=0;
@@ -1110,6 +1173,7 @@ public:
 				}
 			}
 			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
+		}
 			/* XXX some tests to ensure vertices match */
 		/*	for (int i=0; i<4; i++) {
 				GeoPatch *edge = edgeFriend[i];
@@ -1119,22 +1183,48 @@ public:
 					assert(v[(i+1)%4] == edge->v[(we_are)%4]);
 				}
 			}*/
-		}
 
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
 		vector3d ev[GEOPATCH_EDGELEN];
 		int we_are = e->GetEdgeIdxOf(this);
-		assert(we_are != -1);
 		e->GetEdgeMinusOneVerticesFlipped(we_are, ev);
+		/* now we have a valid edge, fix the edge vertices */
+		if (edge == 0) {
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) vertices[x] = GenPoint(x, 0);
+		} else if (edge == 1) {
+			for (int y=0; y<GEOPATCH_EDGELEN; y++)
+				vertices[(GEOPATCH_EDGELEN-1) + GEOPATCH_EDGELEN*y] = GenPoint(GEOPATCH_EDGELEN-1, y);
+		} else if (edge == 2) {
+			for (int x=0; x<GEOPATCH_EDGELEN; x++)
+				vertices[x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN] = GenPoint(x, GEOPATCH_EDGELEN-1);
+		} else {
+			for (int y=0; y<GEOPATCH_EDGELEN; y++)
+				vertices[y*GEOPATCH_EDGELEN] = GenPoint(0, y);
+		}
+
 		FixEdgeNormals(edge, ev);
+
+		if (kids[0]) {
+			if (edge == 0) {
+				kids[0]->FixEdgeFromParentInterpolated(0);
+				kids[1]->FixEdgeFromParentInterpolated(0);
+			} else if (edge == 1) {
+				kids[1]->FixEdgeFromParentInterpolated(1);
+				kids[2]->FixEdgeFromParentInterpolated(1);
+			} else if (edge == 2) {
+				kids[2]->FixEdgeFromParentInterpolated(2);
+				kids[3]->FixEdgeFromParentInterpolated(2);
+			} else {
+				kids[3]->FixEdgeFromParentInterpolated(3);
+				kids[0]->FixEdgeFromParentInterpolated(3);
+			}
+		}
 	}
 	void NotifyEdgeFriendSplit(GeoPatch *e) {
 		int idx = GetEdgeIdxOf(e);
-		assert(idx != -1);
 		int we_are = e->GetEdgeIdxOf(this);
-		assert(we_are != -1);
 		if (!kids[0]) return;
 		// match e's new kids to our own... :/
 		kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%4]);
@@ -1143,8 +1233,11 @@ public:
 	
 	void NotifyEdgeFriendDeleted(GeoPatch *e) {
 		int idx = GetEdgeIdxOf(e);
-		assert(idx != -1);
 		edgeFriend[idx] = 0;
+		if (parent->edgeFriend[idx]) FixEdgeFromParentInterpolated(idx);
+		else {
+			fprintf(stderr, "Bad. not fixing up edge\n");
+		}
 	}
 
 	GeoPatch *GetEdgeFriendForKid(int kid, int edge) {
@@ -1152,7 +1245,6 @@ public:
 		if (!e) return 0;
 		//assert (e);// && (e->m_depth >= m_depth));
 		const int we_are = e->GetEdgeIdxOf(this);
-		assert(we_are != -1);
 		// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
 		// not have same detail level neighbours yet
 		if (edge == kid) return e->kids[(we_are+1)%4];
@@ -1165,11 +1257,16 @@ public:
 
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
-	//		if (!edgeFriend[i]) { canSplit = false; break; }
-	///		if (edgeFriend[i] && (edgeFriend[i]->m_depth < m_depth)) {
-	//			canSplit = false;
-	//			break;
-	//		}
+			if (!edgeFriend[i]) { canSplit = false; break; }
+			if (edgeFriend[i] && (edgeFriend[i]->m_depth < m_depth)) {
+				canSplit = false;
+				break;
+			}
+		}
+
+		bool canMerge = true;
+		for (int i=0; i<4; i++) {
+			if (edgeFriend[i] && (edgeFriend[i]->m_depth > m_depth)) canMerge = false;
 		}
 
 		if (canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
@@ -1209,12 +1306,12 @@ public:
 				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
 				for (int i=0; i<4; i++) kids[i]->GenerateMesh();
-				for (int i=0; i<4; i++) if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this);
+				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
 				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
 			}
 			for (int i=0; i<4; i++) kids[i]->Render(campos);
 		} else {
-			if (kids[0]) {
+			if (canMerge && kids[0]) {
 				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
 			}
 			geo_patch_tri_count += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
@@ -1229,6 +1326,8 @@ public:
 		}
 	}
 };
+
+GLuint *GeoPatch::indices = 0;
 
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },
@@ -1394,7 +1493,7 @@ void Planet::Render(const Frame *a_camFrame)
 			SetMaterialColor(poo);
 			campos = campos * (1.0/rad);
 			m_geosphere->Render(campos);
-			printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
+		//	printf("%d triangles in GeoSphere\n", geo_patch_tri_count);
 		}
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
