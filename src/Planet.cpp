@@ -5,8 +5,25 @@
 #include "WorldView.h"
 #include "Serializer.h"
 #include "StarSystem.h"
-#include "perlin.h"
+#include "GeoSphere.h"
 
+struct ColRangeObj_t {
+	float baseCol[4]; float modCol[4]; float modAll;
+
+	void GenCol(float col[4], MTRand &rng) const {
+		float ma = 1 + (rng.Double(modAll*2)-modAll);
+		for (int i=0; i<4; i++) col[i] = baseCol[i] + rng.Double(-modCol[i], modCol[i]);
+		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
+	}
+};
+
+ColRangeObj_t barrenBodyCol = { { .3,.3,.3,1 },{0,0,0,0},.3 };
+ColRangeObj_t barrenContCol = { { .2,.2,.2,1 },{0,0,0,0},.3 };
+ColRangeObj_t barrenEjectaCraterCol = { { .5,.5,.5,1 },{0,0,0,0},.2 };
+float darkblue[4] = { .05, .05, .2, 1 };
+float blue[4] = { .2, .2, 1, 1 };
+float green[4] = { .2, .8, .2, 1 };
+float white[4] = { 1, 1, 1, 1 };
 
 Planet::Planet(SBody *sbody): Body()
 {
@@ -19,6 +36,32 @@ Planet::Planet(SBody *sbody): Body()
 void Planet::Init()
 {
 	m_mass = sbody->GetMass();
+	if ((!m_geosphere) &&
+	    (sbody->type >= SBody::TYPE_PLANET_DWARF)) {
+		float col[4];
+		MTRand rand;	
+		rand.seed(sbody->seed);
+		m_geosphere = new GeoSphere();
+		m_geosphere->AddCraters(rand, 20, M_PI*0.005, M_PI*0.05);
+		switch (sbody->type){
+		case SBody::TYPE_PLANET_DWARF:
+		case SBody::TYPE_PLANET_SMALL:
+			barrenBodyCol.GenCol(col, rand);
+			m_geosphere->SetColor(col);
+			break;
+		case SBody::TYPE_PLANET_WATER:
+		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
+			m_geosphere->SetColor(darkblue);
+			break;
+		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
+			m_geosphere->SetColor(green);
+			break;
+		default:
+			barrenBodyCol.GenCol(col, rand);
+			m_geosphere->SetColor(col);
+		}
+	}
+	
 	crudDList = 0;
 }
 	
@@ -41,6 +84,7 @@ void Planet::Load()
 
 Planet::~Planet()
 {
+	if (m_geosphere) delete m_geosphere;
 }
 
 double Planet::GetRadius() const
@@ -61,6 +105,16 @@ void Planet::SetPosition(vector3d p)
 void Planet::SetRadius(double radius)
 {
 	assert(0);
+}
+
+double Planet::GetTerrainHeight(vector3d &pos)
+{
+	double radius = GetRadius();
+	if (m_geosphere) {
+		return radius * (1.0 + m_geosphere->GetHeight(pos));
+	} else {
+		return radius;
+	}
 }
 
 static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth)
@@ -299,16 +353,6 @@ static void DrawPole(double yPos, double size)
 	glPopAttrib();
 }
 
-struct ColRangeObj_t {
-	float baseCol[4]; float modCol[4]; float modAll;
-
-	void GenCol(float col[4], MTRand &rng) const {
-		float ma = 1 + (rng.Double(modAll*2)-modAll);
-		for (int i=0; i<4; i++) col[i] = baseCol[i] + rng.Double(-modCol[i], modCol[i]);
-		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
-	}
-};
-
 struct GasGiantDef_t {
 	int hoopMin, hoopMax; float hoopWobble;
 	int blobMin, blobMax;
@@ -388,356 +432,6 @@ static void SetMaterialColor(const float col[4])
 	mambient[3] = col[3];
 	glMaterialfv (GL_FRONT, GL_AMBIENT, mambient);
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
-}
-
-/*
- * 1980s graphics
- */
-#define GEOSPLIT	4
-#define GEOROUGHNESS	0.7
-static const float _yes[] = { 1.0, 0.5, 0.25, 0.126, 0.0625, 0.03125 };
-static void SubdivideTriangularContinent2(std::vector<vector3d> &verts, int sidx, int eidx, int depth, MTRand &rng)
-{
-	vector3d &v1 = verts[sidx];
-	vector3d &v2 = verts[eidx];
-	if (depth > 0) {
-		int midx = (sidx+eidx)>>1;
-		vector3d c = vector3d::Cross(v2-v1,v1).Normalized();
-		c *= rng.Double(1.0);
-		verts[midx] = (v1+v2+0.7*_yes[GEOSPLIT-depth]*c).Normalized();
-		SubdivideTriangularContinent2(verts, sidx, midx, depth-1, rng);
-		SubdivideTriangularContinent2(verts, midx, eidx, depth-1, rng);
-	}
-}
-
-static void SubdivideVeryLongTri(vector3d &tip, vector3d &v1, vector3d &v2, int bits)
-{
-	vector3d v;
-	vector3d tip2v1 = v1-tip;
-	vector3d tip2v2 = v2-tip;
-
-	tip2v1 *= 1.0/bits;
-	tip2v2 *= 1.0/bits;
-
-	// tip triangle
-	glBegin(GL_TRIANGLES);
-	glNormal3dv(&tip.x);
-	glVertex3dv(&tip.x);
-	v = (tip+tip2v1).Normalized();
-	glNormal3dv(&v.x);
-	glVertex3dv(&v.x);
-	v = (tip+tip2v2).Normalized();
-	glNormal3dv(&v.x);
-	glVertex3dv(&v.x);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	for (int i=1; i<bits; i++) {
-		v = (tip+(tip2v1*i)).Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-		v = (tip+(tip2v1*(i+1))).Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-		v = (tip+(tip2v2*(i+1))).Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-		v = (tip+(tip2v2*i)).Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-	}
-	glEnd();
-}
-
-static void SphereBlobTess(vector3d &centre, std::vector<vector3d> &edgeVerts)
-{
-	const int s = edgeVerts.size();
-	std::vector<char> vDead(s);
-	int iters =0;
-	int v1 = 0;
-	int v2 = 1;
-	int v3 = 2;
-	do {
-		vector3d v2dir = edgeVerts[v3] - edgeVerts[v2];
-		vector3d v1norm = vector3d::Cross(edgeVerts[v1], edgeVerts[v2] - edgeVerts[v1]);
-
-		const float dot = vector3d::Dot(v1norm, v2dir);
-
-		if (dot >= 0.0) {
-			glBegin(GL_TRIANGLES);
-			// makes like a billion tris...
-			SphereTriSubdivide(edgeVerts[v1], edgeVerts[v2], edgeVerts[v3], 3);
-			glEnd();
-			vDead[v2] = 1;
-
-			v2 = v3;
-			do { v3 = (v3+1)%s; } while (vDead[v3]);
-		} else {
-			v1 = v2;
-			v2 = v3;
-			do { v3 = (v3+1)%s; } while (vDead[v3]);
-		}
-		if (++iters > 1000) break;
-	} while ((v1!=v2)&&(v2!=v3)&&(v3!=v1));
-	int notDead = 0;
-	for (unsigned int i=0; i<vDead.size(); i++) if (!vDead[i]) notDead++;
-	//if (notDead > 2) printf("Strange sphere tesselator: %d not dead (%d iters)\n", notDead, iters);
-}
-
-static int exp2i(int poo) { int n=2; while (--poo) n*=2; return n; }
-static void MakeContinent(matrix4x4d &rot, float scale, MTRand &rng)
-{
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-		
-	const int nvps = exp2i(GEOSPLIT);
-	const int numVertices = nvps*3 + 1;
-	// this is a continent centred on the north pole, of size roughly 45
-	// degrees in each direction (although it is based on a triangle, so
-	// the actual shape will be a load of crap)
-	vector3d v1(0,1,scale*1);
-	vector3d v2(scale*sin(2*M_PI/3.0),1,scale*cos(2*M_PI/3.0));
-	vector3d v3(-scale*sin(2*M_PI/3.0),1,scale*cos(2*M_PI/3.0));
-	v1 = (rot*v1).Normalized();
-	v2 = (rot*v2).Normalized();
-	v3 = (rot*v3).Normalized();
-	std::vector<vector3d> edgeVerts(numVertices);
-	edgeVerts[0] = v1;
-	edgeVerts[nvps] = v2;
-	edgeVerts[2*nvps] = v3;
-	edgeVerts[3*nvps] = v1;
-	SubdivideTriangularContinent2(edgeVerts, 0, nvps, GEOSPLIT, rng);
-	SubdivideTriangularContinent2(edgeVerts, nvps, 2*nvps, GEOSPLIT, rng);
-	SubdivideTriangularContinent2(edgeVerts, 2*nvps, 3*nvps, GEOSPLIT, rng);
-
-	vector3d centre = (v1+v2+v3).Normalized();
-	SphereBlobTess(centre, edgeVerts);
-	
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_NORMALIZE);
-}
-
-/*
- * draws at north pole
- */
-void DrawCircle(float rad)
-{
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
-
-	glBegin(GL_TRIANGLE_FAN);
-	glNormal3d(0,1,0);
-	glVertex3d(0,1,0);
-	for (double theta=0; theta<M_PI*2; theta+=0.1) {
-		vector3d v(rad*sin(theta), 1, rad*cos(theta));
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-	}
-	{
-		vector3d v(0,1,rad);
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-	}
-	glEnd();
-
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
-}
-
-/*
- * draws at north pole
- */
-static void DrawEjecta(float rad1, float rad2, int points) // that's a star shape
-{
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
-
-	double step = 2*M_PI/points;
-
-	for (int p=0; p<points; p++) {
-		double ang0 = step*p;
-		double ang1 = step*(p+1);
-		double ang2 = (ang0+ang1)*.5;
-		vector3d v1(rad1*sin(ang0), 1, rad1*cos(ang0));
-		vector3d v2(rad2*sin(ang2), 1, rad2*cos(ang2));
-		vector3d v3(rad1*sin(ang1), 1, rad1*cos(ang1));
-		v1 = v1.Normalized();
-		v2 = v2.Normalized();
-		v3 = v3.Normalized();
-		
-		SubdivideVeryLongTri(v2, v3, v1, 6);
-
-		glBegin(GL_TRIANGLES);
-		// tri to center
-		glNormal3dv(&v1.x);
-		glVertex3dv(&v1.x);
-		glNormal3dv(&v3.x);
-		glVertex3dv(&v3.x);
-		glNormal3d(0,1,0);
-		glVertex3d(0,1,0);
-		glEnd();
-	}
-	
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
-}
-
-/*
- * draws at north pole
- */
-void DrawHollowCircle(float rad1, float rad2)
-{
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
-
-	glBegin(GL_TRIANGLE_STRIP);
-	for (double theta=0; theta<2*M_PI; theta+=0.1) {
-		vector3d v(rad1*sin(theta), 1, rad1*cos(theta));
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-
-		v = vector3d(rad2*sin(theta), 1, rad2*cos(theta));
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-	}
-	{
-		vector3d v(0,1,rad1);
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-
-		v = vector3d(0,1,rad2);
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-	}
-	glEnd();
-
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
-}
-
-void Planet::DrawRockyPlanet()
-{
-	int n;
-	float r, tmp;
-	matrix4x4d rot;
-	float col[4], col2[4];
-//	MTRand rng((int)Pi::GetGameTime());
-	MTRand rng(sbody->seed);
-	float darkblue[4] = { .05, .05, .2, 1 };
-	float blue[4] = { .2, .2, 1, 1 };
-	float green[4] = { .2, .8, .2, 1 };
-	float white[4] = { 1, 1, 1, 1 };
-	ColRangeObj_t barrenBodyCol = { { .3,.3,.3,1 },{0,0,0,0},.3 };
-	ColRangeObj_t barrenContCol = { { .2,.2,.2,1 },{0,0,0,0},.3 };
-	ColRangeObj_t barrenEjectaCraterCol = { { .5,.5,.5,1 },{0,0,0,0},.2 };
-
-	switch (sbody->type) {
-	case SBody::TYPE_PLANET_DWARF:
-	case SBody::TYPE_PLANET_SMALL:
-		barrenBodyCol.GenCol(col2, rng);
-		SetMaterialColor(col2);
-		DrawShittyRoundCube(1.0f);
-
-		n = rng.Int32(3,10);
-		barrenContCol.GenCol(col, rng);
-		SetMaterialColor(col);
-		while (n--) {
-			rot = matrix4x4d::RotateXMatrix(rng.Double(M_PI/2));
-			rot.RotateZ(rng.Double(M_PI*2));
-			MakeContinent(rot, rng.Double(0.05,0.2), rng);
-		}
-
-		SetMaterialColor(col);
-		n = rng.Int32(50,100);
-		while (n--) {
-			barrenContCol.GenCol(col, rng);
-			r = rng.Double(0.02, 0.1);
-			glPushMatrix();
-			vector3d rx(rng.Double(1.0)-.5, rng.Double(1.0)-.5, rng.Double(1.0)-.5);
-			rx = rx.Normalized();
-			glRotatef(rng.Double(0, 360), rx.x, rx.y, rx.z);
-
-			tmp = rng.Double(1.0);
-			if (tmp < .46) {
-				DrawCircle(r);
-			} else if (tmp < .92) {
-				//DrawHollowCircle(r, r*1.3);
-				DrawCircle(r*1.3);
-				// erm yeah
-				SetMaterialColor(col2);
-				DrawCircle(r);
-				SetMaterialColor(col);
-			} else {
-				barrenEjectaCraterCol.GenCol(col, rng);
-				SetMaterialColor(col);
-				DrawEjecta(r*0.6, 3*r, 6);
-				SetMaterialColor(col2);
-				DrawCircle(r*0.4);
-			}
-			glPopMatrix();
-		}
-		break;
-	
-	case SBody::TYPE_PLANET_WATER:
-	case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-		SetMaterialColor(darkblue);
-		DrawShittyRoundCube(1.0f);
-		
-		n = rng.Int32(3,10);
-		while (n--) {
-			barrenBodyCol.GenCol(col2, rng);
-			SetMaterialColor(col2);
-			rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.Double(-M_PI/3, M_PI/3));
-			rot.RotateZ(rng.Double(M_PI*2));
-			MakeContinent(rot, rng.Double(0.1,0.5), rng);
-		}
-		/* poles */
-		SetMaterialColor(white);
-		rot = matrix4x4d::Identity();
-		MakeContinent(rot, 0.25, rng);
-		rot = matrix4x4d::RotateXMatrix(M_PI);
-		MakeContinent(rot, 0.25, rng);
-		break;
-		
-	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-		SetMaterialColor(blue);
-		DrawShittyRoundCube(1.0f);
-		
-		n = rng.Int32(3,10);
-		while (n--) {
-			SetMaterialColor(green);
-			rot = matrix4x4d::RotateXMatrix(-M_PI/2+rng.Double(-M_PI/3, M_PI/3));
-			rot.RotateZ(rng.Double(M_PI*2));
-			MakeContinent(rot, rng.Double(0.1,0.5), rng);
-		}
-		/* poles */
-		SetMaterialColor(white);
-		rot = matrix4x4d::Identity();
-		MakeContinent(rot, 0.25, rng);
-		rot = matrix4x4d::RotateXMatrix(M_PI);
-		MakeContinent(rot, 0.25, rng);
-		break;
-	default:
-		barrenBodyCol.GenCol(col, rng);
-		SetMaterialColor(col);
-		DrawShittyRoundCube(1.0f);
-		break;
-	}
 }
 
 void Planet::DrawGasGiant()
@@ -875,579 +569,10 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 	}
 }
 
-
-// tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.2
-#define GEOPATCH_MAX_DEPTH	16
-// must be power of two + 1
-#define GEOPATCH_EDGELEN	17
-#define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
-
-#define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
-
-//#define USE_VBO
-class GeoPatch {
-public:
-	vector3d v[4];
-	vector3d *vertices;
-	vector3d *normals;
-	GLuint m_vbo[2];
-	static GLuint *indices;
-	static GLuint indices_vbo;
-	GeoPatch *kids[4];
-	GeoPatch *parent;
-	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
-	double m_roughLength;
-	int m_depth;
-	GeoPatch() {
-		memset(this, 0, sizeof(GeoPatch));
-	}
-	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
-		memset(this, 0, sizeof(GeoPatch));
-		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
-		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
-#ifdef USE_VBO
-		glGenBuffersARB(2, m_vbo);
-#endif /* USE_VBO */
-		if (!indices) {
-			indices = new GLuint[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
-			GLuint *idx = indices;
-			int wank=0;
-			for (int x=0; x<GEOPATCH_EDGELEN-1; x++) {
-				for (int y=0; y<GEOPATCH_EDGELEN-1; y++) {
-					idx[0] = x + GEOPATCH_EDGELEN*y;
-					idx[1] = x+1 + GEOPATCH_EDGELEN*y;
-					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
-					idx+=3;
-					wank++;
-
-					idx[0] = x+1 + GEOPATCH_EDGELEN*y;
-					idx[1] = x+1 + GEOPATCH_EDGELEN*(y+1);
-					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
-					idx+=3;
-					wank++;
-				}
-			}
-			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
-#ifdef USE_VBO
-			glGenBuffersARB(1, &indices_vbo);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3,
-					indices, GL_STATIC_DRAW);
-#endif /* USE_VBO */
-		}
-	}
-	~GeoPatch() {
-		for (int i=0; i<4; i++) {
-			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
-		}
-		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
-		if (vertices) delete vertices;
-		if (normals) delete normals;
-#ifdef USE_VBO
-		if (m_vbo[0]) glDeleteBuffersARB(2, m_vbo);
-#endif /* USE_VBO */
-	}
-	void UpdateVBOs() {
-#ifdef USE_VBO
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, vertices, GL_STATIC_DRAW);
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, normals, GL_STATIC_DRAW);
-#endif /* USE_VBO */
-	}	
-	/* not quite edge, since we share edge vertices so that would be
-	 * fucking pointless. one position inwards. used to make edge normals
-	 * for adjacent tiles */
-	void GetEdgeMinusOneVerticesFlipped(int edge, vector3d ev[GEOPATCH_EDGELEN]) {
-		if (edge == 0) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[GEOPATCH_EDGELEN-1-x] = vertices[x + GEOPATCH_EDGELEN];
-		} else if (edge == 1) {
-			const int x = GEOPATCH_EDGELEN-2;
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[GEOPATCH_EDGELEN-1-y] = vertices[x + y*GEOPATCH_EDGELEN];
-		} else if (edge == 2) {
-			const int y = GEOPATCH_EDGELEN-2;
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[GEOPATCH_EDGELEN-1-x] = vertices[(GEOPATCH_EDGELEN-1)-x + y*GEOPATCH_EDGELEN];
-		} else {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[GEOPATCH_EDGELEN-1-y] = vertices[1 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
-		}
-	}
-	static void GetEdge(vector3d *array, int edge, vector3d ev[GEOPATCH_EDGELEN]) {
-		if (edge == 0) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = array[x];
-		} else if (edge == 1) {
-			const int x = GEOPATCH_EDGELEN-1;
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = array[x + y*GEOPATCH_EDGELEN];
-		} else if (edge == 2) {
-			const int y = GEOPATCH_EDGELEN-1;
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = array[(GEOPATCH_EDGELEN-1)-x + y*GEOPATCH_EDGELEN];
-		} else {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = array[0 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
-		}
-	}
-	static void SetEdge(vector3d *array, int edge, const vector3d ev[GEOPATCH_EDGELEN]) {
-		if (edge == 0) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) array[x] = ev[x];
-		} else if (edge == 1) {
-			const int x = GEOPATCH_EDGELEN-1;
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) array[x + y*GEOPATCH_EDGELEN] = ev[y];
-		} else if (edge == 2) {
-			const int y = GEOPATCH_EDGELEN-1;
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) array[(GEOPATCH_EDGELEN-1)-x + y*GEOPATCH_EDGELEN] = ev[x];
-		} else {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) array[0 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN] = ev[y];
-		}
-	}
-	int GetEdgeIdxOf(GeoPatch *e) {
-		for (int i=0; i<4; i++) {
-			if (edgeFriend[i] == e) return i;
-		}
-		abort();
-		return -1;
-	}
-
-
-	inline vector3d GenPoint(int x, int y) {
-		double xpos = x/(double)(GEOPATCH_EDGELEN-1);
-		double ypos = y/(double)(GEOPATCH_EDGELEN-1);
-		vector3d p = v[0] + xpos*(1.0-ypos)*(v[1]-v[0]) +
-				    xpos*ypos*(v[2]-v[0]) +
-				    (1.0-xpos)*ypos*(v[3]-v[0]);
-		p = p.Normalized();
-
-		int iters=8;
-		double div = 1.0;
-		double scale = 256.0;
-		double n = 0;
-		while (iters--) {
-			n += div*noise(scale*p);
-			div *= 0.5;
-			scale *= 2.0;
-		}
-		return p + p*0.001*n*noise(64.0*p);
-	}
-
-	void FixEdgeNormals(const int edge, const vector3d ev[GEOPATCH_EDGELEN]) {
-		vector3d x1, x2, y1, y2;
-		int x, y;
-		switch (edge) {
-		case 0:
-			for (x=1; x<GEOPATCH_EDGELEN-1; x++) {
-				vector3d x1 = vertices[x-1];
-				vector3d x2 = vertices[x+1];
-				vector3d y1 = ev[x];
-				vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-				normals[x] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-			}
-			break;
-		case 1:
-			x = GEOPATCH_EDGELEN-1;
-			for (y=1; y<GEOPATCH_EDGELEN-1; y++) {
-				vector3d x1 = vertices[(x-1) + y*GEOPATCH_EDGELEN];
-				vector3d x2 = ev[y];
-				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-				normals[x + y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-			}
-			break;
-		case 2:
-			y = GEOPATCH_EDGELEN-1;
-			for (x=1; x<GEOPATCH_EDGELEN-1; x++) {
-				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
-				vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
-				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = ev[GEOPATCH_EDGELEN-1-x];
-				normals[x + y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-			}
-			break;
-		case 3:
-			for (y=1; y<GEOPATCH_EDGELEN-1; y++) {
-				vector3d x1 = ev[GEOPATCH_EDGELEN-1-y];
-				vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
-				vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
-				normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-			}
-			break;
-		}
-	}
-
-	int GetChildIdx(GeoPatch *child) {
-		for (int i=0; i<4; i++) {
-			if (kids[i] == child) return i;
-		}
-		abort();
-		return -1;
-	}
-	
-	void FixEdgeFromParentInterpolated(int edge) {
-		//assert(parent->edgeFriend[edge]);
-		//GeoPatch *e = parent->edgeFriend[edge];
-		//int we_are = e->GetEdgeIdxOf(parent);
-		vector3d ev[GEOPATCH_EDGELEN];
-		vector3d en[GEOPATCH_EDGELEN];
-		vector3d ev2[GEOPATCH_EDGELEN];
-		vector3d en2[GEOPATCH_EDGELEN];
-		GetEdge(parent->vertices, edge, ev);
-		GetEdge(parent->normals, edge, en);
-
-		int kid_idx = parent->GetChildIdx(this);
-		if (edge == kid_idx) {
-			// use first half of edge
-			for (int i=0; i<=GEOPATCH_EDGELEN/2; i++) {
-				ev2[i<<1] = ev[i];
-				en2[i<<1] = en[i];
-			}
-		} else {
-			// use 2nd half of edge
-			for (int i=GEOPATCH_EDGELEN/2; i<GEOPATCH_EDGELEN; i++) {
-				ev2[(i-(GEOPATCH_EDGELEN/2))<<1] = ev[i];
-				en2[(i-(GEOPATCH_EDGELEN/2))<<1] = en[i];
-			}
-		}
-		// interpolate!!
-		for (int i=1; i<GEOPATCH_EDGELEN; i+=2) {
-			ev2[i] = (ev2[i-1]+ev2[i+1]) * 0.5;
-			en2[i] = (en2[i-1]+en2[i+1]).Normalized();
-		}
-		SetEdge(this->vertices, edge, ev2);
-		SetEdge(this->normals, edge, en2);
-	}
-
-	void GenerateNormals() {
-		if (normals) return;
-
-		normals = new vector3d[GEOPATCH_NUMVERTICES];
-		
-		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
-			for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
-				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
-				vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
-				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-
-				vector3d n = vector3d::Cross(x2-x1, y2-y1);
-				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
-			}
-		}
-		vector3d ev[4][GEOPATCH_EDGELEN];
-		bool doneEdge[4];
-		memset(doneEdge, 0, sizeof(doneEdge));
-		for (int i=0; i<4; i++) {
-			GeoPatch *e = edgeFriend[i];
-			if (e) {
-				int we_are = e->GetEdgeIdxOf(this);
-				e->GetEdgeMinusOneVerticesFlipped(we_are, ev[i]);
-			} else {
-				assert(parent->edgeFriend[i]);
-				doneEdge[i] = true;
-				// parent has valid edge, so take our
-				// bit of that, interpolated.
-				FixEdgeFromParentInterpolated(i);
-				// XXX needed for corners... probably not
-				// correct
-				GetEdge(vertices, i, ev[i]);
-			}
-		}
-
-		// corners
-		{
-			vector3d x1 = ev[3][GEOPATCH_EDGELEN-1];
-			vector3d x2 = vertices[1];
-			vector3d y1 = ev[0][0];
-			vector3d y2 = vertices[GEOPATCH_EDGELEN];
-			normals[0] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}	
-		{
-			const int x = GEOPATCH_EDGELEN-1;
-			vector3d x1 = vertices[x-1];
-			vector3d x2 = ev[1][0];
-			vector3d y1 = ev[0][GEOPATCH_EDGELEN-1];
-			vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-			normals[x] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}
-		{
-			const int p = GEOPATCH_EDGELEN-1;
-			vector3d x1 = vertices[(p-1) + p*GEOPATCH_EDGELEN];
-			vector3d x2 = ev[1][GEOPATCH_EDGELEN-1];
-			vector3d y1 = vertices[p + (p-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = ev[2][0];
-			normals[p + p*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}
-		{
-			const int y = GEOPATCH_EDGELEN-1;
-			vector3d x1 = ev[3][0];
-			vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
-			vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = ev[2][GEOPATCH_EDGELEN-1];
-			normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}
-
-		for (int i=0; i<4; i++) if(!doneEdge[i]) FixEdgeNormals(i, ev[i]);
-
-		UpdateVBOs();
-	}
-
-	void GenerateMesh() {
-		if (!vertices) {
-			vertices = new vector3d[GEOPATCH_NUMVERTICES];
-			vector3d *vts = vertices;
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
-				for (int x=0; x<GEOPATCH_EDGELEN; x++) {
-					*(vts++) = GenPoint(x, y);
-				}
-			}
-			assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
-		}
-			/* XXX some tests to ensure vertices match */
-		/*	for (int i=0; i<4; i++) {
-				GeoPatch *edge = edgeFriend[i];
-				if (edge) {
-					int we_are = edge->GetEdgeIdxOf(this);
-					assert(v[i] == edge->v[(1+we_are)%4]);
-					assert(v[(i+1)%4] == edge->v[(we_are)%4]);
-				}
-			}*/
-
-	}
-	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
-		edgeFriend[edge] = e;
-		vector3d ev[GEOPATCH_EDGELEN];
-		int we_are = e->GetEdgeIdxOf(this);
-		e->GetEdgeMinusOneVerticesFlipped(we_are, ev);
-		/* now we have a valid edge, fix the edge vertices */
-		if (edge == 0) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) vertices[x] = GenPoint(x, 0);
-		} else if (edge == 1) {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++)
-				vertices[(GEOPATCH_EDGELEN-1) + GEOPATCH_EDGELEN*y] = GenPoint(GEOPATCH_EDGELEN-1, y);
-		} else if (edge == 2) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++)
-				vertices[x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN] = GenPoint(x, GEOPATCH_EDGELEN-1);
-		} else {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++)
-				vertices[y*GEOPATCH_EDGELEN] = GenPoint(0, y);
-		}
-
-		FixEdgeNormals(edge, ev);
-		UpdateVBOs();
-
-		if (kids[0]) {
-			if (edge == 0) {
-				kids[0]->FixEdgeFromParentInterpolated(0);
-				kids[0]->UpdateVBOs();
-				kids[1]->FixEdgeFromParentInterpolated(0);
-				kids[1]->UpdateVBOs();
-			} else if (edge == 1) {
-				kids[1]->FixEdgeFromParentInterpolated(1);
-				kids[1]->UpdateVBOs();
-				kids[2]->FixEdgeFromParentInterpolated(1);
-				kids[2]->UpdateVBOs();
-			} else if (edge == 2) {
-				kids[2]->FixEdgeFromParentInterpolated(2);
-				kids[2]->UpdateVBOs();
-				kids[3]->FixEdgeFromParentInterpolated(2);
-				kids[3]->UpdateVBOs();
-			} else {
-				kids[3]->FixEdgeFromParentInterpolated(3);
-				kids[3]->UpdateVBOs();
-				kids[0]->FixEdgeFromParentInterpolated(3);
-				kids[0]->UpdateVBOs();
-			}
-		}
-	}
-	void NotifyEdgeFriendSplit(GeoPatch *e) {
-		int idx = GetEdgeIdxOf(e);
-		int we_are = e->GetEdgeIdxOf(this);
-		if (!kids[0]) return;
-		// match e's new kids to our own... :/
-		kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%4]);
-		kids[(idx+1)%4]->OnEdgeFriendChanged(idx, e->kids[we_are]);
-	}
-	
-	void NotifyEdgeFriendDeleted(GeoPatch *e) {
-		int idx = GetEdgeIdxOf(e);
-		edgeFriend[idx] = 0;
-		if (parent->edgeFriend[idx]) {
-			FixEdgeFromParentInterpolated(idx);
-			UpdateVBOs();
-		} else {
-			fprintf(stderr, "Bad. not fixing up edge\n");
-		}
-	}
-
-	GeoPatch *GetEdgeFriendForKid(int kid, int edge) {
-		GeoPatch *e = edgeFriend[edge];
-		if (!e) return 0;
-		//assert (e);// && (e->m_depth >= m_depth));
-		const int we_are = e->GetEdgeIdxOf(this);
-		// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
-		// not have same detail level neighbours yet
-		if (edge == kid) return e->kids[(we_are+1)%4];
-		else return e->kids[we_are];
-	}
-	
-	void Render(vector3d &campos) {
-		if (kids[0]) {
-			for (int i=0; i<4; i++) kids[i]->Render(campos);
-		} else {
-			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
-			glShadeModel(GL_SMOOTH);
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-
-#ifdef USE_VBO
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
-			glVertexPointer(3, GL_DOUBLE, 0, 0);
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
-			glNormalPointer(GL_DOUBLE, 0, 0);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, 0);
-			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-#else
-			glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
-			glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
-			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, indices);
-#endif /* USE_VBO */
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glDisableClientState(GL_NORMAL_ARRAY);
-			glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
-		}
-	}
-
-	void LODUpdate(vector3d &campos) {
-				
-		vector3d centroid = (v[0]+v[1]+v[2]+v[3])*0.25;
-
-		bool canSplit = true;
-		for (int i=0; i<4; i++) {
-			if (!edgeFriend[i]) { canSplit = false; break; }
-			if (edgeFriend[i] && (edgeFriend[i]->m_depth < m_depth)) {
-				canSplit = false;
-				break;
-			}
-		}
-
-		bool canMerge = true;
-		for (int i=0; i<4; i++) {
-			if (edgeFriend[i] && (edgeFriend[i]->m_depth > m_depth)) canMerge = false;
-		}
-
-		if (canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
-		    ((campos - centroid).Length() < m_roughLength*GEOPATCH_SUBDIVIDE_AT_CAMDIST)) {
-
-			if (!kids[0]) {
-				vector3d v01, v12, v23, v30;
-				v01 = (v[0]+v[1]).Normalized();
-				v12 = (v[1]+v[2]).Normalized();
-				v23 = (v[2]+v[3]).Normalized();
-				v30 = (v[3]+v[0]).Normalized();
-				kids[0] = new GeoPatch(v[0], v01, centroid, v30);
-				kids[1] = new GeoPatch(v01, v[1], v12, centroid);
-				kids[2] = new GeoPatch(centroid, v12, v[2], v23);
-				kids[3] = new GeoPatch(v30, centroid, v23, v[3]);
-				kids[0]->m_depth = m_depth+1;
-				kids[1]->m_depth = m_depth+1;
-				kids[2]->m_depth = m_depth+1;
-				kids[3]->m_depth = m_depth+1;
-				// hm.. edges. Not right to pass this
-				// edgeFriend...
-				kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
-				kids[0]->edgeFriend[1] = kids[1];
-				kids[0]->edgeFriend[2] = kids[3];
-				kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
-				kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
-				kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
-				kids[1]->edgeFriend[2] = kids[2];
-				kids[1]->edgeFriend[3] = kids[0];
-				kids[2]->edgeFriend[0] = kids[1];
-				kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
-				kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
-				kids[2]->edgeFriend[3] = kids[3];
-				kids[3]->edgeFriend[0] = kids[0];
-				kids[3]->edgeFriend[1] = kids[2];
-				kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
-				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
-				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
-				for (int i=0; i<4; i++) kids[i]->GenerateMesh();
-				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
-				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
-			}
-			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
-		} else {
-			if (canMerge && kids[0]) {
-				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
-			}
-		}
-	}
-};
-
-GLuint *GeoPatch::indices = 0;
-GLuint GeoPatch::indices_vbo = 0;
-
-static const int geo_sphere_edge_friends[6][4] = {
-	{ 3, 4, 1, 2 },
-	{ 0, 4, 5, 2 },
-	{ 0, 1, 5, 3 },
-	{ 0, 2, 5, 4 },
-	{ 0, 3, 5, 1 },
-	{ 1, 4, 3, 2 }
-};
-
-class GeoSphere {
-
-public:
-	GeoSphere() {
-		vector3d p1(1,1,1);
-		vector3d p2(-1,1,1);
-		vector3d p3(-1,-1,1);
-		vector3d p4(1,-1,1);
-		vector3d p5(1,1,-1);
-		vector3d p6(-1,1,-1);
-		vector3d p7(-1,-1,-1);
-		vector3d p8(1,-1,-1);
-		p1 = p1.Normalized();
-		p2 = p2.Normalized();
-		p3 = p3.Normalized();
-		p4 = p4.Normalized();
-		p5 = p5.Normalized();
-		p6 = p6.Normalized();
-		p7 = p7.Normalized();
-		p8 = p8.Normalized();
-
-		m_patches[0] = GeoPatch(p1, p2, p3, p4);
-		m_patches[1] = GeoPatch(p4, p3, p7, p8);
-		m_patches[2] = GeoPatch(p1, p4, p8, p5);
-		m_patches[3] = GeoPatch(p2, p1, p5, p6);
-		m_patches[4] = GeoPatch(p3, p2, p6, p7);
-		m_patches[5] = GeoPatch(p8, p7, p6, p5);
-		for (int i=0; i<6; i++) {
-			for (int j=0; j<4; j++) {
-				m_patches[i].edgeFriend[j] = &m_patches[geo_sphere_edge_friends[i][j]];
-			}
-		}
-		for (int i=0; i<6; i++) m_patches[i].GenerateMesh();
-		for (int i=0; i<6; i++) m_patches[i].GenerateNormals();
-	}
-	void Render(vector3d campos) {
-		for (int i=0; i<6; i++) {
-			m_patches[i].LODUpdate(campos);
-		}
-		for (int i=0; i<6; i++) {
-			m_patches[i].Render(campos);
-		}
-	}
-	GeoPatch m_patches[6];
-};
-
 void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
 
-	if (!m_geosphere) m_geosphere = new GeoSphere();
-	
 	double rad = sbody->GetRadius();
 	matrix4x4d ftran;
 	Frame::GetFrameTransform(GetFrame(), a_camFrame, ftran);
@@ -1539,12 +664,7 @@ void Planet::Render(const Frame *a_camFrame)
 			if (!crudDList) {
 				crudDList = glGenLists(1);
 				glNewList(crudDList, GL_COMPILE);
-				// this is a rather brittle test..........
-				if (sbody->type < SBody::TYPE_PLANET_DWARF) {
-					DrawGasGiant();
-				} else {
-					DrawRockyPlanet();
-				}
+				DrawGasGiant();
 				glEndList();
 			}
 			glCallList(crudDList);
@@ -1557,27 +677,6 @@ void Planet::Render(const Frame *a_camFrame)
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
-
-		/*
-		ftran.ClearToRotOnly();
-		glMultMatrixd(&ftran[0]);
-
-		if (!crudDList) {
-			crudDList = glGenLists(1);
-			glNewList(crudDList, GL_COMPILE);
-			// this is a rather brittle test..........
-			if (sbody->type < SBody::TYPE_PLANET_DWARF) {
-				DrawGasGiant();
-			} else {
-				DrawRockyPlanet();
-			}
-			glEndList();
-		}
-		glPushMatrix();
-		glScalef(rad,rad,rad);
-		glCallList(crudDList);
-		glPopMatrix();
-*/
 
 		fpos = ftran.InverseOf() * fpos;
 
@@ -1594,7 +693,7 @@ void Planet::SetFrame(Frame *f)
 	}
 	Body::SetFrame(f);
 	if (f) {
-		GetFrame()->SetPlanetGeom(GetRadius(), this);
+		GetFrame()->SetPlanetGeom(0, 0);
 	}
 }
 

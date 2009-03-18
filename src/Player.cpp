@@ -6,6 +6,7 @@
 #include "WorldView.h"
 #include "SpaceStationView.h"
 #include "Serializer.h"
+#include "Planet.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -337,8 +338,15 @@ void Player::DrawHUD(const Frame *cam_frame)
 	}
 	// altitude
 	if (GetFrame()->m_astroBody) {
+		Body *astro = GetFrame()->m_astroBody;
 		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
-		double radius = GetFrame()->m_astroBody->GetRadius();
+		double radius;
+		vector3d surface_pos = GetPosition().Normalized();
+		if (astro->IsType(Object::PLANET)) {
+			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+		} else {
+			radius = GetFrame()->m_astroBody->GetRadius();
+		}
 		double altitude = GetPosition().Length() - radius;
 		if (altitude < 0) altitude = 0;
 		char buf[128];

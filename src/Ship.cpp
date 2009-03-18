@@ -9,6 +9,7 @@
 #include "collider/collider.h"
 #include "Sfx.h"
 #include "CargoBody.h"
+#include "Planet.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -178,6 +179,7 @@ bool Ship::OnCollision(Body *b, Uint32 flags)
 {
 	// hitting space station docking surfaces shouldn't do damage
 	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
+		printf("FUCKING HIT IT!!\n");
 		return true;
 	}
 
@@ -254,10 +256,11 @@ void Ship::Blastoff()
 	m_testLanded = false;
 	m_dockedWith = 0;
 	m_launchLockTimeout = 1.0; // one second of applying thrusters
-
-	Enable();
-	const double planetRadius = 0.1 + GetFrame()->m_astroBody->GetRadius();
+	
 	vector3d up = GetPosition().Normalized();
+	Enable();
+	assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
+	const double planetRadius = 0.1 + static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
 	SetAngVelocity(vector3d(0, 0, 0));
 	SetForce(vector3d(0, 0, 0));
@@ -277,7 +280,9 @@ void Ship::TestLanded()
 	if (m_wheelState != 1.0) return;
 	if (GetFrame()->m_astroBody) {
 		double speed = GetVelocity().Length();
-		const double planetRadius = GetFrame()->m_astroBody->GetRadius();
+		vector3d up = GetPosition().Normalized();
+		assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
+		const double planetRadius = static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
 
 		if (speed < MAX_LANDING_SPEED) {
 			// orient the damn thing right
@@ -286,8 +291,6 @@ void Ship::TestLanded()
 			matrix4x4d rot;
 			GetRotMatrix(rot);
 			matrix4x4d invRot = rot.InverseOf();
-
-			vector3d up = GetPosition().Normalized();
 
 			// check player is sortof sensibly oriented for landing
 			const double dot = vector3d::Dot( vector3d(invRot[1], invRot[5], invRot[9]).Normalized(), up);

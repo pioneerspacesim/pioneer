@@ -195,7 +195,11 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// and we want collisions on starport and on planet itself)
 		Frame *frame = *f->m_children.begin();
 		b->SetFrame(frame);
-		b->SetPosition(sbody->orbit.rotMatrix * (frame->m_astroBody->GetRadius()*vector3d(0,1,0)));
+		assert(frame->m_astroBody->IsType(Object::PLANET));
+		Planet *planet = static_cast<Planet*>(frame->m_astroBody);
+		vector3d pos = sbody->orbit.rotMatrix * vector3d(0,1,0);
+		pos = pos.Normalized();
+		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetRotMatrix(sbody->orbit.rotMatrix);
 		return frame;
 	} else {
@@ -393,6 +397,26 @@ static void hitCallback(CollisionContact *c)
 
 void CollideFrame(Frame *f)
 {
+	if (f->m_astroBody && (f->m_astroBody->IsType(Object::PLANET))) {
+		// this is pretty retarded
+		for (bodiesIter_t i = bodies.begin(); i!=bodies.end(); ++i) {
+			if ((*i)->GetFrame() != f) continue;
+			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
+			vector3d pos = (*i)->GetPosition();
+			vector3d s = pos.Normalized();
+			double terrain_height = static_cast<Planet*>(f->m_astroBody)->GetTerrainHeight(s);
+			double altitude = pos.Length();
+			if (altitude < terrain_height) {
+				CollisionContact c;
+				c.pos = s;
+				c.normal = s;
+				c.depth = terrain_height - altitude;
+				c.userData1 = static_cast<void*>(*i);
+				c.userData2 = static_cast<void*>(f->m_astroBody);
+				hitCallback(&c);
+			}
+		}
+	}
 	f->GetCollisionSpace()->Collide(&hitCallback);
 	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
 		CollideFrame(*i);

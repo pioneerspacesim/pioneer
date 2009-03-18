@@ -249,7 +249,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 				s->SetDockedWith(this, flags & 0xf);
 			}
 		}
-		return false;
+		return true;
 	} else {
 		return true;
 	}
