@@ -179,7 +179,6 @@ bool Ship::OnCollision(Body *b, Uint32 flags)
 {
 	// hitting space station docking surfaces shouldn't do damage
 	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
-		printf("FUCKING HIT IT!!\n");
 		return true;
 	}
 

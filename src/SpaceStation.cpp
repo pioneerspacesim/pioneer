@@ -240,7 +240,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d::Dot(vector3d(-invRot[1], -invRot[5], -invRot[9]), dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return false;
+				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return true;
 			}
 			
 			if ((speed < MAX_LANDING_SPEED) &&
@@ -249,6 +249,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 				s->SetDockedWith(this, flags & 0xf);
 			}
 		}
+		if (!IsGroundStation()) return false;
 		return true;
 	} else {
 		return true;
