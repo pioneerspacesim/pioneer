@@ -11,6 +11,8 @@
 #define GEOPATCH_EDGELEN	17
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 
+static const double GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
+
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 class GeoPatch {
@@ -18,7 +20,7 @@ public:
 	vector3d v[4];
 	vector3d *vertices;
 	vector3d *normals;
-	vector3f *colors;
+	vector3d *colors;
 	GLuint m_vbo[2];
 	static unsigned short *indices;
 	static GLuint indices_vbo;
@@ -191,15 +193,16 @@ public:
 	}
 	
 	void FixEdgeFromParentInterpolated(int edge) {
-		//assert(parent->edgeFriend[edge]);
-		//GeoPatch *e = parent->edgeFriend[edge];
-		//int we_are = e->GetEdgeIdxOf(parent);
+		// noticeable artefacts from not doing so...
 		vector3d ev[GEOPATCH_EDGELEN];
 		vector3d en[GEOPATCH_EDGELEN];
+		vector3d ec[GEOPATCH_EDGELEN];
 		vector3d ev2[GEOPATCH_EDGELEN];
 		vector3d en2[GEOPATCH_EDGELEN];
+		vector3d ec2[GEOPATCH_EDGELEN];
 		GetEdge(parent->vertices, edge, ev);
 		GetEdge(parent->normals, edge, en);
+		GetEdge(parent->colors, edge, ec);
 
 		int kid_idx = parent->GetChildIdx(this);
 		if (edge == kid_idx) {
@@ -207,21 +210,120 @@ public:
 			for (int i=0; i<=GEOPATCH_EDGELEN/2; i++) {
 				ev2[i<<1] = ev[i];
 				en2[i<<1] = en[i];
+				ec2[i<<1] = ec[i];
 			}
 		} else {
 			// use 2nd half of edge
 			for (int i=GEOPATCH_EDGELEN/2; i<GEOPATCH_EDGELEN; i++) {
 				ev2[(i-(GEOPATCH_EDGELEN/2))<<1] = ev[i];
 				en2[(i-(GEOPATCH_EDGELEN/2))<<1] = en[i];
+				ec2[(i-(GEOPATCH_EDGELEN/2))<<1] = ec[i];
 			}
 		}
 		// interpolate!!
 		for (int i=1; i<GEOPATCH_EDGELEN; i+=2) {
 			ev2[i] = (ev2[i-1]+ev2[i+1]) * 0.5;
 			en2[i] = (en2[i-1]+en2[i+1]).Normalized();
+			ec2[i] = (ec2[i-1]+ec2[i+1]) * 0.5;
 		}
 		SetEdge(this->vertices, edge, ev2);
 		SetEdge(this->normals, edge, en2);
+		SetEdge(this->colors, edge, ec2);
+	}
+
+	template <int corner>
+	void MakeCornerNormal(vector3d ev[GEOPATCH_EDGELEN], vector3d ev2[GEOPATCH_EDGELEN]) {
+		int p;
+		vector3d x1,x2,y1,y2;
+		switch (corner) {
+		case 0:
+			x1 = ev[GEOPATCH_EDGELEN-1];
+			x2 = vertices[1];
+			y1 = ev2[0];
+			y2 = vertices[GEOPATCH_EDGELEN];
+			normals[0] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			break;
+		case 1:
+			p = GEOPATCH_EDGELEN-1;
+			x1 = vertices[p-1];
+			x2 = ev2[0];
+			y1 = ev[GEOPATCH_EDGELEN-1];
+			y2 = vertices[p + GEOPATCH_EDGELEN];
+			normals[p] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			break;
+		case 2:
+			p = GEOPATCH_EDGELEN-1;
+			x1 = vertices[(p-1) + p*GEOPATCH_EDGELEN];
+			x2 = ev[GEOPATCH_EDGELEN-1];
+			y1 = vertices[p + (p-1)*GEOPATCH_EDGELEN];
+			y2 = ev2[0];
+			normals[p + p*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			break;
+		case 3:
+			p = GEOPATCH_EDGELEN-1;
+			x1 = ev2[0];
+			x2 = vertices[1 + p*GEOPATCH_EDGELEN];
+			y1 = vertices[(p-1)*GEOPATCH_EDGELEN];
+			y2 = ev[GEOPATCH_EDGELEN-1];
+			normals[p*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			break;
+		}
+	}
+
+	void FixCornerNormalsByEdge(int edge, vector3d ev[GEOPATCH_EDGELEN]) {
+		vector3d ev2[GEOPATCH_EDGELEN];
+		vector3d x1, x2, y1, y2;
+		switch (edge) {
+		case 0:
+			if (edgeFriend[3]) {
+				int we_are = edgeFriend[3]->GetEdgeIdxOf(this);
+				edgeFriend[3]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<0>(ev2, ev);
+			}
+			if (edgeFriend[1]) {
+				int we_are = edgeFriend[1]->GetEdgeIdxOf(this);
+				edgeFriend[1]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<1>(ev, ev2);
+			}
+			break;
+		case 1:
+			if (edgeFriend[0]) {
+				int we_are = edgeFriend[0]->GetEdgeIdxOf(this);
+				edgeFriend[0]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<1>(ev2, ev);
+			}
+			if (edgeFriend[2]) {
+				int we_are = edgeFriend[2]->GetEdgeIdxOf(this);
+				edgeFriend[2]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<2>(ev, ev2);
+			}
+			break;
+		case 2:
+			if (edgeFriend[1]) {
+				int we_are = edgeFriend[1]->GetEdgeIdxOf(this);
+				edgeFriend[1]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<2>(ev2, ev);
+			}
+			if (edgeFriend[3]) {
+				int we_are = edgeFriend[3]->GetEdgeIdxOf(this);
+				edgeFriend[3]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<3>(ev, ev2);
+			}
+			break;
+		case 3:
+			if (edgeFriend[2]) {
+				int we_are = edgeFriend[2]->GetEdgeIdxOf(this);
+				edgeFriend[2]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<3>(ev2, ev);
+			}
+			if (edgeFriend[0]) {
+				int we_are = edgeFriend[0]->GetEdgeIdxOf(this);
+				edgeFriend[0]->GetEdgeMinusOneVerticesFlipped(we_are, ev2);
+				MakeCornerNormal<0>(ev, ev2);
+			}
+			break;
+		}
+				
 	}
 
 	void GenerateNormals() {
@@ -259,69 +361,45 @@ public:
 				GetEdge(vertices, i, ev[i]);
 			}
 		}
-
-		// corners
-		{
-			vector3d x1 = ev[3][GEOPATCH_EDGELEN-1];
-			vector3d x2 = vertices[1];
-			vector3d y1 = ev[0][0];
-			vector3d y2 = vertices[GEOPATCH_EDGELEN];
-			normals[0] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}	
-		{
-			const int x = GEOPATCH_EDGELEN-1;
-			vector3d x1 = vertices[x-1];
-			vector3d x2 = ev[1][0];
-			vector3d y1 = ev[0][GEOPATCH_EDGELEN-1];
-			vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-			normals[x] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}
-		{
-			const int p = GEOPATCH_EDGELEN-1;
-			vector3d x1 = vertices[(p-1) + p*GEOPATCH_EDGELEN];
-			vector3d x2 = ev[1][GEOPATCH_EDGELEN-1];
-			vector3d y1 = vertices[p + (p-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = ev[2][0];
-			normals[p + p*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}
-		{
-			const int y = GEOPATCH_EDGELEN-1;
-			vector3d x1 = ev[3][0];
-			vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
-			vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
-			vector3d y2 = ev[2][GEOPATCH_EDGELEN-1];
-			normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
-		}
+	
+		MakeCornerNormal<0>(ev[3], ev[0]);
+		MakeCornerNormal<1>(ev[0], ev[1]);
+		MakeCornerNormal<2>(ev[1], ev[2]);
+		MakeCornerNormal<3>(ev[2], ev[3]);
 
 		for (int i=0; i<4; i++) if(!doneEdge[i]) FixEdgeNormals(i, ev[i]);
 
 		UpdateVBOs();
 	}
 
+	/* in patch surface coords, [0,1] */
+	vector3d GetSpherePoint(double x, double y) {
+		return (v[0] + x*(1.0-y)*(v[1]-v[0]) +
+			    x*y*(v[2]-v[0]) +
+			    (1.0-x)*y*(v[3]-v[0])).Normalized();
+	}
+
 	void GenerateMesh() {
 		if (!vertices) {
 			vertices = new vector3d[GEOPATCH_NUMVERTICES];
-			colors = new vector3f[GEOPATCH_NUMVERTICES];
+			colors = new vector3d[GEOPATCH_NUMVERTICES];
 			vector3d *vts = vertices;
+			vector3d *col = colors;
+			double xfrac;
+			double yfrac = 0;
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
+				xfrac = 0;
 				for (int x=0; x<GEOPATCH_EDGELEN; x++) {
-					double height;
-					*vts = geosphere->GenPoint(x, y, this, &height);
-					vts++;
+					vector3d p = GetSpherePoint(xfrac, yfrac);
+					double height = geosphere->GetHeight(p);
+					*(vts++) = p * (height + 1.0);
+					*(col++) = geosphere->GetColor(p, height);
+					xfrac += GEOPATCH_FRAC;
 				}
+				yfrac += GEOPATCH_FRAC;
 			}
 			assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
 		}
-			/* XXX some tests to ensure vertices match */
-		/*	for (int i=0; i<4; i++) {
-				GeoPatch *edge = edgeFriend[i];
-				if (edge) {
-					int we_are = edge->GetEdgeIdxOf(this);
-					assert(v[i] == edge->v[(1+we_are)%4]);
-					assert(v[(i+1)%4] == edge->v[(we_are)%4]);
-				}
-			}*/
-
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
@@ -330,19 +408,40 @@ public:
 		e->GetEdgeMinusOneVerticesFlipped(we_are, ev);
 		/* now we have a valid edge, fix the edge vertices */
 		if (edge == 0) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++) vertices[x] = geosphere->GenPoint(x, 0, this, 0);
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) {
+				vector3d p = GetSpherePoint(x * GEOPATCH_FRAC, 0);
+				double height = geosphere->GetHeight(p);
+				vertices[x] = p * (height + 1.0);
+				colors[x] = geosphere->GetColor(p, height);
+			}
 		} else if (edge == 1) {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++)
-				vertices[(GEOPATCH_EDGELEN-1) + GEOPATCH_EDGELEN*y] = geosphere->GenPoint(GEOPATCH_EDGELEN-1, y, this, 0);
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
+				vector3d p = GetSpherePoint(1.0, y * GEOPATCH_FRAC);
+				double height = geosphere->GetHeight(p);
+				int pos = (GEOPATCH_EDGELEN-1) + y*GEOPATCH_EDGELEN;
+				vertices[pos] = p * (height + 1.0);
+				colors[pos] = geosphere->GetColor(p, height);
+			}
 		} else if (edge == 2) {
-			for (int x=0; x<GEOPATCH_EDGELEN; x++)
-				vertices[x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN] = geosphere->GenPoint(x, GEOPATCH_EDGELEN-1, this, 0);
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) {
+				vector3d p = GetSpherePoint(x * GEOPATCH_FRAC, 1.0);
+				double height = geosphere->GetHeight(p);
+				int pos = x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN;
+				vertices[pos] = p * (height + 1.0);
+				colors[pos] = geosphere->GetColor(p, height);
+			}
 		} else {
-			for (int y=0; y<GEOPATCH_EDGELEN; y++)
-				vertices[y*GEOPATCH_EDGELEN] = geosphere->GenPoint(0, y, this, 0);
+			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
+				vector3d p = GetSpherePoint(0, y * GEOPATCH_FRAC);
+				double height = geosphere->GetHeight(p);
+				int pos = y * GEOPATCH_EDGELEN;
+				vertices[pos] = p * (height + 1.0);
+				colors[pos] = geosphere->GetColor(p, height);
+			}
 		}
 
 		FixEdgeNormals(edge, ev);
+		FixCornerNormalsByEdge(edge, ev);
 		UpdateVBOs();
 
 		if (kids[0]) {
@@ -408,7 +507,7 @@ public:
 			glShadeModel(GL_SMOOTH);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
-		//	glEnableClientState(GL_COLOR_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
 #ifdef USE_VBO
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
 			glVertexPointer(3, GL_DOUBLE, 0, 0);
@@ -422,7 +521,7 @@ public:
 #else
 			glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
 			glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
-		//	glColorPointer(3, GL_FLOAT, 0, &colors[0].x);
+			glColorPointer(3, GL_DOUBLE, 0, &colors[0].x);
 			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, indices);
 #endif /* USE_VBO */
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -592,7 +691,7 @@ void GeoSphere::Render(vector3d campos) {
 	}
 	glMaterialfv (GL_FRONT, GL_AMBIENT, m_ambColor);
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, m_diffColor);
-//	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_COLOR_MATERIAL);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos);
 	}
@@ -617,7 +716,7 @@ inline double octavenoise(int octaves, double div, vector3d p)
  */
 double GeoSphere::GetHeight(const vector3d &p)
 {
-	double n = octavenoise(12, 0.5, 64.0*p);
+	double n = octavenoise(12, 0.5, 32.0*p);
 	double crater = 0;
 	for (int i=0; i<m_numCraters; i++) {
 		const double dot = vector3d::Dot(m_craters[i].pos, p);
@@ -628,16 +727,7 @@ double GeoSphere::GetHeight(const vector3d &p)
 	return 0.001*n + crater;
 }
 
-inline vector3d GeoSphere::GenPoint(const int x, const int y, const GeoPatch *gp, double *height) {
-	double xpos = x/(double)(GEOPATCH_EDGELEN-1);
-	double ypos = y/(double)(GEOPATCH_EDGELEN-1);
-	vector3d p = gp->v[0] + xpos*(1.0-ypos)*(gp->v[1]-gp->v[0]) +
-			    xpos*ypos*(gp->v[2]-gp->v[0]) +
-			    (1.0-xpos)*ypos*(gp->v[3]-gp->v[0]);
-	p = p.Normalized();
-
-	double h = GetHeight(p);
-	if (height) *height = h;
-	return p + p*h;
+inline vector3d GeoSphere::GetColor(vector3d &p, double height)
+{
+	return 0.8*vector3d(1000*height, 1, 1000*height);
 }
-

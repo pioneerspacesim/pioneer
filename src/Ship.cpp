@@ -259,7 +259,7 @@ void Ship::Blastoff()
 	vector3d up = GetPosition().Normalized();
 	Enable();
 	assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
-	const double planetRadius = 0.1 + static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
+	const double planetRadius = 0.5 + static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
 	SetAngVelocity(vector3d(0, 0, 0));
 	SetForce(vector3d(0, 0, 0));
