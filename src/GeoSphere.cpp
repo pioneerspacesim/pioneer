@@ -3,7 +3,6 @@
 #include "perlin.h"
 #include "Pi.h"
 
-//#define USE_VBO
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.2
 #define GEOPATCH_MAX_DEPTH	16
@@ -21,7 +20,7 @@ public:
 	vector3d *vertices;
 	vector3d *normals;
 	vector3d *colors;
-	GLuint m_vbo[2];
+	GLuint m_vbo[3];
 	static unsigned short *indices;
 	static GLuint indices_vbo;
 	GeoPatch *kids[4];
@@ -37,9 +36,7 @@ public:
 		memset(this, 0, sizeof(GeoPatch));
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
-#ifdef USE_VBO
-		glGenBuffersARB(2, m_vbo);
-#endif /* USE_VBO */
+		if (GLEW_ARB_vertex_buffer_object) glGenBuffersARB(3, m_vbo);
 		if (!indices) {
 			indices = new unsigned short[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
 			unsigned short *idx = indices;
@@ -60,12 +57,12 @@ public:
 				}
 			}
 			assert(wank == 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1));
-#ifdef USE_VBO
-			glGenBuffersARB(1, &indices_vbo);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3,
-					indices, GL_STATIC_DRAW);
-#endif /* USE_VBO */
+			if (GLEW_ARB_vertex_buffer_object) {
+				glGenBuffersARB(1, &indices_vbo);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3,
+						indices, GL_STATIC_DRAW);
+			}
 		}
 	}
 	~GeoPatch() {
@@ -76,17 +73,17 @@ public:
 		if (vertices) delete vertices;
 		if (normals) delete normals;
 		if (colors) delete colors;
-#ifdef USE_VBO
-		if (m_vbo[0]) glDeleteBuffersARB(2, m_vbo);
-#endif /* USE_VBO */
+		if (m_vbo[0]) glDeleteBuffersARB(3, m_vbo);
 	}
 	void UpdateVBOs() {
-#ifdef USE_VBO
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, vertices, GL_STATIC_DRAW);
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, normals, GL_STATIC_DRAW);
-#endif /* USE_VBO */
+		if (GLEW_ARB_vertex_buffer_object) {
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, vertices, GL_STATIC_DRAW);
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, normals, GL_STATIC_DRAW);
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[2]);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, colors, GL_STATIC_DRAW);
+		}
 	}	
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
@@ -480,6 +477,7 @@ public:
 	void NotifyEdgeFriendDeleted(GeoPatch *e) {
 		int idx = GetEdgeIdxOf(e);
 		edgeFriend[idx] = 0;
+		if (!parent) return;
 		if (parent->edgeFriend[idx]) {
 			FixEdgeFromParentInterpolated(idx);
 			UpdateVBOs();
@@ -504,26 +502,27 @@ public:
 			for (int i=0; i<4; i++) kids[i]->Render(campos);
 		} else {
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
-			glShadeModel(GL_SMOOTH);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
-#ifdef USE_VBO
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
-			glVertexPointer(3, GL_DOUBLE, 0, 0);
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
-			glNormalPointer(GL_DOUBLE, 0, 0);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_INT, 0);
-			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-#else
-			glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
-			glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
-			glColorPointer(3, GL_DOUBLE, 0, &colors[0].x);
-			glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, indices);
-#endif /* USE_VBO */
+			if (GLEW_ARB_vertex_buffer_object) {
+				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
+				glVertexPointer(3, GL_DOUBLE, 0, 0);
+				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
+				glNormalPointer(GL_DOUBLE, 0, 0);
+				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[2]);
+				glColorPointer(3, GL_DOUBLE, 0, 0);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+				glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+				glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, 0);
+				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			} else {
+				glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
+				glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
+				glColorPointer(3, GL_DOUBLE, 0, &colors[0].x);
+				glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, indices);
+			}
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);

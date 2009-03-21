@@ -100,7 +100,6 @@ void Pi::Init(IniConfig &config)
 		}
 	}
 	glewInit();
-	assert(GLEW_ARB_vertex_buffer_object);
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;
 	Pi::scrHeight = height;
@@ -133,6 +132,8 @@ void Pi::InitOpenGL()
 	glViewport(0, 0, scrWidth, scrHeight);
 
 	gluQuadric = gluNewQuadric ();
+	
+	fprintf(stderr, "GL_ARB_vertex_buffer_object: %s\n", GLEW_ARB_vertex_buffer_object ? "Yes" : "No");
 }
 
 void Pi::Quit()

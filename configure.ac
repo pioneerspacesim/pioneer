@@ -20,6 +20,7 @@ AC_PROG_RANLIB
 CFLAGS="-g -Wall"
 AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
 AC_ARG_WITH(fno-inline, [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CFLAGS -fno-inline")
+AC_ARG_WITH(gprof, [  --with-gprof            Compile without gprof profiler], CFLAGS="$CFLAGS -p")
 
 CFLAGS="$CFLAGS `pkg-config --cflags sigc++-2.0`"
 LIBS="$LIBS `pkg-config --libs sigc++-2.0` -lGL -lGLU -lGLEW"
