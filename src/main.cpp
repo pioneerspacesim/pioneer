@@ -62,7 +62,11 @@ void Pi::Init(IniConfig &config)
 	int width = config.Int("ScrWidth");
 	int height = config.Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+	Uint32 sdlInitFlags = SDL_INIT_VIDEO;
+#if defined _WIN32 && defined _DEBUG
+	sdlInitFlags |= SDL_INIT_NOPARACHUTE;
+#endif
+	if (SDL_Init(sdlInitFlags) < 0) {
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
