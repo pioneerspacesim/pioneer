@@ -15,6 +15,16 @@ static const double GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 #define USE_VBO	GLEW_ARB_vertex_buffer_object
+//#define USE_VBO 0
+
+#pragma pack(4)
+struct VBOVertex
+{
+	float x,y,z;
+	float nx,ny,nz;
+	float cr,cg,cb;
+};
+#pragma pack()
 
 class GeoPatch {
 public:
@@ -22,10 +32,11 @@ public:
 	vector3d *vertices;
 	vector3d *normals;
 	vector3d *colors;
-	GLuint m_vbo[3];
+	GLuint m_vbo;
 	static unsigned short *indices;
 	static unsigned short *loEdgeIndices[4];
 	static GLuint indices_vbo[5];
+	static VBOVertex vbotemp[GEOPATCH_NUMVERTICES];
 	GeoPatch *kids[4];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
@@ -39,7 +50,7 @@ public:
 		memset(this, 0, sizeof(GeoPatch));
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
-		if (USE_VBO) glGenBuffersARB(3, m_vbo);
+		if (USE_VBO) glGenBuffersARB(1, &m_vbo);
 		if (!indices) {
 			indices = new unsigned short[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
 			const int numLoEdgeTris = GEOPATCH_EDGELEN/2;
@@ -112,17 +123,33 @@ public:
 		if (vertices) delete vertices;
 		if (normals) delete normals;
 		if (colors) delete colors;
-		if (m_vbo[0]) glDeleteBuffersARB(3, m_vbo);
+		if (USE_VBO) glDeleteBuffersARB(1, &m_vbo);
 	}
 	void UpdateVBOs() {
 		if (USE_VBO) {
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
+			for (int i=0; i<GEOPATCH_NUMVERTICES; i++)
+			{
+				VBOVertex *pData = vbotemp + i;
+				pData->x = (float)vertices[i].x;
+				pData->y = (float)vertices[i].y;
+				pData->z = (float)vertices[i].z;
+				pData->nx = (float)normals[i].x;
+				pData->ny = (float)normals[i].y;
+				pData->nz = (float)normals[i].z;
+				pData->cr = (float)colors[i].x;
+				pData->cg = (float)colors[i].y;
+				pData->cb = (float)colors[i].z;
+			}
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_STATIC_DRAW);
+
+/*			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, vertices, GL_STATIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, normals, GL_STATIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[2]);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, colors, GL_STATIC_DRAW);
-		}
+*/		}
 	}	
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
@@ -545,12 +572,10 @@ public:
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
 			if (USE_VBO) {
-				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
-				glVertexPointer(3, GL_DOUBLE, 0, 0);
-				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
-				glNormalPointer(GL_DOUBLE, 0, 0);
-				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[2]);
-				glColorPointer(3, GL_DOUBLE, 0, 0);
+				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+				glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
+				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
+				glColorPointer(3, GL_FLOAT, sizeof(VBOVertex), (void *)(6*sizeof(float)));
 				glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[0]);
 				glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, 0);
@@ -561,6 +586,7 @@ public:
 				}
 				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 			} else {
 				glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
 				glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
@@ -578,7 +604,7 @@ public:
 			}
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
-			glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+			glDisableClientState(GL_COLOR_ARRAY);
 		}
 	}
 
@@ -653,6 +679,8 @@ public:
 unsigned short *GeoPatch::indices = 0;
 unsigned short *GeoPatch::loEdgeIndices[4];
 GLuint GeoPatch::indices_vbo[5];
+VBOVertex GeoPatch::vbotemp[GEOPATCH_NUMVERTICES];
+
 
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },

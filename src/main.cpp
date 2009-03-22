@@ -525,14 +525,14 @@ void Pi::MainLoop()
 		}
 
 		Gui::Draw();
-#ifdef DEBUG
+//#ifdef DEBUG
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
 			Gui::Screen::RenderString(fps_readout);
 			Gui::Screen::LeaveOrtho();
 		}
-#endif /* DEBUG */
+//#endif /* DEBUG */
 
 		glFlush();
 		SDL_GL_SwapBuffers();
@@ -679,7 +679,7 @@ void sigsegv_handler(int signum)
 int main(int argc, char**)
 {
 	printf("Pioneer ultra high tech tech demo dude!\n");
-	signal(SIGSEGV, sigsegv_handler);
+//	signal(SIGSEGV, sigsegv_handler);
 	IniConfig cfg("config.ini");
 	Pi::Init(cfg);
 	Pi::Start();
