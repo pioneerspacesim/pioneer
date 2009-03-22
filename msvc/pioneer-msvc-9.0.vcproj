@@ -641,10 +641,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\objimport.h"
-				>
-			</File>
-			<File
 				RelativePath=".\pch.h"
 				>
 			</File>
