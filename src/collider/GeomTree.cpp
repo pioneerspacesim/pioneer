@@ -101,8 +101,9 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 
 	m_triAlloc = new tri_t[numTris];
 	for (int i=0; i<numTris; i++) {
-		m_aabb.Update(vector3d(vertices[3*i], vertices[3*i+1], vertices[3*i+2]));
-		m_triAlloc[i].triIdx = 3*i;
+		int v = indices[i];
+		m_aabb.Update(vector3d(vertices[3*v], vertices[3*v+1], vertices[3*v+2]));
+		m_triAlloc[i].triIdx = 3*v;
 		m_triAlloc[i].next = m_triAlloc+i+1;
 	}
 	m_triAlloc[numTris-1].next = 0;
