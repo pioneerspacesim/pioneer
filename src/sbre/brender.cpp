@@ -1,4 +1,3 @@
-#include <SDL_opengl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>

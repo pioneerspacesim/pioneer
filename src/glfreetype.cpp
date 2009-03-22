@@ -1,4 +1,3 @@
-#include <SDL_opengl.h>
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
