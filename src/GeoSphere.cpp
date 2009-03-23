@@ -5,7 +5,7 @@
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.2
-#define GEOPATCH_MAX_DEPTH	16
+#define GEOPATCH_MAX_DEPTH	14
 // must be power of two + 1
 #define GEOPATCH_EDGELEN	17
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
@@ -142,14 +142,7 @@ public:
 			}
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_STATIC_DRAW);
-
-/*			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[0]);
-			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, vertices, GL_STATIC_DRAW);
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[1]);
-			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, normals, GL_STATIC_DRAW);
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo[2]);
-			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(double)*3*GEOPATCH_EDGELEN*GEOPATCH_EDGELEN, colors, GL_STATIC_DRAW);
-*/		}
+		}
 	}	
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
@@ -610,7 +603,8 @@ public:
 
 	void LODUpdate(vector3d &campos) {
 				
-		vector3d centroid = (v[0]+v[1]+v[2]+v[3])*0.25;
+		vector3d centroid = (v[0]+v[1]+v[2]+v[3]).Normalized();
+	//	centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
 
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
