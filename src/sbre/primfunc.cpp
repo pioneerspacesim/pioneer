@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include <malloc.h>
 #include "sbre_int.h"
 #include "sbre.h"			// for subobject

@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <map>
 #include <list>
+#include <GL/glew.h>
 #include <ft2build.h>
 #include "glfreetype.h"
 
