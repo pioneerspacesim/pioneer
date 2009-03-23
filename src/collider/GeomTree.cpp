@@ -98,12 +98,14 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	m_triFlags = triflags;
 	m_aabb.min = vector3d(FLT_MAX,FLT_MAX,FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX,-FLT_MAX,-FLT_MAX);
+	
+	for (int i=0; i<numVerts; i++) {
+		m_aabb.Update(vector3d(vertices[3*i], vertices[3*i+1], vertices[3*i+2]));
+	}
 
 	m_triAlloc = new tri_t[numTris];
 	for (int i=0; i<numTris; i++) {
-		int v = indices[i];
-		m_aabb.Update(vector3d(vertices[3*v], vertices[3*v+1], vertices[3*v+2]));
-		m_triAlloc[i].triIdx = 3*v;
+		m_triAlloc[i].triIdx = 3*i;
 		m_triAlloc[i].next = m_triAlloc+i+1;
 	}
 	m_triAlloc[numTris-1].next = 0;
