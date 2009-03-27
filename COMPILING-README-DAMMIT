@@ -1,22 +1,12 @@
-Compiling ODE for Pioneer:
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pioneer doesn't need libODE anymore, so compiling is simple:
 
-Pioneer wants ODE v 0.10.2 or later. Versions before that have a triangle
-mesh collision bug that makes pioneer crash a lot. (This bug was fixed in
-svn on 2008-08-08 and at the time of writing 0.10.2 has not actually been
-tagged yet).
+if configure does not exist then run:
+./bootstrap
 
-http://sourceforge.net/projects/opende
+then
 
-Pioneer is very picky about how you compile the ODE library. On unix you
-should compile ODE like so:
-
-./configure --enable-double-precision --enable-new-trimesh
+./configure
 make
-make install
+./src/pioneer
 
---enable-double-precision and --enable-new-trimesh are essential. Pioneer will
-not compile without the former, and collisions will go totally mental without
-the latter.
-
-YOU HAVE BEEN WARNED
+HAVE FUN AND BE CAREFUL
