@@ -587,7 +587,7 @@ void Planet::Render(const Frame *a_camFrame)
 		fpos = 0.25*fpos;
 		len *= 0.25;
 	} while ((len-rad)*0.25 > 4*WORLDVIEW_ZNEAR);
-		
+
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	glColor3f(1,1,1);
 
@@ -651,6 +651,14 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_LIGHTING);
 		glEnable(GL_DEPTH_TEST);
 	} else {
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		float fracH = WORLDVIEW_ZNEAR / Pi::GetScrAspect();
+		// very conservative zfar...
+		glFrustum(-WORLDVIEW_ZNEAR, WORLDVIEW_ZNEAR, -fracH, fracH, WORLDVIEW_ZNEAR, MAX(rad, WORLDVIEW_ZFAR));
+		glMatrixMode(GL_MODELVIEW);
+
 		vector3d campos = -fpos;
 		ftran.ClearToRotOnly();
 		campos = ftran.InverseOf() * campos;
@@ -682,6 +690,10 @@ void Planet::Render(const Frame *a_camFrame)
 
 		DrawAtmosphere(rad, fpos);
 		glClear(GL_DEPTH_BUFFER_BIT);
+
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
 	}
 	glPopMatrix();
 }
