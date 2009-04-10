@@ -2,12 +2,13 @@
 #include "GeoSphere.h"
 #include "perlin.h"
 #include "Pi.h"
+#include "StarSystem.h"
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.2
 #define GEOPATCH_MAX_DEPTH	14
 // must be power of two + 1
-#define GEOPATCH_EDGELEN	17
+#define GEOPATCH_EDGELEN	33
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 
 static const double GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
@@ -604,7 +605,7 @@ public:
 	void LODUpdate(vector3d &campos) {
 				
 		vector3d centroid = (v[0]+v[1]+v[2]+v[3]).Normalized();
-	//	centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
+		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
 
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
@@ -715,8 +716,9 @@ void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
 	}
 }
 
-GeoSphere::GeoSphere()
+GeoSphere::GeoSphere(const SBody *body)
 {
+	m_sbody = body;
 	m_numCraters = 0;
 	m_craters = 0;
 	float col[4] = {1,1,1,1};
@@ -786,12 +788,28 @@ inline double octavenoise(int octaves, double div, vector3d p)
 	return n;
 }
 
+#define GEOSPHERE_SEED	(m_sbody->seed)
+#define GEOSPHERE_SEED 1
 /*
  * p should be a normalised turd on surface of planet.
  */
 double GeoSphere::GetHeight(const vector3d &p)
 {
-	double n = octavenoise(12, 0.5, 32.0*p);
+	double n;
+	double pmul;
+	// changing the input point to noise function has interesting results
+	switch (GEOSPHERE_SEED & 1) {
+		case 0: pmul = 1.0 + (double)((GEOSPHERE_SEED>>8)&31); break;
+		// sworly patterns
+		case 1: pmul = noise(p); break;
+	}
+	
+	n = octavenoise(12, 0.5, pmul*p);
+/*	switch (m_sbody->seed & 3) {
+		case 0: n = 1.0 - fabs(n); break;
+		case 1: n = fabs(n); break;
+		default: break;
+	}*/
 	double crater = 0;
 	for (int i=0; i<m_numCraters; i++) {
 		const double dot = vector3d::Dot(m_craters[i].pos, p);

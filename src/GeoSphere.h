@@ -4,10 +4,11 @@
 #include "vector3.h"
 #include "mtrand.h"
 
+class SBody;
 class GeoPatch;
 class GeoSphere {
 public:
-	GeoSphere();
+	GeoSphere(const SBody *body);
 	~GeoSphere();
 	void Render(vector3d campos);
 	void SetColor(const float col[4]);
@@ -22,6 +23,7 @@ private:
 	} *m_craters;
 	int m_numCraters;
 	float m_diffColor[4], m_ambColor[4];
+	const SBody *m_sbody;
 
 	vector3d GetColor(vector3d &p, double height);
 };

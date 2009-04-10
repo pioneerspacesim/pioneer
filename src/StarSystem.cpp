@@ -490,6 +490,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		
 		SBody *kid = new SBody;
 		SBody::BodyType type = c->type;
+		kid->seed = rand.Int32();
 		kid->type = type;
 		kid->parent = parent;
 		kid->radius = c->radius;
@@ -528,6 +529,7 @@ void StarSystem::GenerateFromCustom(const CustomSBody *customDef)
 	SBody::BodyType type = csbody->type;
 	rootBody->type = type;
 	rootBody->parent = NULL;
+	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;

@@ -41,7 +41,7 @@ void Planet::Init()
 		float col[4];
 		MTRand rand;	
 		rand.seed(sbody->seed);
-		m_geosphere = new GeoSphere();
+		m_geosphere = new GeoSphere(sbody);
 		m_geosphere->AddCraters(rand, 20, M_PI*0.005, M_PI*0.05);
 		switch (sbody->type){
 		case SBody::TYPE_PLANET_DWARF:
