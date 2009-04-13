@@ -5,7 +5,7 @@
 #include "StarSystem.h"
 
 // tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	1.2
+#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	2.5
 #define GEOPATCH_MAX_DEPTH	14
 // must be power of two + 1
 #define GEOPATCH_EDGELEN	33
@@ -47,10 +47,11 @@ public:
 	GeoPatch() {
 		memset(this, 0, sizeof(GeoPatch));
 	}
-	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3) {
+	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
-		m_roughLength = MAX((v0-v2).Length(), (v1-v3).Length());
+		m_depth = depth;
+		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
 		if (USE_VBO) glGenBuffersARB(1, &m_vbo);
 		if (!indices) {
 			indices = new unsigned short[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
@@ -616,7 +617,7 @@ public:
 			}
 		}
 		if (!(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
-		    ((campos - centroid).Length() < m_roughLength*GEOPATCH_SUBDIVIDE_AT_CAMDIST)))
+		    ((campos - centroid).Length() < m_roughLength)))
 			canSplit = false;
 		// always split at first level
 		if (!parent) canSplit = true;
@@ -630,14 +631,10 @@ public:
 				v12 = (v[1]+v[2]).Normalized();
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
-				kids[0] = new GeoPatch(v[0], v01, centroid, v30);
-				kids[1] = new GeoPatch(v01, v[1], v12, centroid);
-				kids[2] = new GeoPatch(centroid, v12, v[2], v23);
-				kids[3] = new GeoPatch(v30, centroid, v23, v[3]);
-				kids[0]->m_depth = m_depth+1;
-				kids[1]->m_depth = m_depth+1;
-				kids[2]->m_depth = m_depth+1;
-				kids[3]->m_depth = m_depth+1;
+				kids[0] = new GeoPatch(v[0], v01, centroid, v30, m_depth+1);
+				kids[1] = new GeoPatch(v01, v[1], v12, centroid, m_depth+1);
+				kids[2] = new GeoPatch(centroid, v12, v[2], v23, m_depth+1);
+				kids[3] = new GeoPatch(v30, centroid, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -716,11 +713,32 @@ void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
 	}
 }
 
+#define GEOSPHERE_SEED	(m_sbody->seed)
+#define GEOSPHERE_TYPE	(m_sbody->type)
+//#define GEOSPHERE_TYPE SBody::TYPE_PLANET_INDIGENOUS_LIFE
+
 GeoSphere::GeoSphere(const SBody *body)
 {
+	MTRand rand;
+	rand.seed(body->seed);
 	m_sbody = body;
 	m_numCraters = 0;
 	m_craters = 0;
+	m_maxHeight = 0.0014/sqrt(m_sbody->radius.ToDouble());
+	m_invMaxHeight = 1.0 / m_maxHeight;
+	printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
+
+	for (int i=0; i<16; i++) m_crap[i] = rand.Double();
+	m_sealevel = rand.Double();
+	
+	switch (GEOSPHERE_TYPE) {
+		case SBody::TYPE_PLANET_DWARF:
+			AddCraters(rand, rand.Int32(10,30), M_PI*0.005, M_PI*0.05);
+			break;
+		default: break;
+	}
+
+
 	float col[4] = {1,1,1,1};
 	SetColor(col);
 	vector3d p1(1,1,1);
@@ -740,12 +758,12 @@ GeoSphere::GeoSphere(const SBody *body)
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(p1, p2, p3, p4);
-	m_patches[1] = new GeoPatch(p4, p3, p7, p8);
-	m_patches[2] = new GeoPatch(p1, p4, p8, p5);
-	m_patches[3] = new GeoPatch(p2, p1, p5, p6);
-	m_patches[4] = new GeoPatch(p3, p2, p6, p7);
-	m_patches[5] = new GeoPatch(p8, p7, p6, p5);
+	m_patches[0] = new GeoPatch(p1, p2, p3, p4, 0);
+	m_patches[1] = new GeoPatch(p4, p3, p7, p8, 0);
+	m_patches[2] = new GeoPatch(p1, p4, p8, p5, 0);
+	m_patches[3] = new GeoPatch(p2, p1, p5, p6, 0);
+	m_patches[4] = new GeoPatch(p3, p2, p6, p7, 0);
+	m_patches[5] = new GeoPatch(p8, p7, p6, p5, 0);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->geosphere = this;
 		for (int j=0; j<4; j++) {
@@ -788,23 +806,59 @@ inline double octavenoise(int octaves, double div, vector3d p)
 	return n;
 }
 
-#define GEOSPHERE_SEED	(m_sbody->seed)
-#define GEOSPHERE_SEED 1
 /*
  * p should be a normalised turd on surface of planet.
  */
 double GeoSphere::GetHeight(const vector3d &p)
 {
 	double n;
-	double pmul;
+	double div;
 	// changing the input point to noise function has interesting results
-	switch (GEOSPHERE_SEED & 1) {
-		case 0: pmul = 1.0 + (double)((GEOSPHERE_SEED>>8)&31); break;
-		// sworly patterns
-		case 1: pmul = noise(p); break;
+//	switch (GEOSPHERE_SEED & 1) {
+//		case 0: pmul = 1.0 + (double)((GEOSPHERE_SEED>>8)&31); break;
+//		// sworly patterns
+//		case 1: pmul = noise(2*p.x, p.y*20, 2*p.z); break;
+//	}
+	switch (GEOSPHERE_TYPE) {
+		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
+		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
+		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
+		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
+			return 0;
+		case SBody::TYPE_PLANET_DWARF:
+		case SBody::TYPE_PLANET_SMALL:
+		case SBody::TYPE_PLANET_CO2:
+		case SBody::TYPE_PLANET_METHANE:
+		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
+		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
+		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
+		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
+			switch (GEOSPHERE_SEED & 1) {
+				case 0:	div = 0.52 + 0.18*m_crap[1]; break;
+				default: div = 0.5 + 0.18*octavenoise(4, 0.5, 256*m_crap[1]*p); break;
+			}
+			// continent types
+			switch ((GEOSPHERE_SEED>>4) & 3) {
+				case 0:	n = 1.0 - fabs(octavenoise(18, div, p)); break;
+				case 1: n = fabs(octavenoise(18, div, p)); break;
+				default: n = 0.5*(1.0+octavenoise(18, div, p)); break;
+			}
+
+			// weird loopy blobs
+			//n += 0.5*0.3*(1.0+octavenoise(8, 0.5f + 0.25f*noise(2.0*p), p+vector3d(0,0,noise(32*p))));
+			//n += 0.5*0.3*octavenoise(8, 0.5, 256.0*p);
+			
+			n *= m_maxHeight;
+			break;
+	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
+			div = 0.5 + 0.18*octavenoise(4, 0.5, 256*p);
+			n = 0.5*(1.0+octavenoise(18, div, p));
+			n += 0.1*(1.0 - fabs(octavenoise(18, 0.5, 256.0*p)));
+			return (n<m_sealevel ? 0.0 : m_maxHeight*(n-m_sealevel));
+		default:
+			return 0;
 	}
-	
-	n = octavenoise(12, 0.5, pmul*p);
+//	n = octavenoise(12, 0.5, pmul*p);
 /*	switch (m_sbody->seed & 3) {
 		case 0: n = 1.0 - fabs(n); break;
 		case 1: n = fabs(n); break;
@@ -817,10 +871,52 @@ double GeoSphere::GetHeight(const vector3d &p)
 		if (dot > m_craters[i].size) crater += depth * MIN(-(m_craters[i].size-dot)/(1.0-m_craters[i].size),
 							0.5); // <-- proportion of crater to be slope, before flat bottom
 	}
-	return 0.001*n + crater;
+	return n + crater;
+}
+
+static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
+{
+	n = CLAMP(n, 0.0f, 1.0f);
+	return start + (end-start)*n;
 }
 
 inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 {
-	return 0.8*vector3d(1000*height, 1, 1000*height);
+	double n;
+	switch (GEOSPHERE_TYPE) {
+		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
+		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
+		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
+		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
+			n = octavenoise(12, 0.5f*m_crap[0] + 0.25f, noise(vector3d(p.x, p.y*m_sbody->radius.ToDouble(), p.z))*p);
+			n = (1.0f + n)*0.5f;
+			switch (GEOSPHERE_SEED & 3) {
+				// jupiterish
+				case 0: return interpolate_color(n, vector3d(.50,.22,.18), vector3d(.99,.76,.62));
+				// saturnish
+				case 1:	return interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62));
+				// neptuny
+				case 2:	return interpolate_color(n*n, vector3d(.21, .34, .54), vector3d(.31, .44, .73)); 
+				// uranussy
+				default: return interpolate_color(n, vector3d(.63, .76, .77), vector3d(.70,.85,.86));
+			}
+		case SBody::TYPE_PLANET_DWARF:
+		case SBody::TYPE_PLANET_SMALL:
+		case SBody::TYPE_PLANET_CO2:
+		case SBody::TYPE_PLANET_METHANE:
+		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
+		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
+		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
+		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
+			n = m_invMaxHeight*height - 0.5;
+			return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
+	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
+			n = m_invMaxHeight*height;
+			if (n == 0) return vector3d(0,0,0.5);
+			else return interpolate_color(n, vector3d(0,.8,0), vector3d(.3,.6,0));
+		default:
+			return vector3d(1,0,1);
+
+	}
+	return vector3d(m_invMaxHeight*height, m_invMaxHeight*height,1);
 }

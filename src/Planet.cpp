@@ -36,30 +36,12 @@ Planet::Planet(SBody *sbody): Body()
 void Planet::Init()
 {
 	m_mass = sbody->GetMass();
-	if ((!m_geosphere) &&
-	    (sbody->type >= SBody::TYPE_PLANET_DWARF)) {
+	if (!m_geosphere) {
 		float col[4];
 		MTRand rand;	
 		rand.seed(sbody->seed);
 		m_geosphere = new GeoSphere(sbody);
-		m_geosphere->AddCraters(rand, 20, M_PI*0.005, M_PI*0.05);
-		switch (sbody->type){
-		case SBody::TYPE_PLANET_DWARF:
-		case SBody::TYPE_PLANET_SMALL:
-			barrenBodyCol.GenCol(col, rand);
-			m_geosphere->SetColor(col);
-			break;
-		case SBody::TYPE_PLANET_WATER:
-		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-			m_geosphere->SetColor(darkblue);
-			break;
-		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			m_geosphere->SetColor(green);
-			break;
-		default:
-			barrenBodyCol.GenCol(col, rand);
-			m_geosphere->SetColor(col);
-		}
+	//	m_geosphere->AddCraters(rand, 20, M_PI*0.005, M_PI*0.05);
 	}
 	
 	crudDList = 0;
@@ -445,7 +427,7 @@ void Planet::DrawGasGiant()
 
 	ggdef.bodyCol.GenCol(col, rng);
 	SetMaterialColor(col);
-	DrawShittyRoundCube(1.0f);
+//	DrawShittyRoundCube(1.0f);
 	
 	int n = rng.Int32(ggdef.hoopMin, ggdef.hoopMax);
 
@@ -454,7 +436,7 @@ void Planet::DrawGasGiant()
 		SetMaterialColor(col);
 		DrawHoop(rng.Double(0.9*M_PI)-0.45*M_PI, rng.Double(0.25), ggdef.hoopWobble, rng);
 	}
-
+/*
 	n = rng.Int32(ggdef.blobMin, ggdef.blobMax);
 	while (n-- > 0) {
 		float a = rng.Double(0.01, 0.03);
@@ -482,7 +464,7 @@ void Planet::DrawGasGiant()
 			DrawRing(pos, pos+size, col);
 			pos += size;
 		}
-	}
+	}*/
 }
 
 static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float col[4])
@@ -667,21 +649,23 @@ void Planet::Render(const Frame *a_camFrame)
 		glPushMatrix();
 		glScalef(rad,rad,rad);
 		
+		// gas giant rings
+		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiant();
 		// this is a rather brittle test..........
-		if (sbody->type < SBody::TYPE_PLANET_DWARF) {
-			if (!crudDList) {
-				crudDList = glGenLists(1);
-				glNewList(crudDList, GL_COMPILE);
-				DrawGasGiant();
-				glEndList();
-			}
-			glCallList(crudDList);
-		} else {
+	//	if (sbody->type < SBody::TYPE_PLANET_DWARF) {
+	//		if (!crudDList) {
+	//			crudDList = glGenLists(1);
+	//			glNewList(crudDList, GL_COMPILE);
+	//			DrawGasGiant();
+	//			glEndList();
+	//		}
+	//		glCallList(crudDList);
+	/*	} else {*/
 			const float poo[4] = { 1,1,1,1};
 			SetMaterialColor(poo);
 			campos = campos * (1.0/rad);
 			m_geosphere->Render(campos);
-		}
+//		}
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		

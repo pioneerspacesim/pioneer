@@ -25,6 +25,11 @@ private:
 	float m_diffColor[4], m_ambColor[4];
 	const SBody *m_sbody;
 
+	double m_maxHeight;
+	double m_invMaxHeight;
+	double m_crap[16];
+	double m_sealevel;
+
 	vector3d GetColor(vector3d &p, double height);
 };
 
