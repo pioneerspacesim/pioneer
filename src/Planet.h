@@ -27,8 +27,7 @@ protected:
 	virtual void Load();
 private:
 	void Init();
-	void DrawRockyPlanet();
-	void DrawGasGiant();
+	void DrawGasGiantRings();
 	void DrawAtmosphere(double rad, vector3d &pos);
 
 	double m_mass;

@@ -99,159 +99,6 @@ double Planet::GetTerrainHeight(vector3d &pos)
 	}
 }
 
-static void subdivide(vector3d &v1, vector3d &v2, vector3d &v3, vector3d &v4, int depth)
-{
-	if (depth) {
-		depth--;
-		vector3d v5 = (v1+v2).Normalized();
-		vector3d v6 = (v2+v3).Normalized();
-		vector3d v7 = (v3+v4).Normalized();
-		vector3d v8 = (v4+v1).Normalized();
-		vector3d v9 = (v1+v2+v3+v4).Normalized();
-
-		subdivide(v1,v5,v9,v8,depth);
-		subdivide(v5,v2,v6,v9,depth);
-		subdivide(v9,v6,v3,v7,depth);
-		subdivide(v8,v9,v7,v4,depth);
-	} else {
-		glBegin(GL_TRIANGLE_STRIP);
-		glNormal3dv(&v1.x);
-		glVertex3dv(&v1.x);
-		glNormal3dv(&v2.x);
-		glVertex3dv(&v2.x);
-		glNormal3dv(&v4.x);
-		glVertex3dv(&v4.x);
-		glNormal3dv(&v3.x);
-		glVertex3dv(&v3.x);
-		glEnd();
-	}
-}
-
-static void DrawShittyRoundCube(double radius)
-{
-	vector3d p1(1,1,1);
-	vector3d p2(-1,1,1);
-	vector3d p3(-1,-1,1);
-	vector3d p4(1,-1,1);
-
-	vector3d p5(1,1,-1);
-	vector3d p6(-1,1,-1);
-	vector3d p7(-1,-1,-1);
-	vector3d p8(1,-1,-1);
-
-	p1 = p1.Normalized();
-	p2 = p2.Normalized();
-	p3 = p3.Normalized();
-	p4 = p4.Normalized();
-	p5 = p5.Normalized();
-	p6 = p6.Normalized();
-	p7 = p7.Normalized();
-	p8 = p8.Normalized();
-
-//	p1 *= radius;
-//	p2 *= radius;
-//	p3 *= radius;
-//	p4 *= radius;
-//	p5 *= radius;
-//	p6 *= radius;
-//	p7 *= radius;
-//	p8 *= radius;
-
-//	glDisable(GL_CULL_FACE);
-	glEnable(GL_NORMALIZE);
-	subdivide(p1, p2, p3, p4, 4);
-	subdivide(p4, p3, p7, p8, 4);
-	subdivide(p1, p4, p8, p5, 4);
-	subdivide(p2, p1, p5, p6, 4);
-	subdivide(p3, p2, p6, p7, 4);
-	subdivide(p8, p7, p6, p5, 4);
-	
-	glDisable(GL_NORMALIZE);
-}
-
-// both arguments in radians
-void DrawHoop(float latitude, float width, float wobble, MTRand &rng)
-{
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
-	
-	glBegin(GL_TRIANGLE_STRIP);
-	for (double longitude=0.0f; longitude < 2*M_PI; longitude += 0.02) {
-		vector3d v;
-		double l;
-		l = latitude+0.5*width+rng.Double(wobble*width);
-		v.x = sin(longitude)*cos(l);
-		v.y = sin(l);
-		v.z = cos(longitude)*cos(l);
-		v = v.Normalized();
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-		
-		l = latitude-0.5*width-rng.Double(wobble*width);
-		v.x = sin(longitude)*cos(l);
-		v.y = sin(l);
-		v.z = cos(longitude)*cos(l);
-		glNormal3dv(&v.x);
-		glVertex3dv(&v.x);
-	}
-	double l = latitude+0.5*width;
-	vector3d v;
-	v.x = 0; v.y = sin(l); v.z = cos(l);
-	v = v.Normalized();
-	glNormal3dv(&v.x);
-	glVertex3dv(&v.x);
-	
-	l = latitude-0.5*width;
-	v.x = 0; v.y = sin(l); v.z = cos(l);
-	glNormal3dv(&v.x);
-	glVertex3dv(&v.x);
-
-	glEnd();
-
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
-}
-
-static void PutPolarPoint(float latitude, float longitude)
-{
-	vector3d v;
-	v.x = sin(longitude)*cos(latitude);
-	v.y = sin(latitude);
-	v.z = cos(longitude)*cos(latitude);
-	v = v.Normalized();
-	glNormal3dv(&v.x);
-	glVertex3dv(&v.x);
-}
-
-void DrawBlob(float latitude, float longitude, float a, float b)
-{
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
-
-	glBegin(GL_TRIANGLE_FAN);
-	PutPolarPoint(latitude, longitude);
-	for (double theta=2*M_PI; theta>0; theta-=0.1) {
-		double _lat = latitude + a * cos(theta);
-		double _long = longitude + b * sin(theta);
-		PutPolarPoint(_lat, _long);
-	}
-	{
-		double _lat = latitude + a;
-		double _long = longitude;
-		PutPolarPoint(_lat, _long);
-	}
-	glEnd();
-
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
-}
-
 static void DrawRing(double inner, double outer, const float color[4])
 {
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
@@ -278,58 +125,6 @@ static void DrawRing(double inner, double outer, const float color[4])
 	//gluDisk(Pi::gluQuadric, inner, outer, 40, 20);
 	glEnable(GL_CULL_FACE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
-}
-
-static void SphereTriSubdivide(vector3d &v1, vector3d &v2, vector3d &v3, int depth)
-{
-	if (--depth > 0) {
-		vector3d v4 = (v1+v2).Normalized();
-		vector3d v5 = (v2+v3).Normalized();
-		vector3d v6 = (v1+v3).Normalized();
-		SphereTriSubdivide(v1,v4,v6,depth);
-		SphereTriSubdivide(v4,v2,v5,depth);
-		SphereTriSubdivide(v6,v4,v5,depth);
-		SphereTriSubdivide(v6,v5,v3,depth);
-	} else {
-		glNormal3dv(&v1.x);
-		glVertex3dv(&v1.x);
-		glNormal3dv(&v2.x);
-		glVertex3dv(&v2.x);
-		glNormal3dv(&v3.x);
-		glVertex3dv(&v3.x);
-	}
-}
-
-// yPos should be 1.0 for north pole, -1.0 for south pole
-// size in radians
-static void DrawPole(double yPos, double size)
-{
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
-
-	const bool southPole = yPos < 0;
-	size = size*4/M_PI;
-	
-	vector3d center(0, yPos, 0);
-	glBegin(GL_TRIANGLES);
-	for (float ang=2*M_PI; ang>0; ang-=0.1) {
-		vector3d v1(size*sin(ang), yPos, size*cos(ang));
-		vector3d v2(size*sin(ang+0.1), yPos, size*cos(ang+0.1));
-		v1 = v1.Normalized();
-		v2 = v2.Normalized();
-		if (southPole)
-			SphereTriSubdivide(center, v2, v1, 4);
-		else
-			SphereTriSubdivide(center, v1, v2, 4);
-	}
-	glEnd();
-
-
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
 	glPopAttrib();
@@ -416,7 +211,7 @@ static void SetMaterialColor(const float col[4])
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
 }
 
-void Planet::DrawGasGiant()
+void Planet::DrawGasGiantRings()
 {
 //	MTRand rng((int)Pi::GetGameTime());
 	MTRand rng(sbody->seed+9);
@@ -425,35 +220,6 @@ void Planet::DrawGasGiant()
 	// just use a random gas giant flavour for the moment
 	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
 
-	ggdef.bodyCol.GenCol(col, rng);
-	SetMaterialColor(col);
-//	DrawShittyRoundCube(1.0f);
-	
-	int n = rng.Int32(ggdef.hoopMin, ggdef.hoopMax);
-
-	while (n-- > 0) {
-		ggdef.hoopCol.GenCol(col, rng);
-		SetMaterialColor(col);
-		DrawHoop(rng.Double(0.9*M_PI)-0.45*M_PI, rng.Double(0.25), ggdef.hoopWobble, rng);
-	}
-/*
-	n = rng.Int32(ggdef.blobMin, ggdef.blobMax);
-	while (n-- > 0) {
-		float a = rng.Double(0.01, 0.03);
-		float b = a+rng.Double(0.2)+0.1;
-		ggdef.blobCol.GenCol(col, rng);
-		SetMaterialColor(col);
-		DrawBlob(rng.Double(-0.3*M_PI, 0.3*M_PI), rng.Double(2*M_PI), a, b);
-	}
-
-	if (ggdef.poleMin != 0) {
-		float size = rng.Double(ggdef.poleMin, ggdef.poleMax);
-		ggdef.poleCol.GenCol(col, rng);
-		SetMaterialColor(col);
-		DrawPole(1.0, size);
-		DrawPole(-1.0, size);
-	}
-	
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = rng.Double(1.2,1.7);
 		float end = pos + rng.Double(0.1, 1.0);
@@ -464,7 +230,7 @@ void Planet::DrawGasGiant()
 			DrawRing(pos, pos+size, col);
 			pos += size;
 		}
-	}*/
+	}
 }
 
 static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float col[4])
@@ -648,24 +414,11 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_NORMALIZE);
 		glPushMatrix();
 		glScalef(rad,rad,rad);
+		campos = campos * (1.0/rad);
+		m_geosphere->Render(campos);
 		
-		// gas giant rings
-		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiant();
-		// this is a rather brittle test..........
-	//	if (sbody->type < SBody::TYPE_PLANET_DWARF) {
-	//		if (!crudDList) {
-	//			crudDList = glGenLists(1);
-	//			glNewList(crudDList, GL_COMPILE);
-	//			DrawGasGiant();
-	//			glEndList();
-	//		}
-	//		glCallList(crudDList);
-	/*	} else {*/
-			const float poo[4] = { 1,1,1,1};
-			SetMaterialColor(poo);
-			campos = campos * (1.0/rad);
-			m_geosphere->Render(campos);
-//		}
+		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
+		
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
