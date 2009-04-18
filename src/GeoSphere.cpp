@@ -144,6 +144,7 @@ public:
 			}
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_STATIC_DRAW);
+			glBindBufferARB(GL_ARRAY_BUFFER, 0);
 		}
 	}	
 	/* not quite edge, since we share edge vertices so that would be
