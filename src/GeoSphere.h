@@ -13,7 +13,7 @@ public:
 	void Render(vector3d campos);
 	void SetColor(const float col[4]);
 	void AddCraters(MTRand &rand, int num, double minAng, double maxAng);
-	double GetHeight(const vector3d &p);
+	double GetHeight(vector3d p);
 	friend class GeoPatch;
 private:
 	GeoPatch *m_patches[6];
@@ -25,10 +25,12 @@ private:
 	float m_diffColor[4], m_ambColor[4];
 	const SBody *m_sbody;
 
+	/* all variables for GetHeight(), GetColor() */
 	double m_maxHeight;
 	double m_invMaxHeight;
 	double m_crap[16];
 	double m_sealevel;
+	vector3d m_fractalOffset;
 
 	vector3d GetColor(vector3d &p, double height);
 };

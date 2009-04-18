@@ -113,6 +113,14 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_large_gas_giant.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
+		{}, 1, "Asteroid",
+		"icons/object_planet_asteroid.png"
+	}, {
+		SBody::SUPERTYPE_ROCKY_PLANET,
+		{}, 2, "Large asteroid",
+		"icons/object_planet_asteroid.png"
+	}, {
+		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 26, "Small, rocky dwarf planet", // moon radius
 		"icons/object_planet_dwarf.png"
 	}, {
@@ -874,7 +882,11 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 		type = SBody::TYPE_PLANET_SMALL_GAS_GIANT;
 	} else {
 		// terrestrial planets
-		if (mass < fixed(2,100)) {
+		if (mass < fixed(1,20000)) {
+			type = SBody::TYPE_PLANET_ASTEROID;
+		} else if (mass < fixed(1, 15000)) {
+			type = SBody::TYPE_PLANET_LARGE_ASTEROID;
+		} else if (mass < fixed(2,1000)) {
 			type = SBody::TYPE_PLANET_DWARF;
 		} else if ((mass < fixed(2,10)) && (globalwarming < fixed(5,100))) {
 			type = SBody::TYPE_PLANET_SMALL;
@@ -1063,7 +1075,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 		(type == SBody::TYPE_PLANET_INDIGENOUS_LIFE))) {
 
 		fixed activ = humanActivity;
-		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) humanActivity *= 4;
+		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) activ *= 4;
 
 		int max = 6;
 		while ((max-- > 0) && (rand.Fixed() < activ)) {

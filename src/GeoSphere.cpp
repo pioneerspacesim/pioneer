@@ -730,6 +730,7 @@ GeoSphere::GeoSphere(const SBody *body)
 
 	for (int i=0; i<16; i++) m_crap[i] = rand.Double();
 	m_sealevel = rand.Double();
+	m_fractalOffset = vector3d(rand.Double(255), rand.Double(255), rand.Double(255));
 	
 	switch (GEOSPHERE_TYPE) {
 		case SBody::TYPE_PLANET_DWARF:
@@ -780,12 +781,16 @@ GeoSphere::~GeoSphere()
 	delete [] m_craters;
 }
 
+static const float g_ambient[4] = { .1, .1, .1, 1.0 };
+
 void GeoSphere::Render(vector3d campos) {
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(campos);
 	}
+	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glMaterialfv (GL_FRONT, GL_AMBIENT, m_ambColor);
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, m_diffColor);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos);
@@ -809,10 +814,11 @@ inline double octavenoise(int octaves, double div, vector3d p)
 /*
  * p should be a normalised turd on surface of planet.
  */
-double GeoSphere::GetHeight(const vector3d &p)
+double GeoSphere::GetHeight(vector3d p)
 {
 	double n;
 	double div;
+	p += m_fractalOffset;
 	// changing the input point to noise function has interesting results
 //	switch (GEOSPHERE_SEED & 1) {
 //		case 0: pmul = 1.0 + (double)((GEOSPHERE_SEED>>8)&31); break;
@@ -825,6 +831,9 @@ double GeoSphere::GetHeight(const vector3d &p)
 		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
 		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
 			return 0;
+		case SBody::TYPE_PLANET_ASTEROID:
+		case SBody::TYPE_PLANET_LARGE_ASTEROID:
+			return 0.1*octavenoise(10, 0.45+0.1*noise(2*p), p);
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:
@@ -900,6 +909,9 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 				// uranussy
 				default: return interpolate_color(n, vector3d(.63, .76, .77), vector3d(.70,.85,.86));
 			}
+		case SBody::TYPE_PLANET_ASTEROID:
+		case SBody::TYPE_PLANET_LARGE_ASTEROID:
+			return vector3d(.4,.4,.4);
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:
