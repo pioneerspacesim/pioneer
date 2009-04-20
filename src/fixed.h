@@ -3,62 +3,154 @@
 
 #include <SDL_stdinc.h>
 
-// 48.16, with bad overflowing mul & div
-class fixed {
+template <int FRAC_BITS>
+class fixedf {
 public:
-	enum { FRAC=16 };
-	fixed(): v(0) {}
-	fixed(Sint64 raw): v(raw) {}
-	fixed(Sint64 num, Sint64 denom): v((num<<FRAC) / denom) {}
+	enum { FRAC=FRAC_BITS, MASK=((1ULL<<FRAC_BITS)-1) };
+	fixedf(): v(0) {}
+//	template <int bits>
+//	fixedf(fixedf<bits> f) { *this = f; }
+	fixedf(Sint64 raw): v(raw) {}
+	fixedf(Sint64 num, Sint64 denom): v((num<<FRAC) / denom) {}
+	// ^^ this is fucking shit
 	
-	friend fixed operator+(const fixed a, const int b) { return a+fixed(b<<FRAC); }
-	friend fixed operator-(const fixed a, const int b) { return a-fixed(b<<FRAC); }
-	friend fixed operator*(const fixed a, const int b) { return a*fixed(b<<FRAC); }
-	friend fixed operator/(const fixed a, const int b) { return a/fixed(b<<FRAC); }
-	friend fixed operator+(const int a, const fixed b) { return fixed(a<<FRAC)+b; }
-	friend fixed operator-(const int a, const fixed b) { return fixed(a<<FRAC)-b; }
-	friend fixed operator*(const int a, const fixed b) { return fixed(a<<FRAC)*b; }
-	friend fixed operator/(const int a, const fixed b) { return fixed(a<<FRAC)/b; }
-	friend bool operator==(const fixed a, const int b) { return a == fixed(b<<FRAC); }
-	friend bool operator==(const int a, const fixed b) { return b == fixed(a<<FRAC); }
-	friend bool operator>=(const fixed a, const int b) { return a >= fixed(b<<FRAC); }
-	friend bool operator>=(const int a, const fixed b) { return b >= fixed(a<<FRAC); }
-	friend bool operator<=(const fixed a, const int b) { return a <= fixed(b<<FRAC); }
-	friend bool operator<=(const int a, const fixed b) { return b <= fixed(a<<FRAC); }
-	friend bool operator>(const fixed a, const int b) { return a > fixed(b<<FRAC); }
-	friend bool operator>(const int a, const fixed b) { return b > fixed(a<<FRAC); }
-	friend bool operator<(const fixed a, const int b) { return a < fixed(b<<FRAC); }
-	friend bool operator<(const int a, const fixed b) { return b < fixed(a<<FRAC); }
-	friend fixed operator>>(const fixed a, const int b) { return fixed(a.v >> b); }
-	friend fixed operator<<(const fixed a, const int b) { return fixed(a.v << b); }
+	friend fixedf operator+(const fixedf a, const Sint64 b) { return a+fixedf(b<<FRAC); }
+	friend fixedf operator-(const fixedf a, const Sint64 b) { return a-fixedf(b<<FRAC); }
+	friend fixedf operator*(const fixedf a, const Sint64 b) { return a*fixedf(b<<FRAC); }
+	friend fixedf operator/(const fixedf a, const Sint64 b) { return a/fixedf(b<<FRAC); }
+	friend fixedf operator+(const Sint64 a, const fixedf b) { return fixedf(a<<FRAC)+b; }
+	friend fixedf operator-(const Sint64 a, const fixedf b) { return fixedf(a<<FRAC)-b; }
+	friend fixedf operator*(const Sint64 a, const fixedf b) { return fixedf(a<<FRAC)*b; }
+	friend fixedf operator/(const Sint64 a, const fixedf b) { return fixedf(a<<FRAC)/b; }
+	friend bool operator==(const fixedf a, const Sint64 b) { return a == fixedf(b<<FRAC); }
+	friend bool operator==(const Sint64 a, const fixedf b) { return b == fixedf(a<<FRAC); }
+	friend bool operator>=(const fixedf a, const Sint64 b) { return a >= fixedf(b<<FRAC); }
+	friend bool operator>=(const Sint64 a, const fixedf b) { return b >= fixedf(a<<FRAC); }
+	friend bool operator<=(const fixedf a, const Sint64 b) { return a <= fixedf(b<<FRAC); }
+	friend bool operator<=(const Sint64 a, const fixedf b) { return b <= fixedf(a<<FRAC); }
+	friend bool operator>(const fixedf a, const Sint64 b) { return a > fixedf(b<<FRAC); }
+	friend bool operator>(const Sint64 a, const fixedf b) { return b > fixedf(a<<FRAC); }
+	friend bool operator<(const fixedf a, const Sint64 b) { return a < fixedf(b<<FRAC); }
+	friend bool operator<(const Sint64 a, const fixedf b) { return b < fixedf(a<<FRAC); }
+	friend fixedf operator>>(const fixedf a, const int b) { return fixedf(a.v >> b); }
+	friend fixedf operator<<(const fixedf a, const int b) { return fixedf(a.v << b); }
 
-	fixed &operator*=(const fixed a) { (*this) = (*this)*a; return (*this); }
-	fixed &operator*=(const int a) { (*this) = (*this)*a; return (*this); }
-	fixed &operator/=(const fixed a) { (*this) = (*this)/a; return (*this); }
-	fixed &operator/=(const int a) { (*this) = (*this)/a; return (*this); }
-	fixed &operator+=(const fixed a) { (*this) = (*this)+a; return (*this); }
-	fixed &operator+=(const int a) { (*this) = (*this)+a; return (*this); }
-	fixed &operator-=(const fixed a) { (*this) = (*this)-a; return (*this); }
-	fixed &operator-=(const int a) { (*this) = (*this)-a; return (*this); }
-	fixed &operator>>=(const int a) { v >>= a; return (*this); }
-	fixed &operator<<=(const int a) { v <<= a; return (*this); }
+	fixedf &operator*=(const fixedf a) { (*this) = (*this)*a; return (*this); }
+	fixedf &operator*=(const Sint64 a) { (*this) = (*this)*a; return (*this); }
+	fixedf &operator/=(const fixedf a) { (*this) = (*this)/a; return (*this); }
+	fixedf &operator/=(const Sint64 a) { (*this) = (*this)/a; return (*this); }
+	fixedf &operator+=(const fixedf a) { (*this) = (*this)+a; return (*this); }
+	fixedf &operator+=(const Sint64 a) { (*this) = (*this)+a; return (*this); }
+	fixedf &operator-=(const fixedf a) { (*this) = (*this)-a; return (*this); }
+	fixedf &operator-=(const Sint64 a) { (*this) = (*this)-a; return (*this); }
+	fixedf &operator>>=(const int a) { v >>= a; return (*this); }
+	fixedf &operator<<=(const int a) { v <<= a; return (*this); }
 
-	friend fixed operator+(const fixed a, const fixed b) { return fixed(a.v+b.v); }
-	friend fixed operator-(const fixed a, const fixed b) { return fixed(a.v-b.v); }
-	friend fixed operator*(const fixed a, const fixed b) { return fixed((a.v*b.v)>>FRAC); }
-	friend fixed operator/(const fixed a, const fixed b) { return fixed((a.v<<FRAC)/b.v); }
-	friend bool operator==(const fixed a, const fixed b) { return a.v == b.v; }
-	friend bool operator>(const fixed a, const fixed b) { return a.v > b.v; }
-	friend bool operator<(const fixed a, const fixed b) { return a.v < b.v; }
-	friend bool operator>=(const fixed a, const fixed b) { return a.v >= b.v; }
-	friend bool operator<=(const fixed a, const fixed b) { return a.v <= b.v; }
+	friend fixedf operator+(const fixedf a, const fixedf b) { return fixedf(a.v+b.v); }
+	friend fixedf operator-(const fixedf a, const fixedf b) { return fixedf(a.v-b.v); }
+	friend fixedf operator*(const fixedf a, const fixedf b) {
+		// 64*64 = (128bit>>FRAC) & ((1<<64)-1) 
+		//return fixedf(a.v*b.v >> FRAC);
+		Sint64 hi = 0;
+		Uint64 a0, a1, b0, b1;
+		Uint64 lo = 0;
+		Uint64 oldlo;
+		int isneg = 0;
+		if (a.v < 0) {
+			a0 = (-a.v) & 0xffffffff;
+			a1 = (-a.v) >> 32;
+			isneg = !isneg;
+		} else {
+			a0 = a.v & 0xffffffff;
+			a1 = a.v >> 32;
+		}
+		if (b.v < 0) {
+			b0 = (-b.v) & 0xffffffff;
+			b1 = (-b.v) >> 32;
+			isneg = !isneg;
+		} else {
+			b0 = b.v & 0xffffffff;
+			b1 = b.v >> 32;
+		}
+		Uint64 x;
+		// a0 * b;
+		lo = a0*b0; oldlo = lo;
+		x = a0*b1;
+		lo += x<<32;
+		if (lo < oldlo) hi++;
+		oldlo = lo;
+		
+		// a1 * b;
+		x = a1*b0;
+		lo += x<<32;
+		if (lo < oldlo) hi++;
+		oldlo = lo;
+		hi += x>>32;
+
+		hi += a1*b1;
+		Sint64 out = (lo>>FRAC) + ((hi&MASK)<<(64-FRAC));
+		return isneg ? -out : out;
+	}
+	friend fixedf operator/(const fixedf a, const fixedf b) {
+		// 128-bit divided by 64-bit, to make sure high bits are not lost
+		Sint64 quotient_hi = a.v>>(64-FRAC);
+		Uint64 quotient_lo = a.v<<FRAC;
+		Sint64 d = b.v;
+		int isneg = 0;
+		Sint64 remainder=0;
+
+		if (d < 0) {
+			d = -d;
+			isneg = 1;
+		}
+
+		for (int i=0; i<128; i++) {
+			Uint64 sbit = (1ULL<<63) & quotient_hi;
+			remainder <<= 1;
+			if (sbit) remainder |= 1;
+			// shift quotient left 1
+			{
+				quotient_hi <<= 1;
+				if (quotient_lo & (1ULL<<63)) quotient_hi |= 1;
+				quotient_lo <<= 1;
+			}
+			if (remainder >= d) {
+				remainder -= d;
+				quotient_lo |= 1;
+			}
+		}
+		return (isneg ? fixedf(-quotient_lo) : quotient_lo);
+	}
+	friend bool operator==(const fixedf a, const fixedf b) { return a.v == b.v; }
+	friend bool operator>(const fixedf a, const fixedf b) { return a.v > b.v; }
+	friend bool operator<(const fixedf a, const fixedf b) { return a.v < b.v; }
+	friend bool operator>=(const fixedf a, const fixedf b) { return a.v >= b.v; }
+	friend bool operator<=(const fixedf a, const fixedf b) { return a.v <= b.v; }
 
 	/* implicit operator float() bad */
 	Sint64 ToInt64() const { return v>>FRAC; }
-	float ToFloat() const { return v/(float)(1<<FRAC); }
-	double ToDouble() const { return v/(double)(1<<FRAC); }
+	float ToFloat() const { return v/(float)(1LL<<FRAC); }
+	double ToDouble() const { return v/(double)(1LL<<FRAC); }
+	
+	template <int NEW_FRAC_BITS>
+	operator fixedf<NEW_FRAC_BITS>() const {
+		int shift = NEW_FRAC_BITS - FRAC_BITS;
+		if (shift > 0) return fixedf<NEW_FRAC_BITS>(v<<shift);
+		else return fixedf<NEW_FRAC_BITS>(v>>(-shift));
+	}
+
+	static fixedf CubeRootOf(fixedf a) {
+		/* NR method. XXX very bad initial estimate (we get there in
+		 * the end... XXX */
+		fixedf x = a;
+		for (int i=0; i<48; i++) x = fixedf(1,3) * ((a / (x*x)) + 2*x);
+		return x;
+	}
+
 
 	Sint64 v;
 };
+
+typedef fixedf<16> fixed;
 
 #endif /* _FIXED_H */

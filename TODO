@@ -1,6 +1,8 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+* Let 'relative-to' be selectable, so you don't have that silly attemping to
+  get 'grabbed' by frame of reference thing...
 * Sfx look utterly shit
 * sbre stuff suddenly appears at zfar. Need to do proper hierarchical Z
 

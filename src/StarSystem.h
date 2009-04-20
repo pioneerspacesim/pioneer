@@ -20,8 +20,10 @@ class StarSystem;
 struct Orbit {
 	void KeplerPosAtTime(double t, double *dist, double *ang);
 	vector3d CartesianPosAtTime(double t);
+	/* duplicated from SBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;
+	/* dup " " --------------------------------------- */
 	double period; // seconds
 	matrix4x4d rotMatrix;
 };
@@ -91,21 +93,29 @@ public:
 	const char *GetIcon();
 	BodySuperType GetSuperType() const;
 	double GetRadius() const {
-		if (GetSuperType() == SUPERTYPE_STAR)
+		if (GetSuperType() <= SUPERTYPE_STAR)
 			return radius.ToDouble() * SOL_RADIUS;
 		else
 			return radius.ToDouble() * EARTH_RADIUS;
 	}
 	double GetMass() const {
-		if (GetSuperType() == SUPERTYPE_STAR)
+		if (GetSuperType() <= SUPERTYPE_STAR)
 			return mass.ToDouble() * SOL_MASS;
 		else
 			return mass.ToDouble() * EARTH_MASS;
 	}
+	fixed GetMassInEarths() const {
+		if (GetSuperType() <= SUPERTYPE_STAR)
+			return mass * 332998;
+		else
+			return mass;
+	}
+
 	// returned in seconds
 	double GetRotationPeriod() const {
 		return rotationPeriod.ToDouble()*60*60*24;
 	}
+	fixed CalcHillRadius() const;
 
 	double GetMaxChildOrbitalDistance() const;
 	void AddHumanStuff(StarSystem *system);
@@ -119,6 +129,8 @@ public:
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days
 	fixed humanActivity; // 0 - 1
+	fixed semiMajorAxis; // in AUs
+	fixed eccentricity;
 	int averageTemp;
 	BodyType type;
 

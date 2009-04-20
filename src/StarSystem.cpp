@@ -8,7 +8,7 @@
 #define DEBUG_DUMP
 
 // minimum moon mass a little under Europa's
-const fixed MIN_MOON_MASS = fixed(6,1000); // earth masses
+const fixed MIN_MOON_MASS = fixed(1,30000); // earth masses
 const fixed MIN_MOON_DIST = fixed(15,10000); // AUs
 const fixed MAX_MOON_DIST = fixed(2, 100); // AUs
 
@@ -507,7 +507,8 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->averageTemp = c->averageTemp;
 		kid->name = c->name;
 		kid->rotationPeriod = c->rotationPeriod;
-		
+		kid->eccentricity = c->eccentricity;
+		kid->semiMajorAxis = c->semiMajorAxis;
 		kid->orbit.eccentricity = c->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
@@ -573,39 +574,38 @@ void StarSystem::MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, f
 
 void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 {
-	fixed ecc = rand.NFixed(3);
 	fixed m = a->mass + b->mass;
 	fixed a0 = b->mass / m;
 	fixed a1 = a->mass / m;
-	fixed semiMajorAxis;
+	a->eccentricity = rand.NFixed(3);
 	int mul = 1;
 
 	do {
 		switch (rand.Int32(3)) {
-			case 2: semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
-			case 1: semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
+			case 2: a->semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
+			case 1: a->semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
 			default:
-			case 0: semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
+			case 0: a->semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
 		}
-		semiMajorAxis *= mul;
+		a->semiMajorAxis *= mul;
 		mul *= 2;
-	} while (semiMajorAxis < minDist);
+	} while (a->semiMajorAxis < minDist);
 
-	a->orbit.eccentricity = ecc.ToDouble();
-	a->orbit.semiMajorAxis = AU * (semiMajorAxis * a0).ToDouble();
-	a->orbit.period = 60*60*24*365* semiMajorAxis.ToDouble() * sqrt(semiMajorAxis.ToDouble() / m.ToDouble());
+	a->orbit.eccentricity = a->eccentricity.ToDouble();
+	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
+	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
 	
 	const float rotY = rand.Double()*M_PI/2.0;
 	const float rotZ = rand.Double(M_PI);
 	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateZMatrix(rotZ);
 	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateZMatrix(rotZ-M_PI);
 
-	b->orbit.eccentricity = ecc.ToDouble();
-	b->orbit.semiMajorAxis = AU * (semiMajorAxis * a1).ToDouble();
+	b->orbit.eccentricity = a->eccentricity.ToDouble();
+	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
 	b->orbit.period = a->orbit.period;
 	
-	fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
-	fixed orbMax = 2*semiMajorAxis - orbMin;
+	fixed orbMin = a->semiMajorAxis - a->eccentricity*a->semiMajorAxis;
+	fixed orbMax = 2*a->semiMajorAxis - orbMin;
 	a->orbMin = orbMin;
 	b->orbMin = orbMin;
 	a->orbMax = orbMax;
@@ -751,6 +751,31 @@ try_that_again_guvnah:
 	rootBody->AddHumanStuff(this);
 }
 
+/*
+ * http://en.wikipedia.org/wiki/Hill_sphere
+ */
+fixed SBody::CalcHillRadius() const
+{
+	if (GetSuperType() == SUPERTYPE_STAR) {
+		assert(0);
+	} else {
+		// playing with precision since these numbers get small
+		// masses in earth masses
+		fixedf<32> mprimary = parent->GetMassInEarths();
+		fixedf<32> mthis = mass;
+
+		fixedf<48> a = semiMajorAxis;
+		fixedf<48> e = eccentricity;
+
+		return fixed(a * (fixedf<48>(1,1)-e) *
+				fixedf<48>::CubeRootOf(fixedf<48>(
+						mthis / (fixedf<32>(3,1)*mprimary))));
+		
+		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
+		//  fixedcuberoot(mass / (3*mprimary));
+	}
+}
+
 void StarSystem::MakePlanetsAround(SBody *primary)
 {
 	int disc_size = rand.Int32(10,100) + rand.Int32(60,140)*(10*primary->mass*primary->mass).ToInt64();
@@ -786,6 +811,8 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		    (orbMax > orbMaxKill)) continue;
 		
 		SBody *planet = new SBody;
+		planet->eccentricity = ecc;
+		planet->semiMajorAxis = semiMajorAxis;
 		planet->type = SBody::TYPE_PLANET_DWARF;
 		planet->seed = rand.Int32();
 		planet->humanActivity = m_humanInfested * rand.Fixed();
@@ -819,6 +846,9 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		buf[2] = 0;
 		(*i)->name = primary->name+buf;
 		fixed d = ((*i)->orbMin + (*i)->orbMax) >> 1;
+
+		printf("%s: hill radius %f AU\n", (*i)->name.c_str(), (*i)->CalcHillRadius().ToDouble());
+
 		(*i)->PickPlanetType(this, primary, d, rand, true);
 
 #ifdef DEBUG_DUMP
@@ -940,16 +970,17 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 
 			moon->mass = moonmass;
 			fixed ecc = rand.NFixed(3);
-			fixed semiMajorAxis = (*i).dist/100;
+			moon->eccentricity = ecc;
+			moon->semiMajorAxis = (*i).dist/100;
 			moon->orbit.eccentricity = ecc.ToDouble();
-			moon->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
+			moon->orbit.semiMajorAxis = moon->semiMajorAxis.ToDouble()*AU;
 			moon->orbit.period = calc_orbital_period(moon->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
 			moon->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
 						  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
 			this->children.push_back(moon);
 
-			moon->orbMin = semiMajorAxis - ecc*semiMajorAxis;
-			moon->orbMax = 2*semiMajorAxis - moon->orbMin;
+			moon->orbMin = moon->semiMajorAxis - ecc*moon->semiMajorAxis;
+			moon->orbMax = 2*moon->semiMajorAxis - moon->orbMin;
 		}
 		delete disc;
 	
@@ -1044,19 +1075,19 @@ void SBody::AddHumanStuff(StarSystem *system)
 		sp->mass = 0;
 		sp->name = NameGenerator::Surname(rand) + " Spaceport";
 		sp->humanActivity = humanActivity;
-		fixed semiMajorAxis;
 		if (children.size()) {
-			semiMajorAxis = fixed(1,2) * children[0]->orbMin;
+			sp->semiMajorAxis = fixed(1,2) * children[0]->orbMin;
 		} else {
-			semiMajorAxis = fixed(1, 3557);
+			sp->semiMajorAxis = fixed(1, 3557);
 		}
+		sp->eccentricity = fixed(0);
 		sp->orbit.eccentricity = 0;
-		sp->orbit.semiMajorAxis = semiMajorAxis.ToDouble()*AU;
+		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
 		sp->orbit.rotMatrix = matrix4x4d::Identity();
 		children.insert(children.begin(), sp);
-		sp->orbMin = semiMajorAxis;
-		sp->orbMax = semiMajorAxis;
+		sp->orbMin = sp->semiMajorAxis;
+		sp->orbMax = sp->semiMajorAxis;
 
 		if (rand.Fixed() < humanActivity) {
 			SBody *sp2 = new SBody;
