@@ -79,6 +79,7 @@ public:
 		lo += x<<32;
 		if (lo < oldlo) hi++;
 		oldlo = lo;
+		hi += (x>>32);
 		
 		// a1 * b;
 		x = a1*b0;
@@ -139,6 +140,27 @@ public:
 		else return fixedf<NEW_FRAC_BITS>(v>>(-shift));
 	}
 
+	static fixedf SqrtOf(fixedf a) {
+		/* only works on even-numbered fractional bits */
+		assert(!(FRAC & 1));
+		unsigned long long root, remHi, remLo, testDiv, count;
+		root = 0;
+		remHi = 0;
+		remLo = a.v;
+		count = 32+(FRAC>>1)-1;
+		do {
+			remHi = (remHi<<2) | (remLo>>62); remLo <<= 2;
+			root <<= 1;
+			testDiv = (root << 1) + 1;
+			if (remHi >= testDiv) {
+				remHi -= testDiv;
+				root++;
+			}
+		} while (count-- != 0);
+
+		return(fixedf(root));
+	}
+
 	static fixedf CubeRootOf(fixedf a) {
 		/* NR method. XXX very bad initial estimate (we get there in
 		 * the end... XXX */
@@ -151,6 +173,6 @@ public:
 	Sint64 v;
 };
 
-typedef fixedf<16> fixed;
+typedef fixedf<32> fixed;
 
 #endif /* _FIXED_H */

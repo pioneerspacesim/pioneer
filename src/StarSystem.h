@@ -44,8 +44,8 @@ class SBody {
 public:
 	SBody();
 	~SBody();
-	void EliminateBadChildren();
-	void PickPlanetType(StarSystem *, SBody *, fixed distToPrimary, MTRand &drand, bool genMoons);
+	void PickPlanetType(StarSystem *, MTRand &rand);
+	const SBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
 	SBody *parent;
 	std::vector<SBody*> children;
 

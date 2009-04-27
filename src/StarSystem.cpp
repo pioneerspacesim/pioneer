@@ -8,9 +8,17 @@
 #define DEBUG_DUMP
 
 // minimum moon mass a little under Europa's
-const fixed MIN_MOON_MASS = fixed(1,30000); // earth masses
-const fixed MIN_MOON_DIST = fixed(15,10000); // AUs
-const fixed MAX_MOON_DIST = fixed(2, 100); // AUs
+static const fixed MIN_MOON_MASS = fixed(1,30000); // earth masses
+static const fixed MIN_MOON_DIST = fixed(15,10000); // AUs
+static const fixed MAX_MOON_DIST = fixed(2, 100); // AUs
+// if binary stars have separation s, planets can have stable
+// orbits at (0.5 * s * SAFE_DIST_FROM_BINARY)
+static const fixed SAFE_DIST_FROM_BINARY = fixed(5,1);
+static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
+
+// very crudely
+static const fixed AU_SOL_RADIUS = fixed(305,65536);
+static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 
 // indexed by enum type turd  
 float StarSystem::starColors[][3] = {
@@ -253,7 +261,7 @@ static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed
 	return fixed(1744665451,100000)*(total_solar_emission / (object_dist*object_dist));
 }
 
-static int CalcSurfaceTemp(SBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
+static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
 {
 	fixed energy_per_meter2;
 	if (primary->type == SBody::TYPE_GRAVPOINT) {
@@ -266,7 +274,7 @@ static int CalcSurfaceTemp(SBody *primary, fixed distToPrimary, fixed albedo, fi
 		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->radius, primary->averageTemp, distToPrimary);
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
-	return isqrt(isqrt((surface_temp_pow4.v>>16)*4409673));
+	return isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
 }
 
 void Orbit::KeplerPosAtTime(double t, double *dist, double *ang)
@@ -296,110 +304,9 @@ vector3d Orbit::CartesianPosAtTime(double t)
 	return pos;
 }
 
-
-struct ring_t {
-	fixed dist;
-	fixed mass;
-};
-
-#define BAND_SIZE	25
-static std::list<ring_t> *AccreteDisc2(fixed size, fixed density, MTRand &rand)
-{
-	std::list<ring_t> *disc = new std::list<ring_t>;
-	const int NUM_RINGS = rand.Int32(250, 500);
-	fixed scale = size/NUM_RINGS;
-
-	fixed bandDensity = fixed(0);
-	for (int i=0; i<NUM_RINGS; i++) {
-		if ((i%BAND_SIZE)==0) bandDensity = rand.Fixed() * scale;
-		ring_t r;
-		r.dist = (i+1)*size/NUM_RINGS;
-		r.dist -= rand.Fixed() * scale;
-		r.mass = bandDensity * rand.Fixed() * density;
-		disc->push_back(r);
-	}
-
-	bool changed;
-	do {
-		changed = false;
-		for (std::list<ring_t>::iterator i = disc->begin(); i != disc->end();) {
-			std::list<ring_t>::iterator n = i;
-			++n;
-			if (n == disc->end()) break;
-			
-			fixed totalmass = (*i).mass + (*n).mass;
-			if (!totalmass.v) { ++i; continue; }
-	
-			fixed range = (*i).dist / 3;
-			fixed dist = (*n).dist - (*i).dist;
-			if ((dist < range) && (
-				((*i).mass > (*n).mass) ||
-				((*n).mass > (*i).mass))) {
-				
-				(*n).dist = ((*n).dist*(*n).mass + (*i).dist*(*i).mass) / totalmass;
-				(*n).mass += (*i).mass;
-				i = disc->erase(i);
-				changed = true;
-				// because otherwise one blob can acrete and accrete in one step
-				++i;
-			} else {
-				++i;
-			}
-		}
-	} while (changed);
-
-	return disc;
-}
-
 double calc_orbital_period(double semiMajorAxis, double centralMass)
 {
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
-}
-
-void SBody::EliminateBadChildren()
-{
-	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end(); ++i) {
-		(*i)->tmp = 0;
-	}
-	// now check for overlapping & unacceptably close orbits. merge planets
-	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end(); ++i) {
-		if ((*i)->GetSuperType() == SBody::SUPERTYPE_STAR) continue;
-		if ((*i)->tmp) continue;
-
-		for (std::vector<SBody*>::iterator j = children.begin(); j != children.end(); ++j) {
-			if ((*j)->GetSuperType() == SBody::SUPERTYPE_STAR) continue;
-			if ((*j) == (*i)) continue;
-			if ((*j)->tmp) continue;
-			// don't eat anything bigger than self
-			if ((*j)->mass > (*i)->mass) continue;
-			fixed i_min = (*i)->orbMin;
-			fixed i_max = (*i)->orbMax;
-			fixed j_min = (*j)->orbMin;
-			fixed j_max = (*j)->orbMax;
-			fixed i_avg = (i_min+i_max)>>1;
-			fixed j_avg = (j_min+j_max)>>1;
-			bool eat = false;
-			if (i_avg > j_avg) {
-				if (i_min < j_max*fixed(13,10)) eat = true;
-			} else {
-				if (i_max > j_min*fixed(7,10)) eat = true;
-			}
-			if (eat) {
-				(*i)->mass += (*j)->mass;
-				(*j)->tmp = 1;
-			}
-		}
-
-	}
-
-	// kill the eaten ones
-	for (std::vector<SBody*>::iterator i = children.begin(); i != children.end();) {
-		if ((*i)->tmp) {
-			i = children.erase(i);
-		}
-		else
-			++i;
-	}
 }
 
 SBodyPath::SBodyPath()
@@ -757,59 +664,103 @@ try_that_again_guvnah:
 fixed SBody::CalcHillRadius() const
 {
 	if (GetSuperType() == SUPERTYPE_STAR) {
-		assert(0);
+		fprintf(stderr, "Bad bad bad bad\n");
+		return fixed(0);
 	} else {
 		// playing with precision since these numbers get small
 		// masses in earth masses
 		fixedf<32> mprimary = parent->GetMassInEarths();
-		fixedf<32> mthis = mass;
 
 		fixedf<48> a = semiMajorAxis;
 		fixedf<48> e = eccentricity;
 
 		return fixed(a * (fixedf<48>(1,1)-e) *
 				fixedf<48>::CubeRootOf(fixedf<48>(
-						mthis / (fixedf<32>(3,1)*mprimary))));
+						mass / (fixedf<32>(3,1)*mprimary))));
 		
 		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
 		//  fixedcuberoot(mass / (3*mprimary));
 	}
 }
 
+static fixed density_from_disk_area(fixed a, fixed b, fixed max)
+{
+	// so, density of the disk with distance from star goes like so: 1 - x/discMax
+	//
+	// --- 
+	//    ---
+	//       --- <- zero at discMax
+	//
+	// Which turned into a disc becomes x - (x*x)/discMax
+	// Integral of which is: 0.5*x*x - (1/(3*discMax))*x*x*x
+	//
+	b = (b > max ? max : b);
+	assert(b>=a);
+	assert(a<=max);
+	assert(b<=max);
+	assert(a>=0);
+	fixed one_over_3max = fixed(1,1)/(3*max);
+	return (fixed(1,2)*b*b - one_over_3max*b*b*b) -
+		(fixed(1,2)*a*a - one_over_3max*a*a*a);
+}
+
+
 void StarSystem::MakePlanetsAround(SBody *primary)
 {
-	int disc_size = rand.Int32(10,100) + rand.Int32(60,140)*(10*primary->mass*primary->mass).ToInt64();
-	//printf("disc_size %.1fAU\n", disc_size/10.0);
-	
-	// some restrictions on planet formation due to binary star orbits
-	fixed orbMinKill = fixed(0);
-	fixed orbMaxKill = fixed(disc_size, 10);
-	if (primary->type == SBody::TYPE_GRAVPOINT) {
-		SBody *star = primary->children[0];
-		orbMinKill = star->orbMax*10;
-	}
-	else if ((primary->GetSuperType() == SBody::SUPERTYPE_STAR) && (primary->parent)) {
-		// limit planets out to 10% distance to star's binary companion
-		orbMaxKill = primary->orbMin * fixed(1,10);
-	}
-	if (m_numStars >= 3) {
-		orbMaxKill = MIN(orbMaxKill, fixed(5,100)*rootBody->children[0]->orbMin);
+	fixed discMin = fixed(0);
+	fixed discMax = fixed(5000,1);
+	fixed discDensity = 20*rand.NFixed(4);
+
+	SBody::BodySuperType superType = primary->GetSuperType();
+
+	if (superType <= SBody::SUPERTYPE_STAR) {
+		if (primary->type == SBody::TYPE_GRAVPOINT) {
+			/* around a binary */
+			discMin = primary->children[0]->orbMax * SAFE_DIST_FROM_BINARY;
+		} else {
+			/* correct thing is roche limit, but lets ignore that because
+			 * it depends on body densities and gives some strange results */
+			discMin = 4 * primary->radius * AU_SOL_RADIUS;
+		}
+		discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
+
+		if ((superType == SBody::SUPERTYPE_STAR) && (primary->parent)) {
+			// limit planets out to 10% distance to star's binary companion
+			discMax = primary->orbMin * fixed(1,10);
+		}
+
+		/* in trinary and quaternary systems don't bump into other pair... */
+		if (m_numStars >= 3) {
+			discMax = MIN(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
+		}
+	} else {
+		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
+		discMin = 4 * primary_rad;
+		/* use hill radius to find max size of moon system. for stars botch it */
+		discMax = MIN(discMax, fixed(1,3)*primary->CalcHillRadius());
 	}
 
-	std::list<ring_t> *disc = AccreteDisc2(fixed(disc_size,10), 10*rand.Fixed(), rand);
-	for (std::list<ring_t>::iterator i = disc->begin(); i != disc->end(); ++i) {
-		if ((*i).dist < fixed(1,10)) continue;
-		fixed mass = (*i).mass;
-		if (mass == 0) continue;
-		fixed semiMajorAxis = (*i).dist;
+	printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
+
+	fixed initialJump = rand.NFixed(5);
+	fixed pos = (fixed(1,1) - initialJump)*discMin + (initialJump*discMax);
+
+	while (pos < discMax) {
+		// periapsis, apoapsis = closest, farthest distance in orbit
+		fixed periapsis = pos + pos*0.5*rand.NFixed(2);/* + jump */;
 		fixed ecc = rand.NFixed(3);
-		// perihelion and aphelion (in AUs)
-		fixed orbMin = semiMajorAxis - ecc*semiMajorAxis;
-		fixed orbMax = 2*semiMajorAxis - orbMin;
+		fixed semiMajorAxis = periapsis / (fixed(1,1) - ecc);
+		fixed apoapsis = 2*semiMajorAxis - periapsis;
+		if (apoapsis > discMax) break;
 
-		if ((orbMin < orbMinKill) ||
-		    (orbMax > orbMaxKill)) continue;
-		
+		fixed mass;
+		{
+			const fixed a = pos;
+			const fixed b = fixed(135,100)*apoapsis;
+			mass = density_from_disk_area(a, b, discMax);
+			mass *= rand.Fixed() * discDensity;
+		}
+
 		SBody *planet = new SBody;
 		planet->eccentricity = ecc;
 		planet->semiMajorAxis = semiMajorAxis;
@@ -827,38 +778,58 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, SOL_MASS*primary->mass.ToDouble());
 		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
 					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
-		planet->orbMin = orbMin;
-		planet->orbMax = orbMax;
+		planet->orbMin = periapsis;
+		planet->orbMax = apoapsis;
 		primary->children.push_back(planet);
-	}
-	delete disc;
 
-	// merge children with overlapping or very close orbits
-	primary->EliminateBadChildren();
+		/* minimum separation between planets of 1.35 */
+		pos = apoapsis * fixed(135,100);
+	}
+
 	int idx=0;
+	bool make_moons = superType <= SBody::SUPERTYPE_STAR;
 	
 	for (std::vector<SBody*>::iterator i = primary->children.begin(); i != primary->children.end(); ++i) {
+		// planets around a binary pair [gravpoint] -- ignore the stars...
 		if ((*i)->GetSuperType() == SBody::SUPERTYPE_STAR) continue;
 		// Turn them into something!!!!!!!
-		char buf[3];
-		buf[0] = ' ';
-		buf[1] = 'b'+(idx++);
-		buf[2] = 0;
+		char buf[8];
+		if (superType <= SBody::SUPERTYPE_STAR) {
+			// planet naming scheme
+			snprintf(buf, sizeof(buf), " %c", 'b'+idx);
+		} else {
+			// moon naming scheme
+			snprintf(buf, sizeof(buf), " %d", 1+idx);
+		}
 		(*i)->name = primary->name+buf;
-		fixed d = ((*i)->orbMin + (*i)->orbMax) >> 1;
-
-		printf("%s: hill radius %f AU\n", (*i)->name.c_str(), (*i)->CalcHillRadius().ToDouble());
-
-		(*i)->PickPlanetType(this, primary, d, rand, true);
-
-#ifdef DEBUG_DUMP
-//		printf("%s: mass %f, semi-major axis %fAU, ecc %f\n", (*i)->name.c_str(), (*i)->mass.ToDouble(), (*i)->orbit.semiMajorAxis/AU, (*i)->orbit.eccentricity);
-#endif /* DEBUG_DUMP */
-
+		(*i)->PickPlanetType(this, rand);
+		if (make_moons) MakePlanetsAround(*i);
+		idx++;
 	}
 }
 
-void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPrimary, MTRand &rand, bool genMoons)
+/*
+ * For moons distance from star is not orbMin, orbMax.
+ */
+const SBody *SBody::FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax)
+{
+	const SBody *planet = this;
+	const SBody *star = this->parent;
+
+	assert(star);
+
+	/* while not found star yet.. */
+	while (star->GetSuperType() > SBody::SUPERTYPE_STAR) {
+		planet = star;
+		star = star->parent;
+	}
+
+	orbMin = planet->orbMin;
+	orbMax = planet->orbMax;
+	return star;
+}
+
+void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 {
 	fixed albedo = rand.Fixed() * fixed(1,2);
 	fixed globalwarming = rand.Fixed() * fixed(9,10);
@@ -868,11 +839,16 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 	if (mass > 3) globalwarming *= (mass-2);
 	globalwarming = CLAMP(globalwarming, fixed(0), fixed(95,100));
 
+	fixed minDistToStar, maxDistToStar, averageDistToStar;
+	const SBody *star = FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
+	averageDistToStar = (minDistToStar+maxDistToStar)>>1;
+	printf("Star of %s is %s\n", name.c_str(), star->name.c_str());
+
 	/* this is all of course a total fucking joke and un-physical */
 	int bbody_temp;
 	bool fiddle = false;
 	for (int i=0; i<10; i++) {
-		bbody_temp = CalcSurfaceTemp(star, distToPrimary, albedo, globalwarming);
+		bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, globalwarming);
 		//printf("temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
 		// extreme high temperature and low mass causes atmosphere loss
 #define ATMOS_LOSS_MASS_CUTOFF	2
@@ -893,7 +869,7 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 		globalwarming *= 0.2;
 		albedo = rand.Fixed()*fixed(5,100) + 0.9;
 	}
-	bbody_temp = CalcSurfaceTemp(star, distToPrimary, albedo, globalwarming);
+	bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, globalwarming);
 //	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
 
 	averageTemp = bbody_temp;
@@ -923,8 +899,8 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 		} else if (mass < 3) {
 			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
 				// try for life
-				int minTemp = CalcSurfaceTemp(star, orbMax, albedo, globalwarming);
-				int maxTemp = CalcSurfaceTemp(star, orbMin, albedo, globalwarming);
+				int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, globalwarming);
+				int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, globalwarming);
 
 				if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {
@@ -948,57 +924,6 @@ void SBody::PickPlanetType(StarSystem *system, SBody *star, const fixed distToPr
 		if ((mass > fixed(8,10)) && (!rand.Int32(0,15))) type = SBody::TYPE_PLANET_HIGHLY_VOLCANIC;
 	}
 	radius = fixed(bodyTypeInfo[type].radius, 100);
-
-	// generate moons
-	if ((genMoons) && (mass > fixed(1,2))) {
-		// min/max distances taken roughly from jovian and .. um.. saturnianish moons
-		std::list<ring_t> *disc = AccreteDisc2(fixed(1,1), fixed(rand.Int32(1,5),1000)*mass, rand);
-		for (std::list<ring_t>::iterator i = disc->begin(); i != disc->end(); ++i) {
-//		std::vector<int> *disc = AccreteDisc(isqrt(mass.v>>13), 10, rand.Int32(1,10), rand);
-//		for (unsigned int i=0; i<disc->size(); i++) {
-			if ((*i).dist * MAX_MOON_DIST < MIN_MOON_DIST) continue;
-			fixed moonmass = (*i).mass;
-			if (moonmass < MIN_MOON_MASS) continue;
-			SBody *moon = new SBody;
-			moon->type = SBody::TYPE_PLANET_DWARF;
-			moon->seed = rand.Int32();
-			moon->tmp = 0;
-			moon->parent = this;
-		//	moon->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
-			moon->rotationPeriod = fixed(rand.Int32(1,200), 24);
-			moon->humanActivity = system->m_humanInfested * rand.Fixed();
-
-			moon->mass = moonmass;
-			fixed ecc = rand.NFixed(3);
-			moon->eccentricity = ecc;
-			moon->semiMajorAxis = (*i).dist/100;
-			moon->orbit.eccentricity = ecc.ToDouble();
-			moon->orbit.semiMajorAxis = moon->semiMajorAxis.ToDouble()*AU;
-			moon->orbit.period = calc_orbital_period(moon->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
-			moon->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
-						  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
-			this->children.push_back(moon);
-
-			moon->orbMin = moon->semiMajorAxis - ecc*moon->semiMajorAxis;
-			moon->orbMax = 2*moon->semiMajorAxis - moon->orbMin;
-		}
-		delete disc;
-	
-		// merge moons with overlapping or very close orbits
-		EliminateBadChildren();
-
-		int idx=0;
-		for(std::vector<SBody*>::iterator i = children.begin(); i!=children.end(); ++i) {
-			// Turn them into something!!!!!!!
-			char buf[2];
-			buf[0] = '1'+(idx++);
-			buf[1] = 0;
-			(*i)->name = name+buf;
-			(*i)->PickPlanetType(system, star, distToPrimary, rand, false);
-		}
-
-	}
-
 }
 
 void StarSystem::PickEconomicStuff(SBody *b)
