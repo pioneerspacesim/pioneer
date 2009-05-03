@@ -740,7 +740,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		discMax = MIN(discMax, fixed(1,3)*primary->CalcHillRadius());
 	}
 
-	printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
+	//printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
 
 	fixed initialJump = rand.NFixed(5);
 	fixed pos = (fixed(1,1) - initialJump)*discMin + (initialJump*discMax);
@@ -842,7 +842,6 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	fixed minDistToStar, maxDistToStar, averageDistToStar;
 	const SBody *star = FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
 	averageDistToStar = (minDistToStar+maxDistToStar)>>1;
-	printf("Star of %s is %s\n", name.c_str(), star->name.c_str());
 
 	/* this is all of course a total fucking joke and un-physical */
 	int bbody_temp;

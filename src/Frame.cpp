@@ -112,6 +112,35 @@ void Frame::ApplyEnteringTransform(matrix4x4d &m) const
 	m = m * m_orient.InverseOf() * matrix4x4d::Translation(-m_pos);
 }
 
+vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
+{
+	if (fFrom == fTo) return vector3d(0,0,0);
+	vector3d v1 = vector3d(0,0,0);
+	vector3d v2 = vector3d(0,0,0);
+	
+	matrix4x4d m = matrix4x4d::Identity();
+
+	const Frame *f = fFrom;
+	const Frame *root = Space::rootFrame;
+
+	// move forwards from origin to root
+	while ((f!=root) && (fTo != f)) {
+		v1 += m.ApplyRotationOnly(-f->GetVelocity());
+		m = m * f->m_orient.InverseOf();
+		f = f->m_parent;
+	}
+
+	// move backwards from target to root
+	while (fTo != f) {
+		v2 = fTo->m_orient.ApplyRotationOnly(fTo->GetVelocity() + v2);
+		fTo = fTo->m_parent;
+	}
+
+	vector3d out = v1 + m.ApplyRotationOnly(v2);
+//	printf("v1: %.2f,%.2f,%.2f  v2: %.2f,%.2f,%.2f ~= %.2f,%.2f,%.2f\n", v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, out.x, out.y, out.z);
+	return out;
+}
+
 void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
 {
 	matrix4x4d m2 = matrix4x4d::Identity();

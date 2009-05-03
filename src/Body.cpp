@@ -132,3 +132,18 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	rot = rot.InverseOf();
 	SetRotMatrix(rot);
 }
+
+
+vector3d Body::GetVelocityRelativeTo(const Frame *f) const
+{
+	matrix4x4d m;
+	Frame::GetFrameTransform(GetFrame(), f, m);
+	return (m.ApplyRotationOnly(GetVelocity()) + Frame::GetFrameRelativeVelocity(GetFrame(), f));
+}
+
+
+vector3d Body::GetVelocityRelativeTo(const Body *other) const
+{
+	return GetVelocity() - other->GetVelocityRelativeTo(GetFrame());
+}
+

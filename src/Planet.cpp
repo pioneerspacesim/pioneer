@@ -89,7 +89,7 @@ void Planet::SetRadius(double radius)
 	assert(0);
 }
 
-double Planet::GetTerrainHeight(vector3d &pos)
+double Planet::GetTerrainHeight(const vector3d pos)
 {
 	double radius = GetRadius();
 	if (m_geosphere) {
@@ -321,20 +321,20 @@ void Planet::Render(const Frame *a_camFrame)
 {
 	glPushMatrix();
 
-	double rad = sbody->GetRadius();
 	matrix4x4d ftran;
 	Frame::GetFrameTransform(GetFrame(), a_camFrame, ftran);
 	vector3d fpos = ftran * GetPosition();
+	double rad = GetRadius();
 
 	double apparent_size = rad / fpos.Length();
 	double len = fpos.Length();
 	double origLen = len;
 
-	do {
+	while ((len-rad)*0.25 > 32*WORLDVIEW_ZNEAR) {
 		rad *= 0.25;
 		fpos = 0.25*fpos;
 		len *= 0.25;
-	} while ((len-rad)*0.25 > 4*WORLDVIEW_ZNEAR);
+	}
 
 	glTranslatef(fpos.x, fpos.y, fpos.z);
 	glColor3f(1,1,1);

@@ -84,6 +84,8 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 
 void Player::TimeStepUpdate(const float timeStep)
 {
+	Body *b;
+	vector3d v;
 	ClearThrusterState();
 	if (Pi::GetView() == Pi::worldView) PollControls();
 
@@ -109,7 +111,14 @@ void Player::TimeStepUpdate(const float timeStep)
 			}
 			break;
 		case CONTROL_FIXSPEED:
-			AIAccelToModelRelativeVelocity(vector3d(0,0,-m_setSpeed));
+			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
+			v = -m_setSpeed;
+			if (b) {
+				matrix4x4d m;
+				GetRotMatrix(m);
+				v += m.InverseOf() * b->GetVelocityRelativeTo(this->GetFrame());
+			}
+			AIAccelToModelRelativeVelocity(v);
 			break;
 		case CONTROL_AUTOPILOT:
 			break;
@@ -224,8 +233,15 @@ void Player::DrawHUD(const Frame *cam_frame)
 
 	// Direction indicator
 	const float sz = HUD_CROSSHAIR_SIZE;
-	vector3d vel = GetVelocity();
-	vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
+	vector3d vel;
+	Body *velRelTo = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
+	if (velRelTo) {
+		vel = GetVelocityRelativeTo(velRelTo);
+	} else {
+		vel = GetVelocity() - GetFrame()->GetStasisVelocityAtPosition(GetPosition());
+	}
+
+	//vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 
 	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
 	if (loc_v.z < 0) {
@@ -302,12 +318,13 @@ void Player::DrawHUD(const Frame *cam_frame)
 	}
 
 	{
-		double _vel = sqrt(vel[0]*vel[0] + vel[1]*vel[1] + vel[2]*vel[2]);
+		double _vel = vel.Length();
 		char buf[128];
+		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : GetFrame()->GetLabel());
 		if (_vel > 1000) {
-			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s", _vel*0.001);
+			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s (relative to %s)", _vel*0.001, rel_to);
 		} else {
-			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s", _vel);
+			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s (relative to %s)", _vel, rel_to);
 		}
 		glPushMatrix();
 		glTranslatef(2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);

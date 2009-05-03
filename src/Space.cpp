@@ -112,7 +112,10 @@ Frame *GetFrameWithSBody(const SBody *b)
 
 void MoveOrbitingObjectFrames(Frame *f)
 {
-	if (f->m_sbody) {
+	if (f == Space::rootFrame) {
+		f->SetPosition(vector3d(0,0,0));
+		f->SetVelocity(vector3d(0,0,0));
+	} else if (f->m_sbody) {
 		// this isn't very smegging efficient
 		vector3d pos = f->m_sbody->orbit.CartesianPosAtTime(Pi::GetGameTime());
 		vector3d pos2 = f->m_sbody->orbit.CartesianPosAtTime(Pi::GetGameTime()+1.0);

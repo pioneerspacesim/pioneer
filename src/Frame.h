@@ -47,6 +47,7 @@ public:
 	void ApplyEnteringTransform(matrix4x4d &m) const;
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
+	static vector3d GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo);
 
 	bool IsLocalPosInFrame(const vector3d &pos) {
 		return (pos.Length() < m_radius);
