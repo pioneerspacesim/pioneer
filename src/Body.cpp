@@ -137,8 +137,8 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 vector3d Body::GetVelocityRelativeTo(const Frame *f) const
 {
 	matrix4x4d m;
-	Frame::GetFrameTransform(GetFrame(), f, m);
-	return (m.ApplyRotationOnly(GetVelocity()) + Frame::GetFrameRelativeVelocity(GetFrame(), f));
+	Frame::GetFrameTransform(f, GetFrame(), m);
+	return (m.ApplyRotationOnly(GetVelocity()) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
 }
 
 

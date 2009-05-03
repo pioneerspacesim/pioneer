@@ -112,7 +112,7 @@ void Player::TimeStepUpdate(const float timeStep)
 			break;
 		case CONTROL_FIXSPEED:
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
-			v = -m_setSpeed;
+			v = vector3d(0, 0, -m_setSpeed);
 			if (b) {
 				matrix4x4d m;
 				GetRotMatrix(m);
@@ -340,7 +340,7 @@ void Player::DrawHUD(const Frame *cam_frame)
 			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", m_setSpeed);
 		}
 		glPushMatrix();
-		glTranslatef(200, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		glTranslatef(250, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
