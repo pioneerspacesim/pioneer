@@ -121,7 +121,7 @@ const CustomSystem custom_systems[] = {
 { "Luyten's Star", 0, {SBody::TYPE_STAR_M}, 1, 1, vector3f(0.788,0.305,0.266) }, // Components: M3
 { "Gliese 783", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.522,0.324,-1.169) }, // Components: K3, M3
 { "Barnard's star", 0, {SBody::TYPE_STAR_M}, -1, 0, vector3f(0.877,0.131,0.186) }, // Components: M5
-{ "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351,0.735,-0.999) }, // Components: K2
+{ "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351,0.735,-0.999), 5/*5=2 earths*/ }, // Components: K2
 { "UV Ceti", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, 0, vector3f(0.754,0.473,-1.040) }, // Components: M5, M5
 { "GX Andromedae", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 1, -1, vector3f(0.269,0.470,0.580) }, // Components: M2, M6
 { "Stein 2051", 0, {SBody::TYPE_STAR_M, SBody::TYPE_WHITE_DWARF}, 2, -1, vector3f(0.383,0.316,0.278) }, // Components: M4, DC5

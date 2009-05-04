@@ -89,7 +89,7 @@ public:
 		e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
 		nfo += std::string("\n")+EquipType::types[e].name;
 
-		snprintf(buf, sizeof(buf), "\n\n%.1f light years", stats->hyperspace_range);
+		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
 		nfo += std::string(buf);
 
 		info2->SetText(nfo);

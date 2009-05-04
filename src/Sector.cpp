@@ -27,6 +27,7 @@ void Sector::GetCustomSystems()
 				s.starType[s.numStars] = custom_systems[i].primaryType[s.numStars];
 			}
 			s.customDef = sys->sbodies;
+			s.seed = sys->seed;
 			m_systems.push_back(s);
 		}
 	}
@@ -63,6 +64,7 @@ Sector::Sector(int x, int y)
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
 			s.p.z = rng.Double(2*SIZE)-SIZE;
+			s.seed = 0;
 			s.customDef = 0;
 			
 			float spec = rng.Int32(1000000);

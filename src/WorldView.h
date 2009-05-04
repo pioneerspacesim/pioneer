@@ -36,6 +36,7 @@ private:
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnChangeHyperspaceTarget();
+	void OnPlayerDockOrUndock();
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	Body* PickBody(const float screenX, const float screenY) const;
 	Gui::ImageButton *m_hyperspaceButton;

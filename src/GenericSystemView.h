@@ -21,7 +21,7 @@ private:
 	Gui::Label *m_distance;
 	Gui::Label *m_starType;
 	Gui::Label *m_shortDesc;
-	int px, py, pidx;
+	int m_px, m_py, m_pidx;
 };
 
 

@@ -157,7 +157,6 @@ void WorldView::OnClickBlastoff()
 void WorldView::OnClickHyperspace()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	printf("Hyperspace!!!!!! zoooooooom!!!!!!!\n");
 	Pi::HyperspaceTo(path);
 }
 
@@ -345,6 +344,10 @@ void WorldView::OnChangeHyperspaceTarget()
 	std::string msg = "To: "+b->name;
 	m_hyperTargetLabel->SetText(msg);
 	delete system;
+		
+	int fuelReqd;
+	if (Pi::player->CanHyperspaceTo(path, fuelReqd)) m_hyperspaceButton->Show();
+	else m_hyperspaceButton->Hide();
 }
 
 void WorldView::UpdateCommsOptions()

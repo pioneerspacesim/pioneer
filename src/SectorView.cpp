@@ -187,8 +187,7 @@ void SectorView::DrawSector(int sx, int sy)
 		glScalef(2,2,2);
 		// player location indicator
 		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
-			const shipstats_t *stats;
-			stats = Pi::player->CalcStats();
+			const shipstats_t *stats = Pi::player->CalcStats();
 			glColor3f(0,0,1);
 			glBegin(GL_LINE_LOOP);
 			// draw a lovely circle around our beloved player

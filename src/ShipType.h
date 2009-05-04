@@ -36,10 +36,10 @@ public:
 			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
 		}
 	}
-	Equip::Type Get(Equip::Slot s) {
+	Equip::Type Get(Equip::Slot s) const {
 		return equip[s][0];
 	}
-	Equip::Type Get(Equip::Slot s, int idx) {
+	Equip::Type Get(Equip::Slot s, int idx) const {
 		return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
@@ -56,11 +56,11 @@ public:
 	}
 	void Remove(Equip::Slot s, Equip::Type e, int num) {
 		for (unsigned int i=0; i<equip[s].size(); i++) {
+			if (num == 0) break;
 			if (equip[s][i] == e) {
 				equip[s][i] = Equip::NONE;
 				num--;
 			}
-			if (num == 0) break;
 		}
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {

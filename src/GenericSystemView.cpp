@@ -2,12 +2,13 @@
 #include "GenericSystemView.h"
 #include "SectorView.h"
 #include "Sector.h"
-
+#include "Ship.h"
+#include "Player.h"
 
 GenericSystemView::GenericSystemView(): View()
 {
-	px = py = pidx = 0xdeadbeef;
-	m_scannerLayout = new Gui::Fixed(360, 60);
+	m_px = m_py = m_pidx = 0xdeadbeef;
+	m_scannerLayout = new Gui::Fixed(450, 60);
 	m_scannerLayout->SetTransparency(true);
 	Gui::Screen::AddBaseWidget(m_scannerLayout, 140, Gui::Screen::GetHeight()-62);
 
@@ -34,13 +35,22 @@ void GenericSystemView::Draw3D()
 	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
 	StarSystem *s = Pi::GetSelectedSystem();
 
-	if (s && !s->IsSystem(px, py, pidx)) {
-		s->GetPos(&px, &py, &pidx);
-		Sector sec(px, py);
+	if (s && !s->IsSystem(m_px, m_py, m_pidx)) {
+		s->GetPos(&m_px, &m_py, &m_pidx);
+		Sector sec(m_px, m_py);
 		Sector psec(playerLocSecX, playerLocSecY);
-		const float dist = Sector::DistanceBetween(&sec, pidx, &psec, playerLocSysIdx);
+		const float dist = Sector::DistanceBetween(&sec, m_pidx, &psec, playerLocSysIdx);
 		char buf[256];
-		snprintf(buf, sizeof(buf), "Dist. %.2f light years", dist);
+		SBodyPath sbody_path(m_px, m_py, m_pidx);
+		int fuelRequired;
+		bool canJump = Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired);
+		if (canJump) {
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
+		} else if (fuelRequired) {
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+		} else {
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+		}
 
 		std::string desc;
 		if (s->GetNumStars() == 4) {
@@ -53,7 +63,7 @@ void GenericSystemView::Draw3D()
 			desc = s->rootBody->GetAstroDescription();
 		}
 
-		m_systemName->SetText(sec.m_systems[pidx].name);
+		m_systemName->SetText(sec.m_systems[m_pidx].name);
 		m_distance->SetText(buf);
 		m_starType->SetText(desc);
 		m_shortDesc->SetText("Short description of system");

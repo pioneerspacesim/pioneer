@@ -20,6 +20,7 @@ public:
 		vector3f p;
 		int numStars;
 		SBody::BodyType starType[4];
+		Uint32 seed;
 		const CustomSBody *customDef;
 	};
 	std::vector<System> m_systems;

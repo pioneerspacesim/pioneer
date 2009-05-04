@@ -9,6 +9,7 @@
 #include <list>
 
 class SpaceStation;
+class SBodyPath;
 
 struct shipstats_t {
 	int max_capacity;
@@ -17,6 +18,7 @@ struct shipstats_t {
 	int total_mass; // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
+	float hyperspace_range_max;
 };
 
 class Ship: public DynamicBody, public MarketAgent {
@@ -52,6 +54,8 @@ public:
        	FlightState GetFlightState() const { return m_flightState; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
+	bool CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired);
+	void UseHyperspaceFuel(const SBodyPath *dest);
 	void AIFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);

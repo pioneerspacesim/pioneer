@@ -533,15 +533,16 @@ SBody::SBody()
  */
 StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
-	unsigned long _init[4] = { system_idx, sector_x, sector_y, UNIVERSE_SEED };
+	unsigned long _init[5] = { system_idx, sector_x, sector_y, UNIVERSE_SEED, 0 };
 	m_secx = sector_x;
 	m_secy = sector_y;
 	m_sysIdx = system_idx;
 	rootBody = 0;
 	if (system_idx == -1) return;
-	rand.seed(_init, 4);
 
 	Sector s = Sector(sector_x, sector_y);
+	_init[4] = s.m_systems[system_idx].seed;
+	rand.seed(_init, 5);
 
 	if (s.m_systems[system_idx].customDef) {
 		GenerateFromCustom(s.m_systems[system_idx].customDef);

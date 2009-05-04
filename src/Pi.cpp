@@ -588,6 +588,9 @@ void Pi::HyperspaceTo(const SBodyPath *dest)
 {
 	bool new_system = false;
 	if (currentSystem) {
+		int fuelUsage;
+		if (!Pi::player->CanHyperspaceTo(dest, fuelUsage)) return;
+		Pi::player->UseHyperspaceFuel(dest);
 		if (!currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
 			delete currentSystem;
 			currentSystem = 0;
@@ -613,7 +616,9 @@ void Pi::HyperspaceTo(const SBodyPath *dest)
 	Pi::player->SetVelocity(vector3d(0.0));
 	Pi::player->SetFrame(pframe);
 
-	if (new_system) Pi::onPlayerHyperspaceToNewSystem.emit();
+	if (new_system) {
+		Pi::onPlayerHyperspaceToNewSystem.emit();
+	}
 }
 
 void Pi::Serialize()

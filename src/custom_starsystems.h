@@ -24,6 +24,7 @@ struct CustomSystem {
 	SBody::BodyType primaryType[4];
 	int sectorX, sectorY;
 	vector3f pos;
+	Uint32 seed;
 };
 
 extern const CustomSystem custom_systems[];

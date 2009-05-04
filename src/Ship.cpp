@@ -10,6 +10,8 @@
 #include "Sfx.h"
 #include "CargoBody.h"
 #include "Planet.h"
+#include "StarSystem.h"
+#include "Sector.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -242,8 +244,54 @@ const shipstats_t *Ship::CalcStats()
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	float hyperclass = EquipType::types[t].pval;
-	m_stats.hyperspace_range = 200 * hyperclass * hyperclass / m_stats.total_mass;
+	m_stats.hyperspace_range_max = 200 * hyperclass * hyperclass / m_stats.total_mass;
+	m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN) /
+		(hyperclass * hyperclass));
 	return &m_stats;
+}
+
+static float distance_to_system(const SBodyPath *dest)
+{
+	int locSecX, locSecY, locSysIdx;
+	Pi::currentSystem->GetPos(&locSecX, &locSecY, &locSysIdx);
+	
+	Sector from_sec(locSecX, locSecY);
+	Sector to_sec(dest->sectorX, dest->sectorY);
+	return Sector::DistanceBetween(&from_sec, locSysIdx, &to_sec, dest->systemIdx);
+}
+
+void Ship::UseHyperspaceFuel(const SBodyPath *dest)
+{
+	int fuel_cost;
+	assert(CanHyperspaceTo(dest, fuel_cost));
+	m_equipment.Remove(Equip::SLOT_CARGO, Equip::HYDROGEN, fuel_cost);
+}
+
+bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired) 
+{
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	float hyperclass = EquipType::types[t].pval;
+	int fuel = m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN);
+	fuelRequired = 0;
+	if (hyperclass == 0) return false;
+
+	float dist;
+	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+		dist = 0;
+	} else {
+		dist = distance_to_system(dest);
+	}
+
+	this->CalcStats();
+	fuelRequired = ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
+	if (fuelRequired < hyperclass*hyperclass) fuelRequired = ceil(0.2f*hyperclass*hyperclass);
+	if (fuelRequired < 1) fuelRequired = 1;
+	if (dist > m_stats.hyperspace_range_max) {
+		fuelRequired = 0;
+		return false;
+	} else {
+		return fuelRequired <= fuel;
+	}
 }
 
 void Ship::Blastoff()
