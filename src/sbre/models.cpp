@@ -660,10 +660,10 @@ static PlainVertex station1vtx1[] = {
 	{ VTYPE_PLAIN, { 0.0f, -25.0f, 0.0f } },			// 34, ring start, end
 	{ VTYPE_PLAIN, { 0.0f, 25.0f, 0.0f } },		
 
-	{ VTYPE_PLAIN, { -9.0f, -10.0f, 4.5f } },			// 36, inlet middle (for docking)
-	{ VTYPE_PLAIN, { 9.0f, -10.0f, 4.5f } },
+	{ VTYPE_PLAIN, { -9.0f, -10.0f, -4.5f } },			// 36, inlet middle (for docking)
 	{ VTYPE_PLAIN, { 9.0f, -10.0f, -4.5f } },
-	{ VTYPE_PLAIN, { -9.0f, -10.0f, -4.5f } },
+	{ VTYPE_PLAIN, { 9.0f, -10.0f, 4.5f } },
+	{ VTYPE_PLAIN, { -9.0f, -10.0f, 4.5f } },
 
 
 /*	{ VTYPE_PLAIN, { 0.0f, 120.0f, 15.0f } },			// 34, ring top 
