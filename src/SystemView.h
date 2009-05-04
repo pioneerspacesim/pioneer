@@ -16,10 +16,10 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
 private:
-	void PutOrbit(SBody *b);
-	void PutBody(SBody *b);
-	void PutLabel(SBody *b);
-	void ViewingTransformTo(SBody *b);
+	void PutOrbit(SBody *b, vector3d offset);
+	void PutBody(SBody *b, vector3d offset);
+	void PutLabel(SBody *b, vector3d offset);
+	void GetTransformTo(SBody *b, vector3d &pos);
 	void OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev);
 	void OnClickAccel(float step);
 	void ResetViewpoint();

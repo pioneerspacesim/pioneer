@@ -73,14 +73,14 @@ void SystemView::ResetViewpoint()
 	m_time = Pi::GetGameTime();
 }
 
-void SystemView::PutOrbit(SBody *b)
+void SystemView::PutOrbit(SBody *b, vector3d offset)
 {
 	glColor3f(0,1,0);
 	glBegin(GL_LINE_LOOP);
 	double inc = b->orbit.period/100.0;
 	for (double t=0.0; t < b->orbit.period; t += inc) {
 		vector3d pos = b->orbit.CartesianPosAtTime(t);
-		pos = pos * m_zoom;
+		pos = offset + pos * m_zoom;
 		glVertex3dv(&pos[0]);
 	}
 	glEnd();
@@ -91,7 +91,7 @@ void SystemView::OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev)
 	m_selectedObject = b;
 }
 
-void SystemView::PutLabel(SBody *b)
+void SystemView::PutLabel(SBody *b, vector3d offset)
 {
 	GLdouble modelMatrix[16];
 	GLdouble projMatrix[16];
@@ -104,7 +104,7 @@ void SystemView::PutLabel(SBody *b)
 	Gui::Screen::EnterOrtho();
 	
 	vector3d pos;
-	if (Gui::Screen::Project (0,0,0, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+	if (Gui::Screen::Project (offset.x, offset.y, offset.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
 		// libsigc++ is a beautiful thing
 		Gui::Screen::PutClickableLabel(b->name, pos.x, pos.y,
 				sigc::bind<0>(sigc::mem_fun(this, &SystemView::OnClickObject), b));
@@ -117,47 +117,41 @@ void SystemView::PutLabel(SBody *b)
 // i don't know how to name it
 #define ROUGH_SIZE_OF_TURD	10.0
 
-void SystemView::PutBody(SBody *b)
+void SystemView::PutBody(SBody *b, vector3d offset)
 {
 	if (b->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (b->type != SBody::TYPE_GRAVPOINT) {
 		glPointSize(5);
 		glColor3f(1,1,1);
 		glBegin(GL_POINTS);
-		glVertex3f(0,0,0);
+		glVertex3dv(&offset.x);
 		glEnd();
 
-		PutLabel(b);
+		PutLabel(b, offset);
 	}
 
 	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD)
-			PutOrbit(*kid);
+			PutOrbit(*kid, offset);
 		
-		glPushMatrix();
-		{
-			// not using current time yet
-			vector3d pos = (*kid)->orbit.CartesianPosAtTime(m_time);
-			pos = pos * m_zoom;
-			glTranslatef(pos.x, pos.y, pos.z);
-			
-			PutBody(*kid);
-		}
-		glPopMatrix();
+		// not using current time yet
+		vector3d pos = (*kid)->orbit.CartesianPosAtTime(m_time);
+		pos = pos * m_zoom;
+		//glTranslatef(pos.x, pos.y, pos.z);
+		
+		PutBody(*kid, offset + pos);
 	}
 }
 
 static const GLfloat fogDensity = 0.1;
 static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 
-void SystemView::ViewingTransformTo(SBody *b)
+void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 {
 	if (b->parent) {
-		ViewingTransformTo(b->parent);
-		vector3d pos = b->orbit.CartesianPosAtTime(m_time);
-		pos = pos * m_zoom;
-		glTranslatef(-pos.x, -pos.y, -pos.z);
+		GetTransformTo(b->parent, pos);
+		pos -= m_zoom * b->orbit.CartesianPosAtTime(m_time);
 	}
 }
 
@@ -197,9 +191,10 @@ void SystemView::Draw3D()
 	glRotatef(m_rot_x, 1, 0, 0);
 	glRotatef(m_rot_z, 0, 0, 1);
 	
-	if (m_selectedObject) ViewingTransformTo(m_selectedObject);
+	vector3d pos(0,0,0);
+	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
-	if (m_system->rootBody) PutBody(m_system->rootBody);
+	if (m_system->rootBody) PutBody(m_system->rootBody, pos);
 	
 	glEnable(GL_LIGHTING);
 	glDisable(GL_FOG);

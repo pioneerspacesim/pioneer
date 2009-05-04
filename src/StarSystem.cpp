@@ -663,8 +663,7 @@ try_that_again_guvnah:
  */
 fixed SBody::CalcHillRadius() const
 {
-	if (GetSuperType() == SUPERTYPE_STAR) {
-		fprintf(stderr, "Bad bad bad bad\n");
+	if (GetSuperType() <= SUPERTYPE_STAR) {
 		return fixed(0);
 	} else {
 		// playing with precision since these numbers get small
@@ -982,11 +981,16 @@ void SBody::AddHumanStuff(StarSystem *system)
 			system->m_secy, UNIVERSE_SEED, this->seed };
 	MTRand rand;
 	rand.seed(_init, 5);
+		
+	fixed orbMax = fixed(1,4)*this->CalcHillRadius();
+	fixed orbMin = 4 * this->radius * AU_EARTH_RADIUS;
+	if (children.size()) orbMax = MIN(orbMax, fixed(1,2) * children[0]->orbMin);
 
 	bool has_starports = false;
 	// starports - orbital
-	if ((averageTemp < CELSIUS+100) && (averageTemp > 100) &&
+	if ((orbMin < orbMax) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
 		(rand.Fixed() < humanActivity)) {
+
 		has_starports = true;
 		SBody *sp = new SBody;
 		sp->type = SBody::TYPE_STARPORT_ORBITAL;
@@ -999,11 +1003,8 @@ void SBody::AddHumanStuff(StarSystem *system)
 		sp->mass = 0;
 		sp->name = NameGenerator::Surname(rand) + " Spaceport";
 		sp->humanActivity = humanActivity;
-		if (children.size()) {
-			sp->semiMajorAxis = fixed(1,2) * children[0]->orbMin;
-		} else {
-			sp->semiMajorAxis = fixed(1, 3557);
-		}
+		/* just always plonk starports in near orbit */
+		sp->semiMajorAxis = orbMin;
 		sp->eccentricity = fixed(0);
 		sp->orbit.eccentricity = 0;
 		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
@@ -1017,6 +1018,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 			SBody *sp2 = new SBody;
 			*sp2 = *sp;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
+			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
 			children.insert(children.begin(), sp2);
 		}
 	}
