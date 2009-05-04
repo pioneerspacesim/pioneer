@@ -49,7 +49,7 @@
 #define G		6.67428e-11
 
 #define WORLDVIEW_ZNEAR	10.0
-#define WORLDVIEW_ZFAR	10000.0
+#define WORLDVIEW_ZFAR	100000.0
 
 /* 
  * Normal use:

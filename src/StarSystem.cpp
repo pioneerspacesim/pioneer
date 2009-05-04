@@ -737,7 +737,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
 		/* use hill radius to find max size of moon system. for stars botch it */
-		discMax = MIN(discMax, fixed(1,3)*primary->CalcHillRadius());
+		discMax = MIN(discMax, fixed(1,4)*primary->CalcHillRadius());
 	}
 
 	//printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
@@ -775,7 +775,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
-		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, SOL_MASS*primary->mass.ToDouble());
+		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
 					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
 		planet->orbMin = periapsis;

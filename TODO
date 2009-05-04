@@ -1,11 +1,7 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Let 'relative-to' be selectable, so you don't have that silly attemping to
-  get 'grabbed' by frame of reference thing...
 * Sfx look utterly shit
-* sbre stuff suddenly appears at zfar. Need to do proper hierarchical Z
-
 * Make scanner only appear at appropriate times
 * Internal engine fuel usage (refuel on inventory page)
 * Political alignments of systems (probably needed for trade model):
