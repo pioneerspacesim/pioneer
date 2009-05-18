@@ -17,9 +17,7 @@ Fixed::Fixed(float w, float h): Container()
 
 void Fixed::_Init()
 {
-	memcpy(m_bgcol, Color::bg, 3*sizeof(float));
 	m_wantedSize[0] = m_wantedSize[1] = 0;
-	m_transparent = true;
 	m_eventMask = EVENT_ALL;
 }
 
@@ -40,22 +38,6 @@ void Fixed::GetSizeRequested(float size[2])
 Fixed::~Fixed()
 {
 	Screen::RemoveBaseWidget(this);
-}
-
-void Fixed::Draw()
-{
-	float size[2];
-	GetSize(size);
-	if (!m_transparent) {
-		glBegin(GL_QUADS);
-			glColor3f(m_bgcol[0], m_bgcol[1], m_bgcol[2]);
-			glVertex2f(0, size[1]);
-			glVertex2f(size[0], size[1]);
-			glVertex2f(size[0], 0);
-			glVertex2f(0, 0);
-		glEnd();
-	}
-	Container::Draw();
 }
 
 void Fixed::OnChildResizeRequest(Widget *child)
@@ -89,17 +71,6 @@ void Fixed::Add(Widget *child, float x, float y)
 void Fixed::Remove(Widget *child)
 {
 	Container::RemoveChild(child);
-}
-
-void Fixed::SetBgColor(float rgb[3])
-{
-	SetBgColor(rgb[0], rgb[1], rgb[2]);
-}
-void Fixed::SetBgColor(float r, float g, float b)
-{
-	m_bgcol[0] = r;
-	m_bgcol[1] = g;
-	m_bgcol[2] = b;
 }
 
 }

@@ -23,41 +23,49 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	std::string desc, data;
 
 	char buf[1024];
+	m_infoBox->DeleteAllChildren();
+	
+	Gui::Fixed *fixed = new Gui::Fixed(600, 10);
+	m_infoBox->PackStart(fixed, true);
+	Gui::VBox *col1 = new Gui::VBox();
+	Gui::VBox *col2 = new Gui::VBox();
+	fixed->Add(col1, 0, 0);
+	fixed->Add(col2, 300, 0);
 
-	desc += stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
-	data += "\n";
+#define _add_label_and_value(label, value) { \
+	Gui::Label *l = new Gui::Label(label); \
+	l->SetColor(1,1,0); \
+	col1->PackEnd(l); \
+	l = new Gui::Label(value); \
+	l->SetColor(1,1,0); \
+	col2->PackEnd(l); \
+}
 
-	desc += "Mass\n";
-	data += stringf(64, "%.2f %s masses\n", b->mass.ToDouble(), 
-		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? "Solar" : "Earth"));
+	{
+		Gui::Label *l = new Gui::Label(stringf(256, "%s: %s", b->name.c_str(), b->GetAstroDescription()));
+		l->SetColor(1,1,0);
+		m_infoBox->PackStart(l);
+	}
 
-	desc += "Surface temperature\n";
-	data += stringf(64, "%d C\n", b->averageTemp-273);
+	_add_label_and_value("Mass", stringf(64, "%.2f %s masses", b->mass.ToDouble(), 
+		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? "Solar" : "Earth")));
 
-	// surface temperature
-	// major starports
-	// orbital period
-	// orbital radius
-	// ecc, incl
+	_add_label_and_value("Surface temperature", stringf(64, "%d C", b->averageTemp-273));
 
 	if (b->parent) {
 		float days = b->orbit.period / (60*60*24);
-		desc += "Orbital period\n";
 		if (days > 1000) {
-			data += stringf(64, "%.1f years\n", days/365);
+			data = stringf(64, "%.1f years", days/365);
 		} else {
-			data += stringf(64, "%.1f days\n", b->orbit.period / (60*60*24));
+			data = stringf(64, "%.1f days", b->orbit.period / (60*60*24));
 		}
-		desc += "Perihelion distance\n";
-		data += stringf(64, "%.2f AU\n", b->orbMin.ToDouble());
-		desc += "Aphelion distance\n";
-		data += stringf(64, "%.2f AU\n", b->orbMax.ToDouble());
-		desc += "Eccentricity\n";
-		data += stringf(64, "%.2f\n", b->orbit.eccentricity);
+		_add_label_and_value("Orbital period", data);
+		_add_label_and_value("Perihelion distance", stringf(64, "%.2f AU", b->orbMin.ToDouble()));
+		_add_label_and_value("Aphelion distance", stringf(64, "%.2f AU", b->orbMax.ToDouble()));
+		_add_label_and_value("Eccentricity", stringf(64, "%.2f", b->orbit.eccentricity));
 		const float dayLen = b->GetRotationPeriod();
 		if (dayLen) {
-			desc += "Day length\n";
-			data += stringf(64, "%.1f earth days\n", dayLen/(60*60*24));
+			_add_label_and_value("Day length", stringf(64, "%.1f earth days", dayLen/(60*60*24)));
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
@@ -68,13 +76,15 @@ void SystemInfoView::OnBodySelected(SBody *b)
 			}
 		}
 		if (numSurfaceStarports) {
-			desc += "Starports\n";
-			data += nameList+"\n";
+			_add_label_and_value("Starports", nameList);
 		}
 	}
 
-	m_infoLabel->SetText(desc);
-	m_infoData->SetText(data);
+	fixed->ShowAll();
+	col1->ShowAll();
+	col2->ShowAll();
+	m_infoBox->ShowAll();
+	m_infoBox->ResizeRequest();
 	
 	/* Economy info page */
 	desc = stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
@@ -190,17 +200,31 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	
 	float size[2];
 	GetSize(size);
-	printf("size %f,%f\n", size[0], size[1]);
 	
 	char buf[512];
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
-	m_infoLabel = new Gui::Label(buf);
-	m_infoLabel->SetColor(1,1,0);
-	m_sbodyInfoTab->Add(m_infoLabel, 50, 350);
+	std::string _info = buf + std::string("\n\n") + std::string(s->GetLongDescription());
+	
+	m_infoBox = new Gui::VBox();
 
-	m_infoData = new Gui::Label("");
-	m_infoData->SetColor(1,1,0);
-	m_sbodyInfoTab->Add(m_infoData, 300, 350);
+	Gui::HBox *scrollBox = new Gui::HBox();
+	scrollBox->SetSizeRequest(730, 200);
+	m_sbodyInfoTab->Add(scrollBox, 35, 300);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	
+	Gui::Label *l = new Gui::Label(_info);
+	l->SetColor(1,1,0);
+	m_infoBox->PackStart(l);
+	m_infoBox->ShowAll();
+	portal->Add(m_infoBox);
+	portal->ShowAll();
+	scrollBox->PackStart(scroll);
+	scrollBox->PackStart(portal, true);
+	scrollBox->ShowAll();
+
 	m_sbodyInfoTab->ShowAll();
 	
 	m_econLabel = new Gui::Label("");

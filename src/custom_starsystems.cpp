@@ -57,7 +57,9 @@ const CustomSBody sol_system[] = {
 };
 
 const CustomSystem custom_systems[] = {
-	{ "Sol", sol_system, {SBody::TYPE_STAR_G}, 0, 0, vector3f(.5, .5, 0) },
+	{ "Sol", sol_system, {SBody::TYPE_STAR_G}, 0, 0, vector3f(.5, .5, 0), 0,
+       "The historical birthplace of humankind",
+	"Sol is a fine joint"	},
 { "Epsilon Indi", 0, {SBody::TYPE_STAR_K}, -1, 0, vector3f(0.629,0.880,-1.045) }, // Components: K5
 { "Luyten 1159-016", 0, {SBody::TYPE_STAR_M}, 2, 0, vector3f(0.316,0.651,0.008) }, // Components: M8
 { "Wolf 424", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -2, vector3f(0.189,0.951,0.771) }, // Components: M5, M7
@@ -121,7 +123,29 @@ const CustomSystem custom_systems[] = {
 { "Luyten's Star", 0, {SBody::TYPE_STAR_M}, 1, 1, vector3f(0.788,0.305,0.266) }, // Components: M3
 { "Gliese 783", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.522,0.324,-1.169) }, // Components: K3, M3
 { "Barnard's star", 0, {SBody::TYPE_STAR_M}, -1, 0, vector3f(0.877,0.131,0.186) }, // Components: M5
-{ "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351,0.735,-0.999), 5/*5=2 earths*/ }, // Components: K2
+{ "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351,0.735,-0.999), 5/*5=2 earths*/,
+"",
+"Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. "
+"The New Hope colony on the life-bearing planet of the same name was founded in 2279. "
+"Its 1520 initial inhabitants completed their pre-hyperspace voyage of 10.7 lightyears "
+"from Sol in just under 25 years.\n"
+"Mass emigration from Earth in the 27th century drove a population explosion and today "
+"Epsilon Eridani counts itself among the most populous of inhabited systems.\n"
+"The system's history has been marked by political friction between Epsilon Eridani and "
+"the Earth government. This began with the advent of hyperspace around the end of the 26th "
+"century. While previously the communications lag of 20 years had prevented exertion of "
+"Earth's power, suddenly the rulers of Epsilon Eridani found themselves constantly subject "
+"to the interference of Earth.\n"
+"This conflict flared up in 2714 when the pro-Earth president of Epsilon Eridani was toppled "
+"amid strikes and civil disorder over the unfair tax and trade conditions imposed by "
+"Earth. The 'Free Republic' then established survived nine months until Earth rule "
+"was re-imposed by force, including the notorious use of orbital lasers on population centres.\n"
+"Independence was not finally won until the wars of the 30th century, and the formation "
+"of the Confederation of Independent Worlds, of which Epsilon Eridani was a founding member.\n"
+"Epsilon Eridani is today a thriving centre of industry, cutting-edge technology and "
+"tourism.\n"
+"Reproduced with the kind permission of Enrique Watson, New Hope University, 2992"
+}, // Components: K2
 { "UV Ceti", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, 0, vector3f(0.754,0.473,-1.040) }, // Components: M5, M5
 { "GX Andromedae", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 1, -1, vector3f(0.269,0.470,0.580) }, // Components: M2, M6
 { "Stein 2051", 0, {SBody::TYPE_STAR_M, SBody::TYPE_WHITE_DWARF}, 2, -1, vector3f(0.383,0.316,0.278) }, // Components: M4, DC5

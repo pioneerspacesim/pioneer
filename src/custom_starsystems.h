@@ -25,6 +25,8 @@ struct CustomSystem {
 	int sectorX, sectorY;
 	vector3f pos;
 	Uint32 seed;
+	const char *shortDesc;
+	const char *longDesc;
 };
 
 extern const CustomSystem custom_systems[];

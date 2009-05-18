@@ -5,6 +5,8 @@ namespace Gui {
 
 Container::Container()
 {
+	m_transparent = true;
+	memcpy(m_bgcol, Color::bg, 3*sizeof(float));
 	onMouseLeave.connect(sigc::mem_fun(this, &Container::_OnMouseLeave));
 	onSetSize.connect(sigc::mem_fun(this, &Container::_OnSetSize));
 }
@@ -109,6 +111,7 @@ void Container::PrependChild(Widget *child, float x, float y)
 	widget_pos wp;
 	wp.w = child;
 	wp.pos[0] = x; wp.pos[1] = y;
+	wp.flags = 0;
 	child->SetPosition(x, y);
 	child->SetParent(this);
 	m_children.push_front(wp);
@@ -119,6 +122,7 @@ void Container::AppendChild(Widget *child, float x, float y)
 	widget_pos wp;
 	wp.w = child;
 	wp.pos[0] = x; wp.pos[1] = y;
+	wp.flags = 0;
 	child->SetPosition(x, y);
 	child->SetParent(this);
 	m_children.push_back(wp);
@@ -149,6 +153,17 @@ void Container::RemoveChild(Widget *child)
 	
 void Container::Draw()
 {
+	float size[2];
+	GetSize(size);
+	if (!m_transparent) {
+		glBegin(GL_QUADS);
+			glColor3f(m_bgcol[0], m_bgcol[1], m_bgcol[2]);
+			glVertex2f(0, size[1]);
+			glVertex2f(size[0], size[1]);
+			glVertex2f(size[0], 0);
+			glVertex2f(0, 0);
+		glEnd();
+	}
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		if (!(*i).w->IsVisible()) continue;
 		glPushMatrix();
@@ -192,6 +207,18 @@ void Container::HideAll()
 {
 	HideChildren();
 	Hide();
+}
+
+void Container::SetBgColor(float rgb[3])
+{
+	SetBgColor(rgb[0], rgb[1], rgb[2]);
+}
+
+void Container::SetBgColor(float r, float g, float b)
+{
+	m_bgcol[0] = r;
+	m_bgcol[1] = g;
+	m_bgcol[2] = b;
 }
 
 }

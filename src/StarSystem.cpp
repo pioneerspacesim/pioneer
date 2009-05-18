@@ -432,10 +432,10 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 	}
 }
 
-void StarSystem::GenerateFromCustom(const CustomSBody *customDef)
+void StarSystem::GenerateFromCustom(const CustomSystem *customSys)
 {
 	// find primary
-	const CustomSBody *csbody = customDef;
+	const CustomSBody *csbody = customSys->sbodies;
 
 	int idx = 0;
 	while ((csbody->name) && (csbody->primaryIdx != -1)) { csbody++; idx++; }
@@ -451,7 +451,7 @@ void StarSystem::GenerateFromCustom(const CustomSBody *customDef)
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
 	
-	CustomGetKidsOf(rootBody, customDef, idx);
+	CustomGetKidsOf(rootBody, customSys->sbodies, idx);
 
 }
 
@@ -544,9 +544,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	_init[4] = s.m_systems[system_idx].seed;
 	rand.seed(_init, 5);
 
-	if (s.m_systems[system_idx].customDef) {
-		GenerateFromCustom(s.m_systems[system_idx].customDef);
-		return;
+	if (s.m_systems[system_idx].customSys) {
+		const CustomSystem *custom = s.m_systems[system_idx].customSys;
+		if (custom->shortDesc) m_shortDesc = custom->shortDesc;
+		if (custom->longDesc) m_longDesc = custom->longDesc;
+		if (custom->sbodies) {
+			GenerateFromCustom(s.m_systems[system_idx].customSys);
+			return;
+		}
 	}
 
 	SBody *star[4];

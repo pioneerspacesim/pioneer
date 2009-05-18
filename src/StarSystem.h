@@ -7,6 +7,7 @@
 #include <string>
 
 struct CustomSBody;
+struct CustomSystem;
 
 // doubles: all masses in Kg, all lengths in meters
 // fixed: any mad scheme
@@ -154,6 +155,8 @@ public:
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
 		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
 	}
+	const std::string &GetShortDescription() const { return m_shortDesc; }
+	const std::string &GetLongDescription() const { return m_longDesc; }
 	int GetNumStars() const { return m_numStars; }
 
 	static float starColors[][3];
@@ -173,15 +176,14 @@ private:
 	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
 	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
-	void GenerateFromCustom(const CustomSBody *);
+	void GenerateFromCustom(const CustomSystem *);
 	void PickEconomicStuff(SBody *b);
 
 	int m_secx, m_secy, m_sysIdx;
 	int m_numStars;
+	std::string m_shortDesc, m_longDesc;
 
 	MTRand rand;
 };
-
-
 	
 #endif /* _STARSYSTEM_H */

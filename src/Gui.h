@@ -46,6 +46,7 @@ namespace Gui {
 #include "GuiRadioButton.h"
 #include "GuiImageRadioButton.h"
 #include "GuiRadioGroup.h"
+#include "GuiBox.h"
 #include "GuiFixed.h"
 #include "GuiVScrollPortal.h"
 #include "GuiVScrollBar.h"

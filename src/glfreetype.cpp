@@ -12,6 +12,7 @@
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
 
+#define PARAGRAPH_SPACING 1.5
 
 #ifdef _WIN32
 typedef GLvoid (APIENTRY *_GLUfuncptr)();
@@ -302,7 +303,7 @@ void FontFace::MeasureString(const char *str, float &w, float &h)
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
 			line_width = 0;
-			h += GetHeight();
+			h += GetHeight() * PARAGRAPH_SPACING;
 		} else {
 			line_width += m_glyphs[str[i]].advx;
 		}
@@ -316,7 +317,7 @@ void FontFace::RenderString(const char *str)
 	for (unsigned int i=0; i<strlen(str); i++) {
 		if (str[i] == '\n') {
 			glPopMatrix();
-			glTranslatef(0,-m_height,0);
+			glTranslatef(0, -m_height*PARAGRAPH_SPACING, 0);
 			glPushMatrix();
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
@@ -347,7 +348,7 @@ void FontFace::RenderMarkup(const char *str)
 		}
 		if (str[i] == '\n') {
 			glPopMatrix();
-			glTranslatef(0,-m_height,0);
+			glTranslatef(0,-m_height*PARAGRAPH_SPACING,0);
 			glPushMatrix();
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
@@ -457,7 +458,7 @@ void TextureFontFace::MeasureString(const char *str, float &w, float &h)
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
 			line_width = 0;
-			h += GetHeight();
+			h += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			line_width += m_glyphs[str[i]].advx;
 		}
@@ -507,6 +508,7 @@ void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, floa
 	while (words.size()) {
 		float len = 0;
 		int num = 0;
+		bool explicit_newline = false;
 
 		std::list<word_t>::iterator i = words.begin();
 		len += (*i).advx;
@@ -515,7 +517,12 @@ void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, floa
 		if ((*i).word != 0) {
 			++i;
 			for (; i != words.end(); ++i) {
-				if ((*i).word == 0) { num++; break; } // newline
+				if ((*i).word == 0) {
+					// newline
+					explicit_newline = true;
+					num++;
+					break;
+				}
 				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
 				len += (*i).advx + spaceWidth;
 				num++;
@@ -538,7 +545,7 @@ void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, floa
 			words.pop_front();
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += GetHeight();
+		outSize[1] += GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0);
 	}
 	if (outSize[1]) outSize[1] += m_descender;
 }
@@ -590,10 +597,16 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 		len += (*i).advx;
 		num++;
 		bool overflow = false;
+		bool explicit_newline = false;
 		if ((*i).word != 0) {
 			++i;
 			for (; i != words.end(); ++i) {
-				if ((*i).word == 0) { num++; break; } // newline
+				if ((*i).word == 0) {
+					// newline
+					explicit_newline = true;
+					num++;
+					break;
+				}
 				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
 				len += (*i).advx + spaceWidth;
 				num++;
@@ -616,7 +629,7 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 			words.pop_front();
 		}
 		glPopMatrix();
-		glTranslatef(0, GetHeight(), 0);
+		glTranslatef(0, GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0), 0);
 
 	}
 	glPopMatrix();
@@ -628,7 +641,7 @@ void TextureFontFace::RenderString(const char *str)
 	for (unsigned int i=0; i<strlen(str); i++) {
 		if (str[i] == '\n') {
 			glPopMatrix();
-			glTranslatef(0,GetHeight(),0);
+			glTranslatef(0,GetHeight()*PARAGRAPH_SPACING,0);
 			glPushMatrix();
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
@@ -658,7 +671,7 @@ void TextureFontFace::RenderMarkup(const char *str)
 		}
 		if (str[i] == '\n') {
 			glPopMatrix();
-			glTranslatef(0,GetHeight(),0);
+			glTranslatef(0,GetHeight()*PARAGRAPH_SPACING,0);
 			glPushMatrix();
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];

@@ -8,7 +8,7 @@ namespace Gui {
 	class Label: public Widget {
 	public:
 		Label(const char *text);
-		Label(std::string &text);
+		Label(std::string text);
 		virtual void Draw();
 		virtual ~Label() {}
 		virtual void GetSizeRequested(float size[2]);

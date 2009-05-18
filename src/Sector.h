@@ -6,7 +6,7 @@
 #include <vector>
 #include "StarSystem.h"
 
-class CustomSBody;
+class CustomSystem;
 
 class Sector {
 public:
@@ -21,7 +21,7 @@ public:
 		int numStars;
 		SBody::BodyType starType[4];
 		Uint32 seed;
-		const CustomSBody *customDef;
+		const CustomSystem *customSys;
 	};
 	std::vector<System> m_systems;
 private:

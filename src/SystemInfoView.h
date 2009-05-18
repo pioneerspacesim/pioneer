@@ -21,8 +21,8 @@ private:
 	void OnBodySelected(SBody *b);
 	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize);
 	SBody *m_bodySelected;
-	Gui::Label *m_infoLabel, *m_infoData,
-		*m_econLabel, *m_econData;
+	Gui::VBox *m_infoBox;
+	Gui::Label *m_econLabel, *m_econData;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
 	StarSystem *m_system;
 };
