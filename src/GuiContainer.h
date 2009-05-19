@@ -19,12 +19,14 @@ namespace Gui {
 		virtual void Draw();
 		void ShowChildren();
 		void HideChildren();
+		virtual void Show();
 		virtual void ShowAll();
 		virtual void HideAll();
 		virtual void OnChildResizeRequest(Widget *) = 0;
 		void SetBgColor(float rgb[3]);
 		void SetBgColor(float r, float g, float b);
 		void SetTransparency(bool a) { m_transparent = a; }
+		virtual void UpdateAllChildSizes() = 0;
 	private:
 		void _OnMouseLeave();
 		void _OnSetSize();

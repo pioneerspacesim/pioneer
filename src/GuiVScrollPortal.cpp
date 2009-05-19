@@ -5,9 +5,9 @@ namespace Gui {
 
 VScrollPortal::VScrollPortal(float w, float h): Container()
 {
-	SetSize(w, h);
 	m_child = 0;
 	m_eventMask = EVENT_ALL;
+	SetSize(w, h);
 }
 
 void VScrollPortal::GetSizeRequested(float size[2])
@@ -17,6 +17,7 @@ void VScrollPortal::GetSizeRequested(float size[2])
 
 void VScrollPortal::OnChildResizeRequest(Widget *child)
 {
+	assert(child == m_child);
 	float size[2], rsize[2];
 	GetSize(size);
 	rsize[0] = size[0];
@@ -27,9 +28,15 @@ void VScrollPortal::OnChildResizeRequest(Widget *child)
 	child->SetSize(rsize[0], rsize[1]);
 }
 
+void VScrollPortal::UpdateAllChildSizes()
+{
+	if (m_child) OnChildResizeRequest(m_child);
+}
+
 void VScrollPortal::Add(Widget *child)
 {
 	assert(m_child == 0);
+	m_child = child;
 	AppendChild(child, 0, 0);
 	OnChildResizeRequest(child);
 }

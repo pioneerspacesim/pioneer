@@ -22,11 +22,11 @@ namespace Gui {
 		virtual ~Box();
 		virtual void GetSizeRequested(float size[2]);
 		virtual void OnChildResizeRequest(Widget *);
+		virtual void UpdateAllChildSizes();
 		void SetSizeRequest(float size[2]);
 		void SetSizeRequest(float x, float y);
 		void SetSpacing(float spacing) { m_spacing = spacing; }
 	private:
-		void UpdateChildrenSizes();
 		void _Init();
 		float m_wantedSize[2];
 		float m_spacing;

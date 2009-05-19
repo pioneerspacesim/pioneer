@@ -80,9 +80,6 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		}
 	}
 
-	fixed->ShowAll();
-	col1->ShowAll();
-	col2->ShowAll();
 	m_infoBox->ShowAll();
 	m_infoBox->ResizeRequest();
 	
@@ -137,6 +134,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	m_econLabel->SetText(desc);
 	m_econData->SetText(data);
+	m_econInfoTab->ResizeRequest();
 }
 
 void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize)
@@ -205,37 +203,47 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
 	std::string _info = buf + std::string("\n\n") + std::string(s->GetLongDescription());
 	
-	m_infoBox = new Gui::VBox();
+	{
+		// astronomical body info tab
+		m_infoBox = new Gui::VBox();
 
-	Gui::HBox *scrollBox = new Gui::HBox();
-	scrollBox->SetSizeRequest(730, 200);
-	m_sbodyInfoTab->Add(scrollBox, 35, 300);
+		Gui::HBox *scrollBox = new Gui::HBox();
+		scrollBox->SetSizeRequest(730, 200);
+		m_sbodyInfoTab->Add(scrollBox, 35, 300);
 
-	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
-	scroll->SetAdjustment(&portal->vscrollAdjust);
-	
-	Gui::Label *l = new Gui::Label(_info);
-	l->SetColor(1,1,0);
-	m_infoBox->PackStart(l);
-	m_infoBox->ShowAll();
-	portal->Add(m_infoBox);
-	portal->ShowAll();
-	scrollBox->PackStart(scroll);
-	scrollBox->PackStart(portal, true);
-	scrollBox->ShowAll();
+		Gui::VScrollBar *scroll = new Gui::VScrollBar();
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+		scroll->SetAdjustment(&portal->vscrollAdjust);
+		
+		Gui::Label *l = new Gui::Label(_info);
+		l->SetColor(1,1,0);
+		m_infoBox->PackStart(l);
+		portal->Add(m_infoBox);
+		scrollBox->PackStart(scroll);
+		scrollBox->PackStart(portal, true);
+	}
 
-	m_sbodyInfoTab->ShowAll();
-	
-	m_econLabel = new Gui::Label("");
-	m_econLabel->SetColor(1,1,0);
-	m_econInfoTab->Add(m_econLabel, 50, 300);
-	m_econData = new Gui::Label("");
-	m_econData->SetColor(1,1,0);
-	m_econInfoTab->Add(m_econData, 300, 300);
+	{
+		// economy tab
+		Gui::HBox *scrollBox2 = new Gui::HBox();
+		scrollBox2->SetSizeRequest(730, 200);
+		m_econInfoTab->Add(scrollBox2, 35, 300);
+		Gui::VScrollBar *scroll2 = new Gui::VScrollBar();
+		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(0,0);
+		scroll2->SetAdjustment(&portal2->vscrollAdjust);
+		scrollBox2->PackStart(scroll2);
+		scrollBox2->PackStart(portal2, true);
+		Gui::Fixed *f = new Gui::Fixed();
 
-	m_econInfoTab->ShowAll();
-	
+		m_econLabel = new Gui::Label("");
+		m_econLabel->SetColor(1,1,0);
+		f->Add(m_econLabel, 0, 0);
+		m_econData = new Gui::Label("");
+		m_econData->SetColor(1,1,0);
+		f->Add(m_econData, 300, 0);
+		portal2->Add(f);
+	}
+
 	ShowAll();
 }
 

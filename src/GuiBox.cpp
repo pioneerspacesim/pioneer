@@ -61,14 +61,13 @@ Box::~Box()
 
 void Box::OnChildResizeRequest(Widget *child)
 {
-	UpdateChildrenSizes();
+	UpdateAllChildSizes();
 }
 
 void Box::PackStart(Widget *child, bool expand)
 {
 	PrependChild(child, 0, 0);
 	m_children.front().flags = expand;
-	UpdateChildrenSizes();
 	ResizeRequest();
 }
 
@@ -76,11 +75,10 @@ void Box::PackEnd(Widget *child, bool expand)
 {
 	AppendChild(child, 0, 0);
 	m_children.back().flags = expand;
-	UpdateChildrenSizes();
 	ResizeRequest();
 }
 
-void Box::UpdateChildrenSizes()
+void Box::UpdateAllChildSizes()
 {
 	float size[2];
 	GetSize(size);
@@ -150,7 +148,7 @@ void Box::UpdateChildrenSizes()
 void Box::Remove(Widget *child)
 {
 	Container::RemoveChild(child);
-	UpdateChildrenSizes();
+	ResizeRequest();
 }
 
 }

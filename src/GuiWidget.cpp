@@ -141,6 +141,7 @@ void Widget::Hide()
 
 void Widget::ResizeRequest()
 {
+	if (!IsVisible()) return;
 	if (m_parent) m_parent->OnChildResizeRequest(this);
 	else {
 		float size[2] = { FLT_MAX, FLT_MAX };

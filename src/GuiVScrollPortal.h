@@ -16,6 +16,7 @@ namespace Gui {
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
 		virtual void OnChildResizeRequest(Widget *);
+		virtual void UpdateAllChildSizes();
 		void SetBgColor(float rgb[3]);
 		void SetBgColor(float r, float g, float b);
 		Adjustment vscrollAdjust;

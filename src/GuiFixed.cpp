@@ -17,27 +17,55 @@ Fixed::Fixed(float w, float h): Container()
 
 void Fixed::_Init()
 {
-	m_wantedSize[0] = m_wantedSize[1] = 0;
+	m_userWantedSize[0] = m_userWantedSize[1] = 0;
 	m_eventMask = EVENT_ALL;
 }
 
 void Fixed::SetSizeRequest(float size[2])
 {
-	m_wantedSize[0] = size[0];
-	m_wantedSize[1] = size[1];
+	m_userWantedSize[0] = size[0];
+	m_userWantedSize[1] = size[1];
 }
 
 void Fixed::GetSizeRequested(float size[2])
 {
-	if (m_wantedSize[0] && m_wantedSize[1]) {
-		size[0] = m_wantedSize[0];
-		size[1] = m_wantedSize[1];
+	if (m_userWantedSize[0] && m_userWantedSize[1]) {
+		size[0] = m_userWantedSize[0];
+		size[1] = m_userWantedSize[1];
+	} else {
+		float wanted[2];
+		wanted[0] = wanted[1] = 0;
+		for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+			float rsize[2] = { size[0] - (*i).pos[0],
+					   size[1] - (*i).pos[1] };
+			(*i).w->GetSizeRequested(rsize);
+			if ((*i).pos[0] + rsize[0] > size[0]) rsize[0] = size[0] - (*i).pos[0];
+			if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[1] - (*i).pos[1];
+			wanted[0] = MAX(wanted[0], rsize[0] + (*i).pos[0]);
+			wanted[1] = MAX(wanted[1], rsize[1] + (*i).pos[1]);
+		}
+		size[0] = wanted[0];
+		size[1] = wanted[1];
 	}
 }
 
 Fixed::~Fixed()
 {
 	Screen::RemoveBaseWidget(this);
+}
+
+void Fixed::UpdateAllChildSizes()
+{
+	float size[2];
+	GetSize(size);
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		float rsize[2] = { size[0] - (*i).pos[0],
+				   size[1] - (*i).pos[1] };
+		(*i).w->GetSizeRequested(rsize);
+		if ((*i).pos[0] + rsize[0] > size[0]) rsize[0] = size[0] - (*i).pos[0];
+		if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[0] - (*i).pos[1];
+		(*i).w->SetSize(rsize[0], rsize[1]);
+	}
 }
 
 void Fixed::OnChildResizeRequest(Widget *child)
@@ -48,7 +76,7 @@ void Fixed::OnChildResizeRequest(Widget *child)
 		if ((*i).w == child) {
 			float rsize[2] = { size[0] - (*i).pos[0],
 					   size[1] - (*i).pos[1] };
-			child->GetSizeRequested(rsize);
+			(*i).w->GetSizeRequested(rsize);
 			if ((*i).pos[0] + rsize[0] > size[0]) rsize[0] = size[0] - (*i).pos[0];
 			if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[0] - (*i).pos[1];
 			child->SetSize(rsize[0], rsize[1]);

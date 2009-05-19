@@ -25,6 +25,7 @@ namespace Gui {
 		void EndClipping();
 		bool GetEnabled() { return m_enabled; }
 		void SetEnabled(bool v) { m_enabled = v; }
+		virtual void ShowAll() { m_visible = true; }
 		virtual void Show() { m_visible = true; }
 		virtual void Hide();
 		bool IsVisible() const;

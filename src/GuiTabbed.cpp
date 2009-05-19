@@ -107,6 +107,14 @@ void Tabbed::OnChildResizeRequest(Widget *child)
 	}
 }
 
+void Tabbed::UpdateAllChildSizes()
+{
+	for (pagecontainer_t::iterator i = m_pages.begin(); i != m_pages.end(); ++i) {
+		OnChildResizeRequest((*i).first);
+		OnChildResizeRequest((*i).second);
+	}
+}
+
 void Tabbed::Show()
 {
 	int index=0;
@@ -115,7 +123,7 @@ void Tabbed::Show()
 		if (index == m_page) (*i).second->Show();
 		else (*i).second->Hide();
 	}
-	Widget::Show();
+	Container::Show();
 }
 
 void Tabbed::Hide()

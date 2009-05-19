@@ -18,9 +18,7 @@ Container::~Container()
 
 void Container::_OnSetSize()
 {
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		OnChildResizeRequest((*i).w);
-	}
+	if (IsVisible()) UpdateAllChildSizes();
 }
 
 void Container::_OnMouseLeave()
@@ -197,9 +195,19 @@ void Container::HideChildren()
 	}
 }
 
+void Container::Show()
+{
+	Widget::Show();
+	if (IsVisible()) {
+		ResizeRequest();
+	}
+}
+
 void Container::ShowAll()
 {
-	ShowChildren();
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		(*i).w->ShowAll();
+	}
 	Show();
 }
 
