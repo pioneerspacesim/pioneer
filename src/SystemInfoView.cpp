@@ -138,7 +138,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	m_econInfoTab->ResizeRequest();
 }
 
-void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float prevSize)
+void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float &prevSize)
 {
 	float size[2];
 	float myPos[2];
@@ -148,12 +148,12 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	if (body->type != SBody::TYPE_GRAVPOINT) {
 		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
 		ib->GetSize(size);
-		if (prevSize == -1) prevSize = size[!dir];
+		if (prevSize < 0) prevSize = size[!dir];
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
-		container->Add(ib, myPos[0],
-			myPos[1]);
+		container->Add(ib, myPos[0], myPos[1]);
+
 		if (container == m_econInfoTab) {
 			/* Grey out planets with no human habitation */
 			if (body->econType == 0) ib->SetEnabled(false);
@@ -168,9 +168,10 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 		pos[!dir] += 320;
 	}
 
+	float prevSizeForKids = size[!dir];
 	for (std::vector<SBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
-		PutBodies(*i, container, dir, myPos, majorBodies, size[!dir]);
+		PutBodies(*i, container, dir, myPos, majorBodies, prevSizeForKids);
 	}
 }
 
@@ -198,15 +199,18 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 	
+	int majorBodies;
 	{
-		int majorBodies = 0;
 		float pos[2] = { 0, 0 };
-		PutBodies(s->rootBody, m_econInfoTab, 1, pos, majorBodies, -1);
-	}
+		float psize = -1;
+		majorBodies = 0;
+		PutBodies(s->rootBody, m_econInfoTab, 1, pos, majorBodies, psize);
 
-	int majorBodies = 0;
-	float pos[2] = { 0, 0 };
-	PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, -1);
+		majorBodies = 0;
+		pos[0] = pos[1] = 0;
+		psize = -1;
+		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, psize);
+	}
 	
 	float size[2];
 	GetSize(size);
