@@ -14,6 +14,12 @@ ImageButton::ImageButton(const char *img_normal, const char *img_pressed): Butto
 	LoadImages(img_normal, img_pressed);
 }
 
+ImageButton::~ImageButton()
+{
+	delete m_imgNormal;
+	if (m_imgPressed) delete m_imgPressed;
+}
+
 void ImageButton::LoadImages(const char *img_normal, const char *img_pressed)
 {
 	m_imgNormal = new Image(img_normal);

@@ -12,7 +12,7 @@ namespace Gui {
 		ImageButton(const char *img_normal);
 		ImageButton(const char *img_normal, const char *img_pressed);
 		virtual void Draw();
-		virtual ~ImageButton() {}
+		virtual ~ImageButton();
 		virtual void GetSizeRequested(float size[2]);
 	private:
 		void LoadImages(const char *img_normal, const char *img_pressed);
