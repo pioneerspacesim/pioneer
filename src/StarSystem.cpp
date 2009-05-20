@@ -727,7 +727,13 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 			 * it depends on body densities and gives some strange results */
 			discMin = 4 * primary->radius * AU_SOL_RADIUS;
 		}
-		discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
+		if (primary->type == SBody::TYPE_WHITE_DWARF) {
+			// white dwarfs will have started as stars < 8 solar
+			// masses or so, so pick discMax according to that
+			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
+		} else {
+			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
+		}
 
 		if ((superType == SBody::SUPERTYPE_STAR) && (primary->parent)) {
 			// limit planets out to 10% distance to star's binary companion

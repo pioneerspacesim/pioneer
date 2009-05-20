@@ -9,8 +9,8 @@
 
 namespace Gui {
 	enum BoxOrientation {
-		BOX_VERTICAL,
-		BOX_HORIZONTAL
+		BOX_HORIZONTAL = 0,
+		BOX_VERTICAL = 1
 	};
 
 	class Box: public Container {

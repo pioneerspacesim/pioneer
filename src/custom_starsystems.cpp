@@ -77,7 +77,15 @@ const CustomSystem custom_systems[] = {
 { "Gliese 725", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -1, vector3f(0.482,0.203,0.590) }, // Components: M4, M5
 { "Sigma Draconis", 0, {SBody::TYPE_STAR_K}, 0, -2, vector3f(0.914,0.420,0.859) }, // Components: K0
 { "Gliese 380", 0, {SBody::TYPE_STAR_K}, 1, -1, vector3f(0.979,0.462,0.631) }, // Components: K2
-{ "Sirius", 0, {SBody::TYPE_STAR_A, SBody::TYPE_WHITE_DWARF}, 1, 1, vector3f(0.222,0.273,-0.173) }, // Components: A1, DA2
+{ "Sirius", 0, {SBody::TYPE_STAR_A, SBody::TYPE_WHITE_DWARF}, 1, 1, vector3f(0.222,0.273,-0.173), 0,
+"Corporate system",
+"The Sirius system is home to Sirius Corporation, market leader in Robotics, Neural Computing, "
+"Security and Defence Systems, to name but a few of its endeavours. Sirius research and development "
+"institutes are at the very cutting edge of galactic science. The young, bright and ambitious from "
+"worlds all over galaxy flock to Sirius to make a name for themselves.\n"
+"Above text all rights reserved Sirius Corporation."
+
+}, // Components: A1, DA2
 { "Gliese 682", 0, {SBody::TYPE_STAR_M}, -2, 0, vector3f(0.643,0.971,-0.213) }, // Components: M3
 { "AD Leonis", 0, {SBody::TYPE_STAR_M}, 2, 0, vector3f(0.483,0.012,-0.071) }, // Components: M4
 { "Luyten 372-58", 0, {SBody::TYPE_STAR_M}, 0, 1, vector3f(0.822,0.495,-1.402) }, // Components: M4
@@ -124,7 +132,7 @@ const CustomSystem custom_systems[] = {
 { "Gliese 783", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.522,0.324,-1.169) }, // Components: K3, M3
 { "Barnard's star", 0, {SBody::TYPE_STAR_M}, -1, 0, vector3f(0.877,0.131,0.186) }, // Components: M5
 { "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351,0.735,-0.999), 5/*5=2 earths*/,
-"",
+"First off-earth colony. Industrial world with indigenous life.",
 "Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. "
 "The New Hope colony on the life-bearing planet of the same name was founded in 2279. "
 "Its 1520 initial inhabitants completed their pre-hyperspace voyage of 10.7 lightyears "

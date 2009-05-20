@@ -12,6 +12,7 @@ Box::Box(BoxOrientation orient): Container()
 
 void Box::_Init()
 {
+	m_spacing = 0;
 	m_wantedSize[0] = m_wantedSize[1] = 0;
 	m_eventMask = EVENT_ALL;
 }
@@ -33,10 +34,13 @@ void Box::GetSizeRequested(float size[2])
 		size[0] = m_wantedSize[0];
 		size[1] = m_wantedSize[1];
 	} else {
+		int num_kids = 0;
 		float want[2];
 		want[0] = want[1] = 0;
 		// see how big we need to be
 		for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+			if (!(*i).w->IsVisible()) continue;
+			num_kids++;
 			float rsize[2];
 			rsize[0] = size[0];
 			rsize[1] = size[1];
@@ -49,6 +53,7 @@ void Box::GetSizeRequested(float size[2])
 				want[1] = MAX(want[1], rsize[1]);
 			}
 		}
+		if (num_kids) want[m_orient] += (num_kids-1)*m_spacing;
 		size[0] = want[0];
 		size[1] = want[1];
 	}
@@ -98,8 +103,8 @@ void Box::UpdateAllChildSizes()
 			(*i).w->SetSize(size[0], rsize[1]);
 			(*i).pos[0] = 0;
 			(*i).pos[1] = pos;
-			pos += rsize[1];
-			space -= rsize[1];
+			pos += rsize[1] + m_spacing;
+			space -= rsize[1] + m_spacing;
 		} else {
 			rsize[0] = space;
 			rsize[1] = size[1];
@@ -109,10 +114,12 @@ void Box::UpdateAllChildSizes()
 			(*i).w->SetSize(rsize[0], size[1]);
 			(*i).pos[0] = pos;
 			(*i).pos[1] = 0;
-			pos += rsize[0];
-			space -= rsize[0];
+			pos += rsize[0] + m_spacing;
+			space -= rsize[0] + m_spacing;
 		}
 	}
+	// last item does not need spacing after it...
+	space += m_spacing;
 	pos = 0;
 	if ((space > 0) && num_expand_children) {
 		/* give expand children the space space */
@@ -128,7 +135,7 @@ void Box::UpdateAllChildSizes()
 					s[1] += space / num_expand_children;
 					(*i).w->SetSize(s[0], s[1]);
 				}
-				pos += s[1];
+				pos += s[1] + m_spacing;
 			} else {
 				(*i).pos[0] = pos;
 				(*i).pos[1] = 0;
@@ -136,7 +143,7 @@ void Box::UpdateAllChildSizes()
 					s[0] += space / num_expand_children;
 					(*i).w->SetSize(s[0], s[1]);
 				}
-				pos += s[0];
+				pos += s[0] + m_spacing;
 			}
 		}
 	}

@@ -93,6 +93,7 @@ public:
 		nfo += std::string(buf);
 
 		info2->SetText(nfo);
+		this->ResizeRequest();
 	}
 private:
 	Gui::Label *info1, *info2;

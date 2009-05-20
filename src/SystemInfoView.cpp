@@ -9,6 +9,7 @@ SystemInfoView::SystemInfoView(): GenericSystemView()
 {
 	SetTransparency(true);
 	m_bodySelected = 0;
+	m_refresh = false;
 	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
@@ -173,6 +174,15 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	}
 }
 
+void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
+{
+	if (e->isdown) {
+		// XXX reinit view unnecessary - we only want to show
+		// the general system info text... 
+		m_refresh = true;
+	}
+}
+
 void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
@@ -185,6 +195,8 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
 	tabbed->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
 	Add(tabbed, 0, 0);
+
+	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 	
 	{
 		int majorBodies = 0;
@@ -208,6 +220,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		m_infoBox = new Gui::VBox();
 
 		Gui::HBox *scrollBox = new Gui::HBox();
+		scrollBox->SetSpacing(5);
 		scrollBox->SetSizeRequest(730, 200);
 		m_sbodyInfoTab->Add(scrollBox, 35, 300);
 
@@ -259,6 +272,9 @@ void SystemInfoView::Draw3D()
 
 void SystemInfoView::Update()
 {
-
+	if (m_refresh) {
+		SystemChanged(m_system);
+		m_refresh = false;
+	}
 }
 

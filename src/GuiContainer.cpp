@@ -1,6 +1,8 @@
 #include "Gui.h"
 #include "GuiContainer.h"
 
+//#define GUI_DEBUG_CONTAINER
+
 namespace Gui {
 
 Container::Container()
@@ -93,6 +95,7 @@ bool Container::HandleMouseEvent(MouseButtonEvent *e)
 			if (!alive) return false;
 		}
 	}
+	onMouseButtonEvent.emit(e);
 	return true;
 }
 
@@ -162,10 +165,31 @@ void Container::Draw()
 			glVertex2f(0, 0);
 		glEnd();
 	}
+#ifdef GUI_DEBUG_CONTAINER
+	glBegin(GL_LINE_LOOP);
+		glColor3f(1,1,1);
+		glVertex2f(0, size[1]);
+		glVertex2f(size[0], size[1]);
+		glVertex2f(size[0], 0);
+		glVertex2f(0, 0);
+	glEnd();
+#endif /* GUI_DEBUG_CONTAINER */
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		if (!(*i).w->IsVisible()) continue;
 		glPushMatrix();
 		glTranslatef((*i).pos[0], (*i).pos[1], 0);
+#ifdef GUI_DEBUG_CONTAINER
+		float csize[2];
+		(*i).w->GetSize(csize);
+		
+		glBegin(GL_LINE_LOOP);
+			glColor3f(0,0,1);
+			glVertex2f(0, csize[1]);
+			glVertex2f(csize[0], csize[1]);
+			glVertex2f(csize[0], 0);
+			glVertex2f(0, 0);
+		glEnd();
+#endif /* GUI_DEBUG_CONTAINER */
 		(*i).w->Draw();
 		glPopMatrix();
 	}

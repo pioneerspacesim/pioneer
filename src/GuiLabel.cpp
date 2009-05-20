@@ -9,7 +9,7 @@ Label::Label(const char *text)
 	m_color[0] = m_color[1] = m_color[2] = 1.0f;
 }
 
-Label::Label(std::string text)
+Label::Label(const std::string text)
 {
 	m_dlist = 0;
 	SetText(text);
@@ -29,7 +29,7 @@ void Label::SetText(const char *text)
 	RecalcSize();
 }
 
-void Label::SetText(std::string &text)
+void Label::SetText(const std::string text)
 {
 	m_text = text;
 	RecalcSize();

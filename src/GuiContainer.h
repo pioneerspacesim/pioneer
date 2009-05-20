@@ -27,6 +27,8 @@ namespace Gui {
 		void SetBgColor(float r, float g, float b);
 		void SetTransparency(bool a) { m_transparent = a; }
 		virtual void UpdateAllChildSizes() = 0;
+		// only fired if child widgets do not eat event
+		sigc::signal<void, MouseButtonEvent*> onMouseButtonEvent;
 	private:
 		void _OnMouseLeave();
 		void _OnSetSize();

@@ -66,7 +66,7 @@ void GenericSystemView::Draw3D()
 		m_systemName->SetText(sec.m_systems[m_pidx].name);
 		m_distance->SetText(buf);
 		m_starType->SetText(desc);
-		m_shortDesc->SetText("Short description of system");
+		m_shortDesc->SetText(s->GetShortDescription());
 
 		onSelectedSystemChanged.emit(s);
 	}
