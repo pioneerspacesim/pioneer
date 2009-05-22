@@ -212,12 +212,8 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, psize);
 	}
 	
-	float size[2];
-	GetSize(size);
-	
-	char buf[512];
-	snprintf(buf, sizeof(buf), "Stable system with %d major bodies.", majorBodies);
-	std::string _info = buf + std::string("\n\n") + std::string(s->GetLongDescription());
+	std::string _info = stringf(512, "Stable system with %d major bodies.\n\n", majorBodies)
+			+ std::string(s->GetLongDescription());
 	
 	{
 		// astronomical body info tab

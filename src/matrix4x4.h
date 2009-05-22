@@ -16,12 +16,8 @@ class matrix4x4 {
 		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] = 
 		cell[14] = cell[15] = val;
 	}
-	// row-major 4x3 matrix
-	void LoadFromOdeMatrix(const T *r) {
-		cell[ 0] = r[ 0];cell[ 1] = r[ 4];cell[ 2] = r[ 8];cell[ 3] = 0;
-		cell[ 4] = r[ 1];cell[ 5] = r[ 5];cell[ 6] = r[ 9];cell[ 7] = 0;
-		cell[ 8] = r[ 2];cell[ 9] = r[ 6];cell[10] = r[10];cell[11] = 0;
-		cell[12] =     0;cell[13] =     0;cell[14] =     0;cell[15] = 1;
+	matrix4x4 (T *vals) {
+		memcpy(cell, vals, sizeof(T)*16);
 	}
 	// row-major 3x3 matrix
 	void LoadFrom3x3Matrix(const T *r) {
@@ -36,13 +32,8 @@ class matrix4x4 {
 		r[3] = cell[1]; r[4] = cell[5]; r[5] = cell[9];
 		r[6] = cell[2]; r[7] = cell[6]; r[8] = cell[10];
 	}
-	void SaveToOdeMatrix(T r[12]) const {
-		r[0] = cell[0]; r[1] = cell[4]; r[2] = cell[8]; r[3] = 0;
-		r[4] = cell[1]; r[5] = cell[5]; r[6] = cell[9]; r[7] = 0;
-		r[8] = cell[2]; r[9] = cell[6]; r[10] = cell[10]; r[11] = 0;
-	}
 	static matrix4x4 Identity () {
-		matrix4x4 m = matrix4x4 (0);
+		matrix4x4 m = matrix4x4(0.0);
 		m.cell[0] = m.cell[5] = m.cell[10] = m.cell[15] = 1.0f;
 		return m;
 	}

@@ -3,6 +3,7 @@
 #include "custom_starsystems.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
+#include "GeoSphere.h"
 
 #define CELSIUS	273.15
 #define DEBUG_DUMP
@@ -190,6 +191,28 @@ const char *SBody::GetAstroDescription()
 const char *SBody::GetIcon()
 {
 	return bodyTypeInfo[type].icon;
+}
+
+/*
+ * Position a surface starport on dry land!
+ */
+static void position_settlement_on_planet(SBody *b)
+{
+	MTRand r(b->seed);
+	GeoSphere geo(b->parent);
+	double height;
+	int tries;
+	for (tries=0; tries<100; tries++) {
+		// used for orientation on planet surface
+		b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
+				      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+		vector3d pos = b->orbit.rotMatrix * vector3d(0,1,0);
+		pos = pos.Normalized();
+		height = geo.GetHeight(pos);
+		// don't want to be under water
+		if (height != 0) break;
+	}
+	//printf("%d height %.20f\n", tries, height);
 }
 
 double SBody::GetMaxChildOrbitalDistance() const
@@ -419,8 +442,13 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbit.eccentricity = c->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
-		kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->inclination) *
-					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
+
+		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
+			position_settlement_on_planet(kid);
+		} else {
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->inclination) *
+						  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
+		}
 		parent->children.push_back(kid);
 
 		// perihelion and aphelion (in AUs)
@@ -1058,9 +1086,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 			sp->humanActivity = activ;
 			sp->mass = 0;
 			sp->name = NameGenerator::Surname(rand) + " Starport";
-			// used for orientation on planet surface
-			sp->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*rand.Double()) *
-					      matrix4x4d::RotateYMatrix(2*M_PI*rand.Double());
+			position_settlement_on_planet(sp);
 			children.insert(children.begin(), sp);
 		}
 	}

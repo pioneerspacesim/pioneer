@@ -727,7 +727,7 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_craters = 0;
 	m_maxHeight = 0.0014/sqrt(m_sbody->radius.ToDouble());
 	m_invMaxHeight = 1.0 / m_maxHeight;
-	printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
+//	printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
 
 	for (int i=0; i<16; i++) m_crap[i] = rand.Double();
 	m_sealevel = rand.Double();
@@ -740,51 +740,56 @@ GeoSphere::GeoSphere(const SBody *body)
 		default: break;
 	}
 
+	memset(m_patches, 0, sizeof(m_patches));
+	m_patches[0] = 0;
 
 	float col[4] = {1,1,1,1};
 	SetColor(col);
-	vector3d p1(1,1,1);
-	vector3d p2(-1,1,1);
-	vector3d p3(-1,-1,1);
-	vector3d p4(1,-1,1);
-	vector3d p5(1,1,-1);
-	vector3d p6(-1,1,-1);
-	vector3d p7(-1,-1,-1);
-	vector3d p8(1,-1,-1);
-	p1 = p1.Normalized();
-	p2 = p2.Normalized();
-	p3 = p3.Normalized();
-	p4 = p4.Normalized();
-	p5 = p5.Normalized();
-	p6 = p6.Normalized();
-	p7 = p7.Normalized();
-	p8 = p8.Normalized();
-
-	m_patches[0] = new GeoPatch(p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(p8, p7, p6, p5, 0);
-	for (int i=0; i<6; i++) {
-		m_patches[i]->geosphere = this;
-		for (int j=0; j<4; j++) {
-			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
-		}
-	}
-	for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
-	for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
 }
 
 GeoSphere::~GeoSphere()
 {
-	for (int i=0; i<6; i++) delete m_patches[i];
+	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	delete [] m_craters;
 }
 
 static const float g_ambient[4] = { .1, .1, .1, 1.0 };
 
 void GeoSphere::Render(vector3d campos) {
+	if (m_patches[0] == 0) {
+		// generate initial wank
+		vector3d p1(1,1,1);
+		vector3d p2(-1,1,1);
+		vector3d p3(-1,-1,1);
+		vector3d p4(1,-1,1);
+		vector3d p5(1,1,-1);
+		vector3d p6(-1,1,-1);
+		vector3d p7(-1,-1,-1);
+		vector3d p8(1,-1,-1);
+		p1 = p1.Normalized();
+		p2 = p2.Normalized();
+		p3 = p3.Normalized();
+		p4 = p4.Normalized();
+		p5 = p5.Normalized();
+		p6 = p6.Normalized();
+		p7 = p7.Normalized();
+		p8 = p8.Normalized();
+
+		m_patches[0] = new GeoPatch(p1, p2, p3, p4, 0);
+		m_patches[1] = new GeoPatch(p4, p3, p7, p8, 0);
+		m_patches[2] = new GeoPatch(p1, p4, p8, p5, 0);
+		m_patches[3] = new GeoPatch(p2, p1, p5, p6, 0);
+		m_patches[4] = new GeoPatch(p3, p2, p6, p7, 0);
+		m_patches[5] = new GeoPatch(p8, p7, p6, p5, 0);
+		for (int i=0; i<6; i++) {
+			m_patches[i]->geosphere = this;
+			for (int j=0; j<4; j++) {
+				m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
+			}
+		}
+		for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
+		for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
+	}
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(campos);
 	}

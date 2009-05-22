@@ -196,6 +196,11 @@ void Player::PollControls()
 	}
 }
 
+/*
+ * XXX TODO XXX
+ *
+ * This is a fucking dog's dinner and should all be moved into WorldView.cpp
+ */
 #define HUD_CROSSHAIR_SIZE	24.0f
 
 void Player::DrawHUD(const Frame *cam_frame)
