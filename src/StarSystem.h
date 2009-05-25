@@ -138,6 +138,9 @@ public:
 	// percent price alteration
 	int tradeLevel[Equip::TYPE_MAX];
 	int econType;
+
+	const char *heightMapFilename;
+
 private:
 };
 	

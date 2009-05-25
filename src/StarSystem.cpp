@@ -442,6 +442,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbit.eccentricity = c->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		kid->heightMapFilename = c->heightMapFilename;
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
 			position_settlement_on_planet(kid);
@@ -550,6 +551,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 SBody::SBody()
 {
 	econType = 0;
+	heightMapFilename = 0;
 	memset(tradeLevel, 0, sizeof(tradeLevel));
 }
 

@@ -30,7 +30,17 @@ private:
 	double m_invMaxHeight;
 	double m_crap[16];
 	double m_sealevel;
+	double m_radius;
 	vector3d m_fractalOffset;
+
+	/* for sbodies with a heightMap we load this turd
+	 * and use it instead of perlin height function */
+	Sint16 *m_heightMap;
+	int m_heightMapSizeX;
+	int m_heightMapSizeY;
+
+	int GetRawHeightMapVal(int x, int y);
+	double GetHeightMapVal(const vector3d &pt);
 
 	vector3d GetColor(vector3d &p, double height);
 };

@@ -16,6 +16,7 @@ struct CustomSBody {
 	float inclination; // radians
 	fixed rotationPeriod; // in days
 	int econType; // StarSystem.cpp enum ECON_XXX
+	const char *heightMapFilename;
 };
 
 struct CustomSystem {

@@ -723,6 +723,7 @@ GeoSphere::GeoSphere(const SBody *body)
 	MTRand rand;
 	rand.seed(body->seed);
 	m_sbody = body;
+	m_radius = m_sbody->GetRadius();
 	m_numCraters = 0;
 	m_craters = 0;
 	m_maxHeight = 0.0014/sqrt(m_sbody->radius.ToDouble());
@@ -745,12 +746,28 @@ GeoSphere::GeoSphere(const SBody *body)
 
 	float col[4] = {1,1,1,1};
 	SetColor(col);
+
+	if (body->heightMapFilename) {
+		FILE *f;
+	       	assert(f = fopen(body->heightMapFilename, "r"));
+		// read size!
+		Uint16 v;
+		fread(&v, 2, 1, f); m_heightMapSizeX = v;
+		fread(&v, 2, 1, f); m_heightMapSizeY = v;
+		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+		// XXX TODO XXX what about bigendian archs...
+		fread(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
+		fclose(f);
+	} else {
+		m_heightMap = 0;
+	}	
 }
 
 GeoSphere::~GeoSphere()
 {
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	delete [] m_craters;
+	if (m_heightMap) delete [] m_heightMap;
 }
 
 static const float g_ambient[4] = { .1, .1, .1, 1.0 };
@@ -817,11 +834,73 @@ inline double octavenoise(int octaves, double div, vector3d p)
 	return n;
 }
 
+int GeoSphere::GetRawHeightMapVal(int x, int y)
+{
+	return m_heightMap[CLAMP(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + CLAMP(x, 0, m_heightMapSizeX-1)];
+}
+
+/*
+ * Bicubic interpolation!!!
+ */
+double GeoSphere::GetHeightMapVal(const vector3d &pt)
+{
+	double latitude = -asin(pt.y);
+	if (!isfinite(latitude)) {
+		// pt.y is just out of asin domain [-1,1]
+		latitude = (pt.y < 0 ? -0.5*M_PI : M_PI*0.5);
+	}
+	double longitude = atan2(pt.x, pt.z);
+	double px = (((m_heightMapSizeX-1) * (longitude + M_PI)) / (2*M_PI));
+	double py = ((m_heightMapSizeY-1)*(latitude + 0.5*M_PI)) / M_PI;
+	int ix = floor(px);
+	int iy = floor(py);
+	ix = CLAMP(ix, 0, m_heightMapSizeX-1);
+	iy = CLAMP(iy, 0, m_heightMapSizeY-1);
+	double dx = px-ix;
+	double dy = py-iy;
+
+	// p0,3 p1,3 p2,3 p3,3
+	// p0,2 p1,2 p2,2 p3,2
+	// p0,1 p1,1 p2,1 p3,1
+	// p0,0 p1,0 p2,0 p3,0
+	double p[4][4];
+	for (int x=-1; x<3; x++) {
+		for (int y=-1; y<3; y++) {
+			p[1+x][1+y] = GetRawHeightMapVal(ix+x, iy+y);
+		}
+	}
+
+	double c[4];
+	for (int j=0; j<4; j++) {
+		double d0 = p[0][j] - p[1][j];
+		double d2 = p[2][j] - p[1][j];
+		double d3 = p[3][j] - p[1][j];
+		double a0 = p[1][j];
+		double a1 = -(1/3.0)*d0 + d2 - (1/6.0)*d3;
+		double a2 = 0.5*d0 + 0.5*d2;
+		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
+		c[j] = a0 + a1*dx + a2*dx*dx + a3*dx*dx*dx;
+	}
+
+	{
+		double d0 = c[0] - c[1];
+		double d2 = c[2] - c[1];
+		double d3 = c[3] - c[1];
+		double a0 = c[1];
+		double a1 = -(1/3.0)*d0 + d2 - (1/6.0)*d3;
+		double a2 = 0.5*d0 + 0.5*d2;
+		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
+		return a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
+	}
+}
+
 /*
  * p should be a normalised turd on surface of planet.
  */
 double GeoSphere::GetHeight(vector3d p)
 {
+	if (m_heightMap) return GetHeightMapVal(p) / m_radius;
+	
 	double n;
 	double div;
 	p += m_fractalOffset;
@@ -897,6 +976,13 @@ static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 
 inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 {
+	if (m_heightMap) {
+		double height = GetHeightMapVal(p);
+		double n = height/8000.0;
+		if (n < 0) return vector3d(0,0,0.5);
+		else return interpolate_color(n, vector3d(0,.5,0), vector3d(.8,.8,.8));
+	}
+	
 	double n;
 	switch (GEOSPHERE_TYPE) {
 		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
