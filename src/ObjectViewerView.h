@@ -12,11 +12,12 @@ public:
 	ObjectViewerView();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo() {}
+	virtual void OnSwitchTo();
 private:
 	float viewingDist;
 	Gui::Label *m_infoLabel;
 	const Body* lastTarget;
+	matrix4x4d m_camRot;
 };
 
 #endif /* _OBJECTVIEWERVIEW_H */

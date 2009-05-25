@@ -9,6 +9,7 @@ ObjectViewerView::ObjectViewerView(): View()
 {
 	SetTransparency(true);
 	viewingDist = 1000.0f;
+	m_camRot = matrix4x4d::Identity();
 	
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, 2);
@@ -28,10 +29,13 @@ void ObjectViewerView::Draw3D()
 	glLoadIdentity();
 	glEnable(GL_LIGHT0);
 
-	matrix4x4d camRot;
-	camRot = matrix4x4d::RotateXMatrix(-DEG2RAD(rot));
-	camRot = matrix4x4d::RotateYMatrix(-DEG2RAD(rot)) * camRot;
-	vector3d pos = camRot * vector3d(0,0,viewingDist);
+	if (Pi::MouseButtonState(3)) {
+		int m[2];
+		Pi::GetMouseMotion(m);
+		m_camRot = m_camRot * matrix4x4d::RotateXMatrix(0.002*m[1]) *
+				matrix4x4d::RotateYMatrix(0.002*m[0]);
+	}
+	vector3d pos = m_camRot * vector3d(0,0,viewingDist);
 		
 	float lightPos[4] = { 1, 1, 1, 0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
@@ -39,11 +43,16 @@ void ObjectViewerView::Draw3D()
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
 		Frame cam_frame(body->GetFrame(), "", Frame::TEMP_VIEWING);
-		cam_frame.SetOrientation(camRot);
+		cam_frame.SetOrientation(m_camRot);
 		cam_frame.SetPosition(body->GetPosition()+pos);
 		body->Render(&cam_frame);
 		body->GetFrame()->RemoveChild(&cam_frame);
 	}
+}
+
+void ObjectViewerView::OnSwitchTo()
+{
+	m_camRot = matrix4x4d::Identity();
 }
 
 void ObjectViewerView::Update()
