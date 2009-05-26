@@ -1,6 +1,17 @@
-Making models using SBRE
-========================
+<html>
+	<head>
+		<title>Pioneer technical info<title>
+	</head>
+<body>
+	<h1>Pioneer technical info</h1>
+	<h2>Index</h2>
+	<ul>
+		<li><a href="#sbre-models">Making models using SBRE</a></li>
+		<li><a href="#height-map-format">Terrain height map format</a></li>
+	</ul>
 
+	<a name="sbre-models"><h3>Making models using SBRE</h3></a>
+	<pre>
 Look at examples in src/sbre/models.cpp
 
 SBRE models are made of 4 things:
@@ -60,5 +71,13 @@ Some Pioneer Model Conventions:
 
 Objects which sit in a rotating frame (ie orbital starports) rotate in
 the Y axis.
+</pre>
 
-
+	<a name="height-map-format"><h3>Terrain height map format</h3></a>
+	Height maps (data/*.hmap) have the format:
+	<pre>
+	<em>Uint16</em> map width
+	<em>Uint16</em> map height
+	<em>Sint16[width*height]</em> elements (with elevation in meters)
+	</pre>
+</body>
