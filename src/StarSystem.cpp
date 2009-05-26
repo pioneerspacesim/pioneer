@@ -445,10 +445,11 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->heightMapFilename = c->heightMapFilename;
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
-			position_settlement_on_planet(kid);
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->longitude) *
+				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
 		} else {
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->inclination) *
-						  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
+				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
 		}
 		parent->children.push_back(kid);
 
@@ -817,8 +818,8 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.NDouble(5)*M_PI/2.0) *
-					  matrix4x4d::RotateZMatrix(rand.Double(M_PI));
+		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
+			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
 		primary->children.push_back(planet);

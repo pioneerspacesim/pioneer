@@ -13,7 +13,10 @@ struct CustomSBody {
 	int averageTemp; // kelvin
 	fixed semiMajorAxis; // in AUs
 	fixed eccentricity;
-	float inclination; // radians
+	// for orbiting things, latitude = inclination
+	struct {
+		float latitude, longitude; // radians
+	};
 	fixed rotationPeriod; // in days
 	int econType; // StarSystem.cpp enum ECON_XXX
 	const char *heightMapFilename;
