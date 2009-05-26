@@ -27,6 +27,11 @@ struct VBOVertex
 };
 #pragma pack()
 
+#define VBO_COUNT_LO_EDGE  (3*(GEOPATCH_EDGELEN/2))
+#define VBO_COUNT_HI_EDGE  (3*(GEOPATCH_EDGELEN-1))
+#define VBO_COUNT_MID_IDX  (4*3*(GEOPATCH_EDGELEN-3) + 2*(GEOPATCH_EDGELEN-3)*(GEOPATCH_EDGELEN-3)*3)
+//                          ^^ serrated teeth bit      ^^^ square inner bit
+
 class GeoPatch {
 public:
 	vector3d v[4];
@@ -34,9 +39,10 @@ public:
 	vector3d *normals;
 	vector3d *colors;
 	GLuint m_vbo;
-	static unsigned short *indices;
+	static unsigned short *midIndices;
 	static unsigned short *loEdgeIndices[4];
-	static GLuint indices_vbo[5];
+	static unsigned short *hiEdgeIndices[4];
+	static GLuint indices_vbo[9];
 	static VBOVertex vbotemp[GEOPATCH_NUMVERTICES];
 	GeoPatch *kids[4];
 	GeoPatch *parent;
@@ -53,13 +59,17 @@ public:
 		m_depth = depth;
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
 		if (USE_VBO) glGenBuffersARB(1, &m_vbo);
-		if (!indices) {
-			indices = new unsigned short[2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3];
-			const int numLoEdgeTris = GEOPATCH_EDGELEN/2;
-			for (int i=0; i<4; i++) loEdgeIndices[i] = new unsigned short[3*numLoEdgeTris];
-			unsigned short *idx = indices;
-			for (int x=0; x<GEOPATCH_EDGELEN-1; x++) {
-				for (int y=0; y<GEOPATCH_EDGELEN-1; y++) {
+		if (!midIndices) {
+			unsigned short *idx;
+			midIndices = new unsigned short[VBO_COUNT_MID_IDX];
+			for (int i=0; i<4; i++) {
+				loEdgeIndices[i] = new unsigned short[VBO_COUNT_LO_EDGE];
+				hiEdgeIndices[i] = new unsigned short[VBO_COUNT_HI_EDGE];
+			}
+			/* also want vtx indices for tris not touching edge of patch */
+			idx = midIndices;
+			for (int x=1; x<GEOPATCH_EDGELEN-2; x++) {
+				for (int y=1; y<GEOPATCH_EDGELEN-2; y++) {
 					idx[0] = x + GEOPATCH_EDGELEN*y;
 					idx[1] = x+1 + GEOPATCH_EDGELEN*y;
 					idx[2] = x + GEOPATCH_EDGELEN*(y+1);
@@ -71,48 +81,144 @@ public:
 					idx+=3;
 				}
 			}
+			{
+				for (int x=1; x<GEOPATCH_EDGELEN-3; x+=2) {
+					// razor teeth near edge 0
+					idx[0] = x + GEOPATCH_EDGELEN;
+					idx[1] = x+1;
+					idx[2] = x+1 + GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = x+1;
+					idx[1] = x+2 + GEOPATCH_EDGELEN;
+					idx[2] = x+1 + GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+				for (int x=1; x<GEOPATCH_EDGELEN-3; x+=2) {
+					// near edge 2
+					idx[0] = x + GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-2);
+					idx[1] = x+1 + GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-2);
+					idx[2] = x+1 + GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-1);
+					idx+=3;
+					idx[0] = x+1 + GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-2);
+					idx[1] = x+2 + GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-2);
+					idx[2] = x+1 + GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-1);
+					idx+=3;
+				}
+				for (int y=1; y<GEOPATCH_EDGELEN-3; y+=2) {
+					// near edge 1
+					idx[0] = GEOPATCH_EDGELEN-2 + y*GEOPATCH_EDGELEN;
+					idx[1] = GEOPATCH_EDGELEN-1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[2] = GEOPATCH_EDGELEN-2 + (y+1)*GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = GEOPATCH_EDGELEN-2 + (y+1)*GEOPATCH_EDGELEN;
+					idx[1] = GEOPATCH_EDGELEN-1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[2] = GEOPATCH_EDGELEN-2 + (y+2)*GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+				for (int y=1; y<GEOPATCH_EDGELEN-3; y+=2) {
+					// near edge 3
+					idx[0] = 1 + y*GEOPATCH_EDGELEN;
+					idx[1] = 1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[2] = (y+1)*GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = 1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[1] = 1 + (y+2)*GEOPATCH_EDGELEN;
+					idx[2] = (y+1)*GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+			}
+			// full detail edge triangles
+			{
+				idx = hiEdgeIndices[0];
+				for (int x=0; x<GEOPATCH_EDGELEN-1; x+=2) {
+					idx[0] = x; idx[1] = x+1; idx[2] = x+1 + GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+				idx = hiEdgeIndices[1];
+				for (int y=0; y<GEOPATCH_EDGELEN-1; y+=2) {
+					idx[0] = GEOPATCH_EDGELEN-1 + y*GEOPATCH_EDGELEN;
+					idx[1] = GEOPATCH_EDGELEN-1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[2] = GEOPATCH_EDGELEN-2 + (y+1)*GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = GEOPATCH_EDGELEN-1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[1] = GEOPATCH_EDGELEN-1 + (y+2)*GEOPATCH_EDGELEN;
+					idx[2] = GEOPATCH_EDGELEN-2 + (y+1)*GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+				idx = hiEdgeIndices[2];
+				for (int x=0; x<GEOPATCH_EDGELEN-1; x+=2) {
+					idx[0] = x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN;
+					idx[1] = x+1 + (GEOPATCH_EDGELEN-2)*GEOPATCH_EDGELEN;
+					idx[2] = x+1 + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = x+1 + (GEOPATCH_EDGELEN-2)*GEOPATCH_EDGELEN;
+					idx[1] = x+2 + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN;
+					idx[2] = x+1 + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+				idx = hiEdgeIndices[3];
+				for (int y=0; y<GEOPATCH_EDGELEN-1; y+=2) {
+					idx[0] = y*GEOPATCH_EDGELEN;
+					idx[1] = 1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[2] = (y+1)*GEOPATCH_EDGELEN;
+					idx+=3;
+					idx[0] = (y+1)*GEOPATCH_EDGELEN;
+					idx[1] = 1 + (y+1)*GEOPATCH_EDGELEN;
+					idx[2] = (y+2)*GEOPATCH_EDGELEN;
+					idx+=3;
+				}
+			}
 			// these edge indices are for patches with no
 			// neighbour of equal or greater detail -- they reduce
 			// their edge complexity by 1 division
-			idx = loEdgeIndices[0];
-			for (int x=0; x<GEOPATCH_EDGELEN-1; x+=2) {
-				idx[0] = x;
-				idx[1] = x+2;
-				idx[2] = x+1+GEOPATCH_EDGELEN;
-				idx += 3;
-			}
-			idx = loEdgeIndices[1];
-			for (int y=0; y<GEOPATCH_EDGELEN-1; y+=2) {
-				idx[0] = (GEOPATCH_EDGELEN-1) + y*GEOPATCH_EDGELEN;
-				idx[1] = (GEOPATCH_EDGELEN-1) + (y+2)*GEOPATCH_EDGELEN;
-				idx[2] = (GEOPATCH_EDGELEN-2) + (y+1)*GEOPATCH_EDGELEN;
-				idx += 3;
-			}
-			idx = loEdgeIndices[2];
-			for (int x=0; x<GEOPATCH_EDGELEN-1; x+=2) {
-				idx[0] = x+GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-1);
-				idx[2] = x+2+GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-1);
-				idx[1] = x+1+GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-2);
-				idx += 3;
-			}
-			idx = loEdgeIndices[3];
-			for (int y=0; y<GEOPATCH_EDGELEN-1; y+=2) {
-				idx[0] = y*GEOPATCH_EDGELEN;
-				idx[2] = (y+2)*GEOPATCH_EDGELEN;
-				idx[1] = 1 + (y+1)*GEOPATCH_EDGELEN;
-				idx += 3;
+			{
+				idx = loEdgeIndices[0];
+				for (int x=0; x<GEOPATCH_EDGELEN-2; x+=2) {
+					idx[0] = x;
+					idx[1] = x+2;
+					idx[2] = x+1+GEOPATCH_EDGELEN;
+					idx += 3;
+				}
+				idx = loEdgeIndices[1];
+				for (int y=0; y<GEOPATCH_EDGELEN-2; y+=2) {
+					idx[0] = (GEOPATCH_EDGELEN-1) + y*GEOPATCH_EDGELEN;
+					idx[1] = (GEOPATCH_EDGELEN-1) + (y+2)*GEOPATCH_EDGELEN;
+					idx[2] = (GEOPATCH_EDGELEN-2) + (y+1)*GEOPATCH_EDGELEN;
+					idx += 3;
+				}
+				idx = loEdgeIndices[2];
+				for (int x=0; x<GEOPATCH_EDGELEN-2; x+=2) {
+					idx[0] = x+GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-1);
+					idx[2] = x+2+GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-1);
+					idx[1] = x+1+GEOPATCH_EDGELEN*(GEOPATCH_EDGELEN-2);
+					idx += 3;
+				}
+				idx = loEdgeIndices[3];
+				for (int y=0; y<GEOPATCH_EDGELEN-2; y+=2) {
+					idx[0] = y*GEOPATCH_EDGELEN;
+					idx[2] = (y+2)*GEOPATCH_EDGELEN;
+					idx[1] = 1 + (y+1)*GEOPATCH_EDGELEN;
+					idx += 3;
+				}
 			}
 
 			if (USE_VBO) {
-				glGenBuffersARB(5, indices_vbo);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[0]);
-				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3,
-						indices, GL_STATIC_DRAW);
+				glGenBuffersARB(9, indices_vbo);
 				for (int i=0; i<4; i++) {
-					glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+1]);
+					glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i]);
 					glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
 						loEdgeIndices[i], GL_STATIC_DRAW);
 				}
+				for (int i=0; i<4; i++) {
+					glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+4]);
+					glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
+						hiEdgeIndices[i], GL_STATIC_DRAW);
+				}
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
+				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*VBO_COUNT_MID_IDX,
+						midIndices, GL_STATIC_DRAW);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
 		}
@@ -573,12 +679,16 @@ public:
 				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
 				glColorPointer(3, GL_FLOAT, sizeof(VBOVertex), (void *)(6*sizeof(float)));
 				glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[0]);
-				glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, 0);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
+				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, 0);
 				for (int i=0; i<4; i++) {
-					if (edgeFriend[i]) continue;
-					glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+1]);
-					glDrawElements(GL_TRIANGLES, 3*(GEOPATCH_EDGELEN/2), GL_UNSIGNED_SHORT, 0);
+					if (edgeFriend[i]) {
+						glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+4]);
+						glDrawElements(GL_TRIANGLES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, 0);
+					} else {
+						glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i]);
+						glDrawElements(GL_TRIANGLES, VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, 0);
+					}
 				}
 				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -587,15 +697,13 @@ public:
 				glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
 				glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
 				glColorPointer(3, GL_DOUBLE, 0, &colors[0].x);
-				glDrawElements(GL_TRIANGLES, 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1)*3, GL_UNSIGNED_SHORT, indices);
+				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, midIndices);
 				for (int i=0; i<4; i++) {
-					if (edgeFriend[i]) continue;
-					// Draw reduced division edge when
-					// we have no neighbour (ie neighbour
-					// is lower LOD)
-					// XXX this is not ideal because we draw
-					// more triangles than we need to
-					glDrawElements(GL_TRIANGLES, (GEOPATCH_EDGELEN/2)*3, GL_UNSIGNED_SHORT, loEdgeIndices[i]);
+					if (edgeFriend[i]) {
+						glDrawElements(GL_TRIANGLES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, hiEdgeIndices[i]);
+					} else {
+						glDrawElements(GL_TRIANGLES, (GEOPATCH_EDGELEN/2)*3, GL_UNSIGNED_SHORT, loEdgeIndices[i]);
+					}
 				}
 			}
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -669,9 +777,10 @@ public:
 	}
 };
 
-unsigned short *GeoPatch::indices = 0;
+unsigned short *GeoPatch::midIndices = 0;
 unsigned short *GeoPatch::loEdgeIndices[4];
-GLuint GeoPatch::indices_vbo[5];
+unsigned short *GeoPatch::hiEdgeIndices[4];
+GLuint GeoPatch::indices_vbo[9];
 VBOVertex GeoPatch::vbotemp[GEOPATCH_NUMVERTICES];
 
 
