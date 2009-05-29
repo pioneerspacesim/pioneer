@@ -30,7 +30,7 @@ private:
 	double m_invMaxHeight;
 	double m_crap[16];
 	double m_sealevel;
-	double m_radius;
+	double m_sbodyRadius;
 	vector3d m_fractalOffset;
 
 	/* for sbodies with a heightMap we load this turd

@@ -27,5 +27,15 @@ static inline std::string stringf(int maxlen, const char *format, ...)
 	return std::string(buf);
 }
 
+struct Plane {
+	double a, b, c, d;
+	double DistanceToPoint(const vector3d &p) {
+		return a*p.x + b*p.y + c*p.z + d;
+	}
+};
+
+/* from current GL modelview*projection matrix */
+void GetFrustum(Plane planes[6]);
+
 
 #endif /* _UTILS_H */

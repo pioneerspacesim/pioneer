@@ -49,6 +49,8 @@ public:
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
 	GeoSphere *geosphere;
 	double m_roughLength;
+	vector3d clipCentroid;
+	double clipRadius;
 	int m_depth;
 	GeoPatch() {
 		memset(this, 0, sizeof(GeoPatch));
@@ -57,6 +59,11 @@ public:
 		memset(this, 0, sizeof(GeoPatch));
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		m_depth = depth;
+		clipCentroid = (v0+v1+v2+v3) * 0.25;
+		clipRadius = 0;
+		for (int i=0; i<4; i++) {
+			clipRadius = MAX(clipRadius, (v[i]-clipCentroid).Length());
+		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
 		if (USE_VBO) glGenBuffersARB(1, &m_vbo);
 		if (!midIndices) {
@@ -650,7 +657,8 @@ public:
 			FixEdgeFromParentInterpolated(idx);
 			UpdateVBOs();
 		} else {
-			fprintf(stderr, "Bad. not fixing up edge\n");
+			// XXX TODO XXX
+			// Bad. not fixing up edges in this case!!!
 		}
 	}
 
@@ -665,9 +673,16 @@ public:
 		else return e->kids[we_are];
 	}
 	
-	void Render(vector3d &campos) {
+	void Render(vector3d &campos, Plane planes[6]) {
+		/* frustum test! */
+		for (int i=0; i<6; i++) {
+			if (planes[i].DistanceToPoint(clipCentroid)+clipRadius < 0) {
+				return;
+			}
+		}
+
 		if (kids[0]) {
-			for (int i=0; i<4; i++) kids[i]->Render(campos);
+			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
 		} else {
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -832,7 +847,7 @@ GeoSphere::GeoSphere(const SBody *body)
 	MTRand rand;
 	rand.seed(body->seed);
 	m_sbody = body;
-	m_radius = m_sbody->GetRadius();
+	m_sbodyRadius = m_sbody->GetRadius();
 	m_numCraters = 0;
 	m_craters = 0;
 	m_maxHeight = 0.0014/sqrt(m_sbody->radius.ToDouble());
@@ -919,13 +934,26 @@ void GeoSphere::Render(vector3d campos) {
 	for (int i=0; i<6; i++) {
 		m_patches[i]->LODUpdate(campos);
 	}
+
+	Plane planes[6];
+	GetFrustum(planes);
+/*		printf("FRUSTUM for %s\n", m_sbody->name.c_str());
+		for (int i=0; i<6; i++) {
+			printf("%f,%f,%f,%f\n", 
+					planes[i].a,
+					planes[i].b,
+					planes[i].c,
+					planes[i].d);
+		}
+		return;
+*/
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glMaterialfv (GL_FRONT, GL_AMBIENT, m_ambColor);
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, m_diffColor);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
 	for (int i=0; i<6; i++) {
-		m_patches[i]->Render(campos);
+		m_patches[i]->Render(campos, planes);
 	}
 	glDisable(GL_COLOR_MATERIAL);
 }
@@ -1008,7 +1036,7 @@ double GeoSphere::GetHeightMapVal(const vector3d &pt)
  */
 double GeoSphere::GetHeight(vector3d p)
 {
-	if (m_heightMap) return GetHeightMapVal(p) / m_radius;
+	if (m_heightMap) return GetHeightMapVal(p) / m_sbodyRadius;
 	
 	double n;
 	double div;
