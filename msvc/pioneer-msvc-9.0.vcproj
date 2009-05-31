@@ -243,6 +243,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiButton.cpp"
 				>
 			</File>
@@ -367,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Pi.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Planet.cpp"
 				>
 			</File>
@@ -432,6 +440,10 @@
 			</File>
 			<File
 				RelativePath="..\src\SystemView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\tests.cpp"
 				>
 			</File>
 			<File

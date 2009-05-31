@@ -7,6 +7,7 @@
 #include <GL/glew.h>
 #include <ft2build.h>
 #include "glfreetype.h"
+#include "libs.h"
 
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
