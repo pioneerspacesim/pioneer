@@ -55,7 +55,7 @@ class BIHNode {
 	float GetSplitPos2 () { return splitPos2; }
 	void AllocKids (GeomTree *geomTree);
 	void SetLeaf (bool isLeaf) { m_isleaf = isLeaf; }
-	bool IsLeaf () { return m_isleaf; }
+	bool IsLeaf () { return m_isleaf!=0; }
 	tri_t *GetList () { return m_list; }
 	BIHNode *GetLeft () { return m_left; };
 	BIHNode *GetRight () { return GetLeft()+1; }
@@ -248,11 +248,11 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 		if ((splitBoxSize.z > splitBoxSize.y) && (splitBoxSize.z > splitBoxSize.x)) splitAxis = 2;
 
 		// split pos in middle of a_splitBox
-		splitPos = 0.5f * (a_splitBox.min[splitAxis] + a_splitBox.max[splitAxis]);
+		splitPos = 0.5f * (float)(a_splitBox.min[splitAxis] + a_splitBox.max[splitAxis]);
 
 		//printf ("\n%d: %f ", attempt, splitPos);
-		splitPos1 = a_box.min[splitAxis];
-		splitPos2 = a_box.max[splitAxis];
+		splitPos1 = (float)a_box.min[splitAxis];
+		splitPos2 = (float)a_box.max[splitAxis];
 		
 		s1count = 0, s2count = 0;
 		float crudSum = 0.0f;
@@ -331,8 +331,8 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 		break;
 	}
 	// Traversal algo can't handle completely flat cells..
-	splitPos1 += EPSILON;
-	splitPos2 -= EPSILON;
+	splitPos1 += (float)EPSILON;
+	splitPos2 -= (float)EPSILON;
 	
 	a_node->SetLeaf (false);
 	a_node->SetAxis (splitAxis);
@@ -390,8 +390,8 @@ inline void GeomTree::TraverseRay(const vector3f &a_origin, const vector3f &a_di
 	// clip ray segment to box
 	for (int i = 0; i < 3; i++ )
 	{
-		float clip_min = (m_aabb.min[i] - a_origin[i]) * rcpD[i];
-		float clip_max = (m_aabb.max[i] - a_origin[i]) * rcpD[i];
+		float clip_min = ((float)m_aabb.min[i] - a_origin[i]) * rcpD[i];
+		float clip_max = ((float)m_aabb.max[i] - a_origin[i]) * rcpD[i];
 		if (a_dir[i] > 0.0f) {
 			entry_t = MAX (entry_t, clip_min);
 			exit_t = MIN (exit_t, clip_max);

@@ -41,17 +41,17 @@ void ToolTip::Draw()
 {
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
-	float alpha = age/(float)FADE_TIME_MS; alpha = MIN(alpha, 0.75);
+	float alpha = age/(float)FADE_TIME_MS; alpha = MIN(alpha, 0.75f);
 	glEnable(GL_BLEND);
 	GetSize(size);
-	glColor4f(.2,.2,.6,alpha);
+	glColor4f(.2f,.2f,.6f,alpha);
 	glBegin(GL_QUADS);
 		glVertex2f(0, 0);
 		glVertex2f(0, size[1]);
 		glVertex2f(size[0], size[1]);
 		glVertex2f(size[0], 0);
 	glEnd();
-	glColor4f(.0,.0,.8,alpha);
+	glColor4f(0,0,.8f,alpha);
 	glBegin(GL_LINE_LOOP);
 		glVertex2f(size[0], 0);
 		glVertex2f(size[0], size[1]);

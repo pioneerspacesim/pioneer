@@ -124,7 +124,7 @@ void Box::UpdateAllChildSizes()
 	if ((space > 0) && num_expand_children) {
 		/* give expand children the space space */
 		for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-			bool expand = (*i).flags;
+			bool expand = (*i).flags != 0;
 			float s[2];
 			(*i).w->GetSize(s);
 

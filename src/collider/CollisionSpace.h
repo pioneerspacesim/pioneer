@@ -6,7 +6,7 @@
 
 class Geom;
 struct isect_t;
-class CollisionContact;
+struct CollisionContact;
 
 struct Sphere {
 	vector3d pos;

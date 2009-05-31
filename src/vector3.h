@@ -38,7 +38,7 @@ class vector3 {
 	}
 
 	vector3 Normalized() const {
-		T l = 1.0f / sqrtf(x*x + y*y + z*z);
+		T l = 1.0f / sqrt (x*x + y*y + z*z);
 		return vector3(x*l, y*l, z*l);
 	}
 
@@ -52,8 +52,8 @@ class vector3 {
 		T u = __v.x;
 		T v = __v.y;
 		T w = __v.z;
-		T cos_a = cos (ang);
-		T sin_a = sin (ang);
+		T cos_a = (T) cos (ang);
+		T sin_a = (T) sin (ang);
 		T inv_poo = 1.0f/(u*u+v*v+w*w);
 		t.x = a*(v*v+w*w)+u*(-b*v-c*w+u*x+v*y+w*z)+(-a*(v*v+w*w)+u*(b*v+c*w-v*y-w*z)+(v*v+w*w)*x)*cos_a+
 			sqrtf (u*u+v*v+w*w)*(-c*v+b*w-w*y+v*z)*sin_a;
@@ -73,8 +73,8 @@ class vector3 {
 		T u = __v.x;
 		T v = __v.y;
 		T w = __v.z;
-		T cos_a = cos (ang);
-		T sin_a = sin (ang);
+		T cos_a = (T) cos (ang);
+		T sin_a = (T) sin (ang);
 		T inv_poo = 1.0f/(u*u+v*v+w*w);
 		t.x = u*(u*x+v*y+w*z)+(u*(-v*y-w*z)+(v*v+w*w)*x)*cos_a+
 			sqrtf (u*u+v*v+w*w)*(-w*y+v*z)*sin_a;
@@ -88,6 +88,7 @@ class vector3 {
 		*this = t;
 	}
 };
+
 
 typedef vector3<float> vector3f;
 typedef vector3<double> vector3d;

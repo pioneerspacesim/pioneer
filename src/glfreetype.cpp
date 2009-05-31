@@ -13,7 +13,7 @@
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
 
-#define PARAGRAPH_SPACING 1.5
+#define PARAGRAPH_SPACING 1.5f
 
 #ifdef _WIN32
 typedef GLvoid (APIENTRY *_GLUfuncptr)();
@@ -431,9 +431,9 @@ void TextureFontFace::RenderGlyph(int chr)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, glyph->tex);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTranslatef(glyph->offx, m_pixSize-glyph->offy, 0);
+	glTranslatef((float)glyph->offx, (float)m_pixSize-glyph->offy, 0);
 	glBegin(GL_QUADS);
-		int allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
+		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
 		const float w = glyph->width;
 		const float h = glyph->height;
 		glTexCoord2f(0,h);
@@ -546,7 +546,7 @@ void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, floa
 			words.pop_front();
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0);
+		outSize[1] += GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	if (outSize[1]) outSize[1] += m_descender;
 }
@@ -630,7 +630,7 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 			words.pop_front();
 		}
 		glPopMatrix();
-		glTranslatef(0, GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0), 0);
+		glTranslatef(0, GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f), 0);
 
 	}
 	glPopMatrix();
@@ -735,16 +735,16 @@ TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_he
 			_face.height = face->glyph->bitmap.rows / (float)sz;
 			_face.offx = face->glyph->bitmap_left;
 			_face.offy = face->glyph->bitmap_top;
-			_face.advx = face->glyph->advance.x >> 6;
-			_face.advy = face->glyph->advance.y >> 6;
+			_face.advx = (float)(face->glyph->advance.x >> 6);
+			_face.advy = (float)(face->glyph->advance.y >> 6);
 			m_glyphs[chr] = _face;
 		}
 
 		delete pixBuf;
 		
-		m_height = a_height;
-		m_width = a_width;
-		m_descender = -(face->descender >> 6);
+		m_height = (float)a_height;
+		m_width = (float)a_width;
+		m_descender = (float)-(face->descender >> 6);
 	}
 }
 

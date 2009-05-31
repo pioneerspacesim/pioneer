@@ -263,7 +263,8 @@ static float distance_to_system(const SBodyPath *dest)
 void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 {
 	int fuel_cost;
-	assert(CanHyperspaceTo(dest, fuel_cost));
+	bool hscheck = CanHyperspaceTo(dest, fuel_cost)
+	assert(hscheck);
 	m_equipment.Remove(Equip::SLOT_CARGO, Equip::HYDROGEN, fuel_cost);
 }
 

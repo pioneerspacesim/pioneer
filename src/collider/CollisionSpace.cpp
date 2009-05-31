@@ -38,7 +38,7 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 				}*/
 				if (i1 > 0) {
 					if (i1 < isect->dist) {
-						isect->dist = i1;
+						isect->dist = (float)i1;
 						isect->triIdx = 0;
 					}
 				}
@@ -54,8 +54,8 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, isect_
 			const matrix4x4d &invTrans = (*i)->GetInvTransform();
 			vector3d ms = invTrans * start;
 			vector3d md = invTrans.ApplyRotationOnly(dir);
-			vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
-			vector3f modelDir = vector3f(md.x, md.y, md.z);
+			vector3f modelStart = vector3f((float)ms.x, (float)ms.y, (float)ms.z);
+			vector3f modelDir = vector3f((float)md.x, (float)md.y, (float)md.z);
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, isect);
 		}
 	}
@@ -71,11 +71,11 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 			const matrix4x4d &invTrans = (*i)->GetInvTransform();
 			vector3d ms = invTrans * start;
 			vector3d md = invTrans.ApplyRotationOnly(dir);
-			vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
-			vector3f modelDir = vector3f(md.x, md.y, md.z);
+			vector3f modelStart = vector3f((float)ms.x, (float)ms.y, (float)ms.z);
+			vector3f modelDir = vector3f((float)md.x, (float)md.y, (float)md.z);
 	
 			isect_t isect;
-			isect.dist = dist;
+			isect.dist = (float)dist;
 			isect.triIdx = -1;
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 			if (isect.triIdx != -1) {
@@ -96,7 +96,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 	}
 	{
 		isect_t isect;
-		isect.dist = dist;
+		isect.dist = (float)dist;
 		isect.triIdx = -1;
 		CollideRaySphere(start, dir, &isect);
 		if (isect.triIdx != -1) {

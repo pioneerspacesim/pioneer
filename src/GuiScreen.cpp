@@ -30,9 +30,9 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// coords must be scaled.
 	Screen::fontScale[0] = ui_width / (float)real_width;
 	Screen::fontScale[1] = ui_height / (float)real_height;
-	Screen::font = new TextureFontFace("guifont.ttf", 12/fontScale[0], 12/fontScale[1]);
+	Screen::font = new TextureFontFace("guifont.ttf", (int)(12/fontScale[0]), (int)(12/fontScale[1]));
 	Screen::baseContainer = new Gui::Fixed();
-	Screen::baseContainer->SetSize(Screen::width, Screen::height);
+	Screen::baseContainer->SetSize((float)Screen::width, (float)Screen::height);
 	Screen::baseContainer->SetPosition(0,0);
 	Screen::baseContainer->Show();
 }
@@ -84,7 +84,7 @@ bool Screen::IsBaseWidget(const Widget *w)
 
 void Screen::AddBaseWidget(Widget *w, int x, int y)
 {
-	baseContainer->Add(w, x, y);
+	baseContainer->Add(w, (float)x, (float)y);
 }
 
 void Screen::RemoveBaseWidget(Widget *w)
@@ -212,7 +212,7 @@ void Screen::RenderLabel(const std::string &s, float x, float y)
 		glPushMatrix();
 		glTranslatef(x, y, 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		glTranslatef(0.5*font->GetWidth(), -0.5*font->GetHeight(), 0);
+		glTranslatef(0.5f*font->GetWidth(), -0.5f*font->GetHeight(), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
 	}
@@ -227,7 +227,7 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 		glPushMatrix();
 		glTranslatef(x, y, 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		glTranslatef(0.5*font->GetWidth(), -0.5*font->GetHeight(), 0);
+		glTranslatef(0.5f*font->GetWidth(), -0.5f*font->GetHeight(), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
 	}

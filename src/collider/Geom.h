@@ -6,8 +6,8 @@
 #include "CollisionContact.h"
 
 class GeomTree;
-class isect_t;
-class Sphere;
+struct isect_t;
+struct Sphere;
 
 class Geom {
 public:

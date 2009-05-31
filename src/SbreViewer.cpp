@@ -78,7 +78,7 @@ public:
 	Gui::Adjustment *m_angthrust[3];
 	Gui::Adjustment *m_anim[10];
 
-	Viewer(): Gui::Fixed(g_width, g_height) {
+	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 		{
@@ -111,7 +111,7 @@ public:
 				m_linthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_linthrust[i]);
-				Add(v, i*25, 500);
+				Add(v, (float)(i*25), 500);
 			}
 			
 			Add(new Gui::Label("Angular thrust"), 100, 480);
@@ -120,7 +120,7 @@ public:
 				m_angthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_angthrust[i]);
-				Add(v, 100 + i*25, 500);
+				Add(v, (float)(100 + i*25), 500);
 			}
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 480);
@@ -129,7 +129,7 @@ public:
 				m_anim[i]->SetValue(0);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_anim[i]);
-				Add(v, 200 + i*25, 500);
+				Add(v, (float)(200 + i*25), 500);
 			}
 		}
 
@@ -161,7 +161,7 @@ public:
 
 void Viewer::SetSbreParams()
 {
-	float gameTime = SDL_GetTicks() * 0.001;
+	float gameTime = SDL_GetTicks() * 0.001f;
 
 	for (int i=0; i<10; i++) {
 		params.pAnim[i] = m_anim[i]->GetValue();
@@ -187,12 +187,12 @@ void Viewer::SetSbreParams()
 	if (g_wheelPos < 0) g_wheelPos = 0;
 	if (g_wheelPos > 1) g_wheelPos = 1;
 #endif
-	params.linthrust[0] = 2.0 * (m_linthrust[0]->GetValue() - 0.5);
-	params.linthrust[1] = 2.0 * (m_linthrust[1]->GetValue() - 0.5);
-	params.linthrust[2] = 2.0 * (m_linthrust[2]->GetValue() - 0.5);
-	params.angthrust[0] = 2.0 * (m_angthrust[0]->GetValue() - 0.5);
-	params.angthrust[1] = 2.0 * (m_angthrust[1]->GetValue() - 0.5);
-	params.angthrust[2] = 2.0 * (m_angthrust[2]->GetValue() - 0.5);
+	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
+	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
+	params.linthrust[2] = 2.0f * (m_linthrust[2]->GetValue() - 0.5f);
+	params.angthrust[0] = 2.0f * (m_angthrust[0]->GetValue() - 0.5f);
+	params.angthrust[1] = 2.0f * (m_angthrust[1]->GetValue() - 0.5f);
+	params.angthrust[2] = 2.0f * (m_angthrust[2]->GetValue() - 0.5f);
 }
 
 
@@ -336,12 +336,12 @@ void Viewer::MainLoop()
 		if (g_keyState[SDLK_EQUALS]) distance *= powf(0.5f,g_frameTime);
 		if (g_keyState[SDLK_MINUS]) distance *= powf(2.0f,g_frameTime);
 		if (g_mouseButton[3]) {
-			float rx = -0.01*g_mouseMotion[1];
-			float ry = -0.01*g_mouseMotion[0];
+			float rx = -0.01f*g_mouseMotion[1];
+			float ry = -0.01f*g_mouseMotion[0];
 			rot = matrix4x4d::RotateXMatrix(rx) * rot;
 			rot = matrix4x4d::RotateYMatrix(ry) * rot;
 		}
-		geom->MoveTo(rot, vector3d(0,0,0));
+		geom->MoveTo(rot, vector3d(0.0,0.0,0.0));
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -355,14 +355,14 @@ void Viewer::MainLoop()
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			SetSbreParams();
-			sbreSetDepthRange(g_width*0.5, 0.0, 1.0f);
+			sbreSetDepthRange(g_width*0.5f, 0.0f, 1.0f);
 			sbreSetDirLight (lightCol, lightDir);
 		
 			Matrix m;
 			Vector p;
-			m.x1 = rot[0]; m.x2 = rot[4]; m.x3 = rot[8];
-			m.y1 = rot[1]; m.y2 = rot[5]; m.y3 = rot[9];
-			m.z1 = rot[2]; m.z2 = rot[6]; m.z3 = rot[10];
+			m.x1 = (float)rot[0]; m.x2 = (float)rot[4]; m.x3 = (float)rot[8];
+			m.y1 = (float)rot[1]; m.y2 = (float)rot[5]; m.y3 = (float)rot[9];
+			m.z1 = (float)rot[2]; m.z2 = (float)rot[6]; m.z3 = (float)rot[10];
 			p.x = 0; p.y = 0; p.z = -distance;
 			sbreRenderModel(&p, &m, g_model, &params);
 			glPopAttrib();
@@ -374,16 +374,16 @@ void Viewer::MainLoop()
 			glPopMatrix();
 			//sbreRenderCollMesh(cmesh, &p, &m);
 		} else {
-			vector3d camPos = vector3d(0,0,distance);
-			vector3d forward = vector3d(0,0,-1);
-			vector3d up = vector3d(0,1,0);
+			vector3d camPos = vector3d(0.0,0.0,(double)distance);
+			vector3d forward = vector3d(0.0,0.0,-1.0);
+			vector3d up = vector3d(0.0,1.0,0.0);
 			raytraceCollMesh(camPos, up, forward, space);
 		}
 		
 		Gui::Draw();
 		
 		SDL_GL_SwapBuffers();
-		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001;
+		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
 
 		space->Collide(onCollision);
@@ -463,4 +463,5 @@ int main(int argc, char **argv)
 
 	Viewer v;
 	v.MainLoop();
+	return 0;
 }

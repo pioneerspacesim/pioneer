@@ -43,7 +43,7 @@ void VScrollPortal::Add(Widget *child)
 
 void VScrollPortal::Remove(Widget *child)
 {
-	assert(m_child = child);
+	assert(m_child == child);
 	Container::RemoveChild(child);
 	m_child = 0;
 	m_childSizeY = 0;

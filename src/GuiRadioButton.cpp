@@ -41,7 +41,7 @@ void RadioButton::Draw()
 			glVertex2f(15,15);
 			glVertex2f(0,15);
 			
-			glColor3f(.6,.6,.6);
+			glColor3f(.6f,.6f,.6f);
 			glVertex2f(2,0);
 			glVertex2f(15,0);
 			glVertex2f(15,13);
@@ -55,7 +55,7 @@ void RadioButton::Draw()
 		glEnd();
 	} else {
 		glBegin(GL_QUADS);
-			glColor3f(.6,.6,.6);
+			glColor3f(.6f,.6f,.6f);
 			glVertex2f(0,0);
 			glVertex2f(15,0);
 			glVertex2f(15,15);

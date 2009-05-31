@@ -124,7 +124,7 @@ void Widget::OnToolTip()
 		if (m_tooltipWidget->m_size.h + pos[1] > Screen::GetHeight())
 			pos[1] = Screen::GetHeight() - m_tooltipWidget->m_size.h;
 
-		Screen::AddBaseWidget(m_tooltipWidget, pos[0], pos[1]);
+		Screen::AddBaseWidget(m_tooltipWidget, (int)pos[0], (int)pos[1]);
 		m_tooltipWidget->Show();
 	}
 }

@@ -109,11 +109,11 @@ void Geom::Collide(Geom *b)
 		const double len = dir.Length();
 		dir *= 1.0f/len;
 
-		vector3f _from(from.x, from.y, from.z);
-		vector3f _dir(dir.x, dir.y, dir.z);
+		vector3f _from((float)from.x, (float)from.y, (float)from.z);
+		vector3f _dir((float)dir.x, (float)dir.y, (float)dir.z);
 
 		isect_t isect;
-		isect.dist = len;
+		isect.dist = (float)len;
 		isect.triIdx = -1;
 		b->m_geomtree->TraceRay(_from, _dir, &isect);
 		if (isect.triIdx != -1) {

@@ -14,7 +14,7 @@ namespace Gui {
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual void OnActivate();
 		void SetPressed(bool s) { m_pressed = s; }
-		bool GetPressed() { return m_pressed; }
+		bool GetPressed() { return m_pressed != 0; }
 		
 		sigc::signal<void, ToggleButton *, bool> onChange;
 	private:

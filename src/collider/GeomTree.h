@@ -4,7 +4,7 @@
 #include "../Aabb.h"
 
 class BIHNode;
-class tri_t;
+struct tri_t;
 
 struct isect_t {
 	// triIdx = -1 if no intersection

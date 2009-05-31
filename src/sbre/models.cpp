@@ -1331,17 +1331,17 @@ Model metalFrameTowerModel = { 0.1f, 20.0f, 14, metalFrameTowerVtx1, 14, 4, dumm
 
 static PlainVertex starport1vtx1[] = {
 	{ VTYPE_PLAIN, { 0,0,0 } }, // 6: pad centre
-	{ VTYPE_PLAIN, { 0,.01,0 } },
-	{ VTYPE_PLAIN, { -0.1,.01,-0.1 } },
-	{ VTYPE_PLAIN, { 0, 0, -2 } }, // 9: hermite norm
-	{ VTYPE_PLAIN, { 0, 0, 2 } }, // 10: hermite norm
-	{ VTYPE_PLAIN, { 0.5, 0, 0 } }, // 11: pad vtx
-	{ VTYPE_PLAIN, { -0.5, 0, 0 } }, // 12: pad vtx
+	{ VTYPE_PLAIN, { 0,0.01f,0 } },
+	{ VTYPE_PLAIN, { -0.1f,0.01f,-0.1f } },
+	{ VTYPE_PLAIN, { 0, 0, -2.0f } }, // 9: hermite norm
+	{ VTYPE_PLAIN, { 0, 0, 2.0f } }, // 10: hermite norm
+	{ VTYPE_PLAIN, { 0.5f, 0, 0 } }, // 11: pad vtx
+	{ VTYPE_PLAIN, { -0.5f, 0, 0 } }, // 12: pad vtx
 
-	{ VTYPE_PLAIN, { 0, 0, 2 } }, // 13: pad2 centre
-	{ VTYPE_PLAIN, { 0.5, 0, 2 } }, // 14: pad2 vtx
-	{ VTYPE_PLAIN, { -0.5, 0, 2 } }, // 15: pad2 vtx
-	{ VTYPE_PLAIN, { -0.1,.01, 2-0.1 } },
+	{ VTYPE_PLAIN, { 0, 0, 2.0f } }, // 13: pad2 centre
+	{ VTYPE_PLAIN, { 0.5f, 0, 2.0f } }, // 14: pad2 vtx
+	{ VTYPE_PLAIN, { -0.5f, 0, 2.0f } }, // 15: pad2 vtx
+	{ VTYPE_PLAIN, { -0.1f,0.01f, 2.0f-0.1f } },
 };
 /*uint16 PFUNC_COMPSMOOTH
 	uint16 cacheidx
@@ -1390,14 +1390,14 @@ static PlainVertex tombstonevtx1[] = {
 	{ VTYPE_PLAIN, { 0.6f, -1.0f, -0.1f } },
 	{ VTYPE_PLAIN, { -0.6f, -1.0f, -0.1f } },
 	{ VTYPE_PLAIN, { -0.6f, 1.0f, -0.1f } },
-	{ VTYPE_PLAIN, { 0, 1, 0.1 } }, // cylinder
-	{ VTYPE_PLAIN, { 0, 1, -0.1 } },
+	{ VTYPE_PLAIN, { 0, 1, 0.1f } }, // cylinder
+	{ VTYPE_PLAIN, { 0, 1, -0.1f } },
 	{ VTYPE_PLAIN, { 0.6f, 1.0f, 0.1f } }, // rear quad
 	{ VTYPE_PLAIN, { 0.6f, -1.0f, 0.1f } },
 	{ VTYPE_PLAIN, { -0.6f, -1.0f, 0.1f } },
 	{ VTYPE_PLAIN, { -0.6f, 1.0f, 0.1f } },
-	{ VTYPE_PLAIN, { 0, 0.5, -0.1 } }, // text start
-	{ VTYPE_PLAIN, { 0, 0.5, 0.1 } }, // text start
+	{ VTYPE_PLAIN, { 0, 0.5f, -0.1f } }, // text start
+	{ VTYPE_PLAIN, { 0, 0.5f, 0.1f } }, // text start
 };
 static uint16 tombstonedata[] = {
 	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
@@ -1418,8 +1418,8 @@ Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
 	{ { 0, tombstonedata, 0, 0, 0 } } };
 
 static PlainVertex cargovtx1[] = {
-	{ VTYPE_PLAIN, { 0, 0.8, 0 } },
-	{ VTYPE_PLAIN, { 0, -0.8, 0 } },
+	{ VTYPE_PLAIN, { 0, 0.8f, 0 } },
+	{ VTYPE_PLAIN, { 0, -0.8f, 0 } },
 };
 
 static uint16 cargodata[] = {

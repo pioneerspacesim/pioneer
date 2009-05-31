@@ -191,12 +191,12 @@ void AllocModelCaches (Model *pModel)
 void sbreRenderModel(const double pos[3], const double orient[16], int model, ObjParams *pParam, float s, Vector *pCompos)
 {
 	Vector p;
-	p.x = pos[0]; p.y = pos[1]; p.z = pos[2];
+	p.x = (float)pos[0]; p.y = (float)pos[1]; p.z = (float)pos[2];
 
 	Matrix m;
-	m.x1 = orient[0]; m.x2 = orient[4]; m.x3 = orient[8];
-	m.y1 = orient[1]; m.y2 = orient[5]; m.y3 = orient[9];
-	m.z1 = orient[2]; m.z2 = orient[6]; m.z3 = orient[10];
+	m.x1 = (float)orient[0]; m.x2 = (float)orient[4]; m.x3 = (float)orient[8];
+	m.y1 = (float)orient[1]; m.y2 = (float)orient[5]; m.y3 = (float)orient[9];
+	m.z1 = (float)orient[2]; m.z2 = (float)orient[6]; m.z3 = (float)orient[10];
 
 	sbreRenderModel(&p, &m, model, pParam, s, pCompos);
 }
