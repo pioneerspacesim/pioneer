@@ -72,7 +72,65 @@ static ObjParams params = {
 	{ "IR-L33T", "ME TOO" },
 };
 
-static void SetSbreParams()
+class Viewer: public Gui::Fixed {
+public:
+	Gui::Adjustment *m_linthrust[3];
+	Gui::Adjustment *m_angthrust[3];
+
+	Viewer(): Gui::Fixed(g_width, g_height) {
+		Gui::Screen::AddBaseWidget(this, 0, 0);
+		SetTransparency(true);
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_c, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
+			Add(b, 10, 10);
+			Add(new Gui::Label("[c] Change view (normal, collision mesh, raytraced collision mesh)"), 30, 10);
+		} {
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_g, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGearState));
+			Add(b, 10, 30);
+			Add(new Gui::Label("[g] Toggle gear state"), 30, 30);
+		} {
+			Add(new Gui::Label("Linear thrust"), 0, 480);
+			for (int i=0; i<3; i++) {
+				m_linthrust[i] = new Gui::Adjustment();
+				m_linthrust[i]->SetValue(0.5);
+				Gui::VScrollBar *v = new Gui::VScrollBar();
+				v->SetAdjustment(m_linthrust[i]);
+				Add(v, i*25, 500);
+			}
+			
+			Add(new Gui::Label("Angular thrust"), 100, 480);
+			for (int i=0; i<3; i++) {
+				m_angthrust[i] = new Gui::Adjustment();
+				m_angthrust[i]->SetValue(0.5);
+				Gui::VScrollBar *v = new Gui::VScrollBar();
+				v->SetAdjustment(m_angthrust[i]);
+				Add(v, 100 + i*25, 500);
+			}
+		}
+
+		ShowAll();
+		Show();
+	}
+
+	void OnToggleGearState() {
+		if (g_wheelMoveDir == -1) g_wheelMoveDir = +1;
+		else g_wheelMoveDir = -1;
+	}
+
+	void OnClickChangeView() {
+		g_renderType++;
+		if (g_renderType > 2) g_renderType = 0;
+	}
+
+	void MainLoop();
+	void SetSbreParams();
+};
+
+void Viewer::SetSbreParams()
 {
 	float gameTime = SDL_GetTicks() * 0.001;
 	params.pAnim[ASRC_SECFRAC] = gameTime;
@@ -91,43 +149,15 @@ static void SetSbreParams()
 	g_wheelPos += 0.5*g_frameTime*g_wheelMoveDir;
 	if (g_wheelPos < 0) g_wheelPos = 0;
 	if (g_wheelPos > 1) g_wheelPos = 1;
+
+	params.linthrust[0] = 2.0 * (m_linthrust[0]->GetValue() - 0.5);
+	params.linthrust[1] = 2.0 * (m_linthrust[1]->GetValue() - 0.5);
+	params.linthrust[2] = 2.0 * (m_linthrust[2]->GetValue() - 0.5);
+	params.angthrust[0] = 2.0 * (m_angthrust[0]->GetValue() - 0.5);
+	params.angthrust[1] = 2.0 * (m_angthrust[1]->GetValue() - 0.5);
+	params.angthrust[2] = 2.0 * (m_angthrust[2]->GetValue() - 0.5);
 }
 
-class Viewer: public Gui::Fixed {
-public:
-	Viewer(): Gui::Fixed(g_width, g_height) {
-		Gui::Screen::AddBaseWidget(this, 0, 0);
-		SetTransparency(true);
-		{
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_c, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
-			Add(b, 10, 10);
-			Add(new Gui::Label("[c] Change view (normal, collision mesh, raytraced collision mesh)"), 30, 10);
-		} {
-			Gui::Button *b = new Gui::SolidButton();
-			b->SetShortcut(SDLK_g, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGearState));
-			Add(b, 10, 30);
-			Add(new Gui::Label("[g] Toggle gear state"), 30, 30);
-		}
-
-		ShowAll();
-		Show();
-	}
-
-	void OnToggleGearState() {
-		if (g_wheelMoveDir == -1) g_wheelMoveDir = +1;
-		else g_wheelMoveDir = -1;
-	}
-
-	void OnClickChangeView() {
-		g_renderType++;
-		if (g_renderType > 2) g_renderType = 0;
-	}
-
-	void MainLoop();
-};
 
 static void render_coll_mesh(const CollMesh *m)
 {
@@ -268,7 +298,7 @@ void Viewer::MainLoop()
 		if (g_keyState[SDLK_RIGHT]) rot = matrix4x4d::RotateYMatrix(-g_frameTime) * rot;
 		if (g_keyState[SDLK_EQUALS]) distance *= powf(0.5f,g_frameTime);
 		if (g_keyState[SDLK_MINUS]) distance *= powf(2.0f,g_frameTime);
-		if (g_mouseButton[1] || g_mouseButton[3]) {
+		if (g_mouseButton[3]) {
 			float rx = -0.01*g_mouseMotion[1];
 			float ry = -0.01*g_mouseMotion[0];
 			rot = matrix4x4d::RotateXMatrix(rx) * rot;
