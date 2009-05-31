@@ -8,6 +8,7 @@ extern Model wing1model, wing2model;
 extern Model ship1model, ship2model, ship3model, ship4model, ship5model;
 extern Model station1model, starport1model, tombstonemodel, cargomodel;
 extern Model metalFrameTowerModel;
+extern Model building1, building2, house1;
 
 // common subobject indices
 
@@ -43,7 +44,7 @@ Model * const ppModel[] =
 	&wing2model,
 	0, 0, 0, 0, 0, 0, 0, 0,
 	// 40
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	&building1, &building2, &house1, 0, 0, 0, 0, 0, 0, 0,
 	// 50
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	// 60, JJ ships
