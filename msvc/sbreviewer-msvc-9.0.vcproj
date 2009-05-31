@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\sbre\models-buildings.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\sbre\models.cpp"
 				>
 			</File>

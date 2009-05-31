@@ -443,10 +443,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\tests.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\src\utils.cpp"
 				>
 			</File>
@@ -780,6 +776,10 @@
 			</File>
 			<File
 				RelativePath="..\src\sbre\jjvector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sbre\models-buildings.cpp"
 				>
 			</File>
 			<File
