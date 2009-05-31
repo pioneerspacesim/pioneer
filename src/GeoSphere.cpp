@@ -251,12 +251,9 @@ public:
 				pData->nx = (float)normals[i].x;
 				pData->ny = (float)normals[i].y;
 				pData->nz = (float)normals[i].z;
-pData->cr = (m_depth & 2) * 0.14f + 0.4f;
-pData->cg = ((m_depth>>2) & 2) * 0.14f + 0.4f;
-pData->cb = ((m_depth>>4) & 2) * 0.14f + 0.4f;
-//				pData->cr = (float)colors[i].x;
-//				pData->cg = (float)colors[i].y;
-//				pData->cb = (float)colors[i].z;
+				pData->cr = (float)colors[i].x;
+				pData->cg = (float)colors[i].y;
+				pData->cb = (float)colors[i].z;
 			}
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_STATIC_DRAW);
@@ -987,10 +984,6 @@ double GeoSphere::GetHeightMapVal(const vector3d &pt)
 	double latitude = -asin(pt.y);
 	if (pt.y < -1.0) latitude = -0.5*M_PI;
 	if (pt.y > 1.0) latitude = 0.5*M_PI;
-//	if (!isfinite(latitude)) {
-//		// pt.y is just out of asin domain [-1,1]
-//		latitude = (pt.y < 0 ? -0.5*M_PI : M_PI*0.5);
-//	}
 	double longitude = atan2(pt.x, pt.z);
 	double px = (((m_heightMapSizeX-1) * (longitude + M_PI)) / (2*M_PI));
 	double py = ((m_heightMapSizeY-1)*(latitude + 0.5*M_PI)) / M_PI;
