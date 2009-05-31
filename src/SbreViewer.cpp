@@ -76,6 +76,7 @@ class Viewer: public Gui::Fixed {
 public:
 	Gui::Adjustment *m_linthrust[3];
 	Gui::Adjustment *m_angthrust[3];
+	Gui::Adjustment *m_anim[10];
 
 	Viewer(): Gui::Fixed(g_width, g_height) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
@@ -86,13 +87,17 @@ public:
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
 			Add(b, 10, 10);
 			Add(new Gui::Label("[c] Change view (normal, collision mesh, raytraced collision mesh)"), 30, 10);
-		} {
+		} 
+#if 0
+		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_g, KMOD_NONE);
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGearState));
 			Add(b, 10, 30);
 			Add(new Gui::Label("[g] Toggle gear state"), 30, 30);
-		} {
+		}
+#endif /* 0 */	
+		{
 			Add(new Gui::Label("Linear thrust"), 0, 480);
 			for (int i=0; i<3; i++) {
 				m_linthrust[i] = new Gui::Adjustment();
@@ -109,6 +114,15 @@ public:
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_angthrust[i]);
 				Add(v, 100 + i*25, 500);
+			}
+			
+			Add(new Gui::Label("Animations 0-9"), 200, 480);
+			for (int i=0; i<10; i++) {
+				m_anim[i] = new Gui::Adjustment();
+				m_anim[i]->SetValue(0);
+				Gui::VScrollBar *v = new Gui::VScrollBar();
+				v->SetAdjustment(m_anim[i]);
+				Add(v, 200 + i*25, 500);
 			}
 		}
 
@@ -133,10 +147,18 @@ public:
 void Viewer::SetSbreParams()
 {
 	float gameTime = SDL_GetTicks() * 0.001;
+
+	for (int i=0; i<10; i++) {
+		params.pAnim[i] = m_anim[i]->GetValue();
+		if (params.pAnim[i]) params.pFlag[i] = 1;
+		else params.pFlag[i] = 0;
+	}
+
 	params.pAnim[ASRC_SECFRAC] = gameTime;
 	params.pAnim[ASRC_MINFRAC] = gameTime / 60;
 	params.pAnim[ASRC_HOURFRAC] = gameTime / 3600.0f;
 	params.pAnim[ASRC_DAYFRAC] = gameTime / (24*3600.0f);
+#if 0
 	if (g_wheelPos <= 0) {
 		params.pAnim[ASRC_GEAR] = 0;
 		params.pFlag[AFLAG_GEAR] = 0;
@@ -149,7 +171,7 @@ void Viewer::SetSbreParams()
 	g_wheelPos += 0.5*g_frameTime*g_wheelMoveDir;
 	if (g_wheelPos < 0) g_wheelPos = 0;
 	if (g_wheelPos > 1) g_wheelPos = 1;
-
+#endif
 	params.linthrust[0] = 2.0 * (m_linthrust[0]->GetValue() - 0.5);
 	params.linthrust[1] = 2.0 * (m_linthrust[1]->GetValue() - 0.5);
 	params.linthrust[2] = 2.0 * (m_linthrust[2]->GetValue() - 0.5);
