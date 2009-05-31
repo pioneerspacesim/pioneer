@@ -88,6 +88,13 @@ public:
 			Add(b, 10, 10);
 			Add(new Gui::Label("[c] Change view (normal, collision mesh, raytraced collision mesh)"), 30, 10);
 		} 
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_r, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
+			Add(b, 10, 30);
+			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
+		} 
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -116,7 +123,7 @@ public:
 				Add(v, 100 + i*25, 500);
 			}
 			
-			Add(new Gui::Label("Animations 0-9"), 200, 480);
+			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 480);
 			for (int i=0; i<10; i++) {
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -128,6 +135,14 @@ public:
 
 		ShowAll();
 		Show();
+	}
+
+	void OnResetAdjustments() {
+		for (int i=0; i<10; i++) m_anim[i]->SetValue(0);
+		for (int i=0; i<3; i++) {
+			m_linthrust[i]->SetValue(0.5);
+			m_angthrust[i]->SetValue(0.5);
+		}
 	}
 
 	void OnToggleGearState() {
