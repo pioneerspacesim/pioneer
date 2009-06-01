@@ -6,7 +6,7 @@
 #include "View.h"
 
 class Body;
-class SBodyPath;
+struct SBodyPath;
 
 class WorldView: public View {
 public:

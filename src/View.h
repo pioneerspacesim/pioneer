@@ -17,7 +17,7 @@ public:
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		
 		m_rightButtonBar = new Gui::Fixed(128, 26);
-		m_rightButtonBar->SetBgColor(.65, .65, .65);
+		m_rightButtonBar->SetBgColor(.65f, .65f, .65f);
 		Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, Gui::Screen::GetHeight()-26);
 
 		m_rightRegion2 = new Gui::Fixed(122, 17);

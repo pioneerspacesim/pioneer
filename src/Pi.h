@@ -19,7 +19,7 @@ class ShipCpanel;
 class StarSystem;
 class SpaceStationView;
 class InfoView;
-class SBodyPath;
+struct SBodyPath;
 
 class IniConfig: private std::map<std::string, std::string> {
 	public:
@@ -54,7 +54,7 @@ public:
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(float s);
 	static float GetTimeAccel() { return timeAccel; }
-	static float GetTimeStep() { return timeAccel*(1.0/62.5); }
+	static float GetTimeStep() { return timeAccel*(1.0f/62.5f); }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }

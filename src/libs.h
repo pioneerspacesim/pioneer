@@ -48,8 +48,8 @@
 #define AU		149598000000.0
 #define G		6.67428e-11
 
-#define WORLDVIEW_ZNEAR	10.0
-#define WORLDVIEW_ZFAR	100000.0
+#define WORLDVIEW_ZNEAR	10.0f
+#define WORLDVIEW_ZFAR	100000.0f
 
 /* 
  * Normal use:

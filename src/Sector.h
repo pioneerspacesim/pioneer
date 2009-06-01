@@ -6,7 +6,7 @@
 #include <vector>
 #include "StarSystem.h"
 
-class CustomSystem;
+struct CustomSystem;
 
 class Sector {
 public:

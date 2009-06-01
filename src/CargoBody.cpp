@@ -53,7 +53,7 @@ CargoBody::CargoBody(Equip::Type t)
 
 bool CargoBody::OnDamage(Body *attacker, float kgDamage)
 {
-	m_hitpoints -= kgDamage*0.001;
+	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {
 		Space::KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);

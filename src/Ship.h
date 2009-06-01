@@ -9,7 +9,7 @@
 #include <list>
 
 class SpaceStation;
-class SBodyPath;
+struct SBodyPath;
 
 struct shipstats_t {
 	int max_capacity;
