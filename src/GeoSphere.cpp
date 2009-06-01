@@ -251,12 +251,9 @@ public:
 				pData->nx = (float)normals[i].x;
 				pData->ny = (float)normals[i].y;
 				pData->nz = (float)normals[i].z;
-pData->cr = (m_depth & 2) * 0.14f + 0.4f;
-pData->cg = ((m_depth>>2) & 2) * 0.14f + 0.4f;
-pData->cb = ((m_depth>>4) & 2) * 0.14f + 0.4f;
-//				pData->cr = (float)colors[i].x;
-//				pData->cg = (float)colors[i].y;
-//				pData->cb = (float)colors[i].z;
+				pData->cr = (float)colors[i].x;
+				pData->cg = (float)colors[i].y;
+				pData->cb = (float)colors[i].z;
 			}
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_STATIC_DRAW);

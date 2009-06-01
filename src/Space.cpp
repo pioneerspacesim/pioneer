@@ -261,7 +261,7 @@ void UpdateFramesOfReference()
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		Body *b = *i;
 
-		if (!b->GetFlags() & Body::FLAG_CAN_MOVE_FRAME) continue;
+		if (!(b->GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) continue;
 
 		// falling out of frames
 		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
