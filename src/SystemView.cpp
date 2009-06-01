@@ -106,7 +106,7 @@ void SystemView::PutLabel(SBody *b, vector3d offset)
 	vector3d pos;
 	if (Gui::Screen::Project (offset.x, offset.y, offset.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
 		// libsigc++ is a beautiful thing
-		Gui::Screen::PutClickableLabel(b->name, pos.x, pos.y,
+		Gui::Screen::PutClickableLabel(b->name, (float)pos.x, (float)pos.y,
 				sigc::bind<0>(sigc::mem_fun(this, &SystemView::OnClickObject), b));
 	}
 

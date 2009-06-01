@@ -19,8 +19,8 @@ public:
 	void Draw() {
 		float size[2];
 		GetSize(size);
-		const float mx = size[0]*0.5;
-		const float my = size[1]*0.5;
+		const float mx = size[0]*0.5f;
+		const float my = size[1]*0.5f;
 		float c2p[2];
 		Widget::SetClipping(size[0], size[1]);
 		Gui::Screen::GetCoords2Pixels(c2p);
@@ -46,7 +46,7 @@ public:
 		glPushMatrix();
 		glEnable(GL_BLEND);
 		glColor4f(0,.4,0,0.25);
-		glTranslatef(0.5*c2p[0],0.5*c2p[1],0);
+		glTranslatef(0.5f*c2p[0],0.5f*c2p[1],0);
 		DrawDistanceRings();
 		glTranslatef(0,-c2p[1],0);
 		DrawDistanceRings();
@@ -64,8 +64,8 @@ private:
 	void DrawBlobs(bool below) {
 		float size[2];
 		GetSize(size);
-		float mx = size[0]*0.5;
-		float my = size[1]*0.5;
+		float mx = size[0]*0.5f;
+		float my = size[1]*0.5f;
 		glLineWidth(2);
 		glPointSize(4);
 		for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
@@ -88,12 +88,12 @@ private:
 				if ((pos.y<0)&&(!below)) continue;
 
 				glBegin(GL_LINES);
-				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE);
-				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
+				glVertex2f(mx + (float)pos.x*SCALE, my + YSHRINK*(float)pos.z*SCALE);
+				glVertex2f(mx + (float)pos.x*SCALE, my + YSHRINK*(float)pos.z*SCALE - YSHRINK*(float)pos.y*SCALE);
 				glEnd();
 				
 				glBegin(GL_POINTS);
-				glVertex2f(mx + pos.x*SCALE, my + YSHRINK*pos.z*SCALE - YSHRINK*pos.y*SCALE);
+				glVertex2f(mx + (float)pos.x*SCALE, my + YSHRINK*(float)pos.z*SCALE - YSHRINK*(float)pos.y*SCALE);
 				glEnd();
 			}
 		}
@@ -101,20 +101,20 @@ private:
 	void DrawDistanceRings() {
 		float size[2];
 		GetSize(size);
-		float mx = size[0]*0.5;
-		float my = size[1]*0.5;
+		float mx = size[0]*0.5f;
+		float my = size[1]*0.5f;
 
 		/* soicles */
-		for (float sz=1.0f; sz>0.1f; sz-=0.33) {
+		for (float sz=1.0f; sz>0.1f; sz-=0.33f) {
 			glBegin(GL_LINE_LOOP);
-			for (float a=0; a<2*M_PI; a+=M_PI*0.02) {
+			for (float a=0; a<2*M_PI; a+=(float)(M_PI*0.02)) {
 				glVertex2f(mx + sz*mx*sin(a), my + YSHRINK*sz*my*cos(a));
 			}
 			glEnd();
 		}
 		/* schpokes */
 		glBegin(GL_LINES);
-		for (float a=0; a<2*M_PI; a+=M_PI*0.25) {
+		for (float a=0; a<2*M_PI; a+=(float)(M_PI*0.25)) {
 			glVertex2f(mx, my);
 			glVertex2f(mx + mx*sin(a), my + YSHRINK*my*cos(a));
 		}
@@ -123,7 +123,7 @@ private:
 	}
 };
 
-ShipCpanel::ShipCpanel(): Gui::Fixed(Gui::Screen::GetWidth(), 64)
+ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 {
 	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-64);
 	SetTransparency(true);
@@ -216,7 +216,7 @@ void ShipCpanel::SetTemporaryMessage(Body * const sender, std::string msg)
 		poo = std::string("#ca0")+"Message from "+sender->GetLabel()+":\n"+poo;
 	}
 	tempMsg->SetText(poo);
-	tempMsgAge = Pi::GetGameTime();
+	tempMsgAge = (float)Pi::GetGameTime();
 }
 
 void ShipCpanel::Draw()
@@ -265,7 +265,7 @@ void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, double step)
 {
-	Pi::SetTimeAccel(step);
+	Pi::SetTimeAccel((float)step);
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)

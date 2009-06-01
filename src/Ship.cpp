@@ -105,7 +105,7 @@ void Ship::Init()
 	SetModel(stype.sbreModel);
 	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
 	UpdateMass();
-	m_stats.hull_mass_left = stype.hullMass;
+	m_stats.hull_mass_left = (float)stype.hullMass;
 }
 
 void Ship::PostLoadFixup()
@@ -165,7 +165,7 @@ void Ship::UpdateMass()
 
 bool Ship::OnDamage(Body *attacker, float kgDamage)
 {
-	m_stats.hull_mass_left -= kgDamage*0.001;
+	m_stats.hull_mass_left -= kgDamage*0.001f;
 	if (m_stats.hull_mass_left < 0) {
 		Space::KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
@@ -210,7 +210,7 @@ vector3d Ship::CalcRotDamping()
 
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 {
-	m_thrusters[t] = CLAMP(level, 0.0, 1.0);
+	m_thrusters[t] = CLAMP(level, 0.0f, 1.0f);
 }
 
 void Ship::ClearThrusterState()
@@ -243,7 +243,7 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	float hyperclass = EquipType::types[t].pval;
+	float hyperclass = (float)EquipType::types[t].pval;
 	m_stats.hyperspace_range_max = 200 * hyperclass * hyperclass / m_stats.total_mass;
 	m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN) /
 		(hyperclass * hyperclass));
@@ -271,7 +271,7 @@ void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired) 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	float hyperclass = EquipType::types[t].pval;
+	float hyperclass = (float)EquipType::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	fuelRequired = 0;
 	if (hyperclass == 0) return false;
@@ -284,8 +284,8 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired)
 	}
 
 	this->CalcStats();
-	fuelRequired = ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
-	if (fuelRequired < hyperclass*hyperclass) fuelRequired = ceil(0.2f*hyperclass*hyperclass);
+	fuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
+	if (fuelRequired < hyperclass*hyperclass) fuelRequired = (int)ceil(0.2f*hyperclass*hyperclass);
 	if (fuelRequired < 1) fuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {
 		fuelRequired = 0;
@@ -420,7 +420,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 		pos += GetPosition();
 		
 		Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, i);
-		const float damage = 100.0 * EquipType::types[t].pval;
+		const float damage = 100.0f * (float)EquipType::types[t].pval;
 		
 		Space::AddLaserBeam(GetFrame(), pos, dir, 10000.0, this, damage);
 	}
@@ -574,10 +574,10 @@ void Ship::Render(const Frame *camFrame)
 	params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
 	params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
 	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
-	params.pAnim[ASRC_SECFRAC] = Pi::GetGameTime();
-	params.pAnim[ASRC_MINFRAC] = Pi::GetGameTime() / 60;
-	params.pAnim[ASRC_HOURFRAC] = Pi::GetGameTime() / 3600.0f;
-	params.pAnim[ASRC_DAYFRAC] = Pi::GetGameTime() / (24*3600.0f);
+	params.pAnim[ASRC_SECFRAC] = (float)Pi::GetGameTime();
+	params.pAnim[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
+	params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
+	params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
 	params.pAnim[ASRC_GEAR] = m_wheelState;
 	params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
@@ -625,7 +625,7 @@ void Ship::Sold(Equip::Type t) {
 }
 bool Ship::CanBuy(Equip::Type t) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
-	return m_equipment.FreeSpace(slot);
+	return m_equipment.FreeSpace(slot)!=0;
 }
 bool Ship::CanSell(Equip::Type t) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;

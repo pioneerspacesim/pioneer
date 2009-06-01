@@ -79,11 +79,11 @@ int wankmod(int a, int b)
 
 std::string format_date(double t)
 {
-	int year = floor(t/(60*60*24*365)); year += 3200;
-	int day = floor(t/(60*60*24)); day = wankmod(day, 365);
-	int hour = floor(t/(60*60)); hour = wankmod(hour, 24);
-	int min = floor(t/60); min = wankmod(min, 60);
-	int sec = wankmod(t, 60);
+	int year = (int)floor(t/(60*60*24*365)); year += 3200;
+	int day = (int)floor(t/(60*60*24)); day = wankmod(day, 365);
+	int hour = (int)floor(t/(60*60)); hour = wankmod(hour, 24);
+	int min = (int)floor(t/60); min = wankmod(min, 60);
+	int sec = wankmod((int)t, 60);
 	char buf[128];
 	snprintf(buf,sizeof(buf),"%02d:%02d:%02d %s %d", hour, min, sec, i_am_a_little_teapot[day], year);
 	return buf;

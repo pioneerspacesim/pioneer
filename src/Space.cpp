@@ -475,7 +475,7 @@ void test_laser_beams()
 		CollisionContact c;
 		laserBeams[i].frame->GetCollisionSpace()->TraceRay(
 			laserBeams[i].pos, laserBeams[i].dir,
-			laserBeams[i].length, &c,
+			(float)laserBeams[i].length, &c,
 			laserBeams[i].firer->GetGeom());
 		if (c.userData1) {
 			Body *hit = static_cast<Body*>(c.userData1);

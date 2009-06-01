@@ -58,7 +58,7 @@ void Star::Render(const Frame *a_camFrame)
 		len *= 0.25;
 	}
 
-	glTranslatef(fpos.x, fpos.y, fpos.z);
+	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
 	
 	{	
 		const float *col = StarSystem::starRealColors[type];
@@ -69,7 +69,7 @@ void Star::Render(const Frame *a_camFrame)
 		matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 		glMultMatrixd(&rot[0]);
 
-		const float glowrad = rad+0.015*radius*len/SOL_RADIUS;
+		const float glowrad = (float)(rad+0.015*radius*len/SOL_RADIUS);
 		glEnable(GL_BLEND);
 		glBegin(GL_TRIANGLE_FAN);
 		glColor4f(col[0], col[1], col[2], 1);
@@ -88,7 +88,7 @@ void Star::Render(const Frame *a_camFrame)
 		glVertex3f(0,0,0);
 		glColor4f(col[0],col[1],col[2],0);
 		
-		const float spikerad = 0.02*len + 0.1*radius*len/SOL_RADIUS;
+		const float spikerad = (float)(0.02*len + 0.1*radius*len/SOL_RADIUS);
 		{
 			/* cubic bezier with 2 (0,0,0) control points */
 			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
@@ -125,9 +125,9 @@ void Star::Render(const Frame *a_camFrame)
 		glColor4f(col[0], col[1], col[2], 1);
 		glVertex3f(0, 0, 0);
 		for (float ang=0; ang<2*M_PI; ang+=0.1) {
-			glVertex3f(rad*sin(ang), rad*cos(ang), 0);
+			glVertex3f((float)(rad*sin(ang)), (float)(rad*cos(ang)), 0);
 		}
-		glVertex3f(0, rad, 0);
+		glVertex3f(0, (float)rad, 0);
 		glEnd();
 	}
 	

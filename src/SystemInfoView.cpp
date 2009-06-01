@@ -23,7 +23,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	std::string desc, data;
 
-	char buf[1024];
+//	char buf[1024];
 	m_infoBox->DeleteAllChildren();
 	
 	Gui::Fixed *fixed = new Gui::Fixed(600, 10);
@@ -54,7 +54,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	_add_label_and_value("Surface temperature", stringf(64, "%d C", b->averageTemp-273));
 
 	if (b->parent) {
-		float days = b->orbit.period / (60*60*24);
+		float days = (float)b->orbit.period / (60*60*24);
 		if (days > 1000) {
 			data = stringf(64, "%.1f years", days/365);
 		} else {
@@ -64,7 +64,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		_add_label_and_value("Perihelion distance", stringf(64, "%.2f AU", b->orbMin.ToDouble()));
 		_add_label_and_value("Aphelion distance", stringf(64, "%.2f AU", b->orbMax.ToDouble()));
 		_add_label_and_value("Eccentricity", stringf(64, "%.2f", b->orbit.eccentricity));
-		const float dayLen = b->GetRotationPeriod();
+		const float dayLen = (float)b->GetRotationPeriod();
 		if (dayLen) {
 			_add_label_and_value("Day length", stringf(64, "%.1f earth days", dayLen/(60*60*24)));
 		}
@@ -189,8 +189,8 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	DeleteAllChildren();
 	
 	m_system = s;
-	m_sbodyInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(),Gui::Screen::GetHeight());
-	m_econInfoTab = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
+	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	
 	Gui::Tabbed *tabbed = new Gui::Tabbed();
 	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);

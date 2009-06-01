@@ -79,7 +79,7 @@ private:
 		GetSize(size);
 		m_message->GetSize(msgSize);
 		glPushMatrix();
-		glTranslatef(size[0]*0.5-msgSize[0]*0.5, size[1]*0.5-msgSize[1]*0.5, 0);
+		glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]*0.5f-msgSize[1]*0.5f, 0);
 		m_message->Draw();
 		glPopMatrix();
 	}
@@ -91,7 +91,7 @@ private:
 
 class StationSubView: public Gui::Fixed {
 public:
-	StationSubView(SpaceStationView *parent): Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()-64) {
+	StationSubView(SpaceStationView *parent): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64)) {
 		m_parent = parent;
 	}
 protected:
@@ -245,7 +245,7 @@ void StationCommoditiesView::ShowAll()
 	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
 	int NUM_ITEMS = 0;
-	const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) NUM_ITEMS++;
 	}
@@ -334,7 +334,7 @@ void StationShipyardView::ShowAll()
 	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
 	int NUM_ITEMS = 0;
-	const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((!(EquipType::types[i].slot == Equip::SLOT_CARGO)) &&
 		    station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;

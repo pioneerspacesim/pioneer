@@ -81,10 +81,12 @@ WorldView::WorldView(): View()
 	glPointSize(1.0);
 	glBegin(GL_POINTS);
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = 0.05+Pi::rng.NDouble(3);
+		float col = 0.05f+(float)Pi::rng.NDouble(3);
 		col = CLAMP(col, 0, 1);
 		glColor3f(col, col, col);
-		glVertex3f(1000-Pi::rng.Double(2000.0), 1000-Pi::rng.Double(2000.0), 1000-Pi::rng.Double(2000.0));
+		glVertex3f( (float)(1000-Pi::rng.Double(2000.0)),
+			(float)(1000-Pi::rng.Double(2000.0)),
+			(float)(1000-Pi::rng.Double(2000.0)) );
 	}
 	glEnd();
 	glPopAttrib();
@@ -134,7 +136,7 @@ void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 {
-	if (!Pi::player->SetWheelState(b->GetState())) {
+	if (!Pi::player->SetWheelState(b->GetState()!=0)) {
 		b->StatePrev();
 	}
 }
@@ -146,7 +148,7 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 {
-	m_labelsOn = b->GetState();
+	m_labelsOn = b->GetState()!=0;
 }
 
 void WorldView::OnClickBlastoff()
@@ -185,14 +187,14 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0)).Normalized();
 		float lightPos[4];
-		lightPos[0] = lpos.x;
-		lightPos[1] = lpos.y;
-		lightPos[2] = lpos.z;
+		lightPos[0] = (float)lpos.x;
+		lightPos[1] = (float)lpos.y;
+		lightPos[2] = (float)lpos.z;
 		lightPos[3] = 0;
 		
 		const float *col = StarSystem::starRealColors[body->type];
 		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { col[0]*0.1, col[1]*0.1, col[2]*0.1, 0 };
+		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
 
 		glLightfv(light, GL_POSITION, lightPos);
 		glLightfv(light, GL_DIFFUSE, lightCol);
@@ -279,7 +281,7 @@ void WorldView::Update()
 		m_externalViewDist = MAX(50, m_externalViewDist);
 
 		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0, -10);
+		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0f, -10.0f);
 	}
 
 	if (!Pi::player->GetDockedWith()) {
@@ -317,10 +319,10 @@ void WorldView::Update()
 Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos)
 {
 	Gui::Label *l = new Gui::Label(msg);
-	m_commsOptions->Add(l, 50, ypos);
+	m_commsOptions->Add(l, 50, (float)ypos);
 
 	Gui::TransparentButton *b = new Gui::TransparentButton();
-	m_commsOptions->Add(b, 16, ypos);
+	m_commsOptions->Add(b, 16, (float)ypos);
 	return b;
 }
 
@@ -357,7 +359,7 @@ void WorldView::UpdateCommsOptions()
 	
 	int ypos = 0;
 	if (navtarget) {
-		m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, ypos);
+		m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, (float)ypos);
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
 			Gui::Button *b = AddCommsOption("Request docking clearance", ypos);
@@ -415,9 +417,9 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 		Body *b = *i;
 		if(b->IsOnscreen()) {
 			const vector3d& _pos = b->GetProjectedPos();
-			const float x1 = _pos.x - PICK_OBJECT_RECT_SIZE * 0.5f;
+			const float x1 = (float)_pos.x - PICK_OBJECT_RECT_SIZE * 0.5f;
 			const float x2 = x1 + PICK_OBJECT_RECT_SIZE;
-			const float y1 = _pos.y - PICK_OBJECT_RECT_SIZE * 0.5f;
+			const float y1 = (float)_pos.y - PICK_OBJECT_RECT_SIZE * 0.5f;
 			const float y2 = y1 + PICK_OBJECT_RECT_SIZE;
 			if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2) {
 				selected = b;

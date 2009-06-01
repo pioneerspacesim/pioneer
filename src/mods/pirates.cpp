@@ -10,8 +10,8 @@ namespace Mods {
 
 static void spawn_random_pirate(int power, Ship *victim)
 {
-	float longitude = Pi::rng.Double(M_PI);
-	float latitude = Pi::rng.Double(M_PI);
+	float longitude = (float)Pi::rng.Double(M_PI);
+	float latitude = (float)Pi::rng.Double(M_PI);
 	float dist = 2000.0f;
 	vector3d relpos(vector3d(sin(longitude)*cos(latitude)*dist,
 			sin(latitude)*dist,
