@@ -10,6 +10,63 @@ static CompoundVertex dummyvtx2[] = {
 	{ VTYPE_CROSS, { 0, 1, 2, -1, -1 } },			// dummy
 };
 
+/*
+static PlainVertex curvetestvtx1[] = {
+	{ VTYPE_PLAIN, { -50.0f, 50.0f, 0.0f } },			// 6
+	{ VTYPE_PLAIN, { -50.0f, -50.0f, 0.0f } },
+	{ VTYPE_PLAIN, { 50.0f, -50.0f, 0.0f } },
+	{ VTYPE_PLAIN, { 50.0f, 50.0f, 0.0f } },
+
+	{ VTYPE_PLAIN, { 100.0f, 30.0f, 30.0f } },			//10
+	{ VTYPE_PLAIN, { 100.0f, -30.0f, -30.0f } },
+	{ VTYPE_PLAIN, { -100.0f, -30.0f, 30.0f } },
+	{ VTYPE_PLAIN, { -100.0f, 30.0f, -30.0f } },
+};
+static CompoundVertex curvetestvtx2[] = {
+	{ VTYPE_CROSS, { 0, 1, 2, -1, -1 } },			// dummy
+};
+static uint16 curvetestdata[] = {
+	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_COMPSMOOTH2, 0, 3, 7, 
+		LTYPE_HERMITE, 8, 10, 11,
+		LTYPE_LINE, 9,
+		LTYPE_HERMITE, 6, 12, 13,
+		LTYPE_LINE, 7,
+		LTYPE_END,
+	PTYPE_END,
+};	
+Model curvetest = { 1.0f, 66.0f, 14, curvetestvtx1, 20, 0, curvetestvtx2, 1,
+	{ { 0, curvetestdata, 0, 0, 0 } } };
+*/
+
+static PlainVertex curvetestvtx1[] = {
+	{ VTYPE_PLAIN, { 0.0f, 70.0f, 0.0f } },			// 6
+	{ VTYPE_PLAIN, { -70.0f, -50.0f, 0.0f } },
+	{ VTYPE_PLAIN, { 70.0f, -50.0f, 0.0f } },
+
+	{ VTYPE_PLAIN, { -70.0f, -120.0f, 60.0f } },			// 9
+	{ VTYPE_PLAIN, { -70.0f, -120.0f, -60.0f } },
+	{ VTYPE_PLAIN, { 140.0f, 0.0f, 60.0f } },			// 11
+	{ VTYPE_PLAIN, { 140.0f, 0.0f, -60.0f } },
+	{ VTYPE_PLAIN, { -70.0f, 120.0f, 60.0f } },			// 13
+	{ VTYPE_PLAIN, { -70.0f, 120.0f, -60.0f } },
+};
+static CompoundVertex curvetestvtx2[] = {
+	{ VTYPE_CROSS, { 0, 1, 2, -1, -1 } },			// dummy
+};
+static uint16 curvetestdata[] = {
+	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_COMPSMOOTH2, 0, 8, 6, 
+		LTYPE_HERMITE, 7, 9, 10,
+		LTYPE_HERMITE, 8, 11, 12,
+		LTYPE_HERMITE, 6, 13, 14,
+		LTYPE_END,
+	PTYPE_END,
+};	
+Model curvetest = { 1.0f, 66.0f, 15, curvetestvtx1, 20, 0, curvetestvtx2, 1,
+	{ { 0, curvetestdata, 0, 0, 0 } } };
+
+
 static PlainVertex tetravtx1[] = {
 	{ VTYPE_PLAIN, { 0.0f, 50.0f, 0.0f } },			// 6
 	{ VTYPE_PLAIN, { 50.0f, -30.0f, -30.0f } },

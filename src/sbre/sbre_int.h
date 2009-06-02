@@ -44,13 +44,13 @@ struct Thruster
 struct Model
 {
 	float scale;
-	float radius;			// scale multiplies this too
+	float radius;				// scale multiplies this too
 
-	int numPVtx;
+	int numPVtx;				// number of plain vertices + 6
 	PlainVertex *pPVtx;
 
-	int cvStart;
-	int numCVtx;
+	int cvStart;				// base index of compound vertices
+	int numCVtx;				// number of compound vertices
 	CompoundVertex *pCVtx;
 
 	int numCache;				// number of cached primitives
@@ -114,8 +114,8 @@ const AnimFunc pAFunc[] =
 void ResolveLinearInterp (Vector *p0, Vector *p1, float t, Vector *pRes);
 void ResolveQuadraticSpline (Vector *p0, Vector *p1, Vector *p2, float t, Vector *pRes);
 void ResolveCubicSpline (Vector *p0, Vector *p1, Vector *p2, Vector *p3, float t, Vector *pRes);
-void ResolveHermiteSpline (Vector *p0, Vector *p1, Vector *n0, Vector *n1, float t, Vector *pRes);
-void ResolveHermiteNormal (Vector *p0, Vector *p1, Vector *n0, Vector *n1, float t, Vector *pRes);
+void ResolveHermiteSpline (Vector *p0, Vector *p1, Vector *t0, Vector *t1, float t, Vector *pRes);
+void ResolveHermiteTangent (Vector *p0, Vector *p1, Vector *t0, Vector *t1, float t, Vector *pRes);
 
 void TriangAddPoint (Vector *pPos, Vector *pNorm);
 void Triangulate (Vector *pCPos, Vector *pCNorm, int steps,
@@ -161,6 +161,7 @@ enum primtype
 	PTYPE_TEXT,
 	PTYPE_EXTRUSION,
 	PTYPE_SETCFLAG,
+	PTYPE_COMPSMOOTH2,
 };
 
 extern int (*pPrimFuncTable[])(uint16 *, Model *, RState *);
@@ -192,7 +193,15 @@ enum comptype
 	COMP_STEPS,
 };
 
+enum linetype
+{
+	LTYPE_END = 0,		// no data
+	LTYPE_LINE,			// just next vertex
+	LTYPE_HERMITE,		// next vertex, start tangent, end tangent
+};
+
 const int pCompSize[] = { 1, 3, 5, 3, 3, 2 };
+const int pLTypeSize[] = { 1, 2, 4 };
 
 const char pModelString[][256] = {
 	"Bollocks", "Yo", "","","","","","","","",

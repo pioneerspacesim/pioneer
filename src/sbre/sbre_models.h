@@ -2,6 +2,7 @@
 #define __SBRE_MODELS_H__
 #include "sbre_int.h"
 
+extern Model curvetest;
 
 extern Model dishmodel, nosewheelmodel, nwunitmodel, mainwheelmodel, mwunitmodel;
 extern Model wing1model, wing2model;
@@ -27,7 +28,7 @@ const int SUB_WING2 = 31;
 Model * const ppModel[] =
 {
 	// 0, current test object
-	&ship2model,
+	&curvetest,
 	// 1, common subobjects
 	&nosewheelmodel,
 	&nwunitmodel,

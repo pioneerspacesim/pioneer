@@ -227,6 +227,11 @@ static int CollFuncSetCFlag (uint16 *pData, Model *pMod, RState *pState)
 	return 2;
 }
 
+static int CollFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
+{
+	pState->pCallback = ArrayCallback;
+	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
+}
 
 
 int (*pCollFuncTable[])(uint16 *, Model *, RState *) = {
@@ -246,6 +251,7 @@ int (*pCollFuncTable[])(uint16 *, Model *, RState *) = {
 	CollFuncText,
 	CollFuncExtrusion,
 	CollFuncSetCFlag,
+	CollFuncCurvedSurf,
 };
 
 

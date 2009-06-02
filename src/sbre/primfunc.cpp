@@ -768,6 +768,187 @@ static int PrimFuncSetCFlag (uint16 *pData, Model *pMod, RState *pState)
 }
 
 
+/*
+PTYPE_COMPSMOOTH2, cacheindex, steps, p1, 
+	LTYPE_LINE, p2,
+	LTYPE_HERMITE, p3, t0, t1, 
+	LTYPE_LINE, p4,
+	LTYPE_HERMITE, p1, t0, t1, 
+	LTYPE_END,
+
+PTYPE_COMPFLAT2, cacheindex, steps, p1, norm
+	LTYPE_LINE, p2,
+	LTYPE_HERMITE, p3, t0, t1, 
+	LTYPE_LINE, p4,
+	LTYPE_HERMITE, p1, t0, t1, 
+	LTYPE_END,
+*/
+
+struct EdgeVertex
+{
+	Vector pos;
+	Vector tan1;	// tangent away from centre
+	Vector tan2;	// tangent along edge
+	Vector norm;
+};
+
+/*
+uint16 PFUNC_COMPOUND2
+	uint16 cacheidx
+	uint16 steps
+	uint16 startpos
+		uint16 LTYPE_END
+		uint16 LTYPE_LINE
+			uint16 pos
+		uint16 LTYPE_HERMITE
+			uint16 pos
+			uint16 tan0
+			uint16 tan1
+
+//maximum four edges
+//if 2 & 4 are LTYPE_LINE, uses fewer tris
+*/
+
+static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
+{
+	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		int c; for (c=4; pData[c] != LTYPE_END; c+=pLTypeSize[pData[c]]);
+		return c+1;
+	}
+
+	int steps = pData[2];				// detail factor...
+	int c = 4;
+
+	// 4 lists of up to 10 vertices
+	
+	EdgeVertex ppVtx[10][10];
+	EdgeVertex pCorner[5];		// corners
+
+	// first pass just finds tangents and detects wing condition
+
+	pCorner[0].pos = pVtx[pData[3]];
+	int numEdges = 1; int wing = 1, hsteps;
+	while (pData[c] != LTYPE_END)
+	{
+		Vector t0, t1;
+		if (pData[c] == LTYPE_LINE)	
+			{ VecSub (pVtx+pData[c+1], &pCorner[numEdges-1].pos, &t0); t1 = t0; }
+		else { t0 = pVtx[pData[c+2]]; t1 = pVtx[pData[c+3]]; }
+		
+		if (!(numEdges&1) && pData[c] != LTYPE_LINE) wing = 0;	// 2nd & 4th edges must be lines
+		pCorner[numEdges].pos = pVtx[pData[c+1]];
+		pCorner[numEdges-1].tan2 = t0;
+		pCorner[numEdges].tan1 = t1;
+		numEdges++;
+		c += pLTypeSize[pData[c]];
+	}
+	--numEdges;
+	pCorner[numEdges].tan2 = pCorner[0].tan2;
+	pCorner[0].tan1 = pCorner[numEdges].tan1;
+	if (wing) hsteps = 0; else hsteps = steps;
+
+	// three side special case
+
+	Vector endnorm;
+	if (numEdges == 3) {
+		VecCross (&pCorner[0].tan1, &pCorner[0].tan2, &endnorm);
+		pCorner[0].tan1 = zero_vector;
+		pCorner[3].tan2 = zero_vector;
+	}
+
+	// now create 1st edge (left)
+
+	float t, incstep = 1.0f / (steps+1); int i, j;
+	Vector p0, p1, t0, t1, t2, t3;
+
+	p0 = pCorner[0].pos; p1 = pCorner[1].pos;
+	t0 = pCorner[0].tan2; t1 = pCorner[1].tan1;
+	VecInv (&pCorner[0].tan1, &t2); t3 = pCorner[1].tan2;
+	for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+	{
+		EdgeVertex *pCur = &ppVtx[i][0];
+		ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
+		ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
+		ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+	}
+
+	// and 3rd edge (right)
+
+	p0 = pCorner[3].pos; p1 = pCorner[2].pos;
+	VecInv (&pCorner[3].tan1, &t0); VecInv(&pCorner[2].tan2, &t1);
+	VecInv (&pCorner[3].tan2, &t2); t3 = pCorner[2].tan1;
+	for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+	{
+		EdgeVertex *pCur = &ppVtx[i][hsteps+1];
+		ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
+		ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
+		ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+	}
+
+	// now create inner vertices
+
+	if (!wing)
+	{
+		for (int j=0; j<steps+2; j++)
+		{
+			EdgeVertex *pStart = &ppVtx[j][0], *pEnd = &ppVtx[j][hsteps+1];
+			p0 = pStart->pos; p1 = pEnd->pos;
+			t0 = pStart->tan1; t1 = pEnd->tan1;
+			t2 = pStart->tan2; t3 = pEnd->tan2;
+
+			for (i=0, t=incstep; i<hsteps; i++, t+=incstep)
+			{
+				EdgeVertex *pCur = &ppVtx[j][i+1];
+				ResolveHermiteSpline (&p0, &p1, &t2, &t3, t, &pCur->pos);
+				ResolveHermiteTangent (&p0, &p1, &t2, &t3, t, &pCur->tan2);
+				ResolveLinearInterp (&t0, &t1, t, &pCur->tan1);
+			}
+		}
+	}
+//	if (numEdges == 3) for (i=0; i<hsteps; i++) ppVtx[0][i+1].pos = ppVtx[0][0].pos;
+
+
+	// create normals, copy norm/pos into output array
+
+	int ni = 0, nv = (steps+2)*(hsteps+2);
+	Vector *pVertex = (Vector *) alloca (sizeof(Vector)*2*nv);
+	uint16 *pIndex = (uint16 *) alloca (sizeof(uint16)*6*(steps+1)*(hsteps+1));
+
+	int w = hsteps+2;
+	for (j=0; j<steps+2; j++)
+	{
+		for (i=0; i<hsteps+2; i++)
+		{
+			Vector *pCur = pVertex+(i+j*w)*2;
+			pCur[0] = ppVtx[j][i].pos;
+			VecCross (&ppVtx[j][i].tan1, &ppVtx[j][i].tan2, pCur+1);
+			VecNorm (pCur+1, pCur+1);
+		}
+	}
+	if (numEdges==3) for (i=0; i<hsteps+2; i++) *(pVertex+i*2+1) = endnorm;
+
+	for (j=0; j<w*(steps+1); j+=w)
+	{
+		for (i=0; i<hsteps+1; i++)
+		{
+			pIndex[ni++] = j+i; pIndex[ni++] = j+i+w; pIndex[ni++] = j+i+1;
+			pIndex[ni++] = j+i+1; pIndex[ni++] = j+i+w; pIndex[ni++] = j+i+w+1;
+		}
+	}
+
+	RenderArray (nv, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (nv, ni, pVertex, pIndex, ci, pModel);
+	return c+1;		// +1 for LTYPE_END
+}
+
+
 
 /*
 uint16 PFUNC_WINDOWS
@@ -781,6 +962,8 @@ uint16 PFUNC_WINDOWS
 	uint16 scale
 */
 
+// functions in other files
+//int PrimFuncCurvedSurf (uint16 *, Model *, RState *);
 
 int (*pPrimFuncTable[])(uint16 *, Model *, RState *) = {
 	0,		// end
@@ -799,6 +982,7 @@ int (*pPrimFuncTable[])(uint16 *, Model *, RState *) = {
 	PrimFuncText,
 	PrimFuncExtrusion,
 	PrimFuncSetCFlag,
+	PrimFuncCurvedSurf,			// new curved-surface function
 };
 
 
