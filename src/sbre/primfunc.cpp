@@ -789,7 +789,6 @@ struct EdgeVertex
 	Vector pos;
 	Vector tan1;	// tangent away from centre
 	Vector tan2;	// tangent along edge
-	Vector norm;
 };
 
 /*
@@ -826,10 +825,8 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 	int steps = pData[2];				// detail factor...
 	int c = 4;
 
-	// 4 lists of up to 10 vertices
-	
-	EdgeVertex ppVtx[10][10];
 	EdgeVertex pCorner[5];		// corners
+	EdgeVertex ppVtx[20][20];
 
 	// first pass just finds tangents and detects wing condition
 
@@ -852,44 +849,62 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 	--numEdges;
 	pCorner[numEdges].tan2 = pCorner[0].tan2;
 	pCorner[0].tan1 = pCorner[numEdges].tan1;
-	if (wing) hsteps = 0; else hsteps = steps;
+	if (numEdges == 4 && wing) hsteps = 0; else hsteps = steps;
 
-	// three side special case
-
-	Vector endnorm;
-	if (numEdges == 3) {
-		VecCross (&pCorner[0].tan1, &pCorner[0].tan2, &endnorm);
-		pCorner[0].tan1 = zero_vector;
-		pCorner[3].tan2 = zero_vector;
-	}
 
 	// now create 1st edge (left)
 
 	float t, incstep = 1.0f / (steps+1); int i, j;
 	Vector p0, p1, t0, t1, t2, t3;
 
-	p0 = pCorner[0].pos; p1 = pCorner[1].pos;
-	t0 = pCorner[0].tan2; t1 = pCorner[1].tan1;
-	VecInv (&pCorner[0].tan1, &t2); t3 = pCorner[1].tan2;
-	for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+	if (numEdges == 4)
 	{
-		EdgeVertex *pCur = &ppVtx[i][0];
-		ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
-		ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
-		ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+		p0 = pCorner[0].pos; p1 = pCorner[1].pos;
+		t0 = pCorner[0].tan2; t1 = pCorner[1].tan1;
+		VecInv (&pCorner[0].tan1, &t2); t3 = pCorner[1].tan2;
+		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+		{
+			EdgeVertex *pCur = &ppVtx[i][0];
+			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
+			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
+			ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+		}
+	} else {
+		VecInv (&pCorner[0].tan1, &p0); p1 = pCorner[0].tan2;
+		VecPerp (&p1, &p0, &t0); VecPerp (&p0, &p1, &t1); VecInv (&t1, &t1);
+		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+		{
+			EdgeVertex *pCur = &ppVtx[i][0]; pCur->pos = pCorner[0].pos;
+			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->tan2);
+			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
+		}
+		pCorner[3] = pCorner[2]; pCorner[2] = pCorner[1];
 	}
 
 	// and 3rd edge (right)
 
-	p0 = pCorner[3].pos; p1 = pCorner[2].pos;
-	VecInv (&pCorner[3].tan1, &t0); VecInv(&pCorner[2].tan2, &t1);
-	VecInv (&pCorner[3].tan2, &t2); t3 = pCorner[2].tan1;
-	for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+	if (numEdges >= 3)
 	{
-		EdgeVertex *pCur = &ppVtx[i][hsteps+1];
-		ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
-		ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
-		ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+		p0 = pCorner[3].pos; p1 = pCorner[2].pos;
+		VecInv (&pCorner[3].tan1, &t0); VecInv(&pCorner[2].tan2, &t1);
+		VecInv (&pCorner[3].tan2, &t2); t3 = pCorner[2].tan1;
+		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+		{
+			EdgeVertex *pCur = &ppVtx[i][hsteps+1];
+			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
+			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
+			ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+		}
+	} else {
+		VecInv (&pCorner[2].tan2, &p0); p1 = pCorner[2].tan1;
+		VecPerp (&p1, &p0, &t0); VecPerp (&p0, &p1, &t1); VecInv (&t1, &t1);
+		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
+		{
+			EdgeVertex *pCur = &ppVtx[i][hsteps+1]; pCur->pos = pCorner[2].pos;
+			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->tan2);
+			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
+			VecInv (&pCur->tan1, &pCur->tan1);
+		}
 	}
 
 	// now create inner vertices
@@ -912,8 +927,6 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 			}
 		}
 	}
-//	if (numEdges == 3) for (i=0; i<hsteps; i++) ppVtx[0][i+1].pos = ppVtx[0][0].pos;
-
 
 	// create normals, copy norm/pos into output array
 
@@ -932,7 +945,6 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 			VecNorm (pCur+1, pCur+1);
 		}
 	}
-	if (numEdges==3) for (i=0; i<hsteps+2; i++) *(pVertex+i*2+1) = endnorm;
 
 	for (j=0; j<w*(steps+1); j+=w)
 	{

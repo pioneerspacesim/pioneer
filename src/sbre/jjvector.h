@@ -432,6 +432,15 @@ inline int VecNorm (DVector *v1, DVector *res)
 	return 1;
 } 
 
+// returns component of vec1 perpendicular to vec2
+inline void VecPerp (Vector *v1, Vector *v2, Vector *res)
+{
+	Vector n, t;
+	VecNorm (v2, &n);
+	VecMul (&n, VecDot (v1, &n), &t);
+	VecSub (v1, &t, res);
+}
+
 
 inline void VecMax (Vector *in, Vector *max, Vector *res)
 {
