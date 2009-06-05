@@ -626,7 +626,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			int steps = (*t).val.i;
 			if ((steps<1) || (steps>99)) (*t).Error("Too many steps for smooth(). Must be 1-99.");
 			
-			instrs.push_back(PTYPE_COMPSMOOTH2 |
+			instrs.push_back(PTYPE_COMPOUND2S |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
 			// XXX note always caching breaks animation if used
