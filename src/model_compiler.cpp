@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 #include "sbre/sbre_int.h"
-#include "vector3.h"
+#include "sbre/sbre_models.h"
 
 extern Model * ppModel[];
 
@@ -186,13 +186,17 @@ void lex(const char *crud, std::vector<Token> &tokens)
 
 typedef std::vector<Token>::iterator tokenIter_t;
 
-int modelNum;
+#define IS_COMPLEX (0x4000)
+
+int modelNum = SBRE_COMPILED_MODELS;
 static std::map<std::string, Model*> models;
 static std::map<std::string, int> models_idx;
-static std::vector<vector3f> vertices;
+static std::vector<Vector> vertices;
 static std::map<std::string, int> vertex_identifiers;
 static std::vector<Uint16> instrs;
 int sbre_cache_size;
+static std::vector<CompoundVertex> compound_vertices;
+static std::vector<int> compound_vertex_fixups_in_instrs;
 
 static bool VertexIdentifierExists(const char *vid)
 {
@@ -200,47 +204,125 @@ static bool VertexIdentifierExists(const char *vid)
 	return (i != vertex_identifiers.end());
 }
 
-/*
- * Returns index of plain vertex
- */
-static int parsePlainVtx(tokenIter_t &t)
+static int addPlainVtx(Vector v)
 {
-	vector3f v;
-	bool normalize = false;
-	if ((*t).IsIdentifier("v")) {
-
-	} else if ((*t).IsIdentifier("n")) {
-		normalize = true;
-	} else {
-		(*t).Error("Expected vertex");
-	}
-
-	++t;
-	(*t++).Check(Token::OPENBRACKET);
-	v.x = (*t++).GetFloat();
-	(*t++).Check(Token::COMMA);
-	v.y = (*t++).GetFloat();
-	(*t++).Check(Token::COMMA);
-	v.z = (*t++).GetFloat();
-	(*t++).Check(Token::CLOSEBRACKET);
-	if (normalize) v = v.Normalized();
-	printf("%f,%f,%f\n", v.x, v.y, v.z);
 	// first 6 are +ve and -ve axis unit vectors
 	int idx = 6 + vertices.size();
 	vertices.push_back(v);
 	return idx;
 }
 
-/* return vertex identifier idx */
-static int parsePlainVtxOrVtxRef(tokenIter_t &t)
+static void instrsPutVtxRef(Uint16 ref)
 {
-	//int numPVtx;				// number of plain vertices + 6
-	(*t).Check(Token::IDENTIFIER);
+	if (ref & IS_COMPLEX) {
+		compound_vertex_fixups_in_instrs.push_back(instrs.size());
+	}
+	instrs.push_back(ref);
+}
+
+static int addCompoundVtx(enum vtxtype type, Uint16 p0, Uint16 p1, Uint16 p2, Uint16 p3, Uint16 p4)
+{
+	int idx = compound_vertices.size() | IS_COMPLEX;
+	CompoundVertex cv;
+	cv.type = type;
+	cv.pParam[0] = p0; 
+	cv.pParam[1] = p1; 
+	cv.pParam[2] = p2; 
+	cv.pParam[3] = p3; 
+	cv.pParam[4] = p4; 
+	compound_vertices.push_back(cv);
+	return idx;
+}
+
+static int parseVtxOrVtxRef(tokenIter_t &t);
+/*
+ * Returns index of plain vertex or 0x8000 if none found
+ */
+static int parseNewVertex(tokenIter_t &t)
+{
+	Vector v;
+	bool normalize = false;
 	if ((*t).IsIdentifier("v") ||
 	    (*t).IsIdentifier("n")) {
-		return parsePlainVtx(t);
+
+		if ((*t).IsIdentifier("n")) {
+			normalize = true;
+		}
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		v.x = (*t++).GetFloat();
+		(*t++).Check(Token::COMMA);
+		v.y = (*t++).GetFloat();
+		(*t++).Check(Token::COMMA);
+		v.z = (*t++).GetFloat();
+		(*t++).Check(Token::CLOSEBRACKET);
+		if (normalize) {
+			float len = 1.0f/sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
+			v.x *= len;
+			v.y *= len;
+			v.z *= len;
+		}
+		return addPlainVtx(v);
+
+	} else if ((*t).IsIdentifier("normal")) {
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		Uint16 v1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v3 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::CLOSEBRACKET);
+		if ((v1 & IS_COMPLEX) ||
+		    (v2 & IS_COMPLEX) ||
+		    (v3 & IS_COMPLEX)) (*t).Error("Cannot declare normal() using other complex vertices");
+
+		return addCompoundVtx(VTYPE_NORM, v1, v2, v3, -1, -1);
+	
+	} else if ((*t).IsIdentifier("cross")) {
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		Uint16 v1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::CLOSEBRACKET);
+		if ((v1 & IS_COMPLEX) ||
+		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare cross() using other complex vertices");
+
+		return addCompoundVtx(VTYPE_CROSS, v1, v2, -1, -1, -1);
+
+	} else if ((*t).IsIdentifier("animlin")) {
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		Uint16 v1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::CLOSEBRACKET);
+		if ((v1 & IS_COMPLEX) ||
+		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare animlin() using other complex vertices");
+
+		return addCompoundVtx(VTYPE_ANIMLIN, v1, v2, -1, -1, AFUNC_GEAR);
+
 	} else {
-		printf("Turd\n");
+		return 0x8000;
+	}
+}
+
+/* return vertex identifier idx */
+static int parseVtxOrVtxRef(tokenIter_t &t)
+{
+	Uint16 idx;
+	//int numPVtx;				// number of plain vertices + 6
+	(*t).Check(Token::IDENTIFIER);
+	idx = parseNewVertex(t);
+	// found new vertex. return idx,
+	if (idx != 0x8000) return idx;
+	// otherwise parse identifier reference turd
+	else {
 		std::map<std::string, int>::iterator i = vertex_identifiers.find((*t).val.s);
 		if (i == vertex_identifiers.end()) {
 			(*t).Error("Unknown vertex identifier %s", (*t).val.s);
@@ -254,28 +336,27 @@ static void comp_get_line_bits(tokenIter_t &t)
 {
 	int num = 0;
 	for (;;) {
-		printf("aub: %s\n", (*t).val.s);
 		if ((*t).IsIdentifier("hermite")) {
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parsePlainVtxOrVtxRef(t);
+			Uint16 v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v2 = parsePlainVtxOrVtxRef(t);
+			Uint16 v2 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v3 = parsePlainVtxOrVtxRef(t);
+			Uint16 v3 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_HERMITE);
-			instrs.push_back(v1);
-			instrs.push_back(v2);
-			instrs.push_back(v3);
+			instrsPutVtxRef(v1);
+			instrsPutVtxRef(v2);
+			instrsPutVtxRef(v3);
 			num++;
 		} else if ((*t).IsIdentifier("line")) {
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parsePlainVtxOrVtxRef(t);
+			Uint16 v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_LINE);
-			instrs.push_back(v1);
+			instrsPutVtxRef(v1);
 			num++;
 		} else {
 			(*t).Error("Expected a hermite or line segment");
@@ -323,10 +404,20 @@ static Uint16 get_anim(tokenIter_t &t)
 	}
 }
 
+static bool canCache(Uint16 *vertex_idxs, int num)
+{
+	for (int i=0; i<num; i++) {
+		if (vertex_idxs[i] & IS_COMPLEX) return false;
+	}
+	return true;
+}
+
 void parseModel(tokenIter_t &t)
 {
 	const char *modelName;
 	sbre_cache_size = 0;
+	compound_vertex_fixups_in_instrs.clear();
+	compound_vertices.clear();
 	vertices.clear();
 	vertex_identifiers.clear();
 	instrs.clear();
@@ -389,38 +480,38 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			if (flag_xcenter || flag_ycenter || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parsePlainVtxOrVtxRef(t);
+			Uint16 v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v2 = parsePlainVtxOrVtxRef(t);
+			Uint16 v2 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v3 = parsePlainVtxOrVtxRef(t);
+			Uint16 v3 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(PTYPE_TRIFLAT |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
-			instrs.push_back(v1);
-			instrs.push_back(v2);
-			instrs.push_back(v3);
+			instrsPutVtxRef(v1);
+			instrsPutVtxRef(v2);
+			instrsPutVtxRef(v3);
 	
 		} else if ((*t).IsIdentifier("quad")) {
 			if (flag_xcenter || flag_ycenter || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parsePlainVtxOrVtxRef(t);
+			Uint16 v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v2 = parsePlainVtxOrVtxRef(t);
+			Uint16 v2 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v3 = parsePlainVtxOrVtxRef(t);
+			Uint16 v3 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v4 = parsePlainVtxOrVtxRef(t);
+			Uint16 v4 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(PTYPE_QUADFLAT |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
-			instrs.push_back(v1);
-			instrs.push_back(v2);
-			instrs.push_back(v3);
-			instrs.push_back(v4);
+			instrsPutVtxRef(v1);
+			instrsPutVtxRef(v2);
+			instrsPutVtxRef(v3);
+			instrsPutVtxRef(v4);
 
 		} else if ((*t).IsIdentifier("circle")) {
 			
@@ -431,11 +522,11 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t).Check(Token::INTEGER);
 			Uint16 steps = (*t++).val.i;
 			(*t++).Check(Token::COMMA);
-			Uint16 vtx = parsePlainVtxOrVtxRef(t);
+			Uint16 vtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 norm = parsePlainVtxOrVtxRef(t);
+			Uint16 norm = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 up = parsePlainVtxOrVtxRef(t);
+			Uint16 up = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			(*t++).MatchIdentifier("radius");
 			(*t++).Check(Token::ASSIGN);
@@ -448,9 +539,9 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 					(flag_xref ? RFLAG_XREF : 0));
 			instrs.push_back(0x8000); // not cached
 			instrs.push_back(steps);
-			instrs.push_back(vtx);
-			instrs.push_back(norm);
-			instrs.push_back(up);
+			instrsPutVtxRef(vtx);
+			instrsPutVtxRef(norm);
+			instrsPutVtxRef(up);
 			instrs.push_back(rad);
 
 		} else if ((*t).IsIdentifier("cylinder")) {
@@ -461,11 +552,11 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t).Check(Token::INTEGER);
 			Uint16 steps = (*t++).val.i;
 			(*t++).Check(Token::COMMA);
-			Uint16 startvtx = parsePlainVtxOrVtxRef(t);
+			Uint16 startvtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 endvtx = parsePlainVtxOrVtxRef(t);
+			Uint16 endvtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 updir = parsePlainVtxOrVtxRef(t);
+			Uint16 updir = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			(*t++).MatchIdentifier("radius");
 			(*t++).Check(Token::ASSIGN);
@@ -476,11 +567,17 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(PTYPE_CYLINDER |
 					(flag_xref ? RFLAG_XREF : 0));
-			instrs.push_back(sbre_cache_size++);
+			if ((startvtx & IS_COMPLEX) ||
+			    (endvtx & IS_COMPLEX) ||
+			    (updir & IS_COMPLEX)) {
+				instrs.push_back(0x8000); // do not cache
+			} else {
+				instrs.push_back(sbre_cache_size++);
+			}
 			instrs.push_back(steps);
-			instrs.push_back(startvtx);
-			instrs.push_back(endvtx);
-			instrs.push_back(updir);
+			instrsPutVtxRef(startvtx);
+			instrsPutVtxRef(endvtx);
+			instrsPutVtxRef(updir);
 			instrs.push_back(rad);
 
 		} else if ((*t).IsIdentifier("tube")) {
@@ -491,11 +588,11 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t).Check(Token::INTEGER);
 			Uint16 steps = (*t++).val.i;
 			(*t++).Check(Token::COMMA);
-			Uint16 startvtx = parsePlainVtxOrVtxRef(t);
+			Uint16 startvtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 endvtx = parsePlainVtxOrVtxRef(t);
+			Uint16 endvtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 updir = parsePlainVtxOrVtxRef(t);
+			Uint16 updir = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			(*t++).MatchIdentifier("innerrad");
 			(*t++).Check(Token::ASSIGN);
@@ -513,11 +610,18 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(PTYPE_TUBE |
 					(flag_xref ? RFLAG_XREF : 0));
-			instrs.push_back(sbre_cache_size++);
+
+			if ((startvtx & IS_COMPLEX) ||
+			    (endvtx & IS_COMPLEX) ||
+			    (updir & IS_COMPLEX)) {
+				instrs.push_back(0x8000); // do not cache
+			} else {
+				instrs.push_back(sbre_cache_size++);
+			}
 			instrs.push_back(steps);
-			instrs.push_back(startvtx);
-			instrs.push_back(endvtx);
-			instrs.push_back(updir);
+			instrsPutVtxRef(startvtx);
+			instrsPutVtxRef(endvtx);
+			instrsPutVtxRef(updir);
 			instrs.push_back(outerrad);
 			instrs.push_back(innerrad);
 
@@ -532,18 +636,27 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(PTYPE_COMPSMOOTH2 |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
+			// XXX note always caching breaks animation if used
 			instrs.push_back(sbre_cache_size++);
 			instrs.push_back(steps);
 
 			++t;
 			(*t++).Check(Token::COMMA);
-			Uint16 v1 = parsePlainVtxOrVtxRef(t);
-			instrs.push_back(v1);
+			Uint16 v1 = parseVtxOrVtxRef(t);
+			instrsPutVtxRef(v1);
 			(*t++).Check(Token::COMMA);
 
 			comp_get_line_bits(t);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_END);
+
+	/*	} else if ((*t).IsIdentifier("cuboid")) {
+			if (flag_xcenter || flag_ycenter || flag_thrust) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			Uint16 pos = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+*/
 
 		} else if ((*t).IsIdentifier("subobject")) {
 			
@@ -553,11 +666,11 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			Uint16 model = get_model_reference(t);
 			(*t++).Check(Token::COMMA);
 
-			Uint16 offset = parsePlainVtxOrVtxRef(t);
+			Uint16 offset = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 norm = parsePlainVtxOrVtxRef(t);
+			Uint16 norm = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 zaxis = parsePlainVtxOrVtxRef(t);
+			Uint16 zaxis = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			
 			(*t++).MatchIdentifier("scale");
@@ -577,18 +690,20 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(PTYPE_SUBOBJECT | (flag_thrust ? SUBOBJ_THRUST : 0));
 			instrs.push_back(anim);
 			instrs.push_back(model);
-			instrs.push_back(offset);
-			instrs.push_back(norm);
-			instrs.push_back(zaxis);
+			instrsPutVtxRef(offset);
+			instrsPutVtxRef(norm);
+			instrsPutVtxRef(zaxis);
 			instrs.push_back(scale);
 
 		} else {
-			printf("assignment\n");
 			// assignment
 			const char *identifier = (*t).val.s;
 			++t;
 			(*t++).Check(Token::ASSIGN);
-			Uint16 vtx_id = parsePlainVtx(t);
+			Uint16 vtx_id = parseNewVertex(t);
+			if (vtx_id == 0x8000) {
+				(*t).Error("Vertex expected");
+			} else
 			if (!VertexIdentifierExists(identifier)) {
 				vertex_identifiers[identifier] = vtx_id;
 			} else {
@@ -597,8 +712,16 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 		}
 	}
 	instrs.push_back(PTYPE_END);
+	
+	// apply compound vertex index fixups
+	int complex_fixup_offset = 6 + vertices.size() - IS_COMPLEX;
+	for (int i=0; i<(signed)compound_vertex_fixups_in_instrs.size(); i++) {
+		int fixup_pos = compound_vertex_fixups_in_instrs[i];
+		instrs[fixup_pos] += complex_fixup_offset;
+	}
 
 	printf("%d plain vertices\n", vertices.size());
+	printf("%d compound vertices\n", compound_vertices.size());
 	m->numPVtx = 6+vertices.size();
 	m->pPVtx = new PlainVertex[vertices.size()];
 	for (int i=0; i<(signed)vertices.size(); i++) {
@@ -626,18 +749,30 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 	printf("\n");
 
 	// dummy complex vertex
-	m->cvStart = m->numPVtx;
-	m->pCVtx = new CompoundVertex[1];
-	m->pCVtx[0].type = VTYPE_CROSS;
-	m->pCVtx[0].pParam[0] = 0;
-	m->pCVtx[0].pParam[1] = 1;
-	m->pCVtx[0].pParam[2] = 2;
-	m->pCVtx[0].pParam[3] = -1;
-	m->pCVtx[0].pParam[4] = -1;
+	if (compound_vertices.size() == 0) {
+		m->cvStart = m->numPVtx;
+		m->numCVtx = 0;
+		m->pCVtx = new CompoundVertex[1];
+		m->pCVtx[0].type = VTYPE_CROSS;
+		m->pCVtx[0].pParam[0] = 0;
+		m->pCVtx[0].pParam[1] = 1;
+		m->pCVtx[0].pParam[2] = 2;
+		m->pCVtx[0].pParam[3] = -1;
+		m->pCVtx[0].pParam[4] = -1;
+	} else {
+		m->cvStart = m->numPVtx;
+		m->numCVtx = compound_vertices.size();
+		m->pCVtx = new CompoundVertex[compound_vertices.size()];
+		for (int i=0; i<compound_vertices.size(); i++) {
+			m->pCVtx[i] = compound_vertices[i];
+		}
+	}
 
 	ppModel[modelNum] = m;
 	models_idx[modelName] = modelNum++;
 	models[modelName] = m;
+
+
 }
 
 void parse(std::vector<Token> &tokens)
@@ -659,7 +794,7 @@ void parse(std::vector<Token> &tokens)
 
 void model_compiler_test()
 {
-	FILE *f = fopen("sbre2.obj", "r");
+	FILE *f = fopen("data/models.def", "r");
 
 	char *buf = new char[4096];
 	memset(buf, 0, 4096);
@@ -667,7 +802,6 @@ void model_compiler_test()
 
 	std::vector<Token> tokens;
 	lex(buf, tokens);
-	printf("%d tokens\n", tokens.size());
 /*	for (std::vector<Token>::iterator i = tokens.begin(); i!= tokens.end(); ++i) {
 		switch ((*i).type) {
 			case Token::OPENBRACKET: printf("(\n"); break;
@@ -683,4 +817,5 @@ void model_compiler_test()
 		}
 	}*/
 	parse(tokens);
+	delete [] buf;
 }

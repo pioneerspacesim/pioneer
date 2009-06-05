@@ -1,7 +1,7 @@
 #include "sbre_int.h"
 #include "sbre_models.h"
 
-Model * const ppModel[] =
+Model * ppModel[SBRE_MAX_MODEL] =
 {
 	// 0, current test object
 	&ship6model,

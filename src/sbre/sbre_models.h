@@ -24,7 +24,9 @@ const int SUB_DISH = 5;
 const int SUB_WING1 = 30;
 const int SUB_WING2 = 31;
 
-extern Model *ppModel[];
+#define SBRE_MAX_MODEL 1024
+#define SBRE_COMPILED_MODELS 512
+extern Model *ppModel[SBRE_MAX_MODEL];
 
 
 #endif // __SBRE_MODELS_H__
