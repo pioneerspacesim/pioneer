@@ -330,7 +330,6 @@ static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 	}
 
 	int steps = pData[2];
-	float rad = pData[6] * 0.01f;
 	Vector *pVertex = (Vector *) alloca (8*steps*sizeof(Vector));
 	uint16 *pIndex = (uint16 *) alloca (12*steps*sizeof(Vector));
 	int ni = 0;
@@ -342,7 +341,9 @@ static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 	VecNorm (&zax, &zax);
 	VecCross (&yax, &zax, &xax);
 
-	float angstep = 2.0f * 3.141592f / steps, ang = 0.0f;
+	float angstep = 2.0f * 3.141592f / steps;
+	float ang = angstep * 0.5f;
+	float radmod = 0.01f / cosf(ang);
 	int i; for (i=0; i<steps; i++, ang+=angstep)
 	{
 		Vector tv, norm;
@@ -353,7 +354,7 @@ static int PrimFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
 		pVertex[1+(i+steps*3)*2] = zax; VecInv (&zax, &tv);	// endcap
 		pVertex[1+(i+steps*2)*2] = tv;						// startcap
 
-		VecMul (&norm, rad, &tv);
+		VecMul (&norm, pData[6] * radmod, &tv);
 		VecAdd (pVtx+pData[3], &tv, pVertex+i*2);			// start
 		VecAdd (pVtx+pData[4], &tv, pVertex+(i+steps)*2);	// end
 		pVertex[(i+steps*2)*2] = pVertex[i*2];				// startcap
@@ -409,7 +410,6 @@ static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 	}
 
 	int steps = pData[2];
-	float rad = pData[6] * 0.01f;
 	Vector *pVertex = (Vector *) alloca (2*steps*sizeof(Vector));
 	uint16 *pIndex = (uint16 *) alloca (3*steps*sizeof(Vector));
 	int ni = 0;
@@ -419,14 +419,16 @@ static int PrimFuncCircle (uint16 *pData, Model *pMod, RState *pState)
 	Vector yax = pVtx[pData[5]], xax, zax = pVtx[pData[4]];
 	VecCross (&yax, &zax, &xax);
 
-	float angstep = 2.0f * 3.141592f / steps, ang = 0.0f;
+	float angstep = 2.0f * 3.141592f / steps;
+	float ang = angstep * 0.5f;
+	float radmod = 0.01f / cosf(ang);
 	int i; for (i=0; i<steps; i++, ang+=angstep)
 	{
 		Vector tv, norm;
 		VecMul (&xax, sin(ang), &tv);
 		VecMul (&yax, cos(ang), &norm);
 		VecAdd (&tv, &norm, &norm);
-		VecMul (&norm, rad, &tv);
+		VecMul (&norm, pData[6] * radmod, &tv);
 		VecAdd (pVtx+pData[3], &tv, pVertex+i*2);
 		pVertex[i*2+1] = zax;
 	}
@@ -490,12 +492,14 @@ steps*6: start, inner, axial
 steps*7: end, inner, axial
 */
 
-	float angstep = 2.0f * 3.141592f / steps, ang = 0.0f;
+	float angstep = 2.0f * 3.141592f / steps;
+	float ang = angstep * 0.5f;
+	float radmod = 0.01f / cosf(ang);
 	int i; for (i=0; i<steps; i++, ang+=angstep)
 	{
 		Vector tv, norm, invnorm;
-		VecMul (&xax, sin(ang), &tv);
-		VecMul (&yax, cos(ang), &norm);
+		VecMul (&xax, sinf(ang), &tv);
+		VecMul (&yax, cosf(ang), &norm);
 		VecAdd (&tv, &norm, &norm); VecInv (&norm, &invnorm);
 		pVertex[1+(i+steps)*2] = pVertex[1+i*2] = norm;
 		pVertex[1+(i+steps*2)*2] = pVertex[1+(i+steps*3)*2] = invnorm;
@@ -503,13 +507,13 @@ steps*7: end, inner, axial
 		pVertex[1+(i+steps*5)*2] = pVertex[1+(i+steps*7)*2] = zax;		// endcap
 		pVertex[1+(i+steps*4)*2] = pVertex[1+(i+steps*6)*2] = tv;		// startcap
 
-		VecMul (&norm, pData[6] * 0.01f, &tv);			// outer
+		VecMul (&norm, pData[6] * radmod, &tv);			// outer
 		VecAdd (pVtx+pData[3], &tv, pVertex+i*2);			// start
 		VecAdd (pVtx+pData[4], &tv, pVertex+(i+steps)*2);	// end
 		pVertex[(i+steps*4)*2] = pVertex[i*2];				// startcap
 		pVertex[(i+steps*5)*2] = pVertex[(i+steps)*2];		// endcap
 
-		VecMul (&norm, pData[7] * 0.01f, &tv);			// inner 
+		VecMul (&norm, pData[7] * radmod, &tv);			// inner 
 		VecAdd (pVtx+pData[3], &tv, pVertex+(i+steps*2)*2);	// start
 		VecAdd (pVtx+pData[4], &tv, pVertex+(i+steps*3)*2);	// end
 		pVertex[(i+steps*6)*2] = pVertex[(i+steps*2)*2];	// startcap
@@ -768,21 +772,14 @@ static int PrimFuncSetCFlag (uint16 *pData, Model *pMod, RState *pState)
 }
 
 
-/*
-PTYPE_COMPSMOOTH2, cacheindex, steps, p1, 
-	LTYPE_LINE, p2,
-	LTYPE_HERMITE, p3, t0, t1, 
-	LTYPE_LINE, p4,
-	LTYPE_HERMITE, p1, t0, t1, 
-	LTYPE_END,
-
-PTYPE_COMPFLAT2, cacheindex, steps, p1, norm
-	LTYPE_LINE, p2,
-	LTYPE_HERMITE, p3, t0, t1, 
-	LTYPE_LINE, p4,
-	LTYPE_HERMITE, p1, t0, t1, 
-	LTYPE_END,
-*/
+struct CornerVertex
+{
+	Vector pos;
+	Vector tan1;
+	Vector tan2;
+	Vector norm;
+	int forcenorm;
+};
 
 struct EdgeVertex
 {
@@ -792,23 +789,17 @@ struct EdgeVertex
 };
 
 /*
-uint16 PFUNC_COMPOUND2
-	uint16 cacheidx
-	uint16 steps
-	uint16 startpos
-		uint16 LTYPE_END
-		uint16 LTYPE_LINE
-			uint16 pos
-		uint16 LTYPE_HERMITE
-			uint16 pos
-			uint16 tan0
-			uint16 tan1
+uint16 PFUNC_COMPOUND2S, cacheidx, steps, startpos,
+		uint16 LTYPE_END,
+		uint16 LTYPE_LINE, pos,
+		uint16 LTYPE_NORMS, pos, norm0, norm1,
+		uint16 LTYPE_HERMITE, pos, tan0, tan1,
 
 //maximum four edges
 //if 2 & 4 are LTYPE_LINE, uses fewer tris
 */
 
-static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
+static int PrimFuncCompound2S (uint16 *pData, Model *pMod, RState *pState)
 {
 	Vector *pVtx = pState->pVtx;
 	Model *pModel = pState->pModel;
@@ -825,7 +816,7 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 	int steps = pData[2];				// detail factor...
 	int c = 4;
 
-	EdgeVertex pCorner[5];		// corners
+	CornerVertex pCorner[5];		// corners
 	EdgeVertex ppVtx[20][20];
 
 	// first pass just finds tangents and detects wing condition
@@ -835,11 +826,25 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 	while (pData[c] != LTYPE_END)
 	{
 		Vector t0, t1;
-		if (pData[c] == LTYPE_LINE)	
-			{ VecSub (pVtx+pData[c+1], &pCorner[numEdges-1].pos, &t0); t1 = t0; }
+		pCorner[numEdges].forcenorm = 0;
+		if (pData[c] == LTYPE_LINE)
+		{
+			VecSub (pVtx+pData[c+1], &pCorner[numEdges-1].pos, &t0);
+			VecInv (&t0, &t1);
+		}	
+		else if (pData[c] == LTYPE_NORMS)
+		{
+			VecSub (pVtx+pData[c+1], &pCorner[numEdges-1].pos, &t0);
+			VecPerp (&t0, pVtx+pData[c+3], &t1);
+			VecPerp (&t0, pVtx+pData[c+2], &t0);
+			VecInv (&t1, &t1);
+			pCorner[numEdges-1].norm = pVtx[pData[c+2]];
+			pCorner[numEdges].norm = pVtx[pData[c+3]];
+		}
 		else { t0 = pVtx[pData[c+2]]; t1 = pVtx[pData[c+3]]; }
 		
 		if (!(numEdges&1) && pData[c] != LTYPE_LINE) wing = 0;	// 2nd & 4th edges must be lines
+		pCorner[numEdges].forcenorm = (pData[c] == LTYPE_NORMS ? 1 : 0);
 		pCorner[numEdges].pos = pVtx[pData[c+1]];
 		pCorner[numEdges-1].tan2 = t0;
 		pCorner[numEdges].tan1 = t1;
@@ -855,22 +860,28 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 	// now create 1st edge (left)
 
 	float t, incstep = 1.0f / (steps+1); int i, j;
-	Vector p0, p1, t0, t1, t2, t3;
+	Vector p0, p1, t0, t1, t2, t3, tn;
 
 	if (numEdges == 4)
 	{
 		p0 = pCorner[0].pos; p1 = pCorner[1].pos;
-		t0 = pCorner[0].tan2; t1 = pCorner[1].tan1;
-		VecInv (&pCorner[0].tan1, &t2); t3 = pCorner[1].tan2;
+		t0 = pCorner[0].tan2; VecInv (&pCorner[1].tan1, &t1);
+		t2 = pCorner[0].tan1; t3 = pCorner[1].tan2;
 		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
 		{
 			EdgeVertex *pCur = &ppVtx[i][0];
 			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
 			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
 			ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+
+			if (pCorner[1].forcenorm && i!=0 && i!=steps+1) {
+				ResolveLinearInterp (&pCorner[0].norm, &pCorner[1].norm, t, &tn);
+				VecPerp (&pCur->tan1, &tn, &pCur->tan1);
+				VecPerp (&pCur->tan2, &tn, &pCur->tan2);
+			}
 		}
 	} else {
-		VecInv (&pCorner[0].tan1, &p0); p1 = pCorner[0].tan2;
+		p0 = pCorner[0].tan1; p1 = pCorner[0].tan2;
 		VecPerp (&p1, &p0, &t0); VecPerp (&p0, &p1, &t1); VecInv (&t1, &t1);
 		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
 		{
@@ -886,24 +897,30 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 	if (numEdges >= 3)
 	{
 		p0 = pCorner[3].pos; p1 = pCorner[2].pos;
-		VecInv (&pCorner[3].tan1, &t0); VecInv(&pCorner[2].tan2, &t1);
-		VecInv (&pCorner[3].tan2, &t2); t3 = pCorner[2].tan1;
+		t0 = pCorner[3].tan1; VecInv(&pCorner[2].tan2, &t1);
+		VecInv (&pCorner[3].tan2, &t2); VecInv(&pCorner[2].tan1, &t3);
 		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
 		{
 			EdgeVertex *pCur = &ppVtx[i][hsteps+1];
 			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->pos);
 			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
 			ResolveLinearInterp (&t2, &t3, t, &pCur->tan2);
+
+			if (pCorner[3].forcenorm && i!=0 && i!=steps+1) {
+				ResolveLinearInterp (&pCorner[3].norm, &pCorner[2].norm, t, &tn);
+				VecPerp (&pCur->tan1, &tn, &pCur->tan1);
+				VecPerp (&pCur->tan2, &tn, &pCur->tan2);
+			}
 		}
 	} else {
-		VecInv (&pCorner[2].tan2, &p0); p1 = pCorner[2].tan1;
+		p0 = pCorner[2].tan2; p1 = pCorner[2].tan1;
 		VecPerp (&p1, &p0, &t0); VecPerp (&p0, &p1, &t1); VecInv (&t1, &t1);
 		for (i=0, t=0.0f; i<steps+2; i++, t+=incstep)
 		{
 			EdgeVertex *pCur = &ppVtx[i][hsteps+1]; pCur->pos = pCorner[2].pos;
 			ResolveHermiteSpline (&p0, &p1, &t0, &t1, t, &pCur->tan2);
 			ResolveHermiteTangent (&p0, &p1, &t0, &t1, t, &pCur->tan1);
-			VecInv (&pCur->tan1, &pCur->tan1);
+			VecInv (&pCur->tan2, &pCur->tan2);
 		}
 	}
 
@@ -955,6 +972,72 @@ static int PrimFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
 		}
 	}
 
+
+	RenderArray (nv, ni, pVertex, pIndex, pData[0], pState);
+	if (ci != 0x8000) CopyArrayToCache (nv, ni, pVertex, pIndex, ci, pModel);
+	return c+1;		// +1 for LTYPE_END
+}
+
+/*
+uint16 PFUNC_COMPOUND2F, cacheidx, steps, startpos, norm,
+		uint16 LTYPE_END,
+		uint16 LTYPE_LINE, pos,
+		uint16 LTYPE_HERMITE, pos, tan0, tan1,
+*/
+
+static int PrimFuncCompound2F (uint16 *pData, Model *pMod, RState *pState)
+{
+	Vector *pVtx = pState->pVtx;
+	Model *pModel = pState->pModel;
+
+	uint16 ci = pData[1];
+	if (ci != 0x8000 && pModel->pNumIdx[ci])
+	{
+		RenderArray (pModel->pNumVtx[ci], pModel->pNumIdx[ci],
+			pModel->ppVCache[ci], pModel->ppICache[ci], pData[0], pState);
+		int c; for (c=5; pData[c] != LTYPE_END; c+=pLTypeSize[pData[c]]);
+		return c+1;
+	}
+
+	int steps = pData[2];				// detail factor...
+	int c, ni = 0, nv = 1, n;
+
+	for (c=5; pData[c] != LTYPE_END; c+=pLTypeSize[pData[c]])
+	{
+		if (pData[c] == LTYPE_LINE) nv++;
+		if (pData[c] == LTYPE_HERMITE) nv += 1 + steps;
+		// else crash
+	}
+
+	Vector *pVertex = (Vector *) alloca (sizeof(Vector)*nv*2);
+	uint16 *pIndex = (uint16 *) alloca (sizeof(uint16)*(nv-2)*3);
+
+	for (n=0; n<nv; n++) pVertex[n*2+1] = pVtx[pData[4]];
+	Vector *pLPos = pVtx+pData[3]; pVertex[0] = *pLPos;
+
+	for (c=5, n=1; pData[c] != LTYPE_END; c+=pLTypeSize[pData[c]])
+	{
+		if (pData[c] == LTYPE_HERMITE)
+		{
+			Vector t0, t1;
+			t0 = pVtx[pData[c+2]]; VecInv (pVtx+pData[c+3], &t1);
+
+			// Add points along spline
+			float t, incstep = 1.0f / (steps+1);
+			int i; for (i=0, t=incstep; i<steps; i++, t+=incstep)
+			{
+				Vector *pCur = pVertex + 2*n++;
+				ResolveHermiteSpline (pLPos, pVtx+pData[c+1], &t0, &t1, t, pCur);
+			}
+		}
+		// add end point, store in lpos
+		pLPos = pVtx+pData[c+1]; pVertex[2*n++] = *pLPos;
+	}
+
+	for (n=2; n<nv; n++) {
+		pIndex[ni++] = 0; pIndex[ni++] = n-1; pIndex[ni++] = n;
+	}	
+
 	RenderArray (nv, ni, pVertex, pIndex, pData[0], pState);
 	if (ci != 0x8000) CopyArrayToCache (nv, ni, pVertex, pIndex, ci, pModel);
 	return c+1;		// +1 for LTYPE_END
@@ -994,7 +1077,8 @@ int (*pPrimFuncTable[])(uint16 *, Model *, RState *) = {
 	PrimFuncText,
 	PrimFuncExtrusion,
 	PrimFuncSetCFlag,
-	PrimFuncCurvedSurf,			// new curved-surface function
+	PrimFuncCompound2S,			// new curved-surface function
+	PrimFuncCompound2F,
 };
 
 

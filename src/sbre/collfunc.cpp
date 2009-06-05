@@ -146,37 +146,6 @@ static void ArrayCallback (int nv2, int ni2, Vector *pVertex, uint16 *pIndex,
 	pCMesh->ni = ni; pCMesh->nv = nv;
 }
 
-static int CollFuncCompoundSmooth (uint16 *pData, Model *pMod, RState *pState)
-{
-	pState->pCallback = ArrayCallback;
-	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
-}
-
-static int CollFuncCylinder (uint16 *pData, Model *pMod, RState *pState)
-{
-	pState->pCallback = ArrayCallback;
-	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
-}
-
-static int CollFuncCircle (uint16 *pData, Model *pMod, RState *pState)
-{
-	pState->pCallback = ArrayCallback;
-	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
-}
-
-static int CollFuncTube (uint16 *pData, Model *pMod, RState *pState)
-{
-	pState->pCallback = ArrayCallback;
-	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
-}
-
-static int CollFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
-{
-	pState->pCallback = ArrayCallback;
-	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
-}
-
-
 /*
 uint16 PFUNC_SUBOBJECT
 	uint16 anim
@@ -227,7 +196,7 @@ static int CollFuncSetCFlag (uint16 *pData, Model *pMod, RState *pState)
 	return 2;
 }
 
-static int CollFuncCurvedSurf (uint16 *pData, Model *pMod, RState *pState)
+static int CollFuncCompound (uint16 *pData, Model *pMod, RState *pState)
 {
 	pState->pCallback = ArrayCallback;
 	return pPrimFuncTable[*pData & 0xff] (pData, pMod, pState);
@@ -242,16 +211,17 @@ int (*pCollFuncTable[])(uint16 *, Model *, RState *) = {
 	CollFuncZBias,
 	CollFuncTriFlat,
 	CollFuncQuadFlat,
-	CollFuncCompoundSmooth,		// just uses steps = 0
-	CollFuncCompoundSmooth,
-	CollFuncCircle,
-	CollFuncCylinder,
-	CollFuncTube,
+	CollFuncCompound,		// just uses steps = 0
+	CollFuncCompound,
+	CollFuncCompound,
+	CollFuncCompound,
+	CollFuncCompound,
 	CollFuncSubObject,
 	CollFuncText,
-	CollFuncExtrusion,
+	CollFuncCompound,
 	CollFuncSetCFlag,
-	CollFuncCurvedSurf,
+	CollFuncCompound,
+	CollFuncCompound,
 };
 
 

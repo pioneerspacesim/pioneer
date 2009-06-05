@@ -6,7 +6,7 @@ extern Model curvetest;
 
 extern Model dishmodel, nosewheelmodel, nwunitmodel, mainwheelmodel, mwunitmodel;
 extern Model wing1model, wing2model;
-extern Model ship1model, ship2model, ship3model, ship4model, ship5model;
+extern Model ship1model, ship2model, ship3model, ship4model, ship5model, ship6model;
 extern Model station1model, starport1model, tombstonemodel, cargomodel;
 extern Model metalFrameTowerModel;
 extern Model building1, building2, house1;
@@ -28,7 +28,7 @@ const int SUB_WING2 = 31;
 Model * const ppModel[] =
 {
 	// 0, current test object
-	&curvetest,
+	&ship6model,
 	// 1, common subobjects
 	&nosewheelmodel,
 	&nwunitmodel,
@@ -55,7 +55,7 @@ Model * const ppModel[] =
 	&ship4model,
 	&ship5model,
 	&station1model,
-	0, 0, 0, 0,
+	&ship6model, 0, 0, 0,
 	// 70
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	// 80

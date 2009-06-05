@@ -162,6 +162,7 @@ enum primtype
 	PTYPE_EXTRUSION,
 	PTYPE_SETCFLAG,
 	PTYPE_COMPSMOOTH2,
+	PTYPE_COMPOUND2F,
 };
 
 extern int (*pPrimFuncTable[])(uint16 *, Model *, RState *);
@@ -197,11 +198,12 @@ enum linetype
 {
 	LTYPE_END = 0,		// no data
 	LTYPE_LINE,			// just next vertex
+	LTYPE_NORMS,		// next vertex, start norm, end norm
 	LTYPE_HERMITE,		// next vertex, start tangent, end tangent
 };
 
 const int pCompSize[] = { 1, 3, 5, 3, 3, 2 };
-const int pLTypeSize[] = { 1, 2, 4 };
+const int pLTypeSize[] = { 1, 2, 4, 4 };
 
 const char pModelString[][256] = {
 	"Bollocks", "Yo", "","","","","","","","",
