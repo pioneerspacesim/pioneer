@@ -625,7 +625,7 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 	}
 
 	// return immediately if object is not present
-//	if (pData[1] != 0x8000 && !pState->pObjParam->pFlag[pData[1]]) return 7;
+	if (pData[1] != 0x8000 && !pState->pObjParam->pFlag[pData[1]]) return 7;
 	
 	// build transform matrix, offset
 	Vector v1, v2, v3, pos, tv; Matrix m, m2;
@@ -638,18 +638,14 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 	MatMatMult (&pState->objorient, &m, &m2);
 
 	const char *pText;
-	if (pData[2] != 0x8000) pText = pModelString[pData[2]];
-	else pText = pState->pObjParam->pText[pData[1]];
+	if (pData[0] & TFLAG_STATIC) pText = pModelString[pData[2]];
+	else pText = pState->pObjParam->pText[pData[2]];
 	float xoff = 0, yoff = 0;
 
-	/* Centre the damn thing if wanted!!!!!!!!!!!!!!!!!!! */
-	if (pData[0] & (TFLAG_XCENTER | TFLAG_YCENTER)) {
-		pFace->MeasureString(pText, xoff, yoff);
-		xoff *= pData[8]*0.01f / pFace->GetHeight();
-		yoff *= pData[8]*0.01f / pFace->GetHeight();
-		if (!(pData[0] & TFLAG_XCENTER)) xoff = 0;
-		if (!(pData[0] & TFLAG_YCENTER)) yoff = 0;
-	}
+	// Centre the text
+	pFace->MeasureString(pText, xoff, yoff);
+	xoff *= pData[8]*0.01f / pFace->GetHeight();
+	yoff *= pData[8]*0.01f / pFace->GetHeight();
 	
 	VecMul (&v1, pData[6]*0.01f - xoff*0.5, &tv);
 	VecMul (&v2, pData[7]*0.01f - yoff*0.5, &pos);

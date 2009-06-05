@@ -27,7 +27,7 @@ static CompoundVertex curvetestvtx2[] = {
 };
 static uint16 curvetestdata[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_COMPSMOOTH2, 0, 3, 7, 
+	PTYPE_COMPOUND2S, 0, 3, 7, 
 		LTYPE_HERMITE, 8, 10, 11,
 		LTYPE_LINE, 9,
 		LTYPE_HERMITE, 6, 12, 13,
@@ -56,7 +56,7 @@ static CompoundVertex curvetestvtx2[] = {
 };
 static uint16 curvetestdata[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_COMPSMOOTH2, 0, 8, 6, 
+	PTYPE_COMPOUND2S, 0, 8, 6, 
 		LTYPE_HERMITE, 7, 9, 10,
 		LTYPE_HERMITE, 8, 11, 12,
 		LTYPE_HERMITE, 6, 13, 14,
@@ -82,7 +82,7 @@ static CompoundVertex curvetestvtx2[] = {
 };
 static uint16 curvetestdata[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_COMPSMOOTH2, 0, 8, 6, 
+	PTYPE_COMPOUND2S, 0, 8, 6, 
 		LTYPE_HERMITE, 7, 9, 10,
 		LTYPE_HERMITE, 8, 11, 9,
 		LTYPE_HERMITE, 6, 10, 11,
@@ -108,7 +108,7 @@ static CompoundVertex curvetestvtx2[] = {
 };
 static uint16 curvetestdata[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_COMPSMOOTH2, 0, 18, 6, 
+	PTYPE_COMPOUND2S, 0, 18, 6, 
 		LTYPE_HERMITE, 7, 8, 8,
 		LTYPE_HERMITE, 6, 9, 9,
 		LTYPE_END,
@@ -386,6 +386,8 @@ static PlainVertex ship1vtx1[] = {
 	{ VTYPE_PLAIN, { 0.0f, -9.330127f, -30.0f } },				// 40, nosewheel
 	{ VTYPE_PLAIN, { 0.0f, -9.330127f, 13.0f } },				// 41, mainwheel
 
+	{ VTYPE_PLAIN, { -5.0f, 10.0f, -30.0f } },		// 6, top four body verts
+	{ VTYPE_PLAIN, { -11.16025f, -0.6698729f, 35.0f } },
 };
 static CompoundVertex ship1vtx2[] = {
 	{ VTYPE_ANIMLIN, { 25, 3, -1, -1, 0 } },			// 50, right wing yaxis	
@@ -418,9 +420,9 @@ static uint16 ship1data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 16, 54, 5,
-	PTYPE_TEXT, 0, 0x8000, 16, 54, 2, 700, 200, 1000,
+	PTYPE_TEXT, 0x8000, 0, 16, 54, 2, 3200, 700, 1000,
 	PTYPE_ZBIAS, 10, 55, 5,
-	PTYPE_TEXT, 0, 0x8000, 10, 55, 5, 100, 200, 1000,
+	PTYPE_TEXT, 0x8000, 0, 10, 55, 5, 2800, 700, 1000,
 
 	PTYPE_ZBIAS, 40, 4, 5,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 40, 4, 2, 200,
@@ -695,9 +697,9 @@ static uint16 ship2data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 98, 95, 2,
-	PTYPE_TEXT | TFLAG_XCENTER, 0, 0x8000, 98, 95, 5, 0, 50, 250,
+	PTYPE_TEXT, 0x8000, 0, 98, 95, 5, 0, 200, 250,
 	PTYPE_ZBIAS, 97, 96, 2,
-	PTYPE_TEXT | TFLAG_XCENTER, 0, 0x8000, 97, 96, 2, 0, 50, 250,
+	PTYPE_TEXT, 0x8000, 0, 97, 96, 2, 0, 200, 250,
 
 	PTYPE_ZBIAS, 73, 4, 2,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 73, 4, 2, 100,
@@ -992,10 +994,10 @@ static uint16 ship3data[] = {
 //	PTYPE_QUADFLAT | RFLAG_XREF, 77, 78, 80, 79,
 
 /*	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_ZBIAS, 95, 5,
-	PTYPE_TEXT, 0, 0x8000, 68, 95, 2, 1900, 50, 250,
-	PTYPE_ZBIAS, 96, 5,
-	PTYPE_TEXT, 0, 0x8000, 97, 96, 5, 400, 50, 250,
+	PTYPE_ZBIAS, 95, 5, 5,
+	PTYPE_TEXT, 0x8000, 0, 68, 95, 2, 1900, 50, 250,
+	PTYPE_ZBIAS, 96, 5, 5,
+	PTYPE_TEXT, 0x8000, 0, 97, 96, 5, 400, 50, 250,
 */
 	PTYPE_ZBIAS, 35, 4, 5,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 35, 4, 2, 100,
@@ -1099,20 +1101,20 @@ static PlainVertex ship4vtx1[] = {
 	{ VTYPE_PLAIN, { -12.5f, 2.0f, 13.0f } },
 	{ VTYPE_PLAIN, { -12.5f, 2.0f, 27.0f } },
 
-	{ VTYPE_PLAIN, { -11.5f, -6.0f, 10.0f } },			// 28, bottom engine
-	{ VTYPE_PLAIN, { -11.5f, -6.0f, 30.0f } },
-	{ VTYPE_PLAIN, { -11.5f, -6.0f, 13.0f } },
-	{ VTYPE_PLAIN, { -11.5f, -6.0f, 27.0f } },
+	{ VTYPE_PLAIN, { -12.0f, -5.5f, 10.0f } },			// 28, bottom engine
+	{ VTYPE_PLAIN, { -12.0f, -5.5f, 30.0f } },
+	{ VTYPE_PLAIN, { -12.0f, -5.5f, 13.0f } },
+	{ VTYPE_PLAIN, { -12.0f, -5.5f, 27.0f } },
 
 	{ VTYPE_PLAIN, { -10.0f, -4.0f, -16.0f } },			// 32, right text pos
 	{ VTYPE_PLAIN, { 10.0f, -4.0f, 4.0f } },			// left text pos
 
 	{ VTYPE_PLAIN, { -5.0f, -8.0f, -13.0f } },			// 34, gear pos
 	{ VTYPE_PLAIN, { 5.0f, -8.0f, -13.0f } },
-	{ VTYPE_PLAIN, { -11.5f, -8.309f, 25.0f } },			// 36, gear pos
-	{ VTYPE_PLAIN, { 11.5f, -8.309f, 25.0f } },
-	{ VTYPE_PLAIN, { -11.5f, -8.309f, 13.0f } },			// 38, gear pos
-	{ VTYPE_PLAIN, { 11.5f, -8.309f, 13.0f } },
+	{ VTYPE_PLAIN, { -11.5f, -8.0f, 25.0f } },			// 36, gear pos
+	{ VTYPE_PLAIN, { 11.5f, -8.0f, 25.0f } },
+	{ VTYPE_PLAIN, { -11.5f, -8.0f, 13.0f } },			// 38, gear pos
+	{ VTYPE_PLAIN, { 11.5f, -8.0f, 13.0f } },
 
 	{ VTYPE_PLAIN, { -0.05f, 8.0f, 15.0f } },			// 40, dish pos
 	
@@ -1147,8 +1149,8 @@ static uint16 ship4data[] = {
 	PTYPE_EXTRUSION, 0, 8, 19, 20, 1, 100, 41,
 	PTYPE_EXTRUSION, 1, 8, 21, 22, 1, 100, 41,
 
-	PTYPE_TUBE | RFLAG_XREF, 2, 8, 24, 25, 23, 250, 200,
-	PTYPE_TUBE | RFLAG_XREF, 3, 8, 28, 29, 23, 250, 200,
+	PTYPE_TUBE | RFLAG_XREF, 2, 8, 24, 25, 1, 250, 200,
+	PTYPE_TUBE | RFLAG_XREF, 3, 8, 28, 29, 1, 250, 200,
 
 	PTYPE_MATANIM, AFUNC_THRUSTPULSE,
 		0, 0, 0, 0, 0, 0, 100, 50, 50, 100,
@@ -1164,9 +1166,9 @@ static uint16 ship4data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 32, 3, 5,
-	PTYPE_TEXT, 0, 0x8000, 32, 3, 5, 0, 250, 400,
+	PTYPE_TEXT, 0x8000, 0, 32, 3, 5, 1000, 400, 400,
 	PTYPE_ZBIAS, 33, 0, 5,
-	PTYPE_TEXT, 0, 0x8000, 33, 0, 2, 0, 250, 400,
+	PTYPE_TEXT, 0x8000, 0, 33, 0, 2, 1000, 400, 400,
 
 	PTYPE_ZBIAS, 34, 4, 5,
 	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 34, 4, 2, 60,
@@ -1484,8 +1486,8 @@ static uint16 starport1data[] = {
 	PTYPE_SETCFLAG, 0,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0,
 	PTYPE_ZBIAS, 6, 1, 0,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 10, 6, 1, 0, 0, 0, 20,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 11, 13, 1, 0, 0, 0, 20,
+	PTYPE_TEXT | TFLAG_STATIC, 0x8000, 10, 6, 1, 0, 0, 0, 20,
+	PTYPE_TEXT | TFLAG_STATIC, 0x8000, 11, 13, 1, 0, 0, 0, 20,
 	PTYPE_ZBIAS, 0x8000, 0, 0,
 	PTYPE_SUBOBJECT, 0x8000, 100, 0, 1, 2, 100,
 	PTYPE_SUBOBJECT, 0x8000, 100, 3, 1, 2, 100,
@@ -1518,9 +1520,9 @@ static uint16 tombstonedata[] = {
 	PTYPE_CYLINDER, 0x8000, 16, 10, 11, 1, 60,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 100, 100, 100, 0,
 	PTYPE_ZBIAS, 16, 5, 0,
-	PTYPE_TEXT | TFLAG_XCENTER, 0, 0x8000, 16, 5, 0, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 16, 5, 0, 0, 0, 10,
 	PTYPE_ZBIAS, 17, 2, 0,
-	PTYPE_TEXT | TFLAG_XCENTER, 0, 0x8000, 17, 2, 3, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 17, 2, 3, 0, 0, 10,
 	PTYPE_END
 };
 Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
@@ -1537,9 +1539,9 @@ static uint16 cargodata[] = {
 	PTYPE_CYLINDER, 0x8000, 16, 6, 7, 0, 90,
 	PTYPE_MATFIXED, 100, 0, 0, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 1, 1, 0,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 6, 1, 0, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 6, 1, 0, 0, 0, 10,
 	PTYPE_ZBIAS, 4, 4, 0,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 7, 4, 3, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 7, 4, 3, 0, 0, 10,
 	PTYPE_END
 };
 
@@ -1628,36 +1630,36 @@ static CompoundVertex ship6vtx2[] = {
 };
 static uint16 ship6data[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 0, 8, 6, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 0, 8, 6, 
 		LTYPE_HERMITE, 7, 13, 14,
 		LTYPE_HERMITE, 8, 15, 16,
 		LTYPE_NORMS, 9, 17, 18,
 		LTYPE_HERMITE, 6, 19, 20,
 		LTYPE_END,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 1, 8, 10, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 1, 8, 10, 
 		LTYPE_HERMITE, 9, 23, 24,
 		LTYPE_NORMS, 8, 18, 17,
 		LTYPE_HERMITE, 10, 21, 22,
 		LTYPE_END,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 2, 8, 9, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 2, 8, 9, 
 		LTYPE_HERMITE, 10, 24, 23,
 		LTYPE_HERMITE, 12, 25, 26,
 		LTYPE_HERMITE, 11, 27, 28,
 		LTYPE_HERMITE, 9, 29, 30,
 		LTYPE_END,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 3, 8, 6, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 3, 8, 6, 
 		LTYPE_HERMITE, 9, 20, 19,
 		LTYPE_LINE, 32,
 		LTYPE_HERMITE, 31, 34, 35,
 		LTYPE_LINE, 6,
 		LTYPE_END,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 4, 8, 9, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 4, 8, 9, 
 		LTYPE_HERMITE, 11, 30, 29,
 		LTYPE_LINE, 12,
 		LTYPE_LINE, 32,
 		LTYPE_LINE, 9,
 		LTYPE_END,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 5, 8, 12, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 5, 8, 12, 
 		LTYPE_HERMITE, 10, 26, 25,
 		LTYPE_LINE, 33,
 		LTYPE_LINE, 32,
@@ -1673,7 +1675,7 @@ static uint16 ship6data[] = {
 	PTYPE_TUBE | RFLAG_XREF, 8, 8, 36, 37, 3, 300, 250,
 
 	PTYPE_MATFIXED, 30, 30, 30, 30, 30, 30, 200, 0, 0, 0,
-	PTYPE_COMPSMOOTH2 | RFLAG_XREF, 7, 8, 7, 
+	PTYPE_COMPOUND2S | RFLAG_XREF, 7, 8, 7, 
 		LTYPE_HERMITE, 8, 38, 39,
 		LTYPE_HERMITE, 7, 16, 15,
 		LTYPE_END,
@@ -1691,36 +1693,11 @@ static uint16 ship6data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 40, 0, 5,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 40, 0, 2, 0, 0, 200,
+	PTYPE_TEXT, 0x8000, 0, 40, 0, 2, 0, 0, 200,
 	PTYPE_ZBIAS, 41, 3, 5,
-	PTYPE_TEXT | TFLAG_XCENTER | TFLAG_YCENTER, 0, 0x8000, 41, 3, 5, 0, 0, 200,
+	PTYPE_TEXT, 0x8000, 0, 41, 3, 5, 0, 0, 200,
 
 	PTYPE_ZBIAS, 0x8000, 0, 0,
-
-/*
-uint16 PFUNC_ZBIAS
-	uint16 pos			// to test if nearer - 0x8000 = reset
-	uint16 norm
-	uint16 units		// integer units. not used
-
-uint16 PFUNC_SUBOBJECT
-	uint16 anim
-	uint16 modelnum
-	uint16 offset
-	uint16 norm
-	uint16 zaxis
-	uint16 scale
-
-uint16 PFUNC_TEXT
-	uint16 anim
-	uint16 textnum
-	uint16 pos
-	uint16 norm
-	uint16 xaxis
-	uint16 xoff
-	uint16 yoff
-	uint16 scale
-*/
 
 	PTYPE_END,
 

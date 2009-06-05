@@ -1,8 +1,8 @@
 #include "libs.h"
 
 #include "sbre/sbre.h"
-#include "sbre/sbre_int.h"
-#include "sbre/sbre_models.h"
+//#include "sbre/sbre_int.h"
+//#include "sbre/sbre_models.h"
 
 #include "collider/collider.h"
 #include "collider/CollisionContact.h"

@@ -161,7 +161,7 @@ enum primtype
 	PTYPE_TEXT,
 	PTYPE_EXTRUSION,
 	PTYPE_SETCFLAG,
-	PTYPE_COMPSMOOTH2,
+	PTYPE_COMPOUND2S,
 	PTYPE_COMPOUND2F,
 };
 
@@ -169,8 +169,9 @@ extern int (*pPrimFuncTable[])(uint16 *, Model *, RState *);
 extern int (*pCollFuncTable[])(uint16 *, Model *, RState *);
 
 // text object options
-static const int TFLAG_XCENTER = 0x8000;
-static const int TFLAG_YCENTER = 0x4000;
+//static const int TFLAG_XCENTER = 0x8000;
+//static const int TFLAG_YCENTER = 0x4000;
+static const int TFLAG_STATIC = 0x8000;
 
 static const int RFLAG_XREF = 0x8000;
 static const int RFLAG_INVISIBLE = 0x4000;
