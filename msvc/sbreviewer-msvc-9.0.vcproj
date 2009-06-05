@@ -183,18 +183,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\sbre\fastmath.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\jjtypes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\jjvector.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\src\sbre\jjvector.h"
 				>
 			</File>

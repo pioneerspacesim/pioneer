@@ -1,8 +1,11 @@
 #ifndef __SBRE_INT_H__
 #define __SBRE_INT_H__
-#include "jjtypes.h"
+#include <SDL_stdinc.h>
 #include "jjvector.h"
 #include "sbre.h"
+
+typedef Uint16 uint16;
+typedef Uint32 uint32;
 
 //*****************************************************************************
 
@@ -216,6 +219,9 @@ void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters);
 float ResolveAnim (ObjParams *pObjParam, uint16 type);
 void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh);
 
+
+#define SBRE_MAX_MODEL 1024
+#define SBRE_COMPILED_MODELS 512
 
 extern Model *ppTurdpiledModel[SBRE_MAX_MODEL];
 

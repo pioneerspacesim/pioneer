@@ -2,9 +2,6 @@
 #define __SBRE_MODELS_H__
 #include "sbre_int.h"
 
-#define SBRE_MAX_MODEL 1024
-#define SBRE_COMPILED_MODELS 512
-
 
 extern Model curvetest;
 
