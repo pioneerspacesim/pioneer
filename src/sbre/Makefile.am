@@ -2,6 +2,6 @@
 
 noinst_LIBRARIES = libsbre.a
 libsbre_a_SOURCES = brender.cpp models.cpp primfunc.cpp simtriang.cpp transp.cpp jjvector.cpp collfunc.cpp \
-		    models-buildings.cpp
+		    models-buildings.cpp model_compiler.cpp
 
 include_HEADERS = fastmath.h sbre.h sbre_int.h sbre_anim.h jjtypes.h jjvector.h

@@ -391,11 +391,10 @@ void Viewer::MainLoop()
 	delete geomtree;
 }
 
-extern int model_compiler_test();
 
 int main(int argc, char **argv)
 {
-	model_compiler_test();
+//	model_compiler_test();
 	if ((argc>1) && (0==strcmp(argv[1],"--help"))) {
 		printf("Usage:\n\nSbreViewer <model number> <width> <height>\n");
 		exit(0);

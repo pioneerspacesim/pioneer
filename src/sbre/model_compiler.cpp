@@ -6,8 +6,8 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "sbre/sbre_int.h"
-#include "sbre/sbre_models.h"
+#include "sbre_int.h"
+#include "sbre_models.h"
 
 extern Model * ppModel[];
 
@@ -394,6 +394,7 @@ static Uint16 get_anim(tokenIter_t &t)
 	(*t++).Check(Token::ASSIGN);
 	if ((*t).type != Token::INTEGER) {
 		(*t).Error("Integer anim expected");
+		return 0;
 	} else {
 		Uint16 anim = (*t).val.i;
 		if (anim > 9) {
@@ -402,14 +403,6 @@ static Uint16 get_anim(tokenIter_t &t)
 		++t;
 		return anim;
 	}
-}
-
-static bool canCache(Uint16 *vertex_idxs, int num)
-{
-	for (int i=0; i<num; i++) {
-		if (vertex_idxs[i] & IS_COMPLEX) return false;
-	}
-	return true;
 }
 
 void parseModel(tokenIter_t &t)
@@ -763,7 +756,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 		m->cvStart = m->numPVtx;
 		m->numCVtx = compound_vertices.size();
 		m->pCVtx = new CompoundVertex[compound_vertices.size()];
-		for (int i=0; i<compound_vertices.size(); i++) {
+		for (int i=0; i<(signed)compound_vertices.size(); i++) {
 			m->pCVtx[i] = compound_vertices[i];
 		}
 	}
