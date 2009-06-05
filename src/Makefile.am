@@ -24,7 +24,7 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp
 pioneer_LDADD = sbre/libsbre.a collider/libcollider.a mods/libmods.a libgui.a
 
-sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp
+sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp model_compiler.cpp
 sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
 check_PROGRAMS = tests
