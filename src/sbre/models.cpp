@@ -1246,68 +1246,60 @@ Model dishmodel = { 1.0f, 4.0f, 19, dishvtx1, 40, 0, dishvtx2, 5,
 
 
 static PlainVertex ship5vtx1[] = {
-	{ VTYPE_PLAIN, { 1.0f, 0.0f, -20.0f } },			// 6, right nose vertex
-	{ VTYPE_PLAIN, { 0.0f, 1.0f, -0.4f } },
-	{ VTYPE_PLAIN, { 0.0f, -1.0f, -0.4f } },
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, 20.0f } },			// 6, right nose vertex
+	{ VTYPE_PLAIN, { 0.0f, 1.0f, 0.4f } },
+	{ VTYPE_PLAIN, { 0.0f, -1.0f, 0.4f } },
 
-	{ VTYPE_PLAIN, { -1.0f, 0.0f, -20.0f } },		// 9, left nose vertex
-	{ VTYPE_PLAIN, { 0.0f, 1.0f, -0.4f } },
-	{ VTYPE_PLAIN, { 0.0f, -1.0f, -0.4f } },
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, 20.0f } },		// 9, left nose vertex
+	{ VTYPE_PLAIN, { 0.0f, 1.0f, 0.4f } },
+	{ VTYPE_PLAIN, { 0.0f, -1.0f, 0.4f } },
 
-	{ VTYPE_PLAIN, { 2.0f, 2.0f, -10.0f } },			// 12, nose section back
-	{ VTYPE_PLAIN, { -2.0f, 2.0f, -10.0f } },
-	{ VTYPE_PLAIN, { -3.0f, 0.0f, -10.0f } },			
-	{ VTYPE_PLAIN, { -2.0f, -2.0f, -10.0f } },			
-	{ VTYPE_PLAIN, { 2.0f, -2.0f, -10.0f } },
-	{ VTYPE_PLAIN, { 3.0f, 0.0f, -10.0f } },
+	{ VTYPE_PLAIN, { -2.0f, 2.0f, 10.0f } },			// 12, nose section back
+	{ VTYPE_PLAIN, { 2.0f, 2.0f, 10.0f } },				// and extrusion area
+	{ VTYPE_PLAIN, { 3.0f, 0.0f, 10.0f } },			
+	{ VTYPE_PLAIN, { 2.0f, -2.0f, 10.0f } },			
+	{ VTYPE_PLAIN, { -2.0f, -2.0f, 10.0f } },
+	{ VTYPE_PLAIN, { -3.0f, 0.0f, 10.0f } },
 
-	{ VTYPE_PLAIN, { 0.0f, 0.0f, -10.0f } },			// 18, extrusion start/end
-	{ VTYPE_PLAIN, { 0.0f, 0.0f, 15.0f } },
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, 10.0f } },			// 18, extrusion start/end
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, -15.0f } },
 
 	// tangents
 
-	{ VTYPE_PLAIN, { -1.0f, 0.0f, -10.0f } },			// 20, 12->6 and 16->6 s
-	{ VTYPE_PLAIN, { -1.0f, -4.0f, -10.0f } },		// 12->6 e
-	{ VTYPE_PLAIN, { 1.0f, 4.0f, 10.0f } },		// 6-12 e
-	{ VTYPE_PLAIN, { 1.0f, 0.0f, 10.0f } },		// 6->12 and 6->16 s
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, 10.0f } },			// 20, 12->6 and 16->6 s
+	{ VTYPE_PLAIN, { 1.0f, -4.0f, 10.0f } },		// 12->6 e
+	{ VTYPE_PLAIN, { -1.0f, 4.0f, -10.0f } },		// 6-12 e
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, -10.0f } },		// 6->12 and 6->16 s
 
-	{ VTYPE_PLAIN, { 1.0f, 0.0f, -10.0f } },			// 24, 13->9
-	{ VTYPE_PLAIN, { 1.0f, -4.0f, -10.0f } },
-	{ VTYPE_PLAIN, { -1.0f, 4.0f, 10.0f } },
-	{ VTYPE_PLAIN, { -1.0f, 0.0f, 10.0f } },			// 9->13 and 9->
+	{ VTYPE_PLAIN, { -1.0f, 0.0f, 10.0f } },			// 24, 13->9
+	{ VTYPE_PLAIN, { -1.0f, -4.0f, 10.0f } },
+	{ VTYPE_PLAIN, { 1.0f, 4.0f, -10.0f } },
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, -10.0f } },			// 9->13 and 9->
 
-	{ VTYPE_PLAIN, { -1.0f, 4.0f, -10.0f } },			// 28, 16->6 e
-	{ VTYPE_PLAIN, { 1.0f, -4.0f, 10.0f } },		// 6-16 e
+	{ VTYPE_PLAIN, { 1.0f, 4.0f, 10.0f } },			// 28, 16->6 e
+	{ VTYPE_PLAIN, { -1.0f, -4.0f, -10.0f } },		// 6-16 e
 
-	{ VTYPE_PLAIN, { 1.0f, 4.0f, -10.0f } },		// 30, 15->9 e
-	{ VTYPE_PLAIN, { -1.0f, -4.0f, 10.0f } },		// 9-15 e
+	{ VTYPE_PLAIN, { -1.0f, 4.0f, 10.0f } },		// 30, 15->9 e
+	{ VTYPE_PLAIN, { 1.0f, -4.0f, -10.0f } },		// 9-15 e
 	
-	{ VTYPE_PLAIN, { 0.0f, 1.333f, -15.0f } },		// 32, nose top midpoint
-	{ VTYPE_PLAIN, { 0.0f, 1.0f, -0.2f } },
+	{ VTYPE_PLAIN, { 0.0f, 1.333f, 15.0f } },		// 32, nose top midpoint
+	{ VTYPE_PLAIN, { 0.0f, 1.0f, 0.2f } },
 
-	{ VTYPE_PLAIN, { 0.0f, -1.333f, -15.0f } },		// 34, nose bottom midpoint
-	{ VTYPE_PLAIN, { 0.0f, -1.0f, -0.2f } },
+	{ VTYPE_PLAIN, { 0.0f, -1.333f, 15.0f } },		// 34, nose bottom midpoint
+	{ VTYPE_PLAIN, { 0.0f, -1.0f, 0.2f } },
 
 
 	// wing positions
-	{ VTYPE_PLAIN, { -2.5f, 1.0f, 5.0f } },			// 36
-	{ VTYPE_PLAIN, { -2.5f, -1.0f, 5.0f } },
-	{ VTYPE_PLAIN, { 2.5f, -1.0f, 5.0f } },
-	{ VTYPE_PLAIN, { 2.5f, 1.0f, 5.0f } },
+	{ VTYPE_PLAIN, { 2.5f, 1.0f, -5.0f } },			// 36
+	{ VTYPE_PLAIN, { 2.5f, -1.0f, -5.0f } },
+	{ VTYPE_PLAIN, { -2.5f, -1.0f, -5.0f } },
+	{ VTYPE_PLAIN, { -2.5f, 1.0f, -5.0f } },
 
 	// wing normals
-	{ VTYPE_DIR, { -2.0f, 1.0f, 0.0f } },			// 40
-	{ VTYPE_DIR, { -2.0f, -1.0f, 0.0f } },
+	{ VTYPE_DIR, { 2.0f, 1.0f, 0.0f } },			// 40
 	{ VTYPE_DIR, { 2.0f, -1.0f, 0.0f } },
-	{ VTYPE_DIR, { 2.0f, 1.0f, 0.0f } },
-
-	// 44, for extrusion
-	{ VTYPE_PLAIN, { 3.0f, 0.0f, -10.0f } },
-	{ VTYPE_PLAIN, { 2.0f, -2.0f, -10.0f } },
-	{ VTYPE_PLAIN, { -2.0f, -2.0f, -10.0f } },			
-	{ VTYPE_PLAIN, { -3.0f, 0.0f, -10.0f } },			
-	{ VTYPE_PLAIN, { -2.0f, 2.0f, -10.0f } },			
-	{ VTYPE_PLAIN, { 2.0f, 2.0f, -10.0f } },
+	{ VTYPE_DIR, { -2.0f, -1.0f, 0.0f } },
+	{ VTYPE_DIR, { -2.0f, 1.0f, 0.0f } },
 
 };
 static CompoundVertex ship5vtx2[] = {
@@ -1322,7 +1314,7 @@ static uint16 ship5data[] = {
 //	PTYPE_QUADFLAT, 6, 9, 13, 12,
 //	PTYPE_QUADFLAT, 9, 6, 16, 15,
 
-	PTYPE_EXTRUSION, 0, 6, 18, 19, 1, 100, 44,
+	PTYPE_EXTRUSION, 0, 6, 18, 19, 1, 100, 12,
 
 	PTYPE_COMPSMOOTH, 1, 5, 32, 33, 13, 1,
 		COMP_LINE, 12, 1,
@@ -1348,41 +1340,47 @@ static uint16 ship5data[] = {
 		COMP_LINE, 9, 101,
 		COMP_END,
 
-	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 36, 40, 5, 70,
-	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 37, 41, 5, 70,
-	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 38, 42, 5, 70,
-	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 39, 43, 5, 70,
+	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 36, 40, 2, 70,
+	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 37, 41, 2, 70,
+	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 38, 42, 2, 70,
+	PTYPE_SUBOBJECT | SUBOBJ_THRUST, 0x8000, SUB_WING2, 39, 43, 2, 70,
 
 	PTYPE_END,
 };	
-Model ship5model = { 1.0f, 25.0f, 50, ship5vtx1, 100, 2, ship5vtx2, 5, 
+Model ship5model = { 1.0f, 25.0f, 44, ship5vtx1, 100, 2, ship5vtx2, 5, 
 	{ { 0, ship5data, 0, 0, 0 } } };
 
 
 static PlainVertex wing2vtx1[] = {
-	{ VTYPE_PLAIN, { 0.0f, 0.0f, -3.5f } },			// 6, bottom front
-	{ VTYPE_PLAIN, { 0.0f, 0.0f, 3.5f } },			// bottom back
-	{ VTYPE_PLAIN, { 0.0f, 20.0f, -3.5f } },			// top front
-	{ VTYPE_PLAIN, { 0.0f, 20.0f, 3.5f } },		// top back
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, 3.5f } },			// 6, bottom front
+	{ VTYPE_PLAIN, { 0.0f, 0.0f, -9.0f } },			// bottom back
+	{ VTYPE_PLAIN, { 0.0f, 20.0f, 3.5f } },			// top front
+	{ VTYPE_PLAIN, { 0.0f, 20.0f, -3.5f } },		// top back
 
-	{ VTYPE_DIR, { 0.0f, 0.0f, -1.0f } },			// 10, front norm
-	{ VTYPE_DIR, { -3.0f, 0.0f, 1.0f } },			// back norm
+	{ VTYPE_DIR, { 0.0f, 0.0f, 1.0f } },			// 10, front norm
+	{ VTYPE_DIR, { 3.0f, 0.0f, -1.0f } },			// back norm
 
-	{ VTYPE_PLAIN, { -0.8f, 10.0f, 0.0f } },			// 12, sidecentre
-	{ VTYPE_DIR, { -1.0f, 0.0f, -0.20f } },			// sidenorm
+//	{ VTYPE_PLAIN, { 1.0f, 10.0f, 0.0f } },			// 12, sidecentre
+//	{ VTYPE_DIR, { 1.0f, 0.05f, 0.20f } },			// sidenorm
 
-	{ VTYPE_PLAIN, { 2.8f, 0.0f, 0.0f } },			// 14, front tan, forward
-	{ VTYPE_PLAIN, { -2.8f, 0.0f, 0.0f } },			// front tan, backward
+//	{ VTYPE_PLAIN, { 0.718f, 10.0f, 2.603f } },			// 12, sidecentre
+//	{ VTYPE_DIR, { 20.0f, 0.46f, 10.0f } },			// sidenorm
 
-	{ VTYPE_PLAIN, { -1.0f, 0.0f, -3.0f } },			// 16, back tan, forward
-	{ VTYPE_PLAIN, { 1.0f, 0.0f, 3.0f } },		// back tan, backward
+	{ VTYPE_PLAIN, { 0.718f, 10.0f, 0.0f } },			// 12, sidecentre
+	{ VTYPE_DIR, { 20.0f, 0.46f, 5.0f } },			// sidenorm
 
-	{ VTYPE_PLAIN, { -0.3826834f, 0.9238795f, 0.0f } },			// 18, tube norm
-	{ VTYPE_PLAIN, { 0.0f, 21.5f, -5.0f } },		// tube start
-	{ VTYPE_PLAIN, { 0.0f, 21.5f, 5.0f } },		// 
-	{ VTYPE_PLAIN, { 0.0f, 22.0f, -4.0f } },			// 
-	{ VTYPE_PLAIN, { 0.0f, 22.0f, 4.0f } },		// 
-	
+	{ VTYPE_PLAIN, { -2.8f, 0.0f, 0.0f } },			// 14, top tan, front
+	{ VTYPE_PLAIN, { 1.0f, 0.0f, 3.0f } },		// top tan, back
+
+	{ VTYPE_PLAIN, { 5.4f, 0.0f, 0.0f } },			// 16, bottom tan, front
+	{ VTYPE_PLAIN, { -2.0f, 0.0f, -6.0f } },			// bottom tan, back
+
+	{ VTYPE_PLAIN, { 0.3826834f, 0.9238795f, 0.0f } },			// 18, tube norm
+	{ VTYPE_PLAIN, { 0.0f, 21.5f, 5.0f } },		// tube start
+	{ VTYPE_PLAIN, { 0.0f, 21.5f, -5.0f } },		// 
+	{ VTYPE_PLAIN, { 0.0f, 22.0f, 4.0f } },			// 
+	{ VTYPE_PLAIN, { 0.0f, 22.0f, -4.0f } },		// 
+		
 };
 static CompoundVertex wing2vtx2[] = {
 	{ VTYPE_CROSS, { 19, 14, -1, -1, -1 } },		// dummy
@@ -1390,9 +1388,9 @@ static CompoundVertex wing2vtx2[] = {
 static uint16 wing2data[] = {
 	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_COMPSMOOTH | RFLAG_XREF, 0, 10, 12, 13, 6, 10,		// side
-		COMP_HERMITE, 7, 11, 15, 17, 
+		COMP_HERMITE, 7, 11, 16, 17, 
 		COMP_HERM_NOTAN, 9, 11,
-		COMP_HERMITE, 8, 10, 16, 14,
+		COMP_HERMITE, 8, 10, 15, 14,
 		COMP_HERM_NOTAN, 6, 10, 
 		COMP_END,
 
@@ -1401,8 +1399,8 @@ static uint16 wing2data[] = {
 	PTYPE_END,
 };
 static Thruster wing2thruster[] = {
-	{ 20, 2, 25.0f },
-	{ 19, 5, 20.0f },
+	{ 20, 5, 25.0f },
+	{ 19, 2, 20.0f },
 };
 Model wing2model = { 1.0f, 25.0f, 23, wing2vtx1, 30, 0, wing2vtx2, 2,
 	{ { 0, wing2data, 0, 2, wing2thruster } } };
@@ -1628,7 +1626,8 @@ static CompoundVertex ship6vtx2[] = {
 	{ VTYPE_CROSS, { 0, 1, 2, -1, -1 } },			// dummy
 };
 static uint16 ship6data[] = {
-	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
+//	PTYPE_MATFIXED, 100, 0, 100, 0, 0, 0, 100, 0, 0, 0,
+	PTYPE_MATVAR, 0,
 	PTYPE_COMPOUND2S | RFLAG_XREF, 0, 8, 6, 
 		LTYPE_HERMITE, 7, 13, 14,
 		LTYPE_HERMITE, 8, 15, 16,
@@ -1685,6 +1684,7 @@ static uint16 ship6data[] = {
 	PTYPE_CIRCLE | RFLAG_XREF, 9, 8, 45, 5, 1, 250,
 	PTYPE_CIRCLE | RFLAG_XREF, 10, 8, 46, 2, 1, 250,
 
+	PTYPE_MATVAR, 0,
 	PTYPE_ZBIAS, 42, 4, 5,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 42, 4, 5, 100,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 43, 4, 5, 100,

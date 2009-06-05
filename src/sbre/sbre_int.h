@@ -217,4 +217,5 @@ float ResolveAnim (ObjParams *pObjParam, uint16 type);
 void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh);
 
 
+
 #endif /* __SBRE_INT_H__ */

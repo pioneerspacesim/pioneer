@@ -6,6 +6,16 @@
 #include "sbre_int.h"
 #include "sbre_models.h"
 
+
+Model *ppTurdpiledModel[SBRE_MAX_MODEL];
+
+Model *LookupModel (int index)
+{
+	if (index < SBRE_COMPILED_MODELS) return ppModel[index];
+	else return ppTurdpiledModel[index];
+}
+
+
 float ResolveAnim (ObjParams *pObjParam, uint16 type)
 {
 	const AnimFunc *pFunc = pAFunc+type;
@@ -203,7 +213,7 @@ void sbreRenderModel(const double pos[3], const double orient[16], int model, Ob
 
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, Vector *pCompos)
 {
-	Model *pModel = ppModel[model];
+	Model *pModel = LookupModel (model);
 	s *= pModel->scale;
 	float pMV[16];
 	pMV[0] = s*pOrient->x1; pMV[1] = s*pOrient->y1; pMV[2] = s*pOrient->z1; pMV[3] = 0.0f;
@@ -277,7 +287,7 @@ void sbreGenCollMesh (CollMesh *pCMesh, int model, ObjParams *pParam, float s)
 
 void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh)
 {
-	Model *pModel = ppModel[model];
+	Model *pModel = LookupModel (model);
 	Vector *pVtx = (Vector *) alloca (sizeof(Vector)*(pModel->cvStart+pModel->numCVtx));
 	ResolveVertices (pModel, pVtx, pParam);
 /*

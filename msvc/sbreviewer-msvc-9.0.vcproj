@@ -215,10 +215,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\sbre\sbre_anim.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\sbre\sbre_int.h"
 				>
 			</File>
