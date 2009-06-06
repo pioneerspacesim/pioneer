@@ -92,8 +92,9 @@ static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 
 		case VTYPE_ANIMHERM:
 			anim = ResolveAnim (pObjParam, pCVtx->pParam[4]);
+			VecInv (pRes+pCVtx->pParam[3], &tv1);
 			ResolveHermiteSpline (pRes+pCVtx->pParam[0], pRes+pCVtx->pParam[1],
-				pRes+pCVtx->pParam[2], pRes+pCVtx->pParam[3], anim, pCur);
+				pRes+pCVtx->pParam[2], &tv1, anim, pCur);
 			break;
 
 		case VTYPE_ANIMROTATE:

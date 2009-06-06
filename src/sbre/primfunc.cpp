@@ -631,7 +631,7 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 	Vector v1, v2, v3, pos, tv; Matrix m, m2;
 	VecNorm (pState->pVtx+pData[4], &v3);
 	VecNorm (pState->pVtx+pData[5], &v1);
-	VecInv (&v1, &v1); VecCross (&v3, &v1, &v2);
+	VecCross (&v3, &v1, &v2);
 	m.x1 = v1.x; m.x2 = v2.x; m.x3 = v3.x;
 	m.y1 = v1.y; m.y2 = v2.y; m.y3 = v3.y;
 	m.z1 = v1.z; m.z2 = v2.z; m.z3 = v3.z;

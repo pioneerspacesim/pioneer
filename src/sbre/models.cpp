@@ -185,7 +185,7 @@ static PlainVertex nwunitvtx1[] = {
 	{ VTYPE_PLAIN, { 1.5f, 1.5f, -1.0f } },
 
 	{ VTYPE_PLAIN, { 0.0f, 1.5f, 0.0f } },		// 12, tangents
-	{ VTYPE_PLAIN, { 1.5f, 0.0f, 0.0f } },
+	{ VTYPE_PLAIN, { -1.5f, 0.0f, 0.0f } },
 
 	{ VTYPE_PLAIN, { 0.0f, 0.0f, 0.0f } },		// 14, wheel pos
 };
@@ -244,7 +244,7 @@ static PlainVertex mwunitvtx1[] = {
 	{ VTYPE_PLAIN, { 1.5f, 1.5f, -1.0f } },
 
 	{ VTYPE_PLAIN, { 0.0f, 1.5f, 0.0f } },		// 12, tangents
-	{ VTYPE_PLAIN, { 1.5f, 0.0f, 0.0f } },
+	{ VTYPE_PLAIN, { -1.5f, 0.0f, 0.0f } },
 
 	{ VTYPE_PLAIN, { 0.0f, 0.0f, 0.0f } },		// 14, wheel pos
 };
@@ -419,9 +419,9 @@ static uint16 ship1data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 16, 54, 5,
-	PTYPE_TEXT, 0x8000, 0, 16, 54, 2, 3200, 700, 1000,
+	PTYPE_TEXT, 0x8000, 0, 16, 54, 5, 3200, 700, 1000,
 	PTYPE_ZBIAS, 10, 55, 5,
-	PTYPE_TEXT, 0x8000, 0, 10, 55, 5, 2800, 700, 1000,
+	PTYPE_TEXT, 0x8000, 0, 10, 55, 2, 2800, 700, 1000,
 
 	PTYPE_ZBIAS, 40, 4, 5,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 40, 4, 2, 200,
@@ -696,9 +696,9 @@ static uint16 ship2data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 98, 95, 2,
-	PTYPE_TEXT, 0x8000, 0, 98, 95, 5, 0, 200, 250,
+	PTYPE_TEXT, 0x8000, 0, 98, 95, 2, 0, 200, 250,
 	PTYPE_ZBIAS, 97, 96, 2,
-	PTYPE_TEXT, 0x8000, 0, 97, 96, 2, 0, 200, 250,
+	PTYPE_TEXT, 0x8000, 0, 97, 96, 5, 0, 200, 250,
 
 	PTYPE_ZBIAS, 73, 4, 2,
 	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 73, 4, 2, 100,
@@ -1165,9 +1165,9 @@ static uint16 ship4data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 32, 3, 5,
-	PTYPE_TEXT, 0x8000, 0, 32, 3, 5, 1000, 400, 400,
+	PTYPE_TEXT, 0x8000, 0, 32, 3, 2, 1000, 400, 400,
 	PTYPE_ZBIAS, 33, 0, 5,
-	PTYPE_TEXT, 0x8000, 0, 33, 0, 2, 1000, 400, 400,
+	PTYPE_TEXT, 0x8000, 0, 33, 0, 5, 1000, 400, 400,
 
 	PTYPE_ZBIAS, 34, 4, 5,
 	PTYPE_SUBOBJECT, 0, SUB_MWUNIT, 34, 4, 2, 60,
@@ -1483,8 +1483,8 @@ static uint16 starport1data[] = {
 	PTYPE_SETCFLAG, 0,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0,
 	PTYPE_ZBIAS, 6, 1, 0,
-	PTYPE_TEXT | TFLAG_STATIC, 0x8000, 10, 6, 1, 0, 0, 0, 20,
-	PTYPE_TEXT | TFLAG_STATIC, 0x8000, 11, 13, 1, 0, 0, 0, 20,
+	PTYPE_TEXT | TFLAG_STATIC, 0x8000, 10, 6, 1, 3, 0, 0, 20,
+	PTYPE_TEXT | TFLAG_STATIC, 0x8000, 11, 13, 1, 3, 0, 0, 20,
 	PTYPE_ZBIAS, 0x8000, 0, 0,
 	PTYPE_SUBOBJECT, 0x8000, 100, 0, 1, 2, 100,
 	PTYPE_SUBOBJECT, 0x8000, 100, 3, 1, 2, 100,
@@ -1517,9 +1517,9 @@ static uint16 tombstonedata[] = {
 	PTYPE_CYLINDER, 0x8000, 16, 10, 11, 1, 60,
 	PTYPE_MATFIXED, 100, 100, 100, 0, 0, 0, 100, 100, 100, 0,
 	PTYPE_ZBIAS, 16, 5, 0,
-	PTYPE_TEXT, 0x8000, 0, 16, 5, 0, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 16, 5, 3, 0, 0, 10,
 	PTYPE_ZBIAS, 17, 2, 0,
-	PTYPE_TEXT, 0x8000, 0, 17, 2, 3, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 17, 2, 0, 0, 0, 10,
 	PTYPE_END
 };
 Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
@@ -1536,9 +1536,9 @@ static uint16 cargodata[] = {
 	PTYPE_CYLINDER, 0x8000, 16, 6, 7, 0, 90,
 	PTYPE_MATFIXED, 100, 0, 0, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 1, 1, 0,
-	PTYPE_TEXT, 0x8000, 0, 6, 1, 0, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 6, 1, 3, 0, 0, 10,
 	PTYPE_ZBIAS, 4, 4, 0,
-	PTYPE_TEXT, 0x8000, 0, 7, 4, 3, 0, 0, 10,
+	PTYPE_TEXT, 0x8000, 0, 7, 4, 0, 0, 0, 10,
 	PTYPE_END
 };
 
@@ -1692,9 +1692,9 @@ static uint16 ship6data[] = {
 
 	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
 	PTYPE_ZBIAS, 40, 0, 5,
-	PTYPE_TEXT, 0x8000, 0, 40, 0, 2, 0, 0, 200,
+	PTYPE_TEXT, 0x8000, 0, 40, 0, 5, 0, 0, 200,
 	PTYPE_ZBIAS, 41, 3, 5,
-	PTYPE_TEXT, 0x8000, 0, 41, 3, 5, 0, 0, 200,
+	PTYPE_TEXT, 0x8000, 0, 41, 3, 2, 0, 0, 200,
 
 	PTYPE_ZBIAS, 0x8000, 0, 0,
 

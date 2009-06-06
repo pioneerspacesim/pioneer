@@ -25,8 +25,6 @@ const int SUB_DISH = 5;
 const int SUB_WING1 = 30;
 const int SUB_WING2 = 31;
 
-
-extern Model *ppCompiledModel[SBRE_MAX_MODEL];
 Model * const ppModel[SBRE_COMPILED_MODELS] =
 {
 	// 0, current test object
