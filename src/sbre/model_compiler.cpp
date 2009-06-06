@@ -179,7 +179,7 @@ void lex(const char *crud, std::vector<Token> &tokens)
 				crud++;
 			} while ((*crud != '\n') && (*crud != '\0'));
 		} else {
-			error(lexLine, "Unknown token");
+			error(lexLine, "Unknown token '%c' (%d)", *crud, *crud);
 		}
 	}
 	t = Token();
@@ -414,23 +414,37 @@ static int parseVtxOrVtxRef(tokenIter_t &t)
 	}
 }
 
-static void comp_get_line_bits(tokenIter_t &t)
+static void parseCompSurfaceBits(tokenIter_t &t, bool smooth)
 {
 	int num = 0;
 	for (;;) {
-		if ((*t).IsIdentifier("hermite")) {
+		if (smooth && (*t).IsIdentifier("hermite_norm")) {
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v2 = parseVtxOrVtxRef(t);
+			Uint16 n0 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-			Uint16 v3 = parseVtxOrVtxRef(t);
+			Uint16 n1 = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::CLOSEBRACKET);
+			instrs.push_back(LTYPE_NORMS);
+			instrsPutVtxRef(v1);
+			instrsPutVtxRef(n0);
+			instrsPutVtxRef(n1);
+			num++;
+		} else if ((*t).IsIdentifier("hermite")) {
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			Uint16 v1 = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			Uint16 tan0 = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			Uint16 tan1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_HERMITE);
 			instrsPutVtxRef(v1);
-			instrsPutVtxRef(v2);
-			instrsPutVtxRef(v3);
+			instrsPutVtxRef(tan0);
+			instrsPutVtxRef(tan1);
 			num++;
 		} else if ((*t).IsIdentifier("line")) {
 			++t;
@@ -705,7 +719,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrsPutVtxRef(v1);
 			(*t++).Check(Token::COMMA);
 
-			comp_get_line_bits(t);
+			parseCompSurfaceBits(t, true);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_END);
 
@@ -732,7 +746,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrsPutVtxRef(start);
 			instrsPutVtxRef(norm);
 
-			comp_get_line_bits(t);
+			parseCompSurfaceBits(t, false);
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_END);
 
@@ -1117,8 +1131,8 @@ void model_compiler_test()
 	fseek(f, 0, SEEK_END);
 	size_t size = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	char *buf = new char[size];
-	memset(buf, 0, size);
+	char *buf = new char[size+1];
+	buf[size] = 0;
 	fread(buf, size, 1, f);
 
 	std::vector<Token> tokens;

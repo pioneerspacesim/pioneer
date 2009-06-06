@@ -29,6 +29,7 @@
 # smooth(int steps, vector start,
 #         ... then two to four of:
 #         hermite(vector pos, vector tan0, vector tan1)
+#         hermite_norm(vector pos1, vector norm0, vector norm1)
 #         line(vector pos)
 # )
 #   makes lovely smooth surface
@@ -108,8 +109,23 @@ model(cargo, scale=1.0, radius=2.0) {
 			material(1,0,0, 0,0,0, 0, 0,0,0),
 			material(0,0,1, 0,0,0, 0, 0,0,0))
 		zbias(v(0,0.8,0), v(0,1,0))
-		textpos = vhermite(animfn=gear, v(-10,-10,0),v(10,10,0), v(0,1,0),v(0,0,1))
+		textpos = vhermite(animfn=gear, v(-10,-10,0),v(10,10,0), v(0,50,0),v(0,-50,0))
 		text(params:0, textpos, v(0,1,0), v(1,0,0), scale=1, animfn=gear)
+	}
+}
+
+model(hermite_wank, scale=20) {
+	all {
+		smooth(16, v(0,0,0),
+			line(v(1,0,0)),
+			hermite_norm(v(1,1,1), v(0,0,1), v(0,-1,0)),
+			line(v(0,1,1)),
+			hermite_norm(v(0,0,0), v(0,-1,0), v(0,0,1)))
+		smooth(16, v(0,0,0),
+			hermite(v(0,-1,1), v(0,-1,0), v(0,0,-1)),
+			line(v(1,-1,1)),
+			hermite(v(1,0,0), v(0,0,-1), v(0,-1,0)),
+			line(v(0,0,0)))
 	}
 }
 
