@@ -1,5 +1,14 @@
 #
 # 3d primitive arguments:
+
+# material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
+#   diffuse rgb, specular rgb, shininess, emissive rgb
+# material(0-3)
+#   set material from params->pColor[4]
+# material(animfn=xxx,
+# 	material(dr,dg,db,sr,sg,sb,shininess, er,eg,eb),
+# 	material(dr,dg,db,sr,sg,sb,shininess, er,eg,eb))
+#   animate material between first and second using anim function
 #
 # triangle(vector v1, vector v2, vector v3)
 #

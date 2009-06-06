@@ -209,6 +209,12 @@ static bool VertexIdentifierExists(const char *vid)
 
 static int addPlainVtx(Vector v)
 {
+	if ((v.x==1) && (v.y==0) && (v.z==0)) return 0;
+	if ((v.x==0) && (v.y==1) && (v.z==0)) return 1;
+	if ((v.x==0) && (v.y==0) && (v.z==1)) return 2;
+	if ((v.x==-1) && (v.y==0) && (v.z==0)) return 3;
+	if ((v.x==0) && (v.y==-1) && (v.z==0)) return 4;
+	if ((v.x==0) && (v.y==0) && (v.z==-1)) return 5;
 	// first 6 are +ve and -ve axis unit vectors
 	int idx = 6 + vertices.size();
 	vertices.push_back(v);
@@ -1108,13 +1114,16 @@ void model_compiler_test()
 {
 	FILE *f = fopen("data/models.def", "r");
 
-	char *buf = new char[4096];
-	memset(buf, 0, 4096);
-	fread(buf, 4096, 1, f);
+	fseek(f, 0, SEEK_END);
+	size_t size = ftell(f);
+	fseek(f, 0, SEEK_SET);
+	char *buf = new char[size];
+	memset(buf, 0, size);
+	fread(buf, size, 1, f);
 
 	std::vector<Token> tokens;
 	lex(buf, tokens);
-/*	for (std::vector<Token>::iterator i = tokens.begin(); i!= tokens.end(); ++i) {
+	for (std::vector<Token>::iterator i = tokens.begin(); i!= tokens.end(); ++i) {
 		switch ((*i).type) {
 			case Token::OPENBRACKET: printf("(\n"); break;
 			case Token::CLOSEBRACKET: printf(")\n"); break;
@@ -1125,9 +1134,10 @@ void model_compiler_test()
 			case Token::FLOAT: printf("%.1f\n", (*i).val.f); break;
 			case Token::INTEGER: printf("%d\n", (*i).val.i); break;
 			case Token::IDENTIFIER: printf("%s\n", (*i).val.s); break;
+			case Token::COLON: printf("=\n"); break;
 			case Token::END: printf("END\n"); break;
 		}
-	}*/
+	}
 	parse(tokens);
 	delete [] buf;
 }
