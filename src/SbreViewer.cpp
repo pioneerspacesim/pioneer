@@ -423,7 +423,7 @@ int main(int argc, char **argv)
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	g_zbias = 20.0/(1<<24);
+	g_zbias = 2.0/(1<<16);
 	sbreSetZBias(g_zbias);
 
 	Uint32 flags = SDL_OPENGL;
@@ -434,8 +434,6 @@ int main(int argc, char **argv)
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-		g_zbias = 2.0/(1<<16);
-		sbreSetZBias(g_zbias);
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
 		if ((g_screen = SDL_SetVideoMode(g_width, g_height, info->vfmt->BitsPerPixel, flags)) == 0) {
 			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());

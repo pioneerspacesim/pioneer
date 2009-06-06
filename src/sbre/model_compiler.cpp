@@ -12,6 +12,10 @@
 
 #define MAX_TOKEN_LEN 64
 
+static const char * const anim_fns[] = {
+	"gear", "gflap", "thrustpulse", "lin4sec", 0
+};
+
 static void fatal()
 {
 	printf("Internal compiler error (bug)\n");
@@ -88,7 +92,7 @@ public:
 		} else if (type == FLOAT) {
 			return val.f;
 		}
-		Error("Expected float");
+		Error("Expected float, got '%s'", ToString(type).c_str());
 		return 0;
 	}
 	bool IsIdentifier(const char *str) {
@@ -233,6 +237,20 @@ static int addCompoundVtx(enum vtxtype type, Uint16 p0, Uint16 p1, Uint16 p2, Ui
 	return idx;
 }
 
+/* return anim func index */
+static int parseAnimFunc(tokenIter_t &t)
+{
+	(*t++).MatchIdentifier("animfn");
+	(*t++).Check(Token::ASSIGN);
+
+	for (int i=0; ; i++) {
+		if (anim_fns[i] == 0) (*t).Error("Unknown anim function");
+		if ((*t).IsIdentifier(anim_fns[i])) { ++t; return i; }
+	}
+	fatal();
+	return -1;
+}
+
 static int parseVtxOrVtxRef(tokenIter_t &t);
 /*
  * Returns index of plain vertex or 0x8000 if none found
@@ -264,7 +282,7 @@ static int parseNewVertex(tokenIter_t &t)
 		}
 		return addPlainVtx(v);
 
-	} else if ((*t).IsIdentifier("normal")) {
+	} else if ((*t).IsIdentifier("vnormal")) {
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
@@ -276,11 +294,11 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
 		    (v2 & IS_COMPLEX) ||
-		    (v3 & IS_COMPLEX)) (*t).Error("Cannot declare normal() using other complex vertices");
+		    (v3 & IS_COMPLEX)) (*t).Error("Cannot declare vnormal() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_NORM, v1, v2, v3, -1, -1);
 	
-	} else if ((*t).IsIdentifier("cross")) {
+	} else if ((*t).IsIdentifier("vcross")) {
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
@@ -289,22 +307,81 @@ static int parseNewVertex(tokenIter_t &t)
 		Uint16 v2 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare cross() using other complex vertices");
+		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vcross() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_CROSS, v1, v2, -1, -1, -1);
 
-	} else if ((*t).IsIdentifier("animlin")) {
+	} else if ((*t).IsIdentifier("vlinear")) {
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
+		int animfn = parseAnimFunc(t);
+		(*t++).Check(Token::COMMA);
 		Uint16 v1 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 v2 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare animlin() using other complex vertices");
+		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vlinear() using other complex vertices");
 
-		return addCompoundVtx(VTYPE_ANIMLIN, v1, v2, -1, -1, AFUNC_GEAR);
+		return addCompoundVtx(VTYPE_ANIMLIN, v1, v2, -1, -1, animfn);
+
+	} else if ((*t).IsIdentifier("vcubic")) {
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		int animfn = parseAnimFunc(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v3 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v4 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::CLOSEBRACKET);
+		if ((v1 & IS_COMPLEX) ||
+		    (v2 & IS_COMPLEX) ||
+		    (v3 & IS_COMPLEX) ||
+		    (v4 & IS_COMPLEX)) (*t).Error("Cannot declare vcubic() using other complex vertices");
+
+		return addCompoundVtx(VTYPE_ANIMCUBIC, v1, v2, v3, v4, animfn);
+	
+	} else if ((*t).IsIdentifier("vhermite")) {
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		int animfn = parseAnimFunc(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 n1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 n2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::CLOSEBRACKET);
+		if ((v1 & IS_COMPLEX) ||
+		    (v2 & IS_COMPLEX) ||
+		    (n1 & IS_COMPLEX) ||
+		    (n2 & IS_COMPLEX)) (*t).Error("Cannot declare vhermite() using other complex vertices");
+
+		return addCompoundVtx(VTYPE_ANIMHERM, v1, v2, n1, n2, animfn);
+	
+	} else if ((*t).IsIdentifier("vrotate")) {
+
+		++t;
+		(*t++).Check(Token::OPENBRACKET);
+		int animfn = parseAnimFunc(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v1 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::CLOSEBRACKET);
+		if ((v1 & IS_COMPLEX) ||
+		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vrotate() using other complex vertices");
+
+		return addCompoundVtx(VTYPE_ANIMROTATE, v1, v2, -1, -1, animfn);
 
 	} else {
 		return 0x8000;
@@ -387,31 +464,27 @@ static int get_model_reference(tokenIter_t &t)
 	}
 }
 
-static Uint16 get_anim(tokenIter_t &t)
+static Uint16 parseAnim(tokenIter_t &t)
 {
-	(*t++).MatchIdentifier("anim");
-	(*t++).Check(Token::ASSIGN);
-	if ((*t).type != Token::INTEGER) {
-		(*t).Error("Integer anim expected");
-		return 0;
-	} else {
-		Uint16 anim = (*t).val.i;
-		if (anim > 9) {
-			(*t).Error("Anim must be in range 0-9");
-		}
-		++t;
-		return anim;
-	}
+	// don't want animfunc, want param->pAnim[idx] it uses
+	int animfn = parseAnimFunc(t);
+	return pAFunc[animfn].src;
 }
 
+/*
+ * TODO:
+	PTYPE_EXTRUSION,
+	PTYPE_COMPOUND2S, <- wip, missing LTYPE_NORMS
+	PTYPE_COMPOUND2F <-- largely untested (function name 'flat()')
+
+	XXX thrusters
+ */
 static void parseGeomInstructions(tokenIter_t &t)
 {
 	while ((*t).type != Token::CLOSEBRACE) {
 		// parse model definition
 		(*t).Check(Token::IDENTIFIER);
 
-		bool flag_xcenter = false;
-		bool flag_ycenter = false;
 		bool flag_xref = false;
 		bool flag_invisible = false;
 		bool flag_thrust = false;
@@ -426,14 +499,6 @@ static void parseGeomInstructions(tokenIter_t &t)
 			}
 			else if ((*t).IsIdentifier("thrust")) {
 				flag_thrust = true;
-				got_flag = true;
-			}
-			else if ((*t).IsIdentifier("ycenter")) {
-				flag_ycenter = true;
-				got_flag = true;
-			}
-			else if ((*t).IsIdentifier("xcenter")) {
-				flag_xcenter = true;
 				got_flag = true;
 			}
 			else if ((*t).IsIdentifier("invisible")) {
@@ -451,8 +516,21 @@ static const int TFLAG_YCENTER = 0x4000;
 static const int RFLAG_XREF = 0x8000;
 static const int RFLAG_INVISIBLE = 0x4000;*/
 	
-		if ((*t).IsIdentifier("tri")) {
-			if (flag_xcenter || flag_ycenter || flag_thrust) (*t).Error("Invalid flag");
+		if ((*t).IsIdentifier("zbias")) {
+			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			Uint16 pos = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			Uint16 norm = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::CLOSEBRACKET);
+			instrs.push_back(PTYPE_ZBIAS);
+			instrsPutVtxRef(pos);
+			instrsPutVtxRef(norm);
+			instrs.push_back(0);
+
+		} else if ((*t).IsIdentifier("tri")) {
+			if (flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 v1 = parseVtxOrVtxRef(t);
@@ -469,7 +547,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrsPutVtxRef(v3);
 	
 		} else if ((*t).IsIdentifier("quad")) {
-			if (flag_xcenter || flag_ycenter || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 v1 = parseVtxOrVtxRef(t);
@@ -490,7 +568,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 		} else if ((*t).IsIdentifier("circle")) {
 			
-			if (flag_xcenter || flag_ycenter || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
@@ -521,7 +599,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 		} else if ((*t).IsIdentifier("cylinder")) {
 
-			if (flag_xcenter || flag_ycenter || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -557,7 +635,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 		} else if ((*t).IsIdentifier("tube")) {
 
-			if (flag_xcenter || flag_ycenter || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -601,7 +679,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(innerrad);
 
 		} else if ((*t).IsIdentifier("smooth")) {
-			if (flag_xcenter || flag_ycenter || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -625,17 +703,174 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(LTYPE_END);
 
-	/*	} else if ((*t).IsIdentifier("cuboid")) {
-			if (flag_xcenter || flag_ycenter || flag_thrust) (*t).Error("Invalid flag");
+		} else if ((*t).IsIdentifier("flat")) {
+			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
+			(*t).Check(Token::INTEGER);
+			int steps = (*t).val.i;
+			if ((steps<1) || (steps>99)) (*t).Error("Too many steps for smooth(). Must be 1-99.");
+			
+			++t;
+			(*t++).Check(Token::COMMA);
+			Uint16 start = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			Uint16 norm = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			
+			instrs.push_back(PTYPE_COMPOUND2F |
+					(flag_xref ? RFLAG_XREF : 0));
+			// XXX note always caching breaks animation if used
+			instrs.push_back(sbre_cache_size++);
+			instrs.push_back(steps);
+			instrsPutVtxRef(start);
+			instrsPutVtxRef(norm);
+
+			comp_get_line_bits(t);
+			(*t++).Check(Token::CLOSEBRACKET);
+			instrs.push_back(LTYPE_END);
+
+		} else if ((*t).IsIdentifier("text")) {
+			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			bool use_global_strings = false;
+			if ((*t).IsIdentifier("global")) {
+				use_global_strings = true;
+			} else if (!(*t).IsIdentifier("params")) {
+				(*t).Error("Text must index strings in either global: or params: arrays");
+			}
+			++t;
+			(*t++).Check(Token::COLON);
+			(*t).Check(Token::INTEGER);
+			Uint16 string_idx = (*t++).val.i;
+			(*t++).Check(Token::COMMA);
 			Uint16 pos = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
-*/
+			Uint16 norm = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			Uint16 xaxis = parseVtxOrVtxRef(t);
+			int xoff = 0;
+			int yoff = 0;
+			int scale = 100;
+			int anim = 0x8000;
+			while ((*t).type == Token::COMMA) {
+				// get optional args
+				++t;
+				if ((*t).IsIdentifier("xoff")) {
+					++t;
+					(*t++).Check(Token::ASSIGN);
+					xoff = (int)((*t++).GetFloat() * 100.0);
+					if ((xoff < 0) || (xoff > 65535)) (*t).Error("Text xoff must be in range 0 to 655");
+				} else if ((*t).IsIdentifier("yoff")) {
+					++t;
+					(*t++).Check(Token::ASSIGN);
+					yoff = (int)((*t++).GetFloat() * 100.0);
+					if ((yoff < 0) || (yoff > 65535)) (*t).Error("Text yoff must be in range 0 to 655");
+				} else if ((*t).IsIdentifier("scale")) {
+					++t;
+					(*t++).Check(Token::ASSIGN);
+					scale = (int)((*t++).GetFloat() * 100.0);
+					if ((scale <= 0) || (scale > 65535)) (*t).Error("Text scale must be in range 0.01 to 655");
+				} else if ((*t).IsIdentifier("animfn")) {
+					anim = parseAnim(t);
+				}
+			}
+			(*t++).Check(Token::CLOSEBRACKET);
+
+			instrs.push_back(PTYPE_TEXT | (use_global_strings ? TFLAG_STATIC : 0));
+			instrs.push_back(anim);
+			instrs.push_back(string_idx);
+			instrsPutVtxRef(pos);
+			instrsPutVtxRef(norm);
+			instrsPutVtxRef(xaxis);
+			instrs.push_back(xoff);
+			instrs.push_back(yoff);
+			instrs.push_back(scale);
+
+		} else if ((*t).IsIdentifier("material")) {
+			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			int material_id = -1;
+			if ((*t).IsIdentifier("animfn")) {
+				// PFUNC_MATANIM
+				int animfn = parseAnimFunc(t);
+				int mat[20]; // 2 materials
+				(*t++).Check(Token::COMMA);
+				(*t++).MatchIdentifier("material");
+				(*t++).Check(Token::OPENBRACKET);
+				for (int i=0; i<10; i++) {
+					mat[i] = (int)((*t++).GetFloat() * 100.0);
+					if (i<9) (*t++).Check(Token::COMMA);
+				}
+				(*t++).Check(Token::CLOSEBRACKET);
+				(*t++).Check(Token::COMMA);
+				(*t++).MatchIdentifier("material");
+				(*t++).Check(Token::OPENBRACKET);
+				for (int i=10; i<20; i++) {
+					mat[i] = (int)((*t++).GetFloat() * 100.0);
+					if (i<19) (*t++).Check(Token::COMMA);
+				}
+				(*t++).Check(Token::CLOSEBRACKET);
+				(*t++).Check(Token::CLOSEBRACKET);
+
+				instrs.push_back(PTYPE_MATANIM);
+				instrs.push_back(animfn);
+				for (int i=0; i<20; i++) instrs.push_back(mat[i]);
+			} else {
+				if ((*t).type == Token::INTEGER) material_id = (*t).val.i;
+				int dr = (int)((*t++).GetFloat() * 100.0);
+				if ((material_id != -1) && ((*t).type == Token::CLOSEBRACKET)) {
+					// single argument MATVAR references params (0-2 materials)
+					if ((material_id < 0) || (material_id > 2)) {
+						(*t).Error("material id must be from 0 to 2");
+					}
+					(*t++).Check(Token::CLOSEBRACKET);
+
+					instrs.push_back(PTYPE_MATVAR);
+					instrs.push_back(material_id);
+				} else {
+					// MATFIXED
+					(*t++).Check(Token::COMMA);
+					int dg = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					int db = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					
+					int sr = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					int sg = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					int sb = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					
+					int shiny = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					int er = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					int eg = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::COMMA);
+					int eb = (int)((*t++).GetFloat() * 100.0);
+					(*t++).Check(Token::CLOSEBRACKET);
+
+					instrs.push_back(PTYPE_MATFIXED);
+					instrs.push_back(dr);
+					instrs.push_back(dg);
+					instrs.push_back(db);
+					instrs.push_back(sr);
+					instrs.push_back(sg);
+					instrs.push_back(sb);
+					instrs.push_back(shiny);
+					instrs.push_back(er);
+					instrs.push_back(eg);
+					instrs.push_back(eb);
+				}
+			}
 
 		} else if ((*t).IsIdentifier("subobject")) {
 			
-			if (flag_xcenter || flag_ycenter || flag_invisible || flag_xref) (*t).Error("Invalid flag");
+			if (flag_invisible || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 model = get_model_reference(t);
@@ -658,7 +893,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			if ((*t).type == Token::COMMA) {
 				// get anim
 				++t;
-				anim = get_anim(t);
+				anim = parseAnim(t);
 			}
 			(*t++).Check(Token::CLOSEBRACKET);
 
@@ -669,6 +904,16 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrsPutVtxRef(norm);
 			instrsPutVtxRef(zaxis);
 			instrs.push_back(scale);
+
+		} else if ((*t).IsIdentifier("geomflag")) {
+			if (flag_invisible || flag_xref) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			(*t).Check(Token::INTEGER);
+			Uint16 flag = (*t++).val.i;
+			(*t++).Check(Token::CLOSEBRACKET);
+			instrs.push_back(PTYPE_SETCFLAG);
+			instrs.push_back(flag);
 
 		} else {
 			// assignment
