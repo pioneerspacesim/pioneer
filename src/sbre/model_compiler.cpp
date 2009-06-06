@@ -1128,6 +1128,11 @@ void model_compiler_test()
 {
 	FILE *f = fopen("data/models.def", "r");
 
+	if (!f) {
+		printf("Could not open data/models.def\n");
+		exit(-1);
+	}
+
 	fseek(f, 0, SEEK_END);
 	size_t size = ftell(f);
 	fseek(f, 0, SEEK_SET);
@@ -1137,21 +1142,6 @@ void model_compiler_test()
 
 	std::vector<Token> tokens;
 	lex(buf, tokens);
-	for (std::vector<Token>::iterator i = tokens.begin(); i!= tokens.end(); ++i) {
-		switch ((*i).type) {
-			case Token::OPENBRACKET: printf("(\n"); break;
-			case Token::CLOSEBRACKET: printf(")\n"); break;
-			case Token::OPENBRACE: printf("{\n"); break;
-			case Token::CLOSEBRACE: printf("}\n"); break;
-			case Token::ASSIGN: printf("=\n"); break;
-			case Token::COMMA: printf(", \n"); break;
-			case Token::FLOAT: printf("%.1f\n", (*i).val.f); break;
-			case Token::INTEGER: printf("%d\n", (*i).val.i); break;
-			case Token::IDENTIFIER: printf("%s\n", (*i).val.s); break;
-			case Token::COLON: printf("=\n"); break;
-			case Token::END: printf("END\n"); break;
-		}
-	}
 	parse(tokens);
 	delete [] buf;
 }
