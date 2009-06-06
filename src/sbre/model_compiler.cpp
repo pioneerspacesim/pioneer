@@ -141,7 +141,7 @@ void lex(const char *crud, std::vector<Token> &tokens)
 			t.type = Token::COMMA;
 			tokens.push_back(t);
 			crud++;
-		} else if (isspace(*crud & 0xff)) {
+		} else if (isspace(*crud)) {
 			if (*crud == '\n') lexLine++;
 			crud++;
 		} else if ((*crud == '.') || (*crud == '-') || (isdigit(*crud))) {
