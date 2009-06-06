@@ -6,10 +6,9 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <float.h>
 #include "sbre_int.h"
 #include "sbre_models.h"
-
-extern Model * ppModel[];
 
 #define MAX_TOKEN_LEN 64
 
@@ -405,25 +404,8 @@ static Uint16 get_anim(tokenIter_t &t)
 	}
 }
 
-void parseModel(tokenIter_t &t)
+static void parseGeomInstructions(tokenIter_t &t)
 {
-	const char *modelName;
-	sbre_cache_size = 0;
-	compound_vertex_fixups_in_instrs.clear();
-	compound_vertices.clear();
-	vertices.clear();
-	vertex_identifiers.clear();
-	instrs.clear();
-	Model *m = new Model;
-	memset(m, 0, sizeof(Model));
-	(*t++).Check(Token::OPENBRACKET);
-	(*t).Check(Token::IDENTIFIER);
-	printf("Model %s:\n", (*t).val.s);
-	modelName = (*t).val.s;
-	t++;
-	(*t++).Check(Token::CLOSEBRACKET);
-	(*t++).Check(Token::OPENBRACE);
-	
 	while ((*t).type != Token::CLOSEBRACE) {
 		// parse model definition
 		(*t).Check(Token::IDENTIFIER);
@@ -705,6 +687,95 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 		}
 	}
 	instrs.push_back(PTYPE_END);
+}
+
+void parseModel(tokenIter_t &t)
+{
+	const char *modelName;
+	sbre_cache_size = 0;
+	compound_vertex_fixups_in_instrs.clear();
+	compound_vertices.clear();
+	vertices.clear();
+	vertex_identifiers.clear();
+	instrs.clear();
+	Model *m = new Model;
+	memset(m, 0, sizeof(Model));
+	m->scale = 1.0;
+	m->radius = 1.0;
+
+	// model(name) OR model(name,radius=123.0,scale=234.0)
+	(*t++).Check(Token::OPENBRACKET);
+	(*t).Check(Token::IDENTIFIER);
+	printf("Model %s:\n", (*t).val.s);
+	modelName = (*t).val.s;
+	t++;
+	if ((*t).type == Token::COMMA) {
+		do {
+			++t;
+			if ((*t).IsIdentifier("scale")) {
+				++t;
+				(*t++).Check(Token::ASSIGN);
+				m->scale = (*t++).GetFloat();
+			}
+			else if ((*t).IsIdentifier("radius")) {
+				++t;
+				(*t++).Check(Token::ASSIGN);
+				m->radius = (*t++).GetFloat();
+			} else {
+				(*t).Error("Expected scale= or radius=");
+			}
+		} while ((*t).type == Token::COMMA);
+	}
+	
+	(*t++).Check(Token::CLOSEBRACKET);
+	(*t++).Check(Token::OPENBRACE);
+
+	float lastLodPixRadius = -1;
+	int lodIdx = -1;
+	// indices into instrs
+	int lodAll = -1, lod[4];
+	float lodPixRads[4];
+	for (int i=0; i<4; i++) lod[i] = -1;
+	memset(lodPixRads, 0, sizeof(lodPixRads));
+
+	// read the stinking LOD things
+	while ((*t).type != Token::CLOSEBRACE) {
+		if ((*t).IsIdentifier("all")) {
+			if (lodAll != -1) (*t).Error("Model 'all' geometry already defined");
+			++t;
+			lodAll = instrs.size();
+			(*t++).Check(Token::OPENBRACE);
+			parseGeomInstructions(t);
+			(*t++).Check(Token::CLOSEBRACE);
+		}
+		else if ((*t).IsIdentifier("lod")) {
+			lodIdx++;
+			if (lodIdx >= 3) (*t).Error("Too many 'lod' geometry entries. MAX 4");
+			++t;
+			float pixRad;
+			if ((*t).IsIdentifier("full")) { pixRad = 0; ++t; }
+			else pixRad = (*t++).GetFloat();
+			printf("RADIUS %f\n", pixRad);
+			// make sure lods are defined with increasing detail
+			// (0 = max, weirdly)
+			if (lastLodPixRadius >= 0) {
+				if (lastLodPixRadius == 0) {
+					(*t).Error("lod full must be the last declared level of detail");
+				} else if (pixRad && (pixRad <= lastLodPixRadius)) {
+					(*t).Error("lod must be specified in order of increasing detail");
+				}
+			}
+			lod[lodIdx] = instrs.size();
+			lastLodPixRadius = pixRad;
+			lodPixRads[lodIdx] = pixRad;
+			(*t++).Check(Token::OPENBRACE);
+			parseGeomInstructions(t);
+			(*t++).Check(Token::CLOSEBRACE);
+		} else {
+			(*t).Error("Expected level of detail (lod) definition");
+		}
+	}
+	printf("%d~ %d:%d:%d:%d\n", lodAll,lod[0],lod[1],lod[2],lod[3]);
 	
 	// apply compound vertex index fixups
 	int complex_fixup_offset = 6 + vertices.size() - IS_COMPLEX;
@@ -723,23 +794,26 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 		m->pPVtx[i].pos.y = vertices[i].y;
 		m->pPVtx[i].pos.z = vertices[i].z;
 	}
-	m->scale = 1.0;
-	m->radius = 1.0;
-
 	m->numCache = sbre_cache_size;
+//	Uint16 *lodAll = 0, *lod[4];
+//	float lodPixRads[4];
 	
-	m->pLOD[0].pixrad = 0;
-	m->pLOD[0].pData1 = new Uint16[instrs.size()];
-	m->pLOD[0].pData2 = 0;
-	m->pLOD[0].numThrusters = 0;
-	m->pLOD[0].pThruster = 0;
-
-	Uint16 *data = m->pLOD[0].pData1;
+	// copy instructions to new turd
+	Uint16 *data = new Uint16[instrs.size()];
 	for (int i=0; i<(signed)instrs.size(); i++) {
-		printf("%d ", instrs[i]);
-		*(data++) = instrs[i];
+		data[i] = instrs[i];
 	}
-	printf("\n");
+
+	for (int i=0; i<4; i++) {
+		m->pLOD[i].pixrad = lodPixRads[i];
+		m->pLOD[i].pData1 = (lod[i] == -1 ? 0 : data + lod[i]);
+		m->pLOD[i].pData2 = (lodAll == -1 ? 0 : data + lodAll);
+		m->pLOD[i].numThrusters = 0;
+		m->pLOD[i].pThruster = 0;
+	}
+	for (int i=0; i<4; i++) {
+		printf("lod %d: pixrad=%f, data1=%p, data2=%p\n", i, m->pLOD[i].pixrad, m->pLOD[i].pData1, m->pLOD[i].pData2);
+	}
 
 	// dummy complex vertex
 	if (compound_vertices.size() == 0) {
@@ -761,7 +835,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 		}
 	}
 
-	ppModel[modelNum] = m;
+	ppTurdpiledModel[modelNum] = m;
 	models_idx[modelName] = modelNum++;
 	models[modelName] = m;
 
