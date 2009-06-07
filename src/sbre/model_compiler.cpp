@@ -491,10 +491,57 @@ static Uint16 parseAnim(tokenIter_t &t)
 	return pAFunc[animfn].src;
 }
 
+static void parsePrimExtrusion(tokenIter_t &t)
+{
+	(*t++).MatchIdentifier("extrusion");
+	(*t++).Check(Token::OPENBRACKET);
+	Uint16 start = parseVtxOrVtxRef(t);
+	(*t++).Check(Token::COMMA);
+	Uint16 end = parseVtxOrVtxRef(t);
+	(*t++).Check(Token::COMMA);
+	Uint16 up = parseVtxOrVtxRef(t);
+	(*t++).Check(Token::COMMA);
+	(*t++).MatchIdentifier("radius");
+	(*t++).Check(Token::ASSIGN);
+	int rad = (int)((*t).GetFloat() * 100.0);
+	if ((rad <= 0) || (rad > 65535))
+		(*t).Error("Extrusion radius must be in range 0.01 to 655");
+	++t;
+	(*t++).Check(Token::COMMA);
+	(*t++).Check(Token::OPENBRACE);
+	int count = 1;
+	Uint16 firstvtx = parseVtxOrVtxRef(t);
+	while ((*t).type == Token::COMMA) {
+		++t;
+		Uint16 next = parseVtxOrVtxRef(t);
+		if (next != firstvtx + count) {
+			(*t).Error("Extrusion vertex list vertices must run in declaration order. ie {a,b,c} must have been declared in that order.");
+		}
+		count++;
+	}
+	if (count < 3) (*t).Error("Extrusion vertex list must contain at least 3 vertices");
+	(*t++).Check(Token::CLOSEBRACE);
+	(*t++).Check(Token::CLOSEBRACKET);
+
+	instrs.push_back(PTYPE_EXTRUSION);
+	if ((start & IS_COMPLEX) ||
+	    (end & IS_COMPLEX) ||
+	    (up & IS_COMPLEX) ||
+	    (firstvtx & IS_COMPLEX)) {
+		instrs.push_back(0x8000); // do not cache
+	} else {
+		instrs.push_back(sbre_cache_size++);
+	}
+	instrs.push_back(count);
+	instrsPutVtxRef(start);
+	instrsPutVtxRef(end);
+	instrsPutVtxRef(up);
+	instrs.push_back(rad);
+	instrsPutVtxRef(firstvtx);
+}
+
 /*
  * TODO:
-	PTYPE_EXTRUSION,
-	PTYPE_COMPOUND2S, <- wip, missing LTYPE_NORMS
 	PTYPE_COMPOUND2F <-- largely untested (function name 'flat()')
 
 	XXX thrusters
@@ -888,6 +935,11 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 				}
 			}
 
+		} else if ((*t).IsIdentifier("extrusion")) {
+			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+
+			parsePrimExtrusion(t);
+
 		} else if ((*t).IsIdentifier("subobject")) {
 			
 			if (flag_invisible || flag_xref) (*t).Error("Invalid flag");
@@ -971,7 +1023,7 @@ void parseModel(tokenIter_t &t)
 	// model(name) OR model(name,radius=123.0,scale=234.0)
 	(*t++).Check(Token::OPENBRACKET);
 	(*t).Check(Token::IDENTIFIER);
-	printf("Model %s:\n", (*t).val.s);
+	printf("Model %s: ", (*t).val.s);
 	modelName = (*t).val.s;
 	t++;
 	if ((*t).type == Token::COMMA) {
@@ -1020,7 +1072,6 @@ void parseModel(tokenIter_t &t)
 			float pixRad;
 			if ((*t).IsIdentifier("full")) { pixRad = 0; ++t; }
 			else pixRad = (*t++).GetFloat();
-			printf("RADIUS %f\n", pixRad);
 			// make sure lods are defined with increasing detail
 			// (0 = max, weirdly)
 			if (lastLodPixRadius >= 0) {
@@ -1040,7 +1091,6 @@ void parseModel(tokenIter_t &t)
 			(*t).Error("Expected level of detail (lod) definition");
 		}
 	}
-	printf("%d~ %d:%d:%d:%d\n", lodAll,lod[0],lod[1],lod[2],lod[3]);
 	
 	// apply compound vertex index fixups
 	int complex_fixup_offset = 6 + vertices.size() - IS_COMPLEX;
@@ -1049,8 +1099,7 @@ void parseModel(tokenIter_t &t)
 		instrs[fixup_pos] += complex_fixup_offset;
 	}
 
-	printf("%d plain vertices\n", vertices.size());
-	printf("%d compound vertices\n", compound_vertices.size());
+	printf("%d plain vertices, %d compound vertices\n", vertices.size(), compound_vertices.size());
 	m->numPVtx = 6+vertices.size();
 	m->pPVtx = new PlainVertex[vertices.size()];
 	for (int i=0; i<(signed)vertices.size(); i++) {
@@ -1075,9 +1124,6 @@ void parseModel(tokenIter_t &t)
 		m->pLOD[i].pData2 = (lodAll == -1 ? 0 : data + lodAll);
 		m->pLOD[i].numThrusters = 0;
 		m->pLOD[i].pThruster = 0;
-	}
-	for (int i=0; i<4; i++) {
-		printf("lod %d: pixrad=%f, data1=%p, data2=%p\n", i, m->pLOD[i].pixrad, m->pLOD[i].pData1, m->pLOD[i].pData2);
 	}
 
 	// dummy complex vertex

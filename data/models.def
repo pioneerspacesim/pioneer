@@ -1,4 +1,6 @@
 #
+# Winding is always CCW. DEVIATION SHOULD BE CONSIDERED A BUG!!11
+#
 # 3d primitive arguments:
 
 # material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
@@ -25,6 +27,16 @@
 #
 # tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
 #   eg: tube(8, poohat1, poohat2, v(0,0,1), innerrad=5.0, outerrad=10.0)
+#
+# extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
+#   eg: extrusion(v(0,0,-10), v(0,0,0), v(0,1,0), radius=1.0, {v(10,10,0), v(15,0,0), v(10,-10,0), v(-10,-10,0), v(-10,10,0)})
+# 
+#   v1,v2,v3,... should be wound counter-clockwise, with .z == start.z
+#   end.z should greater than start.z
+#   up is a normal, and should be perpendicular to end-start
+#
+#   Draws flat-sided cylindery boxy things with circumference described by v1,v2,v3... and
+#   start and end points as provided.
 #
 # smooth(int steps, vector start,
 #         ... then two to four of:
@@ -71,6 +83,17 @@ model(hermite_wank) {
 			hermite(v7, v9, v10),
 			hermite(v8, v11, v9),
 			hermite(v6, v10, v11))
+
+		material(1, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+		extrusion(v(0,0,-15), v(0,0,10), v(0,1,0), radius=1.0,
+				{
+		v(-3.0, 0.0, 10.0),
+		v(-2.0, -2.0, 10.0),
+		v(2.0, -2.0, 10.0),			
+		v(6.0, 0.0, 10.0),			
+		v(2.0, 2.0, 10.0),
+		v(-2.0, 2.0, 10.0)
+		})
 	}
 }
 
