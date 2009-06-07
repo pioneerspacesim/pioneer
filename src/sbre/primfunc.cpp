@@ -735,24 +735,31 @@ static int PrimFuncExtrusion (uint16 *pData, Model *pMod, RState *pState)
 	for (i=0; i<steps; i++)
 	{
 		int i1 = i+1==steps?0:i+1;
-		FindNormal (pVertex+i*2, pVertex+(i+steps)*2, pVertex+i1*2, pVertex+i1*2+1);
-		pIndex[ni++] = i; pIndex[ni++] = i+steps; pIndex[ni++] = i1;
-		pIndex[ni++] = i+steps; pIndex[ni++] = i1+steps; pIndex[ni++] = i1;
+		FindNormal (pVertex+i*2, pVertex+i1*2, pVertex+(i+steps)*2, pVertex+i1*2+1);
+		pIndex[ni++] = i+steps;
+		pIndex[ni++] = i;
+		pIndex[ni++] = i1;
+		
+		pIndex[ni++] = i1+steps;
+		pIndex[ni++] = i+steps;
+		pIndex[ni++] = i1;
 	}	
 
 	// render ends
 	for (i=1; i<steps-1; i++) {
 		pIndex[ni++] = steps*2;
-		pIndex[ni++] = i+steps*2;
 		pIndex[ni++] = i+1+steps*2;
+		pIndex[ni++] = i+steps*2;
 	}
 	for (i=steps-1; i>1; i--) {
 		pIndex[ni++] = steps*3;
-		pIndex[ni++] = i+steps*3;
 		pIndex[ni++] = i-1+steps*3;
+		pIndex[ni++] = i+steps*3;
 	}
 
+	glShadeModel (GL_FLAT);
 	RenderArray (4*steps, ni, pVertex, pIndex, pData[0], pState);
+	glShadeModel (GL_SMOOTH);
 	if (ci != 0x8000) CopyArrayToCache (4*steps, ni, pVertex, pIndex, ci, pModel);
 	return 8;
 }
