@@ -31,12 +31,9 @@
 # extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
 #   eg: extrusion(v(0,0,-10), v(0,0,0), v(0,1,0), radius=1.0, {v(10,10,0), v(15,0,0), v(10,-10,0), v(-10,-10,0), v(-10,10,0)})
 # 
-#   v1,v2,v3,... should be wound counter-clockwise, with .z == start.z
-#   end.z should greater than start.z
+#   v1,v2,v3,... describes the 2d shape to be extruded into 3d along start->end.
+#   it should be wound counter-clockwise in x,y, with the z coordinate ignored
 #   up is a normal, and should be perpendicular to end-start
-#
-#   Draws flat-sided cylindery boxy things with circumference described by v1,v2,v3... and
-#   start and end points as provided.
 #
 # smooth(int steps, vector start,
 #         ... then two to four of:
@@ -54,6 +51,13 @@
 # subobject(object_name, vector pos, vector normal, vector zaxis [, scale=float, animfn=])
 #   eg:subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
 #   * if animfn used, only drawn if animfn's src parameter is != 0.0
+#
+# thruster(direction, vector position, float size)
+#   eg: xref:notangular:thruster(fwd, v(10,0,0), 30.0)
+#
+#   notangular flag indicates that this thruster should not be used to display
+#   angular acceleration.
+#   'direction' is fwd, rev, up, down, left, right
 #
 # Simple vertex definition:
 #   v(x,y,z) = plain vertex
@@ -85,15 +89,22 @@ model(hermite_wank) {
 			hermite(v6, v10, v11))
 
 		material(1, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-		extrusion(v(0,0,-15), v(0,0,10), v(0,1,0), radius=1.0,
-				{
-		v(-3.0, 0.0, 10.0),
-		v(-2.0, -2.0, 10.0),
-		v(2.0, -2.0, 10.0),			
-		v(6.0, 0.0, 10.0),			
-		v(2.0, 2.0, 10.0),
-		v(-2.0, 2.0, 10.0)
-		})
+		extrusion(v(0,0,0), v(0,0,10), n(0,-1,0), radius=1.0,
+			{
+				v(-3.0, 0.0, 0),
+				v(-2.0, -2.0, 0),
+				v(2.0, -2.0, 0),			
+				v(6.0, 0.0, 0),			
+				v(2.0, 2.0, 0),
+				v(-2.0, 2.0, 0)
+			})
+		xref:notangular:thruster(fwd, v(10,0,0), 30.0)
+		xref:thruster(rev, v(10,0,0), 10.0)
+		xref:thruster(up, v(10,0,0), 20.0)
+		xref:thruster(down, v(10,0,0), 20.0)
+		thruster(left, v(0,0,0), 20.0)
+		thruster(right, v(0,0,0), 20.0)
+
 	}
 }
 

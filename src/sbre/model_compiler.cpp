@@ -200,6 +200,7 @@ static std::vector<Uint16> instrs;
 int sbre_cache_size;
 static std::vector<CompoundVertex> compound_vertices;
 static std::vector<int> compound_vertex_fixups_in_instrs;
+static std::vector<Thruster> thrusters;
 
 static bool VertexIdentifierExists(const char *vid)
 {
@@ -541,10 +542,7 @@ static void parsePrimExtrusion(tokenIter_t &t)
 }
 
 /*
- * TODO:
-	PTYPE_COMPOUND2F <-- largely untested (function name 'flat()')
-
-	XXX thrusters
+ * TODO: PTYPE_COMPOUND2F <-- largely untested (function name 'flat()')
  */
 static void parseGeomInstructions(tokenIter_t &t)
 {
@@ -555,6 +553,7 @@ static void parseGeomInstructions(tokenIter_t &t)
 		bool flag_xref = false;
 		bool flag_invisible = false;
 		bool flag_thrust = false;
+		bool flag_noang = false;
 		// first the flags
 		bool got_flag;
 		do {
@@ -566,6 +565,10 @@ static void parseGeomInstructions(tokenIter_t &t)
 			}
 			else if ((*t).IsIdentifier("thrust")) {
 				flag_thrust = true;
+				got_flag = true;
+			}
+			else if ((*t).IsIdentifier("notangular")) { // for thrusters
+				flag_noang = true;
 				got_flag = true;
 			}
 			else if ((*t).IsIdentifier("invisible")) {
@@ -584,7 +587,7 @@ static const int RFLAG_XREF = 0x8000;
 static const int RFLAG_INVISIBLE = 0x4000;*/
 	
 		if ((*t).IsIdentifier("zbias")) {
-			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 pos = parseVtxOrVtxRef(t);
@@ -597,7 +600,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(0);
 
 		} else if ((*t).IsIdentifier("tri")) {
-			if (flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 v1 = parseVtxOrVtxRef(t);
@@ -614,7 +617,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrsPutVtxRef(v3);
 	
 		} else if ((*t).IsIdentifier("quad")) {
-			if (flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 v1 = parseVtxOrVtxRef(t);
@@ -635,7 +638,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 		} else if ((*t).IsIdentifier("circle")) {
 			
-			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
@@ -666,7 +669,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 		} else if ((*t).IsIdentifier("cylinder")) {
 
-			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -702,7 +705,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 		} else if ((*t).IsIdentifier("tube")) {
 
-			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -746,7 +749,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(innerrad);
 
 		} else if ((*t).IsIdentifier("smooth")) {
-			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -771,7 +774,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(LTYPE_END);
 
 		} else if ((*t).IsIdentifier("flat")) {
-			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -798,7 +801,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(LTYPE_END);
 
 		} else if ((*t).IsIdentifier("text")) {
-			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			bool use_global_strings = false;
@@ -856,7 +859,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(scale);
 
 		} else if ((*t).IsIdentifier("material")) {
-			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			int material_id = -1;
@@ -936,13 +939,13 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			}
 
 		} else if ((*t).IsIdentifier("extrusion")) {
-			if (flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
 
 			parsePrimExtrusion(t);
 
 		} else if ((*t).IsIdentifier("subobject")) {
 			
-			if (flag_invisible || flag_xref) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			Uint16 model = get_model_reference(t);
@@ -978,7 +981,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			instrs.push_back(scale);
 
 		} else if ((*t).IsIdentifier("geomflag")) {
-			if (flag_invisible || flag_xref) (*t).Error("Invalid flag");
+			if (flag_noang || flag_invisible || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
 			(*t).Check(Token::INTEGER);
@@ -986,6 +989,37 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrs.push_back(PTYPE_SETCFLAG);
 			instrs.push_back(flag);
+
+		} else if ((*t).IsIdentifier("thruster")) {
+			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			Thruster thrust;
+			thrust.detail = 0;
+			if ((*t).IsIdentifier("fwd")) {
+				thrust.dir = 2;
+			} else if ((*t).IsIdentifier("rev")) {
+				thrust.dir = 5;
+			} else if ((*t).IsIdentifier("left")) {
+				thrust.dir = 0;
+			} else if ((*t).IsIdentifier("right")) {
+				thrust.dir = 3;
+			} else if ((*t).IsIdentifier("up")) {
+				thrust.dir = 1;
+			} else if ((*t).IsIdentifier("down")) {
+				thrust.dir = 4;
+			} else {
+				(*t).Error("Expected thruster direction (fwd, rev, left, right, up, down)");
+			}
+			++t;
+			(*t++).Check(Token::COMMA);
+			thrust.pos = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			thrust.power = (*t++).GetFloat();
+			(*t++).Check(Token::CLOSEBRACKET);
+
+		       	thrust.dir |= (flag_xref ? THRUST_XREF : 0) | (flag_noang ? THRUST_NOANG : 0);
+			thrusters.push_back(thrust);
 
 		} else {
 			// assignment
@@ -1014,6 +1048,7 @@ void parseModel(tokenIter_t &t)
 	compound_vertices.clear();
 	vertices.clear();
 	vertex_identifiers.clear();
+	thrusters.clear();
 	instrs.clear();
 	Model *m = new Model;
 	memset(m, 0, sizeof(Model));
@@ -1055,15 +1090,27 @@ void parseModel(tokenIter_t &t)
 	for (int i=0; i<4; i++) lod[i] = -1;
 	memset(lodPixRads, 0, sizeof(lodPixRads));
 
+	struct thrusters_def {
+		int num;
+		int idx;
+	} lodThrusters[5]; // lodThrusters[4] == lodAll thingy
+
+	memset(lodThrusters, 0, sizeof(lodThrusters));
+
 	// read the stinking LOD things
 	while ((*t).type != Token::CLOSEBRACE) {
 		if ((*t).IsIdentifier("all")) {
 			if (lodAll != -1) (*t).Error("Model 'all' geometry already defined");
 			++t;
+			int tpos = thrusters.size();
 			lodAll = instrs.size();
 			(*t++).Check(Token::OPENBRACE);
 			parseGeomInstructions(t);
 			(*t++).Check(Token::CLOSEBRACE);
+			if (thrusters.size() != tpos) {
+				lodThrusters[4].num = thrusters.size() - tpos;
+				lodThrusters[4].idx = tpos;
+			}
 		}
 		else if ((*t).IsIdentifier("lod")) {
 			lodIdx++;
@@ -1081,12 +1128,17 @@ void parseModel(tokenIter_t &t)
 					(*t).Error("lod must be specified in order of increasing detail");
 				}
 			}
+			int tpos = thrusters.size();
 			lod[lodIdx] = instrs.size();
 			lastLodPixRadius = pixRad;
 			lodPixRads[lodIdx] = pixRad;
 			(*t++).Check(Token::OPENBRACE);
 			parseGeomInstructions(t);
 			(*t++).Check(Token::CLOSEBRACE);
+			if (thrusters.size() != tpos) {
+				lodThrusters[lodIdx].num = thrusters.size() - tpos;
+				lodThrusters[lodIdx].idx = tpos;
+			}
 		} else {
 			(*t).Error("Expected level of detail (lod) definition");
 		}
@@ -1109,8 +1161,6 @@ void parseModel(tokenIter_t &t)
 		m->pPVtx[i].pos.z = vertices[i].z;
 	}
 	m->numCache = sbre_cache_size;
-//	Uint16 *lodAll = 0, *lod[4];
-//	float lodPixRads[4];
 	
 	// copy instructions to new turd
 	Uint16 *data = new Uint16[instrs.size()];
@@ -1122,8 +1172,19 @@ void parseModel(tokenIter_t &t)
 		m->pLOD[i].pixrad = lodPixRads[i];
 		m->pLOD[i].pData1 = (lod[i] == -1 ? 0 : data + lod[i]);
 		m->pLOD[i].pData2 = (lodAll == -1 ? 0 : data + lodAll);
-		m->pLOD[i].numThrusters = 0;
-		m->pLOD[i].pThruster = 0;
+		// give it its own lod thrusters + lod all thrusters
+		m->pLOD[i].numThrusters = lodThrusters[i].num + lodThrusters[4].num;
+		m->pLOD[i].pThruster = new Thruster[m->pLOD[i].numThrusters];
+		int pos = 0;
+		for (int j=0; j<lodThrusters[4].num; j++) {
+			m->pLOD[i].pThruster[pos++] = thrusters[lodThrusters[4].idx + j];
+		}
+		for (int j=0; j<lodThrusters[i].num; j++) {
+			m->pLOD[i].pThruster[pos++] = thrusters[lodThrusters[i].idx + j];
+		}
+		if(pos != m->pLOD[i].numThrusters) fatal();
+
+		if (lodPixRads[i] == 0) break;
 	}
 
 	// dummy complex vertex
@@ -1170,7 +1231,7 @@ void parse(std::vector<Token> &tokens)
 	}
 }
 
-void model_compiler_test()
+void sbreCompilerLoadTurds()
 {
 	FILE *f = fopen("data/models.def", "r");
 

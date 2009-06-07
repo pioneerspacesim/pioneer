@@ -56,7 +56,7 @@ void sbreRenderModel(const double pos[3], const double orient[16], int model, Ob
 	float s=1.0f, Vector *pCompos=0);
 void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam,
 	float s=1.0f, Vector *pCompos=0);
-void model_compiler_test();
+void sbreCompilerLoadTurds();
 
 // will preserve and realloc pointers in pCMesh
 // maxv/maxi should match allocated sizes
