@@ -1,86 +1,273 @@
 <html>
 	<head>
 		<title>Pioneer technical info<title>
+	<style type="text/css">
+	h1 { font-size: 20pt; }
+	h2 { font-size: 18pt; }
+	h3 { font-size: 16pt; }
+	h4 { font-size: 14pt; }
+	h5 { font-size: 12pt; }
+	dt { font-style: italic; }
+	pre { background: #ddd; }
+	</style>
 	</head>
 <body>
-	<h1>Pioneer technical info</h1>
-	<h2>Index</h2>
+	
+<h1>Pioneer technical info</h1>
+<h2>Index</h2>
+<ul>
+	<li><a href="#sbre-models">Making 3d models</a></li>
 	<ul>
-		<li><a href="#sbre-models">Making models using SBRE</a></li>
-		<li><a href="#height-map-format">Terrain height map format</a></li>
+		<li><a href="#models-def-example">models.def example</a>
+		<li><a href="#sbre-funcs-quickref">Function quick reference</a>
+		<li><a href="#sbre-flags">Function flags</a>
+		<li><a href="#sbre-simple-vertex">Simple vertex definition</a>
+		<li><a href="#sbre-complex-vertex">Complex vertex definition</a>
+		<li><a href="#sbre-function-reference">Complete function reference</a>
+		<li><a href="#sbre-model-conventions">Model conventions</a>
 	</ul>
+	<li><a href="#height-map-format">Terrain height map format</a></li>
+</ul>
 
-	<a name="sbre-models"><h3>Making models using SBRE</h3></a>
-	<pre>
-Look at examples in src/sbre/models.cpp
+<a name="sbre-models"><h3>Making 3d models</h3></a>
+<p>Models in data/models.def are compiled to a bytecode (read src/sbre/brender.cpp,
+src/sbre/primfunc.cpp, etc for info in bytecode). You can either add models
+to data/models.def or do them directly in bytecode and stick them in
+src/sbre/models.cpp
+<a name="models-def-example"><h4>models.def example</h4></a>
+<p>A simple example model:
+<pre>
+1	model(simple_cargo, scale=1.0, radius=1.0) {
+2		# my lovely model!
+3		lod { full, 20px, 10px }
+4		objlod cyl_lod = { 24, 16, 8 }
+5		top = v(0,1,0)
+6		bottom = v(0,-1,0)
+7		textpos = v(0,1,0)
+8		material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+9		cylinder(cyl_lod, top, bottom, v(1,0,0), radius=1.0)
+10		lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
+11		lod1:zbias(textpos, v(0,1,0))
+12		lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
+13	}
+</pre>
 
-SBRE models are made of 4 things:
+<p>Line-by-line explanation:</p>
+<ol>
+	<li>model(..) - Begins the definition of a model, naming it 'simple_cargo' and specifying
+	that all geometry should be scaled by 1.0 and the rough bounding sphere
+	of the model has radius 1.0
+	<li>A comment. It will be ignored
+	<li>lod{} - Level of detail (lod) specification. Up to four can be specified.
+	If you only want one lod then this can be omitted. The first level of
+	detail must be 'full', followed by on screen pixel sizes ordered
+	largest (and therefore most detailed) first.
+	<li>objlod{} - defines an object detail level that can be applied to
+	primitives like cylinders and tubes. This object detail level has been
+	named 'cyl_lod', and will be 16 for the first lod (lod1, which is
+	'full'), and 16, 8 for lod2, lod3 respectively (20px and 10px).
+	<li>top = v(0,1,0) - sets the vertex named 'top' to the value v(0,1,0)
+	<li>" "
+	<li>" "
+	<li>material(..) - changes the material colour, specifying diffuse,
+	specular, shininess and emissive values. Consult the function
+	reference below for arguments.
+	<li>cylinder(..) - Draws a cylinder
+	Arguments are:<br>
+	circumference subdivisions - Can either be specified as a literal
+	integer, or as an objlod (as in this case, which means that it will be
+	drawn with 24 circumference steps at full detail level, 16 steps at
+	20px detail level and 8 steps at 10px detail level.<br>
+	start position (top) - a vertex indicating the center of the circle at
+	the top endpoint of the tube. Vertices can always be specified either
+	by names assigned previously (as was done here, 'top'), or as literal
+	vertices like v(1,0,0).<br>
+	end position (bottom) - a vertex indicating the centre of the circle
+	at the bottom endpoint of the tube<br>
+	'up' vertex - a normal pointing from the centre of an endpoint to the
+	circumference.<br>
+	radius=1.0 - float cylinder radius<br>
+	<li>lod1:material(..) - The flag lod1 indicates that this function
+	should only be called at lod level 1 (full detail). material() sets
+	the diffuse, specular, shininess and emissive properties of the
+	subsequent primitives. Check the function reference for arguments.
+	<li>lod1:zbias(..) - We are about to draw a piece of text onto the top
+	of the cylinder, so to avoid z-fighting we adjust the z-range.
+	Arguments are:<br>
+	vertex position - should be the position the text will be drawn at<br>
+	normal - same as the text's normal<br>
+	<li>lod1:text(..) - For lod level 1 (full detail), draw some lovely
+	text on top of the cylinder. The first argument specifies where to
+	find the string. In this case it is the zeroth string on the object
+	parameters passed to the render function from pioneer. It could also
+	be global:123 indicating a string in sbre's global string array.
+</ol>
 
-* Plain vertices
-* Compound vertices
-* Model bytecode
-* Model definition
+<a name="sbre-funcs-quickref"><h4>Function quick reference</h4></a>
+<pre>
+material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
+material(0-3)
+material(animfn=xxx, material(), material())
+triangle(vector v1, vector v2, vector v3)
+quad(vector v1, vector v2, vector v3, vector v4)
+circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
+cylinder(int steps, vector start, vector end, vector up, radius=float radius)
+tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
+extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
+smooth(int steps, 
+         ... then two to four of:
+         hermite(vector pos, vector tan0, vector tan1)
+         hermite_norm(vector pos1, vector norm0, vector norm1)
+         line(vector pos)
+)
+flat(int steps, vector normal,
+	... then two to four of the same crud as smooth(), except no hermite_norm()
+)
+text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
+text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
+subobject(object_name, vector pos, vector normal, vector zaxis [, scale=float, animfn=])
+thruster(direction, vector position, float size)
+geomflag(int)
+</pre>
+
+<a name="sbre-flags"><h4>Function flags (to apply to functions)</h4></a>
+<p>You apply them like this:
+<pre>
+	lod1:lod2:xref:invisible:tri(v1, v2, v3)
+</pre>
+<dl>
+	<dt>xref:</dt>
+	<dd>Reflect the object in the x axis, drawing it twice.</dd>
+	<dt>invisible:</dt>
+	<dd>triangle() and quad() only. Do not draw the primitive but still create in the collision mesh.</dd>
+	<dt>thrust:</dt>
+	<dd>???? TODO WTF does it do????</dd>
+	<dt>notangular:</dt>
+	<dd>For thruster(), indicates that this thruster should not be used for angular acceleration</dd>
+	<dt>lod1: lod2: lod3: lod4:</dt>
+	<dd>Only draw the primitive in the specified detail levels. By
+	default a primitive will be drawn in all detail levels.</dd>
+</dl>
 
 
-Plain vertices:
-~~~~~~~~~~~~~~~~
+<a name="sbre-simple-vertex"><h4>Simple vertex definition</h4></a>
+v(x,y,z) = plain vertex<br>
+n(x,y,z) = normalized<br>
+<a name="sbre-complex-vertex"><h4>Complex vertex definition</h4></a>
+vnormal(v1, v2, v3) = n((v2-v1)^(v0-v1)) -- normal to angle v1-v2-v3<br>
+vcross(v1,v2) = v1^v2<br>
+vlinear(v1, v2, animfn=xxx)<br>
+vcubic(v1,v2,v3,v4, animfn=xxx)<br>
+vhermite(v1,v2,n1,n2, animfn=xxx) = hermite from v1 to v2, normals n1,n2<br>
+vrotate(xaxis, zaxis, animfn=xxx)<br>
 
-Plain vertices have type, and float x,y,z components.
+<a name="sbre-function-reference"><h4>Complete function reference</h4></a>
+<pre>
+XXX this crap needs cleaning up
 
-valid types:
-	VTYPE_PLAIN. Vertex will be unchanged.
-	VTYPE_DIR. Vertex will be normalized.
+material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
+  diffuse rgb, specular rgb, shininess, emissive rgb
+material(0-3)
+  set material from params->pColor[4]
+material(animfn=xxx,
+	material(dr,dg,db,sr,sg,sb,shininess, er,eg,eb),
+	material(dr,dg,db,sr,sg,sb,shininess, er,eg,eb))
+  animate material between first and second using anim function
 
-Compound vertices:
-~~~~~~~~~~~~~~~~~~
+triangle(vector v1, vector v2, vector v3)
 
-blah
+quad(vector v1, vector v2, vector v3, vector v4)
 
-Model Definition:
-~~~~~~~~~~~~~~~~~
+circle(circumference_steps, vector center, vector normal, vector up, radius=float radius)
+  eg: circle(8, some_vector, v(0,0,1), v(0,1,0), radius=10.0)
 
-blah
+  vector up - points from the centre of the circle to the circumference, in
+              any direction
+  circumference_steps - can either be an integer, or an objlod identifier to
+  specify steps on a per-lod basis
 
-Model bytecode:
-~~~~~~~~~~~~~~~
+cylinder(steps, vector start, vector end, vector up, radius=float radius)
+  eg: cylinder(8, v(15,10,0), v(15,20,0), v(0,0,1), radius=10.0)
 
-PTYPE_SETCFLAG
+tube(steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
+  eg: tube(8, poohat1, poohat2, v(0,0,1), innerrad=5.0, outerrad=10.0)
 
-	Args: flag
+extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
+  eg: extrusion(v(0,0,-10), v(0,0,0), v(0,1,0), radius=1.0, {v(10,10,0), v(15,0,0), v(10,-10,0), v(-10,-10,0), v(-10,10,0)})
 
-	Set collision mesh flag for geometry created after this point.
+  v1,v2,v3,... describes the 2d shape to be extruded into 3d along start->end.
+  it should be wound counter-clockwise in x,y, with the z coordinate ignored
+  up is a normal, and should be perpendicular to end-start
 
-	Pioneer uses these flag values:
-		For starports:
-		0x10 indicates starport
-		0x10 - 1st docking port
-		0x11 - 2nd docking port
-		0x12 - 3rd docking port
-		0x13 - 4th docking port
+geomflag(int)
+  set an integer flag on subsequent geometry, that can be used by the pioneer
+  collision detector to determine what bits of a model has been struck.
+	
+  Pioneer uses these flag values:
+	For starports:
+	0x10 indicates starport
+	0x10 - 1st docking port
+	0x11 - 2nd docking port
+	0x12 - 3rd docking port
+	0x13 - 4th docking port
 
-PTYPE_MATVAR
-	Args: index (into params.pText)
+smooth(steps, 
+        ... then two to four of:
+        hermite(vector pos, vector tan0, vector tan1)
+        hermite_norm(vector pos1, vector norm0, vector norm1)
+        line(vector pos)
+)
+  makes lovely smooth surface
 
-	Pick material from params. By convention 0 and 1 are primary and
-	secondary object colours (ie ship coloured bits), and 2 is underside
-	colour (undercarriage doors will take colour 2)
+smooth(steps, 
+        ... then two to four of:
+        hermite(vector pos, vector tan0, vector tan1)
+        hermite_norm(vector pos1, vector norm0, vector norm1)
+        line(vector pos)
+)
+  makes lovely smooth surface
 
+text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
+text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
+  draws text from either the global strings array or the params strings
+  * if animfn used, only drawn if animfn's src parameter is != 0.0
 
-PTYPE_EXTRUSION
-	Always extrudes in z-axis (start and end should displace in z)
+subobject(object_name, vector pos, vector normal, vector zaxis [, scale=float, animfn=])
+  eg:subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
+  * if animfn used, only drawn if animfn's src parameter is != 0.0
 
-Some Pioneer Model Conventions:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+thruster(direction, vector position, float size)
+  eg: xref:notangular:thruster(fwd, v(10,0,0), 30.0)
+
+  notangular flag indicates that this thruster should not be used to display
+  angular acceleration.
+  'direction' is fwd, rev, up, down, left, right
+
+Simple vertex definition:
+  v(x,y,z) = plain vertex
+  n(x,y,z) = normalized
+Complex (composed of other vertices & maybe anim):
+  vnormal(v1, v2, v3) = n((v2-v1)^(v0-v1)) -- normal to angle v1-v2-v3
+  vcross(v1,v2) = v1^v2
+  vlinear(v1, v2, animfn=xxx)
+  vcubic(v1,v2,v3,v4, animfn=xxx)
+  vhermite(v1,v2,n1,n2, animfn=xxx) = hermite from v1 to v2, normals n1,n2
+  vrotate(xaxis, zaxis, animfn=xxx)
+
+animfn is of gear, gflap, thrustpulse, lin4sec (see anim_fns[], enum animfunc)
+</pre>
+	
+<a name="sbre-model-conventions"><h4>Model conventions</h4></a>
 
 Objects which sit in a rotating frame (ie orbital starports) rotate in
 the Y axis.
-</pre>
 
-	<a name="height-map-format"><h3>Terrain height map format</h3></a>
-	Height maps (data/*.hmap) have the format:
-	<pre>
-	<em>Uint16</em> map width
-	<em>Uint16</em> map height
-	<em>Sint16[width*height]</em> elements (with elevation in meters)
-	</pre>
+
+<a name="height-map-format"><h3>Terrain height map format</h3></a>
+Height maps (data/*.hmap) have the format:
+<pre>
+<em>Uint16</em> map width
+<em>Uint16</em> map height
+<em>Sint16[width*height]</em> elements (with elevation in meters)
+</pre>
 </body>

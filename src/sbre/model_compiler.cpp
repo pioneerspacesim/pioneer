@@ -196,11 +196,37 @@ static std::map<std::string, Model*> models;
 static std::map<std::string, int> models_idx;
 static std::vector<Vector> vertices;
 static std::map<std::string, int> vertex_identifiers;
-static std::vector<Uint16> instrs;
+static std::vector<Uint16> instrs[4];
+static int lodSize[4]; // -1 = inactive
+static bool lodActive[4]; // for this instruction
+static int numLods;
 int sbre_cache_size;
 static std::vector<CompoundVertex> compound_vertices;
-static std::vector<int> compound_vertex_fixups_in_instrs;
-static std::vector<Thruster> thrusters;
+static std::vector<int> compound_vertex_fixups_in_instrs[4];
+static std::vector<Thruster> thrusters[4];
+struct obj_lod {
+	int divs[4];
+};
+static std::map<std::string, obj_lod> obj_lods;
+
+static void parseObjectLod(tokenIter_t &t, Uint16 objLod[4])
+{
+	if ((*t).type == Token::INTEGER) {
+		for (int i=0; i<4; i++) objLod[i] = (*t).val.i;
+		++t;
+	} else if ((*t).type == Token::IDENTIFIER) {
+		std::map<std::string, obj_lod>::iterator i = obj_lods.find((*t).val.s);
+		if (i == obj_lods.end()) (*t).Error("Undefined obj_lod %s", (*t).val.s);
+		else {
+			for (int j=0; j<4; j++) {
+				objLod[j] = (*i).second.divs[j];
+			}
+		}
+		++t;
+	} else {
+		(*t).Error("Expected integer steps or obj_lod identifier");
+	}
+}
 
 static bool VertexIdentifierExists(const char *vid)
 {
@@ -222,12 +248,61 @@ static int addPlainVtx(Vector v)
 	return idx;
 }
 
-static void instrsPutVtxRef(Uint16 ref)
+static void instrsPutVtxRef(Uint16 ref, int *offset4 = 0)
 {
-	if (ref & IS_COMPLEX) {
-		compound_vertex_fixups_in_instrs.push_back(instrs.size());
+	for (int i=0; i<4; i++) {
+		if (!lodActive[i]) continue;
+		if (offset4 == 0) {
+			if (ref & IS_COMPLEX) {
+				compound_vertex_fixups_in_instrs[i].push_back(instrs[i].size());
+			}
+			instrs[i].push_back(ref);
+		} else {
+			if (ref & IS_COMPLEX) {
+				compound_vertex_fixups_in_instrs[i].push_back(offset4[i]);
+			}
+			instrs[i][offset4[i]] = ref;
+		}
 	}
-	instrs.push_back(ref);
+}
+
+/*
+ * Pass array of offsets to write to specific location for
+ * each lod instruction stream.
+ */
+static void instrsPutInstr(Uint16 val, int *offset4 = 0)
+{
+	for (int i=0; i<4; i++) {
+		if (!lodActive[i]) continue;
+		if (offset4) {
+			instrs[i][offset4[i]] = val;
+		} else {
+			instrs[i].push_back(val);
+		}
+	}
+}
+
+static void instrsPutObjectLod(const Uint16 objLod[4])
+{
+	for (int i=0; i<4; i++) {
+		if (!lodActive[i]) continue;
+		instrs[i].push_back(objLod[i]);
+	}
+}
+
+static void instrsPutCacheIdx()
+{
+	for (int i=0; i<4; i++) {
+		if (!lodActive[i]) continue;
+		instrs[i].push_back(sbre_cache_size++);
+	}
+}
+
+static void getInstrsFixupPos(int offset4[4])
+{
+	for (int i=0; i<4; i++) {
+		offset4[i] = instrs[i].size();
+	}
 }
 
 static int addCompoundVtx(enum vtxtype type, Uint16 p0, Uint16 p1, Uint16 p2, Uint16 p3, Uint16 p4)
@@ -322,11 +397,11 @@ static int parseNewVertex(tokenIter_t &t)
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
-		int animfn = parseAnimFunc(t);
-		(*t++).Check(Token::COMMA);
 		Uint16 v1 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
 		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vlinear() using other complex vertices");
@@ -337,8 +412,6 @@ static int parseNewVertex(tokenIter_t &t)
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
-		int animfn = parseAnimFunc(t);
-		(*t++).Check(Token::COMMA);
 		Uint16 v1 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 v2 = parseVtxOrVtxRef(t);
@@ -346,6 +419,8 @@ static int parseNewVertex(tokenIter_t &t)
 		Uint16 v3 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 v4 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
 		    (v2 & IS_COMPLEX) ||
@@ -358,8 +433,6 @@ static int parseNewVertex(tokenIter_t &t)
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
-		int animfn = parseAnimFunc(t);
-		(*t++).Check(Token::COMMA);
 		Uint16 v1 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 v2 = parseVtxOrVtxRef(t);
@@ -367,6 +440,8 @@ static int parseNewVertex(tokenIter_t &t)
 		Uint16 n1 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 n2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
 		    (v2 & IS_COMPLEX) ||
@@ -379,11 +454,11 @@ static int parseNewVertex(tokenIter_t &t)
 
 		++t;
 		(*t++).Check(Token::OPENBRACKET);
-		int animfn = parseAnimFunc(t);
-		(*t++).Check(Token::COMMA);
 		Uint16 v1 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::COMMA);
 		Uint16 v2 = parseVtxOrVtxRef(t);
+		(*t++).Check(Token::COMMA);
+		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
 		if ((v1 & IS_COMPLEX) ||
 		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vrotate() using other complex vertices");
@@ -415,20 +490,24 @@ static int parseVtxOrVtxRef(tokenIter_t &t)
 	}
 }
 
-static void parseCompSurfaceBits(tokenIter_t &t, bool smooth)
+/* 
+ * returns first vertex idx
+ */
+static Uint16 parseCompObjectBits(tokenIter_t &t, bool smooth)
 {
 	int num = 0;
+	Uint16 v1 = -1;
 	for (;;) {
 		if (smooth && (*t).IsIdentifier("hermite_norm")) {
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parseVtxOrVtxRef(t);
+			v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			Uint16 n0 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			Uint16 n1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(LTYPE_NORMS);
+			instrsPutInstr(LTYPE_NORMS);
 			instrsPutVtxRef(v1);
 			instrsPutVtxRef(n0);
 			instrsPutVtxRef(n1);
@@ -436,13 +515,13 @@ static void parseCompSurfaceBits(tokenIter_t &t, bool smooth)
 		} else if ((*t).IsIdentifier("hermite")) {
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parseVtxOrVtxRef(t);
+			v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			Uint16 tan0 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			Uint16 tan1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(LTYPE_HERMITE);
+			instrsPutInstr(LTYPE_HERMITE);
 			instrsPutVtxRef(v1);
 			instrsPutVtxRef(tan0);
 			instrsPutVtxRef(tan1);
@@ -450,9 +529,9 @@ static void parseCompSurfaceBits(tokenIter_t &t, bool smooth)
 		} else if ((*t).IsIdentifier("line")) {
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			Uint16 v1 = parseVtxOrVtxRef(t);
+			v1 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(LTYPE_LINE);
+			instrsPutInstr(LTYPE_LINE);
 			instrsPutVtxRef(v1);
 			num++;
 		} else {
@@ -466,8 +545,11 @@ static void parseCompSurfaceBits(tokenIter_t &t, bool smooth)
 			break;
 		}
 	}
+	if (v1== -1) fatal();
 	if (num<2) (*t).Error("Expected at least 2 hermite or line segments");
 	else if (num>4) (*t).Error("Expected at most 4 hermite or line segments");
+	// first vertex in SBRE complex surfaces is the same as the last vtx
+	return v1;
 }
 
 static int get_model_reference(tokenIter_t &t)
@@ -524,31 +606,29 @@ static void parsePrimExtrusion(tokenIter_t &t)
 	(*t++).Check(Token::CLOSEBRACE);
 	(*t++).Check(Token::CLOSEBRACKET);
 
-	instrs.push_back(PTYPE_EXTRUSION);
+	instrsPutInstr(PTYPE_EXTRUSION);
 	if ((start & IS_COMPLEX) ||
 	    (end & IS_COMPLEX) ||
 	    (up & IS_COMPLEX) ||
 	    (firstvtx & IS_COMPLEX)) {
-		instrs.push_back(0x8000); // do not cache
+		instrsPutInstr(0x8000); // do not cache
 	} else {
-		instrs.push_back(sbre_cache_size++);
+		instrsPutCacheIdx();
 	}
-	instrs.push_back(count);
+	instrsPutInstr(count);
 	instrsPutVtxRef(start);
 	instrsPutVtxRef(end);
 	instrsPutVtxRef(up);
-	instrs.push_back(rad);
+	instrsPutInstr(rad);
 	instrsPutVtxRef(firstvtx);
 }
 
-/*
- * TODO: PTYPE_COMPOUND2F <-- largely untested (function name 'flat()')
- */
 static void parseGeomInstructions(tokenIter_t &t)
 {
 	while ((*t).type != Token::CLOSEBRACE) {
 		// parse model definition
 		(*t).Check(Token::IDENTIFIER);
+		lodActive[0] = lodActive[1] = lodActive[2] = lodActive[3] = false;
 
 		bool flag_xref = false;
 		bool flag_invisible = false;
@@ -556,6 +636,7 @@ static void parseGeomInstructions(tokenIter_t &t)
 		bool flag_noang = false;
 		// first the flags
 		bool got_flag;
+		bool got_lod_prefix = false;
 		do {
 			got_flag = false;
 
@@ -575,11 +656,39 @@ static void parseGeomInstructions(tokenIter_t &t)
 				flag_invisible = true;
 				got_flag = true;
 			}
+			else if ((*t).IsIdentifier("lod1")) {
+				lodActive[0] = true;
+				got_flag = true;
+				got_lod_prefix = true;
+			} else if ((*t).IsIdentifier("lod2")) {
+				lodActive[1] = true;
+				got_flag = true;
+				got_lod_prefix = true;
+			} else if ((*t).IsIdentifier("lod3")) {
+				lodActive[2] = true;
+				got_flag = true;
+				got_lod_prefix = true;
+			} else if ((*t).IsIdentifier("lod4")) {
+				lodActive[3] = true;
+				got_flag = true;
+				got_lod_prefix = true;
+			}
 			if (got_flag) {
 				++t;
 				(*t++).Check(Token::COLON);
 			}
 		} while (got_flag);
+
+		bool noneActive = true;
+		for (int i=0; i<3; i++) {
+			if (lodActive[i]) {
+				noneActive = false;
+				if (i>=numLods) (*t).Error("Lod prefix activates lod that does not exist");
+			}
+		}
+		// no lod prefix = all active
+		if (noneActive) for (int i=0; i<numLods; i++) lodActive[i] = true;
+
 		/*static const int TFLAG_XCENTER = 0x8000;
 static const int TFLAG_YCENTER = 0x4000;
 
@@ -594,10 +703,20 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::COMMA);
 			Uint16 norm = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_ZBIAS);
+			instrsPutInstr(PTYPE_ZBIAS);
 			instrsPutVtxRef(pos);
 			instrsPutVtxRef(norm);
-			instrs.push_back(0);
+			instrsPutInstr(0);
+
+		} else if ((*t).IsIdentifier("nozbias")) {
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
+			++t;
+			(*t++).Check(Token::OPENBRACKET);
+			(*t++).Check(Token::CLOSEBRACKET);
+			instrsPutInstr(PTYPE_ZBIAS);
+			instrsPutInstr(0x8000);
+			instrsPutInstr(0);
+			instrsPutInstr(0);
 
 		} else if ((*t).IsIdentifier("tri")) {
 			if (flag_noang || flag_thrust) (*t).Error("Invalid flag");
@@ -609,7 +728,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::COMMA);
 			Uint16 v3 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_TRIFLAT |
+			instrsPutInstr(PTYPE_TRIFLAT |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
 			instrsPutVtxRef(v1);
@@ -628,7 +747,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::COMMA);
 			Uint16 v4 = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_QUADFLAT |
+			instrsPutInstr(PTYPE_QUADFLAT |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
 			instrsPutVtxRef(v1);
@@ -642,8 +761,8 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			(*t).Check(Token::INTEGER);
-			Uint16 steps = (*t++).val.i;
+			Uint16 objLod[4];
+			parseObjectLod(t, objLod);
 			(*t++).Check(Token::COMMA);
 			Uint16 vtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
@@ -658,22 +777,22 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 				(*t).Error("Circle radius must be in range 0.01 to 655");
 			++t;
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_CIRCLE |
+			instrsPutInstr(PTYPE_CIRCLE |
 					(flag_xref ? RFLAG_XREF : 0));
-			instrs.push_back(0x8000); // not cached
-			instrs.push_back(steps);
+			instrsPutInstr(0x8000); // not cached
+			instrsPutObjectLod(objLod);
 			instrsPutVtxRef(vtx);
 			instrsPutVtxRef(norm);
 			instrsPutVtxRef(up);
-			instrs.push_back(rad);
+			instrsPutInstr(rad);
 
 		} else if ((*t).IsIdentifier("cylinder")) {
 
 			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			(*t).Check(Token::INTEGER);
-			Uint16 steps = (*t++).val.i;
+			Uint16 objLod[4];
+			parseObjectLod(t, objLod);
 			(*t++).Check(Token::COMMA);
 			Uint16 startvtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
@@ -688,28 +807,28 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 				(*t).Error("Cylinder radius must be in range 0.01 to 655");
 			++t;
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_CYLINDER |
+			instrsPutInstr(PTYPE_CYLINDER |
 					(flag_xref ? RFLAG_XREF : 0));
 			if ((startvtx & IS_COMPLEX) ||
 			    (endvtx & IS_COMPLEX) ||
 			    (updir & IS_COMPLEX)) {
-				instrs.push_back(0x8000); // do not cache
+				instrsPutInstr(0x8000); // do not cache
 			} else {
-				instrs.push_back(sbre_cache_size++);
+				instrsPutCacheIdx();
 			}
-			instrs.push_back(steps);
+			instrsPutObjectLod(objLod);
 			instrsPutVtxRef(startvtx);
 			instrsPutVtxRef(endvtx);
 			instrsPutVtxRef(updir);
-			instrs.push_back(rad);
+			instrsPutInstr(rad);
 
 		} else if ((*t).IsIdentifier("tube")) {
 
 			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			(*t).Check(Token::INTEGER);
-			Uint16 steps = (*t++).val.i;
+			Uint16 objLod[4];
+			parseObjectLod(t, objLod);
 			(*t++).Check(Token::COMMA);
 			Uint16 startvtx = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
@@ -731,74 +850,73 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 				(*t).Error("Tube innerrad must be in range 0.01 to 655");
 			++t;
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_TUBE |
+			instrsPutInstr(PTYPE_TUBE |
 					(flag_xref ? RFLAG_XREF : 0));
 
 			if ((startvtx & IS_COMPLEX) ||
 			    (endvtx & IS_COMPLEX) ||
 			    (updir & IS_COMPLEX)) {
-				instrs.push_back(0x8000); // do not cache
+				instrsPutInstr(0x8000); // do not cache
 			} else {
-				instrs.push_back(sbre_cache_size++);
+				instrsPutCacheIdx();
 			}
-			instrs.push_back(steps);
+			instrsPutObjectLod(objLod);
 			instrsPutVtxRef(startvtx);
 			instrsPutVtxRef(endvtx);
 			instrsPutVtxRef(updir);
-			instrs.push_back(outerrad);
-			instrs.push_back(innerrad);
+			instrsPutInstr(outerrad);
+			instrsPutInstr(innerrad);
 
 		} else if ((*t).IsIdentifier("smooth")) {
 			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			(*t).Check(Token::INTEGER);
-			int steps = (*t).val.i;
-			if ((steps<1) || (steps>99)) (*t).Error("Too many steps for smooth(). Must be 1-99.");
-			
-			instrs.push_back(PTYPE_COMPOUND2S |
+			Uint16 objLod[4];
+			parseObjectLod(t, objLod);
+			instrsPutInstr(PTYPE_COMPOUND2S |
 					(flag_xref ? RFLAG_XREF : 0) | 
 					(flag_invisible ? RFLAG_INVISIBLE : 0));
 			// XXX note always caching breaks animation if used
-			instrs.push_back(sbre_cache_size++);
-			instrs.push_back(steps);
+			instrsPutCacheIdx();
+			instrsPutObjectLod(objLod);
 
-			++t;
-			(*t++).Check(Token::COMMA);
-			Uint16 v1 = parseVtxOrVtxRef(t);
-			instrsPutVtxRef(v1);
 			(*t++).Check(Token::COMMA);
 
-			parseCompSurfaceBits(t, true);
+			// get first vtx idx later, but make space for it
+			int firstVtxFixup[4];
+			getInstrsFixupPos(firstVtxFixup);
+			instrsPutInstr(0);
+
+			Uint16 firstVtx = parseCompObjectBits(t, true);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(LTYPE_END);
+			instrsPutInstr(LTYPE_END);
+			instrsPutVtxRef(firstVtx, firstVtxFixup);
 
 		} else if ((*t).IsIdentifier("flat")) {
 			if (flag_noang || flag_invisible || flag_thrust) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			(*t).Check(Token::INTEGER);
-			int steps = (*t).val.i;
-			if ((steps<1) || (steps>99)) (*t).Error("Too many steps for smooth(). Must be 1-99.");
-			
-			++t;
-			(*t++).Check(Token::COMMA);
-			Uint16 start = parseVtxOrVtxRef(t);
+			Uint16 objLod[4];
+			parseObjectLod(t, objLod);
 			(*t++).Check(Token::COMMA);
 			Uint16 norm = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			
-			instrs.push_back(PTYPE_COMPOUND2F |
+			instrsPutInstr(PTYPE_COMPOUND2F |
 					(flag_xref ? RFLAG_XREF : 0));
 			// XXX note always caching breaks animation if used
-			instrs.push_back(sbre_cache_size++);
-			instrs.push_back(steps);
-			instrsPutVtxRef(start);
+			instrsPutCacheIdx();
+			instrsPutObjectLod(objLod);
+			int startVtxFixup[4];
+			getInstrsFixupPos(startVtxFixup);
+			instrsPutInstr(0); // must fixup with start vtx ref
 			instrsPutVtxRef(norm);
 
-			parseCompSurfaceBits(t, false);
+			Uint16 startVtx = parseCompObjectBits(t, false);
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(LTYPE_END);
+			instrsPutInstr(LTYPE_END);
+			// do fixup !!!!!!!!
+			instrsPutVtxRef(startVtx, startVtxFixup);
 
 		} else if ((*t).IsIdentifier("text")) {
 			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
@@ -848,15 +966,15 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			}
 			(*t++).Check(Token::CLOSEBRACKET);
 
-			instrs.push_back(PTYPE_TEXT | (use_global_strings ? TFLAG_STATIC : 0));
-			instrs.push_back(anim);
-			instrs.push_back(string_idx);
+			instrsPutInstr(PTYPE_TEXT | (use_global_strings ? TFLAG_STATIC : 0));
+			instrsPutInstr(anim);
+			instrsPutInstr(string_idx);
 			instrsPutVtxRef(pos);
 			instrsPutVtxRef(norm);
 			instrsPutVtxRef(xaxis);
-			instrs.push_back(xoff);
-			instrs.push_back(yoff);
-			instrs.push_back(scale);
+			instrsPutInstr(xoff);
+			instrsPutInstr(yoff);
+			instrsPutInstr(scale);
 
 		} else if ((*t).IsIdentifier("material")) {
 			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
@@ -885,9 +1003,9 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 				(*t++).Check(Token::CLOSEBRACKET);
 				(*t++).Check(Token::CLOSEBRACKET);
 
-				instrs.push_back(PTYPE_MATANIM);
-				instrs.push_back(animfn);
-				for (int i=0; i<20; i++) instrs.push_back(mat[i]);
+				instrsPutInstr(PTYPE_MATANIM);
+				instrsPutInstr(animfn);
+				for (int i=0; i<20; i++) instrsPutInstr(mat[i]);
 			} else {
 				if ((*t).type == Token::INTEGER) material_id = (*t).val.i;
 				int dr = (int)((*t++).GetFloat() * 100.0);
@@ -898,8 +1016,8 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 					}
 					(*t++).Check(Token::CLOSEBRACKET);
 
-					instrs.push_back(PTYPE_MATVAR);
-					instrs.push_back(material_id);
+					instrsPutInstr(PTYPE_MATVAR);
+					instrsPutInstr(material_id);
 				} else {
 					// MATFIXED
 					(*t++).Check(Token::COMMA);
@@ -924,17 +1042,17 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 					int eb = (int)((*t++).GetFloat() * 100.0);
 					(*t++).Check(Token::CLOSEBRACKET);
 
-					instrs.push_back(PTYPE_MATFIXED);
-					instrs.push_back(dr);
-					instrs.push_back(dg);
-					instrs.push_back(db);
-					instrs.push_back(sr);
-					instrs.push_back(sg);
-					instrs.push_back(sb);
-					instrs.push_back(shiny);
-					instrs.push_back(er);
-					instrs.push_back(eg);
-					instrs.push_back(eb);
+					instrsPutInstr(PTYPE_MATFIXED);
+					instrsPutInstr(dr);
+					instrsPutInstr(dg);
+					instrsPutInstr(db);
+					instrsPutInstr(sr);
+					instrsPutInstr(sg);
+					instrsPutInstr(sb);
+					instrsPutInstr(shiny);
+					instrsPutInstr(er);
+					instrsPutInstr(eg);
+					instrsPutInstr(eb);
 				}
 			}
 
@@ -972,13 +1090,13 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			}
 			(*t++).Check(Token::CLOSEBRACKET);
 
-			instrs.push_back(PTYPE_SUBOBJECT | (flag_thrust ? SUBOBJ_THRUST : 0));
-			instrs.push_back(anim);
-			instrs.push_back(model);
+			instrsPutInstr(PTYPE_SUBOBJECT | (flag_thrust ? SUBOBJ_THRUST : 0));
+			instrsPutInstr(anim);
+			instrsPutInstr(model);
 			instrsPutVtxRef(offset);
 			instrsPutVtxRef(norm);
 			instrsPutVtxRef(zaxis);
-			instrs.push_back(scale);
+			instrsPutInstr(scale);
 
 		} else if ((*t).IsIdentifier("geomflag")) {
 			if (flag_noang || flag_invisible || flag_xref) (*t).Error("Invalid flag");
@@ -987,8 +1105,8 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t).Check(Token::INTEGER);
 			Uint16 flag = (*t++).val.i;
 			(*t++).Check(Token::CLOSEBRACKET);
-			instrs.push_back(PTYPE_SETCFLAG);
-			instrs.push_back(flag);
+			instrsPutInstr(PTYPE_SETCFLAG);
+			instrsPutInstr(flag);
 
 		} else if ((*t).IsIdentifier("thruster")) {
 			if (flag_invisible || flag_thrust) (*t).Error("Invalid flag");
@@ -1019,9 +1137,34 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			(*t++).Check(Token::CLOSEBRACKET);
 
 		       	thrust.dir |= (flag_xref ? THRUST_XREF : 0) | (flag_noang ? THRUST_NOANG : 0);
-			thrusters.push_back(thrust);
+			for (int i=0; i<4; i++) {
+				if (lodActive[i]) thrusters[i].push_back(thrust);
+			}
+
+		} else if ((*t).IsIdentifier("objlod")) {
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref || got_lod_prefix) (*t).Error("flags not valid with objlod assignment statement");
+			++t;
+			const char *name = (*t).val.s;
+			(*t++).Check(Token::IDENTIFIER);
+			(*t++).Check(Token::ASSIGN);
+			(*t++).Check(Token::OPENBRACE);
+			int idx = 0;
+			obj_lod slod;
+			for (idx=0; idx<numLods; idx++) {
+				(*t).Check(Token::INTEGER);
+				slod.divs[idx] = (*t++).val.i;
+				if (idx < numLods-1) (*t++).Check(Token::COMMA);
+			}
+			(*t++).Check(Token::CLOSEBRACE);
+
+			if (obj_lods.find(name) == obj_lods.end()) {
+				obj_lods[name] = slod;
+			} else {
+				(*t).Error("Attempted redefinition of obj_lod %s", name);
+			}
 
 		} else {
+			if (flag_noang || flag_invisible || flag_thrust || flag_xref || got_lod_prefix) (*t).Error("flags not valid with assignment statement");
 			// assignment
 			const char *identifier = (*t).val.s;
 			++t;
@@ -1037,118 +1180,80 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			}
 		}
 	}
-	instrs.push_back(PTYPE_END);
+	// all streams must be terminated
+	for (int i=0; i<4; i++) instrs[i].push_back(PTYPE_END);
 }
 
 void parseModel(tokenIter_t &t)
 {
 	const char *modelName;
 	sbre_cache_size = 0;
-	compound_vertex_fixups_in_instrs.clear();
+	for (int i=0; i<4; i++) {
+		compound_vertex_fixups_in_instrs[i].clear();
+		instrs[i].clear();
+		thrusters[i].clear();
+		lodSize[i] = -1;
+	}
+	obj_lods.clear();
 	compound_vertices.clear();
 	vertices.clear();
 	vertex_identifiers.clear();
-	thrusters.clear();
-	instrs.clear();
 	Model *m = new Model;
 	memset(m, 0, sizeof(Model));
 	m->scale = 1.0;
 	m->radius = 1.0;
 
-	// model(name) OR model(name,radius=123.0,scale=234.0)
+	// so start with a single level of detail, full:
+	lodSize[0] = 0;
+
+	// model(name,scale=234.0,radius=123.0)
 	(*t++).Check(Token::OPENBRACKET);
 	(*t).Check(Token::IDENTIFIER);
 	printf("Model %s: ", (*t).val.s);
 	modelName = (*t).val.s;
 	t++;
-	if ((*t).type == Token::COMMA) {
-		do {
-			++t;
-			if ((*t).IsIdentifier("scale")) {
-				++t;
-				(*t++).Check(Token::ASSIGN);
-				m->scale = (*t++).GetFloat();
-			}
-			else if ((*t).IsIdentifier("radius")) {
-				++t;
-				(*t++).Check(Token::ASSIGN);
-				m->radius = (*t++).GetFloat();
-			} else {
-				(*t).Error("Expected scale= or radius=");
-			}
-		} while ((*t).type == Token::COMMA);
-	}
+	(*t++).Check(Token::COMMA);
+	(*t++).MatchIdentifier("scale");
+	(*t++).Check(Token::ASSIGN);
+	m->scale = (*t++).GetFloat();
+	(*t++).Check(Token::COMMA);
+	(*t++).MatchIdentifier("radius");
+	(*t++).Check(Token::ASSIGN);
+	m->radius = (*t++).GetFloat();
 	
 	(*t++).Check(Token::CLOSEBRACKET);
 	(*t++).Check(Token::OPENBRACE);
 
-	float lastLodPixRadius = -1;
-	int lodIdx = -1;
-	// indices into instrs
-	int lodAll = -1, lod[4];
-	float lodPixRads[4];
-	for (int i=0; i<4; i++) lod[i] = -1;
-	memset(lodPixRads, 0, sizeof(lodPixRads));
-
-	struct thrusters_def {
-		int num;
-		int idx;
-	} lodThrusters[5]; // lodThrusters[4] == lodAll thingy
-
-	memset(lodThrusters, 0, sizeof(lodThrusters));
-
-	// read the stinking LOD things
-	while ((*t).type != Token::CLOSEBRACE) {
-		if ((*t).IsIdentifier("all")) {
-			if (lodAll != -1) (*t).Error("Model 'all' geometry already defined");
+	numLods = 1;
+	// see if lod definition exists
+	if ((*t).IsIdentifier("lod")) {
+		++t;
+		(*t++).Check(Token::OPENBRACE);
+		(*t++).IsIdentifier("full");
+		float prevSize = FLT_MAX;
+		while ((*t).type == Token::COMMA) {
 			++t;
-			int tpos = thrusters.size();
-			lodAll = instrs.size();
-			(*t++).Check(Token::OPENBRACE);
-			parseGeomInstructions(t);
-			(*t++).Check(Token::CLOSEBRACE);
-			if (thrusters.size() != tpos) {
-				lodThrusters[4].num = thrusters.size() - tpos;
-				lodThrusters[4].idx = tpos;
+			if (numLods >= 4) (*t).Error("Too many LOD definitions (max 4)");
+			lodSize[numLods] = (*t++).GetFloat();
+			if (lodSize[numLods] > prevSize) {
+				(*t).Error("LOD definitions must be ordered with decreasing pixel size");
 			}
+			(*t++).MatchIdentifier("px");
+			prevSize = lodSize[numLods];
+			numLods++;
 		}
-		else if ((*t).IsIdentifier("lod")) {
-			lodIdx++;
-			if (lodIdx >= 3) (*t).Error("Too many 'lod' geometry entries. MAX 4");
-			++t;
-			float pixRad;
-			if ((*t).IsIdentifier("full")) { pixRad = 0; ++t; }
-			else pixRad = (*t++).GetFloat();
-			// make sure lods are defined with increasing detail
-			// (0 = max, weirdly)
-			if (lastLodPixRadius >= 0) {
-				if (lastLodPixRadius == 0) {
-					(*t).Error("lod full must be the last declared level of detail");
-				} else if (pixRad && (pixRad <= lastLodPixRadius)) {
-					(*t).Error("lod must be specified in order of increasing detail");
-				}
-			}
-			int tpos = thrusters.size();
-			lod[lodIdx] = instrs.size();
-			lastLodPixRadius = pixRad;
-			lodPixRads[lodIdx] = pixRad;
-			(*t++).Check(Token::OPENBRACE);
-			parseGeomInstructions(t);
-			(*t++).Check(Token::CLOSEBRACE);
-			if (thrusters.size() != tpos) {
-				lodThrusters[lodIdx].num = thrusters.size() - tpos;
-				lodThrusters[lodIdx].idx = tpos;
-			}
-		} else {
-			(*t).Error("Expected level of detail (lod) definition");
-		}
+		(*t++).Check(Token::CLOSEBRACE);
 	}
 	
+	parseGeomInstructions(t);
+
 	// apply compound vertex index fixups
 	int complex_fixup_offset = 6 + vertices.size() - IS_COMPLEX;
-	for (int i=0; i<(signed)compound_vertex_fixups_in_instrs.size(); i++) {
-		int fixup_pos = compound_vertex_fixups_in_instrs[i];
-		instrs[fixup_pos] += complex_fixup_offset;
+	for (int _lod=0; _lod<numLods; _lod++) {
+		for (int i=0; i<(signed)compound_vertex_fixups_in_instrs[_lod].size(); i++) {
+			int fixup_pos = compound_vertex_fixups_in_instrs[_lod][i];
+			instrs[_lod][fixup_pos] += complex_fixup_offset;
+		}
 	}
 
 	printf("%d plain vertices, %d compound vertices\n", vertices.size(), compound_vertices.size());
@@ -1162,29 +1267,24 @@ void parseModel(tokenIter_t &t)
 	}
 	m->numCache = sbre_cache_size;
 	
-	// copy instructions to new turd
-	Uint16 *data = new Uint16[instrs.size()];
-	for (int i=0; i<(signed)instrs.size(); i++) {
-		data[i] = instrs[i];
-	}
-
-	for (int i=0; i<4; i++) {
-		m->pLOD[i].pixrad = lodPixRads[i];
-		m->pLOD[i].pData1 = (lod[i] == -1 ? 0 : data + lod[i]);
-		m->pLOD[i].pData2 = (lodAll == -1 ? 0 : data + lodAll);
-		// give it its own lod thrusters + lod all thrusters
-		m->pLOD[i].numThrusters = lodThrusters[i].num + lodThrusters[4].num;
-		m->pLOD[i].pThruster = new Thruster[m->pLOD[i].numThrusters];
-		int pos = 0;
-		for (int j=0; j<lodThrusters[4].num; j++) {
-			m->pLOD[i].pThruster[pos++] = thrusters[lodThrusters[4].idx + j];
+	// for each lod copy instructions and give thrusters
+	for (int _lod=0; _lod<numLods; _lod++) {
+		// real lod idx on model
+		int mlodIdx = numLods-_lod-1;
+		// copy instructions to new turd
+		Uint16 *data = new Uint16[instrs[_lod].size()];
+		for (int i=0; i<(signed)instrs[_lod].size(); i++) {
+			data[i] = instrs[_lod][i];
 		}
-		for (int j=0; j<lodThrusters[i].num; j++) {
-			m->pLOD[i].pThruster[pos++] = thrusters[lodThrusters[i].idx + j];
-		}
-		if(pos != m->pLOD[i].numThrusters) fatal();
 
-		if (lodPixRads[i] == 0) break;
+		m->pLOD[mlodIdx].pixrad = lodSize[_lod];
+		m->pLOD[mlodIdx].pData1 = data;
+		m->pLOD[mlodIdx].pData2 = 0;
+		m->pLOD[mlodIdx].numThrusters = thrusters[_lod].size();
+		m->pLOD[mlodIdx].pThruster = new Thruster[m->pLOD[mlodIdx].numThrusters];
+		for (int j=0; j<(signed)thrusters[_lod].size(); j++) {
+			m->pLOD[mlodIdx].pThruster[j] = thrusters[_lod][j];
+		}
 	}
 
 	// dummy complex vertex
@@ -1206,12 +1306,10 @@ void parseModel(tokenIter_t &t)
 			m->pCVtx[i] = compound_vertices[i];
 		}
 	}
-
+	
 	ppTurdpiledModel[modelNum] = m;
 	models_idx[modelName] = modelNum++;
 	models[modelName] = m;
-
-
 }
 
 void parse(std::vector<Token> &tokens)

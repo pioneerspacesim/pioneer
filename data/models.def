@@ -3,163 +3,193 @@
 #
 # 3d primitive arguments:
 
-# material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
-#   diffuse rgb, specular rgb, shininess, emissive rgb
-# material(0-3)
-#   set material from params->pColor[4]
-# material(animfn=xxx,
-# 	material(dr,dg,db,sr,sg,sb,shininess, er,eg,eb),
-# 	material(dr,dg,db,sr,sg,sb,shininess, er,eg,eb))
-#   animate material between first and second using anim function
-#
-# triangle(vector v1, vector v2, vector v3)
-#
-# quad(vector v1, vector v2, vector v3, vector v4)
-#
-# circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
-#   eg: circle(8, some_vector, v(0,0,1), v(0,1,0), radius=10.0)
-#
-#   vector up - points from the centre of the circle to the circumference, in
-#               any direction
-#
-# cylinder(int steps, vector start, vector end, vector up, radius=float radius)
-#   eg: cylinder(8, v(15,10,0), v(15,20,0), v(0,0,1), radius=10.0)
-#
-# tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
-#   eg: tube(8, poohat1, poohat2, v(0,0,1), innerrad=5.0, outerrad=10.0)
-#
-# extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
-#   eg: extrusion(v(0,0,-10), v(0,0,0), v(0,1,0), radius=1.0, {v(10,10,0), v(15,0,0), v(10,-10,0), v(-10,-10,0), v(-10,10,0)})
-# 
-#   v1,v2,v3,... describes the 2d shape to be extruded into 3d along start->end.
-#   it should be wound counter-clockwise in x,y, with the z coordinate ignored
-#   up is a normal, and should be perpendicular to end-start
-#
-# smooth(int steps, vector start,
-#         ... then two to four of:
-#         hermite(vector pos, vector tan0, vector tan1)
-#         hermite_norm(vector pos1, vector norm0, vector norm1)
-#         line(vector pos)
-# )
-#   makes lovely smooth surface
-#
-# text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
-# text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
-#   draws text from either the global strings array or the params strings
-#   * if animfn used, only drawn if animfn's src parameter is != 0.0
-#
-# subobject(object_name, vector pos, vector normal, vector zaxis [, scale=float, animfn=])
-#   eg:subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
-#   * if animfn used, only drawn if animfn's src parameter is != 0.0
-#
-# thruster(direction, vector position, float size)
-#   eg: xref:notangular:thruster(fwd, v(10,0,0), 30.0)
-#
-#   notangular flag indicates that this thruster should not be used to display
-#   angular acceleration.
-#   'direction' is fwd, rev, up, down, left, right
-#
-# Simple vertex definition:
-#   v(x,y,z) = plain vertex
-#   n(x,y,z) = normalized
-# Complex (composed of other vertices & maybe anim):
-#   vnormal(v1, v2, v3) = n((v2-v1)^(v0-v1)) -- normal to angle v1-v2-v3
-#   vcross(v1,v2) = v1^v2
-#   vlinear(animfn=xxx, v1, v2)
-#   vcubic(animfn=xxx, v1,v2,v3,v4)
-#   vhermite(animfn=xxx, v1,v2,n1,n2) = hermite from v1 to v2, normals n1,n2
-#   vrotate(animfn=xxx, xaxis, zaxis)
-#
-# animfn is of gear, gflap, thrustpulse, lin4sec (see anim_fns[], enum animfunc)
 
-model(hermite_wank) {
-	all {
-		# 1/8th sphere
-		v6 = v(0.0, 5.0, 0.0)
-		v7 = v(-5.0, 0.0, 0.0 )
-		v8 = v(0.0, 0.0, 5.0 )
+model(simple_cargo, scale=1.0, radius=1.0) {
+	lod { full, 20px, 10px }
+	objlod cyl_lod = { 24, 16, 8 }
+	top = v(0,1,0)
+	bottom = v(0,-1,0)
+	textpos = vhermite(v(-1,-1,0), v(1,1,0), v(0,2,0), v(0,-2,0), animfn=gear)
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+	cylinder(cyl_lod, top, bottom, v(1,0,0), radius=1.0)
+	lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
+	lod1:zbias(textpos, v(0,1,0))
+	lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
+}
 
-		v9 = v(-7.0, 0.0, 0.0 )			
-		v10 = v(0.0, 7.0, 0.0 )
-		v11 = v(0.0, 0.0, 7.0 )			
-		material(.2,.0,.2, 1,0,1, 10, 0,0,0)
-		xref:smooth(8, v6,
-			hermite(v7, v9, v10),
-			hermite(v8, v11, v9),
-			hermite(v6, v10, v11))
+model(turd, scale=1.0, radius=50.0) {
+	lod { full, 40px, 20px, 5px }
+	objlod slod_a = { 8, 4, 2, 1 }
+	objlod slod_tube = { 16, 10, 8, 4 }
 
-		material(1, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-		extrusion(v(0,0,0), v(0,0,10), n(0,-1,0), radius=1.0,
-			{
-				v(-3.0, 0.0, 0),
-				v(-2.0, -2.0, 0),
-				v(2.0, -2.0, 0),			
-				v(6.0, 0.0, 0),			
-				v(2.0, 2.0, 0),
-				v(-2.0, 2.0, 0)
-			})
-		xref:notangular:thruster(fwd, v(10,0,0), 30.0)
-		xref:thruster(rev, v(10,0,0), 10.0)
-		xref:thruster(up, v(10,0,0), 20.0)
-		xref:thruster(down, v(10,0,0), 20.0)
-		thruster(left, v(0,0,0), 20.0)
-		thruster(right, v(0,0,0), 20.0)
+	# right bot/top of +z extrusion end
+	box_bot = v(15,-5,50)
+	box_top = v(15,5,50)
+	box_bot_flange = v(16,-5,51)
+	box_top_flange = v(16,5,51)
+	wingtip = v(40,-3,40)
+	front_wingtip = v(15,-5,-30)
+	material(.3,.3,.3, .6,.6,.6, 100, 0,0,0)
+	# rear
+	quad(box_top, v(-15,5,50), v(-15,-5,50), box_bot)
+	# arse flange
+	xref:quad(
+		box_bot,
+		box_bot_flange,
+		box_top_flange,
+		box_top
+	)
+	# arse curved bits
+	xref:smooth(slod_a, 
+		line(wingtip),
+		hermite(box_top_flange, v(-50,0,20), v(50,-30,-20)), # herm 1
+		line(box_bot_flange))
+	# top of wing
+	xref:smooth(slod_a, 
+		hermite(wingtip, v(50,-30,-20), v(-50,0,20)), # herm 1
+		hermite(front_wingtip, v(0,0,-80), v(40,0,40)), # herm 2 leading edge
+#			line(v(15, 5, -30)),
+		line(box_top),
+		line(box_top_flange))
+	# bottom of wing
+	xref:flat(slod_a, v(0,-1,0),
+		line(box_bot),
+		line(front_wingtip),
+		hermite(wingtip, v(40,0,40), v(0,0,-80)), # herm3 leading edge lower
+		line(box_bot_flange))
+	# inner wing bit
+	xref:tri(front_wingtip, box_bot, box_top)
 
-	}
+	# top and bottom at rear
+	quad(box_top, v(15,4.3,45), v(-15,4.3,45), v(-15,5,50))
+	quad(box_bot, v(-15,-5,50), v(-15,-5,35), v(15,-5,35))
+	quad(v(15,-5,35), v(-15,-5,35), v(-15,1,30), v(15,1,30))
+
+	tri(v(-15,4.3,45), v(15,4.3,45), v(0, 3.5, 35))
+#		xref:quad(v(0,4,35), v(15,5,45), v(15,4,35), v(0,3.5,25))
+
+	# make materials be assignable
+	material(.3,0,0, .7,0,0, 100, 0,0,0)
+	xref:tri(v(0,3.5,35),v(15,4.3,45), v(15,3,35))
+	material(.3,.3,.3, .6,.6,.6, 100, 0,0,0)
+	# top body bit
+	xref:smooth(slod_a, 
+		line(v(15,3,35)),
+		hermite(v(0,-1,0), v(0,0,-50), v(10,5,30)),
+		hermite(v(0,3.5,35),v(0,20,30), v(0,0,-30)))
+
+	smooth(slod_a,
+		hermite(v(0,-1,0), v(0,0,-50), v(-10,5,30)),
+		hermite(v(15,3,35), v(10,5,30), v(0,0,-50)),
+		hermite(v(-15,3,35), v(0,-30,0), v(0,-30,0)))
+
+	# front engines
+	xref:smooth(slod_a, 
+		hermite(v(15,-5,-10), v(-10,0,0), v(-10,0,0)),
+		line(v(15,-5,50)),
+		hermite(v(15,5,50), v(-10,0,0), v(-10,0,0)),
+		line(v(15,-2.5,-10)))
+
+	# engines
+	material(.1,.1,.1, .7,.7,.7, 150.0, 0,0,0)
+	
+	# front
+	# rear
+	tube(slod_tube, v(0,0,50), v(0,0,52), v(0,1,0), innerrad=3.5, outerrad=4)
+	xref:tube(slod_tube, v(10,0,50), v(10,0,52), v(0,1,0), innerrad=3.5, outerrad=4)
+	material(animfn=thrustpulse,
+		material(0,0,0, 0,0,0, 0, .2,.2,1),
+		material(0,0,0, 0,0,0, 0, .7,.7,1))
+	# front
+	xref:flat(slod_a, v(0,0,-1),
+		line(v(15,-5,-10)),
+		hermite(v(15,-2.5,-10), v(-10,0,0), v(-10,0,0)))
+	#rear
+	zbias(v(0,0,50), v(0,0,1))
+	circle(slod_tube, v(0,0,50), v(0,0,1), v(0,1,0), radius=3.5)
+	xref:circle(slod_tube, v(10,0,50), v(0,0,1), v(0,1,0), radius=3.5)
+#	xref:circle(slod_tube, v(10,0,3), v(0,0,-1), v(0,1,0), radius=2.5)
+	nozbias()
+
+	xref:notangular:thruster(fwd, v(10,0,50), 50.0)
+	notangular:thruster(fwd, v(0,0,50), 50.0)
+	xref:notangular:thruster(rev, v(14,-3.75,-10), 25.0)
+	# license plate
+	material(.9,.9,.9, 0,0,0, 0, 0,0,0)
+	idtext_pos = v(0, 4.65, 47.5)
+	zbias(idtext_pos, v(0,0,1))
+	lod1:text(params:0, idtext_pos,
+		vnormal(
+		v(-15,4.3,45),
+		v(-15,5,50),
+		box_top
+		),
+		v(1,0,0), scale=3)
+}
+
+model(hermite_wank, scale=1, radius=1) {
+	# 1/8th sphere
+	v6 = v(0.0, 5.0, 0.0)
+	v7 = v(-5.0, 0.0, 0.0 )
+	v8 = v(0.0, 0.0, 5.0 )
+
+	v9 = v(-7.0, 0.0, 0.0 )			
+	v10 = v(0.0, 7.0, 0.0 )
+	v11 = v(0.0, 0.0, 7.0 )			
+	material(.2,.0,.2, 1,0,1, 10, 0,0,0)
+	xref:smooth(8, 
+		hermite(v7, v9, v10),
+		hermite(v8, v11, v9),
+		hermite(v6, v10, v11))
+
+	material(1, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+	extrusion(v(0,0,0), v(0,0,10), n(0,-1,0), radius=1.0,
+		{
+			v(-3.0, 0.0, 0),
+			v(-2.0, -2.0, 0),
+			v(2.0, -2.0, 0),			
+			v(6.0, 0.0, 0),			
+			v(2.0, 2.0, 0),
+			v(-2.0, 2.0, 0)
+		})
+	xref:notangular:thruster(fwd, v(10,0,0), 30.0)
+	xref:thruster(rev, v(10,0,0), 10.0)
+	xref:thruster(up, v(10,0,0), 20.0)
+	xref:thruster(down, v(10,0,0), 20.0)
+	thruster(left, v(0,0,0), 20.0)
+	thruster(right, v(0,0,0), 20.0)
 }
 
 model(junk, scale=1.5, radius=1.0) {
-	all {
-		subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
-		subobject(hermite_wank, v(0,0,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
-	}
-	lod 5 {
-		xref:tube(8, v(15,-20,0), vlinear(animfn=gear, v(15,-15,0), v(15,-10,0)), v(0,0,1), innerrad=5.0, outerrad=10.0)
-		geomflag(10)
-		quad(v(1,-2,0), v(1,-1,0), v(0,-1,0), v(0,-2,0))
-		circle(8, v(15,0,0), v(0,0,1), v(0,1,0), radius=10.0)
-		xref:cylinder(8, v(15,10,0), v(15,20,0), v(0,0,1), radius=10.0)
-	}
-	lod full {
-		xref:tube(16, v(15,-20,0), vlinear(animfn=gear, v(15,-15,0), v(15,-10,0)), v(0,0,1), innerrad=5.0, outerrad=10.0)
-		quad(v(1,-2,0), v(1,-1,0), v(0,-1,0), v(0,-2,0))
-		circle(16, v(15,0,0), v(0,0,1), v(0,1,0), radius=10.0)
-		xref:cylinder(16, v(15,10,0), v(15,20,0), v(0,0,1), radius=10.0)
-	}
+	lod { full, 5px, 2.5px }
+	objlod arse = { 16, 10, 8 }
+	
+	material(.5,.5,.5,0,0,0, 0, 0,0,0)
+	geomflag(10)
+	xref:tube(arse, v(15,-20,0), vlinear(v(15,-15,0), v(15,-10,0), animfn=gear), v(0,0,1), innerrad=5.0, outerrad=10.0)
+	quad(v(1,-2,0), v(1,-1,0), v(0,-1,0), v(0,-2,0))
+	circle(arse, v(15,0,0), v(0,0,1), v(0,1,0), radius=10.0)
+	xref:cylinder(arse, v(15,10,0), v(15,20,0), v(0,0,1), radius=10.0)
+
+	subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
+	subobject(hermite_wank, v(0,0,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
 }
 
-model(cargo, scale=1.0, radius=2.0) {
-	lod 10.0 {
-		cylinder(6, v(0,1,0), v(0,-1,0), v(1,0,0), radius=1.0)
-	}
-	lod 20.0 {
-		cylinder(8, v(0,1,0), v(0,-1,0), v(1,0,0), radius=1.0)
-	}
-	lod full {
-		material(0)
-		tube(16, v(0,1,0), v(0,-1,0), v(1,0,0), innerrad=0.9, outerrad=1.0)
-		cylinder(16, v(0,0.8,0), v(0,-0.8,0), v(1,0,0), radius=0.9)
-		material(animfn=gear,
-			material(1,0,0, 0,0,0, 0, 0,0,0),
-			material(0,0,1, 0,0,0, 0, 0,0,0))
-		zbias(v(0,0.8,0), v(0,1,0))
-		textpos = vhermite(animfn=gear, v(-10,-10,0),v(10,10,0), v(0,50,0),v(0,-50,0))
-		text(params:0, textpos, v(0,1,0), v(1,0,0), scale=1, animfn=gear)
-	}
-}
+model(cargo, scale=1.0, radius=1.0) {
+	lod { full, 20px, 10px }
+	objlod cyl_lod = { 16, 16, 8 }
 
-model(hermite_wank, scale=20) {
-	all {
-		smooth(16, v(0,0,0),
-			line(v(1,0,0)),
-			hermite_norm(v(1,1,1), v(0,0,1), v(0,-1,0)),
-			line(v(0,1,1)),
-			hermite_norm(v(0,0,0), v(0,-1,0), v(0,0,1)))
-		smooth(16, v(0,0,0),
-			hermite(v(0,-1,1), v(0,-1,0), v(0,0,-1)),
-			line(v(1,-1,1)),
-			hermite(v(1,0,0), v(0,0,-1), v(0,-1,0)),
-			line(v(0,0,0)))
-	}
+	top = v(0,1,0)
+	bottom = v(0,-1,0)
+	textpos = v(0,0.8,0)
+
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+	lod2:lod3:cylinder(cyl_lod, top, bottom, v(1,0,0), radius=1.0)
+	
+	lod1:tube(16, top, bottom, v(1,0,0), innerrad=0.9, outerrad=1.0)
+	lod1:cylinder(16, textpos, v(0,-0.8,0), v(1,0,0), radius=0.9)
+	lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
+	lod1:zbias(textpos, v(0,1,0))
+	lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
 }
 
