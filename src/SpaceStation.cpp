@@ -8,13 +8,13 @@
 #include "Pi.h"
 
 struct SpaceStationType {
-	Uint32 sbreModel;
+	const char *sbreModelName;
 	enum { ORBITAL, SURFACE } dockMethod;
 };
 
 struct SpaceStationType stationTypes[SpaceStation::TYPE_MAX] = {
-	{ 65, SpaceStationType::ORBITAL },
-	{ 90, SpaceStationType::SURFACE },
+	{ "65", SpaceStationType::ORBITAL },
+	{ "90", SpaceStationType::SURFACE },
 };
 
 void SpaceStation::Save()
@@ -106,9 +106,14 @@ SpaceStation::SpaceStation(TYPE type): ModelBody()
 
 void SpaceStation::Init()
 {
-	const Uint32 sbreModel = stationTypes[m_type].sbreModel;
+	int sbreModel = 0;
+	try {
+		sbreModel = sbreLookupModelByName(stationTypes[m_type].sbreModelName);
+	} catch (int e) {
+		printf("Could not find model '%s'.\n", stationTypes[m_type].sbreModelName);
+		Pi::Quit();
+	}
 	SetModel(sbreModel);
-
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
 	for (int i=0; i<mset->numMeshParts; i++) {
 		if (mset->meshInfo[i].flags & 0x10) GetDockingSurface(mset, i);
@@ -258,5 +263,5 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 
 void SpaceStation::Render(const Frame *camFrame)
 {
-	RenderSbreModel(camFrame, stationTypes[m_type].sbreModel, &params);
+	RenderSbreModel(camFrame, &params);
 }

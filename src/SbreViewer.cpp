@@ -394,7 +394,7 @@ void Viewer::MainLoop()
 
 int main(int argc, char **argv)
 {
-	sbreCompilerLoadTurds();
+	sbreCompilerLoadModels();
 	if ((argc>1) && (0==strcmp(argv[1],"--help"))) {
 		printf("Usage:\n\nSbreViewer <model number> <width> <height>\n");
 		exit(0);

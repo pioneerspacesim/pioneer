@@ -16,6 +16,41 @@ static const char * const anim_fns[] = {
 	"gear", "gflap", "thrustpulse", "lin4sec", 0
 };
 
+// this nonsense all needs to be removed after compiling models....
+#define IS_COMPLEX (0x4000)
+int modelNum = SBRE_COMPILED_MODELS;
+static std::map<std::string, Model*> models;
+static std::map<std::string, int> models_idx;
+static std::vector<Vector> vertices;
+static std::map<std::string, int> vertex_identifiers;
+static std::vector<Uint16> instrs[4];
+static int lodSize[4]; // -1 = inactive
+static bool lodActive[4]; // for this instruction
+static int numLods;
+int sbre_cache_size;
+static std::vector<CompoundVertex> compound_vertices;
+static std::vector<int> compound_vertex_fixups_in_instrs[4];
+static std::vector<Thruster> thrusters[4];
+struct obj_lod {
+	int divs[4];
+};
+static std::map<std::string, obj_lod> obj_lods;
+
+int sbreLookupModelByName(const char *name)
+{
+	int idx;
+	std::map<std::string, int>::iterator i = models_idx.find(name);
+	if (i != models_idx.end()) return (*i).second;
+	else if (sscanf(name, "%d", &idx) == 1) {
+		return idx;
+	} else {
+		// hm. never thrown an exception before in c++. is this a
+		// slippery slope to oblivion?
+		throw -1;
+	}
+}
+
+
 static void fatal()
 {
 	printf("Internal compiler error (bug)\n");
@@ -188,26 +223,6 @@ void lex(const char *crud, std::vector<Token> &tokens)
 }
 
 typedef std::vector<Token>::iterator tokenIter_t;
-
-#define IS_COMPLEX (0x4000)
-
-int modelNum = SBRE_COMPILED_MODELS;
-static std::map<std::string, Model*> models;
-static std::map<std::string, int> models_idx;
-static std::vector<Vector> vertices;
-static std::map<std::string, int> vertex_identifiers;
-static std::vector<Uint16> instrs[4];
-static int lodSize[4]; // -1 = inactive
-static bool lodActive[4]; // for this instruction
-static int numLods;
-int sbre_cache_size;
-static std::vector<CompoundVertex> compound_vertices;
-static std::vector<int> compound_vertex_fixups_in_instrs[4];
-static std::vector<Thruster> thrusters[4];
-struct obj_lod {
-	int divs[4];
-};
-static std::map<std::string, obj_lod> obj_lods;
 
 static void parseObjectLod(tokenIter_t &t, Uint16 objLod[4])
 {
@@ -1329,7 +1344,7 @@ void parse(std::vector<Token> &tokens)
 	}
 }
 
-void sbreCompilerLoadTurds()
+void sbreCompilerLoadModels()
 {
 	FILE *f = fopen("data/models.def", "r");
 

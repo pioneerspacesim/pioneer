@@ -102,8 +102,15 @@ void Ship::Load()
 void Ship::Init()
 {
 	const ShipType &stype = GetShipType();
-	SetModel(stype.sbreModel);
-	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(stype.sbreModel));
+	int sbreModel = 0;
+	try {
+		sbreModel = sbreLookupModelByName(stype.sbreModelName);
+	} catch (int e) {
+		printf("Could not find model '%s'.\n", stype.sbreModelName);
+		Pi::Quit();
+	}
+	SetModel(sbreModel);
+	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(sbreModel));
 	UpdateMass();
 	m_stats.hull_mass_left = (float)stype.hullMass;
 }
@@ -567,7 +574,6 @@ static void render_coll_mesh(const CollMesh *m)
 void Ship::Render(const Frame *camFrame)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
-	const ShipType &stype = GetShipType();
 	params.angthrust[0] = -m_angThrusters[0];
 	params.angthrust[1] = -m_angThrusters[1];
 	params.angthrust[2] = -m_angThrusters[2];
@@ -581,7 +587,7 @@ void Ship::Render(const Frame *camFrame)
 	params.pAnim[ASRC_GEAR] = m_wheelState;
 	params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderSbreModel(camFrame, stype.sbreModel, &params);
+	RenderSbreModel(camFrame, &params);
 
 	if (IsFiringLasers()) {
 		glPushMatrix();

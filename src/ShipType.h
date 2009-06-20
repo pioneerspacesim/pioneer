@@ -13,7 +13,7 @@ struct ShipType {
 
 	////////
 	const char *name;
-	int sbreModel;
+	const char *sbreModelName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	struct GunMount {

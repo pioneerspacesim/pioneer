@@ -65,6 +65,6 @@ void CargoBody::Render(const Frame *camFrame)
 {
 	if (!IsEnabled()) return;
 	strncpy(params.pText[0], EquipType::types[m_type].name, 256);
-	RenderSbreModel(camFrame, 92, &params);
+	RenderSbreModel(camFrame, &params);
 }
 

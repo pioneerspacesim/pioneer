@@ -110,6 +110,7 @@ void Pi::Init(IniConfig &config)
 
 	Pi::rng.seed(time(NULL));
 
+	sbreCompilerLoadModels();
 	NameGenerator::Init();
 	InitOpenGL();
 

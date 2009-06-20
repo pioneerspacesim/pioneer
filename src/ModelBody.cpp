@@ -12,6 +12,7 @@
 ModelBody::ModelBody(): Body()
 {
 	m_collMeshSet = 0;
+	m_sbreModel = 0;
 	m_geom = 0;
 }
 
@@ -51,6 +52,7 @@ void ModelBody::GetAabb(Aabb &aabb)
 void ModelBody::SetModel(int sbreModel)
 {
 	assert(m_geom == 0);
+	m_sbreModel = sbreModel;
 	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
 	
 	m_geom = new Geom(mset->m_geomTree);
@@ -116,7 +118,7 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 	m_geom->MoveTo(currentTransform);
 }
 
-void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *params)
+void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 {
 	glPushMatrix();
 	glMatrixMode(GL_PROJECTION);
@@ -145,7 +147,7 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, int model, ObjParams *par
 		frameTrans.ClearToRotOnly();
 		rot = frameTrans * rot;
 
-		sbreRenderModel(&pos.x, &rot[0], model, params);
+		sbreRenderModel(&pos.x, &rot[0], m_sbreModel, params);
 		glPopAttrib();
 	}
 	glMatrixMode(GL_PROJECTION);

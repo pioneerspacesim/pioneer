@@ -27,16 +27,18 @@ public:
 	virtual void Enable();
 	void GetAabb(Aabb &aabb);
 	Geom *GetGeom() { return m_geom; }
+	int GetSbreModel() const { return m_sbreModel; }
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(int sbreModel);
 
-	void RenderSbreModel(const Frame *camFrame, int model, ObjParams *params);
+	void RenderSbreModel(const Frame *camFrame, ObjParams *params);
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
 	CollMeshSet *m_collMeshSet;
+	int m_sbreModel;
 	Geom *m_geom;
 };
 

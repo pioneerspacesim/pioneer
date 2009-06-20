@@ -175,11 +175,11 @@ void InfoView::Draw3D()
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	Matrix m;
-	const ShipType &stype = Pi::player->GetShipType();
+	int sbre_model = Pi::player->GetSbreModel();
 
 	vector3d p(0, 0, -100);
 	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
-	sbreRenderModel(&p.x, &rot[0], stype.sbreModel, &params);
+	sbreRenderModel(&p.x, &rot[0], sbre_model, &params);
 	glPopAttrib();
 }
 
