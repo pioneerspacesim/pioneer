@@ -1,27 +1,95 @@
 #
 # Winding is always CCW. DEVIATION SHOULD BE CONSIDERED A BUG!!11
 #
-# 3d primitive arguments:
+# To get an idea of scale, a double-decker bus is 11m long and a
+# boeing 747 is 71m long
 
-
-model(simple_cargo, scale=1.0, radius=1.0) {
-	lod { full, 20px, 10px }
-	objlod cyl_lod = { 24, 16, 8 }
-	top = v(0,1,0)
-	bottom = v(0,-1,0)
-	textpos = vhermite(v(-1,-1,0), v(1,1,0), v(0,2,0), v(0,-2,0), animfn=gear)
-	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
-	cylinder(cyl_lod, top, bottom, v(1,0,0), radius=1.0)
-	lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
-	lod1:zbias(textpos, v(0,1,0))
-	lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
+model(nosewheel, scale=1.0, radius=7.0) {
+	lod { full, 4px }
+	objlod a = { 8, 4 }
+	v6 = v(0, 0, 0)
+	v7 = v(0, 3, 0)
+	v8 = v(0, 5, 0)
+	material(.5, .5, .5, .5, .5, .5, 2.0, 0, 0, 0)
+	cylinder(a, v6, v8, v(0,0,1), radius=.4)
+	cylinder(a, v7, v8, v(0,0,1), radius=.5)
+	material(.3, .3, .3, 0,0,0, 1, 0, 0, 0)
+	xref:cylinder(a, v(.5,5,0), v(1,5,0), v(0,0,1), radius=1.0)
 }
 
-model(turd, scale=1.0, radius=50.0) {
+model(nosewheelunit, scale=1.0, radius=7.0) {
+	lod { full }
+	v6 = v(1.5, 0, 6) # flaps
+	v7 = v(1.5, 0, -1)
+	v8 = v(0, 0, 6)
+	v9 = v(0, 0, -1)
+	v10 = v(1.5, 1.5, 6)
+	v11 = v(1.5, 1.5, -1)
+	tan1 = v(0, 1.5, 0) # tangents
+	tan2 = v(-1.5, 0, 0)
+
+	v20 = vhermite(v8, v10, tan1, tan2, animfn=gflap)
+	v21 = vhermite(v9, v11, tan1, tan2, animfn=gflap)
+	v22 = vlinear(v(0,0,1), v(0,1,0), animfn=gear)
+	v23 = vcross(v(1,0,0), v22)
+
+	material(.2,.2,.2, 0,0,0, 1, 0,0,0)
+	xref:quad(v8, v6, v7, v9) # flap internal
+	material(2)
+	xref:quad(v6, v20, v21, v7)
+	xref:quad(v6, v7, v21, v20)
+
+	subobject(nosewheel, v(0,0,0), v22, v23, scale=1.0)
+}
+
+model(mainwheel, scale=1, radius=8) {
+	lod { full, 50px, 10px }
+	objlod a = { 16, 8, 4 }
+	v6 = v(0,0,0)
+	v7 = v(0,3,0)
+	v8 = v(0,5,0)
+	v13 = v(0, 5, 1.4) # crossbar
+	v14 = v(0, 5, -1.4)
+
+	material(.5,.5,.5, 1,1,1, 2, 0,0,0)
+	cylinder(a, v6, v8, v(0,0,1), radius=.4)
+	cylinder(a, v7, v8, v(0,0,1), radius=.5)
+	cylinder(4, v13, v14, v(1,0,0), radius=.5)
+	material(.3,.3,.3, 0,0,0, 1, 0,0,0)
+	xref:cylinder(a, v(.5, 5, 1.1), v(1, 5, 1.1), v(0,0,1), radius=1)
+	xref:cylinder(a, v(.5, 5, -1.1), v(1, 5, -1.1), v(0,0,1), radius=1)
+}
+
+
+model(mainwheelunit, scale=1.0, radius=8.0) {
+	lod { full }
+	v6 = v(1.5, 0, 6) # flap
+	v7 = v(1.5, 0, -1)
+	v8 = v(0, 0, 6)
+	v9 = v(0, 0, -1)
+	v10 = v(1.5, 1.5, 6)
+	v11 = v(1.5, 1.5, -1)
+	tan1 = v(0, 1.5, 0)
+	tan2 = v(-1.5, 0, 0)
+	v20 = vhermite(v8, v10, tan1, tan2, animfn=gflap)
+	v21 = vhermite(v9, v11, tan1, tan2, animfn=gflap)
+	v22 = vlinear(v(0,0,1), v(0,1,0), animfn=gear)
+	v23 = vcross(v(1,0,0), v22)
+
+	material(.2,.2,.2, 0,0,0, 1, 0,0,0)
+	xref:quad(v8, v6, v7, v9) # flap internal
+	material(2)
+	xref:quad(v6, v20, v21, v7)
+	xref:quad(v6, v7, v21, v20)
+	subobject(mainwheel, v(0,0,0), v22, v23, scale=1.0)
+}
+
+# Ship 
+model(taipan, scale=1.0, radius=50.0) {
 	lod { full, 40px, 20px, 5px }
 	objlod slod_a = { 8, 4, 2, 1 }
 	objlod slod_tube = { 16, 10, 8, 4 }
-
+	
 	# right bot/top of +z extrusion end
 	box_bot = v(15,-5,50)
 	box_top = v(15,5,50)
@@ -111,9 +179,6 @@ model(turd, scale=1.0, radius=50.0) {
 #	xref:circle(slod_tube, v(10,0,3), v(0,0,-1), v(0,1,0), radius=2.5)
 	nozbias()
 
-	xref:notangular:thruster(fwd, v(10,0,50), 50.0)
-	notangular:thruster(fwd, v(0,0,50), 50.0)
-	xref:notangular:thruster(rev, v(14,-3.75,-10), 25.0)
 	# license plate
 	material(.9,.9,.9, 0,0,0, 0, 0,0,0)
 	idtext_pos = v(0, 4.65, 47.5)
@@ -125,6 +190,23 @@ model(turd, scale=1.0, radius=50.0) {
 		box_top
 		),
 		v(1,0,0), scale=3)
+	
+	xref:notangular:thruster(fwd, v(10,0,50), 50.0)
+	notangular:thruster(fwd, v(0,0,50), 50.0)
+	xref:notangular:thruster(rev, v(14,-3.75,-10), 25.0)
+	
+	xref:thruster(down, v(18, 5, 45), 10.0)
+	xref:thruster(down, v(18, -4, -20), 10.0)
+	xref:thruster(up, v(18, -5, 45), 10.0)
+	xref:thruster(up, v(18, -5, -20), 10.0)
+
+	thruster(left, v(18, 0, 50), 15.0)
+	thruster(right, v(-18, 0, 50), 15.0)
+	
+	subobject(nosewheelunit, v(22,-5,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
+	subobject(nosewheelunit, v(-22,-5,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
+	subobject(mainwheelunit, v(12,-5,40), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
+	subobject(mainwheelunit, v(-12,-5,40), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
 }
 
 model(hermite_wank, scale=1, radius=1) {
@@ -176,7 +258,7 @@ model(junk, scale=1.5, radius=1.0) {
 }
 
 model(cargo, scale=1.0, radius=1.0) {
-	lod { full, 20px, 10px }
+	lod { full, 10px, 5px }
 	objlod cyl_lod = { 16, 16, 8 }
 
 	top = v(0,1,0)

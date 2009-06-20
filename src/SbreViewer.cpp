@@ -400,7 +400,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 	if (argc > 1) {
-		g_model = atoi(argv[1]);
+		g_model = sbreLookupModelByName(argv[1]);
 	}
 	if (argc == 4) {
 		g_width = atoi(argv[2]);

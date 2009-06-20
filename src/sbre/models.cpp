@@ -1526,37 +1526,6 @@ static uint16 tombstonedata[] = {
 Model tombstonemodel = { 10.0f, 2.0f, 18, tombstonevtx1, 18, 0, dummyvtx2, 1,
 	{ { 0, tombstonedata, 0, 0, 0 } } };
 
-static PlainVertex cargovtx1[] = {
-	{ VTYPE_PLAIN, { 0, 0.8f, 0 } },
-	{ VTYPE_PLAIN, { 0, -0.8f, 0 } },
-};
-
-static uint16 cargodata[] = {
-	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_TUBE, 0x8000, 16, 1, 4, 0, 100, 90,
-	PTYPE_CYLINDER, 0x8000, 16, 6, 7, 0, 90,
-	PTYPE_MATFIXED, 100, 0, 0, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_ZBIAS, 1, 1, 0,
-	PTYPE_TEXT, 0x8000, 0, 6, 1, 3, 0, 0, 10,
-	PTYPE_ZBIAS, 4, 4, 0,
-	PTYPE_TEXT, 0x8000, 0, 7, 4, 0, 0, 0, 10,
-	PTYPE_END
-};
-
-static uint16 cargodata_lod2[] = {
-	PTYPE_MATFIXED, 50, 50, 50, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_CYLINDER, 0x8000, 8, 1, 4, 0, 100,
-	PTYPE_END
-};
-
-Model cargomodel = { 1.0f, 2.0f, 8, cargovtx1, 8, 0, dummyvtx2, 1,
-	{ 
-		{ 20, cargodata_lod2, 0, 0, 0 } ,
-		{ 0, cargodata, 0, 0, 0  },
-	} };
-
-
-
 static PlainVertex ship6vtx1[] = {
 	{ VTYPE_PLAIN, { 0.0f, 0.0f, -50.0f } },			// 6, nose
 	{ VTYPE_PLAIN, { 0.0f, 5.0f, -25.0f } },			// 7, front cockpit

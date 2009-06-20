@@ -9,6 +9,7 @@
 #include <float.h>
 #include "sbre_int.h"
 #include "sbre_models.h"
+#include "sbre.h"
 
 #define MAX_TOKEN_LEN 64
 
@@ -36,7 +37,7 @@ struct obj_lod {
 };
 static std::map<std::string, obj_lod> obj_lods;
 
-int sbreLookupModelByName(const char *name)
+int sbreLookupModelByName(const char *name) throw (SbreModelNotFoundException)
 {
 	int idx;
 	std::map<std::string, int>::iterator i = models_idx.find(name);
@@ -46,7 +47,7 @@ int sbreLookupModelByName(const char *name)
 	} else {
 		// hm. never thrown an exception before in c++. is this a
 		// slippery slope to oblivion?
-		throw -1;
+		throw SbreModelNotFoundException();
 	}
 }
 
@@ -389,9 +390,6 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::COMMA);
 		Uint16 v3 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::CLOSEBRACKET);
-		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX) ||
-		    (v3 & IS_COMPLEX)) (*t).Error("Cannot declare vnormal() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_NORM, v1, v2, v3, -1, -1);
 	
@@ -403,8 +401,6 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::COMMA);
 		Uint16 v2 = parseVtxOrVtxRef(t);
 		(*t++).Check(Token::CLOSEBRACKET);
-		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vcross() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_CROSS, v1, v2, -1, -1, -1);
 
@@ -418,8 +414,6 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::COMMA);
 		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
-		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vlinear() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_ANIMLIN, v1, v2, -1, -1, animfn);
 
@@ -437,10 +431,6 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::COMMA);
 		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
-		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX) ||
-		    (v3 & IS_COMPLEX) ||
-		    (v4 & IS_COMPLEX)) (*t).Error("Cannot declare vcubic() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_ANIMCUBIC, v1, v2, v3, v4, animfn);
 	
@@ -458,10 +448,6 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::COMMA);
 		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
-		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX) ||
-		    (n1 & IS_COMPLEX) ||
-		    (n2 & IS_COMPLEX)) (*t).Error("Cannot declare vhermite() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_ANIMHERM, v1, v2, n1, n2, animfn);
 	
@@ -475,8 +461,6 @@ static int parseNewVertex(tokenIter_t &t)
 		(*t++).Check(Token::COMMA);
 		int animfn = parseAnimFunc(t);
 		(*t++).Check(Token::CLOSEBRACKET);
-		if ((v1 & IS_COMPLEX) ||
-		    (v2 & IS_COMPLEX)) (*t).Error("Cannot declare vrotate() using other complex vertices");
 
 		return addCompoundVtx(VTYPE_ANIMROTATE, v1, v2, -1, -1, animfn);
 
@@ -1137,9 +1121,9 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 				thrust.dir = 0;
 			} else if ((*t).IsIdentifier("right")) {
 				thrust.dir = 3;
-			} else if ((*t).IsIdentifier("up")) {
-				thrust.dir = 1;
 			} else if ((*t).IsIdentifier("down")) {
+				thrust.dir = 1;
+			} else if ((*t).IsIdentifier("up")) {
 				thrust.dir = 4;
 			} else {
 				(*t).Error("Expected thruster direction (fwd, rev, left, right, up, down)");
@@ -1319,6 +1303,11 @@ void parseModel(tokenIter_t &t)
 		m->pCVtx = new CompoundVertex[compound_vertices.size()];
 		for (int i=0; i<(signed)compound_vertices.size(); i++) {
 			m->pCVtx[i] = compound_vertices[i];
+			/* fixup arg refs to complex vertices */
+			for (int p=0; p<5; p++) {
+				if (m->pCVtx[i].pParam[p] & IS_COMPLEX)
+					m->pCVtx[i].pParam[p] += complex_fixup_offset;
+			}
 		}
 	}
 	

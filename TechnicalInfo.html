@@ -125,7 +125,7 @@ flat(int steps, vector normal,
 )
 text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
 text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
-subobject(object_name, vector pos, vector normal, vector zaxis [, scale=float, animfn=])
+subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
 thruster(direction, vector position, float size)
 geomflag(int)
 </pre>
@@ -232,7 +232,7 @@ text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale
   draws text from either the global strings array or the params strings
   * if animfn used, only drawn if animfn's src parameter is != 0.0
 
-subobject(object_name, vector pos, vector normal, vector zaxis [, scale=float, animfn=])
+subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
   eg:subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
   * if animfn used, only drawn if animfn's src parameter is != 0.0
 

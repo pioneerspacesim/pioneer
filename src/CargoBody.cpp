@@ -38,10 +38,11 @@ void CargoBody::Load()
 
 void CargoBody::Init()
 {
+	int sbrebody = sbreLookupModelByName("cargo");
 	m_hitpoints = 1.0f;
 	SetLabel(EquipType::types[m_type].name);
-	SetModel(92);
-	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(92));
+	SetModel(sbrebody);
+	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(sbrebody));
 }
 
 CargoBody::CargoBody(Equip::Type t)

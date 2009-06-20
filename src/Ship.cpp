@@ -105,7 +105,7 @@ void Ship::Init()
 	int sbreModel = 0;
 	try {
 		sbreModel = sbreLookupModelByName(stype.sbreModelName);
-	} catch (int e) {
+	} catch (SbreModelNotFoundException) {
 		printf("Could not find model '%s'.\n", stype.sbreModelName);
 		Pi::Quit();
 	}

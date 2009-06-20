@@ -109,7 +109,7 @@ void SpaceStation::Init()
 	int sbreModel = 0;
 	try {
 		sbreModel = sbreLookupModelByName(stationTypes[m_type].sbreModelName);
-	} catch (int e) {
+	} catch (SbreModelNotFoundException) {
 		printf("Could not find model '%s'.\n", stationTypes[m_type].sbreModelName);
 		Pi::Quit();
 	}

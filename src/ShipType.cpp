@@ -28,6 +28,17 @@ const ShipType ShipType::types[] = {
 		{ 20, 1, 1, 0 },
 		60, 15,
 	}, {
+		"Taipan",
+		"taipan",
+		{ 4e6,-4e6,1e6,-1e6,-1e6,1e6 },
+		1e7,
+		{
+			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
+			{ vector3f(0,0,0), vector3f(0,0,1) }
+		},
+		{ 144, 1, 1, 0 },
+		240, 96,
+	}, {
 		"Flowerfairy Heavy Trader",
 		"63",
 		{ 1e6,-1e6,1e6,-1e6,-1e6,1e6 },
