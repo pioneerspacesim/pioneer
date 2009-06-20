@@ -3,6 +3,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "WorldView.h"
+#include <map>
 
 #define TEXSIZE	128
 #define ADD_VIDEO_WIDGET	Add(new DeadVideoLink(295,285), 5, 40)
@@ -91,97 +92,20 @@ private:
 
 class StationSubView: public Gui::Fixed {
 public:
-	StationSubView(SpaceStationView *parent): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64)) {
-		m_parent = parent;
+	StationSubView(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64)) {
 	}
-protected:
-	SpaceStationView *m_parent;
-};
-
-/////////////////////////////////////////////////////////////////////////////
-
-class StationFrontView: public StationSubView {
-public:
-	StationFrontView(SpaceStationView *parent);
-	virtual void ShowAll();
-private:
-	void OnClickRequestLaunch()
-	{
-		Pi::player->SetDockedWith(0,0);
-		Pi::SetView(Pi::worldView);
-	}
-
-	void OnClickGotoShipYard() {
-		m_parent->GotoShipyard();
-	}
-
-	void OnClickGotoCommodities() {
-		m_parent->GotoCommodities();
+	void GoBack() {
+		GetParent()->RemoveChild(this);
+		GetParent()->ShowChildren();
+		delete this;
 	}
 };
 
-StationFrontView::StationFrontView(SpaceStationView *parent): StationSubView(parent)
-{
-	SetTransparency(false);
-}
-
-void StationFrontView::ShowAll()
-{
-	DeleteAllChildren();
-	SpaceStation *station = Pi::player->GetDockedWith();
-	if (!station) return;
-	{
-		char buf[256];
-		snprintf(buf, sizeof(buf), "Welcome to %s", station->GetLabel().c_str());
-		Add(new Gui::Label(buf), 10, 10);
-	}
-	Gui::Label *l = new Gui::Label("Hello friend! Thankyou for docking with this space station!\n"
-	"You may have noticed that the docking procedure was not entirely "
-	"physically correct. This is a result of unimplemented physics in this "
-	"region of the galaxy. We hope to have things back to normal within a "
-	"few weeks, and in the mean time would like to offer our apologies for "
-	"any loss of earnings, immersion or lunch.  "
-	"Currently the usual space station services are not available, but we "
-	"can offer you this promotional message from one of the station's sponsors:\n"
-	"                       DIET STEAKETTE: IT'S BAD");
-
-	Gui::Fixed *fbox = new Gui::Fixed(450, 400);
-	fbox->Add(l, 0, 0);
-	Add(fbox, 320, 40);
-	fbox->ShowAll();
-
-	Gui::SolidButton *b = new Gui::SolidButton();
-	b->SetShortcut(SDLK_1, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickRequestLaunch));
-	Add(b, 340, 240);
-	l = new Gui::Label("Request Launch");
-	Add(l, 365, 240);
-
-	b = new Gui::SolidButton();
-	b->SetShortcut(SDLK_2, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickGotoShipYard));
-	Add(b, 340, 300);
-	l = new Gui::Label("Shipyard");
-	Add(l, 365, 300);
-
-	b = new Gui::SolidButton();
-	b->SetShortcut(SDLK_3, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &StationFrontView::OnClickGotoCommodities));
-	Add(b, 340, 360);
-	l = new Gui::Label("Commodity market");
-	Add(l, 365, 360);
-
-	ADD_VIDEO_WIDGET;
-
-	Gui::Fixed::ShowAll();
-}
-
-#include <map>
 ////////////////////////////////////////////////////////////////////
 
 class StationCommoditiesView: public StationSubView {
 public:
-	StationCommoditiesView(SpaceStationView *parent);
+	StationCommoditiesView();
 private:
 	virtual void ShowAll();
 	void OnClickBuy(int commodity_type) {
@@ -213,7 +137,7 @@ private:
 	SpaceStation *m_station;
 };
 
-StationCommoditiesView::StationCommoditiesView(SpaceStationView *parent): StationSubView(parent)
+StationCommoditiesView::StationCommoditiesView(): StationSubView()
 {
 	SetTransparency(false);
 }
@@ -232,6 +156,11 @@ void StationCommoditiesView::ShowAll()
 		snprintf(buf, sizeof(buf), "Welcome to %s commodities market", m_station->GetLabel().c_str());
 		Add(new Gui::Label(buf), 10, 10);
 	}
+
+	Gui::Button *backButton = new Gui::SolidButton();
+	backButton->onClick.connect(sigc::mem_fun(this, &StationCommoditiesView::GoBack));
+	Add(backButton,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
 
 	m_money = new Gui::Label("");
 	Add(m_money, 10, 450);
@@ -300,19 +229,19 @@ void StationCommoditiesView::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
-class StationShipyardView: public StationSubView {
+class StationShipUpgradesView: public StationSubView {
 public:
-	StationShipyardView(SpaceStationView *parent);
+	StationShipUpgradesView();
 private:
 	virtual void ShowAll();
 };
 
-StationShipyardView::StationShipyardView(SpaceStationView *parent): StationSubView(parent)
+StationShipUpgradesView::StationShipUpgradesView(): StationSubView()
 {
 	SetTransparency(false);
 }
 
-void StationShipyardView::ShowAll()
+void StationShipUpgradesView::ShowAll()
 {
 	DeleteAllChildren();
 
@@ -325,6 +254,11 @@ void StationShipyardView::ShowAll()
 		Add(new Gui::Label(buf), 10, 10);
 	}
 	
+	Gui::Button *backButton = new Gui::SolidButton();
+	backButton->onClick.connect(sigc::mem_fun(this, &StationShipUpgradesView::GoBack));
+	Add(backButton,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
+
 	Gui::Fixed *fbox = new Gui::Fixed(470, 200);
 	Add(fbox, 320, 40);
 
@@ -373,45 +307,191 @@ void StationShipyardView::ShowAll()
 	Gui::Fixed::ShowAll();
 }
 
+////////////////////////////////////////////////////////////////////
+
+class StationBuyShipsView: public StationSubView {
+public:
+	StationBuyShipsView();
+private:
+	virtual void ShowAll();
+};
+
+StationBuyShipsView::StationBuyShipsView(): StationSubView()
+{
+	SetTransparency(false);
+}
+
+void StationBuyShipsView::ShowAll()
+{
+	DeleteAllChildren();
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	assert(station);
+	SetTransparency(false);
+	{
+		Add(new Gui::Label("Nothing to see yet"), 10, 10);
+	}
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationBuyShipsView::GoBack));
+	Add(b,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
+
+	int ypos = 40;
+	for (int i=0; i<(int)ShipType::END; i++) {
+		Add(new Gui::Label(ShipType::types[i].name), 320, ypos);
+		ypos += 32;
+	}
+	
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
+}
+
+
+////////////////////////////////////////////////////////////////////
+
+class StationShipyardView: public StationSubView {
+public:
+	StationShipyardView();
+private:
+	void GotoUpgradesView() {
+		HideChildren();
+		StationSubView *v = new StationShipUpgradesView();
+		Add(v, 0, 0);
+		v->ShowAll();
+	}
+	void GotoBuyShipsView() {
+		HideChildren();
+		StationSubView *v = new StationBuyShipsView();
+		Add(v, 0, 0);
+		v->ShowAll();
+	}
+	virtual void ShowAll();
+};
+
+StationShipyardView::StationShipyardView(): StationSubView()
+{
+	SetTransparency(false);
+}
+
+void StationShipyardView::ShowAll()
+{
+	DeleteAllChildren();
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	assert(station);
+	SetTransparency(false);
+	{
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Welcome to %s shipyard", station->GetLabel().c_str());
+		Add(new Gui::Label(buf), 10, 10);
+	}
+	
+	Gui::Button *backButton = new Gui::SolidButton();
+	backButton->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GoBack));
+	Add(backButton,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
+
+	Gui::SolidButton *b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_1, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GotoUpgradesView));
+	Add(b, 340, 240);
+	Gui::Label *l = new Gui::Label("Ship equipment");
+	Add(l, 365, 240);
+	
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_1, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GotoBuyShipsView));
+	Add(b, 340, 300);
+	l = new Gui::Label("New and reconditioned ships");
+	Add(l, 365, 300);
+	
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
+}
+
 /////////////////////////////////////////////////////////////////////
 
 SpaceStationView::SpaceStationView(): View()
 {
-	m_frontview = new StationFrontView(this);
-	m_shipyard = new StationShipyardView(this);
-	m_commodities = new StationCommoditiesView(this);
-	m_subview = 0;
-	SwitchView(m_frontview);
-
 	Gui::Label *l = new Gui::Label("Comms Link");
 	l->SetColor(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 }
 
-void SpaceStationView::SwitchView(StationSubView *v)
+void SpaceStationView::OnClickRequestLaunch()
 {
-	if (m_subview) {
-		m_subview->HideAll();
-		Remove(m_subview);
-	}
-	m_subview = v;
-	Add(m_subview, 0, 0);
-	m_subview->ShowAll();
+	Pi::player->SetDockedWith(0,0);
+	Pi::SetView(Pi::worldView);
 }
 
 void SpaceStationView::GotoCommodities()
 {
-	SwitchView(m_commodities);
+	HideChildren();
+	StationSubView *v = new StationCommoditiesView();
+	Add(v, 0, 0);
+	v->ShowAll();
 }
 
 void SpaceStationView::GotoShipyard()
 {
-	SwitchView(m_shipyard);
+	HideChildren();
+	StationSubView *v = new StationShipyardView();
+	Add(v, 0, 0);
+	v->ShowAll();
 }
 
 void SpaceStationView::OnSwitchTo()
 {
-	SwitchView(m_frontview);
+	SetTransparency(false);
+	DeleteAllChildren();
+	SpaceStation *station = Pi::player->GetDockedWith();
+	assert(station);
+	{
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Welcome to %s", station->GetLabel().c_str());
+		Add(new Gui::Label(buf), 10, 10);
+	}
+	Gui::Label *l = new Gui::Label("Hello friend! Thankyou for docking with this space station!\n"
+	"We regret to inform you that due to a spacetime fissure you have "
+	"ended up in the terrible mirror universe of boringness, and that there "
+	"is nothing to do. We hope to have things back to normal within a "
+	"few weeks, and in the mean time would like to offer our apologies for "
+	"any loss of earnings, immersion or lunch.  "
+	"Currently the usual space station services are not available, but we "
+	"can offer you this promotional message from one of the station's sponsors:\n"
+	"                       DIET STEAKETTE: IT'S BAD");
+
+	Gui::Fixed *fbox = new Gui::Fixed(450, 400);
+	fbox->Add(l, 0, 0);
+	Add(fbox, 320, 40);
+	fbox->ShowAll();
+
+	Gui::SolidButton *b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_1, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::OnClickRequestLaunch));
+	Add(b, 340, 240);
+	l = new Gui::Label("Request Launch");
+	Add(l, 365, 240);
+
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_2, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::GotoShipyard));
+	Add(b, 340, 300);
+	l = new Gui::Label("Shipyard");
+	Add(l, 365, 300);
+
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_3, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::GotoCommodities));
+	Add(b, 340, 360);
+	l = new Gui::Label("Commodity market");
+	Add(l, 365, 360);
+
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
 }
 
 void SpaceStationView::Draw3D()

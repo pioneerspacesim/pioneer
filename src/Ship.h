@@ -70,6 +70,9 @@ public:
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
 	int GetPrice(Equip::Type t) const;
+	
+	sigc::signal<void> onDock;
+	sigc::signal<void> onUndock;
 protected:
 	virtual void Save();
 	virtual void Load();

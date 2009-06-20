@@ -14,13 +14,9 @@ public:
 	virtual void Draw3D();
 	void GotoShipyard();
 	void GotoCommodities();
-	void SwitchView(StationSubView *v);
 	virtual void OnSwitchTo();
+	void OnClickRequestLaunch();
 private:
-	StationSubView *m_subview,
-		*m_frontview,
-		*m_shipyard,
-		*m_commodities;
 };
 
 #endif /* _SPACESTATIONVIEW_H */

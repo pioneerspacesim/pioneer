@@ -451,6 +451,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 	if (m_dockedWith && !s) {
 		m_dockedWith->OrientLaunchingShip(this, port);
 		Enable();
+		onUndock.emit();
 		m_dockedWith = 0;
 	} else if (!s) {
 	
@@ -463,6 +464,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
+		onDock.emit();
 	}
 }
 

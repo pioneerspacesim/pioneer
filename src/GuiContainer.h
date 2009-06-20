@@ -27,6 +27,7 @@ namespace Gui {
 		void SetBgColor(float r, float g, float b);
 		void SetTransparency(bool a) { m_transparent = a; }
 		virtual void UpdateAllChildSizes() = 0;
+		void RemoveChild(Widget *w);
 		// only fired if child widgets do not eat event
 		sigc::signal<void, MouseButtonEvent*> onMouseButtonEvent;
 	private:
@@ -39,7 +40,6 @@ namespace Gui {
 		void PrependChild(Widget *w, float x, float y);
 		void AppendChild(Widget *w, float x, float y);
 		void MoveChild(Widget *w, float x, float y);
-		void RemoveChild(Widget *w);
 
 		struct widget_pos {
 			Widget *w;
