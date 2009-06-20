@@ -546,7 +546,7 @@ static Uint16 parseCompObjectBits(tokenIter_t &t, bool smooth)
 	}
 	if (v1== -1) fatal();
 	if (num<2) (*t).Error("Expected at least 2 hermite or line segments");
-	else if (num>4) (*t).Error("Expected at most 4 hermite or line segments");
+	else if (smooth && (num>4)) (*t).Error("Expected at most 4 hermite or line segments for a smooth() turd");
 	// first vertex in SBRE complex surfaces is the same as the last vtx
 	return v1;
 }

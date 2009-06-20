@@ -3,7 +3,6 @@
 #include "Pi.h"
 #include "WorldView.h"
 #include "Space.h"
-#include "ModelCollMeshData.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
@@ -102,15 +101,8 @@ void Ship::Load()
 void Ship::Init()
 {
 	const ShipType &stype = GetShipType();
-	int sbreModel = 0;
-	try {
-		sbreModel = sbreLookupModelByName(stype.sbreModelName);
-	} catch (SbreModelNotFoundException) {
-		printf("Could not find model '%s'.\n", stype.sbreModelName);
-		Pi::Quit();
-	}
-	SetModel(sbreModel);
-	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(sbreModel));
+	SetModel(stype.sbreModelName);
+	SetMassDistributionFromModel();
 	UpdateMass();
 	m_stats.hull_mass_left = (float)stype.hullMass;
 }
@@ -624,14 +616,17 @@ bool Ship::Jettison(Equip::Type t)
 void Ship::Bought(Equip::Type t) {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
 	m_equipment.Add(slot, t);
+	CalcStats();
 }
 void Ship::Sold(Equip::Type t) {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
 	m_equipment.Remove(slot, t, 1);
+	CalcStats();
 }
 bool Ship::CanBuy(Equip::Type t) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
-	return m_equipment.FreeSpace(slot)!=0;
+	return (m_equipment.FreeSpace(slot)!=0) &&
+	       (m_stats.free_capacity >= EquipType::types[(int)t].mass);
 }
 bool Ship::CanSell(Equip::Type t) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;

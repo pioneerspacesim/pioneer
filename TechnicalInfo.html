@@ -121,7 +121,7 @@ smooth(int steps,
          line(vector pos)
 )
 flat(int steps, vector normal,
-	... then two to four of the same crud as smooth(), except no hermite_norm()
+	... then two or more of the same crud as smooth(), except no hermite_norm()
 )
 text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
 text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
@@ -219,8 +219,8 @@ smooth(steps,
 )
   makes lovely smooth surface
 
-smooth(steps, 
-        ... then two to four of:
+flat(steps, normal,
+        ... then two or more ..
         hermite(vector pos, vector tan0, vector tan1)
         hermite_norm(vector pos1, vector norm0, vector norm1)
         line(vector pos)

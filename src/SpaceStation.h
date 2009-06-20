@@ -22,7 +22,7 @@ public:
 	virtual void Render(const Frame *camFrame);
 	void OrientLaunchingShip(Ship *ship, int port) const;
 	void OrientDockedShip(Ship *ship, int port) const;
-	void GetDockingSurface(CollMeshSet *mset, int midx);
+	void GetDockingSurface(const CollMeshSet *mset, int midx);
 	bool GetDockingClearance(Ship *s);
 	bool IsGroundStation() const;
 	struct dockingport_t {

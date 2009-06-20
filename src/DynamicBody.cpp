@@ -3,6 +3,7 @@
 #include "Space.h"
 #include "Frame.h"
 #include "Serializer.h"
+#include "ModelCollMeshData.h"
 
 DynamicBody::DynamicBody(): ModelBody()
 {
@@ -191,8 +192,9 @@ void DynamicBody::GetRotMatrix(matrix4x4d &m) const
 	m[14] = 0;
 }
 
-void DynamicBody::SetMassDistributionFromCollMesh(const CollMesh *m)
+void DynamicBody::SetMassDistributionFromModel()
 {
+	const CollMesh *m = GetModelSBRECollMesh(GetSbreModel());
 	// XXX this is stupid. the radius of mass distribution should be
 	// defined on the model, not cooked up in some moronic way
 	vector3d min = vector3d(FLT_MAX);

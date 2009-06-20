@@ -3,7 +3,7 @@
 #include "GeomTree.h"
 #include "collider.h"
 
-Geom::Geom(GeomTree *geomtree)
+Geom::Geom(const GeomTree *geomtree)
 {
 	m_geomtree = geomtree;
 	m_orient[0] = matrix4x4d::Identity();

@@ -141,17 +141,20 @@ model(taipan, scale=1.0, radius=50.0) {
 	xref:tri(v(0,3.5,35),v(15,4.3,45), v(15,3,35))
 	material(.3,.3,.3, .6,.6,.6, 100, 0,0,0)
 	# top body bit
-	xref:smooth(slod_a, 
+	tanTipR = v(20,10,50)
+	tanTipL = v(-20,10,50)
+	tanFwd = v(0,-10,-50)
+	smooth(slod_a, 
 		line(v(15,3,35)),
-		hermite(v(0,-1,0), v(0,0,-50), v(10,5,30)),
-		hermite(v(0,3.5,35),v(0,20,30), v(0,0,-30)))
-
+		hermite(v(0,-2,0), tanFwd, tanTipR),
+		hermite(v(-15,3,35), tanTipL, tanFwd),
+		line(v(0,3.5,35)))
+	
 	smooth(slod_a,
-		hermite(v(0,-1,0), v(0,0,-50), v(-10,5,30)),
-		hermite(v(15,3,35), v(10,5,30), v(0,0,-50)),
+		hermite(v(0,-2,0), tanFwd, tanTipL),
+		hermite(v(15,3,35), tanTipR, tanFwd),
 		hermite(v(-15,3,35), v(0,-30,0), v(0,-30,0)))
 
-	# front engines
 	xref:smooth(slod_a, 
 		hermite(v(15,-5,-10), v(-10,0,0), v(-10,0,0)),
 		line(v(15,-5,50)),

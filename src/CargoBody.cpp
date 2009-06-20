@@ -1,6 +1,5 @@
 #include "CargoBody.h"
 #include "Pi.h"
-#include "ModelCollMeshData.h"
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Sfx.h"
@@ -38,11 +37,10 @@ void CargoBody::Load()
 
 void CargoBody::Init()
 {
-	int sbrebody = sbreLookupModelByName("cargo");
 	m_hitpoints = 1.0f;
 	SetLabel(EquipType::types[m_type].name);
-	SetModel(sbrebody);
-	SetMassDistributionFromCollMesh(GetModelSBRECollMesh(sbrebody));
+	SetModel("cargo");
+	SetMassDistributionFromModel();
 }
 
 CargoBody::CargoBody(Equip::Type t)

@@ -11,7 +11,7 @@ struct Sphere;
 
 class Geom {
 public:
-	Geom(GeomTree *);
+	Geom(const GeomTree *);
 	void MoveTo(const matrix4x4d &m);
 	void MoveTo(const matrix4x4d &m, const vector3d pos);
 	const matrix4x4d &GetInvTransform() const { return m_invOrient; }
@@ -22,7 +22,7 @@ public:
 	void Disable() { m_active = false; }
 	bool IsEnabled() { return m_active; }
 	bool HasMoved() { return m_moved; }
-	GeomTree *GetGeomTree() { return m_geomtree; }
+	const GeomTree *GetGeomTree() { return m_geomtree; }
 	void Collide(Geom *b);
 	void CollideSphere(Sphere &sphere);
 	void SetUserData(void *d) { m_data = d; }
@@ -35,7 +35,7 @@ private:
 	int m_orientIdx;
 	bool m_active;
 	bool m_moved;
-	GeomTree *m_geomtree;
+	const GeomTree *m_geomtree;
 	void *m_data;
 };
 

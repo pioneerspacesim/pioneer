@@ -55,7 +55,7 @@ static ObjParams params = {
 	{ "Hello old bean", "DIET STEAKETTE" },
 };
 
-void SpaceStation::GetDockingSurface(CollMeshSet *mset, int midx)
+void SpaceStation::GetDockingSurface(const CollMeshSet *mset, int midx)
 {
 	meshinfo_t * const minfo = &mset->meshInfo[midx];
 	dockingport_t * const dport = &port[minfo->flags & 0xf];
@@ -106,15 +106,8 @@ SpaceStation::SpaceStation(TYPE type): ModelBody()
 
 void SpaceStation::Init()
 {
-	int sbreModel = 0;
-	try {
-		sbreModel = sbreLookupModelByName(stationTypes[m_type].sbreModelName);
-	} catch (SbreModelNotFoundException) {
-		printf("Could not find model '%s'.\n", stationTypes[m_type].sbreModelName);
-		Pi::Quit();
-	}
-	SetModel(sbreModel);
-	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
+	SetModel(stationTypes[m_type].sbreModelName);
+	const CollMeshSet *mset = GetModelCollMeshSet(GetSbreModel());
 	for (int i=0; i<mset->numMeshParts; i++) {
 		if (mset->meshInfo[i].flags & 0x10) GetDockingSurface(mset, i);
 	}

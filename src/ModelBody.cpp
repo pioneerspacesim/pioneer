@@ -49,14 +49,26 @@ void ModelBody::GetAabb(Aabb &aabb)
 	aabb = m_collMeshSet->aabb;
 }
 
-void ModelBody::SetModel(int sbreModel)
+void ModelBody::SetModel(const char *sbreModelName)
 {
-	assert(m_geom == 0);
-	m_sbreModel = sbreModel;
-	CollMeshSet *mset = GetModelCollMeshSet(sbreModel);
+	try {
+		m_sbreModel = sbreLookupModelByName(sbreModelName);
+	} catch (SbreModelNotFoundException) {
+		printf("Could not find model '%s'.\n", sbreModelName);
+		Pi::Quit();
+	}
+
+	if (m_geom) {
+		// only happens when player changes their ship
+		GetFrame()->RemoveGeom(m_geom);
+		delete m_geom;
+	}
+	const CollMeshSet *mset = GetModelCollMeshSet(m_sbreModel);
 	
 	m_geom = new Geom(mset->m_geomTree);
 	m_geom->SetUserData((void*)this);
+		
+	if (GetFrame()) GetFrame()->AddGeom(m_geom);
 
 	m_collMeshSet = mset;
 }

@@ -27,11 +27,13 @@ public:
 	GeomTree *m_geomTree;
 
 	CollMeshSet(int sbreModel);
+	virtual ~CollMeshSet();
 private:
 	void GetMeshParts();
 };
 
-CollMeshSet *GetModelCollMeshSet(int sbreModel);
-CollMesh *GetModelSBRECollMesh(int sbreModel);
+/* CollMeshSet is cached and caller doesn't own it */
+const CollMeshSet *GetModelCollMeshSet(int sbreModel);
+const CollMesh *GetModelSBRECollMesh(int sbreModel);
 
 #endif /* _MODELCOLLMESHDATA */

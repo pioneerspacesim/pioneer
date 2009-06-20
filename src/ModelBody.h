@@ -30,14 +30,14 @@ public:
 	int GetSbreModel() const { return m_sbreModel; }
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
-	void SetModel(int sbreModel);
+	void SetModel(const char *sbreModelName);
 
 	void RenderSbreModel(const Frame *camFrame, ObjParams *params);
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
-	CollMeshSet *m_collMeshSet;
+	const CollMeshSet *m_collMeshSet;
 	int m_sbreModel;
 	Geom *m_geom;
 };

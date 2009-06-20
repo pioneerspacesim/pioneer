@@ -364,12 +364,12 @@ void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, in
 	else right->SetLeaf (true);
 }
 
-void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect)
+void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const
 {
 	TraverseRay(start, dir, isect);
 }
 
-inline void GeomTree::TraverseRay(const vector3f &a_origin, const vector3f &a_dir, isect_t *isect)
+inline void GeomTree::TraverseRay(const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const
 {
 	float entry_t = 0, exit_t = isect->dist;
 	vector3f rcpD = vector3f(1.0f/a_dir.x, 1.0f/a_dir.y, 1.0f/a_dir.z);
@@ -485,7 +485,7 @@ pop_bstack:
 	}
 }
 
-void GeomTree::RayTriIntersect(const vector3f &origin, const vector3f &dir, int triIdx, isect_t *isect)
+void GeomTree::RayTriIntersect(const vector3f &origin, const vector3f &dir, int triIdx, isect_t *isect) const
 {
 	stats_rayTriIntersections++;
 	const vector3f a(&m_vertices[3*m_indices[triIdx]]);

@@ -16,12 +16,12 @@ class GeomTree {
 public:
 	GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags);
 	~GeomTree();
-	const Aabb &GetAabb() { return m_aabb; }
-	const Aabb &GetMaxAabb() { return m_maxAabb; }
+	const Aabb &GetAabb() const { return m_aabb; }
+	const Aabb &GetMaxAabb() const { return m_maxAabb; }
 	// dir should be unit length,
 	// isect.dist should be ray length
 	// isect.triIdx should be -1 unless repeat calls with same isect_t
-	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect);
+	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const;
 	vector3f GetTriNormal(int triIdx) const;
 	int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	
@@ -30,8 +30,8 @@ public:
 	static int stats_rayTriIntersections;
 private:
 	friend class BIHNode;
-	void RayTriIntersect(const vector3f &a_origin, const vector3f &a_dir, int triIdx, isect_t *isect);
-	void TraverseRay(const vector3f &a_origin, const vector3f &a_dir, isect_t *isect);
+	void RayTriIntersect(const vector3f &a_origin, const vector3f &a_dir, int triIdx, isect_t *isect) const;
+	void TraverseRay(const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const;
 	BIHNode *AllocNode();
 	void BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, int a_depth, int a_prims);
 

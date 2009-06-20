@@ -30,6 +30,14 @@ static ObjParams params = {
 // indexed by sbre model ID
 static std::map<int, CollMeshSet*> modelCollTurds;
 
+CollMeshSet::~CollMeshSet() {
+	// why mix new and malloc/calloc? fucking stupidity that's why
+	free(sbreCollMesh);
+	delete [] triIndices;
+	delete [] meshInfo;
+	delete m_geomTree;
+}
+
 void CollMeshSet::GetMeshParts()
 {
 	numMeshParts = 1;
@@ -91,7 +99,7 @@ CollMeshSet::CollMeshSet(int sbreModel)
 	GetMeshParts();
 }
 
-CollMeshSet *GetModelCollMeshSet(int sbreModel)
+const CollMeshSet *GetModelCollMeshSet(int sbreModel)
 {
 	std::map<int,CollMeshSet*>::iterator it = modelCollTurds.find(sbreModel);
 	if (it != modelCollTurds.end()) return (*it).second;
@@ -101,7 +109,7 @@ CollMeshSet *GetModelCollMeshSet(int sbreModel)
 	return cturd;
 }
 
-CollMesh *GetModelSBRECollMesh(int sbreModel)
+const CollMesh *GetModelSBRECollMesh(int sbreModel)
 {
 	return modelCollTurds[sbreModel]->sbreCollMesh;
 }

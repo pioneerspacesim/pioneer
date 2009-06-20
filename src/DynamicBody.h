@@ -23,7 +23,7 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags);
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
-	void SetMassDistributionFromCollMesh(const CollMesh *m);
+	void SetMassDistributionFromModel();
 	void DisableBodyOnly() { m_enabled = false; }
 	bool IsEnabled() const { return m_enabled; }
 	virtual void Disable();
