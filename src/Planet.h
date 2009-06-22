@@ -11,7 +11,7 @@ class Planet: public Body {
 public:
 	OBJDEF(Planet, Body, PLANET);
 	Planet(SBody*);
-	Planet() {}
+	Planet();
 	virtual ~Planet();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;

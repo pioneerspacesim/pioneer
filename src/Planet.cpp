@@ -25,6 +25,13 @@ float blue[4] = { .2f, .2f, 1, 1 };
 float green[4] = { .2f, .8f, .2f, 1 };
 float white[4] = { 1, 1, 1, 1 };
 
+Planet::Planet(): Body()
+{
+	pos = vector3d(0,0,0);
+	this->sbody = 0;
+	this->m_geosphere = 0;
+}
+
 Planet::Planet(SBody *sbody): Body()
 {
 	pos = vector3d(0,0,0);

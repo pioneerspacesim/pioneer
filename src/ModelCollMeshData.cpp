@@ -54,7 +54,7 @@ void CollMeshSet::GetMeshParts()
 	do {
 		int len = 0;
 		int flag = triIndices[tidx].flags;
-		while ((len < sbreCollMesh->ni/3) && (triIndices[tidx+len].flags == flag)) len++;
+		while (((len+tidx) < sbreCollMesh->ni/3) && (triIndices[tidx+len].flags == flag)) len++;
 		meshInfo[midx].flags = flag;
 		meshInfo[midx].triStart = tidx;
 		meshInfo[midx].numTris = len;

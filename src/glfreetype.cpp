@@ -740,7 +740,7 @@ TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_he
 			m_glyphs[chr] = _face;
 		}
 
-		delete pixBuf;
+		delete [] pixBuf;
 		
 		m_height = (float)a_height;
 		m_width = (float)a_width;
