@@ -133,6 +133,12 @@ SpaceStation::~SpaceStation()
 {
 }
 
+void SpaceStation::ReplaceShipOnSale(int idx, const ShipFlavour *with)
+{
+	m_shipsOnSale[idx] = *with;
+	onShipsForSaleChanged.emit();
+}
+
 void SpaceStation::UpdateShipyard()
 {
 	if (m_shipsOnSale.size() == 0) {

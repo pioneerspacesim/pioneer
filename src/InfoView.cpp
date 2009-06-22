@@ -84,10 +84,19 @@ public:
 				stats->free_capacity, stats->used_capacity, stats->total_mass);
 		nfo += std::string(buf);
 
-		e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
-		nfo += std::string("\n\n")+EquipType::types[e].name;
-		e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
-		nfo += std::string("\n")+EquipType::types[e].name;
+		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
+		if (numLasers >= 1) {
+			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
+			nfo += std::string("\n\n")+EquipType::types[e].name;
+		} else {
+			nfo += "\n\nno mounting";
+		}
+		if (numLasers >= 2) {
+			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
+			nfo += std::string("\n")+EquipType::types[e].name;
+		} else {
+			nfo += "\nno mounting";
+		}
 
 		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
 		nfo += std::string(buf);
@@ -121,22 +130,22 @@ void InfoView::UpdateInfo()
 	m_doUpdate = true;
 }
 
-static ObjParams params = {
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-	// pText[3][256]	
-	{ "IR-L33T", "ME TOO" },
-};
-
 void InfoView::Draw3D()
 {
+	/* XXX duplicated code in SpaceStationView.cpp */
+	ObjParams params = {
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
+
+		{	// pColor[3]
+		{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	};
+
+	Pi::player->GetFlavour()->ApplyTo(&params);
+
 	static float rot1, rot2;
 	rot1 += .5*Pi::GetFrameTime();
 	rot2 += Pi::GetFrameTime();
@@ -145,22 +154,21 @@ void InfoView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
+	const float bx = 450;
+	const float by = 50;
 	Gui::Screen::EnterOrtho();
 	glColor3f(0,0,0);
 	glBegin(GL_QUADS); {
-		const float bx = 450;
-		const float by = 50;
 		glVertex2f(bx,by);
-		glVertex2f(bx,by+300);
-		glVertex2f(bx+320,by+300);
+		glVertex2f(bx,by+320);
+		glVertex2f(bx+320,by+320);
 		glVertex2f(bx+320,by);
 	} glEnd();
 	Gui::Screen::LeaveOrtho();
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	float fracH = 1.0 / Pi::GetScrAspect();
-	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
+	glFrustum(-.5, .5, -.5, .5, 1.0f, 10000.0f);
 	glDepthRange (0.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -170,14 +178,13 @@ void InfoView::Draw3D()
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	sbreSetDirLight (lightCol, lightDir);
-	glViewport(Pi::GetScrWidth()/3.8, Pi::GetScrHeight()/6, Pi::GetScrWidth(), Pi::GetScrHeight());
+	glViewport(bx, Pi::GetScrHeight() - by - 320, 320, 320);
 	
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
-	Matrix m;
 	int sbre_model = Pi::player->GetSbreModel();
 
-	vector3d p(0, 0, -100);
+	vector3d p(0, 0, -2.1 * sbreGetModelRadius(sbre_model));
 	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
 	sbreRenderModel(&p.x, &rot[0], sbre_model, &params);
 	glPopAttrib();

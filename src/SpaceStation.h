@@ -37,6 +37,7 @@ public:
 	int GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
+	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
 	sigc::signal<void> onShipsForSaleChanged;
 protected:

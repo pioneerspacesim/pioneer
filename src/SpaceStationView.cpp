@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "WorldView.h"
 #include "ShipFlavour.h"
+#include "ShipCpanel.h"
 #include <map>
 
 #define TEXSIZE	128
@@ -101,6 +102,18 @@ public:
 		GetParent()->SetTransparency(false);
 		delete this;
 	}
+	void UpdateBaseDisplay() {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Credits: $%lld", Pi::player->GetMoney());
+		m_money->SetText(buf);
+	}
+	void AddBaseDisplay() {
+		m_money = new Gui::Label("");
+		Add(m_money, 10, 450);
+		UpdateBaseDisplay();
+	}
+private:
+	Gui::Label *m_money;
 };
 
 ////////////////////////////////////////////////////////////////////
@@ -113,12 +126,12 @@ private:
 	void OnClickBuy(int commodity_type) {
 		m_station->SellItemTo(Pi::player, (Equip::Type)commodity_type);
 		UpdateStock(commodity_type);
-		UpdateStats();
+		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
 		Pi::player->SellItemTo(m_station, (Equip::Type)commodity_type);
 		UpdateStock(commodity_type);
-		UpdateStats();
+		UpdateBaseDisplay();
 	}
 	void UpdateStock(int commodity_type) {
 		char buf[128];
@@ -128,14 +141,8 @@ private:
 		snprintf(buf, sizeof(buf), "%dt", m_station->GetEquipmentStock(static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
 		m_stockLabels[commodity_type]->SetText(buf);
 	}
-	void UpdateStats() {
-		char buf[128];
-		snprintf(buf, sizeof(buf), "Credits: $%lld", Pi::player->GetMoney());
-		m_money->SetText(buf);
-	}
 	std::map<int, Gui::Label*> m_stockLabels;
 	std::map<int, Gui::Label*> m_cargoLabels;
-	Gui::Label *m_money;
 	SpaceStation *m_station;
 };
 
@@ -164,9 +171,6 @@ void StationCommoditiesView::ShowAll()
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
-	m_money = new Gui::Label("");
-	Add(m_money, 10, 450);
-	
 	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
 	Add(fbox, 320, 40);
 
@@ -223,7 +227,7 @@ void StationCommoditiesView::ShowAll()
 	portal->Add(innerbox);
 	portal->ShowAll();
 	fbox->ShowAll();
-	UpdateStats();
+	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -304,6 +308,7 @@ void StationShipUpgradesView::ShowAll()
 	portal->Add(innerbox);
 	portal->ShowAll();
 	fbox->ShowAll();
+	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -313,9 +318,11 @@ void StationShipUpgradesView::ShowAll()
 
 class StationViewShipView: public StationSubView {
 public:
-	StationViewShipView(const ShipFlavour *f): StationSubView() {
-		m_flavour = *f;
-		m_sbreModel = sbreLookupModelByName(ShipType::types[f->type].sbreModelName);
+	StationViewShipView(int flavour_idx): StationSubView() {
+		SpaceStation *station = Pi::player->GetDockedWith();
+		m_flavourIdx = flavour_idx;
+		m_flavour = station->GetShipsOnSale()[flavour_idx];
+		m_sbreModel = sbreLookupModelByName(ShipType::types[m_flavour.type].sbreModelName);
 		m_ondraw3dcon = Pi::spaceStationView->onDraw3D.connect(
 				sigc::mem_fun(this, &StationViewShipView::Draw3D));
 	}
@@ -325,13 +332,33 @@ public:
 	virtual void ShowAll();
 	void Draw3D();
 private:
+	void BuyShip() {
+		// nasty. signal station->onShipsForSaleChanged will fire
+		// and 'this' will be erased when StationShipyardView is
+		// updated with new contents, so m_flavour must be kept on stack
+		// alloc to avoid trouble
+		ShipFlavour f = m_flavour;
+		ShipFlavour _old = *Pi::player->GetFlavour();
+		int cost = f.price - Pi::player->GetFlavour()->price;
+		if (Pi::player->GetMoney() < cost) {
+			Pi::cpan->SetTemporaryMessage(0, "You do not have enough money");
+		} else {
+			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
+			Pi::player->ChangeFlavour(&f);
+			
+			SpaceStation *station = Pi::player->GetDockedWith();
+			station->ReplaceShipOnSale(m_flavourIdx, &_old);
+		}
+	}
 	ShipFlavour m_flavour;
 	int m_sbreModel;
+	int m_flavourIdx;
 	sigc::connection m_ondraw3dcon;
 };
 
 void StationViewShipView::Draw3D()
 {
+	/* XXX duplicated code in InfoView.cpp */
 	ObjParams params = {
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -351,7 +378,7 @@ void StationViewShipView::Draw3D()
 	static float rot1, rot2;
 	rot1 += .5*Pi::GetFrameTime();
 	rot2 += Pi::GetFrameTime();
-	glClearColor(0,.2,.4,0);
+	glClearColor(0.25,.37,.63,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -384,7 +411,6 @@ void StationViewShipView::Draw3D()
 	
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
-	Matrix m;
 
 	vector3d p(0, 0, -2 * sbreGetModelRadius(m_sbreModel));
 	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
@@ -399,10 +425,17 @@ void StationViewShipView::ShowAll()
 
 	SetTransparency(true);
 	Add(new Gui::Label("Nothing to see yet"), 10, 10);
+	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::GoBack));
 	Add(b,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
+	
+	b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::BuyShip));
+	Add(b,480,470);
+	Add(new Gui::Label("Buy this ship"), 500, 470);
+
 
 	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
 	float y = 40;
@@ -445,8 +478,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 
-
-
+	AddBaseDisplay();
 	//ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -465,11 +497,9 @@ private:
 	void ViewShip(int idx) {
 		HideChildren();
 		SetTransparency(true);
-		SpaceStation *station = Pi::player->GetDockedWith();
-		StationSubView *v = new StationViewShipView(&station->GetShipsOnSale()[idx]);
+		StationSubView *v = new StationViewShipView(idx);
 		Add(v, 0, 0);
 		v->ShowAll();
-		printf("view ship %d\n", idx);
 	}
 	sigc::connection m_onShipsForSaleChangedConnection;
 };
@@ -516,12 +546,13 @@ void StationBuyShipsView::ShowAll()
 		char buf[128];
 		snprintf(buf, sizeof(buf), "$%d", (*i).price);
 		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
-		snprintf(buf, sizeof(buf), "%dt", -1);
+		snprintf(buf, sizeof(buf), "$%d", (*i).price - Pi::player->GetFlavour()->price);
 		innerbox->Add(new Gui::Label(buf), 275, num*YSEP);
+		innerbox->Add(new Gui::Label(stringf(16, "%dt", ShipType::types[(*i).type].capacity)), 370, num*YSEP);
+		
 		Gui::SolidButton *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBuyShipsView::ViewShip), num));
-		innerbox->Add(b, 370, num*YSEP);
-		innerbox->Add(new Gui::SolidButton(), 410, num*YSEP);
+		innerbox->Add(b, 430, num*YSEP);
 		num++;
 	}
 	innerbox->ShowAll();
@@ -529,13 +560,14 @@ void StationBuyShipsView::ShowAll()
 	fbox->Add(new Gui::Label("Ship"), 0, 0);
 	fbox->Add(new Gui::Label("Price"), 200, 0);
 	fbox->Add(new Gui::Label("Part exchange"), 275, 0);
-	fbox->Add(new Gui::Label("View"), 370, 0);
-	fbox->Add(new Gui::Label("Buy"), 410, 0);
+	fbox->Add(new Gui::Label("Capacity"), 370, 0);
+	fbox->Add(new Gui::Label("View"), 430, 0);
 	fbox->Add(portal, 0, YSEP);
 	fbox->Add(scroll, 455, YSEP);
 	portal->Add(innerbox);
 	portal->ShowAll();
 	fbox->ShowAll();
+	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -602,6 +634,7 @@ void StationShipyardView::ShowAll()
 	l = new Gui::Label("New and reconditioned ships");
 	Add(l, 365, 300);
 	
+	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();

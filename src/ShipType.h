@@ -32,10 +32,13 @@ struct ShipType {
 class EquipSet {
 public:
 	EquipSet() {}
-	EquipSet(ShipType::Type t) {
+	EquipSet(const ShipType::Type t) {
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
 			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
 		}
+	}
+	int GetSlotSize(Equip::Slot s) const {
+		return equip[s].size();
 	}
 	Equip::Type Get(Equip::Slot s) const {
 		return equip[s][0];

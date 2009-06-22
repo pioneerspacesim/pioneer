@@ -604,6 +604,17 @@ bool Ship::Jettison(Equip::Type t)
 	}
 }
 
+/*
+ * Used when player buys a new ship.
+ */
+void Ship::ChangeFlavour(const ShipFlavour *f)
+{
+	m_shipFlavour = *f;
+	m_equipment = EquipSet(f->type);
+	SetLabel(f->regid);
+	Init();
+}
+
 /* MarketAgent shite */
 void Ship::Bought(Equip::Type t) {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
