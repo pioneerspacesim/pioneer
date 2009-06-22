@@ -254,11 +254,7 @@ void StationShipUpgradesView::ShowAll()
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
-	{
-		char buf[256];
-		snprintf(buf, sizeof(buf), "Welcome to %s shipyard", station->GetLabel().c_str());
-		Add(new Gui::Label(buf), 10, 10);
-	}
+	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *backButton = new Gui::SolidButton();
 	backButton->onClick.connect(sigc::mem_fun(this, &StationShipUpgradesView::GoBack));
@@ -375,6 +371,9 @@ void StationViewShipView::Draw3D()
 
 	m_flavour.ApplyTo(&params);
 
+	float guiscale[2];
+	Gui::Screen::GetCoords2Pixels(guiscale);
+	printf("%f,%f\n", guiscale[0], guiscale[1]);
 	static float rot1, rot2;
 	rot1 += .5*Pi::GetFrameTime();
 	rot2 += Pi::GetFrameTime();
@@ -407,7 +406,8 @@ void StationViewShipView::Draw3D()
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	sbreSetDirLight (lightCol, lightDir);
-	glViewport(bx, Pi::GetScrHeight() - by - 400, 400, 400);
+	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 400)/guiscale[1],
+			400/guiscale[0], 400/guiscale[1]);
 	
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
@@ -424,7 +424,8 @@ void StationViewShipView::ShowAll()
 	DeleteAllChildren();
 
 	SetTransparency(true);
-	Add(new Gui::Label("Nothing to see yet"), 10, 10);
+	SpaceStation *station = Pi::player->GetDockedWith();
+	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::GoBack));
@@ -519,9 +520,9 @@ void StationBuyShipsView::ShowAll()
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
-	{
-		Add(new Gui::Label("Nothing to see yet"), 10, 10);
-	}
+	
+	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationBuyShipsView::GoBack));
 	Add(b,680,470);
@@ -609,11 +610,7 @@ void StationShipyardView::ShowAll()
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
-	{
-		char buf[256];
-		snprintf(buf, sizeof(buf), "Welcome to %s shipyard", station->GetLabel().c_str());
-		Add(new Gui::Label(buf), 10, 10);
-	}
+	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *backButton = new Gui::SolidButton();
 	backButton->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GoBack));

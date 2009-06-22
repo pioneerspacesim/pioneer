@@ -146,6 +146,8 @@ void InfoView::Draw3D()
 
 	Pi::player->GetFlavour()->ApplyTo(&params);
 
+	float guiscale[2];
+	Gui::Screen::GetCoords2Pixels(guiscale);
 	static float rot1, rot2;
 	rot1 += .5*Pi::GetFrameTime();
 	rot2 += Pi::GetFrameTime();
@@ -178,7 +180,8 @@ void InfoView::Draw3D()
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	sbreSetDirLight (lightCol, lightDir);
-	glViewport(bx, Pi::GetScrHeight() - by - 320, 320, 320);
+	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 320)/guiscale[1],
+			320/guiscale[0], 320/guiscale[1]);
 	
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
