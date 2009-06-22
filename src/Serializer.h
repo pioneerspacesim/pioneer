@@ -34,7 +34,7 @@ namespace Serializer {
 		void wr_float (float f);
 		void wr_double (double f);
 		void wr_cstring(const char* s);
-		void wr_string(std::string &s);
+		void wr_string(const std::string &s);
 		void wr_vector3d(vector3d vec);
 	}
 

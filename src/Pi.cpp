@@ -213,6 +213,9 @@ void Pi::HandleEvents()
 					Screendump(buf);
 				}
 #ifdef DEBUG
+				if ((event.key.keysym.sym == SDLK_m) && KeyState(SDLK_LCTRL)) {
+					Pi::player->SetMoney(Pi::player->GetMoney() + 10000.0);
+				}
 				if (event.key.keysym.sym == SDLK_F12) {
 					matrix4x4d m; Pi::player->GetRotMatrix(m);
 					vector3d dir = m*vector3d(0,0,-1);

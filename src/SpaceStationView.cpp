@@ -3,6 +3,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "WorldView.h"
+#include "ShipFlavour.h"
 #include <map>
 
 #define TEXSIZE	128
@@ -97,6 +98,7 @@ public:
 	void GoBack() {
 		GetParent()->RemoveChild(this);
 		GetParent()->ShowChildren();
+		GetParent()->SetTransparency(false);
 		delete this;
 	}
 };
@@ -106,8 +108,8 @@ public:
 class StationCommoditiesView: public StationSubView {
 public:
 	StationCommoditiesView();
-private:
 	virtual void ShowAll();
+private:
 	void OnClickBuy(int commodity_type) {
 		m_station->SellItemTo(Pi::player, (Equip::Type)commodity_type);
 		UpdateStock(commodity_type);
@@ -232,8 +234,8 @@ void StationCommoditiesView::ShowAll()
 class StationShipUpgradesView: public StationSubView {
 public:
 	StationShipUpgradesView();
-private:
 	virtual void ShowAll();
+private:
 };
 
 StationShipUpgradesView::StationShipUpgradesView(): StationSubView()
@@ -309,15 +311,174 @@ void StationShipUpgradesView::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
+class StationViewShipView: public StationSubView {
+public:
+	StationViewShipView(const ShipFlavour *f): StationSubView() {
+		m_flavour = *f;
+		m_sbreModel = sbreLookupModelByName(ShipType::types[f->type].sbreModelName);
+		m_ondraw3dcon = Pi::spaceStationView->onDraw3D.connect(
+				sigc::mem_fun(this, &StationViewShipView::Draw3D));
+	}
+	virtual ~StationViewShipView() {
+		m_ondraw3dcon.disconnect();
+	}
+	virtual void ShowAll();
+	void Draw3D();
+private:
+	ShipFlavour m_flavour;
+	int m_sbreModel;
+	sigc::connection m_ondraw3dcon;
+};
+
+void StationViewShipView::Draw3D()
+{
+	ObjParams params = {
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
+
+		{	// pColor[3]
+		{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+
+		// pText[3][256]	
+		{ "IR-L33T", "ME TOO" },
+	};
+
+	m_flavour.ApplyTo(&params);
+
+	static float rot1, rot2;
+	rot1 += .5*Pi::GetFrameTime();
+	rot2 += Pi::GetFrameTime();
+	glClearColor(0,.2,.4,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	
+	const float bx = 5;
+	const float by = 40;
+	Gui::Screen::EnterOrtho();
+	glColor3f(0,0,0);
+	glBegin(GL_QUADS); {
+		glVertex2f(bx,by);
+		glVertex2f(bx,by+400);
+		glVertex2f(bx+400,by+400);
+		glVertex2f(bx+400,by);
+	} glEnd();
+	Gui::Screen::LeaveOrtho();
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(-.5, .5, -.5, .5, 1.0f, 10000.0f);
+	glDepthRange (0.0, 1.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	float lightCol[] = { 1,1,1 };
+	float lightDir[] = { 1,1,0 };
+
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	sbreSetDirLight (lightCol, lightDir);
+	glViewport(bx, Pi::GetScrHeight() - by - 400, 400, 400);
+	
+	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
+	rot.RotateY(rot2);
+	Matrix m;
+
+	vector3d p(0, 0, -2 * sbreGetModelRadius(m_sbreModel));
+	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
+	sbreRenderModel(&p.x, &rot[0], m_sbreModel, &params);
+	glPopAttrib();
+}
+
+void StationViewShipView::ShowAll()
+{
+	const ShipType &t = ShipType::types[m_flavour.type];
+	DeleteAllChildren();
+
+	SetTransparency(true);
+	Add(new Gui::Label("Nothing to see yet"), 10, 10);
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::GoBack));
+	Add(b,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
+
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+	float y = 40;
+	Add(new Gui::Label("Ship type"), 450, y);
+	Add(new Gui::Label(t.name), 600, y);
+	y+=YSEP;
+	Add(new Gui::Label("Price"), 450, y);
+	Add(new Gui::Label(stringf(64, "$%d", m_flavour.price)), 600, y);
+	y+=YSEP;
+	Add(new Gui::Label("Registration id"), 450, y);
+	Add(new Gui::Label(m_flavour.regid), 600, y);
+	y+=YSEP;
+	y+=YSEP;
+	Add(new Gui::Label("Weight empty"), 450, y);
+	Add(new Gui::Label(stringf(64, "%d t", t.hullMass)), 600, y);
+	y+=YSEP;
+	Add(new Gui::Label("Weight fully loaded"), 450, y);
+	Add(new Gui::Label(stringf(64, "%d t", t.hullMass + t.capacity)), 600, y);
+	y+=YSEP;
+	Add(new Gui::Label("Capacity"), 450, y);
+	Add(new Gui::Label(stringf(64, "%d t", t.capacity)), 600, y);
+	y+=YSEP;
+	y+=YSEP;
+	// forward accel
+	float accel = t.linThrust[ShipType::THRUSTER_REAR] / (-9.81*1000.0*(t.hullMass));
+	Add(new Gui::Label("Forward accel (empty)"), 450, y);
+	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
+	y+=YSEP;
+	accel = t.linThrust[ShipType::THRUSTER_REAR] / (-9.81*1000.0*(t.hullMass + t.capacity));
+	Add(new Gui::Label("Forward accel (laden)"), 450, y);
+	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
+	y+=YSEP;
+	// rev accel
+	accel = t.linThrust[ShipType::THRUSTER_FRONT] / (9.81*1000.0*(t.hullMass));
+	Add(new Gui::Label("Reverse accel (empty)"), 450, y);
+	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
+	y+=YSEP;
+	accel = t.linThrust[ShipType::THRUSTER_FRONT] / (9.81*1000.0*(t.hullMass + t.capacity));
+	Add(new Gui::Label("Reverse accel (laden)"), 450, y);
+	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
+	y+=YSEP;
+
+
+
+	//ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
+}
+
+////////////////////////////////////////////////////////////////////
+
 class StationBuyShipsView: public StationSubView {
 public:
 	StationBuyShipsView();
-private:
+	virtual ~StationBuyShipsView() {
+		m_onShipsForSaleChangedConnection.disconnect();
+	}
 	virtual void ShowAll();
+private:
+	void ViewShip(int idx) {
+		HideChildren();
+		SetTransparency(true);
+		SpaceStation *station = Pi::player->GetDockedWith();
+		StationSubView *v = new StationViewShipView(&station->GetShipsOnSale()[idx]);
+		Add(v, 0, 0);
+		v->ShowAll();
+		printf("view ship %d\n", idx);
+	}
+	sigc::connection m_onShipsForSaleChangedConnection;
 };
 
 StationBuyShipsView::StationBuyShipsView(): StationSubView()
 {
+	SpaceStation *station = Pi::player->GetDockedWith();
+	m_onShipsForSaleChangedConnection = station->onShipsForSaleChanged.connect(
+			sigc::mem_fun(this, &StationBuyShipsView::ShowAll));
 	SetTransparency(false);
 }
 
@@ -336,12 +497,45 @@ void StationBuyShipsView::ShowAll()
 	Add(b,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
-	int ypos = 40;
-	for (int i=0; i<(int)ShipType::END; i++) {
-		Add(new Gui::Label(ShipType::types[i].name), 320, ypos);
-		ypos += 32;
+	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
+	Add(fbox, 320, 40);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+
+	std::vector<ShipFlavour> &ships = station->GetShipsOnSale();
+	int NUM_ITEMS = ships.size();
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+
+	int num = 0;
+	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
+	for (std::vector<ShipFlavour>::iterator i = ships.begin(); i!=ships.end(); ++i) {
+		Gui::Label *l = new Gui::Label(ShipType::types[(*i).type].name);
+		innerbox->Add(l,0,num*YSEP);
+		char buf[128];
+		snprintf(buf, sizeof(buf), "$%d", (*i).price);
+		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
+		snprintf(buf, sizeof(buf), "%dt", -1);
+		innerbox->Add(new Gui::Label(buf), 275, num*YSEP);
+		Gui::SolidButton *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBuyShipsView::ViewShip), num));
+		innerbox->Add(b, 370, num*YSEP);
+		innerbox->Add(new Gui::SolidButton(), 410, num*YSEP);
+		num++;
 	}
-	
+	innerbox->ShowAll();
+
+	fbox->Add(new Gui::Label("Ship"), 0, 0);
+	fbox->Add(new Gui::Label("Price"), 200, 0);
+	fbox->Add(new Gui::Label("Part exchange"), 275, 0);
+	fbox->Add(new Gui::Label("View"), 370, 0);
+	fbox->Add(new Gui::Label("Buy"), 410, 0);
+	fbox->Add(portal, 0, YSEP);
+	fbox->Add(scroll, 455, YSEP);
+	portal->Add(innerbox);
+	portal->ShowAll();
+	fbox->ShowAll();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -353,20 +547,22 @@ void StationBuyShipsView::ShowAll()
 class StationShipyardView: public StationSubView {
 public:
 	StationShipyardView();
+	virtual void ShowAll();
 private:
 	void GotoUpgradesView() {
 		HideChildren();
+		SetTransparency(true);
 		StationSubView *v = new StationShipUpgradesView();
 		Add(v, 0, 0);
 		v->ShowAll();
 	}
 	void GotoBuyShipsView() {
 		HideChildren();
+		SetTransparency(true);
 		StationSubView *v = new StationBuyShipsView();
 		Add(v, 0, 0);
 		v->ShowAll();
 	}
-	virtual void ShowAll();
 };
 
 StationShipyardView::StationShipyardView(): StationSubView()
@@ -429,6 +625,7 @@ void SpaceStationView::OnClickRequestLaunch()
 void SpaceStationView::GotoCommodities()
 {
 	HideChildren();
+	SetTransparency(true);
 	StationSubView *v = new StationCommoditiesView();
 	Add(v, 0, 0);
 	v->ShowAll();
@@ -437,6 +634,7 @@ void SpaceStationView::GotoCommodities()
 void SpaceStationView::GotoShipyard()
 {
 	HideChildren();
+	SetTransparency(true);
 	StationSubView *v = new StationShipyardView();
 	Add(v, 0, 0);
 	v->ShowAll();
@@ -496,6 +694,7 @@ void SpaceStationView::OnSwitchTo()
 
 void SpaceStationView::Draw3D()
 {
+	onDraw3D.emit();
 }
 
 void SpaceStationView::Update()

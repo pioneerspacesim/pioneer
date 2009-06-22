@@ -14,7 +14,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
 		{ 12, 1, 2, 0 },
-		12, 20,
+		12, 20, 60000,
 	}, {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
@@ -26,7 +26,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 60, 1, 1, 0 },
-		60, 15,
+		60, 15, 22000,
 	}, {
 		"Taipan",
 		"taipan",
@@ -37,7 +37,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 240, 1, 1, 0 },
-		240, 96,
+		240, 96, 240000,
 	}, {
 		"Flowerfairy Heavy Trader",
 		"63",
@@ -48,7 +48,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 500, 1, 2, 0 },
-		500, 125,
+		500, 125, 550000,
 	}
 };
 

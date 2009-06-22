@@ -36,6 +36,6 @@ struct Plane {
 
 /* from current GL modelview*projection matrix */
 void GetFrustum(Plane planes[6]);
-
+std::string make_random_ship_registration();
 
 #endif /* _UTILS_H */

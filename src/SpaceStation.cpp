@@ -26,6 +26,13 @@ void SpaceStation::Save()
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr_int((int)m_equipmentStock[i]);
 	}
+	// save shipyard
+	wr_int(m_shipsOnSale.size());
+	for (std::vector<ShipFlavour>::iterator i = m_shipsOnSale.begin();
+			i != m_shipsOnSale.end(); ++i) {
+		(*i).Save();
+	}
+	wr_double(m_lastUpdatedShipyard);
 }
 
 void SpaceStation::Load()
@@ -38,6 +45,14 @@ void SpaceStation::Load()
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
 	}
+	// load shityard
+	int numShipsForSale = rd_int();
+	for (int i=0; i<numShipsForSale; i++) {
+		ShipFlavour s;
+		s.Load();
+		m_shipsOnSale.push_back(s);
+	}
+	m_lastUpdatedShipyard = rd_double();
 	Init();
 }
 
@@ -97,6 +112,7 @@ SpaceStation::SpaceStation(TYPE type): ModelBody()
 {
 	m_type = type;
 	m_numPorts = 0;
+	m_lastUpdatedShipyard = 0;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = Pi::rng.Int32(0,100);
 	}
@@ -115,6 +131,37 @@ void SpaceStation::Init()
 
 SpaceStation::~SpaceStation()
 {
+}
+
+void SpaceStation::UpdateShipyard()
+{
+	if (m_shipsOnSale.size() == 0) {
+		// fill shipyard
+		for (int i=Pi::rng.Int32(20); i; i--) {
+			ShipFlavour s;
+			ShipFlavour::MakeTrulyRandom(s);
+			m_shipsOnSale.push_back(s);
+		}
+	} else if (Pi::rng.Int32(2)) {
+		// add one
+		ShipFlavour s;
+		ShipFlavour::MakeTrulyRandom(s);
+		m_shipsOnSale.push_back(s);
+	} else {
+		// remove one
+		int pos = Pi::rng.Int32(m_shipsOnSale.size());
+		m_shipsOnSale.erase(m_shipsOnSale.begin() + pos);
+	}
+	onShipsForSaleChanged.emit();
+}
+
+void SpaceStation::TimeStepUpdate(const float timeStep)
+{
+	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
+		UpdateShipyard();
+		// update again in an hour or two
+		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
+	}
 }
 
 bool SpaceStation::IsGroundStation() const

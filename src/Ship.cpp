@@ -44,7 +44,7 @@ void Ship::Save()
 	wr_bool(m_testLanded);
 	wr_int((int)m_flightState);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) wr_int(m_gunState[i]);
-	wr_int((int)m_shipType);
+	m_shipFlavour.Save();
 	wr_int(m_dockedWithPort);
 	wr_int(Serializer::LookupBody(m_dockedWith));
 	m_equipment.Save();
@@ -82,10 +82,10 @@ void Ship::Load()
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd_int();
 	}
-	m_shipType = (ShipType::Type)rd_int();
+	m_shipFlavour.Load();
 	m_dockedWithPort = rd_int();
 	m_dockedWith = (SpaceStation*)rd_int();
-	m_equipment = EquipSet(m_shipType);
+	m_equipment = EquipSet(m_shipFlavour.type);
 	m_equipment.Load();
 	Init();
 	m_stats.hull_mass_left = rd_float(); // must be after Init()...
@@ -122,16 +122,6 @@ void Ship::PostLoadFixup()
 	}
 }
 
-static std::string make_random_ship_registration()
-{
-	char buf[32];
-	snprintf(buf, sizeof(buf), "%c%c-%04d",
-		'A' + Pi::rng.Int32(26),
-		'A' + Pi::rng.Int32(26),
-		Pi::rng.Int32(10000));
-	return std::string(buf);
-}
-
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
 	m_flightState = FLYING;
@@ -144,14 +134,14 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_dockingTimer = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
-	m_shipType = shipType;
+	m_shipFlavour = ShipFlavour(shipType);
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_equipment = EquipSet(shipType);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 	}
 	memset(m_thrusters, 0, sizeof(m_thrusters));
-	SetLabel(make_random_ship_registration().c_str());
+	SetLabel(m_shipFlavour.regid);
 
 	Init();	
 }
@@ -443,7 +433,7 @@ void Ship::NotifyDeath(const Body* const dyingBody)
 
 const ShipType &Ship::GetShipType()
 {
-	return ShipType::types[m_shipType];
+	return ShipType::types[m_shipFlavour.type];
 }
 
 void Ship::SetDockedWith(SpaceStation *s, int port)

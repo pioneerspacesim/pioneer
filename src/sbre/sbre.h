@@ -59,6 +59,7 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 void sbreCompilerLoadModels();
 struct SbreModelNotFoundException {};
 int sbreLookupModelByName(const char *name) throw (SbreModelNotFoundException);
+float sbreGetModelRadius(int modelNum);
 
 // will preserve and realloc pointers in pCMesh
 // maxv/maxi should match allocated sizes

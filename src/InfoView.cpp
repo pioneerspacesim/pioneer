@@ -161,7 +161,7 @@ void InfoView::Draw3D()
 	glLoadIdentity();
 	float fracH = 1.0 / Pi::GetScrAspect();
 	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
-	glDepthRange (-10, -100000);
+	glDepthRange (0.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	

@@ -191,7 +191,7 @@ namespace Write {
 		wr_byte(*s);
 	}
 
-	void wr_string(std::string &s)
+	void wr_string(const std::string &s)
 	{
 		wr_string(s.c_str());
 	}

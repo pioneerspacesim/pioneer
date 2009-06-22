@@ -6,6 +6,7 @@
 #include "ShipType.h"
 #include "sbre/sbre.h"
 #include "MarketAgent.h"
+#include "ShipFlavour.h"
 #include <list>
 
 class SpaceStation;
@@ -80,7 +81,7 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	enum ShipType::Type m_shipType;
+	ShipFlavour m_shipFlavour;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);

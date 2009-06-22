@@ -199,6 +199,12 @@ void AllocModelCaches (Model *pModel)
 	pModel->ppICache = (uint16 **) calloc (pModel->numCache, sizeof(uint16 *));
 }
 
+float sbreGetModelRadius(int modelNum)
+{
+	Model *pModel = LookupModel (modelNum);
+	return pModel->radius * pModel->scale;
+}
+
 void sbreRenderModel(const double pos[3], const double orient[16], int model, ObjParams *pParam, float s, Vector *pCompos)
 {
 	Vector p;

@@ -5,6 +5,7 @@
 #include "ModelBody.h"
 #include "ShipType.h"
 #include "MarketAgent.h"
+#include "ShipFlavour.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -24,6 +25,7 @@ public:
 	void OrientDockedShip(Ship *ship, int port) const;
 	void GetDockingSurface(const CollMeshSet *mset, int midx);
 	bool GetDockingClearance(Ship *s);
+	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
 	struct dockingport_t {
 		vector3d center;
@@ -35,6 +37,8 @@ public:
 	int GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
+	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
+	sigc::signal<void> onShipsForSaleChanged;
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -42,10 +46,13 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	void UpdateShipyard();
 	void Init();
 	TYPE m_type;
 	int m_numPorts;
 	int m_equipmentStock[Equip::TYPE_MAX];
+	std::vector<ShipFlavour> m_shipsOnSale;
+	double m_lastUpdatedShipyard;
 };
 
 #endif /* _SPACESTATION_H */

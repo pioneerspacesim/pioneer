@@ -166,3 +166,13 @@ void GetFrustum(Plane planes[6])
 	}
 }
 
+std::string make_random_ship_registration()
+{
+	char buf[32];
+	snprintf(buf, sizeof(buf), "%c%c-%04d",
+		'A' + Pi::rng.Int32(26),
+		'A' + Pi::rng.Int32(26),
+		Pi::rng.Int32(10000));
+	return std::string(buf);
+}
+

@@ -23,6 +23,7 @@ struct ShipType {
 	int equipSlotCapacity[Equip::SLOT_MAX];
 	int capacity; // tonnes
 	int hullMass;
+	int baseprice;
 	///////
 
 	static const ShipType types[];

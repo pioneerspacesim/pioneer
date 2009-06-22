@@ -85,7 +85,7 @@ model(mainwheelunit, scale=1.0, radius=8.0) {
 }
 
 # Ship 
-model(taipan, scale=1.0, radius=50.0) {
+model(taipan, scale=1.0, radius=60.0) {
 	lod { full, 40px, 20px, 5px }
 	objlod slod_a = { 8, 4, 2, 1 }
 	objlod slod_tube = { 16, 10, 8, 4 }
