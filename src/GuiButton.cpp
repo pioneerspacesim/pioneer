@@ -25,6 +25,7 @@ bool Button::OnMouseUp(MouseButtonEvent *e)
 {
 	if ((e->button == 1) && m_isPressed) {
 		m_isPressed = false;
+		_m_release.disconnect();
 		onClick.emit();
 	}
 	return false;
@@ -34,17 +35,17 @@ void Button::OnActivate()
 {
 	// activated by keyboard shortcut
 	m_isPressed = true;
-	onPress.emit();
 	_m_kbrelease = RawEvents::onKeyUp.connect(sigc::mem_fun(this, &Button::OnRawKeyUp));
+	onPress.emit();
 }
 
 void Button::OnRawKeyUp(SDL_KeyboardEvent *e)
 {
 	if (e->keysym.sym == m_shortcut.sym) {
 		m_isPressed = false;
+		_m_kbrelease.disconnect();
 		onRelease.emit();
 		onClick.emit();
-		_m_kbrelease.disconnect();
 	}
 }
 
