@@ -33,6 +33,7 @@ public:
 		vector3d horiz;
 	} port[MAX_DOCKING_PORTS];
 	int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
+	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
 	/* MarketAgent stuff */
 	int GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t) const;

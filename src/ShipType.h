@@ -27,6 +27,7 @@ struct ShipType {
 	///////
 
 	static const ShipType types[];
+	static const char *gunmountNames[GUNMOUNT_MAX];
 };
 
 class EquipSet {

@@ -1,6 +1,9 @@
 #include "ShipType.h"
 #include "Serializer.h"
 
+const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
+	"Front", "Rear" };
+
 const ShipType ShipType::types[] = {
 	{
 		// besides running a wicked corporatist regime in the

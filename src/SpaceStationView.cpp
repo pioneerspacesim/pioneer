@@ -235,11 +235,132 @@ void StationCommoditiesView::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
+#define REMOVAL_VALUE_PERCENT 90
+
+class StationLaserPickMount: public StationSubView {
+public:
+	StationLaserPickMount(Equip::Type t, bool doFit) {
+		m_equipType = t;
+		m_doFit = doFit;
+	}
+	virtual void ShowAll();
+private:
+	void SelectMount(int mount) {
+		SpaceStation *station = Pi::player->GetDockedWith();
+		Equip::Slot slot = EquipType::types[m_equipType].slot;
+		// duplicates some code in StationShipUpgradesView
+		if (m_doFit) {
+			// fit
+			Pi::player->m_equipment.Set(slot, mount, m_equipType);
+			Pi::player->CalcStats();
+			Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(m_equipType));
+			Pi::cpan->SetTemporaryMessage(0, "Fitting "+std::string(EquipType::types[m_equipType].name));
+			Gui::Container *p = GetParent();
+			GoBack();
+			p->ShowAll();
+		} else {
+			// remove 
+			const int value = station->GetPrice(m_equipType) * REMOVAL_VALUE_PERCENT / 100;
+			Pi::player->m_equipment.Set(slot, mount, Equip::NONE);
+			Pi::player->CalcStats();
+			Pi::player->SetMoney(Pi::player->GetMoney() + value);
+			station->AddEquipmentStock(m_equipType, 1);
+			Pi::cpan->SetTemporaryMessage(0, "Removing "+std::string(EquipType::types[m_equipType].name));
+			Gui::Container *p = GetParent();
+			GoBack();
+			p->ShowAll();
+		}
+	}
+	Equip::Type m_equipType;
+	bool m_doFit;
+};
+
+void StationLaserPickMount::ShowAll()
+{
+	DeleteAllChildren();
+	SetTransparency(false);
+	
+	if (m_doFit) Add(new Gui::Label("Fit laser to which gun mount?"), 320, 200);
+	else Add(new Gui::Label("Remove laser from which gun mount?"), 320, 200);
+
+	Equip::Slot slot = EquipType::types[m_equipType].slot;
+
+	int xpos = 400;
+	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
+		if (m_doFit && (Pi::player->m_equipment.Get(slot, i) != Equip::NONE)) continue;
+		if ((!m_doFit) && (Pi::player->m_equipment.Get(slot, i) != m_equipType)) continue;
+		Gui::Button *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationLaserPickMount::SelectMount), i));
+		Add(b, xpos, 250);
+		Add(new Gui::Label(ShipType::gunmountNames[i]), xpos, 270);
+
+		xpos += 50;
+	}
+	Gui::Fixed::ShowAll();
+}
+
+////////////////////////////////////////////////////////////////////
+
 class StationShipUpgradesView: public StationSubView {
 public:
 	StationShipUpgradesView();
 	virtual void ShowAll();
 private:
+	void RemoveItem(Equip::Type t) {
+		SpaceStation *station = Pi::player->GetDockedWith();
+		Equip::Slot s = EquipType::types[t].slot;
+		int value = station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100;
+		int num = Pi::player->m_equipment.Count(s, t);
+		
+		if (num) {
+			if ((s == Equip::SLOT_LASER) && (num > 1)) {
+				/* you have a choice of mount points for lasers */
+				HideChildren();
+				SetTransparency(true);
+				StationSubView *v = new StationLaserPickMount(t, false);
+				Add(v, 0, 0);
+				v->ShowAll();
+			} else {
+				Pi::player->m_equipment.Remove(s, t, 1);
+				Pi::player->CalcStats();
+				Pi::player->SetMoney(Pi::player->GetMoney() + value);
+				station->AddEquipmentStock(t, 1);
+				Pi::cpan->SetTemporaryMessage(0, "Removing "+std::string(EquipType::types[t].name));
+				UpdateBaseDisplay();
+				ShowAll();
+			}
+		}
+	}
+	void FitItem(Equip::Type t) {
+		SpaceStation *station = Pi::player->GetDockedWith();
+		Equip::Slot s = EquipType::types[t].slot;
+		const shipstats_t *stats = Pi::player->CalcStats();
+		int freespace = Pi::player->m_equipment.FreeSpace(s);
+		
+		if (Pi::player->GetMoney() < station->GetPrice(t)) {
+			Pi::cpan->SetTemporaryMessage(0, "You do not have enough money");
+		} else if (stats->free_capacity < EquipType::types[t].mass) {
+			Pi::cpan->SetTemporaryMessage(0, "There is no space on your ship");
+		} else if (freespace) {
+			if ((freespace > 1) && (s == Equip::SLOT_LASER)) {
+				/* you have a choice of mount points for lasers */
+				HideChildren();
+				SetTransparency(true);
+				StationSubView *v = new StationLaserPickMount(t, true);
+				Add(v, 0, 0);
+				v->ShowAll();
+			} else {
+				Pi::player->m_equipment.Add(s, t);
+				Pi::player->CalcStats();
+				Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(t));
+				Pi::cpan->SetTemporaryMessage(0, "Fitting "+std::string(EquipType::types[t].name));
+				UpdateBaseDisplay();
+				ShowAll();
+			}
+		} else {
+			Pi::cpan->SetTemporaryMessage(0, "There is no space on your ship");
+		}
+	}
 };
 
 StationShipUpgradesView::StationShipUpgradesView(): StationSubView()
@@ -261,11 +382,11 @@ void StationShipUpgradesView::ShowAll()
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
-	Gui::Fixed *fbox = new Gui::Fixed(470, 200);
+	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
 	Add(fbox, 320, 40);
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,200);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
@@ -276,29 +397,42 @@ void StationShipUpgradesView::ShowAll()
 		    station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
 	}
 
-	Gui::Fixed *innerbox = new Gui::Fixed(400, NUM_ITEMS*YSEP);
+	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
+		Equip::Type type = static_cast<Equip::Type>(i);
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) continue;
-		int stock = station->GetEquipmentStock(static_cast<Equip::Type>(i));
+		int stock = station->GetEquipmentStock(type);
 		if (!stock) continue;
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
 		innerbox->Add(l,0,num*YSEP);
-		innerbox->Add(new Gui::SolidButton(), 275, num*YSEP);
-		innerbox->Add(new Gui::SolidButton(), 300, num*YSEP);
-		char buf[128];
-		snprintf(buf, sizeof(buf), "$%d", station->GetPrice(static_cast<Equip::Type>(i)));
-		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
-		snprintf(buf, sizeof(buf), "%dt", EquipType::types[i].mass);
-		innerbox->Add(new Gui::Label(buf), 370, num*YSEP);
+		
+		innerbox->Add(new Gui::Label(stringf(64, "$%d", station->GetPrice(type))), 200, num*YSEP);
+
+		innerbox->Add(new Gui::Label(stringf(64, "$%d", REMOVAL_VALUE_PERCENT * station->GetPrice(type) / 100)),
+				275, num*YSEP);
+		
+		innerbox->Add(new Gui::Label(stringf(64, "%dt", EquipType::types[i].mass)), 360, num*YSEP);
+		
+		Gui::Button *b;
+		b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipUpgradesView::FitItem), type));
+		innerbox->Add(b, 400, num*YSEP);
+		// only have remove button if we have this item installed
+		if (Pi::player->m_equipment.Count(EquipType::types[i].slot, type )) {
+			b = new Gui::SolidButton();
+			innerbox->Add(b, 420, num*YSEP);
+			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipUpgradesView::RemoveItem), type));
+		}
 		num++;
 	}
 	innerbox->ShowAll();
 
 	fbox->Add(new Gui::Label("Item"), 0, 0);
-	fbox->Add(new Gui::Label("Price"), 200, 0);
-	fbox->Add(new Gui::Label("Fit"), 275, 0);
-	fbox->Add(new Gui::Label("Remove"), 300, 0);
-	fbox->Add(new Gui::Label("Wt"), 370, 0);
+	fbox->Add(new Gui::Label("$ to fit"), 200, 0);
+	fbox->Add(new Gui::Label("$ for removal"), 275, 0);
+	fbox->Add(new Gui::Label("Wt"), 360, 0);
+	fbox->Add(new Gui::Label("Fit"), 400, 0);
+	fbox->Add(new Gui::Label("Remove"), 420, 0);
 	fbox->Add(portal, 0, YSEP);
 	fbox->Add(scroll, 455, YSEP);
 	portal->Add(innerbox);
@@ -373,7 +507,6 @@ void StationViewShipView::Draw3D()
 
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
-	printf("%f,%f\n", guiscale[0], guiscale[1]);
 	static float rot1, rot2;
 	rot1 += .5*Pi::GetFrameTime();
 	rot2 += Pi::GetFrameTime();
