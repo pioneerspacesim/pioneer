@@ -426,27 +426,26 @@ FontFace::FontFace(const char *filename_ttf)
 void TextureFontFace::RenderGlyph(int chr)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
-	glPushMatrix();
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, glyph->tex);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTranslatef((float)glyph->offx, (float)m_pixSize-glyph->offy, 0);
+	const float ox = (float)glyph->offx;
+	const float oy = (float)m_pixSize - glyph->offy;
 	glBegin(GL_QUADS);
 		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
 		const float w = glyph->width;
 		const float h = glyph->height;
 		glTexCoord2f(0,h);
-		glVertex2f(0,allocSize[1]);
+		glVertex2f(ox,oy+allocSize[1]);
 		glTexCoord2f(w,h);
-		glVertex2f(allocSize[0],allocSize[1]);
+		glVertex2f(ox+allocSize[0],oy+allocSize[1]);
 		glTexCoord2f(w,0);
-		glVertex2f(allocSize[0],0);
+		glVertex2f(ox+allocSize[0],oy);
 		glTexCoord2f(0,0);
-		glVertex2f(0,0);
+		glVertex2f(ox,oy);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
 	glDisable(GL_BLEND);
 }
 
@@ -626,11 +625,11 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 		for (int i=0; i<num; i++) {
 			word_t word = words.front();
 			if (word.word) RenderMarkup(word.word);
-			glTranslatef(word.advx + _spaceWidth, 0, 0);
+			glTranslatef(floor(word.advx + _spaceWidth), 0, 0);
 			words.pop_front();
 		}
 		glPopMatrix();
-		glTranslatef(0, GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f), 0);
+		glTranslatef(0, floor(GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f)), 0);
 
 	}
 	glPopMatrix();
@@ -642,12 +641,12 @@ void TextureFontFace::RenderString(const char *str)
 	for (unsigned int i=0; i<strlen(str); i++) {
 		if (str[i] == '\n') {
 			glPopMatrix();
-			glTranslatef(0,GetHeight()*PARAGRAPH_SPACING,0);
+			glTranslatef(0,floor(GetHeight()*PARAGRAPH_SPACING),0);
 			glPushMatrix();
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->tex) RenderGlyph(str[i]);
-			glTranslatef(glyph->advx,0,0);
+			glTranslatef(floor(glyph->advx),0,0);
 		}
 	}
 	glPopMatrix();
@@ -672,12 +671,12 @@ void TextureFontFace::RenderMarkup(const char *str)
 		}
 		if (str[i] == '\n') {
 			glPopMatrix();
-			glTranslatef(0,GetHeight()*PARAGRAPH_SPACING,0);
+			glTranslatef(0,floor(GetHeight()*PARAGRAPH_SPACING),0);
 			glPushMatrix();
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->tex) RenderGlyph(str[i]);
-			glTranslatef(glyph->advx,0,0);
+			glTranslatef(floor(glyph->advx),0,0);
 		}
 	}
 	glPopMatrix();

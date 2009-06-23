@@ -180,7 +180,7 @@ void StationCommoditiesView::ShowAll()
 	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
 	int NUM_ITEMS = 0;
-	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) NUM_ITEMS++;
 	}
@@ -391,7 +391,7 @@ void StationShipUpgradesView::ShowAll()
 	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
 	int NUM_ITEMS = 0;
-	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((!(EquipType::types[i].slot == Equip::SLOT_CARGO)) &&
 		    station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
@@ -571,7 +571,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label("Buy this ship"), 500, 470);
 
 
-	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	float y = 40;
 	Add(new Gui::Label("Ship type"), 450, y);
 	Add(new Gui::Label(t.name), 600, y);
@@ -670,7 +670,7 @@ void StationBuyShipsView::ShowAll()
 
 	std::vector<ShipFlavour> &ships = station->GetShipsOnSale();
 	int NUM_ITEMS = ships.size();
-	const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);

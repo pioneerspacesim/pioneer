@@ -84,7 +84,7 @@ void VScrollPortal::Draw()
 	if (toScroll < 0) toScroll = 0;
 
 	glPushMatrix();
-	glTranslatef(0, -m_scrollY*toScroll, 0);
+	glTranslatef(0, (int)(-m_scrollY*toScroll), 0);
 	Container::Draw();
 	glPopMatrix();
 	EndClipping();

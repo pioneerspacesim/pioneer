@@ -210,9 +210,9 @@ void Screen::RenderLabel(const std::string &s, float x, float y)
 	if (CanPutLabel(x, y)) {
 		labelPositions.push_back(LabelPos(x,y));
 		glPushMatrix();
-		glTranslatef(x, y, 0);
+		glTranslatef(floor(x), floor(y), 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		glTranslatef(0.5f*font->GetWidth(), -0.5f*font->GetHeight(), 0);
+		glTranslatef(floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
 	}
@@ -225,9 +225,9 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 		p.onClick.connect(slot);
 		labelPositions.push_back(p);
 		glPushMatrix();
-		glTranslatef(x, y, 0);
+		glTranslatef(floor(x), floor(y), 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		glTranslatef(0.5f*font->GetWidth(), -0.5f*font->GetHeight(), 0);
+		glTranslatef(floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()), 0);
 		font->RenderString(s.c_str());
 		glPopMatrix();
 	}
