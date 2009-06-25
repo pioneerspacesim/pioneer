@@ -423,15 +423,15 @@ FontFace::FontFace(const char *filename_ttf)
 }
 
 
-void TextureFontFace::RenderGlyph(int chr)
+void TextureFontFace::RenderGlyph(int chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, glyph->tex);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	const float ox = (float)glyph->offx;
-	const float oy = (float)m_pixSize - glyph->offy;
+	const float ox = x + (float)glyph->offx;
+	const float oy = y + (float)m_pixSize - glyph->offy;
 	glBegin(GL_QUADS);
 		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
 		const float w = glyph->width;
@@ -550,8 +550,46 @@ void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, floa
 	if (outSize[1]) outSize[1] += m_descender;
 }
 
+static double _clip[2][4];
+static vector3d _clipoffset;
+static bool _do_clip;
+void init_clip_test()
+{
+	matrix4x4d m;
+	if (glIsEnabled(GL_CLIP_PLANE1)) {
+		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
+		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
+		
+		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
+		_clipoffset.x = m[12];
+		_clipoffset.y = m[13];
+		_clipoffset.z = 0;
+
+		_do_clip = true;
+	} else {
+		_do_clip = false;
+	}
+}
+
+/* does a line of text pass top and bottom clip planes? */
+bool line_clip_test(float topy, float bottomy)
+{
+	if (!_do_clip) return true;
+	topy += _clipoffset.y;
+	bottomy += _clipoffset.y;
+
+	if ((bottomy*_clip[0][1] + _clip[0][3] > 0) &&
+	    (topy*_clip[1][1] + _clip[1][3] > 0)) return true;
+	return false;
+}
+
+/* the parsing into words and line-breaking should be cached as a layout
+ * object and then LayoutString would not be so dog slow */
 void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 {
+	float py = 0;
+	init_clip_test();
+
 	glPushMatrix();
 	std::list<word_t> words;
 
@@ -621,15 +659,22 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 			_spaceWidth = spaceWidth;
 		}
 
-		glPushMatrix();
-		for (int i=0; i<num; i++) {
-			word_t word = words.front();
-			if (word.word) RenderMarkup(word.word);
-			glTranslatef(floor(word.advx + _spaceWidth), 0, 0);
-			words.pop_front();
+		if (line_clip_test(py, py+GetHeight()*2.0)) {
+			glPushMatrix();
+			glTranslatef(0, py, 0);
+			for (int i=0; i<num; i++) {
+				word_t word = words.front();
+				if (word.word) RenderMarkup(word.word);
+				glTranslatef(floor(word.advx + _spaceWidth), 0, 0);
+				words.pop_front();
+			}
+			glPopMatrix();
+		} else {
+			for (int i=0; i<num; i++) {
+				words.pop_front();
+			}
 		}
-		glPopMatrix();
-		glTranslatef(0, floor(GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f)), 0);
+		py += floor(GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f));
 
 	}
 	glPopMatrix();
@@ -637,24 +682,24 @@ void TextureFontFace::LayoutString(const char *_str, float maxWidth)
 
 void TextureFontFace::RenderString(const char *str)
 {
-	glPushMatrix();
+	float px = 0;
+	float py = 0;
 	for (unsigned int i=0; i<strlen(str); i++) {
 		if (str[i] == '\n') {
-			glPopMatrix();
-			glTranslatef(0,floor(GetHeight()*PARAGRAPH_SPACING),0);
-			glPushMatrix();
+			px = 0;
+			py += floor(GetHeight()*PARAGRAPH_SPACING);
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i]);
-			glTranslatef(floor(glyph->advx),0,0);
+			if (glyph->tex) RenderGlyph(str[i], px, py);
+			px += floor(glyph->advx);
 		}
 	}
-	glPopMatrix();
 }
 
 void TextureFontFace::RenderMarkup(const char *str)
 {
-	glPushMatrix();
+	float px = 0;
+	float py = 0;
 	int len = strlen(str);
 	for (int i=0; i<len; i++) {
 		if (str[i] == '#') {
@@ -670,16 +715,14 @@ void TextureFontFace::RenderMarkup(const char *str)
 			}
 		}
 		if (str[i] == '\n') {
-			glPopMatrix();
-			glTranslatef(0,floor(GetHeight()*PARAGRAPH_SPACING),0);
-			glPushMatrix();
+			px = 0;
+			py += floor(GetHeight()*PARAGRAPH_SPACING);
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i]);
-			glTranslatef(floor(glyph->advx),0,0);
+			if (glyph->tex) RenderGlyph(str[i], px, py);
+			px += floor(glyph->advx);
 		}
 	}
-	glPopMatrix();
 }
 
 TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_height)
