@@ -82,9 +82,13 @@ void VScrollPortal::Draw()
 
 	float toScroll = m_childSizeY - size[1];
 	if (toScroll < 0) toScroll = 0;
+	
+	float scale[2];
+	Screen::GetCoords2Pixels(scale);
 
 	glPushMatrix();
-	glTranslatef(0, (int)(-m_scrollY*toScroll), 0);
+	// scroll to whole pixel locations whatever the resolution
+	glTranslatef(0, floor((-m_scrollY*toScroll)/scale[0])*scale[0], 0);
 	Container::Draw();
 	glPopMatrix();
 	EndClipping();

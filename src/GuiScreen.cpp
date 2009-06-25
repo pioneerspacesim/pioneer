@@ -167,13 +167,20 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 void Screen::MeasureLayout(const std::string &s, const float width, float outSize[2])
 {
 	font->MeasureLayout(s.c_str(), width / fontScale[0], outSize);
-	outSize[0] *= fontScale[0];
-	outSize[1] *= fontScale[1];
+	outSize[0] = ceil(outSize[0] * fontScale[0]);
+	outSize[1] = ceil(outSize[1] * fontScale[1]);
 }
 
 void Screen::LayoutString(const std::string &s, const float width)
 {
+	GLdouble modelMatrix[16];
 	glPushMatrix();
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
+	float x = modelMatrix[12];
+	float y = modelMatrix[13];
+	glLoadIdentity();
+	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
+			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
 	font->LayoutString(s.c_str(), width / fontScale[0]);
 	glPopMatrix();
@@ -181,7 +188,14 @@ void Screen::LayoutString(const std::string &s, const float width)
 
 void Screen::RenderString(const std::string &s)
 {
+	GLdouble modelMatrix[16];
 	glPushMatrix();
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
+	float x = modelMatrix[12];
+	float y = modelMatrix[13];
+	glLoadIdentity();
+	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
+			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
 	font->RenderString(s.c_str());
 	glPopMatrix();
@@ -189,7 +203,14 @@ void Screen::RenderString(const std::string &s)
 
 void Screen::RenderMarkup(const std::string &s)
 {
+	GLdouble modelMatrix[16];
 	glPushMatrix();
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
+	float x = modelMatrix[12];
+	float y = modelMatrix[13];
+	glLoadIdentity();
+	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
+			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
 	font->RenderMarkup(s.c_str());
 	glPopMatrix();
@@ -204,13 +225,15 @@ bool Screen::CanPutLabel(float x, float y)
 	return true;
 }
 
-
 void Screen::RenderLabel(const std::string &s, float x, float y)
 {
 	if (CanPutLabel(x, y)) {
 		labelPositions.push_back(LabelPos(x,y));
 		glPushMatrix();
-		glTranslatef(floor(x), floor(y), 0);
+		// want text to be drawn at integer pixel positions in real
+		// screen resolution, hence this dog-masturbation
+		glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
+				floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
 		glTranslatef(floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()), 0);
 		font->RenderString(s.c_str());
@@ -225,7 +248,8 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 		p.onClick.connect(slot);
 		labelPositions.push_back(p);
 		glPushMatrix();
-		glTranslatef(floor(x), floor(y), 0);
+		glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
+				floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
 		glTranslatef(floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()), 0);
 		font->RenderString(s.c_str());
