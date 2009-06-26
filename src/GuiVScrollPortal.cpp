@@ -53,7 +53,7 @@ float VScrollPortal::GetScrollPixels()
 {
 	float size[2];
 	GetSize(size);
-	return m_scrollY*(m_childSizeY-size[1]);
+	return m_scrollY*((m_childSizeY-size[1]) > 0 ? (m_childSizeY-size[1]) : 0);
 }
 
 bool VScrollPortal::OnMouseDown(MouseButtonEvent *e)
@@ -88,7 +88,7 @@ void VScrollPortal::Draw()
 
 	glPushMatrix();
 	// scroll to whole pixel locations whatever the resolution
-	glTranslatef(0, floor((-m_scrollY*toScroll)/scale[0])*scale[0], 0);
+	glTranslatef(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
 	Container::Draw();
 	glPopMatrix();
 	EndClipping();
