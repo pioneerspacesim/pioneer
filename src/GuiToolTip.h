@@ -17,6 +17,7 @@ namespace Gui {
 	private:
 		void CalcSize();
 		std::string m_text;
+		TextLayout *m_layout;
 		Uint32 m_createdTime;
 	};
 }

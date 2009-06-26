@@ -467,226 +467,13 @@ void TextureFontFace::MeasureString(const char *str, float &w, float &h)
 	h += m_descender;
 }
 
-struct word_t {
-	char *word;
-	float advx;
-	word_t(char *_word, float _advx): word(_word), advx(_advx) {}
-};
-
-void TextureFontFace::MeasureLayout(const char *_str, const float maxWidth, float outSize[2])
+void TextureFontFace::RenderString(const char *str, float x, float y)
 {
-	std::list<word_t> words;
-	outSize[0] = 0;
-	outSize[1] = 0;
-
-	char *str = (char*)alloca(strlen(_str)+1);
-	strncpy(str, _str, strlen(_str)+1);
-	
-	bool justify = true;
-	float wordWidth = 0;
-	const float spaceWidth = m_glyphs[' '].advx;
-	char *wordstart = str;
-
-	for (unsigned int i=0; i<strlen(_str);) {
-		wordWidth = 0;
-		wordstart = str+i;
-		while (str[i] && !isspace(str[i])) {
-			glfglyph_t *glyph = &m_glyphs[str[i]];
-			wordWidth += glyph->advx;
-			i++;
-		}
-		words.push_back(word_t(wordstart, wordWidth));
-		if (str[i] == '\n') words.push_back(word_t(0,0));
-		str[i++] = 0;
-	}
-	//printf("Split '%s' into:\n", _str);
-	//for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
-	//	printf("'%s'\n", (*j).word);
-	//}
-
-	// build lines of text
-	while (words.size()) {
-		float len = 0;
-		int num = 0;
-		bool explicit_newline = false;
-
-		std::list<word_t>::iterator i = words.begin();
-		len += (*i).advx;
-		num++;
-		bool overflow = false;
-		if ((*i).word != 0) {
-			++i;
-			for (; i != words.end(); ++i) {
-				if ((*i).word == 0) {
-					// newline
-					explicit_newline = true;
-					num++;
-					break;
-				}
-				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
-				len += (*i).advx + spaceWidth;
-				num++;
-			}
-		}
-
-		float _spaceWidth;
-		if ((justify) && (num>1) && overflow) {
-			float spaceleft = maxWidth - len;
-			_spaceWidth = spaceWidth + (spaceleft/(float)(num-1));
-		} else {
-			_spaceWidth = spaceWidth;
-		}
-
-		float lineLen = 0;
-		for (int i=0; i<num; i++) {
-			word_t word = words.front();
-			lineLen += word.advx;
-			if (i < num-1) lineLen += _spaceWidth;
-			words.pop_front();
-		}
-		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
-	}
-	if (outSize[1]) outSize[1] += m_descender;
-}
-
-static double _clip[2][4];
-static vector3d _clipoffset;
-static bool _do_clip;
-void init_clip_test()
-{
-	matrix4x4d m;
-	if (glIsEnabled(GL_CLIP_PLANE1)) {
-		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
-		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
-		
-		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
-		_clipoffset.x = m[12];
-		_clipoffset.y = m[13];
-		_clipoffset.z = 0;
-
-		_do_clip = true;
-	} else {
-		_do_clip = false;
-	}
-}
-
-/* does a line of text pass top and bottom clip planes? */
-bool line_clip_test(float topy, float bottomy)
-{
-	if (!_do_clip) return true;
-	topy += _clipoffset.y;
-	bottomy += _clipoffset.y;
-
-	if ((bottomy*_clip[0][1] + _clip[0][3] > 0) &&
-	    (topy*_clip[1][1] + _clip[1][3] > 0)) return true;
-	return false;
-}
-
-/* the parsing into words and line-breaking should be cached as a layout
- * object and then LayoutString would not be so dog slow */
-void TextureFontFace::LayoutString(const char *_str, float maxWidth)
-{
-	float py = 0;
-	init_clip_test();
-
-	glPushMatrix();
-	std::list<word_t> words;
-
-	char *str = (char*)alloca(strlen(_str)+1);
-	strncpy(str, _str, strlen(_str)+1);
-	
-	bool justify = true;
-	float wordWidth = 0;
-	const float spaceWidth = m_glyphs[' '].advx;
-	char *wordstart = str;
-
-	for (unsigned int i=0; i<strlen(_str);) {
-		wordWidth = 0;
-		wordstart = str+i;
-		while (str[i] && !isspace(str[i])) {
-			/* skip color control code things! */
-			if (str[i] == '#') {
-				int hexcol;
-				if (sscanf(str+i, "#%3x", &hexcol)==1) {
-					i+=4;
-					continue;
-				}
-			}
-			glfglyph_t *glyph = &m_glyphs[str[i]];
-			wordWidth += glyph->advx;
-			i++;
-		}
-		words.push_back(word_t(wordstart, wordWidth));
-		if (str[i] == '\n') words.push_back(word_t(0,0));
-		str[i++] = 0;
-	}
-	//printf("Split '%s' into:\n", _str);
-	//for (std::list<word_t>::iterator j = words.begin(); j != words.end(); ++j) {
-	//	printf("'%s'\n", (*j).word);
-	//}
-
-	// build lines of text
-	while (words.size()) {
-		float len = 0;
-		int num = 0;
-
-		std::list<word_t>::iterator i = words.begin();
-		len += (*i).advx;
-		num++;
-		bool overflow = false;
-		bool explicit_newline = false;
-		if ((*i).word != 0) {
-			++i;
-			for (; i != words.end(); ++i) {
-				if ((*i).word == 0) {
-					// newline
-					explicit_newline = true;
-					num++;
-					break;
-				}
-				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
-				len += (*i).advx + spaceWidth;
-				num++;
-			}
-		}
-
-		float _spaceWidth;
-		if ((justify) && (num>1) && overflow) {
-			float spaceleft = maxWidth - len;
-			_spaceWidth = spaceWidth + (spaceleft/(float)(num-1));
-		} else {
-			_spaceWidth = spaceWidth;
-		}
-
-		if (line_clip_test(py, py+GetHeight()*2.0)) {
-			glPushMatrix();
-			glTranslatef(0, py, 0);
-			for (int i=0; i<num; i++) {
-				word_t word = words.front();
-				if (word.word) RenderMarkup(word.word);
-				glTranslatef(floor(word.advx + _spaceWidth), 0, 0);
-				words.pop_front();
-			}
-			glPopMatrix();
-		} else {
-			for (int i=0; i<num; i++) {
-				words.pop_front();
-			}
-		}
-		py += floor(GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f));
-
-	}
-	glPopMatrix();
-}
-
-void TextureFontFace::RenderString(const char *str)
-{
-	float px = 0;
-	float py = 0;
+	float px = x;
+	float py = y;
 	for (unsigned int i=0; i<strlen(str); i++) {
 		if (str[i] == '\n') {
-			px = 0;
+			px = x;
 			py += floor(GetHeight()*PARAGRAPH_SPACING);
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
@@ -696,10 +483,10 @@ void TextureFontFace::RenderString(const char *str)
 	}
 }
 
-void TextureFontFace::RenderMarkup(const char *str)
+void TextureFontFace::RenderMarkup(const char *str, float x, float y)
 {
-	float px = 0;
-	float py = 0;
+	float px = x;
+	float py = y;
 	int len = strlen(str);
 	for (int i=0; i<len; i++) {
 		if (str[i] == '#') {
@@ -715,7 +502,7 @@ void TextureFontFace::RenderMarkup(const char *str)
 			}
 		}
 		if (str[i] == '\n') {
-			px = 0;
+			px = x;
 			py += floor(GetHeight()*PARAGRAPH_SPACING);
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];

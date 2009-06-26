@@ -7,34 +7,37 @@ namespace Gui {
 
 ToolTip::ToolTip(const char *text)
 {
+	m_layout = 0;
 	SetText(text);
+	m_createdTime = SDL_GetTicks();
+}
+
+ToolTip::ToolTip(std::string &text)
+{
+	m_layout = 0;
+	SetText(text.c_str());
 	m_createdTime = SDL_GetTicks();
 }
 
 void ToolTip::CalcSize()
 {
 	float size[2];
-	Screen::MeasureLayout(m_text, 400.0, size);
+	m_layout->MeasureSize(400.0, size);
 	size[0] += 2*TOOLTIP_PADDING;
 	SetSize(size[0], size[1]);
-}
-
-ToolTip::ToolTip(std::string &text)
-{
-	SetText(text);
-	m_createdTime = SDL_GetTicks();
 }
 
 void ToolTip::SetText(const char *text)
 {
 	m_text = text;
+	if (m_layout) delete m_layout;
+	m_layout = new TextLayout(text);
 	CalcSize();
 }
 
 void ToolTip::SetText(std::string &text)
 {
-	m_text = text;
-	CalcSize();
+	SetText(text.c_str());
 }
 
 void ToolTip::Draw()
@@ -61,14 +64,14 @@ void ToolTip::Draw()
 	glPushMatrix();
 	glTranslatef(TOOLTIP_PADDING,0,0);
 	glColor4f(1,1,1,alpha);
-	Screen::LayoutString(m_text, size[0]-2*TOOLTIP_PADDING);
+	m_layout->Render(size[0]-2*TOOLTIP_PADDING);
 	glPopMatrix();
 	glDisable(GL_BLEND);
 }
 
 void ToolTip::GetSizeRequested(float size[2])
 {
-	Screen::MeasureLayout(m_text, size[0] - 2*TOOLTIP_PADDING, size);
+	m_layout->MeasureSize(size[0] - 2*TOOLTIP_PADDING, size);
 	size[0] += 2*TOOLTIP_PADDING;
 }
 

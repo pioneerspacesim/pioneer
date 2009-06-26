@@ -50,6 +50,7 @@ namespace Gui {
 #include "GuiFixed.h"
 #include "GuiVScrollPortal.h"
 #include "GuiVScrollBar.h"
+#include "GuiTextLayout.h"
 #include "GuiLabel.h"
 #include "GuiToolTip.h"
 #include "GuiTabbed.h"

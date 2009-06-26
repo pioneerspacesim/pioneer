@@ -16,8 +16,6 @@ namespace Gui {
 		static void OnMouseMotion(SDL_MouseMotionEvent *e);
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_keysym *sym);
-		static void LayoutString(const std::string &s, const float width);
-		static void MeasureLayout(const std::string &s, const float width, float outSize[2]);
 		static void RenderString(const std::string &s);
 		static void MeasureString(const std::string &s, float &w, float &h);
 		static void RenderMarkup(const std::string &s);
@@ -37,6 +35,7 @@ namespace Gui {
 			scale[0] = fontScale[0];
 			scale[1] = fontScale[1];
 		}
+		static TextureFontFace *GetFont() { return font; }
 	private:
 		struct LabelPos {
 			LabelPos(float _x, float _y): x(_x), y(_y) {}

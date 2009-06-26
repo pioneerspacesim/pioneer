@@ -164,28 +164,6 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 	h *= fontScale[1];
 }
 
-void Screen::MeasureLayout(const std::string &s, const float width, float outSize[2])
-{
-	font->MeasureLayout(s.c_str(), width / fontScale[0], outSize);
-	outSize[0] = ceil(outSize[0] * fontScale[0]);
-	outSize[1] = ceil(outSize[1] * fontScale[1]);
-}
-
-void Screen::LayoutString(const std::string &s, const float width)
-{
-	GLdouble modelMatrix[16];
-	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12];
-	float y = modelMatrix[13];
-	glLoadIdentity();
-	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->LayoutString(s.c_str(), width / fontScale[0]);
-	glPopMatrix();
-}
-
 void Screen::RenderString(const std::string &s)
 {
 	GLdouble modelMatrix[16];
@@ -197,7 +175,7 @@ void Screen::RenderString(const std::string &s)
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s.c_str());
+	font->RenderString(s.c_str(), 0, 0);
 	glPopMatrix();
 }
 
@@ -212,7 +190,7 @@ void Screen::RenderMarkup(const std::string &s)
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s.c_str());
+	font->RenderMarkup(s.c_str(), 0, 0);
 	glPopMatrix();
 }
 
@@ -235,8 +213,7 @@ void Screen::RenderLabel(const std::string &s, float x, float y)
 		glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 				floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		glTranslatef(floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()), 0);
-		font->RenderString(s.c_str());
+		font->RenderString(s.c_str(), floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()));
 		glPopMatrix();
 	}
 }
@@ -251,8 +228,7 @@ void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slo
 		glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 				floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		glTranslatef(floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()), 0);
-		font->RenderString(s.c_str());
+		font->RenderString(s.c_str(), floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()));
 		glPopMatrix();
 	}
 }
