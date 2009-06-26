@@ -35,6 +35,7 @@ namespace Gui {
 			scale[0] = fontScale[0];
 			scale[1] = fontScale[1];
 		}
+		static const float* GetCoords2Pixels() { return fontScale; }
 		static TextureFontFace *GetFont() { return font; }
 	private:
 		struct LabelPos {

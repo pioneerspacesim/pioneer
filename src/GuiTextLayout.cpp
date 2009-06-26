@@ -31,8 +31,8 @@ static void init_clip_test()
 static bool line_clip_test(float topy, float bottomy)
 {
 	if (!_do_clip) return true;
-	topy += _clipoffset.y;
-	bottomy += _clipoffset.y;
+	topy = _clipoffset.y + topy*Gui::Screen::GetCoords2Pixels()[1];
+	bottomy = _clipoffset.y + bottomy*Gui::Screen::GetCoords2Pixels()[1];
 
 	if ((bottomy*_clip[0][1] + _clip[0][3] > 0) &&
 	    (topy*_clip[1][1] + _clip[1][3] > 0)) return true;
