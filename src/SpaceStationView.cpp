@@ -5,6 +5,7 @@
 #include "WorldView.h"
 #include "ShipFlavour.h"
 #include "ShipCpanel.h"
+#include "Mission.h"
 #include <map>
 
 #define TEXSIZE	128
@@ -770,6 +771,100 @@ void StationShipyardView::ShowAll()
 	Gui::Fixed::ShowAll();
 }
 
+////////////////////////////////////////////////////////////////////
+
+class StationBBView: public StationSubView {
+public:
+	StationBBView();
+	virtual ~StationBBView() {
+		m_onBBChangedConnection.disconnect();
+	}
+	virtual void ShowAll();
+private:
+	void OpenMission(int idx);
+	sigc::connection m_onBBChangedConnection;
+};
+
+StationBBView::StationBBView(): StationSubView()
+{
+	SpaceStation *station = Pi::player->GetDockedWith();
+	m_onBBChangedConnection = station->onBulletinBoardChanged.connect(
+			sigc::mem_fun(this, &StationBBView::ShowAll));
+	SetTransparency(false);
+}
+
+void StationBBView::OpenMission(int midx)
+{
+	DeleteAllChildren();
+	SpaceStation *station = Pi::player->GetDockedWith();
+	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
+	
+	Gui::Fixed *f = new Gui::Fixed(400, 400);
+	Add(f, 350, 40);
+	Mission *m = station->GetBBMissions()[midx];
+	MissionChatForm *chatform = new MissionChatForm();
+	chatform->onFormClose.connect(sigc::mem_fun(this, &StationBBView::ShowAll));
+	chatform->onSomethingChanged.connect(sigc::mem_fun(this, &StationBBView::UpdateBaseDisplay));
+	m->StartChat(chatform);
+	f->Add(chatform, 0, 0);
+	f->ShowAll();
+	
+	AddBaseDisplay();
+	ADD_VIDEO_WIDGET;
+	Gui::Fixed::ShowAll();
+}
+
+void StationBBView::ShowAll()
+{
+	DeleteAllChildren();
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	assert(station);
+	SetTransparency(false);
+	
+	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
+	
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationBBView::GoBack));
+	Add(b,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
+
+	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
+	Add(fbox, 320, 40);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+
+	const std::vector<Mission*> &missions = station->GetBBMissions();
+	int NUM_ITEMS = missions.size();
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
+
+	int num = 0;
+	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
+	for (std::vector<Mission*>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
+		Gui::SolidButton *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMission), num));
+		innerbox->Add(b, 10, num*YSEP);
+		
+		Gui::Label *l = new Gui::Label((*i)->GetBulletinBoardText());
+		innerbox->Add(l,40,num*YSEP);
+		
+		num++;
+	}
+	innerbox->ShowAll();
+
+	fbox->Add(portal, 0, 10);
+	fbox->Add(scroll, 455, 10);
+	portal->Add(innerbox);
+	portal->ShowAll();
+	fbox->ShowAll();
+	AddBaseDisplay();
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
+}
+
 /////////////////////////////////////////////////////////////////////
 
 SpaceStationView::SpaceStationView(): View()
@@ -799,6 +894,15 @@ void SpaceStationView::GotoShipyard()
 	HideChildren();
 	SetTransparency(true);
 	StationSubView *v = new StationShipyardView();
+	Add(v, 0, 0);
+	v->ShowAll();
+}
+
+void SpaceStationView::GotoBB()
+{
+	HideChildren();
+	SetTransparency(true);
+	StationSubView *v = new StationBBView();
 	Add(v, 0, 0);
 	v->ShowAll();
 }
@@ -849,6 +953,13 @@ void SpaceStationView::OnSwitchTo()
 	Add(b, 340, 360);
 	l = new Gui::Label("Commodity market");
 	Add(l, 365, 360);
+
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_4, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::GotoBB));
+	Add(b, 340, 420);
+	l = new Gui::Label("Bulletin board");
+	Add(l, 365, 420);
 
 	ADD_VIDEO_WIDGET;
 

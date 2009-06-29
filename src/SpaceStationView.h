@@ -15,6 +15,7 @@ public:
 	virtual void Draw3D();
 	void GotoShipyard();
 	void GotoCommodities();
+	void GotoBB();
 	virtual void OnSwitchTo();
 	void OnClickRequestLaunch();
 	friend class StationViewShipView;

@@ -11,6 +11,7 @@
 
 class CollMeshSet;
 class Ship;
+class Mission;
 
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
@@ -40,7 +41,9 @@ public:
 	bool CanSell(Equip::Type t) const;
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
+	const std::vector<Mission*> &GetBBMissions() { return m_bbmissions; }
 	sigc::signal<void> onShipsForSaleChanged;
+	sigc::signal<void> onBulletinBoardChanged;
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -49,11 +52,13 @@ protected:
 	void Sold(Equip::Type t);
 private:
 	void UpdateShipyard();
+	void UpdateBB();
 	void Init();
 	TYPE m_type;
 	int m_numPorts;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
+	std::vector<Mission*> m_bbmissions;
 	double m_lastUpdatedShipyard;
 };
 

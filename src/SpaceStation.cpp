@@ -6,6 +6,7 @@
 #include "Serializer.h"
 #include "Frame.h"
 #include "Pi.h"
+#include "Mission.h"
 
 struct SpaceStationType {
 	const char *sbreModelName;
@@ -32,6 +33,12 @@ void SpaceStation::Save()
 			i != m_shipsOnSale.end(); ++i) {
 		(*i).Save();
 	}
+	// save bb missions
+	wr_int(m_bbmissions.size());
+	for (std::vector<Mission*>::iterator i = m_bbmissions.begin();
+			i != m_bbmissions.end(); ++i) {
+		(*i)->Save();
+	}
 	wr_double(m_lastUpdatedShipyard);
 }
 
@@ -51,6 +58,12 @@ void SpaceStation::Load()
 		ShipFlavour s;
 		s.Load();
 		m_shipsOnSale.push_back(s);
+	}
+	// load bbmissions
+	int numBBMissions = rd_int();
+	for (int i=0; i<numBBMissions; i++) {
+		Mission *m = Mission::Load();
+		m_bbmissions.push_back(m);
 	}
 	m_lastUpdatedShipyard = rd_double();
 	Init();
@@ -131,6 +144,10 @@ void SpaceStation::Init()
 
 SpaceStation::~SpaceStation()
 {
+	for (std::vector<Mission*>::iterator i = m_bbmissions.begin();
+			i != m_bbmissions.end(); ++i) {
+		delete *i;
+	}
 }
 
 void SpaceStation::ReplaceShipOnSale(int idx, const ShipFlavour *with)
@@ -161,9 +178,30 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
+void SpaceStation::UpdateBB()
+{
+	if (m_bbmissions.size() == 0) {
+		// fill bb
+		for (int i=Pi::rng.Int32(20); i; i--) {
+			Mission *m = Mission::GenerateRandom();
+			m_bbmissions.push_back(m);
+		}
+	} else if (Pi::rng.Int32(2)) {
+		// add one
+		Mission *m = Mission::GenerateRandom();
+		m_bbmissions.push_back(m);
+	} else {
+		// remove one
+		int pos = Pi::rng.Int32(m_bbmissions.size());
+		m_bbmissions.erase(m_bbmissions.begin() + pos);
+	}
+	onBulletinBoardChanged.emit();
+}
+
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
+		UpdateBB();
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
