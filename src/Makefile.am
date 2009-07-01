@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = sbre/ collider/ mods/ missions/
+SUBDIRS = sbre/ collider/ missions/
 
 bin_PROGRAMS = pioneer sbreviewer
 noinst_LIBRARIES = libgui.a
@@ -10,7 +10,7 @@ include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h Gu
 		SystemView.h vector3.h View.h WorldView.h utils.h SpaceStation.h SpaceStationView.h ModelBody.h GuiISelectable.h \
 		ShipType.h Object.h InfoView.h ModelCollMeshData.h ObjectViewerView.h custom_starsystems.h Aabb.h Serializer.h \
 		Sfx.h GuiVScrollPortal.h GuiVScrollBar.h GuiAdjustment.h MarketAgent.h GuiTabbed.h EquipType.h CargoBody.h \
-		NameGenerator.h perlin.h GeoSphere.h GuiBox.h ShipFlavour.h GuiTextLayout.h Mission.h
+		NameGenerator.h perlin.h GeoSphere.h GuiBox.h ShipFlavour.h GuiTextLayout.h Mission.h pirates.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -22,8 +22,8 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp ShipFlavour.cpp \
-		Mission.cpp
-pioneer_LDADD = sbre/libsbre.a collider/libcollider.a mods/libmods.a missions/libmissions.a libgui.a
+		Mission.cpp pirates.cpp
+pioneer_LDADD = sbre/libsbre.a collider/libcollider.a missions/libmissions.a libgui.a
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp
 sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
@@ -35,5 +35,5 @@ tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp 
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp
-tests_LDADD = collider/libcollider.a libgui.a mods/libmods.a sbre/libsbre.a
+tests_LDADD = collider/libcollider.a libgui.a sbre/libsbre.a
 

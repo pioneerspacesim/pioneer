@@ -1,12 +1,9 @@
-#include "../libs.h"
-#include "../Pi.h"
-#include "../Ship.h"
-#include "../Space.h"
-#include "../Frame.h"
-#include "../Player.h"
-#include "Mods.h"
-
-namespace Mods {
+#include "libs.h"
+#include "Pi.h"
+#include "Ship.h"
+#include "Space.h"
+#include "Frame.h"
+#include "Player.h"
 
 static void spawn_random_pirate(int power, Ship *victim)
 {
@@ -54,15 +51,9 @@ static void spawn_random_pirate(int power, Ship *victim)
 	while (amount--) ship->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 }
 
-static void OnPlayerHyperspaceToNewSystem()
+void SpawnPiratesOnHyperspace()
 {
 	int num_pirates = Pi::rng.Int32(4);
 	while (num_pirates--) spawn_random_pirate(Pi::rng.Int32(1,3), Pi::player);
 }
 
-void InitModPirates()
-{
-	Pi::onPlayerHyperspaceToNewSystem.connect(sigc::ptr_fun(&OnPlayerHyperspaceToNewSystem));
-}
-
-}

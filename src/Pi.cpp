@@ -20,7 +20,7 @@
 #include "InfoView.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
-#include "mods/Mods.h"
+#include "pirates.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -118,7 +118,6 @@ void Pi::Init(IniConfig &config)
 	Space::Init();
 	
 	Gui::Init(scrWidth, scrHeight, 800, 600);
-	Mods::Init();
 }
 
 void Pi::InitOpenGL()
@@ -622,6 +621,7 @@ void Pi::HyperspaceTo(const SBodyPath *dest)
 
 	if (new_system) {
 		Pi::onPlayerHyperspaceToNewSystem.emit();
+		SpawnPiratesOnHyperspace();
 	}
 }
 
