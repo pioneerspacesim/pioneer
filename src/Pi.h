@@ -70,6 +70,7 @@ public:
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
 	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
 	static sigc::signal<void> onPlayerHyperspaceToNewSystem;
+	static sigc::signal<void> onPlayerMissionListChanged;
 
 	static MTRand rng;
 	static int statSceneTris;

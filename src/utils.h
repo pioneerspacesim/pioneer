@@ -7,6 +7,7 @@
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
+std::string format_date_only(double time);
 std::string format_distance(double dist);
 
 FILE *fopen_or_die(const char *filename, const char *mode);

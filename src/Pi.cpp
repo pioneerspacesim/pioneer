@@ -33,6 +33,7 @@ sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
 sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
 sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
+sigc::signal<void> Pi::onPlayerMissionListChanged;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
 int Pi::mouseMotion[2];
@@ -370,7 +371,7 @@ void Pi::Start()
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->SetLabel("me");
-	player->SetMoney(1000);
+	player->SetMoney(10000);
 	Space::AddBody(player);
 	
 	cpan = new ShipCpanel();

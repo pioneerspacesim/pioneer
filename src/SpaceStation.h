@@ -42,6 +42,8 @@ public:
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
 	const std::vector<Mission*> &GetBBMissions() { return m_bbmissions; }
+	// does not dealloc
+	bool BBRemoveMission(Mission *m);
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;
 protected:

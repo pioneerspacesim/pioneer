@@ -363,6 +363,50 @@ void SBodyPath::Unserialize(SBodyPath *path)
 	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd_byte();
 }
 
+template <class T>
+static void shuffle_array(MTRand &rand, T *array, int len)
+{
+	for (int i=0; i<len; i++) {
+		int pos = rand.Int32(len);
+		T temp = array[i];
+		array[i] = array[pos];
+		array[pos] = temp;
+	}
+}
+
+/*
+ * Doesn't try very hard
+ */
+bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const
+{
+	int sx = this->SectorX() + rand.Int32(3) - 1;
+	int sy = this->SectorY() + rand.Int32(3) - 1;
+	Sector sec(sx, sy);
+	const int numSys = sec.m_systems.size();
+	int *idxs = new int[numSys];
+	// examine the systems in random order
+	for (int i=0; i<numSys; i++) idxs[i] = i;
+	shuffle_array<int>(rand, idxs, numSys);
+
+	for (int i=0; i<numSys; i++) {
+		if ((sx == this->SectorX()) &&
+		    (sy == this->SectorY()) &&
+		    (idxs[i] == this->SystemIdx())) continue;
+
+		StarSystem *sys = new StarSystem(sx, sy, idxs[i]);
+
+		const int numStations = sys->m_spaceStations.size();
+		if (numStations) {
+			sys->GetPathOf(sys->m_spaceStations[rand.Int32(numStations)],
+					outDest);
+			delete sys;
+			return true;
+		}
+		delete sys;
+	}
+	return false;
+}
+
 SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
 {
 	assert((m_secx == path->sectorX) || (m_secy == path->sectorY) ||
@@ -1054,6 +1098,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
 		sp->orbit.rotMatrix = matrix4x4d::Identity();
 		children.insert(children.begin(), sp);
+		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
 
@@ -1063,6 +1108,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
 			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
 			children.insert(children.begin(), sp2);
+			system->m_spaceStations.push_back(sp2);
 		}
 	}
 	// starports - surface
@@ -1091,6 +1137,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 			sp->name = NameGenerator::Surname(rand) + " Starport";
 			position_settlement_on_planet(sp);
 			children.insert(children.begin(), sp);
+			system->m_spaceStations.push_back(sp);
 		}
 	}
 

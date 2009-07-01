@@ -7,6 +7,7 @@
 #include "SpaceStationView.h"
 #include "Serializer.h"
 #include "Planet.h"
+#include "Mission.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -19,6 +20,10 @@ Player::~Player()
 {
 	assert(this == Pi::player);
 	Pi::player = 0;
+	for (std::list<Mission*>::iterator i = m_missions.begin();
+			i != m_missions.end(); ++i) {
+		delete (*i);
+	}
 }
 
 void Player::Save()
@@ -27,14 +32,34 @@ void Player::Save()
 	Ship::Save();
 	wr_int(static_cast<int>(m_flightControlState));
 	wr_float(m_setSpeed);
+	// save missions
+	wr_int(m_missions.size());
+	for (std::list<Mission*>::iterator i = m_missions.begin();
+			i != m_missions.end(); ++i) {
+		(*i)->Save();
+	}
 }
 
 void Player::Load()
 {
+	Pi::player = this;
 	using namespace Serializer::Read;
 	Ship::Load();
 	m_flightControlState = static_cast<FlightControlState>(rd_int());
 	m_setSpeed = rd_float();
+	// load missions
+	int numMissions = rd_int();
+	for (int i=0; i<numMissions; i++) {
+		Mission *m = Mission::Load();
+		m->AttachToPlayer();
+		m_missions.push_back(m);
+	}
+}
+
+void Player::TakeMission(Mission *m)
+{
+	m_missions.push_front(m);
+	Pi::onPlayerMissionListChanged.emit();
 }
 
 void Player::SetHyperspaceTarget(const SBodyPath *path)

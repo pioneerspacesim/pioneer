@@ -18,6 +18,7 @@ void Tabbed::AddPage(Widget *label, Widget *child)
 	AppendChild(label, 0, 0);
 	AppendChild(child, 0, TAB_BAR_HEIGHT);
 	m_pages.push_back(std::pair<Widget*,Widget*>(label,child));
+	if (m_page != m_pages.size()-1) child->Hide();
 	label->Show();
 	ShuffleLabels();
 }

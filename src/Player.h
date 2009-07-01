@@ -1,9 +1,12 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
+#include <list>
 #include "libs.h"
 #include "Ship.h"
 #include "StarSystem.h"
+
+class Mission;
 
 class Player: public Ship {
 public:
@@ -21,10 +24,13 @@ public:
 	void SetFlightControlState(FlightControlState s);
 	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SBodyPath *path);
+	void TakeMission(Mission *);
+	const std::list<Mission*> &GetMissions() const { return m_missions; }
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
+	std::list<Mission*> m_missions;
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
 	float m_mouseCMov[2];

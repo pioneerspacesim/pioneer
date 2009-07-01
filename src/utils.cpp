@@ -89,6 +89,15 @@ std::string format_date(double t)
 	return buf;
 }
 
+std::string format_date_only(double t)
+{
+	int year = (int)floor(t/(60*60*24*365)); year += 3200;
+	int day = (int)floor(t/(60*60*24)); day = wankmod(day, 365);
+	char buf[128];
+	snprintf(buf,sizeof(buf),"%s %d", i_am_a_little_teapot[day], year);
+	return buf;
+}
+
 std::string string_join(std::vector<std::string> &v, std::string sep)
 {
 	std::vector<std::string>::iterator i = v.begin();

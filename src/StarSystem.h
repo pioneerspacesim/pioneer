@@ -155,12 +155,16 @@ public:
 	static void Serialize(StarSystem *);
 	static StarSystem *Unserialize();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
+	int SectorX() const { return m_secx; }
+	int SectorY() const { return m_secy; }
+	int SystemIdx() const { return m_sysIdx; }
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
 		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
 	}
 	const std::string &GetShortDescription() const { return m_shortDesc; }
 	const std::string &GetLongDescription() const { return m_longDesc; }
 	int GetNumStars() const { return m_numStars; }
+	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -171,6 +175,7 @@ public:
 	};
 
 	SBody *rootBody;
+	std::vector<SBody*> m_spaceStations;
 	fixed m_humanInfested; // 0 to 1
 private:
 	void MakePlanetsAround(SBody *primary);

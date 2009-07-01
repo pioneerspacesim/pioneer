@@ -4,10 +4,72 @@
 #include "WorldView.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
+#include "Mission.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
+	InfoViewPage(): Gui::Fixed(800, 600) {}
 	virtual void UpdateInfo() = 0;
+};
+
+class MissionPage: public InfoViewPage {
+public:
+	MissionPage() {
+		m_onMissionListChangedConnection = Pi::onPlayerMissionListChanged.connect(
+				sigc::mem_fun(this, &MissionPage::UpdateInfo));
+	};
+
+	virtual ~MissionPage() {
+		m_onMissionListChangedConnection.disconnect();
+	}
+
+	virtual void UpdateInfo() {
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		DeleteAllChildren();
+
+		Gui::Label *l = new Gui::Label("Missions:");
+		Add(l, 40, 40);
+		l->Show();
+
+		l = new Gui::Label("Pay");
+		Add(l, 40, 40+YSEP*2);
+		l->Show();
+		
+		l = new Gui::Label("Client");
+		Add(l, 100, 40+YSEP*2);
+		l->Show();
+		
+		l = new Gui::Label("Description");
+		Add(l, 250, 40+YSEP*2);
+		l->Show();
+
+		float ypos = 40 + YSEP*3;
+		const std::list<Mission*> missions = Pi::player->GetMissions();
+		for (std::list<Mission*>::const_iterator i = missions.begin();
+				i != missions.end(); ++i) {
+			l = new Gui::Label(stringf(64, "$%d", (*i)->GetPayoff()).c_str());
+			Add(l, 40, ypos);
+			l->Show();
+			
+			l = new Gui::Label((*i)->GetClientName());
+			Add(l, 100, ypos);
+			l->Show();
+
+			l = new Gui::Label((*i)->GetMissionText());
+			Add(l, 250, ypos);
+			l->Show();
+
+			ypos += YSEP*3;
+		}
+	}
+private:
+	void JettisonCargo(Equip::Type t) {
+		if (Pi::player->Jettison(t)) {
+			Pi::cpan->SetTemporaryMessage(0, std::string("Jettisonned 1 tonne of ")+EquipType::types[t].name);
+			Pi::infoView->UpdateInfo();
+		}
+	}
+	sigc::connection m_onMissionListChangedConnection;
 };
 
 class CargoPage: public InfoViewPage {
@@ -51,7 +113,7 @@ public:
 		info1 = new Gui::Label("");
 		info2 = new Gui::Label("");
 		Add(info1, 40, 40);
-		Add(info2, 300, 40);
+		Add(info2, 250, 40);
 		ShowAll();
 	};
 
@@ -117,9 +179,15 @@ InfoView::InfoView(): View()
 	InfoViewPage *page = new ShipInfoPage();
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label("Ship Information"), page);
+	
 	page = new CargoPage();
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label("Cargo"), page);
+	
+	page = new MissionPage();
+	m_pages.push_back(page);
+	m_tabs->AddPage(new Gui::Label("Missions"), page);
+	
 	Add(m_tabs, 0, 0);
 //	m_tabs->SetShortcut(SDLK_F3, KMOD_NONE);
 	m_doUpdate = true;
@@ -155,6 +223,8 @@ void InfoView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	
+	if (m_tabs->GetCurrentPage() != 0) return;
 	
 	const float bx = 450;
 	const float by = 50;

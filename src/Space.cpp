@@ -81,7 +81,6 @@ void Unserialize()
 	for (int i=0; i<num_bodies; i++) {
 		Body *b = Body::Unserialize();
 		if (b) bodies.push_back(b);
-		if (b->IsType(Object::PLAYER)) Pi::player = (Player*)b;
 	}
 	// bodies with references to others must fix these up
 	Serializer::IndexBodies();

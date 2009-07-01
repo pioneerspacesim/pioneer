@@ -178,21 +178,43 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
+/* does not dealloc */
+bool SpaceStation::BBRemoveMission(Mission *m)
+{
+	for (int i=m_bbmissions.size()-1; i>=0; i--) {
+		if (m_bbmissions[i] == m) {
+			m_bbmissions.erase(m_bbmissions.begin() + i);
+			onBulletinBoardChanged.emit();
+			return true;
+		}
+	}
+	return false;
+}
+
 void SpaceStation::UpdateBB()
 {
 	if (m_bbmissions.size() == 0) {
 		// fill bb
 		for (int i=Pi::rng.Int32(20); i; i--) {
-			Mission *m = Mission::GenerateRandom();
-			m_bbmissions.push_back(m);
+			try {
+				Mission *m = Mission::GenerateRandom();
+				m_bbmissions.push_back(m);
+			} catch (CouldNotMakeMissionException) {
+
+			}
 		}
 	} else if (Pi::rng.Int32(2)) {
 		// add one
-		Mission *m = Mission::GenerateRandom();
-		m_bbmissions.push_back(m);
+		try {
+			Mission *m = Mission::GenerateRandom();
+			m_bbmissions.push_back(m);
+		} catch (CouldNotMakeMissionException) {
+
+		}
 	} else {
 		// remove one
 		int pos = Pi::rng.Int32(m_bbmissions.size());
+		delete m_bbmissions[pos];
 		m_bbmissions.erase(m_bbmissions.begin() + pos);
 	}
 	onBulletinBoardChanged.emit();
