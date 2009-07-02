@@ -40,7 +40,7 @@ public:
 	vector3d GetPositionRelTo(const Frame *);
 	Frame *GetFrame() const { return m_frame; }
 	void SetLabel(const char *label) { m_label = label; }
-	std::string &GetLabel() { return m_label; }
+	const std::string &GetLabel() const { return m_label; }
 	unsigned int GetFlags() { return m_flags; }
 	void SetProjectedPos(const vector3d& projectedPos) { m_projectedPos = projectedPos; }
 	// Only valid if IsOnscreen() is true.

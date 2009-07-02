@@ -24,7 +24,7 @@ private:
 
 class Mission {
 public:
-	Mission(int type): type(type) { m_agreedPayoff = 0; }
+	Mission(int type): type(type) { m_agreedPayoff = 0; m_status = ACTIVE; }
 	virtual ~Mission() {}
 	virtual void Randomize() = 0;
 	virtual std::string GetBulletinBoardText() = 0;
@@ -33,6 +33,8 @@ public:
 	virtual void StartChat(MissionChatForm *) = 0;
 	virtual void FormResponse(MissionChatForm*, int) = 0;
 	virtual void AttachToPlayer() {}
+	enum MissionState { ACTIVE, COMPLETED, FAILED };
+	MissionState GetStatus() const { return m_status; }
 
 	static Mission *GenerateRandom();
 	static Mission *Load();
@@ -45,6 +47,7 @@ protected:
 	virtual void _Save() = 0;
 	virtual void _Load() = 0;
 	
+	enum MissionState m_status;
 	int m_agreedPayoff;
 	// various useful utility things
 	// In form "the Arcturus system"

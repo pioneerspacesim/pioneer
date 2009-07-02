@@ -11,7 +11,8 @@ public:
 	ShipCpanel();
 	virtual void Draw();
 	void SetScannerWidget(Widget *w); // must be done each frame
-	void SetTemporaryMessage(Body * const sender, std::string msg);
+	void SetTemporaryMessage(const Body *sender, const std::string msg);
+	void SetTemporaryMessage(const std::string &sender, const std::string msg);
 private:
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
@@ -24,6 +25,12 @@ private:
 
 	Gui::Label *tempMsg;
 	float tempMsgAge;
+	struct QueuedMsg {
+		QueuedMsg(std::string s, std::string m): sender(s), message(m) {}
+		std::string sender;
+		std::string message;
+	};
+	std::list<QueuedMsg> m_msgQueue;
 };
 
 #endif /* _SHIP_CPANEL_H */

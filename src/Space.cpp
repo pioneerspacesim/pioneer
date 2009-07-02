@@ -217,11 +217,9 @@ void GenBody(SBody *sbody, Frame *f)
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
-		} else if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
-			SpaceStation *ss = new SpaceStation(SpaceStation::JJHOOP);
-			b = ss;
-		} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
-			SpaceStation *ss = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
+		} else if ((sbody->type == SBody::TYPE_STARPORT_ORBITAL) ||
+		           (sbody->type == SBody::TYPE_STARPORT_SURFACE)) {
+			SpaceStation *ss = new SpaceStation(sbody);
 			b = ss;
 		} else {
 			Planet *planet = new Planet(sbody);

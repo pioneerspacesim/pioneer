@@ -33,6 +33,8 @@ private:
 	int m_basePay;
 	double m_deadline;
 	SBodyPath m_dest;
+
+	sigc::connection m_onDockConn;
 };
 
 

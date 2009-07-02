@@ -38,6 +38,7 @@ void Mission::Save()
 	using namespace Serializer::Write;
 	wr_int(type);
 	wr_int(m_agreedPayoff);
+	wr_int((int)m_status);
 	_Save();
 }
 
@@ -48,6 +49,7 @@ Mission *Mission::Load()
 
 	Mission *m = missionFactoryFn[type].Create(type);
 	m->m_agreedPayoff = rd_int();
+	m->m_status = (MissionState)rd_int();
 	m->_Load();
 	return m;
 }

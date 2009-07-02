@@ -221,17 +221,7 @@ void Pi::HandleEvents()
 					matrix4x4d m; Pi::player->GetRotMatrix(m);
 					vector3d dir = m*vector3d(0,0,-1);
 					/* add test object */
-					if (KeyState(SDLK_LSHIFT)) {
-						Frame *rotFrame = new Frame(Pi::player->GetFrame(), "Station rot frame");
-						rotFrame->SetRadius(3000.0);//(1.1*sbody->GetRadius());
-						rotFrame->SetPosition(Pi::player->GetPosition()+5000.0*dir);
-						rotFrame->SetAngVelocity(vector3d(0,2*M_PI/10,0));
-						SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-						station->SetLabel("Poemi-chan's Folly");
-						station->SetFrame(rotFrame);
-						station->SetRotMatrix(matrix4x4d::RotateZMatrix(M_PI));
-						Space::AddBody(station);
-					} else if (KeyState(SDLK_RSHIFT)) {
+					if (KeyState(SDLK_RSHIFT)) {
 						CargoBody *cargo = new CargoBody(Equip::HYDROGEN);
 						cargo->SetFrame(Pi::player->GetFrame());
 						cargo->SetPosition(Pi::player->GetPosition()+100.0*dir);

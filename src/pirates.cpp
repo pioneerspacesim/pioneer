@@ -53,7 +53,9 @@ static void spawn_random_pirate(int power, Ship *victim)
 
 void SpawnPiratesOnHyperspace()
 {
-	int num_pirates = Pi::rng.Int32(4);
-	while (num_pirates--) spawn_random_pirate(Pi::rng.Int32(1,3), Pi::player);
+	if (Pi::rng.Int32(3)==0) {
+		int num_pirates = Pi::rng.Int32(4);
+		while (num_pirates--) spawn_random_pirate(Pi::rng.Int32(1,3), Pi::player);
+	}
 }
 

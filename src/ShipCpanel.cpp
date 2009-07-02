@@ -210,14 +210,14 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	Add(tempMsg, 170, 4);
 }
 
-void ShipCpanel::SetTemporaryMessage(Body * const sender, std::string msg)
+void ShipCpanel::SetTemporaryMessage(const Body *sender, const std::string msg)
 {
-	std::string poo = "#0f0"+msg;
-	if (sender) {
-		poo = std::string("#ca0")+"Message from "+sender->GetLabel()+":\n"+poo;
-	}
-	tempMsg->SetText(poo);
-	tempMsgAge = (float)Pi::GetGameTime();
+	m_msgQueue.push_back(QueuedMsg(sender ? sender->GetLabel() : "", msg));
+}
+
+void ShipCpanel::SetTemporaryMessage(const std::string &sender, const std::string msg)
+{
+	m_msgQueue.push_back(QueuedMsg(sender, msg));
 }
 
 void ShipCpanel::Draw()
@@ -225,13 +225,25 @@ void ShipCpanel::Draw()
 	std::string time = format_date(Pi::GetGameTime());
 	m_clock->SetText(time);
 
-	if (tempMsgAge) {
-		if (Pi::GetGameTime() - tempMsgAge > 5.0) {
-			tempMsg->SetText("");
-			tempMsgAge = 0;
+	if ((!tempMsgAge) || ((tempMsgAge && (Pi::GetGameTime() - tempMsgAge > 5.0)))) {
+		if (m_msgQueue.empty()) {
+			if (tempMsgAge) {
+				// current message expired and queue empty
+				tempMsg->SetText("");
+				tempMsgAge = 0;
+			}
+		} else {
+			// current message expired and more in queue
+			QueuedMsg m = m_msgQueue.front();
+			m_msgQueue.pop_front();
+			if (m.sender == "") {
+				tempMsg->SetText("#0f0"+m.message);
+			} else {
+				tempMsg->SetText(stringf(1024, "#ca0Message from %s:\n%s", m.sender.c_str(), m.message.c_str()));
+			}
+			tempMsgAge = (float)Pi::GetGameTime();
 		}
 	}
-
 	Gui::Fixed::Draw();
 	Remove(m_scannerWidget);
 }

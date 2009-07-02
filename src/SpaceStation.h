@@ -13,11 +13,14 @@ class CollMeshSet;
 class Ship;
 class Mission;
 
+class SBody;
+
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
-	SpaceStation(TYPE);
+	// Should point to SBody in Pi::currentSystem
+	SpaceStation(const SBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
 	virtual bool OnCollision(Body *b, Uint32 flags);
@@ -39,6 +42,7 @@ public:
 	int GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
+	const SBody *GetSBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
 	const std::vector<Mission*> &GetBBMissions() { return m_bbmissions; }
@@ -57,6 +61,7 @@ private:
 	void UpdateBB();
 	void Init();
 	TYPE m_type;
+	const SBody *m_sbody;
 	int m_numPorts;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;

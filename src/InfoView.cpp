@@ -8,7 +8,7 @@
 
 class InfoViewPage: public Gui::Fixed {
 public:
-	InfoViewPage(): Gui::Fixed(800, 600) {}
+	InfoViewPage(): Gui::Fixed(800, 500) {}
 	virtual void UpdateInfo() = 0;
 };
 
@@ -28,39 +28,63 @@ public:
 		DeleteAllChildren();
 
 		Gui::Label *l = new Gui::Label("Missions:");
-		Add(l, 40, 40);
+		Add(l, 20, 20);
 		l->Show();
 
-		l = new Gui::Label("Pay");
-		Add(l, 40, 40+YSEP*2);
+		l = new Gui::Label("Status");
+		Add(l, 20, 20+YSEP*2);
+		l->Show();
+		
+		l = new Gui::Label("Due");
+		Add(l, 100, 20+YSEP*2);
 		l->Show();
 		
 		l = new Gui::Label("Client");
-		Add(l, 100, 40+YSEP*2);
+		Add(l, 160, 20+YSEP*2);
 		l->Show();
 		
 		l = new Gui::Label("Description");
-		Add(l, 250, 40+YSEP*2);
+		Add(l, 300, 20+YSEP*2);
 		l->Show();
 
-		float ypos = 40 + YSEP*3;
+		Gui::VScrollBar *scroll = new Gui::VScrollBar();
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
+		scroll->SetAdjustment(&portal->vscrollAdjust);
+
 		const std::list<Mission*> missions = Pi::player->GetMissions();
+		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
+
+		float ypos = 0;
 		for (std::list<Mission*>::const_iterator i = missions.begin();
 				i != missions.end(); ++i) {
+			switch ((*i)->GetStatus()) {
+				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
+				case Mission::COMPLETED: l = new Gui::Label("#ff0Completed"); break;
+				default:
+				case Mission::ACTIVE: l = new Gui::Label("#0f0Active"); break;
+			}
+			innerbox->Add(l, 0, ypos);
+			l->Show();
+			
 			l = new Gui::Label(stringf(64, "$%d", (*i)->GetPayoff()).c_str());
-			Add(l, 40, ypos);
+			innerbox->Add(l, 80, ypos);
 			l->Show();
 			
 			l = new Gui::Label((*i)->GetClientName());
-			Add(l, 100, ypos);
+			innerbox->Add(l, 140, ypos);
 			l->Show();
 
 			l = new Gui::Label((*i)->GetMissionText());
-			Add(l, 250, ypos);
+			innerbox->Add(l, 280, ypos);
 			l->Show();
 
 			ypos += YSEP*3;
 		}
+		Add(portal, 20, 20 + YSEP*3);
+		Add(scroll, 780, 20 + YSEP*3);
+		scroll->ShowAll();
+		portal->Add(innerbox);
+		portal->ShowAll();
 	}
 private:
 	void JettisonCargo(Equip::Type t) {

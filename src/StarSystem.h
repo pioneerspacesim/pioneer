@@ -39,6 +39,11 @@ struct SBodyPath {
 	
 	void Serialize() const;
 	static void Unserialize(SBodyPath *path);
+	
+	bool operator== (const SBodyPath b) const {
+		for (int i=0; i<SBODYPATHLEN; i++) if (elem[i] != b.elem[i]) return false;
+		return (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemIdx == b.systemIdx);
+	}
 };
 
 class SBody {

@@ -40,7 +40,7 @@ void IndexFrames()
 }
 
 SBody *LookupSystemBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_sbodies[index]); }
-int LookupSystemBody(SBody *b)
+int LookupSystemBody(const SBody *b)
 {
 	if (!b) return -1;
 	for (unsigned int i=0; i<g_sbodies.size(); i++) {

@@ -22,7 +22,7 @@ namespace Serializer {
 
 	void IndexSystemBodies(StarSystem *);
 	SBody *LookupSystemBody(size_t index);
-	int LookupSystemBody(SBody*);
+	int LookupSystemBody(const SBody*);
 
 	namespace Write {
 		bool Game(const char *filename);

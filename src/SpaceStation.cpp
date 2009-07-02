@@ -40,6 +40,7 @@ void SpaceStation::Save()
 		(*i)->Save();
 	}
 	wr_double(m_lastUpdatedShipyard);
+	wr_int(Serializer::LookupSystemBody(m_sbody));
 }
 
 void SpaceStation::Load()
@@ -66,6 +67,7 @@ void SpaceStation::Load()
 		m_bbmissions.push_back(m);
 	}
 	m_lastUpdatedShipyard = rd_double();
+	m_sbody = Serializer::LookupSystemBody(rd_int());
 	Init();
 }
 
@@ -121,9 +123,14 @@ void SpaceStation::GetDockingSurface(const CollMeshSet *mset, int midx)
 		dport->horiz.z); */
 }
 
-SpaceStation::SpaceStation(TYPE type): ModelBody()
+SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 {
-	m_type = type;
+	if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+		m_type = JJHOOP;
+	} else {
+		m_type = GROUND_FLAVOURED;
+	}
+	m_sbody = sbody;
 	m_numPorts = 0;
 	m_lastUpdatedShipyard = 0;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
