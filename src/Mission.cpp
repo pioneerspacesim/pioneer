@@ -54,9 +54,29 @@ Mission *Mission::Load()
 	return m;
 }
 
+MissionChatForm::MissionChatForm()
+{
+	m_msgregion = new Gui::VBox();
+	m_optregion = new Gui::VBox();
+       	m_msgregion->SetSpacing(5.0f);
+       	m_optregion->SetSpacing(5.0f);
+	Add(m_msgregion, 0, 0);
+	Add(m_optregion, 0, 150);
+	m_msgregion->Show();
+	m_optregion->Show();
+	Clear();
+}
+
+void MissionChatForm::Clear()
+{
+	m_msgregion->DeleteAllChildren();
+	m_optregion->DeleteAllChildren();
+	m_optregion->PackStart(new Gui::Label("Suggested responses:"));
+}
+
 void MissionChatForm::Message(const char *msg)
 {
-	PackEnd(new Gui::Label(msg));
+	m_msgregion->PackEnd(new Gui::Label(msg));
 	ShowAll();
 }
 
@@ -68,7 +88,7 @@ void MissionChatForm::AddOption(Mission *m, const char *text, int val)
 	box->SetSpacing(5.0f);
 	box->PackEnd(b);
 	box->PackEnd(new Gui::Label(text));
-	PackEnd(box);
+	m_optregion->PackEnd(box);
 	ShowAll();
 }
 

@@ -9,17 +9,19 @@ struct CouldNotMakeMissionException {};
 class Mission;
 struct SBodyPath;
 
-class MissionChatForm: public Gui::VBox {
+class MissionChatForm: public Gui::Fixed {
 public:
-	MissionChatForm() { SetSpacing(5.0f); }
+	MissionChatForm();
 	virtual ~MissionChatForm() {}
 	void Close() { onFormClose.emit(); }
-	void Clear() { DeleteAllChildren(); }
+	void Clear();
 	void AddOption(Mission *, const char *text, int val);
 	void Message(const char*);
 	sigc::signal<void> onFormClose;
 	sigc::signal<void> onSomethingChanged;
 private:
+	Gui::VBox *m_msgregion;
+	Gui::VBox *m_optregion;
 };	
 
 class Mission {
