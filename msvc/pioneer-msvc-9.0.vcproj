@@ -207,6 +207,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\missions\DeliverPackage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\missions\DonateToCranks.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\DynamicBody.cpp"
 				>
 			</File>
@@ -295,6 +303,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTextLayout.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiToggleButton.cpp"
 				>
 			</File>
@@ -324,6 +336,10 @@
 			</File>
 			<File
 				RelativePath="..\src\MarketAgent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Mission.cpp"
 				>
 			</File>
 			<File
@@ -375,6 +391,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\pirates.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Planet.cpp"
 				>
 			</File>
@@ -408,6 +428,10 @@
 			</File>
 			<File
 				RelativePath="..\src\ShipCpanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ShipFlavour.cpp"
 				>
 			</File>
 			<File
@@ -485,6 +509,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\missions\DeliverPackage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\missions\DonateToCranks.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\DynamicBody.h"
 				>
 			</File>
@@ -530,6 +562,10 @@
 			</File>
 			<File
 				RelativePath="..\src\GuiAdjustment.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiBox.h"
 				>
 			</File>
 			<File
@@ -589,6 +625,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTextLayout.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiToggleButton.h"
 				>
 			</File>
@@ -622,6 +662,10 @@
 			</File>
 			<File
 				RelativePath="..\src\matrix4x4.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Mission.h"
 				>
 			</File>
 			<File
@@ -661,11 +705,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\pirates.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Planet.h"
 				>
 			</File>
 			<File
 				RelativePath="..\src\Player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\missions\register.h"
 				>
 			</File>
 			<File
@@ -694,6 +746,10 @@
 			</File>
 			<File
 				RelativePath="..\src\ShipCpanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ShipFlavour.h"
 				>
 			</File>
 			<File
@@ -800,22 +856,6 @@
 			</File>
 			<File
 				RelativePath="..\src\sbre\transp.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="mods"
-			>
-			<File
-				RelativePath="..\src\mods\Mods.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\mods\Mods.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\mods\pirates.cpp"
 				>
 			</File>
 		</Filter>

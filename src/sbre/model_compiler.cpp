@@ -235,7 +235,7 @@ static void parseObjectLod(tokenIter_t &t, Uint16 objLod[4])
 		if (i == obj_lods.end()) (*t).Error("Undefined obj_lod %s", (*t).val.s);
 		else {
 			for (int j=0; j<4; j++) {
-				objLod[j] = (*i).second.divs[j];
+				objLod[j] = static_cast<Uint16>((*i).second.divs[j] & 0xffff);
 			}
 		}
 		++t;
