@@ -353,8 +353,8 @@ void Pi::TombStoneLoop()
 
 void Pi::Start()
 {
-	player = new Player(ShipType::SWANKY);
-	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+	player = new Player(ShipType::SIRIUS_INTERDICTOR);
+	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
 	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::LASER_4MW_BEAM);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);

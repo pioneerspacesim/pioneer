@@ -13,11 +13,7 @@ public:
 	SpaceStationView();
 	virtual void Update();
 	virtual void Draw3D();
-	void GotoShipyard();
-	void GotoCommodities();
-	void GotoBB();
 	virtual void OnSwitchTo();
-	void OnClickRequestLaunch();
 	friend class StationViewShipView;
 private:
 	// hack so StationViewShipView can draw its 3d shit

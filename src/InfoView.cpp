@@ -146,7 +146,7 @@ public:
 		std::string nfo;
 		const ShipType &stype = Pi::player->GetShipType();
 		nfo = "SHIP INFORMATION:  "+std::string(stype.name);
-		nfo += "\n\nDrive system:"
+		nfo += "\n\nHyperdrive:"
 			"\n\nCapacity:"
 			"\nFree:"
 			"\nUsed:"

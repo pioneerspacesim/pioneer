@@ -15,6 +15,7 @@ struct SBodyPath;
 struct shipstats_t {
 	int max_capacity;
 	int used_capacity;
+	int used_cargo;
 	int free_capacity;
 	int total_mass; // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints

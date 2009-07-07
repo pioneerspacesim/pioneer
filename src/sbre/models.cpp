@@ -441,7 +441,7 @@ static Thruster ship1thruster[] = {
 	{ 36, 1, 25.0f }, { 37, 1, 25.0f },	// top
 	{ 38, 4, 25.0f }, { 39, 4, 25.0f },	// bottom
 };
-Model ship1model = { 1.0f, 40.0f, 42, ship1vtx1, 50, 6, ship1vtx2, 0,
+Model ship1model = { 1.0f, 65.0f, 42, ship1vtx1, 50, 6, ship1vtx2, 0,
 	{ { 0, ship1data, 0, 11, ship1thruster } } };
 
 
@@ -1680,6 +1680,6 @@ static Thruster ship6thruster[] = {
 	{ 48, 0 | THRUST_XREF, 15.0f }, { 51, 0 | THRUST_XREF, 15.0f },
 	{ 49, 4 | THRUST_XREF, 15.0f }, { 52, 4 | THRUST_XREF, 15.0f },
 };
-Model ship6model = { 1.0f, 66.0f, 53, ship6vtx1, 60, 0, ship6vtx2, 11,
+Model ship6model = { 0.5f, 66.0f, 53, ship6vtx1, 60, 0, ship6vtx2, 11,
 	{ { 0, ship6data, 0, 8, ship6thruster } } };
 

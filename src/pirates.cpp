@@ -22,7 +22,7 @@ static void spawn_random_pirate(int power, Ship *victim)
 			t = ShipType::LADYBIRD;
 			break;
 		default:
-			t = ShipType::SWANKY;
+			t = ShipType::SIRIUS_INTERDICTOR;
 			break;
 	}
 

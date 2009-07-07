@@ -6,6 +6,17 @@ const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 
 const ShipType ShipType::types[] = {
 	{
+		"Swordfish Starfighter",
+		"66",
+		{ 2e6,-2e6,1e6,-1e6,-1e6,1e6 },
+		1e7,
+		{
+			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
+			{ vector3f(0,0,0), vector3f(0,0,1) }
+		},
+		{ 20, 1, 1, 0 },
+		20, 5, 4000000,
+	}, {
 		// besides running a wicked corporatist regime in the
 		// sirius system, Sirius corporation make a range of
 		// lovely starships
@@ -16,8 +27,8 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
-		{ 12, 1, 2, 0 },
-		12, 20, 6000000,
+		{ 90, 1, 2, 0 },
+		90, 20, 16000000,
 	}, {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
@@ -29,7 +40,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 60, 1, 1, 0 },
-		60, 15, 2200000,
+		60, 15, 8700000,
 	}, {
 		"Taipan",
 		"taipan",
@@ -40,7 +51,18 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 240, 1, 1, 0 },
-		240, 96, 24000000,
+		240, 55, 56000000,
+	}, {
+		"Walrus",
+		"60",
+		{ 12e6,-12e6,4e6,-4e6,-4e6,4e6 },
+		1e7,
+		{
+			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
+			{ vector3f(0,0,0), vector3f(0,0,1) }
+		},
+		{ 320, 1, 1, 0 },
+		320, 80, 35000000,
 	}, {
 		"Flowerfairy Heavy Trader",
 		"63",

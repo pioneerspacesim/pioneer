@@ -221,11 +221,13 @@ const shipstats_t *Ship::CalcStats()
 	const ShipType &stype = GetShipType();
 	m_stats.max_capacity = stype.capacity;
 	m_stats.used_capacity = 0;
+	m_stats.used_cargo = 0;
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
 			Equip::Type t = m_equipment.Get((Equip::Slot)i, j);
 			if (t) m_stats.used_capacity += EquipType::types[t].mass;
+			if ((Equip::Slot)i == Equip::SLOT_CARGO) m_stats.used_cargo += EquipType::types[t].mass;
 		}
 	}
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;

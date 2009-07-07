@@ -101,20 +101,57 @@ public:
 		GetParent()->RemoveChild(this);
 		GetParent()->ShowChildren();
 		GetParent()->SetTransparency(false);
+		static_cast<StationSubView*>(GetParent())->UpdateBaseDisplay();
 		delete this;
 	}
 	void UpdateBaseDisplay() {
-		char buf[128];
-		snprintf(buf, sizeof(buf), "Credits: %s", format_money(Pi::player->GetMoney()).c_str());
-		m_money->SetText(buf);
+		char buf[64];
+		m_money->SetText(format_money(Pi::player->GetMoney()));
+
+		const shipstats_t *stats = Pi::player->CalcStats();
+		snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
+		m_equipmentMass->SetText(buf);
+		
+		snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
+		m_cargoSpaceUsed->SetText(buf);
+		
+		snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
+		m_cargoSpaceFree->SetText(buf);
 	}
 	void AddBaseDisplay() {
+		const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+		const float ystart = 350.0f;
+
+		Add(new Gui::Label("#007Cash"), 10, ystart);
+		Add(new Gui::Label("#007Legal status"), 10, ystart + 2*YSEP);
+		Add(new Gui::Label("#007Used"), 140, ystart+4*YSEP);
+		Add(new Gui::Label("#007Free"), 220, ystart+4*YSEP);
+		Add(new Gui::Label("#007Cargo space"), 10, ystart+5*YSEP);
+		Add(new Gui::Label("#007Equipment"), 10, ystart+6*YSEP);
+
 		m_money = new Gui::Label("");
-		Add(m_money, 10, 450);
+		Add(m_money, 220, ystart);
+
+		m_cargoSpaceUsed = new Gui::Label("");
+		Add(m_cargoSpaceUsed, 140, ystart + 5*YSEP);
+		
+		m_cargoSpaceFree = new Gui::Label("");
+		Add(m_cargoSpaceFree, 220, ystart + 5*YSEP);
+		
+		m_equipmentMass = new Gui::Label("");
+		Add(m_equipmentMass, 140, ystart + 6*YSEP);
+		
+		m_legalstatus = new Gui::Label("Clean");
+		Add(m_legalstatus, 220, ystart + 2*YSEP);
+
 		UpdateBaseDisplay();
 	}
 private:
+	Gui::Label *m_legalstatus;
 	Gui::Label *m_money;
+	Gui::Label *m_cargoSpaceUsed;
+	Gui::Label *m_cargoSpaceFree;
+	Gui::Label *m_equipmentMass;
 };
 
 ////////////////////////////////////////////////////////////////////
@@ -614,7 +651,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 
-	AddBaseDisplay();
+	//AddBaseDisplay();
 	//ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
@@ -865,48 +902,21 @@ void StationBBView::ShowAll()
 
 /////////////////////////////////////////////////////////////////////
 
-SpaceStationView::SpaceStationView(): View()
-{
-	Gui::Label *l = new Gui::Label("Comms Link");
-	l->SetColor(1,.7,0);
-	m_rightRegion2->Add(l, 10, 0);
-}
+class StationRootView: public StationSubView {
+public:
+	StationRootView() {}
+	virtual ~StationRootView() {}
+	virtual void ShowAll();
+private:
+	void GotoShipyard();
+	void GotoCommodities();
+	void GotoBB();
+	void OnClickRequestLaunch();
+};
 
-void SpaceStationView::OnClickRequestLaunch()
+void StationRootView::ShowAll()
 {
-	Pi::player->SetDockedWith(0,0);
-	Pi::SetView(Pi::worldView);
-}
 
-void SpaceStationView::GotoCommodities()
-{
-	HideChildren();
-	SetTransparency(true);
-	StationSubView *v = new StationCommoditiesView();
-	Add(v, 0, 0);
-	v->ShowAll();
-}
-
-void SpaceStationView::GotoShipyard()
-{
-	HideChildren();
-	SetTransparency(true);
-	StationSubView *v = new StationShipyardView();
-	Add(v, 0, 0);
-	v->ShowAll();
-}
-
-void SpaceStationView::GotoBB()
-{
-	HideChildren();
-	SetTransparency(true);
-	StationSubView *v = new StationBBView();
-	Add(v, 0, 0);
-	v->ShowAll();
-}
-
-void SpaceStationView::OnSwitchTo()
-{
 	SetTransparency(false);
 	DeleteAllChildren();
 	SpaceStation *station = Pi::player->GetDockedWith();
@@ -933,35 +943,87 @@ void SpaceStationView::OnSwitchTo()
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::OnClickRequestLaunch));
+	b->onClick.connect(sigc::mem_fun(this, &StationRootView::OnClickRequestLaunch));
 	Add(b, 340, 240);
 	l = new Gui::Label("Request Launch");
 	Add(l, 365, 240);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::GotoShipyard));
+	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoShipyard));
 	Add(b, 340, 300);
 	l = new Gui::Label("Shipyard");
 	Add(l, 365, 300);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_3, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::GotoCommodities));
+	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoCommodities));
 	Add(b, 340, 360);
 	l = new Gui::Label("Commodity market");
 	Add(l, 365, 360);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_4, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &SpaceStationView::GotoBB));
+	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoBB));
 	Add(b, 340, 420);
 	l = new Gui::Label("Bulletin board");
 	Add(l, 365, 420);
 
+	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 
 	Gui::Fixed::ShowAll();
+}
+
+void StationRootView::OnClickRequestLaunch()
+{
+	Pi::player->SetDockedWith(0,0);
+	Pi::SetView(Pi::worldView);
+}
+
+void StationRootView::GotoCommodities()
+{
+	HideChildren();
+	SetTransparency(true);
+	StationSubView *v = new StationCommoditiesView();
+	Add(v, 0, 0);
+	v->ShowAll();
+}
+
+void StationRootView::GotoShipyard()
+{
+	HideChildren();
+	SetTransparency(true);
+	StationSubView *v = new StationShipyardView();
+	Add(v, 0, 0);
+	v->ShowAll();
+}
+
+void StationRootView::GotoBB()
+{
+	HideChildren();
+	SetTransparency(true);
+	StationSubView *v = new StationBBView();
+	Add(v, 0, 0);
+	v->ShowAll();
+}
+
+/////////////////////////////////////////////////////////////////////
+
+SpaceStationView::SpaceStationView(): View()
+{
+	Gui::Label *l = new Gui::Label("Comms Link");
+	l->SetColor(1,.7,0);
+	m_rightRegion2->Add(l, 10, 0);
+}
+
+void SpaceStationView::OnSwitchTo()
+{
+	DeleteAllChildren();
+	SetTransparency(true);
+	StationSubView *v = new StationRootView();
+	Add(v, 0, 0);
+	v->ShowAll();
 }
 
 void SpaceStationView::Draw3D()
