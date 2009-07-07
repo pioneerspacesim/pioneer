@@ -66,7 +66,7 @@ public:
 			innerbox->Add(l, 0, ypos);
 			l->Show();
 			
-			l = new Gui::Label(stringf(64, "$%d", (*i)->GetPayoff()).c_str());
+			l = new Gui::Label(format_money((*i)->GetPayoff()));
 			innerbox->Add(l, 80, ypos);
 			l->Show();
 			

@@ -11,13 +11,13 @@ const ShipType ShipType::types[] = {
 		// lovely starships
 		"Sirius Interdictor", "61",
 		{ 4e6,-4e6,1e6,-1e6,-1e6,1e6 },
-		1e7,
+		4e7,
 		{
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
 		{ 12, 1, 2, 0 },
-		12, 20, 60000,
+		12, 20, 6000000,
 	}, {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
@@ -29,7 +29,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 60, 1, 1, 0 },
-		60, 15, 22000,
+		60, 15, 2200000,
 	}, {
 		"Taipan",
 		"taipan",
@@ -40,7 +40,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 240, 1, 1, 0 },
-		240, 96, 240000,
+		240, 96, 24000000,
 	}, {
 		"Flowerfairy Heavy Trader",
 		"63",
@@ -51,7 +51,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
 		{ 500, 1, 2, 0 },
-		500, 125, 550000,
+		500, 125, 55000000,
 	}
 };
 

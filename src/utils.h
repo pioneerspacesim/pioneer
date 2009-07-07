@@ -6,9 +6,11 @@
 #include <stdio.h>
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
+std::string string_subst(const char *format, const unsigned int num_args, std::string args[]);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist);
+std::string format_money(int money);
 
 FILE *fopen_or_die(const char *filename, const char *mode);
 

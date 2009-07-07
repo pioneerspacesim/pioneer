@@ -77,6 +77,13 @@ int wankmod(int a, int b)
 	return r>=0 ? r : r+b;
 }
 
+std::string format_money(int money)
+{
+	char buf[32];
+	snprintf(buf, sizeof(buf), "$%.1f", 0.01f*(float)money);
+	return std::string(buf);
+}
+
 std::string format_date(double t)
 {
 	int year = (int)floor(t/(60*60*24*365)); year += 3200;
@@ -183,5 +190,41 @@ std::string make_random_ship_registration()
 		'A' + Pi::rng.Int32(26),
 		Pi::rng.Int32(10000));
 	return std::string(buf);
+}
+
+/*
+ * So (if you will excuse the C99 compound array literal):
+ * string_subst("Hello %1, you smell of %0. Yep, definitely %0.", 2, (std::string[]){"shit","Tom"});
+ * will return the string "Hello Tom, you smell of shit. Yep, definitely shit."
+ */
+std::string string_subst(const char *format, const unsigned int num_args, std::string args[])
+{
+	std::string out;
+	const char *pos = format;
+
+	while (*pos) {
+		int i = 0;
+		// look for control symbol
+		while (pos[i] && (pos[i]!='%')) i++;
+		out.append(pos, i);
+		if (pos[i]=='%') {
+			unsigned int argnum;
+			if (pos[++i]=='%') {
+				out.push_back('%');
+				i++;
+			}
+			else if (1 == sscanf(&pos[i], "%d", &argnum)) {
+				if (argnum >= num_args) out.append("(INVALID ARG)");
+				else {
+					out.append(args[argnum]);
+					while (isdigit(pos[i])) i++;
+				}
+			} else {
+				out.append("(INVALID %code)");
+			}
+		}
+		pos += i;
+	}
+	return out;
 }
 

@@ -215,7 +215,7 @@ void Pi::HandleEvents()
 				}
 #ifdef DEBUG
 				if ((event.key.keysym.sym == SDLK_m) && KeyState(SDLK_LCTRL)) {
-					Pi::player->SetMoney(Pi::player->GetMoney() + 10000.0);
+					Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
 				}
 				if (event.key.keysym.sym == SDLK_F12) {
 					matrix4x4d m; Pi::player->GetRotMatrix(m);

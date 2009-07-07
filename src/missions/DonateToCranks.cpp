@@ -51,19 +51,19 @@ void DonateToCranks::FormResponse(MissionChatForm *form, int resp)
 	if (resp==0) form->Close();
 	int amount;
 	switch (resp) {
-		case 1: amount = 1; break;
-		case 2: amount = 10; break;
-		case 3: amount = 100; break;
-		case 4: amount = 1000; break;
-		case 5: amount = 10000; break;
-		case 6: amount = 100000; break;
+		case 1: amount = 100; break;
+		case 2: amount = 1000; break;
+		case 3: amount = 10000; break;
+		case 4: amount = 100000; break;
+		case 5: amount = 1000000; break;
+		case 6: amount = 10000000; break;
 		default: return;
 	}
 	if (Pi::player->GetMoney() < amount) {
 		Pi::cpan->SetTemporaryMessage(0, "You do not have enough money.");
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - amount);
-		if (amount > 10000)
+		if (amount > 1000000)
 			Pi::cpan->SetTemporaryMessage(0, "Wow! That was very generous.");
 		else
 			Pi::cpan->SetTemporaryMessage(0, "Thankyou. All donations are welcome.");

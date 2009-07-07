@@ -32,8 +32,8 @@ static struct dtype_t {
 	int money;
 } deliveryType[MAX_FLAVOUR] = {
 	{
-		"GOING TO %s? Money paid for delivery of a small package.",
-		"Hi, I'm %s. I'll pay you $%d if you will deliver a small package to %s.",
+		"GOING TO %0? Money paid for delivery of a small package.",
+		"Hi, I'm %0. I'll pay you %1 if you will deliver a small package to %2.",
 		"When a friend visited me she left behind some clothes and antique paper books. I'd like to "
 		"have them returned to her.",
 		"Thank you for the delivery. You have been paid in full.",
@@ -42,8 +42,8 @@ static struct dtype_t {
 		300,
 		50,
 	}, {
-		"WANTED. Delivery of a package to %s.",
-		"Hello. I'm %s. I'm willing to pay $%d for a ship to carry a package to %s.",
+		"WANTED. Delivery of a package to %0.",
+		"Hello. I'm %0. I'm willing to pay %1 for a ship to carry a package to %2.",
 		"It is nothing special.",
 		"The package has been received and you have been paid in full.",
 		"I'm frustrated by the late delivery of my package, and I refuse to pay you.",
@@ -51,8 +51,8 @@ static struct dtype_t {
 		100,
 		100,
 	}, {
-		"URGENT. Fast ship needed to deliver a package to %s.",
-		"Hello. I'm %s. I'm willing to pay $%d for a ship to carry a package to %s.",
+		"URGENT. Fast ship needed to deliver a package to %0.",
+		"Hello. I'm %0. I'm willing to pay %1 for a ship to carry a package to %2.",
 		"It is a research proposal and must be delivered by the deadline or we may not get funding.",
 		"You have been paid in full for the delivery. Thank you.",
 		"I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
@@ -60,8 +60,8 @@ static struct dtype_t {
 		75,
 		110,
 	}, {
-		"DELIVERY. Documents to the %s system. $%d to an experienced pilot.",
-		"Hello. I'm %s. I'm willing to pay $%d for a ship to carry a package to %s.",
+		"DELIVERY. Documents to the %0 system. %1 to an experienced pilot.",
+		"Hello. I'm %0. I'm willing to pay %1 for a ship to carry a package to %2.",
 		"Some extremely sensitive documents have fallen into my hands, and I have "
 		"reason to believe that the leak has been traced to me.",
 		"Your timely and discrete service is much appreciated. You have been paid in full.",
@@ -100,17 +100,14 @@ std::string DeliverPackage::GetMissionText()
 
 std::string DeliverPackage::GetBulletinBoardText()
 {
-	return stringf(1024, deliveryType[m_flavour].bbtext, NaturalSystemName(m_dest).c_str(),
-			m_basePay);
+	std::string args[2] = { NaturalSystemName(m_dest), format_money(m_basePay) };
+	return string_subst(deliveryType[m_flavour].bbtext, 2, args);
 }
 
 void DeliverPackage::StartChat(MissionChatForm *form)
 {
-	form->Message(stringf(2048, deliveryType[m_flavour].introtext,
-				m_personName.c_str(),
-				m_basePay,
-				NaturalSpaceStationName(m_dest).c_str()
-				).c_str());
+	std::string args[3] = { m_personName, format_money(m_basePay), NaturalSpaceStationName(m_dest) };
+	form->Message(string_subst(deliveryType[m_flavour].introtext, 3, args).c_str());
 	PutOptions(form);
 }
 

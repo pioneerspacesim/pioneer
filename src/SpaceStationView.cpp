@@ -105,7 +105,7 @@ public:
 	}
 	void UpdateBaseDisplay() {
 		char buf[128];
-		snprintf(buf, sizeof(buf), "Credits: $%lld", Pi::player->GetMoney());
+		snprintf(buf, sizeof(buf), "Credits: %s", format_money(Pi::player->GetMoney()).c_str());
 		m_money->SetText(buf);
 	}
 	void AddBaseDisplay() {
@@ -201,8 +201,9 @@ void StationCommoditiesView::ShowAll()
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell), i));
 		innerbox->Add(b, 415, num*YSEP);
 		char buf[128];
-		snprintf(buf, sizeof(buf), "$%d", m_station->GetPrice(static_cast<Equip::Type>(i)));
-		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
+		innerbox->Add(new Gui::Label(
+					format_money(m_station->GetPrice(static_cast<Equip::Type>(i)))
+					), 200, num*YSEP);
 		
 		snprintf(buf, sizeof(buf), "%dt", stock*EquipType::types[i].mass);
 		Gui::Label *stocklabel = new Gui::Label(buf);
@@ -407,9 +408,9 @@ void StationShipUpgradesView::ShowAll()
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
 		innerbox->Add(l,0,num*YSEP);
 		
-		innerbox->Add(new Gui::Label(stringf(64, "$%d", station->GetPrice(type))), 200, num*YSEP);
+		innerbox->Add(new Gui::Label(format_money(station->GetPrice(type))), 200, num*YSEP);
 
-		innerbox->Add(new Gui::Label(stringf(64, "$%d", REMOVAL_VALUE_PERCENT * station->GetPrice(type) / 100)),
+		innerbox->Add(new Gui::Label(format_money(REMOVAL_VALUE_PERCENT * station->GetPrice(type) / 100)),
 				275, num*YSEP);
 		
 		innerbox->Add(new Gui::Label(stringf(64, "%dt", EquipType::types[i].mass)), 360, num*YSEP);
@@ -578,7 +579,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label(t.name), 600, y);
 	y+=YSEP;
 	Add(new Gui::Label("Price"), 450, y);
-	Add(new Gui::Label(stringf(64, "$%d", m_flavour.price)), 600, y);
+	Add(new Gui::Label(format_money(m_flavour.price)), 600, y);
 	y+=YSEP;
 	Add(new Gui::Label("Registration id"), 450, y);
 	Add(new Gui::Label(m_flavour.regid), 600, y);
@@ -678,11 +679,8 @@ void StationBuyShipsView::ShowAll()
 	for (std::vector<ShipFlavour>::iterator i = ships.begin(); i!=ships.end(); ++i) {
 		Gui::Label *l = new Gui::Label(ShipType::types[(*i).type].name);
 		innerbox->Add(l,0,num*YSEP);
-		char buf[128];
-		snprintf(buf, sizeof(buf), "$%d", (*i).price);
-		innerbox->Add(new Gui::Label(buf), 200, num*YSEP);
-		snprintf(buf, sizeof(buf), "$%d", (*i).price - Pi::player->GetFlavour()->price);
-		innerbox->Add(new Gui::Label(buf), 275, num*YSEP);
+		innerbox->Add(new Gui::Label(format_money((*i).price)), 200, num*YSEP);
+		innerbox->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, num*YSEP);
 		innerbox->Add(new Gui::Label(stringf(16, "%dt", ShipType::types[(*i).type].capacity)), 370, num*YSEP);
 		
 		Gui::SolidButton *b = new Gui::SolidButton();
