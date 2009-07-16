@@ -1030,7 +1030,8 @@ double GeoSphere::GetHeightMapVal(const vector3d &pt)
 		double a1 = -(1/3.0)*d0 + d2 - (1/6.0)*d3;
 		double a2 = 0.5*d0 + 0.5*d2;
 		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
-		return a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
+		double v = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
+		return (v<0 ? -0.1 : v + 100*fabs(octavenoise(10, 0.5, 1000.0*pt)));
 	}
 }
 
