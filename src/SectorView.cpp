@@ -11,7 +11,7 @@
 SectorView::SectorView(): GenericSystemView()
 {
 	SetTransparency(true);
-	m_px = m_py = 0.5;
+	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
 	m_rot_x = m_rot_z = 0;
 	m_secx = m_secy = 0;
 	m_selected = -1;
@@ -67,8 +67,8 @@ void SectorView::Load()
 	m_secx = rd_int();
 	m_secy = rd_int();
 	m_selected = rd_int();
-	m_px = rd_float();
-	m_py = rd_float();
+	m_px = m_pxMovingTo = rd_float();
+	m_py = m_pyMovingTo = rd_float();
 	m_rot_x = rd_float();
 	m_rot_z = rd_float();
 }
@@ -134,7 +134,20 @@ void SectorView::Draw3D()
 	glEnable(GL_LIGHTING);
 }
 	
-void SectorView::PutText(std::string &text)
+void SectorView::GotoSystem(int sector_x, int sector_y, int system_idx)
+{
+	Sector s = Sector(sector_x, sector_y);
+	const vector3f &p = s.m_systems[system_idx].p;
+	m_pxMovingTo = sector_x + p.x/Sector::SIZE;
+	m_pyMovingTo = sector_y + p.y/Sector::SIZE;
+}
+
+void SectorView::OnClickSystem(const Gui::MouseButtonEvent *e, int sx, int sy, int sys_idx)
+{
+	GotoSystem(sx, sy, sys_idx);
+}
+
+void SectorView::PutClickableLabel(std::string &text, int sx, int sy, int sys_idx)
 {
 	// highly optimal..
 	GLdouble modelMatrix[16];
@@ -148,7 +161,7 @@ void SectorView::PutText(std::string &text)
 	Gui::Screen::EnterOrtho();
 	vector3d _pos;
 	if (Gui::Screen::Project (0,0,0, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-		Gui::Screen::RenderLabel(text, _pos.x, _pos.y);
+		Gui::Screen::PutClickableLabel(text, _pos.x, _pos.y, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx));
 	}
 	Gui::Screen::LeaveOrtho();
 	glDisable(GL_LIGHTING);
@@ -213,7 +226,7 @@ void SectorView::DrawSector(int sx, int sy)
 		glDepthRange(0,1);
 		glPopMatrix();
 		glColor3f(.7,.7,.7);
-		PutText((*i).name);
+		PutClickableLabel((*i).name, sx, sy, num);
 
 		glPopMatrix();
 		num++;
@@ -223,15 +236,24 @@ void SectorView::DrawSector(int sx, int sy)
 void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
-	if (Pi::KeyState(SDLK_LEFT)) m_px -= 1*frameTime;
-	if (Pi::KeyState(SDLK_RIGHT)) m_px += 1*frameTime;
-	if (Pi::KeyState(SDLK_UP)) m_py += 1*frameTime;
-	if (Pi::KeyState(SDLK_DOWN)) m_py -= 1*frameTime;
+	
+	if (Pi::KeyState(SDLK_LEFT)) m_pxMovingTo -= 1*frameTime;
+	if (Pi::KeyState(SDLK_RIGHT)) m_pxMovingTo += 1*frameTime;
+	if (Pi::KeyState(SDLK_UP)) m_pyMovingTo += 1*frameTime;
+	if (Pi::KeyState(SDLK_DOWN)) m_pyMovingTo -= 1*frameTime;
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
 	m_zoom = CLAMP(m_zoom, 0.1, 5.0);
+	
+	// when zooming to a clicked on spot
+	{
+		float diffx = m_pxMovingTo - m_px;
+		float diffy = m_pyMovingTo - m_py;
+		m_px += diffx * 10.0*frameTime;
+		m_py += diffy * 10.0*frameTime;
+	}
 	
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
