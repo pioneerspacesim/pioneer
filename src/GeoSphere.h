@@ -31,6 +31,7 @@ private:
 	double m_crap[16];
 	double m_sealevel;
 	double m_sbodyRadius;
+	double m_icyness; // ~1.0 = earth (15c)
 	vector3d m_fractalOffset;
 
 	/* for sbodies with a heightMap we load this turd

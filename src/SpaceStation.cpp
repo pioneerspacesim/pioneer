@@ -378,17 +378,13 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 static Plane planes[6];
 ObjParams cityobj_params;
 
-static void drawModel(const Planet *planet, const matrix4x4d &frameTrans, const matrix4x4d &rot, vector3d pos, vector3d xvec, int modelNum)
+static void drawModel(const matrix4x4d &rot, vector3d pos, int modelNum)
 {
 	glPushMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 
 //	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	pos = pos.Normalized();
-	pos = pos * planet->GetTerrainHeight(pos);
-	pos = frameTrans * pos;
-
 	sbreRenderModel(&pos.x, &rot[0], modelNum, &cityobj_params);
 //	glPopAttrib();
 
@@ -436,26 +432,26 @@ static void putCityBit(const Planet *planet, MTRand &rand, const matrix4x4d &fra
 	} else {
 		vector3d cent = (p1+p2+p3+p4)*0.25;
 
+		
+		cent = cent.Normalized();
+		cent = cent * planet->GetTerrainHeight(cent);
+		cent = frameTrans * cent;
+
+		/* frustum cull */
 		for (int i=0; i<6; i++) {
-			if (planes[i].DistanceToPoint(frameTrans*cent)+sbreGetModelRadius(modelNum) < 0) {
+			if (planes[i].DistanceToPoint(cent)+sbreGetModelRadius(modelNum) < 0) {
 				return;
 			}
 		}
 
-		drawModel(planet, frameTrans, rot, cent, p2-p1, modelNum);
-		
+		drawModel(rot, cent, modelNum);
+	/*	
 		p1 = frameTrans*p1;
 		p2 = frameTrans*p2;
 		p3 = frameTrans*p3;
 		p4 = frameTrans*p4;
 		
-		for (int i=0; i<6; i++) {
-			if (planes[i].DistanceToPoint((p1+p2+p3+p4)*0.25)+300.0 < 0) {
-				return;
-			}
-		}
-
-	/*	glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
 		glColor3f(0.5,.5,.5);
 		glBegin(GL_LINE_LOOP);
 			glVertex3dv(&p1.x);
@@ -494,6 +490,11 @@ void SpaceStation::Render(const Frame *camFrame)
 		
 	matrix4x4d frameTrans;
 	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
+	
+	if ((frameTrans*GetPosition()).Length() > WORLDVIEW_ZFAR) {
+		return;
+	}
+	
 	m = frameTrans * m;
 	
 	GetFrustum(planes);

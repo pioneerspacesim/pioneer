@@ -850,9 +850,11 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_sbodyRadius = m_sbody->GetRadius();
 	m_numCraters = 0;
 	m_craters = 0;
-	m_maxHeight = 0.0014/sqrt(m_sbody->radius.ToDouble());
+	m_maxHeight = 3.61/sqrt(m_sbody->GetRadius());
 	m_invMaxHeight = 1.0 / m_maxHeight;
-//	printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
+	m_icyness = 38.0 / (MAX(1, ((double)m_sbody->averageTemp)-250.0));
+
+	printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
 
 	for (int i=0; i<16; i++) m_crap[i] = rand.Double();
 	m_sealevel = rand.Double();
@@ -1031,7 +1033,7 @@ double GeoSphere::GetHeightMapVal(const vector3d &pt)
 		double a2 = 0.5*d0 + 0.5*d2;
 		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
 		double v = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
-		return (v<0 ? -0.1 : v + 100*fabs(octavenoise(10, 0.5, 1000.0*pt)));
+		return (v<0 ? 0 : v + 100*fabs(octavenoise(10, 0.5, 1000.0*pt)));
 	}
 }
 
@@ -1112,16 +1114,18 @@ double GeoSphere::GetHeight(vector3d p)
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 {
 	n = CLAMP(n, 0.0f, 1.0f);
-	return start + (end-start)*n;
+	return start*(1.0-n) + end*n;
 }
 
 inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 {
 	if (m_heightMap) {
-		double height = GetHeightMapVal(p);
+		height = GetHeightMapVal(p) / m_sbodyRadius;
+	/*	double height = GetHeightMapVal(p);
 		double n = height/8000.0;
 		if (n < 0) return vector3d(0,0,0.5);
 		else return interpolate_color(n, vector3d(0,.5,0), vector3d(.8,.8,.8));
+	*/
 	}
 	
 	double n;
@@ -1157,8 +1161,23 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 			return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			n = m_invMaxHeight*height;
-			if (n == 0) return vector3d(0,0,0.5);
-			else return interpolate_color(n, vector3d(0,.8,0), vector3d(.3,.6,0));
+			if (n <= 0) return vector3d(0,0,0.5);
+			else {
+				// ice on mountains and poles
+				if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
+					return vector3d(1,1,1);
+				}
+
+				double equatorial_desert = (2.0-m_icyness)*octavenoise(12, 0.5, (n*2.0)*p) *
+						1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
+
+				vector3d col;
+				// latitude: high ~col, low orange
+				col = interpolate_color(equatorial_desert, vector3d(0,.5,0), vector3d(.86, .75, .48));
+				// height: low green, high grey
+				col = interpolate_color(n, col, vector3d(.5,.5,.5));
+				return col;
+			}
 		default:
 			return vector3d(1,0,1);
 
