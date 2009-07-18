@@ -3,6 +3,7 @@
 
 #include "StarSystem.h"
 #include "fixed.h"
+#include "Polit.h"
 
 struct CustomSBody {
 	const char *name; // null to end system
@@ -31,6 +32,7 @@ struct CustomSystem {
 	Uint32 seed;
 	const char *shortDesc;
 	const char *longDesc;
+	Polit::Type polit;
 };
 
 extern const CustomSystem custom_systems[];

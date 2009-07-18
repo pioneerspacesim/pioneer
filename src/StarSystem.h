@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "EquipType.h"
+#include "Polit.h"
 #include <vector>
 #include <string>
 
@@ -116,7 +117,6 @@ public:
 		else
 			return mass;
 	}
-
 	// returned in seconds
 	double GetRotationPeriod() const {
 		return rotationPeriod.ToDouble()*60*60*24;
@@ -124,7 +124,8 @@ public:
 	fixed CalcHillRadius() const;
 
 	double GetMaxChildOrbitalDistance() const;
-	void AddHumanStuff(StarSystem *system);
+	// returns how infested with human life the system is
+	int AddHumanStuff(StarSystem *system);
 
 	int tmp;
 	Orbit orbit;
@@ -148,7 +149,7 @@ public:
 
 private:
 };
-	
+
 class StarSystem {
 public:
 	friend class SBody;
@@ -170,6 +171,7 @@ public:
 	const std::string &GetLongDescription() const { return m_longDesc; }
 	int GetNumStars() const { return m_numStars; }
 	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
+	Polit::Type GetPoliticalType() const { return m_polit; }
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -188,13 +190,14 @@ private:
 	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
 	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx);
+	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx, int *outHumanInfestedness);
 	void GenerateFromCustom(const CustomSystem *);
 	void PickEconomicStuff(SBody *b);
 
 	int m_secx, m_secy, m_sysIdx;
 	int m_numStars;
 	std::string m_shortDesc, m_longDesc;
+	Polit::Type m_polit;
 
 	MTRand rand;
 };

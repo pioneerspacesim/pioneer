@@ -464,7 +464,7 @@ struct CustomSBody {
 	fixed eccentricity;
 };
 */
-void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx)
+void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx, int *outHumanInfestedness)
 {
 	const CustomSBody *c = customDef;
 	for (int i=0; c->name; c++, i++) {
@@ -495,6 +495,9 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
 		}
+		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
+			(*outHumanInfestedness)++;
+		}
 		parent->children.push_back(kid);
 
 		// perihelion and aphelion (in AUs)
@@ -502,7 +505,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
 
 		PickEconomicStuff(kid);
-		CustomGetKidsOf(kid, customDef, i);
+		CustomGetKidsOf(kid, customDef, i, outHumanInfestedness);
 	}
 }
 
@@ -525,7 +528,10 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys)
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
 	
-	CustomGetKidsOf(rootBody, customSys->sbodies, idx);
+	int humanInfestedness = 0;
+	CustomGetKidsOf(rootBody, customSys->sbodies, idx, &humanInfestedness);
+	
+	m_polit = Polit::GetTypeForStarSystem(this, humanInfestedness);
 
 }
 
@@ -736,7 +742,8 @@ try_that_again_guvnah:
 	if (m_numStars > 1) MakePlanetsAround(centGrav1);
 	if (m_numStars == 4) MakePlanetsAround(centGrav2);
 
-	rootBody->AddHumanStuff(this);
+	const int busy_level = rootBody->AddHumanStuff(this);
+	m_polit = Polit::GetTypeForStarSystem(this, busy_level);
 }
 
 /*
@@ -990,6 +997,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 				if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {
 					type = SBody::TYPE_PLANET_INDIGENOUS_LIFE;
+					humanActivity *= 2;
 				} else {
 					type = SBody::TYPE_PLANET_WATER;
 				}
@@ -1058,10 +1066,11 @@ void StarSystem::PickEconomicStuff(SBody *b)
 	}
 }
 
-void SBody::AddHumanStuff(StarSystem *system)
+int SBody::AddHumanStuff(StarSystem *system)
 {
+	int howmuch = 0;
 	for (unsigned int i=0; i<children.size(); i++) {
-		children[i]->AddHumanStuff(system);
+		howmuch += children[i]->AddHumanStuff(system);
 	}
 
 	unsigned long _init[5] = { system->m_sysIdx, system->m_secx,
@@ -1101,6 +1110,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
+		howmuch++;
 
 		if (rand.Fixed() < humanActivity) {
 			SBody *sp2 = new SBody;
@@ -1109,6 +1119,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
+			howmuch++;
 		}
 	}
 	// starports - surface
@@ -1138,6 +1149,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 			position_settlement_on_planet(sp);
 			children.insert(children.begin(), sp);
 			system->m_spaceStations.push_back(sp);
+			howmuch++;
 		}
 	}
 
@@ -1150,6 +1162,7 @@ void SBody::AddHumanStuff(StarSystem *system)
 		else econType |= ECON_MINING;
 		system->PickEconomicStuff(this);
 	}
+	return howmuch;
 }
 
 StarSystem::~StarSystem()

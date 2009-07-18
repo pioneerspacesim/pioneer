@@ -154,7 +154,8 @@ const CustomSystem custom_systems[] = {
 "of the Confederation of Independent Worlds, of which Epsilon Eridani was a founding member.\n"
 "Epsilon Eridani is today a thriving centre of industry, cutting-edge technology and "
 "tourism.\n"
-"Reproduced with the kind permission of Enrique Watson, New Hope University, 2992"
+"Reproduced with the kind permission of Enrique Watson, New Hope University, 2992",
+Polit::POL_CONFED
 }, // Components: K2
 { "UV Ceti", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, 0, vector3f(0.754f,0.473f,-1.040f) }, // Components: M5, M5
 { "GX Andromedae", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 1, -1, vector3f(0.269f,0.470f,0.580f) }, // Components: M2, M6
