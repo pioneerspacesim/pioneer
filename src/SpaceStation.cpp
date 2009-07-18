@@ -1,5 +1,6 @@
 #include "SpaceStation.h"
 #include "Ship.h"
+#include "Planet.h"
 #include "ModelCollMeshData.h"
 #include "gameconsts.h"
 #include "StarSystem.h"
@@ -374,7 +375,196 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 	}
 }
 
+static Plane planes[6];
+ObjParams cityobj_params;
+
+static void drawModel(const Planet *planet, const matrix4x4d &frameTrans, const matrix4x4d &rot, vector3d pos, vector3d xvec, int modelNum)
+{
+	glPushMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+
+//	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	pos = pos.Normalized();
+	pos = pos * planet->GetTerrainHeight(pos);
+	pos = frameTrans * pos;
+
+	sbreRenderModel(&pos.x, &rot[0], modelNum, &cityobj_params);
+//	glPopAttrib();
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+#define START_SEG_SIZE 500.0
+#define DIVIDE_SEG_SIZE 100.0
+#define MAX_CITY_BUILDING 5
+
+const char *city_buildings[MAX_CITY_BUILDING] = {
+	"building1",
+	"building2",
+	"building3",
+	"factory1",
+	"42", // a house
+};
+
+static void putCityBit(const Planet *planet, MTRand &rand, const matrix4x4d &frameTrans, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
+{
+	double rad = (p1-p2).Length()*0.5;
+	int modelNum;
+	double modelRad;
+       
+	for (int tries=10; tries--; ) {
+       		modelNum = sbreLookupModelByName(city_buildings[rand.Int32(MAX_CITY_BUILDING)]);
+		modelRad = sbreGetModelRadius(modelNum);
+		if (modelRad < rad) break;
+	}
+
+
+	if ((rad > DIVIDE_SEG_SIZE) || (rad > modelRad*2.0)) {
+		vector3d a = (p1+p2)*0.5;
+		vector3d b = (p2+p3)*0.5;
+		vector3d c = (p3+p4)*0.5;
+		vector3d d = (p4+p1)*0.5;
+		vector3d e = (p1+p2+p3+p4)*0.25;
+		putCityBit(planet, rand, frameTrans, rot, p1, a, e, d);
+		putCityBit(planet, rand, frameTrans, rot, a, p2, b, e);
+		putCityBit(planet, rand, frameTrans, rot, e, b, p3, c);
+		putCityBit(planet, rand, frameTrans, rot, d, e, c, p4);
+	} else {
+		vector3d cent = (p1+p2+p3+p4)*0.25;
+
+		for (int i=0; i<6; i++) {
+			if (planes[i].DistanceToPoint(frameTrans*cent)+sbreGetModelRadius(modelNum) < 0) {
+				return;
+			}
+		}
+
+		drawModel(planet, frameTrans, rot, cent, p2-p1, modelNum);
+		
+		p1 = frameTrans*p1;
+		p2 = frameTrans*p2;
+		p3 = frameTrans*p3;
+		p4 = frameTrans*p4;
+		
+		for (int i=0; i<6; i++) {
+			if (planes[i].DistanceToPoint((p1+p2+p3+p4)*0.25)+300.0 < 0) {
+				return;
+			}
+		}
+
+	/*	glDisable(GL_LIGHTING);
+		glColor3f(0.5,.5,.5);
+		glBegin(GL_LINE_LOOP);
+			glVertex3dv(&p1.x);
+			glVertex3dv(&p2.x);
+			glVertex3dv(&p3.x);
+			glVertex3dv(&p4.x);
+		glEnd();
+		glEnable(GL_LIGHTING);
+	*/
+	}
+}
+
 void SpaceStation::Render(const Frame *camFrame)
 {
 	RenderSbreModel(camFrame, &params);
+
+	// find planet Body*
+	Planet *planet;
+	{
+		Body *_planet = GetFrame()->m_astroBody;
+		if ((!_planet) || !_planet->IsType(Object::PLANET)) {
+			// orbital spaceport -- don't make city turds
+			return;
+		}
+		planet = static_cast<Planet*>(_planet);
+	}
+
+	Aabb aabb;
+	GetAabb(aabb);
+	
+	matrix4x4d m;
+	GetRotMatrix(m);
+
+	vector3d mx = m*vector3d(1,0,0);
+	vector3d mz = m*vector3d(0,0,1);
+		
+	matrix4x4d frameTrans;
+	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
+	m = frameTrans * m;
+	
+	GetFrustum(planes);
+	
+	memset(&cityobj_params, 0, sizeof(ObjParams));
+	MTRand rand;
+	rand.seed(m_sbody->seed);
+
+	for (int i=0; i<4; i++)
+	{
+		vector3d p = GetPosition();
+		vector3d p1, p2, p3, p4;
+		const double sizex = START_SEG_SIZE + rand.Int32((int)START_SEG_SIZE);
+		const double sizez = START_SEG_SIZE + rand.Int32((int)START_SEG_SIZE);
+		
+		switch(i) {
+			case 3:
+				p1 = p + mx*(aabb.min.x) + mz*aabb.min.z;
+				p2 = p + mx*(aabb.min.x) + mz*(aabb.min.z-sizez);
+				p3 = p + mx*(aabb.min.x+sizex) + mz*(aabb.min.z-sizez);
+				p4 = p + mx*(aabb.min.x+sizex) + mz*(aabb.min.z);
+				break;
+			case 2:
+				p1 = p + mx*(aabb.min.x-sizex) + mz*aabb.max.z;
+				p2 = p + mx*(aabb.min.x-sizex) + mz*(aabb.max.z-sizez);
+				p3 = p + mx*(aabb.min.x) + mz*(aabb.max.z-sizez);
+				p4 = p + mx*(aabb.min.x) + mz*(aabb.max.z);
+				break;
+			case 1:
+				p1 = p + mx*(aabb.max.x-sizex) + mz*aabb.max.z;
+				p2 = p + mx*(aabb.max.x) + mz*aabb.max.z;
+				p3 = p + mx*(aabb.max.x) + mz*(aabb.max.z+sizez);
+				p4 = p + mx*(aabb.max.x-sizex) + mz*(aabb.max.z+sizez);
+				break;
+			default:
+			case 0:
+				p1 = p + mx*aabb.max.x + mz*aabb.min.z;
+				p2 = p + mx*(aabb.max.x+sizex) + mz*aabb.min.z;
+				p3 = p + mx*(aabb.max.x+sizex) + mz*(aabb.min.z+sizez);
+				p4 = p + mx*aabb.max.x + mz*(aabb.min.z+sizez);
+				break;
+		}
+
+		putCityBit(planet, rand, frameTrans, m, p1, p2, p3, p4);
+		/*
+		glPushMatrix();
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		
+		sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
+
+		matrix4x4d frameTrans;
+		Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
+
+		vector3d pos = frameTrans * (GetPosition() + p);
+
+			ObjParams params;
+			memset(&params, 0, sizeof(ObjParams));
+			glPushAttrib(GL_ALL_ATTRIB_BITS);
+			matrix4x4d rot;
+			GetRotMatrix(rot);
+			frameTrans.ClearToRotOnly();
+			rot = frameTrans * rot;
+
+			sbreRenderModel(&pos.x, &rot[0], sbreLookupModelByName("building1"), &params);
+			glPopAttrib();
+
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();
+		*/
+	}
 }

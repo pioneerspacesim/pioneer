@@ -96,7 +96,7 @@ void Planet::SetRadius(double radius)
 	assert(0);
 }
 
-double Planet::GetTerrainHeight(const vector3d pos)
+double Planet::GetTerrainHeight(const vector3d pos) const
 {
 	double radius = GetRadius();
 	if (m_geosphere) {

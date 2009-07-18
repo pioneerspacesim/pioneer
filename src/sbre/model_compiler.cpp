@@ -250,14 +250,17 @@ static bool VertexIdentifierExists(const char *vid)
 	return (i != vertex_identifiers.end());
 }
 
+static bool g_doCompressUnitVectors = true;
 static int addPlainVtx(Vector v)
 {
-	if ((v.x==1) && (v.y==0) && (v.z==0)) return 0;
-	if ((v.x==0) && (v.y==1) && (v.z==0)) return 1;
-	if ((v.x==0) && (v.y==0) && (v.z==1)) return 2;
-	if ((v.x==-1) && (v.y==0) && (v.z==0)) return 3;
-	if ((v.x==0) && (v.y==-1) && (v.z==0)) return 4;
-	if ((v.x==0) && (v.y==0) && (v.z==-1)) return 5;
+	if (g_doCompressUnitVectors) {
+		if ((v.x==1) && (v.y==0) && (v.z==0)) return 0;
+		if ((v.x==0) && (v.y==1) && (v.z==0)) return 1;
+		if ((v.x==0) && (v.y==0) && (v.z==1)) return 2;
+		if ((v.x==-1) && (v.y==0) && (v.z==0)) return 3;
+		if ((v.x==0) && (v.y==-1) && (v.z==0)) return 4;
+		if ((v.x==0) && (v.y==0) && (v.z==-1)) return 5;
+	}
 	// first 6 are +ve and -ve axis unit vectors
 	int idx = 6 + vertices.size();
 	vertices.push_back(v);
@@ -592,6 +595,7 @@ static void parsePrimExtrusion(tokenIter_t &t)
 	(*t++).Check(Token::COMMA);
 	(*t++).Check(Token::OPENBRACE);
 	int count = 1;
+	g_doCompressUnitVectors = false;
 	Uint16 firstvtx = parseVtxOrVtxRef(t);
 	while ((*t).type == Token::COMMA) {
 		++t;
@@ -601,6 +605,7 @@ static void parsePrimExtrusion(tokenIter_t &t)
 		}
 		count++;
 	}
+	g_doCompressUnitVectors = true;
 	if (count < 3) (*t).Error("Extrusion vertex list must contain at least 3 vertices");
 	(*t++).Check(Token::CLOSEBRACE);
 	(*t++).Check(Token::CLOSEBRACKET);

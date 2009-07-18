@@ -4,6 +4,47 @@
 # To get an idea of scale, a double-decker bus is 11m long and a
 # boeing 747 is 71m long
 
+model(building1, scale=1.0, radius=10.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {
+		v(-1,0,0), v(1,0,0), v(1,1,0), v(-1,1,0)
+	})
+}
+
+model(building2, scale=1.0, radius=20.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-16), v(0,0,16), n(0,1,0), radius=1.0, {
+		v(-16,0,0), v(16,0,0), v(16,20,0), v(-16,20,0)
+	})
+}
+
+# 64x64m is rough dimensions of WTC base
+model(building3, scale=1.0, radius=40.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
+		v(-32,0,0), v(32,0,0), v(32,10,0), v(-32,10,0)
+	})
+}
+
+model(factory1, scale=1.0, radius=30.0) {
+	lod { full, 10px, 2px }
+	objlod a = { 16, 8, 4 }
+	material(.5, .5, .3, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-20), v(0,0,20), n(0,1,0), radius=1.0, {
+		v(-20,0,0), v(20,0,0), v(20,20,0), v(-20,20,0)
+	})
+	extrusion(v(0,0,-20), v(0,0,20), n(0,1,0), radius=1.0, {
+		v(-20,20,0), v(0,20,0), v(0,28,0), v(-2,30,0), v(-18,30,0),
+		v(-20,28,0)
+	})
+	material(.6, .6, .6, 0,0,0, 2.0, 0, 0, 0)
+	cylinder(a, v(-10,30,10), v(-10,50,10), v(0,0,1), radius=2.0)
+	cylinder(a, v(-10,30,0), v(-10,50,0), v(0,0,1), radius=2.0)
+	cylinder(a, v(-10,30,-10), v(-10,50,-10), v(0,0,1), radius=2.0)
+
+}
+	
+
 model(nosewheel, scale=1.0, radius=7.0) {
 	lod { full, 4px }
 	objlod a = { 8, 4 }

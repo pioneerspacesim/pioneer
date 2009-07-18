@@ -21,7 +21,7 @@ public:
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
 	virtual double GetMass() const { return m_mass; }
-	double GetTerrainHeight(const vector3d pos);
+	double GetTerrainHeight(const vector3d pos) const;
 protected:
 	virtual void Save();
 	virtual void Load();
