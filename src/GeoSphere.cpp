@@ -698,11 +698,12 @@ public:
 			}
 		}
 
+		assert(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
-			assert(SDL_mutexP(m_kidsLock)==0);
 			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
 			SDL_mutexV(m_kidsLock);
 		} else {
+			SDL_mutexV(m_kidsLock);
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
@@ -1029,6 +1030,9 @@ void GeoSphere::Render(vector3d campos) {
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them
 	DestroyVBOs();
+		/*this->m_tempCampos = campos;
+		UpdateLODThread(this);
+		return;*/
 	
 	if (!m_threadlocked) {
 		m_threadlocked = 1;
