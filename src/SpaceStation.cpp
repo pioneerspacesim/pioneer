@@ -398,12 +398,16 @@ static void drawModel(const matrix4x4d &rot, vector3d pos, int modelNum)
 #define DIVIDE_SEG_SIZE 100.0
 #define MAX_CITY_BUILDING 5
 
-const char *city_buildings[MAX_CITY_BUILDING] = {
-	"building1",
-	"building2",
-	"building3",
-	"factory1",
-	"42", // a house
+bool s_cityBuildingsInitted = false;
+struct citybuilding_t {
+	const char *modelname;
+	int resolvedModelNum;
+} city_buildings[MAX_CITY_BUILDING] = {
+	{ "building1" },
+	{ "building2" },
+	{ "building3" },
+	{ "factory1" },
+	{ "42" } // a house
 };
 
 static void putCityBit(const Planet *planet, MTRand &rand, const matrix4x4d &frameTrans, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
@@ -413,7 +417,7 @@ static void putCityBit(const Planet *planet, MTRand &rand, const matrix4x4d &fra
 	double modelRad;
        
 	for (int tries=10; tries--; ) {
-       		modelNum = sbreLookupModelByName(city_buildings[rand.Int32(MAX_CITY_BUILDING)]);
+       		modelNum = city_buildings[rand.Int32(MAX_CITY_BUILDING)].resolvedModelNum;
 		modelRad = sbreGetModelRadius(modelNum);
 		if (modelRad < rad) break;
 	}
@@ -477,6 +481,14 @@ void SpaceStation::Render(const Frame *camFrame)
 			return;
 		}
 		planet = static_cast<Planet*>(_planet);
+	}
+
+	/* Resolve city model numbers since it is a bit expensive */
+	if (!s_cityBuildingsInitted) {
+		s_cityBuildingsInitted = true;
+		for (int i=0; i<MAX_CITY_BUILDING; i++) {
+			city_buildings[i].resolvedModelNum = sbreLookupModelByName(city_buildings[i].modelname);
+		}
 	}
 
 	Aabb aabb;
