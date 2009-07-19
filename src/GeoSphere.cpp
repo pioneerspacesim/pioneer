@@ -10,6 +10,7 @@
 // must be power of two + 1
 #define GEOPATCH_EDGELEN	33
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
+#define GEOSPHERE_USE_THREADING
 
 static const double GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
 
@@ -55,10 +56,7 @@ public:
 	int m_depth;
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
-	GeoPatch() {
-		memset(this, 0, sizeof(GeoPatch));
-		m_kidsLock = SDL_CreateMutex();
-	}
+	
 	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
 		m_kidsLock = SDL_CreateMutex();
@@ -71,6 +69,9 @@ public:
 		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
 		m_needUpdateVBOs = true;
+		normals = new vector3d[GEOPATCH_NUMVERTICES];
+		vertices = new vector3d[GEOPATCH_NUMVERTICES];
+		colors = new vector3d[GEOPATCH_NUMVERTICES];
 	}
 
 	static void Init() {
@@ -245,9 +246,9 @@ public:
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 		}
 		for (int i=0; i<4; i++) if (kids[i]) delete kids[i];
-		if (vertices) delete vertices;
-		if (normals) delete normals;
-		if (colors) delete colors;
+		delete vertices;
+		delete normals;
+		delete colors;
 		if (USE_VBO) geosphere->AddVBOToDestroy(m_vbo);
 	}
 	void UpdateVBOs() {
@@ -515,10 +516,6 @@ public:
 	}
 
 	void GenerateNormals() {
-		if (normals) return;
-
-		normals = new vector3d[GEOPATCH_NUMVERTICES];
-		
 		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
 			for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
 				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
@@ -568,26 +565,22 @@ public:
 	}
 
 	void GenerateMesh() {
-		if (!vertices) {
-			vertices = new vector3d[GEOPATCH_NUMVERTICES];
-			colors = new vector3d[GEOPATCH_NUMVERTICES];
-			vector3d *vts = vertices;
-			vector3d *col = colors;
-			double xfrac;
-			double yfrac = 0;
-			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
-				xfrac = 0;
-				for (int x=0; x<GEOPATCH_EDGELEN; x++) {
-					vector3d p = GetSpherePoint(xfrac, yfrac);
-					double height = geosphere->GetHeight(p);
-					*(vts++) = p * (height + 1.0);
-					*(col++) = geosphere->GetColor(p, height);
-					xfrac += GEOPATCH_FRAC;
-				}
-				yfrac += GEOPATCH_FRAC;
+		vector3d *vts = vertices;
+		vector3d *col = colors;
+		double xfrac;
+		double yfrac = 0;
+		for (int y=0; y<GEOPATCH_EDGELEN; y++) {
+			xfrac = 0;
+			for (int x=0; x<GEOPATCH_EDGELEN; x++) {
+				vector3d p = GetSpherePoint(xfrac, yfrac);
+				double height = geosphere->GetHeight(p);
+				*(vts++) = p * (height + 1.0);
+				*(col++) = geosphere->GetColor(p, height);
+				xfrac += GEOPATCH_FRAC;
 			}
-			assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
+			yfrac += GEOPATCH_FRAC;
 		}
+		assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
@@ -894,7 +887,9 @@ void GeoSphere::Init()
 {
 	s_allGeospheresLock = SDL_CreateMutex();
 	GeoPatch::Init();
+#ifdef GEOSPHERE_USE_THREADING
 	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
+#endif /* GEOSPHERE_USE_THREADING */
 }
 
 #define GEOSPHERE_SEED	(m_sbody->seed)
@@ -1055,6 +1050,10 @@ void GeoSphere::Render(vector3d campos) {
 		this->m_tempCampos = campos;
 		m_runUpdateThread = 1;
 	}
+#ifndef GEOSPHERE_USE_THREADING
+	m_tempCampos = campos;
+	_UpdateLODs();
+#endif /* !GEOSPHERE_USE_THREADING */
 }
 
 inline double octavenoise(int octaves, double div, vector3d p)
