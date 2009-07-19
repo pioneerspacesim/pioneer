@@ -14,7 +14,10 @@ public:
 	void SetColor(const float col[4]);
 	void AddCraters(MTRand &rand, int num, double minAng, double maxAng);
 	double GetHeight(vector3d p);
+	// only called from fishy thread
+	void _UpdateLODs();
 	friend class GeoPatch;
+	static void Init();
 private:
 	GeoPatch *m_patches[6];
 	struct crater_t {
@@ -39,6 +42,19 @@ private:
 	Sint16 *m_heightMap;
 	int m_heightMapSizeX;
 	int m_heightMapSizeY;
+
+	///////////////////////////
+	// threading rubbbbbish
+	// update thread can't do it since only 1 thread can molest opengl
+	std::list<GLuint> m_vbosToDestroy;
+	SDL_mutex *m_vbosToDestroyLock;
+	void AddVBOToDestroy(GLuint vbo);
+	void DestroyVBOs();
+	
+	vector3d m_tempCampos;
+	int m_threadlocked;
+	SDL_Thread *m_updatethread;
+	//////////////////////////////
 
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);

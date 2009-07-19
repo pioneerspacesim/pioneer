@@ -21,6 +21,7 @@
 #include "Serializer.h"
 #include "NameGenerator.h"
 #include "pirates.h"
+#include "GeoSphere.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -116,6 +117,7 @@ void Pi::Init(IniConfig &config)
 	InitOpenGL();
 
 	GLFTInit();
+	GeoSphere::Init();
 	Space::Init();
 	
 	Gui::Init(scrWidth, scrHeight, 800, 600);

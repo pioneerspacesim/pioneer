@@ -39,6 +39,7 @@ public:
 	vector3d *normals;
 	vector3d *colors;
 	GLuint m_vbo;
+	static bool initialized;
 	static unsigned short *midIndices;
 	static unsigned short *loEdgeIndices[4];
 	static unsigned short *hiEdgeIndices[4];
@@ -52,11 +53,15 @@ public:
 	vector3d clipCentroid;
 	double clipRadius;
 	int m_depth;
+	SDL_mutex *m_kidsLock;
+	bool m_needUpdateVBOs;
 	GeoPatch() {
 		memset(this, 0, sizeof(GeoPatch));
+		m_kidsLock = SDL_CreateMutex();
 	}
 	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		memset(this, 0, sizeof(GeoPatch));
+		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 		m_depth = depth;
 		clipCentroid = (v0+v1+v2+v3) * 0.25;
@@ -65,7 +70,10 @@ public:
 			clipRadius = MAX(clipRadius, (v[i]-clipCentroid).Length());
 		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
-		if (USE_VBO) glGenBuffersARB(1, &m_vbo);
+		m_needUpdateVBOs = true;
+	}
+
+	static void Init() {
 		if (!midIndices) {
 			unsigned short *idx;
 			midIndices = new unsigned short[VBO_COUNT_MID_IDX];
@@ -230,7 +238,9 @@ public:
 			}
 		}
 	}
+
 	~GeoPatch() {
+		SDL_DestroyMutex(m_kidsLock);
 		for (int i=0; i<4; i++) {
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 		}
@@ -238,10 +248,16 @@ public:
 		if (vertices) delete vertices;
 		if (normals) delete normals;
 		if (colors) delete colors;
-		if (USE_VBO) glDeleteBuffersARB(1, &m_vbo);
+		if (USE_VBO) geosphere->AddVBOToDestroy(m_vbo);
 	}
 	void UpdateVBOs() {
-		if (USE_VBO) {
+		m_needUpdateVBOs = true;
+	}
+
+	void _UpdateVBOs() {
+		if (USE_VBO && m_needUpdateVBOs) {
+			if (!m_vbo) glGenBuffersARB(1, &m_vbo);
+			m_needUpdateVBOs = false;
 			for (int i=0; i<GEOPATCH_NUMVERTICES; i++)
 			{
 				VBOVertex *pData = vbotemp + i;
@@ -674,6 +690,7 @@ public:
 	}
 	
 	void Render(vector3d &campos, Plane planes[6]) {
+		_UpdateVBOs();
 		/* frustum test! */
 		for (int i=0; i<6; i++) {
 			if (planes[i].DistanceToPoint(clipCentroid)+clipRadius < 0) {
@@ -682,7 +699,9 @@ public:
 		}
 
 		if (kids[0]) {
+			assert(SDL_mutexP(m_kidsLock)==0);
 			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
+			SDL_mutexV(m_kidsLock);
 		} else {
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -755,43 +774,50 @@ public:
 				v12 = (v[1]+v[2]).Normalized();
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
-				kids[0] = new GeoPatch(v[0], v01, centroid, v30, m_depth+1);
-				kids[1] = new GeoPatch(v01, v[1], v12, centroid, m_depth+1);
-				kids[2] = new GeoPatch(centroid, v12, v[2], v23, m_depth+1);
-				kids[3] = new GeoPatch(v30, centroid, v23, v[3], m_depth+1);
+				GeoPatch *_kids[4];
+				_kids[0] = new GeoPatch(v[0], v01, centroid, v30, m_depth+1);
+				_kids[1] = new GeoPatch(v01, v[1], v12, centroid, m_depth+1);
+				_kids[2] = new GeoPatch(centroid, v12, v[2], v23, m_depth+1);
+				_kids[3] = new GeoPatch(v30, centroid, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
-				kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
-				kids[0]->edgeFriend[1] = kids[1];
-				kids[0]->edgeFriend[2] = kids[3];
-				kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
-				kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
-				kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
-				kids[1]->edgeFriend[2] = kids[2];
-				kids[1]->edgeFriend[3] = kids[0];
-				kids[2]->edgeFriend[0] = kids[1];
-				kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
-				kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
-				kids[2]->edgeFriend[3] = kids[3];
-				kids[3]->edgeFriend[0] = kids[0];
-				kids[3]->edgeFriend[1] = kids[2];
-				kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
-				kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
-				kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
-				kids[0]->geosphere = kids[1]->geosphere = kids[2]->geosphere = kids[3]->geosphere = geosphere;
-				for (int i=0; i<4; i++) kids[i]->GenerateMesh();
+				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
+				_kids[0]->edgeFriend[1] = _kids[1];
+				_kids[0]->edgeFriend[2] = _kids[3];
+				_kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
+				_kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
+				_kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
+				_kids[1]->edgeFriend[2] = _kids[2];
+				_kids[1]->edgeFriend[3] = _kids[0];
+				_kids[2]->edgeFriend[0] = _kids[1];
+				_kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
+				_kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
+				_kids[2]->edgeFriend[3] = _kids[3];
+				_kids[3]->edgeFriend[0] = _kids[0];
+				_kids[3]->edgeFriend[1] = _kids[2];
+				_kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
+				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
+				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
+				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
+				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
+				assert(SDL_mutexP(m_kidsLock)==0);
+				for (int i=0; i<4; i++) kids[i] = _kids[i];
 				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
 				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
+				assert(SDL_mutexV(m_kidsLock)!=-1);
 			}
 			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
 		} else {
 			if (canMerge && kids[0]) {
+				assert(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
+				assert(SDL_mutexV(m_kidsLock)!=-1);
 			}
 		}
 	}
 };
 
+bool GeoPatch::initialized = false;
 unsigned short *GeoPatch::midIndices = 0;
 unsigned short *GeoPatch::loEdgeIndices[4];
 unsigned short *GeoPatch::hiEdgeIndices[4];
@@ -838,6 +864,11 @@ void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
 	}
 }
 
+void GeoSphere::Init()
+{
+	GeoPatch::Init();
+}
+
 #define GEOSPHERE_SEED	(m_sbody->seed)
 #define GEOSPHERE_TYPE	(m_sbody->type)
 //#define GEOSPHERE_TYPE SBody::TYPE_PLANET_INDIGENOUS_LIFE
@@ -846,6 +877,9 @@ GeoSphere::GeoSphere(const SBody *body)
 {
 	MTRand rand;
 	rand.seed(body->seed);
+	m_vbosToDestroyLock = SDL_CreateMutex();
+	m_threadlocked = 0;
+	m_updatethread = 0;
 	m_sbody = body;
 	m_sbodyRadius = m_sbody->GetRadius();
 	m_numCraters = 0;
@@ -895,6 +929,42 @@ GeoSphere::~GeoSphere()
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	delete [] m_craters;
 	if (m_heightMap) delete [] m_heightMap;
+	DestroyVBOs();
+	SDL_DestroyMutex(m_vbosToDestroyLock);
+}
+
+void GeoSphere::AddVBOToDestroy(GLuint vbo)
+{
+	SDL_mutexP(m_vbosToDestroyLock);
+	m_vbosToDestroy.push_back(vbo);
+	SDL_mutexV(m_vbosToDestroyLock);
+}
+
+void GeoSphere::DestroyVBOs()
+{
+	SDL_mutexP(m_vbosToDestroyLock);
+	for (std::list<GLuint>::iterator i = m_vbosToDestroy.begin();
+			i != m_vbosToDestroy.end(); ++i) {
+		glDeleteBuffersARB(1, &(*i));
+	}
+	m_vbosToDestroy.clear();
+	SDL_mutexV(m_vbosToDestroyLock);
+}
+
+static int UpdateLODThread(void *data)
+{
+	GeoSphere *s = (GeoSphere*)data;
+	s->_UpdateLODs();
+	return 0;
+}
+
+void GeoSphere::_UpdateLODs()
+{
+//	printf("doing!\n");
+	for (int i=0; i<6; i++) {
+		m_patches[i]->LODUpdate(m_tempCampos);
+	}
+	m_threadlocked = 0;
 }
 
 static const float g_ambient[4] = { .1, .1, .1, 1.0 };
@@ -934,10 +1004,6 @@ void GeoSphere::Render(vector3d campos) {
 		for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
 		for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
 	}
-	for (int i=0; i<6; i++) {
-		m_patches[i]->LODUpdate(campos);
-	}
-
 	Plane planes[6];
 	GetFrustum(planes);
 /*		printf("FRUSTUM for %s\n", m_sbody->name.c_str());
@@ -959,6 +1025,20 @@ void GeoSphere::Render(vector3d campos) {
 		m_patches[i]->Render(campos, planes);
 	}
 	glDisable(GL_COLOR_MATERIAL);
+
+	// if the update thread has deleted any geopatches, destroy the vbos
+	// associated with them
+	DestroyVBOs();
+	
+	if (!m_threadlocked) {
+		m_threadlocked = 1;
+		if (m_updatethread) SDL_WaitThread(m_updatethread, 0);
+		this->m_tempCampos = campos;
+		m_updatethread = SDL_CreateThread(&UpdateLODThread, this);
+		if (!m_updatethread) {
+			m_threadlocked = 0;
+		}
+	}
 }
 
 inline double octavenoise(int octaves, double div, vector3d p)
