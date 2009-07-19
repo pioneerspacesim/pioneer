@@ -825,7 +825,6 @@ unsigned short *GeoPatch::hiEdgeIndices[4];
 GLuint GeoPatch::indices_vbo[9];
 VBOVertex GeoPatch::vbotemp[GEOPATCH_NUMVERTICES];
 
-
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },
 	{ 0, 4, 5, 2 },
@@ -836,6 +835,8 @@ static const int geo_sphere_edge_friends[6][4] = {
 };
 
 #define PLANET_AMBIENT	0.1
+static std::list<GeoSphere*> s_allGeospheres;
+SDL_mutex *s_allGeospheresLock;
 
 void GeoSphere::SetColor(const float col[4])
 {
@@ -865,9 +866,35 @@ void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
 	}
 }
 
+/* Thread that updates geosphere level of detail thingies */
+int GeoSphere::UpdateLODThread(void *data)
+{
+	for(;;) {
+		SDL_mutexP(s_allGeospheresLock);
+		for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
+				i != s_allGeospheres.end(); ++i) {
+			if ((*i)->m_runUpdateThread) (*i)->_UpdateLODs();
+		}
+		SDL_mutexV(s_allGeospheresLock);
+
+		SDL_Delay(10);
+	}
+	return 0;
+}
+
+void GeoSphere::_UpdateLODs()
+{
+	for (int i=0; i<6; i++) {
+		m_patches[i]->LODUpdate(m_tempCampos);
+	}
+	m_runUpdateThread = 0;
+}
+
 void GeoSphere::Init()
 {
+	s_allGeospheresLock = SDL_CreateMutex();
 	GeoPatch::Init();
+	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 }
 
 #define GEOSPHERE_SEED	(m_sbody->seed)
@@ -879,8 +906,7 @@ GeoSphere::GeoSphere(const SBody *body)
 	MTRand rand;
 	rand.seed(body->seed);
 	m_vbosToDestroyLock = SDL_CreateMutex();
-	m_threadlocked = 0;
-	m_updatethread = 0;
+	m_runUpdateThread = 0;
 	m_sbody = body;
 	m_sbodyRadius = m_sbody->GetRadius();
 	m_numCraters = 0;
@@ -923,10 +949,17 @@ GeoSphere::GeoSphere(const SBody *body)
 	} else {
 		m_heightMap = 0;
 	}	
+	SDL_mutexP(s_allGeospheresLock);
+	s_allGeospheres.push_back(this);
+	SDL_mutexV(s_allGeospheresLock);
 }
 
 GeoSphere::~GeoSphere()
 {
+	SDL_mutexP(s_allGeospheresLock);
+	s_allGeospheres.remove(this);
+	SDL_mutexV(s_allGeospheresLock);
+
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	delete [] m_craters;
 	if (m_heightMap) delete [] m_heightMap;
@@ -950,22 +983,6 @@ void GeoSphere::DestroyVBOs()
 	}
 	m_vbosToDestroy.clear();
 	SDL_mutexV(m_vbosToDestroyLock);
-}
-
-static int UpdateLODThread(void *data)
-{
-	GeoSphere *s = (GeoSphere*)data;
-	s->_UpdateLODs();
-	return 0;
-}
-
-void GeoSphere::_UpdateLODs()
-{
-//	printf("doing!\n");
-	for (int i=0; i<6; i++) {
-		m_patches[i]->LODUpdate(m_tempCampos);
-	}
-	m_threadlocked = 0;
 }
 
 static const float g_ambient[4] = { .1, .1, .1, 1.0 };
@@ -1034,14 +1051,9 @@ void GeoSphere::Render(vector3d campos) {
 		UpdateLODThread(this);
 		return;*/
 	
-	if (!m_threadlocked) {
-		m_threadlocked = 1;
-		if (m_updatethread) SDL_WaitThread(m_updatethread, 0);
+	if (!m_runUpdateThread) {
 		this->m_tempCampos = campos;
-		m_updatethread = SDL_CreateThread(&UpdateLODThread, this);
-		if (!m_updatethread) {
-			m_threadlocked = 0;
-		}
+		m_runUpdateThread = 1;
 	}
 }
 

@@ -46,14 +46,14 @@ private:
 	///////////////////////////
 	// threading rubbbbbish
 	// update thread can't do it since only 1 thread can molest opengl
+	static int UpdateLODThread(void *data);
 	std::list<GLuint> m_vbosToDestroy;
 	SDL_mutex *m_vbosToDestroyLock;
 	void AddVBOToDestroy(GLuint vbo);
 	void DestroyVBOs();
 	
 	vector3d m_tempCampos;
-	int m_threadlocked;
-	SDL_Thread *m_updatethread;
+	int m_runUpdateThread;
 	//////////////////////////////
 
 	int GetRawHeightMapVal(int x, int y);
