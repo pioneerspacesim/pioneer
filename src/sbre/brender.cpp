@@ -114,7 +114,7 @@ static void ResolveVertices (Model *pMod, Vector *pRes, ObjParams *pObjParam)
 
 static float g_dn, g_df, g_sd;
 static int g_wireframe = 0;
-float SBRE_ZBIAS = 0.00002f;
+float SBRE_ZBIAS = 0.0002f;
 
 void sbreSetZBias (float zbias)
 {

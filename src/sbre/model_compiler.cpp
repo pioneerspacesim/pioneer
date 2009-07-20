@@ -706,11 +706,14 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			Uint16 pos = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
 			Uint16 norm = parseVtxOrVtxRef(t);
+			(*t++).Check(Token::COMMA);
+			((*t).Check(Token::INTEGER));
+			Uint16 bias_amount = (*t++).val.i;
 			(*t++).Check(Token::CLOSEBRACKET);
 			instrsPutInstr(PTYPE_ZBIAS);
 			instrsPutVtxRef(pos);
 			instrsPutVtxRef(norm);
-			instrsPutInstr(0);
+			instrsPutInstr(bias_amount);
 
 		} else if ((*t).IsIdentifier("nozbias")) {
 			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");

@@ -53,7 +53,7 @@ model(clock, scale=1.0, radius=1.0) {
 	lod { full, 15px }
 	material(1,1,1, 0,0,0, 0, 0,0,0)
 	circle(12, v(0,0,0), v(0,0,1), v(0,1,0), radius=1.0)
-	zbias(v(0,0,0), v(0,0,1))
+	zbias(v(0,0,0), v(0,0,1), 2)
 
 	material(.5,.5,0, 1,1,0, 10, 0,0,0)
 	lod1:text(global:21, v(0,0.85,0), v(0,0,1), v(1,0,0), scale=0.15)
@@ -72,8 +72,10 @@ model(clock, scale=1.0, radius=1.0) {
 	minhand = vrotate(v(0,0,1), v(1,0,0), animfn=hour)
 	hourhand = vrotate(v(0,0,1), v(1,0,0), animfn=halfday)
 
-	subobject(clockhand, v(0,0,0.001), minhand, v(0,0,1), scale=0.65)
-	subobject(clockhand, v(0,0,0.001), hourhand, v(0,0,1), scale=0.5)
+	zbias(v(0,0,0), v(0,0,1), 2)
+	subobject(clockhand, v(0,0,0), minhand, v(0,0,1), scale=0.65)
+	zbias(v(0,0,0), v(0,0,1), 2)
+	subobject(clockhand, v(0,0,0), hourhand, v(0,0,1), scale=0.5)
 }
 
 model(church, scale=1.0, radius=22.0) {
@@ -98,10 +100,11 @@ model(church, scale=1.0, radius=22.0) {
 	clockpos1 = v(-7,18,-11)
 	clockpos2 = v(7,18,-11)
 	
-	lod1:zbias(clockpos1, v(-1,0,0))
+	lod1:zbias(clockpos1, v(-1,0,0), 1)
 	lod1:subobject(clock, clockpos1, v(0,1,0), v(-1,0,0), scale=2.5)
-	lod1:zbias(clockpos2, v(1,0,0))
+	lod1:zbias(clockpos2, v(1,0,0), 1)
 	lod1:subobject(clock, clockpos2, v(0,1,0), v(1,0,0), scale=2.5)
+	nozbias()
 #subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
 }
 
@@ -277,7 +280,7 @@ model(taipan, scale=1.0, radius=60.0) {
 		line(v(15,-5,-10)),
 		hermite(v(15,-2.5,-10), v(-10,0,0), v(-10,0,0)))
 	#rear
-	zbias(v(0,0,50), v(0,0,1))
+	zbias(v(0,0,50), v(0,0,1), 1)
 	circle(slod_tube, v(0,0,50), v(0,0,1), v(0,1,0), radius=3.5)
 	xref:circle(slod_tube, v(10,0,50), v(0,0,1), v(0,1,0), radius=3.5)
 #	xref:circle(slod_tube, v(10,0,3), v(0,0,-1), v(0,1,0), radius=2.5)
@@ -286,7 +289,7 @@ model(taipan, scale=1.0, radius=60.0) {
 	# license plate
 	material(.9,.9,.9, 0,0,0, 0, 0,0,0)
 	idtext_pos = v(0, 4.65, 47.5)
-	zbias(idtext_pos, v(0,0,1))
+	zbias(idtext_pos, v(0,0,1), 1)
 	lod1:text(params:0, idtext_pos,
 		vnormal(
 		v(-15,4.3,45),
@@ -375,7 +378,7 @@ model(cargo, scale=1.0, radius=1.0) {
 	lod1:tube(16, top, bottom, v(1,0,0), innerrad=0.9, outerrad=1.0)
 	lod1:cylinder(16, textpos, v(0,-0.8,0), v(1,0,0), radius=0.9)
 	lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
-	lod1:zbias(textpos, v(0,1,0))
+	lod1:zbias(textpos, v(0,1,0), 1)
 	lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
 }
 

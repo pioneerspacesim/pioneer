@@ -90,7 +90,7 @@ static int PrimFuncMatVar (uint16 *pData, Model *pMod, RState *pState)
 uint16 PFUNC_ZBIAS
 	uint16 pos			// to test if nearer - 0x8000 = reset
 	uint16 norm
-	uint16 units		// integer units. not used
+	uint16 units		// integer units
 */
 
 static int PrimFuncZBias (uint16 *pData, Model *pMod, RState *pState)
@@ -100,7 +100,7 @@ static int PrimFuncZBias (uint16 *pData, Model *pMod, RState *pState)
 		Vector tv;
 		VecSub (&pState->campos, pState->pVtx+pData[1], &tv);
 		if (VecDot (&tv, pState->pVtx+pData[2]) > 0.0f)
-			glDepthRange (pState->dn, pState->df-SBRE_ZBIAS);
+			glDepthRange (pState->dn, pState->df-pData[3]*SBRE_ZBIAS);
 	}
 	return 4;
 }

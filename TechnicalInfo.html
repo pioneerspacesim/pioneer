@@ -47,7 +47,7 @@ src/sbre/models.cpp
 8		material(.5,.5,.5, 0,0,0, 0, 0,0,0)
 9		cylinder(cyl_lod, top, bottom, v(1,0,0), radius=1.0)
 10		lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
-11		lod1:zbias(textpos, v(0,1,0))
+11		lod1:zbias(textpos, v(0,1,0), 1)
 12		lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
 13	}
 </pre>
@@ -96,6 +96,7 @@ src/sbre/models.cpp
 	Arguments are:<br>
 	vertex position - should be the position the text will be drawn at<br>
 	normal - same as the text's normal<br>
+	bias amount - integer<br>
 	<li>lod1:text(..) - For lod level 1 (full detail), draw some lovely
 	text on top of the cylinder. The first argument specifies where to
 	find the string. In this case it is the zeroth string on the object

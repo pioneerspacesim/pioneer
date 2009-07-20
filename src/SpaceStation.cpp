@@ -559,6 +559,8 @@ void SpaceStation::Render(const Frame *camFrame)
 			break;
 	}
 
+	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
+
 	vector3d centre = (p1+p2+p3+p4)*0.25;
 	putCityBit(centre, planet, rand, frameTrans, m, p1, p2, p3, p4);
 }
