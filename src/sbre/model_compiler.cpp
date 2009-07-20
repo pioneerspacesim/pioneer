@@ -14,7 +14,7 @@
 #define MAX_TOKEN_LEN 64
 
 static const char * const anim_fns[] = {
-	"gear", "gflap", "thrustpulse", "lin4sec", 0
+	"gear", "gflap", "thrustpulse", "lin4sec", "hour", "halfday", 0
 };
 
 // this nonsense all needs to be removed after compiling models....
@@ -1215,6 +1215,12 @@ void parseModel(tokenIter_t &t)
 	(*t).Check(Token::IDENTIFIER);
 	printf("Model %s: ", (*t).val.s);
 	modelName = (*t).val.s;
+
+	/* check modelName does not already exist */
+	if (models_idx.find(modelName) != models_idx.end()) {
+		(*t).Error("Duplicate model name '%s'", modelName);
+	}
+
 	t++;
 	(*t++).Check(Token::COMMA);
 	(*t++).MatchIdentifier("scale");

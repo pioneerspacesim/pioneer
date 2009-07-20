@@ -98,6 +98,8 @@ enum animfunc
 	AFUNC_GFLAP,
 	AFUNC_THRUSTPULSE,
 	AFUNC_LIN4SEC,
+	AFUNC_HOUR,
+	AFUNC_HALFDAY,
 };
 
 const AnimFunc pAFunc[] =
@@ -106,6 +108,8 @@ const AnimFunc pAFunc[] =
 	{ ASRC_GEAR, AMOD_CLIP, 0.0f, 2.0f, 0.0f, 0.0f },
 	{ ASRC_MINFRAC, AMOD_REF, 0.0f, 30.0f, 0.0f, 0.0f },
 	{ ASRC_MINFRAC, AMOD_MOD1, 0.0f, 15.0f, 0.0f, 0.0f },
+	{ ASRC_HOURFRAC, AMOD_MOD1, 0.0f, 1.0f, 0.0f, 0.0f },
+	{ ASRC_DAYFRAC, AMOD_MOD1, 0.0f, 2.0f, 0.0f, 0.0f },
 };
 
 //*****************************************************************************
@@ -211,8 +215,8 @@ const int pLTypeSize[] = { 1, 2, 4, 4 };
 
 const char pModelString[][256] = {
 	"Bollocks", "Yo", "","","","","","","","",
-	// 10 - landing pad messages
-	"1","2","3","4",
+	// 10 - landing pad messages & clock hour things
+	"1","2","3","4","5","6","7","8","9","10","11","12",
 };
 
 void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters);

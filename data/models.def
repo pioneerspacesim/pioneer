@@ -43,7 +43,67 @@ model(factory1, scale=1.0, radius=30.0) {
 	cylinder(a, v(-10,30,-10), v(-10,50,-10), v(0,0,1), radius=2.0)
 
 }
+
+model(clockhand, scale=1.0, radius=1.0) {
+	material(0,0,1, .7,.7,1, 10, 0,0,0)
+	tri(v(-0.06, -0.06, 0), v(0.06, -0.06, 0), v(0, 1, 0))
+}
+
+model(clock, scale=1.0, radius=1.0) {
+	lod { full, 15px }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	circle(12, v(0,0,0), v(0,0,1), v(0,1,0), radius=1.0)
+	zbias(v(0,0,0), v(0,0,1))
+
+	material(.5,.5,0, 1,1,0, 10, 0,0,0)
+	lod1:text(global:21, v(0,0.85,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:10, v(0.425,0.74,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:11, v(0.74,0.43,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:12, v(0.85,0,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:13, v(0.74,-.425,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:14, v(0.425,-.74,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:15, v(0,-.85,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:16, v(-.425,-.736,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:17, v(-.74,-.425,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:18, v(-.85,0,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:19, v(-.74,.425,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text(global:20, v(-.425,.736,0), v(0,0,1), v(1,0,0), scale=0.15)
 	
+	minhand = vrotate(v(0,0,1), v(1,0,0), animfn=hour)
+	hourhand = vrotate(v(0,0,1), v(1,0,0), animfn=halfday)
+
+	subobject(clockhand, v(0,0,0.001), minhand, v(0,0,1), scale=0.65)
+	subobject(clockhand, v(0,0,0.001), hourhand, v(0,0,1), scale=0.5)
+}
+
+model(church, scale=1.0, radius=22.0) {
+	lod { full, 10px }
+	material(.5, .5, .3, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-18), v(0,0,12), n(0,1,0), radius=1.0, {
+		v(-7,0,0), v(7,0,0), v(7,10,0), v(-7,10,0)
+	})
+	extrusion(v(0,0,-18), v(0,0,-4), n(0,1,0), radius=1.0, {
+		v(-7,10,0), v(7,10,0), v(7,25,0), v(-7,25,0)
+	})
+	roof1 = v(0,20,12)
+	roof2 = v(0,20,-4)
+	spire = v(0,45,-11)
+	tri(v(-7,10,12), v(7,10,12), roof1)
+	material(.8, .3, .0, 0,0,0, 2.0, 0, 0, 0)
+	xref:quad(roof2, roof1, v(7,10,12), v(7,10,-4))
+	xref:tri(spire, v(7,25,-4), v(7,25,-18))
+	tri(spire, v(-7,25,-4), v(7,25,-4))
+	tri(spire, v(7,25,-18), v(-7,25,-18))
+
+	clockpos1 = v(-7,18,-11)
+	clockpos2 = v(7,18,-11)
+	
+	lod1:zbias(clockpos1, v(-1,0,0))
+	lod1:subobject(clock, clockpos1, v(0,1,0), v(-1,0,0), scale=2.5)
+	lod1:zbias(clockpos2, v(1,0,0))
+	lod1:subobject(clock, clockpos2, v(0,1,0), v(1,0,0), scale=2.5)
+#subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
+}
 
 model(nosewheel, scale=1.0, radius=7.0) {
 	lod { full, 4px }
