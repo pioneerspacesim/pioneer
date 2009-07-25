@@ -7,7 +7,7 @@
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	2.4
 #define GEOPATCH_MAX_DEPTH	14
-// must be power of two + 1
+// must be an odd number
 #define GEOPATCH_EDGELEN	33
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 #define GEOSPHERE_USE_THREADING
@@ -910,7 +910,7 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_icyness = 38.0 / (MAX(1, ((double)m_sbody->averageTemp)-250.0));
 
-	printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
+	//printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
 
 	for (int i=0; i<16; i++) m_crap[i] = rand.Double();
 	m_sealevel = rand.Double();

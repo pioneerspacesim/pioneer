@@ -4,6 +4,47 @@
 # To get an idea of scale, a double-decker bus is 11m long and a
 # boeing 747 is 71m long
 
+model(wind_turbine_blade, scale=1.0, radius=1.0) {
+	lod { full, 5px }
+	objlod a = { 8, 4 }
+	cylinder(a, v(0,0,0), v(0,0,.1), v(0,1,0), radius=0.065)
+	tri(v(-.065, 0, 0.03), v(.065, 0, 0.07), v(0, 1, 0.05))
+	tri(v(0.0325, 0.056, 0.03), v(-.0325, -.056, 0.07), v(0.87, -0.5, 0.05))
+	tri(v(0.0325, -.056, 0.03), v(-.0325, 0.056, 0.07), v(-.87, -0.5, 0.05))
+	# back faces
+	tri(v(.065, 0, 0.07), v(-.065, 0, 0.03), v(0, 1, 0.05))
+	tri(v(-.0325, -.056, 0.07), v(0.0325, 0.056, 0.03), v(0.87, -0.5, 0.05))
+	tri(v(-.0325, 0.056, 0.07), v(0.0325, -.056, 0.03), v(-.87, -0.5, 0.05))
+}
+
+model(wind_turbine1, scale=1.0, radius=10.0) {
+	lod { full, 5px, 2px }
+	objlod a = { 8, 4, 4 }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	cylinder(a, v(0,0,0), v(0,20,0), v(0,0,1), radius=0.6)
+	lod1:lod2:cylinder(a, v(0,20,1), v(0,20,-1), v(0,1,0), radius=0.7)
+	minhand = vrotate(v(0,0,1), v(1,0,0), animfn=lin4sec)
+	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
+}
+model(wind_turbine2, scale=1.0, radius=10.0) {
+	lod { full, 5px, 2px }
+	objlod a = { 8, 4, 4 }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	cylinder(a, v(0,0,0), v(0,20,0), v(0,0,1), radius=0.6)
+	lod1:lod2:cylinder(a, v(0,20,1), v(0,20,-1), v(0,1,0), radius=0.7)
+	minhand = vrotate(v(0,0,1), n(1,-1,0), animfn=lin4sec)
+	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
+}
+model(wind_turbine3, scale=1.0, radius=10.0) {
+	lod { full, 5px, 2px }
+	objlod a = { 8, 4, 4 }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	cylinder(a, v(0,0,0), v(0,20,0), v(0,0,1), radius=0.6)
+	lod1:lod2:cylinder(a, v(0,20,1), v(0,20,-1), v(0,1,0), radius=0.7)
+	minhand = vcross(v(0,0,1), n(-1,-1,0))
+	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
+}
+
 model(building1, scale=1.0, radius=10.0) {
 	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
 	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {

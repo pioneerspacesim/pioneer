@@ -25,7 +25,7 @@ public:
 	// to remove from simulation for a period
 	virtual void Disable();
 	virtual void Enable();
-	void GetAabb(Aabb &aabb);
+	void GetAabb(Aabb &aabb) const;
 	Geom *GetGeom() { return m_geom; }
 	int GetSbreModel() const { return m_sbreModel; }
 	

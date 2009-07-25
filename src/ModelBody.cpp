@@ -44,7 +44,7 @@ void ModelBody::Enable()
 	m_geom->Enable();
 }
 
-void ModelBody::GetAabb(Aabb &aabb)
+void ModelBody::GetAabb(Aabb &aabb) const
 {
 	aabb = m_collMeshSet->aabb;
 }
