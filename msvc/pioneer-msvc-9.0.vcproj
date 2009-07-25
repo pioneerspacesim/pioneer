@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\CityOnPlanet.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\collider\CollisionSpace.cpp"
 				>
 			</File>
@@ -403,6 +407,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Polit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Sector.cpp"
 				>
 			</File>
@@ -490,6 +498,10 @@
 			</File>
 			<File
 				RelativePath="..\src\CargoBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\CityOnPlanet.h"
 				>
 			</File>
 			<File
@@ -714,6 +726,10 @@
 			</File>
 			<File
 				RelativePath="..\src\Player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Polit.h"
 				>
 			</File>
 			<File
