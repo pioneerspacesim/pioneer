@@ -247,6 +247,12 @@ void AddBody(Body *b)
 	bodies.push_back(b);
 }
 
+void RemoveBody(Body *b)
+{
+	b->SetFrame(0);
+	bodies.remove(b);
+}
+
 void KillBody(Body* const b)
 {
 	b->MarkDead();

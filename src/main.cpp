@@ -17,7 +17,6 @@ int main(int argc, char**)
 //	signal(SIGSEGV, sigsegv_handler);
 	IniConfig cfg("config.ini");
 	Pi::Init(cfg);
-	Pi::Start();
-	Pi::Quit();
+	for (;;) Pi::Start();
 	return 0;
 }

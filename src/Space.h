@@ -19,6 +19,7 @@ namespace Space {
 	extern void GenBody(SBody *b, Frame *f);
 	extern void TimeStep(float step);
 	extern void AddBody(Body *);
+	extern void RemoveBody(Body *);
 	extern void KillBody(Body *);
 	extern void Render(const Frame *cam_frame);
 	extern void AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,

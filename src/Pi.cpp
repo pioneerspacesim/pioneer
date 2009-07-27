@@ -355,6 +355,12 @@ void Pi::TombStoneLoop()
 
 void Pi::Start()
 {
+	// this is a bit brittle. skank may be forgotten and survive between
+	// games
+	Pi::timeAccel = 1.0f;
+	Pi::gameTime = 0;
+	Pi::currentView = 0;
+
 	player = new Player(ShipType::SIRIUS_INTERDICTOR);
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
@@ -485,7 +491,22 @@ void Pi::Start()
 		// load quicksave
 		Serializer::Read::Game("quicksave.sav");
 		MainLoop();
+	} else {
+		Pi::Quit();
 	}
+	
+	Gui::Screen::RemoveBaseWidget(splash);
+	delete splash;
+	delete infoView;
+	delete spaceStationView;
+	delete objectViewerView;
+	delete worldView;
+	delete systemInfoView;
+	delete systemView;
+	delete sectorView;
+	delete cpan;
+	Space::RemoveBody(Pi::player);
+	delete player;
 }
 
 void Pi::MainLoop()
@@ -556,6 +577,7 @@ void Pi::MainLoop()
 					break;
 				}
 			} else {
+				Pi::SetTimeAccel(1.0f);
 				Pi::cpan->HideAll();
 				Pi::SetView(static_cast<View*>(Pi::worldView));
 				Pi::player->Disable();
