@@ -250,7 +250,7 @@ void AddBody(Body *b)
 void KillBody(Body* const b)
 {
 	b->MarkDead();
-	corpses.push_back(b);
+	if (b != Pi::player) corpses.push_back(b);
 }
 
 void UpdateFramesOfReference()
@@ -495,12 +495,6 @@ void TimeStep(float step)
 	}
 	// see if anyone has been shot
 	test_laser_beams();
-
-	if (Pi::player->IsDead()) {
-		printf("PLAYER IS DEAD :-(\n");
-		Pi::TombStoneLoop();
-		Pi::Quit();
-	}
 
 	PruneCorpses();
 }

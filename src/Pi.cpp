@@ -362,7 +362,6 @@ void Pi::Start()
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
-	player->SetLabel("me");
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	
@@ -501,6 +500,7 @@ void Pi::MainLoop()
 	char fps_readout[128];
 	Uint32 time_before_frame = SDL_GetTicks();
 	Uint32 last_phys_update = time_before_frame;
+	double time_player_died = 0;
 
 	for (;;) {
 		frame_stat++;
@@ -547,6 +547,20 @@ void Pi::MainLoop()
 			gameTime += step;
 			phys_stat++;
 			if (++num_steps > 3) break;
+		}
+		// fuckadoodledoo, did the player die?
+		if (Pi::player->IsDead()) {
+			if (time_player_died) {
+				if (Pi::GetGameTime() - time_player_died > 8.0) {
+					Pi::TombStoneLoop();
+					break;
+				}
+			} else {
+				Pi::cpan->HideAll();
+				Pi::SetView(static_cast<View*>(Pi::worldView));
+				Pi::player->Disable();
+				time_player_died = Pi::GetGameTime();
+			}
 		}
 		currentView->Update();
 

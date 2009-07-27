@@ -6,6 +6,7 @@
 #include "View.h"
 
 class Body;
+class Frame;
 struct SBodyPath;
 
 class WorldView: public View {
@@ -29,6 +30,9 @@ public:
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;
 private:
+	void DrawHUD(const Frame *cam_frame);
+	void DrawTargetSquares();
+	void DrawTargetSquare(const Body* const target);
 	Gui::Button *AddCommsOption(const std::string msg, int ypos);
 	void OnClickHyperspace();
 	void OnClickBlastoff();

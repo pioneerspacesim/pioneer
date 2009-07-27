@@ -16,12 +16,12 @@ public:
 	virtual ~Player();
 	void PollControls();
 	virtual void Render(const Frame *camFrame);
-	void DrawHUD(const Frame *cam_frame);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void TimeStepUpdate(const float timeStep);
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
+	float GetSetSpeed() const { return m_setSpeed; }
 	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SBodyPath *path);
 	void TakeMission(Mission *);
@@ -31,8 +31,6 @@ protected:
 	virtual void Load();
 private:
 	std::list<Mission*> m_missions;
-	void DrawTargetSquares();
-	void DrawTargetSquare(const Body* const target);
 	float m_mouseCMov[2];
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;

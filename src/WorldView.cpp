@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "Frame.h"
 #include "Player.h"
+#include "Planet.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "ShipCpanel.h"
@@ -222,45 +223,44 @@ void WorldView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if(Pi::player) {
-		// make temporary camera frame at player
-		Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
+	// make temporary camera frame at player
+	Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
 
-		matrix4x4d camRot = matrix4x4d::Identity();
+	matrix4x4d camRot = matrix4x4d::Identity();
 
-		if (m_camType == CAM_FRONT) {
-			cam_frame.SetPosition(Pi::player->GetPosition());
-		} else if (m_camType == CAM_REAR) {
-			camRot.RotateY(M_PI);
-		//	glRotatef(180.0f, 0, 1, 0);
-			cam_frame.SetPosition(Pi::player->GetPosition());
-		} else /* CAM_EXTERNAL */ {
-			cam_frame.SetPosition(Pi::player->GetPosition() + GetExternalViewTranslation());
-			ApplyExternalViewRotation(camRot);
-		}
-
-		{
-			matrix4x4d prot;
-			Pi::player->GetRotMatrix(prot);
-			camRot = prot * camRot;
-		}
-		cam_frame.SetOrientation(camRot);
-		
-		matrix4x4d trans2bg;
-		Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
-		trans2bg.ClearToRotOnly();
-		glPushMatrix();
-		glMultMatrixd(&trans2bg[0]);
-		DrawBgStars();
-		glPopMatrix();
-
-		int l=0;
-		position_system_lights(&cam_frame, Space::rootFrame, l);
-		Space::Render(&cam_frame);
-		Pi::player->DrawHUD(&cam_frame);
-
-		Pi::player->GetFrame()->RemoveChild(&cam_frame);
+	if (m_camType == CAM_FRONT) {
+		cam_frame.SetPosition(Pi::player->GetPosition());
+	} else if (m_camType == CAM_REAR) {
+		camRot.RotateY(M_PI);
+	//	glRotatef(180.0f, 0, 1, 0);
+		cam_frame.SetPosition(Pi::player->GetPosition());
+	} else /* CAM_EXTERNAL */ {
+		cam_frame.SetPosition(Pi::player->GetPosition() + GetExternalViewTranslation());
+		ApplyExternalViewRotation(camRot);
 	}
+
+	{
+		matrix4x4d prot;
+		Pi::player->GetRotMatrix(prot);
+		camRot = prot * camRot;
+	}
+	cam_frame.SetOrientation(camRot);
+	
+	matrix4x4d trans2bg;
+	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
+	trans2bg.ClearToRotOnly();
+	glPushMatrix();
+	glMultMatrixd(&trans2bg[0]);
+	DrawBgStars();
+	glPopMatrix();
+
+	int l=0;
+	position_system_lights(&cam_frame, Space::rootFrame, l);
+	Space::Render(&cam_frame);
+	if (!Pi::player->IsDead()) DrawHUD(&cam_frame);
+
+	Pi::player->GetFrame()->RemoveChild(&cam_frame);
+
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHT1);
 	glDisable(GL_LIGHT2);
@@ -270,6 +270,15 @@ void WorldView::Draw3D()
 void WorldView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
+
+	if (Pi::player->IsDead()) {
+		m_camType = CAM_EXTERNAL;
+		m_externalViewRotX += 60*frameTime;
+		m_externalViewDist = 200;
+		m_labelsOn = false;
+		HideAll();
+		return;
+	}
 
 	if (GetCamType() == CAM_EXTERNAL) {
 		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
@@ -429,4 +438,233 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 	}
 
 	return selected;
+}
+
+#define HUD_CROSSHAIR_SIZE	24.0f
+
+void WorldView::DrawHUD(const Frame *cam_frame)
+{
+	GLdouble modelMatrix[16];
+	GLdouble projMatrix[16];
+	GLint viewport[4];
+
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
+	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
+	glGetIntegerv (GL_VIEWPORT, viewport);
+
+	Gui::Screen::EnterOrtho();
+	glColor3f(.7,.7,.7);
+
+	// Object labels
+	{
+		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
+			Body *b = *i;
+			vector3d _pos = b->GetPositionRelTo(cam_frame);
+
+			if (_pos.z < 0
+				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
+				b->SetProjectedPos(_pos);
+				b->SetOnscreen(true);
+				if (GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
+			}
+			else
+				b->SetOnscreen(false);
+		}
+	}
+
+	DrawTargetSquares();
+
+	// Direction indicator
+	const float sz = HUD_CROSSHAIR_SIZE;
+	vector3d vel;
+	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
+	if (velRelTo) {
+		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+	} else {
+		vel = Pi::player->GetVelocity() -
+			Pi::player->GetFrame()->GetStasisVelocityAtPosition(Pi::player->GetPosition());
+	}
+
+	//vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
+
+	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
+	if (loc_v.z < 0) {
+		GLdouble pos[3];
+		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+			glBegin(GL_LINES);
+			glVertex2f(pos[0]-sz, pos[1]-sz);
+			glVertex2f(pos[0]-0.5*sz, pos[1]-0.5*sz);
+			
+			glVertex2f(pos[0]+sz, pos[1]-sz);
+			glVertex2f(pos[0]+0.5*sz, pos[1]-0.5*sz);
+			
+			glVertex2f(pos[0]+sz, pos[1]+sz);
+			glVertex2f(pos[0]+0.5*sz, pos[1]+0.5*sz);
+			
+			glVertex2f(pos[0]-sz, pos[1]+sz);
+			glVertex2f(pos[0]-0.5*sz, pos[1]+0.5*sz);
+			glEnd();
+		}
+	}
+
+	// normal crosshairs
+	if (GetCamType() == WorldView::CAM_FRONT) {
+		float px = Gui::Screen::GetWidth()/2.0;
+		float py = Gui::Screen::GetHeight()/2.0;
+		glBegin(GL_LINES);
+		glVertex2f(px-sz, py);
+		glVertex2f(px-0.5*sz, py);
+		
+		glVertex2f(px+sz, py);
+		glVertex2f(px+0.5*sz, py);
+		
+		glVertex2f(px, py-sz);
+		glVertex2f(px, py-0.5*sz);
+		
+		glVertex2f(px, py+sz);
+		glVertex2f(px, py+0.5*sz);
+		glEnd();
+	} else if (GetCamType() == WorldView::CAM_REAR) {
+		float px = Gui::Screen::GetWidth()/2.0;
+		float py = Gui::Screen::GetHeight()/2.0;
+		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
+		glBegin(GL_LINES);
+		glVertex2f(px-sz, py);
+		glVertex2f(px-0.5*sz, py);
+		
+		glVertex2f(px+sz, py);
+		glVertex2f(px+0.5*sz, py);
+		
+		glVertex2f(px, py-sz);
+		glVertex2f(px, py-0.5*sz);
+		
+		glVertex2f(px, py+sz);
+		glVertex2f(px, py+0.5*sz);
+		glEnd();
+	}
+	
+	if (Pi::showDebugInfo) {
+		char buf[1024];
+		vector3d pos = Pi::player->GetPosition();
+		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
+		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
+		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
+			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
+			"Rel-to: %s (%.0f km)",
+			pos.x, pos.y, pos.z,
+			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
+			rel_to, pos.Length()/1000);
+
+		glPushMatrix();
+		glTranslatef(2, Gui::Screen::GetFontHeight(), 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
+	{
+		double _vel = vel.Length();
+		char buf[128];
+		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : Pi::player->GetFrame()->GetLabel());
+		if (_vel > 1000) {
+			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s (relative to %s)", _vel*0.001, rel_to);
+		} else {
+			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s (relative to %s)", _vel, rel_to);
+		}
+		glPushMatrix();
+		glTranslatef(2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+	
+	if (Pi::player->GetFlightControlState() == Player::CONTROL_FIXSPEED) {
+		char buf[128];
+		if (Pi::player->GetSetSpeed() > 1000) {
+			snprintf(buf,sizeof(buf), "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
+		} else {
+			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
+		}
+		glPushMatrix();
+		glTranslatef(250, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
+	{ /* relative to */
+		char buf[256];
+		snprintf(buf, sizeof(buf), "Relative-to: %s", Pi::player->GetFrame()->GetLabel());
+		glPushMatrix();
+		glTranslatef(600, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+	// altitude
+	if (Pi::player->GetFrame()->m_astroBody) {
+		Body *astro = Pi::player->GetFrame()->m_astroBody;
+		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
+		double radius;
+		vector3d surface_pos = Pi::player->GetPosition().Normalized();
+		if (astro->IsType(Object::PLANET)) {
+			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+		} else {
+			radius = Pi::player->GetFrame()->m_astroBody->GetRadius();
+		}
+		double altitude = Pi::player->GetPosition().Length() - radius;
+		if (altitude < 0) altitude = 0;
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
+		glPushMatrix();
+		glTranslatef(400, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
+	if (Pi::player->GetNavTarget()) {
+		Body *target = Pi::player->GetNavTarget();
+		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Target distance: %s", format_distance(pos.Length()).c_str());
+		glPushMatrix();
+		glTranslatef(0, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-90, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
+	Gui::Screen::LeaveOrtho();
+}
+
+void WorldView::DrawTargetSquares()
+{
+	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
+	glLineWidth(2.0f);
+
+	if(Pi::player->GetNavTarget()) {
+		glColor3f(0.0f, 1.0f, 0.0f);
+		DrawTargetSquare(Pi::player->GetNavTarget());
+	}
+
+	if(Pi::player->GetCombatTarget()) {
+		glColor3f(1.0f, 0.0f, 0.0f);
+		DrawTargetSquare(Pi::player->GetCombatTarget());
+	}
+
+	glPopAttrib();
+}
+
+void WorldView::DrawTargetSquare(const Body* const target)
+{
+	if(target->IsOnscreen()) {
+		const vector3d& _pos = target->GetProjectedPos();
+		const float x1 = _pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
+		const float x2 = x1 + WorldView::PICK_OBJECT_RECT_SIZE;
+		const float y1 = _pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
+		const float y2 = y1 + WorldView::PICK_OBJECT_RECT_SIZE;
+
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(x1, y1);
+		glVertex2f(x2, y1);
+		glVertex2f(x2, y2);
+		glVertex2f(x1, y2);
+		glEnd();
+	}
 }
