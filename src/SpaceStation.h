@@ -12,6 +12,7 @@
 class CollMeshSet;
 class Ship;
 class Mission;
+class CityOnPlanet;
 
 class SBody;
 
@@ -67,6 +68,7 @@ private:
 	std::vector<ShipFlavour> m_shipsOnSale;
 	std::vector<Mission*> m_bbmissions;
 	double m_lastUpdatedShipyard;
+	CityOnPlanet *m_adjacentCity;
 };
 
 #endif /* _SPACESTATION_H */

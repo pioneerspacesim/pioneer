@@ -144,6 +144,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 
 void SpaceStation::Init()
 {
+	m_adjacentCity = 0;
 	SetModel(stationTypes[m_type].sbreModelName);
 	const CollMeshSet *mset = GetModelCollMeshSet(GetSbreModel());
 	for (int i=0; i<mset->numMeshParts; i++) {
@@ -157,6 +158,7 @@ SpaceStation::~SpaceStation()
 			i != m_bbmissions.end(); ++i) {
 		delete *i;
 	}
+	if (m_adjacentCity) delete m_adjacentCity;
 }
 
 void SpaceStation::ReplaceShipOnSale(int idx, const ShipFlavour *with)
@@ -390,6 +392,9 @@ void SpaceStation::Render(const Frame *camFrame)
 		}
 		planet = static_cast<Planet*>(_planet);
 	
-		CityOnPlanet::Render(planet, this, camFrame, m_sbody->seed);
+		if (!m_adjacentCity) {
+			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
+		}
+		m_adjacentCity->Render(this, camFrame);
 	}
 }
