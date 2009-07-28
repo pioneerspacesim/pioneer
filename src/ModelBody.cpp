@@ -8,6 +8,7 @@
 #include "ModelCollMeshData.h"
 #include "Serializer.h"
 #include "collider/collider.h"
+#include "Shader.h"
 
 ModelBody::ModelBody(): Body()
 {
@@ -159,7 +160,9 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 		frameTrans.ClearToRotOnly();
 		rot = frameTrans * rot;
 
+		Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 		sbreRenderModel(&pos.x, &rot[0], m_sbreModel, params);
+		Shader::DisableVertexProgram();
 		glPopAttrib();
 	}
 	glMatrixMode(GL_PROJECTION);

@@ -3,6 +3,7 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "StarSystem.h"
+#include "Shader.h"
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	2.4
@@ -980,7 +981,7 @@ void GeoSphere::DestroyVBOs()
 	SDL_mutexV(m_vbosToDestroyLock);
 }
 
-static const float g_ambient[4] = { .1, .1, .1, 1.0 };
+static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
 void GeoSphere::Render(vector3d campos) {
 	if (m_patches[0] == 0) {
@@ -1019,24 +1020,19 @@ void GeoSphere::Render(vector3d campos) {
 	}
 	Plane planes[6];
 	GetFrustum(planes);
-/*		printf("FRUSTUM for %s\n", m_sbody->name.c_str());
-		for (int i=0; i<6; i++) {
-			printf("%f,%f,%f,%f\n", 
-					planes[i].a,
-					planes[i].b,
-					planes[i].c,
-					planes[i].d);
-		}
-		return;
-*/
+	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glMaterialfv (GL_FRONT, GL_AMBIENT, m_ambColor);
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, m_diffColor);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
+
+	Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, planes);
 	}
+	Shader::DisableVertexProgram();
+
 	glDisable(GL_COLOR_MATERIAL);
 
 	// if the update thread has deleted any geopatches, destroy the vbos

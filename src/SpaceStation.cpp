@@ -9,6 +9,7 @@
 #include "Pi.h"
 #include "Mission.h"
 #include "CityOnPlanet.h"
+#include "Shader.h"
 
 struct SpaceStationType {
 	const char *sbreModelName;
@@ -380,6 +381,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 
 void SpaceStation::Render(const Frame *camFrame)
 {
+	Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 	RenderSbreModel(camFrame, &params);
 
 	// find planet Body*
@@ -388,13 +390,14 @@ void SpaceStation::Render(const Frame *camFrame)
 		Body *_planet = GetFrame()->m_astroBody;
 		if ((!_planet) || !_planet->IsType(Object::PLANET)) {
 			// orbital spaceport -- don't make city turds
-			return;
+		} else {
+			planet = static_cast<Planet*>(_planet);
+		
+			if (!m_adjacentCity) {
+				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
+			}
+			m_adjacentCity->Render(this, camFrame);
 		}
-		planet = static_cast<Planet*>(_planet);
-	
-		if (!m_adjacentCity) {
-			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
-		}
-		m_adjacentCity->Render(this, camFrame);
 	}
+	Shader::DisableVertexProgram();
 }

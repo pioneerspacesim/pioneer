@@ -22,6 +22,7 @@
 #include "NameGenerator.h"
 #include "pirates.h"
 #include "GeoSphere.h"
+#include "Shader.h"
 
 float Pi::timeAccel = 1.0f;
 int Pi::scrWidth;
@@ -115,6 +116,7 @@ void Pi::Init(IniConfig &config)
 	sbreCompilerLoadModels();
 	NameGenerator::Init();
 	InitOpenGL();
+	if (config.Int("UseVertexShaders")) Shader::Init();
 
 	GLFTInit();
 	GeoSphere::Init();
@@ -207,6 +209,9 @@ void Pi::HandleEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (KeyState(SDLK_LCTRL) && (event.key.keysym.sym == SDLK_q)) Pi::Quit();
+				if (KeyState(SDLK_LCTRL) && (event.key.keysym.sym == SDLK_s)) {
+					Shader::ToggleState();
+				}
 				if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
 				if ((event.key.keysym.sym == SDLK_PRINT) && KeyState(SDLK_LCTRL)) {
 					char buf[256];

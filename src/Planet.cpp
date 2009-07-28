@@ -245,7 +245,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glPushMatrix();
 	// face the camera dammit
 	vector3d zaxis = (-pos).Normalized();
-	vector3d xaxis = (vector3d::Cross(zaxis, vector3d(0,1,0))).Normalized();
+	vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
 	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	glMultMatrixd(&rot[0]);
@@ -336,11 +336,13 @@ void Planet::Render(const Frame *a_camFrame)
 	double apparent_size = rad / fpos.Length();
 	double len = fpos.Length();
 	double origLen = len;
+	int shrink = 0;
 
-	while ((len-rad)*0.25 > 32*WORLDVIEW_ZNEAR) {
+	while ((len-rad)*0.25 > 5000) {
 		rad *= 0.25;
 		fpos = 0.25*fpos;
 		len *= 0.25;
+		shrink++;
 	}
 
 	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
@@ -406,13 +408,15 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_LIGHTING);
 		glEnable(GL_DEPTH_TEST);
 	} else {
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		float fracH = WORLDVIEW_ZNEAR / Pi::GetScrAspect();
-		// very conservative zfar...
-		glFrustum(-WORLDVIEW_ZNEAR, WORLDVIEW_ZNEAR, -fracH, fracH, WORLDVIEW_ZNEAR, MAX(rad, WORLDVIEW_ZFAR));
-		glMatrixMode(GL_MODELVIEW);
+		if (shrink) {
+			glMatrixMode(GL_PROJECTION);
+			glPushMatrix();
+			glLoadIdentity();
+			float fracH = WORLDVIEW_ZNEAR / Pi::GetScrAspect();
+			// very conservative zfar...
+			glFrustum(-WORLDVIEW_ZNEAR, WORLDVIEW_ZNEAR, -fracH, fracH, WORLDVIEW_ZNEAR, MAX(rad, WORLDVIEW_ZFAR));
+			glMatrixMode(GL_MODELVIEW);
+		}
 
 		vector3d campos = -fpos;
 		ftran.ClearToRotOnly();
@@ -420,7 +424,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glMultMatrixd(&ftran[0]);
 		glEnable(GL_NORMALIZE);
 		glPushMatrix();
-		glScalef((float)rad,(float)rad,(float)rad);
+		glScaled(rad, rad, rad);
 		campos = campos * (1.0/rad);
 		m_geosphere->Render(campos);
 		
@@ -433,11 +437,14 @@ void Planet::Render(const Frame *a_camFrame)
 		fpos = ftran.InverseOf() * fpos;
 
 		DrawAtmosphere(rad, fpos);
-		glClear(GL_DEPTH_BUFFER_BIT);
 
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
+		if (shrink) {
+			glClear(GL_DEPTH_BUFFER_BIT);
+
+			glMatrixMode(GL_PROJECTION);
+			glPopMatrix();
+			glMatrixMode(GL_MODELVIEW);
+		}
 	}
 	glPopMatrix();
 }
