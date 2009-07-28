@@ -54,42 +54,24 @@ static const char *geosphere_prog = "!!ARBvp1.0\n"
 	"PARAM specExp = state.material.shininess;\n"
 	"TEMP eyeNormal, temp, dots, lightcoefs;\n"
 	
-	"TEMP scaledPos;\n"
-	"DP4 scaledPos.x, mv[0], pos;\n"
-	"DP4 scaledPos.y, mv[1], pos;\n"
-	"DP4 scaledPos.z, mv[2], pos;\n"
-	"DP4 scaledPos.w, mv[3], pos;\n"
-
-	"# transform vertex to clip coords\n"
-	"TEMP tempPos;\n"
-	"DP4 tempPos.x, mvp[0], pos;\n"
-	"DP4 tempPos.y, mvp[1], pos;\n"
-	"DP4 tempPos.z, mvp[2], pos;\n"
-	"DP4 tempPos.w, mvp[3], pos;\n"
-	"MOV result.texcoord, vertex.texcoord;\n"
-
-	"MOV result.position.xyw, tempPos;\n"
-
-	// zmul = 1.0 / (1.0/sqrt(zfar) - 1.0/sqrt(znear))
-	// zmod = -zmul / sqrtf(znear)
-
-	"TEMP poo;\n"
-	"RSQ poo.z, scaledPos.z;\n"
-	// (1.0/sqrt(scaledPos.z))*zmul + zmod
-	"MAD poo.z, poo.z, program.env[0].x, program.env[0].y;\n"
-	"MUL result.position.z, poo.z, tempPos.w;\n"
+	// transform vertex to clip coords, linearizing z
+	"DP4 temp.x, mvp[0], pos;\n"
+	"DP4 temp.y, mvp[1], pos;\n"
+	"DP4 temp.z, mv[2], pos;\n"
+	"DP4 temp.w, mvp[3], pos;\n"
+	"MOV result.position.xyw, temp;\n"
+	"RSQ temp.z, temp.z;\n"
+	"MAD temp.z, temp.z, program.env[0].x, program.env[0].y;\n" // (1.0/sqrt(temp.z))*zmul + zmod
+	"MUL result.position.z, temp.z, temp.w;\n"
 	
-	"# transform normal into eye space\n"
+	// transform normal into eye space
 	"DP3 eyeNormal.x, mvinv[0], norm;\n"
 	"DP3 eyeNormal.y, mvinv[1], norm;\n"
 	"DP3 eyeNormal.z, mvinv[2], norm;\n"
-	
 	// geosphere needs normals normalized
-	"TEMP wank;\n"
-	"DP3 wank.w, eyeNormal, eyeNormal;\n"
-	"RSQ wank.w, wank.w;\n"
-	"MUL wank.xyz, wank.w, eyeNormal;\n"
-	"MOV eyeNormal, wank;\n"
+	"DP3 temp.w, eyeNormal, eyeNormal;\n"
+	"RSQ temp.w, temp.w;\n"
+	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
 
 
 	"TEMP colacc;\n"
@@ -146,42 +128,34 @@ static const char *sbre_prog = "!!ARBvp1.0\n"
 	"PARAM sbre_amb = program.env[1];\n"
 	"TEMP eyeNormal, temp, dots, lightcoefs;\n"
 	
-	"TEMP scaledPos;\n"
-	"DP4 scaledPos.x, mv[0], pos;\n"
-	"DP4 scaledPos.y, mv[1], pos;\n"
-	"DP4 scaledPos.z, mv[2], pos;\n"
-	"DP4 scaledPos.w, mv[3], pos;\n"
-
-	"# transform vertex to clip coords\n"
-	"TEMP tempPos;\n"
-	"DP4 tempPos.x, mvp[0], pos;\n"
-	"DP4 tempPos.y, mvp[1], pos;\n"
-	"DP4 tempPos.z, mvp[2], pos;\n"
-	"DP4 tempPos.w, mvp[3], pos;\n"
-	"MOV result.texcoord, vertex.texcoord;\n"
-
-	"MOV result.position.xyw, tempPos;\n"
-
-	// zmul = 1.0 / (1.0/sqrt(zfar) - 1.0/sqrt(znear))
-	// zmod = -zmul / sqrtf(znear)
-
-	"TEMP poo;\n"
-	"RSQ poo.z, scaledPos.z;\n"
-	// (1.0/sqrt(scaledPos.z))*zmul + zmod
-	"MAD poo.z, poo.z, program.env[0].x, program.env[0].y;\n"
-	"MUL result.position.z, poo.z, tempPos.w;\n"
+	// transform vertex to clip coords, linearizing z
+	"DP4 temp.x, mvp[0], pos;\n"
+	"DP4 temp.y, mvp[1], pos;\n"
+	"DP4 temp.z, mv[2], pos;\n"
+	"DP4 temp.w, mvp[3], pos;\n"
+	"MOV result.position.xyw, temp;\n"
+	"RSQ temp.z, temp.z;\n"
+	"MAD temp.z, temp.z, program.env[0].x, program.env[0].y;\n" // (1.0/sqrt(temp.z))*zmul + zmod
+	"MUL result.position.z, temp.z, temp.w;\n"
 	
-	"# transform normal into eye space\n"
+	// transform normal into eye space
+	"DP3 eyeNormal.x, mvinv[0], norm;\n"
+	"DP3 eyeNormal.y, mvinv[1], norm;\n"
+	"DP3 eyeNormal.z, mvinv[2], norm;\n"
+	// geosphere needs normals normalized
+	"DP3 temp.w, eyeNormal, eyeNormal;\n"
+	"RSQ temp.w, temp.w;\n"
+	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
+
+	// transform normal into eye space
 	"DP3 eyeNormal.x, mvinv[0], norm;\n"
 	"DP3 eyeNormal.y, mvinv[1], norm;\n"
 	"DP3 eyeNormal.z, mvinv[2], norm;\n"
 	
 	// geosphere needs normals normalized
-	"TEMP wank;\n"
-	"DP3 wank.w, eyeNormal, eyeNormal;\n"
-	"RSQ wank.w, wank.w;\n"
-	"MUL wank.xyz, wank.w, eyeNormal;\n"
-	"MOV eyeNormal, wank;\n"
+	"DP3 temp.w, eyeNormal, eyeNormal;\n"
+	"RSQ temp.w, temp.w;\n"
+	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
 
 	"TEMP colacc;\n"
 	
