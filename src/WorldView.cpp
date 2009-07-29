@@ -18,6 +18,7 @@ WorldView::WorldView(): View()
 	float size[2];
 	GetSize(size);
 	
+	m_numLights = 1;
 	m_labelsOn = true;
 	m_camType = CAM_FRONT;
 	SetTransparency(true);
@@ -254,8 +255,8 @@ void WorldView::Draw3D()
 	DrawBgStars();
 	glPopMatrix();
 
-	int l=0;
-	position_system_lights(&cam_frame, Space::rootFrame, l);
+	m_numLights = 0;
+	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
 	Space::Render(&cam_frame);
 	if (!Pi::player->IsDead()) DrawHUD(&cam_frame);
 

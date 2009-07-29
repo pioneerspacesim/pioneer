@@ -3,7 +3,7 @@
 
 namespace Shader {
 	enum VertexProgram {
-		VPROG_GEOSPHERE, VPROG_SBRE, VPROG_MAX
+		VPROG_GEOSPHERE, VPROG_SBRE, VPROG_SIMPLE, VPROG_MAX
 	};
 	void ToggleState();
 	void EnableVertexProgram(VertexProgram p);

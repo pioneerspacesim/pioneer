@@ -11,7 +11,6 @@ public:
 	GeoSphere(const SBody *body);
 	~GeoSphere();
 	void Render(vector3d campos);
-	void SetColor(const float col[4]);
 	void AddCraters(MTRand &rand, int num, double minAng, double maxAng);
 	double GetHeight(vector3d p);
 	// only called from fishy thread

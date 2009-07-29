@@ -26,6 +26,7 @@ public:
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() { return m_camType; }
+	int GetNumLights() const { return m_numLights; }
 	
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;
@@ -51,6 +52,7 @@ private:
 	Gui::MultiStateImageButton *m_flightControlButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
+	int m_numLights;
 };
 
 #endif /* _WORLDVIEW_H */

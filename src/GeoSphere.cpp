@@ -832,15 +832,6 @@ static const int geo_sphere_edge_friends[6][4] = {
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
 
-void GeoSphere::SetColor(const float col[4])
-{
-	m_ambColor[0] = col[0]*PLANET_AMBIENT;
-	m_ambColor[1] = col[1]*PLANET_AMBIENT;
-	m_ambColor[2] = col[2]*PLANET_AMBIENT;
-	m_ambColor[3] = col[3];
-	for (int i=0; i<4; i++) m_diffColor[i] = col[i];
-}
-
 /*
  * Define crater radii in angular size on surface of sphere (in radians)
  */
@@ -926,9 +917,6 @@ GeoSphere::GeoSphere(const SBody *body)
 
 	memset(m_patches, 0, sizeof(m_patches));
 	m_patches[0] = 0;
-
-	float col[4] = {1,1,1,1};
-	SetColor(col);
 
 	if (body->heightMapFilename) {
 		FILE *f;
@@ -1022,8 +1010,6 @@ void GeoSphere::Render(vector3d campos) {
 	GetFrustum(planes);
 	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
-	glMaterialfv (GL_FRONT, GL_AMBIENT, m_ambColor);
-	glMaterialfv (GL_FRONT, GL_DIFFUSE, m_diffColor);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
 

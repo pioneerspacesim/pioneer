@@ -37,7 +37,7 @@ void ObjectViewerView::Draw3D()
 	}
 	vector3d pos = m_camRot * vector3d(0,0,viewingDist);
 		
-	float lightPos[4] = { 1, 1, 1, 0 };
+	float lightPos[4] = { .577, .577, .577, 0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 	
 	Body *body = Pi::player->GetNavTarget();

@@ -6,6 +6,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "GeoSphere.h"
+#include "Shader.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
@@ -227,6 +228,7 @@ void Planet::DrawGasGiantRings()
 	// just use a random gas giant flavour for the moment
 	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
 
+	Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = (float)rng.Double(1.2,1.7);
 		float end = pos + (float)rng.Double(0.1, 1.0);
@@ -238,6 +240,7 @@ void Planet::DrawGasGiantRings()
 			pos += size;
 		}
 	}
+	Shader::DisableVertexProgram();
 }
 
 static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float col[4])
@@ -286,6 +289,8 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 
 void Planet::DrawAtmosphere(double rad, vector3d &pos)
 {
+	Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
+
 	if (sbody->type == SBody::TYPE_PLANET_SMALL) {
 		const float c[4] = { .2f, .2f, .3f, .8f };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
@@ -322,6 +327,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 		const float c[4] = { .2f, .2f, .5f, .8f };
 		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
 	}
+	Shader::DisableVertexProgram();
 }
 
 void Planet::Render(const Frame *a_camFrame)

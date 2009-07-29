@@ -2,10 +2,12 @@
 #include "Shader.h"
 #include "Pi.h"
 #include "sbre/sbre_int.h"
+#include "WorldView.h"
 
 namespace Shader {
 
-GLuint vtxprog[VPROG_MAX];
+// 4 vertex programs per enum VertexProgram, for 1,2,3,4 lights
+GLuint vtxprog[VPROG_MAX*4];
 bool isEnabled = false;
 
 void ToggleState()
@@ -25,179 +27,177 @@ void EnableVertexProgram(VertexProgram p)
 {
 	if (!isEnabled) return;
 	glEnable(GL_VERTEX_PROGRAM_ARB);
-	glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[(int)p]);
+	glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[4*(int)p + Pi::worldView->GetNumLights() - 1]);
 }
 
-static void CompileProgram(VertexProgram p, const char *code)
+static void CompileProgram(VertexProgram p, const char *code[4])
 {
-	glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[(int)p]);
-	glProgramStringARB(GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB, strlen(code), code);
-	
-	if (GL_INVALID_OPERATION == glGetError()) {
-		GLint errPos;
-		glGetIntegerv(GL_PROGRAM_ERROR_POSITION_ARB, &errPos);
-		const GLubyte *errString = glGetString(GL_PROGRAM_ERROR_STRING_ARB);
-		printf("Error at position %d\n%s\n", errPos, errString);
-		printf("%s\n", &code[errPos]);
-		Pi::Quit();
+	for (int i=0; i<4; i++) {
+		if (!code[i]) {
+			vtxprog[4*(int)p + i] = vtxprog[4*(int)p];
+			continue;
+		}
+		glGenProgramsARB(1, &vtxprog[4*(int)p + i]);
+		glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[4*(int)p + i]);
+		glProgramStringARB(GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB, strlen(code[i]), code[i]);
+		
+		if (GL_INVALID_OPERATION == glGetError()) {
+			GLint errPos;
+			glGetIntegerv(GL_PROGRAM_ERROR_POSITION_ARB, &errPos);
+			const GLubyte *errString = glGetString(GL_PROGRAM_ERROR_STRING_ARB);
+			printf("Error at position %d\n%s\n", errPos, errString);
+			printf("%s\n", &code[i][errPos]);
+			Pi::Quit();
+		}
 	}
 }
 
-static const char *geosphere_prog = "!!ARBvp1.0\n"
-	"ATTRIB pos = vertex.position;\n"
-	"ATTRIB norm = vertex.normal;\n"
+#define FIXZ_N_TRANSFORM_2_CLIPCOORDS() \
+	"DP4 temp.x, mvp[0], pos;\n" \
+	"DP4 temp.y, mvp[1], pos;\n" \
+	"DP4 temp.z, mv[2], pos;\n" \
+	"DP4 temp.w, mvp[3], pos;\n" \
+	"MOV result.position.xyw, temp;\n" \
+	"RSQ temp.z, temp.z;\n" \
+	/* (1.0/sqrt(temp.z))*zmul + zmod */ \
+	"MAD temp.z, temp.z, program.env[0].x, program.env[0].y;\n" \
+	"MUL result.position.z, temp.z, temp.w;\n" 
+
+#define MAKE_EYENORMAL() \
+	/* transform normal into eye space */ \
+	"DP3 eyeNormal.x, mvinv[0], norm;\n" \
+	"DP3 eyeNormal.y, mvinv[1], norm;\n" \
+	"DP3 eyeNormal.z, mvinv[2], norm;\n" \
+	/* normalize */ \
+	"DP3 temp.w, eyeNormal, eyeNormal;\n" \
+	"RSQ temp.w, temp.w;\n" \
+	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
 	
+#define MAKE_LIGHT_COEFFS(lightNum) \
+	"DP3 dots.x, eyeNormal, state.light[" lightNum "].position;\n" \
+	"DP3 dots.y, eyeNormal, state.light[" lightNum "].half;\n" \
+	"MOV dots.w, shininess.x;\n" \
+	"LIT lightcoefs, dots;\n"
+
+static const char *simple_prog[4] = {
+	"!!ARBvp1.0\n"
+	"ATTRIB pos = vertex.position;\n"
 	"OUTPUT oColor = result.color;\n"
 	"PARAM mv[4] = { state.matrix.modelview };\n"
 	"PARAM mvp[4] = { state.matrix.mvp };\n"
-	"PARAM mvinv[4] = { state.matrix.modelview.invtrans };\n"
-	"PARAM specExp = state.material.shininess;\n"
-	"TEMP eyeNormal, temp, dots, lightcoefs;\n"
-	
-	// transform vertex to clip coords, linearizing z
-	"DP4 temp.x, mvp[0], pos;\n"
-	"DP4 temp.y, mvp[1], pos;\n"
-	"DP4 temp.z, mv[2], pos;\n"
-	"DP4 temp.w, mvp[3], pos;\n"
-	"MOV result.position.xyw, temp;\n"
-	"RSQ temp.z, temp.z;\n"
-	"MAD temp.z, temp.z, program.env[0].x, program.env[0].y;\n" // (1.0/sqrt(temp.z))*zmul + zmod
-	"MUL result.position.z, temp.z, temp.w;\n"
-	
-	// transform normal into eye space
-	"DP3 eyeNormal.x, mvinv[0], norm;\n"
-	"DP3 eyeNormal.y, mvinv[1], norm;\n"
-	"DP3 eyeNormal.z, mvinv[2], norm;\n"
-	// geosphere needs normals normalized
-	"DP3 temp.w, eyeNormal, eyeNormal;\n"
-	"RSQ temp.w, temp.w;\n"
-	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
+	"TEMP temp;\n"
+	FIXZ_N_TRANSFORM_2_CLIPCOORDS()
+	"MOV oColor, vertex.color;\n"
+	"END"
+	,0,0,0
+};
 
 
-	"TEMP colacc;\n"
-	// accumulate color contributions
-	"TEMP diffuse;\n"
+#define GEOSPHERE_PROG_START() \
+	"!!ARBvp1.0\n"\
+	"ATTRIB pos = vertex.position;\n"\
+	"ATTRIB norm = vertex.normal;\n"\
+	"OUTPUT oColor = result.color;\n"\
+	"PARAM mv[4] = { state.matrix.modelview };\n"\
+	"PARAM mvp[4] = { state.matrix.mvp };\n"\
+	"PARAM mvinv[4] = { state.matrix.modelview.invtrans };\n"\
+	"PARAM shininess = state.material.shininess;\n"\
+	"TEMP eyeNormal, temp, dots, lightcoefs;\n"\
+	FIXZ_N_TRANSFORM_2_CLIPCOORDS()\
+	MAKE_EYENORMAL()\
+	"TEMP colacc;\n"\
+	"TEMP diffuse;\n"\
+	"MUL colacc.xyz, vertex.color, {.1,.1,.1,1.0};\n"
 	
-	// light 0
-	"DP3 dots.x, eyeNormal, state.light[0].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[0].half;\n"
-	"MOV dots.w, specExp.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"MUL diffuse, state.light[0].diffuse, vertex.color;\n"
-	"MUL colacc.xyz, lightcoefs.y, diffuse;\n"
-	// light 1
-	"DP3 dots.x, eyeNormal, state.light[1].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[1].half;\n"
-	"MOV dots.w, specExp.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"MUL diffuse, state.light[1].diffuse, vertex.color;\n"
-	"MAD colacc.xyz, lightcoefs.y, diffuse, colacc;\n"
-	// light 2
-	"DP3 dots.x, eyeNormal, state.light[2].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[2].half;\n"
-	"MOV dots.w, specExp.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"MUL diffuse, state.light[2].diffuse, vertex.color;\n"
-	"MAD colacc.xyz, lightcoefs.y, diffuse, colacc;\n"
-	// light 3
-	"DP3 dots.x, eyeNormal, state.light[3].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[3].half;\n"
-	"MOV dots.w, specExp.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"MUL diffuse, state.light[3].diffuse, vertex.color;\n"
+#define GEOSPHERE_ACCUMULATE_LIGHT(light_n) \
+	MAKE_LIGHT_COEFFS( light_n )\
+	"MUL diffuse, state.light[" light_n "].diffuse, vertex.color;\n"\
 	"MAD colacc.xyz, lightcoefs.y, diffuse, colacc;\n"
 	
-	// ambient
-	"MAD oColor.xyz, vertex.color, {.1,.1,.1,1.0}, colacc;\n"
-	"MOV oColor.w, vertex.color.w;\n"
-	
+#define GEOSPHERE_PROG_END() \
+	"MOV oColor.xyz, colacc;\n"\
+	"MOV oColor.w, vertex.color.w;\n"\
 	"END\n"
-	;
 
-static const char *sbre_prog = "!!ARBvp1.0\n"
-	"ATTRIB pos = vertex.position;\n"
-	"ATTRIB norm = vertex.normal;\n"
-	
-	"OUTPUT oColor = result.color;\n"
-	"PARAM mv[4] = { state.matrix.modelview };\n"
-	"PARAM mvp[4] = { state.matrix.mvp };\n"
-	"PARAM mvinv[4] = { state.matrix.modelview.invtrans };\n"
-	"PARAM shininess = state.material.shininess;\n"
-	"PARAM diffuseCol = state.lightprod[0].diffuse;\n"
-	"PARAM emissionCol = state.material.emission;\n"
-	"PARAM sbre_amb = program.env[1];\n"
-	"TEMP eyeNormal, temp, dots, lightcoefs;\n"
-	
-	// transform vertex to clip coords, linearizing z
-	"DP4 temp.x, mvp[0], pos;\n"
-	"DP4 temp.y, mvp[1], pos;\n"
-	"DP4 temp.z, mv[2], pos;\n"
-	"DP4 temp.w, mvp[3], pos;\n"
-	"MOV result.position.xyw, temp;\n"
-	"RSQ temp.z, temp.z;\n"
-	"MAD temp.z, temp.z, program.env[0].x, program.env[0].y;\n" // (1.0/sqrt(temp.z))*zmul + zmod
-	"MUL result.position.z, temp.z, temp.w;\n"
-	
-	// transform normal into eye space
-	"DP3 eyeNormal.x, mvinv[0], norm;\n"
-	"DP3 eyeNormal.y, mvinv[1], norm;\n"
-	"DP3 eyeNormal.z, mvinv[2], norm;\n"
-	// geosphere needs normals normalized
-	"DP3 temp.w, eyeNormal, eyeNormal;\n"
-	"RSQ temp.w, temp.w;\n"
-	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
+static const char *geosphere_prog[4] = {
+	GEOSPHERE_PROG_START()
+	GEOSPHERE_ACCUMULATE_LIGHT("0")
+	GEOSPHERE_PROG_END(),
 
-	// transform normal into eye space
-	"DP3 eyeNormal.x, mvinv[0], norm;\n"
-	"DP3 eyeNormal.y, mvinv[1], norm;\n"
-	"DP3 eyeNormal.z, mvinv[2], norm;\n"
-	
-	// geosphere needs normals normalized
-	"DP3 temp.w, eyeNormal, eyeNormal;\n"
-	"RSQ temp.w, temp.w;\n"
-	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
+	GEOSPHERE_PROG_START()
+	GEOSPHERE_ACCUMULATE_LIGHT("0")
+	GEOSPHERE_ACCUMULATE_LIGHT("1")
+	GEOSPHERE_PROG_END(),
 
-	"TEMP colacc;\n"
-	
-	// light 0
-	"DP3 dots.x, eyeNormal, state.light[0].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[0].half;\n"
-	"MOV dots.w, shininess.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"MAD temp, lightcoefs.y, state.lightprod[0].diffuse, state.lightprod[0].ambient;\n"
-	"MAD colacc.xyz, lightcoefs.z, state.lightprod[0].specular, temp;\n"
-	// light 1
-	"DP3 dots.x, eyeNormal, state.light[1].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[1].half;\n"
-	"MOV dots.w, shininess.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"ADD colacc.xyz, colacc, state.lightprod[1].ambient;\n"
-	"MAD temp, lightcoefs.y, state.lightprod[1].diffuse, colacc;\n"
-	"MAD colacc.xyz, lightcoefs.z, state.lightprod[1].specular, temp;\n"
-	// light 2
-	"DP3 dots.x, eyeNormal, state.light[2].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[2].half;\n"
-	"MOV dots.w, shininess.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"ADD colacc.xyz, colacc, state.lightprod[2].ambient;\n"
-	"MAD temp, lightcoefs.y, state.lightprod[2].diffuse, colacc;\n"
-	"MAD colacc.xyz, lightcoefs.z, state.lightprod[2].specular, temp;\n"
-	// light 3
-	"DP3 dots.x, eyeNormal, state.light[3].position;\n"
-	"DP3 dots.y, eyeNormal, state.light[3].half;\n"
-	"MOV dots.w, shininess.x;\n"
-	"LIT lightcoefs, dots;\n"
-	"ADD colacc.xyz, colacc, state.lightprod[3].ambient;\n"
-	"MAD temp, lightcoefs.y, state.lightprod[3].diffuse, colacc;\n"
-	"MAD colacc.xyz, lightcoefs.z, state.lightprod[3].specular, temp;\n"
-	// SBRE_AMB
-	"MAD colacc, state.material.ambient, sbre_amb, colacc;\n"
-	
-	"ADD oColor.xyz, colacc, emissionCol;\n"
-	"MOV oColor.w, diffuseCol.w;\n"
-	
+	GEOSPHERE_PROG_START()
+	GEOSPHERE_ACCUMULATE_LIGHT("0")
+	GEOSPHERE_ACCUMULATE_LIGHT("1")
+	GEOSPHERE_ACCUMULATE_LIGHT("2")
+	GEOSPHERE_PROG_END(),
+
+	GEOSPHERE_PROG_START()
+	GEOSPHERE_ACCUMULATE_LIGHT("0")
+	GEOSPHERE_ACCUMULATE_LIGHT("1")
+	GEOSPHERE_ACCUMULATE_LIGHT("2")
+	GEOSPHERE_ACCUMULATE_LIGHT("3")
+	GEOSPHERE_PROG_END()
+};
+
+#define SBRE_PROG_START() \
+	"!!ARBvp1.0\n" \
+	"ATTRIB pos = vertex.position;\n" \
+	"ATTRIB norm = vertex.normal;\n" \
+	\
+	"OUTPUT oColor = result.color;\n" \
+	"PARAM mv[4] = { state.matrix.modelview };\n" \
+	"PARAM mvp[4] = { state.matrix.mvp };\n" \
+	"PARAM mvinv[4] = { state.matrix.modelview.invtrans };\n" \
+	"PARAM shininess = state.material.shininess;\n" \
+	"PARAM diffuseCol = state.lightprod[0].diffuse;\n" \
+	"PARAM emissionCol = state.material.emission;\n" \
+	"PARAM sbre_amb = program.env[1];\n" \
+	"TEMP eyeNormal, colacc, temp, dots, lightcoefs;\n" \
+	FIXZ_N_TRANSFORM_2_CLIPCOORDS() \
+	MAKE_EYENORMAL() \
+	"MAD colacc.xyz, state.material.ambient, sbre_amb, emissionCol;\n"
+
+#define SBRE_ACCUMULATE_LIGHT(light_n) \
+	MAKE_LIGHT_COEFFS( light_n ) \
+	"ADD colacc.xyz, colacc, state.lightprod[" light_n "].ambient;\n" \
+	"MAD temp, lightcoefs.y, state.lightprod[" light_n "].diffuse, colacc;\n"\
+	"MAD colacc.xyz, lightcoefs.z, state.lightprod[" light_n "].specular, temp;\n"
+
+#define SBRE_PROG_END() \
+	"MOV oColor.xyz, colacc;\n"\
+	"MOV oColor.w, diffuseCol.w;\n"\
 	"END\n"
-	;
+
+/*
+ * Shaders come in one, two, three and four light versions.
+ */
+static const char *sbre_prog[4] = {
+	SBRE_PROG_START()
+	SBRE_ACCUMULATE_LIGHT("0")
+	SBRE_PROG_END(),
+
+	SBRE_PROG_START()
+	SBRE_ACCUMULATE_LIGHT("0")
+	SBRE_ACCUMULATE_LIGHT("1")
+	SBRE_PROG_END(),
+
+	SBRE_PROG_START()
+	SBRE_ACCUMULATE_LIGHT("0")
+	SBRE_ACCUMULATE_LIGHT("1")
+	SBRE_ACCUMULATE_LIGHT("2")
+	SBRE_PROG_END(),
+
+	SBRE_PROG_START()
+	SBRE_ACCUMULATE_LIGHT("0")
+	SBRE_ACCUMULATE_LIGHT("1")
+	SBRE_ACCUMULATE_LIGHT("2")
+	SBRE_ACCUMULATE_LIGHT("3")
+	SBRE_PROG_END()
+};
 
 void Init()
 {
@@ -206,7 +206,6 @@ void Init()
 	if (!isEnabled) return;
 	
 	glEnable(GL_VERTEX_PROGRAM_ARB);
-	glGenProgramsARB(VPROG_MAX, vtxprog);
 	
 	{
 		const float zmul = 1.0 / (1.0/sqrtf(WORLDVIEW_ZFAR) - 1.0/sqrtf(WORLDVIEW_ZNEAR));
@@ -216,6 +215,7 @@ void Init()
 	}
 	CompileProgram(VPROG_GEOSPHERE, geosphere_prog);
 	CompileProgram(VPROG_SBRE, sbre_prog);
+	CompileProgram(VPROG_SIMPLE, simple_prog);
 	
 	DisableVertexProgram();
 }
