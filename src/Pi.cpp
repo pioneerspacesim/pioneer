@@ -676,6 +676,7 @@ void Pi::Unserialize()
 	selectedSystem = StarSystem::Unserialize();
 	gameTime = rd_double();
 	currentSystem = StarSystem::Unserialize();
+	SetTimeAccel(0);
 	Space::Clear();
 	if (Pi::player) {
 		Pi::player->MarkDead();

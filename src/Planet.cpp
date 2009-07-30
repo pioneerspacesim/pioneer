@@ -414,7 +414,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glEnable(GL_LIGHTING);
 		glEnable(GL_DEPTH_TEST);
 	} else {
-		if (shrink) {
+		if (shrink || !Shader::IsEnabled()) {
 			glMatrixMode(GL_PROJECTION);
 			glPushMatrix();
 			glLoadIdentity();
@@ -444,7 +444,7 @@ void Planet::Render(const Frame *a_camFrame)
 
 		DrawAtmosphere(rad, fpos);
 
-		if (shrink) {
+		if (shrink || !Shader::IsEnabled()) {
 			glClear(GL_DEPTH_BUFFER_BIT);
 
 			glMatrixMode(GL_PROJECTION);

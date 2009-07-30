@@ -10,6 +10,8 @@ namespace Shader {
 GLuint vtxprog[VPROG_MAX*4];
 bool isEnabled = false;
 
+bool IsEnabled() { return isEnabled; }
+
 void ToggleState()
 {
 	if (GLEW_ARB_vertex_program && !isEnabled) isEnabled = true;
@@ -107,10 +109,11 @@ static const char *simple_prog[4] = {
 	MAKE_EYENORMAL()\
 	"TEMP colacc;\n"\
 	"TEMP diffuse;\n"\
-	"MUL colacc.xyz, vertex.color, {.1,.1,.1,1.0};\n"
+	"MOV colacc.xyz, {0,0,0};\n"
 	
 #define GEOSPHERE_ACCUMULATE_LIGHT(light_n) \
 	MAKE_LIGHT_COEFFS( light_n )\
+	"MAD colacc.xyz, state.light[" light_n "].ambient, vertex.color, colacc;\n" \
 	"MUL diffuse, state.light[" light_n "].diffuse, vertex.color;\n"\
 	"MAD colacc.xyz, lightcoefs.y, diffuse, colacc;\n"
 	
