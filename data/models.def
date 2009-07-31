@@ -45,6 +45,92 @@ model(wind_turbine3, scale=2.0, radius=10.0) {
 	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
 }
 
+model(skyscraper1, scale=1.0, radius=300.0) {
+	# Inset black bit
+	# h g
+	#
+	# e f
+	# d c
+	# a b
+	a = v(-20,0,10)
+	b = v(20,0,10)
+	c = v(20,40,10)
+	d = v(-20,40,10)
+	e = v(-20,48,10)
+	f = v(20,48,10)
+	g = v(20,200,10)
+	h = v(-20,200,10)
+	material(.2,.2,.2, .7,.7,.7, 10, 0,0,0)
+	quad(a,b,c,d)
+	quad(e,f,g,h)
+	# Outset
+	# h2 g2
+	#
+	# e2 f2
+	# d2 c2
+	# a2 b2
+	a2 = v(-20,0,15)
+	b2 = v(20,0,15)
+	c2 = v(20,40,15)
+	d2 = v(-20,40,15)
+	e2 = v(-20,48,15)
+	f2 = v(20,48,15)
+	g2 = v(20,200,15)
+	h2 = v(-20,200,15)
+	material(.9,.9,.9, 0,0,0, 0, 0,0,0)
+	# inset bits
+	quad(b,b2,c2,c)
+	quad(d,c,c2,d2)
+	quad(a,d,d2,a2)
+	quad(f,e,e2,f2)
+	quad(g,f,f2,g2)
+	quad(h,g,g2,h2)
+	quad(e,h,h2,e2)
+	# front face
+	# fd fc
+	# fa fb
+	fa = v(-30,0,15)
+	fb = v(30,0,15)
+	fc = v(30,210,15)
+	fd = v(-30,210,15)
+	quad(d2,c2,f2,e2)
+	quad(fc,fd,h2,g2)
+	
+	xref:flat(0, v(0,0,1),
+		line(g2),
+		line(f2),
+		line(c2),
+		line(b2),
+		line(fb),
+		line(fc))
+
+	top = v(0,260,-40)
+	# rear
+	xref:quad(fc,fb,v(0,0,-40),v(0,210,-40))
+	xref:tri(fc,v(0,210,-40),top)
+	# spire
+	spire = v(0,300,-40)
+	xref:tri(v(1.5,257.5,-37.25),
+		top,spire)
+	tri(v(-1.5,257.5,-37.25),v(1.5,257.5,-37.25),
+		spire)
+	# front roof triangle section
+	#      top
+	#      tc
+	#
+	#   ta   tb
+	# fd       fc
+	ta = v(-21, 215, 9.5)
+	tb = v(21, 215, 9.5)
+	tc = v(0, 250, -29)
+	quad(fd,fc,tb,ta)
+	xref:quad(fc,top,tc,tb)
+	material(.2,.2,.2, .7,.7,.7, 10, 0,0,0)
+	tri(ta,tb,tc)
+
+
+}
+
 model(building1, scale=1.0, radius=10.0) {
 	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
 	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {
@@ -64,6 +150,33 @@ model(building3, scale=1.0, radius=40.0) {
 	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
 	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
 		v(-32,0,0), v(32,0,0), v(32,10,0), v(-32,10,0)
+	})
+}
+
+model(skyscraper2, scale=1.0, radius=210.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
+		v(-32,0,0), v(32,0,0), v(32,100,0), v(-32,100,0)
+	})
+	extrusion(v(0,0,-27), v(0,0,27), n(0,1,0), radius=1.0, {
+		v(-27,110,0), v(27,110,0), v(27,210,0), v(-27,210,0)
+	})
+	extrusion(v(0,0,-22), v(0,0,22), n(0,1,0), radius=1.0, {
+		v(-22,220,0), v(22,220,0), v(22,325,0), v(-22,325,0)
+	})
+	extrusion(v(0,0,-17), v(0,0,17), n(0,1,0), radius=1.0, {
+		v(-17,335,0), v(17,335,0), v(17,440,0), v(-17,440,0)
+	})
+	# dark segment separators
+	material(.3, .3, .3, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
+		v(-32,100,0), v(32,100,0), v(32,110,0), v(-32,110,0)
+	})
+	extrusion(v(0,0,-27), v(0,0,27), n(0,1,0), radius=1.0, {
+		v(-27,210,0), v(27,210,0), v(27,220,0), v(-27,220,0)
+	})
+	extrusion(v(0,0,-22), v(0,0,22), n(0,1,0), radius=1.0, {
+		v(-22,325,0), v(22,325,0), v(22,335,0), v(-22,335,0)
 	})
 }
 
@@ -423,3 +536,129 @@ model(cargo, scale=1.0, radius=1.0) {
 	lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
 }
 
+model(spacestation_inner1, scale=1.0, radius=1.0) {
+	a = v(-100,0,50)
+	b = v(100,0,50)
+	c = v(100,0,-50)
+	d = v(-100,0,-50)
+	a2 = v(-100,-200,50)
+	b2 = v(100,-200,50)
+	c2 = v(100,-200,-50)
+	d2 = v(-100,-200,-50)
+	material(.8,.8,.8, 0,0,0, 0, 0,0,0)
+	quad(a,b,b2,a2)
+	quad(c,d,d2,c2)
+	quad(a2,b2,c2,d2)
+	material(.8,.8,.5, 0,0,0, 0, 0,0,0)
+	xref:quad(b,c,c2,b2)
+}
+
+model(spacestation_door, scale=1.0, radius=200.0) {
+	a = v(-100,0,50)
+	b = v(100,0,50)
+	c = v(100,0,-50)
+	d = v(-100,0,-50)
+	quad(a,b,c,d)
+	quad(d,c,b,a)
+	material(.8,.8,0, 0,0,0, 0, 0,0,0)
+	zbias(v(0,0,0), v(0,1,0), 1)
+	# diagonal stripes on front
+	quad(v(-10,0,-20), v(-30,0,-20), v(-70,0,20), v(-50,0,20))
+	quad(v(30,0,-20), v(10,0,-20), v(-30,0,20), v(-10,0,20))
+	quad(v(70,0,-20), v(50,0,-20), v(10,0,20), v(30,0,20))
+	# on back
+	zbias(v(0,0,0), v(0,-1,0), 1)
+	quad(v(10,0,-20), v(30,0,-20), v(70,0,20), v(50,0,20))
+	quad(v(-30,0,-20), v(-10,0,-20), v(30,0,20), v(10,0,20))
+	quad(v(-70,0,-20), v(-50,0,-20), v(-10,0,20), v(-30,0,20))
+	nozbias()
+}	
+
+model(spacestation_entry1, scale=1.0, radius=1.0) {
+	# inset:2,3
+	# d        c
+	#    
+	#
+	#    
+	# a        b
+	a = v(-100,0,50)
+	b = v(100,0,50)
+	c = v(100,0,-50)
+	d = v(-100,0,-50)
+	a2 = v(-100,-200,50)
+	b2 = v(100,-200,50)
+	c2 = v(100,-200,-50)
+	d2 = v(-100,-200,-50)
+
+	# docking surface
+	geomflag(16)
+	invisible:quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
+	geomflag(0)
+
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+	xref:quad(b,c,c2,b2)
+	quad(a,b,b2,a2)
+	quad(c,d,d2,c2)
+	subobject(spacestation_inner1, v(0,-200,0), v(0,1,0), v(0,0,1), scale=1.0)
+
+	material(.2,.2,.6, 0,0,0, 0, 0,0,0)
+	door1 = vlinear(v(0,-20,0), v(0,-20,-100), animfn=stationopen)
+	subobject(spacestation_door, door1, v(0,1,0), v(0,0,1), scale=1.0)
+	material(.8,0,0, 0,0,0, 0, 0,0,0)
+	door2 = vlinear(v(0,-200,0), v(0,-200,-100), animfn=stationdock)
+	subobject(spacestation_door, door2, v(0,1,0), v(0,0,1), scale=1.0)
+}
+
+model(nice_spacestation, scale=1.0, radius=1.0) {
+	# front
+	# f7   f3    f6
+	#
+	#    a b
+	# f4 d c   f2
+	#
+	# f8  f1    f5
+	a = v(-100,400,50)
+	b = v(100,400,50)
+	c = v(100,400,-50)
+	d = v(-100,400,-50)
+	
+	f1 = v(0,400,-400)
+	f2 = v(400,400,0)
+	f3 = v(0,400,400)
+	f4 = v(-400,400,0)
+
+	f5 = v(400,0,-400)
+	f6 = v(400,0,400)
+	f7 = v(-400,0,400)
+	f8 = v(-400,0,-400)
+
+	# back face points
+	f1b = v(0,-400,-400)
+	f2b = v(400,-400,0)
+	f3b = v(0,-400,400)
+	f4b = v(-400,-400,0)
+	
+	material(1.0,0.5,1.0, 0,0,0, 0, 0,0,0)
+	textpos = v(0,400,-80)
+	zbias(textpos,v(0,1,0),1)
+	text(params:0, textpos, v(0,1,0), v(1,0,0), scale=10.0)
+	nozbias()
+
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+	#front face
+	tri(f1,d,c)
+	xref:tri(f1,c,f2)
+	xref:tri(f2,c,b)
+	xref:tri(f2,b,f3)
+	tri(f3,b,a)
+	#pyramid sides
+	xref:tri(f2,f3,f6)
+	xref:tri(f5,f1,f2)
+	xref:tri(f6,f3b,f2b)
+	xref:tri(f5,f2b,f1b)
+	xref:quad(f2,f6,f2b,f5) # sides
+	quad(f3,f7,f3b,f6) # top
+	quad(f5,f1b,f8,f1) # bottom
+	quad(f1b,f2b,f3b,f4b) # rear
+	subobject(spacestation_entry1, v(0,400,0), v(0,1,0), v(0,0,1), scale=1.0)
+}

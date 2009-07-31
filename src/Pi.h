@@ -19,6 +19,7 @@ class ShipCpanel;
 class StarSystem;
 class SpaceStationView;
 class InfoView;
+class SpaceStation;
 struct SBodyPath;
 
 class IniConfig: private std::map<std::string, std::string> {
@@ -71,6 +72,7 @@ public:
 	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
 	static sigc::signal<void> onPlayerHyperspaceToNewSystem;
 	static sigc::signal<void> onPlayerMissionListChanged;
+	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
 	static MTRand rng;
 	static int statSceneTris;

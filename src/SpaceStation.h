@@ -58,6 +58,8 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	float m_playerDockingTimeout;
+	float m_doorsOpen;
 	void UpdateShipyard();
 	void UpdateBB();
 	void Init();

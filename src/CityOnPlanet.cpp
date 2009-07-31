@@ -4,17 +4,21 @@
 #include "SpaceStation.h"
 #include "Planet.h"
 #include "Pi.h"
+#include "ModelCollMeshData.h"
 
-#define START_SEG_SIZE 4000.0
+#define START_SEG_SIZE 5000.0
 #define MIN_SEG_SIZE 50.0
 
 bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
+	float xzradius;
 	int resolvedModelNum;
 };
 
 citybuilding_t city_buildings[] = {
+	{ "skyscraper1" },
+	{ "skyscraper2" },
 	{ "building1" },
 	{ "building2" },
 	{ "building3" },
@@ -44,7 +48,7 @@ struct citybuildinglist_t {
 };
 
 citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
-	{ city_buildings, 400,1000 },
+	{ city_buildings, 800,2000 },
 	{ wind_turbines, 100,250 },
 	{ starport_buildings,300,400 },
 };
@@ -77,8 +81,9 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
        
 		int tries;
 		for (tries=20; tries--; ) {
-			modelNum = buildings->buildings[rand.Int32(buildings->numBuildings)].resolvedModelNum;
-			modelRad = sbreGetModelRadius(modelNum);
+			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
+			modelNum = bt.resolvedModelNum;
+			modelRad = bt.xzradius;
 			if (modelRad < rad) break;
 			if (tries == 0) return;
 		}
@@ -108,7 +113,7 @@ always_divide:
 		cent = cent.Normalized();
 		cent = cent * m_planet->GetTerrainHeight(cent);
 
-		BuildingDef def = { modelNum, cent };
+		BuildingDef def = { modelNum, rand.Int32(4), cent };
 		m_buildings.push_back(def);
 	}
 }
@@ -118,6 +123,11 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (; list->buildings[i].modelname; i++) {
 		list->buildings[i].resolvedModelNum = sbreLookupModelByName(list->buildings[i].modelname);
+		const CollMeshSet *cmeshset = GetModelCollMeshSet(list->buildings[i].resolvedModelNum);
+		float maxx = MAX(fabs(cmeshset->aabb.max.x), fabs(cmeshset->aabb.min.x));
+		float maxy = MAX(fabs(cmeshset->aabb.max.z), fabs(cmeshset->aabb.min.z));
+		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
+		printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
 	list->numBuildings = i;
 }
@@ -207,8 +217,8 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 
 void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 {
-	matrix4x4d m;
-	station->GetRotMatrix(m);
+	matrix4x4d rot[4];
+	station->GetRotMatrix(rot[0]);
 
 	matrix4x4d frameTrans;
 	Frame::GetFrameTransform(station->GetFrame(), camFrame, frameTrans);
@@ -217,8 +227,11 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 		return;
 	}
 	
-	m = frameTrans * m;
-	
+	rot[0] = frameTrans * rot[0];
+	for (int i=1; i<4; i++) {
+		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)i);
+	}
+
 	GetFrustum(planes);
 	
 	memset(&cityobj_params, 0, sizeof(ObjParams));
@@ -239,7 +252,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 			}
 		}
 		glPushMatrix();
-		sbreRenderModel(&pos.x, &m[0], (*i).modelnum, &cityobj_params);
+		sbreRenderModel(&pos.x, &rot[(*i).rotation][0], (*i).modelnum, &cityobj_params);
 		glMatrixMode(GL_MODELVIEW);
 		glPopMatrix();
 	}

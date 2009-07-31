@@ -46,8 +46,6 @@ public:
 	vector3d CalcRotDamping();
 	bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
-	float GetDockingTimer() { return m_dockingTimer; }
-	void SetDockingTimer(float t) { m_dockingTimer = t; }
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void NotifyDeath(const Body* const dyingBody);
 	virtual bool OnCollision(Body *b, Uint32 flags);
@@ -103,7 +101,6 @@ private:
 
 	float m_thrusters[ShipType::THRUSTER_MAX];
 	float m_angThrusters[3];
-	float m_dockingTimer;
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;

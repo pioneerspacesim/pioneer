@@ -17,7 +17,7 @@ struct SpaceStationType {
 };
 
 struct SpaceStationType stationTypes[SpaceStation::TYPE_MAX] = {
-	{ "65", SpaceStationType::ORBITAL },
+	{ "nice_spacestation", SpaceStationType::ORBITAL },
 	{ "90", SpaceStationType::SURFACE },
 };
 
@@ -27,6 +27,8 @@ void SpaceStation::Save()
 	ModelBody::Save();
 	MarketAgent::Save();
 	wr_int((int)m_type);
+	wr_float(m_doorsOpen);
+	wr_float(m_playerDockingTimeout);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr_int((int)m_equipmentStock[i]);
 	}
@@ -52,6 +54,8 @@ void SpaceStation::Load()
 	ModelBody::Load();
 	MarketAgent::Load();
 	m_type = (TYPE)rd_int();
+	m_doorsOpen = rd_float();
+	m_playerDockingTimeout = rd_float();
 	m_numPorts = 0;
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
@@ -133,6 +137,8 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	} else {
 		m_type = GROUND_FLAVOURED;
 	}
+	m_doorsOpen = 0;
+	m_playerDockingTimeout = 0;
 	m_sbody = sbody;
 	m_numPorts = 0;
 	m_lastUpdatedShipyard = 0;
@@ -240,6 +246,17 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
+	if (m_playerDockingTimeout > 0) {
+		m_playerDockingTimeout -= timeStep;
+		m_doorsOpen = MIN(m_doorsOpen+timeStep*0.2, 1.0);
+		if (m_playerDockingTimeout < 0) {
+			m_playerDockingTimeout = 0;
+			Pi::onDockingClearanceExpired.emit(this);
+		}
+	} else {
+		m_playerDockingTimeout = 0;
+		m_doorsOpen = MAX(0.0, m_doorsOpen-timeStep*0.2);
+	}
 }
 
 bool SpaceStation::IsGroundStation() const
@@ -315,7 +332,7 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 
 bool SpaceStation::GetDockingClearance(Ship *s)
 {
-	s->SetDockingTimer(60*10);
+	m_playerDockingTimeout = 30.0;
 	return true;
 }
 
@@ -368,7 +385,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 			
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
-			    (s->GetDockingTimer()!=0.0f)) {
+			    m_playerDockingTimeout) {
 				s->SetDockedWith(this, flags & 0xf);
 			}
 		}
@@ -381,6 +398,8 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 
 void SpaceStation::Render(const Frame *camFrame)
 {
+	params.pAnim[ASRC_STATION_OPEN] = m_doorsOpen;
+	params.pFlag[ASRC_STATION_OPEN] = 1;
 	Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 	RenderSbreModel(camFrame, &params);
 

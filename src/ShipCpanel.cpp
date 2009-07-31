@@ -6,6 +6,7 @@
 #include "InfoView.h"
 #include "WorldView.h"
 #include "Space.h"
+#include "SpaceStation.h"
 
 #define SCALE	0.01f
 #define YSHRINK 0.75f
@@ -208,14 +209,27 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	tempMsgAge = 0;
 	tempMsg = new Gui::Label("");
 	Add(tempMsg, 170, 4);
+
+	m_connOnDockingClearanceExpired =
+		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
 }
 
-void ShipCpanel::SetTemporaryMessage(const Body *sender, const std::string msg)
+ShipCpanel::~ShipCpanel()
+{
+	m_connOnDockingClearanceExpired.disconnect();
+}
+
+void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
+{
+	SetTemporaryMessage(static_cast<const Body*>(s), "Docking clearance expired. If you wish to dock you must repeat your request.");
+}
+
+void ShipCpanel::SetTemporaryMessage(const Body *sender, const std::string &msg)
 {
 	m_msgQueue.push_back(QueuedMsg(sender ? sender->GetLabel() : "", msg));
 }
 
-void ShipCpanel::SetTemporaryMessage(const std::string &sender, const std::string msg)
+void ShipCpanel::SetTemporaryMessage(const std::string &sender, const std::string &msg)
 {
 	m_msgQueue.push_back(QueuedMsg(sender, msg));
 }

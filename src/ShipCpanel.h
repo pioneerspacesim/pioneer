@@ -9,16 +9,18 @@ class Body;
 class ShipCpanel: public Gui::Fixed {
 public:
 	ShipCpanel();
+	virtual ~ShipCpanel();
 	virtual void Draw();
 	void SetScannerWidget(Widget *w); // must be done each frame
-	void SetTemporaryMessage(const Body *sender, const std::string msg);
-	void SetTemporaryMessage(const std::string &sender, const std::string msg);
+	void SetTemporaryMessage(const Body *sender, const std::string &msg);
+	void SetTemporaryMessage(const std::string &sender, const std::string &msg);
 private:
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(Gui::ISelectable *i, double step);
 	void OnClickComms(Gui::MultiStateImageButton *b);
+	void OnDockingClearanceExpired(const SpaceStation *);
 
 	Widget *m_scannerWidget;
 	Gui::Label *m_clock;
@@ -31,6 +33,7 @@ private:
 		std::string message;
 	};
 	std::list<QueuedMsg> m_msgQueue;
+	sigc::connection m_connOnDockingClearanceExpired;
 };
 
 #endif /* _SHIP_CPANEL_H */

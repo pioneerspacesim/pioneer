@@ -100,6 +100,8 @@ enum animfunc
 	AFUNC_LIN4SEC,
 	AFUNC_HOUR,
 	AFUNC_HALFDAY,
+	AFUNC_STATION_OPEN,
+	AFUNC_STATION_DOCK,
 };
 
 const AnimFunc pAFunc[] =
@@ -110,6 +112,8 @@ const AnimFunc pAFunc[] =
 	{ ASRC_MINFRAC, AMOD_MOD1, 0.0f, 15.0f, 0.0f, 0.0f },
 	{ ASRC_HOURFRAC, AMOD_MOD1, 0.0f, 1.0f, 0.0f, 0.0f },
 	{ ASRC_DAYFRAC, AMOD_MOD1, 0.0f, 2.0f, 0.0f, 0.0f },
+	{ ASRC_STATION_OPEN, AMOD_MOD1, 0.0f, 1.0f, 0.0f, 0.0f },
+	{ ASRC_STATION_DOCK, AMOD_MOD1, 0.0f, 1.0f, 0.0f, 0.0f },
 };
 
 //*****************************************************************************

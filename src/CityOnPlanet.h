@@ -17,6 +17,7 @@ private:
 
 	struct BuildingDef {
 		int modelnum;
+		int rotation; // 0-3
 		vector3d pos;
 	};
 

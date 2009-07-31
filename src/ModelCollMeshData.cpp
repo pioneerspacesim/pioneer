@@ -14,8 +14,8 @@ struct coltri_compare : public std::binary_function<coltri_t, coltri_t, bool> {
 };
 
 static ObjParams params = {
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1, 0, 0, 0, 0, 1, 1, 0, 0, 0 },
+	{ 1, 0, 0, 0, 0, 1, 1, 0, 0, 0 },
 	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]

@@ -424,7 +424,6 @@ int main(int argc, char **argv)
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	g_zbias = 2.0/(1<<16);
-	sbreSetZBias(g_zbias);
 
 	Uint32 flags = SDL_OPENGL;
 

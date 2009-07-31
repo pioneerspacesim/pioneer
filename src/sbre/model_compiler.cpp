@@ -14,7 +14,7 @@
 #define MAX_TOKEN_LEN 64
 
 static const char * const anim_fns[] = {
-	"gear", "gflap", "thrustpulse", "lin4sec", "hour", "halfday", 0
+	"gear", "gflap", "thrustpulse", "lin4sec", "hour", "halfday", "stationopen", "stationdock", 0
 };
 
 // this nonsense all needs to be removed after compiling models....

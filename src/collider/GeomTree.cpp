@@ -119,7 +119,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_maxAabb.max = vector3d(cent.x + mdim, cent.y + mdim, cent.z + mdim);
 	}
 
-	printf("Building BIHTree of %d triangles\n", numTris);
+	//printf("Building BIHTree of %d triangles\n", numTris);
 	/*printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
 		m_aabb.min.x,
 		m_aabb.min.y,

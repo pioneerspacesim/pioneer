@@ -33,7 +33,6 @@ void Ship::Save()
 	MarketAgent::Save();
 	wr_int(Serializer::LookupBody(m_combatTarget));
 	wr_int(Serializer::LookupBody(m_navTarget));
-	wr_float(m_dockingTimer);
 	wr_float(m_angThrusters[0]);
 	wr_float(m_angThrusters[1]);
 	wr_float(m_angThrusters[2]);
@@ -69,7 +68,6 @@ void Ship::Load()
 	// needs fixups
 	m_combatTarget = (Body*)rd_int();
 	m_navTarget = (Body*)rd_int();
-	m_dockingTimer = rd_float();
 	m_angThrusters[0] = rd_float();
 	m_angThrusters[1] = rd_float();
 	m_angThrusters[2] = rd_float();
@@ -131,7 +129,6 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
-	m_dockingTimer = 0;
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	m_shipFlavour = ShipFlavour(shipType);
@@ -368,8 +365,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 	AITimeStep(timeStep);
 
-	m_dockingTimer = (m_dockingTimer-timeStep > 0 ? m_dockingTimer-timeStep : 0);
-
 	m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
 	/* can't orient ships in SetDockedWith() because it gets
@@ -450,7 +445,6 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 	} else {
 		m_dockedWith = s;
 		m_dockedWithPort = port;
-		m_dockingTimer = 0.0f;
 		m_wheelState = 1.0f;
 		if (s->IsGroundStation()) m_flightState = LANDED;
 		SetVelocity(vector3d(0,0,0));

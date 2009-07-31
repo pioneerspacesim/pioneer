@@ -10,6 +10,8 @@ enum animsrc
 	ASRC_MINFRAC,
 	ASRC_HOURFRAC,
 	ASRC_DAYFRAC,
+	ASRC_STATION_OPEN,
+	ASRC_STATION_DOCK,
 };
 
 enum animflag
