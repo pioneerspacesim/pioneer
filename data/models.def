@@ -591,8 +591,10 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	d2 = v(-100,-200,-50)
 
 	# docking surface
-	geomflag(16)
+	geomflag(0x10)
 	invisible:quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
+	geomflag(0x8000)
+	invisible:tri(v(0,-100,0), v(-1,0,0), v(0,0,-1))
 	geomflag(0)
 
 	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
@@ -669,9 +671,23 @@ model(basic_groundstation, scale=1.0, radius=1.0) {
 	extrusion(v(0,0,-50), v(0,0,50), n(0,1,0), radius=1.0, {
 		v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0)
 	})
-	geomflag(0x8000)
+	geomflag(0x11)
+	extrusion(v(0,0,70), v(0,0,170), n(0,1,0), radius=1.0, {
+		v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0)
+	})
+	port1top = v(0,10,0)
+	port2top = v(0,10,120)
 	# docking port 1 location,xaxis,yaxis
-	invisible:tri(v(0,10,0), v(1,0,0), v(0,1,0))
+	geomflag(0x8000)
+	invisible:tri(port1top, v(1,0,0), v(0,1,0))
+	geomflag(0x8001)
+	invisible:tri(port2top, v(1,0,0), v(0,1,0))
 	geomflag(0)
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	zbias(port1top, v(0,1,0), 1)
+	text(global:10, port1top, v(0,1,0), v(1,0,0), scale=20.0)
+	zbias(port2top, v(0,1,0), 1)
+	text(global:11, port2top, v(0,1,0), v(1,0,0), scale=20.0)
+	nozbias()
 }
 
