@@ -6,30 +6,18 @@
 
 class GeomTree;
 
-struct coltri_t {
-	int v1, v2, v3, flags;
-};
-
-struct meshinfo_t {
-	int flags;
-	int triStart; // into triIndices
-	int numTris;
-};
-
 class CollMeshSet {
 public:
-	CollMesh *sbreCollMesh;
-	coltri_t *triIndices;
-	meshinfo_t *meshInfo;
-	int numMeshParts;
-	Aabb aabb;
-
-	GeomTree *m_geomTree;
-
 	CollMeshSet(int sbreModel);
 	virtual ~CollMeshSet();
+	bool GetTriWithGeomflag(unsigned int flags, vector3d outVtx[3]) const;
+	const Aabb &GetAabb() const;
+	int GetNumTris() const { return m_numTris; }
+
+	CollMesh *sbreCollMesh;
+	GeomTree *m_geomTree;
 private:
-	void GetMeshParts();
+	int m_numTris;
 };
 
 /* CollMeshSet is cached and caller doesn't own it */

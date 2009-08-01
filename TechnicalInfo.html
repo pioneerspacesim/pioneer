@@ -207,10 +207,14 @@ geomflag(int)
   Pioneer uses these flag values:
 	For starports:
 	0x10 indicates starport
-	0x10 - 1st docking port
-	0x11 - 2nd docking port
-	0x12 - 3rd docking port
-	0x13 - 4th docking port
+	0x10 - 1st docking port hit surface
+	0x11 - 2nd docking port hit surface
+	0x12 - 3rd docking port hit surface
+	0x13 - 4th docking port hit surface
+	0x8000 - 1st docking port position,xaxis,yaxis in 1st tri vertices 1,2,3
+	0x8001 - 2nd docking port " "
+	0x8002 - 3rd docking port " "
+	0x8003 - 4th docking port " "
 
 smooth(steps, 
         ... then two to four of:
@@ -260,8 +264,31 @@ animfn is of gear, gflap, thrustpulse, lin4sec, hour, halfday, stationopen, stat
 	
 <a name="sbre-model-conventions"><h4>Model conventions</h4></a>
 
-Objects which sit in a rotating frame (ie orbital starports) rotate in
-the Y axis.
+<h5>General</h5>
+Geometry with geomflag &gt;= 0x8000 is not passed to the collision detector.
+
+<h5>Space stations</h5>
+<ul>
+	<li>Objects which sit in a rotating frame (ie orbital starports) rotate in
+	the Y axis.
+	<li>Docking procedure is: XXX will be, not finished yet XXX
+	<ol>
+		<li>When docking clearance is granted sbre animfn stationopen
+		will transition 0.0 -> 1.0.
+		<li>Docking occurs when the player hits geometry with the
+		geomflag 0x10 - 0x13 (docking ports 1-4). Position
+		this flat on the ground for surface starports, and across the
+		middle of the docking bay for orbital ports (use invisible:
+		flag). Ship::Disable() is called so subsequent movements can be
+		performed on rails.
+		<li>animfn stationopen transitions 1.0 -> 0.0, animfn
+		stationdock transitions 0.0 -> 1.0.
+		<li>Docking ship is moved to thepoint specified by the first vertex
+		found in the model with geomflag 1.
+		<li>Ship rotated 180 degrees around object y axis.
+		<li>animfn stationdock transitions from 1.0 -> 0.0
+	</ol>
+</ul>
 
 
 <a name="height-map-format"><h3>Terrain height map format</h3></a>

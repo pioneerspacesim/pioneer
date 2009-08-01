@@ -47,7 +47,7 @@ void ModelBody::Enable()
 
 void ModelBody::GetAabb(Aabb &aabb) const
 {
-	aabb = m_collMeshSet->aabb;
+	aabb = m_collMeshSet->GetAabb();
 }
 
 void ModelBody::SetModel(const char *sbreModelName)

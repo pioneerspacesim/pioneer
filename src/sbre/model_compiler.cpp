@@ -183,14 +183,23 @@ void lex(const char *crud, std::vector<Token> &tokens)
 		} else if ((*crud == '.') || (*crud == '-') || (isdigit(*crud))) {
 			int dots = 0;
 			const char *start = crud;
+			bool hex = (crud[0] == '0') && (tolower(crud[1]) == 'x');
 			char buf[16];
 			memset(buf, 0, 16);
-			do {
-				if (*crud == '.') dots++;
-				crud++;
-			} while (isdigit(*crud) || (*crud == '.'));
+			if (hex) {
+				crud+=2;
+				while (isxdigit(*crud)) { crud++; }
+			} else {
+				do {
+					if (*crud == '.') dots++;
+					crud++;
+				} while (isdigit(*crud) || (*crud == '.'));
+			}
 			if (dots == 0) {
-				if (sscanf(start, "%d", &t.val.i) != 1)
+				const char *format;
+				if (hex) format = "%x";
+				else format = "%d";
+				if (sscanf(start, format, &t.val.i) != 1)
 					error(lexLine, "Malformed integer");
 				t.type = Token::INTEGER;
 			} else if (dots == 1) {

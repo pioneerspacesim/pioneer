@@ -155,7 +155,11 @@ void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 
 void WorldView::OnClickBlastoff()
 {
-	Pi::player->Blastoff();
+	if (Pi::player->GetDockedWith()) {
+		Pi::player->SetDockedWith(0,0);
+	} else {
+		Pi::player->Blastoff();
+	}
 }
 
 void WorldView::OnClickHyperspace()

@@ -3,6 +3,7 @@
 #include "glfreetype.h"
 #include "Gui.h"
 #include "collider/collider.h"
+#include "ModelCollMeshData.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
@@ -312,11 +313,11 @@ void Viewer::MainLoop()
 	matrix4x4d rot = matrix4x4d::Identity();
 	Uint32 lastTurd = SDL_GetTicks();
 
-	CollMesh *cmesh = (CollMesh*)calloc(1, sizeof(CollMesh));
-	sbreGenCollMesh (cmesh, g_model, &params, 1.0f);
-
 	Uint32 t = SDL_GetTicks();
-	GeomTree *geomtree = new GeomTree(cmesh->nv, cmesh->ni/3, cmesh->pVertex, cmesh->pIndex, cmesh->pFlag);
+	const CollMeshSet *mset = GetModelCollMeshSet(g_model);
+	CollMesh *cmesh = mset->sbreCollMesh;
+	GeomTree *geomtree = mset->m_geomTree;
+
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 	Geom *geom = new Geom(geomtree);
 	//Geom *geom2 = new Geom(geomtree);

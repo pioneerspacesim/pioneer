@@ -28,14 +28,13 @@ public:
 	virtual void Render(const Frame *camFrame);
 	void OrientLaunchingShip(Ship *ship, int port) const;
 	void OrientDockedShip(Ship *ship, int port) const;
-	void GetDockingSurface(const CollMeshSet *mset, int midx);
 	bool GetDockingClearance(Ship *s);
 	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
 	struct dockingport_t {
 		vector3d center;
+		vector3d xaxis;
 		vector3d normal;
-		vector3d horiz;
 	} port[MAX_DOCKING_PORTS];
 	int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }

@@ -18,7 +18,7 @@ struct SpaceStationType {
 
 struct SpaceStationType stationTypes[SpaceStation::TYPE_MAX] = {
 	{ "nice_spacestation", SpaceStationType::ORBITAL },
-	{ "90", SpaceStationType::SURFACE },
+	{ "basic_groundstation", SpaceStationType::SURFACE },
 };
 
 void SpaceStation::Save()
@@ -92,44 +92,6 @@ static ObjParams params = {
 	{ "Hello old bean", "DIET STEAKETTE" },
 };
 
-void SpaceStation::GetDockingSurface(const CollMeshSet *mset, int midx)
-{
-	meshinfo_t * const minfo = &mset->meshInfo[midx];
-	dockingport_t * const dport = &port[minfo->flags & 0xf];
-	m_numPorts++;
-	
-	assert(m_numPorts <= MAX_DOCKING_PORTS);
-	assert((minfo->flags & 0xf) < MAX_DOCKING_PORTS);
-	assert(minfo->numTris);
-	
-	dport->center = vector3d(0.0);
-	const int t = minfo->triStart;
-	float *const vts = mset->sbreCollMesh->pVertex;
-	for (int pos=0; pos<minfo->numTris; pos++) {
-		vector3d v1(vts + 3*mset->triIndices[t+pos].v1);
-		vector3d v2(vts + 3*mset->triIndices[t+pos].v2);
-		vector3d v3(vts + 3*mset->triIndices[t+pos].v3);
-		// use first tri to get docking port normal (which points out of the
-		// docking port)
-		if (pos == 0) {
-			dport->normal = vector3d::Cross(v2-v1,v2-v3).Normalized();
-			dport->horiz = (v1-v2).Normalized();
-		}
-		dport->center += v1+v2+v3;
-	}
-	dport->center *= 1.0/(3.0*minfo->numTris);
-/*	printf("Docking port center %f,%f,%f, normal %f,%f,%f, horiz %f,%f,%f\n",
-		dport->center.x,
-		dport->center.y,
-		dport->center.z,
-		dport->normal.x,
-		dport->normal.y,
-		dport->normal.z,
-		dport->horiz.x,
-		dport->horiz.y,
-		dport->horiz.z); */
-}
-
 SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 {
 	if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
@@ -154,9 +116,18 @@ void SpaceStation::Init()
 	m_adjacentCity = 0;
 	SetModel(stationTypes[m_type].sbreModelName);
 	const CollMeshSet *mset = GetModelCollMeshSet(GetSbreModel());
-	for (int i=0; i<mset->numMeshParts; i++) {
-		if (mset->meshInfo[i].flags & 0x10) GetDockingSurface(mset, i);
+	vector3d v[3];
+	int i=0;
+	for (i=0; i<4; i++) {
+		if (!mset->GetTriWithGeomflag(0x8000+i, v)) break;
+		// 0x8000+i tri gives position, xaxis, yaxis of docking port surface
+		port[i].center = v[0];
+		port[i].xaxis = v[1];
+		port[i].normal = v[2];
 	}
+	m_numPorts = i;
+
+	assert(m_numPorts > 0);
 }
 
 SpaceStation::~SpaceStation()
@@ -272,8 +243,8 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	if (dockMethod == SpaceStationType::SURFACE) {
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_y = vector3d::Cross(-dport->horiz, dport->normal);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(-dport->horiz, -dport->normal, -port_y);
+		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
 		vector3d pos = GetPosition() + stationRot*dport->center;
 
 		// position with wheels perfectly on ground :D
@@ -296,12 +267,9 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 		// XXX ang vel not zeroed for some reason...
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_y = vector3d::Cross(dport->horiz, dport->normal);
+		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
 
-		vector3d port_x = vector3d::Cross(port_y, dport->normal).Normalized();
-		port_y = vector3d::Cross(dport->normal, port_x).Normalized();
-
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(port_x, port_y, dport->normal);
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
 		vector3d pos = GetPosition() + stationRot*dport->center;
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
@@ -312,19 +280,19 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 	}
 	else if (dockMethod == SpaceStationType::SURFACE) {
 		ship->Blastoff();
+		Aabb aabb;
+		ship->GetAabb(aabb);
 
-	/*	not necessary, since for the time being 'SURFACE' starports are on planets
-	 *	so the positioning Blastoff does is fine
-	 *
-	 *	matrix4x4d stationRot;
+	 	matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_y = vector3d::Cross(-dport->horiz, dport->normal);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(-dport->horiz, -dport->normal, -port_y);
-		vector3d pos = GetPosition() + stationRot*dport->center;
-		ship->SetPosition(pos - stationRot*(10*dport->normal));
+		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
+		// position slightly (1m) off landing surface
+		vector3d pos = GetPosition() + stationRot*(dport->center +
+				dport->normal - 
+				dport->normal*aabb.min.y);
+		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
-		ship->SetVelocity(vector3d(0,0,0));
-		ship->SetAngVelocity(vector3d(0,0,0)); */
 	} else {
 		assert(0);
 	}
@@ -332,7 +300,7 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 
 bool SpaceStation::GetDockingClearance(Ship *s)
 {
-	m_playerDockingTimeout = 30.0;
+	m_playerDockingTimeout = 300.0;
 	return true;
 }
 
@@ -379,7 +347,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 				vector3d dockingNormal = stationRot*dport->normal;
 
 				// check player is sortof sensibly oriented for landing
-				const double dot = vector3d::Dot(vector3d(-invRot[1], -invRot[5], -invRot[9]), dockingNormal);
+				const double dot = vector3d::Dot(vector3d(invRot[1], invRot[5], invRot[9]), dockingNormal);
 				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return true;
 			}
 			

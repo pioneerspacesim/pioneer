@@ -26,7 +26,7 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Mission.cpp pirates.cpp Polit.cpp CityOnPlanet.cpp Shader.cpp
 pioneer_LDADD = sbre/libsbre.a collider/libcollider.a missions/libmissions.a libgui.a
 
-sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp
+sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp ModelCollMeshData.cpp
 sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
 check_PROGRAMS = tests

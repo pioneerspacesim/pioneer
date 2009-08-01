@@ -662,3 +662,16 @@ model(nice_spacestation, scale=1.0, radius=1.0) {
 	quad(f1b,f2b,f3b,f4b) # rear
 	subobject(spacestation_entry1, v(0,400,0), v(0,1,0), v(0,0,1), scale=1.0)
 }
+
+model(basic_groundstation, scale=1.0, radius=1.0) {
+	# surface recognised for landing on (port 1)
+	geomflag(0x10)
+	extrusion(v(0,0,-50), v(0,0,50), n(0,1,0), radius=1.0, {
+		v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0)
+	})
+	geomflag(0x8000)
+	# docking port 1 location,xaxis,yaxis
+	invisible:tri(v(0,10,0), v(1,0,0), v(0,1,0))
+	geomflag(0)
+}
+

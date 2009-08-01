@@ -98,17 +98,33 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	m_triFlags = triflags;
 	m_aabb.min = vector3d(FLT_MAX,FLT_MAX,FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX,-FLT_MAX,-FLT_MAX);
-	
-	for (int i=0; i<numVerts; i++) {
-		m_aabb.Update(vector3d(vertices[3*i], vertices[3*i+1], vertices[3*i+2]));
-	}
+	int actualNumTris = 0;
 
-	m_triAlloc = new tri_t[numTris];
+	/* So, we ignore tris with flag >= 0x8000 */
+	for (int i=0; i<numTris; i++) if (triflags[i] < 0x8000) actualNumTris++;
+	
+/*	for (int i=0; i<numVerts; i++) {
+		m_aabb.Update(vector3d(vertices[3*i], vertices[3*i+1], vertices[3*i+2]));
+	}*/
+
+	m_triAlloc = new tri_t[actualNumTris];
+	int tidx = 0;
 	for (int i=0; i<numTris; i++) {
-		m_triAlloc[i].triIdx = 3*i;
-		m_triAlloc[i].next = m_triAlloc+i+1;
+		if (m_triFlags[i] < 0x8000) {
+			m_triAlloc[tidx].triIdx = 3*i;
+			m_triAlloc[tidx].next = m_triAlloc+tidx+1;
+			tidx++;
+
+			vector3d v0 = vector3d(&m_vertices[3*m_indices[3*i]]);
+			vector3d v1 = vector3d(&m_vertices[3*m_indices[3*i+1]]);
+			vector3d v2 = vector3d(&m_vertices[3*m_indices[3*i+2]]);
+			m_aabb.Update(v0);
+			m_aabb.Update(v1);
+			m_aabb.Update(v2);
+		}
 	}
-	m_triAlloc[numTris-1].next = 0;
+	assert(tidx == actualNumTris);
+	m_triAlloc[actualNumTris-1].next = 0;
 
 	// make big rotation aabb
 	{
@@ -119,8 +135,8 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_maxAabb.max = vector3d(cent.x + mdim, cent.y + mdim, cent.z + mdim);
 	}
 
-	//printf("Building BIHTree of %d triangles\n", numTris);
-	/*printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
+	/*printf("Building BIHTree of %d (%d really) triangles\n", numTris, actualNumTris);
+	printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
 		m_aabb.min.x,
 		m_aabb.min.y,
 		m_aabb.min.z,
@@ -134,8 +150,8 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_maxAabb.max.x,
 		m_maxAabb.max.y,
 		m_maxAabb.max.z);*/
-	m_nodes = new BIHNode[numTris*NODE_ALLOC_MULT];
-	m_nodesAllocSize = numTris*NODE_ALLOC_MULT;
+	m_nodes = new BIHNode[actualNumTris*NODE_ALLOC_MULT];
+	m_nodesAllocSize = actualNumTris*NODE_ALLOC_MULT;
 	m_nodesAllocPos = 0;
 	m_triAllocPos = 0;
 
@@ -143,7 +159,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	root->SetList(m_triAlloc);
 
 	Aabb splitBox = m_aabb;
-	BihTreeGhBuild(root, m_aabb, splitBox, 0, numTris);
+	BihTreeGhBuild(root, m_aabb, splitBox, 0, actualNumTris);
 }
 
 void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, int a_depth, int a_prims)

@@ -124,8 +124,8 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	for (; list->buildings[i].modelname; i++) {
 		list->buildings[i].resolvedModelNum = sbreLookupModelByName(list->buildings[i].modelname);
 		const CollMeshSet *cmeshset = GetModelCollMeshSet(list->buildings[i].resolvedModelNum);
-		float maxx = MAX(fabs(cmeshset->aabb.max.x), fabs(cmeshset->aabb.min.x));
-		float maxy = MAX(fabs(cmeshset->aabb.max.z), fabs(cmeshset->aabb.min.z));
+		float maxx = MAX(fabs(cmeshset->GetAabb().max.x), fabs(cmeshset->GetAabb().min.x));
+		float maxy = MAX(fabs(cmeshset->GetAabb().max.z), fabs(cmeshset->GetAabb().min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
