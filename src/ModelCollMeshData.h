@@ -10,7 +10,8 @@ class CollMeshSet {
 public:
 	CollMeshSet(int sbreModel);
 	virtual ~CollMeshSet();
-	bool GetTriWithGeomflag(unsigned int flags, vector3d outVtx[3]) const;
+	/** returns number of tris found (up to 'num') */
+	int GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const;
 	const Aabb &GetAabb() const;
 	int GetNumTris() const { return m_numTris; }
 

@@ -179,14 +179,16 @@ void Frame::RotateInTimestep(double step)
 vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 {
 	const double omega = m_angVel.Length();
+	vector3d vzero(0,0,0);
 	if (omega) {
 		vector3d perpend = vector3d::Cross(m_angVel, pos);
+		if (perpend == vzero) return vzero;
 		perpend = vector3d::Cross(perpend, m_angVel).Normalized();
 		double R = vector3d::Dot(perpend, pos);
 		perpend *= R;
 		return -vector3d::Cross(m_angVel, perpend);
 	} else {
-		return vector3d(0,0,0);
+		return vzero;
 	}
 }
 

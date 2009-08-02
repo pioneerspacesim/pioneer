@@ -29,7 +29,9 @@ public:
 	Ship(ShipType::Type shipType);
 	Ship() {}
 	virtual void SetDockedWith(SpaceStation *, int port);
+	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() { return m_dockedWith; }
+	int GetDockingPort() const { return m_dockedWithPort; }
 	void SetNavTarget(Body* const target);
 	Body *GetNavTarget() const { return m_navTarget; }
 	void SetCombatTarget(Body* const target);
@@ -50,8 +52,9 @@ public:
 	virtual void NotifyDeath(const Body* const dyingBody);
 	virtual bool OnCollision(Body *b, Uint32 flags);
 	virtual bool OnDamage(Body *attacker, float kgDamage);
-	enum FlightState { FLYING, LANDED };
+	enum FlightState { FLYING, LANDED, DOCKING };
        	FlightState GetFlightState() const { return m_flightState; }
+	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 	bool CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired);

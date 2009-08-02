@@ -44,6 +44,12 @@ void SpaceStation::Save()
 			i != m_bbmissions.end(); ++i) {
 		(*i)->Save();
 	}
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		wr_int(Serializer::LookupBody(m_shipDocking[i].ship));
+		wr_int(m_shipDocking[i].stage);
+		wr_float(m_shipDocking[i].stagePos);
+		wr_vector3d(m_shipDocking[i].from);
+	}
 	wr_double(m_lastUpdatedShipyard);
 	wr_int(Serializer::LookupSystemBody(m_sbody));
 }
@@ -73,9 +79,23 @@ void SpaceStation::Load()
 		Mission *m = Mission::Load();
 		m_bbmissions.push_back(m);
 	}
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		m_shipDocking[i].ship = (Ship*)rd_int();
+		m_shipDocking[i].stage = rd_int();
+		m_shipDocking[i].stagePos = rd_float();
+		m_shipDocking[i].from = rd_vector3d();
+	}
 	m_lastUpdatedShipyard = rd_double();
 	m_sbody = Serializer::LookupSystemBody(rd_int());
 	Init();
+}
+
+void SpaceStation::PostLoadFixup()
+{
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody((size_t)m_shipDocking[i].ship));
+		printf("post-load[%d]: %p\n", i, m_shipDocking[i].ship);
+	}
 }
 
 static ObjParams params = {
@@ -107,8 +127,25 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = Pi::rng.Int32(0,100);
 	}
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) m_shipDocking[i].ship = 0;
 	SetMoney(1000000000);
 	Init();
+}
+
+/*
+ * So, positionOrient_t things for docking animations are stored in the model
+ * as two triangles with geomflag 0x8000+i (0x8010+i for stage2)
+ * tri(position, zerovec, zerovec)
+ * tri(zerovec, xaxis, yaxis)
+ * Since positionOrient triangles in subobjects will be scaled and translated,
+ * the xaxis and yaxis normals must be un-translated (xaxis minus translated
+ * zerovec), and re-normalized.
+ */
+static void SetPositionOrientFromTris(const vector3d v[6], SpaceStation::positionOrient_t &outOrient)
+{
+	outOrient.pos = v[0];
+	outOrient.xaxis = (v[4] - v[1]).Normalized();
+	outOrient.normal = (v[5] - v[1]).Normalized();
 }
 
 void SpaceStation::Init()
@@ -116,14 +153,28 @@ void SpaceStation::Init()
 	m_adjacentCity = 0;
 	SetModel(stationTypes[m_type].sbreModelName);
 	const CollMeshSet *mset = GetModelCollMeshSet(GetSbreModel());
-	vector3d v[3];
 	int i=0;
-	for (i=0; i<4; i++) {
-		if (!mset->GetTriWithGeomflag(0x8000+i, v)) break;
+	for (i=0; i<MAX_DOCKING_PORTS; i++) {
+		port[i].exists = false;
+		port_s2[i].exists = false;
+	}
+	vector3d v[6];
+	for (i=0; i<MAX_DOCKING_PORTS; i++) {
+		if (mset->GetTrisWithGeomflag(0x8000+i, 2, v) != 2) break;
 		// 0x8000+i tri gives position, xaxis, yaxis of docking port surface
-		port[i].center = v[0];
-		port[i].xaxis = v[1];
-		port[i].normal = v[2];
+		port[i].exists = true;
+		SetPositionOrientFromTris(v, port[i]);
+		printf("%p port %d, %f,%f,%f, %f,%f,%f\n", this, i,
+				port[i].xaxis.x,
+				port[i].xaxis.y,
+				port[i].xaxis.z,
+				port[i].normal.x,
+				port[i].normal.y,
+				port[i].normal.z);
+		if (mset->GetTrisWithGeomflag(0x8010+i, 2, v) != 2) continue;
+		port_s2[i].exists = true;
+		SetPositionOrientFromTris(v, port_s2[i]);
+		printf("Got extended docking port info!\n");
 	}
 	m_numPorts = i;
 
@@ -209,6 +260,46 @@ void SpaceStation::UpdateBB()
 	onBulletinBoardChanged.emit();
 }
 
+void SpaceStation::MoveDockingShips(const float timeStep)
+{
+	matrix4x4d rot;
+	vector3d p2;
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		shipDocking_t &dt = m_shipDocking[i];
+		if (!dt.ship) continue;
+		switch (dt.stage) {
+		case 1:
+			// open inner door
+			dt.stagePos += 0.3*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.stagePos = 0;
+				dt.stage++;
+			}
+			break;
+		case 2:
+			// move into inner region
+			GetRotMatrix(rot);
+			p2 = GetPosition() + rot*port_s2[i].pos;
+			dt.ship->SetPosition(dt.from + (p2-dt.from)*dt.stagePos);
+			dt.stagePos += 0.1*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.stagePos = 0;
+				dt.stage++;
+			}
+			break;
+		case 3:
+			// close inner door & dock
+			dt.stagePos += 0.3*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.ship->SetDockedWith(this, i);
+				dt.ship = 0;
+				m_playerDockingTimeout = 0;
+			}
+			break;
+		}
+	}
+}
+
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
@@ -228,6 +319,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		m_playerDockingTimeout = 0;
 		m_doorsOpen = MAX(0.0, m_doorsOpen-timeStep*0.2);
 	}
+	MoveDockingShips(timeStep);
 }
 
 bool SpaceStation::IsGroundStation() const
@@ -238,14 +330,14 @@ bool SpaceStation::IsGroundStation() const
 
 void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 {
-	const dockingport_t *dport = &this->port[port];
+	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = stationTypes[m_type].dockMethod;
 	if (dockMethod == SpaceStationType::SURFACE) {
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
 		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
-		vector3d pos = GetPosition() + stationRot*dport->center;
+		vector3d pos = GetPosition() + stationRot*dport->pos;
 
 		// position with wheels perfectly on ground :D
 		Aabb aabb;
@@ -259,7 +351,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 
 void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 {
-	const dockingport_t *dport = &this->port[port];
+	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = stationTypes[m_type].dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
 		// position ship in middle of docking bay, pointing out of it
@@ -268,9 +360,20 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
 		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
+		printf("%f,%f,%f, %f,%f,%f, %f,%f,%f\n",
+				dport->xaxis.x,
+				dport->xaxis.y,
+				dport->xaxis.z,
+				dport->normal.x,
+				dport->normal.y,
+				dport->normal.z,
+				port_z.x,
+				port_z.y,
+				port_z.z);
 
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
-		vector3d pos = GetPosition() + stationRot*dport->center;
+		vector3d pos = GetPosition() + stationRot*dport->pos;
+		ship->SetFrame(GetFrame());
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
 		ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(pos));
@@ -288,7 +391,7 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
 		// position slightly (1m) off landing surface
-		vector3d pos = GetPosition() + stationRot*(dport->center +
+		vector3d pos = GetPosition() + stationRot*(dport->pos +
 				dport->normal - 
 				dport->normal*aabb.min.y);
 		ship->SetPosition(pos);
@@ -329,7 +432,7 @@ int SpaceStation::GetPrice(Equip::Type t) const {
 bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 {
 	if (flags & 0x10) {
-		dockingport_t *dport = &port[flags & 0xf];
+		positionOrient_t *dport = &port[flags & 0xf];
 		// hitting docking area of a station
 		if (b->IsType(Object::SHIP)) {
 			Ship *s = static_cast<Ship*>(b);
@@ -354,7 +457,21 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
 			    m_playerDockingTimeout) {
-				s->SetDockedWith(this, flags & 0xf);
+				// if there is more docking port anim to do,
+				// don't set docked yet
+				if (port_s2[flags & 0xf].exists) {
+					shipDocking_t &sd = m_shipDocking[flags&0xf];
+					sd.ship = s;
+					sd.stage = 1;
+					sd.stagePos = 0;
+					sd.from = s->GetPosition();
+					s->DisableBodyOnly();
+					s->SetFlightState(Ship::DOCKING);
+					printf("Slide honky!\n");
+				} else {
+					m_playerDockingTimeout = 0;
+					s->SetDockedWith(this, flags & 0xf);
+				}
 			}
 		}
 		if (!IsGroundStation()) return false;
@@ -364,11 +481,35 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 	}
 }
 
+void SpaceStation::NotifyDeath(const Body* const dyingBody)
+{
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		if (m_shipDocking[i].ship == dyingBody) {
+			m_shipDocking[i].ship = 0;
+		}
+	}
+}
+
 void SpaceStation::Render(const Frame *camFrame)
 {
 	params.pAnim[ASRC_STATION_OPEN] = m_doorsOpen;
 	params.pFlag[ASRC_STATION_OPEN] = 1;
-	Shader::EnableVertexProgram(Shader::VPROG_SBRE);
+	params.pAnim[ASRC_STATION_DOCK] = 0;
+	params.pFlag[ASRC_STATION_DOCK] = 1;
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 1)) {
+			params.pAnim[ASRC_STATION_DOCK] = m_shipDocking[i].stagePos;
+			break;
+		}
+		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 2)) {
+			params.pAnim[ASRC_STATION_DOCK] = 1.0;
+			break;
+		}
+		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 3)) {
+			params.pAnim[ASRC_STATION_DOCK] = 1.0 - m_shipDocking[i].stagePos;
+			break;
+		}
+	}
 	RenderSbreModel(camFrame, &params);
 
 	// find planet Body*
@@ -383,8 +524,9 @@ void SpaceStation::Render(const Frame *camFrame)
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
+			Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 			m_adjacentCity->Render(this, camFrame);
+			Shader::DisableVertexProgram();
 		}
 	}
-	Shader::DisableVertexProgram();
 }

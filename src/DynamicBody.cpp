@@ -120,12 +120,14 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			
 				// centrifugal force
 				vector3d perpend = vector3d::Cross(angRot, GetPosition());
-				perpend = vector3d::Cross(perpend, angRot).Normalized();
-				double R = vector3d::Dot(perpend, GetPosition());
-				double centrifugal = m_mass * omega * omega * R;
-				m_force += centrifugal*perpend;
-				// coriolis force
-				m_force += -2*m_mass*vector3d::Cross(angRot, GetVelocity());
+				if (perpend != vector3d(0,0,0)) {
+					perpend = vector3d::Cross(perpend, angRot).Normalized();
+					double R = vector3d::Dot(perpend, GetPosition());
+					double centrifugal = m_mass * omega * omega * R;
+					m_force += centrifugal*perpend;
+					// coriolis force
+					m_force += -2*m_mass*vector3d::Cross(angRot, GetVelocity());
+				}
 			}
 
 		}

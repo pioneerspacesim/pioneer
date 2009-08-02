@@ -551,6 +551,10 @@ model(spacestation_inner1, scale=1.0, radius=1.0) {
 	quad(a2,b2,c2,d2)
 	material(.8,.8,.5, 0,0,0, 0, 0,0,0)
 	xref:quad(b,c,c2,b2)
+	geomflag(0x8010)
+	invisible:tri(v(0,-100,0), v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,0,0), v(1,0,0), v(0,1,0))
+	geomflag(0)
 }
 
 model(spacestation_door, scale=1.0, radius=200.0) {
@@ -594,7 +598,8 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	geomflag(0x10)
 	invisible:quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
 	geomflag(0x8000)
-	invisible:tri(v(0,-100,0), v(-1,0,0), v(0,0,-1))
+	invisible:tri(v(0,-100,0), v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 	geomflag(0)
 
 	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
@@ -679,7 +684,8 @@ model(basic_groundstation, scale=1.0, radius=1.0) {
 	port2top = v(0,10,120)
 	# docking port 1 location,xaxis,yaxis
 	geomflag(0x8000)
-	invisible:tri(port1top, v(1,0,0), v(0,1,0))
+	invisible:tri(port1top, v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,0,0), v(1,0,0), v(0,1,0))
 	geomflag(0x8001)
 	invisible:tri(port2top, v(1,0,0), v(0,1,0))
 	geomflag(0)

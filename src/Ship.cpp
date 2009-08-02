@@ -437,6 +437,9 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 {
 	if (m_dockedWith && !s) {
 		m_dockedWith->OrientLaunchingShip(this, port);
+		m_flightState = FLYING;
+		m_testLanded = false;
+	//	m_launchLockTimeout = 1.0; // one second of applying thrusters
 		Enable();
 		onUndock.emit();
 		m_dockedWith = 0;

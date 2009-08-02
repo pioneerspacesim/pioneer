@@ -211,10 +211,18 @@ geomflag(int)
 	0x11 - 2nd docking port hit surface
 	0x12 - 3rd docking port hit surface
 	0x13 - 4th docking port hit surface
-	0x8000 - 1st docking port position,xaxis,yaxis in 1st tri vertices 1,2,3
+	0x8000 - 1st docking port stage1 position and orientation
 	0x8001 - 2nd docking port " "
 	0x8002 - 3rd docking port " "
 	0x8003 - 4th docking port " "
+	0x8010 - 1st docking port stage2 position and orientation (optional)
+	0x8011 - 2nd docking port " "
+	0x8012 - 3rd docking port " "
+	0x8013 - 4th docking port " "
+	Docking port positions and orientations should be done like so:
+	geoflag(0x8000)
+	invisible:tri(position, v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,0,0), xaxis, yaxis)
 
 smooth(steps, 
         ... then two to four of:
@@ -283,8 +291,8 @@ Geometry with geomflag &gt;= 0x8000 is not passed to the collision detector.
 		performed on rails.
 		<li>animfn stationopen transitions 1.0 -> 0.0, animfn
 		stationdock transitions 0.0 -> 1.0.
-		<li>Docking ship is moved to thepoint specified by the first vertex
-		found in the model with geomflag 1.
+		<li>Docking ship is moved to the position specified by the
+		0x8010+docking_port geometry (see geomflag())
 		<li>Ship rotated 180 degrees around object y axis.
 		<li>animfn stationdock transitions from 1.0 -> 0.0
 	</ol>

@@ -51,17 +51,19 @@ const CollMeshSet *GetModelCollMeshSet(int sbreModel)
 	return cturd;
 }
 
-bool CollMeshSet::GetTriWithGeomflag(unsigned int flags, vector3d outVtx[3]) const
+/** returns number of tris found (up to 'num') */
+int CollMeshSet::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const
 {
-	for (int i=0; i<m_numTris; i++) {
+	int found = 0;
+	for (int i=0; (i<m_numTris) && (found<num); i++) {
 		if (sbreCollMesh->pFlag[i] == flags) {
-			outVtx[0] = vector3d(&sbreCollMesh->pVertex[3*sbreCollMesh->pIndex[3*i]]);
-			outVtx[1] = vector3d(&sbreCollMesh->pVertex[3*sbreCollMesh->pIndex[3*i+1]]);
-			outVtx[2] = vector3d(&sbreCollMesh->pVertex[3*sbreCollMesh->pIndex[3*i+2]]);
-			return true;
+			*(outVtx++) = vector3d(&sbreCollMesh->pVertex[3*sbreCollMesh->pIndex[3*i]]);
+			*(outVtx++) = vector3d(&sbreCollMesh->pVertex[3*sbreCollMesh->pIndex[3*i+1]]);
+			*(outVtx++) = vector3d(&sbreCollMesh->pVertex[3*sbreCollMesh->pIndex[3*i+2]]);
+			found++;
 		}
 	}
-	return false;
+	return found;
 }
 
 const CollMesh *GetModelSBRECollMesh(int sbreModel)

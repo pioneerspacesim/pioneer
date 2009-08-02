@@ -31,11 +31,16 @@ public:
 	bool GetDockingClearance(Ship *s);
 	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
-	struct dockingport_t {
-		vector3d center;
+	struct positionOrient_t {
+		bool exists;
+		vector3d pos;
 		vector3d xaxis;
 		vector3d normal;
-	} port[MAX_DOCKING_PORTS];
+	};
+	// stage 1 position
+	positionOrient_t port[MAX_DOCKING_PORTS];
+	// stage 2 position of ship (inside station)
+	positionOrient_t port_s2[MAX_DOCKING_PORTS];
 	int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
 	/* MarketAgent stuff */
@@ -48,6 +53,8 @@ public:
 	const std::vector<Mission*> &GetBBMissions() { return m_bbmissions; }
 	// does not dealloc
 	bool BBRemoveMission(Mission *m);
+	virtual void PostLoadFixup();
+	virtual void NotifyDeath(const Body* const dyingBody);
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;
 protected:
@@ -57,6 +64,16 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	void MoveDockingShips(const float timeStep);
+
+	struct shipDocking_t {
+		Ship *ship;
+		int stage;
+		vector3d from;
+		float stagePos; // 0 -> 1.0
+	};
+	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
+
 	float m_playerDockingTimeout;
 	float m_doorsOpen;
 	void UpdateShipyard();
