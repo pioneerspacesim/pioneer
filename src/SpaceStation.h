@@ -28,7 +28,7 @@ public:
 	virtual void Render(const Frame *camFrame);
 	void OrientLaunchingShip(Ship *ship, int port) const;
 	void OrientDockedShip(Ship *ship, int port) const;
-	bool GetDockingClearance(Ship *s);
+	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
 	struct positionOrient_t {
@@ -64,7 +64,7 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
-	void MoveDockingShips(const float timeStep);
+	void DoDockingAnimation(const float timeStep);
 
 	struct shipDocking_t {
 		Ship *ship;
@@ -74,8 +74,9 @@ private:
 	};
 	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
 
-	float m_playerDockingTimeout;
-	float m_doorsOpen;
+	float m_openAnimState[MAX_DOCKING_PORTS];
+	float m_dockAnimState[MAX_DOCKING_PORTS];
+
 	void UpdateShipyard();
 	void UpdateBB();
 	void Init();

@@ -342,8 +342,9 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos)
 
 static void PlayerRequestDockingClearance(SpaceStation *s)
 {
-	s->GetDockingClearance(Pi::player);
-	Pi::cpan->SetTemporaryMessage(s, "Docking clearance granted.");
+	std::string msg;
+	s->GetDockingClearance(Pi::player, msg);
+	Pi::cpan->SetTemporaryMessage(s, msg);
 }
 
 static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)

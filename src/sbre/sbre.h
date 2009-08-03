@@ -10,8 +10,14 @@ enum animsrc
 	ASRC_MINFRAC,
 	ASRC_HOURFRAC,
 	ASRC_DAYFRAC,
-	ASRC_STATION_OPEN,
-	ASRC_STATION_DOCK,
+	ASRC_STATION_OPEN_PORT1,
+	ASRC_STATION_OPEN_PORT2,
+	ASRC_STATION_OPEN_PORT3,
+	ASRC_STATION_OPEN_PORT4,
+	ASRC_STATION_DOCK_PORT1,
+	ASRC_STATION_DOCK_PORT2,
+	ASRC_STATION_DOCK_PORT3,
+	ASRC_STATION_DOCK_PORT4,
 };
 
 enum animflag
@@ -21,8 +27,8 @@ enum animflag
 
 struct ObjParams
 {
-	float pAnim[10];
-	unsigned char pFlag[10];
+	float pAnim[16];
+	unsigned char pFlag[16];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0

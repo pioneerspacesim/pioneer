@@ -27,8 +27,6 @@ void SpaceStation::Save()
 	ModelBody::Save();
 	MarketAgent::Save();
 	wr_int((int)m_type);
-	wr_float(m_doorsOpen);
-	wr_float(m_playerDockingTimeout);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr_int((int)m_equipmentStock[i]);
 	}
@@ -49,6 +47,9 @@ void SpaceStation::Save()
 		wr_int(m_shipDocking[i].stage);
 		wr_float(m_shipDocking[i].stagePos);
 		wr_vector3d(m_shipDocking[i].from);
+
+		wr_float(m_openAnimState[i]);
+		wr_float(m_dockAnimState[i]);
 	}
 	wr_double(m_lastUpdatedShipyard);
 	wr_int(Serializer::LookupSystemBody(m_sbody));
@@ -60,8 +61,6 @@ void SpaceStation::Load()
 	ModelBody::Load();
 	MarketAgent::Load();
 	m_type = (TYPE)rd_int();
-	m_doorsOpen = rd_float();
-	m_playerDockingTimeout = rd_float();
 	m_numPorts = 0;
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
@@ -84,6 +83,9 @@ void SpaceStation::Load()
 		m_shipDocking[i].stage = rd_int();
 		m_shipDocking[i].stagePos = rd_float();
 		m_shipDocking[i].from = rd_vector3d();
+
+		m_openAnimState[i] = rd_float();
+		m_dockAnimState[i] = rd_float();
 	}
 	m_lastUpdatedShipyard = rd_double();
 	m_sbody = Serializer::LookupSystemBody(rd_int());
@@ -119,15 +121,17 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	} else {
 		m_type = GROUND_FLAVOURED;
 	}
-	m_doorsOpen = 0;
-	m_playerDockingTimeout = 0;
 	m_sbody = sbody;
 	m_numPorts = 0;
 	m_lastUpdatedShipyard = 0;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = Pi::rng.Int32(0,100);
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) m_shipDocking[i].ship = 0;
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		m_shipDocking[i].ship = 0;
+		m_openAnimState[i] = 0;
+		m_dockAnimState[i] = 0;
+	}
 	SetMoney(1000000000);
 	Init();
 }
@@ -260,23 +264,51 @@ void SpaceStation::UpdateBB()
 	onBulletinBoardChanged.emit();
 }
 
-void SpaceStation::MoveDockingShips(const float timeStep)
+void SpaceStation::DoDockingAnimation(const float timeStep)
 {
 	matrix4x4d rot;
 	vector3d p2;
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		shipDocking_t &dt = m_shipDocking[i];
-		if (!dt.ship) continue;
+		if (!dt.ship) {
+			m_openAnimState[i] -= 0.3*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
+			continue;
+		}
+
 		switch (dt.stage) {
+		case 0:
+			// docking has been granted but ship hasn't docked yet
+			dt.stagePos += timeStep/30.0;
+			m_openAnimState[i] += 0.3*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
+
+			if (dt.stagePos >= 1.0) {
+				if (dt.ship == (Ship*)Pi::player) Pi::onDockingClearanceExpired.emit(this);
+				dt.ship = 0;
+			}
+			break;
 		case 1:
-			// open inner door
+			// close outer door
 			dt.stagePos += 0.3*timeStep;
+			m_openAnimState[i] -= 0.3*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
 			if (dt.stagePos >= 1.0) {
 				dt.stagePos = 0;
 				dt.stage++;
 			}
 			break;
 		case 2:
+			// open inner door
+			dt.stagePos += 0.3*timeStep;
+			m_openAnimState[i] -= 0.3*timeStep;
+			m_dockAnimState[i] += 0.3*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.stagePos = 0;
+				dt.stage++;
+			}
+			break;
+		case 3:
 			// move into inner region
 			GetRotMatrix(rot);
 			p2 = GetPosition() + rot*port_s2[i].pos;
@@ -287,13 +319,13 @@ void SpaceStation::MoveDockingShips(const float timeStep)
 				dt.stage++;
 			}
 			break;
-		case 3:
+		case 4:
 			// close inner door & dock
-			dt.stagePos += 0.3*timeStep;
+			dt.stagePos += 0.2*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
 			if (dt.stagePos >= 1.0) {
 				dt.ship->SetDockedWith(this, i);
 				dt.ship = 0;
-				m_playerDockingTimeout = 0;
 			}
 			break;
 		}
@@ -308,18 +340,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
-	if (m_playerDockingTimeout > 0) {
-		m_playerDockingTimeout -= timeStep;
-		m_doorsOpen = MIN(m_doorsOpen+timeStep*0.2, 1.0);
-		if (m_playerDockingTimeout < 0) {
-			m_playerDockingTimeout = 0;
-			Pi::onDockingClearanceExpired.emit(this);
-		}
-	} else {
-		m_playerDockingTimeout = 0;
-		m_doorsOpen = MAX(0.0, m_doorsOpen-timeStep*0.2);
-	}
-	MoveDockingShips(timeStep);
+	DoDockingAnimation(timeStep);
 }
 
 bool SpaceStation::IsGroundStation() const
@@ -401,10 +422,27 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 	}
 }
 
-bool SpaceStation::GetDockingClearance(Ship *s)
+bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
-	m_playerDockingTimeout = 300.0;
-	return true;
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		if (port[i].exists == false) continue;
+		if (m_shipDocking[i].ship == s) {
+			outMsg = stringf(256, "Clearance already granted. Proceed to docking bay %d.", i+1);
+			return true;
+		}
+	}
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		if (port[i].exists == false) continue;
+		if (m_shipDocking[i].ship != 0) continue;
+		shipDocking_t &sd = m_shipDocking[i];
+		sd.ship = s;
+		sd.stage = 0;
+		sd.stagePos = 0;
+		outMsg = stringf(256, "Clearance granted. Proceed to docking bay %d.", i+1);
+		return true;
+	}
+	outMsg = "Clearance denied. There are no free docking bays.";
+	return false;
 }
 
 /* MarketAgent shite */
@@ -456,7 +494,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 			
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
-			    m_playerDockingTimeout) {
+			    (m_shipDocking[flags&0xf].ship == s)) {
 				// if there is more docking port anim to do,
 				// don't set docked yet
 				if (port_s2[flags & 0xf].exists) {
@@ -469,7 +507,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 					s->SetFlightState(Ship::DOCKING);
 					printf("Slide honky!\n");
 				} else {
-					m_playerDockingTimeout = 0;
+					m_shipDocking[flags&0xf].ship = 0;
 					s->SetDockedWith(this, flags & 0xf);
 				}
 			}
@@ -492,24 +530,29 @@ void SpaceStation::NotifyDeath(const Body* const dyingBody)
 
 void SpaceStation::Render(const Frame *camFrame)
 {
-	params.pAnim[ASRC_STATION_OPEN] = m_doorsOpen;
-	params.pFlag[ASRC_STATION_OPEN] = 1;
-	params.pAnim[ASRC_STATION_DOCK] = 0;
-	params.pFlag[ASRC_STATION_DOCK] = 1;
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		m_openAnimState[i] = CLAMP(m_openAnimState[i], 0.0f, 1.0f);
+		m_dockAnimState[i] = CLAMP(m_dockAnimState[i], 0.0f, 1.0f);
+		params.pAnim[ASRC_STATION_OPEN_PORT1 + i] = m_openAnimState[i];
+		params.pFlag[ASRC_STATION_OPEN_PORT1 + i] = 1;
+		params.pAnim[ASRC_STATION_DOCK_PORT1 + i] = m_dockAnimState[i];
+		params.pFlag[ASRC_STATION_DOCK_PORT1 + i] = 1;
+	}
+	/*
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 1)) {
-			params.pAnim[ASRC_STATION_DOCK] = m_shipDocking[i].stagePos;
+			params.pAnim[ASRC_STATION_DOCK_PORT1] = m_shipDocking[i].stagePos;
 			break;
 		}
 		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 2)) {
-			params.pAnim[ASRC_STATION_DOCK] = 1.0;
+			params.pAnim[ASRC_STATION_DOCK_PORT1] = 1.0;
 			break;
 		}
 		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 3)) {
-			params.pAnim[ASRC_STATION_DOCK] = 1.0 - m_shipDocking[i].stagePos;
+			params.pAnim[ASRC_STATION_DOCK_PORT1] = 1.0 - m_shipDocking[i].stagePos;
 			break;
 		}
-	}
+	}*/
 	RenderSbreModel(camFrame, &params);
 
 	// find planet Body*
