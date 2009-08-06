@@ -300,7 +300,7 @@ void rotateTo(Ship *s, matrix4x4d &rot, const float timeStep)
 void SpaceStation::DoDockingAnimation(const float timeStep)
 {
 	matrix4x4d rot, wantRot;
-	vector3d p2, zaxis;
+	vector3d p1, p2, zaxis;
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) {
@@ -308,8 +308,74 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			m_dockAnimState[i] -= 0.3*timeStep;
 			continue;
 		}
+		GetRotMatrix(rot);
 
 		switch (dt.stage) {
+		/* Launching stages */
+		case -1:
+			// start ship launching
+			// open inner doors
+			dt.stagePos += timeStep*0.3;
+			m_openAnimState[i] -= 0.3*timeStep;
+			m_dockAnimState[i] += 0.3*timeStep;
+			dt.ship->SetPosition(GetPosition() + rot*port_s2[i].pos);
+			///
+			zaxis = vector3d::Cross(port[i].xaxis, port[i].normal);
+			wantRot = matrix4x4d::MakeRotMatrix(
+					port[i].xaxis, port[i].normal, zaxis) * rot;
+			rotateTo(dt.ship, wantRot, timeStep);
+			if (dt.stagePos >= 1.0) {
+				dt.stagePos = 0;
+				dt.stage--;
+			}
+			break;
+		case -2:
+			// move ship to outer section
+			p1 = GetPosition() + rot*port_s2[i].pos;
+			p2 = GetPosition() + rot*port[i].pos;
+			dt.ship->SetPosition(p1 + (p2-p1)*dt.stagePos);
+			dt.stagePos += 0.2*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.stagePos = 0;
+				dt.stage--;
+			}
+			break;
+		case -3:
+			// close inner door
+			m_openAnimState[i] -= 0.3*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
+			dt.stagePos += 0.3*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.stagePos = 0;
+				dt.stage--;
+			}
+			break;
+		case -4:
+			// open outer door
+			m_openAnimState[i] += 0.3*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
+			dt.stagePos += 0.3*timeStep;
+			if (dt.stagePos >= 1.0) {
+				dt.ship->Enable();
+				dt.ship->SetFlightState(Ship::FLYING);
+				dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
+				dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
+				dt.ship->SetForce(vector3d(0,0,0));
+				dt.ship->SetTorque(vector3d(0,0,0));
+				dt.ship->SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
+				dt.stagePos = 0;
+				dt.stage--;
+			}
+		case -5:
+			// give the fucker some time to leave before closing doors
+			m_openAnimState[i] += 0.3*timeStep;
+			dt.stagePos += timeStep/30.0;
+			if (dt.stagePos >= 1.0) {
+				dt.ship = 0;
+			}
+			break;
+
+		/* Docking stages */
 		case 0:
 			// docking has been granted but ship hasn't docked yet
 			dt.stagePos += timeStep/DOCKING_TIMEOUT_SECONDS;
@@ -327,7 +393,6 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			m_openAnimState[i] -= 0.3*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
 			///
-			GetRotMatrix(rot);
 			zaxis = vector3d::Cross(port[i].xaxis, port[i].normal);
 			wantRot = matrix4x4d::MakeRotMatrix(
 					port[i].xaxis, port[i].normal, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
@@ -344,7 +409,6 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			m_openAnimState[i] -= 0.3*timeStep;
 			m_dockAnimState[i] += 0.3*timeStep;
 			/// XXX identical to code in step 1... XXX
-			GetRotMatrix(rot);
 			zaxis = vector3d::Cross(port[i].xaxis, port[i].normal);
 			wantRot = matrix4x4d::MakeRotMatrix(
 					port[i].xaxis, port[i].normal, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
@@ -357,10 +421,9 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			break;
 		case 3:
 			// move into inner region
-			GetRotMatrix(rot);
 			p2 = GetPosition() + rot*port_s2[i].pos;
 			dt.ship->SetPosition(dt.from + (p2-dt.from)*dt.stagePos);
-			dt.stagePos += 0.1*timeStep;
+			dt.stagePos += 0.2*timeStep;
 
 			///
 			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].normal);
@@ -379,7 +442,6 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			dt.stagePos += 0.2*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
 			/// XXX same as codein stage3 XXX
-			GetRotMatrix(rot);
 			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].normal);
 			wantRot = matrix4x4d::MakeRotMatrix(
 					port_s2[i].xaxis, port_s2[i].normal, zaxis) * rot;
@@ -432,38 +494,18 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	}
 }
 
-void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
+void SpaceStation::LaunchShip(Ship *ship, int port)
 {
 	const positionOrient_t *dport = &this->port[port];
+	const positionOrient_t *dport2 = &this->port_s2[port];
 	const int dockMethod = stationTypes[m_type].dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
-		// position ship in middle of docking bay, pointing out of it
-		// XXX need to do forced thrusting thingy...
-		// XXX ang vel not zeroed for some reason...
-		matrix4x4d stationRot;
-		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport->xaxis, dport->normal);
-		printf("%f,%f,%f, %f,%f,%f, %f,%f,%f\n",
-				dport->xaxis.x,
-				dport->xaxis.y,
-				dport->xaxis.z,
-				dport->normal.x,
-				dport->normal.y,
-				dport->normal.z,
-				port_z.x,
-				port_z.y,
-				port_z.z);
-
-		matrix4x4d rot = matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z) *
-			stationRot;
-		vector3d pos = GetPosition() + stationRot*dport->pos;
 		ship->SetFrame(GetFrame());
-		ship->SetPosition(pos);
-		ship->SetRotMatrix(rot);
-		ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(pos));
-		ship->SetAngVelocity(GetFrame()->GetAngVelocity());
-		ship->SetForce(vector3d(0,0,0));
-		ship->SetTorque(vector3d(0,0,0));
+		shipDocking_t &sd = m_shipDocking[port];
+		sd.ship = ship;
+		sd.stage = -1;
+		sd.stagePos = 0;
+		ship->SetFlightState(Ship::DOCKING);
 	}
 	else if (dockMethod == SpaceStationType::SURFACE) {
 		ship->Blastoff();
@@ -557,7 +599,8 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 			
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
-			    (m_shipDocking[flags&0xf].ship == s)) {
+			    (m_shipDocking[flags&0xf].ship == s) &&
+			    (m_shipDocking[flags&0xf].stage == 0)) {
 				// if there is more docking port anim to do,
 				// don't set docked yet
 				if (port_s2[flags & 0xf].exists) {

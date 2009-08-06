@@ -26,7 +26,7 @@ public:
 	virtual ~SpaceStation();
 	virtual bool OnCollision(Body *b, Uint32 flags);
 	virtual void Render(const Frame *camFrame);
-	void OrientLaunchingShip(Ship *ship, int port) const;
+	void LaunchShip(Ship *ship, int port);
 	void OrientDockedShip(Ship *ship, int port) const;
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	virtual void TimeStepUpdate(const float timeStep);

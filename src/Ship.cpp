@@ -365,12 +365,13 @@ void Ship::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 	AITimeStep(timeStep);
 
-	m_launchLockTimeout -= timeStep;
+	if (m_flightState == FLYING)
+		m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
 	/* can't orient ships in SetDockedWith() because it gets
-	 * called from ode collision handler, and body is locked
-	 * and can't be positioned. instead we do it every fucking
-	 * update which is retarded but hey */
+	 * called from collision handler, and collision system gets a bit
+	 * weirded out if bodies are moved in the middle of collision detection
+	 */
 	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
 
 	const ShipType &stype = GetShipType();
@@ -436,13 +437,12 @@ const ShipType &Ship::GetShipType()
 void Ship::SetDockedWith(SpaceStation *s, int port)
 {
 	if (m_dockedWith && !s) {
-		m_dockedWith->OrientLaunchingShip(this, port);
-		m_flightState = FLYING;
+		m_dockedWith->LaunchShip(this, m_dockedWithPort);
 		m_testLanded = false;
-	//	m_launchLockTimeout = 1.0; // one second of applying thrusters
-		Enable();
 		onUndock.emit();
 		m_dockedWith = 0;
+		// lock thrusters for a second to push us out of station
+		m_launchLockTimeout = 1.0;
 	} else if (!s) {
 	
 	} else {
