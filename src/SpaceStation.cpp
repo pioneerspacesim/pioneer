@@ -167,17 +167,16 @@ void SpaceStation::Init()
 		// 0x8000+i tri gives position, xaxis, yaxis of docking port surface
 		port[i].exists = true;
 		SetPositionOrientFromTris(v, port[i]);
-		printf("%p port %d, %f,%f,%f, %f,%f,%f\n", this, i,
+		/*printf("%p port %d, %f,%f,%f, %f,%f,%f\n", this, i,
 				port[i].xaxis.x,
 				port[i].xaxis.y,
 				port[i].xaxis.z,
 				port[i].normal.x,
 				port[i].normal.y,
-				port[i].normal.z);
+				port[i].normal.z);*/
 		if (mset->GetTrisWithGeomflag(0x8010+i, 2, v) != 2) continue;
 		port_s2[i].exists = true;
 		SetPositionOrientFromTris(v, port_s2[i]);
-		printf("Got extended docking port info!\n");
 	}
 	m_numPorts = i;
 
@@ -263,7 +262,7 @@ void SpaceStation::UpdateBB()
 	onBulletinBoardChanged.emit();
 }
 
-void rotateBy(Ship *s, vector3d axis, const float timeStep)
+static void rotateBy(Ship *s, vector3d axis, const float timeStep)
 {
 	double ang = timeStep;
 	if (ang == 0) return;
@@ -276,7 +275,7 @@ void rotateBy(Ship *s, vector3d axis, const float timeStep)
 	s->SetRotMatrix(orient);
 }
 
-void rotateTo(Ship *s, matrix4x4d &rot, const float timeStep)
+static void rotateTo(Ship *s, matrix4x4d &rot, const float timeStep)
 {
 	matrix4x4d cur;
 	s->GetRotMatrix(cur);
@@ -388,8 +387,10 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			}
 			break;
 		case 1:
-			// close outer door
+			// close outer door, center ship
 			dt.stagePos += 0.3*timeStep;
+			p2 = GetPosition() + rot*port[i].pos;
+			dt.ship->SetPosition(dt.from + (p2-dt.from)*dt.stagePos);
 			m_openAnimState[i] -= 0.3*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
 			///
@@ -421,8 +422,9 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			break;
 		case 3:
 			// move into inner region
+			p1 = GetPosition() + rot*port[i].pos;
 			p2 = GetPosition() + rot*port_s2[i].pos;
-			dt.ship->SetPosition(dt.from + (p2-dt.from)*dt.stagePos);
+			dt.ship->SetPosition(p1 + (p2-p1)*dt.stagePos);
 			dt.stagePos += 0.2*timeStep;
 
 			///
@@ -497,7 +499,6 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 void SpaceStation::LaunchShip(Ship *ship, int port)
 {
 	const positionOrient_t *dport = &this->port[port];
-	const positionOrient_t *dport2 = &this->port_s2[port];
 	const int dockMethod = stationTypes[m_type].dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
 		ship->SetFrame(GetFrame());
@@ -611,7 +612,6 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags)
 					sd.from = s->GetPosition();
 					s->DisableBodyOnly();
 					s->SetFlightState(Ship::DOCKING);
-					printf("Slide honky!\n");
 				} else {
 					m_shipDocking[flags&0xf].ship = 0;
 					s->SetDockedWith(this, flags & 0xf);

@@ -589,16 +589,16 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	b = v(100,0,50)
 	c = v(100,0,-50)
 	d = v(-100,0,-50)
-	a2 = v(-100,-200,50)
-	b2 = v(100,-200,50)
-	c2 = v(100,-200,-50)
-	d2 = v(-100,-200,-50)
+	a2 = v(-100,-300,50)
+	b2 = v(100,-300,50)
+	c2 = v(100,-300,-50)
+	d2 = v(-100,-300,-50)
 
 	# docking surface
 	geomflag(0x10)
 	invisible:quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
 	geomflag(0x8000)
-	invisible:tri(v(0,-100,0), v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,-150,0), v(0,0,0), v(0,0,0))
 	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 	geomflag(0)
 
@@ -606,13 +606,13 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	xref:quad(b,c,c2,b2)
 	quad(a,b,b2,a2)
 	quad(c,d,d2,c2)
-	subobject(spacestation_inner1, v(0,-200,0), v(0,1,0), v(0,0,1), scale=1.0)
+	subobject(spacestation_inner1, v(0,-300,0), v(0,1,0), v(0,0,1), scale=1.0)
 
 	material(.2,.2,.6, 0,0,0, 0, 0,0,0)
 	door1 = vlinear(v(0,-20,0), v(0,-20,-100), animfn=stationopenport1)
 	subobject(spacestation_door, door1, v(0,1,0), v(0,0,1), scale=1.0)
 	material(.8,0,0, 0,0,0, 0, 0,0,0)
-	door2 = vlinear(v(0,-200,0), v(0,-200,-100), animfn=stationdockport1)
+	door2 = vlinear(v(0,-300,0), v(0,-300,-100), animfn=stationdockport1)
 	subobject(spacestation_door, door2, v(0,1,0), v(0,0,1), scale=1.0)
 }
 
