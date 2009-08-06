@@ -96,7 +96,6 @@ void SpaceStation::PostLoadFixup()
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody((size_t)m_shipDocking[i].ship));
-		printf("post-load[%d]: %p\n", i, m_shipDocking[i].ship);
 	}
 }
 
@@ -264,10 +263,44 @@ void SpaceStation::UpdateBB()
 	onBulletinBoardChanged.emit();
 }
 
+void rotateBy(Ship *s, vector3d axis, const float timeStep)
+{
+	double ang = timeStep;
+	if (ang == 0) return;
+	vector3d rotAxis = axis.Normalized();
+	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
+	
+	matrix4x4d orient;
+	s->GetRotMatrix(orient);
+	orient = orient * rotMatrix;
+	s->SetRotMatrix(orient);
+}
+
+void rotateTo(Ship *s, matrix4x4d &rot, const float timeStep)
+{
+	matrix4x4d cur;
+	s->GetRotMatrix(cur);
+	vector3d cx(cur[0], cur[4], cur[8]);
+	vector3d rx(rot[0], rot[4], rot[8]);
+	vector3d cz(cur[2], cur[6], cur[10]);
+	vector3d rz(rot[2], rot[6], rot[10]);
+	double dx = vector3d::Dot(cx,rx);
+	double dz = vector3d::Dot(cz,rz);
+	if (dx < 0.999) {
+		vector3d xrot = vector3d::Cross(rx, cx);
+		rotateBy(s, xrot, timeStep);
+	} else if (dz < 0.999) {
+		vector3d zrot = vector3d::Cross(rz, cz);
+		rotateBy(s, zrot, timeStep);
+	} else {
+		s->SetRotMatrix(rot);
+	}
+}
+
 void SpaceStation::DoDockingAnimation(const float timeStep)
 {
-	matrix4x4d rot;
-	vector3d p2;
+	matrix4x4d rot, wantRot;
+	vector3d p2, zaxis;
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) {
@@ -279,7 +312,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 		switch (dt.stage) {
 		case 0:
 			// docking has been granted but ship hasn't docked yet
-			dt.stagePos += timeStep/30.0;
+			dt.stagePos += timeStep/DOCKING_TIMEOUT_SECONDS;
 			m_openAnimState[i] += 0.3*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
 
@@ -293,6 +326,13 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			dt.stagePos += 0.3*timeStep;
 			m_openAnimState[i] -= 0.3*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
+			///
+			GetRotMatrix(rot);
+			zaxis = vector3d::Cross(port[i].xaxis, port[i].normal);
+			wantRot = matrix4x4d::MakeRotMatrix(
+					port[i].xaxis, port[i].normal, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
+			rotateTo(dt.ship, wantRot, timeStep);
+			///
 			if (dt.stagePos >= 1.0) {
 				dt.stagePos = 0;
 				dt.stage++;
@@ -303,6 +343,13 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			dt.stagePos += 0.3*timeStep;
 			m_openAnimState[i] -= 0.3*timeStep;
 			m_dockAnimState[i] += 0.3*timeStep;
+			/// XXX identical to code in step 1... XXX
+			GetRotMatrix(rot);
+			zaxis = vector3d::Cross(port[i].xaxis, port[i].normal);
+			wantRot = matrix4x4d::MakeRotMatrix(
+					port[i].xaxis, port[i].normal, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
+			rotateTo(dt.ship, wantRot, timeStep);
+			///
 			if (dt.stagePos >= 1.0) {
 				dt.stagePos = 0;
 				dt.stage++;
@@ -314,15 +361,30 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			p2 = GetPosition() + rot*port_s2[i].pos;
 			dt.ship->SetPosition(dt.from + (p2-dt.from)*dt.stagePos);
 			dt.stagePos += 0.1*timeStep;
+
+			///
+			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].normal);
+			wantRot = matrix4x4d::MakeRotMatrix(
+					port_s2[i].xaxis, port_s2[i].normal, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
+			rotateTo(dt.ship, wantRot, timeStep);
+			///
+
 			if (dt.stagePos >= 1.0) {
 				dt.stagePos = 0;
 				dt.stage++;
 			}
 			break;
 		case 4:
-			// close inner door & dock
+			// close inner door, rotate 180, & dock
 			dt.stagePos += 0.2*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
+			/// XXX same as codein stage3 XXX
+			GetRotMatrix(rot);
+			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].normal);
+			wantRot = matrix4x4d::MakeRotMatrix(
+					port_s2[i].xaxis, port_s2[i].normal, zaxis) * rot;
+			rotateTo(dt.ship, wantRot, timeStep);
+			///
 			if (dt.stagePos >= 1.0) {
 				dt.ship->SetDockedWith(this, i);
 				dt.ship = 0;
@@ -392,7 +454,8 @@ void SpaceStation::OrientLaunchingShip(Ship *ship, int port) const
 				port_z.y,
 				port_z.z);
 
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z);
+		matrix4x4d rot = matrix4x4d::MakeRotMatrix(dport->xaxis, dport->normal, port_z) *
+			stationRot;
 		vector3d pos = GetPosition() + stationRot*dport->pos;
 		ship->SetFrame(GetFrame());
 		ship->SetPosition(pos);

@@ -2,5 +2,6 @@
 #define _GAMECONSTS_H
 
 #define MAX_LANDING_SPEED	30.0
+#define DOCKING_TIMEOUT_SECONDS 300.0
 
 #endif /* _GAMECONSTS_H */

@@ -553,7 +553,7 @@ model(spacestation_inner1, scale=1.0, radius=1.0) {
 	xref:quad(b,c,c2,b2)
 	geomflag(0x8010)
 	invisible:tri(v(0,-100,0), v(0,0,0), v(0,0,0))
-	invisible:tri(v(0,0,0), v(1,0,0), v(0,1,0))
+	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 	geomflag(0)
 }
 
