@@ -581,11 +581,25 @@ static int get_model_reference(tokenIter_t &t)
 	}
 }
 
-static Uint16 parseAnim(tokenIter_t &t)
+// get anim flag index
+static Uint16 parseAnimFlag(tokenIter_t &t)
 {
-	// don't want animfunc, want param->pAnim[idx] it uses
-	int animfn = parseAnimFunc(t);
-	return pAFunc[animfn].src;
+	(*t++).MatchIdentifier("onflag");
+	(*t++).Check(Token::ASSIGN);
+	// can either be specified as integer flag number
+	if ((*t).type == Token::INTEGER) {
+		unsigned int val = (unsigned)(*t).val.i;
+		if (val < ANIM_MAX) return val;
+		else (*t).Error("onflag must be in range 0-%d", ANIM_MAX);
+	}
+	// or animfunc, which indicates to use the flag of the same index as
+	// the given anim func's underlying anim src.
+	for (int i=0; ; i++) {
+		if (anim_fns[i] == 0) (*t).Error("Unknown anim function");
+		if ((*t).IsIdentifier(anim_fns[i])) { ++t; return pAFunc[i].src; }
+	}
+	fatal();
+	return -1;
 }
 
 static void parsePrimExtrusion(tokenIter_t &t)
@@ -979,8 +993,8 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 					(*t++).Check(Token::ASSIGN);
 					scale = (int)((*t++).GetFloat() * 100.0);
 					if ((scale <= 0) || (scale > 65535)) (*t).Error("Text scale must be in range 0.01 to 655");
-				} else if ((*t).IsIdentifier("animfn")) {
-					anim = parseAnim(t);
+				} else if ((*t).IsIdentifier("onanim")) {
+					anim = parseAnimFlag(t);
 				}
 			}
 			(*t++).Check(Token::CLOSEBRACKET);
@@ -1105,7 +1119,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			if ((*t).type == Token::COMMA) {
 				// get anim
 				++t;
-				anim = parseAnim(t);
+				anim = parseAnimFlag(t);
 			}
 			(*t++).Check(Token::CLOSEBRACKET);
 

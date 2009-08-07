@@ -464,10 +464,10 @@ model(taipan, scale=1.0, radius=60.0) {
 	thruster(left, v(18, 0, 50), 15.0)
 	thruster(right, v(-18, 0, 50), 15.0)
 	
-	subobject(nosewheelunit, v(22,-5,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
-	subobject(nosewheelunit, v(-22,-5,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
-	subobject(mainwheelunit, v(12,-5,40), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
-	subobject(mainwheelunit, v(-12,-5,40), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
+	subobject(nosewheelunit, v(22,-5,0), v(0,-1,0), v(0,0,1), scale=1.0, onflag=gear)
+	subobject(nosewheelunit, v(-22,-5,0), v(0,-1,0), v(0,0,1), scale=1.0, onflag=gear)
+	subobject(mainwheelunit, v(12,-5,40), v(0,-1,0), v(0,0,1), scale=1.0, onflag=gear)
+	subobject(mainwheelunit, v(-12,-5,40), v(0,-1,0), v(0,0,1), scale=1.0, onflag=gear)
 }
 
 model(hermite_wank, scale=1, radius=1) {
@@ -515,7 +515,7 @@ model(junk, scale=1.5, radius=1.0) {
 	xref:cylinder(arse, v(15,10,0), v(15,20,0), v(0,0,1), radius=10.0)
 
 	subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
-	subobject(hermite_wank, v(0,0,0), v(0,-1,0), v(0,0,1), scale=1.0, animfn=gear)
+	subobject(hermite_wank, v(0,0,0), v(0,-1,0), v(0,0,1), scale=1.0, onflag=gear)
 }
 
 model(cargo, scale=1.0, radius=1.0) {
@@ -611,7 +611,7 @@ model(spacestation_entry1_stage2, scale=1.0, radius=1.0) {
 	door2 = vlinear(v(0,0,0), v(0,0,-100), animfn=station_s2bay1)
 	subobject(spacestation_door, door2, v(0,1,0), v(0,0,1), scale=1.0)
 
-	subobject(spacestation_entry1_stage3, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, animfn=station_s2bay1)
+	subobject(spacestation_entry1_stage3, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, onflag=station_s2bay1)
 }
 
 model(spacestation_entry1_stage1, scale=1.0, radius=1.0) {
@@ -636,7 +636,7 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	door1 = vlinear(v(0,-20,0), v(0,-20,-100), animfn=station_s1bay1)
 	subobject(spacestation_door, door1, v(0,1,0), v(0,0,1), scale=1.0)
 	
-	subobject(spacestation_entry1_stage1, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, animfn=station_s1bay1)
+	subobject(spacestation_entry1_stage1, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, onflag=station_s1bay1)
 	# docking surface
 	geomflag(0x10)
 	invisible:quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
@@ -649,7 +649,7 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 
 }
 
-model(nice_spacestation, scale=1.0, radius=1.0) {
+model(nice_spacestation, scale=1.0, radius=500.0) {
 	# front
 	# f7   f3    f6
 	#
@@ -729,4 +729,20 @@ model(basic_groundstation, scale=1.0, radius=1.0) {
 	text(global:11, bay2top, v(0,1,0), v(1,0,0), scale=20.0)
 	nozbias()
 }
+
+#model(hm, scale=1.0, radius=1.0) {
+#	a = v(-100,0,-100)
+#	b = v(100,0,-100)
+#	c = v(100,0,100)
+#	d = v(-100,0,100)
+#	a2 = v(-100,50,-100)
+#	b2 = v(100,50,-100)
+#	c2 = v(100,50,100)
+#	d2 = v(-100,50,100)
+#	# a b
+#	# c d
+#	
+#
+#
+#}
 

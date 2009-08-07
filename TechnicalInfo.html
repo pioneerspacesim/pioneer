@@ -124,9 +124,9 @@ smooth(int steps,
 flat(int steps, vector normal,
 	... then two or more of the same crud as smooth(), except no hermite_norm()
 )
-text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
-text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
-subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
+text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
+text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
+subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
 thruster(direction, vector position, float size)
 geomflag(int)
 </pre>
@@ -246,14 +246,17 @@ flat(steps, normal,
 )
   makes lovely smooth surface
 
-text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
-text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, animfn=])
+text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
+text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
   draws text from either the global strings array or the params strings
-  * if animfn used, only drawn if animfn's src parameter is != 0.0
+  * the optional onflag= means the thing is only drawn if the model parameters
+  * flag specified is non-zero (flags can be specified by number or by animfn,
+  * which will indicates to use the flag of the same index as the given anim func's
+  * underlying anim src. Eg: animfn=2, animfn=stationopen
 
-subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
+subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
   eg:subobject(hermite_wank, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0)
-  * if animfn used, only drawn if animfn's src parameter is != 0.0
+  * onflag= functions as described above
 
 thruster(direction, vector position, float size)
   eg: xref:notangular:thruster(fwd, v(10,0,0), 30.0)
@@ -277,6 +280,8 @@ animfn is of gear, gflap, thrustpulse, lin4sec, hour, halfday, stationopen, stat
 </pre>
 	
 <a name="sbre-model-conventions"><h4>Model conventions</h4></a>
+
+<p>All polygons must be wound counter-clockwise.</p>
 
 <h5>General</h5>
 Geometry with geomflag &gt;= 0x8000 is not passed to the collision detector.
