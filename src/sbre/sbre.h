@@ -10,14 +10,15 @@ enum animsrc
 	ASRC_MINFRAC,
 	ASRC_HOURFRAC,
 	ASRC_DAYFRAC,
-	ASRC_STATION_OPEN_PORT1,
-	ASRC_STATION_OPEN_PORT2,
-	ASRC_STATION_OPEN_PORT3,
-	ASRC_STATION_OPEN_PORT4,
-	ASRC_STATION_DOCK_PORT1,
-	ASRC_STATION_DOCK_PORT2,
-	ASRC_STATION_DOCK_PORT3,
-	ASRC_STATION_DOCK_PORT4,
+	// stage 1,2,3 of docking animation
+	ASRC_STATION_S1_BAY1,
+	ASRC_STATION_S1_BAY2,
+	ASRC_STATION_S1_BAY3,
+	ASRC_STATION_S1_BAY4,
+	ASRC_STATION_S2_BAY1,
+	ASRC_STATION_S2_BAY2,
+	ASRC_STATION_S2_BAY3,
+	ASRC_STATION_S2_BAY4,
 };
 
 enum animflag
@@ -25,10 +26,12 @@ enum animflag
 	AFLAG_GEAR = 0, 
 };
 
+#define ANIM_MAX 20
+
 struct ObjParams
 {
-	float pAnim[16];
-	unsigned char pFlag[16];
+	float pAnim[ANIM_MAX];
+	unsigned char pFlag[ANIM_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0

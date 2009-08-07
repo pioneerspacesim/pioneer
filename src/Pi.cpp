@@ -528,6 +528,10 @@ void Pi::MainLoop()
 	Uint32 time_before_frame = SDL_GetTicks();
 	Uint32 last_phys_update = time_before_frame;
 	double time_player_died = 0;
+#ifdef MAKING_VIDEO
+	Uint32 last_screendump = SDL_GetTicks();
+	int dumpnum = 0;
+#endif /* MAKING_VIDEO */
 
 	for (;;) {
 		frame_stat++;
@@ -599,6 +603,15 @@ void Pi::MainLoop()
 			last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
+
+#ifdef MAKING_VIDEO
+		if (SDL_GetTicks() - last_screendump > 50) {
+			last_screendump = SDL_GetTicks();
+			char buf[256];
+			snprintf(buf, sizeof(buf), "screenshot%08d.tga", dumpnum++);
+			Screendump(buf);
+		}
+#endif /* MAKING_VIDEO */
 	}
 }
 

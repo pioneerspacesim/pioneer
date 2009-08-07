@@ -15,8 +15,8 @@
 
 static const char * const anim_fns[] = {
 	"gear", "gflap", "thrustpulse", "lin4sec", "hour", "halfday",
-	"stationopenport1", "stationopenport2", "stationopenport3", "stationopenport4",
-	"stationdockport1", "stationdockport2", "stationdockport3", "stationdockport4",
+	"station_s1bay1", "station_s1bay2", "station_s1bay3", "station_s1bay4",
+	"station_s2bay1", "station_s2bay2", "station_s2bay3", "station_s2bay4",
 	0
 };
 

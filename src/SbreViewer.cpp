@@ -77,7 +77,7 @@ class Viewer: public Gui::Fixed {
 public:
 	Gui::Adjustment *m_linthrust[3];
 	Gui::Adjustment *m_angthrust[3];
-	Gui::Adjustment *m_anim[10];
+	Gui::Adjustment *m_anim[ANIM_MAX];
 
 	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
@@ -124,13 +124,16 @@ public:
 				Add(v, (float)(100 + i*25), 500);
 			}
 			
-			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 480);
-			for (int i=0; i<10; i++) {
+			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 460);
+			for (int i=0; i<ANIM_MAX; i++) {
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_anim[i]);
 				Add(v, (float)(200 + i*25), 500);
+				char buf[32];
+				snprintf(buf, sizeof(buf), "%d", i);
+				Add(new Gui::Label(buf), (float)(200 + i*25), 480);
 			}
 		}
 
@@ -139,7 +142,7 @@ public:
 	}
 
 	void OnResetAdjustments() {
-		for (int i=0; i<10; i++) m_anim[i]->SetValue(0);
+		for (int i=0; i<ANIM_MAX; i++) m_anim[i]->SetValue(0);
 		for (int i=0; i<3; i++) {
 			m_linthrust[i]->SetValue(0.5);
 			m_angthrust[i]->SetValue(0.5);
@@ -164,7 +167,7 @@ void Viewer::SetSbreParams()
 {
 	float gameTime = SDL_GetTicks() * 0.001f;
 
-	for (int i=0; i<10; i++) {
+	for (int i=0; i<ANIM_MAX; i++) {
 		params.pAnim[i] = m_anim[i]->GetValue();
 		if (params.pAnim[i]) params.pFlag[i] = 1;
 		else params.pFlag[i] = 0;

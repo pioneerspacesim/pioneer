@@ -41,6 +41,7 @@ public:
 	positionOrient_t port[MAX_DOCKING_PORTS];
 	// stage 2 position of ship (inside station)
 	positionOrient_t port_s2[MAX_DOCKING_PORTS];
+	positionOrient_t port_s3[MAX_DOCKING_PORTS];
 	int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
 	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
 	/* MarketAgent stuff */

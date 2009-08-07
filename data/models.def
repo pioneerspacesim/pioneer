@@ -536,27 +536,6 @@ model(cargo, scale=1.0, radius=1.0) {
 	lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
 }
 
-model(spacestation_inner1, scale=1.0, radius=1.0) {
-	a = v(-100,0,50)
-	b = v(100,0,50)
-	c = v(100,0,-50)
-	d = v(-100,0,-50)
-	a2 = v(-100,-200,50)
-	b2 = v(100,-200,50)
-	c2 = v(100,-200,-50)
-	d2 = v(-100,-200,-50)
-	material(.8,.8,.8, 0,0,0, 0, 0,0,0)
-	quad(a,b,b2,a2)
-	quad(c,d,d2,c2)
-	quad(a2,b2,c2,d2)
-	material(.8,.8,.5, 0,0,0, 0, 0,0,0)
-	xref:quad(b,c,c2,b2)
-	geomflag(0x8010)
-	invisible:tri(v(0,-100,0), v(0,0,0), v(0,0,0))
-	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
-	geomflag(0)
-}
-
 model(spacestation_door, scale=1.0, radius=200.0) {
 	a = v(-100,0,50)
 	b = v(100,0,50)
@@ -578,13 +557,64 @@ model(spacestation_door, scale=1.0, radius=200.0) {
 	nozbias()
 }	
 
-model(spacestation_entry1, scale=1.0, radius=1.0) {
-	# inset:2,3
-	# d        c
-	#    
-	#
-	#    
-	# a        b
+# final resting place of docked ship
+model(spacestation_entry1_stage3, scale=1.0, radius=1.0) {
+	# mark as non-colliding (all >= 0x8000 is)
+	geomflag(0x9000)
+	a = v(-100,200,50)
+	b = v(100,200,50)
+	c = v(100,200,-50)
+	d = v(-100,200,-50)
+	a2 = v(-100,0,50)
+	b2 = v(100,0,50)
+	c2 = v(100,0,-50)
+	d2 = v(-100,0,-50)
+	material(.8,.8,.8, 0,0,0, 0, 0,0,0)
+	quad(a,b,b2,a2)
+	material(.8,0,.8, 0,0,0, 0, 0,0,0)
+	quad(c,d,d2,c2)
+	quad(d,c,b,a)
+	xref:quad(b,c,c2,b2)
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	
+	zbias(v(0,200,0), v(0,-1,0), 1)
+	text(global:0, v(0,200,0), v(0,-1,0), v(-1,0,0), scale=10.0)
+	nozbias()
+
+	geomflag(0x8020)
+	invisible:tri(v(0,100,0), v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
+	geomflag(0)
+}
+
+model(spacestation_entry1_stage2, scale=1.0, radius=1.0) {
+	a = v(-100,0,50)
+	b = v(100,0,50)
+	c = v(100,0,-50)
+	d = v(-100,0,-50)
+	a2 = v(-100,-200,50)
+	b2 = v(100,-200,50)
+	c2 = v(100,-200,-50)
+	d2 = v(-100,-200,-50)
+	material(.8,.8,.8, 0,0,0, 0, 0,0,0)
+	quad(a,b,b2,a2)
+	quad(c,d,d2,c2)
+	quad(a2,b2,c2,d2)
+	material(.8,.8,.5, 0,0,0, 0, 0,0,0)
+	xref:quad(b,c,c2,b2)
+	geomflag(0x8010)
+	invisible:tri(v(0,-100,0), v(0,0,0), v(0,0,0))
+	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
+	geomflag(0)
+	
+	material(.8,0,0, 0,0,0, 0, 0,0,0)
+	door2 = vlinear(v(0,0,0), v(0,0,-100), animfn=station_s2bay1)
+	subobject(spacestation_door, door2, v(0,1,0), v(0,0,1), scale=1.0)
+
+	subobject(spacestation_entry1_stage3, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, animfn=station_s2bay1)
+}
+
+model(spacestation_entry1_stage1, scale=1.0, radius=1.0) {
 	a = v(-100,0,50)
 	b = v(100,0,50)
 	c = v(100,0,-50)
@@ -593,7 +623,20 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	b2 = v(100,-300,50)
 	c2 = v(100,-300,-50)
 	d2 = v(-100,-300,-50)
+	
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+	xref:quad(b,c,c2,b2)
+	quad(a,b,b2,a2)
+	quad(c,d,d2,c2)
+}
 
+model(spacestation_entry1, scale=1.0, radius=1.0) {
+
+	material(.2,.2,.6, 0,0,0, 0, 0,0,0)
+	door1 = vlinear(v(0,-20,0), v(0,-20,-100), animfn=station_s1bay1)
+	subobject(spacestation_door, door1, v(0,1,0), v(0,0,1), scale=1.0)
+	
+	subobject(spacestation_entry1_stage1, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, animfn=station_s1bay1)
 	# docking surface
 	geomflag(0x10)
 	invisible:quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
@@ -602,18 +645,8 @@ model(spacestation_entry1, scale=1.0, radius=1.0) {
 	invisible:tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 	geomflag(0)
 
-	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
-	xref:quad(b,c,c2,b2)
-	quad(a,b,b2,a2)
-	quad(c,d,d2,c2)
-	subobject(spacestation_inner1, v(0,-300,0), v(0,1,0), v(0,0,1), scale=1.0)
+	subobject(spacestation_entry1_stage2, v(0,-300,0), v(0,1,0), v(0,0,1), scale=1.0)
 
-	material(.2,.2,.6, 0,0,0, 0, 0,0,0)
-	door1 = vlinear(v(0,-20,0), v(0,-20,-100), animfn=stationopenport1)
-	subobject(spacestation_door, door1, v(0,1,0), v(0,0,1), scale=1.0)
-	material(.8,0,0, 0,0,0, 0, 0,0,0)
-	door2 = vlinear(v(0,-300,0), v(0,-300,-100), animfn=stationdockport1)
-	subobject(spacestation_door, door2, v(0,1,0), v(0,0,1), scale=1.0)
 }
 
 model(nice_spacestation, scale=1.0, radius=1.0) {
@@ -671,7 +704,7 @@ model(nice_spacestation, scale=1.0, radius=1.0) {
 }
 
 model(basic_groundstation, scale=1.0, radius=1.0) {
-	# surface recognised for landing on (port 1)
+	# surface recognised for landing on (bay 1)
 	geomflag(0x10)
 	extrusion(v(0,0,-50), v(0,0,50), n(0,1,0), radius=1.0, {
 		v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0)
@@ -680,20 +713,20 @@ model(basic_groundstation, scale=1.0, radius=1.0) {
 	extrusion(v(0,0,70), v(0,0,170), n(0,1,0), radius=1.0, {
 		v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0)
 	})
-	port1top = v(0,10,0)
-	port2top = v(0,10,120)
-	# docking port 1 location,xaxis,yaxis
+	bay1top = v(0,10,0)
+	bay2top = v(0,10,120)
+	# docking bay 1 location,xaxis,yaxis
 	geomflag(0x8000)
-	invisible:tri(port1top, v(0,0,0), v(0,0,0))
+	invisible:tri(bay1top, v(0,0,0), v(0,0,0))
 	invisible:tri(v(0,0,0), v(1,0,0), v(0,1,0))
 	geomflag(0x8001)
-	invisible:tri(port2top, v(1,0,0), v(0,1,0))
+	invisible:tri(bay2top, v(1,0,0), v(0,1,0))
 	geomflag(0)
 	material(1,1,1, 0,0,0, 0, 0,0,0)
-	zbias(port1top, v(0,1,0), 1)
-	text(global:10, port1top, v(0,1,0), v(1,0,0), scale=20.0)
-	zbias(port2top, v(0,1,0), 1)
-	text(global:11, port2top, v(0,1,0), v(1,0,0), scale=20.0)
+	zbias(bay1top, v(0,1,0), 1)
+	text(global:10, bay1top, v(0,1,0), v(1,0,0), scale=20.0)
+	zbias(bay2top, v(0,1,0), 1)
+	text(global:11, bay2top, v(0,1,0), v(1,0,0), scale=20.0)
 	nozbias()
 }
 
