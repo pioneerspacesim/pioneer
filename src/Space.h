@@ -7,6 +7,7 @@
 class Body;
 class Frame;
 class SBody;
+class SBodyPath;
 class Ship;
 
 // The place all the 'Body's exist in
@@ -21,9 +22,12 @@ namespace Space {
 	extern void AddBody(Body *);
 	extern void RemoveBody(Body *);
 	extern void KillBody(Body *);
+	extern float GetHyperspaceAnim();
 	extern void Render(const Frame *cam_frame);
 	extern void AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
 		double length, Ship *firer, float damage);
+	extern void StartHyperspaceTo(const SBodyPath *);
+	extern void DoHyperspaceTo(const SBodyPath *);
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);
 

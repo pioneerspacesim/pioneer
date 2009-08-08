@@ -36,6 +36,9 @@
 
 #define DEBUG
 
+#define USE_VBO	GLEW_ARB_vertex_buffer_object
+//#define USE_VBO 0
+
 #define UNIVERSE_SEED	0xabcd1234
 
 #define EARTH_RADIUS	6378135.0

@@ -13,6 +13,15 @@ const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
 #define BG_STAR_MAX	5000
 
+#pragma pack(4)
+struct BgStar {
+	float x,y,z;
+	float r,g,b;
+};
+#pragma pack()
+
+static BgStar s_bgstar[BG_STAR_MAX];
+
 WorldView::WorldView(): View()
 {
 	float size[2];
@@ -73,27 +82,22 @@ WorldView::WorldView(): View()
 	
 	Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	
-	m_bgstarsDlist = glGenLists(1);
-
-	glNewList(m_bgstarsDlist, GL_COMPILE);
-
-	glPushAttrib(GL_ENABLE_BIT);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glPointSize(1.0);
-	glBegin(GL_POINTS);
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = 0.05f+(float)Pi::rng.NDouble(3);
-		col = CLAMP(col, 0, 1);
-		glColor3f(col, col, col);
-		glVertex3f( (float)(1000-Pi::rng.Double(2000.0)),
-			(float)(1000-Pi::rng.Double(2000.0)),
-			(float)(1000-Pi::rng.Double(2000.0)) );
+		col = CLAMP(col, 0.05, 1);
+		s_bgstar[i].r = col;
+		s_bgstar[i].g = col;
+		s_bgstar[i].b = col;
+		s_bgstar[i].x = (float)(1000-Pi::rng.Double(2000.0));
+		s_bgstar[i].y = (float)(1000-Pi::rng.Double(2000.0));
+		s_bgstar[i].z = (float)(1000-Pi::rng.Double(2000.0));
 	}
-	glEnd();
-	glPopAttrib();
-
-	glEndList();
+#ifdef USE_VBO
+	glGenBuffersARB(1, &m_bgstarsVbo);
+	glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
+	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
+	glBindBufferARB(GL_ARRAY_BUFFER, 0);
+#endif /* USE_VBO */
 }
 
 void WorldView::Save()
@@ -162,15 +166,60 @@ void WorldView::OnClickBlastoff()
 	}
 }
 
+
 void WorldView::OnClickHyperspace()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	Pi::HyperspaceTo(path);
+	Space::StartHyperspaceTo(path);
 }
 
 void WorldView::DrawBgStars()
 {
-	glCallList(m_bgstarsDlist);
+	float hyperspaceAnim = Space::GetHyperspaceAnim();
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glPointSize(1.5f);
+
+	if (hyperspaceAnim == 0) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+#ifdef USE_VBO
+		glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
+		glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), 0);
+		glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), (void *)(3*sizeof(float)));
+		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
+		glBindBufferARB(GL_ARRAY_BUFFER, 0);
+#else			
+		glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].x);
+		glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].r);
+		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
+#endif /* USE_VBO */
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+	} else {
+		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
+		/* all this jizz isn't really necessary, since the player will
+		 * be in the root frame when hyperspacing... */
+		matrix4x4d m, rot;
+		Frame::GetFrameTransform(Space::rootFrame, Pi::player->GetFrame(), m);
+		m.ClearToRotOnly();
+		Pi::player->GetRotMatrix(rot);
+		m = rot.InverseOf() * m;
+		vector3d pz(m[2], m[6], m[10]);
+
+		glBegin(GL_LINES);
+		for (int i=0; i<BG_STAR_MAX; i++) {
+			glColor3fv(&s_bgstar[i].r);
+			glVertex3fv(&s_bgstar[i].x);
+			vector3d v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
+			v += pz*hyperspaceAnim*200.0;
+			glVertex3dv(&v.x);
+		}
+		glEnd();
+	}
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)

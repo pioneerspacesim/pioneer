@@ -13,6 +13,7 @@
 #include "sbre/sbre.h"
 #include "Serializer.h"
 #include "collider/collider.h"
+#include "pirates.h"
 
 namespace Space {
 
@@ -34,6 +35,8 @@ static void ApplyGravity();
 static std::list<Body*> corpses;
 // laser beams fired this physics tick
 static std::vector<laserBeam_t> laserBeams;
+static SBodyPath *hyperspacingTo;
+static float hyperspaceAnim;
 
 void Init()
 {
@@ -54,6 +57,8 @@ void Clear()
 	Pi::player->SetFrame(rootFrame);
 	for (std::list<Frame*>::iterator i = rootFrame->m_children.begin(); i != rootFrame->m_children.end(); ++i) delete *i;
 	rootFrame->m_children.clear();
+	rootFrame->m_astroBody = 0;
+	rootFrame->m_sbody = 0;
 }
 
 void Serialize()
@@ -68,6 +73,13 @@ void Serialize()
 		printf("Serializing %s\n", (*i)->GetLabel().c_str());
 		(*i)->Serialize();
 	}
+	if (hyperspacingTo == 0) {
+		wr_byte(0);
+	} else {
+		wr_byte(1);
+		hyperspacingTo->Serialize();
+		wr_float(hyperspaceAnim);
+	}
 }
 
 void Unserialize()
@@ -81,6 +93,12 @@ void Unserialize()
 	for (int i=0; i<num_bodies; i++) {
 		Body *b = Body::Unserialize();
 		if (b) bodies.push_back(b);
+	}
+	hyperspaceAnim = 0;
+	if (rd_byte()) {
+		hyperspacingTo = new SBodyPath;
+		SBodyPath::Unserialize(hyperspacingTo);
+		hyperspaceAnim = rd_float();
 	}
 	// bodies with references to others must fix these up
 	Serializer::IndexBodies();
@@ -489,6 +507,14 @@ void test_laser_beams()
 
 void TimeStep(float step)
 {
+	if (hyperspacingTo) {
+		hyperspaceAnim += step;
+		if (hyperspaceAnim > 1.0) {
+			DoHyperspaceTo(0);
+			hyperspaceAnim = 0;
+		}
+	}
+
 	laserBeams.clear();
 	ApplyGravity();
 	CollideFrame(rootFrame);
@@ -514,6 +540,67 @@ void PruneCorpses()
 		delete *corpse;
 	}
 	corpses.clear();
+}
+
+static bool jumped_within_same_system;
+
+/*
+ * Called during play to initiate hyperspace sequence.
+ */
+void StartHyperspaceTo(const SBodyPath *dest)
+{
+	int fuelUsage;
+	if (!Pi::player->CanHyperspaceTo(dest, fuelUsage)) return;
+	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+		return;
+	}
+	
+	Space::Clear();
+	Pi::player->UseHyperspaceFuel(dest);
+	Pi::player->DisableBodyOnly();
+	
+	if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
+	*hyperspacingTo = *dest;
+	hyperspaceAnim = 0.0f;
+	printf("Started hyperspacing...\n");
+}
+
+/*
+ * Called at end of hyperspace sequence or at start of game
+ * to place the player in a system.
+ */
+void DoHyperspaceTo(const SBodyPath *dest)
+{
+	printf("Doing it!\n");
+	if (dest == 0) dest = hyperspacingTo;
+	
+	if (Pi::currentSystem) delete Pi::currentSystem;
+	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemIdx);
+	Space::Clear();
+	Space::BuildSystem();
+	SBody *targetBody = Pi::currentSystem->GetBodyByPath(dest);
+	Frame *pframe = Space::GetFrameWithSBody(targetBody);
+	assert(pframe);
+	float longitude = Pi::rng.Double(M_PI);
+	float latitude = Pi::rng.Double(M_PI);
+	float dist = (0.4 + Pi::rng.Double(0.2)) * AU;
+	Pi::player->SetPosition(vector3d(sin(longitude)*cos(latitude)*dist,
+			sin(latitude)*dist,
+			cos(longitude)*cos(latitude)*dist));
+	Pi::player->SetVelocity(vector3d(0.0));
+	Pi::player->SetFrame(pframe);
+	Pi::player->Enable();
+
+	Pi::onPlayerHyperspaceToNewSystem.emit();
+	SpawnPiratesOnHyperspace();
+	
+	delete hyperspacingTo;
+	hyperspacingTo = 0;
+}
+
+float GetHyperspaceAnim()
+{
+	return hyperspaceAnim;
 }
 
 struct body_zsort_t {

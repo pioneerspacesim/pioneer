@@ -45,7 +45,7 @@ private:
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	Body* PickBody(const float screenX, const float screenY) const;
 	Gui::ImageButton *m_hyperspaceButton;
-	GLuint m_bgstarsDlist;
+	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
 	Gui::Label *m_flightStatus, *m_hyperTargetLabel;
 	Gui::ImageButton *m_launchButton;

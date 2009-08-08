@@ -35,6 +35,7 @@ void Player::Save()
 			i != m_missions.end(); ++i) {
 		(*i)->Save();
 	}
+	m_hyperspaceTarget.Serialize();
 }
 
 void Player::Load()
@@ -51,6 +52,7 @@ void Player::Load()
 		m->AttachToPlayer();
 		m_missions.push_back(m);
 	}
+	SBodyPath::Unserialize(&m_hyperspaceTarget);
 }
 
 void Player::TakeMission(Mission *m)

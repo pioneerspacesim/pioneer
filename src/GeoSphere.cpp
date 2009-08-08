@@ -17,9 +17,6 @@ static const double GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
-#define USE_VBO	GLEW_ARB_vertex_buffer_object
-//#define USE_VBO 0
-
 #pragma pack(4)
 struct VBOVertex
 {

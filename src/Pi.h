@@ -77,7 +77,6 @@ public:
 	static MTRand rng;
 	static int statSceneTris;
 
-	static void HyperspaceTo(const SBodyPath *path);
 	enum MapView { MAP_NOMAP, MAP_SECTOR, MAP_SYSTEM };
 	static void SetMapView(enum MapView);
 	static enum MapView GetMapView() { return mapView; }

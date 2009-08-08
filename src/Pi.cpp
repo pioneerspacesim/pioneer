@@ -20,7 +20,6 @@
 #include "InfoView.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
-#include "pirates.h"
 #include "GeoSphere.h"
 #include "Shader.h"
 
@@ -443,7 +442,7 @@ void Pi::Start()
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
-		HyperspaceTo(&path);
+		Space::DoHyperspaceTo(&path);
 		//Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
 		//player->SetFrame(pframe);
 		// XXX there isn't a sensible way to find stations for a planet.
@@ -460,7 +459,7 @@ void Pi::Start()
 		/* debug start point */
 		SBodyPath path(1,0,2);
 		path.elem[0] = 3;
-		HyperspaceTo(&path);
+		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(0,0,2*EARTH_RADIUS));
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
@@ -633,44 +632,6 @@ StarSystem *Pi::GetSelectedSystem()
 		selectedSystem = new StarSystem(sector_x, sector_y, system_idx);
 	}
 	return selectedSystem;
-}
-
-void Pi::HyperspaceTo(const SBodyPath *dest)
-{
-	bool new_system = false;
-	if (currentSystem) {
-		int fuelUsage;
-		if (!Pi::player->CanHyperspaceTo(dest, fuelUsage)) return;
-		Pi::player->UseHyperspaceFuel(dest);
-		if (!currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
-			delete currentSystem;
-			currentSystem = 0;
-		}
-	}
-	if (!currentSystem) {
-		currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemIdx);
-		Space::Clear();
-		Space::BuildSystem();
-		new_system = true;
-	}
-	
-	
-	SBody *targetBody = currentSystem->GetBodyByPath(dest);
-	Frame *pframe = Space::GetFrameWithSBody(targetBody);
-	assert(pframe);
-	float longitude = rng.Double(M_PI);
-	float latitude = rng.Double(M_PI);
-	float dist = (0.4 + rng.Double(0.2)) * AU;
-	Pi::player->SetPosition(vector3d(sin(longitude)*cos(latitude)*dist,
-			sin(latitude)*dist,
-			cos(longitude)*cos(latitude)*dist));
-	Pi::player->SetVelocity(vector3d(0.0));
-	Pi::player->SetFrame(pframe);
-
-	if (new_system) {
-		Pi::onPlayerHyperspaceToNewSystem.emit();
-		SpawnPiratesOnHyperspace();
-	}
 }
 
 void Pi::Serialize()
