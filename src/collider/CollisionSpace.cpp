@@ -324,7 +324,12 @@ void CollisionSpace::CollideGeoms(Geom *a)
 		if (ourAabb.Intersects(node->aabb)) {
 			if (node->geomStart) {
 				for (int i=0; i<node->numGeoms; i++) {
-					a->Collide(node->geomStart[i]);
+					Geom *g = node->geomStart[i];
+					double radius2 = g->GetGeomTree()->GetRadius();
+					vector3d pos2 = g->GetPosition();
+					if ((pos-pos2).Length() <= (radius + radius2)) {
+						a->Collide(node->geomStart[i]);
+					}
 				}
 			}
 			else if (node->kids[0]) {
