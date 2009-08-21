@@ -30,6 +30,7 @@ public:
 	void OrientDockedShip(Ship *ship, int port) const;
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	virtual void TimeStepUpdate(const float timeStep);
+	virtual void SetFrame(Frame *f);
 	bool IsGroundStation() const;
 	struct positionOrient_t {
 		bool exists;

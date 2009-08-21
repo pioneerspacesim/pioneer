@@ -341,7 +341,13 @@ static bool OnCollision(Object *o1, Object *o2, CollisionContact *c)
 {
 	Body *pb1 = static_cast<Body*>(o1);
 	Body *pb2 = static_cast<Body*>(o2);
-	if ((pb1 && !pb1->OnCollision(pb2, c->geomFlag)) || (pb2 && !pb2->OnCollision(pb1, c->geomFlag))) return false;
+	/* Not always a Body (could be CityOnPlanet, which is a nasty exception I should eradicate) */
+	if (o1->IsType(Object::BODY)) {
+		if (pb1 && !pb1->OnCollision(pb2, c->geomFlag)) return false;
+	}
+	if (o2->IsType(Object::BODY)) {
+		if (pb2 && !pb2->OnCollision(pb1, c->geomFlag)) return false;
+	}
 	return true;
 }
 

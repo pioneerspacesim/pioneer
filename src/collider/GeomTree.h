@@ -17,13 +17,13 @@ public:
 	GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags);
 	~GeomTree();
 	const Aabb &GetAabb() const { return m_aabb; }
-	const Aabb &GetMaxAabb() const { return m_maxAabb; }
 	// dir should be unit length,
 	// isect.dist should be ray length
 	// isect.triIdx should be -1 unless repeat calls with same isect_t
 	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const;
 	vector3f GetTriNormal(int triIdx) const;
 	int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
+	double GetRadius() const { return m_radius; }
 	
 	const int m_numVertices;
 	const float *m_vertices;
@@ -35,8 +35,8 @@ private:
 	BIHNode *AllocNode();
 	void BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, int a_depth, int a_prims);
 
+	double m_radius;
 	Aabb m_aabb;
-	Aabb m_maxAabb; // an aabb that still contains the object regardless of rotation
 	BIHNode *m_nodes;
 	int m_nodesAllocPos;
 	int m_nodesAllocSize;

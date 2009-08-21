@@ -124,6 +124,7 @@ void Geom::Collide(Geom *b)
 				vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
 				contact.normal = vector3d(n.x, n.y, n.z);
 				contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);
+				contact.dist = isect.dist;
 			
 				contact.depth = len - isect.dist;
 				contact.triIdx = isect.triIdx;

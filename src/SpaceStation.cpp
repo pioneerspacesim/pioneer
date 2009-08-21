@@ -553,6 +553,17 @@ bool SpaceStation::IsGroundStation() const
 	        SpaceStationType::SURFACE);
 }
 
+void SpaceStation::SetFrame(Frame *f)
+{
+	if (!f) {
+		if (m_adjacentCity) {
+			delete m_adjacentCity;
+			m_adjacentCity = 0;
+		}
+	}
+	ModelBody::SetFrame(f);
+}
+
 void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 {
 	const positionOrient_t *dport = &this->port[port];

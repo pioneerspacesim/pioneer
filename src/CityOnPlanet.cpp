@@ -5,6 +5,7 @@
 #include "Planet.h"
 #include "Pi.h"
 #include "ModelCollMeshData.h"
+#include "collider/Geom.h"
 
 #define START_SEG_SIZE 5000.0
 #define MIN_SEG_SIZE 50.0
@@ -113,7 +114,16 @@ always_divide:
 		cent = cent.Normalized();
 		cent = cent * m_planet->GetTerrainHeight(cent);
 
-		BuildingDef def = { modelNum, rand.Int32(4), cent };
+		const CollMeshSet *mset = GetModelCollMeshSet(modelNum);
+		Frame *f = m_planet->GetFrame();
+		Geom *geom = new Geom(mset->m_geomTree);
+		int rotTimes90 = rand.Int32(4);
+		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)rotTimes90);
+		geom->MoveTo(grot, cent);
+		geom->SetUserData(this);
+		f->AddStaticGeom(geom);
+
+		BuildingDef def = { modelNum, rotTimes90, cent, geom };
 		m_buildings.push_back(def);
 	}
 }
@@ -130,6 +140,16 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
 	list->numBuildings = i;
+}
+
+CityOnPlanet::~CityOnPlanet()
+{
+	Frame *f = m_planet->GetFrame();
+	for (unsigned int i=0; i<m_buildings.size(); i++) {
+#warning leaking shit. need to make CityOnPlanet a Body to get rid of this fucking crap
+	//	f->RemoveStaticGeom(m_buildings[i].geom);
+		delete m_buildings[i].geom;
+	}
 }
 
 CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Uint32 seed)

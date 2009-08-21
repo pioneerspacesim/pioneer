@@ -258,13 +258,11 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 		for (int x=0; x<TEXSIZE; x++, xpos += xstep) {
 			toPoint = (topLeft + (xMov * xpos) + (yMov * ypos)).Normalized();
 			
-			isect_t isect;
-			isect.triIdx = -1;
-			isect.dist = 10000;
-			space->TraceRay(camPos, toPoint, &isect);
+			CollisionContact c;
+			space->TraceRay(camPos, toPoint, 1000000.0f, &c);
 
-			if (isect.triIdx != -1) {
-				wank[x][y] = distance/(10*isect.dist);
+			if (c.triIdx != -1) {
+				wank[x][y] = distance/(10*c.dist);
 			} else {
 				wank[x][y] = 0;
 			}
@@ -323,11 +321,8 @@ void Viewer::MainLoop()
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 	Geom *geom = new Geom(geomtree);
-	//Geom *geom2 = new Geom(geomtree);
 	CollisionSpace *space = new CollisionSpace();
-//	space->AddGeom(geom2);
 	space->AddGeom(geom);
-//	geom2->MoveTo(rot, vector3d(80,0,0));
 //	geom2->MoveTo(rot, vector3d(80,0,0));
 
 	for (;;) {

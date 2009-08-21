@@ -109,47 +109,32 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 
 	m_triAlloc = new tri_t[actualNumTris];
 	int tidx = 0;
+	m_radius = 0;
 	for (int i=0; i<numTris; i++) {
 		if (m_triFlags[i] < 0x8000) {
 			m_triAlloc[tidx].triIdx = 3*i;
 			m_triAlloc[tidx].next = m_triAlloc+tidx+1;
 			tidx++;
 
-			vector3d v0 = vector3d(&m_vertices[3*m_indices[3*i]]);
-			vector3d v1 = vector3d(&m_vertices[3*m_indices[3*i+1]]);
-			vector3d v2 = vector3d(&m_vertices[3*m_indices[3*i+2]]);
-			m_aabb.Update(v0);
-			m_aabb.Update(v1);
-			m_aabb.Update(v2);
+			vector3d v[3];
+			v[0] = vector3d(&m_vertices[3*m_indices[3*i]]);
+			v[1] = vector3d(&m_vertices[3*m_indices[3*i+1]]);
+			v[2] = vector3d(&m_vertices[3*m_indices[3*i+2]]);
+			m_aabb.Update(v[0]);
+			m_aabb.Update(v[1]);
+			m_aabb.Update(v[2]);
+			for (int j=0; j<3; j++) {
+				double rad = v[j].x*v[j].x + v[j].y*v[j].y + v[j].z*v[j].z;
+				if (rad>m_radius) m_radius = rad;
+			}
 		}
 	}
+	m_radius = sqrt(m_radius);
+	printf("Radius %f\n", m_radius);
 	assert(tidx == actualNumTris);
 	m_triAlloc[actualNumTris-1].next = 0;
 
-	// make big rotation aabb
-	{
-		vector3d cent = 0.5*(m_aabb.min+m_aabb.max);
-		double mdim = (cent - m_aabb.min).Length();
-		mdim = MAX(mdim, (m_aabb.max - cent).Length());
-		m_maxAabb.min = vector3d(cent.x - mdim, cent.y - mdim, cent.z - mdim);
-		m_maxAabb.max = vector3d(cent.x + mdim, cent.y + mdim, cent.z + mdim);
-	}
-
-	/*printf("Building BIHTree of %d (%d really) triangles\n", numTris, actualNumTris);
-	printf("Aabb: %f,%f,%f -> %f,%f,%f\n",
-		m_aabb.min.x,
-		m_aabb.min.y,
-		m_aabb.min.z,
-		m_aabb.max.x,
-		m_aabb.max.y,
-		m_aabb.max.z);
-	printf("MaxAabb: %f,%f,%f -> %f,%f,%f\n",
-		m_maxAabb.min.x,
-		m_maxAabb.min.y,
-		m_maxAabb.min.z,
-		m_maxAabb.max.x,
-		m_maxAabb.max.y,
-		m_maxAabb.max.z);*/
+	printf("Building BIHTree of %d (%d really) triangles\n", numTris, actualNumTris);
 	m_nodes = new BIHNode[actualNumTris*NODE_ALLOC_MULT];
 	m_nodesAllocSize = actualNumTris*NODE_ALLOC_MULT;
 	m_nodesAllocPos = 0;

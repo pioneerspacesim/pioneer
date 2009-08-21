@@ -37,6 +37,8 @@ public:
 	void RemoveChild(Frame *f);
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
+	void AddStaticGeom(Geom *);
+	void RemoveStaticGeom(Geom *);
 	void SetPlanetGeom(double radius, Body *);
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
