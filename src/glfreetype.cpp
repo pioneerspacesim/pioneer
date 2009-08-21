@@ -422,14 +422,19 @@ FontFace::FontFace(const char *filename_ttf)
 	}
 }
 
+#define TEXTURE_FONT_ENTER \
+	glEnable(GL_BLEND); \
+	glEnable(GL_TEXTURE_2D); \
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+#define TEXTURE_FONT_LEAVE \
+	glDisable(GL_TEXTURE_2D); \
+	glDisable(GL_BLEND);
 
 void TextureFontFace::RenderGlyph(int chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
-	glEnable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, glyph->tex);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	const float ox = x + (float)glyph->offx;
 	const float oy = y + (float)m_pixSize - glyph->offy;
 	glBegin(GL_QUADS);
@@ -445,8 +450,6 @@ void TextureFontFace::RenderGlyph(int chr, float x, float y)
 		glTexCoord2f(0,0);
 		glVertex2f(ox,oy);
 	glEnd();
-	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
 }
 
 void TextureFontFace::MeasureString(const char *str, float &w, float &h)
@@ -469,6 +472,7 @@ void TextureFontFace::MeasureString(const char *str, float &w, float &h)
 
 void TextureFontFace::RenderString(const char *str, float x, float y)
 {
+	TEXTURE_FONT_ENTER;
 	float px = x;
 	float py = y;
 	for (unsigned int i=0; i<strlen(str); i++) {
@@ -481,10 +485,12 @@ void TextureFontFace::RenderString(const char *str, float x, float y)
 			px += floor(glyph->advx);
 		}
 	}
+	TEXTURE_FONT_LEAVE;
 }
 
 void TextureFontFace::RenderMarkup(const char *str, float x, float y)
 {
+	TEXTURE_FONT_ENTER;
 	float px = x;
 	float py = y;
 	int len = strlen(str);
@@ -510,6 +516,7 @@ void TextureFontFace::RenderMarkup(const char *str, float x, float y)
 			px += floor(glyph->advx);
 		}
 	}
+	TEXTURE_FONT_LEAVE;
 }
 
 TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_height)

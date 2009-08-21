@@ -32,7 +32,6 @@ class TextureFontFace
 {
 	public:
 	TextureFontFace(const char *filename_ttf, int width, int height);
-	void RenderGlyph(int chr, float x, float y);
 	void RenderString(const char *str, float x, float y);
 	void RenderMarkup(const char *str, float x, float y);
 	void MeasureString(const char *str, float &w, float &h);
@@ -48,6 +47,7 @@ class TextureFontFace
 	};
 	const glfglyph_t &GetGlyph(int ch) { return m_glyphs[ch]; }
 	private:
+	void RenderGlyph(int chr, float x, float y);
 	float m_height;
 	float m_width;
 	float m_descender;

@@ -180,10 +180,11 @@ void WorldView::DrawBgStars()
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glPointSize(1.5f);
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 
 	if (hyperspaceAnim == 0) {
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
 #ifdef USE_VBO
 		glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), 0);
@@ -195,8 +196,6 @@ void WorldView::DrawBgStars()
 		glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].r);
 		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
 #endif /* USE_VBO */
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
@@ -208,18 +207,39 @@ void WorldView::DrawBgStars()
 		m = rot.InverseOf() * m;
 		vector3d pz(m[2], m[6], m[10]);
 
-		glBegin(GL_LINES);
+		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
-			glColor3fv(&s_bgstar[i].r);
-			glVertex3fv(&s_bgstar[i].x);
+			vtx[i*12] = s_bgstar[i].x;
+			vtx[i*12+1] = s_bgstar[i].y;
+			vtx[i*12+2] = s_bgstar[i].z;
+
+			vtx[i*12+3] = s_bgstar[i].r;
+			vtx[i*12+4] = s_bgstar[i].g;
+			vtx[i*12+5] = s_bgstar[i].b;
+
 			vector3d v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
 			v += pz*hyperspaceAnim*200.0;
-			glVertex3dv(&v.x);
+			
+			vtx[i*12+6] = v.x;
+			vtx[i*12+7] = v.y;
+			vtx[i*12+8] = v.z;
+
+			vtx[i*12+9] = s_bgstar[i].r;
+			vtx[i*12+10] = s_bgstar[i].g;
+			vtx[i*12+11] = s_bgstar[i].b;
 		}
-		glEnd();
+		
+		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
+		glColorPointer(3, GL_FLOAT, 6*sizeof(float), vtx+3);
+		glDrawArrays(GL_LINES, 0, 2*BG_STAR_MAX);
+		
+		delete vtx;
 	}
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
+	
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
@@ -542,24 +562,24 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	}
 
 	//vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
 
 	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
 	if (loc_v.z < 0) {
 		GLdouble pos[3];
 		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			glBegin(GL_LINES);
-			glVertex2f(pos[0]-sz, pos[1]-sz);
-			glVertex2f(pos[0]-0.5*sz, pos[1]-0.5*sz);
-			
-			glVertex2f(pos[0]+sz, pos[1]-sz);
-			glVertex2f(pos[0]+0.5*sz, pos[1]-0.5*sz);
-			
-			glVertex2f(pos[0]+sz, pos[1]+sz);
-			glVertex2f(pos[0]+0.5*sz, pos[1]+0.5*sz);
-			
-			glVertex2f(pos[0]-sz, pos[1]+sz);
-			glVertex2f(pos[0]-0.5*sz, pos[1]+0.5*sz);
-			glEnd();
+			GLfloat vtx[16] = {
+				pos[0]-sz, pos[1]-sz,
+				pos[0]-0.5*sz, pos[1]-0.5*sz,
+				pos[0]+sz, pos[1]-sz,
+				pos[0]+0.5*sz, pos[1]-0.5*sz,
+				pos[0]+sz, pos[1]+sz,
+				pos[0]+0.5*sz, pos[1]+0.5*sz,
+				pos[0]-sz, pos[1]+sz,
+				pos[0]-0.5*sz, pos[1]+0.5*sz };
+			glVertexPointer(2, GL_FLOAT, 0, vtx);
+			glDrawArrays(GL_LINES, 0, 8);
 		}
 	}
 
@@ -567,37 +587,36 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	if (GetCamType() == WorldView::CAM_FRONT) {
 		float px = Gui::Screen::GetWidth()/2.0;
 		float py = Gui::Screen::GetHeight()/2.0;
-		glBegin(GL_LINES);
-		glVertex2f(px-sz, py);
-		glVertex2f(px-0.5*sz, py);
-		
-		glVertex2f(px+sz, py);
-		glVertex2f(px+0.5*sz, py);
-		
-		glVertex2f(px, py-sz);
-		glVertex2f(px, py-0.5*sz);
-		
-		glVertex2f(px, py+sz);
-		glVertex2f(px, py+0.5*sz);
-		glEnd();
+		GLfloat vtx[16] = {
+			px-sz, py,
+			px-0.5*sz, py,
+			px+sz, py,
+			px+0.5*sz, py,
+			px, py-sz,
+			px, py-0.5*sz,
+			px, py+sz,
+			px, py+0.5*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+
 	} else if (GetCamType() == WorldView::CAM_REAR) {
 		float px = Gui::Screen::GetWidth()/2.0;
 		float py = Gui::Screen::GetHeight()/2.0;
 		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
-		glBegin(GL_LINES);
-		glVertex2f(px-sz, py);
-		glVertex2f(px-0.5*sz, py);
-		
-		glVertex2f(px+sz, py);
-		glVertex2f(px+0.5*sz, py);
-		
-		glVertex2f(px, py-sz);
-		glVertex2f(px, py-0.5*sz);
-		
-		glVertex2f(px, py+sz);
-		glVertex2f(px, py+0.5*sz);
-		glEnd();
+		GLfloat vtx[16] = {
+			px-sz, py,
+			px-0.5*sz, py,
+			px+sz, py,
+			px+0.5*sz, py,
+			px, py-sz,
+			px, py-0.5*sz,
+			px, py+sz,
+			px, py+0.5*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
 	}
+	
+	glDisableClientState(GL_VERTEX_ARRAY);
 	
 	if (Pi::showDebugInfo) {
 		char buf[1024];
@@ -715,11 +734,14 @@ void WorldView::DrawTargetSquare(const Body* const target)
 		const float y1 = _pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
 		const float y2 = y1 + WorldView::PICK_OBJECT_RECT_SIZE;
 
-		glBegin(GL_LINE_LOOP);
-		glVertex2f(x1, y1);
-		glVertex2f(x2, y1);
-		glVertex2f(x2, y2);
-		glVertex2f(x1, y2);
-		glEnd();
+		GLfloat vtx[8] = {
+			x1, y1,
+			x2, y1,
+			x2, y2,
+			x1, y2 };
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINE_LOOP, 0, 4);
+		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 }
