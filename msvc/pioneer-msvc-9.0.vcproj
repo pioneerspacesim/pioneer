@@ -427,6 +427,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Shader.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Ship-AI.cpp"
 				>
 			</File>
@@ -754,6 +758,10 @@
 			</File>
 			<File
 				RelativePath="..\src\Sfx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Shader.h"
 				>
 			</File>
 			<File

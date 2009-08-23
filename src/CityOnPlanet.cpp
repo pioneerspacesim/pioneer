@@ -146,7 +146,9 @@ CityOnPlanet::~CityOnPlanet()
 {
 	Frame *f = m_planet->GetFrame();
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
+#ifdef __GNUC__
 #warning leaking shit. need to make CityOnPlanet a Body to get rid of this fucking crap
+#endif
 	//	f->RemoveStaticGeom(m_buildings[i].geom);
 		delete m_buildings[i].geom;
 	}
