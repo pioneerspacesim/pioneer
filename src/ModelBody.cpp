@@ -133,28 +133,24 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 
 void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 {
-	glPushMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	
-	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
-
 	matrix4x4d frameTrans;
 	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
 
 	vector3d pos = frameTrans * GetPosition();
 
 	if (pos.Length() > WORLDVIEW_ZFAR) {
-		glPushAttrib(GL_LIGHTING_BIT);
 		glDisable(GL_LIGHTING);
 		glColor3f(1,1,1);
 		glBegin(GL_POINTS);
 		pos = pos.Normalized() * 0.99*WORLDVIEW_ZFAR;
 		glVertex3dv(&pos[0]);
 		glEnd();
-		glPopAttrib();
+		glEnable(GL_LIGHTING);
 	} else {
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
+		glPushMatrix();
+		
+		sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
+
 		matrix4x4d rot;
 		GetRotMatrix(rot);
 		frameTrans.ClearToRotOnly();
@@ -163,10 +159,11 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 		Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 		sbreRenderModel(&pos.x, &rot[0], m_sbreModel, params);
 		Shader::DisableVertexProgram();
-		glPopAttrib();
+
+		glDisable(GL_BLEND);
+		glEnable(GL_LIGHTING);
+		glDisable(GL_NORMALIZE);
+		
+		glPopMatrix();
 	}
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }

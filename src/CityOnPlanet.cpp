@@ -144,12 +144,9 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 
 CityOnPlanet::~CityOnPlanet()
 {
-	Frame *f = m_planet->GetFrame();
+	// frame may be null (already removed from 
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
-#ifdef __GNUC__
-#warning leaking shit. need to make CityOnPlanet a Body to get rid of this fucking crap
-#endif
-	//	f->RemoveStaticGeom(m_buildings[i].geom);
+		m_frame->RemoveStaticGeom(m_buildings[i].geom);
 		delete m_buildings[i].geom;
 	}
 }
@@ -158,6 +155,7 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 {
 	m_buildings.clear();
 	m_planet = planet;
+	m_frame = planet->GetFrame();
 
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {

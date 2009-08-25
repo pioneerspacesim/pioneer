@@ -27,6 +27,7 @@ private:
 	};
 
 	const Planet *m_planet;
+	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
 };
 

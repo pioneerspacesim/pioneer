@@ -25,7 +25,6 @@ public:
 		float c2p[2];
 		Widget::SetClipping(size[0], size[1]);
 		Gui::Screen::GetCoords2Pixels(c2p);
-		glPushAttrib(GL_COLOR_BUFFER_BIT | GL_POINT_BIT | GL_LINE_BIT);
 		
 		// draw objects below player (and below scanner)
 		DrawBlobs(true);
@@ -58,7 +57,6 @@ public:
 		glPopMatrix();
 		glDisable(GL_BLEND);
 		DrawBlobs(false);
-		glPopAttrib();
 		Widget::EndClipping();
 	}
 private:
