@@ -30,7 +30,7 @@ public:
 	int GetSbreModel() const { return m_sbreModel; }
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
-	void SetModel(const char *sbreModelName);
+	void SetModel(const char *sbreModelName, bool isStatic = false);
 
 	void RenderSbreModel(const Frame *camFrame, ObjParams *params);
 protected:
@@ -39,6 +39,7 @@ protected:
 private:
 	const CollMeshSet *m_collMeshSet;
 	int m_sbreModel;
+	bool m_isStatic;
 	Geom *m_geom;
 };
 

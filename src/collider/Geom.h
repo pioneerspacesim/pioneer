@@ -21,7 +21,6 @@ public:
 	void Enable() { m_active = true; }
 	void Disable() { m_active = false; }
 	bool IsEnabled() { return m_active; }
-	bool HasMoved() { return m_moved; }
 	const GeomTree *GetGeomTree() { return m_geomtree; }
 	void Collide(Geom *b);
 	void CollideSphere(Sphere &sphere);
@@ -30,11 +29,11 @@ public:
 
 	CollisionContact contact;
 private:
+	void Collide(const matrix4x4d &transStart, const matrix4x4d &transEnd, Geom *);
 	// double-buffer position so we can keep previous position
 	matrix4x4d m_orient[2], m_invOrient;
 	int m_orientIdx;
 	bool m_active;
-	bool m_moved;
 	const GeomTree *m_geomtree;
 	void *m_data;
 };

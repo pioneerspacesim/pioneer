@@ -19,12 +19,6 @@ struct BvhNode {
 		geomStart = 0;
 	}
 
-	~BvhNode() {
-		if (kids[0]) {
-			delete kids[0];
-			delete kids[1];
-		}
-	}
 	bool CollideRay(const vector3d &start, const vector3d &invDir, isect_t *isect)
 	{
 		double
@@ -56,16 +50,81 @@ class BvhTree {
 public:
 	Geom **m_geoms;
 	BvhNode *m_root;
+	BvhNode *m_nodesAlloc;
+	int m_nodesAllocPos;
+	int m_nodesAllocMax;
+
+	BvhNode *AllocNode() {
+		assert(m_nodesAllocPos < m_nodesAllocMax);
+		return &m_nodesAlloc[m_nodesAllocPos++];
+	}
 
 	BvhTree(const std::list<Geom*> &geoms);
 	~BvhTree() {
-		if (m_geoms) delete m_geoms;
-		if (m_root) delete m_root;
+		if (m_geoms) delete [] m_geoms;
+		if (m_nodesAlloc) delete [] m_nodesAlloc;
 	}
+	void CollideGeom(Geom *, const Aabb &);
 
 private:
 	void BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &outGeomPos);
 };
+
+BvhTree::BvhTree(const std::list<Geom*> &geoms)
+{
+	m_geoms = 0;
+	m_nodesAlloc = 0;
+	int numGeoms = geoms.size();
+	if (numGeoms == 0) {
+		m_root = 0;
+		return;
+	}
+	m_geoms = new Geom*[numGeoms];
+	int geomPos = 0;
+	m_nodesAllocPos = 0;
+	m_nodesAllocMax = numGeoms*2;
+	m_nodesAlloc = new BvhNode[m_nodesAllocMax];
+	m_root = AllocNode();
+	BuildNode(m_root, geoms, geomPos);
+	assert(geomPos == numGeoms);
+}
+
+void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb)
+{
+	if (!m_root) return;
+
+	// our big aabb
+	vector3d pos = g->GetPosition();
+	double radius = g->GetGeomTree()->GetRadius();
+
+	int stackPos = -1;
+	BvhNode *stack[16];
+	BvhNode *node = m_root;
+
+	for (;;) {
+		if (geomAabb.Intersects(node->aabb)) {
+			if (node->geomStart) {
+				for (int i=0; i<node->numGeoms; i++) {
+					Geom *g2 = node->geomStart[i];
+					if (g2 == g) continue;
+					double radius2 = g2->GetGeomTree()->GetRadius();
+					vector3d pos2 = g2->GetPosition();
+					if ((pos-pos2).Length() <= (radius + radius2)) {
+						g->Collide(g2);
+					}
+				}
+			}
+			else if (node->kids[0]) {
+				stack[++stackPos] = node->kids[0];
+				node = node->kids[1];
+				continue;
+			}
+		}
+
+		if (stackPos < 0) break;
+		node = stack[stackPos--];
+	}
+}
 
 void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &outGeomPos)
 {
@@ -119,27 +178,11 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &out
 	} else {
 		// recurse!
 		node->geomStart = 0;
-		node->kids[0] = new BvhNode();
-		node->kids[1] = new BvhNode();
+		node->kids[0] = AllocNode();
+		node->kids[1] = AllocNode();
 
 		BuildNode(node->kids[0], side[0], outGeomPos);
 		BuildNode(node->kids[1], side[1], outGeomPos);
-	}
-}
-
-BvhTree::BvhTree(const std::list<Geom*> &geoms)
-{
-	m_geoms = 0;
-	int numGeoms = geoms.size();
-	if (numGeoms == 0) {
-		m_root = new BvhNode;
-		memset(m_root, 0, sizeof(BvhNode));
-	} else {
-		m_geoms = new Geom*[numGeoms];
-		m_root = new BvhNode;
-		int geomPos = 0;
-		BuildNode(m_root, geoms, geomPos);
-		assert(geomPos == numGeoms);
 	}
 }
 
@@ -150,6 +193,7 @@ CollisionSpace::CollisionSpace()
 	sphere.radius = 0;
 	m_needStaticGeomRebuild = true;
 	m_staticObjectTree = 0;
+	m_dynamicObjectTree = 0;
 }
 
 void CollisionSpace::AddGeom(Geom *geom)
@@ -213,7 +257,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 	BvhNode *node = m_staticObjectTree->m_root;
 	int stackPos = -1;
 
-	for (;;) {
+	for (;node;) {
 		// do we hit it?
 		isect_t isect;
 		isect.dist = (float)c->dist;
@@ -316,34 +360,10 @@ void CollisionSpace::CollideGeoms(Geom *a)
 	ourAabb.min = pos - vector3d(radius, radius, radius);
 	ourAabb.max = pos + vector3d(radius, radius, radius);
 
-	int stackPos = -1;
-	BvhNode *stack[16];
-	BvhNode *node = m_staticObjectTree->m_root;
+	if (m_staticObjectTree) m_staticObjectTree->CollideGeom(a, ourAabb);
+	if (m_dynamicObjectTree) m_dynamicObjectTree->CollideGeom(a, ourAabb);
 
-	for (;;) {
-		if (ourAabb.Intersects(node->aabb)) {
-			if (node->geomStart) {
-				for (int i=0; i<node->numGeoms; i++) {
-					Geom *g = node->geomStart[i];
-					double radius2 = g->GetGeomTree()->GetRadius();
-					vector3d pos2 = g->GetPosition();
-					if ((pos-pos2).Length() <= (radius + radius2)) {
-						a->Collide(node->geomStart[i]);
-					}
-				}
-			}
-			else if (node->kids[0]) {
-				stack[++stackPos] = node->kids[0];
-				node = node->kids[1];
-				continue;
-			}
-		}
-
-		if (stackPos < 0) break;
-		node = stack[stackPos--];
-	}
-
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+/*	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
 		if ((*i) != a) {
 			double radius2 = (*i)->GetGeomTree()->GetRadius();
 			vector3d pos2 = (*i)->GetPosition();
@@ -352,7 +372,7 @@ void CollisionSpace::CollideGeoms(Geom *a)
 				if (!(*i)->HasMoved()) (*i)->Collide(a);
 			}
 		}
-	}
+	}*/
 	/* test the fucker against the planet sphere thing
 	 * (only if no geomFlag. they can be important like docking pads) */
 	if ((!a->contact.geomFlag) && (sphere.radius != 0)) {
@@ -367,6 +387,9 @@ void CollisionSpace::RebuildObjectTrees()
 		if (m_staticObjectTree) delete m_staticObjectTree;
 		m_staticObjectTree = new BvhTree(m_staticGeoms);
 	}
+	if (m_dynamicObjectTree) delete m_dynamicObjectTree;
+	m_dynamicObjectTree = new BvhTree(m_geoms);
+
 	m_needStaticGeomRebuild = false;
 }
 
@@ -376,10 +399,19 @@ void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
 		(*i)->contact = CollisionContact();
-		if ((*i)->HasMoved()) {
-			CollideGeoms(*i);
-			if ((*i)->contact.triIdx != -1)
-				(*callback)(&(*i)->contact);
-		}
+	}
+	for (std::list<Geom*>::iterator i = m_staticGeoms.begin(); i != m_staticGeoms.end(); ++i) {
+		(*i)->contact = CollisionContact();
+	}
+	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+		CollideGeoms(*i);
+	}
+	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+		if ((*i)->contact.triIdx != -1)
+			(*callback)(&(*i)->contact);
+	}
+	for (std::list<Geom*>::iterator i = m_staticGeoms.begin(); i != m_staticGeoms.end(); ++i) {
+		if ((*i)->contact.triIdx != -1)
+			(*callback)(&(*i)->contact);
 	}
 }

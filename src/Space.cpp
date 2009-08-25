@@ -368,28 +368,39 @@ static void hitCallback(CollisionContact *c)
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody*>(po1);
 		DynamicBody *b2 = static_cast<DynamicBody*>(po2);
-		vector3d hitPos1 = c->pos - b1->GetPosition();
-		vector3d hitPos2 = c->pos - b2->GetPosition();
-		vector3d vel1 = b1->GetVelocity();
-		vector3d vel2 = b2->GetVelocity();
-		const vector3d relVel = vel2 - vel1;
+		const vector3d linVel1 = b1->GetVelocity();
+		const vector3d linVel2 = b2->GetVelocity();
+		const vector3d angVel1 = b1->GetAngVelocity();
+		const vector3d angVel2 = b2->GetAngVelocity();
+		
+		const double coeff_rest = 0.5;
+		// step back
+//		mover->UndoTimestep();
+
 		const double invMass1 = 1.0 / b1->GetMass();
 		const double invMass2 = 1.0 / b2->GetMass();
+		const vector3d hitPos1 = c->pos - b1->GetPosition();
+		const vector3d hitPos2 = c->pos - b2->GetPosition();
+		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
+		const vector3d hitVel2 = linVel2 + vector3d::Cross(angVel2, hitPos2);
+		const double relVel = vector3d::Dot(hitVel1 - hitVel2, c->normal);
+		// moving away so no collision
+		if (relVel > 0) return;
+		const double invAngInert1 = 1.0 / b1->GetAngularInertia();
+		const double invAngInert2 = 1.0 / b2->GetAngularInertia();
+		const double numerator = -(1.0 + coeff_rest) * relVel;
+		const double term1 = invMass1;
+		const double term2 = invMass2;
+		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert1, hitPos1));
+		const double term4 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos2, c->normal)*invAngInert2, hitPos2));
 
-		const double coeff_rest = 0.8;
-		const double j = (-(1+coeff_rest) * (vector3d::Dot(relVel, c->normal))) /
-			( (invMass1 + invMass2) +
-			( vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal) * (1.0/b1->GetAngularInertia()), hitPos1) )) +
-			( vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos2, c->normal) * (1.0/b2->GetAngularInertia()), hitPos2) ))
-			);
-		// step back
-	//	b1->UndoTimestep();
-	//	b2->UndoTimestep();
-		// apply impulse
-		b1->SetVelocity(vel1 - (j*c->normal)*invMass1);
-		b2->SetVelocity(vel2 + (j*c->normal)*invMass2);
-		b1->SetAngVelocity(b1->GetAngVelocity() - vector3d::Cross(hitPos1, (j*c->normal))*(1.0/b1->GetAngularInertia()));
-		b2->SetAngVelocity(b2->GetAngVelocity() + vector3d::Cross(hitPos2, (j*c->normal))*(1.0/b2->GetAngularInertia()));
+		const double j = numerator / (term1 + term2 + term3 + term4);
+		const vector3d force = j * c->normal;
+					
+		b1->SetVelocity(linVel1 + force*invMass1);
+		b1->SetAngVelocity(angVel1 + vector3d::Cross(hitPos1, force)*invAngInert1);
+		b2->SetVelocity(linVel2 - force*invMass2);
+		b2->SetAngVelocity(angVel2 - vector3d::Cross(hitPos2, force)*invAngInert2);
 	} else {
 		// one body is static
 		vector3d hitNormal;
@@ -404,24 +415,28 @@ static void hitCallback(CollisionContact *c)
 		}
 
 		const double coeff_rest = 0.5;
-		const vector3d vel = mover->GetVelocity();
-		vector3d reflect = vel - (hitNormal * vector3d::Dot(vel, hitNormal) * 2.0f);
-
+		const vector3d linVel1 = mover->GetVelocity();
+		const vector3d angVel1 = mover->GetAngVelocity();
+		
 		// step back
-		mover->UndoTimestep();
-		// and set altered velocity
-		mover->SetVelocity(reflect * coeff_rest);
+//		mover->UndoTimestep();
 
-		// angular effects
 		const double invMass1 = 1.0 / mover->GetMass();
-
 		const vector3d hitPos1 = c->pos - mover->GetPosition();
-		const double j = (-(1+coeff_rest) * (vector3d::Dot(mover->GetVelocity(), c->normal))) /
-			( invMass1 +
-			( vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal) * (1.0/mover->GetAngularInertia()), hitPos1) ))
-			);
+		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
+		const double relVel = vector3d::Dot(hitVel1, c->normal);
+		// moving away so no collision
+		if (relVel > 0) return;
+		const double invAngInert = 1.0 / mover->GetAngularInertia();
+		const double numerator = -(1.0 + coeff_rest) * relVel;
+		const double term1 = invMass1;
+		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert, hitPos1));
 
-		mover->SetAngVelocity(mover->GetAngVelocity() - vector3d::Cross(hitPos1, (j*c->normal))*(1.0/mover->GetAngularInertia()));
+		const double j = numerator / (term1 + term3);
+		const vector3d force = j * c->normal;
+					
+		mover->SetVelocity(linVel1 + force*invMass1);
+		mover->SetAngVelocity(angVel1 + vector3d::Cross(hitPos1, force)*invAngInert);
 	}
 }
 
@@ -432,17 +447,42 @@ void CollideFrame(Frame *f)
 		for (bodiesIter_t i = bodies.begin(); i!=bodies.end(); ++i) {
 			if ((*i)->GetFrame() != f) continue;
 			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
-			vector3d pos = (*i)->GetPosition();
-			vector3d s = pos.Normalized();
-			double terrain_height = static_cast<Planet*>(f->m_astroBody)->GetTerrainHeight(s);
-			double altitude = pos.Length();
-			if (altitude < terrain_height) {
-				CollisionContact c;
-				c.pos = s;
-				c.normal = s;
-				c.depth = terrain_height - altitude;
-				c.userData1 = static_cast<void*>(*i);
-				c.userData2 = static_cast<void*>(f->m_astroBody);
+			DynamicBody *dynBody = (DynamicBody*)(*i);
+
+			Aabb aabb;
+			dynBody->GetAabb(aabb);
+			const matrix4x4d &trans = dynBody->GetGeom()->GetTransform();
+
+			const vector3d aabbCorners[8] = {
+				vector3d(aabb.min.x, aabb.min.y, aabb.min.z),
+				vector3d(aabb.min.x, aabb.min.y, aabb.max.z),
+				vector3d(aabb.min.x, aabb.max.y, aabb.min.z),
+				vector3d(aabb.min.x, aabb.max.y, aabb.max.z),
+				vector3d(aabb.max.x, aabb.min.y, aabb.min.z),
+				vector3d(aabb.max.x, aabb.min.y, aabb.max.z),
+				vector3d(aabb.max.x, aabb.max.y, aabb.min.z),
+				vector3d(aabb.max.x, aabb.max.y, aabb.max.z)
+			};
+
+			double maxDepth = 0;
+			CollisionContact c;
+
+			for (int i=0; i<8; i++) {
+				const vector3d &s = aabbCorners[i];
+				vector3d pos = trans * s;
+				double terrain_height = static_cast<Planet*>(f->m_astroBody)->GetTerrainHeight(pos.Normalized());
+				double altitude = pos.Length();
+				double hitDepth = terrain_height - altitude;
+				if ((altitude < terrain_height) && (hitDepth > maxDepth)) {
+					maxDepth = hitDepth;
+					c.pos = pos;
+					c.normal = pos.Normalized();
+					c.depth = hitDepth;
+					c.userData1 = static_cast<void*>(dynBody);
+					c.userData2 = static_cast<void*>(f->m_astroBody);
+				}
+			}
+			if (maxDepth != 0) {
 				hitCallback(&c);
 			}
 		}

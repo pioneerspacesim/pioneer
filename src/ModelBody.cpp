@@ -15,6 +15,7 @@ ModelBody::ModelBody(): Body()
 	m_collMeshSet = 0;
 	m_sbreModel = 0;
 	m_geom = 0;
+	m_isStatic = false;
 }
 
 ModelBody::~ModelBody()
@@ -50,8 +51,9 @@ void ModelBody::GetAabb(Aabb &aabb) const
 	aabb = m_collMeshSet->GetAabb();
 }
 
-void ModelBody::SetModel(const char *sbreModelName)
+void ModelBody::SetModel(const char *sbreModelName, bool isStatic)
 {
+	m_isStatic = isStatic;
 	try {
 		m_sbreModel = sbreLookupModelByName(sbreModelName);
 	} catch (SbreModelNotFoundException) {
@@ -69,7 +71,10 @@ void ModelBody::SetModel(const char *sbreModelName)
 	m_geom = new Geom(mset->m_geomTree);
 	m_geom->SetUserData((void*)this);
 		
-	if (GetFrame()) GetFrame()->AddGeom(m_geom);
+	if (GetFrame()) {
+		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
+		else GetFrame()->AddGeom(m_geom);
+	}
 
 	m_collMeshSet = mset;
 }
@@ -80,6 +85,8 @@ void ModelBody::SetPosition(vector3d p)
 	GetRotMatrix(m);
 	m_geom->MoveTo(m, p);
 	m_geom->MoveTo(m, p);
+	// for rebuild of static objects in collision space
+	if (m_isStatic) SetFrame(GetFrame());
 }
 
 vector3d ModelBody::GetPosition() const
@@ -118,11 +125,13 @@ void ModelBody::TransformToModelCoords(const Frame *camFrame)
 void ModelBody::SetFrame(Frame *f)
 {
 	if (GetFrame()) {
-		GetFrame()->RemoveGeom(m_geom);
+		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
+		else GetFrame()->RemoveGeom(m_geom);
 	}
 	Body::SetFrame(f);
 	if (f) {
-		f->AddGeom(m_geom);
+		if (m_isStatic) f->AddStaticGeom(m_geom);
+		else f->AddGeom(m_geom);
 	}
 }
 	

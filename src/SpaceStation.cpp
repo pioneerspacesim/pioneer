@@ -155,7 +155,7 @@ static void SetPositionOrientFromTris(const vector3d v[6], SpaceStation::positio
 void SpaceStation::Init()
 {
 	m_adjacentCity = 0;
-	SetModel(stationTypes[m_type].sbreModelName);
+	SetModel(stationTypes[m_type].sbreModelName, true);
 	const CollMeshSet *mset = GetModelCollMeshSet(GetSbreModel());
 	int i=0;
 	for (i=0; i<MAX_DOCKING_PORTS; i++) {

@@ -131,6 +131,13 @@ model(skyscraper1, scale=1.0, radius=300.0) {
 
 }
 
+model(box, scale=1.0, radius=10.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {
+		v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0)
+	})
+}
+
 model(building1, scale=1.0, radius=10.0) {
 	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
 	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {

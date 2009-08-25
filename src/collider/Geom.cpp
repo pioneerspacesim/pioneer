@@ -11,7 +11,6 @@ Geom::Geom(const GeomTree *geomtree)
 	m_invOrient = matrix4x4d::Identity();
 	m_orientIdx = 0;
 	m_active = true;
-	m_moved = false;
 	m_data = 0;
 }
 
@@ -27,7 +26,6 @@ void Geom::MoveTo(const matrix4x4d &m)
 	m_orientIdx = !m_orientIdx;
 	m_orient[m_orientIdx] = m;
 	m_invOrient = m.InverseOf();
-	m_moved = true;
 }
 
 void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
@@ -96,15 +94,35 @@ void Geom::CollideSphere(Sphere &sphere)
 	}
 }
 
+/*
+ * This geom has moved, causing a possible collision with geom b.
+ * Collide meshes to see.
+ */
 void Geom::Collide(Geom *b)
 {
-	m_moved = false;
+	matrix4x4d transStart, transEnd;
+	/* Collide this geom's vertices against tri-mesh of geom b */
+	transStart = b->m_invOrient * m_orient[!m_orientIdx];
+	transEnd = b->m_invOrient * m_orient[m_orientIdx];
+	this->Collide(transStart, transEnd, b);
+	
+	/* Reverse motion collide b's vertices against this geom's tri-mesh */
+	transStart = m_orient[m_orientIdx].InverseOf() * b->m_orient[b->m_orientIdx];
+	transEnd = m_orient[!m_orientIdx].InverseOf() * b->m_orient[b->m_orientIdx];
+	b->Collide(transStart, transEnd, this);
+}
+
+/*
+ * Collide this geom with geom b, using transStart and transEnd to transform
+ * this geom's vertices to model coords of geom b (start and end positions of
+ * movement).
+ */	
+void Geom::Collide(const matrix4x4d &transStart, const matrix4x4d &transEnd, Geom *b)
+{
 	for (int i=0; i<m_geomtree->m_numVertices; i++) {
 		vector3d v(&m_geomtree->m_vertices[3*i]);
-		vector3d from = m_orient[!m_orientIdx] * v;
-		vector3d to = m_orient[m_orientIdx] * v;
-		from = b->m_invOrient * from;
-		to = b->m_invOrient * to;
+		vector3d from = transStart * v;
+		vector3d to = transEnd * v;
 		vector3d dir = to - from;
 		const double len = dir.Length();
 		dir *= 1.0f/len;

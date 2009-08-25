@@ -31,6 +31,7 @@ public:
 	void SetSphere(const vector3d &pos, double radius, void *user_data) {
 		sphere.pos = pos; sphere.radius = radius; sphere.userData = user_data;
 	}
+	void FlagRebuildObjectTrees() { m_needStaticGeomRebuild = true; }
 	void RebuildObjectTrees();
 private:
 	void CollideGeoms(Geom *a);
@@ -39,6 +40,7 @@ private:
 	std::list<Geom*> m_staticGeoms;
 	bool m_needStaticGeomRebuild;
 	BvhTree *m_staticObjectTree;
+	BvhTree *m_dynamicObjectTree;
 	Sphere sphere;
 };
 

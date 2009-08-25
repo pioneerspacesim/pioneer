@@ -2,6 +2,7 @@
 #define _COLLISION_CONTACT_H
 
 struct CollisionContact {
+	/* position and normal are in world (or rather, CollisionSpace) coordinates */
 	vector3d pos;
 	vector3d normal;
 	double depth;
