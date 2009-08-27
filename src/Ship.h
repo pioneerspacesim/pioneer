@@ -50,7 +50,7 @@ public:
 	void Blastoff();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void NotifyDeath(const Body* const dyingBody);
-	virtual bool OnCollision(Body *b, Uint32 flags);
+	virtual bool OnCollision(Body *b, Uint32 flags, double relVel);
 	virtual bool OnDamage(Body *attacker, float kgDamage);
 	enum FlightState { FLYING, LANDED, DOCKING };
        	FlightState GetFlightState() const { return m_flightState; }

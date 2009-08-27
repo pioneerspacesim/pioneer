@@ -34,7 +34,7 @@ public:
 	void FlagRebuildObjectTrees() { m_needStaticGeomRebuild = true; }
 	void RebuildObjectTrees();
 private:
-	void CollideGeoms(Geom *a);
+	void CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact*));
 	void CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect);
 	std::list<Geom*> m_geoms;
 	std::list<Geom*> m_staticGeoms;

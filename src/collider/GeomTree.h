@@ -24,10 +24,18 @@ public:
 	vector3f GetTriNormal(int triIdx) const;
 	int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
+	struct Edge {
+		int v1i, v2i;
+		float len;
+		vector3f dir;
+	};
+	const Edge *GetEdges() const { return m_edges; }
+	int GetNumEdges() const { return m_numEdges; }
 	
 	const int m_numVertices;
 	const float *m_vertices;
 	static int stats_rayTriIntersections;
+
 private:
 	friend class BIHNode;
 	void RayTriIntersect(const vector3f &a_origin, const vector3f &a_dir, int triIdx, isect_t *isect) const;
@@ -43,6 +51,9 @@ private:
 	tri_t *m_triAlloc;
 	int m_triAllocPos;
 	int m_triAllocSize;
+	
+	int m_numEdges;
+	Edge *m_edges;
 
 	const int *m_indices;
 	const int *m_triFlags;

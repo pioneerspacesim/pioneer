@@ -651,7 +651,7 @@ int SpaceStation::GetPrice(Equip::Type t) const {
 	return (mul * EquipType::types[t].basePrice) / 100;
 }
 
-bool SpaceStation::OnCollision(Body *b, Uint32 flags)
+bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	if (flags & 0x10) {
 		positionOrient_t *dport = &port[flags & 0xf];

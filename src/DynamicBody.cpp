@@ -35,14 +35,6 @@ void DynamicBody::AddTorque(const vector3d t)
 	m_torque += t;
 }
 
-void DynamicBody::AddForceAtPos(const vector3d force, const vector3d pos)
-{
-	assert(0);
-/*	dBodyAddForceAtPos(m_body, force.x, force.y, force.z,
-			pos.x, pos.y, pos.z);
-*/
-}
-
 void DynamicBody::AddRelForce(const vector3d f)
 {
 	m_force += m_orient.ApplyRotationOnly(f);
@@ -244,16 +236,14 @@ void DynamicBody::SetAngVelocity(vector3d v)
 }
 
 #define KINETIC_ENERGY_MULT	0.00001f
-bool DynamicBody::OnCollision(Body *b, Uint32 flags)
+bool DynamicBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	float kineticEnergy = 0;
 	if (b->IsType(Object::DYNAMICBODY)) {
-		const vector3d relVel = static_cast<DynamicBody*>(b)->GetVelocity() - GetVelocity();
-		const float v = (float)relVel.Length();
-		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * v * v;
+		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	} else {
 		const float v = (float)GetVelocity().Length();
-		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * v * v;
+		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
 	if (kineticEnergy) OnDamage(b, kineticEnergy);
 	return true;

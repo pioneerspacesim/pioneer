@@ -273,8 +273,10 @@ void RemoveBody(Body *b)
 
 void KillBody(Body* const b)
 {
-	b->MarkDead();
-	if (b != Pi::player) corpses.push_back(b);
+	if (!b->IsDead()) {
+		b->MarkDead();
+		if (b != Pi::player) corpses.push_back(b);
+	}
 }
 
 void UpdateFramesOfReference()
@@ -337,16 +339,16 @@ void UpdateFramesOfReference()
 	}
 }
 
-static bool OnCollision(Object *o1, Object *o2, CollisionContact *c)
+static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double relativeVel)
 {
 	Body *pb1 = static_cast<Body*>(o1);
 	Body *pb2 = static_cast<Body*>(o2);
 	/* Not always a Body (could be CityOnPlanet, which is a nasty exception I should eradicate) */
 	if (o1->IsType(Object::BODY)) {
-		if (pb1 && !pb1->OnCollision(pb2, c->geomFlag)) return false;
+		if (pb1 && !pb1->OnCollision(pb2, c->geomFlag, relativeVel)) return false;
 	}
 	if (o2->IsType(Object::BODY)) {
-		if (pb2 && !pb2->OnCollision(pb1, c->geomFlag)) return false;
+		if (pb2 && !pb2->OnCollision(pb1, c->geomFlag, relativeVel)) return false;
 	}
 	return true;
 }
@@ -357,8 +359,6 @@ static void hitCallback(CollisionContact *c)
 
 	Object *po1 = static_cast<Object*>(c->userData1);
 	Object *po2 = static_cast<Object*>(c->userData2);
-	
-	if (!OnCollision(po1, po2, c)) return;
 
 	const bool po1_isDynBody = po1->IsType(Object::DYNAMICBODY);
 	const bool po2_isDynBody = po2->IsType(Object::DYNAMICBODY);
@@ -386,6 +386,7 @@ static void hitCallback(CollisionContact *c)
 		const double relVel = vector3d::Dot(hitVel1 - hitVel2, c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
+		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert1 = 1.0 / b1->GetAngularInertia();
 		const double invAngInert2 = 1.0 / b2->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
@@ -405,7 +406,7 @@ static void hitCallback(CollisionContact *c)
 		// one body is static
 		vector3d hitNormal;
 		DynamicBody *mover;
-		
+
 		if (po1_isDynBody) {
 			mover = static_cast<DynamicBody*>(po1);
 			hitNormal = c->normal;
@@ -427,6 +428,7 @@ static void hitCallback(CollisionContact *c)
 		const double relVel = vector3d::Dot(hitVel1, c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
+		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
@@ -464,7 +466,6 @@ void CollideFrame(Frame *f)
 				vector3d(aabb.max.x, aabb.max.y, aabb.max.z)
 			};
 
-			double maxDepth = 0;
 			CollisionContact c;
 
 			for (int i=0; i<8; i++) {
@@ -473,17 +474,14 @@ void CollideFrame(Frame *f)
 				double terrain_height = static_cast<Planet*>(f->m_astroBody)->GetTerrainHeight(pos.Normalized());
 				double altitude = pos.Length();
 				double hitDepth = terrain_height - altitude;
-				if ((altitude < terrain_height) && (hitDepth > maxDepth)) {
-					maxDepth = hitDepth;
+				if (altitude < terrain_height) {
 					c.pos = pos;
 					c.normal = pos.Normalized();
 					c.depth = hitDepth;
 					c.userData1 = static_cast<void*>(dynBody);
 					c.userData2 = static_cast<void*>(f->m_astroBody);
+					hitCallback(&c);
 				}
-			}
-			if (maxDepth != 0) {
-				hitCallback(&c);
 			}
 		}
 	}

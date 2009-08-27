@@ -64,7 +64,7 @@ public:
 		if (m_geoms) delete [] m_geoms;
 		if (m_nodesAlloc) delete [] m_nodesAlloc;
 	}
-	void CollideGeom(Geom *, const Aabb &);
+	void CollideGeom(Geom *, const Aabb &, int minMailboxValue, void (*callback)(CollisionContact*));
 
 private:
 	void BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &outGeomPos);
@@ -89,7 +89,7 @@ BvhTree::BvhTree(const std::list<Geom*> &geoms)
 	assert(geomPos == numGeoms);
 }
 
-void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb)
+void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, void (*callback)(CollisionContact*))
 {
 	if (!m_root) return;
 
@@ -106,11 +106,12 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb)
 			if (node->geomStart) {
 				for (int i=0; i<node->numGeoms; i++) {
 					Geom *g2 = node->geomStart[i];
+					if (g2->GetMailboxIndex() < minMailboxValue) continue;
 					if (g2 == g) continue;
 					double radius2 = g2->GetGeomTree()->GetRadius();
 					vector3d pos2 = g2->GetPosition();
 					if ((pos-pos2).Length() <= (radius + radius2)) {
-						g->Collide(g2);
+						g->Collide(g2, callback);
 					}
 				}
 			}
@@ -351,7 +352,10 @@ pop_jizz:
 	}
 }
 
-void CollisionSpace::CollideGeoms(Geom *a)
+/*
+ * Do not collide objects with mailbox value < minMailboxValue
+ */
+void CollisionSpace::CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact*))
 {
 	// our big aabb
 	vector3d pos = a->GetPosition();
@@ -360,23 +364,12 @@ void CollisionSpace::CollideGeoms(Geom *a)
 	ourAabb.min = pos - vector3d(radius, radius, radius);
 	ourAabb.max = pos + vector3d(radius, radius, radius);
 
-	if (m_staticObjectTree) m_staticObjectTree->CollideGeom(a, ourAabb);
-	if (m_dynamicObjectTree) m_dynamicObjectTree->CollideGeom(a, ourAabb);
+	if (m_staticObjectTree) m_staticObjectTree->CollideGeom(a, ourAabb, 0, callback);
+	if (m_dynamicObjectTree) m_dynamicObjectTree->CollideGeom(a, ourAabb, minMailboxValue, callback);
 
-/*	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		if ((*i) != a) {
-			double radius2 = (*i)->GetGeomTree()->GetRadius();
-			vector3d pos2 = (*i)->GetPosition();
-			if ((pos-pos2).Length() <= (radius + radius2)) {
-				a->Collide(*i);
-				if (!(*i)->HasMoved()) (*i)->Collide(a);
-			}
-		}
-	}*/
-	/* test the fucker against the planet sphere thing
-	 * (only if no geomFlag. they can be important like docking pads) */
-	if ((!a->contact.geomFlag) && (sphere.radius != 0)) {
-		a->CollideSphere(sphere);
+	/* test the fucker against the planet sphere thing */
+	if (sphere.radius != 0) {
+		a->CollideSphere(sphere, callback);
 	}
 
 }
@@ -396,22 +389,16 @@ void CollisionSpace::RebuildObjectTrees()
 void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 {
 	RebuildObjectTrees();
+	
+	int mailboxMin = 0;
+	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+		(*i)->SetMailboxIndex(mailboxMin++);
+	}
 
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		(*i)->contact = CollisionContact();
-	}
-	for (std::list<Geom*>::iterator i = m_staticGeoms.begin(); i != m_staticGeoms.end(); ++i) {
-		(*i)->contact = CollisionContact();
-	}
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		CollideGeoms(*i);
-	}
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		if ((*i)->contact.triIdx != -1)
-			(*callback)(&(*i)->contact);
-	}
-	for (std::list<Geom*>::iterator i = m_staticGeoms.begin(); i != m_staticGeoms.end(); ++i) {
-		if ((*i)->contact.triIdx != -1)
-			(*callback)(&(*i)->contact);
+	/* This mailbox nonsense is so: after collision(a,b), we will not
+	 * attempt collision(b,a) */
+	mailboxMin = 1;
+	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i, mailboxMin++) {
+		CollideGeoms(*i, mailboxMin, callback);
 	}
 }

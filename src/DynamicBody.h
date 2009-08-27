@@ -20,7 +20,7 @@ public:
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
-	virtual bool OnCollision(Body *b, Uint32 flags);
+	virtual bool OnCollision(Body *b, Uint32 flags, double relVel);
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromModel();
@@ -33,11 +33,11 @@ public:
 	void UndoTimestep();
 	
 	void SetMass(double);
-	void AddForceAtPos(const vector3d force, const vector3d pos);
 	void AddForce(const vector3d);
 	void AddTorque(const vector3d);
 	void SetForce(const vector3d);
 	void SetTorque(const vector3d);
+	vector3d GetForce() const { return m_force; }
 	// body-relative forces
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);

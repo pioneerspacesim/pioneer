@@ -19,7 +19,7 @@ public:
 	virtual double GetRadius() const;
 	virtual void Render(const Frame *camFrame);
 	virtual void SetFrame(Frame *f);
-	virtual bool OnCollision(Body *b, Uint32 flags) { return true; }
+	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
 	double GetTerrainHeight(const vector3d pos) const;
 protected:

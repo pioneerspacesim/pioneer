@@ -28,7 +28,7 @@ public:
 	virtual void Render(const Frame *camFrame) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage
-	virtual bool OnCollision(Body *b, Uint32 flags) { return false; }
+	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) { return false; }
 	virtual bool OnDamage(Body *attacker, float kgDamage) { return false; }
 	virtual void TimeStepUpdate(const float timeStep) {}
 	// Override to clear any pointers you hold to the dying body.

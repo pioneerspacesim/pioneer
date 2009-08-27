@@ -20,6 +20,7 @@
 #include <float.h>
 #include <stdio.h>
 #include <assert.h>
+#include <set>
 #ifdef _WIN32
 #include <malloc.h>
 #else
@@ -89,6 +90,7 @@ GeomTree::~GeomTree()
 {
 	delete [] m_nodes;
 	delete [] m_triAlloc;
+	delete [] m_edges;
 }
 
 GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags): m_numVertices(numVerts)
@@ -107,6 +109,12 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_aabb.Update(vector3d(vertices[3*i], vertices[3*i+1], vertices[3*i+2]));
 	}*/
 
+	std::set< std::pair<int,int> > edges;
+#define ADD_EDGE(_i1,_i2) \
+	if ((_i1) < (_i2)) edges.insert(std::pair<int,int>(_i1,_i2)); \
+	else if ((_i1) > (_i2)) edges.insert(std::pair<int,int>(_i2,_i1)); \
+	else assert(0);
+
 	m_triAlloc = new tri_t[actualNumTris];
 	int tidx = 0;
 	m_radius = 0;
@@ -116,10 +124,18 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 			m_triAlloc[tidx].next = m_triAlloc+tidx+1;
 			tidx++;
 
+			int vi1 = 3*m_indices[3*i];
+			int vi2 = 3*m_indices[3*i+1];
+			int vi3 = 3*m_indices[3*i+2];
+
+			ADD_EDGE(vi1, vi2);
+			ADD_EDGE(vi1, vi3);
+			ADD_EDGE(vi2, vi3);
+
 			vector3d v[3];
-			v[0] = vector3d(&m_vertices[3*m_indices[3*i]]);
-			v[1] = vector3d(&m_vertices[3*m_indices[3*i+1]]);
-			v[2] = vector3d(&m_vertices[3*m_indices[3*i+2]]);
+			v[0] = vector3d(&m_vertices[vi1]);
+			v[1] = vector3d(&m_vertices[vi2]);
+			v[2] = vector3d(&m_vertices[vi3]);
 			m_aabb.Update(v[0]);
 			m_aabb.Update(v[1]);
 			m_aabb.Update(v[2]);
@@ -145,6 +161,25 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 
 	Aabb splitBox = m_aabb;
 	BihTreeGhBuild(root, m_aabb, splitBox, 0, actualNumTris);
+	
+	m_numEdges = edges.size();
+	m_edges = new Edge[m_numEdges];
+	printf("%d edges\n", m_numEdges);
+	int pos = 0;
+	for (std::set< std::pair<int,int> >::iterator i = edges.begin();
+			i != edges.end(); ++i, pos++) {
+		// precalc some jizz
+		vector3d v1 = vector3d(&m_vertices[(*i).first]);
+		vector3d v2 = vector3d(&m_vertices[(*i).second]);
+		vector3d dir = (v2-v1);
+		double len = dir.Length();
+		dir *= 1.0/len;
+
+		m_edges[pos].v1i = (*i).first;
+		m_edges[pos].v2i = (*i).second;
+		m_edges[pos].len = (float)len;
+		m_edges[pos].dir = vector3f((float)dir.x, (float)dir.y, (float)dir.z);
+	}
 }
 
 void GeomTree::BihTreeGhBuild(BIHNode* a_node, Aabb &a_box, Aabb &a_splitBox, int a_depth, int a_prims)
