@@ -114,7 +114,9 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 	b->CollideEdges(transTo, this, callback);
 }
 
+#define MAX_PACKET_SIZE 16
 #define MAX_CONTACTS 16
+#include <SDL.h>
 
 /*
  * Collide this geom's edges with geom b's tri-mesh.
@@ -124,38 +126,50 @@ void Geom::CollideEdges(const matrix4x4d &transToB, Geom *b, void (*callback)(Co
 	const GeomTree::Edge *edges = m_geomtree->GetEdges();
 	const int numEdges = m_geomtree->GetNumEdges();
 	int numContacts = 0;
+	unsigned int t = SDL_GetTicks();
+	vector3f dirs[MAX_PACKET_SIZE];
+	isect_t isects[MAX_PACKET_SIZE];
 
 	for (int i=0; (i<numEdges) && (numContacts < MAX_CONTACTS); i++) {
+		int packetSize = 0;
+		int vtxNum = edges[i].v1i;
+		while ((i+packetSize < numEdges) && (edges[i + packetSize].v1i == vtxNum)) packetSize++;
 		vector3d v1 = transToB * vector3d(&m_geomtree->m_vertices[edges[i].v1i]);
 		vector3f _from((float)v1.x, (float)v1.y, (float)v1.z);
-		vector3d _dir(
-				(double)edges[i].dir.x,
-				(double)edges[i].dir.y,
-				(double)edges[i].dir.z);
-		_dir = transToB.ApplyRotationOnly(_dir);
-		vector3f dir((float)_dir.x, (float)_dir.y, (float)dir.z);
 
-		isect_t isect;
-		isect.dist = edges[i].len;
-		isect.triIdx = -1;
-		b->m_geomtree->TraceRay(_from, dir, &isect);
-		if (isect.triIdx != -1) {
+		for (int r=0; r<packetSize; r++) {
+			vector3d _dir(
+					(double)edges[i+r].dir.x,
+					(double)edges[i+r].dir.y,
+					(double)edges[i+r].dir.z);
+			_dir = transToB.ApplyRotationOnly(_dir);
+			dirs[r] = vector3f(&_dir.x);
+			isects[r].dist = edges[i+r].len;
+			isects[r].triIdx = -1;
+		}
+
+		b->m_geomtree->TraceCoherentRays(packetSize, _from, dirs, isects);
+
+		for (int r=0; r<packetSize; r++) {
+			if (isects[r].triIdx == -1) continue;
 			numContacts++;
-			const double depth = edges[i].len - isect.dist;
+			const double depth = edges[i+r].len - isects[r].dist;
 			// in world coords
 			CollisionContact contact;
-			contact.pos = b->GetTransform() * (v1 + _dir*isect.dist);
-			vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
+			contact.pos = b->GetTransform() * (v1 + vector3d(&dirs[r].x)*isects[r].dist);
+			vector3f n = b->m_geomtree->GetTriNormal(isects[r].triIdx);
 			contact.normal = vector3d(n.x, n.y, n.z);
 			contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);
-			contact.dist = isect.dist;
+			contact.dist = isects[r].dist;
 		
 			contact.depth = depth;
-			contact.triIdx = isect.triIdx;
+			contact.triIdx = isects[r].triIdx;
 			contact.userData1 = m_data;
 			contact.userData2 = b->m_data;
-			contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx);
+			contact.geomFlag = b->m_geomtree->GetTriFlag(isects[r].triIdx);
 			callback(&contact);
 		}
 	}
+	t = SDL_GetTicks() - t;
+	if (t>1) printf("%d rays, %d ms (%f rays/sec)\n", numEdges, t, 1000.0*numEdges / (double)t);
 }

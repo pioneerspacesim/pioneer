@@ -3,4 +3,4 @@
 noinst_LIBRARIES = libcollider.a
 libcollider_a_SOURCES = GeomTree.cpp Geom.cpp CollisionSpace.cpp
 
-include_HEADERS = GeomTree.h Geom.h CollisionSpace.h collider.h
+include_HEADERS = GeomTree.h Geom.h CollisionSpace.h collider.h BVHTree.h
