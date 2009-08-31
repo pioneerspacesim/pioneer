@@ -2,6 +2,7 @@
 #include "Geom.h"
 #include "GeomTree.h"
 #include "collider.h"
+#include "BVHTree.h"
 
 Geom::Geom(const GeomTree *geomtree)
 {
@@ -97,6 +98,7 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 		}
 	}
 }
+//#include <SDL.h>
 
 /*
  * This geom has moved, causing a possible collision with geom b.
@@ -105,71 +107,146 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 {
 	matrix4x4d transTo;
+	//unsigned int t = SDL_GetTicks();
 	/* Collide this geom's edges against tri-mesh of geom b */
 	transTo = b->m_invOrient * m_orient[m_orientIdx];
-	this->CollideEdges(transTo, b, callback);
+	this->CollideEdgesWithTrisOf(b, transTo, callback);
 	
 	/* Collide b's edges against this geom's tri-mesh */
 	transTo = m_invOrient * b->m_orient[b->m_orientIdx];
-	b->CollideEdges(transTo, this, callback);
+	b->CollideEdgesWithTrisOf(this, transTo, callback);
+	
+//	t = SDL_GetTicks() - t;
+//	int numEdges = GetGeomTree()->GetNumEdges() + b->GetGeomTree()->GetNumEdges();
+//	printf("%d 'rays' in %dms (%f rps)\n", numEdges, t, 1000.0*numEdges / (double)t);
 }
 
-#define MAX_PACKET_SIZE 16
-#define MAX_CONTACTS 16
-#include <SDL.h>
+static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &b)
+{
+	Aabb arot;
+	vector3d p[8];
+	p[0] = transA * vector3d(a.min.x, a.min.y, a.min.z);
+	p[1] = transA * vector3d(a.min.x, a.min.y, a.max.z);
+	p[2] = transA * vector3d(a.min.x, a.max.y, a.min.z);
+	p[3] = transA * vector3d(a.min.x, a.max.y, a.max.z);
+	p[4] = transA * vector3d(a.max.x, a.min.y, a.min.z);
+	p[5] = transA * vector3d(a.max.x, a.min.y, a.max.z);
+	p[6] = transA * vector3d(a.max.x, a.max.y, a.min.z);
+	p[7] = transA * vector3d(a.max.x, a.max.y, a.max.z);
+	arot.min = arot.max = p[0];
+	for (int i=1; i<8; i++) arot.Update(p[i]);
+	return b.Intersects(arot);
+}
 
 /*
- * Collide this geom's edges with geom b's tri-mesh.
- */	
-void Geom::CollideEdges(const matrix4x4d &transToB, Geom *b, void (*callback)(CollisionContact*))
+ * Intersect this Geom's edge BVH tree with geom b's triangle BVH tree.
+ * Generate collision contacts.
+ */
+void Geom::CollideEdgesWithTrisOf(Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*))
 {
-	const GeomTree::Edge *edges = m_geomtree->GetEdges();
-	const int numEdges = m_geomtree->GetNumEdges();
-	int numContacts = 0;
-	unsigned int t = SDL_GetTicks();
-	vector3f dirs[MAX_PACKET_SIZE];
-	isect_t isects[MAX_PACKET_SIZE];
+	struct stackobj {
+		BVHNode *edgeNode;
+		BVHNode *triNode;
+	} stack[32];
+	int stackpos = 0;
 
-	for (int i=0; (i<numEdges) && (numContacts < MAX_CONTACTS); i++) {
-		int packetSize = 0;
-		int vtxNum = edges[i].v1i;
-		while ((i+packetSize < numEdges) && (edges[i + packetSize].v1i == vtxNum)) packetSize++;
-		vector3d v1 = transToB * vector3d(&m_geomtree->m_vertices[edges[i].v1i]);
-		vector3f _from((float)v1.x, (float)v1.y, (float)v1.z);
+	stack[0].edgeNode = GetGeomTree()->m_edgeTree->GetRoot();
+	stack[0].triNode = b->GetGeomTree()->m_triTree->GetRoot();
 
-		for (int r=0; r<packetSize; r++) {
-			vector3d _dir(
-					(double)edges[i+r].dir.x,
-					(double)edges[i+r].dir.y,
-					(double)edges[i+r].dir.z);
-			_dir = transToB.ApplyRotationOnly(_dir);
-			dirs[r] = vector3f(&_dir.x);
-			isects[r].dist = edges[i+r].len;
-			isects[r].triIdx = -1;
-		}
+	while (stackpos >= 0) {
+		BVHNode *edgeNode = stack[stackpos].edgeNode;
+		BVHNode *triNode = stack[stackpos].triNode;
+		stackpos--;
 
-		b->m_geomtree->TraceCoherentRays(packetSize, _from, dirs, isects);
-
-		for (int r=0; r<packetSize; r++) {
-			if (isects[r].triIdx == -1) continue;
-			numContacts++;
-			const double depth = edges[i+r].len - isects[r].dist;
-			// in world coords
-			CollisionContact contact;
-			contact.pos = b->GetTransform() * (v1 + vector3d(&dirs[r].x)*isects[r].dist);
-			vector3f n = b->m_geomtree->GetTriNormal(isects[r].triIdx);
-			contact.normal = vector3d(n.x, n.y, n.z);
-			contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);
-			contact.dist = isects[r].dist;
-		
-			contact.depth = depth;
-			contact.triIdx = isects[r].triIdx;
-			contact.userData1 = m_data;
-			contact.userData2 = b->m_data;
-			contact.geomFlag = b->m_geomtree->GetTriFlag(isects[r].triIdx);
-			callback(&contact);
+		// does the edgeNode (with its aabb described in 6 planes transformed and rotated to
+		// b's coordinates) intersect with one or other of b's child nodes?
+		if (triNode->triIndicesStart || edgeNode->triIndicesStart) {
+			// reached triangle leaf node or edge leaf node.
+			// Intersect all edges under edgeNode with this leaf
+			CollideEdgesTris(edgeNode, transTo, b, triNode, callback);
+		} else {
+			BVHNode *left = triNode->kids[0];
+			BVHNode *right = triNode->kids[1];
+			bool edgeNodeIsectsLeftChild = rotatedAabbIsectsNormalOne(edgeNode->aabb, transTo, left->aabb);
+			bool edgeNodeIsectsRightChild = rotatedAabbIsectsNormalOne(edgeNode->aabb, transTo, right->aabb);
+			//edgeNodeIsectsRightChild = edgeNodeIsectsLeftChild = true;
+			if (edgeNodeIsectsRightChild) {
+				if (edgeNodeIsectsLeftChild) {
+					// isects both. split edgeNode and try again
+					++stackpos;
+					stack[stackpos].edgeNode = edgeNode->kids[0];
+					stack[stackpos].triNode = triNode;
+					++stackpos;
+					stack[stackpos].edgeNode = edgeNode->kids[1];
+					stack[stackpos].triNode = triNode;
+				} else {
+					// hits only right child. go down into that
+					// side with same edge node
+					++stackpos;
+					stack[stackpos].edgeNode = edgeNode;
+					stack[stackpos].triNode = triNode->kids[1];
+				}
+			} else if (edgeNodeIsectsLeftChild) {
+				// hits only left child
+				++stackpos;
+				stack[stackpos].edgeNode = edgeNode;
+				stack[stackpos].triNode = triNode->kids[0];
+			} else {
+				// hits none
+			}
 		}
 	}
-	t = SDL_GetTicks() - t;
-	if (t>1) printf("%d rays, %d ms (%f rays/sec)\n", numEdges, t, 1000.0*numEdges / (double)t);
 }
+
+/*
+ * Collide one edgeNode (all edges below it) of this Geom with the triangle
+ * BVH of another geom (b), starting from btriNode.
+ */
+void Geom::CollideEdgesTris(const BVHNode *edgeNode, const matrix4x4d &transToB,
+		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*))
+{
+	if (edgeNode->triIndicesStart) {
+		const GeomTree::Edge *edges = this->GetGeomTree()->GetEdges();
+		int numContacts = 0;
+		vector3f dir;
+		isect_t isect;
+		for (int i=0; i<edgeNode->numTris; i++) {
+			int vtxNum = edges[ edgeNode->triIndicesStart[i] ].v1i;
+			vector3d v1 = transToB * vector3d(&GetGeomTree()->m_vertices[vtxNum]);
+			vector3f _from((float)v1.x, (float)v1.y, (float)v1.z);
+
+			vector3d _dir(
+					(double)edges[ edgeNode->triIndicesStart[i] ].dir.x,
+					(double)edges[ edgeNode->triIndicesStart[i] ].dir.y,
+					(double)edges[ edgeNode->triIndicesStart[i] ].dir.z);
+			_dir = transToB.ApplyRotationOnly(_dir);
+			dir = vector3f(&_dir.x);
+			isect.dist = edges[ edgeNode->triIndicesStart[i] ].len;
+			isect.triIdx = -1;
+
+			b->GetGeomTree()->TraceRay(btriNode, _from, dir, &isect);
+
+			if (isect.triIdx == -1) continue;
+			numContacts++;
+			const double depth = edges[ edgeNode->triIndicesStart[i] ].len - isect.dist;
+			// in world coords
+			CollisionContact contact;
+			contact.pos = b->GetTransform() * (v1 + vector3d(&dir.x)*isect.dist);
+			vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
+			contact.normal = vector3d(n.x, n.y, n.z);
+			contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);
+			contact.dist = isect.dist;
+		
+			contact.depth = depth;
+			contact.triIdx = isect.triIdx;
+			contact.userData1 = m_data;
+			contact.userData2 = b->m_data;
+			contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx);
+			callback(&contact);
+		}
+	} else {
+		CollideEdgesTris(edgeNode->kids[0], transToB, b, btriNode, callback);
+		CollideEdgesTris(edgeNode->kids[1], transToB, b, btriNode, callback);
+	}
+}
+

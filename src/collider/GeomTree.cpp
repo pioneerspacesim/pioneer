@@ -91,7 +91,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	Aabb aabb = m_aabb;
 	
 	Aabb *aabbs = new Aabb[activeTris.size()];
-	for (int i=0; i<activeTris.size(); i++) {
+	for (unsigned int i=0; i<activeTris.size(); i++) {
 		vector3d v1 = vector3d(&m_vertices[3*m_indices[activeTris[i]]]);
 		vector3d v2 = vector3d(&m_vertices[3*m_indices[activeTris[i]+1]]);
 		vector3d v3 = vector3d(&m_vertices[3*m_indices[activeTris[i]+2]]);
@@ -135,9 +135,55 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	printf("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 }
 
+static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)
+{
+	float
+	l1      = (n->aabb.min.x - start.x) * invDir.x,
+	l2      = (n->aabb.max.x - start.x) * invDir.x,
+	lmin    = MIN(l1,l2),
+	lmax    = MAX(l1,l2);
+
+	l1      = (n->aabb.min.y - start.y) * invDir.y;
+	l2      = (n->aabb.max.y - start.y) * invDir.y;
+	lmin    = MAX(MIN(l1,l2), lmin);
+	lmax    = MIN(MAX(l1,l2), lmax);
+
+	l1      = (n->aabb.min.z - start.z) * invDir.z;
+	l2      = (n->aabb.max.z - start.z) * invDir.z;
+	lmin    = MAX(MIN(l1,l2), lmin);
+	lmax    = MIN(MAX(l1,l2), lmax);
+
+	return ((lmax >= 0.f) & (lmax >= lmin) & (lmin < isect->dist));
+}
+
 void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const
 {
-	TraceCoherentRays(1, start, &dir, isect);
+	TraceRay(m_triTree->GetRoot(), start, dir, isect);
+}
+
+void GeomTree::TraceRay(const BVHNode *currnode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const
+{
+	BVHNode *stack[32];
+	int stackpos = -1;
+	vector3f invDir(1.0f/a_dir.x, 1.0f/a_dir.y, 1.0f/a_dir.z);
+
+	for (;;) {
+		while (!currnode->IsLeaf()) {
+			if (!SlabsRayAabbTest(currnode, a_origin, invDir, isect)) goto pop_bstack;
+
+			stackpos++;
+			stack[stackpos] = currnode->kids[1];
+			currnode = currnode->kids[0];
+		}
+		// triangle intersection jizz
+		for (int i=0; i<currnode->numTris; i++) {
+			RayTriIntersect(1, a_origin, &a_dir, currnode->triIndicesStart[i], isect);
+		}
+pop_bstack:
+		if (stackpos < 0) break;
+		currnode = stack[stackpos];
+		stackpos--;
+	}
 }
 
 struct bvhstack {
@@ -148,9 +194,13 @@ struct bvhstack {
 /*
  * Bundle of rays with common origin
  */
-inline void GeomTree::TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
+void GeomTree::TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
 {
-	BVHNode *currnode = m_triTree->GetRoot();
+	TraceCoherentRays(m_triTree->GetRoot(), numRays, a_origin, a_dirs, isects);
+}
+
+void GeomTree::TraceCoherentRays(const BVHNode *currnode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
+{
 	bvhstack stack[32];
 	int stackpos = -1;
 	vector3f *invDirs = (vector3f*)alloca(sizeof(vector3f)*numRays);
@@ -162,7 +212,7 @@ inline void GeomTree::TraceCoherentRays(int numRays, const vector3f &a_origin, c
 	for (;;) {
 		while (!currnode->IsLeaf()) {
 			do {
-				if (currnode->SlabsRayAabbTest(a_origin, invDirs[activeRay], &isects[activeRay])) break;
+				if (SlabsRayAabbTest(currnode, a_origin, invDirs[activeRay], &isects[activeRay])) break;
 			} while (activeRay-- > 0);
 			if (activeRay < 0) goto pop_bstack;
 

@@ -8,6 +8,7 @@
 class GeomTree;
 struct isect_t;
 struct Sphere;
+class BVHNode;
 
 class Geom {
 public:
@@ -29,6 +30,9 @@ public:
 	void SetMailboxIndex(int idx) { m_mailboxIndex = idx; }
 	int GetMailboxIndex() const { return m_mailboxIndex; }
 private:
+	void CollideEdgesWithTrisOf(Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*));
+	void CollideEdgesTris(const BVHNode *edgeNode, const matrix4x4d &transToB,
+		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*));
 	int m_mailboxIndex; // used to avoid duplicate collisions
 	void CollideEdges(const matrix4x4d &transToB, Geom *b, void (*callback)(CollisionContact*));
 	// double-buffer position so we can keep previous position
