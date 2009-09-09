@@ -217,10 +217,30 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		b->SetFrame(frame);
 		assert(frame->m_astroBody->IsType(Object::PLANET));
 		Planet *planet = static_cast<Planet*>(frame->m_astroBody);
-		vector3d pos = sbody->orbit.rotMatrix * vector3d(0,1,0);
-		pos = pos.Normalized();
+
+		/* position on planet surface */
+		double height;
+		int tries;
+		matrix4x4d rot;
+		vector3d pos;
+		// first try suggested position
+		rot = sbody->orbit.rotMatrix;
+		pos = rot * vector3d(0,1,0);
+		if (planet->GetTerrainHeight(pos) - planet->GetRadius() == 0.0) {
+			MTRand r(sbody->seed);
+			// position is under water. try some random ones
+			for (tries=0; tries<100; tries++) {
+				// used for orientation on planet surface
+				rot = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
+						      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+				pos = rot * vector3d(0,1,0);
+				height = planet->GetTerrainHeight(pos) - planet->GetRadius();
+				// don't want to be under water
+				if (height > 0.0) break;
+			}
+		}
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
-		b->SetRotMatrix(sbody->orbit.rotMatrix);
+		b->SetRotMatrix(rot);
 		return frame;
 	} else {
 		assert(0);

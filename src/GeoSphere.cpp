@@ -6,7 +6,7 @@
 #include "Shader.h"
 
 // tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	2.4
+#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	2.5
 #define GEOPATCH_MAX_DEPTH	14
 // must be an odd number
 #define GEOPATCH_EDGELEN	33

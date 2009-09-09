@@ -759,6 +759,12 @@ void SpaceStation::Render(const Frame *camFrame)
 		}
 	}*/
 	RenderSbreModel(camFrame, &params);
+	
+	/* don't render city if too far away */
+	matrix4x4d frameTrans;
+	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
+	vector3d pos = frameTrans * GetPosition();
+	if (pos.Length() > 1000000.0) return;
 
 	// find planet Body*
 	Planet *planet;

@@ -3,7 +3,6 @@
 #include "custom_starsystems.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
-#include "GeoSphere.h"
 
 #define CELSIUS	273.15
 #define DEBUG_DUMP
@@ -194,25 +193,15 @@ const char *SBody::GetIcon()
 }
 
 /*
- * Position a surface starport on dry land!
+ * Position a surface starport anywhere. Space.cpp::MakeFrameFor() ensures it
+ * is on dry land (discarding this position if necessary)
  */
 static void position_settlement_on_planet(SBody *b)
 {
 	MTRand r(b->seed);
-	GeoSphere geo(b->parent);
-	double height;
-	int tries;
-	for (tries=0; tries<100; tries++) {
-		// used for orientation on planet surface
-		b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-				      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
-		vector3d pos = b->orbit.rotMatrix * vector3d(0,1,0);
-		pos = pos.Normalized();
-		height = geo.GetHeight(pos);
-		// don't want to be under water
-		if (height != 0) break;
-	}
-	//printf("%d height %.20f\n", tries, height);
+	// used for orientation on planet surface
+	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
+			      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
 }
 
 double SBody::GetMaxChildOrbitalDistance() const

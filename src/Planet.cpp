@@ -45,11 +45,7 @@ void Planet::Init()
 {
 	m_mass = sbody->GetMass();
 	if (!m_geosphere) {
-//		float col[4];
-		MTRand rand;	
-		rand.seed(sbody->seed);
 		m_geosphere = new GeoSphere(sbody);
-	//	m_geosphere->AddCraters(rand, 20, M_PI*0.005, M_PI*0.05);
 	}
 	
 	crudDList = 0;
@@ -103,6 +99,7 @@ double Planet::GetTerrainHeight(const vector3d pos) const
 	if (m_geosphere) {
 		return radius * (1.0 + m_geosphere->GetHeight(pos));
 	} else {
+		assert(0);
 		return radius;
 	}
 }

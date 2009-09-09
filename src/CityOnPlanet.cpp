@@ -112,7 +112,10 @@ always_divide:
 		PutCityBit(rand, rot, d, e, c, p4);
 	} else {
 		cent = cent.Normalized();
-		cent = cent * m_planet->GetTerrainHeight(cent);
+		double height = m_planet->GetTerrainHeight(cent);
+		/* don't position below sealevel! */
+		if (height - m_planet->GetRadius() == 0.0) return;
+		cent = cent * height;
 
 		const CollMeshSet *mset = GetModelCollMeshSet(modelNum);
 		Frame *f = m_planet->GetFrame();
