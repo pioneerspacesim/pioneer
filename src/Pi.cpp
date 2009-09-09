@@ -532,6 +532,8 @@ void Pi::MainLoop()
 	int dumpnum = 0;
 #endif /* MAKING_VIDEO */
 
+	memset(fps_readout, 0, sizeof(fps_readout));
+
 	for (;;) {
 		frame_stat++;
 		glMatrixMode(GL_MODELVIEW);
