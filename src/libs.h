@@ -54,6 +54,8 @@
 #define WORLDVIEW_ZNEAR	10.0f
 #define WORLDVIEW_ZFAR	1000000.0f
 
+#define HUD_ALPHA 0.34f
+
 /* 
  * Normal use:
  * foreach (container, iter) { do_something (*iter); }

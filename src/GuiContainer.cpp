@@ -107,6 +107,11 @@ void Container::DeleteAllChildren()
 	m_children.clear();
 }
 
+void Container::RemoveAllChildren()
+{
+	m_children.clear();
+}
+
 void Container::PrependChild(Widget *child, float x, float y)
 {
 	widget_pos wp;

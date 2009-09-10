@@ -208,45 +208,49 @@ void Pi::HandleEvents()
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
-				if (KeyState(SDLK_LCTRL) && (event.key.keysym.sym == SDLK_q)) Pi::Quit();
-				if (KeyState(SDLK_LCTRL) && (event.key.keysym.sym == SDLK_s)) {
-					Shader::ToggleState();
-				}
-				if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
-				if ((event.key.keysym.sym == SDLK_PRINT) && KeyState(SDLK_LCTRL)) {
-					char buf[256];
-					const time_t t = time(0);
-					struct tm *_tm = localtime(&t);
-					strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
-					Screendump(buf);
-				}
-#ifdef DEBUG
-				if ((event.key.keysym.sym == SDLK_m) && KeyState(SDLK_LCTRL)) {
-					Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
-				}
-				if (event.key.keysym.sym == SDLK_F12) {
-					matrix4x4d m; Pi::player->GetRotMatrix(m);
-					vector3d dir = m*vector3d(0,0,-1);
-					/* add test object */
-					if (KeyState(SDLK_RSHIFT)) {
-						CargoBody *cargo = new CargoBody(Equip::HYDROGEN);
-						cargo->SetFrame(Pi::player->GetFrame());
-						cargo->SetPosition(Pi::player->GetPosition()+100.0*dir);
-						cargo->SetVelocity(Pi::player->GetVelocity());
-						Space::AddBody(cargo);
-					} else {
-						Ship *ship = new Ship(ShipType::LADYBIRD);
-						ship->AIInstruct(Ship::DO_KILL, Pi::player);
-						ship->SetFrame(Pi::player->GetFrame());
-						ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
-						ship->SetVelocity(Pi::player->GetVelocity());
-						Space::AddBody(ship);
+				// special keys. LCTRL+turd
+				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
+					if (event.key.keysym.sym == SDLK_q) Pi::Quit();
+					if (event.key.keysym.sym == SDLK_s) {
+						Shader::ToggleState();
 					}
-				}
+					if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
+					if (event.key.keysym.sym == SDLK_PRINT) {
+						char buf[256];
+						const time_t t = time(0);
+						struct tm *_tm = localtime(&t);
+						strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
+						Screendump(buf);
+						fprintf(stderr, "Screendump to %s\n", buf);
+					}
+#ifdef DEBUG
+					if (event.key.keysym.sym == SDLK_m) {
+						Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+					}
+					if (event.key.keysym.sym == SDLK_F12) {
+						matrix4x4d m; Pi::player->GetRotMatrix(m);
+						vector3d dir = m*vector3d(0,0,-1);
+						/* add test object */
+						if (KeyState(SDLK_RSHIFT)) {
+							CargoBody *cargo = new CargoBody(Equip::HYDROGEN);
+							cargo->SetFrame(Pi::player->GetFrame());
+							cargo->SetPosition(Pi::player->GetPosition()+100.0*dir);
+							cargo->SetVelocity(Pi::player->GetVelocity());
+							Space::AddBody(cargo);
+						} else {
+							Ship *ship = new Ship(ShipType::LADYBIRD);
+							ship->AIInstruct(Ship::DO_KILL, Pi::player);
+							ship->SetFrame(Pi::player->GetFrame());
+							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+							ship->SetVelocity(Pi::player->GetVelocity());
+							Space::AddBody(ship);
+						}
+					}
 #endif /* DEBUG */
-				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
-				if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
-				if (event.key.keysym.sym == SDLK_F9) Serializer::Write::Game("quicksave.sav");
+					if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
+					if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
+					if (event.key.keysym.sym == SDLK_F9) Serializer::Write::Game("quicksave.sav");
+				}
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::onKeyPress.emit(&event.key.keysym);
 				break;

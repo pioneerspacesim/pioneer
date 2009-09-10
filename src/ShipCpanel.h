@@ -5,6 +5,18 @@
 #include "Gui.h"
 
 class Body;
+class SpaceStation;
+// MultiFuncDisplay types
+class ScannerWidget;
+class MsgLogWidget;
+
+enum multifuncfunc_t {
+	MFUNC_SCANNER,
+	MFUNC_AUTOPILOT,
+	MFUNC_EQUIPMENT,
+	MFUNC_MSGLOG,
+	MFUNC_MAX
+};
 
 class ShipCpanel: public Gui::Fixed {
 public:
@@ -21,6 +33,7 @@ private:
 	void OnClickTimeaccel(Gui::ISelectable *i, double step);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
+	void OnChangeMultiFunctionDisplay(multifuncfunc_t f);
 
 	Widget *m_scannerWidget;
 	Gui::Label *m_clock;
@@ -34,6 +47,9 @@ private:
 	};
 	std::list<QueuedMsg> m_msgQueue;
 	sigc::connection m_connOnDockingClearanceExpired;
+
+	ScannerWidget *m_scanner;
+	MsgLogWidget *m_msglog;
 };
 
 #endif /* _SHIP_CPANEL_H */

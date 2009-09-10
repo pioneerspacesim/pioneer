@@ -15,6 +15,7 @@ namespace Gui {
 		bool OnMouseDown(MouseButtonEvent *e);
 		bool OnMouseUp(MouseButtonEvent *e);
 		bool OnMouseMotion(MouseMotionEvent *e);
+		void RemoveAllChildren();
 		void DeleteAllChildren();
 		virtual void Draw();
 		void ShowChildren();

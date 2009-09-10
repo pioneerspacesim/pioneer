@@ -41,10 +41,11 @@ Special things:
 ~~~~~~~~~~~~~~~
 
 ctrl-q           - quit
-i                - show some ugly debug info
+ctrl-i           - show some ugly debug info
 ctrl-printscreen - screenshot
-F11              - fullscreen
-F12              - add a ship
-shift-F12        - add a station
-F9               - quicksave
+ctrl-F9          - quicksave
+ctrl-F10         - view currently selected object
+ctrl-F11         - fullscreen
+ctrl-F12         - add a ship
+ctrl-shift-F12   - add a station
 

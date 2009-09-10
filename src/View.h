@@ -20,9 +20,9 @@ public:
 		m_rightButtonBar->SetBgColor(.65f, .65f, .65f);
 		Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, Gui::Screen::GetHeight()-26);
 
-		m_rightRegion2 = new Gui::Fixed(122, 17);
+		m_rightRegion2 = new Gui::Fixed(126, 17);
 		m_rightRegion2->SetTransparency(true);
-		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-43);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-127, Gui::Screen::GetHeight()-43);
 		
 		m_rightRegion1 = new Gui::Fixed(122, 17);
 		m_rightRegion1->SetTransparency(true);

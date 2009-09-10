@@ -528,27 +528,8 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	glGetIntegerv (GL_VIEWPORT, viewport);
 
 	Gui::Screen::EnterOrtho();
-	glColor3f(.7,.7,.7);
-
-	// Object labels
-	{
-		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
-			Body *b = *i;
-			vector3d _pos = b->GetPositionRelTo(cam_frame);
-
-			if (_pos.z < 0
-				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-				b->SetProjectedPos(_pos);
-				b->SetOnscreen(true);
-				if (GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
-			}
-			else
-				b->SetOnscreen(false);
-		}
-	}
-
-	DrawTargetSquares();
+	glEnable(GL_BLEND);
+	glColor4f(1,1,1,HUD_ALPHA);
 
 	// Direction indicator
 	const float sz = HUD_CROSSHAIR_SIZE;
@@ -618,6 +599,27 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	
 	glDisableClientState(GL_VERTEX_ARRAY);
 	
+
+	// Object labels
+	{
+		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
+			Body *b = *i;
+			vector3d _pos = b->GetPositionRelTo(cam_frame);
+
+			if (_pos.z < 0
+				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
+				b->SetProjectedPos(_pos);
+				b->SetOnscreen(true);
+				if (GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
+			}
+			else
+				b->SetOnscreen(false);
+		}
+	}
+
+	DrawTargetSquares();
+
 	if (Pi::showDebugInfo) {
 		char buf[1024];
 		vector3d pos = Pi::player->GetPosition();
@@ -703,6 +705,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
+	glDisable(GL_BLEND);
 
 	Gui::Screen::LeaveOrtho();
 }

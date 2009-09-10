@@ -26,6 +26,7 @@ bool Button::OnMouseUp(MouseButtonEvent *e)
 	if ((e->button == 1) && m_isPressed) {
 		m_isPressed = false;
 		_m_release.disconnect();
+		onRelease.emit();
 		onClick.emit();
 	}
 	return false;
