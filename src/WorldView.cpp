@@ -40,15 +40,15 @@ WorldView::WorldView(): View()
 
 	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
 	wheels_button->SetShortcut(SDLK_F6, KMOD_NONE);
-	wheels_button->AddState(0, "icons/wheels_up.png", "Wheels up");
-	wheels_button->AddState(1, "icons/wheels_down.png", "Wheels down");
+	wheels_button->AddState(0, "icons/wheels_up.png", "Wheels are up");
+	wheels_button->AddState(1, "icons/wheels_down.png", "Wheels are down");
 	wheels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
 	m_rightButtonBar->Add(wheels_button, 34, 2);
 
 	Gui::MultiStateImageButton *labels_button = new Gui::MultiStateImageButton();
 	labels_button->SetShortcut(SDLK_F8, KMOD_NONE);
-	labels_button->AddState(1, "icons/labels_on.png", "Object labels on");
-	labels_button->AddState(0, "icons/labels_off.png", "Object labels off");
+	labels_button->AddState(1, "icons/labels_on.png", "Object labels are on");
+	labels_button->AddState(0, "icons/labels_off.png", "Object labels are off");
 	labels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeLabelsState));
 	m_rightButtonBar->Add(labels_button, 98, 2);
 
@@ -366,7 +366,13 @@ void WorldView::Update()
 		// when landed don't let external view look from below
 		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0f, -10.0f);
 	}
-
+	if (Pi::KeyState(SDLK_TAB)) {
+		/* Hitting tab causes objects in the crosshairs to be selected */
+		Body* const target = PickBody(Gui::Screen::GetWidth()/2,
+				Gui::Screen::GetHeight()/2);
+		SelectBody(target, false);
+	}
+		
 	if (!Pi::player->GetDockedWith()) {
 		m_hyperspaceButton->Show();
 	} else {
@@ -467,6 +473,25 @@ void WorldView::UpdateCommsOptions()
 	}
 }
 
+void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
+{
+	if (!target) {
+
+	} else if (target->IsType(Object::SHIP)) {
+		if (Pi::player->GetCombatTarget() == target) {
+			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
+		} else {
+			Pi::player->SetCombatTarget(target);
+		}
+	} else {
+		if (Pi::player->GetNavTarget() == target) {
+			if (reselectIsDeselect) Pi::player->SetNavTarget(0);
+		} else {
+			Pi::player->SetNavTarget(target);
+		}
+	}
+}
+
 bool WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
 {
 	// if continuing to propagate mouse event, see if target is clicked on
@@ -474,20 +499,7 @@ bool WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
 		if(1 == e->button && !Pi::MouseButtonState(3)) {
 			// Left click in view when RMB not pressed => Select target.
 			Body* const target = PickBody(e->screenX, e->screenY);
-			
-			if (!target) {
-
-			} else if (target->IsType(Object::SHIP)) {
-				if (Pi::player->GetCombatTarget() == target)
-					Pi::player->SetCombatTarget(0);
-				else
-					Pi::player->SetCombatTarget(target);
-			} else {
-				if (Pi::player->GetNavTarget() == target)
-					Pi::player->SetNavTarget(0);
-				else
-					Pi::player->SetNavTarget(target);
-			}
+			SelectBody(target, true);
 		}
 	}
 	return true;

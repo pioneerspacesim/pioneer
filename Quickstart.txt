@@ -37,6 +37,11 @@ External view:
 Cursor keys - Rotate view, pitch and yaw
 - and =     - Zoom in and out
 
+Other things:
+~~~~~~~~~~~~~
+
+Tab              - Select object in crosshairs
+
 Special things:
 ~~~~~~~~~~~~~~~
 
