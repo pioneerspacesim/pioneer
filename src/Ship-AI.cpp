@@ -1,6 +1,7 @@
 #include "libs.h"
 #include "Ship.h"
 #include "Pi.h"
+#include "Player.h"
 
 void Ship::AIBodyHasDied(const Body* const body)
 {
@@ -38,6 +39,10 @@ void Ship::AITimeStep(const float timeStep)
 		printf("AI '%s' successfully executed %d:'%s'\n", GetLabel().c_str(), m_todo.front().cmd,
 				static_cast<Ship*>(m_todo.front().arg)->GetLabel().c_str());
 		m_todo.pop_front();
+		/* Finished autopilot program so fall out of time accel */
+		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
+			Pi::RequestTimeAccel(1);
+		}
 	}
 }
 
@@ -45,7 +50,7 @@ bool Ship::AICmdFlyTo(const Body *body)
 {
 	vector3d bodyPos = body->GetPositionRelTo(GetFrame());
 	vector3d dir = bodyPos - GetPosition();
-	double dist = dir.Length();
+	double dist = dir.Length() - body->GetRadius();
 	vector3d relVel = GetVelocityRelativeTo(body);
 	double vel = relVel.Length();
 
@@ -119,8 +124,9 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	if (timeAccel > 11.0) {
 		// fake it
 		zaxis = -dir;
-		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
-		vector3d yaxis = vector3d::Cross(zaxis, xaxis);
+		vector3d yaxis(rot[1], rot[5], rot[9]);
+		vector3d xaxis = vector3d::Cross(yaxis, zaxis).Normalized();
+		yaxis = vector3d::Cross(zaxis, xaxis);
 		SetRotMatrix(matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf());
 	} else {
 		vector3d rotaxis = vector3d::Cross(zaxis, dir);

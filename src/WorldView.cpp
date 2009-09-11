@@ -375,8 +375,7 @@ void WorldView::Update()
 	}
 		
 	if (m_showTargetActionsTimeout) {
-		m_showTargetActionsTimeout -= Pi::GetTimeStep();
-		if (m_showTargetActionsTimeout < 0) {
+		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
 			m_showTargetActionsTimeout = 0;
 			m_commsOptions->DeleteAllChildren();
 		}
@@ -413,7 +412,7 @@ void WorldView::Update()
 void WorldView::ToggleTargetActions()
 {
 	if (m_showTargetActionsTimeout) m_showTargetActionsTimeout = 0;
-	else m_showTargetActionsTimeout = 20.0;
+	else m_showTargetActionsTimeout = SDL_GetTicks();
 	UpdateCommsOptions();
 }
 

@@ -55,7 +55,7 @@ private:
 	bool m_labelsOn;
 	enum CamType m_camType;
 	int m_numLights;
-	float m_showTargetActionsTimeout;
+	Uint32 m_showTargetActionsTimeout;
 };
 
 #endif /* _WORLDVIEW_H */
