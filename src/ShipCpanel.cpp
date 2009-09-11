@@ -24,39 +24,45 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	Add(mfsel, 656, 2);
 	OnChangeMultiFunctionDisplay(MFUNC_SCANNER);
 
-	Gui::RadioGroup *g = new Gui::RadioGroup();
-	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(g, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 0.0));
+//	Gui::RadioGroup *g = new Gui::RadioGroup();
+	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 0));
 	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
 	Add(b, 0, 20);
+	m_timeAccelButtons[0] = b;
 	
-	b = new Gui::ImageRadioButton(g, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1.0));
+	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1));
 	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
 	Add(b, 22, 20);
+	m_timeAccelButtons[1] = b;
 	
-	b = new Gui::ImageRadioButton(g, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 10.0));
+	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 2));
 	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
 	Add(b, 44, 20);
+	m_timeAccelButtons[2] = b;
 	
-	b = new Gui::ImageRadioButton(g, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 100.0));
+	b = new Gui::ImageRadioButton(0, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 3));
 	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
 	Add(b, 66, 20);
+	m_timeAccelButtons[3] = b;
 	
-	b = new Gui::ImageRadioButton(g, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 1000.0));
+	b = new Gui::ImageRadioButton(0, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 4));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
 	Add(b, 88, 20);
+	m_timeAccelButtons[4] = b;
 	
-	b = new Gui::ImageRadioButton(g, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 10000.0));
+	b = new Gui::ImageRadioButton(0, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), 5));
 	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
 	Add(b, 110, 20);
+	m_timeAccelButtons[5] = b;
 		
-	g = new Gui::RadioGroup();
+	Gui::RadioGroup *g = new Gui::RadioGroup();
 	Gui::MultiStateImageButton *cam_button = new Gui::MultiStateImageButton();
 	g->Add(cam_button);
 	cam_button->SetSelected(true);
@@ -143,6 +149,20 @@ void ShipCpanel::SetTemporaryMessage(const std::string &sender, const std::strin
 	m_msgQueue.push_back(QueuedMsg(sender, msg));
 }
 
+void ShipCpanel::Update()
+{
+	int timeAccel = Pi::GetTimeAccelIdx();
+	int requested = Pi::GetRequestedTimeAccelIdx();
+
+	for (int i=0; i<6; i++) {
+		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
+	}
+	// make requested but not selected icon blink
+	if (timeAccel != requested) {
+		m_timeAccelButtons[requested]->SetSelected(SDL_GetTicks() & 0x200);
+	}
+}
+
 void ShipCpanel::Draw()
 {
 	std::string time = format_date(Pi::GetGameTime());
@@ -199,9 +219,10 @@ void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)
 	Pi::SetMapView((enum Pi::MapView)b->GetState());
 }
 
-void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, double step)
+void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, int val)
 {
-	Pi::SetTimeAccel((float)step);
+	/* May not happen, as time accel is limited by proximity to stuff */
+	Pi::RequestTimeAccel(val);
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)

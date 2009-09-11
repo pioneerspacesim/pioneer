@@ -2,6 +2,22 @@
 #include "Ship.h"
 #include "Pi.h"
 
+void Ship::AIBodyHasDied(const Body* const body)
+{
+	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ) {
+		switch ((*i).cmd) {
+			case DO_KILL:
+			case DO_FLY_TO:
+				if (body == (Body*)(*i).arg) i = m_todo.erase(i);
+				else i++;
+				break;
+			default:
+				i++;
+				break;
+		}
+	}
+}
+
 void Ship::AITimeStep(const float timeStep)
 {
 	bool done = false;
@@ -11,6 +27,9 @@ void Ship::AITimeStep(const float timeStep)
 		switch (inst.cmd) {
 			case DO_KILL:
 				done = AICmdKill(static_cast<const Ship*>(inst.arg));
+				break;
+			case DO_FLY_TO:
+				done = AICmdFlyTo(static_cast<const Body*>(inst.arg));
 				break;
 			case DO_NOTHING: done = true; break;
 		}
@@ -22,6 +41,41 @@ void Ship::AITimeStep(const float timeStep)
 	}
 }
 
+bool Ship::AICmdFlyTo(const Body *body)
+{
+	vector3d bodyPos = body->GetPositionRelTo(GetFrame());
+	vector3d dir = bodyPos - GetPosition();
+	double dist = dir.Length();
+	vector3d relVel = GetVelocityRelativeTo(body);
+	double vel = relVel.Length();
+
+	/* done? */
+	if (dist < 2.0*body->GetRadius()) {
+		return true;
+	}
+
+	// work out stopping distance at current vel
+	const ShipType &stype = GetShipType();
+	double revAccel = stype.linThrust[ShipType::THRUSTER_FRONT] / (1000.0*m_stats.total_mass);
+	printf("%f m/sec, rev accel %f m/s^2\n", vel, revAccel);
+	double timeToStop = vel / revAccel;
+	printf("Stopping time %fs\n", timeToStop);
+	double stoppingDist = 0.5 * revAccel * timeToStop * timeToStop;
+	printf("Stopping dist %fm, dist %fm, ratio %f\n", stoppingDist, dist, stoppingDist/dist);
+	
+	ClearThrusterState();
+	AIFaceDirection(dir.Normalized());
+
+	if (stoppingDist < 0.8*dist) {
+		AIAccelToModelRelativeVelocity(vector3d(0,0,-100000000000.0));
+	} else if (stoppingDist > 0.9*dist) {
+		AIAccelToModelRelativeVelocity(vector3d(0,0,0));
+	}
+
+
+	return false;
+}
+
 bool Ship::AICmdKill(const Ship *enemy)
 {
 	SetGunState(0,0);
@@ -29,6 +83,7 @@ bool Ship::AICmdKill(const Ship *enemy)
 	if (GetFrame() == enemy->GetFrame()) {
 		const float dist = (enemy->GetPosition() - GetPosition()).Length();
 		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
+		ClearThrusterState();
 		if (dist > 500.0) {
 			AIFaceDirection(dir);
 			// thunder at player at 400m/sec
@@ -56,23 +111,32 @@ void Ship::AIInstruct(enum AICommand cmd, void *arg)
 /* Orient so our -ve z axis == dir. ie so that dir points forwards */
 void Ship::AIFaceDirection(const vector3d &dir)
 {
+	double timeAccel = Pi::GetTimeAccel();
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 	rot = rot.InverseOf();
-	const vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
-	vector3d rotaxis = vector3d::Cross(zaxis, dir);
-	vector3d angVel = rot * GetAngVelocity();
-	const float dot = vector3d::Dot(dir, zaxis);
-	// if facing > 90 degrees away then max turn rate
-	if (dot < 0) rotaxis = rotaxis.Normalized();
-	rotaxis = rot*rotaxis;
-	vector3d desiredAngVelChange = 4*(rotaxis - angVel);
-	ClearThrusterState();
-	// still must apply rotation damping
-	rotaxis -= CalcRotDamping();
-	SetAngThrusterState(0, desiredAngVelChange.x);
-	SetAngThrusterState(1, desiredAngVelChange.y);
-	SetAngThrusterState(2, desiredAngVelChange.z);
+	vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
+	if (timeAccel > 11.0) {
+		// fake it
+		zaxis = -dir;
+		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
+		vector3d yaxis = vector3d::Cross(zaxis, xaxis);
+		SetRotMatrix(matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf());
+	} else {
+		vector3d rotaxis = vector3d::Cross(zaxis, dir);
+		vector3d angVel = rot * GetAngVelocity();
+		const float dot = vector3d::Dot(dir, zaxis);
+		// if facing > 90 degrees away then max turn rate
+		if (dot < 0) rotaxis = rotaxis.Normalized();
+		rotaxis = rot*rotaxis;
+		vector3d desiredAngVelChange = 4*(rotaxis - angVel);
+		desiredAngVelChange *= 1.0 / timeAccel;
+		// still must apply rotation damping
+		rotaxis -= CalcRotDamping();
+		SetAngThrusterState(0, desiredAngVelChange.x);
+		SetAngThrusterState(1, desiredAngVelChange.y);
+		SetAngThrusterState(2, desiredAngVelChange.z);
+	}
 }
 
 void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)

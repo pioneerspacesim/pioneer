@@ -53,6 +53,7 @@ void Ship::Save()
 		wr_int((int)(*i).cmd);
 		switch ((*i).cmd) {
 			case DO_KILL:
+			case DO_FLY_TO:
 				wr_int(Serializer::LookupBody(static_cast<Ship*>((*i).arg)));
 				break;
 			case DO_NOTHING: wr_int(0); break;
@@ -113,6 +114,7 @@ void Ship::PostLoadFixup()
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		switch ((*i).cmd) {
 			case DO_KILL:
+			case DO_FLY_TO:
 				(*i).arg = Serializer::LookupBody((size_t)(*i).arg);
 				break;
 			case DO_NOTHING: break;
@@ -429,6 +431,7 @@ void Ship::NotifyDeath(const Body* const dyingBody)
 		SetNavTarget(0);
 	if(GetCombatTarget() == dyingBody)
 		SetCombatTarget(0);
+	AIBodyHasDied(dyingBody);
 }
 
 const ShipType &Ship::GetShipType()

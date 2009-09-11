@@ -26,11 +26,12 @@ public:
 	void SetScannerWidget(Widget *w); // must be done each frame
 	void SetTemporaryMessage(const Body *sender, const std::string &msg);
 	void SetTemporaryMessage(const std::string &sender, const std::string &msg);
+	void Update();
 private:
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
-	void OnClickTimeaccel(Gui::ISelectable *i, double step);
+	void OnClickTimeaccel(Gui::ISelectable *i, int val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
 	void OnChangeMultiFunctionDisplay(multifuncfunc_t f);
@@ -50,6 +51,7 @@ private:
 
 	ScannerWidget *m_scanner;
 	MsgLogWidget *m_msglog;
+	Gui::ImageRadioButton *m_timeAccelButtons[6];
 };
 
 #endif /* _SHIP_CPANEL_H */

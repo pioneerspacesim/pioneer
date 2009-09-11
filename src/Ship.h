@@ -65,7 +65,7 @@ public:
 	
 	EquipSet m_equipment;
 
-	enum AICommand { DO_NOTHING, DO_KILL };
+	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO };
 	void AIInstruct(enum AICommand, void *arg);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
@@ -114,7 +114,9 @@ private:
 		AIInstruction(AICommand c, void *a): cmd(c), arg(a) {}
 	};
 	std::list<AIInstruction> m_todo;
+	void AIBodyHasDied(const Body* const body);
 	bool AICmdKill(const Ship *);
+	bool AICmdFlyTo(const Body *);
 };
 
 #endif /* _SHIP_H */

@@ -105,7 +105,7 @@ Body *Body::Unserialize()
 }
 
 /* f == NULL, then absolute position within system */
-vector3d Body::GetPositionRelTo(const Frame *relTo)
+vector3d Body::GetPositionRelTo(const Frame *relTo) const
 {
 	matrix4x4d m;
 	Frame::GetFrameTransform(m_frame, relTo, m);

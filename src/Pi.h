@@ -53,9 +53,12 @@ public:
 	static void Unserialize();
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
-	static void SetTimeAccel(float s);
-	static float GetTimeAccel() { return timeAccel; }
-	static float GetTimeStep() { return timeAccel*(1.0f/62.5f); }
+	static void SetTimeAccel(int v);
+	static void RequestTimeAccel(int v);
+	static float GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
+	static float GetTimeAccelIdx() { return timeAccelIdx; }
+	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
+	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/62.5f); }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
@@ -106,7 +109,8 @@ private:
 	static double gameTime;
 	static StarSystem *selectedSystem;
 	static enum MapView mapView;
-	static float timeAccel;
+	static int timeAccelIdx;
+	static int requestedTimeAccelIdx;
 	static float frameTime;
 	static int scrWidth, scrHeight;
 	static float scrAspect;
@@ -114,6 +118,7 @@ private:
 	static char keyState[SDLK_LAST];
 	static char mouseButton[5];
 	static int mouseMotion[2];
+	static const float timeAccelRates[];
 };
 
 #endif /* _PI_H */

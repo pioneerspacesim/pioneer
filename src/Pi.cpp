@@ -23,7 +23,8 @@
 #include "GeoSphere.h"
 #include "Shader.h"
 
-float Pi::timeAccel = 1.0f;
+int Pi::timeAccelIdx = 1;
+int Pi::requestedTimeAccelIdx = 1;
 int Pi::scrWidth;
 int Pi::scrHeight;
 float Pi::scrAspect;
@@ -59,6 +60,7 @@ float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 int Pi::statSceneTris;
+const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0 };
 
 void Pi::Init(IniConfig &config)
 {
@@ -151,17 +153,22 @@ void Pi::Quit()
 	exit(0);
 }
 
-void Pi::SetTimeAccel(float s)
+void Pi::SetTimeAccel(int s)
 {
 	// don't want player to spin like mad when hitting time accel
-	if (s > 10) {
+	if (s > 2) {
 		player->SetAngVelocity(vector3d(0,0,0));
 		player->SetTorque(vector3d(0,0,0));
 		player->SetAngThrusterState(0, 0.0f);
 		player->SetAngThrusterState(1, 0.0f);
 		player->SetAngThrusterState(2, 0.0f);
 	}
-	timeAccel = s;
+	timeAccelIdx = s;
+}
+
+void Pi::RequestTimeAccel(int s)
+{
+	requestedTimeAccelIdx = s;
 }
 
 void Pi::SetMapView(enum MapView v)
@@ -367,7 +374,8 @@ void Pi::Start()
 {
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
-	Pi::timeAccel = 1.0f;
+	Pi::timeAccelIdx = 1;
+	Pi::requestedTimeAccelIdx = 1;
 	Pi::gameTime = 0;
 	Pi::currentView = 0;
 
@@ -575,6 +583,31 @@ void Pi::MainLoop()
 		Pi::frameTime = 0.001*(SDL_GetTicks() - time_before_frame);
 		time_before_frame = SDL_GetTicks();
 		
+		int timeAccel = Pi::requestedTimeAccelIdx;
+		if (!Pi::player->GetDockedWith()) {
+			// check we aren't too near to objects for timeaccel //
+			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+				if ((*i) == Pi::player) continue;
+				
+				vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
+				double dist = toBody.Length();
+				double rad = (*i)->GetRadius();
+
+				if (dist < 1000.0) {
+					timeAccel = MIN(timeAccel, 1);
+				} else if (dist < rad*1.1) {
+					timeAccel = MIN(timeAccel, 2);
+				} else if (dist < rad*8.0) {
+					timeAccel = MIN(timeAccel, 3);
+				} else if (dist < rad*15.0) {
+					timeAccel = MIN(timeAccel, 4);
+				} else if (dist < rad*50.0) {
+					timeAccel = MIN(timeAccel, 5);
+				}
+			}
+		}
+		Pi::SetTimeAccel(timeAccel);
+
 		// Fixed 62.5hz physics
 		int num_steps = 0;
 		while (time_before_frame - last_phys_update > 16) {
@@ -593,13 +626,14 @@ void Pi::MainLoop()
 					break;
 				}
 			} else {
-				Pi::SetTimeAccel(1.0f);
+				Pi::SetTimeAccel(1);
 				Pi::cpan->HideAll();
 				Pi::SetView(static_cast<View*>(Pi::worldView));
 				Pi::player->Disable();
 				time_player_died = Pi::GetGameTime();
 			}
 		}
+		cpan->Update();
 		currentView->Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
@@ -659,6 +693,7 @@ void Pi::Unserialize()
 	gameTime = rd_double();
 	currentSystem = StarSystem::Unserialize();
 	SetTimeAccel(0);
+	requestedTimeAccelIdx = 0;
 	Space::Clear();
 	if (Pi::player) {
 		Pi::player->MarkDead();

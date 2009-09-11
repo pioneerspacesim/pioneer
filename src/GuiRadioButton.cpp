@@ -8,7 +8,7 @@ RadioButton::RadioButton(Gui::RadioGroup *g)
 {
 	m_pressed = false;
 	SetSize(BUTTON_SIZE, BUTTON_SIZE);
-	g->Add(this);
+	if (g) g->Add(this);
 }
 RadioButton::~RadioButton()
 {

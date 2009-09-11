@@ -459,6 +459,12 @@ void WorldView::OnChangeHyperspaceTarget()
 	else m_hyperspaceButton->Hide();
 }
 
+static void player_fly_to(Body *b)
+{
+	Pi::player->AIClearInstructions();
+	Pi::player->AIInstruct(Ship::DO_FLY_TO, b);
+}
+
 void WorldView::UpdateCommsOptions()
 {
 	m_commsOptions->DeleteAllChildren();
@@ -482,6 +488,8 @@ void WorldView::UpdateCommsOptions()
 			ypos += 32;
 		}
 		button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(player_fly_to), navtarget));
+
 		ypos += 32;
 
 		Frame *f = navtarget->GetFrame();
@@ -498,7 +506,8 @@ void WorldView::UpdateCommsOptions()
 	if (comtarget) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, (float)ypos);
 		ypos += 32;
-		AddCommsOption("Autopilot: Fly to vacinity of", ypos, optnum++);
+		button = AddCommsOption("Autopilot: Fly to vacinity of "+comtarget->GetLabel(), ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(player_fly_to), comtarget));
 
 	}
 }
