@@ -1,21 +1,43 @@
 Game Controls
 ~~~~~~~~~~~~~
 
+The buttons along the bottom of the control panel have numbers next to them
+which correspond to function keys.
+
+F1 - Toggle from Front, Rear and external view
+F2 - Toggle star map and system view
+F3 - Ship info
+F4 - When docked show space station menu
+
+Pitch, yaw and roll (rotation):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Key cluster:
+Q W E
+A S D
+
+W - Pitch down
+S - Pitch up
+A - Yaw left
+D - Yaw right
+Q - Roll left
+E - Roll right
+Left-shift - When held down, increases the speed of pitch, roll and yaw controls.
+
 
 Thrust:
 ~~~~~~~
 
-  2
-  W
-A S D
-  X
+Key cluster:
+U I O
+J K L
 
-W - Forward thruster
-S - Reverse thruster
-A - Left thruster
-D - Right thruster
-2 - Up thruster
-X - Down thruster
+I - Thrust forward
+K - Thrust backwards
+J - Thrust left
+L - Thrust right
+U - Thrust up
+P - Thrust down
 
 Rotation:
 ~~~~~~~~~
@@ -41,6 +63,8 @@ Other things:
 ~~~~~~~~~~~~~
 
 Tab              - Select object in crosshairs
+Return           - When in Speed Control mode, this increases the set speed
+Right-shift      - When in Speed Control mode, this decreases the set speed
 
 Special things:
 ~~~~~~~~~~~~~~~

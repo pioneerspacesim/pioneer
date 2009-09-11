@@ -477,13 +477,13 @@ bool Ship::SetWheelState(bool down)
 void Ship::SetNavTarget(Body* const target)
 {
 	m_navTarget = target;
-	Pi::worldView->UpdateCommsOptions();
+	Pi::onPlayerChangeTarget.emit();
 }
 
 void Ship::SetCombatTarget(Body* const target)
 {
 	m_combatTarget = target;
-	Pi::worldView->UpdateCommsOptions();
+	Pi::onPlayerChangeTarget.emit();
 }
 
 bool Ship::IsFiringLasers()

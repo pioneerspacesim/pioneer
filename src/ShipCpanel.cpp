@@ -106,6 +106,10 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 
 ShipCpanel::~ShipCpanel()
 {
+	Remove(m_scanner);
+	Remove(m_msglog);
+	delete m_scanner;
+	delete m_msglog;
 	m_connOnDockingClearanceExpired.disconnect();
 }
 
@@ -203,5 +207,9 @@ void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, double step)
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 {
 	if (Pi::player->GetDockedWith()) Pi::SetView(Pi::spaceStationView);
+	else {
+		Pi::SetView(Pi::worldView);
+		Pi::worldView->ToggleTargetActions();
+	}
 }
 

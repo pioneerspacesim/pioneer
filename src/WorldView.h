@@ -16,7 +16,6 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
 	static const float PICK_OBJECT_RECT_SIZE;
-	void UpdateCommsOptions();
 	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
@@ -27,14 +26,16 @@ public:
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() { return m_camType; }
 	int GetNumLights() const { return m_numLights; }
+	void ToggleTargetActions();
 	
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;
 private:
+	void UpdateCommsOptions();
 	void DrawHUD(const Frame *cam_frame);
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
-	Gui::Button *AddCommsOption(const std::string msg, int ypos);
+	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void OnClickHyperspace();
 	void OnClickBlastoff();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
@@ -54,6 +55,7 @@ private:
 	bool m_labelsOn;
 	enum CamType m_camType;
 	int m_numLights;
+	float m_showTargetActionsTimeout;
 };
 
 #endif /* _WORLDVIEW_H */

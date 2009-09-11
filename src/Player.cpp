@@ -188,12 +188,12 @@ void Player::PollControls()
 			if (Pi::KeyState(SDLK_RETURN)) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
 			if (Pi::KeyState(SDLK_RSHIFT)) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
 		}
-		if (Pi::KeyState(SDLK_w)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
-		if (Pi::KeyState(SDLK_s)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
-		if (Pi::KeyState(SDLK_2)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
-		if (Pi::KeyState(SDLK_x)) SetThrusterState(ShipType::THRUSTER_BOTTOM, 1.0f);
-		if (Pi::KeyState(SDLK_a)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
-		if (Pi::KeyState(SDLK_d)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
+		if (Pi::KeyState(SDLK_i)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
+		if (Pi::KeyState(SDLK_k)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
+		if (Pi::KeyState(SDLK_u)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
+		if (Pi::KeyState(SDLK_o)) SetThrusterState(ShipType::THRUSTER_BOTTOM, 1.0f);
+		if (Pi::KeyState(SDLK_j)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
+		if (Pi::KeyState(SDLK_l)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
 			if (Pi::worldView->GetCamType() == WorldView::CAM_REAR) SetGunState(1,1);
@@ -202,15 +202,21 @@ void Player::PollControls()
 			SetGunState(0,0);
 			SetGunState(1,0);
 		}
+
+		float angthrustyness = Pi::KeyState(SDLK_LSHIFT) ? 1.0 : 0.4;
 		
 		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
-			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += 1;
-			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -1;
-			if (Pi::KeyState(SDLK_UP)) angThrust.x += -1;
-			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += 1;
+			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += angthrustyness;
+			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -angthrustyness;
+			if (Pi::KeyState(SDLK_UP)) angThrust.x += -angthrustyness;
+			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += angthrustyness;
 		}
-		if (Pi::KeyState(SDLK_q)) angThrust.z += 1;
-		if (Pi::KeyState(SDLK_e)) angThrust.z -= 1;
+		if (Pi::KeyState(SDLK_a)) angThrust.y += angthrustyness;
+		if (Pi::KeyState(SDLK_d)) angThrust.y += -angthrustyness;
+		if (Pi::KeyState(SDLK_w)) angThrust.x += -angthrustyness;
+		if (Pi::KeyState(SDLK_s)) angThrust.x += angthrustyness;
+		if (Pi::KeyState(SDLK_q)) angThrust.z += angthrustyness;
+		if (Pi::KeyState(SDLK_e)) angThrust.z -= angthrustyness;
 		// dividing by time step so controls don't go totally mental when
 		// used at 10x accel
 		angThrust *= 1.0f/ta2;

@@ -27,6 +27,7 @@ WorldView::WorldView(): View()
 	float size[2];
 	GetSize(size);
 	
+	m_showTargetActionsTimeout = 0;
 	m_numLights = 1;
 	m_labelsOn = true;
 	m_camType = CAM_FRONT;
@@ -81,6 +82,7 @@ WorldView::WorldView(): View()
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 	
 	Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
+	Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
 	
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = 0.05f+(float)Pi::rng.NDouble(3);
@@ -353,7 +355,6 @@ void WorldView::Update()
 		HideAll();
 		return;
 	}
-
 	if (GetCamType() == CAM_EXTERNAL) {
 		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
 		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
@@ -373,17 +374,21 @@ void WorldView::Update()
 		SelectBody(target, false);
 	}
 		
+	if (m_showTargetActionsTimeout) {
+		m_showTargetActionsTimeout -= Pi::GetTimeStep();
+		if (m_showTargetActionsTimeout < 0) {
+			m_showTargetActionsTimeout = 0;
+			m_commsOptions->DeleteAllChildren();
+		}
+		m_commsOptions->ShowAll();
+	} else {
+		m_commsOptions->Hide();
+	}
+
 	if (!Pi::player->GetDockedWith()) {
 		m_hyperspaceButton->Show();
 	} else {
 		m_hyperspaceButton->Hide();
-	}
-
-	Body *target = Pi::player->GetNavTarget();
-	if (target) {
-		m_commsOptions->ShowAll();
-	} else {
-		//m_commsOptions->HideAll();
 	}
 
 	if (Pi::player->GetFlightState() == Ship::LANDED) {
@@ -405,12 +410,24 @@ void WorldView::Update()
 	}
 }
 
-Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos)
+void WorldView::ToggleTargetActions()
+{
+	if (m_showTargetActionsTimeout) m_showTargetActionsTimeout = 0;
+	else m_showTargetActionsTimeout = 20.0;
+	UpdateCommsOptions();
+}
+
+Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 {
 	Gui::Label *l = new Gui::Label(msg);
 	m_commsOptions->Add(l, 50, (float)ypos);
 
-	Gui::TransparentButton *b = new Gui::TransparentButton();
+	char buf[8];
+	snprintf(buf, sizeof(buf), "%d", optnum);
+	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(buf));
+	b->SetShortcut((SDLKey)(SDLK_0 + optnum), KMOD_NONE);
+	// hide target actions when things get clicked on
+	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
 	m_commsOptions->Add(b, 16, (float)ypos);
 	return b;
 }
@@ -444,32 +461,45 @@ void WorldView::OnChangeHyperspaceTarget()
 
 void WorldView::UpdateCommsOptions()
 {
-	Body * const navtarget = Pi::player->GetNavTarget();
 	m_commsOptions->DeleteAllChildren();
 	
+	if (m_showTargetActionsTimeout == 0) return;
+	
+	Body * const navtarget = Pi::player->GetNavTarget();
+	Body * const comtarget = Pi::player->GetCombatTarget();
+	Gui::Button *button;
 	int ypos = 0;
+	int optnum = 1;
+	if (!(navtarget || comtarget)) {
+		m_commsOptions->Add(new Gui::Label("#0f0Ship Computer: No target selected"), 16, (float)ypos);
+	}
 	if (navtarget) {
-		m_commsOptions->Add(new Gui::Label(navtarget->GetLabel()), 16, (float)ypos);
+		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, (float)ypos);
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
-			Gui::Button *b = AddCommsOption("Request docking clearance", ypos);
-			b->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
-			ypos += 32;
-		} else {
-			std::string msg = "Do something to "+navtarget->GetLabel();
-			Gui::Button *b = AddCommsOption(msg, ypos);
+			button = AddCommsOption("Request docking clearance", ypos, optnum++);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
 			ypos += 32;
 		}
+		button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
+		ypos += 32;
+
 		Frame *f = navtarget->GetFrame();
 		SBody *b = f->GetSBodyFor();
 		if (b) {
 			SBodyPath path;
 			Pi::currentSystem->GetPathOf(b, &path);
 			std::string msg = "Set hyperspace target to " + navtarget->GetLabel();
-			Gui::Button *b = AddCommsOption(msg, ypos);
-			b->onClick.connect(sigc::bind(sigc::ptr_fun(&OnPlayerSetHyperspaceTargetTo), path));
+			button = AddCommsOption(msg, ypos, optnum++);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(&OnPlayerSetHyperspaceTargetTo), path));
 			ypos += 32;
 		}
+	}
+	if (comtarget) {
+		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, (float)ypos);
+		ypos += 32;
+		AddCommsOption("Autopilot: Fly to vacinity of", ypos, optnum++);
+
 	}
 }
 

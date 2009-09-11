@@ -5,6 +5,8 @@
 #include <string>
 
 namespace Gui {
+	class Label;
+
 	class Button: public Widget {
 	public:
 		Button();
@@ -41,6 +43,18 @@ namespace Gui {
 		virtual ~TransparentButton() {}
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();
+	};
+
+	class LabelButton: public Button {
+	public:
+		LabelButton(Label *label);
+		virtual ~LabelButton();
+		virtual void GetSizeRequested(float size[2]);
+		virtual void Draw();
+		void SetPadding(float p) { m_padding = p; }
+	private:
+		Label *m_label;
+		float m_padding;
 	};
 }
 

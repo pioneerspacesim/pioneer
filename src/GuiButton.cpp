@@ -87,4 +87,36 @@ void TransparentButton::Draw()
 	Theme::DrawHollowRect(size);
 }
 
+LabelButton::LabelButton(Label *label): Button()
+{
+	m_label = label;
+	m_padding = 5.0;
+}
+
+LabelButton::~LabelButton() { delete m_label; }
+
+void LabelButton::GetSizeRequested(float size[2])
+{
+	m_label->GetSizeRequested(size);
+	size[0] += 2*m_padding;
+	//size[1] += 2*m_padding;
+}
+
+void LabelButton::Draw()
+{
+	float size[2];
+	GetSize(size);
+	glColor3f(1,1,1);
+	//Theme::DrawHollowRect(size);
+	if (IsPressed()) {
+		Theme::DrawIndent(size);
+	} else {
+		Theme::DrawOutdent(size);
+	}
+	glPushMatrix();
+	glTranslatef(m_padding, m_padding*0.5, 0);
+	m_label->Draw();
+	glPopMatrix();
+}
+
 }

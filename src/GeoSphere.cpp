@@ -1011,6 +1011,8 @@ void GeoSphere::Render(vector3d campos) {
 	glEnable(GL_COLOR_MATERIAL);
 
 	Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
+//	glLineWidth(1.0);
+//	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, planes);
 	}
