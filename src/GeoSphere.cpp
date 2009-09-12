@@ -6,10 +6,10 @@
 #include "Shader.h"
 
 // tri edge lengths
-#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	2.5
-#define GEOPATCH_MAX_DEPTH	14
+#define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
+#define GEOPATCH_MAX_DEPTH	15
 // must be an odd number
-#define GEOPATCH_EDGELEN	33
+#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 #define GEOSPHERE_USE_THREADING
 
@@ -22,7 +22,8 @@ struct VBOVertex
 {
 	float x,y,z;
 	float nx,ny,nz;
-	float cr,cg,cb;
+	unsigned char col[4];
+	float padding;
 };
 #pragma pack()
 
@@ -66,7 +67,7 @@ public:
 			clipRadius = MAX(clipRadius, (v[i]-clipCentroid).Length());
 		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
-		m_needUpdateVBOs = true;
+		m_needUpdateVBOs = false;
 		normals = new vector3d[GEOPATCH_NUMVERTICES];
 		vertices = new vector3d[GEOPATCH_NUMVERTICES];
 		colors = new vector3d[GEOPATCH_NUMVERTICES];
@@ -257,6 +258,8 @@ public:
 		if (USE_VBO && m_needUpdateVBOs) {
 			if (!m_vbo) glGenBuffersARB(1, &m_vbo);
 			m_needUpdateVBOs = false;
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, 0, GL_DYNAMIC_DRAW);
 			for (int i=0; i<GEOPATCH_NUMVERTICES; i++)
 			{
 				VBOVertex *pData = vbotemp + i;
@@ -266,12 +269,12 @@ public:
 				pData->nx = (float)normals[i].x;
 				pData->ny = (float)normals[i].y;
 				pData->nz = (float)normals[i].z;
-				pData->cr = (float)colors[i].x;
-				pData->cg = (float)colors[i].y;
-				pData->cb = (float)colors[i].z;
+				pData->col[0] = (unsigned char)CLAMP(colors[i].x*255.0, 0.0, 255.0);
+				pData->col[1] = (unsigned char)CLAMP(colors[i].y*255.0, 0.0, 255.0);
+				pData->col[2] = (unsigned char)CLAMP(colors[i].z*255.0, 0.0, 255.0);
+				pData->col[3] = 1.0;
 			}
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_STATIC_DRAW);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_DYNAMIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, 0);
 		}
 	}	
@@ -681,20 +684,19 @@ public:
 	}
 	
 	void Render(vector3d &campos, Plane planes[6]) {
-		_UpdateVBOs();
 		/* frustum test! */
 		for (int i=0; i<6; i++) {
 			if (planes[i].DistanceToPoint(clipCentroid)+clipRadius < 0) {
 				return;
 			}
 		}
-
 		assert(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
 			SDL_mutexV(m_kidsLock);
 		} else {
 			SDL_mutexV(m_kidsLock);
+			_UpdateVBOs();
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
@@ -703,7 +705,7 @@ public:
 				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 				glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
 				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
-				glColorPointer(3, GL_FLOAT, sizeof(VBOVertex), (void *)(6*sizeof(float)));
+				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), (void *)(6*sizeof(float)));
 				glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
 				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, 0);
