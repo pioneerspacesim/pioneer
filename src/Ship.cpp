@@ -11,6 +11,7 @@
 #include "Planet.h"
 #include "StarSystem.h"
 #include "Sector.h"
+#include "Projectile.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -42,7 +43,10 @@ void Ship::Save()
 	wr_float(m_launchLockTimeout);
 	wr_bool(m_testLanded);
 	wr_int((int)m_flightState);
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) wr_int(m_gunState[i]);
+	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
+		wr_int(m_gunState[i]);
+		wr_float(m_gunRecharge[i]);
+	}
 	m_shipFlavour.Save();
 	wr_int(m_dockedWithPort);
 	wr_int(Serializer::LookupBody(m_dockedWith));
@@ -80,6 +84,8 @@ void Ship::Load()
 	m_flightState = (FlightState) rd_int();
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd_int();
+		if (IsOlderThan(3)) m_gunRecharge[i] = 0;
+		else m_gunRecharge[i] = rd_float();
 	}
 	m_shipFlavour.Load();
 	m_dockedWithPort = rd_int();
@@ -92,7 +98,6 @@ void Ship::Load()
 	while (num-- > 0) {
 		AICommand c = (AICommand)rd_int();
 		void *arg = (void*)rd_int();
-		printf("COMMAND %d:%p\n", c, arg);
 		m_todo.push_back(AIInstruction(c, arg));
 	}
 }
@@ -138,6 +143,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_equipment = EquipSet(shipType);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
+		m_gunRecharge[i] = 0;
 	}
 	memset(m_thrusters, 0, sizeof(m_thrusters));
 	SetLabel(m_shipFlavour.regid);
@@ -367,16 +373,6 @@ void Ship::TestLanded()
 void Ship::TimeStepUpdate(const float timeStep)
 {
 	DynamicBody::TimeStepUpdate(timeStep);
-	AITimeStep(timeStep);
-
-	if (m_flightState == FLYING)
-		m_launchLockTimeout -= timeStep;
-	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
-	/* can't orient ships in SetDockedWith() because it gets
-	 * called from collision handler, and collision system gets a bit
-	 * weirded out if bodies are moved in the middle of collision detection
-	 */
-	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
 
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
@@ -396,24 +392,70 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelTorque(vector3d(stype.angThrust*m_angThrusters[0],
 				  stype.angThrust*m_angThrusters[1],
 				  stype.angThrust*m_angThrusters[2]));
+}
+
+void Ship::FireWeapon(int num)
+{
+	const ShipType &stype = GetShipType();
+
+	const vector3f _dir = stype.gunMount[num].dir;
+	vector3d dir = vector3d(_dir.x, _dir.y, _dir.z);
+	const vector3f _pos = stype.gunMount[num].pos;
+	vector3d pos = vector3d(_pos.x, _pos.y, _pos.z);
+
+	matrix4x4d m;
+	GetRotMatrix(m);
+	dir = m.ApplyRotationOnly(dir);
+	pos = m.ApplyRotationOnly(pos);
+	pos += GetPosition();
+	
+	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
+	m_gunRecharge[num] = EquipType::types[t].rechargeTime;
+	const float damage = 100.0f * (float)EquipType::types[t].pval;
+	
+	CollisionContact c;
+	switch (t) {
+		case Equip::LASER_1MW_BEAM:
+		case Equip::LASER_2MW_BEAM:
+		case Equip::LASER_4MW_BEAM:
+			// trace laser beam through frame to see who it hits
+	/*		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
+			if (c.userData1) {
+				Body *hit = static_cast<Body*>(c.userData1);
+				hit->OnDamage(this, damage);
+			}
+			*/
+			break;
+		default:
+			fprintf(stderr, "Trying to fire wrong type of weapon... hum.\n");
+			break;
+	}
+	vector3d vel = 1000.0*dir.Normalized() + GetVelocity();
+	Projectile::Add(this, Projectile::TYPE_TORPEDO, pos, vel);
+}
+
+void Ship::StaticUpdate(const float timeStep)
+{
+	AITimeStep(timeStep);
+	
+	if (m_flightState == FLYING)
+		m_launchLockTimeout -= timeStep;
+	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
+	/* can't orient ships in SetDockedWith() because it gets
+	 * called from collision handler, and collision system gets a bit
+	 * weirded out if bodies are moved in the middle of collision detection
+	 */
+	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
+
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		if (!m_gunState[i]) continue;
-		const vector3f _dir = stype.gunMount[i].dir;
-		vector3d dir = vector3d(_dir.x, _dir.y, _dir.z);
-		const vector3f _pos = stype.gunMount[i].pos;
-		vector3d pos = vector3d(_pos.x, _pos.y, _pos.z);
+		m_gunRecharge[i] -= timeStep;
+		if (m_gunRecharge[i] < 0) m_gunRecharge[i] = 0;
 
-		matrix4x4d m;
-		GetRotMatrix(m);
-		dir = m.ApplyRotationOnly(dir);
-		pos = m.ApplyRotationOnly(pos);
-		pos += GetPosition();
-		
-		Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, i);
-		const float damage = 100.0f * (float)EquipType::types[t].pval;
-		
-		Space::AddLaserBeam(GetFrame(), pos, dir, 10000.0, this, damage);
+		if (!m_gunState[i]) continue;
+		if (m_gunRecharge[i] != 0) continue;
+
+		FireWeapon(i);
 	}
 
 	if (m_wheelTransition != 0.0f) {
@@ -489,6 +531,7 @@ void Ship::SetCombatTarget(Body* const target)
 	Pi::onPlayerChangeTarget.emit();
 }
 
+#if 0
 bool Ship::IsFiringLasers()
 {
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
@@ -500,15 +543,8 @@ bool Ship::IsFiringLasers()
 /* Assumed to be at model coords */
 void Ship::RenderLaserfire()
 {
-	static const GLfloat fogDensity = 0.001;
-	static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 	const ShipType &stype = GetShipType();
 	glDisable(GL_LIGHTING);
-	glEnable(GL_FOG);
-	glFogi(GL_FOG_MODE, GL_EXP2);
-	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, fogDensity);
-	glHint(GL_FOG_HINT, GL_NICEST);
 	
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		if (!m_gunState[i]) continue;
@@ -530,9 +566,9 @@ void Ship::RenderLaserfire()
 		glEnd();
 		glPopAttrib();
 	}
-	glDisable(GL_FOG);
 	glEnable(GL_LIGHTING);
 }
+#endif /* 0 */
 
 
 static void render_coll_mesh(const CollMesh *m)
@@ -577,12 +613,14 @@ void Ship::Render(const Frame *camFrame)
 	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderSbreModel(camFrame, &params);
 
+#if 0
 	if (IsFiringLasers()) {
 		glPushMatrix();
 		TransformToModelCoords(camFrame);
 		RenderLaserfire();
 		glPopMatrix();
 	}
+#endif /* 0 */
 }
 
 bool Ship::Jettison(Equip::Type t)

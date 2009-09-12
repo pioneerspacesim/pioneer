@@ -3,7 +3,6 @@
 
 #include "libs.h"
 #include <vector>
-#define SAVEFILE_VERSION	1
 
 class Frame;
 class Body;
@@ -14,11 +13,11 @@ namespace Serializer {
 
 	void IndexFrames();
 	Frame *LookupFrame(size_t index);
-	int LookupFrame(Frame *f);
+	int LookupFrame(const Frame *f);
 
 	void IndexBodies();
 	Body *LookupBody(size_t index);
-	int LookupBody(Body *);
+	int LookupBody(const Body *);
 
 	void IndexSystemBodies(StarSystem *);
 	SBody *LookupSystemBody(size_t index);
@@ -40,7 +39,7 @@ namespace Serializer {
 
 	namespace Read {
 		bool Game(const char *filename);
-		bool is_olderthan (int version);
+		bool IsOlderThan (int version);
 		bool rd_bool();
 		unsigned char rd_byte ();
 		short rd_short ();

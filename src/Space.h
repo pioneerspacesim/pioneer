@@ -24,8 +24,6 @@ namespace Space {
 	extern void KillBody(Body *);
 	extern float GetHyperspaceAnim();
 	extern void Render(const Frame *cam_frame);
-	extern void AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
-		double length, Ship *firer, float damage);
 	extern void StartHyperspaceTo(const SBodyPath *);
 	extern void DoHyperspaceTo(const SBodyPath *);
 	// make sure SBody* is in Pi::currentSystem

@@ -139,15 +139,15 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	},{
 	  "1MW beam laser",0,
 	  Equip::SLOT_LASER, {},
-	  60000, 1, 1
+	  60000, 1, 1, 0, 0, 0.25
 	},{
 	  "2MW beam laser",0,
 	  Equip::SLOT_LASER, {},
-	  100000, 1, 2
+	  100000, 1, 2, 0, 0, 0.25
 	},{
 	  "4MW beam laser",0,
 	  Equip::SLOT_LASER, {},
-	  220000, 1, 4
+	  220000, 1, 4, 0, 0, 0.25
 	}
 };
 

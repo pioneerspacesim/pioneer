@@ -31,6 +31,10 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) { return false; }
 	virtual bool OnDamage(Body *attacker, float kgDamage) { return false; }
 	virtual void TimeStepUpdate(const float timeStep) {}
+	// after all bodies have had TimeStepUpdate (their moving step),
+	// StaticUpdate() is called. Good for special collision testing (Projectiles)
+	// as you can't test for collisions if different objects are on different 'steps'
+	virtual void StaticUpdate(const float timeStep) {}
 	// Override to clear any pointers you hold to the dying body.
 	virtual void NotifyDeath(const Body* const dyingBody) {}
 	vector3d GetVelocityRelativeTo(const Body *other) const;

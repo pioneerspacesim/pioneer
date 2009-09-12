@@ -23,7 +23,7 @@ void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPt
 {
 	node->numTris = objs.size();
 	node->triIndicesStart = &m_objPtrAlloc[m_objPtrAllocPos];
-	if (objs.size()>3) printf("fat node %d\n", objs.size());
+	//if (objs.size()>3) printf("fat node %d\n", objs.size());
 
 	// copy tri indices to the stinking flat array
 	for (int i=objs.size()-1; i>=0; i--) {

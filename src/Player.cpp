@@ -91,10 +91,10 @@ void Player::Render(const Frame *camFrame)
 	if (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) {
 		Ship::Render(camFrame);
 	} else {
-		glPushMatrix();
+	/*	glPushMatrix();
 		// could only rotate, since transform is zero (camFrame is at player origin)
 		RenderLaserfire();
-		glPopMatrix();
+		glPopMatrix();*/
 	}
 }
 

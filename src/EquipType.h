@@ -21,6 +21,7 @@ struct EquipType {
 	int pval; // hello angband. used for general 'power' attribute...
 	int econType;
 	int techLevel;
+	float rechargeTime;
 	
 	static const EquipType types[];
 };

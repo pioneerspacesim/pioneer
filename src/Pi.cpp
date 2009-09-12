@@ -247,6 +247,7 @@ void Pi::HandleEvents()
 							Space::AddBody(cargo);
 						} else {
 							Ship *ship = new Ship(ShipType::LADYBIRD);
+							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_1MW_BEAM);
 							ship->AIInstruct(Ship::DO_KILL, Pi::player);
 							ship->SetFrame(Pi::player->GetFrame());
 							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);

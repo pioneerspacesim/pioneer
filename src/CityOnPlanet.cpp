@@ -140,7 +140,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		float maxx = MAX(fabs(cmeshset->GetAabb().max.x), fabs(cmeshset->GetAabb().min.x));
 		float maxy = MAX(fabs(cmeshset->GetAabb().max.z), fabs(cmeshset->GetAabb().min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
-		printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
+		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
 	list->numBuildings = i;
 }

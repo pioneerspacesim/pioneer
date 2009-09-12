@@ -18,6 +18,7 @@ void Sfx::Save()
 	using namespace Serializer::Write;
 	Body::Save();
 	wr_vector3d(m_pos);
+	wr_vector3d(m_vel);
 	wr_float(m_age);
 	wr_int(m_type);
 }
@@ -27,6 +28,10 @@ void Sfx::Load()
 	using namespace Serializer::Read;
 	Body::Load();
 	m_pos = rd_vector3d();
+
+	if (IsOlderThan(2)) m_vel = vector3d(0,0,0);
+	else m_vel = rd_vector3d();
+	
 	m_age = rd_float();
 	m_type = static_cast<Sfx::TYPE>(rd_int());
 }

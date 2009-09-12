@@ -1,18 +1,17 @@
 There is much to be done...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Sfx look utterly shit
-* Make scanner only appear at appropriate times
+Must do for ~1.0:
+~~~~~~~~~~~~~~~~~
+
+* Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)
 ~ Political alignments of systems (probably needed for trade model):
- * Piracy level
- ~ Textual system descriptions
- * System extended info (demographics, sector, sysnum, allegiance, ...)
-~ Spawn pirates on entry to system.
+* Piracy level
+~ Textual system descriptions
+* System extended info (demographics, sector, sysnum, allegiance, ...)
 * Pilot rating by kills *cough*
 ~ Finish crap trade model (illegal goods, ...)
-* Planet twinkles are the colour of the 1st star in the system, not closest or combination
-* Star light should attenuate
 * Shipyard:
  * Repairs, servicing
  * Hyperspace range and more stats when viewing ships for sale
@@ -22,5 +21,15 @@ There is much to be done...
 * Criminal record, military standing, legal status, police
 * More ship equipment...
 ~ Bulletin board............
+
+
+Less crucial things:
+~~~~~~~~~~~~~~~~~~~~
+
+* Sfx look utterly shit
+* Make scanner only appear at appropriate times
+* Planet twinkles are the colour of the 1st star in the system, not closest or combination
+* Star light should attenuate
+
 
 

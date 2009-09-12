@@ -2,6 +2,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Player.h"
+#include "perlin.h"
 
 void Ship::AIBodyHasDied(const Body* const body)
 {
@@ -19,15 +20,32 @@ void Ship::AIBodyHasDied(const Body* const body)
 	}
 }
 
+#include "Space.h"
 void Ship::AITimeStep(const float timeStep)
 {
 	bool done = false;
+					Ship *nearest = 0;
+					float dist = 1e10;
 
 	if (m_todo.size() != 0) {
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
 			case DO_KILL:
-				done = AICmdKill(static_cast<const Ship*>(inst.arg));
+					for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+						if ((*i)->GetFrame() != this->GetFrame()) continue;
+						if ((*i) == (Body*)this) continue;
+						if ((*i) == Pi::player) continue;
+						if (!(*i)->IsType(Object::SHIP)) continue;
+						float d = (GetPosition() - (*i)->GetPosition()).Length();
+						if (d < dist) {
+							dist = d;
+							nearest = (Ship*)*i;
+						}
+					}
+					if (!nearest) return;
+					done = AICmdKill(nearest);
+
+				//done = AICmdKill(static_cast<const Ship*>(inst.arg));
 				break;
 			case DO_FLY_TO:
 				done = AICmdFlyTo(static_cast<const Body*>(inst.arg));
@@ -62,15 +80,13 @@ bool Ship::AICmdFlyTo(const Body *body)
 	// work out stopping distance at current vel
 	const ShipType &stype = GetShipType();
 	double revAccel = stype.linThrust[ShipType::THRUSTER_FRONT] / (1000.0*m_stats.total_mass);
-	printf("%f m/sec, rev accel %f m/s^2\n", vel, revAccel);
 	double timeToStop = vel / revAccel;
-	printf("Stopping time %fs\n", timeToStop);
 	double stoppingDist = 0.5 * revAccel * timeToStop * timeToStop;
-	printf("Stopping dist %fm, dist %fm, ratio %f\n", stoppingDist, dist, stoppingDist/dist);
 	
 	ClearThrusterState();
-	AIFaceDirection(dir.Normalized());
-
+	AISlowFaceDirection(dir.Normalized());
+//	AIFaceDirection(dir.Normalized());
+	
 	if (stoppingDist < 0.8*dist) {
 		AIAccelToModelRelativeVelocity(vector3d(0,0,-100000000000.0));
 	} else if (stoppingDist > 0.9*dist) {
@@ -114,7 +130,7 @@ void Ship::AIInstruct(enum AICommand cmd, void *arg)
 }
 
 /* Orient so our -ve z axis == dir. ie so that dir points forwards */
-void Ship::AIFaceDirection(const vector3d &dir)
+void Ship::AISlowFaceDirection(const vector3d &dir)
 {
 	double timeAccel = Pi::GetTimeAccel();
 	matrix4x4d rot;
@@ -142,6 +158,70 @@ void Ship::AIFaceDirection(const vector3d &dir)
 		SetAngThrusterState(0, desiredAngVelChange.x);
 		SetAngThrusterState(1, desiredAngVelChange.y);
 		SetAngThrusterState(2, desiredAngVelChange.z);
+	}
+}
+
+/* Orient so our -ve z axis == dir. ie so that dir points forwards */
+void Ship::AIFaceDirection(const vector3d &dir)
+{
+	double invTimeAccel = 1.0 / Pi::GetTimeAccel();
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	rot = rot.InverseOf();
+	vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
+	if (Pi::GetTimeAccel() > 11.0) {
+		// fake it
+		zaxis = -dir;
+		vector3d yaxis(rot[1], rot[5], rot[9]);
+		vector3d xaxis = vector3d::Cross(yaxis, zaxis).Normalized();
+		yaxis = vector3d::Cross(zaxis, xaxis);
+		SetRotMatrix(matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf());
+	} else {
+		vector3d rotaxis = rot * vector3d::Cross(zaxis, dir);
+		vector3d angVel = rot * GetAngVelocity();
+		const float dot = vector3d::Dot(dir, zaxis);
+		// if facing > 90 degrees away then max turn rate
+		rotaxis = rotaxis.Normalized();
+//		if (dot < 0) rotaxis = -rotaxis;
+		double angToGo = acos(CLAMP(dot, -1.0, 1.0));
+		// agreement between angVel and rotAxis
+		double goodAngVel = vector3d::Dot(angVel, rotaxis);
+
+		if (dot > 0.99999) {
+			angVel *= -invTimeAccel;
+			SetAngThrusterState(0, angVel.x);
+			SetAngThrusterState(1, angVel.y);
+			SetAngThrusterState(2, angVel.z);
+			return;
+		}
+
+		const ShipType &stype = GetShipType();
+		double angAccel = stype.angThrust / GetAngularInertia();
+		double timeToStop = goodAngVel / angAccel;
+		// angle travelled until rotation can be stopped by thrusters
+		double stoppingAng = 0.5 * angAccel * timeToStop * timeToStop;
+
+		vector3d desiredAngVelChange = (rotaxis - angVel) * invTimeAccel;
+		if (dot < 0.95) {
+			// weirdness!
+		//	desiredAngVelChange += vector3d(noise(angVel), noise(angVel+vector3d(1,0,0)), noise(2.0*angVel+vector3d(2,0,0)));
+		}
+		if (stoppingAng < 0.8*angToGo) {
+			SetAngThrusterState(0, desiredAngVelChange.x);
+			SetAngThrusterState(1, desiredAngVelChange.y);
+			SetAngThrusterState(2, desiredAngVelChange.z);
+		}
+		else if (stoppingAng > 0.9*angToGo) {
+			if (timeToStop > 0.0) {
+				SetAngThrusterState(0, -desiredAngVelChange.x);
+				SetAngThrusterState(1, -desiredAngVelChange.y);
+				SetAngThrusterState(2, -desiredAngVelChange.z);
+			} else {
+				SetAngThrusterState(0, desiredAngVelChange.x);
+				SetAngThrusterState(1, desiredAngVelChange.y);
+				SetAngThrusterState(2, desiredAngVelChange.z);
+			}
+		}
 	}
 }
 

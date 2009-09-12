@@ -49,6 +49,7 @@ public:
 	bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
 	virtual void TimeStepUpdate(const float timeStep);
+	virtual void StaticUpdate(const float timeStep);
 	virtual void NotifyDeath(const Body* const dyingBody);
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel);
 	virtual bool OnDamage(Body *attacker, float kgDamage);
@@ -60,6 +61,7 @@ public:
 	bool CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired);
 	void UseHyperspaceFuel(const SBodyPath *dest);
 	void AIFaceDirection(const vector3d &dir);
+	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
 	
@@ -87,10 +89,12 @@ protected:
 	int m_dockedWithPort;
 	ShipFlavour m_shipFlavour;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
+	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	void FireWeapon(int num);
 	void AITimeStep(const float timeStep);
 	void Init();
 	bool IsFiringLasers();

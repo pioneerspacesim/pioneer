@@ -5,6 +5,8 @@
 #include "Frame.h"
 #include "Space.h"
 
+#define SAVEFILE_VERSION	4
+
 namespace Serializer {
 
 static std::vector<Frame*> g_frames;
@@ -16,7 +18,7 @@ Frame *LookupFrame(size_t index)
 	return g_frames[index];
 }
 
-int LookupFrame(Frame *f)
+int LookupFrame(const Frame *f)
 {
 	for (unsigned int i=0; i<g_frames.size(); i++) {
 		if (g_frames[i] == f) return i;
@@ -63,7 +65,7 @@ void IndexSystemBodies(StarSystem *s)
 
 
 Body *LookupBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_bodies[index]); }
-int LookupBody(Body *b)
+int LookupBody(const Body *b)
 {
 	if (!b) return -1;
 	for (unsigned int i=0; i<g_bodies.size(); i++) {
@@ -229,6 +231,7 @@ namespace Read {
 		
 		/* savefile version */
 		version = rd_int ();
+		fprintf(stderr, "Savefile version %d. ", version);
 
 		Pi::Unserialize();
 
@@ -245,9 +248,9 @@ namespace Read {
 		return true;
 	}
 
-	bool is_olderthan(int ver)
+	bool IsOlderThan(int ver)
 	{
-		return ver < version;
+		return version < ver;
 	}	
 
 	unsigned char rd_byte(void)

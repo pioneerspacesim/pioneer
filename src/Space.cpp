@@ -17,14 +17,6 @@
 
 namespace Space {
 
-struct laserBeam_t {
-	Frame *frame;
-	vector3d pos, dir;
-	double length;
-	Ship *firer;
-	float damage;
-};
-
 std::list<Body*> bodies;
 Frame *rootFrame;
 static void MoveOrbitingObjectFrames(Frame *f);
@@ -33,8 +25,6 @@ static void CollideFrame(Frame *f);
 static void PruneCorpses();
 static void ApplyGravity();
 static std::list<Body*> corpses;
-// laser beams fired this physics tick
-static std::vector<laserBeam_t> laserBeams;
 static SBodyPath *hyperspacingTo;
 static float hyperspaceAnim;
 
@@ -70,7 +60,7 @@ void Serialize()
 	Frame::Serialize(rootFrame);
 	wr_int(bodies.size());
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		printf("Serializing %s\n", (*i)->GetLabel().c_str());
+		//printf("Serializing %s\n", (*i)->GetLabel().c_str());
 		(*i)->Serialize();
 	}
 	if (hyperspacingTo == 0) {
@@ -89,7 +79,7 @@ void Unserialize()
 	rootFrame = Frame::Unserialize(0);
 	Serializer::IndexFrames();
 	int num_bodies = rd_int();
-	printf("%d bodies to read\n", num_bodies);
+	//printf("%d bodies to read\n", num_bodies);
 	for (int i=0; i<num_bodies; i++) {
 		Body *b = Body::Unserialize();
 		if (b) bodies.push_back(b);
@@ -541,34 +531,6 @@ void ApplyGravity()
 
 }
 
-void AddLaserBeam(Frame *f, const vector3d &pos, const vector3d &dir,
-	double length, Ship *firer, float damage)
-{
-	laserBeam_t l;
-	l.frame = f;
-	l.pos = pos; l.dir = dir;
-	l.length = length;
-	l.firer = firer;
-	l.damage = damage;
-
-	laserBeams.push_back(l);
-}
-
-void test_laser_beams()
-{
-	for (unsigned int i=0; i<laserBeams.size(); i++) {
-		CollisionContact c;
-		laserBeams[i].frame->GetCollisionSpace()->TraceRay(
-			laserBeams[i].pos, laserBeams[i].dir,
-			(float)laserBeams[i].length, &c,
-			laserBeams[i].firer->GetGeom());
-		if (c.userData1) {
-			Body *hit = static_cast<Body*>(c.userData1);
-			hit->OnDamage(laserBeams[i].firer, laserBeams[i].damage);
-		}
-	}
-}
-
 void TimeStep(float step)
 {
 	if (hyperspacingTo) {
@@ -579,7 +541,6 @@ void TimeStep(float step)
 		}
 	}
 
-	laserBeams.clear();
 	ApplyGravity();
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
@@ -589,8 +550,10 @@ void TimeStep(float step)
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->TimeStepUpdate(step);
 	}
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		(*i)->StaticUpdate(step);
+	}
 	// see if anyone has been shot
-	test_laser_beams();
 
 	PruneCorpses();
 }
@@ -635,7 +598,6 @@ void StartHyperspaceTo(const SBodyPath *dest)
  */
 void DoHyperspaceTo(const SBodyPath *dest)
 {
-	printf("Doing it!\n");
 	if (dest == 0) dest = hyperspacingTo;
 	
 	if (Pi::currentSystem) delete Pi::currentSystem;

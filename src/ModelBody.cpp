@@ -148,6 +148,7 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 	vector3d pos = frameTrans * GetPosition();
 
 	if (pos.Length() > WORLDVIEW_ZFAR) {
+		glPointSize(1.0);
 		glDisable(GL_LIGHTING);
 		glColor3f(1,1,1);
 		glBegin(GL_POINTS);

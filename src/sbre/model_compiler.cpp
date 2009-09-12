@@ -1242,7 +1242,7 @@ void parseModel(tokenIter_t &t)
 	// model(name,scale=234.0,radius=123.0)
 	(*t++).Check(Token::OPENBRACKET);
 	(*t).Check(Token::IDENTIFIER);
-	printf("Model %s: ", (*t).val.s);
+	//printf("Model %s: ", (*t).val.s);
 	modelName = (*t).val.s;
 
 	/* check modelName does not already exist */
@@ -1295,7 +1295,7 @@ void parseModel(tokenIter_t &t)
 		}
 	}
 
-	printf("%d plain vertices, %d compound vertices\n", vertices.size(), compound_vertices.size());
+	//printf("%d plain vertices, %d compound vertices\n", vertices.size(), compound_vertices.size());
 	m->numPVtx = 6+vertices.size();
 	m->pPVtx = new PlainVertex[vertices.size()];
 	for (int i=0; i<(signed)vertices.size(); i++) {
