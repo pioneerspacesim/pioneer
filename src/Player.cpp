@@ -121,7 +121,7 @@ void Player::TimeStepUpdate(const float timeStep)
 			const float invTa2 = 1.0f/(time_accel*time_accel);
 		
 			vector3f angThrust = GetAngThrusterState();
-			vector3d damping = time_accel*CalcRotDamping();
+			vector3d damping = ((double)time_accel)*CalcRotDamping();
 
 			angThrust.x -= damping.x * invTa2;
 			angThrust.y -= damping.y * invTa2;

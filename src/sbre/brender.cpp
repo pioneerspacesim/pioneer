@@ -184,7 +184,9 @@ void SetTransState ()
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glDisable (GL_LIGHTING);
+	/* lo siento, John. Changed transparent stuff to just set emissive and alpha on
+	 * diffuse. this works with vertex shader. */
+//	glDisable (GL_LIGHTING);
 	glDisable (GL_NORMALIZE);
 
 	glEnableClientState (GL_VERTEX_ARRAY);

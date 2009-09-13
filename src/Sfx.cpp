@@ -5,6 +5,8 @@
 #include "StarSystem.h"
 #include "Space.h"
 #include "Serializer.h"
+#include "Shader.h"
+#include "Render.h"
 
 Sfx::Sfx(): Body()
 {
@@ -44,7 +46,7 @@ void Sfx::SetPosition(vector3d p)
 void Sfx::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
-	m_pos += m_vel * timeStep;
+	m_pos += m_vel * (double)timeStep;
 
 	switch (m_type) {
 		case TYPE_EXPLOSION:
@@ -55,18 +57,23 @@ void Sfx::TimeStepUpdate(const float timeStep)
 			break;
 	}
 }
+
 void Sfx::Render(const Frame *camFrame)
 {
+	static GLuint tex;
+	float col[4];
+	if (!tex) tex = util_load_tex_rgba("data/textures/smoke.png");
+
 	matrix4x4d ftran;
 	Frame::GetFrameTransform(GetFrame(), camFrame, ftran);
 	vector3d fpos = ftran * GetPosition();
 
-	glPushMatrix();
-
-	glTranslatef(fpos.x, fpos.y, fpos.z);
+	Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
 	
 	switch (m_type) {
 		case TYPE_EXPLOSION:
+			glPushMatrix();
+			glTranslatef(fpos.x, fpos.y, fpos.z);
 			glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
 			glDisable(GL_LIGHTING);
 			glColor3f(1,1,0.5);
@@ -77,18 +84,18 @@ void Sfx::Render(const Frame *camFrame)
 			glColor4f(1,0,0,0.33);
 			gluSphere(Pi::gluQuadric, 2000*m_age, 20,20);
 			glPopAttrib();
+			glPopMatrix();
 			break;
 		case TYPE_DAMAGE:
-			glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
-			glDisable(GL_LIGHTING);
-			float s = 0.5*sin(m_age*10);
-			glColor3f(.5,.5,.5);
-			gluSphere(Pi::gluQuadric, 5+s*s*8, 10,10);
-			glPopAttrib();
+			col[0] = 1.0f;
+			col[1] = 1.0f;
+			col[2] = 0.0f;
+			col[3] = 1.0f-(m_age/2.0f);
+			vector3f pos(&fpos.x);
+			Render::PutPointSprites(1, &pos, 20.0f, col, tex);
 			break;
 	}
-
-	glPopMatrix();
+	Shader::DisableVertexProgram();
 }
 
 void Sfx::Add(const Body *b, TYPE t)
@@ -97,6 +104,9 @@ void Sfx::Add(const Body *b, TYPE t)
 	sfx->m_type = t;
 	sfx->SetFrame(b->GetFrame());
 	sfx->SetPosition(b->GetPosition());
-	sfx->m_vel = b->GetVelocity();
+	sfx->m_vel = b->GetVelocity() + 200.0*vector3d(
+			Pi::rng.Double()-0.5,
+			Pi::rng.Double()-0.5,
+			Pi::rng.Double()-0.5);
 	Space::AddBody(sfx);
 }

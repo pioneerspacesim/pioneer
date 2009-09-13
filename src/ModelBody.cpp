@@ -152,7 +152,7 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 		glDisable(GL_LIGHTING);
 		glColor3f(1,1,1);
 		glBegin(GL_POINTS);
-		pos = pos.Normalized() * 0.99*WORLDVIEW_ZFAR;
+		pos = pos.Normalized() * 0.99*(double)WORLDVIEW_ZFAR;
 		glVertex3dv(&pos[0]);
 		glEnd();
 		glEnable(GL_LIGHTING);

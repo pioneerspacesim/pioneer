@@ -9,8 +9,10 @@ namespace Shader {
 // 4 vertex programs per enum VertexProgram, for 1,2,3,4 lights
 GLuint vtxprog[VPROG_MAX*4];
 bool isEnabled = false;
+bool isVtxProgActive = false;
 
 bool IsEnabled() { return isEnabled; }
+bool IsVtxProgActive() { return isVtxProgActive; }
 
 void ToggleState()
 {
@@ -22,12 +24,14 @@ void ToggleState()
 void DisableVertexProgram()
 {
 	if (!isEnabled) return;
+	isVtxProgActive = false;
 	glDisable(GL_VERTEX_PROGRAM_ARB);
 }
 
 void EnableVertexProgram(VertexProgram p)
 {
 	if (!isEnabled) return;
+	isVtxProgActive = true;
 	glEnable(GL_VERTEX_PROGRAM_ARB);
 	glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[4*(int)p + Pi::worldView->GetNumLights() - 1]);
 }
@@ -93,6 +97,31 @@ static const char *simple_prog[4] = {
 	"END"
 	,0,0,0
 };
+
+static const char *pointsprite_prog[4] = {
+	"!!ARBvp1.0\n"
+	"ATTRIB pos = vertex.position;\n"
+	"ATTRIB tex = vertex.texcoord;\n"
+	"OUTPUT oColor = result.color;\n"
+	"OUTPUT oPointSize = result.pointsize;\n"
+	"OUTPUT oTexCoord1 = result.texcoord;\n"
+	"PARAM mv[4] = { state.matrix.modelview };\n"
+	"PARAM mvp[4] = { state.matrix.mvp };\n"
+	"TEMP temp;\n"
+	FIXZ_N_TRANSFORM_2_CLIPCOORDS()
+	"MOV oColor, vertex.color;\n"
+	"MOV oTexCoord1, tex;\n"
+
+	// attenuate points using only the linear attenuation coefficient
+	"DP4 temp.z, mv[2], pos;\n" 
+	"MUL temp.x, state.point.attenuation.y, temp.z;\n" 
+	"RSQ temp.x, temp.x;\n" 
+	"MUL oPointSize.x, temp.x, state.point.size.x;\n"
+
+	"END"
+	,0,0,0
+};
+
 
 
 #define GEOSPHERE_PROG_START() \
@@ -219,6 +248,7 @@ void Init()
 	CompileProgram(VPROG_GEOSPHERE, geosphere_prog);
 	CompileProgram(VPROG_SBRE, sbre_prog);
 	CompileProgram(VPROG_SIMPLE, simple_prog);
+	CompileProgram(VPROG_POINTSPRITE, pointsprite_prog);
 	
 	DisableVertexProgram();
 }

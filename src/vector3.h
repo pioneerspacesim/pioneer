@@ -9,6 +9,8 @@ class vector3 {
 	T x,y,z;
 
 	vector3 () {}
+	vector3 (const vector3<float> &v): x(v.x), y(v.y), z(v.z) {}
+	vector3 (const vector3<double> &v): x(v.x), y(v.y), z(v.z) {}
 	vector3 (T val): x(val), y(val), z(val) {}
 	vector3 (T _x, T _y, T _z): x(_x), y(_y), z(_z) {}
 	vector3 (const double vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
@@ -19,15 +21,18 @@ class vector3 {
 	vector3 operator+ (const vector3 a) const { return vector3 (a.x+x, a.y+y, a.z+z); }
 	vector3 &operator+= (const vector3 a) { x+=a.x; y+=a.y; z+=a.z; return *this; }
 	vector3 &operator-= (const vector3 a) { x-=a.x; y-=a.y; z-=a.z; return *this; }
-	vector3 &operator*= (const T a) { x*=a; y*=a; z*=a; return *this; }
+	vector3 &operator*= (const float a) { x*=a; y*=a; z*=a; return *this; }
+	vector3 &operator*= (const double a) { x*=a; y*=a; z*=a; return *this; }
 	vector3 operator- (const vector3 a) const { return vector3 (x-a.x, y-a.y, z-a.z); }
 	vector3 operator- () const { return vector3 (-x, -y, -z); }
 	bool operator== (const vector3 a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
 	bool operator!= (const vector3 a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
 //	friend vector3 operator* (const vector3 a, const vector3 b) 
 //	{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
-	friend vector3 operator* (const vector3 a, const T scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
-	friend vector3 operator* (const T scalar, const vector3 a) { return a*scalar; }
+	friend vector3 operator* (const vector3 a, const float scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
+	friend vector3 operator* (const float scalar, const vector3 a) { return a*scalar; }
+	friend vector3 operator* (const vector3 a, const double scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
+	friend vector3 operator* (const double scalar, const vector3 a) { return a*scalar; }
 
 	static vector3 Cross (const vector3 a, const vector3 b)
 		{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }

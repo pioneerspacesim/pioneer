@@ -177,7 +177,7 @@ void WorldView::OnClickHyperspace()
 
 void WorldView::DrawBgStars()
 {
-	float hyperspaceAnim = Space::GetHyperspaceAnim();
+	double hyperspaceAnim = Space::GetHyperspaceAnim();
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);

@@ -711,6 +711,7 @@ model(nice_spacestation, scale=1.0, radius=500.0) {
 }
 
 model(basic_groundstation, scale=1.0, radius=1.0) {
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
 	# surface recognised for landing on (bay 1)
 	geomflag(0x10)
 	extrusion(v(0,0,-50), v(0,0,50), n(0,1,0), radius=1.0, {

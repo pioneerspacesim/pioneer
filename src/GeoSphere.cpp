@@ -1010,6 +1010,9 @@ void GeoSphere::Render(vector3d campos) {
 	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	
+	glMaterialfv (GL_FRONT, GL_SPECULAR, g_ambient);
+	glMaterialfv (GL_FRONT, GL_EMISSION, g_ambient);
 	glEnable(GL_COLOR_MATERIAL);
 
 	Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
@@ -1139,7 +1142,7 @@ double GeoSphere::GetHeight(vector3d p)
 			return 0;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-			return 0.1*octavenoise(10, 0.45+0.1*noise(2*p), p);
+			return 0.1*octavenoise(10, 0.45+0.1*noise(2.0*p), p);
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:
@@ -1166,7 +1169,7 @@ double GeoSphere::GetHeight(vector3d p)
 			n *= m_maxHeight;
 			break;
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			div = 0.5 + 0.18*octavenoise(4, 0.5, 256*p);
+			div = 0.5 + 0.18*octavenoise(4, 0.5, 256.0*p);
 			n = 0.5*(1.0+octavenoise(18, div, p));
 			n += 0.1*(1.0 - fabs(octavenoise(18, 0.5, 256.0*p)));
 			return (n<m_sealevel ? 0.0 : m_maxHeight*(n-m_sealevel));

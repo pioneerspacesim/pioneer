@@ -231,7 +231,7 @@ void Geom::CollideEdgesTris(const BVHNode *edgeNode, const matrix4x4d &transToB,
 			const double depth = edges[ edgeNode->triIndicesStart[i] ].len - isect.dist;
 			// in world coords
 			CollisionContact contact;
-			contact.pos = b->GetTransform() * (v1 + vector3d(&dir.x)*isect.dist);
+			contact.pos = b->GetTransform() * (v1 + vector3d(&dir.x)*(double)isect.dist);
 			vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
 			contact.normal = vector3d(n.x, n.y, n.z);
 			contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);

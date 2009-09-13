@@ -125,8 +125,8 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		}
 
 		m_oldOrient = m_orient;
-		m_vel += timeStep * m_force * (1.0 / m_mass);
-		m_angVel += timeStep * m_torque * (1.0 / m_angInertia);
+		m_vel += (double)timeStep * m_force * (1.0 / m_mass);
+		m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
 		vector3d consideredAngVel = m_angVel - angRot;
 		
 		vector3d pos = GetPosition();
@@ -141,7 +141,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			}
 		}
 
-		pos += m_vel * timeStep;
+		pos += m_vel * (double)timeStep;
 		m_orient[12] = pos.x;
 		m_orient[13] = pos.y;
 		m_orient[14] = pos.z;

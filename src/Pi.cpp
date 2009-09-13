@@ -138,6 +138,7 @@ void Pi::InitOpenGL()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, scrWidth, scrHeight);
@@ -145,6 +146,7 @@ void Pi::InitOpenGL()
 	gluQuadric = gluNewQuadric ();
 	
 	fprintf(stderr, "GL_ARB_vertex_buffer_object: %s\n", GLEW_ARB_vertex_buffer_object ? "Yes" : "No");
+	fprintf(stderr, "GL_ARB_point_sprite: %s\n", GLEW_ARB_point_sprite ? "Yes" : "No");
 }
 
 void Pi::Quit()

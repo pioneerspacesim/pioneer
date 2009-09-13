@@ -6,6 +6,7 @@
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"
+#include "Render.h"
 
 Projectile::Projectile(): Body()
 {
@@ -53,7 +54,7 @@ void Projectile::SetPosition(vector3d p)
 void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
-	SetPosition(GetPosition() + m_vel * timeStep);
+	SetPosition(GetPosition() + m_vel * (double)timeStep);
 
 	switch (m_type) {
 		case TYPE_TORPEDO:
@@ -85,29 +86,30 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(const Frame *camFrame)
 {
+	static GLuint tex;
+	if (!tex) tex = util_load_tex_rgba("data/textures/laser.png");
+
 	matrix4x4d ftran;
 	Frame::GetFrameTransform(GetFrame(), camFrame, ftran);
-	vector3d fpos = ftran * GetPosition();
 
-	glPushMatrix();
-
-	glTranslatef(fpos.x, fpos.y, fpos.z);
-	
 	switch (m_type) {
 		case TYPE_TORPEDO:
-			glPointSize(3);
-			glDisable(GL_LIGHTING);
-			glEnable(GL_BLEND);
-			glColor4f(1,0,1,1.0-(m_age/3.0));
-			glBegin(GL_POINTS);
-			glVertex3f(0,0,0);
-			glEnd();
-			glEnable(GL_LIGHTING);
-			glDisable(GL_BLEND);
+			vector3d from = ftran * GetPosition();
+			vector3d to = ftran * (GetPosition() + 0.1*m_vel);
+			vector3d dir = to - from;
+				
+			vector3f _from(&from.x);
+			vector3f _dir(&dir.x);
+			vector3f points[50];
+			float p = 0;
+			for (int i=0; i<50; i++, p+=0.02) {
+				points[i] = _from + p*_dir;
+			}
+
+			float col[4] = { 1.0f, 0.0f, 0.0f, 1.0f-(m_age/3.0f) };
+			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 	}
-
-	glPopMatrix();
 }
 
 void Projectile::Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &vel)

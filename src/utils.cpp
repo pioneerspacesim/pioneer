@@ -3,6 +3,8 @@
 #include "libs.h"
 #include "utils.h"
 #include "Pi.h"
+#include <string>
+#include <map>
 
 FILE *fopen_or_die(const char *filename, const char *mode)
 {
@@ -228,3 +230,25 @@ std::string string_subst(const char *format, const unsigned int num_args, std::s
 	return out;
 }
 
+static std::map<std::string, GLuint> s_textures;
+
+GLuint util_load_tex_rgba(const char *filename)
+{
+	std::map<std::string, GLuint>::iterator t = s_textures.find(filename);
+
+	if (t != s_textures.end()) return (*t).second;
+
+	SDL_Surface *s = IMG_Load(filename);
+
+	GLuint tex;
+	
+	glGenTextures (1, &tex);
+	glBindTexture (GL_TEXTURE_2D, tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+
+	SDL_FreeSurface(s);
+
+	s_textures[filename] = tex;
+
+	return tex;
+}

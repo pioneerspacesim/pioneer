@@ -80,7 +80,7 @@ void SystemView::PutOrbit(SBody *b, vector3d offset)
 	double inc = b->orbit.period/100.0;
 	for (double t=0.0; t < b->orbit.period; t += inc) {
 		vector3d pos = b->orbit.CartesianPosAtTime(t);
-		pos = offset + pos * m_zoom;
+		pos = offset + pos * (double)m_zoom;
 		glVertex3dv(&pos[0]);
 	}
 	glEnd();
@@ -137,7 +137,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		
 		// not using current time yet
 		vector3d pos = (*kid)->orbit.CartesianPosAtTime(m_time);
-		pos = pos * m_zoom;
+		pos = pos * (double)m_zoom;
 		//glTranslatef(pos.x, pos.y, pos.z);
 		
 		PutBody(*kid, offset + pos);
@@ -151,7 +151,7 @@ void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 {
 	if (b->parent) {
 		GetTransformTo(b->parent, pos);
-		pos -= m_zoom * b->orbit.CartesianPosAtTime(m_time);
+		pos -= (double)m_zoom * b->orbit.CartesianPosAtTime(m_time);
 	}
 }
 

@@ -90,7 +90,8 @@ static void GenerateThrusters ()
 	}
 }
 
-
+static const float s_black[4] = { 0, 0, 0, 0 };
+static const float s_alpha[4] = { 0, 0, 0, 0.6 };
 
 static void RenderThruster (RState *pState, Thruster *pThruster, Vector *pPos, Vector *pDir)
 {
@@ -146,12 +147,18 @@ static void RenderThruster (RState *pState, Thruster *pThruster, Vector *pPos, V
 	glLoadMatrixf (pMV);
 
 	glScalef (width*0.5f, width*0.5f, len*0.666f);
-	glColor4f (0.0f, 0.4f, 1.0f, 0.6f);
+	
+	glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, s_alpha);
+	glMaterialfv (GL_FRONT, GL_SPECULAR, s_black);
+	float col[4] = { 0.0f, 0.4f, 1.0f, 1.0f };
+	glMaterialfv (GL_FRONT, GL_EMISSION, col);
+
 	glVertexPointer (3, GL_FLOAT, sizeof(Vector), pTVertex8pt);
 	glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
 
 	glScalef (2.0f, 2.0f, 1.5f);
-	glColor4f (0.4f, 0.0f, 1.0f, 0.6f);
+	col[0] = 0.4f; col[1] = 0; col[2] = 1.0f;
+	glMaterialfv (GL_FRONT, GL_EMISSION, col);
 	glVertexPointer (3, GL_FLOAT, sizeof(Vector), pTVertex8pt);
 	glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
 

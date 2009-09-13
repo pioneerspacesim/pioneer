@@ -228,7 +228,7 @@ static void render_coll_mesh(const CollMesh *m)
 #define TEXSIZE 512
 float wank[TEXSIZE][TEXSIZE];
 float aspectRatio = 1.0;
-float camera_zoom = 1.0;
+double camera_zoom = 1.0;
 float distance = 100;
 extern int stat_rayTriIntersections;
 static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)

@@ -197,7 +197,7 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 		int a, b;
 		a = rand.Int32(-1000,1000);
 		b = rand.Int32(-1000,1000);
-		cityflavour[i].center = p + a*mx + b*mz;
+		cityflavour[i].center = p + (double)a*mx + (double)b*mz;
 		cityflavour[i].size = (double)rand.Int32(blist->minRadius, blist->maxRadius);
 	}
 	

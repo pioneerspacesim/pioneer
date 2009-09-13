@@ -330,7 +330,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			dt.stagePos += timeStep*0.3;
 			p1 = GetPosition() + rot*port_s3[i].pos;
 			p2 = GetPosition() + rot*port_s2[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*dt.stagePos);
+			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
 			///
 			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].normal);
 			wantRot = matrix4x4d::MakeRotMatrix(
@@ -372,7 +372,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			// move ship to outer section
 			p1 = GetPosition() + rot*port_s2[i].pos;
 			p2 = GetPosition() + rot*port[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*dt.stagePos);
+			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
 			dt.stagePos += 0.2*timeStep;
 			if (dt.stagePos >= 1.0) {
 				dt.stagePos = 0;
@@ -430,7 +430,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			// close outer door, center ship
 			dt.stagePos += 0.3*timeStep;
 			p2 = GetPosition() + rot*port[i].pos;
-			dt.ship->SetPosition(dt.from + (p2-dt.from)*dt.stagePos);
+			dt.ship->SetPosition(dt.from + (p2-dt.from)*(double)dt.stagePos);
 			m_openAnimState[i] -= 0.3*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
 			///
@@ -464,7 +464,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			// move into inner region
 			p1 = GetPosition() + rot*port[i].pos;
 			p2 = GetPosition() + rot*port_s2[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*dt.stagePos);
+			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
 			dt.stagePos += 0.2*timeStep;
 
 			///
@@ -509,7 +509,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			// move into inner region
 			p1 = GetPosition() + rot*port_s2[i].pos;
 			p2 = GetPosition() + rot*port_s3[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*dt.stagePos);
+			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
 			///
 			zaxis = vector3d::Cross(port_s3[i].xaxis, port_s3[i].normal);
 			wantRot = matrix4x4d::MakeRotMatrix(

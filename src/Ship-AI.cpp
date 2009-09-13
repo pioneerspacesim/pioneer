@@ -151,7 +151,7 @@ void Ship::AISlowFaceDirection(const vector3d &dir)
 		// if facing > 90 degrees away then max turn rate
 		if (dot < 0) rotaxis = rotaxis.Normalized();
 		rotaxis = rot*rotaxis;
-		vector3d desiredAngVelChange = 4*(rotaxis - angVel);
+		vector3d desiredAngVelChange = 4.0*(rotaxis - angVel);
 		desiredAngVelChange *= 1.0 / timeAccel;
 		// still must apply rotation damping
 		rotaxis -= CalcRotDamping();
