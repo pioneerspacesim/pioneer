@@ -37,14 +37,14 @@ static void spawn_random_pirate(int power, Ship *victim)
 
 	switch (power) {
 		case 1:
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
 			break;
 		case 2:
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_4MW_BEAM);
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_4MW);
 			break;
 		case 0:
 		default:
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_1MW_BEAM);
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 			break;
 	}
 	int amount = Pi::rng.Int32(5);

@@ -137,17 +137,29 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_ENGINE, {},
 	  2000000, 225, 4
 	},{
-	  "1MW beam laser",0,
+	  "1MW pulse cannon",0,
 	  Equip::SLOT_LASER, {},
 	  60000, 1, 1, 0, 0, 0.25
 	},{
-	  "2MW beam laser",0,
+	  "1MW dual-fire pulse cannon",0,
 	  Equip::SLOT_LASER, {},
-	  100000, 1, 2, 0, 0, 0.25
+	  110000, 4, 2, 0, 0, 0.25
 	},{
-	  "4MW beam laser",0,
+	  "2MW pulse cannon",0,
 	  Equip::SLOT_LASER, {},
-	  220000, 1, 4, 0, 0, 0.25
+	  100000, 3, 2, 0, 0, 0.25
+	},{
+	  "4MW pulse cannon",0,
+	  Equip::SLOT_LASER, {},
+	  220000, 10, 4, 0, 0, 0.25
+	},{
+	  "10MW pulse cannon",0,
+	  Equip::SLOT_LASER, {},
+	  490000, 30, 10, 0, 0, 0.25
+	},{
+	  "20MW pulse cannon",0,
+	  Equip::SLOT_LASER, {},
+	  1200000, 65, 20, 0, 0, 0.25
 	}
 };
 

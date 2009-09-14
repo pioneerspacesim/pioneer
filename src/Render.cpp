@@ -29,7 +29,6 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	}
 	if (Shader::IsVtxProgActive()) glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 		
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glPointSize(size);
 	glColor4fv(modulationCol);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -37,7 +36,6 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	glDrawArrays(GL_POINTS, 0, num);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPointSize(1);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
 	if (GLEW_ARB_point_sprite) {
 		glDisable(GL_POINT_SPRITE_ARB);

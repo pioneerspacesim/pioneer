@@ -749,9 +749,21 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		Body *target = Pi::player->GetNavTarget();
 		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
 		char buf[128];
-		snprintf(buf, sizeof(buf), "Target distance: %s", format_distance(pos.Length()).c_str());
+		snprintf(buf, sizeof(buf), "Navigation distance: %s (%s)", target->GetLabel().c_str(), format_distance(pos.Length()).c_str());
 		glPushMatrix();
-		glTranslatef(0, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-90, 0);
+		glColor4f(0,1,0,HUD_ALPHA);
+		glTranslatef(0, Gui::Screen::GetHeight()-2.5*Gui::Screen::GetFontHeight()-66, 0);
+		Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+	if (Pi::player->GetCombatTarget()) {
+		Body *target = Pi::player->GetCombatTarget();
+		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Combat target: %s (%s)", target->GetLabel().c_str(), format_distance(pos.Length()).c_str());
+		glPushMatrix();
+		glColor4f(1,0,0,HUD_ALPHA);
+		glTranslatef(0, Gui::Screen::GetHeight()-4.0*Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}

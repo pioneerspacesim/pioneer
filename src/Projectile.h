@@ -8,9 +8,9 @@ class Frame;
 class Projectile: public Body {
 public:
 	OBJDEF(Projectile, Body, PROJECTILE);
-	enum TYPE { TYPE_TORPEDO };
+	enum TYPE { TYPE_1MW_PULSE, TYPE_2MW_PULSE, TYPE_4MW_PULSE, TYPE_10MW_PULSE, TYPE_20MW_PULSE };
 
-	static void Add(Body *parent, TYPE, const vector3d &pos, const vector3d &vel);
+	static void Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 
 	Projectile();
 	//virtual ~Projectile();
@@ -26,9 +26,11 @@ protected:
 	virtual void Save();
 	virtual void Load();
 private:
+	float GetDamage() const;
 	Body *m_parent;
 	matrix4x4d m_orient;
-	vector3d m_vel;
+	vector3d m_baseVel;
+	vector3d m_dirVel;
 	float m_age;
 	enum TYPE m_type;
 };

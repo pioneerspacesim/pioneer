@@ -249,7 +249,7 @@ void Pi::HandleEvents()
 							Space::AddBody(cargo);
 						} else {
 							Ship *ship = new Ship(ShipType::LADYBIRD);
-							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_1MW_BEAM);
+							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 							ship->AIInstruct(Ship::DO_KILL, Pi::player);
 							ship->SetFrame(Pi::player->GetFrame());
 							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
@@ -384,8 +384,8 @@ void Pi::Start()
 
 	player = new Player(ShipType::SIRIUS_INTERDICTOR);
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
-	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::LASER_2MW_BEAM);
-	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::LASER_4MW_BEAM);
+	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
+	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::PULSECANNON_1MW);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);

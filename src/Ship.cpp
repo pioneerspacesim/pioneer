@@ -397,27 +397,44 @@ void Ship::TimeStepUpdate(const float timeStep)
 void Ship::FireWeapon(int num)
 {
 	const ShipType &stype = GetShipType();
-
-	const vector3f _dir = stype.gunMount[num].dir;
-	vector3d dir = vector3d(_dir.x, _dir.y, _dir.z);
-	const vector3f _pos = stype.gunMount[num].pos;
-	vector3d pos = vector3d(_pos.x, _pos.y, _pos.z);
-
 	matrix4x4d m;
 	GetRotMatrix(m);
+
+	vector3d dir = vector3d(stype.gunMount[num].dir);
+	vector3d pos = vector3d(stype.gunMount[num].pos);
+
 	dir = m.ApplyRotationOnly(dir);
 	pos = m.ApplyRotationOnly(pos);
 	pos += GetPosition();
+	const vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
 	m_gunRecharge[num] = EquipType::types[t].rechargeTime;
-	const float damage = 100.0f * (float)EquipType::types[t].pval;
+//	const float damage = 1000.0f * (float)EquipType::types[t].pval;
+	vector3d baseVel = GetVelocity();
+	vector3d dirVel = 1000.0*dir.Normalized();
 	
 	CollisionContact c;
 	switch (t) {
-		case Equip::LASER_1MW_BEAM:
-		case Equip::LASER_2MW_BEAM:
-		case Equip::LASER_4MW_BEAM:
+		case Equip::PULSECANNON_1MW:
+			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos, baseVel, dirVel);
+			break;
+		case Equip::PULSECANNON_DUAL_1MW:
+			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos+5.0*sep, baseVel, dirVel);
+			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos-5.0*sep, baseVel, dirVel);
+			break;
+		case Equip::PULSECANNON_2MW:
+			Projectile::Add(this, Projectile::TYPE_2MW_PULSE, pos, baseVel, dirVel);
+			break;
+		case Equip::PULSECANNON_4MW:
+			Projectile::Add(this, Projectile::TYPE_4MW_PULSE, pos, baseVel, dirVel);
+			break;
+		case Equip::PULSECANNON_10MW:
+			Projectile::Add(this, Projectile::TYPE_10MW_PULSE, pos, baseVel, dirVel);
+			break;
+		case Equip::PULSECANNON_20MW:
+			Projectile::Add(this, Projectile::TYPE_20MW_PULSE, pos, baseVel, dirVel);
+			break;
 			// trace laser beam through frame to see who it hits
 	/*		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
 			if (c.userData1) {
@@ -427,11 +444,10 @@ void Ship::FireWeapon(int num)
 			*/
 			break;
 		default:
-			fprintf(stderr, "Trying to fire wrong type of weapon... hum.\n");
+			fprintf(stderr, "Unknown weapon %d\n", t);
+			assert(0);
 			break;
 	}
-	vector3d vel = 1000.0*dir.Normalized() + GetVelocity();
-	Projectile::Add(this, Projectile::TYPE_TORPEDO, pos, vel);
 }
 
 void Ship::StaticUpdate(const float timeStep)
