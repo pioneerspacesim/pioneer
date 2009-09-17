@@ -26,6 +26,7 @@ public:
 	void SetHyperspaceTarget(const SBodyPath *path);
 	void TakeMission(Mission *);
 	const std::list<Mission*> &GetMissions() const { return m_missions; }
+	virtual bool OnDamage(Body *attacker, float kgDamage);
 protected:
 	virtual void Save();
 	virtual void Load();

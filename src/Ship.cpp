@@ -12,6 +12,7 @@
 #include "StarSystem.h"
 #include "Sector.h"
 #include "Projectile.h"
+#include "Sound.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -173,6 +174,7 @@ bool Ship::OnDamage(Body *attacker, float kgDamage)
 		} else {
 			Sfx::Add(this, Sfx::TYPE_DAMAGE);
 		}
+		Sound::BodyMakeNoise(this, Sound::SFX_COLLISION, 1.0f);
 	}
 	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
@@ -454,6 +456,7 @@ void Ship::FireWeapon(int num)
 			assert(0);
 			break;
 	}
+	Sound::BodyMakeNoise(this, Sound::SFX_PULSECANNON, 1.0f);
 }
 
 void Ship::StaticUpdate(const float timeStep)

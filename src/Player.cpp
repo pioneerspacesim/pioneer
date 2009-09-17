@@ -5,6 +5,7 @@
 #include "SpaceStationView.h"
 #include "Serializer.h"
 #include "Mission.h"
+#include "Sound.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -53,6 +54,15 @@ void Player::Load()
 		m_missions.push_back(m);
 	}
 	SBodyPath::Unserialize(&m_hyperspaceTarget);
+}
+
+bool Player::OnDamage(Body *attacker, float kgDamage)
+{
+	bool r = Ship::OnDamage(attacker, kgDamage);
+	if (!IsDead() && (GetPercentHull() < 25.0f)) {
+		Sound::BodyMakeNoise(this, Sound::SFX_WARNING, 1.0f);
+	}
+	return r;
 }
 
 void Player::TakeMission(Mission *m)
@@ -157,6 +167,8 @@ void Player::TimeStepUpdate(const float timeStep)
 #define MOUSE_CTRL_AREA		10.0f
 #define MOUSE_RESTITUTION	0.75f
 
+Uint32 sndev;
+
 void Player::PollControls()
 {
 	int mouseMotion[2];
@@ -194,6 +206,10 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_o)) SetThrusterState(ShipType::THRUSTER_BOTTOM, 1.0f);
 		if (Pi::KeyState(SDLK_j)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
 		if (Pi::KeyState(SDLK_l)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
+		
+		if (!Sound::EventSetVolume(sndev, Pi::KeyState(SDLK_i) ? 65535U : 0)) {
+			sndev = Sound::PlaySfx(Sound::SFX_ENGINES, 65535U, 65535U, true);
+		}
 
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
 			if (Pi::worldView->GetCamType() == WorldView::CAM_REAR) SetGunState(1,1);

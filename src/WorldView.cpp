@@ -8,6 +8,7 @@
 #include "ShipCpanel.h"
 #include "Serializer.h"
 #include "StarSystem.h"
+#include "Sound.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
@@ -144,6 +145,7 @@ void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 {
+	Sound::PlaySfx(Sound::SFX_GUI_PING);
 	if (!Pi::player->SetWheelState(b->GetState()!=0)) {
 		b->StatePrev();
 	}
@@ -151,16 +153,19 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
+	Sound::PlaySfx(Sound::SFX_GUI_PING);
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 {
+	Sound::PlaySfx(Sound::SFX_GUI_PING);
 	m_labelsOn = b->GetState()!=0;
 }
 
 void WorldView::OnClickBlastoff()
 {
+	Sound::PlaySfx(Sound::SFX_GUI_PING);
 	if (Pi::player->GetDockedWith()) {
 		Pi::player->SetDockedWith(0,0);
 	} else {

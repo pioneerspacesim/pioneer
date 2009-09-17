@@ -22,6 +22,7 @@
 #include "NameGenerator.h"
 #include "GeoSphere.h"
 #include "Shader.h"
+#include "Sound.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -124,6 +125,8 @@ void Pi::Init(IniConfig &config)
 	GLFTInit();
 	GeoSphere::Init();
 	Space::Init();
+	Sound::Init();
+	Sound::Pause(0);
 	
 	Gui::Init(scrWidth, scrHeight, 800, 600);
 }
@@ -552,6 +555,7 @@ void Pi::MainLoop()
 
 	for (;;) {
 		frame_stat++;
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
