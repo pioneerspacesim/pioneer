@@ -745,6 +745,22 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		glPopMatrix();
 	}
 
+	float hull = Pi::player->GetPercentHull();
+	if (hull < 100.0f) {
+		if (hull < 50.0f) 
+			glColor4f(1,0,0,HUD_ALPHA);
+		else if (hull < 75.0f)
+			glColor4f(1,0.5,0,HUD_ALPHA);
+		else
+			glColor4f(1,1,0,HUD_ALPHA);
+		char buf[128];
+		snprintf(buf, sizeof(buf), "%.1f%% hull", hull);
+		glPushMatrix();
+			glTranslatef(Gui::Screen::GetWidth()-80.0f, 0, 0);
+			Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
+
 	if (Pi::player->GetNavTarget()) {
 		Body *target = Pi::player->GetNavTarget();
 		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();

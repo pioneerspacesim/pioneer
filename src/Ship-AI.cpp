@@ -20,32 +20,15 @@ void Ship::AIBodyHasDied(const Body* const body)
 	}
 }
 
-#include "Space.h"
 void Ship::AITimeStep(const float timeStep)
 {
 	bool done = false;
-					Ship *nearest = 0;
-					float dist = 1e10;
 
 	if (m_todo.size() != 0) {
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
 			case DO_KILL:
-					for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-						if ((*i)->GetFrame() != this->GetFrame()) continue;
-						if ((*i) == (Body*)this) continue;
-						if ((*i) == Pi::player) continue;
-						if (!(*i)->IsType(Object::SHIP)) continue;
-						float d = (GetPosition() - (*i)->GetPosition()).Length();
-						if (d < dist) {
-							dist = d;
-							nearest = (Ship*)*i;
-						}
-					}
-					if (!nearest) return;
-					done = AICmdKill(nearest);
-
-				//done = AICmdKill(static_cast<const Ship*>(inst.arg));
+				done = AICmdKill(static_cast<const Ship*>(inst.arg));
 				break;
 			case DO_FLY_TO:
 				done = AICmdFlyTo(static_cast<const Body*>(inst.arg));

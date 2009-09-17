@@ -42,7 +42,7 @@ public:
 	vector3f GetAngThrusterState() const { return vector3f(m_angThrusters); }
 	void ClearThrusterState();
 	void SetGunState(int idx, int state);
-	const ShipType &GetShipType();
+	const ShipType &GetShipType() const;
 	const shipstats_t *CalcStats();
 	void UpdateMass();
 	vector3d CalcRotDamping();
@@ -77,6 +77,7 @@ public:
 	int GetPrice(Equip::Type t) const;
 	void ChangeFlavour(const ShipFlavour *f);
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
+	float GetPercentHull() const;
 	
 	sigc::signal<void> onDock;
 	sigc::signal<void> onUndock;

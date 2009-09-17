@@ -794,7 +794,7 @@ void StationShipyardView::ShowAll()
 	Add(l, 365, 240);
 	
 	b = new Gui::SolidButton();
-	b->SetShortcut(SDLK_1, KMOD_NONE);
+	b->SetShortcut(SDLK_2, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GotoBuyShipsView));
 	Add(b, 340, 300);
 	l = new Gui::Label("New and reconditioned ships");

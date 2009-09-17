@@ -151,6 +151,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	Init();	
 }
 
+float Ship::GetPercentHull() const
+{
+	const ShipType &stype = GetShipType();
+	return 100.0f * (m_stats.hull_mass_left / (float)stype.hullMass);
+}
+
 void Ship::UpdateMass()
 {
 	CalcStats();
@@ -492,7 +498,7 @@ void Ship::NotifyDeath(const Body* const dyingBody)
 	AIBodyHasDied(dyingBody);
 }
 
-const ShipType &Ship::GetShipType()
+const ShipType &Ship::GetShipType() const
 {
 	return ShipType::types[m_shipFlavour.type];
 }
