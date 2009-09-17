@@ -106,6 +106,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 			if (node->geomStart) {
 				for (int i=0; i<node->numGeoms; i++) {
 					Geom *g2 = node->geomStart[i];
+					if (!g2->IsEnabled()) continue;
 					if (g2->GetMailboxIndex() < minMailboxValue) continue;
 					if (g2 == g) continue;
 					double radius2 = g2->GetGeomTree()->GetRadius();
@@ -357,6 +358,7 @@ pop_jizz:
  */
 void CollisionSpace::CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact*))
 {
+	if (!a->IsEnabled()) return;
 	// our big aabb
 	vector3d pos = a->GetPosition();
 	double radius = a->GetGeomTree()->GetRadius();
