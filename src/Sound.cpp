@@ -6,7 +6,7 @@
  * This is tom's dodgy SDL sound code v1.0
  */
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <stdio.h>
 #include <string.h>
 //#include <vorbis/vorbisfile.h>
@@ -18,6 +18,19 @@
 #include "Player.h"
 
 namespace Sound {
+
+#define FREQ            22050
+#define BUF_SIZE	4096
+#define MAX_OGGSTREAMS	2
+#define MAX_WAVSTREAMS	16
+
+static const char *sfx_wavs[SFX_MAX] = {
+	"pulsecannon.wav",
+	"collision.wav",
+	"warning.wav",
+	"gui_ping.wav",
+	"engines.wav"
+};
 
 eventid BodyMakeNoise(const Body *b, enum SFX sfx, float vol)
 {
@@ -43,24 +56,12 @@ eventid BodyMakeNoise(const Body *b, enum SFX sfx, float vol)
 	return Sound::PlaySfx(sfx, (Uint16)floor(65535.0*v[0]), (Uint16)floor(65535.0*v[1]), false);
 }
 
-static const char *sfx_wavs[SFX_MAX] = {
-	"pulsecannon.wav",
-	"collision.wav",
-	"warning.wav",
-	"gui_ping.wav",
-	"engines.wav"
-};
-
-#define BUF_SIZE	4096
-#define MAX_OGGSTREAMS	2
-#define MAX_WAVSTREAMS	8
-
+#if 0
 static int bs = 0;
 static int sign = 1;
 static int bits = 16;
 static int endian = 0;
 
-#if 0
 struct ogg_stream {
 	int pipe_fd[2];
 	OggVorbis_File vf;
@@ -70,22 +71,26 @@ struct ogg_stream {
 };
 #endif
 
-struct wav_stream {
+struct Sample {
 	Uint8 *buf;
-	Uint32 buf_pos;
 	Uint32 buf_len;
+};
+
+struct SoundEvent {
+	const Sample *sample;
+	Uint32 buf_pos;
 	Uint16 volume[2]; // left and right channels
 	eventid identifier;
 	bool repeat;
 };	
 
-struct wav_stream sfx_buf[SFX_MAX];
-struct wav_stream wavstream[MAX_WAVSTREAMS];
+struct Sample sfx_samples[SFX_MAX];
+struct SoundEvent wavstream[MAX_WAVSTREAMS];
 
-static wav_stream *GetEvent(eventid id)
+static SoundEvent *GetEvent(eventid id)
 {
 	for (int i=0; i<MAX_WAVSTREAMS; i++) {
-		if (wavstream[i].buf && (wavstream[i].identifier == id))
+		if (wavstream[i].sample && (wavstream[i].identifier == id))
 			return &wavstream[i];
 	}
 	return 0;
@@ -99,10 +104,9 @@ bool IsEventActive(eventid id)
 bool EventDestroy(eventid id)
 {
 	SDL_LockAudio();
-	wav_stream *s = GetEvent(id);
+	SoundEvent *s = GetEvent(id);
 	if (s) {
-		s->buf = 0;
-		s->buf_len = 0;
+		s->sample = 0;
 	}
 	SDL_UnlockAudio();
 	return s != 0;
@@ -113,7 +117,7 @@ bool EventSetVolume(eventid id, Uint16 vol_left, Uint16 vol_right)
 	SDL_LockAudio();
 	bool status = false;
 	for (int i=0; i<MAX_WAVSTREAMS; i++) {
-		if (wavstream[i].buf && (wavstream[i].identifier == id)) {
+		if (wavstream[i].sample && (wavstream[i].identifier == id)) {
 			wavstream[i].volume[0] = vol_left;
 			wavstream[i].volume[1] = vol_right;
 			status = true;
@@ -149,7 +153,7 @@ eventid PlaySfx (enum SFX fx, Uint16 volume_left, Uint16 volume_right, bool repe
 	Uint32 age;
 	/* find free wavstream */
 	for (idx=0; idx<MAX_WAVSTREAMS; idx++) {
-		if (wavstream[idx].buf == NULL) break;
+		if (wavstream[idx].sample == NULL) break;
 	}
 	if (idx == MAX_WAVSTREAMS) {
 		/* otherwise overwrite oldest one */
@@ -161,7 +165,7 @@ eventid PlaySfx (enum SFX fx, Uint16 volume_left, Uint16 volume_right, bool repe
 			}
 		}
 	}
-	wavstream[idx] = sfx_buf[fx];
+	wavstream[idx].sample = &sfx_samples[fx];
 	wavstream[idx].volume[0] = volume_left;
 	wavstream[idx].volume[1] = volume_right;
 	wavstream[idx].repeat = repeat;
@@ -170,9 +174,9 @@ eventid PlaySfx (enum SFX fx, Uint16 volume_left, Uint16 volume_right, bool repe
 	return identifier++;
 }
 
+#if 0
 int PlayOgg (const char *filename)
 {
-#if 0
 	FILE *f;
 	struct ogg_stream *s;
 
@@ -186,8 +190,8 @@ int PlayOgg (const char *filename)
 	}
 	pipe (s->pipe_fd);
 	return 1;
-#endif
 }
+#endif
 	
 #if 0
 static void stream_close (struct ogg_stream *s)
@@ -282,18 +286,18 @@ static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 			}
 #endif
 			for (i=0; i<MAX_WAVSTREAMS; i++) {
-				if (wavstream[i].buf != NULL) {
-					val[0] += ((int)(((Sint16*)wavstream[i].buf) [ wavstream[i].buf_pos/2 ]) *
+				if (wavstream[i].sample != NULL) {
+					const Sample *s = wavstream[i].sample;
+					val[0] += ((int)(((Sint16*)s->buf) [ wavstream[i].buf_pos/2 ]) *
 						(int)(wavstream[i].volume[0]))>>16;
 					wavstream[i].buf_pos += 2;
-					val[1] += ((int)(((Sint16*)wavstream[i].buf) [ wavstream[i].buf_pos/2 ]) *
+					val[1] += ((int)(((Sint16*)s->buf) [ wavstream[i].buf_pos/2 ]) *
 						(int)(wavstream[i].volume[1]))>>16;
 					wavstream[i].buf_pos += 2;
-					if (wavstream[i].buf_pos >= wavstream[i].buf_len) {
+					if (wavstream[i].buf_pos >= s->buf_len) {
 						wavstream[i].buf_pos = 0;
 						if (!wavstream[i].repeat) {
-							wavstream[i].buf = NULL;
-							wavstream[i].buf_len = 0;
+							wavstream[i].sample = 0;
 						}
 					}
 				}
@@ -308,16 +312,16 @@ static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 	}
 }
 
-int Init ()
+bool Init ()
 {
 	SDL_AudioSpec wanted;
 	
 	if (SDL_Init (SDL_INIT_AUDIO) == -1) {
 		fprintf (stderr, "Count not initialise SDL: %s.\n", SDL_GetError ());
-		return -1;
+		return false;
 	}
 
-	wanted.freq = 22050;
+	wanted.freq = FREQ;
 	wanted.channels = 2;
 	wanted.format = AUDIO_S16;
 	wanted.samples = BUF_SIZE;
@@ -326,46 +330,35 @@ int Init ()
 
 	if (SDL_OpenAudio (&wanted, NULL) < 0) {
 		fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
-		return -1;
+		return false;
 	}
 
 	for (int i=0; i<SFX_MAX; i++) {
 		char buf[1024];
 		snprintf(buf, sizeof(buf), "data/sfx/%s", sfx_wavs[i]);
 		SDL_AudioSpec spec;
-		if (SDL_LoadWAV(buf, &spec, &sfx_buf[i].buf, &sfx_buf[i].buf_len) == 0) {
+		if (SDL_LoadWAV(buf, &spec, &sfx_samples[i].buf, &sfx_samples[i].buf_len) == 0) {
 			fputs(SDL_GetError(), stderr);
 			fputs("\n", stderr);
-			sfx_buf[i].buf = 0;
+			sfx_samples[i].buf = 0;
 		}
-		assert(spec.freq == 22050);
+		assert(spec.freq == FREQ);
 		assert(spec.format == AUDIO_S16);
 		if (spec.channels == 1) {
 			// mangle to stereo
-			const unsigned int len = sfx_buf[i].buf_len;
+			const unsigned int len = sfx_samples[i].buf_len;
 			Sint16 *buf = (Sint16*)malloc(2*len);
-			Sint16 *monobuf = (Sint16*)sfx_buf[i].buf;
+			Sint16 *monobuf = (Sint16*)sfx_samples[i].buf;
 			for (unsigned int s=0; s<len/sizeof(Sint16); s++) {
 				buf[2*s] = monobuf[s];
 				buf[2*s+1] = monobuf[s];
 			}
-			SDL_FreeWAV(sfx_buf[i].buf);
-			sfx_buf[i].buf = (Uint8*)buf;
-			sfx_buf[i].buf_len = 2*len;
+			SDL_FreeWAV(sfx_samples[i].buf);
+			sfx_samples[i].buf = (Uint8*)buf;
+			sfx_samples[i].buf_len = 2*len;
 		} else assert(spec.channels == 2);
 	}
-/*
-	if (SDL_LoadWAV ("sfx/tick.wav", &wanted, &sfx_buf[SFX_EAT_TILE].buf,
-			&sfx_buf[SFX_EAT_TILE].buf_len) == NULL) {
-		printf ("Could not open sfx/tick.wav: %s\n", SDL_GetError ());
-		sfx_buf[SFX_EAT_TILE].buf = NULL;
-	}
-	if (SDL_LoadWAV ("sfx/bounce.wav", &wanted, &sfx_buf[SFX_BOUNCE].buf,
-			&sfx_buf[SFX_BOUNCE].buf_len) == NULL) {
-		printf ("Could not open sfx/bounce.wav: %s\n", SDL_GetError ());
-		sfx_buf[SFX_BOUNCE].buf = NULL;
-	}*/
-	return 1;
+	return true;
 }
 
 void Close ()

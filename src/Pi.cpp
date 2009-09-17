@@ -125,8 +125,10 @@ void Pi::Init(IniConfig &config)
 	GLFTInit();
 	GeoSphere::Init();
 	Space::Init();
-	Sound::Init();
-	Sound::Pause(0);
+	if (!config.Int("NoSound")) {
+		Sound::Init();
+		Sound::Pause(0);
+	}
 	
 	Gui::Init(scrWidth, scrHeight, 800, 600);
 }

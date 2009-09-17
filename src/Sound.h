@@ -10,7 +10,7 @@ typedef Uint32 eventid;
 
 enum SFX { SFX_PULSECANNON, SFX_COLLISION, SFX_WARNING, SFX_GUI_PING, SFX_ENGINES, SFX_MAX };
 
-int Init ();
+bool Init ();
 void Close ();
 void UpdateBufferFill ();
 void Pause (int on);
