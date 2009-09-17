@@ -7,6 +7,7 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Render.h"
+#include "Shader.h"
 
 Projectile::Projectile(): Body()
 {
@@ -125,6 +126,8 @@ void Projectile::Render(const Frame *camFrame)
 	}
 	Color col;
 
+	Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
+
 	switch (m_type) {
 		case TYPE_1MW_PULSE:
 			col = Color(1.0f, 0.0f, 0.0f, 1.0f-(m_age/3.0f));
@@ -147,6 +150,8 @@ void Projectile::Render(const Frame *camFrame)
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 	}
+
+	Shader::DisableVertexProgram();
 }
 
 void Projectile::Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
