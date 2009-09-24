@@ -9,14 +9,14 @@ namespace Shader {
 // 4 vertex programs per enum VertexProgram, for 1,2,3,4 lights
 GLuint vtxprog[VPROG_MAX*4];
 bool isEnabled = false;
-bool isVtxProgActive = false;
+GLint activeProgram = 0;
 
 bool IsEnabled() { return isEnabled; }
-bool IsVtxProgActive() { return isVtxProgActive; }
+bool IsVtxProgActive() { return activeProgram != 0; }
 
 void ToggleState()
 {
-	if (GLEW_ARB_vertex_program && !isEnabled) isEnabled = true;
+	if (GLEW_VERSION_2_0 && !isEnabled) isEnabled = true;
 	else isEnabled = false;
 	printf("Vertex shaders %s.\n", isEnabled ? "on" : "off");
 }
@@ -24,226 +24,118 @@ void ToggleState()
 void DisableVertexProgram()
 {
 	if (!isEnabled) return;
-	isVtxProgActive = false;
-	glDisable(GL_VERTEX_PROGRAM_ARB);
+	activeProgram = 0;
+	glUseProgram(0);
 }
 
 void EnableVertexProgram(VertexProgram p)
 {
 	if (!isEnabled) return;
-	isVtxProgActive = true;
-	glEnable(GL_VERTEX_PROGRAM_ARB);
-	glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[4*(int)p + Pi::worldView->GetNumLights() - 1]);
+	activeProgram = vtxprog[4*(int)p + Pi::worldView->GetNumLights() - 1];
+	glUseProgram(activeProgram);
+}
+	
+GLint GetActiveProgram()
+{
+	return activeProgram;
 }
 
-static void CompileProgram(VertexProgram p, const char *code[4])
+char *load_file(const char *filename)
 {
+	FILE *f = fopen(filename, "r");
+	if (!f) {
+		printf("Could not open %s.\n", filename);
+		Pi::Quit();
+	}
+	fseek(f, 0, SEEK_END);
+	size_t len = ftell(f);
+	fseek(f, 0, SEEK_SET);
+	char *buf = (char*)malloc(sizeof(char) * (len+1));
+	fread(buf, 1, len, f);
+	fclose(f);
+	buf[len] = 0;
+	return buf;
+}
+
+
+static void printLog(const char *filename, GLuint obj)
+{
+	int infologLength = 0;
+	char infoLog[1024];
+
+	if (glIsShader(obj))
+		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
+	else
+		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
+
+	if (infologLength > 0)
+		printf("%s: %s", filename, infoLog);
+}
+
+static void CompileProgram(VertexProgram p, const char *filename)
+{
+	static char *universal_code = 0;
+	if (!universal_code) universal_code = load_file("data/shaders/_library.vert.glsl");
+
+	char *code = load_file(filename);
 	for (int i=0; i<4; i++) {
-		if (!code[i]) {
-			vtxprog[4*(int)p + i] = vtxprog[4*(int)p];
-			continue;
-		}
-		glGenProgramsARB(1, &vtxprog[4*(int)p + i]);
-		glBindProgramARB(GL_VERTEX_PROGRAM_ARB, vtxprog[4*(int)p + i]);
-		glProgramStringARB(GL_VERTEX_PROGRAM_ARB, GL_PROGRAM_FORMAT_ASCII_ARB, strlen(code[i]), code[i]);
-		
-		if (GL_INVALID_OPERATION == glGetError()) {
-			GLint errPos;
-			glGetIntegerv(GL_PROGRAM_ERROR_POSITION_ARB, &errPos);
-			const GLubyte *errString = glGetString(GL_PROGRAM_ERROR_STRING_ARB);
-			printf("Error at position %d\n%s\n", errPos, errString);
-			printf("%s\n", &code[i][errPos]);
+		GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+		const char *shader_src[3];
+		char lightDef[128];
+		snprintf(lightDef, sizeof(lightDef), "#define NUM_LIGHTS %d\n", i+1);
+		shader_src[0] = lightDef;
+		shader_src[1] = universal_code;
+		shader_src[2] = code;
+		glShaderSource(vs, 3, shader_src, 0);
+		glCompileShader(vs);
+		GLint status;
+		glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
+		if (!status) {
+			printLog(filename, vs);
 			Pi::Quit();
 		}
+
+		GLuint prog = glCreateProgram();
+		glAttachShader(prog, vs);
+		glLinkProgram(prog);
+		glGetProgramiv(prog, GL_LINK_STATUS, &status);
+		if (!status) {
+			printLog(filename, prog);
+			Pi::Quit();
+		}
+		{
+			/* zbuffer values are (where z = z*modelview*projection):
+			 * depthvalue = log(C*z + 1) / log(C*zfar + 1)
+			 * using C = 1.0 */
+			glUseProgram(prog);
+			GLint invLogZfarPlus1Loc = glGetUniformLocation(prog, "invLogZfarPlus1");
+			assert(invLogZfarPlus1Loc);
+			float znear, zfar;
+			Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+			const float invDenominator = 1.0/log2(zfar + 1.0);
+
+			glUniform1f(invLogZfarPlus1Loc, invDenominator);
+			glUseProgram(0);
+		}
+
+		vtxprog[4*(int)p + i] = prog;
 	}
+	free(code);
 }
 
-// makes depth value = log(C*z + 1) / log(C*zfar + 1)
-// args.x = 1.0/log(C*zfar + 1.0)
-// args.y = 1.0
-#define FIXZ_N_TRANSFORM_2_CLIPCOORDS() \
-	"PARAM args = program.env[0];\n" \
-	"DP4 temp.x, mvp[0], pos;\n" \
-	"DP4 temp.y, mvp[1], pos;\n" \
-	"DP4 temp.z, mvp[2], pos;\n" \
-	"DP4 temp.w, mvp[3], pos;\n" \
-	"MOV result.position.xyw, temp;\n" \
-	"ADD temp.z, temp.z, args.y;\n" \
-	"LG2 temp.z, temp.z;\n" \
-	"MUL temp.z, temp.z, args.x;\n" \
-	/* multiply by w to subvert fixed-function mandatory div by w */ \
-	"MUL result.position.z, temp.z, temp.w;\n" 
-
-#define MAKE_EYENORMAL() \
-	/* transform normal into eye space */ \
-	"DP3 eyeNormal.x, mvinv[0], norm;\n" \
-	"DP3 eyeNormal.y, mvinv[1], norm;\n" \
-	"DP3 eyeNormal.z, mvinv[2], norm;\n" \
-	/* normalize */ \
-	"DP3 temp.w, eyeNormal, eyeNormal;\n" \
-	"RSQ temp.w, temp.w;\n" \
-	"MUL eyeNormal.xyz, temp.w, eyeNormal;\n"
-	
-#define MAKE_LIGHT_COEFFS(lightNum) \
-	"DP3 dots.x, eyeNormal, state.light[" lightNum "].position;\n" \
-	"DP3 dots.y, eyeNormal, state.light[" lightNum "].half;\n" \
-	"MOV dots.w, shininess.x;\n" \
-	"LIT lightcoefs, dots;\n"
-
-static const char *simple_prog[4] = {
-	"!!ARBvp1.0\n"
-	"ATTRIB pos = vertex.position;\n"
-	"OUTPUT oColor = result.color;\n"
-	"PARAM mv[4] = { state.matrix.modelview };\n"
-	"PARAM mvp[4] = { state.matrix.mvp };\n"
-	"TEMP temp;\n"
-	FIXZ_N_TRANSFORM_2_CLIPCOORDS()
-	"MOV oColor, vertex.color;\n"
-	"END"
-	,0,0,0
-};
-
-static const char *pointsprite_prog[4] = {
-	"!!ARBvp1.0\n"
-	"ATTRIB pos = vertex.position;\n"
-	"ATTRIB tex = vertex.texcoord;\n"
-	"OUTPUT oColor = result.color;\n"
-	"OUTPUT oPointSize = result.pointsize;\n"
-	"OUTPUT oTexCoord1 = result.texcoord;\n"
-	"PARAM mv[4] = { state.matrix.modelview };\n"
-	"PARAM mvp[4] = { state.matrix.mvp };\n"
-	"TEMP temp;\n"
-	FIXZ_N_TRANSFORM_2_CLIPCOORDS()
-	"MOV oColor, vertex.color;\n"
-	"MOV oTexCoord1, tex;\n"
-
-	// attenuate points using only the linear attenuation coefficient
-	"DP4 temp.z, mv[2], pos;\n" 
-	"MUL temp.x, state.point.attenuation.y, temp.z;\n" 
-	"RSQ temp.x, temp.x;\n" 
-	"MUL oPointSize.x, temp.x, state.point.size.x;\n"
-
-	"END"
-	,0,0,0
-};
-
-
-
-#define GEOSPHERE_PROG_START() \
-	"!!ARBvp1.0\n"\
-	"ATTRIB pos = vertex.position;\n"\
-	"ATTRIB norm = vertex.normal;\n"\
-	"OUTPUT oColor = result.color;\n"\
-	"PARAM mv[4] = { state.matrix.modelview };\n"\
-	"PARAM mvp[4] = { state.matrix.mvp };\n"\
-	"PARAM mvinv[4] = { state.matrix.modelview.invtrans };\n"\
-	"PARAM shininess = state.material.shininess;\n"\
-	"TEMP eyeNormal, temp, dots, lightcoefs;\n"\
-	FIXZ_N_TRANSFORM_2_CLIPCOORDS()\
-	MAKE_EYENORMAL()\
-	"TEMP colacc;\n"\
-	"TEMP diffuse;\n"\
-	"MOV colacc.xyz, {0,0,0};\n"
-	
-#define GEOSPHERE_ACCUMULATE_LIGHT(light_n) \
-	MAKE_LIGHT_COEFFS( light_n )\
-	"MAD colacc.xyz, state.light[" light_n "].ambient, vertex.color, colacc;\n" \
-	"MUL diffuse, state.light[" light_n "].diffuse, vertex.color;\n"\
-	"MAD colacc.xyz, lightcoefs.y, diffuse, colacc;\n"
-	
-#define GEOSPHERE_PROG_END() \
-	"MOV oColor.xyz, colacc;\n"\
-	"MOV oColor.w, vertex.color.w;\n"\
-	"END\n"
-
-static const char *geosphere_prog[4] = {
-	GEOSPHERE_PROG_START()
-	GEOSPHERE_ACCUMULATE_LIGHT("0")
-	GEOSPHERE_PROG_END(),
-
-	GEOSPHERE_PROG_START()
-	GEOSPHERE_ACCUMULATE_LIGHT("0")
-	GEOSPHERE_ACCUMULATE_LIGHT("1")
-	GEOSPHERE_PROG_END(),
-
-	GEOSPHERE_PROG_START()
-	GEOSPHERE_ACCUMULATE_LIGHT("0")
-	GEOSPHERE_ACCUMULATE_LIGHT("1")
-	GEOSPHERE_ACCUMULATE_LIGHT("2")
-	GEOSPHERE_PROG_END(),
-
-	GEOSPHERE_PROG_START()
-	GEOSPHERE_ACCUMULATE_LIGHT("0")
-	GEOSPHERE_ACCUMULATE_LIGHT("1")
-	GEOSPHERE_ACCUMULATE_LIGHT("2")
-	GEOSPHERE_ACCUMULATE_LIGHT("3")
-	GEOSPHERE_PROG_END()
-};
-
-#define SBRE_PROG_START() \
-	"!!ARBvp1.0\n" \
-	"ATTRIB pos = vertex.position;\n" \
-	"ATTRIB norm = vertex.normal;\n" \
-	\
-	"OUTPUT oColor = result.color;\n" \
-	"PARAM mv[4] = { state.matrix.modelview };\n" \
-	"PARAM mvp[4] = { state.matrix.mvp };\n" \
-	"PARAM mvinv[4] = { state.matrix.modelview.invtrans };\n" \
-	"PARAM shininess = state.material.shininess;\n" \
-	"PARAM diffuseCol = state.lightprod[0].diffuse;\n" \
-	"PARAM emissionCol = state.material.emission;\n" \
-	"PARAM sbre_amb = program.env[1];\n" \
-	"TEMP eyeNormal, colacc, temp, dots, lightcoefs;\n" \
-	FIXZ_N_TRANSFORM_2_CLIPCOORDS() \
-	MAKE_EYENORMAL() \
-	"MAD colacc.xyz, state.material.ambient, sbre_amb, emissionCol;\n"
-
-#define SBRE_ACCUMULATE_LIGHT(light_n) \
-	MAKE_LIGHT_COEFFS( light_n ) \
-	"ADD colacc.xyz, colacc, state.lightprod[" light_n "].ambient;\n" \
-	"MAD temp, lightcoefs.y, state.lightprod[" light_n "].diffuse, colacc;\n"\
-	"MAD colacc.xyz, lightcoefs.z, state.lightprod[" light_n "].specular, temp;\n"
-
-#define SBRE_PROG_END() \
-	"MOV oColor.xyz, colacc;\n"\
-	"MOV oColor.w, diffuseCol.w;\n"\
-	"END\n"
-
-/*
- * Shaders come in one, two, three and four light versions.
- */
-static const char *sbre_prog[4] = {
-	SBRE_PROG_START()
-	SBRE_ACCUMULATE_LIGHT("0")
-	SBRE_PROG_END(),
-
-	SBRE_PROG_START()
-	SBRE_ACCUMULATE_LIGHT("0")
-	SBRE_ACCUMULATE_LIGHT("1")
-	SBRE_PROG_END(),
-
-	SBRE_PROG_START()
-	SBRE_ACCUMULATE_LIGHT("0")
-	SBRE_ACCUMULATE_LIGHT("1")
-	SBRE_ACCUMULATE_LIGHT("2")
-	SBRE_PROG_END(),
-
-	SBRE_PROG_START()
-	SBRE_ACCUMULATE_LIGHT("0")
-	SBRE_ACCUMULATE_LIGHT("1")
-	SBRE_ACCUMULATE_LIGHT("2")
-	SBRE_ACCUMULATE_LIGHT("3")
-	SBRE_PROG_END()
-};
 
 void Init()
 {
-	isEnabled = GLEW_ARB_vertex_program;
-	fprintf(stderr, "GL_ARB_vertex_program: %s\n", isEnabled ? "Yes" : "No");
+	isEnabled = GLEW_VERSION_2_0;
+	fprintf(stderr, "OpenGL 2.0+: %s\n", isEnabled ? "Yes" : "No");
 	if (!isEnabled) return;
-	
-	glEnable(GL_VERTEX_PROGRAM_ARB);
-	
+
+	CompileProgram(VPROG_GEOSPHERE, "data/shaders/geosphere.vert.glsl");
+	CompileProgram(VPROG_SBRE, "data/shaders/sbre.vert.glsl");
+	CompileProgram(VPROG_SIMPLE, "data/shaders/simple.vert.glsl");
+	CompileProgram(VPROG_POINTSPRITE, "data/shaders/pointsprite.vert.glsl");
+	CompileProgram(VPROG_PLANETHORIZON, "data/shaders/planethorizon.vert.glsl");
+#if 0	
 	{
 		/* zbuffer values are (where z = z*modelview*projection):
 		 * depthvalue = log(C*z + 1) / log(C*zfar + 1)
@@ -258,7 +150,7 @@ void Init()
 	CompileProgram(VPROG_SBRE, sbre_prog);
 	CompileProgram(VPROG_SIMPLE, simple_prog);
 	CompileProgram(VPROG_POINTSPRITE, pointsprite_prog);
-	
+#endif	
 	DisableVertexProgram();
 }
 

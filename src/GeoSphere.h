@@ -10,13 +10,14 @@ class GeoSphere {
 public:
 	GeoSphere(const SBody *body);
 	~GeoSphere();
-	void Render(vector3d campos);
+	void Render(vector3d campos, const float radius, const float scale);
 	void AddCraters(MTRand &rand, int num, double minAng, double maxAng);
 	double GetHeight(vector3d p);
 	// only called from fishy thread
 	void _UpdateLODs();
 	friend class GeoPatch;
 	static void Init();
+	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const;
 private:
 	GeoPatch *m_patches[6];
 	struct crater_t {

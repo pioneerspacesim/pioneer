@@ -24,7 +24,7 @@ void ObjectViewerView::Draw3D()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	float fracH = Pi::GetScrHeight() / (float)Pi::GetScrWidth();
-	glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
+	glFrustum(-1, 1, -fracH, fracH, 10.0f, 1000000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glEnable(GL_LIGHT0);

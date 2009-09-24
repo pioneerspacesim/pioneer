@@ -970,7 +970,86 @@ void GeoSphere::DestroyVBOs()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-void GeoSphere::Render(vector3d campos) {
+void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
+{
+	switch (GEOSPHERE_TYPE) {
+		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
+		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
+		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
+		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
+			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			*outDensity = 0.0f;
+			break;
+		case SBody::TYPE_PLANET_ASTEROID:
+		case SBody::TYPE_PLANET_LARGE_ASTEROID:
+		case SBody::TYPE_PLANET_DWARF:
+			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			*outDensity = 0.0f;
+			break;
+		case SBody::TYPE_PLANET_SMALL:
+			*outColor = Color(.2f, .2f, .3f, 1.0f);
+			*outDensity = 0.000001f;
+			break;
+		case SBody::TYPE_PLANET_CO2:
+			*outColor = Color( .8f, .8f, .8f, 1.0f);
+			*outDensity = 0.000005f;
+			break;
+		case SBody::TYPE_PLANET_METHANE:
+			*outColor = Color(.2f, .6f, .3f, 1.0f);
+			*outDensity = 0.000005f;
+			break;
+		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
+			*outColor = Color(.5f, .5f, .8f, 1.0f);
+			*outDensity = 0.00005f;
+			break;
+		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
+			*outColor = Color(.8f, .8f, .8f, 1.0f);
+			*outDensity = 0.00005f;
+			break;
+		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
+			*outColor = Color(.2f, .6f, .3f, 1.0f);
+			*outDensity = 0.00005f;
+			break;
+		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
+			*outColor = Color(0.5f, 0.1f, 0.1f, 1.0f);
+			*outDensity = 0.00002f;
+			break;
+		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
+			*outColor = Color(0.2f, 0.2f, 0.6f, 1.0f);
+			*outDensity = 0.000005f;
+			break;
+		default:
+			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			*outDensity = 0.0f;
+			break;
+	}
+}
+
+void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
+	if (Shader::IsEnabled()) {
+		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
+		GLint prog = Shader::GetActiveProgram();
+		GLint loc;
+		loc = glGetUniformLocation(prog, "geosphereScale");
+		glUniform1f(loc, scale);
+		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
+		glUniform1f(loc, 1.01f*radius/scale);
+
+		Color atmosCol;
+		float atmosDensity;
+		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
+		loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
+		glUniform1f(loc, atmosDensity);
+		loc = glGetUniformLocation(prog, "atmosColor");
+		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
+		
+		matrix4x4d modelMatrix;
+		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
+		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		loc = glGetUniformLocation(prog, "geosphereCenter");
+		glUniform3f(loc, center.x, center.y, center.z);
+	}
+
 	if (m_patches[0] == 0) {
 		// generate initial wank
 		vector3d p1(1,1,1);
@@ -1015,7 +1094,6 @@ void GeoSphere::Render(vector3d campos) {
 	glMaterialfv (GL_FRONT, GL_EMISSION, g_ambient);
 	glEnable(GL_COLOR_MATERIAL);
 
-	Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
 //	glLineWidth(1.0);
 //	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {

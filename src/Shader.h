@@ -3,10 +3,11 @@
 
 namespace Shader {
 	enum VertexProgram {
-		VPROG_GEOSPHERE, VPROG_SBRE, VPROG_SIMPLE, VPROG_POINTSPRITE, VPROG_MAX
+		VPROG_GEOSPHERE, VPROG_SBRE, VPROG_SIMPLE, VPROG_POINTSPRITE, VPROG_PLANETHORIZON, VPROG_MAX
 	};
 	bool IsEnabled();
 	bool IsVtxProgActive();
+	GLint GetActiveProgram();
 	void ToggleState();
 	void EnableVertexProgram(VertexProgram p);
 	void DisableVertexProgram();

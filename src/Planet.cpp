@@ -269,6 +269,8 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glDisable(GL_CULL_FACE);
 	glBegin(GL_TRIANGLE_STRIP);
 	for (float ang=0; ang<2*M_PI; ang+=(float)angStep) {
+		vector3d norm = r1.Normalized();
+		glNormal3dv(&norm.x);
 		glColor4fv(col);
 		glVertex3dv(&r1.x);
 		glColor4f(0,0,0,0);
@@ -286,44 +288,14 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 
 void Planet::DrawAtmosphere(double rad, vector3d &pos)
 {
-	Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
+	Shader::EnableVertexProgram(Shader::VPROG_PLANETHORIZON);
 
-	if (sbody->type == SBody::TYPE_PLANET_SMALL) {
-		const float c[4] = { .2f, .2f, .3f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_CO2_THICK_ATMOS) {
-		const float c[4] = { .8f, .8f, .8f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_CO2) {
-		const float c[4] = { .5f, .5f, .5f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_METHANE_THICK_ATMOS) {
-		const float c[4] = { .2f, .6f, .3f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_METHANE) {
-		const float c[4] = { .2f, .6f, .3f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_HIGHLY_VOLCANIC) {
-		const float c[4] = { .5f, .2f, .2f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_WATER_THICK_ATMOS) {
-		const float c[4] = { .8f, .8f, .8f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.1, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_WATER) {
-		const float c[4] = { .2f, .2f, .4f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
-	}
-	else if (sbody->type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) {
-		const float c[4] = { .2f, .2f, .5f, .8f };
-		_DrawAtmosphere(rad*0.99, rad*1.05, pos, c);
-	}
+	Color c;
+	float density;
+	m_geosphere->GetAtmosphereFlavor(&c, &density);
+	
+	_DrawAtmosphere(rad*0.999, rad*1.05, pos, c);
+
 	Shader::DisableVertexProgram();
 }
 
@@ -343,6 +315,7 @@ void Planet::Render(const Frame *a_camFrame)
 	double len = fpos.Length();
 	double origLen = len;
 	int shrink = 0;
+	double scale = 1.0f;
 
 	double dist_to_horizon;
 	for (;;) {
@@ -353,9 +326,10 @@ void Planet::Render(const Frame *a_camFrame)
 		rad *= 0.25;
 		fpos = 0.25*fpos;
 		len *= 0.25;
+		scale *= 4.0f;
 		shrink++;
 	}
-//	printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
+	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
 	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
 	glColor3f(1,1,1);
@@ -428,7 +402,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glPushMatrix();
 		glScaled(rad, rad, rad);
 		campos = campos * (1.0/rad);
-		m_geosphere->Render(campos);
+		m_geosphere->Render(campos, GetRadius(), scale);
 		
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		
