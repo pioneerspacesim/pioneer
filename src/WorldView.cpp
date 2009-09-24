@@ -8,7 +8,7 @@
 #include "ShipCpanel.h"
 #include "Serializer.h"
 #include "StarSystem.h"
-#include "Sound.h"
+#include "Shader.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
@@ -121,6 +121,20 @@ void WorldView::Load()
 	m_camType = (CamType)rd_int();
 }
 
+void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
+{
+	if (Shader::IsEnabled()) {
+		/* If vertex shaders are enabled then we have a lovely logarithmic
+		 * z-buffer stretching out from 0.1mm to 10000km! */
+		*outNear = 0.0001f;
+		*outFar = 10000000.0f;
+	} else {
+		/* Otherwise we have the usual hopelessly crap z-buffer */
+		*outNear = 10.0f;
+		*outFar = 1000000.0f;
+	}
+}
+
 void WorldView::SetCamType(enum CamType c)
 {
 	m_camType = c;
@@ -145,7 +159,7 @@ void WorldView::ApplyExternalViewRotation(matrix4x4d &m)
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	if (!Pi::player->SetWheelState(b->GetState()!=0)) {
 		b->StatePrev();
 	}
@@ -153,19 +167,19 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	m_labelsOn = b->GetState()!=0;
 }
 
 void WorldView::OnClickBlastoff()
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	if (Pi::player->GetDockedWith()) {
 		Pi::player->SetDockedWith(0,0);
 	} else {
@@ -296,9 +310,11 @@ void WorldView::Draw3D()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	float znear, zfar;
+	GetNearFarClipPlane(&znear, &zfar);
 	// why the hell do i give these functions such big names..
-	float fracH = WORLDVIEW_ZNEAR / Pi::GetScrAspect();
-	glFrustum(-WORLDVIEW_ZNEAR, WORLDVIEW_ZNEAR, -fracH, fracH, WORLDVIEW_ZNEAR, WORLDVIEW_ZFAR);
+	float fracH = znear / Pi::GetScrAspect();
+	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glClearColor(0,0,0,0);

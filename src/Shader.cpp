@@ -58,15 +58,20 @@ static void CompileProgram(VertexProgram p, const char *code[4])
 	}
 }
 
+// makes depth value = log(C*z + 1) / log(C*zfar + 1)
+// args.x = 1.0/log(C*zfar + 1.0)
+// args.y = 1.0
 #define FIXZ_N_TRANSFORM_2_CLIPCOORDS() \
+	"PARAM args = program.env[0];\n" \
 	"DP4 temp.x, mvp[0], pos;\n" \
 	"DP4 temp.y, mvp[1], pos;\n" \
-	"DP4 temp.z, mv[2], pos;\n" \
+	"DP4 temp.z, mvp[2], pos;\n" \
 	"DP4 temp.w, mvp[3], pos;\n" \
 	"MOV result.position.xyw, temp;\n" \
-	"RSQ temp.z, temp.z;\n" \
-	/* (1.0/sqrt(temp.z))*zmul + zmod */ \
-	"MAD temp.z, temp.z, program.env[0].x, program.env[0].y;\n" \
+	"ADD temp.z, temp.z, args.y;\n" \
+	"LG2 temp.z, temp.z;\n" \
+	"MUL temp.z, temp.z, args.x;\n" \
+	/* multiply by w to subvert fixed-function mandatory div by w */ \
 	"MUL result.position.z, temp.z, temp.w;\n" 
 
 #define MAKE_EYENORMAL() \
@@ -240,9 +245,13 @@ void Init()
 	glEnable(GL_VERTEX_PROGRAM_ARB);
 	
 	{
-		const float zmul = 1.0 / (1.0/sqrtf(WORLDVIEW_ZFAR) - 1.0/sqrtf(WORLDVIEW_ZNEAR));
-		const float zmod = -zmul / sqrtf(WORLDVIEW_ZNEAR);
-		glProgramEnvParameter4fARB(GL_VERTEX_PROGRAM_ARB, 0, zmul, zmod, 0.0, 0.0);
+		/* zbuffer values are (where z = z*modelview*projection):
+		 * depthvalue = log(C*z + 1) / log(C*zfar + 1)
+		 * using C = 1.0 */
+		float znear, zfar;
+		Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+		const float invDenominator = 1.0/log2(zfar + 1.0);
+		glProgramEnvParameter4fARB(GL_VERTEX_PROGRAM_ARB, 0, invDenominator, 1.0, 0.0, 0.0);
 		glProgramEnvParameter4fARB(GL_VERTEX_PROGRAM_ARB, 1, SBRE_AMB, SBRE_AMB, SBRE_AMB, 1.0);
 	}
 	CompileProgram(VPROG_GEOSPHERE, geosphere_prog);

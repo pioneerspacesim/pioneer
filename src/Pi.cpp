@@ -160,6 +160,11 @@ void Pi::Quit()
 	exit(0);
 }
 
+void Pi::BoinkNoise()
+{
+	Sound::PlaySfx(Sound::SFX_GUI_PING, 20000, 20000, false);
+}
+
 void Pi::SetTimeAccel(int s)
 {
 	// don't want player to spin like mad when hitting time accel

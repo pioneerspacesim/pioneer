@@ -7,7 +7,6 @@
 #include "WorldView.h"
 #include "SpaceStation.h"
 #include "ShipCpanelMultiFuncDisplays.h"
-#include "Sound.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 {
@@ -201,14 +200,14 @@ void ShipCpanel::SetScannerWidget(Widget *w)
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	Pi::worldView->SetCamType((enum WorldView::CamType)b->GetState());
 	Pi::SetView(Pi::worldView);
 }
 
 void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	if (Pi::GetView() == Pi::infoView) {
 		Pi::infoView->NextPage();
 	} else {
@@ -219,20 +218,20 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	Pi::SetMapView((enum Pi::MapView)b->GetState());
 }
 
 void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, int val)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	/* May not happen, as time accel is limited by proximity to stuff */
 	Pi::RequestTimeAccel(val);
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING);
+	Pi::BoinkNoise();
 	if (Pi::player->GetDockedWith()) Pi::SetView(Pi::spaceStationView);
 	else {
 		Pi::SetView(Pi::worldView);

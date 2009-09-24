@@ -246,7 +246,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 	matrix4x4d frameTrans;
 	Frame::GetFrameTransform(station->GetFrame(), camFrame, frameTrans);
 	
-	if ((frameTrans*station->GetPosition()).Length() > WORLDVIEW_ZFAR) {
+	if ((frameTrans*station->GetPosition()).Length() > 1000000.0) {
 		return;
 	}
 	

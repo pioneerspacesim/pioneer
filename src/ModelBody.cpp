@@ -145,14 +145,17 @@ void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
 	matrix4x4d frameTrans;
 	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
 
+	float znear, zfar;
+	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	
 	vector3d pos = frameTrans * GetPosition();
 
-	if (pos.Length() > WORLDVIEW_ZFAR) {
+	if (pos.Length() > zfar) {
 		glPointSize(1.0);
 		glDisable(GL_LIGHTING);
 		glColor3f(1,1,1);
 		glBegin(GL_POINTS);
-		pos = pos.Normalized() * 0.99*(double)WORLDVIEW_ZFAR;
+		pos = pos.Normalized() * 0.99*(double)zfar;
 		glVertex3dv(&pos[0]);
 		glEnd();
 		glEnable(GL_LIGHTING);

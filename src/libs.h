@@ -52,9 +52,6 @@
 #define AU		149598000000.0
 #define G		6.67428e-11
 
-#define WORLDVIEW_ZNEAR	10.0f
-#define WORLDVIEW_ZFAR	1000000.0f
-
 #define HUD_ALPHA 0.34f
 
 /* 

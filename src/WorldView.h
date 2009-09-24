@@ -27,6 +27,7 @@ public:
 	enum CamType GetCamType() { return m_camType; }
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
+	void GetNearFarClipPlane(float *outNear, float *outFar) const;
 	
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;
