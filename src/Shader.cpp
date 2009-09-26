@@ -45,7 +45,7 @@ char *load_file(const char *filename)
 	FILE *f = fopen(filename, "r");
 	if (!f) {
 		printf("Could not open %s.\n", filename);
-		Pi::Quit();
+		return 0;
 	}
 	fseek(f, 0, SEEK_END);
 	size_t len = ftell(f);
@@ -77,7 +77,8 @@ static void CompileProgram(VertexProgram p, const char *filename)
 	static char *universal_code = 0;
 	if (!universal_code) universal_code = load_file("data/shaders/_library.vert.glsl");
 
-	char *code = load_file(filename);
+	char *vscode = load_file((filename + std::string(".vert.glsl")).c_str());
+	char *pscode = load_file((filename + std::string(".frag.glsl")).c_str());
 	for (int i=0; i<4; i++) {
 		GLuint vs = glCreateShader(GL_VERTEX_SHADER);
 		const char *shader_src[3];
@@ -85,7 +86,7 @@ static void CompileProgram(VertexProgram p, const char *filename)
 		snprintf(lightDef, sizeof(lightDef), "#define NUM_LIGHTS %d\n", i+1);
 		shader_src[0] = lightDef;
 		shader_src[1] = universal_code;
-		shader_src[2] = code;
+		shader_src[2] = vscode;
 		glShaderSource(vs, 3, shader_src, 0);
 		glCompileShader(vs);
 		GLint status;
@@ -95,8 +96,23 @@ static void CompileProgram(VertexProgram p, const char *filename)
 			Pi::Quit();
 		}
 
+		GLuint ps = 0;
+		if (pscode) {
+			shader_src[0] = pscode;
+			ps = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(ps, 1, shader_src, 0);
+			glCompileShader(ps);
+			GLint status;
+			glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
+			if (!status) {
+				printLog(filename, ps);
+				Pi::Quit();
+			}
+		}
+
 		GLuint prog = glCreateProgram();
 		glAttachShader(prog, vs);
+		if (pscode) glAttachShader(prog, ps);
 		glLinkProgram(prog);
 		glGetProgramiv(prog, GL_LINK_STATUS, &status);
 		if (!status) {
@@ -120,7 +136,8 @@ static void CompileProgram(VertexProgram p, const char *filename)
 
 		vtxprog[4*(int)p + i] = prog;
 	}
-	free(code);
+	free(vscode);
+	if (pscode) free(pscode);
 }
 
 
@@ -130,11 +147,11 @@ void Init()
 	fprintf(stderr, "OpenGL 2.0+: %s\n", isEnabled ? "Yes" : "No");
 	if (!isEnabled) return;
 
-	CompileProgram(VPROG_GEOSPHERE, "data/shaders/geosphere.vert.glsl");
-	CompileProgram(VPROG_SBRE, "data/shaders/sbre.vert.glsl");
-	CompileProgram(VPROG_SIMPLE, "data/shaders/simple.vert.glsl");
-	CompileProgram(VPROG_POINTSPRITE, "data/shaders/pointsprite.vert.glsl");
-	CompileProgram(VPROG_PLANETHORIZON, "data/shaders/planethorizon.vert.glsl");
+	CompileProgram(VPROG_GEOSPHERE, "data/shaders/geosphere");
+	CompileProgram(VPROG_SBRE, "data/shaders/sbre");
+	CompileProgram(VPROG_SIMPLE, "data/shaders/simple");
+	CompileProgram(VPROG_POINTSPRITE, "data/shaders/pointsprite");
+	CompileProgram(VPROG_PLANETHORIZON, "data/shaders/planethorizon");
 #if 0	
 	{
 		/* zbuffer values are (where z = z*modelview*projection):

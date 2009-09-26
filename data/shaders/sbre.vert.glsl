@@ -1,6 +1,10 @@
 void main(void)
 {
-	gl_Position = logarithmicTransform();
+//	gl_Position = logarithmicTransform();
+	vec4 vertexPosClip = gl_ModelViewProjectionMatrix * gl_Vertex;
+	gl_Position = vertexPosClip;
+	gl_TexCoord[6] = vertexPosClip;
+
 	vec3 eyepos = vec3(gl_ModelViewMatrix * gl_Vertex);
 	vec3 tnorm = normalize(gl_NormalMatrix * gl_Normal);
 	vec4 amb = vec4(0.0);

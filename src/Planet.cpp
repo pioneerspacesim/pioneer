@@ -294,7 +294,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 	float density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
-	_DrawAtmosphere(rad*0.999, rad*1.05, pos, c);
+	_DrawAtmosphere(rad*0.999, rad*1.01, pos, c);
 
 	Shader::DisableVertexProgram();
 }
