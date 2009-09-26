@@ -84,6 +84,7 @@ WorldView::WorldView(): View()
 	
 	Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
+	Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = 0.05f+(float)Pi::rng.NDouble(3);
@@ -101,6 +102,12 @@ WorldView::WorldView(): View()
 	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
 	glBindBufferARB(GL_ARRAY_BUFFER, 0);
 #endif /* USE_VBO */
+}
+
+void WorldView::OnPlayerChangeFlightControlState()
+{
+	printf("Set state %d\n", Pi::player->GetFlightControlState());
+	m_flightControlButton->SetActiveState(Pi::player->GetFlightState());
 }
 
 void WorldView::Save()
@@ -168,6 +175,7 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
+	printf("was %d setting %d\n", Pi::player->GetFlightControlState(), b->GetState());
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
@@ -481,6 +489,7 @@ void WorldView::OnChangeHyperspaceTarget()
 
 static void player_fly_to(Body *b)
 {
+	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 	Pi::player->AIClearInstructions();
 	Pi::player->AIInstruct(Ship::DO_FLY_TO, b);
 }

@@ -988,35 +988,35 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			break;
 		case SBody::TYPE_PLANET_SMALL:
 			*outColor = Color(.2f, .2f, .3f, 1.0f);
-			*outDensity = 0.000001f;
+			*outDensity = 0.0005f;
 			break;
 		case SBody::TYPE_PLANET_CO2:
 			*outColor = Color( .8f, .8f, .8f, 1.0f);
-			*outDensity = 0.000005f;
+			*outDensity = 0.003f;
 			break;
 		case SBody::TYPE_PLANET_METHANE:
 			*outColor = Color(.2f, .6f, .3f, 1.0f);
-			*outDensity = 0.000005f;
+			*outDensity = 0.002f;
 			break;
 		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
 			*outColor = Color(.5f, .5f, .8f, 1.0f);
-			*outDensity = 0.00005f;
+			*outDensity = 0.005f;
 			break;
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 			*outColor = Color(.8f, .8f, .8f, 1.0f);
-			*outDensity = 0.00005f;
+			*outDensity = 0.005f;
 			break;
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 			*outColor = Color(.2f, .6f, .3f, 1.0f);
-			*outDensity = 0.00005f;
+			*outDensity = 0.005f;
 			break;
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
 			*outColor = Color(0.5f, 0.1f, 0.1f, 1.0f);
-			*outDensity = 0.00002f;
+			*outDensity = 0.002f;
 			break;
 		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			*outColor = Color(0.2f, 0.2f, 0.6f, 1.0f);
-			*outDensity = 0.000005f;
+			*outColor = Color(.5f, .5f, 1.0f, 1.0f);
+			*outDensity = 0.002f;
 			break;
 		default:
 			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
@@ -1025,15 +1025,79 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 	}
 }
 
+#define SPHERE_SUBDIVS 4
+static void makeSide(const vector3f &a, const vector3f &b, const vector3f &c, const vector3f &d,
+		int depth)
+{
+	if (depth >= SPHERE_SUBDIVS) {
+		glBegin(GL_TRIANGLE_FAN);
+		glVertex3fv(&a.x);
+		glVertex3fv(&b.x);
+		glVertex3fv(&c.x);
+		glVertex3fv(&d.x);
+		glEnd();
+	} else {
+		vector3f ab = (a+b).Normalized();
+		vector3f bc = (b+c).Normalized();
+		vector3f cd = (c+d).Normalized();
+		vector3f da = (d+a).Normalized();
+		vector3f mid = (a+b+c+d).Normalized();
+		depth++;
+		makeSide(a, ab, mid, da, depth);
+		makeSide(ab, b, bc, mid, depth);
+		makeSide(mid, bc, c, cd, depth);
+		makeSide(da, mid, cd, d, depth);
+	}
+}
+
+static void drawSphere(float rad)
+{
+	vector3f p[8] = {
+		vector3f(-1.0f, +1.0f, -1.0f),
+		vector3f(+1.0f, +1.0f, -1.0f),
+		vector3f(+1.0f, +1.0f, +1.0f),
+		vector3f(-1.0f, +1.0f, +1.0f),
+
+		vector3f(-1.0f, -1.0f, -1.0f),
+		vector3f(+1.0f, -1.0f, -1.0f),
+		vector3f(+1.0f, -1.0f, +1.0f),
+		vector3f(-1.0f, -1.0f, +1.0f) };
+	for (int i=0; i<8; i++) {
+		p[i] = p[i].Normalized();
+	}
+
+	glPushMatrix();
+	glScalef(rad, rad, rad);
+	
+	static GLuint dlist = 0;
+	if (!dlist) {
+		dlist = glGenLists(1);
+		glNewList(dlist, GL_COMPILE);
+
+		makeSide(p[0], p[1], p[2], p[3], 0);
+		makeSide(p[2], p[1], p[5], p[6], 0);
+		makeSide(p[3], p[2], p[6], p[7], 0);
+		makeSide(p[4], p[0], p[3], p[7], 0);
+		makeSide(p[5], p[1], p[0], p[4], 0);
+		makeSide(p[7], p[6], p[5], p[4], 0);
+
+		glEndList();
+	}
+	glCallList(dlist);
+	glPopMatrix();
+	glShadeModel(GL_SMOOTH);
+}
+
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	if (Shader::IsEnabled()) {
-		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
+		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE_SKY);
 		GLint prog = Shader::GetActiveProgram();
 		GLint loc;
 		loc = glGetUniformLocation(prog, "geosphereScale");
 		glUniform1f(loc, scale);
 		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
-		glUniform1f(loc, 1.01f*radius/scale);
+		const float atmosRadius = 1.01f;
+		glUniform1f(loc, atmosRadius*radius/scale);
 
 		Color atmosCol;
 		float atmosDensity;
@@ -1048,7 +1112,34 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		loc = glGetUniformLocation(prog, "geosphereCenter");
 		glUniform3f(loc, center.x, center.y, center.z);
+		glEnable(GL_BLEND);
+		glAlphaFunc(GL_SRC_ALPHA, GL_ONE);
+		// make atmosphere sphere slightly bigger than required so
+		// that the edges of the pixel shader atmosphere jizz doesn't
+		// show ugly polygonal angles
+		drawSphere(atmosRadius*1.01);
+		glDisable(GL_BLEND);
+
+		/////////////////////////////////////////////////////////////
+		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
+		prog = Shader::GetActiveProgram();
+		loc = glGetUniformLocation(prog, "geosphereScale");
+		glUniform1f(loc, scale);
+		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
+		glUniform1f(loc, atmosRadius*radius/scale);
+
+		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
+		loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
+		glUniform1f(loc, atmosDensity);
+		loc = glGetUniformLocation(prog, "atmosColor");
+		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
+		
+		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
+		center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		loc = glGetUniformLocation(prog, "geosphereCenter");
+		glUniform3f(loc, center.x, center.y, center.z);
 	}
+	//Shader::DisableVertexProgram(); return;
 
 	if (m_patches[0] == 0) {
 		// generate initial wank

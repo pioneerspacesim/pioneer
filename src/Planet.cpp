@@ -294,7 +294,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 	float density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
-	_DrawAtmosphere(rad*0.999, rad*1.01, pos, c);
+	_DrawAtmosphere(rad*0.999, rad*1.05, pos, c);
 
 	Shader::DisableVertexProgram();
 }
@@ -412,7 +412,7 @@ void Planet::Render(const Frame *a_camFrame)
 
 		fpos = ftran.InverseOf() * fpos;
 
-		DrawAtmosphere(rad, fpos);
+		if (!Shader::IsEnabled()) DrawAtmosphere(rad, fpos);
 
 		if (shrink) {// || !Shader::IsEnabled()) {
 			glClear(GL_DEPTH_BUFFER_BIT);

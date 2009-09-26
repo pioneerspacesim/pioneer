@@ -74,20 +74,26 @@ static void printLog(const char *filename, GLuint obj)
 
 static void CompileProgram(VertexProgram p, const char *filename)
 {
-	static char *universal_code = 0;
-	if (!universal_code) universal_code = load_file("data/shaders/_library.vert.glsl");
+	static char *lib_vs = 0;
+	static char *lib_all = 0;
+	if (!lib_vs) lib_vs = load_file("data/shaders/_library.vert.glsl");
+	if (!lib_all) lib_all = load_file("data/shaders/_library.all.glsl");
 
 	char *vscode = load_file((filename + std::string(".vert.glsl")).c_str());
 	char *pscode = load_file((filename + std::string(".frag.glsl")).c_str());
+	char *allcode = load_file((filename + std::string(".all.glsl")).c_str());
 	for (int i=0; i<4; i++) {
 		GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-		const char *shader_src[3];
+		std::vector<const char*> shader_src;
 		char lightDef[128];
 		snprintf(lightDef, sizeof(lightDef), "#define NUM_LIGHTS %d\n", i+1);
-		shader_src[0] = lightDef;
-		shader_src[1] = universal_code;
-		shader_src[2] = vscode;
-		glShaderSource(vs, 3, shader_src, 0);
+		shader_src.push_back(lightDef);
+		shader_src.push_back(lib_all);
+		shader_src.push_back(lib_vs);
+		if (allcode) shader_src.push_back(allcode);
+		shader_src.push_back(vscode);
+
+		glShaderSource(vs, shader_src.size(), &shader_src[0], 0);
 		glCompileShader(vs);
 		GLint status;
 		glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
@@ -98,9 +104,14 @@ static void CompileProgram(VertexProgram p, const char *filename)
 
 		GLuint ps = 0;
 		if (pscode) {
-			shader_src[0] = pscode;
+			shader_src.clear();
+			shader_src.push_back(lightDef);
+			shader_src.push_back(lib_all);
+			if (allcode) shader_src.push_back(allcode);
+			shader_src.push_back(pscode);
+			
 			ps = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(ps, 1, shader_src, 0);
+			glShaderSource(ps, shader_src.size(), &shader_src[0], 0);
 			glCompileShader(ps);
 			GLint status;
 			glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
@@ -138,6 +149,7 @@ static void CompileProgram(VertexProgram p, const char *filename)
 	}
 	free(vscode);
 	if (pscode) free(pscode);
+	if (allcode) free(allcode);
 }
 
 
@@ -148,6 +160,7 @@ void Init()
 	if (!isEnabled) return;
 
 	CompileProgram(VPROG_GEOSPHERE, "data/shaders/geosphere");
+	CompileProgram(VPROG_GEOSPHERE_SKY, "data/shaders/geosphere_sky");
 	CompileProgram(VPROG_SBRE, "data/shaders/sbre");
 	CompileProgram(VPROG_SIMPLE, "data/shaders/simple");
 	CompileProgram(VPROG_POINTSPRITE, "data/shaders/pointsprite");

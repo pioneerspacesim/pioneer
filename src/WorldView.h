@@ -44,6 +44,7 @@ private:
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnChangeHyperspaceTarget();
 	void OnPlayerDockOrUndock();
+	void OnPlayerChangeFlightControlState();
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const float screenX, const float screenY) const;

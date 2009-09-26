@@ -38,14 +38,14 @@ float StarSystem::starColors[][3] = {
 float StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
-	{ 1.0, 0.2, 0.0 }, // M
-	{ 1.0, 0.7, 0.1 }, // K
+	{ 1.0, 0.5, 0.2 }, // M
+	{ 1.0, 1.0, 0.4 }, // K
 	{ 1.0, 1.0, 1.0 }, // white dwarf
-	{ 1.0, 1.0, 0.9 }, // G
+	{ 1.0, 1.0, 0.95 }, // G
 	{ 1.0, 1.0, 1.0 }, // F
 	{ 1.0, 1.0, 1.0 }, // A
-	{ 0.7, 0.7, 1.0 }, // B
-	{ 1.0, 0.7, 1.0 }  // O
+	{ 0.8, 0.8, 1.0 }, // B
+	{ 1.0, 0.8, 1.0 }  // O
 };
 
 static const struct SBodySubTypeInfo {

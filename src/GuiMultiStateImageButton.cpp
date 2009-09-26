@@ -41,6 +41,16 @@ void MultiStateImageButton::OnActivate()
 	onClick.emit(this);
 }
 
+void MultiStateImageButton::SetActiveState(int state)
+{
+	for (unsigned int i=0; i<m_states.size(); i++) {
+		if (m_states[i].state == state) {
+			m_curState = i;
+			break;
+		}
+	}
+}
+
 void MultiStateImageButton::SetSelected(bool state)
 {
 	m_isSelected = state;

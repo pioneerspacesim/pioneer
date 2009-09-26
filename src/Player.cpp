@@ -81,19 +81,14 @@ void Player::SetFlightControlState(enum FlightControlState s)
 {
 	m_flightControlState = s;
 	if (m_flightControlState == CONTROL_AUTOPILOT) {
-		Body *target = GetNavTarget();
 		AIClearInstructions();
-		if (target && target->IsType(Object::SHIP)) {
-			AIInstruct(Ship::DO_KILL, target);
-		} else if (target) {
-			AIInstruct(Ship::DO_KILL, target);
-		}
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
 		m_setSpeed = GetVelocity().Length();
 	} else {
 		AIClearInstructions();
 	}
+	Pi::onPlayerChangeFlightControlState.emit();
 }
 
 void Player::Render(const Frame *camFrame)
@@ -116,7 +111,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
-void Player::TimeStepUpdate(const float timeStep)
+void Player::StaticUpdate(const float timeStep)
 {
 	Body *b;
 	vector3d v;
@@ -161,7 +156,7 @@ void Player::TimeStepUpdate(const float timeStep)
 		m_flightControlState = CONTROL_MANUAL;
 		AIClearInstructions();
 	}
-	Ship::TimeStepUpdate(timeStep);
+	Ship::StaticUpdate(timeStep);
 }
 
 #define MOUSE_CTRL_AREA		10.0f

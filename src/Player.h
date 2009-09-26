@@ -17,7 +17,7 @@ public:
 	void PollControls();
 	virtual void Render(const Frame *camFrame);
 	virtual void SetDockedWith(SpaceStation *, int port);
-	void TimeStepUpdate(const float timeStep);
+	void StaticUpdate(const float timeStep);
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);

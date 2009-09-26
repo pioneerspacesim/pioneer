@@ -23,15 +23,23 @@ void main(void)
 	float fogFactor;
 	{
 		float atmosDist = geosphereScale * (length(eyepos) - atmosStart);
-		fogFactor = 1.0 / exp(geosphereAtmosFogDensity * atmosDist);
+		float ldprod;
+		vec3 dir = normalize(eyepos);
+		vec3 a = (atmosStart * dir - geosphereCenter) / geosphereAtmosTopRad;
+		vec3 b = (eyepos - geosphereCenter) / geosphereAtmosTopRad;
+		ldprod = AtmosLengthDensityProduct(a, b, geosphereAtmosFogDensity, atmosDist);
+		fogFactor = 1.0 / exp(ldprod);
 	}
 
-	float atmosDiffuse = 0.0;
+	vec4 atmosDiffuse = vec4(0.0,0.0,0.0,1.0);
 	{
 		vec3 surfaceNorm = normalize(eyepos - geosphereCenter);
 		for (int i=0; i<NUM_LIGHTS; ++i) {
-			atmosDiffuse += max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
+			atmosDiffuse += gl_LightSource[i].diffuse * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
 		}
 	}
-	gl_FrontColor = gl_FrontLightModelProduct.sceneColor + (fogFactor)*(amb+diff)*gl_Color + (1.0-fogFactor)*atmosDiffuse*atmosColor;
+	atmosDiffuse = min(atmosDiffuse * 2.0, 1.0);
+//	float sun = dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position)));
+	gl_FrontColor = (fogFactor)*(amb+diff)*gl_Color +
+		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 }

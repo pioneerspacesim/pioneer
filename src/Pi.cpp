@@ -38,6 +38,7 @@ sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
 sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerMissionListChanged;
+sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];

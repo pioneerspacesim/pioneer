@@ -21,6 +21,7 @@ namespace Gui {
 		virtual void OnActivate();
 		sigc::signal<void, MultiStateImageButton*> onClick;
 		virtual void SetSelected(bool state);
+		void SetActiveState(int state);
 	protected:
 		virtual std::string GetOverrideTooltip();
 	private:
