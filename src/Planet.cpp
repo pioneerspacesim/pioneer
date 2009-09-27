@@ -286,7 +286,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glPopMatrix();
 }
 
-void Planet::DrawAtmosphere(double rad, vector3d &pos)
+void Planet::DrawAtmosphere(vector3d &pos)
 {
 	Shader::EnableVertexProgram(Shader::VPROG_PLANETHORIZON);
 
@@ -294,7 +294,7 @@ void Planet::DrawAtmosphere(double rad, vector3d &pos)
 	float density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
-	_DrawAtmosphere(rad*0.999, rad*1.05, pos, c);
+	_DrawAtmosphere(0.999, 1.05, pos, c);
 
 	Shader::DisableVertexProgram();
 }
@@ -406,13 +406,14 @@ void Planet::Render(const Frame *a_camFrame)
 		
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		
+		fpos = ftran.InverseOf() * fpos;
+		fpos *= (1.0/rad);
+		if (!Shader::IsEnabled()) DrawAtmosphere(fpos);
+		
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
 
-		fpos = ftran.InverseOf() * fpos;
-
-		if (!Shader::IsEnabled()) DrawAtmosphere(rad, fpos);
 
 		if (shrink) {// || !Shader::IsEnabled()) {
 			glClear(GL_DEPTH_BUFFER_BIT);

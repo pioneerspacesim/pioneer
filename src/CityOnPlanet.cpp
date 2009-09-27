@@ -269,11 +269,14 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 
 		vector3d pos = frameTrans * (*i).pos;
 		/* frustum cull */
+		bool cull = false;
 		for (int j=0; j<6; j++) {
 			if (planes[j].DistanceToPoint(pos)+sbreGetModelRadius((*i).modelnum) < 0) {
-				continue;
+				cull = true;
+				break;
 			}
 		}
+		if (cull) continue;
 		glPushMatrix();
 		sbreRenderModel(&pos.x, &rot[(*i).rotation][0], (*i).modelnum, &cityobj_params);
 		glMatrixMode(GL_MODELVIEW);

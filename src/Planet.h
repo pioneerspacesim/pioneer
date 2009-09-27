@@ -28,7 +28,7 @@ protected:
 private:
 	void Init();
 	void DrawGasGiantRings();
-	void DrawAtmosphere(double rad, vector3d &pos);
+	void DrawAtmosphere(vector3d &pos);
 
 	double m_mass;
 	vector3d pos;

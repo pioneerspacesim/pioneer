@@ -1089,6 +1089,17 @@ static void drawSphere(float rad)
 }
 
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
+	Plane planes[6];
+	GetFrustum(planes);
+	const float atmosRadius = 1.01f;
+	
+	/* frustum test! */
+	for (int i=0; i<6; i++) {
+		if (planes[i].DistanceToPoint(vector3d(0.0))+atmosRadius < 0) {
+			return;
+		}
+	}
+
 	if (Shader::IsEnabled()) {
 		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE_SKY);
 		GLint prog = Shader::GetActiveProgram();
@@ -1096,7 +1107,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		loc = glGetUniformLocation(prog, "geosphereScale");
 		glUniform1f(loc, scale);
 		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
-		const float atmosRadius = 1.01f;
 		glUniform1f(loc, atmosRadius*radius/scale);
 
 		Color atmosCol;
@@ -1175,9 +1185,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
 		for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
 	}
-	Plane planes[6];
-	GetFrustum(planes);
-	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	
