@@ -5,7 +5,6 @@ uniform float geosphereScale;
 uniform float geosphereAtmosTopRad;
 uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
-uniform float invLogZfarPlus1;
 
 
 void sphereEntryExitDist(out float near, out float far, in vec3 sphereCenter, in vec3 eyeTo, in float radius)
@@ -29,10 +28,8 @@ void sphereEntryExitDist(out float near, out float far, in vec3 sphereCenter, in
 
 void main(void)
 {
-	vec3 eyepos = vec3(gl_TexCoord[5]);
-	gl_FragDepth = log2(gl_TexCoord[6].z + 1.0) * invLogZfarPlus1;
-
 	float skyNear, skyFar;
+	vec3 eyepos = vec3(gl_TexCoord[6]);
 	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, eyepos, geosphereAtmosTopRad);
 	float atmosDist = geosphereScale * (skyFar - skyNear);
 	float ldprod;

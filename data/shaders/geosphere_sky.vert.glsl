@@ -8,9 +8,7 @@ uniform float geosphereAtmosFogDensity;
 
 void main(void)
 {
+	gl_Position = logarithmicTransform();
 	vec4 eyepos = gl_ModelViewMatrix * gl_Vertex;
-	gl_TexCoord[5] = eyepos;
-	vec4 clipPos = gl_ModelViewProjectionMatrix * gl_Vertex;
-	gl_TexCoord[6] = clipPos;
-	gl_Position = clipPos;
+	gl_TexCoord[6] = eyepos;
 }
