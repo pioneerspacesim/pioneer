@@ -23,8 +23,10 @@ void ObjectViewerView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	float fracH = Pi::GetScrHeight() / (float)Pi::GetScrWidth();
-	glFrustum(-1, 1, -fracH, fracH, 10.0f, 1000000.0f);
+	float znear = 10.0f;
+	float zfar = 1000000.0f;
+	float fracH = znear / Pi::GetScrAspect();
+	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glEnable(GL_LIGHT0);

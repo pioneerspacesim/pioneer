@@ -1026,10 +1026,32 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 }
 
 #define SPHERE_SUBDIVS 4
-static void makeSide(const vector3f &a, const vector3f &b, const vector3f &c, const vector3f &d,
+/* Sphere is at 0,0,0 */
+static bool doesIsectSphere(const vector3d &from, const vector3d &to, const double sphereIsectVals)
+{
+	vector3d dir;
+	double b;
+	dir = (to-from).Normalized();
+	b = -vector3d::Dot(from, dir);
+	double det = b*b + sphereIsectVals;
+	if (det > 0.0) {
+		det = sqrt(det);
+		double i2 = b + det;
+		if (i2>0) return true;
+	}
+	return false;
+}
+static void makeSide(const vector3d &campos, const double planetIsectVal,
+		const vector3f &a, const vector3f &b, const vector3f &c, const vector3f &d,
 		int depth)
 {
-	if (depth >= SPHERE_SUBDIVS) {
+	if (depth == SPHERE_SUBDIVS) {
+		/* Don't draw atmosphere sphere below the planet's horizon */
+		/* Fast ray/sphere isect test for each vertex */
+		if (doesIsectSphere(campos, a, planetIsectVal) &&
+			doesIsectSphere(campos, b, planetIsectVal) &&
+			doesIsectSphere(campos, c, planetIsectVal) &&
+			doesIsectSphere(campos, d, planetIsectVal)) return;
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3fv(&a.x);
 		glVertex3fv(&b.x);
@@ -1043,15 +1065,17 @@ static void makeSide(const vector3f &a, const vector3f &b, const vector3f &c, co
 		vector3f da = (d+a).Normalized();
 		vector3f mid = (a+b+c+d).Normalized();
 		depth++;
-		makeSide(a, ab, mid, da, depth);
-		makeSide(ab, b, bc, mid, depth);
-		makeSide(mid, bc, c, cd, depth);
-		makeSide(da, mid, cd, d, depth);
+		makeSide(campos, planetIsectVal, a, ab, mid, da, depth);
+		makeSide(campos, planetIsectVal, ab, b, bc, mid, depth);
+		makeSide(campos, planetIsectVal, mid, bc, c, cd, depth);
+		makeSide(campos, planetIsectVal, da, mid, cd, d, depth);
 	}
 }
 
-static void drawSphere(float rad)
+static void drawSphere(const vector3d &campos, float rad)
 {
+	vector3d cpos = campos*(1.0/rad);
+	
 	vector3f p[8] = {
 		vector3f(-1.0f, +1.0f, -1.0f),
 		vector3f(+1.0f, +1.0f, -1.0f),
@@ -1068,22 +1092,19 @@ static void drawSphere(float rad)
 
 	glPushMatrix();
 	glScalef(rad, rad, rad);
-	
-	static GLuint dlist = 0;
-	if (!dlist) {
-		dlist = glGenLists(1);
-		glNewList(dlist, GL_COMPILE);
 
-		makeSide(p[0], p[1], p[2], p[3], 0);
-		makeSide(p[2], p[1], p[5], p[6], 0);
-		makeSide(p[3], p[2], p[6], p[7], 0);
-		makeSide(p[4], p[0], p[3], p[7], 0);
-		makeSide(p[5], p[1], p[0], p[4], 0);
-		makeSide(p[7], p[6], p[5], p[4], 0);
+	/* same ray/sphere isect test used in shaders, but optimised for this  case */
+	double planetIsectVal = (1.0/rad);
+	planetIsectVal *= planetIsectVal;
+	planetIsectVal -= vector3d::Dot(cpos, cpos);
 
-		glEndList();
-	}
-	glCallList(dlist);
+	makeSide(cpos, planetIsectVal, p[0], p[1], p[2], p[3], 0);
+	makeSide(cpos, planetIsectVal, p[2], p[1], p[5], p[6], 0);
+	makeSide(cpos, planetIsectVal, p[3], p[2], p[6], p[7], 0);
+	makeSide(cpos, planetIsectVal, p[4], p[0], p[3], p[7], 0);
+	makeSide(cpos, planetIsectVal, p[5], p[1], p[0], p[4], 0);
+	makeSide(cpos, planetIsectVal, p[7], p[6], p[5], p[4], 0);
+
 	glPopMatrix();
 	glShadeModel(GL_SMOOTH);
 }
@@ -1127,7 +1148,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		// make atmosphere sphere slightly bigger than required so
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
-		drawSphere(atmosRadius*1.01);
+		drawSphere(campos, atmosRadius*1.01);
 		glDisable(GL_BLEND);
 
 		/////////////////////////////////////////////////////////////
@@ -1318,7 +1339,7 @@ double GeoSphere::GetHeight(vector3d p)
 			return 0;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-			return 0.1*octavenoise(10, 0.45+0.1*noise(2.0*p), p);
+			return 0.1*(1.0+octavenoise(10, 0.45+0.1*noise(2.0*p), p));
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:

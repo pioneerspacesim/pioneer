@@ -39,12 +39,12 @@ float AtmosLengthDensityProduct(vec3 a, vec3 b, float centreDensity, float len)
 	float ldprod = 0.0;
 	vec3 dir = b-a;
 	ldprod = 6.0*centreDensity - centreDensity*(
-			length(a) +
-			length(a + 0.2*dir) +
-			length(a + 0.4*dir) +
-			length(a + 0.6*dir) +
-			length(a + 0.8*dir) +
-			length(b));
+			min(length(a),1.0) +
+			min(length(a + 0.2*dir),1.0) +
+			min(length(a + 0.4*dir),1.0) +
+			min(length(a + 0.6*dir),1.0) +
+			min(length(a + 0.8*dir),1.0) +
+			min(length(b),1.0));
 	ldprod *= len / 6.0;
 	return ldprod;	
 }
