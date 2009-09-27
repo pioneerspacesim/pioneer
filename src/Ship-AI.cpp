@@ -43,6 +43,7 @@ void Ship::AITimeStep(const float timeStep)
 		/* Finished autopilot program so fall out of time accel */
 		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
 			Pi::RequestTimeAccel(1);
+			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 		}
 	}
 }

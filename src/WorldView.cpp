@@ -104,12 +104,6 @@ WorldView::WorldView(): View()
 #endif /* USE_VBO */
 }
 
-void WorldView::OnPlayerChangeFlightControlState()
-{
-	printf("Set state %d\n", Pi::player->GetFlightControlState());
-	m_flightControlButton->SetActiveState(Pi::player->GetFlightState());
-}
-
 void WorldView::Save()
 {
 	using namespace Serializer::Write;
@@ -172,11 +166,19 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 	}
 }
 
+/* This is UI click to change flight control state (manual, speed ctrl) */
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
+	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
 	printf("was %d setting %d\n", Pi::player->GetFlightControlState(), b->GetState());
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
+}
+
+/* This is when the flight control state actually changes... */
+void WorldView::OnPlayerChangeFlightControlState()
+{
+	m_flightControlButton->SetActiveState(Pi::player->GetFlightControlState());
 }
 
 void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
