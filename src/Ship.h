@@ -38,6 +38,7 @@ public:
 	Body *GetCombatTarget() const { return m_combatTarget; }
 	virtual void Render(const Frame *camFrame);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
+	float GetThrusterState(enum ShipType::Thruster t) const { return m_thrusters[t]; }
 	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }
 	vector3f GetAngThrusterState() const { return vector3f(m_angThrusters); }
 	void ClearThrusterState();

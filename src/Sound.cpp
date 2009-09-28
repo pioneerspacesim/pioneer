@@ -20,7 +20,7 @@
 namespace Sound {
 
 #define FREQ            22050
-#define BUF_SIZE	4096
+#define BUF_SIZE	2048
 #define MAX_OGGSTREAMS	2
 #define MAX_WAVSTREAMS	16
 
@@ -53,7 +53,7 @@ eventid BodyMakeNoise(const Body *b, enum SFX sfx, float vol)
 	v[0] = CLAMP(v[0], 0.0f, 1.0f);
 	v[1] = CLAMP(v[1], 0.0f, 1.0f);
 
-	return Sound::PlaySfx(sfx, (Uint16)floor(65535.0*v[0]), (Uint16)floor(65535.0*v[1]), false);
+	return Sound::PlaySfx(sfx, v[0], v[1], false);
 }
 
 #if 0
@@ -79,9 +79,13 @@ struct Sample {
 struct SoundEvent {
 	const Sample *sample;
 	Uint32 buf_pos;
-	Uint16 volume[2]; // left and right channels
+	float volume[2]; // left and right channels
 	eventid identifier;
 	bool repeat;
+
+	float targetVolume[2];
+	float rateOfChange[2]; // per sample
+	bool ascend[2];
 };	
 
 struct Sample sfx_samples[SFX_MAX];
@@ -112,7 +116,7 @@ bool EventDestroy(eventid id)
 	return s != 0;
 }
 
-bool EventSetVolume(eventid id, Uint16 vol_left, Uint16 vol_right)
+bool EventSetVolume(eventid id, float vol_left, float vol_right)
 {
 	SDL_LockAudio();
 	bool status = false;
@@ -126,6 +130,20 @@ bool EventSetVolume(eventid id, Uint16 vol_left, Uint16 vol_right)
 	}
 	SDL_UnlockAudio();
 	return status;
+}
+
+bool EventVolumeAnimate(eventid id, float targetVols[2], float dv_dt[2])
+{
+	SDL_LockAudio();
+	SoundEvent *ev = GetEvent(id);
+	if (ev) {
+		ev->targetVolume[0] = targetVols[0];
+		ev->targetVolume[1] = targetVols[1];
+		ev->rateOfChange[0] = dv_dt[0] / (float)FREQ;
+		ev->rateOfChange[1] = dv_dt[1] / (float)FREQ;
+	}
+	SDL_UnlockAudio();
+	return (ev != 0);
 }
 
 #if 0
@@ -145,7 +163,7 @@ static struct ogg_stream *get_free_stream ()
 /*
  * Volume should be 0-65535
  */
-eventid PlaySfx (enum SFX fx, Uint16 volume_left, Uint16 volume_right, bool repeat)
+eventid PlaySfx (enum SFX fx, float volume_left, float volume_right, bool repeat)
 {
 	SDL_LockAudio();
 	static Uint32 identifier = 1;
@@ -170,143 +188,67 @@ eventid PlaySfx (enum SFX fx, Uint16 volume_left, Uint16 volume_right, bool repe
 	wavstream[idx].volume[1] = volume_right;
 	wavstream[idx].repeat = repeat;
 	wavstream[idx].identifier = identifier;
+	wavstream[idx].targetVolume[0] = volume_left;
+	wavstream[idx].targetVolume[1] = volume_right;
+	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
 	SDL_UnlockAudio();
 	return identifier++;
-}
-
-#if 0
-int PlayOgg (const char *filename)
-{
-	FILE *f;
-	struct ogg_stream *s;
-
-	if ((s = get_free_stream ()) == NULL) return -2;
-	
-	if ((f = fopen (filename, "rb"))==NULL) return -1;
-
-	if ((ov_open (f, &s->vf, NULL, 0)) < 0) {
-		fclose (f);
-		return -3;
-	}
-	pipe (s->pipe_fd);
-	return 1;
-}
-#endif
-	
-#if 0
-static void stream_close (struct ogg_stream *s)
-{
-	ov_clear (&s->vf);
-	close (s->pipe_fd[0]);
-	close (s->pipe_fd[1]);
-	s->pipe_fd[0] = s->pipe_fd[1] = 0;
-}
-#endif
-
-/*
- * Call this regularly. It stuffs the pipes to the buffer
- * filling callback thingy with decoded ogg poo.
- */
-void UpdateBufferFill ()
-{
-#if 0
-	int i;
-	static char buf[BUF_SIZE];
-	struct timeval _delay;
-	fd_set wr;
-	int n=0;
-
-	FD_ZERO (&wr);
-	for (i=0; i<MAX_OGGSTREAMS; i++) {
-		if (oggstream[i].pipe_fd[0] == 0) continue;
-		FD_SET (oggstream[i].pipe_fd[1], &wr);
-		/* select wants the highest numbered fd... */
-		if (oggstream[i].pipe_fd[1] >= n) {
-			n = oggstream[i].pipe_fd[1];
-		}
-	}
-
-	memset (&_delay, 0, sizeof (_delay));
-	_delay.tv_usec = 0;
-	
-	if (select (n+1, NULL, &wr, NULL, &_delay) <= 0) return;
-
-	/* Some poo to write */
-	for (i=0; i<MAX_OGGSTREAMS; i++) {
-		if (oggstream[i].pipe_fd[0] == 0) continue;
-		if (FD_ISSET (oggstream[i].pipe_fd[1], &wr)) {
-			n = ov_read (&oggstream[i].vf, buf, sizeof (buf), endian, bits/8, sign, &bs);
-			if (n <= 0) {
-				stream_close (&oggstream[i]);
-			} else {
-				write (oggstream[i].pipe_fd[1], buf, n);
-			}
-		}
-
-	}
-#endif
 }
 
 static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 {
 	int written = 0;
 	int i;
-	int val[2];
+	float val[2];
 	int buf_end;
 	
-	while (written < len) {
-#if 0
-		for (i=0; i<MAX_OGGSTREAMS; i++) {
-			if (oggstream[i].pipe_fd[0]==0) continue;
-			if (oggstream[i].buf_end) continue;
-			val = read (oggstream[i].pipe_fd[0], oggstream[i].buf, BUF_SIZE);
-			oggstream[i].buf_end = val;
-			oggstream[i].buf_pos = 0;
-			/* End of file */
-			if (val == 0) {
-				stream_close (&oggstream[i]);
+	for (i=0; i<MAX_WAVSTREAMS; i++) {
+		if (wavstream[i].sample == NULL) continue;
+		for (int chan=0; chan<2; chan++) {
+			if (wavstream[i].targetVolume[chan] > wavstream[i].volume[chan]) {
+				wavstream[i].ascend[chan] = true;
+			} else {
+				wavstream[i].ascend[chan] = false;
 			}
 		}
-#endif
+	}
+	
+	while (written < len) {
 		/* Mix them */
 		buf_end = 0;
 		while ((written < len) && (!buf_end)) {
 			val[0] = val[1] = 0;
-#if 0
-			for (i=0; i<MAX_OGGSTREAMS; i++) {
-				if (oggstream[i].pipe_fd[0]==0) continue;
-				if (oggstream[i].buf_pos < oggstream[i].buf_end) {
-					val += ((Sint16*)oggstream[i].buf) [ oggstream[i].buf_pos/2 ];
-					oggstream[i].buf_pos += 2;
-					if (oggstream[i].buf_pos >= oggstream[i].buf_end) {
-						oggstream[i].buf_end = 0;
-						buf_end = 1;
-					}
-				}
-			}
-#endif
+
 			for (i=0; i<MAX_WAVSTREAMS; i++) {
-				if (wavstream[i].sample != NULL) {
-					const Sample *s = wavstream[i].sample;
-					val[0] += ((int)(((Sint16*)s->buf) [ wavstream[i].buf_pos/2 ]) *
-						(int)(wavstream[i].volume[0]))>>16;
-					wavstream[i].buf_pos += 2;
-					val[1] += ((int)(((Sint16*)s->buf) [ wavstream[i].buf_pos/2 ]) *
-						(int)(wavstream[i].volume[1]))>>16;
-					wavstream[i].buf_pos += 2;
-					if (wavstream[i].buf_pos >= s->buf_len) {
-						wavstream[i].buf_pos = 0;
-						if (!wavstream[i].repeat) {
-							wavstream[i].sample = 0;
-						}
+				if (wavstream[i].sample == NULL) continue;
+				
+				for (int chan=0; chan<2; chan++) {
+					if (wavstream[i].ascend[chan]) {
+						wavstream[i].volume[chan] = MIN(wavstream[i].volume[chan] + wavstream[i].rateOfChange[chan], wavstream[i].targetVolume[chan]);
+					} else {
+						wavstream[i].volume[chan] = MAX(wavstream[i].volume[chan] - wavstream[i].rateOfChange[chan], wavstream[i].targetVolume[chan]);
+					}
+				}
+
+				const Sample *s = wavstream[i].sample;
+				val[0] += wavstream[i].volume[0] *
+					(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
+				wavstream[i].buf_pos += 2;
+				val[1] += wavstream[i].volume[1] *
+					(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
+				wavstream[i].buf_pos += 2;
+				if (wavstream[i].buf_pos >= s->buf_len) {
+					wavstream[i].buf_pos = 0;
+					if (!wavstream[i].repeat) {
+						wavstream[i].sample = 0;
 					}
 				}
 			}
-			val[0] = CLAMP(val[0], -32768, 32767);
-			val[1] = CLAMP(val[1], -32768, 32767);
-			((Sint16*)dsp_buf)[written/2] = val[0];
+			val[0] = CLAMP(val[0], -32768.0, 32767.0);
+			val[1] = CLAMP(val[1], -32768.0, 32767.0);
+			((Sint16*)dsp_buf)[written/2] = (Sint16)val[0];
 			written+=2;
-			((Sint16*)dsp_buf)[written/2] = val[1];
+			((Sint16*)dsp_buf)[written/2] = (Sint16)val[1];
 			written+=2;
 		}
 	}

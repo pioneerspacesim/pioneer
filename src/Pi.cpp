@@ -163,7 +163,7 @@ void Pi::Quit()
 
 void Pi::BoinkNoise()
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING, 20000, 20000, false);
+	Sound::PlaySfx(Sound::SFX_GUI_PING, 0.3f, 0.3f, false);
 }
 
 void Pi::SetTimeAccel(int s)

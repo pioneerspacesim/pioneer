@@ -157,12 +157,30 @@ void Player::StaticUpdate(const float timeStep)
 		AIClearInstructions();
 	}
 	Ship::StaticUpdate(timeStep);
+		
+	/* Ship engine noise */
+	static Uint32 sndev;
+	float volBoth = 0.0f;
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_REAR);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_FRONT);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_TOP);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_BOTTOM);
+	
+	float targetVol[2] = { volBoth, volBoth };
+	targetVol[0] += 0.5*GetThrusterState(ShipType::THRUSTER_RIGHT);
+	targetVol[1] += 0.5*GetThrusterState(ShipType::THRUSTER_LEFT);
+
+	targetVol[0] = CLAMP(targetVol[0], 0.0f, 1.0f);
+	targetVol[1] = CLAMP(targetVol[1], 0.0f, 1.0f);
+	float dv_dt[2] = { 4.0f, 4.0f };
+	if (!Sound::EventVolumeAnimate(sndev, targetVol, dv_dt)) {
+		sndev = Sound::PlaySfx(Sound::SFX_ENGINES, 0.0f, 0.0f, true);
+		Sound::EventVolumeAnimate(sndev, targetVol, dv_dt);
+	}
 }
 
 #define MOUSE_CTRL_AREA		10.0f
 #define MOUSE_RESTITUTION	0.75f
-
-Uint32 sndev;
 
 void Player::PollControls()
 {
@@ -195,6 +213,7 @@ void Player::PollControls()
 			if (Pi::KeyState(SDLK_RETURN)) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
 			if (Pi::KeyState(SDLK_RSHIFT)) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
 		}
+
 		if (Pi::KeyState(SDLK_i)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
 		if (Pi::KeyState(SDLK_k)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
 		if (Pi::KeyState(SDLK_u)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
@@ -202,10 +221,6 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_j)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
 		if (Pi::KeyState(SDLK_l)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 		
-		if (!Sound::EventSetVolume(sndev, Pi::KeyState(SDLK_i) ? 65535U : 0)) {
-			sndev = Sound::PlaySfx(Sound::SFX_ENGINES, 65535U, 65535U, true);
-		}
-
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
 			if (Pi::worldView->GetCamType() == WorldView::CAM_REAR) SetGunState(1,1);
 			else SetGunState(0,1);
