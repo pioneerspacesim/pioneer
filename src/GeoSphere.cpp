@@ -1091,51 +1091,50 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	}
 
 	if (Shader::IsEnabled()) {
-		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE_SKY);
-		GLint prog = Shader::GetActiveProgram();
-		GLint loc;
-		loc = glGetUniformLocation(prog, "geosphereScale");
-		glUniform1f(loc, scale);
-		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
-		glUniform1f(loc, atmosRadius*radius/scale);
-
 		Color atmosCol;
 		float atmosDensity;
-		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
-		loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
-		glUniform1f(loc, atmosDensity);
-		loc = glGetUniformLocation(prog, "atmosColor");
-		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
-		
+		GLint prog, loc;
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
-		loc = glGetUniformLocation(prog, "geosphereCenter");
-		glUniform3f(loc, center.x, center.y, center.z);
-		glEnable(GL_BLEND);
-		glAlphaFunc(GL_SRC_ALPHA, GL_ONE);
-		// make atmosphere sphere slightly bigger than required so
-		// that the edges of the pixel shader atmosphere jizz doesn't
-		// show ugly polygonal angles
-		DrawAtmosphereSurface(campos, atmosRadius*1.01);
-		glDisable(GL_BLEND);
+		
+		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 
-		/////////////////////////////////////////////////////////////
+		if (atmosDensity != 0.0f) {
+			Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE_SKY);
+			prog = Shader::GetActiveProgram();
+			
+			loc = glGetUniformLocation(prog, "geosphereScale");
+			glUniform1f(loc, scale);
+			loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
+			glUniform1f(loc, atmosRadius*radius/scale);
+			loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
+			glUniform1f(loc, atmosDensity);
+			loc = glGetUniformLocation(prog, "atmosColor");
+			glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
+			loc = glGetUniformLocation(prog, "geosphereCenter");
+			glUniform3f(loc, center.x, center.y, center.z);
+			
+			glEnable(GL_BLEND);
+			glAlphaFunc(GL_SRC_ALPHA, GL_ONE);
+			// make atmosphere sphere slightly bigger than required so
+			// that the edges of the pixel shader atmosphere jizz doesn't
+			// show ugly polygonal angles
+			DrawAtmosphereSurface(campos, atmosRadius*1.01);
+			glDisable(GL_BLEND);
+		}
+
 		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
 		prog = Shader::GetActiveProgram();
+
 		loc = glGetUniformLocation(prog, "geosphereScale");
 		glUniform1f(loc, scale);
 		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
 		glUniform1f(loc, atmosRadius*radius/scale);
-
-		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
 		glUniform1f(loc, atmosDensity);
 		loc = glGetUniformLocation(prog, "atmosColor");
 		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
-		
-		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
-		center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		loc = glGetUniformLocation(prog, "geosphereCenter");
 		glUniform3f(loc, center.x, center.y, center.z);
 	}
