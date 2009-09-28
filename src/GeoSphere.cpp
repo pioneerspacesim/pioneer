@@ -1025,88 +1025,57 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 	}
 }
 
-#define SPHERE_SUBDIVS 4
-/* Sphere is at 0,0,0 */
-static bool doesIsectSphere(const vector3d &from, const vector3d &to, const double sphereIsectVals)
+static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 {
-	vector3d dir;
-	double b;
-	dir = (to-from).Normalized();
-	b = -vector3d::Dot(from, dir);
-	double det = b*b + sphereIsectVals;
-	if (det > 0.0) {
-		det = sqrt(det);
-		double i2 = b + det;
-		if (i2>0) return true;
-	}
-	return false;
-}
-static void makeSide(const vector3d &campos, const double planetIsectVal,
-		const vector3f &a, const vector3f &b, const vector3f &c, const vector3f &d,
-		int depth)
-{
-	if (depth == SPHERE_SUBDIVS) {
-		/* Don't draw atmosphere sphere below the planet's horizon */
-		/* Fast ray/sphere isect test for each vertex */
-		if (doesIsectSphere(campos, a, planetIsectVal) &&
-			doesIsectSphere(campos, b, planetIsectVal) &&
-			doesIsectSphere(campos, c, planetIsectVal) &&
-			doesIsectSphere(campos, d, planetIsectVal)) return;
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex3fv(&a.x);
-		glVertex3fv(&b.x);
-		glVertex3fv(&c.x);
-		glVertex3fv(&d.x);
-		glEnd();
-	} else {
-		vector3f ab = (a+b).Normalized();
-		vector3f bc = (b+c).Normalized();
-		vector3f cd = (c+d).Normalized();
-		vector3f da = (d+a).Normalized();
-		vector3f mid = (a+b+c+d).Normalized();
-		depth++;
-		makeSide(campos, planetIsectVal, a, ab, mid, da, depth);
-		makeSide(campos, planetIsectVal, ab, b, bc, mid, depth);
-		makeSide(campos, planetIsectVal, mid, bc, c, cd, depth);
-		makeSide(campos, planetIsectVal, da, mid, cd, d, depth);
-	}
-}
-
-static void drawSphere(const vector3d &campos, float rad)
-{
-	vector3d cpos = campos*(1.0/rad);
-	
-	vector3f p[8] = {
-		vector3f(-1.0f, +1.0f, -1.0f),
-		vector3f(+1.0f, +1.0f, -1.0f),
-		vector3f(+1.0f, +1.0f, +1.0f),
-		vector3f(-1.0f, +1.0f, +1.0f),
-
-		vector3f(-1.0f, -1.0f, -1.0f),
-		vector3f(+1.0f, -1.0f, -1.0f),
-		vector3f(+1.0f, -1.0f, +1.0f),
-		vector3f(-1.0f, -1.0f, +1.0f) };
-	for (int i=0; i<8; i++) {
-		p[i] = p[i].Normalized();
-	}
+	const int LAT_SEGS = 20;
+	const int LONG_SEGS = 20;
+	vector3d yaxis = campos.Normalized();
+	vector3d zaxis = vector3d::Cross(vector3d(1.0,0.0,0.0), yaxis).Normalized();
+	vector3d xaxis = vector3d::Cross(yaxis, zaxis);
+	const matrix4x4d m = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 
 	glPushMatrix();
 	glScalef(rad, rad, rad);
+	glMultMatrixd(&m[0]);
 
-	/* same ray/sphere isect test used in shaders, but optimised for this  case */
-	double planetIsectVal = (1.0/rad);
-	planetIsectVal *= planetIsectVal;
-	planetIsectVal -= vector3d::Dot(cpos, cpos);
+	// what is this? Well, angle to the horizon is:
+	// acos(planetRadius/viewerDistFromSphereCentre)
+	// and angle from this tangent on to atmosphere is:
+	// acos(planetRadius/atmosphereRadius) ie acos(1.0/1.01244blah)
+	double endAng = acos(1.0/campos.Length())+acos(1.0/rad);
+	double latDiff = endAng / (double)LAT_SEGS;
 
-	makeSide(cpos, planetIsectVal, p[0], p[1], p[2], p[3], 0);
-	makeSide(cpos, planetIsectVal, p[2], p[1], p[5], p[6], 0);
-	makeSide(cpos, planetIsectVal, p[3], p[2], p[6], p[7], 0);
-	makeSide(cpos, planetIsectVal, p[4], p[0], p[3], p[7], 0);
-	makeSide(cpos, planetIsectVal, p[5], p[1], p[0], p[4], 0);
-	makeSide(cpos, planetIsectVal, p[7], p[6], p[5], p[4], 0);
+	double rot = 0.0;
+	float sinCosTable[LONG_SEGS+1][2];
+	for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/(double)LONG_SEGS) {
+		sinCosTable[i][0] = (float)sin(rot);
+		sinCosTable[i][1] = (float)cos(rot);
+	}
+
+	/* Tri-fan above viewer */
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	for (int i=0; i<=LONG_SEGS; i++) {
+		glVertex3f(sin(latDiff)*sinCosTable[i][0], cos(latDiff), -sin(latDiff)*sinCosTable[i][1]);
+	}
+	glEnd();
+
+	/* and wound latitudinal strips */
+	double lat = latDiff;
+	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
+		glBegin(GL_TRIANGLE_STRIP);
+		float cosLat = cos(lat);
+		float sinLat = sin(lat);
+		float cosLat2 = cos(lat+latDiff);
+		float sinLat2 = sin(lat+latDiff);
+		for (int i=0; i<=LONG_SEGS; i++) {
+			glVertex3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]);
+			glVertex3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]);
+		}
+		glEnd();
+	}
 
 	glPopMatrix();
-	glShadeModel(GL_SMOOTH);
 }
 
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
@@ -1148,7 +1117,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		// make atmosphere sphere slightly bigger than required so
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
-		drawSphere(campos, atmosRadius*1.01);
+		DrawAtmosphereSurface(campos, atmosRadius*1.01);
 		glDisable(GL_BLEND);
 
 		/////////////////////////////////////////////////////////////
