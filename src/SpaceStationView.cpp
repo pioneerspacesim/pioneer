@@ -657,6 +657,92 @@ void StationViewShipView::ShowAll()
 	Gui::Fixed::ShowAll();
 }
 
+
+////////////////////////////////////////////////////////////////////
+
+class StationShipRepairsView: public StationSubView {
+public:
+	StationShipRepairsView();
+	virtual ~StationShipRepairsView() {
+	}
+	virtual void ShowAll();
+private:
+	int GetCostOfFixingHull(float percent) {
+		return (int)(Pi::player->GetFlavour()->price * 0.001 * percent);
+	}
+
+	void RepairHull(float percent) {
+		int cost = GetCostOfFixingHull(percent);
+		if (Pi::player->GetMoney() < cost) {
+			Pi::cpan->SetTemporaryMessage(0, "You do not have enough money");
+		} else {
+			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
+			Pi::player->SetPercentHull(Pi::player->GetPercentHull() + percent);
+			ShowAll();
+		}
+	}
+//	sigc::connection m_onShipsForSaleChangedConnection;
+};
+
+StationShipRepairsView::StationShipRepairsView(): StationSubView()
+{
+}
+
+void StationShipRepairsView::ShowAll()
+{
+	DeleteAllChildren();
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	assert(station);
+	SetTransparency(false);
+	
+	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationShipRepairsView::GoBack));
+	Add(b,680,470);
+	Add(new Gui::Label("Go back"), 700, 470);
+
+	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
+	Add(fbox, 320, 40);
+
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+	float ypos = YSEP;
+
+	float hullPercent = Pi::player->GetPercentHull();
+	if (hullPercent >= 100.0f) {
+		fbox->Add(new Gui::Label("Your ship is in perfect working condition."), 0, ypos);
+	} else {
+		int costAll = GetCostOfFixingHull(100.0f - hullPercent);
+		int cost1 = GetCostOfFixingHull(1.0f);
+		if (cost1 < costAll) {
+			fbox->Add(new Gui::Label("Repair 1.0% of hull damage"), 0, ypos);
+			fbox->Add(new Gui::Label(format_money(cost1)), 350, ypos);
+			
+			Gui::SolidButton *b = new Gui::SolidButton();
+			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 1.0f));
+			fbox->Add(b, 430, ypos);
+			ypos += YSEP;
+		}
+		fbox->Add(new Gui::Label(stringf(128, "Repair all hull damage (%.1f%%)", 100.0f-hullPercent)), 0, ypos);
+		fbox->Add(new Gui::Label(format_money(costAll)), 350, ypos);
+		
+		Gui::SolidButton *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 100.0f-hullPercent));
+		fbox->Add(b, 430, ypos);
+	}
+
+	fbox->Add(new Gui::Label("Item"), 0, 0);
+	fbox->Add(new Gui::Label("Price"), 350, 0);
+	fbox->Add(new Gui::Label("Repair"), 430, 0);
+	fbox->ShowAll();
+	AddBaseDisplay();
+	ADD_VIDEO_WIDGET;
+
+	Gui::Fixed::ShowAll();
+}
+
+
 ////////////////////////////////////////////////////////////////////
 
 class StationBuyShipsView: public StationSubView {
@@ -765,6 +851,13 @@ private:
 		Add(v, 0, 0);
 		v->ShowAll();
 	}
+	void GotoShipRepairsView() {
+		HideChildren();
+		SetTransparency(true);
+		StationSubView *v = new StationShipRepairsView();
+		Add(v, 0, 0);
+		v->ShowAll();
+	}
 };
 
 StationShipyardView::StationShipyardView(): StationSubView()
@@ -795,10 +888,17 @@ void StationShipyardView::ShowAll()
 	
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GotoBuyShipsView));
+	b->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GotoShipRepairsView));
 	Add(b, 340, 300);
-	l = new Gui::Label("New and reconditioned ships");
+	l = new Gui::Label("Repairs and servicing");
 	Add(l, 365, 300);
+	
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_3, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GotoBuyShipsView));
+	Add(b, 340, 360);
+	l = new Gui::Label("New and reconditioned ships");
+	Add(l, 365, 360);
 	
 	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;

@@ -79,6 +79,7 @@ public:
 	void ChangeFlavour(const ShipFlavour *f);
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	float GetPercentHull() const;
+	void SetPercentHull(float);
 	
 	sigc::signal<void> onDock;
 	sigc::signal<void> onUndock;

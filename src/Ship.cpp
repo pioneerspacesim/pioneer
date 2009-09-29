@@ -158,6 +158,12 @@ float Ship::GetPercentHull() const
 	return 100.0f * (m_stats.hull_mass_left / (float)stype.hullMass);
 }
 
+void Ship::SetPercentHull(float p)
+{
+	const ShipType &stype = GetShipType();
+	m_stats.hull_mass_left = 0.01f * CLAMP(p, 0.0f, 100.0f) * (float)stype.hullMass;
+}
+
 void Ship::UpdateMass()
 {
 	CalcStats();
