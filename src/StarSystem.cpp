@@ -722,8 +722,8 @@ try_that_again_guvnah:
 	}
 
 	{ /* decide how infested the joint is */
-		const int dist = 1+MAX(abs(sector_x), abs(sector_y));
-		m_humanInfested = (fixed(1,2)+fixed(1,2)*rand.Fixed()) / dist;
+		const int dist = 2+isqrt(10*(sector_x*sector_x + sector_y*sector_y));
+		m_humanInfested = (fixed(5,1)+fixed(5,1)*rand.Fixed()) / dist;
 	}
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i]);
@@ -1020,7 +1020,7 @@ void StarSystem::PickEconomicStuff(SBody *b)
 		const EquipType &type = EquipType::types[t];
 		if (!(type.econType & b->econType)) continue;
 		// XXX techlevel??
-		int howmuch = rand.Int32(1,5);
+		int howmuch = rand.Int32(5,25);
 		b->tradeLevel[t] += -howmuch;
 		for (int i=0; i<EQUIP_INPUTS; i++) {
 			b->tradeLevel[type.inputs[i]] += howmuch;
@@ -1050,7 +1050,7 @@ void StarSystem::PickEconomicStuff(SBody *b)
 				continue;
 		}
 		if (b->tradeLevel[t] >= 0) {
-			b->tradeLevel[t] += rand.Int32(1,4);
+			b->tradeLevel[t] += rand.Int32(5,20);
 		}
 	}
 }
@@ -1073,7 +1073,14 @@ int SBody::AddHumanStuff(StarSystem *system)
 
 	bool has_starports = false;
 	// starports - orbital
-	if ((orbMin < orbMax) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
+	if (
+			((type == SBody::TYPE_PLANET_DWARF) ||
+			(type == SBody::TYPE_PLANET_SMALL) ||
+			(type == SBody::TYPE_PLANET_WATER) ||
+			(type == SBody::TYPE_PLANET_CO2) ||
+			(type == SBody::TYPE_PLANET_METHANE) ||
+			(type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)) &&
+		(orbMin < orbMax) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
 		(rand.Fixed() < humanActivity)) {
 
 		has_starports = true;
@@ -1125,6 +1132,7 @@ int SBody::AddHumanStuff(StarSystem *system)
 
 		int max = 6;
 		while ((max-- > 0) && (rand.Fixed() < activ)) {
+			activ -= fixed(1,2)*rand.Fixed();
 			has_starports = true;
 			SBody *sp = new SBody;
 			sp->type = SBody::TYPE_STARPORT_SURFACE;
@@ -1132,7 +1140,7 @@ int SBody::AddHumanStuff(StarSystem *system)
 			sp->tmp = 0;
 			sp->parent = this;
 			sp->averageTemp = this->averageTemp;
-			sp->humanActivity = activ;
+			sp->humanActivity = humanActivity;
 			sp->mass = 0;
 			sp->name = NameGenerator::Surname(rand) + " Starport";
 			position_settlement_on_planet(sp);

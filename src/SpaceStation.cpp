@@ -125,7 +125,11 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	m_numPorts = 0;
 	m_lastUpdatedShipyard = 0;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		m_equipmentStock[i] = Pi::rng.Int32(0,100);
+		if (EquipType::types[i].slot == Equip::SLOT_CARGO) {
+			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
+		} else {
+			m_equipmentStock[i] = Pi::rng.Int32(0,100);
+		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
