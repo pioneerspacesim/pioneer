@@ -692,7 +692,7 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 					sd.stage = 1;
 					sd.stagePos = 0;
 					sd.from = s->GetPosition();
-					s->DisableBodyOnly();
+					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					m_shipDocking[flags&0xf].ship = 0;
