@@ -8,6 +8,9 @@
 #include "Mission.h"
 #include <map>
 
+#define RBUTTON_DELAY 500
+#define RBUTTON_REPEAT 50
+
 #define TEXSIZE	128
 #define ADD_VIDEO_WIDGET	Add(new DeadVideoLink(295,285), 5, 40)
 
@@ -231,10 +234,10 @@ void StationCommoditiesView::ShowAll()
 		if (EquipType::types[i].description)
 			l->SetToolTip(EquipType::types[i].description);
 		innerbox->Add(l,0,num*YSEP);
-		Gui::Button *b = new Gui::SolidButton();
+		Gui::Button *b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy), i));
 		innerbox->Add(b, 380, num*YSEP);
-		b = new Gui::SolidButton();
+		b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell), i));
 		innerbox->Add(b, 415, num*YSEP);
 		char buf[128];

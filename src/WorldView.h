@@ -24,7 +24,7 @@ public:
 	virtual void Load();
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
 	void SetCamType(enum CamType);
-	enum CamType GetCamType() { return m_camType; }
+	enum CamType GetCamType() const;
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
 	void GetNearFarClipPlane(float *outNear, float *outFar) const;

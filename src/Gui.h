@@ -39,6 +39,7 @@ namespace Gui {
 #include "GuiAdjustment.h"
 #include "GuiImage.h"
 #include "GuiButton.h"
+#include "GuiRepeaterButton.h"
 #include "GuiToggleButton.h"
 #include "GuiMultiStateImageButton.h"
 #include "GuiImageButton.h"

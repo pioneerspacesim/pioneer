@@ -316,6 +316,23 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 	}
 }
 
+WorldView::CamType WorldView::GetCamType() const
+{
+	if (m_camType == CAM_EXTERNAL) {
+		/* Don't allow external view while doing docking animation or
+		 * when docked with an orbital starport */
+		if ((Pi::player->GetFlightState() == Ship::DOCKING) ||
+			(Pi::player->GetDockedWith() && 
+			 !Pi::player->GetDockedWith()->IsGroundStation())) {
+			return CAM_FRONT;
+		} else {
+			return CAM_EXTERNAL;
+		}
+	} else {
+		return m_camType;
+	}
+}
+
 void WorldView::Draw3D()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -335,9 +352,10 @@ void WorldView::Draw3D()
 
 	matrix4x4d camRot = matrix4x4d::Identity();
 
-	if (m_camType == CAM_FRONT) {
+	enum CamType camtype = GetCamType();
+	if (camtype == CAM_FRONT) {
 		cam_frame.SetPosition(Pi::player->GetPosition());
-	} else if (m_camType == CAM_REAR) {
+	} else if (camtype == CAM_REAR) {
 		camRot.RotateY(M_PI);
 	//	glRotatef(180.0f, 0, 1, 0);
 		cam_frame.SetPosition(Pi::player->GetPosition());
