@@ -13,7 +13,7 @@ const char * const desc[POL_MAX] = {
 	"Member of the Confederation of Independent Systems.",
 };
 
-Polit::Type GetTypeForStarSystem(StarSystem *s, int human_infestedness)
+Polit::Type GetTypeForStarSystem(StarSystem *s, fixed human_infestedness)
 {
 	int sx, sy, sys_idx;
 	s->GetPos(&sx, &sy, &sys_idx);

@@ -647,11 +647,7 @@ bool SpaceStation::CanSell(Equip::Type t) const {
 	return m_equipmentStock[(int)t] > 0;
 }
 int SpaceStation::GetPrice(Equip::Type t) const {
-	int mul = 100;
-	SBody *sbody = GetFrame()->GetSBodyFor();
-	if (sbody) {
-		mul += sbody->tradeLevel[t];
-	}
+	int mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
 	return (mul * EquipType::types[t].basePrice) / 100;
 }
 

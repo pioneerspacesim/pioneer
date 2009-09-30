@@ -466,7 +466,6 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->parent = parent;
 		kid->radius = c->radius;
 		kid->mass = c->mass;
-		kid->econType = c->econType;
 		kid->averageTemp = c->averageTemp;
 		kid->name = c->name;
 		kid->rotationPeriod = c->rotationPeriod;
@@ -493,7 +492,6 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
 		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
 
-		PickEconomicStuff(kid);
 		CustomGetKidsOf(kid, customDef, i, outHumanInfestedness);
 	}
 }
@@ -519,8 +517,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys)
 	
 	int humanInfestedness = 0;
 	CustomGetKidsOf(rootBody, customSys->sbodies, idx, &humanInfestedness);
-	
-	m_polit = Polit::GetTypeForStarSystem(this, humanInfestedness);
+	Populate(false);
 
 }
 
@@ -590,9 +587,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 
 SBody::SBody()
 {
-	econType = 0;
 	heightMapFilename = 0;
-	memset(tradeLevel, 0, sizeof(tradeLevel));
 }
 
 /*
@@ -604,6 +599,7 @@ SBody::SBody()
 StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
 	unsigned long _init[5] = { system_idx, sector_x, sector_y, UNIVERSE_SEED, 0 };
+	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 	m_secx = sector_x;
 	m_secy = sector_y;
 	m_sysIdx = system_idx;
@@ -620,6 +616,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		if (custom->longDesc) m_longDesc = custom->longDesc;
 		if (custom->sbodies) {
 			GenerateFromCustom(s.m_systems[system_idx].customSys);
+			Populate(false);
 			return;
 		}
 	}
@@ -721,18 +718,12 @@ try_that_again_guvnah:
 		}
 	}
 
-	{ /* decide how infested the joint is */
-		const int dist = 2+isqrt(10*(sector_x*sector_x + sector_y*sector_y));
-		m_humanInfested = (fixed(5,1)+fixed(5,1)*rand.Fixed()) / dist;
-	}
-
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i]);
 
 	if (m_numStars > 1) MakePlanetsAround(centGrav1);
 	if (m_numStars == 4) MakePlanetsAround(centGrav2);
 
-	const int busy_level = rootBody->AddHumanStuff(this);
-	m_polit = Polit::GetTypeForStarSystem(this, busy_level);
+	Populate(true);
 }
 
 /*
@@ -848,7 +839,6 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		planet->semiMajorAxis = semiMajorAxis;
 		planet->type = SBody::TYPE_PLANET_DWARF;
 		planet->seed = rand.Int32();
-		planet->humanActivity = m_humanInfested * rand.Fixed();
 		planet->tmp = 0;
 		planet->parent = primary;
 	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
@@ -954,7 +944,6 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 //	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
 
 	averageTemp = bbody_temp;
-	econType = 0;
 
 	if (mass > 317*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
@@ -1008,25 +997,144 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	radius = fixed(bodyTypeInfo[type].radius, 100);
 }
 
-void StarSystem::PickEconomicStuff(SBody *b)
+void StarSystem::MakeShortDescription()
 {
-	int tries = rand.Int32(10, 20);
-	// This is a fucking mess. why is econType being decided before
-	// getting here...
-	
-	// things we produce, plus their inputs
-	while (tries--) {
-		Equip::Type t = static_cast<Equip::Type>(rand.Int32(Equip::FIRST_COMMODITY, Equip::LAST_COMMODITY));
-		const EquipType &type = EquipType::types[t];
-		if (!(type.econType & b->econType)) continue;
-		// XXX techlevel??
-		int howmuch = rand.Int32(5,25);
-		b->tradeLevel[t] += -howmuch;
-		for (int i=0; i<EQUIP_INPUTS; i++) {
-			b->tradeLevel[type.inputs[i]] += howmuch;
+	m_econType = 0;
+	if ((m_industrial > m_metallicity) && (m_industrial > m_agricultural)) {
+		m_econType = ECON_INDUSTRY;
+	} else if (m_metallicity > m_agricultural) {
+		m_econType = ECON_MINING;
+	} else {
+		m_econType = ECON_AGRICULTURE;
+	}
+
+	/* Total population is in billions */
+	if (m_totalPop == 0) {
+		int dist = isqrt(1 + m_secx*m_secx + m_secy*m_secy);
+		if (rand.Int32(dist) > 20) {
+			m_shortDesc = "Unexplored system.";
+		} else {
+			m_shortDesc = "Small-scale prospecting. No registered settlements.";
+		}
+	} else if (m_totalPop < fixed(1,10)) {
+		switch (m_econType) {
+			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
+			case ECON_MINING: m_shortDesc = "Some established mining."; break;
+			case ECON_AGRICULTURE: m_shortDesc = "Young farming colony."; break;
+		}
+	} else if (m_totalPop < fixed(1,2)) {
+		switch (m_econType) {
+			case ECON_INDUSTRY: m_shortDesc = "Industrial colony."; break;
+			case ECON_MINING: m_shortDesc = "Mining colony."; break;
+			case ECON_AGRICULTURE: m_shortDesc = "Outdoor agricultural world."; break;
+		}
+	} else if (m_totalPop < fixed(5,1)) {
+		switch (m_econType) {
+			case ECON_INDUSTRY: m_shortDesc = "Heavy industry."; break;
+			case ECON_MINING: m_shortDesc = "Extensive mining operations."; break;
+			case ECON_AGRICULTURE: m_shortDesc = "Thriving outdoor world."; break;
+		}
+	} else {
+		switch (m_econType) {
+			case ECON_INDUSTRY: m_shortDesc = "Industrial hub system."; break;
+			case ECON_MINING: m_shortDesc = "Vast strip-mining colony."; break;
+			case ECON_AGRICULTURE: m_shortDesc = "High population outdoor world."; break;
 		}
 	}
-	// Add a bunch of things people consume
+}
+
+/* percent */
+#define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
+
+void StarSystem::Populate(bool addSpaceStations)
+{
+	unsigned long _init[5] = { m_sysIdx, m_secx, m_secy, UNIVERSE_SEED };
+	MTRand rand;
+	rand.seed(_init, 4);
+
+	/* Various system-wide characteristics */
+	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_secx*m_secx + m_secy*m_secy));
+	m_metallicity = rand.Fixed();
+	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
+	m_techlevel = CLAMP(m_techlevel, 1, 5);
+	m_econType = ECON_INDUSTRY;
+	m_industrial = rand.Fixed();
+	m_agricultural = 0;
+
+	/* system attributes */
+	m_totalPop = fixed(0);
+	rootBody->PopulateStage1(this, m_totalPop);
+	if (m_totalPop == 0) m_techlevel = 0;
+	
+	printf("Trading rates:\n");
+	// So now we have balances of trade of various commodities.
+	// Lets use black magic to turn these into percentage base price
+	// alterations
+	int maximum = 0;
+	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+		maximum = MAX(abs(m_tradeLevel[i]), maximum);
+	}
+	if (maximum) for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
+		m_tradeLevel[i] += rand.Int32(-5, 5);
+	}
+	
+	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+		Equip::Type t = (Equip::Type)i;
+		const EquipType &type = EquipType::types[t];
+		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
+	}
+	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
+	m_polit = Polit::GetTypeForStarSystem(this, m_totalPop);
+
+	if (addSpaceStations) {
+		rootBody->PopulateAddStations(this);
+	}
+
+	MakeShortDescription();
+}
+
+/*
+ * Set natural resources, tech level, industry strengths and population levels
+ */
+void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
+{
+	for (unsigned int i=0; i<children.size(); i++) {
+		children[i]->PopulateStage1(system, outTotalPop);
+	}
+	unsigned long _init[5] = { system->m_sysIdx, system->m_secx,
+			system->m_secy, UNIVERSE_SEED, this->seed };
+	MTRand rand;
+	rand.seed(_init, 5);
+
+	m_metallicity = system->m_metallicity * rand.Fixed();
+	m_population = fixed(0);
+
+	/* Bad type of planet for settlement */
+	if (
+		(averageTemp > CELSIUS+100) ||
+		(averageTemp < 100) ||
+	        ((type != SBody::TYPE_PLANET_DWARF) &&
+		 (type != SBody::TYPE_PLANET_SMALL) &&
+		 (type != SBody::TYPE_PLANET_WATER) &&
+		 (type != SBody::TYPE_PLANET_CO2) &&
+		 (type != SBody::TYPE_PLANET_METHANE) &&
+		 (type != SBody::TYPE_PLANET_INDIGENOUS_LIFE)
+		)
+	   )
+	{
+		return;
+	}
+
+	m_agricultural = fixed(0);
+
+	if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) {
+		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
+		system->m_agricultural += 2*m_agricultural;
+	} else {
+		// don't bother populating crap planets
+	}
+
 	const int NUM_CONSUMABLES = 10;
 	const Equip::Type consumables[NUM_CONSUMABLES] = { 
 		Equip::AIR_PROCESSORS,
@@ -1041,60 +1149,91 @@ void StarSystem::PickEconomicStuff(SBody *b)
 		Equip::LIQUID_OXYGEN
 	};
 
-	tries = rand.Int32(3,6);
-	while (tries--) {
-		Equip::Type t = consumables[rand.Int32(0, NUM_CONSUMABLES - 1)];
+	/* Commodities we produce (mining and agriculture) */
+	for (int i=(int)Equip::FIRST_COMMODITY; i<(int)Equip::LAST_COMMODITY; i++) {
+		Equip::Type t = (Equip::Type)i;
+		const EquipType &type = EquipType::types[t];
+		if (type.techLevel > system->m_techlevel) continue;
+
+		fixed affinity = fixed(1,1);
+		if (type.econType & ECON_AGRICULTURE) {
+			affinity *= 2*m_agricultural;
+		}
+		if (type.econType & ECON_INDUSTRY) affinity *= system->m_industrial;
+		// make industry after we see if agriculture and mining are viable
+		if (type.econType & ECON_MINING) {
+			affinity *= m_metallicity;
+		}
+		affinity *= rand.Fixed();
+		// producing consumables is wise
+		for (int j=0; j<NUM_CONSUMABLES; j++) {
+			if (i == consumables[j]) affinity *= 2; break;
+		}
+		assert(affinity >= 0);
+		/* workforce... */
+		m_population += affinity * system->m_humanProx;
+		
+		int howmuch = (affinity * 256).ToInt32();
+
+		system->m_tradeLevel[t] += -2*howmuch;
+		for (int i=0; i<EQUIP_INPUTS; i++) {
+			if (!type.inputs[i]) continue;
+			system->m_tradeLevel[type.inputs[i]] += howmuch;
+		}
+	}
+	
+	// Add a bunch of things people consume
+	for (int i=0; i<NUM_CONSUMABLES; i++) {
+		Equip::Type t = consumables[i];
 		if ((t == Equip::AIR_PROCESSORS) ||
-		    (t == Equip::LIQUID_OXYGEN)) {
-			if (b->type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)
+		    (t == Equip::LIQUID_OXYGEN) ||
+		    (t == Equip::GRAIN) ||
+		    (t == Equip::FRUIT_AND_VEG) ||
+		    (t == Equip::ANIMAL_MEAT)) {
+			if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)
 				continue;
 		}
-		if (b->tradeLevel[t] >= 0) {
-			b->tradeLevel[t] += rand.Int32(5,20);
-		}
+		system->m_tradeLevel[t] += rand.Int32(32,128);
 	}
+	// well, outdoor worlds should have way more people
+	m_population = fixed(1,10)*m_population + m_population*m_agricultural;
+
+	printf("%s: pop %.3f billion\n", name.c_str(), m_population.ToFloat());
+
+	outTotalPop += m_population;
 }
 
-int SBody::AddHumanStuff(StarSystem *system)
+void SBody::PopulateAddStations(StarSystem *system)
 {
-	int howmuch = 0;
 	for (unsigned int i=0; i<children.size(); i++) {
-		howmuch += children[i]->AddHumanStuff(system);
+		children[i]->PopulateAddStations(system);
 	}
-
 	unsigned long _init[5] = { system->m_sysIdx, system->m_secx,
-			system->m_secy, UNIVERSE_SEED, this->seed };
+			system->m_secy, this->seed, UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 5);
-		
+
+	if (m_population < fixed(1,1000)) return;
+
+	fixed pop = m_population + rand.Fixed();
+
 	fixed orbMax = fixed(1,4)*this->CalcHillRadius();
 	fixed orbMin = 4 * this->radius * AU_EARTH_RADIUS;
 	if (children.size()) orbMax = MIN(orbMax, fixed(1,2) * children[0]->orbMin);
 
-	bool has_starports = false;
 	// starports - orbital
-	if (
-			((type == SBody::TYPE_PLANET_DWARF) ||
-			(type == SBody::TYPE_PLANET_SMALL) ||
-			(type == SBody::TYPE_PLANET_WATER) ||
-			(type == SBody::TYPE_PLANET_CO2) ||
-			(type == SBody::TYPE_PLANET_METHANE) ||
-			(type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)) &&
-		(orbMin < orbMax) && (averageTemp < CELSIUS+100) && (averageTemp > 100) &&
-		(rand.Fixed() < humanActivity)) {
-
-		has_starports = true;
+	pop -= rand.Fixed();
+	if ((orbMin < orbMax) && (pop >= 0)) {
+	
 		SBody *sp = new SBody;
 		sp->type = SBody::TYPE_STARPORT_ORBITAL;
 		sp->seed = rand.Int32();
 		sp->tmp = 0;
-		sp->econType = econType;
 		sp->parent = this;
 		sp->rotationPeriod = fixed(1,3600);
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
 		sp->name = NameGenerator::Surname(rand) + " Spaceport";
-		sp->humanActivity = humanActivity;
 		/* just always plonk starports in near orbit */
 		sp->semiMajorAxis = orbMin;
 		sp->eccentricity = fixed(0);
@@ -1106,60 +1245,36 @@ int SBody::AddHumanStuff(StarSystem *system)
 		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
-		howmuch++;
 
-		if (rand.Fixed() < humanActivity) {
+		pop -= rand.Fixed();
+		if (pop > 0) {
 			SBody *sp2 = new SBody;
 			*sp2 = *sp;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
 			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
-			howmuch++;
 		}
 	}
 	// starports - surface
-	if ((averageTemp < CELSIUS+80) && (averageTemp > 100) &&
-		((type == SBody::TYPE_PLANET_DWARF) ||
-		(type == SBody::TYPE_PLANET_SMALL) ||
-		(type == SBody::TYPE_PLANET_WATER) ||
-		(type == SBody::TYPE_PLANET_CO2) ||
-		(type == SBody::TYPE_PLANET_METHANE) ||
-		(type == SBody::TYPE_PLANET_INDIGENOUS_LIFE))) {
+	pop = m_population + rand.Fixed();
+	int max = 6;
+	while (max-- > 0) {
+		pop -= rand.Fixed();
+		if (pop < 0) break;
 
-		fixed activ = humanActivity;
-		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) activ *= 4;
-
-		int max = 6;
-		while ((max-- > 0) && (rand.Fixed() < activ)) {
-			activ -= fixed(1,2)*rand.Fixed();
-			has_starports = true;
-			SBody *sp = new SBody;
-			sp->type = SBody::TYPE_STARPORT_SURFACE;
-			sp->seed = rand.Int32();
-			sp->tmp = 0;
-			sp->parent = this;
-			sp->averageTemp = this->averageTemp;
-			sp->humanActivity = humanActivity;
-			sp->mass = 0;
-			sp->name = NameGenerator::Surname(rand) + " Starport";
-			position_settlement_on_planet(sp);
-			children.insert(children.begin(), sp);
-			system->m_spaceStations.push_back(sp);
-			howmuch++;
-		}
+		SBody *sp = new SBody;
+		sp->type = SBody::TYPE_STARPORT_SURFACE;
+		sp->seed = rand.Int32();
+		sp->tmp = 0;
+		sp->parent = this;
+		sp->averageTemp = this->averageTemp;
+		sp->mass = 0;
+		sp->name = NameGenerator::Surname(rand) + " Starport";
+		position_settlement_on_planet(sp);
+		children.insert(children.begin(), sp);
+		system->m_spaceStations.push_back(sp);
 	}
-
-	if (has_starports) {
-		if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)
-			econType |= ECON_AGRICULTURE;
-		else
-			econType |= ECON_MINING;
-		if (rand.Int32(2)) econType |= ECON_INDUSTRY;
-		else econType |= ECON_MINING;
-		system->PickEconomicStuff(this);
-	}
-	return howmuch;
 }
 
 StarSystem::~StarSystem()

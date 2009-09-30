@@ -14,6 +14,7 @@ public:
 	fixedf(Sint64 num, Sint64 denom): v((num<<FRAC) / denom) {}
 	// ^^ this is fucking shit
 	
+	fixedf Abs() const { return fixedf(v >= 0 ? v : -v); }
 	friend fixedf operator+(const fixedf a, const Sint64 b) { return a+fixedf(b<<FRAC); }
 	friend fixedf operator-(const fixedf a, const Sint64 b) { return a-fixedf(b<<FRAC); }
 	friend fixedf operator*(const fixedf a, const Sint64 b) { return a*fixedf(b<<FRAC); }
@@ -129,6 +130,7 @@ public:
 	friend bool operator<=(const fixedf a, const fixedf b) { return a.v <= b.v; }
 
 	/* implicit operator float() bad */
+	int ToInt32() const { return (int)(v>>FRAC); }
 	Sint64 ToInt64() const { return v>>FRAC; }
 	float ToFloat() const { return v/(float)(1LL<<FRAC); }
 	double ToDouble() const { return v/(double)(1LL<<FRAC); }

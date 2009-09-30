@@ -127,7 +127,7 @@ const CustomSystem custom_systems[] = {
 { "Gliese 887", 0, {SBody::TYPE_STAR_M}, -1, 1, vector3f(0.413f,0.547f,-0.115f) }, // Components: M2
 { "Gliese 908", 0, {SBody::TYPE_STAR_M}, -1, -2, vector3f(0.406f,0.751f,0.998f) }, // Components: M2
 { "Gliese 588", 0, {SBody::TYPE_STAR_M}, -2, 0, vector3f(0.185f,0.968f,-0.790f) }, // Components: M3
-{ "Tau Ceti", 0, {SBody::TYPE_STAR_G}, 1, 1, vector3f(0.127f,0.778f,-0.324f) }, // Components: G8
+{ "Tau Ceti", 0, {SBody::TYPE_STAR_G}, 1, 1, vector3f(0.127f,0.778f,-0.324f), 2 }, // Components: G8
 { "LTT 12976", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 1, -1, vector3f(0.986f,0.133f,0.773f) }, // Components: M2, M6
 { "Sm 50", 0, {SBody::TYPE_STAR_M}, -2, 0, vector3f(0.411f,0.693f,-1.341f) }, // Components: M0
 { "61 Cygni", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_K}, 0, -1, vector3f(0.302f,0.108f,-0.136f) }, // Components: K5, K7

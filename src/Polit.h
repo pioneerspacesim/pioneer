@@ -11,7 +11,7 @@ namespace Polit {
 		POL_CONFED,
 		POL_MAX
 	};
-	Polit::Type GetTypeForStarSystem(StarSystem *s, int human_infestedness);
+	Polit::Type GetTypeForStarSystem(StarSystem *s, fixed human_infestedness);
 	extern const char * const desc[];
 }
 

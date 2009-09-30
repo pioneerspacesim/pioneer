@@ -83,58 +83,67 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	m_infoBox->ShowAll();
 	m_infoBox->ResizeRequest();
-	
+}
+
+void SystemInfoView::UpdateEconomyTab()
+{
 	/* Economy info page */
-	desc = stringf(256, "%s: %s\n", b->name.c_str(), b->GetAstroDescription());
-	data = "\n";
+	StarSystem *s = m_system;
+	std::string data;
 	
-	if (b->econType) {
-		desc += "Economy\n";
+/*	if (s->m_econType) {
+		data = "Economy: ";
 
 		std::vector<std::string> v;
-		if (b->econType & ECON_AGRICULTURE) v.push_back("Agricultural");
-		if (b->econType & ECON_MINING) v.push_back("Mining");
-		if (b->econType & ECON_INDUSTRY) v.push_back("Industrial");
+		if (s->m_econType & ECON_AGRICULTURE) v.push_back("Agricultural");
+		if (s->m_econType & ECON_MINING) v.push_back("Mining");
+		if (s->m_econType & ECON_INDUSTRY) v.push_back("Industrial");
 		data += string_join(v, ", ");
 		data += "\n";
 	}
-
+	m_econInfo->SetText(data);
+*/
 	/* imports and exports */
 	std::vector<std::string> crud;
-	desc += "\n";
-	data += "\n";
-	desc += "#ff0Imports:\n";
+	data = "#ff0Major Imports:\n";
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (b->tradeLevel[i]) printf("Trade %s at %d%%\n", EquipType::types[i].name, b->tradeLevel[i]);
-	}
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (b->tradeLevel[i] > 5)
+		if (s->GetCommodityBasePriceModPercent(i) > 10)
 			crud.push_back(std::string("#fff")+EquipType::types[i].name);
 	}
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((b->tradeLevel[i] > 0) && (b->tradeLevel[i] <= 5))
-			crud.push_back(std::string("#777")+EquipType::types[i].name);
-	}
-	if (crud.size()) desc += string_join(crud, "\n")+"\n";
-	else desc += "None\n";
-	crud.clear();
+	if (crud.size()) data += string_join(crud, "\n")+"\n";
+	else data += "#777None\n";
+	m_econMajImport->SetText(data);
 
-	data += "#ff0Exports:\n";
+	crud.clear();
+	data = "#ff0Minor Imports:\n";
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (b->tradeLevel[i] < -5)
-			crud.push_back(std::string("#fff")+EquipType::types[i].name);
-	}
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((b->tradeLevel[i] < 0) && (b->tradeLevel[i] >= -5))
+		if ((s->GetCommodityBasePriceModPercent(i) > 2) && (s->GetCommodityBasePriceModPercent(i) <= 10))
 			crud.push_back(std::string("#777")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += "None\n";
-	crud.clear();
-	data += " #ff0";
+	else data += "#777None\n";
+	m_econMinImport->SetText(data);
 
-	m_econLabel->SetText(desc);
-	m_econData->SetText(data);
+	crud.clear();
+	data = "#ff0Major Exports:\n";
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (s->GetCommodityBasePriceModPercent(i) < -10)
+			crud.push_back(std::string("#fff")+EquipType::types[i].name);
+	}
+	if (crud.size()) data += string_join(crud, "\n")+"\n";
+	else data += "#777None\n";
+	m_econMajExport->SetText(data);
+
+	crud.clear();
+	data = "#ff0Minor Exports:\n";
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if ((s->GetCommodityBasePriceModPercent(i) < -2) && (s->GetCommodityBasePriceModPercent(i) >= -10))
+			crud.push_back(std::string("#777")+EquipType::types[i].name);
+	}
+	if (crud.size()) data += string_join(crud, "\n")+"\n";
+	else data += "#777None\n";
+	m_econMinExport->SetText(data);
+
 	m_econInfoTab->ResizeRequest();
 }
 
@@ -154,10 +163,6 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
 
-		if (container == m_econInfoTab) {
-			/* Grey out planets with no human habitation */
-			if (body->econType == 0) ib->SetEnabled(false);
-		}
 		majorBodies++;
 		pos[dir] += size[dir];
 		dir = !dir;
@@ -246,15 +251,26 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		scroll2->SetAdjustment(&portal2->vscrollAdjust);
 		scrollBox2->PackStart(scroll2);
 		scrollBox2->PackStart(portal2, true);
-		Gui::Fixed *f = new Gui::Fixed();
 
-		m_econLabel = new Gui::Label("");
-		m_econLabel->SetColor(1,1,0);
-		f->Add(m_econLabel, 0, 0);
-		m_econData = new Gui::Label("");
-		m_econData->SetColor(1,1,0);
-		f->Add(m_econData, 300, 0);
+		m_econInfo = new Gui::Label("");
+		m_econInfoTab->Add(m_econInfo, 35, 250);
+
+		Gui::Fixed *f = new Gui::Fixed();
+		m_econMajImport = new Gui::Label("");
+		m_econMinImport = new Gui::Label("");
+		m_econMajExport = new Gui::Label("");
+		m_econMinExport = new Gui::Label("");
+		m_econMajImport->SetColor(1,1,0);
+		m_econMinImport->SetColor(1,1,0);
+		m_econMajExport->SetColor(1,1,0);
+		m_econMinExport->SetColor(1,1,0);
+		f->Add(m_econMajImport, 0, 0);
+		f->Add(m_econMinImport, 150, 0);
+		f->Add(m_econMajExport, 300, 0);
+		f->Add(m_econMinExport, 450, 0);
 		portal2->Add(f);
+
+		UpdateEconomyTab();
 	}
 
 	ShowAll();

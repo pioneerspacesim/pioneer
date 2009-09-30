@@ -413,8 +413,6 @@ void Planet::Render(const Frame *a_camFrame)
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
-
-
 		if (shrink) {// || !Shader::IsEnabled()) {
 			glClear(GL_DEPTH_BUFFER_BIT);
 		}

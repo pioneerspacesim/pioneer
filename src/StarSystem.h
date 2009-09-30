@@ -124,8 +124,8 @@ public:
 	fixed CalcHillRadius() const;
 
 	double GetMaxChildOrbitalDistance() const;
-	// returns how infested with human life the system is
-	int AddHumanStuff(StarSystem *system);
+	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
+	void PopulateAddStations(StarSystem *system);
 
 	int tmp;
 	Orbit orbit;
@@ -140,10 +140,11 @@ public:
 	fixed eccentricity;
 	int averageTemp;
 	BodyType type;
-
-	// percent price alteration
-	int tradeLevel[Equip::TYPE_MAX];
-	int econType;
+	
+	/* economy type stuff */
+	fixed m_population;
+	fixed m_metallicity;
+	fixed m_agricultural;
 
 	const char *heightMapFilename;
 
@@ -183,8 +184,23 @@ public:
 
 	SBody *rootBody;
 	std::vector<SBody*> m_spaceStations;
-	fixed m_humanInfested; // 0 to 1
+	
+	fixed m_metallicity;
+	fixed m_industrial;
+	fixed m_agricultural;
+
+	fixed m_humanProx;
+	fixed m_totalPop;
+	// percent price alteration
+	int m_tradeLevel[Equip::TYPE_MAX];
+	int m_econType;
+	int m_techlevel; /* 0-5 like in EquipType.h */
+	
+	int GetCommodityBasePriceModPercent(int t) {
+		return m_tradeLevel[t];
+	}
 private:
+	void MakeShortDescription();
 	void MakePlanetsAround(SBody *primary);
 	void MakeRandomStar(SBody *sbody, MTRand &rand);
 	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
@@ -192,7 +208,7 @@ private:
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
 	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx, int *outHumanInfestedness);
 	void GenerateFromCustom(const CustomSystem *);
-	void PickEconomicStuff(SBody *b);
+	void Populate(bool addSpaceStations);
 
 	int m_secx, m_secy, m_sysIdx;
 	int m_numStars;

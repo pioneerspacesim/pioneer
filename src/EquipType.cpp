@@ -8,106 +8,106 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	},{
 	  "Hydrogen", "Hydrogen is primarily used as a fusion fuel",
 	  Equip::SLOT_CARGO, {},
-	  100, 1, 0, ECON_MINING
+	  100, 1, 0, ECON_MINING, 0,
 	},{
 	  "Liquid Oxygen", "Oxygen is required for life support systems and "
 	  "some industrial processes",
 	  Equip::SLOT_CARGO, { Equip::WATER, Equip::INDUSTRIAL_MACHINERY },
-	  150, 1, 0, ECON_MINING
+	  150, 1, 0, ECON_MINING, 0,
 	},{
 	  "Metal ore", 0,
 	  Equip::SLOT_CARGO, { Equip::MINING_MACHINERY },
-	  300, 1, 0, ECON_MINING
+	  300, 1, 0, ECON_MINING, 0,
 	},{
 	  "Carbon ore", "Carbon ores (coal and oil) are required for the synthesis "
 	  "of many useful chemicals, including plastics, synthetic foodstuffs, "
 	  "medicines and textiles",
 	  Equip::SLOT_CARGO, { Equip::MINING_MACHINERY },
-	  500, 1, 0, ECON_MINING
+	  500, 1, 0, ECON_MINING, 0,
 	},{
 	  "Metal alloys", 0,
 	  Equip::SLOT_CARGO, { Equip::METAL_ORE, Equip::INDUSTRIAL_MACHINERY },
-	  800, 1, 0, ECON_INDUSTRY
+	  800, 1, 0, ECON_INDUSTRY, 1,
 	},{
 	  "Plastics", 0,
 	  Equip::SLOT_CARGO, { Equip::CARBON_ORE, Equip::INDUSTRIAL_MACHINERY },
-	  1200, 1, 0, ECON_INDUSTRY
+	  1200, 1, 0, ECON_INDUSTRY, 2,
 	},{
 	  "Fruit and Veg", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
-	  1200, 1, 0, ECON_AGRICULTURE
+	  1200, 1, 0, ECON_AGRICULTURE, 1,
 	},{
 	  "Animal Meat", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
-	  1800, 1, 0, ECON_AGRICULTURE
+	  1800, 1, 0, ECON_AGRICULTURE, 1,
 	},{
 	  "Liquor", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
-	  800, 1, 0, ECON_AGRICULTURE
+	  800, 1, 0, ECON_AGRICULTURE, 1,
 	},{
 	  "Grain", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
-	  1000, 1, 0, ECON_AGRICULTURE
+	  1000, 1, 0, ECON_AGRICULTURE, 1,
 	},{
 	  "Textiles", 0,
 	  Equip::SLOT_CARGO, { Equip::PLASTICS },
-	  850, 1, 0, ECON_INDUSTRY
+	  850, 1, 0, ECON_INDUSTRY, 2,
 	},{
 	  "Fertilizer", 0,
 	  Equip::SLOT_CARGO, { Equip::CARBON_ORE },
-	  400, 1, 0, ECON_INDUSTRY
+	  400, 1, 0, ECON_INDUSTRY, 2,
 	},{
 	  "Water", 0,
 	  Equip::SLOT_CARGO, { Equip::MINING_MACHINERY },
-	  120, 1, 0, ECON_MINING
+	  120, 1, 0, ECON_MINING, 0,
 	},{
 	  "Medicines",0,
 	  Equip::SLOT_CARGO, { Equip::COMPUTERS, Equip::CARBON_ORE },
-	  2200, 1, 0, ECON_INDUSTRY,
+	  2200, 1, 0, ECON_INDUSTRY, 3,
 	},{
 	  "Consumer goods",0,
 	  Equip::SLOT_CARGO, { Equip::PLASTICS, Equip::TEXTILES },
-	  14000, 1, 0, ECON_INDUSTRY,
+	  14000, 1, 0, ECON_INDUSTRY, 4,
 	},{
 	  "Computers",0,
 	  Equip::SLOT_CARGO, { Equip::PRECIOUS_METALS, Equip::INDUSTRIAL_MACHINERY },
-	  8000, 1, 0, ECON_INDUSTRY,
+	  8000, 1, 0, ECON_INDUSTRY, 5,
 	},{
 	  "Robots",0,
 	  Equip::SLOT_CARGO, { Equip::PLASTICS, Equip::COMPUTERS },
-	  6300, 1, 0, ECON_INDUSTRY,
+	  6300, 1, 0, ECON_INDUSTRY, 5,
 	},{
 	  "Precious metals", 0,
 	  Equip::SLOT_CARGO, { Equip::MINING_MACHINERY },
-	  18000, 1, 0, ECON_MINING,
+	  18000, 1, 0, ECON_MINING, 1,
 	},{
 	  "Industrial machinery",0,
 	  Equip::SLOT_CARGO, { Equip::METAL_ALLOYS, Equip::ROBOTS },
-	  1300, 1, 0, ECON_INDUSTRY,
+	  1300, 1, 0, ECON_INDUSTRY, 3,
 	},{
 	  "Farm machinery",0,
 	  Equip::SLOT_CARGO, { Equip::METAL_ALLOYS, Equip::ROBOTS },
-	  1100, 1, 0, ECON_INDUSTRY,
+	  1100, 1, 0, ECON_INDUSTRY, 3,
 	},{
 	  "Mining machinery",0,
 	  Equip::SLOT_CARGO, { Equip::METAL_ALLOYS, Equip::ROBOTS },
-	  1200, 1, 0, ECON_INDUSTRY,
+	  1200, 1, 0, ECON_INDUSTRY, 3,
 	},{
 	  "Air processors",0,
 	  Equip::SLOT_CARGO, { Equip::PLASTICS, Equip::INDUSTRIAL_MACHINERY },
-	  2000, 1, 0, ECON_INDUSTRY,
+	  2000, 1, 0, ECON_INDUSTRY, 3,
 	},{
 	  "Hand weapons",0,
 	  Equip::SLOT_CARGO, { Equip::COMPUTERS },
-	  12400, 1, 0, ECON_INDUSTRY,
+	  12400, 1, 0, ECON_INDUSTRY, 4,
 	},{
 	  "Battle weapons",0,
 	  Equip::SLOT_CARGO, { Equip::INDUSTRIAL_MACHINERY, Equip::METAL_ALLOYS },
-	  22000, 1, 0, ECON_INDUSTRY,
+	  22000, 1, 0, ECON_INDUSTRY, 4,
 	},{
 	  "Narcotics",0,
 	  Equip::SLOT_CARGO, {},
-	  15700, 1, 0, ECON_INDUSTRY,
+	  15700, 1, 0, ECON_INDUSTRY, 3,
 	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
