@@ -418,20 +418,23 @@ void Pi::Start()
 
 	const float w = Gui::Screen::GetWidth() / 2;
 	const float h = Gui::Screen::GetHeight() / 2;
-	const int OPTS = 4;
+	const int OPTS = 5;
 	Gui::ToggleButton *opts[OPTS];
 	opts[0] = new Gui::ToggleButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
 	opts[1] = new Gui::ToggleButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
 	opts[2] = new Gui::ToggleButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
 	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
+	opts[4] = new Gui::ToggleButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
 	splash->Add(opts[0], w, h-64);
 	splash->Add(new Gui::Label("New game starting on Earth"), w+32, h-64);
 	splash->Add(opts[1], w, h-32);
-	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h-32);
+	splash->Add(new Gui::Label("New game starting on Epsilon Eridani"), w+32, h-32);
 	splash->Add(opts[2], w, h);
-	splash->Add(new Gui::Label("Load quicksave"), w+32, h);
+	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h);
 	splash->Add(opts[3], w, h+32);
-	splash->Add(new Gui::Label("Quit"), w+32, h+32);
+	splash->Add(new Gui::Label("Load quicksave"), w+32, h+32);
+	splash->Add(opts[4], w, h+64);
+	splash->Add(new Gui::Label("Quit"), w+32, h+64);
 
 	splash->ShowAll();
 
@@ -483,6 +486,23 @@ void Pi::Start()
 		player->SetDockedWith(station, 0);
 		MainLoop();
 	} else if (choice == 2) {
+		/* Earth start point */
+		SBodyPath path(1,0,2);
+		Space::DoHyperspaceTo(&path);
+		// XXX there isn't a sensible way to find stations for a planet.
+		SpaceStation *station = 0;
+		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
+			if ((*i)->IsType(Object::SPACESTATION)) {
+				station = (SpaceStation*)*i;
+				if (!station->IsGroundStation()) break;
+			}
+		}
+		assert(station);
+		player->SetPosition(vector3d(0,0,0));
+		player->SetFrame(station->GetFrame());
+		player->SetDockedWith(station, 0);
+		MainLoop();
+	} else if (choice == 3) {
 		/* debug start point */
 		SBodyPath path(1,0,2);
 		path.elem[0] = 3;
@@ -519,7 +539,7 @@ void Pi::Start()
 	//	player->SetDockedWith(station2, 0);
 
 		MainLoop();
-	} else if (choice == 3) {
+	} else if (choice == 4) {
 		// load quicksave
 		Serializer::Read::Game("quicksave.sav");
 		MainLoop();

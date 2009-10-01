@@ -56,6 +56,7 @@ public:
 	bool BBRemoveMission(Mission *m);
 	virtual void PostLoadFixup();
 	virtual void NotifyDeath(const Body* const dyingBody);
+	void PositionDockedShip(Ship *ship, int port);
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;
 protected:

@@ -116,7 +116,12 @@ void Ship::PostLoadFixup()
 {
 	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
 	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
-	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
+
+	{
+		SpaceStation *s = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
+		m_dockedWith = 0;
+		SetDockedWith(s, m_dockedWithPort);
+	}
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		switch ((*i).cmd) {
 			case DO_KILL:
@@ -315,7 +320,7 @@ void Ship::Blastoff()
 	m_flightState = FLYING;
 	m_testLanded = false;
 	m_dockedWith = 0;
-	m_launchLockTimeout = 1.0; // one second of applying thrusters
+	m_launchLockTimeout = 2.0; // two second of applying thrusters
 	
 	vector3d up = GetPosition().Normalized();
 	Enable();
@@ -519,8 +524,8 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_testLanded = false;
 		onUndock.emit();
 		m_dockedWith = 0;
-		// lock thrusters for a second to push us out of station
-		m_launchLockTimeout = 1.0;
+		// lock thrusters for two seconds to push us out of station
+		m_launchLockTimeout = 2.0;
 	} else if (!s) {
 	
 	} else {
@@ -528,9 +533,11 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWithPort = port;
 		m_wheelState = 1.0f;
 		if (s->IsGroundStation()) m_flightState = LANDED;
+		else m_flightState = DOCKING;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
+		m_dockedWith->PositionDockedShip(this, port);
 		onDock.emit();
 	}
 }

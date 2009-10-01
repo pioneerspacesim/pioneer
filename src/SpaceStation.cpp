@@ -578,20 +578,22 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	}
 }
 
-void SpaceStation::LaunchShip(Ship *ship, int port)
+void SpaceStation::PositionDockedShip(Ship *ship, int port)
 {
 	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = stationTypes[m_type].dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		vector3d p = GetPosition() + rot*port_s3[port].pos;
+		
 		ship->SetFrame(GetFrame());
-		shipDocking_t &sd = m_shipDocking[port];
-		sd.ship = ship;
-		sd.stage = -1;
-		sd.stagePos = 0;
-		ship->SetFlightState(Ship::DOCKING);
-	}
-	else if (dockMethod == SpaceStationType::SURFACE) {
-		ship->Blastoff();
+		ship->SetPosition(p);
+		// duplicated from DoDockingAnimation()
+		vector3d zaxis = vector3d::Cross(port_s3[port].xaxis, port_s3[port].normal);
+		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(port_s3[port].xaxis,
+					port_s3[port].normal, zaxis) * rot);
+	} else {
 		Aabb aabb;
 		ship->GetAabb(aabb);
 
@@ -605,9 +607,26 @@ void SpaceStation::LaunchShip(Ship *ship, int port)
 				dport->normal*aabb.min.y);
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
+	}
+}
+
+void SpaceStation::LaunchShip(Ship *ship, int port)
+{
+	const int dockMethod = stationTypes[m_type].dockMethod;
+	
+	if (dockMethod == SpaceStationType::ORBITAL) {
+		shipDocking_t &sd = m_shipDocking[port];
+		sd.ship = ship;
+		sd.stage = -1;
+		sd.stagePos = 0;
+		ship->SetFlightState(Ship::DOCKING);
+	}
+	else if (dockMethod == SpaceStationType::SURFACE) {
+		ship->Blastoff();
 	} else {
 		assert(0);
 	}
+	PositionDockedShip(ship, port);
 }
 
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)

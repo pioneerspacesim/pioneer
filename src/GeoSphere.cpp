@@ -998,6 +998,10 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			*outColor = Color(.2f, .6f, .3f, 1.0f);
 			*outDensity = 0.002f;
 			break;
+		case SBody::TYPE_PLANET_WATER:
+			*outColor = Color(.4f, .4f, .5f, 1.0f);
+			*outDensity = 0.002f;
+			break;
 		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
 			*outColor = Color(.5f, .5f, .8f, 1.0f);
 			*outDensity = 0.005f;
@@ -1333,6 +1337,7 @@ double GeoSphere::GetHeight(vector3d p)
 			
 			n *= m_maxHeight;
 			break;
+		case SBody::TYPE_PLANET_WATER:
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			div = 0.5 + 0.18*octavenoise(4, 0.5, 256.0*p);
 			n = 0.5*(1.0+octavenoise(18, div, p));
@@ -1424,6 +1429,10 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 				col = interpolate_color(n, col, vector3d(.5,.5,.5));
 				return col;
 			}
+		case SBody::TYPE_PLANET_WATER:
+			n = m_invMaxHeight*height - 0.5;
+			if (n <= 0) return vector3d(0.0,0.0,0.5);
+			else return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 		default:
 			return vector3d(1,0,1);
 
