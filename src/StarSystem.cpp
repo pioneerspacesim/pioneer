@@ -1271,6 +1271,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
 		sp->name = NameGenerator::Surname(rand) + " Starport";
+		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);
 		system->m_spaceStations.push_back(sp);

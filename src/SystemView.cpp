@@ -77,8 +77,9 @@ void SystemView::PutOrbit(SBody *b, vector3d offset)
 {
 	glColor3f(0,1,0);
 	glBegin(GL_LINE_LOOP);
-	double inc = b->orbit.period/100.0;
-	for (double t=0.0; t < b->orbit.period; t += inc) {
+	int i=0;
+	double t, inc = b->orbit.period/100.0;
+	for (t=0.0; i<100; t += inc, i++) {
 		vector3d pos = b->orbit.CartesianPosAtTime(t);
 		pos = offset + pos * (double)m_zoom;
 		glVertex3dv(&pos[0]);
@@ -132,8 +133,10 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 
 	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
-		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD)
+		if ((*kid)->orbit.semiMajorAxis == 0) continue;
+		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
 			PutOrbit(*kid, offset);
+		}
 		
 		// not using current time yet
 		vector3d pos = (*kid)->orbit.CartesianPosAtTime(m_time);
