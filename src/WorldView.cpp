@@ -568,7 +568,7 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 	} else if (target->IsType(Object::SHIP)) {
 		if (Pi::player->GetCombatTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
-		} else if (target != Pi::player) {
+		} else {
 			Pi::player->SetCombatTarget(target);
 		}
 	} else {
@@ -599,7 +599,7 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 
 	for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		Body *b = *i;
-		if(b->IsOnscreen()) {
+		if(b->IsOnscreen() && (b != Pi::player)) {
 			const vector3d& _pos = b->GetProjectedPos();
 			const float x1 = (float)_pos.x - PICK_OBJECT_RECT_SIZE * 0.5f;
 			const float x2 = x1 + PICK_OBJECT_RECT_SIZE;

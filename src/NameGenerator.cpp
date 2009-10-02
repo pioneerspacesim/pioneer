@@ -6,6 +6,7 @@ namespace NameGenerator {
 	std::vector<std::string> forenames_male;
 	std::vector<std::string> forenames_female;
 	std::vector<std::string> surnames;
+	std::vector<std::string> planet_names;
 
 	void Init()
 	{
@@ -43,6 +44,16 @@ namespace NameGenerator {
 			}
 			surnames.push_back(std::string(buf));
 		}
+		f = fopen_or_die("data/planet_names.txt", "r");
+		while (fgets(buf, sizeof(buf), f)) {
+			char *nl = strchr(buf, '\r');
+			if (nl) *nl = 0;
+			else {
+				nl = strchr(buf, '\n');
+				if (nl) *nl = 0;
+			}
+			planet_names.push_back(std::string(buf));
+		}
 	}
 
 	std::string FullName(MTRand &rng, bool genderFemale)
@@ -62,6 +73,12 @@ namespace NameGenerator {
 	std::string Surname(MTRand &rng)
 	{
 		return surnames[rng.Int32(surnames.size())];
+	}
+	
+	std::string PlanetName(MTRand &rng)
+	{
+		const char *format = planet_names[rng.Int32(planet_names.size())].c_str();
+		return stringf(256, format, Surname(rng).c_str());
 	}
 }
 

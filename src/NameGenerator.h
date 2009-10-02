@@ -7,6 +7,7 @@ namespace NameGenerator {
 	void Init();
 	std::string FullName(MTRand &rng, bool genderFemale);
 	std::string Surname(MTRand &rng);
+	std::string PlanetName(MTRand &rng);
 }
 
 #endif /* _NAMEGENERATOR_H */

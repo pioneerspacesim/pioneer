@@ -1181,6 +1181,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 			system->m_tradeLevel[type.inputs[i]] += howmuch;
 		}
 	}
+
+	if (m_population > fixed(1,10)) NameGenerator::PlanetName(rand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
