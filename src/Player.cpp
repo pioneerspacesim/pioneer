@@ -120,6 +120,17 @@ void Player::StaticUpdate(const float timeStep)
 
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
+		case CONTROL_FIXSPEED:
+			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
+			v = vector3d(0, 0, -m_setSpeed);
+			if (b) {
+				matrix4x4d m;
+				GetRotMatrix(m);
+				v += m.InverseOf() * b->GetVelocityRelativeTo(this->GetFrame());
+			}
+			AIAccelToModelRelativeVelocity(v);
+			/* runs on into CONTROL_MANUAL case, to do rotation
+			 * damping */
 		case CONTROL_MANUAL:
 			// apply rotation damping
 			{const float time_accel = Pi::GetTimeAccel();
@@ -138,16 +149,6 @@ void Player::StaticUpdate(const float timeStep)
 			SetAngThrusterState(1, angThrust.y);
 			SetAngThrusterState(2, angThrust.z);
 			}
-			break;
-		case CONTROL_FIXSPEED:
-			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
-			v = vector3d(0, 0, -m_setSpeed);
-			if (b) {
-				matrix4x4d m;
-				GetRotMatrix(m);
-				v += m.InverseOf() * b->GetVelocityRelativeTo(this->GetFrame());
-			}
-			AIAccelToModelRelativeVelocity(v);
 			break;
 		case CONTROL_AUTOPILOT:
 			break;

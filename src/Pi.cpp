@@ -169,7 +169,7 @@ void Pi::BoinkNoise()
 void Pi::SetTimeAccel(int s)
 {
 	// don't want player to spin like mad when hitting time accel
-	if (s > 2) {
+	if ((s != timeAccelIdx) && (s > 2)) {
 		player->SetAngVelocity(vector3d(0,0,0));
 		player->SetTorque(vector3d(0,0,0));
 		player->SetAngThrusterState(0, 0.0f);

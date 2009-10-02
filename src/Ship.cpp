@@ -302,9 +302,9 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired)
 
 	this->CalcStats();
 	fuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
-	if (fuelRequired < hyperclass*hyperclass) fuelRequired = (int)ceil(0.2f*hyperclass*hyperclass);
+	if (fuelRequired > hyperclass*hyperclass) fuelRequired = hyperclass*hyperclass;
 	if (fuelRequired < 1) fuelRequired = 1;
-	if (dist > m_stats.hyperspace_range_max) {
+	if (dist > m_stats.hyperspace_range) {
 		fuelRequired = 0;
 		return false;
 	} else {
