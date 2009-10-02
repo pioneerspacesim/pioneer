@@ -212,17 +212,6 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 	return DynamicBody::OnCollision(b, flags, relVel);
 }
 
-vector3d Ship::CalcRotDamping()
-{
-	// rotation damping.
-	vector3d angVel = GetAngVelocity();
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	angVel = rot.InverseOf() * angVel;
-
-	return angVel * 0.6;
-}
-
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 {
 	m_thrusters[t] = CLAMP(level, 0.0f, 1.0f);

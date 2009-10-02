@@ -137,8 +137,6 @@ void Ship::AISlowFaceDirection(const vector3d &dir)
 		rotaxis = rot*rotaxis;
 		vector3d desiredAngVelChange = 4.0*(rotaxis - angVel);
 		desiredAngVelChange *= 1.0 / timeAccel;
-		// still must apply rotation damping
-		rotaxis -= CalcRotDamping();
 		SetAngThrusterState(0, desiredAngVelChange.x);
 		SetAngThrusterState(1, desiredAngVelChange.y);
 		SetAngThrusterState(2, desiredAngVelChange.z);
@@ -208,6 +206,30 @@ void Ship::AIFaceDirection(const vector3d &dir)
 		}
 	}
 }
+
+void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness)
+{
+	const ShipType &stype = GetShipType();
+	double angAccel = stype.angThrust / GetAngularInertia();
+	const double softTimeStep = Pi::GetTimeStep() * (double)softness;
+
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	vector3d angVel = desiredAngVel - rot.InverseOf() * GetAngVelocity();
+
+	vector3d thrust; 
+	for (int axis=0; axis<3; axis++) {
+		if (angAccel * softTimeStep >= fabs(angVel[axis])) {
+			thrust[axis] = angVel[axis] / (softTimeStep * angAccel);
+		} else {
+			thrust[axis] = (angVel[axis] > 0.0 ? 1.0 : -1.0);
+		}
+	}
+	SetAngThrusterState(0, thrust.x);
+	SetAngThrusterState(1, thrust.y);
+	SetAngThrusterState(2, thrust.z);
+}
+
 
 void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 {

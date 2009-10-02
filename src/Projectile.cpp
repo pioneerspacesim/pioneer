@@ -9,6 +9,8 @@
 #include "Render.h"
 #include "Shader.h"
 
+#define PROJECTILE_AGE 1.0f
+
 Projectile::Projectile(): Body()
 {
 	m_orient = matrix4x4d::Identity();
@@ -64,7 +66,7 @@ void Projectile::TimeStepUpdate(const float timeStep)
 		case TYPE_4MW_PULSE:
 		case TYPE_10MW_PULSE:
 		case TYPE_20MW_PULSE:
-			if (m_age > 3.0) Space::KillBody(this);
+			if (m_age > PROJECTILE_AGE) Space::KillBody(this);
 			break;
 	}
 }
@@ -80,7 +82,7 @@ float Projectile::GetDamage() const
 		case TYPE_10MW_PULSE: dam = 10000.0f; break;
 		case TYPE_20MW_PULSE: dam = 20000.0f; break;
 	}
-	return dam;
+	return dam * (PROJECTILE_AGE - m_age)/PROJECTILE_AGE;
 }
 
 void Projectile::StaticUpdate(const float timeStep)
@@ -130,23 +132,23 @@ void Projectile::Render(const Frame *camFrame)
 
 	switch (m_type) {
 		case TYPE_1MW_PULSE:
-			col = Color(1.0f, 0.0f, 0.0f, 1.0f-(m_age/3.0f));
+			col = Color(1.0f, 0.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 		case TYPE_2MW_PULSE:
-			col = Color(1.0f, 0.5f, 0.0f, 1.0f-(m_age/3.0f));
+			col = Color(1.0f, 0.5f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 		case TYPE_4MW_PULSE:
-			col = Color(1.0f, 1.0f, 0.0f, 1.0f-(m_age/3.0f));
+			col = Color(1.0f, 1.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 		case TYPE_10MW_PULSE:
-			col = Color(0.0f, 1.0f, 0.0f, 1.0f-(m_age/3.0f));
+			col = Color(0.0f, 1.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 		case TYPE_20MW_PULSE:
-			col = Color(0.0f, 0.0f, 1.0f, 1.0f-(m_age/3.0f));
+			col = Color(0.0f, 0.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 	}

@@ -46,7 +46,6 @@ public:
 	const ShipType &GetShipType() const;
 	const shipstats_t *CalcStats();
 	void UpdateMass();
-	vector3d CalcRotDamping();
 	bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
 	virtual void TimeStepUpdate(const float timeStep);
@@ -64,6 +63,7 @@ public:
 	void AIFaceDirection(const vector3d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
+	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
 	
 	EquipSet m_equipment;

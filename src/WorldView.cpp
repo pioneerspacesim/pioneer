@@ -568,7 +568,7 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 	} else if (target->IsType(Object::SHIP)) {
 		if (Pi::player->GetCombatTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
-		} else {
+		} else if (target != Pi::player) {
 			Pi::player->SetCombatTarget(target);
 		}
 	} else {

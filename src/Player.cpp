@@ -129,26 +129,8 @@ void Player::StaticUpdate(const float timeStep)
 				v += m.InverseOf() * b->GetVelocityRelativeTo(this->GetFrame());
 			}
 			AIAccelToModelRelativeVelocity(v);
-			/* runs on into CONTROL_MANUAL case, to do rotation
-			 * damping */
+			break;
 		case CONTROL_MANUAL:
-			// apply rotation damping
-			{const float time_accel = Pi::GetTimeAccel();
-			const float invTa2 = 1.0f/(time_accel*time_accel);
-		
-			vector3f angThrust = GetAngThrusterState();
-			vector3d damping = ((double)time_accel)*CalcRotDamping();
-
-			angThrust.x -= damping.x * invTa2;
-			angThrust.y -= damping.y * invTa2;
-			angThrust.z -= damping.z * invTa2;
-
-			// dividing by time step so controls don't go totally mental when
-			// used at 10x accel
-			SetAngThrusterState(0, angThrust.x);
-			SetAngThrusterState(1, angThrust.y);
-			SetAngThrusterState(2, angThrust.z);
-			}
 			break;
 		case CONTROL_AUTOPILOT:
 			break;
@@ -186,8 +168,8 @@ void Player::StaticUpdate(const float timeStep)
 void Player::PollControls()
 {
 	int mouseMotion[2];
-	float time_accel = Pi::GetTimeAccel();
-	float ta2 = time_accel*time_accel;
+	double time_accel = Pi::GetTimeAccel();
+	double invTimeAccel = 1.0 / time_accel;
 
 	if ((time_accel == 0) || GetDockedWith() ||
 	    (GetFlightState() != FLYING)) {
@@ -198,7 +180,7 @@ void Player::PollControls()
 	{
 		ClearThrusterState();
 		
-		vector3f angThrust(0.0f);
+		vector3f wantAngVel(0.0f);
 
 		if (Pi::MouseButtonState(3)) {
 			Pi::GetMouseMotion(mouseMotion);
@@ -206,8 +188,8 @@ void Player::PollControls()
 			m_mouseCMov[1] += mouseMotion[1];
 			m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
 			m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-			angThrust.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
-			angThrust.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
+			wantAngVel.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
+			wantAngVel.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
 		}
 		
 		if (m_flightControlState == CONTROL_FIXSPEED) {
@@ -230,26 +212,25 @@ void Player::PollControls()
 			SetGunState(1,0);
 		}
 
-		float angthrustyness = Pi::KeyState(SDLK_LSHIFT) ? 1.0 : 0.4;
-		
 		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
-			if (Pi::KeyState(SDLK_LEFT)) angThrust.y += angthrustyness;
-			if (Pi::KeyState(SDLK_RIGHT)) angThrust.y += -angthrustyness;
-			if (Pi::KeyState(SDLK_UP)) angThrust.x += -angthrustyness;
-			if (Pi::KeyState(SDLK_DOWN)) angThrust.x += angthrustyness;
+			if (Pi::KeyState(SDLK_LEFT)) wantAngVel.y += 1.0;
+			if (Pi::KeyState(SDLK_RIGHT)) wantAngVel.y += -1.0;
+			if (Pi::KeyState(SDLK_UP)) wantAngVel.x += -1.0;
+			if (Pi::KeyState(SDLK_DOWN)) wantAngVel.x += 1.0;
 		}
-		if (Pi::KeyState(SDLK_a)) angThrust.y += angthrustyness;
-		if (Pi::KeyState(SDLK_d)) angThrust.y += -angthrustyness;
-		if (Pi::KeyState(SDLK_w)) angThrust.x += -angthrustyness;
-		if (Pi::KeyState(SDLK_s)) angThrust.x += angthrustyness;
-		if (Pi::KeyState(SDLK_q)) angThrust.z += angthrustyness;
-		if (Pi::KeyState(SDLK_e)) angThrust.z -= angthrustyness;
-		// dividing by time step so controls don't go totally mental when
-		// used at 10x accel
-		angThrust *= 1.0f/ta2;
-		SetAngThrusterState(0, angThrust.x);
-		SetAngThrusterState(1, angThrust.y);
-		SetAngThrusterState(2, angThrust.z);
+		if (Pi::KeyState(SDLK_a)) wantAngVel.y += 1.0;
+		if (Pi::KeyState(SDLK_d)) wantAngVel.y += -1.0;
+		if (Pi::KeyState(SDLK_w)) wantAngVel.x += -1.0;
+		if (Pi::KeyState(SDLK_s)) wantAngVel.x += 1.0;
+		if (Pi::KeyState(SDLK_q)) wantAngVel.z += 1.0;
+		if (Pi::KeyState(SDLK_e)) wantAngVel.z -= 1.0;
+
+
+		for (int axis=0; axis<3; axis++) wantAngVel[axis] = CLAMP(wantAngVel[axis], -invTimeAccel, invTimeAccel);
+		
+		const float angThrustSoftness = Pi::KeyState(SDLK_LSHIFT) ? 10.0 : 50.0;
+		
+		AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 	}
 }
 
