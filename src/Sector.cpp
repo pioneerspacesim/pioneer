@@ -8,6 +8,8 @@ static const char *sys_names[SYS_NAME_FRAGS] =
   "lia", "an", "ar", "ur", "mi", "in", "ti", "qu", "so", "ed", "ess",
   "ex", "io", "ce", "ze", "fa", "ay", "wa", "da", "ack", "gre" };
 
+const float Sector::SIZE = 8;
+
 
 void Sector::GetCustomSystems()
 {

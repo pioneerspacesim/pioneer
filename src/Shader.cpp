@@ -139,7 +139,7 @@ static void CompileProgram(VertexProgram p, const char *filename)
 			assert(invLogZfarPlus1Loc);
 			float znear, zfar;
 			Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
-			const float invDenominator = 1.0/log2(zfar + 1.0);
+			const float invDenominator = 1.0/(log(zfar + 1.0)/log(2.0));
 
 			glUniform1f(invLogZfarPlus1Loc, invDenominator);
 			glUseProgram(0);

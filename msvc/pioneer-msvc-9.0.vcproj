@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\collider\BVHTree.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\CargoBody.cpp"
 				>
 			</File>
@@ -296,6 +300,10 @@
 			</File>
 			<File
 				RelativePath="..\src\GuiRadioGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiRepeaterButton.cpp"
 				>
 			</File>
 			<File
@@ -411,6 +419,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Projectile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Render.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Sector.cpp"
 				>
 			</File>
@@ -443,11 +459,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ShipCpanelMultiFuncDisplays.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ShipFlavour.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\src\ShipType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Sound.cpp"
 				>
 			</File>
 			<File
@@ -501,6 +525,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\collider\BVHTree.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\CargoBody.h"
 				>
 			</File>
@@ -518,6 +546,10 @@
 			</File>
 			<File
 				RelativePath="..\src\collider\CollisionSpace.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Color.h"
 				>
 			</File>
 			<File
@@ -633,6 +665,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiRepeaterButton.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiScreen.h"
 				>
 			</File>
@@ -737,7 +773,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Projectile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\missions\register.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Render.h"
 				>
 			</File>
 			<File
@@ -773,11 +817,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ShipCpanelMultiFuncDisplays.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ShipFlavour.h"
 				>
 			</File>
 			<File
 				RelativePath="..\src\ShipType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Sound.h"
 				>
 			</File>
 			<File

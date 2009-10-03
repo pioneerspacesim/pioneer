@@ -11,7 +11,7 @@ struct CustomSystem;
 class Sector {
 public:
 	// lightyears
-	static const float SIZE = 8;
+	static const float SIZE;
 	Sector(int x, int y);
 	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
 	
