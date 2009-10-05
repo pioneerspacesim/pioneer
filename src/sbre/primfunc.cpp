@@ -558,6 +558,13 @@ static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 {
 	// return immediately if object is not present
 	if (pData[1] != 0x8000 && !pState->pObjParam->pFlag[pData[1]]) return 7;
+	int modelNum;
+	if (pData[2] >= 0x8000) {
+		/* Take model number from ObjParams */
+		modelNum = pState->pObjParam->pFlag[pData[2] & 0x7fff];
+	} else {
+		modelNum = pData[2];
+	}
 	
 	// build transform matrix, offset
 	Vector v1, v2, v3, pos; Matrix m, orient;
@@ -590,11 +597,11 @@ static int PrimFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 		MatTVecMult (&m, &oldlin, (Vector *)pParam->linthrust);
 		MatTVecMult (&m, &oldang, (Vector *)pParam->angthrust);
 
-		sbreRenderModel (&pos, &orient, pData[2], pParam, scale, &compos);
+		sbreRenderModel (&pos, &orient, modelNum, pParam, scale, &compos);
 		*(Vector *)pParam->linthrust = oldlin;
 		*(Vector *)pParam->angthrust = oldang;
 	}
-	else sbreRenderModel (&pos, &orient, pData[2], pState->pObjParam, scale);
+	else sbreRenderModel (&pos, &orient, modelNum, pState->pObjParam, scale);
 
 	glPopMatrix ();
 	glPopAttrib ();
@@ -638,7 +645,7 @@ static int PrimFuncText (uint16 *pData, Model *pMod, RState *pState)
 	MatMatMult (&pState->objorient, &m, &m2);
 
 	const char *pText;
-	if (pData[0] & TFLAG_STATIC) pText = pModelString[pData[2]];
+	if (pData[0] & TFLAG_STATIC) pText = pMod->pModelString[pData[2]];
 	else pText = pState->pObjParam->pText[pData[2]];
 	float xoff = 0, yoff = 0;
 

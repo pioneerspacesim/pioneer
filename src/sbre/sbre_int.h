@@ -4,6 +4,8 @@
 #include "jjvector.h"
 #include "sbre.h"
 
+#define MAX_MODEL_STRINGS 16
+
 typedef Uint16 uint16;
 typedef Uint32 uint32;
 
@@ -69,6 +71,9 @@ struct Model
 	int *pNumVtx, *pNumIdx;		// caches
 	Vector **ppVCache;
 	uint16 **ppICache;
+
+	// model strings
+	char *pModelString[MAX_MODEL_STRINGS];
 };
 
 
@@ -229,12 +234,12 @@ enum linetype
 const int pCompSize[] = { 1, 3, 5, 3, 3, 2 };
 const int pLTypeSize[] = { 1, 2, 4, 4 };
 
-const char pModelString[][256] = {
+/*const char pModelString[][256] = {
 	"Bollocks", "Yo", "","","","","","","","",
 	// 10 - landing pad messages & clock hour things
 	"1","2","3","4","5","6","7","8","9","10","11","12",
 };
-
+*/
 void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters);
 float ResolveAnim (ObjParams *pObjParam, uint16 type);
 void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh);

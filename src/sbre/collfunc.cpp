@@ -160,6 +160,13 @@ static int CollFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 {
 	// return immediately if object is not present
 	if (pData[1] != 0x8000 && !pState->pObjParam->pFlag[pData[1]]) return 7;
+	int modelNum;
+	if (pData[2] >= 0x8000) {
+		/* Take model number from ObjParams */
+		modelNum = pState->pObjParam->pFlag[pData[2] & 0x7fff];
+	} else {
+		modelNum = pData[2];
+	}
 	
 	// build transform matrix, offset
 	Vector v1, v2, v3, pos; Matrix m, orient;
@@ -176,7 +183,7 @@ static int CollFuncSubObject (uint16 *pData, Model *pMod, RState *pState)
 	VecAdd (&pos, &pState->objpos, &pos);
 	float scale = pState->scale*pData[6]*0.01f;
 	
-	GenCollMeshInternal (&pos, &orient, pData[2], pState->pObjParam, scale, pState->pCMesh);
+	GenCollMeshInternal (&pos, &orient, modelNum, pState->pObjParam, scale, pState->pCMesh);
 	return 7;
 }
 

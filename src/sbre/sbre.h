@@ -31,7 +31,7 @@ enum animflag
 struct ObjParams
 {
 	float pAnim[ANIM_MAX];
-	unsigned char pFlag[ANIM_MAX];
+	unsigned short pFlag[ANIM_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0

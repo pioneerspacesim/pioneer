@@ -120,6 +120,31 @@ std::string string_join(std::vector<std::string> &v, std::string sep)
 	return out;
 }
 
+std::string join_path(const char *firstbit, ...)
+{
+	const char *bit;
+	va_list ap;
+	std::string out = firstbit;
+	va_start(ap, firstbit);
+	while (bit = va_arg(ap, const char *)) {
+		out = out + PATH_SEP + std::string(bit);
+	}
+	va_end(ap);
+	return out;
+}
+
+void strip_cr_lf(char *string)
+{
+	char *s = string;
+	while (*s) {
+		if ((*s == '\r') || (*s == '\n')) {
+			*s = 0;
+			break;
+		}
+		s++;
+	}
+}
+
 #define AU		149598000000.0
 std::string format_distance(double dist)
 {

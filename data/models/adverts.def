@@ -1,0 +1,13 @@
+# fit ads within 1x1m, but use whatever aspect.
+
+model(ad_steakette, scale=1.0, radius=2.0) {
+	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
+	quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
+	zbias(v(0,0,0),v(0,0,1), 1)
+	material(0,0,0, 0,0,0, 0, 1,0,0)
+	text("DIET STEAKETTE:", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.7, scale=0.14)
+	text("NOW EVEN MORE BAD", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.25, scale=0.14)
+	nozbias()
+}
+
+

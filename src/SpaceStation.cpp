@@ -762,6 +762,7 @@ void SpaceStation::Render(const Frame *camFrame)
 			params.pFlag[ASRC_STATION_S2_BAY1 + i] = 0;
 		}
 	}
+	strcpy(params.pText[1], "Diet #f0fsteakettes #0f0are bad, mmm'kay");
 	/*
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 1)) {

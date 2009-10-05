@@ -101,7 +101,7 @@ src/sbre/models.cpp
 	text on top of the cylinder. The first argument specifies where to
 	find the string. In this case it is the zeroth string on the object
 	parameters passed to the render function from pioneer. It could also
-	be global:123 indicating a string in sbre's global string array.
+	be a string literal of the form "blah blah".
 </ol>
 
 <a name="sbre-funcs-quickref"><h4>Function quick reference</h4></a>
@@ -124,11 +124,13 @@ smooth(int steps,
 flat(int steps, vector normal,
 	... then two or more of the same crud as smooth(), except no hermite_norm()
 )
-text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
+text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
 text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
 subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
 thruster(direction, vector position, float size)
 geomflag(int)
+zbias(vector position, vector normal, int level)
+nozbias()
 </pre>
 
 <a name="sbre-flags"><h4>Function flags (to apply to functions)</h4></a>
@@ -246,9 +248,9 @@ flat(steps, normal,
 )
   makes lovely smooth surface
 
-text(global:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
+text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
 text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
-  draws text from either the global strings array or the params strings
+  draws text from either the string literal provided or the params strings (passed at render time in ObjParams)
   * the optional onflag= means the thing is only drawn if the model parameters
   * flag specified is non-zero (flags can be specified by number or by animfn,
   * which will indicates to use the flag of the same index as the given anim func's

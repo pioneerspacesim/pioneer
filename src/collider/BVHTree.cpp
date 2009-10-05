@@ -11,9 +11,9 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 	m_objPtrAllocPos = 0;
 	m_objPtrAllocMax = numObjs;
 
-	m_bvhNodes = new BVHNode[numObjs*2];
+	m_bvhNodes = new BVHNode[numObjs*2 + 1];
 	m_nodeAllocPos = 0;
-	m_nodeAllocMax = numObjs*2;
+	m_nodeAllocMax = numObjs*2 + 1;
 
 	m_root = AllocNode();
 	BuildNode(m_root, objPtrs, objAabbs, activeObjIdxs);

@@ -11,6 +11,12 @@
 #include "sbre_models.h"
 #include "sbre.h"
 
+#ifdef _WIN32
+# define PATH_SEP "\\"
+#else
+# define PATH_SEP "/"
+#endif /* !_WIN32 */
+
 #define MAX_TOKEN_LEN 64
 
 static const char * const anim_fns[] = {
@@ -31,6 +37,9 @@ static std::vector<Uint16> instrs[4];
 static int lodSize[4]; // -1 = inactive
 static bool lodActive[4]; // for this instruction
 static int numLods;
+static int s_modelStringIdx;
+static const char *s_activeFileName;
+static Model *s_curModel;
 int sbre_cache_size;
 static std::vector<CompoundVertex> compound_vertices;
 static std::vector<int> compound_vertex_fixups_in_instrs[4];
@@ -72,7 +81,7 @@ static void error(int line, const char *format, ...)
 static void error(int line, const char *format, ...)
 {
 	va_list argptr;
-	printf("Error at line %d: ", line);
+	printf("Error at line %d of %s: ", line, s_activeFileName);
 	va_start(argptr, format);
 	vprintf(format, argptr);
 	va_end(argptr);
@@ -85,7 +94,7 @@ public:
 	enum token_type_t {
 		END, OPENBRACKET, CLOSEBRACKET,
 		OPENBRACE, CLOSEBRACE, ASSIGN, COMMA, COLON, FLOAT,
-		INTEGER, IDENTIFIER
+		INTEGER, IDENTIFIER, STRING
 	} type;
 	static std::string ToString(token_type_t type) {
 		switch (type) {
@@ -98,6 +107,7 @@ public:
 			case Token::FLOAT: return "float";
 			case Token::INTEGER: return "integer";
 			case Token::IDENTIFIER: return "identifier";
+			case Token::STRING: return "string";
 			case Token::COLON: return ":";
 			case Token::END: return "End of file";
 			default:
@@ -109,13 +119,21 @@ public:
 		int i;
 		float f;
 		char s[MAX_TOKEN_LEN];
+		char *stringLiteral;
 	} val;
 	Token() {
 		memset(this, 0, sizeof(Token));
 	}
+	~Token() {
+		// XXX string literals are not freed because the pointers are
+		// stolen by the Model objects anyway.
+		// XXX this free code does not work anyway, because temporary
+		// Token in lex() gets freed causing double-free()
+//		if (type == Token::STRING) free(val.stringLiteral);
+	}
 	void Error(const char *format, ...) {
 		va_list argptr;
-		printf("Syntax error at line %d: ", line);
+		printf("Syntax error at line %d of %s: ", line, s_activeFileName);
 		va_start(argptr, format);
 		vprintf(format, argptr);
 		va_end(argptr);
@@ -221,6 +239,24 @@ void lex(const char *crud, std::vector<Token> &tokens)
 			if (len > MAX_TOKEN_LEN-1) error(lexLine, "Excessive identifier length");
 			strncpy(t.val.s, start, len);
 			t.type = Token::IDENTIFIER;
+			tokens.push_back(t);
+		} else if (*crud == '"') {
+			crud++;
+			std::string val;
+			while (*crud != '"') {
+				if (*crud == 0) error(lexLine, "EOF before end of string literal");
+				if (*crud == '\\') {
+					crud++;
+					if (*crud == '"') val += '"';
+					if (*crud == 'n') val += '\n';
+				} else {
+					val += *crud;
+				}
+				crud++;
+			}
+			crud++;
+			t.type = Token::STRING;
+			t.val.stringLiteral = strdup(val.c_str());
 			tokens.push_back(t);
 		} else if (*crud == '#') {
 			do {
@@ -570,14 +606,22 @@ static int get_model_reference(tokenIter_t &t)
 {
 	(*t).Check(Token::IDENTIFIER);
 
-	std::map<std::string, int>::iterator i = models_idx.find((*t).val.s);
-	if (i == models_idx.end()) {
-		(*t).Error("Unknown model '%s'", (*t).val.s);
-		return -1;
-	} else {
-		int model = (*i).second;
+	if ((*t).IsIdentifier("var")) {
+		/* model number by ObjParam pFlag parameter */
 		++t;
-		return model;
+		(*t++).Check(Token::COLON);
+		(*t).Check(Token::INTEGER);
+		return 0x8000 + (*t++).val.i;
+	} else {
+		std::map<std::string, int>::iterator i = models_idx.find((*t).val.s);
+		if (i == models_idx.end()) {
+			(*t).Error("Unknown model '%s'", (*t).val.s);
+			return -1;
+		} else {
+			int model = (*i).second;
+			++t;
+			return model;
+		}
 	}
 }
 
@@ -651,6 +695,19 @@ static void parsePrimExtrusion(tokenIter_t &t)
 	instrsPutVtxRef(up);
 	instrsPutInstr(rad);
 	instrsPutVtxRef(firstvtx);
+}
+
+static Uint16 getModelStringIdx(tokenIter_t &t)
+{
+	char *str = (*t).val.stringLiteral;
+	// does it already exist
+	for (int i=0; i<s_modelStringIdx; i++) {
+		if (strcmp(str, s_curModel->pModelString[i]) == 0) return i;
+	}
+	if (s_modelStringIdx >= MAX_MODEL_STRINGS) (*t).Error("Too many model strings (limit is MAX_MODEL_STRINGS (%d))", MAX_MODEL_STRINGS);
+	// XXX just steal pointer.. it isn't freed in class Token
+	s_curModel->pModelString[s_modelStringIdx] = str;
+	return s_modelStringIdx++;
 }
 
 static void parseGeomInstructions(tokenIter_t &t)
@@ -955,16 +1012,22 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			if (flag_noang || flag_invisible || flag_thrust || flag_xref) (*t).Error("Invalid flag");
 			++t;
 			(*t++).Check(Token::OPENBRACKET);
-			bool use_global_strings = false;
-			if ((*t).IsIdentifier("global")) {
-				use_global_strings = true;
-			} else if (!(*t).IsIdentifier("params")) {
-				(*t).Error("Text must index strings in either global: or params: arrays");
+			bool use_model_strings = false;
+			Uint16 string_idx = 0;
+			if ((*t).IsIdentifier("params")) {
+				// using ObjParams string index
+				++t;
+				(*t++).Check(Token::COLON);
+				(*t).Check(Token::INTEGER);
+				string_idx = (*t++).val.i;
+			} else if ((*t).type == Token::STRING) {
+				// using literal string: model string
+				string_idx = getModelStringIdx(t);
+				++t;
+				use_model_strings = true;
+			} else {
+				(*t).Error("Text must be ObjParam (params:index) or string literal");
 			}
-			++t;
-			(*t++).Check(Token::COLON);
-			(*t).Check(Token::INTEGER);
-			Uint16 string_idx = (*t++).val.i;
 			(*t++).Check(Token::COMMA);
 			Uint16 pos = parseVtxOrVtxRef(t);
 			(*t++).Check(Token::COMMA);
@@ -999,7 +1062,7 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 			}
 			(*t++).Check(Token::CLOSEBRACKET);
 
-			instrsPutInstr(PTYPE_TEXT | (use_global_strings ? TFLAG_STATIC : 0));
+			instrsPutInstr(PTYPE_TEXT | (use_model_strings ? TFLAG_STATIC : 0));
 			instrsPutInstr(anim);
 			instrsPutInstr(string_idx);
 			instrsPutVtxRef(pos);
@@ -1235,6 +1298,8 @@ void parseModel(tokenIter_t &t)
 	memset(m, 0, sizeof(Model));
 	m->scale = 1.0;
 	m->radius = 1.0;
+	s_curModel = m;
+	s_modelStringIdx = 0;
 
 	// so start with a single level of detail, full:
 	lodSize[0] = 0;
@@ -1373,24 +1438,67 @@ void parse(std::vector<Token> &tokens)
 	}
 }
 
+static std::string join_path(const char *firstbit, ...)
+{
+	const char *bit;
+	va_list ap;
+	std::string out = firstbit;
+	va_start(ap, firstbit);
+	while ((bit = va_arg(ap, const char *))) {
+		out = out + PATH_SEP + std::string(bit);
+	}
+	va_end(ap);
+	return out;
+}
+
+static void strip_cr_lf(char *string)
+{
+	char *s = string;
+	while (*s) {
+		if ((*s == '\r') || (*s == '\n')) {
+			*s = 0;
+			break;
+		}
+		s++;
+	}
+}
+
 void sbreCompilerLoadModels()
 {
-	FILE *f = fopen("data/models.def", "r");
-
-	if (!f) {
-		printf("Could not open data/models.def\n");
+	FILE *findex = fopen("data/models/index.txt", "r");
+	if (!findex) {
+		printf("Could not open data/models/index.txt");
 		exit(-1);
 	}
 
-	fseek(f, 0, SEEK_END);
-	size_t size = ftell(f);
-	fseek(f, 0, SEEK_SET);
-	char *buf = new char[size+1];
-	buf[size] = 0;
-	fread(buf, size, 1, f);
+	char line[256];
 
-	std::vector<Token> tokens;
-	lex(buf, tokens);
-	parse(tokens);
-	delete [] buf;
+	while (fgets(line, sizeof(line), findex)) {
+		// strip \r\ns
+		strip_cr_lf(line);
+		
+		std::string filename = join_path("data", "models", line, 0);
+		s_activeFileName = filename.c_str();
+
+		FILE *f = fopen(filename.c_str(), "r");
+
+		if (!f) {
+			printf("Could not open '%s'\n", filename.c_str());
+			exit(-1);
+		}
+
+		fseek(f, 0, SEEK_END);
+		size_t size = ftell(f);
+		fseek(f, 0, SEEK_SET);
+		char *buf = new char[size+1];
+		buf[size] = 0;
+		fread(buf, size, 1, f);
+		fclose(f);
+
+		std::vector<Token> tokens;
+		lex(buf, tokens);
+		parse(tokens);
+		delete [] buf;
+	}
+	fclose(findex);
 }
