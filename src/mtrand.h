@@ -132,7 +132,7 @@ public:
 	  return fixed(rand_int32());
   }
   fixed NFixed(int p) {
-	  fixed o(1LL << fixed::FRAC);
+	  fixed o = Fixed();
 	  while (--p > 0) o *= Fixed();
 	  return o;
   }
