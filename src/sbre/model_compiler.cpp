@@ -48,6 +48,34 @@ struct obj_lod {
 	int divs[4];
 };
 static std::map<std::string, obj_lod> obj_lods;
+static int s_tagPos;
+static std::vector<std::string> s_tags;
+
+unsigned short sbreLookupModelTagId(const char *tagString)
+{
+	for (unsigned int i=0; i<s_tags.size(); i++) {
+		if (s_tags[i] == tagString) return i+1;
+	}
+	return 0;
+}
+
+void sbreGetModelsWithTag(const char *tagString, std::vector<int> &outModelIds)
+{
+	Uint16 tagid = sbreLookupModelTagId(tagString);
+
+	if (!tagid) return;
+
+	for (int i=0; i<SBRE_MAX_MODEL; i++) {
+		Model *m = LookupModel(i);
+		if (!m) continue;
+		for (int j=0; j<MAX_MODEL_TAGS; j++) {
+			if (m->modelTags[j] == tagid) {
+				outModelIds.push_back(i);
+				break;
+			}
+		}
+	}
+}
 
 int sbreLookupModelByName(const char *name) throw (SbreModelNotFoundException)
 {
@@ -1280,6 +1308,17 @@ static const int RFLAG_INVISIBLE = 0x4000;*/
 	for (int i=0; i<4; i++) instrs[i].push_back(PTYPE_END);
 }
 
+/* returns index+1 (because 0 = no tag) */
+Uint16 addTag(const char *tag)
+{
+	Uint16 tagid = sbreLookupModelTagId(tag);
+	if (!tagid) {
+		s_tags.push_back(tag);
+		tagid = s_tags.size();
+	}
+	return tagid;
+}
+
 void parseModel(tokenIter_t &t)
 {
 	const char *modelName;
@@ -1300,6 +1339,7 @@ void parseModel(tokenIter_t &t)
 	m->radius = 1.0;
 	s_curModel = m;
 	s_modelStringIdx = 0;
+	s_tagPos = 0;
 
 	// so start with a single level of detail, full:
 	lodSize[0] = 0;
@@ -1315,6 +1355,7 @@ void parseModel(tokenIter_t &t)
 		(*t).Error("Duplicate model name '%s'", modelName);
 	}
 
+	// XXX it is bad that these must be in a certain order
 	t++;
 	(*t++).Check(Token::COMMA);
 	(*t++).MatchIdentifier("scale");
@@ -1324,6 +1365,23 @@ void parseModel(tokenIter_t &t)
 	(*t++).MatchIdentifier("radius");
 	(*t++).Check(Token::ASSIGN);
 	m->radius = (*t++).GetFloat();
+
+	if ((*t).type == Token::COMMA) {
+		++t;
+		(*t++).MatchIdentifier("tags");
+		(*t++).Check(Token::ASSIGN);
+		while ((*t).type == Token::IDENTIFIER) {
+			Uint16 tag = addTag((*t).val.s);
+			if (s_tagPos >= MAX_MODEL_TAGS) (*t).Error("Too many tags");
+			m->modelTags[s_tagPos++] = tag;
+			++t;
+		}
+	}
+	printf("Tags: %d %d %d %d\n", 
+			m->modelTags[0],
+			m->modelTags[1],
+			m->modelTags[2],
+			m->modelTags[3]);
 	
 	(*t++).Check(Token::CLOSEBRACKET);
 	(*t++).Check(Token::OPENBRACE);
@@ -1414,6 +1472,9 @@ void parseModel(tokenIter_t &t)
 					m->pCVtx[i].pParam[p] += complex_fixup_offset;
 			}
 		}
+	}
+	if (modelNum >= SBRE_MAX_MODEL) {
+		error(0, "Too many models. Raise SBRE_MAX_MODEL.\n");
 	}
 	
 	ppTurdpiledModel[modelNum] = m;

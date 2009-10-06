@@ -584,10 +584,16 @@ model(spacestation_entry1_stage3, scale=1.0, radius=1.0) {
 	xref:quad(b,c,c2,b2)
 	material(1,1,1, 0,0,0, 0, 0,0,0)
 	
-	subobject(var:0, v(0,200,0), v(0,1,0), v(0,0,1), scale=1.0)
+	# adverts
+	subobject(var:16, v(0,200,0), v(0,0,-1), v(0,-1,0), scale=40.0)
+	subobject(var:17, v(-100,100,0), v(0,0,-1), v(1,0,0), scale=40.0)
+	subobject(var:18, v(100,100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
 	
 	zbias(v(0,200,0), v(0,-1,0), 1)
-	text(params:1, v(0,200,0), v(0,-1,0), v(-1,0,0), scale=10.0)
+	# starport name
+	text(params:0, v(60,200,-35), v(0,-1,0), v(-1,0,0), scale=5.0)
+	# docking bay number
+	text(params:1, v(-60,200,-35), v(0,-1,0), v(-1,0,0), scale=7.0)
 	nozbias()
 
 	geomflag(0x8020)
@@ -637,6 +643,10 @@ model(spacestation_entry1_stage1, scale=1.0, radius=1.0) {
 	xref:quad(b,c,c2,b2)
 	quad(a,b,b2,a2)
 	quad(c,d,d2,c2)
+	
+	# adverts
+	subobject(var:17, v(-100,-200,0), v(0,0,-1), v(1,0,0), scale=40.0)
+	subobject(var:18, v(100,-100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
 }
 
 model(spacestation_entry1, scale=1.0, radius=1.0) {

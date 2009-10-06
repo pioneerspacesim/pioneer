@@ -1,13 +1,55 @@
 # fit ads within 1x1m, but use whatever aspect.
 
-model(ad_steakette, scale=1.0, radius=2.0) {
-	material(.5,.5,.5, 0,0,0, 0, 0,0,0)
-	quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
+model(ad_steakette, scale=1.0, radius=2.0, tags=advert) {
 	zbias(v(0,0,0),v(0,0,1), 1)
+	material(.8,.8,.8, 0,0,0, 0, 0,0,0)
+	quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
+	zbias(v(0,0,0),v(0,0,1), 2)
 	material(0,0,0, 0,0,0, 0, 1,0,0)
 	text("DIET STEAKETTE:", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.7, scale=0.14)
 	text("NOW EVEN MORE BAD", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.25, scale=0.14)
 	nozbias()
 }
+
+model(ad_sirius, scale=1.0, radius=2.0, tags=advert) {
+	zbias(v(0,0,0),v(0,0,1), 1)
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
+	zbias(v(0,0,0),v(0,0,1), 2)
+	material(0,0,0, 0,0,0, 0, 0,0,0)
+	text("SIRIUS CORP", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.7, scale=0.2)
+	material(0,0,1, 0,0,0, 0, 0,0,0)
+	text("FASTEST SHIPS", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.3, scale=0.2)
+	nozbias()
+}
+
+model(ad_pandacrunch, scale=1.0, radius=2.0, tags=advert pandas) {
+	zbias(v(0,0,0),v(0,0,1), 1)
+	material(.5,.5,1, 0,0,0, 0, 0,0,0)
+	quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))
+	zbias(v(0,0,0),v(0,0,1), 2)
+	
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	# panda face
+	circle(16, v(0.5,0.1,0.0), v(0,0,1), v(1,0,0), radius=0.2)
+	text("PANDA CRUNCH", v(-0.4,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.7, scale=0.1)
+	material(0,0,1, 0,0,0, 0, 0,0,0)
+	text("GET IT DOWN YOU", v(0,-0.5,0), v(0,0,1), v(1,0,0), yoff=0.3, scale=0.1)
+	
+	zbias(v(0,0,0),v(0,0,1), 3)
+	material(0,0,0, 0,0,0, 0, 0,0,0)
+	# panda ears
+	circle(16, v(0.65,0.25,0.0), v(0,0,1), v(1,0,0), radius=0.06)
+	circle(16, v(0.35,0.25,0.0), v(0,0,1), v(1,0,0), radius=0.06)
+	
+	eye1 = v(0.57,0.13,0.0)
+	eye2 = v(0.43,0.13,0.0)
+	# panda eyes
+	circle(16, eye1, v(0,0,1), v(1,0,0), radius=0.04)
+	circle(16, eye2, v(0,0,1), v(1,0,0), radius=0.04)
+	
+	nozbias()
+}
+
 
 

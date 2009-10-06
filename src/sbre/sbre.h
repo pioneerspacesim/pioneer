@@ -1,7 +1,7 @@
 #ifndef __SBRE_H__
 #define __SBRE_H__
 #include "jjvector.h"
-
+#include <vector>
 
 enum animsrc
 {
@@ -70,6 +70,8 @@ void sbreRenderModel (Vector *pPos, Matrix *pOrient, int model, ObjParams *pPara
 void sbreCompilerLoadModels();
 struct SbreModelNotFoundException {};
 int sbreLookupModelByName(const char *name) throw (SbreModelNotFoundException);
+//unsigned short sbreLookupModelTagId(const char *tagString);
+void sbreGetModelsWithTag(const char *tagString, std::vector<int> &outModelIds);
 float sbreGetModelRadius(int modelNum);
 
 // will preserve and realloc pointers in pCMesh

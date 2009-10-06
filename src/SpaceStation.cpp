@@ -731,8 +731,30 @@ void SpaceStation::NotifyDeath(const Body* const dyingBody)
 	}
 }
 
+static std::vector<int> s_advertModels;
+
 void SpaceStation::Render(const Frame *camFrame)
 {
+	/* Well this is nice... */
+	static int poo=0;
+	if (!poo) {
+		poo = 1;
+		sbreGetModelsWithTag("advert", s_advertModels);
+	}
+	// it is silly to do this every render call
+	//
+	// random advert models in pFlag[16 .. 19]
+	// station name in pText[0]
+	// docking port in pText[1]
+	MTRand rand;
+	rand.seed(m_sbody->seed);
+	params.pFlag[16] = s_advertModels[rand.Int32(s_advertModels.size())];
+	params.pFlag[17] = s_advertModels[rand.Int32(s_advertModels.size())];
+	params.pFlag[18] = s_advertModels[rand.Int32(s_advertModels.size())];
+	params.pFlag[19] = s_advertModels[rand.Int32(s_advertModels.size())];
+	strncpy(params.pText[0], GetLabel().c_str(), 256);
+	snprintf(params.pText[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
+
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		params.pAnim[ASRC_STATION_S1_BAY1 + i] = m_openAnimState[i];
 		params.pFlag[ASRC_STATION_S1_BAY1 + i] = 1;
@@ -762,7 +784,6 @@ void SpaceStation::Render(const Frame *camFrame)
 			params.pFlag[ASRC_STATION_S2_BAY1 + i] = 0;
 		}
 	}
-	strcpy(params.pText[1], "Diet #f0fsteakettes #0f0are bad, mmm'kay");
 	/*
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 1)) {

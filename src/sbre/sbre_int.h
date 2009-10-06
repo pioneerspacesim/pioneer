@@ -5,6 +5,7 @@
 #include "sbre.h"
 
 #define MAX_MODEL_STRINGS 16
+#define MAX_MODEL_TAGS 4
 
 typedef Uint16 uint16;
 typedef Uint32 uint32;
@@ -74,6 +75,8 @@ struct Model
 
 	// model strings
 	char *pModelString[MAX_MODEL_STRINGS];
+	// model tags
+	uint16 modelTags[MAX_MODEL_TAGS];
 };
 
 
@@ -244,6 +247,7 @@ void RenderThrusters (RState *pState, int numThrusters, Thruster *pThrusters);
 float ResolveAnim (ObjParams *pObjParam, uint16 type);
 void GenCollMeshInternal (Vector *pPos, Matrix *pOrient, int model, ObjParams *pParam, float s, CollMesh *pCMesh);
 
+Model *LookupModel (int index);
 
 #define SBRE_MAX_MODEL 1024
 #define SBRE_COMPILED_MODELS 512

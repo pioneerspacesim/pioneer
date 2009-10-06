@@ -318,6 +318,8 @@ void Viewer::MainLoop()
 	const CollMeshSet *mset = GetModelCollMeshSet(g_model);
 	CollMesh *cmesh = mset->sbreCollMesh;
 	GeomTree *geomtree = mset->m_geomTree;
+	distance = 2.0*sbreGetModelRadius(g_model);
+	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 	Geom *geom = new Geom(geomtree);
