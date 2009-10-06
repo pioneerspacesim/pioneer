@@ -771,12 +771,19 @@ static fixed density_from_disk_area(fixed a, fixed b, fixed max)
 		(fixed(1,2)*a*a - one_over_3max*a*a*a);
 }
 
+static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax)
+{
+	discMax = MAX(discMax, discMin);
+	fixed total = density_from_disk_area(discMin, discMax, discMax);
+	// try 2% of primary's mass
+	return primary->GetMassInEarths() * fixed(2,100) / total;
+}
 
 void StarSystem::MakePlanetsAround(SBody *primary)
 {
 	fixed discMin = fixed(0);
 	fixed discMax = fixed(5000,1);
-	fixed discDensity = 20*rand.NFixed(4);
+	fixed discDensity;
 
 	SBody::BodySuperType superType = primary->GetSuperType();
 
@@ -796,10 +803,14 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		} else {
 			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
 		}
+		// having limited discMin by bin-separation/fake roche, and
+		// discMax by some relation to star mass, we can now compute
+		// disc density
+		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax);
 
 		if ((superType == SBody::SUPERTYPE_STAR) && (primary->parent)) {
 			// limit planets out to 10% distance to star's binary companion
-			discMax = primary->orbMin * fixed(1,10);
+			discMax = MIN(discMax, primary->orbMin * fixed(1,10));
 		}
 
 		/* in trinary and quaternary systems don't bump into other pair... */
@@ -811,7 +822,11 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		discMin = 4 * primary_rad;
 		/* use hill radius to find max size of moon system. for stars botch it */
 		discMax = MIN(discMax, fixed(1,4)*primary->CalcHillRadius());
+		
+		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax);
 	}
+
+	//fixed discDensity = 20*rand.NFixed(4);
 
 	//printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
 
@@ -948,8 +963,10 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	if (mass > 317*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
 		type = SBody::TYPE_BROWN_DWARF;
-		// XXX should prevent mass exceeding 65 jupiter masses or so,
-		// when it becomes a star
+		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
+		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
+		// solar masses. what a fucking mess
+		mass = MIN(mass, fixed(317*65, 1)) / 332998;
 	} else if (mass > 300) {
 		type = SBody::TYPE_PLANET_LARGE_GAS_GIANT;
 	} else if (mass > 90) {
@@ -972,7 +989,10 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 				int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, globalwarming);
 				int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, globalwarming);
 
-				if ((minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
+				if ((star->type != TYPE_BROWN_DWARF) &&
+				    (star->type != TYPE_WHITE_DWARF) &&
+				    (star->type != TYPE_STAR_O) &&
+				    (minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {
 					type = SBody::TYPE_PLANET_INDIGENOUS_LIFE;
 					humanActivity *= 2;
