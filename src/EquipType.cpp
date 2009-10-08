@@ -105,6 +105,10 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_CARGO, { Equip::INDUSTRIAL_MACHINERY, Equip::METAL_ALLOYS },
 	  22000, 1, 0, ECON_INDUSTRY, 4,
 	},{
+	  "Nerve Gas",0,
+	  Equip::SLOT_CARGO, {},
+	  26500, 1, 0, ECON_INDUSTRY, 3,
+	},{
 	  "Narcotics",0,
 	  Equip::SLOT_CARGO, {},
 	  15700, 1, 0, ECON_INDUSTRY, 3,

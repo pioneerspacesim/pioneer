@@ -1105,7 +1105,7 @@ void StarSystem::Populate(bool addSpaceStations)
 		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 	}
 	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
-	m_polit = Polit::GetTypeForStarSystem(this, m_totalPop);
+	m_polit = Polit::GetAlignmentForStarSystem(this, m_totalPop);
 
 	if (addSpaceStations) {
 		rootBody->PopulateAddStations(this);

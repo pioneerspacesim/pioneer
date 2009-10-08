@@ -172,7 +172,7 @@ public:
 	const std::string &GetLongDescription() const { return m_longDesc; }
 	int GetNumStars() const { return m_numStars; }
 	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
-	Polit::Type GetPoliticalType() const { return m_polit; }
+	Polit::Alignment GetPoliticalType() const { return m_polit; }
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -213,7 +213,7 @@ private:
 	int m_secx, m_secy, m_sysIdx;
 	int m_numStars;
 	std::string m_shortDesc, m_longDesc;
-	Polit::Type m_polit;
+	Polit::Alignment m_polit;
 
 	MTRand rand;
 };

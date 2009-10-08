@@ -6,6 +6,7 @@
 #include "ShipFlavour.h"
 #include "ShipCpanel.h"
 #include "Mission.h"
+#include "Polit.h"
 #include <map>
 
 #define RBUTTON_DELAY 500
@@ -223,12 +224,16 @@ void StationCommoditiesView::ShowAll()
 	int NUM_ITEMS = 0;
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (EquipType::types[i].slot == Equip::SLOT_CARGO) NUM_ITEMS++;
+		if ((EquipType::types[i].slot == Equip::SLOT_CARGO) &&
+		    (Polit::IsCommodityLegal(Pi::currentSystem, (Equip::Type)i))) {
+				NUM_ITEMS++;
+		}
 	}
 
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
 		if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
+		if (!Polit::IsCommodityLegal(Pi::currentSystem, (Equip::Type)i)) continue;
 		int stock = m_station->GetEquipmentStock(static_cast<Equip::Type>(i));
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
 		if (EquipType::types[i].description)

@@ -1,17 +1,21 @@
 #ifndef _POLIT_H
 #define _POLIT_H
 
+#include "EquipType.h"
+
 class StarSystem;
 
 namespace Polit {
-	enum Type {
+
+	enum Alignment {
 		POL_INVALID,
 		POL_NONE,
 		POL_EARTH,
 		POL_CONFED,
 		POL_MAX
 	};
-	Polit::Type GetTypeForStarSystem(StarSystem *s, fixed human_infestedness);
+	Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness);
+	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
 	extern const char * const desc[];
 }
 

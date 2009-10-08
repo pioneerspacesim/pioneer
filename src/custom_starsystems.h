@@ -32,7 +32,7 @@ struct CustomSystem {
 	Uint32 seed;
 	const char *shortDesc;
 	const char *longDesc;
-	Polit::Type polit;
+	Polit::Alignment polit;
 };
 
 extern const CustomSystem custom_systems[];

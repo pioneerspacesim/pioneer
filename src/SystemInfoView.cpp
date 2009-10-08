@@ -4,6 +4,7 @@
 #include "SystemInfoView.h"
 #include "ShipCpanel.h"
 #include "Player.h"
+#include "Polit.h"
 
 SystemInfoView::SystemInfoView(): GenericSystemView()
 {
@@ -144,6 +145,16 @@ void SystemInfoView::UpdateEconomyTab()
 	else data += "#777None\n";
 	m_econMinExport->SetText(data);
 
+	crud.clear();
+	data = "#ff0Illegal Goods:\n";
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (!Polit::IsCommodityLegal(s, (Equip::Type)i))
+			crud.push_back(std::string("#777")+EquipType::types[i].name);
+	}
+	if (crud.size()) data += string_join(crud, "\n")+"\n";
+	else data += "#777None\n";
+	m_econIllegal->SetText(data);
+
 	m_econInfoTab->ResizeRequest();
 }
 
@@ -260,14 +271,17 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		m_econMinImport = new Gui::Label("");
 		m_econMajExport = new Gui::Label("");
 		m_econMinExport = new Gui::Label("");
+		m_econIllegal = new Gui::Label("");
 		m_econMajImport->SetColor(1,1,0);
 		m_econMinImport->SetColor(1,1,0);
 		m_econMajExport->SetColor(1,1,0);
 		m_econMinExport->SetColor(1,1,0);
+		m_econIllegal->SetColor(1,1,0);
 		f->Add(m_econMajImport, 0, 0);
 		f->Add(m_econMinImport, 150, 0);
 		f->Add(m_econMajExport, 300, 0);
 		f->Add(m_econMinExport, 450, 0);
+		f->Add(m_econIllegal, 600, 0);
 		portal2->Add(f);
 
 		UpdateEconomyTab();

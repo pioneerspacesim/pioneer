@@ -27,6 +27,7 @@ private:
 	Gui::Label *m_econInfo;
 	Gui::Label *m_econMajImport, *m_econMinImport;
 	Gui::Label *m_econMajExport, *m_econMinExport;
+	Gui::Label *m_econIllegal;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
 	StarSystem *m_system;
 	bool m_refresh;
