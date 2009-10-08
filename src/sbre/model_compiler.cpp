@@ -1377,11 +1377,6 @@ void parseModel(tokenIter_t &t)
 			++t;
 		}
 	}
-	printf("Tags: %d %d %d %d\n", 
-			m->modelTags[0],
-			m->modelTags[1],
-			m->modelTags[2],
-			m->modelTags[3]);
 	
 	(*t++).Check(Token::CLOSEBRACKET);
 	(*t++).Check(Token::OPENBRACE);

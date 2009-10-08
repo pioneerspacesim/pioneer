@@ -561,8 +561,17 @@ void Pi::Start()
 	delete player;
 }
 
+static void OnPlayerDockOrUndock()
+{
+	Pi::RequestTimeAccel(1);
+	Pi::SetTimeAccel(1);
+}
+
 void Pi::MainLoop()
 {
+	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+
 	cpan->ShowAll();
 
 	SetView(worldView);

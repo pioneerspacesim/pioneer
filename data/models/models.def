@@ -565,7 +565,8 @@ model(spacestation_door, scale=1.0, radius=200.0) {
 }	
 
 # final resting place of docked ship
-model(spacestation_entry1_stage3, scale=1.0, radius=1.0) {
+model(spacestation_entry1_stage3, scale=1.0, radius=300.0) {
+	lod { full, 20px }
 	# mark as non-colliding (all >= 0x8000 is)
 	geomflag(0x9000)
 	a = v(-100,200,50)
@@ -585,9 +586,9 @@ model(spacestation_entry1_stage3, scale=1.0, radius=1.0) {
 	material(1,1,1, 0,0,0, 0, 0,0,0)
 	
 	# adverts
-	subobject(var:16, v(0,200,0), v(0,0,-1), v(0,-1,0), scale=40.0)
-	subobject(var:17, v(-100,100,0), v(0,0,-1), v(1,0,0), scale=40.0)
-	subobject(var:18, v(100,100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
+	lod1:subobject(var:16, v(0,200,0), v(0,0,-1), v(0,-1,0), scale=40.0)
+	lod1:subobject(var:17, v(-100,100,0), v(0,0,-1), v(1,0,0), scale=40.0)
+	lod1:subobject(var:18, v(100,100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
 	
 	zbias(v(0,200,0), v(0,-1,0), 1)
 	# starport name
@@ -602,7 +603,7 @@ model(spacestation_entry1_stage3, scale=1.0, radius=1.0) {
 	geomflag(0)
 }
 
-model(spacestation_entry1_stage2, scale=1.0, radius=1.0) {
+model(spacestation_entry1_stage2, scale=1.0, radius=300.0) {
 	a = v(-100,0,50)
 	b = v(100,0,50)
 	c = v(100,0,-50)
@@ -629,7 +630,8 @@ model(spacestation_entry1_stage2, scale=1.0, radius=1.0) {
 	subobject(spacestation_entry1_stage3, v(0,0,0), v(0,1,0), v(0,0,1), scale=1.0, onflag=station_s2bay1)
 }
 
-model(spacestation_entry1_stage1, scale=1.0, radius=1.0) {
+model(spacestation_entry1_stage1, scale=1.0, radius=400.0) {
+	lod { full, 20px }
 	a = v(-100,0,50)
 	b = v(100,0,50)
 	c = v(100,0,-50)
@@ -645,11 +647,11 @@ model(spacestation_entry1_stage1, scale=1.0, radius=1.0) {
 	quad(c,d,d2,c2)
 	
 	# adverts
-	subobject(var:17, v(-100,-200,0), v(0,0,-1), v(1,0,0), scale=40.0)
-	subobject(var:18, v(100,-100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
+	lod1:subobject(var:17, v(-100,-200,0), v(0,0,-1), v(1,0,0), scale=40.0)
+	lod1:subobject(var:18, v(100,-100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
 }
 
-model(spacestation_entry1, scale=1.0, radius=1.0) {
+model(spacestation_entry1, scale=1.0, radius=200.0) {
 
 	material(.2,.2,.6, 0,0,0, 0, 0,0,0)
 	door1 = vlinear(v(0,-20,0), v(0,-20,-100), animfn=station_s1bay1)
