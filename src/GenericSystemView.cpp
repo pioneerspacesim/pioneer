@@ -12,20 +12,16 @@ GenericSystemView::GenericSystemView(): View()
 	m_scannerLayout->SetTransparency(true);
 	Gui::Screen::AddBaseWidget(m_scannerLayout, 140, Gui::Screen::GetHeight()-62);
 
-	m_systemName = new Gui::Label("");
-	m_systemName->SetColor(1,1,0);
+	m_systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
 	m_scannerLayout->Add(m_systemName, 40, 4);
 	
-	m_distance = new Gui::Label("");
-	m_distance->SetColor(1,0,0);
+	m_distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
 	m_scannerLayout->Add(m_distance, 150, 4);
 
-	m_starType = new Gui::Label("");
-	m_starType->SetColor(1,0,1);
+	m_starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_scannerLayout->Add(m_starType, 22, 20);
 
-	m_shortDesc = new Gui::Label("");
-	m_shortDesc->SetColor(1,0,1);
+	m_shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	m_scannerLayout->Add(m_shortDesc, 5, 38);
 }
 	

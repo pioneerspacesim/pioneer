@@ -4,6 +4,7 @@ namespace Gui {
 
 Label::Label(const char *text)
 {
+	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
 	SetText(text);
@@ -12,6 +13,7 @@ Label::Label(const char *text)
 
 Label::Label(const std::string &text)
 {
+	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
 	SetText(text);
@@ -34,6 +36,22 @@ void Label::RecalcSize()
 //	float size[2];
 //	Screen::MeasureLayout(m_text, FLT_MAX, size);
 	ResizeRequest();
+}
+
+Label *Label::Color(const float rgb[3])
+{
+	m_color[0] = rgb[0];
+	m_color[1] = rgb[1];
+	m_color[2] = rgb[2];
+	return this;
+}
+
+Label *Label::Color(float r, float g, float b)
+{
+	m_color[0] = r;
+	m_color[1] = g;
+	m_color[2] = b;
+	return this;
 }
 
 void Label::SetText(const char *text)
@@ -61,6 +79,12 @@ void Label::Draw()
 		glVertex2f(size[0], 0);
 		glVertex2f(0, 0);
 	glEnd();*/
+	if (m_shadow) {
+		glColor3f(0,0,0);
+		glTranslatef(1,1,0);
+		m_layout->Render(size[0]);
+		glTranslatef(-1,-1,0);
+	}
 	glColor3fv(m_color);
 	m_layout->Render(size[0]);
 }
@@ -68,13 +92,6 @@ void Label::Draw()
 void Label::GetSizeRequested(float size[2])
 {
 	m_layout->MeasureSize(size[0], size);
-}
-
-void Label::SetColor(float r, float g, float b)
-{
-	m_color[0] = r;
-	m_color[1] = g;
-	m_color[2] = b;
 }
 
 }

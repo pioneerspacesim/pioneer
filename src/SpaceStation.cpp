@@ -11,6 +11,7 @@
 #include "CityOnPlanet.h"
 #include "Shader.h"
 #include "Player.h"
+#include "Polit.h"
 
 struct SpaceStationType {
 	const char *sbreModelName;
@@ -665,6 +666,10 @@ bool SpaceStation::CanBuy(Equip::Type t) const {
 bool SpaceStation::CanSell(Equip::Type t) const {
 	return m_equipmentStock[(int)t] > 0;
 }
+bool SpaceStation::DoesSell(Equip::Type t) const {
+	return Polit::IsCommodityLegal(Pi::currentSystem, t);
+}
+
 int SpaceStation::GetPrice(Equip::Type t) const {
 	int mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
 	return (mul * EquipType::types[t].basePrice) / 100;

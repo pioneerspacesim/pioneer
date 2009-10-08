@@ -6,11 +6,7 @@
 #include "ShipFlavour.h"
 #include "ShipCpanel.h"
 #include "Mission.h"
-#include "Polit.h"
-#include <map>
-
-#define RBUTTON_DELAY 500
-#define RBUTTON_REPEAT 50
+#include "CommodityTradeWidget.h"
 
 #define TEXSIZE	128
 #define ADD_VIDEO_WIDGET	Add(new DeadVideoLink(295,285), 5, 40)
@@ -167,24 +163,12 @@ public:
 private:
 	void OnClickBuy(int commodity_type) {
 		m_station->SellItemTo(Pi::player, (Equip::Type)commodity_type);
-		UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
 		Pi::player->SellItemTo(m_station, (Equip::Type)commodity_type);
-		UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
-	void UpdateStock(int commodity_type) {
-		char buf[128];
-		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
-		m_cargoLabels[commodity_type]->SetText(buf);
-		
-		snprintf(buf, sizeof(buf), "%dt", m_station->GetEquipmentStock(static_cast<Equip::Type>(commodity_type))*EquipType::types[commodity_type].mass);
-		m_stockLabels[commodity_type]->SetText(buf);
-	}
-	std::map<int, Gui::Label*> m_stockLabels;
-	std::map<int, Gui::Label*> m_cargoLabels;
 	SpaceStation *m_station;
 };
 
@@ -196,8 +180,6 @@ StationCommoditiesView::StationCommoditiesView(): StationSubView()
 void StationCommoditiesView::ShowAll()
 {
 	DeleteAllChildren();
-	m_stockLabels.clear();
-	m_cargoLabels.clear();
 
 	m_station = Pi::player->GetDockedWith();
 	assert(m_station);
@@ -213,67 +195,11 @@ void StationCommoditiesView::ShowAll()
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
-	Gui::Fixed *fbox = new Gui::Fixed(470, 400);
-	Add(fbox, 320, 40);
+	CommodityTradeWidget *commodityTradeWidget = new CommodityTradeWidget(m_station);
+	commodityTradeWidget->onClickBuy.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy));
+	commodityTradeWidget->onClickSell.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell));
+	Add(commodityTradeWidget, 320, 40);
 
-	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
-	scroll->SetAdjustment(&portal->vscrollAdjust);
-	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
-
-	int NUM_ITEMS = 0;
-	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((EquipType::types[i].slot == Equip::SLOT_CARGO) &&
-		    (Polit::IsCommodityLegal(Pi::currentSystem, (Equip::Type)i))) {
-				NUM_ITEMS++;
-		}
-	}
-
-	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
-		if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
-		if (!Polit::IsCommodityLegal(Pi::currentSystem, (Equip::Type)i)) continue;
-		int stock = m_station->GetEquipmentStock(static_cast<Equip::Type>(i));
-		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
-		if (EquipType::types[i].description)
-			l->SetToolTip(EquipType::types[i].description);
-		innerbox->Add(l,0,num*YSEP);
-		Gui::Button *b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy), i));
-		innerbox->Add(b, 380, num*YSEP);
-		b = new Gui::RepeaterButton(RBUTTON_DELAY, RBUTTON_REPEAT);
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell), i));
-		innerbox->Add(b, 415, num*YSEP);
-		char buf[128];
-		innerbox->Add(new Gui::Label(
-					format_money(m_station->GetPrice(static_cast<Equip::Type>(i)))
-					), 200, num*YSEP);
-		
-		snprintf(buf, sizeof(buf), "%dt", stock*EquipType::types[i].mass);
-		Gui::Label *stocklabel = new Gui::Label(buf);
-		m_stockLabels[i] = stocklabel;
-		innerbox->Add(stocklabel, 275, num*YSEP);
-		
-		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(i))*EquipType::types[i].mass);
-		Gui::Label *cargolabel = new Gui::Label(buf);
-		m_cargoLabels[i] = cargolabel;
-		innerbox->Add(cargolabel, 325, num*YSEP);
-		num++;
-	}
-	innerbox->ShowAll();
-
-	fbox->Add(new Gui::Label("Item"), 0, 0);
-	fbox->Add(new Gui::Label("Price"), 200, 0);
-	fbox->Add(new Gui::Label("Buy"), 380, 0);
-	fbox->Add(new Gui::Label("Sell"), 415, 0);
-	fbox->Add(new Gui::Label("Stock"), 275, 0);
-	fbox->Add(new Gui::Label("Cargo"), 325, 0);
-	fbox->Add(portal, 0, YSEP);
-	fbox->Add(scroll, 455, YSEP);
-	portal->Add(innerbox);
-	portal->ShowAll();
-	fbox->ShowAll();
 	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 
@@ -435,20 +361,20 @@ void StationShipUpgradesView::ShowAll()
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
-	//int GetEquipmentStock(Equip::Type t) const { return m_equipmentStock[t]; }
+	//int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
 	int NUM_ITEMS = 0;
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((!(EquipType::types[i].slot == Equip::SLOT_CARGO)) &&
-		    station->GetEquipmentStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
+		    station->GetStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
 	}
 
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
 		Equip::Type type = static_cast<Equip::Type>(i);
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) continue;
-		int stock = station->GetEquipmentStock(type);
+		int stock = station->GetStock(type);
 		if (!stock) continue;
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
 		innerbox->Add(l,0,num*YSEP);
@@ -474,12 +400,13 @@ void StationShipUpgradesView::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	fbox->Add(new Gui::Label("Item"), 0, 0);
-	fbox->Add(new Gui::Label("$ to fit"), 200, 0);
-	fbox->Add(new Gui::Label("$ for removal"), 275, 0);
-	fbox->Add(new Gui::Label("Wt"), 360, 0);
-	fbox->Add(new Gui::Label("Fit"), 400, 0);
-	fbox->Add(new Gui::Label("Remove"), 420, 0);
+	const float *col = Gui::Color::tableHeading;
+	fbox->Add((new Gui::Label("Item"))->Color(col), 0, 0);
+	fbox->Add((new Gui::Label("$ to fit"))->Color(col), 200, 0);
+	fbox->Add((new Gui::Label("$ for removal"))->Color(col), 275, 0);
+	fbox->Add((new Gui::Label("Wt"))->Color(col), 360, 0);
+	fbox->Add((new Gui::Label("Fit"))->Color(col), 400, 0);
+	fbox->Add((new Gui::Label("Remove"))->Color(col), 420, 0);
 	fbox->Add(portal, 0, YSEP);
 	fbox->Add(scroll, 455, YSEP);
 	portal->Add(innerbox);
@@ -740,9 +667,10 @@ void StationShipRepairsView::ShowAll()
 		fbox->Add(b, 430, ypos);
 	}
 
-	fbox->Add(new Gui::Label("Item"), 0, 0);
-	fbox->Add(new Gui::Label("Price"), 350, 0);
-	fbox->Add(new Gui::Label("Repair"), 430, 0);
+	const float *col = Gui::Color::tableHeading;
+	fbox->Add((new Gui::Label("Item"))->Color(col), 0, 0);
+	fbox->Add((new Gui::Label("Price"))->Color(col), 350, 0);
+	fbox->Add((new Gui::Label("Repair"))->Color(col), 430, 0);
 	fbox->ShowAll();
 	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
@@ -821,11 +749,12 @@ void StationBuyShipsView::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	fbox->Add(new Gui::Label("Ship"), 0, 0);
-	fbox->Add(new Gui::Label("Price"), 200, 0);
-	fbox->Add(new Gui::Label("Part exchange"), 275, 0);
-	fbox->Add(new Gui::Label("Capacity"), 370, 0);
-	fbox->Add(new Gui::Label("View"), 430, 0);
+	const float *col = Gui::Color::tableHeading;
+	fbox->Add((new Gui::Label("Ship"))->Color(col), 0, 0);
+	fbox->Add((new Gui::Label("Price"))->Color(col), 200, 0);
+	fbox->Add((new Gui::Label("Part exchange"))->Color(col), 275, 0);
+	fbox->Add((new Gui::Label("Capacity"))->Color(col), 370, 0);
+	fbox->Add((new Gui::Label("View"))->Color(col), 430, 0);
 	fbox->Add(portal, 0, YSEP);
 	fbox->Add(scroll, 455, YSEP);
 	portal->Add(innerbox);
@@ -942,8 +871,8 @@ void StationBBView::OpenMission(int midx)
 	SpaceStation *station = Pi::player->GetDockedWith();
 	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
 	
-	Gui::Fixed *f = new Gui::Fixed(400, 400);
-	Add(f, 350, 40);
+	Gui::Fixed *f = new Gui::Fixed(470, 400);
+	Add(f, 320, 40);
 	Mission *m = station->GetBBMissions()[midx];
 	MissionChatForm *chatform = new MissionChatForm();
 	chatform->onFormClose.connect(sigc::mem_fun(this, &StationBBView::ShowAll));
@@ -1121,7 +1050,7 @@ void StationRootView::GotoBB()
 SpaceStationView::SpaceStationView(): View()
 {
 	Gui::Label *l = new Gui::Label("Comms Link");
-	l->SetColor(1,.7,0);
+	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 }
 

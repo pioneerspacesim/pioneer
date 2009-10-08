@@ -98,8 +98,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
 	Add(comms_button, 98, 40);
 
-	m_clock = new Gui::Label("");
-	m_clock->SetColor(1,0.7,0);
+	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
 	Add(m_clock, 4, 2);
 
 	tempMsgAge = 0;

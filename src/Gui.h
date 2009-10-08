@@ -14,6 +14,7 @@ namespace Gui {
 	namespace Color {
 		extern const float bg[];
 		extern const float bgShadow[];
+		extern const float tableHeading[];
 	}
 
 	void HandleSDLEvent(SDL_Event *event);

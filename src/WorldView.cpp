@@ -74,12 +74,10 @@ WorldView::WorldView(): View()
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 	
-	m_flightStatus = new Gui::Label("");
-	m_flightStatus->SetColor(1,.7,0);
+	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 10, 0);
 
-	m_hyperTargetLabel = new Gui::Label("");
-	m_hyperTargetLabel->SetColor(1,.7,0);
+	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 	
 	Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));

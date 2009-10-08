@@ -35,17 +35,15 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	fixed->Add(col2, 300, 0);
 
 #define _add_label_and_value(label, value) { \
-	Gui::Label *l = new Gui::Label(label); \
-	l->SetColor(1,1,0); \
+	Gui::Label *l = (new Gui::Label(label))->Color(1.0f,1.0f,0.0f); \
 	col1->PackEnd(l); \
-	l = new Gui::Label(value); \
-	l->SetColor(1,1,0); \
+	l = (new Gui::Label(value))->Color(1.0f,1.0f,0.0f); \
 	col2->PackEnd(l); \
 }
 
 	{
 		Gui::Label *l = new Gui::Label(stringf(256, "%s: %s", b->name.c_str(), b->GetAstroDescription()));
-		l->SetColor(1,1,0);
+		l->Color(1,1,0);
 		m_infoBox->PackStart(l);
 	}
 
@@ -244,8 +242,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 		
-		Gui::Label *l = new Gui::Label(_info);
-		l->SetColor(1,1,0);
+		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_infoBox->PackStart(l);
 		portal->Add(m_infoBox);
 		scrollBox->PackStart(scroll);
@@ -272,11 +269,11 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		m_econMajExport = new Gui::Label("");
 		m_econMinExport = new Gui::Label("");
 		m_econIllegal = new Gui::Label("");
-		m_econMajImport->SetColor(1,1,0);
-		m_econMinImport->SetColor(1,1,0);
-		m_econMajExport->SetColor(1,1,0);
-		m_econMinExport->SetColor(1,1,0);
-		m_econIllegal->SetColor(1,1,0);
+		m_econMajImport->Color(1,1,0);
+		m_econMinImport->Color(1,1,0);
+		m_econMajExport->Color(1,1,0);
+		m_econMinExport->Color(1,1,0);
+		m_econIllegal->Color(1,1,0);
 		f->Add(m_econMajImport, 0, 0);
 		f->Add(m_econMinImport, 150, 0);
 		f->Add(m_econMajExport, 300, 0);

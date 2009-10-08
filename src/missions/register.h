@@ -3,7 +3,7 @@
 
 #include "../Mission.h"
 
-#define MISSION_MAX 2
+#define MISSION_MAX 3
 
 struct MissionFactoryDef {
 	Mission *(*Create)(int);
@@ -12,6 +12,7 @@ struct MissionFactoryDef {
 
 #include "DonateToCranks.h"
 #include "DeliverPackage.h"
+#include "GoodsTrader.h"
 
 /*
  * Be sure to keep indices since they are used for save()/load()
@@ -19,6 +20,7 @@ struct MissionFactoryDef {
 const MissionFactoryDef missionFactoryFn[MISSION_MAX] = {
 	{ &DonateToCranks::Create, 1 },
 	{ &DeliverPackage::Create, 1 },
+	{ &GoodsTrader::Create, 1 },
 };
 
 #endif /* _REGISTER_H */

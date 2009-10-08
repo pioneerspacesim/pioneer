@@ -8,8 +8,7 @@ SystemView::SystemView(): View()
 	m_system = 0;
 	SetTransparency(true);
 
-	m_timePoint = new Gui::Label("");
-	m_timePoint->SetColor(.7,.7,.7);
+	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");

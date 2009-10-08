@@ -73,8 +73,10 @@ public:
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
 	/* MarketAgent stuff */
+	int GetStock(Equip::Type t) const { assert(0); return 0; }
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
+	bool DoesSell(Equip::Type t) const { return true; }
 	int GetPrice(Equip::Type t) const;
 	void ChangeFlavour(const ShipFlavour *f);
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }

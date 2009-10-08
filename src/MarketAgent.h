@@ -13,7 +13,11 @@ public:
 	bool SellItemTo(MarketAgent *other, Equip::Type t);
 	virtual int GetPrice(Equip::Type t) const = 0;
 	virtual bool CanBuy(Equip::Type t) const = 0;
+	// can sell means do we have enough stock
 	virtual bool CanSell(Equip::Type t) const = 0;
+	// does sell means do we bother with this commodity?
+	virtual bool DoesSell(Equip::Type t) const = 0;
+	virtual int GetStock(Equip::Type t) const = 0;
 protected:
 	virtual void Bought(Equip::Type t) = 0;
 	virtual void Sold(Equip::Type t) = 0;

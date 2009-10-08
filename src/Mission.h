@@ -19,9 +19,11 @@ public:
 	void Message(const char*);
 	sigc::signal<void> onFormClose;
 	sigc::signal<void> onSomethingChanged;
-private:
+
 	Gui::VBox *m_msgregion;
 	Gui::VBox *m_optregion;
+private:
+	bool hasOpts;
 };	
 
 class Mission {

@@ -16,12 +16,15 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		void SetText(const char *text);
 		void SetText(const std::string text);
-		void SetColor(float r, float g, float b);
+		void SetShadow(bool isOn) { m_shadow = isOn; }
+		Label *Color(const float rgb[3]);
+		Label *Color(float r, float g, float b);
 	private:
 		void UpdateLayout();
 		void RecalcSize();
 		std::string m_text;
 		float m_color[3];
+		bool m_shadow;
 		GLuint m_dlist;
 		TextLayout *m_layout;
 	};

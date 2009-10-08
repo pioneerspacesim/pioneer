@@ -64,6 +64,7 @@ MissionChatForm::MissionChatForm()
 	Add(m_optregion, 0, 150);
 	m_msgregion->Show();
 	m_optregion->Show();
+	hasOpts = false;
 	Clear();
 }
 
@@ -71,7 +72,6 @@ void MissionChatForm::Clear()
 {
 	m_msgregion->DeleteAllChildren();
 	m_optregion->DeleteAllChildren();
-	m_optregion->PackStart(new Gui::Label("Suggested responses:"));
 }
 
 void MissionChatForm::Message(const char *msg)
@@ -82,6 +82,10 @@ void MissionChatForm::Message(const char *msg)
 
 void MissionChatForm::AddOption(Mission *m, const char *text, int val)
 {
+	if (!hasOpts) {
+		hasOpts = true;
+		m_optregion->PackStart(new Gui::Label("Suggested responses:"));
+	}
 	Gui::Box *box = new Gui::HBox();
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::bind(sigc::mem_fun(m, &Mission::FormResponse), this, val));

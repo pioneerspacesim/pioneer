@@ -14,6 +14,7 @@ namespace RawEvents {
 namespace Color {
 	const float bg[] = { .25f,.37f,.63f };
 	const float bgShadow[] = { .08f,.12f,.21f };
+	const float tableHeading[] = { .7f,.7f,1.0f };
 }
 
 void HandleSDLEvent(SDL_Event *event)
