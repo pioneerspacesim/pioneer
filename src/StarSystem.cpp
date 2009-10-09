@@ -750,7 +750,7 @@ fixed SBody::CalcHillRadius() const
 	}
 }
 
-static fixed density_from_disk_area(fixed a, fixed b, fixed max)
+static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 {
 	// so, density of the disk with distance from star goes like so: 1 - x/discMax
 	//
@@ -758,23 +758,27 @@ static fixed density_from_disk_area(fixed a, fixed b, fixed max)
 	//    ---
 	//       --- <- zero at discMax
 	//
-	// Which turned into a disc becomes x - (x*x)/discMax
-	// Integral of which is: 0.5*x*x - (1/(3*discMax))*x*x*x
+	// Which turned into a disc becomes 2*pi*x - (2*pi*x*x)/discMax
+	// Integral of which is: pi*x*x - (2/(3*discMax))*pi*x*x*x
+	//
+	// Because get_disc_density divides total_mass by
+	// mass_from_disk_area(0, discMax, discMax) to find density, the
+	// constant factors (pi) in this equation drop out.
 	//
 	b = (b > max ? max : b);
 	assert(b>=a);
 	assert(a<=max);
 	assert(b<=max);
 	assert(a>=0);
-	fixed one_over_3max = fixed(1,1)/(3*max);
-	return (fixed(1,2)*b*b - one_over_3max*b*b*b) -
-		(fixed(1,2)*a*a - one_over_3max*a*a*a);
+	fixed one_over_3max = fixed(2,1)/(3*max);
+	return (b*b - one_over_3max*b*b*b) -
+		(a*a - one_over_3max*a*a*a);
 }
 
 static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax)
 {
 	discMax = MAX(discMax, discMin);
-	fixed total = density_from_disk_area(discMin, discMax, discMax);
+	fixed total = mass_from_disk_area(discMin, discMax, discMax);
 	// try 2% of primary's mass
 	return primary->GetMassInEarths() * fixed(2,100) / total;
 }
@@ -845,7 +849,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		{
 			const fixed a = pos;
 			const fixed b = fixed(135,100)*apoapsis;
-			mass = density_from_disk_area(a, b, discMax);
+			mass = mass_from_disk_area(a, b, discMax);
 			mass *= rand.Fixed() * discDensity;
 		}
 
