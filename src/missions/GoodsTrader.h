@@ -6,13 +6,15 @@
 #include "../EquipType.h"
 #include "../MarketAgent.h"
 
+class CommodityTradeWidget;
+
 class GoodsTrader: public Mission, public MarketAgent {
 public:
 	GoodsTrader(int type);
 	virtual void Randomize();
 	virtual std::string GetBulletinBoardText();
-	virtual void StartChat(MissionChatForm *);
-	virtual void FormResponse(MissionChatForm*, int);
+	virtual void StartChat(GenericChatForm *);
+	virtual void FormResponse(GenericChatForm*, int);
 	/* MarketAgent stuff */
 	int GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t) const;
@@ -35,8 +37,9 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
-	void OnClickBuy(int equip_type, MissionChatForm *form);
-	void OnClickSell(int equip_type, MissionChatForm *form);
+	void OnClickBuy(int equip_type, GenericChatForm *form);
+	void OnClickSell(int equip_type, GenericChatForm *form);
+	CommodityTradeWidget *m_commodityTradeWidget;
 };
 
 

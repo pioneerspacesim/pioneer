@@ -10,7 +10,6 @@ Widget::Widget()
 	m_mouseOver = false;
 	m_eventMask = EVENT_MOUSEMOTION;
 	m_tooltipWidget = 0;
-	m_tooltipTimerSignal.connect(sigc::mem_fun(this, &Widget::OnToolTip));
 	m_shortcut.sym = (SDLKey)0;
 	m_shortcut.mod = (SDLMod)0;
 }
@@ -83,7 +82,7 @@ void Widget::GetAbsolutePosition(float pos[2])
 void Widget::OnMouseEnter()
 {
 	m_mouseOver = true;
-	Gui::AddTimer(1000, &m_tooltipTimerSignal);
+	m_tooltipTimerConnection = Gui::AddTimer(1000, sigc::mem_fun(this, &Widget::OnToolTip));
 	onMouseEnter.emit();
 }
 
@@ -94,7 +93,7 @@ void Widget::OnMouseLeave()
 		Screen::RemoveBaseWidget(m_tooltipWidget);
 		m_tooltipWidget = 0;
 	}
-	Gui::RemoveTimer(&m_tooltipTimerSignal);
+	m_tooltipTimerConnection.disconnect();
 	onMouseLeave.emit();
 }
 
@@ -154,7 +153,7 @@ Widget::~Widget()
 		delete m_tooltipWidget;
 	}
 	Screen::RemoveShortcutWidget(this);
-	Gui::RemoveTimer(&m_tooltipTimerSignal);
+	m_tooltipTimerConnection.disconnect();
 }
 
 }

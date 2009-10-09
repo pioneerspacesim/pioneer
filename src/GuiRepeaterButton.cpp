@@ -10,27 +10,26 @@ RepeaterButton::RepeaterButton(int msDelay, int msRepeat)
 
 	onPress.connect(sigc::mem_fun(this, &RepeaterButton::OnPress));
 	onRelease.connect(sigc::mem_fun(this, &RepeaterButton::OnRelease));
-	m_repeatsig.connect(sigc::mem_fun(this, &RepeaterButton::OnRepeat));
 }
 
 RepeaterButton::~RepeaterButton()
 {
-	Gui::RemoveTimer(&m_repeatsig);
+	m_repeatCon.disconnect();
 }
 
 void RepeaterButton::OnPress()
 {
-	Gui::AddTimer(m_delay, &m_repeatsig);
+	m_repeatCon = Gui::AddTimer(m_delay, sigc::mem_fun(this, &RepeaterButton::OnRepeat));
 }
 
 void RepeaterButton::OnRelease()
 {
-	Gui::RemoveTimer(&m_repeatsig);
+	m_repeatCon.disconnect();
 }
 
 void RepeaterButton::OnRepeat()
 {
-	Gui::AddTimer(m_repeat, &m_repeatsig);
+	m_repeatCon = Gui::AddTimer(m_repeat, sigc::mem_fun(this, &RepeaterButton::OnRepeat));
 
 	onClick.emit();
 }

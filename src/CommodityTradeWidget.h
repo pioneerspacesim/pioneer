@@ -9,18 +9,16 @@ class CommodityTradeWidget : public Gui::Fixed {
 public:
 	CommodityTradeWidget(MarketAgent *seller);
 	void ShowAll();
+	void UpdateStock(int commodity_type);
 	sigc::signal<void,int> onClickSell;
 	sigc::signal<void,int> onClickBuy;
 private:
 	void OnClickBuy(int commodity_type) {
 		onClickBuy.emit(commodity_type);
-		UpdateStock(commodity_type);
 	}
 	void OnClickSell(int commodity_type) {
 		onClickSell.emit(commodity_type);
-		UpdateStock(commodity_type);
 	}
-	void UpdateStock(int commodity_type);
 
 	std::map<int, Gui::Label*> m_stockLabels;
 	std::map<int, Gui::Label*> m_cargoLabels;

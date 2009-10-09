@@ -34,19 +34,20 @@ std::string DonateToCranks::GetBulletinBoardText()
 	return religion_blurbs1[m_cause];
 }
 
-void DonateToCranks::StartChat(MissionChatForm *form)
+void DonateToCranks::StartChat(GenericChatForm *form)
 {
+	sigc::slot<void,GenericChatForm*,int> slot = sigc::mem_fun(this, &DonateToCranks::FormResponse);
 	form->Message(religion_blurbs2[m_cause]);
-	form->AddOption(this, "$1", 1);
-	form->AddOption(this, "$10", 2);
-	form->AddOption(this, "$100", 3);
-	form->AddOption(this, "$1000", 4);
-	form->AddOption(this, "$10000", 5);
-	form->AddOption(this, "$100000", 6);
-	form->AddOption(this, "Hang up.", 0);
+	form->AddOption(slot, "$1", 1);
+	form->AddOption(slot, "$10", 2);
+	form->AddOption(slot, "$100", 3);
+	form->AddOption(slot, "$1000", 4);
+	form->AddOption(slot, "$10000", 5);
+	form->AddOption(slot, "$100000", 6);
+	form->AddOption(slot, "Hang up.", 0);
 }
 
-void DonateToCranks::FormResponse(MissionChatForm *form, int resp)
+void DonateToCranks::FormResponse(GenericChatForm *form, int resp)
 {
 	if (resp==0) form->Close();
 	int amount;

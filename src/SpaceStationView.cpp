@@ -146,6 +146,18 @@ public:
 
 		UpdateBaseDisplay();
 	}
+	void OpenChatForm(GenericChatForm *form) {
+		HideChildren();
+		//SetTransparency(true);
+		
+		Gui::Fixed *f = new Gui::Fixed(470, 400);
+		Add(f, 320, 40);
+		f->SetTransparency(false);
+		form->onFormClose.connect(sigc::mem_fun(this, &StationSubView::ShowAll));
+		form->onSomethingChanged.connect(sigc::mem_fun(this, &StationSubView::UpdateBaseDisplay));
+		f->Add(form, 0, 0);
+		f->ShowAll();
+	}
 private:
 	Gui::Label *m_legalstatus;
 	Gui::Label *m_money;
@@ -163,13 +175,16 @@ public:
 private:
 	void OnClickBuy(int commodity_type) {
 		m_station->SellItemTo(Pi::player, (Equip::Type)commodity_type);
+		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
 		Pi::player->SellItemTo(m_station, (Equip::Type)commodity_type);
+		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	SpaceStation *m_station;
+	CommodityTradeWidget *m_commodityTradeWidget;
 };
 
 StationCommoditiesView::StationCommoditiesView(): StationSubView()
@@ -195,10 +210,10 @@ void StationCommoditiesView::ShowAll()
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
-	CommodityTradeWidget *commodityTradeWidget = new CommodityTradeWidget(m_station);
-	commodityTradeWidget->onClickBuy.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy));
-	commodityTradeWidget->onClickSell.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell));
-	Add(commodityTradeWidget, 320, 40);
+	m_commodityTradeWidget = new CommodityTradeWidget(m_station);
+	m_commodityTradeWidget->onClickBuy.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy));
+	m_commodityTradeWidget->onClickSell.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell));
+	Add(m_commodityTradeWidget, 320, 40);
 
 	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
@@ -871,16 +886,11 @@ void StationBBView::OpenMission(int midx)
 	SpaceStation *station = Pi::player->GetDockedWith();
 	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
 	
-	Gui::Fixed *f = new Gui::Fixed(470, 400);
-	Add(f, 320, 40);
+	GenericChatForm *chatform = new GenericChatForm();
 	Mission *m = station->GetBBMissions()[midx];
-	MissionChatForm *chatform = new MissionChatForm();
-	chatform->onFormClose.connect(sigc::mem_fun(this, &StationBBView::ShowAll));
-	chatform->onSomethingChanged.connect(sigc::mem_fun(this, &StationBBView::UpdateBaseDisplay));
 	m->StartChat(chatform);
-	f->Add(chatform, 0, 0);
-	f->ShowAll();
-	
+	OpenChatForm(chatform);
+		
 	AddBaseDisplay();
 	ADD_VIDEO_WIDGET;
 	Gui::Fixed::ShowAll();
@@ -1054,6 +1064,13 @@ SpaceStationView::SpaceStationView(): View()
 	m_rightRegion2->Add(l, 10, 0);
 }
 
+void SpaceStationView::JumpTo(GenericChatForm *form)
+{
+	OnSwitchTo();
+
+	m_activeSubview->OpenChatForm(form);
+}
+
 void SpaceStationView::OnSwitchTo()
 {
 	DeleteAllChildren();
@@ -1061,6 +1078,7 @@ void SpaceStationView::OnSwitchTo()
 	StationSubView *v = new StationRootView();
 	Add(v, 0, 0);
 	v->ShowAll();
+	m_activeSubview = v;
 }
 
 void SpaceStationView::Draw3D()

@@ -104,23 +104,24 @@ std::string DeliverPackage::GetBulletinBoardText()
 	return string_subst(deliveryType[m_flavour].bbtext, 2, args);
 }
 
-void DeliverPackage::StartChat(MissionChatForm *form)
+void DeliverPackage::StartChat(GenericChatForm *form)
 {
 	std::string args[3] = { m_personName, format_money(m_basePay), NaturalSpaceStationName(m_dest) };
 	form->Message(string_subst(deliveryType[m_flavour].introtext, 3, args).c_str());
 	PutOptions(form);
 }
 
-void DeliverPackage::PutOptions(MissionChatForm *form)
+void DeliverPackage::PutOptions(GenericChatForm *form)
 {
-	form->AddOption(this, "Why so much money?", 1);
-	form->AddOption(this, "Could you repeat the original request?", 2);
-	form->AddOption(this, "How soon must it be delivered?", 4);
-	form->AddOption(this, "Ok, agreed. (Hang up)", 3);
-	form->AddOption(this, "Hang up.", 0);
+	sigc::slot<void,GenericChatForm*,int> slot = sigc::mem_fun(this, &DeliverPackage::FormResponse);
+	form->AddOption(slot, "Why so much money?", 1);
+	form->AddOption(slot, "Could you repeat the original request?", 2);
+	form->AddOption(slot, "How soon must it be delivered?", 4);
+	form->AddOption(slot, "Ok, agreed. (Hang up)", 3);
+	form->AddOption(slot, "Hang up.", 0);
 }
 
-void DeliverPackage::FormResponse(MissionChatForm *form, int resp)
+void DeliverPackage::FormResponse(GenericChatForm *form, int resp)
 {
 	if (resp==0) {
 		form->Close();

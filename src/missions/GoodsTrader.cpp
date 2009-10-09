@@ -6,6 +6,8 @@
 #include "../ShipCpanel.h"
 #include "../NameGenerator.h"
 #include "../CommodityTradeWidget.h"
+#include "../SpaceStationView.h"
+#include "../PoliceChatForm.h"
 
 #define DESC_MAX 6
 const char *g_business[DESC_MAX] = {
@@ -24,6 +26,7 @@ const char *g_bbtext[BBTEXT_MAX] = {
 GoodsTrader::GoodsTrader(int type): Mission(type)
 {
 	SetMoney(10000000);
+	m_commodityTradeWidget = 0;
 }
 
 void GoodsTrader::Randomize()
@@ -43,31 +46,35 @@ std::string GoodsTrader::GetBulletinBoardText()
 	return string_subst(g_bbtext[m_bbtextidx], 1, &m_name);
 }
 
-void GoodsTrader::StartChat(MissionChatForm *form)
+void GoodsTrader::StartChat(GenericChatForm *form)
 {
 	form->Message(("Welcome to "+m_name).c_str());
-	CommodityTradeWidget *commodityTradeWidget = new CommodityTradeWidget(this);
-	commodityTradeWidget->onClickBuy.connect(sigc::bind(sigc::mem_fun(this, &GoodsTrader::OnClickBuy), form));
-	commodityTradeWidget->onClickSell.connect(sigc::bind(sigc::mem_fun(this, &GoodsTrader::OnClickSell), form));
-	form->Add(commodityTradeWidget, 0, 40);
+	m_commodityTradeWidget = new CommodityTradeWidget(this);
+	m_commodityTradeWidget->onClickBuy.connect(sigc::bind(sigc::mem_fun(this, &GoodsTrader::OnClickBuy), form));
+	m_commodityTradeWidget->onClickSell.connect(sigc::bind(sigc::mem_fun(this, &GoodsTrader::OnClickSell), form));
+	form->Add(m_commodityTradeWidget, 0, 40);
 	
 	Gui::Button *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(form, &MissionChatForm::Close));
+	b->onClick.connect(sigc::mem_fun(form, &GenericChatForm::Close));
 	form->Add(b,0,300);
 	form->Add(new Gui::Label("Hang up"), 25, 300);
 	form->m_optregion->Hide();
 }
 
-void GoodsTrader::OnClickBuy(int commodity_type, MissionChatForm *form) {
-	SellItemTo(Pi::player, (Equip::Type)commodity_type);
-	form->onSomethingChanged.emit();
+void GoodsTrader::OnClickBuy(int commodity_type, GenericChatForm *form) {
+//	SellItemTo(Pi::player, (Equip::Type)commodity_type);
+//	m_commodityTradeWidget->UpdateStock(commodity_type);
+//	form->onSomethingChanged.emit();
+	//form->Close();
+	Pi::spaceStationView->JumpTo(new PoliceChatForm);
 }
-void GoodsTrader::OnClickSell(int commodity_type, MissionChatForm *form) {
+void GoodsTrader::OnClickSell(int commodity_type, GenericChatForm *form) {
 	Pi::player->SellItemTo(this, (Equip::Type)commodity_type);
+	m_commodityTradeWidget->UpdateStock(commodity_type);
 	form->onSomethingChanged.emit();
 }
 
-void GoodsTrader::FormResponse(MissionChatForm *form, int resp)
+void GoodsTrader::FormResponse(GenericChatForm *form, int resp)
 {
 	if (resp==0) form->Close();
 }

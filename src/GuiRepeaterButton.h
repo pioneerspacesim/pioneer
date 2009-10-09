@@ -15,7 +15,7 @@ namespace Gui {
 		void OnPress();
 		void OnRelease();
 		void OnRepeat();
-		sigc::signal<void> m_repeatsig;
+		sigc::connection m_repeatCon;
 		int m_delay, m_repeat;
 	};
 }

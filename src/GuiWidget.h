@@ -76,7 +76,7 @@ namespace Gui {
 		bool m_enabled;
 		Container *m_parent;
 		std::string m_tooltip;
-		sigc::signal<void> m_tooltipTimerSignal;
+		sigc::connection m_tooltipTimerConnection;
 		ToolTip *m_tooltipWidget;
 		void OnToolTip();
 	};

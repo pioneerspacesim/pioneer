@@ -10,7 +10,7 @@ namespace Gui {
 	class Button: public Widget {
 	public:
 		Button();
-		virtual ~Button() {}
+		virtual ~Button();
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual bool OnMouseUp(MouseButtonEvent *e);
 		virtual void OnActivate();

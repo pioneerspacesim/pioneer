@@ -10,6 +10,13 @@ Button::Button()
 	m_eventMask = EVENT_MOUSEDOWN | EVENT_MOUSEUP | EVENT_MOUSEMOTION;
 	SetSize(BUTTON_SIZE, BUTTON_SIZE);
 }
+
+Button::~Button()
+{
+	_m_release.disconnect();
+	_m_kbrelease.disconnect();
+}
+
 bool Button::OnMouseDown(MouseButtonEvent *e)
 {
 	if (e->button == 1) {

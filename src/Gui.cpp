@@ -41,47 +41,34 @@ void HandleSDLEvent(SDL_Event *event)
 
 struct TimerSignal {
 	Uint32 goTime;
-	sigc::signal<void> *sig;
+	sigc::signal<void> sig;
 };
 
-static std::list<TimerSignal> g_timeSignals;
+static std::list<TimerSignal*> g_timeSignals;
 
-void AddTimer(Uint32 ms, sigc::signal<void> *s)
+sigc::connection AddTimer(Uint32 ms, sigc::slot<void> slot)
 {
-	TimerSignal _s;
-	_s.goTime = SDL_GetTicks() + ms;
-	_s.sig = s;
+	TimerSignal *_s = new TimerSignal;
+	_s->goTime = SDL_GetTicks() + ms;
+	sigc::connection con = _s->sig.connect(slot);
 	g_timeSignals.push_back(_s);
-}
-
-void RemoveTimer(sigc::signal<void> *s)
-{
-	for (std::list<TimerSignal>::iterator i = g_timeSignals.begin();
-		i != g_timeSignals.end();) {
-		if ((*i).sig == s)
-			i = g_timeSignals.erase(i);
-		else ++i;
-	}
-}
-
-static void ExpireTimers(Uint32 t)
-{
-	for (std::list<TimerSignal>::iterator i = g_timeSignals.begin();
-		i != g_timeSignals.end();) {
-		if (t >= (*i).goTime)
-			i = g_timeSignals.erase(i);
-		else ++i;
-	}
+	return con;
 }
 
 void Draw()
 {
 	Uint32 t = SDL_GetTicks();
 	// also abused like an update() function...
-	for (std::list<TimerSignal>::iterator i = g_timeSignals.begin(); i != g_timeSignals.end(); ++i) {
-		if (t >= (*i).goTime) (*i).sig->emit();
+	for (std::list<TimerSignal*>::iterator i = g_timeSignals.begin(); i != g_timeSignals.end();) {
+		if (t >= (*i)->goTime) {
+			(*i)->sig.emit();
+			delete *i;
+			i = g_timeSignals.erase(i);
+		} else {
+			++i;
+		}
 	}
-	ExpireTimers(t);
+//	ExpireTimers(t);
 
 	Screen::Draw();
 }

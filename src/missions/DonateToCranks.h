@@ -11,8 +11,8 @@ public:
 	}
 	virtual void Randomize();
 	virtual std::string GetBulletinBoardText();
-	virtual void StartChat(MissionChatForm *);
-	virtual void FormResponse(MissionChatForm*, int);
+	virtual void StartChat(GenericChatForm *);
+	virtual void FormResponse(GenericChatForm*, int);
 
 	static Mission* Create(int type) {
 		return new DonateToCranks(type);

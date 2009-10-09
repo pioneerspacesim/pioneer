@@ -3,28 +3,11 @@
 
 #include <string>
 #include "Gui.h"
+#include "GenericChatForm.h"
 
 struct CouldNotMakeMissionException {};
 
-class Mission;
 struct SBodyPath;
-
-class MissionChatForm: public Gui::Fixed {
-public:
-	MissionChatForm();
-	virtual ~MissionChatForm() {}
-	void Close() { onFormClose.emit(); }
-	void Clear();
-	void AddOption(Mission *, const char *text, int val);
-	void Message(const char*);
-	sigc::signal<void> onFormClose;
-	sigc::signal<void> onSomethingChanged;
-
-	Gui::VBox *m_msgregion;
-	Gui::VBox *m_optregion;
-private:
-	bool hasOpts;
-};	
 
 class Mission {
 public:
@@ -34,8 +17,8 @@ public:
 	virtual std::string GetBulletinBoardText() = 0;
 	virtual std::string GetMissionText() { return "<no mission description>"; }
 	virtual std::string GetClientName() { return "---"; }
-	virtual void StartChat(MissionChatForm *) = 0;
-	virtual void FormResponse(MissionChatForm*, int) = 0;
+	virtual void StartChat(GenericChatForm *) = 0;
+	virtual void FormResponse(GenericChatForm*, int) = 0;
 	virtual void AttachToPlayer() {}
 	enum MissionState { ACTIVE, COMPLETED, FAILED };
 	MissionState GetStatus() const { return m_status; }

@@ -14,8 +14,8 @@ public:
 	virtual std::string GetBulletinBoardText();
 	virtual std::string GetMissionText();
 	virtual std::string GetClientName() { return m_personName; }
-	virtual void StartChat(MissionChatForm *);
-	virtual void FormResponse(MissionChatForm*, int);
+	virtual void StartChat(GenericChatForm *);
+	virtual void FormResponse(GenericChatForm*, int);
 	virtual void AttachToPlayer();
 
 	static Mission* Create(int type) {
@@ -26,7 +26,7 @@ protected:
 	virtual void _Save();
 private:
 	void TestCompleted();
-	void PutOptions(MissionChatForm *);
+	void PutOptions(GenericChatForm *);
 	bool m_personGender;
 	std::string m_personName;
 	int m_flavour;
