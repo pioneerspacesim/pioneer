@@ -23,6 +23,7 @@
 #include "GeoSphere.h"
 #include "Shader.h"
 #include "Sound.h"
+#include "Polit.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -126,6 +127,7 @@ void Pi::Init(IniConfig &config)
 	GLFTInit();
 	GeoSphere::Init();
 	Space::Init();
+	Polit::Init();
 	if (!config.Int("NoSound")) {
 		Sound::Init();
 		Sound::Pause(0);

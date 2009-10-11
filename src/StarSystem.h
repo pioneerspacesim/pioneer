@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "EquipType.h"
 #include "Polit.h"
+#include "SysLoc.h"
 #include <vector>
 #include <string>
 
@@ -20,8 +21,9 @@ enum {  ECON_MINING = (1<<0),
 class StarSystem;
 
 struct Orbit {
-	void KeplerPosAtTime(double t, double *dist, double *ang);
-	vector3d CartesianPosAtTime(double t);
+	vector3d OrbitalPosAtTime(double t);
+	// 0.0 <= t <= 1.0. Not for finding orbital pos
+	vector3d EvenSpacedPosAtTime(double t);
 	/* duplicated from SBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;
@@ -32,10 +34,10 @@ struct Orbit {
 
 #define SBODYPATHLEN	8
 
-struct SBodyPath {
+class SBodyPath: public SysLoc {
+public:
 	SBodyPath();
 	SBodyPath(int sectorX, int sectorY, int systemIdx);
-	int sectorX, sectorY, systemIdx;
 	Sint8 elem[SBODYPATHLEN];
 	
 	void Serialize() const;

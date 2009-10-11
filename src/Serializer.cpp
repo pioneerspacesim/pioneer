@@ -204,6 +204,13 @@ namespace Write {
 		wr_double(vec.y);
 		wr_double(vec.z);
 	}
+
+	/* These are for templated type turds. it is best to use the explicit
+	 * type ones to avoid the pain of strange type picking */
+	void wr_auto(Sint32 x) { wr_int(x); }
+	void wr_auto(Sint64 x) { wr_int64(x); }
+	void wr_auto(float x) { wr_float(x); }
+	void wr_auto(double x) { wr_double(x); }
 }
 
 namespace Read {
@@ -382,6 +389,13 @@ namespace Read {
 		v.z = rd_double();
 		return v;
 	}
+	
+	/* These are for templated type turds. it is best to use the explicit
+	 * type ones to avoid the pain of strange type picking */
+	void rd_auto(Sint32 *x) { *x = rd_int(); }
+	void rd_auto(Sint64 *x) { *x = rd_int64(); }
+	void rd_auto(float *x) { *x = rd_float(); }
+	void rd_auto(double *x) { *x = rd_double(); }
 }
 
 } /* end namespace Serializer */

@@ -16,6 +16,8 @@ namespace Polit {
 	};
 	Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness);
 	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
+	void Init();
+
 	extern const char * const desc[];
 }
 

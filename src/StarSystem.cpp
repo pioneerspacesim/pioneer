@@ -289,29 +289,35 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 	return isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
 }
 
-void Orbit::KeplerPosAtTime(double t, double *dist, double *ang)
+vector3d Orbit::OrbitalPosAtTime(double t)
 {
-	double e = eccentricity;
-	double a = semiMajorAxis;
+	const double e = eccentricity;
 	// mean anomaly
-	double M = 2*M_PI*t / period;
+	const double M = 2*M_PI*t / period;
 	// eccentric anomaly
-	double E = M + (e - (1/8.0)*e*e*e)*sin(M) +
-	               (1/2.0)*e*e*sin(2*M) +
-		       (3/8.0)*e*e*e*sin(3*M);
+	// NR method to solve for E: M = E-sin(E)
+	double E = M + e*0.5;
+	for (int iter=40; iter > 0; --iter) {
+		E = E - (E-e*(sin(E))-M) / (1.0 - e*cos(E));
+	}
 	// true anomaly (angle of orbit position)
 	double v = 2*atan(sqrt((1+e)/(1-e)) * tan(E/2.0));
+//	double v = acos( (cos(E) - e) / (1.0 - e*cos(E)) );
 	// heliocentric distance
-	double r = a * (1 - e*e) / (1 + e*cos(v));
-	*ang = v;
-	*dist = r;
+	double r = semiMajorAxis * (1 - e*e) / (1 + e*cos(v));
+
+	vector3d pos = vector3d(cos(v)*r, sin(v)*r, 0);
+	pos = rotMatrix * pos;
+	return pos;
 }
-			
-vector3d Orbit::CartesianPosAtTime(double t)
+
+vector3d Orbit::EvenSpacedPosAtTime(double t)
 {
-	double dist, ang;
-	KeplerPosAtTime(t, &dist, &ang);
-	vector3d pos = vector3d(cos(ang)*dist, sin(ang)*dist, 0);
+	const double e = eccentricity;
+	const double M = 2*M_PI*t;
+	const double v = 2*atan(sqrt((1+e)/(1-e)) * tan(M/2.0));
+	const double r = semiMajorAxis * (1 - e*e) / (1 + e*cos(v));
+	vector3d pos = vector3d(cos(v)*r, sin(v)*r, 0);
 	pos = rotMatrix * pos;
 	return pos;
 }
@@ -321,34 +327,26 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-SBodyPath::SBodyPath()
+SBodyPath::SBodyPath(): SysLoc()
 {
-	sectorX = sectorY = systemIdx = 0;
 	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
 }
-SBodyPath::SBodyPath(int sectorX, int sectorY, int systemIdx)
+SBodyPath::SBodyPath(int sectorX, int sectorY, int systemIdx): SysLoc(sectorX, sectorY, systemIdx)
 {
-	this->sectorX = sectorX;
-	this->sectorY = sectorY;
-	this->systemIdx = systemIdx;
 	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
 }
 
 void SBodyPath::Serialize() const
 {
 	using namespace Serializer::Write;
-	wr_int(sectorX);
-	wr_int(sectorY);
-	wr_int(systemIdx);
+	SysLoc::Serialize();
 	for (int i=0; i<SBODYPATHLEN; i++) wr_byte(elem[i]);
 }
 
 void SBodyPath::Unserialize(SBodyPath *path)
 {
 	using namespace Serializer::Read;
-	path->sectorX = rd_int();
-	path->sectorY = rd_int();
-	path->systemIdx = rd_int();
+	SysLoc::Unserialize(path);
 	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd_byte();
 }
 

@@ -124,8 +124,8 @@ void MoveOrbitingObjectFrames(Frame *f)
 		f->SetVelocity(vector3d(0,0,0));
 	} else if (f->m_sbody) {
 		// this isn't very smegging efficient
-		vector3d pos = f->m_sbody->orbit.CartesianPosAtTime(Pi::GetGameTime());
-		vector3d pos2 = f->m_sbody->orbit.CartesianPosAtTime(Pi::GetGameTime()+1.0);
+		vector3d pos = f->m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime());
+		vector3d pos2 = f->m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime()+1.0);
 		vector3d vel = pos2 - pos;
 		f->SetPosition(pos);
 		f->SetVelocity(vel);

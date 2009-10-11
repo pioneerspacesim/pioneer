@@ -4,8 +4,11 @@
 #include "Sector.h"
 #include "custom_starsystems.h"
 #include "EquipType.h"
+#include "PersistSystemData.h"
 
 namespace Polit {
+
+static PersistSystemData<Sint64> g_criminalRecord;
 
 const char * const desc[POL_MAX] = {
 	"<invalid turd>",
@@ -13,6 +16,11 @@ const char * const desc[POL_MAX] = {
 	"Member of the Earth Federation.",
 	"Member of the Confederation of Independent Systems.",
 };
+
+void Init()
+{
+	g_criminalRecord.Clear();
+}
 
 Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness)
 {
