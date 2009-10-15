@@ -7,168 +7,11 @@
 #include "ShipCpanel.h"
 #include "Mission.h"
 #include "CommodityTradeWidget.h"
-
-#define TEXSIZE	128
-#define ADD_VIDEO_WIDGET	Add(new DeadVideoLink(295,285), 5, 40)
-
-class DeadVideoLink: public Gui::Widget {
-public:
-	void PutRandomCrapIntoTexture() {
-		int *randcrap = (int*)alloca(TEXSIZE*TEXSIZE);
-		for (unsigned int i=0; i<TEXSIZE*TEXSIZE/sizeof(int); i++) randcrap[i] = (Pi::rng.Int32() & 0xfcfcfcfc) >> 2;
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, randcrap);
-	}
-	DeadVideoLink(float w, float h) {
-		m_w = w; m_h = h;
-		m_created = SDL_GetTicks();
-		m_message = new Gui::ToolTip("Video link down");
-		glEnable (GL_TEXTURE_2D);
-		glGenTextures (1, &m_tex);
-		glBindTexture (GL_TEXTURE_2D, m_tex);
-		PutRandomCrapIntoTexture();
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glDisable (GL_TEXTURE_2D);
-	}
-	virtual ~DeadVideoLink() {
-		glDeleteTextures(1, &m_tex);
-		delete m_message;
-	}
-	virtual void Draw() {
-		float size[2]; GetSize(size);
-		if (SDL_GetTicks() - m_created < 1500) {
-			m_message->SetText("Connecting...");
-			glBegin(GL_QUADS);
-				glColor3f(0,0,0);
-				glVertex2f(0,0);
-				glVertex2f(0,size[1]);
-				glVertex2f(size[0],size[1]);
-				glVertex2f(size[0],0);
-			glEnd();
-			DrawMessage();
-		} else {
-			m_message->SetText("Video link down");
-
-			glEnable (GL_TEXTURE_2D);
-			glBindTexture(GL_TEXTURE_2D, m_tex);
-			PutRandomCrapIntoTexture();
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-			glBegin(GL_QUADS);
-				glColor3f(0,0,0);
-				glTexCoord2f(0,0);
-				glVertex2f(0,0);
-				glTexCoord2f(0,1);
-				glVertex2f(0,size[1]);
-				glTexCoord2f(1,1);
-				glVertex2f(size[0],size[1]);
-				glTexCoord2f(1,0);
-				glVertex2f(size[0],0);
-			glEnd();
-			glDisable (GL_TEXTURE_2D);
-			if (SDL_GetTicks() & 0x400) {
-				DrawMessage();
-			}
-		}
-	}
-	virtual void GetSizeRequested(float size[2]) {
-		size[0] = m_w;
-		size[1] = m_h;
-	}
-private:
-	void DrawMessage() {
-		float size[2];
-		float msgSize[2];
-		GetSize(size);
-		m_message->GetSize(msgSize);
-		glPushMatrix();
-		glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]*0.5f-msgSize[1]*0.5f, 0);
-		m_message->Draw();
-		glPopMatrix();
-	}
-	Uint32 m_created;
-	GLuint m_tex;
-	float m_w, m_h;
-	Gui::ToolTip *m_message;
-};
-
-class StationSubView: public Gui::Fixed {
-public:
-	StationSubView(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64)) {
-	}
-	void GoBack() {
-		GetParent()->RemoveChild(this);
-		GetParent()->ShowChildren();
-		GetParent()->SetTransparency(false);
-		static_cast<StationSubView*>(GetParent())->UpdateBaseDisplay();
-		delete this;
-	}
-	void UpdateBaseDisplay() {
-		char buf[64];
-		m_money->SetText(format_money(Pi::player->GetMoney()));
-
-		const shipstats_t *stats = Pi::player->CalcStats();
-		snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
-		m_equipmentMass->SetText(buf);
-		
-		snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
-		m_cargoSpaceUsed->SetText(buf);
-		
-		snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
-		m_cargoSpaceFree->SetText(buf);
-	}
-	void AddBaseDisplay() {
-		const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
-		const float ystart = 350.0f;
-
-		Add(new Gui::Label("#007Cash"), 10, ystart);
-		Add(new Gui::Label("#007Legal status"), 10, ystart + 2*YSEP);
-		Add(new Gui::Label("#007Used"), 140, ystart+4*YSEP);
-		Add(new Gui::Label("#007Free"), 220, ystart+4*YSEP);
-		Add(new Gui::Label("#007Cargo space"), 10, ystart+5*YSEP);
-		Add(new Gui::Label("#007Equipment"), 10, ystart+6*YSEP);
-
-		m_money = new Gui::Label("");
-		Add(m_money, 220, ystart);
-
-		m_cargoSpaceUsed = new Gui::Label("");
-		Add(m_cargoSpaceUsed, 140, ystart + 5*YSEP);
-		
-		m_cargoSpaceFree = new Gui::Label("");
-		Add(m_cargoSpaceFree, 220, ystart + 5*YSEP);
-		
-		m_equipmentMass = new Gui::Label("");
-		Add(m_equipmentMass, 140, ystart + 6*YSEP);
-		
-		m_legalstatus = new Gui::Label("Clean");
-		Add(m_legalstatus, 220, ystart + 2*YSEP);
-
-		UpdateBaseDisplay();
-	}
-	void OpenChatForm(GenericChatForm *form) {
-		HideChildren();
-		//SetTransparency(true);
-		
-		Gui::Fixed *f = new Gui::Fixed(470, 400);
-		Add(f, 320, 40);
-		f->SetTransparency(false);
-		form->onFormClose.connect(sigc::mem_fun(this, &StationSubView::ShowAll));
-		form->onSomethingChanged.connect(sigc::mem_fun(this, &StationSubView::UpdateBaseDisplay));
-		f->Add(form, 0, 0);
-		f->ShowAll();
-	}
-private:
-	Gui::Label *m_legalstatus;
-	Gui::Label *m_money;
-	Gui::Label *m_cargoSpaceUsed;
-	Gui::Label *m_cargoSpaceFree;
-	Gui::Label *m_equipmentMass;
-};
+#include "GenericChatForm.h"
 
 ////////////////////////////////////////////////////////////////////
 
-class StationCommoditiesView: public StationSubView {
+class StationCommoditiesView: public GenericChatForm {
 public:
 	StationCommoditiesView();
 	virtual void ShowAll();
@@ -187,7 +30,7 @@ private:
 	CommodityTradeWidget *m_commodityTradeWidget;
 };
 
-StationCommoditiesView::StationCommoditiesView(): StationSubView()
+StationCommoditiesView::StationCommoditiesView(): GenericChatForm()
 {
 	SetTransparency(false);
 }
@@ -206,7 +49,7 @@ void StationCommoditiesView::ShowAll()
 	}
 
 	Gui::Button *backButton = new Gui::SolidButton();
-	backButton->onClick.connect(sigc::mem_fun(this, &StationCommoditiesView::GoBack));
+	backButton->onClick.connect(sigc::mem_fun(this, &StationCommoditiesView::Close));
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
@@ -216,7 +59,7 @@ void StationCommoditiesView::ShowAll()
 	Add(m_commodityTradeWidget, 320, 40);
 
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
@@ -225,7 +68,7 @@ void StationCommoditiesView::ShowAll()
 
 #define REMOVAL_VALUE_PERCENT 90
 
-class StationLaserPickMount: public StationSubView {
+class StationLaserPickMount: public GenericChatForm {
 public:
 	StationLaserPickMount(Equip::Type t, bool doFit) {
 		m_equipType = t;
@@ -244,7 +87,7 @@ private:
 			Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(m_equipType));
 			Pi::cpan->SetTemporaryMessage(0, "Fitting "+std::string(EquipType::types[m_equipType].name));
 			Gui::Container *p = GetParent();
-			GoBack();
+			Close();
 			p->ShowAll();
 		} else {
 			// remove 
@@ -255,7 +98,7 @@ private:
 			station->AddEquipmentStock(m_equipType, 1);
 			Pi::cpan->SetTemporaryMessage(0, "Removing "+std::string(EquipType::types[m_equipType].name));
 			Gui::Container *p = GetParent();
-			GoBack();
+			Close();
 			p->ShowAll();
 		}
 	}
@@ -289,7 +132,7 @@ void StationLaserPickMount::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
-class StationShipUpgradesView: public StationSubView {
+class StationShipUpgradesView: public GenericChatForm {
 public:
 	StationShipUpgradesView();
 	virtual void ShowAll();
@@ -303,11 +146,7 @@ private:
 		if (num) {
 			if ((s == Equip::SLOT_LASER) && (num > 1)) {
 				/* you have a choice of mount points for lasers */
-				HideChildren();
-				SetTransparency(true);
-				StationSubView *v = new StationLaserPickMount(t, false);
-				Add(v, 0, 0);
-				v->ShowAll();
+				OpenChildChatForm(new StationLaserPickMount(t, false));
 			} else {
 				Pi::player->m_equipment.Remove(s, t, 1);
 				Pi::player->CalcStats();
@@ -332,11 +171,7 @@ private:
 		} else if (freespace) {
 			if ((freespace > 1) && (s == Equip::SLOT_LASER)) {
 				/* you have a choice of mount points for lasers */
-				HideChildren();
-				SetTransparency(true);
-				StationSubView *v = new StationLaserPickMount(t, true);
-				Add(v, 0, 0);
-				v->ShowAll();
+				OpenChildChatForm(new StationLaserPickMount(t, true));
 			} else {
 				Pi::player->m_equipment.Add(s, t);
 				Pi::player->CalcStats();
@@ -351,7 +186,7 @@ private:
 	}
 };
 
-StationShipUpgradesView::StationShipUpgradesView(): StationSubView()
+StationShipUpgradesView::StationShipUpgradesView(): GenericChatForm()
 {
 	SetTransparency(false);
 }
@@ -366,7 +201,7 @@ void StationShipUpgradesView::ShowAll()
 	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *backButton = new Gui::SolidButton();
-	backButton->onClick.connect(sigc::mem_fun(this, &StationShipUpgradesView::GoBack));
+	backButton->onClick.connect(sigc::mem_fun(this, &StationShipUpgradesView::Close));
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
@@ -428,16 +263,16 @@ void StationShipUpgradesView::ShowAll()
 	portal->ShowAll();
 	fbox->ShowAll();
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
 
 ////////////////////////////////////////////////////////////////////
 
-class StationViewShipView: public StationSubView {
+class StationViewShipView: public GenericChatForm {
 public:
-	StationViewShipView(int flavour_idx): StationSubView() {
+	StationViewShipView(int flavour_idx): GenericChatForm() {
 		SpaceStation *station = Pi::player->GetDockedWith();
 		m_flavourIdx = flavour_idx;
 		m_flavour = station->GetShipsOnSale()[flavour_idx];
@@ -550,7 +385,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::GoBack));
+	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::Close));
 	Add(b,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 	
@@ -602,7 +437,7 @@ void StationViewShipView::ShowAll()
 	y+=YSEP;
 
 	//AddBaseDisplay();
-	//ADD_VIDEO_WIDGET;
+	//AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
@@ -610,7 +445,7 @@ void StationViewShipView::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
-class StationShipRepairsView: public StationSubView {
+class StationShipRepairsView: public GenericChatForm {
 public:
 	StationShipRepairsView();
 	virtual ~StationShipRepairsView() {
@@ -634,7 +469,7 @@ private:
 //	sigc::connection m_onShipsForSaleChangedConnection;
 };
 
-StationShipRepairsView::StationShipRepairsView(): StationSubView()
+StationShipRepairsView::StationShipRepairsView(): GenericChatForm()
 {
 }
 
@@ -649,7 +484,7 @@ void StationShipRepairsView::ShowAll()
 	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(this, &StationShipRepairsView::GoBack));
+	b->onClick.connect(sigc::mem_fun(this, &StationShipRepairsView::Close));
 	Add(b,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
@@ -688,7 +523,7 @@ void StationShipRepairsView::ShowAll()
 	fbox->Add((new Gui::Label("Repair"))->Color(col), 430, 0);
 	fbox->ShowAll();
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
@@ -696,7 +531,7 @@ void StationShipRepairsView::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
-class StationBuyShipsView: public StationSubView {
+class StationBuyShipsView: public GenericChatForm {
 public:
 	StationBuyShipsView();
 	virtual ~StationBuyShipsView() {
@@ -705,16 +540,12 @@ public:
 	virtual void ShowAll();
 private:
 	void ViewShip(int idx) {
-		HideChildren();
-		SetTransparency(true);
-		StationSubView *v = new StationViewShipView(idx);
-		Add(v, 0, 0);
-		v->ShowAll();
+		OpenChildChatForm(new StationViewShipView(idx));
 	}
 	sigc::connection m_onShipsForSaleChangedConnection;
 };
 
-StationBuyShipsView::StationBuyShipsView(): StationSubView()
+StationBuyShipsView::StationBuyShipsView(): GenericChatForm()
 {
 	SpaceStation *station = Pi::player->GetDockedWith();
 	m_onShipsForSaleChangedConnection = station->onShipsForSaleChanged.connect(
@@ -733,7 +564,7 @@ void StationBuyShipsView::ShowAll()
 	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(this, &StationBuyShipsView::GoBack));
+	b->onClick.connect(sigc::mem_fun(this, &StationBuyShipsView::Close));
 	Add(b,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
@@ -776,7 +607,7 @@ void StationBuyShipsView::ShowAll()
 	portal->ShowAll();
 	fbox->ShowAll();
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
@@ -784,35 +615,23 @@ void StationBuyShipsView::ShowAll()
 
 ////////////////////////////////////////////////////////////////////
 
-class StationShipyardView: public StationSubView {
+class StationShipyardView: public GenericChatForm {
 public:
 	StationShipyardView();
 	virtual void ShowAll();
 private:
 	void GotoUpgradesView() {
-		HideChildren();
-		SetTransparency(true);
-		StationSubView *v = new StationShipUpgradesView();
-		Add(v, 0, 0);
-		v->ShowAll();
+		OpenChildChatForm(new StationShipUpgradesView());
 	}
 	void GotoBuyShipsView() {
-		HideChildren();
-		SetTransparency(true);
-		StationSubView *v = new StationBuyShipsView();
-		Add(v, 0, 0);
-		v->ShowAll();
+		OpenChildChatForm(new StationBuyShipsView());
 	}
 	void GotoShipRepairsView() {
-		HideChildren();
-		SetTransparency(true);
-		StationSubView *v = new StationShipRepairsView();
-		Add(v, 0, 0);
-		v->ShowAll();
+		OpenChildChatForm(new StationShipRepairsView());
 	}
 };
 
-StationShipyardView::StationShipyardView(): StationSubView()
+StationShipyardView::StationShipyardView(): GenericChatForm()
 {
 	SetTransparency(false);
 }
@@ -827,7 +646,7 @@ void StationShipyardView::ShowAll()
 	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
 	
 	Gui::Button *backButton = new Gui::SolidButton();
-	backButton->onClick.connect(sigc::mem_fun(this, &StationShipyardView::GoBack));
+	backButton->onClick.connect(sigc::mem_fun(this, &StationShipyardView::Close));
 	Add(backButton,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
@@ -853,14 +672,14 @@ void StationShipyardView::ShowAll()
 	Add(l, 365, 360);
 	
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
 
 ////////////////////////////////////////////////////////////////////
 
-class StationBBView: public StationSubView {
+class StationBBView: public GenericChatForm {
 public:
 	StationBBView();
 	virtual ~StationBBView() {
@@ -872,7 +691,7 @@ private:
 	sigc::connection m_onBBChangedConnection;
 };
 
-StationBBView::StationBBView(): StationSubView()
+StationBBView::StationBBView(): GenericChatForm()
 {
 	SpaceStation *station = Pi::player->GetDockedWith();
 	m_onBBChangedConnection = station->onBulletinBoardChanged.connect(
@@ -882,18 +701,14 @@ StationBBView::StationBBView(): StationSubView()
 
 void StationBBView::OpenMission(int midx)
 {
-	DeleteAllChildren();
 	SpaceStation *station = Pi::player->GetDockedWith();
-	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
 	
 	GenericChatForm *chatform = new GenericChatForm();
+	chatform->AddBaseDisplay();
+	chatform->AddVideoWidget();
 	Mission *m = station->GetBBMissions()[midx];
 	m->StartChat(chatform);
-	OpenChatForm(chatform);
-		
-	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
-	Gui::Fixed::ShowAll();
+	OpenChildChatForm(chatform);
 }
 
 void StationBBView::ShowAll()
@@ -907,7 +722,7 @@ void StationBBView::ShowAll()
 	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
 	
 	Gui::Button *b = new Gui::SolidButton();
-	b->onClick.connect(sigc::mem_fun(this, &StationBBView::GoBack));
+	b->onClick.connect(sigc::mem_fun(this, &StationBBView::Close));
 	Add(b,680,470);
 	Add(new Gui::Label("Go back"), 700, 470);
 
@@ -942,14 +757,14 @@ void StationBBView::ShowAll()
 	portal->ShowAll();
 	fbox->ShowAll();
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
 
 /////////////////////////////////////////////////////////////////////
 
-class StationRootView: public StationSubView {
+class StationRootView: public GenericChatForm {
 public:
 	StationRootView() {}
 	virtual ~StationRootView() {}
@@ -1017,7 +832,7 @@ void StationRootView::ShowAll()
 	Add(l, 365, 420);
 
 	AddBaseDisplay();
-	ADD_VIDEO_WIDGET;
+	AddVideoWidget();
 
 	Gui::Fixed::ShowAll();
 }
@@ -1030,29 +845,17 @@ void StationRootView::OnClickRequestLaunch()
 
 void StationRootView::GotoCommodities()
 {
-	HideChildren();
-	SetTransparency(true);
-	StationSubView *v = new StationCommoditiesView();
-	Add(v, 0, 0);
-	v->ShowAll();
+	OpenChildChatForm(new StationCommoditiesView());
 }
 
 void StationRootView::GotoShipyard()
 {
-	HideChildren();
-	SetTransparency(true);
-	StationSubView *v = new StationShipyardView();
-	Add(v, 0, 0);
-	v->ShowAll();
+	OpenChildChatForm(new StationShipyardView());
 }
 
 void StationRootView::GotoBB()
 {
-	HideChildren();
-	SetTransparency(true);
-	StationSubView *v = new StationBBView();
-	Add(v, 0, 0);
-	v->ShowAll();
+	OpenChildChatForm(new StationBBView());
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -1068,17 +871,16 @@ void SpaceStationView::JumpTo(GenericChatForm *form)
 {
 	OnSwitchTo();
 
-	m_activeSubview->OpenChatForm(form);
+	m_baseSubView->OpenChildChatForm(form);
 }
 
 void SpaceStationView::OnSwitchTo()
 {
 	DeleteAllChildren();
 	SetTransparency(true);
-	StationSubView *v = new StationRootView();
-	Add(v, 0, 0);
-	v->ShowAll();
-	m_activeSubview = v;
+	m_baseSubView = new StationRootView();
+	Add(m_baseSubView, 0, 0);
+	m_baseSubView->ShowAll();
 }
 
 void SpaceStationView::Draw3D()

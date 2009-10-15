@@ -6,7 +6,6 @@
 #include "View.h"
 #include "GenericChatForm.h"
 
-class StationSubView;
 class StationViewShipView;
 
 class SpaceStationView: public View {
@@ -20,7 +19,7 @@ public:
 private:
 	// hack so StationViewShipView can draw its 3d shit
 	sigc::signal<void> onDraw3D;
-	StationSubView *m_activeSubview;
+	GenericChatForm *m_baseSubView;
 };
 
 #endif /* _SPACESTATIONVIEW_H */

@@ -68,7 +68,7 @@ void DonateToCranks::FormResponse(GenericChatForm *form, int resp)
 			Pi::cpan->SetTemporaryMessage(0, "Wow! That was very generous.");
 		else
 			Pi::cpan->SetTemporaryMessage(0, "Thankyou. All donations are welcome.");
-		form->onSomethingChanged.emit();
+		form->UpdateBaseDisplay();
 	}
 }
 

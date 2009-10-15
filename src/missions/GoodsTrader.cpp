@@ -52,12 +52,12 @@ void GoodsTrader::StartChat(GenericChatForm *form)
 	m_commodityTradeWidget = new CommodityTradeWidget(this);
 	m_commodityTradeWidget->onClickBuy.connect(sigc::bind(sigc::mem_fun(this, &GoodsTrader::OnClickBuy), form));
 	m_commodityTradeWidget->onClickSell.connect(sigc::bind(sigc::mem_fun(this, &GoodsTrader::OnClickSell), form));
-	form->Add(m_commodityTradeWidget, 0, 40);
+	form->m_chatRegion->Add(m_commodityTradeWidget, 0, 40);
 	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(form, &GenericChatForm::Close));
-	form->Add(b,0,300);
-	form->Add(new Gui::Label("Hang up"), 25, 300);
+	form->m_chatRegion->Add(b,0,300);
+	form->m_chatRegion->Add(new Gui::Label("Hang up"), 25, 300);
 	form->m_optregion->Hide();
 }
 
@@ -71,7 +71,7 @@ void GoodsTrader::OnClickBuy(int commodity_type, GenericChatForm *form) {
 void GoodsTrader::OnClickSell(int commodity_type, GenericChatForm *form) {
 	Pi::player->SellItemTo(this, (Equip::Type)commodity_type);
 	m_commodityTradeWidget->UpdateStock(commodity_type);
-	form->onSomethingChanged.emit();
+	form->UpdateBaseDisplay();
 }
 
 void GoodsTrader::FormResponse(GenericChatForm *form, int resp)
