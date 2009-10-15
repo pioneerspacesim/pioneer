@@ -131,6 +131,22 @@ private:
 	}
 };
 
+class PersonalPage: public InfoViewPage {
+public:
+	PersonalPage() {
+	};
+
+	virtual void UpdateInfo() {
+		Sint64 crime, fine;
+		Polit::GetCrime(&crime, &fine);
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
+		DeleteAllChildren();
+		Add(new Gui::Label("Criminal record:"), 40, 40);
+		Add(new Gui::Label(stringf(128, "0x%llx", crime)), 40, 40+YSEP);
+		ShowChildren();
+	}
+};
+
 class ShipInfoPage: public InfoViewPage {
 public:
 	ShipInfoPage() {
@@ -203,6 +219,10 @@ InfoView::InfoView(): View()
 	InfoViewPage *page = new ShipInfoPage();
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label("Ship Information"), page);
+
+	page = new PersonalPage();
+	m_pages.push_back(page);
+	m_tabs->AddPage(new Gui::Label("Reputation"), page);
 	
 	page = new CargoPage();
 	m_pages.push_back(page);

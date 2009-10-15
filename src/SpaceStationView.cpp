@@ -8,6 +8,7 @@
 #include "Mission.h"
 #include "CommodityTradeWidget.h"
 #include "GenericChatForm.h"
+#include "PoliceChatForm.h"
 
 ////////////////////////////////////////////////////////////////////
 
@@ -37,7 +38,7 @@ StationCommoditiesView::StationCommoditiesView(): GenericChatForm()
 
 void StationCommoditiesView::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 
 	m_station = Pi::player->GetDockedWith();
 	assert(m_station);
@@ -45,7 +46,7 @@ void StationCommoditiesView::ShowAll()
 	{
 		char buf[256];
 		snprintf(buf, sizeof(buf), "Welcome to %s commodities market", m_station->GetLabel().c_str());
-		Add(new Gui::Label(buf), 10, 10);
+		SetTitle(buf);
 	}
 
 	Gui::Button *backButton = new Gui::SolidButton();
@@ -108,7 +109,7 @@ private:
 
 void StationLaserPickMount::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 	SetTransparency(false);
 	
 	if (m_doFit) Add(new Gui::Label("Fit laser to which gun mount?"), 320, 200);
@@ -193,12 +194,12 @@ StationShipUpgradesView::StationShipUpgradesView(): GenericChatForm()
 
 void StationShipUpgradesView::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
-	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	SetTitle(stringf(256, "%s Shipyard", station->GetLabel().c_str()).c_str());
 	
 	Gui::Button *backButton = new Gui::SolidButton();
 	backButton->onClick.connect(sigc::mem_fun(this, &StationShipUpgradesView::Close));
@@ -378,11 +379,11 @@ void StationViewShipView::Draw3D()
 void StationViewShipView::ShowAll()
 {
 	const ShipType &t = ShipType::types[m_flavour.type];
-	DeleteAllChildren();
+	ReInit();
 
 	SetTransparency(true);
 	SpaceStation *station = Pi::player->GetDockedWith();
-	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	SetTitle(stringf(256, "%s Shipyard", station->GetLabel().c_str()).c_str());
 	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationViewShipView::Close));
@@ -475,13 +476,13 @@ StationShipRepairsView::StationShipRepairsView(): GenericChatForm()
 
 void StationShipRepairsView::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
 	
-	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	SetTitle(stringf(256, "%s Shipyard", station->GetLabel().c_str()).c_str());
 	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationShipRepairsView::Close));
@@ -555,13 +556,13 @@ StationBuyShipsView::StationBuyShipsView(): GenericChatForm()
 
 void StationBuyShipsView::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
 	
-	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	SetTitle(stringf(256, "%s Shipyard", station->GetLabel().c_str()).c_str());
 	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationBuyShipsView::Close));
@@ -638,12 +639,12 @@ StationShipyardView::StationShipyardView(): GenericChatForm()
 
 void StationShipyardView::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
-	Add(new Gui::Label(station->GetLabel() + " Shipyard"), 10, 10);
+	SetTitle(stringf(256, "%s Shipyard", station->GetLabel().c_str()).c_str());
 	
 	Gui::Button *backButton = new Gui::SolidButton();
 	backButton->onClick.connect(sigc::mem_fun(this, &StationShipyardView::Close));
@@ -713,13 +714,13 @@ void StationBBView::OpenMission(int midx)
 
 void StationBBView::ShowAll()
 {
-	DeleteAllChildren();
+	ReInit();
 
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	SetTransparency(false);
 	
-	Add(new Gui::Label(station->GetLabel() + " Bulletin Board"), 10, 10);
+	SetTitle((station->GetLabel() + " Bulletin Board").c_str());
 	
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationBBView::Close));
@@ -773,6 +774,7 @@ private:
 	void GotoShipyard();
 	void GotoCommodities();
 	void GotoBB();
+	void GotoPolis();
 	void OnClickRequestLaunch();
 };
 
@@ -780,13 +782,13 @@ void StationRootView::ShowAll()
 {
 
 	SetTransparency(false);
-	DeleteAllChildren();
+	ReInit();
 	SpaceStation *station = Pi::player->GetDockedWith();
 	assert(station);
 	{
 		char buf[256];
 		snprintf(buf, sizeof(buf), "Welcome to %s", station->GetLabel().c_str());
-		Add(new Gui::Label(buf), 10, 10);
+		SetTitle(buf);
 	}
 	Gui::Label *l = new Gui::Label("Hello friend! Thankyou for docking with this space station!\n"
 	"We regret to inform you that due to a spacetime fissure you have "
@@ -806,30 +808,37 @@ void StationRootView::ShowAll()
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationRootView::OnClickRequestLaunch));
-	Add(b, 340, 240);
+	Add(b, 340, 220);
 	l = new Gui::Label("Request Launch");
-	Add(l, 365, 240);
+	Add(l, 365, 220);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoShipyard));
-	Add(b, 340, 300);
+	Add(b, 340, 280);
 	l = new Gui::Label("Shipyard");
-	Add(l, 365, 300);
+	Add(l, 365, 280);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_3, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoCommodities));
-	Add(b, 340, 360);
+	Add(b, 340, 340);
 	l = new Gui::Label("Commodity market");
-	Add(l, 365, 360);
+	Add(l, 365, 340);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_4, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoBB));
-	Add(b, 340, 420);
+	Add(b, 340, 400);
 	l = new Gui::Label("Bulletin board");
-	Add(l, 365, 420);
+	Add(l, 365, 400);
+
+	b = new Gui::SolidButton();
+	b->SetShortcut(SDLK_5, KMOD_NONE);
+	b->onClick.connect(sigc::mem_fun(this, &StationRootView::GotoPolis));
+	Add(b, 340, 460);
+	l = new Gui::Label("Contact local police");
+	Add(l, 365, 460);
 
 	AddBaseDisplay();
 	AddVideoWidget();
@@ -856,6 +865,11 @@ void StationRootView::GotoShipyard()
 void StationRootView::GotoBB()
 {
 	OpenChildChatForm(new StationBBView());
+}
+
+void StationRootView::GotoPolis()
+{
+	OpenChildChatForm(new PoliceChatForm());
 }
 
 /////////////////////////////////////////////////////////////////////

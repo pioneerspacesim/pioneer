@@ -2,6 +2,7 @@
 #include "GoodsTrader.h"
 #include "../Serializer.h"
 #include "../Pi.h"
+#include "../Polit.h"
 #include "../Player.h"
 #include "../ShipCpanel.h"
 #include "../NameGenerator.h"
@@ -66,6 +67,7 @@ void GoodsTrader::OnClickBuy(int commodity_type, GenericChatForm *form) {
 //	m_commodityTradeWidget->UpdateStock(commodity_type);
 //	form->onSomethingChanged.emit();
 	//form->Close();
+	Polit::AddCrime(Polit::CRIME_TRADING_ILLEGAL_GOODS, 1000);
 	Pi::spaceStationView->JumpTo(new PoliceChatForm);
 }
 void GoodsTrader::OnClickSell(int commodity_type, GenericChatForm *form) {

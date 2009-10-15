@@ -6,6 +6,9 @@
 class StarSystem;
 
 namespace Polit {
+	enum Crime {
+		CRIME_TRADING_ILLEGAL_GOODS = (1<<0)
+	};
 
 	enum Alignment {
 		POL_INVALID,
@@ -17,8 +20,11 @@ namespace Polit {
 	Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness);
 	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
 	void Init();
-
-	extern const char * const desc[];
+	void Serialize();
+	void Unserialize();
+	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
+	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
+	const char *GetDesc(StarSystem *s);
 }
 
 #endif /* _POLIT_H */

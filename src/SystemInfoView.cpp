@@ -226,7 +226,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, psize);
 	}
 	
-	std::string _info = stringf(512, "Stable system with %d major bodies.  %s\n\n", majorBodies, Polit::desc[m_system->GetPoliticalType()])
+	std::string _info = stringf(512, "Stable system with %d major bodies.  %s\n\n", majorBodies, Polit::GetDesc(m_system))
 			+ std::string(s->GetLongDescription());
 	
 	{

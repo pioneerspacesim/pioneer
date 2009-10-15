@@ -167,11 +167,19 @@ void GenericChatForm::OpenChildChatForm(GenericChatForm *form)
 
 GenericChatForm::GenericChatForm(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64))
 {
+	ReInit();
+}
+
+void GenericChatForm::ReInit()
+{
+	DeleteAllChildren();
 	m_legalstatus = 0;
 	m_money = 0;
 	m_cargoSpaceUsed = 0;
 	m_cargoSpaceFree = 0;
 	m_equipmentMass = 0;
+	m_titleLabel = new Gui::Label("");
+	Add(m_titleLabel, 10, 10);
 
 	SetTransparency(false);
 	m_chatRegion = new Gui::Fixed(470, 400);
@@ -185,8 +193,12 @@ GenericChatForm::GenericChatForm(): Gui::Fixed((float)Gui::Screen::GetWidth(), (
 	m_chatRegion->Add(m_optregion, 0, 150);
 	m_msgregion->Show();
 	m_optregion->Show();
-	hasOpts = false;
 	Clear();
+}
+
+void GenericChatForm::SetTitle(const char *title)
+{
+	m_titleLabel->SetText(title);
 }
 
 void GenericChatForm::Clear()

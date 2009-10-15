@@ -164,11 +164,12 @@ public:
 	static void Serialize(StarSystem *);
 	static StarSystem *Unserialize();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	int SectorX() const { return m_secx; }
-	int SectorY() const { return m_secy; }
-	int SystemIdx() const { return m_sysIdx; }
+	int SectorX() const { return m_loc.sectorX; }
+	int SectorY() const { return m_loc.sectorY; }
+	int SystemIdx() const { return m_loc.systemIdx; }
+	const SysLoc &GetLocation() const { return m_loc; }
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
-		*sec_x = m_secx; *sec_y = m_secy; *sys_idx = m_sysIdx;
+		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemIdx;
 	}
 	const std::string &GetShortDescription() const { return m_shortDesc; }
 	const std::string &GetLongDescription() const { return m_longDesc; }
@@ -212,7 +213,7 @@ private:
 	void GenerateFromCustom(const CustomSystem *);
 	void Populate(bool addSpaceStations);
 
-	int m_secx, m_secy, m_sysIdx;
+	SysLoc m_loc;
 	int m_numStars;
 	std::string m_shortDesc, m_longDesc;
 	Polit::Alignment m_polit;

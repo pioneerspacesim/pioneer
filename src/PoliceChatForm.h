@@ -8,7 +8,7 @@ class PoliceChatForm: public GenericChatForm {
 public:
 	PoliceChatForm();
 private:
-	void HangUp(GenericChatForm *form, int val);
+	void Action(GenericChatForm *form, int val);
 };
 
 #endif /* _POLICECHATFORM_H */

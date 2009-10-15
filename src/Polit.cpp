@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "Pi.h"
 #include "Polit.h"
 #include "StarSystem.h"
 #include "Sector.h"
@@ -8,18 +9,96 @@
 
 namespace Polit {
 
-static PersistSystemData<Sint64> g_criminalRecord;
+static PersistSystemData<Sint64> s_criminalRecord;
+static PersistSystemData<Sint64> s_outstandingFine;
 
-const char * const desc[POL_MAX] = {
-	"<invalid turd>",
-	"No central governance.",
-	"Member of the Earth Federation.",
-	"Member of the Confederation of Independent Systems.",
+struct crime_t {
+	Sint64 record;
+	Sint64 fine;
+} s_playerPerPolitCrimeRecord[POL_MAX];
+
+struct politDesc_t {
+	const char *description;
+	/* Is this type a union (earth fed, etc), or merely a category
+	 * with independent instances (ie each system has own justice system
+	 * and therefore criminal record database) */
+	bool politUnified;
+};
+
+const politDesc_t s_politTypes[POL_MAX] = {
+	{ "<invalid turd>", 0 },
+	{ "No central governance.", 0 },
+	{ "Member of the Earth Federation.", 1 },
+	{ "Member of the Confederation of Independent Systems.", 1 }
 };
 
 void Init()
 {
-	g_criminalRecord.Clear();
+	s_criminalRecord.Clear();
+	s_outstandingFine.Clear();
+	memset(s_playerPerPolitCrimeRecord, 0, sizeof(crime_t)*POL_MAX);
+}
+
+void Serialize()
+{
+	using namespace Serializer::Write;
+	s_criminalRecord.Serialize();
+	s_outstandingFine.Serialize();
+	for (int i=0; i<POL_MAX; i++) {
+		wr_int64(s_playerPerPolitCrimeRecord[i].record);
+		wr_int64(s_playerPerPolitCrimeRecord[i].fine);
+	}
+}
+
+void Unserialize()
+{
+	using namespace Serializer::Read;
+	Init();
+	if (Serializer::Read::IsOlderThan(5)) {
+
+	} else {
+		PersistSystemData<Sint64>::Unserialize(&s_criminalRecord);
+		PersistSystemData<Sint64>::Unserialize(&s_outstandingFine);
+		for (int i=0; i<POL_MAX; i++) {
+			s_playerPerPolitCrimeRecord[i].record = rd_int64();
+			s_playerPerPolitCrimeRecord[i].fine = rd_int64();
+		}
+	}
+}
+
+void AddCrime(Sint64 crimeBitset, Sint64 addFine)
+{
+	int politType = Pi::currentSystem->GetPoliticalType();
+
+	if (s_politTypes[politType].politUnified) {
+		s_playerPerPolitCrimeRecord[politType].record |= crimeBitset;
+		s_playerPerPolitCrimeRecord[politType].fine += addFine;
+	} else {
+		SysLoc loc = Pi::currentSystem->GetLocation();
+		Sint64 record = s_criminalRecord.Get(loc, 0);
+		record |= crimeBitset;
+		s_criminalRecord.Set(loc, crimeBitset);
+		s_outstandingFine.Set(loc, s_outstandingFine.Get(loc, 0) + addFine);
+	}
+}
+
+void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
+{
+	int politType = Pi::currentSystem->GetPoliticalType();
+
+	if (s_politTypes[politType].politUnified) {
+		*crimeBitset = s_playerPerPolitCrimeRecord[politType].record;
+		*fine = s_playerPerPolitCrimeRecord[politType].fine;
+	} else {
+		SysLoc loc = Pi::currentSystem->GetLocation();
+		*crimeBitset = s_criminalRecord.Get(loc, 0);
+		*fine = s_outstandingFine.Get(loc, 0);
+	}
+}
+
+const char *GetDesc(StarSystem *s)
+{
+	return s_politTypes[s->GetPoliticalType()].description;
 }
 
 Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness)

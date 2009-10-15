@@ -396,8 +396,8 @@ bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest)
 
 SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
 {
-	assert((m_secx == path->sectorX) || (m_secy == path->sectorY) ||
-	       (m_sysIdx == path->systemIdx));
+	assert((m_loc.sectorX == path->sectorX) || (m_loc.sectorY == path->sectorY) ||
+	       (m_loc.systemIdx == path->systemIdx));
 
 	SBody *body = rootBody;
 	for (int i=0; i<SBODYPATHLEN; i++) {
@@ -434,9 +434,9 @@ void StarSystem::GetPathOf(const SBody *sbody, SBodyPath *path) const
 		}
 		assert(found);
 	}
-	path->sectorX = m_secx;
-	path->sectorY = m_secy;
-	path->systemIdx = m_sysIdx;
+	path->sectorX = m_loc.sectorX;
+	path->sectorY = m_loc.sectorY;
+	path->systemIdx = m_loc.systemIdx;
 }
 
 /*
@@ -598,9 +598,9 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 {
 	unsigned long _init[5] = { system_idx, sector_x, sector_y, UNIVERSE_SEED, 0 };
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
-	m_secx = sector_x;
-	m_secy = sector_y;
-	m_sysIdx = system_idx;
+	m_loc.sectorX = sector_x;
+	m_loc.sectorY = sector_y;
+	m_loc.systemIdx = system_idx;
 	rootBody = 0;
 	if (system_idx == -1) return;
 
@@ -1032,7 +1032,7 @@ void StarSystem::MakeShortDescription()
 
 	/* Total population is in billions */
 	if (m_totalPop == 0) {
-		int dist = isqrt(1 + m_secx*m_secx + m_secy*m_secy);
+		int dist = isqrt(1 + m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY);
 		if (rand.Int32(dist) > 20) {
 			m_shortDesc = "Unexplored system.";
 		} else {
@@ -1070,12 +1070,12 @@ void StarSystem::MakeShortDescription()
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_sysIdx, m_secx, m_secy, UNIVERSE_SEED };
+	unsigned long _init[5] = { m_loc.systemIdx, m_loc.sectorX, m_loc.sectorY, UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 4);
 
 	/* Various system-wide characteristics */
-	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_secx*m_secx + m_secy*m_secy));
+	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY));
 	m_metallicity = rand.Fixed();
 	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
 	m_techlevel = CLAMP(m_techlevel, 1, 5);
@@ -1124,8 +1124,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateStage1(system, outTotalPop);
 	}
-	unsigned long _init[5] = { system->m_sysIdx, system->m_secx,
-			system->m_secy, UNIVERSE_SEED, this->seed };
+	unsigned long _init[5] = { system->m_loc.systemIdx, system->m_loc.sectorX,
+			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
 	MTRand rand;
 	rand.seed(_init, 5);
 
@@ -1233,8 +1233,8 @@ void SBody::PopulateAddStations(StarSystem *system)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateAddStations(system);
 	}
-	unsigned long _init[5] = { system->m_sysIdx, system->m_secx,
-			system->m_secy, this->seed, UNIVERSE_SEED };
+	unsigned long _init[5] = { system->m_loc.systemIdx, system->m_loc.sectorX,
+			system->m_loc.sectorY, this->seed, UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 5);
 
@@ -1310,7 +1310,7 @@ StarSystem::~StarSystem()
 
 bool StarSystem::IsSystem(int sector_x, int sector_y, int system_idx)
 {
-	return (sector_x == m_secx) && (sector_y == m_secy) && (system_idx == m_sysIdx);
+	return (sector_x == m_loc.sectorX) && (sector_y == m_loc.sectorY) && (system_idx == m_loc.systemIdx);
 }
 
 SBody::~SBody()
@@ -1325,9 +1325,9 @@ void StarSystem::Serialize(StarSystem *s)
 	using namespace Serializer::Write;
 	if (s) {
 		wr_byte(1);
-		wr_int(s->m_secx);
-		wr_int(s->m_secy);
-		wr_int(s->m_sysIdx);
+		wr_int(s->m_loc.sectorX);
+		wr_int(s->m_loc.sectorY);
+		wr_int(s->m_loc.systemIdx);
 	} else {
 		wr_byte(0);
 	}

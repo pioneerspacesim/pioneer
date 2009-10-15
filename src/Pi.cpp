@@ -238,6 +238,14 @@ void Pi::HandleEvents()
 						Shader::ToggleState();
 					}
 					if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
+					if (event.key.keysym.sym == SDLK_p) {
+						Sint64 crime, fine;
+						Polit::GetCrime(&crime, &fine);
+						printf("Criminal record: %llx, $%lld\n", crime, fine);
+						Polit::AddCrime(0x1, 100);
+						Polit::GetCrime(&crime, &fine);
+						printf("Criminal record now: %llx, $%lld\n", crime, fine);
+					}
 					if (event.key.keysym.sym == SDLK_PRINT) {
 						char buf[256];
 						const time_t t = time(0);
@@ -728,6 +736,7 @@ void Pi::Serialize()
 	wr_double(gameTime);
 	StarSystem::Serialize(currentSystem);
 	Space::Serialize();
+	Polit::Serialize();
 	sectorView->Save();
 	worldView->Save();
 }
@@ -748,6 +757,7 @@ void Pi::Unserialize()
 		Pi::player = 0;
 	}
 	Space::Unserialize();
+	Polit::Unserialize();
 	sectorView->Load();
 	worldView->Load();
 }

@@ -10,6 +10,8 @@ public:
 	virtual ~GenericChatForm() {}
 	void Close();
 	void Clear();
+	void ReInit();
+	void SetTitle(const char *title);
 	void AddBaseDisplay();
 	void AddVideoWidget();
 	void UpdateBaseDisplay();
@@ -28,6 +30,7 @@ private:
 	Gui::Label *m_cargoSpaceUsed;
 	Gui::Label *m_cargoSpaceFree;
 	Gui::Label *m_equipmentMass;
+	Gui::Label *m_titleLabel;
 };	
 
 #endif /* _GENERICCHATFORM_H */

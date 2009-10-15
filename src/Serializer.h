@@ -35,6 +35,11 @@ namespace Serializer {
 		void wr_cstring(const char* s);
 		void wr_string(const std::string &s);
 		void wr_vector3d(vector3d vec);
+		
+		void wr_auto(Sint32 x);
+		void wr_auto(Sint64 x);
+		void wr_auto(float x);
+		void wr_auto(double x);
 	}
 
 	namespace Read {
@@ -51,6 +56,11 @@ namespace Serializer {
 		char* rd_cstring();
 		void rd_cstring2(char *buf, int len);
 		vector3d rd_vector3d();
+	
+		void rd_auto(Sint32 *x);
+		void rd_auto(Sint64 *x);
+		void rd_auto(float *x);
+		void rd_auto(double *x);
 	}
 
 }
