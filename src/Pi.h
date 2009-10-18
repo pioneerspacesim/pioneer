@@ -20,6 +20,7 @@ class StarSystem;
 class SpaceStationView;
 class InfoView;
 class SpaceStation;
+class GalacticView;
 struct SBodyPath;
 
 class IniConfig: private std::map<std::string, std::string> {
@@ -93,6 +94,7 @@ public:
 	static bool showDebugInfo;
 	static Player *player;
 	static SectorView *sectorView;
+	static GalacticView *galacticView;
 	static SystemInfoView *systemInfoView;
 	static WorldView *worldView;
 	static ObjectViewerView *objectViewerView;

@@ -1,6 +1,7 @@
 #include "Sector.h"
 #include "StarSystem.h"
 #include "custom_starsystems.h"
+#include "Galaxy.h"
 
 #define SYS_NAME_FRAGS	32
 static const char *sys_names[SYS_NAME_FRAGS] =
@@ -48,7 +49,7 @@ Sector::Sector(int x, int y)
 		// custom sector
 
 	} else {
-		int numSystems = rng.Int32(3,6);
+		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s;

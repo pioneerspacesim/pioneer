@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Serializer.h"
 #include "StarSystem.h"
+#include "GalacticView.h"
 		
 SectorView::SectorView(): GenericSystemView()
 {
@@ -35,6 +36,12 @@ SectorView::SectorView(): GenericSystemView()
 	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
 	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
+
+	m_galaxyButton = new Gui::ImageButton("icons/galaxy_f8.png");
+	m_galaxyButton->SetShortcut(SDLK_F8, KMOD_NONE);
+	m_galaxyButton->SetToolTip("Galactic view");
+	m_galaxyButton->onClick.connect(sigc::mem_fun(this, &SectorView::OnClickGalacticView));
+	m_rightButtonBar->Add(m_galaxyButton, 98, 2);
 
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
@@ -71,6 +78,11 @@ void SectorView::Load()
 	m_py = m_pyMovingTo = rd_float();
 	m_rot_x = rd_float();
 	m_rot_z = rd_float();
+}
+
+void SectorView::OnClickGalacticView()
+{
+	Pi::SetView(Pi::galacticView);
 }
 
 void SectorView::OnClickSystemInfo()
@@ -236,11 +248,14 @@ void SectorView::DrawSector(int sx, int sy)
 void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
+
+	float moveSpeed = 1.0;
+	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 	
-	if (Pi::KeyState(SDLK_LEFT)) m_pxMovingTo -= 1*frameTime;
-	if (Pi::KeyState(SDLK_RIGHT)) m_pxMovingTo += 1*frameTime;
-	if (Pi::KeyState(SDLK_UP)) m_pyMovingTo += 1*frameTime;
-	if (Pi::KeyState(SDLK_DOWN)) m_pyMovingTo -= 1*frameTime;
+	if (Pi::KeyState(SDLK_LEFT)) m_pxMovingTo -= moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_RIGHT)) m_pxMovingTo += moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_UP)) m_pyMovingTo += moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_DOWN)) m_pyMovingTo -= moveSpeed*frameTime;
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);

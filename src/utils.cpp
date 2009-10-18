@@ -126,7 +126,7 @@ std::string join_path(const char *firstbit, ...)
 	va_list ap;
 	std::string out = firstbit;
 	va_start(ap, firstbit);
-	while (bit = va_arg(ap, const char *)) {
+	while ((bit = va_arg(ap, const char *))) {
 		out = out + PATH_SEP + std::string(bit);
 	}
 	va_end(ap);

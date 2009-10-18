@@ -22,6 +22,7 @@ private:
 	void GetTransformTo(SBody *b, vector3d &pos);
 	void OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev);
 	void OnClickAccel(float step);
+	void OnClickGalacticView();
 	void ResetViewpoint();
 
 	StarSystem *m_system;
@@ -32,6 +33,7 @@ private:
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
+	Gui::ImageButton *m_galaxyButton;
 	Gui::Label *m_timePoint;
 };
 

@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "SectorView.h"
 #include "StarSystem.h"
+#include "GalacticView.h"
 
 SystemView::SystemView(): View()
 {
@@ -20,6 +21,12 @@ SystemView::SystemView(): View()
 	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
 	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
+
+	m_galaxyButton = new Gui::ImageButton("icons/galaxy_f8.png");
+	m_galaxyButton->SetShortcut(SDLK_F8, KMOD_NONE);
+	m_galaxyButton->SetToolTip("Galactic view");
+	m_galaxyButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnClickGalacticView));
+	m_rightButtonBar->Add(m_galaxyButton, 98, 2);
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.0));
@@ -56,6 +63,11 @@ SystemView::SystemView(): View()
 
 SystemView::~SystemView()
 {
+}
+
+void SystemView::OnClickGalacticView()
+{
+	Pi::SetView(Pi::galacticView);
 }
 
 void SystemView::OnClickAccel(float step)

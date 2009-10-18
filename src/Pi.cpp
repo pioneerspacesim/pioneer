@@ -24,6 +24,8 @@
 #include "Shader.h"
 #include "Sound.h"
 #include "Polit.h"
+#include "GalacticView.h"
+#include "Galaxy.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -52,6 +54,7 @@ ObjectViewerView *Pi::objectViewerView;
 SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
 SectorView *Pi::sectorView;
+GalacticView *Pi::galacticView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
@@ -120,6 +123,7 @@ void Pi::Init(IniConfig &config)
 	Pi::rng.seed(time(NULL));
 
 	sbreCompilerLoadModels();
+	Galaxy::Init();
 	NameGenerator::Init();
 	InitOpenGL();
 	if (config.Int("UseVertexShaders")) Shader::Init();
@@ -415,6 +419,7 @@ void Pi::Start()
 	
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
+	galacticView = new GalacticView();
 	systemView = new SystemView();
 	systemInfoView = new SystemInfoView();
 	worldView = new WorldView();
