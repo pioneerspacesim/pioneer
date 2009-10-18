@@ -168,14 +168,14 @@ public:
 	int SectorY() const { return m_loc.sectorY; }
 	int SystemIdx() const { return m_loc.systemIdx; }
 	const SysLoc &GetLocation() const { return m_loc; }
-	void GetPos(int *sec_x, int *sec_y, int *sys_idx) {
+	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
 		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemIdx;
 	}
 	const std::string &GetShortDescription() const { return m_shortDesc; }
 	const std::string &GetLongDescription() const { return m_longDesc; }
 	int GetNumStars() const { return m_numStars; }
 	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
-	Polit::Alignment GetPoliticalType() const { return m_polit; }
+	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -203,22 +203,20 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
-	void MakeShortDescription();
-	void MakePlanetsAround(SBody *primary);
+	void MakeShortDescription(MTRand &rand);
+	void MakePlanetsAround(SBody *primary, MTRand &rand);
 	void MakeRandomStar(SBody *sbody, MTRand &rand);
 	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
 	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx, int *outHumanInfestedness);
-	void GenerateFromCustom(const CustomSystem *);
+	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx, int *outHumanInfestedness, MTRand &rand);
+	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 
 	SysLoc m_loc;
 	int m_numStars;
 	std::string m_shortDesc, m_longDesc;
-	Polit::Alignment m_polit;
-
-	MTRand rand;
+	SysPolit m_polit;
 };
 	
 #endif /* _STARSYSTEM_H */

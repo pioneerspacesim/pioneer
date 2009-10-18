@@ -53,9 +53,15 @@ static void spawn_random_pirate(int power, Ship *victim)
 
 void SpawnPiratesOnHyperspace()
 {
-	if (Pi::rng.Int32(3)==0) {
-		int num_pirates = Pi::rng.Int32(4);
-		while (num_pirates--) spawn_random_pirate(Pi::rng.Int32(1,3), Pi::player);
-	}
+	fixed lawlessness = Pi::currentSystem->GetSysPolit().lawlessness;
+
+	
+//	if (Pi::rng.Int32(3)==0) {
+		int max_pirates = 4;
+		while (max_pirates--) {
+			if (Pi::rng.Fixed() > lawlessness) break;
+			spawn_random_pirate(Pi::rng.Int32(1,3), Pi::player);
+		}
+//	}
 }
 

@@ -451,7 +451,7 @@ struct CustomSBody {
 	fixed eccentricity;
 };
 */
-void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx, int *outHumanInfestedness)
+void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx, int *outHumanInfestedness, MTRand &rand)
 {
 	const CustomSBody *c = customDef;
 	for (int i=0; c->name; c++, i++) {
@@ -490,11 +490,11 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
 		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
 
-		CustomGetKidsOf(kid, customDef, i, outHumanInfestedness);
+		CustomGetKidsOf(kid, customDef, i, outHumanInfestedness, rand);
 	}
 }
 
-void StarSystem::GenerateFromCustom(const CustomSystem *customSys)
+void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 {
 	// find primary
 	const CustomSBody *csbody = customSys->sbodies;
@@ -514,7 +514,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys)
 	rootBody->name = csbody->name;
 	
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody, customSys->sbodies, idx, &humanInfestedness);
+	CustomGetKidsOf(rootBody, customSys->sbodies, idx, &humanInfestedness, rand);
 	Populate(false);
 
 }
@@ -606,6 +606,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 
 	Sector s = Sector(sector_x, sector_y);
 	_init[4] = s.m_systems[system_idx].seed;
+	MTRand rand;
 	rand.seed(_init, 5);
 
 	if (s.m_systems[system_idx].customSys) {
@@ -613,7 +614,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		if (custom->shortDesc) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc) m_longDesc = custom->longDesc;
 		if (custom->sbodies) {
-			GenerateFromCustom(s.m_systems[system_idx].customSys);
+			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
 			Populate(false);
 			return;
 		}
@@ -716,10 +717,10 @@ try_that_again_guvnah:
 		}
 	}
 
-	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i]);
+	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
-	if (m_numStars > 1) MakePlanetsAround(centGrav1);
-	if (m_numStars == 4) MakePlanetsAround(centGrav2);
+	if (m_numStars > 1) MakePlanetsAround(centGrav1, rand);
+	if (m_numStars == 4) MakePlanetsAround(centGrav2, rand);
 
 	Populate(true);
 }
@@ -781,7 +782,7 @@ static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax)
 	return primary->GetMassInEarths() * fixed(2,100) / total;
 }
 
-void StarSystem::MakePlanetsAround(SBody *primary)
+void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 {
 	fixed discMin = fixed(0);
 	fixed discMax = fixed(5000,1);
@@ -892,7 +893,7 @@ void StarSystem::MakePlanetsAround(SBody *primary)
 		}
 		(*i)->name = primary->name+buf;
 		(*i)->PickPlanetType(this, rand);
-		if (make_moons) MakePlanetsAround(*i);
+		if (make_moons) MakePlanetsAround(*i, rand);
 		idx++;
 	}
 }
@@ -1019,7 +1020,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	radius = fixed(bodyTypeInfo[type].radius, 100);
 }
 
-void StarSystem::MakeShortDescription()
+void StarSystem::MakeShortDescription(MTRand &rand)
 {
 	m_econType = 0;
 	if ((m_industrial > m_metallicity) && (m_industrial > m_agricultural)) {
@@ -1107,13 +1108,13 @@ void StarSystem::Populate(bool addSpaceStations)
 		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 	}
 	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
-	m_polit = Polit::GetAlignmentForStarSystem(this, m_totalPop);
+	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
 	if (addSpaceStations) {
 		rootBody->PopulateAddStations(this);
 	}
 
-	MakeShortDescription();
+	MakeShortDescription(rand);
 }
 
 /*

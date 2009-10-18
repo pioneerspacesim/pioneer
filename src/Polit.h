@@ -4,27 +4,69 @@
 #include "EquipType.h"
 
 class StarSystem;
+class SysPolit;
 
 namespace Polit {
 	enum Crime {
 		CRIME_TRADING_ILLEGAL_GOODS = (1<<0)
 	};
 
-	enum Alignment {
-		POL_INVALID,
-		POL_NONE,
-		POL_EARTH,
-		POL_CONFED,
-		POL_MAX
+	enum Bloc {
+		BLOC_NONE,
+		BLOC_EARTHFED,
+		BLOC_CIS,
+		BLOC_MAX
 	};
-	Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness);
+
+	enum EconType {
+		ECON_NONE,
+		ECON_VERY_CAPITALIST,
+		ECON_CAPITALIST,
+		ECON_MIXED,
+		ECON_PLANNED,
+		ECON_MAX
+	};
+
+	enum GovType {
+		GOV_INVALID,
+		GOV_NONE,
+		GOV_EARTHCOLONIAL,
+		GOV_EARTHDEMOC,
+		GOV_CISLIBDEM,
+		GOV_CISSOCDEM,
+		GOV_LIBDEM,
+		GOV_CORPORATE,
+		GOV_SOCDEM,
+		GOV_EARTHMILDICT,
+		GOV_MILDICT1,
+		GOV_MILDICT2,
+		GOV_COMMUNIST,
+		GOV_PLUTOCRATIC,
+		GOV_DISORDER,
+		GOV_MAX,
+		GOV_RAND_MIN = GOV_NONE+1,
+		GOV_RAND_MAX = GOV_MAX-1
+	};
+
+	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
 	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
 	void Init();
 	void Serialize();
 	void Unserialize();
 	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
 	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
-	const char *GetDesc(StarSystem *s);
+	/* XXX Why the hell aren't these methods on StarSystem class? */
+	const char *GetGovernmentDesc(StarSystem *s);
+	const char *GetEconomicDesc(StarSystem *s);
+	const char *GetAllegianceDesc(StarSystem *s);
+
+	extern const char *crimeNames[64];
 }
+
+class SysPolit {
+public:
+	Polit::GovType govType;
+	fixed lawlessness;
+};
 
 #endif /* _POLIT_H */

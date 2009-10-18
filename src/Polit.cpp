@@ -11,32 +11,58 @@ namespace Polit {
 
 static PersistSystemData<Sint64> s_criminalRecord;
 static PersistSystemData<Sint64> s_outstandingFine;
-
 struct crime_t {
 	Sint64 record;
 	Sint64 fine;
-} s_playerPerPolitCrimeRecord[POL_MAX];
+} s_playerPerBlocCrimeRecord[BLOC_MAX];
+
+const char *crimeNames[64] = {
+	"Trading illegal goods"
+};
+const char *s_blocDesc[BLOC_MAX] = {
+	"Independent",
+	"Earth Federation",
+	"Confederation of Independent Systems"
+};
+const char *s_econDesc[ECON_MAX] = {
+	"No established order",
+	"Entirely Capitalist - no government welfare provision",
+	"Capitalist",
+	"Mixed economy",
+	"Centrally planned economy"
+};
 
 struct politDesc_t {
 	const char *description;
-	/* Is this type a union (earth fed, etc), or merely a category
-	 * with independent instances (ie each system has own justice system
-	 * and therefore criminal record database) */
-	bool politUnified;
+	int minTechLevel;
+	int rarity;
+	Bloc bloc;
+	EconType econ;
+	fixed baseLawlessness;
 };
-
-const politDesc_t s_politTypes[POL_MAX] = {
-	{ "<invalid turd>", 0 },
-	{ "No central governance.", 0 },
-	{ "Member of the Earth Federation.", 1 },
-	{ "Member of the Confederation of Independent Systems.", 1 }
+const politDesc_t s_govDesc[GOV_MAX] = {
+	{ "<invalid turd>" },
+	{ "No central governance", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
+	{ "Earth Federation Colonial Rule", 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
+	{ "Earth Federation Democracy", 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
+	{ "Liberal democracy", 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
+	{ "Social democracy", 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
+	{ "Liberal democracy", 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ "Corporate system", 1, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
+	{ "Social democracy", 3, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ "Military dictatorship", 1, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
+	{ "Military dictatorship", 1, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ "Military dictatorship", 1, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ "Communist", 1, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
+	{ "Plutocratic dictatorship", 1, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
+	{ "Disorder - Overall governance contested by armed factions", 0, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
 };
 
 void Init()
 {
 	s_criminalRecord.Clear();
 	s_outstandingFine.Clear();
-	memset(s_playerPerPolitCrimeRecord, 0, sizeof(crime_t)*POL_MAX);
+	memset(s_playerPerBlocCrimeRecord, 0, sizeof(crime_t)*BLOC_MAX);
 }
 
 void Serialize()
@@ -44,9 +70,9 @@ void Serialize()
 	using namespace Serializer::Write;
 	s_criminalRecord.Serialize();
 	s_outstandingFine.Serialize();
-	for (int i=0; i<POL_MAX; i++) {
-		wr_int64(s_playerPerPolitCrimeRecord[i].record);
-		wr_int64(s_playerPerPolitCrimeRecord[i].fine);
+	for (int i=0; i<BLOC_MAX; i++) {
+		wr_int64(s_playerPerBlocCrimeRecord[i].record);
+		wr_int64(s_playerPerBlocCrimeRecord[i].fine);
 	}
 }
 
@@ -59,20 +85,21 @@ void Unserialize()
 	} else {
 		PersistSystemData<Sint64>::Unserialize(&s_criminalRecord);
 		PersistSystemData<Sint64>::Unserialize(&s_outstandingFine);
-		for (int i=0; i<POL_MAX; i++) {
-			s_playerPerPolitCrimeRecord[i].record = rd_int64();
-			s_playerPerPolitCrimeRecord[i].fine = rd_int64();
+		for (int i=0; i<BLOC_MAX; i++) {
+			s_playerPerBlocCrimeRecord[i].record = rd_int64();
+			s_playerPerBlocCrimeRecord[i].fine = rd_int64();
 		}
 	}
 }
 
 void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
-	int politType = Pi::currentSystem->GetPoliticalType();
+	int politType = Pi::currentSystem->GetSysPolit().govType;
 
-	if (s_politTypes[politType].politUnified) {
-		s_playerPerPolitCrimeRecord[politType].record |= crimeBitset;
-		s_playerPerPolitCrimeRecord[politType].fine += addFine;
+	if (s_govDesc[politType].bloc != BLOC_NONE) {
+		const Bloc b = s_govDesc[politType].bloc;
+		s_playerPerBlocCrimeRecord[b].record |= crimeBitset;
+		s_playerPerBlocCrimeRecord[b].fine += addFine;
 	} else {
 		SysLoc loc = Pi::currentSystem->GetLocation();
 		Sint64 record = s_criminalRecord.Get(loc, 0);
@@ -84,11 +111,12 @@ void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 
 void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 {
-	int politType = Pi::currentSystem->GetPoliticalType();
+	int politType = Pi::currentSystem->GetSysPolit().govType;
 
-	if (s_politTypes[politType].politUnified) {
-		*crimeBitset = s_playerPerPolitCrimeRecord[politType].record;
-		*fine = s_playerPerPolitCrimeRecord[politType].fine;
+	if (s_govDesc[politType].bloc != BLOC_NONE) {
+		const Bloc b = s_govDesc[politType].bloc;
+		*crimeBitset = s_playerPerBlocCrimeRecord[b].record;
+		*fine = s_playerPerBlocCrimeRecord[b].fine;
 	} else {
 		SysLoc loc = Pi::currentSystem->GetLocation();
 		*crimeBitset = s_criminalRecord.Get(loc, 0);
@@ -96,34 +124,52 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 	}
 }
 
-const char *GetDesc(StarSystem *s)
+const char *GetGovernmentDesc(StarSystem *s)
 {
-	return s_politTypes[s->GetPoliticalType()].description;
+	return s_govDesc[s->GetSysPolit().govType].description;
+}
+const char *GetEconomicDesc(StarSystem *s)
+{
+	return s_econDesc [ s_govDesc[s->GetSysPolit().govType].econ ];
+}
+const char *GetAllegianceDesc(StarSystem *s)
+{
+	return s_blocDesc [ s_govDesc[s->GetSysPolit().govType].bloc ];
 }
 
-Polit::Alignment GetAlignmentForStarSystem(StarSystem *s, fixed human_infestedness)
+#define POLIT_SEED 0x1234abcd
+
+void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
 	int sx, sy, sys_idx;
 	s->GetPos(&sx, &sy, &sys_idx);
+	const unsigned long _init[4] = { sx, sy, sys_idx, POLIT_SEED };
+	MTRand rand(_init, 4);
 
 	Sector sec(sx, sy);
+
+	GovType a = GOV_INVALID;
 	
 	/* from custom system definition */
 	if (sec.m_systems[sys_idx].customSys) {
-		Polit::Alignment t = sec.m_systems[sys_idx].customSys->polit;
-		if (t != POL_INVALID) return t;
+		Polit::GovType t = sec.m_systems[sys_idx].customSys->govType;
+		a = t;
+	}
+	if (a == GOV_INVALID) {
+		if ((sx == 0) && (sy == 0) && (sys_idx == 0)) {
+			a = Polit::GOV_EARTHDEMOC;
+		} else if (human_infestedness > 0) {
+			for (int tries=10; tries--; ) {
+				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
+				if (s_govDesc[a].minTechLevel <= s->m_techlevel) break;
+			}
+		} else {
+			a = GOV_NONE;
+		}
 	}
 
-	const unsigned long _init[3] = { sx, sy, sys_idx };
-	MTRand rand(_init, 3);
-
-	if ((sx == 0) && (sy == 0) && (sys_idx == 0)) {
-		return Polit::POL_EARTH;
-	} else if (human_infestedness > 0) {
-		return static_cast<Alignment>(rand.Int32(POL_EARTH, POL_MAX-1));
-	} else {
-		return POL_NONE;
-	}
+	outSysPolit.govType = a;
+	outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
 }
 
 bool IsCommodityLegal(StarSystem *s, Equip::Type t)
@@ -133,30 +179,31 @@ bool IsCommodityLegal(StarSystem *s, Equip::Type t)
 	const unsigned long _init[3] = { sx, sy, sys_idx };
 	MTRand rand(_init, 3);
 
-	Polit::Alignment a = s->GetPoliticalType();
+	Polit::GovType a = s->GetSysPolit().govType;
+	const Bloc b = s_govDesc[a].bloc;
 
-	if (a == POL_NONE) return true;
+	if (a == GOV_NONE) return true;
 
 	switch (t) {
 		case Equip::ANIMAL_MEAT:
-			if ((a == POL_EARTH) || (a == POL_CONFED)) return rand.Int32(4)!=0;
+			if ((b == BLOC_EARTHFED) || (b == BLOC_CIS)) return rand.Int32(4)!=0;
 			else return true;
 		case Equip::LIQUOR:
-			if ((a != POL_EARTH) && (a != POL_CONFED)) return rand.Int32(8)!=0;
+			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(8)!=0;
 			else return true;
 		case Equip::HAND_WEAPONS:
-			if (a == POL_EARTH) return false;
-			if (a == POL_CONFED) return rand.Int32(3)!=0;
+			if (b == BLOC_EARTHFED) return false;
+			if (b == BLOC_CIS) return rand.Int32(3)!=0;
 			else return rand.Int32(2) == 0;
 		case Equip::BATTLE_WEAPONS:
-			if ((a != POL_EARTH) && (a != POL_CONFED)) return rand.Int32(3)==0;
+			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(3)==0;
 			return false;
 		case Equip::NERVE_GAS:
-			if ((a != POL_EARTH) && (a != POL_CONFED)) return rand.Int32(10)==0;
+			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(10)==0;
 			return false;
 		case Equip::NARCOTICS:
-			if (a == POL_EARTH) return false;
-			if (a == POL_CONFED) return rand.Int32(7)==0;
+			if (b == BLOC_EARTHFED) return false;
+			if (b == BLOC_CIS) return rand.Int32(7)==0;
 			else return rand.Int32(2)==0;
 		default: return true;
 	}

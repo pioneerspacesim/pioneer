@@ -52,10 +52,10 @@ const CustomSBody sol_system[] = {
 	  fixed(30104,1000), fixed(112,10000), { (float)DEG2RAD(1.768) }, fixed(75,100) },
 	// moons of jupiter
 	{ "Io", SBody::TYPE_PLANET_HIGHLY_VOLCANIC,
-	  12, fixed(286,1000), fixed(15,1000), 130,
+	  13, fixed(286,1000), fixed(15,1000), 130,
 	  fixed(282,100000), fixed(41,10000), { (float)DEG2RAD(2.21) }, fixed(177,100) },
 	{ "Europa", SBody::TYPE_PLANET_WATER,
-	  12, fixed(245,1000), fixed(8,1000), 102,
+	  13, fixed(245,1000), fixed(8,1000), 102,
 	  fixed(441,100000), fixed(9,1000), {}, fixed(355,100) },
 	  
 	{ 0 }
@@ -158,7 +158,7 @@ const CustomSystem custom_systems[] = {
 "Epsilon Eridani is today a thriving centre of industry, cutting-edge technology and "
 "tourism.\n"
 "Reproduced with the kind permission of Enrique Watson, New Hope University, 2992",
-Polit::POL_CONFED
+Polit::GOV_CISLIBDEM
 }, // Components: K2
 { "UV Ceti", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, 0, vector3f(0.754f,0.473f,-1.040f) }, // Components: M5, M5
 { "GX Andromedae", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 1, -1, vector3f(0.269f,0.470f,0.580f) }, // Components: M2, M6

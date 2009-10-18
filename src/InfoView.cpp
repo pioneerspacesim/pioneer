@@ -141,8 +141,12 @@ public:
 		Polit::GetCrime(&crime, &fine);
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
-		Add(new Gui::Label("Criminal record:"), 40, 40);
-		Add(new Gui::Label(stringf(128, "0x%llx", crime)), 40, 40+YSEP);
+		Add((new Gui::Label("CRIMINAL RECORD:"))->Shadow(true), 40, 40);
+		for (int i=0; i<64; i++) {
+			if (!(crime & (1<<i))) continue;
+			if (!Polit::crimeNames[i]) continue;
+			Add(new Gui::Label(Polit::crimeNames[i]), 40, 40+(i+1)*YSEP);
+		}
 		ShowChildren();
 	}
 };

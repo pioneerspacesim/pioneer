@@ -496,7 +496,7 @@ void Pi::Start()
 		player->SetDockedWith(station, 0);
 		MainLoop();
 	} else if (choice == 2) {
-		/* Earth start point */
+		/* Epsilon Eridani start point */
 		SBodyPath path(1,0,2);
 		Space::DoHyperspaceTo(&path);
 		// XXX there isn't a sensible way to find stations for a planet.
@@ -515,9 +515,9 @@ void Pi::Start()
 	} else if (choice == 3) {
 		/* debug start point */
 		SBodyPath path(1,0,2);
-		path.elem[0] = 3;
+		path.elem[0] = 5;
 		Space::DoHyperspaceTo(&path);
-		player->SetPosition(vector3d(0,0,2*EARTH_RADIUS));
+		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
 		stationFrame->m_sbody = 0;

@@ -6,10 +6,7 @@ Must do for ~1.0:
 
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)
-~ Political alignments of systems (probably needed for trade model):
-* Piracy level
 ~ Textual system descriptions
-* System extended info (demographics, sector, sysnum, allegiance, ...)
 * Pilot rating by kills *cough*
 ~ Finish crap trade model (illegal goods, ...)
 * Shipyard:

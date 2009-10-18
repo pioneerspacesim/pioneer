@@ -25,6 +25,8 @@ public:
 	friend fixedf operator/(const Sint64 a, const fixedf b) { return fixedf(a<<FRAC)/b; }
 	friend bool operator==(const fixedf a, const Sint64 b) { return a == fixedf(b<<FRAC); }
 	friend bool operator==(const Sint64 a, const fixedf b) { return b == fixedf(a<<FRAC); }
+	friend bool operator!=(const fixedf a, const Sint64 b) { return a != fixedf(b<<FRAC); }
+	friend bool operator!=(const Sint64 a, const fixedf b) { return b != fixedf(a<<FRAC); }
 	friend bool operator>=(const fixedf a, const Sint64 b) { return a >= fixedf(b<<FRAC); }
 	friend bool operator>=(const Sint64 a, const fixedf b) { return b >= fixedf(a<<FRAC); }
 	friend bool operator<=(const fixedf a, const Sint64 b) { return a <= fixedf(b<<FRAC); }
@@ -124,6 +126,7 @@ public:
 		return (isneg ? fixedf(-quotient_lo) : quotient_lo);
 	}
 	friend bool operator==(const fixedf a, const fixedf b) { return a.v == b.v; }
+	friend bool operator!=(const fixedf a, const fixedf b) { return a.v != b.v; }
 	friend bool operator>(const fixedf a, const fixedf b) { return a.v > b.v; }
 	friend bool operator<(const fixedf a, const fixedf b) { return a.v < b.v; }
 	friend bool operator>=(const fixedf a, const fixedf b) { return a.v >= b.v; }

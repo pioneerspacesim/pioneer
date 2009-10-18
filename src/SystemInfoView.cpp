@@ -205,10 +205,12 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	m_system = s;
 	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	
 	Gui::Tabbed *tabbed = new Gui::Tabbed();
 	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
 	tabbed->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
+	tabbed->AddPage(new Gui::Label("Demographics"), demographicsTab);
 	Add(tabbed, 0, 0);
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
@@ -224,10 +226,15 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		pos[0] = pos[1] = 0;
 		psize = -1;
 		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, psize);
+
+		majorBodies = 0;
+		pos[0] = pos[1] = 0;
+		psize = -1;
+		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, psize);
 	}
 	
-	std::string _info = stringf(512, "Stable system with %d major bodies.  %s\n\n", majorBodies, Polit::GetDesc(m_system))
-			+ std::string(s->GetLongDescription());
+	std::string _info = stringf(512, "Stable system with %d major bodies.\n\n%s", majorBodies,
+			std::string(s->GetLongDescription()).c_str());
 	
 	{
 		// astronomical body info tab
@@ -282,6 +289,41 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		portal2->Add(f);
 
 		UpdateEconomyTab();
+	}
+
+	{
+		Gui::Fixed *col1 = new Gui::Fixed();
+		demographicsTab->Add(col1, 200, 350);
+		Gui::Fixed *col2 = new Gui::Fixed();
+		demographicsTab->Add(col2, 400, 350);
+	
+		const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+
+		col1->Add((new Gui::Label("System type:"))->Color(1,1,0), 0, 0);
+		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
+		
+		col1->Add((new Gui::Label("Government type:"))->Color(1,1,0), 0, YSEP);
+		col2->Add(new Gui::Label(Polit::GetGovernmentDesc(m_system)), 0, YSEP);
+		
+		col1->Add((new Gui::Label("Economy type:"))->Color(1,1,0), 0, 2*YSEP);
+		col2->Add(new Gui::Label(Polit::GetEconomicDesc(m_system)), 0, 2*YSEP);
+		
+		col1->Add((new Gui::Label("Allegiance:"))->Color(1,1,0), 0, 3*YSEP);
+		col2->Add(new Gui::Label(Polit::GetAllegianceDesc(m_system)), 0, 3*YSEP);
+		
+		col1->Add((new Gui::Label("Population:"))->Color(1,1,0), 0, 4*YSEP);
+		std::string popmsg;
+		fixed pop = m_system->m_totalPop;
+		if (pop >= fixed(1,1)) { popmsg = stringf(256, "Over %d billion", pop.ToInt32()); }
+		else if (pop >= fixed(1,1000)) { popmsg = stringf(256, "Over %d million", (pop*1000).ToInt32()); }
+		else if (pop != fixed(0)) { popmsg = "Only a few thousand"; }
+		else { popmsg = "No registered inhabitants"; }
+		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
+
+		col1->Add((new Gui::Label("Sector coordinates:"))->Color(1,1,0), 0, 5*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d, %d", m_system->SectorX(), m_system->SectorY())), 0, 5*YSEP);
+		col1->Add((new Gui::Label("System number:"))->Color(1,1,0), 0, 6*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d", m_system->SystemIdx())), 0, 6*YSEP);
 	}
 
 	ShowAll();
