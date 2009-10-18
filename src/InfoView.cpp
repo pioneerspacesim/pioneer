@@ -141,11 +141,18 @@ public:
 		Polit::GetCrime(&crime, &fine);
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
-		Add((new Gui::Label("CRIMINAL RECORD:"))->Shadow(true), 40, 40);
+
+		float ypos = 40.0f;
+		Add((new Gui::Label("COMBAT RATING:"))->Shadow(true), 40, ypos);
+		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
+
+		ypos = 160.0f;
+		Add((new Gui::Label("CRIMINAL RECORD:"))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
 			if (!(crime & (1<<i))) continue;
 			if (!Polit::crimeNames[i]) continue;
-			Add(new Gui::Label(Polit::crimeNames[i]), 40, 40+(i+1)*YSEP);
+			ypos += YSEP;
+			Add(new Gui::Label(Polit::crimeNames[i]), 40, ypos);
 		}
 		ShowChildren();
 	}

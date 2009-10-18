@@ -30,6 +30,7 @@ public:
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) { return false; }
 	virtual bool OnDamage(Body *attacker, float kgDamage) { return false; }
+	virtual void OnHaveKilled(Body *guyWeKilled) {}
 	virtual void TimeStepUpdate(const float timeStep) {}
 	// after all bodies have had TimeStepUpdate (their moving step),
 	// StaticUpdate() is called. Good for special collision testing (Projectiles)

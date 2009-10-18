@@ -27,6 +27,8 @@ public:
 	void TakeMission(Mission *);
 	const std::list<Mission*> &GetMissions() const { return m_missions; }
 	virtual bool OnDamage(Body *attacker, float kgDamage);
+	virtual void OnHaveKilled(Body *guyWeKilled);
+	int GetKillCount() const { return m_knownKillCount; }
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -36,6 +38,8 @@ private:
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
 	float m_setSpeed;
+	int m_killCount;
+	int m_knownKillCount; // updated on docking
 	SBodyPath m_hyperspaceTarget;
 };
 

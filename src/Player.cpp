@@ -6,11 +6,14 @@
 #include "Serializer.h"
 #include "Mission.h"
 #include "Sound.h"
+#include "ShipCpanel.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	m_mouseCMov[0] = m_mouseCMov[1] = 0;
 	m_flightControlState = CONTROL_MANUAL;
+	m_killCount = 0;
+	m_knownKillCount = 0;
 	UpdateMass();
 }
 
@@ -36,6 +39,8 @@ void Player::Save()
 			i != m_missions.end(); ++i) {
 		(*i)->Save();
 	}
+	wr_int(m_killCount);
+	wr_int(m_knownKillCount);
 	m_hyperspaceTarget.Serialize();
 }
 
@@ -53,7 +58,22 @@ void Player::Load()
 		m->AttachToPlayer();
 		m_missions.push_back(m);
 	}
+	if (!IsOlderThan(6)) {
+		m_killCount = rd_int();
+		m_knownKillCount = rd_int();
+	} else {
+		m_killCount = 0;
+		m_knownKillCount = 0;
+	}
 	SBodyPath::Unserialize(&m_hyperspaceTarget);
+}
+
+void Player::OnHaveKilled(Body *guyWeKilled)
+{
+	if (guyWeKilled->IsType(Object::SHIP)) {
+		printf("Well done. you killed some poor fucker\n");
+		m_killCount++;
+	}
 }
 
 bool Player::OnDamage(Body *attacker, float kgDamage)
@@ -108,6 +128,11 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 {
 	Ship::SetDockedWith(s, port);
 	if (s) {
+		if (Pi::CombatRating(m_killCount) > Pi::CombatRating(m_knownKillCount)) {
+			Pi::cpan->SetTemporaryMessage(0, "Well done commander! Your combat rating has improved!");
+		}
+		m_knownKillCount = m_killCount;
+
 		Pi::SetView(Pi::spaceStationView);
 	}
 }

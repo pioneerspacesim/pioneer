@@ -4,17 +4,18 @@ There is much to be done...
 Must do for ~1.0:
 ~~~~~~~~~~~~~~~~~
 
+* Make message system non-crap: elite rating increase message should have
+ sender, messages should have priority and have viewable log. support for
+ message sender image
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)
 ~ Textual system descriptions
-* Pilot rating by kills *cough*
 * Shipyard:
  * Repairs, servicing
  * Hyperspace range and more stats when viewing ships for sale
 * Cargo scooping
 * Fuel scooping
-* Galactic map, galaxy star density scam
-* Criminal record, military standing, legal status, police
+* Military standing, legal status, police
 * More ship equipment...
 ~ Bulletin board............
 

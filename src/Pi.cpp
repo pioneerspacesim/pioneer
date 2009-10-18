@@ -67,6 +67,31 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 int Pi::statSceneTris;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0 };
+const char * const Pi::combatRating[] = {
+	"Harmless",
+	"Mostly harmless",
+	"Poor",
+	"Average",
+	"Above Average",
+	"Competent",
+	"Dangerous",
+	"Deadly",
+	"ELITE"
+};
+
+int Pi::CombatRating(int kills)
+{
+	if (kills < 8) return 0;
+	if (kills < 16) return 1;
+	if (kills < 32) return 2;
+	if (kills < 64) return 3;
+	if (kills < 128) return 4;
+	if (kills < 512) return 5;
+	if (kills < 2400) return 6;
+	if (kills < 6000) return 7;
+	/* nothing better to do with their lives? */
+	return 8;
+}
 
 void Pi::Init(IniConfig &config)
 {

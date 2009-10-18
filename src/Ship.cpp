@@ -180,6 +180,7 @@ bool Ship::OnDamage(Body *attacker, float kgDamage)
 	if (!IsDead()) {
 		m_stats.hull_mass_left -= kgDamage*0.001f;
 		if (m_stats.hull_mass_left < 0) {
+			attacker->OnHaveKilled(this);
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 		} else {

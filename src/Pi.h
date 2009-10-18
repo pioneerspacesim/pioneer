@@ -103,6 +103,9 @@ public:
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
+
+	static int CombatRating(int kills);
+	static const char * const combatRating[];
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
