@@ -34,11 +34,23 @@ GalacticView::GalacticView(): GenericSystemView()
 	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
 	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
+	
+	Gui::ImageButton *ib = new Gui::ImageButton("icons/galaxy_f8.png");
+	ib->SetShortcut(SDLK_F8, KMOD_NONE);
+	ib->SetToolTip("Galactic view");
+	ib->onClick.connect(sigc::mem_fun(this, &GalacticView::OnClickGalacticView));
+	m_rightButtonBar->Add(ib, 98, 2);
+
 }
 
 GalacticView::~GalacticView()
 {
 	glDeleteTextures(1, &m_texture);
+}
+
+void GalacticView::OnClickGalacticView()
+{
+	Pi::SetView(Pi::sectorView);
 }
 
 void GalacticView::Save()

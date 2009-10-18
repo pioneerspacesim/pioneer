@@ -18,6 +18,7 @@ public:
 	virtual void Load();
 	virtual void OnSwitchTo() {}
 private:
+	void OnClickGalacticView();
 	void PutLabels(vector3d offset);
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;

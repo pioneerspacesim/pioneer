@@ -16,8 +16,8 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
 private:
-
 	void SystemChanged(StarSystem *s);
+	void OnClickSectorView();
 	void UpdateEconomyTab();
 	void OnBodySelected(SBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);

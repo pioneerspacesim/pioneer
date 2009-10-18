@@ -2,7 +2,6 @@
 #include "Pi.h"
 #include "SectorView.h"
 #include "StarSystem.h"
-#include "GalacticView.h"
 
 SystemView::SystemView(): View()
 {
@@ -11,6 +10,12 @@ SystemView::SystemView(): View()
 
 	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
+	
+	m_infoLabel = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
+	Add(m_infoLabel, 2, 0);
+	
+	m_infoText = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
+	Add(m_infoText, 200, 0);
 	
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
 	m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
@@ -21,12 +26,6 @@ SystemView::SystemView(): View()
 	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
 	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
-
-	m_galaxyButton = new Gui::ImageButton("icons/galaxy_f8.png");
-	m_galaxyButton->SetShortcut(SDLK_F8, KMOD_NONE);
-	m_galaxyButton->SetToolTip("Galactic view");
-	m_galaxyButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnClickGalacticView));
-	m_rightButtonBar->Add(m_galaxyButton, 98, 2);
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.0));
@@ -65,11 +64,6 @@ SystemView::~SystemView()
 {
 }
 
-void SystemView::OnClickGalacticView()
-{
-	Pi::SetView(Pi::galacticView);
-}
-
 void SystemView::OnClickAccel(float step)
 {
 	m_timeStep = step;
@@ -99,6 +93,27 @@ void SystemView::PutOrbit(SBody *b, vector3d offset)
 void SystemView::OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev)
 {
 	m_selectedObject = b;
+	std::string desc;
+	std::string data;
+
+	desc += "Name:\n";
+	data += b->name+"\n";
+	
+	desc += "Day length (rotational period):\n";
+	data += stringf(128, "%.2f days\n", b->rotationPeriod.ToFloat());
+	
+	desc += "Radius:\n";
+	data += format_distance(b->GetRadius())+"\n";
+
+	if (b->parent) {
+		desc += "Semi-major axis:\n";
+		data += format_distance(b->orbit.semiMajorAxis)+"\n";
+
+		desc += "Orbital period:\n";
+		data += stringf(128, "%.2f days\n", b->orbit.period / (24*60*60));
+	}
+	m_infoLabel->SetText(desc);
+	m_infoText->SetText(data);
 }
 
 void SystemView::PutLabel(SBody *b, vector3d offset)
@@ -127,14 +142,23 @@ void SystemView::PutLabel(SBody *b, vector3d offset)
 // i don't know how to name it
 #define ROUGH_SIZE_OF_TURD	10.0
 
+matrix4x4f s_invRot;
+
 void SystemView::PutBody(SBody *b, vector3d offset)
 {
 	if (b->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (b->type != SBody::TYPE_GRAVPOINT) {
-		glPointSize(5);
+		glGetFloatv (GL_MODELVIEW_MATRIX, &s_invRot[0]);
+		s_invRot[12] = s_invRot[13] = s_invRot[14] = 0;
+		s_invRot = s_invRot.InverseOf();
+
 		glColor3f(1,1,1);
-		glBegin(GL_POINTS);
-		glVertex3dv(&offset.x);
+		glBegin(GL_TRIANGLE_FAN);
+		float radius = (float)b->GetRadius() * m_zoom;
+		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
+			vector3f p = offset + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
+			glVertex3fv(&p.x);
+		}
 		glEnd();
 
 		PutLabel(b, offset);

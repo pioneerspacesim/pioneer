@@ -12,6 +12,18 @@ SystemInfoView::SystemInfoView(): GenericSystemView()
 	m_bodySelected = 0;
 	m_refresh = false;
 	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
+	
+	Gui::ImageButton *ib = new Gui::ImageButton("icons/sectorview_f6_systeminfo.png");
+	ib->onClick.connect(sigc::mem_fun(this, &SystemInfoView::OnClickSectorView));
+	ib->SetShortcut(SDLK_F5, KMOD_NONE);
+	ib->SetToolTip("Return to sector view");
+	m_rightButtonBar->Add(ib, 2, 2);
+	
+}
+
+void SystemInfoView::OnClickSectorView()
+{
+	Pi::SetView(Pi::sectorView);
 }
 
 void SystemInfoView::OnBodySelected(SBody *b)
