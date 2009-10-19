@@ -13,7 +13,8 @@ Must do for ~1.0:
 ~ Textual system descriptions
 * Shipyard:
  * Repairs, servicing
- * Hyperspace range and more stats when viewing ships for sale
+ * Stats: gun mounts, missile pilons (should we use this or put them in the
+   hull?), crew
 * Cargo scooping
 * Fuel scooping
 * Military standing, legal status, police

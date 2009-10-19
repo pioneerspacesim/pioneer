@@ -16,6 +16,7 @@ const ShipType ShipType::types[] = {
 		},
 		{ 20, 1, 1, 0 },
 		20, 5, 4000000,
+		Equip::DRIVE_CLASS1,
 	}, {
 		// besides running a wicked corporatist regime in the
 		// sirius system, Sirius corporation make a range of
@@ -29,6 +30,7 @@ const ShipType ShipType::types[] = {
 		},
 		{ 90, 1, 2, 0 },
 		90, 20, 16000000,
+		Equip::DRIVE_CLASS3,
 	}, {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
@@ -41,6 +43,7 @@ const ShipType ShipType::types[] = {
 		},
 		{ 60, 1, 1, 0 },
 		60, 15, 8700000,
+		Equip::DRIVE_CLASS2,
 	}, {
 		"Taipan",
 		"taipan",
@@ -52,6 +55,7 @@ const ShipType ShipType::types[] = {
 		},
 		{ 240, 1, 1, 0 },
 		240, 55, 56000000,
+		Equip::DRIVE_CLASS4,
 	}, {
 		"Walrus",
 		"60",
@@ -63,6 +67,7 @@ const ShipType ShipType::types[] = {
 		},
 		{ 320, 1, 1, 0 },
 		320, 80, 35000000,
+		Equip::DRIVE_CLASS5,
 	}, {
 		"Flowerfairy Heavy Trader",
 		"63",
@@ -74,6 +79,7 @@ const ShipType ShipType::types[] = {
 		},
 		{ 500, 1, 2, 0 },
 		500, 125, 55000000,
+		Equip::DRIVE_CLASS6,
 	}
 };
 

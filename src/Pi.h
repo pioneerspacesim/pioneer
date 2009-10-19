@@ -69,6 +69,7 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void BoinkNoise();
+	static float CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes);
 	
 	static sigc::signal<void, SDL_keysym*> onKeyPress;
 	static sigc::signal<void, SDL_keysym*> onKeyRelease;

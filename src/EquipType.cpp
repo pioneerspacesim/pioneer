@@ -135,11 +135,15 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	},{
 	  "Class 5 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, {},
-	  1000000, 120, 4
+	  1000000, 120, 5
 	},{
 	  "Class 6 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, {},
-	  2000000, 225, 4
+	  2000000, 225, 6
+	},{
+	  "Class 7 Hyperdrive",0,
+	  Equip::SLOT_ENGINE, {},
+	  3000000, 400, 7
 	},{
 	  "1MW pulse cannon",0,
 	  Equip::SLOT_LASER, {},

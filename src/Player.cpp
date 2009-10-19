@@ -78,7 +78,6 @@ void Player::OnHaveKilled(Body *guyWeKilled)
 
 bool Player::OnDamage(Body *attacker, float kgDamage)
 {
-	printf("Hit by %s\n", attacker->GetLabel().c_str());
 	bool r = Ship::OnDamage(attacker, kgDamage);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {
 		Sound::BodyMakeNoise(this, Sound::SFX_WARNING, 1.0f);

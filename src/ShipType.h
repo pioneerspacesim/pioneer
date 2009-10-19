@@ -24,6 +24,7 @@ struct ShipType {
 	int capacity; // tonnes
 	int hullMass;
 	int baseprice;
+	Equip::Type hyperdrive;
 	///////
 
 	static const ShipType types[];

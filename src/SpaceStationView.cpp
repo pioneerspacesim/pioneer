@@ -300,6 +300,7 @@ private:
 		} else {
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 			Pi::player->ChangeFlavour(&f);
+			Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
 			
 			SpaceStation *station = Pi::player->GetDockedWith();
 			station->ReplaceShipOnSale(m_flavourIdx, &_old);
@@ -398,44 +399,66 @@ void StationViewShipView::ShowAll()
 
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	float y = 40;
-	Add(new Gui::Label("Ship type"), 450, y);
+	Add(new Gui::Label("Ship type"), 420, y);
 	Add(new Gui::Label(t.name), 600, y);
 	y+=YSEP;
-	Add(new Gui::Label("Price"), 450, y);
+	Add(new Gui::Label("Price"), 420, y);
 	Add(new Gui::Label(format_money(m_flavour.price)), 600, y);
 	y+=YSEP;
-	Add(new Gui::Label("Registration id"), 450, y);
+	Add(new Gui::Label("Registration id"), 420, y);
 	Add(new Gui::Label(m_flavour.regid), 600, y);
 	y+=YSEP;
 	y+=YSEP;
-	Add(new Gui::Label("Weight empty"), 450, y);
+	Add(new Gui::Label("Weight empty"), 420, y);
 	Add(new Gui::Label(stringf(64, "%d t", t.hullMass)), 600, y);
 	y+=YSEP;
-	Add(new Gui::Label("Weight fully loaded"), 450, y);
+	Add(new Gui::Label("Weight fully loaded"), 420, y);
 	Add(new Gui::Label(stringf(64, "%d t", t.hullMass + t.capacity)), 600, y);
 	y+=YSEP;
-	Add(new Gui::Label("Capacity"), 450, y);
+	Add(new Gui::Label("Capacity"), 420, y);
 	Add(new Gui::Label(stringf(64, "%d t", t.capacity)), 600, y);
 	y+=YSEP;
 	y+=YSEP;
 	// forward accel
 	float accel = t.linThrust[ShipType::THRUSTER_REAR] / (-9.81*1000.0*(t.hullMass));
-	Add(new Gui::Label("Forward accel (empty)"), 450, y);
+	Add(new Gui::Label("Forward accel (empty)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 	accel = t.linThrust[ShipType::THRUSTER_REAR] / (-9.81*1000.0*(t.hullMass + t.capacity));
-	Add(new Gui::Label("Forward accel (laden)"), 450, y);
+	Add(new Gui::Label("Forward accel (laden)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 	// rev accel
 	accel = t.linThrust[ShipType::THRUSTER_FRONT] / (9.81*1000.0*(t.hullMass));
-	Add(new Gui::Label("Reverse accel (empty)"), 450, y);
+	Add(new Gui::Label("Reverse accel (empty)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 	accel = t.linThrust[ShipType::THRUSTER_FRONT] / (9.81*1000.0*(t.hullMass + t.capacity));
-	Add(new Gui::Label("Reverse accel (laden)"), 450, y);
+	Add(new Gui::Label("Reverse accel (laden)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
+	y+=YSEP;
+	Add(new Gui::Label("Hyperdrive fitted:"), 420, y);
+	Add(new Gui::Label(EquipType::types[t.hyperdrive].name), 600, y);
+	y+=YSEP;
+	y+=YSEP;
+	Add(new Gui::Label("Hyperspace range (fully laden):"), 420, y);
+	y+=YSEP;
+
+	{
+		int drivetype = Equip::DRIVE_CLASS1;
+		for (int x = 420; (drivetype < Equip::TYPE_MAX) && (EquipType::types[drivetype].slot == Equip::SLOT_ENGINE);
+				drivetype++, x+=52) {
+			int hyperclass = EquipType::types[drivetype].pval;
+			float range = Pi::CalcHyperspaceRange(hyperclass, t.hullMass + t.capacity);
+			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), x, y);
+			if (t.capacity < EquipType::types[drivetype].mass) {
+				Add(new Gui::Label("---"), x, y+YSEP);
+			} else {
+				Add(new Gui::Label(stringf(128, "%.2f ly", range)), x, y+YSEP);
+			}
+		}
+	}
 
 	//AddBaseDisplay();
 	//AddVideoWidget();

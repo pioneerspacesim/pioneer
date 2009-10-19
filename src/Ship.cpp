@@ -229,9 +229,6 @@ void Ship::ClearThrusterState()
 	}
 }
 
-// hyperspace range is:
-// (200 * hyperspace_class^2) / total mass (in tonnes)
-
 const shipstats_t *Ship::CalcStats()
 {
 	const ShipType &stype = GetShipType();
@@ -251,7 +248,7 @@ const shipstats_t *Ship::CalcStats()
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	float hyperclass = (float)EquipType::types[t].pval;
-	m_stats.hyperspace_range_max = 200 * hyperclass * hyperclass / m_stats.total_mass;
+	m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
 	m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN) /
 		(hyperclass * hyperclass));
 	return &m_stats;

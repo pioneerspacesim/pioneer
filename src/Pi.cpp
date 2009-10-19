@@ -805,3 +805,7 @@ IniConfig::IniConfig(const char *filename)
 	fclose(f);
 }
 
+float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
+{
+	return 200.0f * hyperclass * hyperclass / (float)total_mass_in_tonnes;
+}
