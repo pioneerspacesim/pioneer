@@ -12,7 +12,8 @@ MultiStateImageButton::MultiStateImageButton(): Button()
 MultiStateImageButton::~MultiStateImageButton()
 {
 	for (std::vector<State>::iterator i = m_states.begin(); i != m_states.end(); ++i) {
-		delete (*i).image;
+		delete (*i).activeImage;
+		delete (*i).inactiveImage;
 	}
 }
 
@@ -36,7 +37,7 @@ void MultiStateImageButton::OnActivate()
 	if (m_isSelected) StateNext();
 	else {
 		m_isSelected = true;
-		onSelect.emit(this);
+		onSelect.emit();
 	}
 	onClick.emit(this);
 }
@@ -59,28 +60,39 @@ void MultiStateImageButton::SetSelected(bool state)
 void MultiStateImageButton::GetSizeRequested(float size[2])
 {
 	assert(m_states.size());
-	m_states[0].image->GetSizeRequested(size);
+	m_states[0].activeImage->GetSizeRequested(size);
+	m_states[0].inactiveImage->GetSizeRequested(size);
 }
 
 void MultiStateImageButton::Draw()
 {
-	m_states[m_curState].image->Draw();
+	if (m_isSelected) {
+		m_states[m_curState].activeImage->Draw();
+	} else {
+		m_states[m_curState].inactiveImage->Draw();
+	}
 }
 
 void MultiStateImageButton::AddState(int state, const char *filename)
 {
-	AddState(state, filename, "");
+	AddState(state, filename, filename, "");
 }
 
 void MultiStateImageButton::AddState(int state, const char *filename, std::string tooltip)
 {
+	AddState(state, filename, filename, "");
+}
+
+void MultiStateImageButton::AddState(int state, const char *inactiveImage, const char *activeImage, std::string tooltip)
+{
 	State s;
 	s.state = state;
-	s.image = new Image(filename);
+	s.inactiveImage = new Image(inactiveImage);
+	s.activeImage = new Image(activeImage);
 	s.tooltip = tooltip;
 	m_states.push_back(s);
 	float size[2];
-	s.image->GetSizeRequested(size);
+	s.activeImage->GetSizeRequested(size);
 	SetSize(size[0], size[1]);
 }
 

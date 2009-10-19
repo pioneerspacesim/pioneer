@@ -23,9 +23,7 @@ public:
 private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
-	void OnClickSystemInfo();
 	void OnClickSystem(const Gui::MouseButtonEvent *e, int sx, int sy, int sys_idx);
-	void OnClickGalacticView();
 
 	float m_zoom;
 	int m_secx, m_secy;

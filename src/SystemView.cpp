@@ -3,7 +3,7 @@
 #include "SectorView.h"
 #include "StarSystem.h"
 
-SystemView::SystemView(): View()
+SystemView::SystemView(): GenericSystemView(GenericSystemView::MAP_SYSTEM)
 {
 	m_system = 0;
 	SetTransparency(true);
@@ -18,14 +18,14 @@ SystemView::SystemView(): View()
 	Add(m_infoText, 200, 0);
 	
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
-	m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	//m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_zoomInButton->SetToolTip("Zoom in");
-	m_rightButtonBar->Add(m_zoomInButton, 34, 2);
+	Add(m_zoomInButton, 700, 510);
 	
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out_f8.png");
-	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
+	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
-	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
+	Add(m_zoomOutButton, 732, 510);
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.0));

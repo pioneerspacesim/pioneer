@@ -30,7 +30,7 @@ public:
 	sigc::signal<void, multifuncfunc_t> onSelect;
 private:
 	void UpdateButtons();
-	void OnClickButton(Gui::ISelectable *i, multifuncfunc_t f);
+	void OnClickButton(multifuncfunc_t f);
 
 	int m_active;
 	Gui::ImageRadioButton *m_buttons[MFUNC_MAX];

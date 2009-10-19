@@ -4,7 +4,7 @@
 namespace Gui {
 	class ISelectable {
 	public:
-		sigc::signal<void, ISelectable*> onSelect;
+		sigc::signal<void> onSelect;
 		virtual void SetSelected(bool) = 0;
 	};
 }

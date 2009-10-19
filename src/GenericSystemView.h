@@ -10,12 +10,16 @@ class SystemInfoScannerText;
 
 class GenericSystemView: public View {
 public:
-	GenericSystemView();
+	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
+	GenericSystemView(enum MapView whichView);
 	virtual void Draw3D();
 	virtual void ShowAll();
 	virtual void HideAll();
 	sigc::signal<void,StarSystem*> onSelectedSystemChanged;
+	static void SwitchToCurrentView();
 private:
+	static void OnClickView(enum MapView v);
+	static enum MapView currentView;
 	Gui::Fixed *m_scannerLayout;
 	Gui::Label *m_systemName;
 	Gui::Label *m_distance;

@@ -31,7 +31,7 @@ private:
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(Gui::MultiStateImageButton *b);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
-	void OnClickTimeaccel(Gui::ISelectable *i, int val);
+	void OnClickTimeaccel(int val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
 	void OnChangeMultiFunctionDisplay(multifuncfunc_t f);

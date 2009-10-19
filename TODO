@@ -7,6 +7,7 @@ Must do for ~1.0:
 * Make message system non-crap: elite rating increase message should have
  sender, messages should have priority and have viewable log. support for
  message sender image
+* Limit number of active SFX objects and/or stop them being class Body
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)
 ~ Textual system descriptions

@@ -46,7 +46,6 @@ sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
 int Pi::mouseMotion[2];
-enum Pi::MapView Pi::mapView;
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
@@ -213,15 +212,6 @@ void Pi::SetTimeAccel(int s)
 void Pi::RequestTimeAccel(int s)
 {
 	requestedTimeAccelIdx = s;
-}
-
-void Pi::SetMapView(enum MapView v)
-{
-	mapView = v;
-	if (v == MAP_SECTOR)
-		SetView(sectorView);
-	else
-		SetView(systemView);
 }
 
 void Pi::SetView(View *v)

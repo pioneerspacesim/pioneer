@@ -9,7 +9,7 @@
 #include "Sector.h"
 #include "Galaxy.h"
 		
-GalacticView::GalacticView(): GenericSystemView()
+GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
 {
 	const SDL_Surface *s = Galaxy::GetGalaxyBitmap();
 	glEnable(GL_TEXTURE_2D);
@@ -26,31 +26,19 @@ GalacticView::GalacticView(): GenericSystemView()
 	m_zoom = 1.0f;
 
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
-	m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	//m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_zoomInButton->SetToolTip("Zoom in");
-	m_rightButtonBar->Add(m_zoomInButton, 34, 2);
+	Add(m_zoomInButton, 700, 510);
 	
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out_f8.png");
-	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
+	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
-	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
-	
-	Gui::ImageButton *ib = new Gui::ImageButton("icons/galaxy_f8.png");
-	ib->SetShortcut(SDLK_F8, KMOD_NONE);
-	ib->SetToolTip("Galactic view");
-	ib->onClick.connect(sigc::mem_fun(this, &GalacticView::OnClickGalacticView));
-	m_rightButtonBar->Add(ib, 98, 2);
-
+	Add(m_zoomOutButton, 732, 510);
 }
 
 GalacticView::~GalacticView()
 {
 	glDeleteTextures(1, &m_texture);
-}
-
-void GalacticView::OnClickGalacticView()
-{
-	Pi::SetView(Pi::sectorView);
 }
 
 void GalacticView::Save()

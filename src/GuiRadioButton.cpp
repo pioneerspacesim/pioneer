@@ -22,7 +22,7 @@ bool RadioButton::OnMouseDown(MouseButtonEvent *e)
 }
 void RadioButton::OnActivate()
 {
-	if (!m_pressed) onSelect.emit(this);
+	if (!m_pressed) onSelect.emit();
 	m_pressed = true;
 }
 void RadioButton::GetSizeRequested(float &w, float &h)

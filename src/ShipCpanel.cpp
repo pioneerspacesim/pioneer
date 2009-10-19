@@ -7,6 +7,8 @@
 #include "WorldView.h"
 #include "SpaceStation.h"
 #include "ShipCpanelMultiFuncDisplays.h"
+#include "SectorView.h"
+#include "GenericSystemView.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 {
@@ -66,9 +68,9 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	Gui::MultiStateImageButton *cam_button = new Gui::MultiStateImageButton();
 	g->Add(cam_button);
 	cam_button->SetSelected(true);
-	cam_button->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "Front view");
-	cam_button->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "Rear view");
-	cam_button->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "External view");
+	cam_button->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "icons/cam_front_on.png", "Front view");
+	cam_button->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "icons/cam_rear_on.png", "Rear view");
+	cam_button->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", "External view");
 	cam_button->SetShortcut(SDLK_F1, KMOD_NONE);
 	cam_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
 	Add(cam_button, 2, 40);
@@ -77,8 +79,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	g->Add(map_button);
 	map_button->SetSelected(false);
 	map_button->SetShortcut(SDLK_F2, KMOD_NONE);
-	map_button->AddState(Pi::MAP_SECTOR, "icons/cpan_f2_map.png", "Galaxy sector map");
-	map_button->AddState(Pi::MAP_SYSTEM, "icons/cpan_f2_normal.png", "Star system view");
+	map_button->AddState(0, "icons/cpan_f2_map.png", "icons/cpan_f2_map_on.png", "Navigation and star maps");
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView));
 	Add(map_button, 34, 40);
 
@@ -86,7 +87,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	g->Add(info_button);
 	info_button->SetSelected(false);
 	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
-	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "Ship information");
+	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "icons/cpan_f3_shipinfo_on.png", "Ship information");
 	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
 	Add(info_button, 66, 40);
 
@@ -94,7 +95,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	g->Add(comms_button);
 	comms_button->SetSelected(false);
 	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
-	comms_button->AddState(0, "icons/comms_f4.png", "Comms");
+	comms_button->AddState(0, "icons/comms_f4.png", "icons/comms_f4_on.png", "Comms");
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
 	Add(comms_button, 98, 40);
 
@@ -176,6 +177,7 @@ void ShipCpanel::Draw()
 			}
 		} else {
 			// current message expired and more in queue
+			Pi::BoinkNoise();
 			QueuedMsg m = m_msgQueue.front();
 			m_msgQueue.pop_front();
 			if (m.sender == "") {
@@ -218,10 +220,10 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	Pi::SetMapView((enum Pi::MapView)b->GetState());
+	GenericSystemView::SwitchToCurrentView();
 }
 
-void ShipCpanel::OnClickTimeaccel(Gui::ISelectable *i, int val)
+void ShipCpanel::OnClickTimeaccel(int val)
 {
 	Pi::BoinkNoise();
 	/* May not happen, as time accel is limited by proximity to stuff */

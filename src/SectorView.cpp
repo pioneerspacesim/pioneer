@@ -9,7 +9,7 @@
 #include "StarSystem.h"
 #include "GalacticView.h"
 		
-SectorView::SectorView(): GenericSystemView()
+SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
 {
 	SetTransparency(true);
 	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
@@ -21,27 +21,15 @@ SectorView::SectorView(): GenericSystemView()
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
-	Gui::ImageButton *ib = new Gui::ImageButton("icons/sectorview_f6_systeminfo.png");
-	ib->onClick.connect(sigc::mem_fun(this, &SectorView::OnClickSystemInfo));
-	ib->SetShortcut(SDLK_F5, KMOD_NONE);
-	ib->SetToolTip("Star system information");
-	m_rightButtonBar->Add(ib, 2, 2);
-	
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
-	m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	//m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_zoomInButton->SetToolTip("Zoom in");
-	m_rightButtonBar->Add(m_zoomInButton, 34, 2);
+	Add(m_zoomInButton, 700, 510);
 	
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out_f8.png");
-	m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
+	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
-	m_rightButtonBar->Add(m_zoomOutButton, 66, 2);
-
-	m_galaxyButton = new Gui::ImageButton("icons/galaxy_f8.png");
-	m_galaxyButton->SetShortcut(SDLK_F8, KMOD_NONE);
-	m_galaxyButton->SetToolTip("Galactic view");
-	m_galaxyButton->onClick.connect(sigc::mem_fun(this, &SectorView::OnClickGalacticView));
-	m_rightButtonBar->Add(m_galaxyButton, 98, 2);
+	Add(m_zoomOutButton, 732, 510);
 
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
@@ -78,16 +66,6 @@ void SectorView::Load()
 	m_py = m_pyMovingTo = rd_float();
 	m_rot_x = rd_float();
 	m_rot_z = rd_float();
-}
-
-void SectorView::OnClickGalacticView()
-{
-	Pi::SetView(Pi::galacticView);
-}
-
-void SectorView::OnClickSystemInfo()
-{
-	Pi::SetView(Pi::systemInfoView);
 }
 
 bool SectorView::GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx)

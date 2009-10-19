@@ -161,7 +161,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 
 	ShowAll();
 }
-void MultiFuncSelectorWidget::OnClickButton(Gui::ISelectable *i, multifuncfunc_t f)
+void MultiFuncSelectorWidget::OnClickButton(multifuncfunc_t f)
 {
 	m_active = (int)f;
 	UpdateButtons();

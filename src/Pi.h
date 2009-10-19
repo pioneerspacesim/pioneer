@@ -84,9 +84,6 @@ public:
 	static MTRand rng;
 	static int statSceneTris;
 
-	enum MapView { MAP_NOMAP, MAP_SECTOR, MAP_SYSTEM };
-	static void SetMapView(enum MapView);
-	static enum MapView GetMapView() { return mapView; }
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 	static StarSystem *GetSelectedSystem();
@@ -96,6 +93,7 @@ public:
 	static SectorView *sectorView;
 	static GalacticView *galacticView;
 	static SystemInfoView *systemInfoView;
+	static SystemView *systemView;
 	static WorldView *worldView;
 	static ObjectViewerView *objectViewerView;
 	static SpaceStationView *spaceStationView;
@@ -111,11 +109,9 @@ private:
 	static void HandleEvents();
 	
 	static View *currentView;
-	static SystemView *systemView;
 	
 	static double gameTime;
 	static StarSystem *selectedSystem;
-	static enum MapView mapView;
 	static int timeAccelIdx;
 	static int requestedTimeAccelIdx;
 	static float frameTime;

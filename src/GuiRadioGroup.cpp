@@ -5,7 +5,7 @@
 namespace Gui {
 void RadioGroup::Add(ISelectable *b)
 {
-	b->onSelect.connect(sigc::mem_fun(*this, &RadioGroup::OnSelected));
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(*this, &RadioGroup::OnSelected), b));
 	m_members.push_back(b);
 }
 

@@ -3,12 +3,12 @@
 
 #include "libs.h"
 #include "Gui.h"
-#include "View.h"
+#include "GenericSystemView.h"
 
 class StarSystem;
 class SBody;
 
-class SystemView: public View {
+class SystemView: public GenericSystemView {
 public:
 	SystemView();
 	virtual ~SystemView();
