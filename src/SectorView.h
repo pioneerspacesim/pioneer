@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include "GenericSystemView.h"
+#include "SysLoc.h"
 
 class SectorView: public GenericSystemView {
 public:
@@ -36,6 +37,12 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	GLuint m_gluDiskDlist;
+	
+	SysLoc m_lastShownLoc;
+	Gui::Label *m_systemName;
+	Gui::Label *m_distance;
+	Gui::Label *m_starType;
+	Gui::Label *m_shortDesc;
 };
 
 #endif /* _SECTORVIEW_H */

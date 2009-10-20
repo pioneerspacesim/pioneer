@@ -26,7 +26,7 @@ namespace Gui {
 		virtual void HideAll();
 		virtual void OnChildResizeRequest(Widget *) = 0;
 		void SetBgColor(float rgb[3]);
-		void SetBgColor(float r, float g, float b);
+		void SetBgColor(float r, float g, float b, float a);
 		void SetTransparency(bool a) { m_transparent = a; }
 		virtual void UpdateAllChildSizes() = 0;
 		void RemoveChild(Widget *w);
@@ -36,7 +36,7 @@ namespace Gui {
 		void _OnMouseLeave();
 		void _OnSetSize();
 		bool HandleMouseEvent(MouseButtonEvent *e);
-		float m_bgcol[3];
+		float m_bgcol[4];
 		bool m_transparent;
 	protected:
 		void PrependChild(Widget *w, float x, float y);

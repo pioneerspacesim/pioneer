@@ -190,14 +190,6 @@ void ShipCpanel::Draw()
 	m_clock->SetText(time);
 
 	Gui::Fixed::Draw();
-	Remove(m_scannerWidget);
-}
-
-void ShipCpanel::SetScannerWidget(Widget *w)
-{
-	m_scannerWidget = w;
-	Add(w, 150, 64);
-	w->Show();
 }
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)

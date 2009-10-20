@@ -8,6 +8,15 @@ public:
 	int sectorX, sectorY, systemIdx;
 	void Serialize() const;
 	static void Unserialize(SysLoc *loc);
+	friend bool operator==(const SysLoc &a, const SysLoc &b) {
+		if (a.sectorX != b.sectorX) return false;
+		if (a.sectorY != b.sectorY) return false;
+		if (a.systemIdx != b.systemIdx) return false;
+		return true;
+	}
+	friend bool operator!=(const SysLoc &a, const SysLoc &b) {
+		return !(a==b);
+	}
 	friend bool operator<(const SysLoc &a, const SysLoc &b) {
 		if (a.sectorX < b.sectorX) return true;
 		if (a.sectorY < b.sectorY) return true;

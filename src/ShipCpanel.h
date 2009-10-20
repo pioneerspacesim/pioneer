@@ -30,7 +30,6 @@ public:
 	ShipCpanel();
 	virtual ~ShipCpanel();
 	virtual void Draw();
-	void SetScannerWidget(Widget *w); // must be done each frame
 	void SetTemporaryMessage(const Body *sender, const std::string &msg);
 	void SetTemporaryMessage(const std::string &sender, const std::string &msg);
 	void Update();
@@ -47,7 +46,6 @@ private:
 	void OnMultiFuncUngrabFocus(Gui::Widget *);
 
 	Gui::Widget *m_userSelectedMfuncWidget;
-	Widget *m_scannerWidget;
 	Gui::Label *m_clock;
 
 	sigc::connection m_connOnDockingClearanceExpired;

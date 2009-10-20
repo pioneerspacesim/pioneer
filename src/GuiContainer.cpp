@@ -162,13 +162,15 @@ void Container::Draw()
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
+		if (m_bgcol[3] != 1.0) glEnable(GL_BLEND);
 		glBegin(GL_QUADS);
-			glColor3f(m_bgcol[0], m_bgcol[1], m_bgcol[2]);
+			glColor4fv(m_bgcol);
 			glVertex2f(0, size[1]);
 			glVertex2f(size[0], size[1]);
 			glVertex2f(size[0], 0);
 			glVertex2f(0, 0);
 		glEnd();
+		glDisable(GL_BLEND);
 	}
 #ifdef GUI_DEBUG_CONTAINER
 	glBegin(GL_LINE_LOOP);
@@ -248,14 +250,15 @@ void Container::HideAll()
 
 void Container::SetBgColor(float rgb[3])
 {
-	SetBgColor(rgb[0], rgb[1], rgb[2]);
+	SetBgColor(rgb[0], rgb[1], rgb[2], 1.0);
 }
 
-void Container::SetBgColor(float r, float g, float b)
+void Container::SetBgColor(float r, float g, float b, float a)
 {
 	m_bgcol[0] = r;
 	m_bgcol[1] = g;
 	m_bgcol[2] = b;
+	m_bgcol[3] = a;
 }
 
 }

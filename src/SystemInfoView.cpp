@@ -9,9 +9,10 @@
 SystemInfoView::SystemInfoView(): GenericSystemView(GenericSystemView::MAP_INFO)
 {
 	SetTransparency(true);
+	m_system = 0;
 	m_bodySelected = 0;
 	m_refresh = false;
-	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
+//	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
 void SystemInfoView::OnBodySelected(SBody *b)
@@ -342,8 +343,13 @@ void SystemInfoView::Draw3D()
 void SystemInfoView::Update()
 {
 	if (m_refresh) {
-		SystemChanged(m_system);
+		SystemChanged(Pi::GetSelectedSystem());
 		m_refresh = false;
 	}
+}
+
+void SystemInfoView::OnSwitchTo()
+{
+	m_refresh = true;
 }
 

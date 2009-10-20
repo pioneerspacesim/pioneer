@@ -12,6 +12,7 @@
 SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
 {
 	SetTransparency(true);
+	m_lastShownLoc = SysLoc(9999,9999,9999);
 	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
 	m_rot_x = m_rot_z = 0;
 	m_secx = m_secy = 0;
@@ -24,17 +25,35 @@ SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in_f7.png");
 	//m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_zoomInButton->SetToolTip("Zoom in");
-	Add(m_zoomInButton, 700, 510);
+	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out_f8.png");
 	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
-	Add(m_zoomOutButton, 732, 510);
+	Add(m_zoomOutButton, 732, 5);
 
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
 	gluDisk(Pi::gluQuadric, 0.0, 0.2, 20, 1);
 	glEndList();
+	
+	Gui::Fixed *infoBar = new Gui::Fixed(Gui::Screen::GetWidth(), 60);
+	infoBar->SetTransparency(false);
+	infoBar->SetBgColor(0.0f, 0.0f, 1.0f, 0.25f);
+	Add(infoBar, 0, 0);
+
+	m_systemName = (new Gui::Label(""))->Color(1.0f, 1.0f, 0.0f);
+	infoBar->Add(m_systemName, 15, 4);
+	
+	m_distance = (new Gui::Label(""))->Color(1.0f, 0.0f, 0.0f);
+	infoBar->Add(m_distance, 300, 4);
+
+	m_starType = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	infoBar->Add(m_starType, 15, 20);
+
+	m_shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
+	infoBar->Add(m_shortDesc, 15, 38);
+
 }
 
 SectorView::~SectorView()
@@ -273,6 +292,43 @@ void SectorView::Update()
 			min_dist = dist;
 			m_selected = i;
 		}
+	}
+	
+	int playerLocSecX, playerLocSecY, playerLocSysIdx;
+	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
+	StarSystem *sys = Pi::GetSelectedSystem();
+
+	if (sys->GetLocation() != m_lastShownLoc) {
+		Sector sec(m_secx, m_secy);
+		Sector psec(playerLocSecX, playerLocSecY);
+		const float dist = Sector::DistanceBetween(&sec, m_selected, &psec, playerLocSysIdx);
+		char buf[256];
+		SBodyPath sbody_path(m_secx, m_secy, m_selected);
+		int fuelRequired;
+		bool canJump = Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired);
+		if (canJump) {
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
+		} else if (fuelRequired) {
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+		} else {
+			snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+		}
+
+		std::string desc;
+		if (sys->GetNumStars() == 4) {
+			desc = "Quadruple system. ";
+		} else if (sys->GetNumStars() == 3) {
+			desc = "Triple system. ";
+		} else if (sys->GetNumStars() == 2) {
+			desc = "Binary system. ";
+		} else {
+			desc = sys->rootBody->GetAstroDescription();
+		}
+
+		m_systemName->SetText(sec.m_systems[m_selected].name);
+		m_distance->SetText(buf);
+		m_starType->SetText(desc);
+		m_shortDesc->SetText(sys->GetShortDescription());
 	}
 }
 
