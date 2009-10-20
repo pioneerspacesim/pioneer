@@ -20,11 +20,19 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 
 	m_scanner = new ScannerWidget();
 	m_msglog = new MsgLogWidget();
+
+	m_userSelectedMfuncWidget = m_scanner;
+
+	m_scanner->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), m_scanner));
+	m_msglog->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), m_msglog));
+	m_scanner->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), m_scanner));
+	m_msglog->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), m_msglog));
+
 	// where the scanner is
 	MultiFuncSelectorWidget *mfsel = new MultiFuncSelectorWidget();
-	mfsel->onSelect.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeMultiFunctionDisplay));
+	mfsel->onSelect.connect(sigc::mem_fun(this, &ShipCpanel::OnUserChangeMultiFunctionDisplay));
 	Add(mfsel, 656, 2);
-	OnChangeMultiFunctionDisplay(MFUNC_SCANNER);
+	ChangeMultiFunctionDisplay(m_scanner);
 
 //	Gui::RadioGroup *g = new Gui::RadioGroup();
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
@@ -102,10 +110,6 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
 	Add(m_clock, 4, 2);
 
-	tempMsgAge = 0;
-	tempMsg = new Gui::Label("");
-	Add(tempMsg, 170, 4);
-
 	m_connOnDockingClearanceExpired =
 		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
 }
@@ -119,19 +123,33 @@ ShipCpanel::~ShipCpanel()
 	m_connOnDockingClearanceExpired.disconnect();
 }
 
-void ShipCpanel::OnChangeMultiFunctionDisplay(multifuncfunc_t f)
+void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
 {
 	Gui::Widget *selected = 0;
-
-	Remove(m_scanner);
-	Remove(m_msglog);
-
+	m_userSelectedMfuncWidget = selected;
 	if (f == MFUNC_SCANNER) selected = m_scanner;
 	if (f == MFUNC_MSGLOG) selected = m_msglog;
+	ChangeMultiFunctionDisplay(selected);
+}
+
+void ShipCpanel::ChangeMultiFunctionDisplay(Gui::Widget *selected)
+{
+	Remove(m_scanner);
+	Remove(m_msglog);
 	if (selected) {
 		selected->ShowAll();
 		Add(selected, 200, 2);
 	}
+}
+
+void ShipCpanel::OnMultiFuncGrabFocus(Gui::Widget *w)
+{
+	ChangeMultiFunctionDisplay(w);
+}
+
+void ShipCpanel::OnMultiFuncUngrabFocus(Gui::Widget *)
+{
+	ChangeMultiFunctionDisplay(m_userSelectedMfuncWidget);
 }
 
 void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
@@ -141,12 +159,12 @@ void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
 
 void ShipCpanel::SetTemporaryMessage(const Body *sender, const std::string &msg)
 {
-	m_msgQueue.push_back(QueuedMsg(sender ? sender->GetLabel() : "", msg));
+	m_msglog->PushMessage(sender ? sender->GetLabel() : "", msg);
 }
 
 void ShipCpanel::SetTemporaryMessage(const std::string &sender, const std::string &msg)
 {
-	m_msgQueue.push_back(QueuedMsg(sender, msg));
+	m_msglog->PushMessage(sender, msg);
 }
 
 void ShipCpanel::Update()
@@ -161,6 +179,9 @@ void ShipCpanel::Update()
 	if (timeAccel != requested) {
 		m_timeAccelButtons[requested]->SetSelected(SDL_GetTicks() & 0x200);
 	}
+
+	m_scanner->Update();
+	m_msglog->Update();
 }
 
 void ShipCpanel::Draw()
@@ -168,26 +189,6 @@ void ShipCpanel::Draw()
 	std::string time = format_date(Pi::GetGameTime());
 	m_clock->SetText(time);
 
-	if ((!tempMsgAge) || ((tempMsgAge && (Pi::GetGameTime() - tempMsgAge > 5.0)))) {
-		if (m_msgQueue.empty()) {
-			if (tempMsgAge) {
-				// current message expired and queue empty
-				tempMsg->SetText("");
-				tempMsgAge = 0;
-			}
-		} else {
-			// current message expired and more in queue
-			Pi::BoinkNoise();
-			QueuedMsg m = m_msgQueue.front();
-			m_msgQueue.pop_front();
-			if (m.sender == "") {
-				tempMsg->SetText("#0f0"+m.message);
-			} else {
-				tempMsg->SetText(stringf(1024, "#ca0Message from %s:\n%s", m.sender.c_str(), m.message.c_str()));
-			}
-			tempMsgAge = (float)Pi::GetGameTime();
-		}
-	}
 	Gui::Fixed::Draw();
 	Remove(m_scannerWidget);
 }

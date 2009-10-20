@@ -10,6 +10,13 @@ class SpaceStation;
 class ScannerWidget;
 class MsgLogWidget;
 
+class IMultiFunc {
+public:
+	sigc::signal<void> onGrabFocus;
+	sigc::signal<void> onUngrabFocus;
+	virtual void Update() = 0;
+};
+
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
 	MFUNC_AUTOPILOT,
@@ -34,19 +41,15 @@ private:
 	void OnClickTimeaccel(int val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
-	void OnChangeMultiFunctionDisplay(multifuncfunc_t f);
+	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
+	void ChangeMultiFunctionDisplay(Gui::Widget *selected);
+	void OnMultiFuncGrabFocus(Gui::Widget *);
+	void OnMultiFuncUngrabFocus(Gui::Widget *);
 
+	Gui::Widget *m_userSelectedMfuncWidget;
 	Widget *m_scannerWidget;
 	Gui::Label *m_clock;
 
-	Gui::Label *tempMsg;
-	float tempMsgAge;
-	struct QueuedMsg {
-		QueuedMsg(std::string s, std::string m): sender(s), message(m) {}
-		std::string sender;
-		std::string message;
-	};
-	std::list<QueuedMsg> m_msgQueue;
 	sigc::connection m_connOnDockingClearanceExpired;
 
 	ScannerWidget *m_scanner;

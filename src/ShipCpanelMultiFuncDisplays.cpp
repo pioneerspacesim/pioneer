@@ -9,13 +9,46 @@
 
 MsgLogWidget::MsgLogWidget()
 {
-	Add(new Gui::Label("Hello bawbag!\nThis will be msg log"), 0, 0);
+	tempMsgAge = 0;
+	tempMsg = new Gui::Label("");
+	Add(tempMsg, 0, 4);
+}
+
+void MsgLogWidget::Update()
+{
+	if ((!tempMsgAge) || ((tempMsgAge && (Pi::GetGameTime() - tempMsgAge > 5.0)))) {
+		if (m_msgQueue.empty()) {
+			if (tempMsgAge) {
+				// current message expired and queue empty
+				tempMsg->SetText("");
+				tempMsgAge = 0;
+				onUngrabFocus.emit();
+			}
+		} else {
+			// current message expired and more in queue
+			Pi::BoinkNoise();
+			QueuedMsg m = m_msgQueue.front();
+			m_msgQueue.pop_front();
+			if (m.sender == "") {
+				tempMsg->SetText("#0f0"+m.message);
+			} else {
+				tempMsg->SetText(stringf(1024, "#ca0Message from %s:\n%s", m.sender.c_str(), m.message.c_str()));
+			}
+			tempMsgAge = (float)Pi::GetGameTime();
+			onGrabFocus.emit();
+		}
+	}
 }
 
 void MsgLogWidget::GetSizeRequested(float size[2])
 {
 	size[0] = 400;
 	size[1] = 64;
+}
+
+void MsgLogWidget::PushMessage(const std::string &sender, const std::string &msg)
+{
+	m_msgQueue.push_back(QueuedMsg(sender, msg));
 }
 
 /////////////////////////////////
