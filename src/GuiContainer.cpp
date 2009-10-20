@@ -8,7 +8,7 @@ namespace Gui {
 Container::Container()
 {
 	m_transparent = true;
-	memcpy(m_bgcol, Color::bg, 3*sizeof(float));
+	SetBgColor(Color::bg);
 	onMouseLeave.connect(sigc::mem_fun(this, &Container::_OnMouseLeave));
 	onSetSize.connect(sigc::mem_fun(this, &Container::_OnSetSize));
 }
@@ -248,7 +248,7 @@ void Container::HideAll()
 	Hide();
 }
 
-void Container::SetBgColor(float rgb[3])
+void Container::SetBgColor(const float rgb[3])
 {
 	SetBgColor(rgb[0], rgb[1], rgb[2], 1.0);
 }
