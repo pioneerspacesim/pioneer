@@ -51,8 +51,8 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
 	virtual void NotifyDeath(const Body* const dyingBody);
-	virtual bool OnCollision(Body *b, Uint32 flags, double relVel);
-	virtual bool OnDamage(Body *attacker, float kgDamage);
+	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
+	virtual bool OnDamage(Object *attacker, float kgDamage);
 	enum FlightState { FLYING, LANDED, DOCKING };
        	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s) { m_flightState = s; }

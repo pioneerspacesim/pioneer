@@ -4,9 +4,7 @@ There is much to be done...
 Must do for ~1.0:
 ~~~~~~~~~~~~~~~~~
 
-* Make message system non-crap: elite rating increase message should have
- sender, messages should have priority and have viewable log. support for
- message sender image
+* Message log: viewable log. support for message sender image
 * Limit number of active SFX objects and/or stop them being class Body
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)
@@ -26,7 +24,6 @@ Less crucial things:
 ~~~~~~~~~~~~~~~~~~~~
 
 * Sfx look utterly shit
-* Make scanner only appear at appropriate times
 * Planet twinkles are the colour of the 1st star in the system, not closest or combination
 * Star light should attenuate
 

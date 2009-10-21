@@ -236,15 +236,15 @@ void DynamicBody::SetAngVelocity(vector3d v)
 }
 
 #define KINETIC_ENERGY_MULT	0.00001f
-bool DynamicBody::OnCollision(Body *b, Uint32 flags, double relVel)
+bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 {
 	float kineticEnergy = 0;
-	if (b->IsType(Object::DYNAMICBODY)) {
+	if (o->IsType(Object::DYNAMICBODY)) {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	} else {
 		const float v = (float)GetVelocity().Length();
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
-	if (kineticEnergy) OnDamage(b, kineticEnergy);
+	if (kineticEnergy) OnDamage(o, kineticEnergy);
 	return true;
 }

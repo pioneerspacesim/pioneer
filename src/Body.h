@@ -28,8 +28,8 @@ public:
 	virtual void Render(const Frame *camFrame) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage
-	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) { return false; }
-	virtual bool OnDamage(Body *attacker, float kgDamage) { return false; }
+	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
+	virtual bool OnDamage(Object *attacker, float kgDamage) { return false; }
 	virtual void OnHaveKilled(Body *guyWeKilled) {}
 	virtual void TimeStepUpdate(const float timeStep) {}
 	// after all bodies have had TimeStepUpdate (their moving step),

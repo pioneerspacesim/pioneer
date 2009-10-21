@@ -175,12 +175,12 @@ void Ship::UpdateMass()
 	SetMass(m_stats.total_mass*1000);
 }
 
-bool Ship::OnDamage(Body *attacker, float kgDamage)
+bool Ship::OnDamage(Object *attacker, float kgDamage)
 {
 	if (!IsDead()) {
 		m_stats.hull_mass_left -= kgDamage*0.001f;
 		if (m_stats.hull_mass_left < 0) {
-			attacker->OnHaveKilled(this);
+			if (attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 		} else {
@@ -193,7 +193,7 @@ bool Ship::OnDamage(Body *attacker, float kgDamage)
 }
 
 #define KINETIC_ENERGY_MULT	0.01
-bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
+bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	// hitting space station docking surfaces shouldn't do damage
 	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
