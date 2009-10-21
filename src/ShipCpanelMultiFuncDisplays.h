@@ -2,27 +2,51 @@
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
 #include "Gui.h"
-#include "ShipCpanel.h"
 
-class MsgLogWidget;
-class ScannerWidget;
-class MultiFuncSelectorWidget;
+enum multifuncfunc_t {
+	MFUNC_SCANNER,
+	MFUNC_AUTOPILOT,
+	MFUNC_EQUIPMENT,
+	MFUNC_MSGLOG,
+	MFUNC_MAX
+};
+
+class IMultiFunc {
+public:
+	sigc::signal<void> onGrabFocus;
+	sigc::signal<void> onUngrabFocus;
+	virtual void Update() = 0;
+};
 
 class MsgLogWidget: public IMultiFunc, public Gui::Fixed {
 public:
 	MsgLogWidget();
 	void GetSizeRequested(float size[2]);
-	void PushMessage(const std::string &sender, const std::string &msg);
+
+	void ImportantMessage(const std::string &sender, const std::string &msg) {
+		m_msgQueue.push_back(message_t(sender, msg, MUST_SEE));
+	}
+	void Message(const std::string &sender, const std::string &msg) {
+		m_msgQueue.push_back(message_t(sender, msg, NOT_IMPORTANT));
+	}
 	virtual void Update();
 private:
-	float tempMsgAge;
-	Gui::Label *tempMsg;
-	struct QueuedMsg {
-		QueuedMsg(std::string s, std::string m): sender(s), message(m) {}
+	enum Type {
+		NONE = -1,
+		NOT_IMPORTANT = 0,
+		MUST_SEE = 1
+	};
+	void ShowNext();
+	struct message_t {
+		message_t(std::string s, std::string m, Type t): sender(s), message(m), type(t) {}
 		std::string sender;
 		std::string message;
+		Type type;
 	};
-	std::list<QueuedMsg> m_msgQueue;
+	std::list<message_t> m_msgQueue;
+	float msgAge;
+	Gui::Label *msgLabel;
+	Type curMsgType;
 };
 
 class ScannerWidget: public IMultiFunc, public Gui::Widget {

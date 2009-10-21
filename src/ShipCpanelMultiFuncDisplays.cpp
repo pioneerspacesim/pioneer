@@ -9,34 +9,59 @@
 
 MsgLogWidget::MsgLogWidget()
 {
-	tempMsgAge = 0;
-	tempMsg = new Gui::Label("");
-	Add(tempMsg, 0, 4);
+	msgAge = 0;
+	msgLabel = new Gui::Label("");
+	curMsgType = NONE;
+	Add(msgLabel, 0, 4);
 }
 
 void MsgLogWidget::Update()
 {
-	if ((!tempMsgAge) || ((tempMsgAge && (Pi::GetGameTime() - tempMsgAge > 5.0)))) {
-		if (m_msgQueue.empty()) {
-			if (tempMsgAge) {
-				// current message expired and queue empty
-				tempMsg->SetText("");
-				tempMsgAge = 0;
-				onUngrabFocus.emit();
-			}
-		} else {
-			// current message expired and more in queue
-			Pi::BoinkNoise();
-			QueuedMsg m = m_msgQueue.front();
-			m_msgQueue.pop_front();
-			if (m.sender == "") {
-				tempMsg->SetText("#0f0"+m.message);
-			} else {
-				tempMsg->SetText(stringf(1024, "#ca0Message from %s:\n%s", m.sender.c_str(), m.message.c_str()));
-			}
-			tempMsgAge = (float)Pi::GetGameTime();
-			onGrabFocus.emit();
+	if (curMsgType != NONE) {
+		// has it expired?
+		bool expired = (Pi::GetGameTime() - msgAge > 5.0);
+
+		if (expired || ((curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
+			ShowNext();
 		}
+	} else {
+		ShowNext();
+	}
+}
+
+void MsgLogWidget::ShowNext()
+{
+	if (m_msgQueue.empty()) {
+		// current message expired and queue empty
+		msgLabel->SetText("");
+		msgAge = 0;
+		onUngrabFocus.emit();
+	} else {
+		// current message expired and more in queue
+		Pi::BoinkNoise();
+		message_t msg("","",NONE);
+		// use MUST_SEE messages first
+		for (std::list<message_t>::iterator i = m_msgQueue.begin();
+				i != m_msgQueue.end(); ++i) {
+			if ((*i).type == MUST_SEE) {
+				msg = *i;
+				m_msgQueue.erase(i);
+				break;
+			}
+		}
+		if (msg.type == NONE) {
+			msg = m_msgQueue.front();
+			m_msgQueue.pop_front();
+		}
+
+		if (msg.sender == "") {
+			msgLabel->SetText("#0f0"+msg.message);
+		} else {
+			msgLabel->SetText(stringf(1024, "#ca0Message from %s:\n#0f0%s", msg.sender.c_str(), msg.message.c_str()));
+		}
+		msgAge = (float)Pi::GetGameTime();
+		curMsgType = msg.type;
+		onGrabFocus.emit();
 	}
 }
 
@@ -44,11 +69,6 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 {
 	size[0] = 400;
 	size[1] = 64;
-}
-
-void MsgLogWidget::PushMessage(const std::string &sender, const std::string &msg)
-{
-	m_msgQueue.push_back(QueuedMsg(sender, msg));
 }
 
 /////////////////////////////////

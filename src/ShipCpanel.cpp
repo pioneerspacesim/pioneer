@@ -154,17 +154,7 @@ void ShipCpanel::OnMultiFuncUngrabFocus(Gui::Widget *)
 
 void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
 {
-	SetTemporaryMessage(static_cast<const Body*>(s), "Docking clearance expired. If you wish to dock you must repeat your request.");
-}
-
-void ShipCpanel::SetTemporaryMessage(const Body *sender, const std::string &msg)
-{
-	m_msglog->PushMessage(sender ? sender->GetLabel() : "", msg);
-}
-
-void ShipCpanel::SetTemporaryMessage(const std::string &sender, const std::string &msg)
-{
-	m_msglog->PushMessage(sender, msg);
+	MsgLog()->ImportantMessage(s->GetLabel(), "Docking clearance expired. If you wish to dock you must repeat your request.");
 }
 
 void ShipCpanel::Update()

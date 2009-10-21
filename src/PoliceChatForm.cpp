@@ -32,7 +32,7 @@ void PoliceChatForm::Action(GenericChatForm *form, int val)
 				Sint64 crime, fine;
 				Polit::GetCrime(&crime, &fine);
 				if (fine > Pi::player->GetMoney()) {
-					Pi::cpan->SetTemporaryMessage(0, "You do not have enough money.");
+					Pi::cpan->MsgLog()->Message("", "You do not have enough money.");
 				} else {
 					Pi::player->SetMoney(Pi::player->GetMoney() - fine);
 					Polit::AddCrime(0, -fine);

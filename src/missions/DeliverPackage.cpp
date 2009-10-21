@@ -162,10 +162,10 @@ void DeliverPackage::TestCompleted()
 		m_onDockConn.disconnect();
 		// got to destination
 		if (Pi::GetGameTime() > m_deadline) {
-			Pi::cpan->SetTemporaryMessage(m_personName, deliveryType[m_flavour].failuremsg);
+			Pi::cpan->MsgLog()->ImportantMessage(m_personName, deliveryType[m_flavour].failuremsg);
 			m_status = FAILED;
 		} else {
-			Pi::cpan->SetTemporaryMessage(m_personName, deliveryType[m_flavour].successmsg);
+			Pi::cpan->MsgLog()->ImportantMessage(m_personName, deliveryType[m_flavour].successmsg);
 			Pi::player->SetMoney(Pi::player->GetMoney() + m_agreedPayoff);
 			m_status = COMPLETED;
 		}

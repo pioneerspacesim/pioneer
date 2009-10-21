@@ -128,7 +128,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	Ship::SetDockedWith(s, port);
 	if (s) {
 		if (Pi::CombatRating(m_killCount) > Pi::CombatRating(m_knownKillCount)) {
-			Pi::cpan->SetTemporaryMessage(0, "Well done commander! Your combat rating has improved!");
+			Pi::cpan->MsgLog()->ImportantMessage("Pioneering Pilot's Guild", "Well done commander! Your combat rating has improved!");
 		}
 		m_knownKillCount = m_killCount;
 

@@ -86,7 +86,7 @@ private:
 			Pi::player->m_equipment.Set(slot, mount, m_equipType);
 			Pi::player->CalcStats();
 			Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(m_equipType));
-			Pi::cpan->SetTemporaryMessage(0, "Fitting "+std::string(EquipType::types[m_equipType].name));
+			Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[m_equipType].name));
 			Gui::Container *p = GetParent();
 			Close();
 			p->ShowAll();
@@ -97,7 +97,7 @@ private:
 			Pi::player->CalcStats();
 			Pi::player->SetMoney(Pi::player->GetMoney() + value);
 			station->AddEquipmentStock(m_equipType, 1);
-			Pi::cpan->SetTemporaryMessage(0, "Removing "+std::string(EquipType::types[m_equipType].name));
+			Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[m_equipType].name));
 			Gui::Container *p = GetParent();
 			Close();
 			p->ShowAll();
@@ -153,7 +153,7 @@ private:
 				Pi::player->CalcStats();
 				Pi::player->SetMoney(Pi::player->GetMoney() + value);
 				station->AddEquipmentStock(t, 1);
-				Pi::cpan->SetTemporaryMessage(0, "Removing "+std::string(EquipType::types[t].name));
+				Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[t].name));
 				UpdateBaseDisplay();
 				ShowAll();
 			}
@@ -166,9 +166,9 @@ private:
 		int freespace = Pi::player->m_equipment.FreeSpace(s);
 		
 		if (Pi::player->GetMoney() < station->GetPrice(t)) {
-			Pi::cpan->SetTemporaryMessage(0, "You do not have enough money");
+			Pi::cpan->MsgLog()->Message("", "You do not have enough money");
 		} else if (stats->free_capacity < EquipType::types[t].mass) {
-			Pi::cpan->SetTemporaryMessage(0, "There is no space on your ship");
+			Pi::cpan->MsgLog()->Message("", "There is no space on your ship");
 		} else if (freespace) {
 			if ((freespace > 1) && (s == Equip::SLOT_LASER)) {
 				/* you have a choice of mount points for lasers */
@@ -177,12 +177,12 @@ private:
 				Pi::player->m_equipment.Add(s, t);
 				Pi::player->CalcStats();
 				Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(t));
-				Pi::cpan->SetTemporaryMessage(0, "Fitting "+std::string(EquipType::types[t].name));
+				Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
 				UpdateBaseDisplay();
 				ShowAll();
 			}
 		} else {
-			Pi::cpan->SetTemporaryMessage(0, "There is no space on your ship");
+			Pi::cpan->MsgLog()->Message("", "There is no space on your ship");
 		}
 	}
 };
@@ -296,7 +296,7 @@ private:
 		ShipFlavour _old = *Pi::player->GetFlavour();
 		int cost = f.price - Pi::player->GetFlavour()->price;
 		if (Pi::player->GetMoney() < cost) {
-			Pi::cpan->SetTemporaryMessage(0, "You do not have enough money");
+			Pi::cpan->MsgLog()->Message("", "You do not have enough money");
 		} else {
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 			Pi::player->ChangeFlavour(&f);
@@ -483,7 +483,7 @@ private:
 	void RepairHull(float percent) {
 		int cost = GetCostOfFixingHull(percent);
 		if (Pi::player->GetMoney() < cost) {
-			Pi::cpan->SetTemporaryMessage(0, "You do not have enough money");
+			Pi::cpan->MsgLog()->Message("", "You do not have enough money");
 		} else {
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 			Pi::player->SetPercentHull(Pi::player->GetPercentHull() + percent);

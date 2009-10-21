@@ -87,12 +87,6 @@ public:
 		portal->ShowAll();
 	}
 private:
-	void JettisonCargo(Equip::Type t) {
-		if (Pi::player->Jettison(t)) {
-			Pi::cpan->SetTemporaryMessage(0, std::string("Jettisonned 1 tonne of ")+EquipType::types[t].name);
-			Pi::infoView->UpdateInfo();
-		}
-	}
 	sigc::connection m_onMissionListChangedConnection;
 };
 
@@ -125,7 +119,7 @@ public:
 private:
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
-			Pi::cpan->SetTemporaryMessage(0, std::string("Jettisonned 1 tonne of ")+EquipType::types[t].name);
+			Pi::cpan->MsgLog()->Message("", std::string("Jettisonned 1 tonne of ")+EquipType::types[t].name);
 			Pi::infoView->UpdateInfo();
 		}
 	}

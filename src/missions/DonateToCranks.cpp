@@ -61,13 +61,13 @@ void DonateToCranks::FormResponse(GenericChatForm *form, int resp)
 		default: return;
 	}
 	if (Pi::player->GetMoney() < amount) {
-		Pi::cpan->SetTemporaryMessage(0, "You do not have enough money.");
+		Pi::cpan->MsgLog()->Message("", "You do not have enough money.");
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - amount);
 		if (amount > 1000000)
-			Pi::cpan->SetTemporaryMessage(0, "Wow! That was very generous.");
+			Pi::cpan->MsgLog()->Message("", "Wow! That was very generous.");
 		else
-			Pi::cpan->SetTemporaryMessage(0, "Thankyou. All donations are welcome.");
+			Pi::cpan->MsgLog()->Message("", "Thankyou. All donations are welcome.");
 		form->UpdateBaseDisplay();
 	}
 }

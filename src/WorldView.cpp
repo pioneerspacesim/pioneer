@@ -482,7 +482,7 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 {
 	std::string msg;
 	s->GetDockingClearance(Pi::player, msg);
-	Pi::cpan->SetTemporaryMessage(s, msg);
+	Pi::cpan->MsgLog()->ImportantMessage(s->GetLabel(), msg);
 }
 
 static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
@@ -495,7 +495,7 @@ void WorldView::OnChangeHyperspaceTarget()
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
 	StarSystem *system = new StarSystem(path->sectorX, path->sectorY, path->systemIdx);
 	SBody *b = system->GetBodyByPath(path);
-	Pi::cpan->SetTemporaryMessage(0, std::string("Set hyperspace destination to ")+b->name);
+	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to ")+b->name);
 	std::string msg = "To: "+b->name;
 	m_hyperTargetLabel->SetText(msg);
 	delete system;
