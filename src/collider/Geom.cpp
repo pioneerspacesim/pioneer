@@ -7,10 +7,8 @@
 Geom::Geom(const GeomTree *geomtree)
 {
 	m_geomtree = geomtree;
-	m_orient[0] = matrix4x4d::Identity();
-	m_orient[1] = matrix4x4d::Identity();
+	m_orient = matrix4x4d::Identity();
 	m_invOrient = matrix4x4d::Identity();
-	m_orientIdx = 0;
 	m_active = true;
 	m_data = 0;
 	m_mailboxIndex = 0;
@@ -25,26 +23,24 @@ matrix4x4d Geom::GetRotation() const
 
 void Geom::MoveTo(const matrix4x4d &m)
 {
-	m_orientIdx = !m_orientIdx;
-	m_orient[m_orientIdx] = m;
+	m_orient = m;
 	m_invOrient = m.InverseOf();
 }
 
 void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
 {
-	m_orientIdx = !m_orientIdx;
-	m_orient[m_orientIdx] = m;
-	m_orient[m_orientIdx][12] = pos.x;
-	m_orient[m_orientIdx][13] = pos.y;
-	m_orient[m_orientIdx][14] = pos.z;
-	m_invOrient = m_orient[m_orientIdx].InverseOf();
+	m_orient = m;
+	m_orient[12] = pos.x;
+	m_orient[13] = pos.y;
+	m_orient[14] = pos.z;
+	m_invOrient = m_orient.InverseOf();
 }
 
 vector3d Geom::GetPosition() const
 {
-	return vector3d(m_orient[m_orientIdx][12],
-		m_orient[m_orientIdx][13],
-		m_orient[m_orientIdx][14]);
+	return vector3d(m_orient[12],
+		m_orient[13],
+		m_orient[14]);
 }
 
 void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
@@ -65,38 +61,6 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 		callback(&contact);
 		return;
 	}
-	for (int i=0; i<m_geomtree->m_numVertices; i++) {
-		vector3d vtx(&m_geomtree->m_vertices[3*i]);
-		vector3d from = m_orient[!m_orientIdx] * vtx;
-		vector3d to = m_orient[m_orientIdx] * vtx;
-		vector3d dir = to - from;
-		const double len = dir.Length();
-		dir *= 1.0f/len;
-
-		/* Collide with lovely sphere! */
-		const vector3d v = from - sphere.pos;
-		const double b = -vector3d::Dot (v, dir);
-		double det = (b * b) - vector3d::Dot (v, v) + (sphere.radius*sphere.radius);
-		if (det > 0) {
-			det = sqrt(det);
-			const double i1 = b - det;
-			const double i2 = b + det;
-			if (i2 > 0) {
-				if (i1 > 0) {
-					if (i1 < len) {
-						contact.pos = from + dir*i1;
-						contact.normal = v.Normalized();
-						contact.depth = len - i1;
-						contact.triIdx = 0;
-						contact.userData1 = this->m_data;
-						contact.userData2 = sphere.userData;
-						contact.geomFlag = 0;
-						callback(&contact);
-					}
-				}
-			}
-		}
-	}
 }
 //#include <SDL.h>
 
@@ -109,11 +73,11 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 	matrix4x4d transTo;
 	//unsigned int t = SDL_GetTicks();
 	/* Collide this geom's edges against tri-mesh of geom b */
-	transTo = b->m_invOrient * m_orient[m_orientIdx];
+	transTo = b->m_invOrient * m_orient;
 	this->CollideEdgesWithTrisOf(b, transTo, callback);
 	
 	/* Collide b's edges against this geom's tri-mesh */
-	transTo = m_invOrient * b->m_orient[b->m_orientIdx];
+	transTo = m_invOrient * b->m_orient;
 	b->CollideEdgesWithTrisOf(this, transTo, callback);
 	
 //	t = SDL_GetTicks() - t;

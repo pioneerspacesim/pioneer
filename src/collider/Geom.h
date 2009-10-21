@@ -16,7 +16,7 @@ public:
 	void MoveTo(const matrix4x4d &m);
 	void MoveTo(const matrix4x4d &m, const vector3d pos);
 	const matrix4x4d &GetInvTransform() const { return m_invOrient; }
-	const matrix4x4d &GetTransform() const { return m_orient[m_orientIdx]; }
+	const matrix4x4d &GetTransform() const { return m_orient; }
 	matrix4x4d GetRotation() const;
 	vector3d GetPosition() const;
 	void Enable() { m_active = true; }
@@ -36,8 +36,7 @@ private:
 	int m_mailboxIndex; // used to avoid duplicate collisions
 	void CollideEdges(const matrix4x4d &transToB, Geom *b, void (*callback)(CollisionContact*));
 	// double-buffer position so we can keep previous position
-	matrix4x4d m_orient[2], m_invOrient;
-	int m_orientIdx;
+	matrix4x4d m_orient, m_invOrient;
 	bool m_active;
 	const GeomTree *m_geomtree;
 	void *m_data;
