@@ -1223,6 +1223,30 @@ inline double octavenoise(int octaves, double div, vector3d p)
 	}
 	return n;
 }
+inline double river_octavenoise(int octaves, double div, vector3d p)
+{
+	double n = 0;
+	double wank = 1.0;
+	double jizm = 1.0;
+	while (octaves--) {
+		n += wank * abs(noise(jizm*p));
+		wank *= div;
+		jizm *= 2.0;
+	}
+	return n;
+}
+inline double ridged_octavenoise(int octaves, double div, vector3d p)
+{
+	double n = 0;
+	double wank = 1.0;
+	double jizm = 1.0;
+	while (octaves--) {
+		n += wank * (1.0 - abs(noise(jizm*p)));
+		wank *= div;
+		jizm *= 2.0;
+	}
+	return n;
+}
 
 int GeoSphere::GetRawHeightMapVal(int x, int y)
 {
