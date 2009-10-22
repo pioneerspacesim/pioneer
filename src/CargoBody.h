@@ -12,7 +12,7 @@ public:
 	CargoBody(Equip::Type t);
 	CargoBody() {}
 	virtual void Render(const Frame *camFrame);
-	virtual bool OnDamage(Body *attacker, float kgDamage);
+	virtual bool OnDamage(Object *attacker, float kgDamage);
 protected:
 	virtual void Save();
 	virtual void Load();

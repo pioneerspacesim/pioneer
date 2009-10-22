@@ -76,7 +76,7 @@ void Player::OnHaveKilled(Body *guyWeKilled)
 	}
 }
 
-bool Player::OnDamage(Body *attacker, float kgDamage)
+bool Player::OnDamage(Object *attacker, float kgDamage)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {

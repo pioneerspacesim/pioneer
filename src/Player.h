@@ -26,7 +26,7 @@ public:
 	void SetHyperspaceTarget(const SBodyPath *path);
 	void TakeMission(Mission *);
 	const std::list<Mission*> &GetMissions() const { return m_missions; }
-	virtual bool OnDamage(Body *attacker, float kgDamage);
+	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
 protected:
