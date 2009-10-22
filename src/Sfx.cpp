@@ -8,17 +8,16 @@
 #include "Shader.h"
 #include "Render.h"
 
-Sfx::Sfx(): Body()
+#define MAX_SFX_PER_FRAME 1024
+
+Sfx::Sfx()
 {
-	m_pos = vector3d(0,0,0);
-	m_type = TYPE_EXPLOSION;
-	m_age = 0;
+	m_type = TYPE_NONE;
 }
 
 void Sfx::Save()
 {
 	using namespace Serializer::Write;
-	Body::Save();
 	wr_vector3d(m_pos);
 	wr_vector3d(m_vel);
 	wr_float(m_age);
@@ -28,14 +27,43 @@ void Sfx::Save()
 void Sfx::Load()
 {
 	using namespace Serializer::Read;
-	Body::Load();
 	m_pos = rd_vector3d();
-
-	if (IsOlderThan(2)) m_vel = vector3d(0,0,0);
-	else m_vel = rd_vector3d();
-	
+	m_vel = rd_vector3d();
 	m_age = rd_float();
 	m_type = static_cast<Sfx::TYPE>(rd_int());
+}
+
+void Sfx::Serialize(const Frame *f)
+{
+	using namespace Serializer::Write;
+	// how many sfx turds are active in frame?
+	int numActive = 0;
+	if (f->m_sfx) {
+		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
+			if (f->m_sfx[i].m_type != TYPE_NONE) numActive++;
+		}
+	}
+	wr_int(numActive);
+
+	if (numActive) for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
+		if (f->m_sfx[i].m_type != TYPE_NONE) {
+			f->m_sfx[i].Save();
+		}
+	}
+}
+
+void Sfx::Unserialize(Frame *f)
+{
+	using namespace Serializer::Read;
+	if (IsOlderThan(7)) return;
+
+	int numActive = rd_int();
+	if (numActive) {
+		f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
+		for (int i=0; i<numActive; i++) {
+			f->m_sfx[i].Load();
+		}
+	}
 }
 
 void Sfx::SetPosition(vector3d p)
@@ -50,27 +78,25 @@ void Sfx::TimeStepUpdate(const float timeStep)
 
 	switch (m_type) {
 		case TYPE_EXPLOSION:
-			if (m_age > 0.2) Space::KillBody(this);
+			if (m_age > 0.2) m_type = TYPE_NONE;
 			break;
 		case TYPE_DAMAGE:
-			if (m_age > 2.0) Space::KillBody(this);
+			if (m_age > 2.0) m_type = TYPE_NONE;
 			break;
+		case TYPE_NONE: break;
 	}
 }
 
-void Sfx::Render(const Frame *camFrame)
+void Sfx::Render(const matrix4x4d &ftransform)
 {
 	static GLuint tex;
 	float col[4];
 	if (!tex) tex = util_load_tex_rgba("data/textures/smoke.png");
 
-	matrix4x4d ftran;
-	Frame::GetFrameTransform(GetFrame(), camFrame, ftran);
-	vector3d fpos = ftran * GetPosition();
+	vector3d fpos = ftransform * GetPosition();
 
-	Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
-	
 	switch (m_type) {
+		case TYPE_NONE: break;
 		case TYPE_EXPLOSION:
 			glPushMatrix();
 			glTranslatef(fpos.x, fpos.y, fpos.z);
@@ -95,18 +121,70 @@ void Sfx::Render(const Frame *camFrame)
 			Render::PutPointSprites(1, &pos, 20.0f, col, tex);
 			break;
 	}
-	Shader::DisableVertexProgram();
+}
+
+Sfx *Sfx::AllocSfxInFrame(Frame *f)
+{
+	if (!f->m_sfx) {
+		f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
+	}
+
+	for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
+		if (f->m_sfx[i].m_type == TYPE_NONE) {
+			return &f->m_sfx[i];
+		}
+	}
+	return 0;
 }
 
 void Sfx::Add(const Body *b, TYPE t)
 {
-	Sfx *sfx = new Sfx();
+	Sfx *sfx = AllocSfxInFrame(b->GetFrame());
+	if (!sfx) return;
+
 	sfx->m_type = t;
-	sfx->SetFrame(b->GetFrame());
+	sfx->m_age = 0;
 	sfx->SetPosition(b->GetPosition());
 	sfx->m_vel = b->GetVelocity() + 200.0*vector3d(
 			Pi::rng.Double()-0.5,
 			Pi::rng.Double()-0.5,
 			Pi::rng.Double()-0.5);
-	Space::AddBody(sfx);
 }
+
+void Sfx::TimeStepAll(const float timeStep, Frame *f)
+{
+	if (f->m_sfx) {
+		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
+			if (f->m_sfx[i].m_type != TYPE_NONE) {
+				f->m_sfx[i].TimeStepUpdate(timeStep);
+			}
+		}
+	}
+	
+	for (std::list<Frame*>::iterator i = f->m_children.begin();
+			i != f->m_children.end(); ++i) {
+		TimeStepAll(timeStep, *i);
+	}
+}
+
+void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
+{
+	if (f->m_sfx) {
+		Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
+		matrix4x4d ftran;
+		Frame::GetFrameTransform(f, camFrame, ftran);
+
+		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
+			if (f->m_sfx[i].m_type != TYPE_NONE) {
+				f->m_sfx[i].Render(ftran);
+			}
+		}
+		Shader::DisableVertexProgram();
+	}
+	
+	for (std::list<Frame*>::const_iterator i = f->m_children.begin();
+			i != f->m_children.end(); ++i) {
+		RenderAll(*i, camFrame);
+	}
+}
+

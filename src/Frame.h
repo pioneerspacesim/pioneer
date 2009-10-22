@@ -9,6 +9,7 @@ class Body;
 class CollisionSpace;
 class Geom;
 class SBody;
+class Sfx;
 
 /*
  * Frame of reference.
@@ -59,6 +60,7 @@ public:
 	std::list<Frame*> m_children;
 	SBody *m_sbody; // points to SBodies in Pi::current_system
 	Body *m_astroBody; // if frame contains a star or planet or something
+	Sfx *m_sfx;
 	
 	enum { TEMP_VIEWING=1 };
 private:

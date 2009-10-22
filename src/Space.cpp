@@ -14,6 +14,7 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "pirates.h"
+#include "Sfx.h"
 
 namespace Space {
 
@@ -553,6 +554,7 @@ void TimeStep(float step)
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->StaticUpdate(step);
 	}
+	Sfx::TimeStepAll(step, rootFrame);
 	// see if anyone has been shot
 
 	PruneCorpses();
@@ -657,6 +659,8 @@ void Render(const Frame *cam_frame)
 	for (unsigned int i=0; i<bodies.size(); i++) {
 		bz[i].b->Render(cam_frame);
 	}
+	Sfx::RenderAll(rootFrame, cam_frame);
+
 	delete [] bz;
 }
 

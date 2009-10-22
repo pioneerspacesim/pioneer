@@ -5,25 +5,27 @@
 
 class Frame;
 
-class Sfx: public Body {
+class Sfx {
 public:
-	OBJDEF(Sfx, Body, SFX);
-	enum TYPE { TYPE_EXPLOSION, TYPE_DAMAGE };
+	enum TYPE { TYPE_NONE, TYPE_EXPLOSION, TYPE_DAMAGE };
 
 	static void Add(const Body *, TYPE);
+	static void TimeStepAll(const float timeStep, Frame *f);
+	static void RenderAll(const Frame *f, const Frame *camFrame);
+	static void Serialize(const Frame *f);
+	static void Unserialize(Frame *f);
 
 	Sfx();
-	//virtual ~Sfx();
-	virtual void SetPosition(vector3d p);
-	virtual vector3d GetPosition() const { return m_pos; }
-	virtual double GetRadius() const { return 10; }
-	virtual void Render(const Frame *camFrame);
-	void TimeStepUpdate(const float timeStep);
-
-protected:
-	virtual void Save();
-	virtual void Load();
+	void SetPosition(vector3d p);
+	vector3d GetPosition() const { return m_pos; }
 private:
+	static Sfx *AllocSfxInFrame(Frame *f);
+
+	void Render(const matrix4x4d &transform);
+	void TimeStepUpdate(const float timeStep);
+	void Save();
+	void Load();
+
 	vector3d m_pos;
 	vector3d m_vel;
 	float m_age;

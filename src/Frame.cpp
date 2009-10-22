@@ -2,6 +2,7 @@
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"
+#include "Sfx.h"
 
 Frame::Frame()
 {
@@ -34,6 +35,7 @@ void Frame::Serialize(Frame *f)
 			i != f->m_children.end(); ++i) {
 		Serialize(*i);
 	}
+	Sfx::Serialize(f);
 }
 
 Frame *Frame::Unserialize(Frame *parent)
@@ -53,6 +55,7 @@ Frame *Frame::Unserialize(Frame *parent)
 	for (int i=rd_int(); i>0; --i) {
 		f->m_children.push_back(Unserialize(f));
 	}
+	Sfx::Unserialize(f);
 	
 	return f;
 }
@@ -73,6 +76,7 @@ void Frame::RemoveChild(Frame *f)
 
 void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 {
+	m_sfx = 0;
 	m_sbody = 0;
 	m_astroBody = 0;
 	m_parent = parent;
@@ -91,6 +95,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 
 Frame::~Frame()
 {
+	if (m_sfx) delete [] m_sfx;
 	delete m_collisionSpace;
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) delete *i;
 }
