@@ -98,6 +98,7 @@ LabelButton::LabelButton(Label *label): Button()
 {
 	m_label = label;
 	m_padding = 5.0;
+	onSetSize.connect(sigc::mem_fun(this, &LabelButton::OnSetSize));
 }
 
 LabelButton::~LabelButton() { delete m_label; }
@@ -113,6 +114,7 @@ void LabelButton::Draw()
 {
 	float size[2];
 	GetSize(size);
+	//printf("%f,%f\n", size[0], size[1]);
 	glColor3f(1,1,1);
 	//Theme::DrawHollowRect(size);
 	if (IsPressed()) {
@@ -124,6 +126,14 @@ void LabelButton::Draw()
 	glTranslatef(m_padding, m_padding*0.5, 0);
 	m_label->Draw();
 	glPopMatrix();
+}
+
+void LabelButton::OnSetSize()
+{
+	float size[2];
+	GetSize(size);
+
+	m_label->SetSize(size[0]-2*m_padding, size[1]);
 }
 
 }

@@ -4,15 +4,14 @@ There is much to be done...
 Must do for ~1.0:
 ~~~~~~~~~~~~~~~~~
 
+* Menu - load, save, set detail level, etc
 * Message log: viewable log. support for message sender image
-* Limit number of active SFX objects and/or stop them being class Body
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)
 ~ Textual system descriptions
 * Shipyard:
- * Repairs, servicing
- * Stats: gun mounts, missile pilons (should we use this or put them in the
-   hull?), crew
+ * drive servicing
+ * Stats: gun mounts, missile pilons (should we use this or put them in the hull?), crew
 * Cargo scooping
 * Fuel scooping
 * Military standing, legal status, police

@@ -52,8 +52,10 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();
 		void SetPadding(float p) { m_padding = p; }
-	private:
+	protected:
 		Label *m_label;
+	private:
+		void OnSetSize();
 		float m_padding;
 	};
 }

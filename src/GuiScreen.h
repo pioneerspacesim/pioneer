@@ -11,6 +11,7 @@ namespace Gui {
 	public:
 		static void Init(int real_width, int real_height, int ui_width, int ui_height);
 		static void Draw();
+		static void ShowBadError(const char *msg);
 		static void AddBaseWidget(Widget *w, int x, int y);
 		static void RemoveBaseWidget(Widget *w);
 		static void OnMouseMotion(SDL_MouseMotionEvent *e);

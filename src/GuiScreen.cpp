@@ -37,6 +37,50 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::baseContainer->Show();
 }
 
+void Screen::ShowBadError(const char *msg)
+{
+	fprintf(stderr, "%s", msg);
+	baseContainer->HideChildren();
+	
+	Gui::Fixed *f = new Gui::Fixed(GetWidth()/2, GetHeight()/2);
+	Gui::Screen::AddBaseWidget(f, GetWidth()/4, GetHeight()/4);
+	f->SetTransparency(false);
+	f->SetBgColor(0.4,0,0,1.0);
+	f->Add(new Gui::Label(msg), 10, 10);
+
+	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
+	f->Add(okButton, 10, 200);
+	f->ShowAll();
+	f->Show();
+
+	do {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// handle events
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			Gui::HandleSDLEvent(&event);
+			if (event.type == SDL_QUIT) {
+				SDL_Quit();
+				exit(0);
+			}
+		}
+
+		SDL_ShowCursor(1);
+		SDL_WM_GrabInput(SDL_GRAB_OFF);
+		Gui::Draw();
+		glFlush();
+		SDL_GL_SwapBuffers();
+		SDL_Delay(10);
+	} while (!okButton->IsPressed());
+	Gui::Screen::RemoveBaseWidget(f);
+	baseContainer->ShowAll();
+}
+
 GLint Screen::Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ)
 {
 	GLint o = gluProject(objX, objY, objZ, model, proj, view, winX, winY, winZ);

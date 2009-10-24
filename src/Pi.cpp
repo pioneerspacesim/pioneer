@@ -26,6 +26,7 @@
 #include "Polit.h"
 #include "GalacticView.h"
 #include "Galaxy.h"
+#include "GameMenuView.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -54,6 +55,7 @@ SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
+GameMenuView *Pi::gameMenuView;
 SystemView *Pi::systemView;
 SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
@@ -138,6 +140,7 @@ void Pi::Init(IniConfig &config)
 			exit(-1);
 		}
 	}
+	SDL_EnableUNICODE(1);
 	glewInit();
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;
@@ -211,6 +214,9 @@ void Pi::SetTimeAccel(int s)
 
 void Pi::RequestTimeAccel(int s)
 {
+	if (currentView == gameMenuView) {
+		SetView(worldView);
+	}
 	requestedTimeAccelIdx = s;
 }
 
@@ -250,6 +256,15 @@ void Pi::HandleEvents()
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE) {
+					// only accessible once game started
+					if (currentView != 0) {
+						RequestTimeAccel(0);
+						SetTimeAccel(0);
+						SetView(gameMenuView);
+					}
+					break;
+				}
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
 					if (event.key.keysym.sym == SDLK_q) Pi::Quit();
@@ -435,6 +450,7 @@ void Pi::Start()
 	cpan = new ShipCpanel();
 	sectorView = new SectorView();
 	galacticView = new GalacticView();
+	gameMenuView = new GameMenuView();
 	systemView = new SystemView();
 	systemInfoView = new SystemInfoView();
 	worldView = new WorldView();
@@ -589,6 +605,8 @@ void Pi::Start()
 	delete cpan;
 	Space::RemoveBody(Pi::player);
 	delete player;
+	delete galacticView;
+	delete gameMenuView;
 }
 
 static void OnPlayerDockOrUndock()
