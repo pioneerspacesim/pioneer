@@ -47,6 +47,10 @@ class Frame;
 class Pi {
 public:
 	static void Init(IniConfig &config);
+	static void InitGame();
+	static void StartGame();
+	static void UninitGame();
+	static void EndGame();
 	static void Start();
 	static void MainLoop();
 	static void TombStoneLoop();
@@ -70,6 +74,7 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void BoinkNoise();
+	static bool IsGameStarted() { return isGameStarted; }
 	static float CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes);
 	
 	static sigc::signal<void, SDL_keysym*> onKeyPress;
@@ -125,6 +130,7 @@ private:
 	static char mouseButton[5];
 	static int mouseMotion[2];
 	static const float timeAccelRates[];
+	static bool isGameStarted;
 };
 
 #endif /* _PI_H */

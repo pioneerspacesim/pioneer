@@ -67,6 +67,7 @@ float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 int Pi::statSceneTris;
+bool Pi::isGameStarted = false;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0 };
 const char * const Pi::combatRating[] = {
 	"Harmless",
@@ -165,6 +166,8 @@ void Pi::Init(IniConfig &config)
 	}
 	
 	Gui::Init(scrWidth, scrHeight, 800, 600);
+	
+	gameMenuView = new GameMenuView();
 }
 
 void Pi::InitOpenGL()
@@ -315,7 +318,11 @@ void Pi::HandleEvents()
 #endif /* DEBUG */
 					if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
 					if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
-					if (event.key.keysym.sym == SDLK_F9) Serializer::Write::Game("quicksave.sav");
+					if (event.key.keysym.sym == SDLK_F9) {
+						std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
+						Serializer::Write::Game(name.c_str());
+						Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+					}
 				}
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::onKeyPress.emit(&event.key.keysym);
@@ -346,7 +353,7 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_intro(float _time)
+static void draw_intro(WorldView *view, float _time)
 {
 	static float lightCol[4] = { 1,1,1,0 };
 	static float lightDir[4] = { 0,1,0,0 };
@@ -362,7 +369,7 @@ static void draw_intro(float _time)
 		{ "PIONEER" },
 	};
 	glRotatef(_time*10, 1, 0, 0);
-	Pi::worldView->DrawBgStars();
+	view->DrawBgStars();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 	sbreSetDirLight (lightCol, lightDir);
@@ -428,7 +435,7 @@ void Pi::TombStoneLoop()
 	} while (!((_time > 2.0) && ((Pi::MouseButtonState(1)) || Pi::KeyState(SDLK_SPACE)) ));
 }
 
-void Pi::Start()
+void Pi::InitGame()
 {
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
@@ -436,6 +443,7 @@ void Pi::Start()
 	Pi::requestedTimeAccelIdx = 1;
 	Pi::gameTime = 0;
 	Pi::currentView = 0;
+	Pi::isGameStarted = false;
 
 	player = new Player(ShipType::SIRIUS_INTERDICTOR);
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
@@ -448,16 +456,56 @@ void Pi::Start()
 	Space::AddBody(player);
 	
 	cpan = new ShipCpanel();
+	worldView = new WorldView();
 	sectorView = new SectorView();
 	galacticView = new GalacticView();
-	gameMenuView = new GameMenuView();
 	systemView = new SystemView();
 	systemInfoView = new SystemInfoView();
-	worldView = new WorldView();
 	objectViewerView = new ObjectViewerView();
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
+}
 
+static void OnPlayerDockOrUndock()
+{
+	Pi::RequestTimeAccel(1);
+	Pi::SetTimeAccel(1);
+}
+
+void Pi::StartGame()
+{
+	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+	cpan->ShowAll();
+	SetView(worldView);
+	Pi::isGameStarted = true;
+}
+
+void Pi::UninitGame()
+{
+	Pi::isGameStarted = false;
+	delete infoView;
+	delete spaceStationView;
+	delete objectViewerView;
+	delete worldView;
+	delete systemInfoView;
+	delete systemView;
+	delete sectorView;
+	delete cpan;
+	delete galacticView;
+	if (Pi::player) {
+		Space::KillBody(Pi::player);
+		Space::RemoveBody(Pi::player);
+		Space::Clear();
+		delete Pi::player;
+		Pi::player = 0;
+	}
+}
+
+void Pi::Start()
+{
+	WorldView *view = new WorldView();
+	
 	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);
@@ -478,7 +526,7 @@ void Pi::Start()
 	splash->Add(opts[2], w, h);
 	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h);
 	splash->Add(opts[3], w, h+32);
-	splash->Add(new Gui::Label("Load quicksave"), w+32, h+32);
+	splash->Add(new Gui::Label("Load a saved game"), w+32, h+32);
 	splash->Add(opts[4], w, h+64);
 	splash->Add(new Gui::Label("Quit"), w+32, h+64);
 
@@ -501,7 +549,7 @@ void Pi::Start()
 		SDL_ShowCursor(1);
 		SDL_WM_GrabInput(SDL_GRAB_OFF);
 
-		draw_intro(_time);
+		draw_intro(view, _time);
 		Gui::Draw();
 		glFlush();
 		SDL_GL_SwapBuffers();
@@ -514,6 +562,12 @@ void Pi::Start()
 		for (int i=0; i<OPTS; i++) if (opts[i]->GetPressed()) choice = i+1;
 	} while (!choice);
 	splash->HideAll();
+	
+	Gui::Screen::RemoveBaseWidget(splash);
+	delete splash;
+	delete view;
+	
+	InitGame();
 
 	if (choice == 1) {
 		/* Earth start point */
@@ -586,44 +640,33 @@ void Pi::Start()
 
 		MainLoop();
 	} else if (choice == 4) {
-		// load quicksave
-		Serializer::Read::Game("quicksave.sav");
-		MainLoop();
+		if (Pi::player) {
+			Pi::player->MarkDead();
+			Space::bodies.remove(Pi::player);
+			delete Pi::player;
+			Pi::player = 0;
+		}
+		Pi::gameMenuView->OpenLoadDialog();
+		do {
+			Gui::MainLoopIteration();
+		} while (Pi::currentView != Pi::worldView);
+		
+		if (Pi::player) MainLoop();
 	} else {
 		Pi::Quit();
 	}
-	
-	Gui::Screen::RemoveBaseWidget(splash);
-	delete splash;
-	delete infoView;
-	delete spaceStationView;
-	delete objectViewerView;
-	delete worldView;
-	delete systemInfoView;
-	delete systemView;
-	delete sectorView;
-	delete cpan;
-	Space::RemoveBody(Pi::player);
-	delete player;
-	delete galacticView;
-	delete gameMenuView;
+	UninitGame();
 }
 
-static void OnPlayerDockOrUndock()
+void Pi::EndGame()
 {
-	Pi::RequestTimeAccel(1);
-	Pi::SetTimeAccel(1);
+	Pi::isGameStarted = false;
 }
 
 void Pi::MainLoop()
 {
-	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
-	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
-
-	cpan->ShowAll();
-
-	SetView(worldView);
-
+	StartGame();
+	
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
 	int phys_stat = 0;
@@ -638,7 +681,7 @@ void Pi::MainLoop()
 
 	memset(fps_readout, 0, sizeof(fps_readout));
 
-	for (;;) {
+	while (isGameStarted) {
 		frame_stat++;
 
 		glMatrixMode(GL_MODELVIEW);

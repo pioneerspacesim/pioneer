@@ -5,14 +5,17 @@
 #include "Gui.h"
 #include "View.h"
 
+extern std::string GetFullSavefileDirPath();
+
 class GameMenuView: public View {
 public:
 	GameMenuView();
 	virtual void Update() {}
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo();
-private:
+	void OpenLoadDialog();
 	void OpenSaveDialog();
+private:
 	View *m_subview;
 };
 

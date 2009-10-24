@@ -1,6 +1,8 @@
 #include "GameMenuView.h"
 #include "Pi.h"
 #include "Serializer.h"
+#include "WorldView.h"
+#include "ShipCpanel.h"
 
 #if _GNU_SOURCE
 #include <sys/types.h>
@@ -12,7 +14,7 @@
 /*
  * Must create the folders if they do not exist already.
  */
-static std::string GetFullSavefileDirPath()
+std::string GetFullSavefileDirPath()
 {
 	// i think this test only works with glibc...
 #if _GNU_SOURCE
@@ -65,6 +67,7 @@ static void GetDirectoryContents(const char *name, std::list<std::string> &files
 #else
 # error Unsupported turd
 #endif
+	files.sort();
 }
 
 class SimpleLabelButton: public Gui::LabelButton
@@ -90,7 +93,6 @@ public:
 	}
 
 	void ShowAll() {
-		const float FH = Gui::Screen::GetFontHeight();
 		DeleteAllChildren();
 		PackEnd(new Gui::Label(m_title), false);
 		m_tentry = new Gui::TextEntry();
@@ -122,7 +124,6 @@ public:
 		hbox->PackEnd(scroll, false);
 
 		Gui::Box *vbox = new Gui::VBox();
-		int x =0;
 		for (std::list<std::string>::iterator i = files.begin(); i!=files.end(); ++i) {
 			Gui::Button *b = new SimpleLabelButton(new Gui::Label(*i));
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileDialog::OnClickFile), *i));
@@ -153,9 +154,13 @@ class SaveDialogView: public View {
 public:
 	SaveDialogView() {
 		SetTransparency(false);
+		SetBgColor(0,0,0,1.0);
 
+		Gui::Fixed *f2 = new Gui::Fixed(410, 410);
+		f2->SetTransparency(false);
+		Add(f2, 195, 45);
 		Gui::Fixed *f = new Gui::Fixed(400, 400);
-		Add(f, 200, 50);
+		f2->Add(f, 5, 5);
 		m_fileDialog = new FileDialog(FileDialog::SAVE, "Select a file to save to or enter a new filename");
 		f->Add(m_fileDialog, 0, 0);
 
@@ -169,6 +174,7 @@ private:
 	void OnClickSave(std::string filename) {
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 		Serializer::Write::Game(fullname.c_str());
+		Pi::cpan->MsgLog()->Message("", "Game saved to "+fullname);
 		m_fileDialog->ShowAll();
 	}
 	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
@@ -179,9 +185,13 @@ class LoadDialogView: public View {
 public:
 	LoadDialogView() {
 		SetTransparency(false);
+		SetBgColor(0,0,0,1.0);
 
+		Gui::Fixed *f2 = new Gui::Fixed(410, 410);
+		f2->SetTransparency(false);
+		Add(f2, 195, 45);
 		Gui::Fixed *f = new Gui::Fixed(400, 400);
-		Add(f, 200, 50);
+		f2->Add(f, 5, 5);
 		m_fileDialog = new FileDialog(FileDialog::LOAD, "Select a file to load");
 		f->Add(m_fileDialog, 0, 0);
 
@@ -194,8 +204,14 @@ public:
 private:
 	void OnClickLoad(std::string filename) {
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
-//		Serializer::Read::Game(fullname.c_str());
-		m_fileDialog->ShowAll();
+		Pi::UninitGame();
+		Pi::InitGame();
+		Serializer::Read::Game(fullname.c_str());
+		Pi::StartGame();
+		// Pi::currentView is unset, but this view is still shown, so
+		// must un-show it
+		Pi::SetView(Pi::gameMenuView);
+		Pi::SetView(Pi::worldView);
 	}
 	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
 	FileDialog *m_fileDialog;
@@ -221,11 +237,14 @@ GameMenuView::GameMenuView(): View()
 	b->SetShortcut(SDLK_s, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
 	vbox->PackEnd(b, false);
-//	Add(b, 350, 200);
 	b = new Gui::LabelButton(new Gui::Label("[L] Load a game"));
+	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
 	b->SetShortcut(SDLK_l, KMOD_NONE);
-//	Add(b, 350, 250);
-//	vbox->PackEnd(b, false);
+	vbox->PackEnd(b, false);
+	b = new Gui::LabelButton(new Gui::Label("Exit this game"));
+	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
+	b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
+	vbox->PackEnd(b, false);
 }
 
 void GameMenuView::OpenSaveDialog()
@@ -235,10 +254,20 @@ void GameMenuView::OpenSaveDialog()
 	Pi::SetView(m_subview);
 }
 
+void GameMenuView::OpenLoadDialog()
+{
+	if (m_subview) delete m_subview;
+	m_subview = new LoadDialogView;
+	Pi::SetView(m_subview);
+}
+
 void GameMenuView::OnSwitchTo() {
 	if (m_subview) {
 		delete m_subview;
 		m_subview = 0;
+	}
+	if (!Pi::IsGameStarted()) {
+		Pi::SetView(Pi::worldView);
 	}
 }
 

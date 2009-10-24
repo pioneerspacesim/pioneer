@@ -54,29 +54,10 @@ void Screen::ShowBadError(const char *msg)
 	f->Show();
 
 	do {
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// handle events
-		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
-			Gui::HandleSDLEvent(&event);
-			if (event.type == SDL_QUIT) {
-				SDL_Quit();
-				exit(0);
-			}
-		}
-
-		SDL_ShowCursor(1);
-		SDL_WM_GrabInput(SDL_GRAB_OFF);
-		Gui::Draw();
-		glFlush();
-		SDL_GL_SwapBuffers();
+		Gui::MainLoopIteration();
 		SDL_Delay(10);
 	} while (!okButton->IsPressed());
+
 	Gui::Screen::RemoveBaseWidget(f);
 	baseContainer->ShowAll();
 }
