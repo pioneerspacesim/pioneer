@@ -1454,7 +1454,7 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 				return col;
 			}
 		case SBody::TYPE_PLANET_WATER:
-			n = m_invMaxHeight*height - 0.5;
+			n = m_invMaxHeight*height;
 			if (n <= 0) return vector3d(0.0,0.0,0.5);
 			else return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 		default:
