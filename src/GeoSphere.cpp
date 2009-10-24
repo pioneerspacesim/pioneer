@@ -9,11 +9,12 @@
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH	15
 // must be an odd number
-#define GEOPATCH_EDGELEN	15
+//#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
 #define GEOSPHERE_USE_THREADING
 
-static const double GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
+int GEOPATCH_EDGELEN = 15;
+static double GEOPATCH_FRAC;
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
@@ -39,12 +40,11 @@ public:
 	vector3d *normals;
 	vector3d *colors;
 	GLuint m_vbo;
-	static bool initialized;
 	static unsigned short *midIndices;
 	static unsigned short *loEdgeIndices[4];
 	static unsigned short *hiEdgeIndices[4];
 	static GLuint indices_vbo[9];
-	static VBOVertex vbotemp[GEOPATCH_NUMVERTICES];
+	static VBOVertex *vbotemp;
 	GeoPatch *kids[4];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
@@ -74,7 +74,23 @@ public:
 	}
 
 	static void Init() {
-		if (!midIndices) {
+		GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
+
+		if (midIndices) {
+			delete [] midIndices;
+			for (int i=0; i<4; i++) {
+				delete [] loEdgeIndices[i];
+				delete [] hiEdgeIndices[i];
+			}
+			if (indices_vbo[0]) {
+				glDeleteBuffersARB(9, indices_vbo);
+			}
+			delete [] vbotemp;
+		}
+
+		{
+			vbotemp = new VBOVertex[GEOPATCH_NUMVERTICES];
+				
 			unsigned short *idx;
 			midIndices = new unsigned short[VBO_COUNT_MID_IDX];
 			for (int i=0; i<4; i++) {
@@ -281,7 +297,7 @@ public:
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
 	 * for adjacent tiles */
-	void GetEdgeMinusOneVerticesFlipped(int edge, vector3d ev[GEOPATCH_EDGELEN]) {
+	void GetEdgeMinusOneVerticesFlipped(int edge, vector3d *ev) {
 		if (edge == 0) {
 			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[GEOPATCH_EDGELEN-1-x] = vertices[x + GEOPATCH_EDGELEN];
 		} else if (edge == 1) {
@@ -294,7 +310,7 @@ public:
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[GEOPATCH_EDGELEN-1-y] = vertices[1 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
 		}
 	}
-	static void GetEdge(vector3d *array, int edge, vector3d ev[GEOPATCH_EDGELEN]) {
+	static void GetEdge(vector3d *array, int edge, vector3d *ev) {
 		if (edge == 0) {
 			for (int x=0; x<GEOPATCH_EDGELEN; x++) ev[x] = array[x];
 		} else if (edge == 1) {
@@ -307,7 +323,7 @@ public:
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) ev[y] = array[0 + ((GEOPATCH_EDGELEN-1)-y)*GEOPATCH_EDGELEN];
 		}
 	}
-	static void SetEdge(vector3d *array, int edge, const vector3d ev[GEOPATCH_EDGELEN]) {
+	static void SetEdge(vector3d *array, int edge, const vector3d *ev) {
 		if (edge == 0) {
 			for (int x=0; x<GEOPATCH_EDGELEN; x++) array[x] = ev[x];
 		} else if (edge == 1) {
@@ -329,7 +345,7 @@ public:
 	}
 
 
-	void FixEdgeNormals(const int edge, const vector3d ev[GEOPATCH_EDGELEN]) {
+	void FixEdgeNormals(const int edge, const vector3d *ev) {
 		vector3d x1, x2, y1, y2;
 		int x, y;
 		switch (edge) {
@@ -422,7 +438,7 @@ public:
 	}
 
 	template <int corner>
-	void MakeCornerNormal(vector3d ev[GEOPATCH_EDGELEN], vector3d ev2[GEOPATCH_EDGELEN]) {
+	void MakeCornerNormal(vector3d *ev, vector3d *ev2) {
 		int p;
 		vector3d x1,x2,y1,y2;
 		switch (corner) {
@@ -460,7 +476,7 @@ public:
 		}
 	}
 
-	void FixCornerNormalsByEdge(int edge, vector3d ev[GEOPATCH_EDGELEN]) {
+	void FixCornerNormalsByEdge(int edge, vector3d *ev) {
 		vector3d ev2[GEOPATCH_EDGELEN];
 		vector3d x1, x2, y1, y2;
 		switch (edge) {
@@ -811,12 +827,11 @@ public:
 	}
 };
 
-bool GeoPatch::initialized = false;
 unsigned short *GeoPatch::midIndices = 0;
 unsigned short *GeoPatch::loEdgeIndices[4];
 unsigned short *GeoPatch::hiEdgeIndices[4];
 GLuint GeoPatch::indices_vbo[9];
-VBOVertex GeoPatch::vbotemp[GEOPATCH_NUMVERTICES];
+VBOVertex *GeoPatch::vbotemp;
 
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },
@@ -877,10 +892,35 @@ void GeoSphere::_UpdateLODs()
 void GeoSphere::Init()
 {
 	s_allGeospheresLock = SDL_CreateMutex();
-	GeoPatch::Init();
+	OnChangeDetailLevel();
 #ifdef GEOSPHERE_USE_THREADING
 	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
+}
+
+	static struct DetailLevel detail;
+
+void GeoSphere::OnChangeDetailLevel()
+{
+	SDL_mutexP(s_allGeospheresLock);
+	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
+			i != s_allGeospheres.end(); ++i) {
+		for (int p=0; p<6; p++) if ((*i)->m_patches[p]) delete (*i)->m_patches[p];
+	}
+	switch (Pi::detail.planets) {
+		case 0: GEOPATCH_EDGELEN = 7; break;
+		case 1: GEOPATCH_EDGELEN = 15; break;
+		case 2: GEOPATCH_EDGELEN = 25; break;
+		case 3: GEOPATCH_EDGELEN = 35; break;
+		default:
+		case 4: GEOPATCH_EDGELEN = 55; break;
+	}
+	GeoPatch::Init();
+	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
+			i != s_allGeospheres.end(); ++i) {
+		(*i)->BuildFirstPatches();
+	}
+	SDL_mutexV(s_allGeospheresLock);
 }
 
 #define GEOSPHERE_SEED	(m_sbody->seed)
@@ -914,8 +954,7 @@ GeoSphere::GeoSphere(const SBody *body)
 		default: break;
 	}
 
-	memset(m_patches, 0, sizeof(m_patches));
-	m_patches[0] = 0;
+	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	if (body->heightMapFilename) {
 		FILE *f;
@@ -966,6 +1005,42 @@ void GeoSphere::DestroyVBOs()
 	}
 	m_vbosToDestroy.clear();
 	SDL_mutexV(m_vbosToDestroyLock);
+}
+
+void GeoSphere::BuildFirstPatches()
+{
+	// generate initial wank
+	vector3d p1(1,1,1);
+	vector3d p2(-1,1,1);
+	vector3d p3(-1,-1,1);
+	vector3d p4(1,-1,1);
+	vector3d p5(1,1,-1);
+	vector3d p6(-1,1,-1);
+	vector3d p7(-1,-1,-1);
+	vector3d p8(1,-1,-1);
+	p1 = p1.Normalized();
+	p2 = p2.Normalized();
+	p3 = p3.Normalized();
+	p4 = p4.Normalized();
+	p5 = p5.Normalized();
+	p6 = p6.Normalized();
+	p7 = p7.Normalized();
+	p8 = p8.Normalized();
+
+	m_patches[0] = new GeoPatch(p1, p2, p3, p4, 0);
+	m_patches[1] = new GeoPatch(p4, p3, p7, p8, 0);
+	m_patches[2] = new GeoPatch(p1, p4, p8, p5, 0);
+	m_patches[3] = new GeoPatch(p2, p1, p5, p6, 0);
+	m_patches[4] = new GeoPatch(p3, p2, p6, p7, 0);
+	m_patches[5] = new GeoPatch(p8, p7, p6, p5, 0);
+	for (int i=0; i<6; i++) {
+		m_patches[i]->geosphere = this;
+		for (int j=0; j<4; j++) {
+			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
+		}
+	}
+	for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
+	for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
 }
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
@@ -1144,40 +1219,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	}
 	//Shader::DisableVertexProgram(); return;
 
-	if (m_patches[0] == 0) {
-		// generate initial wank
-		vector3d p1(1,1,1);
-		vector3d p2(-1,1,1);
-		vector3d p3(-1,-1,1);
-		vector3d p4(1,-1,1);
-		vector3d p5(1,1,-1);
-		vector3d p6(-1,1,-1);
-		vector3d p7(-1,-1,-1);
-		vector3d p8(1,-1,-1);
-		p1 = p1.Normalized();
-		p2 = p2.Normalized();
-		p3 = p3.Normalized();
-		p4 = p4.Normalized();
-		p5 = p5.Normalized();
-		p6 = p6.Normalized();
-		p7 = p7.Normalized();
-		p8 = p8.Normalized();
-
-		m_patches[0] = new GeoPatch(p1, p2, p3, p4, 0);
-		m_patches[1] = new GeoPatch(p4, p3, p7, p8, 0);
-		m_patches[2] = new GeoPatch(p1, p4, p8, p5, 0);
-		m_patches[3] = new GeoPatch(p2, p1, p5, p6, 0);
-		m_patches[4] = new GeoPatch(p3, p2, p6, p7, 0);
-		m_patches[5] = new GeoPatch(p8, p7, p6, p5, 0);
-		for (int i=0; i<6; i++) {
-			m_patches[i]->geosphere = this;
-			for (int j=0; j<4; j++) {
-				m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
-			}
-		}
-		for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
-		for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
-	}
+	if (!m_patches[0]) BuildFirstPatches();
+	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	

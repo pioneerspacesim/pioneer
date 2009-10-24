@@ -40,6 +40,10 @@ class IniConfig: private std::map<std::string, std::string> {
 	}
 };
 
+struct DetailLevel {
+	int planets;
+};
+
 class Frame;
 /*
  * Implementation is in main.cpp, just to confuse you.
@@ -54,6 +58,7 @@ public:
 	static void Start();
 	static void MainLoop();
 	static void TombStoneLoop();
+	static void OnChangeDetailLevel();
 	static void Quit();
 	static void Serialize();
 	static void Unserialize();
@@ -112,6 +117,8 @@ public:
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];
+
+	static struct DetailLevel detail;
 private:
 	static void InitOpenGL();
 	static void HandleEvents();

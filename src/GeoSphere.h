@@ -4,6 +4,8 @@
 #include "vector3.h"
 #include "mtrand.h"
 
+extern int GEOPATCH_EDGELEN;
+
 class SBody;
 class GeoPatch;
 class GeoSphere {
@@ -17,8 +19,10 @@ public:
 	void _UpdateLODs();
 	friend class GeoPatch;
 	static void Init();
+	static void OnChangeDetailLevel();
 	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const;
 private:
+	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
 	struct crater_t {
 		vector3d pos;

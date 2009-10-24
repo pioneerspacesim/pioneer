@@ -68,6 +68,7 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
+struct DetailLevel Pi::detail = { 1 };
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0 };
 const char * const Pi::combatRating[] = {
 	"Harmless",
@@ -231,6 +232,11 @@ void Pi::SetView(View *v)
 	currentView->ShowAll();
 }
 
+void Pi::OnChangeDetailLevel()
+{
+	GeoSphere::OnChangeDetailLevel();
+}
+
 void Screendump(char *destFile)
 {
 	/* XXX TODO XXX not endian-safe */
@@ -259,6 +265,9 @@ void Pi::HandleEvents()
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_l) {
+					GeoSphere::OnChangeDetailLevel();
+				}
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
 					// only accessible once game started
 					if (currentView != 0) {
@@ -820,6 +829,8 @@ void Pi::Serialize()
 	Polit::Serialize();
 	sectorView->Save();
 	worldView->Save();
+
+	wr_int(detail.planets);
 }
 
 void Pi::Unserialize()
@@ -841,6 +852,11 @@ void Pi::Unserialize()
 	Polit::Unserialize();
 	sectorView->Load();
 	worldView->Load();
+
+	if (!IsOlderThan(8)) {
+		detail.planets = rd_int();
+	}
+	OnChangeDetailLevel();
 }
 
 IniConfig::IniConfig(const char *filename)

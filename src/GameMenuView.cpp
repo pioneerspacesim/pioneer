@@ -217,6 +217,10 @@ private:
 	FileDialog *m_fileDialog;
 };
 
+static const char *planet_detail_desc[5] = {
+	"Low", "Medium", "High", "Very high", "Very very high"
+};
+
 GameMenuView::GameMenuView(): View()
 {
 	m_subview = 0;
@@ -245,6 +249,38 @@ GameMenuView::GameMenuView(): View()
 	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
 	b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
 	vbox->PackEnd(b, false);
+
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	Add(vbox, 400, 100);
+
+	vbox->PackEnd(new Gui::Label("Planet detail level:"));
+	Gui::RadioGroup *g = new Gui::RadioGroup();
+
+	for (int i=0; i<5; i++) {
+		m_planetDetail[i] = new Gui::RadioButton(g);
+		m_planetDetail[i]->onSelect.connect(sigc::bind(sigc::mem_fun(this,
+					&GameMenuView::OnChangePlanetDetail), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_planetDetail[i], false);
+		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
+		vbox->PackEnd(hbox, false);
+	}
+}
+	
+void GameMenuView::OnChangePlanetDetail(int level)
+{
+	m_changedDetailLevel = true;
+	Pi::detail.planets = level;
+}
+
+void GameMenuView::HideAll()
+{
+	if (m_changedDetailLevel) {
+		Pi::OnChangeDetailLevel();
+	}
+	View::HideAll();
 }
 
 void GameMenuView::OpenSaveDialog()
@@ -262,12 +298,16 @@ void GameMenuView::OpenLoadDialog()
 }
 
 void GameMenuView::OnSwitchTo() {
+	m_changedDetailLevel = false;
 	if (m_subview) {
 		delete m_subview;
 		m_subview = 0;
 	}
+	// don't want to switch to this view if game not running
 	if (!Pi::IsGameStarted()) {
 		Pi::SetView(Pi::worldView);
+	} else {
+		m_planetDetail[Pi::detail.planets]->OnActivate();
 	}
 }
 
