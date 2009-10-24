@@ -12,6 +12,7 @@ struct SBodyPath;
 class WorldView: public View {
 public:
 	WorldView();
+	virtual ~WorldView();
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
@@ -58,6 +59,10 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
+
+	sigc::connection m_onPlayerChangeHyperspaceTargetCon;
+	sigc::connection m_onPlayerChangeTargetCon;
+	sigc::connection m_onChangeFlightControlStateCon;
 };
 
 #endif /* _WORLDVIEW_H */

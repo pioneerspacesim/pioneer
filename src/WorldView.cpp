@@ -80,9 +80,12 @@ WorldView::WorldView(): View()
 	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 	
-	Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
-	Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
-	Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
+	m_onPlayerChangeHyperspaceTargetCon =
+		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
+	m_onPlayerChangeTargetCon =
+		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
+	m_onChangeFlightControlStateCon =
+		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = 0.05f+(float)Pi::rng.NDouble(3);
@@ -100,6 +103,13 @@ WorldView::WorldView(): View()
 	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
 	glBindBufferARB(GL_ARRAY_BUFFER, 0);
 #endif /* USE_VBO */
+}
+
+WorldView::~WorldView()
+{
+	m_onPlayerChangeHyperspaceTargetCon.disconnect();
+	m_onPlayerChangeTargetCon.disconnect();
+	m_onChangeFlightControlStateCon.disconnect();
 }
 
 void WorldView::Save()
@@ -169,7 +179,6 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
 	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
-	printf("was %d setting %d\n", Pi::player->GetFlightControlState(), b->GetState());
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
