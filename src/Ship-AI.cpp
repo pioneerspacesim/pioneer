@@ -9,6 +9,7 @@ void Ship::AIBodyHasDied(const Body* const body)
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ) {
 		switch ((*i).cmd) {
 			case DO_KILL:
+			case DO_KAMIKAZE:
 			case DO_FLY_TO:
 				if (body == (Body*)(*i).arg) i = m_todo.erase(i);
 				else i++;
@@ -27,6 +28,9 @@ void Ship::AITimeStep(const float timeStep)
 	if (m_todo.size() != 0) {
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
+			case DO_KAMIKAZE:
+				done = AICmdKamikaze(static_cast<const Ship*>(inst.arg));
+				break;
 			case DO_KILL:
 				done = AICmdKill(static_cast<const Ship*>(inst.arg));
 				break;
@@ -78,6 +82,28 @@ bool Ship::AICmdFlyTo(const Body *body)
 	}
 
 
+	return false;
+}
+
+bool Ship::AICmdKamikaze(const Ship *enemy)
+{
+	SetGunState(0,0);
+	/* needs to deal with frames, large distances, and success */
+	if (GetFrame() == enemy->GetFrame()) {
+		const float dist = (enemy->GetPosition() - GetPosition()).Length();
+		vector3d vRel = GetVelocityRelativeTo(enemy);
+		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
+
+		const double eta = CLAMP(dist / vector3d::Dot(vRel, dir), 0.0, 10.0);
+		const vector3d enemyProjectedPos = enemy->GetPosition() + eta*enemy->GetVelocity() - eta*GetVelocity();
+		dir = (enemyProjectedPos - GetPosition()).Normalized();
+
+		ClearThrusterState();
+		AIFaceDirection(dir);
+
+		// thunder at target at 400m/sec
+		AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), enemy);
+	}
 	return false;
 }
 

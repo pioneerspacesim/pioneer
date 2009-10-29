@@ -216,15 +216,13 @@ void StationShipUpgradesView::ShowAll()
 
 	int NUM_ITEMS = 0;
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((!(EquipType::types[i].slot == Equip::SLOT_CARGO)) &&
-		    station->GetStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
+	for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
+		if (station->GetStock(static_cast<Equip::Type>(i))) NUM_ITEMS++;
 	}
 
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
+	for (int i=Equip::FIRST_SHIPEQUIP, num=0; i<=Equip::LAST_SHIPEQUIP; i++) {
 		Equip::Type type = static_cast<Equip::Type>(i);
-		if (EquipType::types[i].slot == Equip::SLOT_CARGO) continue;
 		int stock = station->GetStock(type);
 		if (!stock) continue;
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);

@@ -22,6 +22,7 @@ namespace Space {
 	extern void AddBody(Body *);
 	extern void RemoveBody(Body *);
 	extern void KillBody(Body *);
+	extern void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage);
 	extern float GetHyperspaceAnim();
 	extern void Render(const Frame *cam_frame);
 	extern void StartHyperspaceTo(const SBodyPath *);

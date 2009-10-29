@@ -22,18 +22,21 @@ private:
 	void OnClickTimeaccel(int val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
-	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
-	void ChangeMultiFunctionDisplay(Gui::Widget *selected);
-	void OnMultiFuncGrabFocus(Gui::Widget *);
-	void OnMultiFuncUngrabFocus(Gui::Widget *);
 
-	Gui::Widget *m_userSelectedMfuncWidget;
+	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
+	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
+	void OnMultiFuncGrabFocus(multifuncfunc_t);
+	void OnMultiFuncUngrabFocus(multifuncfunc_t);
+
+	multifuncfunc_t m_userSelectedMfuncWidget;
 	Gui::Label *m_clock;
 
 	sigc::connection m_connOnDockingClearanceExpired;
 
+	MultiFuncSelectorWidget *m_mfsel;
 	ScannerWidget *m_scanner;
 	MsgLogWidget *m_msglog;
+	UseEquipWidget *m_useEquipWidget;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 };
 

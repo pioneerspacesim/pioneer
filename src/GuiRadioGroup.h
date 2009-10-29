@@ -10,6 +10,7 @@ namespace Gui {
 		RadioGroup() {};
 		virtual ~RadioGroup() {};
 		void Add(ISelectable *b);
+		void SetSelected(int member_idx);
 	private:
 		void OnSelected(ISelectable *b);
 		std::list<ISelectable*> m_members;

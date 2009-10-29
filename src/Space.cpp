@@ -52,6 +52,18 @@ void Clear()
 	rootFrame->m_sbody = 0;
 }
 
+void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
+{
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+		if ((*i)->GetFrame() != f) continue;
+		double dist = ((*i)->GetPosition() - pos).Length();
+		if (dist < radius) {
+			// linear damage decay with distance
+			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
+		}
+	}
+}
+
 void Serialize()
 {
 	using namespace Serializer::Write;

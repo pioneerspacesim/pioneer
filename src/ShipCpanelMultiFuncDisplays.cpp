@@ -1,8 +1,10 @@
 #include "libs.h"
 #include "ShipCpanelMultiFuncDisplays.h"
+#include "ShipCpanel.h"
 #include "Space.h"
 #include "Pi.h"
 #include "Player.h"
+#include "Missile.h"
 
 #define SCANNER_SCALE	0.01f
 #define SCANNER_YSHRINK 0.75f
@@ -184,6 +186,85 @@ void ScannerWidget::DrawDistanceRings()
 	}
 	glEnd();
 
+}
+
+/////////////////////////////////
+
+const Equip::Type UseEquipWidget::types[UseEquipWidget::NUM_TYPES] = {
+	Equip::MISSILE_GUIDED, Equip::MISSILE_SMART, Equip::MISSILE_NAVAL
+};
+
+UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
+{
+	memset(m_numMissiles, 0, sizeof(int)*NUM_TYPES);
+}
+
+UseEquipWidget::~UseEquipWidget()
+{
+}
+
+void UseEquipWidget::GetSizeRequested(float size[2])
+{
+	size[0] = 400;
+	size[1] = 62;
+}
+
+void UseEquipWidget::FireMissile(Equip::Type t)
+{
+	if (!Pi::player->GetCombatTarget()) {
+		Pi::cpan->MsgLog()->Message("", "Select a target");
+		return;
+	}
+	
+	if (Pi::player->m_equipment.Count(Equip::SLOT_CARGO, t) == 0) {
+		Pi::cpan->MsgLog()->Message("", stringf(128, "You have no %ss left", EquipType::types[t].name));
+		return;
+	}
+
+	Pi::player->m_equipment.Remove(Equip::SLOT_CARGO, t, 1);
+
+	matrix4x4d m;
+	Pi::player->GetRotMatrix(m);
+	vector3d dir = m*vector3d(0,0,-1);
+	
+	ShipType::Type mtype;
+	switch (t) {
+		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
+		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
+		default:
+		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
+	}
+	Missile *missile = new Missile(mtype, Pi::player, Pi::player->GetCombatTarget());
+	missile->SetRotMatrix(m);
+	missile->SetFrame(Pi::player->GetFrame());
+// XXX DODGY! need to put it in a sensible location
+	missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+	missile->SetVelocity(Pi::player->GetVelocity());
+	Space::AddBody(missile);
+}
+
+void UseEquipWidget::Update()
+{
+	bool needUpdate = false;
+	for (int i=0; i<3; i++) {
+		int numMissiles = Pi::player->m_equipment.Count(Equip::SLOT_CARGO, types[i]);
+		if (numMissiles != m_numMissiles[i]) {
+			needUpdate = true;
+			m_numMissiles[i] = numMissiles;
+		}
+	}
+
+	if (needUpdate) {
+		DeleteAllChildren();
+		for (int i=0; i<3; i++) {
+			int numMissiles = m_numMissiles[i];
+
+			Gui::Button *b = new Gui::SolidButton();
+			Add(b, 0, 4+18*i);
+			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), types[i]));
+			Add(new Gui::Label(stringf(128, "%d %ss", numMissiles, EquipType::types[types[i]].name)), 20, 4+18*i);
+		}
+	}
 }
 
 ///////////////////////////////////////////////

@@ -17,5 +17,14 @@ void RadioGroup::OnSelected(ISelectable *b)
 		}
 	}
 }
+
+void RadioGroup::SetSelected(int member_idx)
+{
+	int idx = 0;
+	for(std::list<ISelectable*>::iterator i = m_members.begin(); i != m_members.end(); ++i, ++idx) {
+		(*i)->SetSelected(idx == member_idx);
+	}
+}
+
 }
 

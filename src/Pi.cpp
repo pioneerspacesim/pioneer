@@ -27,6 +27,7 @@
 #include "GalacticView.h"
 #include "Galaxy.h"
 #include "GameMenuView.h"
+#include "Missile.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -309,11 +310,12 @@ void Pi::HandleEvents()
 						vector3d dir = m*vector3d(0,0,-1);
 						/* add test object */
 						if (KeyState(SDLK_RSHIFT)) {
-							CargoBody *cargo = new CargoBody(Equip::HYDROGEN);
-							cargo->SetFrame(Pi::player->GetFrame());
-							cargo->SetPosition(Pi::player->GetPosition()+100.0*dir);
-							cargo->SetVelocity(Pi::player->GetVelocity());
-							Space::AddBody(cargo);
+							Missile *missile = new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
+							missile->SetRotMatrix(m);
+							missile->SetFrame(Pi::player->GetFrame());
+							missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+							missile->SetVelocity(Pi::player->GetVelocity());
+							Space::AddBody(missile);
 						} else {
 							Ship *ship = new Ship(ShipType::LADYBIRD);
 							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
@@ -461,6 +463,12 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
 	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_SMART);
+	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_NAVAL);
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	

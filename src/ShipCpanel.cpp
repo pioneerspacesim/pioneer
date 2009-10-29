@@ -19,20 +19,24 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 	Add(img, 0, 0);
 
 	m_scanner = new ScannerWidget();
+	m_useEquipWidget = new UseEquipWidget();
 	m_msglog = new MsgLogWidget();
 
-	m_userSelectedMfuncWidget = m_scanner;
+	m_userSelectedMfuncWidget = MFUNC_SCANNER;
 
-	m_scanner->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), m_scanner));
-	m_msglog->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), m_msglog));
-	m_scanner->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), m_scanner));
-	m_msglog->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), m_msglog));
+	m_scanner->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_SCANNER));
+	m_useEquipWidget->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_EQUIPMENT));
+	m_msglog->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_MSGLOG));
+
+	m_scanner->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_SCANNER));
+	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
+	m_msglog->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_MSGLOG));
 
 	// where the scanner is
-	MultiFuncSelectorWidget *mfsel = new MultiFuncSelectorWidget();
-	mfsel->onSelect.connect(sigc::mem_fun(this, &ShipCpanel::OnUserChangeMultiFunctionDisplay));
-	Add(mfsel, 656, 2);
-	ChangeMultiFunctionDisplay(m_scanner);
+	m_mfsel = new MultiFuncSelectorWidget();
+	m_mfsel->onSelect.connect(sigc::mem_fun(this, &ShipCpanel::OnUserChangeMultiFunctionDisplay));
+	Add(m_mfsel, 656, 2);
+	ChangeMultiFunctionDisplay(MFUNC_SCANNER);
 
 //	Gui::RadioGroup *g = new Gui::RadioGroup();
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
@@ -117,37 +121,43 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 64)
 ShipCpanel::~ShipCpanel()
 {
 	Remove(m_scanner);
+	Remove(m_useEquipWidget);
 	Remove(m_msglog);
 	delete m_scanner;
+	delete m_useEquipWidget;
 	delete m_msglog;
 	m_connOnDockingClearanceExpired.disconnect();
 }
 
 void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
 {
-	Gui::Widget *selected = 0;
-	m_userSelectedMfuncWidget = selected;
-	if (f == MFUNC_SCANNER) selected = m_scanner;
-	if (f == MFUNC_MSGLOG) selected = m_msglog;
-	ChangeMultiFunctionDisplay(selected);
+	m_userSelectedMfuncWidget = f;
+	ChangeMultiFunctionDisplay(f);
 }
 
-void ShipCpanel::ChangeMultiFunctionDisplay(Gui::Widget *selected)
+void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
 {
+	Gui::Widget *selected = 0;
+	if (f == MFUNC_SCANNER) selected = m_scanner;
+	if (f == MFUNC_EQUIPMENT) selected = m_useEquipWidget;
+	if (f == MFUNC_MSGLOG) selected = m_msglog;
+	
 	Remove(m_scanner);
+	Remove(m_useEquipWidget);
 	Remove(m_msglog);
 	if (selected) {
-		selected->ShowAll();
+		m_mfsel->SetSelected(f);
 		Add(selected, 200, 2);
+		selected->ShowAll();
 	}
 }
 
-void ShipCpanel::OnMultiFuncGrabFocus(Gui::Widget *w)
+void ShipCpanel::OnMultiFuncGrabFocus(multifuncfunc_t f)
 {
-	ChangeMultiFunctionDisplay(w);
+	ChangeMultiFunctionDisplay(f);
 }
 
-void ShipCpanel::OnMultiFuncUngrabFocus(Gui::Widget *)
+void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
 {
 	ChangeMultiFunctionDisplay(m_userSelectedMfuncWidget);
 }
@@ -171,6 +181,7 @@ void ShipCpanel::Update()
 	}
 
 	m_scanner->Update();
+	m_useEquipWidget->Update();
 	m_msglog->Update();
 }
 

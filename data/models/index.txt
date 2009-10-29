@@ -1,2 +1,3 @@
 models.def
+spacestations.def
 adverts.def

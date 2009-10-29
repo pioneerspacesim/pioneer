@@ -80,6 +80,27 @@ const ShipType ShipType::types[] = {
 		{ 500, 1, 2, 0 },
 		500, 125, 55000000,
 		Equip::DRIVE_CLASS6,
+	}, {
+		"Guided Missile",
+		"missile",
+		{ 1e5, -2e5, 0, 0, 0, 0 },
+		2e4, {},
+		{ 0, 0, 1, 0 },
+		10, 1, 100
+	}, {
+		"Smart Missile",
+		"missile",
+		{ 1.5e5, -3e5, 0, 0, 0, 0 },
+		2e4, {},
+		{ 0, 0, 1, 0 },
+		10, 1, 100
+	}, {
+		"Naval Missile",
+		"missile",
+		{ 2.0e5, -4e5, 0, 0, 0, 0 },
+		2e4, {},
+		{ 0, 0, 1, 0 },
+		10, 1, 100
 	}
 };
 

@@ -2,6 +2,7 @@
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
 #include "Gui.h"
+#include "EquipType.h"
 
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
@@ -59,11 +60,28 @@ private:
 	void DrawDistanceRings();
 };
 
+class UseEquipWidget: public IMultiFunc, public Gui::Fixed {
+public:
+	UseEquipWidget();
+	virtual ~UseEquipWidget();
+	void GetSizeRequested(float size[2]);
+	virtual void Update();
+private:
+	enum { NUM_TYPES = 3 };
+	static const Equip::Type types[NUM_TYPES];
+	int m_numMissiles[NUM_TYPES];
+
+	void FireMissile(Equip::Type t);
+};
+
 
 class MultiFuncSelectorWidget: public Gui::Fixed {
 public:
 	MultiFuncSelectorWidget();
 	sigc::signal<void, multifuncfunc_t> onSelect;
+	void SetSelected(multifuncfunc_t f) {
+		m_rg->SetSelected((int)f);
+	}
 private:
 	void UpdateButtons();
 	void OnClickButton(multifuncfunc_t f);

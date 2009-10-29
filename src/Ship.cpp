@@ -58,6 +58,7 @@ void Ship::Save()
 		wr_int((int)(*i).cmd);
 		switch ((*i).cmd) {
 			case DO_KILL:
+			case DO_KAMIKAZE:
 			case DO_FLY_TO:
 				wr_int(Serializer::LookupBody(static_cast<Ship*>((*i).arg)));
 				break;
@@ -125,6 +126,7 @@ void Ship::PostLoadFixup()
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		switch ((*i).cmd) {
 			case DO_KILL:
+			case DO_KAMIKAZE:
 			case DO_FLY_TO:
 				(*i).arg = Serializer::LookupBody((size_t)(*i).arg);
 				break;
@@ -246,11 +248,15 @@ const shipstats_t *Ship::CalcStats()
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
-	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	float hyperclass = (float)EquipType::types[t].pval;
-	m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
-	m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN) /
-		(hyperclass * hyperclass));
+	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
+		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+		float hyperclass = (float)EquipType::types[t].pval;
+		m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
+		m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN) /
+			(hyperclass * hyperclass));
+	} else {
+		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
+	}
 	return &m_stats;
 }
 

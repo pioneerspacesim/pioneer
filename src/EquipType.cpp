@@ -113,6 +113,18 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_CARGO, {},
 	  15700, 1, 0, ECON_INDUSTRY, 3,
 	},{
+	  "Guided Missile",0,
+	  Equip::SLOT_CARGO, {},
+	  5000, 1, 0
+	},{
+	  "Smart Missile",0,
+	  Equip::SLOT_CARGO, {},
+	  9500, 1, 0
+	},{
+	  "Naval Missile",0,
+	  Equip::SLOT_CARGO, {},
+	  16000, 1, 0
+	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
 	  40000, 1, 0
