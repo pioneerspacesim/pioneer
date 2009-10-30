@@ -163,6 +163,7 @@ public:
 	SBody *GetBodyByPath(const SBodyPath *path) const;
 	static void Serialize(StarSystem *);
 	static StarSystem *Unserialize();
+	void Dump();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
 	int SectorX() const { return m_loc.sectorX; }
 	int SectorY() const { return m_loc.sectorY; }
