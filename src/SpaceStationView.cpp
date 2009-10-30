@@ -149,7 +149,7 @@ private:
 				/* you have a choice of mount points for lasers */
 				OpenChildChatForm(new StationLaserPickMount(t, false));
 			} else {
-				Pi::player->m_equipment.Remove(s, t, 1);
+				Pi::player->m_equipment.Remove(t, 1);
 				Pi::player->CalcStats();
 				Pi::player->SetMoney(Pi::player->GetMoney() + value);
 				station->AddEquipmentStock(t, 1);
@@ -174,7 +174,7 @@ private:
 				/* you have a choice of mount points for lasers */
 				OpenChildChatForm(new StationLaserPickMount(t, true));
 			} else {
-				Pi::player->m_equipment.Add(s, t);
+				Pi::player->m_equipment.Add(t);
 				Pi::player->CalcStats();
 				Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(t));
 				Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));

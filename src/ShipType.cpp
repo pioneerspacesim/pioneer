@@ -14,7 +14,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 20, 1, 1, 0 },
+		{ 20, 1, 1, 3 },
 		20, 5, 4000000,
 		Equip::DRIVE_CLASS1,
 	}, {
@@ -28,7 +28,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
-		{ 90, 1, 2, 0 },
+		{ 90, 1, 2, 8 },
 		90, 20, 16000000,
 		Equip::DRIVE_CLASS3,
 	}, {
@@ -41,7 +41,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 60, 1, 1, 0 },
+		{ 60, 1, 1, 2 },
 		60, 15, 8700000,
 		Equip::DRIVE_CLASS2,
 	}, {
@@ -53,7 +53,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 240, 1, 1, 0 },
+		{ 240, 1, 1, 4 },
 		240, 55, 56000000,
 		Equip::DRIVE_CLASS4,
 	}, {
@@ -65,7 +65,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 320, 1, 1, 0 },
+		{ 320, 1, 1, 6 },
 		320, 80, 35000000,
 		Equip::DRIVE_CLASS5,
 	}, {
@@ -77,25 +77,32 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 500, 1, 2, 0 },
+		{ 500, 1, 2, 4 },
 		500, 125, 55000000,
 		Equip::DRIVE_CLASS6,
 	}, {
-		"Guided Missile",
+		0,
+		"missile",
+		{ 0, -4e5, 0, 0, 0, 0 },
+		0, {},
+		{ 0, 0, 1, 0 },
+		10, 1, 100
+	}, {
+		0,
 		"missile",
 		{ 1e5, -2e5, 0, 0, 0, 0 },
 		2e4, {},
 		{ 0, 0, 1, 0 },
 		10, 1, 100
 	}, {
-		"Smart Missile",
+		0,
 		"missile",
 		{ 1.5e5, -3e5, 0, 0, 0, 0 },
 		2e4, {},
 		{ 0, 0, 1, 0 },
 		10, 1, 100
 	}, {
-		"Naval Missile",
+		0,
 		"missile",
 		{ 2.0e5, -4e5, 0, 0, 0, 0 },
 		2e4, {},

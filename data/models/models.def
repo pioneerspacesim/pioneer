@@ -402,7 +402,7 @@ model(taipan, scale=1.0, radius=60.0) {
 #		xref:quad(v(0,4,35), v(15,5,45), v(15,4,35), v(0,3.5,25))
 
 	# make materials be assignable
-	material(.3,0,0, .7,0,0, 100, 0,0,0)
+	material(0)
 	xref:tri(v(0,3.5,35),v(15,4.3,45), v(15,3,35))
 	material(.3,.3,.3, .6,.6,.6, 100, 0,0,0)
 	# top body bit
@@ -544,22 +544,39 @@ model(cargo, scale=1.0, radius=1.0) {
 }
 
 model(missile, scale=2.0, radius=1.0) {
-	lod { full, 10px, 5px }
-	objlod cyl_lod = { 16, 8, 4 }
+	lod { full, 100px, 50px, 2px }
+	objlod body_lod = { 16, 8, 4, 1 }
 
+
+	tangent = v(-0.62,0.0,0.0)
+	negTangent = v(0.62,0.0,0.0)
+
+	material(0)
+
+	lod1:lod2:lod3:xref:smooth(body_lod,
+		hermite(v(0,0.15,-0.8), tangent, tangent),
+		hermite(v(0,-0.15,-0.8), v(0,0,-1), v(0,0,-1))
+	)
+
+	lod4:flat(body_lod, v(0,0,-1),
+		hermite(v(0,0.15,-0.8), tangent, tangent),
+		hermite(v(0,-0.15,-0.8), negTangent, negTangent)
+	)
 	material(.5,.5,.5, 1,1,1, 10.0, 0,0,0)
 
-	cylinder(cyl_lod, v(0,0,0.8), v(0,0,-0.8), v(0,1,0), radius=0.15)
-	material(.5,.1,.1, 1,0.1,0.1, 10.0, 0,0,0)
-	tube(cyl_lod, v(0,0,0.85), v(0,0,0.8), v(0,1,0), innerrad=0.12, outerrad=0.17)
-	lod1:cylinder(cyl_lod, v(0,0,0.75), v(0,0,0.7), v(0,1,0), radius=0.17)
-	lod1:cylinder(cyl_lod, v(0,0,-0.8), v(0,0,-0.85), v(0,1,0), radius=0.10)
-	lod1:cylinder(cyl_lod, v(0,0,-0.85), v(0,0,-0.9), v(0,1,0), radius=0.05)
-	zbias(v(0,0,0.8), v(0,0,1), 1)
+	xref:smooth(body_lod,
+		hermite(v(0,-0.15,-0.8), tangent, tangent),
+		line(v(0,-0.15,0.8)),
+		hermite(v(0,0.15,0.8), tangent, tangent),
+		line(v(0,0.15,-0.8))
+	)
 	material(animfn=thrustpulse,
 		material(0,0,0, 0,0,0, 0, .2,.2,1),
 		material(0,0,0, 0,0,0, 0, .7,.7,1))
-	circle(cyl_lod, v(0,0,0.8), v(0,0,1), v(0,1,0), radius=0.12)
-	nozbias()
+	flat(body_lod, v(0,0,1),
+		hermite(v(0,-0.15,0.8), tangent, tangent),
+		hermite(v(0,0.15,0.8), negTangent, negTangent)
+	)
+		
 	xref:notangular:thruster(fwd, v(0,0,0.9), 10.0)
 }

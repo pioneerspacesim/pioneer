@@ -275,7 +275,7 @@ void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 	int fuel_cost;
 	bool hscheck = CanHyperspaceTo(dest, fuel_cost);
 	assert(hscheck);
-	m_equipment.Remove(Equip::SLOT_CARGO, Equip::HYDROGEN, fuel_cost);
+	m_equipment.Remove(Equip::HYDROGEN, fuel_cost);
 }
 
 bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired) 
@@ -629,6 +629,7 @@ static void render_coll_mesh(const CollMesh *m)
 void Ship::Render(const Frame *camFrame)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
+	m_shipFlavour.ApplyTo(&params);
 	params.angthrust[0] = -m_angThrusters[0];
 	params.angthrust[1] = -m_angThrusters[1];
 	params.angthrust[2] = -m_angThrusters[2];
@@ -641,7 +642,7 @@ void Ship::Render(const Frame *camFrame)
 	params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
 	params.pAnim[ASRC_GEAR] = m_wheelState;
 	params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
-	strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
+	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderSbreModel(camFrame, &params);
 
 #if 0
@@ -659,7 +660,7 @@ bool Ship::Jettison(Equip::Type t)
 	if (m_flightState != FLYING) return false;
 	Equip::Slot slot = EquipType::types[(int)t].slot;
 	if (m_equipment.Count(slot, t) > 0) {
-		m_equipment.Remove(slot, t, 1);
+		m_equipment.Remove(t, 1);
 
 		Aabb aabb;
 		GetAabb(aabb);
@@ -690,13 +691,11 @@ void Ship::ChangeFlavour(const ShipFlavour *f)
 
 /* MarketAgent shite */
 void Ship::Bought(Equip::Type t) {
-	Equip::Slot slot = EquipType::types[(int)t].slot;
-	m_equipment.Add(slot, t);
+	m_equipment.Add(t);
 	CalcStats();
 }
 void Ship::Sold(Equip::Type t) {
-	Equip::Slot slot = EquipType::types[(int)t].slot;
-	m_equipment.Remove(slot, t, 1);
+	m_equipment.Remove(t, 1);
 	CalcStats();
 }
 bool Ship::CanBuy(Equip::Type t) const {

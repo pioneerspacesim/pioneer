@@ -460,15 +460,15 @@ void Pi::InitGame()
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
 	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::PULSECANNON_1MW);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_SMART);
-	player->m_equipment.Add(Equip::SLOT_CARGO, Equip::MISSILE_NAVAL);
+	player->m_equipment.Add(Equip::HYDROGEN);
+	player->m_equipment.Add(Equip::HYDROGEN);
+	player->m_equipment.Add(Equip::HYDROGEN);
+	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
+	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
+	player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::MISSILE_SMART);
+	player->m_equipment.Add(Equip::MISSILE_NAVAL);
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	

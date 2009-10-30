@@ -48,7 +48,7 @@ static void spawn_random_pirate(int power, Ship *victim)
 			break;
 	}
 	int amount = Pi::rng.Int32(5);
-	while (amount--) ship->m_equipment.Add(Equip::SLOT_CARGO, Equip::HYDROGEN);
+	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);
 }
 
 void SpawnPiratesOnHyperspace()

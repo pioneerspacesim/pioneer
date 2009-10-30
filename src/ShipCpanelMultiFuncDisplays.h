@@ -67,11 +67,10 @@ public:
 	void GetSizeRequested(float size[2]);
 	virtual void Update();
 private:
-	enum { NUM_TYPES = 3 };
-	static const Equip::Type types[NUM_TYPES];
-	int m_numMissiles[NUM_TYPES];
+	enum { MAX_MISSILE_SLOTS = 8 };
+	Equip::Type m_missileTypes[MAX_MISSILE_SLOTS];
 
-	void FireMissile(Equip::Type t);
+	void FireMissile(int idx);
 };
 
 

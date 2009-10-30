@@ -190,13 +190,9 @@ void ScannerWidget::DrawDistanceRings()
 
 /////////////////////////////////
 
-const Equip::Type UseEquipWidget::types[UseEquipWidget::NUM_TYPES] = {
-	Equip::MISSILE_GUIDED, Equip::MISSILE_SMART, Equip::MISSILE_NAVAL
-};
-
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
 {
-	memset(m_numMissiles, 0, sizeof(int)*NUM_TYPES);
+	memset(m_missileTypes, 0, sizeof(int)*MAX_MISSILE_SLOTS);
 }
 
 UseEquipWidget::~UseEquipWidget()
@@ -209,19 +205,20 @@ void UseEquipWidget::GetSizeRequested(float size[2])
 	size[1] = 62;
 }
 
-void UseEquipWidget::FireMissile(Equip::Type t)
+void UseEquipWidget::FireMissile(int idx)
 {
 	if (!Pi::player->GetCombatTarget()) {
 		Pi::cpan->MsgLog()->Message("", "Select a target");
 		return;
 	}
 	
-	if (Pi::player->m_equipment.Count(Equip::SLOT_CARGO, t) == 0) {
-		Pi::cpan->MsgLog()->Message("", stringf(128, "You have no %ss left", EquipType::types[t].name));
+	const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, idx);
+	if (t == Equip::NONE) {
 		return;
 	}
 
-	Pi::player->m_equipment.Remove(Equip::SLOT_CARGO, t, 1);
+	Pi::player->m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
+	Pi::player->CalcStats();
 
 	matrix4x4d m;
 	Pi::player->GetRotMatrix(m);
@@ -231,6 +228,7 @@ void UseEquipWidget::FireMissile(Equip::Type t)
 	switch (t) {
 		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
 		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
+		case Equip::MISSILE_UNGUIDED: mtype = ShipType::MISSILE_UNGUIDED; break;
 		default:
 		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
 	}
@@ -246,23 +244,47 @@ void UseEquipWidget::FireMissile(Equip::Type t)
 void UseEquipWidget::Update()
 {
 	bool needUpdate = false;
-	for (int i=0; i<3; i++) {
-		int numMissiles = Pi::player->m_equipment.Count(Equip::SLOT_CARGO, types[i]);
-		if (numMissiles != m_numMissiles[i]) {
+	int numSlots = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
+
+	if (!numSlots) {
+		DeleteAllChildren();
+		return;
+	}
+
+	for (int i=0; i<numSlots; i++) {
+		Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
+		if (m_missileTypes[i] != t) {
 			needUpdate = true;
-			m_numMissiles[i] = numMissiles;
+			m_missileTypes[i] = t;
 		}
 	}
 
+	float spacing = 380.0 / numSlots;
+
 	if (needUpdate) {
 		DeleteAllChildren();
-		for (int i=0; i<3; i++) {
-			int numMissiles = m_numMissiles[i];
+		for (int i=0; i<numSlots; i++) {
+			if (m_missileTypes[i] == Equip::NONE) continue;
 
-			Gui::Button *b = new Gui::SolidButton();
-			Add(b, 0, 4+18*i);
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), types[i]));
-			Add(new Gui::Label(stringf(128, "%d %ss", numMissiles, EquipType::types[types[i]].name)), 20, 4+18*i);
+			Gui::Button *b;
+			switch (m_missileTypes[i]) {
+				case Equip::MISSILE_UNGUIDED:
+					b = new Gui::ImageButton("icons/missile_unguided.png");
+					break;
+				case Equip::MISSILE_GUIDED:
+					b = new Gui::ImageButton("icons/missile_guided.png");
+					break;
+				case Equip::MISSILE_SMART:
+					b = new Gui::ImageButton("icons/missile_smart.png");
+					break;
+				default:
+				case Equip::MISSILE_NAVAL:
+					b = new Gui::ImageButton("icons/missile_naval.png");
+					break;
+			}
+			Add(b, spacing*i, 40);
+			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
+			b->SetToolTip(EquipType::types[ m_missileTypes[i] ].name);
 		}
 	}
 }

@@ -26,6 +26,14 @@ enum animflag
 	AFLAG_GEAR = 0, 
 };
 
+struct Material
+{
+	float pDiff[3];
+	float pSpec[3];
+	float pEmis[3];
+	float shiny;
+};
+
 #define ANIM_MAX 20
 
 struct ObjParams
@@ -36,12 +44,7 @@ struct ObjParams
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
 
-	struct {
-		float pDiff[3];
-		float pSpec[3];
-		float pEmis[3];
-		float shiny;
-	} pColor [3];
+	struct Material pColor[3];
 
 	char pText[3][256];
 };

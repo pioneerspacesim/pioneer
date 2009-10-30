@@ -2,6 +2,7 @@
 #define _SHIPFLAVOUR_H
 
 #include "ShipType.h"
+#include "sbre/sbre.h"
 
 struct ObjParams;
 
@@ -10,6 +11,9 @@ public:
 	ShipType::Type type;
 	char regid[16];
 	int price;
+	// struct Material: sbre.h
+	Material primaryColor;
+	Material secondaryColor;
 
 	ShipFlavour();
 	ShipFlavour(ShipType::Type type);
@@ -17,6 +21,8 @@ public:
 	void Load();
 	void ApplyTo(ObjParams *p) const;
 	static void MakeTrulyRandom(ShipFlavour &v);
+private:
+	void MakeRandomColor(Material &m);
 };
 
 

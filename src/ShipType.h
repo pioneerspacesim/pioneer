@@ -9,7 +9,7 @@
 struct ShipType {
 	enum Thruster { THRUSTER_FRONT, THRUSTER_REAR, THRUSTER_TOP, THRUSTER_BOTTOM, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
 	enum Type { SWORDFISH, SIRIUS_INTERDICTOR, LADYBIRD, TAIPAN, WALRUS, FLOWERFAIRY,
-		MISSILE_GUIDED, MISSILE_SMART, MISSILE_NAVAL, END=MISSILE_GUIDED };
+		MISSILE_UNGUIDED, MISSILE_GUIDED, MISSILE_SMART, MISSILE_NAVAL, END=MISSILE_UNGUIDED };
 	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
 
 	////////
@@ -52,7 +52,8 @@ public:
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
 	}
-	bool Add(Equip::Slot s, Equip::Type e) {
+	bool Add(Equip::Type e) {
+		Equip::Slot s = EquipType::types[e].slot;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (equip[s][i] == Equip::NONE) {
 				equip[s][i] = e;
@@ -61,7 +62,8 @@ public:
 		}
 		return false;
 	}
-	void Remove(Equip::Slot s, Equip::Type e, int num) {
+	void Remove(Equip::Type e, int num) {
+		Equip::Slot s = EquipType::types[e].slot;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (num == 0) break;
 			if (equip[s][i] == e) {
