@@ -15,12 +15,14 @@ public:
 	bool OnDamage(Object *attacker, float kgDamage);
 	virtual void NotifyDeath(const Body* const dyingBody);
 	virtual void PostLoadFixup();
+	void ECMAttack(int power_val);
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
 	void Explode();
 
+	int m_power;
 	Body *m_target;
 	Body *m_owner;
 	double m_distToTarget;

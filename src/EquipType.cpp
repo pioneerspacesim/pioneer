@@ -129,6 +129,18 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_MISSILE, {},
 	  16000, 1, 0
 	},{
+	  "ECM system",
+	  "An electronic countermeasure missile defence system, capable of destroying some homing missiles.",
+	  Equip::SLOT_ECM, {},
+	  600000, 2, 2,
+	  0, 0, 5.0
+	},{
+	  "Advanced ECM system",
+	  "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.",
+	  Equip::SLOT_ECM, {},
+	  1520000, 2, 3,
+	  0, 0, 5.0
+	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
 	  40000, 1, 0

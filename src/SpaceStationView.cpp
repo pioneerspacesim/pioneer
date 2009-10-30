@@ -226,6 +226,9 @@ void StationShipUpgradesView::ShowAll()
 		int stock = station->GetStock(type);
 		if (!stock) continue;
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
+		if (EquipType::types[i].description) {
+			l->SetToolTip(EquipType::types[i].description);
+		}
 		innerbox->Add(l,0,num*YSEP);
 		
 		innerbox->Add(new Gui::Label(format_money(station->GetPrice(type))), 200, num*YSEP);

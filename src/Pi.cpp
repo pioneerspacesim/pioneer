@@ -44,6 +44,7 @@ sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
 sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerMissionListChanged;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
+sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[5];
@@ -489,11 +490,18 @@ static void OnPlayerDockOrUndock()
 	Pi::SetTimeAccel(1);
 }
 
+static void OnPlayerChangeEquipment()
+{
+	Pi::onPlayerChangeEquipment.emit();
+}
+
 void Pi::StartGame()
 {
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
 }

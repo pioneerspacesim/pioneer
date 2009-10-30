@@ -9,7 +9,6 @@ Equipment:
 done
 
 y	Missiles
-	proximity mines
 	auto-refueller
 	atmos shielding
 	laser cooling booster
@@ -17,8 +16,8 @@ y	Missiles
 	scanner
 	full range of lasers inc 'plasma accelerator' type big guns
 	radar mapper
-	ecm
-	naval ecm
+sfx	ecm
+sfx	naval ecm
 	autopilot
 	passenger cabins
 	hyperspace cloud analyser

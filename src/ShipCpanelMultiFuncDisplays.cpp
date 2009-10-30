@@ -192,11 +192,13 @@ void ScannerWidget::DrawDistanceRings()
 
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
 {
-	memset(m_missileTypes, 0, sizeof(int)*MAX_MISSILE_SLOTS);
+	m_onPlayerEquipChangedCon = Pi::onPlayerChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
+	UpdateEquip();
 }
 
 UseEquipWidget::~UseEquipWidget()
 {
+	m_onPlayerEquipChangedCon.disconnect();
 }
 
 void UseEquipWidget::GetSizeRequested(float size[2])
@@ -241,33 +243,20 @@ void UseEquipWidget::FireMissile(int idx)
 	Space::AddBody(missile);
 }
 
-void UseEquipWidget::Update()
+void UseEquipWidget::UpdateEquip()
 {
-	bool needUpdate = false;
+	DeleteAllChildren();
 	int numSlots = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
 
-	if (!numSlots) {
-		DeleteAllChildren();
-		return;
-	}
+	if (numSlots) {
+		float spacing = 380.0 / numSlots;
 
-	for (int i=0; i<numSlots; i++) {
-		Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
-		if (m_missileTypes[i] != t) {
-			needUpdate = true;
-			m_missileTypes[i] = t;
-		}
-	}
-
-	float spacing = 380.0 / numSlots;
-
-	if (needUpdate) {
-		DeleteAllChildren();
 		for (int i=0; i<numSlots; i++) {
-			if (m_missileTypes[i] == Equip::NONE) continue;
+			const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
+			if (t == Equip::NONE) continue;
 
 			Gui::Button *b;
-			switch (m_missileTypes[i]) {
+			switch (t) {
 				case Equip::MISSILE_UNGUIDED:
 					b = new Gui::ImageButton("icons/missile_unguided.png");
 					break;
@@ -284,9 +273,27 @@ void UseEquipWidget::Update()
 			}
 			Add(b, spacing*i, 40);
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
-			b->SetToolTip(EquipType::types[ m_missileTypes[i] ].name);
+			b->SetToolTip(EquipType::types[t].name);
 		}
 	}
+
+	{
+		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_ECM);
+		if (t != Equip::NONE) {
+			Gui::Button *b = 0;
+			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton("icons/ecm_basic.png");
+			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton("icons/ecm_advanced.png");
+			assert(b);
+
+			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
+
+			Add(b, 32, 4);
+		}
+	}
+}
+
+void UseEquipWidget::Update()
+{
 }
 
 ///////////////////////////////////////////////

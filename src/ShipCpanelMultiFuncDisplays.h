@@ -67,8 +67,10 @@ public:
 	void GetSizeRequested(float size[2]);
 	virtual void Update();
 private:
+	void UpdateEquip();
 	enum { MAX_MISSILE_SLOTS = 8 };
-	Equip::Type m_missileTypes[MAX_MISSILE_SLOTS];
+
+	sigc::connection m_onPlayerEquipChangedCon;
 
 	void FireMissile(int idx);
 };

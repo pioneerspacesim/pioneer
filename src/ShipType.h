@@ -35,10 +35,12 @@ struct ShipType {
 class EquipSet {
 public:
 	EquipSet() {}
-	EquipSet(const ShipType::Type t) {
+
+	void InitSlotSizes(const ShipType::Type t) {
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
 			equip[i] = std::vector<Equip::Type>(ShipType::types[t].equipSlotCapacity[i]);
 		}
+		onChange.emit();
 	}
 	int GetSlotSize(Equip::Slot s) const {
 		return equip[s].size();
@@ -51,12 +53,14 @@ public:
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
+		onChange.emit();
 	}
 	bool Add(Equip::Type e) {
 		Equip::Slot s = EquipType::types[e].slot;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (equip[s][i] == Equip::NONE) {
 				equip[s][i] = e;
+				onChange.emit();
 				return true;
 			}
 		}
@@ -71,6 +75,7 @@ public:
 				num--;
 			}
 		}
+		onChange.emit();
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
 		int num = 0;
@@ -88,6 +93,8 @@ public:
 	}
 	void Save();
 	void Load();
+
+	sigc::signal<void> onChange;
 private:
 	std::vector<Equip::Type> equip[Equip::SLOT_MAX];
 };

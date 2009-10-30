@@ -6,12 +6,26 @@
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
+	switch (type) {
+		case ShipType::MISSILE_GUIDED: m_power = 1; break;
+		case ShipType::MISSILE_SMART: m_power = 2; break;
+		case ShipType::MISSILE_NAVAL: m_power = 3; break;
+		default:
+		case ShipType::MISSILE_UNGUIDED: m_power = 0; break;
+	};
 	m_owner = owner;
 	m_target = target;
 	m_distToTarget = FLT_MAX;
 	SetLabel("missile");
 
 	AIInstruct(DO_KAMIKAZE, target);
+}
+
+void Missile::ECMAttack(int power_val)
+{
+	if (power_val > m_power) {
+		OnDamage(0, 1.0f);
+	}
 }
 
 void Missile::PostLoadFixup()
@@ -28,6 +42,7 @@ void Missile::Save()
 	wr_int(Serializer::LookupBody(m_owner));
 	wr_int(Serializer::LookupBody(m_target));
 	wr_double(m_distToTarget);
+	wr_int(m_power);
 }
 
 void Missile::Load()
@@ -37,6 +52,7 @@ void Missile::Load()
 	m_owner = (Body*)rd_int();
 	m_target = (Body*)rd_int();
 	m_distToTarget = rd_double();
+	m_power = rd_int();
 }
 
 void Missile::TimeStepUpdate(const float timeStep)

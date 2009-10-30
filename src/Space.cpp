@@ -15,6 +15,7 @@
 #include "collider/collider.h"
 #include "pirates.h"
 #include "Sfx.h"
+#include "Missile.h"
 
 namespace Space {
 
@@ -62,6 +63,24 @@ void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, 
 			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
 		}
 	}
+}
+
+void DoECM(const Frame *f, const vector3d &pos, int power_val)
+{
+	const float ECM_RADIUS = 4000.0f;
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+		if ((*i)->GetFrame() != f) continue;
+		if (!(*i)->IsType(Object::MISSILE)) continue;
+
+		double dist = ((*i)->GetPosition() - pos).Length();
+		if (dist < ECM_RADIUS) {
+			// increasing chance of destroying it with proximity
+			if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
+				static_cast<Missile*>(*i)->ECMAttack(power_val);
+			}
+		}
+	}
+
 }
 
 void Serialize()

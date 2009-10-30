@@ -60,6 +60,7 @@ public:
 	bool Jettison(Equip::Type t);
 	bool CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired);
 	void UseHyperspaceFuel(const SBodyPath *dest);
+	void UseECM();
 	void AIFaceDirection(const vector3d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
@@ -95,6 +96,7 @@ protected:
 	ShipFlavour m_shipFlavour;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
+	float m_ecmRecharge;
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);

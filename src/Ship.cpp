@@ -48,6 +48,7 @@ void Ship::Save()
 		wr_int(m_gunState[i]);
 		wr_float(m_gunRecharge[i]);
 	}
+	wr_float(m_ecmRecharge);
 	m_shipFlavour.Save();
 	wr_int(m_dockedWithPort);
 	wr_int(Serializer::LookupBody(m_dockedWith));
@@ -89,10 +90,11 @@ void Ship::Load()
 		if (IsOlderThan(3)) m_gunRecharge[i] = 0;
 		else m_gunRecharge[i] = rd_float();
 	}
+	m_ecmRecharge = rd_float();
 	m_shipFlavour.Load();
 	m_dockedWithPort = rd_int();
 	m_dockedWith = (SpaceStation*)rd_int();
-	m_equipment = EquipSet(m_shipFlavour.type);
+	m_equipment.InitSlotSizes(m_shipFlavour.type);
 	m_equipment.Load();
 	Init();
 	m_stats.hull_mass_left = rd_float(); // must be after Init()...
@@ -148,11 +150,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_combatTarget = 0;
 	m_shipFlavour = ShipFlavour(shipType);
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
-	m_equipment = EquipSet(shipType);
+	m_equipment.InitSlotSizes(shipType);
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
 	}
+	m_ecmRecharge = 0;
 	memset(m_thrusters, 0, sizeof(m_thrusters));
 	SetLabel(m_shipFlavour.regid);
 
@@ -302,6 +305,17 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired)
 		return false;
 	} else {
 		return fuelRequired <= fuel;
+	}
+}
+
+void Ship::UseECM()
+{
+	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
+	if (m_ecmRecharge) return;
+	if (t != Equip::NONE) {
+		printf("Fired ecm\n");
+		m_ecmRecharge = EquipType::types[t].rechargeTime;
+		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
 	}
 }
 
@@ -485,6 +499,10 @@ void Ship::StaticUpdate(const float timeStep)
 		if (m_gunRecharge[i] != 0) continue;
 
 		FireWeapon(i);
+	}
+
+	if (m_ecmRecharge) {
+		m_ecmRecharge = MAX(0, m_ecmRecharge - timeStep);
 	}
 
 	if (m_wheelTransition != 0.0f) {
@@ -684,7 +702,7 @@ bool Ship::Jettison(Equip::Type t)
 void Ship::ChangeFlavour(const ShipFlavour *f)
 {
 	m_shipFlavour = *f;
-	m_equipment = EquipSet(f->type);
+	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
 }
