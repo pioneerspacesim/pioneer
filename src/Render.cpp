@@ -12,7 +12,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	glDisable(GL_LIGHTING);
 	glDepthMask(GL_FALSE);
 
-	float quadratic[] =  { 0.0f, 0.0f, 1.0f / (size*size) };
+	float quadratic[] =  { 0.0f, 0.0f, 1.0f };
 	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
 	glPointParameterfARB( GL_POINT_SIZE_MIN_ARB, 1.0 );
 	glPointParameterfARB( GL_POINT_SIZE_MAX_ARB, 100.0 );
@@ -29,7 +29,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	}
 	if (Shader::IsVtxProgActive()) glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 		
-	glPointSize(size);
+	glPointSize(200.0f*size);
 	glColor4fv(modulationCol);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, &v[0].x);

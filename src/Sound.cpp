@@ -29,7 +29,8 @@ static const char *sfx_wavs[SFX_MAX] = {
 	"collision.wav",
 	"warning.wav",
 	"gui_ping.wav",
-	"engines.wav"
+	"engines.wav",
+	"ecm.wav"
 };
 
 eventid BodyMakeNoise(const Body *b, enum SFX sfx, float vol)

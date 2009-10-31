@@ -325,7 +325,7 @@ void Ship::UseECM()
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (m_ecmRecharge) return;
 	if (t != Equip::NONE) {
-		printf("Fired ecm\n");
+		Sound::BodyMakeNoise(this, Sound::SFX_ECM, 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
 		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
 	}
@@ -693,7 +693,7 @@ void Ship::Render(const Frame *camFrame)
 		if (totalRechargeTime) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
-		GLuint tex = util_load_tex_rgba("data/textures/laser.png");
+		GLuint tex = util_load_tex_rgba("data/textures/ecm.png");
 
 		Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
 		Render::PutPointSprites(100, v, 50.0f, c, tex);

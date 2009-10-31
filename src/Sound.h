@@ -8,7 +8,7 @@ namespace Sound {
 
 typedef Uint32 eventid;
 
-enum SFX { SFX_PULSECANNON, SFX_COLLISION, SFX_WARNING, SFX_GUI_PING, SFX_ENGINES, SFX_MAX };
+enum SFX { SFX_PULSECANNON, SFX_COLLISION, SFX_WARNING, SFX_GUI_PING, SFX_ENGINES, SFX_ECM, SFX_MAX };
 
 bool Init ();
 void Close ();
