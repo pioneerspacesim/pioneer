@@ -12,7 +12,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	glDisable(GL_LIGHTING);
 	glDepthMask(GL_FALSE);
 
-	float quadratic[] =  { 0.0f, 0.005f, 0.0f };
+	float quadratic[] =  { 0.0f, 0.0f, 1.0f / (size*size) };
 	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
 	glPointParameterfARB( GL_POINT_SIZE_MIN_ARB, 1.0 );
 	glPointParameterfARB( GL_POINT_SIZE_MAX_ARB, 100.0 );
