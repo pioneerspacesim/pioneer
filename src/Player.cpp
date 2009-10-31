@@ -113,14 +113,7 @@ void Player::SetFlightControlState(enum FlightControlState s)
 
 void Player::Render(const Frame *camFrame)
 {
-	if (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) {
-		Ship::Render(camFrame);
-	} else {
-	/*	glPushMatrix();
-		// could only rotate, since transform is zero (camFrame is at player origin)
-		RenderLaserfire();
-		glPopMatrix();*/
-	}
+	Ship::Render(camFrame);
 }
 
 void Player::SetDockedWith(SpaceStation *s, int port)

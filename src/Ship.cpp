@@ -13,6 +13,8 @@
 #include "Sector.h"
 #include "Projectile.h"
 #include "Sound.h"
+#include "Render.h"
+#include "Shader.h"
 
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -308,13 +310,23 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired)
 	}
 }
 
+float Ship::GetECMRechargeTime()
+{
+	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
+	if (t != Equip::NONE) {
+		return EquipType::types[t].rechargeTime;
+	} else {
+		return 0;
+	}
+}
+
 void Ship::UseECM()
 {
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (m_ecmRecharge) return;
 	if (t != Equip::NONE) {
 		printf("Fired ecm\n");
-		m_ecmRecharge = EquipType::types[t].rechargeTime;
+		m_ecmRecharge = GetECMRechargeTime();
 		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
 	}
 }
@@ -647,22 +659,46 @@ static void render_coll_mesh(const CollMesh *m)
 void Ship::Render(const Frame *camFrame)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
-	m_shipFlavour.ApplyTo(&params);
-	params.angthrust[0] = -m_angThrusters[0];
-	params.angthrust[1] = -m_angThrusters[1];
-	params.angthrust[2] = -m_angThrusters[2];
-	params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
-	params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
-	params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
-	params.pAnim[ASRC_SECFRAC] = (float)Pi::GetGameTime();
-	params.pAnim[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
-	params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
-	params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
-	params.pAnim[ASRC_GEAR] = m_wheelState;
-	params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
-	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderSbreModel(camFrame, &params);
+	if ( (this != Pi::player) ||
+	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
+		m_shipFlavour.ApplyTo(&params);
+		params.angthrust[0] = -m_angThrusters[0];
+		params.angthrust[1] = -m_angThrusters[1];
+		params.angthrust[2] = -m_angThrusters[2];
+		params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
+		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
+		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
+		params.pAnim[ASRC_SECFRAC] = (float)Pi::GetGameTime();
+		params.pAnim[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
+		params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
+		params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
+		params.pAnim[ASRC_GEAR] = m_wheelState;
+		params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
+		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
+		RenderSbreModel(camFrame, &params);
+	}
 
+	if (m_ecmRecharge) {
+		// pish effect
+		matrix4x4d ftran;
+		Frame::GetFrameTransform(GetFrame(), camFrame, ftran);
+			
+		vector3f v[100];
+		for (int i=0; i<100; i++) {
+			v[i] = vector3f(ftran * (GetPosition() +
+					sbreGetModelRadius(GetSbreModel())*vector3f(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5).Normalized()));
+		}
+		Color c(0.5,0.5,1.0,1.0);
+		float totalRechargeTime = GetECMRechargeTime();
+		if (totalRechargeTime) {
+			c.a = m_ecmRecharge / totalRechargeTime;
+		}
+		GLuint tex = util_load_tex_rgba("data/textures/laser.png");
+
+		Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
+		Render::PutPointSprites(100, v, 50.0f, c, tex);
+		Shader::DisableVertexProgram();
+	}
 #if 0
 	if (IsFiringLasers()) {
 		glPushMatrix();

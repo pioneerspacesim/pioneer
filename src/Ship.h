@@ -101,6 +101,7 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
+	float GetECMRechargeTime();
 	void FireWeapon(int num);
 	void AITimeStep(const float timeStep);
 	void Init();
