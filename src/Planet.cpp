@@ -227,7 +227,7 @@ void Planet::DrawGasGiantRings()
 
 	Shader::EnableVertexProgram(Shader::VPROG_PLANETRINGS);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
-		float pos = (float)rng.Double(1.2,1.7);
+		float pos = (float)rng.Double(1.15,1.5);
 		float end = pos + (float)rng.Double(0.1, 1.0);
 		end = MIN(end, 2.5f);
 		while (pos < end) {
