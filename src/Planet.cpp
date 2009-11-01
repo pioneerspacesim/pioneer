@@ -7,6 +7,7 @@
 #include "StarSystem.h"
 #include "GeoSphere.h"
 #include "Shader.h"
+#include "perlin.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
@@ -47,8 +48,6 @@ void Planet::Init()
 	if (!m_geosphere) {
 		m_geosphere = new GeoSphere(sbody);
 	}
-	
-	crudDList = 0;
 }
 	
 void Planet::Save()
@@ -102,37 +101,6 @@ double Planet::GetTerrainHeight(const vector3d pos) const
 		assert(0);
 		return radius;
 	}
-}
-
-static void DrawRing(double inner, double outer, const float color[4])
-{
-	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
-		GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
-	glDisable(GL_LIGHTING);
-	glEnable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_NORMALIZE);
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-	glDisable(GL_CULL_FACE);
-
-	glColor4fv(color);
-	
-	glBegin(GL_TRIANGLE_STRIP);
-	glNormal3f(0,1,0);
-	for (float ang=0; ang<2*M_PI; ang+=0.1f) {
-		glVertex3f((float)inner*sin(ang), 0, (float)inner*cos(ang));
-		glVertex3f((float)outer*sin(ang), 0, (float)outer*cos(ang));
-	}
-	glVertex3f(0, 0, (float)inner);
-	glVertex3f(0, 0, (float)outer);
-	glEnd();
-
-	//gluDisk(Pi::gluQuadric, inner, outer, 40, 20);
-	glEnable(GL_CULL_FACE);
-	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-	glDisable(GL_BLEND);
-	glDisable(GL_NORMALIZE);
-	glPopAttrib();
 }
 
 struct GasGiantDef_t {
@@ -216,28 +184,74 @@ static void SetMaterialColor(const float col[4])
 	glMaterialfv (GL_FRONT, GL_DIFFUSE, col);
 }
 
+static void DrawRing(double inner, double outer, const float color[4])
+{
+	glColor4fv(color);
+
+	float step = 0.1f / (Pi::detail.planets + 1);
+
+	glBegin(GL_TRIANGLE_STRIP);
+	glNormal3f(0,1,0);
+	for (float ang=0; ang<2*M_PI; ang+=step) {
+		glVertex3f((float)inner*sin(ang), 0, (float)inner*cos(ang));
+		glVertex3f((float)outer*sin(ang), 0, (float)outer*cos(ang));
+	}
+	glVertex3f(0, 0, (float)inner);
+	glVertex3f(0, 0, (float)outer);
+	glEnd();
+}
+
 void Planet::DrawGasGiantRings()
 {
+	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
+		GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT);
+	glDisable(GL_LIGHTING);
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glDisable(GL_CULL_FACE);
+
 //	MTRand rng((int)Pi::GetGameTime());
-	MTRand rng(sbody->seed+9);
+	MTRand rng(sbody->seed+965467);
 	float col[4];
+
+	double noiseOffset = 256.0*rng.Double();
+	float baseCol[4];
 	
 	// just use a random gas giant flavour for the moment
 	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
+	ggdef.ringCol.GenCol(baseCol, rng);
+	
+	const double maxRingWidth = 0.1 / (double)(2*(Pi::detail.planets + 1));
 
-	Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
+	Shader::EnableVertexProgram(Shader::VPROG_PLANETRINGS);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = (float)rng.Double(1.2,1.7);
 		float end = pos + (float)rng.Double(0.1, 1.0);
 		end = MIN(end, 2.5f);
 		while (pos < end) {
-			float size = (float)rng.Double(0.1);
-			ggdef.ringCol.GenCol(col, rng);
+			float size = (float)rng.Double(maxRingWidth);
+			float n =
+				0.5 + 0.5*(
+					noise(10.0*pos, noiseOffset, 0.0) +
+					0.5*noise(20.0*pos, noiseOffset, 0.0) +
+					0.25*noise(40.0*pos, noiseOffset, 0.0));
+			col[0] = baseCol[0] * n;
+			col[1] = baseCol[1] * n;
+			col[2] = baseCol[2] * n;
+			col[3] = baseCol[3] * n;
 			DrawRing(pos, pos+size, col);
 			pos += size;
 		}
 	}
 	Shader::DisableVertexProgram();
+	
+	glEnable(GL_CULL_FACE);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+	glDisable(GL_BLEND);
+	glDisable(GL_NORMALIZE);
+	glPopAttrib();
 }
 
 static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float col[4])
@@ -335,10 +349,6 @@ void Planet::Render(const Frame *a_camFrame)
 	glColor3f(1,1,1);
 
 	if (apparent_size < 0.001) {
-		if (crudDList) {
-			glDeleteLists(crudDList, 1);
-			crudDList = 0;
-		}
 		/* XXX WRONG. need to pick light from appropriate turd. */
 		GLfloat col[4];
 		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);

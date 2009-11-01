@@ -33,7 +33,7 @@ private:
 	double m_mass;
 	vector3d pos;
 	SBody *sbody;
-	GLuint crudDList;
+	GLuint m_ringsDList;
 	GeoSphere *m_geosphere;
 };
 

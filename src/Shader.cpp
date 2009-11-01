@@ -165,6 +165,7 @@ void Init()
 	CompileProgram(VPROG_SIMPLE, "data/shaders/simple");
 	CompileProgram(VPROG_POINTSPRITE, "data/shaders/pointsprite");
 	CompileProgram(VPROG_PLANETHORIZON, "data/shaders/planethorizon");
+	CompileProgram(VPROG_PLANETRINGS, "data/shaders/planetrings");
 #if 0	
 	{
 		/* zbuffer values are (where z = z*modelview*projection):
