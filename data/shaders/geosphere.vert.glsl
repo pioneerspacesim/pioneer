@@ -40,6 +40,6 @@ void main(void)
 	}
 	atmosDiffuse = min(atmosDiffuse * 2.0, 1.0);
 //	float sun = dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position)));
-	gl_FrontColor = (fogFactor)*(amb+diff)*gl_Color +
+	gl_FrontColor = (fogFactor)*(diff)*gl_Color +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 }

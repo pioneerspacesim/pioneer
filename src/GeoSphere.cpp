@@ -11,7 +11,7 @@
 // must be an odd number
 //#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
-//#define GEOSPHERE_USE_THREADING
+#define GEOSPHERE_USE_THREADING
 
 int GEOPATCH_EDGELEN = 15;
 static const int GEOPATCH_MAX_EDGELEN = 55;
@@ -843,7 +843,7 @@ static const int geo_sphere_edge_friends[6][4] = {
 	{ 1, 4, 3, 2 }
 };
 
-#define PLANET_AMBIENT	0.1
+#define PLANET_AMBIENT	0.0
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
 
@@ -1224,7 +1224,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	if (!m_patches[0]) BuildFirstPatches();
 	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glColorMaterial(GL_FRONT, GL_DIFFUSE);
 	
 	glMaterialfv (GL_FRONT, GL_SPECULAR, g_ambient);
 	glMaterialfv (GL_FRONT, GL_EMISSION, g_ambient);
