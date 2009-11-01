@@ -324,6 +324,10 @@ void Pi::HandleEvents()
 							ship->SetFrame(Pi::player->GetFrame());
 							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 							ship->SetVelocity(Pi::player->GetVelocity());
+							ship->m_equipment.Add(Equip::DRIVE_CLASS1);
+							ship->m_equipment.Add(Equip::RADAR_MAPPER);
+							ship->m_equipment.Add(Equip::SCANNER);
+							ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 							Space::AddBody(ship);
 						}
 					}

@@ -68,6 +68,7 @@ public:
 	virtual void Update();
 private:
 	void UpdateEquip();
+	void UseRadarMapper();
 	enum { MAX_MISSILE_SLOTS = 8 };
 
 	sigc::connection m_onPlayerEquipChangedCon;

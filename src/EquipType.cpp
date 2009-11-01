@@ -157,6 +157,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  250000, 4, 1,
 	  0, 4, 5.0
 	},{
+	  "Radar Mapper",
+	  "Used to remotely inspect the equipment, cargo and state of other ships.",
+	  Equip::SLOT_RADARMAPPER, {},
+	  90000, 1, 1,
+	  0, 3
+	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
 	  40000, 1, 0,

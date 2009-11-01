@@ -245,6 +245,53 @@ void UseEquipWidget::FireMissile(int idx)
 	Space::AddBody(missile);
 }
 
+void UseEquipWidget::UseRadarMapper()
+{
+	if (!Pi::player->GetCombatTarget()) {
+		Pi::cpan->MsgLog()->Message("", "Radar Mapper: You must target a ship");
+		return;
+	} else {
+		Body *b = Pi::player->GetCombatTarget();
+		assert (b->IsType(Object::SHIP));
+		Ship *s = static_cast<Ship*>(b);
+		std::string msg;
+		const ShipFlavour *flavour = s->GetFlavour();
+		const shipstats_t *stats = s->CalcStats();
+		msg += stringf(256, "Type: %s, Reg-id: %s\n", ShipType::types[flavour->type].name, flavour->regid);
+		if (stats->shield_mass > 0) {
+			msg += stringf(128, "Hull integrity: %.0f%%, Shields: %d (%.0f%%), %d tonnes of cargo\n",
+					s->GetPercentHull(),
+					s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR),
+					s->GetPercentShields(),
+					stats->used_cargo);
+		} else {
+			msg += stringf(128, "Hull integrity: %.0f%%, %d tonnes of cargo\n",
+					s->GetPercentHull(),
+					stats->used_cargo);
+		}
+		Equip::Type t = s->m_equipment.Get(Equip::SLOT_ENGINE);
+		if (t == Equip::NONE) msg += "No hyperdrive";
+		else msg += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+
+		for (int i=(int)Equip::FIRST_SHIPEQUIP; i<=(int)Equip::LAST_SHIPEQUIP; i++) {
+			Equip::Type t = (Equip::Type)i;
+			Equip::Slot slot = EquipType::types[t].slot;
+			if ((slot == Equip::SLOT_MISSILE) ||
+			    (slot == Equip::SLOT_ENGINE) ||
+			    (slot == Equip::SLOT_LASER) ||
+			    (t == Equip::SHIELD_GENERATOR)) continue;
+			int num = s->m_equipment.Count(slot, t);
+			if (num == 1) {
+				msg += stringf(128, ", %s", EquipType::types[t].name);
+			} else if (num > 1) {
+				msg += stringf(128, ", %d %ss", num, EquipType::types[t].name);
+			}
+		}
+
+		Pi::cpan->MsgLog()->Message("", msg);
+	}
+}
+
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
@@ -289,7 +336,15 @@ void UseEquipWidget::UpdateEquip()
 
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
 
-			Add(b, 32, 4);
+			Add(b, 32, 0);
+		}
+	}
+	{
+		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER);
+		if (t != Equip::NONE) {
+			Gui::Button *b = new Gui::ImageButton("icons/radarmapper.png");
+			b->onClick.connect(sigc::mem_fun(this, &UseEquipWidget::UseRadarMapper));
+			Add(b, 64, 0);
 		}
 	}
 }
