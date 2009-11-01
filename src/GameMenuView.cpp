@@ -286,7 +286,7 @@ GameMenuView::GameMenuView(): View()
 
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
-	Add(vbox, 400, 100);
+	Add(vbox, 600, 100);
 
 	vbox->PackEnd(new Gui::Label("Planet detail level:"));
 	Gui::RadioGroup *g = new Gui::RadioGroup();
@@ -301,12 +301,34 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
 		vbox->PackEnd(hbox, false);
 	}
+	// just a spacer
+	vbox->PackEnd(new Gui::Fixed(10,20));
+	
+	vbox->PackEnd(new Gui::Label("City detail level:"));
+	g = new Gui::RadioGroup();
+
+	for (int i=0; i<5; i++) {
+		m_cityDetail[i] = new Gui::RadioButton(g);
+		m_cityDetail[i]->onSelect.connect(sigc::bind(sigc::mem_fun(this,
+					&GameMenuView::OnChangeCityDetail), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_cityDetail[i], false);
+		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
+		vbox->PackEnd(hbox, false);
+	}
 }
 	
 void GameMenuView::OnChangePlanetDetail(int level)
 {
 	m_changedDetailLevel = true;
 	Pi::detail.planets = level;
+}
+
+void GameMenuView::OnChangeCityDetail(int level)
+{
+	m_changedDetailLevel = true;
+	Pi::detail.cities = level;
 }
 
 void GameMenuView::HideAll()
@@ -342,6 +364,7 @@ void GameMenuView::OnSwitchTo() {
 		Pi::SetView(Pi::worldView);
 	} else {
 		m_planetDetail[Pi::detail.planets]->OnActivate();
+		m_cityDetail[Pi::detail.cities]->OnActivate();
 	}
 }
 

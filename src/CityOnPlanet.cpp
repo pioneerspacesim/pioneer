@@ -264,8 +264,21 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 	cityobj_params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
 	cityobj_params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
 
+	int skipMask;
+	switch (Pi::detail.cities) {
+		case 0: skipMask = 0xf; break;
+		case 1: skipMask = 0x7; break;
+		case 2: skipMask = 0x3; break;
+		case 3: skipMask = 0x1; break;
+		default:
+			skipMask = 0; break;
+	}
+
+	int num = 0;
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
-			i != m_buildings.end(); ++i) {
+			i != m_buildings.end(); ++i, ++num) {
+
+		if (num & skipMask) continue;
 
 		vector3d pos = frameTrans * (*i).pos;
 		/* frustum cull */

@@ -42,6 +42,7 @@ class IniConfig: private std::map<std::string, std::string> {
 
 struct DetailLevel {
 	int planets;
+	int cities;
 };
 
 class Frame;

@@ -70,7 +70,7 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
-struct DetailLevel Pi::detail = { 1 };
+struct DetailLevel Pi::detail = { 1, 1 };
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0 };
 const char * const Pi::combatRating[] = {
 	"Harmless",
@@ -847,6 +847,7 @@ void Pi::Serialize()
 	worldView->Save();
 
 	wr_int(detail.planets);
+	wr_int(detail.cities);
 }
 
 void Pi::Unserialize()
@@ -869,9 +870,9 @@ void Pi::Unserialize()
 	sectorView->Load();
 	worldView->Load();
 
-	if (!IsOlderThan(8)) {
-		detail.planets = rd_int();
-	}
+	detail.planets = rd_int();
+	detail.cities = rd_int();
+
 	OnChangeDetailLevel();
 }
 

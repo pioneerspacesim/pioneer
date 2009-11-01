@@ -18,9 +18,11 @@ public:
 	void OpenSaveDialog();
 private:
 	void OnChangePlanetDetail(int level);
+	void OnChangeCityDetail(int level);
 	bool m_changedDetailLevel;
 	View *m_subview;
 	Gui::RadioButton *m_planetDetail[5];
+	Gui::RadioButton *m_cityDetail[5];
 };
 
 #endif /* _GAMEMENUVIEW_H */
