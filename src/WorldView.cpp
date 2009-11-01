@@ -817,6 +817,21 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 			Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
+	float shields = Pi::player->GetPercentShields();
+	if (shields < 100.0f) {
+		if (shields < 50.0f) 
+			glColor4f(1,0,0,HUD_ALPHA);
+		else if (shields < 75.0f)
+			glColor4f(1,0.5,0,HUD_ALPHA);
+		else
+			glColor4f(1,1,0,HUD_ALPHA);
+		char buf[128];
+		snprintf(buf, sizeof(buf), "%.1f%% shields", shields);
+		glPushMatrix();
+			glTranslatef(Gui::Screen::GetWidth()-80.0f, Gui::Screen::GetFontHeight(), 0);
+			Gui::Screen::RenderString(buf);
+		glPopMatrix();
+	}
 
 	if (Pi::player->GetNavTarget()) {
 		Body *target = Pi::player->GetNavTarget();

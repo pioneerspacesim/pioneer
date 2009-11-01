@@ -129,7 +129,8 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
 		} else {
-			m_equipmentStock[i] = Pi::rng.Int32(0,100);
+			if (EquipType::types[i].techLevel <= Pi::currentSystem->m_techlevel)
+				m_equipmentStock[i] = Pi::rng.Int32(0,100);
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {

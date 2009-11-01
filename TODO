@@ -13,15 +13,15 @@ y	Missiles
 	atmos shielding
 	laser cooling booster
 	cargo bay life support
-	scanner
+y	scanner
 	full range of lasers inc 'plasma accelerator' type big guns
 	radar mapper
-sfx	ecm
-sfx	naval ecm
+y	ecm
+y	naval ecm
 	autopilot
 	passenger cabins
 	hyperspace cloud analyser
-	shield generator
+y	shield generator
 	fuel scoop
 	cargo scoop conversion
 	regular hyperdrives (to class 8)

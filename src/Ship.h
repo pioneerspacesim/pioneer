@@ -21,6 +21,8 @@ struct shipstats_t {
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 	float hyperspace_range_max;
+	float shield_mass;
+	float shield_mass_left;
 };
 
 class Ship: public DynamicBody, public MarketAgent {
@@ -81,6 +83,7 @@ public:
 	int GetPrice(Equip::Type t) const;
 	void ChangeFlavour(const ShipFlavour *f);
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
+	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
 	

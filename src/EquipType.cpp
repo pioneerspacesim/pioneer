@@ -115,35 +115,52 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	},{
 	  "R40 Unguided Rocket",0,
 	  Equip::SLOT_MISSILE, {},
-	  3000, 1, 0
+	  3000, 1, 0,
+	  0, 0,
 	},{
 	  "Guided Missile",0,
 	  Equip::SLOT_MISSILE, {},
-	  5000, 1, 0
+	  5000, 1, 0,
+	  0, 0,
 	},{
 	  "Smart Missile",0,
 	  Equip::SLOT_MISSILE, {},
-	  9500, 1, 0
+	  9500, 1, 0,
+	  0, 3,
 	},{
 	  "Naval Missile",0,
 	  Equip::SLOT_MISSILE, {},
-	  16000, 1, 0
+	  16000, 1, 0,
+	  0, 4
 	},{
 	  "ECM system",
 	  "An electronic countermeasure missile defence system, capable of destroying some homing missiles.",
 	  Equip::SLOT_ECM, {},
 	  600000, 2, 2,
-	  0, 0, 5.0
+	  0, 2, 5.0,
+	},{
+	  "Scanner",
+	  "Provides a 3D map of nearby ships.",
+	  Equip::SLOT_SCANNER, {},
+	  68000, 1, 0,
+	  0, 2
 	},{
 	  "Advanced ECM system",
 	  "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles.",
 	  Equip::SLOT_ECM, {},
 	  1520000, 2, 3,
-	  0, 0, 5.0
+	  0, 5, 5.0
+	},{
+	  "Shield Generator",
+	  "Provides additional hull defences with each unit fitted.",
+	  Equip::SLOT_CARGO, {},
+	  250000, 4, 1,
+	  0, 4, 5.0
 	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
-	  40000, 1, 0
+	  40000, 1, 0,
+	  0, 0,
 	},{
 	  "Class 1 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, {},

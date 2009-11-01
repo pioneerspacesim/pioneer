@@ -164,23 +164,22 @@ public:
 
 	virtual void UpdateInfo() {
 		char buf[512];
-		std::string nfo;
+		std::string col1, col2;
 		const ShipType &stype = Pi::player->GetShipType();
-		nfo = "SHIP INFORMATION:  "+std::string(stype.name);
-		nfo += "\n\nHyperdrive:"
+		col1 = "SHIP INFORMATION:  "+std::string(stype.name);
+		col1 += "\n\nHyperdrive:"
 			"\n\nCapacity:"
 			"\nFree:"
 			"\nUsed:"
 			"\nAll-up weight:"
 			"\n\nFront weapon:"
 			"\nRear weapon:"
-			"\n\nHyperspace range:";
-		info1->SetText(nfo);
+			"\n\nHyperspace range:\n\n";
 		
-		nfo = "\n\n";
+		col2 = "\n\n";
 
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
-		nfo += std::string(EquipType::types[e].name);
+		col2 += std::string(EquipType::types[e].name);
 
 		const shipstats_t *stats;
 		stats = Pi::player->CalcStats();
@@ -189,26 +188,39 @@ public:
 					       "%dt\n"
 					       "%dt", stats->max_capacity,
 				stats->free_capacity, stats->used_capacity, stats->total_mass);
-		nfo += std::string(buf);
+		col2 += std::string(buf);
 
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
 		if (numLasers >= 1) {
 			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
-			nfo += std::string("\n\n")+EquipType::types[e].name;
+			col2 += std::string("\n\n")+EquipType::types[e].name;
 		} else {
-			nfo += "\n\nno mounting";
+			col2 += "\n\nno mounting";
 		}
 		if (numLasers >= 2) {
 			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
-			nfo += std::string("\n")+EquipType::types[e].name;
+			col2 += std::string("\n")+EquipType::types[e].name;
 		} else {
-			nfo += "\nno mounting";
+			col2 += "\nno mounting";
 		}
 
 		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
-		nfo += std::string(buf);
+		col2 += std::string(buf);
 
-		info2->SetText(nfo);
+		for (int i=(int)Equip::FIRST_SHIPEQUIP; i<=(int)Equip::LAST_SHIPEQUIP; i++) {
+			Equip::Type t = (Equip::Type)i;
+			Equip::Slot s = EquipType::types[t].slot;
+			if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
+			int num = Pi::player->m_equipment.Count(s, t);
+			if (num == 1) {
+				col1 += stringf(128, "%s\n", EquipType::types[t].name);
+			} else if (num > 1) {
+				col1 += stringf(128, "%d %ss\n", num, EquipType::types[t].name);
+			}
+		}
+
+		info1->SetText(col1);
+		info2->SetText(col2);
 		this->ResizeRequest();
 	}
 private:

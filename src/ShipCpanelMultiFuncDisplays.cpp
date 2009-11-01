@@ -83,6 +83,8 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::Draw()
 {
+	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
+
 	float size[2];
 	GetSize(size);
 	const float mx = size[0]*0.5f;

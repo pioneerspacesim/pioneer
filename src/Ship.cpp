@@ -16,6 +16,8 @@
 #include "Render.h"
 #include "Shader.h"
 
+#define TONS_HULL_PER_SHIELD 10.0f
+
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -56,6 +58,7 @@ void Ship::Save()
 	wr_int(Serializer::LookupBody(m_dockedWith));
 	m_equipment.Save();
 	wr_float(m_stats.hull_mass_left);
+	wr_float(m_stats.shield_mass_left);
 	wr_int(m_todo.size());
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		wr_int((int)(*i).cmd);
@@ -100,6 +103,7 @@ void Ship::Load()
 	m_equipment.Load();
 	Init();
 	m_stats.hull_mass_left = rd_float(); // must be after Init()...
+	m_stats.shield_mass_left = rd_float();
 	int num = rd_int();
 	while (num-- > 0) {
 		AICommand c = (AICommand)rd_int();
@@ -115,6 +119,7 @@ void Ship::Init()
 	SetMassDistributionFromModel();
 	UpdateMass();
 	m_stats.hull_mass_left = (float)stype.hullMass;
+	m_stats.shield_mass_left = 0;
 }
 
 void Ship::PostLoadFixup()
@@ -170,6 +175,12 @@ float Ship::GetPercentHull() const
 	return 100.0f * (m_stats.hull_mass_left / (float)stype.hullMass);
 }
 
+float Ship::GetPercentShields() const
+{
+	if (m_stats.shield_mass == 0) return 100.0f;
+	else return 100.0f * (m_stats.shield_mass_left / m_stats.shield_mass);
+}
+
 void Ship::SetPercentHull(float p)
 {
 	const ShipType &stype = GetShipType();
@@ -185,7 +196,17 @@ void Ship::UpdateMass()
 bool Ship::OnDamage(Object *attacker, float kgDamage)
 {
 	if (!IsDead()) {
-		m_stats.hull_mass_left -= kgDamage*0.001f;
+		float dam = kgDamage*0.001f;
+		if (m_stats.shield_mass_left > 0.0f) {
+			if (m_stats.shield_mass_left > dam) {
+				m_stats.shield_mass_left -= dam;
+				dam = 0;
+			} else {
+				dam -= m_stats.shield_mass_left;
+				m_stats.shield_mass_left = 0;
+			}
+		}
+		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
 			Space::KillBody(this);
@@ -252,6 +273,8 @@ const shipstats_t *Ship::CalcStats()
 	}
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
 	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
+
+	m_stats.shield_mass = TONS_HULL_PER_SHIELD * (float)m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR);
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -517,6 +540,12 @@ void Ship::StaticUpdate(const float timeStep)
 		m_ecmRecharge = MAX(0, m_ecmRecharge - timeStep);
 	}
 
+	if (m_stats.shield_mass_left < m_stats.shield_mass) {
+		// 250 second recharge
+		m_stats.shield_mass_left += m_stats.shield_mass * 0.004 * timeStep;
+	}
+	m_stats.shield_mass_left = CLAMP(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
+
 	if (m_wheelTransition != 0.0f) {
 		m_wheelState += m_wheelTransition*timeStep;
 		m_wheelState = CLAMP(m_wheelState, 0, 1);
@@ -659,6 +688,10 @@ static void render_coll_mesh(const CollMesh *m)
 void Ship::Render(const Frame *camFrame)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
+	
+	matrix4x4d ftran;
+	Frame::GetFrameTransform(GetFrame(), camFrame, ftran);		
+
 	if ( (this != Pi::player) ||
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
@@ -676,13 +709,26 @@ void Ship::Render(const Frame *camFrame)
 		params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderSbreModel(camFrame, &params);
-	}
 
+		// draw shield recharge bubble
+		if (m_stats.shield_mass_left < m_stats.shield_mass) {
+			float shield = 0.01f*GetPercentShields();
+			vector3d pos = ftran * GetPosition();
+			glDisable(GL_LIGHTING);
+			glEnable(GL_BLEND);
+			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+			glPushMatrix();
+			glTranslatef(pos.x, pos.y, pos.z);
+			Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
+			gluSphere(Pi::gluQuadric, sbreGetModelRadius(GetSbreModel()), 20, 20);
+			Shader::DisableVertexProgram();
+			glPopMatrix();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_BLEND);
+		}
+	}
 	if (m_ecmRecharge) {
 		// pish effect
-		matrix4x4d ftran;
-		Frame::GetFrameTransform(GetFrame(), camFrame, ftran);
-			
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
 			v[i] = vector3f(ftran * (GetPosition() +
@@ -699,6 +745,7 @@ void Ship::Render(const Frame *camFrame)
 		Render::PutPointSprites(100, v, 50.0f, c, tex);
 		Shader::DisableVertexProgram();
 	}
+
 #if 0
 	if (IsFiringLasers()) {
 		glPushMatrix();
