@@ -68,6 +68,7 @@
 				AdditionalDependencies="sdl.lib sdlmain.lib sigc-2.0d.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib glew32.lib"
 				OutputFile="..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="libcmt.lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -211,6 +212,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\CommodityTradeWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\custom_starsystems.cpp"
 				>
 			</File>
@@ -235,6 +240,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GalacticView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Galaxy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GameMenuView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GenericChatForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GenericSystemView.cpp"
 				>
 			</File>
@@ -252,6 +273,10 @@
 			</File>
 			<File
 				RelativePath="..\src\glfreetype.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\missions\GoodsTrader.cpp"
 				>
 			</File>
 			<File
@@ -315,6 +340,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTextEntry.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiTextLayout.cpp"
 				>
 			</File>
@@ -348,6 +377,10 @@
 			</File>
 			<File
 				RelativePath="..\src\MarketAgent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Missile.cpp"
 				>
 			</File>
 			<File
@@ -412,6 +445,10 @@
 			</File>
 			<File
 				RelativePath="..\src\Player.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\PoliceChatForm.cpp"
 				>
 			</File>
 			<File
@@ -495,6 +532,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\SysLoc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\SystemInfoView.cpp"
 				>
 			</File>
@@ -553,6 +594,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\CommodityTradeWidget.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\custom_starsystems.h"
 				>
 			</File>
@@ -581,7 +626,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GalacticView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Galaxy.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\gameconsts.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GameMenuView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GenericChatForm.h"
 				>
 			</File>
 			<File
@@ -602,6 +663,10 @@
 			</File>
 			<File
 				RelativePath="..\src\glfreetype.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\missions\GoodsTrader.h"
 				>
 			</File>
 			<File
@@ -677,6 +742,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTextEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiTextLayout.h"
 				>
 			</File>
@@ -717,6 +786,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Missile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Mission.h"
 				>
 			</File>
@@ -753,6 +826,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\PersistSystemData.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Pi.h"
 				>
 			</File>
@@ -766,6 +843,10 @@
 			</File>
 			<File
 				RelativePath="..\src\Player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\PoliceChatForm.h"
 				>
 			</File>
 			<File
@@ -850,6 +931,10 @@
 			</File>
 			<File
 				RelativePath="..\src\StarSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\SysLoc.h"
 				>
 			</File>
 			<File

@@ -9,7 +9,11 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#endif /* _GNU_SOURCE */
+#elif _WIN32
+#include <shlobj.h>
+#include <shlwapi.h>
+#include <atlbase.h>
+#endif
 
 /*
  * Must create the folders if they do not exist already.
@@ -37,7 +41,23 @@ std::string GetFullSavefileDirPath()
 	closedir(dir);
 	return path;
 #elif _WIN32
-# error paul needs to do. you can use join_path. it should be _WIN32-aware
+	try {
+		TCHAR path[MAX_PATH];
+		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
+			throw std::runtime_error("SHGetFolderPath");
+
+		if(!PathAppend(path, CA2T("Pioneer")))
+			throw std::runtime_error("PathAppend");
+
+		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
+			throw std::runtime_error("SHCreateDirectoryEx");
+
+		return std::string(CT2A(path));
+	}
+	catch(const std::exception&) {
+		Gui::Screen::ShowBadError("Can't get path to save directory");
+		return "";
+	}
 #else
 # error Unsupported system
 #endif
@@ -63,7 +83,21 @@ static void GetDirectoryContents(const char *name, std::list<std::string> &files
 
 	closedir(dir);
 #elif _WIN32
-# error paul!
+	try {
+		WIN32_FIND_DATA fd;
+		const HANDLE hFind = FindFirstFile(CA2T((std::string(name) + "/*").c_str()), &fd);
+		if(INVALID_HANDLE_VALUE == hFind)
+			throw std::runtime_error("FindFirstFile");
+		do {
+			if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				continue;
+			files.push_back(std::string(CT2A(fd.cFileName)));
+		}
+		while(FindNextFile(hFind, &fd) != 0);
+	}
+	catch(const std::exception&) {
+		Gui::Screen::ShowBadError("Error getting directory contents");
+	}
 #else
 # error Unsupported turd
 #endif

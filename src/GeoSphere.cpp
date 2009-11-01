@@ -11,9 +11,10 @@
 // must be an odd number
 //#define GEOPATCH_EDGELEN	15
 #define GEOPATCH_NUMVERTICES	(GEOPATCH_EDGELEN*GEOPATCH_EDGELEN)
-#define GEOSPHERE_USE_THREADING
+//#define GEOSPHERE_USE_THREADING
 
 int GEOPATCH_EDGELEN = 15;
+static const int GEOPATCH_MAX_EDGELEN = 55;
 static double GEOPATCH_FRAC;
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
@@ -400,12 +401,12 @@ public:
 	
 	void FixEdgeFromParentInterpolated(int edge) {
 		// noticeable artefacts from not doing so...
-		vector3d ev[GEOPATCH_EDGELEN];
-		vector3d en[GEOPATCH_EDGELEN];
-		vector3d ec[GEOPATCH_EDGELEN];
-		vector3d ev2[GEOPATCH_EDGELEN];
-		vector3d en2[GEOPATCH_EDGELEN];
-		vector3d ec2[GEOPATCH_EDGELEN];
+		vector3d ev[GEOPATCH_MAX_EDGELEN];
+		vector3d en[GEOPATCH_MAX_EDGELEN];
+		vector3d ec[GEOPATCH_MAX_EDGELEN];
+		vector3d ev2[GEOPATCH_MAX_EDGELEN];
+		vector3d en2[GEOPATCH_MAX_EDGELEN];
+		vector3d ec2[GEOPATCH_MAX_EDGELEN];
 		GetEdge(parent->vertices, edge, ev);
 		GetEdge(parent->normals, edge, en);
 		GetEdge(parent->colors, edge, ec);
@@ -477,7 +478,7 @@ public:
 	}
 
 	void FixCornerNormalsByEdge(int edge, vector3d *ev) {
-		vector3d ev2[GEOPATCH_EDGELEN];
+		vector3d ev2[GEOPATCH_MAX_EDGELEN];
 		vector3d x1, x2, y1, y2;
 		switch (edge) {
 		case 0:
@@ -544,7 +545,7 @@ public:
 				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
 			}
 		}
-		vector3d ev[4][GEOPATCH_EDGELEN];
+		vector3d ev[4][GEOPATCH_MAX_EDGELEN];
 		bool doneEdge[4];
 		memset(doneEdge, 0, sizeof(doneEdge));
 		for (int i=0; i<4; i++) {
@@ -601,7 +602,7 @@ public:
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
-		vector3d ev[GEOPATCH_EDGELEN];
+		vector3d ev[GEOPATCH_MAX_EDGELEN];
 		int we_are = e->GetEdgeIdxOf(this);
 		e->GetEdgeMinusOneVerticesFlipped(we_are, ev);
 		/* now we have a valid edge, fix the edge vertices */
@@ -915,6 +916,7 @@ void GeoSphere::OnChangeDetailLevel()
 		default:
 		case 4: GEOPATCH_EDGELEN = 55; break;
 	}
+	assert(GEOPATCH_EDGELEN <= GEOPATCH_MAX_EDGELEN);
 	GeoPatch::Init();
 	for(std::list<GeoSphere*>::iterator i = s_allGeospheres.begin();
 			i != s_allGeospheres.end(); ++i) {
