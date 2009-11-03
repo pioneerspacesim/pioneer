@@ -6,6 +6,12 @@
 
 extern int GEOPATCH_EDGELEN;
 
+struct fracdef_t {
+	double amplitude;
+	double frequency;
+	double lacunarity;
+};
+
 class SBody;
 class GeoPatch;
 class GeoSphere {
@@ -39,6 +45,13 @@ private:
 	double m_sealevel;
 	double m_sbodyRadius;
 	double m_icyness; // ~1.0 = earth (15c)
+	
+	fracdef_t m_continents;
+	fracdef_t m_mountains;
+	fracdef_t m_hills;
+	fracdef_t m_hillDistrib;
+	fracdef_t m_mountainDistrib;
+	
 	vector3d m_fractalOffset;
 
 	/* for sbodies with a heightMap we load this turd

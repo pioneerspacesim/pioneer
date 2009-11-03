@@ -943,6 +943,29 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_icyness = 38.0 / (MAX(1, ((double)m_sbody->averageTemp)-250.0));
 
+	double totalAmp = 1.0;
+	m_mountains.amplitude = rand.Double(totalAmp);
+	m_mountains.frequency = 32.0 + 32.0*rand.Double();
+	m_mountains.lacunarity = rand.Double(1.8,2.2);
+	totalAmp -= m_mountains.amplitude;
+
+	m_continents.amplitude = rand.Double(totalAmp);
+	m_continents.frequency = 1.0 + rand.Double();
+	m_continents.lacunarity = rand.Double(1.8,2.2);
+	totalAmp -= m_continents.amplitude;
+
+	m_hills.amplitude = totalAmp;
+	m_hills.frequency = 64.0 + 64.0*rand.Double();
+	m_hills.lacunarity = rand.Double(1.8,2.2);
+
+	m_hillDistrib.amplitude = 1.0;
+	m_hillDistrib.frequency = pow(2.0, rand.Double(4.0));
+	m_hillDistrib.lacunarity = rand.Double(1.8, 2.2);
+
+	m_mountainDistrib.amplitude = 1.0;
+	m_mountainDistrib.frequency = pow(2.0, rand.Double(3.0));
+	m_mountainDistrib.lacunarity = rand.Double(1.8, 2.2);
+
 	//printf("%s max mountain height: %f meters\n",m_sbody->name.c_str(), m_maxHeight * m_sbody->GetRadius());
 
 	for (int i=0; i<16; i++) m_crap[i] = rand.Double();
@@ -1256,39 +1279,42 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 #endif /* !GEOSPHERE_USE_THREADING */
 }
 
-inline double octavenoise(int octaves, double div, vector3d p)
+/**
+ * All these stinking octavenoise functions return range [0,1] if persistence = 0.5
+ */
+inline double octavenoise(int octaves, double persistence, double lacunarity, vector3d p)
 {
 	double n = 0;
-	double wank = 1.0;
+	double octaveAmplitude = 1.0;
 	double jizm = 1.0;
 	while (octaves--) {
-		n += wank * noise(jizm*p);
-		wank *= div;
-		jizm *= 2.0;
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= persistence;
+		jizm *= lacunarity;
+	}
+	return 0.5 + n*0.5;
+}
+inline double river_octavenoise(int octaves, double persistence, double lacunarity, vector3d p)
+{
+	double n = 0;
+	double octaveAmplitude = 1.0;
+	double jizm = 1.0;
+	while (octaves--) {
+		n += octaveAmplitude * fabs(noise(jizm*p));
+		octaveAmplitude *= persistence;
+		jizm *= lacunarity;
 	}
 	return n;
 }
-inline double river_octavenoise(int octaves, double div, vector3d p)
+inline double ridged_octavenoise(int octaves, double persistence, double lacunarity, vector3d p)
 {
 	double n = 0;
-	double wank = 1.0;
+	double octaveAmplitude = 1.0;
 	double jizm = 1.0;
 	while (octaves--) {
-		n += wank * abs(noise(jizm*p));
-		wank *= div;
-		jizm *= 2.0;
-	}
-	return n;
-}
-inline double ridged_octavenoise(int octaves, double div, vector3d p)
-{
-	double n = 0;
-	double wank = 1.0;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += wank * (1.0 - abs(noise(jizm*p)));
-		wank *= div;
-		jizm *= 2.0;
+		n += octaveAmplitude * (1.0 - fabs(noise(jizm*p)));
+		octaveAmplitude *= persistence;
+		jizm *= lacunarity;
 	}
 	return n;
 }
@@ -1352,19 +1378,32 @@ double GeoSphere::GetHeightMapVal(const vector3d &pt)
 		double a2 = 0.5*d0 + 0.5*d2;
 		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
 		double v = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
-		return (v<0 ? 0 : v + 100*fabs(octavenoise(10, 0.5, 1000.0*pt)));
+		return (v<0 ? 0 : v + 100*octavenoise(10, 0.5, 2.0, 1000.0*pt));
+	}
+}
+
+static inline double fractal(int octaves, fracdef_t &def, int type, const vector3d &p)
+{
+	switch (type) {
+		case 0:	
+			return river_octavenoise(octaves, 0.5, def.lacunarity, def.frequency * p);
+		case 1:
+			return ridged_octavenoise(octaves, 0.5, def.lacunarity, def.frequency * p);
+		default:
+			return octavenoise(octaves, 0.5, def.lacunarity, def.frequency * p);
 	}
 }
 
 /*
  * p should be a normalised turd on surface of planet.
+ *
+ * XXX must be >= 0 or atmosphere fucks up
  */
 double GeoSphere::GetHeight(vector3d p)
 {
 	if (m_heightMap) return GetHeightMapVal(p) / m_sbodyRadius;
 	
 	double n;
-	double div;
 	p += m_fractalOffset;
 	// changing the input point to noise function has interesting results
 //	switch (GEOSPHERE_SEED & 1) {
@@ -1380,7 +1419,7 @@ double GeoSphere::GetHeight(vector3d p)
 			return 0;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-			return 0.1*(1.0+octavenoise(10, 0.45+0.1*noise(2.0*p), p));
+			return 0.1*octavenoise(10, 0.45+0.1*noise(2.0*p), 2.0, p);
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:
@@ -1389,32 +1428,43 @@ double GeoSphere::GetHeight(vector3d p)
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			switch (GEOSPHERE_SEED & 1) {
-				case 0:	div = 0.52 + 0.18*m_crap[1]; break;
-				default: div = 0.5 + 0.18*octavenoise(4, 0.5, 256*m_crap[1]*p); break;
-			}
-			// continent types
-			switch ((GEOSPHERE_SEED>>4) & 3) {
-				case 0:	n = 1.0 - fabs(octavenoise(18, div, p)); break;
-				case 1: n = fabs(octavenoise(18, div, p)); break;
-				default: n = 0.5*(1.0+octavenoise(18, div, p)); break;
-			}
+			{
+				double continents = m_continents.amplitude * fractal(14, m_continents, (GEOSPHERE_SEED)&3, p);
+				double mountains = m_mountains.amplitude * fractal(10, m_mountains, (GEOSPHERE_SEED>>2)&3, p);
+				double hills = fractal(6, m_hillDistrib, (GEOSPHERE_SEED>>4)&3, p) *
+				               m_hills.amplitude * fractal(10, m_hills, (GEOSPHERE_SEED>>6)&3, p);
 
-			// weird loopy blobs
-			//n += 0.5*0.3*(1.0+octavenoise(8, 0.5f + 0.25f*noise(2.0*p), p+vector3d(0,0,noise(32*p))));
-			//n += 0.5*0.3*octavenoise(8, 0.5, 256.0*p);
-			
-			n *= m_maxHeight;
+				n = m_maxHeight * (continents + hills + mountains);
+			}
 			break;
 		case SBody::TYPE_PLANET_WATER:
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			div = 0.5 + 0.18*octavenoise(4, 0.5, 256.0*p);
-			n = 0.5*(1.0+octavenoise(18, div, p));
-			n += 0.1*(1.0 - fabs(octavenoise(18, 0.5, 256.0*p)));
-			return (n<m_sealevel ? 0.0 : m_maxHeight*(n-m_sealevel));
+			{
+				double continents = m_continents.amplitude * fractal(14, m_continents, (GEOSPHERE_SEED)&3, p);
+				double mountains = fractal(10, m_mountains, (GEOSPHERE_SEED>>2)&3, p);
+				double hills = fractal(6, m_hillDistrib, (GEOSPHERE_SEED>>4)&3, p) *
+				               m_hills.amplitude * fractal(10, m_hills, (GEOSPHERE_SEED>>6)&3, p);
+
+				n = continents - m_continents.amplitude*m_sealevel;
+				if (n > 0.0) {
+					// smooth in hills at shore edges
+					if (n < 0.01) n += hills * n * 100.0f;
+					else n += hills;
+
+					mountains = fractal(6, m_mountainDistrib, (GEOSPHERE_SEED>>8)&3, p) *
+						m_mountains.amplitude * mountains*mountains*mountains;
+					if (n < 0.01) n += mountains * n * 100.0f;
+					else n += mountains;
+				}
+				n = (n<0.0 ? 0.0 : m_maxHeight*n);
+				return n;
+			}
 		default:
 			return 0;
 	}
+	// weird loopy blobs
+	//n += 0.5*0.3*(1.0+octavenoise(8, 0.5f + 0.25f*noise(2.0*p), p+vector3d(0,0,noise(32*p))));
+	//n += 0.5*0.3*octavenoise(8, 0.5, 256.0*p);
 //	n = octavenoise(12, 0.5, pmul*p);
 /*	switch (m_sbody->seed & 3) {
 		case 0: n = 1.0 - fabs(n); break;
@@ -1454,8 +1504,7 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
 		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
 		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
-			n = octavenoise(12, 0.5f*m_crap[0] + 0.25f, noise(vector3d(p.x, p.y*m_sbody->radius.ToDouble(), p.z))*p);
-			n = (1.0f + n)*0.5f;
+			n = octavenoise(12, 0.5f*m_crap[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_sbody->radius.ToDouble(), p.z))*p);
 			switch (GEOSPHERE_SEED & 3) {
 				// jupiterish
 				case 0: return interpolate_color(n, vector3d(.50,.22,.18), vector3d(.99,.76,.62));
@@ -1477,7 +1526,7 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			n = m_invMaxHeight*height - 0.5;
+			n = m_invMaxHeight*height;
 			return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			n = m_invMaxHeight*height;
@@ -1488,7 +1537,7 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 					return vector3d(1,1,1);
 				}
 
-				double equatorial_desert = (2.0-m_icyness)*octavenoise(12, 0.5, (n*2.0)*p) *
+				double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 						1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 
 				vector3d col;
