@@ -127,6 +127,8 @@ bool Ship::AICmdKill(const Ship *enemy)
 			const float dot = vector3d::Dot(dir, vector3d(-rot[8], -rot[9], -rot[10]));
 			if (dot > 0.95f) {
 				SetGunState(0,1);
+	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+	TryHyperspaceTo(path);
 			}
 		} else {
 			// if too close turn away!

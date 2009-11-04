@@ -15,11 +15,13 @@ static std::vector<SBody*> g_sbodies;
 
 Frame *LookupFrame(size_t index)
 {
+	if (index == -1) return 0;
 	return g_frames[index];
 }
 
 int LookupFrame(const Frame *f)
 {
+	if (f == 0) return -1;
 	for (unsigned int i=0; i<g_frames.size(); i++) {
 		if (g_frames[i] == f) return i;
 	}

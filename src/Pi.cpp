@@ -467,7 +467,7 @@ void Pi::InitGame()
 	Pi::isGameStarted = false;
 
 	player = new Player(ShipType::SIRIUS_INTERDICTOR);
-	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
+	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS4);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
 	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::PULSECANNON_1MW);
 	player->m_equipment.Add(Equip::HYDROGEN);
@@ -757,6 +757,7 @@ void Pi::MainLoop()
 			// check we aren't too near to objects for timeaccel //
 			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
+				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
 				vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
 				double dist = toBody.Length();

@@ -303,16 +303,22 @@ void UseEquipWidget::UseHypercloudAnalyzer()
 		return;
 	}
 	HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(target);
-	const SBodyPath *dest = cloud->GetShip()->GetHyperspaceTarget();
-	Sector s(dest->sectorX, dest->sectorY);
-	Pi::cpan->MsgLog()->Message("", stringf(512,
-				"Hyperspace departure cloud: Ship mass %dt\n"
+	Ship *ship = cloud->GetShip();
+	if (ship == 0) {
+		Pi::cpan->MsgLog()->Message("", "Hyperspace arrival cloud remnant");
+	} else {
+		const SBodyPath *dest = ship->GetHyperspaceTarget();
+		Sector s(dest->sectorX, dest->sectorY);
+		Pi::cpan->MsgLog()->Message("", stringf(512,
+				"Hyperspace %s cloud: Ship mass %dt\n"
 				"Destination: %s\n"
 				"Date due: %s\n",
-				cloud->GetShip()->CalcStats()->total_mass,
+				cloud->IsArrival() ? "arrival" : "departure",
+				ship->CalcStats()->total_mass,
 				s.m_systems[dest->systemIdx].name.c_str(),
 				format_date(cloud->GetDueDate()).c_str()
 				));
+	}
 }
 
 void UseEquipWidget::UpdateEquip()

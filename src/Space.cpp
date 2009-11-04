@@ -31,6 +31,7 @@ static std::list<Body*> corpses;
 static SBodyPath *hyperspacingTo;
 static float hyperspaceAnim;
 static double hyperspaceEndTime;
+static std::list<HyperspaceCloud*> storedArrivalClouds;
 
 void Init()
 {
@@ -625,9 +626,30 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		return;
 	}
 	ship->UseHyperspaceFuel(dest);
-	ship->DisableBodyOnly();
 		
 	if (Pi::player == ship) {
+		// Departure clouds going to the same system as us are turned
+		// into arrival clouds and stored here
+		for (bodiesIter_t i = bodies.begin(); i != bodies.end();) {
+			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(*i);
+			if ((*i)->IsType(Object::HYPERSPACECLOUD) && (!cloud->IsArrival()) &&
+					(cloud->GetShip() != 0)) {
+				// only comparing system, not precise body target
+				SysLoc cloudDest = *((SysLoc*)cloud->GetShip()->GetHyperspaceTarget());
+				if (cloudDest == *(SysLoc*)dest) {
+					Pi::player->NotifyDeleted(cloud);
+					cloud->SetIsArrival(true);
+					storedArrivalClouds.push_back(cloud);
+					i = bodies.erase(i);
+				} else {
+					++i;
+				}
+			} else {
+				++i;
+			}
+		}
+		printf("%d clouds brought over\n", storedArrivalClouds.size());
+
 		Space::Clear();
 		if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
 		*hyperspacingTo = *dest;
@@ -635,9 +657,10 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
 		printf("Started hyperspacing...\n");
 	} else {
-		HyperspaceCloud *cloud = new HyperspaceCloud(ship, Pi::GetGameTime() + duration);
+		HyperspaceCloud *cloud = new HyperspaceCloud(ship, Pi::GetGameTime() + duration, false);
 		cloud->SetFrame(ship->GetFrame());
 		cloud->SetPosition(ship->GetPosition());
+		ship->SetFrame(0);
 		// need to swap ship out of bodies list, replacing it with
 		// cloud
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
@@ -665,6 +688,16 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 void DoHyperspaceTo(const SBodyPath *dest)
 {
 	if (dest == 0) dest = hyperspacingTo;
+	else {
+		// called with dest indicates start from start point or saved
+		// game so don't insert stored arrival clouds into system
+		// XXX this shit should all be cleared on new game init....
+		for (std::list<HyperspaceCloud*>::iterator i = storedArrivalClouds.begin();
+				i != storedArrivalClouds.end(); ++i) {
+			delete *i;
+		}
+		storedArrivalClouds.clear();
+	}
 	
 	if (Pi::currentSystem) delete Pi::currentSystem;
 	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemIdx);
@@ -682,6 +715,26 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	Pi::player->SetVelocity(vector3d(0.0));
 	Pi::player->SetFrame(pframe);
 	Pi::player->Enable();
+
+	/* XXX XXX need to put these in an appropriate place in the system and
+	 * have some way of the player navigating to them */
+	double wank = 100.0;
+	for (std::list<HyperspaceCloud*>::iterator i = storedArrivalClouds.begin();
+			i != storedArrivalClouds.end(); ++i) {
+		if ((*i)->GetDueDate() < Pi::GetGameTime()) {
+			printf("Too late\n");
+			// too late dude
+			delete *i;
+		} else {
+			printf("Added incoming turd\n");
+			(*i)->SetPosition(Pi::player->GetPosition() + vector3d(0,0,-wank));
+			(*i)->SetVelocity(vector3d(0.0));
+			(*i)->SetFrame(Pi::player->GetFrame());
+			Space::AddBody(*i);
+			wank += 100.0;
+		}
+	}
+	storedArrivalClouds.clear();
 
 	Pi::onPlayerHyperspaceToNewSystem.emit();
 	SpawnPiratesOnHyperspace();

@@ -1151,7 +1151,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	rootBody->PopulateStage1(this, m_totalPop);
 	if (m_totalPop == 0) m_techlevel = 0;
 	
-	printf("Trading rates:\n");
+//	printf("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
 	// Lets use black magic to turn these into percentage base price
 	// alterations
@@ -1167,9 +1167,9 @@ void StarSystem::Populate(bool addSpaceStations)
 	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = (Equip::Type)i;
 		const EquipType &type = EquipType::types[t];
-		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
+//		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
 	}
-	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
+//	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
 	if (addSpaceStations) {
@@ -1286,7 +1286,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	// well, outdoor worlds should have way more people
 	m_population = fixed(1,10)*m_population + m_population*m_agricultural;
 
-	printf("%s: pop %.3f billion\n", name.c_str(), m_population.ToFloat());
+//	printf("%s: pop %.3f billion\n", name.c_str(), m_population.ToFloat());
 
 	outTotalPop += m_population;
 }
