@@ -13,7 +13,7 @@ public:
 	virtual ~Missile() {}
 	void TimeStepUpdate(const float timeStep);
 	bool OnDamage(Object *attacker, float kgDamage);
-	virtual void NotifyDeath(const Body* const dyingBody);
+	virtual void NotifyDeleted(const Body* const deletedBody);
 	virtual void PostLoadFixup();
 	void ECMAttack(int power_val);
 protected:

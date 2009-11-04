@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "Missile.h"
+#include "HyperspaceCloud.h"
 
 Body::Body()
 {
@@ -22,8 +23,6 @@ Body::Body()
 
 Body::~Body()
 {
-	// Do not call delete body. Call Space::KillBody(body).
-	assert(m_dead);
 }
 
 void Body::Save()
@@ -59,6 +58,7 @@ void Body::Serialize()
 		case Object::MISSILE:
 		case Object::CARGOBODY:
 		case Object::PROJECTILE:
+		case Object::HYPERSPACECLOUD:
 			Save();
 			break;
 		default:
@@ -92,6 +92,8 @@ Body *Body::Unserialize()
 			b = new Projectile(); break;
 		case Object::CARGOBODY:
 			b = new CargoBody(); break;
+		case Object::HYPERSPACECLOUD:
+			b = new HyperspaceCloud(); break;
 		default:
 			assert(0);
 	}

@@ -55,6 +55,11 @@ void Projectile::SetPosition(vector3d p)
 	m_orient[14] = p.z;
 }
 
+void Projectile::NotifyDeleted(const Body* const deletedBody)
+{
+	if (m_parent == deletedBody) m_parent = 0;
+}
+
 void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;

@@ -163,6 +163,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  90000, 1, 1,
 	  0, 3
 	},{
+	  "Hypercloud Analyzer",
+	  "Analyze hyperspace clouds to determine destination and time of arrival or departure.",
+	  Equip::SLOT_HYPERCLOUD, {},
+	  150000, 1, 1,
+	  0, 3
+	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
 	  40000, 1, 0,

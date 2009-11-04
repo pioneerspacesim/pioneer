@@ -48,6 +48,10 @@ void Ship::Save()
 	wr_float(m_launchLockTimeout);
 	wr_bool(m_testLanded);
 	wr_int((int)m_flightState);
+
+	m_hyperspace.dest.Serialize();
+	wr_float(m_hyperspace.countdown);
+
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr_int(m_gunState[i]);
 		wr_float(m_gunRecharge[i]);
@@ -90,6 +94,10 @@ void Ship::Load()
 	m_launchLockTimeout = rd_float();
 	m_testLanded = rd_bool();
 	m_flightState = (FlightState) rd_int();
+	
+	SBodyPath::Unserialize(&m_hyperspace.dest);
+	m_hyperspace.countdown = rd_float();
+
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd_int();
 		if (IsOlderThan(3)) m_gunRecharge[i] = 0;
@@ -158,6 +166,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_shipFlavour = ShipFlavour(shipType);
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_equipment.InitSlotSizes(shipType);
+	m_hyperspace.countdown = 0;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
@@ -167,6 +176,12 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	SetLabel(m_shipFlavour.regid);
 
 	Init();	
+}
+
+void Ship::SetHyperspaceTarget(const SBodyPath *path)
+{
+	m_hyperspace.dest = *path;
+	if (this == (Ship*)Pi::player) Pi::onPlayerChangeHyperspaceTarget.emit();
 }
 
 float Ship::GetPercentHull() const
@@ -208,7 +223,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		}
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
-			if (attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
+			if (attacker && attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 		} else {
@@ -301,17 +316,18 @@ static float distance_to_system(const SBodyPath *dest)
 void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 {
 	int fuel_cost;
-	bool hscheck = CanHyperspaceTo(dest, fuel_cost);
+	double dur;
+	bool hscheck = CanHyperspaceTo(dest, fuel_cost, dur);
 	assert(hscheck);
 	m_equipment.Remove(Equip::HYDROGEN, fuel_cost);
 }
 
-bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired) 
+bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs) 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	float hyperclass = (float)EquipType::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN);
-	fuelRequired = 0;
+	outFuelRequired = 0;
 	if (hyperclass == 0) return false;
 
 	float dist;
@@ -322,15 +338,33 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired)
 	}
 
 	this->CalcStats();
-	fuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
-	if (fuelRequired > hyperclass*hyperclass) fuelRequired = hyperclass*hyperclass;
-	if (fuelRequired < 1) fuelRequired = 1;
+	outFuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
+	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
+	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range) {
-		fuelRequired = 0;
+		outFuelRequired = 0;
 		return false;
 	} else {
-		return fuelRequired <= fuel;
+		// take at most a week. why a week? because a week is a
+		// fundamental physical unit in the same sense that the planck length
+		// is, and so it is very probable that future hyperspace
+		// technologies will involve travelling a week through time.
+		outDurationSecs = (dist / m_stats.hyperspace_range) * 60.0 * 60.0 * 24.0 * 7.0;
+		return outFuelRequired <= fuel;
 	}
+}
+
+void Ship::TryHyperspaceTo(const SBodyPath *dest)
+{
+	int fuelUsage;
+	double dur;
+	if (m_hyperspace.countdown) return;
+	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
+	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+		return;
+	}
+	m_hyperspace.countdown = 2.5;
+	m_hyperspace.dest = *dest;
 }
 
 float Ship::GetECMRechargeTime()
@@ -553,15 +587,27 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	if (m_testLanded) TestLanded();
+
+	// After calling StartHyperspaceTo this Ship must not spawn objects
+	// holding references to it (eg missiles), as StartHyperspaceTo
+	// removes the ship from Space::bodies and so the missile will not
+	// have references to this cleared by NotifyDeleted()
+	if (m_hyperspace.countdown) {
+		m_hyperspace.countdown = MAX(m_hyperspace.countdown - timeStep, 0);
+		printf("Hyperspacing! %f\n", m_hyperspace.countdown);
+		if (m_hyperspace.countdown == 0) {
+			Space::StartHyperspaceTo(this, &m_hyperspace.dest);
+		}
+	}
 }
 
-void Ship::NotifyDeath(const Body* const dyingBody)
+void Ship::NotifyDeleted(const Body* const deletedBody)
 {
-	if(GetNavTarget() == dyingBody)
+	if(GetNavTarget() == deletedBody)
 		SetNavTarget(0);
-	if(GetCombatTarget() == dyingBody)
+	if(GetCombatTarget() == deletedBody)
 		SetCombatTarget(0);
-	AIBodyHasDied(dyingBody);
+	AIBodyDeleted(deletedBody);
 }
 
 const ShipType &Ship::GetShipType() const

@@ -41,7 +41,6 @@ void Player::Save()
 	}
 	wr_int(m_killCount);
 	wr_int(m_knownKillCount);
-	m_hyperspaceTarget.Serialize();
 }
 
 void Player::Load()
@@ -65,7 +64,6 @@ void Player::Load()
 		m_killCount = 0;
 		m_knownKillCount = 0;
 	}
-	SBodyPath::Unserialize(&m_hyperspaceTarget);
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -89,12 +87,6 @@ void Player::TakeMission(Mission *m)
 {
 	m_missions.push_front(m);
 	Pi::onPlayerMissionListChanged.emit();
-}
-
-void Player::SetHyperspaceTarget(const SBodyPath *path)
-{
-	m_hyperspaceTarget = *path;
-	Pi::onPlayerChangeHyperspaceTarget.emit();
 }
 
 void Player::SetFlightControlState(enum FlightControlState s)

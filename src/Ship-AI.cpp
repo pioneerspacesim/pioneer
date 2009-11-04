@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "perlin.h"
 
-void Ship::AIBodyHasDied(const Body* const body)
+void Ship::AIBodyDeleted(const Body* const body)
 {
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ) {
 		switch ((*i).cmd) {
@@ -107,6 +107,7 @@ bool Ship::AICmdKamikaze(const Ship *enemy)
 	return false;
 }
 
+#include "Space.h"
 bool Ship::AICmdKill(const Ship *enemy)
 {
 	SetGunState(0,0);
@@ -124,7 +125,9 @@ bool Ship::AICmdKill(const Ship *enemy)
 			GetRotMatrix(rot);
 			const vector3d zaxis = vector3d(-rot[8], -rot[9], -rot[10]);
 			const float dot = vector3d::Dot(dir, vector3d(-rot[8], -rot[9], -rot[10]));
-			if (dot > 0.95f) SetGunState(0,1);
+			if (dot > 0.95f) {
+				SetGunState(0,1);
+			}
 		} else {
 			// if too close turn away!
 			AIFaceDirection(-dir);

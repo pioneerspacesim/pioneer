@@ -305,7 +305,8 @@ void SectorView::Update()
 		char buf[256];
 		SBodyPath sbody_path(m_secx, m_secy, m_selected);
 		int fuelRequired;
-		bool canJump = Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired);
+		double dur;
+		bool canJump = Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired, dur);
 		if (canJump) {
 			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
 		} else if (fuelRequired) {

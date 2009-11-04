@@ -16,6 +16,7 @@
 #include "pirates.h"
 #include "Sfx.h"
 #include "Missile.h"
+#include "HyperspaceCloud.h"
 
 namespace Space {
 
@@ -29,6 +30,7 @@ static void ApplyGravity();
 static std::list<Body*> corpses;
 static SBodyPath *hyperspacingTo;
 static float hyperspaceAnim;
+static double hyperspaceEndTime;
 
 void Init()
 {
@@ -101,6 +103,7 @@ void Serialize()
 		wr_byte(1);
 		hyperspacingTo->Serialize();
 		wr_float(hyperspaceAnim);
+		wr_double(hyperspaceEndTime);
 	}
 }
 
@@ -121,6 +124,7 @@ void Unserialize()
 		hyperspacingTo = new SBodyPath;
 		SBodyPath::Unserialize(hyperspacingTo);
 		hyperspaceAnim = rd_float();
+		hyperspaceEndTime = rd_double();
 	}
 	// bodies with references to others must fix these up
 	Serializer::IndexBodies();
@@ -566,11 +570,16 @@ void ApplyGravity()
 void TimeStep(float step)
 {
 	if (hyperspacingTo) {
+		Pi::RequestTimeAccel(6);
+
 		hyperspaceAnim += step;
-		if (hyperspaceAnim > 1.0) {
+		if (Pi::GetGameTime() > hyperspaceEndTime) {
 			DoHyperspaceTo(0);
+			Pi::RequestTimeAccel(1);
 			hyperspaceAnim = 0;
 		}
+		// don't take a physics step at this mental time accel
+		return;
 	}
 
 	ApplyGravity();
@@ -595,7 +604,7 @@ void PruneCorpses()
 {
 	for (bodiesIter_t corpse = corpses.begin(); corpse != corpses.end(); ++corpse) {
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
-			(*i)->NotifyDeath(*corpse);
+			(*i)->NotifyDeleted(*corpse);
 		bodies.remove(*corpse);
 		delete *corpse;
 	}
@@ -607,22 +616,46 @@ static bool jumped_within_same_system;
 /*
  * Called during play to initiate hyperspace sequence.
  */
-void StartHyperspaceTo(const SBodyPath *dest)
+void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 {
 	int fuelUsage;
-	if (!Pi::player->CanHyperspaceTo(dest, fuelUsage)) return;
+	double duration;
+	if (!ship->CanHyperspaceTo(dest, fuelUsage, duration)) return;
 	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
 		return;
 	}
-	
-	Space::Clear();
-	Pi::player->UseHyperspaceFuel(dest);
-	Pi::player->DisableBodyOnly();
-	
-	if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
-	*hyperspacingTo = *dest;
-	hyperspaceAnim = 0.0f;
-	printf("Started hyperspacing...\n");
+	ship->UseHyperspaceFuel(dest);
+	ship->DisableBodyOnly();
+		
+	if (Pi::player == ship) {
+		Space::Clear();
+		if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
+		*hyperspacingTo = *dest;
+		hyperspaceAnim = 0.0f;
+		hyperspaceEndTime = Pi::GetGameTime() + duration;
+		printf("Started hyperspacing...\n");
+	} else {
+		HyperspaceCloud *cloud = new HyperspaceCloud(ship, Pi::GetGameTime() + duration);
+		cloud->SetFrame(ship->GetFrame());
+		cloud->SetPosition(ship->GetPosition());
+		// need to swap ship out of bodies list, replacing it with
+		// cloud
+		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+			if (*i == ship) {
+				*i = cloud;
+				break;
+			}
+		}
+		// Hyperspacing ship must drop references to all other bodies,
+		// and they must all drop references to it.
+		// make other objects drop their references to this dude
+		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+			if (*i != cloud) {
+				(*i)->NotifyDeleted(ship);
+				ship->NotifyDeleted(*i);
+			}
+		}
+	}
 }
 
 /*

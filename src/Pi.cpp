@@ -71,7 +71,7 @@ bool Pi::showDebugInfo;
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
 struct DetailLevel Pi::detail = { 1, 1 };
-const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0 };
+const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
 	"Harmless",
 	"Mostly harmless",
@@ -324,10 +324,15 @@ void Pi::HandleEvents()
 							ship->SetFrame(Pi::player->GetFrame());
 							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 							ship->SetVelocity(Pi::player->GetVelocity());
-							ship->m_equipment.Add(Equip::DRIVE_CLASS1);
+							ship->m_equipment.Add(Equip::DRIVE_CLASS2);
 							ship->m_equipment.Add(Equip::RADAR_MAPPER);
 							ship->m_equipment.Add(Equip::SCANNER);
 							ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
+							ship->m_equipment.Add(Equip::HYDROGEN);
+							ship->m_equipment.Add(Equip::HYDROGEN);
+							ship->m_equipment.Add(Equip::HYDROGEN);
+							ship->m_equipment.Add(Equip::HYDROGEN);
+							ship->m_equipment.Add(Equip::HYDROGEN);
 							Space::AddBody(ship);
 						}
 					}

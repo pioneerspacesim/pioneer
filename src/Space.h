@@ -26,7 +26,7 @@ namespace Space {
 	extern void DoECM(const Frame *f, const vector3d &pos, int power_val);
 	extern float GetHyperspaceAnim();
 	extern void Render(const Frame *cam_frame);
-	extern void StartHyperspaceTo(const SBodyPath *);
+	extern void StartHyperspaceTo(Ship *s, const SBodyPath *);
 	extern void DoHyperspaceTo(const SBodyPath *);
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);

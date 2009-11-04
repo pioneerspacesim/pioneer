@@ -5,6 +5,8 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Missile.h"
+#include "HyperspaceCloud.h"
+#include "Sector.h"
 
 #define SCANNER_SCALE	0.01f
 #define SCANNER_YSHRINK 0.75f
@@ -292,6 +294,27 @@ void UseEquipWidget::UseRadarMapper()
 	}
 }
 
+void UseEquipWidget::UseHypercloudAnalyzer()
+{
+	Body *target = Pi::player->GetNavTarget();
+
+	if ((!target) || (!target->IsType(Object::HYPERSPACECLOUD))) {
+		Pi::cpan->MsgLog()->Message("", "Hypercloud Analyzer: You must target a hyperspace cloud");
+		return;
+	}
+	HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(target);
+	const SBodyPath *dest = cloud->GetShip()->GetHyperspaceTarget();
+	Sector s(dest->sectorX, dest->sectorY);
+	Pi::cpan->MsgLog()->Message("", stringf(512,
+				"Hyperspace departure cloud: Ship mass %dt\n"
+				"Destination: %s\n"
+				"Date due: %s\n",
+				cloud->GetShip()->CalcStats()->total_mass,
+				s.m_systems[dest->systemIdx].name.c_str(),
+				format_date(cloud->GetDueDate()).c_str()
+				));
+}
+
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
@@ -347,6 +370,15 @@ void UseEquipWidget::UpdateEquip()
 			Add(b, 64, 0);
 		}
 	}
+	{
+		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
+		if (t != Equip::NONE) {
+			Gui::Button *b = new Gui::ImageButton("icons/hypercloud_anal.png");
+			b->onClick.connect(sigc::mem_fun(this, &UseEquipWidget::UseHypercloudAnalyzer));
+			Add(b, 96, 0);
+		}
+	}
+		
 }
 
 void UseEquipWidget::Update()

@@ -69,6 +69,7 @@ public:
 private:
 	void UpdateEquip();
 	void UseRadarMapper();
+	void UseHypercloudAnalyzer();
 	enum { MAX_MISSILE_SLOTS = 8 };
 
 	sigc::connection m_onPlayerEquipChangedCon;

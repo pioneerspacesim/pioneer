@@ -22,8 +22,6 @@ public:
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
 	float GetSetSpeed() const { return m_setSpeed; }
-	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspaceTarget; }
-	void SetHyperspaceTarget(const SBodyPath *path);
 	void TakeMission(Mission *);
 	const std::list<Mission*> &GetMissions() const { return m_missions; }
 	virtual bool OnDamage(Object *attacker, float kgDamage);
@@ -40,7 +38,6 @@ private:
 	float m_setSpeed;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
-	SBodyPath m_hyperspaceTarget;
 };
 
 #endif /* _PLAYER_H */

@@ -29,6 +29,7 @@ public:
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
+	// Attacker may be null
 	virtual bool OnDamage(Object *attacker, float kgDamage) { return false; }
 	virtual void OnHaveKilled(Body *guyWeKilled) {}
 	virtual void TimeStepUpdate(const float timeStep) {}
@@ -36,8 +37,9 @@ public:
 	// StaticUpdate() is called. Good for special collision testing (Projectiles)
 	// as you can't test for collisions if different objects are on different 'steps'
 	virtual void StaticUpdate(const float timeStep) {}
-	// Override to clear any pointers you hold to the dying body.
-	virtual void NotifyDeath(const Body* const dyingBody) {}
+	// Note: Does not mean killed, just deleted.
+	// Override to clear any pointers you hold to the body
+	virtual void NotifyDeleted(const Body* const deletedBody) {}
 	vector3d GetVelocityRelativeTo(const Body *other) const;
 	vector3d GetVelocityRelativeTo(const Frame *f) const;
 	// for putting on planet surface, oriented +y up

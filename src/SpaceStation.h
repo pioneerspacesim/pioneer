@@ -56,7 +56,7 @@ public:
 	// does not dealloc
 	bool BBRemoveMission(Mission *m);
 	virtual void PostLoadFixup();
-	virtual void NotifyDeath(const Body* const dyingBody);
+	virtual void NotifyDeleted(const Body* const deletedBody);
 	void PositionDockedShip(Ship *ship, int port);
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;

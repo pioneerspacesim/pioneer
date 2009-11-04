@@ -20,6 +20,7 @@ public:
 	virtual void Render(const Frame *camFrame);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
+	virtual void NotifyDeleted(const Body* const deletedBody);
 
 	virtual void PostLoadFixup();
 protected:

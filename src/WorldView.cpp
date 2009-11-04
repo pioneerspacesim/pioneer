@@ -208,7 +208,7 @@ void WorldView::OnClickBlastoff()
 void WorldView::OnClickHyperspace()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	Space::StartHyperspaceTo(path);
+	Pi::player->TryHyperspaceTo(path);
 }
 
 void WorldView::DrawBgStars()
@@ -256,7 +256,7 @@ void WorldView::DrawBgStars()
 			vtx[i*12+5] = s_bgstar[i].b;
 
 			vector3d v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
-			v += pz*hyperspaceAnim*200.0;
+			v += pz*hyperspaceAnim*0.001;
 			
 			vtx[i*12+6] = v.x;
 			vtx[i*12+7] = v.y;
@@ -510,7 +510,8 @@ void WorldView::OnChangeHyperspaceTarget()
 	delete system;
 		
 	int fuelReqd;
-	if (Pi::player->CanHyperspaceTo(path, fuelReqd)) m_hyperspaceButton->Show();
+	double dur;
+	if (Pi::player->CanHyperspaceTo(path, fuelReqd, dur)) m_hyperspaceButton->Show();
 	else m_hyperspaceButton->Hide();
 }
 

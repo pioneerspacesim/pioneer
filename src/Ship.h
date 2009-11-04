@@ -7,10 +7,11 @@
 #include "sbre/sbre.h"
 #include "MarketAgent.h"
 #include "ShipFlavour.h"
+// only for SBodyPath
+#include "StarSystem.h"
 #include <list>
 
 class SpaceStation;
-struct SBodyPath;
 
 struct shipstats_t {
 	int max_capacity;
@@ -52,7 +53,7 @@ public:
 	void Blastoff();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
-	virtual void NotifyDeath(const Body* const dyingBody);
+	virtual void NotifyDeleted(const Body* const deletedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	enum FlightState { FLYING, LANDED, DOCKING };
@@ -60,7 +61,10 @@ public:
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
-	bool CanHyperspaceTo(const SBodyPath *dest, int &fuelRequired);
+	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
+	void SetHyperspaceTarget(const SBodyPath *path);
+	void TryHyperspaceTo(const SBodyPath *dest);
+	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs);
 	void UseHyperspaceFuel(const SBodyPath *dest);
 	void UseECM();
 	void AIFaceDirection(const vector3d &dir);
@@ -122,6 +126,13 @@ private:
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;
+
+	struct HyperspacingOut {
+		SBodyPath dest;
+		// > 0 means active
+		float countdown;
+	} m_hyperspace;
+
 	class AIInstruction {
 	public:
 		AICommand cmd;
@@ -129,7 +140,7 @@ private:
 		AIInstruction(AICommand c, void *a): cmd(c), arg(a) {}
 	};
 	std::list<AIInstruction> m_todo;
-	void AIBodyHasDied(const Body* const body);
+	void AIBodyDeleted(const Body* const body);
 	bool AICmdKill(const Ship *);
 	bool AICmdKamikaze(const Ship *);
 	bool AICmdFlyTo(const Body *);
