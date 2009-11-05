@@ -15,6 +15,7 @@
 #include "Sound.h"
 #include "Render.h"
 #include "Shader.h"
+#include "HyperspaceCloud.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -51,6 +52,7 @@ void Ship::Save()
 
 	m_hyperspace.dest.Serialize();
 	wr_float(m_hyperspace.countdown);
+	wr_int(m_hyperspace.followHypercloudId);
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr_int(m_gunState[i]);
@@ -97,6 +99,9 @@ void Ship::Load()
 	
 	SBodyPath::Unserialize(&m_hyperspace.dest);
 	m_hyperspace.countdown = rd_float();
+	if (!IsOlderThan(9)) {
+		m_hyperspace.followHypercloudId = rd_int();
+	}
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd_int();
@@ -167,6 +172,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
 	m_equipment.InitSlotSizes(shipType);
 	m_hyperspace.countdown = 0;
+	m_hyperspace.followHypercloudId = 0;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
@@ -180,7 +186,21 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 
 void Ship::SetHyperspaceTarget(const SBodyPath *path)
 {
-	m_hyperspace.dest = *path;
+	if (path == 0) {
+		// need to properly handle unsetting target
+		SBodyPath p(0,0,0);
+		SetHyperspaceTarget(&p);
+	} else {
+		m_hyperspace.followHypercloudId = 0;
+		m_hyperspace.dest = *path;
+		if (this == (Ship*)Pi::player) Pi::onPlayerChangeHyperspaceTarget.emit();
+	}
+}
+
+void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
+{
+	m_hyperspace.followHypercloudId = cloud->GetId();
+	m_hyperspace.dest = *cloud->GetShip()->GetHyperspaceTarget();
 	if (this == (Ship*)Pi::player) Pi::onPlayerChangeHyperspaceTarget.emit();
 }
 
@@ -363,7 +383,7 @@ void Ship::TryHyperspaceTo(const SBodyPath *dest)
 	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
 		return;
 	}
-	m_hyperspace.countdown = 2.5;
+	m_hyperspace.countdown = 3.0;
 	m_hyperspace.dest = *dest;
 }
 
@@ -594,7 +614,6 @@ void Ship::StaticUpdate(const float timeStep)
 	// have references to this cleared by NotifyDeleted()
 	if (m_hyperspace.countdown) {
 		m_hyperspace.countdown = MAX(m_hyperspace.countdown - timeStep, 0);
-		printf("Hyperspacing! %f\n", m_hyperspace.countdown);
 		if (m_hyperspace.countdown == 0) {
 			Space::StartHyperspaceTo(this, &m_hyperspace.dest);
 		}

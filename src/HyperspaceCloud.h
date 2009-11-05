@@ -21,8 +21,9 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	Ship *GetShip() { return m_ship; }
 	double GetDueDate() const { return m_due; }
-	void SetIsArrival(bool isArrival) { m_isArrival = isArrival; }
+	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
+	int GetId() const { return m_id; }
 protected:
 	virtual void Save();
 	virtual void Load();
@@ -33,6 +34,7 @@ private:
 	double m_birthdate;
 	double m_due;
 	bool m_isArrival;
+	int m_id;
 };
 
 #endif /* _HYPERSPACECLOUD_H */

@@ -98,6 +98,11 @@ void Serialize()
 		//printf("Serializing %s\n", (*i)->GetLabel().c_str());
 		(*i)->Serialize();
 	}
+	wr_int(storedArrivalClouds.size());
+	for (std::list<HyperspaceCloud*>::iterator i = storedArrivalClouds.begin();
+			i != storedArrivalClouds.end(); ++i) {
+		(*i)->Serialize();
+	}
 	if (hyperspacingTo == 0) {
 		wr_byte(0);
 	} else {
@@ -120,6 +125,14 @@ void Unserialize()
 		Body *b = Body::Unserialize();
 		if (b) bodies.push_back(b);
 	}
+	if (!IsOlderThan(9)) {
+		num_bodies = rd_int();
+		for (int i=0; i<num_bodies; i++) {
+			Body *b = Body::Unserialize();
+			if (b) storedArrivalClouds.push_back(static_cast<HyperspaceCloud*>(b));
+		}
+	}
+
 	hyperspaceAnim = 0;
 	if (rd_byte()) {
 		hyperspacingTo = new SBodyPath;
@@ -639,6 +652,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 				if (cloudDest == *(SysLoc*)dest) {
 					Pi::player->NotifyDeleted(cloud);
 					cloud->SetIsArrival(true);
+					cloud->SetFrame(0);
 					storedArrivalClouds.push_back(cloud);
 					i = bodies.erase(i);
 				} else {
@@ -681,14 +695,31 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 	}
 }
 
+/* What else can i name it? */
+static void PostHyperspacePositionBody(Body *b, Frame *f)
+{
+	float longitude = Pi::rng.Double(M_PI);
+	float latitude = Pi::rng.Double(M_PI);
+	float dist = (5.0 + Pi::rng.Double(1.0)) * AU;
+	b->SetPosition(vector3d(sin(longitude)*cos(latitude)*dist,
+			sin(latitude)*dist,
+			cos(longitude)*cos(latitude)*dist));
+	b->SetRotMatrix(matrix4x4d::Identity());
+	b->SetVelocity(vector3d(0.0,0.0,0.0));
+	b->SetFrame(f);
+}
+
 /*
  * Called at end of hyperspace sequence or at start of game
  * to place the player in a system.
  */
 void DoHyperspaceTo(const SBodyPath *dest)
 {
-	if (dest == 0) dest = hyperspacingTo;
-	else {
+	bool isRealHyperspaceEvent = false;
+	if (dest == 0) {
+		dest = hyperspacingTo;
+		isRealHyperspaceEvent = true;
+	} else {
 		// called with dest indicates start from start point or saved
 		// game so don't insert stored arrival clouds into system
 		// XXX this shit should all be cleared on new game init....
@@ -706,32 +737,42 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	SBody *targetBody = Pi::currentSystem->GetBodyByPath(dest);
 	Frame *pframe = Space::GetFrameWithSBody(targetBody);
 	assert(pframe);
-	float longitude = Pi::rng.Double(M_PI);
-	float latitude = Pi::rng.Double(M_PI);
-	float dist = (0.4 + Pi::rng.Double(0.2)) * AU;
-	Pi::player->SetPosition(vector3d(sin(longitude)*cos(latitude)*dist,
-			sin(latitude)*dist,
-			cos(longitude)*cos(latitude)*dist));
-	Pi::player->SetVelocity(vector3d(0.0));
-	Pi::player->SetFrame(pframe);
+	
+	PostHyperspacePositionBody(Pi::player, pframe);
+	Pi::player->SetVelocity(vector3d(0.0,0.0,-1000.0));
 	Pi::player->Enable();
+
+	if (isRealHyperspaceEvent) {
+		HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::GetGameTime(), true);
+		cloud->SetPosition(Pi::player->GetPosition());
+		cloud->SetFrame(pframe);
+		Space::AddBody(cloud);
+	}
 
 	/* XXX XXX need to put these in an appropriate place in the system and
 	 * have some way of the player navigating to them */
-	double wank = 100.0;
+	double xoffset = 2000.0;
 	for (std::list<HyperspaceCloud*>::iterator i = storedArrivalClouds.begin();
 			i != storedArrivalClouds.end(); ++i) {
 		if ((*i)->GetDueDate() < Pi::GetGameTime()) {
-			printf("Too late\n");
 			// too late dude
 			delete *i;
 		} else {
-			printf("Added incoming turd\n");
-			(*i)->SetPosition(Pi::player->GetPosition() + vector3d(0,0,-wank));
-			(*i)->SetVelocity(vector3d(0.0));
-			(*i)->SetFrame(Pi::player->GetFrame());
+			// If the player has closen to follow this hypercloud
+			// then put it near the player's destination,
+			// otherwise at random loc
+			if (Pi::player->GetHyperspaceCloudTargetId() == (*i)->GetId()) {
+				printf("near\n");
+				PostHyperspacePositionBody(*i, Pi::player->GetFrame());
+				(*i)->SetPosition(Pi::player->GetPosition() + vector3d(xoffset,0,0));
+				xoffset += 2000.0;
+			} else {
+				printf("far\n");
+				SBody *b = Pi::currentSystem->GetBodyByPath((*i)->GetShip()->GetHyperspaceTarget());
+				Frame *f = Space::GetFrameWithSBody(b);
+				PostHyperspacePositionBody(*i, f);
+			}
 			Space::AddBody(*i);
-			wank += 100.0;
 		}
 	}
 	storedArrivalClouds.clear();

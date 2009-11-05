@@ -9,6 +9,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "Shader.h"
+#include "HyperspaceCloud.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
@@ -494,10 +495,12 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 	Pi::cpan->MsgLog()->ImportantMessage(s->GetLabel(), msg);
 }
 
+#if 0
 static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
 {
 	Pi::player->SetHyperspaceTarget(&path);
 }
+#endif /* 0 */
 	
 void WorldView::OnChangeHyperspaceTarget()
 {
@@ -520,6 +523,11 @@ static void player_fly_to(Body *b)
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 	Pi::player->AIClearInstructions();
 	Pi::player->AIInstruct(Ship::DO_FLY_TO, b);
+}
+
+static void player_target_hypercloud(HyperspaceCloud *cloud)
+{
+	Pi::player->SetHyperspaceTarget(cloud);
 }
 
 void WorldView::UpdateCommsOptions()
@@ -549,6 +557,14 @@ void WorldView::UpdateCommsOptions()
 
 		ypos += 32;
 
+		if (navtarget->IsType(Object::HYPERSPACECLOUD)) {
+			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(navtarget);
+			if (!cloud->IsArrival()) {
+				button = AddCommsOption("Hyperspace cloud analyzer: Set hyperspace target to follow this departure", ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_target_hypercloud), cloud));
+			}
+		}
+#if 0
 		Frame *f = navtarget->GetFrame();
 		SBody *b = f->GetSBodyFor();
 		if (b) {
@@ -559,6 +575,7 @@ void WorldView::UpdateCommsOptions()
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&OnPlayerSetHyperspaceTargetTo), path));
 			ypos += 32;
 		}
+#endif
 	}
 	if (comtarget) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, (float)ypos);
@@ -719,7 +736,13 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
 				b->SetProjectedPos(_pos);
 				b->SetOnscreen(true);
-				if (GetShowLabels()) Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
+				if (GetShowLabels()) {
+					if ((*i)->GetFlags() & Body::FLAG_LABEL_HIDDEN) {
+						Gui::Screen::RenderLabel("", _pos.x, _pos.y);
+					} else {
+						Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
+					}
+				}
 			}
 			else
 				b->SetOnscreen(false);
@@ -855,6 +878,19 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		glTranslatef(0, Gui::Screen::GetHeight()-4.0*Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
+	}
+	if (Pi::player->GetHyperspaceCountdown() != 0) {
+		float val = Pi::player->GetHyperspaceCountdown();
+
+		if (!((int)ceil(val*2.0) % 2)) {
+			char buf[128];
+			snprintf(buf, sizeof(buf), "Hyperspacing in %.0f seconds", ceil(val));
+			glPushMatrix();
+			glColor4f(1,1,0,HUD_ALPHA);
+			glTranslatef(Gui::Screen::GetWidth()*0.4, Gui::Screen::GetHeight()*0.3, 0);
+			Gui::Screen::RenderString(buf);
+			glPopMatrix();
+		}
 	}
 	glDisable(GL_BLEND);
 

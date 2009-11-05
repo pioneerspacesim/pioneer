@@ -12,6 +12,7 @@
 #include <list>
 
 class SpaceStation;
+class HyperspaceCloud;
 
 struct shipstats_t {
 	int max_capacity;
@@ -62,10 +63,15 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
+	int GetHyperspaceCloudTargetId() { return m_hyperspace.followHypercloudId; }
+	// follow departure cloud
+	void SetHyperspaceTarget(HyperspaceCloud *cloud);
+	// just jump to near an SBody
 	void SetHyperspaceTarget(const SBodyPath *path);
 	void TryHyperspaceTo(const SBodyPath *dest);
 	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs);
 	void UseHyperspaceFuel(const SBodyPath *dest);
+	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	void UseECM();
 	void AIFaceDirection(const vector3d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
@@ -128,6 +134,7 @@ private:
 	shipstats_t m_stats;
 
 	struct HyperspacingOut {
+		int followHypercloudId;
 		SBodyPath dest;
 		// > 0 means active
 		float countdown;

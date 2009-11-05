@@ -58,7 +58,8 @@ public:
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
 
-	enum { FLAG_CAN_MOVE_FRAME = 1 };
+	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
+               FLAG_LABEL_HIDDEN = (1<<1) };
 protected:
 	virtual void Save();
 	virtual void Load();
