@@ -72,6 +72,7 @@ public:
 	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs);
 	void UseHyperspaceFuel(const SBodyPath *dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
+	Equip::Type GetHyperdriveFuelType() const;
 	void UseECM();
 	void AIFaceDirection(const vector3d &dir);
 	void AISlowFaceDirection(const vector3d &dir);

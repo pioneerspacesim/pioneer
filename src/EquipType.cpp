@@ -113,6 +113,18 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_CARGO, {},
 	  15700, 1, 0, ECON_INDUSTRY, 3,
 	},{
+	  "Military fuel",0,
+	  Equip::SLOT_CARGO, { Equip::HYDROGEN },
+	  6000, 1, 0, ECON_INDUSTRY, 3,
+	},{
+	  "Rubbish",0,
+	  Equip::SLOT_CARGO, { },
+	  -10, 1, 0, ECON_INDUSTRY, 0,
+	},{
+	  "Radioactive waste",0,
+	  Equip::SLOT_CARGO, { },
+	  -35, 1, 0, ECON_INDUSTRY, 0,
+	},{
 	  "R40 Unguided Rocket",0,
 	  Equip::SLOT_MISSILE, {},
 	  3000, 1, 0,
@@ -181,38 +193,49 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  1000000, 8, 2,
 	  0, 3
 	},{
-	  "Interplanetary Drive",0,
-	  Equip::SLOT_ENGINE, {},
-	  40000, 1, 0,
-	  0, 0,
-	},{
 	  "Class 1 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  70000, 4, 1
 	},{
 	  "Class 2 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  130000, 10, 2
 	},{
 	  "Class 3 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  250000, 20, 3
 	},{
 	  "Class 4 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  500000, 40, 4
 	},{
 	  "Class 5 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  1000000, 120, 5
 	},{
 	  "Class 6 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  2000000, 225, 6
 	},{
 	  "Class 7 Hyperdrive",0,
-	  Equip::SLOT_ENGINE, {},
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  3000000, 400, 7
+	},{
+	  "Class 1 Military drive",0,
+	  Equip::SLOT_ENGINE, {Equip::MILITARY_FUEL},
+	  2300000, 3, 1
+	},{
+	  "Class 2 Military drive",0,
+	  Equip::SLOT_ENGINE, {Equip::MILITARY_FUEL},
+	  4700000, 8, 2
+	},{
+	  "Class 3 Military drive",0,
+	  Equip::SLOT_ENGINE, {Equip::MILITARY_FUEL},
+	  8500000, 16, 3
+	},{
+	  "Class 4 Military drive",0,
+	  Equip::SLOT_ENGINE, {Equip::MILITARY_FUEL},
+	  21400000, 30, 4
 	},{
 	  "1MW pulse cannon",0,
 	  Equip::SLOT_LASER, {},

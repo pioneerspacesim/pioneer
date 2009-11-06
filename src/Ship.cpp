@@ -292,12 +292,19 @@ void Ship::ClearThrusterState()
 	}
 }
 
+Equip::Type Ship::GetHyperdriveFuelType() const
+{
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	return EquipType::types[t].inputs[0];
+}
+
 const shipstats_t *Ship::CalcStats()
 {
 	const ShipType &stype = GetShipType();
 	m_stats.max_capacity = stype.capacity;
 	m_stats.used_capacity = 0;
 	m_stats.used_cargo = 0;
+	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
 		for (int j=0; j<stype.equipSlotCapacity[i]; j++) {
@@ -315,7 +322,7 @@ const shipstats_t *Ship::CalcStats()
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 		float hyperclass = (float)EquipType::types[t].pval;
 		m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
-		m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN) /
+		m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 			(hyperclass * hyperclass));
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
@@ -336,17 +343,22 @@ static float distance_to_system(const SBodyPath *dest)
 void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 {
 	int fuel_cost;
+	Equip::Type fuelType = GetHyperdriveFuelType();
 	double dur;
 	bool hscheck = CanHyperspaceTo(dest, fuel_cost, dur);
 	assert(hscheck);
-	m_equipment.Remove(Equip::HYDROGEN, fuel_cost);
+	m_equipment.Remove(fuelType, fuel_cost);
+	if (fuelType == Equip::MILITARY_FUEL) {
+		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
+	}
 }
 
 bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs) 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	Equip::Type fuelType = GetHyperdriveFuelType();
 	float hyperclass = (float)EquipType::types[t].pval;
-	int fuel = m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN);
+	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	outFuelRequired = 0;
 	if (hyperclass == 0) return false;
 

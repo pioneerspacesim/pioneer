@@ -27,17 +27,19 @@ void CommodityTradeWidget::ShowAll()
 
 	int NUM_ITEMS = 0;
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((EquipType::types[i].slot == Equip::SLOT_CARGO) &&
-		    (m_seller->DoesSell((Equip::Type)i))) {
+	for (int i=(int)Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
+		assert(EquipType::types[i].slot == Equip::SLOT_CARGO);
+
+		if (m_seller->DoesSell((Equip::Type)i)) {
 				NUM_ITEMS++;
 		}
 	}
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	innerbox->SetTransparency(true);
 	
-	for (int i=1, num=0; i<Equip::TYPE_MAX; i++) {
-		if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
+	for (int i=(int)Equip::FIRST_COMMODITY, num=0; i<=Equip::LAST_COMMODITY; i++) {
+		assert(EquipType::types[i].slot == Equip::SLOT_CARGO);
+
 		if (!m_seller->DoesSell((Equip::Type)i)) continue;
 		int stock = m_seller->GetStock(static_cast<Equip::Type>(i));
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);

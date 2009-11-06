@@ -55,16 +55,21 @@ public:
 		equip[s][idx] = e;
 		onChange.emit();
 	}
-	bool Add(Equip::Type e) {
+	bool Add(Equip::Type e, int num) {
 		Equip::Slot s = EquipType::types[e].slot;
+		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
+			if (numDone == num) break;
 			if (equip[s][i] == Equip::NONE) {
 				equip[s][i] = e;
-				onChange.emit();
-				return true;
+				numDone++;
 			}
 		}
-		return false;
+		if (numDone) onChange.emit();
+		return (numDone == num);
+	}
+	bool Add(Equip::Type e) {
+		return Add(e, 1);
 	}
 	void Remove(Equip::Type e, int num) {
 		Equip::Slot s = EquipType::types[e].slot;
