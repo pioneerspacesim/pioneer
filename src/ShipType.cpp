@@ -14,7 +14,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 20, 1, 1, 3, 1, 1, 1, 1 },
+		{ 20, 1, 1, 3, 1, 1, 1, 1, 1, 1 },
 		20, 5, 4000000,
 		Equip::DRIVE_CLASS1,
 	}, {
@@ -28,7 +28,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
-		{ 90, 1, 2, 8, 1, 1, 1, 1 },
+		{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1 },
 		90, 20, 16000000,
 		Equip::DRIVE_CLASS3,
 	}, {
@@ -41,7 +41,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 60, 1, 1, 2, 1, 1, 1, 1 },
+		{ 60, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
 		60, 15, 8700000,
 		Equip::DRIVE_CLASS2,
 	}, {
@@ -53,7 +53,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 240, 1, 1, 4, 1, 1, 1, 1 },
+		{ 240, 1, 1, 4, 1, 1, 1, 1, 1, 1 },
 		240, 55, 56000000,
 		Equip::DRIVE_CLASS4,
 	}, {
@@ -65,7 +65,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 320, 1, 1, 6, 1, 1, 1, 1 },
+		{ 320, 1, 1, 6, 1, 1, 1, 1, 1, 1 },
 		320, 80, 35000000,
 		Equip::DRIVE_CLASS5,
 	}, {
@@ -77,7 +77,7 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 500, 1, 2, 4, 1, 1, 1, 1 },
+		{ 500, 1, 2, 4, 1, 1, 1, 1, 1, 1 },
 		500, 125, 55000000,
 		Equip::DRIVE_CLASS6,
 	}, {

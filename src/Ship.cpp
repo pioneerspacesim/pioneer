@@ -596,7 +596,11 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		// 250 second recharge
-		m_stats.shield_mass_left += m_stats.shield_mass * 0.004 * timeStep;
+		float recharge_rate = 0.004f;
+		if (m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) != Equip::NONE) {
+			recharge_rate *= (float)EquipType::types[ m_equipment.Get(Equip::SLOT_ENERGYBOOSTER) ].pval;
+		}
+		m_stats.shield_mass_left += m_stats.shield_mass * recharge_rate * timeStep;
 	}
 	m_stats.shield_mass_left = CLAMP(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
@@ -607,6 +611,11 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	if (m_testLanded) TestLanded();
+
+	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
+		const ShipType &stype = GetShipType();
+		m_stats.hull_mass_left = MIN(m_stats.hull_mass_left + 0.1f*timeStep, (float)stype.hullMass);
+	}
 
 	// After calling StartHyperspaceTo this Ship must not spawn objects
 	// holding references to it (eg missiles), as StartHyperspaceTo

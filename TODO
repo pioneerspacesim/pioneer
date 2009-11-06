@@ -24,17 +24,16 @@ y	hyperspace cloud analyser
 y	shield generator
 	fuel scoop
 	cargo scoop conversion
-	regular hyperdrives (to class 8)
+y	regular hyperdrives
 	military hyperdrives
-	energy booster unit
+y	energy booster unit
 	mining laser
-	hull auto-repair system
+y	hull auto-repair system
 	energy bomb
 	escape capsule
 
 
 
-* Menu - load, save, set detail level, etc
 * Message log: viewable log. support for message sender image
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)

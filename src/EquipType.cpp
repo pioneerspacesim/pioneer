@@ -169,6 +169,18 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  150000, 1, 1,
 	  0, 3
 	},{
+	  "Hull Auto-Repair System",
+	  "Automatically repairs the ship's hull in the event of damage.",
+	  Equip::SLOT_HULLAUTOREPAIR, {},
+	  1600000, 40, 1,
+	  0, 4
+	},{
+	  "Shield Energy Booster",
+	  "Increases the rate at which shields recharge.",
+	  Equip::SLOT_ENERGYBOOSTER, {},
+	  1000000, 8, 2,
+	  0, 3
+	},{
 	  "Interplanetary Drive",0,
 	  Equip::SLOT_ENGINE, {},
 	  40000, 1, 0,

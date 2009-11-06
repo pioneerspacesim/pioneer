@@ -557,7 +557,8 @@ void WorldView::UpdateCommsOptions()
 
 		ypos += 32;
 
-		if (navtarget->IsType(Object::HYPERSPACECLOUD)) {
+		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
+		if ((t != Equip::NONE) && navtarget->IsType(Object::HYPERSPACECLOUD)) {
 			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(navtarget);
 			if (!cloud->IsArrival()) {
 				button = AddCommsOption("Hyperspace cloud analyzer: Set hyperspace target to follow this departure", ypos, optnum++);
