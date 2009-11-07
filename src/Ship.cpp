@@ -578,9 +578,23 @@ void Ship::FireWeapon(int num)
 	Sound::BodyMakeNoise(this, Sound::SFX_PULSECANNON, 1.0f);
 }
 
+float Ship::GetHullTemperature() const
+{
+	double dragGs = GetAtmosphericDragGs();
+	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
+		return dragGs / 30.0;
+	} else {
+		return dragGs / 300.0;
+	}
+}
+
 void Ship::StaticUpdate(const float timeStep)
 {
 	AITimeStep(timeStep);
+
+	if (GetHullTemperature() > 1.0) {
+		Space::KillBody(this);
+	}
 	
 	if (m_flightState == FLYING)
 		m_launchLockTimeout -= timeStep;

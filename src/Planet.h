@@ -22,6 +22,7 @@ public:
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
 	double GetTerrainHeight(const vector3d pos) const;
+	void GetAtmosphericState(float dist, float &outPressure, float &outDensity);
 protected:
 	virtual void Save();
 	virtual void Load();

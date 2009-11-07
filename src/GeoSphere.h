@@ -5,6 +5,7 @@
 #include "mtrand.h"
 
 extern int GEOPATCH_EDGELEN;
+#define ATMOSPHERE_RADIUS 1.01f
 
 struct fracdef_t {
 	double amplitude;

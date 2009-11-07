@@ -73,6 +73,8 @@ public:
 	void UseHyperspaceFuel(const SBodyPath *dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	Equip::Type GetHyperdriveFuelType() const;
+	// 0 to 1.0 is alive, > 1.0 = death
+	float GetHullTemperature() const;
 	void UseECM();
 	void AIFaceDirection(const vector3d &dir);
 	void AISlowFaceDirection(const vector3d &dir);

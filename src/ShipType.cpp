@@ -14,22 +14,22 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 20, 1, 1, 3, 1, 1, 1, 1, 1, 1 },
-		20, 5, 4000000,
+		{ 20, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1 },
+		20, 20, 4000000,
 		Equip::DRIVE_CLASS1,
 	}, {
 		// besides running a wicked corporatist regime in the
 		// sirius system, Sirius corporation make a range of
 		// lovely starships
 		"Sirius Interdictor", "61",
-		{ 4e6,-4e6,1e6,-1e6,-1e6,1e6 },
+		{ 2e7,-2e7,1e7,-1e7,-1e7,1e7 },
 		4e7,
 		{
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
 		},
-		{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1 },
-		90, 20, 16000000,
+		{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1, 1 },
+		90, 100, 16000000,
 		Equip::DRIVE_CLASS3,
 	}, {
 		// john - you should pick names yourself or this happens
@@ -41,8 +41,8 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 60, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-		60, 15, 8700000,
+		{ 60, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1 },
+		60, 60, 8700000,
 		Equip::DRIVE_CLASS2,
 	}, {
 		"Taipan",
@@ -53,8 +53,8 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 240, 1, 1, 4, 1, 1, 1, 1, 1, 1 },
-		240, 55, 56000000,
+		{ 240, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1 },
+		240, 200, 56000000,
 		Equip::DRIVE_CLASS4,
 	}, {
 		"Walrus",
@@ -65,20 +65,20 @@ const ShipType ShipType::types[] = {
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 320, 1, 1, 6, 1, 1, 1, 1, 1, 1 },
-		320, 80, 35000000,
+		{ 320, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1 },
+		320, 300, 35000000,
 		Equip::DRIVE_CLASS5,
 	}, {
 		"Flowerfairy Heavy Trader",
 		"63",
-		{ 1e6,-1e6,1e6,-1e6,-1e6,1e6 },
+		{ 1e5,-1e5,1e5,-1e5,-1e5,1e5 },
 		1e7,
 		{
 			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
 			{ vector3f(0,0,0), vector3f(0,0,1) }
 		},
-		{ 500, 1, 2, 4, 1, 1, 1, 1, 1, 1 },
-		500, 125, 55000000,
+		{ 500, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1 },
+		500, 500, 55000000,
 		Equip::DRIVE_CLASS6,
 	}, {
 		0,

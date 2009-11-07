@@ -92,6 +92,28 @@ void Planet::SetRadius(double radius)
 	assert(0);
 }
 
+/*
+ * dist = distance from centre
+ * returns pressure in earth atmospheres
+ */
+void Planet::GetAtmosphericState(float dist, float &outPressure, float &outDensity)
+{
+	Color c;
+	float centreDensity;
+	float atmosDist = dist/(GetRadius()*ATMOSPHERE_RADIUS);
+	atmosDist = MIN(atmosDist, 1.0f);
+	
+	m_geosphere->GetAtmosphereFlavor(&c, &centreDensity);
+	// kg / m^3
+	outDensity = 60606.1f * (centreDensity - centreDensity*atmosDist);
+	// XXX using earth's molar mass of air...
+	const float GAS_MOLAR_MASS = 28.97f;
+	const float GAS_CONSTANT = 8.314f;
+	const float KPA_2_ATMOS = 1.0f / 101.325f;
+	// atmospheres
+	outPressure = KPA_2_ATMOS*(outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*(float)sbody->averageTemp;
+}
+
 double Planet::GetTerrainHeight(const vector3d pos) const
 {
 	double radius = GetRadius();

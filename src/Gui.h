@@ -6,6 +6,7 @@
 namespace Gui {
 
 	namespace Theme {
+		void DrawRoundEdgedRect(const float size[2], float rad);
 		void DrawIndent(const float size[2]);
 		void DrawOutdent(const float size[2]);
 		void DrawHollowRect(const float size[2]);

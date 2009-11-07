@@ -641,6 +641,27 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 	return selected;
 }
 
+static void draw_hud_graph_readout(float width, const char *label, const Color &graphCol, float graphPercent)
+{
+	const float PADDING = 5.0f;
+	const float BAR_HEIGHT = 8.0f;
+
+	float sz[2] = { width, PADDING*2.0 + BAR_HEIGHT + Gui::Screen::GetFontHeight() };
+
+	glColor4f(1.0f,1.0f,1.0f,.125f);
+	Gui::Theme::DrawRoundEdgedRect(sz, 5.0);
+
+	glColor4fv(graphCol);
+	glTranslatef(PADDING, PADDING, 0.0f);
+	sz[0] = 0.01f * graphPercent * (width - 2.0f*PADDING);
+	sz[1] = BAR_HEIGHT;
+	Gui::Theme::DrawRoundEdgedRect(sz, 3.0);
+	glTranslatef(0, BAR_HEIGHT, 0.0f);
+	glColor3f(1.0,1.0,1.0);
+	Gui::Screen::RenderString(label);
+}
+
+
 #define HUD_CROSSHAIR_SIZE	24.0f
 
 void WorldView::DrawHUD(const Frame *cam_frame)
@@ -825,36 +846,58 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		glTranslatef(400, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
+
+		if (astro->IsType(Object::PLANET)) {
+			double dist = Pi::player->GetPosition().Length();
+			float pressure, density;
+			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
+			char buf[128];
+			snprintf(buf, sizeof(buf), "Pressure: %.2f atmos", pressure);
+			glPushMatrix();
+			glTranslatef(0, -Gui::Screen::GetFontHeight(), 0);
+			Gui::Screen::RenderString(buf);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(5.0f, 5.0f, 0.0f);
+			glEnable(GL_BLEND);
+			draw_hud_graph_readout(100.0f, "Hull temp", Color(1.0f,0.0f,0.0f,0.8f), 100.0f*Pi::player->GetHullTemperature());
+			glDisable(GL_BLEND);
+			glPopMatrix();
+		}
 	}
 
 	float hull = Pi::player->GetPercentHull();
 	if (hull < 100.0f) {
+		Color c;
 		if (hull < 50.0f) 
-			glColor4f(1,0,0,HUD_ALPHA);
+			c = Color(1,0,0,HUD_ALPHA);
 		else if (hull < 75.0f)
-			glColor4f(1,0.5,0,HUD_ALPHA);
+			c = Color(1,0.5,0,HUD_ALPHA);
 		else
-			glColor4f(1,1,0,HUD_ALPHA);
-		char buf[128];
-		snprintf(buf, sizeof(buf), "%.1f%% hull", hull);
+			c = Color(1,1,0,HUD_ALPHA);
+
 		glPushMatrix();
-			glTranslatef(Gui::Screen::GetWidth()-80.0f, 0, 0);
-			Gui::Screen::RenderString(buf);
+		glTranslatef(Gui::Screen::GetWidth() - 105.0f, 5.0f, 0.0f);
+		glEnable(GL_BLEND);
+		draw_hud_graph_readout(100.0f, "Hull integrity", c, hull);
+		glDisable(GL_BLEND);
 		glPopMatrix();
 	}
 	float shields = Pi::player->GetPercentShields();
 	if (shields < 100.0f) {
+		Color c;
 		if (shields < 50.0f) 
-			glColor4f(1,0,0,HUD_ALPHA);
+			c = Color(1,0,0,HUD_ALPHA);
 		else if (shields < 75.0f)
-			glColor4f(1,0.5,0,HUD_ALPHA);
+			c = Color(1,0.5,0,HUD_ALPHA);
 		else
-			glColor4f(1,1,0,HUD_ALPHA);
-		char buf[128];
-		snprintf(buf, sizeof(buf), "%.1f%% shields", shields);
+			c = Color(1,1,0,HUD_ALPHA);
 		glPushMatrix();
-			glTranslatef(Gui::Screen::GetWidth()-80.0f, Gui::Screen::GetFontHeight(), 0);
-			Gui::Screen::RenderString(buf);
+			glTranslatef(Gui::Screen::GetWidth() - 105.0f, 40.0f, 0.0f);
+			glEnable(GL_BLEND);
+			draw_hud_graph_readout(100.0f, "Shield integrity", c, shields);
+			glDisable(GL_BLEND);
 		glPopMatrix();
 	}
 

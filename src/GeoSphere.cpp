@@ -1185,7 +1185,7 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	Plane planes[6];
 	GetFrustum(planes);
-	const float atmosRadius = 1.01f;
+	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
 	/* frustum test! */
 	for (int i=0; i<6; i++) {
@@ -1441,9 +1441,9 @@ double GeoSphere::GetHeight(vector3d p)
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			{
 				double continents = m_continents.amplitude * fractal(14, m_continents, (GEOSPHERE_SEED)&3, p);
-				double mountains = fractal(10, m_mountains, (GEOSPHERE_SEED>>2)&3, p);
+				double mountains = fractal(13, m_mountains, (GEOSPHERE_SEED>>2)&3, p);
 				double hills = fractal(6, m_hillDistrib, (GEOSPHERE_SEED>>4)&3, p) *
-				               m_hills.amplitude * fractal(10, m_hills, (GEOSPHERE_SEED>>6)&3, p);
+				               m_hills.amplitude * fractal(13, m_hills, (GEOSPHERE_SEED>>6)&3, p);
 
 				n = continents - m_continents.amplitude*m_sealevel;
 				if (n > 0.0) {

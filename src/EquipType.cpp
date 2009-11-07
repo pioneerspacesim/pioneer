@@ -145,6 +145,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  16000, 1, 0,
 	  0, 4
 	},{
+	  "Atmospheric Shielding",
+	  "Shields your spaceship from the heat of atmospheric re-entry.",
+	  Equip::SLOT_ATMOSHIELD, {},
+	  20000, 1, 1,
+	  0, 1,
+	},{
 	  "ECM system",
 	  "An electronic countermeasure missile defence system, capable of destroying some homing missiles.",
 	  Equip::SLOT_ECM, {},

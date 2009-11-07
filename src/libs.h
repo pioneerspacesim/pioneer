@@ -54,21 +54,6 @@
 
 #define HUD_ALPHA 0.34f
 
-/* 
- * Normal use:
- * foreach (container, iter) { do_something (*iter); }
- *
- * When removing items:
- * foreach (container, iter) {
- * 	if (*iter == some_value) {
- * 		iter = container.erase (iter);      // assign not necessary for maps
- * 		--iter;
- * 		continue;
- * 	}
- * }
- */
-#define foreach(_collection,_iterator) for (__typeof__ (_collection.end()) _iterator = (_collection).begin (); _iterator != (_collection).end(); ++(_iterator))
-
 #define MIN(x,y)        ((x)<(y)?(x):(y))
 #define MAX(x,y)        ((x)>(y)?(x):(y))
 #define CLAMP(a, min, max)      (((a) > (max)) ? (max) : (((a) < (min)) ? (min) : (a)))

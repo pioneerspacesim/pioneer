@@ -4,9 +4,11 @@
 #include "Frame.h"
 #include "Serializer.h"
 #include "ModelCollMeshData.h"
+#include "Planet.h"
 
 DynamicBody::DynamicBody(): ModelBody()
 {
+	m_atmosDragGs = 0;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_orient = matrix4x4d::Identity();
 	m_oldOrient = m_orient;
@@ -104,6 +106,27 @@ vector3d DynamicBody::GetPosition() const
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
 	if (m_enabled) {
+		const double speed = m_vel.Length();
+		// atmospheric drag
+		if ((speed != 0) &&
+		    GetFrame()->m_astroBody &&
+		    GetFrame()->m_astroBody->IsType(Object::PLANET)) {
+			Planet *planet = static_cast<Planet*>(GetFrame()->m_astroBody);
+
+			double dist = GetPosition().Length();
+			float pressure, density;
+			planet->GetAtmosphericState(dist, pressure, density);
+			const double radius = GetRadius();
+			const double AREA = radius;
+			// ^^^ yes that is as stupid as it looks
+			const double DRAG_COEFF = 0.1; // 'smooth sphere'
+			vector3d fDrag = -0.5*density*speed*speed*
+					AREA*DRAG_COEFF*(m_vel.Normalized());
+			m_atmosDragGs = (fDrag*(1.0/m_mass)).Length()/9.81;
+
+			m_force += fDrag;
+		}
+
 		/* This shit is for rotating frames. It is a bit smelly */
 		vector3d angRot = GetFrame()->GetAngVelocity();
 		{

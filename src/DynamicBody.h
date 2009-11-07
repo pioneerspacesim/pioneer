@@ -41,6 +41,7 @@ public:
 	// body-relative forces
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
+	double GetAtmosphericDragGs() const { return m_atmosDragGs; }
 
 protected:
 	virtual void Save();
@@ -57,6 +58,8 @@ private:
 	double m_massRadius; // set in a mickey-mouse fashion from the collision mesh and used to calculate m_angInertia
 	double m_angInertia; // always sphere mass distribution
 	bool m_enabled;
+	//
+	double m_atmosDragGs;
 };
 
 #endif /* _DYNAMICBODY_H */
