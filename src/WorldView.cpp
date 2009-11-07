@@ -854,7 +854,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 			char buf[128];
 			snprintf(buf, sizeof(buf), "Pressure: %.2f atmos", pressure);
 			glPushMatrix();
-			glTranslatef(0, -Gui::Screen::GetFontHeight(), 0);
+			glTranslatef(400, Gui::Screen::GetHeight()-2.0*Gui::Screen::GetFontHeight()-66, 0);
 			Gui::Screen::RenderString(buf);
 			glPopMatrix();
 

@@ -2,6 +2,8 @@
 #define _PLANET_H
 
 #include "Body.h"
+// only for SBody::BodySuperType enum...
+#include "StarSystem.h"
 
 class Frame;
 class SBody;
@@ -23,6 +25,7 @@ public:
 	virtual double GetMass() const { return m_mass; }
 	double GetTerrainHeight(const vector3d pos) const;
 	void GetAtmosphericState(float dist, float &outPressure, float &outDensity);
+	bool IsSuperType(SBody::BodySuperType t) const;
 protected:
 	virtual void Save();
 	virtual void Load();

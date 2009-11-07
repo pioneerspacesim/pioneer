@@ -37,7 +37,7 @@ void main(void)
 		vec3 dir = normalize(eyepos);
 		vec3 a = (skyNear * dir - geosphereCenter) / geosphereAtmosTopRad;
 		vec3 b = (skyFar * dir - geosphereCenter) / geosphereAtmosTopRad;
-		ldprod = AtmosLengthDensityProduct(a, b, geosphereAtmosFogDensity, atmosDist);
+		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.w*geosphereAtmosFogDensity, atmosDist);
 	}
 	float fogFactor = 1.0 / exp(ldprod);
 	vec4 atmosDiffuse = vec4(0.0,0.0,0.0,1.0);
@@ -49,5 +49,6 @@ void main(void)
 	}
 	atmosDiffuse = min(atmosDiffuse * 2.0, 1.0);
 	//float sun = max(0.0, dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position))));
-	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*atmosColor);
+	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
+		vec4(atmosColor.r, atmosColor.g, atmosColor.b, 1.0));
 }

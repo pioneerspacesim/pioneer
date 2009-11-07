@@ -22,7 +22,7 @@ y	naval ecm
 	passenger cabins
 y	hyperspace cloud analyser
 y	shield generator
-	fuel scoop
+y	fuel scoop
 	cargo scoop conversion
 y	regular hyperdrives
 y	military hyperdrives
@@ -33,7 +33,7 @@ y	hull auto-repair system
 	escape capsule
 
 
-
+* External display of mounted equipment (missiles, scoops, etc)
 * Message log: viewable log. support for message sender image
 * Autopilot to adequate standard
 * Internal engine fuel usage (refuel on inventory page)

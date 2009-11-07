@@ -27,7 +27,7 @@ void main(void)
 		vec3 dir = normalize(eyepos);
 		vec3 a = (atmosStart * dir - geosphereCenter) / geosphereAtmosTopRad;
 		vec3 b = (eyepos - geosphereCenter) / geosphereAtmosTopRad;
-		ldprod = AtmosLengthDensityProduct(a, b, geosphereAtmosFogDensity, atmosDist);
+		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.w*geosphereAtmosFogDensity, atmosDist);
 		fogFactor = 1.0 / exp(ldprod);
 	}
 

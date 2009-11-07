@@ -181,6 +181,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  90000, 1, 1,
 	  0, 3
 	},{
+	  "Fuel Scoop",
+	  "Permits scooping hydrogen fuel from gas giant planets.",
+	  Equip::SLOT_FUELSCOOP, {},
+	  350000, 6, 1,
+	  0, 1
+	},{
 	  "Hypercloud Analyzer",
 	  "Analyze hyperspace clouds to determine destination and time of arrival or departure.",
 	  Equip::SLOT_HYPERCLOUD, {},

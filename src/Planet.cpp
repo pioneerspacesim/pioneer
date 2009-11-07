@@ -49,6 +49,12 @@ void Planet::Init()
 		m_geosphere = new GeoSphere(sbody);
 	}
 }
+
+bool Planet::IsSuperType(SBody::BodySuperType t) const
+{
+	if (!sbody) return false;
+	else return sbody->GetSuperType() == t;
+}
 	
 void Planet::Save()
 {

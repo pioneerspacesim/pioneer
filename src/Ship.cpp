@@ -16,6 +16,7 @@
 #include "Render.h"
 #include "Shader.h"
 #include "HyperspaceCloud.h"
+#include "ShipCpanel.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -594,6 +595,35 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
+	}
+
+	/* FUEL SCOOPING!!!!!!!!! */
+	if (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
+		Body *astro = GetFrame()->m_astroBody;
+		if (astro->IsType(Object::PLANET)) {
+			Planet *p = static_cast<Planet*>(astro);
+			if (p->IsSuperType(SBody::SUPERTYPE_GAS_GIANT)) {
+				double dist = GetPosition().Length();
+				float pressure, density;
+				p->GetAtmosphericState(dist, pressure, density);
+			
+				double speed = GetVelocity().Length();
+				vector3d vdir = GetVelocity().Normalized();
+				matrix4x4d rot;
+				GetRotMatrix(rot);
+				vector3d pdir = -vector3d(rot[8], rot[9], rot[10]).Normalized();
+				double dot = vector3d::Dot(vdir, pdir);
+				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
+					double rate = speed*density*0.00001f;
+					if (Pi::rng.Double() < rate) {
+						m_equipment.Add(Equip::HYDROGEN);
+						Pi::cpan->MsgLog()->Message("", stringf(512, "Fuel scoop active. You now have %d tonnes of hydrogen.",
+									m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN)));
+						CalcStats();
+					}
+				}
+			}
+		}
 	}
 	
 	if (m_flightState == FLYING)

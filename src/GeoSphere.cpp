@@ -1072,13 +1072,17 @@ static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
 void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 {
+	/* Alpha value isn't real alpha. in the shader fog depth is determined
+	 * by density*alpha, so that we can have very dense atmospheres
+	 * without having them a bit stinking solid color obscuring everything
+	 */
 	switch (GEOSPHERE_TYPE) {
 		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
 		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
 		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
 		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0.0f;
+			*outColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
+			*outDensity = 0.01f;
 			break;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
@@ -1215,7 +1219,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
 			glUniform1f(loc, atmosDensity);
 			loc = glGetUniformLocation(prog, "atmosColor");
-			glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
+			glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 			loc = glGetUniformLocation(prog, "geosphereCenter");
 			glUniform3f(loc, center.x, center.y, center.z);
 			
@@ -1238,7 +1242,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
 		glUniform1f(loc, atmosDensity);
 		loc = glGetUniformLocation(prog, "atmosColor");
-		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, 1.0f);
+		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 		loc = glGetUniformLocation(prog, "geosphereCenter");
 		glUniform3f(loc, center.x, center.y, center.z);
 	}
