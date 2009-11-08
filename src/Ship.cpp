@@ -58,6 +58,7 @@ void Ship::Save()
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr_int(m_gunState[i]);
 		wr_float(m_gunRecharge[i]);
+		wr_float(m_gunTemperature[i]);
 	}
 	wr_float(m_ecmRecharge);
 	m_shipFlavour.Save();
@@ -106,8 +107,12 @@ void Ship::Load()
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd_int();
-		if (IsOlderThan(3)) m_gunRecharge[i] = 0;
-		else m_gunRecharge[i] = rd_float();
+		m_gunRecharge[i] = rd_float();
+		if (IsOlderThan(10)) {
+			m_gunTemperature[i] = 0;
+		} else {
+			m_gunTemperature[i] = rd_float();
+		}
 	}
 	m_ecmRecharge = rd_float();
 	m_shipFlavour.Load();
@@ -530,6 +535,7 @@ void Ship::FireWeapon(int num)
 
 	vector3d dir = vector3d(stype.gunMount[num].dir);
 	vector3d pos = vector3d(stype.gunMount[num].pos);
+	m_gunTemperature[num] += 0.01f;
 
 	dir = m.ApplyRotationOnly(dir);
 	pos = m.ApplyRotationOnly(pos);
@@ -638,10 +644,17 @@ void Ship::StaticUpdate(const float timeStep)
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunRecharge[i] -= timeStep;
+		float rateCooling = 0.01f;
+		if (m_equipment.Get(Equip::SLOT_LASERCOOLER) != Equip::NONE)  {
+			rateCooling *= (float)EquipType::types[ m_equipment.Get(Equip::SLOT_LASERCOOLER) ].pval;
+		}
+		m_gunTemperature[i] -= rateCooling*timeStep;
+		if (m_gunTemperature[i] < 0) m_gunTemperature[i] = 0;
 		if (m_gunRecharge[i] < 0) m_gunRecharge[i] = 0;
 
 		if (!m_gunState[i]) continue;
 		if (m_gunRecharge[i] != 0) continue;
+		if (m_gunTemperature[i] > 1.0) continue;
 
 		FireWeapon(i);
 	}

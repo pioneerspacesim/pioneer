@@ -214,12 +214,10 @@ void Player::PollControls()
 		if (Pi::KeyState(SDLK_j)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
 		if (Pi::KeyState(SDLK_l)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 		
+		SetGunState(0,0);
+		SetGunState(1,0);
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
-			if (Pi::worldView->GetCamType() == WorldView::CAM_REAR) SetGunState(1,1);
-			else SetGunState(0,1);
-		} else {
-			SetGunState(0,0);
-			SetGunState(1,0);
+			SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 
 		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {

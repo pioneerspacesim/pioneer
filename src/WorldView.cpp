@@ -641,6 +641,15 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 	return selected;
 }
 
+int WorldView::GetActiveWeapon() const
+{
+	switch (GetCamType()) {
+		case CAM_REAR: return 1;
+		case CAM_EXTERNAL:
+		case CAM_FRONT: return 0;
+	}
+}
+
 static void draw_hud_graph_readout(float width, const char *label, const Color &graphCol, float graphPercent)
 {
 	const float PADDING = 5.0f;
@@ -796,9 +805,9 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		char buf[128];
 		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : Pi::player->GetFrame()->GetLabel());
 		if (_vel > 1000) {
-			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s (relative to %s)", _vel*0.001, rel_to);
+			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s relative to %s", _vel*0.001, rel_to);
 		} else {
-			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s (relative to %s)", _vel, rel_to);
+			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s relative to %s", _vel, rel_to);
 		}
 		glPushMatrix();
 		glTranslatef(2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
@@ -814,19 +823,11 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
 		}
 		glPushMatrix();
-		glTranslatef(250, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		glTranslatef(400, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
 
-	{ /* relative to */
-		char buf[256];
-		snprintf(buf, sizeof(buf), "Relative-to: %s", Pi::player->GetFrame()->GetLabel());
-		glPushMatrix();
-		glTranslatef(600, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-	}
 	// altitude
 	if (Pi::player->GetFrame()->m_astroBody) {
 		Body *astro = Pi::player->GetFrame()->m_astroBody;
@@ -843,7 +844,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		char buf[128];
 		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
 		glPushMatrix();
-		glTranslatef(400, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
+		glTranslatef(600, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 
@@ -854,7 +855,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 			char buf[128];
 			snprintf(buf, sizeof(buf), "Pressure: %.2f atmos", pressure);
 			glPushMatrix();
-			glTranslatef(400, Gui::Screen::GetHeight()-2.0*Gui::Screen::GetFontHeight()-66, 0);
+			glTranslatef(600, Gui::Screen::GetHeight()-2.0*Gui::Screen::GetFontHeight()-66, 0);
 			Gui::Screen::RenderString(buf);
 			glPopMatrix();
 
@@ -865,6 +866,16 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 			glDisable(GL_BLEND);
 			glPopMatrix();
 		}
+	}
+
+	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
+	if (activeWeaponTemp != 0) {
+		glPushMatrix();
+		glTranslatef(5.0f, 40.0f, 0.0f);
+		glEnable(GL_BLEND);
+		draw_hud_graph_readout(100.0f, "Weapon temp", Color(1.0f,0.5f,0.0f,0.8f), 100.0f*activeWeaponTemp);
+		glDisable(GL_BLEND);
+		glPopMatrix();
 	}
 
 	float hull = Pi::player->GetPercentHull();

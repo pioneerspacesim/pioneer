@@ -29,6 +29,7 @@ public:
 	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
 	void GetNearFarClipPlane(float *outNear, float *outFar) const;
+	int GetActiveWeapon() const;
 	
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;

@@ -175,6 +175,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  250000, 4, 1,
 	  0, 4, 5.0
 	},{
+	  "Laser Cooling Booster",
+	  "An improved cooling system for your weapons.",
+	  Equip::SLOT_LASERCOOLER, {},
+	  38000, 1, 2,
+	  0, 2
+	},{
 	  "Radar Mapper",
 	  "Used to remotely inspect the equipment, cargo and state of other ships.",
 	  Equip::SLOT_RADARMAPPER, {},

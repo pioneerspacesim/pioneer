@@ -99,6 +99,7 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
+	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 	
 	sigc::signal<void> onDock;
 	sigc::signal<void> onUndock;
@@ -112,6 +113,7 @@ protected:
 	ShipFlavour m_shipFlavour;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
+	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
