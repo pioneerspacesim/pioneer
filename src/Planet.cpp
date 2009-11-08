@@ -78,9 +78,11 @@ Planet::~Planet()
 	if (m_geosphere) delete m_geosphere;
 }
 
-double Planet::GetRadius() const
+double Planet::GetBoundingRadius() const
 {
-	return sbody->GetRadius();
+	// needs to include all terrain so culling works {in the future},
+	// and size of rotating frame is correct
+	return sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
 vector3d Planet::GetPosition() const
@@ -106,7 +108,7 @@ void Planet::GetAtmosphericState(float dist, float &outPressure, float &outDensi
 {
 	Color c;
 	float centreDensity;
-	float atmosDist = dist/(GetRadius()*ATMOSPHERE_RADIUS);
+	float atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
 	atmosDist = MIN(atmosDist, 1.0f);
 	
 	m_geosphere->GetAtmosphereFlavor(&c, &centreDensity);
@@ -122,7 +124,7 @@ void Planet::GetAtmosphericState(float dist, float &outPressure, float &outDensi
 
 double Planet::GetTerrainHeight(const vector3d pos) const
 {
-	double radius = GetRadius();
+	double radius = sbody->GetRadius();
 	if (m_geosphere) {
 		return radius * (1.0 + m_geosphere->GetHeight(pos));
 	} else {
@@ -348,7 +350,7 @@ void Planet::Render(const Frame *a_camFrame)
 	matrix4x4d ftran;
 	Frame::GetFrameTransform(GetFrame(), a_camFrame, ftran);
 	vector3d fpos = ftran * GetPosition();
-	double rad = GetRadius();
+	double rad = sbody->GetRadius();
 
 	float znear, zfar;
 	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
@@ -440,7 +442,7 @@ void Planet::Render(const Frame *a_camFrame)
 		glPushMatrix();
 		glScaled(rad, rad, rad);
 		campos = campos * (1.0/rad);
-		m_geosphere->Render(campos, GetRadius(), scale);
+		m_geosphere->Render(campos, sbody->GetRadius(), scale);
 		
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		

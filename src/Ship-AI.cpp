@@ -56,12 +56,12 @@ bool Ship::AICmdFlyTo(const Body *body)
 {
 	vector3d bodyPos = body->GetPositionRelTo(GetFrame());
 	vector3d dir = bodyPos - GetPosition();
-	double dist = dir.Length() - body->GetRadius();
+	double dist = dir.Length() - body->GetBoundingRadius();
 	vector3d relVel = GetVelocityRelativeTo(body);
 	double vel = relVel.Length();
 
 	/* done? */
-	if (dist < 2.0*body->GetRadius()) {
+	if (dist < 2.0*body->GetBoundingRadius()) {
 		return true;
 	}
 

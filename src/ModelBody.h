@@ -18,7 +18,7 @@ public:
 	void SetPosition(vector3d p);
 	virtual void SetRotMatrix(const matrix4x4d &r);
 	vector3d GetPosition() const;
-	virtual double GetRadius() const;
+	virtual double GetBoundingRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
 	void GetRotMatrix(matrix4x4d &m) const;
 	virtual void SetFrame(Frame *f);

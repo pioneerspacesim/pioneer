@@ -116,7 +116,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			double dist = GetPosition().Length();
 			float pressure, density;
 			planet->GetAtmosphericState(dist, pressure, density);
-			const double radius = GetRadius();
+			const double radius = GetBoundingRadius();
 			const double AREA = radius;
 			// ^^^ yes that is as stupid as it looks
 			const double DRAG_COEFF = 0.1; // 'smooth sphere'

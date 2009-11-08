@@ -18,7 +18,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;
 	void SetRadius(double radius);
-	virtual double GetRadius() const;
+	virtual double GetBoundingRadius() const;
 	virtual void Render(const Frame *camFrame);
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }

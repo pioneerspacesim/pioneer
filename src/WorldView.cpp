@@ -837,7 +837,9 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		if (astro->IsType(Object::PLANET)) {
 			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
 		} else {
-			radius = Pi::player->GetFrame()->m_astroBody->GetRadius();
+			// XXX this is an improper use of GetBoundingRadius
+			// since it is not a surface radius
+			radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
 		}
 		double altitude = Pi::player->GetPosition().Length() - radius;
 		if (altitude < 0) altitude = 0;

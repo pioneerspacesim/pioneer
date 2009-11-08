@@ -951,6 +951,11 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_craters = 0;
 	m_maxHeight = 3.61/sqrt(m_sbody->GetRadius());
 	m_invMaxHeight = 1.0 / m_maxHeight;
+	if ((body->type == SBody::TYPE_PLANET_ASTEROID) ||
+	    (body->type == SBody::TYPE_PLANET_LARGE_ASTEROID)) {
+		m_maxHeight = 0.2;
+		m_invMaxHeight = 1.0/0.2;
+	}
 	m_icyness = 38.0 / (MAX(1, ((double)m_sbody->averageTemp)-250.0));
 
 	double totalAmp = 1.0;
@@ -1436,7 +1441,7 @@ double GeoSphere::GetHeight(vector3d p)
 			return 0;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-			return 0.1*octavenoise(10, 0.45+0.1*noise(2.0*p), 2.0, p);
+			return m_maxHeight*octavenoise(14, 0.5, 2.0, p);
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:

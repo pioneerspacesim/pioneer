@@ -17,7 +17,7 @@ public:
 	//virtual ~Projectile();
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
-	virtual double GetRadius() const { return 10; }
+	virtual double GetBoundingRadius() const { return 10; }
 	virtual void Render(const Frame *camFrame);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);

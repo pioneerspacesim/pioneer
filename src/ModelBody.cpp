@@ -94,7 +94,7 @@ vector3d ModelBody::GetPosition() const
 	return m_geom->GetPosition();
 }
 
-double ModelBody::GetRadius() const
+double ModelBody::GetBoundingRadius() const
 {
 	Aabb aabb = m_geom->GetGeomTree()->GetAabb();
 	// Return size of largest dimension.

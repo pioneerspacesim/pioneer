@@ -220,7 +220,8 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 	
 		assert(sbody->GetRotationPeriod() != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
-		rotFrame->SetRadius(1.1*sbody->GetRadius());
+		// rotating frame has size of GeoSphere terrain bounding sphere
+		rotFrame->SetRadius(b->GetBoundingRadius());
 		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
 		rotFrame->m_astroBody = b;
 		b->SetFrame(rotFrame);
@@ -266,7 +267,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// first try suggested position
 		rot = sbody->orbit.rotMatrix;
 		pos = rot * vector3d(0,1,0);
-		if (planet->GetTerrainHeight(pos) - planet->GetRadius() == 0.0) {
+		if (planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius() == 0.0) {
 			MTRand r(sbody->seed);
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {
@@ -274,7 +275,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 				rot = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
 						      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
 				pos = rot * vector3d(0,1,0);
-				height = planet->GetTerrainHeight(pos) - planet->GetRadius();
+				height = planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius();
 				// don't want to be under water
 				if (height > 0.0) break;
 			}

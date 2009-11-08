@@ -761,7 +761,7 @@ void Pi::MainLoop()
 				
 				vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
 				double dist = toBody.Length();
-				double rad = (*i)->GetRadius();
+				double rad = (*i)->GetBoundingRadius();
 
 				if (dist < 1000.0) {
 					timeAccel = MIN(timeAccel, 1);

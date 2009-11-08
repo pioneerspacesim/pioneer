@@ -28,6 +28,8 @@ public:
 	static void Init();
 	static void OnChangeDetailLevel();
 	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const;
+	// in sbody radii
+	double GetMaxFeatureHeight() const { return m_maxHeight; }
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];

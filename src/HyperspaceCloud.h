@@ -15,7 +15,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual void SetVelocity(vector3d v) { m_vel = v; }
 	virtual vector3d GetPosition() const;
-	virtual double GetRadius() const { return 10.0; }
+	virtual double GetBoundingRadius() const { return 10.0; }
 	virtual void Render(const Frame *camFrame);
 	virtual void PostLoadFixup();
 	virtual void TimeStepUpdate(const float timeStep);
