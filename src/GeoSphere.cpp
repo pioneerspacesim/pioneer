@@ -858,11 +858,21 @@ void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
 	minAng = cos(minAng);
 	maxAng = cos(maxAng);
 	for (int i=0; i<num; i++) {
-		m_craters[i].pos = vector3d(
-				rand.Double(-1.0, 1.0),
-				rand.Double(-1.0, 1.0),
-				rand.Double(-1.0, 1.0)).Normalized();
 		m_craters[i].size = rand.Double(minAng, maxAng);
+		for (int _try=0; _try<16; _try++) {
+			bool good = true;
+			m_craters[i].pos = vector3d(
+					rand.Double(-1.0, 1.0),
+					rand.Double(-1.0, 1.0),
+					rand.Double(-1.0, 1.0)).Normalized();
+			for (int j=0; j<i; j++) {
+				if (vector3d::Dot(m_craters[i].pos, m_craters[j].pos) < m_craters[i].size+m_craters[j].size) {
+					good = false;
+					break;
+				}
+			}
+			if (good) break;
+		}
 	}
 }
 
@@ -972,12 +982,14 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_sealevel = rand.Double();
 	m_fractalOffset = vector3d(rand.Double(255), rand.Double(255), rand.Double(255));
 	
+#if 0
 	switch (GEOSPHERE_TYPE) {
 		case SBody::TYPE_PLANET_DWARF:
 			AddCraters(rand, rand.Int32(10,30), M_PI*0.005, M_PI*0.05);
 			break;
 		default: break;
 	}
+#endif
 
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
@@ -996,6 +1008,7 @@ GeoSphere::GeoSphere(const SBody *body)
 	} else {
 		m_heightMap = 0;
 	}	
+
 	SDL_mutexP(s_allGeospheresLock);
 	s_allGeospheres.push_back(this);
 	SDL_mutexV(s_allGeospheresLock);
@@ -1476,12 +1489,16 @@ double GeoSphere::GetHeight(vector3d p)
 		default: break;
 	}*/
 	double crater = 0;
+#if 0
+	// :-(
+	p -= m_fractalOffset;
 	for (int i=0; i<m_numCraters; i++) {
 		const double dot = vector3d::Dot(m_craters[i].pos, p);
 		const double depth = 2.0*(m_craters[i].size - 1.0);
 		if (dot > m_craters[i].size) crater += depth * MIN(-(m_craters[i].size-dot)/(1.0-m_craters[i].size),
 							0.5); // <-- proportion of crater to be slope, before flat bottom
 	}
+#endif /* 0 */
 	return n + crater;
 }
 
@@ -1530,8 +1547,7 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			n = m_invMaxHeight*height;
-			return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
+			return interpolate_color(river_octavenoise(12, 0.5, 2.0, p), vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			n = m_invMaxHeight*height;
 			if (n <= 0) return vector3d(0,0,0.5);
