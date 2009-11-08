@@ -8,6 +8,9 @@
 #include "collider/collider.h"
 #include "Render.h"
 #include "Shader.h"
+#include "CargoBody.h"
+#include "Planet.h"
+#include "Sfx.h"
 
 #define PROJECTILE_AGE 1.0f
 
@@ -71,6 +74,7 @@ void Projectile::TimeStepUpdate(const float timeStep)
 		case TYPE_4MW_PULSE:
 		case TYPE_10MW_PULSE:
 		case TYPE_20MW_PULSE:
+		case TYPE_17MW_MINING:
 			if (m_age > PROJECTILE_AGE) Space::KillBody(this);
 			break;
 	}
@@ -86,8 +90,30 @@ float Projectile::GetDamage() const
 		case TYPE_4MW_PULSE: dam = 4000.0f; break;
 		case TYPE_10MW_PULSE: dam = 10000.0f; break;
 		case TYPE_20MW_PULSE: dam = 20000.0f; break;
+		case TYPE_17MW_MINING: dam = 17000.0f; break;
 	}
 	return dam * (PROJECTILE_AGE - m_age)/PROJECTILE_AGE;
+}
+
+static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
+{
+	Equip::Type t;
+	if (20*Pi::rng.Fixed() < asteroid->m_metallicity) {
+		t = Equip::PRECIOUS_METALS;
+	} else if (8*Pi::rng.Fixed() < asteroid->m_metallicity) {
+		t = Equip::METAL_ALLOYS;
+	} else if (Pi::rng.Fixed() < asteroid->m_metallicity) {
+		t = Equip::METAL_ORE;
+	} else if (Pi::rng.Fixed() < fixed(1,2)) {
+		t = Equip::WATER;
+	} else {
+		t = Equip::RUBBISH;
+	}
+	CargoBody *cargo = new CargoBody(t);
+	cargo->SetFrame(f);
+	cargo->SetPosition(pos);
+	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
+	Space::AddBody(cargo);
 }
 
 void Projectile::StaticUpdate(const float timeStep)
@@ -96,18 +122,37 @@ void Projectile::StaticUpdate(const float timeStep)
 	vector3d vel = m_baseVel + m_dirVel;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
 	
-	if (!c.userData1) return;
+	if (c.userData1) {
+		Object *o = (Object*)c.userData1;
 
-	Object *o = (Object*)c.userData1;
-
-	if (o->IsType(Object::CITYONPLANET)) {
-		Space::KillBody(this);
-	}
-	else if (o->IsType(Object::BODY)) {
-		Body *hit = static_cast<Body*>(o);
-		if (hit != m_parent) {
-			hit->OnDamage(m_parent, GetDamage());
+		if (o->IsType(Object::CITYONPLANET)) {
 			Space::KillBody(this);
+		}
+		else if (o->IsType(Object::BODY)) {
+			Body *hit = static_cast<Body*>(o);
+			if (hit != m_parent) {
+				hit->OnDamage(m_parent, GetDamage());
+				Space::KillBody(this);
+			}
+		}
+	}
+	if (m_type == TYPE_17MW_MINING) {
+		// need to test for terrain hit
+		if (GetFrame()->m_astroBody && GetFrame()->m_astroBody->IsType(Object::PLANET)) {
+			Planet *const planet = static_cast<Planet*>(GetFrame()->m_astroBody);
+			const SBody *b = planet->GetSBody();
+			vector3d pos = GetPosition();
+			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
+			if (terrainHeight > pos.Length()) {
+				// hit the fucker
+				if ((b->type == SBody::TYPE_PLANET_ASTEROID) ||
+				    (b->type == SBody::TYPE_PLANET_LARGE_ASTEROID)) {
+					vector3d n = GetPosition().Normalized();
+					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
+					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+				}
+				Space::KillBody(this);
+			}
 		}
 	}
 }
@@ -154,6 +199,10 @@ void Projectile::Render(const Frame *camFrame)
 			break;
 		case TYPE_20MW_PULSE:
 			col = Color(0.0f, 0.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
+			Render::PutPointSprites(50, points, 10.0f, col, tex);
+			break;
+		case TYPE_17MW_MINING:
+			col = Color(0.0f, 0.3f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
 			break;
 	}

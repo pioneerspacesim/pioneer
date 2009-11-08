@@ -26,6 +26,7 @@ public:
 	double GetTerrainHeight(const vector3d pos) const;
 	void GetAtmosphericState(float dist, float &outPressure, float &outDensity);
 	bool IsSuperType(SBody::BodySuperType t) const;
+	const SBody *GetSBody() const { return sbody; }
 protected:
 	virtual void Save();
 	virtual void Load();

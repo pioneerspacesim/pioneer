@@ -8,7 +8,8 @@ class Frame;
 class Projectile: public Body {
 public:
 	OBJDEF(Projectile, Body, PROJECTILE);
-	enum TYPE { TYPE_1MW_PULSE, TYPE_2MW_PULSE, TYPE_4MW_PULSE, TYPE_10MW_PULSE, TYPE_20MW_PULSE };
+	enum TYPE { TYPE_1MW_PULSE, TYPE_2MW_PULSE, TYPE_4MW_PULSE, TYPE_10MW_PULSE, TYPE_20MW_PULSE,
+			TYPE_17MW_MINING };
 
 	static void Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 

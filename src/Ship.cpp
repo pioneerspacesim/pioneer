@@ -569,6 +569,9 @@ void Ship::FireWeapon(int num)
 		case Equip::PULSECANNON_20MW:
 			Projectile::Add(this, Projectile::TYPE_20MW_PULSE, pos, baseVel, dirVel);
 			break;
+		case Equip::MININGCANNON_17MW:
+			Projectile::Add(this, Projectile::TYPE_17MW_MINING, pos, baseVel, dirVel);
+			break;
 			// trace laser beam through frame to see who it hits
 	/*		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
 			if (c.userData1) {

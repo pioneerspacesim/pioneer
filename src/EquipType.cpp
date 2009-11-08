@@ -278,6 +278,11 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  "20MW pulse cannon",0,
 	  Equip::SLOT_LASER, {},
 	  1200000, 65, 20, 0, 0, 0.25
+	},{
+	  "17MW blast-mining cannon",
+	  "Used to blast-mine mineral rich asteroids.",
+	  Equip::SLOT_LASER, {},
+	  1060000, 10, 17, 0, 1, 2.0
 	}
 };
 
