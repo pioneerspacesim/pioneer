@@ -18,17 +18,22 @@ public:
 	void Render(const SpaceStation *station, const Frame *camFrame);
 private:
 	void PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
+	void AddStaticGeomsToCollisionSpace();
+	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
 		int modelnum;
 		int rotation; // 0-3
 		vector3d pos;
 		Geom *geom;
+		// may not be at lower detail level
+		bool isEnabled;
 	};
 
 	const Planet *m_planet;
 	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
+	int m_detailLevel;
 };
 
 #endif /* _CITYONPLANET_H */

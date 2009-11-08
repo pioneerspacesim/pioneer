@@ -124,10 +124,40 @@ always_divide:
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)rotTimes90);
 		geom->MoveTo(grot, cent);
 		geom->SetUserData(this);
-		f->AddStaticGeom(geom);
+//		f->AddStaticGeom(geom);
 
-		BuildingDef def = { modelNum, rotTimes90, cent, geom };
+		BuildingDef def = { modelNum, rotTimes90, cent, geom, false };
 		m_buildings.push_back(def);
+	}
+}
+
+void CityOnPlanet::AddStaticGeomsToCollisionSpace()
+{
+	int skipMask;
+	switch (Pi::detail.cities) {
+		case 0: skipMask = 0xf; break;
+		case 1: skipMask = 0x7; break;
+		case 2: skipMask = 0x3; break;
+		case 3: skipMask = 0x1; break;
+		default:
+			skipMask = 0; break;
+	}
+	for (unsigned int i=0; i<m_buildings.size(); i++) {
+		if (i & skipMask) {
+			m_buildings[i].isEnabled = false;
+		} else {
+			m_frame->AddStaticGeom(m_buildings[i].geom);
+			m_buildings[i].isEnabled = true;
+		}
+	}
+	m_detailLevel = Pi::detail.cities;
+}
+
+void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
+{
+	for (unsigned int i=0; i<m_buildings.size(); i++) {
+		m_frame->RemoveStaticGeom(m_buildings[i].geom);
+		m_buildings[i].isEnabled = false;
 	}
 }
 
@@ -159,6 +189,7 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 	m_buildings.clear();
 	m_planet = planet;
 	m_frame = planet->GetFrame();
+	m_detailLevel = Pi::detail.cities;
 
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
@@ -235,7 +266,7 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 		vector3d center = (p1+p2+p3+p4)*0.25;
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
-
+	AddStaticGeomsToCollisionSpace();
 }
 
 void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
@@ -248,6 +279,11 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 	
 	if ((frameTrans*station->GetPosition()).Length() > 1000000.0) {
 		return;
+	}
+	// change detail level if necessary
+	if (m_detailLevel != Pi::detail.cities) {
+		RemoveStaticGeomsFromCollisionSpace();
+		AddStaticGeomsToCollisionSpace();
 	}
 	
 	rot[0] = frameTrans * rot[0];
@@ -264,21 +300,11 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 	cityobj_params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
 	cityobj_params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
 
-	int skipMask;
-	switch (Pi::detail.cities) {
-		case 0: skipMask = 0xf; break;
-		case 1: skipMask = 0x7; break;
-		case 2: skipMask = 0x3; break;
-		case 3: skipMask = 0x1; break;
-		default:
-			skipMask = 0; break;
-	}
 
-	int num = 0;
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
-			i != m_buildings.end(); ++i, ++num) {
+			i != m_buildings.end(); ++i) {
 
-		if (num & skipMask) continue;
+		if (!(*i).isEnabled) continue;
 
 		vector3d pos = frameTrans * (*i).pos;
 		/* frustum cull */
