@@ -195,6 +195,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  70000, 1, 1,
 	  0, 2
 	},{
+	  "Autopilot",
+	  "An onboard flight computer.",
+	  Equip::SLOT_AUTOPILOT, {},
+	  140000, 1, 1,
+	  0, 2
+	},{
 	  "Radar Mapper",
 	  "Used to remotely inspect the equipment, cargo and state of other ships.",
 	  Equip::SLOT_RADARMAPPER, {},

@@ -46,7 +46,8 @@ public:
 		return equip[s].size();
 	}
 	Equip::Type Get(Equip::Slot s) const {
-		return equip[s][0];
+		if (equip[s].size() == 0) return Equip::NONE;
+		else return equip[s][0];
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
 		return equip[s][idx];

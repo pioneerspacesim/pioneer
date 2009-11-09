@@ -552,10 +552,11 @@ void WorldView::UpdateCommsOptions()
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
 			ypos += 32;
 		}
-		button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(player_fly_to), navtarget));
-
-		ypos += 32;
+		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+			button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(player_fly_to), navtarget));
+			ypos += 32;
+		}
 
 		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
 		if ((t != Equip::NONE) && navtarget->IsType(Object::HYPERSPACECLOUD)) {
