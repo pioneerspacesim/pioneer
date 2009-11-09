@@ -71,16 +71,20 @@ public:
 	bool Add(Equip::Type e) {
 		return Add(e, 1);
 	}
-	void Remove(Equip::Type e, int num) {
+	// returns number removed
+	int Remove(Equip::Type e, int num) {
 		Equip::Slot s = EquipType::types[e].slot;
+		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (num == 0) break;
 			if (equip[s][i] == e) {
 				equip[s][i] = Equip::NONE;
 				num--;
+				numDone++;
 			}
 		}
 		onChange.emit();
+		return numDone;
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {
 		int num = 0;

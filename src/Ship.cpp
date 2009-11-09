@@ -609,7 +609,7 @@ void Ship::StaticUpdate(const float timeStep)
 	/* FUEL SCOOPING!!!!!!!!! */
 	if (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
 		Body *astro = GetFrame()->m_astroBody;
-		if (astro->IsType(Object::PLANET)) {
+		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
 			if (p->IsSuperType(SBody::SUPERTYPE_GAS_GIANT)) {
 				double dist = GetPosition().Length();
@@ -631,6 +631,22 @@ void Ship::StaticUpdate(const float timeStep)
 						CalcStats();
 					}
 				}
+			}
+		}
+	}
+
+	// Cargo bay life support
+	if (m_equipment.Get(Equip::SLOT_CARGOLIFESUPPORT) != Equip::CARGO_LIFE_SUPPORT) {
+		// Hull is pressure-sealed, it just doesn't provide
+		// temperature regulation and breathable atmosphere
+		
+		// kill stuff roughly every 5 seconds
+		if ((!m_dockedWith) && (5.0*Pi::rng.Double() < timeStep)) {
+			Equip::Type t = (Pi::rng.Int32(2) ? Equip::LIVE_ANIMALS : Equip::SLAVES);
+			
+			if (m_equipment.Remove(t, 1)) {
+				m_equipment.Add(Equip::FERTILIZER);
+				Pi::cpan->MsgLog()->Message("", "Sensors report critical cargo bay life-support conditions.");
 			}
 		}
 	}

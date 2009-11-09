@@ -37,6 +37,10 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
 	  1200, 1, 0, ECON_AGRICULTURE, 1,
 	},{
+	  "Live Animals", 0,
+	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
+	  3200, 1, 0, ECON_AGRICULTURE, 1,
+	},{
 	  "Animal Meat", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
 	  1800, 1, 0, ECON_AGRICULTURE, 1,
@@ -96,6 +100,10 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  "Air processors",0,
 	  Equip::SLOT_CARGO, { Equip::PLASTICS, Equip::INDUSTRIAL_MACHINERY },
 	  2000, 1, 0, ECON_INDUSTRY, 3,
+	},{
+	  "Slaves",0,
+	  Equip::SLOT_CARGO, { },
+	  23200, 1, 0, ECON_AGRICULTURE, 0,
 	},{
 	  "Hand weapons",0,
 	  Equip::SLOT_CARGO, { Equip::COMPUTERS },
@@ -179,6 +187,12 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  "An improved cooling system for your weapons.",
 	  Equip::SLOT_LASERCOOLER, {},
 	  38000, 1, 2,
+	  0, 2
+	},{
+	  "Cargo Bay Life Support",
+	  "Allows the transport of live cargo.",
+	  Equip::SLOT_CARGOLIFESUPPORT, {},
+	  70000, 1, 1,
 	  0, 2
 	},{
 	  "Radar Mapper",

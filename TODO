@@ -8,29 +8,29 @@ Equipment:
 
 done
 
-y	Missiles
+	energy bomb
+	escape capsule
 	auto-refueller
+	passenger cabins
+	cargo scoop conversion
+	autopilot
+	full range of lasers inc 'plasma accelerator' type big guns
+y	cargo bay life support
+y	Missiles
 y	atmos shielding
 y	laser cooling booster
-	cargo bay life support
 y	scanner
-	full range of lasers inc 'plasma accelerator' type big guns
 y	radar mapper
 y	ecm
 y	naval ecm
-	autopilot
-	passenger cabins
 y	hyperspace cloud analyser
 y	shield generator
 y	fuel scoop
-	cargo scoop conversion
 y	regular hyperdrives
 y	military hyperdrives
 y	energy booster unit
 y	mining laser
 y	hull auto-repair system
-	energy bomb
-	escape capsule
 
 
 * External display of mounted equipment (missiles, scoops, etc)

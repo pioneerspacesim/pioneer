@@ -172,12 +172,14 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
 }
 
+#define POLIT_SALT 0x8732abdf
+
 bool IsCommodityLegal(StarSystem *s, Equip::Type t)
 {
 	int sx, sy, sys_idx;
 	s->GetPos(&sx, &sy, &sys_idx);
-	const unsigned long _init[3] = { sx, sy, sys_idx };
-	MTRand rand(_init, 3);
+	const unsigned long _init[4] = { sx, sy, sys_idx, POLIT_SALT };
+	MTRand rand(_init, 4);
 
 	Polit::GovType a = s->GetSysPolit().govType;
 	const Bloc b = s_govDesc[a].bloc;
@@ -186,6 +188,7 @@ bool IsCommodityLegal(StarSystem *s, Equip::Type t)
 
 	switch (t) {
 		case Equip::ANIMAL_MEAT:
+		case Equip::LIVE_ANIMALS:
 			if ((b == BLOC_EARTHFED) || (b == BLOC_CIS)) return rand.Int32(4)!=0;
 			else return true;
 		case Equip::LIQUOR:
@@ -205,6 +208,9 @@ bool IsCommodityLegal(StarSystem *s, Equip::Type t)
 			if (b == BLOC_EARTHFED) return false;
 			if (b == BLOC_CIS) return rand.Int32(7)==0;
 			else return rand.Int32(2)==0;
+		case Equip::SLAVES:
+			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(16)==0;
+			return false;
 		default: return true;
 	}
 }
