@@ -93,7 +93,7 @@ public:
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
 	bool DoesSell(Equip::Type t) const { return true; }
-	int GetPrice(Equip::Type t) const;
+	Sint64 GetPrice(Equip::Type t) const;
 	void ChangeFlavour(const ShipFlavour *f);
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
 	float GetPercentShields() const;

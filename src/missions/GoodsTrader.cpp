@@ -97,9 +97,9 @@ bool GoodsTrader::CanSell(Equip::Type t) const {
 bool GoodsTrader::DoesSell(Equip::Type t) const {
 	return !Polit::IsCommodityLegal(Pi::currentSystem, t);
 }
-int GoodsTrader::GetPrice(Equip::Type t) const {
+Sint64 GoodsTrader::GetPrice(Equip::Type t) const {
 
-	return (m_priceIncPercent * EquipType::types[t].basePrice) / 100;
+	return (m_priceIncPercent * (Sint64)EquipType::types[t].basePrice) / 100;
 }
 
 void GoodsTrader::_Load()

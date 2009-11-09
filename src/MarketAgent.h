@@ -11,7 +11,7 @@ public:
 	Sint64 GetMoney() { return m_money; }
 	bool Pay(MarketAgent *b, Sint64 amount);
 	bool SellItemTo(MarketAgent *other, Equip::Type t);
-	virtual int GetPrice(Equip::Type t) const = 0;
+	virtual Sint64 GetPrice(Equip::Type t) const = 0;
 	virtual bool CanBuy(Equip::Type t) const = 0;
 	// can sell means do we have enough stock
 	virtual bool CanSell(Equip::Type t) const = 0;

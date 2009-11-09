@@ -671,9 +671,9 @@ bool SpaceStation::DoesSell(Equip::Type t) const {
 	return Polit::IsCommodityLegal(Pi::currentSystem, t);
 }
 
-int SpaceStation::GetPrice(Equip::Type t) const {
-	int mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
-	return (mul * EquipType::types[t].basePrice) / 100;
+Sint64 SpaceStation::GetPrice(Equip::Type t) const {
+	Sint64 mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
+	return (mul * (Sint64)EquipType::types[t].basePrice) / 100;
 }
 
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)

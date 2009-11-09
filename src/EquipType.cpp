@@ -281,6 +281,10 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_LASER, {},
 	  100000, 3, 2, 0, 0, 0.25
 	},{
+	  "2MW rapid-fire pulse cannon",0,
+	  Equip::SLOT_LASER, {},
+	  180000, 7, 2, 0, 0, 0.13
+	},{
 	  "4MW pulse cannon",0,
 	  Equip::SLOT_LASER, {},
 	  220000, 10, 4, 0, 0, 0.25
@@ -297,6 +301,14 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  "Used to blast-mine mineral rich asteroids.",
 	  Equip::SLOT_LASER, {},
 	  1060000, 10, 17, 0, 1, 2.0
+	},{
+	  "Small plasma accelerator",0,
+	  Equip::SLOT_LASER, {},
+	  12000000, 22, 50, 0, 0, 0.3
+	},{
+	  "Large plasma accelerator",0,
+	  Equip::SLOT_LASER, {},
+	  39000000, 50, 100, 0, 0, 0.3
 	}
 };
 

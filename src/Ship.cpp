@@ -558,6 +558,7 @@ void Ship::FireWeapon(int num)
 			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos-5.0*sep, baseVel, dirVel);
 			break;
 		case Equip::PULSECANNON_2MW:
+		case Equip::PULSECANNON_RAPID_2MW:
 			Projectile::Add(this, Projectile::TYPE_2MW_PULSE, pos, baseVel, dirVel);
 			break;
 		case Equip::PULSECANNON_4MW:
@@ -571,6 +572,12 @@ void Ship::FireWeapon(int num)
 			break;
 		case Equip::MININGCANNON_17MW:
 			Projectile::Add(this, Projectile::TYPE_17MW_MINING, pos, baseVel, dirVel);
+			break;
+		case Equip::SMALL_PLASMA_ACCEL:
+			Projectile::Add(this, Projectile::TYPE_SMALL_PLASMA_ACCEL, pos, baseVel, dirVel);
+			break;
+		case Equip::LARGE_PLASMA_ACCEL:
+			Projectile::Add(this, Projectile::TYPE_LARGE_PLASMA_ACCEL, pos, baseVel, dirVel);
 			break;
 			// trace laser beam through frame to see who it hits
 	/*		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
@@ -970,7 +977,7 @@ bool Ship::CanSell(Equip::Type t) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
 	return m_equipment.Count(slot, t) > 0;
 }
-int Ship::GetPrice(Equip::Type t) const {
+Sint64 Ship::GetPrice(Equip::Type t) const {
 	if (m_dockedWith) {
 		return m_dockedWith->GetPrice(t);
 	} else {

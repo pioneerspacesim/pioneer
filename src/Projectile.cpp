@@ -75,6 +75,8 @@ void Projectile::TimeStepUpdate(const float timeStep)
 		case TYPE_10MW_PULSE:
 		case TYPE_20MW_PULSE:
 		case TYPE_17MW_MINING:
+		case TYPE_SMALL_PLASMA_ACCEL:
+		case TYPE_LARGE_PLASMA_ACCEL:
 			if (m_age > PROJECTILE_AGE) Space::KillBody(this);
 			break;
 	}
@@ -91,6 +93,8 @@ float Projectile::GetDamage() const
 		case TYPE_10MW_PULSE: dam = 10000.0f; break;
 		case TYPE_20MW_PULSE: dam = 20000.0f; break;
 		case TYPE_17MW_MINING: dam = 17000.0f; break;
+		case TYPE_SMALL_PLASMA_ACCEL: dam = 50000.0f; break;
+		case TYPE_LARGE_PLASMA_ACCEL: dam = 100000.0f; break;
 	}
 	return dam * (PROJECTILE_AGE - m_age)/PROJECTILE_AGE;
 }
@@ -204,6 +208,14 @@ void Projectile::Render(const Frame *camFrame)
 		case TYPE_17MW_MINING:
 			col = Color(0.0f, 0.3f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
 			Render::PutPointSprites(50, points, 10.0f, col, tex);
+			break;
+		case TYPE_SMALL_PLASMA_ACCEL:
+			col = Color(0.0f, 1.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
+			Render::PutPointSprites(50, points, 14.0f, col, tex);
+			break;
+		case TYPE_LARGE_PLASMA_ACCEL:
+			col = Color(0.5f, 1.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
+			Render::PutPointSprites(50, points, 18.0f, col, tex);
 			break;
 	}
 

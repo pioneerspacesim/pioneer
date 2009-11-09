@@ -16,7 +16,7 @@ public:
 	virtual void StartChat(GenericChatForm *);
 	virtual void FormResponse(GenericChatForm*, int);
 	/* MarketAgent stuff */
-	int GetPrice(Equip::Type t) const;
+	Sint64 GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
 	bool DoesSell(Equip::Type t) const;
