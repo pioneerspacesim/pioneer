@@ -792,6 +792,7 @@ float GetHyperspaceAnim()
 
 struct body_zsort_t {
 	double dist;
+	vector3d viewCoords;
 	Body *b;
 };
 
@@ -801,11 +802,15 @@ struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort
 
 void Render(const Frame *cam_frame)
 {
+	Plane planes[6];
+	GetFrustum(planes);
+
 	// simple z-sort!!!!!!!!!!!!!11
 	body_zsort_t *bz = new body_zsort_t[bodies.size()];
 	int idx = 0;
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		vector3d toBody = (*i)->GetPositionRelTo(cam_frame);
+		bz[idx].viewCoords = toBody;
 		bz[idx].dist = toBody.Length();
 		bz[idx].b = *i;
 		idx++;
@@ -816,7 +821,17 @@ void Render(const Frame *cam_frame)
 	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
 
 	for (unsigned int i=0; i<bodies.size(); i++) {
-		bz[i].b->Render(cam_frame);
+		double boundingRadius = bz[i].b->GetBoundingRadius();
+
+		// test against all frustum planes except far plane
+		bool do_draw = true;
+		for (int p=0; p<5; p++) {
+			if (planes[p].DistanceToPoint(bz[i].viewCoords)+boundingRadius < 0) {
+				do_draw = false;
+				break;
+			}
+		}
+		if (do_draw) bz[i].b->Render(cam_frame);
 	}
 	Sfx::RenderAll(rootFrame, cam_frame);
 

@@ -1209,12 +1209,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	GetFrustum(planes);
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
-	/* frustum test! */
-	for (int i=0; i<6; i++) {
-		if (planes[i].DistanceToPoint(vector3d(0.0))+atmosRadius < 0) {
-			return;
-		}
-	}
+	// no frustum test of entire geosphere, since Space::Render does this
+	// for each body using its GetBoundingRadius() value
 
 	if (Shader::IsEnabled()) {
 		Color atmosCol;

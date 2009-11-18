@@ -24,6 +24,7 @@ public:
 	SpaceStation(const SBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
+	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(const Frame *camFrame);
 	void LaunchShip(Ship *ship, int port);

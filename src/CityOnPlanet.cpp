@@ -7,7 +7,7 @@
 #include "ModelCollMeshData.h"
 #include "collider/Geom.h"
 
-#define START_SEG_SIZE 5000.0
+#define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
 
 bool s_cityBuildingsInitted = false;

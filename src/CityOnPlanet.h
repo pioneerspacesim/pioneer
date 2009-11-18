@@ -10,6 +10,8 @@ class SpaceStation;
 class Frame;
 class Geom;
 
+#define CITY_ON_PLANET_RADIUS 5000.0
+
 class CityOnPlanet: public Object {
 public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);

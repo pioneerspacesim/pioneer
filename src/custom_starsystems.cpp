@@ -17,10 +17,10 @@ const CustomSBody sol_system[] = {
 	  fixed(1,1), fixed(167,10000), {}, fixed(1,1), ECON_INDUSTRY,
 	  "data/earth.hmap"
 	},
-	{ "Mexico City", SBody::TYPE_STARPORT_SURFACE,
-	  3, 0, 0, 0, 0, 0, { (float)DEG2RAD(19), (float)DEG2RAD(99) } },
 	{ "Shanghai", SBody::TYPE_STARPORT_SURFACE,
 	  3, 0, 0, 0, 0, 0, { (float)DEG2RAD(31), (float)DEG2RAD(-121) } },
+	{ "Mexico City", SBody::TYPE_STARPORT_SURFACE,
+	  3, 0, 0, 0, 0, 0, { (float)DEG2RAD(19), (float)DEG2RAD(99) } },
 	{ "London", SBody::TYPE_STARPORT_SURFACE,
 	  3, 0, 0, 0, 0, 0, { (float)DEG2RAD(51), 0 } },
 	{ "Moscow", SBody::TYPE_STARPORT_SURFACE,

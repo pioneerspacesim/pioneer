@@ -101,6 +101,11 @@ void SpaceStation::PostLoadFixup()
 	}
 }
 
+double SpaceStation::GetBoundingRadius() const
+{
+	return ModelBody::GetBoundingRadius() + CITY_ON_PLANET_RADIUS;
+}
+
 static ObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
