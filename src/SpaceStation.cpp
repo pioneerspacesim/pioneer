@@ -744,7 +744,7 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 
 static std::vector<int> s_advertModels;
 
-void SpaceStation::Render(const Frame *camFrame)
+void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	/* Well this is nice... */
 	static int poo=0;
@@ -810,13 +810,10 @@ void SpaceStation::Render(const Frame *camFrame)
 			break;
 		}
 	}*/
-	RenderSbreModel(camFrame, &params);
+	RenderSbreModel(viewCoords, viewTransform, &params);
 	
 	/* don't render city if too far away */
-	matrix4x4d frameTrans;
-	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
-	vector3d pos = frameTrans * GetPosition();
-	if (pos.Length() > 1000000.0) return;
+	if (viewCoords.Length() > 1000000.0) return;
 
 	// find planet Body*
 	Planet *planet;
@@ -831,7 +828,7 @@ void SpaceStation::Render(const Frame *camFrame)
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
 			Shader::EnableVertexProgram(Shader::VPROG_SBRE);
-			m_adjacentCity->Render(this, camFrame);
+			m_adjacentCity->Render(this, viewCoords, viewTransform);
 			Shader::DisableVertexProgram();
 		}
 	}

@@ -107,17 +107,16 @@ static void make_circle_thing(float radius, const Color &colCenter, const Color 
 	glEnd();
 }
 
-void HyperspaceCloud::Render(const Frame *a_camFrame)
+void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
 	glPushMatrix();
-	vector3d fpos = GetPositionRelTo(a_camFrame);
-	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
+	glTranslatef((float)viewCoords.x, (float)viewCoords.y, (float)viewCoords.z);
 	
 	// face the camera dammit
-	vector3d zaxis = fpos.Normalized();
+	vector3d zaxis = viewCoords.Normalized();
 	vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
 	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();

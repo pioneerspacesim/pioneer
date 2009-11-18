@@ -103,9 +103,9 @@ void Player::SetFlightControlState(enum FlightControlState s)
 	Pi::onPlayerChangeFlightControlState.emit();
 }
 
-void Player::Render(const Frame *camFrame)
+void Player::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Ship::Render(camFrame);
+	Ship::Render(viewCoords, viewTransform);
 }
 
 void Player::SetDockedWith(SpaceStation *s, int port)

@@ -161,16 +161,13 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 }
 
-void Projectile::Render(const Frame *camFrame)
+void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	static GLuint tex;
 	if (!tex) tex = util_load_tex_rgba("data/textures/laser.png");
 
-	matrix4x4d ftran;
-	Frame::GetFrameTransform(GetFrame(), camFrame, ftran);
-			
-	vector3d from = ftran * GetPosition();
-	vector3d to = ftran * (GetPosition() + 0.1*m_dirVel);
+	vector3d from = viewTransform * GetPosition();
+	vector3d to = viewTransform * (GetPosition() + 0.1*m_dirVel);
 	vector3d dir = to - from;
 		
 	vector3f _from(&from.x);

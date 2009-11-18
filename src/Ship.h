@@ -40,7 +40,7 @@ public:
 	Body *GetNavTarget() const { return m_navTarget; }
 	void SetCombatTarget(Body* const target);
 	Body *GetCombatTarget() const { return m_combatTarget; }
-	virtual void Render(const Frame *camFrame);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
 	float GetThrusterState(enum ShipType::Thruster t) const { return m_thrusters[t]; }
 	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }

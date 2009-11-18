@@ -47,7 +47,7 @@ void ObjectViewerView::Draw3D()
 		Frame cam_frame(body->GetFrame(), "", Frame::TEMP_VIEWING);
 		cam_frame.SetOrientation(m_camRot);
 		cam_frame.SetPosition(body->GetPosition()+pos);
-		body->Render(&cam_frame);
+		body->Render(vector3d(0.0), matrix4x4d::Identity());
 		body->GetFrame()->RemoveChild(&cam_frame);
 	}
 }

@@ -15,7 +15,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;
 	virtual double GetBoundingRadius() const { return FLT_MAX; }
-	virtual void Render(const Frame *camFrame);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual double GetMass() const { return mass; }
 protected:
 	virtual void Save();

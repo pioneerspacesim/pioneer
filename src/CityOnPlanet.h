@@ -17,7 +17,7 @@ public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
 	CityOnPlanet(const Planet *planet, const SpaceStation *station, Uint32 seed);
 	virtual ~CityOnPlanet();
-	void Render(const SpaceStation *station, const Frame *camFrame);
+	void Render(const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 private:
 	void PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
 	void AddStaticGeomsToCollisionSpace();

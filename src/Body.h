@@ -25,7 +25,7 @@ public:
 	virtual double GetMass() const { assert(0); return 0; }
 	virtual void SetRotMatrix(const matrix4x4d &r) {};
 	virtual void GetRotMatrix(matrix4x4d &m) const { };
-	virtual void Render(const Frame *camFrame) = 0;
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }

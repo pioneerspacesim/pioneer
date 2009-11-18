@@ -343,13 +343,12 @@ void Planet::DrawAtmosphere(vector3d &pos)
 	Shader::DisableVertexProgram();
 }
 
-void Planet::Render(const Frame *a_camFrame)
+void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	glPushMatrix();
 
-	matrix4x4d ftran;
-	Frame::GetFrameTransform(GetFrame(), a_camFrame, ftran);
-	vector3d fpos = ftran * GetPosition();
+	matrix4x4d ftran = viewTransform;
+	vector3d fpos = viewCoords;
 	double rad = sbody->GetRadius();
 
 	float znear, zfar;

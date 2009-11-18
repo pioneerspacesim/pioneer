@@ -11,7 +11,7 @@ public:
 	OBJDEF(CargoBody, DynamicBody, CARGOBODY);
 	CargoBody(Equip::Type t);
 	CargoBody() {}
-	virtual void Render(const Frame *camFrame);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 protected:
 	virtual void Save();

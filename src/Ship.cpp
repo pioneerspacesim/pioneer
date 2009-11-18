@@ -854,13 +854,10 @@ static void render_coll_mesh(const CollMesh *m)
 	glEnable(GL_LIGHTING);
 }
 
-void Ship::Render(const Frame *camFrame)
+void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
 	
-	matrix4x4d ftran;
-	Frame::GetFrameTransform(GetFrame(), camFrame, ftran);		
-
 	if ( (this != Pi::player) ||
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
@@ -877,17 +874,16 @@ void Ship::Render(const Frame *camFrame)
 		params.pAnim[ASRC_GEAR] = m_wheelState;
 		params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-		RenderSbreModel(camFrame, &params);
+		RenderSbreModel(viewCoords, viewTransform, &params);
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {
 			float shield = 0.01f*GetPercentShields();
-			vector3d pos = ftran * GetPosition();
 			glDisable(GL_LIGHTING);
 			glEnable(GL_BLEND);
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
-			glTranslatef(pos.x, pos.y, pos.z);
+			glTranslatef(viewCoords.x, viewCoords.y, viewCoords.z);
 			Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
 			gluSphere(Pi::gluQuadric, sbreGetModelRadius(GetSbreModel()), 20, 20);
 			Shader::DisableVertexProgram();
@@ -900,7 +896,7 @@ void Ship::Render(const Frame *camFrame)
 		// pish effect
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
-			v[i] = vector3f(ftran * (GetPosition() +
+			v[i] = vector3f(viewTransform * (GetPosition() +
 					sbreGetModelRadius(GetSbreModel())*vector3f(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5).Normalized()));
 		}
 		Color c(0.5,0.5,1.0,1.0);

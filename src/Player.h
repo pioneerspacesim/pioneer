@@ -15,7 +15,7 @@ public:
 	Player() {}
 	virtual ~Player();
 	void PollControls();
-	virtual void Render(const Frame *camFrame);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);
 	enum FlightControlState { CONTROL_MANUAL, CONTROL_FIXSPEED, CONTROL_AUTOPILOT };

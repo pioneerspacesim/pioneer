@@ -32,7 +32,7 @@ public:
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(const char *sbreModelName, bool isStatic = false);
 
-	void RenderSbreModel(const Frame *camFrame, ObjParams *params);
+	void RenderSbreModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, ObjParams *params);
 protected:
 	virtual void Save();
 	virtual void Load();

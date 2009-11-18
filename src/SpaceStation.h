@@ -26,7 +26,7 @@ public:
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(const Frame *camFrame);
+	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void LaunchShip(Ship *ship, int port);
 	void OrientDockedShip(Ship *ship, int port) const;
 	bool GetDockingClearance(Ship *s, std::string &outMsg);

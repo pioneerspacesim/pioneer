@@ -140,15 +140,13 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 	m_geom->MoveTo(currentTransform);
 }
 
-void ModelBody::RenderSbreModel(const Frame *camFrame, ObjParams *params)
+void ModelBody::RenderSbreModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, ObjParams *params)
 {
-	matrix4x4d frameTrans;
-	Frame::GetFrameTransform(GetFrame(), camFrame, frameTrans);
-
 	float znear, zfar;
 	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
 	
-	vector3d pos = frameTrans * GetPosition();
+	vector3d pos = viewCoords;
+	matrix4x4d frameTrans = viewTransform;
 
 	if (pos.Length() > zfar) {
 		glPointSize(1.0);

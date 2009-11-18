@@ -42,14 +42,14 @@ void Star::Load()
 	mass = rd_double();
 }
 
-void Star::Render(const Frame *a_camFrame)
+void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
 	
 	double rad = radius;
-	vector3d fpos = GetPositionRelTo(a_camFrame);
+	vector3d fpos = viewCoords;
 	double len = fpos.Length();
 
 	while (len > 1000.0f) {

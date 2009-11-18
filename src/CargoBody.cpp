@@ -60,10 +60,10 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 	return true;
 }
 
-void CargoBody::Render(const Frame *camFrame)
+void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
 	strncpy(params.pText[0], EquipType::types[m_type].name, 256);
-	RenderSbreModel(camFrame, &params);
+	RenderSbreModel(viewCoords, viewTransform, &params);
 }
 

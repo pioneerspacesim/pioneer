@@ -269,24 +269,18 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
+void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d rot[4];
 	station->GetRotMatrix(rot[0]);
 
-	matrix4x4d frameTrans;
-	Frame::GetFrameTransform(station->GetFrame(), camFrame, frameTrans);
-	
-	if ((frameTrans*station->GetPosition()).Length() > 1000000.0) {
-		return;
-	}
 	// change detail level if necessary
 	if (m_detailLevel != Pi::detail.cities) {
 		RemoveStaticGeomsFromCollisionSpace();
 		AddStaticGeomsToCollisionSpace();
 	}
 	
-	rot[0] = frameTrans * rot[0];
+	rot[0] = viewTransform * rot[0];
 	for (int i=1; i<4; i++) {
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)i);
 	}
@@ -306,7 +300,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const Frame *camFrame)
 
 		if (!(*i).isEnabled) continue;
 
-		vector3d pos = frameTrans * (*i).pos;
+		vector3d pos = viewTransform * (*i).pos;
 		/* frustum cull */
 		bool cull = false;
 		for (int j=0; j<6; j++) {
