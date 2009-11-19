@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = sbre/ collider/ missions/
+SUBDIRS = sbre/ collider/ missions/ lua/
 
 bin_PROGRAMS = pioneer sbreviewer
 noinst_LIBRARIES = libgui.a
@@ -32,7 +32,7 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 pioneer_LDADD = sbre/libsbre.a collider/libcollider.a missions/libmissions.a libgui.a
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp ModelCollMeshData.cpp
-sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
+sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a lua/liblua.a
 
 check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
