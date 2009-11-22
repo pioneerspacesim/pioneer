@@ -315,6 +315,8 @@ void Viewer::MainLoop()
 	Uint32 lastTurd = SDL_GetTicks();
 
 	Uint32 t = SDL_GetTicks();
+	int numFrames = 0;
+	Uint32 lastFpsReadout = SDL_GetTicks();
 	const CollMeshSet *mset = GetModelCollMeshSet(g_model);
 	CollMesh *cmesh = mset->sbreCollMesh;
 	GeomTree *geomtree = mset->m_geomTree;
@@ -384,8 +386,15 @@ void Viewer::MainLoop()
 		Gui::Draw();
 		
 		SDL_GL_SwapBuffers();
+		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
+
+		if (SDL_GetTicks() - lastFpsReadout > 1000) {
+			printf("%d fps\n", numFrames);
+			numFrames = 0;
+			lastFpsReadout = SDL_GetTicks();
+		}
 
 		space->Collide(onCollision);
 	}

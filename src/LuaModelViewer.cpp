@@ -410,12 +410,10 @@ extern void LuaModelCompilerInit();
 
 int main(int argc, char **argv)
 {
-	sbreCompilerLoadModels();
 	if ((argc>1) && (0==strcmp(argv[1],"--help"))) {
 		printf("Usage:\n\nSbreViewer <model number> <width> <height>\n");
 		exit(0);
 	}
-	LuaModelCompilerInit();
 	if (argc > 1) {
 		g_model = 0;//sbreLookupModelByName(argv[1]);
 	}
@@ -475,6 +473,7 @@ int main(int argc, char **argv)
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
 	GLFTInit();
+	LuaModelCompilerInit();
 	Gui::Init(g_width, g_height, g_width, g_height);
 
 	Viewer v;

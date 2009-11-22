@@ -1,5 +1,27 @@
 #include "libs.h"
 #include <map>
+#include "glfreetype.h"
+
+/*
+ * TODO
+
+	~ model parameters
+done	material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
+done	triangle(vector v1, vector v2, vector v3)
+done	quad(vector v1, vector v2, vector v3, vector v4)
+done	circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
+done	cylinder(int steps, vector start, vector end, vector up, radius=float radius)
+	tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
+	extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
+	smooth(int steps, 
+	flat(int steps, vector normal,
+done	text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
+	subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
+	thruster(direction, vector position, float size)
+	geomflag(int)
+done	zbias(vector position, vector normal, int level)
+done	nozbias()
+*/
 
 extern "C" {
 #include "lua/lua.h"
@@ -189,38 +211,61 @@ namespace MyLuaVec {
 	}
 } /* namespace MyLuaVec */
 
+class NewModel;
+
 static bool s_buildDynamic;
+static FontFace *s_font;
+static float NEWMODEL_ZBIAS = 0.0002f;
+static NewModel *s_curModel;
+static std::map<std::string, NewModel*> s_models;
+static lua_State *sLua;
+
+static void LuaModelRender(NewModel *m, const matrix4x4d &pos);
 
 class NewModel {
 public:
-	NewModel() {
+	NewModel(std::string name) {
 		curOp.type = OP_NONE;
+		m_name = name;
+	}
+	const std::string &GetName() const { return m_name; }
+	int GetIndicesPos() const {
+		return m_indices.size();
+	}
+	int GetVerticesPos() const {
+		return m_vertices.size();
 	}
 	void Build() {
 		PushCurOp();
+		// we are using Uint16 index arrays
+		assert(m_indices.size() < 65536);
 		if (!s_buildDynamic) {
 			m_verticesEndStatic = m_vertices.size();
 			m_indicesEndStatic = m_indices.size();
 			m_opsEndStatic = m_ops.size();
+			printf("%d vertices, %d indices, %d ops\n", m_vertices.size(), m_indices.size(), m_ops.size());
 		}
-		//printf("%d vertices, %d indices, %d ops\n", m_vertices.size(), m_indices.size(), m_ops.size());
+		curOp.type = OP_NONE;
 	}
 	void FreeDynamicGeometry() {
 		m_vertices.resize(m_verticesEndStatic);
 		m_indices.resize(m_indicesEndStatic);
 		m_ops.resize(m_opsEndStatic);
 	}
-	void Render() {
+	void Render(const vector3f &cameraPos) {
 		glEnable(GL_LIGHTING);
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_NORMAL_ARRAY);
 		glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
 		glVertexPointer(3, GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].v);
 
-		for (int i=0; i<m_ops.size(); i++) {
+		glDepthRange(0.0, 1.0);
+
+		for (unsigned int i=0; i<m_ops.size(); i++) {
 			const Op &op = m_ops[i];
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
+				//printf("Draw %d elems, start %d\n", op.elems.count, op.elems.start);
 				glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				break;
 			case OP_SET_MATERIAL:
@@ -230,6 +275,25 @@ public:
 					glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
+				}
+				break;
+			case OP_ZBIAS:
+				if (op.zbias.amount == 0) {
+					glDepthRange(0.0, 1.0);
+				} else {
+					vector3f tv = cameraPos - vector3f(op.zbias.pos);
+					if (vector3f::Dot(tv, vector3f(op.zbias.norm)) > 0.0f) {
+						glDepthRange(0.0, 1.0 - op.zbias.amount*NEWMODEL_ZBIAS);
+					}
+				}
+				break;
+			case OP_CALL_MODEL:
+#warning only works after other geom...
+				{
+				s_curModel = op.callmodel.model;
+				matrix4x4d m = matrix4x4d::Identity();
+				LuaModelRender(op.callmodel.model, m);
+				s_curModel = this;
 				}
 				break;
 			case OP_NONE:
@@ -249,6 +313,14 @@ public:
 		m_indices.push_back(i1);
 		m_indices.push_back(i2);
 		m_indices.push_back(i3);
+	}
+	
+	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
+		if (curOp.type) m_ops.push_back(curOp);
+		curOp.type = OP_ZBIAS;
+		curOp.zbias.amount = amount;
+		memcpy(curOp.zbias.pos, &pos.x, 3*sizeof(float));
+		memcpy(curOp.zbias.norm, &norm.x, 3*sizeof(float));
 	}
 
 	void PushRing(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
@@ -345,6 +417,12 @@ public:
 		}
 	}
 
+	void PushCallModel(NewModel *m) {
+		if (curOp.type) m_ops.push_back(curOp);
+		curOp.type = OP_CALL_MODEL;
+		curOp.callmodel.model = m;
+	}
+
 	void DeclareMaterial(const char *mat_name) {
 		assert(!s_buildDynamic);
 		m_materialLookup[mat_name] = m_materials.size();
@@ -375,10 +453,9 @@ public:
 	}
 
 	void UseMaterial(const char *mat_name) {
-		if (curOp.type != OP_SET_MATERIAL) {
-			if (curOp.type) m_ops.push_back(curOp);
-			curOp.type = OP_SET_MATERIAL;
-		}
+		if (curOp.type) m_ops.push_back(curOp);
+		curOp.type = OP_SET_MATERIAL;
+		
 		std::map<std::string, int>::iterator i = m_materialLookup.find(mat_name);
 		if (i != m_materialLookup.end()) {
 			curOp.col.material_idx = (*i).second;
@@ -388,13 +465,16 @@ public:
 		}
 	}
 
-	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL };
+	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
+			OP_CALL_MODEL };
 
 	struct Op {
 		enum OpType type;
 		union {
 			struct { int start, count; } elems;
 			struct { int material_idx; } col;
+			struct { float amount; float pos[3]; float norm[3]; } zbias;
+			struct { NewModel *model; } callmodel;
 		};
 	};
 private:
@@ -437,32 +517,48 @@ private:
 	int m_verticesEndStatic;
 	int m_indicesEndStatic;
 	int m_opsEndStatic;
+	std::string m_name;
 };
 
-
-static NewModel *s_curModel;
-static std::map<std::string, NewModel*> s_models;
-static lua_State *sLua;
-
-void LuaModelRender(const char *name, const matrix4x4d &pos)
+static void LuaModelRender(NewModel *m, const matrix4x4d &pos)
 {
-	NewModel *model = s_models[name];
+	s_curModel = m;
 	glPushMatrix();
 	glMultMatrixd(&pos[0]);
 
 	// call model dynamic bits
 	char buf[256];
-	snprintf(buf, sizeof(buf), "%s_dynamic", name);
+	snprintf(buf, sizeof(buf), "%s_dynamic", m->GetName().c_str());
 	lua_getfield(sLua, LUA_GLOBALSINDEX, buf);
 	lua_call(sLua, 0, 0);
-	model->Build();
+	s_curModel->Build();
 
-	model->Render();
-	model->FreeDynamicGeometry();
+	const vector3f cam_pos(-pos[12], -pos[13], -pos[14]);
+#warning cam_pos will be wrong for submodels
+	s_curModel->Render(cam_pos);
+	s_curModel->FreeDynamicGeometry();
+	s_curModel = 0;
 	glPopMatrix();
 }
 
+void LuaModelRender(const char *name, const matrix4x4d &pos)
+{
+	LuaModelRender(s_models[name], pos);
+}
+
 namespace ModelFuncs {
+	static int callmodel(lua_State *L)
+	{
+		const char *obj_name = luaL_checkstring(L, 1);
+//	subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
+		NewModel *m = s_models[obj_name];
+		if (!m) {
+			luaL_error(L, "callmodel() to undefined model. Referenced model must be registered before calling model");
+		} else {
+			s_curModel->PushCallModel(m);
+		}
+		return 0;
+	}
 
 	static int dec_material(lua_State *L)
 	{
@@ -486,6 +582,55 @@ namespace ModelFuncs {
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
 		s_curModel->UseMaterial(mat_name);
+		return 0;
+	}
+
+		static matrix4x4f _textTrans;
+		static vector3f _textNorm;
+		static void _text_index_callback(int num, Uint16 *vals) {
+			const int base = s_curModel->GetVerticesPos();
+			for (int i=0; i<num; i+=3) {
+				s_curModel->PushTri(vals[i]+base, vals[i+1]+base, vals[i+2]+base);
+			}
+		}
+		static void _text_vertex_callback(int num, float offsetX, float offsetY, float *vals) {
+			for (int i=0; i<num*3; i+=3) {
+				vector3f p = vector3f(offsetX+vals[i], offsetY+vals[i+1], vals[i+2]);
+				p = _textTrans * p;
+				s_curModel->PushVertex(p, _textNorm);
+			}
+		}
+	static int text(lua_State *L)
+	{
+		const char *str = luaL_checkstring(L, 1);
+		vector3f *pos = MyLuaVec::checkVec(L, 2);
+		vector3f *norm = MyLuaVec::checkVec(L, 3);
+		vector3f *textdir = MyLuaVec::checkVec(L, 4);
+		float scale = luaL_checknumber(L, 5);
+		vector3f yaxis = vector3f::Cross(*norm, *textdir).Normalized();
+		vector3f zaxis = vector3f::Cross(*textdir, yaxis).Normalized();
+		vector3f xaxis = vector3f::Cross(yaxis, zaxis);
+
+		_textTrans = matrix4x4f::MakeRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
+		_textTrans[12] = pos->x;
+		_textTrans[13] = pos->y;
+		_textTrans[14] = pos->z;
+		_textNorm = *norm;
+		s_font->GetStringGeometry(str, &_text_index_callback, &_text_vertex_callback);
+//text("some literal string", vector pos, vector norm, vector textdir, [xoff=, yoff=, scale=, onflag=])
+		return 0;
+	}
+
+	static int zbias(lua_State *L)
+	{
+		float amount = luaL_checknumber(L, 1);
+		if (amount == 0) {
+			s_curModel->PushZBias(0, vector3f(0.0), vector3f(0.0));
+		} else {
+			vector3f *pos = MyLuaVec::checkVec(L, 2);
+			vector3f *norm = MyLuaVec::checkVec(L, 3);
+			s_curModel->PushZBias(amount, *pos, *norm);
+		}
 		return 0;
 	}
 
@@ -562,7 +707,7 @@ static int register_models(lua_State *L)
 
 	for (int i = 1; i <= n; i++) {
 		const char *model_name = luaL_checkstring(L, i);
-		s_curModel = new NewModel();
+		s_curModel = new NewModel(model_name);
 		s_models[model_name] = s_curModel;
 		printf("Model %s\n", model_name);
 		char buf[256];
@@ -577,6 +722,8 @@ static int register_models(lua_State *L)
 
 void LuaModelCompilerInit()
 {
+	assert(s_font = new FontFace ("font.ttf"));
+
 	lua_State *L = lua_open();
 	sLua = L;
 	luaL_openlibs(L);
@@ -594,6 +741,9 @@ void LuaModelCompilerInit()
 	lua_register(L, "cylinder", ModelFuncs::cylinder);
 	lua_register(L, "ring", ModelFuncs::ring);
 	lua_register(L, "circle", ModelFuncs::circle);
+	lua_register(L, "text", ModelFuncs::text);
+	lua_register(L, "zbias", ModelFuncs::zbias);
+	lua_register(L, "callmodel", ModelFuncs::callmodel);
 
 	s_buildDynamic = false;
 	if (luaL_dofile(L, "models.lua")) {

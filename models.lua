@@ -3,16 +3,18 @@ function test_static()
 	dec_material("orange")
 	set_material("red", 1,0,0)
 	set_material("orange", 1,0.5,0)
-	use_material("red")
-	cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
 	ring(32, v(5,0,0), v(5,5,0), v(1,0,0), 1.0)
 	circle(9, v(0,5,0), v(0,0,1), v(1,0,0), 1.0)
-	tri(v(0,0,0),v(1,0,0), v(0,1,0))
 	tri(v(2,0,0),v(3,0,0), v(2,1,0))
 	use_material("orange")
 	tri(v(2,3,0),v(3,3,0), v(2,4,0))
 	tri(v(3,3,0),v(4,3,0), v(3,4,0))
 	quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
+	use_material("red")
+	zbias(1, v(0,5,0), v(0,0,1))
+	text("ABCDEfghi Hello 1234", v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
+	zbias(0)
+	callmodel("blob")
 end
 poo = 0
 function test_dynamic()
@@ -21,6 +23,16 @@ function test_dynamic()
 	use_material("red")
 	cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
+end
+
+function blob_static()
+	dec_material("blue")
+	set_material("blue", 0,0,1)
+	use_material("blue")
+	cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
+	text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
+end
+function blob_dynamic()
 end
 	
 
@@ -51,4 +63,4 @@ x = hi(1)
 x("my friend")
 -- comment
 
-register_models("test")
+register_models("blob","test")
