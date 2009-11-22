@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 SUBDIRS = sbre/ collider/ missions/ lua/
 
-bin_PROGRAMS = pioneer sbreviewer
+bin_PROGRAMS = pioneer sbreviewer luamodelviewer
 noinst_LIBRARIES = libgui.a
 include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h GuiContainer.h GuiEvents.h GuiFixed.h \
 		Gui.h GuiImageButton.h GuiImage.h GuiImageRadioButton.h GuiLabel.h GuiMultiStateImageButton.h GuiRadioButton.h \
@@ -34,6 +34,9 @@ pioneer_LDADD = sbre/libsbre.a collider/libcollider.a missions/libmissions.a lua
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp ModelCollMeshData.cpp
 sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
+
+luamodelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp ModelCollMeshData.cpp lua_model_compiler.cpp
+luamodelviewer_LDADD = sbre/libsbre.a collider/libcollider.a lua/liblua.a libgui.a
 
 check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \

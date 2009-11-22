@@ -1,6 +1,28 @@
-function poo()
-	x = average(1,2,3,4,5);
+function test_static()
+	dec_material("red")
+	dec_material("orange")
+	set_material("red", 1,0,0)
+	set_material("orange", 1,0.5,0)
+	use_material("red")
+	cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
+	ring(32, v(5,0,0), v(5,5,0), v(1,0,0), 1.0)
+	circle(9, v(0,5,0), v(0,0,1), v(1,0,0), 1.0)
+	tri(v(0,0,0),v(1,0,0), v(0,1,0))
+	tri(v(2,0,0),v(3,0,0), v(2,1,0))
+	use_material("orange")
+	tri(v(2,3,0),v(3,3,0), v(2,4,0))
+	tri(v(3,3,0),v(4,3,0), v(3,4,0))
+	quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
 end
+poo = 0
+function test_dynamic()
+	poo = poo + 0.005
+	set_material("red", math.sin(poo)*math.sin(poo), 0.5, 0.5)
+	use_material("red")
+	cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
+	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
+end
+	
 
 x = v(1,2,3,5)+v(2,3,4)
 x = x-v(3,1,1)
@@ -18,5 +40,15 @@ a = v(z:len(), z:dot(y), z:len())
 a:print()
 print(v(1,0,0):dot(v(0.5,1,0):norm()))
 
-m = Model.new{name="myModel", radius=1.2, scale=10}
-print (m)
+function hi(x)
+	x = x + 1
+	return function(val)
+		print(tostring(x) .. " sod you " .. tostring(val))
+	end
+end
+
+x = hi(1)
+x("my friend")
+-- comment
+
+register_models("test")
