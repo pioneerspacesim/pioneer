@@ -16,7 +16,7 @@ done	cylinder(int steps, vector start, vector end, vector up, radius=float radiu
 	smooth(int steps, 
 	flat(int steps, vector normal,
 done	text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
-	subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
+done	subobject(object_name, vector pos, vector xaxis, vector yaxis, scale=float)
 	thruster(direction, vector position, float size)
 	geomflag(int)
 done	zbias(vector position, vector normal, int level)
@@ -31,32 +31,6 @@ extern "C" {
 
 #define VEC "Vec"
 #define MODEL "Model"
-
-static int average(lua_State *L)
-{
-	/* get number of arguments */
-	int n = lua_gettop(L);
-	double sum = 0;
-	int i;
-
-	/* loop through each argument */
-	for (i = 1; i <= n; i++)
-	{
-		/* total the arguments */
-		sum += lua_tonumber(L, i);
-	}
-
-	/* push the average */
-	lua_pushnumber(L, sum / n);
-
-	/* push the sum */
-	lua_pushnumber(L, sum);
-
-	printf("Sum %f, average %f\n", sum, sum/n);
-
-	/* return the number of results */
-	return 2;
-}
 
 namespace MyLuaVec {
 	static vector3f *checkVec (lua_State *L, int index)
@@ -80,9 +54,9 @@ namespace MyLuaVec {
 
 	static int Vec_new(lua_State *L)
 	{
-		double x = lua_tonumber(L, 1);
-		double y = lua_tonumber(L, 2);
-		double z = lua_tonumber(L, 3);
+		float x = lua_tonumber(L, 1);
+		float y = lua_tonumber(L, 2);
+		float z = lua_tonumber(L, 3);
 		vector3f *v = pushVec(L);
 		v->x = x;
 		v->y = y;
@@ -127,7 +101,7 @@ namespace MyLuaVec {
 	static int Vec_mul (lua_State *L)
 	{
 		vector3f *v;
-		double m;
+		float m;
 		if (lua_isnumber(L,1)) {
 			m = lua_tonumber(L, 1);
 			v = checkVec(L, 2);
@@ -143,7 +117,7 @@ namespace MyLuaVec {
 	static int Vec_div (lua_State *L)
 	{
 		vector3f *v1 = checkVec(L, 1);
-		double d = lua_tonumber(L, 2);
+		float d = lua_tonumber(L, 2);
 		vector3f *out = pushVec(L);
 		*out = (1.0/d) * (*v1);
 		return 1;
@@ -402,6 +376,79 @@ public:
 		PushIdx(vtxStart); PushIdx(vtxStart+steps); PushIdx(vtxStart+2*steps-1);
 	}
 
+	void PushTube(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float inner_radius, float outer_radius) {
+		const int vtxStart = m_vertices.size();
+
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+
+		m_vertices.resize(m_vertices.size() + 8*steps);
+
+		float ang = 0.0;
+		const float inc = 2.0f*M_PI / (float)steps;
+		for (int i=0; i<steps; i++, ang += inc) {
+			vector3f p = (sin(ang)*axis1 + cos(ang)*axis2);
+			vector3f p_inner = inner_radius * p;
+			vector3f p_outer = outer_radius * p;
+
+			m_vertices[vtxStart+i] = Vertex(start+p_outer, p);
+			m_vertices[vtxStart+i+steps] = Vertex(end+p_outer, p);
+			m_vertices[vtxStart+i+2*steps] = Vertex(start+p_inner, p);
+			m_vertices[vtxStart+i+3*steps] = Vertex(end+p_inner, p);
+
+			m_vertices[vtxStart+i+4*steps] = Vertex(start+p_outer, -dir);
+			m_vertices[vtxStart+i+5*steps] = Vertex(end+p_outer, dir);
+			m_vertices[vtxStart+i+6*steps] = Vertex(start+p_inner, -dir);
+			m_vertices[vtxStart+i+7*steps] = Vertex(end+p_inner, dir);
+		}
+
+		OpDrawElements(steps*4*3);
+		for (int i=0; i<steps-1; i++) {
+			PushIdx(vtxStart+i); PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps);
+			PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps+1); PushIdx(vtxStart+i+steps);
+			
+			PushIdx(vtxStart+i+2*steps);
+			PushIdx(vtxStart+i+steps+2*steps);
+			PushIdx(vtxStart+i+1+2*steps);
+			
+			PushIdx(vtxStart+i+1+2*steps);
+			PushIdx(vtxStart+i+steps+2*steps);
+			PushIdx(vtxStart+i+steps+1+2*steps);
+		}
+		PushIdx(vtxStart+steps-1); PushIdx(vtxStart); PushIdx(vtxStart+2*steps-1);
+		PushIdx(vtxStart); PushIdx(vtxStart+steps); PushIdx(vtxStart+2*steps-1);
+		
+		PushIdx(vtxStart+3*steps-1); PushIdx(vtxStart+4*steps-1); PushIdx(vtxStart+2*steps);
+		PushIdx(vtxStart+2*steps); PushIdx(vtxStart+4*steps-1); PushIdx(vtxStart+3*steps);
+
+		OpDrawElements(12*steps);
+		for (int i=0; i<steps-1; i++) {
+			// 'start' end
+			PushIdx(vtxStart+4*steps+i);
+			PushIdx(vtxStart+6*steps+i);
+			PushIdx(vtxStart+4*steps+i+1);
+			
+			PushIdx(vtxStart+4*steps+i+1);
+			PushIdx(vtxStart+6*steps+i);
+			PushIdx(vtxStart+6*steps+i+1);
+			// 'end' end *cough*
+			PushIdx(vtxStart+5*steps+i);
+			PushIdx(vtxStart+5*steps+i+1);
+			PushIdx(vtxStart+7*steps+i);
+			
+			PushIdx(vtxStart+5*steps+i+1);
+			PushIdx(vtxStart+7*steps+i+1);
+			PushIdx(vtxStart+7*steps+i);
+		}
+		// 'start' end
+		PushIdx(vtxStart+5*steps-1); PushIdx(vtxStart+7*steps-1); PushIdx(vtxStart+4*steps);
+		PushIdx(vtxStart+4*steps); PushIdx(vtxStart+7*steps-1); PushIdx(vtxStart+6*steps);
+		// 'end' end
+		PushIdx(vtxStart+6*steps-1); PushIdx(vtxStart+5*steps); PushIdx(vtxStart+8*steps-1);
+		PushIdx(vtxStart+5*steps); PushIdx(vtxStart+7*steps); PushIdx(vtxStart+8*steps-1);
+	}
+	
 	void PushCylinder(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
 		const int vtxStart = m_vertices.size();
 
@@ -715,6 +762,18 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	static int tube(lua_State *L)
+	{
+		int steps = luaL_checkint(L, 1);
+		vector3f *start = MyLuaVec::checkVec(L, 2);
+		vector3f *end = MyLuaVec::checkVec(L, 3);
+		vector3f *updir = MyLuaVec::checkVec(L, 4);
+		float inner_radius = lua_tonumber(L, 5);
+		float outer_radius = lua_tonumber(L, 6);
+		s_curModel->PushTube(steps, *start, *end, *updir, inner_radius, outer_radius);
+		return 0;
+	}
+
 	static int cylinder(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
@@ -809,6 +868,7 @@ void LuaModelCompilerInit()
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
 	lua_register(L, "cylinder", ModelFuncs::cylinder);
+	lua_register(L, "tube", ModelFuncs::tube);
 	lua_register(L, "ring", ModelFuncs::ring);
 	lua_register(L, "circle", ModelFuncs::circle);
 	lua_register(L, "text", ModelFuncs::text);
