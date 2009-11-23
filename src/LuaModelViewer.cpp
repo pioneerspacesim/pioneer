@@ -4,6 +4,7 @@
 #include "Gui.h"
 #include "collider/collider.h"
 #include "ModelCollMeshData.h"
+#include "lua_model_compiler.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
@@ -370,9 +371,11 @@ void Viewer::MainLoop()
 			m.z1 = (float)rot[2]; m.z2 = (float)rot[6]; m.z3 = (float)rot[10];
 			p.x = 0; p.y = 0; p.z = -distance;
 //			sbreRenderModel(&p, &m, g_model, &params);
-			matrix4x4d _m = rot;
+			matrix4x4f _m;
+			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
-			LuaModelRender("test", _m);
+		//	for (int i=0; i<100; i++)
+				LuaModelRender("test", _m);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
@@ -396,7 +399,9 @@ void Viewer::MainLoop()
 		lastTurd = SDL_GetTicks();
 	
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
-			printf("%d fps\n", numFrames);
+			int numTris = LuaModelGetStatsTris();
+			LuaModelClearStatsTris();
+			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
 		}
@@ -453,6 +458,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
 		}
 	}
+	glewInit();
 
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);

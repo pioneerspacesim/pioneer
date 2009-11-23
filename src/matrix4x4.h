@@ -16,7 +16,7 @@ class matrix4x4 {
 		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] = 
 		cell[14] = cell[15] = val;
 	}
-	matrix4x4 (T *vals) {
+	matrix4x4 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*16);
 	}
 	// row-major 3x3 matrix

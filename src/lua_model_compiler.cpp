@@ -219,14 +219,27 @@ static float NEWMODEL_ZBIAS = 0.0002f;
 static NewModel *s_curModel;
 static std::map<std::string, NewModel*> s_models;
 static lua_State *sLua;
+static int s_numTrisRendered;
 
-static void LuaModelRender(NewModel *m, const matrix4x4d &pos);
+static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4x4f &pos);
+
+int LuaModelGetStatsTris() { return s_numTrisRendered; }
+void LuaModelClearStatsTris() { s_numTrisRendered = 0; }
+
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+//#define USE_VBO 0
 
 class NewModel {
 public:
 	NewModel(std::string name) {
 		curOp.type = OP_NONE;
 		m_name = name;
+		m_vertexBuffer = 0;
+		m_indexBuffer = 0;
+	}
+	~NewModel() {
+		if (m_vertexBuffer) glDeleteBuffersARB(1, &m_vertexBuffer);
+		if (m_indexBuffer) glDeleteBuffersARB(1, &m_indexBuffer);
 	}
 	const std::string &GetName() const { return m_name; }
 	int GetIndicesPos() const {
@@ -244,6 +257,19 @@ public:
 			m_indicesEndStatic = m_indices.size();
 			m_opsEndStatic = m_ops.size();
 			printf("%d vertices, %d indices, %d ops\n", m_vertices.size(), m_indices.size(), m_ops.size());
+			if (USE_VBO) {
+				glGenBuffersARB(1, &m_vertexBuffer);
+				glGenBuffersARB(1, &m_indexBuffer);
+				
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_indices.size(),
+						&m_indices[0], GL_STATIC_DRAW);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			
+				glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
+				glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*m_vertices.size(), &m_vertices[0], GL_STATIC_DRAW);
+				glBindBufferARB(GL_ARRAY_BUFFER, 0);
+			}
 		}
 		curOp.type = OP_NONE;
 	}
@@ -253,20 +279,38 @@ public:
 		m_ops.resize(m_opsEndStatic);
 	}
 	void Render(const vector3f &cameraPos) {
+		RenderPart(false, cameraPos);
+		RenderPart(true, cameraPos);
+		s_numTrisRendered += m_indices.size()/3;
+	}
+	void RenderPart(bool dynamic, const vector3f &cameraPos) {
 		glEnable(GL_LIGHTING);
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_NORMAL_ARRAY);
-		glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
-		glVertexPointer(3, GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].v);
+		if (USE_VBO && !dynamic) {
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
+			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
+			glNormalPointer(GL_FLOAT, sizeof(Vertex), (void *)(3*sizeof(float)));
+			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+		} else {
+			glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
+			glVertexPointer(3, GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].v);
+		}
 
 		glDepthRange(0.0, 1.0);
 
-		for (unsigned int i=0; i<m_ops.size(); i++) {
+		const unsigned int opStartIdx = (dynamic ? m_opsEndStatic : 0);
+		const unsigned int opEndIdx = (dynamic ? m_ops.size() : m_opsEndStatic);
+		for (unsigned int i=opStartIdx; i<opEndIdx; i++) {
 			const Op &op = m_ops[i];
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
-				//printf("Draw %d elems, start %d\n", op.elems.count, op.elems.start);
-				glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
+				if (USE_VBO && !dynamic) {
+					glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
+				} else {
+					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
+				}
 				break;
 			case OP_SET_MATERIAL:
 				{
@@ -291,8 +335,9 @@ public:
 #warning only works after other geom...
 				{
 				s_curModel = op.callmodel.model;
-				matrix4x4d m = matrix4x4d::Identity();
-				LuaModelRender(op.callmodel.model, m);
+				const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
+				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
+				LuaModelRender(op.callmodel.model, cam_pos, trans);
 				s_curModel = this;
 				}
 				break;
@@ -303,6 +348,12 @@ public:
 		
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
+
+		if (USE_VBO && !dynamic) {
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+		}
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
 		m_vertices.push_back(Vertex(pos, normal));
@@ -310,9 +361,9 @@ public:
 	}
 	void PushTri(int i1, int i2, int i3) {
 		OpDrawElements(3);
-		m_indices.push_back(i1);
-		m_indices.push_back(i2);
-		m_indices.push_back(i3);
+		PushIdx(i1);
+		PushIdx(i2);
+		PushIdx(i3);
 	}
 	
 	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
@@ -417,9 +468,10 @@ public:
 		}
 	}
 
-	void PushCallModel(NewModel *m) {
+	void PushCallModel(NewModel *m, const matrix4x4f &transform) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_CALL_MODEL;
+		memcpy(curOp.callmodel.transform, &transform[0], 16*sizeof(float));
 		curOp.callmodel.model = m;
 	}
 
@@ -471,10 +523,10 @@ public:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { int start, count; } elems;
+			struct { int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
-			struct { NewModel *model; } callmodel;
+			struct { NewModel *model; float transform[16]; } callmodel;
 		};
 	};
 private:
@@ -484,6 +536,8 @@ private:
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
 			curOp.elems.count = 0;
+			curOp.elems.elemMin = 1<<30;
+			curOp.elems.elemMax = 0;
 		}
 		curOp.elems.count += numIndices;
 	}
@@ -491,6 +545,8 @@ private:
 		m_ops.push_back(curOp);
 	}
 	void PushIdx(Uint16 v) {
+		curOp.elems.elemMin = MIN(v, curOp.elems.elemMin);
+		curOp.elems.elemMax = MAX(v, curOp.elems.elemMax);
 		m_indices.push_back(v);
 	}
 
@@ -518,13 +574,15 @@ private:
 	int m_indicesEndStatic;
 	int m_opsEndStatic;
 	std::string m_name;
+	GLuint m_vertexBuffer;
+	GLuint m_indexBuffer;
 };
 
-static void LuaModelRender(NewModel *m, const matrix4x4d &pos)
+static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4x4f &trans)
 {
 	s_curModel = m;
 	glPushMatrix();
-	glMultMatrixd(&pos[0]);
+	glMultMatrixf(&trans[0]);
 
 	// call model dynamic bits
 	char buf[256];
@@ -533,29 +591,41 @@ static void LuaModelRender(NewModel *m, const matrix4x4d &pos)
 	lua_call(sLua, 0, 0);
 	s_curModel->Build();
 
-	const vector3f cam_pos(-pos[12], -pos[13], -pos[14]);
-#warning cam_pos will be wrong for submodels
-	s_curModel->Render(cam_pos);
+	s_curModel->Render(cameraPos);
 	s_curModel->FreeDynamicGeometry();
 	s_curModel = 0;
 	glPopMatrix();
 }
 
-void LuaModelRender(const char *name, const matrix4x4d &pos)
+void LuaModelRender(const char *name, const matrix4x4f &trans)
 {
-	LuaModelRender(s_models[name], pos);
+	LuaModelRender(s_models[name], vector3f(-trans[12], -trans[13], -trans[14]), trans);
 }
 
 namespace ModelFuncs {
 	static int callmodel(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
-//	subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
+//	subobject(object_name, vector pos, vector xaxis, vector yaxis [, scale=float, onflag=])
 		NewModel *m = s_models[obj_name];
 		if (!m) {
 			luaL_error(L, "callmodel() to undefined model. Referenced model must be registered before calling model");
 		} else {
-			s_curModel->PushCallModel(m);
+			vector3f *pos = MyLuaVec::checkVec(L, 2);
+			vector3f *_xaxis = MyLuaVec::checkVec(L, 3);
+			vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
+			float scale = luaL_checknumber(L, 5);
+
+			vector3f zaxis = vector3f::Cross(*_xaxis, *_yaxis).Normalized();
+			vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
+			vector3f yaxis = vector3f::Cross(zaxis, xaxis);
+
+			matrix4x4f trans = matrix4x4f::MakeRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
+			trans[12] = pos->x;
+			trans[13] = pos->y;
+			trans[14] = pos->z;
+
+			s_curModel->PushCallModel(m, trans);
 		}
 		return 0;
 	}
