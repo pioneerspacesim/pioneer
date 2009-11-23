@@ -11,9 +11,9 @@ done	triangle(vector v1, vector v2, vector v3)
 done	quad(vector v1, vector v2, vector v3, vector v4)
 done	circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
 done	cylinder(int steps, vector start, vector end, vector up, radius=float radius)
-	tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
+done	tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
 	extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
-	smooth(int steps, 
+~diff	smooth(int steps, 
 	flat(int steps, vector normal,
 done	text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
 done	subobject(object_name, vector pos, vector xaxis, vector yaxis, scale=float)
@@ -205,16 +205,18 @@ void LuaModelClearStatsTris() { s_numTrisRendered = 0; }
 
 class NewModel {
 public:
-	NewModel(std::string name) {
+	NewModel(std::string name, bool hasDynamicFunc) {
 		curOp.type = OP_NONE;
 		m_name = name;
 		m_vertexBuffer = 0;
 		m_indexBuffer = 0;
+		m_hasDynamicFunc = hasDynamicFunc;
 	}
 	~NewModel() {
 		if (m_vertexBuffer) glDeleteBuffersARB(1, &m_vertexBuffer);
 		if (m_indexBuffer) glDeleteBuffersARB(1, &m_indexBuffer);
 	}
+	bool GetHasDynamicFunc() const { return m_hasDynamicFunc; }
 	const std::string &GetName() const { return m_name; }
 	int GetIndicesPos() const {
 		return m_indices.size();
@@ -623,6 +625,7 @@ private:
 	std::string m_name;
 	GLuint m_vertexBuffer;
 	GLuint m_indexBuffer;
+	bool m_hasDynamicFunc;
 };
 
 static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4x4f &trans)
@@ -631,15 +634,19 @@ static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 
-	// call model dynamic bits
-	char buf[256];
-	snprintf(buf, sizeof(buf), "%s_dynamic", m->GetName().c_str());
-	lua_getfield(sLua, LUA_GLOBALSINDEX, buf);
-	lua_call(sLua, 0, 0);
-	s_curModel->Build();
+	if (s_curModel->GetHasDynamicFunc()) {
+		// call model dynamic bits
+		char buf[256];
+		snprintf(buf, sizeof(buf), "%s_dynamic", m->GetName().c_str());
+		lua_getfield(sLua, LUA_GLOBALSINDEX, buf);
+		lua_call(sLua, 0, 0);
+		s_curModel->Build();
+	}
 
 	s_curModel->Render(cameraPos);
-	s_curModel->FreeDynamicGeometry();
+	if (s_curModel->GetHasDynamicFunc()) {
+		s_curModel->FreeDynamicGeometry();
+	}
 	s_curModel = 0;
 	glPopMatrix();
 }
@@ -674,6 +681,114 @@ namespace ModelFuncs {
 
 			s_curModel->PushCallModel(m, trans);
 		}
+		return 0;
+	}
+
+	static vector3f eval_quadric_bezier3d(const vector3f p[9], float u, float v)
+	{
+		vector3f out(0.0f);
+		float Bu[3] = { (1.0f-u)*(1.0f-u), 2.0f*u*(1.0f-u), u*u };
+		float Bv[3] = { (1.0f-v)*(1.0f-v), 2.0f*v*(1.0f-v), v*v };
+		for (int i=0; i<3; i++) {
+			for (int j=0; j<3; j++) {
+				out += p[i+3*j] * Bu[i] * Bv[j];
+			}
+		}
+		return out;
+	}
+
+	static int quadric_bezier(lua_State *L)
+	{
+		vector3f pts[9];
+		const int divs = luaL_checkint(L, 1);
+		for (int i=0; i<9; i++) {
+			pts[i] = *MyLuaVec::checkVec(L, i+2);
+		}
+
+		const int vtxStart = s_curModel->GetVerticesPos();
+
+		float inc = 1.0f / (float)divs;
+		float u,v;
+		u = v = 0;
+		for (int i=0; i<=divs; i++, u += inc) {
+			v = 0;
+			for (int j=0; j<=divs; j++, v += inc) {
+				vector3f p = eval_quadric_bezier3d(pts, u, v);
+				// this is a very inefficient way of
+				// calculating normals...
+				vector3f pu = eval_quadric_bezier3d(pts, u+0.5f, v);
+				vector3f pv = eval_quadric_bezier3d(pts, u, v+0.5f);
+				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
+
+				s_curModel->PushVertex(p, norm);
+			}
+		}
+
+		for (int i=0; i<divs; i++) {
+			int baseVtx = vtxStart + (divs+1)*i;
+			for (int j=0; j<divs; j++) {
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+1);
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+(divs+1), baseVtx+j+1+(divs+1));
+			}
+		}
+
+		return 0;
+	}
+
+	static vector3f eval_cubic_bezier3d(const vector3f p[16], float u, float v)
+	{
+		vector3f out(0.0f);
+		float Bu[4] = { (1.0f-u)*(1.0f-u)*(1.0f-u),
+			3.0f*(1.0f-u)*(1.0f-u)*u,
+			3.0f*(1.0f-u)*u*u,
+			u*u*u };
+		float Bv[4] = { (1.0f-v)*(1.0f-v)*(1.0f-v),
+			3.0f*(1.0f-v)*(1.0f-v)*v,
+			3.0f*(1.0f-v)*v*v,
+			v*v*v };
+		for (int i=0; i<4; i++) {
+			for (int j=0; j<4; j++) {
+				out += p[i+4*j] * Bu[i] * Bv[j];
+			}
+		}
+		return out;
+	}
+
+	static int cubic_bezier(lua_State *L)
+	{
+		vector3f pts[16];
+		const int divs = luaL_checkint(L, 1);
+		for (int i=0; i<16; i++) {
+			pts[i] = *MyLuaVec::checkVec(L, i+2);
+		}
+
+		const int vtxStart = s_curModel->GetVerticesPos();
+
+		float inc = 1.0f / (float)divs;
+		float u,v;
+		u = v = 0;
+		for (int i=0; i<=divs; i++, u += inc) {
+			v = 0;
+			for (int j=0; j<=divs; j++, v += inc) {
+				vector3f p = eval_cubic_bezier3d(pts, u, v);
+				// this is a very inefficient way of
+				// calculating normals...
+				vector3f pu = eval_cubic_bezier3d(pts, u+0.5f, v);
+				vector3f pv = eval_cubic_bezier3d(pts, u, v+0.5f);
+				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
+
+				s_curModel->PushVertex(p, norm);
+			}
+		}
+
+		for (int i=0; i<divs; i++) {
+			int baseVtx = vtxStart + (divs+1)*i;
+			for (int j=0; j<divs; j++) {
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+1);
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+(divs+1), baseVtx+j+1+(divs+1));
+			}
+		}
+
 		return 0;
 	}
 
@@ -835,16 +950,23 @@ static int register_models(lua_State *L)
 	int n = lua_gettop(L);
 
 	for (int i = 1; i <= n; i++) {
+		char buf[256];
 		const char *model_name = luaL_checkstring(L, i);
-		s_curModel = new NewModel(model_name);
+		
+		snprintf(buf, sizeof(buf), "%s_dynamic", model_name);
+		lua_getglobal(L, buf);
+		int has_dynamic_func = lua_isfunction(L, -1);
+		
+		s_curModel = new NewModel(model_name, has_dynamic_func);
 		s_models[model_name] = s_curModel;
 		printf("Model %s\n", model_name);
-		char buf[256];
+		printf("Has dynamic? %s\n", has_dynamic_func ? "yes" : "no");
 		snprintf(buf, sizeof(buf), "%s_static", model_name);
 		// call model static building function
 		lua_getfield(L, LUA_GLOBALSINDEX, buf);
 		lua_call(L, 0, 0);
 		s_curModel->Build();
+		
 	}
 	return 0;
 }
@@ -874,6 +996,8 @@ void LuaModelCompilerInit()
 	lua_register(L, "text", ModelFuncs::text);
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "callmodel", ModelFuncs::callmodel);
+	lua_register(L, "bezier_3x3", ModelFuncs::quadric_bezier);
+	lua_register(L, "bezier_4x4", ModelFuncs::cubic_bezier);
 
 	s_buildDynamic = false;
 	if (luaL_dofile(L, "models.lua")) {
