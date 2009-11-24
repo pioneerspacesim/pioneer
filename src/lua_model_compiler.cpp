@@ -12,7 +12,7 @@ done	quad(vector v1, vector v2, vector v3, vector v4)
 done	circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
 done	cylinder(int steps, vector start, vector end, vector up, radius=float radius)
 done	tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
-	extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
+done	extrusion(vector start, vector end, vector up, radius, v1, v2, v3, ... )
 ~diff	smooth(int steps, 
 	flat(int steps, vector normal,
 done	text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
@@ -612,6 +612,10 @@ public:
 		return start;
 	}
 
+	const vector3f &GetVertex(int num) const {
+		return m_vertices[num].v;
+	}
+
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
 			OP_CALL_MODEL };
 
@@ -727,6 +731,74 @@ namespace ModelFuncs {
 
 			s_curModel->PushCallModel(m, trans);
 		}
+		return 0;
+	}
+
+	static int extrusion(lua_State *L)
+	{
+		const vector3f *start = MyLuaVec::checkVec(L, 1);
+		const vector3f *end = MyLuaVec::checkVec(L, 2);
+		const vector3f *updir = MyLuaVec::checkVec(L, 3);
+		const float radius = luaL_checknumber(L, 4);
+
+#define EXTRUSION_MAX_VTX 32
+		int steps = lua_gettop(L)-4;
+		if (steps > EXTRUSION_MAX_VTX) {
+			luaL_error(L, "extrusion() takes at most %d points", EXTRUSION_MAX_VTX);
+		}
+		vector3f evtx[EXTRUSION_MAX_VTX];
+
+		for (int i=0; i<steps; i++) {
+			evtx[i] = *MyLuaVec::checkVec(L, i+5);
+			printf("Extrusion vtx %f,%f,%f\n",
+					evtx[i].x,
+					evtx[i].y,
+					evtx[i].z);
+		}
+
+		const int vtxStart = s_curModel->AllocVertices(6*steps);
+
+		vector3f yax = *updir;
+		vector3f xax, zax;
+		zax = ((*end) - (*start)).Normalized();
+		xax = vector3f::Cross(yax, zax);
+
+		for (int i=0; i<steps; i++) {
+			vector3f tv, norm;
+			tv = xax * evtx[i].x;
+			norm = yax * evtx[i].y;
+			norm = norm + tv;
+
+			vector3f p1 = norm * radius;
+			s_curModel->SetVertex(vtxStart + i, (*start) + p1, -zax);
+			s_curModel->SetVertex(vtxStart + i + steps, (*end) + p1, zax);
+		}
+
+		for (int i=0; i<steps-1; i++) {
+			// top cap
+			s_curModel->PushTri(vtxStart, vtxStart+i+1, vtxStart+i);
+			// bottom cap
+			s_curModel->PushTri(vtxStart+steps, vtxStart+steps+i, vtxStart+steps+i+1);
+		}
+
+		// sides
+		for (int i=0; i<steps; i++) {
+			const vector3f &v1 = s_curModel->GetVertex(vtxStart + i);
+			const vector3f &v2 = s_curModel->GetVertex(vtxStart + (i + 1)%steps);
+			const vector3f &v3 = s_curModel->GetVertex(vtxStart + i + steps);
+			const vector3f &v4 = s_curModel->GetVertex(vtxStart + (i + 1)%steps + steps);
+			const vector3f norm = vector3f::Cross(v2-v1, v3-v1).Normalized();
+
+			const int idx = vtxStart + 2*steps + i*4;
+			s_curModel->SetVertex(idx, v1, norm);
+			s_curModel->SetVertex(idx+1, v2, norm);
+			s_curModel->SetVertex(idx+2, v3, norm);
+			s_curModel->SetVertex(idx+3, v4, norm);
+
+			s_curModel->PushTri(idx, idx+1, idx+3);
+			s_curModel->PushTri(idx, idx+3, idx+2);
+		}
+
 		return 0;
 	}
 
@@ -1185,6 +1257,7 @@ void LuaModelCompilerInit()
 	lua_register(L, "xref_bezier_3x3", ModelFuncs::xref_quadric_bezier);
 	lua_register(L, "bezier_4x4", ModelFuncs::cubic_bezier);
 	lua_register(L, "xref_bezier_4x4", ModelFuncs::xref_cubic_bezier);
+	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "callmodel", ModelFuncs::callmodel);
