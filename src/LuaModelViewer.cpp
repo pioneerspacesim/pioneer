@@ -11,7 +11,7 @@ static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
-static int g_model = 0; // sbre model number. set with argc
+static LmrModel *g_model;
 static float g_zbias;
 
 static GLuint mytexture;
@@ -201,7 +201,7 @@ void Viewer::SetSbreParams()
 }
 
 
-static void render_coll_mesh(const CollMesh *m)
+static void render_coll_mesh(const LmrCollMesh *m)
 {
 	glDisable(GL_LIGHTING);
 	glColor3f(1,0,1);
@@ -310,8 +310,6 @@ static void onCollision(CollisionContact *c)
 //	printf("%d: %d\n", SDL_GetTicks(), c->triIdx);
 }
 
-extern void LuaModelRender(const char*, const matrix4x4d &);
-
 void Viewer::MainLoop()
 {
 	matrix4x4d rot = matrix4x4d::Identity();
@@ -320,9 +318,8 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	const CollMeshSet *mset = GetModelCollMeshSet(g_model);
-	CollMesh *cmesh = mset->sbreCollMesh;
-	GeomTree *geomtree = mset->m_geomTree;
+	const LmrCollMesh *cmesh = new LmrCollMesh(g_model);
+	GeomTree *geomtree = cmesh->geomTree;
 	distance = 10.0;//2.0*sbreGetModelRadius(g_model);
 	
 
@@ -375,7 +372,7 @@ void Viewer::MainLoop()
 			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
 		//	for (int i=0; i<100; i++)
-				LuaModelRender("test", _m);
+				LmrModelRender("test", _m);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
@@ -399,8 +396,8 @@ void Viewer::MainLoop()
 		lastTurd = SDL_GetTicks();
 	
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
-			int numTris = LuaModelGetStatsTris();
-			LuaModelClearStatsTris();
+			int numTris = LmrModelGetStatsTris();
+			LmrModelClearStatsTris();
 			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
@@ -411,16 +408,13 @@ void Viewer::MainLoop()
 	delete geomtree;
 }
 
-extern void LuaModelCompilerInit();
+extern void LmrModelCompilerInit();
 
 int main(int argc, char **argv)
 {
 	if ((argc>1) && (0==strcmp(argv[1],"--help"))) {
 		printf("Usage:\n\nSbreViewer <model number> <width> <height>\n");
 		exit(0);
-	}
-	if (argc > 1) {
-		g_model = 0;//sbreLookupModelByName(argv[1]);
 	}
 	if (argc == 4) {
 		g_width = atoi(argv[2]);
@@ -479,8 +473,11 @@ int main(int argc, char **argv)
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
 	GLFTInit();
-	LuaModelCompilerInit();
+	LmrModelCompilerInit();
 	Gui::Init(g_width, g_height, g_width, g_height);
+	if (argc > 1) {
+		g_model = LmrLookupModelByName(argv[1]);
+	}
 
 	Viewer v;
 	v.MainLoop();

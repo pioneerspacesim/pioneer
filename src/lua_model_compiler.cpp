@@ -1,6 +1,8 @@
 #include "libs.h"
 #include <map>
 #include "glfreetype.h"
+#include "lua_model_compiler.h"
+#include "collider/collider.h"
 
 /*
  * TODO
@@ -221,34 +223,34 @@ namespace MyLuaVec {
 	}
 } /* namespace MyLuaVec */
 
-class NewModel;
+class LmrModel;
 
 static bool s_buildDynamic;
 static FontFace *s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
-static NewModel *s_curModel;
-static std::map<std::string, NewModel*> s_models;
+static LmrModel *s_curModel;
+static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
 
-static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4x4f &pos);
+static void LmrModelRender(LmrModel *m, const vector3f &cameraPos, const matrix4x4f &pos);
 
-int LuaModelGetStatsTris() { return s_numTrisRendered; }
-void LuaModelClearStatsTris() { s_numTrisRendered = 0; }
+int LmrModelGetStatsTris() { return s_numTrisRendered; }
+void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 //#define USE_VBO 0
 	
-class NewModel {
+class LmrModel {
 public:
-	NewModel(std::string name, bool hasDynamicFunc) {
+	LmrModel(std::string name, bool hasDynamicFunc) {
 		curOp.type = OP_NONE;
 		m_name = name;
 		m_vertexBuffer = 0;
 		m_indexBuffer = 0;
 		m_hasDynamicFunc = hasDynamicFunc;
 	}
-	~NewModel() {
+	~LmrModel() {
 		if (m_vertexBuffer) glDeleteBuffersARB(1, &m_vertexBuffer);
 		if (m_indexBuffer) glDeleteBuffersARB(1, &m_indexBuffer);
 	}
@@ -349,7 +351,7 @@ public:
 				s_curModel = op.callmodel.model;
 				const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
 				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
-				LuaModelRender(op.callmodel.model, cam_pos, trans);
+				LmrModelRender(op.callmodel.model, cam_pos, trans);
 				s_curModel = this;
 				}
 				break;
@@ -556,7 +558,7 @@ public:
 		}
 	}
 
-	void PushCallModel(NewModel *m, const matrix4x4f &transform) {
+	void PushCallModel(LmrModel *m, const matrix4x4f &transform) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_CALL_MODEL;
 		memcpy(curOp.callmodel.transform, &transform[0], 16*sizeof(float));
@@ -616,6 +618,32 @@ public:
 		return m_vertices[num].v;
 	}
 
+	void GetCollMeshGeometry(LmrCollMesh *c) {
+		memset(c, 0, sizeof(LmrCollMesh));
+		c->nv = m_vertices.size();
+		c->ni = m_indices.size();
+		c->m_numTris = c->ni/3;
+		c->pVertex = new float[3*c->nv];
+		c->pIndex = new int[c->ni];
+		c->pFlag = new int[c->ni/3]; // one per triangle
+		c->m_aabb.min = vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
+		c->m_aabb.max = vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+		for (unsigned int i=0; i<m_vertices.size(); i++) {
+			const vector3f &v = m_vertices[i].v;
+			c->pVertex[3*i] = v.x;
+			c->pVertex[3*i+1] = v.y;
+			c->pVertex[3*i+2] = v.z;
+			c->m_aabb.Update(v);
+		}
+		for (unsigned int i=0; i<m_indices.size(); i++) {
+			c->pIndex[i] = m_indices[i];
+		}
+		for (int i=0; i<c->m_numTris; i++) {
+			c->pFlag[i] = 0;
+		}
+		c->m_radius = MAX(c->m_aabb.min.Length(), c->m_aabb.max.Length());
+	}
+
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
 			OP_CALL_MODEL };
 
@@ -625,7 +653,7 @@ public:
 			struct { int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
-			struct { NewModel *model; float transform[16]; } callmodel;
+			struct { LmrModel *model; float transform[16]; } callmodel;
 		};
 	};
 private:
@@ -678,7 +706,30 @@ private:
 	bool m_hasDynamicFunc;
 };
 
-static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4x4f &trans)
+LmrCollMesh::LmrCollMesh(LmrModel *m)
+{
+#warning calls to submodels are not adding geometry to this mesh
+	s_curModel = m;
+	
+	if (s_curModel->GetHasDynamicFunc()) {
+		// call model dynamic bits
+		char buf[256];
+		snprintf(buf, sizeof(buf), "%s_dynamic", m->GetName().c_str());
+		lua_getfield(sLua, LUA_GLOBALSINDEX, buf);
+		lua_call(sLua, 0, 0);
+		s_curModel->Build();
+	}
+	s_curModel->GetCollMeshGeometry(this);
+	if (s_curModel->GetHasDynamicFunc()) {
+		s_curModel->FreeDynamicGeometry();
+	}
+	s_curModel = 0;
+
+	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
+}
+
+
+static void LmrModelRender(LmrModel *m, const vector3f &cameraPos, const matrix4x4f &trans)
 {
 	s_curModel = m;
 	glPushMatrix();
@@ -701,17 +752,27 @@ static void LuaModelRender(NewModel *m, const vector3f &cameraPos, const matrix4
 	glPopMatrix();
 }
 
-void LuaModelRender(const char *name, const matrix4x4f &trans)
+void LmrModelRender(const char *name, const matrix4x4f &trans)
 {
-	LuaModelRender(s_models[name], vector3f(-trans[12], -trans[13], -trans[14]), trans);
+	LmrModelRender(s_models[name], vector3f(-trans[12], -trans[13], -trans[14]), trans);
 }
+
+LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException)
+{
+	std::map<std::string, LmrModel*>::iterator i = s_models.find(name);
+
+	if (i == s_models.end()) {
+		throw LmrModelNotFoundException();
+	}
+	return (*i).second;
+}	
 
 namespace ModelFuncs {
 	static int callmodel(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
 //	subobject(object_name, vector pos, vector xaxis, vector yaxis [, scale=float, onflag=])
-		NewModel *m = s_models[obj_name];
+		LmrModel *m = s_models[obj_name];
 		if (!m) {
 			luaL_error(L, "callmodel() to undefined model. Referenced model must be registered before calling model");
 		} else {
@@ -1209,7 +1270,7 @@ static int register_models(lua_State *L)
 		lua_getglobal(L, buf);
 		int has_dynamic_func = lua_isfunction(L, -1);
 		
-		s_curModel = new NewModel(model_name, has_dynamic_func);
+		s_curModel = new LmrModel(model_name, has_dynamic_func);
 		s_models[model_name] = s_curModel;
 		printf("Model %s\n", model_name);
 		printf("Has dynamic? %s\n", has_dynamic_func ? "yes" : "no");
@@ -1223,7 +1284,7 @@ static int register_models(lua_State *L)
 	return 0;
 }
 
-void LuaModelCompilerInit()
+void LmrModelCompilerInit()
 {
 	assert(s_font = new FontFace ("font.ttf"));
 
