@@ -1,3 +1,10 @@
+function mybuilding_static()
+	dec_material("red")
+	set_material("red", 1,0,0)
+	use_material("red")
+	xref_tube(64, v(0,0,0), v(0,100,0), v(1,0,0), 20, 40)
+end
+
 function test_static()
 	dec_material("red")
 	dec_material("shinyred")
@@ -79,4 +86,4 @@ x = hi(1)
 x("my friend")
 -- comment
 
-register_models("blob","test")
+register_models("blob","test","mybuilding")

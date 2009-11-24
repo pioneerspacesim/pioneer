@@ -28,6 +28,7 @@
 #include "Galaxy.h"
 #include "GameMenuView.h"
 #include "Missile.h"
+#include "lua_model_compiler.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -160,6 +161,7 @@ void Pi::Init(IniConfig &config)
 	if (config.Int("UseVertexShaders")) Shader::Init();
 
 	GLFTInit();
+	LmrModelCompilerInit();
 	GeoSphere::Init();
 	Space::Init();
 	Polit::Init();
@@ -808,12 +810,14 @@ void Pi::MainLoop()
 		currentView->Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
+			Pi::statSceneTris += LmrModelGetStatsTris();
 			snprintf(fps_readout, sizeof(fps_readout), "%d fps, %d phys updates, %d triangles, %.3f M tris/sec", frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6);
 			frame_stat = 0;
 			phys_stat = 0;
 			last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
+		LmrModelClearStatsTris();
 
 #ifdef MAKING_VIDEO
 		if (SDL_GetTicks() - last_screendump > 50) {

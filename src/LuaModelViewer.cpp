@@ -372,7 +372,7 @@ void Viewer::MainLoop()
 			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
 		//	for (int i=0; i<100; i++)
-				LmrModelRender("test", _m);
+				LmrModelRender(g_model, _m);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();

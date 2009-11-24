@@ -752,9 +752,9 @@ static void LmrModelRender(LmrModel *m, const vector3f &cameraPos, const matrix4
 	glPopMatrix();
 }
 
-void LmrModelRender(const char *name, const matrix4x4f &trans)
+void LmrModelRender(LmrModel *m, const matrix4x4f &trans)
 {
-	LmrModelRender(s_models[name], vector3f(-trans[12], -trans[13], -trans[14]), trans);
+	LmrModelRender(m, vector3f(-trans[12], -trans[13], -trans[14]), trans);
 }
 
 LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException)

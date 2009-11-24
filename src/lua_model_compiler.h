@@ -11,7 +11,7 @@ class GeomTree;
 void LmrModelCompilerInit();
 struct LmrModelNotFoundException {};
 LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException);
-void LmrModelRender(const char *name, const matrix4x4f &transform);
+void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
 
