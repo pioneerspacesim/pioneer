@@ -1,0 +1,383 @@
+
+model(wind_turbine_blade, scale=1.0, radius=1.0) {
+	lod { full, 5px }
+	objlod a = { 8, 4 }
+	cylinder(a, v(0,0,0), v(0,0,.1), v(0,1,0), radius=0.065)
+	tri(v(-.065, 0, 0.03), v(.065, 0, 0.07), v(0, 1, 0.05))
+	tri(v(0.0325, 0.056, 0.03), v(-.0325, -.056, 0.07), v(0.87, -0.5, 0.05))
+	tri(v(0.0325, -.056, 0.03), v(-.0325, 0.056, 0.07), v(-.87, -0.5, 0.05))
+	# back faces
+	tri(v(.065, 0, 0.07), v(-.065, 0, 0.03), v(0, 1, 0.05))
+	tri(v(-.0325, -.056, 0.07), v(0.0325, 0.056, 0.03), v(0.87, -0.5, 0.05))
+	tri(v(-.0325, 0.056, 0.07), v(0.0325, -.056, 0.03), v(-.87, -0.5, 0.05))
+}
+
+model(wind_turbine1, scale=2.0, radius=10.0) {
+	lod { full, 5px, 2px }
+	objlod a = { 8, 4, 4 }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	cylinder(a, v(0,0,0), v(0,20,0), v(0,0,1), radius=0.6)
+	lod1:lod2:cylinder(a, v(0,20,1), v(0,20,-1), v(0,1,0), radius=0.7)
+	minhand = vrotate(v(0,0,1), v(1,0,0), animfn=lin4sec)
+	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
+}
+model(wind_turbine2, scale=2.0, radius=10.0) {
+	lod { full, 5px, 2px }
+	objlod a = { 8, 4, 4 }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	cylinder(a, v(0,0,0), v(0,20,0), v(0,0,1), radius=0.6)
+	lod1:lod2:cylinder(a, v(0,20,1), v(0,20,-1), v(0,1,0), radius=0.7)
+	minhand = vrotate(v(0,0,1), n(1,-1,0), animfn=lin4sec)
+	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
+}
+model(wind_turbine3, scale=2.0, radius=10.0) {
+	lod { full, 5px, 2px }
+	objlod a = { 8, 4, 4 }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	cylinder(a, v(0,0,0), v(0,20,0), v(0,0,1), radius=0.6)
+	lod1:lod2:cylinder(a, v(0,20,1), v(0,20,-1), v(0,1,0), radius=0.7)
+	minhand = vcross(v(0,0,1), n(-1,-1,0))
+	lod1:lod2:subobject(wind_turbine_blade, v(0,20,1), minhand, v(0,0,1), scale=12.0)
+}
+
+model(skyscraper1, scale=1.0, radius=300.0) {
+	# Inset black bit
+	# h g
+	#
+	# e f
+	# d c
+	# a b
+	a = v(-20,0,10)
+	b = v(20,0,10)
+	c = v(20,40,10)
+	d = v(-20,40,10)
+	e = v(-20,48,10)
+	f = v(20,48,10)
+	g = v(20,200,10)
+	h = v(-20,200,10)
+	material(.2,.2,.2, .7,.7,.7, 10, 0,0,0)
+	quad(a,b,c,d)
+	quad(e,f,g,h)
+	# Outset
+	# h2 g2
+	#
+	# e2 f2
+	# d2 c2
+	# a2 b2
+	a2 = v(-20,0,15)
+	b2 = v(20,0,15)
+	c2 = v(20,40,15)
+	d2 = v(-20,40,15)
+	e2 = v(-20,48,15)
+	f2 = v(20,48,15)
+	g2 = v(20,200,15)
+	h2 = v(-20,200,15)
+	material(.9,.9,.9, 0,0,0, 0, 0,0,0)
+	# inset bits
+	quad(b,b2,c2,c)
+	quad(d,c,c2,d2)
+	quad(a,d,d2,a2)
+	quad(f,e,e2,f2)
+	quad(g,f,f2,g2)
+	quad(h,g,g2,h2)
+	quad(e,h,h2,e2)
+	# front face
+	# fd fc
+	# fa fb
+	fa = v(-30,0,15)
+	fb = v(30,0,15)
+	fc = v(30,210,15)
+	fd = v(-30,210,15)
+	quad(d2,c2,f2,e2)
+	quad(fc,fd,h2,g2)
+	
+	xref:flat(0, v(0,0,1),
+		line(g2),
+		line(f2),
+		line(c2),
+		line(b2),
+		line(fb),
+		line(fc))
+
+	top = v(0,260,-40)
+	# rear
+	xref:quad(fc,fb,v(0,0,-40),v(0,210,-40))
+	xref:tri(fc,v(0,210,-40),top)
+	# spire
+	spire = v(0,300,-40)
+	xref:tri(v(1.5,257.5,-37.25),
+		top,spire)
+	tri(v(-1.5,257.5,-37.25),v(1.5,257.5,-37.25),
+		spire)
+	# front roof triangle section
+	#      top
+	#      tc
+	#
+	#   ta   tb
+	# fd       fc
+	ta = v(-21, 215, 9.5)
+	tb = v(21, 215, 9.5)
+	tc = v(0, 250, -29)
+	quad(fd,fc,tb,ta)
+	xref:quad(fc,top,tc,tb)
+	material(.2,.2,.2, .7,.7,.7, 10, 0,0,0)
+	tri(ta,tb,tc)
+
+
+}
+
+model(box, scale=1.0, radius=10.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {
+		v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0)
+	})
+}
+
+model(building1, scale=1.0, radius=10.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-7.5), v(0,0,7.5), n(0,1,0), radius=6.0, {
+		v(-1,0,0), v(1,0,0), v(1,1,0), v(-1,1,0)
+	})
+}
+
+model(building2, scale=1.0, radius=20.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-16), v(0,0,16), n(0,1,0), radius=1.0, {
+		v(-16,0,0), v(16,0,0), v(16,20,0), v(-16,20,0)
+	})
+}
+
+# 64x64m is rough dimensions of WTC base
+model(building3, scale=1.0, radius=40.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
+		v(-32,0,0), v(32,0,0), v(32,10,0), v(-32,10,0)
+	})
+}
+
+model(skyscraper2, scale=1.0, radius=210.0) {
+	material(.5, .5, .5, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
+		v(-32,0,0), v(32,0,0), v(32,100,0), v(-32,100,0)
+	})
+	extrusion(v(0,0,-27), v(0,0,27), n(0,1,0), radius=1.0, {
+		v(-27,110,0), v(27,110,0), v(27,210,0), v(-27,210,0)
+	})
+	extrusion(v(0,0,-22), v(0,0,22), n(0,1,0), radius=1.0, {
+		v(-22,220,0), v(22,220,0), v(22,325,0), v(-22,325,0)
+	})
+	extrusion(v(0,0,-17), v(0,0,17), n(0,1,0), radius=1.0, {
+		v(-17,335,0), v(17,335,0), v(17,440,0), v(-17,440,0)
+	})
+	# dark segment separators
+	material(.3, .3, .3, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-32), v(0,0,32), n(0,1,0), radius=1.0, {
+		v(-32,100,0), v(32,100,0), v(32,110,0), v(-32,110,0)
+	})
+	extrusion(v(0,0,-27), v(0,0,27), n(0,1,0), radius=1.0, {
+		v(-27,210,0), v(27,210,0), v(27,220,0), v(-27,220,0)
+	})
+	extrusion(v(0,0,-22), v(0,0,22), n(0,1,0), radius=1.0, {
+		v(-22,325,0), v(22,325,0), v(22,335,0), v(-22,335,0)
+	})
+}
+
+model(factory1, scale=1.0, radius=30.0) {
+	lod { full, 10px, 2px }
+	objlod a = { 16, 8, 4 }
+	material(.5, .5, .3, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-20), v(0,0,20), n(0,1,0), radius=1.0, {
+		v(-20,0,0), v(20,0,0), v(20,20,0), v(-20,20,0)
+	})
+	extrusion(v(0,0,-20), v(0,0,20), n(0,1,0), radius=1.0, {
+		v(-20,20,0), v(0,20,0), v(0,28,0), v(-2,30,0), v(-18,30,0),
+		v(-20,28,0)
+	})
+	material(.6, .6, .6, 0,0,0, 2.0, 0, 0, 0)
+	cylinder(a, v(-10,30,10), v(-10,50,10), v(0,0,1), radius=2.0)
+	cylinder(a, v(-10,30,0), v(-10,50,0), v(0,0,1), radius=2.0)
+	cylinder(a, v(-10,30,-10), v(-10,50,-10), v(0,0,1), radius=2.0)
+
+}
+
+model(clockhand, scale=1.0, radius=1.0) {
+	material(0,0,1, .7,.7,1, 10, 0,0,0)
+	tri(v(-0.06, -0.06, 0), v(0.06, -0.06, 0), v(0, 1, 0))
+}
+
+model(clock, scale=1.0, radius=1.0) {
+	lod { full, 15px }
+	material(1,1,1, 0,0,0, 0, 0,0,0)
+	circle(12, v(0,0,0), v(0,0,1), v(0,1,0), radius=1.0)
+	zbias(v(0,0,0), v(0,0,1), 2)
+
+	material(.5,.5,0, 1,1,0, 10, 0,0,0)
+	lod1:text("12", v(0,0.85,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("1", v(0.425,0.74,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("2", v(0.74,0.43,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("3", v(0.85,0,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("4", v(0.74,-.425,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("5", v(0.425,-.74,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("6", v(0,-.85,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("7", v(-.425,-.736,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("8", v(-.74,-.425,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("9", v(-.85,0,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("10", v(-.74,.425,0), v(0,0,1), v(1,0,0), scale=0.15)
+	lod1:text("11", v(-.425,.736,0), v(0,0,1), v(1,0,0), scale=0.15)
+	
+	minhand = vrotate(v(0,0,1), v(1,0,0), animfn=hour)
+	hourhand = vrotate(v(0,0,1), v(1,0,0), animfn=halfday)
+
+	zbias(v(0,0,0), v(0,0,1), 2)
+	subobject(clockhand, v(0,0,0), minhand, v(0,0,1), scale=0.65)
+	zbias(v(0,0,0), v(0,0,1), 2)
+	subobject(clockhand, v(0,0,0), hourhand, v(0,0,1), scale=0.5)
+}
+
+model(church, scale=1.0, radius=22.0) {
+	lod { full, 10px }
+	material(.5, .5, .3, 0,0,0, 2.0, 0, 0, 0)
+	extrusion(v(0,0,-18), v(0,0,12), n(0,1,0), radius=1.0, {
+		v(-7,0,0), v(7,0,0), v(7,10,0), v(-7,10,0)
+	})
+	extrusion(v(0,0,-18), v(0,0,-4), n(0,1,0), radius=1.0, {
+		v(-7,10,0), v(7,10,0), v(7,25,0), v(-7,25,0)
+	})
+	roof1 = v(0,20,12)
+	roof2 = v(0,20,-4)
+	spire = v(0,45,-11)
+	tri(v(-7,10,12), v(7,10,12), roof1)
+	material(.8, .3, .0, 0,0,0, 2.0, 0, 0, 0)
+	xref:quad(roof2, roof1, v(7,10,12), v(7,10,-4))
+	xref:tri(spire, v(7,25,-4), v(7,25,-18))
+	tri(spire, v(-7,25,-4), v(7,25,-4))
+	tri(spire, v(7,25,-18), v(-7,25,-18))
+
+	clockpos1 = v(-7,18,-11)
+	clockpos2 = v(7,18,-11)
+	
+	lod1:zbias(clockpos1, v(-1,0,0), 1)
+	lod1:subobject(clock, clockpos1, v(0,1,0), v(-1,0,0), scale=2.5)
+	lod1:zbias(clockpos2, v(1,0,0), 1)
+	lod1:subobject(clock, clockpos2, v(0,1,0), v(1,0,0), scale=2.5)
+	nozbias()
+#subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, animfn=])
+}
+
+model(alpha_tower, scale=1.5, radius=190.0) {
+	lod { full, 50px, 5px }
+	objlod cyl_lod = { 16, 8, 8 }
+
+	material(.2, .2, .6, 1,1,1, 10.0, .1, .1, .2)
+	
+	cylinder(cyl_lod, v(0,-20,0), v(0,20,0), v(1,0,0), radius=40.0)
+	cylinder(cyl_lod, v(0,25,0), v(0,45,0), v(1,0,0), radius=38.0)
+	cylinder(cyl_lod, v(0,50,0), v(0,70,0), v(1,0,0), radius=36.0)
+	cylinder(cyl_lod, v(0,75,0), v(0,95,0), v(1,0,0), radius=34.0)
+	cylinder(cyl_lod, v(0,100,0), v(0,120,0), v(1,0,0), radius=32.0)
+	cylinder(cyl_lod, v(0,125,0), v(0,145,0), v(1,0,0), radius=30.0)
+	cylinder(cyl_lod, v(0,150,0), v(0,170,0), v(1,0,0), radius=28.0)
+	
+	material(.5, .5, .5, 0,0,0, 0.0, 0, 0, 0)
+	cylinder(cyl_lod, v(0,20,0), v(0,25,0), v(1,0,0), radius=41.0)
+	cylinder(cyl_lod, v(0,45,0), v(0,50,0), v(1,0,0), radius=39.0)
+	cylinder(cyl_lod, v(0,70,0), v(0,75,0), v(1,0,0), radius=37.0)
+	cylinder(cyl_lod, v(0,95,0), v(0,100,0), v(1,0,0), radius=35.0)
+	cylinder(cyl_lod, v(0,120,0), v(0,125,0), v(1,0,0), radius=33.0)
+	cylinder(cyl_lod, v(0,145,0), v(0,150,0), v(1,0,0), radius=31.0)
+	cylinder(cyl_lod, v(0,170,0), v(0,180,0), v(1,0,0), radius=29.0)
+	# roof prongs
+	cylinder(4, v(20,180,0), v(20,240,0), v(1,0,0), radius=1.0)
+	cylinder(4, v(-20,180,0), v(-20,240,0), v(1,0,0), radius=1.0)
+}
+
+model(twisty_spire1, scale=1.0, radius=320.0) {
+	lod { full, 100px, 10px }
+	# bottom
+	# b1 b2
+	# b3 b4
+	b1 = v(-30,0,-30)
+	b2 = v(30,0,-30)
+	b3 = v(-30,0,30)
+	b4 = v(30,0,30)
+	t1 = v(-25,300,0)
+	t2 = v(0,300,-25)
+	t3 = v(0,300,25)
+	t4 = v(25,300,0)
+
+	tan1 = v(0,400,0)
+	tan2 = v(0,-1,0)
+
+	material(.3, .3, .5, 1,1,1, 50.0, 0, 0, 0)
+	smooth(16,
+		hermite(t1, tan1, tan2),
+		line(t2),
+		hermite(b1, tan2, tan1),
+		line(b3))
+	smooth(16,
+		hermite(t2, tan1, tan2),
+		line(t4),
+		hermite(b2, tan2, tan1),
+		line(b1))
+	smooth(16,
+		hermite(t4, tan1, tan2),
+		line(t3),
+		hermite(b4, tan2, tan1),
+		line(b2))
+	smooth(16,
+		hermite(t3, tan1, tan2),
+		line(t1),
+		hermite(b3, tan2, tan1),
+		line(b4))
+	quad(t3, t4, t2, t1)
+	
+	zbias(v(0,300,0), v(0,1,0), 1)
+	lod1:lod2:material(0.2, 0.2, 0.2, 0,0,0, 0.0, 0, 0, 0)
+	lod1:lod2:circle(16, v(0,300,0), v(0,1,0), v(1,0,0), radius=10.0)
+	zbias(v(0,300,0), v(0,1,0), 2)
+	lod1:material(1, 0, 0, 0,0,0, 0.0, 0, 0, 0)
+	lod1:text("PRIVATE LANDING\nDOCKING WITHOUT A PERMIT PROHIBITED",
+			v(0,300,0), v(0,1,0), n(1,0,1), scale=0.5)
+	nozbias()
+
+
+}
+
+model(twisty_spire2, scale=1.0, radius=500.0) {
+	# bottom
+	# b1 b2
+	# b3 b4
+	b1 = v(-35,0,-30)
+	b2 = v(30,0,-30)
+	b3 = v(-30,0,30)
+	b4 = v(30,0,30)
+	t1 = v(0, 500, 0)
+
+	tanB1 = v(-10,200,-10)
+	tanB2 = v(10,200,-10)
+	tanB3 = v(-10,200,10)
+	tanB4 = v(10,200,10)
+	tanTop = v(0,-1,0)
+
+	material(.2, .2, .2, 1,1,1, 100.0, 0, 0, 0)
+	smooth(16,
+		hermite(t1, tanB3, tanTop),
+		line(t1),
+		hermite(b1, tanTop, tanB1),
+		line(b3))
+	smooth(16,
+		hermite(t1, tanB1, tanTop),
+		line(t1),
+		hermite(b2, tanTop, tanB2),
+		line(b1))
+	smooth(16,
+		hermite(t1, tanB2, tanTop),
+		line(t1),
+		hermite(b4, tanTop, tanB4),
+		line(b2))
+	smooth(16,
+		hermite(t1, tanB4, tanTop),
+		line(t1),
+		hermite(b3, tanTop, tanB3),
+		line(b4))
+}

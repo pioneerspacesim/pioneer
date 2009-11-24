@@ -26,6 +26,8 @@ citybuilding_t city_buildings[] = {
 	{ "factory1" },
 	{ "42" }, // a house
 	{ "church" },
+	{ "alpha_tower" },
+	{ "twisty_spire1" },
 	{ 0 }
 };
 
