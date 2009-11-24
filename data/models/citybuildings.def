@@ -381,3 +381,22 @@ model(twisty_spire2, scale=1.0, radius=500.0) {
 		hermite(b3, tanTop, tanB3),
 		line(b4))
 }
+
+model(station_hemisphere_silo, scale=20.0, radius=1.1) {
+	lod { full, 100px, 20px, 10px }
+	objlod mesh_lod = { 8, 6, 4, 2 }
+	objlod cyl_lod = { 8, 6, 4, 3 }
+	material(0.9,0.9,0.9,0,0,0,0,0,0,0)
+
+	tanA1 = v(0,5,0)
+	tanA2 = v(0,5,0)
+
+	smooth(mesh_lod,
+		hermite(v(1,0,0), tanA1, tanA2),
+		hermite(v(-1,0,0), v(0,0,-4), v(0,0,-4))
+	)
+	smooth(mesh_lod,
+		hermite(v(-1,0,0), tanA2, tanA1),
+		hermite(v(1,0,0), v(0,0,4), v(0,0,4))
+	)
+}

@@ -40,6 +40,7 @@ citybuilding_t wind_turbines[] = {
 
 citybuilding_t starport_buildings[] = {
 	{ "building1" },
+	{ "station_hemisphere_silo" },
 	{ 0 }
 };
 
