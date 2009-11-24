@@ -14,33 +14,34 @@ bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
 	float xzradius;
-	int resolvedModelNum;
+	LmrModel *resolvedModel;
+	const LmrCollMesh *collMesh;
 };
 
 citybuilding_t city_buildings[] = {
-	{ "skyscraper1" },
-	{ "skyscraper2" },
-	{ "building1" },
-	{ "building2" },
-	{ "building3" },
-	{ "factory1" },
-	{ "42" }, // a house
-	{ "church" },
-	{ "alpha_tower" },
-	{ "twisty_spire1" },
+//	{ "skyscraper1" },
+//	{ "skyscraper2" },
+//	{ "building1" },
+//	{ "building2" },
+//	{ "building3" },
+//	{ "factory1" },
+//	{ "42" }, // a house
+//	{ "church" },
+	{ "mybuilding" },
 	{ 0 }
 };
 
 citybuilding_t wind_turbines[] = {
-	{ "wind_turbine1" },
-	{ "wind_turbine2" },
-	{ "wind_turbine3" },
+//	{ "wind_turbine1" },
+//	{ "wind_turbine2" },
+//	{ "wind_turbine3" },
+	{ "mybuilding" },
 	{ 0 }
 };
 
 citybuilding_t starport_buildings[] = {
-	{ "building1" },
-	{ "station_hemisphere_silo" },
+//	{ "building1" },
+	{ "mybuilding" },
 	{ 0 }
 };
 
@@ -71,8 +72,9 @@ ObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	int modelNum;
-	double modelRad;
+	LmrModel *model;
+	double modelRadXZ;
+	const LmrCollMesh *cmesh;
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
 	cityflavourdef_t *flavour;
@@ -86,9 +88,10 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 		int tries;
 		for (tries=20; tries--; ) {
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
-			modelNum = bt.resolvedModelNum;
-			modelRad = bt.xzradius;
-			if (modelRad < rad) break;
+			model = bt.resolvedModel;
+			modelRadXZ = bt.xzradius;
+			cmesh = bt.collMesh;
+			if (modelRadXZ < rad) break;
 			if (tries == 0) return;
 		}
 		
@@ -102,7 +105,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 		else return;
 	}
 
-	if (rad > modelRad*2.0) {
+	if (rad > modelRadXZ*2.0) {
 always_divide:
 		vector3d a = (p1+p2)*0.5;
 		vector3d b = (p2+p3)*0.5;
@@ -120,16 +123,15 @@ always_divide:
 		if (height - m_planet->GetSBody()->GetRadius() == 0.0) return;
 		cent = cent * height;
 
-		const CollMeshSet *mset = GetModelCollMeshSet(modelNum);
 		Frame *f = m_planet->GetFrame();
-		Geom *geom = new Geom(mset->m_geomTree);
+		Geom *geom = new Geom(cmesh->geomTree);
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)rotTimes90);
 		geom->MoveTo(grot, cent);
 		geom->SetUserData(this);
 //		f->AddStaticGeom(geom);
 
-		BuildingDef def = { modelNum, rotTimes90, cent, geom, false };
+		BuildingDef def = { model, cmesh->GetBoundingRadius(), rotTimes90, cent, geom, false };
 		m_buildings.push_back(def);
 	}
 }
@@ -168,10 +170,11 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 {
 	int i = 0;
 	for (; list->buildings[i].modelname; i++) {
-		list->buildings[i].resolvedModelNum = sbreLookupModelByName(list->buildings[i].modelname);
-		const CollMeshSet *cmeshset = GetModelCollMeshSet(list->buildings[i].resolvedModelNum);
-		float maxx = MAX(fabs(cmeshset->GetAabb().max.x), fabs(cmeshset->GetAabb().min.x));
-		float maxy = MAX(fabs(cmeshset->GetAabb().max.z), fabs(cmeshset->GetAabb().min.z));
+		list->buildings[i].resolvedModel = LmrLookupModelByName(list->buildings[i].modelname);
+		const LmrCollMesh *collMesh = new LmrCollMesh(list->buildings[i].resolvedModel);
+		list->buildings[i].collMesh = collMesh;
+		float maxx = MAX(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
+		float maxy = MAX(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
@@ -265,7 +268,6 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 				break;
 		}
 
-		sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
 		vector3d center = (p1+p2+p3+p4)*0.25;
 		PutCityBit(rand, m, p1, p2, p3, p4);
 	}
@@ -307,16 +309,18 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		/* frustum cull */
 		bool cull = false;
 		for (int j=0; j<6; j++) {
-			if (planes[j].DistanceToPoint(pos)+sbreGetModelRadius((*i).modelnum) < 0) {
+			if (planes[j].DistanceToPoint(pos)+(*i).clipRadius < 0) {
 				cull = true;
 				break;
 			}
 		}
 		if (cull) continue;
-		glPushMatrix();
-		sbreRenderModel(&pos.x, &rot[(*i).rotation][0], (*i).modelnum, &cityobj_params);
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
+		matrix4x4f _rot;
+		for (int e=0; e<16; e++) _rot[e] = rot[(*i).rotation][e];
+		_rot[12] = pos.x;
+		_rot[13] = pos.y;
+		_rot[14] = pos.z;
+		LmrModelRender((*i).model, _rot);
 	}
 }
 

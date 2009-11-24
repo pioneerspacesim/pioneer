@@ -329,6 +329,27 @@ void FontFace::RenderString(const char *str)
 	glPopMatrix();
 }
 
+void FontFace::GetStringGeometry(const char *str,
+		void (*index_callback)(int num, Uint16 *vals),
+		void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals))
+{
+	float offX, offY;
+	offX = offY = 0;
+	for (unsigned int i=0; i<strlen(str); i++) {
+		if (str[i] == '\n') {
+			offX = 0;
+			offY -= m_height*PARAGRAPH_SPACING;
+		} else {
+			glfglyph_t *glyph = &m_glyphs[str[i]];
+			if (glyph->numidx) {
+				(*index_callback)(glyph->numidx, glyph->iarray);
+				(*vertex_callback)(glyph->numvtx, offX, offY, glyph->varray);
+			}
+			offX += glyph->advx;
+		}
+	}
+}
+
 // 'Markup' indeed. #rgb hex is change color, no sensible escape
 void FontFace::RenderMarkup(const char *str)
 {
@@ -404,6 +425,7 @@ FontFace::FontFace(const char *filename_ttf)
 			glfglyph_t _face;
 
 			nv = tessdata.numvtx;
+			_face.numvtx = nv;
 			_face.varray = (float *) malloc (nv*3*sizeof(float));
 			for (int i=0; i<nv*3; i++) _face.varray[i] = (float) pts[i];
 

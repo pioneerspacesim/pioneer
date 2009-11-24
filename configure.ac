@@ -31,6 +31,8 @@ PKG_CHECK_MODULES(SDL, sdl)
 CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS -lSDL_image"
 
+CFLAGS="$CFLAGS -DLUA_USE_POSIX"
+
 # Not using vorbis yet
 #PKG_CHECK_MODULES(OGG, ogg)
 #PKG_CHECK_MODULES(VORBIS, vorbisfile)
@@ -39,5 +41,5 @@ LIBS="$LIBS $SDL_LIBS -lSDL_image"
 
 CXXFLAGS="$CFLAGS"
 
-AC_CONFIG_FILES([Makefile src/Makefile src/sbre/Makefile src/collider/Makefile src/missions/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile src/sbre/Makefile src/collider/Makefile src/missions/Makefile src/lua/Makefile])
 AC_OUTPUT

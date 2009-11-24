@@ -4,13 +4,14 @@
 #include "Gui.h"
 #include "collider/collider.h"
 #include "ModelCollMeshData.h"
+#include "lua_model_compiler.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
-static int g_model = 0; // sbre model number. set with argc
+static LmrModel *g_model;
 static float g_zbias;
 
 static GLuint mytexture;
@@ -200,7 +201,7 @@ void Viewer::SetSbreParams()
 }
 
 
-static void render_coll_mesh(const CollMesh *m)
+static void render_coll_mesh(const LmrCollMesh *m)
 {
 	glDisable(GL_LIGHTING);
 	glColor3f(1,0,1);
@@ -317,10 +318,9 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	const CollMeshSet *mset = GetModelCollMeshSet(g_model);
-	CollMesh *cmesh = mset->sbreCollMesh;
-	GeomTree *geomtree = mset->m_geomTree;
-	distance = 2.0*sbreGetModelRadius(g_model);
+	const LmrCollMesh *cmesh = new LmrCollMesh(g_model);
+	GeomTree *geomtree = cmesh->geomTree;
+	distance = 10.0;//2.0*sbreGetModelRadius(g_model);
 	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
@@ -367,7 +367,12 @@ void Viewer::MainLoop()
 			m.y1 = (float)rot[1]; m.y2 = (float)rot[5]; m.y3 = (float)rot[9];
 			m.z1 = (float)rot[2]; m.z2 = (float)rot[6]; m.z3 = (float)rot[10];
 			p.x = 0; p.y = 0; p.z = -distance;
-			sbreRenderModel(&p, &m, g_model, &params);
+//			sbreRenderModel(&p, &m, g_model, &params);
+			matrix4x4f _m;
+			for (int i=0; i<16; i++) _m[i] = rot[i];
+			_m[14] = -distance;
+		//	for (int i=0; i<100; i++)
+				LmrModelRender(g_model, _m);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
@@ -389,9 +394,11 @@ void Viewer::MainLoop()
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();
-
+	
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
-			printf("%d fps\n", numFrames);
+			int numTris = LmrModelGetStatsTris();
+			LmrModelClearStatsTris();
+			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
 		}
@@ -401,16 +408,13 @@ void Viewer::MainLoop()
 	delete geomtree;
 }
 
+extern void LmrModelCompilerInit();
 
 int main(int argc, char **argv)
 {
-	sbreCompilerLoadModels();
 	if ((argc>1) && (0==strcmp(argv[1],"--help"))) {
 		printf("Usage:\n\nSbreViewer <model number> <width> <height>\n");
 		exit(0);
-	}
-	if (argc > 1) {
-		g_model = sbreLookupModelByName(argv[1]);
 	}
 	if (argc == 4) {
 		g_width = atoi(argv[2]);
@@ -448,6 +452,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
 		}
 	}
+	glewInit();
 
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
@@ -468,7 +473,11 @@ int main(int argc, char **argv)
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
 	GLFTInit();
+	LmrModelCompilerInit();
 	Gui::Init(g_width, g_height, g_width, g_height);
+	if (argc > 1) {
+		g_model = LmrLookupModelByName(argv[1]);
+	}
 
 	Viewer v;
 	v.MainLoop();

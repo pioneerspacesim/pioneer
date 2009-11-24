@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "mtrand.h"
 #include "Object.h"
+#include "lua_model_compiler.h"
 
 class Planet;
 class SpaceStation;
@@ -24,7 +25,8 @@ private:
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		int modelnum;
+		LmrModel *model;
+		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;
 		Geom *geom;
