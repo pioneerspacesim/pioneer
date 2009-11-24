@@ -114,6 +114,18 @@ namespace MyLuaVec {
 		return 1;
 	}
 
+	static int Vec_index (lua_State *L)
+	{
+		printf("Fuckme\n");
+		vector3f *v = checkVec(L, 1);
+		unsigned int i = luaL_checkint(L, 2);
+		if (i>i) {
+			luaL_error(L, "vector index must be in range 0-2");
+		}
+		lua_pushnumber(L, (*v)[i]);
+		return 1;
+	}
+
 	static int Vec_div (lua_State *L)
 	{
 		vector3f *v1 = checkVec(L, 1);
@@ -146,6 +158,27 @@ namespace MyLuaVec {
 		return 1;
 	}
 
+	static int Vec_getx (lua_State *L)
+	{
+		vector3f *v1 = checkVec(L, 1);
+		lua_pushnumber(L, v1->x);
+		return 1;
+	}
+
+	static int Vec_gety (lua_State *L)
+	{
+		vector3f *v1 = checkVec(L, 1);
+		lua_pushnumber(L, v1->y);
+		return 1;
+	}
+
+	static int Vec_getz (lua_State *L)
+	{
+		vector3f *v1 = checkVec(L, 1);
+		lua_pushnumber(L, v1->z);
+		return 1;
+	}
+
 	static const luaL_reg Vec_methods[] = {
 		{ "new", Vec_new },
 		{ "print", Vec_print },
@@ -153,6 +186,9 @@ namespace MyLuaVec {
 		{ "cross", Vec_cross },
 		{ "norm", Vec_norm },
 		{ "len", Vec_len },
+		{ "x",      Vec_getx},
+		{ "y",      Vec_gety},
+		{ "z",      Vec_getz},
 		{ 0, 0 }
 	};
 
@@ -202,7 +238,7 @@ void LuaModelClearStatsTris() { s_numTrisRendered = 0; }
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 //#define USE_VBO 0
-
+	
 class NewModel {
 public:
 	NewModel(std::string name, bool hasDynamicFunc) {
@@ -334,6 +370,9 @@ public:
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
 		m_vertices.push_back(Vertex(pos, normal));
 		return m_vertices.size() - 1;
+	}
+	void SetVertex(int idx, const vector3f &pos, const vector3f &normal) {
+		m_vertices[idx] = Vertex(pos, normal);
 	}
 	void PushTri(int i1, int i2, int i3) {
 		OpDrawElements(3);
@@ -566,6 +605,13 @@ public:
 		}
 	}
 
+	/* return start vertex index */
+	int AllocVertices(int num) {
+		int start = m_vertices.size();
+		m_vertices.resize(start + num);
+		return start;
+	}
+
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
 			OP_CALL_MODEL };
 
@@ -697,7 +743,7 @@ namespace ModelFuncs {
 		return out;
 	}
 
-	static int quadric_bezier(lua_State *L)
+	static void _quadric_bezier(lua_State *L, bool xref)
 	{
 		vector3f pts[9];
 		const int divs = luaL_checkint(L, 1);
@@ -705,7 +751,8 @@ namespace ModelFuncs {
 			pts[i] = *MyLuaVec::checkVec(L, i+2);
 		}
 
-		const int vtxStart = s_curModel->GetVerticesPos();
+		const int numVertsInPatch = (divs+1)*(divs+1);
+		const int vtxStart = s_curModel->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
 
 		float inc = 1.0f / (float)divs;
 		float u,v;
@@ -720,20 +767,33 @@ namespace ModelFuncs {
 				vector3f pv = eval_quadric_bezier3d(pts, u, v+0.5f);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
-				s_curModel->PushVertex(p, norm);
+				s_curModel->SetVertex(vtxStart + i + j*(divs+1), p, norm);
+				if (xref) {
+					p.x = -p.x;
+					norm.x = -norm.x;
+					s_curModel->SetVertex(vtxStart + numVertsInPatch + i + j*(divs+1), p, norm);
+				}
 			}
 		}
 
 		for (int i=0; i<divs; i++) {
 			int baseVtx = vtxStart + (divs+1)*i;
 			for (int j=0; j<divs; j++) {
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+1, baseVtx+j+1+(divs+1));
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+(divs+1));
+			}
+		}
+		if (xref) for (int i=0; i<divs; i++) {
+			int baseVtx = vtxStart + numVertsInPatch + (divs+1)*i;
+			for (int j=0; j<divs; j++) {
 				s_curModel->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+1);
 				s_curModel->PushTri(baseVtx+j, baseVtx+j+(divs+1), baseVtx+j+1+(divs+1));
 			}
 		}
-
-		return 0;
 	}
+	
+	static int quadric_bezier(lua_State *L) { _quadric_bezier(L, false); return 0; }
+	static int xref_quadric_bezier(lua_State *L) { _quadric_bezier(L, true); return 0; }
 
 	static vector3f eval_cubic_bezier3d(const vector3f p[16], float u, float v)
 	{
@@ -754,7 +814,7 @@ namespace ModelFuncs {
 		return out;
 	}
 
-	static int cubic_bezier(lua_State *L)
+	static void _cubic_bezier(lua_State *L, bool xref)
 	{
 		vector3f pts[16];
 		const int divs = luaL_checkint(L, 1);
@@ -762,7 +822,9 @@ namespace ModelFuncs {
 			pts[i] = *MyLuaVec::checkVec(L, i+2);
 		}
 
-		const int vtxStart = s_curModel->GetVerticesPos();
+		const int numVertsInPatch = (divs+1)*(divs+1);
+		const int vtxStart = s_curModel->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
+
 
 		float inc = 1.0f / (float)divs;
 		float u,v;
@@ -777,20 +839,33 @@ namespace ModelFuncs {
 				vector3f pv = eval_cubic_bezier3d(pts, u, v+0.5f);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
-				s_curModel->PushVertex(p, norm);
+				s_curModel->SetVertex(vtxStart + i + j*(divs+1), p, norm);
+				if (xref) {
+					p.x = -p.x;
+					norm.x = -norm.x;
+					s_curModel->SetVertex(vtxStart + numVertsInPatch + i + j*(divs+1), p, norm);
+				}
 			}
 		}
 
 		for (int i=0; i<divs; i++) {
 			int baseVtx = vtxStart + (divs+1)*i;
 			for (int j=0; j<divs; j++) {
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+1, baseVtx+j+1+(divs+1));
+				s_curModel->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+(divs+1));
+			}
+		}
+		if (xref) for (int i=0; i<divs; i++) {
+			int baseVtx = vtxStart + numVertsInPatch + (divs+1)*i;
+			for (int j=0; j<divs; j++) {
 				s_curModel->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+1);
 				s_curModel->PushTri(baseVtx+j, baseVtx+j+(divs+1), baseVtx+j+1+(divs+1));
 			}
 		}
-
-		return 0;
 	}
+
+	static int cubic_bezier(lua_State *L) { _cubic_bezier(L, false); return 0; }
+	static int xref_cubic_bezier(lua_State *L) { _cubic_bezier(L, true); return 0; }
 
 	static int dec_material(lua_State *L)
 	{
@@ -869,34 +944,81 @@ namespace ModelFuncs {
 	static int circle(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
-		vector3f *center = MyLuaVec::checkVec(L, 2);
-		vector3f *normal = MyLuaVec::checkVec(L, 3);
-		vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f *center = MyLuaVec::checkVec(L, 2);
+		const vector3f *normal = MyLuaVec::checkVec(L, 3);
+		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
 		s_curModel->PushCircle(steps, *center, *normal, *updir, radius);
+		return 0;
+	}
+
+	static int xref_circle(lua_State *L)
+	{
+		int steps = luaL_checkint(L, 1);
+		vector3f center = *MyLuaVec::checkVec(L, 2);
+		vector3f normal = *MyLuaVec::checkVec(L, 3);
+		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		float radius = lua_tonumber(L, 5);
+		s_curModel->PushCircle(steps, center, normal, updir, radius);
+		center.x = -center.x;
+		normal.x = -normal.x;
+		updir.x = -updir.x;
+		s_curModel->PushCircle(steps, center, normal, updir, radius);
 		return 0;
 	}
 
 	static int tube(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
-		vector3f *start = MyLuaVec::checkVec(L, 2);
-		vector3f *end = MyLuaVec::checkVec(L, 3);
-		vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f *start = MyLuaVec::checkVec(L, 2);
+		const vector3f *end = MyLuaVec::checkVec(L, 3);
+		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
 		s_curModel->PushTube(steps, *start, *end, *updir, inner_radius, outer_radius);
 		return 0;
 	}
 
+	static int xref_tube(lua_State *L)
+	{
+		int steps = luaL_checkint(L, 1);
+		vector3f start = *MyLuaVec::checkVec(L, 2);
+		vector3f end = *MyLuaVec::checkVec(L, 3);
+		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		float inner_radius = lua_tonumber(L, 5);
+		float outer_radius = lua_tonumber(L, 6);
+		s_curModel->PushTube(steps, start, end, updir, inner_radius, outer_radius);
+		start.x = -start.x;
+		end.x = -end.x;
+		updir.x = -updir.x;
+		s_curModel->PushTube(steps, start, end, updir, inner_radius, outer_radius);
+		return 0;
+	}
+
 	static int cylinder(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
-		vector3f *start = MyLuaVec::checkVec(L, 2);
-		vector3f *end = MyLuaVec::checkVec(L, 3);
-		vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f *start = MyLuaVec::checkVec(L, 2);
+		const vector3f *end = MyLuaVec::checkVec(L, 3);
+		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
 		s_curModel->PushCylinder(steps, *start, *end, *updir, radius);
+		return 0;
+	}
+
+	static int xref_cylinder(lua_State *L)
+	{
+		/* could optimise for x-reflection but fuck it */
+		int steps = luaL_checkint(L, 1);
+		vector3f start = *MyLuaVec::checkVec(L, 2);
+		vector3f end = *MyLuaVec::checkVec(L, 3);
+		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		float radius = lua_tonumber(L, 5);
+		s_curModel->PushCylinder(steps, start, end, updir, radius);
+		start.x = -start.x;
+		end.x = -end.x;
+		updir.x = -updir.x;
+		s_curModel->PushCylinder(steps, start, end, updir, radius);
 		return 0;
 	}
 
@@ -904,19 +1026,34 @@ namespace ModelFuncs {
 	static int ring(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
-		vector3f *start = MyLuaVec::checkVec(L, 2);
-		vector3f *end = MyLuaVec::checkVec(L, 3);
-		vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f *start = MyLuaVec::checkVec(L, 2);
+		const vector3f *end = MyLuaVec::checkVec(L, 3);
+		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
 		s_curModel->PushRing(steps, *start, *end, *updir, radius);
 		return 0;
 	}
 
+	static int xref_ring(lua_State *L)
+	{
+		int steps = luaL_checkint(L, 1);
+		vector3f start = *MyLuaVec::checkVec(L, 2);
+		vector3f end = *MyLuaVec::checkVec(L, 3);
+		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		float radius = lua_tonumber(L, 5);
+		s_curModel->PushRing(steps, start, end, updir, radius);
+		start.x = -start.x;
+		end.x = -end.x;
+		updir.x = -updir.x;
+		s_curModel->PushRing(steps, start, end, updir, radius);
+		return 0;
+	}
+
 	static int tri(lua_State *L)
 	{
-		vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		vector3f *v3 = MyLuaVec::checkVec(L, 3);
+		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
+		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
+		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
 		
 		vector3f n = vector3f::Cross((*v1)-(*v2), (*v1)-(*v3)).Normalized();
 		int i1 = s_curModel->PushVertex(*v1, n);
@@ -926,12 +1063,31 @@ namespace ModelFuncs {
 		return 0;
 	}
 	
+	static int xref_tri(lua_State *L)
+	{
+		vector3f v1 = *MyLuaVec::checkVec(L, 1);
+		vector3f v2 = *MyLuaVec::checkVec(L, 2);
+		vector3f v3 = *MyLuaVec::checkVec(L, 3);
+		
+		vector3f n = vector3f::Cross((v1)-(v2), (v1)-(v3)).Normalized();
+		int i1 = s_curModel->PushVertex(v1, n);
+		int i2 = s_curModel->PushVertex(v2, n);
+		int i3 = s_curModel->PushVertex(v3, n);
+		s_curModel->PushTri(i1, i2, i3);
+		v1.x = -v1.x; v2.x = -v2.x; v3.x = -v3.x; n.x = -n.x;
+		i1 = s_curModel->PushVertex(v1, n);
+		i2 = s_curModel->PushVertex(v2, n);
+		i3 = s_curModel->PushVertex(v3, n);
+		s_curModel->PushTri(i1, i3, i2);
+		return 0;
+	}
+	
 	static int quad(lua_State *L)
 	{
-		vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		vector3f *v3 = MyLuaVec::checkVec(L, 3);
-		vector3f *v4 = MyLuaVec::checkVec(L, 4);
+		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
+		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
+		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
+		const vector3f *v4 = MyLuaVec::checkVec(L, 4);
 		
 		vector3f n = vector3f::Cross((*v1)-(*v2), (*v1)-(*v3)).Normalized();
 		int i1 = s_curModel->PushVertex(*v1, n);
@@ -940,6 +1096,30 @@ namespace ModelFuncs {
 		int i4 = s_curModel->PushVertex(*v4, n);
 		s_curModel->PushTri(i1, i2, i3);
 		s_curModel->PushTri(i1, i3, i4);
+		return 0;
+	}
+	
+	static int xref_quad(lua_State *L)
+	{
+		vector3f v1 = *MyLuaVec::checkVec(L, 1);
+		vector3f v2 = *MyLuaVec::checkVec(L, 2);
+		vector3f v3 = *MyLuaVec::checkVec(L, 3);
+		vector3f v4 = *MyLuaVec::checkVec(L, 4);
+		
+		vector3f n = vector3f::Cross((v1)-(v2), (v1)-(v3)).Normalized();
+		int i1 = s_curModel->PushVertex(v1, n);
+		int i2 = s_curModel->PushVertex(v2, n);
+		int i3 = s_curModel->PushVertex(v3, n);
+		int i4 = s_curModel->PushVertex(v4, n);
+		s_curModel->PushTri(i1, i2, i3);
+		s_curModel->PushTri(i1, i3, i4);
+		v1.x = -v1.x; v2.x = -v2.x; v3.x = -v3.x; v4.x = -v4.x; n.x = -n.x;
+		i1 = s_curModel->PushVertex(v1, n);
+		i2 = s_curModel->PushVertex(v2, n);
+		i3 = s_curModel->PushVertex(v3, n);
+		i4 = s_curModel->PushVertex(v4, n);
+		s_curModel->PushTri(i1, i3, i2);
+		s_curModel->PushTri(i1, i4, i3);
 		return 0;
 	}
 
@@ -984,20 +1164,30 @@ void LuaModelCompilerInit()
 	// shorthand for Vec.new(x,y,z)
 	lua_register(L, "v", MyLuaVec::Vec_new);
 	lua_register(L, "register_models", register_models);
-	lua_register(L, "tri", ModelFuncs::tri);
-	lua_register(L, "quad", ModelFuncs::quad);
 	lua_register(L, "dec_material", ModelFuncs::dec_material);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
+	
+	lua_register(L, "tri", ModelFuncs::tri);
+	lua_register(L, "xref_tri", ModelFuncs::xref_tri);
+	lua_register(L, "quad", ModelFuncs::quad);
+	lua_register(L, "xref_quad", ModelFuncs::xref_quad);
 	lua_register(L, "cylinder", ModelFuncs::cylinder);
+	lua_register(L, "xref_cylinder", ModelFuncs::xref_cylinder);
 	lua_register(L, "tube", ModelFuncs::tube);
+	lua_register(L, "xref_tube", ModelFuncs::xref_tube);
 	lua_register(L, "ring", ModelFuncs::ring);
+	lua_register(L, "xref_ring", ModelFuncs::xref_ring);
 	lua_register(L, "circle", ModelFuncs::circle);
+	lua_register(L, "xref_circle", ModelFuncs::xref_circle);
 	lua_register(L, "text", ModelFuncs::text);
+	lua_register(L, "bezier_3x3", ModelFuncs::quadric_bezier);
+	lua_register(L, "xref_bezier_3x3", ModelFuncs::xref_quadric_bezier);
+	lua_register(L, "bezier_4x4", ModelFuncs::cubic_bezier);
+	lua_register(L, "xref_bezier_4x4", ModelFuncs::xref_cubic_bezier);
+	
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "callmodel", ModelFuncs::callmodel);
-	lua_register(L, "bezier_3x3", ModelFuncs::quadric_bezier);
-	lua_register(L, "bezier_4x4", ModelFuncs::cubic_bezier);
 
 	s_buildDynamic = false;
 	if (luaL_dofile(L, "models.lua")) {

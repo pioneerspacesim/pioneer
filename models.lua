@@ -4,28 +4,28 @@ function test_static()
 	set_material("red", 1,0,0)
 	set_material("shinyred", 1.0,0,0,1,1,1,50)
 	use_material("shinyred")
-	tube(16, v(5,0,0), v(10,0,0), v(0,1,0), 0.75, 1.0)
-	circle(9, v(0,5,0), v(0,0,1), v(1,0,0), 1.0)
+	xref_tube(16, v(5,0,0), v(10,0,0), v(0,1,0), 0.75, 1.0)
+	xref_circle(9, v(4,5,0), v(0,0,1), v(1,0,0), 1.0)
 	tri(v(12,3,0),v(13,3,0), v(12,4,0))
-	tri(v(13,3,0),v(14,3,0), v(13,4,0))
-	quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
+	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
+	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
 	use_material("red")
 	zbias(1, v(0,5,0), v(0,0,1))
 	text("ABCDEfghi Hello 1234", v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
 	zbias(0)
 	use_material("shinyred")
 --[[	
-	bezier_3x3(32,
+	xref_bezier_3x3(32,
 			v(0,0,0), v(1,-1,0), v(2,0,0),
 			v(-1,1,0), v(1,1,8), v(3,1,0),
 			v(0,2,0), v(1,3,0), v(2,2,0))
 			--]]
 ---[[	
-	bezier_4x4(32,
+	xref_bezier_4x4(32,
 			v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
 			v(0,1,0), v(1,1,5), v(2,1,0), v(3,1,0),
 			v(0,2,0), v(1,2,0), v(2,2,0), v(3,2,0),
-			v(1,4,0), v(1,4,0), v(1,4,0), v(1,3,0))
+			v(0,4,0), v(1,4,0), v(1,4,0), v(1,3,0))
 			--]]
 	callmodel("blob", v(0,0,-2), v(1,0,0), v(0,1,0),1.0)
 end
@@ -34,7 +34,7 @@ function test_dynamic()
 	poo = poo + 0.005
 	set_material("red", math.sin(poo)*math.sin(poo), 0.5, 0.5)
 	use_material("red")
-	cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
+	xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 end
 
@@ -46,11 +46,14 @@ function blob_static()
 	text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
 end
 
-x = v(1,2,3,5)+v(2,3,4)
+x = v(1,2,3.2)+v(2,3,4)
 x = x-v(3,1,1)
 x:print()
 y = v(math.sin(10),math.cos(10),0):cross(v(0,1,0))
 y:print()
+print (x:x())
+print (x:y())
+print (x:z())
 
 z = 3.1*v(1,2,3)
 z:print()
