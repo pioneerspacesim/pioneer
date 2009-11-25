@@ -393,173 +393,6 @@ public:
 		memcpy(curOp.zbias.norm, &norm.x, 3*sizeof(float));
 	}
 
-	void PushRing(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
-		const int vtxStart = m_vertices.size();
-
-		const vector3f dir = (end-start).Normalized();
-		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
-
-		m_vertices.resize(m_vertices.size() + 2*steps);
-
-		float ang = 0.0;
-		const float inc = 2.0f*M_PI / (float)steps;
-		for (int i=0; i<steps; i++, ang += inc) {
-			vector3f p = radius * (sin(ang)*axis1 + cos(ang)*axis2);
-			vector3f n = p.Normalized();
-
-			m_vertices[vtxStart+i] = Vertex(start+p, n);
-			m_vertices[vtxStart+i+steps] = Vertex(end+p, n);
-		}
-
-		OpDrawElements(steps*2*3);
-		for (int i=0; i<steps-1; i++) {
-			PushIdx(vtxStart+i); PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps);
-			PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps+1); PushIdx(vtxStart+i+steps);
-		}
-		PushIdx(vtxStart+steps-1); PushIdx(vtxStart); PushIdx(vtxStart+2*steps-1);
-		PushIdx(vtxStart); PushIdx(vtxStart+steps); PushIdx(vtxStart+2*steps-1);
-	}
-
-	void PushTube(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float inner_radius, float outer_radius) {
-		const int vtxStart = m_vertices.size();
-
-		const vector3f dir = (end-start).Normalized();
-		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
-
-		m_vertices.resize(m_vertices.size() + 8*steps);
-
-		float ang = 0.0;
-		const float inc = 2.0f*M_PI / (float)steps;
-		for (int i=0; i<steps; i++, ang += inc) {
-			vector3f p = (sin(ang)*axis1 + cos(ang)*axis2);
-			vector3f p_inner = inner_radius * p;
-			vector3f p_outer = outer_radius * p;
-
-			m_vertices[vtxStart+i] = Vertex(start+p_outer, p);
-			m_vertices[vtxStart+i+steps] = Vertex(end+p_outer, p);
-			m_vertices[vtxStart+i+2*steps] = Vertex(start+p_inner, p);
-			m_vertices[vtxStart+i+3*steps] = Vertex(end+p_inner, p);
-
-			m_vertices[vtxStart+i+4*steps] = Vertex(start+p_outer, -dir);
-			m_vertices[vtxStart+i+5*steps] = Vertex(end+p_outer, dir);
-			m_vertices[vtxStart+i+6*steps] = Vertex(start+p_inner, -dir);
-			m_vertices[vtxStart+i+7*steps] = Vertex(end+p_inner, dir);
-		}
-
-		OpDrawElements(steps*4*3);
-		for (int i=0; i<steps-1; i++) {
-			PushIdx(vtxStart+i); PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps);
-			PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps+1); PushIdx(vtxStart+i+steps);
-			
-			PushIdx(vtxStart+i+2*steps);
-			PushIdx(vtxStart+i+steps+2*steps);
-			PushIdx(vtxStart+i+1+2*steps);
-			
-			PushIdx(vtxStart+i+1+2*steps);
-			PushIdx(vtxStart+i+steps+2*steps);
-			PushIdx(vtxStart+i+steps+1+2*steps);
-		}
-		PushIdx(vtxStart+steps-1); PushIdx(vtxStart); PushIdx(vtxStart+2*steps-1);
-		PushIdx(vtxStart); PushIdx(vtxStart+steps); PushIdx(vtxStart+2*steps-1);
-		
-		PushIdx(vtxStart+3*steps-1); PushIdx(vtxStart+4*steps-1); PushIdx(vtxStart+2*steps);
-		PushIdx(vtxStart+2*steps); PushIdx(vtxStart+4*steps-1); PushIdx(vtxStart+3*steps);
-
-		OpDrawElements(12*steps);
-		for (int i=0; i<steps-1; i++) {
-			// 'start' end
-			PushIdx(vtxStart+4*steps+i);
-			PushIdx(vtxStart+6*steps+i);
-			PushIdx(vtxStart+4*steps+i+1);
-			
-			PushIdx(vtxStart+4*steps+i+1);
-			PushIdx(vtxStart+6*steps+i);
-			PushIdx(vtxStart+6*steps+i+1);
-			// 'end' end *cough*
-			PushIdx(vtxStart+5*steps+i);
-			PushIdx(vtxStart+5*steps+i+1);
-			PushIdx(vtxStart+7*steps+i);
-			
-			PushIdx(vtxStart+5*steps+i+1);
-			PushIdx(vtxStart+7*steps+i+1);
-			PushIdx(vtxStart+7*steps+i);
-		}
-		// 'start' end
-		PushIdx(vtxStart+5*steps-1); PushIdx(vtxStart+7*steps-1); PushIdx(vtxStart+4*steps);
-		PushIdx(vtxStart+4*steps); PushIdx(vtxStart+7*steps-1); PushIdx(vtxStart+6*steps);
-		// 'end' end
-		PushIdx(vtxStart+6*steps-1); PushIdx(vtxStart+5*steps); PushIdx(vtxStart+8*steps-1);
-		PushIdx(vtxStart+5*steps); PushIdx(vtxStart+7*steps); PushIdx(vtxStart+8*steps-1);
-	}
-	
-	void PushCylinder(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
-		const int vtxStart = m_vertices.size();
-
-		const vector3f dir = (end-start).Normalized();
-		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
-
-		m_vertices.resize(m_vertices.size() + 4*steps);
-
-		float ang = 0.0;
-		const float inc = 2.0f*M_PI / (float)steps;
-		for (int i=0; i<steps; i++, ang += inc) {
-			vector3f p = radius * (sin(ang)*axis1 + cos(ang)*axis2);
-			vector3f n = p.Normalized();
-
-			m_vertices[vtxStart+i] = Vertex(start+p, n);
-			m_vertices[vtxStart+i+steps] = Vertex(end+p, n);
-			m_vertices[vtxStart+i+2*steps] = Vertex(start+p, -dir);
-			m_vertices[vtxStart+i+3*steps] = Vertex(end+p, -dir);
-		}
-
-		OpDrawElements(steps*2*3);
-		for (int i=0; i<steps-1; i++) {
-			PushIdx(vtxStart+i); PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps);
-			PushIdx(vtxStart+i+1); PushIdx(vtxStart+i+steps+1); PushIdx(vtxStart+i+steps);
-		}
-		PushIdx(vtxStart+steps-1); PushIdx(vtxStart); PushIdx(vtxStart+2*steps-1);
-		PushIdx(vtxStart); PushIdx(vtxStart+steps); PushIdx(vtxStart+2*steps-1);
-
-		OpDrawElements((steps-2)*6);
-		for (int i=2; i<steps; i++) {
-			// bottom cap
-			PushIdx(vtxStart+2*steps);
-			PushIdx(vtxStart+2*steps+i);
-			PushIdx(vtxStart+2*steps+i-1);
-			// top cap
-			PushIdx(vtxStart+3*steps);
-			PushIdx(vtxStart+3*steps+i-1);
-			PushIdx(vtxStart+3*steps+i);
-		}
-	}
-	
-	void PushCircle(int steps, const vector3f &center, const vector3f &normal, const vector3f &updir, float radius) {
-		const int vtxStart = m_vertices.size();
-
-		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, normal).Normalized();
-
-		m_vertices.resize(m_vertices.size() + steps);
-
-		float ang = 0.0;
-		const float inc = 2.0f*M_PI / (float)steps;
-		for (int i=0; i<steps; i++, ang += inc) {
-			vector3f p = center + radius * (sin(ang)*axis1 + cos(ang)*axis2);
-			m_vertices[vtxStart+i] = Vertex(p, normal);
-		}
-
-		OpDrawElements((steps-2)*3);
-		for (int i=2; i<steps; i++) {
-			// top cap
-			PushIdx(vtxStart);
-			PushIdx(vtxStart+i-1);
-			PushIdx(vtxStart+i);
-		}
-	}
-
 	void PushCallModel(LmrModel *m, const matrix4x4f &transform) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_CALL_MODEL;
@@ -596,7 +429,7 @@ public:
 		}
 	}
 
-	void UseMaterial(const char *mat_name) {
+	void PushUseMaterial(const char *mat_name) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_SET_MATERIAL;
 		
@@ -646,18 +479,6 @@ public:
 		c->m_radius = MAX(c->m_aabb.min.Length(), c->m_aabb.max.Length());
 	}
 
-	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
-			OP_CALL_MODEL };
-
-	struct Op {
-		enum OpType type;
-		union {
-			struct { int start, count, elemMin, elemMax; } elems;
-			struct { int material_idx; } col;
-			struct { float amount; float pos[3]; float norm[3]; } zbias;
-			struct { LmrModel *model; float transform[16]; } callmodel;
-		};
-	};
 private:
 	void BindBuffers(bool dynamic) {
 		glEnableClientState (GL_VERTEX_ARRAY);
@@ -693,6 +514,18 @@ private:
 		m_indices.push_back(v);
 	}
 
+	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
+			OP_CALL_MODEL };
+
+	struct Op {
+		enum OpType type;
+		union {
+			struct { int start, count, elemMin, elemMax; } elems;
+			struct { int material_idx; } col;
+			struct { float amount; float pos[3]; float norm[3]; } zbias;
+			struct { LmrModel *model; float transform[16]; } callmodel;
+		};
+	};
 	struct Vertex {
 		Vertex() {}
 		Vertex(const vector3f &v, const vector3f &n): v(v), n(n) {}
@@ -1037,7 +870,7 @@ namespace ModelFuncs {
 	static int use_material(lua_State *L)
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
-		s_curModel->UseMaterial(mat_name);
+		s_curModel->PushUseMaterial(mat_name);
 		return 0;
 	}
 
@@ -1090,6 +923,25 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	static void _circle(int steps, const vector3f &center, const vector3f &normal, const vector3f &updir, float radius) {
+		const int vtxStart = s_curModel->AllocVertices(steps);
+
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = vector3f::Cross(updir, normal).Normalized();
+
+		float ang = 0.0;
+		const float inc = 2.0f*M_PI / (float)steps;
+		for (int i=0; i<steps; i++, ang += inc) {
+			vector3f p = center + radius * (sin(ang)*axis1 + cos(ang)*axis2);
+			s_curModel->SetVertex(vtxStart+i, p, normal);
+		}
+
+		for (int i=2; i<steps; i++) {
+			// top cap
+			s_curModel->PushTri(vtxStart, vtxStart+i-1, vtxStart+i);
+		}
+	}
+
 	static int circle(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
@@ -1097,7 +949,7 @@ namespace ModelFuncs {
 		const vector3f *normal = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
-		s_curModel->PushCircle(steps, *center, *normal, *updir, radius);
+		_circle(steps, *center, *normal, *updir, radius);
 		return 0;
 	}
 
@@ -1108,14 +960,69 @@ namespace ModelFuncs {
 		vector3f normal = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
-		s_curModel->PushCircle(steps, center, normal, updir, radius);
+		_circle(steps, center, normal, updir, radius);
 		center.x = -center.x;
 		normal.x = -normal.x;
 		updir.x = -updir.x;
-		s_curModel->PushCircle(steps, center, normal, updir, radius);
+		_circle(steps, center, normal, updir, radius);
 		return 0;
 	}
 
+	static void _tube(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float inner_radius, float outer_radius) {
+		const int vtxStart = s_curModel->AllocVertices(8*steps);
+
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+
+		float ang = 0.0;
+		const float inc = 2.0f*M_PI / (float)steps;
+		for (int i=0; i<steps; i++, ang += inc) {
+			vector3f p = (sin(ang)*axis1 + cos(ang)*axis2);
+			vector3f p_inner = inner_radius * p;
+			vector3f p_outer = outer_radius * p;
+
+			s_curModel->SetVertex(vtxStart+i, start+p_outer, p);
+			s_curModel->SetVertex(vtxStart+i+steps, end+p_outer, p);
+			s_curModel->SetVertex(vtxStart+i+2*steps, start+p_inner, p);
+			s_curModel->SetVertex(vtxStart+i+3*steps, end+p_inner, p);
+
+			s_curModel->SetVertex(vtxStart+i+4*steps, start+p_outer, -dir);
+			s_curModel->SetVertex(vtxStart+i+5*steps, end+p_outer, dir);
+			s_curModel->SetVertex(vtxStart+i+6*steps, start+p_inner, -dir);
+			s_curModel->SetVertex(vtxStart+i+7*steps, end+p_inner, dir);
+		}
+
+		for (int i=0; i<steps-1; i++) {
+			s_curModel->PushTri(vtxStart+i, vtxStart+i+1, vtxStart+i+steps);
+			s_curModel->PushTri(vtxStart+i+1, vtxStart+i+steps+1, vtxStart+i+steps);
+			s_curModel->PushTri(vtxStart+i+2*steps, vtxStart+i+steps+2*steps, vtxStart+i+1+2*steps);
+			s_curModel->PushTri(vtxStart+i+1+2*steps, vtxStart+i+steps+2*steps, vtxStart+i+steps+1+2*steps);
+		}
+		s_curModel->PushTri(vtxStart+steps-1, vtxStart, vtxStart+2*steps-1);
+		s_curModel->PushTri(vtxStart, vtxStart+steps, vtxStart+2*steps-1);
+		
+		s_curModel->PushTri(vtxStart+3*steps-1, vtxStart+4*steps-1, vtxStart+2*steps);
+		s_curModel->PushTri(vtxStart+2*steps, vtxStart+4*steps-1, vtxStart+3*steps);
+
+		for (int i=0; i<steps-1; i++) {
+			// 'start' end
+			s_curModel->PushTri(vtxStart+4*steps+i, vtxStart+6*steps+i, vtxStart+4*steps+i+1);
+			
+			s_curModel->PushTri(vtxStart+4*steps+i+1, vtxStart+6*steps+i, vtxStart+6*steps+i+1);
+			// 'end' end *cough*
+			s_curModel->PushTri(vtxStart+5*steps+i, vtxStart+5*steps+i+1, vtxStart+7*steps+i);
+			
+			s_curModel->PushTri(vtxStart+5*steps+i+1, vtxStart+7*steps+i+1, vtxStart+7*steps+i);
+		}
+		// 'start' end
+		s_curModel->PushTri(vtxStart+5*steps-1, vtxStart+7*steps-1, vtxStart+4*steps);
+		s_curModel->PushTri(vtxStart+4*steps, vtxStart+7*steps-1, vtxStart+6*steps);
+		// 'end' end
+		s_curModel->PushTri(vtxStart+6*steps-1, vtxStart+5*steps, vtxStart+8*steps-1);
+		s_curModel->PushTri(vtxStart+5*steps, vtxStart+7*steps, vtxStart+8*steps-1);
+	}
+	
 	static int tube(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
@@ -1124,7 +1031,7 @@ namespace ModelFuncs {
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
-		s_curModel->PushTube(steps, *start, *end, *updir, inner_radius, outer_radius);
+		_tube(steps, *start, *end, *updir, inner_radius, outer_radius);
 		return 0;
 	}
 
@@ -1136,14 +1043,48 @@ namespace ModelFuncs {
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
-		s_curModel->PushTube(steps, start, end, updir, inner_radius, outer_radius);
+		_tube(steps, start, end, updir, inner_radius, outer_radius);
 		start.x = -start.x;
 		end.x = -end.x;
 		updir.x = -updir.x;
-		s_curModel->PushTube(steps, start, end, updir, inner_radius, outer_radius);
+		_tube(steps, start, end, updir, inner_radius, outer_radius);
 		return 0;
 	}
 
+	static void _cylinder(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
+		const int vtxStart = s_curModel->AllocVertices(4*steps);
+
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+
+		float ang = 0.0;
+		const float inc = 2.0f*M_PI / (float)steps;
+		for (int i=0; i<steps; i++, ang += inc) {
+			vector3f p = radius * (sin(ang)*axis1 + cos(ang)*axis2);
+			vector3f n = p.Normalized();
+
+			s_curModel->SetVertex(vtxStart+i, start+p, n);
+			s_curModel->SetVertex(vtxStart+i+steps, end+p, n);
+			s_curModel->SetVertex(vtxStart+i+2*steps, start+p, -dir);
+			s_curModel->SetVertex(vtxStart+i+3*steps, end+p, -dir);
+		}
+
+		for (int i=0; i<steps-1; i++) {
+			s_curModel->PushTri(vtxStart+i, vtxStart+i+1, vtxStart+i+steps);
+			s_curModel->PushTri(vtxStart+i+1, vtxStart+i+steps+1, vtxStart+i+steps);
+		}
+		s_curModel->PushTri(vtxStart+steps-1, vtxStart, vtxStart+2*steps-1);
+		s_curModel->PushTri(vtxStart, vtxStart+steps, vtxStart+2*steps-1);
+
+		for (int i=2; i<steps; i++) {
+			// bottom cap
+			s_curModel->PushTri(vtxStart+2*steps, vtxStart+2*steps+i, vtxStart+2*steps+i-1);
+			// top cap
+			s_curModel->PushTri(vtxStart+3*steps, vtxStart+3*steps+i-1, vtxStart+3*steps+i);
+		}
+	}
+	
 	static int cylinder(lua_State *L)
 	{
 		int steps = luaL_checkint(L, 1);
@@ -1151,7 +1092,7 @@ namespace ModelFuncs {
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
-		s_curModel->PushCylinder(steps, *start, *end, *updir, radius);
+		_cylinder(steps, *start, *end, *updir, radius);
 		return 0;
 	}
 
@@ -1163,12 +1104,38 @@ namespace ModelFuncs {
 		vector3f end = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
-		s_curModel->PushCylinder(steps, start, end, updir, radius);
+		_cylinder(steps, start, end, updir, radius);
 		start.x = -start.x;
 		end.x = -end.x;
 		updir.x = -updir.x;
-		s_curModel->PushCylinder(steps, start, end, updir, radius);
+		_cylinder(steps, start, end, updir, radius);
 		return 0;
+	}
+
+	static void _ring(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
+
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+
+		const int vtxStart = s_curModel->AllocVertices(2*steps);
+
+		float ang = 0.0;
+		const float inc = 2.0f*M_PI / (float)steps;
+		for (int i=0; i<steps; i++, ang += inc) {
+			vector3f p = radius * (sin(ang)*axis1 + cos(ang)*axis2);
+			vector3f n = p.Normalized();
+
+			s_curModel->SetVertex(vtxStart+i, start+p, n);
+			s_curModel->SetVertex(vtxStart+i+steps, end+p, n);
+		}
+
+		for (int i=0; i<steps-1; i++) {
+			s_curModel->PushTri(vtxStart+i, vtxStart+i+1, vtxStart+i+steps);
+			s_curModel->PushTri(vtxStart+i+1, vtxStart+i+steps+1, vtxStart+i+steps);
+		}
+		s_curModel->PushTri(vtxStart+steps-1, vtxStart, vtxStart+2*steps-1);
+		s_curModel->PushTri(vtxStart, vtxStart+steps, vtxStart+2*steps-1);
 	}
 
 	/* Cylinder with no top or bottom caps */
@@ -1179,7 +1146,7 @@ namespace ModelFuncs {
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
-		s_curModel->PushRing(steps, *start, *end, *updir, radius);
+		_ring(steps, *start, *end, *updir, radius);
 		return 0;
 	}
 
@@ -1190,11 +1157,11 @@ namespace ModelFuncs {
 		vector3f end = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
 		float radius = lua_tonumber(L, 5);
-		s_curModel->PushRing(steps, start, end, updir, radius);
+		_ring(steps, start, end, updir, radius);
 		start.x = -start.x;
 		end.x = -end.x;
 		updir.x = -updir.x;
-		s_curModel->PushRing(steps, start, end, updir, radius);
+		_ring(steps, start, end, updir, radius);
 		return 0;
 	}
 
