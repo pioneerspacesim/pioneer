@@ -368,7 +368,7 @@ void Viewer::MainLoop()
 			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
 		//	for (int i=0; i<100; i++)
-				LmrModelRender(g_model, _m);
+			g_model->Render(_m);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
@@ -407,8 +407,8 @@ extern void LmrModelCompilerInit();
 
 int main(int argc, char **argv)
 {
-	if ((argc>1) && (0==strcmp(argv[1],"--help"))) {
-		printf("Usage:\n\nSbreViewer <model number> <width> <height>\n");
+	if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
+		printf("Usage:\nluamodelviewer <model name> <width> <height>\n");
 		exit(0);
 	}
 	if (argc == 4) {

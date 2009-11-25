@@ -320,7 +320,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		_rot[12] = pos.x;
 		_rot[13] = pos.y;
 		_rot[14] = pos.z;
-		LmrModelRender((*i).model, _rot);
+		(*i).model->Render(_rot);
 	}
 }
 
