@@ -3,6 +3,7 @@
 #include "glfreetype.h"
 #include "lua_model_compiler.h"
 #include "collider/collider.h"
+#include "perlin.h"
 
 /*
  * TODO
@@ -293,24 +294,16 @@ public:
 		m_ops.resize(m_opsEndStatic);
 	}
 	void Render(const vector3f &cameraPos) {
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+
 		RenderPart(false, cameraPos);
 		RenderPart(true, cameraPos);
 		s_numTrisRendered += m_indices.size()/3;
 	}
 	void RenderPart(bool dynamic, const vector3f &cameraPos) {
 		glEnable(GL_LIGHTING);
-		glEnableClientState (GL_VERTEX_ARRAY);
-		glEnableClientState (GL_NORMAL_ARRAY);
-		if (USE_VBO && !dynamic) {
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
-			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
-			glNormalPointer(GL_FLOAT, sizeof(Vertex), (void *)(3*sizeof(float)));
-			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-		} else {
-			glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
-			glVertexPointer(3, GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].v);
-		}
+
+		BindBuffers(dynamic);
 
 		glDepthRange(0.0, 1.0);
 
@@ -333,6 +326,13 @@ public:
 					glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
+					if (m.diffuse[3] == 1.0) {
+						glDisable(GL_BLEND);
+						glDepthMask(GL_TRUE);
+					} else {
+						glEnable(GL_BLEND);
+						glDepthMask(GL_FALSE);
+					}
 				}
 				break;
 			case OP_ZBIAS:
@@ -353,6 +353,8 @@ public:
 				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
 				LmrModelRender(op.callmodel.model, cam_pos, trans);
 				s_curModel = this;
+#warning re-binding buffers may be unnecessary if no geometry is to follow
+				BindBuffers(dynamic);
 				}
 				break;
 			case OP_NONE:
@@ -571,22 +573,22 @@ public:
 		m_materials.push_back(Material());
 	}
 	
-	void SetMaterial(const char *mat_name, const float mat[10]) {
+	void SetMaterial(const char *mat_name, const float mat[11]) {
 		std::map<std::string, int>::iterator i = m_materialLookup.find(mat_name);
 		if (i != m_materialLookup.end()) {
 			Material &m = m_materials[(*i).second];
 			m.diffuse[0] = mat[0];
 			m.diffuse[1] = mat[1];
 			m.diffuse[2] = mat[2];
-			m.diffuse[3] = 1.0f;
-			m.specular[0] = mat[3];
-			m.specular[1] = mat[4];
-			m.specular[2] = mat[5];
+			m.diffuse[3] = mat[3];
+			m.specular[0] = mat[4];
+			m.specular[1] = mat[5];
+			m.specular[2] = mat[6];
 			m.specular[3] = 1.0f;
-			m.shininess = mat[6];
-			m.emissive[0] = mat[7];
-			m.emissive[1] = mat[8];
-			m.emissive[2] = mat[9];
+			m.shininess = mat[7];
+			m.emissive[0] = mat[8];
+			m.emissive[1] = mat[9];
+			m.emissive[2] = mat[10];
 			m.emissive[3] = 1.0f;
 		} else {
 			printf("Unknown material name.");
@@ -657,6 +659,20 @@ public:
 		};
 	};
 private:
+	void BindBuffers(bool dynamic) {
+		glEnableClientState (GL_VERTEX_ARRAY);
+		glEnableClientState (GL_NORMAL_ARRAY);
+		if (USE_VBO && !dynamic) {
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
+			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
+			glNormalPointer(GL_FLOAT, sizeof(Vertex), (void *)(3*sizeof(float)));
+			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+		} else {
+			glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
+			glVertexPointer(3, GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].v);
+		}
+	}
 	void OpDrawElements(int numIndices) {
 		if (curOp.type != OP_DRAW_ELEMENTS) {
 			if (curOp.type) m_ops.push_back(curOp);
@@ -1010,8 +1026,8 @@ namespace ModelFuncs {
 	static int set_material(lua_State *L)
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
-		float mat[10];
-		for (int i=0; i<10; i++) {
+		float mat[11];
+		for (int i=0; i<11; i++) {
 			mat[i] = lua_tonumber(L, i+2);
 		}
 		s_curModel->SetMaterial(mat_name, mat);
@@ -1258,6 +1274,22 @@ namespace ModelFuncs {
 
 } /* namespace ModelFuncs */
 
+namespace UtilFuncs {
+	
+	int noise(lua_State *L) {
+		vector3f v;
+		if (lua_isnumber(L, 1)) {
+			v.x = lua_tonumber(L, 1);
+			v.y = lua_tonumber(L, 2);
+			v.z = lua_tonumber(L, 3);
+		} else {
+			v = *MyLuaVec::checkVec(L, 1);
+		}
+		lua_pushnumber(L, noise(v));
+		return 1;
+	}
+} /* UtilFuncs */
+
 static int register_models(lua_State *L)
 {
 	int n = lua_gettop(L);
@@ -1322,6 +1354,7 @@ void LmrModelCompilerInit()
 	
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "callmodel", ModelFuncs::callmodel);
+	lua_register(L, "noise", UtilFuncs::noise);
 
 	s_buildDynamic = false;
 	if (luaL_dofile(L, "models.lua")) {

@@ -27,7 +27,7 @@ citybuilding_t city_buildings[] = {
 //	{ "factory1" },
 //	{ "42" }, // a house
 //	{ "church" },
-	{ "mybuilding" },
+	{ "boringHighRise" },
 	{ 0 }
 };
 
@@ -41,7 +41,7 @@ citybuilding_t wind_turbines[] = {
 
 citybuilding_t starport_buildings[] = {
 //	{ "building1" },
-	{ "mybuilding" },
+	{ "boringHighRise" },
 	{ 0 }
 };
 

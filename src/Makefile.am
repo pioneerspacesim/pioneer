@@ -35,8 +35,8 @@ pioneer_LDADD = sbre/libsbre.a collider/libcollider.a missions/libmissions.a lua
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp ModelCollMeshData.cpp
 sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
-luamodelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp ModelCollMeshData.cpp lua_model_compiler.cpp
-luamodelviewer_LDADD = sbre/libsbre.a collider/libcollider.a lua/liblua.a libgui.a
+luamodelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp lua_model_compiler.cpp perlin.cpp
+luamodelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
 
 check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \

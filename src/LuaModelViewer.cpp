@@ -1,5 +1,4 @@
 #include "libs.h"
-#include "sbre/sbre.h"
 #include "glfreetype.h"
 #include "Gui.h"
 #include "collider/collider.h"
@@ -320,7 +319,7 @@ void Viewer::MainLoop()
 	Uint32 lastFpsReadout = SDL_GetTicks();
 	const LmrCollMesh *cmesh = new LmrCollMesh(g_model);
 	GeomTree *geomtree = cmesh->geomTree;
-	distance = 10.0;//2.0*sbreGetModelRadius(g_model);
+	distance = cmesh->GetBoundingRadius();
 	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
@@ -358,8 +357,6 @@ void Viewer::MainLoop()
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			SetSbreParams();
-			sbreSetDepthRange(g_width*0.5f, 0.0f, 1.0f);
-			sbreSetDirLight (lightCol, lightDir);
 		
 			Matrix m;
 			Vector p;
@@ -367,7 +364,6 @@ void Viewer::MainLoop()
 			m.y1 = (float)rot[1]; m.y2 = (float)rot[5]; m.y3 = (float)rot[9];
 			m.z1 = (float)rot[2]; m.z2 = (float)rot[6]; m.z3 = (float)rot[10];
 			p.x = 0; p.y = 0; p.z = -distance;
-//			sbreRenderModel(&p, &m, g_model, &params);
 			matrix4x4f _m;
 			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
@@ -380,7 +376,6 @@ void Viewer::MainLoop()
 			glMultMatrixd(&rot[0]);
 			render_coll_mesh(cmesh);
 			glPopMatrix();
-			//sbreRenderCollMesh(cmesh, &p, &m);
 		} else {
 			vector3d camPos = vector3d(0.0,0.0,(double)distance);
 			vector3d forward = vector3d(0.0,0.0,-1.0);
