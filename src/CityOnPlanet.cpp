@@ -4,7 +4,6 @@
 #include "SpaceStation.h"
 #include "Planet.h"
 #include "Pi.h"
-#include "ModelCollMeshData.h"
 #include "collider/Geom.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
@@ -21,13 +20,13 @@ struct citybuilding_t {
 citybuilding_t city_buildings[] = {
 //	{ "skyscraper1" },
 //	{ "skyscraper2" },
-//	{ "building1" },
-//	{ "building2" },
+	{ "building1" },
+	{ "building2" },
 //	{ "building3" },
 //	{ "factory1" },
 //	{ "42" }, // a house
 //	{ "church" },
-	{ "boringHighRise" },
+//	{ "boringHighRise" },
 	{ 0 }
 };
 
@@ -35,13 +34,13 @@ citybuilding_t wind_turbines[] = {
 //	{ "wind_turbine1" },
 //	{ "wind_turbine2" },
 //	{ "wind_turbine3" },
-	{ "mybuilding" },
+	{ "building1" },
 	{ 0 }
 };
 
 citybuilding_t starport_buildings[] = {
-//	{ "building1" },
-	{ "boringHighRise" },
+	{ "building1" },
+	{ "church" },
 	{ 0 }
 };
 

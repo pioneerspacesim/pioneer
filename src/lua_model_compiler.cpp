@@ -235,8 +235,6 @@ static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
 
-static void LmrModelRender(LmrModel *m, const vector3f &cameraPos, const matrix4x4f &pos);
-
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 
@@ -634,20 +632,20 @@ LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundExceptio
 }	
 
 namespace ModelFuncs {
-	static int callmodel(lua_State *L)
+	static int call_model(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
 //	subobject(object_name, vector pos, vector xaxis, vector yaxis [, scale=float, onflag=])
 		LmrModel *m = s_models[obj_name];
 		if (!m) {
-			luaL_error(L, "callmodel() to undefined model. Referenced model must be registered before calling model");
+			luaL_error(L, "call_model() to undefined model. Referenced model must be registered before calling model");
 		} else {
 			vector3f *pos = MyLuaVec::checkVec(L, 2);
-			vector3f *_xaxis = MyLuaVec::checkVec(L, 3);
+			vector3f _xaxis = -(*MyLuaVec::checkVec(L, 3));
 			vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
 			float scale = luaL_checknumber(L, 5);
 
-			vector3f zaxis = vector3f::Cross(*_xaxis, *_yaxis).Normalized();
+			vector3f zaxis = vector3f::Cross(_xaxis, *_yaxis).Normalized();
 			vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
 			vector3f yaxis = vector3f::Cross(zaxis, xaxis);
 
@@ -1318,7 +1316,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	
 	lua_register(L, "zbias", ModelFuncs::zbias);
-	lua_register(L, "callmodel", ModelFuncs::callmodel);
+	lua_register(L, "call_model", ModelFuncs::call_model);
 	lua_register(L, "noise", UtilFuncs::noise);
 
 	s_buildDynamic = false;
