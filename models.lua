@@ -1,21 +1,37 @@
 
-function building1_static()
-	dec_material("mat")
+function building1_info(lod)
+	return {
+		bounding_radius = 10,
+		materials={'mat'}
+	}
+end
+function building1_static(lod)
 	set_material("mat", .5, .5, .5, 1)
 	use_material("mat")
 	extrusion(v(0,0,-7.5), v(0,0,7.5), v(0,1,0), 6.0,
 		v(-1,0,0), v(1,0,0), v(1,1,0), v(-1,1,0))
 end
 
-function building2_static()
-	dec_material("mat")
+function building2_info(lod)
+	return {
+		bounding_radius = 25,
+		materials={'mat'}
+	}
+end
+function building2_static(lod)
 	set_material("mat", .5, .5, .5, 1)
 	use_material("mat")
 	extrusion(v(0,0,-16), v(0,0,16), v(0,1,0), 1.0,
 		v(-16,0,0), v(16,0,0), v(16,20,0), v(-16,20,0))
 end
 
-function skyscraper1_static()
+function skyscraper1_info(lod)
+	return {
+		bounding_radius=200,
+		materials={'gray1', 'gray2'}
+	}
+end
+function skyscraper1_static(lod)
 	-- Inset black bit
 	-- h g
 	--
@@ -30,7 +46,6 @@ function skyscraper1_static()
 	local f = v(20,48,10)
 	local g = v(20,200,10)
 	local h = v(-20,200,10)
-	dec_material("gray1")
 	set_material("gray1", .2,.2,.2,1, .7,.7,.7, 10)
 	use_material("gray1")
 	quad(a,b,c,d)
@@ -49,7 +64,6 @@ function skyscraper1_static()
 	local f2 = v(20,48,15)
 	local g2 = v(20,200,15)
 	local h2 = v(-20,200,15)
-	dec_material("gray2")
 	set_material("gray2", .9,.9,.9,1)
 	use_material("gray2")
 	-- inset bits
@@ -101,18 +115,26 @@ function skyscraper1_static()
 	tri(ta,tb,tc)
 end
 
-function clockhand_static()
-	dec_material("mat")
+function clockhand_info(lod)
+	return {
+		bounding_radius = 1,
+		materials={'mat'}
+	}
+end
+function clockhand_static(lod)
 	set_material("mat",0,0,1,1, 0,0,0, 10)
 	use_material("mat")
 	zbias(3, v(0,0,0), v(0,0,1))
 	tri(v(-0.06, -0.06, 0), v(0.06, -0.06, 0), v(0, 1, 0))
 end
 
-rott = 0
-function clock_static()
-	dec_material("face")
-	dec_material("numbers")
+function clock_info(lod)
+	return {
+		bounding_radius=1,
+		materials={'face','numbers'}
+	}
+end
+function clock_static(lod)
 	set_material("face", 1,1,1,1)
 	set_material("numbers",.5,.5,0,1)
 	use_material("face")
@@ -135,7 +157,7 @@ function clock_static()
 	text("11", v(-.425,.736,0), v(0,0,1), v(1,0,0), 0.15)
 
 end
-function clock_dynamic()
+function clock_dynamic(lod)
 	local t = os.time()
 	local handPos = (t%60)/60
 
@@ -147,8 +169,13 @@ function clock_dynamic()
 			v(math.cos(-handPos),-math.sin(-handPos),0),
 			v(-math.sin(-handPos), -math.cos(-handPos),0), 0.5)
 end
-function church_static()
-	dec_material("body")
+function church_info(lod)
+	return {
+		bounding_radius=45,
+		materials={'body','spire'}
+	}
+end
+function church_static(lod)
 	set_material("body", .5, .5, .3,1)
 	use_material("body")
 	extrusion(v(0,0,-18), v(0,0,12), v(0,1,0), 1.0,
@@ -160,7 +187,6 @@ function church_static()
 	local spire = v(0,45,-11)
 	tri(v(-7,10,12), v(7,10,12), roof1)
 	
-	dec_material("spire")
 	set_material("spire", .8, .3, .0,1)
 	use_material("spire")
 	xref_quad(roof2, roof1, v(7,10,12), v(7,10,-4))
@@ -174,15 +200,14 @@ function church_static()
 	call_model("clock", clockpos1, v(0,0,1), v(0,1,0), 2.5)
 	call_model("clock", clockpos2, v(0,0,-1), v(0,1,0), 2.5)
 end
-function mybuilding_static()
-	dec_material("red")
-	set_material("red", 1,0,0,1)
-	use_material("red")
-	xref_tube(64, v(0,0,0), v(0,100,0), v(1,0,0), 20, 40)
-end
 
-function towerOfShit_static()
-	dec_material("mat1")
+function towerOfShit_info(lod)
+	return {
+		bounding_radius=20,
+		materials={'mat1'}
+	}
+end
+function towerOfShit_static(lod)
 	set_material("mat1", 1,1,1,1)
 	use_material("mat1")
 	for i = 0,20 do
@@ -194,13 +219,17 @@ function towerOfShit_static()
 	end
 end
 
-function boringHighRise_dynamic()
-	use_material("mat1")
+function boringHighRise_info(lod)
+	return {
+		bounding_radius=200,
+		materials={'mat1','windows'}
+	}
+end
+function boringHighRise_dynamic(lod)
+	use_material("mat1", 'windows')
 	tri(v(-20,0,0),v(20,0,0),v(-20,20,0))
 end
-function boringHighRise_static()
-	dec_material("mat1")
-	dec_material("windows")
+function boringHighRise_static(lod)
 	set_material("mat1", 0.5,0.5,0.5,1)
 	use_material("mat1")
 	extrusion(v(0,0,20), v(0,0,-20), v(0,1,0), 1.0,
@@ -235,25 +264,29 @@ function boringHighRise_static()
 	
 end
 	
-
-function test_static()
-	dec_material("red")
-	dec_material("shinyred")
+function test_info()
+	return { lod_pixels={30,60,100,0},
+		bounding_radius = 10.0,
+		tags = {'building', 'turd'},
+		materials = {'red', 'shinyred'}
+	}
+end
+function test_static(lod)
 	set_material("red", 1,0,0,1)
 	set_material("shinyred", 1,0,0,0.5, 1,1,1,50)
 	use_material("red")
 	zbias(1, v(0,5,0), v(0,0,1))
-	text("ABCDEfghi Hello 1234", v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
+	text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
 	zbias(0)
 	call_model("blob", v(0,0,-2), v(1,0,0), v(0,1,0),1.0)
-	xref_cylinder(16, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
+	xref_cylinder(lod*4, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
 	use_material("shinyred")
 	xref_circle(9, v(4,5,0), v(0,0,1), v(1,0,0), 1.0)
 	tri(v(12,3,0),v(13,3,0), v(12,4,0))
 	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
 	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
 ---[[	
-	xref_bezier_3x3(32,
+	xref_bezier_3x3(lod*4,
 			v(0,0,0), v(1,-1,0), v(2,0,0),
 			v(-1,1,0), v(1,1,8), v(3,1,0),
 			v(0,2,0), v(1,3,0), v(2,2,0))
@@ -270,7 +303,7 @@ function test_static()
 		v(0,-0.5,0))
 end
 poo = 0
-function test_dynamic()
+function test_dynamic(lod)
 	poo = poo + 0.005
 	set_material("red", math.sin(poo)*math.sin(poo), 0.5, 0.5, 1)
 	use_material("red")
@@ -278,32 +311,19 @@ function test_dynamic()
 	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 end
 
-function blob_static()
-	dec_material("blue")
+function blob_info()
+	return {
+		bounding_radius=8,
+		materials={'blue'}
+	}
+end
+function blob_static(lod)
 	set_material("blue", 0,0,1,1)
 	use_material("blue")
 	cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
 	text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
 end
 
-function hi(x)
-	x = x + 1
-	return {
-		static=function(val)
-			print(tostring(x) .. " sod you " .. tostring(val))
-		end,
-		
-		dynamic=function(val)
-			print("you called b("..tostring(val))
-		end
-	}
-end
-
-x = hi(1)
-x.static("my friend")
-x.dynamic(123)
--- comment
-
-register_models("blob","test","mybuilding", "towerOfShit",
+register_models("blob","test", "towerOfShit",
 "boringHighRise","clockhand","clock","church", "skyscraper1", "building1",
 "building2")

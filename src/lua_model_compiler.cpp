@@ -226,7 +226,7 @@ namespace MyLuaVec {
 
 class LmrGeomBuffer;
 
-
+static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontFace *s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
@@ -234,6 +234,11 @@ static LmrGeomBuffer *s_curBuf;
 static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
+
+void LmrNotifyScreenWidth(float width)
+{
+	s_scrWidth = width;
+}
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
@@ -387,12 +392,6 @@ public:
 		curOp.callmodel.model = m;
 	}
 
-	void DeclareMaterial(const char *mat_name) {
-		assert(!s_buildDynamic);
-		m_model->m_materialLookup[mat_name] = m_model->m_materials.size();
-		m_model->m_materials.push_back(LmrModel::Material());
-	}
-	
 	void SetMaterial(const char *mat_name, const float mat[11]) {
 		std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 		if (i != m_model->m_materialLookup.end()) {
@@ -547,27 +546,94 @@ private:
 LmrModel::LmrModel(const char *model_name)
 {
 	m_name = model_name;
+	m_boundingRadius = 1.0f;
 
 	char buf[256];
+	snprintf(buf, sizeof(buf), "%s_info", model_name);
+	lua_getglobal(sLua, buf);
+	if (lua_isfunction(sLua, -1)) {
+		m_numLods = 0;
+		/* get model_info table */
+		lua_call(sLua, 0, 1);
+
+		lua_getfield(sLua, -1, "bounding_radius");
+		if (lua_isnumber(sLua, -1)) m_boundingRadius = luaL_checknumber(sLua, -1);
+		else luaL_error(sLua, "model %s_info() missing bounding_radius=", model_name);
+		lua_pop(sLua, 1);
+
+		lua_getfield(sLua, -1, "lod_pixels");
+		if (lua_istable(sLua, -1)) {
+			for(int i=1;; i++) {
+				lua_pushinteger(sLua, i);
+				lua_gettable(sLua, -2);
+				bool is_num = lua_isnumber(sLua, -1);
+				if (is_num) {
+					m_lodPixelSize[i-1] = luaL_checknumber(sLua, -1);
+					m_numLods++;
+				}
+				lua_pop(sLua, 1);
+				if (!is_num) break;
+				if (i > LMR_MAX_LOD) {
+					luaL_error(sLua, "Too many LODs (maximum %d)", LMR_MAX_LOD);
+				}
+			}
+		} else {
+			m_numLods = 1;
+			m_lodPixelSize[0] = 0;
+		}
+		lua_pop(sLua, 1);
+
+		lua_getfield(sLua, -1, "materials");
+		if (lua_istable(sLua, -1)) {
+			for(int i=1;; i++) {
+				lua_pushinteger(sLua, i);
+				lua_gettable(sLua, -2);
+				bool is_string = lua_isstring(sLua, -1);
+				if (is_string) {
+					const char *mat_name = luaL_checkstring(sLua, -1);
+					m_materialLookup[mat_name] = m_materials.size();
+					m_materials.push_back(Material());
+				}
+				lua_pop(sLua, 1);
+				if (!is_string) break;
+			}
+		}
+		lua_pop(sLua, 1);
+
+		/* pop model_info table */
+		lua_pop(sLua, 1);
+	} else {
+		luaL_error(sLua, "Could not find function %s_info()", model_name);
+	}
+	
 	snprintf(buf, sizeof(buf), "%s_dynamic", model_name);
 	lua_getglobal(sLua, buf);
 	m_hasDynamicFunc = lua_isfunction(sLua, -1);
+	lua_pop(sLua, 1);
 
-	m_staticGeometry = new LmrGeomBuffer(this);
-	m_dynamicGeometry = new LmrGeomBuffer(this);
+	for (int i=0; i<m_numLods; i++) {
+		m_staticGeometry[i] = new LmrGeomBuffer(this);
+		m_dynamicGeometry[i] = new LmrGeomBuffer(this);
+	}
 
-	s_curBuf = m_staticGeometry;
-	// call model static building function
-	lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
-	lua_call(sLua, 0, 0);
-	s_curBuf = 0;
-	m_staticGeometry->Build();
+	for (int i=0; i<m_numLods; i++) {
+		s_curBuf = m_staticGeometry[i];
+		// call model static building function
+		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
+		// lod as first argument
+		lua_pushnumber(sLua, i+1);
+		lua_call(sLua, 1, 0);
+		s_curBuf = 0;
+		m_staticGeometry[i]->Build();
+	}
 }
 
 LmrModel::~LmrModel()
 {
-	delete m_staticGeometry;
-	delete m_dynamicGeometry;
+	for (int i=0; i<m_numLods; i++) {
+		delete m_staticGeometry[i];
+		delete m_dynamicGeometry[i];
+	}
 }
 
 void LmrModel::Render(const matrix4x4f &trans)
@@ -580,34 +646,44 @@ void LmrModel::Render(const vector3f &cameraPos, const matrix4x4f &trans)
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 
-	Build();
+	float pixrad = 0.5f * s_scrWidth * m_boundingRadius / cameraPos.Length();
 
-	m_staticGeometry->Render(cameraPos);
+	int lod = m_numLods-1;
+	for (int i=lod-1; i>=0; i--) {
+		if (pixrad < m_lodPixelSize[i]) lod = i;
+	}
+
+	Build(lod);
+
+	m_staticGeometry[lod]->Render(cameraPos);
 	if (m_hasDynamicFunc) {
-		m_dynamicGeometry->Render(cameraPos);
+		m_dynamicGeometry[lod]->Render(cameraPos);
 	}
 	s_curBuf = 0;
 	glPopMatrix();
 }
 
-void LmrModel::Build()
+void LmrModel::Build(int lod)
 {
 	if (m_hasDynamicFunc) {
-		s_curBuf = m_dynamicGeometry;
+		s_curBuf = m_dynamicGeometry[lod];
 		s_curBuf->FreeGeometry();
 		// call model dynamic bits
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
-		lua_call(sLua, 0, 0);
+		// lod as first argument
+		lua_pushnumber(sLua, lod+1);
+		lua_call(sLua, 1, 0);
 		s_curBuf = 0;
-		m_dynamicGeometry->Build();
+		m_dynamicGeometry[lod]->Build();
 	}
 }
 
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform)
 {
-	Build();
-	m_staticGeometry->GetCollMeshGeometry(mesh, transform);
-	if (m_hasDynamicFunc) m_dynamicGeometry->GetCollMeshGeometry(mesh, transform);
+	// use lowest LOD
+	Build(0);
+	m_staticGeometry[0]->GetCollMeshGeometry(mesh, transform);
+	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, transform);
 }
 
 LmrCollMesh::LmrCollMesh(LmrModel *m)
@@ -859,13 +935,6 @@ namespace ModelFuncs {
 
 	static int cubic_bezier(lua_State *L) { _cubic_bezier(L, false); return 0; }
 	static int xref_cubic_bezier(lua_State *L) { _cubic_bezier(L, true); return 0; }
-
-	static int dec_material(lua_State *L)
-	{
-		const char *mat_name = luaL_checkstring(L, 1);
-		s_curBuf->DeclareMaterial(mat_name);
-		return 0;
-	}
 
 	static int set_material(lua_State *L)
 	{
@@ -1292,7 +1361,6 @@ void LmrModelCompilerInit()
 	// shorthand for Vec.new(x,y,z)
 	lua_register(L, "v", MyLuaVec::Vec_new);
 	lua_register(L, "register_models", register_models);
-	lua_register(L, "dec_material", ModelFuncs::dec_material);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
 	

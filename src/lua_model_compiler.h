@@ -8,15 +8,17 @@ class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
 
+#define LMR_MAX_LOD 4
+
 class LmrModel {
 public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();
 	void Render(const matrix4x4f &trans);
 	void Render(const vector3f &cameraPos, const matrix4x4f &trans);
-	void Build();
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform);
 private:
+	void Build(int lod);
 	struct Material {
 		Material() {}
 		float diffuse[4];
@@ -28,10 +30,13 @@ private:
 	// index into m_materials
 	std::map<std::string, int> m_materialLookup;
 	std::vector<Material> m_materials;
-	LmrGeomBuffer *m_staticGeometry;
-	LmrGeomBuffer *m_dynamicGeometry;
+	float m_lodPixelSize[LMR_MAX_LOD];
+	int m_numLods;
+	LmrGeomBuffer *m_staticGeometry[LMR_MAX_LOD];
+	LmrGeomBuffer *m_dynamicGeometry[LMR_MAX_LOD];
 	std::string m_name;
 	bool m_hasDynamicFunc;
+	float m_boundingRadius;
 	friend class LmrGeomBuffer;
 };
 
@@ -41,6 +46,7 @@ LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundExceptio
 void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
+void LmrNotifyScreenWidth(float width);
 
 class LmrCollMesh
 {
