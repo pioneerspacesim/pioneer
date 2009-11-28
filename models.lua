@@ -1,5 +1,6 @@
 
-function building1_info(lod)
+
+function building1_info()
 	return {
 		bounding_radius = 10,
 		materials={'mat'}
@@ -12,7 +13,7 @@ function building1_static(lod)
 		v(-1,0,0), v(1,0,0), v(1,1,0), v(-1,1,0))
 end
 
-function building2_info(lod)
+function building2_info()
 	return {
 		bounding_radius = 25,
 		materials={'mat'}
@@ -25,7 +26,7 @@ function building2_static(lod)
 		v(-16,0,0), v(16,0,0), v(16,20,0), v(-16,20,0))
 end
 
-function skyscraper1_info(lod)
+function skyscraper1_info()
 	return {
 		bounding_radius=200,
 		materials={'gray1', 'gray2'}
@@ -115,7 +116,7 @@ function skyscraper1_static(lod)
 	tri(ta,tb,tc)
 end
 
-function clockhand_info(lod)
+function clockhand_info()
 	return {
 		bounding_radius = 1,
 		materials={'mat'}
@@ -128,7 +129,7 @@ function clockhand_static(lod)
 	tri(v(-0.06, -0.06, 0), v(0.06, -0.06, 0), v(0, 1, 0))
 end
 
-function clock_info(lod)
+function clock_info()
 	return {
 		bounding_radius=1,
 		materials={'face','numbers'}
@@ -169,7 +170,7 @@ function clock_dynamic(lod)
 			v(math.cos(-handPos),-math.sin(-handPos),0),
 			v(-math.sin(-handPos), -math.cos(-handPos),0), 0.5)
 end
-function church_info(lod)
+function church_info()
 	return {
 		bounding_radius=45,
 		materials={'body','spire'}
@@ -201,7 +202,7 @@ function church_static(lod)
 	call_model("clock", clockpos2, v(0,0,-1), v(0,1,0), 2.5)
 end
 
-function towerOfShit_info(lod)
+function towerOfShit_info()
 	return {
 		bounding_radius=20,
 		materials={'mat1'}
@@ -219,7 +220,7 @@ function towerOfShit_static(lod)
 	end
 end
 
-function boringHighRise_info(lod)
+function boringHighRise_info()
 	return {
 		bounding_radius=200,
 		materials={'mat1','windows'}
@@ -263,6 +264,45 @@ function boringHighRise_static(lod)
 	zbias(0)
 	
 end
+
+function biodome(lod, trans)
+	local d = 1/math.sqrt(2)
+	local height = 40
+	use_material('base')
+	local yank=-690
+	xref_bezier_4x4(32, 1, trans*v(0,0,500), trans*v(0,0.25*height,500), trans*v(0,0.75*height,500), trans*v(0,height,500),
+			trans*v(yank,0,500), trans*v(yank,0.25*height,500), trans*v(yank,0.75*height,500), trans*v(yank,height,500),
+			trans*v(yank,0,-500), trans*v(yank,0.25*height,-500), trans*v(yank,0.75*height,-500), trans*v(yank,height,-500),
+			trans*v(0,0,-500), trans*v(0,0.25*height,-500), trans*v(0,0.75*height,-500), trans*v(0,height,-500))
+	use_material('green')
+	zbias(1, v(0,height,0), v(0,1,0))
+	local s = 660
+	bezier_3x3(16, 16, trans*v(d*500,height,d*-500), trans*v(0,height,-s), trans*v(d*-500,height,d*-500),
+		trans*v(s,height,0), trans*v(0,height,0), trans*v(-s,height,0),
+		trans*v(d*500,height,d*500), trans*v(0,height,s), trans*v(d*-500,height,d*500))
+	use_material('dome')
+	bezier_3x3(16, 16, trans*v(d*500,height,d*-500), trans*v(0,height,-s), trans*v(d*-500,height,d*-500),
+		trans*v(s,height,0), trans*v(0,500,0), trans*v(-s,height,0),
+		trans*v(d*500,height,d*500), trans*v(0,height,s), trans*v(d*-500,height,d*500))
+	zbias(0)
+end
+function biodomes_info()
+	return {
+		bounding_radius=1000,
+		materials={'base','green','dome'}
+	}
+end
+function biodomes_static(lod)
+	set_material('base', .4,.4,.5,1, .5,.5,.7,40)
+	set_material('green', .1,.6,.1,1)
+	set_material('dome', .5,.5,1,.3, 1,1,1,100)
+	m = Mat4x4.translate(v(0,0,0))
+	biodome(lod, m)
+--	m = Mat4x4.scale(v(0.5,0.5,0.5)) * Mat4x4.translate(v(600,0,0))
+--	biodome(lod, m)
+
+	use_material("base")
+end
 	
 function test_info()
 	return { lod_pixels={30,60,100,0},
@@ -286,13 +326,13 @@ function test_static(lod)
 	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
 	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
 ---[[	
-	xref_bezier_3x3(lod*4,
+	xref_bezier_3x3(16, 16,
 			v(0,0,0), v(1,-1,0), v(2,0,0),
 			v(-1,1,0), v(1,1,8), v(3,1,0),
 			v(0,2,0), v(1,3,0), v(2,2,0))
 			--]]
 --[[	
-	xref_bezier_4x4(32,
+	xref_bezier_4x4(32, 32,
 			v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
 			v(0,1,0), v(1,1,5), v(2,1,0), v(3,1,0),
 			v(0,2,0), v(1,2,0), v(2,2,0), v(3,2,0),
@@ -324,6 +364,13 @@ function blob_static(lod)
 	text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
 end
 
+m = Mat4x4.rotate(math.pi*0.25,v(1,1,1))
+m:print()
+m = m:inverse()
+m:print()
+a = (m*v(1,0,0))
+a:print()
+
 register_models("blob","test", "towerOfShit",
 "boringHighRise","clockhand","clock","church", "skyscraper1", "building1",
-"building2")
+"building2",'biodomes')

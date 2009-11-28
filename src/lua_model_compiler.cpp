@@ -33,7 +33,230 @@ extern "C" {
 }
 
 #define VEC "Vec"
+#define MAT4X4 "Mat4x4"
 #define MODEL "Model"
+
+// Copy of:
+// LUALIB_API void *luaL_checkudata (lua_State *L, int ud, const char *tname)
+// with typeerror commented out
+void *mylua_checkudata (lua_State *L, int ud, const char *tname) {
+  void *p = lua_touserdata(L, ud);
+  if (p != NULL) {  /* value is a userdata? */
+    if (lua_getmetatable(L, ud)) {  /* does it have a metatable? */
+      lua_getfield(L, LUA_REGISTRYINDEX, tname);  /* get correct metatable */
+      if (lua_rawequal(L, -1, -2)) {  /* does it have the correct mt? */
+        lua_pop(L, 2);  /* remove both metatables */
+        return p;
+      }
+    }
+  }
+//  luaL_typerror(L, ud, tname);  /* else error */
+  return NULL;  /* to avoid warnings */
+}
+
+namespace MyLuaVec {
+	static vector3f *checkVec (lua_State *L, int index);
+	static vector3f *pushVec(lua_State *L);
+}
+
+namespace MyLuaMatrix {
+	static matrix4x4f *checkMat4x4 (lua_State *L, int index)
+	{
+		matrix4x4f *v;
+		luaL_checktype(L, index, LUA_TUSERDATA);
+		v = (matrix4x4f *)luaL_checkudata(L, index, MAT4X4);
+		if (v == NULL) luaL_typerror(L, index, MAT4X4);
+		return v;
+	}
+
+
+	static matrix4x4f *pushMat4x4(lua_State *L)
+	{
+		matrix4x4f *v = (matrix4x4f *)lua_newuserdata(L, sizeof(matrix4x4f));
+		luaL_getmetatable(L, MAT4X4);
+		lua_setmetatable(L, -2);
+		return v;
+	}
+
+	static int Mat4x4_new_identity(lua_State *L)
+	{
+		matrix4x4f *v = pushMat4x4(L);
+		*v = matrix4x4f::Identity();
+		return 1;
+	}
+
+	static int Mat4x4_inverse(lua_State *L)
+	{
+		matrix4x4f *v = checkMat4x4(L, 1);
+		matrix4x4f *w = pushMat4x4(L);
+		*w = v->InverseOf();
+		return 1;
+	}
+
+	static int Mat4x4_rotate(lua_State *L)
+	{
+		float ang = luaL_checknumber(L, 1);
+		vector3f v = *MyLuaVec::checkVec(L, 2);
+		v = v.Normalized();
+		matrix4x4f *out = pushMat4x4(L);
+		*out = matrix4x4f::RotateMatrix(ang, v.x, v.y, v.z);
+		return 1;
+	}
+
+	static int Mat4x4_translate(lua_State *L)
+	{
+		const vector3f *v = MyLuaVec::checkVec(L, 1);
+		matrix4x4f *out = pushMat4x4(L);
+		*out = matrix4x4f::Translation(v->x, v->y, v->z);
+		return 1;
+	}
+
+	static int Mat4x4_scale(lua_State *L)
+	{
+		const vector3f *v = MyLuaVec::checkVec(L, 1);
+		matrix4x4f *out = pushMat4x4(L);
+		*out = matrix4x4f::ScaleMatrix(v->x, v->y, v->z);
+		return 1;
+	}
+
+	static int Mat4x4_new(lua_State *L)
+	{
+		int n = lua_gettop(L);
+		matrix4x4f *v = pushMat4x4(L);
+		if (n == 0) {
+			*v = matrix4x4f(0.0);
+		} else if (n == 3) {
+			vector3f *v1 = MyLuaVec::checkVec(L, 1);
+			vector3f *v2 = MyLuaVec::checkVec(L, 2);
+			vector3f *v3 = MyLuaVec::checkVec(L, 3);
+			*v = matrix4x4f::MakeRotMatrix(*v1, *v2, *v3);
+		} else if (n == 4) {
+			vector3f *v1 = MyLuaVec::checkVec(L, 1);
+			vector3f *v2 = MyLuaVec::checkVec(L, 2);
+			vector3f *v3 = MyLuaVec::checkVec(L, 3);
+			vector3f *v4 = MyLuaVec::checkVec(L, 4);
+			*v = matrix4x4f::MakeRotMatrix(*v1, *v2, *v3);
+			(*v)[12] = v4->x;
+			(*v)[13] = v4->y;
+			(*v)[14] = v4->z;
+		} else if (n == 16) {
+			for (int i=0; i<16; i++) {
+				(*v)[i] = luaL_checknumber(L, i+1);
+			}
+		} else {
+			luaL_error(L, "bad arguments to mat4x4:new()");
+		}
+		return 1;
+	}
+
+	static int Mat4x4_print(lua_State *L)
+	{
+		matrix4x4f *v = checkMat4x4(L, 1);
+		printf("[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n\n",
+				(*v)[0], (*v)[1], (*v)[2], (*v)[3],
+				(*v)[4], (*v)[5], (*v)[6], (*v)[7],
+				(*v)[8], (*v)[9], (*v)[10], (*v)[11],
+				(*v)[12], (*v)[13], (*v)[14], (*v)[15]);
+		return 0;
+	}
+
+	static int Mat4x4_add (lua_State *L)
+	{
+		matrix4x4f *v1 = checkMat4x4(L, 1);
+		matrix4x4f *v2 = checkMat4x4(L, 2);
+		matrix4x4f *sum = pushMat4x4(L);
+		*sum = (*v1) + (*v2);
+		return 1;
+	}
+
+	static int Mat4x4_sub (lua_State *L)
+	{
+		matrix4x4f *v1 = checkMat4x4(L, 1);
+		matrix4x4f *v2 = checkMat4x4(L, 2);
+		matrix4x4f *sum = pushMat4x4(L);
+		*sum = (*v1) - (*v2);
+		return 1;
+	}
+
+	static int Mat4x4_mul (lua_State *L)
+	{
+		matrix4x4f *m;
+		vector3f *v;
+		float num;
+		if (lua_isnumber(L,1)) {
+			// number * mat4x4
+			num = lua_tonumber(L, 1);
+			m = checkMat4x4(L, 2);
+
+			matrix4x4f *out = pushMat4x4(L);
+			*out = num * (*m);
+			return 1;
+		} else if (lua_isnumber(L, 2)) {
+			// mat4x4 * number
+			m = checkMat4x4(L, 1);
+			num = lua_tonumber(L, 2);
+
+			matrix4x4f *out = pushMat4x4(L);
+			*out = num * (*m);
+			return 1;
+		} else {
+			m = checkMat4x4(L, 1);
+			luaL_checktype(L, 2, LUA_TUSERDATA);
+			v = (vector3f*)mylua_checkudata(L, 2, VEC);
+			if (v) {
+				// mat4x4 * vec
+				vector3f *out = MyLuaVec::pushVec(L);
+				*out = (*m) * (*v);
+				return 1;
+			} else {
+				// mat4x4 * mat4x4
+				matrix4x4f *m2 = (matrix4x4f*)luaL_checkudata(L, 2, MAT4X4);
+				if (!m2) luaL_typerror(L, 2, MAT4X4);
+				matrix4x4f *out = pushMat4x4(L);
+				*out = (*m) * (*m2);
+				return 1;
+			}
+		}
+	}
+
+	static const luaL_reg Mat4x4_methods[] = {
+		{ "new", Mat4x4_new },
+		{ "identity", Mat4x4_new_identity },
+		{ "inverse", Mat4x4_inverse },
+		{ "rotate", Mat4x4_rotate },
+		{ "scale", Mat4x4_scale },
+		{ "translate", Mat4x4_translate },
+		{ "print", Mat4x4_print },
+		{ 0, 0 }
+	};
+
+	static const luaL_reg Mat4x4_meta[] = {
+		//  {"__gc",       Foo_gc},
+		//  {"__tostring", Foo_tostring},
+		{"__add",      Mat4x4_add},
+		{"__sub",      Mat4x4_sub},
+		{"__mul",      Mat4x4_mul},
+		{0, 0}
+	};
+
+	int Mat4x4_register (lua_State *L)
+	{
+		luaL_openlib(L, MAT4X4, Mat4x4_methods, 0);  /* create methods table,
+						    add it to the globals */
+		luaL_newmetatable(L, MAT4X4);          /* create metatable for Mat4x4,
+						 and add it to the Lua registry */
+		luaL_openlib(L, 0, Mat4x4_meta, 0);    /* fill metatable */
+		lua_pushliteral(L, "__index");
+		lua_pushvalue(L, -3);               /* dup methods table*/
+		lua_rawset(L, -3);                  /* metatable.__index = methods */
+		lua_pushliteral(L, "__metatable");
+		lua_pushvalue(L, -3);               /* dup methods table*/
+		lua_rawset(L, -3);                  /* hide metatable:
+						 metatable.__metatable = methods */
+		lua_pop(L, 1);                      /* drop metatable */
+		return 1;                           /* return methods on the stack */
+	}
+} /* namespace MyLuaMatrix */
 
 namespace MyLuaVec {
 	static vector3f *checkVec (lua_State *L, int index)
@@ -333,10 +556,10 @@ public:
 				if (op.zbias.amount == 0) {
 					glDepthRange(0.0, 1.0);
 				} else {
-					vector3f tv = cameraPos - vector3f(op.zbias.pos);
-					if (vector3f::Dot(tv, vector3f(op.zbias.norm)) > 0.0f) {
+				//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
+				//	if (vector3f::Dot(tv, vector3f(op.zbias.norm)) > 0.0f) {
 						glDepthRange(0.0, 1.0 - op.zbias.amount*NEWMODEL_ZBIAS);
-					}
+				//	}
 				}
 				break;
 			case OP_CALL_MODEL:
@@ -465,7 +688,7 @@ public:
 			for (unsigned int i=0; i<m_indices.size(); i++) {
 				c->pIndex[idxBase + i] = vtxBase + m_indices[i];
 			}
-			for (int i=0; i<m_indices.size()/3; i++) {
+			for (unsigned int i=0; i<m_indices.size()/3; i++) {
 				c->pFlag[flagBase + i] = 0;
 			}
 		}
@@ -815,48 +1038,50 @@ namespace ModelFuncs {
 	static void _quadric_bezier(lua_State *L, bool xref)
 	{
 		vector3f pts[9];
-		const int divs = luaL_checkint(L, 1);
+		const int divs_u = luaL_checkint(L, 1);
+		const int divs_v = luaL_checkint(L, 2);
 		for (int i=0; i<9; i++) {
-			pts[i] = *MyLuaVec::checkVec(L, i+2);
+			pts[i] = *MyLuaVec::checkVec(L, i+3);
 		}
 
-		const int numVertsInPatch = (divs+1)*(divs+1);
+		const int numVertsInPatch = (divs_u+1)*(divs_v+1);
 		const int vtxStart = s_curBuf->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
 
-		float inc = 1.0f / (float)divs;
+		float inc_u = 1.0f / (float)divs_u;
+		float inc_v = 1.0f / (float)divs_v;
 		float u,v;
 		u = v = 0;
-		for (int i=0; i<=divs; i++, u += inc) {
+		for (int i=0; i<=divs_u; i++, u += inc_u) {
 			v = 0;
-			for (int j=0; j<=divs; j++, v += inc) {
+			for (int j=0; j<=divs_v; j++, v += inc_v) {
 				vector3f p = eval_quadric_bezier3d(pts, u, v);
 				// this is a very inefficient way of
 				// calculating normals...
-				vector3f pu = eval_quadric_bezier3d(pts, u+0.5f, v);
-				vector3f pv = eval_quadric_bezier3d(pts, u, v+0.5f);
+				vector3f pu = eval_quadric_bezier3d(pts, u+0.05f, v);
+				vector3f pv = eval_quadric_bezier3d(pts, u, v+0.05f);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
-				s_curBuf->SetVertex(vtxStart + i + j*(divs+1), p, norm);
+				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
 				if (xref) {
 					p.x = -p.x;
 					norm.x = -norm.x;
-					s_curBuf->SetVertex(vtxStart + numVertsInPatch + i + j*(divs+1), p, norm);
+					s_curBuf->SetVertex(vtxStart + numVertsInPatch + i*(divs_v+1) + j, p, norm);
 				}
 			}
 		}
 
-		for (int i=0; i<divs; i++) {
-			int baseVtx = vtxStart + (divs+1)*i;
-			for (int j=0; j<divs; j++) {
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1, baseVtx+j+1+(divs+1));
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+(divs+1));
+		for (int i=0; i<divs_u; i++) {
+			int baseVtx = vtxStart + i*(divs_v+1);
+			for (int j=0; j<divs_v; j++) {
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs_v+1), baseVtx+j+1);
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+(divs_v+1), baseVtx+j+1+(divs_v+1));
 			}
 		}
-		if (xref) for (int i=0; i<divs; i++) {
-			int baseVtx = vtxStart + numVertsInPatch + (divs+1)*i;
-			for (int j=0; j<divs; j++) {
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+1);
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+(divs+1), baseVtx+j+1+(divs+1));
+		if (xref) for (int i=0; i<divs_u; i++) {
+			int baseVtx = vtxStart + numVertsInPatch + i*(divs_v+1);
+			for (int j=0; j<divs_v; j++) {
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1, baseVtx+j+1+(divs_v+1));
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs_v+1), baseVtx+j+(divs_v+1));
 			}
 		}
 	}
@@ -886,49 +1111,51 @@ namespace ModelFuncs {
 	static void _cubic_bezier(lua_State *L, bool xref)
 	{
 		vector3f pts[16];
-		const int divs = luaL_checkint(L, 1);
+		const int divs_v = luaL_checkint(L, 1);
+		const int divs_u = luaL_checkint(L, 2);
 		for (int i=0; i<16; i++) {
-			pts[i] = *MyLuaVec::checkVec(L, i+2);
+			pts[i] = *MyLuaVec::checkVec(L, i+3);
 		}
 
-		const int numVertsInPatch = (divs+1)*(divs+1);
+		const int numVertsInPatch = (divs_v+1)*(divs_u+1);
 		const int vtxStart = s_curBuf->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
 
 
-		float inc = 1.0f / (float)divs;
+		float inc_v = 1.0f / (float)divs_v;
+		float inc_u = 1.0f / (float)divs_u;
 		float u,v;
 		u = v = 0;
-		for (int i=0; i<=divs; i++, u += inc) {
+		for (int i=0; i<=divs_u; i++, u += inc_u) {
 			v = 0;
-			for (int j=0; j<=divs; j++, v += inc) {
+			for (int j=0; j<=divs_v; j++, v += inc_v) {
 				vector3f p = eval_cubic_bezier3d(pts, u, v);
 				// this is a very inefficient way of
 				// calculating normals...
-				vector3f pu = eval_cubic_bezier3d(pts, u+0.5f, v);
-				vector3f pv = eval_cubic_bezier3d(pts, u, v+0.5f);
+				vector3f pu = eval_cubic_bezier3d(pts, u+0.1f*inc_u, v);
+				vector3f pv = eval_cubic_bezier3d(pts, u, v+0.1f*inc_v);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
-				s_curBuf->SetVertex(vtxStart + i + j*(divs+1), p, norm);
+				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
 				if (xref) {
 					p.x = -p.x;
 					norm.x = -norm.x;
-					s_curBuf->SetVertex(vtxStart + numVertsInPatch + i + j*(divs+1), p, norm);
+					s_curBuf->SetVertex(vtxStart + numVertsInPatch + i*(divs_v+1) + j, p, norm);
 				}
 			}
 		}
 
-		for (int i=0; i<divs; i++) {
-			int baseVtx = vtxStart + (divs+1)*i;
-			for (int j=0; j<divs; j++) {
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1, baseVtx+j+1+(divs+1));
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+(divs+1));
+		for (int i=0; i<divs_u; i++) {
+			int baseVtx = vtxStart + i*(divs_v+1);
+			for (int j=0; j<divs_v; j++) {
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs_v+1), baseVtx+j+1);
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+(divs_v+1), baseVtx+j+1+(divs_v+1));
 			}
 		}
-		if (xref) for (int i=0; i<divs; i++) {
-			int baseVtx = vtxStart + numVertsInPatch + (divs+1)*i;
-			for (int j=0; j<divs; j++) {
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs+1), baseVtx+j+1);
-				s_curBuf->PushTri(baseVtx+j, baseVtx+j+(divs+1), baseVtx+j+1+(divs+1));
+		if (xref) for (int i=0; i<divs_u; i++) {
+			int baseVtx = vtxStart + numVertsInPatch + i*(divs_v+1);
+			for (int j=0; j<divs_v; j++) {
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1, baseVtx+j+1+(divs_v+1));
+				s_curBuf->PushTri(baseVtx+j, baseVtx+j+1+(divs_v+1), baseVtx+j+(divs_v+1));
 			}
 		}
 	}
@@ -1357,6 +1584,8 @@ void LmrModelCompilerInit()
 	luaL_openlibs(L);
 
 	MyLuaVec::Vec_register(L);
+	lua_pop(L, 1); // why again?
+	MyLuaMatrix::Mat4x4_register(L);
 	lua_pop(L, 1); // why again?
 	// shorthand for Vec.new(x,y,z)
 	lua_register(L, "v", MyLuaVec::Vec_new);
