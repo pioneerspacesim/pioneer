@@ -447,6 +447,26 @@ namespace MyLuaVec {
 	}
 } /* namespace MyLuaVec */
 
+vector3f ResolveHermiteSpline (const vector3f &p0, const vector3f &p1, const vector3f &n0, const vector3f &n1, float t)
+{
+	float t2 = t*t, t3 = t*t*t;
+	vector3f tv1, tv2, tv;
+//	VecMul (p0, 2*t3-3*t2+1, &tv1);
+	tv1 = p0 * (2*t3-3*t2+1);
+//	VecMul (n0, t3-2*t2+t, &tv);
+	tv = n0 * (t3-2*t2+t);
+//	VecAdd (&tv, &tv1, &tv1);
+	tv1 = tv+tv1;
+//	VecMul (p1, -2*t3+3*t2, &tv2);
+	tv2 = p1 * (-2*t3+3*t2);
+//	VecMul (n1, t3-t2, &tv);
+	tv = n1 *  (t3-t2);
+//	VecAdd (&tv, &tv2, &tv2);
+	tv2 = tv + tv2;
+//	VecAdd (&tv1, &tv2, pRes);
+	return tv1 + tv2;
+}
+
 class LmrGeomBuffer;
 
 static float s_scrWidth = 800.0f;
