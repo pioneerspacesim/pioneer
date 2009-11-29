@@ -13,7 +13,7 @@ include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h Gu
 		NameGenerator.h perlin.h GeoSphere.h GuiBox.h ShipFlavour.h GuiTextLayout.h Mission.h pirates.h Polit.h \
 		CityOnPlanet.h Shader.h ShipCpanelMultiFuncDisplays.h Projectile.h Render.h Sound.h GuiRepeaterButton.h \
 		CommodityTradeWidget.h GenericChatForm.h PoliceChatForm.h SysLoc.h PersistSystemData.h GalacticView.h \
-		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h lua_model_compiler.h
+		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h LmrModel.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -29,13 +29,13 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Mission.cpp pirates.cpp Polit.cpp CityOnPlanet.cpp Shader.cpp ShipCpanelMultiFuncDisplays.cpp \
 		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
 		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
-		lua_model_compiler.cpp
+		LmrModel.cpp
 pioneer_LDADD = sbre/libsbre.a collider/libcollider.a missions/libmissions.a lua/liblua.a libgui.a
 
 sbreviewer_SOURCES = SbreViewer.cpp glfreetype.cpp ModelCollMeshData.cpp
 sbreviewer_LDADD = sbre/libsbre.a collider/libcollider.a libgui.a
 
-luamodelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp lua_model_compiler.cpp perlin.cpp
+luamodelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp
 luamodelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
 
 check_PROGRAMS = tests

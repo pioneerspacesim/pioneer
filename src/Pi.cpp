@@ -28,7 +28,7 @@
 #include "Galaxy.h"
 #include "GameMenuView.h"
 #include "Missile.h"
-#include "lua_model_compiler.h"
+#include "LmrModel.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;

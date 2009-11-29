@@ -4,7 +4,7 @@
 #include "libs.h"
 #include "mtrand.h"
 #include "Object.h"
-#include "lua_model_compiler.h"
+#include "LmrModel.h"
 
 class Planet;
 class SpaceStation;

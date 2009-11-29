@@ -182,7 +182,7 @@ void SetOpaqueState ()
 void SetTransState ()
 {
 	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE);
 
 	/* lo siento, John. Changed transparent stuff to just set emissive and alpha on
 	 * diffuse. this works with vertex shader. */

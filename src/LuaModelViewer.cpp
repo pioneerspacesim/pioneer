@@ -3,7 +3,7 @@
 #include "Gui.h"
 #include "collider/collider.h"
 #include "ModelCollMeshData.h"
-#include "lua_model_compiler.h"
+#include "LmrModel.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;

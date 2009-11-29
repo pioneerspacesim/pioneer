@@ -1,7 +1,7 @@
 #include "libs.h"
 #include <map>
 #include "glfreetype.h"
-#include "lua_model_compiler.h"
+#include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
 
