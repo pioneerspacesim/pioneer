@@ -473,6 +473,7 @@ class LmrGeomBuffer {
 public:
 	LmrGeomBuffer(LmrModel *model) {
 		curOp.type = OP_NONE;
+		curTriFlag = 0;
 		m_vertexBuffer = 0;
 		m_indexBuffer = 0;
 		m_model = model;
@@ -487,7 +488,17 @@ public:
 	int GetVerticesPos() const {
 		return m_vertices.size();
 	}
-	void Build() {
+	void SetGeomFlag(Uint16 flag) {
+		curTriFlag = flag;
+	}
+	Uint16 GetGeomFlag() const {
+		return curTriFlag;
+	}
+	void PreBuild() {
+		FreeGeometry();
+		curTriFlag = 0;
+	}
+	void PostBuild() {
 		PushCurOp();
 		// we are using Uint16 index arrays
 		assert(m_indices.size() < 65536);
@@ -513,6 +524,7 @@ public:
 	void FreeGeometry() {
 		m_vertices.clear();
 		m_indices.clear();
+		m_triflags.clear();
 		m_ops.clear();
 	}
 	void Render(const vector3f &cameraPos) {
@@ -598,6 +610,7 @@ public:
 		PushIdx(i1);
 		PushIdx(i2);
 		PushIdx(i3);
+		m_triflags.push_back(curTriFlag);
 	}
 	
 	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
@@ -669,7 +682,8 @@ public:
 		c->nv += m_vertices.size();
 		c->ni += m_indices.size();
 		c->nf += m_indices.size()/3;
-		c->m_numTris += m_indices.size()/3;
+		assert(m_triflags.size() == m_indices.size()/3);
+		c->m_numTris += m_triflags.size();
 
 		if (m_vertices.size()) {
 			c->pVertex = (float*)realloc(c->pVertex, 3*sizeof(float)*c->nv);
@@ -688,8 +702,8 @@ public:
 			for (unsigned int i=0; i<m_indices.size(); i++) {
 				c->pIndex[idxBase + i] = vtxBase + m_indices[i];
 			}
-			for (unsigned int i=0; i<m_indices.size()/3; i++) {
-				c->pFlag[flagBase + i] = 0;
+			for (unsigned int i=0; i<m_triflags.size(); i++) {
+				c->pFlag[flagBase + i] = m_triflags[i];
 			}
 		}
 		
@@ -758,8 +772,10 @@ private:
 	};
 
 	Op curOp;
+	Uint16 curTriFlag;
 	std::vector<Vertex> m_vertices;
 	std::vector<Uint16> m_indices;
+	std::vector<Uint16> m_triflags;
 	std::vector<Op> m_ops;
 	GLuint m_vertexBuffer;
 	GLuint m_indexBuffer;
@@ -840,6 +856,7 @@ LmrModel::LmrModel(const char *model_name)
 	}
 
 	for (int i=0; i<m_numLods; i++) {
+		m_staticGeometry[i]->PreBuild();
 		s_curBuf = m_staticGeometry[i];
 		// call model static building function
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
@@ -847,7 +864,7 @@ LmrModel::LmrModel(const char *model_name)
 		lua_pushnumber(sLua, i+1);
 		lua_call(sLua, 1, 0);
 		s_curBuf = 0;
-		m_staticGeometry[i]->Build();
+		m_staticGeometry[i]->PostBuild();
 	}
 }
 
@@ -889,15 +906,15 @@ void LmrModel::Render(const vector3f &cameraPos, const matrix4x4f &trans)
 void LmrModel::Build(int lod)
 {
 	if (m_hasDynamicFunc) {
+		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
-		s_curBuf->FreeGeometry();
 		// call model dynamic bits
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
 		lua_call(sLua, 1, 0);
 		s_curBuf = 0;
-		m_dynamicGeometry[lod]->Build();
+		m_dynamicGeometry[lod]->PostBuild();
 	}
 }
 
@@ -1214,6 +1231,13 @@ namespace ModelFuncs {
 		_textNorm = *norm;
 		s_font->GetStringGeometry(str, &_text_index_callback, &_text_vertex_callback);
 //text("some literal string", vector pos, vector norm, vector textdir, [xoff=, yoff=, scale=, onflag=])
+		return 0;
+	}
+	
+	static int geomflag(lua_State *L)
+	{
+		Uint16 flag = luaL_checkint(L, 1);
+		s_curBuf->SetGeomFlag(flag);
 		return 0;
 	}
 
@@ -1612,6 +1636,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "xref_bezier_4x4", ModelFuncs::xref_cubic_bezier);
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	
+	lua_register(L, "geomflag", ModelFuncs::geomflag);
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "call_model", ModelFuncs::call_model);
 	lua_register(L, "noise", UtilFuncs::noise);

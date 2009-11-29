@@ -316,7 +316,9 @@ function test_static(lod)
 	set_material("shinyred", 1,0,0,0.5, 1,1,1,50)
 	use_material("red")
 	zbias(1, v(0,5,0), v(0,0,1))
+	geomflag(0x8000)
 	text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
+	geomflag(0)
 	zbias(0)
 	call_model("blob", v(0,0,-2), v(1,0,0), v(0,1,0),1.0)
 	xref_cylinder(lod*4, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
@@ -326,6 +328,7 @@ function test_static(lod)
 	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
 	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
 ---[[	
+	geomflag(0x8000)
 	xref_bezier_3x3(16, 16,
 			v(0,0,0), v(1,-1,0), v(2,0,0),
 			v(-1,1,0), v(1,1,8), v(3,1,0),
