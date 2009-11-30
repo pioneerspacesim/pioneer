@@ -11,6 +11,18 @@
 # define PATH_SEP "/"
 #endif /* !_WIN32 */
 
+#ifdef DEBUG
+#define glError() { \
+	GLenum err = glGetError(); \
+	while (err != GL_NO_ERROR) { \
+		fprintf(stderr, "glError: %s caught at %s:%u\n", (char *)gluErrorString(err), __FILE__, __LINE__); \
+		err = glGetError(); \
+	} \
+}
+#else
+#define glError() 
+#endif
+
 // joinpath("data","models","some.def") = "data/models/some.def"
 std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);

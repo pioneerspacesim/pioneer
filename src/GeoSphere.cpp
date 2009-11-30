@@ -723,7 +723,6 @@ public:
 				glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
 				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
 				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), (void *)(6*sizeof(float)));
-				glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
 				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, 0);
 				for (int i=0; i<4; i++) {
@@ -737,7 +736,6 @@ public:
 				}
 				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 			} else {
 				glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
 				glNormalPointer(GL_DOUBLE, 0, &normals[0].x);

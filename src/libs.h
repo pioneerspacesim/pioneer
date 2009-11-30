@@ -12,6 +12,8 @@
 #include <time.h>
 #include <stdarg.h>
 
+#define DEBUG
+
 #ifdef _WIN32
 #include <malloc.h>
 #define alloca _alloca
@@ -35,7 +37,6 @@
 
 #include "utils.h"
 
-#define DEBUG
 
 #define USE_VBO	GLEW_ARB_vertex_buffer_object
 //#define USE_VBO 0

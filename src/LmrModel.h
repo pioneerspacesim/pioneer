@@ -10,12 +10,29 @@ class GeomTree;
 
 #define LMR_MAX_LOD 4
 
+#define LMR_ANIM_MAX 20
+
+struct LmrObjParams
+{
+	float pAnim[LMR_ANIM_MAX];
+	unsigned short pFlag[LMR_ANIM_MAX];
+
+	float linthrust[3];		// 1.0 to -1.0
+	float angthrust[3];		// 1.0 to -1.0
+
+//	struct Material pColor[3];
+
+	char pText[3][256];
+};
+
+struct RenderState;
+
 class LmrModel {
 public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();
-	void Render(const matrix4x4f &trans);
-	void Render(const vector3f &cameraPos, const matrix4x4f &trans);
+	void Render(const matrix4x4f &trans, const LmrObjParams *params);
+	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform);
 private:
 	void Build(int lod);

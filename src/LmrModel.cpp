@@ -447,24 +447,195 @@ namespace MyLuaVec {
 	}
 } /* namespace MyLuaVec */
 
-vector3f ResolveHermiteSpline (const vector3f &p0, const vector3f &p1, const vector3f &n0, const vector3f &n1, float t)
-{
-	float t2 = t*t, t3 = t*t*t;
-	vector3f tv1, tv2, tv;
-//	VecMul (p0, 2*t3-3*t2+1, &tv1);
-	tv1 = p0 * (2*t3-3*t2+1);
-//	VecMul (n0, t3-2*t2+t, &tv);
-	tv = n0 * (t3-2*t2+t);
-//	VecAdd (&tv, &tv1, &tv1);
-	tv1 = tv+tv1;
-//	VecMul (p1, -2*t3+3*t2, &tv2);
-	tv2 = p1 * (-2*t3+3*t2);
-//	VecMul (n1, t3-t2, &tv);
-	tv = n1 *  (t3-t2);
-//	VecAdd (&tv, &tv2, &tv2);
-	tv2 = tv + tv2;
-//	VecAdd (&tv1, &tv2, pRes);
-	return tv1 + tv2;
+struct RenderState {
+	/* For the root model this will be identity matrix.
+	 * For sub-models called with call_model() then this will be the
+	 * transform from sub-model coords to root-model coords.
+	 * It is needed by the RenderThruster stuff so we know the centre of
+	 * the root model and orientation when rendering thrusters on
+	 * sub-models */
+	matrix4x4f subTransform;
+};
+
+namespace ShipThruster {
+	struct Thruster
+	{
+		// cannot be used as an angular thruster
+		bool linear_only;
+		vector3f pos;
+		vector3f dir;
+		float power;
+	};
+
+	
+	static vector3f ResolveHermiteSpline (const vector3f &p0, const vector3f &p1, const vector3f &n0, const vector3f &n1, float t)
+	{
+		float t2 = t*t, t3 = t*t*t;
+		vector3f tv1, tv2, tv;
+	//	VecMul (p0, 2*t3-3*t2+1, &tv1);
+		tv1 = p0 * (2*t3-3*t2+1);
+	//	VecMul (n0, t3-2*t2+t, &tv);
+		tv = n0 * (t3-2*t2+t);
+	//	VecAdd (&tv, &tv1, &tv1);
+		tv1 = tv+tv1;
+	//	VecMul (p1, -2*t3+3*t2, &tv2);
+		tv2 = p1 * (-2*t3+3*t2);
+	//	VecMul (n1, t3-t2, &tv);
+		tv = n1 *  (t3-t2);
+	//	VecAdd (&tv, &tv2, &tv2);
+		tv2 = tv + tv2;
+	//	VecAdd (&tv1, &tv2, pRes);
+		return tv1 + tv2;
+	}
+
+	static const int pNumIndex[3] =
+		{ (2*4+1*8)*3, (2*8+5*16)*3, (2*16+13*32)*3 };
+
+	static vector3f pTVertex4pt[2*4+2];
+	static vector3f pTVertex8pt[6*8+2];
+	static vector3f pTVertex16pt[14*16+2];
+
+	static Uint16 pTIndex4pt[(2*4+1*8)*3];
+	static Uint16 pTIndex8pt[(2*8+5*16)*3];
+	static Uint16 pTIndex16pt[(2*16+13*32)*3];
+
+	static vector3f *ppTVertex[3] =
+		{ pTVertex4pt, pTVertex8pt, pTVertex16pt };
+
+	static Uint16 *ppTIndex[3] =
+		{ pTIndex4pt, pTIndex8pt, pTIndex16pt };
+
+
+	static void GenerateThrusters ()
+	{
+		vector3f pos0 = vector3f(0.0f, 0.0f, 0.0f);
+		vector3f pos1 = vector3f(0.0f, 0.0f, 1.0f);
+		vector3f tan0 = vector3f(0.0f, 1.0f, 0.2f);
+		vector3f tan1 = vector3f(0.0f, -0.2f, 1.0f);
+
+		int j, n;
+		for (j=0, n=4; j<3; j++, n<<=1)
+		{
+			vector3f *pCur = ppTVertex[j];
+			float t, incstep = 1.0f / (n-1);
+			int i; for (i=0, t=incstep; i<n-2; i++, t+=incstep)
+			{
+				vector3f *pos = pCur;
+				*pos = ResolveHermiteSpline (pos0, pos1, tan0, tan1, t);
+				pCur++;
+
+				float angstep = 2.0f * 3.141592f / n, ang = angstep;
+				int i; for (i=1; i<n; i++, ang+=angstep, pCur++)
+				{
+					pCur->x = sin(ang) * pos->y;
+					pCur->y = cos(ang) * pos->y;
+					pCur->z = pos->z;
+				}
+			}
+			*pCur = pos0; pCur++;
+			*pCur = pos1; pCur++;
+
+			int ni=0, k;
+			Uint16 *pIndex = ppTIndex[j];
+
+			for (k=0; k<n; k++) {
+				int k1 = k+1==n ? 0 : k+1;
+				pIndex[ni++] = (n-2)*n; pIndex[ni++] = k; pIndex[ni++] = k1;
+				pIndex[ni++] = (n-2)*n+1; pIndex[ni++] = k1+(n-3)*n; pIndex[ni++] = k+(n-3)*n;
+			}
+			for (i=0; i<n-3; i++)
+			{
+				for (k=0; k<n; k++) {
+					int k1 = k+1==n ? 0 : k+1;
+					pIndex[ni++] = k+i*n; pIndex[ni++] = k+i*n+n; pIndex[ni++] = k1+i*n;
+					pIndex[ni++] = k1+i*n; pIndex[ni++] = k+i*n+n;	pIndex[ni++] = k1+i*n+n;
+				}
+			}
+		}
+	}
+
+	static const float s_black[4] = { 0, 0, 0, 0 };
+	static const float s_alpha[4] = { 0, 0, 0, 0.6 };
+	static bool inittted = false;
+
+	static void RenderThruster(const RenderState *rstate, const LmrObjParams *params, Thruster *pThruster)
+	{
+		if (!inittted) GenerateThrusters();
+		inittted = true;
+		const float scale = 1.0;
+		// to find v(0,0,0) position of root model (when putting thrusters on sub-models)
+		vector3f compos = vector3f(rstate->subTransform[12], rstate->subTransform[13], rstate->subTransform[14]);
+		matrix4x4f invSubModelMat = matrix4x4f::MakeRotMatrix(
+					vector3f(rstate->subTransform[0], rstate->subTransform[1], rstate->subTransform[2]),
+					vector3f(rstate->subTransform[4], rstate->subTransform[5], rstate->subTransform[6]),
+					vector3f(rstate->subTransform[8], rstate->subTransform[9], rstate->subTransform[10]));
+
+		vector3f start, end, dir = pThruster->dir;
+		start = pThruster->pos * scale;
+		float power = -vector3f::Dot(dir, invSubModelMat * vector3f(params->linthrust));
+
+		if (!pThruster->linear_only) {
+			vector3f angdir, cpos;
+			const vector3f at = invSubModelMat * vector3f(params->angthrust);
+			cpos = compos + start;
+			angdir = vector3f::Cross(cpos, dir);
+			float xp = angdir.x * at.x;
+			float yp = angdir.y * at.y;
+			float zp = angdir.z * at.z;
+			if (xp+yp+zp > 0) {
+				if (xp > yp && xp > zp && fabs(at.x) > power) power = fabs(at.x);
+				else if (yp > xp && yp > zp && fabs(at.y) > power) power = fabs(at.y);
+				else if (zp > xp && zp > yp && fabs(at.z) > power) power = fabs(at.z);
+			}
+		}
+
+		if (power <= 0.001f) return;
+		power *= scale;
+		float width = sqrt(power)*pThruster->power*0.6f;
+		float len = power*pThruster->power;
+		end = dir * len;
+		end += start;
+
+		vector3f v1, v2, pos;
+		matrix4x4f m2;
+		matrix4x4f m = matrix4x4f::Identity();
+		v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
+		v2 = vector3f::Cross(v1, dir).Normalized();
+		v1 = vector3f::Cross(v2, dir);
+		m[0] = v1.x; m[4] = v2.x; m[8] = dir.x;
+		m[1] = v1.y; m[5] = v2.y; m[9] = dir.y;
+		m[2] = v1.z; m[6] = v2.z; m[10] = dir.z;
+		m2 = /*objorient **/ m;
+
+		pos = /*objorient **/ start;
+
+		m2[12] = pos.x;
+		m2[13] = pos.y;
+		m2[14] = pos.z;
+		
+		glPushMatrix ();
+		glMultMatrixf (&m2[0]);
+
+		glScalef (width*0.5f, width*0.5f, len*0.666f);
+		
+		glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, s_alpha);
+		glMaterialfv (GL_FRONT, GL_SPECULAR, s_black);
+		float col[4] = { 0.0f, 0.4f, 1.0f, 1.0f };
+		glMaterialfv (GL_FRONT, GL_EMISSION, col);
+
+		glVertexPointer (3, GL_FLOAT, sizeof(vector3f), pTVertex8pt);
+		glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
+
+		glScalef (2.0f, 2.0f, 1.5f);
+		col[0] = 0.4f; col[1] = 0; col[2] = 1.0f;
+		glMaterialfv (GL_FRONT, GL_EMISSION, col);
+		glVertexPointer (3, GL_FLOAT, sizeof(vector3f), pTVertex8pt);
+		glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
+
+		glPopMatrix ();
+	}
+
+
 }
 
 class LmrGeomBuffer;
@@ -546,8 +717,9 @@ public:
 		m_indices.clear();
 		m_triflags.clear();
 		m_ops.clear();
+		m_thrusters.clear();
 	}
-	void Render(const vector3f &cameraPos) {
+	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		s_numTrisRendered += m_indices.size()/3;
 		
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
@@ -599,7 +771,9 @@ public:
 				{
 				const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
 				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
-				op.callmodel.model->Render(cam_pos, trans);
+				RenderState rstate2;
+				rstate2.subTransform = rstate->subTransform * trans;
+				op.callmodel.model->Render(&rstate2, cam_pos, trans, params);
 #warning re-binding buffers may be unnecessary if no geometry is to follow
 				BindBuffers();
 				}
@@ -615,8 +789,28 @@ public:
 		if (USE_VBO) {
 			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 		}
+
+		if (m_thrusters.size()) RenderThrusters(rstate, cameraPos, params);
+	}
+	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
+		glEnableClientState (GL_VERTEX_ARRAY);
+		glDisableClientState (GL_NORMAL_ARRAY);
+		glEnable (GL_BLEND);
+		for (unsigned int i=0; i<m_thrusters.size(); i++) {
+			ShipThruster::RenderThruster (rstate, params, &m_thrusters[i]);
+		}
+		glDisable (GL_BLEND);
+		glDisableClientState (GL_VERTEX_ARRAY);
+	}
+	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
+		unsigned int i = m_thrusters.size();
+		m_thrusters.resize(i+1);
+		m_thrusters[i].pos = pos;
+		m_thrusters[i].dir = dir;
+		m_thrusters[i].power = power;
+		m_thrusters[i].linear_only = linear_only;
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
 		m_vertices.push_back(Vertex(pos, normal));
@@ -746,7 +940,6 @@ private:
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
 			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
 			glNormalPointer(GL_FLOAT, sizeof(Vertex), (void *)(3*sizeof(float)));
-			glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 		} else {
 			glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
@@ -797,6 +990,7 @@ private:
 	std::vector<Uint16> m_indices;
 	std::vector<Uint16> m_triflags;
 	std::vector<Op> m_ops;
+	std::vector<ShipThruster::Thruster> m_thrusters;
 	GLuint m_vertexBuffer;
 	GLuint m_indexBuffer;
 	LmrModel *m_model;
@@ -896,12 +1090,14 @@ LmrModel::~LmrModel()
 	}
 }
 
-void LmrModel::Render(const matrix4x4f &trans)
+void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 {
-	Render(vector3f(-trans[12], -trans[13], -trans[14]), trans);
+	RenderState rstate;
+	rstate.subTransform = matrix4x4f::Identity();
+	Render(&rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
 }
 
-void LmrModel::Render(const vector3f &cameraPos, const matrix4x4f &trans)
+void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
 {
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
@@ -915,11 +1111,12 @@ void LmrModel::Render(const vector3f &cameraPos, const matrix4x4f &trans)
 
 	Build(lod);
 
-	m_staticGeometry[lod]->Render(cameraPos);
+	m_staticGeometry[lod]->Render(rstate, cameraPos, params);
 	if (m_hasDynamicFunc) {
-		m_dynamicGeometry[lod]->Render(cameraPos);
+		m_dynamicGeometry[lod]->Render(rstate, cameraPos, params);
 	}
 	s_curBuf = 0;
+
 	glPopMatrix();
 }
 
@@ -976,12 +1173,12 @@ namespace ModelFuncs {
 		if (!m) {
 			luaL_error(L, "call_model() to undefined model. Referenced model must be registered before calling model");
 		} else {
-			vector3f *pos = MyLuaVec::checkVec(L, 2);
-			vector3f _xaxis = -(*MyLuaVec::checkVec(L, 3));
-			vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
+			const vector3f *pos = MyLuaVec::checkVec(L, 2);
+			const vector3f *_xaxis = MyLuaVec::checkVec(L, 3);
+			const vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
 			float scale = luaL_checknumber(L, 5);
 
-			vector3f zaxis = vector3f::Cross(_xaxis, *_yaxis).Normalized();
+			vector3f zaxis = vector3f::Cross(*_xaxis, *_yaxis).Normalized();
 			vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
 			vector3f yaxis = vector3f::Cross(zaxis, xaxis);
 
@@ -1590,6 +1787,33 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	static int thruster(lua_State *L)
+	{
+		const vector3f *pos = MyLuaVec::checkVec(L, 1);
+		const vector3f *dir = MyLuaVec::checkVec(L, 2);
+		const float power = luaL_checknumber(L, 3);
+		bool linear_only = false;
+		if (lua_isboolean(L, 4)) {
+			linear_only = lua_toboolean(L, 4);
+		}
+		s_curBuf->PushThruster(*pos, *dir, power, linear_only);
+		return 0;
+	}
+
+	static int xref_thruster(lua_State *L)
+	{
+		vector3f pos = *MyLuaVec::checkVec(L, 1);
+		const vector3f *dir = MyLuaVec::checkVec(L, 2);
+		const float power = luaL_checknumber(L, 3);
+		bool linear_only = false;
+		if (lua_isboolean(L, 4)) {
+			linear_only = lua_toboolean(L, 4);
+		}
+		s_curBuf->PushThruster(pos, *dir, power, linear_only);
+		pos.x = -pos.x;
+		s_curBuf->PushThruster(pos, *dir, power, linear_only);
+		return 0;
+	}
 } /* namespace ModelFuncs */
 
 namespace UtilFuncs {
@@ -1655,6 +1879,8 @@ void LmrModelCompilerInit()
 	lua_register(L, "bezier_4x4", ModelFuncs::cubic_bezier);
 	lua_register(L, "xref_bezier_4x4", ModelFuncs::xref_cubic_bezier);
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
+	lua_register(L, "thruster", ModelFuncs::thruster);
+	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
 	
 	lua_register(L, "geomflag", ModelFuncs::geomflag);
 	lua_register(L, "zbias", ModelFuncs::zbias);

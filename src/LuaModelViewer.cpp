@@ -59,16 +59,16 @@ static int g_renderType = 0;
 static float lightCol[4] = { 1,1,1,0 };
 static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
-static ObjParams params = {
+static LmrObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
-	{	// pColor[3]
+/*	{	// pColor[3]
 	{ { .2f, .2f, .5f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 	{ { 0.8f, 0.8f, 0.8f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
+*/
 	// pText[3][256]	
 	{ "IR-L33T", "ME TOO" },
 };
@@ -368,7 +368,7 @@ void Viewer::MainLoop()
 			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
 		//	for (int i=0; i<100; i++)
-			g_model->Render(_m);
+			g_model->Render(_m, &params);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
@@ -385,6 +385,7 @@ void Viewer::MainLoop()
 		
 		Gui::Draw();
 		
+		glError();
 		SDL_GL_SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;

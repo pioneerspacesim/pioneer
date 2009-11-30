@@ -66,7 +66,7 @@ struct cityflavourdef_t {
 
 
 static Plane planes[6];
-ObjParams cityobj_params;
+LmrObjParams cityobj_params;
 
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
@@ -291,7 +291,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 
 	GetFrustum(planes);
 	
-	memset(&cityobj_params, 0, sizeof(ObjParams));
+	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	// this fucking rubbish needs to be moved into a function
 	cityobj_params.pAnim[ASRC_SECFRAC] = (float)Pi::GetGameTime();
 	cityobj_params.pAnim[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
@@ -319,7 +319,7 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		_rot[12] = pos.x;
 		_rot[13] = pos.y;
 		_rot[14] = pos.z;
-		(*i).model->Render(_rot);
+		(*i).model->Render(_rot, &cityobj_params);
 	}
 }
 

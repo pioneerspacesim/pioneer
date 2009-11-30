@@ -320,14 +320,14 @@ function test_static(lod)
 	text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
 	geomflag(0)
 	zbias(0)
-	call_model("blob", v(0,0,-2), v(1,0,0), v(0,1,0),1.0)
+	use_material("red")
 	xref_cylinder(lod*4, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
 	use_material("shinyred")
 	xref_circle(9, v(4,5,0), v(0,0,1), v(1,0,0), 1.0)
 	tri(v(12,3,0),v(13,3,0), v(12,4,0))
 	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
 	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
----[[	
+--[[	
 	geomflag(0x8000)
 	xref_bezier_3x3(16, 16,
 			v(0,0,0), v(1,-1,0), v(2,0,0),
@@ -341,9 +341,11 @@ function test_static(lod)
 			v(0,2,0), v(1,2,0), v(2,2,0), v(3,2,0),
 			v(0,4,0), v(1,4,0), v(1,4,0), v(1,3,0))
 			--]]
+--[[
 	extrusion(v(0,0,0), v(0,0,-5), v(0,1,0), 1.0,
 		v(1,0,0), v(0.5, 0.8, 0), v(0,1,0), v(-0.5,0.8,0), v(-1,0,0),
 		v(0,-0.5,0))
+		--]]
 end
 poo = 0
 function test_dynamic(lod)
@@ -352,6 +354,9 @@ function test_dynamic(lod)
 	use_material("red")
 	xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
+
+	call_model("blob", v(0,0,-20), v(1,0,0),
+	v(0,math.sin(0.1*poo),math.cos(0.1*poo)),1.0)
 end
 
 function blob_info()
@@ -365,6 +370,14 @@ function blob_static(lod)
 	use_material("blue")
 	cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
 	text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
+	xref_thruster(v(5,0,0), v(0,0,-1), 10)
+	xref_thruster(v(5,0,0), v(0,0,1), 10)
+	xref_thruster(v(5,0,0), v(0,1,0), 5)
+	xref_thruster(v(5,0,0), v(0,-1,0), 5)
+	thruster(v(5,0,-5), v(1,0,0), 5, true)
+	thruster(v(5,0,5), v(1,0,0), 5, true)
+	thruster(v(-5,0,-5), v(-1,0,0), 5, true)
+	thruster(v(-5,0,5), v(-1,0,0), 5, true)
 end
 
 m = Mat4x4.rotate(math.pi*0.25,v(1,1,1))
