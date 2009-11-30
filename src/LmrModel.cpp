@@ -645,6 +645,7 @@ static bool s_buildDynamic;
 static FontFace *s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
+static const LmrObjParams *s_curParams;
 static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
@@ -889,7 +890,7 @@ public:
 		return m_vertices[num].v;
 	}
 
-	void GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform) {
+	void GetCollMeshGeometry(LmrCollMesh *c, const matrix4x4f &transform, const LmrObjParams *params) {
 		const int vtxBase = c->nv;
 		const int idxBase = c->ni;
 		const int flagBase = c->nf;
@@ -927,7 +928,7 @@ public:
 			const Op &op = m_ops[i];
 			if (op.type == OP_CALL_MODEL) {
 				matrix4x4f _trans = transform * matrix4x4f(op.callmodel.transform);
-				op.callmodel.model->GetCollMeshGeometry(c, _trans);
+				op.callmodel.model->GetCollMeshGeometry(c, _trans, params);
 			}
 		}
 	}
@@ -1109,7 +1110,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 		if (pixrad < m_lodPixelSize[i]) lod = i;
 	}
 
-	Build(lod);
+	Build(lod, params);
 
 	m_staticGeometry[lod]->Render(rstate, cameraPos, params);
 	if (m_hasDynamicFunc) {
@@ -1120,35 +1121,37 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glPopMatrix();
 }
 
-void LmrModel::Build(int lod)
+void LmrModel::Build(int lod, const LmrObjParams *params)
 {
 	if (m_hasDynamicFunc) {
 		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
+		s_curParams = params;
 		// call model dynamic bits
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
 		lua_call(sLua, 1, 0);
 		s_curBuf = 0;
+		s_curParams = 0;
 		m_dynamicGeometry[lod]->PostBuild();
 	}
 }
 
-void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform)
+void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)
 {
 	// use lowest LOD
-	Build(0);
-	m_staticGeometry[0]->GetCollMeshGeometry(mesh, transform);
-	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, transform);
+	Build(0, params);
+	m_staticGeometry[0]->GetCollMeshGeometry(mesh, transform, params);
+	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, transform, params);
 }
 
-LmrCollMesh::LmrCollMesh(LmrModel *m)
+LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 {
 	memset(this, 0, sizeof(LmrCollMesh));
 	m_aabb.min = vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_aabb.max = vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-	m->GetCollMeshGeometry(this, matrix4x4f::Identity());
+	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
 	m_radius = MAX(m_aabb.min.Length(), m_aabb.max.Length());
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
@@ -1814,6 +1817,15 @@ namespace ModelFuncs {
 		s_curBuf->PushThruster(pos, *dir, power, linear_only);
 		return 0;
 	}
+
+	static int get_arg(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		int i = luaL_checkint(L, 1);
+		lua_pushnumber(L, s_curParams->argFloats[i]);
+		return 1;
+	}
+	
 } /* namespace ModelFuncs */
 
 namespace UtilFuncs {
@@ -1881,6 +1893,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
+	lua_register(L, "get_arg", ModelFuncs::get_arg);
 	
 	lua_register(L, "geomflag", ModelFuncs::geomflag);
 	lua_register(L, "zbias", ModelFuncs::zbias);

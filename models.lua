@@ -1,4 +1,118 @@
 
+math.clamp = function(v, min, max)
+	return math.min(max, math.max(v,min))
+end
+
+function nosewheel_info()
+	return {
+		lod_pixels={20,75,0},
+		bounding_radius = 7,
+		materials={'leg','tyre'}
+	}
+end
+function nosewheel_static(lod)
+	set_material('leg', .5, .5, .5, 1, .5, .5, .5, 2.0, 0, 0, 0)
+	set_material('tyre', .3, .3, .3, 1, 0,0,0, 1, 0, 0, 0)
+	use_material('leg')
+	local v6 = v(0, 0, 0)
+	local v7 = v(0, 3, 0)
+	local v8 = v(0, 5, 0)
+	local divs = lod*4
+	cylinder(divs, v6, v8, v(0,0,1), .4)
+	cylinder(divs, v7, v8, v(0,0,1), .5)
+	use_material('tyre')
+	xref_cylinder(divs, v(.5,5,0), v(1,5,0), v(0,0,1), 1.0)
+end
+
+function nosewheelunit_info()
+	return {
+		bounding_radius = 7,
+		materials={'inside'}
+	}
+end
+function nosewheelunit_static(lod)
+	set_material('inside', .2,.2,.2,1, 0,0,0, 1, 0,0,0)
+end
+function nosewheelunit_dynamic(lod)
+	-- flaps
+	local v6 = v(1.5, 0, 6)
+	local v7 = v(1.5, 0, -1)
+	local v8 = v(0, 0, 6)
+	local v9 = v(0, 0, -1)
+
+	use_material('inside')
+	-- flap internal
+	xref_quad(v8, v6, v7, v9)
+	-- SHould use parameter material(2) here but param materials not done yet
+	--material(2)
+	local flap_ang = 0.5*math.pi*math.clamp(3*get_arg(0),0,1)
+	local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_arg(0)-0.34), 0, 1)
+	local vrot = 1.5*v(-math.cos(flap_ang), math.sin(flap_ang), 0)
+	xref_quad(v7, v6, v6+vrot, v7+vrot)
+	xref_quad(v7, v7+vrot, v6+vrot, v6)
+
+	call_model('nosewheel', v(0,0,0), v(1,0,0),
+	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
+end
+
+function mainwheel_info()
+	return {
+		lod_pixels = {50,100,0},
+		bounding_radius = 8,
+		materials = {'leg', 'tyre'}
+	}
+end
+function mainwheel_static(lod)
+	local v6 = v(0,0,0)
+	local v7 = v(0,3,0)
+	local v8 = v(0,5,0)
+	-- crossbar
+	local v13 = v(0, 5, 1.4)
+	local v14 = v(0, 5, -1.4)
+	local divs = 4*lod
+	set_material('leg', .5,.5,.5,1, 1,1,1, 2, 0,0,0)
+	use_material('leg')
+	cylinder(divs, v6, v8, v(0,0,1), .4)
+	cylinder(divs, v7, v8, v(0,0,1), .5)
+	cylinder(4, v13, v14, v(1,0,0), .5)
+	set_material('tyre', .3,.3,.3,1, 0,0,0, 1, 0,0,0)
+	use_material('tyre')
+	xref_cylinder(divs, v(.5, 5, 1.1), v(1, 5, 1.1), v(0,0,1), 1)
+	xref_cylinder(divs, v(.5, 5, -1.1), v(1, 5, -1.1), v(0,0,1), 1)
+end
+
+
+function mainwheelunit_info()
+	return {
+		bounding_radius = 7,
+		materials={'inside'}
+	}
+end
+function mainwheelunit_static(lod)
+	set_material('inside', .2,.2,.2,1, 0,0,0, 1, 0,0,0)
+end
+function mainwheelunit_dynamic(lod)
+	-- flaps
+	local v6 = v(1.5, 0, 6)
+	local v7 = v(1.5, 0, -1)
+	local v8 = v(0, 0, 6)
+	local v9 = v(0, 0, -1)
+
+	use_material('inside')
+	-- flap internal
+	xref_quad(v8, v6, v7, v9)
+	-- SHould use parameter material(2) here but param materials not done yet
+	--material(2)
+	local flap_ang = 0.5*math.pi*math.clamp(3*get_arg(0),0,1)
+	local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_arg(0)-0.34), 0, 1)
+	local vrot = 1.5*v(-math.cos(flap_ang), math.sin(flap_ang), 0)
+	xref_quad(v7, v6, v6+vrot, v7+vrot)
+	xref_quad(v7, v7+vrot, v6+vrot, v6)
+
+	call_model('mainwheel', v(0,0,0), v(1,0,0),
+	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
+end
+
 
 function building1_info()
 	return {
@@ -355,8 +469,9 @@ function test_dynamic(lod)
 	xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
 	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 
+	local ang = 2*math.pi*get_arg(0)
 	call_model("blob", v(0,0,-20), v(1,0,0),
-	v(0,math.sin(0.1*poo),math.cos(0.1*poo)),1.0)
+	v(0,math.sin(ang),math.cos(ang)),1.0)
 end
 
 function blob_info()
@@ -389,4 +504,5 @@ a:print()
 
 register_models("blob","test", "towerOfShit",
 "boringHighRise","clockhand","clock","church", "skyscraper1", "building1",
-"building2",'biodomes')
+"building2",'biodomes','nosewheel', 'nosewheelunit', 'mainwheel',
+'mainwheelunit')

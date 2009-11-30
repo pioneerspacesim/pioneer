@@ -10,19 +10,18 @@ class GeomTree;
 
 #define LMR_MAX_LOD 4
 
-#define LMR_ANIM_MAX 20
+#define LMR_ARG_MAX 40
 
 struct LmrObjParams
 {
-	float pAnim[LMR_ANIM_MAX];
-	unsigned short pFlag[LMR_ANIM_MAX];
+	float argFloats[LMR_ARG_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
 
 //	struct Material pColor[3];
 
-	char pText[3][256];
+	char argStrings[3][256];
 };
 
 struct RenderState;
@@ -33,9 +32,9 @@ public:
 	virtual ~LmrModel();
 	void Render(const matrix4x4f &trans, const LmrObjParams *params);
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
-	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform);
+	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 private:
-	void Build(int lod);
+	void Build(int lod, const LmrObjParams *params);
 	struct Material {
 		Material() {}
 		float diffuse[4];
@@ -68,7 +67,7 @@ void LmrNotifyScreenWidth(float width);
 class LmrCollMesh
 {
 public:
-	LmrCollMesh(LmrModel *m);
+	LmrCollMesh(LmrModel *m, const LmrObjParams *params);
 	~LmrCollMesh();
 
 	const Aabb &GetAabb() const { return m_aabb; }

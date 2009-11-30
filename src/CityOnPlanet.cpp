@@ -170,7 +170,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (; list->buildings[i].modelname; i++) {
 		list->buildings[i].resolvedModel = LmrLookupModelByName(list->buildings[i].modelname);
-		const LmrCollMesh *collMesh = new LmrCollMesh(list->buildings[i].resolvedModel);
+		const LmrCollMesh *collMesh = new LmrCollMesh(list->buildings[i].resolvedModel, &cityobj_params);
 		list->buildings[i].collMesh = collMesh;
 		float maxx = MAX(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
 		float maxy = MAX(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
@@ -293,10 +293,10 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	// this fucking rubbish needs to be moved into a function
-	cityobj_params.pAnim[ASRC_SECFRAC] = (float)Pi::GetGameTime();
-	cityobj_params.pAnim[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
-	cityobj_params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
-	cityobj_params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
+	cityobj_params.argFloats[ASRC_SECFRAC] = (float)Pi::GetGameTime();
+	cityobj_params.argFloats[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
+	cityobj_params.argFloats[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
+	cityobj_params.argFloats[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
 
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();

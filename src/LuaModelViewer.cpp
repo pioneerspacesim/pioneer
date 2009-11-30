@@ -61,7 +61,6 @@ static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
 static LmrObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 /*	{	// pColor[3]
@@ -168,29 +167,14 @@ void Viewer::SetSbreParams()
 	float gameTime = SDL_GetTicks() * 0.001f;
 
 	for (int i=0; i<ANIM_MAX; i++) {
-		params.pAnim[i] = m_anim[i]->GetValue();
-		if (params.pAnim[i]) params.pFlag[i] = 1;
-		else params.pFlag[i] = 0;
+		params.argFloats[i] = m_anim[i]->GetValue();
 	}
 
-	params.pAnim[ASRC_SECFRAC] = gameTime;
-	params.pAnim[ASRC_MINFRAC] = gameTime / 60;
-	params.pAnim[ASRC_HOURFRAC] = gameTime / 3600.0f;
-	params.pAnim[ASRC_DAYFRAC] = gameTime / (24*3600.0f);
-#if 0
-	if (g_wheelPos <= 0) {
-		params.pAnim[ASRC_GEAR] = 0;
-		params.pFlag[AFLAG_GEAR] = 0;
-	} else {
-		params.pAnim[ASRC_GEAR] = g_wheelPos;
-		params.pFlag[AFLAG_GEAR] = 1;
-	}
-
-	// 2 seconds to move wheels
-	g_wheelPos += 0.5*g_frameTime*g_wheelMoveDir;
-	if (g_wheelPos < 0) g_wheelPos = 0;
-	if (g_wheelPos > 1) g_wheelPos = 1;
-#endif
+	params.argFloats[ASRC_SECFRAC] = gameTime;
+	params.argFloats[ASRC_MINFRAC] = gameTime / 60;
+	params.argFloats[ASRC_HOURFRAC] = gameTime / 3600.0f;
+	params.argFloats[ASRC_DAYFRAC] = gameTime / (24*3600.0f);
+	
 	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
 	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
 	params.linthrust[2] = 2.0f * (m_linthrust[2]->GetValue() - 0.5f);
@@ -317,7 +301,7 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	const LmrCollMesh *cmesh = new LmrCollMesh(g_model);
+	const LmrCollMesh *cmesh = new LmrCollMesh(g_model, &params);
 	GeomTree *geomtree = cmesh->geomTree;
 	distance = cmesh->GetBoundingRadius();
 	
