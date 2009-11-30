@@ -261,11 +261,9 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
 	glLoadIdentity();
 	glOrtho(0, 1, 0, 1, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLoadIdentity();
 	
 	//glActiveTexture(GL_TEXTURE0);

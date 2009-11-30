@@ -748,6 +748,7 @@ void Pi::MainLoop()
 		}
 //#endif /* DEBUG */
 
+		glError();
 		glFlush();
 		SDL_GL_SwapBuffers();
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));

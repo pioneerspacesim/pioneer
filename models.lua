@@ -113,6 +113,117 @@ function mainwheelunit_dynamic(lod)
 	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
 end
 
+function ladybird_info()
+	return {
+		bounding_radius = 100,
+		materials={'white','engines'}
+	}
+end
+
+function ladybird_static(lod)
+
+	local v06 = v(-4.0, -5.0, -20.0);
+	local v07 = v(4.0, -5.0, -20.0);
+
+	local v08 = v(-6.0, 4.0, -10.0);
+	local v09 = v(6.0, 4.0, -10.0);
+
+	local v10 = v(-14.0, -5.0, -10.0);
+	local v11 = v(-10.0, 5.0, 10.0);
+
+	local v29 = v(10.0, 5.0, 10.0);
+	local v30 = v(14.0, -5.0, -10.0);
+	local v31 = v(-10.0, -5.0, 10.0);
+	local v32 = v(10.0, -5.0, 10.0);
+
+	local v33 = v(-12.0, 0.0, 10.0);
+	local v34 = v(-12.0, 0.0, 13.0);
+
+	--// thruster jets
+	local v38 = v(-12.0, 0.0, 13.0);
+	local v39 = v(-15.0, -3.0, -9.0);
+
+	local v40 = v(-30.0, -4.0, 9.0);
+	local v41 = v(-29.0, -5.5, 9.0);
+	local v42 = v(-29.0, -4.0, 9.0);
+	local v43 = v(-10.0, 0.0, -11.0);
+
+	xref_thruster(v38, v(0,0,1), 50, true)
+	xref_thruster(v43, v(0,0,-1), 25)
+	
+	set_material('white',.5,.5,.5,1,1,1,1,100)
+	use_material('white')
+	-- matvar(0)
+	quad(v06,v08,v09,v07)
+	quad(v09,v08,v11,v29)
+	xref_tri(v08,v06,v10)
+
+	local wingtip_rear = v(30,-5,10)
+	local cpoint_rear = v(20,4,10)
+
+	local leadingedge_mid = v(24,-5,-3)
+	local tmp = v(5,0,5)
+	local cpoint_leadingedge1 = leadingedge_mid - tmp
+	local cpoint_leadingedge2 = leadingedge_mid + tmp
+	-- wing leading edge underside
+	xref_flat(16, v(0,-1,0),
+		{ v30 },
+		{ cpoint_leadingedge1, leadingedge_mid },
+		{ cpoint_leadingedge2, wingtip_rear }
+	)
+
+
+	-- body flat side piece
+	local normal = ((v29-v09):cross(v30-v09)):norm()
+	local cpoint_bodycurve = 0.5*(v29+v30) + 3.0*(v29-v30):cross(normal):norm()
+	xref_flat(16, normal,
+		{ v09 },
+		{ v29 },
+		{ cpoint_bodycurve, v30 }
+		)
+
+	-- top wing bulge
+	xref_bezier_3x3(16,16,
+		wingtip_rear, cpoint_leadingedge2, leadingedge_mid,
+		cpoint_rear, v(17,5,0), cpoint_leadingedge1,
+		v29, cpoint_bodycurve, v30)
+
+
+	-- underside of wing
+	xref_tri(v30, wingtip_rear, v32)
+
+	-- rear
+	xref_flat(16, v(0,0,1),
+		{ wingtip_rear },
+		{ cpoint_rear, v29 },
+		{ v32 }
+	)
+	quad(v29,v11,v31,v32) -- rear
+	-- matvar(2)
+	quad(v10,v06,v07,v30)
+	quad(v32,v31,v10,v30)
+	zbias(1, v33, v(0,0,1))
+	set_material('engines',.3,.3,.3,1,.3,.3,.3,20)
+	use_material('engines')
+	xref_tube(12, v33, v34, v(0,1,0), 2.5, 3.0)
+	-- matanim!!
+	xref_circle(12, v33, v(0,0,1), v(0,1,0), 2.5)
+	-- wheels my friend
+	
+end
+function ladybird_dynamic(lod)
+	if get_arg(0) ~= 0 then
+		local v35 = v(0.0, -5.0, -13.0);
+		local v36 = v(-15.0, -5.0, 3.0);
+		local v37 = v(15.0, -5.0, 3.0);
+
+		zbias(1, v35, v(0,-1,0))
+		call_model('nosewheelunit', v35, v(-1,0,0), v(0,-1,0), 1)
+		call_model('mainwheelunit', v36, v(-1,0,0), v(0,-1,0), 1)
+		call_model('mainwheelunit', v37, v(-1,0,0), v(0,-1,0), 1)
+		zbias(0)
+	end
+end
 
 function building1_info()
 	return {
@@ -429,6 +540,13 @@ function test_static(lod)
 	set_material("red", 1,0,0,1)
 	set_material("shinyred", 1,0,0,0.5, 1,1,1,50)
 	use_material("red")
+	xref_flat(16, v(0,0,1),
+		{v(4,0,0)}, -- straight line bit
+		{v(4.5,-0.5,0),v(5,0,0)}, -- quadric bezier bit
+		{v(5,0.5,0),v(4,0,0),v(4,1,0)}, -- cubic bezier bit
+		{v(3,0.5,0)}, -- straight line bit
+		{v(3,0.3,0)} -- etc
+		)
 	zbias(1, v(0,5,0), v(0,0,1))
 	geomflag(0x8000)
 	text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
@@ -505,4 +623,4 @@ a:print()
 register_models("blob","test", "towerOfShit",
 "boringHighRise","clockhand","clock","church", "skyscraper1", "building1",
 "building2",'biodomes','nosewheel', 'nosewheelunit', 'mainwheel',
-'mainwheelunit')
+'mainwheelunit', 'ladybird')

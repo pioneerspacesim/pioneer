@@ -87,6 +87,7 @@ void Image::Draw()
 	GetSize(allocSize);
 
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_tex);
 	if ((m_col[0]==1) && (m_col[1]==1) && (m_col[2]==1) && (m_col[3]==1)) {

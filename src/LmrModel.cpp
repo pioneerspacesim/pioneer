@@ -5,27 +5,6 @@
 #include "collider/collider.h"
 #include "perlin.h"
 
-/*
- * TODO
-
-	~ model parameters
-done	material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
-done	triangle(vector v1, vector v2, vector v3)
-done	quad(vector v1, vector v2, vector v3, vector v4)
-done	circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
-done	cylinder(int steps, vector start, vector end, vector up, radius=float radius)
-done	tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
-done	extrusion(vector start, vector end, vector up, radius, v1, v2, v3, ... )
-~diff	smooth(int steps, 
-	flat(int steps, vector normal,
-done	text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
-done	subobject(object_name, vector pos, vector xaxis, vector yaxis, scale=float)
-	thruster(direction, vector position, float size)
-	geomflag(int)
-done	zbias(vector position, vector normal, int level)
-done	nozbias()
-*/
-
 extern "C" {
 #include "lua/lua.h"
 #include "lua/lualib.h"
@@ -768,14 +747,14 @@ public:
 				}
 				break;
 			case OP_CALL_MODEL:
-#warning materials will be messed up after this...
 				{
+				// XXX materials fucked up after this
 				const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
 				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
 				RenderState rstate2;
 				rstate2.subTransform = rstate->subTransform * trans;
 				op.callmodel.model->Render(&rstate2, cam_pos, trans, params);
-#warning re-binding buffers may be unnecessary if no geometry is to follow
+				// XXX re-binding buffer may not be necessary
 				BindBuffers();
 				}
 				break;
@@ -1258,8 +1237,150 @@ namespace ModelFuncs {
 
 		return 0;
 	}
+	
+	static vector3f eval_cubic_bezier_u(const vector3f p[4], float u)
+	{
+		vector3f out(0.0f);
+		float Bu[4] = { (1.0f-u)*(1.0f-u)*(1.0f-u),
+			3.0f*(1.0f-u)*(1.0f-u)*u,
+			3.0f*(1.0f-u)*u*u,
+			u*u*u };
+		for (int i=0; i<4; i++) {
+			out += p[i] * Bu[i];
+		}
+		return out;
+	}
 
-	static vector3f eval_quadric_bezier3d(const vector3f p[9], float u, float v)
+	static vector3f eval_quadric_bezier_u(const vector3f p[3], float u)
+	{
+		vector3f out(0.0f);
+		float Bu[3] = { (1.0f-u)*(1.0f-u), 2.0f*u*(1.0f-u), u*u };
+		for (int i=0; i<3; i++) {
+			out += p[i] * Bu[i];
+		}
+		return out;
+	}
+
+	static int _flat(lua_State *L, bool xref)
+	{
+		const int divs = luaL_checkinteger(L, 1);
+		const vector3f *normal = MyLuaVec::checkVec(L, 2);
+		vector3f xrefnorm(0.0f);
+		if (xref) xrefnorm = vector3f(-normal->x, normal->y, normal->z);
+#define FLAT_MAX_SEG 32
+		struct {
+			const vector3f *v[3];
+			int nv;
+		} segvtx[FLAT_MAX_SEG];
+
+		if (!lua_istable(L, 3)) {
+			luaL_error(L, "argment 3 to flat() must be a table of line segments");
+			return 0;
+		}
+
+		int argmax = lua_gettop(L);
+		int seg = 0;
+		int numPoints = 0;
+		// iterate through table of line segments
+		for (int n=3; n<=argmax; n++, seg++) {
+			if (lua_istable(L, n)) {
+				// this table is a line segment itself
+				// 1 vtx = straight line
+				// 2     = quadric bezier
+				// 3     = cubic bezier
+				int nv = 0;
+				for (int i=1; i<4; i++) {
+					lua_pushinteger(L, i);
+					lua_gettable(L, n);
+					if (lua_isnil(L, -1)) {
+						lua_pop(L, 1);
+						break;
+					} else {
+						segvtx[seg].v[nv++] = MyLuaVec::checkVec(L, -1);
+						lua_pop(L, 1);
+					}
+				}
+				segvtx[seg].nv = nv;
+
+				if (!nv) {
+					luaL_error(L, "number of points in a line segment must be 1-3 (straight, quadric, cubic)");
+					return 0;
+				} else if (nv == 1) {
+					numPoints++;
+				} else if (nv > 1) {
+					numPoints += divs;
+				}
+			} else {
+				luaL_error(L, "invalid crap in line segment list");
+				return 0;
+			}
+		}
+
+		const int vtxStart = s_curBuf->AllocVertices(xref ? 2*numPoints : numPoints);
+		int vtxPos = vtxStart;
+
+		const vector3f *prevSegEnd = segvtx[seg-1].v[ segvtx[seg-1].nv-1 ];
+		// evaluate segments
+		int maxSeg = seg;
+		for (seg=0; seg<maxSeg; seg++) {
+			if (segvtx[seg].nv == 1) {
+				if (xref) {
+					vector3f p = *segvtx[seg].v[0]; p.x = -p.x;
+					s_curBuf->SetVertex(vtxPos + numPoints, p, xrefnorm);
+				}
+				s_curBuf->SetVertex(vtxPos++, *segvtx[seg].v[0], *normal);
+				prevSegEnd = segvtx[seg].v[0];
+			} else if (segvtx[seg].nv == 2) {
+				vector3f _p[3];
+				_p[0] = *prevSegEnd;
+				_p[1] = *segvtx[seg].v[0];
+				_p[2] = *segvtx[seg].v[1];
+				float inc = 1.0f / (float)divs;
+				float u = inc;
+				for (int i=1; i<=divs; i++, u+=inc) {
+					vector3f p = eval_quadric_bezier_u(_p, u);
+					s_curBuf->SetVertex(vtxPos, p, *normal);
+					if (xref) {
+						p.x = -p.x;
+						s_curBuf->SetVertex(vtxPos+numPoints, p, xrefnorm);
+					}
+					vtxPos++;
+				}
+				prevSegEnd = segvtx[seg].v[1];
+			} else if (segvtx[seg].nv == 3) {
+				vector3f _p[4];
+				_p[0] = *prevSegEnd;
+				_p[1] = *segvtx[seg].v[0];
+				_p[2] = *segvtx[seg].v[1];
+				_p[3] = *segvtx[seg].v[2];
+				float inc = 1.0f / (float)divs;
+				float u = inc;
+				for (int i=1; i<=divs; i++, u+=inc) {
+					vector3f p = eval_cubic_bezier_u(_p, u);
+					s_curBuf->SetVertex(vtxPos, p, *normal);
+					if (xref) {
+						p.x = -p.x;
+						s_curBuf->SetVertex(vtxPos+numPoints, p, xrefnorm);
+					}
+					vtxPos++;
+				}
+				prevSegEnd = segvtx[seg].v[2];
+			}
+		}
+
+		for (int i=1; i<numPoints-1; i++) {
+			s_curBuf->PushTri(vtxStart, vtxStart+i, vtxStart+i+1);
+			if (xref) {
+				s_curBuf->PushTri(vtxStart+numPoints, vtxStart+numPoints+1+i, vtxStart+numPoints+i);
+			}
+		}
+		return 0;
+	}
+	
+	static int flat(lua_State *L) { return _flat(L, false); }
+	static int xref_flat(lua_State *L) { return _flat(L, true); }
+
+	static vector3f eval_quadric_bezier_u_v(const vector3f p[9], float u, float v)
 	{
 		vector3f out(0.0f);
 		float Bu[3] = { (1.0f-u)*(1.0f-u), 2.0f*u*(1.0f-u), u*u };
@@ -1291,11 +1412,11 @@ namespace ModelFuncs {
 		for (int i=0; i<=divs_u; i++, u += inc_u) {
 			v = 0;
 			for (int j=0; j<=divs_v; j++, v += inc_v) {
-				vector3f p = eval_quadric_bezier3d(pts, u, v);
+				vector3f p = eval_quadric_bezier_u_v(pts, u, v);
 				// this is a very inefficient way of
 				// calculating normals...
-				vector3f pu = eval_quadric_bezier3d(pts, u+0.05f, v);
-				vector3f pv = eval_quadric_bezier3d(pts, u, v+0.05f);
+				vector3f pu = eval_quadric_bezier_u_v(pts, u+0.1f*inc_u, v);
+				vector3f pv = eval_quadric_bezier_u_v(pts, u, v+0.01f*inc_v);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
 				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
@@ -1326,7 +1447,7 @@ namespace ModelFuncs {
 	static int quadric_bezier(lua_State *L) { _quadric_bezier(L, false); return 0; }
 	static int xref_quadric_bezier(lua_State *L) { _quadric_bezier(L, true); return 0; }
 
-	static vector3f eval_cubic_bezier3d(const vector3f p[16], float u, float v)
+	static vector3f eval_cubic_bezier_u_v(const vector3f p[16], float u, float v)
 	{
 		vector3f out(0.0f);
 		float Bu[4] = { (1.0f-u)*(1.0f-u)*(1.0f-u),
@@ -1365,11 +1486,11 @@ namespace ModelFuncs {
 		for (int i=0; i<=divs_u; i++, u += inc_u) {
 			v = 0;
 			for (int j=0; j<=divs_v; j++, v += inc_v) {
-				vector3f p = eval_cubic_bezier3d(pts, u, v);
+				vector3f p = eval_cubic_bezier_u_v(pts, u, v);
 				// this is a very inefficient way of
 				// calculating normals...
-				vector3f pu = eval_cubic_bezier3d(pts, u+0.1f*inc_u, v);
-				vector3f pv = eval_cubic_bezier3d(pts, u, v+0.1f*inc_v);
+				vector3f pu = eval_cubic_bezier_u_v(pts, u+0.1f*inc_u, v);
+				vector3f pv = eval_cubic_bezier_u_v(pts, u, v+0.1f*inc_v);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
 				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
@@ -1894,6 +2015,8 @@ void LmrModelCompilerInit()
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
 	lua_register(L, "get_arg", ModelFuncs::get_arg);
+	lua_register(L, "flat", ModelFuncs::flat);
+	lua_register(L, "xref_flat", ModelFuncs::xref_flat);
 	
 	lua_register(L, "geomflag", ModelFuncs::geomflag);
 	lua_register(L, "zbias", ModelFuncs::zbias);
