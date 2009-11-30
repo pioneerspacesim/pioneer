@@ -857,7 +857,7 @@ void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
 	maxAng = cos(maxAng);
 	for (int i=0; i<num; i++) {
 		m_craters[i].size = rand.Double(minAng, maxAng);
-		for (int _try=0; _try<16; _try++) {
+		for (int try_=0; try_<16; try_++) {
 			bool good = true;
 			m_craters[i].pos = vector3d(
 					rand.Double(-1.0, 1.0),
