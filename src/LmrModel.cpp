@@ -722,7 +722,7 @@ public:
 				break;
 			case OP_SET_MATERIAL:
 				{
-					const LmrModel::Material &m = m_model->m_materials[op.col.material_idx];
+					const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
 					glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, m.diffuse);
 					glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
@@ -778,9 +778,11 @@ public:
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glEnable (GL_BLEND);
+		glDepthMask(GL_FALSE);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			ShipThruster::RenderThruster (rstate, params, &m_thrusters[i]);
 		}
+		glDepthMask(GL_TRUE);
 		glDisable (GL_BLEND);
 		glDisableClientState (GL_VERTEX_ARRAY);
 	}
@@ -825,7 +827,7 @@ public:
 	void SetMaterial(const char *mat_name, const float mat[11]) {
 		std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 		if (i != m_model->m_materialLookup.end()) {
-			LmrModel::Material &m = m_model->m_materials[(*i).second];
+			LmrMaterial &m = m_model->m_materials[(*i).second];
 			m.diffuse[0] = mat[0];
 			m.diffuse[1] = mat[1];
 			m.diffuse[2] = mat[2];
@@ -1025,7 +1027,7 @@ LmrModel::LmrModel(const char *model_name)
 				if (is_string) {
 					const char *mat_name = luaL_checkstring(sLua, -1);
 					m_materialLookup[mat_name] = m_materials.size();
-					m_materials.push_back(Material());
+					m_materials.push_back(LmrMaterial());
 				}
 				lua_pop(sLua, 1);
 				if (!is_string) break;
@@ -1525,8 +1527,18 @@ namespace ModelFuncs {
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
 		float mat[11];
-		for (int i=0; i<11; i++) {
-			mat[i] = lua_tonumber(L, i+2);
+		if (lua_istable(L, 2)) {
+			// material as table of 11 values
+			for (int i=0; i<11; i++) {
+				lua_pushinteger(L, i+1);
+				lua_gettable(L, 2);
+				mat[i] = luaL_checknumber(L, -1);
+				lua_pop(L, 1);
+			}
+		} else {
+			for (int i=0; i<11; i++) {
+				mat[i] = lua_tonumber(L, i+2);
+			}
 		}
 		s_curBuf->SetMaterial(mat_name, mat);
 		return 0;
@@ -1947,6 +1959,35 @@ namespace ModelFuncs {
 		return 1;
 	}
 	
+	static int get_arg_material(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		int n = luaL_checkint(L, 1);
+		lua_createtable (L, 11, 0);
+
+		const LmrMaterial &mat = s_curParams->pMat[n];
+
+		for (int i=0; i<4; i++) {
+			lua_pushinteger(L, 1+i);
+			lua_pushnumber(L, mat.diffuse[i]);
+			lua_settable(L, -3);
+		}
+		for (int i=0; i<3; i++) {
+			lua_pushinteger(L, 5+i);
+			lua_pushnumber(L, mat.specular[i]);
+			lua_settable(L, -3);
+		}
+		lua_pushinteger(L, 8);
+		lua_pushnumber(L, mat.shininess);
+		lua_settable(L, -3);
+		for (int i=0; i<3; i++) {
+			lua_pushinteger(L, 9+i);
+			lua_pushnumber(L, mat.emissive[i]);
+			lua_settable(L, -3);
+		}
+		return 1;
+	}
+
 } /* namespace ModelFuncs */
 
 namespace UtilFuncs {
@@ -1993,6 +2034,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "register_models", register_models);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
+	lua_register(L, "get_arg_material", ModelFuncs::get_arg_material);
 	
 	lua_register(L, "tri", ModelFuncs::tri);
 	lua_register(L, "xref_tri", ModelFuncs::xref_tri);

@@ -11,6 +11,13 @@ class GeomTree;
 #define LMR_MAX_LOD 4
 
 #define LMR_ARG_MAX 40
+	
+struct LmrMaterial {
+	float diffuse[4];
+	float specular[4];
+	float emissive[4];
+	float shininess;
+};
 
 struct LmrObjParams
 {
@@ -19,7 +26,7 @@ struct LmrObjParams
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
 
-//	struct Material pColor[3];
+	struct LmrMaterial pMat[3];
 
 	char argStrings[3][256];
 };
@@ -35,17 +42,10 @@ public:
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 private:
 	void Build(int lod, const LmrObjParams *params);
-	struct Material {
-		Material() {}
-		float diffuse[4];
-		float specular[4];
-		float shininess;
-		float emissive[4];
-	};
 
 	// index into m_materials
 	std::map<std::string, int> m_materialLookup;
-	std::vector<Material> m_materials;
+	std::vector<LmrMaterial> m_materials;
 	float m_lodPixelSize[LMR_MAX_LOD];
 	int m_numLods;
 	LmrGeomBuffer *m_staticGeometry[LMR_MAX_LOD];

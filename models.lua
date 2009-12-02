@@ -27,7 +27,7 @@ end
 function nosewheelunit_info()
 	return {
 		bounding_radius = 7,
-		materials={'inside'}
+		materials={'inside', 'matvar2'}
 	}
 end
 function nosewheelunit_static(lod)
@@ -39,12 +39,14 @@ function nosewheelunit_dynamic(lod)
 	local v7 = v(1.5, 0, -1)
 	local v8 = v(0, 0, 6)
 	local v9 = v(0, 0, -1)
+	set_material('matvar2', get_arg_material(2))
 
 	use_material('inside')
+	zbias(1, v(0,0,0), v(0,1,0))
 	-- flap internal
 	xref_quad(v8, v6, v7, v9)
 	-- SHould use parameter material(2) here but param materials not done yet
-	--material(2)
+	use_material('matvar2')
 	local flap_ang = 0.5*math.pi*math.clamp(3*get_arg(0),0,1)
 	local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_arg(0)-0.34), 0, 1)
 	local vrot = 1.5*v(-math.cos(flap_ang), math.sin(flap_ang), 0)
@@ -53,6 +55,7 @@ function nosewheelunit_dynamic(lod)
 
 	call_model('nosewheel', v(0,0,0), v(1,0,0),
 	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
+	zbias(0)
 end
 
 function mainwheel_info()
@@ -85,7 +88,7 @@ end
 function mainwheelunit_info()
 	return {
 		bounding_radius = 7,
-		materials={'inside'}
+		materials={'inside','matvar2'}
 	}
 end
 function mainwheelunit_static(lod)
@@ -97,12 +100,14 @@ function mainwheelunit_dynamic(lod)
 	local v7 = v(1.5, 0, -1)
 	local v8 = v(0, 0, 6)
 	local v9 = v(0, 0, -1)
+	set_material('matvar2', get_arg_material(2))
 
 	use_material('inside')
+	zbias(1, v(0,0,0), v(0,1,0))
 	-- flap internal
 	xref_quad(v8, v6, v7, v9)
 	-- SHould use parameter material(2) here but param materials not done yet
-	--material(2)
+	use_material('matvar2')
 	local flap_ang = 0.5*math.pi*math.clamp(3*get_arg(0),0,1)
 	local wheel_ang = 0.5*math.pi*math.clamp(1.5*(get_arg(0)-0.34), 0, 1)
 	local vrot = 1.5*v(-math.cos(flap_ang), math.sin(flap_ang), 0)
@@ -111,12 +116,15 @@ function mainwheelunit_dynamic(lod)
 
 	call_model('mainwheel', v(0,0,0), v(1,0,0),
 	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
+	zbias(0)
 end
 
 function ladybird_info()
 	return {
-		bounding_radius = 100,
-		materials={'white','engines'}
+		lod_pixels = {50,100,200,0},
+		bounding_radius = 35,
+		materials={'white','engines','matvar0', 'matvar2',
+		'engine_inside'}
 	}
 end
 
@@ -152,11 +160,13 @@ function ladybird_static(lod)
 	xref_thruster(v43, v(0,0,-1), 25)
 	
 	set_material('white',.5,.5,.5,1,1,1,1,100)
-	use_material('white')
+	use_material('matvar0')
 	-- matvar(0)
 	quad(v06,v08,v09,v07)
 	quad(v09,v08,v11,v29)
 	xref_tri(v08,v06,v10)
+
+	local divs = lod*2
 
 	local wingtip_rear = v(30,-5,10)
 	local cpoint_rear = v(20,4,10)
@@ -165,53 +175,68 @@ function ladybird_static(lod)
 	local tmp = v(5,0,5)
 	local cpoint_leadingedge1 = leadingedge_mid - tmp
 	local cpoint_leadingedge2 = leadingedge_mid + tmp
-	-- wing leading edge underside
-	xref_flat(16, v(0,-1,0),
-		{ v30 },
-		{ cpoint_leadingedge1, leadingedge_mid },
-		{ cpoint_leadingedge2, wingtip_rear }
-	)
 
 
 	-- body flat side piece
 	local normal = ((v29-v09):cross(v30-v09)):norm()
 	local cpoint_bodycurve = 0.5*(v29+v30) + 3.0*(v29-v30):cross(normal):norm()
-	xref_flat(16, normal,
+	xref_flat(divs, normal,
 		{ v09 },
 		{ v29 },
 		{ cpoint_bodycurve, v30 }
 		)
 
 	-- top wing bulge
-	xref_bezier_3x3(16,16,
+	xref_bezier_3x3(divs,divs,
 		wingtip_rear, cpoint_leadingedge2, leadingedge_mid,
 		cpoint_rear, v(17,5,0), cpoint_leadingedge1,
 		v29, cpoint_bodycurve, v30)
 
 
-	-- underside of wing
-	xref_tri(v30, wingtip_rear, v32)
-
 	-- rear
-	xref_flat(16, v(0,0,1),
+	xref_flat(divs, v(0,0,1),
 		{ wingtip_rear },
 		{ cpoint_rear, v29 },
 		{ v32 }
 	)
 	quad(v29,v11,v31,v32) -- rear
-	-- matvar(2)
+	use_material('matvar2')
 	quad(v10,v06,v07,v30)
 	quad(v32,v31,v10,v30)
+	-- underside of wing
+	xref_tri(v30, wingtip_rear, v32)
+	-- wing leading edge underside
+	xref_flat(divs, v(0,-1,0),
+		{ v30 },
+		{ cpoint_leadingedge1, leadingedge_mid },
+		{ cpoint_leadingedge2, wingtip_rear }
+	)
+
 	zbias(1, v33, v(0,0,1))
 	set_material('engines',.3,.3,.3,1,.3,.3,.3,20)
 	use_material('engines')
 	xref_tube(12, v33, v34, v(0,1,0), 2.5, 3.0)
+	use_material('engine_inside')
 	-- matanim!!
 	xref_circle(12, v33, v(0,0,1), v(0,1,0), 2.5)
 	-- wheels my friend
 	
 end
+function lerp_materials(a, m1, m2)
+	local out = {}
+	a = math.fmod(a, 2.002)
+	if a > 1.0 then a = 2.002 - a end
+	local b = 1.0 - a
+	for i = 1,11 do
+		out[i] = a*m2[i] + b*m1[i]
+	end
+	return out
+end
 function ladybird_dynamic(lod)
+	set_material('matvar0', get_arg_material(0))
+	set_material('matvar2', get_arg_material(2))
+	set_material('engine_inside', lerp_materials(get_arg(2)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+				{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
 	if get_arg(0) ~= 0 then
 		local v35 = v(0.0, -5.0, -13.0);
 		local v36 = v(-15.0, -5.0, 3.0);
@@ -223,6 +248,7 @@ function ladybird_dynamic(lod)
 		call_model('mainwheelunit', v37, v(-1,0,0), v(0,-1,0), 1)
 		zbias(0)
 	end
+
 end
 
 function building1_info()
