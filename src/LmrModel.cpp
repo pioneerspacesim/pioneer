@@ -1588,7 +1588,7 @@ namespace ModelFuncs {
 		if (do_center) {
 			float xoff = 0, yoff = 0;
 			s_font->MeasureString(str, xoff, yoff);
-			pos -= 0.5f * (_textTrans * vector3f(xoff, -yoff, 0));
+			pos -= 0.5f * (_textTrans * vector3f(xoff, yoff, 0));
 		}
 		_textTrans[12] = pos.x;
 		_textTrans[13] = pos.y;

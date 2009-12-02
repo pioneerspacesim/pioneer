@@ -132,4 +132,4 @@ function cargo_dynamic(lod)
 	end
 end
 
-register_models("blob","test")
+register_models("blob","test","cargo")

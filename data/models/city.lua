@@ -143,31 +143,29 @@ function clock_static(lod)
 	zbias(2, v(0,0,0), v(0,0,1))
 
 	use_material("numbers")
-	text("12", v(0,0.85,0), v(0,0,1), v(1,0,0), 0.15)
-	text("1", v(0.425,0.74,0), v(0,0,1), v(1,0,0), 0.15)
-	text("2", v(0.74,0.43,0), v(0,0,1), v(1,0,0), 0.15)
-	text("3", v(0.85,0,0), v(0,0,1), v(1,0,0), 0.15)
-	text("4", v(0.74,-.425,0), v(0,0,1), v(1,0,0), 0.15)
-	text("5", v(0.425,-.74,0), v(0,0,1), v(1,0,0), 0.15)
-	text("6", v(0,-.85,0), v(0,0,1), v(1,0,0), 0.15)
-	text("7", v(-.425,-.736,0), v(0,0,1), v(1,0,0), 0.15)
-	text("8", v(-.74,-.425,0), v(0,0,1), v(1,0,0), 0.15)
-	text("9", v(-.85,0,0), v(0,0,1), v(1,0,0), 0.15)
-	text("10", v(-.74,.425,0), v(0,0,1), v(1,0,0), 0.15)
-	text("11", v(-.425,.736,0), v(0,0,1), v(1,0,0), 0.15)
+	text("12", v(0,0.85,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("1", v(0.425,0.74,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("2", v(0.74,0.43,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("3", v(0.85,0,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("4", v(0.74,-.425,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("5", v(0.425,-.74,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("6", v(0,-.85,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("7", v(-.425,-.736,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("8", v(-.74,-.425,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("9", v(-.85,0,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("10", v(-.74,.425,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	text("11", v(-.425,.736,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
 
 end
 function clock_dynamic(lod)
-	local t = os.time()
-	local handPos = (t%60)/60
-
+	local handPos = 2*math.pi * get_arg(3)
 	call_model("clockhand", v(0,0,0),
-			v(math.cos(-handPos),-math.sin(-handPos),0),
-			v(-math.sin(-handPos), -math.cos(-handPos),0), 0.65)
-	local handPos = (t%(60*60))/(60*60)
+			v(math.cos(handPos),math.sin(handPos),0),
+			v(math.cos(handPos+math.pi*0.5), math.sin(handPos+math.pi*0.5),0), 0.65)
+	handPos = handPos / 12
 	call_model("clockhand", v(0,0,0),
-			v(math.cos(-handPos),-math.sin(-handPos),0),
-			v(-math.sin(-handPos), -math.cos(-handPos),0), 0.5)
+			v(math.cos(handPos),math.sin(handPos),0),
+			v(math.cos(handPos+math.pi*0.5), math.sin(handPos+math.pi*0.5),0), 0.45)
 end
 function church_info()
 	return {
@@ -197,8 +195,8 @@ function church_static(lod)
 	local clockpos1 = v(-7,18,-11)
 	local clockpos2 = v(7,18,-11)
 	
-	call_model("clock", clockpos1, v(0,0,1), v(0,1,0), 2.5)
-	call_model("clock", clockpos2, v(0,0,-1), v(0,1,0), 2.5)
+	call_model("clock", clockpos1, v(0,0,-1), v(0,1,0), 2.5)
+	call_model("clock", clockpos2, v(0,0,1), v(0,1,0), 2.5)
 end
 
 function towerOfShit_info()
