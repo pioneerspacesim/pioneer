@@ -1569,18 +1569,30 @@ namespace ModelFuncs {
 	static int text(lua_State *L)
 	{
 		const char *str = luaL_checkstring(L, 1);
-		vector3f *pos = MyLuaVec::checkVec(L, 2);
+		vector3f pos = *MyLuaVec::checkVec(L, 2);
 		vector3f *norm = MyLuaVec::checkVec(L, 3);
 		vector3f *textdir = MyLuaVec::checkVec(L, 4);
 		float scale = luaL_checknumber(L, 5);
 		vector3f yaxis = vector3f::Cross(*norm, *textdir).Normalized();
 		vector3f zaxis = vector3f::Cross(*textdir, yaxis).Normalized();
 		vector3f xaxis = vector3f::Cross(yaxis, zaxis);
-
+		bool do_center = false;
+		if (lua_istable(L, 6)) {
+			lua_pushstring(L, "center");
+			lua_gettable(L, 6);
+			do_center = lua_toboolean(L, -1);
+			lua_pop(L, 1);
+		}
+	
 		_textTrans = matrix4x4f::MakeRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
-		_textTrans[12] = pos->x;
-		_textTrans[13] = pos->y;
-		_textTrans[14] = pos->z;
+		if (do_center) {
+			float xoff = 0, yoff = 0;
+			s_font->MeasureString(str, xoff, yoff);
+			pos -= 0.5f * (_textTrans * vector3f(xoff, -yoff, 0));
+		}
+		_textTrans[12] = pos.x;
+		_textTrans[13] = pos.y;
+		_textTrans[14] = pos.z;
 		_textNorm = *norm;
 		s_font->GetStringGeometry(str, &_text_index_callback, &_text_vertex_callback);
 //text("some literal string", vector pos, vector norm, vector textdir, [xoff=, yoff=, scale=, onflag=])
@@ -1751,7 +1763,7 @@ namespace ModelFuncs {
 			s_curBuf->SetVertex(vtxStart+i, start+p, n);
 			s_curBuf->SetVertex(vtxStart+i+steps, end+p, n);
 			s_curBuf->SetVertex(vtxStart+i+2*steps, start+p, -dir);
-			s_curBuf->SetVertex(vtxStart+i+3*steps, end+p, -dir);
+			s_curBuf->SetVertex(vtxStart+i+3*steps, end+p, dir);
 		}
 
 		for (int i=0; i<steps-1; i++) {
@@ -1959,6 +1971,14 @@ namespace ModelFuncs {
 		return 1;
 	}
 	
+	static int get_arg_string(lua_State *L)
+	{
+		assert(s_curParams != 0);
+		int i = luaL_checkint(L, 1);
+		lua_pushstring(L, s_curParams->argStrings[i]);
+		return 1;
+	}
+	
 	static int get_arg_material(lua_State *L)
 	{
 		assert(s_curParams != 0);
@@ -2057,6 +2077,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);
 	lua_register(L, "get_arg", ModelFuncs::get_arg);
+	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
 	lua_register(L, "flat", ModelFuncs::flat);
 	lua_register(L, "xref_flat", ModelFuncs::xref_flat);
 	

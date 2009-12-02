@@ -646,7 +646,32 @@ m:print()
 a = (m*v(1,0,0))
 a:print()
 
+function cargo_info()
+	return {
+		lod_pixels = {20, 50, 0},
+		bounding_radius = 1.5,
+		materials = {'body', 'text'}
+	}
+end
+function cargo_static(lod)
+	local divs = 8*lod
+	set_material('body', .5,.5,.5,1, 0,0,0, 0, 0,0,0)
+	set_material('text', 1,0,0,1, 0,0,0, 0, 0,0,0)
+	local top = v(0,1,0)
+	local bottom = v(0,-1,0)
+	use_material('body')
+	cylinder(divs, top, bottom, v(1,0,0), 1.0)
+end
+function cargo_dynamic(lod)
+	if lod == 3 then
+		local textpos = v(0,1,0)
+		use_material('text')
+		zbias(1, textpos, v(0,1,0))
+		text(get_arg_string(0), textpos, v(1,0,0), v(0,1,0), 0.1, {center=true})
+	end
+end
+
 register_models("blob","test", "towerOfShit",
 "boringHighRise","clockhand","clock","church", "skyscraper1", "building1",
 "building2",'biodomes','nosewheel', 'nosewheelunit', 'mainwheel',
-'mainwheelunit', 'ladybird')
+'mainwheelunit', 'ladybird', 'cargo')

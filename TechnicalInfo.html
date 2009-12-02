@@ -18,11 +18,8 @@
 <ul>
 	<li><a href="#sbre-models">Making 3d models</a></li>
 	<ul>
-		<li><a href="#models-def-example">models.def example</a>
+		<li><a href="#models-def-example">models.lua example</a>
 		<li><a href="#sbre-funcs-quickref">Function quick reference</a>
-		<li><a href="#sbre-flags">Function flags</a>
-		<li><a href="#sbre-simple-vertex">Simple vertex definition</a>
-		<li><a href="#sbre-complex-vertex">Complex vertex definition</a>
 		<li><a href="#sbre-function-reference">Complete function reference</a>
 		<li><a href="#sbre-model-conventions">Model conventions</a>
 	</ul>
@@ -30,144 +27,99 @@
 </ul>
 
 <a name="sbre-models"><h3>Making 3d models</h3></a>
-<p>Models in data/models.def are compiled to a bytecode (read src/sbre/brender.cpp,
-src/sbre/primfunc.cpp, etc for info in bytecode). You can either add models
-to data/models.def or do them directly in bytecode and stick them in
-src/sbre/models.cpp
-<a name="models-def-example"><h4>models.def example</h4></a>
+<p>Models are defined in models.lua (read src/LmrModel.cpp).
+<a name="models-def-example"><h4>models.lua example</h4></a>
 <p>A simple example model:
 <pre>
-1	model(simple_cargo, scale=1.0, radius=1.0) {
-2		# my lovely model!
-3		lod { full, 20px, 10px }
-4		objlod cyl_lod = { 24, 16, 8 }
-5		top = v(0,1,0)
-6		bottom = v(0,-1,0)
-7		textpos = v(0,1,0)
-8		material(.5,.5,.5, 0,0,0, 0, 0,0,0)
-9		cylinder(cyl_lod, top, bottom, v(1,0,0), radius=1.0)
-10		lod1:material(1,0,0, 0,0,0, 0, 0,0,0)
-11		lod1:zbias(textpos, v(0,1,0), 1)
-12		lod1:text(params:0, textpos, v(0,1,0), v(1,0,0), scale=0.1)
-13	}
+	function cargo_info()
+		return {
+			lod_pixels = {20, 50, 0},
+			bounding_radius = 1.5,
+			materials = {'body', 'text'}
+		}
+	end
+8	function cargo_static(lod)
+9		local divs = 8*lod
+10		set_material('body', .5,.5,.5,1, 0,0,0, 0, 0,0,0)
+11		set_material('text', 1,0,0,1, 0,0,0, 0, 0,0,0)
+12		local top = v(0,1,0)
+13		local bottom = v(0,-1,0)
+14		use_material('body')
+15		cylinder(divs, top, bottom, v(1,0,0), 1.0)
+	end
+17	function cargo_dynamic(lod)
+18		if lod == 3 then
+19			local textpos = v(0,1,0)
+20			use_material('text')
+21			zbias(1, textpos, v(0,1,0))
+22			text(get_arg_string(0), textpos, v(1,0,0), v(0,1,0), 0.1)
+		end
+	end
 </pre>
 
-<p>Line-by-line explanation:</p>
-<ol>
-	<li>model(..) - Begins the definition of a model, naming it 'simple_cargo' and specifying
-	that all geometry should be scaled by 1.0 and the rough bounding sphere
-	of the model has radius 1.0
-	<li>A comment. It will be ignored
-	<li>lod{} - Level of detail (lod) specification. Up to four can be specified.
-	If you only want one lod then this can be omitted. The first level of
-	detail must be 'full', followed by on screen pixel sizes ordered
-	largest (and therefore most detailed) first.
-	<li>objlod{} - defines an object detail level that can be applied to
-	primitives like cylinders and tubes. This object detail level has been
-	named 'cyl_lod', and will be 16 for the first lod (lod1, which is
-	'full'), and 16, 8 for lod2, lod3 respectively (20px and 10px).
-	<li>top = v(0,1,0) - sets the vertex named 'top' to the value v(0,1,0)
-	<li>" "
-	<li>" "
-	<li>material(..) - changes the material colour, specifying diffuse,
-	specular, shininess and emissive values. Consult the function
-	reference below for arguments.
-	<li>cylinder(..) - Draws a cylinder
-	Arguments are:<br>
-	circumference subdivisions - Can either be specified as a literal
-	integer, or as an objlod (as in this case, which means that it will be
-	drawn with 24 circumference steps at full detail level, 16 steps at
-	20px detail level and 8 steps at 10px detail level.<br>
-	start position (top) - a vertex indicating the center of the circle at
-	the top endpoint of the tube. Vertices can always be specified either
-	by names assigned previously (as was done here, 'top'), or as literal
-	vertices like v(1,0,0).<br>
-	end position (bottom) - a vertex indicating the centre of the circle
-	at the bottom endpoint of the tube<br>
-	'up' vertex - a normal pointing from the centre of an endpoint to the
-	circumference.<br>
-	radius=1.0 - float cylinder radius<br>
-	<li>lod1:material(..) - The flag lod1 indicates that this function
-	should only be called at lod level 1 (full detail). material() sets
-	the diffuse, specular, shininess and emissive properties of the
-	subsequent primitives. Check the function reference for arguments.
-	<li>lod1:zbias(..) - We are about to draw a piece of text onto the top
-	of the cylinder, so to avoid z-fighting we adjust the z-range.
-	Arguments are:<br>
-	vertex position - should be the position the text will be drawn at<br>
-	normal - same as the text's normal<br>
-	bias amount - integer<br>
-	<li>lod1:text(..) - For lod level 1 (full detail), draw some lovely
-	text on top of the cylinder. The first argument specifies where to
-	find the string. In this case it is the zeroth string on the object
-	parameters passed to the render function from pioneer. It could also
-	be a string literal of the form "blah blah".
-</ol>
+<p>Explanation:</p>
+function modelname_info() returns the on-screen pixels sizes of various Level of Detail
+(LOD) levels (lod_pixels). Here it is &lt; 20px for lod 1, &lt; 50px for lod 2 and all
+larger sizes lod 3. bounding_radius must encompass the whole model from
+position (0,0,0). All materials used by a model must be declared here also.
+<p>
+function modelname_static(lod) defines the static geometry of a model, ie the
+shit that doesn't change from frame to frame. It may still use materials that
+are altered per-frame by modelname_dynamic(lod). Both functions have 1
+argument: the lod level (starting from 1 for lowest detail level).
+<p>
+The rest is truly self-explanatory.
 
 <a name="sbre-funcs-quickref"><h4>Function quick reference</h4></a>
+Square brackets indicate optional arguments.
 <pre>
-material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
-material(0-3)
-material(animfn=xxx, material(), material())
-triangle(vector v1, vector v2, vector v3)
+bezier_3x3(integer divs_u, integer divs_v, v1, v2, v3,
+                                           v4, v5, v6,
+                                           v7, v8, v9)
+bezier_4x4(integer divs_u, integer divs_v, v1, v2, v3, v4,
+                                           v5, v6, v7, v8,
+                                           v9, v10, v11, v12,
+                                           v13, v14, v15, v16)
+call_model(string modelname, vector pos, vector xaxis, vector yaxis, float scale)
+circle(integer steps, vector center, vector normal, vector up, float radius)
+cylinder(integer steps, vector start, vector end, vector up, float radius)
+extrusion(vector start, vector end, vector up, float radius, v1, v2, v3, ...)
+flat(integer divs, vector normal, { v_line },
+                 { v_quadric1, v_quadric2 },
+                 { v_cubic1, v_cubic2, v_cubic3 },
+                 etc )
+geomflag(integer)
+get_arg(integer)
+get_arg_material(integer)
+get_arg_string(integer)
+material(dr, dg, db, alpha, sr, sg, sb, shininess, er, eg, eb)
+noise(x, y, z) or noise(vector)
 quad(vector v1, vector v2, vector v3, vector v4)
-circle(int circumference_steps, vector center, vector normal, vector up, radius=float radius)
-cylinder(int steps, vector start, vector end, vector up, radius=float radius)
-tube(int steps, vector start, vector end, vector up, innerrad=float, outerrad=float)
-extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
-smooth(int steps, 
-         ... then two to four of:
-         hermite(vector pos, vector tan0, vector tan1)
-         hermite_norm(vector pos1, vector norm0, vector norm1)
-         line(vector pos)
-)
-flat(int steps, vector normal,
-	... then two or more of the same crud as smooth(), except no hermite_norm()
-)
-text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
-text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
-subobject(object_name, vector pos, vector up, vector zaxis [, scale=float, onflag=])
-thruster(direction, vector position, float size)
-geomflag(int)
-zbias(vector position, vector normal, int level)
-nozbias()
+ring(integer steps, vector start, vector end, vector updir, float radius)
+set_material(string material_name, dr, dg, db, alpha, sr, sg, sb, shiny, er, eg, eb)
+triangle(vector v1, vector v2, vector v3)
+tube(integer steps, vector start, vector end, vector up, float inner_radius, float outer_radius)
+text("some string", vector pos, vector norm, vector textdir, float scale [,{center=true/false}])
+thruster(vector pos, vector direction, float size, bool linear_only)
+use_material(string material_name)
+xref_bezier_3x3( {as bezier_3x3()} )
+xref_bezier_4x4( {as bezier_4x4()} )
+xref_circle(integer circumference_steps, vector center, vector normal, vector up, float radius)
+xref_cylinder(integer steps, vector start, vector end, vector up, float radius)
+xref_flat( {as flat()} )
+xref_quad(vector v1, vector v2, vector v3, vector v4)
+xref_ring(integer steps, vector start, vector end, vector updir, float radius)
+xref_thruster(vector pos, vector direction, float size, bool linear_only)
+xref_triangle(vector v1, vector v2, vector v3)
+xref_tube(integer steps, vector start, vector end, vector up, float inner_radius, float outer_radius)
+zbias(integer amount, vector position, vector normal)
+zbias(0)
 </pre>
-
-<a name="sbre-flags"><h4>Function flags (to apply to functions)</h4></a>
-<p>You apply them like this:
-<pre>
-	lod1:lod2:xref:invisible:tri(v1, v2, v3)
-</pre>
-<dl>
-	<dt>xref:</dt>
-	<dd>Reflect the object in the x axis, drawing it twice.</dd>
-	<dt>invisible:</dt>
-	<dd>triangle() and quad() only. Do not draw the primitive but still create in the collision mesh.</dd>
-	<dt>thrust:</dt>
-	<dd>???? TODO WTF does it do????</dd>
-	<dt>notangular:</dt>
-	<dd>For thruster(), indicates that this thruster should not be used for angular acceleration</dd>
-	<dt>lod1: lod2: lod3: lod4:</dt>
-	<dd>Only draw the primitive in the specified detail levels. By
-	default a primitive will be drawn in all detail levels.</dd>
-</dl>
-
-
-<a name="sbre-simple-vertex"><h4>Simple vertex definition</h4></a>
-v(x,y,z) = plain vertex<br>
-n(x,y,z) = normalized<br>
-<a name="sbre-complex-vertex"><h4>Complex vertex definition</h4></a>
-vnormal(v1, v2, v3) = n((v2-v1)^(v0-v1)) -- normal to angle v1-v2-v3<br>
-vcross(v1,v2) = v1^v2<br>
-vlinear(v1, v2, animfn=xxx)<br>
-vcubic(v1,v2,v3,v4, animfn=xxx)<br>
-vhermite(v1,v2,n1,n2, animfn=xxx) = hermite from v1 to v2, normals n1,n2<br>
-vrotate(xaxis, zaxis, animfn=xxx)<br>
 
 <a name="sbre-function-reference"><h4>Complete function reference</h4></a>
 <pre>
-XXX this crap needs cleaning up
-
+XXX this crap needs updating for Lua shit
+<!--
 material(dr, dg, db, sr, sg, sb, shininess, er, eg, eb)
   diffuse rgb, specular rgb, shininess, emissive rgb
 material(0-3)
@@ -201,7 +153,7 @@ extrusion(vector start, vector end, vector up, radius=float, {v1, v2, v3, ... })
   v1,v2,v3,... describes the 2d shape to be extruded into 3d along start->end.
   it should be wound counter-clockwise in x,y, with the z coordinate ignored
   up is a normal, and should be perpendicular to end-start
-
+-->
 geomflag(int)
   set an integer flag on subsequent geometry, that can be used by the pioneer
   collision detector to determine what bits of a model has been struck.
@@ -232,22 +184,7 @@ orientation)
 	invisible:tri(position, v(0,0,0), v(0,0,0))
 	invisible:tri(v(0,0,0), xaxis, yaxis)
 
-smooth(steps, 
-        ... then two to four of:
-        hermite(vector pos, vector tan0, vector tan1)
-        hermite_norm(vector pos1, vector norm0, vector norm1)
-        line(vector pos)
-)
-  makes lovely smooth surface
-
-flat(steps, normal,
-        ... then two or more ..
-        hermite(vector pos, vector tan0, vector tan1)
-        hermite_norm(vector pos1, vector norm0, vector norm1)
-        line(vector pos)
-)
-  makes lovely smooth surface
-
+<!--
 text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
 text(params:textnum, vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])
   draws text from either the string literal provided or the params strings (passed at render time in ObjParams)
@@ -266,19 +203,7 @@ thruster(direction, vector position, float size)
   notangular flag indicates that this thruster should not be used to display
   angular acceleration.
   'direction' is fwd, rev, up, down, left, right
-
-Simple vertex definition:
-  v(x,y,z) = plain vertex
-  n(x,y,z) = normalized
-Complex (composed of other vertices & maybe anim):
-  vnormal(v1, v2, v3) = n((v2-v1)^(v0-v1)) -- normal to angle v1-v2-v3
-  vcross(v1,v2) = v1^v2
-  vlinear(v1, v2, animfn=xxx)
-  vcubic(v1,v2,v3,v4, animfn=xxx)
-  vhermite(v1,v2,n1,n2, animfn=xxx) = hermite from v1 to v2, normals n1,n2
-  vrotate(xaxis, zaxis, animfn=xxx)
-
-animfn is of gear, gflap, thrustpulse, lin4sec, hour, halfday, stationopen, stationdock (see anim_fns[], enum animfunc)
+-->
 </pre>
 	
 <a name="sbre-model-conventions"><h4>Model conventions</h4></a>
