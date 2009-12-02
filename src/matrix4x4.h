@@ -45,11 +45,27 @@ class matrix4x4 {
 		m[12] = m[13] = m[14] = 0; m[15] = 1;
 		return m;
 	}
+	static matrix4x4 ScaleMatrix(T scale) {
+		matrix4x4 m;
+		m[0] = scale; m[1] = m[2] = m[3] = 0;
+		m[5] = scale; m[4] = m[6] = m[7] = 0;
+		m[10] = scale; m[8] = m[9] = m[11] = 0;
+		m[12] = m[13] = m[14] = 0; m[15] = 1;
+		return m;
+	}
 	static matrix4x4 MakeRotMatrix(vector3<T> rx, vector3<T> ry, vector3<T> rz) {
 		matrix4x4 m;
 		m[0] = rx.x; m[4] = rx.y; m[8] = rx.z; m[12] = 0;
 		m[1] = ry.x; m[5] = ry.y; m[9] = ry.z; m[13] = 0;
 		m[2] = rz.x; m[6] = rz.y; m[10] = rz.z; m[14] = 0;
+		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
+		return m;
+	}
+	static matrix4x4 MakeInvRotMatrix(vector3<T> rx, vector3<T> ry, vector3<T> rz) {
+		matrix4x4 m;
+		m[0] = rx.x; m[4] = ry.x; m[8] = rz.x; m[12] = 0;
+		m[1] = rx.y; m[5] = ry.y; m[9] = rz.y; m[13] = 0;
+		m[2] = rx.z; m[6] = ry.z; m[10] = rz.z; m[14] = 0;
 		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
 		return m;
 	}

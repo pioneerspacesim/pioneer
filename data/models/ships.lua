@@ -1,7 +1,7 @@
 
 function nosewheel_info()
 	return {
-		lod_pixels={20,75,0},
+		lod_pixels={5,50,0},
 		bounding_radius = 7,
 		materials={'leg','tyre'}
 	}
@@ -50,13 +50,13 @@ function nosewheelunit_dynamic(lod)
 	xref_quad(v7, v7+vrot, v6+vrot, v6)
 
 	call_model('nosewheel', v(0,0,0), v(1,0,0),
-	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
+	v(0,math.sin(wheel_ang),math.cos(wheel_ang)), 1.0)
 	zbias(0)
 end
 
 function mainwheel_info()
 	return {
-		lod_pixels = {50,100,0},
+		lod_pixels = {5,50,0},
 		bounding_radius = 8,
 		materials = {'leg', 'tyre'}
 	}
@@ -111,7 +111,7 @@ function mainwheelunit_dynamic(lod)
 	xref_quad(v7, v7+vrot, v6+vrot, v6)
 
 	call_model('mainwheel', v(0,0,0), v(1,0,0),
-	v(0,math.sin(wheel_ang),-math.cos(wheel_ang)), 1.0)
+	v(0,math.sin(wheel_ang),math.cos(wheel_ang)), 1.0)
 	zbias(0)
 end
 
@@ -237,5 +237,176 @@ function ladybird_dynamic(lod)
 
 end
 
+function __walruswing_info()
+	return {
+		scale = 25.0,
+		bounding_radius = 10,
+		materials = {'matvar0'}
+	}
+end
+function __walruswing_static(lod)
+	-- bottom front
+	local v06 = v(0.0, 0.0, 1.0)
+	-- bottom back
+	local v07 = v(0.0, 0.0, -1.0)
+	-- top front
+	local v08 = v(0.0, 1.5, 0.0)
+	-- top back
+	local v09 = v(0.0, 1.5, -1.5)
+	use_material('matvar0')
+	local bend = v(0.175,0,0)
+	xref_bezier_3x3(1,16, v07, 0.5*(v07+v09), v09,
+			0.5*(v06+v07)+bend, bend, 0.5*(v08+v09)+bend,
+			v06, 0.5*(v06+v08), v08)
+	flat(16, v(0,1,0), { 0.5*(v08+v09)+bend, v09 },
+			{ 0.5*(v08+v09)-bend, v08 })
+
+end
+function __walruswing_dynamic(lod)
+	set_material('matvar0', get_arg_material(0))
+end
+function walrus_info()
+	return {
+		scale = 1.0,
+		bounding_radius = 100,
+		materials = {'matvar0', 'text'}
+	}
+end
+function walrus_static(lod)
+
+	local v06 = v(-5.0, 10.0, -30.0)
+	-- 6, top four body verts
+	local v07 = v(5.0, 10.0, -30.0)
+	local v08 = v(-5.0, 10.0, 30.0)
+	local v09 = v(5.0, 10.0, 30.0)
+
+	local v10 = v(-11.16025, -0.6698729, -25.0)
+	-- 10, right four body verts
+	local v11 = v(-6.160254, -9.330127, -35.0)
+	local v12 = v(-11.16025, -0.6698729, 35.0)
+	local v13 = v(-6.160254, -9.330127, 30.0)
+
+	local v14 = v(11.16025, -0.6698729, -25.0)
+	-- 14, left four body verts
+	local v15 = v(6.160254, -9.330127, -35.0)
+	local v16 = v(11.16025, -0.6698729, 35.0)
+	local v17 = v(6.160254, -9.330127, 30.0)
+
+	local v18 = v(-5.0, -0.6698729, -60.0)
+	-- 18, front two verts
+	local v19 = v(5.0, -0.6698729, -60.0)
+
+
+	local v20 = v(0.0, 10.0, 0.0)
+			-- 20, top wing
+	local v21 = v(-1.0, 0.0, 0.0)
+
+	local v22 = v(0.0, 1.0, 0.0)
+
+
+			-- 23, right wing
+	local v24 = v(0.5, -0.8660254, 0.0)
+	local v25 = v(-0.8660254, -0.5, 0.0)
+
+			-- 26, left wing
+	local v27 = v(0.5, 0.8660254, 0.0)
+	local v28 = v(0.8660254, -0.5, 0.0)
+
+	local v29 = v(-0.0, 0.0, 40.0)
+				-- 29, main thruster
+	local v30 = v(-11.0, 0.0, -35.0)
+				-- 30, retro
+	local v31 = v(11.0, 0.0, -35.0)
+
+	local v32 = v(-9.0, 5.0, -30.0)
+					-- 32, right
+	local v33 = v(-12.0, -5.0, 30.0)
+	local v34 = v(12.0, -5.0, -30.0)
+				-- 34, left
+	local v35 = v(9.0, 5.0, 30.0)
+	local v36 = v(0.0, 12.0, -30.0)
+				-- 36, top
+	local v37 = v(0.0, 12.0, 30.0)
+	local v38 = v(0.0, -12.0, -30.0)
+				-- 38, bottom
+	local v39 = v(0.0, -12.0, 30.0)
+
+
+	local v42 = v(-5.0, 10.0, -30.0)
+	-- 6, top four body verts
+	local v43 = v(-11.16025, -0.6698729, 35.0)
+
+	use_material('matvar0')
+	quad(v07, v06, v08, v09)
+	quad(v13, v11, v15, v17)
+	xref_quad(v08, v06, v10, v12)
+	xref_quad(v12, v10, v11, v13)
+	quad(v09, v08, v12, v16)
+	quad(v16, v12, v13, v17)
+	
+	quad(v06, v07, v19, v18)
+	quad(v18, v19, v15, v11)
+	xref_tri(v06, v18, v10)
+	xref_tri(v10, v18, v11)
+
+	thruster(v29, v(0,0,1), 50, true)
+	thruster(v30, v(0,0,-1), 35, true)
+	thruster(v31, v(0,0,-1), 35, true)
+	thruster(v32, v(-1,0,0), 25)
+	thruster(v33, v(-1,0,0), 25)
+	thruster(v34, v(1,0,0), 25)
+	thruster(v35, v(1,0,0), 25)
+	thruster(v36, v(0,1,0), 25)
+	thruster(v37, v(0,1,0), 25)
+	thruster(v38, v(0,-1,0), 25)
+	thruster(v39, v(0,-1,0), 25)
+
+	call_model('__walruswing', v20, v(-1,0,0), v(0,1,0), 1.0)
+end
+function walrus_dynamic(lod)
+	local v06 = v(-5.0, 10.0, -30.0)
+	local v07 = v(5.0, 10.0, -30.0)
+	local v08 = v(-5.0, 10.0, 30.0)
+	local v10 = v(-11.16025, -0.6698729, -25.0)
+	local v12 = v(-11.16025, -0.6698729, 35.0)
+	local v14 = v(11.16025, -0.6698729, -25.0)
+	local v16 = v(11.16025, -0.6698729, 35.0)
+	local v20 = v(0.0, 10.0, 0.0)
+	local v23 = v(-8.660254, -5.0, 0.0)
+	local v26 = v(8.660254, -5.0, 0.0)
+
+	local v40 = v(0.0, -9.330127, -30.0)
+			-- 40, nosewheel
+	local v41 = v(0.0, -9.330127, 13.0)
+			-- 41, mainwheel
+	local v54 = (v07 - v14):cross(v16 - v14):norm()
+	local v55 = (v06 - v08):cross(v12 - v08):norm()
+
+	set_material('matvar0', get_arg_material(0))
+	set_material('text', .2,.2,.2,1)
+	use_material('text')
+	local reg = get_arg_string(0)
+	zbias(1, v16, v54)
+	text(reg, v16, v54, v(0,0,-1), 10.0, {xoffset=1, yoffset=.3})
+	zbias(1, v10, v55)
+	text(reg, v10, v55, v(0,0,1), 10.0, {xoffset=.8, yoffset=.3})
+	if get_arg(0) > 0 then
+		zbias(1, v40, v(0,-1,0))
+		call_model('nosewheelunit', v40, v(-1,0,0), v(0,-1,0), 2.0)
+		call_model('mainwheelunit', v41, v(-1,0,0), v(0,-1,0), 2.0)
+	end
+	zbias(0)
+--	PTYPE_SUBOBJECT, 0x8000, SUB_WING1, 20, 22, 5, 100,
+--	PTYPE_SUBOBJECT, 0x8000, SUB_WING1, 23, 50, 5, 100,
+--	PTYPE_SUBOBJECT, 0x8000, SUB_WING1, 26, 52, 5, 100,
+	local ang = math.pi - 0.5 + 0.5*get_arg(0)
+	local xaxis = v(math.sin(ang), math.cos(ang), 0)
+	call_model('__walruswing', v23, xaxis, v(0,0,-1):cross(xaxis), 1.0)
+	ang = 0.5 - 0.5*get_arg(0)
+	local xaxis = v(math.sin(ang), math.cos(ang), 0)
+	call_model('__walruswing', v26, xaxis, v(0,0,-1):cross(xaxis), 1.0)
+end
+
+
 register_models('nosewheel', 'nosewheelunit', 'mainwheel',
-'mainwheelunit', 'ladybird')
+'mainwheelunit', 'ladybird', '__walruswing', 'walrus')

@@ -76,7 +76,7 @@ function test_dynamic(lod)
 
 	local ang = 2*math.pi*get_arg(0)
 	call_model("blob", v(0,0,-20), v(1,0,0),
-	v(0,math.sin(ang),math.cos(ang)),1.0)
+	v(1,1,0),1.0)
 end
 
 function blob_info()
@@ -98,6 +98,7 @@ function blob_static(lod)
 	thruster(v(5,0,5), v(1,0,0), 5, true)
 	thruster(v(-5,0,-5), v(-1,0,0), 5, true)
 	thruster(v(-5,0,5), v(-1,0,0), 5, true)
+	text("HELLO FROM BLOB", v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
 end
 
 m = Mat4x4.rotate(math.pi*0.25,v(1,1,1))
@@ -128,7 +129,7 @@ function cargo_dynamic(lod)
 		local textpos = v(0,1,0)
 		use_material('text')
 		zbias(1, textpos, v(0,1,0))
-		text(get_arg_string(0), textpos, v(1,0,0), v(0,1,0), 0.1, {center=true})
+		text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
 	end
 end
 

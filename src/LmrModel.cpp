@@ -729,10 +729,8 @@ public:
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
 					if (m.diffuse[3] == 1.0) {
 						glDisable(GL_BLEND);
-						glDepthMask(GL_TRUE);
 					} else {
 						glEnable(GL_BLEND);
-						glDepthMask(GL_FALSE);
 					}
 				}
 				break;
@@ -778,11 +776,9 @@ public:
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glEnable (GL_BLEND);
-		glDepthMask(GL_FALSE);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			ShipThruster::RenderThruster (rstate, params, &m_thrusters[i]);
 		}
-		glDepthMask(GL_TRUE);
 		glDisable (GL_BLEND);
 		glDisableClientState (GL_VERTEX_ARRAY);
 	}
@@ -982,6 +978,7 @@ LmrModel::LmrModel(const char *model_name)
 {
 	m_name = model_name;
 	m_boundingRadius = 1.0f;
+	m_scale = 1.0f;
 
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", model_name);
@@ -1035,6 +1032,12 @@ LmrModel::LmrModel(const char *model_name)
 		}
 		lua_pop(sLua, 1);
 
+		lua_getfield(sLua, -1, "scale");
+		if (lua_isnumber(sLua, -1)) {
+			m_scale = lua_tonumber(sLua, -1);
+		}
+		lua_pop(sLua, 1);
+
 		/* pop model_info table */
 		lua_pop(sLua, 1);
 	} else {
@@ -1083,6 +1086,8 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 {
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
+	glScalef(m_scale, m_scale, m_scale);
+	glEnable(GL_NORMALIZE);
 
 	float pixrad = 0.5f * s_scrWidth * m_boundingRadius / cameraPos.Length();
 
@@ -1099,6 +1104,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	}
 	s_curBuf = 0;
 
+	glDisable(GL_NORMALIZE);
 	glPopMatrix();
 }
 
@@ -1123,8 +1129,9 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 {
 	// use lowest LOD
 	Build(0, params);
-	m_staticGeometry[0]->GetCollMeshGeometry(mesh, transform, params);
-	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, transform, params);
+	matrix4x4f m = transform * matrix4x4f::ScaleMatrix(m_scale);
+	m_staticGeometry[0]->GetCollMeshGeometry(mesh, m, params);
+	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 }
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
@@ -1166,7 +1173,7 @@ namespace ModelFuncs {
 			vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
 			vector3f yaxis = vector3f::Cross(zaxis, xaxis);
 
-			matrix4x4f trans = matrix4x4f::MakeRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
+			matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
 			trans[12] = pos->x;
 			trans[13] = pos->y;
 			trans[14] = pos->z;
@@ -1576,15 +1583,27 @@ namespace ModelFuncs {
 		vector3f yaxis = vector3f::Cross(*norm, *textdir).Normalized();
 		vector3f zaxis = vector3f::Cross(*textdir, yaxis).Normalized();
 		vector3f xaxis = vector3f::Cross(yaxis, zaxis);
+		_textTrans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
+		
 		bool do_center = false;
 		if (lua_istable(L, 6)) {
 			lua_pushstring(L, "center");
 			lua_gettable(L, 6);
 			do_center = lua_toboolean(L, -1);
 			lua_pop(L, 1);
+
+			lua_pushstring(L, "xoffset");
+			lua_gettable(L, 6);
+			float xoff = lua_tonumber(L, -1);
+			lua_pop(L, 1);
+			
+			lua_pushstring(L, "yoffset");
+			lua_gettable(L, 6);
+			float yoff = lua_tonumber(L, -1);
+			lua_pop(L, 1);
+			pos += _textTrans * vector3f(xoff, yoff, 0);
 		}
 	
-		_textTrans = matrix4x4f::MakeRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
 		if (do_center) {
 			float xoff = 0, yoff = 0;
 			s_font->MeasureString(str, xoff, yoff);

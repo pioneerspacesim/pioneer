@@ -155,10 +155,11 @@ function clock_static(lod)
 	text("9", v(-.85,0,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
 	text("10", v(-.74,.425,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
 	text("11", v(-.425,.736,0), v(0,0,1), v(1,0,0), 0.15, {center=true})
+	zbias(0)
 
 end
 function clock_dynamic(lod)
-	local handPos = 2*math.pi * get_arg(3)
+	local handPos = -2*math.pi * get_arg(3)
 	call_model("clockhand", v(0,0,0),
 			v(math.cos(handPos),math.sin(handPos),0),
 			v(math.cos(handPos+math.pi*0.5), math.sin(handPos+math.pi*0.5),0), 0.65)
@@ -195,8 +196,8 @@ function church_static(lod)
 	local clockpos1 = v(-7,18,-11)
 	local clockpos2 = v(7,18,-11)
 	
-	call_model("clock", clockpos1, v(0,0,-1), v(0,1,0), 2.5)
-	call_model("clock", clockpos2, v(0,0,1), v(0,1,0), 2.5)
+	call_model("clock", clockpos1, v(0,0,1), v(0,1,0), 2.5)
+	call_model("clock", clockpos2, v(0,0,-1), v(0,1,0), 2.5)
 end
 
 function towerOfShit_info()

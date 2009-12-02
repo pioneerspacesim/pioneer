@@ -32,6 +32,7 @@ struct LmrObjParams
 };
 
 struct RenderState;
+class LmrCollMesh;
 
 class LmrModel {
 public:
@@ -52,7 +53,9 @@ private:
 	LmrGeomBuffer *m_dynamicGeometry[LMR_MAX_LOD];
 	std::string m_name;
 	bool m_hasDynamicFunc;
+	// only used for lod pixel size at the moment
 	float m_boundingRadius;
+	float m_scale;
 	friend class LmrGeomBuffer;
 };
 
