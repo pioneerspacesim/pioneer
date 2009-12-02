@@ -2087,7 +2087,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "noise", UtilFuncs::noise);
 
 	s_buildDynamic = false;
-	if (luaL_dofile(L, "models.lua")) {
+	if (luaL_dofile(L, "data/models/models.lua")) {
 		printf("%s\n", lua_tostring(L, -1));
 	}
 	s_buildDynamic = true;
