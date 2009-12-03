@@ -434,6 +434,8 @@ struct RenderState {
 	 * the root model and orientation when rendering thrusters on
 	 * sub-models */
 	matrix4x4f subTransform;
+	// combination of model scale, call_model scale, and all parent scalings
+	float combinedScale;
 };
 
 namespace ShipThruster {
@@ -751,6 +753,7 @@ public:
 				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
 				RenderState rstate2;
 				rstate2.subTransform = rstate->subTransform * trans;
+				rstate2.combinedScale = rstate->combinedScale * op.callmodel.scale * op.callmodel.model->m_scale;
 				op.callmodel.model->Render(&rstate2, cam_pos, trans, params);
 				// XXX re-binding buffer may not be necessary
 				BindBuffers();
@@ -813,11 +816,12 @@ public:
 		memcpy(curOp.zbias.norm, &norm.x, 3*sizeof(float));
 	}
 
-	void PushCallModel(LmrModel *m, const matrix4x4f &transform) {
+	void PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_CALL_MODEL;
 		memcpy(curOp.callmodel.transform, &transform[0], 16*sizeof(float));
 		curOp.callmodel.model = m;
+		curOp.callmodel.scale = scale;
 	}
 
 	void SetMaterial(const char *mat_name, const float mat[11]) {
@@ -953,7 +957,7 @@ private:
 			struct { int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
-			struct { LmrModel *model; float transform[16]; } callmodel;
+			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
 		};
 	};
 	struct Vertex {
@@ -1079,6 +1083,7 @@ void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 {
 	RenderState rstate;
 	rstate.subTransform = matrix4x4f::Identity();
+	rstate.combinedScale = m_scale;
 	Render(&rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
 }
 
@@ -1089,7 +1094,8 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glScalef(m_scale, m_scale, m_scale);
 	glEnable(GL_NORMALIZE);
 
-	float pixrad = 0.5f * s_scrWidth * m_boundingRadius / cameraPos.Length();
+	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_boundingRadius / cameraPos.Length();
+	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
 	int lod = m_numLods-1;
 	for (int i=lod-1; i>=0; i--) {
@@ -1178,7 +1184,7 @@ namespace ModelFuncs {
 			trans[13] = pos->y;
 			trans[14] = pos->z;
 
-			s_curBuf->PushCallModel(m, trans);
+			s_curBuf->PushCallModel(m, trans, scale);
 		}
 		return 0;
 	}
@@ -1644,8 +1650,9 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = vector3f::Cross(updir, normal).Normalized();
 
-		float ang = 0.0;
 		const float inc = 2.0f*M_PI / (float)steps;
+		float ang = 0.5f*inc;
+		radius /= cosf(ang);
 		for (int i=0; i<steps; i++, ang += inc) {
 			vector3f p = center + radius * (sin(ang)*axis1 + cos(ang)*axis2);
 			s_curBuf->SetVertex(vtxStart+i, p, normal);
@@ -1690,8 +1697,11 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
 
-		float ang = 0.0;
 		const float inc = 2.0f*M_PI / (float)steps;
+		float ang = 0.5*inc;
+		const float radmod = 1.0f/cosf(ang);
+		inner_radius *= radmod;
+		outer_radius *= radmod;
 		for (int i=0; i<steps; i++, ang += inc) {
 			vector3f p = (sin(ang)*axis1 + cos(ang)*axis2);
 			vector3f p_inner = inner_radius * p;
@@ -1773,8 +1783,9 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
 
-		float ang = 0.0;
 		const float inc = 2.0f*M_PI / (float)steps;
+		float ang = 0.5*inc;
+		radius /= cosf(ang);
 		for (int i=0; i<steps; i++, ang += inc) {
 			vector3f p = radius * (sin(ang)*axis1 + cos(ang)*axis2);
 			vector3f n = p.Normalized();
@@ -1835,8 +1846,9 @@ namespace ModelFuncs {
 
 		const int vtxStart = s_curBuf->AllocVertices(2*steps);
 
-		float ang = 0.0;
 		const float inc = 2.0f*M_PI / (float)steps;
+		float ang = 0.5*inc;
+		radius /= cosf(ang);
 		for (int i=0; i<steps; i++, ang += inc) {
 			vector3f p = radius * (sin(ang)*axis1 + cos(ang)*axis2);
 			vector3f n = p.Normalized();
