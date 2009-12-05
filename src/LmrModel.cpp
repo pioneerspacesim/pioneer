@@ -269,6 +269,19 @@ namespace MyLuaVec {
 		return 1;
 	}
 
+	static int Vec_newNormalized(lua_State *L)
+	{
+		float x = lua_tonumber(L, 1);
+		float y = lua_tonumber(L, 2);
+		float z = lua_tonumber(L, 3);
+		vector3f *v = pushVec(L);
+		v->x = x;
+		v->y = y;
+		v->z = z;
+		*v = v->Normalized();
+		return 1;
+	}
+
 	static int Vec_print(lua_State *L)
 	{
 		vector3f *v = checkVec(L, 1);
@@ -386,6 +399,7 @@ namespace MyLuaVec {
 
 	static const luaL_reg Vec_methods[] = {
 		{ "new", Vec_new },
+		{ "newNormalized", Vec_newNormalized },
 		{ "print", Vec_print },
 		{ "dot", Vec_dot },
 		{ "cross", Vec_cross },
@@ -453,19 +467,12 @@ namespace ShipThruster {
 	{
 		float t2 = t*t, t3 = t*t*t;
 		vector3f tv1, tv2, tv;
-	//	VecMul (p0, 2*t3-3*t2+1, &tv1);
 		tv1 = p0 * (2*t3-3*t2+1);
-	//	VecMul (n0, t3-2*t2+t, &tv);
 		tv = n0 * (t3-2*t2+t);
-	//	VecAdd (&tv, &tv1, &tv1);
 		tv1 = tv+tv1;
-	//	VecMul (p1, -2*t3+3*t2, &tv2);
 		tv2 = p1 * (-2*t3+3*t2);
-	//	VecMul (n1, t3-t2, &tv);
 		tv = n1 *  (t3-t2);
-	//	VecAdd (&tv, &tv2, &tv2);
 		tv2 = tv + tv2;
-	//	VecAdd (&tv1, &tv2, pRes);
 		return tv1 + tv2;
 	}
 
@@ -1101,6 +1108,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	for (int i=lod-1; i>=0; i--) {
 		if (pixrad < m_lodPixelSize[i]) lod = i;
 	}
+	//printf("%s: lod %d\n", m_name.c_str(), lod);
 
 	Build(lod, params);
 
@@ -1395,6 +1403,103 @@ namespace ModelFuncs {
 	static int flat(lua_State *L) { return _flat(L, false); }
 	static int xref_flat(lua_State *L) { return _flat(L, true); }
 
+	static vector3f eval_quadric_bezier_triangle(const vector3f p[6], float s, float t, float u)
+	{
+		vector3f out(0.0f);
+		const float coef[6] = { s*s, 2.0f*s*t, t*t, 2.0f*s*u, 2.0f*t*u, u*u };
+		for (int i=0; i<6; i++) {
+			out += p[i] * coef[i];
+		}
+		return out;
+	}
+
+	static vector3f eval_cubic_bezier_triangle(const vector3f p[10], float s, float t, float u)
+	{
+		vector3f out(0.0f);
+		const float coef[10] = { s*s*s, 3.0f*s*s*t, 3.0f*s*t*t, t*t*t, 3.0f*s*s*u, 6.0f*s*t*u, 3.0f*t*t*u, 3.0f*s*u*u, 3.0f*t*u*u, u*u*u };
+		for (int i=0; i<10; i++) {
+			out += p[i] * coef[i];
+		}
+		return out;
+	}
+	template <int BEZIER_ORDER>
+	static void _bezier_triangle(lua_State *L, bool xref)
+	{
+		vector3f pts[10];
+		const int divs = luaL_checkint(L, 1);
+		assert(divs > 0);
+		if (BEZIER_ORDER == 2) {
+			for (int i=0; i<6; i++) {
+				pts[i] = *MyLuaVec::checkVec(L, i+2);
+			}
+		} else if (BEZIER_ORDER == 3) {
+			for (int i=0; i<10; i++) {
+				pts[i] = *MyLuaVec::checkVec(L, i+2);
+			}
+		}
+
+		const int numVertsInPatch = divs*(1+divs)/2;
+		const int vtxStart = s_curBuf->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
+		int vtxPos = vtxStart;
+
+		float inc = 1.0f / (float)(divs-1);
+		float s,t,u;
+		s = t = u = 0;
+		for (int i=0; i<divs; i++, u += inc) {
+			float pos = 0;
+			float inc2 = 1.0f / (float)(divs-1-i);
+			for (int j=i; j<divs; j++, pos += inc2) {
+				s = (1.0f-u)*(1.0f-pos);
+				t = (1.0f-u)*pos;
+				vector3f p, pu, pv;
+				if (BEZIER_ORDER == 2) {
+					p = eval_quadric_bezier_triangle(pts, s, t, u);
+					pu = eval_quadric_bezier_triangle(pts, s+0.1f*inc, t-0.1f*inc, u);
+					pv = eval_quadric_bezier_triangle(pts, s-0.05f*inc, t-0.05f*inc, u+0.1f*inc);
+				} else if (BEZIER_ORDER == 3) {
+					p = eval_cubic_bezier_triangle(pts, s, t, u);
+					pu = eval_cubic_bezier_triangle(pts, s+0.1f*inc, t-0.1f*inc, u);
+					pv = eval_cubic_bezier_triangle(pts, s-0.05f*inc, t-0.05f*inc, u+0.1f*inc);
+				}
+				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
+				s_curBuf->SetVertex(vtxPos, p, norm);
+
+				if (xref) {
+					norm.x = -norm.x;
+					p.x = -p.x;
+					s_curBuf->SetVertex(vtxPos + numVertsInPatch, p, norm);
+				}
+				vtxPos++;
+			}
+		}
+		//assert((vtxPos - vtxStart) == numVertsInPatch);
+
+		vtxPos = vtxStart;
+		for (int y=0; y<divs-1; y++) {
+			const int adv = divs-y;
+			s_curBuf->PushTri(vtxPos, vtxPos+adv, vtxPos+1);
+			for (int x=1; x<adv-1; x++) {
+				s_curBuf->PushTri(vtxPos+x, vtxPos+x+adv-1, vtxPos+x+adv);
+				s_curBuf->PushTri(vtxPos+x, vtxPos+x+adv, vtxPos+x+1);
+			}
+			if (xref) {
+				const int refVtxPos = vtxPos + numVertsInPatch;
+				s_curBuf->PushTri(refVtxPos, refVtxPos+1, refVtxPos+adv);
+				for (int x=1; x<adv-1; x++) {
+					s_curBuf->PushTri(refVtxPos+x, refVtxPos+x+adv, refVtxPos+x+adv-1);
+					s_curBuf->PushTri(refVtxPos+x, refVtxPos+x+1, refVtxPos+x+adv);
+				}
+			}
+			vtxPos += adv;
+		}
+	}
+
+	static int cubic_bezier_triangle(lua_State *L) { _bezier_triangle<3>(L, false); return 0; }
+	static int xref_cubic_bezier_triangle(lua_State *L) { _bezier_triangle<3>(L, true); return 0; }
+	static int quadric_bezier_triangle(lua_State *L) { _bezier_triangle<2>(L, false); return 0; }
+	static int xref_quadric_bezier_triangle(lua_State *L) { _bezier_triangle<2>(L, true); return 0; }
+
+
 	static vector3f eval_quadric_bezier_u_v(const vector3f p[9], float u, float v)
 	{
 		vector3f out(0.0f);
@@ -1408,7 +1513,7 @@ namespace ModelFuncs {
 		return out;
 	}
 
-	static void _quadric_bezier(lua_State *L, bool xref)
+	static void _quadric_bezier_quad(lua_State *L, bool xref)
 	{
 		vector3f pts[9];
 		const int divs_u = luaL_checkint(L, 1);
@@ -1459,8 +1564,8 @@ namespace ModelFuncs {
 		}
 	}
 	
-	static int quadric_bezier(lua_State *L) { _quadric_bezier(L, false); return 0; }
-	static int xref_quadric_bezier(lua_State *L) { _quadric_bezier(L, true); return 0; }
+	static int quadric_bezier_quad(lua_State *L) { _quadric_bezier_quad(L, false); return 0; }
+	static int xref_quadric_bezier_quad(lua_State *L) { _quadric_bezier_quad(L, true); return 0; }
 
 	static vector3f eval_cubic_bezier_u_v(const vector3f p[16], float u, float v)
 	{
@@ -1481,7 +1586,7 @@ namespace ModelFuncs {
 		return out;
 	}
 
-	static void _cubic_bezier(lua_State *L, bool xref)
+	static void _cubic_bezier_quad(lua_State *L, bool xref)
 	{
 		vector3f pts[16];
 		const int divs_v = luaL_checkint(L, 1);
@@ -1533,8 +1638,8 @@ namespace ModelFuncs {
 		}
 	}
 
-	static int cubic_bezier(lua_State *L) { _cubic_bezier(L, false); return 0; }
-	static int xref_cubic_bezier(lua_State *L) { _cubic_bezier(L, true); return 0; }
+	static int cubic_bezier_quad(lua_State *L) { _cubic_bezier_quad(L, false); return 0; }
+	static int xref_cubic_bezier_quad(lua_State *L) { _cubic_bezier_quad(L, true); return 0; }
 
 	static int set_material(lua_State *L)
 	{
@@ -2082,6 +2187,7 @@ void LmrModelCompilerInit()
 	lua_pop(L, 1); // why again?
 	// shorthand for Vec.new(x,y,z)
 	lua_register(L, "v", MyLuaVec::Vec_new);
+	lua_register(L, "norm", MyLuaVec::Vec_newNormalized);
 	lua_register(L, "register_models", register_models);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
@@ -2100,10 +2206,14 @@ void LmrModelCompilerInit()
 	lua_register(L, "circle", ModelFuncs::circle);
 	lua_register(L, "xref_circle", ModelFuncs::xref_circle);
 	lua_register(L, "text", ModelFuncs::text);
-	lua_register(L, "bezier_3x3", ModelFuncs::quadric_bezier);
-	lua_register(L, "xref_bezier_3x3", ModelFuncs::xref_quadric_bezier);
-	lua_register(L, "bezier_4x4", ModelFuncs::cubic_bezier);
-	lua_register(L, "xref_bezier_4x4", ModelFuncs::xref_cubic_bezier);
+	lua_register(L, "quadric_bezier_quad", ModelFuncs::quadric_bezier_quad);
+	lua_register(L, "xref_quadric_bezier_quad", ModelFuncs::xref_quadric_bezier_quad);
+	lua_register(L, "cubic_bezier_quad", ModelFuncs::cubic_bezier_quad);
+	lua_register(L, "xref_cubic_bezier_quad", ModelFuncs::xref_cubic_bezier_quad);
+	lua_register(L, "cubic_bezier_tri", ModelFuncs::cubic_bezier_triangle);
+	lua_register(L, "xref_cubic_bezier_tri", ModelFuncs::xref_cubic_bezier_triangle);
+	lua_register(L, "quadric_bezier_tri", ModelFuncs::quadric_bezier_triangle);
+	lua_register(L, "xref_quadric_bezier_tri", ModelFuncs::xref_quadric_bezier_triangle);
 	lua_register(L, "extrusion", ModelFuncs::extrusion);
 	lua_register(L, "thruster", ModelFuncs::thruster);
 	lua_register(L, "xref_thruster", ModelFuncs::xref_thruster);

@@ -25,7 +25,7 @@ function test_info()
 end
 function test_static(lod)
 	set_material("red", 1,0,0,1)
-	set_material("shinyred", 1,0,0,0.5, 1,1,1,50)
+	set_material("shinyred", 1,0,0,1, 1,1,1,50)
 	use_material("red")
 	xref_flat(16, v(0,0,1),
 		{v(4,0,0)}, -- straight line bit
@@ -46,15 +46,26 @@ function test_static(lod)
 	tri(v(12,3,0),v(13,3,0), v(12,4,0))
 	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
 	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
+--[[
+	xref_cubic_bezier_tri(32, v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
+				v(0,-1,0), v(1,-1,3), v(3,-1,0),
+				v(0,-2,0), v(2,-2,0),
+				v(0,-3,0))
+				--]]
+---[[
+	xref_quadric_bezier_tri(16, v(0,0,0), v(1,0,0), v(2,0,0),
+				v(0,-1,0), v(1,-1,2),
+				v(0,-2,0))
+				--]]
 --[[	
 	geomflag(0x8000)
-	xref_bezier_3x3(16, 16,
+	xref_quadric_bezier_quad(16, 16,
 			v(0,0,0), v(1,-1,0), v(2,0,0),
 			v(-1,1,0), v(1,1,8), v(3,1,0),
 			v(0,2,0), v(1,3,0), v(2,2,0))
 			--]]
 --[[	
-	xref_bezier_4x4(32, 32,
+	xref_cubic_bezier_quad(32, 32,
 			v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
 			v(0,1,0), v(1,1,5), v(2,1,0), v(3,1,0),
 			v(0,2,0), v(1,2,0), v(2,2,0), v(3,2,0),
@@ -75,8 +86,7 @@ function test_dynamic(lod)
 	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 
 	local ang = 2*math.pi*get_arg(0)
-	call_model("blob", v(0,0,-20), v(1,0,0),
-	v(1,1,0),1.0)
+	--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
 end
 
 function blob_info()

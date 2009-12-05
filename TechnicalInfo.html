@@ -73,20 +73,27 @@ The rest is truly self-explanatory.
 <a name="sbre-funcs-quickref"><h4>Function quick reference</h4></a>
 Square brackets indicate optional arguments.
 <pre>
-bezier_3x3(integer divs_u, integer divs_v, v1, v2, v3,
+quadric_bezier_quad(integer divs_u, integer divs_v, v1, v2, v3,
                                            v4, v5, v6,
                                            v7, v8, v9)
-bezier_4x4(integer divs_u, integer divs_v, v1, v2, v3, v4,
+cubic_bezier_quad(integer divs_u, integer divs_v, v1, v2, v3, v4,
                                            v5, v6, v7, v8,
                                            v9, v10, v11, v12,
                                            v13, v14, v15, v16)
+quadric_bezier_tri(integer divs, v1, v2, v3,
+                                 v4, v5,
+				 v6)
+cubic_bezier_tri(integer divs, v1, v2, v3, v4,
+                               v5, v6, v7,
+                               v8, v9,
+                               v10)
 call_model(string modelname, vector pos, vector xaxis, vector yaxis, float scale)
 circle(integer steps, vector center, vector normal, vector up, float radius)
 cylinder(integer steps, vector start, vector end, vector up, float radius)
 extrusion(vector start, vector end, vector up, float radius, v1, v2, v3, ...)
 flat(integer divs, vector normal, { v_line },
-                 { v_quadric1, v_quadric2 },
-                 { v_cubic1, v_cubic2, v_cubic3 },
+                 { v_quadric1, v_quadric_endpoint },
+                 { v_cubic1, v_cubic2, v_cubic_endpoint },
                  etc )
 geomflag(integer)
 get_arg(integer)
@@ -102,8 +109,10 @@ tube(integer steps, vector start, vector end, vector up, float inner_radius, flo
 text("some string", vector pos, vector norm, vector textdir, float scale [,{center=true/false}])
 thruster(vector pos, vector direction, float size, bool linear_only)
 use_material(string material_name)
-xref_bezier_3x3( {as bezier_3x3()} )
-xref_bezier_4x4( {as bezier_4x4()} )
+xref_quadric_bezier_quad( {as quadric_bezier_quad()} )
+xref_cubic_bezier_quad( {as cubic_bezier_quad()} )
+xref_quadric_bezier_tri( {as quadric_bezier_tri()} )
+xref_cubic_bezier_tri( {as cubic_bezier_tri()} )
 xref_circle(integer circumference_steps, vector center, vector normal, vector up, float radius)
 xref_cylinder(integer steps, vector start, vector end, vector up, float radius)
 xref_flat( {as flat()} )

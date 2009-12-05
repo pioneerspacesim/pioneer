@@ -268,18 +268,18 @@ function biodome(lod, trans)
 	local height = 40
 	use_material('base')
 	local yank=-690
-	xref_bezier_4x4(32, 1, trans*v(0,0,500), trans*v(0,0.25*height,500), trans*v(0,0.75*height,500), trans*v(0,height,500),
+	xref_cubic_bezier_quad(32, 1, trans*v(0,0,500), trans*v(0,0.25*height,500), trans*v(0,0.75*height,500), trans*v(0,height,500),
 			trans*v(yank,0,500), trans*v(yank,0.25*height,500), trans*v(yank,0.75*height,500), trans*v(yank,height,500),
 			trans*v(yank,0,-500), trans*v(yank,0.25*height,-500), trans*v(yank,0.75*height,-500), trans*v(yank,height,-500),
 			trans*v(0,0,-500), trans*v(0,0.25*height,-500), trans*v(0,0.75*height,-500), trans*v(0,height,-500))
 	use_material('green')
 	zbias(1, v(0,height,0), v(0,1,0))
 	local s = 660
-	bezier_3x3(16, 16, trans*v(d*500,height,d*-500), trans*v(0,height,-s), trans*v(d*-500,height,d*-500),
+	quadric_bezier_quad(16, 16, trans*v(d*500,height,d*-500), trans*v(0,height,-s), trans*v(d*-500,height,d*-500),
 		trans*v(s,height,0), trans*v(0,height,0), trans*v(-s,height,0),
 		trans*v(d*500,height,d*500), trans*v(0,height,s), trans*v(d*-500,height,d*500))
 	use_material('dome')
-	bezier_3x3(16, 16, trans*v(d*500,height,d*-500), trans*v(0,height,-s), trans*v(d*-500,height,d*-500),
+	quadric_bezier_quad(16, 16, trans*v(d*500,height,d*-500), trans*v(0,height,-s), trans*v(d*-500,height,d*-500),
 		trans*v(s,height,0), trans*v(0,500,0), trans*v(-s,height,0),
 		trans*v(d*500,height,d*500), trans*v(0,height,s), trans*v(d*-500,height,d*500))
 	zbias(0)
