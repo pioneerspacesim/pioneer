@@ -794,26 +794,53 @@ function interdictor_static()
 
 	use_material('matvar0')
 
-	local j = v(-2,3.0,-21)
+	local c14_6_1 = vlerp(.75,v06,v14)
+	local c16_8_1 = v(-2.5, 3.0, -13.5)
+	local j = v(-2,2.0,-21)
 	-- top nose bit
 	xref_cubic_bezier_quad(16, 16, v06, vlerp(.25,v06,v08), vlerp(.75,v06,v08), v08,
 		vlerp(.25,v06,v14), j, j, vlerp(.25,v08,v16),
-		vlerp(.75,v06,v14), j, j, vlerp(.75,v08,v16),
+		c14_6_1, c14_6_1-v(2,0,0), vlerp(.75,c14_6_1,c16_8_1), c16_8_1,
 		v14,vlerp(.25,v14,v16),vlerp(.75,v14,v16),v16)
 		
+	local c22_10_1 = v(-8.0, 3.0, 4.0)
 	-- side thingies
 	j = 0.25*(v10+v22+v16+v08)
 	xref_cubic_bezier_quad(16, 16, v08, vlerp(.25,v08,v10), vlerp(.75,v08,v10), v10,
 			vlerp(.25,v08,v16), j, j, vlerp(.25,v10,v22),
-			vlerp(.75,v08,v16), j, j, vlerp(.75,v10,v22),
+			c16_8_1, vlerp(.25,c16_8_1,c22_10_1), vlerp(.75,c16_8_1,c22_10_1), c22_10_1,
 			v16, vlerp(.25,v16,v22), vlerp(.75,v16,v22), v22)
-	j = 0.333*(v12+v22+v10)
+	j = 0.333*(v12+v22+v10)+v(0,5,0)
 	-- top wings
-	xref_cubic_bezier_tri(16, v12, v12+v56, v10-v55, v10,
-			vlerp(.25,v12,v22), j, vlerp(.25,v10,v22),
-			vlerp(.75,v12,v22), vlerp(.75,v10,v22),
+	xref_cubic_bezier_tri(16, v12, v12+v56, v10+0.5*(v10-v08), v10,
+			vlerp(.25,v12,v22), vlerp(.25,v10,v22)+(j-vlerp(.25,v10,v22)), vlerp(.25,v10,v22),
+			vlerp(.75,v12,v22), c22_10_1,
 			v22)
 	-- 
+	local engine_back_cp1 = v(-1,5.4,0)
+	local engine_back_cp2 = v(1,5.4,0)
+	-- rearmost top curve of engines
+	local c1_1 = v(0, 1.0, 25.0)
+	local j = 0.25*(c1_1 + v36 + v35 + v12)
+	local c2_1 = v(0, 3.0, 5.0)
+	xref_cubic_bezier_quad(1, 16,
+			c1_1, c1_1+0.85*engine_back_cp1, v12+0.85*engine_back_cp2, v12,
+			vlerp(0.25,c1_1,v36), vlerp(0.25,c1_1,v36)+0.9*engine_back_cp1, vlerp(0.25,v12,v35)+0.9*engine_back_cp2, vlerp(0.25,v12,v35),
+			vlerp(0.75,c1_1,v36), vlerp(0.75,c1_1,v36)+0.95*engine_back_cp1, vlerp(0.75,v12,v35)+0.95*engine_back_cp2, vlerp(0.75,v12,v35),
+			v36, v36+v(-1,5.4,0), v35+v(1,5.4,0), v35)
+	-- front bit of top curve of engine
+	xref_cubic_bezier_quad(16, 16,
+			c2_1, c2_1+v(-2,0,-4), v22+v(2,0,-4), v22,
+			vlerp(.25,c2_1,c1_1), vlerp(.25,c2_1,c1_1)+v(0,1.5,0), vlerp(.25,v22,v12)+v(0,3,0), vlerp(.25,v22,v12),
+			vlerp(.75,c2_1,c1_1), vlerp(.75,c2_1,c1_1)+0.7*engine_back_cp1, vlerp(.75,v22,v12)+0.7*engine_back_cp2, vlerp(.75,v22,v12),
+			c1_1, c1_1+0.85*engine_back_cp1, v12+0.85*engine_back_cp2, v12)
+	-- flat bit where cockpit sits.
+	xref_flat(16, v(0,1,0),
+		{ v16 },
+		{ v22 },
+		{ v22+v(2,0,-4), c2_1+v(-2,0,-4), c2_1 },
+		{ v14 })
+			
 
 	--[[
 	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 26, 27, 6, 7,		// front edge
@@ -849,8 +876,9 @@ function interdictor_static()
 		COMP_END,
 		--]]
 	use_material('matvar2')
+	-- Underside of wings
 	xref_flat(8, v(0,-1,0),
-		{ v12+v56, v10-v55, v10 },
+		{ v12+v56, v10+0.5*(v10-v08), v10 },
 		{ v71 }, { v12 })
 	--[[
 	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 5, 70, 4, 12, 4,		// rear underside
@@ -868,10 +896,11 @@ function interdictor_static()
 	xref_tri(v12,v68,v35)
 	xref_quad(v66,v67,v69,v68)
 
-	xref_flat(8, v(0,0,1),
-		{ v36+v57, v61-v62, v61 }, 
-		{ v61+v62, v35-v58, v35 },
+	-- engine back face
+	xref_flat(16, v(0,0,1),
+		{ v36+engine_back_cp1, v35+engine_back_cp2, v35 }, 
 		{ v68 }, { v69 }, { v36 })
+
 --[[
 	PTYPE_COMPFLAT | RFLAG_XREF, 7, 5, 72, 2, 36, 2,		// engine back face
 		COMP_HERMITE, 61, 2, 57, 62, 
