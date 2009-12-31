@@ -1593,8 +1593,17 @@ namespace ModelFuncs {
 		vector3f pts[16];
 		const int divs_v = luaL_checkint(L, 1);
 		const int divs_u = luaL_checkint(L, 2);
-		for (int i=0; i<16; i++) {
-			pts[i] = *MyLuaVec::checkVec(L, i+3);
+		if (lua_istable(L, 3)) {
+			for (int i=0; i<16; i++) {
+				lua_pushinteger(L, i+1);
+				lua_gettable(L, 3);
+				pts[i] = *MyLuaVec::checkVec(L, -1);
+				lua_pop(L, 1);
+			}
+		} else {
+			for (int i=0; i<16; i++) {
+				pts[i] = *MyLuaVec::checkVec(L, i+3);
+			}
 		}
 
 		const int numVertsInPatch = (divs_v+1)*(divs_u+1);

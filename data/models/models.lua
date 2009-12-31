@@ -112,11 +112,11 @@ function blob_static(lod)
 end
 
 m = Mat4x4.rotate(math.pi*0.25,v(1,1,1))
-m:print()
+--m:print()
 m = m:inverse()
-m:print()
+--m:print()
 a = (m*v(1,0,0))
-a:print()
+--a:print()
 
 function cargo_info()
 	return {

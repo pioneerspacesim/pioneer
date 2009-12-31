@@ -579,12 +579,43 @@ function vlerp(t, v1, v2)
 	return t*v2 + (1.0-t)*v1
 end
 
+-- Only need to pass 8 points because on the side
+-- we are joined to 'old' patch, those 6 get generated
+-- {1,2,3,4, 5,6,7,8, 9,10,11,12, 13,14,15,16},
+-- edge 0 = 4,3,2,1
+-- edge 1 = 16,12,8,4
+-- edge 2 = 13,14,15,16
+-- edge 3 = 1,5,9,13
+function joined_patch(p, edge, pts)
+	if edge == 0 then
+		return { p[4],p[3],p[2],p[1],
+		       2*p[4]-p[8], 2*p[3]-p[7], 2*p[2]-p[6], 2*p[1]-p[5],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	elseif edge == 1 then
+		return { p[16], p[12], p[8], p[4],
+			2*p[16]-p[15], 2*p[12]-p[11], 2*p[8]-p[7], 2*p[4]-p[3],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	elseif edge == 2 then
+		return { p[13], p[14], p[15], p[16],
+			2*p[13]-p[9], 2*p[14]-p[10], 2*p[15]-p[11], 2*p[16]-p[12],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	elseif edge == 3 then
+		return { p[1], p[5], p[9], p[13],
+			2*p[1]-p[2], 2*p[5]-p[6], 2*p[9]-p[10], 2*p[13]-p[14],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	end
+end
+
 function interdictor_static()
-	local v06 = v(0.0, 0.0, -35.0)
+	local nose_tip = v(0.0, 0.0, -35.0)
 	--f } },			// 6, nose point
 	local v07 = norm(0.0, 1.0, -0.2)
 --} },			// nose normal
-	local v08 = v(-6.0, 0.0, -18.0)
+	local front_lateral = v(-6.0, 0.0, -18.0)
 --} },			// 8, r edge forward mid
 	local v09 = norm(-0.2, 1.0, -0.1)
 --} },			// norm
@@ -794,102 +825,69 @@ function interdictor_static()
 
 	use_material('matvar0')
 
-	local c14_6_1 = vlerp(.75,v06,v14)
+	local c14_6_1 = vlerp(.75,nose_tip,v14)
 	local c16_8_1 = v(-2.5, 3.0, -13.5)
 	local j = v(-2,2.0,-21)
+	nose_patch = {nose_tip, vlerp(.25,nose_tip,front_lateral), vlerp(.75,nose_tip,front_lateral), front_lateral,
+		v(0.0,0.75,-30.0), v(-2,0.75,-30), v(-4,1.75,-21), v(-4.875,1.75,-16.875),
+		v(0.0,2.25,-20.0), v(-2,2.25,-20), v(-1.875,2.8125,-15.125), v(-2.5,3,-13.5),
+		v14,v(-0.375,3.0,-14.625),v(-1.125,3.0,-13.875),v16}
 	-- top nose bit
-	xref_cubic_bezier_quad(16, 16, v06, vlerp(.25,v06,v08), vlerp(.75,v06,v08), v08,
-		vlerp(.25,v06,v14), j, j, vlerp(.25,v08,v16),
-		c14_6_1, c14_6_1-v(2,0,0), vlerp(.75,c14_6_1,c16_8_1), c16_8_1,
-		v14,vlerp(.25,v14,v16),vlerp(.75,v14,v16),v16)
-		
-	local c22_10_1 = v(-8.0, 3.0, 4.0)
+	xref_cubic_bezier_quad(16, 16, nose_patch)
+
+	local c22_10_1 = v(-10.0, 3.0, 4.0)
+	local c22_10_2 = v(-12.0, 1.0, 4.0)
 	-- side thingies
-	j = 0.25*(v10+v22+v16+v08)
-	xref_cubic_bezier_quad(16, 16, v08, vlerp(.25,v08,v10), vlerp(.75,v08,v10), v10,
-			vlerp(.25,v08,v16), j, j, vlerp(.25,v10,v22),
-			c16_8_1, vlerp(.25,c16_8_1,c22_10_1), vlerp(.75,c16_8_1,c22_10_1), c22_10_1,
-			v16, vlerp(.25,v16,v22), vlerp(.75,v16,v22), v22)
+	j = 0.25*(v10+v22+v16+front_lateral)
+	side_patch = joined_patch(nose_patch, 1, {
+		vlerp(.75, v16, v22), v(-9,3,0), v(-10,1,0.0), vlerp(.75,front_lateral,v10),
+		v22, c22_10_1, c22_10_2, v10 })
+	--local v10 = v(-12.0, 0.0, 2.0)
+
+	xref_cubic_bezier_quad(16, 16, side_patch)
+
 	j = 0.333*(v12+v22+v10)+v(0,5,0)
+	local wingtip = v(-14.1, 0, 12)
+
+	top_wing_patch = joined_patch(side_patch, 2, {
+		vlerp(.75,v22,v12),v(-9,1,15),v(-11,2,12),wingtip-v(0,0,5),
+		v12, v12+v(-5,0,-6), wingtip+v(0,0,5), wingtip})
+	xref_cubic_bezier_quad(16, 16, top_wing_patch)
+
 	-- top wings
-	xref_cubic_bezier_tri(16, v12, v12+v56, v10+0.5*(v10-v08), v10,
-			vlerp(.25,v12,v22), vlerp(.25,v10,v22)+(j-vlerp(.25,v10,v22)), vlerp(.25,v10,v22),
-			vlerp(.75,v12,v22), c22_10_1,
-			v22)
-	-- 
 	local engine_back_cp1 = v(-1,5.4,0)
 	local engine_back_cp2 = v(1,5.4,0)
-	-- rearmost top curve of engines
 	local c1_1 = v(0, 1.0, 25.0)
 	local j = 0.25*(c1_1 + v36 + v35 + v12)
 	local c2_1 = v(0, 3.0, 5.0)
-	xref_cubic_bezier_quad(1, 16,
-			c1_1, c1_1+0.85*engine_back_cp1, v12+0.85*engine_back_cp2, v12,
-			vlerp(0.25,c1_1,v36), vlerp(0.25,c1_1,v36)+0.9*engine_back_cp1, vlerp(0.25,v12,v35)+0.9*engine_back_cp2, vlerp(0.25,v12,v35),
-			vlerp(0.75,c1_1,v36), vlerp(0.75,c1_1,v36)+0.95*engine_back_cp1, vlerp(0.75,v12,v35)+0.95*engine_back_cp2, vlerp(0.75,v12,v35),
-			v36, v36+v(-1,5.4,0), v35+v(1,5.4,0), v35)
 	-- front bit of top curve of engine
-	xref_cubic_bezier_quad(16, 16,
-			c2_1, c2_1+v(-2,0,-4), v22+v(2,0,-4), v22,
-			vlerp(.25,c2_1,c1_1), vlerp(.25,c2_1,c1_1)+v(0,1.5,0), vlerp(.25,v22,v12)+v(0,3,0), vlerp(.25,v22,v12),
-			vlerp(.75,c2_1,c1_1), vlerp(.75,c2_1,c1_1)+0.7*engine_back_cp1, vlerp(.75,v22,v12)+0.7*engine_back_cp2, vlerp(.75,v22,v12),
-			c1_1, c1_1+0.85*engine_back_cp1, v12+0.85*engine_back_cp2, v12)
+	front_top_engine_patch = {c2_1, c2_1+v(-2,0,-4), v22+v(2,0,-4), top_wing_patch[1],
+			vlerp(.25,c2_1,c1_1), vlerp(.25,c2_1,c1_1)+v(0,1.5,0), vlerp(.25,v22,v12)+v(0,3,0), top_wing_patch[5],
+			vlerp(.75,c2_1,c1_1), vlerp(.75,c2_1,c1_1)+0.7*engine_back_cp1, vlerp(.75,v22,v12)+0.7*engine_back_cp2, top_wing_patch[9],
+			c1_1, c1_1+0.85*engine_back_cp1, v12+0.85*engine_back_cp2, top_wing_patch[13]}
+	xref_cubic_bezier_quad(16, 16, front_top_engine_patch)
+	
+	rear_top_engine_curve = joined_patch(front_top_engine_patch, 2, {
+			vlerp(0.75,c1_1,v36), vlerp(0.75,c1_1,v36)+engine_back_cp1, vlerp(0.75,v12,v35)+engine_back_cp2, vlerp(0.75,v12,v35),
+			v36, v36+v(-1,5.4,0), v35+v(1,5.4,0), v35})
+	xref_cubic_bezier_quad(1, 16, rear_top_engine_curve)
+
 	-- flat bit where cockpit sits.
 	xref_flat(16, v(0,1,0),
 		{ v16 },
-		{ v22 },
+		{ side_patch[5], side_patch[9], v22 },
 		{ v22+v(2,0,-4), c2_1+v(-2,0,-4), c2_1 },
 		{ v14 })
 			
-
-	--[[
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 26, 27, 6, 7,		// front edge
-		COMP_HERM_NOTAN, 8, 9,
-		COMP_HERMITE, 16, 1, 37, 38,
-		COMP_HERMITE, 14, 1, 49, 48,
-		COMP_HERMITE, 6, 7, 41, 42,
-		COMP_END,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 28, 29, 8, 9,		// mid edge
-		COMP_HERM_NOTAN, 10, 11,
-		COMP_HERMITE, 22, 1, 37, 38,
-		COMP_HERM_NOTAN, 16, 1,
-		COMP_HERMITE, 8, 9, 43, 44,
-		COMP_END,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 30, 31, 10, 11,		// rear edge
-		COMP_HERMITE, 12, 13, 53, 54, 
-		COMP_HERMITE, 22, 1, 39, 40,
-		COMP_HERMITE, 10, 11, 43, 44,
-		COMP_END,
-	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 5, 32, 1, 16, 1,		// centre
-		COMP_HERM_NOTAN, 22, 1,
-		COMP_HERMITE, 24, 1, 59, 60,
-		COMP_HERM_NOTAN, 18, 1,
-		COMP_HERMITE, 16, 1, 47, 51, 
-		COMP_END,
-	PTYPE_COMPSMOOTH | RFLAG_XREF, 0x8000, 5, 34, 1, 22, 23,		// nacelle
-		COMP_HERMITE, 12, 3, 45, 46,
-		COMP_HERM_NOTAN, 35, 3,
-		COMP_HERMITE, 61, 1, 57, 63,
-		COMP_HERMITE, 36, 0, 63, 58,
-		COMP_HERM_NOTAN, 24, 25,
-		COMP_HERMITE, 22, 23, 59, 60,
-		COMP_END,
-		--]]
 	use_material('matvar2')
 	-- Underside of wings
 	xref_flat(8, v(0,-1,0),
-		{ v12+v56, v10+0.5*(v10-v08), v10 },
+		{ top_wing_patch[14], top_wing_patch[15], top_wing_patch[16] },
+		{ top_wing_patch[12], top_wing_patch[8], top_wing_patch[4] },
 		{ v71 }, { v12 })
-	--[[
-	PTYPE_COMPFLAT | RFLAG_XREF, 0x8000, 5, 70, 4, 12, 4,		// rear underside
-		COMP_HERMITE, 10, 4, 56, 55, 
-		COMP_LINE, 71, 4,
-		COMP_LINE, 12, 4,
-		COMP_END,
-	--]]
 	-- other underside
-	xref_quad(v08,v06,v65,v64)
-	xref_quad(v08,v64,v71,v10)
+	xref_quad(front_lateral,nose_tip,v65,v64)
+	xref_quad(front_lateral,v64,v71,v10)
 	xref_quad(v64,v65,v67,v66)
 	xref_tri(v71,v64,v66)
 	xref_quad(v71,v66,v68,v12)
@@ -902,14 +900,6 @@ function interdictor_static()
 		{ v68 }, { v69 }, { v36 })
 
 --[[
-	PTYPE_COMPFLAT | RFLAG_XREF, 7, 5, 72, 2, 36, 2,		// engine back face
-		COMP_HERMITE, 61, 2, 57, 62, 
-		COMP_HERMITE, 35, 2, 62, 58,
-		COMP_LINE, 68, 2,
-		COMP_LINE, 69, 2,
-		COMP_LINE, 36, 2,
-		COMP_END,
-
 	PTYPE_MATFIXED, 30, 30, 30, 30, 30, 30, 200, 0, 0, 0,
 	PTYPE_COMPSMOOTH, 0x8000, 5, 33, 1, 16, 0,		// cockpit
 		COMP_HERMITE, 18, 2, 52, 48,
