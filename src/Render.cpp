@@ -55,7 +55,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 			vector3f zaxis = pos.Normalized();
 			vector3f xaxis = vector3f::Cross(vector3d(0,1,0), zaxis).Normalized();
 			vector3f yaxis = vector3f::Cross(zaxis,xaxis);
-			matrix4x4f rot = matrix4x4f::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+			matrix4x4f rot = matrix4x4f::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 
 			glTexCoord2f(0.0f,0.0f);
 			glVertex3fv(&(pos+rot*v1).x);
