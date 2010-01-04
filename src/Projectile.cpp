@@ -20,6 +20,7 @@ Projectile::Projectile(): Body()
 	m_type = TYPE_1MW_PULSE;
 	m_age = 0;
 	m_parent = 0;
+	m_flags |= FLAG_DRAW_LAST;
 }
 
 void Projectile::Save()

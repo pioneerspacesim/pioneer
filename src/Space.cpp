@@ -795,10 +795,19 @@ struct body_zsort_t {
 	vector3d viewCoords;
 	matrix4x4d viewTransform;
 	Body *b;
+	Uint32 bodyFlags;
 };
 
 struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort_t, bool> {
-	bool operator()(body_zsort_t a, body_zsort_t b) { return a.dist > b.dist; }
+	bool operator()(body_zsort_t a, body_zsort_t b)
+	{
+		if (a.bodyFlags & Body::FLAG_DRAW_LAST) {
+			if (!(b.bodyFlags & Body::FLAG_DRAW_LAST)) return false;
+		} else {
+			if (b.bodyFlags & Body::FLAG_DRAW_LAST) return true;
+		}
+		return a.dist > b.dist;
+	}
 };
 
 void Render(const Frame *cam_frame)
@@ -814,6 +823,7 @@ void Render(const Frame *cam_frame)
 		vector3d toBody = bz[idx].viewTransform * (*i)->GetPosition();
 		bz[idx].viewCoords = toBody;
 		bz[idx].dist = toBody.Length();
+		bz[idx].bodyFlags = (*i)->GetFlags();
 		bz[idx].b = *i;
 		idx++;
 	}
