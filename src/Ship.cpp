@@ -182,6 +182,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
+		m_gunTemperature[i] = 0;
 	}
 	m_ecmRecharge = 0;
 	memset(m_thrusters, 0, sizeof(m_thrusters));
