@@ -748,11 +748,11 @@ public:
 					glDepthRange(0.0, 1.0);
 				} else {
 					vector3f tv = cameraPos - vector3f(op.zbias.pos);
-					if (vector3f::Dot(tv, vector3f(op.zbias.norm)) < 0.0f) {
+				//	if (vector3f::Dot(tv, vector3f(op.zbias.norm)) < 0.0f) {
 						glDepthRange(0.0, 1.0 - op.zbias.amount*NEWMODEL_ZBIAS);
-					} else {
-						glDepthRange(0.0, 1.0);
-					}
+				//	} else {
+				//		glDepthRange(0.0, 1.0);
+				//	}
 				}
 				break;
 			case OP_CALL_MODEL:
@@ -1537,8 +1537,8 @@ namespace ModelFuncs {
 				vector3f p = eval_quadric_bezier_u_v(pts, u, v);
 				// this is a very inefficient way of
 				// calculating normals...
-				vector3f pu = eval_quadric_bezier_u_v(pts, u+0.00001f*inc_u, v);
-				vector3f pv = eval_quadric_bezier_u_v(pts, u, v+0.00001f*inc_v);
+				vector3f pu = eval_quadric_bezier_u_v(pts, u+0.01f*inc_u, v);
+				vector3f pv = eval_quadric_bezier_u_v(pts, u, v+0.01f*inc_v);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
 				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
@@ -1620,8 +1620,8 @@ namespace ModelFuncs {
 				vector3f p = eval_cubic_bezier_u_v(pts, u, v);
 				// this is a very inefficient way of
 				// calculating normals...
-				vector3f pu = eval_cubic_bezier_u_v(pts, u+0.1f*inc_u, v);
-				vector3f pv = eval_cubic_bezier_u_v(pts, u, v+0.1f*inc_v);
+				vector3f pu = eval_cubic_bezier_u_v(pts, u+0.01f*inc_u, v);
+				vector3f pv = eval_cubic_bezier_u_v(pts, u, v+0.01f*inc_v);
 				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
 
 				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);

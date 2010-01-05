@@ -60,7 +60,7 @@ static float lightCol[4] = { 1,1,1,0 };
 static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
 static LmrObjParams params = {
-	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]

@@ -570,8 +570,9 @@ end
 
 function interdictor_info()
 	return {
+		lod_pixels = { 50, 100, 200, 0 },
 		bounding_radius = 100,
-		materials = {'matvar0', 'matvar2', 'engine'}
+		materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'}
 	}
 end
 
@@ -610,7 +611,7 @@ function joined_patch(p, edge, pts)
 	end
 end
 
-function interdictor_static()
+function interdictor_static(lod)
 	local nose_tip = v(0.0, 0.0, -35.0)
 	--f } },			// 6, nose point
 	local v07 = norm(0.0, 1.0, -0.2)
@@ -760,12 +761,6 @@ function interdictor_static()
 	local v72 = v(-3.75, 0.7, 30.0)
 --} },			// 72, engine midpoint
 
-	local v73 = v(0.0, 0.0, -15.0)
---} },			// 73, nose gear pos
-	local v74 = v(-3.75, -2.0, 15.0)
---} },			// 74, rear right gear
-	local v75 = v(3.75, -2.0, 15.0)
---} },			// 75, rear left gear
 
 	local v76 = v(-3.75, 0.7, 32.0)
 --} },			// 76, engine end
@@ -779,52 +774,10 @@ function interdictor_static()
 	local v80 = v(-0.5, -1.7, -3.3)
 --} },			// 
 
-	-- main & retro thrusters
-	local v81 = v(-3.75, 0.7, 32.0)
---} },			// 81
-	local v82 = v(3.75, 0.7, 32.0)
---} },			
-	local v83 = v(-2.5, -1.0, -5.0)
---} },
-	local v84 = v(2.5, -1.0, -5.0)
---} },
-
-	-- vertical thrusters
-	local v85 = v(-9.0, 1.5, 10.0)
---} },			// 85
-	local v86 = v(-9.0, -0.5, 10.0)
---} },
-	local v87 = v(9.0, 1.5, 10.0)
---} },			// 
-	local v88 = v(9.0, -0.5, 10.0)
---} },			// 
-	local v89 = v(0.0, 3.5, -8.0)
---} },			// 
-	local v90 = v(0.0, -0.5, -25.0)
---} },
-
-	-- horizontal thrusters
-	local v91 = v(-8.0, 0.0, 28.0)
---} },			// 91
-	local v92 = v(8.0, 0.0, 28.0)
---} },
-	local v93 = v(-3.5, 0.0, -25.0)
---} },
-	local v94 = v(3.5, 0.0, -25.0)
---} },
-
-	-- text norms
-	local v95 = norm(-2.0, -2.5, 0.0)
---} },			// 95
-	local v96 = norm(2.0, -2.5, 0.0)
---} },
-	local v97 = v(5.0, -2.0, 13.5)
---} },		// 97, 98, reg number text points
-	local v98 = v(-5.0, -2.0, 13.5)
---} },
 
 	use_material('matvar0')
 
+	local lvl = lod * 4
 	local c14_6_1 = vlerp(.75,nose_tip,v14)
 	local c16_8_1 = v(-2.5, 3.0, -13.5)
 	local j = v(-2,2.0,-21)
@@ -833,7 +786,7 @@ function interdictor_static()
 		v(0.0,2.25,-20.0), v(-2,2.25,-20), v(-1.875,2.8125,-15.125), v(-2.5,3,-13.5),
 		v14,v(-0.375,3.0,-14.625),v(-1.125,3.0,-13.875),v16}
 	-- top nose bit
-	xref_cubic_bezier_quad(16, 16, nose_patch)
+	xref_cubic_bezier_quad(lvl, lvl, nose_patch)
 
 	local c22_10_1 = v(-10.0, 3.0, 4.0)
 	local c22_10_2 = v(-12.0, 1.0, 4.0)
@@ -844,7 +797,7 @@ function interdictor_static()
 		v22, c22_10_1, c22_10_2, v10 })
 	--local v10 = v(-12.0, 0.0, 2.0)
 
-	xref_cubic_bezier_quad(16, 16, side_patch)
+	xref_cubic_bezier_quad(lvl, lvl, side_patch)
 
 	j = 0.333*(v12+v22+v10)+v(0,5,0)
 	local wingtip = v(-14.1, 0, 12)
@@ -852,7 +805,7 @@ function interdictor_static()
 	top_wing_patch = joined_patch(side_patch, 2, {
 		vlerp(.75,v22,v12),v(-9,1,15),v(-11,2,12),wingtip-v(0,0,5),
 		v12, v12+v(-5,0,-6), wingtip+v(0,0,5), wingtip})
-	xref_cubic_bezier_quad(16, 16, top_wing_patch)
+	xref_cubic_bezier_quad(lvl, lvl, top_wing_patch)
 
 	-- top wings
 	local engine_back_cp1 = v(-1,5.4,0)
@@ -865,15 +818,15 @@ function interdictor_static()
 			vlerp(.25,c2_1,c1_1), vlerp(.25,c2_1,c1_1)+v(0,1.5,0), vlerp(.25,v22,v12)+v(0,3,0), top_wing_patch[5],
 			vlerp(.75,c2_1,c1_1), vlerp(.75,c2_1,c1_1)+0.7*engine_back_cp1, vlerp(.75,v22,v12)+0.7*engine_back_cp2, top_wing_patch[9],
 			c1_1, c1_1+0.85*engine_back_cp1, v12+0.85*engine_back_cp2, top_wing_patch[13]}
-	xref_cubic_bezier_quad(16, 16, front_top_engine_patch)
+	xref_cubic_bezier_quad(lvl, lvl, front_top_engine_patch)
 	
 	rear_top_engine_curve = joined_patch(front_top_engine_patch, 2, {
 			vlerp(0.75,c1_1,v36), vlerp(0.75,c1_1,v36)+engine_back_cp1, vlerp(0.75,v12,v35)+engine_back_cp2, vlerp(0.75,v12,v35),
 			v36, v36+v(-1,5.4,0), v35+v(1,5.4,0), v35})
-	xref_cubic_bezier_quad(1, 16, rear_top_engine_curve)
+	xref_cubic_bezier_quad(1, lvl, rear_top_engine_curve)
 
 	-- flat bit where cockpit sits.
-	xref_flat(16, v(0,1,0),
+	xref_flat(lvl, v(0,1,0),
 		{ v16 },
 		{ side_patch[5], side_patch[9], v22 },
 		{ v22+v(2,0,-4), c2_1+v(-2,0,-4), c2_1 },
@@ -881,7 +834,7 @@ function interdictor_static()
 			
 	use_material('matvar2')
 	-- Underside of wings
-	xref_flat(8, v(0,-1,0),
+	xref_flat(lvl, v(0,-1,0),
 		{ top_wing_patch[14], top_wing_patch[15], top_wing_patch[16] },
 		{ top_wing_patch[12], top_wing_patch[8], top_wing_patch[4] },
 		{ v71 }, { v12 })
@@ -895,53 +848,100 @@ function interdictor_static()
 	xref_quad(v66,v67,v69,v68)
 
 	-- engine back face
-	xref_flat(16, v(0,0,1),
+	xref_flat(lvl, v(0,0,1),
 		{ v36+engine_back_cp1, v35+engine_back_cp2, v35 }, 
 		{ v68 }, { v69 }, { v36 })
 
---[[
-	PTYPE_MATFIXED, 30, 30, 30, 30, 30, 30, 200, 0, 0, 0,
-	PTYPE_COMPSMOOTH, 0x8000, 5, 33, 1, 16, 0,		// cockpit
-		COMP_HERMITE, 18, 2, 52, 48,
-		COMP_HERMITE, 20, 0, 48, 51,
-		COMP_HERMITE, 14, 5, 49, 47,
-		COMP_HERMITE, 16, 3, 47, 50, 
-		COMP_END,
-
-		--]]
-	zbias(1, v72, v(0,0,1))
+	set_material('cockpit', .3,.3,.3,1, .3,.3,.3, 20)
+	use_material('cockpit')
+	quadric_bezier_quad(lvl, lvl,
+		v18, 0.5*(v18+v20)+v(1,0,0), v20,
+		0.5*(v16+v18)-v(1,0,0), v(0,6,-10), 0.5*(v20+v14),
+		v16, 0.5*(v14+v16),v14)
+	
 	set_material('engine', .30, .30, .30,1, .30, .30, .30, 20)
 	use_material('engine')
-	xref_tube(12, v72, v76, v(0,1,0), 2.0, 2.5)
-	--PTYPE_TUBE | RFLAG_XREF, 8, 12, 72, 76, 1, 250, 200,
-	--[[
-	PTYPE_MATANIM, AFUNC_THRUSTPULSE,
-		0, 0, 0, 0, 0, 0, 100, 50, 50, 100,
-		0, 0, 0, 0, 0, 0, 100, 0, 0, 50,
-	PTYPE_CIRCLE | RFLAG_XREF, 9, 12, 72, 2, 1, 200,
-
-	PTYPE_ZBIAS, 77, 120, 1,
-//	PTYPE_MATFIXED, 30, 30, 30, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_QUADFLAT | RFLAG_XREF, 77, 78, 80, 79,
-
-	PTYPE_MATFIXED, 20, 20, 20, 0, 0, 0, 100, 0, 0, 0,
-	PTYPE_ZBIAS, 98, 95, 1,
-	PTYPE_TEXT, 0x8000, 0, 98, 95, 2, 0, 200, 250,
-	PTYPE_ZBIAS, 97, 96, 1,
-	PTYPE_TEXT, 0x8000, 0, 97, 96, 5, 0, 200, 250,
-
-	PTYPE_ZBIAS, 73, 4, 1,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 73, 4, 2, 100,
-	PTYPE_ZBIAS, 74, 4, 1,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 74, 4, 2, 64,
-	PTYPE_SUBOBJECT, 0, SUB_NWUNIT, 75, 4, 2, 64,
+	xref_tube(lvl, v72, v76, v(0,1,0), 2.0, 2.5)
 	
-	PTYPE_ZBIAS, 0x8000, 0, 0,
-	--]]
+	if lod > 1 then
+		zbias(1, v72, v(0,0,1))
+		use_material('engine_inside')
+		xref_circle(lvl, v72, v(0,0,1), v(0,1,0), 2.0)
+
+		local retro_norm = ((v80-v78):cross(v77-v78)):norm()
+		zbias(1, v77, retro_norm)
+		xref_quad(v77, v78, v80, v79)
+		zbias(0)
+	end
+
+	set_material('text', .2,.2,.2,1)
+	
+	-- main & retro thrusters
+	local v82 = v(3.75, 0.7, 32.0)
+	local v84 = v(2.5, -1.0, -5.0)
+
+	-- vertical thrusters
+	local v85 = v(-9.0, 1.5, 10.0)
+	local v86 = v(-9.0, -0.5, 10.0)
+	local v87 = v(9.0, 1.5, 10.0)
+	local v88 = v(9.0, -0.5, 10.0)
+	local v89 = v(0.0, 3.5, -8.0)
+	local v90 = v(0.0, -0.5, -25.0)
+
+	-- horizontal thrusters
+	local v91 = v(-8.0, 0.0, 28.0)
+	local v92 = v(8.0, 0.0, 28.0)
+	local v93 = v(-3.5, 0.0, -25.0)
+	local v94 = v(3.5, 0.0, -25.0)
+
+	xref_thruster(v82, v(0,0,1), 30, true)
+	xref_thruster(v84, v(0,0,-1), 20, true)
+	thruster(v85, v(0,1,0), 15)
+	thruster(v86, v(0,-1,0), 15)
+	thruster(v87, v(0,1,0), 15)
+	thruster(v88, v(0,-1,0), 15)
+	thruster(v89, v(0,1,0), 15)
+	thruster(v90, v(0,-1,0), 15)
+	thruster(v91, v(-1,0,0), 15)
+	thruster(v92, v(1,0,0), 15)
+	thruster(v93, v(-1,0,0), 15)
+	thruster(v94, v(1,0,0), 15)
 end
 function interdictor_dynamic(lod)
+	-- text norms
+	local v95 = norm(-2.0, -2.5, 0.0)
+	local v96 = norm(2.0, -2.5, 0.0)
+	local v97 = v(5.0, -2.0, 13.5)
+	local v98 = v(-5.0, -2.0, 13.5)
+
 	set_material('matvar0', get_arg_material(0))
 	set_material('matvar2', get_arg_material(2))
+	set_material('engine_inside', lerp_materials(get_arg(2)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+				{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
+	if lod > 1 then
+		local shipname = get_arg_string(0)
+		use_material('text')
+		zbias(1, v98, v95)
+		text(shipname, v98, v95, v(0,0,1), 2.5, {center=true, yoffset=0.7})
+		zbias(1, v97, v96)
+		text(shipname, v97, v96, v(0,0,-1), 2.5, {center=true, yoffset=0.7})
+		use_material('text')
+	end
+	
+	if get_arg(0) ~= 0 then
+		-- wheels
+		local v73 = v(0.0, 0.0, -15.0)
+		local v74 = v(-3.75, -2.0, 15.0)
+		local v75 = v(3.75, -2.0, 15.0)
+		zbias(1, v73, v(0,-1,0))
+		-- nose wheel
+		call_model('nosewheelunit', v73, v(-1,0,0), v(0,-1,0), 1)
+		zbias(1, v74, v(0,-1,0))
+		-- rear wheels
+		call_model('nosewheelunit', v74, v(-1,0,0), v(0,-1,0), .64)
+		call_model('nosewheelunit', v75, v(-1,0,0), v(0,-1,0), .64)
+		zbias(0)
+	end
 end
 
 register_models('nosewheel', 'nosewheelunit', 'mainwheel',
