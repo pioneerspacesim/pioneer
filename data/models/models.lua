@@ -1,5 +1,42 @@
+-- First some useful utility functions! :D
+
 math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
+end
+
+-- Only need to pass 8 points because on the side
+-- we are joined to 'old' patch, those 6 get generated
+-- {1,2,3,4, 5,6,7,8, 9,10,11,12, 13,14,15,16},
+-- edge 0 = 4,3,2,1
+-- edge 1 = 16,12,8,4
+-- edge 2 = 13,14,15,16
+-- edge 3 = 1,5,9,13
+function joined_patch(p, edge, pts)
+	if edge == 0 then
+		return { p[4],p[3],p[2],p[1],
+		       2*p[4]-p[8], 2*p[3]-p[7], 2*p[2]-p[6], 2*p[1]-p[5],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	elseif edge == 1 then
+		return { p[16], p[12], p[8], p[4],
+			2*p[16]-p[15], 2*p[12]-p[11], 2*p[8]-p[7], 2*p[4]-p[3],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	elseif edge == 2 then
+		return { p[13], p[14], p[15], p[16],
+			2*p[13]-p[9], 2*p[14]-p[10], 2*p[15]-p[11], 2*p[16]-p[12],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	elseif edge == 3 then
+		return { p[1], p[5], p[9], p[13],
+			2*p[1]-p[2], 2*p[5]-p[6], 2*p[9]-p[10], 2*p[13]-p[14],
+		       pts[1], pts[2], pts[3], pts[4],
+		       pts[5], pts[6], pts[7], pts[8] }
+	end
+end
+
+function vlerp(t, v1, v2)
+	return t*v2 + (1.0-t)*v1
 end
 
 function lerp_materials(a, m1, m2)
@@ -15,101 +52,107 @@ end
 
 dofile "data/models/ships.lua"
 dofile "data/models/city.lua"
+dofile "data/models/spacestations.lua"
 
-function test_info()
-	return { lod_pixels={30,60,100,0},
-		bounding_radius = 10.0,
-		tags = {'building', 'turd'},
-		materials = {'red', 'shinyred'}
-	}
-end
-function test_static(lod)
-	set_material("red", 1,0,0,1)
-	set_material("shinyred", 1,0,0,1, 1,1,1,50)
-	use_material("red")
-	xref_flat(16, v(0,0,1),
-		{v(4,0,0)}, -- straight line bit
-		{v(4.5,-0.5,0),v(5,0,0)}, -- quadric bezier bit
-		{v(5,0.5,0),v(4,0,0),v(4,1,0)}, -- cubic bezier bit
-		{v(3,0.5,0)}, -- straight line bit
-		{v(3,0.3,0)} -- etc
-		)
-	zbias(1, v(0,5,0), v(0,0,1))
-	geomflag(0x8000)
-	text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
-	geomflag(0)
-	zbias(0)
-	use_material("red")
-	xref_cylinder(lod*4, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
-	use_material("shinyred")
-	xref_circle(9, v(4,5,0), v(0,0,1), v(1,0,0), 1.0)
-	tri(v(12,3,0),v(13,3,0), v(12,4,0))
-	xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
-	xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
---[[
-	xref_cubic_bezier_tri(32, v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
-				v(0,-1,0), v(1,-1,3), v(3,-1,0),
-				v(0,-2,0), v(2,-2,0),
-				v(0,-3,0))
-				--]]
----[[
-	xref_quadric_bezier_tri(16, v(0,0,0), v(1,0,0), v(2,0,0),
-				v(0,-1,0), v(1,-1,2),
-				v(0,-2,0))
-				--]]
---[[	
-	geomflag(0x8000)
-	xref_quadric_bezier_quad(16, 16,
-			v(0,0,0), v(1,-1,0), v(2,0,0),
-			v(-1,1,0), v(1,1,8), v(3,1,0),
-			v(0,2,0), v(1,3,0), v(2,2,0))
-			--]]
---[[	
-	xref_cubic_bezier_quad(32, 32,
-			v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
-			v(0,1,0), v(1,1,5), v(2,1,0), v(3,1,0),
-			v(0,2,0), v(1,2,0), v(2,2,0), v(3,2,0),
-			v(0,4,0), v(1,4,0), v(1,4,0), v(1,3,0))
-			--]]
---[[
-	extrusion(v(0,0,0), v(0,0,-5), v(0,1,0), 1.0,
-		v(1,0,0), v(0.5, 0.8, 0), v(0,1,0), v(-0.5,0.8,0), v(-1,0,0),
-		v(0,-0.5,0))
-		--]]
-end
 poo = 0
-function test_dynamic(lod)
-	poo = poo + 0.005
-	set_material("red", math.sin(poo)*math.sin(poo), 0.5, 0.5, 1)
-	use_material("red")
-	xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
-	circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
+define_model('test', {
+	info = function()
+		return {
+			lod_pixels={30,60,100,0},
+			bounding_radius = 10.0,
+			tags = {'building', 'turd'},
+			materials = {'red', 'shinyred'}
+		}
+	end,
+	static = function (lod)
+		set_material("red", 1,0,0,1)
+		set_material("shinyred", 1,0,0,1, 1,1,1,50)
+		use_material("red")
+		xref_flat(16, v(0,0,1),
+			{v(4,0,0)}, -- straight line bit
+			{v(4.5,-0.5,0),v(5,0,0)}, -- quadric bezier bit
+			{v(5,0.5,0),v(4,0,0),v(4,1,0)}, -- cubic bezier bit
+			{v(3,0.5,0)}, -- straight line bit
+			{v(3,0.3,0)} -- etc
+			)
+		zbias(1, v(0,5,0), v(0,0,1))
+		geomflag(0x8000)
+		text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
+		geomflag(0)
+		zbias(0)
+		use_material("red")
+		xref_cylinder(lod*4, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
+		use_material("shinyred")
+		xref_circle(9, v(4,5,0), v(0,0,1), v(1,0,0), 1.0)
+		tri(v(12,3,0),v(13,3,0), v(12,4,0))
+		xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
+		xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
+	--[[
+		xref_cubic_bezier_tri(32, v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
+					v(0,-1,0), v(1,-1,3), v(3,-1,0),
+					v(0,-2,0), v(2,-2,0),
+					v(0,-3,0))
+					--]]
+	---[[
+		xref_quadric_bezier_tri(16, v(0,0,0), v(1,0,0), v(2,0,0),
+					v(0,-1,0), v(1,-1,2),
+					v(0,-2,0))
+					--]]
+	--[[	
+		geomflag(0x8000)
+		xref_quadric_bezier_quad(16, 16,
+				v(0,0,0), v(1,-1,0), v(2,0,0),
+				v(-1,1,0), v(1,1,8), v(3,1,0),
+				v(0,2,0), v(1,3,0), v(2,2,0))
+				--]]
+	--[[	
+		xref_cubic_bezier_quad(32, 32,
+				v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
+				v(0,1,0), v(1,1,5), v(2,1,0), v(3,1,0),
+				v(0,2,0), v(1,2,0), v(2,2,0), v(3,2,0),
+				v(0,4,0), v(1,4,0), v(1,4,0), v(1,3,0))
+				--]]
+	--[[
+		extrusion(v(0,0,0), v(0,0,-5), v(0,1,0), 1.0,
+			v(1,0,0), v(0.5, 0.8, 0), v(0,1,0), v(-0.5,0.8,0), v(-1,0,0),
+			v(0,-0.5,0))
+			--]]
+	end,
+	dynamic = function(lod)
+		poo = poo + 0.005
+		set_material("red", math.sin(poo)*math.sin(poo), 0.5, 0.5, 1)
+		use_material("red")
+		xref_cylinder(16, v(-8,0,0), v(-8,5,0), v(1,0,0), math.abs(math.sin(poo)))
+		circle(9, v(5*math.sin(poo),5*math.cos(poo),0), v(0,0,1), v(1,0,0), 1.0)
 
-	local ang = 2*math.pi*get_arg(0)
-	--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
-end
+		local ang = 2*math.pi*get_arg(0)
+		--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
+	end
+})
 
-function blob_info()
-	return {
-		bounding_radius=8,
-		materials={'blue'}
-	}
-end
-function blob_static(lod)
-	set_material("blue", 0,0,1,1)
-	use_material("blue")
-	cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
-	text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
-	xref_thruster(v(5,0,0), v(0,0,-1), 10)
-	xref_thruster(v(5,0,0), v(0,0,1), 10)
-	xref_thruster(v(5,0,0), v(0,1,0), 5)
-	xref_thruster(v(5,0,0), v(0,-1,0), 5)
-	thruster(v(5,0,-5), v(1,0,0), 5, true)
-	thruster(v(5,0,5), v(1,0,0), 5, true)
-	thruster(v(-5,0,-5), v(-1,0,0), 5, true)
-	thruster(v(-5,0,5), v(-1,0,0), 5, true)
-	text("HELLO FROM BLOB", v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
-end
+define_model('blob', {
+	info = function()
+		return {
+			bounding_radius=8,
+			materials={'blue'}
+		}
+	end,
+	static = function(lod)
+		set_material("blue", 0,0,1,1)
+		use_material("blue")
+		cylinder(16, v(-5,0,0), v(-5,5,0), v(1,0,0), 1.0)
+		text("blob_static()", v(-5,-2,0), v(0,0,1), v(1,0,0), 0.5)
+		xref_thruster(v(5,0,0), v(0,0,-1), 10)
+		xref_thruster(v(5,0,0), v(0,0,1), 10)
+		xref_thruster(v(5,0,0), v(0,1,0), 5)
+		xref_thruster(v(5,0,0), v(0,-1,0), 5)
+		thruster(v(5,0,-5), v(1,0,0), 5, true)
+		thruster(v(5,0,5), v(1,0,0), 5, true)
+		thruster(v(-5,0,-5), v(-1,0,0), 5, true)
+		thruster(v(-5,0,5), v(-1,0,0), 5, true)
+		text("HELLO FROM BLOB", v(0,0,0), v(0,0,1), v(1,0,0), 10.0)
+	end
+})
 
 m = Mat4x4.rotate(math.pi*0.25,v(1,1,1))
 --m:print()
@@ -118,29 +161,30 @@ m = m:inverse()
 a = (m*v(1,0,0))
 --a:print()
 
-function cargo_info()
-	return {
-		lod_pixels = {20, 50, 0},
-		bounding_radius = 1.5,
-		materials = {'body', 'text'}
-	}
-end
-function cargo_static(lod)
-	local divs = 8*lod
-	set_material('body', .5,.5,.5,1, 0,0,0, 0, 0,0,0)
-	set_material('text', 1,0,0,1, 0,0,0, 0, 0,0,0)
-	local top = v(0,1,0)
-	local bottom = v(0,-1,0)
-	use_material('body')
-	cylinder(divs, top, bottom, v(1,0,0), 1.0)
-end
-function cargo_dynamic(lod)
-	if lod == 3 then
-		local textpos = v(0,1,0)
-		use_material('text')
-		zbias(1, textpos, v(0,1,0))
-		text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
+define_model('cargo', {
+	info = function()
+		return {
+			lod_pixels = {20, 50, 0},
+			bounding_radius = 1.5,
+			materials = {'body', 'text'}
+		}
+	end,
+	static = function(lod)
+		local divs = 8*lod
+		set_material('body', .5,.5,.5,1, 0,0,0, 0, 0,0,0)
+		set_material('text', 1,0,0,1, 0,0,0, 0, 0,0,0)
+		local top = v(0,1,0)
+		local bottom = v(0,-1,0)
+		use_material('body')
+		cylinder(divs, top, bottom, v(1,0,0), 1.0)
+	end,
+	dynamic = function(lod)
+		if lod == 3 then
+			local textpos = v(0,1,0)
+			use_material('text')
+			zbias(1, textpos, v(0,1,0))
+			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 0.1, {center=true})
+		end
 	end
-end
+})
 
-register_models("blob","test","cargo")

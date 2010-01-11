@@ -2173,14 +2173,42 @@ namespace UtilFuncs {
 	}
 } /* UtilFuncs */
 
-static int register_models(lua_State *L)
+static int define_model(lua_State *L)
 {
 	int n = lua_gettop(L);
-
-	for (int i = 1; i <= n; i++) {
-		const char *model_name = luaL_checkstring(L, i);
-		s_models[model_name] = new LmrModel(model_name);
+	if (n != 2) {
+		luaL_error(L, "define_model takes 2 arguments");
+		return 0;
 	}
+
+	const char *model_name = luaL_checkstring(L, 1);
+
+	if (!lua_istable(L, 2)) {
+		luaL_error(L, "define_model 2nd argument must be a table");
+		return 0;
+	}
+
+	// table is passed containing info, static and dynamic, which are
+	// functions. we then stuff them into the globals, named
+	// modelName_info, _static, etc.
+	char buf[256];
+
+	lua_pushstring(L, "info");
+	lua_gettable(L, 2);
+	snprintf(buf, sizeof(buf), "%s_info", model_name);
+	lua_setglobal(L, buf);
+
+	lua_pushstring(L, "static");
+	lua_gettable(L, 2);
+	snprintf(buf, sizeof(buf), "%s_static", model_name);
+	lua_setglobal(L, buf);
+
+	lua_pushstring(L, "dynamic");
+	lua_gettable(L, 2);
+	snprintf(buf, sizeof(buf), "%s_dynamic", model_name);
+	lua_setglobal(L, buf);
+	
+	s_models[model_name] = new LmrModel(model_name);
 	return 0;
 }
 
@@ -2192,6 +2220,11 @@ void LmrModelCompilerInit()
 	sLua = L;
 	luaL_openlibs(L);
 
+
+	lua_pushinteger(L, 1234);
+	lua_setglobal(L, "x");
+
+
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
 	MyLuaMatrix::Mat4x4_register(L);
@@ -2199,7 +2232,7 @@ void LmrModelCompilerInit()
 	// shorthand for Vec.new(x,y,z)
 	lua_register(L, "v", MyLuaVec::Vec_new);
 	lua_register(L, "norm", MyLuaVec::Vec_newNormalized);
-	lua_register(L, "register_models", register_models);
+	lua_register(L, "define_model", define_model);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
 	lua_register(L, "get_arg_material", ModelFuncs::get_arg_material);
