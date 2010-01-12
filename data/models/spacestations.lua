@@ -115,9 +115,9 @@ define_model('spacestation_entry1_stage2', {
 --		material(.8,0,0, 0,0,0, 0, 0,0,0)
 		door2 = vlerp(get_arg(STATION_S2BAY1), v(0,0,0), v(0,0,-100))
 		call_model('spacestation_door', door2, v(1,0,0), v(0,1,0), 1.0)
-		if get_arg(STATION_S2BAY1) ~= 0 then
+	--	if get_arg(STATION_S2BAY1) ~= 0 then
 			call_model('spacestation_entry1_stage3', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
-		end
+	--	end
 	end
 })
 

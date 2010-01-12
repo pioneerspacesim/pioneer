@@ -1,3 +1,4 @@
+#if 0
 #include "libs.h"
 #include "ModelCollMeshData.h"
 #include <map>
@@ -70,3 +71,4 @@ const CollMesh *GetModelSBRECollMesh(int sbreModel)
 {
 	return modelCollTurds[sbreModel]->sbreCollMesh;
 }
+#endif

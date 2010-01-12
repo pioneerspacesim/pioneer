@@ -9,6 +9,7 @@
 #include "CommodityTradeWidget.h"
 #include "GenericChatForm.h"
 #include "PoliceChatForm.h"
+#include "LmrModel.h"
 
 ////////////////////////////////////////////////////////////////////
 
@@ -278,7 +279,7 @@ public:
 		SpaceStation *station = Pi::player->GetDockedWith();
 		m_flavourIdx = flavour_idx;
 		m_flavour = station->GetShipsOnSale()[flavour_idx];
-		m_sbreModel = sbreLookupModelByName(ShipType::types[m_flavour.type].sbreModelName);
+		m_lmrModel = LmrLookupModelByName(ShipType::types[m_flavour.type].sbreModelName);
 		m_ondraw3dcon = Pi::spaceStationView->onDraw3D.connect(
 				sigc::mem_fun(this, &StationViewShipView::Draw3D));
 	}
@@ -308,7 +309,7 @@ private:
 		}
 	}
 	ShipFlavour m_flavour;
-	int m_sbreModel;
+	LmrModel *m_lmrModel;
 	int m_flavourIdx;
 	sigc::connection m_ondraw3dcon;
 };
@@ -316,15 +317,14 @@ private:
 void StationViewShipView::Draw3D()
 {
 	/* XXX duplicated code in InfoView.cpp */
-	ObjParams params = {
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	LmrObjParams params = {
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 
 		{	// pColor[3]
-		{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 
 		// pText[3][256]	
 		{ "IR-L33T", "ME TOO" },
@@ -365,16 +365,15 @@ void StationViewShipView::Draw3D()
 	float lightDir[] = { 1,1,0 };
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	sbreSetDirLight (lightCol, lightDir);
+//	sbreSetDirLight (lightCol, lightDir);
 	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 400)/guiscale[1],
 			400/guiscale[0], 400/guiscale[1]);
 	
-	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
+	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
+	rot[14] = -2.0f * m_lmrModel->GetBoundingRadius();
 
-	vector3d p(0, 0, -2 * sbreGetModelRadius(m_sbreModel));
-	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
-	sbreRenderModel(&p.x, &rot[0], m_sbreModel, &params);
+	m_lmrModel->Render(rot, &params);
 	glPopAttrib();
 }
 

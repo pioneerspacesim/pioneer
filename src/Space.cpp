@@ -10,7 +10,6 @@
 #include "Player.h"
 #include "StarSystem.h"
 #include "SpaceStation.h"
-#include "sbre/sbre.h"
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "pirates.h"
@@ -828,9 +827,6 @@ void Render(const Frame *cam_frame)
 		idx++;
 	}
 	sort(bz, bz+bodies.size(), body_zsort_compare());
-
-	// Probably the right place for this when partitioning is done
-	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
 
 	for (unsigned int i=0; i<bodies.size(); i++) {
 		double boundingRadius = bz[i].b->GetBoundingRadius();

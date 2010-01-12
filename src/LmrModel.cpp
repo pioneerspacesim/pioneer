@@ -1160,6 +1160,28 @@ LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
 
+/** returns number of tris found (up to 'num') */
+int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const
+{
+	int found = 0;
+	for (int i=0; (i<m_numTris) && (found<num); i++) {
+		if (pFlag[i] == flags) {
+			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i]]);
+			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i+1]]);
+			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i+2]]);
+			found++;
+		}
+	}
+	return found;
+}
+
+LmrCollMesh::~LmrCollMesh()
+{
+	delete geomTree;
+	delete pVertex;
+	delete pIndex;
+	delete pFlag;
+}
 
 LmrModel *LmrLookupModelByName(const char *name) throw (LmrModelNotFoundException)
 {

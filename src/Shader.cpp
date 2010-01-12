@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Shader.h"
 #include "Pi.h"
-#include "sbre/sbre_int.h"
 #include "WorldView.h"
 
 namespace Shader {

@@ -154,7 +154,6 @@ void Pi::Init(IniConfig &config)
 
 	Pi::rng.seed(time(NULL));
 
-	sbreCompilerLoadModels();
 	Galaxy::Init();
 	NameGenerator::Init();
 	InitOpenGL();
@@ -269,9 +268,6 @@ void Pi::HandleEvents()
 		Gui::HandleSDLEvent(&event);
 		switch (event.type) {
 			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_l) {
-					GeoSphere::OnChangeDetailLevel();
-				}
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
 					// only accessible once game started
 					if (currentView != 0) {
@@ -381,25 +377,32 @@ static void draw_intro(WorldView *view, float _time)
 	static float lightCol[4] = { 1,1,1,0 };
 	static float lightDir[4] = { 0,1,0,0 };
 
-	static ObjParams params = {
+	LmrObjParams params = {
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
-		{ { .2f, .2f, .5f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.8f, 0.8f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
+		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 		{ "PIONEER" },
 	};
+	glPushMatrix();
 	glRotatef(_time*10, 1, 0, 0);
 	view->DrawBgStars();
+	glPopMatrix();
+	
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
-	sbreSetDirLight (lightCol, lightDir);
-	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time) * matrix4x4d::RotateZMatrix(0.6*_time) *
-			matrix4x4d::RotateXMatrix(_time*.7);
-	vector3d p(0, 0, -80);
-	sbreRenderModel(&p.x, &rot[0], 61, &params);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+	glEnable(GL_LIGHT0);
+	
+	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6*_time) *
+			matrix4x4f::RotateXMatrix(_time*.7);
+	rot[14] = -80.0;
+	LmrLookupModelByName("interdictor")->Render(rot, &params);
 	glPopAttrib();
 }
 
@@ -408,22 +411,26 @@ static void draw_tombstone(float _time)
 	static float lightCol[4] = { 1,1,1,0 };
 	static float lightDir[4] = { 0,1,0,0 };
 
-	static ObjParams params = {
+	LmrObjParams params = {
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 		{ "RIP OLD BEAN" },
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
-	sbreSetDirLight (lightCol, lightDir);
-	matrix4x4d rot = matrix4x4d::RotateYMatrix(_time*2);
-	vector3d p(0, 0, -MAX(150 - 30*_time, 30));
-	sbreRenderModel(&p.x, &rot[0], 91, &params);
+	
+	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+	glEnable(GL_LIGHT0);
+	
+	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
+	rot[14] = -MAX(150 - 30*_time, 30);
+	LmrLookupModelByName("cargo")->Render(rot, &params);
 	glPopAttrib();
 }
 

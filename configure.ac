@@ -41,5 +41,5 @@ CFLAGS="$CFLAGS -DLUA_USE_POSIX"
 
 CXXFLAGS="$CFLAGS"
 
-AC_CONFIG_FILES([Makefile src/Makefile src/sbre/Makefile src/collider/Makefile src/missions/Makefile src/lua/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile src/collider/Makefile src/missions/Makefile src/lua/Makefile])
 AC_OUTPUT

@@ -41,6 +41,7 @@ public:
 	void Render(const matrix4x4f &trans, const LmrObjParams *params);
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
+	float GetBoundingRadius() const { return m_boundingRadius; }
 private:
 	void Build(int lod, const LmrObjParams *params);
 
@@ -75,6 +76,7 @@ public:
 
 	const Aabb &GetAabb() const { return m_aabb; }
 	float GetBoundingRadius() const { return m_radius; }
+	int GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const;
 	GeomTree *geomTree;
 	// num vertices, num indices, num flags
 	int nv, ni, nf;

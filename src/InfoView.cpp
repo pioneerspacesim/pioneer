@@ -5,6 +5,7 @@
 #include "Ship.h"
 #include "ShipCpanel.h"
 #include "Mission.h"
+#include "LmrModel.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -262,15 +263,14 @@ void InfoView::UpdateInfo()
 void InfoView::Draw3D()
 {
 	/* XXX duplicated code in SpaceStationView.cpp */
-	ObjParams params = {
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	LmrObjParams params = {
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 
 		{	// pColor[3]
-		{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+		{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
 
 	Pi::player->GetFlavour()->ApplyTo(&params);
@@ -306,21 +306,24 @@ void InfoView::Draw3D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	float lightCol[] = { 1,1,1 };
-	float lightDir[] = { 1,1,0 };
+	float lightCol[] = { 1,1,1,0 };
+	float lightDir[] = { 1,1,0,0 };
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	sbreSetDirLight (lightCol, lightDir);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+	glEnable(GL_LIGHT0);
 	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 320)/guiscale[1],
 			320/guiscale[0], 320/guiscale[1]);
 	
-	matrix4x4d rot = matrix4x4d::RotateXMatrix(rot1);
+	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
-	int sbre_model = Pi::player->GetSbreModel();
+	LmrModel *lmr_model = Pi::player->GetLmrModel();
+	rot[14] = -2.1f * lmr_model->GetBoundingRadius();
 
-	vector3d p(0, 0, -2.1 * sbreGetModelRadius(sbre_model));
-	sbreSetDepthRange (Pi::GetScrWidth()*0.5f, 0.0f, 1.0f);
-	sbreRenderModel(&p.x, &rot[0], sbre_model, &params);
+	lmr_model->Render(rot, &params);
 	glPopAttrib();
 }
 

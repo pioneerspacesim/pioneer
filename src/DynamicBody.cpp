@@ -211,21 +211,10 @@ void DynamicBody::GetRotMatrix(matrix4x4d &m) const
 
 void DynamicBody::SetMassDistributionFromModel()
 {
-	const CollMesh *m = GetModelSBRECollMesh(GetSbreModel());
-	// XXX this is stupid. the radius of mass distribution should be
-	// defined on the model, not cooked up in some moronic way
-	vector3d min = vector3d(FLT_MAX);
-	vector3d max = vector3d(-FLT_MAX);
-	for (int i=0; i<3*m->nv; i+=3) {
-		min.x = MIN(m->pVertex[i], min.x);
-		min.y = MIN(m->pVertex[i+1], min.y);
-		min.z = MIN(m->pVertex[i+2], min.z);
-		max.x = MAX(m->pVertex[i], max.x);
-		max.y = MAX(m->pVertex[i+1], max.y);
-		max.z = MAX(m->pVertex[i+2], max.z);
-	}
-	const vector3d size = max-min;
-	m_massRadius = (size.x + size.y + size.z) * 0.333;
+	LmrCollMesh *m = GetLmrCollMesh();
+	// XXX totally arbitrarily pick to distribute mass over a half
+	// bounding sphere area
+	m_massRadius = m->GetBoundingRadius()*0.5f;
 	SetMass(m_mass);
 }
 

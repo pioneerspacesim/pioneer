@@ -21,7 +21,7 @@ const ShipType ShipType::types[] = {
 		// besides running a wicked corporatist regime in the
 		// sirius system, Sirius corporation make a range of
 		// lovely starships
-		"Sirius Interdictor", "61",
+		"Sirius Interdictor", "interdictor",
 		{ 2e7,-2e7,1e7,-1e7,-1e7,1e7 },
 		4e7,
 		{
@@ -34,7 +34,7 @@ const ShipType ShipType::types[] = {
 	}, {
 		// john - you should pick names yourself or this happens
 		"Ladybird Starfighter",
-		"62",
+		"ladybird",
 		{ 2e6,-2e6,1e6,-1e6,-1e6,1e6 },
 		1e7,
 		{
@@ -46,7 +46,7 @@ const ShipType ShipType::types[] = {
 		Equip::DRIVE_CLASS2,
 	}, {
 		"Taipan",
-		"taipan",
+		"ladybird",
 		{ 4e6,-4e6,1e6,-1e6,-1e6,1e6 },
 		1e7,
 		{
@@ -58,7 +58,7 @@ const ShipType ShipType::types[] = {
 		Equip::DRIVE_CLASS4,
 	}, {
 		"Walrus",
-		"60",
+		"walrus",
 		{ 12e6,-12e6,4e6,-4e6,-4e6,4e6 },
 		1e7,
 		{
@@ -70,7 +70,7 @@ const ShipType ShipType::types[] = {
 		Equip::DRIVE_CLASS5,
 	}, {
 		"Flowerfairy Heavy Trader",
-		"63",
+		"flowerfairy_heavy_trader",
 		{ 1e5,-1e5,1e5,-1e5,-1e5,1e5 },
 		1e7,
 		{

@@ -293,10 +293,10 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	// this fucking rubbish needs to be moved into a function
-	cityobj_params.argFloats[ASRC_SECFRAC] = (float)Pi::GetGameTime();
-	cityobj_params.argFloats[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
-	cityobj_params.argFloats[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
-	cityobj_params.argFloats[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
+	cityobj_params.argFloats[1] = (float)Pi::GetGameTime();
+	cityobj_params.argFloats[2] = (float)(Pi::GetGameTime() / 60.0);
+	cityobj_params.argFloats[3] = (float)(Pi::GetGameTime() / 3600.0);
+	cityobj_params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
 
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();

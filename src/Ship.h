@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "DynamicBody.h"
 #include "ShipType.h"
-#include "sbre/sbre.h"
 #include "MarketAgent.h"
 #include "ShipFlavour.h"
 // only for SBodyPath

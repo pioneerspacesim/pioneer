@@ -12,6 +12,7 @@
 #include "Shader.h"
 #include "Player.h"
 #include "Polit.h"
+#include "LmrModel.h"
 
 struct SpaceStationType {
 	const char *sbreModelName;
@@ -106,15 +107,14 @@ double SpaceStation::GetBoundingRadius() const
 	return ModelBody::GetBoundingRadius() + CITY_ON_PLANET_RADIUS;
 }
 
-static ObjParams params = {
+static LmrObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 
 	// pText[3][256]	
 	{ "Hello old bean", "DIET STEAKETTE" },
@@ -167,7 +167,7 @@ void SpaceStation::Init()
 {
 	m_adjacentCity = 0;
 	SetModel(stationTypes[m_type].sbreModelName, true);
-	const CollMeshSet *mset = GetModelCollMeshSet(GetSbreModel());
+	LmrCollMesh *mesh = GetLmrCollMesh();
 	int i=0;
 	for (i=0; i<MAX_DOCKING_PORTS; i++) {
 		port[i].exists = false;
@@ -175,7 +175,7 @@ void SpaceStation::Init()
 	}
 	vector3d v[6];
 	for (i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (mset->GetTrisWithGeomflag(0x8000+i, 2, v) != 2) break;
+		if (mesh->GetTrisWithGeomflag(0x8000+i, 2, v) != 2) break;
 		// 0x8000+i tri gives position, xaxis, yaxis of docking port surface
 		port[i].exists = true;
 		SetPositionOrientFromTris(v, port[i]);
@@ -186,10 +186,10 @@ void SpaceStation::Init()
 				port[i].normal.x,
 				port[i].normal.y,
 				port[i].normal.z);*/
-		if (mset->GetTrisWithGeomflag(0x8010+i, 2, v) != 2) continue;
+		if (mesh->GetTrisWithGeomflag(0x8010+i, 2, v) != 2) continue;
 		port_s2[i].exists = true;
 		SetPositionOrientFromTris(v, port_s2[i]);
-		assert(mset->GetTrisWithGeomflag(0x8020+i, 2, v)==2);
+		assert(mesh->GetTrisWithGeomflag(0x8020+i, 2, v)==2);
 		port_s3[i].exists = true;
 		SetPositionOrientFromTris(v, port_s3[i]);
 	}
@@ -750,7 +750,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	static int poo=0;
 	if (!poo) {
 		poo = 1;
-		sbreGetModelsWithTag("advert", s_advertModels);
+//		sbreGetModelsWithTag("advert", s_advertModels);
 	}
 	// it is silly to do this every render call
 	//
@@ -759,20 +759,27 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	// docking port in pText[1]
 	MTRand rand;
 	rand.seed(m_sbody->seed);
+#warning make this work again!
+	/*
 	params.pFlag[16] = s_advertModels[rand.Int32(s_advertModels.size())];
 	params.pFlag[17] = s_advertModels[rand.Int32(s_advertModels.size())];
 	params.pFlag[18] = s_advertModels[rand.Int32(s_advertModels.size())];
-	params.pFlag[19] = s_advertModels[rand.Int32(s_advertModels.size())];
-	strncpy(params.pText[0], GetLabel().c_str(), 256);
-	snprintf(params.pText[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
+	params.pFlag[19] = s_advertModels[rand.Int32(s_advertModels.size())];*/
+	strncpy(params.argStrings[0], GetLabel().c_str(), 256);
+	snprintf(params.argStrings[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+#warning make this work again!
+		/*
 		params.pAnim[ASRC_STATION_S1_BAY1 + i] = m_openAnimState[i];
 		params.pFlag[ASRC_STATION_S1_BAY1 + i] = 1;
 		params.pAnim[ASRC_STATION_S2_BAY1 + i] = m_dockAnimState[i];
 		params.pFlag[ASRC_STATION_S2_BAY1 + i] = 1;
+		*/
 		const int stage = m_shipDocking[i].stage;
 
+#warning make this work again!
+#if 0
 		/* nice */
 		if (
 			// if the player is in this docking bay draw its inner
@@ -794,6 +801,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			params.pFlag[ASRC_STATION_S1_BAY1 + i] = 1;
 			params.pFlag[ASRC_STATION_S2_BAY1 + i] = 0;
 		}
+#endif
 	}
 	/*
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
@@ -810,7 +818,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			break;
 		}
 	}*/
-	RenderSbreModel(viewCoords, viewTransform, &params);
+	RenderLmrModel(viewCoords, viewTransform, &params);
 	
 	/* don't render city if too far away */
 	if (viewCoords.Length() > 1000000.0) return;

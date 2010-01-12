@@ -1,4 +1,21 @@
 
+print("REMEMBER TO PORT ship6model!!!");
+
+define_model('missile', {
+	info = function()
+		return {
+			bounding_radius = 4,
+			materials={'body'}
+		}
+	end,
+	static = function(lod)
+		set_material('body', 1,1,1,1)
+		use_material('body')
+		cylinder(8, v(0,0,1), v(0,0,-3), v(0,1,0), .25)
+		thruster(v(0,0,1), v(0,0,1), 10, true)
+	end
+})
+
 define_model('nosewheel', {
 	info = function()
 		return {
@@ -415,7 +432,7 @@ define_model('walrus', {
 	end
 })
 
-define_model('bigtrader', {
+define_model('flowerfairy_heavy_trader', {
 	info = function()
 		return {
 			scale=2.0,

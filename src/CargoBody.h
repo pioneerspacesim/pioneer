@@ -3,7 +3,6 @@
 
 #include "libs.h"
 #include "DynamicBody.h"
-#include "sbre/sbre.h"
 #include "EquipType.h"
 
 class CargoBody: public DynamicBody {

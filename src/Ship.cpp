@@ -17,18 +17,18 @@
 #include "Shader.h"
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
+#include "LmrModel.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
-static ObjParams params = {
+static LmrObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]
-	{ { .2f, .2f, .5f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.8f, 0.8f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
+	{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 
 	// pText[3][256]	
 	{ "IR-L33T", "ME TOO" },
@@ -830,31 +830,6 @@ void Ship::RenderLaserfire()
 }
 #endif /* 0 */
 
-
-static void render_coll_mesh(const CollMesh *m)
-{
-	glDisable(GL_LIGHTING);
-	glColor3f(1,0,1);
-	glBegin(GL_TRIANGLES);
-	for (int i=0; i<m->ni; i+=3) {
-		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
-	}
-	glEnd();
-	glColor3f(1,1,1);
-	glDepthRange(0,1.0f-0.0002f);
-	for (int i=0; i<m->ni; i+=3) {
-		glBegin(GL_LINE_LOOP);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
-		glVertex3fv(&m->pVertex[3*m->pIndex[i+2]]);
-		glEnd();
-	}
-	glDepthRange(0.0,1.0);
-	glEnable(GL_LIGHTING);
-}
-
 void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
@@ -868,14 +843,13 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
 		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
 		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
-		params.pAnim[ASRC_SECFRAC] = (float)Pi::GetGameTime();
-		params.pAnim[ASRC_MINFRAC] = (float)(Pi::GetGameTime() / 60.0);
-		params.pAnim[ASRC_HOURFRAC] = (float)(Pi::GetGameTime() / 3600.0);
-		params.pAnim[ASRC_DAYFRAC] = (float)(Pi::GetGameTime() / (24*3600.0));
-		params.pAnim[ASRC_GEAR] = m_wheelState;
-		params.pFlag[AFLAG_GEAR] = m_wheelState != 0.0f;
+		params.argFloats[1] = (float)Pi::GetGameTime();
+		params.argFloats[2] = (float)(Pi::GetGameTime() / 60.0);
+		params.argFloats[3] = (float)(Pi::GetGameTime() / 3600.0);
+		params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
+		params.argFloats[0] = m_wheelState;
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-		RenderSbreModel(viewCoords, viewTransform, &params);
+		RenderLmrModel(viewCoords, viewTransform, &params);
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {
@@ -886,7 +860,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			glPushMatrix();
 			glTranslatef(viewCoords.x, viewCoords.y, viewCoords.z);
 			Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
-			gluSphere(Pi::gluQuadric, sbreGetModelRadius(GetSbreModel()), 20, 20);
+			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
 			Shader::DisableVertexProgram();
 			glPopMatrix();
 			glEnable(GL_LIGHTING);
@@ -898,7 +872,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
 			v[i] = vector3f(viewTransform * (GetPosition() +
-					sbreGetModelRadius(GetSbreModel())*vector3f(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5).Normalized()));
+					GetLmrCollMesh()->GetBoundingRadius() *vector3f(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5).Normalized()));
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();

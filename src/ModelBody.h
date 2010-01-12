@@ -4,10 +4,8 @@
 #include "Body.h"
 #include "vector3.h"
 #include "matrix4x4.h"
-#include "sbre/sbre.h"
+#include "LmrModel.h"
 #include <vector>
-class ObjMesh;
-class CollMeshSet;
 class Geom;
 
 class ModelBody: public Body {
@@ -27,18 +25,19 @@ public:
 	virtual void Enable();
 	void GetAabb(Aabb &aabb) const;
 	Geom *GetGeom() { return m_geom; }
-	int GetSbreModel() const { return m_sbreModel; }
+	LmrModel *GetLmrModel() { return m_lmrModel; }
+	LmrCollMesh *GetLmrCollMesh() { return m_collMesh; }
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
-	void SetModel(const char *sbreModelName, bool isStatic = false);
+	void SetModel(const char *lmrModelName, bool isStatic = false);
 
-	void RenderSbreModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, ObjParams *params);
+	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, LmrObjParams *params);
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
-	const CollMeshSet *m_collMeshSet;
-	int m_sbreModel;
+	LmrModel *m_lmrModel;
+	LmrCollMesh *m_collMesh;
 	bool m_isStatic;
 	Geom *m_geom;
 };

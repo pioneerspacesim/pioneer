@@ -1,3 +1,4 @@
+#if 0
 #ifndef _MODELCOLLMESHDATA
 #define _MODELCOLLMESHDATA
 
@@ -26,3 +27,4 @@ const CollMeshSet *GetModelCollMeshSet(int sbreModel);
 const CollMesh *GetModelSBRECollMesh(int sbreModel);
 
 #endif /* _MODELCOLLMESHDATA */
+#endif

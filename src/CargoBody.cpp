@@ -4,16 +4,16 @@
 #include "collider/collider.h"
 #include "Sfx.h"
 #include "Space.h"
+#include "LmrModel.h"
 
-static ObjParams params = {
+static LmrObjParams params = {
 	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 
 	// pText[3][256]	
 };
@@ -63,7 +63,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
-	strncpy(params.pText[0], EquipType::types[m_type].name, 256);
-	RenderSbreModel(viewCoords, viewTransform, &params);
+	strncpy(params.argStrings[0], EquipType::types[m_type].name, 256);
+	RenderLmrModel(viewCoords, viewTransform, &params);
 }
 

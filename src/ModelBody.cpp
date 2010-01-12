@@ -10,10 +10,19 @@
 #include "collider/collider.h"
 #include "Shader.h"
 
+/* BAD BAD BAD */
+static LmrObjParams params = {
+	{},
+	{0.0f,0.0f,0.0f},
+	{0.0f,0.0f,0.0f},
+	{},
+	{"Blah","blah","blorg"}
+};
+
 ModelBody::ModelBody(): Body()
 {
-	m_collMeshSet = 0;
-	m_sbreModel = 0;
+	m_lmrModel = 0;
+	m_collMesh = 0;
 	m_geom = 0;
 	m_isStatic = false;
 }
@@ -21,6 +30,7 @@ ModelBody::ModelBody(): Body()
 ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
+	if (m_collMesh) delete m_collMesh;
 	delete m_geom;
 }
 
@@ -48,16 +58,17 @@ void ModelBody::Enable()
 
 void ModelBody::GetAabb(Aabb &aabb) const
 {
-	aabb = m_collMeshSet->GetAabb();
+	aabb = m_collMesh->GetAabb();
 }
 
-void ModelBody::SetModel(const char *sbreModelName, bool isStatic)
+void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
 {
 	m_isStatic = isStatic;
+
 	try {
-		m_sbreModel = sbreLookupModelByName(sbreModelName);
-	} catch (SbreModelNotFoundException) {
-		printf("Could not find model '%s'.\n", sbreModelName);
+		m_lmrModel = LmrLookupModelByName(lmrModelName);
+	} catch (LmrModelNotFoundException) {
+		printf("Could not find model '%s'.\n", lmrModelName);
 		Pi::Quit();
 	}
 
@@ -66,17 +77,17 @@ void ModelBody::SetModel(const char *sbreModelName, bool isStatic)
 		GetFrame()->RemoveGeom(m_geom);
 		delete m_geom;
 	}
-	const CollMeshSet *mset = GetModelCollMeshSet(m_sbreModel);
+	if (m_collMesh) delete m_collMesh;
+
+	m_collMesh = new LmrCollMesh(m_lmrModel, &params);
 	
-	m_geom = new Geom(mset->m_geomTree);
+	m_geom = new Geom(m_collMesh->geomTree);
 	m_geom->SetUserData((void*)this);
 		
 	if (GetFrame()) {
 		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
 		else GetFrame()->AddGeom(m_geom);
 	}
-
-	m_collMeshSet = mset;
 }
 
 void ModelBody::SetPosition(vector3d p)
@@ -140,15 +151,14 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 	m_geom->MoveTo(currentTransform);
 }
 
-void ModelBody::RenderSbreModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, ObjParams *params)
+void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, LmrObjParams *params)
 {
 	float znear, zfar;
 	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
 	
-	vector3d pos = viewCoords;
-	matrix4x4d frameTrans = viewTransform;
+/*	if (viewCoords.Length() > zfar) {
+		vector3d pos = viewCoords;
 
-	if (pos.Length() > zfar) {
 		glPointSize(1.0);
 		glDisable(GL_LIGHTING);
 		glColor3f(1,1,1);
@@ -157,24 +167,25 @@ void ModelBody::RenderSbreModel(const vector3d &viewCoords, const matrix4x4d &vi
 		glVertex3dv(&pos[0]);
 		glEnd();
 		glEnable(GL_LIGHTING);
-	} else {
-		glPushMatrix();
-		
-		sbreSetDepthRange(Pi::GetScrWidth()*0.5, 0.0f, 1.0f);
-
+	} else {*/
 		matrix4x4d rot;
 		GetRotMatrix(rot);
-		frameTrans.ClearToRotOnly();
-		rot = frameTrans * rot;
+		rot = viewTransform * rot;
 
 		Shader::EnableVertexProgram(Shader::VPROG_SBRE);
-		sbreRenderModel(&pos.x, &rot[0], m_sbreModel, params);
+		matrix4x4f trans;
+		for (int i=0; i<12; i++) trans[i] = (float)rot[i];
+		trans[12] = viewCoords.x;
+		trans[13] = viewCoords.y;
+		trans[14] = viewCoords.z;
+		trans[15] = 1.0f;
+
+
+		m_lmrModel->Render(trans, params);
 		Shader::DisableVertexProgram();
 
 		glDisable(GL_BLEND);
 		glEnable(GL_LIGHTING);
 		glDisable(GL_NORMALIZE);
-		
-		glPopMatrix();
-	}
+//	}
 }

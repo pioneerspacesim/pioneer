@@ -76,7 +76,7 @@ class Viewer: public Gui::Fixed {
 public:
 	Gui::Adjustment *m_linthrust[3];
 	Gui::Adjustment *m_angthrust[3];
-	Gui::Adjustment *m_anim[ANIM_MAX];
+	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 
 	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
@@ -124,7 +124,7 @@ public:
 			}
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 460);
-			for (int i=0; i<ANIM_MAX; i++) {
+			for (int i=0; i<LMR_ARG_MAX; i++) {
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
@@ -141,7 +141,7 @@ public:
 	}
 
 	void OnResetAdjustments() {
-		for (int i=0; i<ANIM_MAX; i++) m_anim[i]->SetValue(0);
+		for (int i=0; i<LMR_ARG_MAX; i++) m_anim[i]->SetValue(0);
 		for (int i=0; i<3; i++) {
 			m_linthrust[i]->SetValue(0.5);
 			m_angthrust[i]->SetValue(0.5);
@@ -166,14 +166,14 @@ void Viewer::SetSbreParams()
 {
 	float gameTime = SDL_GetTicks() * 0.001f;
 
-	for (int i=0; i<ANIM_MAX; i++) {
+	for (int i=0; i<LMR_ARG_MAX; i++) {
 		params.argFloats[i] = m_anim[i]->GetValue();
 	}
 
-	params.argFloats[ASRC_SECFRAC] = gameTime;
-	params.argFloats[ASRC_MINFRAC] = gameTime / 60;
-	params.argFloats[ASRC_HOURFRAC] = gameTime / 3600.0f;
-	params.argFloats[ASRC_DAYFRAC] = gameTime / (24*3600.0f);
+	params.argFloats[1] = gameTime;
+	params.argFloats[2] = gameTime / 60;
+	params.argFloats[3] = gameTime / 3600.0f;
+	params.argFloats[4] = gameTime / (24*3600.0f);
 	
 	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
 	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
@@ -340,16 +340,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			SetSbreParams();
 		
-			Matrix m;
-			Vector p;
-			m.x1 = (float)rot[0]; m.x2 = (float)rot[4]; m.x3 = (float)rot[8];
-			m.y1 = (float)rot[1]; m.y2 = (float)rot[5]; m.y3 = (float)rot[9];
-			m.z1 = (float)rot[2]; m.z2 = (float)rot[6]; m.z3 = (float)rot[10];
-			p.x = 0; p.y = 0; p.z = -distance;
 			matrix4x4f _m;
 			for (int i=0; i<16; i++) _m[i] = rot[i];
 			_m[14] = -distance;
-		//	for (int i=0; i<100; i++)
 			g_model->Render(_m, &params);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
