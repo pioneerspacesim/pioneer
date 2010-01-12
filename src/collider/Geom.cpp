@@ -205,7 +205,9 @@ void Geom::CollideEdgesTris(const BVHNode *edgeNode, const matrix4x4d &transToB,
 			contact.triIdx = isect.triIdx;
 			contact.userData1 = m_data;
 			contact.userData2 = b->m_data;
-			contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx);
+			// contact geomFlag is bitwise OR of triangle's and edge's flags
+			contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx) |
+				edges[ edgeNode->triIndicesStart[i] ].triFlag;
 			callback(&contact);
 		}
 	} else {

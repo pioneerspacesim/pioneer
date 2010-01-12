@@ -2,7 +2,7 @@
 #include <float.h>
 #include <stdio.h>
 #include <assert.h>
-#include <set>
+#include <map>
 #ifdef _WIN32
 #include <malloc.h>
 #else
@@ -43,10 +43,10 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		activeTris.push_back(i*3);
 	}
 	
-	std::set< std::pair<int,int> > edges;
-#define ADD_EDGE(_i1,_i2) \
-	if ((_i1) < (_i2)) edges.insert(std::pair<int,int>(_i1,_i2)); \
-	else if ((_i1) > (_i2)) edges.insert(std::pair<int,int>(_i2,_i1));
+	std::map< std::pair<int,int>, int > edges;
+#define ADD_EDGE(_i1,_i2,_triflag) \
+	if ((_i1) < (_i2)) edges[std::pair<int,int>(_i1,_i2)] = _triflag; \
+	else if ((_i1) > (_i2)) edges[std::pair<int,int>(_i2,_i1)] = _triflag;
 
 	// eliminate duplicate vertices
 	for (int i=0; i<numVerts; i++) {
@@ -64,14 +64,15 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	/* Get radius, m_aabb, and merge duplicate edges */
 	m_radius = 0;
 	for (int i=0; i<numTris; i++) {
-		if (m_triFlags[i] < 0x8000) {
+		const int triflag = m_triFlags[i];
+		if (triflag < 0x8000) {
 			int vi1 = 3*m_indices[3*i];
 			int vi2 = 3*m_indices[3*i+1];
 			int vi3 = 3*m_indices[3*i+2];
 
-			ADD_EDGE(vi1, vi2);
-			ADD_EDGE(vi1, vi3);
-			ADD_EDGE(vi2, vi3);
+			ADD_EDGE(vi1, vi2, triflag);
+			ADD_EDGE(vi1, vi3, triflag);
+			ADD_EDGE(vi2, vi3, triflag);
 
 			vector3d v[3];
 			v[0] = vector3d(&m_vertices[vi1]);
@@ -112,17 +113,20 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	int *edgeIdxs = new int[m_numEdges];
 
 	int pos = 0;
-	for (std::set< std::pair<int,int> >::iterator i = edges.begin();
+	for (std::map< std::pair<int,int>, int >::iterator i = edges.begin();
 			i != edges.end(); ++i, pos++) {
 		// precalc some jizz
-		vector3d v1 = vector3d(&m_vertices[(*i).first]);
-		vector3d v2 = vector3d(&m_vertices[(*i).second]);
+		const std::pair<int, int> &vtx = (*i).first;
+		const int triflag = (*i).second;
+		vector3d v1 = vector3d(&m_vertices[vtx.first]);
+		vector3d v2 = vector3d(&m_vertices[vtx.second]);
 		vector3d dir = (v2-v1);
 		double len = dir.Length();
 		dir *= 1.0/len;
 
-		m_edges[pos].v1i = (*i).first;
-		m_edges[pos].v2i = (*i).second;
+		m_edges[pos].v1i = vtx.first;
+		m_edges[pos].v2i = vtx.second;
+		m_edges[pos].triFlag = triflag;
 		m_edges[pos].len = (float)len;
 		m_edges[pos].dir = vector3f((float)dir.x, (float)dir.y, (float)dir.z);
 		

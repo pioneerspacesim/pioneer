@@ -833,6 +833,15 @@ public:
 		curOp.callmodel.scale = scale;
 	}
 
+	void PushInvisibleTri(int i1, int i2, int i3) {
+		if (curOp.type != OP_NONE) m_ops.push_back(curOp);
+		curOp.type = OP_NONE;
+		PushIdx(i1);
+		PushIdx(i2);
+		PushIdx(i3);
+		m_triflags.push_back(curTriFlag);
+	}
+
 	void SetMaterial(const char *mat_name, const float mat[11]) {
 		std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 		if (i != m_model->m_materialLookup.end()) {
@@ -2030,6 +2039,20 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	static int invisible_tri(lua_State *L)
+	{
+		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
+		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
+		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
+		
+		vector3f n = vector3f::Cross((*v1)-(*v2), (*v1)-(*v3)).Normalized();
+		int i1 = s_curBuf->PushVertex(*v1, n);
+		int i2 = s_curBuf->PushVertex(*v2, n);
+		int i3 = s_curBuf->PushVertex(*v3, n);
+		s_curBuf->PushInvisibleTri(i1, i2, i3);
+		return 0;
+	}
+
 	static int tri(lua_State *L)
 	{
 		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
@@ -2259,6 +2282,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "use_material", ModelFuncs::use_material);
 	lua_register(L, "get_arg_material", ModelFuncs::get_arg_material);
 	
+	lua_register(L, "invisible_tri", ModelFuncs::invisible_tri);
 	lua_register(L, "tri", ModelFuncs::tri);
 	lua_register(L, "xref_tri", ModelFuncs::xref_tri);
 	lua_register(L, "quad", ModelFuncs::quad);

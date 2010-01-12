@@ -37,6 +37,9 @@ public:
 		int v1i, v2i;
 		float len;
 		vector3f dir;
+		// edge triFlag can be weird since edges may get merged and
+		// intended flag lost
+		int triFlag;
 	};
 	const Edge *GetEdges() const { return m_edges; }
 	int GetNumEdges() const { return m_numEdges; }

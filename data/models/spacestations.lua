@@ -70,8 +70,8 @@ define_model('spacestation_entry1_stage3', {
 		lod1:subobject(var:18, v(100,100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
 		--]]
 		geomflag(0x8020)
-		--[[invisible]]tri(v(0,100,0), v(0,0,0), v(0,0,0))
-		--[[invisible]]tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
+		invisible_tri(v(0,100,0), v(0,0,0), v(0,0,0))
+		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 		geomflag(0)
 	end,
 	dynamic = function(lod)
@@ -110,8 +110,8 @@ define_model('spacestation_entry1_stage2', {
 		use_material('wall2')
 		xref_quad(b,c,c2,b2)
 		geomflag(0x8010)
-		--[[invisible:]]tri(v(0,-100,0), v(0,0,0), v(0,0,0))
-		--[[invisible:]]tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
+		invisible_tri(v(0,-100,0), v(0,0,0), v(0,0,0))
+		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 		geomflag(0)
 	end,
 	dynamic = function(lod)
@@ -175,10 +175,11 @@ define_model('spacestation_entry1', {
 		end
 		-- docking surface
 		geomflag(0x10)
-		--[[invisible:]]quad(v(-100,-100,50), v(100,-100,50), v(100,-100,-50), v(-100,-100,-50))
+		invisible_tri(v(-100,-100,50), v(100,-100,50), v(100,-100,-50))
+		invisible_tri(v(-100,-100,50), v(100,-100,-50), v(-100,-100,-50))
 		geomflag(0x8000)
-		--[[invisible:]]tri(v(0,-150,0), v(0,0,0), v(0,0,0))
-		--[[invisible:]]tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
+		invisible_tri(v(0,-150,0), v(0,0,0), v(0,0,0))
+		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 		geomflag(0)
 
 		call_model('spacestation_entry1_stage2', v(0,-300,0), v(1,0,0), v(0,1,0), 1.0)
@@ -271,10 +272,10 @@ define_model('basic_groundstation', {
 		local bay2top = v(0,10,120)
 		-- docking bay 1 location,xaxis,yaxis
 		geomflag(0x8000)
-		--[[invisible:]]tri(bay1top, v(0,0,0), v(0,0,0))
-		--[[invisible:]]tri(v(0,0,0), v(1,0,0), v(0,1,0))
+		invisible_tri(bay1top, v(0,0,0), v(0,0,0))
+		invisible_tri(v(0,0,0), v(1,0,0), v(0,1,0))
 		geomflag(0x8001)
-		--[[invisible:]]tri(bay2top, v(1,0,0), v(0,1,0))
+		invisible_tri(bay2top, v(1,0,0), v(0,1,0))
 		geomflag(0)
 		set_material('text', 1,1,1,1)
 		use_material('text')
