@@ -154,6 +154,47 @@ define_model('blob', {
 	end
 })
 
+define_model('tombstone', {
+	info = function()
+		return {
+			scale = 10.0,
+			bounding_radius = 1,
+			materials={'stone', 'text'}
+		}
+	end,
+	static = function(lod)
+		local v06 = v(0.6, 1.0, -0.1)
+		local v07 = v(0.6, -1.0, -0.1)
+		local v08 = v(-0.6, -1.0, -0.1)
+		local v09 = v(-0.6, 1.0, -0.1)
+		local v10 = v(0, 1, 0.1)
+		local v11 = v(0, 1, -0.1)
+		local v12 = v(0.6, 1.0, 0.1)
+		local v13 = v(0.6, -1.0, 0.1)
+		local v14 = v(-0.6, -1.0, 0.1)
+		local v15 = v(-0.6, 1.0, 0.1)
+		set_material('text', 1,1,1,1)
+		set_material('stone', .5,.5,.5,1)
+		use_material('stone')
+		quad(v06, v07, v08, v09)
+		quad(v15, v14, v13, v12)
+		quad(v06, v12, v13, v07)
+		quad(v09, v08, v14, v15)
+		quad(v08, v07, v13, v14)
+		cylinder(16, v10, v11, v(0,1,0), .6)
+	end,
+	dynamic = function(lod)
+		local v16 = v(0, 0.5, -0.1)
+		local v17 = v(0, 0.5, 0.1)
+		use_material('text')
+		zbias(1, v16, v(0,0,-1))
+		text(get_arg_string(0), v16, v(0,0,-1), v(-1,0,0), .1, {center=true})
+		zbias(1, v17, v(0,0,1))
+		text(get_arg_string(0), v17, v(0,0,1), v(1,0,0), .1, {center=true})
+		zbias(0)
+	end
+})
+
 m = Mat4x4.rotate(math.pi*0.25,v(1,1,1))
 --m:print()
 m = m:inverse()

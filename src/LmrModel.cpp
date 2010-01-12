@@ -1847,8 +1847,8 @@ namespace ModelFuncs {
 
 			s_curBuf->SetVertex(vtxStart+i, start+p_outer, p);
 			s_curBuf->SetVertex(vtxStart+i+steps, end+p_outer, p);
-			s_curBuf->SetVertex(vtxStart+i+2*steps, start+p_inner, p);
-			s_curBuf->SetVertex(vtxStart+i+3*steps, end+p_inner, p);
+			s_curBuf->SetVertex(vtxStart+i+2*steps, start+p_inner, -p);
+			s_curBuf->SetVertex(vtxStart+i+3*steps, end+p_inner, -p);
 
 			s_curBuf->SetVertex(vtxStart+i+4*steps, start+p_outer, -dir);
 			s_curBuf->SetVertex(vtxStart+i+5*steps, end+p_outer, dir);

@@ -1,4 +1,9 @@
 
+ARG_STATION_BAY1_DOOR1 = 6
+ARG_STATION_BAY1_DOOR2 = 10
+ARG_STATION_BAY1_STAGE1 = 14
+ARG_STATION_BAY1_STAGE2 = 18
+
 define_model('spacestation_door', {
 	info = function()
 		return {
@@ -70,17 +75,15 @@ define_model('spacestation_entry1_stage3', {
 		geomflag(0)
 	end,
 	dynamic = function(lod)
+		use_material('text')
 		zbias(1, v(0,200,0), v(0,-1,0))
 		-- starport name
-		text(get_arg_string(0), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0)
+		text(get_arg_string(0), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
 		-- docking bay number
-		text(get_arg_string(1), v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0)
+		text(get_arg_string(1), v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 		zbias(0)
 	end
 })
-
-STATION_S1BAY1 = 6
-STATION_S2BAY1 = 10
 
 define_model('spacestation_entry1_stage2', {
 	info = function()
@@ -113,11 +116,11 @@ define_model('spacestation_entry1_stage2', {
 	end,
 	dynamic = function(lod)
 --		material(.8,0,0, 0,0,0, 0, 0,0,0)
-		door2 = vlerp(get_arg(STATION_S2BAY1), v(0,0,0), v(0,0,-100))
+		door2 = vlerp(get_arg(ARG_STATION_BAY1_DOOR2), v(0,0,0), v(0,0,-100))
 		call_model('spacestation_door', door2, v(1,0,0), v(0,1,0), 1.0)
-	--	if get_arg(STATION_S2BAY1) ~= 0 then
+		if get_arg(ARG_STATION_BAY1_STAGE2) ~= 0 then
 			call_model('spacestation_entry1_stage3', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
-	--	end
+		end
 	end
 })
 
@@ -164,11 +167,10 @@ define_model('spacestation_entry1', {
 		set_material('wall', .2,.2,.6,1)
 	end,
 	dynamic = function(lod)
-		local s1bay1 = get_arg(STATION_S1BAY1)
-		local door1 = vlerp(s1bay1, v(0,-20,0), v(0,-20,-100))
+		local door1 = vlerp(get_arg(ARG_STATION_BAY1_DOOR1), v(0,-20,0), v(0,-20,-100))
 		call_model('spacestation_door', door1, v(1,0,0), v(0,1,0), 1.0)
 		
-		if s1bay1 ~= 0 then
+		if get_arg(ARG_STATION_BAY1_STAGE1) ~= 0 then
 			call_model('spacestation_entry1_stage1', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
 		end
 		-- docking surface

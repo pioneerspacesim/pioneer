@@ -1,7 +1,6 @@
 #include "SpaceStation.h"
 #include "Ship.h"
 #include "Planet.h"
-#include "ModelCollMeshData.h"
 #include "gameconsts.h"
 #include "StarSystem.h"
 #include "Serializer.h"
@@ -744,6 +743,11 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 
 static std::vector<int> s_advertModels;
 
+#define ARG_STATION_BAY1_DOOR1 6
+#define ARG_STATION_BAY1_DOOR2 10
+#define ARG_STATION_BAY1_STAGE1 14
+#define ARG_STATION_BAY1_STAGE2 18
+
 void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	/* Well this is nice... */
@@ -759,7 +763,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	// docking port in pText[1]
 	MTRand rand;
 	rand.seed(m_sbody->seed);
-#warning make this work again!
+	/* XXX make adverts work again */
 	/*
 	params.pFlag[16] = s_advertModels[rand.Int32(s_advertModels.size())];
 	params.pFlag[17] = s_advertModels[rand.Int32(s_advertModels.size())];
@@ -769,17 +773,12 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	snprintf(params.argStrings[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-#warning make this work again!
-		/*
-		params.pAnim[ASRC_STATION_S1_BAY1 + i] = m_openAnimState[i];
-		params.pFlag[ASRC_STATION_S1_BAY1 + i] = 1;
-		params.pAnim[ASRC_STATION_S2_BAY1 + i] = m_dockAnimState[i];
-		params.pFlag[ASRC_STATION_S2_BAY1 + i] = 1;
-		*/
+		params.argFloats[ARG_STATION_BAY1_DOOR1 + i] = m_openAnimState[i];
+		params.argFloats[ARG_STATION_BAY1_STAGE1 + i] = 1.0;
+		params.argFloats[ARG_STATION_BAY1_DOOR2 + i] = m_dockAnimState[i];
+		params.argFloats[ARG_STATION_BAY1_STAGE2 + i] = 1.0;
 		const int stage = m_shipDocking[i].stage;
 
-#warning make this work again!
-#if 0
 		/* nice */
 		if (
 			// if the player is in this docking bay draw its inner
@@ -795,13 +794,12 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 				// during launch
 				  ((stage >= -3) && (stage <= -1)) ))
 		) {
-			params.pFlag[ASRC_STATION_S1_BAY1 + i] = 0;
-			params.pFlag[ASRC_STATION_S2_BAY1 + i] = 1;
+			params.argFloats[ARG_STATION_BAY1_STAGE1 + i] = 0;
+			params.argFloats[ARG_STATION_BAY1_STAGE2 + i] = 1;
 		} else {
-			params.pFlag[ASRC_STATION_S1_BAY1 + i] = 1;
-			params.pFlag[ASRC_STATION_S2_BAY1 + i] = 0;
+			params.argFloats[ARG_STATION_BAY1_STAGE1 + i] = 1;
+			params.argFloats[ARG_STATION_BAY1_STAGE2 + i] = 0;
 		}
-#endif
 	}
 	/*
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {

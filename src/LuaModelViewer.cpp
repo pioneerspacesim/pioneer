@@ -2,7 +2,6 @@
 #include "glfreetype.h"
 #include "Gui.h"
 #include "collider/collider.h"
-#include "ModelCollMeshData.h"
 #include "LmrModel.h"
 
 static SDL_Surface *g_screen;

@@ -5,14 +5,16 @@
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
-#include "ModelCollMeshData.h"
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Shader.h"
 
 /* BAD BAD BAD */
 static LmrObjParams params = {
-	{},
+	// [6]=1 so space station front doors are open. 14,18 are set so all
+	// space station bits are in collision mesh. when collision meshes are
+	// being dynamically updated then this hack can go
+	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1},
 	{0.0f,0.0f,0.0f},
 	{0.0f,0.0f,0.0f},
 	{},

@@ -8,7 +8,7 @@ include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h Gu
 		GuiRadioGroup.h GuiScreen.h GuiToggleButton.h GuiWidget.h GuiToolTip.h libs.h matrix4x4.h mtrand.h Pi.h \
 		Planet.h Player.h DynamicBody.h Sector.h SectorView.h ShipCpanel.h Ship.h Space.h Star.h StarSystem.h SystemInfoView.h \
 		SystemView.h vector3.h View.h WorldView.h utils.h SpaceStation.h SpaceStationView.h ModelBody.h GuiISelectable.h \
-		ShipType.h Object.h InfoView.h ModelCollMeshData.h ObjectViewerView.h custom_starsystems.h Aabb.h Serializer.h \
+		ShipType.h Object.h InfoView.h ObjectViewerView.h custom_starsystems.h Aabb.h Serializer.h \
 		Sfx.h GuiVScrollPortal.h GuiVScrollBar.h GuiAdjustment.h MarketAgent.h GuiTabbed.h EquipType.h CargoBody.h \
 		NameGenerator.h perlin.h GeoSphere.h GuiBox.h ShipFlavour.h GuiTextLayout.h Mission.h pirates.h Polit.h \
 		CityOnPlanet.h Shader.h ShipCpanelMultiFuncDisplays.h Projectile.h Render.h Sound.h GuiRepeaterButton.h \
@@ -23,7 +23,7 @@ libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp
 pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp utils.cpp SpaceStation.cpp \
-		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
+		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp ShipFlavour.cpp \
 		Mission.cpp pirates.cpp Polit.cpp CityOnPlanet.cpp Shader.cpp ShipCpanelMultiFuncDisplays.cpp \
@@ -39,7 +39,7 @@ check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp utils.cpp SpaceStation.cpp \
-		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp ModelCollMeshData.cpp \
+		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp
 tests_LDADD = collider/libcollider.a libgui.a

@@ -374,11 +374,12 @@ void Pi::HandleEvents()
 
 static void draw_intro(WorldView *view, float _time)
 {
-	static float lightCol[4] = { 1,1,1,0 };
-	static float lightDir[4] = { 0,1,0,0 };
+	float lightCol[4] = { 1,1,1,0 };
+	float lightDir[4] = { 0,1,1,0 };
+	float ambient[4] = { 0.1,0.1,0.1,1 };
 
 	LmrObjParams params = {
-		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ },
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
@@ -393,9 +394,9 @@ static void draw_intro(WorldView *view, float _time)
 	
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 	
@@ -408,8 +409,9 @@ static void draw_intro(WorldView *view, float _time)
 
 static void draw_tombstone(float _time)
 {
-	static float lightCol[4] = { 1,1,1,0 };
-	static float lightDir[4] = { 0,1,0,0 };
+	float lightCol[4] = { 1,1,1,0 };
+	float lightDir[4] = { 0,1,1,0 };
+	float ambient[4] = { 0.1,0.1,0.1,1 };
 
 	LmrObjParams params = {
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -422,15 +424,15 @@ static void draw_tombstone(float _time)
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 	
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -MAX(150 - 30*_time, 30);
-	LmrLookupModelByName("cargo")->Render(rot, &params);
+	LmrLookupModelByName("tombstone")->Render(rot, &params);
 	glPopAttrib();
 }
 

@@ -3,7 +3,6 @@
 #include "Space.h"
 #include "Frame.h"
 #include "Serializer.h"
-#include "ModelCollMeshData.h"
 #include "Planet.h"
 
 DynamicBody::DynamicBody(): ModelBody()
