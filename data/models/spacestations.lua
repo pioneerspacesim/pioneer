@@ -39,6 +39,7 @@ define_model('spacestation_door', {
 define_model('spacestation_entry1_stage3', {
 	info = function()
 		return {
+			lod_pixels = { 50, 0 },
 			bounding_radius = 300,
 			materials = {'wall1','wall2','text'}
 		}
@@ -64,11 +65,6 @@ define_model('spacestation_entry1_stage3', {
 		quad(d,c,b,a)
 		xref_quad(b,c,c2,b2)
 		
-		--[[ adverts
-		lod1:subobject(var:16, v(0,200,0), v(0,0,-1), v(0,-1,0), scale=40.0)
-		lod1:subobject(var:17, v(-100,100,0), v(0,0,-1), v(1,0,0), scale=40.0)
-		lod1:subobject(var:18, v(100,100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
-		--]]
 		geomflag(0x8020)
 		invisible_tri(v(0,100,0), v(0,0,0), v(0,0,0))
 		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
@@ -82,6 +78,12 @@ define_model('spacestation_entry1_stage3', {
 		-- docking bay number
 		text(get_arg_string(1), v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 		zbias(0)
+		if lod > 1 then
+			-- adverts
+			call_model(get_arg_string(4), v(0,200,0), v(-1,0,0), v(0,0,-1), 40.0)
+			call_model(get_arg_string(5), v(-100,100,0), v(0,-1,0), v(0,0,-1), 40.0)
+			call_model(get_arg_string(6), v(100,100,0), v(0,1,0), v(0,0,-1), 40.0)
+		end
 	end
 })
 
@@ -147,12 +149,13 @@ define_model('spacestation_entry1_stage1', {
 		xref_quad(b,c,c2,b2)
 		quad(a,b,b2,a2)
 		quad(c,d,d2,c2)
-		
+	end,
+	dynamic = function(lod)
 		-- adverts
-		--if lod > 1 then
-		--	subobject(var:17, v(-100,-200,0), v(0,0,-1), v(1,0,0), scale=40.0)
-		--	lod1:subobject(var:18, v(100,-100,0), v(0,0,-1), v(-1,0,0), scale=40.0)
-		--end
+		if lod > 1 then
+			call_model(get_arg_string(4), v(-100,-100,0), v(0,-1,0), v(0,0,-1), 40.0)
+			call_model(get_arg_string(4), v(100,-100,0), v(0,1,0), v(0,0,-1), 40.0)
+		end
 	end
 })
 

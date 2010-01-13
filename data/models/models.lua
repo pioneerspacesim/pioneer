@@ -50,6 +50,7 @@ function lerp_materials(a, m1, m2)
 	return out
 end
 
+dofile "data/models/adverts.lua"
 dofile "data/models/ships.lua"
 dofile "data/models/city.lua"
 dofile "data/models/spacestations.lua"

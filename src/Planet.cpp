@@ -294,6 +294,23 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 	glMultMatrixd(&rot[0]);
 
+	matrix4x4f invViewRot;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &invViewRot[0]);
+	invViewRot.ClearToRotOnly();
+	invViewRot = invViewRot.InverseOf();
+
+	const int numLights = Pi::worldView->GetNumLights();
+	assert(numLights < 4);
+	vector3f lightDir[4];
+	float lightCol[4][4];
+	// only 
+	for (int i=0; i<numLights; i++) {
+		float temp[4];
+		glGetLightfv(GL_LIGHT0 + i, GL_DIFFUSE, lightCol[i]);
+		glGetLightfv(GL_LIGHT0 + i, GL_POSITION, temp);
+		lightDir[i] = (invViewRot * vector3f(temp[0], temp[1], temp[2])).Normalized();
+	}
+
 	const double angStep = M_PI/32;
 	// find angle player -> centre -> tangent point
 	// tangent is from player to surface of sphere
@@ -315,7 +332,15 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	for (float ang=0; ang<2*M_PI; ang+=(float)angStep) {
 		vector3d norm = r1.Normalized();
 		glNormal3dv(&norm.x);
-		glColor4fv(col);
+		float _col[4] = { 0,0,0,0 };
+		for (int lnum=0; lnum<numLights; lnum++) {
+			const float dot = norm.x*lightDir[lnum].x + norm.y*lightDir[lnum].y + norm.z*lightDir[lnum].z;
+			_col[0] += dot*lightCol[lnum][0];
+			_col[1] += dot*lightCol[lnum][1];
+			_col[2] += dot*lightCol[lnum][2];
+		}
+		_col[3] = col[3];
+		glColor4fv(_col);
 		glVertex3dv(&r1.x);
 		glColor4f(0,0,0,0);
 		glVertex3dv(&r2.x);

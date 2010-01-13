@@ -771,6 +771,10 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	params.pFlag[17] = s_advertModels[rand.Int32(s_advertModels.size())];
 	params.pFlag[18] = s_advertModels[rand.Int32(s_advertModels.size())];
 	params.pFlag[19] = s_advertModels[rand.Int32(s_advertModels.size())];*/
+	strncpy(params.argStrings[4], "diet_steakette", 256);
+	strncpy(params.argStrings[5], "diet_steakette", 256);
+	strncpy(params.argStrings[6], "diet_steakette", 256);
+	strncpy(params.argStrings[7], "diet_steakette", 256);
 	strncpy(params.argStrings[0], GetLabel().c_str(), 256);
 	snprintf(params.argStrings[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
 

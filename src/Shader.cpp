@@ -43,7 +43,7 @@ char *load_file(const char *filename)
 {
 	FILE *f = fopen(filename, "r");
 	if (!f) {
-		printf("Could not open %s.\n", filename);
+		//printf("Could not open %s.\n", filename);
 		return 0;
 	}
 	fseek(f, 0, SEEK_END);
@@ -157,6 +157,7 @@ void Init()
 	isEnabled = GLEW_VERSION_2_0;
 	fprintf(stderr, "OpenGL 2.0+: %s\n", isEnabled ? "Yes" : "No");
 	if (!isEnabled) return;
+	fprintf(stderr, "GL_ARB_shading_language_100: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 	CompileProgram(VPROG_GEOSPHERE, "data/shaders/geosphere");
 	CompileProgram(VPROG_GEOSPHERE_SKY, "data/shaders/geosphere_sky");

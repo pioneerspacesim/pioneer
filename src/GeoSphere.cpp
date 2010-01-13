@@ -1264,9 +1264,9 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	
 	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
 	glColorMaterial(GL_FRONT, GL_DIFFUSE);
-	
 	glMaterialfv (GL_FRONT, GL_SPECULAR, g_ambient);
 	glMaterialfv (GL_FRONT, GL_EMISSION, g_ambient);
+	glMaterialfv (GL_FRONT, GL_AMBIENT, g_ambient);
 	glEnable(GL_COLOR_MATERIAL);
 
 //	glLineWidth(1.0);
