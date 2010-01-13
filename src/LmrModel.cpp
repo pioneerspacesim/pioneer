@@ -1005,14 +1005,12 @@ LmrModel::LmrModel(const char *model_name)
 	char buf[256];
 	snprintf(buf, sizeof(buf), "%s_info", model_name);
 	lua_getglobal(sLua, buf);
-	if (lua_isfunction(sLua, -1)) {
+	if (lua_istable(sLua, -1)) {
 		m_numLods = 0;
-		/* get model_info table */
-		lua_call(sLua, 0, 1);
 
 		lua_getfield(sLua, -1, "bounding_radius");
 		if (lua_isnumber(sLua, -1)) m_boundingRadius = luaL_checknumber(sLua, -1);
-		else luaL_error(sLua, "model %s_info() missing bounding_radius=", model_name);
+		else luaL_error(sLua, "model %s_info missing bounding_radius=", model_name);
 		lua_pop(sLua, 1);
 
 		lua_getfield(sLua, -1, "lod_pixels");

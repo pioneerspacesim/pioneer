@@ -1,11 +1,9 @@
 
 define_model('diet_steakette', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 1.0,
 			materials = { 'bg', 'text' }
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('bg', .8,.8,.8,1)
 		use_material('bg')

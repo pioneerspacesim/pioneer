@@ -2,12 +2,10 @@
 print("REMEMBER TO PORT ship6model!!!");
 
 define_model('missile', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 4,
 			materials={'body'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('body', 1,1,1,1)
 		use_material('body')
@@ -17,13 +15,11 @@ define_model('missile', {
 })
 
 define_model('nosewheel', {
-	info = function()
-		return {
+	info = {
 			lod_pixels={5,50,0},
 			bounding_radius = 7,
 			materials={'leg','tyre'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('leg', .5, .5, .5, 1, .5, .5, .5, 2.0, 0, 0, 0)
 		set_material('tyre', .3, .3, .3, 1, 0,0,0, 1, 0, 0, 0)
@@ -40,12 +36,10 @@ define_model('nosewheel', {
 })
 
 define_model('nosewheelunit', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 7,
 			materials={'inside', 'matvar2'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('inside', .2,.2,.2,1, 0,0,0, 1, 0,0,0)
 	end,
@@ -76,13 +70,11 @@ define_model('nosewheelunit', {
 })
 
 define_model('mainwheel', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = {5,50,0},
 			bounding_radius = 8,
 			materials = {'leg', 'tyre'}
-		}
-	end,
+		},
 	static = function(lod)
 		local v6 = v(0,0,0)
 		local v7 = v(0,3,0)
@@ -104,12 +96,10 @@ define_model('mainwheel', {
 })
 
 define_model('mainwheelunit', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 7,
 			materials={'inside','matvar2'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('inside', .2,.2,.2,1, 0,0,0, 1, 0,0,0)
 	end,
@@ -140,14 +130,12 @@ define_model('mainwheelunit', {
 })
 
 define_model('ladybird', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = {50,100,200,0},
 			bounding_radius = 35,
 			materials={'white','engines','matvar0', 'matvar2',
 			'engine_inside'}
-		}
-	end,
+		},
 	static = function(lod)
 		local v06 = v(-4.0, -5.0, -20.0);
 		local v07 = v(4.0, -5.0, -20.0);
@@ -260,14 +248,12 @@ define_model('ladybird', {
 })
 
 define_model('__walruswing', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = { 20, 50, 0 },
 			scale = 25,
 			bounding_radius = 2.0,
 			materials = {'matvar0'}
-		}
-	end,
+		},
 	static = function(lod)
 		-- bottom front
 		local v06 = v(0.0, 0.0, 1.0)
@@ -292,13 +278,11 @@ define_model('__walruswing', {
 })
 
 define_model('walrus', {
-	info = function()
-		return {
+	info = {
 			scale = 1.0,
 			bounding_radius = 70,
 			materials = {'matvar0', 'text'}
-		}
-	end,
+		},
 	static = function()
 		local v06 = v(-5.0, 10.0, -30.0)
 		-- 6, top four body verts
@@ -433,14 +417,12 @@ define_model('walrus', {
 })
 
 define_model('flowerfairy_heavy_trader', {
-	info = function()
-		return {
+	info = {
 			scale=2.0,
 			lod_pixels = {25,50,0},
 			bounding_radius = 100,
 			materials = {'matvar0','gray','text','engine_inside'}
-		}
-	end,
+		},
 	static = function(lod)
 	--	// 6, nose vertices
 		local v06 = v(4.0, -3.0, -35.0)
@@ -566,13 +548,11 @@ define_model('flowerfairy_heavy_trader', {
 })
 
 define_model('interdictor', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = { 50, 100, 200, 0 },
 			bounding_radius = 100,
 			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'}
-		}
-	end,
+		},
 	static = function(lod)
 		local nose_tip = v(0.0, 0.0, -35.0)
 		--f } },			// 6, nose point

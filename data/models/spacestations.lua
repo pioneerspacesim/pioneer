@@ -5,13 +5,11 @@ ARG_STATION_BAY1_STAGE1 = 14
 ARG_STATION_BAY1_STAGE2 = 18
 
 define_model('spacestation_door', {
-	info = function()
-		return {
+	info = {
 	--		lod_pixels = {20, 50, 0},
 			bounding_radius = 200.0,
 			materials = {'walls'}
-		}
-	end,
+		},
 	static = function(lod)
 		local a = v(-100,0,50)
 		local b = v(100,0,50)
@@ -37,13 +35,11 @@ define_model('spacestation_door', {
 
 -- final resting place of docked ship
 define_model('spacestation_entry1_stage3', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = { 50, 0 },
 			bounding_radius = 300,
 			materials = {'wall1','wall2','text'}
-		}
-	end,
+		},
 	static = function(lod)
 		-- mark as non-colliding (all >= 0x8000 is)
 		geomflag(0x9000)
@@ -88,12 +84,10 @@ define_model('spacestation_entry1_stage3', {
 })
 
 define_model('spacestation_entry1_stage2', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 300,
 			materials = {'wall1', 'wall2'}
-		}
-	end,
+		},
 	static = function(lod)
 		local a = v(-100,0,50)
 		local b = v(100,0,50)
@@ -127,13 +121,11 @@ define_model('spacestation_entry1_stage2', {
 })
 
 define_model('spacestation_entry1_stage1', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = { 20, 0 },
 			bounding_radius = 400,
 			materials = {'wall1'}
-		}
-	end,
+		},
 	static = function(lod)
 		local a = v(-100,0,50)
 		local b = v(100,0,50)
@@ -160,12 +152,10 @@ define_model('spacestation_entry1_stage1', {
 })
 
 define_model('spacestation_entry1', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 200,
 			materials = {'wall'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('wall', .2,.2,.6,1)
 	end,
@@ -190,12 +180,10 @@ define_model('spacestation_entry1', {
 })
 
 define_model('nice_spacestation', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=500.0,
 			materials = {'text', 'body'}
-		}
-	end,
+		},
 	static = function(lod)
 		-- front
 		-- f7   f3    f6
@@ -255,12 +243,10 @@ define_model('nice_spacestation', {
 })
 
 define_model('basic_groundstation', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=60.0,
 			materials = {'body', 'text'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('body', .5,.5,.5,1)
 		use_material('body')

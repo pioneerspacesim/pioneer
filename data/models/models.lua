@@ -57,14 +57,12 @@ dofile "data/models/spacestations.lua"
 
 poo = 0
 define_model('test', {
-	info = function()
-		return {
+	info = {
 			lod_pixels={30,60,100,0},
 			bounding_radius = 10.0,
 			tags = {'building', 'turd'},
 			materials = {'red', 'shinyred'}
-		}
-	end,
+		},
 	static = function (lod)
 		set_material("red", 1,0,0,1)
 		set_material("shinyred", 1,0,0,1, 1,1,1,50)
@@ -132,12 +130,10 @@ define_model('test', {
 })
 
 define_model('blob', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=8,
 			materials={'blue'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("blue", 0,0,1,1)
 		use_material("blue")
@@ -156,13 +152,11 @@ define_model('blob', {
 })
 
 define_model('tombstone', {
-	info = function()
-		return {
+	info = {
 			scale = 10.0,
 			bounding_radius = 1,
 			materials={'stone', 'text'}
-		}
-	end,
+		},
 	static = function(lod)
 		local v06 = v(0.6, 1.0, -0.1)
 		local v07 = v(0.6, -1.0, -0.1)
@@ -204,13 +198,11 @@ a = (m*v(1,0,0))
 --a:print()
 
 define_model('cargo', {
-	info = function()
-		return {
+	info = {
 			lod_pixels = {20, 50, 0},
 			bounding_radius = 1.5,
 			materials = {'body', 'text'}
-		}
-	end,
+		},
 	static = function(lod)
 		local divs = 8*lod
 		set_material('body', .5,.5,.5,1, 0,0,0, 0, 0,0,0)

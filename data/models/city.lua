@@ -1,11 +1,9 @@
 
 define_model('building1', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 10,
 			materials={'mat'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("mat", .5, .5, .5, 1)
 		use_material("mat")
@@ -15,12 +13,10 @@ define_model('building1', {
 })
 
 define_model('building2', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 25,
 			materials={'mat'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("mat", .5, .5, .5, 1)
 		use_material("mat")
@@ -30,12 +26,10 @@ define_model('building2', {
 })
 
 define_model('skyscraper1', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=200,
 			materials={'gray1', 'gray2'}
-		}
-	end,
+		},
 	static = function(lod)
 		-- Inset black bit
 		-- h g
@@ -122,12 +116,10 @@ define_model('skyscraper1', {
 })
 
 define_model('clockhand', {
-	info = function()
-		return {
+	info = {
 			bounding_radius = 1,
 			materials={'mat'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("mat",0,0,1,1, 0,0,0, 10)
 		use_material("mat")
@@ -137,12 +129,10 @@ define_model('clockhand', {
 })
 
 define_model('clock', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=1,
 			materials={'face','numbers'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("face", 1,1,1,1)
 		set_material("numbers",.5,.5,0,1)
@@ -180,12 +170,10 @@ define_model('clock', {
 })
 
 define_model('church', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=45,
 			materials={'body','spire'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("body", .5, .5, .3,1)
 		use_material("body")
@@ -214,12 +202,10 @@ define_model('church', {
 })
 
 define_model('towerOfShit', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=20,
 			materials={'mat1'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material("mat1", 1,1,1,1)
 		use_material("mat1")
@@ -234,12 +220,10 @@ define_model('towerOfShit', {
 })
 
 define_model('boringHighRise', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=200,
 			materials={'mat1','windows'}
-		}
-	end,
+		},
 	dynamic = function(lod)
 		use_material("mat1", 'windows')
 		tri(v(-20,0,0),v(20,0,0),v(-20,20,0))
@@ -302,12 +286,10 @@ function biodome(lod, trans)
 end
 
 define_model('biodomes', {
-	info = function()
-		return {
+	info = {
 			bounding_radius=1000,
 			materials={'base','green','dome'}
-		}
-	end,
+		},
 	static = function(lod)
 		set_material('base', .4,.4,.5,1, .5,.5,.7,40)
 		set_material('green', .1,.6,.1,1)
