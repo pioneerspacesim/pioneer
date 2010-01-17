@@ -35,17 +35,16 @@ void DirectionalLight(in int i,
 // Density equation is d = D-D*r where D=centreDensity, r=point dist from centre
 float AtmosLengthDensityProduct(vec3 a, vec3 b, float centreDensity, float len)
 {
-	/* 6 samples */
+	/* 4 samples */
 	float ldprod = 0.0;
 	vec3 dir = b-a;
-	ldprod = 6.0*centreDensity - centreDensity*(
-			min(length(a),1.0) +
+	/* don't take samples at start or end since they are likely to be zero density */
+	ldprod = 4.0*centreDensity - centreDensity*(
 			min(length(a + 0.2*dir),1.0) +
 			min(length(a + 0.4*dir),1.0) +
 			min(length(a + 0.6*dir),1.0) +
-			min(length(a + 0.8*dir),1.0) +
-			min(length(b),1.0));
-	ldprod *= len / 6.0;
+			min(length(a + 0.8*dir),1.0));
+	ldprod *= len / 4.0;
 	return ldprod;	
 }
 
