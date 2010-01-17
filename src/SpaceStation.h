@@ -34,6 +34,7 @@ public:
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
+	float GetDesiredAngVel() const;
 	struct positionOrient_t {
 		bool exists;
 		vector3d pos;

@@ -16,6 +16,7 @@
 struct SpaceStationType {
 	LmrModel *model;
 	const char *modelName;
+	float angVel;
 	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
 };
 
@@ -38,10 +39,18 @@ void SpaceStation::Init()
 			SpaceStationType t;
 			t.modelName = (*i)->GetName();
 			t.dockMethod = (SpaceStationType::DOCKMETHOD) is_orbital;
-			if (is_orbital) orbitalStationTypes.push_back(t);
+			if (is_orbital) {
+				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
+				orbitalStationTypes.push_back(t);
+			}
 			else surfaceStationTypes.push_back(t);
 		}
 	}
+}
+
+float SpaceStation::GetDesiredAngVel() const
+{
+	return m_type->angVel;
 }
 
 void SpaceStation::Save()

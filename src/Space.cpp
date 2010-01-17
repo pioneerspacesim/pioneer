@@ -246,7 +246,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		assert(sbody->GetRotationPeriod() != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
-		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {

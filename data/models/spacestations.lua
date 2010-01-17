@@ -183,7 +183,8 @@ define_model('nice_spacestation', {
 	info = {
 			bounding_radius=500.0,
 			materials = {'text', 'body'},
-			tags = {'orbital_station'}
+			tags = {'orbital_station'},
+			angular_velocity = 0.15,
 		},
 	static = function(lod)
 		-- front
@@ -232,6 +233,76 @@ define_model('nice_spacestation', {
 		quad(f3,f7,f3b,f6) -- top
 		quad(f5,f1b,f8,f1) -- bottom
 		quad(f1b,f2b,f3b,f4b) -- rear
+		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
+	end,
+	dynamic = function(lod)
+		local textpos = v(0,400,-80)
+		use_material('text')
+		zbias(1, textpos, v(0,1,0))
+		text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
+		zbias(0)
+	end
+})
+
+define_model('hoop_spacestation', {
+	info = {
+			bounding_radius=500.0,
+			materials = {'text', 'body'},
+			tags = {'orbital_station'},
+			angular_velocity = 0.08,
+		},
+	static = function(lod)
+		-- front
+		-- f7   f3    f6
+		--
+		--    a b
+		-- f4 d c   f2
+		--
+		-- f8  f1    f5
+		local a = v(-100,400,50)
+		local b = v(100,400,50)
+		local c = v(100,400,-50)
+		local d = v(-100,400,-50)
+		
+		local f1 = v(0,400,-400)
+		local f2 = v(400,400,0)
+		local f3 = v(0,400,400)
+		local f4 = v(-400,400,0)
+
+		local f5 = v(400,0,-400)
+		local f6 = v(400,0,400)
+		local f7 = v(-400,0,400)
+		local f8 = v(-400,0,-400)
+
+		-- back face points
+		local f1b = v(0,-400,-400)
+		local f2b = v(400,-400,0)
+		local f3b = v(0,-400,400)
+		local f4b = v(-400,-400,0)
+		
+		set_material('text', 1.0,0.5,1.0,1)
+		set_material('body', .5,.5,.5,1)
+		use_material('body')
+		--front face
+		tri(f1,d,c)
+		xref_tri(f1,c,f2)
+		xref_tri(f2,c,b)
+		xref_tri(f2,b,f3)
+		tri(f3,b,a)
+		--pyramid sides
+		xref_tri(f2,f3,f6)
+		xref_tri(f5,f1,f2)
+		xref_tri(f6,f3b,f2b)
+		xref_tri(f5,f2b,f1b)
+		xref_quad(f2,f6,f2b,f5) -- sides
+		quad(f3,f7,f3b,f6) -- top
+		quad(f5,f1b,f8,f1) -- bottom
+		quad(f1b,f2b,f3b,f4b) -- rear
+		tube(16, v(0,200,0), v(0,-200,0), v(0,0,1), 1300.0, 1500.0)
+		extrusion(v(0,0,-400), v(0,0,-1300), v(1,0,0), 100.0,
+			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
+		extrusion(v(0,0,1300), v(0,0,400), v(1,0,0), 100.0,
+			v(-1,-1,0), v(1,-1,0), v(1,1,0), v(-1,1,0))
 		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
 	end,
 	dynamic = function(lod)
