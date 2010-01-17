@@ -182,7 +182,8 @@ define_model('spacestation_entry1', {
 define_model('nice_spacestation', {
 	info = {
 			bounding_radius=500.0,
-			materials = {'text', 'body'}
+			materials = {'text', 'body'},
+			tags = {'orbital_station'}
 		},
 	static = function(lod)
 		-- front
@@ -245,7 +246,8 @@ define_model('nice_spacestation', {
 define_model('basic_groundstation', {
 	info = {
 			bounding_radius=60.0,
-			materials = {'body', 'text'}
+			materials = {'body', 'text'},
+			tags = {'surface_station'}
 		},
 	static = function(lod)
 		set_material('body', .5,.5,.5,1)

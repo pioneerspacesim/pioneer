@@ -13,12 +13,14 @@ class CollMeshSet;
 class Ship;
 class Mission;
 class CityOnPlanet;
+struct SpaceStationType;
 
 class SBody;
 
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
+	static void Init();
 	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 	// Should point to SBody in Pi::currentSystem
 	SpaceStation(const SBody *);
@@ -81,10 +83,10 @@ private:
 	float m_openAnimState[MAX_DOCKING_PORTS];
 	float m_dockAnimState[MAX_DOCKING_PORTS];
 
+	void InitStation();
 	void UpdateShipyard();
 	void UpdateBB();
-	void Init();
-	TYPE m_type;
+	const SpaceStationType *m_type;
 	const SBody *m_sbody;
 	int m_numPorts;
 	int m_equipmentStock[Equip::TYPE_MAX];

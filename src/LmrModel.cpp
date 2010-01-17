@@ -1095,6 +1095,50 @@ LmrModel::~LmrModel()
 	}
 }
 
+//static std::map<std::string, LmrModel*> s_models;
+void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
+{
+	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin();
+			i != s_models.end(); ++i) {
+		LmrModel *model = (*i).second;
+		
+		char buf[256];
+		snprintf(buf, sizeof(buf), "%s_info", model->GetName());
+		lua_getglobal(sLua, buf);
+		lua_getfield(sLua, -1, "tags");
+		if (lua_istable(sLua, -1)) {
+			for(int i=1;; i++) {
+				lua_pushinteger(sLua, i);
+				lua_gettable(sLua, -2);
+				if (lua_isstring(sLua, -1)) {
+					const char *s = luaL_checkstring(sLua, -1);
+					if (0 == strcmp(tag, s)) {
+						outModels.push_back(model);
+						lua_pop(sLua, 1);
+						break;
+					}
+				} else if (lua_isnil(sLua, -1)) {
+					lua_pop(sLua, 1);
+					break;
+				}
+				lua_pop(sLua, 1);
+			}
+		}
+		lua_pop(sLua, 2);
+	}
+}
+
+float LmrModel::GetFloatAttribute(const char *attr_name) const
+{
+	char buf[256];
+	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
+	lua_getglobal(sLua, buf);
+	lua_getfield(sLua, -1, attr_name);
+	float result = luaL_checknumber(sLua, -1);
+	lua_pop(sLua, 2);
+	return result;
+}
+
 void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 {
 	RenderState rstate;

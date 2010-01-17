@@ -339,6 +339,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 			_col[1] += dot*lightCol[lnum][1];
 			_col[2] += dot*lightCol[lnum][2];
 		}
+		for (int i=0; i<3; i++) _col[i] = _col[i] * col[i];
 		_col[3] = col[3];
 		glColor4fv(_col);
 		glVertex3dv(&r1.x);

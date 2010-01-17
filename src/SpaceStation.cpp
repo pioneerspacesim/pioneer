@@ -14,21 +14,41 @@
 #include "LmrModel.h"
 
 struct SpaceStationType {
-	const char *sbreModelName;
-	enum { ORBITAL, SURFACE } dockMethod;
+	LmrModel *model;
+	const char *modelName;
+	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
 };
 
-struct SpaceStationType stationTypes[SpaceStation::TYPE_MAX] = {
-	{ "nice_spacestation", SpaceStationType::ORBITAL },
-	{ "basic_groundstation", SpaceStationType::SURFACE },
-};
+static bool stationTypesInitted = false;
+static std::vector<SpaceStationType> surfaceStationTypes;
+static std::vector<SpaceStationType> orbitalStationTypes;
+
+/* Must be called after LmrModel init is called */
+void SpaceStation::Init()
+{
+	if (stationTypesInitted) return;
+	stationTypesInitted = true;
+	for (int is_orbital=0; is_orbital<2; is_orbital++) {
+		std::vector<LmrModel*> models;
+		if (is_orbital) LmrGetModelsWithTag("orbital_station", models);
+		else LmrGetModelsWithTag("surface_station", models);
+
+		for (std::vector<LmrModel*>::iterator i = models.begin();
+				i != models.end(); ++i) {
+			SpaceStationType t;
+			t.modelName = (*i)->GetName();
+			t.dockMethod = (SpaceStationType::DOCKMETHOD) is_orbital;
+			if (is_orbital) orbitalStationTypes.push_back(t);
+			else surfaceStationTypes.push_back(t);
+		}
+	}
+}
 
 void SpaceStation::Save()
 {
 	using namespace Serializer::Write;
 	ModelBody::Save();
 	MarketAgent::Save();
-	wr_int((int)m_type);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr_int((int)m_equipmentStock[i]);
 	}
@@ -62,7 +82,7 @@ void SpaceStation::Load()
 	using namespace Serializer::Read;
 	ModelBody::Load();
 	MarketAgent::Load();
-	m_type = (TYPE)rd_int();
+	if (IsOlderThan(11)) rd_int();
 	m_numPorts = 0;
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
@@ -91,7 +111,7 @@ void SpaceStation::Load()
 	}
 	m_lastUpdatedShipyard = rd_double();
 	m_sbody = Serializer::LookupSystemBody(rd_int());
-	Init();
+	InitStation();
 }
 
 void SpaceStation::PostLoadFixup()
@@ -121,11 +141,6 @@ static LmrObjParams params = {
 
 SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 {
-	if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
-		m_type = JJHOOP;
-	} else {
-		m_type = GROUND_FLAVOURED;
-	}
 	m_sbody = sbody;
 	m_numPorts = 0;
 	m_lastUpdatedShipyard = 0;
@@ -143,7 +158,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 		m_dockAnimState[i] = 0;
 	}
 	SetMoney(1000000000);
-	Init();
+	InitStation();
 }
 
 /*
@@ -162,10 +177,16 @@ static void SetPositionOrientFromTris(const vector3d v[6], SpaceStation::positio
 	outOrient.normal = (v[5] - v[1]).Normalized();
 }
 
-void SpaceStation::Init()
+void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
-	SetModel(stationTypes[m_type].sbreModelName, true);
+	MTRand rand(m_sbody->seed);
+	if (m_sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
+	} else {
+		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
+	}
+	SetModel(m_type->modelName, true);
 	LmrCollMesh *mesh = GetLmrCollMesh();
 	int i=0;
 	for (i=0; i<MAX_DOCKING_PORTS; i++) {
@@ -561,14 +582,13 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 
 bool SpaceStation::IsGroundStation() const
 {
-	return (stationTypes[m_type].dockMethod ==
-	        SpaceStationType::SURFACE);
+	return (m_type->dockMethod == SpaceStationType::SURFACE);
 }
 
 void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 {
 	const positionOrient_t *dport = &this->port[port];
-	const int dockMethod = stationTypes[m_type].dockMethod;
+	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::SURFACE) {
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
@@ -589,7 +609,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 void SpaceStation::PositionDockedShip(Ship *ship, int port)
 {
 	const positionOrient_t *dport = &this->port[port];
-	const int dockMethod = stationTypes[m_type].dockMethod;
+	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
 		matrix4x4d rot;
 		GetRotMatrix(rot);
@@ -620,7 +640,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 
 void SpaceStation::LaunchShip(Ship *ship, int port)
 {
-	const int dockMethod = stationTypes[m_type].dockMethod;
+	const int dockMethod = m_type->dockMethod;
 	
 	if (dockMethod == SpaceStationType::ORBITAL) {
 		shipDocking_t &sd = m_shipDocking[port];
@@ -743,7 +763,7 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 	}
 }
 
-static std::vector<int> s_advertModels;
+static std::vector<LmrModel*> s_advertModels;
 
 #define ARG_STATION_BAY1_DOOR1 6
 #define ARG_STATION_BAY1_DOOR2 10
@@ -756,7 +776,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	static int poo=0;
 	if (!poo) {
 		poo = 1;
-//		sbreGetModelsWithTag("advert", s_advertModels);
+		LmrGetModelsWithTag("advert", s_advertModels);
 	}
 	// it is silly to do this every render call
 	//
@@ -765,16 +785,12 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	// docking port in pText[1]
 	MTRand rand;
 	rand.seed(m_sbody->seed);
-	/* XXX make adverts work again */
-	/*
-	params.pFlag[16] = s_advertModels[rand.Int32(s_advertModels.size())];
-	params.pFlag[17] = s_advertModels[rand.Int32(s_advertModels.size())];
-	params.pFlag[18] = s_advertModels[rand.Int32(s_advertModels.size())];
-	params.pFlag[19] = s_advertModels[rand.Int32(s_advertModels.size())];*/
-	strncpy(params.argStrings[4], "diet_steakette", 256);
-	strncpy(params.argStrings[5], "diet_steakette", 256);
-	strncpy(params.argStrings[6], "diet_steakette", 256);
-	strncpy(params.argStrings[7], "diet_steakette", 256);
+	
+	/* random advert models */
+	strncpy(params.argStrings[4], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
+	strncpy(params.argStrings[5], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
+	strncpy(params.argStrings[6], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
+	strncpy(params.argStrings[7], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
 	strncpy(params.argStrings[0], GetLabel().c_str(), 256);
 	snprintf(params.argStrings[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
 

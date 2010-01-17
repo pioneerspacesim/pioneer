@@ -2,6 +2,7 @@
 #define _LUA_MODEL_COMPILER_H
 
 #include <map>
+#include <vector>
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
@@ -42,6 +43,8 @@ public:
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 	float GetBoundingRadius() const { return m_boundingRadius; }
+	float GetFloatAttribute(const char *attr_name) const;
+	const char *GetName() const { return m_name.c_str(); }
 private:
 	void Build(int lod, const LmrObjParams *params);
 
@@ -67,6 +70,7 @@ void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
 void LmrNotifyScreenWidth(float width);
+void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
 
 class LmrCollMesh
 {

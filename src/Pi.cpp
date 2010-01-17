@@ -164,6 +164,8 @@ void Pi::Init(IniConfig &config)
 	GeoSphere::Init();
 	Space::Init();
 	Polit::Init();
+	SpaceStation::Init();
+
 	if (!config.Int("NoSound")) {
 		Sound::Init();
 		Sound::Pause(0);
