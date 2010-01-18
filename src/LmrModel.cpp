@@ -1249,9 +1249,11 @@ namespace ModelFuncs {
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
 //	subobject(object_name, vector pos, vector xaxis, vector yaxis [, scale=float, onflag=])
+		if (!obj_name) return 0;
+		if (!obj_name[0]) return 0;
 		LmrModel *m = s_models[obj_name];
 		if (!m) {
-			luaL_error(L, "call_model() to undefined model. Referenced model must be registered before calling model");
+			luaL_error(L, "call_model() to undefined model '%s'. Referenced model must be registered before calling model", obj_name);
 		} else {
 			const vector3f *pos = MyLuaVec::checkVec(L, 2);
 			const vector3f *_xaxis = MyLuaVec::checkVec(L, 3);
@@ -2209,7 +2211,10 @@ namespace ModelFuncs {
 	{
 		assert(s_curParams != 0);
 		int i = luaL_checkint(L, 1);
-		lua_pushstring(L, s_curParams->argStrings[i]);
+		if (s_curParams->argStrings[i])
+			lua_pushstring(L, s_curParams->argStrings[i]);
+		else
+			lua_pushstring(L, "");
 		return 1;
 	}
 	

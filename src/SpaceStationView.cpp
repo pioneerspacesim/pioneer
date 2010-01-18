@@ -319,15 +319,13 @@ void StationViewShipView::Draw3D()
 	/* XXX duplicated code in InfoView.cpp */
 	LmrObjParams params = {
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ "HELLO" },
 		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 
 		{	// pColor[3]
 		{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-		// pText[3][256]	
-		{ "IR-L33T", "ME TOO" },
 	};
 
 	m_flavour.ApplyTo(&params);
@@ -361,17 +359,22 @@ void StationViewShipView::Draw3D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	float lightCol[] = { 1,1,1 };
-	float lightDir[] = { 1,1,0 };
+	float lightCol[] = { 1,1,1,0 };
+	float lightDir[] = { 1,1,0,0 };
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+	glEnable(GL_LIGHT0);
 //	sbreSetDirLight (lightCol, lightDir);
 	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 400)/guiscale[1],
 			400/guiscale[0], 400/guiscale[1]);
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
-	rot[14] = -2.0f * m_lmrModel->GetBoundingRadius();
+	rot[14] = -1.0f * m_lmrModel->GetBoundingRadius();
 
 	m_lmrModel->Render(rot, &params);
 	glPopAttrib();

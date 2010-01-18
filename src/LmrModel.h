@@ -23,13 +23,12 @@ struct LmrMaterial {
 struct LmrObjParams
 {
 	float argFloats[LMR_ARG_MAX];
+	const char *argStrings[LMR_ARG_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
 
 	struct LmrMaterial pMat[3];
-
-	char argStrings[3][256];
 };
 
 struct RenderState;

@@ -6,18 +6,6 @@
 #include "Space.h"
 #include "LmrModel.h"
 
-static LmrObjParams params = {
-	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-	// pText[3][256]	
-};
-
 void CargoBody::Save()
 {
 	using namespace Serializer::Write;
@@ -63,7 +51,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
-	strncpy(params.argStrings[0], EquipType::types[m_type].name, 256);
-	RenderLmrModel(viewCoords, viewTransform, &params);
+	GetLmrObjParams().argStrings[0] = EquipType::types[m_type].name;
+	RenderLmrModel(viewCoords, viewTransform);
 }
 

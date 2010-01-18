@@ -9,24 +9,13 @@
 #include "collider/collider.h"
 #include "Shader.h"
 
-/* BAD BAD BAD */
-static LmrObjParams params = {
-	// [6]=1 so space station front doors are open. 14,18 are set so all
-	// space station bits are in collision mesh. when collision meshes are
-	// being dynamically updated then this hack can go
-	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1},
-	{0.0f,0.0f,0.0f},
-	{0.0f,0.0f,0.0f},
-	{},
-	{"Blah","blah","blorg"}
-};
-
 ModelBody::ModelBody(): Body()
 {
 	m_lmrModel = 0;
 	m_collMesh = 0;
 	m_geom = 0;
 	m_isStatic = false;
+	memset(&m_params, 0, sizeof(LmrObjParams));
 }
 
 ModelBody::~ModelBody()
@@ -63,6 +52,27 @@ void ModelBody::GetAabb(Aabb &aabb) const
 	aabb = m_collMesh->GetAabb();
 }
 
+void ModelBody::RebuildCollisionMesh()
+{
+	if (m_geom) {
+		// only happens when player changes their ship
+		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
+		else GetFrame()->RemoveGeom(m_geom);
+		delete m_geom;
+	}
+	if (m_collMesh) delete m_collMesh;
+
+	m_collMesh = new LmrCollMesh(m_lmrModel, &m_params);
+	
+	m_geom = new Geom(m_collMesh->geomTree);
+	m_geom->SetUserData((void*)this);
+		
+	if (GetFrame()) {
+		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
+		else GetFrame()->AddGeom(m_geom);
+	}
+}
+
 void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
 {
 	m_isStatic = isStatic;
@@ -74,22 +84,7 @@ void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
 		Pi::Quit();
 	}
 
-	if (m_geom) {
-		// only happens when player changes their ship
-		GetFrame()->RemoveGeom(m_geom);
-		delete m_geom;
-	}
-	if (m_collMesh) delete m_collMesh;
-
-	m_collMesh = new LmrCollMesh(m_lmrModel, &params);
-	
-	m_geom = new Geom(m_collMesh->geomTree);
-	m_geom->SetUserData((void*)this);
-		
-	if (GetFrame()) {
-		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
-		else GetFrame()->AddGeom(m_geom);
-	}
+	RebuildCollisionMesh();
 }
 
 void ModelBody::SetPosition(vector3d p)
@@ -153,7 +148,7 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 	m_geom->MoveTo(currentTransform);
 }
 
-void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, LmrObjParams *params)
+void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	float znear, zfar;
 	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
@@ -183,7 +178,7 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 		trans[15] = 1.0f;
 
 
-		m_lmrModel->Render(trans, params);
+		m_lmrModel->Render(trans, &m_params);
 		Shader::DisableVertexProgram();
 
 		glDisable(GL_BLEND);

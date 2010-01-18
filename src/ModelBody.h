@@ -27,17 +27,20 @@ public:
 	Geom *GetGeom() { return m_geom; }
 	LmrModel *GetLmrModel() { return m_lmrModel; }
 	LmrCollMesh *GetLmrCollMesh() { return m_collMesh; }
+	LmrObjParams &GetLmrObjParams() { return m_params; }
+	void RebuildCollisionMesh();
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(const char *lmrModelName, bool isStatic = false);
 
-	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform, LmrObjParams *params);
+	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 protected:
 	virtual void Save();
 	virtual void Load();
 private:
 	LmrModel *m_lmrModel;
 	LmrCollMesh *m_collMesh;
+	LmrObjParams m_params;
 	bool m_isStatic;
 	Geom *m_geom;
 };

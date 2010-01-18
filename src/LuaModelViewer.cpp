@@ -59,17 +59,18 @@ static float lightCol[4] = { 1,1,1,0 };
 static float lightDir[4] = { 0,1,0,0 };
 static float g_frameTime;
 static LmrObjParams params = {
-	{ 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ "IR-L33T", "ME TOO" },
 	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
 	{	// pColor[3]
 	{ { .2f, .2f, .5f, 1 }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 	{ { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 	{ { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-	// pText[3][256]	
-	{ "IR-L33T", "ME TOO" },
 };
+static LmrCollMesh *cmesh;
+static Geom *geom;
+static CollisionSpace *space;
 
 class Viewer: public Gui::Fixed {
 public:
@@ -93,6 +94,13 @@ public:
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
 			Add(b, 10, 30);
 			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
+		} 
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_m, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickRebuildCollMesh));
+			Add(b, 10, 50);
+			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
 		} 
 #if 0
 		{
@@ -145,6 +153,15 @@ public:
 			m_linthrust[i]->SetValue(0.5);
 			m_angthrust[i]->SetValue(0.5);
 		}
+	}
+	void OnClickRebuildCollMesh() {
+		space->RemoveGeom(geom);
+		delete geom;
+		delete cmesh;
+
+		cmesh = new LmrCollMesh(g_model, &params);
+		geom = new Geom(cmesh->geomTree);
+		space->AddGeom(geom);
 	}
 
 	void OnToggleGearState() {
@@ -298,14 +315,13 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	const LmrCollMesh *cmesh = new LmrCollMesh(g_model, &params);
-	GeomTree *geomtree = cmesh->geomTree;
+	cmesh = new LmrCollMesh(g_model, &params);
 	distance = cmesh->GetBoundingRadius();
 	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
-	Geom *geom = new Geom(geomtree);
-	CollisionSpace *space = new CollisionSpace();
+	geom = new Geom(cmesh->geomTree);
+	space = new CollisionSpace();
 	space->AddGeom(geom);
 //	geom2->MoveTo(rot, vector3d(80,0,0));
 
@@ -334,10 +350,11 @@ void Viewer::MainLoop()
 		glLoadIdentity();
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		SetSbreParams();
 	
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
-			SetSbreParams();
 		
 			matrix4x4f _m;
 			for (int i=0; i<16; i++) _m[i] = rot[i];
@@ -375,7 +392,7 @@ void Viewer::MainLoop()
 
 		space->Collide(onCollision);
 	}
-	delete geomtree;
+	delete cmesh;
 }
 
 extern void LmrModelCompilerInit();

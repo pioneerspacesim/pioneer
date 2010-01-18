@@ -6,7 +6,7 @@ ARG_STATION_BAY1_STAGE2 = 18
 
 define_model('spacestation_door', {
 	info = {
-	--		lod_pixels = {20, 50, 0},
+			lod_pixels = { 50, 0},
 			bounding_radius = 200.0,
 			materials = {'walls'}
 		},
@@ -18,18 +18,20 @@ define_model('spacestation_door', {
 		quad(a,b,c,d)
 		quad(d,c,b,a)
 		set_material('walls', .8,.8,0,1)
-		use_material('walls')
-		zbias(1, v(0,0,0), v(0,1,0))
-		-- diagonal stripes on front
-		quad(v(-10,0,-20), v(-30,0,-20), v(-70,0,20), v(-50,0,20))
-		quad(v(30,0,-20), v(10,0,-20), v(-30,0,20), v(-10,0,20))
-		quad(v(70,0,-20), v(50,0,-20), v(10,0,20), v(30,0,20))
-		-- on back
-		zbias(1, v(0,0,0), v(0,-1,0))
-		quad(v(10,0,-20), v(30,0,-20), v(70,0,20), v(50,0,20))
-		quad(v(-30,0,-20), v(-10,0,-20), v(30,0,20), v(10,0,20))
-		quad(v(-70,0,-20), v(-50,0,-20), v(-10,0,20), v(-30,0,20))
-		zbias(0)
+		if lod > 1 then
+			use_material('walls')
+			zbias(1, v(0,0,0), v(0,1,0))
+			-- diagonal stripes on front
+			quad(v(-10,0,-20), v(-30,0,-20), v(-70,0,20), v(-50,0,20))
+			quad(v(30,0,-20), v(10,0,-20), v(-30,0,20), v(-10,0,20))
+			quad(v(70,0,-20), v(50,0,-20), v(10,0,20), v(30,0,20))
+			-- on back
+			zbias(1, v(0,0,0), v(0,-1,0))
+			quad(v(10,0,-20), v(30,0,-20), v(70,0,20), v(50,0,20))
+			quad(v(-30,0,-20), v(-10,0,-20), v(30,0,20), v(10,0,20))
+			quad(v(-70,0,-20), v(-50,0,-20), v(-10,0,20), v(-30,0,20))
+			zbias(0)
+		end
 	end
 })
 
@@ -67,14 +69,14 @@ define_model('spacestation_entry1_stage3', {
 		geomflag(0)
 	end,
 	dynamic = function(lod)
-		use_material('text')
-		zbias(1, v(0,200,0), v(0,-1,0))
-		-- starport name
-		text(get_arg_string(0), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
-		-- docking bay number
-		text(get_arg_string(1), v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
-		zbias(0)
 		if lod > 1 then
+			use_material('text')
+			zbias(1, v(0,200,0), v(0,-1,0))
+			-- starport name
+			text(get_arg_string(0), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
+			-- docking bay number
+			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
+			zbias(0)
 			-- adverts
 			call_model(get_arg_string(4), v(0,200,0), v(-1,0,0), v(0,0,-1), 40.0)
 			call_model(get_arg_string(5), v(-100,100,0), v(0,-1,0), v(0,0,-1), 40.0)
@@ -185,6 +187,7 @@ define_model('nice_spacestation', {
 			materials = {'text', 'body'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.15,
+			lod_pixels = { 50, 0 },
 		},
 	static = function(lod)
 		-- front
@@ -236,11 +239,13 @@ define_model('nice_spacestation', {
 		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
 	end,
 	dynamic = function(lod)
-		local textpos = v(0,400,-80)
-		use_material('text')
-		zbias(1, textpos, v(0,1,0))
-		text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
-		zbias(0)
+		if lod > 1 then
+			local textpos = v(0,400,-80)
+			use_material('text')
+			zbias(1, textpos, v(0,1,0))
+			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
+			zbias(0)
+		end
 	end
 })
 
@@ -250,6 +255,7 @@ define_model('hoop_spacestation', {
 			materials = {'text', 'body'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.08,
+			lod_pixels = { 50, 0 },
 		},
 	static = function(lod)
 		-- front
@@ -306,11 +312,13 @@ define_model('hoop_spacestation', {
 		call_model('spacestation_entry1', v(0,400,0), v(1,0,0), v(0,1,0), 1.0)
 	end,
 	dynamic = function(lod)
-		local textpos = v(0,400,-80)
-		use_material('text')
-		zbias(1, textpos, v(0,1,0))
-		text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
-		zbias(0)
+		if lod > 1 then
+			local textpos = v(0,400,-80)
+			use_material('text')
+			zbias(1, textpos, v(0,1,0))
+			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
+			zbias(0)
+		end
 	end
 })
 

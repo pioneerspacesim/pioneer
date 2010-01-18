@@ -265,6 +265,7 @@ void InfoView::Draw3D()
 	/* XXX duplicated code in SpaceStationView.cpp */
 	LmrObjParams params = {
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{},
 		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 
 		{	// pColor[3]
@@ -321,7 +322,7 @@ void InfoView::Draw3D()
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	LmrModel *lmr_model = Pi::player->GetLmrModel();
-	rot[14] = -2.1f * lmr_model->GetBoundingRadius();
+	rot[14] = -1.0f * lmr_model->GetBoundingRadius();
 
 	lmr_model->Render(rot, &params);
 	glPopAttrib();

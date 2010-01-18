@@ -21,19 +21,6 @@
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
-static LmrObjParams params = {
-	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-	{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-	// pText[3][256]	
-	{ "IR-L33T", "ME TOO" },
-};
-
 void Ship::Save()
 {
 	using namespace Serializer::Write;
@@ -833,6 +820,7 @@ void Ship::RenderLaserfire()
 void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if ((!IsEnabled()) && !m_flightState) return;
+	LmrObjParams &params = GetLmrObjParams();
 	
 	if ( (this != Pi::player) ||
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
@@ -849,7 +837,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
 		params.argFloats[0] = m_wheelState;
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-		RenderLmrModel(viewCoords, viewTransform, &params);
+		RenderLmrModel(viewCoords, viewTransform);
 
 		// draw shield recharge bubble
 		if (m_stats.shield_mass_left < m_stats.shield_mass) {

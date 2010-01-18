@@ -135,19 +135,6 @@ double SpaceStation::GetBoundingRadius() const
 	return ModelBody::GetBoundingRadius() + CITY_ON_PLANET_RADIUS;
 }
 
-static LmrObjParams params = {
-	{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-	{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-
-	// pText[3][256]	
-	{ "Hello old bean", "DIET STEAKETTE" },
-};
-
 SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 {
 	m_sbody = sbody;
@@ -195,6 +182,9 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
+	GetLmrObjParams().argFloats[6] = 1.0f;
+	GetLmrObjParams().argFloats[14] = 1.0f;
+	GetLmrObjParams().argFloats[18] = 1.0f;
 	SetModel(m_type->modelName, true);
 	LmrCollMesh *mesh = GetLmrCollMesh();
 	int i=0;
@@ -795,13 +785,13 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	MTRand rand;
 	rand.seed(m_sbody->seed);
 	
+	LmrObjParams &params = GetLmrObjParams();
 	/* random advert models */
-	strncpy(params.argStrings[4], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
-	strncpy(params.argStrings[5], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
-	strncpy(params.argStrings[6], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
-	strncpy(params.argStrings[7], s_advertModels[rand.Int32(s_advertModels.size())]->GetName(), 256);
-	strncpy(params.argStrings[0], GetLabel().c_str(), 256);
-	snprintf(params.argStrings[1], 256, "DOCKING BAY %d", 1+Pi::player->GetDockingPort());
+	params.argStrings[4] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
+	params.argStrings[5] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
+	params.argStrings[6] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
+	params.argStrings[7] = s_advertModels[rand.Int32(s_advertModels.size())]->GetName();
+	params.argStrings[0] = GetLabel().c_str();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		params.argFloats[ARG_STATION_BAY1_DOOR1 + i] = m_openAnimState[i];
@@ -847,7 +837,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			break;
 		}
 	}*/
-	RenderLmrModel(viewCoords, viewTransform, &params);
+	RenderLmrModel(viewCoords, viewTransform);
 	
 	/* don't render city if too far away */
 	if (viewCoords.Length() > 1000000.0) return;

@@ -378,12 +378,12 @@ static void draw_intro(WorldView *view, float _time)
 
 	LmrObjParams params = {
 		{ },
+		{ "PIONEER" },
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-		{ "PIONEER" },
 	};
 	glPushMatrix();
 	glRotatef(_time*10, 1, 0, 0);
@@ -413,12 +413,12 @@ static void draw_tombstone(float _time)
 
 	LmrObjParams params = {
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ "RIP OLD BEAN" },
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-		{ "RIP OLD BEAN" },
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	

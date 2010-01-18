@@ -6,6 +6,8 @@
 #include "Serializer.h"
 #include "LmrModel.h"
 
+static const LmrMaterial s_white = { { 1.0f, 1.0f, 1.0f, 1.0f } };
+
 ShipFlavour::ShipFlavour()
 {
 	memset(this, 0, sizeof(ShipFlavour));
@@ -55,10 +57,10 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v)
 
 void ShipFlavour::ApplyTo(LmrObjParams *p) const
 {
-	memset(p->argStrings[0], 0, sizeof(p->argStrings[0]));
-	strncpy(p->argStrings[0], regid, sizeof(p->argStrings[0]));
+	p->argStrings[0] = regid;
 	p->pMat[0] = primaryColor;
 	p->pMat[1] = secondaryColor;
+	p->pMat[2] = s_white;
 }
 
 void ShipFlavour::Save()
