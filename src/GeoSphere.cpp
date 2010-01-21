@@ -1086,6 +1086,7 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
+/* Density is density at 'sea level' */
 void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 {
 	/* Alpha value isn't real alpha. in the shader fog depth is determined
@@ -1098,7 +1099,7 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
 		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
 			*outColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
-			*outDensity = 0.01f;
+			*outDensity = 7.0f;
 			break;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
@@ -1108,39 +1109,39 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			break;
 		case SBody::TYPE_PLANET_SMALL:
 			*outColor = Color(.2f, .2f, .3f, 1.0f);
-			*outDensity = 0.0005f;
+			*outDensity = 0.1f;
 			break;
 		case SBody::TYPE_PLANET_CO2:
 			*outColor = Color( .8f, .8f, .8f, 1.0f);
-			*outDensity = 0.003f;
+			*outDensity = 1.0f;
 			break;
 		case SBody::TYPE_PLANET_METHANE:
 			*outColor = Color(.2f, .6f, .3f, 1.0f);
-			*outDensity = 0.002f;
+			*outDensity = 1.4f;
 			break;
 		case SBody::TYPE_PLANET_WATER:
 			*outColor = Color(.4f, .4f, .5f, 1.0f);
-			*outDensity = 0.002f;
+			*outDensity = 1.2f;
 			break;
 		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
 			*outColor = Color(.5f, .5f, .8f, 1.0f);
-			*outDensity = 0.005f;
+			*outDensity = 3.0f;
 			break;
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 			*outColor = Color(.8f, .8f, .8f, 1.0f);
-			*outDensity = 0.005f;
+			*outDensity = 5.0f;
 			break;
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 			*outColor = Color(.2f, .6f, .3f, 1.0f);
-			*outDensity = 0.005f;
+			*outDensity = 4.0f;
 			break;
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
 			*outColor = Color(0.5f, 0.1f, 0.1f, 1.0f);
-			*outDensity = 0.002f;
+			*outDensity = 1.8f;
 			break;
 		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			*outColor = Color(.5f, .5f, 1.0f, 1.0f);
-			*outDensity = 0.002f;
+			*outDensity = 1.2;
 			break;
 		default:
 			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
@@ -1219,6 +1220,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		
 		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
+		atmosDensity *= 0.00005f;
 
 		if (atmosDensity != 0.0f) {
 			Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE_SKY);

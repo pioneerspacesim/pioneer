@@ -107,13 +107,13 @@ void Planet::SetRadius(double radius)
 void Planet::GetAtmosphericState(float dist, float &outPressure, float &outDensity)
 {
 	Color c;
-	float centreDensity;
+	float surfaceDensity;
 	float atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
-	atmosDist = MIN(atmosDist, 1.0f);
 	
-	m_geosphere->GetAtmosphereFlavor(&c, &centreDensity);
+	m_geosphere->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
-	outDensity = 60606.1f * (centreDensity - centreDensity*atmosDist);
+	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
+	outDensity = 1.15f*surfaceDensity * exp(-500.0f * (atmosDist - (2.0f - ATMOSPHERE_RADIUS)));
 	// XXX using earth's molar mass of air...
 	const float GAS_MOLAR_MASS = 28.97f;
 	const float GAS_CONSTANT = 8.314f;
