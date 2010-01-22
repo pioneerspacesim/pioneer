@@ -56,7 +56,8 @@ void HyperspaceCloud::Save()
 	wr_double(m_birthdate);
 	wr_double(m_due);
 	wr_bool(m_isArrival);
-	m_ship->Serialize();
+	wr_bool(m_ship != 0);
+	if (m_ship) m_ship->Serialize();
 	wr_int(m_id);
 }
 
@@ -69,14 +70,16 @@ void HyperspaceCloud::Load()
 	m_birthdate = rd_double();
 	m_due = rd_double();
 	m_isArrival = rd_bool();
-	m_ship = (Ship*)Body::Unserialize();
+	if (rd_bool()) {
+		m_ship = (Ship*)Body::Unserialize();
+	}
 	if (!IsOlderThan(9)) m_id = rd_int();
 	else m_id = Pi::rng.Int32();
 }
 
 void HyperspaceCloud::PostLoadFixup()
 {
-	m_ship->PostLoadFixup();
+	if (m_ship) m_ship->PostLoadFixup();
 }
 
 void HyperspaceCloud::TimeStepUpdate(const float timeStep)
