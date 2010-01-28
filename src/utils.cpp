@@ -2,7 +2,6 @@
 #include <math.h>
 #include "libs.h"
 #include "utils.h"
-#include "Pi.h"
 #include <string>
 #include <map>
 
@@ -11,7 +10,7 @@ FILE *fopen_or_die(const char *filename, const char *mode)
 	FILE *f = fopen(filename, mode);
 	if (!f) {
 		printf("Error: could not open file '%s'\n", filename);
-		Pi::Quit();
+		throw MissingFileException();
 	}
 	return f;
 }
@@ -207,16 +206,6 @@ void GetFrustum(Plane planes[6])
 		planes[i].c *= invlen;
 		planes[i].d *= invlen;
 	}
-}
-
-std::string make_random_ship_registration()
-{
-	char buf[32];
-	snprintf(buf, sizeof(buf), "%c%c-%04d",
-		'A' + Pi::rng.Int32(26),
-		'A' + Pi::rng.Int32(26),
-		Pi::rng.Int32(10000));
-	return std::string(buf);
 }
 
 /*

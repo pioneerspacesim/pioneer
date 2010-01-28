@@ -246,6 +246,11 @@ define_model('nice_spacestation', {
 			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
 			zbias(0)
 		end
+		if (math.fmod(get_arg(1), 2) > 1) then
+			billboard('smoke.png', 50, v(0,1,0), { v(-150,401,0), v(-175,401,0), v(-200,401,0) })
+		else
+			billboard('smoke.png', 50, v(0,1,0), { v(150,401,0), v(175,401,0), v(200,401,0) })
+		end
 	end
 })
 

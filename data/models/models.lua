@@ -67,6 +67,7 @@ define_model('test', {
 		set_material("red", 1,0,0,1)
 		set_material("shinyred", 1,0,0,1, 1,1,1,50)
 		use_material("red")
+
 		xref_flat(16, v(0,0,1),
 			{v(4,0,0)}, -- straight line bit
 			{v(4.5,-0.5,0),v(5,0,0)}, -- quadric bezier bit
@@ -126,6 +127,7 @@ define_model('test', {
 
 		local ang = 2*math.pi*get_arg(0)
 		--call_model("blob", v(0,0,-20), v(1,0,0), v(1,1,0),1.0)
+		billboard('smoke.png', 5, v(.5,.5,1), { v(0,0,0), v(10,3,0) })
 	end
 })
 

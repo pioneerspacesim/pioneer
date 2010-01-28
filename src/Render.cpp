@@ -1,5 +1,4 @@
 #include "Render.h"
-#include "Shader.h"
 
 namespace Render {
 
@@ -26,7 +25,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 
 	// XXX does this shader work ok with quad billboards??
-	if (Shader::IsVtxProgActive()) glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+	/*if (Shader::IsVtxProgActive())*/ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	if (GLEW_ARB_point_sprite) {
 		glTexEnvf(GL_POINT_SPRITE_ARB, GL_COORD_REPLACE_ARB, GL_TRUE);
 		glEnable(GL_POINT_SPRITE_ARB);
@@ -49,26 +48,26 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 		vector3f v3(-sz, -sz, 0.0f);
 		vector3f v4(-sz, sz, 0.0f);
 		
+		matrix4x4f rot;
+		glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
+		rot.ClearToRotOnly();
+		rot = rot.InverseOf();
+
 		glBegin(GL_QUADS);
 		for (int i=0; i<num; i++) {
 			vector3f pos(&v[i].x);
-			vector3f zaxis = pos.Normalized();
-			vector3f xaxis = vector3f::Cross(vector3d(0,1,0), zaxis).Normalized();
-			vector3f yaxis = vector3f::Cross(zaxis,xaxis);
-			matrix4x4f rot = matrix4x4f::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-
 			glTexCoord2f(0.0f,0.0f);
-			glVertex3fv(&(pos+rot*v1).x);
-			glTexCoord2f(0.0f,1.0f);
-			glVertex3fv(&(pos+rot*v2).x);
-			glTexCoord2f(1.0f,1.0f);
-			glVertex3fv(&(pos+rot*v3).x);
-			glTexCoord2f(1.0f,0.0f);
 			glVertex3fv(&(pos+rot*v4).x);
+			glTexCoord2f(0.0f,1.0f);
+			glVertex3fv(&(pos+rot*v3).x);
+			glTexCoord2f(1.0f,1.0f);
+			glVertex3fv(&(pos+rot*v2).x);
+			glTexCoord2f(1.0f,0.0f);
+			glVertex3fv(&(pos+rot*v1).x);
 		}
 		glEnd();
 	}
-	if (Shader::IsVtxProgActive()) glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+	/*if (Shader::IsVtxProgActive())*/ glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 
 	quadratic[0] = 1; quadratic[1] = 0;
 	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );

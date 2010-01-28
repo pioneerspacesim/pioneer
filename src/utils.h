@@ -23,6 +23,8 @@
 #define glError() 
 #endif
 
+struct MissingFileException {};
+
 // joinpath("data","models","some.def") = "data/models/some.def"
 std::string join_path(const char *firstbit, ...);
 std::string string_join(std::vector<std::string> &v, std::string sep);
@@ -62,6 +64,5 @@ struct Plane {
 
 /* from current GL modelview*projection matrix */
 void GetFrustum(Plane planes[6]);
-std::string make_random_ship_registration();
 
 #endif /* _UTILS_H */

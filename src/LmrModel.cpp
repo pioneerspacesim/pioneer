@@ -4,6 +4,7 @@
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
+#include "Render.h"
 
 extern "C" {
 #include "lua/lua.h"
@@ -729,6 +730,13 @@ public:
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
 				break;
+			case OP_DRAW_BILLBOARDS:
+				// XXX not using vbo yet
+				if (USE_VBO) UnbindBuffers();
+				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
+						op.billboards.col, op.billboards.tex);
+				BindBuffers();
+				break;
 			case OP_SET_MATERIAL:
 				{
 					const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
@@ -777,12 +785,17 @@ public:
 		glDisableClientState (GL_NORMAL_ARRAY);
 
 		if (USE_VBO) {
-			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			UnbindBuffers();
 		}
 
 		if (m_thrusters.size()) RenderThrusters(rstate, cameraPos, params);
 	}
+
+	void UnbindBuffers() {
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnableClientState (GL_VERTEX_ARRAY);
@@ -840,6 +853,33 @@ public:
 		PushIdx(i2);
 		PushIdx(i3);
 		m_triflags.push_back(curTriFlag);
+	}
+	
+	void PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points)
+	{
+		char buf[256];
+		snprintf(buf, sizeof(buf), "data/textures/%s", texname);
+		GLuint tex = util_load_tex_rgba(buf);
+
+		if (curOp.type) m_ops.push_back(curOp);
+		curOp.type = OP_DRAW_BILLBOARDS;
+		curOp.billboards.start = m_vertices.size();
+		curOp.billboards.count = numPoints;
+		curOp.billboards.tex = tex;
+		curOp.billboards.size = size;
+		curOp.billboards.col[0] = color.x;
+		curOp.billboards.col[1] = color.y;
+		curOp.billboards.col[2] = color.z;
+		curOp.billboards.col[3] = 1.0f;
+
+		// Hack -- store in v and n of Vertex structure...
+		for (int i=0; i<numPoints; i+=2) {
+			if (i < numPoints-1) {
+				PushVertex(points[i], points[i+1]);
+			} else {
+				PushVertex(points[i], vector3f(0.0f));
+			}
+		}
 	}
 
 	void SetMaterial(const char *mat_name, const float mat[11]) {
@@ -966,7 +1006,7 @@ private:
 		m_indices.push_back(v);
 	}
 
-	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_SET_MATERIAL, OP_ZBIAS,
+	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS,
 			OP_CALL_MODEL };
 
 	struct Op {
@@ -976,6 +1016,7 @@ private:
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
+			struct { int start, count; GLuint tex; float size; float col[4]; } billboards;
 		};
 	};
 	struct Vertex {
@@ -2247,6 +2288,30 @@ namespace ModelFuncs {
 		return 1;
 	}
 
+	static int billboard(lua_State *L)
+	{
+//		billboard('texname', size, color, { p1, p2, p3, p4 })
+		const char *texname = luaL_checkstring(L, 1);
+		const float size = luaL_checknumber(L, 2);
+		const vector3f color = *MyLuaVec::checkVec(L, 3);
+		std::vector<vector3f> points;
+
+		if (lua_istable(L, 4)) {
+			for (int i=1;; i++) {
+				lua_pushinteger(L, i);
+				lua_gettable(L, 4);
+				if (lua_isnil(L, -1)) {
+					lua_pop(L, 1);
+					break;
+				}
+				points.push_back(*MyLuaVec::checkVec(L, -1));
+				lua_pop(L, 1);
+			}
+		}
+		s_curBuf->PushBillboards(texname, size, color, points.size(), &points[0]);
+		return 0;
+	}
+
 } /* namespace ModelFuncs */
 
 namespace UtilFuncs {
@@ -2358,7 +2423,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "get_arg_string", ModelFuncs::get_arg_string);
 	lua_register(L, "flat", ModelFuncs::flat);
 	lua_register(L, "xref_flat", ModelFuncs::xref_flat);
-	
+	lua_register(L, "billboard", ModelFuncs::billboard);
 	lua_register(L, "geomflag", ModelFuncs::geomflag);
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "call_model", ModelFuncs::call_model);
