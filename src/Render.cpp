@@ -24,9 +24,10 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	glColor4fv(modulationCol);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 
-	// XXX does this shader work ok with quad billboards??
-	/*if (Shader::IsVtxProgActive())*/ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-	if (GLEW_ARB_point_sprite) {
+	// XXX point sprite thing needs some work. remember to enable point
+	// sprite shader in LmrModel.cpp
+//	/*if (Shader::IsVtxProgActive())*/ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+	if (0) {//GLEW_ARB_point_sprite) {
 		glTexEnvf(GL_POINT_SPRITE_ARB, GL_COORD_REPLACE_ARB, GL_TRUE);
 		glEnable(GL_POINT_SPRITE_ARB);
 		
@@ -67,7 +68,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 		}
 		glEnd();
 	}
-	/*if (Shader::IsVtxProgActive())*/ glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+//	/*if (Shader::IsVtxProgActive())*/ glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 
 	quadratic[0] = 1; quadratic[1] = 0;
 	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );

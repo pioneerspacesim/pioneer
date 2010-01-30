@@ -39,7 +39,7 @@ public:
 		bool exists;
 		vector3d pos;
 		vector3d xaxis;
-		vector3d normal;
+		vector3d yaxis;
 	};
 	// stage 1 position
 	positionOrient_t port[MAX_DOCKING_PORTS];

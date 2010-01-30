@@ -109,6 +109,14 @@ double ModelBody::GetBoundingRadius() const
 	return std::max(aabb.max.x - aabb.min.x, std::max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
 }
 
+void ModelBody::SetLmrTimeParams()
+{
+	m_params.argFloats[1] = (float)Pi::GetGameTime();
+	m_params.argFloats[2] = (float)(Pi::GetGameTime() / 60.0);
+	m_params.argFloats[3] = (float)(Pi::GetGameTime() / 3600.0);
+	m_params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
+}
+
 void ModelBody::SetRotMatrix(const matrix4x4d &r)
 {
 	vector3d pos = m_geom->GetPosition();

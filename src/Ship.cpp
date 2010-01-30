@@ -825,16 +825,13 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	if ( (this != Pi::player) ||
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
+		SetLmrTimeParams();
 		params.angthrust[0] = -m_angThrusters[0];
 		params.angthrust[1] = -m_angThrusters[1];
 		params.angthrust[2] = -m_angThrusters[2];
 		params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
 		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
 		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
-		params.argFloats[1] = (float)Pi::GetGameTime();
-		params.argFloats[2] = (float)(Pi::GetGameTime() / 60.0);
-		params.argFloats[3] = (float)(Pi::GetGameTime() / 3600.0);
-		params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
 		params.argFloats[0] = m_wheelState;
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);

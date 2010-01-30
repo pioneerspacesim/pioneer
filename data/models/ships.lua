@@ -852,6 +852,13 @@ define_model('interdictor', {
 		end
 		
 		if get_arg(0) ~= 0 then
+			-- lights on wingtips
+			local lightphase = math.fmod(get_arg(1), 1)
+			if lightphase > .9 then
+				billboard('smoke.png', 10, v(1,1,1), { v(-14.1, 0, 12) })
+			elseif lightphase > .8 then
+				billboard('smoke.png', 10, v(1,1,1), { v(14.1, 0, 12) })
+			end
 			-- wheels
 			local v73 = v(0.0, 0.0, -15.0)
 			local v74 = v(-3.75, -2.0, 15.0)

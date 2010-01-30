@@ -28,6 +28,7 @@ public:
 	LmrModel *GetLmrModel() { return m_lmrModel; }
 	LmrCollMesh *GetLmrCollMesh() { return m_collMesh; }
 	LmrObjParams &GetLmrObjParams() { return m_params; }
+	void SetLmrTimeParams();
 	void RebuildCollisionMesh();
 	
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
