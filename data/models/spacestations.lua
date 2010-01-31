@@ -188,6 +188,16 @@ define_model('nice_spacestation', {
 			tags = {'orbital_station'},
 			angular_velocity = 0.15,
 			lod_pixels = { 50, 0 },
+			num_docking_ports = 1,
+			dock_anim_stage_duration = { 2.0, 3.0, 4.0 },
+			undock_anim_stage_duration = { 4.0, 3.0, 2.0 },
+			-- stage will be 1..n for dock_anim, and -1..-n for undock_anim
+			-- t is where we are in the stage. 0.0 .. 1.0
+			-- from is the ship position at the end of the previous stage (use for interpolating position)
+			-- must return 3 vectors for position & orientation: { position, xaxis, yaxis }
+			ship_dock_anim = function(stage, t, from)
+				return { v(0,0,0), v(1,0,0), v(0,1,0) }
+			end,
 		},
 	static = function(lod)
 		-- front
@@ -253,7 +263,7 @@ define_model('nice_spacestation', {
 		end
 	end
 })
-
+--[[
 define_model('hoop_spacestation', {
 	info = {
 			bounding_radius=500.0,
@@ -261,6 +271,7 @@ define_model('hoop_spacestation', {
 			tags = {'orbital_station'},
 			angular_velocity = 0.08,
 			lod_pixels = { 50, 0 },
+			num_docking_ports = 1,
 		},
 	static = function(lod)
 		-- front
@@ -326,12 +337,18 @@ define_model('hoop_spacestation', {
 		end
 	end
 })
-
+--]]
 define_model('basic_groundstation', {
 	info = {
 			bounding_radius=60.0,
 			materials = {'body', 'text'},
-			tags = {'surface_station'}
+			tags = {'surface_station'},
+			num_docking_ports = 2,
+			dock_anim_stage_duration = {},
+			undock_anim_stage_duration = {}, 
+			ship_dock_anim = function(stage, t, from)
+				return { v(0,0,0), v(1,0,0), v(0,1,0) }
+			end,
 		},
 	static = function(lod)
 		set_material('body', .5,.5,.5,1)

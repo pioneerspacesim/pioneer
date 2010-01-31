@@ -3,6 +3,8 @@
 
 #include <map>
 #include <vector>
+#include <sigc++/sigc++.h>
+#include "MyLuaMathTypes.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
@@ -43,6 +45,8 @@ public:
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 	float GetBoundingRadius() const { return m_boundingRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
+	int GetIntAttribute(const char *attr_name) const;
+	void PushAttributeToStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 private:
 	void Build(int lod, const LmrObjParams *params);
@@ -70,6 +74,7 @@ int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
 void LmrNotifyScreenWidth(float width);
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
+lua_State *LmrGetLuaState();
 
 class LmrCollMesh
 {

@@ -13,11 +13,84 @@
 #include "Polit.h"
 #include "LmrModel.h"
 
+
+
 struct SpaceStationType {
 	LmrModel *model;
 	const char *modelName;
 	float angVel;
 	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
+	int numDockingPorts;
+	int numDockingStages;
+	int numUndockStages;
+	struct positionOrient_t {
+		vector3d pos;
+		vector3d xaxis;
+		vector3d yaxis;
+	};
+	float *dockAnimStageDuration;
+	float *undockAnimStageDuration;
+
+	void _ReadStageDurations(const char *key, int *outNumStages, float **durationArray) {
+		lua_State *L = LmrGetLuaState();
+		model->PushAttributeToStack(key);
+		assert(lua_istable(L, -1));
+
+		int num = lua_objlen(L, -1);
+		*outNumStages = num;
+		if (num == 0) {
+			*durationArray = 0;
+		} else {
+			*durationArray = new float[num];
+			for (int i=1; i<=num; i++) {
+				lua_pushinteger(L, i);
+				lua_gettable(L, -2);
+				(*durationArray)[i-1] = lua_tonumber(L, -1);
+				printf("%f\n", (*durationArray)[i-1]);
+				lua_pop(L, 1);
+			}
+		}
+		printf("\n");
+	}
+	// read from lua model definition
+	void ReadStageDurations() {
+		_ReadStageDurations("dock_anim_stage_duration", &numDockingStages, &dockAnimStageDuration);
+		_ReadStageDurations("undock_anim_stage_duration", &numUndockStages, &undockAnimStageDuration);
+	}
+
+	void GetDockAnimPositionOrient(int stage, float t, const vector3d &from, positionOrient_t &outPosOrient)
+	{
+		lua_State *L = LmrGetLuaState();
+		// It's a function of form function(stage, t, from)
+		model->PushAttributeToStack("ship_dock_anim");
+		if (!lua_isfunction(L, -1)) {
+			fprintf(stderr, "Error: Spacestation model %s needs ship_dock_anim method\n", model->GetName());
+			Pi::Quit();
+		}
+		lua_pushinteger(L, stage);
+		lua_pushnumber(L, (double)t);
+		vector3f *_from = MyLuaVec::pushVec(L);
+		*_from = vector3f(from);
+		lua_call(L, 3, 1);
+		assert(lua_istable(L, -1));
+		
+		lua_pushinteger(L, 1);
+		lua_gettable(L, -2);
+		outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
+
+		lua_pushinteger(L, 2);
+		lua_gettable(L, -2);
+		outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
+
+		lua_pushinteger(L, 3);
+		lua_gettable(L, -2);
+		outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 2);
+	}
+
+
 };
 
 static bool stationTypesInitted = false;
@@ -38,7 +111,11 @@ void SpaceStation::Init()
 				i != models.end(); ++i) {
 			SpaceStationType t;
 			t.modelName = (*i)->GetName();
+			t.model = LmrLookupModelByName(t.modelName);
 			t.dockMethod = (SpaceStationType::DOCKMETHOD) is_orbital;
+			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
+			t.ReadStageDurations();
+			printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
 			if (is_orbital) {
 				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
 				orbitalStationTypes.push_back(t);
