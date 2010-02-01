@@ -2,6 +2,7 @@
 #define _SERIALIZE_H
 
 #include "libs.h"
+#include "Quaternion.h"
 #include <vector>
 
 class Frame;
@@ -35,6 +36,7 @@ namespace Serializer {
 		void wr_cstring(const char* s);
 		void wr_string(const std::string &s);
 		void wr_vector3d(vector3d vec);
+		void wr_quaternionf(const Quaternionf &q);
 		
 		void wr_auto(Sint32 x);
 		void wr_auto(Sint64 x);
@@ -56,6 +58,7 @@ namespace Serializer {
 		char* rd_cstring();
 		void rd_cstring2(char *buf, int len);
 		vector3d rd_vector3d();
+		Quaternionf rd_quaternionf();
 	
 		void rd_auto(Sint32 *x);
 		void rd_auto(Sint64 *x);

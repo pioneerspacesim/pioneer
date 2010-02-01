@@ -5,7 +5,7 @@
 #include "Frame.h"
 #include "Space.h"
 
-#define SAVEFILE_VERSION	11
+#define SAVEFILE_VERSION	12
 
 namespace Serializer {
 
@@ -207,6 +207,14 @@ namespace Write {
 		wr_double(vec.z);
 	}
 
+	void wr_quaternionf(const Quaternionf &q)
+	{
+		wr_float(q.w);
+		wr_float(q.x);
+		wr_float(q.y);
+		wr_float(q.z);
+	}
+
 	/* These are for templated type turds. it is best to use the explicit
 	 * type ones to avoid the pain of strange type picking */
 	void wr_auto(Sint32 x) { wr_int(x); }
@@ -390,6 +398,16 @@ namespace Read {
 		v.y = rd_double();
 		v.z = rd_double();
 		return v;
+	}
+
+	Quaternionf rd_quaternionf()
+	{
+		Quaternionf q;
+		q.w = rd_float();
+		q.x = rd_float();
+		q.y = rd_float();
+		q.z = rd_float();
+		return q;
 	}
 	
 	/* These are for templated type turds. it is best to use the explicit

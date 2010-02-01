@@ -1,25 +1,31 @@
 
-ARG_STATION_BAY1_DOOR1 = 6
-ARG_STATION_BAY1_DOOR2 = 10
-ARG_STATION_BAY1_STAGE1 = 14
-ARG_STATION_BAY1_STAGE2 = 18
+ARG_STATION_BAY1_STAGE = 6
+ARG_STATION_BAY1_POS   = 10
+
+-- NOTE
+-- info->ship_dock_anim function's last docking anim ship location will be
+-- used to place the ship when docked.
+
+DOCKING_TIMEOUT_SECONDS = 300
 
 define_model('spacestation_door', {
 	info = {
-			lod_pixels = { 50, 0},
+			lod_pixels = { 10, 0},
 			bounding_radius = 200.0,
-			materials = {'walls'}
+			materials = {'stripes','walls'}
 		},
 	static = function(lod)
 		local a = v(-100,0,50)
 		local b = v(100,0,50)
 		local c = v(100,0,-50)
 		local d = v(-100,0,-50)
+		set_material('walls', .7,.7,.7,1)
+		set_material('stripes', .9,.9,0,1)
+		use_material('walls')
 		quad(a,b,c,d)
 		quad(d,c,b,a)
-		set_material('walls', .8,.8,0,1)
 		if lod > 1 then
-			use_material('walls')
+			use_material('stripes')
 			zbias(1, v(0,0,0), v(0,1,0))
 			-- diagonal stripes on front
 			quad(v(-10,0,-20), v(-30,0,-20), v(-70,0,20), v(-50,0,20))
@@ -114,9 +120,20 @@ define_model('spacestation_entry1_stage2', {
 	end,
 	dynamic = function(lod)
 --		material(.8,0,0, 0,0,0, 0, 0,0,0)
-		door2 = vlerp(get_arg(ARG_STATION_BAY1_DOOR2), v(0,0,0), v(0,0,-100))
+		local stage = get_arg(ARG_STATION_BAY1_STAGE)
+		local pos = get_arg(ARG_STATION_BAY1_POS)
+		if stage == 3 or stage == 7 or stage == -1 or stage == -5 then
+			-- good, door is opening
+		elseif stage == 5 or stage == 9 or stage == -3 or stage == -7 then -- door is closing
+			pos = 1.0 - pos
+		elseif stage == 4 or stage == 8 or stage == -2 or stage == -6 then -- door is open
+			pos = 1
+		else -- door is closed
+			pos = 0
+		end
+		door2 = vlerp(pos, v(0,0,0), v(0,0,-100))
 		call_model('spacestation_door', door2, v(1,0,0), v(0,1,0), 1.0)
-		if get_arg(ARG_STATION_BAY1_STAGE2) ~= 0 then
+		if stage >= 7 or (stage >= -4 and stage <= -1) then
 			call_model('spacestation_entry1_stage3', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
 		end
 	end
@@ -160,22 +177,35 @@ define_model('spacestation_entry1', {
 		},
 	static = function(lod)
 		set_material('wall', .2,.2,.6,1)
-	end,
-	dynamic = function(lod)
-		local door1 = vlerp(get_arg(ARG_STATION_BAY1_DOOR1), v(0,-20,0), v(0,-20,-100))
-		call_model('spacestation_door', door1, v(1,0,0), v(0,1,0), 1.0)
-		
-		if get_arg(ARG_STATION_BAY1_STAGE1) ~= 0 then
-			call_model('spacestation_entry1_stage1', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
-		end
 		-- docking surface
 		geomflag(0x10)
 		invisible_tri(v(-100,-100,50), v(100,-100,50), v(100,-100,-50))
 		invisible_tri(v(-100,-100,50), v(100,-100,-50), v(-100,-100,-50))
-		geomflag(0x8000)
-		invisible_tri(v(0,-150,0), v(0,0,0), v(0,0,0))
-		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 		geomflag(0)
+	end,
+	dynamic = function(lod)
+		local stage = get_arg(ARG_STATION_BAY1_STAGE)
+		local pos = get_arg(ARG_STATION_BAY1_POS)
+		if stage == 1 then
+			-- open door at start of docking permission
+			pos = math.min(pos*50, 1.0)
+		elseif stage == -8 then
+			-- open door
+		elseif stage == 2 then
+			-- close door
+			pos = 1.0 - pos
+		elseif stage == -9 then
+			-- launch: close door after a little while
+			pos = 1.0 - pos
+		else
+			pos = 0
+		end
+		local door1 = vlerp(pos, v(0,-20,0), v(0,-20,-100))
+		call_model('spacestation_door', door1, v(1,0,0), v(0,1,0), 1.0)
+		
+		if (stage >= 1 and stage <= 5) or (stage >= -9 and stage <= -5) then
+			call_model('spacestation_entry1_stage1', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
+		end
 
 		call_model('spacestation_entry1_stage2', v(0,-300,0), v(1,0,0), v(0,1,0), 1.0)
 	end
@@ -189,14 +219,63 @@ define_model('nice_spacestation', {
 			angular_velocity = 0.15,
 			lod_pixels = { 50, 0 },
 			num_docking_ports = 1,
-			dock_anim_stage_duration = { 2.0, 3.0, 4.0 },
-			undock_anim_stage_duration = { 4.0, 3.0, 2.0 },
+			-- docking:
+			-- 1 - permission granted. open door1
+			-- 2 - center ship, close door1
+			-- 3 - open door2
+			-- 4 - enter lift
+			-- 5 - close door2 and rotate ship 180
+			-- 6 - make lift noise for a while
+			-- 7 - open door2
+			-- 8 - move ship forward into docking bay
+			-- 9 - close door2. dock
+			-- undocking:
+			-- -1 - open door2
+			-- -2 - move backwards into lift
+			-- -3 - close door2
+			-- -4 - make lift noises ;)
+			-- -5 - open door2
+			-- -6 - move forward into docking bay
+			-- -7 - close door2
+			-- -8 - open door1, launch
+			-- -9 - close door behind our hero
+			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0 },
+			undock_anim_stage_duration = { 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 20.0 },
 			-- stage will be 1..n for dock_anim, and -1..-n for undock_anim
 			-- t is where we are in the stage. 0.0 .. 1.0
 			-- from is the ship position at the end of the previous stage (use for interpolating position)
 			-- must return 3 vectors for position & orientation: { position, xaxis, yaxis }
 			ship_dock_anim = function(stage, t, from)
-				return { v(0,0,0), v(1,0,0), v(0,1,0) }
+				-- docking
+				if stage == 2 then
+					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,1) }
+				elseif stage == 3 then
+					return { from, v(1,0,0), v(0,0,1) }
+				elseif stage == 4 then
+					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,1) }
+				elseif stage == 5 then
+					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
+				elseif stage == 6 or stage == 7 then
+					return { from, v(-1,0,0), v(0,0,-1) }
+				elseif stage == 8 then
+					return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
+				elseif stage == 9 then
+					return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
+				end
+				-- undocking
+				if stage == -1 then
+					return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
+				elseif stage == -2 then
+					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
+				elseif stage == -3 or stage == -4 or stage == -5 then
+					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
+				elseif stage == -6 then
+					return { vlerp(t, from, v(0,250,0)), v(-1,0,0), v(0,0,-1) }
+				elseif stage == -7 or stage == -8 then
+					return { v(0,250,0), v(-1,0,0), v(0,0,-1) }
+				end
+				-- note stage -9 returns nil. this means 'launch ship but continue space station
+				-- animations'
 			end,
 		},
 	static = function(lod)
@@ -347,7 +426,7 @@ define_model('basic_groundstation', {
 			dock_anim_stage_duration = {},
 			undock_anim_stage_duration = {}, 
 			ship_dock_anim = function(stage, t, from)
-				return { v(0,0,0), v(1,0,0), v(0,1,0) }
+				return { v(0,10,0), v(1,0,0), v(0,1,0) }
 			end,
 		},
 	static = function(lod)

@@ -6,6 +6,7 @@
 #include "ShipType.h"
 #include "MarketAgent.h"
 #include "ShipFlavour.h"
+#include "Quaternion.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -35,17 +36,6 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
 	float GetDesiredAngVel() const;
-	struct positionOrient_t {
-		bool exists;
-		vector3d pos;
-		vector3d xaxis;
-		vector3d yaxis;
-	};
-	// stage 1 position
-	positionOrient_t port[MAX_DOCKING_PORTS];
-	// stage 2 position of ship (inside station)
-	positionOrient_t port_s2[MAX_DOCKING_PORTS];
-	positionOrient_t port_s3[MAX_DOCKING_PORTS];
 	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
@@ -61,7 +51,7 @@ public:
 	bool BBRemoveMission(Mission *m);
 	virtual void PostLoadFixup();
 	virtual void NotifyDeleted(const Body* const deletedBody);
-	void PositionDockedShip(Ship *ship, int port);
+	void SetDocked(Ship *ship, int port);
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;
 protected:
@@ -73,10 +63,17 @@ protected:
 private:
 	void DoDockingAnimation(const float timeStep);
 
+	/* Stage 0 means docking port empty
+	 * Stage 1 means docking clearance granted to ->ship
+	 * Stage 2 to m_type->numDockingStages is docking animation
+	 * Stage m_type->numDockingStages+1 means ship is docked
+	 * Stage -1 to -m_type->numUndockStages is undocking animation
+	 */
 	struct shipDocking_t {
 		Ship *ship;
 		int stage;
-		vector3d from;
+		vector3d fromPos;
+		Quaternionf fromRot;
 		float stagePos; // 0 -> 1.0
 	};
 	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
@@ -85,11 +82,11 @@ private:
 	float m_dockAnimState[MAX_DOCKING_PORTS];
 
 	void InitStation();
+	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
 	void UpdateBB();
 	const SpaceStationType *m_type;
 	const SBody *m_sbody;
-	int m_numPorts;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
 	std::vector<Mission*> m_bbmissions;

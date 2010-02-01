@@ -14,6 +14,9 @@
 #include "LmrModel.h"
 
 
+#define ARG_STATION_BAY1_STAGE 6
+#define ARG_STATION_BAY1_POS   10
+
 
 struct SpaceStationType {
 	LmrModel *model;
@@ -46,11 +49,9 @@ struct SpaceStationType {
 				lua_pushinteger(L, i);
 				lua_gettable(L, -2);
 				(*durationArray)[i-1] = lua_tonumber(L, -1);
-				printf("%f\n", (*durationArray)[i-1]);
 				lua_pop(L, 1);
 			}
 		}
-		printf("\n");
 	}
 	// read from lua model definition
 	void ReadStageDurations() {
@@ -58,8 +59,14 @@ struct SpaceStationType {
 		_ReadStageDurations("undock_anim_stage_duration", &numUndockStages, &undockAnimStageDuration);
 	}
 
-	void GetDockAnimPositionOrient(int stage, float t, const vector3d &from, positionOrient_t &outPosOrient)
+	/* when ship is on rails it returns true and fills outPosOrient.
+	 * when ship has been released (or docked) it returns false.
+	 * Note station animations may continue for any number of stages after
+	 * ship has been released and is under player control again */
+	bool GetDockAnimPositionOrient(int stage, float t, const vector3d &from, positionOrient_t &outPosOrient) const
 	{
+		if ((stage < 0) && ((-stage) > numUndockStages)) return false;
+		if ((stage > 0) && (stage > numDockingStages)) return false;
 		lua_State *L = LmrGetLuaState();
 		// It's a function of form function(stage, t, from)
 		model->PushAttributeToStack("ship_dock_anim");
@@ -72,22 +79,28 @@ struct SpaceStationType {
 		vector3f *_from = MyLuaVec::pushVec(L);
 		*_from = vector3f(from);
 		lua_call(L, 3, 1);
-		assert(lua_istable(L, -1));
-		
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
-		lua_pop(L, 1);
+		bool gotOrient;
+		if (lua_istable(L, -1)) {
+			gotOrient = true;
+			lua_pushinteger(L, 1);
+			lua_gettable(L, -2);
+			outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
+			lua_pop(L, 1);
 
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
-		lua_pop(L, 1);
+			lua_pushinteger(L, 2);
+			lua_gettable(L, -2);
+			outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+			lua_pop(L, 1);
 
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
-		lua_pop(L, 2);
+			lua_pushinteger(L, 3);
+			lua_gettable(L, -2);
+			outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+			lua_pop(L, 1);
+		} else {
+			gotOrient = false;
+		}
+		lua_pop(L, 1);
+		return gotOrient;
 	}
 
 
@@ -154,7 +167,8 @@ void SpaceStation::Save()
 		wr_int(Serializer::LookupBody(m_shipDocking[i].ship));
 		wr_int(m_shipDocking[i].stage);
 		wr_float(m_shipDocking[i].stagePos);
-		wr_vector3d(m_shipDocking[i].from);
+		wr_vector3d(m_shipDocking[i].fromPos);
+		wr_quaternionf(m_shipDocking[i].fromRot);
 
 		wr_float(m_openAnimState[i]);
 		wr_float(m_dockAnimState[i]);
@@ -169,7 +183,6 @@ void SpaceStation::Load()
 	ModelBody::Load();
 	MarketAgent::Load();
 	if (IsOlderThan(11)) rd_int();
-	m_numPorts = 0;
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
 	}
@@ -190,7 +203,12 @@ void SpaceStation::Load()
 		m_shipDocking[i].ship = (Ship*)rd_int();
 		m_shipDocking[i].stage = rd_int();
 		m_shipDocking[i].stagePos = rd_float();
-		m_shipDocking[i].from = rd_vector3d();
+		m_shipDocking[i].fromPos = rd_vector3d();
+		if (IsOlderThan(12)) {
+			m_shipDocking[i].fromRot = Quaternionf(0.0, vector3f(1,0,0));
+		} else {
+			m_shipDocking[i].fromRot = rd_quaternionf();
+		}
 
 		m_openAnimState[i] = rd_float();
 		m_dockAnimState[i] = rd_float();
@@ -215,7 +233,6 @@ double SpaceStation::GetBoundingRadius() const
 SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 {
 	m_sbody = sbody;
-	m_numPorts = 0;
 	m_lastUpdatedShipyard = 0;
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) {
@@ -227,27 +244,13 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
+		m_shipDocking[i].stage = 0;
+		m_shipDocking[i].stagePos = 0;
 		m_openAnimState[i] = 0;
 		m_dockAnimState[i] = 0;
 	}
 	SetMoney(1000000000);
 	InitStation();
-}
-
-/*
- * So, positionOrient_t things for docking animations are stored in the model
- * as two triangles with geomflag 0x8000+i (0x8010+i for stage2)
- * tri(position, zerovec, zerovec)
- * tri(zerovec, xaxis, yaxis)
- * Since positionOrient triangles in subobjects will be scaled and translated,
- * the xaxis and yaxis normals must be un-translated (xaxis minus translated
- * zerovec), and re-normalized.
- */
-static void SetPositionOrientFromTris(const vector3d v[6], SpaceStation::positionOrient_t &outOrient)
-{
-	outOrient.pos = v[0];
-	outOrient.xaxis = (v[4] - v[1]).Normalized();
-	outOrient.yaxis = (v[5] - v[1]).Normalized();
 }
 
 void SpaceStation::InitStation()
@@ -259,39 +262,10 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
-	GetLmrObjParams().argFloats[6] = 1.0f;
-	GetLmrObjParams().argFloats[14] = 1.0f;
-	GetLmrObjParams().argFloats[18] = 1.0f;
+	GetLmrObjParams().argFloats[ARG_STATION_BAY1_STAGE] = 1.0;
+	GetLmrObjParams().argFloats[ARG_STATION_BAY1_POS] = 1.0;
 	SetModel(m_type->modelName, true);
 	LmrCollMesh *mesh = GetLmrCollMesh();
-	int i=0;
-	for (i=0; i<MAX_DOCKING_PORTS; i++) {
-		port[i].exists = false;
-		port_s2[i].exists = false;
-	}
-	vector3d v[6];
-	for (i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (mesh->GetTrisWithGeomflag(0x8000+i, 2, v) != 2) break;
-		// 0x8000+i tri gives position, xaxis, yaxis of docking port surface
-		port[i].exists = true;
-		SetPositionOrientFromTris(v, port[i]);
-		/*printf("%p port %d, %f,%f,%f, %f,%f,%f\n", this, i,
-				port[i].xaxis.x,
-				port[i].xaxis.y,
-				port[i].xaxis.z,
-				port[i].yaxis.x,
-				port[i].yaxis.y,
-				port[i].yaxis.z);*/
-		if (mesh->GetTrisWithGeomflag(0x8010+i, 2, v) != 2) continue;
-		port_s2[i].exists = true;
-		SetPositionOrientFromTris(v, port_s2[i]);
-		assert(mesh->GetTrisWithGeomflag(0x8020+i, 2, v)==2);
-		port_s3[i].exists = true;
-		SetPositionOrientFromTris(v, port_s3[i]);
-	}
-	m_numPorts = i;
-
-	assert(m_numPorts > 0);
 }
 
 SpaceStation::~SpaceStation()
@@ -373,270 +347,81 @@ void SpaceStation::UpdateBB()
 	onBulletinBoardChanged.emit();
 }
 
-static void rotateBy(Ship *s, vector3d axis, const float timeStep)
-{
-	double ang = timeStep;
-	if (ang == 0) return;
-	vector3d rotAxis = axis.Normalized();
-	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
-	
-	matrix4x4d orient;
-	s->GetRotMatrix(orient);
-	orient = orient * rotMatrix;
-	s->SetRotMatrix(orient);
-}
-
-static void rotateTo(Ship *s, matrix4x4d &rot, const float timeStep)
-{
-	matrix4x4d cur;
-	s->GetRotMatrix(cur);
-	vector3d cx(cur[0], cur[4], cur[8]);
-	vector3d rx(rot[0], rot[4], rot[8]);
-	vector3d cz(cur[2], cur[6], cur[10]);
-	vector3d rz(rot[2], rot[6], rot[10]);
-	double dx = vector3d::Dot(cx,rx);
-	double dz = vector3d::Dot(cz,rz);
-	if (dx < 0.999) {
-		vector3d xrot = vector3d::Cross(rx, cx);
-		rotateBy(s, xrot, timeStep);
-	} else if (dz < 0.999) {
-		vector3d zrot = vector3d::Cross(rz, cz);
-		rotateBy(s, zrot, timeStep);
-	} else {
-		s->SetRotMatrix(rot);
-	}
-}
-
 void SpaceStation::DoDockingAnimation(const float timeStep)
 {
 	matrix4x4d rot, wantRot;
 	vector3d p1, p2, zaxis;
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		shipDocking_t &dt = m_shipDocking[i];
-		if (!dt.ship) {
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			continue;
-		}
+		if (!dt.ship) continue;
+		if (!dt.stage) continue;
+		// docked stage is m_type->numDockingPorts + 1
+		if (dt.stage > m_type->numDockingStages) continue;
 		GetRotMatrix(rot);
 
-		switch (dt.stage) {
-		/* Launching stages */
-		case -1:
-			// open inner doors
-			dt.stagePos += timeStep*0.3;
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] += 0.3*timeStep;
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-			break;
-		case -2:
-			// move into inner region
-			dt.stagePos += timeStep*0.3;
-			p1 = GetPosition() + rot*port_s3[i].pos;
-			p2 = GetPosition() + rot*port_s2[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
-			///
-			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].yaxis);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					port_s2[i].xaxis, port_s2[i].yaxis, zaxis) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-			break;
-		case -3:
-			// close inner doors and pretend an elevator is
-			// moving...
-			dt.stagePos += timeStep*0.2;
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-			break;
-		case -4:
-			// open inner doors
-			dt.stagePos += timeStep*0.3;
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] += 0.3*timeStep;
-			dt.ship->SetPosition(GetPosition() + rot*port_s2[i].pos);
-			///
-			zaxis = vector3d::Cross(port[i].xaxis, port[i].yaxis);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					port[i].xaxis, port[i].yaxis, zaxis) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-			break;
-		case -5:
-			// move ship to outer section
-			p1 = GetPosition() + rot*port_s2[i].pos;
-			p2 = GetPosition() + rot*port[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
-			dt.stagePos += 0.2*timeStep;
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-			break;
-		case -6:
-			// close inner door
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			dt.stagePos += 0.3*timeStep;
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-			break;
-		case -7:
-			// open outer door
-			m_openAnimState[i] += 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			dt.stagePos += 0.3*timeStep;
-			if (dt.stagePos >= 1.0) {
-				dt.ship->Enable();
-				dt.ship->SetFlightState(Ship::FLYING);
-				dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
-				dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
-				dt.ship->SetForce(vector3d(0,0,0));
-				dt.ship->SetTorque(vector3d(0,0,0));
-				dt.ship->SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
-				dt.stagePos = 0;
-				dt.stage--;
-			}
-		case -8:
-			// give the fucker some time to leave before closing doors
-			m_openAnimState[i] += 0.3*timeStep;
-			dt.stagePos += timeStep/30.0;
-			if (dt.stagePos >= 1.0) {
-				dt.ship = 0;
-			}
-			break;
+		float stageDuration = (dt.stage > 0 ?
+				m_type->dockAnimStageDuration[dt.stage-1] :
+				m_type->undockAnimStageDuration[abs(dt.stage)-1]);
+		dt.stagePos += timeStep / stageDuration;
 
-		/* Docking stages */
-		case 0:
-			// docking has been granted but ship hasn't docked yet
-			dt.stagePos += timeStep/DOCKING_TIMEOUT_SECONDS;
+		if (dt.stage == 1) {
+			// SPECIAL stage! Docking granted but waiting for ship
+			// to dock
 			m_openAnimState[i] += 0.3*timeStep;
 			m_dockAnimState[i] -= 0.3*timeStep;
 
 			if (dt.stagePos >= 1.0) {
 				if (dt.ship == (Ship*)Pi::player) Pi::onDockingClearanceExpired.emit(this);
 				dt.ship = 0;
+				dt.stage = 0;
 			}
-			break;
-		case 1:
-			// close outer door, center ship
-			dt.stagePos += 0.3*timeStep;
-			p2 = GetPosition() + rot*port[i].pos;
-			dt.ship->SetPosition(dt.from + (p2-dt.from)*(double)dt.stagePos);
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			///
-			zaxis = vector3d::Cross(port[i].xaxis, port[i].yaxis);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					port[i].xaxis, port[i].yaxis, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			///
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage++;
-			}
-			break;
-		case 2:
-			// open inner door
-			dt.stagePos += 0.3*timeStep;
-			m_openAnimState[i] -= 0.3*timeStep;
-			m_dockAnimState[i] += 0.3*timeStep;
-			/// XXX identical to code in step 1... XXX
-			zaxis = vector3d::Cross(port[i].xaxis, port[i].yaxis);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					port[i].xaxis, port[i].yaxis, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			///
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage++;
-			}
-			break;
-		case 3:
-			// move into inner region
-			p1 = GetPosition() + rot*port[i].pos;
-			p2 = GetPosition() + rot*port_s2[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
-			dt.stagePos += 0.2*timeStep;
+			continue;
+		}
+	
+		if (dt.stagePos > 1.0f) {
+			dt.stagePos = 0;
+			if (dt.stage >= 0) dt.stage++;
+			else dt.stage--;
+			dt.fromPos = dt.ship->GetPosition();
+			matrix4x4d temp;
+			dt.ship->GetRotMatrix(temp);
+			dt.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
+		}
 
-			///
-			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].yaxis);
+		SpaceStationType::positionOrient_t shipOrient;
+		bool onRails = m_type->GetDockAnimPositionOrient(dt.stage, dt.stagePos, dt.fromPos, shipOrient);
+		
+		if (onRails) {
+			dt.ship->SetPosition(shipOrient.pos);
 			wantRot = matrix4x4d::MakeRotMatrix(
-					port_s2[i].xaxis, port_s2[i].yaxis, zaxis) * matrix4x4d::RotateYMatrix(M_PI) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			///
-
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage++;
-			}
-			break;
-		case 4:
-			// close inner door, rotate 180
-			dt.stagePos += 0.2*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			/// XXX same as codein stage3 XXX
-			zaxis = vector3d::Cross(port_s2[i].xaxis, port_s2[i].yaxis);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					port_s2[i].xaxis, port_s2[i].yaxis, zaxis) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			///
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage++;
-			}
-			break;
-		case 5:
-			// open inner doors, showing final resting place
-			dt.stagePos += 0.3*timeStep;
-			m_dockAnimState[i] += 0.3*timeStep;
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage++;
-			}
-			break;
-		case 6:
-			// enter 
-			dt.stagePos += 0.3*timeStep;
-			// move into inner region
-			p1 = GetPosition() + rot*port_s2[i].pos;
-			p2 = GetPosition() + rot*port_s3[i].pos;
-			dt.ship->SetPosition(p1 + (p2-p1)*(double)dt.stagePos);
-			///
-			zaxis = vector3d::Cross(port_s3[i].xaxis, port_s3[i].yaxis);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					port_s3[i].xaxis, port_s3[i].yaxis, zaxis) * rot;
-			rotateTo(dt.ship, wantRot, timeStep);
-			///
-			if (dt.stagePos >= 1.0) {
-				dt.stagePos = 0;
-				dt.stage++;
-			}
-			break;
-		case 7:
-			// close door and dock
-			dt.stagePos += 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-			if (dt.stagePos >= 1.0) {
+					shipOrient.xaxis, shipOrient.yaxis,
+					vector3d::Cross(shipOrient.xaxis, shipOrient.yaxis)) * rot;
+			// use quaternion spherical linear interpolation to do
+			// rotation smoothly
+			Quaternionf wantQuat = Quaternionf::FromMatrix4x4<double>(wantRot);
+			Quaternionf q = Quaternionf::Slerp(dt.fromRot, wantQuat, dt.stagePos);
+			wantRot = q.ToMatrix4x4<double>();
+			dt.ship->SetRotMatrix(wantRot);
+		} else {
+			if (dt.stage >= 0) {
+				// set docked
 				dt.ship->SetDockedWith(this, i);
-				dt.ship = 0;
+			} else {
+				if (!dt.ship->IsEnabled()) {
+					// launch ship
+					dt.ship->Enable();
+					dt.ship->SetFlightState(Ship::FLYING);
+					dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
+					dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
+					dt.ship->SetForce(vector3d(0,0,0));
+					dt.ship->SetTorque(vector3d(0,0,0));
+					dt.ship->SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
+				}
 			}
-			break;
+		}
+		if ((dt.stage < 0) && ((-dt.stage) > m_type->numUndockStages)) {
+		       dt.stage = 0;
+		       dt.ship = 0;
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
@@ -661,16 +446,19 @@ bool SpaceStation::IsGroundStation() const
 	return (m_type->dockMethod == SpaceStationType::SURFACE);
 }
 
+/* XXX THIS and PositionDockedShip do almost the same thing */
 void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 {
-	const positionOrient_t *dport = &this->port[port];
+	SpaceStationType::positionOrient_t dport;
+	assert(m_type->GetDockAnimPositionOrient(m_type->numDockingStages, 1.0f, vector3d(0.0), dport));
+//	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::SURFACE) {
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport->xaxis, dport->yaxis);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->yaxis, port_z);
-		vector3d pos = GetPosition() + stationRot*dport->pos;
+		vector3d port_z = vector3d::Cross(dport.xaxis, dport.yaxis);
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
+		vector3d pos = GetPosition() + stationRot*dport.pos;
 
 		// position with wheels perfectly on ground :D
 		Aabb aabb;
@@ -682,33 +470,42 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	}
 }
 
+void SpaceStation::SetDocked(Ship *ship, int port)
+{
+	PositionDockedShip(ship, port);
+	m_shipDocking[port].ship = ship;
+	m_shipDocking[port].stage = m_type->numDockingStages+1;
+}
+
 void SpaceStation::PositionDockedShip(Ship *ship, int port)
 {
-	const positionOrient_t *dport = &this->port[port];
+	SpaceStationType::positionOrient_t dport;
+	assert(m_type->GetDockAnimPositionOrient(m_type->numDockingStages, 1.0f, vector3d(0.0), dport));
+//	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
 		matrix4x4d rot;
 		GetRotMatrix(rot);
-		vector3d p = GetPosition() + rot*port_s3[port].pos;
+		vector3d p = GetPosition() + rot*dport.pos;
 		
 		ship->SetFrame(GetFrame());
 		ship->SetPosition(p);
 		// duplicated from DoDockingAnimation()
-		vector3d zaxis = vector3d::Cross(port_s3[port].xaxis, port_s3[port].yaxis);
-		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(port_s3[port].xaxis,
-					port_s3[port].yaxis, zaxis) * rot);
+		vector3d zaxis = vector3d::Cross(dport.xaxis, dport.yaxis);
+		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(dport.xaxis,
+					dport.yaxis, zaxis) * rot);
 	} else {
 		Aabb aabb;
 		ship->GetAabb(aabb);
 
 	 	matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport->xaxis, dport->yaxis);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport->xaxis, dport->yaxis, port_z);
+		vector3d port_z = vector3d::Cross(dport.xaxis, dport.yaxis);
+		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		// position slightly (1m) off landing surface
-		vector3d pos = GetPosition() + stationRot*(dport->pos +
-				dport->yaxis - 
-				dport->yaxis*aabb.min.y);
+		vector3d pos = GetPosition() + stationRot*(dport.pos +
+				dport.yaxis - 
+				dport.yaxis*aabb.min.y);
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
 	}
@@ -723,6 +520,11 @@ void SpaceStation::LaunchShip(Ship *ship, int port)
 		sd.ship = ship;
 		sd.stage = -1;
 		sd.stagePos = 0;
+		sd.fromPos = ship->GetPosition();
+		{ matrix4x4d temp;
+		  ship->GetRotMatrix(temp);
+		  sd.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
+		}
 		ship->SetFlightState(Ship::DOCKING);
 	}
 	else if (dockMethod == SpaceStationType::SURFACE) {
@@ -736,18 +538,18 @@ void SpaceStation::LaunchShip(Ship *ship, int port)
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (port[i].exists == false) continue;
+		if (i >= m_type->numDockingPorts) break;
 		if (m_shipDocking[i].ship == s) {
 			outMsg = stringf(256, "Clearance already granted. Proceed to docking bay %d.", i+1);
 			return true;
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (port[i].exists == false) continue;
+		if (i >= m_type->numDockingPorts) break;
 		if (m_shipDocking[i].ship != 0) continue;
 		shipDocking_t &sd = m_shipDocking[i];
 		sd.ship = s;
-		sd.stage = 0;
+		sd.stage = 1;
 		sd.stagePos = 0;
 		outMsg = stringf(256, "Clearance granted. Proceed to docking bay %d.", i+1);
 		return true;
@@ -781,7 +583,10 @@ Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	if (flags & 0x10) {
-		positionOrient_t *dport = &port[flags & 0xf];
+		//positionOrient_t *dport = &port[flags & 0xf];
+		SpaceStationType::positionOrient_t dport;
+		/// XXX if returns false???
+		m_type->GetDockAnimPositionOrient(2, 0.0f, vector3d(0.0), dport);
 		// hitting docking area of a station
 		if (b->IsType(Object::SHIP)) {
 			Ship *s = static_cast<Ship*>(b);
@@ -796,7 +601,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 				
 				matrix4x4d stationRot;
 				GetRotMatrix(stationRot);
-				vector3d dockingNormal = stationRot*dport->yaxis;
+				vector3d dockingNormal = stationRot*dport.yaxis;
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d::Dot(vector3d(invRot[1], invRot[5], invRot[9]), dockingNormal);
@@ -806,20 +611,23 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
 			    (m_shipDocking[flags&0xf].ship == s) &&
-			    (m_shipDocking[flags&0xf].stage == 0)) {
+			    (m_shipDocking[flags&0xf].stage == 1)) {
 				// if there is more docking port anim to do,
 				// don't set docked yet
-				if (port_s2[flags & 0xf].exists) {
+			//	if (port_s2[flags & 0xf].exists) {
+				if (m_type->numDockingStages >= 2) {
 					shipDocking_t &sd = m_shipDocking[flags&0xf];
 					sd.ship = s;
-					sd.stage = 1;
+					sd.stage = 2;
 					sd.stagePos = 0;
-					sd.from = s->GetPosition();
+					sd.fromPos = s->GetPosition();
+					matrix4x4d temp;
+					s->GetRotMatrix(temp);
+					sd.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
-					m_shipDocking[flags&0xf].ship = 0;
-					s->SetDockedWith(this, flags & 0xf);
+					s->SetDockedWith(this, flags&0xf);
 				}
 			}
 		}
@@ -840,11 +648,6 @@ void SpaceStation::NotifyDeleted(const Body* const deletedBody)
 }
 
 static std::vector<LmrModel*> s_advertModels;
-
-#define ARG_STATION_BAY1_DOOR1 6
-#define ARG_STATION_BAY1_DOOR2 10
-#define ARG_STATION_BAY1_STAGE1 14
-#define ARG_STATION_BAY1_STAGE2 18
 
 void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
@@ -872,49 +675,10 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.argFloats[ARG_STATION_BAY1_DOOR1 + i] = m_openAnimState[i];
-		params.argFloats[ARG_STATION_BAY1_STAGE1 + i] = 1.0;
-		params.argFloats[ARG_STATION_BAY1_DOOR2 + i] = m_dockAnimState[i];
-		params.argFloats[ARG_STATION_BAY1_STAGE2 + i] = 1.0;
-		const int stage = m_shipDocking[i].stage;
-
-		/* nice */
-		if (
-			// if the player is in this docking bay draw its inner
-			// bits
-				((Pi::player->GetDockedWith() == this) &&
-				(Pi::player->GetDockingPort() == i))
-			||
-			// or if the player is at the bits of the docking
-			// sequence when they should be visible
-				((m_shipDocking[i].ship == (Ship*)Pi::player) && 
-				// during docking
-				( (stage >= 5) ||
-				// during launch
-				  ((stage >= -3) && (stage <= -1)) ))
-		) {
-			params.argFloats[ARG_STATION_BAY1_STAGE1 + i] = 0;
-			params.argFloats[ARG_STATION_BAY1_STAGE2 + i] = 1;
-		} else {
-			params.argFloats[ARG_STATION_BAY1_STAGE1 + i] = 1;
-			params.argFloats[ARG_STATION_BAY1_STAGE2 + i] = 0;
-		}
+		params.argFloats[ARG_STATION_BAY1_STAGE + i] = m_shipDocking[i].stage;
+		params.argFloats[ARG_STATION_BAY1_POS + i] = m_shipDocking[i].stagePos;
 	}
-	/*
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 1)) {
-			params.pAnim[ASRC_STATION_DOCK_PORT1] = m_shipDocking[i].stagePos;
-			break;
-		}
-		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 2)) {
-			params.pAnim[ASRC_STATION_DOCK_PORT1] = 1.0;
-			break;
-		}
-		if (m_shipDocking[i].ship && (m_shipDocking[i].stage == 3)) {
-			params.pAnim[ASRC_STATION_DOCK_PORT1] = 1.0 - m_shipDocking[i].stagePos;
-			break;
-		}
-	}*/
+
 	RenderLmrModel(viewCoords, viewTransform);
 	
 	/* don't render city if too far away */
