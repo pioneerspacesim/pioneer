@@ -77,6 +77,12 @@ public:
 	Gui::Adjustment *m_linthrust[3];
 	Gui::Adjustment *m_angthrust[3];
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
+	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
+
+	float GetAnimValue(int i) {
+		std::string val = m_animEntry[i]->GetText();
+		return (float)atof(val.c_str());
+	}
 
 	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
@@ -132,6 +138,9 @@ public:
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 460);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
+				Gui::Fixed *box = new Gui::Fixed(32, 200);
+				Add(box, (float)(200 + i*25), 480);
+
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
@@ -139,12 +148,23 @@ public:
 				Add(v, (float)(200 + i*25), 500);
 				char buf[32];
 				snprintf(buf, sizeof(buf), "%d", i);
-				Add(new Gui::Label(buf), (float)(200 + i*25), 480);
+				box->Add(new Gui::Label(buf), 0, 32.0f);
+
+				m_animEntry[i] = new Gui::TextEntry();
+				box->Add(m_animEntry[i], 0, 0);
+				m_anim[i]->onValueChanged.connect(sigc::bind(sigc::mem_fun(this, &Viewer::OnAnimChange), m_anim[i], m_animEntry[i]));
+				OnAnimChange(m_anim[i], m_animEntry[i]);
 			}
 		}
 
 		ShowAll();
 		Show();
+	}
+
+	void OnAnimChange(Gui::Adjustment *a, Gui::TextEntry *e) {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "%.2f", a->GetValue());
+		e->SetText(buf);
 	}
 
 	void OnResetAdjustments() {
@@ -183,7 +203,7 @@ void Viewer::SetSbreParams()
 	float gameTime = SDL_GetTicks() * 0.001f;
 
 	for (int i=0; i<LMR_ARG_MAX; i++) {
-		params.argFloats[i] = m_anim[i]->GetValue();
+		params.argFloats[i] = GetAnimValue(i);
 	}
 
 	params.argFloats[1] = gameTime;

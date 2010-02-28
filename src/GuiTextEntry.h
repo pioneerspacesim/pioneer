@@ -18,13 +18,15 @@ namespace Gui {
 		}
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = CLAMP(pos, 0, (signed)m_text.size()); }
+		virtual void OnKeyPress(const SDL_keysym *);
+		virtual void Show() { GrabFocus(); Widget::Show(); }
+
+		sigc::signal<void> onValueChanged;
 	private:
-		void OnRawKeyDown(SDL_KeyboardEvent *);
 
 		std::string m_text;
 		int m_cursPos;
 		int m_scroll;
-		sigc::connection m_rawKbDownCon;
 	};
 }
 

@@ -31,6 +31,7 @@ void HandleSDLEvent(SDL_Event *event)
 			RawEvents::onKeyDown.emit(&event->key);
 			break;
 		case SDL_KEYUP:
+			Screen::OnKeyUp(&event->key.keysym);
 			RawEvents::onKeyUp.emit(&event->key);
 			break;
 		case SDL_MOUSEMOTION:
@@ -75,6 +76,7 @@ void Draw()
 
 void Init(int screen_width, int screen_height, int ui_width, int ui_height)
 {
+	SDL_EnableUNICODE(1);
 	Screen::Init(screen_width, screen_height, ui_width, ui_height);
 }
 

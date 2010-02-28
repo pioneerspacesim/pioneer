@@ -145,7 +145,6 @@ void Pi::Init(IniConfig &config)
 			exit(-1);
 		}
 	}
-	SDL_EnableUNICODE(1);
 	glewInit();
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;

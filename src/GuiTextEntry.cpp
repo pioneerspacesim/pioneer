@@ -8,36 +8,38 @@ TextEntry::TextEntry()
 	m_eventMask = EVENT_MOUSEDOWN;
 	m_cursPos = 0;
 	m_scroll = 0;
-	m_rawKbDownCon = Gui::RawEvents::onKeyDown.connect(sigc::mem_fun(this,
-				&TextEntry::OnRawKeyDown));
 }
 
 TextEntry::~TextEntry()
 {
-	m_rawKbDownCon.disconnect();
 }
 
-void TextEntry::OnRawKeyDown(SDL_KeyboardEvent *event)
+void TextEntry::OnKeyPress(const SDL_keysym *sym)
 {
-	Uint16 unicode = event->keysym.unicode;
-	if (event->keysym.sym == SDLK_LEFT) SetCursorPos(m_cursPos-1);
-	if (event->keysym.sym == SDLK_RIGHT) SetCursorPos(m_cursPos+1);
-	if (event->keysym.sym == SDLK_BACKSPACE) {
+	bool changed = false;
+	Uint16 unicode = sym->unicode;
+	if (sym->sym == SDLK_LEFT) SetCursorPos(m_cursPos-1);
+	if (sym->sym == SDLK_RIGHT) SetCursorPos(m_cursPos+1);
+	if (sym->sym == SDLK_BACKSPACE) {
 		if (m_cursPos > 0) {
 			m_text = m_text.substr(0, m_cursPos-1) + m_text.substr(m_cursPos);
 			SetCursorPos(m_cursPos-1);
+			changed = true;
 		}
 	}
-	if (event->keysym.sym == SDLK_DELETE) {
+	if (sym->sym == SDLK_DELETE) {
 		if (m_cursPos < (signed)m_text.size()) {
 			m_text = m_text.substr(0, m_cursPos) + m_text.substr(m_cursPos+1);
+			changed = true;
 		}
 	}
-	if (isalnum(unicode) || (unicode == ' ') || (unicode == '_')) {
+	if (isalnum(unicode) || (unicode == ' ') || (isgraph(unicode))) {
 		char buf[2] = { (char)unicode, 0 };
 		m_text.insert(m_cursPos, std::string(buf));
 		SetCursorPos(m_cursPos+1);
+		changed = true;
 	}
+	if (changed) onValueChanged.emit();
 }
 
 void TextEntry::GetSizeRequested(float size[2])
@@ -49,6 +51,8 @@ bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 {
 	unsigned int len = m_text.size();
 	unsigned int i = 0;
+
+	GrabFocus();
 
 	for (; i<len; i++) {
 		float x,y;
@@ -86,7 +90,8 @@ void TextEntry::Draw()
 		glVertex2f(size[0],0);
 		glVertex2f(0,0);
 	glEnd();
-	glColor3f(1,1,1);
+	if (IsFocused()) glColor3f(1,1,1);
+	else glColor3f(.75f, .75f, .75f);
 	glBegin(GL_LINE_LOOP);
 		glVertex2f(0,0);
 		glVertex2f(size[0],0);

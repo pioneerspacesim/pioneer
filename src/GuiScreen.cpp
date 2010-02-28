@@ -15,6 +15,7 @@ float Screen::fontScale[2];
 std::list<Widget*> Screen::kbshortcut_widgets;
 std::vector<Screen::LabelPos> Screen::labelPositions;
 Gui::Fixed *Screen::baseContainer;
+Gui::Widget *Screen::focusedWidget;
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -35,6 +36,23 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	Screen::baseContainer->SetSize((float)Screen::width, (float)Screen::height);
 	Screen::baseContainer->SetPosition(0,0);
 	Screen::baseContainer->Show();
+}
+
+static sigc::connection _focusedWidgetOnDelete;
+
+void Screen::OnDeleteFocusedWidget()
+{
+	_focusedWidgetOnDelete.disconnect();
+	focusedWidget = 0;
+}
+
+void Screen::SetFocused(Widget *w)
+{
+	if (focusedWidget) {
+		_focusedWidgetOnDelete.disconnect();
+	}
+	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
+	focusedWidget = w;
 }
 
 void Screen::ShowBadError(const char *msg)
@@ -175,6 +193,11 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 		if (!(*i)->GetEnabled()) continue;
 		(*i)->OnPreShortcut(sym);
 	}
+	if (focusedWidget) focusedWidget->OnKeyPress(sym);
+}
+
+void Screen::OnKeyUp(const SDL_keysym *sym)
+{
 }
 
 float Screen::GetFontHeight()

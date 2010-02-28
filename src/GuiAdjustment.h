@@ -7,8 +7,11 @@ namespace Gui {
 		public:
 			Adjustment(): m_value(0) {}
 			float GetValue() { return m_value; }
-			void SetValue(float v) { m_value = (v>0?(v<1?v:1):0); }
-
+			void SetValue(float v) {
+				m_value = (v>0?(v<1?v:1):0);
+				onValueChanged.emit();
+			}
+			sigc::signal<void> onValueChanged;
 		private:
 			float m_value;
 	};

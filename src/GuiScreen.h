@@ -17,6 +17,7 @@ namespace Gui {
 		static void OnMouseMotion(SDL_MouseMotionEvent *e);
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_keysym *sym);
+		static void OnKeyUp(const SDL_keysym *sym);
 		static void RenderString(const std::string &s);
 		static void MeasureString(const std::string &s, float &w, float &h);
 		static void RenderMarkup(const std::string &s);
@@ -38,6 +39,10 @@ namespace Gui {
 		}
 		static const float* GetCoords2Pixels() { return fontScale; }
 		static TextureFontFace *GetFont() { return font; }
+		static void SetFocused(Widget *w);
+		static bool IsFocused(Widget *w) {
+			return w == focusedWidget;
+		}
 	private:
 		struct LabelPos {
 			LabelPos(float _x, float _y): x(_x), y(_y) {}
@@ -60,6 +65,8 @@ namespace Gui {
 		static TextureFontFace *font;
 		static float fontScale[2];
 		static Gui::Fixed *baseContainer;
+		static Gui::Widget *focusedWidget;
+		static void OnDeleteFocusedWidget();
 	};
 }
 

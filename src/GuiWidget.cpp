@@ -52,6 +52,16 @@ void Widget::EndClipping()
 	glDisable(GL_CLIP_PLANE3);
 }
 
+void Widget::GrabFocus()
+{
+	Screen::SetFocused(this);
+}
+
+bool Widget::IsFocused()
+{
+	return Screen::IsFocused(this);
+}
+
 void Widget::SetShortcut(SDLKey key, SDLMod mod)
 {
 	assert(m_shortcut.sym == 0); // because AddShortcutWidget will add more than once. fix this otherwise on destruct we leave bad pointers in the Screen shortcut widgets list
