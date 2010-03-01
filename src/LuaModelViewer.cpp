@@ -138,20 +138,20 @@ public:
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 460);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
-				Gui::Fixed *box = new Gui::Fixed(32, 200);
+				Gui::Fixed *box = new Gui::Fixed(32, 119);
 				Add(box, (float)(200 + i*25), 480);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_anim[i]);
-				Add(v, (float)(200 + i*25), 500);
+				box->Add(v, 0, 42.0f);
 				char buf[32];
 				snprintf(buf, sizeof(buf), "%d", i);
-				box->Add(new Gui::Label(buf), 0, 32.0f);
+				box->Add(new Gui::Label(buf), 0, 0);
 
 				m_animEntry[i] = new Gui::TextEntry();
-				box->Add(m_animEntry[i], 0, 0);
+				box->Add(m_animEntry[i], 0, 16.0f);
 				m_anim[i]->onValueChanged.connect(sigc::bind(sigc::mem_fun(this, &Viewer::OnAnimChange), m_anim[i], m_animEntry[i]));
 				OnAnimChange(m_anim[i], m_animEntry[i]);
 			}
