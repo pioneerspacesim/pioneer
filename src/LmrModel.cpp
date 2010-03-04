@@ -1595,6 +1595,73 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	static void _tapered_cylinder(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius1, float radius2) {
+		const int vtxStart = s_curBuf->AllocVertices(4*steps);
+
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+
+		const float inc = 2.0f*M_PI / (float)steps;
+		float ang = 0.5*inc;
+		radius1 /= cosf(ang);
+		radius2 /= cosf(ang);
+		for (int i=0; i<steps; i++, ang += inc) {
+			vector3f p1 = radius1 * (sin(ang)*axis1 + cos(ang)*axis2);
+			vector3f p2 = radius2 * (sin(ang)*axis1 + cos(ang)*axis2);
+			vector3f n = vector3d::Cross(vector3f::Cross((end+p2)-(start+p1), p1), (end+p2)-(start+p1))
+				.Normalized();
+
+			s_curBuf->SetVertex(vtxStart+i, start+p1, n);
+			s_curBuf->SetVertex(vtxStart+i+steps, end+p2, n);
+			s_curBuf->SetVertex(vtxStart+i+2*steps, start+p1, -dir);
+			s_curBuf->SetVertex(vtxStart+i+3*steps, end+p2, dir);
+		}
+
+		for (int i=0; i<steps-1; i++) {
+			s_curBuf->PushTri(vtxStart+i, vtxStart+i+1, vtxStart+i+steps);
+			s_curBuf->PushTri(vtxStart+i+1, vtxStart+i+steps+1, vtxStart+i+steps);
+		}
+		s_curBuf->PushTri(vtxStart+steps-1, vtxStart, vtxStart+2*steps-1);
+		s_curBuf->PushTri(vtxStart, vtxStart+steps, vtxStart+2*steps-1);
+
+		for (int i=2; i<steps; i++) {
+			// bottom cap
+			s_curBuf->PushTri(vtxStart+2*steps, vtxStart+2*steps+i, vtxStart+2*steps+i-1);
+			// top cap
+			s_curBuf->PushTri(vtxStart+3*steps, vtxStart+3*steps+i-1, vtxStart+3*steps+i);
+		}
+	}
+	
+	static int tapered_cylinder(lua_State *L)
+	{
+		int steps = luaL_checkint(L, 1);
+		const vector3f *start = MyLuaVec::checkVec(L, 2);
+		const vector3f *end = MyLuaVec::checkVec(L, 3);
+		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		float radius1 = lua_tonumber(L, 5);
+		float radius2 = lua_tonumber(L, 6);
+		_tapered_cylinder(steps, *start, *end, *updir, radius1, radius2);
+		return 0;
+	}
+
+	static int xref_tapered_cylinder(lua_State *L)
+	{
+		/* could optimise for x-reflection but fuck it */
+		int steps = luaL_checkint(L, 1);
+		vector3f start = *MyLuaVec::checkVec(L, 2);
+		vector3f end = *MyLuaVec::checkVec(L, 3);
+		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		float radius1 = lua_tonumber(L, 5);
+		float radius2 = lua_tonumber(L, 6);
+		_tapered_cylinder(steps, start, end, updir, radius1, radius2);
+		start.x = -start.x;
+		end.x = -end.x;
+		updir.x = -updir.x;
+		_tapered_cylinder(steps, start, end, updir, radius1, radius2);
+		return 0;
+	}
+
 	static void _cylinder(int steps, const vector3f &start, const vector3f &end, const vector3f &updir, float radius) {
 		const int vtxStart = s_curBuf->AllocVertices(4*steps);
 
@@ -1988,6 +2055,8 @@ void LmrModelCompilerInit()
 	lua_register(L, "xref_quad", ModelFuncs::xref_quad);
 	lua_register(L, "cylinder", ModelFuncs::cylinder);
 	lua_register(L, "xref_cylinder", ModelFuncs::xref_cylinder);
+	lua_register(L, "tapered_cylinder", ModelFuncs::tapered_cylinder);
+	lua_register(L, "xref_tapered_cylinder", ModelFuncs::xref_tapered_cylinder);
 	lua_register(L, "tube", ModelFuncs::tube);
 	lua_register(L, "xref_tube", ModelFuncs::xref_tube);
 	lua_register(L, "ring", ModelFuncs::ring);

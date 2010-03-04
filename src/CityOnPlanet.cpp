@@ -22,6 +22,7 @@ citybuilding_t city_buildings[] = {
 //	{ "skyscraper2" },
 	{ "building1" },
 	{ "building2" },
+	{ "lathed_tower" },
 //	{ "building3" },
 //	{ "factory1" },
 //	{ "42" }, // a house

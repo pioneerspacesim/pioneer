@@ -417,30 +417,38 @@ define_model('hoop_spacestation', {
 	end
 })
 --]]
+
 define_model('basic_groundstation', {
 	info = {
-			bounding_radius=60.0,
-			materials = {'body', 'text'},
+			bounding_radius=200.0,
+			materials = {'body', 'text', 'tower_base'},
 			tags = {'surface_station'},
 			num_docking_ports = 2,
 			dock_anim_stage_duration = {},
 			undock_anim_stage_duration = {}, 
+			-- this stuff doesn't work right with the new docking
+			-- code
 			ship_dock_anim = function(stage, t, from)
-				return { v(0,10,0), v(1,0,0), v(0,1,0) }
+				return { v(-100,10,50), v(1,0,0), v(0,1,0) }
 			end,
 		},
 	static = function(lod)
+		set_material('tower_base', .2,.2,.5,1)
+		use_material('tower_base')
+		tapered_cylinder(16, v(0,0,-150), v(0,40,-150), v(0,0,1), 100, 30)
 		set_material('body', .5,.5,.5,1)
 		use_material('body')
+		cylinder(8, v(0,40,-150), v(0,70,-150), v(0,0,1), 10)
+		tapered_cylinder(8, v(0,70,-150), v(0,85,-150), v(0,0,1), 10, 15)
 		-- surface recognised for landing on (bay 1)
 		geomflag(0x10)
-		extrusion(v(0,0,-50), v(0,0,50), v(0,1,0), 1.0,
+		extrusion(v(-100,0,0), v(-100,0,100), v(0,1,0), 1.0,
 			v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0))
 		geomflag(0x11)
-		extrusion(v(0,0,70), v(0,0,170), v(0,1,0), 1.0,
+		extrusion(v(100,0,0), v(100,0,100), v(0,1,0), 1.0,
 			v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0))
-		local bay1top = v(0,10,0)
-		local bay2top = v(0,10,120)
+		local bay1top = v(-100,10,50)
+		local bay2top = v(100,10,50)
 		-- docking bay 1 location,xaxis,yaxis
 		geomflag(0x8000)
 		invisible_tri(bay1top, v(0,0,0), v(0,0,0))
@@ -451,10 +459,15 @@ define_model('basic_groundstation', {
 		set_material('text', 1,1,1,1)
 		use_material('text')
 		zbias(1, bay1top, v(0,1,0))
-		text("1", bay1top, v(0,1,0), v(1,0,0), 20.0)
+		text("1", bay1top, v(0,1,0), v(1,0,0), 20.0, {center=true})
 		zbias(1, bay2top, v(0,1,0))
-		text("2", bay2top, v(0,1,0), v(1,0,0), 20.0)
+		text("2", bay2top, v(0,1,0), v(1,0,0), 20.0, {center=true})
 		zbias(0)
+	end,
+	dynamic = function(lod)
+		-- light on tower
+		local lightphase = math.fmod(get_arg(1)+0.620486, 1)
+		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
 	end
 })
 

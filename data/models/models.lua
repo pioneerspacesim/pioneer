@@ -4,6 +4,19 @@ math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
 end
 
+function cuboid(pos, size)
+	local sx = v(size:x(),0,0)
+	local sy = v(0,size:y(),0)
+	local sz = v(0,0,size:z())
+	quad(pos, pos+sy, pos+sy+sx, pos+sx)
+	quad(pos+sy, pos+sy+sz, pos+sy+sx+sz, pos+sy+sx)
+	quad(pos, pos+sz, pos+sz+sy, pos+sy)
+	quad(pos+sx, pos+sx+sy, pos+sx+sy+sz, pos+sx+sz)
+	quad(pos+sz, pos+sz+sx, pos+sz+sx+sy, pos+sz+sy)
+	quad(pos, pos+sx, pos+sz+sx, pos+sz)
+end
+
+
 -- Only need to pass 8 points because on the side
 -- we are joined to 'old' patch, those 6 get generated
 -- {1,2,3,4, 5,6,7,8, 9,10,11,12, 13,14,15,16},
@@ -81,7 +94,11 @@ define_model('test', {
 		geomflag(0)
 		zbias(0)
 		use_material("red")
-		xref_cylinder(lod*4, v(5,0,0), v(10,0,0), v(0,1,0), 1.0)
+		for i = 1,10 do
+			tapered_cylinder(lod*4, v(i,0,0), v(i+1,0,0),
+				v(0,1,0), math.abs(noise(5*i,0,0))+1,
+				math.abs(noise(5*(i+1),0,0))+1)
+		end
 		use_material("shinyred")
 		xref_circle(9, v(4,5,0), v(0,0,1), v(1,0,0), 1.0)
 		tri(v(12,3,0),v(13,3,0), v(12,4,0))
