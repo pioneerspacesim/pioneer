@@ -2,7 +2,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [0.1.svn], [tomm@riseup.net])
+AC_INIT([pioneer], [0.alpha.1], [tomm@riseup.net])
 #AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign])
