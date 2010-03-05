@@ -92,6 +92,7 @@ void Screen::EnterOrtho()
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
