@@ -400,11 +400,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\ModelCollMeshData.cpp"
+				RelativePath="..\src\mtrand.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\mtrand.cpp"
+				RelativePath="..\src\MyLuaMathTypes.cpp"
 				>
 			</File>
 			<File
@@ -914,6 +914,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\MyLuaMathTypes.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\NameGenerator.h"
 				>
 			</File>
@@ -1075,58 +1079,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</Filter>
-		<Filter
-			Name="sbre"
-			>
-			<File
-				RelativePath="..\src\sbre\brender.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\collfunc.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\jjvector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\model_compiler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\models-buildings.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\models.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\primfunc.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre_int.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre_models.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\simtriang.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\transp.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="lua"

@@ -1,9 +1,5 @@
 #include "libs.h"
 
-#include "sbre/sbre.h"
-//#include "sbre/sbre_int.h"
-//#include "sbre/sbre_models.h"
-
 #include "collider/collider.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
@@ -48,7 +44,6 @@
 #include "MarketAgent.h"
 #include "matrix4x4.h"
 #include "ModelBody.h"
-#include "ModelCollMeshData.h"
 #include "mtrand.h"
 #include "Object.h"
 #include "ObjectViewerView.h"

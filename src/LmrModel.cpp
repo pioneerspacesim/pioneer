@@ -259,13 +259,15 @@ public:
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_indices.size(),
 					0, GL_STATIC_DRAW);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_indices.size(),
+			if (m_indices.size())
+				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_indices.size(),
 					&m_indices[0], GL_STATIC_DRAW);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 		
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*m_vertices.size(), 0, GL_STATIC_DRAW);
-			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*m_vertices.size(), &m_vertices[0], GL_STATIC_DRAW);
+			if (m_vertices.size())
+				glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*m_vertices.size(), &m_vertices[0], GL_STATIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, 0);
 		}
 		curOp.type = OP_NONE;

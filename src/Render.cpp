@@ -58,13 +58,13 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 		for (int i=0; i<num; i++) {
 			vector3f pos(&v[i].x);
 			glTexCoord2f(0.0f,0.0f);
-			glVertex3fv(&(pos+rot*v4).x);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v4)));
 			glTexCoord2f(0.0f,1.0f);
-			glVertex3fv(&(pos+rot*v3).x);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v3)));
 			glTexCoord2f(1.0f,1.0f);
-			glVertex3fv(&(pos+rot*v2).x);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v2)));
 			glTexCoord2f(1.0f,0.0f);
-			glVertex3fv(&(pos+rot*v1).x);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v1)));
 		}
 		glEnd();
 	}
