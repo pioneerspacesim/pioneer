@@ -62,7 +62,7 @@ float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in floa
 		det = sqrt(det);
 		float i1 = b - det;
 		float i2 = b + det;
-		if (i2 > 0) {
+		if (i2 > 0.0) {
 			entryDist = max(i1, 0.0);
 		}
 	}
