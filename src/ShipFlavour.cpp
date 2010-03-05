@@ -63,12 +63,36 @@ void ShipFlavour::ApplyTo(LmrObjParams *p) const
 	p->pMat[2] = s_white;
 }
 
+void ShipFlavour::SaveLmrMaterial(LmrMaterial *m)
+{
+	using namespace Serializer::Write;
+	for (int i=0; i<4; i++) wr_float(m->diffuse[i]);
+	for (int i=0; i<4; i++) wr_float(m->specular[i]);
+	for (int i=0; i<4; i++) wr_float(m->emissive[i]);
+	wr_float(m->shininess);
+}
+
+void ShipFlavour::LoadLmrMaterial(LmrMaterial *m)
+{
+	using namespace Serializer::Read;
+	if (IsOlderThan(13)) {
+		MakeRandomColor(*m);
+	} else {
+		for (int i=0; i<4; i++) m->diffuse[i] = rd_float();
+		for (int i=0; i<4; i++) m->specular[i] = rd_float();
+		for (int i=0; i<4; i++) m->emissive[i] = rd_float();
+		m->shininess = rd_float();
+	}
+}
+
 void ShipFlavour::Save()
 {
 	using namespace Serializer::Write;
 	wr_int((int)type);
 	wr_int(price);
 	wr_string(regid);
+	SaveLmrMaterial(&primaryColor);
+	SaveLmrMaterial(&secondaryColor);
 }
 
 void ShipFlavour::Load()
@@ -77,5 +101,7 @@ void ShipFlavour::Load()
 	type = static_cast<ShipType::Type>(rd_int());
 	price = rd_int();
 	rd_cstring2(regid, sizeof(regid));
+	LoadLmrMaterial(&primaryColor);
+	LoadLmrMaterial(&secondaryColor);
 }
 

@@ -20,6 +20,7 @@ struct LmrMaterial {
 	float specular[4];
 	float emissive[4];
 	float shininess;
+	// make sure save and load routines in ShipFlavour are matching
 };
 
 struct LmrObjParams

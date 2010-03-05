@@ -21,6 +21,8 @@ public:
 	void ApplyTo(LmrObjParams *p) const;
 	static void MakeTrulyRandom(ShipFlavour &v);
 private:
+	void SaveLmrMaterial(LmrMaterial *m);
+	void LoadLmrMaterial(LmrMaterial *m);
 	void MakeRandomColor(LmrMaterial &m);
 };
 
