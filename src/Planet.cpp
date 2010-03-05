@@ -478,7 +478,9 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
-		if (shrink) {// || !Shader::IsEnabled()) {
+		// if not using shader then z-buffer precision is hopeless and
+		// we can't place objects on the terrain without awful z artifacts
+		if (shrink || !Shader::IsEnabled()) {
 			glClear(GL_DEPTH_BUFFER_BIT);
 		}
 	}

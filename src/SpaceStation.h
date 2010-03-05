@@ -72,7 +72,7 @@ private:
 	struct shipDocking_t {
 		Ship *ship;
 		int stage;
-		vector3d fromPos;
+		vector3d fromPos; // in station model coords
 		Quaternionf fromRot;
 		float stagePos; // 0 -> 1.0
 	};

@@ -245,7 +245,7 @@ define_model('nice_spacestation', {
 			-- t is where we are in the stage. 0.0 .. 1.0
 			-- from is the ship position at the end of the previous stage (use for interpolating position)
 			-- must return 3 vectors for position & orientation: { position, xaxis, yaxis }
-			ship_dock_anim = function(stage, t, from)
+			ship_dock_anim = function(port, stage, t, from, ship_aabb)
 				-- docking
 				if stage == 2 then
 					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,1) }
@@ -424,12 +424,17 @@ define_model('basic_groundstation', {
 			materials = {'body', 'text', 'tower_base'},
 			tags = {'surface_station'},
 			num_docking_ports = 2,
-			dock_anim_stage_duration = {},
+			-- 1 - permission granted
+			-- 2 - position docked ship
+			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2 },
 			undock_anim_stage_duration = {}, 
 			-- this stuff doesn't work right with the new docking
 			-- code
-			ship_dock_anim = function(stage, t, from)
-				return { v(-100,10,50), v(1,0,0), v(0,1,0) }
+			ship_dock_anim = function(port, stage, t, from, ship_aabb)
+				local port_pos = { v(-100,10,50), v(100,10,50) }
+				if stage == 2 then 
+					return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				end
 			end,
 		},
 	static = function(lod)
