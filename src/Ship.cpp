@@ -132,12 +132,8 @@ void Ship::PostLoadFixup()
 {
 	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
 	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
+	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
 
-	{
-		SpaceStation *s = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
-		m_dockedWith = 0;
-		SetDockedWith(s, m_dockedWithPort);
-	}
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		switch ((*i).cmd) {
 			case DO_KILL:

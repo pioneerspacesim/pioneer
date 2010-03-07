@@ -609,7 +609,6 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 
 		// hitting docking area of a station
 		if (b->IsType(Object::SHIP)) {
-			printf("stage %d\n", m_shipDocking[flags&0xf].stage);
 			Ship *s = static_cast<Ship*>(b);
 			//positionOrient_t *dport = &port[flags & 0xf];
 			SpaceStationType::positionOrient_t dport;
