@@ -724,14 +724,14 @@ public:
 				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
 				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), (void *)(6*sizeof(float)));
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
-				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, 0);
+				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, 0);
 				for (int i=0; i<4; i++) {
 					if (edgeFriend[i]) {
 						glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+4]);
-						glDrawElements(GL_TRIANGLES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, 0);
+						glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, 0);
 					} else {
 						glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i]);
-						glDrawElements(GL_TRIANGLES, VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, 0);
+						glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, 0);
 					}
 				}
 				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
