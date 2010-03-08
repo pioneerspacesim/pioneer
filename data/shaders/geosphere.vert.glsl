@@ -1,45 +1,9 @@
-uniform vec4 atmosColor;
-// to keep distances sane we do a nearer, smaller scam. this is how many times
-// smaller the geosphere has been made
-uniform float geosphereScale;
-uniform float geosphereAtmosTopRad;
-uniform vec3 geosphereCenter;
-uniform float geosphereAtmosFogDensity;
 
 void main(void)
 {
 	gl_Position = logarithmicTransform();
-	vec3 eyepos = vec3(gl_ModelViewMatrix * gl_Vertex);
-	vec3 tnorm = normalize(gl_NormalMatrix * gl_Normal);
-	vec4 amb = vec4(0.0);
-	vec4 diff = vec4(0.0);
-	for (int i=0; i<NUM_LIGHTS; ++i) {
-		DirectionalLight(i, tnorm, amb, diff);
-	}
-
-	// when does the eye ray intersect atmosphere
-	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereAtmosTopRad);
-	
-	float fogFactor;
-	{
-		float atmosDist = geosphereScale * (length(eyepos) - atmosStart);
-		float ldprod;
-		vec3 dir = normalize(eyepos);
-		vec3 a = (atmosStart * dir - geosphereCenter) / geosphereAtmosTopRad;
-		vec3 b = (eyepos - geosphereCenter) / geosphereAtmosTopRad;
-		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.w*geosphereAtmosFogDensity, atmosDist);
-		fogFactor = 1.0 / exp(ldprod);
-	}
-
-	vec4 atmosDiffuse = vec4(0.0,0.0,0.0,1.0);
-	{
-		vec3 surfaceNorm = normalize(eyepos - geosphereCenter);
-		for (int i=0; i<NUM_LIGHTS; ++i) {
-			atmosDiffuse += gl_LightSource[i].diffuse * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
-		}
-	}
-	atmosDiffuse = min(atmosDiffuse * 2.0, 1.0);
-//	float sun = dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position)));
-	gl_FrontColor = (fogFactor)*(diff)*gl_Color +
-		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
+	gl_FrontColor = gl_Color;
+	gl_TexCoord[0] = gl_ModelViewMatrix * gl_Vertex;
+	vec3 tnorm = gl_NormalMatrix * gl_Normal;
+	gl_TexCoord[1] = vec4(tnorm.x, tnorm.y, tnorm.z, 0.0);
 }
