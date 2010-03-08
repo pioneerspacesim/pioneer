@@ -12,8 +12,11 @@ void main(void)
 	vec3 tnorm = normalize(vec3(gl_TexCoord[1]));
 	vec4 amb = vec4(0.0);
 	vec4 diff = vec4(0.0);
+	
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		DirectionalLight(i, tnorm, amb, diff);
+		float nDotVP = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
+		amb += gl_LightSource[i].ambient;
+		diff += gl_LightSource[i].diffuse * nDotVP;
 	}
 
 	// when does the eye ray intersect atmosphere

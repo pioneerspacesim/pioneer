@@ -86,6 +86,11 @@ static void CompileProgram(VertexProgram p, const char *filename)
 		std::vector<const char*> shader_src;
 		char lightDef[128];
 		snprintf(lightDef, sizeof(lightDef), "#define NUM_LIGHTS %d\n", i+1);
+		std::string vendor;
+		if (strcmp((const char*)glGetString(GL_VENDOR), "X.Org R300 Project") == 0) {
+			vendor = "#define VENDOR_R300_GALLIUM\n";
+		}
+		shader_src.push_back(vendor.c_str());
 		shader_src.push_back(lightDef);
 		shader_src.push_back(lib_all);
 		shader_src.push_back(lib_vs);
@@ -104,6 +109,7 @@ static void CompileProgram(VertexProgram p, const char *filename)
 		GLuint ps = 0;
 		if (pscode) {
 			shader_src.clear();
+			shader_src.push_back(vendor.c_str());
 			shader_src.push_back(lightDef);
 			shader_src.push_back(lib_all);
 			if (allcode) shader_src.push_back(allcode);
