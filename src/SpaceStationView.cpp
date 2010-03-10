@@ -359,7 +359,11 @@ void StationViewShipView::Draw3D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	float lightCol[] = { 1,1,1,0 };
+	Render::State rstate;
+	rstate.SetZnearZfar(1.0f, 10000.0f);
+	Render::SetCurrentState(&rstate);
+
+	float lightCol[] = { .5,.5,.5,0 };
 	float lightDir[] = { 1,1,0,0 };
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -378,6 +382,7 @@ void StationViewShipView::Draw3D()
 
 	m_lmrModel->Render(rot, &params);
 	glPopAttrib();
+	Render::SetCurrentState(0);
 }
 
 void StationViewShipView::ShowAll()

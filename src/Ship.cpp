@@ -14,7 +14,6 @@
 #include "Projectile.h"
 #include "Sound.h"
 #include "Render.h"
-#include "Shader.h"
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
@@ -840,9 +839,9 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
 			glTranslatef(viewCoords.x, viewCoords.y, viewCoords.z);
-			Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
+			Render::UseProgram(Render::simpleShader);
 			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
-			Shader::DisableVertexProgram();
+			Render::UseProgram(0);
 			glPopMatrix();
 			glEnable(GL_LIGHTING);
 			glDisable(GL_BLEND);
@@ -862,9 +861,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		}
 		GLuint tex = util_load_tex_rgba("data/textures/ecm.png");
 
-		Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
 		Render::PutPointSprites(100, v, 50.0f, c, tex);
-		Shader::DisableVertexProgram();
 	}
 
 #if 0

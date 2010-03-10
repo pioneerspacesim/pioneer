@@ -195,6 +195,7 @@ namespace ShipThruster {
 
 class LmrGeomBuffer;
 
+static Render::Shader *s_normalShader;
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontFace *s_font;
@@ -779,6 +780,7 @@ void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 
 void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
 {
+	Render::UseProgram(s_normalShader);
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
@@ -803,6 +805,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	glDisable(GL_NORMALIZE);
 	glPopMatrix();
+	Render::UseProgram(0);
 }
 
 void LmrModel::Build(int lod, const LmrObjParams *params)
@@ -2028,6 +2031,7 @@ static int define_model(lua_State *L)
 
 void LmrModelCompilerInit()
 {
+	s_normalShader = new Render::Shader("model");
 	assert(s_font = new FontFace ("font.ttf"));
 
 	lua_State *L = lua_open();

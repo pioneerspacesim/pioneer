@@ -3,7 +3,7 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "StarSystem.h"
-#include "Shader.h"
+#include "Render.h"
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -898,8 +898,12 @@ void GeoSphere::_UpdateLODs()
 	m_runUpdateThread = 0;
 }
 
+static Render::Shader *s_geosphereSurfaceShader, *s_geosphereSkyShader;
+
 void GeoSphere::Init()
 {
+	s_geosphereSurfaceShader = new Render::Shader("geosphere");
+	s_geosphereSkyShader = new Render::Shader("geosphere_sky");
 	s_allGeospheresLock = SDL_CreateMutex();
 	OnChangeDetailLevel();
 #ifdef GEOSPHERE_USE_THREADING
@@ -1211,7 +1215,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
-	if (Shader::IsEnabled()) {
+	if (Render::AreShadersEnabled()) {
 		Color atmosCol;
 		float atmosDensity;
 		GLint prog, loc;
@@ -1223,8 +1227,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		atmosDensity *= 0.00005f;
 
 		if (atmosDensity != 0.0f) {
-			Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE_SKY);
-			prog = Shader::GetActiveProgram();
+			prog = Render::UseProgram(s_geosphereSkyShader);
 			
 			loc = glGetUniformLocation(prog, "geosphereScale");
 			glUniform1f(loc, scale);
@@ -1246,8 +1249,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		Shader::EnableVertexProgram(Shader::VPROG_GEOSPHERE);
-		prog = Shader::GetActiveProgram();
+		prog = Render::UseProgram(s_geosphereSurfaceShader);
 
 		loc = glGetUniformLocation(prog, "geosphereScale");
 		glUniform1f(loc, scale);
@@ -1260,7 +1262,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		loc = glGetUniformLocation(prog, "geosphereCenter");
 		glUniform3f(loc, center.x, center.y, center.z);
 	}
-	//Shader::DisableVertexProgram(); return;
 
 	if (!m_patches[0]) BuildFirstPatches();
 	
@@ -1276,7 +1277,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, planes);
 	}
-	Shader::DisableVertexProgram();
+	Render::UseProgram(0);
 
 	glDisable(GL_COLOR_MATERIAL);
 

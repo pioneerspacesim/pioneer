@@ -8,7 +8,6 @@
 #include "Pi.h"
 #include "Mission.h"
 #include "CityOnPlanet.h"
-#include "Shader.h"
 #include "Player.h"
 #include "Polit.h"
 #include "LmrModel.h"
@@ -719,9 +718,7 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 			m_adjacentCity->Render(this, viewCoords, viewTransform);
-			Shader::DisableVertexProgram();
 		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Gui.h"
 #include "View.h"
+#include "Render.h"
 
 class Body;
 class Frame;
@@ -60,6 +61,7 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
+	Render::State m_renderState;
 
 	sigc::connection m_onPlayerChangeHyperspaceTargetCon;
 	sigc::connection m_onPlayerChangeTargetCon;

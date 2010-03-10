@@ -7,7 +7,6 @@
 #include "WorldView.h"
 #include "Serializer.h"
 #include "collider/collider.h"
-#include "Shader.h"
 
 ModelBody::ModelBody(): Body()
 {
@@ -177,7 +176,6 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 		GetRotMatrix(rot);
 		rot = viewTransform * rot;
 
-		Shader::EnableVertexProgram(Shader::VPROG_SBRE);
 		matrix4x4f trans;
 		for (int i=0; i<12; i++) trans[i] = (float)rot[i];
 		trans[12] = viewCoords.x;
@@ -187,7 +185,6 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 
 
 		m_lmrModel->Render(trans, &m_params);
-		Shader::DisableVertexProgram();
 
 		glDisable(GL_BLEND);
 		glEnable(GL_LIGHTING);

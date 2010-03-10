@@ -6,7 +6,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "GeoSphere.h"
-#include "Shader.h"
+#include "Render.h"
 #include "perlin.h"
 
 struct ColRangeObj_t {
@@ -255,7 +255,7 @@ void Planet::DrawGasGiantRings()
 	
 	const double maxRingWidth = 0.1 / (double)(2*(Pi::detail.planets + 1));
 
-	Shader::EnableVertexProgram(Shader::VPROG_PLANETRINGS);
+	Render::UseProgram(Render::planetRingsShader);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = (float)rng.Double(1.15,1.5);
 		float end = pos + (float)rng.Double(0.1, 1.0);
@@ -275,7 +275,7 @@ void Planet::DrawGasGiantRings()
 			pos += size;
 		}
 	}
-	Shader::DisableVertexProgram();
+	Render::UseProgram(0);
 	
 	glEnable(GL_CULL_FACE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
@@ -358,15 +358,11 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 
 void Planet::DrawAtmosphere(vector3d &pos)
 {
-	Shader::EnableVertexProgram(Shader::VPROG_PLANETHORIZON);
-
 	Color c;
 	float density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
 	_DrawAtmosphere(0.999, 1.05, pos, c);
-
-	Shader::DisableVertexProgram();
 }
 
 void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -473,14 +469,14 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		
 		fpos = ftran.InverseOf() * fpos;
 		fpos *= (1.0/rad);
-		if (!Shader::IsEnabled()) DrawAtmosphere(fpos);
+		if (!Render::AreShadersEnabled()) DrawAtmosphere(fpos);
 		
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
-		if (shrink || !Shader::IsEnabled()) {
+		if (shrink || !Render::AreShadersEnabled()) {
 			glClear(GL_DEPTH_BUFFER_BIT);
 		}
 	}

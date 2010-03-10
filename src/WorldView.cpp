@@ -8,7 +8,6 @@
 #include "ShipCpanel.h"
 #include "Serializer.h"
 #include "StarSystem.h"
-#include "Shader.h"
 #include "HyperspaceCloud.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
@@ -133,7 +132,7 @@ void WorldView::Load()
 
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
 {
-	if (Shader::IsEnabled()) {
+	if (Render::AreShadersEnabled()) {
 		/* If vertex shaders are enabled then we have a lovely logarithmic
 		 * z-buffer stretching out from 0.1mm to 10000km! */
 		*outNear = 0.0001f;
@@ -389,6 +388,14 @@ void WorldView::Draw3D()
 
 	m_numLights = 0;
 	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
+	m_renderState.SetNumLights(m_numLights);
+	{
+		float znear, zfar;
+		GetNearFarClipPlane(&znear, &zfar);
+		m_renderState.SetZnearZfar(znear, zfar);
+	}
+	Render::SetCurrentState(&m_renderState);
+
 	Space::Render(&cam_frame);
 	if (!Pi::player->IsDead()) DrawHUD(&cam_frame);
 

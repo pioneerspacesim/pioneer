@@ -3,7 +3,7 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "Serializer.h"
-#include "Shader.h"
+#include "Render.h"
 #include "Space.h"
 #include "perlin.h"
 
@@ -112,7 +112,7 @@ static void make_circle_thing(float radius, const Color &colCenter, const Color 
 
 void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Shader::EnableVertexProgram(Shader::VPROG_SIMPLE);
+	Render::UseProgram(Render::simpleShader);
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
 	glPushMatrix();
@@ -134,5 +134,5 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	glPopMatrix();
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
-	Shader::DisableVertexProgram();
+	Render::UseProgram(0);
 }

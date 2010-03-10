@@ -21,7 +21,6 @@
 #include "Serializer.h"
 #include "NameGenerator.h"
 #include "GeoSphere.h"
-#include "Shader.h"
 #include "Sound.h"
 #include "Polit.h"
 #include "GalacticView.h"
@@ -29,6 +28,7 @@
 #include "GameMenuView.h"
 #include "Missile.h"
 #include "LmrModel.h"
+#include "Render.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -156,7 +156,8 @@ void Pi::Init(IniConfig &config)
 	Galaxy::Init();
 	NameGenerator::Init();
 	InitOpenGL();
-	if (config.Int("UseVertexShaders")) Shader::Init();
+	Render::Init();
+	if (!config.Int("UseVertexShaders")) Render::ToggleShaders();
 
 	GLFTInit();
 	LmrModelCompilerInit();
@@ -282,7 +283,7 @@ void Pi::HandleEvents()
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
 					if (event.key.keysym.sym == SDLK_q) Pi::Quit();
 					if (event.key.keysym.sym == SDLK_s) {
-						Shader::ToggleState();
+						Render::ToggleShaders();
 					}
 					if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
 					if (event.key.keysym.sym == SDLK_p) {
@@ -375,6 +376,10 @@ static void draw_intro(WorldView *view, float _time)
 	float lightDir[4] = { 0,1,1,0 };
 	float ambient[4] = { 0.1,0.1,0.1,1 };
 
+	// defaults are dandy
+	Render::State renderState;
+	renderState.SetZnearZfar(1.0f, 10000.0f);
+	Render::SetCurrentState(&renderState);
 	LmrObjParams params = {
 		{ },
 		{ "PIONEER" },
@@ -402,6 +407,7 @@ static void draw_intro(WorldView *view, float _time)
 	rot[14] = -80.0;
 	LmrLookupModelByName("interdictor")->Render(rot, &params);
 	glPopAttrib();
+	Render::SetCurrentState(0);
 }
 
 static void draw_tombstone(float _time)
@@ -435,6 +441,10 @@ static void draw_tombstone(float _time)
 
 void Pi::TombStoneLoop()
 {
+	Render::State rstate;
+	rstate.SetZnearZfar(1.0f, 10000.0f);
+	Render::SetCurrentState(&rstate);
+
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	cpan->HideAll();
@@ -462,6 +472,8 @@ void Pi::TombStoneLoop()
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	} while (!((_time > 2.0) && ((Pi::MouseButtonState(1)) || Pi::KeyState(SDLK_SPACE)) ));
+	
+	Render::SetCurrentState(0);
 }
 
 void Pi::InitGame()

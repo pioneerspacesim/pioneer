@@ -7,7 +7,6 @@
 #include "Serializer.h"
 #include "collider/collider.h"
 #include "Render.h"
-#include "Shader.h"
 #include "CargoBody.h"
 #include "Planet.h"
 #include "Sfx.h"
@@ -180,8 +179,6 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	}
 	Color col;
 
-	Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
-
 	switch (m_type) {
 		case TYPE_1MW_PULSE:
 			col = Color(1.0f, 0.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
@@ -216,8 +213,6 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 			Render::PutPointSprites(50, points, 18.0f, col, tex);
 			break;
 	}
-
-	Shader::DisableVertexProgram();
 }
 
 void Projectile::Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)

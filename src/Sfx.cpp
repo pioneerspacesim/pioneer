@@ -5,7 +5,6 @@
 #include "StarSystem.h"
 #include "Space.h"
 #include "Serializer.h"
-#include "Shader.h"
 #include "Render.h"
 
 #define MAX_SFX_PER_FRAME 1024
@@ -170,7 +169,6 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
 {
 	if (f->m_sfx) {
-		Shader::EnableVertexProgram(Shader::VPROG_POINTSPRITE);
 		matrix4x4d ftran;
 		Frame::GetFrameTransform(f, camFrame, ftran);
 
@@ -179,7 +177,6 @@ void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
 				f->m_sfx[i].Render(ftran);
 			}
 		}
-		Shader::DisableVertexProgram();
 	}
 	
 	for (std::list<Frame*>::const_iterator i = f->m_children.begin();

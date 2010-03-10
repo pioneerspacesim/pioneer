@@ -3,6 +3,7 @@
 #include "Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
+#include "Render.h"
 
 static SDL_Surface *g_screen;
 static int g_width, g_height;
@@ -345,6 +346,10 @@ void Viewer::MainLoop()
 	space->AddGeom(geom);
 //	geom2->MoveTo(rot, vector3d(80,0,0));
 
+	Render::State rstate;
+	rstate.SetZnearZfar(1.0f, 10000.0f);
+	Render::SetCurrentState(&rstate);
+
 	for (;;) {
 		PollEvents();
 
@@ -480,6 +485,7 @@ int main(int argc, char **argv)
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
 	GLFTInit();
+	Render::Init();
 	LmrModelCompilerInit();
 	Gui::Init(g_width, g_height, g_width, g_height);
 	if (argc > 1) {
