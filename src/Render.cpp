@@ -7,6 +7,7 @@ static bool shadersEnabled;
 static State *currentState;
 Shader *simpleShader;
 Shader *planetRingsShader;
+Shader *billboardShader;
 
 void Init()
 {
@@ -16,6 +17,7 @@ void Init()
 	if (shadersEnabled) {
 		simpleShader = new Shader("simple");
 		planetRingsShader = new Shader("planetrings");
+		billboardShader = new Shader("billboard");
 	}
 	initted = true;
 }
@@ -63,6 +65,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 	glPointParameterf(GL_POINT_SIZE_MIN, 1.0 );
 	glPointParameterf(GL_POINT_SIZE_MAX, 10000.0 );
 		
+	glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -73,6 +76,14 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 
 	// XXX point sprite thing needs some work. remember to enable point
 	// sprite shader in LmrModel.cpp
+	if (AreShadersEnabled()) {
+		// this is a bit dumb since it doesn't care how many lights
+		// the scene has, and this is a constant...
+		GLuint prog = UseProgram(billboardShader);
+		GLuint texLoc = glGetUniformLocation(prog, "some_texture");
+		glUniform1i(texLoc, 0);
+	}
+
 //	/*if (Shader::IsVtxProgActive())*/ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	if (0) {//GLEW_ARB_point_sprite) {
 		glTexEnvf(GL_POINT_SPRITE_ARB, GL_COORD_REPLACE_ARB, GL_TRUE);
@@ -116,6 +127,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 		glEnd();
 	}
 //	/*if (Shader::IsVtxProgActive())*/ glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+	UseProgram(0);
 
 	quadratic[0] = 1; quadratic[1] = 0;
 	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
