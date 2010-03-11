@@ -1,11 +1,11 @@
-uniform float invLogZfarPlus1;
 
-// makes depth value = log(C*z + 1) / log(C*zfar + 1)
+// From http://www.gamedev.net/community/forums/mod/journal/journal.asp?jn=263350&reply_id=3513134
 vec4 logarithmicTransform() 
 {
-	vec4 pos = gl_ModelViewProjectionMatrix * gl_Vertex;
-	pos.z = log2(pos.z + 1.0) * invLogZfarPlus1 * pos.w;
-	return pos;
+	vec4 vertexPosClip = gl_ModelViewProjectionMatrix * gl_Vertex;
+  	gl_Position = vertexPosClip;
+  	gl_TexCoord[6] = vertexPosClip;
+	return vertexPosClip;
 }
 
 /*

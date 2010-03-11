@@ -12,4 +12,6 @@ void main(void)
 	}
 	col.w = gl_Color.w;
 	gl_FragColor = col;
+
+	SetFragDepth(gl_TexCoord[6].z);
 }

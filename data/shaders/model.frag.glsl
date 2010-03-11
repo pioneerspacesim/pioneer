@@ -29,4 +29,6 @@ void main(void)
 		amb * gl_FrontMaterial.ambient +
 		diff * gl_FrontMaterial.diffuse +
 		spec * gl_FrontMaterial.specular;
+
+	SetFragDepth(gl_TexCoord[6].z);
 }

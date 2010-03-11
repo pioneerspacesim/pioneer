@@ -6,6 +6,7 @@ uniform float geosphereAtmosTopRad;
 uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 
+varying vec4 varyingEyepos;
 
 void sphereEntryExitDist(out float near, out float far, in vec3 sphereCenter, in vec3 eyeTo, in float radius)
 {
@@ -29,7 +30,7 @@ void sphereEntryExitDist(out float near, out float far, in vec3 sphereCenter, in
 void main(void)
 {
 	float skyNear, skyFar;
-	vec3 eyepos = vec3(gl_TexCoord[6]);
+	vec3 eyepos = vec3(varyingEyepos);
 	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, eyepos, geosphereAtmosTopRad);
 	float atmosDist = geosphereScale * (skyFar - skyNear);
 	float ldprod;
@@ -51,4 +52,6 @@ void main(void)
 	//float sun = max(0.0, dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position))));
 	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
 		vec4(atmosColor.r, atmosColor.g, atmosColor.b, 1.0));
+
+	SetFragDepth(gl_TexCoord[6].z);
 }

@@ -44,4 +44,6 @@ void main(void)
 //	float sun = dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position)));
 	gl_FragColor = (fogFactor)*(diff)*gl_Color +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
+
+	SetFragDepth(gl_TexCoord[6].z);
 }
