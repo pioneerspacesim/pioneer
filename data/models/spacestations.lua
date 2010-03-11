@@ -211,6 +211,110 @@ define_model('spacestation_entry1', {
 	end
 })
 
+function simple_lift_docking_port(baynum, pos)
+	local stage = get_arg(ARG_STATION_BAY1_STAGE)
+	local spos = get_arg(ARG_STATION_BAY1_POS)
+	local baypos = 0
+	if stage == 3 then
+		baypos = -75*spos
+	elseif stage == -2 then
+		baypos = -75*(1-spos)
+	end
+	if stage >= 4 or stage == -1 then
+		if stage > 4 then
+			spos = 1
+		elseif stage == -1 then
+			spos = 1-spos
+		end
+		use_material('body')
+		baypos = -75
+		cuboid(pos+v(-50,-10,-50), v(50*spos, 5, 100))
+		cuboid(pos+v(50*(1.0-spos),-10,-50), v(50*spos, 5, 100))
+		function arrows(p1, p2)
+			quad(p1, p1+v(5,0,-5), p1+v(0,0,-10), p1+v(-10,0,0))
+			quad(p1, p1+v(-10,0,0), p1+v(0,0,10), p1+v(5,0,5))
+			quad(p2, p2+v(10,0,0), p2+v(0,0,-10), p2+v(-5,0,-5))
+			quad(p2, p2+v(-5,0,5), p2+v(0,0,10), p2+v(10,0,0))
+		end
+		use_material('markings')
+		zbias(1, pos, v(0,1,0))
+		arrows(pos+v(25+50*(1.0-spos),-5, 0), pos+v(-75+50*spos, -5, 0))
+		zbias(0)
+	end
+	use_material('lift_floor')
+	geomflag(0x10 + baynum)
+	quad(pos+v(-50,baypos,50), pos+v(50,baypos,50), pos+v(50,baypos,-50), pos+v(-50,baypos,-50))
+	geomflag(0)
+	use_material('body')
+	zbias(1, pos+v(0,baypos,0), v(0,1,0))
+	use_material('text')
+	text(baynum+1, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 20.0, {center=true})
+	zbias(0)
+
+	xref_quad(pos+v(50,0,50), pos+v(50,0,-50), pos+v(50,-75,-50), pos+v(50,-75,50))
+	quad(pos+v(-50,-75,-50), pos+v(50,-75,-50), pos+v(50,0,-50), pos+v(-50,0,-50))
+	quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
+	if (math.fmod(get_arg(1), 2) > 1) then
+		local color
+		if stage ~= 0 then
+			color = v(1,0.5,0)
+		else
+			color = v(0,1,0)
+		end
+		billboard('smoke.png', 50, color, { pos+v(-50,1,50), pos+v(50,1,50), pos+v(-50,1,-50), pos+v(50,1,-50) })
+	end
+end
+
+define_model('mushroom_station', {
+	info = {
+		bounding_radius=200.0,
+		materials = {'body', 'text', 'markings', 'lift_floor'},
+		tags = {'surface_station'},
+		num_docking_ports = 2,
+		-- 1 - permission granted
+		-- 2 - position docked ship
+		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2, 4, 4 },
+		undock_anim_stage_duration = { 4, 4 }, 
+		-- this stuff doesn't work right with the new docking
+		-- code
+		ship_dock_anim = function(port, stage, t, from, ship_aabb)
+			local port_pos = { v(0,100,0) }
+			if stage == 2 then 
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+			elseif stage == 3 then
+				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+			elseif stage == 4 or stage == -1 then
+				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0), v(1,0,0), v(0,1,0) }
+			elseif stage == -2 then
+				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+			end
+		end,
+	},
+	static = function(lod)
+		set_material('markings', 1,0,0,1)
+		set_material('text', 1,1,1,1)
+		set_material('body', .5,.5,.5,1)
+		set_material('lift_floor', .6,.6,.6,1)
+		use_material('body')
+		local a = v(-100,100,-100)
+		local b = v(100,100,-100)
+		local c = v(100,100,100)
+		local d = v(-100,100,100)
+		local e = v(-50,100,-50)
+		local f = v(50,100,-50)
+		local g = v(50,100,50)
+		local h = v(-50,100,50)
+		-- top bits around docking lift
+		quad(a,e,f,b)
+		xref_quad(b,f,g,c)
+		quad(d,c,g,h)
+	end,
+	dynamic = function(lod)
+		simple_lift_docking_port(0, v(0,100,0))
+	end
+})
+
+
 define_model('nice_spacestation', {
 	info = {
 			bounding_radius=500.0,
@@ -422,12 +526,11 @@ define_model('basic_groundstation', {
 	info = {
 			bounding_radius=200.0,
 			materials = {'body', 'text', 'tower_base'},
-			tags = {'surface_station'},
 			num_docking_ports = 2,
 			-- 1 - permission granted
 			-- 2 - position docked ship
 			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2 },
-			undock_anim_stage_duration = {}, 
+			undock_anim_stage_duration = { 0 }, 
 			-- this stuff doesn't work right with the new docking
 			-- code
 			ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -455,12 +558,6 @@ define_model('basic_groundstation', {
 		local bay1top = v(-100,10,50)
 		local bay2top = v(100,10,50)
 		-- docking bay 1 location,xaxis,yaxis
-		geomflag(0x8000)
-		invisible_tri(bay1top, v(0,0,0), v(0,0,0))
-		invisible_tri(v(0,0,0), v(1,0,0), v(0,1,0))
-		geomflag(0x8001)
-		invisible_tri(bay2top, v(1,0,0), v(0,1,0))
-		geomflag(0)
 		set_material('text', 1,1,1,1)
 		use_material('text')
 		zbias(1, bay1top, v(0,1,0))

@@ -4,6 +4,7 @@ namespace Render {
 
 static bool initted = false;
 static bool shadersEnabled;
+static bool shadersAvailable;
 static State *currentState;
 Shader *simpleShader;
 Shader *planetRingsShader;
@@ -12,7 +13,8 @@ Shader *billboardShader;
 void Init()
 {
 	if (initted) return;
-	shadersEnabled = (GLEW_VERSION_2_0 ? true : false);
+	shadersAvailable = (GLEW_VERSION_2_0 ? true : false);
+	shadersEnabled = shadersAvailable;
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
 	if (shadersEnabled) {
 		simpleShader = new Shader("simple");
@@ -270,8 +272,12 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 
 Shader::Shader(const char *name)
 {
-	for (int i=0; i<4; i++) {
-		m_program[i] = CompileProgram(name, i+1);
+	if (shadersAvailable) {
+		for (int i=0; i<4; i++) {
+			m_program[i] = CompileProgram(name, i+1);
+		}
+	} else {
+		for (int i=0; i<4; i++) m_program[i] = 0;
 	}
 }
 

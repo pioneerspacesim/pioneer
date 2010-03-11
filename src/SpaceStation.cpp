@@ -51,6 +51,11 @@ struct SpaceStationType {
 				lua_pop(L, 1);
 			}
 		}
+		if (outNumStages <= 0) {
+			printf("Error: Space station %s must have atleast 1 docking and 1 undocking animation stage.\n",
+					modelName);
+			Pi::Quit();
+		}
 	}
 	// read from lua model definition
 	void ReadStageDurations() {
@@ -149,6 +154,7 @@ void SpaceStation::Init()
 			else surfaceStationTypes.push_back(t);
 		}
 	}
+	printf("%d orbital station types and %d surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
 float SpaceStation::GetDesiredAngVel() const
@@ -360,6 +366,8 @@ void SpaceStation::UpdateBB()
 	onBulletinBoardChanged.emit();
 }
 
+
+
 void SpaceStation::DoDockingAnimation(const float timeStep)
 {
 	matrix4x4d rot, wantRot;
@@ -424,11 +432,15 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 					// launch ship
 					dt.ship->Enable();
 					dt.ship->SetFlightState(Ship::FLYING);
-					dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 					dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
 					dt.ship->SetForce(vector3d(0,0,0));
 					dt.ship->SetTorque(vector3d(0,0,0));
-					dt.ship->SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
+					if (m_type->dockMethod == SpaceStationType::SURFACE) {
+						dt.ship->SetThrusterState(ShipType::THRUSTER_TOP, 1.0);
+					} else {
+						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
+						dt.ship->SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
+					}
 				}
 			}
 		}
@@ -526,32 +538,21 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 
 void SpaceStation::LaunchShip(Ship *ship, int port)
 {
-	const int dockMethod = m_type->dockMethod;
-	
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 
-	if (dockMethod == SpaceStationType::ORBITAL) {
-		shipDocking_t &sd = m_shipDocking[port];
-		sd.ship = ship;
-		sd.stage = -1;
-		sd.stagePos = 0;
-		sd.fromPos = rot.InverseOf() * (ship->GetPosition() - GetPosition());
-		{ matrix4x4d temp;
-		  ship->GetRotMatrix(temp);
-		  sd.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
-		}
-		ship->SetFlightState(Ship::DOCKING);
+	shipDocking_t &sd = m_shipDocking[port];
+	sd.ship = ship;
+	sd.stage = -1;
+	sd.stagePos = 0;
+	sd.fromPos = rot.InverseOf() * (ship->GetPosition() - GetPosition());
+	{
+		matrix4x4d temp;
+		ship->GetRotMatrix(temp);
+		sd.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
 	}
-	else if (dockMethod == SpaceStationType::SURFACE) {
-		ship->Blastoff();
-		// XXX should do this properly...
-		shipDocking_t &sd = m_shipDocking[port];
-		sd.ship = 0;
-		sd.stage = 0;
-	} else {
-		assert(0);
-	}
+	ship->SetFlightState(Ship::DOCKING);
+	
 	PositionDockedShip(ship, port);
 }
 

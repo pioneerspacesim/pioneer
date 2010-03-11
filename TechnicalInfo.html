@@ -172,29 +172,10 @@ geomflag(int)
 	
   Pioneer uses these flag values:
 	For starports:
-	0x10 indicates starport
-	0x10 - 1st docking bay hit surface
-	0x11 - 2nd docking bay hit surface
-	0x12 - 3rd docking bay hit surface
-	0x13 - 4th docking bay hit surface
-	0x8000 - 1st docking bay stage1 position and orientation
-	0x8001 - 2nd docking bay " "
-	0x8002 - 3rd docking bay " "
-	0x8003 - 4th docking bay " "
-	0x8010 - 1st docking bay stage2 position and orientation (optional)
-	0x8011 - 2nd docking bay " "
-	0x8012 - 3rd docking bay " "
-	0x8013 - 4th docking bay " "
-	0x8020 - 1st docking bay stage3 (ship dock) position and orientation (optional)
-	0x8021 - 2nd docking bay " "
-	0x8022 - 3rd docking bay " "
-	0x8023 - 4th docking bay " "
-	stage1,stage2 orientations should point out of docking bay (launching
-orientation)
-	Docking bay positions and orientations should be done like so:
-	geoflag(0x8000)
-	invisible:tri(position, v(0,0,0), v(0,0,0))
-	invisible:tri(v(0,0,0), xaxis, yaxis)
+	0x10 - 1st docking bay trigger surface
+	0x11 - 2nd docking bay trigger surface
+	0x12 - 3rd docking bay trigger surface
+	0x13 - 4th docking bay trigger surface
 
 <!--
 text("some literal string", vector pos, vector norm, vector xaxis, [xoff=, yoff=, scale=, onflag=])

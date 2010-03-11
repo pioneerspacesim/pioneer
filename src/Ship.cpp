@@ -236,7 +236,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 		} else {
-			Sfx::Add(this, Sfx::TYPE_DAMAGE);
+			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
 		}
 		Sound::BodyMakeNoise(this, Sound::SFX_COLLISION, 1.0f);
 	}
