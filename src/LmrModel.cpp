@@ -471,7 +471,7 @@ public:
 			m.emissive[2] = mat[10];
 			m.emissive[3] = 1.0f;
 		} else {
-			luaL_error(sLua, "Unknown material name.");
+			luaL_error(sLua, "Unknown material name '%s'.", mat_name);
 			exit(0);
 		}
 	}
@@ -484,7 +484,7 @@ public:
 		if (i != m_model->m_materialLookup.end()) {
 			curOp.col.material_idx = (*i).second;
 		} else {
-			printf("Unknown material name.");
+			printf("Unknown material name '%s'.\n", mat_name);
 			exit(0);
 		}
 	}
@@ -1974,6 +1974,104 @@ namespace ModelFuncs {
 
 } /* namespace ModelFuncs */
 
+namespace ObjLoader {
+	static int load_obj_file(lua_State *L)
+	{
+		const char *obj_name = luaL_checkstring(L, 1);
+		int numArgs = lua_gettop(L);
+		matrix4x4f *transform = 0;
+		if (numArgs > 1) {
+			transform = MyLuaMatrix::checkMat4x4(L, 2);
+		}
+	
+		char buf[1024];
+		snprintf(buf, sizeof(buf), "data/models/%s", obj_name);
+		FILE *f = fopen(buf, "r");
+		if (!f) {
+			printf("Could not open %s\n", buf);
+			exit(0);
+		}
+		std::vector<vector3f> vertices;
+		std::vector<vector3f> normals;
+		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
+		std::map< std::pair<int,int>, int> vtxmap;
+
+		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
+			if ((buf[0] == 'v') && buf[1] == ' ') {
+				// vertex
+				vector3f v;
+				PiVerify(3 == sscanf(buf, "v %f %f %f", &v.x, &v.y, &v.z));
+				if (transform) v = (*transform) * v;
+				vertices.push_back(v);
+			}
+			else if ((buf[0] == 'v') && (buf[1] == 'n') && (buf[2] == ' ')) {
+				// normal
+				vector3f v;
+				PiVerify(3 == sscanf(buf, "vn %f %f %f", &v.x, &v.y, &v.z));
+				if (transform) v = ((*transform) * v).Normalized();
+				normals.push_back(v);
+			}
+			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
+				// how many vertices in this face?
+				const int MAX_VTX_FACE = 4;
+				char *bit[MAX_VTX_FACE];
+				char *pos = &buf[2];
+				int numBits = 0;
+				while ((pos[0] != '\0') && (numBits < MAX_VTX_FACE)) {
+					bit[numBits++] = pos;
+					while(pos[0] && !isspace(pos[0])) pos++;
+					if (isspace(pos[0])) pos++;
+				}
+				printf("%d bits\n", numBits);
+
+				int realVtxIdx[MAX_VTX_FACE];
+				for (int i=0; i<numBits; i++) {
+					int vi, ni, ti;
+					if (3 != sscanf(bit[i], "%d/%d/%d", &vi, &ti, &ni)) {
+						if (2 != sscanf(bit[i], "%d//%d", &vi, &ni)) {
+							printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
+							exit(0);
+						}
+					}
+					// indices start from 1 in obj file
+					vi--; ni--;
+					// SHARE THE PAIN!
+					std::map< std::pair<int, int>, int>::iterator it = vtxmap.find(std::pair<int,int>(vi, ni));
+					if (it == vtxmap.end()) {
+						// insert the horrible thing
+						int vtxStart = s_curBuf->AllocVertices(1);
+						s_curBuf->SetVertex(vtxStart, vertices[vi], normals[ni]);
+						vtxmap[std::pair<int,int>(vi, ni)] = vtxStart;
+						realVtxIdx[i] = vtxStart;
+					} else {
+						realVtxIdx[i] = (*it).second;
+					}
+				}
+
+				if (numBits == 3) {
+					s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
+				} else if (numBits == 4) {
+					s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
+					s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3]);
+				} else {
+					printf("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
+					exit(0);
+				}
+			}
+			else if (strncmp("usemtl ", buf, 7) == 0) {
+				char mat_name[128];
+				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
+					s_curBuf->PushUseMaterial(mat_name);
+				} else {
+					printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
+					exit(0);
+				}
+			}
+		}
+		return 0;
+	}
+};
+
 namespace UtilFuncs {
 	
 	int noise(lua_State *L) {
@@ -2091,6 +2189,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "zbias", ModelFuncs::zbias);
 	lua_register(L, "call_model", ModelFuncs::call_model);
 	lua_register(L, "noise", UtilFuncs::noise);
+	lua_register(L, "load_obj", ObjLoader::load_obj_file);
 
 	s_buildDynamic = false;
 	if (luaL_dofile(L, "data/models/models.lua")) {
