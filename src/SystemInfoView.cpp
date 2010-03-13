@@ -234,7 +234,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, psize);
 	}
 	
-	std::string _info = stringf(512, "Stable system with %d major bodies.\n\n%s", majorBodies,
+	std::string _info = stringf(2048, "Stable system with %d major bodies.\n\n%s", majorBodies,
 			std::string(s->GetLongDescription()).c_str());
 	
 	{

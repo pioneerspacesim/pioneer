@@ -37,6 +37,11 @@
 
 #include "utils.h"
 
+#ifdef NDEBUG 
+#define	PiVerify(x) x
+#else
+#define PiVerify(x) assert(x)
+#endif
 
 #define USE_VBO	GLEW_ARB_vertex_buffer_object
 //#define USE_VBO 0

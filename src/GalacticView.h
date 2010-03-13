@@ -20,6 +20,7 @@ public:
 private:
 	void OnClickGalacticView();
 	void PutLabels(vector3d offset);
+	void MouseButtonDown(int button, int x, int y);
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	float m_zoom;

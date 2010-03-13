@@ -51,6 +51,7 @@ private:
 	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const float screenX, const float screenY) const;
+	void MouseButtonDown(int button, int x, int y);
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;

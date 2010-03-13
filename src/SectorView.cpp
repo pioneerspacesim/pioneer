@@ -54,6 +54,7 @@ SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
 	m_shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	infoBar->Add(m_shortDesc, 15, 38);
 
+	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
 }
 
 SectorView::~SectorView()
@@ -309,6 +310,8 @@ void SectorView::Update()
 		bool canJump = Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired, dur);
 		if (canJump) {
 			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
+			if (Pi::currentSystem->GetLocation() != sys->GetLocation()) 
+				Pi::player->SetHyperspaceTarget(&sbody_path);
 		} else if (fuelRequired) {
 			snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
 		} else {
@@ -330,7 +333,17 @@ void SectorView::Update()
 		m_distance->SetText(buf);
 		m_starType->SetText(desc);
 		m_shortDesc->SetText(sys->GetShortDescription());
+
+		m_lastShownLoc = sys->GetLocation();
 	}
 }
 
+void SectorView::MouseButtonDown(int button, int x, int y)
+{
+	const float ft = Pi::GetFrameTime();
+	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+			m_zoom *= pow(2.0f, ft);
+	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+			m_zoom *= pow(0.5f, ft);
+}
 

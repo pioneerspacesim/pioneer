@@ -48,7 +48,7 @@ sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 char Pi::keyState[SDLK_LAST];
-char Pi::mouseButton[5];
+char Pi::mouseButton[6];
 int Pi::mouseMotion[2];
 Player *Pi::player;
 View *Pi::currentView;
@@ -273,9 +273,13 @@ void Pi::HandleEvents()
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
 					// only accessible once game started
 					if (currentView != 0) {
-						RequestTimeAccel(0);
-						SetTimeAccel(0);
-						SetView(gameMenuView);
+						if (currentView != gameMenuView) {
+							RequestTimeAccel(0);
+							SetTimeAccel(0);
+							SetView(gameMenuView);
+						}
+						else
+							RequestTimeAccel(1);
 					}
 					break;
 				}

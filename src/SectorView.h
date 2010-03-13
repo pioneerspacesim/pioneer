@@ -25,6 +25,7 @@ private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
 	void OnClickSystem(const Gui::MouseButtonEvent *e, int sx, int sy, int sys_idx);
+	void MouseButtonDown(int button, int x, int y);
 
 	float m_zoom;
 	int m_secx, m_secy;

@@ -136,7 +136,7 @@ private:
 	static float scrAspect;
 	static SDL_Surface *scrSurface;
 	static char keyState[SDLK_LAST];
-	static char mouseButton[5];
+	static char mouseButton[6];
 	static int mouseMotion[2];
 	static const float timeAccelRates[];
 	static bool isGameStarted;

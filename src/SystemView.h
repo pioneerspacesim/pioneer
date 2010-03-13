@@ -23,6 +23,7 @@ private:
 	void OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev);
 	void OnClickAccel(float step);
 	void ResetViewpoint();
+	void MouseButtonDown(int button, int x, int y);
 
 	StarSystem *m_system;
 	SBody *m_selectedObject;

@@ -1,4 +1,3 @@
-uniform float invLogZfarPlus1;
 varying vec3 norm;
 
 void main(void)

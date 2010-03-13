@@ -103,6 +103,8 @@ WorldView::WorldView(): View()
 	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
 	glBindBufferARB(GL_ARRAY_BUFFER, 0);
 #endif /* USE_VBO */
+
+	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 }
 
 WorldView::~WorldView()
@@ -998,5 +1000,17 @@ void WorldView::DrawTargetSquare(const Body* const target)
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINE_LOOP, 0, 4);
 		glDisableClientState(GL_VERTEX_ARRAY);
+	}
+}
+
+void WorldView::MouseButtonDown(int button, int x, int y)
+{
+	if (GetCamType() == CAM_EXTERNAL) 
+	{
+		const float ft = Pi::GetFrameTime();
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+				m_externalViewDist += 400*ft;
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+				m_externalViewDist -= 400*ft;
 	}
 }

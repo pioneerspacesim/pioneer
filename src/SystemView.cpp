@@ -56,6 +56,8 @@ SystemView::SystemView(): GenericSystemView(GenericSystemView::MAP_SYSTEM)
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.0));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 102, 0);
+
+	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
 	
 	ResetViewpoint();
 }
@@ -72,7 +74,8 @@ void SystemView::OnClickAccel(float step)
 void SystemView::ResetViewpoint()
 {
 	m_selectedObject = 0;
-	m_rot_x = m_rot_z = 0;
+	m_rot_z = 0;
+	m_rot_x = 50;
 	m_zoom = 1.0f/AU;
 	m_timeStep = 1.0f;
 	m_time = Pi::GetGameTime();
@@ -240,13 +243,24 @@ void SystemView::Update()
 {
 	const float ft = Pi::GetFrameTime();
 	if (Pi::KeyState(SDLK_EQUALS) ||
-	    m_zoomInButton->IsPressed()) m_zoom *= pow(4.0f, ft);
+	    m_zoomInButton->IsPressed()) 
+			m_zoom *= pow(4.0f, ft);
 	if (Pi::KeyState(SDLK_MINUS) ||
-	    m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25f, ft);
-	if (Pi::MouseButtonState(3)) {
+	    m_zoomOutButton->IsPressed()) 
+			m_zoom *= pow(0.25f, ft);
+	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
 		m_rot_x += motion[1]*20*ft;
 		m_rot_z += motion[0]*20*ft;
 	}
+}
+
+void SystemView::MouseButtonDown(int button, int x, int y)
+{
+	const float ft = Pi::GetFrameTime();
+	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+			m_zoom *= pow(0.25f, ft);
+	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+			m_zoom *= pow(4.0f, ft);
 }

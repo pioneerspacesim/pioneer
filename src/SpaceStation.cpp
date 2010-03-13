@@ -475,7 +475,7 @@ bool SpaceStation::IsGroundStation() const
 void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 {
 	SpaceStationType::positionOrient_t dport;
-	assert(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
+	PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
 //	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::SURFACE) {
@@ -505,7 +505,7 @@ void SpaceStation::SetDocked(Ship *ship, int port)
 void SpaceStation::PositionDockedShip(Ship *ship, int port)
 {
 	SpaceStationType::positionOrient_t dport;
-	assert(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
+	PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
 //	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
@@ -614,7 +614,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			SpaceStationType::positionOrient_t dport;
 			// why stage 2? Because stage 1 is permission to dock
 			// granted, stage 2 is start of docking animation.
-			assert(m_type->GetDockAnimPositionOrient(flags & 0xf, 2, 0.0f, vector3d(0.0), dport, s));
+			PiVerify(m_type->GetDockAnimPositionOrient(flags & 0xf, 2, 0.0f, vector3d(0.0), dport, s));
 		
 			double speed = s->GetVelocity().Length();
 			

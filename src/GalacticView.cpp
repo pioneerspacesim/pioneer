@@ -34,6 +34,8 @@ GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
 	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
 	Add(m_zoomOutButton, 732, 5);
+
+	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
 }
 
 GalacticView::~GalacticView()
@@ -175,4 +177,12 @@ void GalacticView::Update()
 	m_zoom = CLAMP(m_zoom, 0.5, 100.0);
 }
 
+void GalacticView::MouseButtonDown(int button, int x, int y)
+{
+	const float ft = Pi::GetFrameTime();
+	if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+			m_zoom *= pow(0.25f, ft);
+	if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+			m_zoom *= pow(4.0f, ft);
+}
 

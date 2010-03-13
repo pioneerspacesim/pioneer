@@ -2032,7 +2032,7 @@ static int define_model(lua_State *L)
 void LmrModelCompilerInit()
 {
 	s_normalShader = new Render::Shader("model");
-	assert(s_font = new FontFace ("font.ttf"));
+	PiVerify(s_font = new FontFace ("font.ttf"));
 
 	lua_State *L = lua_open();
 	sLua = L;

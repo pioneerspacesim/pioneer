@@ -707,7 +707,7 @@ public:
 				return;
 			}
 		}
-		assert(SDL_mutexP(m_kidsLock)==0);
+		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
 			SDL_mutexV(m_kidsLock);
@@ -809,18 +809,18 @@ public:
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
 				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
 				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
-				assert(SDL_mutexP(m_kidsLock)==0);
+				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) kids[i] = _kids[i];
 				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
 				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
-				assert(SDL_mutexV(m_kidsLock)!=-1);
+				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			}
 			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
 		} else {
 			if (canMerge && kids[0]) {
-				assert(SDL_mutexP(m_kidsLock)==0);
+				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
-				assert(SDL_mutexV(m_kidsLock)!=-1);
+				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			}
 		}
 	}

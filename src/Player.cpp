@@ -217,7 +217,8 @@ void Player::PollControls()
 		SetGunState(0,0);
 		SetGunState(1,0);
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
-			SetGunState(Pi::worldView->GetActiveWeapon(), 1);
+			if (!Pi::player->IsDead())
+				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 
 		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
