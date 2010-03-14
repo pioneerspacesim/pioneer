@@ -35,12 +35,14 @@ GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
 	m_zoomOutButton->SetToolTip("Zoom out");
 	Add(m_zoomOutButton, 732, 5);
 
-	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
+	m_onMouseButtonDown = 
+		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
 }
 
 GalacticView::~GalacticView()
 {
 	glDeleteTextures(1, &m_texture);
+	m_onMouseButtonDown.disconnect();
 }
 
 void GalacticView::Save()

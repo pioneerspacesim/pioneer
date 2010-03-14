@@ -44,6 +44,7 @@ private:
 	Gui::Label *m_distance;
 	Gui::Label *m_starType;
 	Gui::Label *m_shortDesc;
+	sigc::connection m_onMouseButtonDown;
 };
 
 #endif /* _SECTORVIEW_H */

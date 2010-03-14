@@ -57,13 +57,15 @@ SystemView::SystemView(): GenericSystemView(GenericSystemView::MAP_SYSTEM)
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
 	m_rightRegion2->Add(b, 102, 0);
 
-	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
+	m_onMouseButtonDown = 
+		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
 	
 	ResetViewpoint();
 }
 
 SystemView::~SystemView()
 {
+	m_onMouseButtonDown.disconnect();
 }
 
 void SystemView::OnClickAccel(float step)

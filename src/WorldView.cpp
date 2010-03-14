@@ -86,6 +86,8 @@ WorldView::WorldView(): View()
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
+	m_onMouseButtonDown = 
+		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 	
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = 0.05f+(float)Pi::rng.NDouble(3);
@@ -103,8 +105,6 @@ WorldView::WorldView(): View()
 	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
 	glBindBufferARB(GL_ARRAY_BUFFER, 0);
 #endif /* USE_VBO */
-
-	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 }
 
 WorldView::~WorldView()
@@ -112,6 +112,7 @@ WorldView::~WorldView()
 	m_onPlayerChangeHyperspaceTargetCon.disconnect();
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
+	m_onMouseButtonDown.disconnect();
 }
 
 void WorldView::Save()

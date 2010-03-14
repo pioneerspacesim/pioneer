@@ -54,12 +54,14 @@ SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
 	m_shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	infoBar->Add(m_shortDesc, 15, 38);
 
-	Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
+	m_onMouseButtonDown = 
+		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
 }
 
 SectorView::~SectorView()
 {
 	glDeleteLists(m_gluDiskDlist, 1);
+	m_onMouseButtonDown.disconnect();
 }
 
 void SectorView::Save()

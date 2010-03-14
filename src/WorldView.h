@@ -67,6 +67,7 @@ private:
 	sigc::connection m_onPlayerChangeHyperspaceTargetCon;
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
+	sigc::connection m_onMouseButtonDown;
 };
 
 #endif /* _WORLDVIEW_H */

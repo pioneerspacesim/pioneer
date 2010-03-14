@@ -36,6 +36,7 @@ private:
 	Gui::Label *m_timePoint;
 	Gui::Label *m_infoLabel;
 	Gui::Label *m_infoText;
+	sigc::connection m_onMouseButtonDown;
 };
 
 #endif /* _SYSTEMVIEW_H */

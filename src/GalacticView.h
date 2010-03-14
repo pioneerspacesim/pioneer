@@ -25,6 +25,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	float m_zoom;
 	GLuint m_texture;
+	sigc::connection m_onMouseButtonDown;
 };
 
 #endif /* _GALACTICVIEW_H */

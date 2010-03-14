@@ -181,7 +181,7 @@ void Player::PollControls()
 	double time_accel = Pi::GetTimeAccel();
 	double invTimeAccel = 1.0 / time_accel;
 
-	if ((time_accel == 0) || GetDockedWith() ||
+	if ((time_accel == 0) || GetDockedWith() || Pi::player->IsDead() ||
 	    (GetFlightState() != FLYING)) {
 		return;
 	}
@@ -217,7 +217,6 @@ void Player::PollControls()
 		SetGunState(0,0);
 		SetGunState(1,0);
 		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
-			if (!Pi::player->IsDead())
 				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 
