@@ -19,6 +19,8 @@ struct RenderState {
 	float combinedScale;
 };
 
+struct LmrUnknownMaterial {};
+
 namespace ShipThruster {
 	struct Thruster
 	{
@@ -477,15 +479,13 @@ public:
 	}
 
 	void PushUseMaterial(const char *mat_name) {
-		if (curOp.type) m_ops.push_back(curOp);
-		curOp.type = OP_SET_MATERIAL;
-		
 		std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 		if (i != m_model->m_materialLookup.end()) {
+			if (curOp.type) m_ops.push_back(curOp);
+			curOp.type = OP_SET_MATERIAL;
 			curOp.col.material_idx = (*i).second;
 		} else {
-			printf("Unknown material name '%s'.\n", mat_name);
-			exit(0);
+			throw LmrUnknownMaterial();
 		}
 	}
 
@@ -1385,7 +1385,12 @@ namespace ModelFuncs {
 	static int use_material(lua_State *L)
 	{
 		const char *mat_name = luaL_checkstring(L, 1);
-		s_curBuf->PushUseMaterial(mat_name);
+		try {
+			s_curBuf->PushUseMaterial(mat_name);
+		} catch (LmrUnknownMaterial) {
+			printf("Unknown material name '%s'.\n", mat_name);
+			exit(0);
+		}
 		return 0;
 	}
 
@@ -2013,55 +2018,84 @@ namespace ObjLoader {
 			}
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
 				// how many vertices in this face?
-				const int MAX_VTX_FACE = 4;
+				const int MAX_VTX_FACE = 64;
 				char *bit[MAX_VTX_FACE];
 				char *pos = &buf[2];
 				int numBits = 0;
 				while ((pos[0] != '\0') && (numBits < MAX_VTX_FACE)) {
 					bit[numBits++] = pos;
 					while(pos[0] && !isspace(pos[0])) pos++;
-					if (isspace(pos[0])) pos++;
+					while (isspace(pos[0])) pos++;
 				}
-				printf("%d bits\n", numBits);
 
 				int realVtxIdx[MAX_VTX_FACE];
+				int vi[MAX_VTX_FACE], ni[MAX_VTX_FACE];
+				bool build_normals = false;
 				for (int i=0; i<numBits; i++) {
-					int vi, ni, ti;
-					if (3 != sscanf(bit[i], "%d/%d/%d", &vi, &ti, &ni)) {
-						if (2 != sscanf(bit[i], "%d//%d", &vi, &ni)) {
-							printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
-							exit(0);
-						}
+					int ti;
+					if (3 == sscanf(bit[i], "%d/%d/%d", &vi[i], &ti, &ni[i])) {
+						// good
+					}
+					else if (2 == sscanf(bit[i], "%d//%d", &vi[i], &ni[i])) {
+						// good
+					}
+					else if (1 == sscanf(bit[i], "%d", &vi[i])) {
+						build_normals = true;
+					} else {
+						puts(bit[i]);
+						printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
+						exit(0);
 					}
 					// indices start from 1 in obj file
-					vi--; ni--;
-					// SHARE THE PAIN!
-					std::map< std::pair<int, int>, int>::iterator it = vtxmap.find(std::pair<int,int>(vi, ni));
-					if (it == vtxmap.end()) {
-						// insert the horrible thing
-						int vtxStart = s_curBuf->AllocVertices(1);
-						s_curBuf->SetVertex(vtxStart, vertices[vi], normals[ni]);
-						vtxmap[std::pair<int,int>(vi, ni)] = vtxStart;
-						realVtxIdx[i] = vtxStart;
-					} else {
-						realVtxIdx[i] = (*it).second;
-					}
+					vi[i]--; ni[i]--;
 				}
 
-				if (numBits == 3) {
-					s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
-				} else if (numBits == 4) {
-					s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
-					s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3]);
+				if (build_normals) {
+					// not nice without normals
+					for (int i=0; i<numBits-2; i++) {
+						vector3f &a = vertices[vi[0]];
+						vector3f &b = vertices[vi[i+1]];
+						vector3f &c = vertices[vi[i+2]];
+						vector3f n = vector3f::Cross(a-b, a-c).Normalized();
+						int vtxStart = s_curBuf->AllocVertices(3);
+						s_curBuf->SetVertex(vtxStart, a, n);
+						s_curBuf->SetVertex(vtxStart+1, b, n);
+						s_curBuf->SetVertex(vtxStart+2, c, n);
+						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
+					}
 				} else {
-					printf("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
-					exit(0);
+					for (int i=0; i<numBits; i++) {
+						// SHARE THE PAIN!
+						std::map< std::pair<int, int>, int>::iterator it = vtxmap.find(std::pair<int,int>(vi[i], ni[i]));
+						if (it == vtxmap.end()) {
+							// insert the horrible thing
+							int vtxStart = s_curBuf->AllocVertices(1);
+							s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]]);
+							vtxmap[std::pair<int,int>(vi[i], ni[i])] = vtxStart;
+							realVtxIdx[i] = vtxStart;
+						} else {
+							realVtxIdx[i] = (*it).second;
+						}
+					}
+					if (numBits == 3) {
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
+					} else if (numBits == 4) {
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3]);
+					} else {
+						printf("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
+						exit(0);
+					}
 				}
 			}
 			else if (strncmp("usemtl ", buf, 7) == 0) {
 				char mat_name[128];
 				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
-					s_curBuf->PushUseMaterial(mat_name);
+					try {
+						s_curBuf->PushUseMaterial(mat_name);
+					} catch (LmrUnknownMaterial) {
+						printf("Warning: Missing material %s in %s\n", mat_name, obj_name);
+					}
 				} else {
 					printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
 					exit(0);
