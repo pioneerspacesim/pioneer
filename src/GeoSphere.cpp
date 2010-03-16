@@ -33,6 +33,13 @@ struct VBOVertex
 #define VBO_COUNT_HI_EDGE  (3*(GEOPATCH_EDGELEN-1))
 #define VBO_COUNT_MID_IDX  (4*3*(GEOPATCH_EDGELEN-3) + 2*(GEOPATCH_EDGELEN-3)*(GEOPATCH_EDGELEN-3)*3)
 //                          ^^ serrated teeth bit      ^^^ square inner bit
+#define IDX_VBO_LO_OFFSET(_i) ((_i)*sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2))
+#define IDX_VBO_HI_OFFSET(_i) (((_i)*sizeof(unsigned short)*VBO_COUNT_HI_EDGE)+IDX_VBO_LO_OFFSET(4))
+#define IDX_VBO_MAIN_OFFSET IDX_VBO_HI_OFFSET(4)
+
+// for glDrawRangeElements
+static int s_loMinIdx[4], s_loMaxIdx[4];
+static int s_hiMinIdx[4], s_hiMaxIdx[4];
 
 class GeoPatch {
 public:
@@ -44,7 +51,7 @@ public:
 	static unsigned short *midIndices;
 	static unsigned short *loEdgeIndices[4];
 	static unsigned short *hiEdgeIndices[4];
-	static GLuint indices_vbo[9];
+	static GLuint indices_vbo;
 	static VBOVertex *vbotemp;
 	GeoPatch *kids[4];
 	GeoPatch *parent;
@@ -83,8 +90,8 @@ public:
 				delete [] loEdgeIndices[i];
 				delete [] hiEdgeIndices[i];
 			}
-			if (indices_vbo[0]) {
-				glDeleteBuffersARB(9, indices_vbo);
+			if (indices_vbo) {
+				glDeleteBuffersARB(1, &indices_vbo);
 			}
 			delete [] vbotemp;
 		}
@@ -235,22 +242,41 @@ public:
 					idx += 3;
 				}
 			}
+			// find min/max indices
+			for (int i=0; i<4; i++) {
+				s_loMinIdx[i] = s_hiMinIdx[i] = 1<<30;
+				s_loMaxIdx[i] = s_hiMaxIdx[i] = 0;
+				for (int j=0; j<3*(GEOPATCH_EDGELEN/2); j++) {
+					if (loEdgeIndices[i][j] < s_loMinIdx[i]) s_loMinIdx[i] = loEdgeIndices[i][j];
+					if (loEdgeIndices[i][j] > s_loMaxIdx[i]) s_loMaxIdx[i] = loEdgeIndices[i][j];
+				}
+				for (int j=0; j<VBO_COUNT_HI_EDGE; j++) {
+					if (hiEdgeIndices[i][j] < s_hiMinIdx[i]) s_hiMinIdx[i] = hiEdgeIndices[i][j];
+					if (hiEdgeIndices[i][j] > s_hiMaxIdx[i]) s_hiMaxIdx[i] = hiEdgeIndices[i][j];
+				}
+				printf("%d:\nLo %d:%d\nHi: %d:%d\n", i, s_loMinIdx[i], s_loMaxIdx[i], s_hiMinIdx[i], s_hiMaxIdx[i]);
+			}
 
 			if (USE_VBO) {
-				glGenBuffersARB(9, indices_vbo);
+				glGenBuffersARB(1, &indices_vbo);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET + sizeof(unsigned short)*VBO_COUNT_MID_IDX, 0, GL_STATIC_DRAW);
 				for (int i=0; i<4; i++) {
-					glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i]);
-					glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
-						loEdgeIndices[i], GL_STATIC_DRAW);
+					glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER, 
+						IDX_VBO_LO_OFFSET(i),
+						sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
+						loEdgeIndices[i]);
 				}
 				for (int i=0; i<4; i++) {
-					glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+4]);
-					glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
-						hiEdgeIndices[i], GL_STATIC_DRAW);
+					glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
+						IDX_VBO_HI_OFFSET(i),
+						sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
+						hiEdgeIndices[i]);
 				}
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
-				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*VBO_COUNT_MID_IDX,
-						midIndices, GL_STATIC_DRAW);
+				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
+						IDX_VBO_MAIN_OFFSET,
+						sizeof(unsigned short)*VBO_COUNT_MID_IDX,
+						midIndices);
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
 		}
@@ -723,15 +749,13 @@ public:
 				glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
 				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
 				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), (void *)(6*sizeof(float)));
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[8]);
-				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, 0);
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, (void*)IDX_VBO_MAIN_OFFSET);
 				for (int i=0; i<4; i++) {
 					if (edgeFriend[i]) {
-						glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i+4]);
-						glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, 0);
+						glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, (void*)IDX_VBO_HI_OFFSET(i));
 					} else {
-						glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo[i]);
-						glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, 0);
+						glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, (void*)IDX_VBO_LO_OFFSET(i));
 					}
 				}
 				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
@@ -829,7 +853,7 @@ public:
 unsigned short *GeoPatch::midIndices = 0;
 unsigned short *GeoPatch::loEdgeIndices[4];
 unsigned short *GeoPatch::hiEdgeIndices[4];
-GLuint GeoPatch::indices_vbo[9];
+GLuint GeoPatch::indices_vbo;
 VBOVertex *GeoPatch::vbotemp;
 
 static const int geo_sphere_edge_friends[6][4] = {
