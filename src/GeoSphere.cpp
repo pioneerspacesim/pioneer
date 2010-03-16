@@ -750,7 +750,7 @@ public:
 				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
 				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), (void *)(6*sizeof(float)));
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, (void*)IDX_VBO_MAIN_OFFSET);
+				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES-1, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, (void*)IDX_VBO_MAIN_OFFSET);
 				for (int i=0; i<4; i++) {
 					if (edgeFriend[i]) {
 						glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, (void*)IDX_VBO_HI_OFFSET(i));
