@@ -505,6 +505,27 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 	Pi::cpan->MsgLog()->ImportantMessage(s->GetLabel(), msg);
 }
 
+static void PlayerPayFine()
+{
+	Sint64 crime, fine;
+	Polit::GetCrime(&crime, &fine);
+	if (Pi::player->GetMoney() == 0) {
+		Pi::cpan->MsgLog()->Message("", "You do not have any money.");
+	} else if (fine > Pi::player->GetMoney()) {
+		Polit::AddCrime(0, -Pi::player->GetMoney());
+		Polit::GetCrime(&crime, &fine);
+		Pi::cpan->MsgLog()->Message("", stringf(512, "You have paid %s but still have an outstanding fine of %s.",
+				format_money(Pi::player->GetMoney()).c_str(),
+				format_money(fine).c_str()));
+		Pi::player->SetMoney(0);
+	} else {
+		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
+		Pi::cpan->MsgLog()->Message("", stringf(512, "You have paid the fine of %s.",
+				format_money(fine).c_str()));
+		Polit::AddCrime(0, -fine);
+	}
+}
+
 #if 0
 static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
 {
@@ -561,6 +582,15 @@ void WorldView::UpdateCommsOptions()
 			button = AddCommsOption("Request docking clearance", ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
 			ypos += 32;
+
+			Sint64 crime, fine;
+			Polit::GetCrime(&crime, &fine);
+			if (fine) {
+				button = AddCommsOption(stringf(512, "Pay fine by remote transfer (%s)",
+							format_money(fine).c_str()).c_str(), ypos, optnum++);
+				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
+				ypos += 32;
+			}
 		}
 		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
 			button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);

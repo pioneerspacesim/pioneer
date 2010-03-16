@@ -51,6 +51,7 @@ public:
 	bool BBRemoveMission(Mission *m);
 	virtual void PostLoadFixup();
 	virtual void NotifyDeleted(const Body* const deletedBody);
+	int GetFreeDockingPort(); // returns -1 if none free
 	void SetDocked(Ship *ship, int port);
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;
@@ -62,6 +63,7 @@ protected:
 	void Sold(Equip::Type t);
 private:
 	void DoDockingAnimation(const float timeStep);
+	void DoLawAndOrder();
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
@@ -92,6 +94,7 @@ private:
 	std::vector<Mission*> m_bbmissions;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
+	int m_numPoliceDocked;
 };
 
 #endif /* _SPACESTATION_H */

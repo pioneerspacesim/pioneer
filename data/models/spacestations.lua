@@ -212,8 +212,8 @@ define_model('spacestation_entry1', {
 })
 
 function simple_lift_docking_port(baynum, pos)
-	local stage = get_arg(ARG_STATION_BAY1_STAGE)
-	local spos = get_arg(ARG_STATION_BAY1_POS)
+	local stage = get_arg(ARG_STATION_BAY1_STAGE + baynum)
+	local spos = get_arg(ARG_STATION_BAY1_POS + baynum)
 	local baypos = 0
 	if stage == 3 then
 		baypos = -75*spos
@@ -268,7 +268,7 @@ end
 define_model('mushroom_station', {
 	info = {
 		bounding_radius=200.0,
-		materials = {'body', 'text', 'markings', 'lift_floor'},
+		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base'},
 		tags = {'surface_station'},
 		num_docking_ports = 2,
 		-- 1 - permission granted
@@ -278,7 +278,7 @@ define_model('mushroom_station', {
 		-- this stuff doesn't work right with the new docking
 		-- code
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(0,100,0) }
+			local port_pos = { v(-100,100,0), v(100,100,0) }
 			if stage == 2 then 
 				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
 			elseif stage == 3 then
@@ -295,22 +295,41 @@ define_model('mushroom_station', {
 		set_material('text', 1,1,1,1)
 		set_material('body', .5,.5,.5,1)
 		set_material('lift_floor', .6,.6,.6,1)
+		set_material('tower_base', .2,.2,.5,1)
+		use_material('tower_base')
+		tapered_cylinder(16, v(0,0,-350), v(0,120,-350), v(0,0,1), 200, 60)
 		use_material('body')
-		local a = v(-100,100,-100)
-		local b = v(100,100,-100)
-		local c = v(100,100,100)
-		local d = v(-100,100,100)
-		local e = v(-50,100,-50)
-		local f = v(50,100,-50)
-		local g = v(50,100,50)
-		local h = v(-50,100,50)
-		-- top bits around docking lift
-		quad(a,e,f,b)
-		xref_quad(b,f,g,c)
-		quad(d,c,g,h)
+		cylinder(8, v(0,120,-350), v(0,210,-350), v(0,0,1), 20)
+		tapered_cylinder(8, v(0,210,-350), v(0,225,-350), v(0,0,1), 20, 30)
+		local port_pos = { v(-100,100,0), v(100,100,0) }
+		function makePortTop(pos)
+			local a = pos + v(-100,0,-100)
+			local b = pos + v(100,0,-100)
+			local c = pos + v(100,0,100)
+			local d = pos + v(-100,0,100)
+			local e = pos + v(-50,0,-50)
+			local f = pos + v(50,0,-50)
+			local g = pos + v(50,0,50)
+			local h = pos + v(-50,0,50)
+			-- top bits around docking lift
+			quad(a,e,f,b)
+			xref_quad(b,f,g,c)
+			quad(d,c,g,h)
+		end
+		makePortTop(port_pos[1])
+		makePortTop(port_pos[2])
+
+		quad(v(200,100,100), v(-200,100,100), v(-250,0,150), v(250,0,150))
+		quad(v(-200,100,-100), v(200,100,-100), v(250,0,-150), v(-250,0,-150))
+		xref_quad(v(200,100,-100), v(200,100,100), v(250,0,150), v(250,0,-150))
 	end,
 	dynamic = function(lod)
-		simple_lift_docking_port(0, v(0,100,0))
+		local port_pos = { v(-100,100,0), v(100,100,0) }
+		simple_lift_docking_port(0, port_pos[1])
+		simple_lift_docking_port(1, port_pos[2])
+		-- light on tower
+		local lightphase = math.fmod(get_arg(1)+0.46956, 1)
+		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
 	end
 })
 

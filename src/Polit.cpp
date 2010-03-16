@@ -3,6 +3,10 @@
 #include "Polit.h"
 #include "StarSystem.h"
 #include "Sector.h"
+#include "Space.h"
+#include "Ship.h"
+#include "ShipCpanel.h"
+#include "SpaceStation.h"
 #include "custom_starsystems.h"
 #include "EquipType.h"
 #include "PersistSystemData.h"
@@ -17,7 +21,17 @@ struct crime_t {
 } s_playerPerBlocCrimeRecord[BLOC_MAX];
 
 const char *crimeNames[64] = {
-	"Trading illegal goods"
+	"Trading illegal goods",
+	"Unlawful weapons discharge",
+	"Piracy",
+	"Murder",
+};
+// in 1/100th credits, as all money is
+static const Sint64 crimeBaseFine[64] = {
+	50000,
+	100000,
+	1000000,
+	1500000,
 };
 const char *s_blocDesc[BLOC_MAX] = {
 	"Independent",
@@ -89,6 +103,40 @@ void Unserialize()
 			s_playerPerBlocCrimeRecord[i].record = rd_int64();
 			s_playerPerBlocCrimeRecord[i].fine = rd_int64();
 		}
+	}
+}
+
+/* The drawbacks of stuffing stuff into integers */
+static int GetCrimeIdxFromEnum(enum Crime crime)
+{
+	PiVerify(crime);
+	for (int i=0; i<64; i++) {
+		if (crime & (1<<i)) return i;
+	}
+	return 0;
+}
+
+void NotifyOfCrime(Ship *s, enum Crime crime)
+{
+	// ignore crimes of NPCs for the time being
+	if (s != (Ship*)Pi::player) return;
+	// find nearest starport to this evil criminal
+	SpaceStation *station = static_cast<SpaceStation*>(Space::FindNearestTo(s, Object::SPACESTATION));
+	if (station) {
+		double dist = station->GetPositionRelTo(s).Length();
+		// too far away for crime to be noticed :)
+		if (dist > 100000.0) return;
+		const int crimeIdx = GetCrimeIdxFromEnum(crime);
+		Pi::cpan->MsgLog()->ImportantMessage(station->GetLabel(),
+				stringf(512, "%s cannot be tolerated here.", crimeNames[crimeIdx]));
+
+		float lawlessness = Pi::currentSystem->GetSysPolit().lawlessness.ToFloat();
+		Sint64 oldCrimes, oldFine;
+		GetCrime(&oldCrimes, &oldFine);
+		Sint64 newFine = MAX(1, 1 + (int)(crimeBaseFine[crimeIdx] * (1.0-lawlessness)));
+		// don't keep compounding fines (maybe should for murder, etc...)
+		if ( (!(crime & CRIME_MURDER)) && (newFine < oldFine) ) newFine = 0;
+		AddCrime(crime, newFine);
 	}
 }
 

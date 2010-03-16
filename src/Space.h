@@ -2,6 +2,7 @@
 #define _SPACE_H
 
 #include <list>
+#include "Object.h"
 #include "vector3.h"
 
 class Body;
@@ -30,6 +31,7 @@ namespace Space {
 	extern void DoHyperspaceTo(const SBodyPath *);
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);
+	extern Body *FindNearestTo(const Body *b, Object::Type t);
 
 	extern std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;

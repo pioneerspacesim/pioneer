@@ -118,6 +118,11 @@ vector3d Body::GetPositionRelTo(const Frame *relTo) const
 	return m * GetPosition();
 }
 
+vector3d Body::GetPositionRelTo(const Body *relTo) const
+{
+	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
+}
+
 const vector3d& Body::GetProjectedPos() const
 {
 	assert(IsOnscreen());

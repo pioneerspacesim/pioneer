@@ -11,6 +11,8 @@
 #include "Player.h"
 #include "Polit.h"
 #include "LmrModel.h"
+#include "Polit.h"
+#include "Space.h"
 
 
 #define ARG_STATION_BAY1_STAGE 6
@@ -194,6 +196,7 @@ void SpaceStation::Save()
 	}
 	wr_double(m_lastUpdatedShipyard);
 	wr_int(Serializer::LookupSystemBody(m_sbody));
+	wr_int(m_numPoliceDocked);
 }
 
 void SpaceStation::Load()
@@ -234,6 +237,11 @@ void SpaceStation::Load()
 	}
 	m_lastUpdatedShipyard = rd_double();
 	m_sbody = Serializer::LookupSystemBody(rd_int());
+	if (IsOlderThan(14)) {
+		m_numPoliceDocked = 8;
+	} else {
+		m_numPoliceDocked = rd_int();
+	}
 	InitStation();
 }
 
@@ -253,6 +261,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 {
 	m_sbody = sbody;
 	m_lastUpdatedShipyard = 0;
+	m_numPoliceDocked = Pi::rng.Int32(3,10);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (EquipType::types[i].slot == Equip::SLOT_CARGO) {
 			m_equipmentStock[i] = Pi::rng.Int32(0,100) * Pi::rng.Int32(1,100);
@@ -284,7 +293,6 @@ void SpaceStation::InitStation()
 	GetLmrObjParams().argFloats[ARG_STATION_BAY1_STAGE] = 1.0;
 	GetLmrObjParams().argFloats[ARG_STATION_BAY1_POS] = 1.0;
 	SetModel(m_type->modelName, true);
-	LmrCollMesh *mesh = GetLmrCollMesh();
 }
 
 SpaceStation::~SpaceStation()
@@ -455,6 +463,44 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 	}
 }
 
+void SpaceStation::DoLawAndOrder()
+{
+	Sint64 fine, crimeBitset;
+	Polit::GetCrime(&crimeBitset, &fine);
+	bool isDocked = ((Ship*)Pi::player)->GetDockedWith() ? true : false;
+	if ((!isDocked) && m_numPoliceDocked
+			&& (fine > 1000)
+			&& (GetPositionRelTo((Body*)Pi::player).Length() < 100000.0)) {
+		int port = GetFreeDockingPort();
+		if (port != -1) {
+			m_numPoliceDocked--;
+			// Make police ship intent on killing the player
+			Ship *ship = new Ship(ShipType::LADYBIRD);
+			ship->AIInstruct(Ship::DO_KILL, Pi::player);
+			ship->SetFrame(GetFrame());
+			ship->SetDockedWith(this, port);
+			Space::AddBody(ship);
+			{ // blue and white thang
+				ShipFlavour f;
+				f.type = ShipType::LADYBIRD;
+				strncpy(f.regid, "POLICE", 16);
+				f.price = ship->GetFlavour()->price;
+				LmrMaterial m;
+				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
+				m.specular[0] = 0.0f; m.specular[1] = 0.0f; m.specular[2] = 1.0f; m.specular[3] = 1.0f;
+				m.emissive[0] = 0.0f; m.emissive[1] = 0.0f; m.emissive[2] = 0.0f; m.emissive[3] = 0.0f;
+				m.shininess = 50.0f;
+				f.primaryColor = m;
+				m.shininess = 0.0f;
+				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
+				f.secondaryColor = m;
+				ship->ChangeFlavour(&f);
+			}
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+		}
+	}
+}
+
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
@@ -464,6 +510,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
 	DoDockingAnimation(timeStep);
+	DoLawAndOrder();
 }
 
 bool SpaceStation::IsGroundStation() const
@@ -493,6 +540,16 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
 	}
+}
+
+int SpaceStation::GetFreeDockingPort()
+{
+	for (int i=0; i<m_type->numDockingPorts; i++) {
+		if (m_shipDocking[i].ship == 0) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 void SpaceStation::SetDocked(Ship *ship, int port)

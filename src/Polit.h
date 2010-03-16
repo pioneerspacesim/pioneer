@@ -5,10 +5,14 @@
 
 class StarSystem;
 class SysPolit;
+class Ship;
 
 namespace Polit {
 	enum Crime {
-		CRIME_TRADING_ILLEGAL_GOODS = (1<<0)
+		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
+		CRIME_WEAPON_DISCHARGE = (1<<1),
+		CRIME_PIRACY = (1<<2),
+		CRIME_MURDER = (1<<3),
 	};
 
 	enum Bloc {
@@ -48,6 +52,7 @@ namespace Polit {
 		GOV_RAND_MAX = GOV_MAX-1
 	};
 
+	void NotifyOfCrime(Ship *s, enum Crime c);
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
 	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
 	void Init();

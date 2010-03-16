@@ -111,6 +111,8 @@ bool Ship::AICmdKamikaze(const Ship *enemy)
 bool Ship::AICmdKill(const Ship *enemy)
 {
 	SetGunState(0,0);
+	// launch if docked
+	if (GetDockedWith()) SetDockedWith(0,0);
 	/* needs to deal with frames, large distances, and success */
 	if (GetFrame() == enemy->GetFrame()) {
 		const float dist = (enemy->GetPosition() - GetPosition()).Length();
@@ -127,8 +129,8 @@ bool Ship::AICmdKill(const Ship *enemy)
 			const float dot = vector3d::Dot(dir, vector3d(-rot[8], -rot[9], -rot[10]));
 			if (dot > 0.95f) {
 				SetGunState(0,1);
-	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	TryHyperspaceTo(path);
+	//const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+	//TryHyperspaceTo(path);
 			}
 		} else {
 			// if too close turn away!

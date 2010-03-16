@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "ShipCpanel.h"
 #include "LmrModel.h"
+#include "Polit.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -235,8 +236,10 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			if (attacker && attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);
 		} else {
 			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
+			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
 		}
 		Sound::BodyMakeNoise(this, Sound::SFX_COLLISION, 1.0f);
 	}
@@ -484,7 +487,6 @@ void Ship::TestLanded()
 		}
 	}
 }
-#include "Player.h"
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
@@ -513,6 +515,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 void Ship::FireWeapon(int num)
 {
 	const ShipType &stype = GetShipType();
+	if (m_flightState != FLYING) return;
 	matrix4x4d m;
 	GetRotMatrix(m);
 
@@ -575,6 +578,7 @@ void Ship::FireWeapon(int num)
 			assert(0);
 			break;
 	}
+	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, Sound::SFX_PULSECANNON, 1.0f);
 }
 
@@ -817,7 +821,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	if ((!IsEnabled()) && !m_flightState) return;
 	LmrObjParams &params = GetLmrObjParams();
 	
-	if ( (this != Pi::player) ||
+	if ( (this != reinterpret_cast<Ship*>(Pi::player)) ||
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
 		SetLmrTimeParams();
@@ -888,8 +892,8 @@ bool Ship::Jettison(Equip::Type t)
 		vector3d pos = rot * vector3d(0, aabb.min.y-5, 0);
 		CargoBody *cargo = new CargoBody(t);
 		cargo->SetFrame(GetFrame());
-		cargo->SetPosition(Pi::player->GetPosition()+pos);
-		cargo->SetVelocity(Pi::player->GetVelocity() + rot*vector3d(0,-10,0));
+		cargo->SetPosition(GetPosition()+pos);
+		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
 		Space::AddBody(cargo);
 		return true;
 	} else {

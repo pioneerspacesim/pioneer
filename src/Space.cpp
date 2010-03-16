@@ -55,6 +55,23 @@ void Clear()
 	rootFrame->m_sbody = 0;
 }
 
+Body *FindNearestTo(const Body *b, Object::Type t)
+{
+	Body *nearest = 0;
+	double dist = FLT_MAX;
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+		if ((*i)->IsDead()) continue;
+		if ((*i)->IsType(t)) {
+			double d = (*i)->GetPositionRelTo(b).Length();
+			if (d < dist) {
+				dist = d;
+				nearest = *i;
+			}
+		}
+	}
+	return nearest;
+}
+
 void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
