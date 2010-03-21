@@ -402,7 +402,8 @@ static void draw_intro(WorldView *view, float _time)
 
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_AMBIENT_AND_DIFFUSE, lightCol);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 	

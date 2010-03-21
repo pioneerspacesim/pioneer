@@ -1,4 +1,6 @@
 varying vec3 norm;
+uniform sampler2D tex;
+uniform bool usetex;
 
 void main(void)
 {
@@ -28,6 +30,9 @@ void main(void)
 		amb * gl_FrontMaterial.ambient +
 		diff * gl_FrontMaterial.diffuse +
 		spec * gl_FrontMaterial.specular;
+
+	if ( usetex )
+		gl_FragColor *= texture2D(tex, gl_TexCoord[0].st);
 
 	SetFragDepth(gl_TexCoord[6].z);
 }

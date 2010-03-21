@@ -282,6 +282,7 @@ public:
 		m_ops.clear();
 		m_thrusters.clear();
 	}
+
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		s_numTrisRendered += m_indices.size()/3;
 		
@@ -289,6 +290,7 @@ public:
 		glEnable(GL_LIGHTING);
 
 		BindBuffers();
+		UseProgram();
 
 		glDepthRange(0.0, 1.0);
 
@@ -297,18 +299,27 @@ public:
 			const Op &op = m_ops[i];
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
-				if (USE_VBO) {
+				if (op.elems.texture != -1 ) {
+					UseProgram(true);
+					glEnable(GL_TEXTURE_2D);
+					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
+				}
+				if (USE_VBO)
 					glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
-				} else {
+				else
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
+				if ( op.elems.texture != -1 ) {
+					glDisable(GL_TEXTURE_2D);
+					UseProgram();
 				}
 				break;
 			case OP_DRAW_BILLBOARDS:
 				// XXX not using vbo yet
 				if (USE_VBO) UnbindBuffers();
 				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
-						op.billboards.col, op.billboards.tex);
+						op.billboards.col, op.billboards.tex, sizeof(Vertex));
 				BindBuffers();
+				UseProgram();
 				break;
 			case OP_SET_MATERIAL:
 				{
@@ -347,6 +358,7 @@ public:
 				op.callmodel.model->Render(&rstate2, cam_pos, trans, params);
 				// XXX re-binding buffer may not be necessary
 				BindBuffers();
+				UseProgram();
 				}
 				break;
 			case OP_NONE:
@@ -356,6 +368,8 @@ public:
 		
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
+		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
+
 
 		if (USE_VBO) {
 			UnbindBuffers();
@@ -373,6 +387,7 @@ public:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
+		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 		glEnable (GL_BLEND);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			ShipThruster::RenderThruster (rstate, params, &m_thrusters[i]);
@@ -388,15 +403,15 @@ public:
 		m_thrusters[i].power = power;
 		m_thrusters[i].linear_only = linear_only;
 	}
-	int PushVertex(const vector3f &pos, const vector3f &normal) {
-		m_vertices.push_back(Vertex(pos, normal));
+	int PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u = 0, GLfloat tex_v = 0) {
+		m_vertices.push_back(Vertex(pos, normal, tex_u, tex_v));
 		return m_vertices.size() - 1;
 	}
-	void SetVertex(int idx, const vector3f &pos, const vector3f &normal) {
-		m_vertices[idx] = Vertex(pos, normal);
+	void SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u = 0, GLfloat tex_v = 0) {
+		m_vertices[idx] = Vertex(pos, normal, tex_u, tex_v);
 	}
-	void PushTri(int i1, int i2, int i3) {
-		OpDrawElements(3);
+	void PushTri(int i1, int i2, int i3, int texture = -1) {
+		OpDrawElements(3, texture);
 		PushIdx(i1);
 		PushIdx(i2);
 		PushIdx(i3);
@@ -445,14 +460,8 @@ public:
 		curOp.billboards.col[2] = color.z;
 		curOp.billboards.col[3] = 1.0f;
 
-		// Hack -- store in v and n of Vertex structure...
-		for (int i=0; i<numPoints; i+=2) {
-			if (i < numPoints-1) {
-				PushVertex(points[i], points[i+1]);
-			} else {
-				PushVertex(points[i], vector3f(0.0f));
-			}
-		}
+		for (int i=0; i<numPoints; i++)
+			PushVertex(points[i], vector3f());
 	}
 
 	void SetMaterial(const char *mat_name, const float mat[11]) {
@@ -547,17 +556,37 @@ private:
 	void BindBuffers() {
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_NORMAL_ARRAY);
+		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 		if (USE_VBO) {
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
-			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
 			glNormalPointer(GL_FLOAT, sizeof(Vertex), (void *)(3*sizeof(float)));
+			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
+			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void *)(2*3*sizeof(float)));
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 		} else {
-			glNormalPointer(GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].n);
-			glVertexPointer(3, GL_FLOAT, 2*sizeof(vector3f), &m_vertices[0].v);
+			if (m_vertices.size()) {
+				glNormalPointer(GL_FLOAT, sizeof(Vertex), &m_vertices[0].n);
+				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_vertices[0].v);
+				glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_vertices[0].tex_u);
+			}
 		}
 	}
-	void OpDrawElements(int numIndices) {
+
+	void UseProgram(bool Textured = false) {
+		if ( Render::AreShadersEnabled() ) {
+			GLuint prog = Render::UseProgram(s_normalShader);
+			GLuint texLoc = glGetUniformLocation(prog, "tex");
+			GLuint usetexLoc = glGetUniformLocation(prog, "usetex");
+			if (Textured) {
+				glUniform1i(texLoc, 0);
+				glUniform1i(usetexLoc, 1);
+			}
+			else
+				glUniform1i(usetexLoc, 0);
+		}
+	}
+
+	void OpDrawElements(int numIndices, GLuint texture = -1) {
 		if (curOp.type != OP_DRAW_ELEMENTS) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
@@ -565,6 +594,7 @@ private:
 			curOp.elems.count = 0;
 			curOp.elems.elemMin = 1<<30;
 			curOp.elems.elemMax = 0;
+			curOp.elems.texture = texture;
 		}
 		curOp.elems.count += numIndices;
 	}
@@ -583,7 +613,7 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { int start, count, elemMin, elemMax; } elems;
+			struct { int start, count, elemMin, elemMax; GLuint texture; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
@@ -592,8 +622,9 @@ private:
 	};
 	struct Vertex {
 		Vertex() {}
-		Vertex(const vector3f &v, const vector3f &n): v(v), n(n) {}
+		Vertex(const vector3f &v, const vector3f &n, const GLfloat tex_u, const GLfloat tex_v): v(v), n(n), tex_u(tex_u), tex_v(tex_v) {}
 		vector3f v, n;
+		GLfloat tex_u, tex_v;
 	};
 
 	Op curOp;
@@ -780,7 +811,6 @@ void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 
 void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
 {
-	Render::UseProgram(s_normalShader);
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
@@ -1980,6 +2010,46 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
+	static void trim(char *input) {
+		char *output = input;
+		char *end = output;
+		char c;
+
+		while(*input && isspace(*input))
+			++input;
+
+		while(*input) {
+			c = *(output++) = *(input++);
+			if( !isspace(c) )
+				end = output;
+		}
+
+		*end = 0;
+	}
+
+	static std::map<std::string, std::string> load_mtl_file(const char* mtl_file) {
+		std::map<std::string, std::string> mtl_map;
+		char buf[1024], name[1024] = "", file[1024];
+		snprintf(buf, sizeof(buf), "data/models/%s", mtl_file);
+		FILE *f = fopen(buf, "r");
+		if (!f) {
+			printf("Could not open %s\n", buf);
+			throw LmrUnknownMaterial();
+		}
+
+		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
+			trim(buf);
+			if (!strncasecmp(buf, "newmtl ", 7)) {
+				PiVerify(1 == sscanf(buf, "newmtl %s", name));
+			}
+			if (!strncasecmp(buf, "map_K", 5) && strlen(name) > 0) {
+				PiVerify(1 == sscanf(buf, "map_Kd %s", file));
+				mtl_map[name] = file;
+			}
+		}
+		return mtl_map;
+	}
+
 	static int load_obj_file(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
@@ -1997,7 +2067,11 @@ namespace ObjLoader {
 			exit(0);
 		}
 		std::vector<vector3f> vertices;
+		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
+		std::map<std::string, std::string> mtl_map;
+		GLuint texture = -1;
+
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map< std::pair<int,int>, int> vtxmap;
 
@@ -2016,6 +2090,12 @@ namespace ObjLoader {
 				if (transform) v = ((*transform) * v).Normalized();
 				normals.push_back(v);
 			}
+			else if ((buf[0] == 'v') && (buf[1] == 't') && (buf[2] == ' ')) {
+				// texture
+				vector3f v;
+				PiVerify(2 == sscanf(buf, "vt %f %f", &v.x, &v.y));
+				texcoords.push_back(v);
+			}
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
 				// how many vertices in this face?
 				const int MAX_VTX_FACE = 64;
@@ -2029,11 +2109,10 @@ namespace ObjLoader {
 				}
 
 				int realVtxIdx[MAX_VTX_FACE];
-				int vi[MAX_VTX_FACE], ni[MAX_VTX_FACE];
+				int vi[MAX_VTX_FACE], ni[MAX_VTX_FACE], ti[MAX_VTX_FACE];
 				bool build_normals = false;
 				for (int i=0; i<numBits; i++) {
-					int ti;
-					if (3 == sscanf(bit[i], "%d/%d/%d", &vi[i], &ti, &ni[i])) {
+					if (3 == sscanf(bit[i], "%d/%d/%d", &vi[i], &ti[i], &ni[i])) {
 						// good
 					}
 					else if (2 == sscanf(bit[i], "%d//%d", &vi[i], &ni[i])) {
@@ -2047,7 +2126,7 @@ namespace ObjLoader {
 						exit(0);
 					}
 					// indices start from 1 in obj file
-					vi[i]--; ni[i]--;
+					vi[i]--; ni[i]--;ti[i]--;
 				}
 
 				if (build_normals) {
@@ -2058,10 +2137,10 @@ namespace ObjLoader {
 						vector3f &c = vertices[vi[i+2]];
 						vector3f n = vector3f::Cross(a-b, a-c).Normalized();
 						int vtxStart = s_curBuf->AllocVertices(3);
-						s_curBuf->SetVertex(vtxStart, a, n);
-						s_curBuf->SetVertex(vtxStart+1, b, n);
-						s_curBuf->SetVertex(vtxStart+2, c, n);
-						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
+						s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
+						s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
+						s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
+						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2, texture);
 					}
 				} else {
 					for (int i=0; i<numBits; i++) {
@@ -2070,7 +2149,7 @@ namespace ObjLoader {
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
-							s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]]);
+							s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
 							vtxmap[std::pair<int,int>(vi[i], ni[i])] = vtxStart;
 							realVtxIdx[i] = vtxStart;
 						} else {
@@ -2078,23 +2157,33 @@ namespace ObjLoader {
 						}
 					}
 					if (numBits == 3) {
-						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2], texture);
 					} else if (numBits == 4) {
-						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
-						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3]);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2], texture);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3], texture);
 					} else {
 						printf("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
 						exit(0);
 					}
 				}
 			}
+			else if (strncmp("mtllib ", buf, 7) == 0) {
+				char lib_name[128];
+				if (1 == sscanf(buf, "mtllib %s", lib_name)) {
+					mtl_map = load_mtl_file(lib_name);
+				}
+			}
 			else if (strncmp("usemtl ", buf, 7) == 0) {
 				char mat_name[128];
 				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
-					try {
-						s_curBuf->PushUseMaterial(mat_name);
-					} catch (LmrUnknownMaterial) {
-						printf("Warning: Missing material %s in %s\n", mat_name, obj_name);
+					if ( mtl_map.find(mat_name) != mtl_map.end() ) {
+						try {
+							char texfile[256];
+							snprintf(texfile, sizeof(texfile), "data/models/%s", mtl_map[mat_name].c_str());
+							texture = util_load_tex_rgba(texfile);
+						} catch (LmrUnknownMaterial) {
+							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name], mat_name, obj_name);
+						}
 					}
 				} else {
 					printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);

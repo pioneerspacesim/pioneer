@@ -56,7 +56,7 @@ void ToggleShaders()
 /*
  * So if we are using the z-hack VPROG_POINTSPRITE then this still works.
  */
-void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], GLuint tex)
+void PutPointSprites(int num, vector3f *v, float size, const float modulationCol[4], GLuint tex, int stride)
 {
 	glEnable(GL_BLEND);
 	glDisable(GL_LIGHTING);
@@ -93,7 +93,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 		
 		glPointSize(size);
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, &v[0].x);
+		glVertexPointer(3, GL_FLOAT, 0, v);
 		glDrawArrays(GL_POINTS, 0, num);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glPointSize(1);
@@ -116,7 +116,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 
 		glBegin(GL_QUADS);
 		for (int i=0; i<num; i++) {
-			vector3f pos(&v[i].x);
+			vector3f pos(*v);
 			glTexCoord2f(0.0f,0.0f);
 			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v4)));
 			glTexCoord2f(0.0f,1.0f);
@@ -125,6 +125,7 @@ void PutPointSprites(int num, vector3f v[], float size, const float modulationCo
 			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v2)));
 			glTexCoord2f(1.0f,0.0f);
 			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v1)));
+			v = reinterpret_cast<vector3f*>(reinterpret_cast<char*>(v)+stride);
 		}
 		glEnd();
 	}

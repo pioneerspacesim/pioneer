@@ -248,21 +248,36 @@ static std::map<std::string, GLuint> s_textures;
 
 GLuint util_load_tex_rgba(const char *filename)
 {
+	GLuint tex = -1;
 	std::map<std::string, GLuint>::iterator t = s_textures.find(filename);
 
 	if (t != s_textures.end()) return (*t).second;
 
 	SDL_Surface *s = IMG_Load(filename);
 
-	GLuint tex;
+	if ( s )
+	{
+		glGenTextures (1, &tex);
+		glBindTexture (GL_TEXTURE_2D, tex);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+		switch ( s->format->BitsPerPixel )
+		{
+		case 32:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+			break;
+		case 24:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
+			break;
+		default:
+			printf("Texture '%s' needs to be 24 or 32 bit.\n", filename);
+			exit(0);
+		}
 	
-	glGenTextures (1, &tex);
-	glBindTexture (GL_TEXTURE_2D, tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+		SDL_FreeSurface(s);
 
-	SDL_FreeSurface(s);
-
-	s_textures[filename] = tex;
+		s_textures[filename] = tex;
+	}
 
 	return tex;
 }

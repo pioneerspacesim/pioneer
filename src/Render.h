@@ -46,7 +46,7 @@ namespace Render {
 	void ToggleShaders();
 	static inline bool CanDoShaders() { return GLEW_VERSION_2_0; }
 
-	void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], GLuint tex);
+	void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], GLuint tex, int stride = sizeof(vector3f));
 };
 
 #endif /* _RENDER_H */
