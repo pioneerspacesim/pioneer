@@ -194,8 +194,10 @@ static void printLog(const char *filename, GLuint obj)
 
 GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 {
+	static char *lib_fs = 0;
 	static char *lib_vs = 0;
 	static char *lib_all = 0;
+	if (!lib_fs) lib_fs = load_file("data/shaders/_library.frag.glsl");
 	if (!lib_vs) lib_vs = load_file("data/shaders/_library.vert.glsl");
 	if (!lib_all) lib_all = load_file("data/shaders/_library.all.glsl");
 
@@ -240,6 +242,7 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 		shader_src.push_back(vendor.c_str());
 		shader_src.push_back(lightDef);
 		shader_src.push_back(lib_all);
+		shader_src.push_back(lib_fs);
 		if (allcode) shader_src.push_back(allcode);
 		shader_src.push_back(pscode);
 		

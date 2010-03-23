@@ -1,10 +1,3 @@
-uniform float invLogZfarPlus1;
-
-void SetFragDepth(float z)
-{
-  	gl_FragDepth = gl_DepthRange.near + (gl_DepthRange.far * log(z + 1.0) * invLogZfarPlus1);
-}
-
 void DirectionalLight(in int i,
                        in vec3 normal,
                        inout vec4 ambient,
