@@ -23,6 +23,7 @@ class SpaceStation;
 class GalacticView;
 struct SBodyPath;
 class GameMenuView;
+struct lua_State;
 
 class IniConfig: private std::map<std::string, std::string> {
 	public:
@@ -116,6 +117,7 @@ public:
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
+	static lua_State *luaPersistent;
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];

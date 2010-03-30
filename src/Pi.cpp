@@ -8,6 +8,7 @@
 #include "Star.h"
 #include "Frame.h"
 #include "ShipCpanel.h"
+#include "ShipType.h"
 #include "SectorView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
@@ -161,6 +162,7 @@ void Pi::Init(IniConfig &config)
 
 	GLFTInit();
 	LmrModelCompilerInit();
+	ShipType::Init();
 	GeoSphere::Init();
 	Space::Init();
 	Polit::Init();

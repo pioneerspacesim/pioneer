@@ -10,7 +10,8 @@ static const LmrMaterial s_white = { { 1.0f, 1.0f, 1.0f, 1.0f } };
 
 ShipFlavour::ShipFlavour()
 {
-	memset(this, 0, sizeof(ShipFlavour));
+	regid[0] = 0;
+	price = 0;
 }
 
 void ShipFlavour::MakeRandomColor(LmrMaterial &m)
@@ -52,7 +53,7 @@ ShipFlavour::ShipFlavour(ShipType::Type type)
 
 void ShipFlavour::MakeTrulyRandom(ShipFlavour &v)
 {
-	v = ShipFlavour(static_cast<ShipType::Type>(Pi::rng.Int32(ShipType::END)));
+	v = ShipFlavour(ShipType::GetRandomType());
 }
 
 void ShipFlavour::ApplyTo(LmrObjParams *p) const
@@ -88,7 +89,7 @@ void ShipFlavour::LoadLmrMaterial(LmrMaterial *m)
 void ShipFlavour::Save()
 {
 	using namespace Serializer::Write;
-	wr_int((int)type);
+	wr_string(type);
 	wr_int(price);
 	wr_string(regid);
 	SaveLmrMaterial(&primaryColor);
@@ -98,7 +99,7 @@ void ShipFlavour::Save()
 void ShipFlavour::Load()
 {
 	using namespace Serializer::Read;
-	type = static_cast<ShipType::Type>(rd_int());
+	type = rd_string();
 	price = rd_int();
 	rd_cstring2(regid, sizeof(regid));
 	LoadLmrMaterial(&primaryColor);

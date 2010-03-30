@@ -121,7 +121,7 @@ void Ship::Load()
 void Ship::Init()
 {
 	const ShipType &stype = GetShipType();
-	SetModel(stype.sbreModelName);
+	SetModel(stype.lmrModelName.c_str());
 	SetMassDistributionFromModel();
 	UpdateMass();
 	m_stats.hull_mass_left = (float)stype.hullMass;

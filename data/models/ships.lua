@@ -3,9 +3,41 @@ print("REMEMBER TO PORT ship6model!!!");
 
 define_model('missile', {
 	info = {
-			bounding_radius = 4,
-			materials={'body'}
+		bounding_radius = 4,
+		materials={ 'body' },
+		tags = { 'ship' },
+		ship_defs = {
+			{
+				'MISSILE_UNGUIDED',
+				{ 0, -4*10^5, 0, 0, 0, 0 },
+				0,
+				{},
+				{ 0, 0, 1, 0 },
+				90, 100, 16000000
+			}, {
+				'MISSILE_GUIDED', 
+				{ 1*10^5, -2*10^5, 0, 0, 0, 0 },
+				2*10^4,
+				{},
+				{ 0, 0, 1, 0 },
+				10, 1, 100
+			}, {
+				'MISSILE_SMART', 
+				{ 1.5*10^5, -3*10^5, 0, 0, 0, 0 },
+				2*10^4,
+				{},
+				{ 0, 0, 1, 0 },
+				10, 1, 100
+			}, {
+				'MISSILE_NAVAL', 
+				{ 2.0*10^5, -4*10^5, 0, 0, 0, 0 },
+				2*10^4,
+				{},
+				{ 0, 0, 1, 0 },
+				10, 1, 100
+			}
 		},
+	},
 	static = function(lod)
 		set_material('body', 1,1,1,1)
 		use_material('body')
@@ -13,6 +45,8 @@ define_model('missile', {
 		thruster(v(0,0,1), v(0,0,1), 10, true)
 	end
 })
+
+
 
 define_model('nosewheel', {
 	info = {
@@ -134,7 +168,33 @@ define_model('ladybird', {
 			lod_pixels = {50,100,200,0},
 			bounding_radius = 35,
 			materials={'white','engines','matvar0', 'matvar2',
-			'engine_inside'}
+			'engine_inside'},
+			tags = {'ship'},
+			ship_defs = {
+				{
+					'Ladybird Starfighter', 
+					{ 2*10^6,-2*10^6,1*10^6,-1*10^6,-1*10^6,2*10^6 },
+					1*10^7,
+					{
+					{ v(0,-0.5,0), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					{ 60, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					60, 60, 8700000,
+					2
+				}, {
+					'Taipan', 
+					{ 4*10^6,-4*10^6,1*10^6,-1*10^6,-1*10^6,1*10^6 },
+					1*10^7,
+					{
+						{ v(0,-0.5,0), v(0,0,-1) },
+						{ v(0,0,0), v(0,0,1) },
+					},
+					{ 240, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					240, 200, 56000000,
+					4
+				}
+			},
 		},
 	static = function(lod)
 		local v06 = v(-4.0, -5.0, -20.0);
@@ -247,6 +307,7 @@ define_model('ladybird', {
 	end
 })
 
+
 define_model('__walruswing', {
 	info = {
 			lod_pixels = { 20, 50, 0 },
@@ -281,7 +342,22 @@ define_model('walrus', {
 	info = {
 			scale = 1.0,
 			bounding_radius = 70,
-			materials = {'matvar0', 'text'}
+			materials = {'matvar0', 'text'},
+			tags = { 'ship' },
+			ship_defs = {
+				{
+					'Walrus', 
+					{ 12*10^6,-12*10^6,4*10^6,-4*10^6,-4*10^6,4*10^6 },
+					1*10^7,
+					{
+					{ v(0,-0.5,0), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					{ 320, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					320, 300, 35000000,
+					5
+				}
+			}
 		},
 	static = function()
 		local v06 = v(-5.0, 10.0, -30.0)
@@ -421,7 +497,22 @@ define_model('flowerfairy_heavy_trader', {
 			scale=2.0,
 			lod_pixels = {25,50,0},
 			bounding_radius = 100,
-			materials = {'matvar0','gray','text','engine_inside'}
+			materials = {'matvar0','gray','text','engine_inside'},
+			tags = {'ship'},
+			ship_defs = {
+				{
+					'Flowerfairy Heavy Trader', 
+					{ 1*10^5,-1*10^5,1*10^5,-1*10^5,-1*10^5,1*10^5 },
+					1*10^7,
+					{
+					{ v(0,-0.5,0), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					{ 500, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					500, 500, 55000000,
+					6
+				}
+			}
 		},
 	static = function(lod)
 	--	// 6, nose vertices
@@ -551,7 +642,22 @@ define_model('interdictor', {
 	info = {
 			lod_pixels = { 50, 100, 200, 0 },
 			bounding_radius = 100,
-			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'}
+			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'},
+			tags = {'ship'},
+			ship_defs = {
+				{
+					'Sirius Interdictor', 
+					{ 2*10^7,-2*10^7,1*10^7,-1*10^7,-1*10^7,1*10^7 },
+					4*10^7,
+					{
+					{ v(0,-0.5,0), v(0,0,-1) },
+					{ v(0,-0.5,0), v(0,0,1) },
+					},
+					{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					90, 100, 16000000,
+					1
+				}
+			}
 		},
 	static = function(lod)
 		local nose_tip = v(0.0, 0.0, -35.0)
@@ -875,3 +981,4 @@ define_model('interdictor', {
 	end
 })
 
+load_lua('data/models/mods')

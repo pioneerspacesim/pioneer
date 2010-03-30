@@ -132,6 +132,17 @@ std::string join_path(const char *firstbit, ...)
 	return out;
 }
 
+void Error(const char *format, ...)
+{
+	fputs("Error: ", stderr);
+	va_list ap;
+	va_start(ap, format);
+	vfprintf(stderr, format, ap);
+	va_end(ap);
+	fputs("\n", stderr);
+	abort();
+}
+
 void strip_cr_lf(char *string)
 {
 	char *s = string;

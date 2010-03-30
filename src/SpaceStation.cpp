@@ -37,7 +37,7 @@ struct SpaceStationType {
 
 	void _ReadStageDurations(const char *key, int *outNumStages, float **durationArray) {
 		lua_State *L = LmrGetLuaState();
-		model->PushAttributeToStack(key);
+		model->PushAttributeToLuaStack(key);
 		assert(lua_istable(L, -1));
 
 		int num = lua_objlen(L, -1);
@@ -75,7 +75,7 @@ struct SpaceStationType {
 		if ((stage > 0) && (stage > numDockingStages)) return false;
 		lua_State *L = LmrGetLuaState();
 		// It's a function of form function(stage, t, from)
-		model->PushAttributeToStack("ship_dock_anim");
+		model->PushAttributeToLuaStack("ship_dock_anim");
 		if (!lua_isfunction(L, -1)) {
 			fprintf(stderr, "Error: Spacestation model %s needs ship_dock_anim method\n", model->GetName());
 			Pi::Quit();

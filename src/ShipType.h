@@ -5,16 +5,18 @@
 #include "vector3.h"
 #include "EquipType.h"
 #include <vector>
+#include <map>
+
+struct lua_State;
 
 struct ShipType {
 	enum Thruster { THRUSTER_FRONT, THRUSTER_REAR, THRUSTER_TOP, THRUSTER_BOTTOM, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
-	enum Type { SWORDFISH, SIRIUS_INTERDICTOR, LADYBIRD, TAIPAN, WALRUS, FLOWERFAIRY,
-		MISSILE_UNGUIDED, MISSILE_GUIDED, MISSILE_SMART, MISSILE_NAVAL, END=MISSILE_UNGUIDED };
 	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
+	typedef std::string Type;
 
 	////////
-	const char *name;
-	const char *sbreModelName;
+	std::string name;
+	std::string lmrModelName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	struct GunMount {
@@ -28,8 +30,19 @@ struct ShipType {
 	Equip::Type hyperdrive;
 	///////
 
-	static const ShipType types[];
+	static std::string LADYBIRD;
+	static std::string SIRIUS_INTERDICTOR;
+	static std::string MISSILE_GUIDED;
+	static std::string MISSILE_NAVAL;
+	static std::string MISSILE_SMART;
+	static std::string MISSILE_UNGUIDED;
+
+	static Type GetRandomType();
+	static std::map<Type, ShipType> types;
 	static const char *gunmountNames[GUNMOUNT_MAX];
+	static void Init();
+private:
+	static int define_ship(lua_State *L, const char *model_name);
 };
 
 class EquipSet {

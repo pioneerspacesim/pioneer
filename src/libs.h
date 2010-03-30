@@ -18,6 +18,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #define strncasecmp strnicmp
+#define strcasecmp stricmp
 #else
 #include <alloca.h>
 #endif

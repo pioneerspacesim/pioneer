@@ -6,13 +6,11 @@
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
-	switch (type) {
-		case ShipType::MISSILE_GUIDED: m_power = 1; break;
-		case ShipType::MISSILE_SMART: m_power = 2; break;
-		case ShipType::MISSILE_NAVAL: m_power = 3; break;
-		default:
-		case ShipType::MISSILE_UNGUIDED: m_power = 0; break;
-	};
+	m_power = 0;
+	if (type == ShipType::MISSILE_GUIDED) m_power = 1;
+	if (type == ShipType::MISSILE_SMART) m_power = 2;
+	if (type == ShipType::MISSILE_NAVAL) m_power = 3;
+
 	m_owner = owner;
 	m_target = target;
 	m_distToTarget = FLT_MAX;

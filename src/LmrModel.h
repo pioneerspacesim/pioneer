@@ -47,7 +47,7 @@ public:
 	float GetBoundingRadius() const { return m_boundingRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
 	int GetIntAttribute(const char *attr_name) const;
-	void PushAttributeToStack(const char *attr_name) const;
+	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 private:
 	void Build(int lod, const LmrObjParams *params);

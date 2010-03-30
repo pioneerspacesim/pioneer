@@ -1,115 +1,152 @@
 #include "ShipType.h"
+#include "LmrModel.h"
 #include "Serializer.h"
+#include "MyLuaMathTypes.h"
+#include "Pi.h"
+#include "utils.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	"Front", "Rear" };
 
-const ShipType ShipType::types[] = {
-	{
-		"Swordfish Starfighter",
-		"66",
-		{ 2e6,-2e6,1e6,-1e6,-1e6,1e6 },
-		1e7,
-		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
-		},
-		{ 20, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		20, 20, 4000000,
-		Equip::DRIVE_CLASS1,
-	}, {
-		// besides running a wicked corporatist regime in the
-		// sirius system, Sirius corporation make a range of
-		// lovely starships
-		"Sirius Interdictor", "interdictor",
-		{ 2e7,-2e7,1e7,-1e7,-1e7,1e7 },
-		4e7,
-		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,-0.5,0), vector3f(0,0,1) }
-		},
-		{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		90, 100, 16000000,
-		Equip::DRIVE_CLASS3,
-	}, {
-		// john - you should pick names yourself or this happens
-		"Ladybird Starfighter",
-		"ladybird",
-		{ 2e6,-2e6,1e6,-1e6,-1e6,1e6 },
-		1e7,
-		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
-		},
-		{ 60, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		60, 60, 8700000,
-		Equip::DRIVE_CLASS2,
-	}, {
-		"Taipan",
-		"ladybird",
-		{ 4e6,-4e6,1e6,-1e6,-1e6,1e6 },
-		1e7,
-		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
-		},
-		{ 240, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		240, 200, 56000000,
-		Equip::DRIVE_CLASS4,
-	}, {
-		"Walrus",
-		"walrus",
-		{ 12e6,-12e6,4e6,-4e6,-4e6,4e6 },
-		1e7,
-		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
-		},
-		{ 320, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		320, 300, 35000000,
-		Equip::DRIVE_CLASS5,
-	}, {
-		"Flowerfairy Heavy Trader",
-		"flowerfairy_heavy_trader",
-		{ 1e5,-1e5,1e5,-1e5,-1e5,1e5 },
-		1e7,
-		{
-			{ vector3f(0,-0.5,0), vector3f(0,0,-1) },
-			{ vector3f(0,0,0), vector3f(0,0,1) }
-		},
-		{ 500, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		500, 500, 55000000,
-		Equip::DRIVE_CLASS6,
-	}, {
-		0,
-		"missile",
-		{ 0, -4e5, 0, 0, 0, 0 },
-		0, {},
-		{ 0, 0, 1, 0 },
-		10, 1, 100
-	}, {
-		0,
-		"missile",
-		{ 1e5, -2e5, 0, 0, 0, 0 },
-		2e4, {},
-		{ 0, 0, 1, 0 },
-		10, 1, 100
-	}, {
-		0,
-		"missile",
-		{ 1.5e5, -3e5, 0, 0, 0, 0 },
-		2e4, {},
-		{ 0, 0, 1, 0 },
-		10, 1, 100
-	}, {
-		0,
-		"missile",
-		{ 2.0e5, -4e5, 0, 0, 0, 0 },
-		2e4, {},
-		{ 0, 0, 1, 0 },
-		10, 1, 100
+std::map<ShipType::Type, ShipType> ShipType::types;
+std::string ShipType::LADYBIRD				= "Ladybird Starfighter";
+std::string ShipType::SIRIUS_INTERDICTOR	= "Sirius Interdictor";
+std::string ShipType::MISSILE_GUIDED		= "MISSILE_GUIDED";
+std::string ShipType::MISSILE_NAVAL			= "MISSILE_NAVAL";
+std::string ShipType::MISSILE_SMART			= "MISSILE_SMART";
+std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
+
+
+int ShipType::define_ship(lua_State *L, const char *model_name)
+{
+	ShipType s;
+	printf("%s\n", model_name);
+	s.name = luaPi_gettable_checkstring(L, -1, 1);
+	printf("%s!\n", s.name.c_str());
+
+	s.lmrModelName = model_name;
+	
+	lua_rawgeti(L, -1, 2);
+	bool malformed = false;
+	if (lua_istable(L, -1)) {
+		for (int i=0; i<THRUSTER_MAX; i++) {
+			lua_pushinteger(L, i+1);
+			lua_gettable(L, -2);
+			if (lua_isnumber(L, -1)) {
+				s.linThrust[i] = lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			} else {
+				malformed = true;
+				lua_pop(L, 1);
+				break;
+			}
+		}
+	} else {
+		malformed = true;
 	}
-};
+	lua_pop(L, 1);
+	if (malformed) Error("Expected thruster values in ship_defs of %s\n", model_name);
+
+	s.angThrust = (float)luaPi_gettable_checknumber(L, -1, 3);
+
+	lua_rawgeti(L, -1, 4);
+	if (lua_istable(L, -1)) {
+		for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
+			lua_pushinteger(L, i+1);
+			lua_gettable(L, -2);
+			if (lua_istable(L, -1) && lua_objlen(L,-2) == 2)	{
+				lua_pushinteger(L, 1);
+				lua_gettable(L, -2);
+				s.gunMount[i].pos = *MyLuaVec::checkVec(L, -1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 2);
+				lua_gettable(L, -2);
+				s.gunMount[i].dir = *MyLuaVec::checkVec(L, -1);
+				lua_pop(L, 1);
+			}
+			lua_pop(L, 1);
+		}
+	}
+	lua_pop(L, 1);
+
+	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
+	lua_rawgeti(L, -1, 5);
+	if (lua_istable(L, -1)) {
+		for (unsigned int i=0; (i<lua_objlen(L,-1)) && (i<Equip::SLOT_MAX); i++) {
+			lua_pushinteger(L, i+1);
+			lua_gettable(L, -2);
+			s.equipSlotCapacity[i] = luaL_checkinteger(L, -1);
+			lua_pop(L, 1);
+		}
+	}
+	lua_pop(L, 1);
+
+	s.capacity = luaPi_gettable_checkinteger(L, -1, 6);
+	s.hullMass = luaPi_gettable_checkinteger(L, -1, 7);
+	s.baseprice = luaPi_gettable_checkinteger(L, -1, 8);
+	lua_rawgeti(L, -1, 9);
+	if(!lua_isnoneornil(L, -1)) {
+		s.hyperdrive = (Equip::Type)((int)Equip::DRIVE_CLASS1+luaL_checkinteger(L, -1)-1);
+	} else {
+		s.hyperdrive = Equip::NONE;
+	}
+	lua_pop(L, 1);
+	printf("%d,%d,%d, h %d\n", s.capacity, s.hullMass, s.baseprice, s.hyperdrive);
+
+	types[s.name] = s;
+	return 0;
+}
+
+void ShipType::Init()
+{
+	static bool isInitted = false;
+	if (isInitted) return;
+	isInitted = true;
+
+	std::vector<LmrModel*> ship_models;
+	LmrGetModelsWithTag("ship", ship_models);
+	lua_State *L = LmrGetLuaState();
+	int num = 0;
+
+	for (std::vector<LmrModel*>::iterator i = ship_models.begin();
+			i != ship_models.end(); ++i) {
+		LmrModel *model = *i;
+		model->PushAttributeToLuaStack("ship_defs");
+		if (lua_isnil(L, -1)) {
+			fprintf(stderr, "Warning: model %s is tagged as ship but has no ship_defs.\n",
+					model->GetName());
+		} else if (lua_istable(L, -1)) {
+			// multiple ship-defs for 1 model
+			for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
+				lua_pushinteger(L, i+1);
+				lua_gettable(L, -2);
+				define_ship(L, model->GetName());
+				num++;
+				lua_pop(L, 1);
+			}
+		} else {
+			Error("Model %s: ships_def is malformed", model->GetName());
+		}
+		lua_pop(L, 1);
+	}
+	printf("%d ship types.\n", num);
+}
+
+ShipType::Type ShipType::GetRandomType() {
+	ShipType::Type type = "";
+	while (true) {
+		std::map<ShipType::Type, ShipType>::iterator iter = types.begin();
+		int idx = Pi::rng.Int32(types.size());
+		for (int i=0; i<=idx; i++) {
+			type = iter->first;
+			iter++;
+		}
+		// Don't include missiles
+		if (type.find("MISSILE")!=0)
+			break;
+	}
+	return type;
+}
 
 void EquipSet::Save()
 {

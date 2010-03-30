@@ -279,7 +279,7 @@ public:
 		SpaceStation *station = Pi::player->GetDockedWith();
 		m_flavourIdx = flavour_idx;
 		m_flavour = station->GetShipsOnSale()[flavour_idx];
-		m_lmrModel = LmrLookupModelByName(ShipType::types[m_flavour.type].sbreModelName);
+		m_lmrModel = LmrLookupModelByName(ShipType::types[m_flavour.type].lmrModelName.c_str());
 		m_ondraw3dcon = Pi::spaceStationView->onDraw3D.connect(
 				sigc::mem_fun(this, &StationViewShipView::Draw3D));
 	}

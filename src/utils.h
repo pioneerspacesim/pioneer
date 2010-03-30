@@ -23,6 +23,12 @@
 #define glError() 
 #endif
 
+#ifndef __GNUC__
+#define __attribute(x)
+#endif /* __GNUC__ */
+
+void Error(const char *format, ...) __attribute((format(printf,1,2)));
+
 struct MissingFileException {};
 
 // joinpath("data","models","some.def") = "data/models/some.def"
@@ -39,9 +45,6 @@ GLuint util_load_tex_rgba(const char *filename);
 
 FILE *fopen_or_die(const char *filename, const char *mode);
 
-#ifndef __GNUC__
-#define __attribute(x)
-#endif /* __GNUC__ */
 static inline std::string stringf(int maxlen, const char *format, ...)
 		__attribute((format(printf,2,3)));
 
