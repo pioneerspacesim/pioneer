@@ -794,9 +794,9 @@ void Pi::MainLoop()
 					timeAccel = MIN(timeAccel, 1);
 				} else if (dist < rad*1.1) {
 					timeAccel = MIN(timeAccel, 2);
-				} else if (dist < rad*8.0) {
+				} else if (dist < rad*5.0) {
 					timeAccel = MIN(timeAccel, 3);
-				} else if (dist < rad*15.0) {
+				} else if (dist < rad*10.0) {
 					timeAccel = MIN(timeAccel, 4);
 				} else if (dist < rad*50.0) {
 					timeAccel = MIN(timeAccel, 5);

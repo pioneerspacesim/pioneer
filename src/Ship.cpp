@@ -490,8 +490,7 @@ void Ship::TestLanded()
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
-	DynamicBody::TimeStepUpdate(timeStep);
-
+	AITimeStep(timeStep);
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
 		float force = stype.linThrust[i] * m_thrusters[i];
@@ -510,6 +509,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelTorque(vector3d(stype.angThrust*m_angThrusters[0],
 				  stype.angThrust*m_angThrusters[1],
 				  stype.angThrust*m_angThrusters[2]));
+	DynamicBody::TimeStepUpdate(timeStep);
 }
 
 void Ship::FireWeapon(int num)
@@ -594,8 +594,6 @@ float Ship::GetHullTemperature() const
 
 void Ship::StaticUpdate(const float timeStep)
 {
-	AITimeStep(timeStep);
-
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
 	}

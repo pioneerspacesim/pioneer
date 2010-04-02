@@ -556,6 +556,13 @@ static void player_fly_to(Body *b)
 	Pi::player->AIInstruct(Ship::DO_FLY_TO, b);
 }
 
+static void player_orbit(Body *b)
+{
+	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->AIClearInstructions();
+	Pi::player->AIInstruct(Ship::DO_ORBIT, b);
+}
+
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
 	Pi::player->SetHyperspaceTarget(cloud);
@@ -596,6 +603,12 @@ void WorldView::UpdateCommsOptions()
 			button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(player_fly_to), navtarget));
 			ypos += 32;
+
+			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
+				button = AddCommsOption("Autopilot: Enter orbit around " + navtarget->GetLabel(), ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_orbit), navtarget));
+				ypos += 32;
+			}
 		}
 
 		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);

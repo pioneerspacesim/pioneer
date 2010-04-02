@@ -23,6 +23,8 @@ class vector3 {
 	vector3 &operator-= (const vector3 a) { x-=a.x; y-=a.y; z-=a.z; return *this; }
 	vector3 &operator*= (const float a) { x*=a; y*=a; z*=a; return *this; }
 	vector3 &operator*= (const double a) { x*=a; y*=a; z*=a; return *this; }
+	vector3 &operator/= (const float a) { const T inva = (T)(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
+	vector3 &operator/= (const double a) { const T inva = (T)(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
 	vector3 operator- (const vector3 a) const { return vector3 (x-a.x, y-a.y, z-a.z); }
 	vector3 operator- () const { return vector3 (-x, -y, -z); }
 	bool operator== (const vector3 a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
@@ -33,6 +35,8 @@ class vector3 {
 	friend vector3 operator* (const float scalar, const vector3 a) { return a*scalar; }
 	friend vector3 operator* (const vector3 a, const double scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
 	friend vector3 operator* (const double scalar, const vector3 a) { return a*scalar; }
+	friend vector3 operator/ (const vector3 a, const float scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
+	friend vector3 operator/ (const vector3 a, const double scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
 
 	static vector3 Cross (const vector3 a, const vector3 b)
 		{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }

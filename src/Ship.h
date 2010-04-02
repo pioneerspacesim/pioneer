@@ -8,6 +8,7 @@
 #include "ShipFlavour.h"
 // only for SBodyPath
 #include "StarSystem.h"
+#include "bezier.h"
 #include <list>
 
 class SpaceStation;
@@ -83,7 +84,7 @@ public:
 	
 	EquipSet m_equipment;
 
-	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE };
+	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_ORBIT };
 	void AIInstruct(enum AICommand, void *arg);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
@@ -148,13 +149,23 @@ private:
 	public:
 		AICommand cmd;
 		void *arg;
-		AIInstruction(AICommand c, void *a): cmd(c), arg(a) {}
+		struct QuarticBezier path;
+		double endTime;
+		double startTime;
+
+		AIInstruction(AICommand c, void *a): cmd(c), arg(a) {
+			endTime = 0;
+			startTime = 0;
+		}
 	};
 	std::list<AIInstruction> m_todo;
 	void AIBodyDeleted(const Body* const body);
 	bool AICmdKill(const Ship *);
+	bool AICmdOrbit(AIInstruction &);
 	bool AICmdKamikaze(const Ship *);
 	bool AICmdFlyTo(const Body *);
+	void AITrySetBodyRelativeThrust(const vector3d &force);
+	bool AIFollowPath(AIInstruction &);
 };
 
 #endif /* _SHIP_H */

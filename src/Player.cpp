@@ -125,12 +125,11 @@ void Player::StaticUpdate(const float timeStep)
 {
 	Body *b;
 	vector3d v;
-	ClearThrusterState();
-	if (Pi::GetView() == Pi::worldView) PollControls();
 
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
+			if (Pi::GetView() == Pi::worldView) PollControls();
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
 			v = vector3d(0, 0, -m_setSpeed);
 			if (b) {
@@ -141,6 +140,7 @@ void Player::StaticUpdate(const float timeStep)
 			AIAccelToModelRelativeVelocity(v);
 			break;
 		case CONTROL_MANUAL:
+			if (Pi::GetView() == Pi::worldView) PollControls();
 			break;
 		case CONTROL_AUTOPILOT:
 			break;

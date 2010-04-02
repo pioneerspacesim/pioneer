@@ -4,11 +4,46 @@
 #include "Player.h"
 #include "perlin.h"
 
+static void path(double duration, const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
+		vector3d startVel, vector3d endVel, QuarticBezier &outPath)
+{
+	// How do you get derivative of a bezier line?
+	// http://www.cs.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/bezier-der.html
+	// path is a quartic bezier:
+//	vector3d /*p0,*/ p1, p2, p3/*, p4*/;
+	// velocity along this path is derivative of above bezier, and
+	// is a cubic bezier:
+	vector3d v0, v1, v2, v3;
+	// acceleration is derivative of the velocity bezier and is a quadric bezier
+	vector3d a0, a1, a2;
+	startVel *= duration;
+	endVel *= duration;
+
+	outPath.p0 = startPos;
+	outPath.p1 = startPos + 0.25*startVel;
+	outPath.p2 = controlPos;
+	outPath.p3 = endPos - 0.25*endVel;
+	outPath.p4 = endPos;
+
+	v0 = startVel;
+	v1 = 4.0*(outPath.p2 - outPath.p1);
+	v2 = 4.0*(outPath.p3 - outPath.p2);
+	v3 = endVel;
+
+	a0 = 3.0*(v1-v0);
+	a1 = 3.0*(v2-v1);
+	a2 = 3.0*(v3-v2);
+
+	double max_accel = MAX(a0.Length(), MAX(a1.Length(), a2.Length()));
+	printf("Path max accel is %f m.sec^-2\n", max_accel/(duration*duration));
+}
+
 void Ship::AIBodyDeleted(const Body* const body)
 {
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ) {
 		switch ((*i).cmd) {
 			case DO_KILL:
+			case DO_ORBIT:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
 				if (body == (Body*)(*i).arg) i = m_todo.erase(i);
@@ -34,6 +69,9 @@ void Ship::AITimeStep(const float timeStep)
 			case DO_KILL:
 				done = AICmdKill(static_cast<const Ship*>(inst.arg));
 				break;
+			case DO_ORBIT:
+				done = AICmdOrbit(inst);
+				break;
 			case DO_FLY_TO:
 				done = AICmdFlyTo(static_cast<const Body*>(inst.arg));
 				break;
@@ -46,9 +84,130 @@ void Ship::AITimeStep(const float timeStep)
 		m_todo.pop_front();
 		/* Finished autopilot program so fall out of time accel */
 		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
+			// doesn't happen until next game tick, which is good
+			// because AI will have set thrusters assuming a
+			// particular timestep
 			Pi::RequestTimeAccel(1);
 			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 		}
+	}
+}
+
+bool Ship::AIFollowPath(AIInstruction &inst)
+{
+	double dur = inst.endTime - inst.startTime;
+	// instead of trying to get to desired location on path curve
+	// within a game tick, try adopting acceleration necessary to
+	// get to desired point 60 seconds in the future, within 60
+	// seconds
+	double reactionTime = Pi::GetTimeStep();//CLAMP((inst.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 60.0);
+	reactionTime = MIN(reactionTime, inst.endTime - Pi::GetGameTime());
+//	printf("%f\n", reactionTime);
+	// XXX subtly wrong -- misses time at end of journey
+	double t = (Pi::GetGameTime()+reactionTime - inst.startTime) / dur;
+	vector3d wantVel;
+//	printf("t %f\n", t);
+	if (Pi::GetGameTime()+Pi::GetTimeStep() >= inst.endTime) {
+		return true;
+	} else {
+		vector3d wantPos = inst.path.Eval(t);
+		vector3d diffPos = wantPos - GetPosition();
+		wantVel = diffPos / reactionTime;
+	}
+	{
+//		vector3d perfectPos = inst.path.Eval((Pi::GetGameTime()-inst.startTime)/dur);
+//		printf("perfect deviation %f m\n", (perfectPos-GetPosition()).Length());
+	}
+	{
+	//	vector3d perfectVel = inst.path.DerivativeOf().Eval((Pi::GetGameTime()-inst.startTime)/dur) / dur;
+	//	printf("perfect vel deviation %f m/s\n", (perfectVel-GetVelocity()).Length());
+	}
+	vector3d diffVel = wantVel - GetVelocity();
+	//printf("diff vel %f\n", diffVel.Length());
+	vector3d accel = diffVel / Pi::GetTimeStep();
+	printf("%f m/sec/sec\n", accel.Length());
+	vector3d force = GetMass() * accel;
+	{
+		// make body-relative and apply force using thrusters
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		force = rot.InverseOf() * force;
+		ClearThrusterState();
+		AITrySetBodyRelativeThrust(force);
+		// orient so main engines can be used most effectively
+		vector3d perfectForce = inst.path.DerivativeOf().DerivativeOf().Eval(t);
+		if (perfectForce.Length()) AISlowFaceDirection(perfectForce.Normalized());
+	}
+	return false;
+	//SetForce(force);
+}
+
+bool Ship::AICmdOrbit(AIInstruction &inst)
+{
+	bool done = false;
+	Body *body = (Body*)inst.arg;
+
+//XXX warning must consider frames of reference
+	if (inst.endTime == 0) {
+		vector3d endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), GetPosition());
+		endpos = endpos.Normalized() * 42164000.0; // geostationary
+		vector3d midpos = (GetPosition().Normalized() + endpos.Normalized())
+				.Normalized()* 42164000.0;
+		vector3d endVel = GetPosition().Normalized()*-3070.0;
+		printf("Pos %f,%f,%f\n",
+				GetPosition().x,
+				GetPosition().y,
+				GetPosition().z);
+		printf("Endpos %f,%f,%f (%f)\n", endpos.x, endpos.y, endpos.z, endpos.Length());
+		// generate path
+		const double duration = 60.0*60.0;
+		path(duration, GetPosition(), midpos, endpos,
+				GetVelocity(), endVel, inst.path);
+		inst.startTime = Pi::GetGameTime();
+		inst.endTime = inst.startTime + duration;
+
+		{
+			double invD = 1.0/duration;
+			vector3d p1 = inst.path.Eval(0.0);
+			vector3d p2 = inst.path.Eval(invD);
+			printf("starts at %f m/sec\n", (p1-p2).Length());
+			p1 = inst.path.Eval(1.0-invD);
+			p2 = inst.path.Eval(1.0);
+			printf("ends at %f m/sec\n", (p1-p2).Length());
+
+		}
+	}
+
+	if (inst.endTime > 0) {
+		if (AIFollowPath(inst)) {
+			done = true;
+		}
+	}
+
+	return done;
+}
+
+void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
+{
+	double f;
+	const ShipType &type = GetShipType();
+
+	double state[ShipType::THRUSTER_MAX];
+	state[ShipType::THRUSTER_REAR] = MAX(force.z / type.linThrust[ShipType::THRUSTER_REAR], 0.0);
+	state[ShipType::THRUSTER_FRONT] = MAX(force.z / type.linThrust[ShipType::THRUSTER_FRONT], 0.0);
+	state[ShipType::THRUSTER_TOP] = MAX(force.y / type.linThrust[ShipType::THRUSTER_TOP], 0.0);
+	state[ShipType::THRUSTER_BOTTOM] = MAX(force.y / type.linThrust[ShipType::THRUSTER_BOTTOM], 0.0);
+	state[ShipType::THRUSTER_LEFT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_LEFT], 0.0);
+	state[ShipType::THRUSTER_RIGHT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_RIGHT], 0.0);
+	bool engines_not_powerful_enough = false;
+	for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) {
+		if (state[i] > 1.0) engines_not_powerful_enough = true;
+		SetThrusterState((ShipType::Thruster)i, state[i]);
+	}
+	if (engines_not_powerful_enough) {
+		printf("AI: Crud. thrusters insufficient: ");
+		for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) printf("%f ", state[i]);
+		printf("\n");
 	}
 }
 
