@@ -5,7 +5,7 @@
 #include "Frame.h"
 #include "Space.h"
 
-#define SAVEFILE_VERSION	14
+#define SAVEFILE_VERSION	15
 
 namespace Serializer {
 

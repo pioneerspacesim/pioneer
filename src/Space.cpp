@@ -227,9 +227,9 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 	if ((supertype == SBody::SUPERTYPE_GAS_GIANT) ||
 	    (supertype == SBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
-		// and a rotating frame in the same position but with maybe 1.1*radius,
+		// and a rotating frame in the same position but with maybe 1.05*radius,
 		// which actually contains the object.
-		frameRadius = sbody->GetMaxChildOrbitalDistance()*1.1;
+		frameRadius = sbody->GetMaxChildOrbitalDistance()*1.05;
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());

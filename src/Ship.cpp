@@ -61,7 +61,18 @@ void Ship::Save()
 			case DO_KILL:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
-				wr_int(Serializer::LookupBody(static_cast<Ship*>((*i).arg)));
+			case DO_LOW_ORBIT:
+			case DO_MEDIUM_ORBIT:
+			case DO_HIGH_ORBIT:
+				wr_int(Serializer::LookupBody((*i).target));
+				wr_int(Serializer::LookupBody((*i).target));
+				wr_vector3d((*i).path.p0);
+				wr_vector3d((*i).path.p1);
+				wr_vector3d((*i).path.p2);
+				wr_vector3d((*i).path.p3);
+				wr_vector3d((*i).path.p4);
+				wr_double((*i).endTime);
+				wr_double((*i).startTime);
 				break;
 			case DO_NOTHING: wr_int(0); break;
 		}
@@ -113,8 +124,19 @@ void Ship::Load()
 	int num = rd_int();
 	while (num-- > 0) {
 		AICommand c = (AICommand)rd_int();
-		void *arg = (void*)rd_int();
-		m_todo.push_back(AIInstruction(c, arg));
+		Body *target = (Body*)rd_int();
+		AIInstruction inst = AIInstruction(c);
+		inst.target = target;
+		if (!IsOlderThan(15)) {
+			inst.path.p0 = rd_vector3d();
+			inst.path.p1 = rd_vector3d();
+			inst.path.p2 = rd_vector3d();
+			inst.path.p3 = rd_vector3d();
+			inst.path.p4 = rd_vector3d();
+			inst.endTime = rd_double();
+			inst.startTime = rd_double();
+		}
+		m_todo.push_back(inst);
 	}
 }
 
@@ -139,7 +161,10 @@ void Ship::PostLoadFixup()
 			case DO_KILL:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
-				(*i).arg = Serializer::LookupBody((size_t)(*i).arg);
+			case DO_LOW_ORBIT:
+			case DO_MEDIUM_ORBIT:
+			case DO_HIGH_ORBIT:
+				(*i).target = Serializer::LookupBody((size_t)(*i).target);
 				break;
 			case DO_NOTHING: break;
 		}

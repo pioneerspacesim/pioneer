@@ -3,9 +3,12 @@
 #include "Pi.h"
 #include "Player.h"
 #include "perlin.h"
+#include "Frame.h"
+#include "Planet.h"
 
-static void path(double duration, const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
-		vector3d startVel, vector3d endVel, QuarticBezier &outPath)
+static void path(const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
+		const vector3d &startVel, const vector3d &endVel, const double maxAccel,
+		double &outDuration, QuarticBezier &outPath)
 {
 	// How do you get derivative of a bezier line?
 	// http://www.cs.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/bezier-der.html
@@ -16,26 +19,36 @@ static void path(double duration, const vector3d &startPos, const vector3d &cont
 	vector3d v0, v1, v2, v3;
 	// acceleration is derivative of the velocity bezier and is a quadric bezier
 	vector3d a0, a1, a2;
-	startVel *= duration;
-	endVel *= duration;
 
-	outPath.p0 = startPos;
-	outPath.p1 = startPos + 0.25*startVel;
-	outPath.p2 = controlPos;
-	outPath.p3 = endPos - 0.25*endVel;
-	outPath.p4 = endPos;
+	outDuration = 1.0;
+	
+	// max journey length 2^30 seconds
+	for (int i=0; i<30; i++, outDuration *= 2.0) {
+		const vector3d _startVel = startVel * outDuration;
+		const vector3d _endVel = endVel * outDuration;
 
-	v0 = startVel;
-	v1 = 4.0*(outPath.p2 - outPath.p1);
-	v2 = 4.0*(outPath.p3 - outPath.p2);
-	v3 = endVel;
+		outPath.p0 = startPos;
+		outPath.p1 = startPos + 0.25*_startVel;
+		outPath.p2 = controlPos;
+		outPath.p3 = endPos - 0.25*_endVel;
+		outPath.p4 = endPos;
 
-	a0 = 3.0*(v1-v0);
-	a1 = 3.0*(v2-v1);
-	a2 = 3.0*(v3-v2);
+		v0 = _startVel;
+		v1 = 4.0*(outPath.p2 - outPath.p1);
+		v2 = 4.0*(outPath.p3 - outPath.p2);
+		v3 = _endVel;
 
-	double max_accel = MAX(a0.Length(), MAX(a1.Length(), a2.Length()));
-	printf("Path max accel is %f m.sec^-2\n", max_accel/(duration*duration));
+		a0 = 3.0*(v1-v0);
+		a1 = 3.0*(v2-v1);
+		a2 = 3.0*(v3-v2);
+
+		double this_path_max_accel = MAX(a0.Length(), MAX(a1.Length(), a2.Length())) /
+				(outDuration*outDuration);
+		if (this_path_max_accel < maxAccel) {
+			printf("Path max accel is %f m.sec^-2, duration %f\n", this_path_max_accel, outDuration);
+			return;
+		}
+	}
 }
 
 void Ship::AIBodyDeleted(const Body* const body)
@@ -43,10 +56,12 @@ void Ship::AIBodyDeleted(const Body* const body)
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ) {
 		switch ((*i).cmd) {
 			case DO_KILL:
-			case DO_ORBIT:
+			case DO_LOW_ORBIT:
+			case DO_MEDIUM_ORBIT:
+			case DO_HIGH_ORBIT:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
-				if (body == (Body*)(*i).arg) i = m_todo.erase(i);
+				if (body == (*i).target) i = m_todo.erase(i);
 				else i++;
 				break;
 			default:
@@ -64,23 +79,29 @@ void Ship::AITimeStep(const float timeStep)
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
 			case DO_KAMIKAZE:
-				done = AICmdKamikaze(static_cast<const Ship*>(inst.arg));
+				done = AICmdKamikaze(static_cast<const Ship*>(inst.target));
 				break;
 			case DO_KILL:
-				done = AICmdKill(static_cast<const Ship*>(inst.arg));
+				done = AICmdKill(static_cast<const Ship*>(inst.target));
 				break;
-			case DO_ORBIT:
-				done = AICmdOrbit(inst);
+			case DO_LOW_ORBIT:
+				done = AICmdOrbit(inst, 1.1);
+				break;
+			case DO_MEDIUM_ORBIT:
+				done = AICmdOrbit(inst, 2.0);
+				break;
+			case DO_HIGH_ORBIT:
+				done = AICmdOrbit(inst, 5.0);
 				break;
 			case DO_FLY_TO:
-				done = AICmdFlyTo(static_cast<const Body*>(inst.arg));
+				done = AICmdFlyTo(static_cast<const Body*>(inst.target));
 				break;
 			case DO_NOTHING: done = true; break;
 		}
 	}
 	if (done) { 
 		printf("AI '%s' successfully executed %d:'%s'\n", GetLabel().c_str(), m_todo.front().cmd,
-				static_cast<Ship*>(m_todo.front().arg)->GetLabel().c_str());
+				m_todo.front().target->GetLabel().c_str());
 		m_todo.pop_front();
 		/* Finished autopilot program so fall out of time accel */
 		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
@@ -93,8 +114,10 @@ void Ship::AITimeStep(const float timeStep)
 	}
 }
 
-bool Ship::AIFollowPath(AIInstruction &inst)
+bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame)
 {
+	const vector3d ourPosition = GetPositionRelTo(frame);
+	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
 	double dur = inst.endTime - inst.startTime;
 	// instead of trying to get to desired location on path curve
 	// within a game tick, try adopting acceleration necessary to
@@ -111,21 +134,21 @@ bool Ship::AIFollowPath(AIInstruction &inst)
 		return true;
 	} else {
 		vector3d wantPos = inst.path.Eval(t);
-		vector3d diffPos = wantPos - GetPosition();
+		vector3d diffPos = wantPos - ourPosition;
 		wantVel = diffPos / reactionTime;
 	}
 	{
 //		vector3d perfectPos = inst.path.Eval((Pi::GetGameTime()-inst.startTime)/dur);
-//		printf("perfect deviation %f m\n", (perfectPos-GetPosition()).Length());
+//		printf("perfect deviation %f m\n", (perfectPos-ourPosition).Length());
 	}
 	{
 	//	vector3d perfectVel = inst.path.DerivativeOf().Eval((Pi::GetGameTime()-inst.startTime)/dur) / dur;
-	//	printf("perfect vel deviation %f m/s\n", (perfectVel-GetVelocity()).Length());
+	//	printf("perfect vel deviation %f m/s\n", (perfectVel-ourVelocity).Length());
 	}
-	vector3d diffVel = wantVel - GetVelocity();
+	vector3d diffVel = wantVel - ourVelocity;
 	//printf("diff vel %f\n", diffVel.Length());
 	vector3d accel = diffVel / Pi::GetTimeStep();
-	printf("%f m/sec/sec\n", accel.Length());
+	//printf("%f m/sec/sec\n", accel.Length());
 	vector3d force = GetMass() * accel;
 	{
 		// make body-relative and apply force using thrusters
@@ -142,27 +165,52 @@ bool Ship::AIFollowPath(AIInstruction &inst)
 	//SetForce(force);
 }
 
-bool Ship::AICmdOrbit(AIInstruction &inst)
+bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 {
 	bool done = false;
-	Body *body = (Body*)inst.arg;
+	Body *body = inst.target;
 
-//XXX warning must consider frames of reference
+	// don't think about it
+	if (!body->IsType(Object::PLANET)) return true;
+
+	Frame *frame = body->GetFrame()->m_parent;
+	PiVerify(frame);
+
 	if (inst.endTime == 0) {
-		vector3d endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), GetPosition());
-		endpos = endpos.Normalized() * 42164000.0; // geostationary
-		vector3d midpos = (GetPosition().Normalized() + endpos.Normalized())
-				.Normalized()* 42164000.0;
-		vector3d endVel = GetPosition().Normalized()*-3070.0;
+		Planet *planet = static_cast<Planet*>(body);
+		const ShipType &type = GetShipType();
+		const vector3d ourPosition = GetPositionRelTo(frame);
+		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
+		// XXX nice naming inconsistency ^^
+		const double orbitalRadius = planet->GetSBody()->GetRadius() * orbitHeight;
+		const double orbitalSpeed = sqrt(planet->GetMass() * G / orbitalRadius);
+
+		vector3d midpos, endpos, endVel;
+		// approach differently if we are currently above or below orbit
+		if (ourPosition.Length() < orbitalRadius) {
+			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition).Normalized();
+			midpos = ourPosition.Normalized() * orbitalRadius*1.1;
+			endVel = endpos * orbitalSpeed;
+			endpos = (midpos + endpos*(midpos-ourPosition).Length()).Normalized() * orbitalRadius;
+		} else {
+			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition);
+			endpos = endpos.Normalized() * orbitalRadius;
+			midpos = (ourPosition.Normalized() + endpos.Normalized())
+					.Normalized()* orbitalRadius*1.1;
+			endVel = ourPosition.Normalized()*-orbitalSpeed;
+		}
 		printf("Pos %f,%f,%f\n",
-				GetPosition().x,
-				GetPosition().y,
-				GetPosition().z);
+				ourPosition.x,
+				ourPosition.y,
+				ourPosition.z);
 		printf("Endpos %f,%f,%f (%f)\n", endpos.x, endpos.y, endpos.z, endpos.Length());
 		// generate path
-		const double duration = 60.0*60.0;
-		path(duration, GetPosition(), midpos, endpos,
-				GetVelocity(), endVel, inst.path);
+		double duration;
+		// assumption that rear thruster is most powerful
+		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_REAR] / GetMass());
+		printf("max accel %f m/sec/sec\n",maxAccel);
+		path(ourPosition, midpos, endpos,
+				ourVelocity, endVel, maxAccel*.75, duration, inst.path);
 		inst.startTime = Pi::GetGameTime();
 		inst.endTime = inst.startTime + duration;
 
@@ -179,7 +227,7 @@ bool Ship::AICmdOrbit(AIInstruction &inst)
 	}
 
 	if (inst.endTime > 0) {
-		if (AIFollowPath(inst)) {
+		if (AIFollowPath(inst, frame)) {
 			done = true;
 		}
 	}
@@ -189,7 +237,6 @@ bool Ship::AICmdOrbit(AIInstruction &inst)
 
 void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 {
-	double f;
 	const ShipType &type = GetShipType();
 
 	double state[ShipType::THRUSTER_MAX];
@@ -302,7 +349,9 @@ bool Ship::AICmdKill(const Ship *enemy)
 
 void Ship::AIInstruct(enum AICommand cmd, void *arg)
 {
-	m_todo.push_back(AIInstruction(cmd, arg));
+	AIInstruction inst(cmd);
+	inst.target = (Body*)arg;
+	m_todo.push_back(inst);
 }
 
 /* Orient so our -ve z axis == dir. ie so that dir points forwards */

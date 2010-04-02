@@ -84,7 +84,7 @@ public:
 	
 	EquipSet m_equipment;
 
-	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_ORBIT };
+	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT };
 	void AIInstruct(enum AICommand, void *arg);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
@@ -148,24 +148,26 @@ private:
 	class AIInstruction {
 	public:
 		AICommand cmd;
-		void *arg;
+		Body *target;
 		struct QuarticBezier path;
 		double endTime;
 		double startTime;
 
-		AIInstruction(AICommand c, void *a): cmd(c), arg(a) {
+		AIInstruction(AICommand c): cmd(c) {
+			target = 0;
 			endTime = 0;
 			startTime = 0;
+			path.p0 = path.p1 = path.p2 = path.p3 = path.p4 = 0.0;
 		}
 	};
 	std::list<AIInstruction> m_todo;
 	void AIBodyDeleted(const Body* const body);
 	bool AICmdKill(const Ship *);
-	bool AICmdOrbit(AIInstruction &);
+	bool AICmdOrbit(AIInstruction &, double orbitHeight);
 	bool AICmdKamikaze(const Ship *);
 	bool AICmdFlyTo(const Body *);
 	void AITrySetBodyRelativeThrust(const vector3d &force);
-	bool AIFollowPath(AIInstruction &);
+	bool AIFollowPath(AIInstruction &, Frame *f);
 };
 
 #endif /* _SHIP_H */
