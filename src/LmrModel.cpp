@@ -2199,7 +2199,7 @@ namespace ObjLoader {
 							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
 							texture = util_load_tex_rgba(texfile);
 						} catch (LmrUnknownMaterial) {
-							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name], mat_name, obj_name);
+							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
 						}
 					}
 				} else {
