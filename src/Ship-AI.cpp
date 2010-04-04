@@ -114,12 +114,11 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame)
 	double dur = inst.endTime - inst.startTime;
 	// instead of trying to get to desired location on path curve
 	// within a game tick, try adopting acceleration necessary to
-	// get to desired point 60 seconds in the future, within 60
-	// seconds
-	double reactionTime = Pi::GetTimeStep();//CLAMP((inst.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 60.0);
+	// get to desired point some fraction of remaining journey time in the
+	// future, within that time. this avoids oscillation around a perfect position
+	double reactionTime = CLAMP((inst.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 60.0);
 	reactionTime = MIN(reactionTime, inst.endTime - Pi::GetGameTime());
 //	printf("%f\n", reactionTime);
-	// XXX subtly wrong -- misses time at end of journey
 	double t = (Pi::GetGameTime()+reactionTime - inst.startTime) / dur;
 	vector3d wantVel;
 //	printf("t %f\n", t);
