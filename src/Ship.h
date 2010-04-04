@@ -8,7 +8,7 @@
 #include "ShipFlavour.h"
 // only for SBodyPath
 #include "StarSystem.h"
-#include "bezier.h"
+#include "BezierCurve.h"
 #include <list>
 
 class SpaceStation;
