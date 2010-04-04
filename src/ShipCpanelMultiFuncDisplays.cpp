@@ -259,7 +259,7 @@ void UseEquipWidget::UseRadarMapper()
 		std::string msg;
 		const ShipFlavour *flavour = s->GetFlavour();
 		const shipstats_t *stats = s->CalcStats();
-		msg += stringf(256, "Type: %s, Reg-id: %s\n", ShipType::types[flavour->type].name, flavour->regid);
+		msg += stringf(256, "Type: %s, Reg-id: %s\n", ShipType::types[flavour->type].name.c_str(), flavour->regid);
 		if (stats->shield_mass > 0) {
 			msg += stringf(128, "Hull integrity: %.0f%%, Shields: %d (%.0f%%), %d tonnes of cargo\n",
 					s->GetPercentHull(),

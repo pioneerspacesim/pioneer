@@ -8,7 +8,7 @@
 
 static void path(const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
 		const vector3d &startVel, const vector3d &endVel, const double maxAccel,
-		double &outDuration, QuarticBezier &outPath)
+		double &outDuration, BezierCurve &outPath)
 {
 	// How do you get derivative of a bezier line?
 	// http://www.cs.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/bezier-der.html
@@ -16,9 +16,7 @@ static void path(const vector3d &startPos, const vector3d &controlPos, const vec
 //	vector3d /*p0,*/ p1, p2, p3/*, p4*/;
 	// velocity along this path is derivative of above bezier, and
 	// is a cubic bezier:
-	vector3d v0, v1, v2, v3;
 	// acceleration is derivative of the velocity bezier and is a quadric bezier
-	vector3d a0, a1, a2;
 
 	outDuration = 1.0;
 	
@@ -27,22 +25,17 @@ static void path(const vector3d &startPos, const vector3d &controlPos, const vec
 		const vector3d _startVel = startVel * outDuration;
 		const vector3d _endVel = endVel * outDuration;
 
-		outPath.p0 = startPos;
-		outPath.p1 = startPos + 0.25*_startVel;
-		outPath.p2 = controlPos;
-		outPath.p3 = endPos - 0.25*_endVel;
-		outPath.p4 = endPos;
+		outPath = BezierCurve(5);
+		outPath.p[0] = startPos;
+		outPath.p[1] = startPos + 0.25*_startVel;
+		outPath.p[2] = controlPos;
+		outPath.p[3] = endPos - 0.25*_endVel;
+		outPath.p[4] = endPos;
 
-		v0 = _startVel;
-		v1 = 4.0*(outPath.p2 - outPath.p1);
-		v2 = 4.0*(outPath.p3 - outPath.p2);
-		v3 = _endVel;
+		BezierCurve vel = outPath.DerivativeOf();
+		BezierCurve accel = vel.DerivativeOf();
 
-		a0 = 3.0*(v1-v0);
-		a1 = 3.0*(v2-v1);
-		a2 = 3.0*(v3-v2);
-
-		double this_path_max_accel = MAX(a0.Length(), MAX(a1.Length(), a2.Length())) /
+		double this_path_max_accel = MAX(accel.p[0].Length(), MAX(accel.p[1].Length(), accel.p[2].Length())) /
 				(outDuration*outDuration);
 		if (this_path_max_accel < maxAccel) {
 			printf("Path max accel is %f m.sec^-2, duration %f\n", this_path_max_accel, outDuration);

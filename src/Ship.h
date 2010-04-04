@@ -149,15 +149,14 @@ private:
 	public:
 		AICommand cmd;
 		Body *target;
-		struct QuarticBezier path;
+		BezierCurve path;
 		double endTime;
 		double startTime;
 
-		AIInstruction(AICommand c): cmd(c) {
+		AIInstruction(AICommand c): cmd(c), path(0) {
 			target = 0;
 			endTime = 0;
 			startTime = 0;
-			path.p0 = path.p1 = path.p2 = path.p3 = path.p4 = 0.0;
 		}
 	};
 	std::list<AIInstruction> m_todo;

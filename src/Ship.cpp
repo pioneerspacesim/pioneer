@@ -65,12 +65,13 @@ void Ship::Save()
 			case DO_MEDIUM_ORBIT:
 			case DO_HIGH_ORBIT:
 				wr_int(Serializer::LookupBody((*i).target));
-				wr_int(Serializer::LookupBody((*i).target));
-				wr_vector3d((*i).path.p0);
-				wr_vector3d((*i).path.p1);
-				wr_vector3d((*i).path.p2);
-				wr_vector3d((*i).path.p3);
-				wr_vector3d((*i).path.p4);
+				{
+					int n = (*i).path.p.size();
+					wr_int(n);
+					for (int j=0; j<n; j++) {
+						wr_vector3d((*i).path.p[j]);
+					}
+				}
 				wr_double((*i).endTime);
 				wr_double((*i).startTime);
 				break;
@@ -128,11 +129,11 @@ void Ship::Load()
 		AIInstruction inst = AIInstruction(c);
 		inst.target = target;
 		if (!IsOlderThan(15)) {
-			inst.path.p0 = rd_vector3d();
-			inst.path.p1 = rd_vector3d();
-			inst.path.p2 = rd_vector3d();
-			inst.path.p3 = rd_vector3d();
-			inst.path.p4 = rd_vector3d();
+			int n = rd_int();
+			inst.path = BezierCurve(n);
+			for (int i=0; i<n; i++) {
+				inst.path.p[i] = rd_vector3d();
+			}
 			inst.endTime = rd_double();
 			inst.startTime = rd_double();
 		}

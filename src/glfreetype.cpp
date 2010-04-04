@@ -41,6 +41,9 @@ static inline double binomial_coeff(int n, int m)
 
 static void eval_bezier (GLdouble *out, double t, int n_points, double *points)
 {
+	// it always is the case for truetype, isn't it? in which case we can
+	// use a much simpler bezier evaluator
+	assert(n_points == 3);
 	std::vector<double> c(n_points);
 
 	for (int i=0; i<n_points; i++) {

@@ -1,51 +1,47 @@
-#ifndef _BEZIER_H
-#define _BEZIER_H
+#ifndef _BEZIERCURVE_H
+#define _BEZIERCURVE_H
 
 #include "vector3.h"
 
-struct QuadricBezier {
-	vector3d p0, p1, p2;
+class BezierCurve {
+	public:
+	std::vector<vector3d> p;
+
+	BezierCurve(unsigned int numPoints) {
+		p.resize(numPoints);
+	}
+
 	vector3d Eval(const double t) {
-		return (1.0-t)*(1.0-t)*p0 +
-			2.0*(1.0-t)*t*p1 +
-			t*t*p2;
+		int n_points = p.size();
+
+		vector3d out(0.0);
+		for (int i=0; i<n_points; i++) {
+			double c = pow(1.0f-t, n_points-(i+1)) * pow(t,i) * BinomialCoeff(n_points-1, i);
+			out += p[i] * c;
+		}
+		return out;
+	}
+	BezierCurve DerivativeOf() {
+		int n_points = p.size()-1;
+		BezierCurve out(n_points);
+		for (int i=0; i<n_points; i++) {
+			out.p[i] = (double)n_points * (p[i+1] - p[i]);
+		}
+		return out;
+	}
+	private:
+	inline double Factorial(int n)
+	{
+		double r = 1.0;
+		for (int i=2; i<=n; i++) {
+			r *= (double)i;
+		}
+		return r;
+	}
+	inline double BinomialCoeff(int n, int m)
+	{
+		return Factorial(n)/(Factorial(m)*(Factorial(n-m)));
 	}
 };
 
-struct CubicBezier {
-	vector3d p0, p1, p2, p3;
-	vector3d Eval(const double t) {
-		return (1.0-t)*(1.0-t)*(1.0-t)*p0 +
-			3.0*(1.0-t)*(1.0-t)*t*p1 +
-			3.0*(1.0-t)*t*t*p2 +
-			t*t*t*p3;
-	}
-	QuadricBezier DerivativeOf() {
-		QuadricBezier d;
-		d.p0 = 3.0*(p1 - p0);
-		d.p1 = 3.0*(p2 - p1);
-		d.p2 = 3.0*(p3 - p2);
-		return d;
-	}
-};
-
-struct QuarticBezier {
-	vector3d p0, p1, p2, p3, p4;
-	vector3d Eval(const double t) {
-		return (1.0-t)*(1.0-t)*(1.0-t)*(1.0-t)*p0 + 
-			4.0*(1.0-t)*(1.0-t)*(1.0-t)*t*p1 +
-			6.0*(1.0-t)*(1.0-t)*t*t*p2 +
-			4.0*(1.0-t)*t*t*t*p3 +
-			t*t*t*t*p4;
-	}
-	CubicBezier DerivativeOf() {
-		CubicBezier d;
-		d.p0 = 4.0*(p1 - p0);
-		d.p1 = 4.0*(p2 - p1);
-		d.p2 = 4.0*(p3 - p2);
-		d.p3 = 4.0*(p4 - p3);
-		return d;
-	}
-};
-
-#endif /* _BEZIER_H */
+#endif /* _BEZIERCURVE_H */
