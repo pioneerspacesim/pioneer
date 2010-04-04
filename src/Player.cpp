@@ -154,10 +154,10 @@ void Player::StaticUpdate(const float timeStep)
 	/* Ship engine noise */
 	static Uint32 sndev;
 	float volBoth = 0.0f;
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_REAR);
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_FRONT);
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_TOP);
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_BOTTOM);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_FORWARD);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_REVERSE);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_UP);
+	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_DOWN);
 	
 	float targetVol[2] = { volBoth, volBoth };
 	targetVol[0] += 0.5*GetThrusterState(ShipType::THRUSTER_RIGHT);
@@ -207,10 +207,10 @@ void Player::PollControls()
 			if (Pi::KeyState(SDLK_RSHIFT)) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
 		}
 
-		if (Pi::KeyState(SDLK_i)) SetThrusterState(ShipType::THRUSTER_REAR, 1.0f);
-		if (Pi::KeyState(SDLK_k)) SetThrusterState(ShipType::THRUSTER_FRONT, 1.0f);
-		if (Pi::KeyState(SDLK_u)) SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
-		if (Pi::KeyState(SDLK_o)) SetThrusterState(ShipType::THRUSTER_BOTTOM, 1.0f);
+		if (Pi::KeyState(SDLK_i)) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0f);
+		if (Pi::KeyState(SDLK_k)) SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0f);
+		if (Pi::KeyState(SDLK_u)) SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
+		if (Pi::KeyState(SDLK_o)) SetThrusterState(ShipType::THRUSTER_DOWN, 1.0f);
 		if (Pi::KeyState(SDLK_j)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
 		if (Pi::KeyState(SDLK_l)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 		

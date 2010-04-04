@@ -444,10 +444,10 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 					dt.ship->SetForce(vector3d(0,0,0));
 					dt.ship->SetTorque(vector3d(0,0,0));
 					if (m_type->dockMethod == SpaceStationType::SURFACE) {
-						dt.ship->SetThrusterState(ShipType::THRUSTER_TOP, 1.0);
+						dt.ship->SetThrusterState(ShipType::THRUSTER_UP, 1.0);
 					} else {
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
-						dt.ship->SetThrusterState(ShipType::THRUSTER_REAR, 1.0);
+						dt.ship->SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0);
 					}
 				}
 			}

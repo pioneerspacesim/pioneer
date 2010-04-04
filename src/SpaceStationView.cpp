@@ -428,20 +428,20 @@ void StationViewShipView::ShowAll()
 	y+=YSEP;
 	y+=YSEP;
 	// forward accel
-	float accel = t.linThrust[ShipType::THRUSTER_REAR] / (-9.81*1000.0*(t.hullMass));
+	float accel = t.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81*1000.0*(t.hullMass));
 	Add(new Gui::Label("Forward accel (empty)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
-	accel = t.linThrust[ShipType::THRUSTER_REAR] / (-9.81*1000.0*(t.hullMass + t.capacity));
+	accel = t.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81*1000.0*(t.hullMass + t.capacity));
 	Add(new Gui::Label("Forward accel (laden)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 	// rev accel
-	accel = t.linThrust[ShipType::THRUSTER_FRONT] / (9.81*1000.0*(t.hullMass));
+	accel = t.linThrust[ShipType::THRUSTER_REVERSE] / (9.81*1000.0*(t.hullMass));
 	Add(new Gui::Label("Reverse accel (empty)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
-	accel = t.linThrust[ShipType::THRUSTER_FRONT] / (9.81*1000.0*(t.hullMass + t.capacity));
+	accel = t.linThrust[ShipType::THRUSTER_REVERSE] / (9.81*1000.0*(t.hullMass + t.capacity));
 	Add(new Gui::Label("Reverse accel (laden)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;

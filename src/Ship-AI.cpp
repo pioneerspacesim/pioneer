@@ -207,7 +207,7 @@ bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 		// generate path
 		double duration;
 		// assumption that rear thruster is most powerful
-		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_REAR] / GetMass());
+		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
 		printf("max accel %f m/sec/sec\n",maxAccel);
 		path(ourPosition, midpos, endpos,
 				ourVelocity, endVel, maxAccel*.75, duration, inst.path);
@@ -240,10 +240,10 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 	const ShipType &type = GetShipType();
 
 	double state[ShipType::THRUSTER_MAX];
-	state[ShipType::THRUSTER_REAR] = MAX(force.z / type.linThrust[ShipType::THRUSTER_REAR], 0.0);
-	state[ShipType::THRUSTER_FRONT] = MAX(force.z / type.linThrust[ShipType::THRUSTER_FRONT], 0.0);
-	state[ShipType::THRUSTER_TOP] = MAX(force.y / type.linThrust[ShipType::THRUSTER_TOP], 0.0);
-	state[ShipType::THRUSTER_BOTTOM] = MAX(force.y / type.linThrust[ShipType::THRUSTER_BOTTOM], 0.0);
+	state[ShipType::THRUSTER_FORWARD] = MAX(force.z / type.linThrust[ShipType::THRUSTER_FORWARD], 0.0);
+	state[ShipType::THRUSTER_REVERSE] = MAX(force.z / type.linThrust[ShipType::THRUSTER_REVERSE], 0.0);
+	state[ShipType::THRUSTER_UP] = MAX(force.y / type.linThrust[ShipType::THRUSTER_UP], 0.0);
+	state[ShipType::THRUSTER_DOWN] = MAX(force.y / type.linThrust[ShipType::THRUSTER_DOWN], 0.0);
 	state[ShipType::THRUSTER_LEFT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_LEFT], 0.0);
 	state[ShipType::THRUSTER_RIGHT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_RIGHT], 0.0);
 	bool engines_not_powerful_enough = false;
@@ -273,7 +273,7 @@ bool Ship::AICmdFlyTo(const Body *body)
 
 	// work out stopping distance at current vel
 	const ShipType &stype = GetShipType();
-	double revAccel = stype.linThrust[ShipType::THRUSTER_FRONT] / (1000.0*m_stats.total_mass);
+	double revAccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / (1000.0*m_stats.total_mass);
 	double timeToStop = vel / revAccel;
 	double stoppingDist = 0.5 * revAccel * timeToStop * timeToStop;
 	
@@ -521,35 +521,35 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	}
 
 	if (difVel.y > 0) {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_TOP] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_UP] * invMass;
 		float thrust;
 		if (velChange < difVel.y) thrust = 1.0;
 		else thrust = difVel.y / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_TOP, thrust);
+		SetThrusterState(ShipType::THRUSTER_UP, thrust);
 	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_BOTTOM] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_DOWN] * invMass;
 		float thrust;
 		if (velChange > difVel.y) thrust = 1.0;
 		else thrust = difVel.y / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_BOTTOM, thrust);
+		SetThrusterState(ShipType::THRUSTER_DOWN, thrust);
 	}
 
 	if (difVel.z > 0) {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_FRONT] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_REVERSE] * invMass;
 		float thrust;
 		if (velChange < difVel.z) thrust = 1.0;
 		else thrust = difVel.z / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_FRONT, thrust);
+		SetThrusterState(ShipType::THRUSTER_REVERSE, thrust);
 	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_REAR] * invMass;
+		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_FORWARD] * invMass;
 		float thrust;
 		if (velChange > difVel.z) thrust = 1.0;
 		else thrust = difVel.z / velChange;
 		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_REAR, thrust);
+		SetThrusterState(ShipType::THRUSTER_FORWARD, thrust);
 	}
 }
 

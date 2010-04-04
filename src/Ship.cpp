@@ -460,7 +460,7 @@ void Ship::Blastoff()
 	GetAabb(aabb);
 	// XXX hm. we need to be able to get sbre aabb
 	SetPosition(up*planetRadius - aabb.min.y*up);
-	SetThrusterState(ShipType::THRUSTER_TOP, 1.0f);
+	SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
 }
 
 void Ship::TestLanded()
@@ -520,11 +520,11 @@ void Ship::TimeStepUpdate(const float timeStep)
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
 		float force = stype.linThrust[i] * m_thrusters[i];
 		switch (i) {
-		case ShipType::THRUSTER_REAR: 
-		case ShipType::THRUSTER_FRONT:
+		case ShipType::THRUSTER_FORWARD: 
+		case ShipType::THRUSTER_REVERSE:
 			AddRelForce(vector3d(0, 0, force)); break;
-		case ShipType::THRUSTER_TOP:
-		case ShipType::THRUSTER_BOTTOM:
+		case ShipType::THRUSTER_UP:
+		case ShipType::THRUSTER_DOWN:
 			AddRelForce(vector3d(0, force, 0)); break;
 		case ShipType::THRUSTER_LEFT:
 		case ShipType::THRUSTER_RIGHT:
@@ -852,8 +852,8 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.angthrust[1] = -m_angThrusters[1];
 		params.angthrust[2] = -m_angThrusters[2];
 		params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
-		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_TOP] - m_thrusters[ShipType::THRUSTER_BOTTOM];
-		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_FRONT] - m_thrusters[ShipType::THRUSTER_REAR];
+		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_UP] - m_thrusters[ShipType::THRUSTER_DOWN];
+		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REVERSE] - m_thrusters[ShipType::THRUSTER_FORWARD];
 		params.argFloats[0] = m_wheelState;
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
