@@ -836,12 +836,11 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 		(a*a - one_over_3max*a*a*a);
 }
 
-static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax)
+static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
 {
 	discMax = MAX(discMax, discMin);
 	fixed total = mass_from_disk_area(discMin, discMax, discMax);
-	// try 2% of primary's mass
-	return primary->GetMassInEarths() * fixed(2,100) / total;
+	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
 
 void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
@@ -871,7 +870,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		// having limited discMin by bin-separation/fake roche, and
 		// discMax by some relation to star mass, we can now compute
 		// disc density
-		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax);
+		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(2,100));
 
 		if ((superType == SBody::SUPERTYPE_STAR) && (primary->parent)) {
 			// limit planets out to 10% distance to star's binary companion
@@ -886,9 +885,9 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
 		/* use hill radius to find max size of moon system. for stars botch it */
-		discMax = MIN(discMax, fixed(1,4)*primary->CalcHillRadius());
+		discMax = MIN(discMax, fixed(1,20)*primary->CalcHillRadius());
 		
-		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax);
+		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
 	}
 
 	//fixed discDensity = 20*rand.NFixed(4);
