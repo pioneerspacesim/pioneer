@@ -18,6 +18,7 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Polit.h"
+#include "PiLuaModules.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -260,6 +261,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker && attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
+			PiLuaModules::QueueEvent("onShipKilled", static_cast<Object*>(this), static_cast<Object*>(attacker));
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);

@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider/ missions/ lua/
+SUBDIRS = collider/ missions/ lua/ oolua/
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
@@ -31,7 +31,7 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
 		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
 		LmrModel.cpp MyLuaMathTypes.cpp PiLuaModules.cpp
-pioneer_LDADD = collider/libcollider.a missions/libmissions.a lua/liblua.a libgui.a
+pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a missions/libmissions.a libgui.a
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp
 modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
@@ -45,3 +45,4 @@ tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp 
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp
 tests_LDADD = collider/libcollider.a libgui.a
 
+INCLUDES = -I@top_srcdir@/src/lua

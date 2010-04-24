@@ -1,24 +1,162 @@
 #include "libs.h"
-// only using for including lua headers...
-#include "MyLuaMathTypes.h"
 #include "Pi.h"
+#include "Ship.h"
 #include <map>
 #include <set>
 
+// only using for including lua headers...
+#include "oolua/oolua.h"
+#include "oolua/oolua_error.h"
+
+class ObjectWrapper
+{
+	public:
+	ObjectWrapper(): m_obj(0) {}
+	ObjectWrapper(Object *o): m_obj(o) {
+		m_delCon = o->onDelete.connect(sigc::mem_fun(this, &ObjectWrapper::OnDelete));
+	}
+	bool IsBody() const {
+		return Is(Object::BODY);
+	}
+	const char *GetLabel() const {
+		if (Is(Object::BODY)) {
+			return static_cast<Body*>(m_obj)->GetLabel().c_str();
+		} else {
+			return "";
+		}
+	}
+	int print() { printf("ObjectWrapper = %p;\n", m_obj); return 1; }
+	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
+		return a.m_obj == b.m_obj;
+	}
+	virtual ~ObjectWrapper() {
+	//	printf("ObjWrapper for %s is being deleted\n", GetLabel());
+		m_delCon.disconnect();
+	}
+	protected:
+	void OnDelete() {
+		// object got deleted out from under us
+		m_obj = 0;
+		m_delCon.disconnect();
+	}
+	bool Is(Object::Type t) const {
+		return m_obj && m_obj->IsType(t);
+	}
+	Object *m_obj;
+	sigc::connection m_delCon;
+};
+OOLUA_CLASS_NO_BASES(ObjectWrapper)
+	OOLUA_TYPEDEFS
+		OOLUA::Equal_op
+	OOLUA_END_TYPES
+	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+//	OOLUA_CONSTRUCTORS_BEGIN
+//		OOLUA_CONSTRUCTOR_1(const ObjectWrapper &)
+//	OOLUA_CONSTRUCTORS_END
+	OOLUA_MEM_FUNC_0(int,print)
+	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
+	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)
+OOLUA_CLASS_END
+
+EXPORT_OOLUA_FUNCTIONS_1_NON_CONST(ObjectWrapper, print)
+EXPORT_OOLUA_FUNCTIONS_2_CONST(ObjectWrapper, IsBody, GetLabel)
+
+template <typename T>
+static void push2luaWithGc(lua_State *L, T *o)
+{
+	OOLUA::INTERNAL::Lua_ud* ud = OOLUA::INTERNAL::add_ptr<T>(L,o,false);
+	ud->gc = true;
+}
+
 namespace PiLuaModules {
 
+static OOLUA::Script *S;
 static lua_State *L;
 static std::list<std::string> s_modules;
 static std::map<std::string, std::set<std::string> > s_eventListeners;
 static bool s_isInitted = false;
+static bool s_eventsPending = false;
+
+void EmitEvents()
+{
+	if (s_eventsPending) {
+		lua_getglobal(L, "EmitEvents");
+		lua_call(L, 0, 0);
+		s_eventsPending = false;
+	}
+}
+
+void QueueEvent(const char *eventName)
+{
+	s_eventsPending = true;
+	lua_getglobal(L, "__pendingEvents");
+	size_t len = lua_objlen (L, -1);
+	lua_pushinteger(L, len+1);
+	
+	// create event: { type=>eventName, 1=>o1,2=>o2 }
+	lua_createtable (L, 2, 1);
+	lua_pushstring(L, eventName);
+	lua_setfield(L, -2, "type");
+
+	// insert event into __pendingEvents
+	lua_settable(L, -3);
+	lua_pop(L, 1);
+}
+
+void QueueEvent(const char *eventName, Object *o1)
+{
+	s_eventsPending = true;
+	lua_getglobal(L, "__pendingEvents");
+	size_t len = lua_objlen (L, -1);
+	lua_pushinteger(L, len+1);
+	
+	// create event: { type=>eventName, 1=>o1,2=>o2 }
+	lua_createtable (L, 2, 1);
+	lua_pushstring(L, eventName);
+	lua_setfield(L, -2, "type");
+
+	lua_pushinteger(L, 1);
+	push2luaWithGc(L, new ObjectWrapper(o1));
+	lua_settable(L, -3);
+	
+	// insert event into __pendingEvents
+	lua_settable(L, -3);
+	lua_pop(L, 1);
+}
+
+void QueueEvent(const char *eventName, Object *o1, Object *o2)
+{
+	s_eventsPending = true;
+	lua_getglobal(L, "__pendingEvents");
+	size_t len = lua_objlen (L, -1);
+	lua_pushinteger(L, len+1);
+	
+	// create event: { type=>eventName, 1=>o1,2=>o2 }
+	lua_createtable (L, 2, 1);
+	lua_pushstring(L, eventName);
+	lua_setfield(L, -2, "type");
+
+	lua_pushinteger(L, 1);
+	push2luaWithGc(L, new ObjectWrapper(o1));
+	lua_settable(L, -3);
+	
+	lua_pushinteger(L, 2);
+	push2luaWithGc(L, new ObjectWrapper(o2));
+	lua_settable(L, -3);
+	
+	// insert event into __pendingEvents
+	lua_settable(L, -3);
+	lua_pop(L, 1);
+}
 
 static void CallModFunction(const char *modname, const char *funcname)
 {
+	printf("call %s:%s()\n", modname, funcname);
 	lua_getglobal(L, modname);
 	lua_getfield(L, -1, funcname);
 	lua_pushvalue(L, -2); // push self
 	lua_call(L, 1, 0);
-	lua_pop(L, 2);
+	lua_pop(L, 1);
 }
 
 static void ModsInitAll()
@@ -31,49 +169,16 @@ static void ModsInitAll()
 
 
 namespace LuaFuncs {
-	static int EventListen(lua_State * const L)
+	static int PiPlayer(lua_State *const L)
 	{
-		int argmax = lua_gettop(L);
-		lua_getfield(L, 1, "__name");
-		const char *modname = luaL_checkstring(L, -1);
-		lua_pop(L, 1);
-		printf("::EventListen() for %s\n", modname);
-		for (int i=2; i<=argmax; i++) {
-			const char *event_name = luaL_checkstring(L, i);
-			printf("Listen to %s\n", event_name);
-			//std::map<std::string, std::list<std::string> >::iterator eventHearList;
-			//eventHearList = s_eventListeners.find(event_name);
-			s_eventListeners[event_name].insert(modname);
-		}
-	}
-	
-	static int EventIgnore(lua_State * const L)
-	{
-		int argmax = lua_gettop(L);
-		lua_getfield(L, 1, "__name");
-		const char *modname = luaL_checkstring(L, -1);
-		lua_pop(L, 1);
-		printf("::EventIgnore() for %s\n", modname);
-		for (int i=2; i<=argmax; i++) {
-			const char *event_name = luaL_checkstring(L, i);
-			//std::map<std::string, std::list<std::string> >::iterator eventHearList;
-			//eventHearList = s_eventListeners.find(event_name);
-			s_eventListeners[event_name].erase(modname);
-		}
+		push2luaWithGc(L, new ObjectWrapper((Object*)Pi::player));
+		return 1;
 	}
 }
 
 static void mods_event_dispatcher(const char *event)
 {
-	std::map<std::string, std::set<std::string> >::iterator eventListeners;
-	eventListeners = s_eventListeners.find(event);
-
-	if (eventListeners != s_eventListeners.end()) {
-		std::set<std::string> &turd = (*eventListeners).second;
-		for (std::set<std::string>::iterator i = turd.begin(); i!=turd.end(); ++i) {
-			CallModFunction((*i).c_str(), event);
-		}
-	}
+	QueueEvent(event);
 }
 
 static int register_module(lua_State * const L)
@@ -112,11 +217,14 @@ void Init()
 {
 	if (!s_isInitted) {
 		s_isInitted = true;
-		L = lua_open();
+
+		OOLUA::Script *S = new OOLUA::Script;
+		S->register_class<ObjectWrapper>();
+		L = S->get_ptr();
+	//	L = lua_open();
 		luaL_openlibs(L);
+		lua_register(L, "PiPlayer", LuaFuncs::PiPlayer);
 		lua_register(L, "PiModule", register_module);
-		lua_register(L, "EventListen", LuaFuncs::EventListen);
-		lua_register(L, "EventIgnore", LuaFuncs::EventIgnore);
 
 		if (luaL_dofile(L, "test_module.lua")) {
 			Error("%s", lua_tostring(L, -1));

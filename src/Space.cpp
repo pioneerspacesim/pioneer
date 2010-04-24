@@ -16,6 +16,7 @@
 #include "Sfx.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
+#include "PiLuaModules.h"
 
 namespace Space {
 
@@ -626,7 +627,8 @@ void TimeStep(float step)
 		(*i)->StaticUpdate(step);
 	}
 	Sfx::TimeStepAll(step, rootFrame);
-	// see if anyone has been shot
+
+	PiLuaModules::EmitEvents();
 
 	PruneCorpses();
 }
