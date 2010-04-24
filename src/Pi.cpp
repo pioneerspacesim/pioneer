@@ -30,6 +30,7 @@
 #include "Missile.h"
 #include "LmrModel.h"
 #include "Render.h"
+#include "PiLuaModules.h"
 
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -539,10 +540,12 @@ void Pi::StartGame()
 	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
+	PiLuaModules::Init();
 }
 
 void Pi::UninitGame()
 {
+	PiLuaModules::Uninit();
 	Pi::isGameStarted = false;
 	delete infoView;
 	delete spaceStationView;

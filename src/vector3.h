@@ -2,6 +2,7 @@
 #define _VECTOR3_H
 
 #include <math.h>
+#include <stdio.h>
 
 template <typename T>
 class vector3 {
@@ -37,10 +38,17 @@ class vector3 {
 	friend vector3 operator* (const double scalar, const vector3 a) { return a*scalar; }
 	friend vector3 operator/ (const vector3 a, const float scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
 	friend vector3 operator/ (const vector3 a, const double scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
-
+	// why did i ever make these awful static functions...
 	static vector3 Cross (const vector3 a, const vector3 b)
 		{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
 	static T Dot (const vector3 a, const vector3 b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
+
+	vector3 Cross(const vector3 b) const {
+		return vector3 (y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x);
+	}
+	T Dot(const vector3 b) const {
+		return x*b.x + y*b.y + z*b.z;
+	}
 
 	T Length () const {
 		return sqrt (x*x + y*y + z*z);
@@ -95,6 +103,10 @@ class vector3 {
 			sqrtf (u*u+v*v+w*w)*(-v*x+u*y)*sin_a;
 		t.z *= inv_poo;
 		*this = t;
+	}
+
+	void Print() const {
+		printf("v(%f,%f,%f)\n", x, y, z);
 	}
 };
 
