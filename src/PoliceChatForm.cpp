@@ -15,9 +15,9 @@ PoliceChatForm::PoliceChatForm(): GenericChatForm()
 	SetTitle(stringf(256, "%s Police", Pi::player->GetDockedWith()->GetLabel().c_str()).c_str());
 
 	if (fine == 0) {
-		Message("We have no business with you at the moment.");
+		SetMessage("We have no business with you at the moment.");
 	} else {
-		Message(stringf(256, "We do not tolerate crime. You must pay a fine of %s.", format_money(fine).c_str()).c_str());
+		SetMessage(stringf(256, "We do not tolerate crime. You must pay a fine of %s.", format_money(fine).c_str()).c_str());
 		AddOption(sigc::mem_fun(this, &PoliceChatForm::Action), "Pay the fine now.", 1);
 	}
 

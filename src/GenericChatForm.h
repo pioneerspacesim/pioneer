@@ -17,13 +17,14 @@ public:
 	void UpdateBaseDisplay();
 	void OpenChildChatForm(GenericChatForm *form);
 	void AddOption(sigc::slot<void,GenericChatForm*,int> slot, const char *text, int val);
-	void Message(const char*);
+	void SetMessage(const char*);
 
 	Gui::Fixed *m_chatRegion;
 	Gui::VBox *m_msgregion;
 	Gui::VBox *m_optregion;
-private:
+protected:
 	bool hasOpts;
+private:
 	
 	Gui::Label *m_legalstatus;
 	Gui::Label *m_money;

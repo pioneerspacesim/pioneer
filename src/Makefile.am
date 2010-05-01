@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider/ missions/ lua/ oolua/
+SUBDIRS = collider/ lua/ oolua/
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
@@ -14,7 +14,7 @@ include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h Gu
 		CityOnPlanet.h ShipCpanelMultiFuncDisplays.h Projectile.h Render.h Sound.h GuiRepeaterButton.h \
 		CommodityTradeWidget.h GenericChatForm.h PoliceChatForm.h SysLoc.h PersistSystemData.h GalacticView.h \
 		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h LmrModel.h MyLuaMathTypes.h BezierCurve.h \
-		PiLuaModules.h
+		PiLuaModules.h LuaChatForm.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -30,8 +30,8 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Mission.cpp pirates.cpp Polit.cpp CityOnPlanet.cpp ShipCpanelMultiFuncDisplays.cpp \
 		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
 		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
-		LmrModel.cpp MyLuaMathTypes.cpp PiLuaModules.cpp
-pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a missions/libmissions.a libgui.a
+		LmrModel.cpp MyLuaMathTypes.cpp PiLuaModules.cpp LuaChatForm.cpp
+pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp
 modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a

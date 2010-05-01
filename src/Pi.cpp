@@ -45,7 +45,6 @@ sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
 sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
-sigc::signal<void> Pi::onPlayerMissionListChanged;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
@@ -518,6 +517,7 @@ void Pi::InitGame()
 	objectViewerView = new ObjectViewerView();
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
+	PiLuaModules::Init();
 }
 
 static void OnPlayerDockOrUndock()
@@ -540,7 +540,6 @@ void Pi::StartGame()
 	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
-	PiLuaModules::Init();
 }
 
 void Pi::UninitGame()
@@ -890,6 +889,8 @@ void Pi::Serialize()
 
 	wr_int(detail.planets);
 	wr_int(detail.cities);
+
+	PiLuaModules::Serialize();
 }
 
 void Pi::Unserialize()
@@ -916,6 +917,8 @@ void Pi::Unserialize()
 	detail.cities = rd_int();
 
 	OnChangeDetailLevel();
+
+	PiLuaModules::Unserialize();
 }
 
 IniConfig::IniConfig(const char *filename)

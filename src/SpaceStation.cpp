@@ -13,11 +13,28 @@
 #include "LmrModel.h"
 #include "Polit.h"
 #include "Space.h"
+#include "PiLuaModules.h"
 
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
+void BBAdvert::Save()
+{
+	using namespace Serializer::Write;
+	wr_string(m_luaMod);
+	wr_int(m_luaRef);
+	wr_string(m_description);
+}
+
+BBAdvert BBAdvert::Load()
+{
+	using namespace Serializer::Read;
+	std::string luaMod = rd_string();
+	int luaRef = rd_int();
+	std::string desc = rd_string();
+	return BBAdvert(luaMod, luaRef, desc);
+}	
 
 struct SpaceStationType {
 	LmrModel *model;
@@ -178,11 +195,11 @@ void SpaceStation::Save()
 			i != m_shipsOnSale.end(); ++i) {
 		(*i).Save();
 	}
-	// save bb missions
-	wr_int(m_bbmissions.size());
-	for (std::vector<Mission*>::iterator i = m_bbmissions.begin();
-			i != m_bbmissions.end(); ++i) {
-		(*i)->Save();
+	// save bb adverts
+	wr_int(m_bbadverts.size());
+	for (std::vector<BBAdvert>::iterator i = m_bbadverts.begin();
+			i != m_bbadverts.end(); ++i) {
+		(*i).Save();
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr_int(Serializer::LookupBody(m_shipDocking[i].ship));
@@ -215,11 +232,10 @@ void SpaceStation::Load()
 		s.Load();
 		m_shipsOnSale.push_back(s);
 	}
-	// load bbmissions
-	int numBBMissions = rd_int();
-	for (int i=0; i<numBBMissions; i++) {
-		Mission *m = Mission::Load();
-		m_bbmissions.push_back(m);
+	// load bulletin board adverts
+	int numBBAdverts = rd_int();
+	for (int i=0; i<numBBAdverts; i++) {
+		m_bbadverts.push_back(BBAdvert::Load());
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = (Ship*)rd_int();
@@ -297,10 +313,6 @@ void SpaceStation::InitStation()
 
 SpaceStation::~SpaceStation()
 {
-	for (std::vector<Mission*>::iterator i = m_bbmissions.begin();
-			i != m_bbmissions.end(); ++i) {
-		delete *i;
-	}
 	if (m_adjacentCity) delete m_adjacentCity;
 }
 
@@ -333,11 +345,11 @@ void SpaceStation::UpdateShipyard()
 }
 
 /* does not dealloc */
-bool SpaceStation::BBRemoveMission(Mission *m)
+bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
 {
-	for (int i=m_bbmissions.size()-1; i>=0; i--) {
-		if (m_bbmissions[i] == m) {
-			m_bbmissions.erase(m_bbmissions.begin() + i);
+	for (int i=m_bbadverts.size()-1; i>=0; i--) {
+		if (m_bbadverts[i].Is(modName, modRef)) {
+			m_bbadverts.erase(m_bbadverts.begin() + i);
 			onBulletinBoardChanged.emit();
 			return true;
 		}
@@ -347,30 +359,12 @@ bool SpaceStation::BBRemoveMission(Mission *m)
 
 void SpaceStation::UpdateBB()
 {
-	if (m_bbmissions.size() == 0) {
-		// fill bb
-		for (int i=Pi::rng.Int32(20); i; i--) {
-			try {
-				Mission *m = Mission::GenerateRandom();
-				m_bbmissions.push_back(m);
-			} catch (CouldNotMakeMissionException) {
-
-			}
-		}
-	} else if (Pi::rng.Int32(2)) {
-		// add one
-		try {
-			Mission *m = Mission::GenerateRandom();
-			m_bbmissions.push_back(m);
-		} catch (CouldNotMakeMissionException) {
-
-		}
+	if (m_bbadverts.size() == 0) {
+		PiLuaModules::QueueEvent("onCreateBB", this);
 	} else {
-		// remove one
-		int pos = Pi::rng.Int32(m_bbmissions.size());
-		delete m_bbmissions[pos];
-		m_bbmissions.erase(m_bbmissions.begin() + pos);
+		PiLuaModules::QueueEvent("onUpdateBB", this);
 	}
+	// XXX TODO this is run too soon for Lua's events to have run XXX
 	onBulletinBoardChanged.emit();
 }
 

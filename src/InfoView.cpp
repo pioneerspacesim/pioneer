@@ -7,6 +7,7 @@
 #include "Mission.h"
 #include "LmrModel.h"
 #include "Render.h"
+#include "PiLuaModules.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -17,12 +18,14 @@ public:
 class MissionPage: public InfoViewPage {
 public:
 	MissionPage() {
-		m_onMissionListChangedConnection = Pi::onPlayerMissionListChanged.connect(
-				sigc::mem_fun(this, &MissionPage::UpdateInfo));
 	};
 
+	virtual void Show() {
+		UpdateInfo();
+		InfoViewPage::Show();
+	}
+
 	virtual ~MissionPage() {
-		m_onMissionListChangedConnection.disconnect();
 	}
 
 	virtual void UpdateInfo() {
@@ -53,13 +56,14 @@ public:
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
-		const std::list<Mission*> missions = Pi::player->GetMissions();
+		std::list<Mission> missions;
+		PiLuaModules::GetPlayerMissions(missions);
 		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
 
 		float ypos = 0;
-		for (std::list<Mission*>::const_iterator i = missions.begin();
+		for (std::list<Mission>::const_iterator i = missions.begin();
 				i != missions.end(); ++i) {
-			switch ((*i)->GetStatus()) {
+			switch ((*i).GetStatus()) {
 				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
 				case Mission::COMPLETED: l = new Gui::Label("#ff0Completed"); break;
 				default:
@@ -68,15 +72,15 @@ public:
 			innerbox->Add(l, 0, ypos);
 			l->Show();
 			
-			l = new Gui::Label(format_money((*i)->GetPayoff()));
+			l = new Gui::Label(format_money((*i).GetPayoff()));
 			innerbox->Add(l, 80, ypos);
 			l->Show();
 			
-			l = new Gui::Label((*i)->GetClientName());
+			l = new Gui::Label((*i).GetClientName());
 			innerbox->Add(l, 140, ypos);
 			l->Show();
 
-			l = new Gui::Label((*i)->GetMissionText());
+			l = new Gui::Label((*i).GetMissionText());
 			innerbox->Add(l, 280, ypos);
 			l->Show();
 
@@ -88,8 +92,6 @@ public:
 		portal->Add(innerbox);
 		portal->ShowAll();
 	}
-private:
-	sigc::connection m_onMissionListChangedConnection;
 };
 
 class CargoPage: public InfoViewPage {

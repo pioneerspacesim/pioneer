@@ -208,7 +208,7 @@ void GenericChatForm::Clear()
 	hasOpts = false;
 }
 
-void GenericChatForm::Message(const char *msg)
+void GenericChatForm::SetMessage(const char *msg)
 {
 	m_msgregion->PackEnd(new Gui::Label(msg));
 	ShowAll();

@@ -16,6 +16,30 @@ class Mission;
 class CityOnPlanet;
 struct SpaceStationType;
 
+/**
+ * Bulletin board advert
+ */
+class BBAdvert {
+public:
+	const std::string &GetBulletinBoardText() const { return m_description; }
+	const std::string &GetModule() const { return m_luaMod; }
+	int GetLuaRef() const { return m_luaRef; }
+	BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc):
+		m_luaMod(luaMod), m_luaRef(luaRef), m_description(desc) {}
+	void Save();
+	static BBAdvert Load();
+	bool Is(const std::string &modName, int modRef) {
+		return (m_luaMod == modName) && (m_luaRef == modRef);
+	}
+private:
+	std::string m_luaMod;
+	int m_luaRef;
+	/**
+	 * This text appears in the bulletin board listing
+	 */
+	std::string m_description;
+};
+
 class SBody;
 
 class SpaceStation: public ModelBody, public MarketAgent {
@@ -46,9 +70,10 @@ public:
 	const SBody *GetSBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
-	const std::vector<Mission*> &GetBBMissions() { return m_bbmissions; }
+	std::vector<BBAdvert> &GetBBAdverts() { return m_bbadverts; }
 	// does not dealloc
-	bool BBRemoveMission(Mission *m);
+	bool BBRemoveAdvert(const std::string &modName, int modRef);
+	void BBAddAdvert(const BBAdvert &a) { m_bbadverts.push_back(a); }
 	virtual void PostLoadFixup();
 	virtual void NotifyDeleted(const Body* const deletedBody);
 	int GetFreeDockingPort(); // returns -1 if none free
@@ -91,7 +116,7 @@ private:
 	const SBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
-	std::vector<Mission*> m_bbmissions;
+	std::vector<BBAdvert> m_bbadverts;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	int m_numPoliceDocked;

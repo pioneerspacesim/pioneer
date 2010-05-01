@@ -8,6 +8,7 @@
 #include "Mission.h"
 #include "CommodityTradeWidget.h"
 #include "GenericChatForm.h"
+#include "LuaChatForm.h"
 #include "PoliceChatForm.h"
 #include "LmrModel.h"
 
@@ -735,12 +736,14 @@ void StationBBView::OpenMission(int midx)
 {
 	SpaceStation *station = Pi::player->GetDockedWith();
 	
-	GenericChatForm *chatform = new GenericChatForm();
+	LuaChatForm *chatform = new LuaChatForm();
 	chatform->AddBaseDisplay();
 	chatform->AddVideoWidget();
-	Mission *m = station->GetBBMissions()[midx];
-	m->StartChat(chatform);
+	const BBAdvert *m = &station->GetBBAdverts()[midx];
+	chatform->StartChat(m);
 	OpenChildChatForm(chatform);
+//	m->StartChat(chatform);
+//	OpenChildChatForm(chatform);
 }
 
 void StationBBView::ShowAll()
@@ -765,18 +768,18 @@ void StationBBView::ShowAll()
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
-	const std::vector<Mission*> &missions = station->GetBBMissions();
+	std::vector<BBAdvert> &missions = station->GetBBAdverts();
 	int NUM_ITEMS = missions.size();
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (std::vector<Mission*>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
+	for (std::vector<BBAdvert>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
 		Gui::SolidButton *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMission), num));
 		innerbox->Add(b, 10, num*YSEP);
 		
-		Gui::Label *l = new Gui::Label((*i)->GetBulletinBoardText());
+		Gui::Label *l = new Gui::Label((*i).GetBulletinBoardText());
 		innerbox->Add(l,40,num*YSEP);
 		
 		num++;

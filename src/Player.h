@@ -6,8 +6,6 @@
 #include "Ship.h"
 #include "StarSystem.h"
 
-class Mission;
-
 class Player: public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
@@ -22,8 +20,6 @@ public:
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
 	void SetFlightControlState(FlightControlState s);
 	float GetSetSpeed() const { return m_setSpeed; }
-	void TakeMission(Mission *);
-	const std::list<Mission*> &GetMissions() const { return m_missions; }
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
@@ -31,7 +27,6 @@ protected:
 	virtual void Save();
 	virtual void Load();
 private:
-	std::list<Mission*> m_missions;
 	float m_mouseCMov[2];
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;

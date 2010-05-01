@@ -11,31 +11,18 @@ struct SBodyPath;
 
 class Mission {
 public:
-	Mission(int type): type(type) { m_agreedPayoff = 0; m_status = ACTIVE; }
-	virtual ~Mission() {}
-	virtual void Randomize() = 0;
-	virtual std::string GetBulletinBoardText() = 0;
-	virtual std::string GetMissionText() { return "<no mission description>"; }
-	virtual std::string GetClientName() { return "---"; }
-	virtual void StartChat(GenericChatForm *) = 0;
-	virtual void FormResponse(GenericChatForm*, int) = 0;
-	virtual void AttachToPlayer() {}
+	Mission() { m_agreedPayoff = 0; m_status = ACTIVE; }
 	enum MissionState { ACTIVE, COMPLETED, FAILED };
+	const std::string &GetMissionText() const { return m_missionText; }
+	const std::string &GetClientName() const { return m_clientName; }
 	MissionState GetStatus() const { return m_status; }
-
-	static Mission *GenerateRandom();
-	static Mission *Load();
-	void Save();
 	int GetPayoff() const { return m_agreedPayoff; }
 
-	const int type;
-protected:
-	void GiveToPlayer();
-	virtual void _Save() = 0;
-	virtual void _Load() = 0;
-	
 	enum MissionState m_status;
+	std::string m_missionText;
+	std::string m_clientName;
 	int m_agreedPayoff;
+protected:
 	// various useful utility things
 	// In form "the Arcturus system"
 	static std::string NaturalSystemName(const SBodyPath &);

@@ -1,12 +1,17 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Ship.h"
+#include "SpaceStation.h"
+#include "LuaChatForm.h"
 #include <map>
 #include <set>
+#include "Serializer.h"
+#include "PiLuaModules.h"
 
 // only using for including lua headers...
 #include "oolua/oolua.h"
 #include "oolua/oolua_error.h"
+
 
 class ObjectWrapper
 {
@@ -23,6 +28,17 @@ class ObjectWrapper
 			return static_cast<Body*>(m_obj)->GetLabel().c_str();
 		} else {
 			return "";
+		}
+	}
+	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
+	void SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description) {
+		if (Is(Object::SPACESTATION)) {
+			static_cast<SpaceStation*>(m_obj)->BBAddAdvert(BBAdvert(luaMod, luaRef, description));
+		}
+	}
+	void SpaceStationRemoveAdvert(const char *luaMod, int luaRef) {
+		if (Is(Object::SPACESTATION)) {
+			static_cast<SpaceStation*>(m_obj)->BBRemoveAdvert(luaMod, luaRef);
 		}
 	}
 	int print() { printf("ObjectWrapper = %p;\n", m_obj); return 1; }
@@ -54,11 +70,16 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 //		OOLUA_CONSTRUCTOR_1(const ObjectWrapper &)
 //	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_0(int,print)
+	OOLUA_MEM_FUNC_3(void, SpaceStationAddAdvert, const char *, int, const char *)
+	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)
 OOLUA_CLASS_END
 
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST(ObjectWrapper, print)
+EXPORT_OOLUA_FUNCTIONS_3_NON_CONST(ObjectWrapper,
+		print,
+		SpaceStationAddAdvert,
+		SpaceStationRemoveAdvert)
 EXPORT_OOLUA_FUNCTIONS_2_CONST(ObjectWrapper, IsBody, GetLabel)
 
 template <typename T>
@@ -76,6 +97,8 @@ static std::list<std::string> s_modules;
 static std::map<std::string, std::set<std::string> > s_eventListeners;
 static bool s_isInitted = false;
 static bool s_eventsPending = false;
+
+lua_State *GetLuaState() { return L; }
 
 void EmitEvents()
 {
@@ -167,6 +190,92 @@ static void ModsInitAll()
 	}
 }
 
+static void GetMission(std::list<Mission> &missions)
+{
+	Mission m;
+	// mission table at -1
+	lua_getfield(L, -1, "description");
+	m.m_missionText = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "client");
+	m.m_clientName = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "reward");
+	m.m_agreedPayoff = luaL_checknumber(L, -1)*100.0;
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "status");
+	const char *status = luaL_checkstring(L, -1);
+	if (0 == strcmp(status, "completed")) {
+		m.m_status = Mission::COMPLETED;
+	} else if (0 == strcmp(status, "failed")) {
+		m.m_status = Mission::FAILED;
+	} else {
+		m.m_status = Mission::ACTIVE;
+	}
+	lua_pop(L, 1);
+	missions.push_back(m);
+}
+
+void GetPlayerMissions(std::list<Mission> &missions)
+{
+	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
+		lua_getglobal(L, (*i).c_str());
+		lua_getfield(L, -1, "GetPlayerMissions");
+		if (!lua_isnil(L, -1)) {
+			lua_pushvalue(L, -2); // push self
+			lua_call(L, 1, 1);
+			// -1 is table of missions
+			lua_pushnil(L);  /* first key */
+			while (lua_next(L, -2) != 0) {
+				/* 'key' (at index -2) and 'value' (at index -1) */
+				GetMission(missions);
+				/* removes 'value'; keeps 'key' for next iteration */
+				lua_pop(L, 1);
+			}
+			lua_pop(L, 1);
+		} else {
+			lua_pop(L, 2);
+		}
+	}
+}
+
+void Serialize()
+{
+	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
+		lua_getglobal(L, (*i).c_str());
+		lua_getfield(L, -1, "Serialize");
+		lua_pushvalue(L, -2); // push self
+		lua_call(L, 1, 1);
+		const char *str = luaL_checkstring(L, -1);
+		Serializer::Write::wr_string((*i).c_str());
+		Serializer::Write::wr_string(str);
+		lua_pop(L, 2);
+	}
+	Serializer::Write::wr_string("");
+}
+
+void Unserialize()
+{
+	// XXX TODO XXX keep saved data for modules not enabled,
+	// so we can re-save it an not lose it
+	std::string modname;
+	std::string moddata;
+
+	for (;;) {
+		modname = Serializer::Read::rd_string();
+		if (modname == "") break;
+		moddata = Serializer::Read::rd_string();
+		
+		lua_getglobal(L, modname.c_str());
+		lua_getfield(L, -1, "Unserialize");
+		lua_pushvalue(L, -2); // push self
+		lua_pushstring(L, moddata.c_str());
+		lua_call(L, 2, 0);
+	}
+}
 
 namespace LuaFuncs {
 	static int PiPlayer(lua_State *const L)
@@ -220,6 +329,7 @@ void Init()
 
 		OOLUA::Script *S = new OOLUA::Script;
 		S->register_class<ObjectWrapper>();
+		S->register_class<LuaChatForm>();
 		L = S->get_ptr();
 	//	L = lua_open();
 		luaL_openlibs(L);
