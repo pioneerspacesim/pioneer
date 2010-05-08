@@ -18,6 +18,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		virtual void OnChildResizeRequest(Widget *);
 		virtual void UpdateAllChildSizes();
+		void SetSizeRequest(float x, float y);
 		void SetSizeRequest(float size[2]);
 	private:
 		void _Init();

@@ -20,12 +20,12 @@ public:
 	virtual void ShowAll();
 private:
 	void OnClickBuy(int commodity_type) {
-		m_station->SellItemTo(Pi::player, (Equip::Type)commodity_type);
+		m_station->SellTo(Pi::player, (Equip::Type)commodity_type);
 		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
-		Pi::player->SellItemTo(m_station, (Equip::Type)commodity_type);
+		m_station->BuyFrom(Pi::player, (Equip::Type)commodity_type);
 		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
@@ -57,6 +57,7 @@ void StationCommoditiesView::ShowAll()
 	Add(new Gui::Label("Go back"), 700, 470);
 
 	m_commodityTradeWidget = new CommodityTradeWidget(m_station);
+	m_commodityTradeWidget->SetSizeRequest(470.0, 400.0);
 	m_commodityTradeWidget->onClickBuy.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy));
 	m_commodityTradeWidget->onClickSell.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell));
 	Add(m_commodityTradeWidget, 320, 40);

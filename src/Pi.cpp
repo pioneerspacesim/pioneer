@@ -879,6 +879,10 @@ StarSystem *Pi::GetSelectedSystem()
 void Pi::Serialize()
 {
 	using namespace Serializer::Write;
+	Serializer::IndexFrames();
+	Serializer::IndexBodies();
+	Serializer::IndexSystemBodies(currentSystem);
+
 	StarSystem::Serialize(selectedSystem);
 	wr_double(gameTime);
 	StarSystem::Serialize(currentSystem);

@@ -6,7 +6,7 @@
 #define RBUTTON_DELAY 500
 #define RBUTTON_REPEAT 50
 
-CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::Fixed(470, 400)
+CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::Fixed()
 {
 	SetTransparency(false);
 	m_seller = seller;

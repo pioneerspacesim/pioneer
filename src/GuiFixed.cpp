@@ -21,10 +21,15 @@ void Fixed::_Init()
 	m_eventMask = EVENT_ALL;
 }
 
+void Fixed::SetSizeRequest(float x, float y)
+{
+	m_userWantedSize[0] = x;
+	m_userWantedSize[1] = y;
+}
+
 void Fixed::SetSizeRequest(float size[2])
 {
-	m_userWantedSize[0] = size[0];
-	m_userWantedSize[1] = size[1];
+	SetSizeRequest(size[0], size[1]);
 }
 
 void Fixed::GetSizeRequested(float size[2])

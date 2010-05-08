@@ -14,7 +14,7 @@ include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h Gu
 		CityOnPlanet.h ShipCpanelMultiFuncDisplays.h Projectile.h Render.h Sound.h GuiRepeaterButton.h \
 		CommodityTradeWidget.h GenericChatForm.h PoliceChatForm.h SysLoc.h PersistSystemData.h GalacticView.h \
 		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h LmrModel.h MyLuaMathTypes.h BezierCurve.h \
-		PiLuaModules.h LuaChatForm.h
+		PiLuaModules.h LuaChatForm.h mylua.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \

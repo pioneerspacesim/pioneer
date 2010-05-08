@@ -29,8 +29,6 @@ end
 
 function serialize(val)
 	local out
--- TODO serialize ObjectWrapper objects
---	assert(type(val) ~= 'userdata')
 	if type(val) == 'number' then
 		out = 'f' .. val .. '\n'
 	elseif type(val) == 'boolean' then
@@ -48,6 +46,10 @@ function serialize(val)
 			end
 		end
 		out = out .. 'n\n'
+	elseif type(val) == 'userdata' then
+		out = UserDataSerialize(val)
+	else
+		assert(0)
 	end
 	return out
 end
@@ -55,7 +57,7 @@ end
 function unserialize(val, addtotable, start)
 	start = start or 1
 	if start > #val then
-		return nil
+		return start, nil
 	end
 	if val:sub(start,start) == 'n' then
 		return start+2, nil
@@ -79,15 +81,50 @@ function unserialize(val, addtotable, start)
 		repeat
 			local k,v
 			start, k = unserialize(val, nil, start)
-			if type(k) ~= 'nil' then
+			if k ~= nil then
 				start, v = unserialize(val, nil, start)
 				addtotable[k] = v
 			end
 		until k == nil
 		return start, addtotable
+	elseif val:sub(start,start) == 'o' then
+		local last = string.find(val, '\n', start)
+		return last+1, UserDataUnserialize(val:sub(start+1, last-1))
 	end
 end
 
+-- Keep in sync with EquipType.h Equip::Type...
+Equip = {
+	NONE=0, HYDROGEN=1, LIQUID_OXYGEN=2, METAL_ORE=3, CARBON_ORE=4, METAL_ALLOYS=5,
+	PLASTICS=6, FRUIT_AND_VEG=7, ANIMAL_MEAT=8, LIVE_ANIMALS=9, LIQUOR=10, GRAIN=11, TEXTILES=12, FERTILIZER=13,
+	WATER=14, MEDICINES=15, CONSUMER_GOODS=16, COMPUTERS=17, ROBOTS=18, PRECIOUS_METALS=19,
+	INDUSTRIAL_MACHINERY=20, FARM_MACHINERY=21, MINING_MACHINERY=22, AIR_PROCESSORS=23, SLAVES=24,
+	HAND_WEAPONS=25, BATTLE_WEAPONS=26, NERVE_GAS=27, NARCOTICS=28, MILITARY_FUEL=29, RUBBISH=30, RADIOACTIVES=31
+}
+
+Module = {}
+function Module:new(o)
+	o = o or {}
+	setmetatable(o, self)
+	self.__index = self
+	PiModule(o)
+	return o
+end
+function Module:Serialize()
+	return serialize(self)
+end
+
+function Module:Unserialize(data)
+	unserialize(data, self)
+end
+-- default to performing transaction when clicked (can override to make other
+-- nasty stuff happen
+function Module:TraderOnClickSell(self, dialog, comType)
+	return true
+end
+function Module:TraderOnClickBuy(self, dialog, comType)
+	return true
+end
 
 ---[[
 a = ObjectWrapper:new()
@@ -99,7 +136,7 @@ a:print()
 b:print()
 print(a == b)
 --]]
-PiModule {
+Module:new {
 	__name='mymod', 
 	x=123,
 	
@@ -116,14 +153,6 @@ PiModule {
 	GetPlayerMissions = function(self)
 		return { { description="Hello world", client="Mr Morton", reward=1234, status='completed' },
 	                 { description="Eat your own head", client="God", reward=500, status='failed' } }
-	end,
-
-	Serialize = function(self)
-		return serialize(self)
-	end,
-
-	Unserialize = function(self, data)
-		unserialize(data, self)
 	end,
 
 	DoSomething = function(self)
@@ -158,15 +187,21 @@ PiModule {
 		print("Updating bb adverts for " .. args[1]:GetLabel())
 	end,
 
-	DialogHandler = function(self, dialog, ad_ref, optionClicked)
+	DialogHandler = function(self, dialog, optionClicked)
+		local ad_ref = dialog:GetAdRef()
 		print("dialog handler for " .. ad_ref .. " clicked " .. optionClicked)
 		if optionClicked == -1 then
 			dialog:Close()
 			self.ads[ad_ref].bb:SpaceStationRemoveAdvert(self.__name, ad_ref)
 		else
+			self.ads[ad_ref].stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
+			self.ads[ad_ref].price = {[Equip.WATER]=120, [Equip.HYDROGEN]=130, [Equip.NERVE_GAS]=1000}
 			dialog:Clear()
+			print("dialog stage is " .. dialog:GetStage())
+			dialog:SetStage("blah")
 			dialog:SetTitle("Hello old beans!")
 			dialog:SetMessage("Hello you plenty good chap, blah blah")
+			dialog:AddTraderWidget()
 			dialog:AddOption("$1", 1);
 			dialog:AddOption("$10", 2);
 			dialog:AddOption("$100", 3);
@@ -176,5 +211,34 @@ PiModule {
 			dialog:AddOption("Hang up.", -1);
 		end
 	end,
+
+	TraderGetStock = function(self, dialog, comType)
+		return self.ads[ dialog:GetAdRef() ].stock[comType]
+	end,
+
+	TraderGetPrice = function(self, dialog, comType)
+		return self.ads[ dialog:GetAdRef() ].price[comType]
+	end,
+
+	TraderBought = function(self, dialog, comType)
+		local stock = self.ads[ dialog:GetAdRef() ].stock
+		stock[comType] = stock[comType] + 1
+	end,
+
+	TraderSold = function(self, dialog, comType)
+		local stock = self.ads[ dialog:GetAdRef() ].stock
+		stock[comType] = stock[comType] - 1
+	end,
+
+	TraderCanTrade = function(self, dialog, comType)
+		if self.ads[ dialog:GetAdRef() ].stock[comType] ~= nil then
+			return true
+		end
+	end,
+
+--	TraderOnClickSell = function(self, dialog, comType)
+--		dialog:Close()
+--		return false
+--	end,
 }
 

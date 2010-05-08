@@ -187,10 +187,11 @@ void GenericChatForm::ReInit()
 
 	m_msgregion = new Gui::VBox();
 	m_optregion = new Gui::VBox();
+	m_msgregion->SetSizeRequest(470, 150);
        	m_msgregion->SetSpacing(5.0f);
        	m_optregion->SetSpacing(5.0f);
 	m_chatRegion->Add(m_msgregion, 0, 0);
-	m_chatRegion->Add(m_optregion, 0, 150);
+	m_chatRegion->Add(m_optregion, 0, 160);
 	m_msgregion->Show();
 	m_optregion->Show();
 	Clear();

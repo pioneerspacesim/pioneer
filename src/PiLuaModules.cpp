@@ -7,11 +7,7 @@
 #include <set>
 #include "Serializer.h"
 #include "PiLuaModules.h"
-
-// only using for including lua headers...
-#include "oolua/oolua.h"
-#include "oolua/oolua_error.h"
-
+#include "mylua.h"
 
 class ObjectWrapper
 {
@@ -49,16 +45,17 @@ class ObjectWrapper
 	//	printf("ObjWrapper for %s is being deleted\n", GetLabel());
 		m_delCon.disconnect();
 	}
+	// not much point making this private since it isn't exposed to lua
+	Object *m_obj;
+	bool Is(Object::Type t) const {
+		return m_obj && m_obj->IsType(t);
+	}
 	protected:
 	void OnDelete() {
 		// object got deleted out from under us
 		m_obj = 0;
 		m_delCon.disconnect();
 	}
-	bool Is(Object::Type t) const {
-		return m_obj && m_obj->IsType(t);
-	}
-	Object *m_obj;
 	sigc::connection m_delCon;
 };
 OOLUA_CLASS_NO_BASES(ObjectWrapper)
@@ -245,14 +242,11 @@ void GetPlayerMissions(std::list<Mission> &missions)
 void Serialize()
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
-		lua_getglobal(L, (*i).c_str());
-		lua_getfield(L, -1, "Serialize");
-		lua_pushvalue(L, -2); // push self
-		lua_call(L, 1, 1);
+		ModCall((*i).c_str(), "Serialize", 1);
 		const char *str = luaL_checkstring(L, -1);
 		Serializer::Write::wr_string((*i).c_str());
 		Serializer::Write::wr_string(str);
-		lua_pop(L, 2);
+		lua_pop(L, 1);
 	}
 	Serializer::Write::wr_string("");
 }
@@ -269,11 +263,7 @@ void Unserialize()
 		if (modname == "") break;
 		moddata = Serializer::Read::rd_string();
 		
-		lua_getglobal(L, modname.c_str());
-		lua_getfield(L, -1, "Unserialize");
-		lua_pushvalue(L, -2); // push self
-		lua_pushstring(L, moddata.c_str());
-		lua_call(L, 2, 0);
+		ModCall(modname.c_str(), "Unserialize", 0, moddata.c_str());
 	}
 }
 
@@ -322,6 +312,32 @@ static int register_module(lua_State * const L)
 	return 0;
 }
 
+static int UserDataSerialize(lua_State *L)
+{
+	ObjectWrapper *o;
+	luaL_checktype(L, 1, LUA_TUSERDATA);
+	if (mylua_checkudata(L, 1, "ObjectWrapper")) {
+		OOLUA::pull2cpp(L, o);
+		char buf[128];
+		// XXX this is a rather hairy cast but should always be true
+		assert(static_cast<ObjectWrapper*>(o)->IsBody());
+		snprintf(buf, sizeof(buf), "o%d\n", Serializer::LookupBody((Body*)static_cast<ObjectWrapper*>(o)->m_obj));
+		lua_pushstring(L, buf);
+		return 1;
+	} else {
+		Error("Tried to serialize unknown userdata type.");
+		return 0;
+	}
+}
+
+static int UserDataUnserialize(lua_State *L)
+{
+	size_t idx = atoi(luaL_checkstring(L, 1));
+	Body *b = Serializer::LookupBody(idx);
+	push2luaWithGc(L, new ObjectWrapper(b));
+	return 1;
+}
+
 void Init()
 {
 	if (!s_isInitted) {
@@ -335,6 +351,8 @@ void Init()
 		luaL_openlibs(L);
 		lua_register(L, "PiPlayer", LuaFuncs::PiPlayer);
 		lua_register(L, "PiModule", register_module);
+		lua_register(L, "UserDataSerialize", UserDataSerialize);
+		lua_register(L, "UserDataUnserialize", UserDataUnserialize);
 
 		if (luaL_dofile(L, "test_module.lua")) {
 			Error("%s", lua_tostring(L, -1));

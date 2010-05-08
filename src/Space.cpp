@@ -106,9 +106,6 @@ void DoECM(const Frame *f, const vector3d &pos, int power_val)
 void Serialize()
 {
 	using namespace Serializer::Write;
-	Serializer::IndexFrames();
-	Serializer::IndexBodies();
-	Serializer::IndexSystemBodies(Pi::currentSystem);
 	Frame::Serialize(rootFrame);
 	wr_int(bodies.size());
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {

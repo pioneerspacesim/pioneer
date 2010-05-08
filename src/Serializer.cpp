@@ -350,8 +350,7 @@ namespace Read {
 	char* rd_cstring()
 	{
 		char* buf;
-		int i;
-		unsigned char size;
+		int i, size;
 
 		/* Size is in first byte */
 		size = rd_int();

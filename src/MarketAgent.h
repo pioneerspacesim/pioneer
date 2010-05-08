@@ -10,7 +10,11 @@ public:
 	void SetMoney(Sint64 m) { m_money = m; }
 	Sint64 GetMoney() { return m_money; }
 	bool Pay(MarketAgent *b, Sint64 amount);
-	bool SellItemTo(MarketAgent *other, Equip::Type t);
+	/**
+	 * SellTo() and BuyFrom() use the commodity price of this MarketAgent.
+	 */
+	bool SellTo(MarketAgent *other, Equip::Type t);
+	bool BuyFrom(MarketAgent *other, Equip::Type t);
 	virtual Sint64 GetPrice(Equip::Type t) const = 0;
 	virtual bool CanBuy(Equip::Type t) const = 0;
 	// can sell means do we have enough stock
