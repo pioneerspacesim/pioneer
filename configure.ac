@@ -20,16 +20,28 @@ AC_PROG_RANLIB
 CFLAGS="-g -Wall"
 AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
 AC_ARG_WITH(fno-inline, [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CFLAGS -fno-inline")
-AC_ARG_WITH(gprof, [  --with-gprof            Compile without gprof profiler], CFLAGS="$CFLAGS -p")
+AC_ARG_WITH(gprof, [  --with-gprof            Compile with gprof profiler], CFLAGS="$CFLAGS -p")
 
-CFLAGS="$CFLAGS `pkg-config --cflags sigc++-2.0`"
-LIBS="$LIBS `pkg-config --libs sigc++-2.0` -lGL -lGLU -lGLEW"
-CFLAGS="$CFLAGS `pkg-config --cflags freetype2`"
-LIBS="$LIBS `pkg-config --libs freetype2`"
+PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
+CFLAGS="$CFLAGS $SIGC_CFLAGS"
+LIBS="$LIBS $SIGC_LIBS"
 
-PKG_CHECK_MODULES(SDL, sdl)
+PKG_CHECK_MODULES(FT, freetype2)
+CFLAGS="$CFLAGS $FT_CFLAGS"
+LIBS="$LIBS $FT_LIBS"
+
+PKG_CHECK_MODULES(GL, gl)
+PKG_CHECK_MODULES(GLU, glu)
+CFLAGS="$CFLAGS $GLU_CFLAGS"
+LIBS="$LIBS $GLU_LIBS"
+
+PKG_CHECK_MODULES(GLEW, glew)
+CFLAGS="$CFLAGS $GLEW_CFLAGS"
+LIBS="$LIBS $GLEW_LIBS"
+
+PKG_CHECK_MODULES(SDL, SDL_image)
 CFLAGS="$CFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS -lSDL_image"
+LIBS="$LIBS $SDL_LIBS"
 
 CFLAGS="$CFLAGS -DLUA_USE_POSIX"
 
