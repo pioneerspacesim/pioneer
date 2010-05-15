@@ -9,6 +9,13 @@
 #include "oolua/oolua.h"
 #include "oolua/oolua_error.h"
 
+template <typename T>
+static void push2luaWithGc(lua_State *L, T *o)
+{
+	// give pointer to lua, which it owns
+	OOLUA::INTERNAL::push_pointer<T>(L,o,OOLUA::Lua);
+}
+
 // Copy of:
 // LUALIB_API void *luaL_checkudata (lua_State *L, int ud, const char *tname)
 // with typeerror commented out

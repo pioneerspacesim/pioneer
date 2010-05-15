@@ -1,94 +1,16 @@
 #include "libs.h"
 #include "Pi.h"
-#include "Ship.h"
-#include "SpaceStation.h"
-#include "LuaChatForm.h"
 #include <map>
 #include <set>
+#include "Object.h"
+#include "Body.h"
 #include "Serializer.h"
 #include "PiLuaModules.h"
 #include "mylua.h"
-
-class ObjectWrapper
-{
-	public:
-	ObjectWrapper(): m_obj(0) {}
-	ObjectWrapper(Object *o): m_obj(o) {
-		m_delCon = o->onDelete.connect(sigc::mem_fun(this, &ObjectWrapper::OnDelete));
-	}
-	bool IsBody() const {
-		return Is(Object::BODY);
-	}
-	const char *GetLabel() const {
-		if (Is(Object::BODY)) {
-			return static_cast<Body*>(m_obj)->GetLabel().c_str();
-		} else {
-			return "";
-		}
-	}
-	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
-	void SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description) {
-		if (Is(Object::SPACESTATION)) {
-			static_cast<SpaceStation*>(m_obj)->BBAddAdvert(BBAdvert(luaMod, luaRef, description));
-		}
-	}
-	void SpaceStationRemoveAdvert(const char *luaMod, int luaRef) {
-		if (Is(Object::SPACESTATION)) {
-			static_cast<SpaceStation*>(m_obj)->BBRemoveAdvert(luaMod, luaRef);
-		}
-	}
-	int print() { printf("ObjectWrapper = %p;\n", m_obj); return 1; }
-	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
-		return a.m_obj == b.m_obj;
-	}
-	virtual ~ObjectWrapper() {
-	//	printf("ObjWrapper for %s is being deleted\n", GetLabel());
-		m_delCon.disconnect();
-	}
-	// not much point making this private since it isn't exposed to lua
-	Object *m_obj;
-	bool Is(Object::Type t) const {
-		return m_obj && m_obj->IsType(t);
-	}
-	protected:
-	void OnDelete() {
-		// object got deleted out from under us
-		m_obj = 0;
-		m_delCon.disconnect();
-	}
-	sigc::connection m_delCon;
-};
-OOLUA_CLASS_NO_BASES(ObjectWrapper)
-	OOLUA_TYPEDEFS
-		OOLUA::Equal_op
-	OOLUA_END_TYPES
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-//	OOLUA_CONSTRUCTORS_BEGIN
-//		OOLUA_CONSTRUCTOR_1(const ObjectWrapper &)
-//	OOLUA_CONSTRUCTORS_END
-	OOLUA_MEM_FUNC_0(int,print)
-	OOLUA_MEM_FUNC_3(void, SpaceStationAddAdvert, const char *, int, const char *)
-	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
-	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
-	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)
-OOLUA_CLASS_END
-
-EXPORT_OOLUA_FUNCTIONS_3_NON_CONST(ObjectWrapper,
-		print,
-		SpaceStationAddAdvert,
-		SpaceStationRemoveAdvert)
-EXPORT_OOLUA_FUNCTIONS_2_CONST(ObjectWrapper, IsBody, GetLabel)
-
-template <typename T>
-static void push2luaWithGc(lua_State *L, T *o)
-{
-	OOLUA::INTERNAL::Lua_ud* ud = OOLUA::INTERNAL::add_ptr<T>(L,o,false);
-	ud->gc = true;
-}
+#include "PiLuaAPI.h"
 
 namespace PiLuaModules {
 
-static OOLUA::Script *S;
 static lua_State *L;
 static std::list<std::string> s_modules;
 static std::map<std::string, std::set<std::string> > s_eventListeners;
@@ -267,14 +189,6 @@ void Unserialize()
 	}
 }
 
-namespace LuaFuncs {
-	static int PiPlayer(lua_State *const L)
-	{
-		push2luaWithGc(L, new ObjectWrapper((Object*)Pi::player));
-		return 1;
-	}
-}
-
 static void mods_event_dispatcher(const char *event)
 {
 	QueueEvent(event);
@@ -344,15 +258,13 @@ void Init()
 		s_isInitted = true;
 
 		OOLUA::Script *S = new OOLUA::Script;
-		S->register_class<ObjectWrapper>();
-		S->register_class<LuaChatForm>();
 		L = S->get_ptr();
-	//	L = lua_open();
 		luaL_openlibs(L);
-		lua_register(L, "PiPlayer", LuaFuncs::PiPlayer);
 		lua_register(L, "PiModule", register_module);
 		lua_register(L, "UserDataSerialize", UserDataSerialize);
 		lua_register(L, "UserDataUnserialize", UserDataUnserialize);
+
+		RegisterPiLuaAPI(L);
 
 		if (luaL_dofile(L, "test_module.lua")) {
 			Error("%s", lua_tostring(L, -1));

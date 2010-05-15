@@ -126,9 +126,9 @@ function Module:TraderOnClickBuy(self, dialog, comType)
 	return true
 end
 
----[[
+--[[
 a = ObjectWrapper:new()
-b = PiPlayer()
+b = Pi.GetPlayer()
 print(a:IsBody())
 print(b:IsBody())
 print(b:GetLabel())
@@ -136,6 +136,7 @@ a:print()
 b:print()
 print(a == b)
 --]]
+print(Pi.GetPlayer())
 Module:new {
 	__name='mymod', 
 	x=123,
@@ -161,7 +162,10 @@ Module:new {
 
 	onPlayerChangeTarget = function(self)
 		print('mymod got onPlayerChangeTarget');
-		EventIgnore(self, "onPlayerChangeTarget")
+		print(Pi.GetPlayer():GetLabel())
+		SoundEvent:new():Play("Landing.wav", 1, 1, 0)
+		print(Pi.GetGameTime())
+		--EventIgnore(self, "onPlayerChangeTarget")
 	end,
 
 	onShipKilled = function(self, args)
