@@ -11,23 +11,12 @@ namespace OOLUA
 {
 	namespace INTERNAL
 	{
-		static const char const_field[] = "__const";
-		static const char mt_check_field[] = "__mt_check";
-		static const char typed_delete_field[] = "__typed_delete";
 		static const char change_mt_to_none_const_field[] = "__change_mt_to_none_const";
 		static const char set_owner_str[] = "set_owner";
 		static const char lua_owns_str[] = "Lua_owns";
 		static const char cpp_owns_str[] = "Cpp_owns";
 		static const char weak_lookup_name [] = "__weak_lookup";
 		static const char new_str [] = "new";
-
-	/*	template<typename T,int Length>
-		inline int array_size_(T (&)[ Length ] )
-		{
-			return Length-1;
-		}
-	 */
-		
 	}
 }
 

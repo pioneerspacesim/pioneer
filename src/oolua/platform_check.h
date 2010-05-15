@@ -6,7 +6,7 @@
 ///  @author Liam Devine
 ///  @email
 ///  See http://www.liamdevine.co.uk for contact details.
-///  @licence 
+///  @licence
 ///  See licence.txt for more details. \n 
 ///////////////////////////////////////////////////////////////////////////////
 

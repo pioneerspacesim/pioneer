@@ -12,6 +12,7 @@
 #include "push_pointer_internal.h"
 #include "fwd_push_pull.h"
 #include "oolua_storage.h"
+#include "oolua_parameter_helper.h"
 
 #include <cassert>
 
@@ -278,19 +279,21 @@ namespace OOLUA
 		value = lua_tocfunction( s, -1);
 		lua_pop( s, 1);
 	}
+	
 	void inline pull2cpp(lua_State* const s, Lua_func_ref& value)
 	{
-		assert(s && lua_isfunction(s,-1) );
-		value.set_ref( s, luaL_ref(s, LUA_REGISTRYINDEX) );
-	}
-	void inline pull2cpp(lua_State* const s, Lua_table&  value)
-	{
-		assert(s && lua_type(s,-1) == LUA_TTABLE );
-		///luaL_ref Creates and returns a reference, in the table at index t,
-		///for the object at the top of the stack (and pops the object).
-		value.set_ref( s, luaL_ref(s, LUA_REGISTRYINDEX) );
+		value.pull(s);
 	}
 
+	void inline pull2cpp(lua_State* const s, Lua_table&  value)
+	{
+		value.pull_from_stack(s);
+	}
+
+	void inline pull2cpp(lua_State* const s, Lua_table_ref& value)
+	{
+		value.pull(s);
+	}
 
 	namespace INTERNAL
 	{

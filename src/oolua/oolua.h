@@ -7,7 +7,7 @@
 ///  @author Liam Devine
 ///  @email
 ///  See http://www.liamdevine.co.uk for contact details.
-///  @licence 
+///  @licence
 ///  See licence.txt for more details. \n 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -41,10 +41,11 @@ struct lua_State;
 #	include "param_traits.h"
 #	include "export_func_to_lua.h"
 #	include "cpp_member_func.h"
+#	include "oolua_c_func.h"
 #	include "lua_operator.h"
 #	include "proxy_class.h"
 #	include "class_public_member.h"
-#	include "proxy_member_caller.h"
+#	include "proxy_caller.h"
 #	include "lua_function.h"
 #	include "lua_table.h"
 #	include "lua_ref.h"
@@ -121,7 +122,7 @@ namespace OOLUA
 	template<typename T,typename K,typename V>
 	inline void Script::register_class_static(K const& k, V const& v)
 	{
-			OOLUA::register_class_static(m_lua,k,v);
+			OOLUA::register_class_static<T>(m_lua,k,v);
 	}
 	//if you want to use oolua with a lua_State you already have active
 	//or supplied by some third party then calling this function

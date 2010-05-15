@@ -20,9 +20,34 @@ namespace OOLUA
 					,index,"Whilst looking for type",name);
 				return false;
 			}
-			return true;
+
+			if(!lua_getmetatable(l, index)) return false;
+			lua_pushlightuserdata(l, l);
+			lua_rawget(l,-2);
+			bool result = lua_isnil(l,-1) ==1 ? false : true;
+
+			//pop metatable
+			if(result)lua_pop(l,1);
+			//pop metatable and also the lookup result on top of the stack
+			else lua_pop(l,2);
+			
+			return result;
 		}
 #endif
+		bool index_is_oolua_created_userdata(lua_State* l,int index,char const* name)
+		{
+			//if(!index_is_userdata(l,index,name)) return false;
+			if( !lua_isuserdata(l,index) ) return false;
+			if(!lua_getmetatable(l, index)) return false;
+			
+			lua_pushlightuserdata(l, l);
+			lua_rawget(l,-2);
+			bool result = lua_isnil(l,-1) ==1 ? false : true;
+			//pop metatable and result of lookup
+			lua_pop(l,2);
+			return result;
+			
+		}
 		bool get_metatable_and_check_type_is_registered(lua_State* l,int const& index,char const * name)
 		{
 				lua_getmetatable(l,index);//userdata ... stackmt
@@ -43,7 +68,7 @@ namespace OOLUA
 		bool is_requested_type_a_base(lua_State* l,INTERNAL::Lua_ud* requested_ud,int const& userdata_index)
 		{
 			//ud ... stackmt 
-			push_char_carray(l,mt_check_field);//ud ... stackmt str
+			lua_pushlightuserdata(l,l);//ud ... stackmt lua_State*
 			lua_rawget(l,-2);//ud ... stackmt   fun
 			function_sig_to_check_base isRequestTypeaBaseOfStackType (reinterpret_cast<function_sig_to_check_base>( lua_tocfunction(l,-1) ) );
 			lua_pop(l,2);//ud ... 

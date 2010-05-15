@@ -22,8 +22,10 @@
 #	include "lua_includes.h"
 #	include "lua_ref.h"
 
+
 namespace OOLUA
 {
+	class Lua_table;
 	///////////////////////////////////////////////////////////////////////////////
 	///  @struct in_p
 	///  Input parameter trait
@@ -828,7 +830,7 @@ namespace OOLUA
 		Converter(Converter const &);
 		char const* m_t;
 	};
-	
+
 	
 	
 	///////////////////////////////////////////////////////////////////////////////
@@ -890,6 +892,20 @@ namespace OOLUA
 		enum { is_constant = 0 };
 		enum { is_integral = 1 };
 	};
+	
+	template<>
+	struct in_p<Lua_table>
+	{
+		typedef Lua_table type;
+		typedef Lua_table raw;
+		typedef Lua_table pull_type;
+		enum {in = 1};
+		enum {out = 0};
+		enum {owner = No_change};
+		enum { is_by_value = 1 };
+		enum { is_constant = 0 };
+		enum { is_integral = 1 };
+	};
 
 }
 
@@ -899,7 +915,7 @@ namespace OOLUA
 	{
 		template<typename Cpp_type,int Lua_type>
 		struct lua_type_is_cpp_type;
-		
+
 		template<typename Cpp_type>
 		struct lua_type_is_cpp_type<Cpp_type,LUA_TNUMBER>
 		{
@@ -931,6 +947,15 @@ namespace OOLUA
 		struct lua_type_is_cpp_type<Cpp_type,LUA_TFUNCTION>
 		{
 			enum {value = LVD::is_same<Lua_ref<LUA_TFUNCTION> ,Cpp_type>::value};
+		};
+		template<typename Cpp_type>
+		struct lua_type_is_cpp_type<Cpp_type,LUA_TTABLE>
+		{
+			
+			typedef Type_list<
+			Lua_ref<LUA_TTABLE>,Lua_table
+			>::type Table_types;
+			enum {value = TYPELIST::IndexOf<Table_types,Cpp_type>::value == -1 ? 0 : 1};
 		};
 	}
 }

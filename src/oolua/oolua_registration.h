@@ -75,7 +75,7 @@ namespace OOLUA
 			ud->none_const_name = (char*)Proxy_class<T>::class_name;
 			return 0;
 		}
-		
+
 		template<typename T>
 		inline int garbage_collect(lua_State * /*const*/ l)
 		{
@@ -128,18 +128,13 @@ namespace OOLUA
 			lua_settable(l, LUA_GLOBALSINDEX);//methods mt
 			//global[name]=methods
 
-			push_char_carray(l,mt_check_field);//methods mt __mt_check
+			lua_pushlightuserdata(l,l);//methods mt lua_State*
 			function_sig_to_check_base_ temp_func = &stack_top_type_is_base< T>;
 			lua_CFunction func = reinterpret_cast<lua_CFunction>( temp_func);
-			//lua_CFunction func = reinterpret_cast<lua_CFunction>( &stack_top_type_is_base< T>);
 			lua_pushcfunction(l, func);//methods mt __mt_check func
 			lua_settable(l, mt);//methods mt 
-			//mt["__mt_check"]= &stack_top_type_is_base<T>;
+			//mt[lua_State*]= &stack_top_type_is_base<T>;
 
-			push_char_carray(l,const_field);//methods mt __const
-			lua_pushinteger(l,0);//methods mt __const false
-			lua_settable(l, mt);//methods mt 
-			//mt["__const"]= 0
 
 			lua_pushliteral(l, "__index");//methods mt __index
 			lua_pushvalue(l, methods);//methods mt __index methods
@@ -151,7 +146,7 @@ namespace OOLUA
 			lua_pushvalue(l, methods);//methods mt __newindex methods
 			lua_settable(l, mt);//methods mt
 			//mt["__newindex"]= methods
-			
+
 			set_delete_function<T,has_typedef<Proxy_class<T>, No_public_destructor >::Result>::set(l,mt);
 
 			set_create_function<T,LVD::if_or< 
@@ -185,19 +180,13 @@ namespace OOLUA
 			lua_settable(l, LUA_GLOBALSINDEX);//const_methods const_mt
 			//global[name#_const]=const_methods
 
-			push_char_carray(l,mt_check_field);//const_methods const_mt __mt_check
-			//lua_CFunction func = reinterpret_cast<lua_CFunction>(& stack_top_type_is_base<T>);
+			lua_pushlightuserdata(l,l);//const_methods const_mt lus_State*
 			function_sig_to_check_base_ temp_func = &stack_top_type_is_base< T>;
 			lua_CFunction func = reinterpret_cast<lua_CFunction>( temp_func);
-			lua_pushcfunction(l, func);//const_methods const_mt __mt_check func
+			lua_pushcfunction(l, func);//const_methods const_mt lus_State* func
 			lua_settable(l, const_mt);//const_methods const_mt
-			//const_mt["__mt_check"]= &stack_top_type_is_base<T>;
-
-			push_char_carray(l,const_field);//const_methods const_mt __const
-			lua_pushinteger(l,1);//const_methods const_mt int
-			lua_settable(l, const_mt);//const_methods const_mt
-			//const_mt["__const"]= 1
-
+			//const_mt[lua_State*]= &stack_top_type_is_base<T>;
+			
 			push_char_carray(l,change_mt_to_none_const_field);//const_methods const_mt __gc
 			lua_pushcclosure(l, &INTERNAL::set_type_top_to_none_const<T>, 0);//const_methods const_mt __gc func
 			lua_settable(l, const_mt);//const_methods const_mt
@@ -213,11 +202,11 @@ namespace OOLUA
 			lua_pushvalue(l, const_methods );//const_methods const_mt __newindex const_methods
 			lua_settable(l, const_mt);//const_methods const_mt
 			//const_mt["__newindex"]= const_methods
-			
+
 			set_owner_function<T,has_typedef<Proxy_class<T>, No_public_destructor >::Result>::set(l,const_methods);
-			
+
 			set_delete_function<T,has_typedef<Proxy_class<T>, No_public_destructor >::Result>::set(l,const_mt);
-			
+
 			lua_pushvalue(l, const_mt);//const_methods const_mt helper_mt helper_mt
 			lua_setmetatable(l, none_const_methods);//const_methods const_mt helper_mt
 			//none_const_methods[mt] = const_mt
@@ -301,7 +290,7 @@ namespace OOLUA
 		{
 			static void set(lua_State*  const /*l*/,int /*methods*/){}///no-op
 		};
-		
+
 		
 		template<typename T, bool HasNoDestructors>
 		struct set_owner_function
@@ -312,11 +301,11 @@ namespace OOLUA
 				lua_pushcclosure(l, &INTERNAL::lua_set_owner<T>, 0);//set_owner func
 				lua_settable(l, methods);
 				//methods["set_owner"]=&lua_set_owner()
-			}
-			
+	}
+
 		};
 		
-		template<typename T>
+    template<typename T>
 		struct set_owner_function<T, true>
 		{
 			static void set(lua_State*  const /*l*/,int /*methods*/){}///no-op

@@ -72,7 +72,7 @@ namespace OOLUA
 		{
 			if(own == No_change){assert(0);return;}//should never get called but...
 			Lua_ud* ud = find_ud_dont_care_about_type_and_clean_stack(l,ptr);
-			if(!ud)throw std::runtime_error("(set owner)The pointer was not in the __weak_lookup table");
+			if(!ud)assert(0);
 			ud->gc = ( own == Cpp ? false : true);
 		}
 

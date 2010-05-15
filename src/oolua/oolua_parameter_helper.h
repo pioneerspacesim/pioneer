@@ -6,7 +6,16 @@
 #	include "lua_includes.h"
 #	include "class_from_stack.h"
 
-
+#ifdef _MSC_VER 
+#	define MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA \
+	__pragma(warning(push)) \
+	__pragma(warning(disable : 4127)) 
+#	define MSC_POP_COMPILER_WARNING_OOLUA \
+	__pragma(warning(pop)) 
+#else
+#	define MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA 
+#	define MSC_POP_COMPILER_WARNING_OOLUA
+#endif
 namespace OOLUA
 {
 	namespace INTERNAL
@@ -23,16 +32,17 @@ namespace OOLUA
 		{
 			static int valid(lua_State* l,int index)
 			{
+MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA
 				if( !TypeWithTraits::is_constant
 				   && INTERNAL::id_is_const(static_cast<INTERNAL::Lua_ud *>( lua_touserdata(l, index) ) )  )
 				{
 					return 0;
 				}
 				return OOLUA::INTERNAL::class_from_index<typename TypeWithTraits::raw_type>(l,index)!=0;
-				
+MSC_POP_COMPILER_WARNING_OOLUA
 			}
-		};
-		
+
+		};	
 		template<typename ParamWithTraits>
 		int param_is_of_type(lua_State* l,int const& index)
 		{
@@ -53,7 +63,9 @@ namespace OOLUA
 				case LUA_TFUNCTION:
 					return lua_type_is_cpp_type<typename ParamWithTraits::raw_type,LUA_TFUNCTION>::value;
 					break;
-
+				case LUA_TTABLE:
+					return lua_type_is_cpp_type<typename ParamWithTraits::raw_type,LUA_TTABLE>::value;
+					break;
 					
 				default:
 					return 0;
@@ -62,5 +74,6 @@ namespace OOLUA
 		}
 	}
 }
-
+//#	undef MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT 
+//#	undef MSC_POP_COMPILER_WARNING 
 #endif
