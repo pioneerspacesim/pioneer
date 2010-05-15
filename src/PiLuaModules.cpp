@@ -8,6 +8,15 @@
 #include "PiLuaModules.h"
 #include "mylua.h"
 #include "PiLuaAPI.h"
+#ifdef _WIN32
+#include <../msvc/win32-dirent.h>
+#else
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif
+
 
 namespace PiLuaModules {
 
@@ -252,6 +261,30 @@ static int UserDataUnserialize(lua_State *L)
 	return 1;
 }
 
+static void DoAllLuaModuleFiles(lua_State *L)
+{
+	DIR *dir;
+	struct dirent *entry;
+
+	if (!(dir = opendir("data/modules"))) {
+		Error("Could not open data/modules");
+	} else {
+		while ((entry = readdir(dir)) != 0) {
+			if (entry->d_name[0] == '.') continue;
+			// only want to execute .lua files
+			if (strcmp(".lua", &entry->d_name[ strlen(entry->d_name)-4 ])) {
+				continue;
+			}
+			std::string path = "data/modules/" + std::string(entry->d_name);
+			printf("Running %s\n", path.c_str());
+			if (luaL_dofile(L, path.c_str())) {
+				Error("%s", lua_tostring(L, -1));
+			}
+		}
+		closedir(dir);
+	}
+}
+
 void Init()
 {
 	if (!s_isInitted) {
@@ -266,9 +299,11 @@ void Init()
 
 		RegisterPiLuaAPI(L);
 
-		if (luaL_dofile(L, "test_module.lua")) {
+		if (luaL_dofile(L, "data/pimodule.lua")) {
 			Error("%s", lua_tostring(L, -1));
 		}
+		DoAllLuaModuleFiles(L);
+
 		ModsInitAll();
 		Pi::onPlayerChangeTarget.connect(sigc::bind(sigc::ptr_fun(&mods_event_dispatcher), "onPlayerChangeTarget"));
 	}

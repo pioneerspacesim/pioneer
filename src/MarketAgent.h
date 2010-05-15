@@ -8,7 +8,7 @@ class MarketAgent {
 public:
 	MarketAgent(): m_money(0) {}
 	void SetMoney(Sint64 m) { m_money = m; }
-	Sint64 GetMoney() { return m_money; }
+	Sint64 GetMoney() const { return m_money; }
 	bool Pay(MarketAgent *b, Sint64 amount);
 	/**
 	 * SellTo() and BuyFrom() use the commodity price of this MarketAgent.

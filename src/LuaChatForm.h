@@ -42,6 +42,7 @@ private:
 OOLUA_CLASS_NO_BASES(LuaChatForm)
 	OOLUA_NO_TYPEDEFS
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+	OOLUA_MEM_FUNC_0(void, UpdateBaseDisplay)
 	OOLUA_MEM_FUNC_0(void, Close)
 	OOLUA_MEM_FUNC_0(void, Clear)
 	OOLUA_MEM_FUNC_1(void, SetTitle, const char *)

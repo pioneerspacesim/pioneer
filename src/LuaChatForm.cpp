@@ -7,7 +7,8 @@
 #include "PiLuaModules.h"
 #include "CommodityTradeWidget.h"
 
-EXPORT_OOLUA_FUNCTIONS_7_NON_CONST(LuaChatForm,
+EXPORT_OOLUA_FUNCTIONS_8_NON_CONST(LuaChatForm,
+		UpdateBaseDisplay,
 		Close,
 		Clear,
 		SetTitle,
