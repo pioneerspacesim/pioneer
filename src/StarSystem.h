@@ -199,6 +199,7 @@ public:
 	int m_tradeLevel[Equip::TYPE_MAX];
 	int m_econType;
 	int m_techlevel; /* 0-5 like in EquipType.h */
+	int m_seed;
 	
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];

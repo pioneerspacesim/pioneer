@@ -24,21 +24,27 @@ namespace Sound {
 #define MAX_OGGSTREAMS	2
 #define MAX_WAVSTREAMS	16
 
-static const char *sfx_wavs[SFX_MAX] = {
+/*static const char *sfx_wavs[SFX_MAX] = {
 	"pulsecannon.wav",
 	"collision.wav",
 	"warning.wav",
 	"gui_ping.wav",
 	"engines.wav",
 	"ecm.wav"
-};
+};*/
 
-eventid BodyMakeNoise(const Body *b, enum SFX sfx, float vol)
+eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 {
-	vector3d pos = b->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
-	matrix4x4d m;
-	Pi::player->GetRotMatrix(m);
-	pos = m.InverseOf() * pos;
+	vector3d pos;
+       
+	if (b == Pi::player) {
+		pos = vector3d(0.0);
+	} else {
+		pos = b->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
+		matrix4x4d m;
+		Pi::player->GetRotMatrix(m);
+		pos = m.InverseOf() * pos;
+	}
 
 	float len = pos.Length();
 	float v[2];
@@ -82,15 +88,48 @@ struct SoundEvent {
 	Uint32 buf_pos;
 	float volume[2]; // left and right channels
 	eventid identifier;
-	bool repeat;
+	Uint32 op;
 
 	float targetVolume[2];
 	float rateOfChange[2]; // per sample
 	bool ascend[2];
 };	
 
-struct Sample sfx_samples[SFX_MAX];
+static std::map<std::string, Sample> sfx_samples;
 struct SoundEvent wavstream[MAX_WAVSTREAMS];
+
+static Sample *GetSample(const char *filename)
+{
+	if (sfx_samples.find(filename) != sfx_samples.end()) {
+		return &sfx_samples[filename];
+	}
+	char buf[1024];
+	Sample *sam = &sfx_samples[filename];
+	snprintf(buf, sizeof(buf), "data/sfx/%s", filename);
+	SDL_AudioSpec spec;
+	if (SDL_LoadWAV(buf, &spec, &sam->buf, &sam->buf_len) == 0) {
+		fputs(SDL_GetError(), stderr);
+		fputs("\n", stderr);
+		sam->buf = 0;
+	}
+	assert(spec.freq == FREQ);
+	assert(spec.format == AUDIO_S16);
+	if (spec.channels == 1) {
+		// mangle to stereo
+		const unsigned int len = sam->buf_len;
+		Sint16 *buf = (Sint16*)malloc(2*len);
+		Sint16 *monobuf = (Sint16*)sam->buf;
+		for (unsigned int s=0; s<len/sizeof(Sint16); s++) {
+			buf[2*s] = monobuf[s];
+			buf[2*s+1] = monobuf[s];
+		}
+		SDL_FreeWAV(sam->buf);
+		sam->buf = (Uint8*)buf;
+		sam->buf_len = 2*len;
+	} else assert(spec.channels == 2);
+
+	return sam;
+}
 
 static SoundEvent *GetEvent(eventid id)
 {
@@ -101,50 +140,18 @@ static SoundEvent *GetEvent(eventid id)
 	return 0;
 }
 
-bool IsEventActive(eventid id)
+bool SetOp(eventid id, Op op)
 {
-	return GetEvent(id) != 0;
-}
-
-bool EventDestroy(eventid id)
-{
+	if (id == 0) return false;
+	bool ret = false;
 	SDL_LockAudio();
-	SoundEvent *s = GetEvent(id);
-	if (s) {
-		s->sample = 0;
+	SoundEvent *se = GetEvent(id);
+	if (se) {
+		se->op = op;
+		ret = true;
 	}
 	SDL_UnlockAudio();
-	return s != 0;
-}
-
-bool EventSetVolume(eventid id, float vol_left, float vol_right)
-{
-	SDL_LockAudio();
-	bool status = false;
-	for (int i=0; i<MAX_WAVSTREAMS; i++) {
-		if (wavstream[i].sample && (wavstream[i].identifier == id)) {
-			wavstream[i].volume[0] = vol_left;
-			wavstream[i].volume[1] = vol_right;
-			status = true;
-			break;
-		}
-	}
-	SDL_UnlockAudio();
-	return status;
-}
-
-bool EventVolumeAnimate(eventid id, float targetVols[2], float dv_dt[2])
-{
-	SDL_LockAudio();
-	SoundEvent *ev = GetEvent(id);
-	if (ev) {
-		ev->targetVolume[0] = targetVols[0];
-		ev->targetVolume[1] = targetVols[1];
-		ev->rateOfChange[0] = dv_dt[0] / (float)FREQ;
-		ev->rateOfChange[1] = dv_dt[1] / (float)FREQ;
-	}
-	SDL_UnlockAudio();
-	return (ev != 0);
+	return ret;
 }
 
 #if 0
@@ -164,7 +171,7 @@ static struct ogg_stream *get_free_stream ()
 /*
  * Volume should be 0-65535
  */
-eventid PlaySfx (enum SFX fx, float volume_left, float volume_right, bool repeat)
+eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 {
 	SDL_LockAudio();
 	static Uint32 identifier = 1;
@@ -184,10 +191,10 @@ eventid PlaySfx (enum SFX fx, float volume_left, float volume_right, bool repeat
 			}
 		}
 	}
-	wavstream[idx].sample = &sfx_samples[fx];
+	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].volume[0] = volume_left;
 	wavstream[idx].volume[1] = volume_right;
-	wavstream[idx].repeat = repeat;
+	wavstream[idx].op = op;
 	wavstream[idx].identifier = identifier;
 	wavstream[idx].targetVolume[0] = volume_left;
 	wavstream[idx].targetVolume[1] = volume_right;
@@ -212,6 +219,12 @@ static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 				wavstream[i].ascend[chan] = false;
 			}
 		}
+		if (wavstream[i].op & OP_STOP_AT_TARGET_VOLUME) {
+			if ((wavstream[i].targetVolume[0] == wavstream[i].volume[0]) &&
+			    (wavstream[i].targetVolume[1] == wavstream[i].volume[1])) {
+				wavstream[i].sample = 0;
+			}
+		}	
 	}
 	
 	while (written < len) {
@@ -240,7 +253,7 @@ static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 				wavstream[i].buf_pos += 2;
 				if (wavstream[i].buf_pos >= s->buf_len) {
 					wavstream[i].buf_pos = 0;
-					if (!wavstream[i].repeat) {
+					if (!(wavstream[i].op & OP_REPEAT)) {
 						wavstream[i].sample = 0;
 					}
 				}
@@ -255,52 +268,43 @@ static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 	}
 }
 
+void DestroyAllEvents()
+{
+	/* silence any sound events */
+	for (int idx=0; idx<MAX_WAVSTREAMS; idx++) {
+		wavstream[idx].sample = 0;
+	}
+}
+
 bool Init ()
 {
-	SDL_AudioSpec wanted;
-	
-	if (SDL_Init (SDL_INIT_AUDIO) == -1) {
-		fprintf (stderr, "Count not initialise SDL: %s.\n", SDL_GetError ());
-		return false;
-	}
+	static bool isInitted = false;
 
-	wanted.freq = FREQ;
-	wanted.channels = 2;
-	wanted.format = AUDIO_S16;
-	wanted.samples = BUF_SIZE;
-	wanted.callback = fill_audio;
-	wanted.userdata = NULL;
-
-	if (SDL_OpenAudio (&wanted, NULL) < 0) {
-		fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
-		return false;
-	}
-
-	for (int i=0; i<SFX_MAX; i++) {
-		char buf[1024];
-		snprintf(buf, sizeof(buf), "data/sfx/%s", sfx_wavs[i]);
-		SDL_AudioSpec spec;
-		if (SDL_LoadWAV(buf, &spec, &sfx_samples[i].buf, &sfx_samples[i].buf_len) == 0) {
-			fputs(SDL_GetError(), stderr);
-			fputs("\n", stderr);
-			sfx_samples[i].buf = 0;
+	if (!isInitted) {
+		isInitted = true;
+		SDL_AudioSpec wanted;
+		
+		if (SDL_Init (SDL_INIT_AUDIO) == -1) {
+			fprintf (stderr, "Count not initialise SDL: %s.\n", SDL_GetError ());
+			return false;
 		}
-		assert(spec.freq == FREQ);
-		assert(spec.format == AUDIO_S16);
-		if (spec.channels == 1) {
-			// mangle to stereo
-			const unsigned int len = sfx_samples[i].buf_len;
-			Sint16 *buf = (Sint16*)malloc(2*len);
-			Sint16 *monobuf = (Sint16*)sfx_samples[i].buf;
-			for (unsigned int s=0; s<len/sizeof(Sint16); s++) {
-				buf[2*s] = monobuf[s];
-				buf[2*s+1] = monobuf[s];
-			}
-			SDL_FreeWAV(sfx_samples[i].buf);
-			sfx_samples[i].buf = (Uint8*)buf;
-			sfx_samples[i].buf_len = 2*len;
-		} else assert(spec.channels == 2);
+
+		wanted.freq = FREQ;
+		wanted.channels = 2;
+		wanted.format = AUDIO_S16;
+		wanted.samples = BUF_SIZE;
+		wanted.callback = fill_audio;
+		wanted.userdata = NULL;
+
+		if (SDL_OpenAudio (&wanted, NULL) < 0) {
+			fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
+			return false;
+		}
 	}
+
+	/* silence any sound events */
+	DestroyAllEvents();
+
 	return true;
 }
 
@@ -312,6 +316,76 @@ void Close ()
 void Pause (int on)
 {
 	SDL_PauseAudio (on);
+}
+
+void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
+{
+	Stop();
+	eid = PlaySfx(fx, volume_left, volume_right, op);
+}
+
+bool Event::Stop()
+{
+	if (eid) {
+		SDL_LockAudio();
+		SoundEvent *s = GetEvent(eid);
+		if (s) {
+			s->sample = 0;
+		}
+		SDL_UnlockAudio();
+		return s != 0;
+	} else {
+		return false;
+	}
+}
+
+bool Event::IsPlaying() const
+{
+	if (eid == 0) return false;
+	else return GetEvent(eid) != 0;
+}
+
+bool Event::SetOp(Op op) {
+	if (eid == 0) return false;
+	bool ret = false;
+	SDL_LockAudio();
+	SoundEvent *se = GetEvent(eid);
+	if (se) {
+		se->op = op;
+		ret = true;
+	}
+	SDL_UnlockAudio();
+	return ret;
+}
+
+bool Event::VolumeAnimate(float targetVols[2], float dv_dt[2])
+{
+	SDL_LockAudio();
+	SoundEvent *ev = GetEvent(eid);
+	if (ev) {
+		ev->targetVolume[0] = targetVols[0];
+		ev->targetVolume[1] = targetVols[1];
+		ev->rateOfChange[0] = dv_dt[0] / (float)FREQ;
+		ev->rateOfChange[1] = dv_dt[1] / (float)FREQ;
+	}
+	SDL_UnlockAudio();
+	return (ev != 0);
+}
+
+bool Event::SetVolume(float vol_left, float vol_right)
+{
+	SDL_LockAudio();
+	bool status = false;
+	for (int i=0; i<MAX_WAVSTREAMS; i++) {
+		if (wavstream[i].sample && (wavstream[i].identifier == eid)) {
+			wavstream[i].volume[0] = vol_left;
+			wavstream[i].volume[1] = vol_right;
+			status = true;
+			break;
+		}
+	}
+	SDL_UnlockAudio();
+	return status;
 }
 
 } /* namespace Sound */

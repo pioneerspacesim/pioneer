@@ -50,7 +50,7 @@ public:
 	const ShipType &GetShipType() const;
 	const shipstats_t *CalcStats();
 	void UpdateMass();
-	bool SetWheelState(bool down); // returns success of state change, NOT state itself
+	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);

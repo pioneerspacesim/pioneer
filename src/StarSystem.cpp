@@ -605,7 +605,8 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	if (system_idx == -1) return;
 
 	Sector s = Sector(sector_x, sector_y);
-	_init[4] = s.m_systems[system_idx].seed;
+	m_seed = s.m_systems[system_idx].seed;
+	_init[4] = m_seed;
 	MTRand rand;
 	rand.seed(_init, 5);
 

@@ -207,7 +207,7 @@ void Pi::Quit()
 
 void Pi::BoinkNoise()
 {
-	Sound::PlaySfx(Sound::SFX_GUI_PING, 0.3f, 0.3f, false);
+	Sound::PlaySfx("gui_ping.wav", 0.3f, 0.3f, false);
 }
 
 void Pi::SetTimeAccel(int s)
@@ -544,6 +544,7 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
+	Sound::DestroyAllEvents();
 	PiLuaModules::Uninit();
 	Pi::isGameStarted = false;
 	delete infoView;
@@ -725,6 +726,83 @@ void Pi::EndGame()
 	Pi::isGameStarted = false;
 }
 
+static void AmbientSounds()
+{
+	static int astroNoiseSeed;
+	static Sound::Event stationNoise;
+	static Sound::Event starNoise;
+	static Sound::Event atmosphereNoise;
+	if (Pi::player->GetDockedWith()) {
+		if (starNoise.IsPlaying()) {
+			float target[2] = {0.0f,0.0f};
+			float dv_dt[2] = {1.0f,1.0f};
+			starNoise.VolumeAnimate(target, dv_dt);
+			starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		}
+		if (atmosphereNoise.IsPlaying()) {
+			float target[2] = {0.0f,0.0f};
+			float dv_dt[2] = {1.0f,1.0f};
+			atmosphereNoise.VolumeAnimate(target, dv_dt);
+			atmosphereNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		}
+
+		if (!stationNoise.IsPlaying()) {
+			stationNoise.Play("Medium_Station_ambient.wav", 1.0f, 1.0f, true);
+		}
+	} else {
+		if (stationNoise.IsPlaying()) {
+			float target[2] = {0.0f,0.0f};
+			float dv_dt[2] = {1.0f,1.0f};
+			stationNoise.VolumeAnimate(target, dv_dt);
+			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		}
+		const char *star_noises[] = {
+			"Blue_Super_Giant.wav", "Bright_Giant.wav", "red_Giant.wav", "Super_Giant.wav"
+		};
+		if (astroNoiseSeed != Pi::currentSystem->m_seed) {
+			// change sound!
+			astroNoiseSeed = Pi::currentSystem->m_seed;
+			float target[2] = {0.0f,0.0f};
+			float dv_dt[2] = {0.1f,0.1f};
+			starNoise.VolumeAnimate(target, dv_dt);
+			starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			// XXX the way Sound::Event works isn't totally obvious.
+			// to destroy the object doesn't stop the sound. it is
+			// really just a sound event reference
+			starNoise = Sound::Event();
+		} 
+		// when all the sounds are in we can use the body we are in frame of reference to
+		if (!starNoise.IsPlaying()) {
+			starNoise.Play(star_noises[Pi::currentSystem->m_seed % 4], 0.0f, 0.0f, Sound::OP_REPEAT);
+			float target[2] = {0.3f,0.3f};
+			float dv_dt[2] = {0.05f,0.05f};
+			starNoise.VolumeAnimate(target, dv_dt);
+		}
+
+		Body *astro;
+		if ((astro = Pi::player->GetFrame()->m_astroBody) && (astro->IsType(Object::PLANET))) {
+			double dist = Pi::player->GetPosition().Length();
+			float pressure, density;
+			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
+			// maximum volume at around 2km/sec at earth density, pressure
+			float volume = density * Pi::player->GetVelocity().Length() * 0.0005;
+			volume = CLAMP(volume, 0.0f, 1.0f);
+			if (atmosphereNoise.IsPlaying()) {
+				float target[2] = {volume, volume};
+				float dv_dt[2] = {1.0f,1.0f};
+				atmosphereNoise.VolumeAnimate(target, dv_dt);
+			} else {
+				atmosphereNoise.Play("Atmosphere_Flying.wav", volume, volume, Sound::OP_REPEAT);
+			}
+		} else {
+			float target[2] = {0.0f,0.0f};
+			float dv_dt[2] = {1.0f,1.0f};
+			atmosphereNoise.VolumeAnimate(target, dv_dt);
+			atmosphereNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+		}
+	}
+}
+
 void Pi::MainLoop()
 {
 	StartGame();
@@ -819,6 +897,7 @@ void Pi::MainLoop()
 		}
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
+			Sound::DestroyAllEvents();
 			if (time_player_died) {
 				if (Pi::GetGameTime() - time_player_died > 8.0) {
 					Pi::TombStoneLoop();
@@ -831,6 +910,9 @@ void Pi::MainLoop()
 				Pi::player->Disable();
 				time_player_died = Pi::GetGameTime();
 			}
+		} else {
+			// this is something we need not do every turn...
+			AmbientSounds();
 		}
 		cpan->Update();
 		currentView->Update();

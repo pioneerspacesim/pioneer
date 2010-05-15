@@ -269,7 +269,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
 		}
-		Sound::BodyMakeNoise(this, Sound::SFX_COLLISION, 1.0f);
+		Sound::BodyMakeNoise(this, "collision.wav", 1.0f);
 	}
 	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
@@ -434,7 +434,7 @@ void Ship::UseECM()
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (m_ecmRecharge) return;
 	if (t != Equip::NONE) {
-		Sound::BodyMakeNoise(this, Sound::SFX_ECM, 1.0f);
+		Sound::BodyMakeNoise(this, "ecm.wav", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
 		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
 	}
@@ -607,7 +607,7 @@ void Ship::FireWeapon(int num)
 			break;
 	}
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
-	Sound::BodyMakeNoise(this, Sound::SFX_PULSECANNON, 1.0f);
+	Sound::BodyMakeNoise(this, "pulsecannon.wav", 1.0f);
 }
 
 float Ship::GetHullTemperature() const
@@ -713,7 +713,7 @@ void Ship::StaticUpdate(const float timeStep)
 	m_stats.shield_mass_left = CLAMP(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
 	if (m_wheelTransition != 0.0f) {
-		m_wheelState += m_wheelTransition*timeStep;
+		m_wheelState += m_wheelTransition*0.3f*timeStep;
 		m_wheelState = CLAMP(m_wheelState, 0, 1);
 		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
 	}

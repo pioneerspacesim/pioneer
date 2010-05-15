@@ -23,6 +23,7 @@ public:
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
+	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 protected:
 	virtual void Save();
 	virtual void Load();

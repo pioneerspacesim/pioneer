@@ -60,7 +60,7 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {
-		Sound::BodyMakeNoise(this, Sound::SFX_WARNING, 1.0f);
+		Sound::BodyMakeNoise(this, "warning.wav", 1.0f);
 	}
 	return r;
 }
@@ -128,7 +128,7 @@ void Player::StaticUpdate(const float timeStep)
 	Ship::StaticUpdate(timeStep);
 		
 	/* Ship engine noise */
-	static Uint32 sndev;
+	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_FORWARD);
 	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_REVERSE);
@@ -142,9 +142,9 @@ void Player::StaticUpdate(const float timeStep)
 	targetVol[0] = CLAMP(targetVol[0], 0.0f, 1.0f);
 	targetVol[1] = CLAMP(targetVol[1], 0.0f, 1.0f);
 	float dv_dt[2] = { 4.0f, 4.0f };
-	if (!Sound::EventVolumeAnimate(sndev, targetVol, dv_dt)) {
-		sndev = Sound::PlaySfx(Sound::SFX_ENGINES, 0.0f, 0.0f, true);
-		Sound::EventVolumeAnimate(sndev, targetVol, dv_dt);
+	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
+		sndev.Play("thruster_large.wav", 0.0f, 0.0f, Sound::OP_REPEAT);
+		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
 }
 
@@ -216,5 +216,15 @@ void Player::PollControls()
 		
 		AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 	}
+}
+
+bool Player::SetWheelState(bool down)
+{
+	static Sound::Event sndev;
+	bool did = Ship::SetWheelState(down);
+	if (did) {
+		sndev.Play(down ? "UC_out.wav" : "UC_in.wav", 1.0f, 1.0f, 0);
+	}
+	return did;
 }
 
