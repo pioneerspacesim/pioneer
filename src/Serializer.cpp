@@ -84,6 +84,231 @@ void IndexBodies()
 	}
 }
 
+
+const std::string &Writer::GetData() { return m_str; }
+void Writer::wr_byte(Uint8 x) {
+	m_str.push_back((char)x);
+}
+void Writer::wr_bool(bool x) {
+	wr_byte((Uint8)x);
+}
+void Writer::wr_int16(Uint16 x) {
+	m_str.push_back((char)(x&0xff));
+	m_str.push_back((char)((x>>8)&0xff));
+}
+void Writer::wr_int32(Uint32 x) {
+	m_str.push_back((char)(x&0xff));
+	m_str.push_back((char)((x>>8)&0xff));
+	m_str.push_back((char)((x>>16)&0xff));
+	m_str.push_back((char)((x>>24)&0xff));
+}
+void Writer::wr_int64(Uint64 x) {
+	m_str.push_back((char)(x&0xff));
+	m_str.push_back((char)((x>>8)&0xff));
+	m_str.push_back((char)((x>>16)&0xff));
+	m_str.push_back((char)((x>>24)&0xff));
+	m_str.push_back((char)((x>>32)&0xff));
+	m_str.push_back((char)((x>>40)&0xff));
+	m_str.push_back((char)((x>>48)&0xff));
+	m_str.push_back((char)((x>>56)&0xff));
+}
+void Writer::wr_float(float f) {
+	unsigned int i;
+	unsigned char *p = (unsigned char*)&f;
+
+	for (i=0; i<sizeof (float); i++, p++) {
+		wr_byte (*p);
+	}
+}
+void Writer::wr_double(double f) {
+	unsigned int i;
+	unsigned char *p = (unsigned char*)&f;
+
+	for (i=0; i<sizeof (double); i++, p++) {
+		wr_byte (*p);
+	}
+}
+/* First byte is string length, including null terminator */
+void Writer::wr_string(const char* s)
+{
+	/* We shouldn't fail on null strings */
+	if (s == NULL) {
+		wr_int32(0);
+		return;
+	}
+
+	wr_int32(strlen(s)+1);
+
+	while (*s) {
+		wr_byte(*s);
+		s++;
+	}
+	wr_byte(*s);
+}
+
+void Writer::wr_string(const std::string &s)
+{
+	wr_string(s.c_str());
+}
+
+void Writer::wr_vector3d(vector3d vec)
+{
+	wr_double(vec.x);
+	wr_double(vec.y);
+	wr_double(vec.z);
+}
+
+void Writer::wr_quaternionf(const Quaternionf &q)
+{
+	wr_float(q.w);
+	wr_float(q.x);
+	wr_float(q.y);
+	wr_float(q.z);
+}
+
+
+Reader::Reader(): m_data(""), m_pos(0) {}
+Reader::Reader(const std::string &data): m_data(data), m_pos(0) {}
+Reader::Reader(FILE *fptr): m_pos(0) {
+	m_data = "";
+	while (!feof(fptr)) m_data.push_back(fgetc(fptr));
+	printf("%d characters in savefile\n", m_data.size());
+}
+bool Reader::AtEnd() { return m_pos >= m_data.size(); }
+void Reader::Seek(int pos) { m_pos = pos; }
+Uint8 Reader::rd_byte() {
+	return (Uint8)m_data[m_pos++];
+}
+bool Reader::rd_bool() {
+	return (bool)rd_byte();
+}
+Uint16 Reader::rd_int16()
+{
+	int t1, t2;
+	t2 = rd_byte();
+	t1 = rd_byte();
+	return ((t1 << 8) | t2);
+}
+Uint32 Reader::rd_int32(void)
+{
+	int t1, t2, t3, t4;
+	t4 = rd_byte();
+	t3 = rd_byte();
+	t2 = rd_byte();
+	t1 = rd_byte();
+	return ((t1 << 24) | (t2 << 16) | (t3 << 8) | t4);
+}
+Uint64 Reader::rd_int64(void)
+{
+	Uint64 t1, t2, t3, t4, t5, t6, t7, t8;
+	t8 = rd_byte();
+	t7 = rd_byte();
+	t6 = rd_byte();
+	t5 = rd_byte();
+	t4 = rd_byte();
+	t3 = rd_byte();
+	t2 = rd_byte();
+	t1 = rd_byte();
+	return ((t1<<56) | (t2<<48) | (t3<<40) | (t4<<32) | (t5 << 24) | (t6 << 16) | (t7 << 8) | t8);
+}
+
+float Reader::rd_float ()
+{
+	unsigned int i;
+	float f;
+	unsigned char *p = (unsigned char*)&f;
+
+	for (i=0; i<sizeof (float); i++) {
+		p[i] = rd_byte ();
+	}
+	return f;
+}
+
+double Reader::rd_double ()
+{
+	unsigned int i;
+	double f;
+	unsigned char *p = (unsigned char*)&f;
+
+	for (i=0; i<sizeof (double); i++) {
+		p[i] = rd_byte ();
+	}
+	return f;
+}
+
+std::string Reader::rd_string()
+{
+	char *s = rd_cstring();
+	std::string str(s);
+	free(s);
+	return str;
+}
+
+/* *Memory leaks included */
+char* Reader::rd_cstring()
+{
+	char* buf;
+	int i, size;
+
+	/* Size is in first byte */
+	size = rd_int32();
+
+	/* A saved null string */
+	if (size == 0) {
+		return NULL;
+	}
+
+	buf = (char*) malloc (sizeof(char)*size);
+
+	for (i=0; i<size; i++) {
+		buf[i] = rd_byte();
+	}
+
+	return buf;
+}
+
+void Reader::rd_cstring2(char *buf, int len)
+{
+	int i;
+	int size;
+
+	/* Size is in first byte */
+	size = rd_int32();
+
+	/* A saved null string */
+	if (size == 0) {
+		buf[0] = '\0';
+		return;
+	}
+
+	assert (size < len);
+
+	for (i=0; i<size; i++) {
+		buf[i] = rd_byte();
+	}
+}
+
+vector3d Reader::rd_vector3d()
+{
+	vector3d v;
+	v.x = rd_double();
+	v.y = rd_double();
+	v.z = rd_double();
+	return v;
+}
+
+Quaternionf Reader::rd_quaternionf()
+{
+	Quaternionf q;
+	q.w = rd_float();
+	q.x = rd_float();
+	q.y = rd_float();
+	q.z = rd_float();
+	return q;
+}
+
+Writer wr;
+
 namespace Write {
 	static int checksum;
 	static FILE* sfptr;
@@ -95,6 +320,8 @@ namespace Write {
 		if (sfptr == NULL) {
 			return false;
 		}
+
+		wr = Writer();
 
 		checksum = 0;
 
@@ -113,6 +340,15 @@ namespace Write {
 		Pi::Serialize();
 		
 		wr_int(checksum);
+
+		// actually write the shit
+		const std::string &data = wr.GetData();
+		for (int i=0; i<data.size(); i++) {
+			putc(data[i], sfptr);
+		}
+
+		wr = Writer();
+
 		fclose(sfptr);
 		fprintf(stderr, "Game saved to '%s'\n", filename);
 
@@ -121,100 +357,21 @@ namespace Write {
 
 	void wr_byte(unsigned char x)
 	{
-		putc(x, sfptr);
+		wr.wr_byte(x);
+		//putc(x, sfptr);
 		checksum += x;
 	}
 
-	void wr_bool(bool x)
-	{
-		wr_byte((unsigned char)x);
-	}
-
-	void wr_short(short x)
-	{
-		wr_byte((unsigned char)(x & 0xff));
-		wr_byte((unsigned char)((x>>8) & 0xff));
-	}
-
-	void wr_int(int x)
-	{
-		wr_byte((unsigned char)(x & 0xff));
-		wr_byte((unsigned char)((x>>8) & 0xff));
-		wr_byte((unsigned char)((x>>16) & 0xff));
-		wr_byte((unsigned char)((x>>24) & 0xff));
-	}
-	
-	void wr_int64(Sint64 x)
-	{
-		wr_byte((unsigned char)(x & 0xff));
-		wr_byte((unsigned char)((x>>8) & 0xff));
-		wr_byte((unsigned char)((x>>16) & 0xff));
-		wr_byte((unsigned char)((x>>24) & 0xff));
-		wr_byte((unsigned char)((x>>32) & 0xff));
-		wr_byte((unsigned char)((x>>40) & 0xff));
-		wr_byte((unsigned char)((x>>48) & 0xff));
-		wr_byte((unsigned char)((x>>56) & 0xff));
-	}
-
-	/* not portable */
-	void wr_float (float f)
-	{
-		unsigned int i;
-		unsigned char *p = (unsigned char*)&f;
-
-		for (i=0; i<sizeof (float); i++, p++) {
-			wr_byte (*p);
-		}
-	}
-
-	void wr_double (double f)
-	{
-		unsigned int i;
-		unsigned char *p = (unsigned char*)&f;
-
-		for (i=0; i<sizeof (double); i++, p++) {
-			wr_byte (*p);
-		}
-	}
-
-	/* First byte is string length, including null terminator */
-	void wr_string(const char* s)
-	{
-		/* We shouldn't fail on null strings */
-		if (s == NULL) {
-			wr_int(0);
-			return;
-		}
-
-		wr_int(strlen(s)+1);
-
-		while (*s) {
-			wr_byte(*s);
-			s++;
-		}
-		wr_byte(*s);
-	}
-
-	void wr_string(const std::string &s)
-	{
-		wr_string(s.c_str());
-	}
-
-	void wr_vector3d(vector3d vec)
-	{
-		wr_double(vec.x);
-		wr_double(vec.y);
-		wr_double(vec.z);
-	}
-
-	void wr_quaternionf(const Quaternionf &q)
-	{
-		wr_float(q.w);
-		wr_float(q.x);
-		wr_float(q.y);
-		wr_float(q.z);
-	}
-
+	void wr_bool(bool x) { wr.wr_bool(x); }
+	void wr_short(short x) { wr.wr_int16(x); }
+	void wr_int(int x) { wr.wr_int32(x); }
+	void wr_int64(Sint64 x) { wr.wr_int64(x); }
+	void wr_float (float f) { wr.wr_float(f); }
+	void wr_double (double f) { wr.wr_double(f); }
+	void wr_string(const char* s) { wr.wr_string(s); }
+	void wr_string(const std::string &s) { wr.wr_string(s); }
+	void wr_vector3d(vector3d vec) { wr.wr_vector3d(vec); }
+	void wr_quaternionf(const Quaternionf &q) { wr.wr_quaternionf(q); }
 	/* These are for templated type turds. it is best to use the explicit
 	 * type ones to avoid the pain of strange type picking */
 	void wr_auto(Sint32 x) { wr_int(x); }
@@ -222,6 +379,8 @@ namespace Write {
 	void wr_auto(float x) { wr_float(x); }
 	void wr_auto(double x) { wr_double(x); }
 }
+
+Reader rd;
 
 namespace Read {
 	static int loadsum;
@@ -236,6 +395,9 @@ namespace Read {
 		lfptr = fopen(filename, "rb");
 
 		if (lfptr == NULL) return false;
+
+		rd = Reader(lfptr);
+		fclose(lfptr);
 
 		if (rd_byte() != 'P') return false;
 		if (rd_byte() != 'I') return false;
@@ -259,7 +421,6 @@ namespace Read {
 			return false;
 		}
 
-		fclose(lfptr);
 		fprintf(stderr, "Loaded '%s'\n", filename);
 		
 		return true;
@@ -272,143 +433,22 @@ namespace Read {
 
 	unsigned char rd_byte(void)
 	{
-		int x = getc(lfptr) & 0xff;
+		int x = rd.rd_byte();
 		loadsum += x;
 		return x;
 	}
 
-	bool rd_bool()
-	{
-		return (bool)rd_byte();
-	}
-
-	short rd_short(void)
-	{
-		int t1, t2;
-		t2 = rd_byte();
-		t1 = rd_byte();
-		return ((t1 << 8) | t2);
-	}
-
-	int rd_int(void)
-	{
-		int t1, t2, t3, t4;
-		t4 = rd_byte();
-		t3 = rd_byte();
-		t2 = rd_byte();
-		t1 = rd_byte();
-		return ((t1 << 24) | (t2 << 16) | (t3 << 8) | t4);
-	}
-
-	Sint64 rd_int64(void)
-	{
-		Sint64 t1, t2, t3, t4, t5, t6, t7, t8;
-		t8 = rd_byte();
-		t7 = rd_byte();
-		t6 = rd_byte();
-		t5 = rd_byte();
-		t4 = rd_byte();
-		t3 = rd_byte();
-		t2 = rd_byte();
-		t1 = rd_byte();
-		return ((t1<<56) | (t2<<48) | (t3<<40) | (t4<<32) | (t5 << 24) | (t6 << 16) | (t7 << 8) | t8);
-	}
-
-	float rd_float ()
-	{
-		unsigned int i;
-		float f;
-		unsigned char *p = (unsigned char*)&f;
-
-		for (i=0; i<sizeof (float); i++) {
-			p[i] = rd_byte ();
-		}
-		return f;
-	}
-
-	double rd_double ()
-	{
-		unsigned int i;
-		double f;
-		unsigned char *p = (unsigned char*)&f;
-
-		for (i=0; i<sizeof (double); i++) {
-			p[i] = rd_byte ();
-		}
-		return f;
-	}
-
-	std::string rd_string()
-	{
-		char *s = rd_cstring();
-		std::string str(s);
-		free(s);
-		return str;
-	}
-
-	/* *Memory leaks included */
-	char* rd_cstring()
-	{
-		char* buf;
-		int i, size;
-
-		/* Size is in first byte */
-		size = rd_int();
-
-		/* A saved null string */
-		if (size == 0) {
-			return NULL;
-		}
-
-		buf = (char*) malloc (sizeof(char)*size);
-
-		for (i=0; i<size; i++) {
-			buf[i] = rd_byte();
-		}
-
-		return buf;
-	}
-
-	void rd_cstring2(char *buf, int len)
-	{
-		int i;
-		int size;
-
-		/* Size is in first byte */
-		size = rd_int();
-
-		/* A saved null string */
-		if (size == 0) {
-			buf[0] = '\0';
-			return;
-		}
-
-		assert (size < len);
-
-		for (i=0; i<size; i++) {
-			buf[i] = rd_byte();
-		}
-	}
-
-	vector3d rd_vector3d()
-	{
-		vector3d v;
-		v.x = rd_double();
-		v.y = rd_double();
-		v.z = rd_double();
-		return v;
-	}
-
-	Quaternionf rd_quaternionf()
-	{
-		Quaternionf q;
-		q.w = rd_float();
-		q.x = rd_float();
-		q.y = rd_float();
-		q.z = rd_float();
-		return q;
-	}
-	
+	bool rd_bool() { return rd.rd_bool(); }
+	short rd_short(void) { return rd.rd_int16(); }
+	int rd_int(void) { return rd.rd_int32(); }
+	Sint64 rd_int64(void) { return rd.rd_int64(); }
+	float rd_float () { return rd.rd_float(); }
+	double rd_double () { return rd.rd_double(); }
+	std::string rd_string() { return rd.rd_string(); }
+	char* rd_cstring() { return rd.rd_cstring(); }
+	void rd_cstring2(char *buf, int len) { return rd.rd_cstring2(buf, len); }
+	vector3d rd_vector3d() { return rd.rd_vector3d(); }
+	Quaternionf rd_quaternionf() { return rd.rd_quaternionf(); }
 	/* These are for templated type turds. it is best to use the explicit
 	 * type ones to avoid the pain of strange type picking */
 	void rd_auto(Sint32 *x) { *x = rd_int(); }
