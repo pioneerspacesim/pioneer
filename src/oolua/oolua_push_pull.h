@@ -173,7 +173,8 @@ namespace OOLUA
 	void inline push2lua(lua_State* const s, std::string const& value)
 	{
 		assert(s);
-		lua_pushstring (s, value.c_str());
+		// -TM-
+		lua_pushlstring (s, value.c_str(), value.size());
 	}
 	void inline push2lua(lua_State* const s, char const * const& value)
 	{
@@ -257,8 +258,10 @@ namespace OOLUA
 	}
 	void inline pull2cpp(lua_State* const s, std::string& value)
 	{
+		// -TM-
 		assert(s && lua_isstring(s,-1) );
-		value = lua_tolstring(s,-1,0);
+		size_t len = lua_objlen(s,-1);
+		value = std::string(lua_tolstring(s,-1,0), len);
 		lua_pop( s, 1);
 	}
 	void inline pull2cpp(lua_State* const s, double& value)
