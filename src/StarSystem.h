@@ -160,6 +160,12 @@ public:
 	StarSystem() { rootBody = 0; }
 	StarSystem(int sector_x, int sector_y, int system_idx);
 	~StarSystem();
+	/** Holding pointers to StarSystem returned by this is not safe between
+	 * calls to ShrinkCache() (done at end of Pi main loop)
+	 */
+	static StarSystem *GetCached(const SysLoc &s);
+	static void ShrinkCache();
+
 	void GetPathOf(const SBody *body, SBodyPath *path) const;
 	SBody *GetBodyByPath(const SBodyPath *path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
@@ -173,8 +179,8 @@ public:
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
 		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemIdx;
 	}
-	const std::string &GetShortDescription() const { return m_shortDesc; }
-	const std::string &GetLongDescription() const { return m_longDesc; }
+	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
+	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
 	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 	const SysPolit &GetSysPolit() const { return m_polit; }

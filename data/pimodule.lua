@@ -47,7 +47,8 @@ function serialize(val)
 		end
 		out = out .. 'n\n'
 	elseif type(val) == 'userdata' then
-		out = UserDataSerialize(val)
+		local udata = UserDataSerialize(val)
+		out = 'o' .. #udata .. '\n' .. udata
 	else
 		assert(0)
 	end
@@ -89,7 +90,8 @@ function unserialize(val, addtotable, start)
 		return start, addtotable
 	elseif val:sub(start,start) == 'o' then
 		local last = string.find(val, '\n', start)
-		return last+1, UserDataUnserialize(val:sub(start+1, last-1))
+		local len = tonumber(val:sub(start+1, last-1))
+		return last+len+1, UserDataUnserialize(val:sub(last+1, last+len))
 	end
 end
 

@@ -71,7 +71,7 @@ void HyperspaceCloud::Load(Serializer::Reader &rd)
 	if (rd.Bool()) {
 		m_ship = (Ship*)Body::Unserialize(rd);
 	}
-	if (!Serializer::Read::IsOlderThan(9)) m_id = rd.Int32();
+	if (!(rd.StreamVersion() < 9)) m_id = rd.Int32();
 	else m_id = Pi::rng.Int32();
 }
 

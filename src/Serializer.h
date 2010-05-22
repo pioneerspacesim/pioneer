@@ -11,6 +11,9 @@ class StarSystem;
 class SBody;
 
 namespace Serializer {
+	
+	bool SaveGame(const char *filename);
+	bool LoadGame(const char *filename);
 
 	void IndexFrames();
 	Frame *LookupFrame(size_t index);
@@ -72,19 +75,14 @@ namespace Serializer {
 		void Auto(Sint64 *x) { *x = Int64(); }
 		void Auto(float *x) { *x = Float(); }
 		void Auto(double *x) { *x = Double(); }
+		int StreamVersion() const { return m_streamVersion; }
+		void SetStreamVersion(int x) { m_streamVersion = x; }
 	private:
 		std::string m_data;
 		int m_pos;
+		int m_streamVersion;
 	};
 
-	namespace Write {
-		bool Game(const char *filename);
-	}
-
-	namespace Read {
-		bool Game(const char *filename);
-		bool IsOlderThan (int version);
-	}
 
 }
 

@@ -207,7 +207,7 @@ public:
 private:
 	void OnClickSave(std::string filename) {
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
-		Serializer::Write::Game(fullname.c_str());
+		Serializer::SaveGame(fullname.c_str());
 		Pi::cpan->MsgLog()->Message("", "Game saved to "+fullname);
 		m_fileDialog->ShowAll();
 	}
@@ -240,7 +240,7 @@ private:
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 		Pi::UninitGame();
 		Pi::InitGame();
-		Serializer::Read::Game(fullname.c_str());
+		if (!Serializer::LoadGame(fullname.c_str())) abort();
 		Pi::StartGame();
 		// Pi::currentView is unset, but this view is still shown, so
 		// must un-show it

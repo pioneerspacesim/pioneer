@@ -138,7 +138,7 @@ void Unserialize(Serializer::Reader &rd)
 		Body *b = Body::Unserialize(rd);
 		if (b) bodies.push_back(b);
 	}
-	if (!Serializer::Read::IsOlderThan(9)) {
+	if (!(rd.StreamVersion() < 9)) {
 		num_bodies = rd.Int32();
 		for (int i=0; i<num_bodies; i++) {
 			Body *b = Body::Unserialize(rd);

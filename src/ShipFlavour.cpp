@@ -74,7 +74,7 @@ void ShipFlavour::SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m)
 
 void ShipFlavour::LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m)
 {
-	if (Serializer::Read::IsOlderThan(13)) {
+	if ((rd.StreamVersion() < 13)) {
 		MakeRandomColor(*m);
 	} else {
 		for (int i=0; i<4; i++) m->diffuse[i] = rd.Float();

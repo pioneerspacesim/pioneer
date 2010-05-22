@@ -27,6 +27,8 @@ static void *mylua_checkudata (lua_State *L, int ud, const char *tname) {
       if (lua_rawequal(L, -1, -2)) {  /* does it have the correct mt? */
         lua_pop(L, 2);  /* remove both metatables */
         return p;
+      } else {
+	lua_pop(L, 2);
       }
     }
   }

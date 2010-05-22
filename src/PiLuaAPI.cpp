@@ -4,9 +4,64 @@
 #include "ShipCpanel.h"
 #include "Ship.h"
 #include "SpaceStation.h"
+#include "StarSystem.h"
 #include "Sound.h"
 #include "LuaChatForm.h"
 #include "NameGenerator.h"
+
+////////////////////////////////////////////////////////////
+
+// a safe wrapper for class StarSystem
+class SystemId: public SysLoc {
+public:
+	SystemId() {}
+	SystemId(int sx, int sy, int snum): SysLoc(sx, sy, snum) {}
+
+	const char *GetShortDescription() const {
+		return Sys()->GetShortDescription();
+	}
+	const char *GetName() const {
+		return Sys()->rootBody->name.c_str();
+	}
+private:
+	const StarSystem *Sys() const { return StarSystem::GetCached(*this); }
+};
+
+OOLUA_CLASS_NO_BASES(SystemId)
+	OOLUA_TYPEDEFS
+		OOLUA::Equal_op
+	OOLUA_END_TYPES
+	OOLUA_CONSTRUCTORS_BEGIN
+		OOLUA_CONSTRUCTOR_3(int, int, int)
+	OOLUA_CONSTRUCTORS_END
+	OOLUA_PUBLIC_MEMBER_GET(sectorX)
+	OOLUA_PUBLIC_MEMBER_GET(sectorY)
+	OOLUA_PUBLIC_MEMBER_GET(systemIdx)
+	OOLUA_MEM_FUNC_0_CONST(const char *, GetShortDescription)
+	OOLUA_MEM_FUNC_0_CONST(const char *, GetName)
+OOLUA_CLASS_END
+
+EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SystemId)
+EXPORT_OOLUA_FUNCTIONS_5_CONST(SystemId,
+		GetShortDescription, GetName,
+		get_sectorX, get_sectorY, get_systemIdx)
+
+////////////////////////////////////////////////////////////
+
+OOLUA_CLASS_NO_BASES(SBodyPath)
+	OOLUA_TYPEDEFS
+		OOLUA::Equal_op
+	OOLUA_END_TYPES
+	OOLUA_CONSTRUCTORS_BEGIN
+		OOLUA_CONSTRUCTOR_3(int, int, int)
+	OOLUA_CONSTRUCTORS_END
+	OOLUA_PUBLIC_MEMBER_GET(sectorX)
+	OOLUA_PUBLIC_MEMBER_GET(sectorY)
+	OOLUA_PUBLIC_MEMBER_GET(systemIdx)
+OOLUA_CLASS_END
+
+EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
+EXPORT_OOLUA_FUNCTIONS_0_CONST(SBodyPath)
 
 ////////////////////////////////////////////////////////////
 
@@ -91,6 +146,67 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST(SoundEvent)
 
 ///////////////////////////////////////////////////////////////
 
+static int UserDataSerialize(lua_State *L)
+{
+	ObjectWrapper *o;
+	luaL_checktype(L, 1, LUA_TUSERDATA);
+	if (mylua_checkudata(L, 1, "ObjectWrapper")) {
+		OOLUA::pull2cpp(L, o);
+		char buf[128];
+		// XXX this is a rather hairy cast but should always be true
+		assert(static_cast<ObjectWrapper*>(o)->IsBody());
+		snprintf(buf, sizeof(buf), "ObjectWrapper\n%d\n", Serializer::LookupBody((Body*)static_cast<ObjectWrapper*>(o)->m_obj));
+		lua_pushstring(L, buf);
+		return 1;
+	} else if (mylua_checkudata(L, 1, "SBodyPath")) {
+		Serializer::Writer wr;
+		SBodyPath *path;
+		OOLUA::pull2cpp(L, path);
+		path->Serialize(wr);
+		std::string out = "SBodyPath\n";
+		out += wr.GetData();
+		OOLUA::push2lua(L, out);
+		return 1;
+	} else if (mylua_checkudata(L, 1, "SystemId")) {
+		Serializer::Writer wr;
+		SystemId *systemid;
+		OOLUA::pull2cpp(L, systemid);
+		systemid->Serialize(wr);
+		std::string out = "SystemId\n";
+		out += wr.GetData();
+		OOLUA::push2lua(L, out);
+		return 1;
+	} else {
+		Error("Tried to serialize unknown userdata type.");
+		return 0;
+	}
+}
+
+static int UserDataUnserialize(lua_State *L)
+{
+	std::string str;
+	OOLUA::pull2cpp(L, str);
+	if (str.substr(0, 14) == "ObjectWrapper\n") {
+		size_t idx = atoi(str.substr(14).c_str());
+		Body *b = Serializer::LookupBody(idx);
+		push2luaWithGc(L, new ObjectWrapper(b));
+		return 1;
+	} else if (str.substr(0, 10) == "SBodyPath\n") {
+		Serializer::Reader r(str.substr(10));
+		SBodyPath *p = new SBodyPath;
+		SBodyPath::Unserialize(r, p);
+		push2luaWithGc(L, p);
+		return 1;
+	} else if (str.substr(0, 9) == "SystemId\n") {
+		Serializer::Reader r(str.substr(9));
+		SystemId *p = new SystemId;
+		SystemId::Unserialize(r, p);
+		push2luaWithGc(L, p);
+		return 1;
+	}
+	return 0;
+}
+
 namespace LuaPi {
 	static int GetPlayer(lua_State *l) {
 		push2luaWithGc(l, new ObjectWrapper((Object*)Pi::player));
@@ -121,6 +237,13 @@ namespace LuaPi {
 		OOLUA::push2lua(l, name.c_str());
 		return 1;
 	}
+	static int GetCurrentSystem(lua_State *l) {
+		// sadly must rebuild for the mo
+		StarSystem *cur = Pi::currentSystem;
+		SystemId *s = new SystemId(cur->SectorX(), cur->SectorY(), cur->SystemIdx());
+		push2luaWithGc(l, s);
+		return 1;
+	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -132,8 +255,14 @@ void RegisterPiLuaAPI(lua_State *l)
 	OOLUA::register_class<ObjectWrapper>(l);
 	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);
+	OOLUA::register_class<SystemId>(l);
+	OOLUA::register_class<SBodyPath>(l);
+	
+	lua_register(l, "UserDataSerialize", UserDataSerialize);
+	lua_register(l, "UserDataUnserialize", UserDataUnserialize);
 
 	lua_newtable(l);
+	REG_FUNC("GetCurrentSystem", &LuaPi::GetCurrentSystem);
 	REG_FUNC("GetPlayer", &LuaPi::GetPlayer);
 	REG_FUNC("GetGameTime", &LuaPi::GetGameTime);
 	REG_FUNC("Message", &LuaPi::Message);

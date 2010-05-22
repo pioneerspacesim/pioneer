@@ -99,14 +99,14 @@ void Ship::Load(Serializer::Reader &rd)
 	
 	SBodyPath::Unserialize(rd, &m_hyperspace.dest);
 	m_hyperspace.countdown = rd.Float();
-	if (!Serializer::Read::IsOlderThan(9)) {
+	if (!(rd.StreamVersion() < 9)) {
 		m_hyperspace.followHypercloudId = rd.Int32();
 	}
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd.Int32();
 		m_gunRecharge[i] = rd.Float();
-		if (Serializer::Read::IsOlderThan(10)) {
+		if ((rd.StreamVersion() < 10)) {
 			m_gunTemperature[i] = 0;
 		} else {
 			m_gunTemperature[i] = rd.Float();
@@ -127,7 +127,7 @@ void Ship::Load(Serializer::Reader &rd)
 		Body *target = (Body*)rd.Int32();
 		AIInstruction inst = AIInstruction(c);
 		inst.target = target;
-		if (!Serializer::Read::IsOlderThan(15)) {
+		if (!(rd.StreamVersion() < 15)) {
 			int n = rd.Int32();
 			inst.path = BezierCurve(n);
 			for (int i=0; i<n; i++) {

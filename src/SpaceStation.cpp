@@ -217,7 +217,7 @@ void SpaceStation::Load(Serializer::Reader &rd)
 {
 	ModelBody::Load(rd);
 	MarketAgent::Load(rd);
-	if (Serializer::Read::IsOlderThan(11)) rd.Int32();
+	if ((rd.StreamVersion() < 11)) rd.Int32();
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd.Int32());
 	}
@@ -238,7 +238,7 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		m_shipDocking[i].stage = rd.Int32();
 		m_shipDocking[i].stagePos = rd.Float();
 		m_shipDocking[i].fromPos = rd.Vector3d();
-		if (Serializer::Read::IsOlderThan(12)) {
+		if ((rd.StreamVersion() < 12)) {
 			m_shipDocking[i].fromRot = Quaternionf(0.0, vector3f(1,0,0));
 		} else {
 			m_shipDocking[i].fromRot = rd.RdQuaternionf();
@@ -249,7 +249,7 @@ void SpaceStation::Load(Serializer::Reader &rd)
 	}
 	m_lastUpdatedShipyard = rd.Double();
 	m_sbody = Serializer::LookupSystemBody(rd.Int32());
-	if (Serializer::Read::IsOlderThan(14)) {
+	if ((rd.StreamVersion() < 14)) {
 		m_numPoliceDocked = 8;
 	} else {
 		m_numPoliceDocked = rd.Int32();

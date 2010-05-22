@@ -14,8 +14,8 @@ public:
 	virtual ~GalacticView();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo() {}
 private:
 	void OnClickGalacticView();

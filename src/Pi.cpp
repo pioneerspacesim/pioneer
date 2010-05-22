@@ -343,7 +343,7 @@ void Pi::HandleEvents()
 					if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
 					if (event.key.keysym.sym == SDLK_F9) {
 						std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
-						Serializer::Write::Game(name.c_str());
+						Serializer::SaveGame(name.c_str());
 						Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
 					}
 				}
@@ -913,6 +913,7 @@ void Pi::MainLoop()
 		} else {
 			// this is something we need not do every turn...
 			AmbientSounds();
+			StarSystem::ShrinkCache();
 		}
 		cpan->Update();
 		currentView->Update();
@@ -960,7 +961,6 @@ StarSystem *Pi::GetSelectedSystem()
 
 void Pi::Serialize(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
 	Serializer::IndexSystemBodies(currentSystem);
@@ -981,7 +981,6 @@ void Pi::Serialize(Serializer::Writer &wr)
 
 void Pi::Unserialize(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
 	selectedSystem = StarSystem::Unserialize(rd);
 	gameTime = rd.Double();
 	currentSystem = StarSystem::Unserialize(rd);

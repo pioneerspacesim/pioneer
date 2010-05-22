@@ -45,14 +45,12 @@ GalacticView::~GalacticView()
 	m_onMouseButtonDown.disconnect();
 }
 
-void GalacticView::Save()
+void GalacticView::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
 }
 
-void GalacticView::Load()
+void GalacticView::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
 }
 
 /*void GalacticView::OnClickSystemInfo()

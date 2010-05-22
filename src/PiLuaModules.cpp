@@ -173,10 +173,11 @@ void Serialize(Serializer::Writer &wr)
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
 		ModCall((*i).c_str(), "Serialize", 1);
-		const char *str = luaL_checkstring(L, -1);
-		wr.String((*i).c_str());
+		// string can have nulls in it so must get length
+		std::string str;
+		OOLUA::pull2cpp(L, str);
+		wr.String(*i);
 		wr.String(str);
-		lua_pop(L, 1);
 	}
 	wr.String("");
 }
@@ -192,8 +193,7 @@ void Unserialize(Serializer::Reader &rd)
 		modname = rd.String();
 		if (modname == "") break;
 		moddata = rd.String();
-		
-		ModCall(modname.c_str(), "Unserialize", 0, moddata.c_str());
+		ModCall(modname.c_str(), "Unserialize", 0, moddata);
 	}
 }
 
@@ -234,32 +234,6 @@ static int register_module(lua_State * const L)
 	return 0;
 }
 
-static int UserDataSerialize(lua_State *L)
-{
-	ObjectWrapper *o;
-	luaL_checktype(L, 1, LUA_TUSERDATA);
-	if (mylua_checkudata(L, 1, "ObjectWrapper")) {
-		OOLUA::pull2cpp(L, o);
-		char buf[128];
-		// XXX this is a rather hairy cast but should always be true
-		assert(static_cast<ObjectWrapper*>(o)->IsBody());
-		snprintf(buf, sizeof(buf), "o%d\n", Serializer::LookupBody((Body*)static_cast<ObjectWrapper*>(o)->m_obj));
-		lua_pushstring(L, buf);
-		return 1;
-	} else {
-		Error("Tried to serialize unknown userdata type.");
-		return 0;
-	}
-}
-
-static int UserDataUnserialize(lua_State *L)
-{
-	size_t idx = atoi(luaL_checkstring(L, 1));
-	Body *b = Serializer::LookupBody(idx);
-	push2luaWithGc(L, new ObjectWrapper(b));
-	return 1;
-}
-
 static void DoAllLuaModuleFiles(lua_State *L)
 {
 	DIR *dir;
@@ -293,8 +267,6 @@ void Init()
 		L = S->get_ptr();
 		luaL_openlibs(L);
 		lua_register(L, "PiModule", register_module);
-		lua_register(L, "UserDataSerialize", UserDataSerialize);
-		lua_register(L, "UserDataUnserialize", UserDataUnserialize);
 
 		RegisterPiLuaAPI(L);
 

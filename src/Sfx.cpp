@@ -49,7 +49,7 @@ void Sfx::Serialize(Serializer::Writer &wr, const Frame *f)
 
 void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
 {
-	if (Serializer::Read::IsOlderThan(7)) return;
+	if ((rd.StreamVersion() < 7)) return;
 
 	int numActive = rd.Int32();
 	if (numActive) {

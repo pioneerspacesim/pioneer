@@ -603,6 +603,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	if (system_idx == -1) return;
 
 	Sector s = Sector(sector_x, sector_y);
+	if (system_idx >= s.m_systems.size()) return;
 	m_seed = s.m_systems[system_idx].seed;
 	_init[4] = m_seed;
 	MTRand rand;
@@ -1405,3 +1406,37 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 	}
 }
 
+#define STARSYS_MAX_CACHED 8
+static std::list<StarSystem*> s_cachedSystems;
+
+StarSystem *StarSystem::GetCached(const SysLoc &loc)
+{
+	for (std::list<StarSystem*>::iterator i = s_cachedSystems.begin();
+			i != s_cachedSystems.end(); ++i) {
+		if ((*i)->m_loc == loc) {
+			// move to front of cache to indicate it is hot
+			StarSystem *s = *i;
+			s_cachedSystems.erase(i);
+			s_cachedSystems.push_front(s);
+			return s;
+		}
+	}
+	StarSystem *s = new StarSystem(loc.sectorX, loc.sectorY, loc.systemIdx);
+	s_cachedSystems.push_front(s);
+	return s;
+}
+
+void StarSystem::ShrinkCache()
+{
+	int n=0;
+	for (std::list<StarSystem*>::iterator i = s_cachedSystems.begin();
+			i != s_cachedSystems.end(); ++i, n++) {
+		if (n >= STARSYS_MAX_CACHED) {
+			while (i != s_cachedSystems.end()) {
+				delete *i;
+				i = s_cachedSystems.erase(i);
+			}
+			break;
+		}
+	}
+}

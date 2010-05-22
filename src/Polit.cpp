@@ -92,7 +92,7 @@ void Serialize(Serializer::Writer &wr)
 void Unserialize(Serializer::Reader &rd)
 {
 	Init();
-	if (Serializer::Read::IsOlderThan(5)) {
+	if ((rd.StreamVersion() < 5)) {
 
 	} else {
 		PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);

@@ -37,7 +37,7 @@ void Player::Load(Serializer::Reader &rd)
 	Ship::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Float();
-	if (!Serializer::Read::IsOlderThan(6)) {
+	if (!(rd.StreamVersion() < 6)) {
 		m_killCount = rd.Int32();
 		m_knownKillCount = rd.Int32();
 	} else {

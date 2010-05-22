@@ -12,6 +12,8 @@ namespace Serializer {
 static std::vector<Frame*> g_frames;
 static std::vector<Body*> g_bodies;
 static std::vector<SBody*> g_sbodies;
+// why do we do this? so PiLuaAPI's use of Serializer::Reader has the correct stream version
+static int stream_version_context = SAVEFILE_VERSION;
 
 Frame *LookupFrame(size_t index)
 {
@@ -148,7 +150,12 @@ void Writer::String(const char* s)
 
 void Writer::String(const std::string &s)
 {
-	String(s.c_str());
+	Int32(s.size()+1);
+
+	for(int i=0; i<s.size(); i++) {
+		Byte(s[i]);
+	}
+	Byte(0);
 }
 
 void Writer::Vector3d(vector3d vec)
@@ -167,9 +174,17 @@ void Writer::WrQuaternionf(const Quaternionf &q)
 }
 
 
-Reader::Reader(): m_data(""), m_pos(0) {}
-Reader::Reader(const std::string &data): m_data(data), m_pos(0) {}
+Reader::Reader(): m_data(""), m_pos(0) {
+	m_streamVersion = stream_version_context;
+}
+Reader::Reader(const std::string &data):
+	m_data(data),
+	m_pos(0) {
+	m_streamVersion = stream_version_context;
+	
+}
 Reader::Reader(FILE *fptr): m_pos(0) {
+	m_streamVersion = stream_version_context;
 	m_data = "";
 	while (!feof(fptr)) m_data.push_back(fgetc(fptr));
 	printf("%d characters in savefile\n", m_data.size());
@@ -177,6 +192,9 @@ Reader::Reader(FILE *fptr): m_pos(0) {
 bool Reader::AtEnd() { return m_pos >= m_data.size(); }
 void Reader::Seek(int pos) { m_pos = pos; }
 Uint8 Reader::Byte() {
+#ifdef DEBUG
+	assert(m_pos < m_data.size());
+#endif /* DEBUG */
 	return (Uint8)m_data[m_pos++];
 }
 bool Reader::Bool() {
@@ -238,10 +256,17 @@ double Reader::Double ()
 
 std::string Reader::String()
 {
-	char *s = Cstring();
-	std::string str(s);
-	free(s);
-	return str;
+	int size = Int32();
+	if (size == 0) return "";
+
+	std::string buf;
+	buf.reserve(size-1);
+
+	for (int i=0; i<size-1; i++) {
+		buf.push_back((char)Byte());
+	}
+	Byte();// discard null terminator
+	return buf;
 }
 
 /* *Memory leaks included */
@@ -307,98 +332,88 @@ Quaternionf Reader::RdQuaternionf()
 	return q;
 }
 
-namespace Write {
-	bool Game(const char *filename)
-	{
-		FILE *sfptr = fopen(filename, "wb");
+bool SaveGame(const char *filename)
+{
+	FILE *sfptr = fopen(filename, "wb");
 
-		if (sfptr == NULL) {
-			return false;
-		}
-
-		Writer wr;
-
-		wr.Byte('P');
-		wr.Byte('I');
-		wr.Byte('O');
-		wr.Byte('N');
-		wr.Byte('E');
-		wr.Byte('E');
-		wr.Byte('R');
-		wr.Byte('\0');
-
-		/* Save file version */
-		wr.Int32(SAVEFILE_VERSION);
-
-		Pi::Serialize(wr);
-		
-		wr.Byte('E');
-		wr.Byte('N');
-		wr.Byte('D');
-		wr.Byte(0);
-
-		// actually write the shit
-		const std::string &data = wr.GetData();
-		for (int i=0; i<data.size(); i++) {
-			putc(data[i], sfptr);
-		}
-
-		wr = Writer();
-
-		fclose(sfptr);
-		fprintf(stderr, "Game saved to '%s'\n", filename);
-
-		return true;
+	if (sfptr == NULL) {
+		return false;
 	}
+
+	Writer wr;
+
+	wr.Byte('P');
+	wr.Byte('I');
+	wr.Byte('O');
+	wr.Byte('N');
+	wr.Byte('E');
+	wr.Byte('E');
+	wr.Byte('R');
+	wr.Byte('\0');
+
+	/* Save file version */
+	wr.Int32(SAVEFILE_VERSION);
+
+	Pi::Serialize(wr);
+	
+	wr.Byte('E');
+	wr.Byte('N');
+	wr.Byte('D');
+	wr.Byte(0);
+
+	// actually write the shit
+	const std::string &data = wr.GetData();
+	for (int i=0; i<data.size(); i++) {
+		putc(data[i], sfptr);
+	}
+
+	wr = Writer();
+
+	fclose(sfptr);
+	fprintf(stderr, "Game saved to '%s'\n", filename);
+
+	return true;
 }
 
-namespace Read {
-	/* Version of savefile we are loading */
-	static int version;
+bool LoadGame(const char *filename)
+{
+	FILE *lfptr = fopen(filename, "rb");
 
-	bool Game(const char *filename)
-	{
-		FILE *lfptr = fopen(filename, "rb");
+	if (lfptr == NULL) return false;
 
-		if (lfptr == NULL) return false;
+	Reader rd = Reader(lfptr);
+	fclose(lfptr);
 
-		Reader rd = Reader(lfptr);
-		fclose(lfptr);
+	if (rd.Byte() != 'P') return false;
+	if (rd.Byte() != 'I') return false;
+	if (rd.Byte() != 'O') return false;
+	if (rd.Byte() != 'N') return false;
+	if (rd.Byte() != 'E') return false;
+	if (rd.Byte() != 'E') return false;
+	if (rd.Byte() != 'R') return false;
+	if (rd.Byte() != '\0') return false;
+	
+	/* savefile version */
+	rd.SetStreamVersion(rd.Int32());
+	fprintf(stderr, "Savefile version %d. ", rd.StreamVersion());
 
-		if (rd.Byte() != 'P') return false;
-		if (rd.Byte() != 'I') return false;
-		if (rd.Byte() != 'O') return false;
-		if (rd.Byte() != 'N') return false;
-		if (rd.Byte() != 'E') return false;
-		if (rd.Byte() != 'E') return false;
-		if (rd.Byte() != 'R') return false;
-		if (rd.Byte() != '\0') return false;
-		
-		/* savefile version */
-		version = rd.Int32 ();
-		fprintf(stderr, "Savefile version %d. ", version);
-
-		if (version > SAVEFILE_VERSION) {
-			fprintf(stderr, "Can't load savefile. It is for a newer version of Pioneer.\n");
-			return false;
-		}
-
-		Pi::Unserialize(rd);
-
-		if (rd.Byte() != 'E') return false;
-		if (rd.Byte() != 'N') return false;
-		if (rd.Byte() != 'D') return false;
-		if (rd.Byte() != 0) return false;
-
-		fprintf(stderr, "Loaded '%s'\n", filename);
-		
-		return true;
+	if (rd.StreamVersion() > SAVEFILE_VERSION) {
+		fprintf(stderr, "Can't load savefile. It is for a newer version of Pioneer.\n");
+		return false;
 	}
 
-	bool IsOlderThan(int ver)
-	{
-		return version < ver;
-	}	
+	stream_version_context = rd.StreamVersion();
+	Pi::Unserialize(rd);
+	stream_version_context = SAVEFILE_VERSION;
+
+	if (rd.Byte() != 'E') return false;
+	if (rd.Byte() != 'N') return false;
+	if (rd.Byte() != 'D') return false;
+	if (rd.Byte() != 0) return false;
+
+	fprintf(stderr, "Loaded '%s'\n", filename);
+	
+	return true;
 }
 
 } /* end namespace Serializer */
