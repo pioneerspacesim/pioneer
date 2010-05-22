@@ -6,6 +6,7 @@
 #include "SpaceStation.h"
 #include "Sound.h"
 #include "LuaChatForm.h"
+#include "NameGenerator.h"
 
 ////////////////////////////////////////////////////////////
 
@@ -113,6 +114,13 @@ namespace LuaPi {
 		Pi::cpan->MsgLog()->Message(from, msg);
 		return 0;
 	}
+	static int RandPersonName(lua_State *l) {
+		bool genderFemale;
+		OOLUA::pull2cpp(l, genderFemale);
+		std::string name = NameGenerator::FullName(Pi::rng, genderFemale);
+		OOLUA::push2lua(l, name.c_str());
+		return 1;
+	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -134,5 +142,6 @@ void RegisterPiLuaAPI(lua_State *l)
 	lua_newtable(l);
 	REG_FUNC("Int", &LuaPi::RandInt);
 	REG_FUNC("Real", &LuaPi::RandReal);
+	REG_FUNC("PersonName", &LuaPi::RandPersonName);
 	lua_setglobal(l, "Rand");
 }
