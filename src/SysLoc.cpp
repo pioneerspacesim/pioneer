@@ -1,18 +1,15 @@
 #include "SysLoc.h"
-#include "Serializer.h"
 
-void SysLoc::Serialize() const
+void SysLoc::Serialize(Serializer::Writer &wr) const
 {
-	using namespace Serializer::Write;
-	wr_int(sectorX);
-	wr_int(sectorY);
-	wr_int(systemIdx);
+	wr.Int32(sectorX);
+	wr.Int32(sectorY);
+	wr.Int32(systemIdx);
 }
 
-void SysLoc::Unserialize(SysLoc *loc)
+void SysLoc::Unserialize(Serializer::Reader &rd, SysLoc *loc)
 {
-	using namespace Serializer::Read;
-	loc->sectorX = rd_int();
-	loc->sectorY = rd_int();
-	loc->systemIdx = rd_int();
+	loc->sectorX = rd.Int32();
+	loc->sectorY = rd.Int32();
+	loc->systemIdx = rd.Int32();
 }

@@ -958,33 +958,33 @@ StarSystem *Pi::GetSelectedSystem()
 	return selectedSystem;
 }
 
-void Pi::Serialize()
+void Pi::Serialize(Serializer::Writer &wr)
 {
 	using namespace Serializer::Write;
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
 	Serializer::IndexSystemBodies(currentSystem);
 
-	StarSystem::Serialize(selectedSystem);
-	wr_double(gameTime);
-	StarSystem::Serialize(currentSystem);
-	Space::Serialize();
-	Polit::Serialize();
-	sectorView->Save();
-	worldView->Save();
+	StarSystem::Serialize(wr, selectedSystem);
+	wr.Double(gameTime);
+	StarSystem::Serialize(wr, currentSystem);
+	Space::Serialize(wr);
+	Polit::Serialize(wr);
+	sectorView->Save(wr);
+	worldView->Save(wr);
 
-	wr_int(detail.planets);
-	wr_int(detail.cities);
+	wr.Int32(detail.planets);
+	wr.Int32(detail.cities);
 
-	PiLuaModules::Serialize();
+	PiLuaModules::Serialize(wr);
 }
 
-void Pi::Unserialize()
+void Pi::Unserialize(Serializer::Reader &rd)
 {
 	using namespace Serializer::Read;
-	selectedSystem = StarSystem::Unserialize();
-	gameTime = rd_double();
-	currentSystem = StarSystem::Unserialize();
+	selectedSystem = StarSystem::Unserialize(rd);
+	gameTime = rd.Double();
+	currentSystem = StarSystem::Unserialize(rd);
 	SetTimeAccel(0);
 	requestedTimeAccelIdx = 0;
 	Space::Clear();
@@ -994,17 +994,17 @@ void Pi::Unserialize()
 		delete Pi::player;
 		Pi::player = 0;
 	}
-	Space::Unserialize();
-	Polit::Unserialize();
-	sectorView->Load();
-	worldView->Load();
+	Space::Unserialize(rd);
+	Polit::Unserialize(rd);
+	sectorView->Load(rd);
+	worldView->Load(rd);
 
-	detail.planets = rd_int();
-	detail.cities = rd_int();
+	detail.planets = rd.Int32();
+	detail.cities = rd.Int32();
 
 	OnChangeDetailLevel();
 
-	PiLuaModules::Unserialize();
+	PiLuaModules::Unserialize(rd);
 }
 
 IniConfig::IniConfig(const char *filename)

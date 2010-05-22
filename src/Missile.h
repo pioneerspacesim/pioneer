@@ -17,8 +17,8 @@ public:
 	virtual void PostLoadFixup();
 	void ECMAttack(int power_val);
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 private:
 	void Explode();
 

@@ -33,24 +33,22 @@ void Missile::PostLoadFixup()
 	m_target = Serializer::LookupBody((size_t)m_target);
 }
 
-void Missile::Save()
+void Missile::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Ship::Save();
-	wr_int(Serializer::LookupBody(m_owner));
-	wr_int(Serializer::LookupBody(m_target));
-	wr_double(m_distToTarget);
-	wr_int(m_power);
+	Ship::Save(wr);
+	wr.Int32(Serializer::LookupBody(m_owner));
+	wr.Int32(Serializer::LookupBody(m_target));
+	wr.Double(m_distToTarget);
+	wr.Int32(m_power);
 }
 
-void Missile::Load()
+void Missile::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	Ship::Load();
-	m_owner = (Body*)rd_int();
-	m_target = (Body*)rd_int();
-	m_distToTarget = rd_double();
-	m_power = rd_int();
+	Ship::Load(rd);
+	m_owner = (Body*)rd.Int32();
+	m_target = (Body*)rd.Int32();
+	m_distToTarget = rd.Double();
+	m_power = rd.Int32();
 }
 
 void Missile::TimeStepUpdate(const float timeStep)

@@ -79,29 +79,27 @@ void Init()
 	memset(s_playerPerBlocCrimeRecord, 0, sizeof(crime_t)*BLOC_MAX);
 }
 
-void Serialize()
+void Serialize(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	s_criminalRecord.Serialize();
-	s_outstandingFine.Serialize();
+	s_criminalRecord.Serialize(wr);
+	s_outstandingFine.Serialize(wr);
 	for (int i=0; i<BLOC_MAX; i++) {
-		wr_int64(s_playerPerBlocCrimeRecord[i].record);
-		wr_int64(s_playerPerBlocCrimeRecord[i].fine);
+		wr.Int64(s_playerPerBlocCrimeRecord[i].record);
+		wr.Int64(s_playerPerBlocCrimeRecord[i].fine);
 	}
 }
 
-void Unserialize()
+void Unserialize(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
 	Init();
 	if (Serializer::Read::IsOlderThan(5)) {
 
 	} else {
-		PersistSystemData<Sint64>::Unserialize(&s_criminalRecord);
-		PersistSystemData<Sint64>::Unserialize(&s_outstandingFine);
+		PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
+		PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
 		for (int i=0; i<BLOC_MAX; i++) {
-			s_playerPerBlocCrimeRecord[i].record = rd_int64();
-			s_playerPerBlocCrimeRecord[i].fine = rd_int64();
+			s_playerPerBlocCrimeRecord[i].record = rd.Int64();
+			s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
 		}
 	}
 }

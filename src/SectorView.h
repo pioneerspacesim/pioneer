@@ -18,8 +18,8 @@ public:
 	bool GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx);
 	void GotoSystem(int sector_x, int sector_y, int system_idx);
 	void GetSector(int *outSecX, int *outSecY) const { *outSecX = m_secx; *outSecY = m_secy; }
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo() {}
 private:
 	void DrawSector(int x, int y);

@@ -19,22 +19,20 @@ public:
 	void Set(const SysLoc &loc, T val) {
 		m_dict[loc] = val;
 	}
-	void Serialize() const {
-		using namespace Serializer::Write;
-		wr_int(m_dict.size());
+	void Serialize(Serializer::Writer &wr) const {
+		wr.Int32(m_dict.size());
 		for (typename std::map<SysLoc, T>::const_iterator i = m_dict.begin(); i != m_dict.end(); ++i) {
-			(*i).first.Serialize();
-			wr_auto((*i).second);
+			(*i).first.Serialize(wr);
+			wr.Auto((*i).second);
 		}
 	}
-	static void Unserialize(PersistSystemData<T> *pd) {
-		using namespace Serializer::Read;
-		int num = rd_int();
+	static void Unserialize(Serializer::Reader &rd, PersistSystemData<T> *pd) {
+		int num = rd.Int32();
 		while (num-- > 0) {
 			SysLoc loc;
-			SysLoc::Unserialize(&loc);
+			SysLoc::Unserialize(rd, &loc);
 			T val;
-			rd_auto(&val);
+			rd.Auto(&val);
 			pd->m_dict[loc] = val;
 		}
 	}

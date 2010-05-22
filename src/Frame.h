@@ -2,6 +2,7 @@
 #define _FRAME_H
 
 #include "libs.h"
+#include "Serializer.h"
 #include <string>
 #include <list>
 
@@ -20,9 +21,9 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
-	static void Serialize(Frame *);
+	static void Serialize(Serializer::Writer &wr, Frame *);
 	static void PostUnserializeFixup(Frame *f);
-	static Frame *Unserialize(Frame *parent);
+	static Frame *Unserialize(Serializer::Reader &rd, Frame *parent);
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
 	void SetPosition(const vector3d &pos) { m_pos = pos; }

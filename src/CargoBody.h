@@ -13,8 +13,8 @@ public:
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 private:
 	void Init();
 	Equip::Type m_type;

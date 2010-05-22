@@ -1,6 +1,5 @@
 #include "Frame.h"
 #include "Space.h"
-#include "Serializer.h"
 #include "collider/collider.h"
 #include "Sfx.h"
 
@@ -19,43 +18,41 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 	Init(parent, label, flags);
 }
 
-void Frame::Serialize(Frame *f)
+void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 {
-	using namespace Serializer::Write;
-	wr_int(f->m_flags);
-	wr_double(f->m_radius);
-	wr_string(f->m_label);
-	for (int i=0; i<16; i++) wr_double(f->m_orient[i]);
-	wr_vector3d(f->m_angVel);
-	wr_vector3d(f->m_pos);
-	wr_int(Serializer::LookupSystemBody(f->m_sbody));
-	wr_int(Serializer::LookupBody(f->m_astroBody));
-	wr_int(f->m_children.size());
+	wr.Int32(f->m_flags);
+	wr.Double(f->m_radius);
+	wr.String(f->m_label);
+	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
+	wr.Vector3d(f->m_angVel);
+	wr.Vector3d(f->m_pos);
+	wr.Int32(Serializer::LookupSystemBody(f->m_sbody));
+	wr.Int32(Serializer::LookupBody(f->m_astroBody));
+	wr.Int32(f->m_children.size());
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		Serialize(*i);
+		Serialize(wr, *i);
 	}
-	Sfx::Serialize(f);
+	Sfx::Serialize(wr, f);
 }
 
-Frame *Frame::Unserialize(Frame *parent)
+Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 {
-	using namespace Serializer::Read;
 	Frame *f = new Frame();
 	f->m_parent = parent;
-	f->m_flags = rd_int();
-	f->m_radius = rd_double();
-	f->m_label = rd_string();
-	for (int i=0; i<16; i++) f->m_orient[i] = rd_double();
-	f->m_angVel = rd_vector3d();
-	f->m_pos = rd_vector3d();
-	f->m_sbody = Serializer::LookupSystemBody(rd_int());
-	f->m_astroBody = (Body*)rd_int();
+	f->m_flags = rd.Int32();
+	f->m_radius = rd.Double();
+	f->m_label = rd.String();
+	for (int i=0; i<16; i++) f->m_orient[i] = rd.Double();
+	f->m_angVel = rd.Vector3d();
+	f->m_pos = rd.Vector3d();
+	f->m_sbody = Serializer::LookupSystemBody(rd.Int32());
+	f->m_astroBody = (Body*)rd.Int32();
 	f->m_vel = vector3d(0.0);
-	for (int i=rd_int(); i>0; --i) {
-		f->m_children.push_back(Unserialize(f));
+	for (int i=rd.Int32(); i>0; --i) {
+		f->m_children.push_back(Unserialize(rd, f));
 	}
-	Sfx::Unserialize(f);
+	Sfx::Unserialize(rd, f);
 	
 	return f;
 }

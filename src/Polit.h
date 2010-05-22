@@ -2,6 +2,7 @@
 #define _POLIT_H
 
 #include "EquipType.h"
+#include "Serializer.h"
 
 class StarSystem;
 class SysPolit;
@@ -56,8 +57,8 @@ namespace Polit {
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
 	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
 	void Init();
-	void Serialize();
-	void Unserialize();
+	void Serialize(Serializer::Writer &wr);
+	void Unserialize(Serializer::Reader &rd);
 	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
 	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
 	/* XXX Why the hell aren't these methods on StarSystem class? */

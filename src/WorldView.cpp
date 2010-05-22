@@ -99,12 +99,12 @@ WorldView::WorldView(): View()
 		s_bgstar[i].y = (float)(1000-Pi::rng.Double(2000.0));
 		s_bgstar[i].z = (float)(1000-Pi::rng.Double(2000.0));
 	}
-#ifdef USE_VBO
-	glGenBuffersARB(1, &m_bgstarsVbo);
-	glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
-	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
-	glBindBufferARB(GL_ARRAY_BUFFER, 0);
-#endif /* USE_VBO */
+	if (USE_VBO) {
+		glGenBuffersARB(1, &m_bgstarsVbo);
+		glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
+		glBindBufferARB(GL_ARRAY_BUFFER, 0);
+	}
 }
 
 WorldView::~WorldView()
@@ -115,22 +115,20 @@ WorldView::~WorldView()
 	m_onMouseButtonDown.disconnect();
 }
 
-void WorldView::Save()
+void WorldView::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_float(m_externalViewRotX);
-	wr_float(m_externalViewRotY);
-	wr_float(m_externalViewDist);
-	wr_int((int)m_camType);
+	wr.Float(m_externalViewRotX);
+	wr.Float(m_externalViewRotY);
+	wr.Float(m_externalViewDist);
+	wr.Int32((int)m_camType);
 }
 
-void WorldView::Load()
+void WorldView::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	m_externalViewRotX = rd_float();
-	m_externalViewRotY = rd_float();
-	m_externalViewDist = rd_float();
-	m_camType = (CamType)rd_int();
+	m_externalViewRotX = rd.Float();
+	m_externalViewRotY = rd.Float();
+	m_externalViewDist = rd.Float();
+	m_camType = (CamType)rd.Int32();
 }
 
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
@@ -226,17 +224,17 @@ void WorldView::DrawBgStars()
 	glEnableClientState(GL_COLOR_ARRAY);
 
 	if (hyperspaceAnim == 0) {
-#ifdef USE_VBO
-		glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
-		glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), 0);
-		glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), (void *)(3*sizeof(float)));
-		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
-		glBindBufferARB(GL_ARRAY_BUFFER, 0);
-#else			
-		glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].x);
-		glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].r);
-		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
-#endif /* USE_VBO */
+		if (USE_VBO) {
+			glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
+			glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), 0);
+			glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), (void *)(3*sizeof(float)));
+			glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
+			glBindBufferARB(GL_ARRAY_BUFFER, 0);
+		} else {
+			glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].x);
+			glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), &s_bgstar[0].r);
+			glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
+		}
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will

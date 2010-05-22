@@ -44,8 +44,8 @@ public:
 	double GetAtmosphericDragGs() const { return m_atmosDragGs; }
 
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 private:
 	// new odeless turd
 	matrix4x4d m_orient; // contains pos

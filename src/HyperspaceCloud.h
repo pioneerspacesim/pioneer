@@ -25,8 +25,8 @@ public:
 	bool IsArrival() const { return m_isArrival; }
 	int GetId() const { return m_id; }
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 private:
 	Ship *m_ship;
 	vector3d m_pos;

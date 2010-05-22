@@ -4,6 +4,7 @@
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Object.h"
+#include "Serializer.h"
 #include <string>
 
 class Frame;
@@ -14,8 +15,8 @@ public:
 	OBJDEF(Body, Object, BODY);
 	Body();
 	virtual ~Body();
-	void Serialize();
-	static Body *Unserialize();
+	void Serialize(Serializer::Writer &wr);
+	static Body *Unserialize(Serializer::Reader &rd);
 	virtual void PostLoadFixup() {};
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
@@ -63,8 +64,8 @@ public:
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 	unsigned int m_flags;
 private:
 	// frame of reference

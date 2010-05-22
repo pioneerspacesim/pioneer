@@ -103,56 +103,55 @@ void DoECM(const Frame *f, const vector3d &pos, int power_val)
 
 }
 
-void Serialize()
+void Serialize(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Frame::Serialize(rootFrame);
-	wr_int(bodies.size());
+	Frame::Serialize(wr, rootFrame);
+	wr.Int32(bodies.size());
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		//printf("Serializing %s\n", (*i)->GetLabel().c_str());
-		(*i)->Serialize();
+		(*i)->Serialize(wr);
 	}
-	wr_int(storedArrivalClouds.size());
+	wr.Int32(storedArrivalClouds.size());
 	for (std::list<HyperspaceCloud*>::iterator i = storedArrivalClouds.begin();
 			i != storedArrivalClouds.end(); ++i) {
-		(*i)->Serialize();
+		(*i)->Serialize(wr);
 	}
 	if (hyperspacingTo == 0) {
-		wr_byte(0);
+		wr.Byte(0);
 	} else {
-		wr_byte(1);
-		hyperspacingTo->Serialize();
-		wr_float(hyperspaceAnim);
-		wr_double(hyperspaceEndTime);
+		wr.Byte(1);
+		hyperspacingTo->Serialize(wr);
+		wr.Float(hyperspaceAnim);
+		wr.Double(hyperspaceEndTime);
 	}
 }
 
-void Unserialize()
+void Unserialize(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
 	Serializer::IndexSystemBodies(Pi::currentSystem);
-	rootFrame = Frame::Unserialize(0);
+	rootFrame = Frame::Unserialize(rd, 0);
+	// XXX not needed. done in Pi::Unserialize
 	Serializer::IndexFrames();
-	int num_bodies = rd_int();
+	int num_bodies = rd.Int32();
 	//printf("%d bodies to read\n", num_bodies);
 	for (int i=0; i<num_bodies; i++) {
-		Body *b = Body::Unserialize();
+		Body *b = Body::Unserialize(rd);
 		if (b) bodies.push_back(b);
 	}
-	if (!IsOlderThan(9)) {
-		num_bodies = rd_int();
+	if (!Serializer::Read::IsOlderThan(9)) {
+		num_bodies = rd.Int32();
 		for (int i=0; i<num_bodies; i++) {
-			Body *b = Body::Unserialize();
+			Body *b = Body::Unserialize(rd);
 			if (b) storedArrivalClouds.push_back(static_cast<HyperspaceCloud*>(b));
 		}
 	}
 
 	hyperspaceAnim = 0;
-	if (rd_byte()) {
+	if (rd.Byte()) {
 		hyperspacingTo = new SBodyPath;
-		SBodyPath::Unserialize(hyperspacingTo);
-		hyperspaceAnim = rd_float();
-		hyperspaceEndTime = rd_double();
+		SBodyPath::Unserialize(rd, hyperspacingTo);
+		hyperspaceAnim = rd.Float();
+		hyperspaceEndTime = rd.Double();
 	}
 	// bodies with references to others must fix these up
 	Serializer::IndexBodies();

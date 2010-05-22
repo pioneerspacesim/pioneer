@@ -6,6 +6,7 @@
 #include "View.h"
 #include "mtrand.h"
 #include "gameconsts.h"
+#include "Serializer.h"
 #include <map>
 #include <string>
 
@@ -63,8 +64,8 @@ public:
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
 	static void Quit();
-	static void Serialize();
-	static void Unserialize();
+	static void Serialize(Serializer::Writer &wr);
+	static void Unserialize(Serializer::Reader &rd);
 	static float GetFrameTime() { return frameTime; }
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(int v);

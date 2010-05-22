@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "vector3.h"
 #include "EquipType.h"
+#include "Serializer.h"
 #include <vector>
 #include <map>
 
@@ -114,8 +115,8 @@ public:
 		}
 		return free;
 	}
-	void Save();
-	void Load();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 
 	sigc::signal<void> onChange;
 private:

@@ -7,6 +7,7 @@
 #include "MarketAgent.h"
 #include "ShipFlavour.h"
 #include "Quaternion.h"
+#include "Serializer.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -26,8 +27,8 @@ public:
 	int GetLuaRef() const { return m_luaRef; }
 	BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc):
 		m_luaMod(luaMod), m_luaRef(luaRef), m_description(desc) {}
-	void Save();
-	static BBAdvert Load();
+	void Save(Serializer::Writer &wr);
+	static BBAdvert Load(Serializer::Reader &rd);
 	bool Is(const std::string &modName, int modRef) {
 		return (m_luaMod == modName) && (m_luaRef == modRef);
 	}
@@ -81,8 +82,8 @@ public:
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void> onBulletinBoardChanged;
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);

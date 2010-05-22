@@ -4,6 +4,7 @@
 #include <list>
 #include "Object.h"
 #include "vector3.h"
+#include "Serializer.h"
 
 class Body;
 class Frame;
@@ -16,8 +17,8 @@ namespace Space {
 	extern void Init();
 	extern void Clear();
 	extern void BuildSystem();
-	extern void Serialize();
-	extern void Unserialize();
+	extern void Serialize(Serializer::Writer &wr);
+	extern void Unserialize(Serializer::Reader &rd);
 	extern void GenBody(SBody *b, Frame *f);
 	extern void TimeStep(float step);
 	extern void AddBody(Body *);

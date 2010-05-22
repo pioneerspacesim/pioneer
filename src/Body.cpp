@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Body.h"
 #include "Frame.h"
-#include "Serializer.h"
 #include "Star.h"
 #include "Planet.h"
 #include "CargoBody.h"
@@ -25,30 +24,27 @@ Body::~Body()
 {
 }
 
-void Body::Save()
+void Body::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_int(Serializer::LookupFrame(m_frame));
-	wr_string(m_label);
-	wr_bool(m_onscreen);
-	wr_vector3d(m_projectedPos);
-	wr_bool(m_dead);
+	wr.Int32(Serializer::LookupFrame(m_frame));
+	wr.String(m_label);
+	wr.Bool(m_onscreen);
+	wr.Vector3d(m_projectedPos);
+	wr.Bool(m_dead);
 }
 
-void Body::Load()
+void Body::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	m_frame = Serializer::LookupFrame(rd_int());
-	m_label = rd_string();
-	m_onscreen = rd_bool();
-	m_projectedPos = rd_vector3d();
-	m_dead = rd_bool();
+	m_frame = Serializer::LookupFrame(rd.Int32());
+	m_label = rd.String();
+	m_onscreen = rd.Bool();
+	m_projectedPos = rd.Vector3d();
+	m_dead = rd.Bool();
 }	
 
-void Body::Serialize()
+void Body::Serialize(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_int((int)GetType());
+	wr.Int32((int)GetType());
 	switch (GetType()) {
 		case Object::STAR:
 		case Object::PLANET:
@@ -59,22 +55,21 @@ void Body::Serialize()
 		case Object::CARGOBODY:
 		case Object::PROJECTILE:
 		case Object::HYPERSPACECLOUD:
-			Save();
+			Save(wr);
 			break;
 		default:
 			assert(0);
 	}
-	wr_vector3d(GetPosition());
+	wr.Vector3d(GetPosition());
 	matrix4x4d m;
 	GetRotMatrix(m);
-	for (int i=0; i<16; i++) wr_double(m[i]);
+	for (int i=0; i<16; i++) wr.Double(m[i]);
 }
 
-Body *Body::Unserialize()
+Body *Body::Unserialize(Serializer::Reader &rd)
 {
 	Body *b = 0;
-	using namespace Serializer::Read;
-	Object::Type type = (Object::Type)rd_int();
+	Object::Type type = (Object::Type)rd.Int32();
 	switch (type) {
 		case Object::STAR:
 			b = new Star(); break;
@@ -97,15 +92,15 @@ Body *Body::Unserialize()
 		default:
 			assert(0);
 	}
-	b->Load();
+	b->Load(rd);
 	// must SetFrame() correctly so ModelBodies can add geom to space
 	Frame *f = b->m_frame;
 	b->m_frame = 0;
 	b->SetFrame(f);
 	//
-	b->SetPosition(rd_vector3d());
+	b->SetPosition(rd.Vector3d());
 	matrix4x4d m;
-	for (int i=0; i<16; i++) m[i] = rd_double();
+	for (int i=0; i<16; i++) m[i] = rd.Double();
 	b->SetRotMatrix(m);
 	return b;
 }

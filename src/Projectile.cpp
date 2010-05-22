@@ -22,28 +22,26 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 }
 
-void Projectile::Save()
+void Projectile::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Body::Save();
-	for (int i=0; i<16; i++) wr_double(m_orient[i]);
-	wr_vector3d(m_baseVel);
-	wr_vector3d(m_dirVel);
-	wr_float(m_age);
-	wr_int(m_type);
-	wr_int(Serializer::LookupBody(m_parent));
+	Body::Save(wr);
+	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
+	wr.Vector3d(m_baseVel);
+	wr.Vector3d(m_dirVel);
+	wr.Float(m_age);
+	wr.Int32(m_type);
+	wr.Int32(Serializer::LookupBody(m_parent));
 }
 
-void Projectile::Load()
+void Projectile::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	Body::Load();
-	for (int i=0; i<16; i++) m_orient[i] = rd_double();
-	m_baseVel = rd_vector3d();
-	m_dirVel = rd_vector3d();
-	m_age = rd_float();
-	m_type = static_cast<Projectile::TYPE>(rd_int());
-	m_parent = (Body*)rd_int();
+	Body::Load(rd);
+	for (int i=0; i<16; i++) m_orient[i] = rd.Double();
+	m_baseVel = rd.Vector3d();
+	m_dirVel = rd.Vector3d();
+	m_age = rd.Float();
+	m_type = static_cast<Projectile::TYPE>(rd.Int32());
+	m_parent = (Body*)rd.Int32();
 }
 
 void Projectile::PostLoadFixup()

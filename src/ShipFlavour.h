@@ -3,6 +3,7 @@
 
 #include "ShipType.h"
 #include "LmrModel.h"
+#include "Serializer.h"
 
 struct LmrObjParams;
 
@@ -16,13 +17,13 @@ public:
 
 	ShipFlavour();
 	ShipFlavour(ShipType::Type type);
-	void Save();
-	void Load();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 	void ApplyTo(LmrObjParams *p) const;
 	static void MakeTrulyRandom(ShipFlavour &v);
 private:
-	void SaveLmrMaterial(LmrMaterial *m);
-	void LoadLmrMaterial(LmrMaterial *m);
+	void SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m);
+	void LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m);
 	void MakeRandomColor(LmrMaterial &m);
 };
 

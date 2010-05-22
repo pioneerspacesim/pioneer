@@ -64,30 +64,28 @@ SectorView::~SectorView()
 	m_onMouseButtonDown.disconnect();
 }
 
-void SectorView::Save()
+void SectorView::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_float(m_zoom);
-	wr_int(m_secx);
-	wr_int(m_secy);
-	wr_int(m_selected);
-	wr_float(m_px);
-	wr_float(m_py);
-	wr_float(m_rot_x);
-	wr_float(m_rot_z);
+	wr.Float(m_zoom);
+	wr.Int32(m_secx);
+	wr.Int32(m_secy);
+	wr.Int32(m_selected);
+	wr.Float(m_px);
+	wr.Float(m_py);
+	wr.Float(m_rot_x);
+	wr.Float(m_rot_z);
 }
 
-void SectorView::Load()
+void SectorView::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	m_zoom = rd_float();
-	m_secx = rd_int();
-	m_secy = rd_int();
-	m_selected = rd_int();
-	m_px = m_pxMovingTo = rd_float();
-	m_py = m_pyMovingTo = rd_float();
-	m_rot_x = rd_float();
-	m_rot_z = rd_float();
+	m_zoom = rd.Float();
+	m_secx = rd.Int32();
+	m_secy = rd.Int32();
+	m_selected = rd.Int32();
+	m_px = m_pxMovingTo = rd.Float();
+	m_py = m_pyMovingTo = rd.Float();
+	m_rot_x = rd.Float();
+	m_rot_z = rd.Float();
 }
 
 bool SectorView::GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx)

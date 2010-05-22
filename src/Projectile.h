@@ -25,8 +25,8 @@ public:
 
 	virtual void PostLoadFixup();
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 private:
 	float GetDamage() const;
 	Body *m_parent;

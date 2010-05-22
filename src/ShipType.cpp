@@ -148,14 +148,13 @@ ShipType::Type ShipType::GetRandomType() {
 	return type;
 }
 
-void EquipSet::Save()
+void EquipSet::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_int(Equip::SLOT_MAX);
+	wr.Int32(Equip::SLOT_MAX);
 	for (int i=0; i<Equip::SLOT_MAX; i++) {
-		wr_int(equip[i].size());
+		wr.Int32(equip[i].size());
 		for (unsigned int j=0; j<equip[i].size(); j++) {
-			wr_int(static_cast<int>(equip[i][j]));
+			wr.Int32(static_cast<int>(equip[i][j]));
 		}
 	}
 }
@@ -163,16 +162,15 @@ void EquipSet::Save()
 /*
  * Should have initialised with EquipSet(ShipType::Type) first
  */
-void EquipSet::Load()
+void EquipSet::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	const int numSlots = rd_int();
+	const int numSlots = rd.Int32();
 	assert(numSlots <= Equip::SLOT_MAX);
 	for (int i=0; i<numSlots; i++) {
-		const int numItems = rd_int();
+		const int numItems = rd.Int32();
 		assert(numItems <= (signed)equip[i].size());
 		for (int j=0; j<numItems; j++) {
-			equip[i][j] = static_cast<Equip::Type>(rd_int());
+			equip[i][j] = static_cast<Equip::Type>(rd.Int32());
 		}
 	}
 	onChange.emit();

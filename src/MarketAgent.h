@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "ShipType.h"
+#include "Serializer.h"
 
 class MarketAgent {
 public:
@@ -25,8 +26,8 @@ public:
 protected:
 	virtual void Bought(Equip::Type t) = 0;
 	virtual void Sold(Equip::Type t) = 0;
-	void Load();
-	void Save() const;
+	void Load(Serializer::Reader &rd);
+	void Save(Serializer::Writer &wr) const;
 private:
 	Sint64 m_money;
 };

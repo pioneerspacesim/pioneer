@@ -6,21 +6,19 @@
 #include "Space.h"
 #include "LmrModel.h"
 
-void CargoBody::Save()
+void CargoBody::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	DynamicBody::Save();
-	wr_int(static_cast<int>(m_type));
-	wr_float(m_hitpoints);
+	DynamicBody::Save(wr);
+	wr.Int32(static_cast<int>(m_type));
+	wr.Float(m_hitpoints);
 }
 
-void CargoBody::Load()
+void CargoBody::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	DynamicBody::Load();
-	m_type = static_cast<Equip::Type>(rd_int());
+	DynamicBody::Load(rd);
+	m_type = static_cast<Equip::Type>(rd.Int32());
 	Init();
-	m_hitpoints = rd_float();
+	m_hitpoints = rd.Float();
 }
 
 void CargoBody::Init()

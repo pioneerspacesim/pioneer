@@ -104,8 +104,8 @@ public:
 	sigc::signal<void> onDock;
 	sigc::signal<void> onUndock;
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 	void RenderLaserfire();
 
 	SpaceStation *m_dockedWith;

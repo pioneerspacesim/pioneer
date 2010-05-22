@@ -36,8 +36,8 @@ public:
 
 	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 protected:
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 private:
 	LmrModel *m_lmrModel;
 	LmrCollMesh *m_collMesh;

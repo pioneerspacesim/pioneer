@@ -22,42 +22,41 @@
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
-void Ship::Save()
+void Ship::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	DynamicBody::Save();
-	MarketAgent::Save();
-	wr_int(Serializer::LookupBody(m_combatTarget));
-	wr_int(Serializer::LookupBody(m_navTarget));
-	wr_float(m_angThrusters[0]);
-	wr_float(m_angThrusters[1]);
-	wr_float(m_angThrusters[2]);
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) wr_float(m_thrusters[i]);
-	wr_float(m_wheelTransition);
-	wr_float(m_wheelState);
-	wr_float(m_launchLockTimeout);
-	wr_bool(m_testLanded);
-	wr_int((int)m_flightState);
+	DynamicBody::Save(wr);
+	MarketAgent::Save(wr);
+	wr.Int32(Serializer::LookupBody(m_combatTarget));
+	wr.Int32(Serializer::LookupBody(m_navTarget));
+	wr.Float(m_angThrusters[0]);
+	wr.Float(m_angThrusters[1]);
+	wr.Float(m_angThrusters[2]);
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) wr.Float(m_thrusters[i]);
+	wr.Float(m_wheelTransition);
+	wr.Float(m_wheelState);
+	wr.Float(m_launchLockTimeout);
+	wr.Bool(m_testLanded);
+	wr.Int32((int)m_flightState);
 
-	m_hyperspace.dest.Serialize();
-	wr_float(m_hyperspace.countdown);
-	wr_int(m_hyperspace.followHypercloudId);
+	m_hyperspace.dest.Serialize(wr);
+	wr.Float(m_hyperspace.countdown);
+	wr.Int32(m_hyperspace.followHypercloudId);
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		wr_int(m_gunState[i]);
-		wr_float(m_gunRecharge[i]);
-		wr_float(m_gunTemperature[i]);
+		wr.Int32(m_gunState[i]);
+		wr.Float(m_gunRecharge[i]);
+		wr.Float(m_gunTemperature[i]);
 	}
-	wr_float(m_ecmRecharge);
-	m_shipFlavour.Save();
-	wr_int(m_dockedWithPort);
-	wr_int(Serializer::LookupBody(m_dockedWith));
-	m_equipment.Save();
-	wr_float(m_stats.hull_mass_left);
-	wr_float(m_stats.shield_mass_left);
-	wr_int(m_todo.size());
+	wr.Float(m_ecmRecharge);
+	m_shipFlavour.Save(wr);
+	wr.Int32(m_dockedWithPort);
+	wr.Int32(Serializer::LookupBody(m_dockedWith));
+	m_equipment.Save(wr);
+	wr.Float(m_stats.hull_mass_left);
+	wr.Float(m_stats.shield_mass_left);
+	wr.Int32(m_todo.size());
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
-		wr_int((int)(*i).cmd);
+		wr.Int32((int)(*i).cmd);
 		switch ((*i).cmd) {
 			case DO_KILL:
 			case DO_KAMIKAZE:
@@ -65,78 +64,77 @@ void Ship::Save()
 			case DO_LOW_ORBIT:
 			case DO_MEDIUM_ORBIT:
 			case DO_HIGH_ORBIT:
-				wr_int(Serializer::LookupBody((*i).target));
+				wr.Int32(Serializer::LookupBody((*i).target));
 				{
 					int n = (*i).path.p.size();
-					wr_int(n);
+					wr.Int32(n);
 					for (int j=0; j<n; j++) {
-						wr_vector3d((*i).path.p[j]);
+						wr.Vector3d((*i).path.p[j]);
 					}
 				}
-				wr_double((*i).endTime);
-				wr_double((*i).startTime);
+				wr.Double((*i).endTime);
+				wr.Double((*i).startTime);
 				break;
-			case DO_NOTHING: wr_int(0); break;
+			case DO_NOTHING: wr.Int32(0); break;
 		}
 	}
 }
 
-void Ship::Load()
+void Ship::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	DynamicBody::Load();
-	MarketAgent::Load();
+	DynamicBody::Load(rd);
+	MarketAgent::Load(rd);
 	// needs fixups
-	m_combatTarget = (Body*)rd_int();
-	m_navTarget = (Body*)rd_int();
-	m_angThrusters[0] = rd_float();
-	m_angThrusters[1] = rd_float();
-	m_angThrusters[2] = rd_float();
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = rd_float();
-	m_wheelTransition = rd_float();
-	m_wheelState = rd_float();
-	m_launchLockTimeout = rd_float();
-	m_testLanded = rd_bool();
-	m_flightState = (FlightState) rd_int();
+	m_combatTarget = (Body*)rd.Int32();
+	m_navTarget = (Body*)rd.Int32();
+	m_angThrusters[0] = rd.Float();
+	m_angThrusters[1] = rd.Float();
+	m_angThrusters[2] = rd.Float();
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = rd.Float();
+	m_wheelTransition = rd.Float();
+	m_wheelState = rd.Float();
+	m_launchLockTimeout = rd.Float();
+	m_testLanded = rd.Bool();
+	m_flightState = (FlightState) rd.Int32();
 	
-	SBodyPath::Unserialize(&m_hyperspace.dest);
-	m_hyperspace.countdown = rd_float();
-	if (!IsOlderThan(9)) {
-		m_hyperspace.followHypercloudId = rd_int();
+	SBodyPath::Unserialize(rd, &m_hyperspace.dest);
+	m_hyperspace.countdown = rd.Float();
+	if (!Serializer::Read::IsOlderThan(9)) {
+		m_hyperspace.followHypercloudId = rd.Int32();
 	}
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gunState[i] = rd_int();
-		m_gunRecharge[i] = rd_float();
-		if (IsOlderThan(10)) {
+		m_gunState[i] = rd.Int32();
+		m_gunRecharge[i] = rd.Float();
+		if (Serializer::Read::IsOlderThan(10)) {
 			m_gunTemperature[i] = 0;
 		} else {
-			m_gunTemperature[i] = rd_float();
+			m_gunTemperature[i] = rd.Float();
 		}
 	}
-	m_ecmRecharge = rd_float();
-	m_shipFlavour.Load();
-	m_dockedWithPort = rd_int();
-	m_dockedWith = (SpaceStation*)rd_int();
+	m_ecmRecharge = rd.Float();
+	m_shipFlavour.Load(rd);
+	m_dockedWithPort = rd.Int32();
+	m_dockedWith = (SpaceStation*)rd.Int32();
 	m_equipment.InitSlotSizes(m_shipFlavour.type);
-	m_equipment.Load();
+	m_equipment.Load(rd);
 	Init();
-	m_stats.hull_mass_left = rd_float(); // must be after Init()...
-	m_stats.shield_mass_left = rd_float();
-	int num = rd_int();
+	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
+	m_stats.shield_mass_left = rd.Float();
+	int num = rd.Int32();
 	while (num-- > 0) {
-		AICommand c = (AICommand)rd_int();
-		Body *target = (Body*)rd_int();
+		AICommand c = (AICommand)rd.Int32();
+		Body *target = (Body*)rd.Int32();
 		AIInstruction inst = AIInstruction(c);
 		inst.target = target;
-		if (!IsOlderThan(15)) {
-			int n = rd_int();
+		if (!Serializer::Read::IsOlderThan(15)) {
+			int n = rd.Int32();
 			inst.path = BezierCurve(n);
 			for (int i=0; i<n; i++) {
-				inst.path.p[i] = rd_vector3d();
+				inst.path.p[i] = rd.Vector3d();
 			}
-			inst.endTime = rd_double();
-			inst.startTime = rd_double();
+			inst.endTime = rd.Double();
+			inst.startTime = rd.Double();
 		}
 		m_todo.push_back(inst);
 	}

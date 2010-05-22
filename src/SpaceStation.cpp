@@ -19,20 +19,18 @@
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
-void BBAdvert::Save()
+void BBAdvert::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_string(m_luaMod);
-	wr_int(m_luaRef);
-	wr_string(m_description);
+	wr.String(m_luaMod);
+	wr.Int32(m_luaRef);
+	wr.String(m_description);
 }
 
-BBAdvert BBAdvert::Load()
+BBAdvert BBAdvert::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	std::string luaMod = rd_string();
-	int luaRef = rd_int();
-	std::string desc = rd_string();
+	std::string luaMod = rd.String();
+	int luaRef = rd.Int32();
+	std::string desc = rd.String();
 	return BBAdvert(luaMod, luaRef, desc);
 }	
 
@@ -181,82 +179,80 @@ float SpaceStation::GetDesiredAngVel() const
 	return m_type->angVel;
 }
 
-void SpaceStation::Save()
+void SpaceStation::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	ModelBody::Save();
-	MarketAgent::Save();
+	ModelBody::Save(wr);
+	MarketAgent::Save(wr);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
-		wr_int((int)m_equipmentStock[i]);
+		wr.Int32((int)m_equipmentStock[i]);
 	}
 	// save shipyard
-	wr_int(m_shipsOnSale.size());
+	wr.Int32(m_shipsOnSale.size());
 	for (std::vector<ShipFlavour>::iterator i = m_shipsOnSale.begin();
 			i != m_shipsOnSale.end(); ++i) {
-		(*i).Save();
+		(*i).Save(wr);
 	}
 	// save bb adverts
-	wr_int(m_bbadverts.size());
+	wr.Int32(m_bbadverts.size());
 	for (std::vector<BBAdvert>::iterator i = m_bbadverts.begin();
 			i != m_bbadverts.end(); ++i) {
-		(*i).Save();
+		(*i).Save(wr);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		wr_int(Serializer::LookupBody(m_shipDocking[i].ship));
-		wr_int(m_shipDocking[i].stage);
-		wr_float(m_shipDocking[i].stagePos);
-		wr_vector3d(m_shipDocking[i].fromPos);
-		wr_quaternionf(m_shipDocking[i].fromRot);
+		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
+		wr.Int32(m_shipDocking[i].stage);
+		wr.Float(m_shipDocking[i].stagePos);
+		wr.Vector3d(m_shipDocking[i].fromPos);
+		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 
-		wr_float(m_openAnimState[i]);
-		wr_float(m_dockAnimState[i]);
+		wr.Float(m_openAnimState[i]);
+		wr.Float(m_dockAnimState[i]);
 	}
-	wr_double(m_lastUpdatedShipyard);
-	wr_int(Serializer::LookupSystemBody(m_sbody));
-	wr_int(m_numPoliceDocked);
+	wr.Double(m_lastUpdatedShipyard);
+	wr.Int32(Serializer::LookupSystemBody(m_sbody));
+	wr.Int32(m_numPoliceDocked);
 }
 
-void SpaceStation::Load()
+void SpaceStation::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	ModelBody::Load();
-	MarketAgent::Load();
-	if (IsOlderThan(11)) rd_int();
+	ModelBody::Load(rd);
+	MarketAgent::Load(rd);
+	if (Serializer::Read::IsOlderThan(11)) rd.Int32();
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
-		m_equipmentStock[i] = static_cast<Equip::Type>(rd_int());
+		m_equipmentStock[i] = static_cast<Equip::Type>(rd.Int32());
 	}
 	// load shityard
-	int numShipsForSale = rd_int();
+	int numShipsForSale = rd.Int32();
 	for (int i=0; i<numShipsForSale; i++) {
 		ShipFlavour s;
-		s.Load();
+		s.Load(rd);
 		m_shipsOnSale.push_back(s);
 	}
 	// load bulletin board adverts
-	int numBBAdverts = rd_int();
+	int numBBAdverts = rd.Int32();
 	for (int i=0; i<numBBAdverts; i++) {
-		m_bbadverts.push_back(BBAdvert::Load());
+		m_bbadverts.push_back(BBAdvert::Load(rd));
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = (Ship*)rd_int();
-		m_shipDocking[i].stage = rd_int();
-		m_shipDocking[i].stagePos = rd_float();
-		m_shipDocking[i].fromPos = rd_vector3d();
-		if (IsOlderThan(12)) {
+		m_shipDocking[i].ship = (Ship*)rd.Int32();
+		m_shipDocking[i].stage = rd.Int32();
+		m_shipDocking[i].stagePos = rd.Float();
+		m_shipDocking[i].fromPos = rd.Vector3d();
+		if (Serializer::Read::IsOlderThan(12)) {
 			m_shipDocking[i].fromRot = Quaternionf(0.0, vector3f(1,0,0));
 		} else {
-			m_shipDocking[i].fromRot = rd_quaternionf();
+			m_shipDocking[i].fromRot = rd.RdQuaternionf();
 		}
 
-		m_openAnimState[i] = rd_float();
-		m_dockAnimState[i] = rd_float();
+		m_openAnimState[i] = rd.Float();
+		m_dockAnimState[i] = rd.Float();
 	}
-	m_lastUpdatedShipyard = rd_double();
-	m_sbody = Serializer::LookupSystemBody(rd_int());
-	if (IsOlderThan(14)) {
+	m_lastUpdatedShipyard = rd.Double();
+	m_sbody = Serializer::LookupSystemBody(rd.Int32());
+	if (Serializer::Read::IsOlderThan(14)) {
 		m_numPoliceDocked = 8;
 	} else {
-		m_numPoliceDocked = rd_int();
+		m_numPoliceDocked = rd.Int32();
 	}
 	InitStation();
 }

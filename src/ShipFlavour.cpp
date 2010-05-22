@@ -64,45 +64,41 @@ void ShipFlavour::ApplyTo(LmrObjParams *p) const
 	p->pMat[2] = s_white;
 }
 
-void ShipFlavour::SaveLmrMaterial(LmrMaterial *m)
+void ShipFlavour::SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m)
 {
-	using namespace Serializer::Write;
-	for (int i=0; i<4; i++) wr_float(m->diffuse[i]);
-	for (int i=0; i<4; i++) wr_float(m->specular[i]);
-	for (int i=0; i<4; i++) wr_float(m->emissive[i]);
-	wr_float(m->shininess);
+	for (int i=0; i<4; i++) wr.Float(m->diffuse[i]);
+	for (int i=0; i<4; i++) wr.Float(m->specular[i]);
+	for (int i=0; i<4; i++) wr.Float(m->emissive[i]);
+	wr.Float(m->shininess);
 }
 
-void ShipFlavour::LoadLmrMaterial(LmrMaterial *m)
+void ShipFlavour::LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m)
 {
-	using namespace Serializer::Read;
-	if (IsOlderThan(13)) {
+	if (Serializer::Read::IsOlderThan(13)) {
 		MakeRandomColor(*m);
 	} else {
-		for (int i=0; i<4; i++) m->diffuse[i] = rd_float();
-		for (int i=0; i<4; i++) m->specular[i] = rd_float();
-		for (int i=0; i<4; i++) m->emissive[i] = rd_float();
-		m->shininess = rd_float();
+		for (int i=0; i<4; i++) m->diffuse[i] = rd.Float();
+		for (int i=0; i<4; i++) m->specular[i] = rd.Float();
+		for (int i=0; i<4; i++) m->emissive[i] = rd.Float();
+		m->shininess = rd.Float();
 	}
 }
 
-void ShipFlavour::Save()
+void ShipFlavour::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_string(type);
-	wr_int(price);
-	wr_string(regid);
-	SaveLmrMaterial(&primaryColor);
-	SaveLmrMaterial(&secondaryColor);
+	wr.String(type);
+	wr.Int32(price);
+	wr.String(regid);
+	SaveLmrMaterial(wr, &primaryColor);
+	SaveLmrMaterial(wr, &secondaryColor);
 }
 
-void ShipFlavour::Load()
+void ShipFlavour::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	type = rd_string();
-	price = rd_int();
-	rd_cstring2(regid, sizeof(regid));
-	LoadLmrMaterial(&primaryColor);
-	LoadLmrMaterial(&secondaryColor);
+	type = rd.String();
+	price = rd.Int32();
+	rd.Cstring2(regid, sizeof(regid));
+	LoadLmrMaterial(rd, &primaryColor);
+	LoadLmrMaterial(rd, &secondaryColor);
 }
 

@@ -5,6 +5,7 @@
 #include "EquipType.h"
 #include "Polit.h"
 #include "SysLoc.h"
+#include "Serializer.h"
 #include <vector>
 #include <string>
 
@@ -40,8 +41,8 @@ public:
 	SBodyPath(int sectorX, int sectorY, int systemIdx);
 	Sint8 elem[SBODYPATHLEN];
 	
-	void Serialize() const;
-	static void Unserialize(SBodyPath *path);
+	void Serialize(Serializer::Writer &wr) const;
+	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
 	
 	bool operator== (const SBodyPath b) const {
 		for (int i=0; i<SBODYPATHLEN; i++) if (elem[i] != b.elem[i]) return false;
@@ -161,8 +162,8 @@ public:
 	~StarSystem();
 	void GetPathOf(const SBody *body, SBodyPath *path) const;
 	SBody *GetBodyByPath(const SBodyPath *path) const;
-	static void Serialize(StarSystem *);
-	static StarSystem *Unserialize();
+	static void Serialize(Serializer::Writer &wr, StarSystem *);
+	static StarSystem *Unserialize(Serializer::Reader &rd);
 	void Dump();
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
 	int SectorX() const { return m_loc.sectorX; }

@@ -1,16 +1,14 @@
 #include "MarketAgent.h"
 #include "Serializer.h"
 
-void MarketAgent::Load()
+void MarketAgent::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	m_money = rd_int64();
+	m_money = rd.Int64();
 }
 
-void MarketAgent::Save() const
+void MarketAgent::Save(Serializer::Writer &wr) const
 {
-	using namespace Serializer::Write;
-	wr_int64(m_money);
+	wr.Int64(m_money);
 }
 
 bool MarketAgent::SellTo(MarketAgent *other, Equip::Type t)

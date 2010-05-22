@@ -47,33 +47,31 @@ void HyperspaceCloud::SetPosition(vector3d p)
 	m_pos = p;
 }
 
-void HyperspaceCloud::Save()
+void HyperspaceCloud::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Body::Save();
-	wr_vector3d(m_pos);
-	wr_vector3d(m_vel);
-	wr_double(m_birthdate);
-	wr_double(m_due);
-	wr_bool(m_isArrival);
-	wr_bool(m_ship != 0);
-	if (m_ship) m_ship->Serialize();
-	wr_int(m_id);
+	Body::Save(wr);
+	wr.Vector3d(m_pos);
+	wr.Vector3d(m_vel);
+	wr.Double(m_birthdate);
+	wr.Double(m_due);
+	wr.Bool(m_isArrival);
+	wr.Bool(m_ship != 0);
+	if (m_ship) m_ship->Serialize(wr);
+	wr.Int32(m_id);
 }
 
-void HyperspaceCloud::Load()
+void HyperspaceCloud::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	Body::Load();
-	m_pos = rd_vector3d();
-	m_vel = rd_vector3d();
-	m_birthdate = rd_double();
-	m_due = rd_double();
-	m_isArrival = rd_bool();
-	if (rd_bool()) {
-		m_ship = (Ship*)Body::Unserialize();
+	Body::Load(rd);
+	m_pos = rd.Vector3d();
+	m_vel = rd.Vector3d();
+	m_birthdate = rd.Double();
+	m_due = rd.Double();
+	m_isArrival = rd.Bool();
+	if (rd.Bool()) {
+		m_ship = (Ship*)Body::Unserialize(rd);
 	}
-	if (!IsOlderThan(9)) m_id = rd_int();
+	if (!Serializer::Read::IsOlderThan(9)) m_id = rd.Int32();
 	else m_id = Pi::rng.Int32();
 }
 

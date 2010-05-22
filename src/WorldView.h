@@ -5,6 +5,7 @@
 #include "Gui.h"
 #include "View.h"
 #include "Render.h"
+#include "Serializer.h"
 
 class Body;
 class Frame;
@@ -22,8 +23,8 @@ public:
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
 	void ApplyExternalViewRotation(matrix4x4d &m);
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(Serializer::Writer &wr);
+	virtual void Load(Serializer::Reader &rd);
 	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const;

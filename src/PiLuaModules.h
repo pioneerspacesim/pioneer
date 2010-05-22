@@ -2,6 +2,7 @@
 #define _PILUAMODULES_H
 
 #include "Mission.h"
+#include "Serializer.h"
 #include "oolua/oolua.h"
 
 namespace PiLuaModules {
@@ -15,8 +16,8 @@ namespace PiLuaModules {
 	void Init();
 	void Uninit();
 
-	void Serialize();
-	void Unserialize();
+	void Serialize(Serializer::Writer &wr);
+	void Unserialize(Serializer::Reader &rd);
 
 	/* ----------- The ugly shit -------------- */
 	static inline void ModCall(const char *modname, const char *fnname, int retvals)

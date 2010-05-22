@@ -22,26 +22,24 @@ Player::~Player()
 	Pi::player = 0;
 }
 
-void Player::Save()
+void Player::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Ship::Save();
-	wr_int(static_cast<int>(m_flightControlState));
-	wr_float(m_setSpeed);
-	wr_int(m_killCount);
-	wr_int(m_knownKillCount);
+	Ship::Save(wr);
+	wr.Int32(static_cast<int>(m_flightControlState));
+	wr.Float(m_setSpeed);
+	wr.Int32(m_killCount);
+	wr.Int32(m_knownKillCount);
 }
 
-void Player::Load()
+void Player::Load(Serializer::Reader &rd)
 {
 	Pi::player = this;
-	using namespace Serializer::Read;
-	Ship::Load();
-	m_flightControlState = static_cast<FlightControlState>(rd_int());
-	m_setSpeed = rd_float();
-	if (!IsOlderThan(6)) {
-		m_killCount = rd_int();
-		m_knownKillCount = rd_int();
+	Ship::Load(rd);
+	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
+	m_setSpeed = rd.Float();
+	if (!Serializer::Read::IsOlderThan(6)) {
+		m_killCount = rd.Int32();
+		m_knownKillCount = rd.Int32();
 	} else {
 		m_killCount = 0;
 		m_knownKillCount = 0;

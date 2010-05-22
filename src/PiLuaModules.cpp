@@ -4,7 +4,6 @@
 #include <set>
 #include "Object.h"
 #include "Body.h"
-#include "Serializer.h"
 #include "PiLuaModules.h"
 #include "mylua.h"
 #include "PiLuaAPI.h"
@@ -170,19 +169,19 @@ void GetPlayerMissions(std::list<Mission> &missions)
 	}
 }
 
-void Serialize()
+void Serialize(Serializer::Writer &wr)
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
 		ModCall((*i).c_str(), "Serialize", 1);
 		const char *str = luaL_checkstring(L, -1);
-		Serializer::Write::wr_string((*i).c_str());
-		Serializer::Write::wr_string(str);
+		wr.String((*i).c_str());
+		wr.String(str);
 		lua_pop(L, 1);
 	}
-	Serializer::Write::wr_string("");
+	wr.String("");
 }
 
-void Unserialize()
+void Unserialize(Serializer::Reader &rd)
 {
 	// XXX TODO XXX keep saved data for modules not enabled,
 	// so we can re-save it an not lose it
@@ -190,9 +189,9 @@ void Unserialize()
 	std::string moddata;
 
 	for (;;) {
-		modname = Serializer::Read::rd_string();
+		modname = rd.String();
 		if (modname == "") break;
-		moddata = Serializer::Read::rd_string();
+		moddata = rd.String();
 		
 		ModCall(modname.c_str(), "Unserialize", 0, moddata.c_str());
 	}

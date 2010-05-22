@@ -4,7 +4,6 @@
 #include "Frame.h"
 #include "StarSystem.h"
 #include "Space.h"
-#include "Serializer.h"
 #include "Render.h"
 
 #define MAX_SFX_PER_FRAME 1024
@@ -14,27 +13,24 @@ Sfx::Sfx()
 	m_type = TYPE_NONE;
 }
 
-void Sfx::Save()
+void Sfx::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	wr_vector3d(m_pos);
-	wr_vector3d(m_vel);
-	wr_float(m_age);
-	wr_int(m_type);
+	wr.Vector3d(m_pos);
+	wr.Vector3d(m_vel);
+	wr.Float(m_age);
+	wr.Int32(m_type);
 }
 
-void Sfx::Load()
+void Sfx::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	m_pos = rd_vector3d();
-	m_vel = rd_vector3d();
-	m_age = rd_float();
-	m_type = static_cast<Sfx::TYPE>(rd_int());
+	m_pos = rd.Vector3d();
+	m_vel = rd.Vector3d();
+	m_age = rd.Float();
+	m_type = static_cast<Sfx::TYPE>(rd.Int32());
 }
 
-void Sfx::Serialize(const Frame *f)
+void Sfx::Serialize(Serializer::Writer &wr, const Frame *f)
 {
-	using namespace Serializer::Write;
 	// how many sfx turds are active in frame?
 	int numActive = 0;
 	if (f->m_sfx) {
@@ -42,25 +38,24 @@ void Sfx::Serialize(const Frame *f)
 			if (f->m_sfx[i].m_type != TYPE_NONE) numActive++;
 		}
 	}
-	wr_int(numActive);
+	wr.Int32(numActive);
 
 	if (numActive) for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
 		if (f->m_sfx[i].m_type != TYPE_NONE) {
-			f->m_sfx[i].Save();
+			f->m_sfx[i].Save(wr);
 		}
 	}
 }
 
-void Sfx::Unserialize(Frame *f)
+void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
 {
-	using namespace Serializer::Read;
-	if (IsOlderThan(7)) return;
+	if (Serializer::Read::IsOlderThan(7)) return;
 
-	int numActive = rd_int();
+	int numActive = rd.Int32();
 	if (numActive) {
 		f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
 		for (int i=0; i<numActive; i++) {
-			f->m_sfx[i].Load();
+			f->m_sfx[i].Load(rd);
 		}
 	}
 }

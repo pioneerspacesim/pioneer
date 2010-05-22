@@ -46,35 +46,33 @@ void DynamicBody::AddRelTorque(const vector3d t)
 	m_torque += m_orient.ApplyRotationOnly(t);
 }
 
-void DynamicBody::Save()
+void DynamicBody::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	ModelBody::Save();
-	for (int i=0; i<16; i++) wr_double(m_orient[i]);
-	wr_vector3d(m_force);
-	wr_vector3d(m_torque);
-	wr_vector3d(m_vel);
-	wr_vector3d(m_angVel);
-	wr_double(m_mass);
-	wr_double(m_massRadius);
-	wr_double(m_angInertia);
-	wr_bool(m_enabled);
+	ModelBody::Save(wr);
+	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
+	wr.Vector3d(m_force);
+	wr.Vector3d(m_torque);
+	wr.Vector3d(m_vel);
+	wr.Vector3d(m_angVel);
+	wr.Double(m_mass);
+	wr.Double(m_massRadius);
+	wr.Double(m_angInertia);
+	wr.Bool(m_enabled);
 }
 
-void DynamicBody::Load()
+void DynamicBody::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	ModelBody::Load();
-	for (int i=0; i<16; i++) m_orient[i] = rd_double();
+	ModelBody::Load(rd);
+	for (int i=0; i<16; i++) m_orient[i] = rd.Double();
 	m_oldOrient = m_orient;
-	m_force = rd_vector3d();
-	m_torque = rd_vector3d();
-	m_vel = rd_vector3d();
-	m_angVel = rd_vector3d();
-	m_mass = rd_double();
-	m_massRadius = rd_double();
-	m_angInertia = rd_double();
-	m_enabled = rd_bool();
+	m_force = rd.Vector3d();
+	m_torque = rd.Vector3d();
+	m_vel = rd.Vector3d();
+	m_angVel = rd.Vector3d();
+	m_mass = rd.Double();
+	m_massRadius = rd.Double();
+	m_angInertia = rd.Double();
+	m_enabled = rd.Bool();
 }
 
 void DynamicBody::SetTorque(const vector3d t)

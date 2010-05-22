@@ -56,20 +56,18 @@ bool Planet::IsSuperType(SBody::BodySuperType t) const
 	else return sbody->GetSuperType() == t;
 }
 	
-void Planet::Save()
+void Planet::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Body::Save();
-	wr_vector3d(pos);
-	wr_int(Serializer::LookupSystemBody(sbody));
+	Body::Save(wr);
+	wr.Vector3d(pos);
+	wr.Int32(Serializer::LookupSystemBody(sbody));
 }
 
-void Planet::Load()
+void Planet::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	Body::Load();
-	pos = rd_vector3d();
-	sbody = Serializer::LookupSystemBody(rd_int());
+	Body::Load(rd);
+	pos = rd.Vector3d();
+	sbody = Serializer::LookupSystemBody(rd.Int32());
 	Init();
 }
 

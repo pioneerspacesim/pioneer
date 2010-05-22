@@ -24,16 +24,14 @@ ModelBody::~ModelBody()
 	delete m_geom;
 }
 
-void ModelBody::Save()
+void ModelBody::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Body::Save();
+	Body::Save(wr);
 }
 
-void ModelBody::Load()
+void ModelBody::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	Body::Load();
+	Body::Load(rd);
 }
 
 void ModelBody::Disable()

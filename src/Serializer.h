@@ -28,17 +28,22 @@ namespace Serializer {
 	public:
 		Writer() {}
 		const std::string &GetData();
-		void wr_byte(Uint8 x);
-		void wr_bool(bool x);
-		void wr_int16(Uint16 x);
-		void wr_int32(Uint32 x);
-		void wr_int64(Uint64 x);
-		void wr_float(float f);
-		void wr_double(double f);
-		void wr_string(const char* s);
-		void wr_string(const std::string &s);
-		void wr_vector3d(vector3d vec);
-		void wr_quaternionf(const Quaternionf &q);
+		void Byte(Uint8 x);
+		void Bool(bool x);
+		void Int16(Uint16 x);
+		void Int32(Uint32 x);
+		void Int64(Uint64 x);
+		void Float(float f);
+		void Double(double f);
+		void String(const char* s);
+		void String(const std::string &s);
+		void Vector3d(vector3d vec);
+		void WrQuaternionf(const Quaternionf &q);
+		/** Best not to use these except in templates */
+		void Auto(Sint32 x) { Int32(x); }
+		void Auto(Sint64 x) { Int64(x); }
+		void Auto(float x) { Float(x); }
+		void Auto(double x) { Double(x); }
 	private:
 		std::string m_str;
 	};
@@ -50,18 +55,23 @@ namespace Serializer {
 		Reader(FILE *fptr);
 		bool AtEnd();
 		void Seek(int pos);
-		Uint8 rd_byte();
-		bool rd_bool();
-		Uint16 rd_int16();
-		Uint32 rd_int32();
-		Uint64 rd_int64();
-		float rd_float ();
-		double rd_double ();
-		std::string rd_string();
-		char* rd_cstring();
-		void rd_cstring2(char *buf, int len);
-		vector3d rd_vector3d();
-		Quaternionf rd_quaternionf();
+		Uint8 Byte();
+		bool Bool();
+		Uint16 Int16();
+		Uint32 Int32();
+		Uint64 Int64();
+		float Float ();
+		double Double ();
+		std::string String();
+		char* Cstring();
+		void Cstring2(char *buf, int len);
+		vector3d Vector3d();
+		Quaternionf RdQuaternionf();
+		/** Best not to use these except in templates */
+		void Auto(Sint32 *x) { *x = Int32(); }
+		void Auto(Sint64 *x) { *x = Int64(); }
+		void Auto(float *x) { *x = Float(); }
+		void Auto(double *x) { *x = Double(); }
 	private:
 		std::string m_data;
 		int m_pos;
@@ -69,44 +79,11 @@ namespace Serializer {
 
 	namespace Write {
 		bool Game(const char *filename);
-		void wr_bool(bool x);
-		void wr_byte(unsigned char x);
-		void wr_short(short x);
-		void wr_int(int x);
-		void wr_int64(Sint64 x);
-		void wr_float (float f);
-		void wr_double (double f);
-		void wr_cstring(const char* s);
-		void wr_string(const std::string &s);
-		void wr_vector3d(vector3d vec);
-		void wr_quaternionf(const Quaternionf &q);
-		
-		void wr_auto(Sint32 x);
-		void wr_auto(Sint64 x);
-		void wr_auto(float x);
-		void wr_auto(double x);
 	}
 
 	namespace Read {
 		bool Game(const char *filename);
 		bool IsOlderThan (int version);
-		bool rd_bool();
-		unsigned char rd_byte ();
-		short rd_short ();
-		int rd_int ();
-		Sint64 rd_int64 ();
-		float rd_float ();
-		double rd_double ();
-		std::string rd_string();
-		char* rd_cstring();
-		void rd_cstring2(char *buf, int len);
-		vector3d rd_vector3d();
-		Quaternionf rd_quaternionf();
-	
-		void rd_auto(Sint32 *x);
-		void rd_auto(Sint64 *x);
-		void rd_auto(float *x);
-		void rd_auto(double *x);
 	}
 
 }

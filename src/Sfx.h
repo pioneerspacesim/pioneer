@@ -2,6 +2,7 @@
 #define _SFX_H
 
 #include "Body.h"
+#include "Serializer.h"
 
 class Frame;
 
@@ -12,8 +13,8 @@ public:
 	static void Add(const Body *, TYPE);
 	static void TimeStepAll(const float timeStep, Frame *f);
 	static void RenderAll(const Frame *f, const Frame *camFrame);
-	static void Serialize(const Frame *f);
-	static void Unserialize(Frame *f);
+	static void Serialize(Serializer::Writer &wr, const Frame *f);
+	static void Unserialize(Serializer::Reader &rd, Frame *f);
 
 	Sfx();
 	void SetPosition(vector3d p);
@@ -23,8 +24,8 @@ private:
 
 	void Render(const matrix4x4d &transform);
 	void TimeStepUpdate(const float timeStep);
-	void Save();
-	void Load();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 
 	vector3d m_pos;
 	vector3d m_vel;

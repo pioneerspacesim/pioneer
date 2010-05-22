@@ -22,24 +22,22 @@ void Star::SetPosition(vector3d p)
 	pos = p;
 }
 
-void Star::Save()
+void Star::Save(Serializer::Writer &wr)
 {
-	using namespace Serializer::Write;
-	Body::Save();
-	wr_int(type);
-	wr_vector3d(pos);
-	wr_double(radius);
-	wr_double(mass);
+	Body::Save(wr);
+	wr.Int32(type);
+	wr.Vector3d(pos);
+	wr.Double(radius);
+	wr.Double(mass);
 }
 
-void Star::Load()
+void Star::Load(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	Body::Load();
-	type = (SBody::BodyType)rd_int();
-	pos = rd_vector3d();
-	radius = rd_double();
-	mass = rd_double();
+	Body::Load(rd);
+	type = (SBody::BodyType)rd.Int32();
+	pos = rd.Vector3d();
+	radius = rd.Double();
+	mass = rd.Double();
 }
 
 void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)

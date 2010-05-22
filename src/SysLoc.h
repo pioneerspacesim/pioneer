@@ -1,13 +1,15 @@
 #ifndef _SYSLOC_H
 #define _SYSLOC_H
 
+#include "Serializer.h"
+
 class SysLoc {
 public:
 	SysLoc(): sectorX(0), sectorY(0), systemIdx(0) {}
 	SysLoc(int sectorX, int sectorY, int systemIdx): sectorX(sectorX), sectorY(sectorY), systemIdx(systemIdx) {}
 	int sectorX, sectorY, systemIdx;
-	void Serialize() const;
-	static void Unserialize(SysLoc *loc);
+	void Serialize(Serializer::Writer &wr) const;
+	static void Unserialize(Serializer::Reader &rd, SysLoc *loc);
 	friend bool operator==(const SysLoc &a, const SysLoc &b) {
 		if (a.sectorX != b.sectorX) return false;
 		if (a.sectorY != b.sectorY) return false;

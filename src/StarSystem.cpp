@@ -336,18 +336,16 @@ SBodyPath::SBodyPath(int sectorX, int sectorY, int systemIdx): SysLoc(sectorX, s
 	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
 }
 
-void SBodyPath::Serialize() const
+void SBodyPath::Serialize(Serializer::Writer &wr) const
 {
-	using namespace Serializer::Write;
-	SysLoc::Serialize();
-	for (int i=0; i<SBODYPATHLEN; i++) wr_byte(elem[i]);
+	SysLoc::Serialize(wr);
+	for (int i=0; i<SBODYPATHLEN; i++) wr.Byte(elem[i]);
 }
 
-void SBodyPath::Unserialize(SBodyPath *path)
+void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
 {
-	using namespace Serializer::Read;
-	SysLoc::Unserialize(path);
-	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd_byte();
+	SysLoc::Unserialize(rd, path);
+	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd.Byte();
 }
 
 template <class T>
@@ -1383,26 +1381,24 @@ SBody::~SBody()
 	}
 }
 
-void StarSystem::Serialize(StarSystem *s)
+void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 {
-	using namespace Serializer::Write;
 	if (s) {
-		wr_byte(1);
-		wr_int(s->m_loc.sectorX);
-		wr_int(s->m_loc.sectorY);
-		wr_int(s->m_loc.systemIdx);
+		wr.Byte(1);
+		wr.Int32(s->m_loc.sectorX);
+		wr.Int32(s->m_loc.sectorY);
+		wr.Int32(s->m_loc.systemIdx);
 	} else {
-		wr_byte(0);
+		wr.Byte(0);
 	}
 }
 
-StarSystem *StarSystem::Unserialize()
+StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 {
-	using namespace Serializer::Read;
-	if (rd_byte()) {
-		int sec_x = rd_int();
-		int sec_y = rd_int();
-		int sys_idx = rd_int();
+	if (rd.Byte()) {
+		int sec_x = rd.Int32();
+		int sec_y = rd.Int32();
+		int sys_idx = rd.Int32();
 		return new StarSystem(sec_x, sec_y, sys_idx);
 	} else {
 		return 0;
