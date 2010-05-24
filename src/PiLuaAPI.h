@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "mylua.h"
 #include "Object.h"
+#include "StarSystem.h"
 
 void RegisterPiLuaAPI(lua_State *L);
 
@@ -19,7 +20,8 @@ class ObjectWrapper
 	void SpaceStationRemoveAdvert(const char *luaMod, int luaRef);
 	double GetMoney() const;
 	void SetMoney(double m);
-	int print() const;
+	SBodyPath *GetSBody();
+	ObjectWrapper *GetDockedWith();
 	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
 		return a.m_obj == b.m_obj;
 	}
@@ -43,7 +45,8 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_3(void, SpaceStationAddAdvert, const char *, int, const char *)
 	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
 	OOLUA_MEM_FUNC_1(void, SetMoney, double)
-	OOLUA_MEM_FUNC_0_CONST(int,print)
+	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
+	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<ObjectWrapper*>, GetDockedWith);
 	OOLUA_MEM_FUNC_0_CONST(double,GetMoney)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)

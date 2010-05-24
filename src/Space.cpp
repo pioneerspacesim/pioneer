@@ -650,7 +650,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 	int fuelUsage;
 	double duration;
 	if (!ship->CanHyperspaceTo(dest, fuelUsage, duration)) return;
-	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
 		return;
 	}
 	ship->UseHyperspaceFuel(dest);
@@ -746,7 +746,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	}
 	
 	if (Pi::currentSystem) delete Pi::currentSystem;
-	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemIdx);
+	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemNum);
 	Space::Clear();
 	Space::BuildSystem();
 	SBody *targetBody = Pi::currentSystem->GetBodyByPath(dest);

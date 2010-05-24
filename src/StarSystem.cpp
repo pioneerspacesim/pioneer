@@ -327,11 +327,15 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
+EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
+EXPORT_OOLUA_FUNCTIONS_1_CONST(SBodyPath,
+		GetBodyName)
+
 SBodyPath::SBodyPath(): SysLoc()
 {
 	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
 }
-SBodyPath::SBodyPath(int sectorX, int sectorY, int systemIdx): SysLoc(sectorX, sectorY, systemIdx)
+SBodyPath::SBodyPath(int sectorX, int sectorY, int systemNum): SysLoc(sectorX, sectorY, systemNum)
 {
 	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
 }
@@ -346,6 +350,17 @@ void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
 {
 	SysLoc::Unserialize(rd, path);
 	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd.Byte();
+}
+
+const char *SBodyPath::GetBodyName() const
+{
+	return GetSBody()->name.c_str();
+}
+
+const SBody *SBodyPath::GetSBody() const
+{
+	StarSystem *s = StarSystem::GetCached(*this);
+	return s->GetBodyByPath(this);
 }
 
 template <class T>
@@ -395,7 +410,7 @@ bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest)
 SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
 {
 	assert((m_loc.sectorX == path->sectorX) || (m_loc.sectorY == path->sectorY) ||
-	       (m_loc.systemIdx == path->systemIdx));
+	       (m_loc.systemNum == path->systemNum));
 
 	SBody *body = rootBody;
 	for (int i=0; i<SBODYPATHLEN; i++) {
@@ -434,7 +449,7 @@ void StarSystem::GetPathOf(const SBody *sbody, SBodyPath *path) const
 	}
 	path->sectorX = m_loc.sectorX;
 	path->sectorY = m_loc.sectorY;
-	path->systemIdx = m_loc.systemIdx;
+	path->systemNum = m_loc.systemNum;
 }
 
 /*
@@ -598,13 +613,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 	m_loc.sectorX = sector_x;
 	m_loc.sectorY = sector_y;
-	m_loc.systemIdx = system_idx;
+	m_loc.systemNum = system_idx;
 	rootBody = 0;
 	if (system_idx == -1) return;
 
 	Sector s = Sector(sector_x, sector_y);
 	if (system_idx >= s.m_systems.size()) return;
 	m_seed = s.m_systems[system_idx].seed;
+	m_name = s.m_systems[system_idx].name;
 	_init[4] = m_seed;
 	MTRand rand;
 	rand.seed(_init, 5);
@@ -1132,7 +1148,7 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_loc.systemIdx, m_loc.sectorX, m_loc.sectorY, UNIVERSE_SEED };
+	unsigned long _init[5] = { m_loc.systemNum, m_loc.sectorX, m_loc.sectorY, UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 4);
 
@@ -1186,7 +1202,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateStage1(system, outTotalPop);
 	}
-	unsigned long _init[5] = { system->m_loc.systemIdx, system->m_loc.sectorX,
+	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
 			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
 	MTRand rand;
 	rand.seed(_init, 5);
@@ -1295,7 +1311,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateAddStations(system);
 	}
-	unsigned long _init[5] = { system->m_loc.systemIdx, system->m_loc.sectorX,
+	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
 			system->m_loc.sectorY, this->seed, UNIVERSE_SEED };
 	MTRand rand;
 	rand.seed(_init, 5);
@@ -1372,7 +1388,7 @@ StarSystem::~StarSystem()
 
 bool StarSystem::IsSystem(int sector_x, int sector_y, int system_idx)
 {
-	return (sector_x == m_loc.sectorX) && (sector_y == m_loc.sectorY) && (system_idx == m_loc.systemIdx);
+	return (sector_x == m_loc.sectorX) && (sector_y == m_loc.sectorY) && (system_idx == m_loc.systemNum);
 }
 
 SBody::~SBody()
@@ -1388,7 +1404,7 @@ void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 		wr.Byte(1);
 		wr.Int32(s->m_loc.sectorX);
 		wr.Int32(s->m_loc.sectorY);
-		wr.Int32(s->m_loc.systemIdx);
+		wr.Int32(s->m_loc.systemNum);
 	} else {
 		wr.Byte(0);
 	}
@@ -1421,7 +1437,7 @@ StarSystem *StarSystem::GetCached(const SysLoc &loc)
 			return s;
 		}
 	}
-	StarSystem *s = new StarSystem(loc.sectorX, loc.sectorY, loc.systemIdx);
+	StarSystem *s = new StarSystem(loc.sectorX, loc.sectorY, loc.systemNum);
 	s_cachedSystems.push_front(s);
 	return s;
 }

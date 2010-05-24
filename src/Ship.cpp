@@ -355,7 +355,7 @@ static float distance_to_system(const SBodyPath *dest)
 	
 	Sector from_sec(locSecX, locSecY);
 	Sector to_sec(dest->sectorX, dest->sectorY);
-	return Sector::DistanceBetween(&from_sec, locSysIdx, &to_sec, dest->systemIdx);
+	return Sector::DistanceBetween(&from_sec, locSysIdx, &to_sec, dest->systemNum);
 }
 
 void Ship::UseHyperspaceFuel(const SBodyPath *dest)
@@ -381,7 +381,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 	if (hyperclass == 0) return false;
 
 	float dist;
-	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
 		dist = 0;
 	} else {
 		dist = distance_to_system(dest);
@@ -410,7 +410,7 @@ void Ship::TryHyperspaceTo(const SBodyPath *dest)
 	double dur;
 	if (m_hyperspace.countdown) return;
 	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
-	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemIdx)) {
+	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
 		return;
 	}
 	m_hyperspace.countdown = 3.0;

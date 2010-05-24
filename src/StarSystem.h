@@ -8,9 +8,11 @@
 #include "Serializer.h"
 #include <vector>
 #include <string>
+#include "mylua.h"
 
 struct CustomSBody;
 struct CustomSystem;
+class SBody;
 
 // doubles: all masses in Kg, all lengths in meters
 // fixed: any mad scheme
@@ -38,7 +40,7 @@ struct Orbit {
 class SBodyPath: public SysLoc {
 public:
 	SBodyPath();
-	SBodyPath(int sectorX, int sectorY, int systemIdx);
+	SBodyPath(int sectorX, int sectorY, int systemNum);
 	Sint8 elem[SBODYPATHLEN];
 	
 	void Serialize(Serializer::Writer &wr) const;
@@ -46,9 +48,26 @@ public:
 	
 	bool operator== (const SBodyPath b) const {
 		for (int i=0; i<SBODYPATHLEN; i++) if (elem[i] != b.elem[i]) return false;
-		return (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemIdx == b.systemIdx);
+		return (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
 	}
+	/** These are for the Lua wrappers -- best not to use them from C++
+	 * since they acquire a StarSystem object in a rather sub-optimal way */
+	const char *GetBodyName() const;
+private:
+	/** Returned SBody only valid pointer for duration described in
+	 * StarSystem::GetCached comment */
+	const SBody *GetSBody() const;
 };
+
+OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
+	OOLUA_BASIC
+	OOLUA_TYPEDEFS
+		OOLUA::Equal_op
+	OOLUA_END_TYPES
+	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
+	OOLUA_BASES_START SysLoc OOLUA_BASES_END
+	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
+OOLUA_CLASS_END
 
 class SBody {
 public:
@@ -166,6 +185,7 @@ public:
 	static StarSystem *GetCached(const SysLoc &s);
 	static void ShrinkCache();
 
+	const std::string &GetName() const { return m_name; }
 	void GetPathOf(const SBody *body, SBodyPath *path) const;
 	SBody *GetBodyByPath(const SBodyPath *path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
@@ -174,10 +194,10 @@ public:
 	bool IsSystem(int sector_x, int sector_y, int system_idx);
 	int SectorX() const { return m_loc.sectorX; }
 	int SectorY() const { return m_loc.sectorY; }
-	int SystemIdx() const { return m_loc.systemIdx; }
+	int SystemIdx() const { return m_loc.systemNum; }
 	const SysLoc &GetLocation() const { return m_loc; }
 	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
-		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemIdx;
+		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemNum;
 	}
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
@@ -224,6 +244,7 @@ private:
 
 	SysLoc m_loc;
 	int m_numStars;
+	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
 };

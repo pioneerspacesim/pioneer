@@ -1,4 +1,9 @@
 
+-- Rename some wrapped classes
+Object = ObjectWrapper
+StarSystem = SysLoc
+SBody = SBodyPath
+
 __pendingEvents = {}
 __eventListeners = {}
 

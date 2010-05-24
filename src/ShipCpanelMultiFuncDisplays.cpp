@@ -315,7 +315,7 @@ void UseEquipWidget::UseHypercloudAnalyzer()
 				"Date due: %s\n",
 				cloud->IsArrival() ? "arrival" : "departure",
 				ship->CalcStats()->total_mass,
-				s.m_systems[dest->systemIdx].name.c_str(),
+				s.m_systems[dest->systemNum].name.c_str(),
 				format_date(cloud->GetDueDate()).c_str()
 				));
 	}

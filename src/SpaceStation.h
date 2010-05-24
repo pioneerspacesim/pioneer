@@ -68,7 +68,7 @@ public:
 	bool CanBuy(Equip::Type t) const;
 	bool CanSell(Equip::Type t) const;
 	bool DoesSell(Equip::Type t) const;
-	const SBody *GetSBody() const { return m_sbody; }
+	virtual const SBody *GetSBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
 	std::vector<BBAdvert> &GetBBAdverts() { return m_bbadverts; }

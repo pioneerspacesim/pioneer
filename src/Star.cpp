@@ -6,7 +6,7 @@
 
 Star::Star(SBody *sbody): Body()
 {
-	this->type = sbody->type;
+	m_sbody = sbody;
 	radius = sbody->GetRadius();
 	mass = sbody->GetMass();
 	pos = vector3d(0,0,0);
@@ -25,7 +25,7 @@ void Star::SetPosition(vector3d p)
 void Star::Save(Serializer::Writer &wr)
 {
 	Body::Save(wr);
-	wr.Int32(type);
+	wr.Int32(Serializer::LookupSystemBody(m_sbody));
 	wr.Vector3d(pos);
 	wr.Double(radius);
 	wr.Double(mass);
@@ -34,7 +34,7 @@ void Star::Save(Serializer::Writer &wr)
 void Star::Load(Serializer::Reader &rd)
 {
 	Body::Load(rd);
-	type = (SBody::BodyType)rd.Int32();
+	m_sbody = Serializer::LookupSystemBody(rd.Int32());
 	pos = rd.Vector3d();
 	radius = rd.Double();
 	mass = rd.Double();
@@ -59,7 +59,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
 	
 	{	
-		const float *col = StarSystem::starRealColors[type];
+		const float *col = StarSystem::starRealColors[m_sbody->type];
 		// face the camera dammit
 		vector3d zaxis = fpos.Normalized();
 		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();

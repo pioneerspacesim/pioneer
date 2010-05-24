@@ -18,6 +18,8 @@ public:
 	void Serialize(Serializer::Writer &wr);
 	static Body *Unserialize(Serializer::Reader &rd);
 	virtual void PostLoadFixup() {};
+	/** Should return pointer in Pi::currentSystem */
+	virtual const SBody *GetSBody() const { return 0; }
 	virtual void SetPosition(vector3d p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }

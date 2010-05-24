@@ -42,28 +42,45 @@ local deliver_flavours = {
 -- XXX need
 -- 1 Format_money
 -- 1 ImportantMessage()
---   SBodyPath currentSystem->GetRandomStarportNearButNotIn
---   NaturalSpaceStationName(SBodyPath*)
---   NaturalSystemName(SBodyPath)
---   currentSystem->GetPathOf(Pi::player->GetDockedWith()->GetSBody(), &path)
 
 for i = 0,10 do
-	local sys = SystemId:new(i,0,0)
-	print(sys:GetName())
-	print(sys:GetShortDescription())
+	local sys = StarSystem:new(i,2,0)
+	print('Looking near ' .. sys:GetSectorX() .. '/' .. sys:GetSectorY() .. '/' .. sys:GetSystemNum())
+	print(sys:GetSystemName())
+	print(sys:GetSystemShortDescription())
+	local sport = sys:GetRandomStarportNearButNotIn()
+	if sport then
+		print(sport:GetBodyName() .. ' in the ' .. sport:GetSystemName() .. ' system')
+	else
+		print("No suitable nearby space station found.")
+	end
 end
+
+function isdocked()
+	local d = Pi.GetPlayer():GetDockedWith()
+	if d ~= nil then
+		print("Player is docked with " .. d:GetLabel())
+		print(d:GetLabel() .. ' is in ' .. d:GetSBody():GetSystemName())
+	else
+		print("Player is not docked")
+	end
+end
+
+isdocked()
 
 Module:new {
 	__name = 'DeliverPackage',
 
 	Init = function(self)
-		self.x = SBodyPath:new()
-		self.s = SystemId:new(1,0,0)
-		print(self.s:GetShortDescription())
+		self.x = SBody:new()
+		self.s = StarSystem:new(1,0,0)
+		print(self.s:GetSystemShortDescription())
+		isdocked()
 	end,
 	Unserialize = function(self,data)
 		Module.Unserialize(self, data)
-		print("yay! "..self.s:GetName())
+		print("yay! "..self.s:GetSystemName())
+		isdocked()
 	end,
 		
 }

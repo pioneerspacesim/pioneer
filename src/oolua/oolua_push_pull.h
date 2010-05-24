@@ -223,8 +223,15 @@ namespace OOLUA
 	template<typename T>
 	void push2lua(lua_State* const s, OOLUA::lua_acquire_ptr<T>&  value)
 	{
-		assert(s && value.m_ptr);
-		INTERNAL::ptr_push<T,LVD::is_const<T>::value >::push(s,value);
+		//assert(s && value.m_ptr);
+		//INTERNAL::ptr_push<T,LVD::is_const<T>::value >::push(s,value);
+		// -TM-
+		assert(s);
+		if (value.m_ptr) {
+			INTERNAL::ptr_push<T,LVD::is_const<T>::value >::push(s,value);
+		} else {
+			lua_pushnil(s);
+		}
 	}
 
 	template<typename T>

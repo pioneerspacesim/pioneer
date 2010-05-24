@@ -10,17 +10,17 @@
 std::string Mission::NaturalSystemName(const SBodyPath &p)
 {
 	Sector s(p.sectorX, p.sectorY);
-	return stringf(512, "the %s system", s.m_systems[p.systemIdx].name.c_str());
+	return stringf(512, "the %s system", s.m_systems[p.systemNum].name.c_str());
 }
 
 std::string Mission::NaturalSpaceStationName(const SBodyPath &p)
 {
 	Sector s(p.sectorX, p.sectorY);
-	StarSystem sys(p.sectorX, p.sectorY, p.systemIdx);
+	StarSystem sys(p.sectorX, p.sectorY, p.systemNum);
 	SBody *starport = sys.GetBodyByPath(&p);
 	return stringf(512, "%s in the %s system [%d,%d]",
 			starport->name.c_str(),
-			s.m_systems[p.systemIdx].name.c_str(),
+			s.m_systems[p.systemNum].name.c_str(),
 			p.sectorX, p.sectorY);
 }
 

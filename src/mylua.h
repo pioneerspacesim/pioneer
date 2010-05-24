@@ -10,7 +10,7 @@
 #include "oolua/oolua_error.h"
 
 template <typename T>
-static void push2luaWithGc(lua_State *L, T *o)
+static inline void push2luaWithGc(lua_State *L, T *o)
 {
 	// give pointer to lua, which it owns
 	OOLUA::INTERNAL::push_pointer<T>(L,o,OOLUA::Lua);
@@ -19,7 +19,7 @@ static void push2luaWithGc(lua_State *L, T *o)
 // Copy of:
 // LUALIB_API void *luaL_checkudata (lua_State *L, int ud, const char *tname)
 // with typeerror commented out
-static void *mylua_checkudata (lua_State *L, int ud, const char *tname) {
+static inline void *mylua_checkudata (lua_State *L, int ud, const char *tname) {
   void *p = lua_touserdata(L, ud);
   if (p != NULL) {  /* value is a userdata? */
     if (lua_getmetatable(L, ud)) {  /* does it have a metatable? */

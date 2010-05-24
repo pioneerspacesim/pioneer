@@ -17,11 +17,12 @@ public:
 	virtual double GetBoundingRadius() const { return radius*2.0f; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual double GetMass() const { return mass; }
+	virtual const SBody *GetSBody() const { return m_sbody; }
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 private:
-	SBody::BodyType type;
+	SBody *m_sbody;
 	vector3d pos;
 	double radius;
 	double mass;

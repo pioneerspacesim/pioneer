@@ -2,18 +2,24 @@
 #define _SYSLOC_H
 
 #include "Serializer.h"
+#include "mylua.h"
+
+class SBodyPath;
 
 class SysLoc {
 public:
-	SysLoc(): sectorX(0), sectorY(0), systemIdx(0) {}
-	SysLoc(int sectorX, int sectorY, int systemIdx): sectorX(sectorX), sectorY(sectorY), systemIdx(systemIdx) {}
-	int sectorX, sectorY, systemIdx;
+	SysLoc(): sectorX(0), sectorY(0), systemNum(0) {}
+	SysLoc(int sectorX, int sectorY, int systemNum): sectorX(sectorX), sectorY(sectorY), systemNum(systemNum) {}
+	int sectorX, sectorY, systemNum;
+	int GetSectorX() const { return sectorX; }
+	int GetSectorY() const { return sectorY; }
+	int GetSystemNum() const { return systemNum; }
 	void Serialize(Serializer::Writer &wr) const;
 	static void Unserialize(Serializer::Reader &rd, SysLoc *loc);
 	friend bool operator==(const SysLoc &a, const SysLoc &b) {
 		if (a.sectorX != b.sectorX) return false;
 		if (a.sectorY != b.sectorY) return false;
-		if (a.systemIdx != b.systemIdx) return false;
+		if (a.systemNum != b.systemNum) return false;
 		return true;
 	}
 	friend bool operator!=(const SysLoc &a, const SysLoc &b) {
@@ -23,10 +29,35 @@ public:
 		if (a.sectorX < b.sectorX) return true;
 		if (a.sectorY < b.sectorY) return true;
 		if ((a.sectorX == b.sectorX) && (a.sectorY == b.sectorY)) {
-			return (a.systemIdx < b.systemIdx);
+			return (a.systemNum < b.systemNum);
 		}
 		return false;
 	}
+	/* These are provided mostly for the benefit of lua.
+	 * You normally want to use the methods on StarSystem */
+	const char *GetSystemShortDescription() const;
+	const char *GetSystemName() const;
+	/** Caller owns the returned pointer */
+	SBodyPath *GetRandomStarportNearButNotIn() const;
+private:
+	/** Returns a cached StarSystem object, with limited lifetime as
+	 * described in StarSystem::GetCached comment. */
+	const StarSystem *Sys() const;
 };
+
+OOLUA_CLASS_NO_BASES(SysLoc)
+	OOLUA_TYPEDEFS
+		OOLUA::Equal_op
+	OOLUA_END_TYPES
+	OOLUA_CONSTRUCTORS_BEGIN
+		OOLUA_CONSTRUCTOR_3(int, int, int)
+	OOLUA_CONSTRUCTORS_END
+	OOLUA_MEM_FUNC_0_CONST(int, GetSectorX)
+	OOLUA_MEM_FUNC_0_CONST(int, GetSectorY)
+	OOLUA_MEM_FUNC_0_CONST(int, GetSystemNum)
+	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemShortDescription)
+	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemName)
+	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRandomStarportNearButNotIn)
+OOLUA_CLASS_END
 
 #endif /* _SYSLOC_H */
