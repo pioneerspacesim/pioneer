@@ -721,30 +721,66 @@ public:
 	}
 	virtual void ShowAll();
 private:
-	void OpenMission(int idx);
-	sigc::connection m_onBBChangedConnection;
+	void OpenMissionDialog(int idx);
+	void OnCloseMissionDialog();
+	void OnAdvertDeleted(BBAdvert *);
+	void OnBBChanged();
+	sigc::connection m_onBBChangedConnection, m_onBBAdvertDeleted;
+	LuaChatForm *m_advertChatForm;
 };
 
 StationBBView::StationBBView(): GenericChatForm()
 {
+	m_advertChatForm = 0;
 	SpaceStation *station = Pi::player->GetDockedWith();
 	m_onBBChangedConnection = station->onBulletinBoardChanged.connect(
-			sigc::mem_fun(this, &StationBBView::ShowAll));
+			sigc::mem_fun(this, &StationBBView::OnBBChanged));
+	m_onBBAdvertDeleted = station->onBulletinBoardAdvertDeleted.connect(
+			sigc::mem_fun(this, &StationBBView::OnAdvertDeleted));
 	SetTransparency(false);
 }
 
-void StationBBView::OpenMission(int midx)
+void StationBBView::OnBBChanged()
+{
+	if (!m_advertChatForm) {
+		ShowAll();
+	}
+}
+
+void StationBBView::OnAdvertDeleted(BBAdvert *ad)
+{
+	if (m_advertChatForm) {
+	       if (ad == m_advertChatForm->GetAdvert()) m_advertChatForm->OnAdvertDeleted();
+	} else {
+		ShowAll();
+	}
+}
+
+void StationBBView::OnCloseMissionDialog()
+{
+	assert(m_advertChatForm);
+	RemoveChild(m_advertChatForm);
+	//GetParent()->ShowChildren();
+	SetTransparency(false);
+	// delete m_advertChatForm done before ShowAll, so that expiring of
+	// bbadverts done in ~LuaChatForm will be correctly updated in this view
+	delete m_advertChatForm;
+	m_advertChatForm = 0;
+	ShowAll();
+}
+
+void StationBBView::OpenMissionDialog(int midx)
 {
 	SpaceStation *station = Pi::player->GetDockedWith();
 	
-	LuaChatForm *chatform = new LuaChatForm();
-	chatform->AddBaseDisplay();
-	chatform->AddVideoWidget();
-	const BBAdvert *m = &station->GetBBAdverts()[midx];
-	chatform->StartChat(m);
-	OpenChildChatForm(chatform);
-//	m->StartChat(chatform);
-//	OpenChildChatForm(chatform);
+	if (m_advertChatForm) m_advertChatForm->Close(); // shouldn't happen...
+	m_advertChatForm = new LuaChatForm();
+	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseMissionDialog));
+	m_advertChatForm->AddBaseDisplay();
+	m_advertChatForm->AddVideoWidget();
+	BBAdvert *m = &station->GetBBAdverts()[midx];
+	m_advertChatForm->StartChat(station, m);
+	OpenChildChatForm(m_advertChatForm);
 }
 
 void StationBBView::ShowAll()
@@ -777,7 +813,7 @@ void StationBBView::ShowAll()
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	for (std::vector<BBAdvert>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
 		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMission), num));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMissionDialog), num));
 		innerbox->Add(b, 10, num*YSEP);
 		
 		Gui::Label *l = new Gui::Label((*i).GetBulletinBoardText());

@@ -340,11 +340,17 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
-/* does not dealloc */
+void SpaceStation::BBAddAdvert(const BBAdvert &a)
+{
+	m_bbadverts.insert(m_bbadverts.begin(), a);
+	onBulletinBoardChanged.emit();
+}
+
 bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
 {
 	for (int i=m_bbadverts.size()-1; i>=0; i--) {
 		if (m_bbadverts[i].Is(modName, modRef)) {
+			onBulletinBoardAdvertDeleted.emit(&m_bbadverts[i]);
 			m_bbadverts.erase(m_bbadverts.begin() + i);
 			onBulletinBoardChanged.emit();
 			return true;
@@ -356,12 +362,12 @@ bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
 void SpaceStation::UpdateBB()
 {
 	if (m_bbadverts.size() == 0) {
-		PiLuaModules::QueueEvent("onCreateBB", this);
+		if (Pi::player->GetDockedWith() == this) {
+			PiLuaModules::QueueEvent("onCreateBB", this);
+		}
 	} else {
 		PiLuaModules::QueueEvent("onUpdateBB", this);
 	}
-	// XXX TODO this is run too soon for Lua's events to have run XXX
-	onBulletinBoardChanged.emit();
 }
 
 

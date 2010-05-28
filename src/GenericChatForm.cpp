@@ -94,11 +94,12 @@ void GenericChatForm::AddVideoWidget()
 
 void GenericChatForm::Close()
 {
-	GetParent()->RemoveChild(this);
-	GetParent()->ShowChildren();
-	GetParent()->SetTransparency(false);
-	static_cast<GenericChatForm*>(GetParent())->UpdateBaseDisplay();
-	delete this;
+	//GetParent()->RemoveChild(this);
+	//GetParent()->ShowChildren();
+	//GetParent()->SetTransparency(false);
+	onClose.emit();
+	//static_cast<GenericChatForm*>(GetParent())->UpdateBaseDisplay();
+	//delete this;
 }
 
 void GenericChatForm::UpdateBaseDisplay()

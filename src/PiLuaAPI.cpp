@@ -197,6 +197,13 @@ namespace LuaPi {
 		Pi::cpan->MsgLog()->Message(from, msg);
 		return 0;
 	}
+	static int ImportantMessage(lua_State *l) {
+		std::string from, msg;
+		OOLUA::pull2cpp(l, msg);
+		OOLUA::pull2cpp(l, from);
+		Pi::cpan->MsgLog()->ImportantMessage(from, msg);
+		return 0;
+	}
 	static int RandPersonName(lua_State *l) {
 		bool genderFemale;
 		OOLUA::pull2cpp(l, genderFemale);
@@ -209,6 +216,13 @@ namespace LuaPi {
 		StarSystem *cur = Pi::currentSystem;
 		SysLoc *s = new SysLoc(cur->SectorX(), cur->SectorY(), cur->SystemIdx());
 		push2luaWithGc(l, s);
+		return 1;
+	}
+	static int FormatDate(lua_State *l) {
+		double t;
+		OOLUA::pull2cpp(l, t);
+		std::string s = format_date(t);
+		OOLUA::push2lua(l, s.c_str());
 		return 1;
 	}
 }
@@ -233,6 +247,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("GetPlayer", &LuaPi::GetPlayer);
 	REG_FUNC("GetGameTime", &LuaPi::GetGameTime);
 	REG_FUNC("Message", &LuaPi::Message);
+	REG_FUNC("ImportantMessage", &LuaPi::ImportantMessage);
 	lua_setglobal(l, "Pi");
 	
 	lua_newtable(l);
@@ -240,4 +255,8 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("Real", &LuaPi::RandReal);
 	REG_FUNC("PersonName", &LuaPi::RandPersonName);
 	lua_setglobal(l, "Rand");
+	
+	lua_newtable(l);
+	REG_FUNC("Format", &LuaPi::FormatDate);
+	lua_setglobal(l, "Date");
 }

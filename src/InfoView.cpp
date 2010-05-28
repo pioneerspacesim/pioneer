@@ -44,12 +44,16 @@ public:
 		Add(l, 100, 20+YSEP*2);
 		l->Show();
 		
+		l = new Gui::Label("Reward");
+		Add(l, 230, 20+YSEP*2);
+		l->Show();
+		
 		l = new Gui::Label("Client");
-		Add(l, 160, 20+YSEP*2);
+		Add(l, 300, 20+YSEP*2);
 		l->Show();
 		
 		l = new Gui::Label("Description");
-		Add(l, 300, 20+YSEP*2);
+		Add(l, 440, 20+YSEP*2);
 		l->Show();
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
@@ -72,16 +76,20 @@ public:
 			innerbox->Add(l, 0, ypos);
 			l->Show();
 			
-			l = new Gui::Label(format_money((*i).GetPayoff()));
+			l = new Gui::Label(format_date((*i).GetDueDate()));
 			innerbox->Add(l, 80, ypos);
 			l->Show();
 			
+			l = new Gui::Label(format_money((*i).GetPayoff()));
+			innerbox->Add(l, 210, ypos);
+			l->Show();
+			
 			l = new Gui::Label((*i).GetClientName());
-			innerbox->Add(l, 140, ypos);
+			innerbox->Add(l, 280, ypos);
 			l->Show();
 
 			l = new Gui::Label((*i).GetMissionText());
-			innerbox->Add(l, 280, ypos);
+			innerbox->Add(l, 420, ypos);
 			l->Show();
 
 			ypos += YSEP*3;

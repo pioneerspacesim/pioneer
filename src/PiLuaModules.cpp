@@ -122,19 +122,23 @@ static void GetMission(std::list<Mission> &missions)
 	Mission m;
 	// mission table at -1
 	lua_getfield(L, -1, "description");
-	m.m_missionText = luaL_checkstring(L, -1);
+	m.m_missionText = lua_tostring(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "client");
-	m.m_clientName = luaL_checkstring(L, -1);
+	m.m_clientName = lua_tostring(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "reward");
-	m.m_agreedPayoff = luaL_checknumber(L, -1)*100.0;
+	m.m_agreedPayoff = lua_tonumber(L, -1)*100.0;
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "due");
+	m.m_dueDate = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "status");
-	const char *status = luaL_checkstring(L, -1);
+	const char *status = lua_tostring(L, -1);
 	if (0 == strcmp(status, "completed")) {
 		m.m_status = Mission::COMPLETED;
 	} else if (0 == strcmp(status, "failed")) {

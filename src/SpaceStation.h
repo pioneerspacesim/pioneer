@@ -74,12 +74,13 @@ public:
 	std::vector<BBAdvert> &GetBBAdverts() { return m_bbadverts; }
 	// does not dealloc
 	bool BBRemoveAdvert(const std::string &modName, int modRef);
-	void BBAddAdvert(const BBAdvert &a) { m_bbadverts.push_back(a); }
+	void BBAddAdvert(const BBAdvert &a);
 	virtual void PostLoadFixup();
 	virtual void NotifyDeleted(const Body* const deletedBody);
 	int GetFreeDockingPort(); // returns -1 if none free
 	void SetDocked(Ship *ship, int port);
 	sigc::signal<void> onShipsForSaleChanged;
+	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
 protected:
 	virtual void Save(Serializer::Writer &wr);

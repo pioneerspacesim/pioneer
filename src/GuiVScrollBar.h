@@ -7,7 +7,7 @@ namespace Gui {
 	class VScrollBar: public Widget {
 	public:
 		VScrollBar();
-		virtual ~VScrollBar() {}
+		virtual ~VScrollBar();
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();

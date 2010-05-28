@@ -7,9 +7,24 @@ SBody = SBodyPath
 __pendingEvents = {}
 __eventListeners = {}
 
+-- Some very useful utility functions --------------------
+
+function _(str, bits)
+	-- str = gettext(str)
+	s, num = string.gsub(str, '%%([0-9]+)', function(w) return bits[tonumber(w)] end)
+	return s
+end
+
+function format_money(amount)
+	return string.format('$%.1f', amount)
+end
+
+-- Bits that make modules work ---------------------------
+
 function EmitEvents()
 	print("Lua EmitEvents");
 	for i,event in ipairs(__pendingEvents) do
+		print(event.type)
 		mods = __eventListeners[event.type]
 		if mods then
 			for mod,j in pairs(mods) do

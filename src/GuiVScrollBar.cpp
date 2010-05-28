@@ -13,6 +13,12 @@ VScrollBar::VScrollBar()
 	SetSize(SCROLLBAR_SIZE, SCROLLBAR_SIZE);
 }
 
+VScrollBar::~VScrollBar()
+{
+	if (_m_release) _m_release.disconnect();
+	if (_m_motion) _m_motion.disconnect();
+}
+
 bool VScrollBar::OnMouseDown(MouseButtonEvent *e)
 {
 	float size[2];

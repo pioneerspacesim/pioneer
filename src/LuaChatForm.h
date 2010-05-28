@@ -13,9 +13,10 @@ class CommodityTradeWidget;
 
 class LuaChatForm: public GenericChatForm, public MarketAgent {
 public:
+	virtual ~LuaChatForm();
 	void AddOption(const char *text, int val);
 	void AddTraderWidget();
-	void StartChat(const BBAdvert *);
+	void StartChat(SpaceStation *s, const BBAdvert *);
 	void CallDialogHandler(int optionClicked);
 	const char *GetStage() const { return m_stage.c_str(); }
 	void SetStage(const char *s) { m_stage = s; }
@@ -26,6 +27,9 @@ public:
 	bool CanSell(Equip::Type t) const;
 	bool DoesSell(Equip::Type t) const;
 	int GetStock(Equip::Type t) const;
+	void RemoveAdvertOnClose() { m_adTaken = true; }
+	void OnAdvertDeleted();
+	const BBAdvert *GetAdvert() const { return m_advert; }
 protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
@@ -37,6 +41,9 @@ private:
 	std::string m_stage;
 	std::string m_modName;
 	int m_modRef;
+	bool m_adTaken;
+	const BBAdvert *m_advert;
+	SpaceStation *m_station;
 };
 
 OOLUA_CLASS_NO_BASES(LuaChatForm)
@@ -45,6 +52,7 @@ OOLUA_CLASS_NO_BASES(LuaChatForm)
 	OOLUA_MEM_FUNC_0(void, UpdateBaseDisplay)
 	OOLUA_MEM_FUNC_0(void, Close)
 	OOLUA_MEM_FUNC_0(void, Clear)
+	OOLUA_MEM_FUNC_0(void, RemoveAdvertOnClose)
 	OOLUA_MEM_FUNC_1(void, SetTitle, const char *)
 	OOLUA_MEM_FUNC_0(void, AddTraderWidget)
 	OOLUA_MEM_FUNC_1(void, SetMessage, const char *)

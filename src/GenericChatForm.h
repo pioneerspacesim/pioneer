@@ -19,6 +19,8 @@ public:
 	void AddOption(sigc::slot<void,GenericChatForm*,int> slot, const char *text, int val);
 	void SetMessage(const char*);
 
+	sigc::signal<void> onClose;
+
 	Gui::Fixed *m_chatRegion;
 	Gui::VBox *m_msgregion;
 	Gui::VBox *m_optregion;

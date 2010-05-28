@@ -17,17 +17,13 @@ public:
 	const std::string &GetClientName() const { return m_clientName; }
 	MissionState GetStatus() const { return m_status; }
 	int GetPayoff() const { return m_agreedPayoff; }
+	double GetDueDate() const { return m_dueDate; }
 
 	enum MissionState m_status;
 	std::string m_missionText;
 	std::string m_clientName;
 	int m_agreedPayoff;
-protected:
-	// various useful utility things
-	// In form "the Arcturus system"
-	static std::string NaturalSystemName(const SBodyPath &);
-	// In form "Snaar trading post in the Arcturus system"
-	static std::string NaturalSpaceStationName(const SBodyPath &);
+	double m_dueDate;
 };
 
 #endif /* _MISSION */

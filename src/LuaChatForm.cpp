@@ -7,7 +7,7 @@
 #include "PiLuaModules.h"
 #include "CommodityTradeWidget.h"
 
-EXPORT_OOLUA_FUNCTIONS_8_NON_CONST(LuaChatForm,
+EXPORT_OOLUA_FUNCTIONS_9_NON_CONST(LuaChatForm,
 		UpdateBaseDisplay,
 		Close,
 		Clear,
@@ -15,13 +15,30 @@ EXPORT_OOLUA_FUNCTIONS_8_NON_CONST(LuaChatForm,
 		SetMessage,
 		AddOption,
 		AddTraderWidget,
+		RemoveAdvertOnClose,
 		SetStage)
 EXPORT_OOLUA_FUNCTIONS_2_CONST(LuaChatForm,
 		GetStage,
 		GetAdRef)
 
-void LuaChatForm::StartChat(const BBAdvert *a)
+LuaChatForm::~LuaChatForm()
 {
+	if (m_adTaken) m_station->BBRemoveAdvert(m_modName, m_modRef);
+}
+
+void LuaChatForm::OnAdvertDeleted()
+{
+	m_advert = 0;
+	Clear();
+	SetMessage("Sorry, this advert has expired.");
+	AddOption("Hang up.", 0);
+}
+
+void LuaChatForm::StartChat(SpaceStation *s, const BBAdvert *a)
+{
+	m_adTaken = false;
+	m_advert = a;
+	m_station = s;
 	m_modName = a->GetModule();
 	m_modRef = a->GetLuaRef();
 	m_stage = "";
@@ -58,8 +75,12 @@ void LuaChatForm::AddOption(const char *text, int val)
 
 void LuaChatForm::CallDialogHandler(int optionClicked)
 {
-	printf("CallDialogHandler()\n");
-	PiLuaModules::ModCall(m_modName.c_str(), "DialogHandler", 0, this, optionClicked);
+	if (m_advert == 0) {
+		// advert has expired
+		Close();
+	} else {
+		PiLuaModules::ModCall(m_modName.c_str(), "DialogHandler", 0, this, optionClicked);
+	}
 }
 
 Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
