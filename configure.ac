@@ -13,10 +13,6 @@ AC_C_CONST
 AC_PROG_RANLIB
 #AC_PROG_LIBTOOL
 
-#AM_PATH_LIB3DS([1.2.0])
-#CFLAGS="$CFLAGS $LIB3DS_CFLAGS"
-#LIBS="$LIBS $LIB3DS_LIBS"
-
 CFLAGS="-g -Wall"
 AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
 AC_ARG_WITH(fno-inline, [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CFLAGS -fno-inline")
@@ -26,22 +22,25 @@ PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
 LIBS="$LIBS $SIGC_LIBS"
 
-PKG_CHECK_MODULES(FT, freetype2)
-CFLAGS="$CFLAGS $FT_CFLAGS"
-LIBS="$LIBS $FT_LIBS"
+AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
+AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
+AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
 
-PKG_CHECK_MODULES(GL, gl)
-PKG_CHECK_MODULES(GLU, glu)
-CFLAGS="$CFLAGS $GLU_CFLAGS"
-LIBS="$LIBS $GLU_LIBS"
+AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
+if test "$SDLCONFIG" = "no"; then
+	AC_MSG_ERROR("sdl-config is required.")
+fi
+CFLAGS="$CFLAGS `$SDLCONFIG --cflags`"
+LIBS="$LIBS `$SDLCONFIG --libs`"
 
-PKG_CHECK_MODULES(GLEW, glew)
-CFLAGS="$CFLAGS $GLEW_CFLAGS"
-LIBS="$LIBS $GLEW_LIBS"
+AC_CHECK_LIB(SDL_image, IMG_Load)
 
-PKG_CHECK_MODULES(SDL, SDL_image)
-CFLAGS="$CFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS"
+AC_PATH_PROG([FTCONFIG], [freetype-config], "no")
+if test "$FTCONFIG" = "no"; then
+	AC_MSG_ERROR("freetype-config is required.")
+fi
+CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
+LIBS="$LIBS `$FTCONFIG --libs`"
 
 CFLAGS="$CFLAGS -DLUA_USE_POSIX"
 
