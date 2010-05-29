@@ -56,8 +56,9 @@ Module:new {
 	__name = 'DeliverPackage',
 
 	Init = function(self)
-		EventListen(self, "onCreateBB")
-		EventListen(self, "onUpdateBB")
+		self:EventListen("onCreateBB")
+		self:EventListen("onUpdateBB")
+		self:EventListen("onEnterSystem")
 		self.ads = {}
 		self.missions = {}
 	end,
@@ -94,6 +95,15 @@ Module:new {
 		for i = 1,10 do --Rand.Int(0, 5) do
 			self:_TryAddAdvert(station)
 		end
+	end,
+
+	onEnterSystem = function(self)
+		print("This module recons you just entered the " ..
+		Pi.GetCurrentSystem():GetSystemName() .. " system.")
+		ship, e = Pi.SpawnShip("Ladybird Starfighter", Pi.GetGameTime()+60*60)
+		print(ship:GetLabel())
+		print(ship)
+		print(e)
 	end,
 	
 	onUpdateBB = function(self, args)

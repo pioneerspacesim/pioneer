@@ -42,6 +42,11 @@ struct ShipType {
 	static std::map<Type, ShipType> types;
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
+	static const ShipType *Get(const char *name) {
+		std::map<Type, ShipType>::iterator t = types.find(name);
+		if (t == types.end()) return 0;
+		else return &(*t).second;
+	}
 private:
 	static int define_ship(lua_State *L, const char *model_name);
 };

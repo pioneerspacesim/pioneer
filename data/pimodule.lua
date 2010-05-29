@@ -36,17 +36,6 @@ function EmitEvents()
 	__pendingEvents = {}
 end
 
-function EventListen(mod, event)
-	if __eventListeners[event] == nil then
-		__eventListeners[event] = {}
-	end
-	__eventListeners[event][mod.__name] = true
-end
-
-function EventIgnore(mod, event)
-	__eventListeners[event][mod.__name] = nil
-end
-
 function serialize(val)
 	local out
 	if type(val) == 'number' then
@@ -132,6 +121,17 @@ function Module:new(o)
 	PiModule(o)
 	return o
 end
+function Module:EventListen(event)
+	if __eventListeners[event] == nil then
+		__eventListeners[event] = {}
+	end
+	__eventListeners[event][self.__name] = true
+end
+
+function Module:EventIgnore(event)
+	__eventListeners[event][self.__name] = nil
+end
+
 function Module:Serialize()
 	return serialize(self)
 end

@@ -1,13 +1,16 @@
 #include "libs.h"
 #include "PiLuaAPI.h"
 #include "Pi.h"
+#include "Space.h"
 #include "ShipCpanel.h"
 #include "Ship.h"
+#include "Player.h"
 #include "SpaceStation.h"
 #include "StarSystem.h"
 #include "Sound.h"
 #include "LuaChatForm.h"
 #include "NameGenerator.h"
+#include "HyperspaceCloud.h"
 
 ////////////////////////////////////////////////////////////
 
@@ -225,6 +228,60 @@ namespace LuaPi {
 		OOLUA::push2lua(l, s.c_str());
 		return 1;
 	}
+	static int SpawnShip(lua_State *l) {
+		double due;
+		std::string type;
+		OOLUA::pull2cpp(l, due);
+		OOLUA::pull2cpp(l, type);
+		if (ShipType::Get(type.c_str()) == 0) {
+			lua_pushnil(l);
+			lua_pushstring(l, "Unknown ship type");
+			return 2;
+		} else {
+			// for the mo, just put it near the player
+			const vector3d pos = Pi::player->GetPosition() +
+				10000.0 * vector3d(Pi::rng.Double(-1.0, 1.0), Pi::rng.Double(-1.0, 1.0), Pi::rng.Double(-1.0, 1.0));
+			if (due <= Pi::GetGameTime()) {
+				// already entered
+				if (!Space::IsSystemBeingBuilt()) {
+					lua_pushnil(l);
+					lua_pushstring(l, "Insufficient time to generate ship entry");
+					return 2;
+				}
+				if ((due <= 0) || (due < Pi::GetGameTime()-HYPERCLOUD_DURATION)) {
+					// ship is supposed to have entered some time
+					// ago and the hyperspace cloud is gone
+					Ship *ship = new Ship(type.c_str());
+					ship->SetFrame(Pi::player->GetFrame());
+					ship->SetPosition(pos);
+					ship->SetVelocity(Pi::player->GetVelocity());
+					Space::AddBody(ship);
+					push2luaWithGc(l, new ObjectWrapper(ship));
+					return 1;
+				} else {
+					// hypercloud still present
+					Ship *ship = new Ship(type.c_str());
+					HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
+					cloud->SetFrame(Pi::player->GetFrame());
+					cloud->SetPosition(pos);
+					cloud->SetVelocity(Pi::player->GetVelocity());
+					Space::AddBody(cloud);
+					push2luaWithGc(l, new ObjectWrapper(ship));
+					return 1;
+				}
+			} else {
+				// to hyperspace in shortly
+				Ship *ship = new Ship(type.c_str());
+				HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
+				cloud->SetFrame(Pi::player->GetFrame());
+				cloud->SetPosition(pos);
+				cloud->SetVelocity(Pi::player->GetVelocity());
+				Space::AddBody(cloud);
+				push2luaWithGc(l, new ObjectWrapper(ship));
+				return 1;
+			}
+		}
+	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -248,6 +305,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("GetGameTime", &LuaPi::GetGameTime);
 	REG_FUNC("Message", &LuaPi::Message);
 	REG_FUNC("ImportantMessage", &LuaPi::ImportantMessage);
+	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
 	lua_setglobal(l, "Pi");
 	
 	lua_newtable(l);

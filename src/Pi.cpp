@@ -671,6 +671,7 @@ void Pi::Start()
 		path.elem[0] = 5;
 		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
+		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
 		stationFrame->m_sbody = 0;

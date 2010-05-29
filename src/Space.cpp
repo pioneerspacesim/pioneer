@@ -32,6 +32,7 @@ static SBodyPath *hyperspacingTo;
 static float hyperspaceAnim;
 static double hyperspaceEndTime;
 static std::list<HyperspaceCloud*> storedArrivalClouds;
+static bool beingBuilt;
 
 void Init()
 {
@@ -54,6 +55,11 @@ void Clear()
 	rootFrame->m_children.clear();
 	rootFrame->m_astroBody = 0;
 	rootFrame->m_sbody = 0;
+}
+
+bool IsSystemBeingBuilt()
+{
+	return beingBuilt;
 }
 
 Body *FindNearestTo(const Body *b, Object::Type t)
@@ -602,9 +608,14 @@ void TimeStep(float step)
 
 		hyperspaceAnim += step;
 		if (Pi::GetGameTime() > hyperspaceEndTime) {
+			beingBuilt = true;
 			DoHyperspaceTo(0);
 			Pi::RequestTimeAccel(1);
 			hyperspaceAnim = 0;
+			/* Event must be run right now (so 'beingBuilt' is correct) */
+			PiLuaModules::QueueEvent("onEnterSystem");
+			PiLuaModules::EmitEvents();
+			beingBuilt = false;
 		}
 		// don't take a physics step at this mental time accel
 		return;
@@ -797,6 +808,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
+	
 }
 
 float GetHyperspaceAnim()
