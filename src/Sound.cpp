@@ -9,9 +9,8 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <string.h>
-//#include <vorbis/vorbisfile.h>
-//#include <unistd.h>
 #include <assert.h>
+#include <vorbis/vorbisfile.h>
 #include "Sound.h"
 #include "Body.h"
 #include "Pi.h"
@@ -19,19 +18,9 @@
 
 namespace Sound {
 
-#define FREQ            22050
+#define FREQ            44100
 #define BUF_SIZE	2048
-#define MAX_OGGSTREAMS	2
 #define MAX_WAVSTREAMS	16
-
-/*static const char *sfx_wavs[SFX_MAX] = {
-	"pulsecannon.wav",
-	"collision.wav",
-	"warning.wav",
-	"gui_ping.wav",
-	"engines.wav",
-	"ecm.wav"
-};*/
 
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 {
@@ -63,24 +52,10 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	return Sound::PlaySfx(sfx, v[0], v[1], false);
 }
 
-#if 0
-static int bs = 0;
-static int sign = 1;
-static int bits = 16;
-static int endian = 0;
-
-struct ogg_stream {
-	int pipe_fd[2];
-	OggVorbis_File vf;
-	char buf[BUF_SIZE];
-	int buf_pos;
-	int buf_end;
-};
-#endif
-
 struct Sample {
 	Uint8 *buf;
 	Uint32 buf_len;
+	Uint32 channels;
 };
 
 struct SoundEvent {
@@ -102,33 +77,10 @@ static Sample *GetSample(const char *filename)
 {
 	if (sfx_samples.find(filename) != sfx_samples.end()) {
 		return &sfx_samples[filename];
+	} else {
+		Warning("Unknown sound sample: %s", filename);
+		return 0;
 	}
-	char buf[1024];
-	Sample *sam = &sfx_samples[filename];
-	snprintf(buf, sizeof(buf), "data/sfx/%s", filename);
-	SDL_AudioSpec spec;
-	if (SDL_LoadWAV(buf, &spec, &sam->buf, &sam->buf_len) == 0) {
-		fputs(SDL_GetError(), stderr);
-		fputs("\n", stderr);
-		sam->buf = 0;
-	}
-	assert(spec.freq == FREQ);
-	assert(spec.format == AUDIO_S16);
-	if (spec.channels == 1) {
-		// mangle to stereo
-		const unsigned int len = sam->buf_len;
-		Sint16 *buf = (Sint16*)malloc(2*len);
-		Sint16 *monobuf = (Sint16*)sam->buf;
-		for (unsigned int s=0; s<len/sizeof(Sint16); s++) {
-			buf[2*s] = monobuf[s];
-			buf[2*s+1] = monobuf[s];
-		}
-		SDL_FreeWAV(sam->buf);
-		sam->buf = (Uint8*)buf;
-		sam->buf_len = 2*len;
-	} else assert(spec.channels == 2);
-
-	return sam;
 }
 
 static SoundEvent *GetEvent(eventid id)
@@ -154,20 +106,6 @@ bool SetOp(eventid id, Op op)
 	return ret;
 }
 
-#if 0
-struct ogg_stream oggstream[MAX_OGGSTREAMS];
-
-static struct ogg_stream *get_free_stream ()
-{
-	int i;
-	for (i=0; i<MAX_OGGSTREAMS; i++) {
-		if (oggstream[i].pipe_fd[0] == 0) {
-			return &oggstream[i];
-		}
-	}
-	return NULL;
-}
-#endif
 /*
  * Volume should be 0-65535
  */
@@ -245,12 +183,20 @@ static void fill_audio (void *udata, Uint8 *dsp_buf, int len)
 				}
 
 				const Sample *s = wavstream[i].sample;
-				val[0] += wavstream[i].volume[0] *
-					(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
-				wavstream[i].buf_pos += 2;
-				val[1] += wavstream[i].volume[1] *
-					(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
-				wavstream[i].buf_pos += 2;
+				if (s->channels == 2) {
+					val[0] += wavstream[i].volume[0] *
+						(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
+					wavstream[i].buf_pos += 2;
+					val[1] += wavstream[i].volume[1] *
+						(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
+					wavstream[i].buf_pos += 2;
+				} else {
+					float v = wavstream[i].volume[0] *
+						(float) ((Sint16*)s->buf)[wavstream[i].buf_pos/2];
+					val[0] += v;
+					val[1] += v;
+					wavstream[i].buf_pos += 2;
+				}
 				if (wavstream[i].buf_pos >= s->buf_len) {
 					wavstream[i].buf_pos = 0;
 					if (!(wavstream[i].op & OP_REPEAT)) {
@@ -273,6 +219,68 @@ void DestroyAllEvents()
 	/* silence any sound events */
 	for (int idx=0; idx<MAX_WAVSTREAMS; idx++) {
 		wavstream[idx].sample = 0;
+	}
+}
+
+static void load_sound(const std::string &basename, const std::string &path)
+{
+	if (is_file(path)) {
+		if (basename.size() < 4) return;
+		if (basename.substr(basename.size()-4) != ".ogg") return;
+		printf("Loading %s\n", path.c_str());
+
+		Sample sample;
+		OggVorbis_File oggv;
+
+		FILE *f = fopen_or_die(path.c_str(), "rb");
+		if (ov_open(f, &oggv, NULL, 0) < 0) {
+			Error("Vorbis could not open %s", path.c_str());
+		}
+		struct vorbis_info *info;
+		info = ov_info(&oggv, -1);
+
+		if ((info->rate != FREQ) && (info->rate != (FREQ>>1))) {
+			Error("Vorbis file %s is not %dHz or %dHz. Bad!", path.c_str(), FREQ, FREQ>>1);
+		}
+		if ((info->channels < 1) || (info->channels > 2)) {
+			Error("Vorbis file %s is not mono or stereo. Bad!", path.c_str());
+		}
+		
+		int resample_multiplier = ((info->rate == (FREQ>>1)) ? 2 : 1);
+		const Sint64 num_samples = ov_pcm_total(&oggv, -1);
+		// since samples are 16 bits we have:
+		sample.buf = new Uint8[num_samples*2*resample_multiplier];
+		sample.buf_len = num_samples*2;
+		sample.channels = info->channels;
+
+		int i=0;
+		for (;;) {
+			int music_section;
+			int amt = ov_read(&oggv, (char*)&sample.buf[i],
+					sample.buf_len - i, 0, 2, 1, &music_section);
+			i += amt;
+			if (amt == 0) break;
+		}
+
+		/* for sample rate of exactly half native pioneer rate (ie
+		 * 22050), do a dodgy up-sampling */
+		if (resample_multiplier == 2) {
+			Uint16 *buf = (Uint16*)sample.buf;
+			for (int i=num_samples-1; i>=0; i--) {
+				Uint16 s = buf[i];
+				buf[i*2] = s;
+				buf[i*2+1] = s;
+			}
+			sample.buf_len *= 2;
+		}
+
+		// sample keyed by basename minus the .ogg
+		sfx_samples[basename.substr(0, basename.size()-4)] = sample;
+
+		ov_clear(&oggv);
+
+	} else if (is_dir(path)) {
+		foreach_file_in(path, &load_sound);
 	}
 }
 
@@ -300,6 +308,9 @@ bool Init ()
 			fprintf (stderr, "Could not open audio: %s\n", SDL_GetError ());
 			return false;
 		}
+
+		// load all the wretched effects
+		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
 	}
 
 	/* silence any sound events */

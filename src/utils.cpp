@@ -5,6 +5,15 @@
 #include <string>
 #include <map>
 
+#ifdef _WIN32
+#include <../msvc/win32-dirent.h>
+#else
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif
+
 FILE *fopen_or_die(const char *filename, const char *mode)
 {
 	FILE *f = fopen(filename, mode);
@@ -126,7 +135,7 @@ std::string join_path(const char *firstbit, ...)
 	std::string out = firstbit;
 	va_start(ap, firstbit);
 	while ((bit = va_arg(ap, const char *))) {
-		out = out + PATH_SEP + std::string(bit);
+		out = out + "/" + std::string(bit);
 	}
 	va_end(ap);
 	return out;
@@ -141,6 +150,16 @@ void Error(const char *format, ...)
 	va_end(ap);
 	fputs("\n", stderr);
 	abort();
+}
+
+void Warning(const char *format, ...)
+{
+	fputs("Warning: ", stderr);
+	va_list ap;
+	va_start(ap, format);
+	vfprintf(stderr, format, ap);
+	va_end(ap);
+	fputs("\n", stderr);
 }
 
 void strip_cr_lf(char *string)
@@ -291,4 +310,42 @@ GLuint util_load_tex_rgba(const char *filename)
 	}
 
 	return tex;
+}
+
+bool is_file(const std::string &filename)
+{
+	struct stat info;
+	if (!stat(filename.c_str(), &info)) {
+		if (S_ISREG(info.st_mode)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool is_dir(const std::string &filename)
+{
+	struct stat info;
+	if (!stat(filename.c_str(), &info)) {
+		if (S_ISDIR(info.st_mode)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &))
+{
+	DIR *dir;
+	struct dirent *entry;
+
+	if ((dir = opendir(directory.c_str()))==NULL) {
+		Error("Could not open directory %s", directory.c_str());
+	} 
+	while ((entry = readdir(dir)) != NULL) {
+		if (entry->d_name[0] != '.') {
+			std::string filename = directory + std::string("/") + entry->d_name;
+			(*callback)(entry->d_name, filename);
+		}
+	}
 }

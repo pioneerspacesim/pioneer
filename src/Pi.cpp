@@ -207,7 +207,7 @@ void Pi::Quit()
 
 void Pi::BoinkNoise()
 {
-	Sound::PlaySfx("gui_ping.wav", 0.3f, 0.3f, false);
+	Sound::PlaySfx("gui_ping", 0.3f, 0.3f, false);
 }
 
 void Pi::SetTimeAccel(int s)
@@ -748,7 +748,7 @@ static void AmbientSounds()
 		}
 
 		if (!stationNoise.IsPlaying()) {
-			stationNoise.Play("Medium_Station_ambient.wav", 1.0f, 1.0f, true);
+			stationNoise.Play("Medium_Station_ambient", 1.0f, 1.0f, true);
 		}
 	} else {
 		if (stationNoise.IsPlaying()) {
@@ -758,7 +758,7 @@ static void AmbientSounds()
 			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
 		const char *star_noises[] = {
-			"Blue_Super_Giant.wav", "Bright_Giant.wav", "red_Giant.wav", "Super_Giant.wav"
+			"Blue_Super_Giant", "Bright_Giant", "red_Giant", "Super_Giant"
 		};
 		if (astroNoiseSeed != Pi::currentSystem->m_seed) {
 			// change sound!
@@ -793,7 +793,7 @@ static void AmbientSounds()
 				float dv_dt[2] = {1.0f,1.0f};
 				atmosphereNoise.VolumeAnimate(target, dv_dt);
 			} else {
-				atmosphereNoise.Play("Atmosphere_Flying.wav", volume, volume, Sound::OP_REPEAT);
+				atmosphereNoise.Play("Atmosphere_Flying", volume, volume, Sound::OP_REPEAT);
 			}
 		} else {
 			float target[2] = {0.0f,0.0f};

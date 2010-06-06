@@ -58,7 +58,7 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {
-		Sound::BodyMakeNoise(this, "warning.wav", 1.0f);
+		Sound::BodyMakeNoise(this, "warning", 1.0f);
 	}
 	return r;
 }
@@ -141,7 +141,7 @@ void Player::StaticUpdate(const float timeStep)
 	targetVol[1] = CLAMP(targetVol[1], 0.0f, 1.0f);
 	float dv_dt[2] = { 4.0f, 4.0f };
 	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
-		sndev.Play("thruster_large.wav", 0.0f, 0.0f, Sound::OP_REPEAT);
+		sndev.Play("thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
 		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
 }
@@ -221,7 +221,7 @@ bool Player::SetWheelState(bool down)
 	static Sound::Event sndev;
 	bool did = Ship::SetWheelState(down);
 	if (did) {
-		sndev.Play(down ? "UC_out.wav" : "UC_in.wav", 1.0f, 1.0f, 0);
+		sndev.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
 	}
 	return did;
 }

@@ -5,12 +5,6 @@
 #include <vector>
 #include <stdio.h>
 
-#ifdef _WIN32
-# define PATH_SEP "\\"
-#else
-# define PATH_SEP "/"
-#endif /* !_WIN32 */
-
 #ifdef DEBUG
 #define glError() { \
 	GLenum err = glGetError(); \
@@ -28,6 +22,7 @@
 #endif /* __GNUC__ */
 
 void Error(const char *format, ...) __attribute((format(printf,1,2)));
+void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 
 struct MissingFileException {};
 
@@ -67,5 +62,10 @@ struct Plane {
 
 /* from current GL modelview*projection matrix */
 void GetFrustum(Plane planes[6]);
+
+bool is_file(const std::string &filename);
+bool is_dir(const std::string &filename);
+/** args to callback are basename, full path */
+void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
 
 #endif /* _UTILS_H */
