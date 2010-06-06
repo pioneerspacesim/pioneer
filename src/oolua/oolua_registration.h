@@ -109,6 +109,64 @@ namespace OOLUA
 			static void set( lua_State* /*l*/, int /*methods*/){}//no op
 		};
 		
+
+		inline int check_for_key_in_stack_top(lua_State* l)
+		{
+			//on entry stack is : table keyString basetable
+			lua_pushvalue(l, -2);//table keyString basetable keyString
+			lua_gettable(l, -2);//check for keyString in basetable
+			//table string basetable valueOrNil
+			if( lua_isnil(l,-1) == 1)
+			{
+				lua_pop(l,2);//table keyString
+				return 0;
+			}
+			
+			lua_remove(l,-2);//table keyString TheValueThatWeWereLookingFor
+			return 1;
+		}
+		
+
+		template<typename Base>
+		struct Base_looker
+		{
+			static int findInBase(lua_State* l)
+			{
+				//table keyString
+				lua_getglobal(l,Proxy_class<Base>::class_name);//table keyString baseTable
+				return check_for_key_in_stack_top(l);
+			}
+		};
+
+
+		template<typename T, typename Bases,int Index, typename BaseAtIndex>
+		struct R_Base_looker
+		{
+			static int findInBase(lua_State* l)
+			{
+				if (Base_looker<BaseAtIndex>::findInBase(l) )return 1;
+				return R_Base_looker<T,Bases,Index+1,typename TYPELIST::At_default<Bases,Index+1,TYPE::Null_type>::Result>::findInBase(l);
+			}
+		};
+		
+		template<typename T, typename Bases,int Index>
+		struct R_Base_looker<T,Bases,Index,TYPE::Null_type>
+		{
+			static int findInBase(lua_State* /*l*/)
+			{
+				return 0;
+			}
+		};
+		
+		template<typename T> 
+		int search_in_base_classes(lua_State* l)
+		{
+			return R_Base_looker<T,typename Proxy_class<T>::Bases,0
+									,typename TYPELIST::At_default<typename Proxy_class<T>::Bases
+									,0
+									,TYPE::Null_type>::Result >::findInBase(l) ;
+		}
+		
 		
 		typedef int(*function_sig_to_check_base_)(lua_State* const l,INTERNAL::Lua_ud*,int const&);
 		template<typename T>
@@ -123,9 +181,8 @@ namespace OOLUA
 
 			// store method table in globals so that
 			// scripts can add functions written in Lua.
-			lua_pushstring(l, Proxy_class<T>::class_name);//methods mt name
-			lua_pushvalue(l, methods);//methods mt name methods
-			lua_settable(l, LUA_GLOBALSINDEX);//methods mt
+			lua_pushvalue(l, methods);
+			lua_setglobal(l,Proxy_class<T>::class_name);
 			//global[name]=methods
 
 			lua_pushlightuserdata(l,l);//methods mt lua_State*
@@ -154,7 +211,7 @@ namespace OOLUA
 										,has_typedef<Proxy_class<T>, No_public_constructors >::Result 
 									>::value
 								>::set(l,methods);
-			//lua_pop(l,1);//metatable
+			
 			return methods;//methods mt
 		}
 
@@ -175,9 +232,10 @@ namespace OOLUA
 			//registry[name#_const]= const_mt
 			int const_mt = lua_gettop(l);//const_methods const_mt
 
-			lua_pushstring(l, Proxy_class<T>::class_name_const );//const_methods const_mt name
-			lua_pushvalue(l, const_methods );//const_methods const_mt name const_methods
-			lua_settable(l, LUA_GLOBALSINDEX);//const_methods const_mt
+			// store method table in globals so that
+			// scripts can add functions written in Lua.
+			lua_pushvalue(l, const_methods);
+			lua_setglobal(l,Proxy_class<T>::class_name_const);
 			//global[name#_const]=const_methods
 
 			lua_pushlightuserdata(l,l);//const_methods const_mt lus_State*
@@ -203,6 +261,16 @@ namespace OOLUA
 			lua_settable(l, const_mt);//const_methods const_mt
 			//const_mt["__newindex"]= const_methods
 
+			//TEMP
+			
+			lua_pushvalue(l, const_methods);//const_methods const_mt helper_mt helper_mt
+			lua_setmetatable(l, const_methods);//const_methods const_mt helper_mt
+			
+			lua_pushliteral(l, "__index");
+			lua_pushcfunction(l,&search_in_base_classes<T>);
+			lua_settable(l, const_methods);
+			//const_methods["__index"]= &help_can_not_find<T>
+			
 			set_owner_function<T,has_typedef<Proxy_class<T>, No_public_destructor >::Result>::set(l,const_methods);
 
 			set_delete_function<T,has_typedef<Proxy_class<T>, No_public_destructor >::Result>::set(l,const_mt);
@@ -354,12 +422,6 @@ namespace OOLUA
 		b(l,none_const_methods,const_methods);
 
 		lua_pop(l, 3);//stack = methods|mt|const_methods    |const_mt
-
-#	ifdef OOLUA_TESTING
-		Lua_table meth(l,Proxy_class<T>::class_name);
-		std::cout <<"class " <<Proxy_class<T>::class_name <<std::endl;
-		meth.traverse(&list_methods);
-#	endif
 	}
 
 	template<typename T,typename K,typename V>

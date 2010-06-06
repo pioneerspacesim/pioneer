@@ -13,7 +13,10 @@
 #	define LUA_REF_H_
 
 #include "lua_includes.h"
-#include <cassert>
+
+#include "oolua_config.h"
+#include "oolua_error.h"
+
 
 #ifdef __GNUC__
 #	define OOLUA_DEFAULT __attribute__ ((visibility("default")))
@@ -49,8 +52,11 @@ namespace OOLUA
 		void swap(Lua_ref & rhs);
 		bool push(lua_State* const lua)const;
 		bool pull(lua_State* const lua) OOLUA_DEFAULT ;
+		bool lua_push(lua_State* const lua)const;
+		bool lua_pull(lua_State* const lua);
 	private:
 		friend class  Lua_table;
+		bool pull_if_valid(lua_State* l);
 		void release();
 		lua_State* m_lua;
 		int m_ref;
@@ -107,7 +113,7 @@ namespace OOLUA
 	template<int ID>
 	void Lua_ref<ID>::release()
 	{
-		if(/*m_lua*/ valid() )
+		if( valid() )
 		{
 			luaL_unref(m_lua,LUA_REGISTRYINDEX,m_ref);
 		}
@@ -131,6 +137,37 @@ namespace OOLUA
 			lua_pushnil(lua);
 			return true;
 		}
+#if OOLUA_RUNTIME_CHECKS_ENABLED == 1
+		else if( lua != m_lua )
+		{
+#	if OOLUA_USE_EXCEPTIONS ==1
+			lua_pushstring(lua, "Can not push a valid Lua reference from one lua_State to a different state");
+			throw OOLUA::Runtime_error(lua);
+#	endif
+#	if OOLUA_STORE_LAST_ERROR ==1
+			lua_pushfstring(lua,"Can not push a valid Lua reference from one lua_State to a different state"); 
+			OOLUA::INTERNAL::set_error_from_top_of_stack_and_pop_the_error(lua);
+#	endif
+#	if OOLUA_DEBUG_CHECKS == 1
+		//	assert(0 && "Can not push a valid Lua reference from one lua_State to a different state");
+#	endif
+
+#	if OOLUA_USE_EXCEPTIONS == 0
+			return false;
+#	endif
+		}
+#endif
+		lua_rawgeti(m_lua, LUA_REGISTRYINDEX, m_ref );
+		return  lua_type(m_lua, -1) == ID;
+	}
+	
+	template<int ID>
+	bool Lua_ref<ID>::lua_push(lua_State* const lua)const
+	{
+		if (!valid() ) {
+			lua_pushnil(lua);
+			return true;
+		}
 		else if( lua != m_lua )
 		{
 			luaL_error(lua,"The reference is not valid for this Lua State");
@@ -139,25 +176,53 @@ namespace OOLUA
 		lua_rawgeti(m_lua, LUA_REGISTRYINDEX, m_ref );
 		return  lua_type(m_lua, -1) == ID;
 	}
-
+	
+	
 	template<int ID>
-	bool Lua_ref<ID>::pull(lua_State* const lua) 
-
+	bool Lua_ref<ID>::pull_if_valid(lua_State* const l)
 	{
-		if( lua_type(lua, -1) == ID )
+		if( lua_type(l, -1) == ID )
 		{
-			set_ref( lua, luaL_ref(lua, LUA_REGISTRYINDEX) );
+			set_ref( l, luaL_ref(l, LUA_REGISTRYINDEX) );
+			return true;
 		}
-		else if( lua_type(lua,-1) ==LUA_TNIL && lua_gettop(lua) >=1)
+		else if( lua_type(l,-1) ==LUA_TNIL && lua_gettop(l) >=1)
 		{
 			release();
+			return true;
 		}
-		else
+		return false;
+	}
+	template<int ID>
+	bool Lua_ref<ID>::pull(lua_State* const lua) 
+	{
+		if( !pull_if_valid(lua) )
 		{
+			////NOT IN C++ handle the error
+#if OOLUA_DEBUG_CHECKS ==1
 			assert( 0 &&  "pulling incorrect type from stack");
+#endif
+			return false;
 		}
 		return true;
 	}
+	
+	
+	template<int ID>
+	bool Lua_ref<ID>::lua_pull(lua_State* const lua) 
+	{
+		if( !pull_if_valid(lua) )
+		{
+			luaL_error(lua,
+					   "pulling incorrect type from stack. This is a ref to id %d, stack contains %s"
+					   ,ID
+					   ,lua_typename(lua,lua_type(lua, -1))
+						);
+			return false;
+		}
+		return true;
+	}
+	
 	///\typedef Lua_table_ref
 	///Wrapper for a lua table
 	typedef Lua_ref<LUA_TTABLE> Lua_table_ref;//0

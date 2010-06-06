@@ -1,6 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///  @file determin_qualifier.h
-///  <TODO: insert file description here>
 ///  @author Liam Devine
 ///  @email
 ///  See http://www.liamdevine.co.uk for contact details.

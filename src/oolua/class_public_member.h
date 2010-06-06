@@ -16,7 +16,6 @@
 #ifndef CLASS_PUBLIC_MEMBER_H_
 #	define CLASS_PUBLIC_MEMBER_H_
 
-#include "oolua_exception.h"
 
 namespace OOLUA 
 {
@@ -42,7 +41,8 @@ namespace OOLUA
 			enum {value = 0};
 			static void push(lua_State* l,T* input)
 			{
-				OOLUA::push2lua(l,*input);		}
+				OOLUA::push2lua(l,*input);		
+			}
 		};
 	
 		template<typename T>
@@ -77,7 +77,8 @@ namespace OOLUA
 #define OOLUA_PUBLIC_MEMBER_SET(id)\
 int set_##id(lua_State* l)\
 {\
- 	OOLUA::pull2cpp(l,m_this->id);\
+	OOLUA::INTERNAL::LUA_CALLED::pull2cpp(l,m_this->id);\
+ 	/*OOLUA::pull2cpp(l,m_this->id);*/ \
  	return 0;\
 }
 

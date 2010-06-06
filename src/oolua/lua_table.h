@@ -13,6 +13,7 @@
 #	include "lua_includes.h"
 #	include "fwd_push_pull.h"
 #	include "lua_ref.h"
+#	include "oolua_config.h"
 #	include <string>
 
 namespace OOLUA
@@ -39,6 +40,44 @@ namespace OOLUA
 		void set_table(std::string const& name);
 		Lua_table& operator =(Lua_table const& /*rhs*/);//unimplemented
 		Lua_table(Lua_table const& rhs);
+#if OOLUA_USE_EXCEPTIONS ==1 
+		template<typename T,typename T1>void try_at(T const& key,T1& value)
+		{
+			int const init_stack_size = initail_stack_size();
+			try 
+			{
+				if(!get_table())throw OOLUA::Runtime_error("Table is invalid");
+				push2lua(m_table_ref.m_lua,key);
+				lua_gettable(m_table_ref.m_lua, -2);
+				if(lua_type(m_table_ref.m_lua,-1) == LUA_TNIL )
+				{
+					throw OOLUA::Runtime_error("key is not present in table");
+				}
+				pull2cpp(m_table_ref.m_lua, value);
+				restore_stack(init_stack_size);
+			}
+			
+			catch (...) 
+			{
+				restore_stack(init_stack_size);
+				throw;
+			}
+
+			
+		}
+		template<typename T,typename T1>bool safe_at(T const& key,T1& value)
+		{
+			try
+			{
+				try_at(key, value);
+			}
+			catch (...)
+			{
+				return false;
+			}
+			return true;
+		}
+#else
 
 		template<typename T,typename T1>bool safe_at(T const& key,T1& value)
 		{
@@ -47,24 +86,26 @@ namespace OOLUA
 			//int init_stack_size = lua_gettop(m_lua);
 			int const init_stack_size = initail_stack_size();
 			if(!get_table())return false;
-			push2lua(m_table_ref.m_lua,key);
+			if(! push2lua(m_table_ref.m_lua,key) )
+			{
+				restore_stack(init_stack_size);
+				return false;
+			}
 			//table is now at -2 (key is at -1). lua_gettable now pops the key off
 			//the stack and then puts the data found at the key location on the stack
 			lua_gettable(m_table_ref.m_lua, -2);
 			if(lua_type(m_table_ref.m_lua,-1) == LUA_TNIL )
 			{
 				restore_stack(init_stack_size);
-//#if defined OOLUA_EXCEPTIONS
-//				throw std::out_of_range("value is not present in table");
-//#else
 				return false;
-//#endif
 			}
 			pull2cpp(m_table_ref.m_lua, value);
 			restore_stack(init_stack_size);
 
 			return true;
 		}
+#endif
+
 		//no error checking
 		//undefined if lua is null or (table or key is invalid) or value is not correct type
 		template<typename T,typename T1>T1& at(T const& key,T1& value)
@@ -118,7 +159,8 @@ namespace OOLUA
 		
 		bool push_on_stack(lua_State* l)const;
 		void swap(Lua_table & rhs);
-		void pull_from_stack(lua_State* l);
+		bool pull_from_stack(lua_State* l);
+		void lua_pull_from_stack(lua_State* l);
 	private:
 		bool get_table()const;
 		void restore_stack(int const & init_stack_size)const;

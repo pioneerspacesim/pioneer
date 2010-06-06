@@ -328,8 +328,8 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
-EXPORT_OOLUA_FUNCTIONS_1_CONST(SBodyPath,
-		GetBodyName)
+EXPORT_OOLUA_FUNCTIONS_2_CONST(SBodyPath,
+		GetBodyName, GetSeed)
 
 SBodyPath::SBodyPath(): SysLoc()
 {
@@ -355,6 +355,11 @@ void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
 const char *SBodyPath::GetBodyName() const
 {
 	return GetSBody()->name.c_str();
+}
+
+int SBodyPath::GetSeed() const
+{
+	return GetSBody()->seed;
 }
 
 const SBody *SBodyPath::GetSBody() const

@@ -6,34 +6,29 @@
 #	include "fwd_push_pull.h"
 #	include "oolua_typedefs.h"
 #	include "proxy_class.h"
-#	include "oolua_exception.h"
 #	include "lua_table.h"
 #	include "oolua_userdata.h"
 
-#ifdef LVD_LUA_DEBUG
-#	include "lua_stack_dump.h"
-#endif
+//#define OOLUA_ABSOLUTE_LUA_INDEX(L, i)
+//		((i) > 0 || (i) <= LUA_REGISTRYINDEX ? (i) : lua_gettop(L) + (i) + 1)
 
-
-#include <cassert>
-#include "oolua_char_arrays.h"
+#include "oolua_error.h"
 namespace OOLUA
 {
 
 
 	namespace INTERNAL
 	{
-		template<typename T>
-		T * check_index(lua_State * /*const*/ l, int narg);
 
 		template<typename T>
-		T  * check_index_no_const(lua_State * /*const*/ l, int narg);
+		T * check_index(lua_State * l, int narg);
 
-		bool index_is_userdata(lua_State* l,int index,char const* name);
+		template<typename T>
+		T  * check_index_no_const(lua_State * l, int narg);
+
+		bool index_is_userdata(lua_State* l,int index);
 		bool get_metatable_and_check_type_is_registered(lua_State* l,int const& index,char const * name);
 		bool is_requested_type_a_base(lua_State* l,INTERNAL::Lua_ud* requested_ud,int const& userdata_index);
-
-		bool index_is_oolua_created_userdata(lua_State* l,int index,char const* name);
 		
 		template<typename T>
 		inline T* class_from_stack_top(lua_State * l)
@@ -50,14 +45,18 @@ namespace OOLUA
 		template<typename T>
 		inline T* class_from_index(lua_State * l,int index)
 		{
+#if OOLUA_DEBUG_CHECKS == 1
 			assert(index >0);
+#endif
 			return check_index<T>(l,index);
 		}
 
 		template<typename T>
 		inline T* none_const_class_from_index(lua_State * l,int index)
 		{
+#if OOLUA_DEBUG_CHECKS == 1
 			assert(index >0);
+#endif
 			return check_index_no_const<T>(l,index);
 		}
 
@@ -86,18 +85,21 @@ namespace OOLUA
 		template<typename T>
 		T* check_index(lua_State * /*const*/ l, int narg)
 		{
-			if( ! index_is_userdata(l,narg,Proxy_class<T>::class_name) )
+			if( ! index_is_userdata(l,narg ))
 				return 0;
 			INTERNAL::Lua_ud * ud = static_cast<INTERNAL::Lua_ud *>( lua_touserdata(l, narg) );
 
-			////is the type the was on the stack the same as either of the two which were pushed after
 			if(! INTERNAL::ids_equal(ud->none_const_name,ud->name_size
 								,(char*)Proxy_class<T>::class_name,Proxy_class<T>::name_size) )
 			{
-				//lua_getmetatable(l,narg);//userdata ... stackmt
+#if OOLUA_RUNTIME_CHECKS_ENABLED == 0
+				lua_getmetatable(l,narg);//userdata ... stackmt
+#endif
 				return valid_base_ptr_or_null<T>(l,narg);
 			}
+#if OOLUA_RUNTIME_CHECKS_ENABLED == 1
 			lua_pop(l,1);
+#endif
 			return static_cast<T* >(ud->void_class_ptr);
 		}
 
@@ -105,7 +107,7 @@ namespace OOLUA
 		template<typename T>
 		T* check_index_no_const(lua_State * l, int narg)
 		{
-			if( ! index_is_userdata(l,narg,Proxy_class<T>::class_name) )
+			if( ! index_is_userdata(l,narg )) 
 				return 0;
 			INTERNAL::Lua_ud * ud = static_cast<INTERNAL::Lua_ud *>( lua_touserdata(l, narg) );
 
@@ -120,10 +122,14 @@ namespace OOLUA
 			if( ! INTERNAL::ids_equal(ud->none_const_name,ud->name_size
 									,(char*)Proxy_class<T>::class_name,Proxy_class<T>::name_size) )
 			{
-				//lua_getmetatable(l,narg);//userdata ... stackmt
+#if OOLUA_RUNTIME_CHECKS_ENABLED == 0
+				lua_getmetatable(l,narg);//userdata ... stackmt
+#endif
 				return valid_base_ptr_or_null<T>(l,narg);
 			}
+#if OOLUA_RUNTIME_CHECKS_ENABLED == 1
 			lua_pop(l,1);
+#endif
 			return static_cast<T* >(ud->void_class_ptr);
 		}
 		
@@ -133,6 +139,7 @@ namespace OOLUA
 			INTERNAL::Lua_ud * ud = static_cast<INTERNAL::Lua_ud *>( lua_touserdata(l, narg) );
 			if( INTERNAL::id_is_const(ud) )
 			{
+				//NOTE: proxy caller via Lua code called
 				luaL_error (l, "%s \"%s\" %s", "Tried to pull a none constant"
 							,OOLUA::Proxy_class<T>::class_name
 							,"pointer from a const pointer"

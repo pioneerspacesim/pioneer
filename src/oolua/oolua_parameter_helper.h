@@ -5,17 +5,8 @@
 #	include "oolua_userdata.h"
 #	include "lua_includes.h"
 #	include "class_from_stack.h"
+#	include "oolua_config.h"
 
-#ifdef _MSC_VER 
-#	define MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA \
-	__pragma(warning(push)) \
-	__pragma(warning(disable : 4127)) 
-#	define MSC_POP_COMPILER_WARNING_OOLUA \
-	__pragma(warning(pop)) 
-#else
-#	define MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA 
-#	define MSC_POP_COMPILER_WARNING_OOLUA
-#endif
 namespace OOLUA
 {
 	namespace INTERNAL
@@ -74,6 +65,5 @@ MSC_POP_COMPILER_WARNING_OOLUA
 		}
 	}
 }
-//#	undef MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT 
-//#	undef MSC_POP_COMPILER_WARNING 
+
 #endif

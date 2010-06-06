@@ -108,6 +108,7 @@ private:
 	void set_function(std::string const& func);
 	void set_function(Lua_func_ref const& func);
 	lua_State* m_lua;
+	int m_error_func_index;
 
 };
 }

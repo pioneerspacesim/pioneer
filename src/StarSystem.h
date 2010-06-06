@@ -53,6 +53,7 @@ public:
 	/** These are for the Lua wrappers -- best not to use them from C++
 	 * since they acquire a StarSystem object in a rather sub-optimal way */
 	const char *GetBodyName() const;
+	int GetSeed() const;
 private:
 	/** Returned SBody only valid pointer for duration described in
 	 * StarSystem::GetCached comment */
@@ -67,6 +68,7 @@ OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
 	OOLUA_BASES_START SysLoc OOLUA_BASES_END
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
+	OOLUA_MEM_FUNC_0_CONST(int, GetSeed)
 OOLUA_CLASS_END
 
 class SBody {

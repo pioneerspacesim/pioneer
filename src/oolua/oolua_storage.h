@@ -10,18 +10,67 @@
 #include "class_from_stack.h"
 #include "type_list.h"
 #include "oolua_char_arrays.h"
-#include <cassert>
+#include "oolua_config.h"
+
 
 namespace OOLUA
 {
 	namespace INTERNAL
 	{
+		typedef bool (*is_const_func_sig)(Lua_ud* ud);
+		template<int NotTheSameSize>
+		struct VoidPointerSameSizeAsFunctionPointer;
+
+		template<int NotTheSameSize>
+		struct VoidPointerSameSizeAsFunctionPointer
+		{
+			static void getWeakTable(lua_State* l)
+			{
+				lua_getfield(l, LUA_REGISTRYINDEX, OOLUA::INTERNAL::weak_lookup_name);
+			}
+			static void setWeakTable(lua_State* l,int value_index)
+			{
+				push_char_carray(l,OOLUA::INTERNAL::weak_lookup_name);
+				lua_pushvalue(l, value_index);
+				lua_settable(l, LUA_REGISTRYINDEX);
+			}
+		};
+
+
+		template<>
+		struct VoidPointerSameSizeAsFunctionPointer< sizeof(is_const_func_sig) >
+		{
+			static void getWeakTable(lua_State* l)
+			{
+				//it is safe as the pointers are the same size
+				//yet we need to stop warnings
+				//NOTE: in 5.2 we can push a light c function here
+				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
+                                void** stopwarnings ( (void**)&func );
+				lua_pushlightuserdata(l,*stopwarnings);
+				lua_gettable(l, LUA_REGISTRYINDEX);
+			}
+			static void setWeakTable(lua_State* l,int value_index)
+			{
+				//it is safe as the pointers are the same size
+				//yet we need to stop warnings
+				//NOTE: in 5.2 we can push a light c function here
+				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
+                void** stopwarnings ( (void**)&func );
+				lua_pushlightuserdata(l,*stopwarnings);
+				lua_pushvalue(l, value_index);
+				lua_settable(l, LUA_REGISTRYINDEX);
+			}
+		};
+
+		typedef VoidPointerSameSizeAsFunctionPointer<sizeof(void*)> Weak_table;
+
 		//pushes the weak top and returns its index
 		int push_weak_table(lua_State* l);
 		template<typename T>Lua_ud* add_ptr(lua_State* /*const*/ l,T* const ptr,bool isConst);
 
 		template<typename T>Lua_ud* find_ud(lua_State* /*const*/ l,T* ptr,bool is_const);
-	
+
 		bool is_there_an_entry_for_this_void_pointer(lua_State* l,void* ptr);
 		bool is_there_an_entry_for_this_void_pointer(lua_State* l,void* ptr,int tableIndex);
 
@@ -50,7 +99,7 @@ namespace OOLUA
 		{
 			T* p = class_from_index<T>(l,1);
 			lua_remove(l,1);
-			Owner own;
+			Owner own(No_change);
 			pull2cpp(l,own);
 			set_owner(l,p,own);
 			return 0;
@@ -139,7 +188,7 @@ namespace OOLUA
 			ud->name = (char*) (use_const_name? OOLUA::Proxy_class<T>::class_name_const :OOLUA::Proxy_class<T>::class_name);
 			ud->none_const_name = (char*) OOLUA::Proxy_class<T>::class_name;
 			ud->name_size = OOLUA::Proxy_class<T>::name_size;
-			
+
 			//change the metatable associated with the ud
 			lua_getfield(l, LUA_REGISTRYINDEX,ud->name);
 			lua_setmetatable(l,-2);//set ud's metatable to this
@@ -167,8 +216,9 @@ namespace OOLUA
 			ud->name_size = OOLUA::Proxy_class<T>::name_size;
 
 			lua_getfield(l, LUA_REGISTRYINDEX,ud->name);
-
+#if	OOLUA_DEBUG_CHECKS ==1
 			assert( lua_isnoneornil(l,-1) ==0 && "no metatable of this name found in registry" );
+#endif
 			////Pops a table from the stack and sets it as the new metatable for the value at the given acceptable index
 			lua_setmetatable(l, -2);
 

@@ -1,56 +1,42 @@
+local goods_trader_flavour = {
+	"Honest %1's Goods Emporium",
+	"%1's Trading House",
+	"%1's Warehouse",
+	"%1's Goods Exchange",
+	"%1 Holdings",
+	"%1 & Sons"
+}
 
 Module:new {
-	__name='mymod', 
+	__name='GoodsTrader', 
 	x=123,
 	
 	Init = function(self)
-		print('init() mymod')
-		print(self.x)
-		self:EventListen("onPlayerChangeTarget")
-		self:EventListen("onShipKilled")
 		self:EventListen("onCreateBB")
-		self:EventListen("onUpdateBB")
 		self.ads = {}
 	end,
 
-	GetPlayerMissions = function(self)
-		return { { description="Hello world", client="Mr Morton", reward=1234, status='completed' },
-	                 { description="Eat your own head", client="God", reward=500, status='failed' } }
-	end,
-
-	DoSomething = function(self)
-		print('hi')
-	end,
-
-	onPlayerChangeTarget = function(self)
-		print('mymod got onPlayerChangeTarget');
-		print(Pi.GetPlayer():GetLabel())
-		--SoundEvent:new():Play("Landing", 1, 1, 0)
-		print(Pi.GetGameTime())
-		--self:EventIgnore("onPlayerChangeTarget")
-	end,
-
-	onShipKilled = function(self, args)
-		print(args["type"])
-		for i,j in pairs(args) do print(i,j) end
-		print(args[1]:GetLabel() .. " was killed by " ..  args[2]:GetLabel())
-		collectgarbage("collect")
+	_create_advert = function(self, rand, station)
+		local isfemale = rand:Int(0, 1) == 1
+		local flavour = rand:Int(1, #goods_trader_flavour)
+		local ad = {
+			client = rand:Surname(isfemale),
+			flavour = flavour,
+			bb = station,
+			id = #self.ads+1
+		}
+		local description = _(goods_trader_flavour[flavour], {ad.client})
+		table.insert(self.ads, ad)
+		station:SpaceStationAddAdvert(self.__name, #self.ads, description)
 	end,
 
 	onCreateBB = function(self, args)
 		print("Creating bb adverts for " .. args[1]:GetLabel())
 		local station = args[1]
-		
-		table.insert(self.ads, {id=#self.ads+1, bb=station})
-		station:SpaceStationAddAdvert(self.__name, #self.ads, "Click me!")
-
-		table.insert(self.ads, {id=#self.ads+1, bb=station})
-		station:SpaceStationAddAdvert(self.__name, #self.ads, "Another advert")
-	end,
-
-	onUpdateBB = function(self, args)
-		-- insert or delete new ads at random
-		print("Updating bb adverts for " .. args[1]:GetLabel())
+		local seed = station:GetSBody():GetSeed()
+		local rand = Rand:new(seed)
+		self:_create_advert(rand, station)
+		self:_create_advert(rand, station)
 	end,
 
 	DialogHandler = function(self, dialog, optionClicked)

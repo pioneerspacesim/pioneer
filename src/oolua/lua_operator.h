@@ -310,8 +310,8 @@ namespace OOLUA
 	{
 		T const* lhs(0);
  		T const* rhs(0);
-    	pull2cpp(l,rhs);
-    	pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+    	INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
 		bool result (*lhs == *rhs);
 		push2lua(l,result);
 		return 1;
@@ -322,8 +322,8 @@ namespace OOLUA
 	{
 		T const* lhs(0);
 		T const* rhs(0);
-		pull2cpp(l,rhs);
-		pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
 		bool result (*lhs < *rhs);
 		push2lua(l,result);
 		return 1;
@@ -334,8 +334,8 @@ namespace OOLUA
 	{
 		T const* lhs(0);
 		T const* rhs(0);
-		pull2cpp(l,rhs);
-		pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
 		bool result (*lhs <= *rhs);
 		push2lua(l,result);
 		return 1;
@@ -347,10 +347,9 @@ namespace OOLUA
 	{
 		T const* lhs(0);
 		T const* rhs(0);
-		pull2cpp(l,rhs);
-		pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
     	T* result ( new T( *lhs + *rhs ) );
-		//INTERNAL::push_pointer<T>(l,result,Lua);
 		OOLUA::INTERNAL::Lua_ud* ud = INTERNAL::add_ptr<T>(l,result,false);
 		ud->gc = true;
     	return 1;
@@ -362,10 +361,9 @@ namespace OOLUA
 	{
 		T const* lhs(0);
 		T const* rhs(0);
-		pull2cpp(l,rhs);
-		pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
 		T* result ( new T( *lhs - *rhs ) );
-		//INTERNAL::push_pointer<T>(l,result,Lua);
 		OOLUA::INTERNAL::Lua_ud* ud = INTERNAL::add_ptr<T>(l,result,false);
 		ud->gc = true;
 		return 1;
@@ -376,10 +374,9 @@ namespace OOLUA
 	{
 		T const* lhs(0);
 		T const* rhs(0);
-		pull2cpp(l,rhs);
-		pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
 		T* result ( new T( *lhs * *rhs ) );
-		//INTERNAL::push_pointer<T>(l,result,Lua);
 		OOLUA::INTERNAL::Lua_ud* ud = INTERNAL::add_ptr<T>(l,result,false);
 		ud->gc = true;
 		return 1;
@@ -390,10 +387,9 @@ namespace OOLUA
 	{
 		T const* lhs(0);
 		T const* rhs(0);
-		pull2cpp(l,rhs);
-		pull2cpp(l,lhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,rhs);
+		INTERNAL::LUA_CALLED::pull2cpp(l,lhs);
 		T* result ( new T( *lhs / *rhs ) );
-		//INTERNAL::push_pointer<T>(l,result,Lua);
 		OOLUA::INTERNAL::Lua_ud* ud = INTERNAL::add_ptr<T>(l,result,false);
 		ud->gc = true;
 		return 1;

@@ -24,9 +24,10 @@ extern "C"
 
 }
 
+
 #if LUA_VERSION_NUM == 502 || LUA_VERSION_NUM > 502
 //LUA_GLOBALSINDEX is deprecated and removed
-#	define LUA_GLOBALSINDEX  LUA_ENVIRONINDEX
+//#	define LUA_GLOBALSINDEX  LUA_ENVIRONINDEX
 #endif
 
 #endif //LUA_INCLUDES_H_

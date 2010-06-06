@@ -2,7 +2,6 @@
 #	include "lua_table.h"
 #	include "oolua_exception.h"
 #	include "fwd_push_pull.h"
-#include <cassert>
 
 namespace OOLUA
 {
@@ -38,7 +37,9 @@ namespace OOLUA
 			return;
 		}
 		if(!m_table_ref.m_lua)return;
-		lua_getfield(m_table_ref.m_lua, LUA_GLOBALSINDEX, name.c_str() );
+		//REMOVE
+		//lua_getfield(m_table_ref.m_lua, LUA_GLOBALSINDEX, name.c_str() );
+		lua_getglobal(m_table_ref.m_lua,name.c_str() );
 		if(lua_type(m_table_ref.m_lua, -1) != LUA_TTABLE)
 		{
 			lua_pop(m_table_ref.m_lua,1);
@@ -79,9 +80,13 @@ namespace OOLUA
 	{
 		return m_table_ref.push(l);
 	}
-	void Lua_table::pull_from_stack(lua_State* l)
+	bool Lua_table::pull_from_stack(lua_State* l)
 	{
-		m_table_ref.pull(l);
+		return m_table_ref.pull(l);
+	}
+	void Lua_table::lua_pull_from_stack(lua_State* l)
+	{
+		m_table_ref.lua_pull(l);
 	}
 	void Lua_table::restore_stack(int const & init_stack_size)const
 	{
@@ -95,9 +100,7 @@ namespace OOLUA
 	}
 	int Lua_table::initail_stack_size()const
 	{
-		int size = (!m_table_ref.m_lua)? 0 : lua_gettop(m_table_ref.m_lua);
-		assert(size >= 0);
-		return size;
+		return (!m_table_ref.m_lua)? 0 : lua_gettop(m_table_ref.m_lua);
 	}
 	void Lua_table::traverse(Lua_table::traverse_do_function do_)
 	{
@@ -125,7 +128,6 @@ namespace OOLUA
 	{
 		lua_newtable(l);
 		Lua_table t;
-		//OOLUA::pull2cpp(l,t);
 		t.pull_from_stack(l);
 		return t;
 	}

@@ -11,22 +11,14 @@
 #ifndef OOLUA_PARAMETER_MACROS_H_
 #	define OOLUA_PARAMETER_MACROS_H_
 
-#ifdef _MSC_VER 
-#	define MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT \
-	__pragma(warning(push)) \
-	__pragma(warning(disable : 4127)) 
-#	define MSC_POP_COMPILER_WARNING \
-	__pragma(warning(pop)) 
-#else
-#	define MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT 
-#	define MSC_POP_COMPILER_WARNING 
-#endif
+#include "oolua_config.h"
+
 //param return macros
 #define OOLUA_BACK_INTERNAL_(NUM)\
-MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT \
+MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA \
 	if( P ## NUM ## _::out )\
 		OOLUA::Member_func_helper<P ## NUM ##_,P ## NUM ##_::owner>::push2lua(l,p ## NUM);\
-MSC_POP_COMPILER_WARNING
+MSC_POP_COMPILER_WARNING_OOLUA
 
 
 #define OOLUA_BACK_INTERNAL_1\
@@ -64,10 +56,10 @@ MSC_POP_COMPILER_WARNING
 #define OOLUA_INTERNAL_PARAM(NUM,PARAM)\
 	typedef OOLUA::param_type<PARAM > P ## NUM ##_;\
 	P ## NUM ##_::pull_type p ## NUM;\
-	MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT\
+	MSC_PUSH_DISABLE_CONDTIONAL_CONSTANT_OOLUA\
 	if( P ## NUM ##_::in )\
 		OOLUA::Member_func_helper<P ## NUM ##_,P ## NUM ##_::owner>::pull2cpp(l,p ## NUM);\
-	MSC_POP_COMPILER_WARNING
+	MSC_POP_COMPILER_WARNING_OOLUA
 
 #define OOLUA_PARAMS_INTERNAL_1(PARAM1)\
 	OOLUA_INTERNAL_PARAM(1,PARAM1)

@@ -1,6 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///  @file member_func_helper.h
-///  <TODO: insert file description here>
 ///  @author Liam Devine
 ///  @email
 ///  See http://www.liamdevine.co.uk for contact details.
@@ -12,6 +11,8 @@
 
 #	include "lua_includes.h"
 #	include "oolua_push_pull.h"
+#	include "oolua_error.h"
+
 namespace OOLUA
 {
 
@@ -67,7 +68,7 @@ namespace OOLUA
 		{
 			static void pull(lua_State* const s, T& value)
 			{
-				OOLUA::pull2cpp(s,value);
+				OOLUA::INTERNAL::LUA_CALLED::pull2cpp(s,value);
 			}
 			static void push(lua_State* const s, T& value)
 			{
@@ -82,11 +83,11 @@ namespace OOLUA
 			static void pull(lua_State* const s, T& value)
 			{
 				T* t= &value;
-				OOLUA::pull2cpp(s,t);
+				OOLUA::INTERNAL::LUA_CALLED::pull2cpp(s,t);
 			}
 			static void pull(lua_State* const s, T*& value)
 			{
-				OOLUA::pull2cpp(s,value);
+				OOLUA::INTERNAL::LUA_CALLED::pull2cpp(s,value);
 			}
 			static void push(lua_State* const s, T& value)
 			{
@@ -135,7 +136,7 @@ namespace OOLUA
 		static void pull2cpp(lua_State* const s, T*& value)
 		{
 			OOLUA::cpp_acquire_ptr<T> p;
-			OOLUA::pull2cpp(s,p);
+			OOLUA::INTERNAL::LUA_CALLED::pull2cpp(s,p);
 			value = p.m_ptr;
 		}
 		template<typename T>

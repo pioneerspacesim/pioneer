@@ -3,18 +3,28 @@
 #include "oolua_userdata.h"
 #include "oolua_storage.h"
 #include "oolua_push_pull.h"
-#include <stdexcept>
+
 #include "oolua_char_arrays.h"
+
+
+#if OOLUA_DEBUG_CHECKS == 1
+#	include <cassert>
+#endif
+
+
 
 namespace OOLUA
 {
 
 	namespace INTERNAL
 	{
-		//pushes the weak top and returns its index
+		
+		//pushes the weak table on top and returns its absolute index
+		//The weak table is a table in the Lua registry specific to OOLua,
+		//which has void pointer keys and values of userdata pointers.
 		int push_weak_table(lua_State* l)
 		{
-			lua_getfield(l, LUA_REGISTRYINDEX, weak_lookup_name);
+			Weak_table::getWeakTable(l);
 			return lua_gettop(l);
 		}
 
@@ -70,9 +80,15 @@ namespace OOLUA
 		}
 		void set_owner( lua_State* l,void* ptr, Owner own)
 		{
-			if(own == No_change){assert(0);return;}//should never get called but...
+			if(own == No_change){return;}//should never get called but...
 			Lua_ud* ud = find_ud_dont_care_about_type_and_clean_stack(l,ptr);
-			if(!ud)assert(0);
+			if(!ud)
+			{
+				//TODO: who has called this? 
+#if OOLUA_DEBUG_CHECKS == 1
+				assert(0);
+#endif
+			}
 			ud->gc = ( own == Cpp ? false : true);
 		}
 

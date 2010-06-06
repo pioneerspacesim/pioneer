@@ -28,24 +28,31 @@ namespace
 		lua_setmetatable(l, weakTable);//tb
 		//weakTable["__mt"]=weak_mt
 
-		//lua_pushstring(l,OOLUA::INTERNAL::weak_lookup_name);//tb key
-		/*OOLUA::INTERNAL::*/push_char_carray(l,OOLUA::INTERNAL::weak_lookup_name);//tb key
-		lua_pushvalue(l, -2);//tb key valuetb
-		lua_settable(l, LUA_REGISTRYINDEX);//tb
+		OOLUA::INTERNAL::Weak_table::setWeakTable(l,-2);
 		//registry[weak_lookup_name]=weakTable
+		
 		lua_pop(l,1);//empty
 	}
 	void add_ownership_globals(lua_State* l)
 	{
-		//lua_pushstring(l,"Cpp_owns");//string
-		/*OOLUA::INTERNAL::*/push_char_carray(l,OOLUA::INTERNAL::cpp_owns_str);//string
+		//REMOVE
+		/*
+		push_char_carray(l,OOLUA::INTERNAL::cpp_owns_str);//string
 		lua_pushinteger(l,OOLUA::Cpp);//string int
 		lua_settable(l, LUA_GLOBALSINDEX);//globals[string]=int
+		*/
+		lua_pushinteger(l,OOLUA::Cpp);//string int
+		lua_setglobal(l,OOLUA::INTERNAL::cpp_owns_str);//globals[string]=int
+		
 
-		//lua_pushstring(l,"Lua_owns");//string
-		/*OOLUA::INTERNAL::*/push_char_carray(l,OOLUA::INTERNAL::lua_owns_str);//string
+		/*
+		push_char_carray(l,OOLUA::INTERNAL::lua_owns_str);//string
 		lua_pushinteger(l,OOLUA::Lua);//string int
 		lua_settable(l, LUA_GLOBALSINDEX);//globals[string]=int
+		*/
+		
+		lua_pushinteger(l,OOLUA::Lua);//string int
+		lua_setglobal(l,OOLUA::INTERNAL::lua_owns_str);//globals[string]=int
 	}
 }
 
@@ -60,10 +67,15 @@ namespace OOLUA
 	Script::Script(): call(),m_lua(0)
 	{
 		m_lua = luaL_newstate();
-		//if(!m_lua){ oolua_throw("failed to initialise lua\n"); }
-		//OOLUA_IF_ERROR(!m_lua,"failed to initialise lua")
 		luaL_openlibs(m_lua);
-		//lua_gc(m_lua, LUA_GCRESTART, 0);
+		
+		//temp fix to correct openlibs leaving entries on the stack
+		//in Lua 5.2 work 3
+		int top = lua_gettop(m_lua);
+		if(top != 0)lua_pop(m_lua,top);
+		//
+		
+		
 		call.bind_script(m_lua);//bind the lua state to the function caller
 		setup_user_lua_state(m_lua);
 	}
@@ -95,7 +107,7 @@ namespace OOLUA
 
 	bool Script::run_chunk(std::string const& chunk)
 	{
-		if(! load_chunk(chunk.c_str()) ) return false;
+		if(! load_chunk(chunk ) ) return false;
 		int result = lua_pcall(m_lua,0,LUA_MULTRET,0);
 		return INTERNAL::protected_call_check_result(m_lua,result);
 	}

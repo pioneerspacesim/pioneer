@@ -69,14 +69,14 @@ Module:new {
 	end,
 
 	_TryAddAdvert = function(self, station)
-		local gender = Rand.Int(0,1) == 1
-		local flavour = Rand.Int(1, #delivery_flavours)
+		local gender = Pi.rand:Int(0,1) == 1
+		local flavour = Pi.rand:Int(1, #delivery_flavours)
 		ad = {
 			flavour = flavour,
 			personGender = gender,
-			client = Rand.PersonName(gender),
-			reward = Rand.Real(200, 1000) * delivery_flavours[flavour].money,
-			due = Pi.GetGameTime() + Rand.Real(0, delivery_flavours[flavour].time * 60*60*24*31),
+			client = Pi.rand:PersonName(gender),
+			reward = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
+			due = Pi.GetGameTime() + Pi.rand:Real(0, delivery_flavours[flavour].time * 60*60*24*31),
 			bb = station,
 			dest = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn(),
 			id = #self.ads+1
@@ -93,7 +93,7 @@ Module:new {
 
 	onCreateBB = function(self, args)
 		local station = args[1]
-		for i = 1,10 do --Rand.Int(0, 5) do
+		for i = 1,10 do --Pi.rand:Int(0, 5) do
 			self:_TryAddAdvert(station)
 		end
 	end,
@@ -136,7 +136,7 @@ Module:new {
 				ad.bb:SpaceStationRemoveAdvert(self.__name, ad.id)
 			end	
 		end
-		if Rand.Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
+		if Pi.rand:Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
 			self:_TryAddAdvert(station)
 		end
 	end,

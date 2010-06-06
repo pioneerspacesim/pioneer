@@ -4,8 +4,9 @@ Object = ObjectWrapper
 StarSystem = SysLoc
 SBody = SBodyPath
 
-__pendingEvents = {}
-__eventListeners = {}
+-- other jizz
+
+Pi.rand = Rand:new(os.time())
 
 -- Some very useful utility functions --------------------
 
@@ -20,6 +21,9 @@ function format_money(amount)
 end
 
 -- Bits that make modules work ---------------------------
+
+__pendingEvents = {}
+__eventListeners = {}
 
 function EmitEvents()
 	print("Lua EmitEvents");

@@ -24,11 +24,11 @@ Module:new {
 	onCreateBB = function(self, args)
 		local station = args[1]
 		
-		local t = Rand.Int(1, #crank_flavours)
+		local t = Pi.rand:Int(1, #crank_flavours)
 		table.insert(self.ads, {id=#self.ads+1, bb=station, flavour=t})
 		station:SpaceStationAddAdvert(self.__name, #self.ads, crank_flavours[t].bbmsg)
 
-		t = Rand.Int(1, #crank_flavours)
+		t = Pi.rand:Int(1, #crank_flavours)
 		table.insert(self.ads, {id=#self.ads+1, bb=station, flavour=t})
 		station:SpaceStationAddAdvert(self.__name, #self.ads, crank_flavours[t].bbmsg)
 	end,
