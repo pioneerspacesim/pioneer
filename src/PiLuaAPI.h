@@ -20,6 +20,14 @@ class ObjectWrapper
 	void SpaceStationRemoveAdvert(const char *luaMod, int luaRef);
 	double GetMoney() const;
 	void SetMoney(double m);
+	void AddMoney(double m);
+
+	void ShipAIDoKill(ObjectWrapper &o);
+	void ShipAIDoFlyTo(ObjectWrapper &o);
+	void ShipAIDoLowOrbit(ObjectWrapper &o);
+	void ShipAIDoMediumOrbit(ObjectWrapper &o);
+	void ShipAIDoHighOrbit(ObjectWrapper &o);
+
 	SBodyPath *GetSBody();
 	ObjectWrapper *GetDockedWith();
 	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
@@ -45,6 +53,12 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_3(void, SpaceStationAddAdvert, const char *, int, const char *)
 	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
 	OOLUA_MEM_FUNC_1(void, SetMoney, double)
+	OOLUA_MEM_FUNC_1(void, AddMoney, double)
+	OOLUA_MEM_FUNC_1(void, ShipAIDoKill, ObjectWrapper&)
+	OOLUA_MEM_FUNC_1(void, ShipAIDoFlyTo, ObjectWrapper&)
+	OOLUA_MEM_FUNC_1(void, ShipAIDoLowOrbit, ObjectWrapper&)
+	OOLUA_MEM_FUNC_1(void, ShipAIDoMediumOrbit, ObjectWrapper&)
+	OOLUA_MEM_FUNC_1(void, ShipAIDoHighOrbit, ObjectWrapper&)
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<ObjectWrapper*>, GetDockedWith);
 	OOLUA_MEM_FUNC_0_CONST(double,GetMoney)

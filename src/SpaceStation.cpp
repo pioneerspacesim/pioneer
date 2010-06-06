@@ -430,6 +430,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 		} else {
 			if (dt.stage >= 0) {
 				// set docked
+				PiLuaModules::QueueEvent("onPlayerDock", this);
 				dt.ship->SetDockedWith(this, i);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -703,6 +704,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
+					PiLuaModules::QueueEvent("onPlayerDock", this);
 					s->SetDockedWith(this, flags&0xf);
 				}
 			}

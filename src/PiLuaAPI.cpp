@@ -14,8 +14,14 @@
 
 ////////////////////////////////////////////////////////////
 
-EXPORT_OOLUA_FUNCTIONS_5_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_11_NON_CONST(ObjectWrapper,
+		ShipAIDoKill,
+		ShipAIDoFlyTo,
+		ShipAIDoLowOrbit,
+		ShipAIDoMediumOrbit,
+		ShipAIDoHighOrbit,
 		SetMoney,
+		AddMoney,
 		SpaceStationAddAdvert,
 		SpaceStationRemoveAdvert,
 		GetDockedWith,
@@ -26,7 +32,9 @@ EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
 		GetLabel)
 
 ObjectWrapper::ObjectWrapper(Object *o): m_obj(o) {
-	m_delCon = o->onDelete.connect(sigc::mem_fun(this, &ObjectWrapper::OnDelete));
+	if (o) {
+		m_delCon = o->onDelete.connect(sigc::mem_fun(this, &ObjectWrapper::OnDelete));
+	}
 }
 bool ObjectWrapper::IsBody() const {
 	return Is(Object::BODY);
@@ -39,11 +47,56 @@ double ObjectWrapper::GetMoney() const {
 		return 0;
 	}
 }
-
+void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.m_obj) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIClearInstructions();
+		s->AIInstruct(Ship::DO_KILL, o.m_obj);
+	}
+}
+void ObjectWrapper::ShipAIDoFlyTo(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.m_obj) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIClearInstructions();
+		s->AIInstruct(Ship::DO_FLY_TO, o.m_obj);
+	}
+}
+void ObjectWrapper::ShipAIDoLowOrbit(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.m_obj) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIClearInstructions();
+		s->AIInstruct(Ship::DO_LOW_ORBIT, o.m_obj);
+	}
+}
+void ObjectWrapper::ShipAIDoMediumOrbit(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.m_obj) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIClearInstructions();
+		s->AIInstruct(Ship::DO_MEDIUM_ORBIT, o.m_obj);
+	}
+}
+void ObjectWrapper::ShipAIDoHighOrbit(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.m_obj) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIClearInstructions();
+		s->AIInstruct(Ship::DO_HIGH_ORBIT, o.m_obj);
+	}
+}
 void ObjectWrapper::SetMoney(double m) {
 	if (Is(Object::SHIP)) {
 		Ship *s = static_cast<Ship*>(m_obj);
 		s->SetMoney((Sint64)(m*100.0));
+	}
+}
+void ObjectWrapper::AddMoney(double m) {
+	if (Is(Object::SHIP)) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->SetMoney(s->GetMoney() + (Sint64)(m*100.0));
 	}
 }
 const char *ObjectWrapper::GetLabel() const {
@@ -118,14 +171,12 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST(SoundEvent)
 
 static int UserDataSerialize(lua_State *L)
 {
-	ObjectWrapper *o;
 	luaL_checktype(L, 1, LUA_TUSERDATA);
 	if (mylua_checkudata(L, 1, "ObjectWrapper")) {
+		char buf[256];
+		ObjectWrapper *o;
 		OOLUA::pull2cpp(L, o);
-		char buf[128];
-		// XXX this is a rather hairy cast but should always be true
-		assert(static_cast<ObjectWrapper*>(o)->IsBody());
-		snprintf(buf, sizeof(buf), "ObjectWrapper\n%d\n", Serializer::LookupBody((Body*)static_cast<ObjectWrapper*>(o)->m_obj));
+		snprintf(buf, sizeof(buf), "ObjectWrapper\n%d\n", Serializer::LookupBody((Body*)o->m_obj));
 		lua_pushstring(L, buf);
 		return 1;
 	} else if (mylua_checkudata(L, 1, "SBodyPath")) {
@@ -157,7 +208,7 @@ static int UserDataUnserialize(lua_State *L)
 	std::string str;
 	OOLUA::pull2cpp(L, str);
 	if (str.substr(0, 14) == "ObjectWrapper\n") {
-		size_t idx = atoi(str.substr(14).c_str());
+		int idx = atoi(str.substr(14).c_str());
 		Body *b = Serializer::LookupBody(idx);
 		push2luaWithGc(L, new ObjectWrapper(b));
 		return 1;
@@ -284,12 +335,61 @@ namespace LuaPi {
 	}
 }
 
+/**
+ * power 0 = unarmed, power 1 = armed to the teeth
+ */
+static Ship *make_random_ship(double power, int minMass, int maxMass)
+{
+	// find a ship that fits in the mass range
+	std::vector<ShipType::Type> candidates;
+
+	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
+			i != ShipType::types.end(); ++i) {
+		int hullMass = (*i).second.hullMass;
+		if ((hullMass >= minMass) && (hullMass <= maxMass)) {
+			candidates.push_back((*i).first);
+		}
+	}
+	printf("%d candidates\n", candidates.size());
+	if (candidates.size() == 0) return 0;
+
+	for (int i=0; i<candidates.size(); i++) {
+		printf("%s\n", candidates[i].c_str());
+	}
+
+	ShipType::Type &t = candidates[ Pi::rng.Int32(candidates.size()) ];
+	Ship *ship = new Ship(t);
+	
+	/*
+	ship->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+
+	switch (power) {
+		case 1:
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
+			break;
+		case 2:
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_4MW);
+			break;
+		case 0:
+		default:
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+			break;
+	}
+	int amount = Pi::rng.Int32(5);
+	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);*/
+	return ship;
+}
+
 #define REG_FUNC(fnname, fnptr) \
 	lua_pushcfunction(l, fnptr);\
 	lua_setfield(l, -2, fnname)
 
 void RegisterPiLuaAPI(lua_State *l)
 {
+//	printf("XXXXXXXXXXXXXXXXXXXXXXXX GET RID OF THIS SHIT!!!!!!!! XXXXXXXXXXXXX\n");
+//	make_random_ship(1, 10, 100);
+//	make_random_ship(1, 100, 1000);
+
 	OOLUA::register_class<ObjectWrapper>(l);
 	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);

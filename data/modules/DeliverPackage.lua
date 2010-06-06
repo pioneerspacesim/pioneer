@@ -59,6 +59,7 @@ Module:new {
 		self:EventListen("onCreateBB")
 		self:EventListen("onUpdateBB")
 		self:EventListen("onEnterSystem")
+		self:EventListen("onPlayerDock")
 		self.ads = {}
 		self.missions = {}
 	end,
@@ -105,6 +106,27 @@ Module:new {
 		print(ship)
 		print(e)
 	end,
+
+	onPlayerDock = function(self)
+		local station = Pi.GetPlayer():GetDockedWith():GetSBody()
+		print('player docked with ' .. station:GetBodyName())
+		for k,mission in pairs(self.missions) do
+			if mission.status == 'active' then
+				if mission.dest == station then
+					if Pi.GetGameTime() > mission.due then
+						Pi.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
+						mission.status = 'failed'
+					else
+						Pi.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
+						Pi.GetPlayer():AddMoney(mission.reward)
+						mission.status = 'completed'
+					end
+				elseif Pi.GetGameTime() > mission.due then
+					mission.status = 'failed'
+				end
+			end
+		end
+	end,
 	
 	onUpdateBB = function(self, args)
 		local station = args[1]
@@ -135,10 +157,11 @@ Module:new {
 		elseif optionClicked == 3 then
 			dialog:RemoveAdvertOnClose()
 			self.ads[ad.id] = nil
-			ad.description = "hell yeah"
+			ad.description = _("Deliver a package to %1 in the %2 system.",
+					{ ad.dest:GetBodyName(), ad.dest:GetSystemName() })
 			ad.status = "active"
 			table.insert(self.missions, ad)
-			dialog:SetMessage("Sweet")
+			dialog:SetMessage("Excellent.")
 			dialog:AddOption("Hang up.", -1)
 			return
 		end
