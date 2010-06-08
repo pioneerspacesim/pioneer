@@ -17,45 +17,18 @@ struct citybuilding_t {
 	const LmrCollMesh *collMesh;
 };
 
-citybuilding_t city_buildings[] = {
-//	{ "skyscraper1" },
-//	{ "skyscraper2" },
-	{ "building1" },
-	{ "building2" },
-	{ "lathed_tower" },
-//	{ "building3" },
-//	{ "factory1" },
-//	{ "42" }, // a house
-//	{ "church" },
-//	{ "boringHighRise" },
-	{ 0 }
-};
-
-citybuilding_t wind_turbines[] = {
-//	{ "wind_turbine1" },
-//	{ "wind_turbine2" },
-//	{ "wind_turbine3" },
-	{ "building1" },
-	{ 0 }
-};
-
-citybuilding_t starport_buildings[] = {
-	{ "building1" },
-	{ "church" },
-	{ 0 }
-};
-
 #define MAX_BUILDING_LISTS 3
 struct citybuildinglist_t {
-	citybuilding_t *buildings;
+	const char *modelTagName;
 	double minRadius, maxRadius;
 	int numBuildings;
+	citybuilding_t *buildings;
 };
 
 citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
-	{ city_buildings, 800,2000 },
-	{ wind_turbines, 100,250 },
-	{ starport_buildings,300,400 },
+	{ "city_building", 800, 2000 },
+	{ "city_power", 100, 250 },
+	{ "city_starport_building", 300, 400 },
 };
 
 #define CITYFLAVOURS 5
@@ -123,7 +96,6 @@ always_divide:
 		if (height - m_planet->GetSBody()->GetRadius() == 0.0) return;
 		cent = cent * height;
 
-		Frame *f = m_planet->GetFrame();
 		Geom *geom = new Geom(cmesh->geomTree);
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)rotTimes90);
@@ -168,17 +140,23 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 
 static void lookupBuildingListModels(citybuildinglist_t *list)
 {
+	//const char *modelTagName;
+	std::vector<LmrModel*> models;
+	LmrGetModelsWithTag(list->modelTagName, models);
+	printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	list->buildings = new citybuilding_t[models.size()];
+	list->numBuildings = models.size();
+
 	int i = 0;
-	for (; list->buildings[i].modelname; i++) {
-		list->buildings[i].resolvedModel = LmrLookupModelByName(list->buildings[i].modelname);
-		const LmrCollMesh *collMesh = new LmrCollMesh(list->buildings[i].resolvedModel, &cityobj_params);
+	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+		list->buildings[i].resolvedModel = *m;
+		const LmrCollMesh *collMesh = new LmrCollMesh(*m, &cityobj_params);
 		list->buildings[i].collMesh = collMesh;
 		float maxx = MAX(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
 		float maxy = MAX(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
-	list->numBuildings = i;
 }
 
 CityOnPlanet::~CityOnPlanet()

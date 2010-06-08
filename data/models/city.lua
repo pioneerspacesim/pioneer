@@ -4,6 +4,7 @@ define_model('lathed_tower', {
 		bounding_radius = 120,
 		materials = {'mat'},
 		scale = 2,
+		tags = {'city_building'},
 	},
 	static = function(lod)
 		set_material("mat", .5,.7,.7,1)
@@ -18,9 +19,10 @@ define_model('lathed_tower', {
 })
 define_model('building1', {
 	info = {
-			bounding_radius = 10,
-			materials={'mat'}
-		},
+		bounding_radius = 10,
+		materials={'mat'},
+		tags = {'city_building', 'city_power', 'city_starport_building'},
+	},
 	static = function(lod)
 		set_material("mat", .5, .5, .5, 1)
 		use_material("mat")
@@ -31,9 +33,10 @@ define_model('building1', {
 
 define_model('building2', {
 	info = {
-			bounding_radius = 25,
-			materials={'mat'}
-		},
+		bounding_radius = 25,
+		materials={'mat'},
+		tags = {'city_building'},
+	},
 	static = function(lod)
 		set_material("mat", .5, .5, .5, 1)
 		use_material("mat")
@@ -44,9 +47,9 @@ define_model('building2', {
 
 define_model('skyscraper1', {
 	info = {
-			bounding_radius=200,
-			materials={'gray1', 'gray2'}
-		},
+		bounding_radius=200,
+		materials={'gray1', 'gray2'}
+	},
 	static = function(lod)
 		-- Inset black bit
 		-- h g
@@ -134,9 +137,9 @@ define_model('skyscraper1', {
 
 define_model('clockhand', {
 	info = {
-			bounding_radius = 1,
-			materials={'mat'}
-		},
+		bounding_radius = 1,
+		materials={'mat'}
+	},
 	static = function(lod)
 		set_material("mat",0,0,1,1, 0,0,0, 10)
 		use_material("mat")
@@ -147,9 +150,9 @@ define_model('clockhand', {
 
 define_model('clock', {
 	info = {
-			bounding_radius=1,
-			materials={'face','numbers'}
-		},
+		bounding_radius=1,
+		materials={'face','numbers'}
+	},
 	static = function(lod)
 		set_material("face", 1,1,1,1)
 		set_material("numbers",.5,.5,0,1)
@@ -188,9 +191,10 @@ define_model('clock', {
 
 define_model('church', {
 	info = {
-			bounding_radius=45,
-			materials={'body','spire'}
-		},
+		bounding_radius=45,
+		materials={'body','spire'},
+		tags = {'city_building'},
+	},
 	static = function(lod)
 		set_material("body", .5, .5, .3,1)
 		use_material("body")
@@ -220,9 +224,9 @@ define_model('church', {
 
 define_model('towerOfShit', {
 	info = {
-			bounding_radius=20,
-			materials={'mat1'}
-		},
+		bounding_radius=20,
+		materials={'mat1'}
+	},
 	static = function(lod)
 		set_material("mat1", 1,1,1,1)
 		use_material("mat1")
@@ -238,9 +242,9 @@ define_model('towerOfShit', {
 
 define_model('boringHighRise', {
 	info = {
-			bounding_radius=200,
-			materials={'mat1','windows'}
-		},
+		bounding_radius=200,
+		materials={'mat1','windows'}
+	},
 	dynamic = function(lod)
 		use_material("mat1", 'windows')
 		tri(v(-20,0,0),v(20,0,0),v(-20,20,0))
@@ -304,9 +308,9 @@ end
 
 define_model('biodomes', {
 	info = {
-			bounding_radius=1000,
-			materials={'base','green','dome'}
-		},
+		bounding_radius=1000,
+		materials={'base','green','dome'}
+	},
 	static = function(lod)
 		set_material('base', .4,.4,.5,1, .5,.5,.7,40)
 		set_material('green', .1,.6,.1,1)
