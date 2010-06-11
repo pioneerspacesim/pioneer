@@ -1,3 +1,7 @@
+--
+-- Don't add models to this! Put them in ./models/
+--
+
 -- First some useful utility functions! :D
 
 math.clamp = function(v, min, max)
@@ -63,10 +67,8 @@ function lerp_materials(a, m1, m2)
 	return out
 end
 
-dofile "data/models/adverts.lua"
-dofile "data/models/ships.lua"
-dofile "data/models/city.lua"
-dofile "data/models/spacestations.lua"
+--dofile "data/models/adverts.lua"
+load_lua(CurrentDirectory .. "/models")
 
 poo = 0
 define_model('test', {
@@ -81,7 +83,7 @@ define_model('test', {
 		set_material("shinyred", 1,0,0,1, 1,1,1,50)
 		use_material("red")
 
-		texture("concrete.png", v(0.25,0.25,0), v(0.2,0,0), v(0,-0.5,0))
+--		texture("concrete.png", v(0.25,0.25,0), v(0.2,0,0), v(0,-0.5,0))
 		xref_flat(16, v(0,0,1),
 			{v(4,0,0)}, -- straight line bit
 			{v(4.5,-0.5,0),v(5,0,0)}, -- quadric bezier bit

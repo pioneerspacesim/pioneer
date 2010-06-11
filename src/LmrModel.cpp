@@ -2433,9 +2433,9 @@ void LmrModelCompilerInit()
 	lua_register(L, "load_lua", UtilFuncs::load_lua);
 
 	s_buildDynamic = false;
-	lua_pushstring(L, "data/models");
+	lua_pushstring(L, PIONEER_DATA_DIR);
 	lua_setglobal(L, "CurrentDirectory");
-	if (luaL_dofile(L, "data/models/models.lua")) {
+	if (luaL_dofile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str() )) {
 		printf("%s\n", lua_tostring(L, -1));
 	}
 	s_buildDynamic = true;
