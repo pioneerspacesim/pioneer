@@ -234,6 +234,8 @@ public:
 	LmrGeomBuffer(LmrModel *model) {
 		curOp.type = OP_NONE;
 		curTriFlag = 0;
+		curTexture = 0;
+		curTexMatrix = matrix4x4f::Identity();
 		m_vertexBuffer = 0;
 		m_indexBuffer = 0;
 		m_model = model;
@@ -307,7 +309,7 @@ public:
 			const Op &op = m_ops[i];
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
-				if (op.elems.texture != -1 ) {
+				if (op.elems.texture != 0 ) {
 					UseProgram(true);
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
@@ -316,7 +318,7 @@ public:
 					glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
 				else
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
-				if ( op.elems.texture != -1 ) {
+				if ( op.elems.texture != 0 ) {
 					glDisable(GL_TEXTURE_2D);
 					UseProgram();
 				}
@@ -411,15 +413,26 @@ public:
 		m_thrusters[i].power = power;
 		m_thrusters[i].linear_only = linear_only;
 	}
-	int PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u = 0, GLfloat tex_v = 0) {
+	int PushVertex(const vector3f &pos, const vector3f &normal) {
+		vector3d tex = curTexMatrix * pos;
+		m_vertices.push_back(Vertex(pos, normal, tex.x, tex.y));
+		return m_vertices.size() - 1;
+	}
+	void SetVertex(int idx, const vector3f &pos, const vector3f &normal) {
+		vector3d tex = curTexMatrix * pos;
+		m_vertices[idx] = Vertex(pos, normal, tex.x, tex.y);
+	}
+	int PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
 		m_vertices.push_back(Vertex(pos, normal, tex_u, tex_v));
 		return m_vertices.size() - 1;
 	}
-	void SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u = 0, GLfloat tex_v = 0) {
+	void SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
 		m_vertices[idx] = Vertex(pos, normal, tex_u, tex_v);
 	}
-	void PushTri(int i1, int i2, int i3, int texture = -1) {
-		OpDrawElements(3, texture);
+	void SetTexture(GLuint tex) { curTexture = tex; }
+	void SetTexMatrix(const matrix4x4f &texMatrix) { curTexMatrix = texMatrix; } 
+	void PushTri(int i1, int i2, int i3) {
+		OpDrawElements(3);
 		PushIdx(i1);
 		PushIdx(i2);
 		PushIdx(i3);
@@ -594,15 +607,15 @@ private:
 		}
 	}
 
-	void OpDrawElements(int numIndices, GLuint texture = -1) {
-		if (curOp.type != OP_DRAW_ELEMENTS) {
+	void OpDrawElements(int numIndices) {
+		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.texture != curTexture)) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
 			curOp.elems.count = 0;
 			curOp.elems.elemMin = 1<<30;
 			curOp.elems.elemMax = 0;
-			curOp.elems.texture = texture;
+			curOp.elems.texture = curTexture;
 		}
 		curOp.elems.count += numIndices;
 	}
@@ -635,8 +648,12 @@ private:
 		GLfloat tex_u, tex_v;
 	};
 
+	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
+	GLuint curTexture;
+	matrix4x4f curTexMatrix;
+	// 
 	std::vector<Vertex> m_vertices;
 	std::vector<Uint16> m_indices;
 	std::vector<Uint16> m_triflags;
@@ -1432,6 +1449,37 @@ namespace ModelFuncs {
 		return 0;
 	}
 
+	static int texture(lua_State *L)
+	{
+		const int nargs = lua_gettop(L);
+		if (lua_isnil(L, 1)) {
+			s_curBuf->SetTexture(0);
+		} else {
+			lua_getglobal(L, "CurrentDirectory");
+			std::string dir = luaL_checkstring(L, -1);
+			lua_pop(L, 1);
+
+			const char *texfile = luaL_checkstring(L, 1);
+			std::string t = dir + std::string("/") + texfile;
+			GLuint texture = util_load_tex_rgba(t.c_str());
+			if (nargs == 4) {
+				// texfile, pos, uaxis, vaxis
+				vector3f pos = *MyLuaVec::checkVec(L, 2);
+				vector3f uaxis = *MyLuaVec::checkVec(L, 3);
+				vector3f vaxis = *MyLuaVec::checkVec(L, 4);
+				vector3f waxis = vector3f::Cross(uaxis, vaxis);
+
+				matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(uaxis, vaxis, waxis);
+				trans[12] = -pos.x;
+				trans[13] = -pos.y;
+				s_curBuf->SetTexMatrix(trans);
+			}
+
+			s_curBuf->SetTexture(texture);
+		}
+		return 0;
+	}
+
 		static matrix4x4f _textTrans;
 		static vector3f _textNorm;
 		static void _text_index_callback(int num, Uint16 *vals) {
@@ -2157,7 +2205,8 @@ namespace ObjLoader {
 						s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
 						s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 						s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
-						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2, texture);
+						s_curBuf->SetTexture(texture);
+						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
 					for (int i=0; i<numBits; i++) {
@@ -2173,11 +2222,12 @@ namespace ObjLoader {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
+					s_curBuf->SetTexture(texture);
 					if (numBits == 3) {
-						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2], texture);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
-						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2], texture);
-						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3], texture);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
+						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3]);
 					} else {
 						printf("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
 						exit(0);
@@ -2230,7 +2280,6 @@ namespace UtilFuncs {
 	void lua_traverse(lua_State *L, const char *fn) {
 		DIR *dir;
 		struct dirent *entry;
-		int count;
 		char path[1024];
 		struct stat info;
 
@@ -2359,6 +2408,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "circle", ModelFuncs::circle);
 	lua_register(L, "xref_circle", ModelFuncs::xref_circle);
 	lua_register(L, "text", ModelFuncs::text);
+	lua_register(L, "texture", ModelFuncs::texture);
 	lua_register(L, "quadric_bezier_quad", ModelFuncs::quadric_bezier_quad);
 	lua_register(L, "xref_quadric_bezier_quad", ModelFuncs::xref_quadric_bezier_quad);
 	lua_register(L, "cubic_bezier_quad", ModelFuncs::cubic_bezier_quad);

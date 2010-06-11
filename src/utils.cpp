@@ -285,7 +285,7 @@ GLuint util_load_tex_rgba(const char *filename)
 
 	SDL_Surface *s = IMG_Load(filename);
 
-	if ( s )
+	if (s)
 	{
 		glGenTextures (1, &tex);
 		glBindTexture (GL_TEXTURE_2D, tex);
@@ -307,6 +307,8 @@ GLuint util_load_tex_rgba(const char *filename)
 		SDL_FreeSurface(s);
 
 		s_textures[filename] = tex;
+	} else {
+		Error("IMG_Load: %s\n", IMG_GetError());
 	}
 
 	return tex;

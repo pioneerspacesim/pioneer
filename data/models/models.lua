@@ -81,6 +81,7 @@ define_model('test', {
 		set_material("shinyred", 1,0,0,1, 1,1,1,50)
 		use_material("red")
 
+		texture("concrete.png", v(0.25,0.25,0), v(0.2,0,0), v(0,-0.5,0))
 		xref_flat(16, v(0,0,1),
 			{v(4,0,0)}, -- straight line bit
 			{v(4.5,-0.5,0),v(5,0,0)}, -- quadric bezier bit
@@ -104,6 +105,7 @@ define_model('test', {
 		tri(v(12,3,0),v(13,3,0), v(12,4,0))
 		xref_tri(v(13,3,0),v(14,3,0), v(13,4,0))
 		xref_quad(v(6,6,0), v(7,6,0), v(7,7,0),v(6,7,0))
+		texture(nil)
 	--[[
 		xref_cubic_bezier_tri(32, v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
 					v(0,-1,0), v(1,-1,3), v(3,-1,0),
