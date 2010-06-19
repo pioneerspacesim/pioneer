@@ -726,7 +726,7 @@ public:
 	virtual void ShowAll();
 private:
 	void OpenMissionDialog(int idx);
-	void OnCloseMissionDialog();
+	void OnCloseMissionDialog(GenericChatForm *missionDlg);
 	void OnAdvertDeleted(BBAdvert *);
 	void OnBBChanged();
 	sigc::connection m_onBBChangedConnection, m_onBBAdvertDeleted;
@@ -760,17 +760,9 @@ void StationBBView::OnAdvertDeleted(BBAdvert *ad)
 	}
 }
 
-void StationBBView::OnCloseMissionDialog()
+void StationBBView::OnCloseMissionDialog(GenericChatForm *missionDlg)
 {
-	assert(m_advertChatForm);
-	RemoveChild(m_advertChatForm);
-	//GetParent()->ShowChildren();
-	SetTransparency(false);
-	// delete m_advertChatForm done before ShowAll, so that expiring of
-	// bbadverts done in ~LuaChatForm will be correctly updated in this view
-	delete m_advertChatForm;
 	m_advertChatForm = 0;
-	ShowAll();
 }
 
 void StationBBView::OpenMissionDialog(int midx)

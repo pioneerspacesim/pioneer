@@ -97,7 +97,7 @@ void GenericChatForm::Close()
 	//GetParent()->RemoveChild(this);
 	//GetParent()->ShowChildren();
 	//GetParent()->SetTransparency(false);
-	onClose.emit();
+	onClose.emit(this);
 	//static_cast<GenericChatForm*>(GetParent())->UpdateBaseDisplay();
 	//delete this;
 }
@@ -164,6 +164,15 @@ void GenericChatForm::OpenChildChatForm(GenericChatForm *form)
 	SetTransparency(true);
 	Add(form, 0, 0);
 	form->ShowAll();
+	form->onClose.connect(sigc::mem_fun(this, &GenericChatForm::OnCloseChildChatForm));
+}
+
+void GenericChatForm::OnCloseChildChatForm(GenericChatForm *form)
+{
+	RemoveChild(form);
+	SetTransparency(false);
+	delete form;
+	ShowAll();
 }
 
 GenericChatForm::GenericChatForm(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64))

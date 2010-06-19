@@ -18,8 +18,9 @@ public:
 	void OpenChildChatForm(GenericChatForm *form);
 	void AddOption(sigc::slot<void,GenericChatForm*,int> slot, const char *text, int val);
 	void SetMessage(const char*);
+	void OnCloseChildChatForm(GenericChatForm *form);
 
-	sigc::signal<void> onClose;
+	sigc::signal<void,GenericChatForm*> onClose;
 
 	Gui::Fixed *m_chatRegion;
 	Gui::VBox *m_msgregion;
