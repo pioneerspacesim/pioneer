@@ -20,12 +20,16 @@ public:
 	virtual void ShowAll();
 private:
 	void OnClickBuy(int commodity_type) {
-		m_station->SellTo(Pi::player, (Equip::Type)commodity_type);
+		if (m_station->SellTo(Pi::player, (Equip::Type)commodity_type, true)) {
+			Pi::cpan->MsgLog()->Message("", stringf(512, "You have bought 1t of %s.", EquipType::types[commodity_type].name));
+		}
 		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
-		m_station->BuyFrom(Pi::player, (Equip::Type)commodity_type);
+		if (m_station->BuyFrom(Pi::player, (Equip::Type)commodity_type, true)) {
+			Pi::cpan->MsgLog()->Message("", stringf(512, "You have sold 1t of %s.", EquipType::types[commodity_type].name));
+		}
 		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}

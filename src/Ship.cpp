@@ -644,7 +644,7 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						Pi::cpan->MsgLog()->Message("", stringf(512, "Fuel scoop active. You now have %d tonnes of hydrogen.",
+						Pi::Message(stringf(512, "Fuel scoop active. You now have %d tonnes of hydrogen.",
 									m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN)));
 						CalcStats();
 					}
@@ -664,7 +664,7 @@ void Ship::StaticUpdate(const float timeStep)
 			
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
-				Pi::cpan->MsgLog()->Message("", "Sensors report critical cargo bay life-support conditions.");
+				Pi::Message("Sensors report critical cargo bay life-support conditions.");
 			}
 		}
 	}
@@ -945,14 +945,29 @@ void Ship::Sold(Equip::Type t) {
 	m_equipment.Remove(t, 1);
 	CalcStats();
 }
-bool Ship::CanBuy(Equip::Type t) const {
+bool Ship::CanBuy(Equip::Type t, bool verbose) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
-	return (m_equipment.FreeSpace(slot)!=0) &&
-	       (m_stats.free_capacity >= EquipType::types[(int)t].mass);
+	bool freespace = (m_equipment.FreeSpace(slot)!=0);
+	bool freecapacity = (m_stats.free_capacity >= EquipType::types[(int)t].mass);
+	if (verbose && (this == (Ship*)Pi::player)) {
+		if (!freespace) {
+			Pi::Message("You have no free space for this item.");
+		}
+		else if (!freecapacity) {
+			Pi::Message("Your ship is fully laden.");
+		}
+	}
+	return (freespace && freecapacity);
 }
-bool Ship::CanSell(Equip::Type t) const {
+bool Ship::CanSell(Equip::Type t, bool verbose) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;
-	return m_equipment.Count(slot, t) > 0;
+	bool cansell = (m_equipment.Count(slot, t) > 0);
+	if (verbose && (this == (Ship*)Pi::player)) {
+		if (!cansell) {
+			Pi::Message(stringf(512, "You do not have any %s.", EquipType::types[(int)t].name));
+		}
+	}
+	return cansell;
 }
 Sint64 Ship::GetPrice(Equip::Type t) const {
 	if (m_dockedWith) {

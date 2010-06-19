@@ -94,10 +94,10 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 	return price;
 }
 
-bool LuaChatForm::CanBuy(Equip::Type t) const {
+bool LuaChatForm::CanBuy(Equip::Type t, bool verbose) const {
 	return DoesSell(t);
 }
-bool LuaChatForm::CanSell(Equip::Type t) const {
+bool LuaChatForm::CanSell(Equip::Type t, bool verbose) const {
 	return (GetStock(t) > 0) && DoesSell(t);
 }
 bool LuaChatForm::DoesSell(Equip::Type t) const {
@@ -128,7 +128,9 @@ void LuaChatForm::OnClickBuy(int equipType) {
 	bool doBuy = lua_toboolean(l, -1);
 	lua_pop(l, 1);
 	if (doBuy) {
-		SellTo(Pi::player, (Equip::Type)equipType);
+		if (SellTo(Pi::player, (Equip::Type)equipType, true)) {
+			Pi::Message(stringf(512, "You have bought 1t of %s.", EquipType::types[equipType].name));
+		}
 		m_commodityTradeWidget->UpdateStock(equipType);
 		UpdateBaseDisplay();
 	}
@@ -140,7 +142,9 @@ void LuaChatForm::OnClickSell(int equipType) {
 	bool doSell = lua_toboolean(l, -1);
 	lua_pop(l, 1);
 	if (doSell) {
-		BuyFrom(Pi::player, (Equip::Type)equipType);
+		if (BuyFrom(Pi::player, (Equip::Type)equipType, true)) {
+			Pi::Message(stringf(512, "You have sold 1t of %s.", EquipType::types[equipType].name));
+		}
 		m_commodityTradeWidget->UpdateStock(equipType);
 		UpdateBaseDisplay();
 	}

@@ -90,8 +90,8 @@ public:
 	virtual void PostLoadFixup();
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
-	bool CanBuy(Equip::Type t) const;
-	bool CanSell(Equip::Type t) const;
+	bool CanBuy(Equip::Type t, bool verbose) const;
+	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const { return true; }
 	Sint64 GetPrice(Equip::Type t) const;
 	void ChangeFlavour(const ShipFlavour *f);

@@ -640,11 +640,15 @@ void SpaceStation::Bought(Equip::Type t) {
 void SpaceStation::Sold(Equip::Type t) {
 	m_equipmentStock[(int)t]--;
 }
-bool SpaceStation::CanBuy(Equip::Type t) const {
+bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
 	return true;
 }
-bool SpaceStation::CanSell(Equip::Type t) const {
-	return m_equipmentStock[(int)t] > 0;
+bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
+	bool result = (m_equipmentStock[(int)t] > 0);
+	if (verbose && !result) {
+		Pi::Message("This item is out of stock.");
+	}
+	return result;
 }
 bool SpaceStation::DoesSell(Equip::Type t) const {
 	return Polit::IsCommodityLegal(Pi::currentSystem, t);

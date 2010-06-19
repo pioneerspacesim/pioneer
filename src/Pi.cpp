@@ -1034,3 +1034,12 @@ float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 {
 	return 200.0f * hyperclass * hyperclass / (float)total_mass_in_tonnes;
 }
+
+void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)
+{
+	if (level == MSG_IMPORTANT) {
+		Pi::cpan->MsgLog()->ImportantMessage(from, message);
+	} else {
+		Pi::cpan->MsgLog()->Message(from, message);
+	}
+}

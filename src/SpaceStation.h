@@ -65,8 +65,8 @@ public:
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
 	Sint64 GetPrice(Equip::Type t) const;
-	bool CanBuy(Equip::Type t) const;
-	bool CanSell(Equip::Type t) const;
+	bool CanBuy(Equip::Type t, bool verbose) const;
+	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
 	virtual const SBody *GetSBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
