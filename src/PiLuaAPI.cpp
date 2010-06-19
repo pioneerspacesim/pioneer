@@ -11,6 +11,7 @@
 #include "LuaChatForm.h"
 #include "NameGenerator.h"
 #include "HyperspaceCloud.h"
+#include "Polit.h"
 
 void ship_randomly_equip(Ship *ship, double power)
 {
@@ -78,7 +79,7 @@ void ship_randomly_equip(Ship *ship, double power)
 
 ////////////////////////////////////////////////////////////
 
-EXPORT_OOLUA_FUNCTIONS_12_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_13_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
 		ShipAIDoLowOrbit,
@@ -87,6 +88,7 @@ EXPORT_OOLUA_FUNCTIONS_12_NON_CONST(ObjectWrapper,
 		ShipGiveEquipment,
 		SetMoney,
 		AddMoney,
+		GetEquipmentPrice,
 		SpaceStationAddAdvert,
 		SpaceStationRemoveAdvert,
 		GetDockedWith,
@@ -169,6 +171,19 @@ void ObjectWrapper::AddMoney(double m) {
 		Ship *s = static_cast<Ship*>(m_obj);
 		s->SetMoney(s->GetMoney() + (Sint64)(m*100.0));
 	}
+}
+double ObjectWrapper::GetEquipmentPrice(int equip_type) {
+	MarketAgent *m = 0;
+	if (Is(Object::SHIP)) {
+		m = static_cast<MarketAgent*>(static_cast<Ship*>(m_obj));
+	}
+	else if (Is(Object::SPACESTATION)) {
+		m = static_cast<MarketAgent*>(static_cast<SpaceStation*>(m_obj));
+	} else {
+		return 0;
+	}
+	Sint64 cost = m->GetPrice((Equip::Type)equip_type);
+	return 0.01 * (double)cost;
 }
 const char *ObjectWrapper::GetLabel() const {
 	if (Is(Object::BODY)) {
@@ -473,6 +488,15 @@ namespace LuaPi {
 		}
 		return ret;
 	}
+	static int AddPlayerCrime(lua_State *l) {
+		Sint64 crimeBitset;
+		double fine;
+		OOLUA::pull2cpp(l, fine);
+		OOLUA::pull2cpp(l, crimeBitset);
+		Sint64 _fine = (Sint64)(100.0*fine);
+		Polit::AddCrime(crimeBitset, _fine);
+		return 0;
+	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -496,6 +520,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	lua_register(l, "UserDataUnserialize", UserDataUnserialize);
 
 	lua_newtable(l);
+	REG_FUNC("AddPlayerCrime", &LuaPi::AddPlayerCrime);
 	REG_FUNC("GetCurrentSystem", &LuaPi::GetCurrentSystem);
 	REG_FUNC("GetPlayer", &LuaPi::GetPlayer);
 	REG_FUNC("GetGameTime", &LuaPi::GetGameTime);

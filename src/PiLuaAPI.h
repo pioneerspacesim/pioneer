@@ -21,6 +21,8 @@ class ObjectWrapper
 	double GetMoney() const;
 	void SetMoney(double m);
 	void AddMoney(double m);
+	double GetEquipmentPrice(int equip_type);
+
 
 	void ShipAIDoKill(ObjectWrapper &o);
 	void ShipAIDoFlyTo(ObjectWrapper &o);
@@ -56,6 +58,7 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
 	OOLUA_MEM_FUNC_1(void, SetMoney, double)
 	OOLUA_MEM_FUNC_1(void, AddMoney, double)
+	OOLUA_MEM_FUNC_1(double, GetEquipmentPrice, int)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoKill, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoFlyTo, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoLowOrbit, ObjectWrapper&)

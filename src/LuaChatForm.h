@@ -29,6 +29,7 @@ public:
 	int GetStock(Equip::Type t) const;
 	void RemoveAdvertOnClose() { m_adTaken = true; }
 	void OnAdvertDeleted();
+	void GotoPolice();
 	const BBAdvert *GetAdvert() const { return m_advert; }
 protected:
 	/* MarketAgent stuff */
@@ -52,6 +53,7 @@ OOLUA_CLASS_NO_BASES(LuaChatForm)
 	OOLUA_MEM_FUNC_0(void, UpdateBaseDisplay)
 	OOLUA_MEM_FUNC_0(void, Close)
 	OOLUA_MEM_FUNC_0(void, Clear)
+	OOLUA_MEM_FUNC_0(void, GotoPolice)
 	OOLUA_MEM_FUNC_0(void, RemoveAdvertOnClose)
 	OOLUA_MEM_FUNC_1(void, SetTitle, const char *)
 	OOLUA_MEM_FUNC_0(void, AddTraderWidget)

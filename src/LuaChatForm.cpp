@@ -4,13 +4,16 @@
 #include "libs.h"
 #include "Gui.h"
 #include "SpaceStation.h"
+#include "SpaceStationView.h"
+#include "PoliceChatForm.h"
 #include "PiLuaModules.h"
 #include "CommodityTradeWidget.h"
 
-EXPORT_OOLUA_FUNCTIONS_9_NON_CONST(LuaChatForm,
+EXPORT_OOLUA_FUNCTIONS_10_NON_CONST(LuaChatForm,
 		UpdateBaseDisplay,
 		Close,
 		Clear,
+		GotoPolice,
 		SetTitle,
 		SetMessage,
 		AddOption,
@@ -141,4 +144,9 @@ void LuaChatForm::OnClickSell(int equipType) {
 		m_commodityTradeWidget->UpdateStock(equipType);
 		UpdateBaseDisplay();
 	}
+}
+
+void LuaChatForm::GotoPolice() {
+	Close();
+	Pi::spaceStationView->JumpTo(new PoliceChatForm());
 }

@@ -220,7 +220,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 
 #define POLIT_SALT 0x8732abdf
 
-bool IsCommodityLegal(StarSystem *s, Equip::Type t)
+bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 {
 	int sx, sy, sys_idx;
 	s->GetPos(&sx, &sy, &sys_idx);

@@ -10,6 +10,7 @@ class Ship;
 
 namespace Polit {
 	enum Crime {
+		// XXX MUST BE KEPT IN SYNC WITH data/pimodule.lua
 		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
 		CRIME_WEAPON_DISCHARGE = (1<<1),
 		CRIME_PIRACY = (1<<2),
@@ -55,7 +56,7 @@ namespace Polit {
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
-	bool IsCommodityLegal(StarSystem *s, Equip::Type t);
+	bool IsCommodityLegal(const StarSystem *s, Equip::Type t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);
