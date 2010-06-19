@@ -20,69 +20,87 @@ void *mylua_checkudata (lua_State *L, int ud, const char *tname) {
 
 
 namespace MyLuaMatrix {
-	matrix4x4f *checkMat4x4 (lua_State *L, int index)
+	matrix4x4f *checkMatrix (lua_State *L, int index)
 	{
 		matrix4x4f *v;
 		luaL_checktype(L, index, LUA_TUSERDATA);
-		v = (matrix4x4f *)luaL_checkudata(L, index, MAT4X4);
-		if (v == NULL) luaL_typerror(L, index, MAT4X4);
+		v = (matrix4x4f *)luaL_checkudata(L, index, MYLUA_MATRIX);
+		if (v == NULL) luaL_typerror(L, index, MYLUA_MATRIX);
 		return v;
 	}
 
 
-	matrix4x4f *pushMat4x4(lua_State *L)
+	matrix4x4f *pushMatrix(lua_State *L)
 	{
 		matrix4x4f *v = (matrix4x4f *)lua_newuserdata(L, sizeof(matrix4x4f));
-		luaL_getmetatable(L, MAT4X4);
+		luaL_getmetatable(L, MYLUA_MATRIX);
 		lua_setmetatable(L, -2);
 		return v;
 	}
 
-	int Mat4x4_new_identity(lua_State *L)
+	int Matrix_new_identity(lua_State *L)
 	{
-		matrix4x4f *v = pushMat4x4(L);
+		matrix4x4f *v = pushMatrix(L);
 		*v = matrix4x4f::Identity();
 		return 1;
 	}
 
-	static int Mat4x4_inverse(lua_State *L)
+	static int Matrix_inverse(lua_State *L)
 	{
-		matrix4x4f *v = checkMat4x4(L, 1);
-		matrix4x4f *w = pushMat4x4(L);
+		matrix4x4f *v = checkMatrix(L, 1);
+		matrix4x4f *w = pushMatrix(L);
 		*w = v->InverseOf();
 		return 1;
 	}
 
-	static int Mat4x4_rotate(lua_State *L)
+	static int Matrix_rotate(lua_State *L)
 	{
 		float ang = luaL_checknumber(L, 1);
 		vector3f v = *MyLuaVec::checkVec(L, 2);
 		v = v.Normalized();
-		matrix4x4f *out = pushMat4x4(L);
+		matrix4x4f *out = pushMatrix(L);
 		*out = matrix4x4f::RotateMatrix(ang, v.x, v.y, v.z);
 		return 1;
 	}
 
-	static int Mat4x4_translate(lua_State *L)
+	static int Matrix_translate(lua_State *L)
 	{
 		const vector3f *v = MyLuaVec::checkVec(L, 1);
-		matrix4x4f *out = pushMat4x4(L);
+		matrix4x4f *out = pushMatrix(L);
 		*out = matrix4x4f::Translation(v->x, v->y, v->z);
 		return 1;
 	}
 
-	static int Mat4x4_scale(lua_State *L)
+	static int Matrix_orient(lua_State *L)
+	{
+		const vector3f *pos = MyLuaVec::checkVec(L, 1);
+		const vector3f *_xaxis = MyLuaVec::checkVec(L, 2);
+		const vector3f *_yaxis = MyLuaVec::checkVec(L, 3);
+
+		vector3f zaxis = vector3f::Cross(*_xaxis, *_yaxis).Normalized();
+		vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
+		vector3f yaxis = vector3f::Cross(zaxis, xaxis);
+
+		matrix4x4f *out = pushMatrix(L);
+		*out = matrix4x4f::MakeInvRotMatrix(xaxis, yaxis, zaxis);
+		(*out)[12] = pos->x;
+		(*out)[13] = pos->y;
+		(*out)[14] = pos->z;
+		return 1;
+	}
+
+	static int Matrix_scale(lua_State *L)
 	{
 		const vector3f *v = MyLuaVec::checkVec(L, 1);
-		matrix4x4f *out = pushMat4x4(L);
+		matrix4x4f *out = pushMatrix(L);
 		*out = matrix4x4f::ScaleMatrix(v->x, v->y, v->z);
 		return 1;
 	}
 
-	static int Mat4x4_new(lua_State *L)
+	static int Matrix_new(lua_State *L)
 	{
 		int n = lua_gettop(L);
-		matrix4x4f *v = pushMat4x4(L);
+		matrix4x4f *v = pushMatrix(L);
 		if (n == 0) {
 			*v = matrix4x4f(0.0);
 		} else if (n == 3) {
@@ -109,9 +127,9 @@ namespace MyLuaMatrix {
 		return 1;
 	}
 
-	static int Mat4x4_print(lua_State *L)
+	static int Matrix_print(lua_State *L)
 	{
-		matrix4x4f *v = checkMat4x4(L, 1);
+		matrix4x4f *v = checkMatrix(L, 1);
 		printf("[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n\n",
 				(*v)[0], (*v)[1], (*v)[2], (*v)[3],
 				(*v)[4], (*v)[5], (*v)[6], (*v)[7],
@@ -120,25 +138,25 @@ namespace MyLuaMatrix {
 		return 0;
 	}
 
-	static int Mat4x4_add (lua_State *L)
+	static int Matrix_add (lua_State *L)
 	{
-		matrix4x4f *v1 = checkMat4x4(L, 1);
-		matrix4x4f *v2 = checkMat4x4(L, 2);
-		matrix4x4f *sum = pushMat4x4(L);
+		matrix4x4f *v1 = checkMatrix(L, 1);
+		matrix4x4f *v2 = checkMatrix(L, 2);
+		matrix4x4f *sum = pushMatrix(L);
 		*sum = (*v1) + (*v2);
 		return 1;
 	}
 
-	static int Mat4x4_sub (lua_State *L)
+	static int Matrix_sub (lua_State *L)
 	{
-		matrix4x4f *v1 = checkMat4x4(L, 1);
-		matrix4x4f *v2 = checkMat4x4(L, 2);
-		matrix4x4f *sum = pushMat4x4(L);
+		matrix4x4f *v1 = checkMatrix(L, 1);
+		matrix4x4f *v2 = checkMatrix(L, 2);
+		matrix4x4f *sum = pushMatrix(L);
 		*sum = (*v1) - (*v2);
 		return 1;
 	}
 
-	static int Mat4x4_mul (lua_State *L)
+	static int Matrix_mul (lua_State *L)
 	{
 		matrix4x4f *m;
 		vector3f *v;
@@ -146,23 +164,23 @@ namespace MyLuaMatrix {
 		if (lua_isnumber(L,1)) {
 			// number * mat4x4
 			num = lua_tonumber(L, 1);
-			m = checkMat4x4(L, 2);
+			m = checkMatrix(L, 2);
 
-			matrix4x4f *out = pushMat4x4(L);
+			matrix4x4f *out = pushMatrix(L);
 			*out = num * (*m);
 			return 1;
 		} else if (lua_isnumber(L, 2)) {
 			// mat4x4 * number
-			m = checkMat4x4(L, 1);
+			m = checkMatrix(L, 1);
 			num = lua_tonumber(L, 2);
 
-			matrix4x4f *out = pushMat4x4(L);
+			matrix4x4f *out = pushMatrix(L);
 			*out = num * (*m);
 			return 1;
 		} else {
-			m = checkMat4x4(L, 1);
+			m = checkMatrix(L, 1);
 			luaL_checktype(L, 2, LUA_TUSERDATA);
-			v = (vector3f*)mylua_checkudata(L, 2, VEC);
+			v = (vector3f*)mylua_checkudata(L, 2, MYLUA_VEC);
 			if (v) {
 				// mat4x4 * vec
 				vector3f *out = MyLuaVec::pushVec(L);
@@ -170,42 +188,43 @@ namespace MyLuaMatrix {
 				return 1;
 			} else {
 				// mat4x4 * mat4x4
-				matrix4x4f *m2 = (matrix4x4f*)luaL_checkudata(L, 2, MAT4X4);
-				if (!m2) luaL_typerror(L, 2, MAT4X4);
-				matrix4x4f *out = pushMat4x4(L);
+				matrix4x4f *m2 = (matrix4x4f*)luaL_checkudata(L, 2, MYLUA_MATRIX);
+				if (!m2) luaL_typerror(L, 2, MYLUA_MATRIX);
+				matrix4x4f *out = pushMatrix(L);
 				*out = (*m) * (*m2);
 				return 1;
 			}
 		}
 	}
 
-	static const luaL_reg Mat4x4_methods[] = {
-		{ "new", Mat4x4_new },
-		{ "identity", Mat4x4_new_identity },
-		{ "inverse", Mat4x4_inverse },
-		{ "rotate", Mat4x4_rotate },
-		{ "scale", Mat4x4_scale },
-		{ "translate", Mat4x4_translate },
-		{ "print", Mat4x4_print },
+	static const luaL_reg Matrix_methods[] = {
+		{ "new", Matrix_new },
+		{ "identity", Matrix_new_identity },
+		{ "inverse", Matrix_inverse },
+		{ "rotate", Matrix_rotate },
+		{ "scale", Matrix_scale },
+		{ "translate", Matrix_translate },
+		{ "orient", Matrix_orient },
+		{ "print", Matrix_print },
 		{ 0, 0 }
 	};
 
-	static const luaL_reg Mat4x4_meta[] = {
+	static const luaL_reg Matrix_meta[] = {
 		//  {"__gc",       Foo_gc},
 		//  {"__tostring", Foo_tostring},
-		{"__add",      Mat4x4_add},
-		{"__sub",      Mat4x4_sub},
-		{"__mul",      Mat4x4_mul},
+		{"__add",      Matrix_add},
+		{"__sub",      Matrix_sub},
+		{"__mul",      Matrix_mul},
 		{0, 0}
 	};
 
-	int Mat4x4_register (lua_State *L)
+	int Matrix_register (lua_State *L)
 	{
-		luaL_openlib(L, MAT4X4, Mat4x4_methods, 0);  /* create methods table,
+		luaL_openlib(L, MYLUA_MATRIX, Matrix_methods, 0);  /* create methods table,
 						    add it to the globals */
-		luaL_newmetatable(L, MAT4X4);          /* create metatable for Mat4x4,
+		luaL_newmetatable(L, MYLUA_MATRIX);          /* create metatable for Matrix,
 						 and add it to the Lua registry */
-		luaL_openlib(L, 0, Mat4x4_meta, 0);    /* fill metatable */
+		luaL_openlib(L, 0, Matrix_meta, 0);    /* fill metatable */
 		lua_pushliteral(L, "__index");
 		lua_pushvalue(L, -3);               /* dup methods table*/
 		lua_rawset(L, -3);                  /* metatable.__index = methods */
@@ -223,8 +242,8 @@ namespace MyLuaVec {
 	{
 		vector3f *v;
 		luaL_checktype(L, index, LUA_TUSERDATA);
-		v = (vector3f *)luaL_checkudata(L, index, VEC);
-		if (v == NULL) luaL_typerror(L, index, VEC);
+		v = (vector3f *)luaL_checkudata(L, index, MYLUA_VEC);
+		if (v == NULL) luaL_typerror(L, index, MYLUA_VEC);
 		return v;
 	}
 
@@ -232,7 +251,7 @@ namespace MyLuaVec {
 	vector3f *pushVec(lua_State *L)
 	{
 		vector3f *v = (vector3f *)lua_newuserdata(L, sizeof(vector3f));
-		luaL_getmetatable(L, VEC);
+		luaL_getmetatable(L, MYLUA_VEC);
 		lua_setmetatable(L, -2);
 		return v;
 	}
@@ -404,9 +423,9 @@ namespace MyLuaVec {
 
 	int Vec_register (lua_State *L)
 	{
-		luaL_openlib(L, VEC, Vec_methods, 0);  /* create methods table,
+		luaL_openlib(L, MYLUA_VEC, Vec_methods, 0);  /* create methods table,
 						    add it to the globals */
-		luaL_newmetatable(L, VEC);          /* create metatable for Vec,
+		luaL_newmetatable(L, MYLUA_VEC);          /* create metatable for Vec,
 						 and add it to the Lua registry */
 		luaL_openlib(L, 0, Vec_meta, 0);    /* fill metatable */
 		lua_pushliteral(L, "__index");

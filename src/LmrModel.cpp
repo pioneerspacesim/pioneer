@@ -2062,6 +2062,156 @@ namespace ModelFuncs {
 		s_curBuf->PushBillboards(texname, size, color, points.size(), &points[0]);
 		return 0;
 	}
+	////////////////////////////////////////////////////////////////
+	
+#define ICOSX	0.525731112119133f
+#define ICOSZ	0.850650808352039f
+
+	static const vector3f icosahedron_vertices[12] = {
+		vector3f(-ICOSX, 0.0, ICOSZ), vector3f(ICOSX, 0.0, ICOSZ), vector3f(-ICOSX, 0.0, -ICOSZ), vector3f(ICOSX, 0.0, -ICOSZ),
+		vector3f(0.0, ICOSZ, ICOSX), vector3f(0.0, ICOSZ, -ICOSX), vector3f(0.0, -ICOSZ, ICOSX), vector3f(0.0, -ICOSZ, -ICOSX),
+		vector3f(ICOSZ, ICOSX, 0.0), vector3f(-ICOSZ, ICOSX, 0.0), vector3f(ICOSZ, -ICOSX, 0.0), vector3f(-ICOSZ, -ICOSX, 0.0)
+	};
+
+	static const int icosahedron_faces[20][3] = {
+		{0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
+		{8,10,1}, {8,3,10},{5,3,8}, {5,2,3}, {2,7,3},
+		{7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
+		{6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
+	};
+
+	static void _sphere_subdivide (const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
+			const int i1, const int i2, const int i3, int depth)
+	{
+		if (depth == 0) {
+			s_curBuf->PushTri(i1, i3, i2);
+			return;
+		}
+
+		const vector3f v12 = (v1+v2).Normalized();
+		const vector3f v23 = (v2+v3).Normalized();
+		const vector3f v31 = (v3+v1).Normalized();
+		const int i12 = s_curBuf->PushVertex(trans * v12, trans.ApplyRotationOnly(v12));
+		const int i23 = s_curBuf->PushVertex(trans * v23, trans.ApplyRotationOnly(v23));
+		const int i31 = s_curBuf->PushVertex(trans * v31, trans.ApplyRotationOnly(v31));
+		_sphere_subdivide(trans, v1, v12, v31, i1, i12, i31, depth-1);
+		_sphere_subdivide(trans, v2, v23, v12, i2, i23, i12, depth-1);
+		_sphere_subdivide(trans, v3, v31, v23, i3, i31, i23, depth-1);
+		_sphere_subdivide(trans, v12, v23, v31, i12, i23, i31, depth-1);
+	}
+	static void _get_orientation(lua_State *l, int stackpos, matrix4x4f &trans)
+	{
+		if ((lua_gettop(l) < stackpos) || lua_isnil(l, stackpos)) {
+			trans = matrix4x4f::Identity();
+		} else {
+			trans = *MyLuaMatrix::checkMatrix(l, stackpos);
+		}
+	}
+
+
+	static int sphere (lua_State *l)
+	{
+		int i, subdivs;
+		matrix4x4f trans;
+		subdivs = luaL_checkint(l, 1);
+		if ((subdivs < 0) || (subdivs > 4)) {
+			luaL_error(l, "sphere(subdivs, transform): subdivs must be in range [0,4]");
+		}
+		_get_orientation(l, 2, trans);
+
+		int vi[12];
+		for (i=0; i<12; i++) {
+			const vector3f &v = icosahedron_vertices[i];
+			vi[i] = s_curBuf->PushVertex(trans * v, trans.ApplyRotationOnly(v));
+		}
+			
+		for (i=0; i<20; i++) {
+			_sphere_subdivide (trans, icosahedron_vertices[icosahedron_faces[i][0]],
+					icosahedron_vertices[icosahedron_faces[i][1]],
+					icosahedron_vertices[icosahedron_faces[i][2]],
+					vi[icosahedron_faces[i][0]],
+					vi[icosahedron_faces[i][1]],
+					vi[icosahedron_faces[i][2]],
+					subdivs);
+		}
+		return 0;
+	}
+
+	//////////////////////////////////////////
+	static int sphere_slice(lua_State *l)
+	{
+		int LAT_SEGS;
+		int LONG_SEGS;
+		float sliceAngle1, sliceAngle2;
+		LONG_SEGS = luaL_checkint(l, 1);
+		LAT_SEGS = luaL_checkint(l, 2);
+		sliceAngle1 = luaL_checknumber(l, 3);
+		sliceAngle2 = luaL_checknumber(l, 4);
+			//luaL_error(l, "sphere(subdivs, transform): subdivs must be in range [0,4]");
+		matrix4x4f trans;
+		_get_orientation(l, 5, trans);
+		const vector3d yaxis(trans[4], trans[5], trans[6]);
+		float latDiff = (sliceAngle2-sliceAngle1) / (float)LAT_SEGS;
+
+		float rot = 0.0;
+		float *sinTable = (float*)alloca(sizeof(float)*(LONG_SEGS+1));
+		float *cosTable = (float*)alloca(sizeof(float)*(LONG_SEGS+1));
+		for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/(float)LONG_SEGS) {
+			sinTable[i] = (float)sin(rot);
+			cosTable[i] = (float)cos(rot);
+		}
+
+		int *idx = new int[LONG_SEGS+2];
+		int *idx2 = new int[LONG_SEGS+2];
+		// cap the top
+		float cosLat2, sinLat2;
+		vector3f cap_norm = yaxis.Normalized();
+		for (int i=0; i<=LONG_SEGS; i++) {
+			cosLat2 = cos(sliceAngle1);
+			sinLat2 = sin(sliceAngle1);
+			vector3f v1(sinLat2*sinTable[i], cosLat2, -sinLat2*cosTable[i]);
+			idx[i] = s_curBuf->PushVertex(trans * v1, cap_norm);
+		}
+		for (int i=0; i<LONG_SEGS-1; i++) {
+			s_curBuf->PushTri(idx[0], idx[i+2], idx[i+1]);
+		}
+
+		float lat = sliceAngle1;
+		for (int j=1; j<=LAT_SEGS; j++, lat += latDiff) {
+			float cosLat = cos(lat);
+			float sinLat = sin(lat);
+			cosLat2 = cos(lat+latDiff);
+			sinLat2 = sin(lat+latDiff);
+			// TODO could be made more efficient. vertices are not
+			// shared between strips...
+			for (int i=0; i<=LONG_SEGS; i++) {
+				vector3f v0(sinLat*sinTable[i], cosLat, -sinLat*cosTable[i]);
+				vector3f v1(sinLat2*sinTable[i], cosLat2, -sinLat2*cosTable[i]);
+				idx[i] = s_curBuf->PushVertex(trans * v0, trans.ApplyRotationOnly(v0));
+				idx2[i] = s_curBuf->PushVertex(trans * v1, trans.ApplyRotationOnly(v1));
+			}
+			for (int i=0; i<LONG_SEGS; i++) {
+				s_curBuf->PushTri(idx[i], idx2[i+1], idx2[i]);
+				s_curBuf->PushTri(idx[i], idx[i+1], idx2[i+1]);
+			}
+			glEnd();
+		}
+		// cap the bottom
+		cap_norm = -cap_norm;
+		for (int i=0; i<=LONG_SEGS; i++) {
+			vector3f v1(sinLat2*sinTable[i], cosLat2, -sinLat2*cosTable[i]);
+			idx[i] = s_curBuf->PushVertex(trans * v1, cap_norm);
+		}
+		for (int i=0; i<LONG_SEGS-1; i++) {
+			s_curBuf->PushTri(idx[0], idx[i+1], idx[i+2]);
+		}
+		delete [] idx;
+		delete [] idx2;
+
+		return 0;
+	}
+
+
 
 } /* namespace ModelFuncs */
 
@@ -2117,7 +2267,7 @@ namespace ObjLoader {
 		int numArgs = lua_gettop(L);
 		matrix4x4f *transform = 0;
 		if (numArgs > 1) {
-			transform = MyLuaMatrix::checkMat4x4(L, 2);
+			transform = MyLuaMatrix::checkMatrix(L, 2);
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
@@ -2382,7 +2532,7 @@ void LmrModelCompilerInit()
 
 	MyLuaVec::Vec_register(L);
 	lua_pop(L, 1); // why again?
-	MyLuaMatrix::Mat4x4_register(L);
+	MyLuaMatrix::Matrix_register(L);
 	lua_pop(L, 1); // why again?
 	// shorthand for Vec.new(x,y,z)
 	lua_register(L, "v", MyLuaVec::Vec_new);
@@ -2391,7 +2541,8 @@ void LmrModelCompilerInit()
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
 	lua_register(L, "get_arg_material", ModelFuncs::get_arg_material);
-	
+	lua_register(L, "sphere", ModelFuncs::sphere);
+	lua_register(L, "sphere_slice", ModelFuncs::sphere_slice);
 	lua_register(L, "invisible_tri", ModelFuncs::invisible_tri);
 	lua_register(L, "tri", ModelFuncs::tri);
 	lua_register(L, "xref_tri", ModelFuncs::xref_tri);

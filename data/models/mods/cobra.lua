@@ -21,7 +21,7 @@ define_model('cobra_mk3', {
 			}
 		},
 	static = function(lod)
-		load_obj('cobra3_redux.obj', Mat4x4.new(v(45,0,0),v(0,45,0),v(0,0,45)) * Mat4x4.new(v(-1,0,0),v(0,1,0),v(0,0,-1))) 
+		load_obj('cobra3_redux.obj', Matrix.new(v(45,0,0),v(0,45,0),v(0,0,45)) * Matrix.new(v(-1,0,0),v(0,1,0),v(0,0,-1))) 
 		
 		set_material('thrusters', .30, .30, .30,1, .30, .30, .30, 20)
 		use_material('thrusters')

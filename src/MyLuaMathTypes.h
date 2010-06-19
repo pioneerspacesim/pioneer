@@ -10,8 +10,8 @@ extern "C" {
 #include "vector3.h"
 #include "matrix4x4.h"
 
-#define VEC "Vec"
-#define MAT4X4 "Mat4x4"
+#define MYLUA_VEC "Vec"
+#define MYLUA_MATRIX "Matrix"
 
 namespace MyLuaVec {
 	int Vec_new(lua_State *L);
@@ -22,9 +22,9 @@ namespace MyLuaVec {
 }; /* namespace MyLuaVec */
 
 namespace MyLuaMatrix {
-	matrix4x4f *checkMat4x4 (lua_State *L, int index);
-	matrix4x4f *pushMat4x4(lua_State *L);
-	int Mat4x4_register (lua_State *L);
+	matrix4x4f *checkMatrix (lua_State *L, int index);
+	matrix4x4f *pushMatrix(lua_State *L);
+	int Matrix_register (lua_State *L);
 }; /* namespace MyLuaMatrix */
 
 // i'll just throw them in here...

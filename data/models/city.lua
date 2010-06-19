@@ -315,9 +315,9 @@ define_model('biodomes', {
 		set_material('base', .4,.4,.5,1, .5,.5,.7,40)
 		set_material('green', .1,.6,.1,1)
 		set_material('dome', .5,.5,1,.3, 1,1,1,100)
-		m = Mat4x4.translate(v(0,0,0))
+		m = Matrix.translate(v(0,0,0))
 		biodome(lod, m)
-	--	m = Mat4x4.scale(v(0.5,0.5,0.5)) * Mat4x4.translate(v(600,0,0))
+	--	m = Matrix.scale(v(0.5,0.5,0.5)) * Matrix.translate(v(600,0,0))
 	--	biodome(lod, m)
 
 		use_material("base")
