@@ -12,14 +12,79 @@
 #include "NameGenerator.h"
 #include "HyperspaceCloud.h"
 
+void ship_randomly_equip(Ship *ship, double power)
+{
+	const shipstats_t *stats;
+	const ShipType &type = ship->GetShipType();
+
+	// SLOT_ENGINE
+	ship->m_equipment.Set(Equip::SLOT_ENGINE, 0, type.hyperdrive);
+	stats = ship->CalcStats();
+
+	// go through equipment in random order, seeing if we want the damn stuff
+	int *equip_types = (int*)alloca(sizeof(int)*Equip::TYPE_MAX);
+	for (int i=0; i<Equip::TYPE_MAX; i++) equip_types[i] = i;
+	for (int i=0; i<Equip::TYPE_MAX; i++) { // randomize order
+		int swap_with = Pi::rng.Int32(Equip::TYPE_MAX);
+		int temp = equip_types[i];
+		equip_types[i] = equip_types[swap_with];
+		equip_types[swap_with] = temp;
+	}
+	
+	for (int i=0; i<Equip::TYPE_MAX; i++) {
+		const Equip::Type t = (Equip::Type)equip_types[i];
+		const EquipType &e = EquipType::types[t];
+		// leave space for fuel
+		if (e.mass > stats->free_capacity - type.hyperdrive) continue;
+		switch (e.slot) {
+		case Equip::SLOT_CARGO:
+		case Equip::SLOT_ENGINE:
+			break;
+		case Equip::SLOT_LASER:
+			if (e.mass > stats->free_capacity/2) break;
+			if (Pi::rng.Double() < power) {
+				ship->m_equipment.Set(e.slot, 0, t);
+			}
+			break;
+		case Equip::SLOT_MISSILE:
+			if (Pi::rng.Double() < power) {
+				ship->m_equipment.Add(t);
+			}
+			break;
+		case Equip::SLOT_ECM:
+		case Equip::SLOT_SCANNER:
+		case Equip::SLOT_RADARMAPPER:
+		case Equip::SLOT_HYPERCLOUD:
+		case Equip::SLOT_HULLAUTOREPAIR:
+		case Equip::SLOT_ENERGYBOOSTER:
+		case Equip::SLOT_ATMOSHIELD:
+		case Equip::SLOT_FUELSCOOP:
+		case Equip::SLOT_LASERCOOLER:
+		case Equip::SLOT_CARGOLIFESUPPORT:
+		case Equip::SLOT_AUTOPILOT:
+			if (Pi::rng.Double() < power) {
+				ship->m_equipment.Add(t);
+			}
+			break;
+		case Equip::SLOT_MAX: break;
+			
+		}
+		stats = ship->CalcStats();
+	}
+	
+	int amount = MIN(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
+	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);
+}
+
 ////////////////////////////////////////////////////////////
 
-EXPORT_OOLUA_FUNCTIONS_11_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_12_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
 		ShipAIDoLowOrbit,
 		ShipAIDoMediumOrbit,
 		ShipAIDoHighOrbit,
+		ShipGiveEquipment,
 		SetMoney,
 		AddMoney,
 		SpaceStationAddAdvert,
@@ -45,6 +110,12 @@ double ObjectWrapper::GetMoney() const {
 		return 0.01 * s->GetMoney();
 	} else {
 		return 0;
+	}
+}
+void ObjectWrapper::ShipGiveEquipment(double power)
+{
+	if (Is(Object::SHIP)) {
+		ship_randomly_equip(static_cast<Ship*>(m_obj), power);
 	}
 }
 void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
@@ -256,6 +327,33 @@ static int UserDataUnserialize(lua_State *L)
 	return 0;
 }
 
+
+struct UnknownShipType {};
+/**
+ * power 0 = unarmed, power 1 = armed to the teeth
+ */
+static std::string get_random_ship_type(double power, int minMass, int maxMass)
+{
+	// find a ship that fits in the mass range
+	std::vector<ShipType::Type> candidates;
+
+	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
+			i != ShipType::types.end(); ++i) {
+		int hullMass = (*i).second.hullMass;
+		if ((hullMass >= minMass) && (hullMass <= maxMass)) {
+			candidates.push_back((*i).first);
+		}
+	}
+	printf("%d candidates\n", candidates.size());
+	if (candidates.size() == 0) throw UnknownShipType();
+
+	for (int i=0; i<candidates.size(); i++) {
+		printf("%s\n", candidates[i].c_str());
+	}
+
+	return candidates[ Pi::rng.Int32(candidates.size()) ];
+}
+
 namespace LuaPi {
 	static int GetPlayer(lua_State *l) {
 		push2luaWithGc(l, new ObjectWrapper((Object*)Pi::player));
@@ -292,15 +390,9 @@ namespace LuaPi {
 		OOLUA::push2lua(l, s.c_str());
 		return 1;
 	}
-	static int SpawnShip(lua_State *l) {
-		double due;
-		std::string type;
-		OOLUA::pull2cpp(l, due);
-		OOLUA::pull2cpp(l, type);
+	static int _spawn_ship(lua_State *l, std::string type, double due) {
 		if (ShipType::Get(type.c_str()) == 0) {
-			lua_pushnil(l);
-			lua_pushstring(l, "Unknown ship type");
-			return 2;
+			throw UnknownShipType();
 		} else {
 			// for the mo, just put it near the player
 			const vector3d pos = Pi::player->GetPosition() +
@@ -346,51 +438,41 @@ namespace LuaPi {
 			}
 		}
 	}
-}
-
-/**
- * power 0 = unarmed, power 1 = armed to the teeth
- */
-static Ship *make_random_ship(double power, int minMass, int maxMass)
-{
-	// find a ship that fits in the mass range
-	std::vector<ShipType::Type> candidates;
-
-	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
-			i != ShipType::types.end(); ++i) {
-		int hullMass = (*i).second.hullMass;
-		if ((hullMass >= minMass) && (hullMass <= maxMass)) {
-			candidates.push_back((*i).first);
+	static int SpawnShip(lua_State *l) {
+		double due;
+		std::string type;
+		OOLUA::pull2cpp(l, type);
+		OOLUA::pull2cpp(l, due);
+		int ret;
+		try {
+			ret = _spawn_ship(l, type, due);
+		} catch (UnknownShipType) {
+			lua_pushnil(l);
+			lua_pushstring(l, "Unknown ship type");
+			return 2;
 		}
+		return ret;
 	}
-	printf("%d candidates\n", candidates.size());
-	if (candidates.size() == 0) return 0;
-
-	for (int i=0; i<candidates.size(); i++) {
-		printf("%s\n", candidates[i].c_str());
+	static int SpawnRandomShip(lua_State *l) {
+		double due, power;
+		int minMass, maxMass;
+		std::string type;
+		OOLUA::pull2cpp(l, maxMass);
+		OOLUA::pull2cpp(l, minMass);
+		OOLUA::pull2cpp(l, power);
+		OOLUA::pull2cpp(l, due);
+		printf("power %f, mass %d to %d\n", power, minMass, maxMass);
+		int ret;
+		try {
+			type = get_random_ship_type(power, minMass, maxMass);
+			ret = _spawn_ship(l, type, due);
+		} catch (UnknownShipType) {
+			lua_pushnil(l);
+			lua_pushstring(l, "Unknown ship type");
+			return 2;
+		}
+		return ret;
 	}
-
-	ShipType::Type &t = candidates[ Pi::rng.Int32(candidates.size()) ];
-	Ship *ship = new Ship(t);
-	
-	/*
-	ship->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-
-	switch (power) {
-		case 1:
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
-			break;
-		case 2:
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_4MW);
-			break;
-		case 0:
-		default:
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-			break;
-	}
-	int amount = Pi::rng.Int32(5);
-	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);*/
-	return ship;
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -420,6 +502,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("Message", &LuaPi::Message);
 	REG_FUNC("ImportantMessage", &LuaPi::ImportantMessage);
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
+	REG_FUNC("SpawnRandomShip", &LuaPi::SpawnRandomShip);
 	lua_setglobal(l, "Pi");
 	
 	lua_newtable(l);

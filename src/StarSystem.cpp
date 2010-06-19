@@ -328,8 +328,8 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
-EXPORT_OOLUA_FUNCTIONS_2_CONST(SBodyPath,
-		GetBodyName, GetSeed)
+EXPORT_OOLUA_FUNCTIONS_3_CONST(SBodyPath,
+		GetBodyName, GetSeed, GetSystem)
 
 SBodyPath::SBodyPath(): SysLoc()
 {

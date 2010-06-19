@@ -3,10 +3,11 @@
 #include "Pi.h"
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SysLoc)
-EXPORT_OOLUA_FUNCTIONS_6_CONST(SysLoc,
+EXPORT_OOLUA_FUNCTIONS_7_CONST(SysLoc,
 		GetSystemShortDescription, GetSystemName,
 		GetSectorX, GetSectorY, GetSystemNum,
-		GetRandomStarportNearButNotIn)
+		GetRandomStarportNearButNotIn,
+		GetSystemLawlessness)
 
 void SysLoc::Serialize(Serializer::Writer &wr) const
 {
@@ -30,6 +31,11 @@ const char *SysLoc::GetSystemShortDescription() const
 const char *SysLoc::GetSystemName() const
 {
 	return Sys()->GetName().c_str();
+}
+
+double SysLoc::GetSystemLawlessness() const
+{
+	return Sys()->GetSysPolit().lawlessness.ToDouble();
 }
 
 SBodyPath *SysLoc::GetRandomStarportNearButNotIn() const

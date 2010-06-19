@@ -1,4 +1,6 @@
 
+-- Danger should be from 0 to 1. zero means nothing bad happens. greater than
+-- zero means spawn an enemy ship of that 'power' to kill you
 local delivery_flavours = {
 	{
 		adtext = "GOING TO the %1 system? Money paid for delivery of a small package.",
@@ -33,12 +35,13 @@ local delivery_flavours = {
 		whysomuchdoshtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
-		danger = 1.5,
+		danger = 0.5,
 		time = 0.75,
 		money = 2.5,
 	}
 }
 
+--[[
 for i = 0,10 do
 	local sys = StarSystem:new(i,2,0)
 	print('Looking near ' .. sys:GetSectorX() .. '/' .. sys:GetSectorY() .. '/' .. sys:GetSystemNum())
@@ -51,6 +54,7 @@ for i = 0,10 do
 		print("No suitable nearby space station found.")
 	end
 end
+--]]
 
 Module:new {
 	__name = 'DeliverPackage',
@@ -99,12 +103,22 @@ Module:new {
 	end,
 
 	onEnterSystem = function(self)
-		print("This module recons you just entered the " ..
-		Pi.GetCurrentSystem():GetSystemName() .. " system.")
-		ship, e = Pi.SpawnShip("Ladybird Starfighter", Pi.GetGameTime()+60*60)
-		print(ship:GetLabel())
-		print(ship)
-		print(e)
+		for k,mission in pairs(self.missions) do
+			if mission.status == 'active' and
+			   mission.dest:GetSystem() == Pi:GetCurrentSystem() then
+
+				local danger = delivery_flavours[mission.flavour].danger
+				if danger > 0 then
+					--ship, e = Pi.SpawnShip(Pi.GetGameTime()+60, "Ladybird Starfighter")
+					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
+					if e == nil then
+						ship:ShipAIDoKill(Pi.GetPlayer());
+						ship:ShipGiveEquipment(danger)
+						Pi.ImportantMessage(ship:GetLabel(), _("You're going to regret dealing with %1!", {mission.client}))
+					end
+				end
+			end
+		end
 	end,
 
 	onPlayerDock = function(self)

@@ -12,7 +12,6 @@
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
-#include "pirates.h"
 #include "Sfx.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
@@ -804,7 +803,6 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	storedArrivalClouds.clear();
 
 	Pi::onPlayerHyperspaceToNewSystem.emit();
-	SpawnPiratesOnHyperspace();
 	
 	delete hyperspacingTo;
 	hyperspacingTo = 0;

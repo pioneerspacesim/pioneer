@@ -39,6 +39,7 @@ public:
 	const char *GetSystemName() const;
 	/** Caller owns the returned pointer */
 	SBodyPath *GetRandomStarportNearButNotIn() const;
+	double GetSystemLawlessness() const;
 private:
 	/** Returns a cached StarSystem object, with limited lifetime as
 	 * described in StarSystem::GetCached comment. */
@@ -52,6 +53,7 @@ OOLUA_CLASS_NO_BASES(SysLoc)
 	OOLUA_CONSTRUCTORS_BEGIN
 		OOLUA_CONSTRUCTOR_3(int, int, int)
 	OOLUA_CONSTRUCTORS_END
+	OOLUA_MEM_FUNC_0_CONST(double, GetSystemLawlessness);
 	OOLUA_MEM_FUNC_0_CONST(int, GetSectorX)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSectorY)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSystemNum)

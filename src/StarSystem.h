@@ -54,6 +54,7 @@ public:
 	 * since they acquire a StarSystem object in a rather sub-optimal way */
 	const char *GetBodyName() const;
 	int GetSeed() const;
+	SysLoc GetSystem() const { return (SysLoc)*this; }
 private:
 	/** Returned SBody only valid pointer for duration described in
 	 * StarSystem::GetCached comment */
@@ -69,6 +70,7 @@ OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
 	OOLUA_BASES_START SysLoc OOLUA_BASES_END
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSeed)
+	OOLUA_MEM_FUNC_0_CONST(SysLoc, GetSystem);
 OOLUA_CLASS_END
 
 class SBody {
