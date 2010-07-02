@@ -10,9 +10,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #elif _WIN32
+#include <../msvc/win32-dirent.h>
 #include <shlobj.h>
 #include <shlwapi.h>
-#include <atlbase.h>
 #endif
 
 /*
@@ -46,13 +46,21 @@ std::string GetFullSavefileDirPath()
 		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
 			throw std::runtime_error("SHGetFolderPath");
 
-		if(!PathAppend(path, CA2T("Pioneer")))
+		TCHAR temp[MAX_PATH];
+		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, temp, MAX_PATH);
+		if(!PathAppend(path, temp))
+			throw std::runtime_error("PathAppend");
+
+		MultiByteToWideChar(CP_ACP, 0, "savefiles", strlen("savefiles")+1, temp, MAX_PATH);
+		if(!PathAppend(path, temp))
 			throw std::runtime_error("PathAppend");
 
 		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
 			throw std::runtime_error("SHCreateDirectoryEx");
 
-		return std::string(CT2A(path));
+		char temp2[MAX_PATH];
+		WideCharToMultiByte(CP_ACP, 0, path, wcslen(path)+1, temp2, MAX_PATH, 0, 0);
+		return std::string(temp2);
 	}
 	catch(const std::exception&) {
 		Gui::Screen::ShowBadError("Can't get path to save directory");
@@ -66,7 +74,6 @@ std::string GetFullSavefileDirPath()
 /* Not dirs, not . or .. */
 static void GetDirectoryContents(const char *name, std::list<std::string> &files)
 {
-#if _GNU_SOURCE
 	DIR *dir = opendir(name);
 	if (!dir) {
 		//if (-1 == mkdir(name, 0770)
@@ -82,25 +89,7 @@ static void GetDirectoryContents(const char *name, std::list<std::string> &files
 	}
 
 	closedir(dir);
-#elif _WIN32
-	try {
-		WIN32_FIND_DATA fd;
-		const HANDLE hFind = FindFirstFile(CA2T((std::string(name) + "/*").c_str()), &fd);
-		if(INVALID_HANDLE_VALUE == hFind)
-			throw std::runtime_error("FindFirstFile");
-		do {
-			if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				continue;
-			files.push_back(std::string(CT2A(fd.cFileName)));
-		}
-		while(FindNextFile(hFind, &fd) != 0);
-	}
-	catch(const std::exception&) {
-		Gui::Screen::ShowBadError("Error getting directory contents");
-	}
-#else
-# error Unsupported turd
-#endif
+
 	files.sort();
 }
 

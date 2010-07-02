@@ -16,7 +16,7 @@ void Init()
 {
 	s_galaxybmp = IMG_Load("data/galaxy.png");
 	if (!s_galaxybmp) {
-		fprintf(stderr, "Could not open data/galaxy.png");
+		Error("IMG_Load: %s\n", IMG_GetError());
 		Pi::Quit();
 	}
 }

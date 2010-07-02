@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="sbreviewer-msvc-9.0"
+	Name="modelviewer-msvc-9.0"
 	ProjectGUID="{6AF5E04A-5CB2-4E96-8CA4-E95A144EE0BF}"
 	RootNamespace="sbreviewermsvc90"
 	Keyword="Win32Proj"
@@ -47,8 +47,12 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough="pch.h"
+				PrecompiledHeaderFile="C:\temp\modelviewer.pch"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles=""
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,9 +65,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib sigc-2.0d.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib glew32.lib"
+				AdditionalDependencies="libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2MT.lib"
 				OutputFile="..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
+				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -136,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib glew32.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype2MT.lib glew32.lib"
 				OutputFile="..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -172,60 +177,16 @@
 	</References>
 	<Files>
 		<Filter
-			Name="sbre"
-			>
-			<File
-				RelativePath="..\src\sbre\brender.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\collfunc.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\jjvector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\model_compiler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\models-buildings.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\models.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\primfunc.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre_int.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre_models.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\simtriang.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\transp.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="collider"
 			>
+			<File
+				RelativePath="..\src\collider\BVHTree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\collider\BVHTree.h"
+				>
+			</File>
 			<File
 				RelativePath="..\src\collider\collider.h"
 				>
@@ -387,6 +348,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GuiTextEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiTextEntry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiTextLayout.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GuiTextLayout.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\GuiToggleButton.cpp"
 				>
 			</File>
@@ -427,6 +404,10 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="sdf"
+			>
+		</Filter>
 		<File
 			RelativePath="..\src\glfreetype.cpp"
 			>
@@ -436,7 +417,227 @@
 			>
 		</File>
 		<File
+			RelativePath="..\src\lua\lapi.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lapi.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lauxlib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lauxlib.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lbaselib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lcode.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lcode.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ldblib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ldebug.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ldebug.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ldo.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ldo.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ldump.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lfunc.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lfunc.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lgc.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lgc.h"
+			>
+		</File>
+		<File
 			RelativePath="..\src\libs.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\linit.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\liolib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\llex.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\llex.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\llimits.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lmathlib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lmem.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lmem.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\LmrModel.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\src\LmrModel.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\loadlib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lobject.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lobject.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lopcodes.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lopcodes.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\loslib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lparser.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lparser.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lstate.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lstate.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lstring.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lstring.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lstrlib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ltable.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ltable.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ltablib.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ltm.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\ltm.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lua.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\luaconf.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lualib.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\LuaModelViewer.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lundump.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lundump.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lvm.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lvm.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lzio.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\lzio.h"
 			>
 		</File>
 		<File
@@ -444,11 +645,59 @@
 			>
 		</File>
 		<File
-			RelativePath="..\src\SbreViewer.cpp"
+			RelativePath="..\src\mylua.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\MyLuaMathTypes.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\src\MyLuaMathTypes.h"
+			>
+		</File>
+		<File
+			RelativePath=".\pch.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\pch.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\perlin.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\src\perlin.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\lua\print.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\Render.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\src\utils.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\src\utils.h"
 			>
 		</File>
 		<File
 			RelativePath="..\src\vector3.h"
+			>
+		</File>
+		<File
+			RelativePath=".\win32-dirent.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\win32-dirent.h"
 			>
 		</File>
 	</Files>

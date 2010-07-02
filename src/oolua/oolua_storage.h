@@ -46,7 +46,7 @@ namespace OOLUA
 				//yet we need to stop warnings
 				//NOTE: in 5.2 we can push a light c function here
 				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
-                                void** stopwarnings ( (void**)&func );
+                                void** stopwarnings = (void**)&func;
 				lua_pushlightuserdata(l,*stopwarnings);
 				lua_gettable(l, LUA_REGISTRYINDEX);
 			}
@@ -56,7 +56,7 @@ namespace OOLUA
 				//yet we need to stop warnings
 				//NOTE: in 5.2 we can push a light c function here
 				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
-                void** stopwarnings ( (void**)&func );
+                void** stopwarnings =  (void**)&func ;
 				lua_pushlightuserdata(l,*stopwarnings);
 				lua_pushvalue(l, value_index);
 				lua_settable(l, LUA_REGISTRYINDEX);

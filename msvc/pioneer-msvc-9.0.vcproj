@@ -49,7 +49,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="pch.h"
-				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				PrecompiledHeaderFile="c:\TEMP\pioneer.pch"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				ForcedIncludeFiles="pch.h"
@@ -65,10 +65,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib sigc-2.0d.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib glew32.lib"
+				AdditionalDependencies="libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2MT.lib"
 				OutputFile="..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="libcmt.lib"
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -136,6 +137,7 @@
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="pch.h"
+				PrecompiledHeaderFile="C:\temp\pioneer.pch"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				ForcedIncludeFiles="pch.h"
@@ -151,7 +153,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype236MT.lib glew32.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype2MT.lib glew32.lib"
 				OutputFile="..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -208,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\class_from_stack.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\collider\CollisionSpace.cpp"
 				>
 			</File>
@@ -217,14 +223,6 @@
 			</File>
 			<File
 				RelativePath="..\src\custom_starsystems.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\missions\DeliverPackage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\missions\DonateToCranks.cpp"
 				>
 			</File>
 			<File
@@ -273,10 +271,6 @@
 			</File>
 			<File
 				RelativePath="..\src\glfreetype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\missions\GoodsTrader.cpp"
 				>
 			</File>
 			<File
@@ -380,6 +374,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\lua_function.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_stack_dump.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_table.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\LuaChatForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\main.cpp"
 				>
 			</File>
@@ -416,6 +426,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\oolua.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_check_result.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_error.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_push_pull.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_storage.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\pch.cpp"
 				>
 				<FileConfiguration
@@ -444,7 +474,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\pirates.cpp"
+				RelativePath="..\src\PiLuaAPI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\PiLuaModules.cpp"
 				>
 			</File>
 			<File
@@ -468,6 +502,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\push_pointer_internal.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Render.cpp"
 				>
 			</File>
@@ -485,10 +523,6 @@
 			</File>
 			<File
 				RelativePath="..\src\Sfx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Shader.cpp"
 				>
 			</File>
 			<File
@@ -556,6 +590,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\win32-dirent.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\WorldView.cpp"
 				>
 			</File>
@@ -567,6 +605,10 @@
 			>
 			<File
 				RelativePath="..\src\Aabb.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\base_checker.h"
 				>
 			</File>
 			<File
@@ -583,6 +625,14 @@
 			</File>
 			<File
 				RelativePath="..\src\CityOnPlanet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\class_from_stack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\class_public_member.h"
 				>
 			</File>
 			<File
@@ -606,15 +656,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\cpp_constructor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\cpp_member_func.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\custom_starsystems.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\missions\DeliverPackage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\missions\DonateToCranks.h"
+				RelativePath="..\src\oolua\determin_qualifier.h"
 				>
 			</File>
 			<File
@@ -626,11 +680,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\export_func_to_lua.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\fixed.h"
 				>
 			</File>
 			<File
 				RelativePath="..\src\Frame.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\fwd_push_pull.h"
 				>
 			</File>
 			<File
@@ -671,10 +733,6 @@
 			</File>
 			<File
 				RelativePath="..\src\glfreetype.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\missions\GoodsTrader.h"
 				>
 			</File>
 			<File
@@ -866,6 +924,34 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\lua_function.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_includes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_operator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_ref.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_stack_dump.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lua_table.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\LuaChatForm.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\lua\luaconf.h"
 				>
 			</File>
@@ -875,6 +961,10 @@
 			</File>
 			<File
 				RelativePath="..\src\lua\lundump.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\lvd_types.h"
 				>
 			</File>
 			<File
@@ -894,6 +984,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\member_func_helper.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Missile.h"
 				>
 			</File>
@@ -906,11 +1000,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\ModelCollMeshData.h"
+				RelativePath="..\src\mtrand.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\mtrand.h"
+				RelativePath="..\src\mylua.h"
 				>
 			</File>
 			<File
@@ -930,6 +1024,78 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\oolua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_c_func.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_char_arrays.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_check_result.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_config.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_error.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_exception.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_member_function.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_paramater_macros.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_parameter_helper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_push_pull.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_registration.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_storage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_typedefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_userdata.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_va_args.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\oolua_version.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\param_traits.h"
+				>
+			</File>
+			<File
 				RelativePath=".\pch.h"
 				>
 			</File>
@@ -946,11 +1112,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\pirates.h"
+				RelativePath="..\src\PiLuaAPI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\PiLuaModules.h"
 				>
 			</File>
 			<File
 				RelativePath="..\src\Planet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\platform_check.h"
 				>
 			</File>
 			<File
@@ -970,15 +1144,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\missions\register.h"
+				RelativePath="..\src\oolua\proxy_caller.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\proxy_class.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\push_pointer_internal.h"
 				>
 			</File>
 			<File
 				RelativePath="..\src\Render.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\sbre\sbre_anim.h"
 				>
 			</File>
 			<File
@@ -995,10 +1173,6 @@
 			</File>
 			<File
 				RelativePath="..\src\Sfx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Shader.h"
 				>
 			</File>
 			<File
@@ -1058,6 +1232,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\oolua\type_list.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\oolua\typelist_structs.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\utils.h"
 				>
 			</File>
@@ -1067,6 +1249,10 @@
 			</File>
 			<File
 				RelativePath="..\src\View.h"
+				>
+			</File>
+			<File
+				RelativePath=".\win32-dirent.h"
 				>
 			</File>
 			<File

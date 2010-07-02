@@ -31,6 +31,10 @@
 #define S_ISDIR(x) (((x) & S_IFMT) == S_IFDIR)
 #endif
 
+#ifndef S_ISREG
+#define S_ISREG(x) (((x) & S_IFREG))
+#endif
+
 struct dirstream
 {
   int fd;		/* File descriptor.  */
