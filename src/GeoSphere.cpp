@@ -924,6 +924,14 @@ void GeoSphere::_UpdateLODs()
 
 static Render::Shader *s_geosphereSurfaceShader, *s_geosphereSkyShader;
 
+/* This is to stop threads keeping on iterating over the s_allGeospheres list,
+ * which may have been destroyed by exit() (does on lunix anyway...)
+ */
+static void _LockoutThreadsBeforeExit()
+{
+	SDL_mutexP(s_allGeospheresLock);
+}
+
 void GeoSphere::Init()
 {
 	s_geosphereSurfaceShader = new Render::Shader("geosphere");
@@ -933,9 +941,10 @@ void GeoSphere::Init()
 #ifdef GEOSPHERE_USE_THREADING
 	SDL_CreateThread(&GeoSphere::UpdateLODThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
+	atexit(&_LockoutThreadsBeforeExit);
 }
 
-	static struct DetailLevel detail;
+static struct DetailLevel detail;
 
 void GeoSphere::OnChangeDetailLevel()
 {
