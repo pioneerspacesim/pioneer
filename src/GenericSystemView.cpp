@@ -10,14 +10,14 @@
 #include "SystemInfoView.h"
 
 const char *s_icons[] = {
-	"icons/map_sector_view.png",
-	"icons/map_sector_view_on.png",
-	"icons/map_system_view.png",
-	"icons/map_system_view_on.png",
-	"icons/map_sysinfo_view.png",
-	"icons/map_sysinfo_view_on.png",
-	"icons/map_galactic_view.png",
-	"icons/map_galactic_view_on.png",
+	PIONEER_DATA_DIR "/icons/map_sector_view.png",
+	PIONEER_DATA_DIR "/icons/map_sector_view_on.png",
+	PIONEER_DATA_DIR "/icons/map_system_view.png",
+	PIONEER_DATA_DIR "/icons/map_system_view_on.png",
+	PIONEER_DATA_DIR "/icons/map_sysinfo_view.png",
+	PIONEER_DATA_DIR "/icons/map_sysinfo_view_on.png",
+	PIONEER_DATA_DIR "/icons/map_galactic_view.png",
+	PIONEER_DATA_DIR "/icons/map_galactic_view_on.png",
 };
 
 GenericSystemView::GenericSystemView(enum MapView whichView): View()

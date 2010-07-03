@@ -165,7 +165,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	myPos[1] = pos[1];
 	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (body->type != SBody::TYPE_GRAVPOINT) {
-		Gui::ImageButton *ib = new Gui::ImageButton(body->GetIcon());
+		Gui::ImageButton *ib = new Gui::ImageButton( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
