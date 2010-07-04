@@ -2194,7 +2194,6 @@ namespace ModelFuncs {
 				s_curBuf->PushTri(idx[i], idx2[i+1], idx2[i]);
 				s_curBuf->PushTri(idx[i], idx[i+1], idx2[i+1]);
 			}
-			glEnd();
 		}
 		// cap the bottom
 		cap_norm = -cap_norm;

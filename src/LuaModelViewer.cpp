@@ -225,8 +225,8 @@ static void render_coll_mesh(const LmrCollMesh *m)
 {
 	glDisable(GL_LIGHTING);
 	glColor3f(1,0,1);
-	glBegin(GL_TRIANGLES);
 	glDepthRange(0.0+g_zbias,1.0);
+	glBegin(GL_TRIANGLES);
 	for (int i=0; i<m->ni; i+=3) {
 		glVertex3fv(&m->pVertex[3*m->pIndex[i]]);
 		glVertex3fv(&m->pVertex[3*m->pIndex[i+1]]);
