@@ -2284,7 +2284,7 @@ namespace ObjLoader {
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
 		std::map<std::string, std::string> mtl_map;
-		GLuint texture = -1;
+		GLuint texture = 0;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map< std::pair<int,int>, int> vtxmap;
@@ -2354,7 +2354,7 @@ namespace ObjLoader {
 						s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
 						s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 						s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
-						s_curBuf->SetTexture(texture);
+						if (texture) s_curBuf->SetTexture(texture);
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
@@ -2371,7 +2371,7 @@ namespace ObjLoader {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
-					s_curBuf->SetTexture(texture);
+					if (texture) s_curBuf->SetTexture(texture);
 					if (numBits == 3) {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
