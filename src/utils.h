@@ -24,6 +24,9 @@
 void Error(const char *format, ...) __attribute((format(printf,1,2)));
 void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 
+std::string GetPiUserDir(const std::string &subdir = "");
+std::string GetPiDataDir();
+
 struct MissingFileException {};
 
 // joinpath("data","models","some.def") = "data/models/some.def"

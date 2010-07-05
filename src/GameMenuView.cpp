@@ -11,8 +11,6 @@
 #include <sys/types.h>
 #elif _WIN32
 #include <../msvc/win32-dirent.h>
-#include <shlobj.h>
-#include <shlwapi.h>
 #endif
 
 /*
@@ -20,55 +18,7 @@
  */
 std::string GetFullSavefileDirPath()
 {
-	// i think this test only works with glibc...
-#if _GNU_SOURCE
-	const char *homedir = getenv("HOME");
-	std::string path = join_path(homedir, ".pioneer", 0);
-	DIR *dir = opendir(path.c_str());
-	if (!dir) {
-		if (mkdir(path.c_str(), 0770) == -1) {
-			Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
-		}
-	}
-	closedir(dir);
-	path = join_path(homedir, ".pioneer", "savefiles", 0);
-	dir = opendir(path.c_str());
-	if (!dir) {
-		if (mkdir(path.c_str(), 0770) == -1) {
-			Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
-		}
-	}
-	closedir(dir);
-	return path;
-#elif _WIN32
-	try {
-		TCHAR path[MAX_PATH];
-		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
-			throw std::runtime_error("SHGetFolderPath");
-
-		TCHAR temp[MAX_PATH];
-		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, temp, MAX_PATH);
-		if(!PathAppend(path, temp))
-			throw std::runtime_error("PathAppend");
-
-		MultiByteToWideChar(CP_ACP, 0, "savefiles", strlen("savefiles")+1, temp, MAX_PATH);
-		if(!PathAppend(path, temp))
-			throw std::runtime_error("PathAppend");
-
-		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
-			throw std::runtime_error("SHCreateDirectoryEx");
-
-		char temp2[MAX_PATH];
-		WideCharToMultiByte(CP_ACP, 0, path, wcslen(path)+1, temp2, MAX_PATH, 0, 0);
-		return std::string(temp2);
-	}
-	catch(const std::exception&) {
-		Gui::Screen::ShowBadError("Can't get path to save directory");
-		return "";
-	}
-#else
-# error Unsupported system
-#endif
+	return GetPiUserDir("savefiles");
 }
 
 /* Not dirs, not . or .. */
@@ -254,31 +204,77 @@ GameMenuView::GameMenuView(): View()
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 	
-	Gui::LabelButton *b;
+	{
+		Gui::LabelButton *b;
+		Gui::Box *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		Add(hbox, 20, 50);
+		b = new Gui::LabelButton(new Gui::Label("[S] Save the game"));
+		b->SetShortcut(SDLK_s, KMOD_NONE);
+		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
+		hbox->PackEnd(b, false);
+		b = new Gui::LabelButton(new Gui::Label("[L] Load a game"));
+		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
+		b->SetShortcut(SDLK_l, KMOD_NONE);
+		hbox->PackEnd(b, false);
+		b = new Gui::LabelButton(new Gui::Label("Exit this game"));
+		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
+		b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
+		hbox->PackEnd(b, false);
+	}
 
 	Gui::Box *vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0);
-	Add(vbox, 5, 100);
+	Add(vbox, 20, 100);
 
-	b = new Gui::LabelButton(new Gui::Label("[S] Save the game"));
-	b->SetShortcut(SDLK_s, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
-	vbox->PackEnd(b, false);
-	b = new Gui::LabelButton(new Gui::Label("[L] Load a game"));
-	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
-	b->SetShortcut(SDLK_l, KMOD_NONE);
-	vbox->PackEnd(b, false);
-	b = new Gui::LabelButton(new Gui::Label("Exit this game"));
-	b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
-	b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
-	vbox->PackEnd(b, false);
+	vbox->PackEnd(new Gui::Label("Video resolution (restart game to apply)"), false);
+
+	Gui::RadioGroup *g = new Gui::RadioGroup();
+	SDL_Rect **modes;
+	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
+	if ((modes!=0) && (modes != (SDL_Rect**)-1)) {
+		for (int i=0; modes[i]; ++i) {
+			Gui::RadioButton *temp = new Gui::RadioButton(g);
+			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
+					&GameMenuView::OnChangeVideoResolution), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(temp, false);
+			hbox->PackEnd(new Gui::Label(stringf(256, "%dx%d", modes[i]->w, modes[i]->h)), false);
+			vbox->PackEnd(hbox, false);
+			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
+				temp->SetSelected(true);
+			}
+		}
+	}
+
+	{
+		vbox->PackEnd(new Gui::Label("Windowed or fullscreen (restart to apply)"), false);
+		m_toggleFullscreen = new Gui::ToggleButton();
+		m_toggleFullscreen->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleFullscreen));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_toggleFullscreen, false);
+		hbox->PackEnd(new Gui::Label("Full screen"), false);
+		vbox->PackEnd(hbox, false);
+		
+		vbox->PackEnd(new Gui::Label("Other graphics settings"), false);
+		m_toggleShaders = new Gui::ToggleButton();
+		m_toggleShaders->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleShaders));
+		hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_toggleShaders, false);
+		hbox->PackEnd(new Gui::Label("Use shaders"), false);
+		vbox->PackEnd(hbox, false);
+	}
+
 
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
 	Add(vbox, 600, 100);
 
 	vbox->PackEnd(new Gui::Label("Planet detail level:"));
-	Gui::RadioGroup *g = new Gui::RadioGroup();
+	g = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
 		m_planetDetail[i] = new Gui::RadioButton(g);
@@ -312,12 +308,41 @@ void GameMenuView::OnChangePlanetDetail(int level)
 {
 	m_changedDetailLevel = true;
 	Pi::detail.planets = level;
+	Pi::config.SetInt("DetailPlanets", level);
+	Pi::config.Save();
 }
 
 void GameMenuView::OnChangeCityDetail(int level)
 {
 	m_changedDetailLevel = true;
 	Pi::detail.cities = level;
+	Pi::config.SetInt("DetailCities", level);
+	Pi::config.Save();
+}
+
+void GameMenuView::OnChangeVideoResolution(int res)
+{
+	SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
+	Pi::config.SetInt("ScrWidth", modes[res]->w);
+	Pi::config.SetInt("ScrHeight", modes[res]->h);
+	Pi::config.Save();
+}
+
+void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
+{
+	Pi::config.SetInt("StartFullscreen", (state ? 1 : 0));
+	Pi::config.Save();
+//#ifndef _WIN32
+	// XXX figure out how to do it in windows
+//	SDL_WM_ToggleFullScreen(Pi::scrSurface);
+//#endif
+}
+
+void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
+{
+	Pi::config.SetInt("DisableShaders", (state ? 0 : 1));
+	Pi::config.Save();
+	Render::ToggleShaders();
 }
 
 void GameMenuView::HideAll()
@@ -354,6 +379,8 @@ void GameMenuView::OnSwitchTo() {
 	} else {
 		m_planetDetail[Pi::detail.planets]->OnActivate();
 		m_cityDetail[Pi::detail.cities]->OnActivate();
+		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
+		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen"));
 	}
 }
 

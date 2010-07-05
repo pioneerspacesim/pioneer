@@ -7,6 +7,7 @@
 #include "mtrand.h"
 #include "gameconsts.h"
 #include "Serializer.h"
+#include "IniConfig.h"
 #include <map>
 #include <string>
 
@@ -27,22 +28,6 @@ struct SBodyPath;
 class GameMenuView;
 struct lua_State;
 
-class IniConfig: private std::map<std::string, std::string> {
-	public:
-	IniConfig(const char *filename);
-	int Int(const char *key) {
-		return atoi((*this)[key].c_str());
-	}
-	float Float(const char *key) {
-		float val;
-		if (sscanf((*this)[key].c_str(), "%f", &val)==1) return val;
-		else return 0;
-	}
-	std::string String(const char *key) {
-		return (*this)[key];
-	}
-};
-
 struct DetailLevel {
 	int planets;
 	int cities;
@@ -59,7 +44,7 @@ class Frame;
  */
 class Pi {
 public:
-	static void Init(IniConfig &config);
+	static void Init();
 	static void InitGame();
 	static void StartGame();
 	static void UninitGame();
@@ -130,6 +115,7 @@ public:
 	static const char * const combatRating[];
 
 	static struct DetailLevel detail;
+	static IniConfig config;
 private:
 	static void InitOpenGL();
 	static void HandleEvents();

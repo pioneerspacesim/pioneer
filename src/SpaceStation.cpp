@@ -69,9 +69,8 @@ struct SpaceStationType {
 			}
 		}
 		if (outNumStages <= 0) {
-			printf("Error: Space station %s must have atleast 1 docking and 1 undocking animation stage.\n",
+			Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
 					modelName);
-			Pi::Quit();
 		}
 	}
 	// read from lua model definition

@@ -19,10 +19,15 @@ public:
 private:
 	void OnChangePlanetDetail(int level);
 	void OnChangeCityDetail(int level);
+	void OnChangeVideoResolution(int res);
+	void OnToggleShaders(Gui::ToggleButton *b, bool state);
+	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
 	Gui::RadioButton *m_planetDetail[5];
 	Gui::RadioButton *m_cityDetail[5];
+	Gui::ToggleButton *m_toggleShaders;
+	Gui::ToggleButton *m_toggleFullscreen;
 };
 
 #endif /* _GAMEMENUVIEW_H */

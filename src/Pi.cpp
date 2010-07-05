@@ -72,7 +72,8 @@ GLUquadric *Pi::gluQuadric;
 bool Pi::showDebugInfo;
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
-struct DetailLevel Pi::detail = { 1, 1 };
+IniConfig Pi::config;
+struct DetailLevel Pi::detail = {};
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
 	"Harmless",
@@ -100,8 +101,29 @@ int Pi::CombatRating(int kills)
 	return 8;
 }
 
-void Pi::Init(IniConfig &config)
+static void draw_progress(float progress)
 {
+	float w, h;
+	Gui::Screen::EnterOrtho();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	std::string msg = stringf(256, "Simulating evolution of the universe: %.1f billion years ;-)", progress * 15.0f);
+	Gui::Screen::MeasureString(msg, w, h);
+	glColor3f(1.0f,1.0f,1.0f);
+	glTranslatef(0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h),0.0f);
+	Gui::Screen::RenderString(msg);
+	Gui::Screen::LeaveOrtho();
+	glFlush();
+	SDL_GL_SwapBuffers();
+}
+
+void Pi::Init()
+{
+	config.Load(GetPiUserDir() + "config.ini");
+
+	Pi::detail.planets = config.Int("DetailPlanets");
+	Pi::detail.cities = config.Int("DetailCities");
+
 	int width = config.Int("ScrWidth");
 	int height = config.Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
@@ -113,23 +135,38 @@ void Pi::Init(IniConfig &config)
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
+	// no mode set, find an ok one
+	if ((width <= 0) || (height <= 0)) {
+		SDL_Rect **modes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
+		
+		if (modes == 0) {
+			fprintf(stderr, "It seems no video modes are available...");
+		}
+		if (modes == (SDL_Rect **)-1) {
+			// hm. all modes available. odd. try 800x600
+			width = 800; height = 600;
+		} else {
+			width = modes[0]->w;
+			height = modes[0]->h;
+		}
+	}
 
 	info = SDL_GetVideoInfo();
-
-	switch (config.Int("ScrDepth")) {
+	printf("SDL_GetVideoInfo says %d bpp\n", info->vfmt->BitsPerPixel);
+	switch (info->vfmt->BitsPerPixel) {
 		case 16:
 			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 			break;
+		case 24:
 		case 32:
 			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 			break;
 		default:
-			fprintf(stderr, "Fatal error. Invalid screen depth in config.ini.\n");
-			Pi::Quit();
+			fprintf(stderr, "Invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
 	} 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -142,10 +179,10 @@ void Pi::Init(IniConfig &config)
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
 		if ((Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags)) == 0) {
-			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
-			exit(-1);
+			fprintf(stderr, "Failed to set video mode: %s", SDL_GetError());
 		}
 	}
+
 	glewInit();
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;
@@ -154,28 +191,38 @@ void Pi::Init(IniConfig &config)
 
 	Pi::rng.seed(time(NULL));
 
+	InitOpenGL();
+	GLFTInit();
+	Gui::Init(scrWidth, scrHeight, 800, 600);
 	Galaxy::Init();
 	NameGenerator::Init();
-	InitOpenGL();
+	draw_progress(0.1f);
 	Render::Init();
-	if (!config.Int("UseVertexShaders")) Render::ToggleShaders();
+	draw_progress(0.2f);
+	if (config.Int("DisableShaders")) Render::ToggleShaders();
 
-	GLFTInit();
+	draw_progress(0.3f);
 	LmrModelCompilerInit();
+	draw_progress(0.4f);
 	ShipType::Init();
+	draw_progress(0.5f);
 	GeoSphere::Init();
+	draw_progress(0.6f);
 	Space::Init();
+	draw_progress(0.7f);
 	Polit::Init();
+	draw_progress(0.8f);
 	SpaceStation::Init();
+	draw_progress(0.9f);
 
-	if (!config.Int("NoSound")) {
+	if (!config.Int("DisableSound")) {
 		Sound::Init();
 		Sound::Pause(0);
 	}
-	
-	Gui::Init(scrWidth, scrHeight, 800, 600);
+	draw_progress(1.0f);
 	
 	gameMenuView = new GameMenuView();
+	config.Save();
 }
 
 void Pi::InitOpenGL()
@@ -339,7 +386,8 @@ void Pi::HandleEvents()
 						}
 					}
 #endif /* DEBUG */
-					if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
+					// XXX only works on X11
+					//if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
 					if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
 					if (event.key.keysym.sym == SDLK_F9) {
 						std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
@@ -974,9 +1022,6 @@ void Pi::Serialize(Serializer::Writer &wr)
 	sectorView->Save(wr);
 	worldView->Save(wr);
 
-	wr.Int32(detail.planets);
-	wr.Int32(detail.cities);
-
 	PiLuaModules::Serialize(wr);
 }
 
@@ -999,35 +1044,11 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	sectorView->Load(rd);
 	worldView->Load(rd);
 
-	detail.planets = rd.Int32();
-	detail.cities = rd.Int32();
-
-	OnChangeDetailLevel();
+	if (rd.StreamVersion() < 17) {
+		rd.Int32(); rd.Int32();
+	}
 
 	PiLuaModules::Unserialize(rd);
-}
-
-IniConfig::IniConfig(const char *filename)
-{
-	FILE *f = fopen_or_die(filename, "r");
-	char buf[1024];
-	while (fgets(buf, sizeof(buf), f)) {
-		if (buf[0] == '#') continue;
-		char *sep = strchr(buf, '=');
-		char *kend = sep;
-		if (!sep) continue;
-		*sep = 0;
-		// strip whitespace
-		while (isspace(*(--kend))) *kend = 0;
-		while (isspace(*(++sep))) *sep = 0;
-		// snip \r, \n
-		char *vend = sep;
-		while (*(++vend)) if ((*vend == '\r') || (*vend == '\n')) { *vend = 0; break; }
-		std::string key = std::string(buf);
-		std::string val = std::string(sep);
-		(*this)[key] = val;
-	}
-	fclose(f);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)

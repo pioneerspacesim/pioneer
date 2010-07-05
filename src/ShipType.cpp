@@ -20,9 +20,7 @@ std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
 int ShipType::define_ship(lua_State *L, const char *model_name)
 {
 	ShipType s;
-	printf("%s\n", model_name);
 	s.name = luaPi_gettable_checkstring(L, -1, 1);
-	printf("%s!\n", s.name.c_str());
 
 	s.lmrModelName = model_name;
 	
@@ -91,7 +89,6 @@ int ShipType::define_ship(lua_State *L, const char *model_name)
 		s.hyperdrive = Equip::NONE;
 	}
 	lua_pop(L, 1);
-	printf("%d,%d,%d, h %d\n", s.capacity, s.hullMass, s.baseprice, s.hyperdrive);
 
 	types[s.name] = s;
 	return 0;
@@ -113,7 +110,7 @@ void ShipType::Init()
 		LmrModel *model = *i;
 		model->PushAttributeToLuaStack("ship_defs");
 		if (lua_isnil(L, -1)) {
-			fprintf(stderr, "Warning: model %s is tagged as ship but has no ship_defs.\n",
+			Error("Model %s is tagged as ship but has no ship_defs.",
 					model->GetName());
 		} else if (lua_istable(L, -1)) {
 			// multiple ship-defs for 1 model

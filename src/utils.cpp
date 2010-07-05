@@ -2,17 +2,82 @@
 #include <math.h>
 #include "libs.h"
 #include "utils.h"
+#include "Gui.h"
 #include <string>
 #include <map>
 
 #ifdef _WIN32
 #include <../msvc/win32-dirent.h>
+#include <shlobj.h>
+#include <shlwapi.h>
 #else
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #endif
+
+std::string GetPiUserDir(const std::string &subdir)
+{
+	// i think this test only works with glibc...
+#if _GNU_SOURCE
+	const char *homedir = getenv("HOME");
+	std::string path = join_path(homedir, ".pioneer", 0);
+	DIR *dir = opendir(path.c_str());
+	if (!dir) {
+		if (mkdir(path.c_str(), 0770) == -1) {
+			Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
+		}
+	}
+	closedir(dir);
+	if (subdir != "") {
+		path = join_path(homedir, ".pioneer", subdir.c_str(), 0);
+		dir = opendir(path.c_str());
+		if (!dir) {
+			if (mkdir(path.c_str(), 0770) == -1) {
+				Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
+			}
+		}
+		closedir(dir);
+	}
+	return path+"/";
+#elif _WIN32
+	try {
+		TCHAR path[MAX_PATH];
+		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
+			throw std::runtime_error("SHGetFolderPath");
+
+		TCHAR temp[MAX_PATH];
+		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, temp, MAX_PATH);
+		if(!PathAppend(path, temp))
+			throw std::runtime_error("PathAppend");
+
+		if (subdir != "") {
+			MultiByteToWideChar(CP_ACP, 0, subdir.c_str(), subdir.size()+1, temp, MAX_PATH);
+			if(!PathAppend(path, temp))
+				throw std::runtime_error("PathAppend");
+		}
+
+		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
+			throw std::runtime_error("SHCreateDirectoryEx");
+
+		char temp2[MAX_PATH];
+		WideCharToMultiByte(CP_ACP, 0, path, wcslen(path)+1, temp2, MAX_PATH, 0, 0);
+		return std::string(temp2)+"/";
+	}
+	catch(const std::exception&) {
+		Gui::Screen::ShowBadError("Can't get path to save directory");
+		return "";
+	}
+#else
+# error Unsupported system
+#endif
+}
+
+std::string PiGetDataDir()
+{
+	return PIONEER_DATA_DIR + std::string("/");
+}
 
 FILE *fopen_or_die(const char *filename, const char *mode)
 {
@@ -143,12 +208,13 @@ std::string join_path(const char *firstbit, ...)
 
 void Error(const char *format, ...)
 {
-	fputs("Error: ", stderr);
+	char buf[1024];
 	va_list ap;
 	va_start(ap, format);
-	vfprintf(stderr, format, ap);
+	vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
-	fputs("\n", stderr);
+	fprintf(stderr, "Error: %s\n", buf);
+	Gui::Screen::ShowBadError((std::string("Error: ") + buf).c_str());
 	abort();
 }
 
