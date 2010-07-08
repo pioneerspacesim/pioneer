@@ -946,35 +946,6 @@ static const int geo_sphere_edge_friends[6][4] = {
 static std::list<GeoSphere*> s_allGeospheres;
 SDL_mutex *s_allGeospheresLock;
 
-/*
- * Define crater radii in angular size on surface of sphere (in radians)
- */
-void GeoSphere::AddCraters(MTRand &rand, int num, double minAng, double maxAng)
-{
-	assert(m_craters == 0);
-	m_numCraters = num;
-	m_craters = new crater_t[num];
-	minAng = cos(minAng);
-	maxAng = cos(maxAng);
-	for (int i=0; i<num; i++) {
-		m_craters[i].size = rand.Double(minAng, maxAng);
-		for (int try_=0; try_<16; try_++) {
-			bool good = true;
-			m_craters[i].pos = vector3d(
-					rand.Double(-1.0, 1.0),
-					rand.Double(-1.0, 1.0),
-					rand.Double(-1.0, 1.0)).Normalized();
-			for (int j=0; j<i; j++) {
-				if (vector3d::Dot(m_craters[i].pos, m_craters[j].pos) < m_craters[i].size+m_craters[j].size) {
-					good = false;
-					break;
-				}
-			}
-			if (good) break;
-		}
-	}
-}
-
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
 {
@@ -1059,8 +1030,6 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_runUpdateThread = 0;
 	m_sbody = body;
 	m_sbodyRadius = m_sbody->GetRadius();
-	m_numCraters = 0;
-	m_craters = 0;
 	m_maxHeight = 3.61/sqrt(m_sbody->GetRadius());
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	if ((body->type == SBody::TYPE_PLANET_ASTEROID) ||
@@ -1099,15 +1068,6 @@ GeoSphere::GeoSphere(const SBody *body)
 	m_sealevel = rand.Double();
 	m_fractalOffset = vector3d(rand.Double(255), rand.Double(255), rand.Double(255));
 	
-#if 0
-	switch (GEOSPHERE_TYPE) {
-		case SBody::TYPE_PLANET_DWARF:
-			AddCraters(rand, rand.Int32(10,30), M_PI*0.005, M_PI*0.05);
-			break;
-		default: break;
-	}
-#endif
-
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	if (body->heightMapFilename) {
@@ -1138,7 +1098,6 @@ GeoSphere::~GeoSphere()
 	SDL_mutexV(s_allGeospheresLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
-	delete [] m_craters;
 	if (m_heightMap) delete [] m_heightMap;
 	DestroyVBOs();
 	SDL_DestroyMutex(m_vbosToDestroyLock);

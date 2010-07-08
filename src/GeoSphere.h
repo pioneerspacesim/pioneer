@@ -20,7 +20,6 @@ public:
 	GeoSphere(const SBody *body);
 	~GeoSphere();
 	void Render(vector3d campos, const float radius, const float scale);
-	void AddCraters(MTRand &rand, int num, double minAng, double maxAng);
 	double GetHeight(vector3d p);
 	// only called from fishy thread
 	void _UpdateLODs();
@@ -33,11 +32,6 @@ public:
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
-	struct crater_t {
-		vector3d pos;
-		double size;
-	} *m_craters;
-	int m_numCraters;
 	float m_diffColor[4], m_ambColor[4];
 	const SBody *m_sbody;
 
