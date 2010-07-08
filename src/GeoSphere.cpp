@@ -378,40 +378,62 @@ public:
 		switch (edge) {
 		case 0:
 			for (x=1; x<GEOPATCH_EDGELEN-1; x++) {
-				vector3d x1 = vertices[x-1];
-				vector3d x2 = vertices[x+1];
-				vector3d y1 = ev[x];
-				vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-				normals[x] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d x1 = vertices[x-1];
+				const vector3d x2 = vertices[x+1];
+				const vector3d y1 = ev[x];
+				const vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
+				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				normals[x] = norm;
+				// make color
+				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, 0);
+				const double height = colors[x].x;
+				colors[x] = geosphere->GetColor(p, height, norm);
 			}
 			break;
 		case 1:
 			x = GEOPATCH_EDGELEN-1;
 			for (y=1; y<GEOPATCH_EDGELEN-1; y++) {
-				vector3d x1 = vertices[(x-1) + y*GEOPATCH_EDGELEN];
-				vector3d x2 = ev[y];
-				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-				normals[x + y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d x1 = vertices[(x-1) + y*GEOPATCH_EDGELEN];
+				const vector3d x2 = ev[y];
+				const vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
+				const vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
+				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				normals[x + y*GEOPATCH_EDGELEN] = norm;
+				// make color
+				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
+				const double height = colors[x + y*GEOPATCH_EDGELEN].x;
+				colors[x + y*GEOPATCH_EDGELEN] = geosphere->GetColor(p, height, norm);
+	//			colors[x+y*GEOPATCH_EDGELEN] = vector3d(1,0,0);
 			}
 			break;
 		case 2:
 			y = GEOPATCH_EDGELEN-1;
 			for (x=1; x<GEOPATCH_EDGELEN-1; x++) {
-				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
-				vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
-				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = ev[GEOPATCH_EDGELEN-1-x];
-				normals[x + y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
+				const vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
+				const vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
+				const vector3d y2 = ev[GEOPATCH_EDGELEN-1-x];
+				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				normals[x + y*GEOPATCH_EDGELEN] = norm;
+				// make color
+				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
+				const double height = colors[x + y*GEOPATCH_EDGELEN].x;
+				colors[x + y*GEOPATCH_EDGELEN] = geosphere->GetColor(p, height, norm);
 			}
 			break;
 		case 3:
 			for (y=1; y<GEOPATCH_EDGELEN-1; y++) {
-				vector3d x1 = ev[GEOPATCH_EDGELEN-1-y];
-				vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
-				vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
-				normals[y*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d x1 = ev[GEOPATCH_EDGELEN-1-y];
+				const vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
+				const vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
+				const vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
+				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				normals[y*GEOPATCH_EDGELEN] = norm;
+				// make color
+				const vector3d p = GetSpherePoint(0, y*GEOPATCH_FRAC);
+				const double height = colors[y*GEOPATCH_EDGELEN].x;
+				colors[y*GEOPATCH_EDGELEN] = geosphere->GetColor(p, height, norm);
+	//			colors[y*GEOPATCH_EDGELEN] = vector3d(0,1,0);
 			}
 			break;
 		}
@@ -469,36 +491,64 @@ public:
 		int p;
 		vector3d x1,x2,y1,y2;
 		switch (corner) {
-		case 0:
+		case 0: {
 			x1 = ev[GEOPATCH_EDGELEN-1];
 			x2 = vertices[1];
 			y1 = ev2[0];
 			y2 = vertices[GEOPATCH_EDGELEN];
-			normals[0] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			normals[0] = norm;
+			// make color
+			const vector3d pt = GetSpherePoint(0, 0);
+		//	const double height = colors[0].x;
+			const double height = geosphere->GetHeight(pt);
+			colors[0] = geosphere->GetColor(pt, height, norm);
+			}
 			break;
-		case 1:
+		case 1: {
 			p = GEOPATCH_EDGELEN-1;
 			x1 = vertices[p-1];
 			x2 = ev2[0];
 			y1 = ev[GEOPATCH_EDGELEN-1];
 			y2 = vertices[p + GEOPATCH_EDGELEN];
-			normals[p] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			normals[p] = norm;
+			// make color
+			const vector3d pt = GetSpherePoint(p*GEOPATCH_FRAC, 0);
+		//	const double height = colors[p].x;
+			const double height = geosphere->GetHeight(pt);
+			colors[p] = geosphere->GetColor(pt, height, norm);
+			}
 			break;
-		case 2:
+		case 2: {
 			p = GEOPATCH_EDGELEN-1;
 			x1 = vertices[(p-1) + p*GEOPATCH_EDGELEN];
 			x2 = ev[GEOPATCH_EDGELEN-1];
 			y1 = vertices[p + (p-1)*GEOPATCH_EDGELEN];
 			y2 = ev2[0];
-			normals[p + p*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			normals[p + p*GEOPATCH_EDGELEN] = norm;
+			// make color
+			const vector3d pt = GetSpherePoint(p*GEOPATCH_FRAC, p*GEOPATCH_FRAC);
+		//	const double height = colors[p + p*GEOPATCH_EDGELEN].x;
+			const double height = geosphere->GetHeight(pt);
+			colors[p + p*GEOPATCH_EDGELEN] = geosphere->GetColor(pt, height, norm);
+			}
 			break;
-		case 3:
+		case 3: {
 			p = GEOPATCH_EDGELEN-1;
 			x1 = ev2[0];
 			x2 = vertices[1 + p*GEOPATCH_EDGELEN];
 			y1 = vertices[(p-1)*GEOPATCH_EDGELEN];
 			y2 = ev[GEOPATCH_EDGELEN-1];
-			normals[p*GEOPATCH_EDGELEN] = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			normals[p*GEOPATCH_EDGELEN] = norm;
+			// make color
+			const vector3d pt = GetSpherePoint(0, p*GEOPATCH_FRAC);
+		//	const double height = colors[p*GEOPATCH_EDGELEN].x;
+			const double height = geosphere->GetHeight(pt);
+			colors[p*GEOPATCH_EDGELEN] = geosphere->GetColor(pt, height, norm);
+			}
 			break;
 		}
 	}
@@ -506,6 +556,10 @@ public:
 	void FixCornerNormalsByEdge(int edge, vector3d *ev) {
 		vector3d ev2[GEOPATCH_MAX_EDGELEN];
 		vector3d x1, x2, y1, y2;
+		/* XXX All these 'if's have an unfinished else, when a neighbour
+		 * of our size doesn't exist and instead we must look at a bigger tile.
+		 * But let's just leave it for the mo because it is a pain.
+		 * See comment in OnEdgeFriendChanged() */
 		switch (edge) {
 		case 0:
 			if (edgeFriend[3]) {
@@ -559,18 +613,7 @@ public:
 				
 	}
 
-	void GenerateNormals() {
-		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
-			for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
-				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
-				vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
-				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
-				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-
-				vector3d n = vector3d::Cross(x2-x1, y2-y1);
-				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
-			}
-		}
+	void GenerateEdgeNormalsAndColors() {
 		vector3d ev[4][GEOPATCH_MAX_EDGELEN];
 		bool doneEdge[4];
 		memset(doneEdge, 0, sizeof(doneEdge));
@@ -597,8 +640,6 @@ public:
 		MakeCornerNormal<3>(ev[2], ev[3]);
 
 		for (int i=0; i<4; i++) if(!doneEdge[i]) FixEdgeNormals(i, ev[i]);
-
-		UpdateVBOs();
 	}
 
 	/* in patch surface coords, [0,1] */
@@ -608,6 +649,8 @@ public:
 			    (1.0-x)*y*(v[3]-v[0])).Normalized();
 	}
 
+	/** Generates full-detail vertices, and also non-edge normals and
+	 * colors */
 	void GenerateMesh() {
 		vector3d *vts = vertices;
 		vector3d *col = colors;
@@ -619,12 +662,32 @@ public:
 				vector3d p = GetSpherePoint(xfrac, yfrac);
 				double height = geosphere->GetHeight(p);
 				*(vts++) = p * (height + 1.0);
-				*(col++) = geosphere->GetColor(p, height);
+				// remember this -- we will need it later
+				(col++)->x = height;
 				xfrac += GEOPATCH_FRAC;
 			}
 			yfrac += GEOPATCH_FRAC;
 		}
 		assert(vts == &vertices[GEOPATCH_NUMVERTICES]);
+		// Generate normals & colors for non-edge vertices since they never change
+		for (int y=1; y<GEOPATCH_EDGELEN-1; y++) {
+			for (int x=1; x<GEOPATCH_EDGELEN-1; x++) {
+				// normal
+				vector3d x1 = vertices[x-1 + y*GEOPATCH_EDGELEN];
+				vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
+				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
+				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
+
+				vector3d n = vector3d::Cross(x2-x1, y2-y1);
+				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
+				// color
+				vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
+				vector3d &col = colors[x + y*GEOPATCH_EDGELEN];
+				const double height = col.x;
+				const vector3d &norm = normals[x + y*GEOPATCH_EDGELEN];
+				col = geosphere->GetColor(p, height, norm);
+			}
+		}
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
@@ -637,7 +700,12 @@ public:
 				vector3d p = GetSpherePoint(x * GEOPATCH_FRAC, 0);
 				double height = geosphere->GetHeight(p);
 				vertices[x] = p * (height + 1.0);
-				colors[x] = geosphere->GetColor(p, height);
+				// XXX These bounds checks in each edge case are
+				// only necessary while the "All these 'if's"
+				// comment in FixCOrnerNormalsByEdge stands
+				if ((x>0) && (x<GEOPATCH_EDGELEN-1)) {
+					colors[x].x = height;
+				}
 			}
 		} else if (edge == 1) {
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
@@ -645,7 +713,9 @@ public:
 				double height = geosphere->GetHeight(p);
 				int pos = (GEOPATCH_EDGELEN-1) + y*GEOPATCH_EDGELEN;
 				vertices[pos] = p * (height + 1.0);
-				colors[pos] = geosphere->GetColor(p, height);
+				if ((y>0) && (y<GEOPATCH_EDGELEN-1)) {
+					colors[pos].x = height;
+				}
 			}
 		} else if (edge == 2) {
 			for (int x=0; x<GEOPATCH_EDGELEN; x++) {
@@ -653,7 +723,9 @@ public:
 				double height = geosphere->GetHeight(p);
 				int pos = x + (GEOPATCH_EDGELEN-1)*GEOPATCH_EDGELEN;
 				vertices[pos] = p * (height + 1.0);
-				colors[pos] = geosphere->GetColor(p, height);
+				if ((x>0) && (x<GEOPATCH_EDGELEN-1)) {
+					colors[pos].x = height;
+				}
 			}
 		} else {
 			for (int y=0; y<GEOPATCH_EDGELEN; y++) {
@@ -661,7 +733,9 @@ public:
 				double height = geosphere->GetHeight(p);
 				int pos = y * GEOPATCH_EDGELEN;
 				vertices[pos] = p * (height + 1.0);
-				colors[pos] = geosphere->GetColor(p, height);
+				if ((y>0) && (y<GEOPATCH_EDGELEN-1)) {
+					colors[pos].x = height;
+				}
 			}
 		}
 
@@ -836,7 +910,10 @@ public:
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) kids[i] = _kids[i];
 				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
-				for (int i=0; i<4; i++) kids[i]->GenerateNormals();
+				for (int i=0; i<4; i++) {
+					kids[i]->GenerateEdgeNormalsAndColors();
+					kids[i]->UpdateVBOs();
+				}
 				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			}
 			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
@@ -1118,7 +1195,8 @@ void GeoSphere::BuildFirstPatches()
 		}
 	}
 	for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
-	for (int i=0; i<6; i++) m_patches[i]->GenerateNormals();
+	for (int i=0; i<6; i++) m_patches[i]->GenerateEdgeNormalsAndColors();
+	for (int i=0; i<6; i++) m_patches[i]->UpdateVBOs();
 }
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
@@ -1446,6 +1524,60 @@ static inline double fractal(int octaves, fracdef_t &def, int type, const vector
 	}
 }
 
+double canyon_function(const vector3d &p)
+{
+	double h;
+	double n = octavenoise(8,0.5,2.0,p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double hrim = 0.5*(inner-outer);
+	const double midrim = 0.5*(inner+outer);
+	if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h;
+}
+
+void crater_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.9;
+	const double inner = 0.94;
+	const double midrim = 0.93;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double crater_function(const vector3d &p)
+{
+	double crater = 0.0;
+	double sz = 1.0;
+	double max_h = 0.5;
+	for (int i=0; i<14; i++) {
+		crater_function_1pass(sz*p, crater, max_h);
+		sz *= 2.0;
+		max_h *= 0.5;
+	}
+	return 4.0 * crater;
+}
 /*
  * p should be a normalised turd on surface of planet.
  *
@@ -1471,24 +1603,32 @@ double GeoSphere::GetHeight(vector3d p)
 			return 0;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-			return m_maxHeight*octavenoise(14, 0.5, 2.0, p);
+			return m_maxHeight * (octavenoise(14, 0.5, 2.0, p) + crater_function(p));
 		case SBody::TYPE_PLANET_DWARF:
 		case SBody::TYPE_PLANET_SMALL:
 		case SBody::TYPE_PLANET_CO2:
 		case SBody::TYPE_PLANET_METHANE:
-		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
 			{
 				double continents = m_continents.amplitude * fractal(14, m_continents, (GEOSPHERE_SEED)&3, p);
 				double mountains = m_mountains.amplitude * fractal(10, m_mountains, (GEOSPHERE_SEED>>2)&3, p);
 				double hills = fractal(6, m_hillDistrib, (GEOSPHERE_SEED>>4)&3, p) *
 				               m_hills.amplitude * fractal(10, m_hills, (GEOSPHERE_SEED>>6)&3, p);
 
-				n = m_maxHeight * (continents + hills + mountains);
+				return m_maxHeight * (continents + hills + mountains + crater_function(p));
 			}
-			break;
+		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
+		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
+		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
+		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
+			// same as above but no craters because of atmosphere
+			{
+				double continents = m_continents.amplitude * fractal(14, m_continents, (GEOSPHERE_SEED)&3, p);
+				double mountains = m_mountains.amplitude * fractal(10, m_mountains, (GEOSPHERE_SEED>>2)&3, p);
+				double hills = fractal(6, m_hillDistrib, (GEOSPHERE_SEED>>4)&3, p) *
+				               m_hills.amplitude * fractal(10, m_hills, (GEOSPHERE_SEED>>6)&3, p);
+
+				return m_maxHeight * (continents + hills + mountains);
+			}
 		case SBody::TYPE_PLANET_WATER:
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			{
@@ -1509,32 +1649,11 @@ double GeoSphere::GetHeight(vector3d p)
 					else n += mountains;
 				}
 				n = (n<0.0 ? 0.0 : m_maxHeight*n);
-				return n;
 			}
+			return n;
 		default:
 			return 0;
 	}
-	// weird loopy blobs
-	//n += 0.5*0.3*(1.0+octavenoise(8, 0.5f + 0.25f*noise(2.0*p), p+vector3d(0,0,noise(32*p))));
-	//n += 0.5*0.3*octavenoise(8, 0.5, 256.0*p);
-//	n = octavenoise(12, 0.5, pmul*p);
-/*	switch (m_sbody->seed & 3) {
-		case 0: n = 1.0 - fabs(n); break;
-		case 1: n = fabs(n); break;
-		default: break;
-	}*/
-	double crater = 0;
-#if 0
-	// :-(
-	p -= m_fractalOffset;
-	for (int i=0; i<m_numCraters; i++) {
-		const double dot = vector3d::Dot(m_craters[i].pos, p);
-		const double depth = 2.0*(m_craters[i].size - 1.0);
-		if (dot > m_craters[i].size) crater += depth * MIN(-(m_craters[i].size-dot)/(1.0-m_craters[i].size),
-							0.5); // <-- proportion of crater to be slope, before flat bottom
-	}
-#endif /* 0 */
-	return n + crater;
 }
 
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
@@ -1543,10 +1662,10 @@ static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 	return start*(1.0-n) + end*n;
 }
 
-inline vector3d GeoSphere::GetColor(vector3d &p, double height)
+inline vector3d GeoSphere::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	if (m_heightMap) {
-		height = GetHeightMapVal(p) / m_sbodyRadius;
+//		height = GetHeightMapVal(p) / m_sbodyRadius;
 	/*	double height = GetHeightMapVal(p);
 		double n = height/8000.0;
 		if (n < 0) return vector3d(0,0,0.5);
@@ -1582,14 +1701,19 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			return interpolate_color(river_octavenoise(12, 0.5, 2.0, p), vector3d(.2,.2,.2), vector3d(.6,.6,.6));
+		{
+			vector3d col = interpolate_color(river_octavenoise(12, 0.5, 2.0, p), vector3d(.2,.2,.2), vector3d(.6,.6,.6));
+			return col;
+		}
 	   	case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			n = m_invMaxHeight*height;
 			if (n <= 0) return vector3d(0,0,0.5);
 			else {
+				const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+				const vector3d color_cliffs = vector3d(.7,.4,.2);
 				// ice on mountains and poles
 				if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
-					return vector3d(1,1,1);
+					return interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
 				}
 
 				double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -1600,6 +1724,7 @@ inline vector3d GeoSphere::GetColor(vector3d &p, double height)
 				col = interpolate_color(equatorial_desert, vector3d(0,.5,0), vector3d(.86, .75, .48));
 				// height: low green, high grey
 				col = interpolate_color(n, col, vector3d(.5,.5,.5));
+				col = interpolate_color(flatness, color_cliffs, col);
 				return col;
 			}
 		case SBody::TYPE_PLANET_WATER:

@@ -79,7 +79,7 @@ private:
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
 
-	vector3d GetColor(vector3d &p, double height);
+	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
 };
 
 #endif /* _GEOSPHERE_H */
