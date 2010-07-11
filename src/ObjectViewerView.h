@@ -18,6 +18,10 @@ private:
 	Gui::Label *m_infoLabel;
 	const Body* lastTarget;
 	matrix4x4d m_camRot;
+
+	Gui::TextEntry *m_geosphereTerrainStyle;
+	Gui::TextEntry *m_geosphereColorStyle;
+	void OnChangeGeoSphereStyle();
 };
 
 #endif /* _OBJECTVIEWERVIEW_H */

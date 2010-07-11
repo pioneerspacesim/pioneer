@@ -36,27 +36,27 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	{ { TERRAIN_GASGIANT },
 	  { COLOR_GG_SATURN, COLOR_GG_JUPITER, COLOR_GG_URANUS, COLOR_GG_NEPTUNE } },
 	// TYPE_PLANET_ASTEROID,
-	{ { TERRAIN_ASTEROID }, { COLOR_MOON } },
+	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
 	// TYPE_PLANET_LARGE_ASTEROID,
-	{ { TERRAIN_ASTEROID }, { COLOR_MOON } },
+	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
 	// TYPE_PLANET_DWARF,
-	{ { TERRAIN_RUGGED_CRATERED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED_CRATERED }, { COLOR_ROCK } },
 	// TYPE_PLANET_SMALL,
-	{ { TERRAIN_RUGGED_CRATERED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED_CRATERED }, { COLOR_ROCK } },
 	// TYPE_PLANET_WATER,
 	{ { TERRAIN_RUGGED_H2O }, { COLOR_DEAD_WITH_H2O } },
 	// TYPE_PLANET_CO2,
-	{ { TERRAIN_RUGGED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
 	// TYPE_PLANET_METHANE,
-	{ { TERRAIN_RUGGED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
 	// TYPE_PLANET_WATER_THICK_ATMOS,
 	{ { TERRAIN_RUGGED_H2O }, { COLOR_DEAD_WITH_H2O } },
 	// TYPE_PLANET_CO2_THICK_ATMOS,
-	{ { TERRAIN_RUGGED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
 	// TYPE_PLANET_METHANE_THICK_ATMOS,
-	{ { TERRAIN_RUGGED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
 	// TYPE_PLANET_HIGHLY_VOLCANIC,
-	{ { TERRAIN_RUGGED }, { COLOR_MOON } },
+	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
 	// TYPE_PLANET_INDIGENOUS_LIFE,
 	{ { TERRAIN_RUGGED_H2O }, { COLOR_EARTHLIKE } },
 	// TYPE_STARPORT_ORBITAL
@@ -296,6 +296,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	m_colorType = c;
 
 	m_planetRadius = planetRadius;
+	m_planetEarthRadii = planetRadius / EARTH_RADIUS;
 	m_maxHeight = 3.61/sqrt(planetRadius);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 
@@ -339,6 +340,13 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	}
 
 	for (int i=0; i<8; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<4; i++) {
+		double r,g,b;
+		r = rand.Double(0.5, 1.0);
+		g = rand.Double(0.0, r);
+		b = rand.Double(0.0, MIN(r, g));
+		m_rockColor[i] = vector3d(r, g, b);
+	}
 }
 
 double GeoSphereStyle::GetHeight(const vector3d &p)
@@ -396,25 +404,32 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 	}
 }
 
+/**
+ * Height: 0.0 would be sea-level. 1.0 would be an extra elevation of 1 radius (huge)
+ */
 vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	switch (m_colorType) {
 	case COLOR_NONE:
 		return vector3d(1.0);
 	case COLOR_GG_JUPITER: {
-		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetRadius, p.z))*p);
+		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+		n = (1.0 + n)*0.5;
 		return interpolate_color(n, vector3d(.50,.22,.18), vector3d(.99,.76,.62));
 		}
 	case COLOR_GG_SATURN: {
-		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetRadius, p.z))*p);
+		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+		n = (1.0 + n)*0.5;
 		return interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62));
 		}
 	case COLOR_GG_URANUS: {
-		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetRadius, p.z))*p);
+		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+		n = (1.0 + n)*0.5;
 		return interpolate_color(n, vector3d(.63, .76, .77), vector3d(.70,.85,.86));
 		}
 	case COLOR_GG_NEPTUNE: {
-		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetRadius, p.z))*p);
+		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+		n = (1.0 + n)*0.5;
 		return interpolate_color(n*n, vector3d(.21, .34, .54), vector3d(.31, .44, .73)); 
 		}
 	case COLOR_EARTHLIKE:
@@ -424,7 +439,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		if (n <= 0) return vector3d(0,0,0.5);
 
 		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
-		const vector3d color_cliffs = vector3d(.7,.4,.2);
+		const vector3d color_cliffs = m_rockColor[1];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
 			return interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
@@ -437,7 +452,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// latitude: high ~col, low orange
 		col = interpolate_color(equatorial_desert, vector3d(0,.5,0), vector3d(.86, .75, .48));
 		// height: low green, high grey
-		col = interpolate_color(n, col, vector3d(.5,.5,.5));
+		col = interpolate_color(n, col, m_rockColor[0]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
@@ -446,8 +461,14 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		if (n <= 0) return vector3d(0.0,0.0,0.5);
 		else return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
 	}
-	case COLOR_MOON:
-		return vector3d(.5,.5,.5);
+	case COLOR_ROCK:
+		return m_rockColor[0];
 		//return vector3d(m_invMaxHeight*height, m_invMaxHeight*height,1);
+	case COLOR_BANDED_ROCK: {
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		double n = fabs(noise(vector3d(height*10000.0,0.0,0.0)));
+		vector3d col = interpolate_color(n, m_rockColor[0], m_rockColor[1]);
+		return interpolate_color(flatness, col, m_rockColor[2]);
+	}
 	}
 }

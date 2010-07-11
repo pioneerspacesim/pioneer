@@ -17,7 +17,8 @@ class GeoSphereStyle {
 		TERRAIN_ASTEROID,
 		TERRAIN_RUGGED,
 		TERRAIN_RUGGED_CRATERED,
-		TERRAIN_RUGGED_H2O
+		TERRAIN_RUGGED_H2O,
+		TERRAIN_MAX = TERRAIN_RUGGED_H2O
 	};
 
 	enum ColorType {
@@ -28,7 +29,9 @@ class GeoSphereStyle {
 		COLOR_GG_NEPTUNE,
 		COLOR_EARTHLIKE,
 		COLOR_DEAD_WITH_H2O,
-		COLOR_MOON
+		COLOR_ROCK,
+		COLOR_BANDED_ROCK,
+		COLOR_MAX = COLOR_BANDED_ROCK
 	};
 
 	~GeoSphereStyle() {
@@ -49,6 +52,11 @@ class GeoSphereStyle {
 	double GetHeight(const vector3d &p);
 	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
 	double GetMaxHeight() const { return m_maxHeight; }
+
+	// so the object viewer can play with planet types
+#ifdef DEBUG
+	friend class ObjectViewerView;
+#endif /* DEBUG */
 	
 	private:
 	void Init(TerrainType t, ColorType c, double planetRadius, double averageTemp, MTRand &rand);
@@ -69,9 +77,12 @@ class GeoSphereStyle {
 	double m_maxHeight;
 	double m_invMaxHeight;
 	double m_planetRadius;
+	double m_planetEarthRadii;
 
 	double m_icyness;
 	double m_entropy[8];
+
+	vector3d m_rockColor[4];
 
 	struct {
 		fracdef_t continents;

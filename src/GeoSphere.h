@@ -3,15 +3,10 @@
 
 #include "vector3.h"
 #include "mtrand.h"
+#include "GeoSphereStyle.h"
 
 extern int GEOPATCH_EDGELEN;
 #define ATMOSPHERE_RADIUS 1.015f
-
-struct fracdef_t {
-	double amplitude;
-	double frequency;
-	double lacunarity;
-};
 
 class SBody;
 class GeoPatch;
@@ -20,15 +15,20 @@ public:
 	GeoSphere(const SBody *body);
 	~GeoSphere();
 	void Render(vector3d campos, const float radius, const float scale);
-	double GetHeight(vector3d p);
+	inline double GetHeight(vector3d p) {
+		return m_style.GetHeight(p);
+	}
 	// only called from fishy thread
 	void _UpdateLODs();
 	friend class GeoPatch;
+#ifdef DEBUG
+	friend class ObjectViewerView;
+#endif /* DEBUG */
 	static void Init();
 	static void OnChangeDetailLevel();
 	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const;
 	// in sbody radii
-	double GetMaxFeatureHeight() const { return m_maxHeight; }
+	double GetMaxFeatureHeight() const { return m_style.GetMaxHeight(); }
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
@@ -36,26 +36,8 @@ private:
 	const SBody *m_sbody;
 
 	/* all variables for GetHeight(), GetColor() */
-	double m_maxHeight;
-	double m_invMaxHeight;
-	double m_crap[16];
-	double m_sealevel;
-	double m_sbodyRadius;
-	double m_icyness; // ~1.0 = earth (15c)
-	
-	fracdef_t m_continents;
-	fracdef_t m_mountains;
-	fracdef_t m_hills;
-	fracdef_t m_hillDistrib;
-	fracdef_t m_mountainDistrib;
-	
+	GeoSphereStyle m_style;
 	vector3d m_fractalOffset;
-
-	/* for sbodies with a heightMap we load this turd
-	 * and use it instead of perlin height function */
-	Sint16 *m_heightMap;
-	int m_heightMapSizeX;
-	int m_heightMapSizeY;
 
 	///////////////////////////
 	// threading rubbbbbish
@@ -70,10 +52,9 @@ private:
 	int m_runUpdateThread;
 	//////////////////////////////
 
-	int GetRawHeightMapVal(int x, int y);
-	double GetHeightMapVal(const vector3d &pt);
-
-	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
+	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {
+		return m_style.GetColor(p, height, norm);
+	}
 };
 
 #endif /* _GEOSPHERE_H */

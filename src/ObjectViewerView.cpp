@@ -4,6 +4,9 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Space.h"
+#include "GeoSphere.h"
+#include "GeoSphereStyle.h"
+#include "Planet.h"
 
 ObjectViewerView::ObjectViewerView(): View()
 {
@@ -13,6 +16,20 @@ ObjectViewerView::ObjectViewerView(): View()
 	
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-66-Gui::Screen::GetFontHeight());
+
+	Gui::Label *l = new Gui::Label("Terrain type:");
+	Add(l, 600, 2);
+	m_geosphereTerrainStyle = new Gui::TextEntry();
+	Add(m_geosphereTerrainStyle, 700, 2);
+
+	l = new Gui::Label("Coloring type:");
+	Add(l, 600, 32);
+	m_geosphereColorStyle = new Gui::TextEntry();
+	Add(m_geosphereColorStyle, 700, 32);
+
+	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeGeoSphereStyle));
+	Add(b, 600, 64);
 }
 
 void ObjectViewerView::Draw3D()
@@ -64,8 +81,34 @@ void ObjectViewerView::Update()
 		// Reset view distance for new target.
 		viewingDist = body->GetBoundingRadius() * 2.0f;
 		lastTarget = body;
+
+		if (body->IsType(Object::PLANET)) {
+			Planet *planet = static_cast<Planet*>(body);
+			GeoSphere *gs = planet->m_geosphere;
+			m_geosphereTerrainStyle->SetText(stringf(64, "%d", (int)gs->m_style.m_terrainType));
+			m_geosphereColorStyle->SetText(stringf(64, "%d", (int)gs->m_style.m_colorType));
+
+		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
 }
 
+void ObjectViewerView::OnChangeGeoSphereStyle()
+{
+	int terrain_style = atoi(m_geosphereTerrainStyle->GetText().c_str());
+	int color_style = atoi(m_geosphereColorStyle->GetText().c_str());
+
+	terrain_style = CLAMP(terrain_style, 0, (int)GeoSphereStyle::TERRAIN_MAX);
+	color_style = CLAMP(color_style, 0, (int)GeoSphereStyle::COLOR_MAX);
+
+	Body *body = Pi::player->GetNavTarget();
+	if (body->IsType(Object::PLANET)) {
+		Planet *planet = static_cast<Planet*>(body);
+		GeoSphere *gs = planet->m_geosphere;
+		gs->m_style.m_terrainType = (GeoSphereStyle::TerrainType)terrain_style;
+		gs->m_style.m_colorType = (GeoSphereStyle::ColorType)color_style;
+		// force rebuild
+		gs->OnChangeDetailLevel();
+	}
+}
