@@ -337,7 +337,7 @@ void InfoView::Draw3D()
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	LmrModel *lmr_model = Pi::player->GetLmrModel();
-	rot[14] = -1.0f * lmr_model->GetBoundingRadius();
+	rot[14] = -1.5f * lmr_model->GetDrawClipRadius();
 
 	lmr_model->Render(rot, &params);
 	glPopAttrib();

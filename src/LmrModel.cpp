@@ -667,7 +667,7 @@ private:
 LmrModel::LmrModel(const char *model_name)
 {
 	m_name = model_name;
-	m_boundingRadius = 1.0f;
+	m_drawClipRadius = 1.0f;
 	m_scale = 1.0f;
 
 	char buf[256];
@@ -677,7 +677,7 @@ LmrModel::LmrModel(const char *model_name)
 		m_numLods = 0;
 
 		lua_getfield(sLua, -1, "bounding_radius");
-		if (lua_isnumber(sLua, -1)) m_boundingRadius = luaL_checknumber(sLua, -1);
+		if (lua_isnumber(sLua, -1)) m_drawClipRadius = luaL_checknumber(sLua, -1);
 		else luaL_error(sLua, "model %s_info missing bounding_radius=", model_name);
 		lua_pop(sLua, 1);
 
@@ -841,7 +841,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glScalef(m_scale, m_scale, m_scale);
 	glEnable(GL_NORMALIZE);
 
-	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_boundingRadius / cameraPos.Length();
+	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
 	int lod = m_numLods-1;
@@ -895,7 +895,7 @@ LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 	m_aabb.min = vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_aabb.max = vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
-	m_radius = MAX(m_aabb.min.Length(), m_aabb.max.Length());
+	m_radius = m_aabb.GetBoundingRadius();
 	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
 

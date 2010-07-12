@@ -44,7 +44,7 @@ public:
 	void Render(const matrix4x4f &trans, const LmrObjParams *params);
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
-	float GetBoundingRadius() const { return m_boundingRadius; }
+	float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
 	int GetIntAttribute(const char *attr_name) const;
 	void PushAttributeToLuaStack(const char *attr_name) const;
@@ -62,7 +62,7 @@ private:
 	std::string m_name;
 	bool m_hasDynamicFunc;
 	// only used for lod pixel size at the moment
-	float m_boundingRadius;
+	float m_drawClipRadius;
 	float m_scale;
 	friend class LmrGeomBuffer;
 };

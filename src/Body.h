@@ -24,6 +24,7 @@ public:
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
+	/** Should really be renamed to GetClipRadius */
 	virtual double GetBoundingRadius() const = 0;
 	virtual double GetMass() const { assert(0); return 0; }
 	virtual void SetRotMatrix(const matrix4x4d &r) {};

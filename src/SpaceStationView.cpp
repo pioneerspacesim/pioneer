@@ -384,7 +384,7 @@ void StationViewShipView::Draw3D()
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
-	rot[14] = -1.0f * m_lmrModel->GetBoundingRadius();
+	rot[14] = -1.5f * m_lmrModel->GetDrawClipRadius();
 
 	m_lmrModel->Render(rot, &params);
 	glPopAttrib();

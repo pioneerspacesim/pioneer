@@ -24,6 +24,9 @@ struct Aabb {
 			(min.y < o.max.y) && (max.y > o.min.y) &&
 			(min.z < o.max.z) && (max.z > o.min.z);
 	}
+	double GetBoundingRadius() {
+		return std::max(min.Length(), max.Length());
+	}
 };
 
 #endif /* _AABB_H */

@@ -101,9 +101,7 @@ vector3d ModelBody::GetPosition() const
 
 double ModelBody::GetBoundingRadius() const
 {
-	Aabb aabb = m_geom->GetGeomTree()->GetAabb();
-	// Return size of largest dimension.
-	return std::max(aabb.max.x - aabb.min.x, std::max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
+	return m_lmrModel->GetDrawClipRadius();
 }
 
 void ModelBody::SetLmrTimeParams()

@@ -641,7 +641,7 @@ define_model('flowerfairy_heavy_trader', {
 define_model('interdictor', {
 	info = {
 			lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 100,
+			bounding_radius = 50,
 			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'},
 			tags = {'ship'},
 			ship_defs = {
