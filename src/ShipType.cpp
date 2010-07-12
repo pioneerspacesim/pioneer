@@ -165,9 +165,14 @@ void EquipSet::Load(Serializer::Reader &rd)
 	assert(numSlots <= Equip::SLOT_MAX);
 	for (int i=0; i<numSlots; i++) {
 		const int numItems = rd.Int32();
-		assert(numItems <= (signed)equip[i].size());
 		for (int j=0; j<numItems; j++) {
-			equip[i][j] = static_cast<Equip::Type>(rd.Int32());
+			if (j < (signed)equip[i].size()) {
+				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
+			} else {
+				// equipment slot sizes have changed. just
+				// dump the difference
+				rd.Int32();
+			}
 		}
 	}
 	onChange.emit();
