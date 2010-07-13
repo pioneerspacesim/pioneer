@@ -271,6 +271,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\GeoSphereStyle.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\glfreetype.cpp"
 				>
 			</File>
@@ -734,6 +738,10 @@
 			</File>
 			<File
 				RelativePath="..\src\GeoSphere.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\GeoSphereStyle.h"
 				>
 			</File>
 			<File
