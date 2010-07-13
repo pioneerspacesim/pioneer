@@ -82,7 +82,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		// advert has expired
 		Close();
 	} else {
-		PiLuaModules::ModCall(m_modName.c_str(), "DialogHandler", 0, this, optionClicked);
+		PiLuaModules::ModCall(m_modName.c_str(), "onChatBB", 0, this, optionClicked);
 	}
 }
 
