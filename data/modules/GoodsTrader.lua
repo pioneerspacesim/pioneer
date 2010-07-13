@@ -43,7 +43,7 @@ Module:new {
 		end
 	end,
 
-	DialogHandler = function(self, dialog, optionClicked)
+	onChatBB = function(self, dialog, optionClicked)
 		local ad_ref = dialog:GetAdRef()
 		local ad = self.ads[ad_ref]
 		print("dialog handler for " .. ad_ref .. " clicked " .. optionClicked)

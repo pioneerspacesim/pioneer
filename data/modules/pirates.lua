@@ -21,7 +21,6 @@ Module:new {
 			ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), power, minMass, maxMass)
 			print("Pirates module spawned " .. ship:GetLabel() .. " with power " .. power)
 			ship:ShipAIDoKill(Pi.GetPlayer())
-			ship:ShipGiveEquipment(power)
 		end
 	end,
 }

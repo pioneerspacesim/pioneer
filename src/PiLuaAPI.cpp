@@ -79,13 +79,12 @@ void ship_randomly_equip(Ship *ship, double power)
 
 ////////////////////////////////////////////////////////////
 
-EXPORT_OOLUA_FUNCTIONS_13_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_12_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
 		ShipAIDoLowOrbit,
 		ShipAIDoMediumOrbit,
 		ShipAIDoHighOrbit,
-		ShipGiveEquipment,
 		SetMoney,
 		AddMoney,
 		GetEquipmentPrice,
@@ -112,12 +111,6 @@ double ObjectWrapper::GetMoney() const {
 		return 0.01 * s->GetMoney();
 	} else {
 		return 0;
-	}
-}
-void ObjectWrapper::ShipGiveEquipment(double power)
-{
-	if (Is(Object::SHIP)) {
-		ship_randomly_equip(static_cast<Ship*>(m_obj), power);
 	}
 }
 void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
@@ -405,7 +398,7 @@ namespace LuaPi {
 		OOLUA::push2lua(l, s.c_str());
 		return 1;
 	}
-	static int _spawn_ship(lua_State *l, std::string type, double due) {
+	static int _spawn_ship(lua_State *l, std::string type, double due, double power) {
 		if (ShipType::Get(type.c_str()) == 0) {
 			throw UnknownShipType();
 		} else {
@@ -423,6 +416,7 @@ namespace LuaPi {
 					// ship is supposed to have entered some time
 					// ago and the hyperspace cloud is gone
 					Ship *ship = new Ship(type.c_str());
+					ship_randomly_equip(ship, power);
 					ship->SetFrame(Pi::player->GetFrame());
 					ship->SetPosition(pos);
 					ship->SetVelocity(Pi::player->GetVelocity());
@@ -432,6 +426,7 @@ namespace LuaPi {
 				} else {
 					// hypercloud still present
 					Ship *ship = new Ship(type.c_str());
+					ship_randomly_equip(ship, power);
 					HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
 					cloud->SetFrame(Pi::player->GetFrame());
 					cloud->SetPosition(pos);
@@ -443,6 +438,7 @@ namespace LuaPi {
 			} else {
 				// to hyperspace in shortly
 				Ship *ship = new Ship(type.c_str());
+				ship_randomly_equip(ship, power);
 				HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
 				cloud->SetFrame(Pi::player->GetFrame());
 				cloud->SetPosition(pos);
@@ -460,7 +456,7 @@ namespace LuaPi {
 		OOLUA::pull2cpp(l, due);
 		int ret;
 		try {
-			ret = _spawn_ship(l, type, due);
+			ret = _spawn_ship(l, type, due, 0.0);
 		} catch (UnknownShipType) {
 			lua_pushnil(l);
 			lua_pushstring(l, "Unknown ship type");
@@ -480,7 +476,7 @@ namespace LuaPi {
 		int ret;
 		try {
 			type = get_random_ship_type(power, minMass, maxMass);
-			ret = _spawn_ship(l, type, due);
+			ret = _spawn_ship(l, type, due, power);
 		} catch (UnknownShipType) {
 			lua_pushnil(l);
 			lua_pushstring(l, "Unknown ship type");

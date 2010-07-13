@@ -113,7 +113,6 @@ Module:new {
 					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
 					if e == nil then
 						ship:ShipAIDoKill(Pi.GetPlayer());
-						ship:ShipGiveEquipment(danger)
 						Pi.ImportantMessage(ship:GetLabel(), _("You're going to regret dealing with %1!", {mission.client}))
 					end
 				end
@@ -155,7 +154,7 @@ Module:new {
 		end
 	end,
 	
-	DialogHandler = function(self, dialog, optionClicked)
+	onChatBB = function(self, dialog, optionClicked)
 		local ad = self.ads[dialog:GetAdRef()]
 		dialog:Clear()
 		if optionClicked == -1 then

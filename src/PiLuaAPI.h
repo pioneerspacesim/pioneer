@@ -30,8 +30,6 @@ class ObjectWrapper
 	void ShipAIDoMediumOrbit(ObjectWrapper &o);
 	void ShipAIDoHighOrbit(ObjectWrapper &o);
 
-	void ShipGiveEquipment(double power);
-
 	SBodyPath *GetSBody();
 	ObjectWrapper *GetDockedWith();
 	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
@@ -64,7 +62,6 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoLowOrbit, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoMediumOrbit, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoHighOrbit, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipGiveEquipment, double)
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<ObjectWrapper*>, GetDockedWith);
 	OOLUA_MEM_FUNC_0_CONST(double,GetMoney)
