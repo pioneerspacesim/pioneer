@@ -32,6 +32,8 @@ public:
 	void ToggleTargetActions();
 	void GetNearFarClipPlane(float *outNear, float *outFar) const;
 	int GetActiveWeapon() const;
+
+	sigc::signal<void> onChangeCamType;
 	
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;

@@ -22,7 +22,11 @@ public:
 	bool IsPlaying() const;
 	Uint32 EventId() { return eid; }
 	bool SetOp(Op op);
-	bool VolumeAnimate(float targetVols[2], float dv_dt[2]);
+	bool VolumeAnimate(float targetVol1, float targetVol2, float dv_dt1, float dv_dt2);
+	bool VolumeAnimate(float targetVols[2], float dv_dt[2]) {
+		return VolumeAnimate(targetVols[0], targetVols[1],
+				dv_dt[0], dv_dt[1]);
+	}
 	bool SetVolume(float vol_left, float vol_right);
 	bool SetVolume(float vol) {
 		return SetVolume(vol, vol);

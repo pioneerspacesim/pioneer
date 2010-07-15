@@ -7,6 +7,7 @@
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "Sector.h"
+#include "Sound.h"
 
 #define SCANNER_SCALE	0.01f
 #define SCANNER_YSHRINK 0.75f
@@ -245,6 +246,7 @@ void UseEquipWidget::FireMissile(int idx)
 	missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 	missile->SetVelocity(Pi::player->GetVelocity());
 	Space::AddBody(missile);
+	Sound::PlaySfx("Missile launch", 1.0f, 1.0f, 0);
 }
 
 void UseEquipWidget::UseRadarMapper()

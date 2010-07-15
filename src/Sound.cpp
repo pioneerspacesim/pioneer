@@ -16,8 +16,8 @@ namespace Sound {
 
 #define FREQ            44100
 #define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	16
-#define STREAM_IF_LONGER_THAN 5.0
+#define MAX_WAVSTREAMS	8
+#define STREAM_IF_LONGER_THAN 10.0
 
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 {
@@ -50,7 +50,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 }
 
 struct Sample {
-	Uint8 *buf;
+	Uint16 *buf;
 	Uint32 buf_len;
 	Uint32 channels;
 	int upsample; // 1 = 44100, 2=22050
@@ -144,13 +144,14 @@ eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 }
 
 /*
- * XXX This is a fucking mess
- * Should have separate fill_audio_xx functions for mono-44khz,stereo-44khz,mono-22khz,stereo-22khz
+ * len is the number of floats to put in buffer, NOT full samples (a sample would be 2 floats since stereo)
  */
+template <int T_channels, int T_upsample>
 static void fill_audio_1stream(float *buffer, int len, int stream_num)
 {
-	Sint16 *inbuf = (Sint16*)alloca(sizeof(Sint16)*len);
-	// hm pity to put this here ^^
+	// inbuf will be smaller for mono and for 22050hz samples
+	Sint16 *inbuf = (Sint16*)alloca(len*T_channels / T_upsample);
+	// hm pity to put this here ^^ since not used by ev.sample->buf case
 	SoundEvent &ev = wavstream[stream_num];
 	int inbuf_pos = 0;
 	int pos = 0;
@@ -158,7 +159,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 		if (ev.sample->buf) {
 			// already decoded
 			inbuf = (Sint16*)ev.sample->buf;
-			inbuf_pos = ev.buf_pos/2;
+			inbuf_pos = ev.buf_pos;
 		} else {
 			// stream ogg vorbis
 			// ogg vorbis streaming
@@ -166,7 +167,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				// open file to start streaming
 				FILE *f = fopen_or_die(ev.sample->path.c_str(), "rb");
 				ev.oggv = new OggVorbis_File;
-			//	printf("Streaming %s\n", ev.sample->path.c_str());
+				printf("Streaming %s\n", ev.sample->path.c_str());
 				if (ov_open(f, ev.oggv, NULL, 0) < 0) {
 					Error("Vorbis could not open %s", ev.sample->path.c_str());
 				}
@@ -175,8 +176,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			// (len-pos) = num floats the destination buffer wants.
 			// if we are stereo then to fill this we need (len-pos)*2 bytes
 			// if we are mono we want (len-pos) bytes
-			int wanted_bytes = ev.sample->channels * (len-pos);
-			if (ev.sample->upsample == 2) wanted_bytes >>= 1; // going to upsample from 22050
+			int wanted_bytes = (len-pos)*T_channels / T_upsample;
 			for (;;) {
 				int music_section;
 				if (wanted_bytes == 0) break;
@@ -185,16 +185,6 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				i += amt;
 				wanted_bytes -= amt;
 				if (amt == 0) break;
-			}
-			/* for sample rate of exactly half native pioneer rate (ie
-			 * 22050), do a dodgy up-sampling */
-			if (ev.sample->upsample == 2) {
-				Sint16 *buf = inbuf;
-				for (int i=((len-pos)>>1)-1; i>=0; i--) {
-					Sint16 s = buf[i];
-					buf[i*2] = s;
-					buf[i*2+1] = s;
-				}
 			}
 		}
 
@@ -208,18 +198,29 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				}
 			}
 
-			if (ev.sample->channels == 2) {
-				buffer[pos++] += ev.volume[0] *
-					(float) ((Sint16*)inbuf)[inbuf_pos++];
-				buffer[pos++] += ev.volume[1] *
-					(float) ((Sint16*)inbuf)[inbuf_pos++];
-				ev.buf_pos += 4;
-			} else {
-				float v = ev.volume[0] *
-					(float) ((Sint16*)inbuf)[inbuf_pos++];
-				buffer[pos++] += v;
-				buffer[pos++] += v;
+			float s0, s1;
+
+			if (T_channels == 1) {
+				s0 = (float) ((Sint16*)inbuf)[inbuf_pos++];
+				s1 = ev.volume[1] * s0;
+				s0 = ev.volume[0] * s0;
+				ev.buf_pos += 1;
+			} else /* stereo */ {
+				s0 = ev.volume[0] * (float) ((Sint16*)inbuf)[inbuf_pos++];
+				s1 = ev.volume[1] * (float) ((Sint16*)inbuf)[inbuf_pos++];
 				ev.buf_pos += 2;
+			}
+
+			if (T_upsample == 1) {
+				buffer[pos] += s0;
+				buffer[pos+1] += s1;
+				pos += 2;
+			} else {
+				buffer[pos] += s0;
+				buffer[pos+1] += s1;
+				buffer[pos+2] += s0;
+				buffer[pos+3] += s1;
+				pos += 4;
 			}
 
 			/* Repeat or end? */
@@ -267,10 +268,23 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 			if ((wavstream[i].targetVolume[0] == wavstream[i].volume[0]) &&
 			    (wavstream[i].targetVolume[1] == wavstream[i].volume[1])) {
 				wavstream[i].sample = 0;
+				continue;
 			}
 		}
 
-		fill_audio_1stream(tmpbuf, len_in_floats, i);
+		if (wavstream[i].sample->channels == 1) {
+			if (wavstream[i].sample->upsample == 1) {
+				fill_audio_1stream<1,1>(tmpbuf, len_in_floats, i);
+			} else {
+				fill_audio_1stream<1,2>(tmpbuf, len_in_floats, i);
+			}
+		} else {
+			if (wavstream[i].sample->upsample == 1) {
+				fill_audio_1stream<2,1>(tmpbuf, len_in_floats, i);
+			} else {
+				fill_audio_1stream<2,2>(tmpbuf, len_in_floats, i);
+			}
+		}
 	}
 	
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
@@ -317,42 +331,26 @@ static void load_sound(const std::string &basename, const std::string &path)
 		// since samples are 16 bits we have:
 		
 		sample.buf = 0;
-		sample.buf_len = num_samples*2;
+		sample.buf_len = num_samples * info->channels;
 		sample.channels = info->channels;
 		sample.upsample = resample_multiplier;
 		sample.path = path;
 		
-		const float seconds = num_samples/(float)(info->channels*info->rate);
+		const float seconds = num_samples/(float)info->rate;
 		printf("%f seconds\n", seconds);
 
 		// immediately decode and store as raw sample if short enough
 		if (seconds < STREAM_IF_LONGER_THAN) {
-			sample.buf = new Uint8[num_samples*2*resample_multiplier];
+			sample.buf = new Uint16[sample.buf_len];
 
 			int i=0;
 			for (;;) {
 				int music_section;
-				int amt = ov_read(&oggv, (char*)&sample.buf[i],
-						sample.buf_len - i, 0, 2, 1, &music_section);
+				int amt = ov_read(&oggv, ((char*)sample.buf) + i,
+						2*sample.buf_len - i, 0, 2, 1, &music_section);
 				i += amt;
 				if (amt == 0) break;
 			}
-
-			/* for sample rate of exactly half native pioneer rate (ie
-			 * 22050), do a dodgy up-sampling */
-			if (sample.upsample == 2) {
-				Uint16 *buf = (Uint16*)sample.buf;
-				for (int i=num_samples-1; i>=0; i--) {
-					Uint16 s = buf[i];
-					buf[i*2] = s;
-					buf[i*2+1] = s;
-				}
-				sample.buf_len *= 2;
-			}
-		} else if (sample.upsample == 2) {
-			// XXX still need to pretend a 44100 buf len for
-			// streamed 22050 vorbis...
-			sample.buf_len *= 2;
 		}
 
 		// sample keyed by basename minus the .ogg
@@ -450,15 +448,15 @@ bool Event::SetOp(Op op) {
 	return ret;
 }
 
-bool Event::VolumeAnimate(float targetVols[2], float dv_dt[2])
+bool Event::VolumeAnimate(float targetVol1, float targetVol2, float dv_dt1, float dv_dt2)
 {
 	SDL_LockAudio();
 	SoundEvent *ev = GetEvent(eid);
 	if (ev) {
-		ev->targetVolume[0] = targetVols[0];
-		ev->targetVolume[1] = targetVols[1];
-		ev->rateOfChange[0] = dv_dt[0] / (float)FREQ;
-		ev->rateOfChange[1] = dv_dt[1] / (float)FREQ;
+		ev->targetVolume[0] = targetVol1;
+		ev->targetVolume[1] = targetVol2;
+		ev->rateOfChange[0] = dv_dt1 / (float)FREQ;
+		ev->rateOfChange[1] = dv_dt2 / (float)FREQ;
 	}
 	SDL_UnlockAudio();
 	return (ev != 0);
@@ -472,6 +470,8 @@ bool Event::SetVolume(float vol_left, float vol_right)
 		if (wavstream[i].sample && (wavstream[i].identifier == eid)) {
 			wavstream[i].volume[0] = vol_left;
 			wavstream[i].volume[1] = vol_right;
+			wavstream[i].targetVolume[0] = vol_left;
+			wavstream[i].targetVolume[1] = vol_right;
 			status = true;
 			break;
 		}

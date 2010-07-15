@@ -499,12 +499,11 @@ namespace LuaPi {
 	lua_pushcfunction(l, fnptr);\
 	lua_setfield(l, -2, fnname)
 
+/**
+ * Register functions and stuff used by pioneer module/mission scripts
+ */
 void RegisterPiLuaAPI(lua_State *l)
 {
-//	printf("XXXXXXXXXXXXXXXXXXXXXXXX GET RID OF THIS SHIT!!!!!!!! XXXXXXXXXXXXX\n");
-//	make_random_ship(1, 10, 100);
-//	make_random_ship(1, 100, 1000);
-
 	OOLUA::register_class<ObjectWrapper>(l);
 	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);

@@ -263,11 +263,17 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);
+			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 		} else {
 			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
+			
+			if (dam < 0.01 * (float)GetShipType().hullMass) {
+				Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
+			} else {
+				Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
+			}
 		}
-		Sound::BodyMakeNoise(this, "collision", 1.0f);
 	}
 	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
@@ -432,7 +438,7 @@ void Ship::UseECM()
 	const Equip::Type t = m_equipment.Get(Equip::SLOT_ECM);
 	if (m_ecmRecharge) return;
 	if (t != Equip::NONE) {
-		Sound::BodyMakeNoise(this, "ecm", 1.0f);
+		Sound::BodyMakeNoise(this, "ECM", 1.0f);
 		m_ecmRecharge = GetECMRechargeTime();
 		Space::DoECM(GetFrame(), GetPosition(), EquipType::types[t].pval);
 	}
@@ -509,6 +515,7 @@ void Ship::TestLanded()
 				DisableBodyOnly();
 				ClearThrusterState();
 				m_flightState = LANDED;
+				Sound::PlaySfx("Rough_Landing", 1.0f, 1.0f, 0);
 			}
 		}
 	}
@@ -605,7 +612,7 @@ void Ship::FireWeapon(int num)
 			break;
 	}
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
-	Sound::BodyMakeNoise(this, "pulsecannon", 1.0f);
+	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 }
 
 float Ship::GetHullTemperature() const
@@ -793,12 +800,14 @@ void Ship::SetNavTarget(Body* const target)
 {
 	m_navTarget = target;
 	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
 }
 
 void Ship::SetCombatTarget(Body* const target)
 {
 	m_combatTarget = target;
 	Pi::onPlayerChangeTarget.emit();
+	Sound::PlaySfx("OK");
 }
 
 #if 0

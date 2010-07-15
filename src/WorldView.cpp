@@ -148,6 +148,7 @@ void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
 void WorldView::SetCamType(enum CamType c)
 {
 	m_camType = c;
+	onChangeCamType.emit();
 }
 
 vector3d WorldView::GetExternalViewTranslation()
