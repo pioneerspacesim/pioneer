@@ -3,6 +3,7 @@
 #include "Serializer.h"
 #include "WorldView.h"
 #include "ShipCpanel.h"
+#include "Sound.h"
 
 #if _GNU_SOURCE
 #include <sys/types.h>
@@ -224,6 +225,7 @@ GameMenuView::GameMenuView(): View()
 	}
 
 	Gui::Box *vbox = new Gui::VBox();
+	vbox->SetSizeRequest(300, 1000);
 	vbox->SetSpacing(5.0);
 	Add(vbox, 20, 100);
 
@@ -266,6 +268,18 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(m_toggleShaders, false);
 		hbox->PackEnd(new Gui::Label("Use shaders"), false);
 		vbox->PackEnd(hbox, false);
+		
+		vbox->PackEnd(new Gui::Label("Sound settings"), false);
+		m_sfxVolume = new Gui::Adjustment();
+		m_sfxVolume->SetValue(Sound::GetGlobalVolume());
+		m_sfxVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		Gui::HScale *sfxVol = new Gui::HScale();
+		sfxVol->SetAdjustment(m_sfxVolume);
+		hbox = new Gui::HBox();
+		hbox->PackEnd(new Gui::Label("Sound effects volume: (min)"));
+		hbox->PackEnd(sfxVol, false);
+		hbox->PackEnd(new Gui::Label("(max)"));
+		vbox->PackEnd(hbox, false);
 	}
 
 
@@ -302,6 +316,14 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
 		vbox->PackEnd(hbox, false);
 	}
+}
+
+void GameMenuView::OnChangeVolume()
+{
+	float sfxVol = m_sfxVolume->GetValue();
+	Sound::SetGlobalVolume(sfxVol);
+	Pi::config.SetFloat("SfxVolume", sfxVol);
+	Pi::config.Save();
 }
 	
 void GameMenuView::OnChangePlanetDetail(int level)

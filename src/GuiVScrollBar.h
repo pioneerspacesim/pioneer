@@ -4,23 +4,40 @@
 #include "GuiWidget.h"
 
 namespace Gui {
-	class VScrollBar: public Widget {
+	class ScrollBar: public Widget {
 	public:
-		VScrollBar();
-		virtual ~VScrollBar();
+		ScrollBar(bool isHoriz);
+		virtual ~ScrollBar();
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual void GetSizeRequested(float size[2]);
 		virtual void Draw();
 		void SetAdjustment(Adjustment *adj) {
 			m_adjustment = adj;
 		}
+	protected:
+		Adjustment *m_adjustment;
 	private:
 		void OnRawMouseUp(MouseButtonEvent *e);
 		void OnRawMouseMotion(MouseMotionEvent *e);
-		bool m_isPressed;
+		bool m_isPressed, m_isHoriz;
 		sigc::connection _m_release, _m_motion;
-		Adjustment *m_adjustment;
 	};
+
+	class VScrollBar: public ScrollBar {
+	public:
+		VScrollBar(): ScrollBar(false) {}
+	};
+	
+	class HScrollBar: public ScrollBar {
+	public:
+		HScrollBar(): ScrollBar(true) {}
+	};
+
+	class HScale: public ScrollBar {
+	public:
+		HScale(): ScrollBar(true) {}
+		virtual void Draw();
+	};	
 }
 
 #endif /* _GUIVSCROLLBAR */

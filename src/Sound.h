@@ -47,6 +47,8 @@ int PlayOgg (const char *filename);
 eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op);
 inline static eventid PlaySfx (const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 0); }
 eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
+void SetGlobalVolume(float vol);
+float GetGlobalVolume();
 
 } /* namespace Sound */
 

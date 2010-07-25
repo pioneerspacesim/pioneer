@@ -6,6 +6,17 @@ void IniConfig::Load(const std::string &filename)
 	this->clear();
 	this->filename = filename;
 	FILE *f = fopen(filename.c_str(), "r");
+		
+	// set defaults
+	(*this)["DisableShaders"] = "0";
+	(*this)["DisableSound"] = "0";
+	(*this)["StartFullscreen"] = "1";
+	(*this)["ScrWidth"] = "0";
+	(*this)["ScrHeight"] = "0";
+	(*this)["DetailCities"] = "1";
+	(*this)["DetailPlanets"] = "1";
+	(*this)["SfxVolume"] = "0.8";
+	
 	if (f) {
 		char buf[1024];
 		while (fgets(buf, sizeof(buf), f)) {
@@ -25,15 +36,6 @@ void IniConfig::Load(const std::string &filename)
 			(*this)[key] = val;
 		}
 		fclose(f);
-	} else {
-		// set defaults
-		(*this)["DisableShaders"] = "0";
-		(*this)["DisableSound"] = "0";
-		(*this)["StartFullscreen"] = "1";
-		(*this)["ScrWidth"] = "0";
-		(*this)["ScrHeight"] = "0";
-		(*this)["DetailCities"] = "1";
-		(*this)["DetailPlanets"] = "1";
 	}
 }
 

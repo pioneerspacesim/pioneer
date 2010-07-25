@@ -14,10 +14,22 @@
 
 namespace Sound {
 
+static float m_globalVol = 1.0f;
+
 #define FREQ            44100
 #define BUF_SIZE	4096
 #define MAX_WAVSTREAMS	8
 #define STREAM_IF_LONGER_THAN 10.0
+
+void SetGlobalVolume(float vol)
+{
+	m_globalVol = vol;
+}
+
+float GetGlobalVolume()
+{
+	return m_globalVol;
+}
 
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 {
@@ -289,7 +301,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 	
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
 	for (int pos=0; pos<len_in_floats; pos++) {
-		const float val = tmpbuf[pos];
+		const float val = m_globalVol * tmpbuf[pos];
 		((Sint16*)dsp_buf)[pos] = (Sint16) CLAMP(val, -32768.0, 32767.0);
 	}
 }

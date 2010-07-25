@@ -218,6 +218,7 @@ void Pi::Init()
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
+		Sound::SetGlobalVolume(config.Float("SfxVolume"));
 		Sound::Pause(0);
 	}
 	draw_progress(1.0f);
