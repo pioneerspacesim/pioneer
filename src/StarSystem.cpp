@@ -636,7 +636,6 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		if (custom->longDesc) m_longDesc = custom->longDesc;
 		if (custom->sbodies) {
 			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
-			Populate(false);
 			return;
 		}
 	}
