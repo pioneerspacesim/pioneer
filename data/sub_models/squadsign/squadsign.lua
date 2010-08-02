@@ -13,17 +13,21 @@ define_model('squadsign_1', {
 	dynamic = function(lod)
 
 		selector1()
-		if select1 < 251 then
-	        set_material('squad', .5,0,0,.99,.3,.3,.3,5)
+		if select1 < 201 then
+	        set_material('squad', .5,0,0,.99,.2,.2,.2,10)
 	    else
-			if select1 < 501 then
-               	set_material('squad', .45,.35,.01,.99,.3,.3,.3,5)
+			if select1 < 401 then
+               	set_material('squad', .45,.35,.01,.99,.2,.2,.2,10)
 			else
-    		    if select1 < 751 then
-					set_material('squad', 0,.15,.7,.99,.3,.3,.3,5)
+    		    if select1 < 601 then
+					set_material('squad', 0,.15,.7,.99,.2,.2,.2,10)
    				else
-   				    if select1 > 750 then
-						set_material('squad', .06,.35,0,.99,.3,.3,.3,5)
+   				    if select1 < 801 then
+						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 < 800 then
+							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
+						end
 					end
 				end
 			end
@@ -50,17 +54,21 @@ define_model('squadsign_2', {
 	dynamic = function(lod)
 
 		selector1()
-		if select1 < 251 then
-	        set_material('squad', .5,0,0,.99,.3,.3,.3,5)
+		if select1 < 201 then
+	        set_material('squad', .5,0,0,.99,.2,.2,.2,10)
 	    else
-			if select1 < 501 then
-               	set_material('squad', .45,.35,.01,.99,.3,.3,.3,5)
+			if select1 < 401 then
+               	set_material('squad', .45,.35,.01,.99,.2,.2,.2,10)
 			else
-    		    if select1 < 751 then
-					set_material('squad', 0,.15,.7,.99,.3,.3,.3,5)
+    		    if select1 < 601 then
+					set_material('squad', 0,.15,.7,.99,.2,.2,.2,10)
    				else
-   				    if select1 > 750 then
-						set_material('squad', .06,.35,0,.99,.3,.3,.3,5)
+   				    if select1 < 801 then
+						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 < 800 then
+							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
+						end
 					end
 				end
 			end
@@ -87,17 +95,21 @@ define_model('squadsign_3', {
 	dynamic = function(lod)
 
 		selector1()
-		if select1 < 251 then
-	        set_material('squad', .5,0,0,.99,.3,.3,.3,5)
+		if select1 < 201 then
+	        set_material('squad', .5,0,0,.99,.2,.2,.2,10)
 	    else
-			if select1 < 501 then
-               	set_material('squad', .45,.35,.01,.99,.3,.3,.3,5)
+			if select1 < 401 then
+               	set_material('squad', .45,.35,.01,.99,.2,.2,.2,10)
 			else
-    		    if select1 < 751 then
-					set_material('squad', 0,.15,.7,.99,.3,.3,.3,5)
+    		    if select1 < 601 then
+					set_material('squad', 0,.15,.7,.99,.2,.2,.2,10)
    				else
-   				    if select1 > 750 then
-						set_material('squad', .06,.35,0,.99,.3,.3,.3,5)
+   				    if select1 < 801 then
+						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 < 800 then
+							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
+						end
 					end
 				end
 			end
@@ -124,17 +136,21 @@ define_model('squadsign_4', {
 	dynamic = function(lod)
 
 		selector1()
-		if select1 < 251 then
-	        set_material('squad', .5,0,0,.99,.3,.3,.3,5)
+		if select1 < 201 then
+	        set_material('squad', .5,0,0,.99,.2,.2,.2,10)
 	    else
-			if select1 < 501 then
-               	set_material('squad', .45,.35,.01,.99,.3,.3,.3,5)
+			if select1 < 401 then
+               	set_material('squad', .45,.35,.01,.99,.2,.2,.2,10)
 			else
-    		    if select1 < 751 then
-					set_material('squad', 0,.15,.7,.99,.3,.3,.3,5)
+    		    if select1 < 601 then
+					set_material('squad', 0,.15,.7,.99,.2,.2,.2,10)
    				else
-   				    if select1 > 750 then
-						set_material('squad', .06,.35,0,.99,.3,.3,.3,5)
+   				    if select1 < 801 then
+						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 < 800 then
+							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
+						end
 					end
 				end
 			end

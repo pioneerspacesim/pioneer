@@ -18,8 +18,7 @@ define_model('scanner_sub', {
 		set_material('scan2', .4, 0, 0,1, .5, .5, .5, 10)
 		use_material('scan2')
 		load_obj('scanner_03.obj', Matrix.new(v(-1,0,0),v(0,1,0),v(0,0,-1)))
-		texture(nil)
-		set_material('scan1', .5, .51, .65,1, .5, .5, .7, 50)
+  		set_material('scan1', .63,.7,.83,1,1.26,1.4,1.66,10)
 		use_material('scan1')
         load_obj('scanner_02.obj', Matrix.new(v(-1,0,0),v(0,1,0),v(0,0,-1)))
 	end
@@ -50,5 +49,20 @@ define_model('scanner_+', {
 	dynamic = function(lod)
 		local factor = (os.clock()*0.5)*math.pi
 		call_model('scanner_sub', v(0,.3,0), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
+	end
+})
+
+define_model('scanner_-', {
+	info = {
+			bounding_radius = 1,
+			},
+			
+	static = function(lod)
+	texture('scan.png')
+	sphere_slice(5,2, 0, 0.5*math.pi, Matrix.scale(v(.8,0.3,.8)))
+	end,
+	dynamic = function(lod)
+		local factor = (os.clock()*0.5)*math.pi
+		call_model('scanner_sub', v(0,.3,0), v(math.sin(factor),0,math.cos(factor)), v(0,1,0),1)
 	end
 })
