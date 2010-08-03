@@ -5,7 +5,7 @@
 #include "Frame.h"
 #include "Space.h"
 
-#define SAVEFILE_VERSION	17
+#define SAVEFILE_VERSION	18
 
 namespace Serializer {
 
@@ -375,23 +375,23 @@ bool SaveGame(const char *filename)
 	return true;
 }
 
-bool LoadGame(const char *filename)
+void LoadGame(const char *filename)
 {
 	FILE *lfptr = fopen(filename, "rb");
 
-	if (lfptr == NULL) return false;
+	if (lfptr == NULL) throw CouldNotOpenFileException();
 
 	Reader rd = Reader(lfptr);
 	fclose(lfptr);
 
-	if (rd.Byte() != 'P') return false;
-	if (rd.Byte() != 'I') return false;
-	if (rd.Byte() != 'O') return false;
-	if (rd.Byte() != 'N') return false;
-	if (rd.Byte() != 'E') return false;
-	if (rd.Byte() != 'E') return false;
-	if (rd.Byte() != 'R') return false;
-	if (rd.Byte() != '\0') return false;
+	if (rd.Byte() != 'P') throw SavedGameCorruptException();
+	if (rd.Byte() != 'I') throw SavedGameCorruptException();
+	if (rd.Byte() != 'O') throw SavedGameCorruptException();
+	if (rd.Byte() != 'N') throw SavedGameCorruptException();
+	if (rd.Byte() != 'E') throw SavedGameCorruptException();
+	if (rd.Byte() != 'E') throw SavedGameCorruptException();
+	if (rd.Byte() != 'R') throw SavedGameCorruptException();
+	if (rd.Byte() != '\0') throw SavedGameCorruptException();
 	
 	/* savefile version */
 	rd.SetStreamVersion(rd.Int32());
@@ -399,21 +399,24 @@ bool LoadGame(const char *filename)
 
 	if (rd.StreamVersion() > SAVEFILE_VERSION) {
 		fprintf(stderr, "Can't load savefile. It is for a newer version of Pioneer.\n");
-		return false;
+		throw SavedGameCorruptException();
+	}
+
+	if (rd.StreamVersion() < 18) {
+		fprintf(stderr, "Can't load old savefile < alpha3.\n");
+		throw SavedGameCorruptException();
 	}
 
 	stream_version_context = rd.StreamVersion();
 	Pi::Unserialize(rd);
 	stream_version_context = SAVEFILE_VERSION;
 
-	if (rd.Byte() != 'E') return false;
-	if (rd.Byte() != 'N') return false;
-	if (rd.Byte() != 'D') return false;
-	if (rd.Byte() != 0) return false;
+	if (rd.Byte() != 'E') throw SavedGameCorruptException();
+	if (rd.Byte() != 'N') throw SavedGameCorruptException();
+	if (rd.Byte() != 'D') throw SavedGameCorruptException();
+	if (rd.Byte() != 0) throw SavedGameCorruptException();
 
 	fprintf(stderr, "Loaded '%s'\n", filename);
-	
-	return true;
 }
 
 } /* end namespace Serializer */

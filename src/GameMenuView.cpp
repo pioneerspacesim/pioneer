@@ -180,7 +180,19 @@ private:
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 		Pi::UninitGame();
 		Pi::InitGame();
-		if (!Serializer::LoadGame(fullname.c_str())) abort();
+		try {
+			Serializer::LoadGame(fullname.c_str());
+		} catch (SavedGameCorruptException) {
+			Gui::Screen::ShowBadError("This saved game cannot be loaded because it contains errors.");
+			Pi::UninitGame();
+			Pi::InitGame();
+			return;
+		} catch (CouldNotOpenFileException) {
+			Gui::Screen::ShowBadError("This saved game file could not be opened due to permissions or something...");
+			Pi::UninitGame();
+			Pi::InitGame();
+			return;
+		}
 		Pi::StartGame();
 		// Pi::currentView is unset, but this view is still shown, so
 		// must un-show it

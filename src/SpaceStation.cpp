@@ -182,6 +182,7 @@ void SpaceStation::Save(Serializer::Writer &wr)
 {
 	ModelBody::Save(wr);
 	MarketAgent::Save(wr);
+	wr.Int32(Equip::TYPE_MAX);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
 		wr.Int32((int)m_equipmentStock[i]);
 	}
@@ -216,8 +217,12 @@ void SpaceStation::Load(Serializer::Reader &rd)
 {
 	ModelBody::Load(rd);
 	MarketAgent::Load(rd);
-	if ((rd.StreamVersion() < 11)) rd.Int32();
+	int num = rd.Int32();
+	if (num > Equip::TYPE_MAX) throw SavedGameCorruptException();
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
+		m_equipmentStock[i] = 0;
+	}
+	for (int i=0; i<num; i++) {
 		m_equipmentStock[i] = static_cast<Equip::Type>(rd.Int32());
 	}
 	// load shityard
@@ -237,22 +242,14 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		m_shipDocking[i].stage = rd.Int32();
 		m_shipDocking[i].stagePos = rd.Float();
 		m_shipDocking[i].fromPos = rd.Vector3d();
-		if ((rd.StreamVersion() < 12)) {
-			m_shipDocking[i].fromRot = Quaternionf(0.0, vector3f(1,0,0));
-		} else {
-			m_shipDocking[i].fromRot = rd.RdQuaternionf();
-		}
+		m_shipDocking[i].fromRot = rd.RdQuaternionf();
 
 		m_openAnimState[i] = rd.Float();
 		m_dockAnimState[i] = rd.Float();
 	}
 	m_lastUpdatedShipyard = rd.Double();
 	m_sbody = Serializer::LookupSystemBody(rd.Int32());
-	if ((rd.StreamVersion() < 14)) {
-		m_numPoliceDocked = 8;
-	} else {
-		m_numPoliceDocked = rd.Int32();
-	}
+	m_numPoliceDocked = rd.Int32();
 	InitStation();
 }
 

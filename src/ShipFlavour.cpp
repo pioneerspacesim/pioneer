@@ -74,14 +74,10 @@ void ShipFlavour::SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m)
 
 void ShipFlavour::LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m)
 {
-	if ((rd.StreamVersion() < 13)) {
-		MakeRandomColor(*m);
-	} else {
-		for (int i=0; i<4; i++) m->diffuse[i] = rd.Float();
-		for (int i=0; i<4; i++) m->specular[i] = rd.Float();
-		for (int i=0; i<4; i++) m->emissive[i] = rd.Float();
-		m->shininess = rd.Float();
-	}
+	for (int i=0; i<4; i++) m->diffuse[i] = rd.Float();
+	for (int i=0; i<4; i++) m->specular[i] = rd.Float();
+	for (int i=0; i<4; i++) m->emissive[i] = rd.Float();
+	m->shininess = rd.Float();
 }
 
 void ShipFlavour::Save(Serializer::Writer &wr)

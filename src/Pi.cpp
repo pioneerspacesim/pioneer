@@ -767,7 +767,7 @@ void Pi::Start()
 			Gui::MainLoopIteration();
 		} while (Pi::currentView != Pi::worldView);
 		
-		if (Pi::player) MainLoop();
+		if (Pi::isGameStarted) MainLoop();
 	} else {
 		Pi::Quit();
 	}
@@ -938,26 +938,43 @@ StarSystem *Pi::GetSelectedSystem()
 
 void Pi::Serialize(Serializer::Writer &wr)
 {
+	Serializer::Writer section;
+
 	Serializer::IndexFrames();
 	Serializer::IndexBodies();
 	Serializer::IndexSystemBodies(currentSystem);
 
-	StarSystem::Serialize(wr, selectedSystem);
-	wr.Double(gameTime);
-	StarSystem::Serialize(wr, currentSystem);
-	Space::Serialize(wr);
-	Polit::Serialize(wr);
-	sectorView->Save(wr);
-	worldView->Save(wr);
+	section = Serializer::Writer();
+	section.Double(gameTime);
+	StarSystem::Serialize(section, selectedSystem);
+	StarSystem::Serialize(section, currentSystem);
+	wr.WrSection("PiMisc", section.GetData());
+	
+	section = Serializer::Writer();
+	Space::Serialize(section);
+	wr.WrSection("Space", section.GetData());
 
-	PiLuaModules::Serialize(wr);
+	section = Serializer::Writer();
+	Polit::Serialize(section);
+	wr.WrSection("Polit", section.GetData());
+	
+	section = Serializer::Writer();
+	sectorView->Save(section);
+	wr.WrSection("SectorView", section.GetData());
+
+	section = Serializer::Writer();
+	worldView->Save(section);
+	wr.WrSection("WorldView", section.GetData());
+
+	section = Serializer::Writer();
+	PiLuaModules::Serialize(section);
+	wr.WrSection("LuaModules", section.GetData());
 }
 
 void Pi::Unserialize(Serializer::Reader &rd)
 {
-	selectedSystem = StarSystem::Unserialize(rd);
-	gameTime = rd.Double();
-	currentSystem = StarSystem::Unserialize(rd);
+	Serializer::Reader section;
+	
 	SetTimeAccel(0);
 	requestedTimeAccelIdx = 0;
 	Space::Clear();
@@ -967,16 +984,26 @@ void Pi::Unserialize(Serializer::Reader &rd)
 		delete Pi::player;
 		Pi::player = 0;
 	}
-	Space::Unserialize(rd);
-	Polit::Unserialize(rd);
-	sectorView->Load(rd);
-	worldView->Load(rd);
 
-	if (rd.StreamVersion() < 17) {
-		rd.Int32(); rd.Int32();
-	}
+	section = rd.RdSection("PiMisc");
+	gameTime = section.Double();
+	selectedSystem = StarSystem::Unserialize(section);
+	currentSystem = StarSystem::Unserialize(section);
 
-	PiLuaModules::Unserialize(rd);
+	section = rd.RdSection("Space");
+	Space::Unserialize(section);
+	
+	section = rd.RdSection("Polit");
+	Polit::Unserialize(section);
+
+	section = rd.RdSection("SectorView");
+	sectorView->Load(section);
+
+	section = rd.RdSection("WorldView");
+	worldView->Load(section);
+
+	section = rd.RdSection("LuaModules");
+	PiLuaModules::Unserialize(section);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)

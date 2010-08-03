@@ -49,8 +49,6 @@ void Sfx::Serialize(Serializer::Writer &wr, const Frame *f)
 
 void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
 {
-	if ((rd.StreamVersion() < 7)) return;
-
 	int numActive = rd.Int32();
 	if (numActive) {
 		f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];

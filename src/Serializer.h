@@ -10,10 +10,13 @@ class Body;
 class StarSystem;
 class SBody;
 
+struct SavedGameCorruptException {};
+struct CouldNotOpenFileException {};
+
 namespace Serializer {
 	
 	bool SaveGame(const char *filename);
-	bool LoadGame(const char *filename);
+	void LoadGame(const char *filename);
 
 	void IndexFrames();
 	Frame *LookupFrame(size_t index);
@@ -42,6 +45,10 @@ namespace Serializer {
 		void String(const std::string &s);
 		void Vector3d(vector3d vec);
 		void WrQuaternionf(const Quaternionf &q);
+		void WrSection(const std::string &section_label, const std::string &section_data) {
+			String(section_label);
+			String(section_data);
+		}
 		/** Best not to use these except in templates */
 		void Auto(Sint32 x) { Int32(x); }
 		void Auto(Sint64 x) { Int64(x); }
@@ -70,6 +77,12 @@ namespace Serializer {
 		void Cstring2(char *buf, int len);
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
+		Reader RdSection(const std::string &section_label_expected) {
+			if (section_label_expected != String()) {
+				throw SavedGameCorruptException();
+			}
+			return Reader(String());
+		}
 		/** Best not to use these except in templates */
 		void Auto(Sint32 *x) { *x = Int32(); }
 		void Auto(Sint64 *x) { *x = Int64(); }

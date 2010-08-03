@@ -110,7 +110,10 @@ void DoECM(const Frame *f, const vector3d &pos, int power_val)
 
 void Serialize(Serializer::Writer &wr)
 {
-	Frame::Serialize(wr, rootFrame);
+	Serializer::Writer wr2;
+	Frame::Serialize(wr2, rootFrame);
+	wr.WrSection("Frames", wr2.GetData());
+
 	wr.Int32(bodies.size());
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
 		//printf("Serializing %s\n", (*i)->GetLabel().c_str());
@@ -134,7 +137,10 @@ void Serialize(Serializer::Writer &wr)
 void Unserialize(Serializer::Reader &rd)
 {
 	Serializer::IndexSystemBodies(Pi::currentSystem);
-	rootFrame = Frame::Unserialize(rd, 0);
+	
+	Serializer::Reader rd2 = rd.RdSection("Frames");
+	rootFrame = Frame::Unserialize(rd2, 0);
+	
 	// XXX not needed. done in Pi::Unserialize
 	Serializer::IndexFrames();
 	int num_bodies = rd.Int32();
@@ -143,12 +149,10 @@ void Unserialize(Serializer::Reader &rd)
 		Body *b = Body::Unserialize(rd);
 		if (b) bodies.push_back(b);
 	}
-	if (!(rd.StreamVersion() < 9)) {
-		num_bodies = rd.Int32();
-		for (int i=0; i<num_bodies; i++) {
-			Body *b = Body::Unserialize(rd);
-			if (b) storedArrivalClouds.push_back(static_cast<HyperspaceCloud*>(b));
-		}
+	num_bodies = rd.Int32();
+	for (int i=0; i<num_bodies; i++) {
+		Body *b = Body::Unserialize(rd);
+		if (b) storedArrivalClouds.push_back(static_cast<HyperspaceCloud*>(b));
 	}
 
 	hyperspaceAnim = 0;

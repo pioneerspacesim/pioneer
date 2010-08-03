@@ -42,8 +42,9 @@ void Body::Load(Serializer::Reader &rd)
 	m_dead = rd.Bool();
 }	
 
-void Body::Serialize(Serializer::Writer &wr)
+void Body::Serialize(Serializer::Writer &_wr)
 {
+	Serializer::Writer wr;
 	wr.Int32((int)GetType());
 	switch (GetType()) {
 		case Object::STAR:
@@ -64,10 +65,12 @@ void Body::Serialize(Serializer::Writer &wr)
 	matrix4x4d m;
 	GetRotMatrix(m);
 	for (int i=0; i<16; i++) wr.Double(m[i]);
+	_wr.WrSection("Body", wr.GetData());
 }
 
-Body *Body::Unserialize(Serializer::Reader &rd)
+Body *Body::Unserialize(Serializer::Reader &_rd)
 {
+	Serializer::Reader rd = _rd.RdSection("Body");
 	Body *b = 0;
 	Object::Type type = (Object::Type)rd.Int32();
 	switch (type) {

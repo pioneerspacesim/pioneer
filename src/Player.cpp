@@ -37,13 +37,8 @@ void Player::Load(Serializer::Reader &rd)
 	Ship::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Float();
-	if (!(rd.StreamVersion() < 6)) {
-		m_killCount = rd.Int32();
-		m_knownKillCount = rd.Int32();
-	} else {
-		m_killCount = 0;
-		m_knownKillCount = 0;
-	}
+	m_killCount = rd.Int32();
+	m_knownKillCount = rd.Int32();
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)

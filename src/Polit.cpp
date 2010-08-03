@@ -92,15 +92,11 @@ void Serialize(Serializer::Writer &wr)
 void Unserialize(Serializer::Reader &rd)
 {
 	Init();
-	if ((rd.StreamVersion() < 5)) {
-
-	} else {
-		PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
-		PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
-		for (int i=0; i<BLOC_MAX; i++) {
-			s_playerPerBlocCrimeRecord[i].record = rd.Int64();
-			s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
-		}
+	PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
+	PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
+	for (int i=0; i<BLOC_MAX; i++) {
+		s_playerPerBlocCrimeRecord[i].record = rd.Int64();
+		s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
 	}
 }
 
