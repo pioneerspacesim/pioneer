@@ -14,10 +14,16 @@
 #include "Polit.h"
 #include "Space.h"
 #include "PiLuaModules.h"
-
+#include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
+
+BBAdvert::BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc):
+		m_luaMod(luaMod), m_luaRef(luaRef), m_description(desc)
+{
+	m_sortOrder = Pi::GetGameTime() + Pi::rng.Double();
+}
 
 void BBAdvert::Save(Serializer::Writer &wr)
 {
@@ -339,6 +345,7 @@ void SpaceStation::UpdateShipyard()
 void SpaceStation::BBAddAdvert(const BBAdvert &a)
 {
 	m_bbadverts.insert(m_bbadverts.begin(), a);
+	std::sort(m_bbadverts.begin(), m_bbadverts.end(), BBAdvert::SortBB());
 	onBulletinBoardChanged.emit();
 }
 

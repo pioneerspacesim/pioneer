@@ -25,14 +25,20 @@ public:
 	const std::string &GetBulletinBoardText() const { return m_description; }
 	const std::string &GetModule() const { return m_luaMod; }
 	int GetLuaRef() const { return m_luaRef; }
-	BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc):
-		m_luaMod(luaMod), m_luaRef(luaRef), m_description(desc) {}
+	BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc);
 	void Save(Serializer::Writer &wr);
 	static BBAdvert Load(Serializer::Reader &rd);
 	bool Is(const std::string &modName, int modRef) {
 		return (m_luaMod == modName) && (m_luaRef == modRef);
 	}
+	friend struct SortBB;
+	struct SortBB {
+		bool operator() (const BBAdvert &lhs, const BBAdvert &rhs) const {
+			return lhs.m_sortOrder > rhs.m_sortOrder;
+		}
+	};
 private:
+	double m_sortOrder;
 	std::string m_luaMod;
 	int m_luaRef;
 	/**
