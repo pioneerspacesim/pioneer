@@ -789,7 +789,7 @@ void Pi::MainLoop()
 	int phys_stat = 0;
 	char fps_readout[128];
 	Uint32 time_before_frame = SDL_GetTicks();
-	Uint32 last_phys_update = time_before_frame;
+	int time_to_simulate = 0;
 	double time_player_died = 0;
 #ifdef MAKING_VIDEO
 	Uint32 last_screendump = SDL_GetTicks();
@@ -834,8 +834,18 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - time_before_frame);
+		// don't do more than 0.160 seconds of physics updates per frame (10 ticks)
+		time_to_simulate = MIN(160, time_to_simulate + (SDL_GetTicks() - time_before_frame));
 		time_before_frame = SDL_GetTicks();
 		
+		// 62.5Hz physics (unless frame rates get really low)
+		for (; time_to_simulate > 16; time_to_simulate -= 16) {
+			const float step = Pi::GetTimeStep();
+			if (step) Space::TimeStep(step);
+			gameTime += step;
+			phys_stat++;
+		}
+
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
@@ -862,16 +872,6 @@ void Pi::MainLoop()
 		}
 		Pi::SetTimeAccel(timeAccel);
 
-		// Fixed 62.5hz physics
-		int num_steps = 0;
-		while (time_before_frame - last_phys_update > 16) {
-			last_phys_update += 16;
-			const float step = Pi::GetTimeStep();
-			if (step) Space::TimeStep(step);
-			gameTime += step;
-			phys_stat++;
-			if (++num_steps > 3) break;
-		}
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
 			if (time_player_died) {
