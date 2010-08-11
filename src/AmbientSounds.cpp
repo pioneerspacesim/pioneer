@@ -158,7 +158,7 @@ void AmbientSounds::Update()
 			Frame *f = Pi::player->GetFrame();
 			const SBody *sbody = f->GetSBodyFor();
 			const char *sample = 0;
-			for (; f && sbody && !sample; sbody = f->GetSBodyFor()) {
+			for (; sbody && !sample; sbody = f->GetSBodyFor()) {
 				switch (sbody->type) {
 					case SBody::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
 					case SBody::TYPE_STAR_M: sample = "M_Red_Star"; break;
@@ -181,6 +181,7 @@ void AmbientSounds::Update()
 				} else {
 					// go up orbital hierarchy tree to see if we can find a sound
 					f = f->m_parent;
+					if (f == 0) break;
 				}
 			}
 		}
