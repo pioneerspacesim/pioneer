@@ -158,6 +158,7 @@ void Widget::ResizeRequest()
 
 Widget::~Widget()
 {
+	onDelete.emit();
 	if (m_tooltipWidget) {
 		Screen::RemoveBaseWidget(m_tooltipWidget);
 		delete m_tooltipWidget;
