@@ -1194,30 +1194,27 @@ define_model('courier', {
 							but since both have the same size in fe2 i made the courier a bit smaller,
 							in fe2 they have a span of 100m, so they fit exactly into the dock
 							]]--
-			lod_pixels = {5, 20, 50, 0},
+			lod_pixels = {1, 50, 200, 0},
 			bounding_radius = 50,
-			materials = {'courier'},
 			tags = {'ship'},
 			ship_defs = {
 				{
 					'Imperial Courier', 
-					{ 5*10^7,-8*10^7,2*10^7,-2*10^7,-2*10^7,2*10^7 },
-					4*10^7,
+					{ 35*10^6,-7*10^7,2*10^7,-2*10^7,-2*10^7,2*10^7 },
+					6*10^7,
 					{ 
 					{ v(0,0.6,-25), v(0,0,-1) },
 					{ v(0,0,16), v(0,0,1) },
 					}, 
-					{ 350, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },  -- no scoop!
-					350, 130, 61100000, -- original fe2 price
-		   			5
+					{ 300, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },  -- no scoop!
+					300, 100, 1, --61100000, -- original fe2 price
+        			4
 				}
 			}
 		},
 		
 	static = function(lod)
 			if lod == 1 then
-			    set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
-				use_material('courier')
 				local  v1 = v(0,1,-24)
 				local v1a = v(7,1,-8)
 				local v1b = v(-7,1,-8)
@@ -1232,7 +1229,7 @@ define_model('courier', {
     			local  v9 = v(0,5.5,-4)
     			local v9a = v(6,2.2,0)
     			local v10 = v(0,6.5,17)
- 		      		
+
     			xref_quad(v8,v7,v1b,v1)
     			xref_quad(v8,v5,v6,v7)
     			tri(v8,v4,v5)
@@ -1244,11 +1241,18 @@ define_model('courier', {
 				xref_quad(v9a,v3a,v3,v2)
     			xref_tri(v10,v4,v3a)
     			xref_tri(v3a,v4,v3)
-	        end	
+	        end
+	        
+			if lod > 1 then	
+				call_model('courier_body', v(0,0,0), v(1,0,0), v(0,1,0),1)
+				call_model('courier_sub', v(0,0,0), v(1,0,0), v(0,1,0),1)
+   				if lod > 2 then
+					call_model('posl_white', v(0,6.6,13), v(1,0,0), v(0,1,0),2.5)
+   				end
+			end
    	end,
 	dynamic = function(lod)
 			if lod == 1 then
-				use_material('courier')
 				local trans1 = math.clamp(get_arg(0), 0, 1)
 				local trans2 = math.clamp(get_arg(0), .5, 1)
 				local trans3 = math.clamp(get_arg(0), 0, .5)
@@ -1257,57 +1261,53 @@ define_model('courier', {
     			local v21 = v(16,1,7)
 				local v22 = v(30-trans1*9.5,-10+trans1*7.7,9-trans1*4.5)  
 				local v23 = v(30-trans1*9.5,-10+trans1*7.7,12-trans1*4.5)
-				local v24 = v(31.5-trans1*9.5,-11+trans1*8,-17-trans1*5) 
-				local v25 = v(31.5-trans1*9.5,-11+trans1*8,6-trans1*5)
-				local v26 = v(31.5-trans1*9.5,-11+trans1*8,21-trans1*5)
-				local v27 = v(31-trans1*9.5,-12+trans1*3.5,2-trans1*4) 
-				local v28 = v(32-trans1*9.5,-12+trans1*3.5,2-trans1*4)
-				local v29 = v(32-trans1*9.5,-12+trans1*3.5,10-trans1*4)
-				local v30 = v(31-trans1*9.5,-12+trans1*3.5,10-trans1*4)
+				local v24 = v(31.6-trans1*9.5,-11.2+trans1*8,-18-trans1*5) -- new
+				local v25 = v(31.6-trans1*9.5,-11.2+trans1*8,-7-trans1*5) 
+				local v26 = v(31.6-trans1*9.5,-11.2+trans1*8,2.7-trans1*5)
+				local v27 = v(31.6-trans1*9.5,-11.2+trans1*8,6.3-trans1*5) -- new
+				local v28 = v(31.6-trans1*9.5,-11.2+trans1*8,21.5-trans1*5)
+				local v29 = v(31-trans1*9.5,-12+trans1*3.5,2-trans1*4) 
+				local v30 = v(32-trans1*9.5,-12+trans1*3.5,2-trans1*4)
+				local v31 = v(32-trans1*9.5,-12+trans1*3.5,10-trans1*4)
+				local v32 = v(31-trans1*9.5,-12+trans1*3.5,10-trans1*4)
 			
 				xref_quad(v20,v21,v23,v22)
 				xref_quad(v20,v22,v23,v21)
-				xref_tapered_cylinder(6, v24, v25, v(0,1,0), 0.5, 3.5)
-				xref_tapered_cylinder(6, v25, v26, v(0,1,0), 2.5, 1.5)
-				xref_quad(v27,v28,v29,v30)
+				xref_tapered_cylinder(3, v24, v25, v(0,1,0), .1, .6)
+				xref_tapered_cylinder(3, v25, v26, v(0,1,0), .6, 2)
+				xref_tapered_cylinder(3, v26, v27, v(0,1,0), 2, 1.5)
+				xref_tapered_cylinder(3, v27, v28, v(0,1,0), 1.3, .9)
+				xref_quad(v29,v30,v31,v32)
 			end
-			if lod > 1 then	
-				call_model('courier_body', v(0,0,0), v(1,0,0), v(0,1,0),1)
-				call_model('courier_sub', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			end
-			if lod > 2 then
-				call_model('posl_white', v(0,6.6,13), v(1,0,0), v(0,1,0),2.5)
-   			end
+			
+			
 	end
 })
 
 define_model('trader', {
 	info = {
 			scale = 1.43,
-			lod_pixels = { 5, 20, 50, 0 },
+			lod_pixels = { 1, 50, 200, 0 },
 			bounding_radius = 72,
-			materials = {'courier'},
 			tags = {'ship'},
 			ship_defs = {
 				{
 					'Imperial Trader',
-					{ 5*10^7,-8*10^7,4*10^7,-4*10^7,-4*10^7,4*10^7 },
-					8*10^7,
+					{ 35*10^6,-7*10^7,15*10^6,-15*10^6,-15*10^6,15*10^6 },
+					45*10^6,
 					{
 					{ v(0,0.6,-36), v(0,0,-1) },
 					{ v(0,0,22), v(0,0,1) },
 					},
-					{ 485, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
-					485, 215, 95400000, -- i changed the hull mass for the trader in the same value i changed the size
-      				6
+					{ 450, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
+					450, 150, 1, --95400000,
+          			5
 				}
 			}
 		},
 
 	static = function(lod)
 			if lod == 1 then
-			    set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
-				use_material('courier')
 				local  v1 = v(0,1,-24)
 				local v1a = v(7,1,-8)
 				local v1b = v(-7,1,-8)
@@ -1340,15 +1340,24 @@ define_model('trader', {
 				xref_quad(v9a,v3a,v3,v2)
     			xref_tri(v10,v4,v3a)
     			xref_tri(v3a,v4,v3)
-				tapered_cylinder(6, v11, v12, v(0,1,0), 0.5, 3.5)
-				tapered_cylinder(6, v12, v13, v(0,1,0), 2.5, 1.5)
+				tapered_cylinder(3, v11, v12, v(0,1,0), 0.5, 3.5)
+				tapered_cylinder(3, v12, v13, v(0,1,0), 2.5, 1.5)
 				xref_quad(v10,v14,v15,v16)	
 	        end	
-   end,
-   	dynamic = function(lod)
+
+			if lod > 1 then
+            	call_model('trader_body', v(0,0,0), v(1,0,0), v(0,1,0),1)
+            	call_model('trader_eng', v(0,0,0), v(1,0,0), v(0,1,0),1)
+				call_model('courier_sub', v(0,0,0), v(1,0,0), v(0,1,0),1)
+   				if lod > 2 then
+					call_model('posl_white', v(0,13.55,20), v(1,0,0), v(0,1,0),2.5)
+				end
+			end
+   	end,
+
+	dynamic = function(lod)
             if lod == 1 then
-				use_material('courier')
-				local trans1 = math.clamp(get_arg(0), 0, 1)
+    			local trans1 = math.clamp(get_arg(0), 0, 1)
 				local trans2 = math.clamp(get_arg(0), .5, 1)
 				local trans3 = math.clamp(get_arg(0), 0, .5)
     		
@@ -1366,17 +1375,10 @@ define_model('trader', {
 			
 				xref_quad(v20,v21,v23,v22)
 				xref_quad(v20,v22,v23,v21)
-				xref_tapered_cylinder(6, v24, v25, v(0,1,0), 0.5, 3.5)
-				xref_tapered_cylinder(6, v25, v26, v(0,1,0), 2.5, 1.5)
+				xref_tapered_cylinder(3, v24, v25, v(0,1,0), 0.5, 3.5)
+				xref_tapered_cylinder(3, v25, v26, v(0,1,0), 2.5, 1.5)
 				xref_quad(v27,v28,v29,v30)
 			end						
-			if lod > 1 then
-            	call_model('trader_body', v(0,0,0), v(1,0,0), v(0,1,0),1)
-            	call_model('trader_eng', v(0,0,0), v(1,0,0), v(0,1,0),1)
-				call_model('courier_sub', v(0,0,0), v(1,0,0), v(0,1,0),1)
-			end
-			if lod > 2 then
-				call_model('posl_white', v(0,13.55,20), v(1,0,0), v(0,1,0),2.5)
-			end 			
+
 	end
 })

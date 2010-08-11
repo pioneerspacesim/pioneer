@@ -17,6 +17,8 @@ define_model('lathed_tower', {
 		billboard('smoke.png', 8, v(1,1,1), { v(0, 111, 0) })
 	end,
 })
+
+--[[
 define_model('building1', {
 	info = {
 		bounding_radius = 10,
@@ -44,11 +46,13 @@ define_model('building2', {
 			v(-16,0,0), v(16,0,0), v(16,20,0), v(-16,20,0))
 	end
 })
+--]]
 
 define_model('skyscraper1', {
 	info = {
 		bounding_radius=200,
-		materials={'gray1', 'gray2'}
+		materials={'gray1', 'gray2'},
+		tags = {'city_building'},
 	},
 	static = function(lod)
 		-- Inset black bit
@@ -189,6 +193,7 @@ define_model('clock', {
 	end
 })
 
+--[[
 define_model('church', {
 	info = {
 		bounding_radius=45,
@@ -221,11 +226,13 @@ define_model('church', {
 		call_model("clock", clockpos2, v(0,0,-1), v(0,1,0), 2.5)
 	end
 })
+--]]
 
 define_model('towerOfShit', {
 	info = {
 		bounding_radius=20,
-		materials={'mat1'}
+		materials={'mat1'},
+		tags = {'city_building'},
 	},
 	static = function(lod)
 		set_material("mat1", 1,1,1,1)
@@ -243,7 +250,8 @@ define_model('towerOfShit', {
 define_model('boringHighRise', {
 	info = {
 		bounding_radius=200,
-		materials={'mat1','windows'}
+		materials={'mat1','windows'},
+		tags = {'city_building'},
 	},
 	dynamic = function(lod)
 		use_material("mat1", 'windows')
@@ -309,8 +317,9 @@ end
 define_model('biodomes', {
 	info = {
 		bounding_radius=1000,
-		materials={'base','green','dome'}
-	},
+		materials={'base','green','dome'},
+		tags = {'city_building'},
+		},
 	static = function(lod)
 		set_material('base', .4,.4,.5,1, .5,.5,.7,40)
 		set_material('green', .1,.6,.1,1)
