@@ -37,13 +37,13 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
 	  1200, 1, 0, ECON_AGRICULTURE, 1,
 	},{
-	  "Live Animals", 0,
-	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
-	  3200, 1, 0, ECON_AGRICULTURE, 1,
-	},{
 	  "Animal Meat", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
 	  1800, 1, 0, ECON_AGRICULTURE, 1,
+	},{
+	  "Live Animals", 0,
+	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
+	  3200, 1, 0, ECON_AGRICULTURE, 1,
 	},{
 	  "Liquor", 0,
 	  Equip::SLOT_CARGO, { Equip::FARM_MACHINERY, Equip::FERTILIZER },
