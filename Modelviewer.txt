@@ -1,0 +1,15 @@
+Model viewer
+~~~~~~~~~~~~
+
+Call with the lua model name as the first argument:
+
+./modelviewer interdictor
+
+Rotate the model with the cursor keys
+
+Rotate the camera with shift + cursor keys
+
+Move forward and backwards in the scene with - and =, or Page Up and Page
+Down.
+
+

@@ -250,7 +250,8 @@ static void render_coll_mesh(const LmrCollMesh *m)
 float wank[TEXSIZE][TEXSIZE];
 float aspectRatio = 1.0;
 double camera_zoom = 1.0;
-float distance = 100;
+vector3f g_campos(0.0f, 0.0f, 100.0f);
+matrix4x4f g_camorient;
 extern int stat_rayTriIntersections;
 static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camera_forward, CollisionSpace *space)
 {
@@ -283,7 +284,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 			space->TraceRay(camPos, toPoint, 1000000.0f, &c);
 
 			if (c.triIdx != -1) {
-				wank[x][y] = distance/(10*c.dist);
+				wank[x][y] = 100.0/(10*c.dist);
 			} else {
 				wank[x][y] = 0;
 			}
@@ -330,21 +331,21 @@ static void onCollision(CollisionContact *c)
 
 void Viewer::MainLoop()
 {
-	matrix4x4d rot = matrix4x4d::Identity();
 	Uint32 lastTurd = SDL_GetTicks();
 
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
 	cmesh = new LmrCollMesh(g_model, &params);
-	distance = cmesh->GetBoundingRadius();
+	g_campos = vector3f(0.0f, 0.0f, cmesh->GetBoundingRadius());
+	g_camorient = matrix4x4f::Identity();
+	matrix4x4f modelRot = matrix4x4f::Identity();
 	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 	geom = new Geom(cmesh->geomTree);
 	space = new CollisionSpace();
 	space->AddGeom(geom);
-//	geom2->MoveTo(rot, vector3d(80,0,0));
 
 	Render::State rstate;
 	rstate.SetZnearZfar(1.0f, 10000.0f);
@@ -353,19 +354,35 @@ void Viewer::MainLoop()
 	for (;;) {
 		PollEvents();
 
-		if (g_keyState[SDLK_UP]) rot = matrix4x4d::RotateXMatrix(g_frameTime) * rot;
-		if (g_keyState[SDLK_DOWN]) rot = matrix4x4d::RotateXMatrix(-g_frameTime) * rot;
-		if (g_keyState[SDLK_LEFT]) rot = matrix4x4d::RotateYMatrix(g_frameTime) * rot;
-		if (g_keyState[SDLK_RIGHT]) rot = matrix4x4d::RotateYMatrix(-g_frameTime) * rot;
-		if (g_keyState[SDLK_EQUALS]) distance *= powf(0.5f,g_frameTime);
-		if (g_keyState[SDLK_MINUS]) distance *= powf(2.0f,g_frameTime);
-		if (g_mouseButton[3]) {
-			float rx = -0.01f*g_mouseMotion[1];
-			float ry = -0.01f*g_mouseMotion[0];
-			rot = matrix4x4d::RotateXMatrix(rx) * rot;
-			rot = matrix4x4d::RotateYMatrix(ry) * rot;
+		if (g_keyState[SDLK_LSHIFT] || g_keyState[SDLK_RSHIFT]) {
+			if (g_keyState[SDLK_UP]) g_camorient = g_camorient * matrix4x4f::RotateXMatrix(g_frameTime);
+			if (g_keyState[SDLK_DOWN]) g_camorient = g_camorient * matrix4x4f::RotateXMatrix(-g_frameTime);
+			if (g_keyState[SDLK_LEFT]) g_camorient = g_camorient * matrix4x4f::RotateYMatrix(-g_frameTime);
+			if (g_keyState[SDLK_RIGHT]) g_camorient = g_camorient * matrix4x4f::RotateYMatrix(g_frameTime);
+			if (g_mouseButton[3]) {
+				float rx = 0.01f*g_mouseMotion[1];
+				float ry = 0.01f*g_mouseMotion[0];
+				g_camorient = g_camorient * matrix4x4f::RotateXMatrix(rx);
+				g_camorient = g_camorient * matrix4x4f::RotateYMatrix(ry);
+			}
+		} else {
+			if (g_keyState[SDLK_UP]) modelRot = modelRot * matrix4x4f::RotateXMatrix(g_frameTime);
+			if (g_keyState[SDLK_DOWN]) modelRot = modelRot * matrix4x4f::RotateXMatrix(-g_frameTime);
+			if (g_keyState[SDLK_LEFT]) modelRot = modelRot * matrix4x4f::RotateYMatrix(-g_frameTime);
+			if (g_keyState[SDLK_RIGHT]) modelRot = modelRot * matrix4x4f::RotateYMatrix(g_frameTime);
+			if (g_mouseButton[3]) {
+				float rx = 0.01f*g_mouseMotion[1];
+				float ry = 0.01f*g_mouseMotion[0];
+				modelRot = modelRot * matrix4x4f::RotateXMatrix(rx);
+				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
+			}
 		}
-		geom->MoveTo(rot, vector3d(0.0,0.0,0.0));
+		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f);
+		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.0f);
+		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f);
+		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.0f);
+
+//		geom->MoveTo(modelRot, vector3d(0.0,0.0,0.0));
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -380,23 +397,25 @@ void Viewer::MainLoop()
 	
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
-		
-			matrix4x4f _m;
-			for (int i=0; i<16; i++) _m[i] = rot[i];
-			_m[14] = -distance;
-			g_model->Render(_m, &params);
+			matrix4x4f m = g_camorient.InverseOf();
+			glMultMatrixf(&m[0]);
+			glTranslatef(-g_campos.x, -g_campos.y, -g_campos.z);
+			g_model->Render(modelRot.InverseOf(), &params);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
-			glTranslatef(0, 0, -distance);
-			glMultMatrixd(&rot[0]);
+			matrix4x4f m = g_camorient.InverseOf();
+			glMultMatrixf(&m[0]);
+			glTranslatef(-g_campos.x, -g_campos.y, -g_campos.z);
+			m = modelRot.InverseOf();
+			glMultMatrixf(&m[0]);
 			render_coll_mesh(cmesh);
 			glPopMatrix();
 		} else {
-			vector3d camPos = vector3d(0.0,0.0,(double)distance);
-			vector3d forward = vector3d(0.0,0.0,-1.0);
-			vector3d up = vector3d(0.0,1.0,0.0);
-			raytraceCollMesh(camPos, up, forward, space);
+			matrix4x4f tran = modelRot * g_camorient;//.InverseOf();
+			vector3d forward = tran * vector3d(0.0,0.0,-1.0);
+			vector3d up = tran * vector3d(0.0,1.0,0.0);
+			raytraceCollMesh(modelRot * g_campos, up, forward, space);
 		}
 		
 		Gui::Draw();
