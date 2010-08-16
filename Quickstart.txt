@@ -37,7 +37,7 @@ K - Thrust backwards
 J - Thrust left
 L - Thrust right
 U - Thrust up
-P - Thrust down
+O - Thrust down
 
 Rotation:
 ~~~~~~~~~

@@ -9,6 +9,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "HyperspaceCloud.h"
+#include "KeyBindings.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
@@ -433,7 +434,7 @@ void WorldView::Update()
 		// when landed don't let external view look from below
 		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0f, -10.0f);
 	}
-	if (Pi::KeyState(SDLK_TAB)) {
+	if (KeyBindings::targetObject.IsActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
 		Body* const target = PickBody(Gui::Screen::GetWidth()/2,
 				Gui::Screen::GetHeight()/2);

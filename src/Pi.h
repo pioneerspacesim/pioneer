@@ -68,6 +68,7 @@ public:
 	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
 	static int KeyState(SDLKey k) { return keyState[k]; }
+	static int KeyModState() { return keyModState; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
@@ -131,6 +132,7 @@ private:
 	static float scrAspect;
 	static SDL_Surface *scrSurface;
 	static char keyState[SDLK_LAST];
+	static int keyModState;
 	static char mouseButton[6];
 	static int mouseMotion[2];
 	static const float timeAccelRates[];

@@ -17,6 +17,7 @@ public:
 	void OpenLoadDialog();
 	void OpenSaveDialog();
 private:
+	void OnChangeKeyBinding(SDLKey key, SDLMod mod, const char *fnName);
 	void OnChangeVolume();
 	void OnChangePlanetDetail(int level);
 	void OnChangeCityDetail(int level);

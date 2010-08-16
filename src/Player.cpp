@@ -6,6 +6,7 @@
 #include "Serializer.h"
 #include "Sound.h"
 #include "ShipCpanel.h"
+#include "KeyBindings.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
@@ -181,40 +182,34 @@ void Player::PollControls()
 		}
 		
 		if (m_flightControlState == CONTROL_FIXSPEED) {
-			if (Pi::KeyState(SDLK_RETURN)) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
-			if (Pi::KeyState(SDLK_RSHIFT)) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
+			if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
+			if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
 		}
 
-		if (Pi::KeyState(SDLK_i)) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0f);
-		if (Pi::KeyState(SDLK_k)) SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0f);
-		if (Pi::KeyState(SDLK_u)) SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
-		if (Pi::KeyState(SDLK_o)) SetThrusterState(ShipType::THRUSTER_DOWN, 1.0f);
-		if (Pi::KeyState(SDLK_j)) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
-		if (Pi::KeyState(SDLK_l)) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
+		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0f);
+		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0f);
+		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
+		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(ShipType::THRUSTER_DOWN, 1.0f);
+		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
+		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
 		
 		SetGunState(0,0);
 		SetGunState(1,0);
-		if (Pi::KeyState(SDLK_SPACE) || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
+		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(1) && Pi::MouseButtonState(3))) {
 				SetGunState(Pi::worldView->GetActiveWeapon(), 1);
 		}
 
-		if (Pi::worldView->GetCamType() != WorldView::CAM_EXTERNAL) {
-			if (Pi::KeyState(SDLK_LEFT)) wantAngVel.y += 1.0;
-			if (Pi::KeyState(SDLK_RIGHT)) wantAngVel.y += -1.0;
-			if (Pi::KeyState(SDLK_UP)) wantAngVel.x += -1.0;
-			if (Pi::KeyState(SDLK_DOWN)) wantAngVel.x += 1.0;
-		}
-		if (Pi::KeyState(SDLK_a)) wantAngVel.y += 1.0;
-		if (Pi::KeyState(SDLK_d)) wantAngVel.y += -1.0;
-		if (Pi::KeyState(SDLK_w)) wantAngVel.x += -1.0;
-		if (Pi::KeyState(SDLK_s)) wantAngVel.x += 1.0;
-		if (Pi::KeyState(SDLK_q)) wantAngVel.z += 1.0;
-		if (Pi::KeyState(SDLK_e)) wantAngVel.z -= 1.0;
+		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
+		if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;
+		if (KeyBindings::pitchDown.IsActive()) wantAngVel.x += -1.0;
+		if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
+		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
+		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
 
 
 		for (int axis=0; axis<3; axis++) wantAngVel[axis] = CLAMP(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 		
-		const float angThrustSoftness = Pi::KeyState(SDLK_LSHIFT) ? 10.0 : 50.0;
+		const float angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0 : 50.0;
 		
 		AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 	}

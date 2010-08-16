@@ -49,6 +49,7 @@ sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
+int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
 int Pi::mouseMotion[2];
@@ -398,10 +399,12 @@ void Pi::HandleEvents()
 					}
 				}
 				Pi::keyState[event.key.keysym.sym] = 1;
+				Pi::keyModState = event.key.keysym.mod;
 				Pi::onKeyPress.emit(&event.key.keysym);
 				break;
 			case SDL_KEYUP:
 				Pi::keyState[event.key.keysym.sym] = 0;
+				Pi::keyModState = event.key.keysym.mod;
 				Pi::onKeyRelease.emit(&event.key.keysym);
 				break;
 			case SDL_MOUSEBUTTONDOWN:

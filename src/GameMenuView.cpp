@@ -4,6 +4,7 @@
 #include "WorldView.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
+#include "KeyBindings.h"
 
 #if _GNU_SOURCE
 #include <sys/types.h>
@@ -13,6 +14,68 @@
 #elif _WIN32
 #include <../msvc/win32-dirent.h>
 #endif
+
+std::string get_sdl_key_and_mod_name(SDLKey key, SDLMod mod)
+{
+	std::string s = "";
+	if (mod & KMOD_SHIFT) s += "shift ";
+	if (mod & KMOD_CTRL) s += "ctrl ";
+	if (mod & KMOD_ALT) s += "alt ";
+	if (mod & KMOD_META) s += "meta ";
+	s += SDL_GetKeyName(key);
+
+	return s;
+}
+
+
+class KeyGetter: public Gui::Fixed {
+public:
+	KeyGetter(const char *label, SDLKey key, SDLMod mod): Gui::Fixed(350, 19) {
+		m_key = key;
+		m_mod = mod;
+		m_function = label;
+		m_keyLabel = new Gui::Label(get_sdl_key_and_mod_name(key, mod));
+		Gui::Button *b = new Gui::LabelButton(m_keyLabel);
+		b->onClick.connect(sigc::mem_fun(this, &KeyGetter::OnClickChange));
+		Add(new Gui::Label(label), 0, 0);
+		Add(b, 180, 0);
+		m_infoTooltip = 0;
+	}
+	sigc::signal<void, SDLKey, SDLMod> onChange;
+private:
+	void OnClickChange() {
+		if (m_infoTooltip) return;
+		std::string msg = "Press the key you want for " + m_function;
+		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::Screen::AddBaseWidget(t, 300, 300);
+		t->Show();
+		t->GrabFocus();
+		m_keyUpConnection.disconnect();
+		m_keyUpConnection = Gui::RawEvents::onKeyUp.connect(sigc::mem_fun(this, &KeyGetter::OnKeyUpPick));
+		m_infoTooltip = t;
+	}
+
+	void OnKeyUpPick(SDL_KeyboardEvent *e) {
+		m_keyUpConnection.disconnect();
+		Gui::Screen::RemoveBaseWidget(m_infoTooltip);
+		delete m_infoTooltip;
+		m_infoTooltip = 0;
+
+		m_key = e->keysym.sym;
+		// get rid of number lock, caps lock, etc
+		m_mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		onChange.emit(m_key, m_mod);
+		m_keyLabel->SetText(get_sdl_key_and_mod_name(m_key, m_mod));
+		ResizeRequest();
+	}
+
+	SDLKey m_key;
+	SDLMod m_mod;
+	Gui::Label *m_keyLabel;
+	Gui::ToolTip *m_infoTooltip;
+	std::string m_function;
+	sigc::connection m_keyUpConnection;
+};
 
 /*
  * Must create the folders if they do not exist already.
@@ -211,7 +274,13 @@ GameMenuView::GameMenuView(): View()
 {
 	m_subview = 0;
 
-	Add((new Gui::Label("PIONEER"))->Shadow(true), 350, 10);
+	Gui::Tabbed *tabs = new Gui::Tabbed();
+	Add(tabs, 0, 0);
+
+	Gui::Fixed *mainTab = new Gui::Fixed(800, 500);
+	tabs->AddPage(new Gui::Label("Sights, sounds & saving games"), mainTab);
+
+	mainTab->Add((new Gui::Label("PIONEER"))->Shadow(true), 350, 10);
 	SetTransparency(false);
 	Gui::Label *l = new Gui::Label("PIONEER");
 	l->Color(1,.7,0);
@@ -221,7 +290,7 @@ GameMenuView::GameMenuView(): View()
 		Gui::LabelButton *b;
 		Gui::Box *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		Add(hbox, 20, 50);
+		mainTab->Add(hbox, 20, 50);
 		b = new Gui::LabelButton(new Gui::Label("[S] Save the game"));
 		b->SetShortcut(SDLK_s, KMOD_NONE);
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
@@ -239,9 +308,9 @@ GameMenuView::GameMenuView(): View()
 	Gui::Box *vbox = new Gui::VBox();
 	vbox->SetSizeRequest(300, 1000);
 	vbox->SetSpacing(5.0);
-	Add(vbox, 20, 100);
+	mainTab->Add(vbox, 20, 100);
 
-	vbox->PackEnd(new Gui::Label("Video resolution (restart game to apply)"), false);
+	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
 
 	Gui::RadioGroup *g = new Gui::RadioGroup();
 	SDL_Rect **modes;
@@ -263,7 +332,7 @@ GameMenuView::GameMenuView(): View()
 	}
 
 	{
-		vbox->PackEnd(new Gui::Label("Windowed or fullscreen (restart to apply)"), false);
+		vbox->PackEnd((new Gui::Label("Windowed or fullscreen (restart to apply)"))->Color(1.0f,1.0f,0.0f), false);
 		m_toggleFullscreen = new Gui::ToggleButton();
 		m_toggleFullscreen->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleFullscreen));
 		Gui::HBox *hbox = new Gui::HBox();
@@ -272,7 +341,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label("Full screen"), false);
 		vbox->PackEnd(hbox, false);
 		
-		vbox->PackEnd(new Gui::Label("Other graphics settings"), false);
+		vbox->PackEnd((new Gui::Label("Other graphics settings"))->Color(1.0f,1.0f,0.0f), false);
 		m_toggleShaders = new Gui::ToggleButton();
 		m_toggleShaders->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleShaders));
 		hbox = new Gui::HBox();
@@ -281,7 +350,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label("Use shaders"), false);
 		vbox->PackEnd(hbox, false);
 		
-		vbox->PackEnd(new Gui::Label("Sound settings"), false);
+		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
 		m_sfxVolume = new Gui::Adjustment();
 		m_sfxVolume->SetValue(Sound::GetGlobalVolume());
 		m_sfxVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
@@ -297,9 +366,9 @@ GameMenuView::GameMenuView(): View()
 
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
-	Add(vbox, 600, 100);
+	mainTab->Add(vbox, 600, 100);
 
-	vbox->PackEnd(new Gui::Label("Planet detail level:"));
+	vbox->PackEnd((new Gui::Label("Planet detail level:"))->Color(1.0f,1.0f,0.0f));
 	g = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
@@ -315,7 +384,7 @@ GameMenuView::GameMenuView(): View()
 	// just a spacer
 	vbox->PackEnd(new Gui::Fixed(10,20));
 	
-	vbox->PackEnd(new Gui::Label("City detail level:"));
+	vbox->PackEnd((new Gui::Label("City detail level:"))->Color(1.0f,1.0f,0.0f));
 	g = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
@@ -328,6 +397,55 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
 		vbox->PackEnd(hbox, false);
 	}
+	
+	// key binding tab
+	{
+		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 500);
+		tabs->AddPage(new Gui::Label("Keyboard controls"), keybindingTab);
+
+		Gui::VBox *box1 = new Gui::VBox();
+		box1->SetSpacing(5.0f);
+		keybindingTab->Add(box1, 10, 10);
+
+		Gui::VBox *box2 = new Gui::VBox();
+		box2->SetSpacing(5.0f);
+		keybindingTab->Add(box2, 400, 10);
+
+		Gui::VBox *box = box1;
+		KeyGetter *keyg;
+
+		for (int i=0; KeyBindings::bindingProtos[i].label; i++) {
+			const char *label = KeyBindings::bindingProtos[i].label;
+			const char *function = KeyBindings::bindingProtos[i].function;
+
+			if (function) {
+				const std::string confKey = function + std::string("Key");
+				const std::string confMod = function + std::string("Mod");
+				keyg = new KeyGetter(label, (SDLKey)Pi::config.Int(confKey.c_str()), (SDLMod)Pi::config.Int(confMod.c_str()));
+				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
+				box->PackEnd(keyg);
+			} else {
+				// section
+				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
+			}
+
+			/* 2nd column */
+			if (i == 20) {
+				box = box2;
+			}
+		}
+	}
+}
+
+void GameMenuView::OnChangeKeyBinding(SDLKey key, SDLMod mod, const char *fnName)
+{
+	char buf[128];
+	snprintf(buf, sizeof(buf), "%sKey", fnName);
+	Pi::config.SetInt(buf, key);
+	snprintf(buf, sizeof(buf), "%sMod", fnName);
+	Pi::config.SetInt(buf, mod);
+	Pi::config.Save();
+	KeyBindings::OnKeyBindingsChanged();
 }
 
 void GameMenuView::OnChangeVolume()

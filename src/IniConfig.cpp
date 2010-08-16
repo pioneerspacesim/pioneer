@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "IniConfig.h"
+#include "KeyBindings.h"
 
 void IniConfig::Load(const std::string &filename)
 {
@@ -16,6 +17,8 @@ void IniConfig::Load(const std::string &filename)
 	(*this)["DetailCities"] = "1";
 	(*this)["DetailPlanets"] = "1";
 	(*this)["SfxVolume"] = "0.8";
+
+	KeyBindings::SetDefaults();
 	
 	if (f) {
 		char buf[1024];
@@ -37,6 +40,8 @@ void IniConfig::Load(const std::string &filename)
 		}
 		fclose(f);
 	}
+
+	KeyBindings::OnKeyBindingsChanged();
 }
 
 bool IniConfig::Save()
@@ -46,7 +51,7 @@ bool IniConfig::Save()
 		return false;
 	} else {
 		for (std::map<std::string, std::string>::const_iterator i = begin(); i!=end(); ++i) {
-			fprintf(f, "%s=%s\n", (*i).first.c_str(), (*i).second.c_str());
+			if ((*i).second != "") fprintf(f, "%s=%s\n", (*i).first.c_str(), (*i).second.c_str());
 		}
 		fclose(f);
 		return true;
