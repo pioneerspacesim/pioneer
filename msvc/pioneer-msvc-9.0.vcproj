@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="2"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-2.0.lib opengl32.lib glu32.lib SDL_image.lib freetype2MT.lib glew32.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2MT.lib glew32.lib"
 				OutputFile="..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -194,6 +194,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\src\AmbientSounds.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\src\Body.cpp"
 				>
@@ -380,6 +384,10 @@
 			</File>
 			<File
 				RelativePath="..\src\IniConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\KeyBindings.cpp"
 				>
 			</File>
 			<File
@@ -618,6 +626,10 @@
 			>
 			<File
 				RelativePath="..\src\Aabb.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\AmbientSounds.h"
 				>
 			</File>
 			<File
@@ -866,6 +878,10 @@
 			</File>
 			<File
 				RelativePath="..\src\IniConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\KeyBindings.h"
 				>
 			</File>
 			<File

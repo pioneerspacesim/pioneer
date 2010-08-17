@@ -62,12 +62,11 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	glDisable(GL_LIGHTING);
 	glDepthMask(GL_FALSE);
 
-	float quadratic[] =  { 0.0f, 0.0f, 0.00001f };
-	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
-	glPointParameterf(GL_POINT_SIZE_MIN, 1.0 );
-	glPointParameterf(GL_POINT_SIZE_MAX, 10000.0 );
+//	float quadratic[] =  { 0.0f, 0.0f, 0.00001f };
+//	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
+//	glPointParameterf(GL_POINT_SIZE_MIN, 1.0 );
+//	glPointParameterf(GL_POINT_SIZE_MAX, 10000.0 );
 		
-	glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -132,8 +131,8 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 //	/*if (Shader::IsVtxProgActive())*/ glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	UseProgram(0);
 
-	quadratic[0] = 1; quadratic[1] = 0;
-	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
+//	quadratic[0] = 1; quadratic[1] = 0;
+//	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );
 
 	glDisable(GL_TEXTURE_2D);
 	glDepthMask(GL_TRUE);
