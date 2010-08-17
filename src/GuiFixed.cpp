@@ -68,7 +68,7 @@ void Fixed::UpdateAllChildSizes()
 				   size[1] - (*i).pos[1] };
 		(*i).w->GetSizeRequested(rsize);
 		if ((*i).pos[0] + rsize[0] > size[0]) rsize[0] = size[0] - (*i).pos[0];
-		if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[0] - (*i).pos[1];
+		if ((*i).pos[1] + rsize[1] > size[1]) rsize[1] = size[1] - (*i).pos[1];
 		(*i).w->SetSize(rsize[0], rsize[1]);
 	}
 }

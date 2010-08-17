@@ -277,7 +277,7 @@ GameMenuView::GameMenuView(): View()
 	Gui::Tabbed *tabs = new Gui::Tabbed();
 	Add(tabs, 0, 0);
 
-	Gui::Fixed *mainTab = new Gui::Fixed(800, 500);
+	Gui::Fixed *mainTab = new Gui::Fixed(800, 600);
 	tabs->AddPage(new Gui::Label("Sights, sounds & saving games"), mainTab);
 
 	mainTab->Add((new Gui::Label("PIONEER"))->Shadow(true), 350, 10);
@@ -400,7 +400,7 @@ GameMenuView::GameMenuView(): View()
 	
 	// key binding tab
 	{
-		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 500);
+		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
 		tabs->AddPage(new Gui::Label("Keyboard controls"), keybindingTab);
 
 		Gui::VBox *box1 = new Gui::VBox();
