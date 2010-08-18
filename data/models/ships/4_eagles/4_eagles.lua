@@ -1,3 +1,46 @@
+define_model('eagle_lrf_v0', {
+	info = {
+			lod_pixels = {5,10,100,0},
+			bounding_radius = 15,
+			materials = {'top'},
+			},
+	static = function(lod)
+	    local v0 = v(0,0,-40)
+		local v2 = v(0,6,25)
+		local v6 = v(31,0,-9)
+		local v8 = v(3,0,12)
+		local v10 = v(9,0,-37)
+		local v14 = v(31,1,9)
+		if lod > 2 then
+			texture('tex1.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
+		else
+		    texture('tex1_s.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
+		end
+        xref_flat(6*lod, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})  -- top
+	end
+})
+
+define_model('eagle_lrf_v1', {
+	info = {
+			lod_pixels = {5,10,100,0},
+			bounding_radius = 15,
+			materials = {'top'},
+			},
+	static = function(lod)
+	    local v0 = v(0,0,-40)
+		local v2 = v(0,6,25)
+		local v6 = v(31,0,-9)
+		local v8 = v(3,0,12)
+		local v10 = v(9,0,-37)
+		local v14 = v(31,1,9)
+		if lod > 2 then
+			texture('tex1c.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
+		else
+		    texture('tex1c_s.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
+		end
+        xref_flat(6*lod, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})  -- top
+	end
+})
 
 define_model('eagle_lrf_body', {
 	info = {
@@ -8,15 +51,10 @@ define_model('eagle_lrf_body', {
 
 	static = function(lod)
 	    local v0 = v(0,0,-40)
-		local v2 = v(0,6,25)
         local v4 = v(0,-6,25)
-		local v6 = v(31,0,-9)
         local v7 = v(-31,0,-9)
-		local v8 = v(3,0,12)
         local v9 = v(-3,0,12)
-		local v10 = v(9,0,-37)
         local v11 = v(-9,0,-37)
-		local v14 = v(31,1,9)
 	    local v25 = v(-31,-1,9)
 	    local v26 = v(14,1.5,5)
 		local v28 = v(14,3,9)
@@ -27,26 +65,23 @@ define_model('eagle_lrf_body', {
 
 		set_material('black', 0,0,0,1,0,0,0,0)
 
-  		if lod > 2 then
+  		if lod > 1 then
 			use_material('bot')
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
         	xref_tapered_cylinder(3*lod, v26, v28, v(0,1,-.1), 0.2, 1)
         	xref_tapered_cylinder(3*lod, v30, v32, v(0,1,-.1), 0.2, 1)
             xref_tapered_cylinder(3*lod, v34, v36, v(0,1,-.1), 0.2, 1)
-            use_material('black')
+			texture(nil)
+			use_material('black')
 			xref_circle(3*lod, v28+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
         end
 		  
-		if lod > 1 then
-			texture('tex1.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
-		end
-		use_material('top')
-        xref_flat(6*lod, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})  -- top
-        	  		
-		if lod > 1 then
+		if lod > 2 then
 		    texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
+		else
+		    texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		end
 		use_material('bot')
         xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
@@ -54,39 +89,58 @@ define_model('eagle_lrf_body', {
 	end,
 
 	dynamic = function(lod)
-     	--select2 = 30
+     	--select2 = 20
 		selector2()
-		if select2 < 51 then  -- plain green with light blue bottom
-			if lod > 1 then
-				set_material('top', .1,.3,.05,1,.4,.4,.4,50)
-				set_material('bot', .4,.55,.6,1,.4,.55,.6,50)
-			else
-			    set_material('top', .06,.2,.02,1,.4,.4,.4,50)
-				set_material('bot', .33,.45,.48,1,.4,.55,.6,50)
-			end
+		if select2 < 26 then  -- plain green with light blue bottom
+			set_material('top', .1,.3,.05,1,.4,.4,.4,50)
+			set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+   			use_material('top')
+			call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			if select2 > 50 then -- cv			
-	        	set_material('top', get_arg_material(1))
-				set_material('bot', get_arg_material(0))
-			end
+			if select2 < 51 then
+				set_material('top', .1,.3,.05,1,.4,.4,.4,50)
+				set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+				use_material('top')
+				call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+			else
+   				if select2 < 76 then -- cv
+		        	set_material('top', get_arg_material(1))
+					set_material('bot', get_arg_material(0))
+					use_material('top')
+					call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+				else
+				    if select2 > 75 then
+				        set_material('top', get_arg_material(1))
+						set_material('bot', get_arg_material(0))
+						use_material('top')
+						call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+					end
+				end
+  			end
 		end
   	    --select3 = 60
   	    --select4 = 40
-  		selector3()
-  	    selector4()
-		if select3 < 51 then
-  	    	call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
-	    	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-			if select4 < 51 then
-				call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
-			end	
-		else	
-			call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
-	    	call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    if select4 < 51 then
-				call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+  		if lod > 1 then
+			selector3()
+  	    	selector4()
+			if select3 < 51 then
+  	      		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
+	        	if lod > 2 then
+					call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
+				end
+				if select4 < 51 then
+					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+				end	
+			else	
+				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
+		    	end
+				if select4 < 51 then
+					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+				end
 			end
 		end
 		
@@ -121,13 +175,9 @@ define_model('eagle_mk2_body', {
 			},
 	static = function(lod)
 	    local v0 = v(0,0,-40)
-		local v2 = v(0,6,25)
         local v4 = v(0,-6,25)
-		local v6 = v(31,0,-9)
         local v7 = v(-31,0,-9)
-		local v8 = v(3,0,12)
         local v9 = v(-3,0,12)
-		local v10 = v(9,0,-37)
         local v11 = v(-9,0,-37)
 		local v14 = v(31,1,9)
 	    local v25 = v(-31,-1,9)
@@ -140,67 +190,73 @@ define_model('eagle_mk2_body', {
 
         set_material('black', 0,0,0,1,0,0,0,0)
 
-  		if lod > 2 then
+  		if lod > 1 then
 			use_material('bot')
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
         	xref_tapered_cylinder(3*lod, v26, v28, v(0,1,-.1), 0.2, 1)
         	xref_tapered_cylinder(3*lod, v30, v32, v(0,1,-.1), 0.2, 1)
             xref_tapered_cylinder(3*lod, v34, v36, v(0,1,-.1), 0.2, 1)
             use_material('black')
+            texture(nil)
 			xref_circle(3*lod, v28+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
         end
 
-  		if lod > 1 then
-			texture('tex1.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
-		end
-		use_material('top')
-        xref_flat(6*lod, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})  -- top
-        	  		
-		if lod > 1 then
+		if lod > 2 then
 		    texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
+		else
+		    texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		end
 		use_material('bot')
         xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
 	end,
 
 	dynamic = function(lod)
-	    selector2()
-		if select2 < 51 then  -- plain silver blue
-		    if lod > 1 then
-				set_material('top', .4,.55,.6,1,.4,.55,.6,50)
-				set_material('bot', .4,.55,.6,1,.4,.55,.6,50)
-			else
-			    set_material('top', .33,.45,.48,1,.4,.55,.6,50)
-       			set_material('bot', .33,.45,.48,1,.4,.55,.6,50)
-			end
+		--select2 = 10
+		selector2()
+		if select2 < 34 then  -- plain silver blue
+			set_material('top', .63,.7,.83,1,1.26,1.4,1.66,30)
+			set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+			use_material('top')
+			call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			if select2 > 50 then -- cv
+			if select2 < 67  then -- cv
 	        	set_material('top', get_arg_material(0))
-	        	if lod > 1 then
-					set_material('bot', .4,.55,.6,1,.4,.55,.6,50)
-				else
-				    set_material('bot', .33,.45,.48,1,.4,.55,.6,50)
+				set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+				use_material('top')
+				call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+			else
+			    if select2 > 66  then -- cv
+	        		set_material('top', get_arg_material(0))
+					set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+					use_material('top')
+					call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				end
-			end
+   			end
 		end
 		
-		selector3()
-  	    selector4()
-		if select3 < 51 then
-  	    	call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
-	    	call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-			if select4 < 51 then
-				call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
-			end	
-		else	
-			call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
-	    	call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    if select4 < 51 then
-				call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+		if lod > 1 then
+			selector3()
+  	    	selector4()
+			if select3 < 51 then
+  	    		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
+				end
+				if select4 < 51 then
+					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+				end	
+			else	
+				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
+		    	end
+				if select4 < 51 then
+					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+				end
 			end
 		end
 		
@@ -234,13 +290,9 @@ define_model('eagle_mk3_body', {
 			},
 	static = function(lod)
 	    local v0 = v(0,0,-40)
-		local v2 = v(0,6,25)
         local v4 = v(0,-6,25)
-		local v6 = v(31,0,-9)
         local v7 = v(-31,0,-9)
-		local v8 = v(3,0,12)
         local v9 = v(-3,0,12)
-		local v10 = v(9,0,-37)
         local v11 = v(-9,0,-37)
 		local v14 = v(31,1,9)
 	    local v25 = v(-31,-1,9)
@@ -254,59 +306,69 @@ define_model('eagle_mk3_body', {
         set_material('black', 0,0,0,1,0,0,0,0)
 
         use_material('top')
-  		if lod > 2 then
+  		if lod > 1 then
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
         	xref_tapered_cylinder(3*lod, v26, v28, v(0,1,-.1), 0.2, 1)
         	xref_tapered_cylinder(3*lod, v30, v32, v(0,1,-.1), 0.2, 1)
             xref_tapered_cylinder(3*lod, v34, v36, v(0,1,-.1), 0.2, 1)
             use_material('black')
+			texture(nil)
 			xref_circle(3*lod, v28+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
         end
 		
 		use_material('top')
-		if lod > 1 then
-			texture('tex1.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
-		end
-		xref_flat(6*lod, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})  -- top
-        	  		
-		if lod > 1 then
+		if lod > 2 then
 		    texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
+		else
+		    texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		end
 		xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
 	end,
 
 	dynamic = function(lod)
-		--select2 = 40
+		--select2 = 30
 		selector2()
-		if select2 < 51 then  -- plain night black
-			if lod > 1 then
-				set_material('top', .02,0,.1,1,.2,.2,.4,50)
-			else
-			    set_material('top', .01,0,.05,1,.22,.2,.3,50)
-			end
+		if select2 < 34 then  -- plain night black
+			set_material('top', .02,0,.1,1,.2,.2,.4,50)
+			use_material('top')
+			call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			if select2 > 50 then -- cv
+			if select2 < 67 then -- cv
 	        	set_material('top', get_arg_material(0))
+        		use_material('top')
+				call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+			else
+				if select2 > 66 then -- cv
+	        		set_material('top', get_arg_material(0))
+        			use_material('top')
+					call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+				end
 			end
 		end
 
-		selector3()
-  	    selector4()
-		if select3 < 51 then
-  	    	call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
-	    	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-			if select4 < 51 then
-				call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
-			end	
-		else	
-			call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
-	    	call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    if select4 < 51 then
-				call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+		if lod > 1 then
+			selector3()
+  	    	selector4()
+			if select3 < 51 then
+  	    		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
+				end
+				if select4 < 51 then
+					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+				end	
+			else	
+				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
+		    	end
+				if select4 < 51 then
+					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+				end
 			end
 		end		
 
@@ -335,21 +397,107 @@ define_model('eagle_mk3_body', {
 	end
 })
 
+define_model('emk4_extras_v0', {
+	info = {
+   			lod_pixels = {5,10,100,0},
+			bounding_radius = 20,
+			materials = {'top'},
+   			},
+	static = function(lod)
+		local v40 = v(8,4,20)
+       	local v42 = v(8,2.5,7)
+        local v44 = v(10,10,20)
+ 		local v46 = v(10,10,12)
+        local v48 = v(8.5,4,20)
+		local v50 = v(8.5,2.5,7)
+		local v52 = v(10.5,10,20)
+		local v54 = v(10.5,10,12)
+        -- mk4 fin
+		if lod > 2 then
+			texture('tex12.png', v(.5,.5,0), v(0,.1,0), v(0,0,.5))
+		else
+		    texture('tex12_s.png', v(.5,.5,0), v(0,.1,0), v(0,0,.5))
+		end
+		xref_quad(v42,v40,v44,v46)
+		xref_quad(v50,v54,v52,v48)
+		xref_quad(v40,v48,v52,v44)
+  		xref_quad(v42,v46,v54,v50)
+        -- mk4 tank tips
+        if lod > 2 then
+			texture('tex12.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
+		else
+		    texture('tex12_s.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
+		end
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
+		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
+		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
+		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
+		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+	end
+})
+	
+define_model('emk4_extras_v1', {
+	info = {
+   			lod_pixels = {5,10,100,0},
+			bounding_radius = 20,
+			materials = {'top'},
+   			},
+	static = function(lod)
+        local v40 = v(8,4,20)
+       	local v42 = v(8,2.5,7)
+        local v44 = v(10,10,20)
+ 		local v46 = v(10,10,12)
+        local v48 = v(8.5,4,20)
+		local v50 = v(8.5,2.5,7)
+		local v52 = v(10.5,10,20)
+		local v54 = v(10.5,10,12)
+        -- mk4 fin
+		if lod > 2 then
+			texture('tex1e.png', v(.5,.5,0), v(0,.1,0), v(0,0,.5))
+		else
+		    texture('tex1e_s.png', v(.5,.5,0), v(0,.1,0), v(0,0,.5))
+		end
+		xref_quad(v42,v40,v44,v46)
+		xref_quad(v50,v54,v52,v48)
+		xref_quad(v40,v48,v52,v44)
+  		xref_quad(v42,v46,v54,v50)
+        -- mk4 tank tips
+        if lod > 2 then
+			texture('tex1e.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
+		else
+			texture('tex1e_s.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
+		end
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
+		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
+		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
+		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
+		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+	end
+})
+
 define_model('eagle_mk4_body', {
 	info = {
-   			lod_pixels = {5,10,50,0},
+   			lod_pixels = {5,10,100,0},
 			bounding_radius = 20,
 			materials = {'top', 'bot', 'tank', 'black',},
 			},
 	static = function(lod)
 	    local v0 = v(0,0,-40)
-		local v2 = v(0,6,25)
         local v4 = v(0,-6,25)
-		local v6 = v(31,0,-9)
         local v7 = v(-31,0,-9)
-		local v8 = v(3,0,12)
         local v9 = v(-3,0,12)
-		local v10 = v(9,0,-37)
         local v11 = v(-9,0,-37)
 		local v14 = v(31,1,9)
 	    local v25 = v(-31,-1,9)
@@ -359,51 +507,30 @@ define_model('eagle_mk4_body', {
 		local v32 = v(17,2.7,8)
 		local v34 = v(20,1.8,3)
 		local v36 = v(20,2.3,7)
-		local v40 = v(8,4,20)
-       	local v42 = v(8,2.5,7)
-        local v44 = v(10,10,20)
- 		local v46 = v(10,10,12)
-        local v48 = v(8.5,4,20)
-		local v50 = v(8.5,2.5,7)
-		local v52 = v(10.5,10,20)
-		local v54 = v(10.5,10,12)
 		local v81 = v(34.9,0,-16)
         local v83 = v(34.9,0,16)
-        local v85 = v(-34.9,0,-16)
-        local v86 = v(-34.9,0,16)
         
         set_material('black', 0,0,0,1,0,0,0,0)
 
-        use_material('bot')
-  		if lod > 2 then
+        use_material('tank')
+  		if lod > 1 then
 			texture('tex8.png', v(0,0,0), v(0,.2,0), v(0,0,1))
         	xref_tapered_cylinder(3*lod, v26, v28, v(0,1,-.1), 0.2, 1)
         	xref_tapered_cylinder(3*lod, v30, v32, v(0,1,-.1), 0.2, 1)
             xref_tapered_cylinder(3*lod, v34, v36, v(0,1,-.1), 0.2, 1)
             use_material('black')
+            texture(nil)
 			xref_circle(3*lod, v28+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v32+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
             xref_circle(3*lod, v36+v(0,0,.001), v(0,0,1), v(0,1,-.1), .8)
         end
-		
-		-- mk4 fin
-		use_material('top')
+
+ 		-- mk4 scoop
+       	use_material('top')
 		if lod > 2 then
-			texture('tex1e.png', v(.5,.5,0), v(0,.1,0), v(0,0,.5))
-	   	else
-	   		texture('tex1e_s.png', v(.5,.5,0), v(0,.1,0), v(0,0,.5))
-		end
-		xref_quad(v42,v40,v44,v46)
-		xref_quad(v50,v54,v52,v48)
-		xref_quad(v40,v48,v52,v44)
-  		xref_quad(v42,v46,v54,v50)
-		
-		-- mk4 scoop
-       	use_material('tank')
-		if lod > 1 then
             texture('tex12.png', v(.5,.5,0), v(.1,0,0), v(0,0,.5))
         else
-        	texture(nil)
+        	texture('tex12_s.png', v(.5,.5,0), v(.1,0,0), v(0,0,.5))
 		end
 		cubic_bezier_quad(2*lod,2*lod,  v(5,-1.5,-8), v(5,-2,-4), v(3,-2,5), v(1,-4,10),
 										v(3,-6,-8), v(4,-8,-4), v(2,-8,5), v(0.5,-4,10),
@@ -416,100 +543,103 @@ define_model('eagle_mk4_body', {
 											v(5,-1.5,-8), v(5,-2,-4), v(3,-2,5), v(1,-4,10))
 		end					
 		-- mk4 side tanks
-		
-		if lod > 1 then
+		use_material('tank')
+		if lod > 2 then
             texture('tex1.png', v(.5,.17,0), v(.0165,0,0), v(0,0,-.75))
         else
-        	texture(nil)
+        	texture('tex1_s.png', v(.5,.17,0), v(.0165,0,0), v(0,0,-.75))
 		end
 		xref_ring(4*lod,v83, v81, v(0,1,0), 4)
-		
-		use_material('top')
-		if lod > 2 then
-			texture('tex1e.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
-		else
-			texture('tex1e_s.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
-		end
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
-		
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
-		
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
-		
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
-		
+
 		-- eagle body		
 		if lod > 2 then
-			texture('tex1c.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
-		else
-            texture('tex1c_s.png', v(.5,.222,0), v(.0165,0,0), v(0,0,-1.2))
-		end
-		use_material('top')
-		xref_flat(6*lod, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})  -- top
-        				
-		if lod > 1 then
 		    texture('tex0.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		else
-			texture(nil)
+			texture('tex0_s.png', v(.5,.655,0), v(.0165,0,0), v(0,0,1.05))
 		end
 		use_material('bot')	  
 		xref_flat(6*lod, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0}) -- bottom
 	end,
 
 	dynamic = function(lod)
-		--select2 = 40
-		selector2()
-		if select2 < 34 then  -- dark green with black bottom
-			    set_material('top', .05,.3,.02,1,.3,.3,.4,50)
-			if lod > 1 then
-				set_material('bot', .02,0,.1,1,.2,.2,.3,50)
-				set_material('tank', .02,0,.1,1,.2,.2,.3,50)
-			else
-			    set_material('bot', .01,0,.05,1,.22,.2,.3,50)
-				set_material('tank', .01,0,.05,1,.22,.2,.3,50)
-			end
+		select2 = 90
+		--selector2()
+		if select2 < 17 then  -- dark green with black bottom
+            set_material('top', .04,.2,.02,1,.3,.3,.4,50)
+			set_material('bot', .02,0,.1,1,.2,.2,.3,50)
+			set_material('tank', .02,0,.1,1,.2,.2,.3,50)
+   			use_material('top')
+			call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+			call_model('emk4_extras_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			if select2 < 67 then   -- chrome with green top
-				    set_material('top', .1,.3,.05,1,.4,.4,.4,50)
-				if lod > 1 then
+            if select2 < 34 then  -- dark green with black bottom
+                set_material('top', .05,.3,.02,1,.3,.3,.4,50)
+                set_material('bot', .02,0,.1,1,.2,.2,.3,50)
+				set_material('tank', .02,0,.1,1,.2,.2,.3,50)
+				use_material('top')
+				call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+				call_model('emk4_extras_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+			else
+                if select2 < 51 then   -- chrome with green top
+                  	set_material('top', .1,.3,.05,1,.4,.4,.4,50)
 					set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
 					set_material('tank', .63,.7,.83,1,1.26,1.4,1.66,30)
+                	use_material('top')
+					call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+					call_model('emk4_extras_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				else
-					set_material('bot', .43,.5,.63,1,1,1.2,1.4,30)
-					set_material('tank', .43,.5,.63,1,1,1.2,1.4,30)
-				end
-			else
-				if select2 > 66  then -- cv
-	        		set_material('top', get_arg_material(0))
-	        	    set_material('tank', get_arg_material(1))
-					if lod > 1 then
-						set_material('bot', .4,.55,.6,1,.4,.55,.6,50)
+				    if select2 < 67 then   -- chrome with green top
+				    	set_material('top', .1,.3,.05,1,.4,.4,.4,50)
+                   		set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+						set_material('tank', .63,.7,.83,1,1.26,1.4,1.66,30)
+                		use_material('top')
+						call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+						call_model('emk4_extras_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
 					else
-				    	set_material('bot', .33,.45,.48,1,.4,.55,.6,50)
+         				if select2 < 83  then -- cv
+	        				set_material('top', get_arg_material(0))
+	        	    		set_material('tank', get_arg_material(1))
+							set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)
+                            use_material('top')
+							call_model('eagle_lrf_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+							call_model('emk4_extras_v0',v(0,0,0),v(1,0,0),v(0,1,0),1)
+						else
+                            if select2 > 83  then -- cv
+	        					set_material('top', get_arg_material(0))
+	        	    			set_material('tank', get_arg_material(1))
+								set_material('bot', .63,.7,.83,1,1.26,1.4,1.66,30)   -- old light blue  .4,.55,.6,1,.4,.55,.6,50)
+                            	use_material('top')
+								call_model('eagle_lrf_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+								call_model('emk4_extras_v1',v(0,0,0),v(1,0,0),v(0,1,0),1)
+							end
+                        end
 					end
 				end
 			end
 		end
 		
-		selector3()
-  	    selector4()
-		if select3 < 51 then
-  	    	call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
-	    	call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-			if select4 < 51 then
-				call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
-			end	
-		else	
-			call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
-	    	call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
-			call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    if select4 < 51 then
-				call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+		if lod > 1 then
+			use_material('tank')
+			selector3()
+  	    	selector4()
+			if select3 < 51 then
+  	    		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
+				end
+				if select4 < 51 then
+					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+				end	
+			else	
+				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
+	    		if lod > 2 then
+					call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
+					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
+		    	end
+				if select4 < 51 then
+					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+				end
 			end
 		end		
 
@@ -591,7 +721,7 @@ define_model('eagle_wheels', {
 
 define_model('eagle_all', {
  	info = {
-			lod_pixels = {.1,10,50,0},
+			lod_pixels = {.1,10,100,0},
 			bounding_radius = 15,
 			materials = {'d_grey', 'steel', 'chrome', 'e_glow', 'cutout', 'win', 'd_red', 'text', 'null', 'grey', 'desk', 'black'},
 			},
@@ -655,10 +785,9 @@ define_model('eagle_all', {
 		set_material('black', 0,0,0,1,0,0,0,0)
 
 		-- collision mesh
-		use_material('null')
 		if lod == 1 then  
-            xref_flat(6, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})
-            xref_flat(6, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0})
+            xref_flat(4, v(0,1,0), {v2}, {v14}, {v6}, {v8, v10, v0})
+            xref_flat(4, v(0,-1,0), {v4}, {v25}, {v7}, {v9, v11, v0})
    			xref_quad(v2,v4,v24,v14)
        	end
 
@@ -667,6 +796,8 @@ define_model('eagle_all', {
 			use_material('steel')
   	    	if lod > 2 then  
            		texture('tex2.png', v(0,.55,0), v(.03,0,0), v(0,.085,0))
+			else
+			    texture('tex2_s.png', v(0,.55,0), v(.03,0,0), v(0,.085,0))
 			end
         	quad(v2,v4,v40,v38)
 			quad(v4,v24,v36,v40)
@@ -676,6 +807,8 @@ define_model('eagle_all', {
 			-- back left
 			if lod > 2 then  
 				texture('tex2.png', v(0,.55,0), v(-.03,0,0), v(0,.085,0))
+			else
+			    texture('tex2_s.png', v(0,.55,0), v(-.03,0,0), v(0,.085,0))
 			end
 			quad(v4,v2,v39,v41)
 			quad(v4,v41,v37,v25)
@@ -686,18 +819,20 @@ define_model('eagle_all', {
         	use_material('e_glow')
 			if lod > 2 then
 				texture('tex10.png', v(.25,.5,0), v(-.04,0,0), v(0,.08,0))
+        	else
+        		texture('tex10_s.png', v(.25,.5,0), v(-.04,0,0), v(0,.08,0))
 			end
-        	tri(v42,v44,v46)
-				if lod > 2 then
-			texture('tex10.png', v(.25,.5,0), v(.04,0,0), v(0,.08,0))
+			tri(v42,v44,v46)
+			if lod > 2 then
+				texture('tex10.png', v(.25,.5,0), v(.04,0,0), v(0,.08,0))
+			else
+			    texture('tex10_s.png', v(.25,.5,0), v(.04,0,0), v(0,.08,0))
 			end
 			tri(v43,v47,v45)
             
 			-- main thruster "nazzle"
   			use_material('chrome') 
-        	if lod > 2 then
-				texture('tex4.png', v(0,.55,0), v(.045,0,0), v(0,-.11,0))
-			end
+        	texture('tex4.png', v(0,.55,0), v(.045,0,0), v(0,-.11,0))
 			xref_quad(v36,v40,v56,v52)
 			xref_quad(v36,v52,v54,v38)
 			xref_quad(v38,v54,v56,v40)
@@ -709,27 +844,21 @@ define_model('eagle_all', {
 			xref_quad(v36,v38,v44,v42)
 
     		-- gun
-			if lod > 2 then  
-				texture('tex8.png')
-			end
+			texture('tex8.png')
 			tapered_cylinder(4*lod, v(0,-.7,-30), v(0,-.7,-39), v(0,1,0), .3,.2)
 			use_material('d_red')
 			sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,-.7,-30)) * Matrix.rotate(math.pi,v(1,0,0)) * Matrix.scale(v(1,1,1.5)))
-			texture(nil)
 			if lod > 2 then
 				use_material('black')
+				texture(nil)
 				circle(4*lod, v(0,-.7,-39.001), v(0,0,-1), v(0,1,0), .15)
 			end
             
 			-- top cooler
 			use_material('d_grey')
-			if lod > 2 then  
-				texture('tex7.png', v(0,.07,0), v(.1,.04,0), v(0,0,-1))
-			end
+			texture('tex7.png', v(0,.07,0), v(.1,.04,0), v(0,0,-1))
 			quad(v28,v30,v34,v32)
-			if lod > 2 then
-				texture('tex7.png', v(0,.07,0), v(.1,-.04,0), v(0,0,-1))
-			end
+			texture('tex7.png', v(0,.07,0), v(.1,-.04,0), v(0,0,-1))
 			quad(v29,v33,v35,v31)
 		end
         
@@ -762,21 +891,13 @@ define_model('eagle_all', {
 		local trans2 = 12*math.clamp(get_arg(0),.3,1)
 		local rot = 2.4*math.clamp(get_arg(0),.3,1)
 
-        if lod > 2 then
-            set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
+        if lod > 1 then
+			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 			set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
-        	set_material('d_grey', .2,.2,.2,1,.3,.3,.3,5)
-	        set_material('d_red', .3,0,0,1,.3,.3,.3,50)
-            set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
-        else
-		    set_material('chrome', .43,.5,.63,1,1,1.2,1.4,30)
-		    set_material('steel', .07,.07,.05,1,.35,.38,.4,10)
-            set_material('d_grey', .01,.01,.01,1,.1,.1,.1,5)
-            set_material('d_red', .15,0,0,1,.3,.3,.3,50)
-            set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .5, .8, 1.2 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, .6, 1.2 }))
-		end
-
-		if lod > 1 then
+       		set_material('d_grey', .2,.2,.2,1,.3,.3,.3,5)
+        	set_material('d_red', .3,0,0,1,.3,.3,.3,50)
+        	set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+        		
         	if get_arg(0) ~= 0 then
     			local v64 = v(9-trans1,-1.55-(trans1/5),1)
 				local v66 = v(9+trans1,-1.55+(trans1/8),1)       -- 
@@ -788,10 +909,8 @@ define_model('eagle_all', {
 				local v78 = v(7,-3.53,13)
 
             	use_material('d_grey')
-				if lod > 2 then
-					texture('models/ships/4_eagles/tex8.png')
-				end
-           		xref_quad(v72+v(0,3.24,0),v74+v(0,2.59,0),v76+v(0,4.86,0),v78+v(0,4.53,0))
+				texture('models/ships/4_eagles/tex8.png')
+				xref_quad(v72+v(0,3.24,0),v74+v(0,2.59,0),v76+v(0,4.86,0),v78+v(0,4.53,0))
 	    		xref_quad(v78,v72,v72+v(0,3.24,0),v78+v(0,4.53,0))
 	    		xref_quad(v74,v76,v76+v(0,4.86,0),v74+v(0,2.59,0))
 	    		xref_quad(v72,v74,v74+v(0,2.59,0),v72+v(0,3.24,0))
@@ -802,24 +921,24 @@ define_model('eagle_all', {
             	call_model('eagle_cyl', v(0,1.3,11), v(1,0,0), v(0,1.5-math.cos(rot),.3+math.sin(rot)), 1)
 
       			use_material('null')
+				texture(nil)
 				--texture('models/ships/4_eagles/mask.png') -- only needed for modelviewer
 				xref_quad(v64, v66, v68, v70)
 			end
 		end
-
+        
+		texture(nil)
 		if lod == 1 then
-		    use_material('null')
-	        if get_arg(0) ~= 0 then
+			if get_arg(0) ~= 0 then
             	xref_cylinder(4, v(9,3.6-trans2,1), v(9,3.6-trans2,13), v(0,1,0), 2)
 	        end
 		end
-
-		texture(nil)
+        
         local vTXT1 = v(19,2.759,12)
 		local vTXT2 = v(-19,-2.759,12)
-
+        
 		local reg = get_arg_string(0)
-		if lod >= 2 then
+		if lod > 1 then
 			use_material('text')
 			text(reg, vTXT1, v(0,1,.0105), v(1,-.1604,-.5), 5, {center = true})
 	        text(reg, vTXT2, v(0,-1,.0105), v(-1,.1604,-.5), 5, {center = true})
@@ -868,17 +987,28 @@ define_model('eagle_lrf', {
         local v86 = v(-31,0,18)
 
         set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
-
+        set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
+        -- collision mesh lrf tanks
+		if lod == 1 then
+		    xref_tri(v80,v81,v82)
+			xref_tri(v80,v82,v83)
+			xref_tri(v80,v83,v84)
+			xref_tri(v80,v84,v81)
+		    xref_quad(v84,v83,v82,v81)
+		end		 
 		-- lrf side tanks outside
-		use_material('steel')
-        if lod > 2 then    
-           	texture('tex2.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
+		if lod > 1 then
+			use_material('steel')
+        		if lod > 2 then    
+           			texture('tex2.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
+        		else
+        			texture('tex2_s.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
+				end
+			xref_tri(v80,v81,v82)
+			xref_tri(v80,v82,v83)
+			xref_tri(v80,v83,v84)
+			xref_tri(v80,v84,v81)
 		end
-		xref_tri(v80,v81,v82)
-		xref_tri(v80,v82,v83)
-		xref_tri(v80,v83,v84)
-		xref_tri(v80,v84,v81)
-
 		if lod > 2 then
         	-- nazzles
 			call_model('nazzle_n', v81+v(0,0,.2), v(1,0,0), v(0,0,-1), .7)  -- retro
@@ -897,7 +1027,7 @@ define_model('eagle_lrf', {
 			call_model('nazzle_n', v51, v(1,0,0), v(0,1,0), .6)  -- lbtt
 		end
 		
-		if lod >= 2 then
+		if lod > 1 then
 			-- poslights
             call_model('posl_green', v(33.5,.7,-.5), v(0,1,0), v(1,.6,0), 6)
 			call_model('coll_warn', v(33.5,-.7,-.5), v(0,1,0), v(1,-.6,0), 6)
@@ -906,22 +1036,23 @@ define_model('eagle_lrf', {
   		end
         
 		-- lrf side tanks inside
-        use_material('steel')
-        if lod > 2 then    
-            texture('tex2.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
-		end
-        xref_quad(v84,v83,v82,v81)
-           		
+        if lod > 1 then
+			use_material('steel')
+        	if lod > 2 then    
+            	texture('tex2.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
+			else
+		    	texture('tex2_s.png', v(.5,.55,0), v(0,0,.3), v(0,.085,0))
+			end
+        	xref_quad(v84,v83,v82,v81)
+        end
+		texture(nil)   		
 		-- eagle mainpart
 		call_model('eagle_all', v(0,0,0), v(1,0,0), v(0,1,0), 1)
         
 		-- eagle cv body
 		if lod > 1 then  
    			call_model('eagle_lrf_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
-		end
-        
-        if lod >= 2 then
-            -- details
+	        -- details
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
        	end
@@ -941,7 +1072,7 @@ define_model('eagle_lrf', {
         	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
 		end		
 		
-		if lod >= 2 then
+		if lod > 1 then
 		    -- poslights
         	call_model('posl_white', v(0,5.8,24), v(1,0,0), v(0,1,0), 6)
         	call_model('coll_warn', v(0,-5.8,24), v(1,0,0), v(0,-1,0), 6)
@@ -949,12 +1080,9 @@ define_model('eagle_lrf', {
 	end,
 
 	dynamic = function(lod)
-        
         if lod > 2 then
-            set_material('steel', .2,.23,.25,1,.35,.38,.4,10)
             set_material('win', .5,.5,5,.2,1,1,1,100)
         else
-  		    set_material('steel', .07,.07,.05,1,.35,.38,.4,10)
   		    set_material('win', .2,.2,.5,1,1,1,1,100)
 		end
 	end
@@ -992,15 +1120,20 @@ define_model('eagle_mk2', {
         local v51 = v(0,3,-14) 
         
         set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
-
+        set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
+        -- collision mesh mk2 wingtips
+        if lod == 1 then
+        	tapered_cylinder(3,v83+v(.5,0,0),v81, v(0,1,0), .6,.1)
+  			tapered_cylinder(3,v86+v(-.5,0,0),v85, v(0,-1,0), .6,.1)
+        end
         -- mk2 wingtips
-		use_material('chrome')
-        if lod > 2 then    
-           	texture('tex8.png')
-		end
-		tapered_cylinder(3,v83+v(.5,0,0),v81, v(0,1,0), .6,.1)
-  		tapered_cylinder(3,v86+v(-.5,0,0),v85, v(0,-1,0), .6,.1)
-        	
+		if lod > 1 then
+			use_material('chrome')
+       		texture('tex8.png')
+			tapered_cylinder(3,v83+v(.5,0,0),v81, v(0,1,0), .6,.1)
+  			tapered_cylinder(3,v86+v(-.5,0,0),v85, v(0,-1,0), .6,.1)
+        end
+		texture(nil)	
 		if lod > 2 then
 			-- nazzles
 			call_model('nazzle_n', v(8.8,0,-15.2), v(1,0,0), v(0,0,-1), .6)  -- retro
@@ -1026,7 +1159,7 @@ define_model('eagle_mk2', {
 			call_model('eagle_mk2_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
-        if lod >= 2 then
+        if lod > 1 then
             -- details
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
@@ -1047,7 +1180,7 @@ define_model('eagle_mk2', {
         	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
 		end		
 
-		if lod >= 2 then
+		if lod > 1 then
 			-- poslights
         	call_model('posl_white', v(0,5.8,24), v(1,0,0), v(0,1,0), 6)
         	call_model('coll_warn', v(0,-5.8,24), v(1,0,0), v(0,-1,0), 6)
@@ -1061,10 +1194,8 @@ define_model('eagle_mk2', {
 	dynamic = function(lod)
    
         if lod > 2 then
-            set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
-			set_material('win', .5,.5,5,.2,1,1,1,100)
+            set_material('win', .5,.5,5,.2,1,1,1,100)
         else
-		    set_material('chrome', .6,.65,.7,1,1,1.2,1.4,30)
 		    set_material('win', .2,.2,.5,1,1,1,1,100)
 		end
 	end
@@ -1100,37 +1231,40 @@ define_model('eagle_mk3', {
         local v86 = v(-31,0,18)
 
         set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
-
+        set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
+        -- collision mesh mk3 side engines    
+		if lod == 1 then
+			xref_cylinder(3,v83+v(2,0,0), v81+v(2,0,0), v(0,1,0), 2)	
+		end
 		-- mk3 side engines
-		use_material('chrome')
-        if lod > 2 then    
-           	texture('tex8.png', v(0,0,0), v(.5,0,0), v(0,.2,0))
-        end
-		xref_ring(4*lod,v83+v(2,0,-2), v81+v(2,0,2), v(0,1,0), 2)
-
-  		if lod > 2 then
-		    texture('tex4.png', v(.5,.35,0), v(0,0,-2), v(.24,0,0))
+		if lod > 1 then
+			use_material('chrome')
+       		texture('tex8.png', v(0,0,0), v(.5,0,0), v(0,.2,0))
+			xref_ring(4*lod,v83+v(2,0,-2), v81+v(2,0,2), v(0,1,0), 2)
+	    	texture('tex4.png', v(.5,.35,0), v(0,0,-2), v(.24,0,0))
+			xref_tube(4*lod, v83+v(2,0,-2), v83+v(2,0,0), v(0,1,0), 1.6,2)
+	    	texture('tex4.png', v(.5,0,0), v(0,0,2), v(.24,0,0))
+        	xref_tube(4*lod, v81+v(2,0,2), v81+v(2,0,0), v(0,1,0), 1.6,2)
 		end
-		xref_tube(4*lod, v83+v(2,0,-2), v83+v(2,0,0), v(0,1,0), 1.6,2)
-		if lod > 2 then
-		    texture('tex4.png', v(.5,0,0), v(0,0,2), v(.24,0,0))
-		end
-        xref_tube(4*lod, v81+v(2,0,2), v81+v(2,0,0), v(0,1,0), 1.6,2)
-
 		if lod > 1 then
 			use_material('e_glow')
 			if lod > 2 then
 		    	texture('tex10.png', v(.77,.5,0), v(.19,0,0), v(0,.15,0))
+			else
+				texture('tex10_s.png', v(.77,.5,0), v(.19,0,0), v(0,.15,0))
 			end
 			circle(3*lod, v83+v(2,0,-2), v(0,0,1), v(0,1,0), 1.9)
             circle(3*lod, v81+v(2,0,2), v(0,0,-1), v(0,1,0), 1.9)
 			if lod > 2 then
 		    	texture('tex10.png', v(.23,.5,0), v(.19,0,0), v(0,.15,0))
+		    else
+		        texture('tex10_s.png', v(.23,.5,0), v(.19,0,0), v(0,.15,0))
 			end
             circle(3*lod, v86+v(-2,0,-2), v(0,0,1), v(0,1,0), 1.9)
             circle(3*lod, v85+v(-2,0,2), v(0,0,-1), v(0,1,0), 1.9)
 		end
         
+        texture(nil)
 		if lod > 2 then
 			-- nazzles
     	    call_model('nazzle_n', v81+v(4.1,0,3), v(0,1,0), v(1,0,0), .6)    -- rft
@@ -1156,7 +1290,7 @@ define_model('eagle_mk3', {
 			call_model('eagle_mk3_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 		end
 
-		if lod >= 2 then
+		if lod > 1 then
             -- details
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
@@ -1177,7 +1311,7 @@ define_model('eagle_mk3', {
         	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
 		end		
 
-		if lod >= 2 then
+		if lod > 1 then
 			-- poslights
 			call_model('posl_green', v(34.8,.7,-.5), v(0,1,0), v(1,.5,0), 6)
 			call_model('coll_warn', v(34.8,-.7,-.5), v(0,1,0), v(1,-.5,0), 6)
@@ -1189,15 +1323,11 @@ define_model('eagle_mk3', {
 	end,
 
 	dynamic = function(lod)
-
+        set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
   		if lod > 2 then
-            set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
-		    set_material('win', .5,.5,5,.2,1,1,1,100)
-            set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+            set_material('win', .5,.5,5,.2,1,1,1,100)
         else
-		    set_material('chrome', .6,.65,.7,1,1,1.2,1.4,30)
 		    set_material('win', .2,.2,.5,1,1,1,1,100)
-            set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .5, .8, 1.2 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, .6, 1.2 }))
 		end
 	end
 })
@@ -1241,10 +1371,11 @@ define_model('eagle_mk4', {
         
 		set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
 		set_material('null', 0,0,0,0,0,0,0,0)
+		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		
 		-- collision mesh mk4
 		if lod == 1 then
-			use_material('null')
+			texture(nil)
         	xref_quad(v42,v40,v44,v46)
 			xref_quad(v50,v54,v52,v48)
 			xref_quad(v40,v48,v52,v44)
@@ -1259,21 +1390,22 @@ define_model('eagle_mk4', {
 		end
 			
 		-- mk4 fin
-		use_material('chrome')
-		if lod > 2 then
-		    texture('tex8.png')
-		end
 		if lod > 1 then
-			xref_cylinder(3*lod, v(10.25,10,20), v(10.25,10,8), v(0,1,0), .25)
-		end
-		
-		-- mk4 scoop
-       	use_material('e_glow')
-		if lod > 1 then			
-			texture('tex10.png', v(.5,.3,0), v(.09,0,0), v(0,.1,0))
+			use_material('chrome')
+		    texture('tex8.png')
+		    xref_cylinder(3*lod, v(10.25,10,20), v(10.25,10,8), v(0,1,0), .25)
+	
+			-- mk4 scoop
+	    	use_material('e_glow')
+		   		if lod > 2 then
+		   			texture('tex10.png', v(.5,.3,0), v(.09,0,0), v(0,.1,0))
+				else
+					texture('tex10_s.png', v(.5,.3,0), v(.09,0,0), v(0,.1,0))
+				end
 			flat(3*lod, v(0,0,-1), {v(4.5,-2,-6)}, {v(4,-6.2,-6), v(-4,-6.2,-6), v(-4.5,-2,-6)})
 		end
-        		
+        
+		texture(nil)
 		if lod > 2 then
 			-- nazzles
 			call_model('nazzle_l', v81+v(0,0,-4.8), v(1,0,0), v(0,0,-1), 1)  -- retro
@@ -1293,15 +1425,12 @@ define_model('eagle_mk4', {
 
 		end
 
-        -- eagle mainpart
+		-- eagle mainpart
 		call_model('eagle_all', v(0,0,0), v(1,0,0), v(0,1,0), 1)
-
-		-- eagle cv body
-		if lod > 1 then   
-			call_model('eagle_mk4_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
-		end
-
-		if lod >= 2 then
+		
+		if lod > 1 then
+           	-- eagle cv body
+        	call_model('eagle_mk4_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
             -- details
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
@@ -1322,7 +1451,7 @@ define_model('eagle_mk4', {
         	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
 		end		
 
-		if lod >= 2 then
+		if lod > 1 then
 			-- poslights
 			call_model('posl_green', v(38.7,.7,-.5), v(0,1,0), v(1,.3,0), 6)
 			call_model('coll_warn', v(38.7,-.7,-.5), v(0,1,0), v(1,-.3,0), 6)
@@ -1335,14 +1464,11 @@ define_model('eagle_mk4', {
 
 	dynamic = function(lod)
         set_material('cv2', get_arg_material(1))
-  		if lod > 2 then
-            set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
-		    set_material('win', .5,.5,5,.2,1,1,1,100)
-            set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+  		set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .9, .8, 1.5 }))
+		if lod > 2 then
+            set_material('win', .5,.5,5,.2,1,1,1,100)
         else
-		    set_material('chrome', .43,.5,.63,1,1,1.2,1.4,30)
 		    set_material('win', .2,.2,.5,1,1,1,1,100)
-            set_material('e_glow', lerp_materials(os.clock()*0.5,  {0, 0, 0, 1, 0, 0, 0, 0, .5, .8, 1 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, .6, 1 }))
-		end
+        end
 	end
 })

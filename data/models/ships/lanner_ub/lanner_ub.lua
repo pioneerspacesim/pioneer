@@ -1,4 +1,4 @@
-define_model('lub_c0', {                   -- plain 
+define_model('lub_c0', {                   -- plain, 												
 	info =	{
             lod_pixels = {20, 50, 100, 0},
 			bounding_radius = 40,
@@ -88,7 +88,7 @@ define_model('lub_c5', {                   -- crimson
 	end
 })
 
-define_model('lub_gun1', {                   -- crimson
+define_model('lub_gun1', {
 	info =	{
             lod_pixels = {10, 30, 100, 0},
             materials = {'chrome', 'hole'},
@@ -108,7 +108,7 @@ define_model('lub_gun1', {                   -- crimson
 	end
 })
 
-define_model('lub_gun2', {                   -- crimson
+define_model('lub_gun2', {
 	info =	{
             lod_pixels = {10, 30, 100, 0},
             materials = {'chrome', 'hole'},
@@ -143,9 +143,9 @@ define_model('lub_body', {
 
 	dynamic = function(lod)
 			local reg = get_arg_string(0)
-			
-			selector2()
-			if select2 < 34 then  -- plain color variable
+			--local select2 = 10 
+			selector2()  
+			if select2 < 15 then  -- plain color variable
 				set_material('cv0', get_arg_material(0))
 				use_material('cv0')
 				call_model('lub_c0', v(0,0,0), v(1,0,0), v(0,1,0),1)
@@ -158,7 +158,7 @@ define_model('lub_body', {
 				use_material('text2')
 				text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
 			else
-				if select2 < 45 then  -- plain 
+				if select2 < 29 then  -- plain 
 					use_material('lanner')
 					call_model('lub_c0', v(0,0,0), v(1,0,0), v(0,1,0),1)
 					call_model('squadsign_1', v(7.57,1.2,-27.2), v(1,0,-.475), v(-1,.99,.401), 2)
@@ -168,7 +168,7 @@ define_model('lub_body', {
 					text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 					text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
 				else
-			    	if select2 < 56 then  -- red
+			    	if select2 < 43 then  -- red
 						use_material('lanner')
 						call_model('lub_c1', v(0,0,0), v(1,0,0), v(0,1,0),1)
 						
@@ -179,7 +179,7 @@ define_model('lub_body', {
 						use_material('text2')
 						text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
 					else
-        			    if select2 < 67 then  -- yellow
+        			    if select2 < 57 then  -- yellow
 							use_material('lanner')
 							call_model('lub_c2', v(0,0,0), v(1,0,0), v(0,1,0),1)
 							
@@ -190,7 +190,7 @@ define_model('lub_body', {
 							use_material('text2')
 							text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
 						else
-        			        if select2 < 78 then  -- blue
+        			        if select2 < 71 then  -- blue
 								use_material('lanner')
 								call_model('lub_c3', v(0,0,0), v(1,0,0), v(0,1,0),1)
 								
@@ -201,7 +201,7 @@ define_model('lub_body', {
 								use_material('text2')
 								text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
 							else
-        			            if select2 < 89 then  -- green
+        			            if select2 < 85 then  -- green
 									use_material('lanner')
 									call_model('lub_c4', v(0,0,0), v(1,0,0), v(0,1,0),1)
 									
@@ -212,7 +212,7 @@ define_model('lub_body', {
 									use_material('text2')
 									text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
 								else
-        			                if select2 > 88 then  -- crimson
+        			                if select2 > 84 then  -- crimson
 										use_material('lanner')
 										call_model('lub_c5', v(0,0,0), v(1,0,0), v(0,1,0),1)
 										
@@ -230,7 +230,7 @@ define_model('lub_body', {
         		end
         	end
 			if lod > 2 then
-				selector4()
+				selector4()  
             	if select4 > 49 then
 		    		call_model('decal', v(-8.705,1.2,-25.2), v(-1,0,-.475), v(1,.99,.401), 2.5)
                 	use_material('matte')
@@ -503,7 +503,7 @@ define_model('lub_ucb', {
 define_model('lanner_ub', {
 	info = {
 			scale = 0.8, -- scaled down, because the ship is much to large in FFE, imho
-			lod_pixels = {1, 30, 100, 0},
+			lod_pixels = {.1, 30, 100, 0},
 			bounding_radius = 50,
 			materials = {'default', 'matte', 'glow', 'e_glow', 'win'},
 			tags = {'ship'},
@@ -524,7 +524,7 @@ define_model('lanner_ub', {
 		},
 		
 	static = function(lod)
-        if lod == 1 then
+        if lod == 1 then  
 	        local  v1 = v(-3.5,-2,-38)
 			local  v2 = v(3.5,-2,-38)
 			local  v3 = v(2,0.5,-38)
@@ -608,38 +608,38 @@ define_model('lanner_ub', {
     end,
 	
 	dynamic = function(lod)
-	
-  		set_material('glow', lerp_materials(os.clock()*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
+	    
+	    set_material('glow', lerp_materials(os.clock()*0.3, {0, 0, 0, 1, 0, 0, 0, 0, 1.6, 1.9, 0 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, 2.5,0 }))
 		set_material('e_glow', lerp_materials(os.clock()*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 
-        local flap = 1.25*math.pi*math.clamp(get_arg(0), 0, 0.4) 
+        local flap = 1.25*math.pi*math.clamp(get_arg(0), 0, 0.4)   
 		local flap_f = 0.5*math.pi*math.clamp(get_arg(0), 0, 1)
 		local flap_re = 1.25*math.pi*math.clamp(get_arg(0), 0, 1)
-
-
-		call_model('lub_flap_bl_l', v(-10.789,-5.66,2.842), v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
-		call_model('lub_flap_bl_r', v(-5.711,-5.66,2.842), v(0,0,1), v(-math.sin(flap),math.cos(flap),0), 1)
-		call_model('lub_flap_br_l', v(5.712,-5.66,2.842), v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
-		call_model('lub_flap_br_r', v(10.81,-5.66,2.842), v(0,0,1), v(-math.sin(flap),math.cos(flap),0), 1)
-		call_model('lub_flap_ff', v(0,-2.855,-22.949), v(1,0,0), v(0,math.cos(1.1*flap_f),math.sin(1.1*flap_f)), 1)
-		if get_arg(0) >= 0.6 then
-			call_model('lub_flap_fb', v(0,-3.267,-13.22), v(1,0,0), v(0,-math.sin(1.1*flap_re+0.4),math.cos(1.1*flap_re+0.4)), 1)
-		else
-			call_model('lub_flap_fb', v(0,-3.267,-13.22), v(1,0,0), v(0,math.cos(1.1*flap),-math.sin(1.1*flap)), 1)
-		end
+        local uc_rot = 0.5*math.pi*math.clamp(get_arg(0), 0.2, 1)  -- uc factor
+		local uc_trans = math.clamp(get_arg(0), 0.2, 1)
 		
-        if get_arg(0) ~= 0 then
+		if lod > 1 then 
+			call_model('lub_flap_bl_l', v(-10.789,-5.66,2.842), v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
+			call_model('lub_flap_bl_r', v(-5.711,-5.66,2.842), v(0,0,1), v(-math.sin(flap),math.cos(flap),0), 1)
+			call_model('lub_flap_br_l', v(5.712,-5.66,2.842), v(0,0,1), v(math.sin(flap),math.cos(flap),0), 1)
+			call_model('lub_flap_br_r', v(10.81,-5.66,2.842), v(0,0,1), v(-math.sin(flap),math.cos(flap),0), 1)
+			call_model('lub_flap_ff', v(0,-2.855,-22.949), v(1,0,0), v(0,math.cos(1.1*flap_f),math.sin(1.1*flap_f)), 1)
 
-			call_model('lub_cage', v(0,0,0), v(1,0,0), v(0,1,0), 1)
+			if get_arg(0) >= 0.6 then
+				call_model('lub_flap_fb', v(0,-3.267,-13.22), v(1,0,0), v(0,-math.sin(1.1*flap_re+0.4),math.cos(1.1*flap_re+0.4)), 1)
+			else
+				call_model('lub_flap_fb', v(0,-3.267,-13.22), v(1,0,0), v(0,math.cos(1.1*flap),-math.sin(1.1*flap)), 1)
+			end
+		
+        	if get_arg(0) ~= 0 then
 
-			local uc_rot = 0.5*math.pi*math.clamp(get_arg(0), 0.2, 1)  -- uc factor
-			local uc_trans = math.clamp(get_arg(0), 0.2, 1)
-
-			call_model('lub_ucf', v(0,-1.5,-22.5), v(1,0,0), v(0,math.cos(uc_rot),math.sin(uc_rot)-0.3), 1)
-           	call_model('lub_fcyl', v(-0.4,-.3,-18.1), v(1,0,0), v(0,math.cos(0.57*uc_rot),math.sin(0.57*uc_rot)-0.3), 1)
-           	call_model('lub_ucb', v(0,-3.2,4.9), v(1,0,0), v(0,math.cos(uc_rot),-math.sin(uc_rot)+0.3), 1)
-            call_model('lub_bcyl', v(0,-2.1,1.4), v(1,0,0), v(0,math.cos(0.565*uc_rot),-math.sin(0.565*uc_rot)+0.3), 1)
-        end
+				call_model('lub_cage', v(0,0,0), v(1,0,0), v(0,1,0), 1)
+        		call_model('lub_ucf', v(0,-1.5,-22.5), v(1,0,0), v(0,math.cos(uc_rot),math.sin(uc_rot)-0.3), 1)
+           		call_model('lub_fcyl', v(-0.4,-.3,-18.1), v(1,0,0), v(0,math.cos(0.57*uc_rot),math.sin(0.57*uc_rot)-0.3), 1)
+           		call_model('lub_ucb', v(0,-3.2,4.9), v(1,0,0), v(0,math.cos(uc_rot),-math.sin(uc_rot)+0.3), 1)
+            	call_model('lub_bcyl', v(0,-2.1,1.4), v(1,0,0), v(0,math.cos(0.565*uc_rot),-math.sin(0.565*uc_rot)+0.3), 1)
+        	end
+		end
         
         if lod >= 2 then
 		    call_model('posl_white', v(0,5.65,15), v(1,0,0), v(0,1,0), 2)   -- load lights after any else to grant not to get hidden
@@ -652,14 +652,15 @@ define_model('lanner_ub', {
 		    call_model('coll_warn', v(-27.15,-5.45,1), v(1,0,0), v(0.11,-1,0), 2)
 		end
 		
-		if lod == 1 then
-			if get_arg(0) > .9 then
-				quad(v(-1,-11,-20), v(-1,-11,-24), v(1,-11,-24), v(1,-11,-20))
-				xref_quad(v(8,-11,9), v(8,-11,1), v(10,-11,1), v(10,-11,9))
-			end
+		if lod == 1 then 
+			if get_arg(0) ~= 0 then
+				cylinder(4, v(0,-2-8*uc_trans,-20), v(0,-2-8*uc_trans,-24), v(0,1,0), 1)
+				xref_cylinder(4, v(9,-2-8*uc_trans,1), v(9,-2-8*uc_trans,9), v(0,1,0), 1)
+    		end
 		end
 		
-		local M_T = v(8.2,-4.3,22) -- best set thrusters dynamic, so they don't "vanish" in certain angles  
+		local M_T = v(8.2,-4.3,22) -- best set thrusters dynamic, so they don't "vanish" in certain angles
+										
 		local R_T = v(17.65,0.1,-14.5) 
 		local BFR_T = v(11.5,-3.2,-23.23) 
 		local BBR_T = v(27.5,-5.2,15.95)
