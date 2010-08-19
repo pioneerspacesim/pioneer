@@ -28,7 +28,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 //	char buf[1024];
 	m_infoBox->DeleteAllChildren();
 	
-	Gui::Fixed *fixed = new Gui::Fixed(600, 10);
+	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
 	m_infoBox->PackStart(fixed, true);
 	Gui::VBox *col1 = new Gui::VBox();
 	Gui::VBox *col2 = new Gui::VBox();
