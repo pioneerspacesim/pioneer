@@ -397,17 +397,12 @@ void Viewer::MainLoop()
 	
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
-			matrix4x4f m = g_camorient.InverseOf();
-			glMultMatrixf(&m[0]);
-			glTranslatef(-g_campos.x, -g_campos.y, -g_campos.z);
-			g_model->Render(modelRot.InverseOf(), &params);
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			g_model->Render(m, &params);
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
-			matrix4x4f m = g_camorient.InverseOf();
-			glMultMatrixf(&m[0]);
-			glTranslatef(-g_campos.x, -g_campos.y, -g_campos.z);
-			m = modelRot.InverseOf();
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			glMultMatrixf(&m[0]);
 			render_coll_mesh(cmesh);
 			glPopMatrix();
