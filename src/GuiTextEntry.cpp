@@ -39,6 +39,7 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 		SetCursorPos(m_cursPos+1);
 		changed = true;
 	}
+	onKeyPress.emit(sym);
 	if (changed) onValueChanged.emit();
 }
 

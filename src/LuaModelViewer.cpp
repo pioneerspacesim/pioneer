@@ -12,6 +12,7 @@ static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
 static LmrModel *g_model;
 static float g_zbias;
+static float g_doBenchmark = false;
 
 static GLuint mytexture;
 
@@ -109,6 +110,13 @@ public:
 			Add(b, 10, 50);
 			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
 		} 
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_p, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
+			Add(b, 10, 70);
+			Add(new Gui::Label("[p] Toggle performance test (renders models 1000 times per frame)"), 30, 70);
+		} 
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -119,28 +127,29 @@ public:
 		}
 #endif /* 0 */	
 		{
-			Add(new Gui::Label("Linear thrust"), 0, 480);
+			Add(new Gui::Label("Linear thrust"), 0, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<3; i++) {
 				m_linthrust[i] = new Gui::Adjustment();
 				m_linthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_linthrust[i]);
-				Add(v, (float)(i*25), 500);
+				Add(v, (float)(i*25), Gui::Screen::GetHeight()-120.0f);
 			}
 			
-			Add(new Gui::Label("Angular thrust"), 100, 480);
+			Add(new Gui::Label("Angular thrust"), 100, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<3; i++) {
 				m_angthrust[i] = new Gui::Adjustment();
 				m_angthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_angthrust[i]);
-				Add(v, (float)(100 + i*25), 500);
+				Add(v, (float)(100 + i*25), Gui::Screen::GetHeight()-120.0f);
 			}
 			
-			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"), 200, 460);
+			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
+					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
-				Gui::Fixed *box = new Gui::Fixed(32, 119);
-				Add(box, (float)(200 + i*25), 480);
+				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
+				Add(box, (float)(200 + i*25), Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -174,6 +183,9 @@ public:
 			m_linthrust[i]->SetValue(0.5);
 			m_angthrust[i]->SetValue(0.5);
 		}
+	}
+	void OnClickToggleBenchmark() {
+		g_doBenchmark = !g_doBenchmark;
 	}
 	void OnClickRebuildCollMesh() {
 		space->RemoveGeom(geom);
@@ -398,7 +410,11 @@ void Viewer::MainLoop()
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
-			g_model->Render(m, &params);
+			if (g_doBenchmark) {
+				for (int i=0; i<1000; i++) g_model->Render(m, &params);
+			} else {
+				g_model->Render(m, &params);
+			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
@@ -434,17 +450,55 @@ void Viewer::MainLoop()
 	delete cmesh;
 }
 
+void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry)
+{
+	if (sym->sym == SDLK_RETURN) {
+		printf("Trying model %s\n", entry->GetText().c_str());
+		try {
+			g_model = LmrLookupModelByName(entry->GetText().c_str());
+		} catch (LmrModelNotFoundException) {
+			Gui::Screen::ShowBadError("Could not find that model.");
+			g_model = 0;
+		}
+	}
+}
+
+void PickModel()
+{
+	Gui::Fixed *f = new Gui::Fixed();
+	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
+	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
+
+	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
+
+	Gui::TextEntry *entry = new Gui::TextEntry();
+	entry->onKeyPress.connect(sigc::bind(sigc::ptr_fun(&TryModel), entry));
+	entry->Show();
+	f->Add(entry, 0, 32);
+	f->ShowAll();
+
+	while (!g_model) {
+		PollEvents();
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Gui::Draw();
+		glError();
+		SDL_GL_SwapBuffers();
+	}
+	Gui::Screen::RemoveBaseWidget(f);
+	delete f;
+}
+
 extern void LmrModelCompilerInit();
 
 int main(int argc, char **argv)
 {
 	if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
-		printf("Usage:\nluamodelviewer <model name> <width> <height>\n");
-		exit(0);
+		printf("Usage:\nluamodelviewer <width> <height> <model name>\n");
 	}
-	if (argc == 4) {
-		g_width = atoi(argv[2]);
-		g_height = atoi(argv[3]);
+	if (argc >= 3) {
+		g_width = atoi(argv[1]);
+		g_height = atoi(argv[2]);
 	} else {
 		g_width = 800;
 		g_height = 600;
@@ -502,8 +556,11 @@ int main(int argc, char **argv)
 	Render::Init();
 	LmrModelCompilerInit();
 	Gui::Init(g_width, g_height, g_width, g_height);
-	if (argc > 1) {
-		g_model = LmrLookupModelByName(argv[1]);
+
+	if (argc >= 4) {
+		g_model = LmrLookupModelByName(argv[3]);
+	} else {
+		PickModel();
 	}
 
 	Viewer v;

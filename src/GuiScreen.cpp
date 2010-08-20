@@ -77,6 +77,7 @@ void Screen::ShowBadError(const char *msg)
 	} while (!okButton->IsPressed());
 
 	Gui::Screen::RemoveBaseWidget(f);
+	delete f;
 	baseContainer->ShowAll();
 }
 

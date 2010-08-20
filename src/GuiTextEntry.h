@@ -21,6 +21,7 @@ namespace Gui {
 		virtual void OnKeyPress(const SDL_keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 
+		sigc::signal<void, const SDL_keysym*> onKeyPress;
 		sigc::signal<void> onValueChanged;
 	private:
 
