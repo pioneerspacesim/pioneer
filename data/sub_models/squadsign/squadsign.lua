@@ -25,7 +25,7 @@ define_model('squadsign_1', {
    				    if select1 < 801 then
 						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
 					else
-						if select1 < 800 then
+						if select1 > 800 then
 							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
 						end
 					end
@@ -66,7 +66,7 @@ define_model('squadsign_2', {
    				    if select1 < 801 then
 						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
 					else
-						if select1 < 800 then
+						if select1 > 800 then
 							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
 						end
 					end
@@ -107,7 +107,7 @@ define_model('squadsign_3', {
    				    if select1 < 801 then
 						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
 					else
-						if select1 < 800 then
+						if select1 > 800 then
 							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
 						end
 					end
@@ -148,7 +148,7 @@ define_model('squadsign_4', {
    				    if select1 < 801 then
 						set_material('squad', .06,.35,0,.99,.2,.2,.2,10)
 					else
-						if select1 < 800 then
+						if select1 > 800 then
 							set_material('squad', .2,0,.35,.99,.2,.2,.2,10)
 						end
 					end

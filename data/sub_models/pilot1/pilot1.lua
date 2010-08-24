@@ -12,38 +12,43 @@ define_model('head1', {
 		
 			    	
 	    use_material('helm')
-    	sphere_slice(6*lod, 4*lod, 0, 0.5*math.pi, Matrix.new(v(1.1,0,0), v(0,1.1,0), v(0,0,1.2)))
-	    sphere_slice(6*lod, 4*lod, 0, 0.5*math.pi, Matrix.new(v(1.1,0,0), v(0,.90,0.3), v(0,-0.3,1.17))* Matrix.new(v(1,0,0), v(0,0,-1), v(0,1,0)))
+    	sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.new(v(1.1,0,0), v(0,1.1,0), v(0,0,1.2)))
+	    sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.new(v(1.1,0,0), v(0,.90,0.3), v(0,-0.3,1.17))* Matrix.new(v(1,0,0), v(0,0,-1), v(0,1,0)))
 		circle(6*lod, v(0,0,-.3), v(0,1,0), v(0,0,1), 1.05)
         circle(6*lod, v(0,0,-.3), v(0,-1,0), v(0,0,1), 1.05)
 
         use_material('face')
-	    sphere_slice(6*lod, 4*lod, 0.6*math.pi, 0, Matrix.new(v(.9,0,0), v(0,-1.1,-0.1), v(0,-0.3,1.1)))	
-		ring(6*lod, v(0,-0.8,0), v(0,-1.1,0), v(0,0,1), 0.6)
-
+        texture('head01.png',v(0.5,.6,0),v(.35,0,0),v(0,-.55,0))
+	    sphere_slice(3*lod, 2*lod, 0.6*math.pi, 0, Matrix.new(v(.9,0,0), v(0,-1.1,-0.1), v(0,-0.3,1.1)))	
+		ring(4*lod, v(0,-0.8,0), v(0,-1.1,0), v(0,0,1), 0.6)
+		texture(nil)
 	end,
 	
 	dynamic = function(lod)
 
    		local visor = math.clamp(get_arg(0), 0.5, 1)
 		use_material('glass')
-		cylinder(6*lod, v(0,-1+visor,-0.23), v(0,0,-0.23), v(0,0,1), .93)
+		cylinder(4*lod, v(0,-1+visor,-0.23), v(0,0,-0.23), v(0,0,1), .93)
 
 
 --local select1 = 200  -- try this to load model in modelviewer
 
 		selector1()   -- disable this to load model in modelviewer, i have no idea why, other submodels work well with selector call includet :(
-		if select1 < 251 then
+		if select1 < 201 then
 	        set_material('helm', .5,0,0,1,.7,.7,.7,50)
 	    else
-			if select1 < 501 then
+			if select1 < 401 then
                	set_material('helm', .45,.35,.01,1,.6,.6,.6,50)
 			else
-    		    if select1 < 751 then
+    		    if select1 < 601 then
 					set_material('helm', 0,.1,.5,1,.8,.8,.8,50)
    				else
-   				    if select1 > 750 then
+   				    if select1 < 801 then
 						set_material('helm', 0.05,.25,0,1,.7,.7,.7,50)
+					else
+						if select1 > 800 then
+							set_material('helm', .2,0,.35,1,.6,.6,.6,50)
+						end						
 					end
 				end
 			end
@@ -97,27 +102,23 @@ define_model('pilot1', {
 	static = function(lod)
 	
 		use_material('dress1')
-  		sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.scale(v(2,0.8,1))) -- shoulder
-        sphere_slice(3*lod, 2*lod, 0, 0.7*math.pi, Matrix.translate(v(1.6,-0.3,0)) * Matrix.rotate(-0.6*math.pi,v(0,-0.3,1)) *  Matrix.scale(v(0.75,0.75,0.6))) -- r_axle
+  		sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.scale(v(2,0.8,1))) -- shoulder
+        sphere_slice(4*lod, 2*lod, 0, 0.7*math.pi, Matrix.translate(v(1.6,-0.3,0)) * Matrix.rotate(-0.6*math.pi,v(0,-0.3,1)) *  Matrix.scale(v(0.75,0.75,0.6))) -- r_axle
 	    sphere_slice(3*lod, 2*lod, 0, 0.7*math.pi, Matrix.translate(v(-1.6,-0.3,0)) * Matrix.rotate(0.6*math.pi,v(0,-0.3,1)) *  Matrix.scale(v(0.75,0.75,0.6))) -- l_axle
         extrusion(v(0,-2.4,-0.7), v(0,-2.4,-0.9), v(0,1,0), 1, v(-0.25,-0.25,0), v(0.25,-0.25,0), v(0.5,-0.05,0), v(0.5,0.3,0), v(0.25,0.5,0), v(-0.25,0.5,0), v(-0.5,0.3,0.05), v(-0.5,-0.05,0))
-        sphere(lod, Matrix.translate(v(0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,-1,0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- r_hand
-        sphere(lod, Matrix.translate(v(-0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,1,-0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- l_hand
+        sphere(.5*lod, Matrix.translate(v(0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,-1,0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- r_hand
+        sphere(.5*lod, Matrix.translate(v(-0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,1,-0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- l_hand
 
 	    use_material('dress2')
 	    ring(4*lod, v(0,0.6,0), v(0,0.9,0), v(0,0,1), 0.61) -- neck
-	    sphere_slice(4*lod, 2*lod, 0.5*math.pi, 0, Matrix.scale(v(2,-4,1)))  -- top
+	    sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.scale(v(2,-4,1)))  -- top
 		sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(1.85,-0.25,-0.05)) * Matrix.rotate(0.2*math.pi,v(1,0.4,0.3)) * Matrix.scale(v(0.4,-2.2,0.5))) -- ru_arm
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(-1.85,-0.25,-0.05)) * Matrix.rotate(0.2*math.pi,v(1,-0.4,-0.3)) * Matrix.scale(v(0.4,-2.2,0.5))) -- lu_arm
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(1.98,-1.81,-1.07)) * Matrix.rotate(0.5*math.pi,v(1.2,-0.6,-1.4)) * Matrix.scale(v(0.3,-2,0.2))) -- rl_arm
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(-1.98,-1.81,-1.07)) * Matrix.rotate(0.5*math.pi,v(1.2,0.6,1.4)) * Matrix.scale(v(0.3,-2,0.2))) -- rl_arm
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(0.6,-3,0.1)) * Matrix.rotate(0.45*math.pi,v(1,-0.2,0)) * Matrix.scale(v(0.8,-3.5,0.7))) -- ru_leg
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(-0.6,-3,0.1)) * Matrix.rotate(0.45*math.pi,v(1,0.2,0)) * Matrix.scale(v(0.8,-3.5,0.7))) -- lu_leg
-        if lod > 2 then
-			sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.6,-3,0.1)) * Matrix.rotate(0.45*math.pi,v(1,-0.2,0)) * Matrix.scale(v(0.8,0.5,0.7)))
-        	sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.6,-3,0.1)) * Matrix.rotate(0.45*math.pi,v(1,0.2,0)) * Matrix.scale(v(0.8,0.5,0.7)))
-		end
-		
+        		
         set_material('grey', .1,.1,.1,1,.2,.2,.2,5)
 		use_material('grey')
 
@@ -158,17 +159,21 @@ define_model('pilot1', {
 
 --local select1 = 200
 		selector1()
-		if select1 < 251 then
+		if select1 < 201 then
 	        set_material('dress1', .5,0,0,.99,.3,.3,.3,5)
 	    else
-			if select1 < 501 then
+			if select1 < 401 then
                	set_material('dress1', .45,.35,.01,.99,.3,.3,.3,5)
 			else
-    		    if select1 < 751 then
+    		    if select1 < 601 then
 					set_material('dress1', 0,.15,.7,.99,.3,.3,.3,5)
    				else
-   				    if select1 > 750 then
+   				    if select1 < 801 then
            				set_material('dress1', .06,.35,0,.99,.3,.3,.3,5)
+           			else
+           				if select1 > 800 then
+           					 set_material('dress1', .2,0,.35,1,.3,.3,.3,5)
+           				end
 					end
 				end
 			end
@@ -221,14 +226,14 @@ define_model('pilot1', {
 		selector4()
 		if select4 < 26 then
 		    use_material('dress2')
-			sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
-            sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+			sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+            sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
 		end
         if select4 > 50 then
     		if select4 < 76 then
 		    	use_material('dress2')
-				sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
-            	sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+				sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+            	sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
 			end
 		end
 
@@ -251,12 +256,12 @@ define_model('pilot2', {
         sphere_slice(3*lod, 2*lod, 0, 0.7*math.pi, Matrix.translate(v(1.6,-0.3,0)) * Matrix.rotate(-0.6*math.pi,v(0,-0.3,1)) *  Matrix.scale(v(0.75,0.75,0.6))) -- r_axle
 	    sphere_slice(3*lod, 2*lod, 0, 0.7*math.pi, Matrix.translate(v(-1.6,-0.3,0)) * Matrix.rotate(0.6*math.pi,v(0,-0.3,1)) *  Matrix.scale(v(0.75,0.75,0.6))) -- l_axle
         extrusion(v(0,-2.4,-0.7), v(0,-2.4,-0.9), v(0,1,0), 1, v(-0.25,-0.25,0), v(0.25,-0.25,0), v(0.5,-0.05,0), v(0.5,0.3,0), v(0.25,0.5,0), v(-0.25,0.5,0), v(-0.5,0.3,0.05), v(-0.5,-0.05,0))
-        sphere(lod, Matrix.translate(v(0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,-1,0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- r_hand
-        sphere(lod, Matrix.translate(v(-0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,1,-0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- l_hand
+        sphere(.5*lod, Matrix.translate(v(0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,-1,0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- r_hand
+        sphere(.5*lod, Matrix.translate(v(-0.77,-1.95,-2.46)) * Matrix.rotate(0.25*math.pi,v(-0.5,1,-0.2)) * Matrix.scale(v(0.7,0.12,0.35))) -- l_hand
 
 	    use_material('dress2')
-	    ring(4*lod, v(0,0.6,0), v(0,0.9,0), v(0,0,1), 0.61) -- neck
-	    sphere_slice(4*lod, 2*lod, 0.5*math.pi, 0, Matrix.scale(v(2,-4,1)))  -- top
+	    ring(3*lod, v(0,0.6,0), v(0,0.9,0), v(0,0,1), 0.61) -- neck
+	    sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.scale(v(2,-4,1)))  -- top
 		sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(1.85,-0.25,-0.05)) * Matrix.rotate(0.2*math.pi,v(1,0.4,0.3)) * Matrix.scale(v(0.4,-2.2,0.5))) -- ru_arm
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(-1.85,-0.25,-0.05)) * Matrix.rotate(0.2*math.pi,v(1,-0.4,-0.3)) * Matrix.scale(v(0.4,-2.2,0.5))) -- lu_arm
         sphere_slice(3*lod, 2*lod, 0.5*math.pi, 0, Matrix.translate(v(1.98,-1.81,-1.07)) * Matrix.rotate(0.5*math.pi,v(1.2,-0.6,-1.4)) * Matrix.scale(v(0.3,-2,0.2))) -- rl_arm
@@ -301,17 +306,21 @@ define_model('pilot2', {
 
 --local select1 = 200
 		selector1()
-		if select1 < 251 then
+		if select1 < 201 then
 	        set_material('dress1', .5,0,0,.99,.3,.3,.3,5)
 	    else
-			if select1 < 501 then
+			if select1 < 401 then
                	set_material('dress1', .45,.35,.01,.99,.3,.3,.3,5)
 			else
-    		    if select1 < 751 then
+    		    if select1 < 601 then
 					set_material('dress1', 0,.15,.7,.99,.3,.3,.3,5)
    				else
-   				    if select1 > 750 then
+   				    if select1 < 801 then
            				set_material('dress1', .06,.35,0,.99,.3,.3,.3,5)
+           			else
+           				if select1 > 800 then
+           					 set_material('dress1', .2,0,.35,1,.3,.3,.3,5)
+           				end
 					end
 				end
 			end
@@ -364,14 +373,14 @@ define_model('pilot2', {
 		selector4()
 		if select4 < 26 then
 		    use_material('dress2')
-			sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
-            sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+			sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+            sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
 		end
         if select4 > 50 then
     		if select4 < 76 then
 		    	use_material('dress2')
-				sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
-            	sphere_slice(4*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+				sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,-0.1)) * Matrix.new(v(1,0,0), v(-0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
+            	sphere_slice(3*lod, 2*lod, 0, 0.5*math.pi, Matrix.translate(v(-0.75,-0.6,-0.65)) * Matrix.rotate(0.55*math.pi, v(-1,0,0.1)) * Matrix.new(v(1,0,0), v(0.1,1,0), v(0,-0.7,1)) * Matrix.scale(v(.8,.7,.7)))
 			end
 		end
 
