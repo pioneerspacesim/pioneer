@@ -274,21 +274,31 @@ define_model('rattle', {
 	dynamic = function(lod)
 		--select2 = 40
 		selector2()
-		if select2 < 26 then
+		if select2 < 17 then
    			set_material('top', .5,.55,.7,1,.8,.8,1.3,75)
       		set_material('bot', .5,.55,.7,1,.8,.8,1.3,75)
 		else
-			if select2 < 51 then
+			if select2 < 34 then
 				set_material('top', get_arg_material(0))
 				set_material('bot', .5,.55,.7,1,.8,.8,1.3,75)
 			else
-				if select2 < 76 then
-					set_material('top', get_arg_material(0))	
-                    set_material('bot', get_arg_material(0))
+				if select2 < 51 then
+					set_material('top', get_arg_material(1))	
+                    set_material('bot', .5,.55,.7,1,.8,.8,1.3,75)
                 else
-                	if select2 > 75 then
-                		set_material('top', get_arg_material(0))		
-	                    set_material('bot', get_arg_material(1))
+                	if select2 < 67 then
+                		set_material('top', get_arg_material(0))	
+                    	set_material('bot', get_arg_material(0))
+	                else
+	                	if select2 < 84 then
+	                		set_material('top', get_arg_material(0))		
+	                    	set_material('bot', get_arg_material(1))
+                    	else
+							if select2 > 83 then
+								set_material('top', get_arg_material(1))	
+                    			set_material('bot', get_arg_material(1))
+							end		
+                    	end
 					end
 				end
 			end
@@ -298,8 +308,11 @@ define_model('rattle', {
 		    -- labels
 			use_material('text')
 		    local reg = get_arg_string(0)
-		    text(reg,v(18,.693,3),v(0,1,-.57693),v(-.5,0,-1),3, {center = true})
-		    text(reg,v(-18.5,-.578,3),v(0,-1,-.5769),v(-.5,0,1),3, {center = true})
+		    zbias(1, v(18,.693,3),v(0,1,-.57693))
+            text(reg,v(18,.693,3),v(0,1,-.57693),v(-.5,0,-1),3, {center = true})
+		    zbias(1, v(-18.5,-.578,3),v(0,-1,-.5769))
+			text(reg,v(-18.5,-.578,3),v(0,-1,-.5769),v(-.5,0,1),3, {center = true})
+			zbias(0)
 		end    
 		
 		if lod > 2 then
@@ -310,16 +323,50 @@ define_model('rattle', {
 	            use_material('bot')
 				call_model('scanner_-',v(-4.7,4.09,9.9),v(1,0,0),v(-.22,1,-.12),2)
 				call_model('ecm_1',v(6.4,2.8,.2),v(1,0,0),v(0,1,0),1.5)
+				zbias(1,v(13.43,1.753,3.05),v(0,1,0))
 				call_model('decal', v(13.43,1.753,3.05), v(0,1,0), v(-2,.577,1), 2)
+				zbias(1,v(-14.36,1.752,4.9), v(0,1,0))
 				call_model('squadsign_1',v(-14.36,1.752,4.9), v(0,1,0), v(2,.577,1), 2)
+			    zbias(0)
 			else
-	      		use_material('bot')
-				call_model('scanner_+',v(4.7,4.09,9.9),v(1,0,0),v(.22,1,-.12),2)
-		        call_model('ecm_2',v(-6.4,2.8,.2),v(1,0,0),v(0,1,0),1.5)
-	            call_model('decal', v(-14.36,1.752,4.9), v(0,1,0), v(2,.577,1), 2)
-	            call_model('squadsign_1', v(13.43,1.753,3.05), v(0,1,0), v(-2,.577,1), 2)
+			    if select4 > 50 then
+		      		use_material('bot')
+					call_model('scanner_+',v(4.7,4.09,9.9),v(1,0,0),v(.22,1,-.12),2)
+			        call_model('ecm_2',v(-6.4,2.8,.2),v(1,0,0),v(0,1,0),1.5)
+		            zbias(1,v(-14.36,1.752,4.9), v(0,1,0))
+					call_model('decal', v(-14.36,1.752,4.9), v(0,1,0), v(2,.577,1), 2)
+		            zbias(1,v(13.43,1.753,3.05), v(0,1,0))
+					call_model('squadsign_1', v(13.43,1.753,3.05), v(0,1,0), v(-2,.577,1), 2)
+					zbias(0)
+				end
 	  		end
 	  	end
+	
+		local M_T1 = v(0,1.1,15)
+		local M_T2 = v(0,-1.1,15)
+		local M_T3 = v(1.9,0,15)
+		local R_T = v(6.5,.8,-12)
+		local FT_T = v(6.5,2,-10)
+		local BT_T = v(8.5,4.4,7.5)
+		local FB_T = v(14.5,-2.1,-5.265)
+		local BB_T = v(22.5,-2.1,10.737)
+		local FR_T = v(15.7,-.794,-5.204)
+		local BR_T = v(23.7,-.808,10.799)
+		local FL_T = v(-15.7,-.794,-5.204)
+		local BL_T = v(-23.7,-.808,10.799)
+		
+		thruster(M_T1,v(0,0,1),20,true)
+		thruster(M_T2,v(0,0,1),20,true)
+		xref_thruster(M_T3,v(0,0,1),20,true)
+		xref_thruster(R_T,v(0,0,-1),10,true)
+		xref_thruster(FT_T,v(0,1,0),5)
+		xref_thruster(BT_T,v(0,1,0),5)
+		xref_thruster(FB_T,v(0,-1,0),5)
+		xref_thruster(BB_T,v(0,-1,0),5)
+		thruster(FR_T,v(1,0,0),5)
+		thruster(BR_T,v(1,0,0),5)
+		thruster(FL_T,v(-1,0,0),5)
+		thruster(BL_T,v(-1,0,0),5)
 	end
 })
 
@@ -349,21 +396,17 @@ define_model('rattle_pad_br', {
 	dynamic = function(lod)
 		--select2 = 40
 		selector2()
-		if select2 < 26 then
-       		set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
+		if select2 < 51 then
+      		set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
 		else
-			if select2 < 51 then
-    			set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
-			else
-				if select2 < 76 then
-                    set_material('pad', get_arg_material(0))
-                else
-                	if select2 > 75 then
-                       set_material('pad', get_arg_material(1))
-					end
-				end
-			end
-		end
+           	if select2 < 67 then
+                set_material('pad', get_arg_material(0))
+	        else
+	           	if select2 > 66 then
+	               	set_material('pad', get_arg_material(1))
+            	end		
+            end
+		end        
 	end
 })
 
@@ -376,14 +419,14 @@ define_model('rattle_pad_bl', {
 	static = function(lod)
 	    set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
-		if lod < 3 then
+		if lod > 3 then
 			texture('tex0.png')
 		else
             texture('tex0s.png')
 		end
 		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
         use_material('pad')
-		if lod < 3 then
+		if lod > 3 then
 			texture('pad_bl.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		else
             texture('pad_bls.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
@@ -394,20 +437,16 @@ define_model('rattle_pad_bl', {
 	dynamic = function(lod)
 		--select2 = 40
 		selector2()
-		if select2 < 26 then
-       		set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
+		if select2 < 51 then
+      		set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
 		else
-			if select2 < 51 then
-    			set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
-			else
-				if select2 < 76 then
-                    set_material('pad', get_arg_material(0))
-                else
-                	if select2 > 75 then
-                       set_material('pad', get_arg_material(1))
-					end
-				end
-			end
+           	if select2 < 67 then
+                set_material('pad', get_arg_material(0))
+	        else
+	           	if select2 > 66 then
+	               	set_material('pad', get_arg_material(1))
+            	end		
+            end
 		end
 	end
 })
@@ -439,20 +478,16 @@ define_model('rattle_pad_f', {
 	dynamic = function(lod)
 		--select2 = 40
 		selector2()
-		if select2 < 26 then
-       		set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
+		if select2 < 51 then
+      		set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
 		else
-			if select2 < 51 then
-    			set_material('pad', .5,.55,.7,1,.8,.8,1.3,75)
-			else
-				if select2 < 76 then
-                    set_material('pad', get_arg_material(0))
-                else
-                	if select2 > 75 then
-                       set_material('pad', get_arg_material(1))
-					end
-				end
-			end
+           	if select2 < 67 then
+                set_material('pad', get_arg_material(0))
+	        else
+	           	if select2 > 66 then
+	               	set_material('pad', get_arg_material(1))
+            	end		
+            end
 		end
 	end
 })
@@ -526,8 +561,7 @@ define_model('rattle_uc', {
 			},
 	static = function(lod)
 	
-		set_material('null',0,0,0,0,0,0,0,0)
-  		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
+		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
   		set_material('d_grey', .1,.1,.11,1,.3,.3,.3,5)  -- .1,.1,.11,1,.3,.3,.3,5)
 	end,
 	dynamic = function(lod)
@@ -543,14 +577,13 @@ define_model('rattle_uc', {
 			    texture('models/ships/sidewinder/alu_tiled_s.png', v(0,.4+2*trans,0), v(.5,0,0),v(0,-.5,0))
 			end
             xref_tapered_cylinder(3*lod,v(13.04,-.274,-2.09), v(13.04+trans,-1.2-5*trans,-2.09-2*trans), v(0,0,1), .3,.2)
-            xref_tapered_cylinder(3*lod,v(17.92,-.274,7.67), v(17.92+2*trans,-1.2-5*trans,7.67+trans), v(0,0,1), .3,.2)
+            xref_tapered_cylinder(3*lod,v(17.92,-.274,7.67), v(17.92+2*trans,-1.2-4.9*trans,7.67+trans), v(0,0,1), .3,.2)
             call_model('rattle_pad_f', v(13.04+trans,-1.251-5*trans,-2.09-2*trans), v(1,0,0), v(-.2307+.2307*trans,1,.11534-.11534*trans), 1.05)
             call_model('rattle_pad_f', v(-13.04-trans,-1.251-5*trans,-2.09-2*trans), v(1,0,0), v(.2307-.2307*trans,1,.11534-.11534*trans), 1.05)
-            call_model('rattle_pad_br', v(17.92+2*trans,-1.251-5*trans,7.67+trans), v(1,0,0), v(-.2307+.2307*trans,1,.11534-.11534*trans), 1.05)
-            call_model('rattle_pad_bl', v(-17.92-2*trans,-1.251-5*trans,7.67+trans), v(1,0,0), v(.2307-.2307*trans,1,.11534-.11534*trans), 1.05)
+            call_model('rattle_pad_br', v(17.91+2*trans,-1.251-5*trans,7.65+trans), v(1,0,0), v(-.2307+.2307*trans,1,.11534-.11534*trans), 1.05)
+            call_model('rattle_pad_bl', v(-17.91-2*trans,-1.251-5*trans,7.65+trans), v(1,0,0), v(.2307-.2307*trans,1,.11534-.11534*trans), 1.05)
             
 			use_material('null')
-			texture('models/ships/sidewinder/mask.png')
 			xref_circle(6, v(13.04,-1.25,-2.09), v(0,-1,-.1095), v(1,.2307,0), 1.05)
 			xref_circle(6, v(17.92,-1.25,7.67), v(0,-1,-.1095), v(1,.2307,0), 1.05)
       	end
@@ -604,7 +637,7 @@ define_model('rattlesnake', {
 			scale = .52,
 			lod_pixels = {.1,10,100,0},
 			bounding_radius = 15,
-   			materials = {'chrome', 'cabin', 'metal', 'no_shade', 'text', 'glow', 'e_glow', 'v_glow', 'win', 'black', 'null'},
+   			materials = {'chrome', 'cabin', 'metal', 'no_shade', 'text', 'glow', 'e_glow', 'v_glow', 'win', 'black'},
 			tags = {'ship'},
 			ship_defs = {
 			{
@@ -613,9 +646,9 @@ define_model('rattlesnake', {
 					4*10^6,
 					{
 					{ v(0,0,-16), v(0,0,-1) },
-					{ v(0,0,-16), v(0,0,-1) },
+					{ v(0,0,15), v(0,0,1) },
 					},
-					{ 30, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					{ 30, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					30, 10, 4400000,
 			  		2,
 				}
@@ -701,7 +734,6 @@ define_model('rattlesnake', {
 		local v142 = v(2.4,-3.33,-3.65)
 		local v143 = v(-2.4,-3.33,-3.65)
 	
-        set_material('null', 0,0,0,0,0,0,0,0)
         set_material('metal', .11,.1,.15,1,.3,.3,.35,30)
   		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
         set_material('cabin', .15,.2,.21,1,.3,.3,.3,10)
@@ -712,7 +744,6 @@ define_model('rattlesnake', {
         
         --collision mesh
 		if lod == 1 then
-			use_material('null')
 			texture(nil)
 			tri(v0,v1,v4)
        	 	xref_tri(v0,v4,v2)
@@ -782,8 +813,9 @@ define_model('rattlesnake', {
 				    texture('dash0s.png', v(.5,.02,0), v(.11,0,0), v(0,0,-4.5))
 				end
 				quad(v46,v47,v49,v48)
-            
+                zbias(1,v(0,2.499,1),v(0,1,0))
 				call_model('rattle_dash',v(0,0,0),v(1,0,0),v(0,1,0),1)
+				zbias(0)
 				-- pilot
 				call_model('pilot1',v(0,2.7,3.1),v(1,0,0),v(0,1,0),.33)
 			end
@@ -883,9 +915,9 @@ define_model('rattlesnake', {
 			
    			call_model('posl_white',v(0,5.87,12.6),v(1,0,0),v(0,1,-.3),3)
 			call_model('coll_warn',v(0,-5.87,12.6),v(1,0,0),v(0,-1,-.3),3)
-			call_model('posl_green',v(25,.1,12),v(1,0,0),v(.3,1,-.11),3)
+			call_model('posl_red',v(25,.1,12),v(1,0,0),v(.3,1,-.11),3)
 			call_model('coll_warn',v(25,-.1,12),v(1,0,0),v(.3,-1,-.11),3)
-			call_model('posl_red',v(-25,.1,12),v(1,0,0),v(-.3,1,-.11),3)
+			call_model('posl_green',v(-25,.1,12),v(1,0,0),v(-.3,1,-.11),3)
 			call_model('coll_warn',v(-25,-.1,12),v(1,0,0),v(-.3,-1,-.11),3)
    		end
 	end,
@@ -899,7 +931,6 @@ define_model('rattlesnake', {
         
 		-- collision mesh uc
 		if lod == 1 then
-			use_material('null')
 			texture(nil)
 			if get_arg(0) ~=0 then
 				local trans = math.clamp(get_arg(0),0,1)
@@ -909,33 +940,6 @@ define_model('rattlesnake', {
             	xref_ring(3,v(17.92,-.274,7.67), v(17.92+2*trans,-1.2-5*trans,7.67+trans), v(0,0,1), .15)
 			end
 		end
-
-	local M_T1 = v(0,1.1,15)
-	local M_T2 = v(0,-1.1,15)
-	local M_T3 = v(1.9,0,15)
-	local R_T = v(6.5,.8,-12)
-	local FT_T = v(6.5,2,-10)
-	local BT_T = v(8.5,4.4,7.5)
-	local FB_T = v(14.5,-2.1,-5.265)
-	local BB_T = v(22.5,-2.1,10.737)
-	local FR_T = v(15.7,-.794,-5.204)
-	local BR_T = v(23.7,-.808,10.799)
-	local FL_T = v(-15.7,-.794,-5.204)
-	local BL_T = v(-23.7,-.808,10.799)
-	
-	thruster(M_T1,v(0,0,1),20,true)
-	thruster(M_T2,v(0,0,1),20,true)
-	xref_thruster(M_T3,v(0,0,1),20,true)
-	xref_thruster(R_T,v(0,0,-1),10,true)
-	xref_thruster(FT_T,v(0,1,0),5)
-	xref_thruster(BT_T,v(0,1,0),5)
-	xref_thruster(FB_T,v(0,-1,0),5)
-	xref_thruster(BB_T,v(0,-1,0),5)
-	thruster(FR_T,v(1,0,0),5)
-	thruster(BR_T,v(1,0,0),5)
-	thruster(FL_T,v(-1,0,0),5)
-	thruster(BL_T,v(-1,0,0),5)
-
 	end
 })    
             

@@ -153,12 +153,14 @@ define_model('factory1', {
 	
 		--sign
 		use_material('sea')
+		zbias(1,v(0,18.8,20.01),v(0,0,1))
 		quad(v(-11,17,20.01), v(11,17,20.01), v(11,20.6,20.01), v(-11,20.6,20.01))
+		zbias(1,v(0,15.5,20.01),v(0,0,1))
 		text('division', v(0,15.5,20.01), v(0,0,1), v(1,0,0), 1.5, {center=true})
-
-		use_material('dandelion')
+        use_material('dandelion')
+		zbias(2,v(0,19,20.02), v(0,0,1))
 		text('ACME Bolts & Nuts', v(0,19,20.02), v(0,0,1), v(1,0,0), 2, {center=true})
-
+		zbias(0)
 		--windows
  		if lod > 2 then
 			texture('corrosion3.png', v(0,.97,0), v(-.1,0,1), v(0,-.036,0))

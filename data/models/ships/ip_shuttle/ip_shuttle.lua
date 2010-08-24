@@ -131,11 +131,15 @@ define_model('ip_shuttle', {
 		    texture('ips_doors.png', v(.5,.5,0), v(.38,0,0), v(0,.38,0))
   		end
 		if lod > 2 then
+			zbias(1,v(0,0.54,-4.001), v(0,0,-1))
          	circle(5, v(0,0.54,-4.001), v(0,0,-1), v(-0.324,1,0), 1.3) -- door cockpit
+         	zbias(0)
         end		
 		if lod > 1 then
 		    use_material('anth')
+		    zbias(1,v(0,1.2,7.165), v(0,0,1))
 			circle(8, v(0,1.2,7.165), v(0,0,1), v(0,1,-0.28), 1.2) -- door outside
+			zbias(0)
             texture('shut02.png')
 			use_material('grey')
 			tube(8, v(0,1.2,7.1), v(0,1.2,7.25), v(0,1,-0.28), 1.1, 1.2)  -- door frame outside
@@ -297,11 +301,16 @@ define_model('ip_shuttle', {
 		
         texture(nil)
 				
-		if lod >= 2 then   
+		if lod >= 2 then
+			zbias(1,v(3.56,0.6,-5), v(1,0,0))   
 			call_model('decal', v(3.56,0.6,-5), v(1,0,0), v(-0.235,1,0), 1)  -- decals
+			zbias(1,v(-3.56,0.6,-4), v(-1,0,0))
         	call_model('decal', v(-3.56,0.6,-4), v(-1,0,0), v(0.235,1,0), 1)
+        	zbias(1,v(3.176,-1.05,-5), v(1,0,0))
         	call_model('squadsign_1', v(3.176,-1.05,-5), v(1,0,0), v(0.5,1,0),1)  -- squadron label
+        	zbias(1,v(-3.176,-1.05,-4), v(-1,0,0))
         	call_model('squadsign_1', v(-3.176,-1.05,-4), v(-1,0,0), v(-0.5,1,0),1)
+        	zbias(0)
         			
 	        call_model('nazzle_n', v(2.5,-0.6,-7.55), v(1,0,0), v(0,0,-1),0.2)  -- reverse nazzels
 			call_model('nazzle_n', v(-2.5,-0.6,-7.55), v(1,0,0), v(0,0,-1),0.2)
@@ -337,8 +346,11 @@ define_model('ip_shuttle', {
         	set_material('text', .6,.6,.6, 1)
         	use_material('text')
  			reg = get_arg_string(0)
+ 			zbias(1,v(-1,0.235,0), v(0,0,1))
 			text(reg, v16, v(-1,0.235,0), v(0,0,1), 1.7, {center = true})  -- text label
+			zbias(1,v(1,0.235,0), v(0,0,-1))
 			text(reg, v17, v(1,0.235,0), v(0,0,-1), 1.7, {center = true})
+			zbias(0)
 		end	
 				
 		if lod > 2 then
@@ -382,10 +394,12 @@ define_model('ip_shuttle', {
         end
 
         if lod > 2 then
+        	texture(nil)
             set_material('win', 0,0,0.05, .7, 1.7, 1.75, 2, 100,0.1,0.1,0.1)
             use_material('win')
 			quad(v14,v15,v13,v12)
 		else 
+			texture(nil)
 			set_material('win', 0,0,0.05, 1, 1.7, 1.75, 2, 100,0.1,0.1,0.1)
 			use_material('win')
 			quad(v14-v(0,0,.01),v15-v(0,0,.01),v13-v(0,0,.01),v12-v(0,0,.01))

@@ -119,27 +119,25 @@ define_model('eagle_lrf_body', {
   			end
 		end
   	    --select3 = 60
-  	    --select4 = 40
   		if lod > 1 then
 			selector3()
-  	    	selector4()
 			if select3 < 51 then
   	      		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 	        	if lod > 2 then
 					call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-				end
-				if select4 < 51 then
+					zbias(1,v(-6,.407,-20), v(0,1,0))
 					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+					zbias(0)
 				end	
 			else	
 				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_1', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    	end
-				if select4 < 51 then
+					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+					zbias(0)
 				end
 			end
 		end
@@ -238,24 +236,23 @@ define_model('eagle_mk2_body', {
 		
 		if lod > 1 then
 			selector3()
-  	    	selector4()
 			if select3 < 51 then
   	    		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_1', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-				end
-				if select4 < 51 then
+					zbias(1,v(-6,.407,-20), v(0,1,0))
 					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+					zbias(0)
 				end	
 			else	
 				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    	end
-				if select4 < 51 then
+					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+					zbias(0)
 				end
 			end
 		end
@@ -350,24 +347,23 @@ define_model('eagle_mk3_body', {
 
 		if lod > 1 then
 			selector3()
-  	    	selector4()
 			if select3 < 51 then
   	    		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-				end
-				if select4 < 51 then
+					zbias(1,v(-6,.407,-20), v(0,1,0))
 					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+					zbias(0)
 				end	
 			else	
 				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    	end
-				if select4 < 51 then
+					zbias(1,v(6,.407,-20), v(0,1,-.07))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+					zbias(0)
 				end
 			end
 		end		
@@ -621,24 +617,23 @@ define_model('eagle_mk4_body', {
 		if lod > 1 then
 			use_material('tank')
 			selector3()
-  	    	selector4()
 			if select3 < 51 then
   	    		call_model('scanner_+', v(9,1.2,2), v(1,0,0), v(.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_2', v(18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(-18,0,-4), v(1,0,0), v(0,1,0), 4)
-				end
-				if select4 < 51 then
+					zbias(1,v(-6,.407,-20), v(0,1,0))
 					call_model('decal', v(-6,.407,-20), v(0,1,-.07), v(1,.349,0), 3)
+					zbias(0)
 				end	
 			else	
 				call_model('scanner_+', v(-9,1.2,2), v(1,0,0), v(-.1,1,-.2), 3)
 	    		if lod > 2 then
 					call_model('ecm_2', v(-18,-.1,-2), v(-1,0,0), v(0,-1,0), 2)
 					call_model('antenna_1', v(18,0,-4), v(1,0,0), v(0,1,0), 4)
-		    	end
-				if select4 < 51 then
+					zbias(1,v(6,.407,-20), v(0,1,0))
 					call_model('decal', v(6,.407,-20), v(0,1,-.07), v(-1,.349,0), 3)
+					zbias(0)
 				end
 			end
 		end		
@@ -652,7 +647,6 @@ define_model('eagle_mk4_body', {
 		local LB_T = v(-39.7,0,13)
 		local TB_T = v(34.9,4.9,13)
 		local BB_T = v(34.9,-4.9,13)
-
 		
 		xref_thruster(R_T, v(0,0,-1), 15, true)
 		thruster(RF_T, v(1,0,0), 9)
@@ -667,9 +661,6 @@ define_model('eagle_mk4_body', {
 	end
 })
 
-
-
-
 define_model('eagle_cyl', {
 	info = {
 			lod_pixels = { 10, 30 ,100, 0 },
@@ -680,8 +671,8 @@ define_model('eagle_cyl', {
 		set_material('chrome', .43,.5,.63,1,1,1.2,1.4,30)
         use_material('chrome')
         texture('tex8.png')
-		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(9,0,0)) * Matrix.scale(v(0.75,0.75,0.75))) --* Matrix.rotate(math.pi, v(0,0,1)))
-		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(-9,0,0)) * Matrix.scale(v(0.75,0.75,0.75))) --* Matrix.rotate(math.pi, v(0,0,1)))
+		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(9,0,0)) * Matrix.scale(v(0.75,0.75,0.75)))
+		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(-9,0,0)) * Matrix.scale(v(0.75,0.75,0.75)))
 	end,
 	dynamic = function(lod)
 		use_material('chrome')
@@ -709,13 +700,13 @@ define_model('eagle_wheels', {
 		
 		use_material('wheels')
 		texture('tex9.png', v(.5,.5,0), v(0,0,.95), v(0,.26,0))
-		xref_cylinder(6*lod, v(9.5,0,4), v(10.5,0,4), v(0,1,0), 1.6)		
-		xref_cylinder(6*lod, v(9.5,0,0), v(10.5,0,0), v(0,1,0), 1.6)
-		xref_cylinder(6*lod, v(9.5,0,-4), v(10.5,0,-4), v(0,1,0), 1.6)
+		xref_cylinder(4*lod, v(9.5,0,4), v(10.5,0,4), v(0,1,0), 1.6)		
+		xref_cylinder(4*lod, v(9.5,0,0), v(10.5,0,0), v(0,1,0), 1.6)
+		xref_cylinder(4*lod, v(9.5,0,-4), v(10.5,0,-4), v(0,1,0), 1.6)
 		
-		xref_cylinder(6*lod, v(8.5,0,4), v(7.5,0,4), v(0,1,0), 1.6)		
-		xref_cylinder(6*lod, v(8.5,0,0), v(7.5,0,0), v(0,1,0), 1.6)
-		xref_cylinder(6*lod, v(8.5,0,-4), v(7.5,0,-4), v(0,1,0), 1.6)
+		xref_cylinder(4*lod, v(8.5,0,4), v(7.5,0,4), v(0,1,0), 1.6)		
+		xref_cylinder(4*lod, v(8.5,0,0), v(7.5,0,0), v(0,1,0), 1.6)
+		xref_cylinder(4*lod, v(8.5,0,-4), v(7.5,0,-4), v(0,1,0), 1.6)
 	end
 })	
 
@@ -778,7 +769,6 @@ define_model('eagle_all', {
 		local v110 = v(1.5,.7,-25.75)
 		local v111 = v(-1.5,.7,-25.75)
         
-        set_material('null', 0,0,0,0,0,0,0,0)
         set_material('text', .7,.7,.7,1,.3,.3,.3,5)
         set_material('grey', .05,.15,.12,1,.1,.1,.1,5)
 		set_material('desk', 1,.98,.9,1,.5,.5,.5,10)
@@ -881,7 +871,6 @@ define_model('eagle_all', {
 			quad(v110,v111,v111+v(0,-.5,1), v110+v(0,-.5,1))
 
 			use_material('null')
-	        --texture('mask.png') -- only needed for modelviewer
 	        xref_quad(v100,v102,v104,v101)
 		end
 	end,
@@ -922,7 +911,6 @@ define_model('eagle_all', {
 
       			use_material('null')
 				texture(nil)
-				--texture('models/ships/4_eagles/mask.png') -- only needed for modelviewer
 				xref_quad(v64, v66, v68, v70)
 			end
 		end
@@ -940,8 +928,11 @@ define_model('eagle_all', {
 		local reg = get_arg_string(0)
 		if lod > 1 then
 			use_material('text')
+			zbias(1,v(19,2.759,12),v(0,1,.0105))
 			text(reg, vTXT1, v(0,1,.0105), v(1,-.1604,-.5), 5, {center = true})
-	        text(reg, vTXT2, v(0,-1,.0105), v(-1,.1604,-.5), 5, {center = true})
+			zbias(1,v(-19,-2.759,12),v(0,-1,.0105))
+			text(reg, vTXT2, v(0,-1,.0105), v(-1,.1604,-.5), 5, {center = true})
+		    zbias(0)
 		end
 	
 		-- main thrusters
@@ -1029,9 +1020,9 @@ define_model('eagle_lrf', {
 		
 		if lod > 1 then
 			-- poslights
-            call_model('posl_green', v(33.5,.7,-.5), v(0,1,0), v(1,.6,0), 6)
+            call_model('posl_red', v(33.5,.7,-.5), v(0,1,0), v(1,.6,0), 6)
 			call_model('coll_warn', v(33.5,-.7,-.5), v(0,1,0), v(1,-.6,0), 6)
-			call_model('posl_red', v(-33.5,.7,-.5), v(0,1,0), v(-1,.6,0), 6)
+			call_model('posl_green', v(-33.5,.7,-.5), v(0,1,0), v(-1,.6,0), 6)
 			call_model('coll_warn', v(-33.5,-.7,-.5), v(0,1,0), v(-1,-.6,0), 6)
   		end
         
@@ -1053,23 +1044,32 @@ define_model('eagle_lrf', {
 		if lod > 1 then  
    			call_model('eagle_lrf_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 	        -- details
+	        zbias(1,v(-15,3.4,14), v(-.13,1,0))
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
+			zbias(1,v(15,-3.4,14), v(.13,-1,0))
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
+            zbias(0)
        	end
         
 		-- rostrum
   		if lod > 3 then
 			use_material('cutout')
         	texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.new(v(-1.999,0,0), v(0,2.499,0), v(0,0,3.999)))
+			zbias(1,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			zbias(0)
 		end
 		texture(nil)
         use_material('win')
+		zbias(2,v(0,1,-24),v(0,1,0))
 		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-        	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+        	zbias(3,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+		    zbias(0)
 		end		
 		
 		if lod > 1 then
@@ -1161,32 +1161,41 @@ define_model('eagle_mk2', {
 
         if lod > 1 then
             -- details
+            zbias(1,v(-15,3.4,14), v(-.13,1,0))
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
+			zbias(1,v(15,-3.4,14), v(.13,-1,0))
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
+            zbias(0)
        	end
 
         -- rostrum
   		if lod > 3 then
 			use_material('cutout')
         	texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.new(v(-1.999,0,0), v(0,2.499,0), v(0,0,3.999)))
+			zbias(1,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			zbias(0)
 		end
 		texture(nil)
         use_material('win')
+		zbias(2,v(0,1,-24),v(0,1,0))
 		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-        	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+        	zbias(3,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+		    zbias(0)
 		end		
 
 		if lod > 1 then
 			-- poslights
         	call_model('posl_white', v(0,5.8,24), v(1,0,0), v(0,1,0), 6)
         	call_model('coll_warn', v(0,-5.8,24), v(1,0,0), v(0,-1,0), 6)
-        	call_model('posl_green', v(31.6,.3,-.5), v(0,1,0), v(.5,1,-.05), 6)
+        	call_model('posl_red', v(31.6,.3,-.5), v(0,1,0), v(.5,1,-.05), 6)
 			call_model('coll_warn', v(31.6,-.3,-.5), v(0,1,0), v(.5,-1,-.05), 6)
-			call_model('posl_red', v(-31.6,.3,-.5), v(0,1,0), v(-.5,1,-.05), 6)
+			call_model('posl_green', v(-31.6,.3,-.5), v(0,1,0), v(-.5,1,-.05), 6)
 			call_model('coll_warn', v(-31.6,-.3,-.5), v(0,1,0), v(-.5,-1,-.05), 6)
         end
 	end,
@@ -1225,10 +1234,10 @@ define_model('eagle_mk3', {
 		},
 		
  static = function(lod)
-		local v81 = v(31,0,-25)
-        local v83 = v(31,0,18)
-        local v85 = v(-31,0,-25)
-        local v86 = v(-31,0,18)
+		local v81 = v(30.5,0,-25)
+        local v83 = v(30.5,0,18)
+        local v85 = v(-30.5,0,-25)
+        local v86 = v(-30.5,0,18)
 
         set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
         set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
@@ -1292,30 +1301,39 @@ define_model('eagle_mk3', {
 
 		if lod > 1 then
             -- details
+            zbias(1,v(-15,3.4,14), v(-.13,1,0))
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
+			zbias(1,v(15,-3.4,14), v(.13,-1,0))
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
+            zbias(0)
        	end
 
         -- rostrum
   		if lod > 3 then
 			use_material('cutout')
         	texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.new(v(-1.999,0,0), v(0,2.499,0), v(0,0,3.999)))
+			zbias(1,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			zbias(0)
 		end
 		texture(nil)
         use_material('win')
+		zbias(2,v(0,1,-24),v(0,1,0))
 		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-        	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+        	zbias(3,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+		    zbias(0)
 		end		
 
 		if lod > 1 then
 			-- poslights
-			call_model('posl_green', v(34.8,.7,-.5), v(0,1,0), v(1,.5,0), 6)
+			call_model('posl_red', v(34.8,.7,-.5), v(0,1,0), v(1,.5,0), 6)
 			call_model('coll_warn', v(34.8,-.7,-.5), v(0,1,0), v(1,-.5,0), 6)
-			call_model('posl_red', v(-34.8,.7,-.5), v(0,1,0), v(-1,.5,0), 6)
+			call_model('posl_green', v(-34.8,.7,-.5), v(0,1,0), v(-1,.5,0), 6)
 			call_model('coll_warn', v(-34.8,-.7,-.5), v(0,1,0), v(-1,-.5,0), 6)
         	call_model('posl_white', v(0,5.8,24), v(1,0,0), v(0,1,0), 6)
         	call_model('coll_warn', v(0,-5.8,24), v(1,0,0), v(0,-1,0), 6)
@@ -1337,7 +1355,7 @@ define_model('eagle_mk4', {
 			scale = 0.261,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
-   			materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout', 'null'},
+   			materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout'},
 			tags = {'ship'},
 			ship_defs = {
 				{
@@ -1370,7 +1388,6 @@ define_model('eagle_mk4', {
         local v86 = v(-34.9,0,16)
         
 		set_material('cutout', .6,.6,.6,.9,.3,.3,.3,50)
-		set_material('null', 0,0,0,0,0,0,0,0)
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		
 		-- collision mesh mk4
@@ -1432,30 +1449,39 @@ define_model('eagle_mk4', {
            	-- eagle cv body
         	call_model('eagle_mk4_body', v(0,0,0), v(1,0,0), v(0,1,0), 1)
             -- details
+            zbias(1,v(-15,3.4,14), v(-.13,1,0))
 			call_model('squadsign_1', v(-15,3.4,14), v(-.13,1,0), v(0,-.0555,-1), 4)
+			zbias(1,v(15,-3.4,14), v(.13,-1,0))
             call_model('squadsign_1', v(15,-3.4,14), v(.13,-1,0), v(0,.0555,-1), 4)
+            zbias(0)
        	end
 
         -- rostrum
   		if lod > 3 then
 			use_material('cutout')
         	texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.new(v(-1.999,0,0), v(0,2.499,0), v(0,0,3.999)))
+			zbias(1,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			zbias(0)
 		end
 		texture(nil)
         use_material('win')
+		zbias(2,v(0,1,-24),v(0,1,0))
 		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
-        	sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+        	zbias(3,v(0,1,-24),v(0,1,0))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+		    zbias(0)
 		end		
 
 		if lod > 1 then
 			-- poslights
-			call_model('posl_green', v(38.7,.7,-.5), v(0,1,0), v(1,.3,0), 6)
+			call_model('posl_red', v(38.7,.7,-.5), v(0,1,0), v(1,.3,0), 6)
 			call_model('coll_warn', v(38.7,-.7,-.5), v(0,1,0), v(1,-.3,0), 6)
-			call_model('posl_red', v(-38.7,.7,-.5), v(0,1,0), v(-1,.3,0), 6)
+			call_model('posl_green', v(-38.7,.7,-.5), v(0,1,0), v(-1,.3,0), 6)
 			call_model('coll_warn', v(-38.7,-.7,-.5), v(0,1,0), v(-1,-.3,0), 6)
         	call_model('posl_white', v(0,5.8,24), v(1,0,0), v(0,1,0), 6)
         	call_model('coll_warn', v(0,-5.8,24), v(1,0,0), v(0,-1,0), 6)

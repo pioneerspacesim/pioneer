@@ -149,24 +149,32 @@ define_model('lub_body', {
 				set_material('cv0', get_arg_material(0))
 				use_material('cv0')
 				call_model('lub_c0', v(0,0,0), v(1,0,0), v(0,1,0),1)
+				zbias(1,v(7.57,1.2,-27.2), v(1,0,-.475))
 				call_model('squadsign_4', v(7.57,1.2,-27.2), v(1,0,-.475), v(-1,.99,.401), 2)
 				
 				set_material('text1', .7,.7,.7,.8,0,0,0,0)
    				set_material('text2', 0,0,0,.8,0,0,0,0)
 				use_material('text1')
+				zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 				text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 				use_material('text2')
+				zbias(1,v(-24,-5,10), v(0.1,-1,0))
 				text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+				zbias(0)
 			else
 				if select2 < 29 then  -- plain 
 					use_material('lanner')
 					call_model('lub_c0', v(0,0,0), v(1,0,0), v(0,1,0),1)
+					zbias(1,v(7.57,1.2,-27.2), v(1,0,-.475))
 					call_model('squadsign_1', v(7.57,1.2,-27.2), v(1,0,-.475), v(-1,.99,.401), 2)
 					
 					set_material('text1', 0,0,0,.8,0,0,0,0)
    					use_material('text1')
+   					zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 					text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
+					zbias(1,v(-24,-5,10), v(0.1,-1,0))
 					text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+				    zbias(0)
 				else
 			    	if select2 < 43 then  -- red
 						use_material('lanner')
@@ -175,9 +183,12 @@ define_model('lub_body', {
 						set_material('text1', .2,.005,.01,.8,0,0,0,0)
    						set_material('text2', 0,0,0,.8,0,0,0,0)
 						use_material('text1')
+						zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 						text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 						use_material('text2')
+						zbias(1,v(-24,-5,10), v(0.1,-1,0))
 						text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+					    zbias(0)
 					else
         			    if select2 < 57 then  -- yellow
 							use_material('lanner')
@@ -186,9 +197,12 @@ define_model('lub_body', {
 							set_material('text1', .3,.2,0,.8,0,0,0,0)
    							set_material('text2', 0,0,0,.8,0,0,0,0)
 							use_material('text1')
+							zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 							text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 							use_material('text2')
+							zbias(1,v(-24,-5,10), v(0.1,-1,0))
 							text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+					    	zbias(0)
 						else
         			        if select2 < 71 then  -- blue
 								use_material('lanner')
@@ -197,9 +211,12 @@ define_model('lub_body', {
 								set_material('text1', 0,0,.3,.8,0,0,0,0)
    								set_material('text2', 0,0,0,.8,0,0,0,0)
 								use_material('text1')
+								zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 								text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 								use_material('text2')
+								zbias(1,v(-24,-5,10), v(0.1,-1,0))
 								text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+					    		zbias(0)
 							else
         			            if select2 < 85 then  -- green
 									use_material('lanner')
@@ -208,9 +225,12 @@ define_model('lub_body', {
 									set_material('text1', 0,.13,.03,.8,0,0,0,0)
    									set_material('text2', 0,0,0,.8,0,0,0,0)
 									use_material('text1')
+									zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 									text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 									use_material('text2')
+									zbias(1,v(-24,-5,10), v(0.1,-1,0))
 									text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+					    			zbias(0)
 								else
         			                if select2 > 84 then  -- crimson
 										use_material('lanner')
@@ -219,9 +239,12 @@ define_model('lub_body', {
 										set_material('text1', .12,0,.25,.8,0,0,0,0)
    										set_material('text2', 0,0,0,.8,0,0,0,0)
 										use_material('text1')
+										zbias(1,v(27.2,-3.7,11), v(1,.98,0))
 										text(reg, v(27.2,-3.7,11), v(1,.98,0), v(-.168,0,-1),3, {center=true})
 										use_material('text2')
+										zbias(1,v(-24,-5,10), v(0.1,-1,0))
 										text(reg, v(-24,-5,10), v(0.1,-1,0), v(.17,-.03,-1),3, {center=true})
+					    				zbias(0)
 									end
         		                end
         			        end
@@ -232,7 +255,9 @@ define_model('lub_body', {
 			if lod > 2 then
 				selector4()  
             	if select4 > 49 then
-		    		call_model('decal', v(-8.705,1.2,-25.2), v(-1,0,-.475), v(1,.99,.401), 2.5)
+		    		zbias(1,v(-8.705,1.2,-25.2), v(-1,0,-.475))
+					call_model('decal', v(-8.705,1.2,-25.2), v(-1,0,-.475), v(1,.99,.401), 2.5)
+					zbias(0)
                 	use_material('matte')
 					call_model('scanner_-', v(23.2,-4.8,2), v(-1,0,0), v(-.1,-1,0.01), 2)
                 	use_material('matte')
@@ -240,7 +265,10 @@ define_model('lub_body', {
 					call_model('antenna_1', v(0,-.9,-37.98), v(1,0,0), v(0,1,0), 1.5)					
 					call_model('lub_gun2', v(0,0,0), v(1,0,0), v(0,1,0), 1)
 				else
-                	use_material('matte')
+                	zbias(1,v(8.705,1.2,-25.2), v(-1,0,-.475))
+					call_model('decal', v(8.705,1.2,-25.2), v(1,0,-.475), v(-1,.99,.401), 2.5)
+					zbias(0)
+					use_material('matte')
 					call_model('scanner_-', v(-23.2,-4.8,2), v(-1,0,0), v(.1,-1,0.01), 2)
                 	use_material('matte')
 					call_model('ecm_1', v(23.2,-5.09,2), v(-1,0,0), v(-.1,-1,0.01), 1.5)
@@ -513,8 +541,8 @@ define_model('lanner_ub', {
 					{ 1.5*10^7,-3*10^7,1*10^7,-1*10^7,-1*10^7,1*10^7 },
 					4*10^7,
 					{
-					{v(4,-1.9,-38), v(0,0,-1)},
-					{v(-4,-1.9,-38), v(0,0,-1)},
+					{v(0,-1.9,-38), v(0,0,-1)},
+					{v(0,1,38), v(0,0,1)},
 					},
      				{ 198, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					198, 53, 28400000,

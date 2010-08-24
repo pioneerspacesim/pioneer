@@ -2,84 +2,109 @@
 define_model('cobra_mk3', {
 	info = {
 			lod_pixels = { 50, 100, 200, 0 },
-			bounding_radius = 100,
-			materials = {'thrusters', 'text'},
+			bounding_radius = 40,
+			materials = {'default', 'text'},
 			tags = {'ship'},
 			ship_defs = {
 				{
 					'Cobra Mk III', 
-					{ 2*10^7,-2*10^7,1*10^7,-1*10^7,-1*10^7,1*10^7 },
-					4*10^7,
+					{ 8*10^6,-2*10^7,2*10^6,-2*10^6,-2*10^6,2*10^6 },
+					6*10^6,
 					{
 					{ v(0,-0.5,0), v(0,0,-1) },
 					{ v(0,-0.5,0), v(0,0,1) },
 					},
-					{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					90, 100, 16000000,
-					1
+					{ 80, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+					80, 20, 12400000,
+					2
 				}
 			}
 		},
 	static = function(lod)
-		load_obj('cobra3_redux.obj', Matrix.new(v(45,0,0),v(0,45,0),v(0,0,45)) * Matrix.new(v(-1,0,0),v(0,1,0),v(0,0,-1))) 
-		
-		set_material('thrusters', .30, .30, .30,1, .30, .30, .30, 20)
-		use_material('thrusters')
-
-		local vBackThruster = v(8, 0.7, 14.5) -- last number is how far back down the ship it is
-		local vFrontThruster = v(3.5, -1.0, -5.0)
-
-		xref_thruster(vBackThruster, v(0,0,1), 30, true)
-		xref_thruster(vFrontThruster, v(0,0,-1), 20, true)
-
-		local TopThrust1 = v(-9.0, 1.5, 11.0) 
-		local TopThrust2 = v(9.0, 1.5, 11.0)
-		local TopThrustForward = v(0.0, 1.5, -11.0)
-		local BottomThrust1 = v(-9.0, -0.5, 10.0)
-		local BottomThrust2 = v(9.0, -0.5, 10.0)
-		local BottomThrustForward = v(0.0, -0.5, -10.0)
-
-		thruster(TopThrust1, v(0,1,0), 15)
-		thruster(TopThrust2, v(0,1,0), 15)
-		thruster(TopThrustForward, v(0,1,0), 15)
-		thruster(BottomThrust1, v(0,-1,0), 15)
-		thruster(BottomThrust2, v(0,-1,0), 15)
-		thruster(BottomThrustForward, v(0,-1,0), 15)
-
-		local LeftBackThruster = v(-18.0, 0.0, 10.0)
-		local LeftForwardThruster = v(-3.5, 0.0, -10.0)
-		local RightBackThruster = v(18.0, 0.0, 10.0)
-		local RightForwardThruster = v(3.5, 0.0, -10.0)
-
-		thruster(LeftBackThruster, v(-1,0,0), 15)
-		thruster(LeftForwardThruster, v(-1,0,0), 15)
-		thruster(RightBackThruster, v(1,0,0), 15)
-		thruster(RightForwardThruster, v(1,0,0), 15)
+	    set_material('default', .6,.6,.6,1,.3,.3,.3,50)
+	    set_material('text', .6,.6,.6,1,.3,.3,.3,5)
+		use_material('default')
+	    texture('cobra3_redux.png')
+		load_obj('cobra3_redux.obj', Matrix.new(v(-39,0,0),v(0,33,0),v(0,0,-35)))
 	end,
 	dynamic = function(lod)
+		
+		if lod > 1 then
+			use_material('text')
+			local reg = get_arg_string(0)
+			zbias(1,v(16,0.42,1), v(0,1,-.63))
+			text(reg,v(16,0.42,1), v(0,1,-.63), v(-1,.041,-.95), 3, {center = true})
+			zbias(1,v(-16,0.42,1), v(0,1,-.63))
+			text(reg,v(-16,0.42,1), v(0,1,-.63), v(-1,-.041,.95), 3, {center = true})
+			zbias(0)	
+		end
+		
 		if get_arg(0) ~= 0 then
-
-			-- lights on wingtips
-			local lightphase = math.fmod(get_arg(1), 1)
-			if lightphase > .9 then
-				billboard('smoke.png', 10, v(1,1,1), { v(-29, 0, 14) })
-			elseif lightphase > .8 then
-				billboard('smoke.png', 10, v(1,1,1), { v(29, 0, 14) }) -- middle number is how high vertically on the ship 
-			end
-
-			-- wheels
-			local v73 = v(0.0, -1.0, -5.5)
-			local v74 = v(-4.5, -4.5, 10.5)
-			local v75 = v(4.5, -4.5, 10.5)
+      		-- wheels
+			local v73 = v(0.0, -1.4, -5.5)
+			local v74 = v(-4.5, -4.05, 7)
+			local v75 = v(4.5, -4.05, 7)
 			zbias(1, v73, v(0,-1,0))
 			-- nose wheel
-			call_model('nosewheelunit', v73, v(-1,0,0), v(0,-1,0), 1.2)
+			call_model('nosewheelunit', v73, v(-1,0,0), v(0,-1,-.22), 1.2)
 			zbias(1, v74, v(0,-1,0))
 			-- rear wheels
-			call_model('nosewheelunit', v74, v(-1,0,0), v(0,-1,0), .64)
-			call_model('nosewheelunit', v75, v(-1,0,0), v(0,-1,0), .64)
+			call_model('nosewheelunit', v74, v(-1,0,0), v(0,-1,-.22), .64)
+			call_model('nosewheelunit', v75, v(-1,0,0), v(0,-1,-.22), .64)
 			zbias(0)
+
+            -- lights on wingtips
+			local lightphase = math.fmod(get_arg(1), 1)
+			if lightphase > .9 then
+				billboard('smoke.png', 10, v(1,1,1), { v(-25.35,-.95,11.375) })
+			elseif lightphase > .8 then
+				billboard('smoke.png', 10, v(1,1,1), { v(25.35,-.95,11.375) }) -- middle number is how high vertically on the ship
+			elseif lightphase > .7 then
+				billboard('smoke.png', 10, v(1,1,1), { v(0,-4.95,11.375) })
+			end
 		end
+		
+		if get_arg(0) == 0 then
+			local lightphase = math.fmod(get_arg(1), 1)
+			if lightphase > .9 then
+				billboard('smoke.png', 10, v(0,1,0), { v(-25.35,-.95,11.375) })
+			elseif lightphase > .8 then
+				billboard('smoke.png', 10, v(1,0,0), { v(25.35,-.95,11.375) })
+			elseif lightphase > .7 then
+				billboard('smoke.png', 10, v(1,1,1), { v(0,4.95,11.375) })
+			end
+		end
+				
+		local vBackThruster = v(7, 0, 12) -- last number is how far back down the ship it is
+		local vFrontThruster = v(4, -.2, -12)
+
+		xref_thruster(vBackThruster, v(0,0,1), 30, true)
+		xref_thruster(vFrontThruster, v(0,0,-1), 15, true)
+
+		local TopThrust1 = v(-9, 4.5, 9)
+		local TopThrust2 = v(9, 4.5, 9)
+		local TopThrustForward = v(0, 1.5, -9)
+		local BottomThrust1 = v(-9, -4.5, 9)
+		local BottomThrust2 = v(9, -4.5, 9)
+		local BottomThrustForward = v(0, -1, -9)
+
+		thruster(TopThrust1, v(0,1,0), 10)
+		thruster(TopThrust2, v(0,1,0), 10)
+		thruster(TopThrustForward, v(0,1,0), 10)
+		thruster(BottomThrust1, v(0,-1,0), 10)
+		thruster(BottomThrust2, v(0,-1,0), 10)
+		thruster(BottomThrustForward, v(0,-1,0), 10)
+
+		local LeftBackThruster = v(-25, -1, 8.5)
+		local LeftForwardThruster = v(-8.5, -.25, -10.0)
+		local RightBackThruster = v(25, -1, 8.5)
+		local RightForwardThruster = v(8.5, .25, -10.0)
+
+		thruster(LeftBackThruster, v(-1,0,0), 10)
+		thruster(LeftForwardThruster, v(-1,0,0), 10)
+		thruster(RightBackThruster, v(1,0,0), 10)
+		thruster(RightForwardThruster, v(1,0,0), 10)
+
 	end
 
 })
