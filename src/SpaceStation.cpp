@@ -40,111 +40,127 @@ BBAdvert BBAdvert::Load(Serializer::Reader &rd)
 	return BBAdvert(luaMod, luaRef, desc);
 }	
 
-struct SpaceStationType {
-	LmrModel *model;
-	const char *modelName;
-	float angVel;
-	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
-	int numDockingPorts;
-	int numDockingStages;
-	int numUndockStages;
-	struct positionOrient_t {
-		vector3d pos;
-		vector3d xaxis;
-		vector3d yaxis;
-	};
-	float *dockAnimStageDuration;
-	float *undockAnimStageDuration;
+void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, float **durationArray) {
+	lua_State *L = LmrGetLuaState();
+	model->PushAttributeToLuaStack(key);
+	assert(lua_istable(L, -1));
 
-	void _ReadStageDurations(const char *key, int *outNumStages, float **durationArray) {
-		lua_State *L = LmrGetLuaState();
-		model->PushAttributeToLuaStack(key);
-		assert(lua_istable(L, -1));
-
-		int num = lua_objlen(L, -1);
-		*outNumStages = num;
-		if (num == 0) {
-			*durationArray = 0;
-		} else {
-			*durationArray = new float[num];
-			for (int i=1; i<=num; i++) {
-				lua_pushinteger(L, i);
-				lua_gettable(L, -2);
-				(*durationArray)[i-1] = lua_tonumber(L, -1);
-				lua_pop(L, 1);
-			}
-		}
-		if (outNumStages <= 0) {
-			Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
-					modelName);
+	int num = lua_objlen(L, -1);
+	*outNumStages = num;
+	if (num == 0) {
+		*durationArray = 0;
+	} else {
+		*durationArray = new float[num];
+		for (int i=1; i<=num; i++) {
+			lua_pushinteger(L, i);
+			lua_gettable(L, -2);
+			(*durationArray)[i-1] = lua_tonumber(L, -1);
+			lua_pop(L, 1);
 		}
 	}
-	// read from lua model definition
-	void ReadStageDurations() {
-		_ReadStageDurations("dock_anim_stage_duration", &numDockingStages, &dockAnimStageDuration);
-		_ReadStageDurations("undock_anim_stage_duration", &numUndockStages, &undockAnimStageDuration);
+	if (outNumStages <= 0) {
+		Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
+				modelName);
 	}
+}
+// read from lua model definition
+void SpaceStationType::ReadStageDurations() {
+	_ReadStageDurations("dock_anim_stage_duration", &numDockingStages, &dockAnimStageDuration);
+	_ReadStageDurations("undock_anim_stage_duration", &numUndockStages, &undockAnimStageDuration);
+}
 
-	/* when ship is on rails it returns true and fills outPosOrient.
-	 * when ship has been released (or docked) it returns false.
-	 * Note station animations may continue for any number of stages after
-	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(int port, int stage, float t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
-	{
-		if ((stage < 0) && ((-stage) > numUndockStages)) return false;
-		if ((stage > 0) && (stage > numDockingStages)) return false;
-		lua_State *L = LmrGetLuaState();
-		// It's a function of form function(stage, t, from)
-		model->PushAttributeToLuaStack("ship_dock_anim");
-		if (!lua_isfunction(L, -1)) {
-			fprintf(stderr, "Error: Spacestation model %s needs ship_dock_anim method\n", model->GetName());
-			Pi::Quit();
-		}
-		lua_pushinteger(L, port+1);
-		lua_pushinteger(L, stage);
-		lua_pushnumber(L, (double)t);
-		vector3f *_from = MyLuaVec::pushVec(L);
-		*_from = vector3f(from);
-		// push model aabb as lua table: { min: vec3, max: vec3 }
-		{
-			Aabb aabb;
-			ship->GetAabb(aabb);
-			lua_createtable (L, 0, 2);
-			vector3f *v = MyLuaVec::pushVec(L);
-			*v = aabb.max;
-			lua_setfield(L, -2, "max");
-			v = MyLuaVec::pushVec(L);
-			*v = aabb.min;
-			lua_setfield(L, -2, "min");
-		}
-
-		lua_call(L, 5, 1);
-		bool gotOrient;
-		if (lua_istable(L, -1)) {
-			gotOrient = true;
-			lua_pushinteger(L, 1);
-			lua_gettable(L, -2);
-			outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
-			lua_pop(L, 1);
-
-			lua_pushinteger(L, 2);
-			lua_gettable(L, -2);
-			outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
-			lua_pop(L, 1);
-
-			lua_pushinteger(L, 3);
-			lua_gettable(L, -2);
-			outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
-			lua_pop(L, 1);
-		} else {
-			gotOrient = false;
-		}
+bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
+{
+	lua_State *L = LmrGetLuaState();
+	model->PushAttributeToLuaStack("ship_approach_waypoints");
+	if (!lua_isfunction(L, -1)) {
+		printf("no function\n");
+		return false;
+	}
+	lua_pushinteger(L, port+1);
+	lua_pushinteger(L, stage);
+	lua_call(L, 2, 1);
+	bool gotOrient;
+	if (lua_istable(L, -1)) {
+		gotOrient = true;
+		lua_pushinteger(L, 1);
+		lua_gettable(L, -2);
+		outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
 		lua_pop(L, 1);
-		return gotOrient;
+
+		lua_pushinteger(L, 2);
+		lua_gettable(L, -2);
+		outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
+
+		lua_pushinteger(L, 3);
+		lua_gettable(L, -2);
+		outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
+	} else {
+		gotOrient = false;
+	}
+	lua_pop(L, 1);
+	return gotOrient;
+}
+
+/* when ship is on rails it returns true and fills outPosOrient.
+ * when ship has been released (or docked) it returns false.
+ * Note station animations may continue for any number of stages after
+ * ship has been released and is under player control again */
+bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, float t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
+{
+	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
+	if ((stage > 0) && (stage > numDockingStages)) return false;
+	lua_State *L = LmrGetLuaState();
+	// It's a function of form function(stage, t, from)
+	model->PushAttributeToLuaStack("ship_dock_anim");
+	if (!lua_isfunction(L, -1)) {
+		fprintf(stderr, "Error: Spacestation model %s needs ship_dock_anim method\n", model->GetName());
+		Pi::Quit();
+	}
+	lua_pushinteger(L, port+1);
+	lua_pushinteger(L, stage);
+	lua_pushnumber(L, (double)t);
+	vector3f *_from = MyLuaVec::pushVec(L);
+	*_from = vector3f(from);
+	// push model aabb as lua table: { min: vec3, max: vec3 }
+	{
+		Aabb aabb;
+		ship->GetAabb(aabb);
+		lua_createtable (L, 0, 2);
+		vector3f *v = MyLuaVec::pushVec(L);
+		*v = aabb.max;
+		lua_setfield(L, -2, "max");
+		v = MyLuaVec::pushVec(L);
+		*v = aabb.min;
+		lua_setfield(L, -2, "min");
 	}
 
+	lua_call(L, 5, 1);
+	bool gotOrient;
+	if (lua_istable(L, -1)) {
+		gotOrient = true;
+		lua_pushinteger(L, 1);
+		lua_gettable(L, -2);
+		outPosOrient.pos = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
 
-};
+		lua_pushinteger(L, 2);
+		lua_gettable(L, -2);
+		outPosOrient.xaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
+
+		lua_pushinteger(L, 3);
+		lua_gettable(L, -2);
+		outPosOrient.yaxis = vector3f(*MyLuaVec::checkVec(L, -1));
+		lua_pop(L, 1);
+	} else {
+		gotOrient = false;
+	}
+	lua_pop(L, 1);
+	return gotOrient;
+}
 
 static bool stationTypesInitted = false;
 static std::vector<SpaceStationType> surfaceStationTypes;

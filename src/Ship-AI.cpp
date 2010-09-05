@@ -5,6 +5,7 @@
 #include "perlin.h"
 #include "Frame.h"
 #include "Planet.h"
+#include "SpaceStation.h"
 
 static void path(const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
 		const vector3d &startVel, const vector3d &endVel, const double maxAccel,
@@ -54,6 +55,7 @@ void Ship::AIBodyDeleted(const Body* const body)
 			case DO_HIGH_ORBIT:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
+			case DO_DOCK:
 				if (body == (*i).target) i = m_todo.erase(i);
 				else i++;
 				break;
@@ -71,6 +73,9 @@ void Ship::AITimeStep(const float timeStep)
 	if (m_todo.size() != 0) {
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
+			case DO_DOCK:
+				done = AICmdDock(inst, static_cast<SpaceStation*>(inst.target));
+				break;
 			case DO_KAMIKAZE:
 				done = AICmdKamikaze(static_cast<const Ship*>(inst.target));
 				break;
@@ -93,6 +98,7 @@ void Ship::AITimeStep(const float timeStep)
 		}
 	}
 	if (done) { 
+		ClearThrusterState();
 		printf("AI '%s' successfully executed %d:'%s'\n", GetLabel().c_str(), m_todo.front().cmd,
 				m_todo.front().target->GetLabel().c_str());
 		m_todo.pop_front();
@@ -107,7 +113,80 @@ void Ship::AITimeStep(const float timeStep)
 	}
 }
 
-bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame)
+bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
+{
+	Frame *frame = target->GetFrame();
+
+	// Ship::DOCKING for example...
+	if (GetFlightState() != Ship::FLYING) return true;
+
+	if (frame->IsRotatingFrame() && !target->IsGroundStation()) {
+		// can't autopilot by the rotating frame of a space station
+		// (it rotates too fast and it would be incorrect anyway)
+		frame = frame->m_parent;
+	}
+
+	int port = target->GetMyDockingPort(this);
+	if (port == -1) {
+		std::string msg;
+		target->GetDockingClearance(this, msg);
+		port = target->GetMyDockingPort(this);
+		if (port == -1) {
+			// hm should give a failure message, that we couldn't
+			// get docking
+			return true;
+		}
+	}
+
+	if (inst.startTime == 0) {
+		inst.startTime = Pi::GetGameTime();
+		
+		const double maxAccel = GetWeakestThrustersForce() / GetMass();
+		const vector3d ourPosition = GetPositionRelTo(frame);
+		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
+		const vector3d endVelocity = vector3d(0.0,-25.0,0.0);
+
+		SpaceStationType::positionOrient_t shipOrientStartDocking, shipOrientEndDocking;
+		bool good = target->GetSpaceStationType()->GetShipApproachWaypoints(port, 1, shipOrientStartDocking);
+		good = good && target->GetSpaceStationType()->GetShipApproachWaypoints(port, 2, shipOrientEndDocking);
+
+		assert(good);
+		double duration;
+
+		matrix4x4d target_rot;
+		target->GetRotMatrix(target_rot);
+		const vector3d midpoint = target->GetPosition() + target_rot * shipOrientStartDocking.pos;
+		const vector3d endpoint = target->GetPosition() + target_rot * shipOrientEndDocking.pos;
+	
+		path(ourPosition, midpoint, endpoint, ourVelocity, endVelocity, maxAccel*.1, duration, inst.path);
+		inst.endTime = inst.startTime + duration;
+	}
+	if (inst.endTime > 0) {
+		bool done = AIFollowPath(inst, frame, true);
+		
+		if (inst.endTime - Pi::GetGameTime() < 30.0) {
+			// orient the ship in the last 30 seconds
+			// should maybe cache this final orientation to avoid
+			// the lua calls
+			SpaceStationType::positionOrient_t shipOrientEndDocking;
+			target->GetSpaceStationType()->GetShipApproachWaypoints(port, 2, shipOrientEndDocking);
+
+			matrix4x4d orient;
+			target->GetRotMatrix(orient);
+			orient = orient * matrix4x4d::MakeRotMatrix(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis,
+					vector3d::Cross(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis));
+			SetAngThrusterState(0, 0);
+			SetAngThrusterState(1, 0);
+			SetAngThrusterState(2, 0);
+			AISlowOrient(orient);
+		}
+		return done;
+	} else {
+		return true;
+	}
+}
+
+bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVelocityVector)
 {
 	const vector3d ourPosition = GetPositionRelTo(frame);
 	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
@@ -142,15 +221,25 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame)
 	//printf("%f m/sec/sec\n", accel.Length());
 	vector3d force = GetMass() * accel;
 	{
+		matrix4x4d tran;
+		// XXX well currently this should work, but if this transform
+		// is more than from a rotating frame to its parent frame
+		// (same location) then a transform will be introduced and
+		// fuck things up. should use ApplyRotationOnly
+		Frame::GetFrameTransform(frame, GetFrame(), tran);
 		// make body-relative and apply force using thrusters
 		matrix4x4d rot;
 		GetRotMatrix(rot);
-		force = rot.InverseOf() * force;
+		force = rot.InverseOf() * tran * force;
 		ClearThrusterState();
 		AITrySetBodyRelativeThrust(force);
-		// orient so main engines can be used most effectively
-		vector3d perfectForce = inst.path.DerivativeOf().DerivativeOf().Eval(t);
-		if (perfectForce.Length()) AISlowFaceDirection(perfectForce.Normalized());
+		if (pointShipAtVelocityVector) {
+			if (wantVel.Length()) AISlowFaceDirection((tran * wantVel).Normalized());
+		} else {
+			// orient so main engines can be used most effectively
+			vector3d perfectForce = inst.path.DerivativeOf().DerivativeOf().Eval(t);
+			if (perfectForce.Length()) AISlowFaceDirection(perfectForce.Normalized());
+		}
 	}
 	return false;
 	//SetForce(force);
@@ -242,11 +331,13 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 		if (state[i] > 1.0) engines_not_powerful_enough = true;
 		SetThrusterState((ShipType::Thruster)i, state[i]);
 	}
+#ifdef DEBUG
 	if (engines_not_powerful_enough) {
 		printf("AI: Crud. thrusters insufficient: ");
 		for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) printf("%f ", state[i]);
 		printf("\n");
 	}
+#endif
 }
 
 bool Ship::AICmdFlyTo(const Body *body)
@@ -304,7 +395,6 @@ bool Ship::AICmdKamikaze(const Ship *enemy)
 	return false;
 }
 
-#include "Space.h"
 bool Ship::AICmdKill(const Ship *enemy)
 {
 	SetGunState(0,0);
@@ -348,30 +438,26 @@ void Ship::AIInstruct(enum AICommand cmd, void *arg)
 /* Orient so our -ve z axis == dir. ie so that dir points forwards */
 void Ship::AISlowFaceDirection(const vector3d &dir)
 {
+	vector3d zaxis = -dir;
+	vector3d xaxis = vector3d::Cross(vector3d(0.0,1.0,0.0), zaxis).Normalized();
+	vector3d yaxis = vector3d::Cross(zaxis, xaxis).Normalized();
+	matrix4x4d wantOrient = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+	AISlowOrient(wantOrient);
+}
+
+void Ship::AISlowOrient(const matrix4x4d &wantedOrient)
+{
 	double timeAccel = Pi::GetTimeAccel();
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	rot = rot.InverseOf();
-	vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
 	if (timeAccel > 11.0) {
-		// fake it
-		zaxis = -dir;
-		vector3d yaxis(rot[1], rot[5], rot[9]);
-		vector3d xaxis = vector3d::Cross(yaxis, zaxis).Normalized();
-		yaxis = vector3d::Cross(zaxis, xaxis);
-		SetRotMatrix(matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf());
+		SetRotMatrix(wantedOrient);
 	} else {
-		vector3d rotaxis = vector3d::Cross(zaxis, dir);
-		vector3d angVel = rot * GetAngVelocity();
-		const float dot = vector3d::Dot(dir, zaxis);
-		// if facing > 90 degrees away then max turn rate
-		if (dot < 0) rotaxis = rotaxis.Normalized();
-		rotaxis = rot*rotaxis;
-		vector3d desiredAngVelChange = 4.0*(rotaxis - angVel);
-		desiredAngVelChange *= 1.0 / timeAccel;
-		SetAngThrusterState(0, desiredAngVelChange.x);
-		SetAngThrusterState(1, desiredAngVelChange.y);
-		SetAngThrusterState(2, desiredAngVelChange.z);
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		Quaterniond q = (~Quaterniond::FromMatrix4x4(rot)) * Quaterniond::FromMatrix4x4(wantedOrient);
+		double angle;
+		vector3d rotaxis;
+		q.GetAxisAngle(angle, rotaxis);
+		AIModelCoordsMatchAngVel(angle * rotaxis.Normalized(), 10.0);
 	}
 }
 

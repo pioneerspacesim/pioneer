@@ -58,6 +58,7 @@ void Ship::Save(Serializer::Writer &wr)
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		wr.Int32((int)(*i).cmd);
 		switch ((*i).cmd) {
+			case DO_DOCK:
 			case DO_KILL:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
@@ -150,6 +151,7 @@ void Ship::PostLoadFixup()
 
 	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
 		switch ((*i).cmd) {
+			case DO_DOCK:
 			case DO_KILL:
 			case DO_KAMIKAZE:
 			case DO_FLY_TO:
@@ -935,6 +937,16 @@ void Ship::ChangeFlavour(const ShipFlavour *f)
 	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
+}
+
+float Ship::GetWeakestThrustersForce() const
+{
+	const ShipType &type = GetShipType();
+	float val = FLT_MAX;
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
+		val = MIN(val, fabs(type.linThrust[i]));
+	}
+	return val;
 }
 
 /* MarketAgent shite */

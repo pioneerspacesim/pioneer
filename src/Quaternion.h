@@ -24,6 +24,21 @@ public:
 		y = axis.y * sinHalfAng;
 		z = axis.z * sinHalfAng;
 	}
+	void GetAxisAngle(T &angle, vector3<T> &axis) {
+		if (w > 1.0) *this = Normalized(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
+		angle = 2.0 * acos(w);
+		double s = sqrt(1.0-w*w); // assuming quaternion normalised then w is less than 1, so term always positive.
+		if (s < 0.001) { // test to avoid divide by zero, s is always positive due to sqrt
+			// if s close to zero then direction of axis not important
+			axis.x = x; // if it is important that axis is normalised then replace with x=1; y=z=0;
+			axis.y = y;
+			axis.z = z;
+		} else {
+			axis.x = x / s; // normalise axis
+			axis.y = y / s;
+			axis.z = z / s;
+		}
+	}
 	// conjugate (inverse)
 	friend Quaternion operator~ (const Quaternion &a) {
 		Quaternion r;
@@ -65,7 +80,7 @@ public:
 	static T Dot (const Quaternion &a, const Quaternion &b) { return a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z; }
 
 	template <typename U>
-	static Quaternion FromMatrix4x4(matrix4x4<U> &m) {
+	static Quaternion FromMatrix4x4(const matrix4x4<U> &m) {
 		Quaternion r;
 		U t = m[0] + m[5] + m[10];
 		if (t > 0) {

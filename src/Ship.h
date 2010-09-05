@@ -73,10 +73,12 @@ public:
 	void UseHyperspaceFuel(const SBodyPath *dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	Equip::Type GetHyperdriveFuelType() const;
+	float GetWeakestThrustersForce() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	float GetHullTemperature() const;
 	void UseECM();
 	void AIFaceDirection(const vector3d &dir);
+	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness);
@@ -84,7 +86,7 @@ public:
 	
 	EquipSet m_equipment;
 
-	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT };
+	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK };
 	void AIInstruct(enum AICommand, void *arg);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
@@ -161,12 +163,13 @@ private:
 	};
 	std::list<AIInstruction> m_todo;
 	void AIBodyDeleted(const Body* const body);
+	bool AICmdDock(AIInstruction &, SpaceStation *);
 	bool AICmdKill(const Ship *);
 	bool AICmdOrbit(AIInstruction &, double orbitHeight);
 	bool AICmdKamikaze(const Ship *);
 	bool AICmdFlyTo(const Body *);
 	void AITrySetBodyRelativeThrust(const vector3d &force);
-	bool AIFollowPath(AIInstruction &, Frame *f);
+	bool AIFollowPath(AIInstruction &, Frame *f, bool pointShipAtVelocityVector = false);
 };
 
 #endif /* _SHIP_H */

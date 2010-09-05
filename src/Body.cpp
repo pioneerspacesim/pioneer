@@ -146,13 +146,21 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 vector3d Body::GetVelocityRelativeTo(const Frame *f) const
 {
 	matrix4x4d m;
-	Frame::GetFrameTransform(f, GetFrame(), m);
-	return (m.ApplyRotationOnly(GetVelocity()) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
+	Frame::GetFrameTransform(GetFrame(), f, m);
+	vector3d vel = GetVelocity();
+	if (!GetFrame()->m_astroBody) {
+		// for rotating space station frames, need to subtract the
+		// velocity that is counteracting coriolis force (an object
+		// stationary relative to a non-rotating frame will be moving
+		// in a rotating frame)
+		vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
+	}
+	return (m.ApplyRotationOnly(vel) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
 }
 
 
 vector3d Body::GetVelocityRelativeTo(const Body *other) const
 {
-	return GetVelocity() - other->GetVelocityRelativeTo(GetFrame());
+	return GetVelocityRelativeTo(GetFrame()) - other->GetVelocityRelativeTo(GetFrame());
 }
 

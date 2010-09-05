@@ -15,7 +15,34 @@ class CollMeshSet;
 class Ship;
 class Mission;
 class CityOnPlanet;
-struct SpaceStationType;
+
+struct SpaceStationType {
+	LmrModel *model;
+	const char *modelName;
+	float angVel;
+	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
+	int numDockingPorts;
+	int numDockingStages;
+	int numUndockStages;
+	float *dockAnimStageDuration;
+	float *undockAnimStageDuration;
+	
+	struct positionOrient_t {
+		vector3d pos;
+		vector3d xaxis;
+		vector3d yaxis;
+	};
+
+	void _ReadStageDurations(const char *key, int *outNumStages, float **durationArray);
+	// read from lua model definition
+	void ReadStageDurations();
+	bool GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const;
+	/** when ship is on rails it returns true and fills outPosOrient.
+	 * when ship has been released (or docked) it returns false.
+	 * Note station animations may continue for any number of stages after
+	 * ship has been released and is under player control again */
+	bool GetDockAnimPositionOrient(int port, int stage, float t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
+};
 
 /**
  * Bulletin board advert
@@ -84,7 +111,14 @@ public:
 	virtual void PostLoadFixup();
 	virtual void NotifyDeleted(const Body* const deletedBody);
 	int GetFreeDockingPort(); // returns -1 if none free
+	int GetMyDockingPort(const Ship *s) const {
+		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+			if (s == m_shipDocking[i].ship) return i;
+		}
+		return -1;
+	}
 	void SetDocked(Ship *ship, int port);
+	const SpaceStationType *GetSpaceStationType() const { return m_type; }
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;

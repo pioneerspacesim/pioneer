@@ -289,6 +289,14 @@ define_model('mushroom_station', {
 				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
+		ship_approach_waypoints = function(port, stage)
+			local port_pos = { v(-100,100,0), v(100,100,0) }
+			if stage == 1 then
+				return { v(port_pos[port]:x(), port_pos[port]:y()+10000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+			elseif stage == 2 then
+				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+			end
+		end,
 	},
 	static = function(lod)
 		set_material('markings', 1,0,0,1)
@@ -399,6 +407,13 @@ define_model('nice_spacestation', {
 				end
 				-- note stage -9 returns nil. this means 'launch ship but continue space station
 				-- animations'
+			end,
+			ship_approach_waypoints = function(port, stage)
+				if stage == 1 then
+					return { v(0,2000,0), v(1,0,0), v(0,0,1) }
+				elseif stage == 2 then
+					return { v(0,245,0), v(1,0,0), v(0,0,1) }
+				end
 			end,
 		},
 	static = function(lod)

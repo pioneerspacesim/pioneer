@@ -582,6 +582,12 @@ void WorldView::UpdateCommsOptions()
 			button = AddCommsOption("Request docking clearance", ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
 			ypos += 32;
+		
+			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
+				button = AddCommsOption("Autopilot: Dock with space station", ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&player_do_autopilot), navtarget, Ship::DO_DOCK));
+				ypos += 32;
+			}
 
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);
@@ -749,11 +755,10 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	if (velRelTo) {
 		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
 	} else {
-		vel = Pi::player->GetVelocity() -
-			Pi::player->GetFrame()->GetStasisVelocityAtPosition(Pi::player->GetPosition());
+		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+		// XXX ^ not the same as GetVelocity(), because it considers
+		// the stasis velocity of a rotating frame
 	}
-
-	//vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 	
 	glEnableClientState(GL_VERTEX_ARRAY);
 
