@@ -4,7 +4,7 @@
 local delivery_flavours = {
 	{
 		adtext = "GOING TO the %1 system? Money paid for delivery of a small package.",
-		introtext = "Hi, I'm %1. I'll pay you %2 if you will deliver a small package to %3 in the %4 system.",
+		introtext = "Hi, I'm %1. I'll pay you %2 if you will deliver a small package to %3 in the %4 (%5, %6) system.",
 		whysomuchdoshtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
 		successmsg = "Thank you for the delivery. You have been paid in full.",
 		failuremsg = "Jesus wept, you took forever over that delivery. I'm not willing to pay you.",
@@ -13,7 +13,7 @@ local delivery_flavours = {
 		money = .5,
 	}, {
 		adtext = "WANTED. Delivery of a package to the %1 system.",
-		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 system.",
+		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 (%5, %6) system.",
 		whysomuchdoshtext = "It is nothing special.",
 		successmsg = "The package has been received and you have been paid in full.",
 		failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
@@ -22,7 +22,7 @@ local delivery_flavours = {
 		money = 1,
 	}, {
 		adtext = "URGENT. Fast ship needed to deliver a package to the %1 system.",
-		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 system.",
+		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 (%5, %6) system.",
 		whysomuchdoshtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
@@ -31,7 +31,7 @@ local delivery_flavours = {
 		money = 1.1,
 	}, {
 		adtext = "DELIVERY. Documents to the %1 system. %2 to an experienced pilot.",
-		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 system.",
+		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 (%5, %6) system.",
 		whysomuchdoshtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
@@ -162,7 +162,7 @@ Module:new {
 			return
 		elseif optionClicked == 0 then
 			dialog:SetMessage(_(delivery_flavours[ad.flavour].introtext, {
-				ad.client, format_money(ad.reward), ad.dest:GetBodyName(), ad.dest:GetSystemName() }))
+				ad.client, format_money(ad.reward), ad.dest:GetBodyName(), ad.dest:GetSystemName(), ad.dest:GetSectorX(), ad.dest:GetSectorY() }))
 		elseif optionClicked == 1 then
 			dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchdoshtext)
 		elseif optionClicked == 2 then
@@ -170,8 +170,8 @@ Module:new {
 		elseif optionClicked == 3 then
 			dialog:RemoveAdvertOnClose()
 			self.ads[ad.id] = nil
-			ad.description = _("Deliver a package to %1 in the %2 system.",
-					{ ad.dest:GetBodyName(), ad.dest:GetSystemName() })
+			ad.description = _("Deliver a package to %1 in the %2 system (%3, %4).",
+					{ ad.dest:GetBodyName(), ad.dest:GetSystemName(), ad.dest:GetSectorX(), ad.dest:GetSectorY() })
 			ad.status = "active"
 			table.insert(self.missions, ad)
 			dialog:SetMessage("Excellent.")
