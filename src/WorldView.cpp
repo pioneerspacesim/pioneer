@@ -10,10 +10,11 @@
 #include "StarSystem.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
+#include "perlin.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
 
-#define BG_STAR_MAX	5000
+#define BG_STAR_MAX	65536
 
 #pragma pack(4)
 struct BgStar {
@@ -91,14 +92,18 @@ WorldView::WorldView(): View()
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 	
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = 0.05f+(float)Pi::rng.NDouble(3);
-		col = CLAMP(col, 0.05, 1);
+		float col = (float)Pi::rng.NDouble(4);
+		col = CLAMP(col, 0.1f, 1.0f);
 		s_bgstar[i].r = col;
 		s_bgstar[i].g = col;
 		s_bgstar[i].b = col;
-		s_bgstar[i].x = (float)(1000-Pi::rng.Double(2000.0));
-		s_bgstar[i].y = (float)(1000-Pi::rng.Double(2000.0));
-		s_bgstar[i].z = (float)(1000-Pi::rng.Double(2000.0));
+		// this is proper random distribution on a sphere's surface
+		const float theta = (float)Pi::rng.Double(0.0, 2.0*M_PI);
+		const float u = (float)
+			Pi::rng.Double(-1.0, 1.0);
+		s_bgstar[i].x = 1000.0f * sqrt(1.0 - u*u) * cos(theta);
+		s_bgstar[i].y = 1000.0f * u;
+		s_bgstar[i].z = 1000.0f * sqrt(1.0 - u*u) * sin(theta);
 	}
 	if (USE_VBO) {
 		glGenBuffersARB(1, &m_bgstarsVbo);
@@ -220,8 +225,47 @@ void WorldView::DrawBgStars()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glPointSize(1.5f);
+	glEnable(GL_POINT_SMOOTH);
+	glPointSize(1.0f);
 	
+	// draw the milkyway
+	{
+		// might be nice to shove this crap in a vbo.
+		float theta;
+		// make it rotated a bit so star systems are not in the same
+		// plane (could make it different per system...
+		glPushMatrix();
+		glRotatef(40.0, 1.0,2.0,3.0);
+		glBegin(GL_TRIANGLE_STRIP);
+		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
+			glColor3f(0.0,0.0,0.0);
+			glVertex3f(100*sin(theta), -40.0 - 40.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
+			glColor3f(0.03,0.03,0.03);
+			glVertex3f(100*sin(theta), 0, 100*cos(theta));
+		}
+		theta = 2.0*M_PI;
+		glColor3f(0.0,0.0,0.0);
+		glVertex3f(100*sin(theta), -40.0 - 40.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
+		glColor3f(0.03,0.03,0.03);
+		glVertex3f(100*sin(theta), 0, 100*cos(theta));
+
+		glEnd();
+		glBegin(GL_TRIANGLE_STRIP);
+		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
+			glColor3f(0.03,0.03,0.03);
+			glVertex3f(100*sin(theta), 0, 100*cos(theta));
+			glColor3f(0.0,0.0,0.0);
+			glVertex3f(100*sin(theta), 40.0 + 40.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
+		}
+		theta = 2.0*M_PI;
+		glColor3f(0.03,0.03,0.03);
+		glVertex3f(100*sin(theta), 0, 100*cos(theta));
+		glColor3f(0.0,0.0,0.0);
+		glVertex3f(100*sin(theta), 40.0 + 40.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
+		glEnd();
+		glPopMatrix();
+	}
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
