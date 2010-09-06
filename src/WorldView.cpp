@@ -225,7 +225,7 @@ void WorldView::DrawBgStars()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glEnable(GL_POINT_SMOOTH);
+	glDisable(GL_POINT_SMOOTH);
 	glPointSize(1.0f);
 	
 	// draw the milkyway
@@ -239,29 +239,29 @@ void WorldView::DrawBgStars()
 		glBegin(GL_TRIANGLE_STRIP);
 		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
 			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100*sin(theta), -40.0 - 40.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
+			glVertex3f(100*sin(theta), -40.0 - 30.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
 			glColor3f(0.03,0.03,0.03);
-			glVertex3f(100*sin(theta), 0, 100*cos(theta));
+			glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
 		}
 		theta = 2.0*M_PI;
 		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100*sin(theta), -40.0 - 40.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
+		glVertex3f(100*sin(theta), -40.0 - 30.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
 		glColor3f(0.03,0.03,0.03);
-		glVertex3f(100*sin(theta), 0, 100*cos(theta));
+		glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
 
 		glEnd();
 		glBegin(GL_TRIANGLE_STRIP);
 		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
 			glColor3f(0.03,0.03,0.03);
-			glVertex3f(100*sin(theta), 0, 100*cos(theta));
+			glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
 			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100*sin(theta), 40.0 + 40.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
+			glVertex3f(100*sin(theta), 40.0 + 30.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
 		}
 		theta = 2.0*M_PI;
 		glColor3f(0.03,0.03,0.03);
-		glVertex3f(100*sin(theta), 0, 100*cos(theta));
+		glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
 		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100*sin(theta), 40.0 + 40.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
+		glVertex3f(100*sin(theta), 40.0 + 30.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
 		glEnd();
 		glPopMatrix();
 	}
