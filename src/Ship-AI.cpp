@@ -158,7 +158,7 @@ bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 		const vector3d midpoint = target->GetPosition() + target_rot * shipOrientStartDocking.pos;
 		const vector3d endpoint = target->GetPosition() + target_rot * shipOrientEndDocking.pos;
 	
-		path(ourPosition, midpoint, endpoint, ourVelocity, endVelocity, maxAccel*.1, duration, inst.path);
+		path(ourPosition, midpoint, endpoint, ourVelocity, endVelocity, maxAccel*.5, duration, inst.path);
 		inst.endTime = inst.startTime + duration;
 	}
 	if (inst.endTime > 0) {

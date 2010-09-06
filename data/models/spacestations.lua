@@ -412,7 +412,7 @@ define_model('nice_spacestation', {
 				if stage == 1 then
 					return { v(0,2000,0), v(1,0,0), v(0,0,1) }
 				elseif stage == 2 then
-					return { v(0,245,0), v(1,0,0), v(0,0,1) }
+					return { v(0,300,0), v(1,0,0), v(0,0,1) }
 				end
 			end,
 		},
