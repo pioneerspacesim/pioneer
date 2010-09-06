@@ -722,6 +722,7 @@ public:
 	StationBBView();
 	virtual ~StationBBView() {
 		m_onBBChangedConnection.disconnect();
+		m_onBBAdvertDeleted.disconnect();
 	}
 	virtual void ShowAll();
 private:
