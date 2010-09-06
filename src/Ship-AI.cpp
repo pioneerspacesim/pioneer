@@ -222,11 +222,10 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVeloc
 	vector3d force = GetMass() * accel;
 	{
 		matrix4x4d tran;
-		// XXX well currently this should work, but if this transform
-		// is more than from a rotating frame to its parent frame
-		// (same location) then a transform will be introduced and
-		// fuck things up. should use ApplyRotationOnly
+		// need rotation between target frame and ship, so force is in
+		// correct model coords.
 		Frame::GetFrameTransform(frame, GetFrame(), tran);
+		tran.ClearToRotOnly();
 		// make body-relative and apply force using thrusters
 		matrix4x4d rot;
 		GetRotMatrix(rot);
