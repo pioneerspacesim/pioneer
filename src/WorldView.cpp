@@ -93,7 +93,7 @@ WorldView::WorldView(): View()
 	
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = (float)Pi::rng.NDouble(4);
-		col = CLAMP(col, 0.1f, 1.0f);
+		col = CLAMP(col, 0.05f, 1.0f);
 		s_bgstar[i].r = col;
 		s_bgstar[i].g = col;
 		s_bgstar[i].b = col;
@@ -111,6 +111,7 @@ WorldView::WorldView(): View()
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
 		glBindBufferARB(GL_ARRAY_BUFFER, 0);
 	}
+	m_bgStarShader = new Render::Shader("bgstars");
 }
 
 WorldView::~WorldView()
@@ -119,6 +120,7 @@ WorldView::~WorldView()
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
+	delete m_bgStarShader;
 }
 
 void WorldView::Save(Serializer::Writer &wr)
@@ -225,8 +227,6 @@ void WorldView::DrawBgStars()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glDisable(GL_POINT_SMOOTH);
-	glPointSize(1.0f);
 	
 	// draw the milkyway
 	{
@@ -268,6 +268,15 @@ void WorldView::DrawBgStars()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+	
+	if (Render::AreShadersEnabled()) {
+		m_renderState.UseProgram(m_bgStarShader);
+		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+		glEnable(GL_POINT_SMOOTH);
+	} else {
+		glDisable(GL_POINT_SMOOTH);
+		glPointSize(1.0f);
+	}
 
 	if (hyperspaceAnim == 0) {
 		if (USE_VBO) {
@@ -323,6 +332,12 @@ void WorldView::DrawBgStars()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	
+	if (Render::AreShadersEnabled()) {
+		m_renderState.UseProgram(0);
+		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+		glDisable(GL_POINT_SMOOTH);
+	}
+
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 }
