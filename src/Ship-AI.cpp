@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "Planet.h"
 #include "SpaceStation.h"
+#include "Space.h"
 
 static void path(const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
 		const vector3d &startVel, const vector3d &endVel, const double maxAccel,
@@ -66,10 +67,58 @@ void Ship::AIBodyDeleted(const Body* const body)
 	}
 }
 
+static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, const double sphereRadius)
+{
+	if (start.Length() <= sphereRadius) return true;
+	if (end.Length() <= sphereRadius) return true;
+	double length = (end-start).Length();
+	double b = -vector3d::Dot(start, (end-start).Normalized());
+	double det = (b*b) - vector3d::Dot(start, start) + sphereRadius*sphereRadius;
+	if (det > 0.0) {
+		det = sqrt(det);
+		double i1 = b - det;
+		double i2 = b + det;
+		if (i2 > 0.0) {
+			if (i1 < 0.0) {
+				if (i2 < length) {
+					return true;
+				}
+			} else {
+				if (i1 < length) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+/**
+ * Target should be in this->GetFrame() coordinates
+ * If obstructor is not null then *obstructor will be set.
+ */
+bool Ship::AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor)
+{
+	Body *body = Space::FindNearestTo(this, Object::PLANET);
+	if (body) {
+		Frame *frame = body->GetFrame();
+		matrix4x4d m;
+		Frame::GetFrameTransform(GetFrame(), frame, m);
+		vector3d p2 = m * target;
+		vector3d p1 = m * GetPosition();
+		double rad = body->GetBoundingRadius();
+		if (FrameSphereIntersect(p1, p2, rad)) {
+			if (obstructor) *obstructor = body;
+			return true;
+		}
+	}
+	return false;
+}
+
 void Ship::AITimeStep(const float timeStep)
 {
 	bool done = false;
-
+	
 	if (m_todo.size() != 0) {
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
@@ -94,6 +143,13 @@ void Ship::AITimeStep(const float timeStep)
 			case DO_FLY_TO:
 				done = AICmdFlyTo(static_cast<const Body*>(inst.target));
 				break;
+			case DO_FOLLOW_PATH:
+				{
+					Frame *f = static_cast<const Body*>(inst.target)->GetFrame();
+					if (f->IsRotatingFrame()) f = f->m_parent;
+					done = AIFollowPath(inst, f, true);
+				}
+				break;
 			case DO_NOTHING: done = true; break;
 		}
 	}
@@ -113,12 +169,78 @@ void Ship::AITimeStep(const float timeStep)
 	}
 }
 
+bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
+{
+	Body *obstructor;
+	if (!AIArePlanetsInTheWayOfGettingTo(target->GetPositionRelTo(GetFrame()), &obstructor)) {
+		return false;
+	}
+	Frame *frame = obstructor->GetFrame();
+	if (frame->IsRotatingFrame()) frame = frame->m_parent;
+	// hm. need to avoid some obstacle.
+	const vector3d a = GetPositionRelTo(frame);
+	const vector3d b = target->GetPositionRelTo(frame);
+	const vector3d c = obstructor->GetPositionRelTo(frame);
+
+	const double distance = (b-a).Length();
+	const vector3d forward = (b-a).Normalized();
+	const vector3d sideways = vector3d::Cross(vector3d::Cross(c-a, b-a), b-a).Normalized();
+
+	const double SEGMENT = 0.05*distance;
+	matrix4x4d m;
+	Frame::GetFrameTransform(frame, GetFrame(), m);
+	// so we can't get from *this to *target directly, lets try going at
+	// 30degrees, 60degrees and the 90degrees away from direct line, for
+	// a proportion of the distance
+	double ang = M_PI/6.0;
+	vector3d b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
+printf("trying 30 degrees\n");
+	if (AIArePlanetsInTheWayOfGettingTo(m * b2, NULL)) {
+printf("trying 60 degrees\n");
+		ang = M_PI/3.0;
+		b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
+		if (AIArePlanetsInTheWayOfGettingTo(m * b2, NULL)) {
+printf("trying 90 degrees\n");
+			ang = M_PI/2.0;
+			b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
+			if (AIArePlanetsInTheWayOfGettingTo(m * b2, NULL)) {
+printf("trying 180 degrees\n");
+				ang = M_PI;
+				b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
+			}
+		}
+	}
+
+	AIInstruction &inst = AIPrependInstruction(DO_FOLLOW_PATH, obstructor);
+
+	const double maxAccel = GetWeakestThrustersForce() / GetMass();
+	const vector3d ourPosition = a;
+	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
+	// XXX why 5km/sec at end of segment? dunno
+	const vector3d endVelocity = 5000.0 * (b2-a).Normalized();
+
+	double duration;
+
+	path(a, 0.5*(a+b2), b2, ourVelocity, endVelocity, maxAccel*.75, duration, inst.path);
+	int i = 0;
+	for (float t=0.0; i<=10; i++, t+=0.1) {
+		vector3d v = inst.path.DerivativeOf().Eval(t) * (1.0/duration);
+		printf("%.1f: %f,%f,%f\n", t, v.x,v.y,v.z);
+	}
+	printf("duratoin %f\n", duration);
+	inst.startTime = Pi::GetGameTime();
+	inst.endTime = inst.startTime + duration;
+}
+
 bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 {
 	Frame *frame = target->GetFrame();
 
 	// Ship::DOCKING for example...
 	if (GetFlightState() != Ship::FLYING) return true;
+
+	// is there planets in our way that we need to avoid?
+	if (AIAddAvoidancePathOnWayTo(target)) return false;
 
 	if (frame->IsRotatingFrame() && !target->IsGroundStation()) {
 		// can't autopilot by the rotating frame of a space station
@@ -201,6 +323,7 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVeloc
 	vector3d wantVel;
 	//printf("rtime: %f t %f\n", reactionTime, t);
 	if (Pi::GetGameTime()+Pi::GetTimeStep() >= inst.endTime) {
+		printf("end time %f, current time %f\n", inst.endTime, Pi::GetGameTime());
 		return true;
 	} else {
 		vector3d wantPos = inst.path.Eval(t);
@@ -352,6 +475,9 @@ bool Ship::AICmdFlyTo(const Body *body)
 		return true;
 	}
 
+	// is there planets in our way that we need to avoid?
+	if (AIAddAvoidancePathOnWayTo(body)) return false;
+
 	// work out stopping distance at current vel
 	const ShipType &stype = GetShipType();
 	double revAccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / (1000.0*m_stats.total_mass);
@@ -432,6 +558,14 @@ void Ship::AIInstruct(enum AICommand cmd, void *arg)
 	AIInstruction inst(cmd);
 	inst.target = (Body*)arg;
 	m_todo.push_back(inst);
+}
+
+Ship::AIInstruction &Ship::AIPrependInstruction(enum AICommand cmd, void *arg)
+{
+	AIInstruction inst(cmd);
+	inst.target = (Body*)arg;
+	m_todo.push_front(inst);
+	return m_todo.front();
 }
 
 /* Orient so our -ve z axis == dir. ie so that dir points forwards */

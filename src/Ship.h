@@ -86,7 +86,7 @@ public:
 	
 	EquipSet m_equipment;
 
-	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK };
+	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK, DO_FOLLOW_PATH };
 	void AIInstruct(enum AICommand, void *arg);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
@@ -162,6 +162,9 @@ private:
 		}
 	};
 	std::list<AIInstruction> m_todo;
+	bool AIAddAvoidancePathOnWayTo(const Body *target);
+	bool AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor);
+	AIInstruction &AIPrependInstruction(enum AICommand cmd, void *arg);
 	void AIBodyDeleted(const Body* const body);
 	bool AICmdDock(AIInstruction &, SpaceStation *);
 	bool AICmdKill(const Ship *);

@@ -65,6 +65,7 @@ void Ship::Save(Serializer::Writer &wr)
 			case DO_LOW_ORBIT:
 			case DO_MEDIUM_ORBIT:
 			case DO_HIGH_ORBIT:
+			case DO_FOLLOW_PATH:
 				wr.Int32(Serializer::LookupBody((*i).target));
 				{
 					int n = (*i).path.p.size();
@@ -158,6 +159,7 @@ void Ship::PostLoadFixup()
 			case DO_LOW_ORBIT:
 			case DO_MEDIUM_ORBIT:
 			case DO_HIGH_ORBIT:
+			case DO_FOLLOW_PATH:
 				(*i).target = Serializer::LookupBody((size_t)(*i).target);
 				break;
 			case DO_NOTHING: break;
