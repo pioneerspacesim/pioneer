@@ -273,6 +273,7 @@ void WorldView::DrawBgStars()
 		m_renderState.UseProgram(m_bgStarShader);
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 		glEnable(GL_POINT_SMOOTH);
+		glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	} else {
 		glDisable(GL_POINT_SMOOTH);
 		glPointSize(1.0f);
