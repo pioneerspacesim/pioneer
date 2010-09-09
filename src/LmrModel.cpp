@@ -27,6 +27,27 @@ struct RenderState {
 	float combinedScale;
 };
 
+#include "Gui.h"
+static int _LmrModelPANIC(lua_State *L)
+{
+	luaL_where(L, 0);
+	std::string errorMsg = lua_tostring(L, -1);
+	lua_pop(L, 1);
+
+	errorMsg += lua_tostring(L, -1);
+	lua_pop(L, 1);
+
+	lua_getglobal(L, "debug");
+	lua_getfield(L, -1, "traceback");
+	lua_call(L, 0, 1);
+	errorMsg += "\n";
+	errorMsg += lua_tostring(L, -1);
+	errorMsg += "\n";
+	Gui::Screen::ShowBadError(errorMsg.c_str());
+	exit(0);
+	return 0;
+}
+
 struct LmrUnknownMaterial {};
 
 namespace ShipThruster {
@@ -745,11 +766,12 @@ LmrModel::LmrModel(const char *model_name)
 	for (int i=0; i<m_numLods; i++) {
 		m_staticGeometry[i]->PreBuild();
 		s_curBuf = m_staticGeometry[i];
+		lua_pushcfunction(sLua, _LmrModelPANIC);
 		// call model static building function
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, i+1);
-		lua_call(sLua, 1, 0);
+		lua_pcall(sLua, 1, 0, -3);
 		s_curBuf = 0;
 		m_staticGeometry[i]->PostBuild();
 	}
@@ -869,11 +891,12 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
 		s_curParams = params;
+		lua_pushcfunction(sLua, _LmrModelPANIC);
 		// call model dynamic bits
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
-		lua_call(sLua, 1, 0);
+		lua_pcall(sLua, 1, 0, -3);
 		s_curBuf = 0;
 		s_curParams = 0;
 		m_dynamicGeometry[lod]->PostBuild();
@@ -2585,9 +2608,14 @@ void LmrModelCompilerInit()
 	s_buildDynamic = false;
 	lua_pushstring(L, PIONEER_DATA_DIR);
 	lua_setglobal(L, "CurrentDirectory");
-	if (luaL_dofile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str() )) {
-		printf("%s\n", lua_tostring(L, -1));
+	
+	// same as luaL_dofile, except we can pass an error handler
+	lua_pushcfunction(L, _LmrModelPANIC);
+	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str())) {
+		_LmrModelPANIC(L);
+	} else {
+		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}
+	
 	s_buildDynamic = true;
-	//lua_close(L);
 }

@@ -83,6 +83,7 @@ public:
 	Gui::Adjustment *m_angthrust[3];
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
+	Gui::Label *m_trisReadout;
 
 	float GetAnimValue(int i) {
 		std::string val = m_animEntry[i]->GetText();
@@ -92,6 +93,9 @@ public:
 	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
+
+		m_trisReadout = new Gui::Label("");
+		Add(m_trisReadout, 500, 0);
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_c, KMOD_NONE);
@@ -409,6 +413,8 @@ void Viewer::MainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		SetSbreParams();
+
+		int beforeDrawTriStats = LmrModelGetStatsTris();
 	
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -430,6 +436,12 @@ void Viewer::MainLoop()
 			vector3d forward = tran * vector3d(0.0,0.0,-1.0);
 			vector3d up = tran * vector3d(0.0,1.0,0.0);
 			raytraceCollMesh(modelRot * g_campos, up, forward, space);
+		}
+
+		{
+			char buf[128];
+			snprintf(buf, sizeof(buf), "%d triangles", LmrModelGetStatsTris() - beforeDrawTriStats);
+			m_trisReadout->SetText(buf);
 		}
 		
 		Gui::Draw();
@@ -557,8 +569,8 @@ int main(int argc, char **argv)
 	glViewport(0, 0, g_width, g_height);
 	GLFTInit();
 	Render::Init();
-	LmrModelCompilerInit();
 	Gui::Init(g_width, g_height, g_width, g_height);
+	LmrModelCompilerInit();
 
 	if (argc >= 4) {
 		g_model = LmrLookupModelByName(argv[3]);

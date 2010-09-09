@@ -60,14 +60,15 @@ void Screen::ShowBadError(const char *msg)
 	fprintf(stderr, "%s", msg);
 	baseContainer->HideChildren();
 	
-	Gui::Fixed *f = new Gui::Fixed(GetWidth()/2, GetHeight()/2);
-	Gui::Screen::AddBaseWidget(f, GetWidth()/4, GetHeight()/4);
+	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8, 6*GetHeight()/8);
+	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
 	f->SetBgColor(0.4,0,0,1.0);
 	f->Add(new Gui::Label(msg), 10, 10);
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
-	f->Add(okButton, 10, 200);
+	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
+	f->Add(okButton, 10, 6*GetHeight()/8 - 32);
 	f->ShowAll();
 	f->Show();
 
