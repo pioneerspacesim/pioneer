@@ -72,14 +72,16 @@ void SpaceStationType::ReadStageDurations() {
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
 	lua_State *L = LmrGetLuaState();
+	lua_pushcfunction(L, mylua_panic);
 	model->PushAttributeToLuaStack("ship_approach_waypoints");
 	if (!lua_isfunction(L, -1)) {
 		printf("no function\n");
+		lua_pop(L, 2);
 		return false;
 	}
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
-	lua_call(L, 2, 1);
+	lua_pcall(L, 2, 1, -4);
 	bool gotOrient;
 	if (lua_istable(L, -1)) {
 		gotOrient = true;
@@ -113,11 +115,11 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, float t, c
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
 	lua_State *L = LmrGetLuaState();
+	lua_pushcfunction(L, mylua_panic);
 	// It's a function of form function(stage, t, from)
 	model->PushAttributeToLuaStack("ship_dock_anim");
 	if (!lua_isfunction(L, -1)) {
-		fprintf(stderr, "Error: Spacestation model %s needs ship_dock_anim method\n", model->GetName());
-		Pi::Quit();
+		Error("Spacestation model %s needs ship_dock_anim method", model->GetName());
 	}
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
@@ -137,7 +139,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, float t, c
 		lua_setfield(L, -2, "min");
 	}
 
-	lua_call(L, 5, 1);
+	lua_pcall(L, 5, 1, -7);
 	bool gotOrient;
 	if (lua_istable(L, -1)) {
 		gotOrient = true;

@@ -31,10 +31,11 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
 		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
 		LmrModel.cpp MyLuaMathTypes.cpp PiLuaModules.cpp LuaChatForm.cpp PiLuaAPI.cpp IniConfig.cpp \
-		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp
+		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp mylua.cpp
 pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
 
-modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp
+modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp \
+		      mylua.cpp
 modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
 
 check_PROGRAMS = tests
@@ -43,7 +44,7 @@ tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp 
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp utils.cpp SpaceStation.cpp \
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
-		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp
+		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp 
 tests_LDADD = collider/libcollider.a libgui.a
 
 INCLUDES = -I@top_srcdir@/src/lua

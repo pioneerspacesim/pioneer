@@ -26,28 +26,6 @@ struct RenderState {
 	// combination of model scale, call_model scale, and all parent scalings
 	float combinedScale;
 };
-
-#include "Gui.h"
-static int _LmrModelPANIC(lua_State *L)
-{
-	luaL_where(L, 0);
-	std::string errorMsg = lua_tostring(L, -1);
-	lua_pop(L, 1);
-
-	errorMsg += lua_tostring(L, -1);
-	lua_pop(L, 1);
-
-	lua_getglobal(L, "debug");
-	lua_getfield(L, -1, "traceback");
-	lua_call(L, 0, 1);
-	errorMsg += "\n";
-	errorMsg += lua_tostring(L, -1);
-	errorMsg += "\n";
-	Gui::Screen::ShowBadError(errorMsg.c_str());
-	exit(0);
-	return 0;
-}
-
 struct LmrUnknownMaterial {};
 
 namespace ShipThruster {
@@ -766,7 +744,7 @@ LmrModel::LmrModel(const char *model_name)
 	for (int i=0; i<m_numLods; i++) {
 		m_staticGeometry[i]->PreBuild();
 		s_curBuf = m_staticGeometry[i];
-		lua_pushcfunction(sLua, _LmrModelPANIC);
+		lua_pushcfunction(sLua, mylua_panic);
 		// call model static building function
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
 		// lod as first argument
@@ -891,7 +869,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
 		s_curParams = params;
-		lua_pushcfunction(sLua, _LmrModelPANIC);
+		lua_pushcfunction(sLua, mylua_panic);
 		// call model dynamic bits
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
 		// lod as first argument
@@ -2610,9 +2588,9 @@ void LmrModelCompilerInit()
 	lua_setglobal(L, "CurrentDirectory");
 	
 	// same as luaL_dofile, except we can pass an error handler
-	lua_pushcfunction(L, _LmrModelPANIC);
+	lua_pushcfunction(L, mylua_panic);
 	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str())) {
-		_LmrModelPANIC(L);
+		mylua_panic(L);
 	} else {
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}

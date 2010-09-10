@@ -30,8 +30,9 @@ lua_State *GetLuaState() { return L; }
 void EmitEvents()
 {
 	if (s_eventsPending) {
+		lua_pushcfunction(L, mylua_panic);
 		lua_getglobal(L, "EmitEvents");
-		lua_call(L, 0, 0);
+		lua_pcall(L, 0, 0, -2);
 		s_eventsPending = false;
 	}
 }
@@ -102,10 +103,11 @@ void QueueEvent(const char *eventName, Object *o1, Object *o2)
 static void CallModFunction(const char *modname, const char *funcname)
 {
 	printf("call %s:%s()\n", modname, funcname);
+	lua_pushcfunction(L, mylua_panic);
 	lua_getglobal(L, modname);
 	lua_getfield(L, -1, funcname);
 	lua_pushvalue(L, -2); // push self
-	lua_call(L, 1, 0);
+	lua_pcall(L, 1, 0, -4);
 	lua_pop(L, 1);
 }
 
@@ -154,10 +156,11 @@ void GetPlayerMissions(std::list<Mission> &missions)
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
 		lua_getglobal(L, (*i).c_str());
-		lua_getfield(L, -1, "GetPlayerMissions");
+		lua_pushcfunction(L, mylua_panic);
+		lua_getfield(L, -2, "GetPlayerMissions");
 		if (!lua_isnil(L, -1)) {
-			lua_pushvalue(L, -2); // push self
-			lua_call(L, 1, 1);
+			lua_pushvalue(L, -3); // push self
+			lua_pcall(L, 1, 1, -3);
 			// -1 is table of missions
 			lua_pushnil(L);  /* first key */
 			while (lua_next(L, -2) != 0) {
@@ -168,7 +171,7 @@ void GetPlayerMissions(std::list<Mission> &missions)
 			}
 			lua_pop(L, 1);
 		} else {
-			lua_pop(L, 2);
+			lua_pop(L, 3);
 		}
 	}
 }

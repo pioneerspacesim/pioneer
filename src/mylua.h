@@ -9,6 +9,8 @@
 #include "oolua/oolua.h"
 #include "oolua/oolua_error.h"
 
+extern int mylua_panic(lua_State *L);
+
 template <typename T>
 static inline void push2luaWithGc(lua_State *L, T *o)
 {
@@ -35,5 +37,6 @@ static inline void *mylua_checkudata (lua_State *L, int ud, const char *tname) {
 //  luaL_typerror(L, ud, tname);  /* else error */
   return NULL;  /* to avoid warnings */
 }
+
 
 #endif /* MYLUA_H */

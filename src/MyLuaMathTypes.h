@@ -1,12 +1,7 @@
 #ifndef _MYLUAMATHTYPES_H
 #define _MYLUAMATHTYPES_H
 
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lualib.h"
-#include "lua/lauxlib.h"
-}
-
+#include "mylua.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 
