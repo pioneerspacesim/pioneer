@@ -129,7 +129,6 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 		glEnd();
 	}
 //	/*if (Shader::IsVtxProgActive())*/ glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-	UseProgram(0);
 
 //	quadratic[0] = 1; quadratic[1] = 0;
 //	glPointParameterfvARB( GL_POINT_DISTANCE_ATTENUATION_ARB, quadratic );

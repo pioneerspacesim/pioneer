@@ -437,6 +437,7 @@ void Viewer::MainLoop()
 			vector3d up = tran * vector3d(0.0,1.0,0.0);
 			raytraceCollMesh(modelRot * g_campos, up, forward, space);
 		}
+		Render::UseProgram(0);
 
 		{
 			char buf[128];
