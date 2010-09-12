@@ -860,7 +860,6 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	glDisable(GL_NORMALIZE);
 	glPopMatrix();
-	Render::UseProgram(0);
 }
 
 void LmrModel::Build(int lod, const LmrObjParams *params)

@@ -16,6 +16,7 @@
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "PiLuaModules.h"
+#include "Render.h"
 
 namespace Space {
 
@@ -871,6 +872,7 @@ void Render(const Frame *cam_frame)
 		if (do_draw) bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
 	}
 	Sfx::RenderAll(rootFrame, cam_frame);
+	Render::UseProgram(0);
 
 	delete [] bz;
 }

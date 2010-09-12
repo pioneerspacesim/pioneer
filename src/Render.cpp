@@ -291,11 +291,15 @@ GLuint State::UseProgram(const Shader *shader)
 	if (shadersEnabled) {
 		if (shader) {
 			GLuint prog = shader->m_program[m_numLights-1];
-			glUseProgram(prog);
-			GLint invLogZfarPlus1Loc = glGetUniformLocation(prog, "invLogZfarPlus1");
-			glUniform1f(invLogZfarPlus1Loc, m_invLogZfarPlus1);
+			if (m_currentProgram != prog) {
+				m_currentProgram = prog;
+				glUseProgram(prog);
+				GLint invLogZfarPlus1Loc = glGetUniformLocation(prog, "invLogZfarPlus1");
+				glUniform1f(invLogZfarPlus1Loc, m_invLogZfarPlus1);
+			}
 			return prog;
 		} else {
+			m_currentProgram = 0;
 			glUseProgram(0);
 		}
 	}

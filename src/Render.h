@@ -21,6 +21,7 @@ namespace Render {
 		int m_numLights;
 		float m_znear, m_zfar;
 		float m_invLogZfarPlus1; // for z-hack
+		GLuint m_currentProgram;
 	public:
 		State() {
 			SetNumLights(1);
