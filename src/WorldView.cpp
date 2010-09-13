@@ -410,8 +410,10 @@ void WorldView::Draw3D()
 	float znear, zfar;
 	GetNearFarClipPlane(&znear, &zfar);
 	// why the hell do i give these functions such big names..
-	float fracH = znear / Pi::GetScrAspect();
-	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
+	const float zoom = 0.9f; // angle of viewing = 2.0*atan(zoom);
+	const float left = zoom * znear;
+	const float fracH = left / Pi::GetScrAspect();
+	glFrustum(-left, left, -fracH, fracH, znear, zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glClearColor(0,0,0,0);
