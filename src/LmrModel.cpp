@@ -6,6 +6,7 @@
 #include "perlin.h"
 #include "Render.h"
 #include "BufferObject.h"
+#include <set>
 #ifdef _WIN32
 #include <../msvc/win32-dirent.h>
 #else
@@ -2415,6 +2416,9 @@ namespace UtilFuncs {
 		struct dirent *entry;
 		char path[1024];
 		struct stat info;
+		// putting directory contents into sorted order so order of
+		// model definition is consistent
+		std::set<std::string> entries;
 
 		lua_getglobal(L, "CurrentDirectory");
 		std::string save_dir = luaL_checkstring(L, -1);
@@ -2428,27 +2432,31 @@ namespace UtilFuncs {
 		else {
 			while ((entry = readdir(dir)) != NULL) {
 				if (entry->d_name[0] != '.') {
-					strcpy(path, fn);
-					strcat(path, "/");
-					strcat(path, entry->d_name);
-					if (stat(path, &info) != 0)
-						fprintf(stderr, "stat() error on %s: %s\n", path, strerror(errno));
+					entries.insert(entry->d_name);
+				}
+			}
+			closedir(dir);
+			for (std::set<std::string>::iterator i = entries.begin(); i!=entries.end(); ++i) {
+				const std::string &name = *i;
+				strcpy(path, fn);
+				strcat(path, "/");
+				strcat(path, name.c_str());
+				if (stat(path, &info) != 0) {
+					fprintf(stderr, "stat() error on %s: %s\n", path, strerror(errno));
+				} else {
+					if (S_ISDIR(info.st_mode))
+						lua_traverse(L, path);
 					else {
-						if (S_ISDIR(info.st_mode))
-							lua_traverse(L, path);
-						else {
-							if ( strlen(entry->d_name) >= strlen(".lua") && strcasecmp(entry->d_name+strlen(entry->d_name)-4, ".lua") == 0)
-								if (luaL_dofile(L, path)) {
-									printf("%s\n", lua_tostring(L, -1));
-									break;
+						if ( name.size() >= strlen(".lua") && strcasecmp( name.c_str() + name.size()-4, ".lua") == 0) {
+							if (luaL_dofile(L, path)) {
+								printf("%s\n", lua_tostring(L, -1));
+								break;
 							}
 						}
 					}
 				}
 			}
-			closedir(dir);
 		}
-
 		lua_pushstring(L, save_dir.c_str());
 		lua_setglobal(L, "CurrentDirectory");
 	}
