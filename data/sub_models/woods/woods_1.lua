@@ -1,98 +1,74 @@
 define_model('gelati_l', {
-		
 	info = {
 			bounding_radius=5,
-			materials={'tree'}
 			},
 	static = function(lod)
-		set_material('tree', 1,1,1, .99, .6,.6,.5, 1)
-		use_material ('tree') 
-		texture('pine_01.png')
-		load_obj('pine_01.obj', Matrix.new(v(0.66,0,0),v(0,1,0),v(0,0,0.66)))
+	    texture('pine_01.png')
+		load_obj('pine_01.obj', Matrix.scale(v(.66,1,.66)))
 end
 })
 
 define_model('gelati_n', {
-		
 	info = {
 			bounding_radius=5,
-			materials={'tree'}
 			},
 	static = function(lod)
-		set_material('tree', 1,1,1, .99, .6,.6,.5, 1)
-		use_material ('tree') 
 		texture('pine_01.png')
-		load_obj('pine_01.obj', Matrix.new(v(1,0,0),v(0,1,0),v(0,0,1)))
+		load_obj('pine_01.obj', Matrix.scale(v(1,1,1)))
 end
 })
 
-
 define_model('gelati_w', {
-		
 	info = {
 			bounding_radius=5,
-			materials={'tree'}
 			},
 	static = function(lod)
-		set_material('tree', 1,1,1, .99, .6,.6,.5, 1)
-		use_material ('tree') 
 		texture('pine_01.png')
-		load_obj('pine_01.obj', Matrix.new(v(1.5,0,0),v(0,1,0),v(0,0,1.5)))
+		load_obj('pine_01.obj', Matrix.scale(v(1.5,1,1.5)))
 end
 })
 
 define_model('broccoli_l', {
-		
 	info = {
 			bounding_radius=5,
-			materials={'tree'}
 			},
 	static = function(lod)
-		set_material('tree', 1,1,1, .99, .6,.6,.5, 1)
-		use_material ('tree') 
 		texture('oak_01.png')
-		load_obj('oak_01.obj', Matrix.new(v(0.66,0,0),v(0,1,0),v(0,0,0.66)))
+		load_obj('oak_01.obj', Matrix.scale(v(.66,1,.66)))
 end
 })
 
 define_model('broccoli_n', {
-		
 	info = {
 			bounding_radius=5,
-			materials={'tree'}
 			},
 	static = function(lod)
-		set_material('tree', 1,1,1, .99, .6,.6,.5, 1)
-		use_material ('tree') 
 		texture('oak_01.png')
-		load_obj('oak_01.obj', Matrix.new(v(1,0,0),v(0,1,0),v(0,0,1)))
+		load_obj('oak_01.obj', Matrix.scale(v(1,1,1)))
 end
 })
 
 define_model('broccoli_w', {
-		
 	info = {
 			bounding_radius=5,
-			materials={'tree'}
 			},
 	static = function(lod)
-		set_material('tree', 1,1,1, .99, .6,.6,.5, 1)
-		use_material ('tree') 
 		texture('oak_01.png')
-		load_obj('oak_01.obj', Matrix.new(v(1.5,0,0),v(0,1,0),v(0,0,1.5)))
+		load_obj('oak_01.obj', Matrix.scale(v(1.5,1,1.5)))
 end
 })
-
-
 
 define_model('woods_1', {
 
 	info = {
 	        bounding_radius=60,
-	        tags = {'city_building', 'city_power'}
+	        materials = {'tree'},
+			--tags = {'city_building', 'city_power'}
 	        },
 
 	static = function(lod)
+    	set_material('tree', .6,.6,.6, .99, .4,.4,.3, 1)
+		use_material ('tree') 
 
 		call_model('gelati_l', v(10,0,15), v(1,0,0), v(0,1,0), 30)
 		call_model('gelati_l', v(-15,0,20), v(0,0,-1), v(0,1,0), 25)
