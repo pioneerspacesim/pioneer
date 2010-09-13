@@ -235,6 +235,26 @@ void LmrNotifyScreenWidth(float width)
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
+	
+void UseProgram(bool Textured = false) {
+	static GLuint lastProg, texLoc, usetexLoc;
+	static bool lastTextured = false;
+	if ( Render::AreShadersEnabled() ) {
+		GLuint prog = Render::UseProgram(s_normalShader);
+		if (prog != lastProg) {
+			lastProg = prog;
+			texLoc = glGetUniformLocation(prog, "tex");
+			usetexLoc = glGetUniformLocation(prog, "usetex");
+			glUniform1i(texLoc, 0);
+			lastTextured = !Textured;
+		}
+		if (lastTextured != Textured) {
+			if (Textured) glUniform1i(usetexLoc, 1);
+			else glUniform1i(usetexLoc, 0);
+			lastTextured = Textured;
+		}
+	}
+}
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 	
@@ -286,7 +306,6 @@ public:
 		s_numTrisRendered += m_indices.size()/3;
 
 		BindBuffers();
-		UseProgram();
 
 		glDepthRange(0.0, 1.0);
 
@@ -299,6 +318,8 @@ public:
 					UseProgram(true);
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
+				} else {
+					UseProgram();
 				}
 				if (m_isStatic) {
 					// from static VBO
@@ -316,7 +337,6 @@ public:
 				}
 				if ( op.elems.texture != 0 ) {
 					glDisable(GL_TEXTURE_2D);
-					UseProgram();
 				}
 				break;
 			case OP_DRAW_BILLBOARDS:
@@ -325,7 +345,6 @@ public:
 				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
 						op.billboards.col, op.billboards.tex, sizeof(Vertex));
 				BindBuffers();
-				UseProgram();
 				break;
 			case OP_SET_MATERIAL:
 				{
@@ -364,7 +383,6 @@ public:
 				op.callmodel.model->Render(&rstate2, cam_pos, trans, params);
 				// XXX re-binding buffer may not be necessary
 				BindBuffers();
-				UseProgram();
 				}
 				break;
 			case OP_NONE:
@@ -578,20 +596,6 @@ private:
 				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_vertices[0].v);
 				glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &m_vertices[0].tex_u);
 			}
-		}
-	}
-
-	void UseProgram(bool Textured = false) {
-		if ( Render::AreShadersEnabled() ) {
-			GLuint prog = Render::UseProgram(s_normalShader);
-			GLuint texLoc = glGetUniformLocation(prog, "tex");
-			GLuint usetexLoc = glGetUniformLocation(prog, "usetex");
-			if (Textured) {
-				glUniform1i(texLoc, 0);
-				glUniform1i(usetexLoc, 1);
-			}
-			else
-				glUniform1i(usetexLoc, 0);
 		}
 	}
 
