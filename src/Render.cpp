@@ -1,5 +1,8 @@
 #include "Render.h"
 
+static GLuint boundArrayBufferObject = 0;
+static GLuint boundElementArrayBufferObject = 0;
+
 namespace Render {
 
 static bool initted = false;
@@ -9,6 +12,38 @@ static State *currentState;
 Shader *simpleShader;
 Shader *planetRingsShader;
 Shader *billboardShader;
+
+void BindArrayBuffer(GLuint bo)
+{
+	if (boundArrayBufferObject != bo) {
+		glBindBufferARB(GL_ARRAY_BUFFER, bo);
+		boundArrayBufferObject = bo;
+	}
+}
+
+bool IsArrayBufferBound(GLuint bo)
+{
+	return boundArrayBufferObject == bo;
+}
+
+void BindElementArrayBuffer(GLuint bo)
+{
+	if (boundElementArrayBufferObject != bo) {
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, bo);
+		boundElementArrayBufferObject = bo;
+	}
+}
+
+bool IsElementArrayBufferBound(GLuint bo)
+{
+	return boundElementArrayBufferObject == bo;
+}
+
+void UnbindAllBuffers()
+{
+	BindElementArrayBuffer(0);
+	BindArrayBuffer(0);
+}
 
 void Init()
 {

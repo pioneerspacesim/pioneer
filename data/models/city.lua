@@ -253,10 +253,6 @@ define_model('boringHighRise', {
 		materials={'mat1','windows'},
 		tags = {'city_building'},
 	},
-	dynamic = function(lod)
-		use_material("mat1", 'windows')
-		tri(v(-20,0,0),v(20,0,0),v(-20,20,0))
-	end,
 	static = function(lod)
 		set_material("mat1", 0.5,0.5,0.5,1)
 		use_material("mat1")

@@ -387,6 +387,8 @@ void StationViewShipView::Draw3D()
 	rot[14] = -1.5f * m_lmrModel->GetDrawClipRadius();
 
 	m_lmrModel->Render(rot, &params);
+	Render::UseProgram(0);
+	Render::UnbindAllBuffers();
 	glPopAttrib();
 	Render::SetCurrentState(0);
 }

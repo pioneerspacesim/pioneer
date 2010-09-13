@@ -873,6 +873,7 @@ void Render(const Frame *cam_frame)
 	}
 	Sfx::RenderAll(rootFrame, cam_frame);
 	Render::UseProgram(0);
+	Render::UnbindAllBuffers();
 
 	delete [] bz;
 }

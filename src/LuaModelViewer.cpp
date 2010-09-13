@@ -438,6 +438,7 @@ void Viewer::MainLoop()
 			raytraceCollMesh(modelRot * g_campos, up, forward, space);
 		}
 		Render::UseProgram(0);
+		Render::UnbindAllBuffers();
 
 		{
 			char buf[128];

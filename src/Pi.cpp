@@ -195,7 +195,12 @@ void Pi::Init()
 
 	InitOpenGL();
 	GLFTInit();
+	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
+	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
+	if (!GLEW_ARB_vertex_buffer_object) {
+		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
+	}
 	Galaxy::Init();
 	NameGenerator::Init();
 	draw_progress(0.1f);
@@ -245,7 +250,6 @@ void Pi::InitOpenGL()
 
 	gluQuadric = gluNewQuadric ();
 	
-	fprintf(stderr, "GL_ARB_vertex_buffer_object: %s\n", GLEW_ARB_vertex_buffer_object ? "Yes" : "No");
 	fprintf(stderr, "GL_ARB_point_sprite: %s\n", GLEW_ARB_point_sprite ? "Yes" : "No");
 }
 
@@ -466,6 +470,8 @@ static void draw_intro(WorldView *view, float _time)
 			matrix4x4f::RotateXMatrix(_time*.7);
 	rot[14] = -80.0;
 	LmrLookupModelByName("interdictor")->Render(rot, &params);
+	Render::UseProgram(0);
+	Render::UnbindAllBuffers();
 	glPopAttrib();
 	Render::SetCurrentState(0);
 }
@@ -496,6 +502,8 @@ static void draw_tombstone(float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -MAX(150 - 30*_time, 30);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
+	Render::UseProgram(0);
+	Render::UnbindAllBuffers();
 	glPopAttrib();
 }
 

@@ -5,6 +5,7 @@
 #include "collider/collider.h"
 #include "perlin.h"
 #include "Render.h"
+#include "BufferObject.h"
 #ifdef _WIN32
 #include <../msvc/win32-dirent.h>
 #else
@@ -215,6 +216,15 @@ static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
 
+struct Vertex {
+	Vertex() {}
+	Vertex(const vector3f &v, const vector3f &n, const GLfloat tex_u, const GLfloat tex_v): v(v), n(n), tex_u(tex_u), tex_v(tex_v) {}
+	vector3f v, n;
+	GLfloat tex_u, tex_v;
+};
+
+static BufferObjectPool<sizeof(Vertex)> *s_staticBufferPool;
+
 lua_State *LmrGetLuaState() { return sLua; }
 
 void LmrNotifyScreenWidth(float width)
@@ -226,22 +236,17 @@ int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
-//#define USE_VBO 0
 	
 class LmrGeomBuffer {
 public:
-	LmrGeomBuffer(LmrModel *model) {
+	LmrGeomBuffer(LmrModel *model, bool isStatic) {
 		curOp.type = OP_NONE;
 		curTriFlag = 0;
 		curTexture = 0;
 		curTexMatrix = matrix4x4f::Identity();
-		m_vertexBuffer = 0;
-		m_indexBuffer = 0;
 		m_model = model;
-	}
-	~LmrGeomBuffer() {
-		if (m_vertexBuffer) glDeleteBuffersARB(1, &m_vertexBuffer);
-		if (m_indexBuffer) glDeleteBuffersARB(1, &m_indexBuffer);
+		m_isStatic = isStatic;
+		m_bo = 0;
 	}
 	int GetIndicesPos() const {
 		return m_indices.size();
@@ -261,26 +266,10 @@ public:
 	}
 	void PostBuild() {
 		PushCurOp();
-		// we are using Uint16 index arrays
-		assert(m_indices.size() < 65536);
-	//		printf("%d vertices, %d indices, %d ops\n", m_vertices.size(), m_indices.size(), m_ops.size());
-		if (USE_VBO) {
-			if (m_vertexBuffer == 0) glGenBuffersARB(1, &m_vertexBuffer);
-			if (m_indexBuffer == 0) glGenBuffersARB(1, &m_indexBuffer);
-			
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_indices.size(),
-					0, GL_STATIC_DRAW);
-			if (m_indices.size())
-				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_indices.size(),
-					&m_indices[0], GL_STATIC_DRAW);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-		
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
-			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*m_vertices.size(), 0, GL_STATIC_DRAW);
-			if (m_vertices.size())
-				glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*m_vertices.size(), &m_vertices[0], GL_STATIC_DRAW);
-			glBindBufferARB(GL_ARRAY_BUFFER, 0);
+		//printf("%d vertices, %d indices, %s\n", m_vertices.size(), m_indices.size(), m_isStatic ? "static" : "dynamic");
+		if (m_isStatic && m_indices.size()) {
+			s_staticBufferPool->AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
+					&m_boIndexBase, &m_bo);
 		}
 		curOp.type = OP_NONE;
 	}
@@ -294,9 +283,6 @@ public:
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		s_numTrisRendered += m_indices.size()/3;
-		
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-		glEnable(GL_LIGHTING);
 
 		BindBuffers();
 		UseProgram();
@@ -313,10 +299,20 @@ public:
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
 				}
-				if (USE_VBO)
-					glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
-				else
+				if (m_isStatic) {
+					// from static VBO
+					glDrawElements(GL_TRIANGLES, 
+							op.elems.count, GL_UNSIGNED_SHORT,
+							BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
+					//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op.elems.elemMin,
+					//		m_boIndexBase + op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT,
+					//		BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
+				//	glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, 
+				//		op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
+				} else {
+					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
+				}
 				if ( op.elems.texture != 0 ) {
 					glDisable(GL_TEXTURE_2D);
 					UseProgram();
@@ -324,7 +320,7 @@ public:
 				break;
 			case OP_DRAW_BILLBOARDS:
 				// XXX not using vbo yet
-				if (USE_VBO) UnbindBuffers();
+				Render::UnbindAllBuffers();
 				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
 						op.billboards.col, op.billboards.tex, sizeof(Vertex));
 				BindBuffers();
@@ -379,17 +375,10 @@ public:
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 
-
-		if (USE_VBO) {
-			UnbindBuffers();
+		if (m_thrusters.size()) {
+			Render::UnbindAllBuffers();
+			RenderThrusters(rstate, cameraPos, params);
 		}
-
-		if (m_thrusters.size()) RenderThrusters(rstate, cameraPos, params);
-	}
-
-	void UnbindBuffers() {
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
@@ -403,6 +392,7 @@ public:
 		}
 		glDisable (GL_BLEND);
 		glDisableClientState (GL_VERTEX_ARRAY);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	}
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
@@ -577,13 +567,11 @@ private:
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_NORMAL_ARRAY);
 		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-		if (USE_VBO) {
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vertexBuffer);
-			glNormalPointer(GL_FLOAT, sizeof(Vertex), (void *)(3*sizeof(float)));
-			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), 0);
-			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void *)(2*3*sizeof(float)));
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+
+		if (m_isStatic) {
+			if (m_bo) m_bo->BindBuffersForDraw();
 		} else {
+			Render::UnbindAllBuffers();
 			if (m_vertices.size()) {
 				glNormalPointer(GL_FLOAT, sizeof(Vertex), &m_vertices[0].n);
 				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_vertices[0].v);
@@ -640,13 +628,6 @@ private:
 			struct { int start, count; GLuint tex; float size; float col[4]; } billboards;
 		};
 	};
-	struct Vertex {
-		Vertex() {}
-		Vertex(const vector3f &v, const vector3f &n, const GLfloat tex_u, const GLfloat tex_v): v(v), n(n), tex_u(tex_u), tex_v(tex_v) {}
-		vector3f v, n;
-		GLfloat tex_u, tex_v;
-	};
-
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
@@ -658,9 +639,10 @@ private:
 	std::vector<Uint16> m_triflags;
 	std::vector<Op> m_ops;
 	std::vector<ShipThruster::Thruster> m_thrusters;
-	GLuint m_vertexBuffer;
-	GLuint m_indexBuffer;
 	LmrModel *m_model;
+	int m_boIndexBase;
+	BufferObject<sizeof(Vertex)> *m_bo;
+	bool m_isStatic;
 };
 
 LmrModel::LmrModel(const char *model_name)
@@ -737,8 +719,8 @@ LmrModel::LmrModel(const char *model_name)
 	lua_pop(sLua, 1);
 
 	for (int i=0; i<m_numLods; i++) {
-		m_staticGeometry[i] = new LmrGeomBuffer(this);
-		m_dynamicGeometry[i] = new LmrGeomBuffer(this);
+		m_staticGeometry[i] = new LmrGeomBuffer(this, true);
+		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
 	for (int i=0; i<m_numLods; i++) {
@@ -840,6 +822,8 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
 	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
@@ -2517,6 +2501,7 @@ static int define_model(lua_State *L)
 
 void LmrModelCompilerInit()
 {
+	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
 	s_normalShader = new Render::Shader("model");
 	PiVerify(s_font = new FontFace (PIONEER_DATA_DIR "/fonts/font.ttf"));
 

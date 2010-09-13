@@ -340,6 +340,8 @@ void InfoView::Draw3D()
 	rot[14] = -1.5f * lmr_model->GetDrawClipRadius();
 
 	lmr_model->Render(rot, &params);
+	Render::UseProgram(0);
+	Render::UnbindAllBuffers();
 	glPopAttrib();
 	Render::SetCurrentState(0);
 }
