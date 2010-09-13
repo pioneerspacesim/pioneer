@@ -305,6 +305,7 @@ public:
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, 0, GL_DYNAMIC_DRAW);
 			for (int i=0; i<GEOPATCH_NUMVERTICES; i++)
 			{
+				clipRadius = MAX(clipRadius, (vertices[i]-clipCentroid).Length());
 				VBOVertex *pData = vbotemp + i;
 				pData->x = (float)vertices[i].x;
 				pData->y = (float)vertices[i].y;
@@ -801,12 +802,6 @@ public:
 	}
 	
 	void Render(vector3d &campos, Plane planes[6]) {
-		/* frustum test! */
-		for (int i=0; i<6; i++) {
-			if (planes[i].DistanceToPoint(clipCentroid)+clipRadius < 0) {
-				return;
-			}
-		}
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, planes);
@@ -814,6 +809,12 @@ public:
 		} else {
 			SDL_mutexV(m_kidsLock);
 			_UpdateVBOs();
+			/* frustum test! */
+			for (int i=0; i<6; i++) {
+				if (planes[i].DistanceToPoint(clipCentroid) <= -clipRadius) {
+					return;
+				}
+			}
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
