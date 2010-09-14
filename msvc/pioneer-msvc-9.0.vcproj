@@ -441,6 +441,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\mylua.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\MyLuaMathTypes.cpp"
 				>
 			</File>

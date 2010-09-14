@@ -645,6 +645,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\src\mylua.cpp"
+			>
+		</File>
+		<File
 			RelativePath="..\src\mylua.h"
 			>
 		</File>
