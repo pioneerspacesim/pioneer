@@ -2266,8 +2266,7 @@ namespace ObjLoader {
 		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), obj_name);
 		FILE *f = fopen(buf, "r");
 		if (!f) {
-			printf("Could not open %s\n", buf);
-			exit(0);
+			Error("Could not open %s\n", buf);
 		}
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
@@ -2325,8 +2324,7 @@ namespace ObjLoader {
 						build_normals = true;
 					} else {
 						puts(bit[i]);
-						printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
-						exit(0);
+						Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
 					}
 					// indices start from 1 in obj file
 					vi[i]--; ni[i]--;ti[i]--;
@@ -2367,8 +2365,7 @@ namespace ObjLoader {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[2], realVtxIdx[3]);
 					} else {
-						printf("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
-						exit(0);
+						Error("Obj file must have faces with 3 or 4 vertices (quads or triangles)\n");
 					}
 				}
 			}
@@ -2391,11 +2388,11 @@ namespace ObjLoader {
 						}
 					}
 				} else {
-					printf("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
-					exit(0);
+					Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
 				}
 			}
 		}
+		fclose(f);
 		return 0;
 	}
 };
