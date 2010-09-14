@@ -2452,9 +2452,11 @@ namespace UtilFuncs {
 						lua_traverse(L, path);
 					else {
 						if ( name.size() >= strlen(".lua") && strcasecmp( name.c_str() + name.size()-4, ".lua") == 0) {
-							if (luaL_dofile(L, path)) {
-								printf("%s\n", lua_tostring(L, -1));
-								break;
+							lua_pushcfunction(L, mylua_panic);
+							if (luaL_loadfile(L, path)) {
+								mylua_panic(L);
+							} else {
+								lua_pcall(L, 0, LUA_MULTRET, -2);
 							}
 						}
 					}
