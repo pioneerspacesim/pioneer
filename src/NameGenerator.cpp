@@ -44,6 +44,7 @@ namespace NameGenerator {
 			}
 			surnames.push_back(std::string(buf));
 		}
+		fclose(f);
 		f = fopen_or_die("data/planet_names.txt", "r");
 		while (fgets(buf, sizeof(buf), f)) {
 			char *nl = strchr(buf, '\r');
@@ -54,6 +55,7 @@ namespace NameGenerator {
 			}
 			planet_names.push_back(std::string(buf));
 		}
+		fclose(f);
 	}
 
 	std::string FullName(MTRand &rng, bool genderFemale)

@@ -2246,6 +2246,7 @@ namespace ObjLoader {
 				mtl_map[name] = file;
 			}
 		}
+		fclose(f);
 		return mtl_map;
 	}
 

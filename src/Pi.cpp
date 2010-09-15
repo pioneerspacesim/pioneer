@@ -309,8 +309,14 @@ void Screendump(char *destFile)
 	if (!out) goto error;
 	glReadBuffer(GL_FRONT);
 	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, &pixel_data[0]);
-	if (fwrite(&TGAhead, sizeof(TGAhead), 1, out) != 1) goto error;
-	if (fwrite(&pixel_data[0], 3*W*H, 1, out) != 1) goto error;
+	if (fwrite(&TGAhead, sizeof(TGAhead), 1, out) != 1) {
+		fclose(out);
+		goto error;
+	}
+	if (fwrite(&pixel_data[0], 3*W*H, 1, out) != 1) {
+		fclose(out);
+		goto error;
+	}
 	fclose(out);
 	return;
 error:
