@@ -177,11 +177,11 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			// ogg vorbis streaming
 			if (!ev.oggv) {
 				// open file to start streaming
-				FILE *f = fopen_or_die(ev.sample->path.c_str(), "rb");
 				ev.oggv = new OggVorbis_File;
-				printf("Streaming %s\n", ev.sample->path.c_str());
-				if (ov_open(f, ev.oggv, NULL, 0) < 0) {
-					Error("Vorbis could not open %s", ev.sample->path.c_str());
+				if (ov_fopen((char*)ev.sample->path.c_str(), ev.oggv) < 0) {
+					fprintf(stderr, "Vorbis could not open %s", ev.sample->path.c_str());
+					ev.sample = 0;
+					return;
 				}
 			}
 			int i=0;
@@ -324,8 +324,7 @@ static void load_sound(const std::string &basename, const std::string &path)
 		Sample sample;
 		OggVorbis_File oggv;
 
-		FILE *f = fopen_or_die(path.c_str(), "rb");
-		if (ov_open(f, &oggv, NULL, 0) < 0) {
+		if (ov_fopen((char*)path.c_str(), &oggv) < 0) {
 			Error("Vorbis could not open %s", path.c_str());
 		}
 		struct vorbis_info *info;
