@@ -119,6 +119,18 @@ bool SetOp(eventid id, Op op)
 	return ret;
 }
 
+static void DestroyEvent(SoundEvent *ev)
+{
+	if (ev->oggv) {
+		// streaming ogg
+		ov_clear(ev->oggv);
+		delete ev->oggv;
+		ev->oggv = 0;
+	}
+	ev->sample = 0;
+}
+
+
 /*
  * Volume should be 0-65535
  */
@@ -141,6 +153,7 @@ eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 				age = wavstream[i].buf_pos;
 			}
 		}
+		DestroyEvent(&wavstream[idx]);
 	}
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
@@ -240,13 +253,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				ev.buf_pos = 0;
 				inbuf_pos = 0;
 				if (!(ev.op & OP_REPEAT)) {
-					if (ev.oggv) {
-						// streaming ogg
-						ov_clear(ev.oggv);
-						delete ev.oggv;
-						ev.oggv = 0;
-					}
-					ev.sample = 0;
+					DestroyEvent(&ev);
 					break;
 				}
 				if (ev.oggv) {
@@ -279,7 +286,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 		if (wavstream[i].op & OP_STOP_AT_TARGET_VOLUME) {
 			if ((wavstream[i].targetVolume[0] == wavstream[i].volume[0]) &&
 			    (wavstream[i].targetVolume[1] == wavstream[i].volume[1])) {
-				wavstream[i].sample = 0;
+				DestroyEvent(&wavstream[i]);
 				continue;
 			}
 		}
@@ -310,7 +317,7 @@ void DestroyAllEvents()
 {
 	/* silence any sound events */
 	for (int idx=0; idx<MAX_WAVSTREAMS; idx++) {
-		wavstream[idx].sample = 0;
+		DestroyEvent(&wavstream[idx]);
 	}
 }
 
@@ -431,7 +438,7 @@ bool Event::Stop()
 		SDL_LockAudio();
 		SoundEvent *s = GetEvent(eid);
 		if (s) {
-			s->sample = 0;
+			DestroyEvent(s);
 		}
 		SDL_UnlockAudio();
 		return s != 0;
