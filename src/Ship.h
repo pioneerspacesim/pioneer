@@ -170,7 +170,7 @@ private:
 	bool AICmdKill(const Ship *);
 	bool AICmdOrbit(AIInstruction &, double orbitHeight);
 	bool AICmdKamikaze(const Ship *);
-	bool AICmdFlyTo(const Body *);
+	bool AICmdFlyTo(AIInstruction &);
 	void AITrySetBodyRelativeThrust(const vector3d &force);
 	bool AIFollowPath(AIInstruction &, Frame *f, bool pointShipAtVelocityVector = false);
 };

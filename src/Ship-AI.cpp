@@ -141,7 +141,7 @@ void Ship::AITimeStep(const float timeStep)
 				done = AICmdOrbit(inst, 5.0);
 				break;
 			case DO_FLY_TO:
-				done = AICmdFlyTo(static_cast<const Body*>(inst.target));
+				done = AICmdFlyTo(inst);
 				break;
 			case DO_FOLLOW_PATH:
 				{
@@ -175,6 +175,7 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	if (!AIArePlanetsInTheWayOfGettingTo(target->GetPositionRelTo(GetFrame()), &obstructor)) {
 		return false;
 	}
+	if (obstructor == target) return false;
 	Frame *frame = obstructor->GetFrame();
 	if (frame->IsRotatingFrame()) frame = frame->m_parent;
 	// hm. need to avoid some obstacle.
@@ -462,40 +463,52 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 #endif
 }
 
-bool Ship::AICmdFlyTo(const Body *body)
+bool Ship::AICmdFlyTo(AIInstruction &inst)
 {
-	vector3d bodyPos = body->GetPositionRelTo(GetFrame());
-	vector3d dir = bodyPos - GetPosition();
-	double dist = dir.Length() - body->GetBoundingRadius();
-	vector3d relVel = GetVelocityRelativeTo(body);
-	double vel = relVel.Length();
+	bool done = false;
+	Body *body = inst.target;
 
-	/* done? */
-	if (dist < 2.0*body->GetBoundingRadius()) {
-		return true;
-	}
-
+	Frame *frame = body->GetFrame();
+	if (frame->IsRotatingFrame()) frame = frame->m_parent;
+	assert(frame);
+	
 	// is there planets in our way that we need to avoid?
 	if (AIAddAvoidancePathOnWayTo(body)) return false;
 
-	// work out stopping distance at current vel
-	const ShipType &stype = GetShipType();
-	double revAccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / (1000.0*m_stats.total_mass);
-	double timeToStop = vel / revAccel;
-	double stoppingDist = 0.5 * revAccel * timeToStop * timeToStop;
-	
-	ClearThrusterState();
-	AISlowFaceDirection(dir.Normalized());
-//	AIFaceDirection(dir.Normalized());
-	
-	if (stoppingDist < 0.8*dist) {
-		AIAccelToModelRelativeVelocity(vector3d(0,0,-100000000000.0));
-	} else if (stoppingDist > 0.9*dist) {
-		AIAccelToModelRelativeVelocity(vector3d(0,0,0));
+	if (inst.endTime == 0) {
+		const ShipType &type = GetShipType();
+		const vector3d ourPosition = GetPositionRelTo(frame);
+		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
+		const vector3d endPosition = 4.0 * body->GetBoundingRadius() * (ourPosition - body->GetPosition()).Normalized();
+
+		// generate path
+		double duration;
+		// assumption that rear thruster is most powerful
+		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
+		path(ourPosition, 0.5*(ourPosition+endPosition), endPosition,
+				ourVelocity, body->GetVelocity(), maxAccel*.75, duration, inst.path);
+		inst.startTime = Pi::GetGameTime();
+		inst.endTime = inst.startTime + duration;
+
+		{
+			double invD = 1.0/duration;
+			vector3d p1 = inst.path.Eval(0.0);
+			vector3d p2 = inst.path.Eval(invD);
+			printf("starts at %f m/sec\n", (p1-p2).Length());
+			p1 = inst.path.Eval(1.0-invD);
+			p2 = inst.path.Eval(1.0);
+			printf("ends at %f m/sec\n", (p1-p2).Length());
+
+		}
 	}
 
+	if (inst.endTime > 0) {
+		if (AIFollowPath(inst, frame)) {
+			done = true;
+		}
+	}
 
-	return false;
+	return done;
 }
 
 bool Ship::AICmdKamikaze(const Ship *enemy)
