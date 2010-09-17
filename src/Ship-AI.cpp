@@ -8,10 +8,15 @@
 #include "SpaceStation.h"
 #include "Space.h"
 
-static void path(const vector3d &startPos, const vector3d &controlPos, const vector3d &endPos,
+/**
+ * Should be at least 3 points (start, 1 control point, and endpoint). This
+ * will give a bezier curve with 5 points, because the velocity constraints at
+ * either end introduce a control point each. */
+static void path(int numPoints, const vector3d *points,
 		const vector3d &startVel, const vector3d &endVel, const double maxAccel,
 		double &outDuration, BezierCurve &outPath)
 {
+	assert(numPoints >= 3);
 	// How do you get derivative of a bezier line?
 	// http://www.cs.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/bezier-der.html
 	// path is a quartic bezier:
@@ -27,18 +32,21 @@ static void path(const vector3d &startPos, const vector3d &controlPos, const vec
 		const vector3d _startVel = startVel * outDuration;
 		const vector3d _endVel = endVel * outDuration;
 
-		outPath = BezierCurve(5);
-		outPath.p[0] = startPos;
-		outPath.p[1] = startPos + 0.25*_startVel;
-		outPath.p[2] = controlPos;
-		outPath.p[3] = endPos - 0.25*_endVel;
-		outPath.p[4] = endPos;
+		/* comes from differentiation. see BezierCurve.h */
+		const double d = 1.0/(double)(numPoints+1);
+		outPath = BezierCurve(numPoints+2);
+		outPath.p[0] = points[0];
+		outPath.p[1] = points[0] + d*_startVel;
+		for (int j=2; j<numPoints; j++) outPath.p[j] = points[j-1];
+		outPath.p[numPoints] = points[numPoints-1] - d*_endVel;
+		outPath.p[numPoints+1] = points[numPoints-1];
 
 		BezierCurve vel = outPath.DerivativeOf();
 		BezierCurve accel = vel.DerivativeOf();
 
-		double this_path_max_accel = MAX(accel.p[0].Length(), MAX(accel.p[1].Length(), accel.p[2].Length())) /
-				(outDuration*outDuration);
+		double this_path_max_accel = 0;
+		for (int j=0; j<accel.p.size(); j++) this_path_max_accel = MAX(this_path_max_accel, accel.p[j].Length());
+		this_path_max_accel /= (outDuration*outDuration);
 		if (this_path_max_accel < maxAccel) {
 			printf("Path max accel is %f m.sec^-2, duration %f\n", this_path_max_accel, outDuration);
 			return;
@@ -215,14 +223,17 @@ printf("trying 180 degrees\n");
 	AIInstruction &inst = AIPrependInstruction(DO_FOLLOW_PATH, obstructor);
 
 	const double maxAccel = GetWeakestThrustersForce() / GetMass();
-	const vector3d ourPosition = a;
+	vector3d pos[3];
+	pos[0] = a;
+	pos[1] = 0.5*(a+b2);
+	pos[2] = b2;
 	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
 	// XXX why 5km/sec at end of segment? dunno
 	const vector3d endVelocity = 5000.0 * (b2-a).Normalized();
 
 	double duration;
 
-	path(a, 0.5*(a+b2), b2, ourVelocity, endVelocity, maxAccel*.75, duration, inst.path);
+	path(3, pos, ourVelocity, endVelocity, maxAccel*.75, duration, inst.path);
 	int i = 0;
 	for (float t=0.0; i<=10; i++, t+=0.1) {
 		vector3d v = inst.path.DerivativeOf().Eval(t) * (1.0/duration);
@@ -265,7 +276,8 @@ bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 		inst.startTime = Pi::GetGameTime();
 		
 		const double maxAccel = GetWeakestThrustersForce() / GetMass();
-		const vector3d ourPosition = GetPositionRelTo(frame);
+		vector3d pos[3];
+		pos[0] = GetPositionRelTo(frame);
 		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
 		const vector3d endVelocity = vector3d(0.0,-25.0,0.0);
 
@@ -278,10 +290,10 @@ bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 
 		matrix4x4d target_rot;
 		target->GetRotMatrix(target_rot);
-		const vector3d midpoint = target->GetPosition() + target_rot * shipOrientStartDocking.pos;
-		const vector3d endpoint = target->GetPosition() + target_rot * shipOrientEndDocking.pos;
+		pos[1] = target->GetPosition() + target_rot * shipOrientStartDocking.pos;
+		pos[2] = target->GetPosition() + target_rot * shipOrientEndDocking.pos;
 	
-		path(ourPosition, midpoint, endpoint, ourVelocity, endVelocity, maxAccel*.5, duration, inst.path);
+		path(3, pos, ourVelocity, endVelocity, maxAccel*.5, duration, inst.path);
 		inst.endTime = inst.startTime + duration;
 	}
 	if (inst.endTime > 0) {
@@ -412,7 +424,11 @@ bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 		// assumption that rear thruster is most powerful
 		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
 		printf("max accel %f m/sec/sec\n",maxAccel);
-		path(ourPosition, midpos, endpos,
+		vector3d pos[3];
+		pos[0] = ourPosition;
+		pos[1] = midpos;
+		pos[2] = endpos;
+		path(3, pos,
 				ourVelocity, endVel, maxAccel*.75, duration, inst.path);
 		inst.startTime = Pi::GetGameTime();
 		inst.endTime = inst.startTime + duration;
@@ -485,7 +501,11 @@ bool Ship::AICmdFlyTo(AIInstruction &inst)
 		double duration;
 		// assumption that rear thruster is most powerful
 		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
-		path(ourPosition, 0.5*(ourPosition+endPosition), endPosition,
+		vector3d pos[3];
+		pos[0] = ourPosition;
+		pos[1] = 0.5*(ourPosition+endPosition);
+		pos[2] = endPosition;
+		path(3, pos,
 				ourVelocity, body->GetVelocity(), maxAccel*.75, duration, inst.path);
 		inst.startTime = Pi::GetGameTime();
 		inst.endTime = inst.startTime + duration;
