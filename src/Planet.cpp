@@ -398,6 +398,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glColor3f(1,1,1);
 
 	if (apparent_size < 0.001) {
+		Render::UseProgram(0);
 		/* XXX WRONG. need to pick light from appropriate turd. */
 		GLfloat col[4];
 		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);

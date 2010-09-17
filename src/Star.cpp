@@ -45,6 +45,8 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
+
+	Render::UseProgram(0);
 	
 	double rad = radius;
 	vector3d fpos = viewCoords;
