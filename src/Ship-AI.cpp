@@ -75,8 +75,9 @@ void Ship::AIBodyDeleted(const Body* const body)
 	}
 }
 
-static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, const double sphereRadius)
+static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, const double sphereRadius, double &outDist)
 {
+	outDist = 0;
 	if (start.Length() <= sphereRadius) return true;
 	if (end.Length() <= sphereRadius) return true;
 	double length = (end-start).Length();
@@ -89,10 +90,12 @@ static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, con
 		if (i2 > 0.0) {
 			if (i1 < 0.0) {
 				if (i2 < length) {
+					outDist = i2;
 					return true;
 				}
 			} else {
 				if (i1 < length) {
+					outDist = i1;
 					return true;
 				}
 			}
@@ -105,7 +108,7 @@ static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, con
  * Target should be in this->GetFrame() coordinates
  * If obstructor is not null then *obstructor will be set.
  */
-bool Ship::AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor)
+bool Ship::AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor, double &outDist)
 {
 	Body *body = Space::FindNearestTo(this, Object::PLANET);
 	if (body) {
@@ -115,7 +118,7 @@ bool Ship::AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstru
 		vector3d p2 = m * target;
 		vector3d p1 = m * GetPosition();
 		double rad = body->GetBoundingRadius();
-		if (FrameSphereIntersect(p1, p2, rad)) {
+		if (FrameSphereIntersect(p1, p2, rad, outDist)) {
 			if (obstructor) *obstructor = body;
 			return true;
 		}
@@ -180,16 +183,103 @@ void Ship::AITimeStep(const float timeStep)
 bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 {
 	Body *obstructor;
-	if (!AIArePlanetsInTheWayOfGettingTo(target->GetPositionRelTo(GetFrame()), &obstructor)) {
+	double distanceToHit;
+	if (!AIArePlanetsInTheWayOfGettingTo(target->GetPositionRelTo(GetFrame()), &obstructor, distanceToHit)) {
 		return false;
 	}
 	if (obstructor == target) return false;
+
 	Frame *frame = obstructor->GetFrame();
 	if (frame->IsRotatingFrame()) frame = frame->m_parent;
 	// hm. need to avoid some obstacle.
 	const vector3d a = GetPositionRelTo(frame);
 	const vector3d b = target->GetPositionRelTo(frame);
 	const vector3d c = obstructor->GetPositionRelTo(frame);
+
+	// so we try to avoid hitting innerRadius, and we try to
+	// circumnavigate obstructor along outerRadius
+	const double innerRadius = 1.8 * obstructor->GetBoundingRadius();
+	const double outerRadius = 2.0 * obstructor->GetBoundingRadius();
+
+	//printf("distance from a to hit is %f km\n", distanceToHit*0.001);
+	const vector3d fromCToHitPos = ((a + distanceToHit*((b-a).Normalized())) - c).Normalized();
+	//printf("Hit pos is at %f km\n",  ((a + distanceToHit*((b-a).Normalized())) - c).Length()*0.001);
+
+	const vector3d perpendicularToHit = vector3d::Cross(fromCToHitPos, vector3d(0.0,1.0,0.0)).Normalized();
+	fromCToHitPos.Print();
+	perpendicularToHit.Print();
+
+	// So there is a circle around obstructor with radius 'outerRadius'.
+	// Try to find a line from 'a' to the point on this circle nearest to
+	// target position 'b'.
+	// This becomes a bezier control point, and then we repeat the process
+	// until we have unobstructed line of sight on 'b'.
+	std::vector<vector3d> pos;
+	pos.push_back(a);
+	//printf("hitpos:\n");
+	fromCToHitPos.Print();
+
+	vector3d p = a;
+	// special case, starting too near the planet */
+	if (p.Length() < outerRadius) {
+		p = a.Normalized() * outerRadius;
+		// start by flying at zenith to get height
+		pos.push_back(p);
+	}
+
+	double dummy;
+	do {
+		double minDistToTarget = FLT_MAX;
+		double minDistToTargetAng = 0;
+
+		for (double ang=0; ang<2.0*M_PI; ang += 0.1*M_PI) {
+			const vector3d testPos = outerRadius * (sin(ang)*perpendicularToHit + cos(ang)*fromCToHitPos);
+			if (!FrameSphereIntersect(p, testPos, innerRadius, dummy)) {
+				//printf("hm. ang %f might work\n", ang);
+				double distToTarget = (testPos - b).Length();
+				if (distToTarget < minDistToTarget) {
+					minDistToTarget = distToTarget;
+					minDistToTargetAng = ang;
+				}
+			}
+		}
+		//printf("Dist to target: %f\n", minDistToTarget);
+		//printf("Chose angle %f\n", minDistToTargetAng);
+		assert(minDistToTarget != FLT_MAX);
+		p = outerRadius * (sin(minDistToTargetAng)*perpendicularToHit + cos(minDistToTargetAng)*fromCToHitPos);
+
+		pos.push_back(p);
+	} while (FrameSphereIntersect(p, b, innerRadius, dummy));
+
+	// we only make a path round the side of the obstructor, not going on
+	// to the target since some other AI function probably wants to do
+	// this its own way.
+	{
+		// same as last step but a bit further...
+		pos.push_back(p + (pos[pos.size()-1] - pos[pos.size()-2]));
+	}
+#warning TO-DO - when targets are on the obstructing object then we need to be smarter
+
+	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
+	const vector3d endVelocity = vector3d(0.0);
+
+	double duration;
+	const ShipType &type = GetShipType();
+	const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
+	AIInstruction &inst = AIPrependInstruction(DO_FOLLOW_PATH, obstructor);
+	path(pos.size(), &pos[0], ourVelocity, endVelocity, maxAccel*.75, duration, inst.path);
+	int i = 0;
+	for (float t=0.0; i<=10; i++, t+=0.1) {
+		vector3d v = inst.path.DerivativeOf().Eval(t) * (1.0/duration);
+		//printf("%.1f: %f,%f,%f\n", t, v.x,v.y,v.z);
+	}
+
+	printf("duration %f\n", duration);
+	inst.startTime = Pi::GetGameTime();
+	inst.endTime = inst.startTime + duration;
+	return true;
+
+#if 0
 
 	const double distance = (b-a).Length();
 	const vector3d forward = (b-a).Normalized();
@@ -242,6 +332,7 @@ printf("trying 180 degrees\n");
 	printf("duratoin %f\n", duration);
 	inst.startTime = Pi::GetGameTime();
 	inst.endTime = inst.startTime + duration;
+#endif
 }
 
 bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
@@ -387,6 +478,9 @@ bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 
 	// don't think about it
 	if (!body->IsType(Object::PLANET)) return true;
+
+	// is there planets in our way that we need to avoid?
+	if (AIAddAvoidancePathOnWayTo(body)) return false;
 
 	Frame *frame = body->GetFrame()->m_parent;
 	PiVerify(frame);

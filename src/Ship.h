@@ -163,7 +163,7 @@ private:
 	};
 	std::list<AIInstruction> m_todo;
 	bool AIAddAvoidancePathOnWayTo(const Body *target);
-	bool AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor);
+	bool AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor, double &outDist);
 	AIInstruction &AIPrependInstruction(enum AICommand cmd, void *arg);
 	void AIBodyDeleted(const Body* const body);
 	bool AICmdDock(AIInstruction &, SpaceStation *);
