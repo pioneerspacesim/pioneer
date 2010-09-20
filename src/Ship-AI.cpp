@@ -201,13 +201,10 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	const double innerRadius = 1.8 * obstructor->GetBoundingRadius();
 	const double outerRadius = 2.0 * obstructor->GetBoundingRadius();
 
-	//printf("distance from a to hit is %f km\n", distanceToHit*0.001);
 	const vector3d fromCToHitPos = ((a + distanceToHit*((b-a).Normalized())) - c).Normalized();
-	//printf("Hit pos is at %f km\n",  ((a + distanceToHit*((b-a).Normalized())) - c).Length()*0.001);
 
-	const vector3d perpendicularToHit = vector3d::Cross(fromCToHitPos, vector3d(0.0,1.0,0.0)).Normalized();
-	fromCToHitPos.Print();
-	perpendicularToHit.Print();
+	const vector3d perpendicularToHit = vector3d::Cross(vector3d::Cross(fromCToHitPos, vector3d(0.0,1.0,0.0)),
+			a).Normalized();
 
 	// So there is a circle around obstructor with radius 'outerRadius'.
 	// Try to find a line from 'a' to the point on this circle nearest to
@@ -217,7 +214,6 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	std::vector<vector3d> pos;
 	pos.push_back(a);
 	//printf("hitpos:\n");
-	fromCToHitPos.Print();
 
 	vector3d p = a;
 	// special case, starting too near the planet */
