@@ -357,7 +357,7 @@ const char *SBodyPath::GetBodyName() const
 	return GetSBody()->name.c_str();
 }
 
-int SBodyPath::GetSeed() const
+Uint32 SBodyPath::GetSeed() const
 {
 	return GetSBody()->seed;
 }
