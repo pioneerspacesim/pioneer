@@ -45,7 +45,6 @@ namespace Render {
 	GLuint UseProgram(const Shader *shader);
 	bool AreShadersEnabled();
 	void ToggleShaders();
-	static inline bool CanDoShaders() { return GLEW_VERSION_2_0; }
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

@@ -82,7 +82,7 @@ GLuint UseProgram(const Shader *shader)
 
 void ToggleShaders()
 {
-	if (CanDoShaders()) {
+	if (shadersAvailable) {
 		shadersEnabled = (shadersEnabled ? false : true);
 	}
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
@@ -194,7 +194,7 @@ static char *load_file(const char *filename)
 	return buf;
 }
 
-static void printLog(const char *filename, GLuint obj)
+static void PrintGLSLCompileError(const char *filename, GLuint obj)
 {
 	int infologLength = 0;
 	char infoLog[1024];
@@ -204,27 +204,14 @@ static void printLog(const char *filename, GLuint obj)
 	else
 		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
 
-	if (infologLength > 0)
-		printf("%s: %s", filename, infoLog);
+	if (infologLength > 0) {
+		Warning("Error compiling shader: %s: %s\nOpenGL vendor: %s\nOpenGL renderer string: %s\n\nPioneer will run with shaders disabled.",
+				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+		shadersAvailable = false;
+		shadersEnabled = false;
+	}
 }
 	
-#if 0
-	{
-		/* zbuffer values are (where z = z*modelview*projection):
-		 * depthvalue = log(C*z + 1) / log(C*zfar + 1)
-		 * using C = 1.0 */
-		glUseProgram(prog);
-		GLint invLogZfarPlus1Loc = glGetUniformLocation(prog, "invLogZfarPlus1");
-//			assert(invLogZfarPlus1Loc);
-		float znear, zfar;
-		Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
-		const float invDenominator = 1.0/(log(zfar + 1.0)/log(2.0));
-
-		glUniform1f(invLogZfarPlus1Loc, invDenominator);
-		glUseProgram(0);
-	}
-#endif
-
 GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 {
 	static char *lib_fs = 0;
@@ -240,8 +227,8 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 	char *allcode = load_file((name + ".all.glsl").c_str());
 	
 	if (vscode == 0) {
-		printf("Error loading shader %s.\n", (name + ".vert.glsl").c_str());
-		abort();
+		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
+		return 0;
 	}
 		
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
@@ -265,8 +252,8 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 	GLint status;
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
 	if (!status) {
-		printLog((name + ".vert.glsl").c_str(), vs);
-		abort();
+		PrintGLSLCompileError((name + ".vert.glsl").c_str(), vs);
+		return 0;
 	}
 
 	GLuint ps = 0;
@@ -285,8 +272,8 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 		GLint status;
 		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
 		if (!status) {
-			printLog((name + ".frag.glsl").c_str(), ps);
-			abort();
+			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);
+			return 0;
 		}
 	}
 
@@ -296,8 +283,8 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 	glLinkProgram(prog);
 	glGetProgramiv(prog, GL_LINK_STATUS, &status);
 	if (!status) {
-		printLog(name.c_str(), prog);
-		abort();
+		PrintGLSLCompileError(name.c_str(), prog);
+		return 0;
 	}
 
 	free(vscode);
