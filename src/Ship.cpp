@@ -76,6 +76,7 @@ void Ship::Save(Serializer::Writer &wr)
 				}
 				wr.Double((*i).endTime);
 				wr.Double((*i).startTime);
+				wr.Int32(Serializer::LookupFrame((*i).frame));
 				break;
 			case DO_NOTHING: wr.Int32(0); break;
 		}
@@ -130,6 +131,11 @@ void Ship::Load(Serializer::Reader &rd)
 		}
 		inst.endTime = rd.Double();
 		inst.startTime = rd.Double();
+		if (rd.StreamVersion() < 19) {
+			inst.frame = 0;
+		} else {
+			inst.frame = Serializer::LookupFrame(rd.Int32());
+		}
 		m_todo.push_back(inst);
 	}
 }

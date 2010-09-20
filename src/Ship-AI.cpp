@@ -155,11 +155,7 @@ void Ship::AITimeStep(const float timeStep)
 				done = AICmdFlyTo(inst);
 				break;
 			case DO_FOLLOW_PATH:
-				{
-					Frame *f = static_cast<const Body*>(inst.target)->GetFrame();
-					if (f->IsRotatingFrame()) f = f->m_parent;
-					done = AIFollowPath(inst, f, true);
-				}
+				done = AIFollowPath(inst, inst.frame, true);
 				break;
 			case DO_NOTHING: done = true; break;
 		}
@@ -190,11 +186,15 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	if (obstructor == target) return false;
 
 	Frame *frame = obstructor->GetFrame();
-	if (frame->IsRotatingFrame()) frame = frame->m_parent;
+	// avoid using the rotating frame for the path unless the target is in it
+	if (frame->IsRotatingFrame() && (target->GetFrame() != frame)) frame = frame->m_parent;
 	// hm. need to avoid some obstacle.
 	const vector3d a = GetPositionRelTo(frame);
 	const vector3d b = target->GetPositionRelTo(frame);
 	const vector3d c = obstructor->GetPositionRelTo(frame);
+
+	// if we are really close to the target then don't bother with this shit
+	if ((a-b).Length() < 10000.0) return false;
 
 	// so we try to avoid hitting innerRadius, and we try to
 	// circumnavigate obstructor along outerRadius
@@ -243,22 +243,37 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 				}
 			}
 		}
-		//printf("Dist to target: %f\n", minDistToTarget);
-		//printf("Chose angle %f\n", minDistToTargetAng);
-		assert(minDistToTarget != FLT_MAX);
-		p = outerRadius * (sin(minDistToTargetAng)*perpendicularToHit + cos(minDistToTargetAng)*fromCToHitPos);
-
-		pos.push_back(p);
+		const vector3d nextPos = outerRadius * (sin(minDistToTargetAng)*perpendicularToHit + cos(minDistToTargetAng)*fromCToHitPos);
+		
+		if ((b.Length() < innerRadius) && ((b.Normalized()*outerRadius - b).Length() < minDistToTarget) &&
+				!FrameSphereIntersect(p, b.Normalized()*outerRadius, innerRadius, dummy)) {
+			// target is on the obstructing planet. flying to
+			// point above target is closer than the chosen
+			// minDist point so do that and finish the path with a
+			// vertical descent
+			pos.push_back(nextPos);
+			pos.push_back(b.Normalized() * outerRadius);
+			p = nextPos;
+			break;
+		} else {
+			// use the selected minDist point along outerRadius circle
+			assert(minDistToTarget != FLT_MAX);
+			pos.push_back(nextPos);
+			p = nextPos;
+		}
 	} while (FrameSphereIntersect(p, b, innerRadius, dummy));
 
-	// we only make a path round the side of the obstructor, not going on
-	// to the target since some other AI function probably wants to do
-	// this its own way.
-	{
+	if (b.Length() < innerRadius) {
+		// target on planet. get close enough that this function won't
+		// make another avoidance path...
+		pos.push_back(b + 5000.0*b.Normalized());
+	} else {
+		// we only make a path round the side of the obstructor, not going on
+		// to the target since some other AI function probably wants to do
+		// this its own way.
 		// same as last step but a bit further...
 		pos.push_back(p + (pos[pos.size()-1] - pos[pos.size()-2]));
 	}
-#warning TO-DO - when targets are on the obstructing object then we need to be smarter
 
 	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
 	const vector3d endVelocity = vector3d(0.0);
@@ -277,62 +292,8 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	printf("duration %f\n", duration);
 	inst.startTime = Pi::GetGameTime();
 	inst.endTime = inst.startTime + duration;
+	inst.frame = frame;
 	return true;
-
-#if 0
-
-	const double distance = (b-a).Length();
-	const vector3d forward = (b-a).Normalized();
-	const vector3d sideways = vector3d::Cross(vector3d::Cross(c-a, b-a), b-a).Normalized();
-
-	const double SEGMENT = 0.05*distance;
-	matrix4x4d m;
-	Frame::GetFrameTransform(frame, GetFrame(), m);
-	// so we can't get from *this to *target directly, lets try going at
-	// 30degrees, 60degrees and the 90degrees away from direct line, for
-	// a proportion of the distance
-	double ang = M_PI/6.0;
-	vector3d b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
-printf("trying 30 degrees\n");
-	if (AIArePlanetsInTheWayOfGettingTo(m * b2, NULL)) {
-printf("trying 60 degrees\n");
-		ang = M_PI/3.0;
-		b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
-		if (AIArePlanetsInTheWayOfGettingTo(m * b2, NULL)) {
-printf("trying 90 degrees\n");
-			ang = M_PI/2.0;
-			b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
-			if (AIArePlanetsInTheWayOfGettingTo(m * b2, NULL)) {
-printf("trying 180 degrees\n");
-				ang = M_PI;
-				b2 = a + SEGMENT*(cos(ang)*forward + sin(ang)*sideways);
-			}
-		}
-	}
-
-	AIInstruction &inst = AIPrependInstruction(DO_FOLLOW_PATH, obstructor);
-
-	const double maxAccel = GetWeakestThrustersForce() / GetMass();
-	vector3d pos[3];
-	pos[0] = a;
-	pos[1] = 0.5*(a+b2);
-	pos[2] = b2;
-	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
-	// XXX why 5km/sec at end of segment? dunno
-	const vector3d endVelocity = 5000.0 * (b2-a).Normalized();
-
-	double duration;
-
-	path(3, pos, ourVelocity, endVelocity, maxAccel*.75, duration, inst.path);
-	int i = 0;
-	for (float t=0.0; i<=10; i++, t+=0.1) {
-		vector3d v = inst.path.DerivativeOf().Eval(t) * (1.0/duration);
-		printf("%.1f: %f,%f,%f\n", t, v.x,v.y,v.z);
-	}
-	printf("duratoin %f\n", duration);
-	inst.startTime = Pi::GetGameTime();
-	inst.endTime = inst.startTime + duration;
-#endif
 }
 
 bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
@@ -344,6 +305,11 @@ bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 
 	// is there planets in our way that we need to avoid?
 	if (AIAddAvoidancePathOnWayTo(target)) return false;
+
+	if (target->GetPositionRelTo(this).Length() > 100000.0) {
+		AIPrependInstruction(DO_FLY_TO, target);
+		return false;
+	}
 
 	if (frame->IsRotatingFrame() && !target->IsGroundStation()) {
 		// can't autopilot by the rotating frame of a space station
@@ -589,7 +555,7 @@ bool Ship::AICmdFlyTo(AIInstruction &inst)
 		const ShipType &type = GetShipType();
 		const vector3d ourPosition = GetPositionRelTo(frame);
 		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
-		const vector3d endPosition = 4.0 * body->GetBoundingRadius() * (ourPosition - body->GetPosition()).Normalized();
+		const vector3d endPosition = MAX(50000.0, 4.0 * body->GetBoundingRadius()) * (ourPosition - body->GetPosition()).Normalized();
 
 		// generate path
 		double duration;
@@ -717,7 +683,7 @@ void Ship::AISlowOrient(const matrix4x4d &wantedOrient)
 		double angle;
 		vector3d rotaxis;
 		q.GetAxisAngle(angle, rotaxis);
-		AIModelCoordsMatchAngVel(angle * rotaxis.Normalized(), 10.0);
+		AIModelCoordsMatchAngVel(angle * rotaxis.Normalized() * (1.0/timeAccel), 10.0);
 	}
 }
 

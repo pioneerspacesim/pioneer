@@ -154,11 +154,13 @@ private:
 		BezierCurve path;
 		double endTime;
 		double startTime;
+		Frame *frame;
 
 		AIInstruction(AICommand c): cmd(c), path(0) {
 			target = 0;
 			endTime = 0;
 			startTime = 0;
+			frame = 0;
 		}
 	};
 	std::list<AIInstruction> m_todo;
