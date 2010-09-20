@@ -228,6 +228,7 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	}
 
 	double dummy;
+	int max_to_do = 8;
 	do {
 		double minDistToTarget = FLT_MAX;
 		double minDistToTargetAng = 0;
@@ -260,6 +261,11 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 			assert(minDistToTarget != FLT_MAX);
 			pos.push_back(nextPos);
 			p = nextPos;
+		}
+		if (!max_to_do--) {
+			/// XXX should really figure out why it happens...
+			fprintf(stderr, "Hm. Ship::AIAddAvoidancePathOnWayTo() made a dog's arse of that one...\n");
+			break;
 		}
 	} while (FrameSphereIntersect(p, b, innerRadius, dummy));
 
@@ -371,6 +377,8 @@ bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 			SetAngThrusterState(1, 0);
 			SetAngThrusterState(2, 0);
 			AISlowOrient(orient);
+	
+			if (GetWheelState() == 0) SetWheelState(true);
 		}
 		return done;
 	} else {
