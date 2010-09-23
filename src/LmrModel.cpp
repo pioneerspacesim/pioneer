@@ -805,6 +805,22 @@ int LmrModel::GetIntAttribute(const char *attr_name) const
 	return result;
 }
 
+bool LmrModel::GetBoolAttribute(const char *attr_name) const
+{
+	char buf[256];
+	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
+	lua_getglobal(sLua, buf);
+	lua_getfield(sLua, -1, attr_name);
+	bool result;
+	if (lua_isnil(sLua, -1)) {
+		result = false;
+	} else {
+		result = lua_toboolean(sLua, -1);
+	}	
+	lua_pop(sLua, 2);
+	return result;
+}
+
 void LmrModel::PushAttributeToLuaStack(const char *attr_name) const
 {
 	char buf[256];

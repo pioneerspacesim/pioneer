@@ -208,7 +208,10 @@ void WorldView::OnClickBlastoff()
 {
 	Pi::BoinkNoise();
 	if (Pi::player->GetDockedWith()) {
-		Pi::player->SetDockedWith(0,0);
+		if (!Pi::player->Undock()) {
+			Pi::cpan->MsgLog()->ImportantMessage(Pi::player->GetDockedWith()->GetLabel(),
+					"Permission to launch denied: docking bay busy.");
+		}
 	} else {
 		Pi::player->Blastoff();
 	}

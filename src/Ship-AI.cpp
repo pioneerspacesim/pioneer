@@ -621,7 +621,7 @@ bool Ship::AICmdKill(const Ship *enemy)
 {
 	SetGunState(0,0);
 	// launch if docked
-	if (GetDockedWith()) SetDockedWith(0,0);
+	if (GetDockedWith()) Undock();
 	/* needs to deal with frames, large distances, and success */
 	if (GetFrame() == enemy->GetFrame()) {
 		const float dist = (enemy->GetPosition() - GetPosition()).Length();

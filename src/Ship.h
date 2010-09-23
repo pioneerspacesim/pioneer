@@ -52,6 +52,7 @@ public:
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
+	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
 	virtual void NotifyDeleted(const Body* const deletedBody);

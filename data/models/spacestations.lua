@@ -341,6 +341,69 @@ define_model('mushroom_station', {
 	end
 })
 
+define_model('big_crappy_spacestation', {
+	info = {
+		bounding_radius=500.0,
+		materials = {'body0'},
+		tags = {'orbital_station'},
+		angular_velocity = 0.1,
+		lod_pixels = {0},
+		num_docking_ports = 4,
+		-- for stations where each docking port shares the
+		-- same front door, set dock_one_at_a_time_please = true,
+		dock_one_at_a_time_please = true,
+		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 10.0, 5.0, 5.0 },
+		undock_anim_stage_duration = { 5.0, 5.0, 10.0 },
+		ship_dock_anim = function(port, stage, t, from, ship_aabb)
+			local baypos = { v(-150,0,0), v(-100,0,100),
+				v(100,0,100), v(150,0,0) }
+			if stage == 2 then
+				return { vlerp(t, v(0,600,0), v(0,0,0)), v(1,0,0), v(0,0,1) }
+			elseif stage == 3 then
+				return { v(0,0,0), v(1,0,0), v(0,1,0) }
+			elseif stage == 4 then
+				return { vlerp(t, from, baypos[port]), v(1,0,0), v(0,1,0) }
+			elseif stage == -1 then
+				return { vlerp(t, baypos[port], v(0,0,0)), v(1,0,0), v(0,1,0) }
+			elseif stage == -2 then
+				return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
+			elseif stage == -3 then
+				return { vlerp(t, v(0,0,0), v(0,600,0)), v(-1,0,0), v(0,0,-1) }
+			end
+		end,
+		ship_approach_waypoints = function(port, stage)
+			if stage == 1 then
+				return { v(0,4000,0), v(1,0,0), v(0,0,1) }
+			elseif stage == 2 then
+				return { v(0,600,0), v(1,0,0), v(0,0,1) }
+			end
+		end,
+	},
+	static = function(lod)
+		set_material('body0', 1,1,1,1)
+		use_material('body0')
+		tube(16, v(0,650,0), v(0,600,0), v(0,0,1), 100, 150)
+		tube(16, v(0,600,0), v(0,200,0), v(0,0,1), 100, 400)
+		tube(16, v(0,200,0), v(0,-200,0), v(0,0,1), 300, 420) -- this bit contains the ships
+		cylinder(16, v(0,-200,0), v(0,-600,0), v(0,0,1), 400)
+		-- struts to outer ring
+		ring(8, v(0,0,419), v(0,0,1500), v(1,0,0), 20)
+		ring(8, v(0,0,-419), v(0,0,-1500), v(1,0,0), 20)
+		-- outer ring
+		tube(32, v(0,-100,0), v(0,100,0), v(0,0,1), 1500, 1600)
+		-- docking trigger surface (only need to indicate surface for
+		-- port zero since this is a 'dock_one_at_a_time_please' station
+		geomflag(0x10)
+		invisible_tri(v(-100,600,-100),v(100,600,100),v(100,600,-100))
+		invisible_tri(v(-100,600,-100), v(-100,600,100),v(100,600,100))
+		geomflag(0)
+	end,
+	dynamic = function(lod)
+		 billboard('smoke.png', 20.0, v(1,1,0), {
+			vlerp(get_arg(1),v(0,12,419),v(0,12,1500)),
+			vlerp(get_arg(1),v(0,12,-419),v(0,12,-1500))})
+	end,
+})
 
 define_model('nice_spacestation', {
 	info = {
@@ -410,7 +473,7 @@ define_model('nice_spacestation', {
 			end,
 			ship_approach_waypoints = function(port, stage)
 				if stage == 1 then
-					return { v(0,2000,0), v(1,0,0), v(0,0,1) }
+					return { v(0,4000,0), v(1,0,0), v(0,0,1) }
 				elseif stage == 2 then
 					return { v(0,300,0), v(1,0,0), v(0,0,1) }
 				end

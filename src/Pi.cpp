@@ -383,6 +383,24 @@ void Pi::HandleEvents()
 							missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 							missile->SetVelocity(Pi::player->GetVelocity());
 							Space::AddBody(missile);
+						} else if (KeyState(SDLK_LSHIFT)) {
+							SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
+							if (s) {
+								int port = s->GetFreeDockingPort();
+								if (port != -1) {
+									printf("Putting ship into station\n");
+									// Make police ship intent on killing the player
+									Ship *ship = new Ship(ShipType::LADYBIRD);
+									ship->AIInstruct(Ship::DO_KILL, Pi::player);
+									ship->SetFrame(Pi::player->GetFrame());
+									ship->SetDockedWith(s, port);
+									Space::AddBody(ship);
+								} else {
+									printf("No docking ports free dude\n");
+								}
+							} else {
+								printf("Select a space station...\n");
+							}
 						} else {
 							Ship *ship = new Ship(ShipType::LADYBIRD);
 							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);

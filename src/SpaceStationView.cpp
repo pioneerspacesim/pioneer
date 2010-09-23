@@ -918,7 +918,7 @@ void StationRootView::ShowAll()
 
 void StationRootView::OnClickRequestLaunch()
 {
-	Pi::player->SetDockedWith(0,0);
+	Pi::worldView->OnClickBlastoff();
 	Pi::SetView(Pi::worldView);
 }
 

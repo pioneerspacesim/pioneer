@@ -525,6 +525,11 @@ void Ship::TestLanded()
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
+	// XXX why not just fucking do this rather than track down the
+	// reason that ship geoms are being collision tested during launch
+	if (m_flightState == FLYING) Enable();
+	else Disable();
+
 	AITimeStep(timeStep);
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
@@ -758,18 +763,23 @@ const ShipType &Ship::GetShipType() const
 	return ShipType::types[m_shipFlavour.type];
 }
 
-void Ship::SetDockedWith(SpaceStation *s, int port)
+bool Ship::Undock()
 {
-	if (m_dockedWith && !s) {
-		m_dockedWith->LaunchShip(this, m_dockedWithPort);
+	if (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort)) {
 		m_testLanded = false;
 		onUndock.emit();
 		m_dockedWith = 0;
 		// lock thrusters for two seconds to push us out of station
 		m_launchLockTimeout = 2.0;
-	} else if (!s) {
-	
+		return true;
 	} else {
+		return false;
+	}
+}
+
+void Ship::SetDockedWith(SpaceStation *s, int port)
+{
+	if (s) {
 		m_dockedWith = s;
 		m_dockedWithPort = port;
 		m_wheelState = 1.0f;
@@ -780,6 +790,8 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		Disable();
 		m_dockedWith->SetDocked(this, port);
 		onDock.emit();
+	} else {
+		Undock();
 	}
 }
 

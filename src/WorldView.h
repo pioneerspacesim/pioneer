@@ -32,6 +32,7 @@ public:
 	void ToggleTargetActions();
 	void GetNearFarClipPlane(float *outNear, float *outFar) const;
 	int GetActiveWeapon() const;
+	void OnClickBlastoff();
 
 	sigc::signal<void> onChangeCamType;
 	
@@ -44,7 +45,6 @@ private:
 	void DrawTargetSquare(const Body* const target);
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void OnClickHyperspace();
-	void OnClickBlastoff();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);

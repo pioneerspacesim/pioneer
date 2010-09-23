@@ -47,6 +47,7 @@ public:
 	float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
 	int GetIntAttribute(const char *attr_name) const;
+	bool GetBoolAttribute(const char *attr_name) const;
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 private:

@@ -185,7 +185,9 @@ void SpaceStation::Init()
 			t.model = LmrLookupModelByName(t.modelName);
 			t.dockMethod = (SpaceStationType::DOCKMETHOD) is_orbital;
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
+			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
 			t.ReadStageDurations();
+			printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
 			printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
 			if (is_orbital) {
 				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
@@ -540,7 +542,9 @@ bool SpaceStation::IsGroundStation() const
 void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 {
 	SpaceStationType::positionOrient_t dport;
-	PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
+	if (!m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship)) {
+		Error("Space station model %s does not specify valid ship_dock_anim positions", m_type->modelName);
+	}
 //	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::SURFACE) {
@@ -611,8 +615,17 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 	}
 }
 
-void SpaceStation::LaunchShip(Ship *ship, int port)
+bool SpaceStation::LaunchShip(Ship *ship, int port)
 {
+	/* XXX bad to keep duplicating this */
+	if (m_type->dockOneAtATimePlease) {
+		for (int i=0; i<m_type->numDockingPorts; i++) {
+			if (m_shipDocking[i].ship && m_shipDocking[i].stage &&
+			    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
+				return false;
+			}
+		}
+	}
 	matrix4x4d rot;
 	GetRotMatrix(rot);
 
@@ -629,6 +642,7 @@ void SpaceStation::LaunchShip(Ship *ship, int port)
 	ship->SetFlightState(Ship::DOCKING);
 	
 	PositionDockedShip(ship, port);
+	return true;
 }
 
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
@@ -682,18 +696,38 @@ Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 {
-	if (flags & 0x10) {
+	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
+		Ship *s = static_cast<Ship*>(b);
 		matrix4x4d rot;
 		GetRotMatrix(rot);
+		
+		bool canDock = true;
+		int port = -1;
+		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+			if (m_shipDocking[i].ship == s) { port = i; break; }
+		}
+		if (m_type->dockOneAtATimePlease) {
+			for (int i=0; i<m_type->numDockingPorts; i++) {
+				if (i == (flags & 0xf)) continue;
+				if (m_shipDocking[i].ship && m_shipDocking[i].stage &&
+				    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
+					canDock = false;
+					break;
+				}
+			}
+		} else {
+			// for non-dockOneAtATimePlease, the ship is expected
+			// to hit the right docking trigger surface for that port
+			if (m_shipDocking[flags&0xf].ship != s) canDock = false;
+		}
+		if (port == -1) canDock = false;
 
 		// hitting docking area of a station
-		if (b->IsType(Object::SHIP)) {
-			Ship *s = static_cast<Ship*>(b);
-			//positionOrient_t *dport = &port[flags & 0xf];
+		if (canDock) {
 			SpaceStationType::positionOrient_t dport;
 			// why stage 2? Because stage 1 is permission to dock
 			// granted, stage 2 is start of docking animation.
-			PiVerify(m_type->GetDockAnimPositionOrient(flags & 0xf, 2, 0.0f, vector3d(0.0), dport, s));
+			PiVerify(m_type->GetDockAnimPositionOrient(port, 2, 0.0f, vector3d(0.0), dport, s));
 		
 			double speed = s->GetVelocity().Length();
 			
@@ -707,18 +741,16 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d::Dot(vector3d(invShipRot[1], invShipRot[5], invShipRot[9]), dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return true;
+				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return false;
 			}
 			
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
-			    (m_shipDocking[flags&0xf].ship == s) &&
-			    (m_shipDocking[flags&0xf].stage == 1)) {
+			    (m_shipDocking[port].stage == 1)) {
 				// if there is more docking port anim to do,
 				// don't set docked yet
-			//	if (port_s2[flags & 0xf].exists) {
 				if (m_type->numDockingStages >= 2) {
-					shipDocking_t &sd = m_shipDocking[flags&0xf];
+					shipDocking_t &sd = m_shipDocking[port];
 					sd.ship = s;
 					sd.stage = 2;
 					sd.stagePos = 0;
@@ -730,12 +762,11 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					PiLuaModules::QueueEvent("onPlayerDock", this);
-					s->SetDockedWith(this, flags&0xf);
+					s->SetDockedWith(this, port);
 				}
 			}
 		}
-		if (!IsGroundStation()) return false;
-		return true;
+		return false;
 	} else {
 		return true;
 	}

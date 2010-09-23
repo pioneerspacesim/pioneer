@@ -26,6 +26,7 @@ struct SpaceStationType {
 	int numUndockStages;
 	float *dockAnimStageDuration;
 	float *undockAnimStageDuration;
+	bool dockOneAtATimePlease;
 	
 	struct positionOrient_t {
 		vector3d pos;
@@ -88,7 +89,9 @@ public:
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	void LaunchShip(Ship *ship, int port);
+	/** You should call Ship::Undock() rather than this.
+	 * Returns true on success, false if permission denied */
+	bool LaunchShip(Ship *ship, int port);
 	void OrientDockedShip(Ship *ship, int port) const;
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	virtual void TimeStepUpdate(const float timeStep);
