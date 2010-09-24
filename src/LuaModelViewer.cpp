@@ -383,6 +383,10 @@ void Viewer::MainLoop()
 				float ry = 0.01f*g_mouseMotion[0];
 				g_camorient = g_camorient * matrix4x4f::RotateXMatrix(rx);
 				g_camorient = g_camorient * matrix4x4f::RotateYMatrix(ry);
+				if (g_mouseButton[1]) {
+					g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f) * 0.01 *
+						g_model->GetDrawClipRadius();
+				}
 			}
 		} else {
 			if (g_keyState[SDLK_UP]) modelRot = modelRot * matrix4x4f::RotateXMatrix(g_frameTime);
