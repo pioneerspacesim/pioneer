@@ -206,7 +206,7 @@ namespace ShipThruster {
 
 class LmrGeomBuffer;
 
-static Render::Shader *s_normalShader;
+static Render::Shader *s_sunlightShader, *s_pointlightShader;
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontFace *s_font;
@@ -236,11 +236,11 @@ void LmrNotifyScreenWidth(float width)
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 	
-void UseProgram(bool Textured = false) {
+void UseProgram(Render::Shader *shader, bool Textured = false) {
 	static GLuint lastProg, texLoc, usetexLoc;
 	static bool lastTextured = false;
 	if ( Render::AreShadersEnabled() ) {
-		GLuint prog = Render::UseProgram(s_normalShader);
+		GLuint prog = Render::UseProgram(shader);
 		if (prog != lastProg) {
 			lastProg = prog;
 			texLoc = glGetUniformLocation(prog, "tex");
@@ -268,6 +268,7 @@ public:
 		m_model = model;
 		m_isStatic = isStatic;
 		m_bo = 0;
+		m_putGeomInsideout = false;
 	}
 	int GetIndicesPos() const {
 		return m_indices.size();
@@ -300,10 +301,13 @@ public:
 		m_triflags.clear();
 		m_ops.clear();
 		m_thrusters.clear();
+		m_putGeomInsideout = false;
 	}
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		s_numTrisRendered += m_indices.size()/3;
+
+		Render::Shader *curShader = s_sunlightShader;
 
 		BindBuffers();
 
@@ -315,11 +319,11 @@ public:
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
 				if (op.elems.texture != 0 ) {
-					UseProgram(true);
+					UseProgram(curShader, true);
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
 				} else {
-					UseProgram();
+					UseProgram(curShader, false);
 				}
 				if (m_isStatic) {
 					// from static VBO
@@ -385,6 +389,31 @@ public:
 				BindBuffers();
 				}
 				break;
+			case OP_LIGHTING_TYPE:
+				if (op.lighting_type.local) {
+					glDisable(GL_LIGHT0);
+					glDisable(GL_LIGHT1);
+					glDisable(GL_LIGHT2);
+					glDisable(GL_LIGHT3);
+					for (int i=4; i<8; i++) {
+						// XXX remove this shit
+						glLightf(GL_LIGHT0+i,
+								GL_QUADRATIC_ATTENUATION,
+								0.00001);
+					}
+					curShader = s_pointlightShader;
+				} else {
+					int numLights = Render::GetCurrentState()->GetNumLights();
+					for (int i=0; i<numLights; i++) glEnable(GL_LIGHT0 + i);
+					for (int i=4; i<8; i++) glDisable(GL_LIGHT0 + i);
+					curShader = s_sunlightShader;
+				}
+				break;
+			case OP_SET_LIGHT:
+				glEnable(GL_LIGHT0 + 4 + op.light.num);
+				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_POSITION, op.light.pos);
+				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_DIFFUSE, op.light.col);
+				break;
 			case OP_NONE:
 				break;
 			}
@@ -423,28 +452,44 @@ public:
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
 		vector3d tex = curTexMatrix * pos;
-		m_vertices.push_back(Vertex(pos, normal, tex.x, tex.y));
-		return m_vertices.size() - 1;
+		return PushVertex(pos, normal, tex.x, tex.y);
 	}
 	void SetVertex(int idx, const vector3f &pos, const vector3f &normal) {
 		vector3d tex = curTexMatrix * pos;
-		m_vertices[idx] = Vertex(pos, normal, tex.x, tex.y);
+		SetVertex(idx, pos, normal, tex.x, tex.y);
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
-		m_vertices.push_back(Vertex(pos, normal, tex_u, tex_v));
+		if (m_putGeomInsideout) {
+			m_vertices.push_back(Vertex(pos, -normal, tex_u, tex_v));
+		} else {
+			m_vertices.push_back(Vertex(pos, normal, tex_u, tex_v));
+		}
 		return m_vertices.size() - 1;
 	}
 	void SetVertex(int idx, const vector3f &pos, const vector3f &normal, GLfloat tex_u, GLfloat tex_v) {
-		m_vertices[idx] = Vertex(pos, normal, tex_u, tex_v);
+		if (m_putGeomInsideout) {
+			m_vertices[idx] = Vertex(pos, -normal, tex_u, tex_v);
+		} else {
+			m_vertices[idx] = Vertex(pos, normal, tex_u, tex_v);
+		}
 	}
 	void SetTexture(GLuint tex) { curTexture = tex; }
 	void SetTexMatrix(const matrix4x4f &texMatrix) { curTexMatrix = texMatrix; } 
 	void PushTri(int i1, int i2, int i3) {
 		OpDrawElements(3);
-		PushIdx(i1);
-		PushIdx(i2);
-		PushIdx(i3);
+		if (m_putGeomInsideout) {
+			PushIdx(i1);
+			PushIdx(i3);
+			PushIdx(i2);
+		} else {
+			PushIdx(i1);
+			PushIdx(i2);
+			PushIdx(i3);
+		}
 		m_triflags.push_back(curTriFlag);
+	}
+	void SetInsideOut(bool a) {
+		m_putGeomInsideout = a;
 	}
 	
 	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
@@ -453,6 +498,21 @@ public:
 		curOp.zbias.amount = amount;
 		memcpy(curOp.zbias.pos, &pos.x, 3*sizeof(float));
 		memcpy(curOp.zbias.norm, &norm.x, 3*sizeof(float));
+	}
+
+	void PushSetLocalLighting(bool enable) {
+		if (curOp.type) m_ops.push_back(curOp);
+		curOp.type = OP_LIGHTING_TYPE;
+		curOp.lighting_type.local = enable;
+	}
+
+	void PushSetLight(int num, const vector3f &pos, const vector3f &col) {
+		if (curOp.type) m_ops.push_back(curOp);
+		curOp.type = OP_SET_LIGHT;
+		curOp.light.num = num;
+		memcpy(curOp.light.pos, &pos, sizeof(vector3f));
+		memcpy(curOp.light.col, &col, sizeof(vector3f));
+		curOp.light.pos[3] = curOp.light.col[3] = 1.0;
 	}
 
 	void PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
@@ -621,7 +681,7 @@ private:
 	}
 
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS,
-			OP_CALL_MODEL };
+			OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_SET_LIGHT };
 
 	struct Op {
 		enum OpType type;
@@ -631,6 +691,8 @@ private:
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
 			struct { int start, count; GLuint tex; float size; float col[4]; } billboards;
+			struct { bool local; } lighting_type;
+			struct { int num; float pos[4], col[4]; } light;
 		};
 	};
 	/* this crap is only used at build time... could move this elsewhere */
@@ -648,6 +710,7 @@ private:
 	int m_boIndexBase;
 	BufferObject<sizeof(Vertex)> *m_bo;
 	bool m_isStatic;
+	bool m_putGeomInsideout;
 };
 
 LmrModel::LmrModel(const char *model_name)
@@ -964,6 +1027,95 @@ namespace ModelFuncs {
 			trans[14] = pos->z;
 
 			s_curBuf->PushCallModel(m, trans, scale);
+		}
+		return 0;
+	}
+
+	static int set_light(lua_State *L)
+	{
+		int num = luaL_checkint(L, 1);
+		const vector3f *pos = MyLuaVec::checkVec(L, 2);
+		const vector3f *col = MyLuaVec::checkVec(L, 3);
+		s_curBuf->PushSetLight(num, *pos, *col);
+		return 0;
+	}
+
+	static int set_local_lighting(lua_State *L)
+	{
+		const bool doIt = lua_toboolean(L, 1);
+		s_curBuf->PushSetLocalLighting(doIt);
+		return 0;
+	}
+
+	static int insideout(lua_State *L)
+	{
+		const bool doIt = lua_toboolean(L, 1);
+		s_curBuf->SetInsideOut(doIt);
+		return 0;
+	}
+
+	static int lathe(lua_State *L)
+	{
+		const int steps = luaL_checknumber(L, 1);
+		const vector3f *start = MyLuaVec::checkVec(L, 2);
+		const vector3f *end = MyLuaVec::checkVec(L, 3);
+		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+
+		if (!lua_istable(L, 5)) {
+			luaL_error(L, "lathe() takes a table of distance, radius numbers");
+		}
+
+		int num = lua_objlen(L, 5);
+		if (num % 2) luaL_error(L, "lathe() passed list with unpaired distance, radius element");
+		if (num < 4) luaL_error(L, "lathe() passed list with insufficient distance, radius pairs");
+
+		// oh tom you fox
+		float *jizz = (float*)alloca(num*2*sizeof(float));
+
+		for (int i=1; i<=num; i++) {
+			lua_pushinteger(L, i);
+			lua_gettable(L, 5);
+			jizz[i-1] = lua_tonumber(L, -1);
+			lua_pop(L, 1);
+		}
+
+		const int vtxStart = s_curBuf->AllocVertices(steps*(num-2));
+
+		const vector3f dir = (*end-*start).Normalized();
+		const vector3f axis1 = updir->Normalized();
+		const vector3f axis2 = vector3d::Cross(*updir, dir).Normalized();
+		const float inc = 2.0f*M_PI / (float)steps;
+
+		for (int i=0; i<num-3; i+=2) {
+			const float rad1 = jizz[i+1];
+			const float rad2 = jizz[i+3];
+			printf("%f,%f\n", rad1, rad2);
+			const vector3d _start = *start + (*end-*start)*jizz[i];
+			const vector3d _end = *start + (*end-*start)*jizz[i+2];
+			bool shitty_normal = (jizz[i] == jizz[i+2]);
+
+			const int basevtx = vtxStart + steps*i;
+			float ang = 0;
+			for (int j=0; j<steps; j++, ang += inc) {
+				const vector3f p1 = rad1 * (sin(ang)*axis1 + cos(ang)*axis2);
+				const vector3f p2 = rad2 * (sin(ang)*axis1 + cos(ang)*axis2);
+				vector3f n;
+				if (shitty_normal) {
+					if (rad1 > rad2) n = dir;
+					else n = -dir;
+				} else {
+					n = vector3d::Cross(vector3f::Cross((_end+p2)-(_start+p1), p1), (_end+p2)-(_start+p1))
+						.Normalized();
+				}
+				s_curBuf->SetVertex(basevtx + j, _start+p1, n);
+				s_curBuf->SetVertex(basevtx + steps + j, _end+p2, n);
+			}
+			for (int j=0; j<steps-1; j++) {
+				s_curBuf->PushTri(basevtx+j, basevtx+j+1, basevtx+j+steps);
+				s_curBuf->PushTri(basevtx+j+1, basevtx+j+steps+1, basevtx+j+steps);
+			}
+			s_curBuf->PushTri(basevtx+steps-1, basevtx, basevtx+2*steps-1);
+			s_curBuf->PushTri(basevtx, basevtx+steps, basevtx+2*steps-1);
 		}
 		return 0;
 	}
@@ -2530,7 +2682,8 @@ static int define_model(lua_State *L)
 void LmrModelCompilerInit()
 {
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
-	s_normalShader = new Render::Shader("model");
+	s_sunlightShader = new Render::Shader("model");
+	s_pointlightShader = new Render::Shader("model-pointlit");
 	PiVerify(s_font = new FontFace (PIONEER_DATA_DIR "/fonts/font.ttf"));
 
 	lua_State *L = lua_open();
@@ -2564,6 +2717,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "xref_cylinder", ModelFuncs::xref_cylinder);
 	lua_register(L, "tapered_cylinder", ModelFuncs::tapered_cylinder);
 	lua_register(L, "xref_tapered_cylinder", ModelFuncs::xref_tapered_cylinder);
+	lua_register(L, "lathe", ModelFuncs::lathe);
 	lua_register(L, "tube", ModelFuncs::tube);
 	lua_register(L, "xref_tube", ModelFuncs::xref_tube);
 	lua_register(L, "ring", ModelFuncs::ring);
@@ -2594,6 +2748,9 @@ void LmrModelCompilerInit()
 	lua_register(L, "noise", UtilFuncs::noise);
 	lua_register(L, "load_obj", ObjLoader::load_obj_file);
 	lua_register(L, "load_lua", UtilFuncs::load_lua);
+	lua_register(L, "set_insideout", ModelFuncs::insideout);
+	lua_register(L, "set_local_lighting", ModelFuncs::set_local_lighting);
+	lua_register(L, "set_light", ModelFuncs::set_light);
 
 	s_buildDynamic = false;
 	lua_pushstring(L, PIONEER_DATA_DIR);

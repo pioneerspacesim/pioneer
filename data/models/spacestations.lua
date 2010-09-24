@@ -382,15 +382,19 @@ define_model('big_crappy_spacestation', {
 	static = function(lod)
 		set_material('body0', 1,1,1,1)
 		use_material('body0')
-		tube(16, v(0,650,0), v(0,600,0), v(0,0,1), 100, 150)
-		tube(16, v(0,600,0), v(0,200,0), v(0,0,1), 100, 400)
-		tube(16, v(0,200,0), v(0,-200,0), v(0,0,1), 300, 420) -- this bit contains the ships
-		cylinder(16, v(0,-200,0), v(0,-600,0), v(0,0,1), 400)
+		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0,150, 0.1,200, 0.2,150, 0.4,150, 0.45,300,0.55,300, 0.6,150, 0.7,150, 0.75,300, 0.95,300, 1.0,150, 1.0,0.0})
 		-- struts to outer ring
 		ring(8, v(0,0,419), v(0,0,1500), v(1,0,0), 20)
 		ring(8, v(0,0,-419), v(0,0,-1500), v(1,0,0), 20)
 		-- outer ring
 		tube(32, v(0,-100,0), v(0,100,0), v(0,0,1), 1500, 1600)
+		-- the inside!
+		set_insideout(true)
+		set_local_lighting(true)
+		set_light(0, v(0,0,0), v(0,0,1))
+		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0.7,100, 0.75,250, 0.95,250, 0.95,0})
+		set_local_lighting(false)
+		set_insideout(false)
 		-- docking trigger surface (only need to indicate surface for
 		-- port zero since this is a 'dock_one_at_a_time_please' station
 		geomflag(0x10)
