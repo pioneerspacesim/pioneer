@@ -10,13 +10,15 @@ void main(void)
 	vec4 amb = vec4(0.0);
 	vec4 diff = vec4(0.0);
 	vec4 spec = vec4(0.0);
-//	for (int i=4; i<8; ++i) {
-		PointLight(4, eye, ecPosition3, tnorm, amb, diff, spec);
-//	}
-	gl_FragColor = gl_FrontLightModelProduct.sceneColor +
+	for (int i=4; i<8; ++i) {
+		PointLight(i, eye, ecPosition3, tnorm, amb, diff, spec);
+	}
+	gl_FragColor = 
+		gl_LightModel.ambient * gl_FrontMaterial.ambient +
 		amb * gl_FrontMaterial.ambient +
 		diff * gl_FrontMaterial.diffuse +
-		spec * gl_FrontMaterial.specular;
+		spec * gl_FrontMaterial.specular +
+		gl_FrontMaterial.emission;
 
 	if ( usetex )
 		gl_FragColor *= texture2D(tex, gl_TexCoord[0].st);

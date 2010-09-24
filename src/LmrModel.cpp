@@ -395,11 +395,15 @@ public:
 					glDisable(GL_LIGHT1);
 					glDisable(GL_LIGHT2);
 					glDisable(GL_LIGHT3);
+					float zilch[4] = { 0.0f,0.0f,0.0f,0.0f };
 					for (int i=4; i<8; i++) {
-						// XXX remove this shit
-						glLightf(GL_LIGHT0+i,
-								GL_QUADRATIC_ATTENUATION,
-								0.00001);
+						// so why are these set each
+						// time? because the shader
+						// path does not know if
+						// lightsources are active and
+						// uses them all (4-8)
+						glLightfv(GL_LIGHT0+i, GL_DIFFUSE, zilch);
+						glLightfv(GL_LIGHT0+i, GL_SPECULAR, zilch);
 					}
 					curShader = s_pointlightShader;
 				} else {
@@ -411,8 +415,10 @@ public:
 				break;
 			case OP_SET_LIGHT:
 				glEnable(GL_LIGHT0 + 4 + op.light.num);
+				glLightf(GL_LIGHT0 + 4 + op.light.num, GL_QUADRATIC_ATTENUATION, op.light.quadratic_attenuation);
 				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_POSITION, op.light.pos);
 				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_DIFFUSE, op.light.col);
+				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_SPECULAR, op.light.col);
 				break;
 			case OP_NONE:
 				break;
@@ -506,10 +512,11 @@ public:
 		curOp.lighting_type.local = enable;
 	}
 
-	void PushSetLight(int num, const vector3f &pos, const vector3f &col) {
+	void PushSetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_SET_LIGHT;
 		curOp.light.num = num;
+		curOp.light.quadratic_attenuation = quadratic_attenuation;
 		memcpy(curOp.light.pos, &pos, sizeof(vector3f));
 		memcpy(curOp.light.col, &col, sizeof(vector3f));
 		curOp.light.pos[3] = curOp.light.col[3] = 1.0;
@@ -692,7 +699,7 @@ private:
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
 			struct { int start, count; GLuint tex; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
-			struct { int num; float pos[4], col[4]; } light;
+			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
 	};
 	/* this crap is only used at build time... could move this elsewhere */
@@ -1033,10 +1040,14 @@ namespace ModelFuncs {
 
 	static int set_light(lua_State *L)
 	{
-		int num = luaL_checkint(L, 1);
-		const vector3f *pos = MyLuaVec::checkVec(L, 2);
-		const vector3f *col = MyLuaVec::checkVec(L, 3);
-		s_curBuf->PushSetLight(num, *pos, *col);
+		int num = luaL_checkint(L, 1)-1;
+		if ((num < 0) || (num > 3)) {
+			luaL_error(L, "set_light should have light number from 1 to 4.");
+		}
+		const float quadratic_attenuation = luaL_checknumber(L, 2);
+		const vector3f *pos = MyLuaVec::checkVec(L, 3);
+		const vector3f *col = MyLuaVec::checkVec(L, 4);
+		s_curBuf->PushSetLight(num, quadratic_attenuation, *pos, *col);
 		return 0;
 	}
 

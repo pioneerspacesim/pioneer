@@ -380,7 +380,7 @@ define_model('big_crappy_spacestation', {
 		end,
 	},
 	static = function(lod)
-		set_material('body0', 1,1,1,1)
+		set_material('body0', 1,1,1,1, 1,1,1,100)
 		use_material('body0')
 		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0,150, 0.1,200, 0.2,150, 0.4,150, 0.45,300,0.55,300, 0.6,150, 0.7,150, 0.75,300, 0.95,300, 1.0,150, 1.0,0.0})
 		-- struts to outer ring
@@ -391,10 +391,14 @@ define_model('big_crappy_spacestation', {
 		-- the inside!
 		set_insideout(true)
 		set_local_lighting(true)
-		set_light(0, v(0,0,0), v(0,0,1))
+		set_light(1, 0.00005, v(0,200,0), v(0,0,0.5))
+		set_light(2, 0.00001, v(0,-300,0), v(0.5,1.0,0))
 		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0.7,100, 0.75,250, 0.95,250, 0.95,0})
 		set_local_lighting(false)
 		set_insideout(false)
+		billboard('smoke.png', 50.0, v(0,0,1), {v(0,200,0)})
+		billboard('smoke.png', 50.0, v(1,1,0), {v(0,-300,0)})
+
 		-- docking trigger surface (only need to indicate surface for
 		-- port zero since this is a 'dock_one_at_a_time_please' station
 		geomflag(0x10)
