@@ -366,9 +366,7 @@ void Viewer::MainLoop()
 	space = new CollisionSpace();
 	space->AddGeom(geom);
 
-	Render::State rstate;
-	rstate.SetZnearZfar(1.0f, 10000.0f);
-	Render::SetCurrentState(&rstate);
+	Render::State::SetZnearZfar(1.0f, 10000.0f);
 
 	for (;;) {
 		PollEvents();
@@ -441,7 +439,7 @@ void Viewer::MainLoop()
 			vector3d up = tran * vector3d(0.0,1.0,0.0);
 			raytraceCollMesh(modelRot * g_campos, up, forward, space);
 		}
-		Render::UseProgram(0);
+		Render::State::UseProgram(0);
 		Render::UnbindAllBuffers();
 
 		{

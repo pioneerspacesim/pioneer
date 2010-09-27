@@ -65,7 +65,6 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
-	Render::State m_renderState;
 	Render::Shader *m_bgStarShader;
 
 	sigc::connection m_onPlayerChangeHyperspaceTargetCon;

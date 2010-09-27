@@ -40,13 +40,15 @@ void ObjectViewerView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	float znear = 10.0f;
-	float zfar = 1000000.0f;
+	float znear, zfar;
+	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
 	float fracH = znear / Pi::GetScrAspect();
 	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glEnable(GL_LIGHT0);
+
+	Render::State::SetZnearZfar(znear, zfar);
 
 	if (Pi::MouseButtonState(3)) {
 		int m[2];

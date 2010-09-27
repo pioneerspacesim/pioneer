@@ -240,7 +240,7 @@ void UseProgram(Render::Shader *shader, bool Textured = false, int numLights=-1)
 	static GLuint lastProg, texLoc, usetexLoc;
 	static bool lastTextured = false;
 	if ( Render::AreShadersEnabled() ) {
-		GLuint prog = Render::UseProgram(shader, numLights);
+		GLuint prog = Render::State::UseProgram(shader, numLights);
 		if (prog != lastProg) {
 			lastProg = prog;
 			texLoc = glGetUniformLocation(prog, "tex");
@@ -409,7 +409,7 @@ public:
 					curShader = s_pointlightShader;
 					activeLights = 0;
 				} else {
-					int numLights = Render::GetCurrentState()->GetNumLights();
+					int numLights = Render::State::GetNumLights();
 					for (int i=0; i<numLights; i++) glEnable(GL_LIGHT0 + i);
 					for (int i=4; i<8; i++) glDisable(GL_LIGHT0 + i);
 					curShader = s_sunlightShader;

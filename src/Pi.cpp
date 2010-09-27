@@ -464,9 +464,7 @@ static void draw_intro(WorldView *view, float _time)
 	float ambient[4] = { 0.1,0.1,0.1,1 };
 
 	// defaults are dandy
-	Render::State renderState;
-	renderState.SetZnearZfar(1.0f, 10000.0f);
-	Render::SetCurrentState(&renderState);
+	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
 		{ },
 		{ "PIONEER" },
@@ -494,10 +492,9 @@ static void draw_intro(WorldView *view, float _time)
 			matrix4x4f::RotateXMatrix(_time*.7);
 	rot[14] = -80.0;
 	LmrLookupModelByName("interdictor")->Render(rot, &params);
-	Render::UseProgram(0);
+	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
 	glPopAttrib();
-	Render::SetCurrentState(0);
 }
 
 static void draw_tombstone(float _time)
@@ -526,16 +523,14 @@ static void draw_tombstone(float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -MAX(150 - 30*_time, 30);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
-	Render::UseProgram(0);
+	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
 	glPopAttrib();
 }
 
 void Pi::TombStoneLoop()
 {
-	Render::State rstate;
-	rstate.SetZnearZfar(1.0f, 10000.0f);
-	Render::SetCurrentState(&rstate);
+	Render::State::SetZnearZfar(1.0f, 10000.0f);
 
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
@@ -564,8 +559,6 @@ void Pi::TombStoneLoop()
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	} while (!((_time > 2.0) && ((Pi::MouseButtonState(1)) || Pi::KeyState(SDLK_SPACE)) ));
-	
-	Render::SetCurrentState(0);
 }
 
 void Pi::InitGame()

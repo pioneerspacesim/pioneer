@@ -109,7 +109,7 @@ static void make_circle_thing(float radius, const Color &colCenter, const Color 
 
 void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Render::UseProgram(Render::simpleShader);
+	Render::State::UseProgram(Render::simpleShader);
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
 	glPushMatrix();
@@ -131,5 +131,4 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	glPopMatrix();
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
-	Render::UseProgram(0);
 }

@@ -253,7 +253,7 @@ void Planet::DrawGasGiantRings()
 	
 	const double maxRingWidth = 0.1 / (double)(2*(Pi::detail.planets + 1));
 
-	Render::UseProgram(Render::planetRingsShader);
+	Render::State::UseProgram(Render::planetRingsShader);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = (float)rng.Double(1.15,1.5);
 		float end = pos + (float)rng.Double(0.1, 1.0);
@@ -273,7 +273,7 @@ void Planet::DrawGasGiantRings()
 			pos += size;
 		}
 	}
-	Render::UseProgram(0);
+	Render::State::UseProgram(0);
 	
 	glEnable(GL_CULL_FACE);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
@@ -398,7 +398,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	glColor3f(1,1,1);
 
 	if (apparent_size < 0.001) {
-		Render::UseProgram(0);
+		Render::State::UseProgram(0);
 		/* XXX WRONG. need to pick light from appropriate turd. */
 		GLfloat col[4];
 		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);

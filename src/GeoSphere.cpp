@@ -1239,7 +1239,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		atmosDensity *= 0.00005f;
 
 		if (atmosDensity != 0.0f) {
-			prog = Render::UseProgram(s_geosphereSkyShader);
+			prog = Render::State::UseProgram(s_geosphereSkyShader);
 			
 			loc = glGetUniformLocation(prog, "geosphereScale");
 			glUniform1f(loc, scale);
@@ -1261,7 +1261,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		prog = Render::UseProgram(s_geosphereSurfaceShader);
+		prog = Render::State::UseProgram(s_geosphereSurfaceShader);
 
 		loc = glGetUniformLocation(prog, "geosphereScale");
 		glUniform1f(loc, scale);
@@ -1289,7 +1289,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, planes);
 	}
-	Render::UseProgram(0);
+	Render::State::UseProgram(0);
 
 	glDisable(GL_COLOR_MATERIAL);
 

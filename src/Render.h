@@ -16,34 +16,27 @@ namespace Render {
 		Shader(const char *name);
 	};
 
-	class State {
+	/* static */ class State {
 	private:
-		int m_numLights;
-		float m_znear, m_zfar;
-		float m_invLogZfarPlus1; // for z-hack
-		GLuint m_currentProgram;
+		static int m_numLights;
+		static float m_znear, m_zfar;
+		static float m_invLogZfarPlus1; // for z-hack
+		static GLuint m_currentProgram;
 	public:
-		State() {
-			SetNumLights(1);
-			SetZnearZfar(10.0f, 1000000.0f);
-		}
 		/** setting numLights to 1..4 overrides m_numLights */
-		GLuint UseProgram(const Shader *shader, int numLights=-1);
-		void SetNumLights(int n) { m_numLights = n; }
-		void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
+		static GLuint UseProgram(const Shader *shader, int numLights=-1);
+		static void SetNumLights(int n) { m_numLights = n; }
+		static void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
 		}
-		int GetNumLights() { return m_numLights; }
-		void GetZnearZfar(float &outZnear, float &outZfar) {outZnear = m_znear; outZfar = m_zfar; }
+		static int GetNumLights() { return m_numLights; }
+		static void GetZnearZfar(float &outZnear, float &outZfar) {outZnear = m_znear; outZfar = m_zfar; }
 	};
 
 	extern Shader *simpleShader;
 	extern Shader *planetRingsShader;
 
 	void Init();
-	void SetCurrentState(State *state);
-	State *GetCurrentState();
-	GLuint UseProgram(const Shader *shader, int numLights=-1);
 	bool AreShadersEnabled();
 	void ToggleShaders();
 

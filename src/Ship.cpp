@@ -890,9 +890,9 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
 			glTranslatef(viewCoords.x, viewCoords.y, viewCoords.z);
-			Render::UseProgram(Render::simpleShader);
+			Render::State::UseProgram(Render::simpleShader);
 			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
-			Render::UseProgram(0);
+			Render::State::UseProgram(0);
 			glPopMatrix();
 			glEnable(GL_LIGHTING);
 			glDisable(GL_BLEND);

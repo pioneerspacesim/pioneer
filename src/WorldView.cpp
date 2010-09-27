@@ -273,7 +273,7 @@ void WorldView::DrawBgStars()
 	glEnableClientState(GL_COLOR_ARRAY);
 	
 	if (Render::AreShadersEnabled()) {
-		m_renderState.UseProgram(m_bgStarShader);
+		Render::State::UseProgram(m_bgStarShader);
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
 		glDisable(GL_POINT_SMOOTH);
@@ -335,7 +335,7 @@ void WorldView::DrawBgStars()
 	glEnable(GL_DEPTH_TEST);
 	
 	if (Render::AreShadersEnabled()) {
-		m_renderState.UseProgram(0);
+		Render::State::UseProgram(0);
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 		glDisable(GL_POINT_SMOOTH);
 	}
@@ -454,13 +454,12 @@ void WorldView::Draw3D()
 
 	m_numLights = 0;
 	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
-	m_renderState.SetNumLights(m_numLights);
+	Render::State::SetNumLights(m_numLights);
 	{
 		float znear, zfar;
 		GetNearFarClipPlane(&znear, &zfar);
-		m_renderState.SetZnearZfar(znear, zfar);
+		Render::State::SetZnearZfar(znear, zfar);
 	}
-	Render::SetCurrentState(&m_renderState);
 
 	Space::Render(&cam_frame);
 	if (!Pi::player->IsDead()) DrawHUD(&cam_frame);

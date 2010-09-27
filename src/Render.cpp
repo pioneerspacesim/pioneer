@@ -8,10 +8,15 @@ namespace Render {
 static bool initted = false;
 static bool shadersEnabled;
 static bool shadersAvailable;
-static State *currentState;
 Shader *simpleShader;
 Shader *planetRingsShader;
 Shader *billboardShader;
+
+int State::m_numLights = 1;
+float State::m_znear = 10.0f;
+float State::m_zfar = 1e6f;
+float State::m_invLogZfarPlus1;
+GLuint State::m_currentProgram = 0;
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -64,22 +69,6 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
-void SetCurrentState(State *state)
-{
-	currentState = state;
-}
-
-State *GetCurrentState()
-{
-	return currentState;
-}
-
-GLuint UseProgram(const Shader *shader, int numLights)
-{
-	assert(currentState != 0);
-	return currentState->UseProgram(shader, numLights);
-}
-
 void ToggleShaders()
 {
 	if (shadersAvailable) {
@@ -115,7 +104,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	if (AreShadersEnabled()) {
 		// this is a bit dumb since it doesn't care how many lights
 		// the scene has, and this is a constant...
-		GLuint prog = UseProgram(billboardShader);
+		GLuint prog = State::UseProgram(billboardShader);
 		GLuint texLoc = glGetUniformLocation(prog, "some_texture");
 		glUniform1i(texLoc, 0);
 	}
