@@ -23,6 +23,12 @@ struct LmrMaterial {
 	// make sure save and load routines in ShipFlavour are matching
 };
 
+struct LmrLight {
+	float position[4];
+	float color[4];
+	float quadraticAttenuation;
+};
+
 struct LmrObjParams
 {
 	float argFloats[LMR_ARG_MAX];
@@ -56,6 +62,7 @@ private:
 	// index into m_materials
 	std::map<std::string, int> m_materialLookup;
 	std::vector<LmrMaterial> m_materials;
+	std::vector<LmrLight> m_lights;
 	float m_lodPixelSize[LMR_MAX_LOD];
 	int m_numLods;
 	LmrGeomBuffer *m_staticGeometry[LMR_MAX_LOD];

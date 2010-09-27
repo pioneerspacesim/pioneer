@@ -391,8 +391,8 @@ define_model('big_crappy_spacestation', {
 		-- the inside!
 		set_insideout(true)
 		set_local_lighting(true)
-		set_light(1, 0.00005, v(0,200,0), v(0,0,0.5))
-		set_light(2, 0.00001, v(0,-300,0), v(0.5,1.0,0))
+		use_light(1)
+		use_light(2)
 		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0.7,100, 0.75,250, 0.95,250, 0.95,0})
 		set_local_lighting(false)
 		set_insideout(false)
@@ -410,6 +410,8 @@ define_model('big_crappy_spacestation', {
 		 billboard('smoke.png', 20.0, v(1,1,0), {
 			vlerp(get_arg(1),v(0,12,419),v(0,12,1500)),
 			vlerp(get_arg(1),v(0,12,-419),v(0,12,-1500))})
+		set_light(1, 0.00005, v(0,0+1000*math.fmod(get_arg(1),1.0),0), v(0,0,0.5))
+		set_light(2, 0.00001, v(0,-300,0), v(0.5,1.0,0))
 	end,
 })
 

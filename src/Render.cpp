@@ -74,10 +74,10 @@ State *GetCurrentState()
 	return currentState;
 }
 
-GLuint UseProgram(const Shader *shader)
+GLuint UseProgram(const Shader *shader, int numLights)
 {
 	assert(currentState != 0);
-	return currentState->UseProgram(shader);
+	return currentState->UseProgram(shader, numLights);
 }
 
 void ToggleShaders()
@@ -307,11 +307,12 @@ Shader::Shader(const char *name)
 
 // --------------- class Shader ------------------
 
-GLuint State::UseProgram(const Shader *shader)
+GLuint State::UseProgram(const Shader *shader, int numLights)
 {
+	if (numLights < 0) numLights = m_numLights;
 	if (shadersEnabled) {
 		if (shader) {
-			GLuint prog = shader->m_program[m_numLights-1];
+			GLuint prog = shader->m_program[numLights-1];
 			if (m_currentProgram != prog) {
 				m_currentProgram = prog;
 				glUseProgram(prog);

@@ -10,7 +10,7 @@ void main(void)
 	vec4 amb = vec4(0.0);
 	vec4 diff = vec4(0.0);
 	vec4 spec = vec4(0.0);
-	for (int i=4; i<8; ++i) {
+	for (int i=4; i<4+NUM_LIGHTS; ++i) {
 		PointLight(i, eye, ecPosition3, tnorm, amb, diff, spec);
 	}
 	gl_FragColor = 

@@ -236,11 +236,11 @@ void LmrNotifyScreenWidth(float width)
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 	
-void UseProgram(Render::Shader *shader, bool Textured = false) {
+void UseProgram(Render::Shader *shader, bool Textured = false, int numLights=-1) {
 	static GLuint lastProg, texLoc, usetexLoc;
 	static bool lastTextured = false;
 	if ( Render::AreShadersEnabled() ) {
-		GLuint prog = Render::UseProgram(shader);
+		GLuint prog = Render::UseProgram(shader, numLights);
 		if (prog != lastProg) {
 			lastProg = prog;
 			texLoc = glGetUniformLocation(prog, "tex");
@@ -305,6 +305,7 @@ public:
 	}
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+		int activeLights = -1;
 		s_numTrisRendered += m_indices.size()/3;
 
 		Render::Shader *curShader = s_sunlightShader;
@@ -319,11 +320,11 @@ public:
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
 				if (op.elems.texture != 0 ) {
-					UseProgram(curShader, true);
+					UseProgram(curShader, true, activeLights);
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
 				} else {
-					UseProgram(curShader, false);
+					UseProgram(curShader, false, activeLights);
 				}
 				if (m_isStatic) {
 					// from static VBO
@@ -406,19 +407,31 @@ public:
 						glLightfv(GL_LIGHT0+i, GL_SPECULAR, zilch);
 					}
 					curShader = s_pointlightShader;
+					activeLights = 0;
 				} else {
 					int numLights = Render::GetCurrentState()->GetNumLights();
 					for (int i=0; i<numLights; i++) glEnable(GL_LIGHT0 + i);
 					for (int i=4; i<8; i++) glDisable(GL_LIGHT0 + i);
 					curShader = s_sunlightShader;
+					activeLights = -1;
 				}
 				break;
-			case OP_SET_LIGHT:
-				glEnable(GL_LIGHT0 + 4 + op.light.num);
-				glLightf(GL_LIGHT0 + 4 + op.light.num, GL_QUADRATIC_ATTENUATION, op.light.quadratic_attenuation);
-				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_POSITION, op.light.pos);
-				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_DIFFUSE, op.light.col);
-				glLightfv(GL_LIGHT0 + 4 + op.light.num, GL_SPECULAR, op.light.col);
+			case OP_USE_LIGHT:
+				{
+					if (m_model->m_lights.size() <= op.light.num) {
+						m_model->m_lights.resize(op.light.num+1);
+					}
+					LmrLight &l = m_model->m_lights[op.light.num];
+					glEnable(GL_LIGHT0 + 4 + activeLights);
+					glLightf(GL_LIGHT0 + 4 + activeLights, GL_QUADRATIC_ATTENUATION, l.quadraticAttenuation);
+					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_POSITION, l.position);
+					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_DIFFUSE, l.color);
+					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_SPECULAR, l.color);
+					activeLights++;
+					if (activeLights > 4) {
+						Error("Too many active lights in model '%s' (maximum 4)", m_model->GetName());
+					}
+				}
 				break;
 			case OP_NONE:
 				break;
@@ -512,14 +525,21 @@ public:
 		curOp.lighting_type.local = enable;
 	}
 
-	void PushSetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
+	void SetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
+		if (m_model->m_lights.size() <= num) {
+			m_model->m_lights.resize(num+1);
+		}
+		LmrLight &l = m_model->m_lights[num];
+		memcpy(l.position, &pos, sizeof(vector3f));
+		memcpy(l.color, &col, sizeof(vector3f));
+		l.position[3] = l.color[3] = 1.0;
+		l.quadraticAttenuation = quadratic_attenuation;
+	}
+
+	void PushUseLight(int num) {
 		if (curOp.type) m_ops.push_back(curOp);
-		curOp.type = OP_SET_LIGHT;
+		curOp.type = OP_USE_LIGHT;
 		curOp.light.num = num;
-		curOp.light.quadratic_attenuation = quadratic_attenuation;
-		memcpy(curOp.light.pos, &pos, sizeof(vector3f));
-		memcpy(curOp.light.col, &col, sizeof(vector3f));
-		curOp.light.pos[3] = curOp.light.col[3] = 1.0;
 	}
 
 	void PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
@@ -688,7 +708,7 @@ private:
 	}
 
 	enum OpType { OP_NONE, OP_DRAW_ELEMENTS, OP_DRAW_BILLBOARDS, OP_SET_MATERIAL, OP_ZBIAS,
-			OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_SET_LIGHT };
+			OP_CALL_MODEL, OP_LIGHTING_TYPE, OP_USE_LIGHT };
 
 	struct Op {
 		enum OpType type;
@@ -1047,7 +1067,14 @@ namespace ModelFuncs {
 		const float quadratic_attenuation = luaL_checknumber(L, 2);
 		const vector3f *pos = MyLuaVec::checkVec(L, 3);
 		const vector3f *col = MyLuaVec::checkVec(L, 4);
-		s_curBuf->PushSetLight(num, quadratic_attenuation, *pos, *col);
+		s_curBuf->SetLight(num, quadratic_attenuation, *pos, *col);
+		return 0;
+	}
+
+	static int use_light(lua_State *L)
+	{
+		int num = luaL_checkint(L, 1)-1;
+		s_curBuf->PushUseLight(num);
 		return 0;
 	}
 
@@ -2762,6 +2789,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "set_insideout", ModelFuncs::insideout);
 	lua_register(L, "set_local_lighting", ModelFuncs::set_local_lighting);
 	lua_register(L, "set_light", ModelFuncs::set_light);
+	lua_register(L, "use_light", ModelFuncs::use_light);
 
 	s_buildDynamic = false;
 	lua_pushstring(L, PIONEER_DATA_DIR);

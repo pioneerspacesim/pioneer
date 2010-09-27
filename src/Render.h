@@ -27,7 +27,8 @@ namespace Render {
 			SetNumLights(1);
 			SetZnearZfar(10.0f, 1000000.0f);
 		}
-		GLuint UseProgram(const Shader *shader);
+		/** setting numLights to 1..4 overrides m_numLights */
+		GLuint UseProgram(const Shader *shader, int numLights=-1);
 		void SetNumLights(int n) { m_numLights = n; }
 		void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
@@ -42,7 +43,7 @@ namespace Render {
 	void Init();
 	void SetCurrentState(State *state);
 	State *GetCurrentState();
-	GLuint UseProgram(const Shader *shader);
+	GLuint UseProgram(const Shader *shader, int numLights=-1);
 	bool AreShadersEnabled();
 	void ToggleShaders();
 
