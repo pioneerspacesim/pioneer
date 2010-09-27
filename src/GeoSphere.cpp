@@ -19,6 +19,16 @@ static double GEOPATCH_FRAC;
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
+SHADER_CLASS_BEGIN(GeosphereShader)
+	SHADER_UNIFORM_VEC4(atmosColor)
+	SHADER_UNIFORM_FLOAT(geosphereScale)
+	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad)
+	SHADER_UNIFORM_VEC3(geosphereCenter)
+	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
+SHADER_CLASS_END()
+
+static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4];
+
 #pragma pack(4)
 struct VBOVertex
 {
@@ -971,8 +981,6 @@ void GeoSphere::_UpdateLODs()
 	m_runUpdateThread = 0;
 }
 
-static Render::Shader *s_geosphereSurfaceShader, *s_geosphereSkyShader;
-
 /* This is to stop threads keeping on iterating over the s_allGeospheres list,
  * which may have been destroyed by exit() (does on lunix anyway...)
  */
@@ -983,8 +991,14 @@ static void _LockoutThreadsBeforeExit()
 
 void GeoSphere::Init()
 {
-	s_geosphereSurfaceShader = new Render::Shader("geosphere");
-	s_geosphereSkyShader = new Render::Shader("geosphere_sky");
+	s_geosphereSurfaceShader[0] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 1\n");
+	s_geosphereSurfaceShader[1] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 2\n");
+	s_geosphereSurfaceShader[2] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 3\n");
+	s_geosphereSurfaceShader[3] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 4\n");
+	s_geosphereSkyShader[0] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 1\n");
+	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
+	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
+	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
 	s_allGeospheresLock = SDL_CreateMutex();
 	OnChangeDetailLevel();
 #ifdef GEOSPHERE_USE_THREADING
@@ -1230,7 +1244,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	if (Render::AreShadersEnabled()) {
 		Color atmosCol;
 		float atmosDensity;
-		GLint prog, loc;
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
@@ -1239,18 +1252,13 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		atmosDensity *= 0.00005f;
 
 		if (atmosDensity != 0.0f) {
-			prog = Render::State::UseProgram(s_geosphereSkyShader);
-			
-			loc = glGetUniformLocation(prog, "geosphereScale");
-			glUniform1f(loc, scale);
-			loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
-			glUniform1f(loc, atmosRadius*radius/scale);
-			loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
-			glUniform1f(loc, atmosDensity);
-			loc = glGetUniformLocation(prog, "atmosColor");
-			glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-			loc = glGetUniformLocation(prog, "geosphereCenter");
-			glUniform3f(loc, center.x, center.y, center.z);
+			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
+			Render::State::UseProgram(shader);
+			shader->set_geosphereScale(scale);
+			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+			shader->set_geosphereAtmosFogDensity(atmosDensity);
+			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereCenter(center.x, center.y, center.z);
 			
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -1261,18 +1269,13 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			glDisable(GL_BLEND);
 		}
 
-		prog = Render::State::UseProgram(s_geosphereSurfaceShader);
-
-		loc = glGetUniformLocation(prog, "geosphereScale");
-		glUniform1f(loc, scale);
-		loc = glGetUniformLocation(prog, "geosphereAtmosTopRad");
-		glUniform1f(loc, atmosRadius*radius/scale);
-		loc = glGetUniformLocation(prog, "geosphereAtmosFogDensity");
-		glUniform1f(loc, atmosDensity);
-		loc = glGetUniformLocation(prog, "atmosColor");
-		glUniform4f(loc, atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-		loc = glGetUniformLocation(prog, "geosphereCenter");
-		glUniform3f(loc, center.x, center.y, center.z);
+		GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
+		Render::State::UseProgram(shader);
+		shader->set_geosphereScale(scale);
+		shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
+		shader->set_geosphereAtmosFogDensity(atmosDensity);
+		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+		shader->set_geosphereCenter(center.x, center.y, center.z);
 	}
 
 	if (!m_patches[0]) BuildFirstPatches();

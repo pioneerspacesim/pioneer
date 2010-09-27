@@ -206,7 +206,13 @@ namespace ShipThruster {
 
 class LmrGeomBuffer;
 
-static Render::Shader *s_sunlightShader, *s_pointlightShader;
+SHADER_CLASS_BEGIN(LmrShader)
+	SHADER_UNIFORM_INT(usetex)
+	SHADER_UNIFORM_SAMPLER(tex)
+SHADER_CLASS_END()
+
+static LmrShader *s_sunlightShader[4];
+static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontFace *s_font;
@@ -236,23 +242,11 @@ void LmrNotifyScreenWidth(float width)
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 	
-void UseProgram(Render::Shader *shader, bool Textured = false, int numLights=-1) {
-	static GLuint lastProg, texLoc, usetexLoc;
-	static bool lastTextured = false;
-	if ( Render::AreShadersEnabled() ) {
-		GLuint prog = Render::State::UseProgram(shader, numLights);
-		if (prog != lastProg) {
-			lastProg = prog;
-			texLoc = glGetUniformLocation(prog, "tex");
-			usetexLoc = glGetUniformLocation(prog, "usetex");
-			glUniform1i(texLoc, 0);
-			lastTextured = !Textured;
-		}
-		if (lastTextured != Textured) {
-			if (Textured) glUniform1i(usetexLoc, 1);
-			else glUniform1i(usetexLoc, 0);
-			lastTextured = Textured;
-		}
+void UseProgram(LmrShader *shader, bool Textured = false) {
+	if (Render::AreShadersEnabled()) {
+		Render::State::UseProgram(shader);
+		if (Textured) shader->set_tex(0);
+		shader->set_usetex(Textured ? 1 : 0);
 	}
 }
 
@@ -305,10 +299,10 @@ public:
 	}
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
-		int activeLights = -1;
+		int activeLights;
 		s_numTrisRendered += m_indices.size()/3;
-
-		Render::Shader *curShader = s_sunlightShader;
+		
+		LmrShader *curShader = s_sunlightShader[Render::State::GetNumLights()-1];
 
 		BindBuffers();
 
@@ -320,11 +314,11 @@ public:
 			switch (op.type) {
 			case OP_DRAW_ELEMENTS:
 				if (op.elems.texture != 0 ) {
-					UseProgram(curShader, true, activeLights);
+					UseProgram(curShader, true);
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
 				} else {
-					UseProgram(curShader, false, activeLights);
+					UseProgram(curShader, false);
 				}
 				if (m_isStatic) {
 					// from static VBO
@@ -406,14 +400,12 @@ public:
 						glLightfv(GL_LIGHT0+i, GL_DIFFUSE, zilch);
 						glLightfv(GL_LIGHT0+i, GL_SPECULAR, zilch);
 					}
-					curShader = s_pointlightShader;
 					activeLights = 0;
 				} else {
 					int numLights = Render::State::GetNumLights();
 					for (int i=0; i<numLights; i++) glEnable(GL_LIGHT0 + i);
 					for (int i=4; i<8; i++) glDisable(GL_LIGHT0 + i);
-					curShader = s_sunlightShader;
-					activeLights = -1;
+					curShader = s_sunlightShader[Render::State::GetNumLights()-1];
 				}
 				break;
 			case OP_USE_LIGHT:
@@ -427,7 +419,7 @@ public:
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_POSITION, l.position);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_DIFFUSE, l.color);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_SPECULAR, l.color);
-					activeLights++;
+					curShader = s_pointlightShader[activeLights++];
 					if (activeLights > 4) {
 						Error("Too many active lights in model '%s' (maximum 4)", m_model->GetName());
 					}
@@ -2720,8 +2712,14 @@ static int define_model(lua_State *L)
 void LmrModelCompilerInit()
 {
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
-	s_sunlightShader = new Render::Shader("model");
-	s_pointlightShader = new Render::Shader("model-pointlit");
+	s_sunlightShader[0] = new LmrShader("model", "#define NUM_LIGHTS 1\n");
+	s_sunlightShader[1] = new LmrShader("model", "#define NUM_LIGHTS 2\n");
+	s_sunlightShader[2] = new LmrShader("model", "#define NUM_LIGHTS 3\n");
+	s_sunlightShader[3] = new LmrShader("model", "#define NUM_LIGHTS 4\n");
+	s_pointlightShader[0] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 1\n");
+	s_pointlightShader[1] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 2\n");
+	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
+	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 	PiVerify(s_font = new FontFace (PIONEER_DATA_DIR "/fonts/font.ttf"));
 
 	lua_State *L = lua_open();

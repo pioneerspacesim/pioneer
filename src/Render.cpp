@@ -9,14 +9,19 @@ static bool initted = false;
 static bool shadersEnabled;
 static bool shadersAvailable;
 Shader *simpleShader;
-Shader *planetRingsShader;
-Shader *billboardShader;
+Shader *planetRingsShader[4];
+
+SHADER_CLASS_BEGIN(BillboardShader)
+	SHADER_UNIFORM_SAMPLER(some_texture)
+SHADER_CLASS_END()
+
+BillboardShader *billboardShader;
 
 int State::m_numLights = 1;
 float State::m_znear = 10.0f;
 float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
-GLuint State::m_currentProgram = 0;
+Shader *State::m_currentShader = 0;
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -58,8 +63,11 @@ void Init()
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
 	if (shadersEnabled) {
 		simpleShader = new Shader("simple");
-		planetRingsShader = new Shader("planetrings");
-		billboardShader = new Shader("billboard");
+		billboardShader = new BillboardShader("billboard");
+		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
+		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
+		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
+		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
 	}
 	initted = true;
 }
@@ -104,9 +112,8 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	if (AreShadersEnabled()) {
 		// this is a bit dumb since it doesn't care how many lights
 		// the scene has, and this is a constant...
-		GLuint prog = State::UseProgram(billboardShader);
-		GLuint texLoc = glGetUniformLocation(prog, "some_texture");
-		glUniform1i(texLoc, 0);
+		State::UseProgram(billboardShader);
+		billboardShader->set_some_texture(0);
 	}
 
 //	/*if (Shader::IsVtxProgActive())*/ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
@@ -201,8 +208,12 @@ static void PrintGLSLCompileError(const char *filename, GLuint obj)
 	}
 }
 	
-GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
+bool Shader::Compile(const char *shader_name, const char *additional_defines)
 {
+	if (!shadersAvailable) {
+		m_program = 0;
+		return false;
+	}
 	static char *lib_fs = 0;
 	static char *lib_vs = 0;
 	static char *lib_all = 0;
@@ -217,20 +228,14 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 	
 	if (vscode == 0) {
 		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
-		return 0;
+		m_program = 0;
+		return false;
 	}
 		
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
 	std::vector<const char*> shader_src;
 
-	char lightDef[128];
-	snprintf(lightDef, sizeof(lightDef), "#define NUM_LIGHTS %d\n", num_lights);
-	std::string vendor;
-	if (strcmp((const char*)glGetString(GL_VENDOR), "X.Org R300 Project") == 0) {
-		vendor = "#define VENDOR_R300_GALLIUM\n";
-	}
-	shader_src.push_back(vendor.c_str());
-	shader_src.push_back(lightDef);
+	if (additional_defines) shader_src.push_back(additional_defines);
 	shader_src.push_back(lib_all);
 	shader_src.push_back(lib_vs);
 	if (allcode) shader_src.push_back(allcode);
@@ -242,14 +247,14 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
 	if (!status) {
 		PrintGLSLCompileError((name + ".vert.glsl").c_str(), vs);
-		return 0;
+		m_program = 0;
+		return false;
 	}
 
 	GLuint ps = 0;
 	if (pscode) {
 		shader_src.clear();
-		shader_src.push_back(vendor.c_str());
-		shader_src.push_back(lightDef);
+		if (additional_defines) shader_src.push_back(additional_defines);
 		shader_src.push_back(lib_all);
 		shader_src.push_back(lib_fs);
 		if (allcode) shader_src.push_back(allcode);
@@ -262,59 +267,51 @@ GLuint Shader::CompileProgram(const char *shader_name, int num_lights)
 		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
 		if (!status) {
 			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);
-			return 0;
+			m_program = 0;
+			return false;
 		}
 	}
 
-	GLuint prog = glCreateProgram();
-	glAttachShader(prog, vs);
-	if (pscode) glAttachShader(prog, ps);
-	glLinkProgram(prog);
-	glGetProgramiv(prog, GL_LINK_STATUS, &status);
+	m_program = glCreateProgram();
+	glAttachShader(m_program, vs);
+	if (pscode) glAttachShader(m_program, ps);
+	glLinkProgram(m_program);
+	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
 	if (!status) {
-		PrintGLSLCompileError(name.c_str(), prog);
-		return 0;
+		PrintGLSLCompileError(name.c_str(), m_program);
+		m_program = 0;
+		return false;
 	}
 
 	free(vscode);
 	if (pscode) free(pscode);
 	if (allcode) free(allcode);
 	
-	return prog;
-}
-
-Shader::Shader(const char *name)
-{
-	if (shadersAvailable) {
-		for (int i=0; i<4; i++) {
-			m_program[i] = CompileProgram(name, i+1);
-		}
-	} else {
-		for (int i=0; i<4; i++) m_program[i] = 0;
-	}
+	return true;
 }
 
 // --------------- class Shader ------------------
 
-GLuint State::UseProgram(const Shader *shader, int numLights)
+bool State::UseProgram(Shader *shader)
 {
-	if (numLights < 0) numLights = m_numLights;
 	if (shadersEnabled) {
 		if (shader) {
-			GLuint prog = shader->m_program[numLights-1];
-			if (m_currentProgram != prog) {
-				m_currentProgram = prog;
-				glUseProgram(prog);
-				GLint invLogZfarPlus1Loc = glGetUniformLocation(prog, "invLogZfarPlus1");
-				glUniform1f(invLogZfarPlus1Loc, m_invLogZfarPlus1);
+			if (m_currentShader != shader) {
+				m_currentShader = shader;
+				glUseProgram(shader->GetProgram());
+				shader->set_invLogZfarPlus1(m_invLogZfarPlus1);
+				return true;
+			} else {
+				return false;
 			}
-			return prog;
 		} else {
-			m_currentProgram = 0;
+			m_currentShader = 0;
 			glUseProgram(0);
+			return true;
 		}
+	} else {
+		return false;
 	}
-	return 0;
 }
 
 }; /* namespace Render */
