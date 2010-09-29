@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "Gui.h"
+#include "Render.h"
 
 namespace Gui {
 
@@ -101,8 +102,7 @@ void MainLoopIteration()
 	SDL_ShowCursor(1);
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
 	Gui::Draw();
-	glFlush();
-	SDL_GL_SwapBuffers();
+	Render::SwapBuffers();
 }
 
 namespace Theme {

@@ -45,5 +45,7 @@ void main(void)
 	gl_FragColor = (fogFactor)*(diff)*gl_Color +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 
+#ifdef ZHACK
 	SetFragDepth(gl_TexCoord[6].z);
+#endif
 }

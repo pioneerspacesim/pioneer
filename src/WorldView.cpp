@@ -362,7 +362,9 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		// position light at sol
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
-		vector3d lpos = (m * vector3d(0,0,0)).Normalized();
+		vector3d lpos = (m * vector3d(0,0,0));
+		float dist = lpos.Length();
+		lpos *= 1.0/dist; // normalize
 		float lightPos[4];
 		lightPos[0] = (float)lpos.x;
 		lightPos[1] = (float)lpos.y;
@@ -372,6 +374,12 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		const float *col = StarSystem::starRealColors[body->type];
 		float lightCol[4] = { col[0], col[1], col[2], 0 };
 		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
+		if (Render::IsHDR()) {
+			for (int i=0; i<4; i++) {
+				lightCol[i] *= 1.0e11 / dist;
+		//		ambCol[i] *= 10.0f;
+			}
+		}
 
 		glLightfv(light, GL_POSITION, lightPos);
 		glLightfv(light, GL_DIFFUSE, lightCol);

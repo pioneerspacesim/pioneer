@@ -326,7 +326,7 @@ static void load_sound(const std::string &basename, const std::string &path)
 	if (is_file(path)) {
 		if (basename.size() < 4) return;
 		if (basename.substr(basename.size()-4) != ".ogg") return;
-		printf("Loading %s\n", path.c_str());
+		//printf("Loading %s\n", path.c_str());
 
 		Sample sample;
 		OggVorbis_File oggv;
@@ -355,7 +355,7 @@ static void load_sound(const std::string &basename, const std::string &path)
 		sample.path = path;
 		
 		const float seconds = num_samples/(float)info->rate;
-		printf("%f seconds\n", seconds);
+		//printf("%f seconds\n", seconds);
 
 		// immediately decode and store as raw sample if short enough
 		if (seconds < STREAM_IF_LONGER_THAN) {

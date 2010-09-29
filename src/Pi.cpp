@@ -115,8 +115,7 @@ static void draw_progress(float progress)
 	glTranslatef(0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h),0.0f);
 	Gui::Screen::RenderString(msg);
 	Gui::Screen::LeaveOrtho();
-	glFlush();
-	SDL_GL_SwapBuffers();
+	Render::SwapBuffers();
 }
 
 void Pi::Init()
@@ -552,8 +551,7 @@ void Pi::TombStoneLoop()
 
 		draw_tombstone(_time);
 		Gui::Draw();
-		glFlush();
-		SDL_GL_SwapBuffers();
+		Render::SwapBuffers();
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -694,8 +692,7 @@ void Pi::Start()
 
 		draw_intro(view, _time);
 		Gui::Draw();
-		glFlush();
-		SDL_GL_SwapBuffers();
+		Render::SwapBuffers();
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
@@ -857,8 +854,7 @@ void Pi::MainLoop()
 //#endif /* DEBUG */
 
 		glError();
-		glFlush();
-		SDL_GL_SwapBuffers();
+		Render::SwapBuffers();
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		Pi::frameTime = 0.001*(SDL_GetTicks() - time_before_frame);

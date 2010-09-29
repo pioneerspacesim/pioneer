@@ -451,7 +451,7 @@ void Viewer::MainLoop()
 		Gui::Draw();
 		
 		glError();
-		SDL_GL_SwapBuffers();
+		Render::SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
 		lastTurd = SDL_GetTicks();

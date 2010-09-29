@@ -107,6 +107,8 @@ namespace Render {
 	void BindElementArrayBuffer(GLuint bo);
 	bool IsArrayBufferBound(GLuint bo);
 	bool IsElementArrayBufferBound(GLuint bo);
+	bool IsHDR();
+	void SwapBuffers();
 
 	void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], GLuint tex, int stride = sizeof(vector3f));
 };
