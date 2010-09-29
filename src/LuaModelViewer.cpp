@@ -502,7 +502,7 @@ void PickModel()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Gui::Draw();
 		glError();
-		SDL_GL_SwapBuffers();
+		Render::SwapBuffers();
 	}
 	Gui::Screen::RemoveBaseWidget(f);
 	delete f;
