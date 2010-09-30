@@ -67,7 +67,17 @@ void UnbindAllBuffers()
 	BindArrayBuffer(0);
 }
 
-GLuint fb, bloomFb1, bloomFb2, tex, bloomTex1, bloomTex2, depthbuffer;
+GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer;
+static int sWIDTH = 800;
+static int sHEIGHT = 600;
+
+#define CHECK_FBO() { \
+			GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);\
+			printf("Framebuffer status: 0x%x\n", (int)status);\
+			if (status != GL_FRAMEBUFFER_COMPLETE) {\
+				printf("FRAMEBUFFER ERROR!!!!!!!!\n");\
+			}\
+		}
 
 void Init()
 {
@@ -78,57 +88,73 @@ void Init()
 	// this is a 2nd fbo that is used to render the first pass of a
 	// gaussian blur of fb
 	if (GLEW_ARB_framebuffer_object && GLEW_ARB_depth_buffer_float && GLEW_ARB_color_buffer_float) {
+		glGenFramebuffers(1, &halfsizeFb);
+		glGenTextures(1, &halfsizeTex);
+		glBindFramebuffer(GL_FRAMEBUFFER, halfsizeFb);
+		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>1, sHEIGHT>>1, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, halfsizeTex, 0);
+		CHECK_FBO();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 		glGenFramebuffers(1, &bloomFb1);
 		glGenTextures(1, &bloomTex1);
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
-		glBindTexture(GL_TEXTURE_2D, bloomTex1);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 128, 128, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomTex1, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>2, sHEIGHT>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, bloomTex1, 0);
+		CHECK_FBO();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glGenFramebuffers(1, &bloomFb2);
 		glGenTextures(1, &bloomTex2);
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb2);
-		glBindTexture(GL_TEXTURE_2D, bloomTex2);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 128, 128, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomTex2, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>2, sHEIGHT>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, bloomTex2, 0);
+		CHECK_FBO();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glGenFramebuffers(1, &fb);
 		glGenTextures(1, &tex);
 		glBindFramebuffer(GL_FRAMEBUFFER, fb);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, 800, 600, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH, sHEIGHT, 0, GL_RGB, GL_HALF_FLOAT, NULL);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, tex, 0);
 		glError();
 		
 		glGenRenderbuffers(1, &depthbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, depthbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32F, 800, 600);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32F, sWIDTH, sHEIGHT);
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthbuffer);
 		glError();
+		CHECK_FBO();
 
 			/*
 		glGenTextures(1, &depthbuffer);
-		glBindTexture(GL_TEXTURE_2D, depthbuffer);
+		glBindTexture(GL_TEXTURE_RECTANGLE, depthbuffer);
 		glError();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, 800, 600, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_DEPTH_COMPONENT32F, 800, 600, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 		glError();
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthbuffer, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_RECTANGLE, depthbuffer, 0);
 		glError();*/
-
-		{
-			GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			printf("Framebuffer status: 0x%x\n", (int)status);
-			if (status != GL_FRAMEBUFFER_COMPLETE) {
-				printf("FRAMEBUFFER ERROR!!!!!!!!\n");
-			}
-		}
 
 	//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glError();
@@ -161,44 +187,49 @@ void SwapBuffers()
 		glLoadIdentity();
 		glDisable(GL_DEPTH_TEST);
 
-		glViewport(0,0,128,128);
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
+		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
+		glBindFramebuffer(GL_FRAMEBUFFER, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
 		State::UseProgram(postprocessBloomDownsample);
 		postprocessBloomDownsample->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2f(0.0, 0.0);
 			glVertex2f(0.0, 0.0);
-			glTexCoord2f(800.0, 0.0);
 			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0,600.0);
 			glVertex2f(0.0, 1.0);
-			glTexCoord2f(800.0, 600.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		glFlush();
 
+		glViewport(0,0,sWIDTH>>2,sHEIGHT>>2);
+		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
+		glEnable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
+		State::UseProgram(postprocessBloomDownsample);
+		postprocessBloomDownsample->set_fboTex(0);
+		glBegin(GL_TRIANGLE_STRIP);
+			glVertex2f(0.0, 0.0);
+			glVertex2f(1.0, 0.0);
+			glVertex2f(0.0, 1.0);
+			glVertex2f(1.0, 1.0);
+		glEnd();
+		glFlush();
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb2);
-		glDisable(GL_TEXTURE_RECTANGLE);
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, bloomTex1);
+		glEnable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
 		State::UseProgram(postprocessBloomVBlur);
 		postprocessBloomVBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2f(0.0, 0.0);
 			glVertex2f(0.0, 0.0);
-			glTexCoord2f(1.0, 0.0);
 			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0,1.0);
 			glVertex2f(0.0, 1.0);
-			glTexCoord2f(1.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		glFlush();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
-		glBindTexture(GL_TEXTURE_2D, bloomTex2);
+		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
 		State::UseProgram(postprocessBloomHBlur);
 		postprocessBloomHBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -218,25 +249,21 @@ void SwapBuffers()
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
 		glActiveTexture(GL_TEXTURE1);
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, bloomTex1);
+		glEnable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
 		State::UseProgram(postprocessBloomCompose);
 		postprocessBloomCompose->set_fboTex(0);
 		postprocessBloomCompose->set_bloomTex(1);
 		glBegin(GL_TRIANGLE_STRIP);
-			glTexCoord2f(0.0, 0.0);
 			glVertex2f(0.0, 0.0);
-			glTexCoord2f(1.0, 0.0);
 			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0,1.0);
 			glVertex2f(0.0, 1.0);
-			glTexCoord2f(1.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		State::UseProgram(0);
 
 		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_TEXTURE_RECTANGLE);
 		glActiveTexture(GL_TEXTURE0);
 		glDisable(GL_TEXTURE_RECTANGLE);
 		glFlush();
