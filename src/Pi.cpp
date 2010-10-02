@@ -106,6 +106,8 @@ int Pi::CombatRating(int kills)
 static void draw_progress(float progress)
 {
 	float w, h;
+	Render::PrepareFrame();
+	Render::PostProcess();
 	Gui::Screen::EnterOrtho();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -200,11 +202,11 @@ void Pi::Init()
 	if (!GLEW_ARB_vertex_buffer_object) {
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 	}
-	Galaxy::Init();
-	NameGenerator::Init();
-	draw_progress(0.1f);
 	Render::Init(width, height);
+	draw_progress(0.1f);
+	Galaxy::Init();
 	draw_progress(0.2f);
+	NameGenerator::Init();
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 
 	draw_progress(0.3f);
