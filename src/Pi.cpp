@@ -203,7 +203,7 @@ void Pi::Init()
 	Galaxy::Init();
 	NameGenerator::Init();
 	draw_progress(0.1f);
-	Render::Init();
+	Render::Init(width, height);
 	draw_progress(0.2f);
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 
@@ -536,6 +536,7 @@ void Pi::TombStoneLoop()
 	cpan->HideAll();
 	currentView->HideAll();
 	do {
+		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		float fracH = 1.0 / Pi::GetScrAspect();
@@ -550,6 +551,7 @@ void Pi::TombStoneLoop()
 		SDL_WM_GrabInput(SDL_GRAB_OFF);
 
 		draw_tombstone(_time);
+		Render::PostProcess();
 		Gui::Draw();
 		Render::SwapBuffers();
 		
@@ -677,6 +679,7 @@ void Pi::Start()
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
+		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		float fracH = 1.0 / Pi::GetScrAspect();
@@ -691,6 +694,7 @@ void Pi::Start()
 		SDL_WM_GrabInput(SDL_GRAB_OFF);
 
 		draw_intro(view, _time);
+		Render::PostProcess();
 		Gui::Draw();
 		Render::SwapBuffers();
 		
@@ -826,6 +830,7 @@ void Pi::MainLoop()
 	while (isGameStarted) {
 		frame_stat++;
 
+		Render::PrepareFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
@@ -843,6 +848,7 @@ void Pi::MainLoop()
 			SDL_WM_GrabInput(SDL_GRAB_OFF);
 		}
 
+		Render::PostProcess();
 		Gui::Draw();
 //#ifdef DEBUG
 		if (Pi::showDebugInfo) {

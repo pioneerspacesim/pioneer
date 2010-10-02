@@ -79,9 +79,11 @@ static int sHEIGHT = 600;
 			}\
 		}
 
-void Init()
+void Init(int screen_width, int screen_height)
 {
 	if (initted) return;
+	sWIDTH = screen_width;
+	sHEIGHT = screen_height;
 	shadersAvailable = (GLEW_VERSION_2_0 ? true : false);
 	shadersEnabled = shadersAvailable;
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
@@ -177,7 +179,16 @@ void Init()
 
 bool IsHDR() { return (fb && shadersEnabled) ? 1 : 0; }
 
-void SwapBuffers()
+void PrepareFrame()
+{
+	if (fb && shadersEnabled) {
+		glBindFramebuffer(GL_FRAMEBUFFER, fb);
+	} else {
+		if (GLEW_ARB_framebuffer_object) glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+}
+
+void PostProcess()
 {
 	if (fb && shadersEnabled) {
 		glMatrixMode(GL_PROJECTION);
@@ -244,7 +255,7 @@ void SwapBuffers()
 		glEnd();
 		glFlush();
 		
-		glViewport(0,0,800,600);
+		glViewport(0,0,sWIDTH,sHEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
@@ -267,12 +278,12 @@ void SwapBuffers()
 		glActiveTexture(GL_TEXTURE0);
 		glDisable(GL_TEXTURE_RECTANGLE);
 		glFlush();
-		SDL_GL_SwapBuffers();
-		glBindFramebuffer(GL_FRAMEBUFFER, fb);
-	} else {
-		if (GLEW_ARB_framebuffer_object) glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		SDL_GL_SwapBuffers();
 	}
+}
+
+void SwapBuffers()
+{
+	SDL_GL_SwapBuffers();
 }
 
 bool AreShadersEnabled()

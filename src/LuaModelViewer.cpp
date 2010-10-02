@@ -370,6 +370,7 @@ void Viewer::MainLoop()
 
 	for (;;) {
 		PollEvents();
+		Render::PrepareFrame();
 
 		if (g_keyState[SDLK_LSHIFT] || g_keyState[SDLK_RSHIFT]) {
 			if (g_keyState[SDLK_UP]) g_camorient = g_camorient * matrix4x4f::RotateXMatrix(g_frameTime);
@@ -448,6 +449,7 @@ void Viewer::MainLoop()
 			m_trisReadout->SetText(buf);
 		}
 		
+		Render::PostProcess();
 		Gui::Draw();
 		
 		glError();
@@ -498,8 +500,10 @@ void PickModel()
 
 	while (!g_model) {
 		PollEvents();
+		Render::PrepareFrame();
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Render::PostProcess();
 		Gui::Draw();
 		glError();
 		Render::SwapBuffers();
@@ -572,7 +576,7 @@ int main(int argc, char **argv)
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
 	GLFTInit();
-	Render::Init();
+	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();
 

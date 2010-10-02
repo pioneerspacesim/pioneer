@@ -98,7 +98,7 @@ namespace Render {
 	// one for each number of lights (stars in system)
 	extern Shader *planetRingsShader[4];
 
-	void Init();
+	void Init(int screen_width, int screen_height);
 	bool AreShadersEnabled();
 	void ToggleShaders();
 
@@ -108,6 +108,8 @@ namespace Render {
 	bool IsArrayBufferBound(GLuint bo);
 	bool IsElementArrayBufferBound(GLuint bo);
 	bool IsHDR();
+	void PrepareFrame();
+	void PostProcess();
 	void SwapBuffers();
 
 	void PutPointSprites(int num, vector3f v[], float size, const float modulationCol[4], GLuint tex, int stride = sizeof(vector3f));
