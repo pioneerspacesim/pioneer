@@ -8,7 +8,7 @@ void main(void)
 #ifdef ZHACK
 	gl_Position = logarithmicTransform();
 #else
-	gl_Position = ftransform();
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
 }
 

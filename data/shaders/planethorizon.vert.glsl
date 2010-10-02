@@ -3,7 +3,7 @@ void main(void)
 #ifdef ZHACK
 	gl_Position = logarithmicTransform();
 #else
-	gl_Position = ftransform();
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
 	vec3 tnorm = normalize(gl_NormalMatrix * gl_Normal);
 	float diffuse = 0.0;
