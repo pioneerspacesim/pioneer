@@ -75,7 +75,7 @@ void Player::SetFlightControlState(enum FlightControlState s)
 
 void Player::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	Ship::Render(viewCoords, viewTransform);
+	if (!IsDead()) Ship::Render(viewCoords, viewTransform);
 }
 
 void Player::SetDockedWith(SpaceStation *s, int port)
