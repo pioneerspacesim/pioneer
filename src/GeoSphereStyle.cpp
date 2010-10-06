@@ -304,7 +304,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	m_icyness = 38.0 / (MAX(1.0, averageTemp-250.0));
 
 	if (t == TERRAIN_ASTEROID) {
-		m_maxHeight = 1.5;
+		m_maxHeight = rand.Double(0.2,0.4);
 		m_invMaxHeight = 1.0 / m_maxHeight;
 	}
 
@@ -358,7 +358,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		case TERRAIN_GASGIANT:
 			return 0;
 		case TERRAIN_ASTEROID:
-			return m_maxHeight * (octavenoise(14, 0.5, 2.0, p) + crater_function(p));
+			return m_maxHeight*octavenoise(14, 0.5, 2.0, p) + 0.01*crater_function(p);
 		case TERRAIN_RUGGED_CRATERED:
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
