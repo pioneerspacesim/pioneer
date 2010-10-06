@@ -184,6 +184,11 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 		return false;
 	}
 	if (obstructor == target) return false;
+	if (10.0*obstructor->GetBoundingRadius() < obstructor->GetPositionRelTo(this).Length()) {
+		// if the obstructor is miles away then we don't give a shit
+		return false;
+	}
+	printf("Adding avoidance path around %s\n", obstructor->GetLabel().c_str());
 
 	Frame *frame = obstructor->GetFrame();
 	// avoid using the rotating frame for the path unless the target is in it
@@ -306,7 +311,12 @@ bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
 	if (GetFlightState() != Ship::FLYING) return true;
 
 	// is there planets in our way that we need to avoid?
-	if (AIAddAvoidancePathOnWayTo(target)) return false;
+	if (AIAddAvoidancePathOnWayTo(target)) {
+		// since we have added a new path, the current one will be invalid
+		// and must be rebuilt:
+		inst.endTime = 0;
+		return false;
+	}
 
 	if (target->GetPositionRelTo(this).Length() > 100000.0) {
 		AIPrependInstruction(DO_FLY_TO, target);
@@ -450,7 +460,12 @@ bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 	if (!body->IsType(Object::PLANET)) return true;
 
 	// is there planets in our way that we need to avoid?
-	if (AIAddAvoidancePathOnWayTo(body)) return false;
+	if (AIAddAvoidancePathOnWayTo(body)) {
+		// since we have added a new path, the current one will be invalid
+		// and must be rebuilt:
+		inst.endTime = 0;
+		return false;
+	}
 
 	Frame *frame = body->GetFrame()->m_parent;
 	PiVerify(frame);
@@ -553,7 +568,12 @@ bool Ship::AICmdFlyTo(AIInstruction &inst)
 	assert(frame);
 	
 	// is there planets in our way that we need to avoid?
-	if (AIAddAvoidancePathOnWayTo(body)) return false;
+	if (AIAddAvoidancePathOnWayTo(body)) {
+		// since we have added a new path, the current one will be invalid
+		// and must be rebuilt:
+		inst.endTime = 0;
+		return false;
+	}
 
 	if (inst.endTime == 0) {
 		const ShipType &type = GetShipType();
