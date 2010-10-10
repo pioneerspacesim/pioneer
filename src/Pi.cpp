@@ -492,7 +492,7 @@ static void draw_intro(WorldView *view, float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6*_time) *
 			matrix4x4f::RotateXMatrix(_time*.7);
 	rot[14] = -80.0;
-	LmrLookupModelByName("interdictor")->Render(rot, &params);
+	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
 	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
 	glPopAttrib();
@@ -573,7 +573,7 @@ void Pi::InitGame()
 	Pi::currentView = 0;
 	Pi::isGameStarted = false;
 
-	player = new Player(ShipType::SIRIUS_INTERDICTOR);
+	player = new Player("Eagle Long Range Fighter");
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS4);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
 	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::PULSECANNON_1MW);

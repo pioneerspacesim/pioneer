@@ -44,7 +44,7 @@ ShipFlavour::ShipFlavour(ShipType::Type type)
 		'A' + Pi::rng.Int32(26),
 		'A' + Pi::rng.Int32(26),
 		Pi::rng.Int32(10000));
-	price = ShipType::types[type].baseprice;
+	price = MAX(ShipType::types[type].baseprice, 1);
 	price = price + Pi::rng.Int32(price)/64;
 
 	MakeRandomColor(primaryColor);
