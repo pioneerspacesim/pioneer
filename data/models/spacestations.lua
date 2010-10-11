@@ -1,7 +1,4 @@
 
-ARG_STATION_BAY1_STAGE = 6
-ARG_STATION_BAY1_POS   = 10
-
 -- NOTE
 -- info->ship_dock_anim function's last docking anim ship location will be
 -- used to place the ship when docked.

@@ -69,7 +69,8 @@ public:
 		else return equip[s][0];
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
-		return equip[s][idx];
+		if (equip[s].size() <= idx) return Equip::NONE;
+		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
