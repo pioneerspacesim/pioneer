@@ -89,7 +89,8 @@ void Init(int screen_width, int screen_height)
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
 	// this is a 2nd fbo that is used to render the first pass of a
 	// gaussian blur of fb
-	if (GLEW_ARB_framebuffer_object && GLEW_ARB_depth_buffer_float && GLEW_ARB_color_buffer_float) {
+	// XXX DISABLED: HDR lighting needs a lot of work, and it is best to not waste time on it right now
+	if (0) { //GLEW_ARB_framebuffer_object && GLEW_ARB_depth_buffer_float && GLEW_ARB_color_buffer_float) {
 		glGenFramebuffers(1, &halfsizeFb);
 		glGenTextures(1, &halfsizeTex);
 		glBindFramebuffer(GL_FRAMEBUFFER, halfsizeFb);
