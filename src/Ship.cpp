@@ -879,15 +879,15 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_UP] - m_thrusters[ShipType::THRUSTER_DOWN];
 		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REVERSE] - m_thrusters[ShipType::THRUSTER_FORWARD];
 		params.argFloats[0] = m_wheelState;
-		params.argFloats[1] = (float)m_equipment.Get(Equip::SLOT_FUELSCOOP);
-		params.argFloats[2] = (float)m_equipment.Get(Equip::SLOT_ENGINE);
-		params.argFloats[3] = (float)m_equipment.Get(Equip::SLOT_ECM);
-		params.argFloats[4] = (float)m_equipment.Get(Equip::SLOT_SCANNER);
-		params.argFloats[5] = (float)m_equipment.Get(Equip::SLOT_ATMOSHIELD);
-		params.argFloats[6] = (float)m_equipment.Get(Equip::SLOT_LASER, 0);
-		params.argFloats[7] = (float)m_equipment.Get(Equip::SLOT_LASER, 1);
+		params.argFloats[5] = (float)m_equipment.Get(Equip::SLOT_FUELSCOOP);
+		params.argFloats[6] = (float)m_equipment.Get(Equip::SLOT_ENGINE);
+		params.argFloats[7] = (float)m_equipment.Get(Equip::SLOT_ECM);
+		params.argFloats[8] = (float)m_equipment.Get(Equip::SLOT_SCANNER);
+		params.argFloats[9] = (float)m_equipment.Get(Equip::SLOT_ATMOSHIELD);
+		params.argFloats[10] = (float)m_equipment.Get(Equip::SLOT_LASER, 0);
+		params.argFloats[11] = (float)m_equipment.Get(Equip::SLOT_LASER, 1);
 		for (int i=0; i<8; i++) {
-			params.argFloats[8+i] = (float)m_equipment.Get(Equip::SLOT_MISSILE, i);
+			params.argFloats[12+i] = (float)m_equipment.Get(Equip::SLOT_MISSILE, i);
 		}
 		//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 		RenderLmrModel(viewCoords, viewTransform);
