@@ -290,7 +290,7 @@ GameMenuView::GameMenuView(): View()
 		Gui::LabelButton *b;
 		Gui::Box *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		mainTab->Add(hbox, 20, 50);
+		mainTab->Add(hbox, 20, 30);
 		b = new Gui::LabelButton(new Gui::Label("[S] Save the game"));
 		b->SetShortcut(SDLK_s, KMOD_NONE);
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
@@ -306,30 +306,9 @@ GameMenuView::GameMenuView(): View()
 	}
 
 	Gui::Box *vbox = new Gui::VBox();
-	vbox->SetSizeRequest(300, 1000);
+	vbox->SetSizeRequest(300, 440);
 	vbox->SetSpacing(5.0);
-	mainTab->Add(vbox, 20, 100);
-
-	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
-
-	Gui::RadioGroup *g = new Gui::RadioGroup();
-	SDL_Rect **modes;
-	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	if ((modes!=0) && (modes != (SDL_Rect**)-1)) {
-		for (int i=0; modes[i]; ++i) {
-			Gui::RadioButton *temp = new Gui::RadioButton(g);
-			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
-					&GameMenuView::OnChangeVideoResolution), i));
-			Gui::HBox *hbox = new Gui::HBox();
-			hbox->SetSpacing(5.0f);
-			hbox->PackEnd(temp, false);
-			hbox->PackEnd(new Gui::Label(stringf(256, "%dx%d", modes[i]->w, modes[i]->h)), false);
-			vbox->PackEnd(hbox, false);
-			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
-				temp->SetSelected(true);
-			}
-		}
-	}
+	mainTab->Add(vbox, 20, 60);
 
 	{
 		vbox->PackEnd((new Gui::Label("Windowed or fullscreen (restart to apply)"))->Color(1.0f,1.0f,0.0f), false);
@@ -363,10 +342,44 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(hbox, false);
 	}
 
+	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
+
+	Gui::RadioGroup *g = new Gui::RadioGroup();
+	SDL_Rect **modes;
+	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
+	if ((modes!=0) && (modes != (SDL_Rect**)-1)) {
+		// box to put the scroll portal and its scroll bar into
+		Gui::HBox *scrollHBox = new Gui::HBox();
+		vbox->PackEnd(scrollHBox);
+		
+		Gui::VScrollBar *scroll = new Gui::VScrollBar();
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+		scroll->SetAdjustment(&portal->vscrollAdjust);
+		scrollHBox->PackEnd(portal, true);
+		scrollHBox->PackEnd(scroll, false);
+
+		Gui::VBox *vbox2 = new Gui::VBox();
+		portal->Add(vbox2);
+		
+		for (int i=0; modes[i]; ++i) {
+			Gui::RadioButton *temp = new Gui::RadioButton(g);
+			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
+					&GameMenuView::OnChangeVideoResolution), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(temp, false);
+			hbox->PackEnd(new Gui::Label(stringf(256, "%dx%d", modes[i]->w, modes[i]->h)), false);
+			vbox2->PackEnd(hbox, false);
+			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
+				temp->SetSelected(true);
+			}
+		}
+	}
+
 
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
-	mainTab->Add(vbox, 600, 100);
+	mainTab->Add(vbox, 600, 60);
 
 	vbox->PackEnd((new Gui::Label("Planet detail level:"))->Color(1.0f,1.0f,0.0f));
 	g = new Gui::RadioGroup();
