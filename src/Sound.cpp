@@ -91,7 +91,7 @@ static Sample *GetSample(const char *filename)
 	if (sfx_samples.find(filename) != sfx_samples.end()) {
 		return &sfx_samples[filename];
 	} else {
-		SilentWarning("Unknown sound sample: %s", filename);
+		//SilentWarning("Unknown sound sample: %s", filename);
 		return 0;
 	}
 }

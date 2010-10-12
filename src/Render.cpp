@@ -18,9 +18,10 @@ SHADER_CLASS_END()
 SHADER_CLASS_BEGIN(PostprocessComposeShader)
 	SHADER_UNIFORM_SAMPLER(fboTex)
 	SHADER_UNIFORM_SAMPLER(bloomTex)
+	SHADER_UNIFORM_FLOAT(avgLum)
 SHADER_CLASS_END()
 
-PostprocessShader *postprocessBloomDownsample, *postprocessBloomVBlur, *postprocessBloomHBlur;
+PostprocessShader *postprocessBloomDownsample, *postprocessBloomVBlur, *postprocessBloomHBlur, *postprocessLuminance;
 PostprocessComposeShader *postprocessBloomCompose;
 
 SHADER_CLASS_BEGIN(BillboardShader)
@@ -67,7 +68,7 @@ void UnbindAllBuffers()
 	BindArrayBuffer(0);
 }
 
-GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer;
+GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
 static int sWIDTH = 800;
 static int sHEIGHT = 600;
 
@@ -103,6 +104,21 @@ void Init(int screen_width, int screen_height)
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, halfsizeTex, 0);
 		CHECK_FBO();
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+
+		glGenFramebuffersEXT(1, &luminanceFb);
+		glGenTextures(1, &luminanceTex);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
+		glBindTexture(GL_TEXTURE_2D, luminanceTex);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 256, 256, 0, GL_RGB, GL_FLOAT, NULL);
+		glGenerateMipmapEXT(GL_TEXTURE_2D);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, luminanceTex, 0);
+		CHECK_FBO();
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glError();
 
 		glGenFramebuffersEXT(1, &bloomFb1);
 		glGenTextures(1, &bloomTex1);
@@ -175,6 +191,7 @@ void Init(int screen_width, int screen_height)
 		postprocessBloomVBlur = new PostprocessShader("postprocessVBlur");
 		postprocessBloomHBlur = new PostprocessShader("postprocessHBlur");
 		postprocessBloomCompose = new PostprocessComposeShader("postprocessCompose");
+		postprocessLuminance = new PostprocessShader("postprocessLuminance");
 	}
 }
 
@@ -199,6 +216,40 @@ void PostProcess()
 		glLoadIdentity();
 		glDisable(GL_DEPTH_TEST);
 
+		// So, to do proper tone mapping of HDR to LDR we need to know the average luminance
+		// of the scene. We do this by rendering the scene's luminance to a smaller texture,
+		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
+		glViewport(0,0,256,256);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
+		glEnable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
+		State::UseProgram(postprocessLuminance);
+		postprocessLuminance->set_fboTex(0);
+		glBegin(GL_TRIANGLE_STRIP);
+			glTexCoord2f(0.0, 0.0);
+			glVertex2f(0.0, 0.0);
+			glTexCoord2f(sWIDTH, 0.0);
+			glVertex2f(1.0, 0.0);
+			glTexCoord2f(0.0,sHEIGHT);
+			glVertex2f(0.0, 1.0);
+			glTexCoord2f(sWIDTH, sHEIGHT);
+			glVertex2f(1.0, 1.0);
+		glEnd();
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glDisable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_2D, luminanceTex);
+		glEnable(GL_TEXTURE_2D);
+		glGenerateMipmapEXT(GL_TEXTURE_2D);
+		float avgLum[4];
+		glGetTexImage(GL_TEXTURE_2D, 8, GL_RGB, GL_FLOAT, avgLum);
+
+		printf("%f,%f,%f,%f\n", avgLum[0], avgLum[1], avgLum[2], avgLum[3]);
+		glDisable(GL_TEXTURE_2D);
+
+		// ok lets set a sensible minimum scene average luminance, otherwise
+		// dark scenes get fucked up
+		avgLum[0] = MAX(avgLum[0], 0.124f);
+		
 		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
@@ -211,7 +262,6 @@ void PostProcess()
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		glFlush();
 
 		glViewport(0,0,sWIDTH>>2,sHEIGHT>>2);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
@@ -225,7 +275,6 @@ void PostProcess()
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		glFlush();
 		
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
 		glEnable(GL_TEXTURE_RECTANGLE);
@@ -238,7 +287,6 @@ void PostProcess()
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		glFlush();
 
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
@@ -254,7 +302,6 @@ void PostProcess()
 			glTexCoord2f(1.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-		glFlush();
 		
 		glViewport(0,0,sWIDTH,sHEIGHT);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -266,6 +313,7 @@ void PostProcess()
 		State::UseProgram(postprocessBloomCompose);
 		postprocessBloomCompose->set_fboTex(0);
 		postprocessBloomCompose->set_bloomTex(1);
+		postprocessBloomCompose->set_avgLum(avgLum[0]);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
@@ -273,12 +321,31 @@ void PostProcess()
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		State::UseProgram(0);
-
+#if 0
+		glViewport(0,0,sWIDTH,sHEIGHT);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, luminanceTex);
+		State::UseProgram(0);
+		glBegin(GL_TRIANGLE_STRIP);
+			glTexCoord2f(0.0, 0.0);
+			glVertex2f(0.0, 0.0);
+			glTexCoord2f(1.0, 0.0);
+			glVertex2f(1.0, 0.0);
+			glTexCoord2f(0.0, 1.0);
+			glVertex2f(0.0, 1.0);
+			glTexCoord2f(1.0, 1.0);
+			glVertex2f(1.0, 1.0);
+		glEnd();
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
+		glDisable(GL_TEXTURE_2D);
+#endif
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_TEXTURE_RECTANGLE);
 		glActiveTexture(GL_TEXTURE0);
 		glDisable(GL_TEXTURE_RECTANGLE);
-		glFlush();
+		glError();
 	}
 }
 

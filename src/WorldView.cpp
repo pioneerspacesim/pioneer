@@ -376,7 +376,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
 		if (Render::IsHDR()) {
 			for (int i=0; i<4; i++) {
-				lightCol[i] *= 5.0e10 / dist;
+				lightCol[i] *= 5.0e11 / dist;
 		//		ambCol[i] *= 10.0f;
 			}
 		}
