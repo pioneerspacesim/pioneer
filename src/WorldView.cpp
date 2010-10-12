@@ -142,16 +142,10 @@ void WorldView::Load(Serializer::Reader &rd)
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
 {
 	if (Render::AreShadersEnabled()) {
-		if (Render::IsHDR()) {
-			// when using HDR lighting we also use an F32 depth buffer
-			*outNear = 10.0f;
-			*outFar = 10000000.0;
-		} else {
-			/* If vertex shaders are enabled then we have a lovely logarithmic
-			 * z-buffer stretching out from 0.1mm to 10000km! */
-			*outNear = 0.0001f;
-			*outFar = 10000000.0f;
-		}
+		/* If vertex shaders are enabled then we have a lovely logarithmic
+		 * z-buffer stretching out from 0.1mm to 10000km! */
+		*outNear = 0.0001f;
+		*outFar = 10000000.0f;
 	} else {
 		/* Otherwise we have the usual hopelessly crap z-buffer */
 		*outNear = 10.0f;

@@ -72,9 +72,9 @@ static int sWIDTH = 800;
 static int sHEIGHT = 600;
 
 #define CHECK_FBO() { \
-			GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);\
+			GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);\
 			printf("Framebuffer status: 0x%x\n", (int)status);\
-			if (status != GL_FRAMEBUFFER_COMPLETE) {\
+			if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {\
 				printf("FRAMEBUFFER ERROR!!!!!!!!\n");\
 			}\
 		}
@@ -90,63 +90,63 @@ void Init(int screen_width, int screen_height)
 	// this is a 2nd fbo that is used to render the first pass of a
 	// gaussian blur of fb
 	// XXX DISABLED: HDR lighting needs a lot of work, and it is best to not waste time on it right now
-	if (0) { //GLEW_ARB_framebuffer_object && GLEW_ARB_depth_buffer_float && GLEW_ARB_color_buffer_float) {
-		glGenFramebuffers(1, &halfsizeFb);
+	if (getenv("PIONEER_HDR") && GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float) { // && GLEW_ARB_depth_buffer_float) {
+		glGenFramebuffersEXT(1, &halfsizeFb);
 		glGenTextures(1, &halfsizeTex);
-		glBindFramebuffer(GL_FRAMEBUFFER, halfsizeFb);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>1, sHEIGHT>>1, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, halfsizeTex, 0);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, halfsizeTex, 0);
 		CHECK_FBO();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-		glGenFramebuffers(1, &bloomFb1);
+		glGenFramebuffersEXT(1, &bloomFb1);
 		glGenTextures(1, &bloomTex1);
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>2, sHEIGHT>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, bloomTex1, 0);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, bloomTex1, 0);
 		CHECK_FBO();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-		glGenFramebuffers(1, &bloomFb2);
+		glGenFramebuffersEXT(1, &bloomFb2);
 		glGenTextures(1, &bloomTex2);
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb2);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>2, sHEIGHT>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, bloomTex2, 0);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, bloomTex2, 0);
 		CHECK_FBO();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-		glGenFramebuffers(1, &fb);
+		glGenFramebuffersEXT(1, &fb);
 		glGenTextures(1, &tex);
-		glBindFramebuffer(GL_FRAMEBUFFER, fb);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH, sHEIGHT, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, tex, 0);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, tex, 0);
 		glError();
 		
-		glGenRenderbuffers(1, &depthbuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER, depthbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32F, sWIDTH, sHEIGHT);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthbuffer);
+		glGenRenderbuffersEXT(1, &depthbuffer);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
+		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, sWIDTH, sHEIGHT);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, depthbuffer);
 		glError();
 		CHECK_FBO();
 
@@ -156,10 +156,10 @@ void Init(int screen_width, int screen_height)
 		glError();
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_DEPTH_COMPONENT32F, 800, 600, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 		glError();
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_RECTANGLE, depthbuffer, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT, GL_TEXTURE_RECTANGLE, depthbuffer, 0);
 		glError();*/
 
-	//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//	glBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
 		glError();
 	}
 	initted = true;
@@ -183,9 +183,9 @@ bool IsHDR() { return (fb && shadersEnabled) ? 1 : 0; }
 void PrepareFrame()
 {
 	if (fb && shadersEnabled) {
-		glBindFramebuffer(GL_FRAMEBUFFER, fb);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
 	} else {
-		if (GLEW_ARB_framebuffer_object) glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		if (GLEW_EXT_framebuffer_object) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	}
 }
 
@@ -200,7 +200,7 @@ void PostProcess()
 		glDisable(GL_DEPTH_TEST);
 
 		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
-		glBindFramebuffer(GL_FRAMEBUFFER, halfsizeFb);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
 		State::UseProgram(postprocessBloomDownsample);
@@ -214,7 +214,7 @@ void PostProcess()
 		glFlush();
 
 		glViewport(0,0,sWIDTH>>2,sHEIGHT>>2);
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
 		State::UseProgram(postprocessBloomDownsample);
@@ -227,7 +227,7 @@ void PostProcess()
 		glEnd();
 		glFlush();
 		
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb2);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
 		State::UseProgram(postprocessBloomVBlur);
@@ -240,7 +240,7 @@ void PostProcess()
 		glEnd();
 		glFlush();
 
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomFb1);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
 		State::UseProgram(postprocessBloomHBlur);
 		postprocessBloomHBlur->set_fboTex(0);
@@ -257,7 +257,7 @@ void PostProcess()
 		glFlush();
 		
 		glViewport(0,0,sWIDTH,sHEIGHT);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
 		glActiveTexture(GL_TEXTURE1);
@@ -451,7 +451,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	std::vector<const char*> shader_src;
 
 	if (additional_defines) shader_src.push_back(additional_defines);
-	if (!fb) shader_src.push_back("#define ZHACK 1\n");
+	shader_src.push_back("#define ZHACK 1\n");
 	shader_src.push_back(lib_all);
 	shader_src.push_back(lib_vs);
 	if (allcode) shader_src.push_back(allcode);
@@ -471,7 +471,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	if (pscode) {
 		shader_src.clear();
 		if (additional_defines) shader_src.push_back(additional_defines);
-		if (!fb) shader_src.push_back("#define ZHACK 1\n");
+		shader_src.push_back("#define ZHACK 1\n");
 		shader_src.push_back(lib_all);
 		shader_src.push_back(lib_fs);
 		if (allcode) shader_src.push_back(allcode);
