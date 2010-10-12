@@ -17,6 +17,7 @@ void main(void)
 		diff * gl_FrontMaterial.diffuse +
 		spec * gl_FrontMaterial.specular +
 		gl_FrontMaterial.emission;
+	gl_FragColor.w = gl_FrontMaterial.diffuse.w;
 
 	if ( usetex )
 		gl_FragColor *= texture2D(tex, gl_TexCoord[0].st);
