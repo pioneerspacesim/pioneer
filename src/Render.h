@@ -101,6 +101,7 @@ namespace Render {
 	void Init(int screen_width, int screen_height);
 	bool AreShadersEnabled();
 	void ToggleShaders();
+	void ToggleHDR();
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

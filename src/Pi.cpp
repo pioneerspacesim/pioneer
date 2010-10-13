@@ -352,6 +352,9 @@ void Pi::HandleEvents()
 					if (event.key.keysym.sym == SDLK_s) {
 						Render::ToggleShaders();
 					}
+					if (event.key.keysym.sym == SDLK_h) {
+						Render::ToggleHDR();
+					}
 					if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
 					if (event.key.keysym.sym == SDLK_p) {
 						Sint64 crime, fine;

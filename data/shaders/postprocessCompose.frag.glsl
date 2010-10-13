@@ -2,22 +2,33 @@
 uniform sampler2DRect fboTex;
 uniform sampler2DRect bloomTex;
 uniform float avgLum;
+uniform float middleGrey;
 
 void main(void)
 {
 	// higher values gives a brighter scene
 	const float alpha = 0.18;
 	vec3 col = vec3(texture2DRect(fboTex, vec2(gl_FragCoord.x, gl_FragCoord.y)));
-	//col += texture2DRect(bloomTex, vec2(gl_FragCoord.x*0.25, gl_FragCoord.y*0.25));
+//	col += texture2DRect(bloomTex, vec2(gl_FragCoord.x*0.25, gl_FragCoord.y*0.25));
 	const float lum = alpha / avgLum;
-	vec3 yuv;
-	yuv.r = lum * dot(col, vec3(0.299, 0.587, 0.114));
-	yuv.g = dot(col, vec3(-0.147, -0.289, 0.436));
-	yuv.b = dot(col, vec3(0.615, -0.515, -0.100));
-	
-	col.r = yuv.r + 1.140*yuv.b;
-	col.g = yuv.r - 0.395*yuv.g - 0.581*yuv.b;
-	col.b = yuv.r + 2.032*yuv.g;
+
+	// This is the reinhard tonemapping algorithm, i think...
+	float X,Y,Z,x,y;
+	X = dot(vec3(0.4124, 0.3576, 0.1805), col);
+	Y = dot(vec3(0.2126, 0.7152, 0.0722), col);
+	Z = dot(vec3(0.0193, 0.1192, 0.9505), col);
+	x = X / (X+Y+Z);
+	y = Y / (X+Y+Z);
+	// Y is luminance. fiddle with it
+//	Y = (Y  * middleGrey) / avgLum; // scale luminance
+	Y *= lum;
+	Y = Y / (1.0 + Y); // compress luminance
+	// convert back to RGB
+	X = x*(Y/y);
+	Z = (1-x-y)*(Y/y);
+	col.r = 3.2405*X - 1.5371*Y - 0.4985*Z;
+	col.g = -0.9693*X + 1.8760*Y + 0.0416*Z;
+	col.b = 0.0556*X - 0.2040*Y + 1.0572*Z;
 
 	gl_FragColor = vec4(col.r, col.g, col.b, 1.0);
 }

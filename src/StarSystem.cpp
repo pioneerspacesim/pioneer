@@ -48,6 +48,18 @@ float StarSystem::starRealColors[][3] = {
 	{ 1.0, 0.8, 1.0 }  // O
 };
 
+float StarSystem::starLuminosities[] = {
+	0,
+	0.0003f, // brown dwarf
+	0.08f, // M0
+	0.38f, // K0
+	1.2f, // G0
+	5.1f, // F0
+	24.0f, // A0
+	24000.0f, // B0
+	200000.0f, // O5
+};
+
 static const struct SBodySubTypeInfo {
 	SBody::BodySuperType supertype;
 	int mass[2]; // min,max % sol for stars, unused for planets

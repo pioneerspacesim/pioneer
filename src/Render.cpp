@@ -8,6 +8,7 @@ namespace Render {
 static bool initted = false;
 static bool shadersEnabled;
 static bool shadersAvailable;
+static bool isHDREnabled;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
@@ -19,9 +20,16 @@ SHADER_CLASS_BEGIN(PostprocessComposeShader)
 	SHADER_UNIFORM_SAMPLER(fboTex)
 	SHADER_UNIFORM_SAMPLER(bloomTex)
 	SHADER_UNIFORM_FLOAT(avgLum)
+	SHADER_UNIFORM_FLOAT(middleGrey)
 SHADER_CLASS_END()
 
-PostprocessShader *postprocessBloomDownsample, *postprocessBloomVBlur, *postprocessBloomHBlur, *postprocessLuminance;
+SHADER_CLASS_BEGIN(PostprocessDownsampleShader)
+	SHADER_UNIFORM_SAMPLER(fboTex)
+	SHADER_UNIFORM_FLOAT(avgLum)
+SHADER_CLASS_END()
+
+PostprocessDownsampleShader *postprocessBloomDownsample;
+PostprocessShader *postprocessBloomVBlur, *postprocessBloomHBlur, *postprocessLuminance;
 PostprocessComposeShader *postprocessBloomCompose;
 
 SHADER_CLASS_BEGIN(BillboardShader)
@@ -177,6 +185,7 @@ void Init(int screen_width, int screen_height)
 
 	//	glBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
 		glError();
+		isHDREnabled = true;
 	}
 	initted = true;
 
@@ -187,7 +196,7 @@ void Init(int screen_width, int screen_height)
 		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
 		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
-		postprocessBloomDownsample = new PostprocessShader("postprocessDownsample");
+		postprocessBloomDownsample = new PostprocessDownsampleShader("postprocessDownsample");
 		postprocessBloomVBlur = new PostprocessShader("postprocessVBlur");
 		postprocessBloomHBlur = new PostprocessShader("postprocessHBlur");
 		postprocessBloomCompose = new PostprocessComposeShader("postprocessCompose");
@@ -195,11 +204,11 @@ void Init(int screen_width, int screen_height)
 	}
 }
 
-bool IsHDR() { return (fb && shadersEnabled) ? 1 : 0; }
+bool IsHDR() { return (fb && isHDREnabled && shadersEnabled) ? 1 : 0; }
 
 void PrepareFrame()
 {
-	if (fb && shadersEnabled) {
+	if (IsHDR()) {
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
 	} else {
 		if (GLEW_EXT_framebuffer_object) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -208,7 +217,7 @@ void PrepareFrame()
 
 void PostProcess()
 {
-	if (fb && shadersEnabled) {
+	if (IsHDR()) {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0.0,1.0,0.0,1.0,-1.0,1.0);
@@ -243,18 +252,18 @@ void PostProcess()
 		float avgLum[4];
 		glGetTexImage(GL_TEXTURE_2D, 8, GL_RGB, GL_FLOAT, avgLum);
 
+		// what we get is logarithmic average luminance as per reinhard's turd
+		avgLum[0] = MAX(0.16, exp(avgLum[0]));
+		
 		printf("%f,%f,%f,%f\n", avgLum[0], avgLum[1], avgLum[2], avgLum[3]);
 		glDisable(GL_TEXTURE_2D);
 
-		// ok lets set a sensible minimum scene average luminance, otherwise
-		// dark scenes get fucked up
-		avgLum[0] = MAX(avgLum[0], 0.124f);
-		
 		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
 		State::UseProgram(postprocessBloomDownsample);
+		postprocessBloomDownsample->set_avgLum(avgLum[0]);
 		postprocessBloomDownsample->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
@@ -267,8 +276,6 @@ void PostProcess()
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
-		State::UseProgram(postprocessBloomDownsample);
-		postprocessBloomDownsample->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
@@ -314,6 +321,8 @@ void PostProcess()
 		postprocessBloomCompose->set_fboTex(0);
 		postprocessBloomCompose->set_bloomTex(1);
 		postprocessBloomCompose->set_avgLum(avgLum[0]);
+		// see reinhard algo
+		postprocessBloomCompose->set_middleGrey(1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f)));
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
@@ -365,6 +374,12 @@ void ToggleShaders()
 		shadersEnabled = (shadersEnabled ? false : true);
 	}
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
+}
+
+void ToggleHDR()
+{
+	isHDREnabled = !isHDREnabled;
+	printf("HDR lighting %s.\n", isHDREnabled ? "enabled" : "disabled");
 }
 
 /*

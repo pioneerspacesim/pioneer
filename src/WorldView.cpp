@@ -363,7 +363,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
-		float dist = lpos.Length();
+		float dist = lpos.Length() / AU;
+printf("%f AU\n", dist);
 		lpos *= 1.0/dist; // normalize
 		float lightPos[4];
 		lightPos[0] = (float)lpos.x;
@@ -376,7 +377,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
 		if (Render::IsHDR()) {
 			for (int i=0; i<4; i++) {
-				lightCol[i] *= 5.0e11 / dist;
+				// not too high or we overflow our float16 colorbuffer
+				lightCol[i] *= MIN(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0f);
 		//		ambCol[i] *= 10.0f;
 			}
 		}
