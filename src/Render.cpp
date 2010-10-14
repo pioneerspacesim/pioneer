@@ -252,10 +252,10 @@ void PostProcess()
 		float avgLum[4];
 		glGetTexImage(GL_TEXTURE_2D, 8, GL_RGB, GL_FLOAT, avgLum);
 
-		// what we get is logarithmic average luminance as per reinhard's turd
-		avgLum[0] = MAX(0.16, exp(avgLum[0]));
-		
-		printf("%f,%f,%f,%f\n", avgLum[0], avgLum[1], avgLum[2], avgLum[3]);
+		printf("%f -> ", avgLum[0]);
+		avgLum[0] = MAX(exp(avgLum[0]), 0.05f);
+		printf("%f\n", avgLum[0]);
+
 		glDisable(GL_TEXTURE_2D);
 
 		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
@@ -322,6 +322,10 @@ void PostProcess()
 		postprocessBloomCompose->set_bloomTex(1);
 		postprocessBloomCompose->set_avgLum(avgLum[0]);
 		// see reinhard algo
+		static float midGrey = 0.1f;
+		midGrey += 1.0f;
+		if (midGrey > 100.0f) midGrey = 0.0f;
+		printf("Mid grey %f\n", midGrey);
 		postprocessBloomCompose->set_middleGrey(1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f)));
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);

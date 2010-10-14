@@ -684,6 +684,8 @@ void Pi::Start()
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
+		Pi::HandleEvents();
+
 		Render::PrepareFrame();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -693,8 +695,6 @@ void Pi::Start()
 		glLoadIdentity();
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		Pi::HandleEvents();
 		SDL_ShowCursor(1);
 		SDL_WM_GrabInput(SDL_GRAB_OFF);
 

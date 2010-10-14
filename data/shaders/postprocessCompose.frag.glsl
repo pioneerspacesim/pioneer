@@ -6,11 +6,8 @@ uniform float middleGrey;
 
 void main(void)
 {
-	// higher values gives a brighter scene
-	const float alpha = 0.18;
 	vec3 col = vec3(texture2DRect(fboTex, vec2(gl_FragCoord.x, gl_FragCoord.y)));
 //	col += texture2DRect(bloomTex, vec2(gl_FragCoord.x*0.25, gl_FragCoord.y*0.25));
-	const float lum = alpha / avgLum;
 
 	// This is the reinhard tonemapping algorithm, i think...
 	float X,Y,Z,x,y;
@@ -20,8 +17,8 @@ void main(void)
 	x = X / (X+Y+Z);
 	y = Y / (X+Y+Z);
 	// Y is luminance. fiddle with it
-//	Y = (Y  * middleGrey) / avgLum; // scale luminance
-	Y *= lum;
+	Y = Y * (middleGrey / avgLum); // scale luminance
+//	Y *= lum;
 	Y = Y / (1.0 + Y); // compress luminance
 	// convert back to RGB
 	X = x*(Y/y);

@@ -364,7 +364,6 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
 		float dist = lpos.Length() / AU;
-printf("%f AU\n", dist);
 		lpos *= 1.0/dist; // normalize
 		float lightPos[4];
 		lightPos[0] = (float)lpos.x;
