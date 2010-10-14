@@ -273,7 +273,9 @@ void WorldView::DrawBgStars()
 	glEnableClientState(GL_COLOR_ARRAY);
 	
 	if (Render::AreShadersEnabled()) {
+		glError();
 		Render::State::UseProgram(m_bgStarShader);
+		glError();
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
 		glDisable(GL_POINT_SMOOTH);

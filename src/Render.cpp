@@ -121,7 +121,7 @@ void Init(int screen_width, int screen_height)
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 256, 256, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 128, 128, 0, GL_RGB, GL_FLOAT, NULL);
 		glGenerateMipmapEXT(GL_TEXTURE_2D);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, luminanceTex, 0);
 		CHECK_FBO();
@@ -224,11 +224,13 @@ void PostProcess()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+		glDisable(GL_LIGHTING);
 
 		// So, to do proper tone mapping of HDR to LDR we need to know the average luminance
 		// of the scene. We do this by rendering the scene's luminance to a smaller texture,
 		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
-		glViewport(0,0,256,256);
+		glViewport(0,0,128,128);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
@@ -250,14 +252,13 @@ void PostProcess()
 		glEnable(GL_TEXTURE_2D);
 		glGenerateMipmapEXT(GL_TEXTURE_2D);
 		float avgLum[4];
-		glGetTexImage(GL_TEXTURE_2D, 8, GL_RGB, GL_FLOAT, avgLum);
+		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
 		printf("%f -> ", avgLum[0]);
 		avgLum[0] = MAX(exp(avgLum[0]), 0.05f);
 		printf("%f\n", avgLum[0]);
-
+		
 		glDisable(GL_TEXTURE_2D);
-
 		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
@@ -338,6 +339,9 @@ void PostProcess()
 		glViewport(0,0,sWIDTH,sHEIGHT);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_2D);
+		glDisable(GL_TEXTURE_RECTANGLE);
+		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
+		glColor3f(1.0,1.0,1.0);
 		glBindTexture(GL_TEXTURE_2D, luminanceTex);
 		State::UseProgram(0);
 		glBegin(GL_TRIANGLE_STRIP);

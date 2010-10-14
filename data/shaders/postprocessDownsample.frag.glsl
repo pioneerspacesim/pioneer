@@ -18,5 +18,5 @@ void main(void)
 	c = vec3(texture2DRect(fboTex, vec2(p.x, p.y+1.0)));
 	if (dot(getlum,c) > minLumToBloom) col += c;
 	col *= 0.25;
-	gl_FragColor = vec4(col.r, col.g, col.b, 1.0);
+	gl_FragColor = vec4(clamp(col.r,0.0,60000.0));
 }
