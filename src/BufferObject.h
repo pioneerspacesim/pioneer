@@ -13,7 +13,7 @@ public:
 		glGenBuffersARB(1, &m_vertexArrayBufferObject);
 		glGenBuffersARB(1, &m_elementArrayBufferObject);
 		Render::BindArrayBuffer(m_vertexArrayBufferObject);
-		glBufferDataARB(GL_ARRAY_BUFFER, VERTICES_IN_BUFFER * VERTEX_SIZE, 0, GL_STATIC_DRAW);
+		glBufferDataARB(GL_ARRAY_BUFFER_ARB, VERTICES_IN_BUFFER * VERTEX_SIZE, 0, GL_DYNAMIC_DRAW);
 		Render::BindArrayBuffer(0);
 	}
 
@@ -31,10 +31,8 @@ public:
 		assert(GetVertexSpaceLeft() >= numVertices);
 
 		Render::BindArrayBuffer(m_vertexArrayBufferObject);
-		char *target = (char*)glMapBufferARB(GL_ARRAY_BUFFER, GL_WRITE_ONLY) +
-			m_vertexPos*VERTEX_SIZE;
-		memcpy((void*)target, vtxData, numVertices * VERTEX_SIZE);
-		glUnmapBufferARB(GL_ARRAY_BUFFER);
+		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, m_vertexPos*VERTEX_SIZE, 
+			numVertices * VERTEX_SIZE, vtxData);
 		Render::BindArrayBuffer(0);
 
 		const int indexBase = m_elementsTemp.size();
@@ -61,8 +59,8 @@ private:
 	void FlushElementsArray() {
 		if (m_elementsTempDirty) {
 			Render::BindElementArrayBuffer(m_elementArrayBufferObject);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16)*m_elementsTemp.size(),
-					&m_elementsTemp[0], GL_STATIC_DRAW);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, sizeof(Uint16)*m_elementsTemp.size(),
+					&m_elementsTemp[0], GL_DYNAMIC_DRAW);
 			Render::BindElementArrayBuffer(0);
 			m_elementsTempDirty = false;
 		}

@@ -651,6 +651,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\BufferObject.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\collider\BVHTree.h"
 				>
 			</File>

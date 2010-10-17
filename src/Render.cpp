@@ -47,7 +47,7 @@ Shader *State::m_currentShader = 0;
 void BindArrayBuffer(GLuint bo)
 {
 	if (boundArrayBufferObject != bo) {
-		glBindBufferARB(GL_ARRAY_BUFFER, bo);
+		glBindBufferARB(GL_ARRAY_BUFFER_ARB, bo);
 		boundArrayBufferObject = bo;
 	}
 }
@@ -60,7 +60,7 @@ bool IsArrayBufferBound(GLuint bo)
 void BindElementArrayBuffer(GLuint bo)
 {
 	if (boundElementArrayBufferObject != bo) {
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, bo);
+		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, bo);
 		boundElementArrayBufferObject = bo;
 	}
 }
@@ -174,6 +174,12 @@ void Init(int screen_width, int screen_height)
 		glError();
 		CHECK_FBO();
 
+		postprocessBloomDownsample = new PostprocessDownsampleShader("postprocessDownsample");
+		postprocessBloomVBlur = new PostprocessShader("postprocessVBlur");
+		postprocessBloomHBlur = new PostprocessShader("postprocessHBlur");
+		postprocessBloomCompose = new PostprocessComposeShader("postprocessCompose");
+		postprocessLuminance = new PostprocessShader("postprocessLuminance");
+
 			/*
 		glGenTextures(1, &depthbuffer);
 		glBindTexture(GL_TEXTURE_RECTANGLE, depthbuffer);
@@ -196,11 +202,6 @@ void Init(int screen_width, int screen_height)
 		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
 		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
-		postprocessBloomDownsample = new PostprocessDownsampleShader("postprocessDownsample");
-		postprocessBloomVBlur = new PostprocessShader("postprocessVBlur");
-		postprocessBloomHBlur = new PostprocessShader("postprocessHBlur");
-		postprocessBloomCompose = new PostprocessComposeShader("postprocessCompose");
-		postprocessLuminance = new PostprocessShader("postprocessLuminance");
 	}
 }
 

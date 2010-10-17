@@ -1,3 +1,4 @@
+#extension GL_ARB_texture_rectangle : enable
 uniform sampler2DRect fboTex;
 uniform float avgLum;
 // downscale stage of making the bloom texture
