@@ -256,7 +256,7 @@ void PostProcess()
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
 		printf("%f -> ", avgLum[0]);
-		avgLum[0] = MAX(exp(avgLum[0]), 0.05f);
+		avgLum[0] = MAX(exp(avgLum[0]), 0.03f);
 		printf("%f\n", avgLum[0]);
 		
 		glDisable(GL_TEXTURE_2D);

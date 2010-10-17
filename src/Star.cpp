@@ -71,6 +71,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glMultMatrixd(&rot[0]);
 
 		const float glowrad = (float)(rad+0.015*radius*len/SOL_RADIUS);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnable(GL_BLEND);
 		glBegin(GL_TRIANGLE_FAN);
 		glColor4f(col[0], col[1], col[2], 1);
@@ -83,11 +84,13 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glEnd();
 		glDisable(GL_BLEND);
 		
+		Render::State::UseProgram(Render::simpleShader);
 		glEnable(GL_BLEND);
-		glColor4f(col[0],col[1],col[2],1);
+		const float b = (Render::IsHDR() ? 100.0f : 1.0f);
+		glColor4f(b*col[0],b*col[1],b*col[2],1);
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(0,0,0);
-		glColor4f(col[0],col[1],col[2],0);
+		glColor4f(0,0,0,0);
 		
 		const float spikerad = (float)(0.02*len + 0.1*radius*len/SOL_RADIUS);
 		{
@@ -123,13 +126,14 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glDisable(GL_BLEND);
 
 		glBegin(GL_TRIANGLE_FAN);
-		glColor4f(col[0],col[1],col[2],1);
+		glColor4f(b*col[0],b*col[1],b*col[2],1);
 		glVertex3f(0, 0, 0);
 		for (float ang=0; ang<2*M_PI; ang+=0.1) {
 			glVertex3f((float)(rad*sin(ang)), (float)(rad*cos(ang)), 0);
 		}
 		glVertex3f(0, (float)rad, 0);
 		glEnd();
+		Render::State::UseProgram(0);
 	}
 	
 	glPopMatrix();
