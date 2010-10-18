@@ -73,6 +73,14 @@ public:
 		r.z = a.z+b.z;
 		return r;
 	}
+	friend Quaternion operator- (const Quaternion &a, const Quaternion &b) {
+		Quaternion r;
+		r.w = a.w-b.w;
+		r.x = a.x-b.x;
+		r.y = a.y-b.y;
+		r.z = a.z-b.z;
+		return r;
+	}
 	Quaternion Normalized() const {
 		T l = 1.0 / sqrt (w*w + x*x + y*y + z*z);
 		return Quaternion(w*l, x*l, y*l, z*l);
@@ -82,31 +90,34 @@ public:
 	template <typename U>
 	static Quaternion FromMatrix4x4(const matrix4x4<U> &m) {
 		Quaternion r;
-		U t = m[0] + m[5] + m[10];
-		if (t > 0) {
-			U s = 0.5 / sqrt(t+1.0);
-			r.w = 0.25 / s;
-			r.x = (m[6] - m[9]) * s;
-			r.y = (m[8] - m[2]) * s;
+		if (m[0] + m[5] + m[10] > 0.0f) {
+			U t = m[0] + m[5] + m[10] + 1.0;
+			U s = 0.5 / sqrt(t);
+			r.w = s * t;
 			r.z = (m[1] - m[4]) * s;
+			r.y = (m[8] - m[2]) * s;
+			r.x = (m[6] - m[9]) * s;
 		} else if ((m[0] > m[5]) && (m[0] > m[10])) {
-			U s = sqrt(1.0 + m[0] - m[5] - m[10]) * 2.0;
-			r.w = (m[9] - m[6]) / s;
-			r.x = 0.25 * s;
-			r.y = (m[4] + m[1]) / s;
-			r.z = (m[8] + m[2]) / s;
+			U t = m[0] - m[5] - m[10] + 1.0;
+			U s = 0.5 / sqrt(t);
+			r.x = s * t;
+			r.y = (m[4] + m[1]) * s;
+			r.z = (m[8] + m[2]) * s;
+			r.w = (m[6] - m[9]) * s;
 		} else if (m[5] > m[10]) {
-			U s = sqrt(1.0 + m[5] - m[0] - m[10]) * 2.0;
-			r.w = (m[8] - m[2]) / s;
-			r.x = (m[4] + m[1]) / s;
-			r.y = 0.25 * s;
-			r.z = (m[9] + m[6]) / s;
+			U t = -m[0] + m[5] - m[10] + 1.0;
+			U s = 0.5 / sqrt(t);
+			r.w = (m[8] - m[2]) * s;
+			r.x = (m[4] + m[1]) * s;
+			r.y = s * t;
+			r.z = (m[9] + m[6]) * s;
 		} else {
-			U s = sqrt(1.0 + m[10] - m[0] - m[5]) * 2.0;
-			r.w = (m[4] - m[1]) / s;
-			r.x = (m[8] + m[2]) / s;
-			r.y = (m[6] + m[9]) / s;
-			r.z = 0.25 * s;
+			U t = -m[0] - m[5] + m[10] + 1.0;
+			U s = 0.5 / sqrt(t);
+			r.w = (m[1] - m[4]) * s;
+			r.x = (m[8] + m[2]) * s;
+			r.y = (m[6] + m[9]) * s;
+			r.z = s * t;
 		}
 		return r;
 	}
@@ -114,65 +125,39 @@ public:
 	template <typename U>
 	matrix4x4<U> ToMatrix4x4() const {
 		matrix4x4<U> m;
-		U x2 = 2.0f * x,  y2 = 2.0f * y,  z2 = 2.0f * z;
-		U xy = x2 * y,  xz = x2 * z;
-		U yy = y2 * y,  yw = y2 * w;
-		U zw = z2 * w,  zz = z2 * z;
+		U xx = x * x;
+		U xy = x * y;
+		U xz = x * z;
+		U xw = x * w;
 
-		m[ 0] = 1.0f - ( yy + zz );
-		m[ 4] = ( xy - zw );
-		m[ 8] = ( xz + yw );
-		m[12] = 0.0f;
+		U yy = y * y;
+		U yz = y * z;
+		U yw = y * w;
 
-		U xx = x2 * x,  xw = x2 * w,  yz = y2 * z;
-		m[ 1] = ( xy +  zw );
-		m[ 5] = 1.0f - ( xx + zz );
-		m[ 9] = ( yz - xw );
-		m[13] = 0.0f;
+		U zz = z * z;
+		U zw = z * w;
 
-		m[ 2] = ( xz - yw );
-		m[ 6] = ( yz + xw );
-		m[10] = 1.0f - ( xx + yy );  
-		m[14] = 0.0f;  
+		m[0] = 1.0 - 2.0 * (yy + zz);
+		m[4] =       2.0 * (xy - zw);
+		m[8] =       2.0 * (xz + yw);
 
-		m[ 3] = 0.0f;  
-		m[ 7] = 0.0f;   
-		m[11] = 0.0f;   
-		m[15] = 1.0f;
+		m[1] =       2.0 * (xy + zw);
+		m[5] = 1.0 - 2.0 * (xx + zz);
+		m[9] =       2.0 * (yz - xw);
 
-#if 0
-		m[0] = w*w+x*x-y*y-z*z;
-		m[1] = 2.0*x*y+2.0*w*z;
-		m[2] = 2.0*x*z-2.0*w*y;
-		m[3] = 0;
-		m[4] = 2.0*x*y - 2.0*w*z;
-		m[5] = w*w-x*x+y*y-z*z;
-		m[6] = 2.0*y*z - 2.0*w*x;
-		m[7] = 0;
-		m[8] = 2.0*x*z + 2.0*w*y;
-		m[9] = 2.0*y*z - 2.0*w*x;
-		m[10] = w*w-x*x-y*y+z*z;
-		m[11] = m[12] = m[13] = m[14] = 0;
+		m[2] =       2.0 * (xz - yw);
+		m[6] =       2.0 * (yz + xw);
+		m[10] = 1.0 - 2.0 * (xx + yy);
+
+		m[12] = m[13] = m[14] = m[3] = m[7] = m[11] = 0.0;
 		m[15] = 1.0;
-#endif
 		return m;
 	}
-	/* spherical linear interpolation between 2 quaternions */
-	static Quaternion Slerp(const Quaternion &a, const Quaternion &b, T t) {
-		T w1, w2;
-		T cosTheta = Quaternion::Dot(a,b);
-		T theta    = (T)acos(cosTheta);
-		T sinTheta = (T)sin(theta);
-
-		if (sinTheta > 0.001) {
-			w1 = sin((1.0f-t)*theta) / sinTheta;
-			w2 = sin(t*theta) / sinTheta;
-		} else {
-			// a ~= b
-			w1 = 1.0f - t;
-			w2 = t;
-		}
-		return a*w1 + b*w2;
+	/* normalized linear interpolation between 2 quaternions */
+	static Quaternion Nlerp(const Quaternion &a, const Quaternion &b, T t) {
+		//printf("a: %f,%f,%f,%f\n", a.x, a.y, a.z, a.w);
+		//printf("b: %f,%f,%f,%f\n", b.x, b.y, b.z, b.w);
+		return (a + t*(b-a)).Normalized();
 	}
 
 	//void Print() const {

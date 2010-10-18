@@ -170,6 +170,17 @@ class matrix4x4 {
 		m[15] = 1.0f;
 		return m;
 	}
+	void Renormalize() {
+		vector3<T> x(cell[0], cell[4], cell[8]);
+		vector3<T> y(cell[1], cell[5], cell[9]);
+		vector3<T> z(cell[2], cell[6], cell[10]);
+		x = x.Normalized();
+		z = vector3<T>::Cross(x, y).Normalized();
+		y = vector3<T>::Cross(z, x).Normalized();
+		cell[0] = x.x; cell[4] = x.y; cell[8] = x.z;
+		cell[1] = y.x; cell[5] = y.y; cell[9] = y.z;
+		cell[2] = z.x; cell[6] = z.y; cell[10] = z.z;
+	}
 	void ClearToRotOnly() {
 		cell[12] = 0;
 		cell[13] = 0;

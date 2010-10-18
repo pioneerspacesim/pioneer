@@ -352,20 +352,20 @@ define_model('big_crappy_spacestation', {
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 10.0, 5.0, 5.0 },
 		undock_anim_stage_duration = { 5.0, 5.0, 10.0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local baypos = { v(-150,0,0), v(-100,0,100),
-				v(100,0,100), v(150,0,0) }
+			local baypos = { v(-150,-350,0), v(-100,-350,100),
+				v(100,-350,100), v(150,-350,0) }
 			if stage == 2 then
-				return { vlerp(t, v(0,600,0), v(0,0,0)), v(1,0,0), v(0,0,1) }
+				return { vlerp(t, from, v(0,-350,0)), v(1,0,0), v(0,0,1) }
 			elseif stage == 3 then
-				return { v(0,0,0), v(1,0,0), v(0,1,0) }
+				return { v(0,-350,0), v(1,0,0), v(0,1,0) }
 			elseif stage == 4 then
-				return { vlerp(t, from, baypos[port]), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, v(0,-350,0), baypos[port]), v(1,0,0), v(0,1,0) }
 			elseif stage == -1 then
-				return { vlerp(t, baypos[port], v(0,0,0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, baypos[port], v(0,-350,0)), v(1,0,0), v(0,1,0) }
 			elseif stage == -2 then
-				return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
+				return { v(0,-350,0), v(-1,0,0), v(0,0,-1) }
 			elseif stage == -3 then
-				return { vlerp(t, v(0,0,0), v(0,600,0)), v(-1,0,0), v(0,0,-1) }
+				return { vlerp(t, v(0,-350,0), v(0,600,0)), v(-1,0,0), v(0,0,-1) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)

@@ -447,8 +447,9 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			// use quaternion spherical linear interpolation to do
 			// rotation smoothly
 			Quaternionf wantQuat = Quaternionf::FromMatrix4x4<double>(wantRot);
-			Quaternionf q = Quaternionf::Slerp(dt.fromRot, wantQuat, dt.stagePos);
+			Quaternionf q = Quaternionf::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
 			wantRot = q.ToMatrix4x4<double>();
+		//	wantRot.Renormalize();
 			dt.ship->SetRotMatrix(wantRot);
 		} else {
 			if (dt.stage >= 0) {
