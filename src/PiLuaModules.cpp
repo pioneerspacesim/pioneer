@@ -30,15 +30,19 @@ lua_State *GetLuaState() { return L; }
 void EmitEvents()
 {
 	if (s_eventsPending) {
+		LUA_DEBUG_START(L)
 		lua_pushcfunction(L, mylua_panic);
 		lua_getglobal(L, "EmitEvents");
 		lua_pcall(L, 0, 0, -2);
+		lua_pop(L, 1);
+		LUA_DEBUG_END(L)
 		s_eventsPending = false;
 	}
 }
 
 void QueueEvent(const char *eventName)
 {
+	LUA_DEBUG_START(L)
 	s_eventsPending = true;
 	lua_getglobal(L, "__pendingEvents");
 	size_t len = lua_objlen (L, -1);
@@ -52,10 +56,12 @@ void QueueEvent(const char *eventName)
 	// insert event into __pendingEvents
 	lua_settable(L, -3);
 	lua_pop(L, 1);
+	LUA_DEBUG_END(L)
 }
 
 void QueueEvent(const char *eventName, Object *o1)
 {
+	LUA_DEBUG_START(L)
 	s_eventsPending = true;
 	lua_getglobal(L, "__pendingEvents");
 	size_t len = lua_objlen (L, -1);
@@ -73,10 +79,12 @@ void QueueEvent(const char *eventName, Object *o1)
 	// insert event into __pendingEvents
 	lua_settable(L, -3);
 	lua_pop(L, 1);
+	LUA_DEBUG_END(L)
 }
 
 void QueueEvent(const char *eventName, Object *o1, Object *o2)
 {
+	LUA_DEBUG_START(L)
 	s_eventsPending = true;
 	lua_getglobal(L, "__pendingEvents");
 	size_t len = lua_objlen (L, -1);
@@ -98,17 +106,20 @@ void QueueEvent(const char *eventName, Object *o1, Object *o2)
 	// insert event into __pendingEvents
 	lua_settable(L, -3);
 	lua_pop(L, 1);
+	LUA_DEBUG_END(L)
 }
 
 static void CallModFunction(const char *modname, const char *funcname)
 {
+	LUA_DEBUG_START(L)
 	printf("call %s:%s()\n", modname, funcname);
 	lua_pushcfunction(L, mylua_panic);
 	lua_getglobal(L, modname);
 	lua_getfield(L, -1, funcname);
 	lua_pushvalue(L, -2); // push self
 	lua_pcall(L, 1, 0, -4);
-	lua_pop(L, 1);
+	lua_pop(L, 2);
+	LUA_DEBUG_END(L)
 }
 
 static void ModsInitAll()
@@ -121,6 +132,7 @@ static void ModsInitAll()
 
 static void GetMission(std::list<Mission> &missions)
 {
+	LUA_DEBUG_START(L)
 	Mission m;
 	// mission table at -1
 	lua_getfield(L, -1, "description");
@@ -150,11 +162,13 @@ static void GetMission(std::list<Mission> &missions)
 	}
 	lua_pop(L, 1);
 	missions.push_back(m);
+	LUA_DEBUG_END(L)
 }
 
 void GetPlayerMissions(std::list<Mission> &missions)
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
+		LUA_DEBUG_START(L)
 		lua_getglobal(L, (*i).c_str());
 		lua_pushcfunction(L, mylua_panic);
 		lua_getfield(L, -2, "GetPlayerMissions");
@@ -169,10 +183,9 @@ void GetPlayerMissions(std::list<Mission> &missions)
 				/* removes 'value'; keeps 'key' for next iteration */
 				lua_pop(L, 1);
 			}
-			lua_pop(L, 1);
-		} else {
-			lua_pop(L, 3);
 		}
+		lua_pop(L, 3);
+		LUA_DEBUG_END(L)
 	}
 }
 

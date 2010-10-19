@@ -9,6 +9,14 @@
 #include "oolua/oolua.h"
 #include "oolua/oolua_error.h"
 
+#ifdef DEBUG
+# define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr);
+# define LUA_DEBUG_END(luaptr) assert(__luaStartStackDepth == lua_gettop(luaptr));
+#else
+# define LUA_DEBUG_START(luaptr)
+# define LUA_DEBUG_END(luaptr)
+#endif
+
 extern int mylua_panic(lua_State *L);
 
 template <typename T>

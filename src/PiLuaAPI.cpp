@@ -79,12 +79,13 @@ void ship_randomly_equip(Ship *ship, double power)
 
 ////////////////////////////////////////////////////////////
 
-EXPORT_OOLUA_FUNCTIONS_12_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_13_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
 		ShipAIDoLowOrbit,
 		ShipAIDoMediumOrbit,
 		ShipAIDoHighOrbit,
+		SetLabel,
 		SetMoney,
 		AddMoney,
 		GetEquipmentPrice,
@@ -111,6 +112,11 @@ double ObjectWrapper::GetMoney() const {
 		return 0.01 * s->GetMoney();
 	} else {
 		return 0;
+	}
+}
+void ObjectWrapper::SetLabel(const char *label) {
+	if (Is(Object::BODY)) {
+		static_cast<Body*>(m_obj)->SetLabel(label);
 	}
 }
 void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
@@ -398,6 +404,31 @@ namespace LuaPi {
 		OOLUA::push2lua(l, s.c_str());
 		return 1;
 	}
+	static int _spawn_ship_docked(lua_State *l, std::string type, double power, SpaceStation *station) {
+		if (ShipType::Get(type.c_str()) == 0) {
+			throw UnknownShipType();
+		} else {
+			if (!Space::IsSystemBeingBuilt()) {
+				lua_pushnil(l);
+				lua_pushstring(l, "Cannot spawn ships in starports except from onEnterSystem");
+				return 2;
+			}
+			int port = station->GetFreeDockingPort();
+			if (port == -1) {
+				lua_pushnil(l);
+				lua_pushstring(l, "No free docking port");
+				return 2;
+			} else {
+				Ship *ship = new Ship(type.c_str());
+				ship_randomly_equip(ship, power);
+				ship->SetFrame(station->GetFrame());
+				Space::AddBody(ship);
+				ship->SetDockedWith(station, port);
+				push2luaWithGc(l, new ObjectWrapper(ship));
+				return 1;
+			}
+		}
+	}
 	static int _spawn_ship(lua_State *l, std::string type, double due, double power) {
 		if (ShipType::Get(type.c_str()) == 0) {
 			throw UnknownShipType();
@@ -484,6 +515,35 @@ namespace LuaPi {
 		}
 		return ret;
 	}
+	static int SpawnRandomDockedShip(lua_State *l) {
+		ObjectWrapper *o;
+		double power;
+		int minMass, maxMass;
+		std::string type;
+		OOLUA::pull2cpp(l, maxMass);
+		OOLUA::pull2cpp(l, minMass);
+		OOLUA::pull2cpp(l, power);
+		OOLUA::pull2cpp(l, o);
+		if (o->m_obj && o->m_obj->IsType(Object::SPACESTATION)) {
+			SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
+			printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
+			int ret;
+			try {
+				type = get_random_ship_type(power, minMass, maxMass);
+				printf("Spawning a %s\n", type.c_str());
+				ret = _spawn_ship_docked(l, type, power, station);
+			} catch (UnknownShipType) {
+				lua_pushnil(l);
+				lua_pushstring(l, "Unknown ship type");
+				return 2;
+			}
+			return ret;
+		} else {
+			lua_pushnil(l);
+			lua_pushstring(l, "4th argument must be a space station");
+			return 2;
+		}
+	}
 	static int AddPlayerCrime(lua_State *l) {
 		Sint64 crimeBitset;
 		double fine;
@@ -504,6 +564,7 @@ namespace LuaPi {
  */
 void RegisterPiLuaAPI(lua_State *l)
 {
+	LUA_DEBUG_START(l);
 	OOLUA::register_class<ObjectWrapper>(l);
 	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);
@@ -523,9 +584,11 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("ImportantMessage", &LuaPi::ImportantMessage);
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
 	REG_FUNC("SpawnRandomShip", &LuaPi::SpawnRandomShip);
+	REG_FUNC("SpawnRandomDockedShip", &LuaPi::SpawnRandomDockedShip);
 	lua_setglobal(l, "Pi");
 	
 	lua_newtable(l);
 	REG_FUNC("Format", &LuaPi::FormatDate);
 	lua_setglobal(l, "Date");
+	LUA_DEBUG_END(l);
 }
