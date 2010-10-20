@@ -11,10 +11,10 @@
 
 #ifdef DEBUG
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr);
-# define LUA_DEBUG_END(luaptr) assert(__luaStartStackDepth == lua_gettop(luaptr));
+# define LUA_DEBUG_END(luaptr, expectedStackDiff) assert(__luaStartStackDepth == (lua_gettop(luaptr)-expectedStackDiff));
 #else
 # define LUA_DEBUG_START(luaptr)
-# define LUA_DEBUG_END(luaptr)
+# define LUA_DEBUG_END(luaptr, expectedStackDiff)
 #endif
 
 extern int mylua_panic(lua_State *L);

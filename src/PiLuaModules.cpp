@@ -35,7 +35,7 @@ void EmitEvents()
 		lua_getglobal(L, "EmitEvents");
 		lua_pcall(L, 0, 0, -2);
 		lua_pop(L, 1);
-		LUA_DEBUG_END(L)
+		LUA_DEBUG_END(L, 0)
 		s_eventsPending = false;
 	}
 }
@@ -56,7 +56,7 @@ void QueueEvent(const char *eventName)
 	// insert event into __pendingEvents
 	lua_settable(L, -3);
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L)
+	LUA_DEBUG_END(L, 0)
 }
 
 void QueueEvent(const char *eventName, Object *o1)
@@ -79,7 +79,7 @@ void QueueEvent(const char *eventName, Object *o1)
 	// insert event into __pendingEvents
 	lua_settable(L, -3);
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L)
+	LUA_DEBUG_END(L, 0)
 }
 
 void QueueEvent(const char *eventName, Object *o1, Object *o2)
@@ -106,7 +106,7 @@ void QueueEvent(const char *eventName, Object *o1, Object *o2)
 	// insert event into __pendingEvents
 	lua_settable(L, -3);
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L)
+	LUA_DEBUG_END(L, 0)
 }
 
 static void CallModFunction(const char *modname, const char *funcname)
@@ -119,7 +119,7 @@ static void CallModFunction(const char *modname, const char *funcname)
 	lua_pushvalue(L, -2); // push self
 	lua_pcall(L, 1, 0, -4);
 	lua_pop(L, 2);
-	LUA_DEBUG_END(L)
+	LUA_DEBUG_END(L, 0)
 }
 
 static void ModsInitAll()
@@ -162,7 +162,7 @@ static void GetMission(std::list<Mission> &missions)
 	}
 	lua_pop(L, 1);
 	missions.push_back(m);
-	LUA_DEBUG_END(L)
+	LUA_DEBUG_END(L, 0)
 }
 
 void GetPlayerMissions(std::list<Mission> &missions)
@@ -185,7 +185,7 @@ void GetPlayerMissions(std::list<Mission> &missions)
 			}
 		}
 		lua_pop(L, 3);
-		LUA_DEBUG_END(L)
+		LUA_DEBUG_END(L, 0)
 	}
 }
 

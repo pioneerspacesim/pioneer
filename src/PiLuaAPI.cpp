@@ -553,6 +553,13 @@ namespace LuaPi {
 		Polit::AddCrime(crimeBitset, _fine);
 		return 0;
 	}
+	static int FindBodyForSBodyPath(lua_State *l) {
+		SBodyPath *path;
+		OOLUA::pull2cpp(l, path);
+		Body *b = Space::FindBodyForSBodyPath(path);
+		push2luaWithGc(l, new ObjectWrapper(b));
+		return 1;
+	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -576,6 +583,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	lua_register(l, "UserDataUnserialize", UserDataUnserialize);
 
 	lua_newtable(l);
+	REG_FUNC("FindBodyForSBody", &LuaPi::FindBodyForSBodyPath);
 	REG_FUNC("AddPlayerCrime", &LuaPi::AddPlayerCrime);
 	REG_FUNC("GetCurrentSystem", &LuaPi::GetCurrentSystem);
 	REG_FUNC("GetPlayer", &LuaPi::GetPlayer);
@@ -590,5 +598,5 @@ void RegisterPiLuaAPI(lua_State *l)
 	lua_newtable(l);
 	REG_FUNC("Format", &LuaPi::FormatDate);
 	lua_setglobal(l, "Date");
-	LUA_DEBUG_END(l);
+	LUA_DEBUG_END(l, 0);
 }

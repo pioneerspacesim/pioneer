@@ -79,6 +79,19 @@ Body *FindNearestTo(const Body *b, Object::Type t)
 	return nearest;
 }
 
+Body *FindBodyForSBodyPath(const SBodyPath *path)
+{
+	// it is a bit dumb that currentSystem is not part of Space...
+	SBody *body = Pi::currentSystem->GetBodyByPath(path);
+
+	if (!body) return 0;
+
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+		if ((*i)->GetSBody() == body) return *i;
+	}
+	return 0;
+}
+
 void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
