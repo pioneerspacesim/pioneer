@@ -9,6 +9,7 @@ void IniConfig::Load(const std::string &filename)
 	FILE *f = fopen(filename.c_str(), "r");
 		
 	// set defaults
+	(*this)["EnableHDR"] = "0";
 	(*this)["DisableShaders"] = "0";
 	(*this)["DisableSound"] = "0";
 	(*this)["StartFullscreen"] = "1";

@@ -329,6 +329,15 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label("Use shaders"), false);
 		vbox->PackEnd(hbox, false);
 		
+		m_toggleHDR = new Gui::ToggleButton();
+		m_toggleHDR->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleHDR));
+		hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_toggleHDR, false);
+		hbox->PackEnd(new Gui::Label("Use HDR Lighting (looks cool)"), false);
+		vbox->PackEnd(hbox, false);
+		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
+		
 		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
 		m_sfxVolume = new Gui::Adjustment();
 		m_sfxVolume->SetValue(Sound::GetGlobalVolume());
@@ -510,6 +519,13 @@ void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
 	Render::ToggleShaders();
 }
 
+void GameMenuView::OnToggleHDR(Gui::ToggleButton *b, bool state)
+{
+	Pi::config.SetInt("EnableHDR", (state ? 1 : 0));
+	Pi::config.Save();
+	Render::ToggleHDR();
+}
+
 void GameMenuView::HideAll()
 {
 	if (m_changedDetailLevel) {
@@ -545,6 +561,7 @@ void GameMenuView::OnSwitchTo() {
 		m_planetDetail[Pi::detail.planets]->OnActivate();
 		m_cityDetail[Pi::detail.cities]->OnActivate();
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
+		m_toggleHDR->SetPressed(Render::IsHDREnabled());
 		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen"));
 	}
 }

@@ -208,6 +208,7 @@ void Pi::Init()
 	draw_progress(0.2f);
 	NameGenerator::Init();
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
+	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
 	draw_progress(0.3f);
 	LmrModelCompilerInit();

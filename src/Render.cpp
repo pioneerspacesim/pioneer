@@ -8,7 +8,7 @@ namespace Render {
 static bool initted = false;
 static bool shadersEnabled;
 static bool shadersAvailable;
-static bool isHDREnabled;
+static bool isHDREnabled = false;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
@@ -76,30 +76,25 @@ void UnbindAllBuffers()
 	BindArrayBuffer(0);
 }
 
-GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
-static int sWIDTH = 800;
-static int sHEIGHT = 600;
-
-#define CHECK_FBO() { \
-			GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);\
-			printf("Framebuffer status: 0x%x\n", (int)status);\
-			if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {\
-				printf("FRAMEBUFFER ERROR!!!!!!!!\n");\
-			}\
+static struct postprocessBuffers_t {
+	GLuint fb, halfsizeFb, bloomFb1, bloomFb2, tex, halfsizeTex, bloomTex1, bloomTex2, depthbuffer, luminanceFb, luminanceTex;
+	int width, height;
+	postprocessBuffers_t() {
+		memset(this, 0, sizeof(postprocessBuffers_t));
+	}
+	bool CheckFBO()
+	{
+		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", (int)status);
+			return false;
+		} else {
+			return true;
 		}
-
-void Init(int screen_width, int screen_height)
-{
-	if (initted) return;
-	sWIDTH = screen_width;
-	sHEIGHT = screen_height;
-	shadersAvailable = (GLEW_VERSION_2_0 ? true : false);
-	shadersEnabled = shadersAvailable;
-	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
-	// this is a 2nd fbo that is used to render the first pass of a
-	// gaussian blur of fb
-	// XXX DISABLED: HDR lighting needs a lot of work, and it is best to not waste time on it right now
-	if (getenv("PIONEER_HDR") && GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float) { // && GLEW_ARB_depth_buffer_float) {
+	}
+	void CreateBuffers(int screen_width, int screen_height) {
+		width = screen_width;
+		height = screen_height;
 		glGenFramebuffersEXT(1, &halfsizeFb);
 		glGenTextures(1, &halfsizeTex);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
@@ -108,9 +103,12 @@ void Init(int screen_width, int screen_height)
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>1, sHEIGHT>>1, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width>>1, height>>1, 0, GL_RGB, GL_HALF_FLOAT, NULL);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, halfsizeTex, 0);
-		CHECK_FBO();
+		if (!CheckFBO()) {
+			DeleteBuffers();
+			return;
+		}
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
 		glGenFramebuffersEXT(1, &luminanceFb);
@@ -124,7 +122,10 @@ void Init(int screen_width, int screen_height)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 128, 128, 0, GL_RGB, GL_FLOAT, NULL);
 		glGenerateMipmapEXT(GL_TEXTURE_2D);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, luminanceTex, 0);
-		CHECK_FBO();
+		if (!CheckFBO()) {
+			DeleteBuffers();
+			return;
+		}
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glError();
 
@@ -136,9 +137,12 @@ void Init(int screen_width, int screen_height)
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>2, sHEIGHT>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, bloomTex1, 0);
-		CHECK_FBO();
+		if (!CheckFBO()) {
+			DeleteBuffers();
+			return;
+		}
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
 		glGenFramebuffersEXT(1, &bloomFb2);
@@ -149,9 +153,12 @@ void Init(int screen_width, int screen_height)
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH>>2, sHEIGHT>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, bloomTex2, 0);
-		CHECK_FBO();
+		if (!CheckFBO()) {
+			DeleteBuffers();
+			return;
+		}
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
 		glGenFramebuffersEXT(1, &fb);
@@ -162,17 +169,20 @@ void Init(int screen_width, int screen_height)
 		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, sWIDTH, sHEIGHT, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_HALF_FLOAT, NULL);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, tex, 0);
 		glError();
 		
 		glGenRenderbuffersEXT(1, &depthbuffer);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
-		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, sWIDTH, sHEIGHT);
+		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, width, height);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, depthbuffer);
 		glError();
-		CHECK_FBO();
+		if (!CheckFBO()) {
+			DeleteBuffers();
+			return;
+		}
 
 		postprocessBloomDownsample = new PostprocessDownsampleShader("postprocessDownsample");
 		postprocessBloomVBlur = new PostprocessShader("postprocessVBlur");
@@ -180,45 +190,17 @@ void Init(int screen_width, int screen_height)
 		postprocessBloomCompose = new PostprocessComposeShader("postprocessCompose");
 		postprocessLuminance = new PostprocessShader("postprocessLuminance");
 
-			/*
-		glGenTextures(1, &depthbuffer);
-		glBindTexture(GL_TEXTURE_RECTANGLE, depthbuffer);
 		glError();
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_DEPTH_COMPONENT32F, 800, 600, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
-		glError();
-		glFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT, GL_TEXTURE_RECTANGLE, depthbuffer, 0);
-		glError();*/
-
-	//	glBindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
-		glError();
-		isHDREnabled = true;
 	}
-	initted = true;
-
-	if (shadersEnabled) {
-		simpleShader = new Shader("simple");
-		billboardShader = new BillboardShader("billboard");
-		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
-		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
-		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
-		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
+	void DeleteBuffers() {
+		if (fb) glDeleteFramebuffersEXT(1, &fb);
+		if (halfsizeFb) glDeleteFramebuffersEXT(1, &halfsizeFb);
+		if (bloomFb1) glDeleteFramebuffersEXT(1, &bloomFb1);
+		if (bloomFb2) glDeleteFramebuffersEXT(1, &bloomFb2);
+		if (luminanceFb) glDeleteFramebuffersEXT(1, &luminanceFb);
+		fb = halfsizeFb = bloomFb1 = bloomFb2 = luminanceFb = 0;
 	}
-}
-
-bool IsHDR() { return (fb && isHDREnabled && shadersEnabled) ? 1 : 0; }
-
-void PrepareFrame()
-{
-	if (IsHDR()) {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-	} else {
-		if (GLEW_EXT_framebuffer_object) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	}
-}
-
-void PostProcess()
-{
-	if (IsHDR()) {
+	void DoPostprocess() {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0.0,1.0,0.0,1.0,-1.0,1.0);
@@ -240,11 +222,11 @@ void PostProcess()
 		glBegin(GL_TRIANGLE_STRIP);
 			glTexCoord2f(0.0, 0.0);
 			glVertex2f(0.0, 0.0);
-			glTexCoord2f(sWIDTH, 0.0);
+			glTexCoord2f(width, 0.0);
 			glVertex2f(1.0, 0.0);
-			glTexCoord2f(0.0,sHEIGHT);
+			glTexCoord2f(0.0,height);
 			glVertex2f(0.0, 1.0);
-			glTexCoord2f(sWIDTH, sHEIGHT);
+			glTexCoord2f(width, height);
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -255,12 +237,12 @@ void PostProcess()
 		float avgLum[4];
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
-		printf("%f -> ", avgLum[0]);
+		//printf("%f -> ", avgLum[0]);
 		avgLum[0] = MAX(exp(avgLum[0]), 0.03f);
-		printf("%f\n", avgLum[0]);
+		//printf("%f\n", avgLum[0]);
 		
 		glDisable(GL_TEXTURE_2D);
-		glViewport(0,0,sWIDTH>>1,sHEIGHT>>1);
+		glViewport(0,0,width>>1,height>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
@@ -274,7 +256,7 @@ void PostProcess()
 			glVertex2f(1.0, 1.0);
 		glEnd();
 
-		glViewport(0,0,sWIDTH>>2,sHEIGHT>>2);
+		glViewport(0,0,width>>2,height>>2);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
@@ -312,7 +294,7 @@ void PostProcess()
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		
-		glViewport(0,0,sWIDTH,sHEIGHT);
+		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
@@ -327,7 +309,7 @@ void PostProcess()
 		static float midGrey = 0.1f;
 		midGrey += 1.0f;
 		if (midGrey > 100.0f) midGrey = 0.0f;
-		printf("Mid grey %f\n", midGrey);
+		//printf("Mid grey %f\n", midGrey);
 		postprocessBloomCompose->set_middleGrey(1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f)));
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
@@ -337,7 +319,7 @@ void PostProcess()
 		glEnd();
 		State::UseProgram(0);
 #if 0
-		glViewport(0,0,sWIDTH,sHEIGHT);
+		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_2D);
 		glDisable(GL_TEXTURE_RECTANGLE);
@@ -364,6 +346,50 @@ void PostProcess()
 		glActiveTexture(GL_TEXTURE0);
 		glDisable(GL_TEXTURE_RECTANGLE);
 		glError();
+	}
+	bool Initted() { return fb ? true : false; }
+} s_hdrBufs;
+
+void Init(int screen_width, int screen_height)
+{
+	if (initted) return;
+	shadersAvailable = (GLEW_VERSION_2_0 ? true : false);
+	shadersEnabled = shadersAvailable;
+	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
+	// Framebuffers for HDR
+	if (GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float) { // && GLEW_ARB_depth_buffer_float) {
+		s_hdrBufs.CreateBuffers(screen_width, screen_height);
+	}
+	
+	initted = true;
+
+	if (shadersEnabled) {
+		simpleShader = new Shader("simple");
+		billboardShader = new BillboardShader("billboard");
+		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
+		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
+		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
+		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
+	}
+}
+
+bool IsHDREnabled() { return (s_hdrBufs.Initted() && isHDREnabled && shadersEnabled) ? 1 : 0; }
+
+bool IsHDRAvailable() { return s_hdrBufs.Initted() ? true : false; }
+
+void PrepareFrame()
+{
+	if (IsHDREnabled()) {
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, s_hdrBufs.fb);
+	} else {
+		if (GLEW_EXT_framebuffer_object) glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	}
+}
+
+void PostProcess()
+{
+	if (IsHDREnabled()) {
+		s_hdrBufs.DoPostprocess();
 	}
 }
 

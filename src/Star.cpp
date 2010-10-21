@@ -86,7 +86,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		
 		Render::State::UseProgram(Render::simpleShader);
 		glEnable(GL_BLEND);
-		const float b = (Render::IsHDR() ? 100.0f : 1.0f);
+		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
 		glColor4f(b*col[0],b*col[1],b*col[2],1);
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(0,0,0);

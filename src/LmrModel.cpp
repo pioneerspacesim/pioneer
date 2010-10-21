@@ -186,7 +186,7 @@ namespace ShipThruster {
 		
 		glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, s_alpha);
 		glMaterialfv (GL_FRONT, GL_SPECULAR, s_black);
-		if (Render::IsHDR()) {
+		if (Render::IsHDREnabled()) {
 			float col[4] = { 0.0f, 4.0f, 10.0f, 1.0f };
 			glMaterialfv (GL_FRONT, GL_EMISSION, col);
 		} else {
@@ -198,7 +198,7 @@ namespace ShipThruster {
 		glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
 
 		glScalef (2.0f, 2.0f, 1.5f);
-		if (Render::IsHDR()) {
+		if (Render::IsHDREnabled()) {
 			float col[4] = { 4.0f, 0.0f, 10.0f, 1.0f };
 			glMaterialfv (GL_FRONT, GL_EMISSION, col);
 		} else {

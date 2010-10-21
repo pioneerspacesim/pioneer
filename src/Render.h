@@ -108,7 +108,8 @@ namespace Render {
 	void BindElementArrayBuffer(GLuint bo);
 	bool IsArrayBufferBound(GLuint bo);
 	bool IsElementArrayBufferBound(GLuint bo);
-	bool IsHDR();
+	bool IsHDREnabled();
+	bool IsHDRAvailable();
 	void PrepareFrame();
 	void PostProcess();
 	void SwapBuffers();

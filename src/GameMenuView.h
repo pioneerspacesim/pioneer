@@ -23,6 +23,7 @@ private:
 	void OnChangeCityDetail(int level);
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
+	void OnToggleHDR(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
@@ -30,6 +31,7 @@ private:
 	Gui::RadioButton *m_planetDetail[5];
 	Gui::RadioButton *m_cityDetail[5];
 	Gui::ToggleButton *m_toggleShaders;
+	Gui::ToggleButton *m_toggleHDR;
 	Gui::ToggleButton *m_toggleFullscreen;
 };
 
