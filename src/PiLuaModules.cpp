@@ -213,7 +213,18 @@ void Unserialize(Serializer::Reader &rd)
 		modname = rd.String();
 		if (modname == "") break;
 		moddata = rd.String();
-		ModCall(modname.c_str(), "Unserialize", 0, moddata);
+		bool found = false;
+		for (std::list<std::string>::const_iterator i = s_modules.begin(); i != s_modules.end(); ++i) {
+			if ((*i) == modname) {
+				ModCall(modname.c_str(), "Unserialize", 0, moddata);
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			// XXX this isn't good. we should keep the data for re-saving in case the module is enabled again
+			Warning("Could not find the module '%s'. Continuing, but module data will be lost.", modname.c_str());
+		}
 	}
 }
 
