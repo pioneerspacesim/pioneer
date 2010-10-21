@@ -27,6 +27,16 @@ static bool s_eventsPending = false;
 
 lua_State *GetLuaState() { return L; }
 
+void UpdateOncePerRealtimeSecond()
+{
+	LUA_DEBUG_START(L);
+	lua_pushcfunction(L, mylua_panic);
+	lua_getglobal(L, "UpdateOncePerRealtimeSecond");
+	lua_pcall(L, 0, 0, -2);
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0)
+}
+
 void EmitEvents()
 {
 	if (s_eventsPending) {
@@ -112,7 +122,7 @@ void QueueEvent(const char *eventName, Object *o1, Object *o2)
 static void CallModFunction(const char *modname, const char *funcname)
 {
 	LUA_DEBUG_START(L)
-	printf("call %s:%s()\n", modname, funcname);
+	printf("Calling %s:%s()\n", modname, funcname);
 	lua_pushcfunction(L, mylua_panic);
 	lua_getglobal(L, modname);
 	lua_getfield(L, -1, funcname);
@@ -125,7 +135,6 @@ static void CallModFunction(const char *modname, const char *funcname)
 static void ModsInitAll()
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
-		printf("Calling %s:Init()\n", (*i).c_str());
 		CallModFunction((*i).c_str(), "Init");
 	}
 }
@@ -248,9 +257,9 @@ static int register_module(lua_State * const L)
 			/* uses 'key' (at index -2) and 'value' (at index -1) */
 			if (lua_isstring(L, -2)) {
 				std::string key = lua_tostring(L, -2);
-				printf("(%s): %s - %s\n", key.c_str(),
-					lua_typename(L, lua_type(L, -2)),
-					lua_typename(L, lua_type(L, -1)));
+			//	printf("(%s): %s - %s\n", key.c_str(),
+			//		lua_typename(L, lua_type(L, -2)),
+			//		lua_typename(L, lua_type(L, -1)));
 			}
 			/* removes 'value'; keeps 'key' for next iteration */
 			lua_pop(L, 1);

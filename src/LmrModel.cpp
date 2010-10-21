@@ -1129,7 +1129,6 @@ namespace ModelFuncs {
 		for (int i=0; i<num-3; i+=2) {
 			const float rad1 = jizz[i+1];
 			const float rad2 = jizz[i+3];
-			printf("%f,%f\n", rad1, rad2);
 			const vector3d _start = *start + (*end-*start)*jizz[i];
 			const vector3d _end = *start + (*end-*start)*jizz[i+2];
 			bool shitty_normal = (jizz[i] == jizz[i+2]);

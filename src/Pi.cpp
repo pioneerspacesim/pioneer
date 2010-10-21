@@ -834,6 +834,10 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 
 	while (isGameStarted) {
+		if (frame_stat == 0) {
+			// called not more than once per second
+			PiLuaModules::UpdateOncePerRealtimeSecond();
+		}
 		frame_stat++;
 
 		Render::PrepareFrame();

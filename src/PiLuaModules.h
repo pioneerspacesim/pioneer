@@ -11,6 +11,7 @@ namespace PiLuaModules {
 	void QueueEvent(const char *eventName, Object *o1);
 	void QueueEvent(const char *eventName, Object *o1, Object *o2);
 	void EmitEvents();
+	void UpdateOncePerRealtimeSecond();
 	lua_State *GetLuaState();
 
 	void Init();
