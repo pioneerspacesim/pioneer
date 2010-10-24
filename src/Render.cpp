@@ -26,11 +26,12 @@ SHADER_CLASS_END()
 SHADER_CLASS_BEGIN(PostprocessDownsampleShader)
 	SHADER_UNIFORM_SAMPLER(fboTex)
 	SHADER_UNIFORM_FLOAT(avgLum)
+	SHADER_UNIFORM_FLOAT(middleGrey)
 SHADER_CLASS_END()
 
-PostprocessDownsampleShader *postprocessBloomDownsample;
-PostprocessShader *postprocessBloomVBlur, *postprocessBloomHBlur, *postprocessLuminance;
-PostprocessComposeShader *postprocessBloomCompose;
+PostprocessDownsampleShader *postprocessBloom1Downsample;
+PostprocessShader *postprocessBloom2Downsample, *postprocessBloom3VBlur, *postprocessBloom4HBlur, *postprocessLuminance;
+PostprocessComposeShader *postprocessCompose;
 
 SHADER_CLASS_BEGIN(BillboardShader)
 	SHADER_UNIFORM_SAMPLER(some_texture)
@@ -184,10 +185,11 @@ static struct postprocessBuffers_t {
 			return;
 		}
 
-		postprocessBloomDownsample = new PostprocessDownsampleShader("postprocessDownsample");
-		postprocessBloomVBlur = new PostprocessShader("postprocessVBlur");
-		postprocessBloomHBlur = new PostprocessShader("postprocessHBlur");
-		postprocessBloomCompose = new PostprocessComposeShader("postprocessCompose");
+		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample");
+		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample");
+		postprocessBloom3VBlur = new PostprocessShader("postprocessBloom3VBlur");
+		postprocessBloom4HBlur = new PostprocessShader("postprocessBloom4HBlur");
+		postprocessCompose = new PostprocessComposeShader("postprocessCompose");
 		postprocessLuminance = new PostprocessShader("postprocessLuminance");
 
 		glError();
@@ -240,15 +242,18 @@ static struct postprocessBuffers_t {
 		//printf("%f -> ", avgLum[0]);
 		avgLum[0] = MAX(exp(avgLum[0]), 0.03f);
 		//printf("%f\n", avgLum[0]);
+		// see reinhard algo
+		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
 		
 		glDisable(GL_TEXTURE_2D);
 		glViewport(0,0,width>>1,height>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
-		State::UseProgram(postprocessBloomDownsample);
-		postprocessBloomDownsample->set_avgLum(avgLum[0]);
-		postprocessBloomDownsample->set_fboTex(0);
+		State::UseProgram(postprocessBloom1Downsample);
+		postprocessBloom1Downsample->set_avgLum(avgLum[0]);
+		postprocessBloom1Downsample->set_middleGrey(midGrey);
+		postprocessBloom1Downsample->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
@@ -257,6 +262,7 @@ static struct postprocessBuffers_t {
 		glEnd();
 
 		glViewport(0,0,width>>2,height>>2);
+		State::UseProgram(postprocessBloom2Downsample);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
@@ -270,8 +276,8 @@ static struct postprocessBuffers_t {
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
-		State::UseProgram(postprocessBloomVBlur);
-		postprocessBloomVBlur->set_fboTex(0);
+		State::UseProgram(postprocessBloom3VBlur);
+		postprocessBloom3VBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
@@ -281,8 +287,8 @@ static struct postprocessBuffers_t {
 
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
-		State::UseProgram(postprocessBloomHBlur);
-		postprocessBloomHBlur->set_fboTex(0);
+		State::UseProgram(postprocessBloom4HBlur);
+		postprocessBloom4HBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
 			glTexCoord2f(0.0, 0.0);
 			glVertex2f(0.0, 0.0);
@@ -301,16 +307,12 @@ static struct postprocessBuffers_t {
 		glActiveTexture(GL_TEXTURE1);
 		glEnable(GL_TEXTURE_RECTANGLE);
 		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
-		State::UseProgram(postprocessBloomCompose);
-		postprocessBloomCompose->set_fboTex(0);
-		postprocessBloomCompose->set_bloomTex(1);
-		postprocessBloomCompose->set_avgLum(avgLum[0]);
-		// see reinhard algo
-		static float midGrey = 0.1f;
-		midGrey += 1.0f;
-		if (midGrey > 100.0f) midGrey = 0.0f;
+		State::UseProgram(postprocessCompose);
+		postprocessCompose->set_fboTex(0);
+		postprocessCompose->set_bloomTex(1);
+		postprocessCompose->set_avgLum(avgLum[0]);
 		//printf("Mid grey %f\n", midGrey);
-		postprocessBloomCompose->set_middleGrey(1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f)));
+		postprocessCompose->set_middleGrey(midGrey);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);

@@ -7,7 +7,7 @@ uniform float middleGrey;
 void main(void)
 {
 	vec3 col = vec3(texture2DRect(fboTex, vec2(gl_FragCoord.x, gl_FragCoord.y)));
-	col += 0.25 * texture2DRect(bloomTex, vec2(gl_FragCoord.x*0.25, gl_FragCoord.y*0.25));
+	col += 0.1 * texture2DRect(bloomTex, vec2(gl_FragCoord.x*0.25, gl_FragCoord.y*0.25));
 
 	// This is the reinhard tonemapping algorithm, i think...
 	float X,Y,Z,x,y;
