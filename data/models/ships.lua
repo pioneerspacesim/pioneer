@@ -165,10 +165,11 @@ define_model('mainwheelunit', {
 
 define_model('ladybird', {
 	info = {
+	        scale = .5,
 			lod_pixels = {50,100,200,0},
-			bounding_radius = 35,
+			bounding_radius = 26, --35
 			materials={'white','engines','matvar0', 'matvar2',
-			'engine_inside'},
+			'engine_inside','text'},
 			tags = {'ship'},
 			ship_defs = {
 				{
@@ -181,8 +182,183 @@ define_model('ladybird', {
 					},
 					{ 60, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					60, 60, 8700000,
-					2
-				}, {
+					2	
+				}
+			},
+		},
+	static = function(lod)
+
+		local v06 = v(-4.0, -5.0, -20.0);
+
+		local v07 = v(4.0, -5.0, -20.0);
+		local v08 = v(-6.0, 4.0, -10.0);
+
+		local v09 = v(6.0, 4.0, -10.0);
+        local v10 = v(-14.0, -5.0, -10.0);
+
+		local v11 = v(-10.0, 5.0, 10.0);
+
+		local v29 = v(10.0, 5.0, 10.0);
+		local v30 = v(14.0, -5.0, -10.0);
+		local v31 = v(-10.0, -5.0, 10.0);
+		local v32 = v(10.0, -5.0, 10.0);
+
+		local v33 = v(-12.0, 0.0, 10.0);
+		local v34 = v(-12.0, 0.0, 13.0);
+
+		--// thruster jets
+		
+		local v38 = v(-12.0, 0.0, 13.0);
+		local v39 = v(-15.0, -3.0, -9.0);
+		local v40 = v(-30.0, -4.0, 9.0);
+		local v41 = v(-29.0, -5.5, 9.0);
+		local v42 = v(-29.0, -4.0, 9.0);
+		local v43 = v(-10.0, 0.0, -11.0);
+		xref_thruster(v38, v(0,0,1), 50, true)
+		xref_thruster(v43, v(0,0,-1), 25)
+		
+		set_material('white',.5,.5,.5,1,1,1,1,100)
+		use_material('matvar0')
+		-- matvar(0)
+		if lod<2 then
+			texture('ships/default_ship_textures/lbfront_s.png', v(.5,.445,0), v(.085,0,0), v(0,.111,0))
+		else
+		    texture('ships/default_ship_textures/lbfront_l.png', v(.5,.445,0), v(.085,0,0), v(0,.111,0))
+		end
+		quad(v06,v08,v09,v07)
+		if lod<2 then
+			texture('ships/default_ship_textures/lbtop_s.png', v(.5,.5,0), v(.05,0,0), v(0,0,1))
+		else
+		    texture('ships/default_ship_textures/lbtop_l.png', v(.5,.5,0), v(.05,0,0), v(0,0,1))
+		end
+		quad(v09,v08,v11,v29)
+		if lod <2 then
+			texture('ships/default_ship_textures/lbside_s.png', v(1,.5,0), v(0,0,1), v(0,.1,0))
+		else
+		    texture('ships/default_ship_textures/lbside_l.png', v(1,.5,0), v(0,0,1), v(0,.1,0))
+		end
+		xref_tri(v08,v06,v10)
+		local divs = lod*2
+		local wingtip_rear = v(30,-5,10)
+		local cpoint_rear = v(20,4,10)
+		local leadingedge_mid = v(24,-5,-3)
+		local tmp = v(5,0,5)
+		local cpoint_leadingedge1 = leadingedge_mid - tmp
+		local cpoint_leadingedge2 = leadingedge_mid + tmp
+		-- body flat side piece
+		if lod <2 then
+			texture('ships/default_ship_textures/lbside_s.png', v(.5,.5,0), v(0,0,.5), v(0,.1,0))
+		else
+			texture('ships/default_ship_textures/lbside_l.png', v(.5,.5,0), v(0,0,.5), v(0,.1,0))
+		end
+		local normal = ((v29-v09):cross(v30-v09)):norm()
+		local cpoint_bodycurve = 0.5*(v29+v30) + 3.0*(v29-v30):cross(normal):norm()
+		xref_flat(divs, normal,
+			{ v09 },
+			{ v29 },
+			{ cpoint_bodycurve, v30 }
+			)
+		-- top wing bulge
+		if lod<2 then
+            texture('ships/default_ship_textures/lbwing_s.png', v(.5,.5,0), v(.8,0,0), v(0,0,.8))		
+		else
+			texture('ships/default_ship_textures/lbwing_s.png', v(.5,.5,0), v(.8,0,0), v(0,0,.8))
+		end
+		xref_quadric_bezier_quad(divs,divs,
+			wingtip_rear, cpoint_leadingedge2, leadingedge_mid,
+			cpoint_rear, v(17,5,0), cpoint_leadingedge1,
+			v29, cpoint_bodycurve, v30)
+
+		-- rear
+        if lod<2 then    
+            texture('ships/default_ship_textures/lbrear_s.png', v(.5,.5,0), v(.017,0,0), v(0,.017,0))
+		else
+			texture('ships/default_ship_textures/lbrear_l.png', v(.5,.5,0), v(.017,0,0), v(0,.017,0))
+		end
+		xref_flat(divs, v(0,0,1),
+			{ wingtip_rear },
+			{ cpoint_rear, v29 },
+			{ v32 }
+		)
+		quad(v29,v11,v31,v32) 
+		use_material('matvar2')
+		if lod<2 then
+            texture('ships/default_ship_textures/lbrear_s.png', v(.5,.4,0), v(.0165,0,0), v(0,0,1.2))
+		else
+	  		texture('ships/default_ship_textures/lbrear_l.png', v(.5,.4,0), v(.0165,0,0), v(0,0,1.2))
+		end
+		quad(v10,v06,v07,v30)
+		if lod<2 then
+            texture('ships/default_ship_textures/lbrear_s.png', v(.5,.8,0), v(.0165,0,0), v(0,0,1.2))
+		else
+			texture('ships/default_ship_textures/lbrear_l.png', v(.5,.8,0), v(.0165,0,0), v(0,0,1.2))
+		end
+		quad(v32,v31,v10,v30)
+		-- underside of wing
+		xref_tri(v30, wingtip_rear, v32)
+		-- wing leading edge underside
+        if lod<2 then
+            texture('ships/default_ship_textures/lbrear_s.png', v(.5,.31,0), v(.0165,0,0), v(0,0,.6))
+		else
+		    texture('ships/default_ship_textures/lbrear_l.png', v(.5,.31,0), v(.0165,0,0), v(0,0,.6))
+		end
+		xref_flat(divs, v(0,-1,0),
+			{ v30 },
+			{ cpoint_leadingedge1, leadingedge_mid },
+			{ cpoint_leadingedge2, wingtip_rear }
+		)
+        if lod<2 then
+            texture('ships/default_ship_textures/lbwing_s.png', v(.5,.5,0), v(.1,0,0), v(0,0,15))
+		else
+			texture('ships/default_ship_textures/lbwing_l.png', v(.5,.5,0), v(.1,0,0), v(0,0,15))	
+		end
+		zbias(1, v33, v(0,0,1))
+		set_material('engines',.3,.3,.3,1,.3,.3,.3,20)
+		use_material('engines')
+		xref_tube(4*lod, v33, v34, v(0,1,0), 2.5, 3.0)
+		use_material('engine_inside')
+		-- matanim!!
+		xref_circle(4*lod, v33, v(0,0,1), v(0,1,0), 2.5)
+		-- wheels my friend
+	end,
+	dynamic = function(lod)
+		set_material('matvar0', get_arg_material(0))
+		set_material('matvar2', get_arg_material(2))
+		set_material('engine_inside', lerp_materials(get_arg(2)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
+					{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
+        set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
+       if lod >0 then
+            use_material('text')
+            local label = get_arg_string(0)
+			zbias(1,v(8.9,3.6,.07),v(1.8,1,1))
+   			text(label,v(8.9,3.6,.07),v(1.8,1,1),v(-.25,0,-1),1.5, {center=true})
+            zbias(1,v(-8.9,3.6,.07),v(1.8,1,1))
+            text(label,v(-8.9,3.6,.07),v(-1.8,1,1),v(-.25,0,1),1.5, {center=true})
+            zbias(0)
+        end
+		if get_arg(0) ~= 0 then
+			local v35 = v(0.0, -5.0, -13.0);
+			local v36 = v(-15.0, -5.0, 3.0);
+			local v37 = v(15.0, -5.0, 3.0);
+
+			zbias(1, v35, v(0,-1,0))
+			call_model('nosewheelunit', v35, v(-1,0,0), v(0,-1,0), 1)
+			call_model('mainwheelunit', v36, v(-1,0,0), v(0,-1,0), 1)
+			call_model('mainwheelunit', v37, v(-1,0,0), v(0,-1,0), 1)
+			zbias(0)
+		end
+	end
+})
+
+define_model('taipan', {
+	info = {
+			lod_pixels = {50,100,200,0},
+			bounding_radius = 35,
+			materials={'white','engines','matvar0', 'matvar2',
+			'engine_inside'},
+			tags = {'ship'},
+			ship_defs = {
+				{
 					'Taipan', 
 					{ 4*10^6,-4*10^6,1*10^6,-1*10^6,-1*10^6,1*10^6 },
 					1*10^7,
@@ -297,7 +473,7 @@ define_model('ladybird', {
 			local v35 = v(0.0, -5.0, -13.0);
 			local v36 = v(-15.0, -5.0, 3.0);
 			local v37 = v(15.0, -5.0, 3.0);
-
+--------------------------
 			zbias(1, v35, v(0,-1,0))
 			call_model('nosewheelunit', v35, v(-1,0,0), v(0,-1,0), 1)
 			call_model('mainwheelunit', v36, v(-1,0,0), v(0,-1,0), 1)
@@ -306,7 +482,6 @@ define_model('ladybird', {
 		end
 	end
 })
-
 
 define_model('__walruswing', {
 	info = {
