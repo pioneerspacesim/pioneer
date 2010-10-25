@@ -87,8 +87,8 @@ define_model('tfrgear', {
 define_model('fi', {     
    	info = {
 			scale = 1.1,
-			lod_pixels={.1,20,40,200},
-			bounding_radius = 15,
+			lod_pixels={.1,40,80,0},
+			bounding_radius = 18,
 			materials={'steel', 'darksteel', 'medsteel', 'glow', 'rand1', 'rand2', 'glass', 'inside','text1', 'text2'},
 			tags = { 'ship' },
                  ship_defs = {
@@ -101,7 +101,7 @@ define_model('fi', {
                     { v(0,0,0), v(0,0,1) },
                     },
                     { 10, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                    10, 4, 8800, --8800000, high price for size because this is a very fast military ship, the thrust is distributed between the thrust pods, for hover there are 3 pods so powerful thrust for down thrust there is 1 pod so weaker thrust. Side thrust has 2 pods each so medium thrust.  Its comparable to an eagle but sacrifice carry weight for thrust.
+                    10, 4, 880, --8800000, high price for size because this is a very fast military ship, the thrust is distributed between the thrust pods, for hover there are 3 pods so powerful thrust for down thrust there is 1 pod so weaker thrust. Side thrust has 2 pods each so medium thrust.  Its comparable to an eagle but sacrifice carry weight for thrust.
                     8
                     }
                   }
@@ -111,9 +111,9 @@ define_model('fi', {
 
    	if lod > 1 then
 		set_material('steel', .7,.7,.7,1,.95,.98,1,60)
-		set_material('glass', .8,.8,.8,.9,1,1,1,400)
-		set_material('medsteel', .4,.4,.4,1,.65,.68,.72,30)
-		set_material('darksteel', .1,.1,.1,1,.65,.68,.72,90)
+		set_material('glass', .8,.8,.8,.9,1,1,1,100)
+		set_material('medsteel', .4,.4,.4,1,.65,.68,.72,60)
+		set_material('darksteel', .1,.1,.12,1,.65,.68,.72,60)
 		set_material('inside', .7,.7,.7,1,.95,.98,1,0)
 		set_material('text1', .1,.5,.4,1,.2,.6,.5,5)
 		set_material('text2', .5,.1,.1,1,.6,.2,.2,5)
@@ -270,15 +270,15 @@ define_model('fi', {
 			if get_arg(10) > 0 then
 			use_material('darksteel')
 			texture(nil)
-			load_obj('models/ships/extras/fighter_LtwinGun.obj')
-			load_obj('models/ships/extras/fighter_RtwinGun.obj')
+			load_obj('models/ships/talon/fighter_LGun.obj')
+			load_obj('models/ships/talon/fighter_RGun.obj')
 			end
 			
 			if get_arg(11) > 0 then
 			use_material('darksteel')
 			texture(nil)
-			load_obj('models/ships/extras/fighter_LtwinGun.obj')
-			load_obj('models/ships/extras/fighter_RtwinGun.obj')
+			load_obj('models/ships/talon/fighter_LGun.obj')
+			load_obj('models/ships/talon/fighter_RGun.obj')
 			end
 			
 			if get_arg(12) > 0 then
