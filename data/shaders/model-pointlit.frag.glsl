@@ -2,6 +2,27 @@ varying vec3 norm;
 uniform sampler2D tex;
 uniform bool usetex;
 
+#define APPLY_LIGHT(i) \
+	/* direction of maximum highlights */                         \
+	/* Compute vector from surface to light position */           \
+	VP = vec3(gl_LightSource[i].position) - ecPosition3;          \
+	/* Compute distance between surface and light position */     \
+	d = length(VP);                                               \
+	/* Normalize the vector from surface to light position */     \
+	VP = normalize(VP);                                           \
+	/* Compute attenuation */                                     \
+	attenuation = 1.0 / (gl_LightSource[i].constantAttenuation +  \
+		gl_LightSource[i].linearAttenuation * d +                 \
+		gl_LightSource[i].quadraticAttenuation * d * d);          \
+	halfVector = normalize(VP + eye);                             \
+	nDotVP = max(0.0, dot(normal, VP));                           \
+	nDotHV = max(0.0, dot(normal, halfVector));                   \
+	if (nDotVP == 0.0) pf = 0.0;                                  \
+	else pf = pow(nDotHV, gl_FrontMaterial.shininess);            \
+	amb += gl_LightSource[i].ambient * attenuation;               \
+	diff += gl_LightSource[i].diffuse * nDotVP * attenuation;     \
+	spec += gl_LightSource[i].specular * pf * attenuation;
+
 void main(void)
 {
 	vec3 eye = vec3(0.0, 0.0, 0.0);//gl_TexCoord[2]);
@@ -10,7 +31,9 @@ void main(void)
 	vec4 amb = vec4(0.0);
 	vec4 diff = vec4(0.0);
 	vec4 spec = vec4(0.0);
-	for (int i=4; i<4+NUM_LIGHTS; ++i) {
+
+	{ // unrolled loop to work around nvidia driver error
+
 		// this is bog standard point light source shading
 		float nDotVP;
 		// normal . light direction
@@ -25,27 +48,22 @@ void main(void)
 		vec3 VP;
 		// direction from surface to light position
 		vec3 halfVector;
-		// direction of maximum highlights
-		// Compute vector from surface to light position
-		VP = vec3(gl_LightSource[i].position) - ecPosition3;
-		// Compute distance between surface and light position
-		d = length(VP);
-		// Normalize the vector from surface to light position
-		VP = normalize(VP);
-		// Compute attenuation
-		attenuation = 1.0 / (gl_LightSource[i].constantAttenuation +
-			gl_LightSource[i].linearAttenuation * d +
-			gl_LightSource[i].quadraticAttenuation * d * d);
-		halfVector = normalize(VP + eye);
-		nDotVP = max(0.0, dot(normal, VP));
-		nDotHV = max(0.0, dot(normal, halfVector));
-		if (nDotVP == 0.0) pf = 0.0;
-		else pf = pow(nDotHV, gl_FrontMaterial.shininess);
-		amb += gl_LightSource[i].ambient * attenuation;
-		diff += gl_LightSource[i].diffuse * nDotVP * attenuation;
-		spec += gl_LightSource[i].specular * pf * attenuation;
+
+		#if (NUM_LIGHTS > 0)
+		APPLY_LIGHT(4)
+		#endif
+		#if (NUM_LIGHTS > 1)
+		APPLY_LIGHT(5)
+		#endif
+		#if (NUM_LIGHTS > 2)
+		APPLY_LIGHT(6)
+		#endif
+		#if (NUM_LIGHTS > 3)
+		APPLY_LIGHT(7)
+		#endif
 	}
-	gl_FragColor = 
+
+	gl_FragColor =
 		gl_LightModel.ambient * gl_FrontMaterial.ambient +
 		amb * gl_FrontMaterial.ambient +
 		diff * gl_FrontMaterial.diffuse +
