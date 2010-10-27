@@ -30,17 +30,22 @@ class BezierCurve {
 		return out;
 	}
 	private:
-	inline double Factorial(int n)
+	inline double BinomialCoeff(int n, int k)
 	{
-		double r = 1.0;
-		for (int i=2; i<=n; i++) {
-			r *= (double)i;
+		// See Wikipedia page for algorithm
+		// http://en.wikipedia.org/wiki/Binomial_coefficient#Binomial_coefficient_in_programming_languages
+		// XXX note: if n is high enough (which is not very high at all), this will overflow
+		//           should assert for a small enough n (or use doubles if n could be large)
+
+		if (k > n-k)
+			k = n-k;
+		int c = 1;
+		for (int i = 0; i < k; ++i)
+		{
+			c *= (n - i);
+			c /= (i + 1.0);
 		}
-		return r;
-	}
-	inline double BinomialCoeff(int n, int m)
-	{
-		return Factorial(n)/(Factorial(m)*(Factorial(n-m)));
+		return double(c);
 	}
 };
 

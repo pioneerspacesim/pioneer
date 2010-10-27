@@ -12,7 +12,7 @@ void main(void)
 	vec2 p = 2.0*gl_FragCoord.xy;
 	vec3 c;
 	float lum;
-	const float minLumToBloom = max(32.0*avgLum, 1.0);
+	float minLumToBloom = max(32.0*avgLum, 1.0);
 	
 	c = vec3(texture2DRect(fboTex, vec2(p.x, p.y)));
 	lum = dot(getlum, c);

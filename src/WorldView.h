@@ -15,9 +15,10 @@ class WorldView: public View {
 public:
 	WorldView();
 	virtual ~WorldView();
+	virtual void ShowAll();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo() {}
+	virtual void OnSwitchTo();
 	static const float PICK_OBJECT_RECT_SIZE;
 	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
@@ -35,10 +36,12 @@ public:
 	void OnClickBlastoff();
 
 	sigc::signal<void> onChangeCamType;
-	
+
 	float m_externalViewRotX, m_externalViewRotY;
 	float m_externalViewDist;
+
 private:
+	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 	void DrawHUD(const Frame *cam_frame);
 	void DrawTargetSquares();
@@ -60,6 +63,7 @@ private:
 	Gui::Fixed *m_commsOptions;
 	Gui::Label *m_flightStatus, *m_hyperTargetLabel;
 	Gui::ImageButton *m_launchButton;
+	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
