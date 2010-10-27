@@ -5,6 +5,14 @@
 # Pass --release as the first argument to run the release build
 
 PROGRAM_NAME=$0
+
+# To keep autoconf users happy (like me!)
+if ! which cmake > /dev/null; then
+	make
+	EXEC_BIN=src/$PROGRAM_NAME
+	exec $EXEC_BIN $*
+fi
+
 if [ "$1" == "--release" ]; then
 	EXEC_BIN=bin/$PROGRAM_NAME
 	BUILD_DIR=build/release
