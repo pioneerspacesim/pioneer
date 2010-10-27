@@ -509,7 +509,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 
 static char *load_file(const char *filename)
 {
-	FILE *f = fopen(filename, "r");
+	FILE *f = fopen(filename, "rb");
 	if (!f) {
 		//printf("Could not open %s.\n", filename);
 		return 0;
