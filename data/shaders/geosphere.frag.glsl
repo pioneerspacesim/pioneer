@@ -40,6 +40,7 @@ void main(void)
 			atmosDiffuse += gl_LightSource[i].diffuse * max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))));
 		}
 	}
+	atmosDiffuse.a = 1.0;
 //	float sun = dot(normalize(eyepos),normalize(vec3(gl_LightSource[0].position)));
 	gl_FragColor = (fogFactor)*(diff)*gl_Color +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
