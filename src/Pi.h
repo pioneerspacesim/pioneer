@@ -39,9 +39,7 @@ enum MsgLevel {
 };
 
 class Frame;
-/*
- * Implementation is in main.cpp, just to confuse you.
- */
+
 class Pi {
 public:
 	static void Init();
@@ -77,7 +75,7 @@ public:
 	static bool IsGameStarted() { return isGameStarted; }
 	static float CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
-	
+
 	static sigc::signal<void, SDL_keysym*> onKeyPress;
 	static sigc::signal<void, SDL_keysym*> onKeyRelease;
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
@@ -120,9 +118,9 @@ public:
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
-	
+
 	static View *currentView;
-	
+
 	static double gameTime;
 	static StarSystem *selectedSystem;
 	static int timeAccelIdx;
