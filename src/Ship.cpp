@@ -78,6 +78,9 @@ void Ship::Save(Serializer::Writer &wr)
 				wr.Double((*i).startTime);
 				wr.Int32(Serializer::LookupFrame((*i).frame));
 				break;
+			case DO_JOURNEY:
+				(*i).journeyDest.Serialize(wr);
+				break;
 			case DO_NOTHING: wr.Int32(0); break;
 		}
 	}
@@ -121,20 +124,39 @@ void Ship::Load(Serializer::Reader &rd)
 	int num = rd.Int32();
 	while (num-- > 0) {
 		AICommand c = (AICommand)rd.Int32();
-		Body *target = (Body*)rd.Int32();
 		AIInstruction inst = AIInstruction(c);
-		inst.target = target;
-		int n = rd.Int32();
-		inst.path = BezierCurve(n);
-		for (int i=0; i<n; i++) {
-			inst.path.p[i] = rd.Vector3d();
-		}
-		inst.endTime = rd.Double();
-		inst.startTime = rd.Double();
-		if (rd.StreamVersion() < 19) {
-			inst.frame = 0;
-		} else {
-			inst.frame = Serializer::LookupFrame(rd.Int32());
+		switch (c) {
+		case DO_DOCK:
+		case DO_KILL:
+		case DO_KAMIKAZE:
+		case DO_FLY_TO:
+		case DO_LOW_ORBIT:
+		case DO_MEDIUM_ORBIT:
+		case DO_HIGH_ORBIT:
+		case DO_FOLLOW_PATH:
+			{
+				Body *target = (Body*)rd.Int32();
+				inst.target = target;
+				int n = rd.Int32();
+				inst.path = BezierCurve(n);
+				for (int i=0; i<n; i++) {
+					inst.path.p[i] = rd.Vector3d();
+				}
+				inst.endTime = rd.Double();
+				inst.startTime = rd.Double();
+				if (rd.StreamVersion() < 19) {
+					inst.frame = 0;
+				} else {
+					inst.frame = Serializer::LookupFrame(rd.Int32());
+				}
+			}
+			break;
+		case DO_JOURNEY:
+			SBodyPath::Unserialize(rd, &inst.journeyDest);
+			break;
+		case DO_NOTHING:
+			rd.Int32();
+			break;
 		}
 		m_todo.push_back(inst);
 	}
@@ -168,7 +190,9 @@ void Ship::PostLoadFixup()
 			case DO_FOLLOW_PATH:
 				(*i).target = Serializer::LookupBody((size_t)(*i).target);
 				break;
-			case DO_NOTHING: break;
+			case DO_NOTHING:
+			case DO_JOURNEY:
+				break;
 		}
 	}
 }

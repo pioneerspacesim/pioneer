@@ -157,6 +157,9 @@ void Ship::AITimeStep(const float timeStep)
 			case DO_FOLLOW_PATH:
 				done = AIFollowPath(inst, inst.frame, true);
 				break;
+			case DO_JOURNEY:
+				done = AICmdJourney(inst);
+				break;
 			case DO_NOTHING: done = true; break;
 		}
 	}
@@ -451,6 +454,54 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVeloc
 	//SetForce(force);
 }
 
+bool Ship::AICmdJourney(AIInstruction &inst)
+{
+	if (Pi::currentSystem->GetLocation() != (SysLoc)inst.journeyDest) {
+		// need to hyperspace there
+		int fuelRequired;
+		double duration;
+		bool can = CanHyperspaceTo(&inst.journeyDest, fuelRequired, duration);
+		if (can) {
+			switch (GetFlightState()) {
+			case FLYING:
+				TryHyperspaceTo(&inst.journeyDest);
+				break;
+			case DOCKING:
+				// just wait
+				break;
+			case LANDED:
+				if (GetDockedWith()) {
+					Undock();
+				} else {
+					Blastoff();
+				}
+				break;
+			}
+		} else {
+			printf("AICmdJourney() can't get to destination :-(\n");
+			Equip::Type fuelType = GetHyperdriveFuelType();
+
+			if (GetDockedWith()) {
+				printf("Fuel type %d\n", fuelType);
+				if (BuyFrom(GetDockedWith(), fuelType, false)) printf("Got a fuel\n");
+				else printf("Fuck..\n");
+			} else {
+				printf("AICmdJourney() failed\n");
+				return true;
+			}
+		}
+	} else {
+		// we are in the desired system. fly to the target and dock
+		// first remove the 'DO_JOURNEY' command
+		m_todo.pop_front();
+		// then specific instructions to get us there
+		Body *b = Space::FindBodyForSBodyPath(&inst.journeyDest);
+		AIPrependInstruction(DO_DOCK, b);
+		AIPrependInstruction(DO_FLY_TO, b);
+	}
+	return false;
+}
+
 bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 {
 	bool done = false;
@@ -674,6 +725,13 @@ void Ship::AIInstruct(enum AICommand cmd, void *arg)
 {
 	AIInstruction inst(cmd);
 	inst.target = (Body*)arg;
+	m_todo.push_back(inst);
+}
+
+void Ship::AIInstructJourney(const SBodyPath &path)
+{
+	AIInstruction inst(DO_JOURNEY);
+	inst.journeyDest = path;
 	m_todo.push_back(inst);
 }
 

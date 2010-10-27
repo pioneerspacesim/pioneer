@@ -115,9 +115,6 @@ void Player::StaticUpdate(const float timeStep)
 		case CONTROL_AUTOPILOT:
 			break;
 		}
-	} else {
-		m_flightControlState = CONTROL_MANUAL;
-		AIClearInstructions();
 	}
 	Ship::StaticUpdate(timeStep);
 		

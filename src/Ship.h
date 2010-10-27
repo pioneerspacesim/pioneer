@@ -87,8 +87,9 @@ public:
 	
 	EquipSet m_equipment;
 
-	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK, DO_FOLLOW_PATH };
+	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK, DO_FOLLOW_PATH, DO_JOURNEY };
 	void AIInstruct(enum AICommand, void *arg);
+	void AIInstructJourney(const SBodyPath &path);
 	void AIClearInstructions() { m_todo.clear(); }
 	virtual void PostLoadFixup();
 	/* MarketAgent stuff */
@@ -156,6 +157,7 @@ private:
 		double endTime;
 		double startTime;
 		Frame *frame;
+		SBodyPath journeyDest;
 
 		AIInstruction(AICommand c): cmd(c), path(0) {
 			target = 0;
@@ -169,6 +171,7 @@ private:
 	bool AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor, double &outDist);
 	AIInstruction &AIPrependInstruction(enum AICommand cmd, void *arg);
 	void AIBodyDeleted(const Body* const body);
+	bool AICmdJourney(AIInstruction &);
 	bool AICmdDock(AIInstruction &, SpaceStation *);
 	bool AICmdKill(const Ship *);
 	bool AICmdOrbit(AIInstruction &, double orbitHeight);
