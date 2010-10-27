@@ -42,12 +42,12 @@ WorldView::WorldView(): View()
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
-	Gui::MultiStateImageButton *wheels_button = new Gui::MultiStateImageButton();
-	wheels_button->SetShortcut(SDLK_F6, KMOD_NONE);
-	wheels_button->AddState(0, PIONEER_DATA_DIR "/icons/wheels_up.png", "Wheels are up");
-	wheels_button->AddState(1, PIONEER_DATA_DIR "/icons/wheels_down.png", "Wheels are down");
-	wheels_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
-	m_rightButtonBar->Add(wheels_button, 34, 2);
+	m_wheelsButton = new Gui::MultiStateImageButton();
+	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	m_wheelsButton->AddState(0, PIONEER_DATA_DIR "/icons/wheels_up.png", "Wheels are up");
+	m_wheelsButton->AddState(1, PIONEER_DATA_DIR "/icons/wheels_down.png", "Wheels are down");
+	m_wheelsButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
+	m_rightButtonBar->Add(m_wheelsButton, 34, 2);
 
 	Gui::MultiStateImageButton *labels_button = new Gui::MultiStateImageButton();
 	labels_button->SetShortcut(SDLK_F8, KMOD_NONE);
@@ -75,22 +75,22 @@ WorldView::WorldView(): View()
 	m_flightControlButton->AddState(Player::CONTROL_AUTOPILOT, PIONEER_DATA_DIR "/icons/autopilot.png", "Autopilot on");
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
-	
+
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 10, 0);
 
 	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
-	
+
 	m_onPlayerChangeHyperspaceTargetCon =
 		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
-	
+
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = (float)Pi::rng.NDouble(4);
 		col = CLAMP(col, 0.05f, 1.0f);
@@ -98,6 +98,8 @@ WorldView::WorldView(): View()
 		s_bgstar[i].g = col;
 		s_bgstar[i].b = col;
 		// this is proper random distribution on a sphere's surface
+		// XXX TODO
+		// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
 		const float theta = (float)Pi::rng.Double(0.0, 2.0*M_PI);
 		const float u = (float)
 			Pi::rng.Double(-1.0, 1.0);
@@ -230,7 +232,7 @@ void WorldView::DrawBgStars()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	
+
 	// draw the milkyway
 	{
 		// might be nice to shove this crap in a vbo.
@@ -271,7 +273,7 @@ void WorldView::DrawBgStars()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	
+
 	if (Render::AreShadersEnabled()) {
 		glError();
 		Render::State::UseProgram(m_bgStarShader);
@@ -317,7 +319,7 @@ void WorldView::DrawBgStars()
 
 			vector3d v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
 			v += pz*hyperspaceAnim*0.001;
-			
+
 			vtx[i*12+6] = v.x;
 			vtx[i*12+7] = v.y;
 			vtx[i*12+8] = v.z;
@@ -326,16 +328,16 @@ void WorldView::DrawBgStars()
 			vtx[i*12+10] = s_bgstar[i].g;
 			vtx[i*12+11] = s_bgstar[i].b;
 		}
-		
+
 		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
 		glColorPointer(3, GL_FLOAT, 6*sizeof(float), vtx+3);
 		glDrawArrays(GL_LINES, 0, 2*BG_STAR_MAX);
-		
+
 		delete vtx;
 	}
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
-	
+
 	if (Render::AreShadersEnabled()) {
 		Render::State::UseProgram(0);
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
@@ -372,7 +374,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		lightPos[1] = (float)lpos.y;
 		lightPos[2] = (float)lpos.z;
 		lightPos[3] = 0;
-		
+
 		const float *col = StarSystem::starRealColors[body->type];
 		float lightCol[4] = { col[0], col[1], col[2], 0 };
 		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
@@ -389,7 +391,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		glLightfv(light, GL_AMBIENT, ambCol);
 		glLightfv(light, GL_SPECULAR, lightCol);
 		glEnable(light);
-		
+
 		lightNum++;
 	}
 
@@ -404,7 +406,7 @@ WorldView::CamType WorldView::GetCamType() const
 		/* Don't allow external view while doing docking animation or
 		 * when docked with an orbital starport */
 		if (//(Pi::player->GetFlightState() == Ship::DOCKING) ||
-			(Pi::player->GetDockedWith() && 
+			(Pi::player->GetDockedWith() &&
 			 !Pi::player->GetDockedWith()->IsGroundStation())) {
 			return CAM_FRONT;
 		} else {
@@ -454,7 +456,7 @@ void WorldView::Draw3D()
 		camRot = prot * camRot;
 	}
 	cam_frame.SetOrientation(camRot);
-	
+
 	matrix4x4d trans2bg;
 	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
 	trans2bg.ClearToRotOnly();
@@ -483,16 +485,58 @@ void WorldView::Draw3D()
 	glDisable(GL_LIGHT3);
 }
 
+void WorldView::ShowAll()
+{
+	View::ShowAll(); // by default, just delegate back to View
+	RefreshButtonStateAndVisibility();
+}
+
+void WorldView::RefreshButtonStateAndVisibility()
+{
+	if (Pi::player->IsDead()) {
+		HideAll();
+	}
+	else {
+		m_wheelsButton->SetActiveState((int)Pi::player->GetWheelState());
+
+		if (!Pi::player->GetDockedWith()) {
+			m_hyperspaceButton->Show();
+		} else {
+			m_hyperspaceButton->Hide();
+		}
+
+		if (Pi::player->GetFlightState() == Ship::LANDED) {
+			m_flightStatus->SetText("Landed");
+			m_launchButton->Show();
+			m_flightControlButton->Hide();
+		} else {
+			Player::FlightControlState fstate = Pi::player->GetFlightControlState();
+			switch (fstate) {
+				case Player::CONTROL_MANUAL:
+					m_flightStatus->SetText("Manual Control"); break;
+				case Player::CONTROL_FIXSPEED:
+					m_flightStatus->SetText("Speed Control"); break;
+				case Player::CONTROL_AUTOPILOT:
+					m_flightStatus->SetText("Autopilot"); break;
+			}
+			m_launchButton->Hide();
+			m_flightControlButton->Show();
+		}
+	}
+}
+
 void WorldView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
+
+	// show state-appropriate buttons
+	RefreshButtonStateAndVisibility();
 
 	if (Pi::player->IsDead()) {
 		m_camType = CAM_EXTERNAL;
 		m_externalViewRotX += 60*frameTime;
 		m_externalViewDist = 200;
 		m_labelsOn = false;
-		HideAll();
 		return;
 	}
 	if (GetCamType() == CAM_EXTERNAL) {
@@ -513,7 +557,7 @@ void WorldView::Update()
 				Gui::Screen::GetHeight()/2);
 		SelectBody(target, false);
 	}
-		
+
 	if (m_showTargetActionsTimeout) {
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
 			m_showTargetActionsTimeout = 0;
@@ -523,30 +567,11 @@ void WorldView::Update()
 	} else {
 		m_commsOptions->Hide();
 	}
+}
 
-	if (!Pi::player->GetDockedWith()) {
-		m_hyperspaceButton->Show();
-	} else {
-		m_hyperspaceButton->Hide();
-	}
-
-	if (Pi::player->GetFlightState() == Ship::LANDED) {
-		m_flightStatus->SetText("Landed");
-		m_launchButton->Show();
-		m_flightControlButton->Hide();
-	} else {
-		Player::FlightControlState fstate = Pi::player->GetFlightControlState();
-		switch (fstate) {
-			case Player::CONTROL_MANUAL:
-				m_flightStatus->SetText("Manual Control"); break;
-			case Player::CONTROL_FIXSPEED:
-				m_flightStatus->SetText("Speed Control"); break;
-			case Player::CONTROL_AUTOPILOT:
-				m_flightStatus->SetText("Autopilot"); break;
-		}
-		m_launchButton->Hide();
-		m_flightControlButton->Show();
-	}
+void WorldView::OnSwitchTo()
+{
+	RefreshButtonStateAndVisibility();
 }
 
 void WorldView::ToggleTargetActions()
@@ -605,7 +630,7 @@ static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
 	Pi::player->SetHyperspaceTarget(&path);
 }
 #endif /* 0 */
-	
+
 void WorldView::OnChangeHyperspaceTarget()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
@@ -615,7 +640,7 @@ void WorldView::OnChangeHyperspaceTarget()
 	std::string msg = "To: "+b->name;
 	m_hyperTargetLabel->SetText(msg);
 	delete system;
-		
+
 	int fuelReqd;
 	double dur;
 	if (Pi::player->CanHyperspaceTo(path, fuelReqd, dur)) m_hyperspaceButton->Show();
@@ -637,9 +662,9 @@ static void player_target_hypercloud(HyperspaceCloud *cloud)
 void WorldView::UpdateCommsOptions()
 {
 	m_commsOptions->DeleteAllChildren();
-	
+
 	if (m_showTargetActionsTimeout == 0) return;
-	
+
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();
 	Gui::Button *button;
@@ -655,7 +680,7 @@ void WorldView::UpdateCommsOptions()
 			button = AddCommsOption("Request docking clearance", ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
 			ypos += 32;
-		
+
 			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
 				button = AddCommsOption("Autopilot: Dock with space station", ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(&player_do_autopilot), navtarget, Ship::DO_DOCK));
@@ -680,11 +705,11 @@ void WorldView::UpdateCommsOptions()
 				button = AddCommsOption("Autopilot: Enter low orbit around " + navtarget->GetLabel(), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_LOW_ORBIT));
 				ypos += 32;
-				
+
 				button = AddCommsOption("Autopilot: Enter medium orbit around " + navtarget->GetLabel(), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_MEDIUM_ORBIT));
 				ypos += 32;
-				
+
 				button = AddCommsOption("Autopilot: Enter high orbit around " + navtarget->GetLabel(), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_HIGH_ORBIT));
 				ypos += 32;
@@ -768,7 +793,7 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 			if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2) {
 				selected = b;
 				break;
-			}			
+			}
 		}
 	}
 
@@ -832,7 +857,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 	}
-	
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
@@ -885,9 +910,9 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
-	
+
 	glDisableClientState(GL_VERTEX_ARRAY);
-	
+
 
 	// Object labels
 	{
@@ -947,7 +972,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
 	}
-	
+
 	if (Pi::player->GetFlightControlState() == Player::CONTROL_FIXSPEED) {
 		char buf[128];
 		if (Pi::player->GetSetSpeed() > 1000) {
@@ -1016,7 +1041,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	float hull = Pi::player->GetPercentHull();
 	if (hull < 100.0f) {
 		Color c;
-		if (hull < 50.0f) 
+		if (hull < 50.0f)
 			c = Color(1,0,0,HUD_ALPHA);
 		else if (hull < 75.0f)
 			c = Color(1,0.5,0,HUD_ALPHA);
@@ -1033,7 +1058,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	float shields = Pi::player->GetPercentShields();
 	if (shields < 100.0f) {
 		Color c;
-		if (shields < 50.0f) 
+		if (shields < 50.0f)
 			c = Color(1,0,0,HUD_ALPHA);
 		else if (shields < 75.0f)
 			c = Color(1,0.5,0,HUD_ALPHA);
@@ -1128,12 +1153,12 @@ void WorldView::DrawTargetSquare(const Body* const target)
 
 void WorldView::MouseButtonDown(int button, int x, int y)
 {
-	if (GetCamType() == CAM_EXTERNAL) 
+	if (GetCamType() == CAM_EXTERNAL)
 	{
 		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 				m_externalViewDist += 400*ft;
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 				m_externalViewDist -= 400*ft;
 	}
 }
