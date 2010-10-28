@@ -54,11 +54,15 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	// TYPE_PLANET_CO2_THICK_ATMOS,
 	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
 	// TYPE_PLANET_METHANE_THICK_ATMOS,
-	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
+	{ { TERRAIN_RUGGED_METHANE }, { COLOR_METHANE } },
 	// TYPE_PLANET_HIGHLY_VOLCANIC,
-	{ { TERRAIN_RUGGED }, { COLOR_ROCK } },
+	{ { TERRAIN_RUGGED_LAVA }, { COLOR_VOLCANIC } },
 	// TYPE_PLANET_INDIGENOUS_LIFE,
 	{ { TERRAIN_RUGGED_H2O }, { COLOR_EARTHLIKE } },
+	// TYPE_PLANET_TERRAFORMED_POOR,
+	{ { TERRAIN_RUGGED_H2O }, { COLOR_TFPOOR } },
+	// TYPE_PLANET_TERRAFORMED_GOOD,
+	{ { TERRAIN_RUGGED_H2O }, { COLOR_TFGOOD } },
 	// TYPE_STARPORT_ORBITAL
 	{},
 	// TYPE_STARPORT_SURFACE
@@ -311,10 +315,11 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	// make special arguments
 	if ((t == TERRAIN_RUGGED) ||
 	    (t == TERRAIN_RUGGED_CRATERED) ||
+		(t == TERRAIN_RUGGED_METHANE) ||
 	    (t == TERRAIN_RUGGED_H2O)) {
 		double totalAmp = 1.0;
 		targ.mountains.amplitude = rand.Double(totalAmp);
-		targ.mountains.frequency = 32.0 + 32.0*rand.Double();
+		targ.mountains.frequency = 2.0 + 32.0*rand.Double();
 		targ.mountains.lacunarity = rand.Double(1.8,2.2);
 		totalAmp -= targ.mountains.amplitude;
 
@@ -332,8 +337,38 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 		targ.hillDistrib.lacunarity = rand.Double(1.8, 2.2);
 
 		targ.mountainDistrib.amplitude = 1.0;
-		targ.mountainDistrib.frequency = pow(2.0, rand.Double(3.0));
+		targ.mountainDistrib.frequency = pow(2.0, rand.Double(2.0));
 		targ.mountainDistrib.lacunarity = rand.Double(1.8, 2.2);
+	}
+	if  (t == TERRAIN_RUGGED_LAVA) {
+		double totalAmp = 1.0;
+		targ.mountains.amplitude = rand.Double(totalAmp);
+		targ.mountains.frequency = 32.0 + 32.0*rand.Double();
+		targ.mountains.lacunarity = rand.Double(1.8,2.2);
+		totalAmp -= targ.mountains.amplitude;
+
+		targ.continents.amplitude = rand.Double(totalAmp);
+		targ.continents.frequency = 1.0 + rand.Double();
+		targ.continents.lacunarity = rand.Double(1.8,2.2);
+		totalAmp -= targ.continents.amplitude;
+
+		targ.hills.amplitude = totalAmp;
+		targ.hills.frequency = 64.0 + 64.0*rand.Double();
+		targ.hills.lacunarity = rand.Double(1.8,2.2);
+
+		targ.hillDistrib.amplitude = 1.0;
+		targ.hillDistrib.frequency = pow(3.0, rand.Double(6.0));
+		targ.hillDistrib.lacunarity = rand.Double(1.8, 2.2);
+
+		targ.mountainDistrib.amplitude = 0.01;
+		targ.mountainDistrib.frequency = pow(0.0001, rand.Double(0.0004));
+		targ.mountainDistrib.lacunarity = rand.Double(1.8, 2.2);
+	}
+	if (t == TERRAIN_RUGGED_LAVA) {
+		targ.sealevel = rand.Double(0,0.3);
+	}
+	if (t == TERRAIN_RUGGED_METHANE) {
+		targ.sealevel = rand.Double(0,0.3);
 	}
 	if (t == TERRAIN_RUGGED_H2O) {
 		targ.sealevel = rand.Double();
@@ -373,10 +408,53 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
 			double mountains = targ.mountains.amplitude * fractal(10, targ.mountains, (m_seed>>2)&3, p);
-			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
+			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
 			return m_maxHeight * (continents + hills + mountains);
+		}
+		case TERRAIN_RUGGED_METHANE:
+		// same as above but no craters because of atmosphere
+		{
+			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
+			double mountains = targ.mountains.amplitude * fractal(10, targ.mountains, (m_seed>>2)&3, p);
+			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
+				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
+
+			double n = continents - targ.continents.amplitude*targ.sealevel;
+			if (n > 0.0) {
+				// smooth in hills at shore edges
+				if (n < 0.01) n += hills * n * 100.0f;
+				else n += hills;
+
+				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains;
+				if (n < 0.01) n += mountains * n * 100.0f;
+				else n += mountains;
+			}
+			n = (n<0.0 ? 0.0 : m_maxHeight*n);
+			return n;
+		}
+		case TERRAIN_RUGGED_LAVA:
+		{
+			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
+			double mountains = fractal(13, targ.mountains, (m_seed>>2)&3, p);
+			double hills = fractal(14, targ.hillDistrib, (m_seed>>4)&3, p) *
+				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
+
+			double n = continents - targ.continents.amplitude*targ.sealevel;
+			if (n > 0.0) {
+				// smooth in hills at shore edges
+				if (n < 0.01) n += hills * n * 100.0f + crater_function(p);
+				else n += hills + crater_function(p);
+
+				mountains = fractal(1, targ.mountainDistrib, (m_seed>>2)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains;
+				if (n < 0.01) n += mountains * n * 100.0f;
+				else n += mountains;
+			}
+			n = (n<0.0 ? 0.0 : m_maxHeight*n);
+			return n;
 		}
 		case TERRAIN_RUGGED_H2O:
 		{
@@ -391,7 +469,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				if (n < 0.01) n += hills * n * 100.0f;
 				else n += hills;
 
-				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
+				mountains = fractal(1, targ.mountainDistrib, (m_seed>>8)&3, p) *
 					targ.mountains.amplitude * mountains*mountains*mountains;
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
@@ -464,6 +542,79 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	case COLOR_ROCK:
 		return m_rockColor[0];
 		//return vector3d(m_invMaxHeight*height, m_invMaxHeight*height,1);
+	case COLOR_VOLCANIC:
+	{
+		double n = m_invMaxHeight*height;
+		// water
+		if (n <= 0) return vector3d(.75,.6,0);
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = vector3d(.05, .02, .0);
+		
+		double equatorial_desert = (-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low orange
+		col = interpolate_color(equatorial_desert, vector3d(.5,.4,0), vector3d(.2, .1, .0));
+		// height: low yellowbrown, high darkred
+		col = interpolate_color(n, col, vector3d(.1, .0, .0));
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+	}
+	case COLOR_METHANE: {
+		double n = m_invMaxHeight*height;
+		if (n <= 0) return vector3d(.3,.0,.0);
+		else return interpolate_color(n, vector3d(.3,.2,.0), vector3d(.6,.3,.0));
+	}
+	case COLOR_TFGOOD:
+	{
+		double n = m_invMaxHeight*height;
+		// water
+		if (n <= 0) return vector3d(0,0.1,0.4);
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = m_rockColor[1];
+		// ice on mountains and poles
+		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
+			return interpolate_color(flatness, color_cliffs, vector3d(0.9,0.9,0.9));
+		}
+
+		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low orange
+		col = interpolate_color(equatorial_desert, vector3d(.2,.4,0), vector3d(.76, .55, .2));
+		// height: low green, high grey
+		col = interpolate_color(n, col, m_rockColor[0]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+	}
+	case COLOR_TFPOOR:
+	{
+		double n = m_invMaxHeight*height;
+		// water
+		if (n <= 0) return vector3d(0.1,0.2,0.4);
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = m_rockColor[1];
+		// ice on mountains and poles
+		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
+			return interpolate_color(flatness, color_cliffs, vector3d(0.6,0.6,0.6));
+		}
+
+		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low orange
+		col = interpolate_color(equatorial_desert, vector3d(.3,.2,0), vector3d(.56, .35, .1));
+		// height: low green, high grey
+		col = interpolate_color(n, col, m_rockColor[0]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+	}
 	case COLOR_BANDED_ROCK: {
 		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
 		double n = fabs(noise(vector3d(height*10000.0,0.0,0.0)));

@@ -118,6 +118,8 @@ void AmbientSounds::Update()
 					}
 					break;
 				case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
+				case SBody::TYPE_PLANET_TERRAFORMED_POOR:
+				case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
 					{
 						const char *s[] = {
 							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",

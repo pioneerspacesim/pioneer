@@ -180,6 +180,14 @@ static const struct SBodySubTypeInfo {
 		{}, 100, "World with indigenous life and an oxygen atmosphere",
 		"icons/object_planet_life.png"
 	}, {
+		SBody::SUPERTYPE_ROCKY_PLANET,
+		{}, 60, "Un-sustainable Terraformed World with minimal plant life",
+		"icons/object_planet_life3.png"
+	}, {
+		SBody::SUPERTYPE_ROCKY_PLANET,
+		{}, 90, "Fully terraformed world with introduced species from numerous succesful colonies",
+		"icons/object_planet_life2.png"
+	}, {
 		SBody::SUPERTYPE_STARPORT,
 		{}, 0, "Orbital starport",
 		"icons/object_orbital_starport.png"
@@ -1088,11 +1096,23 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 				if ((star->type != TYPE_BROWN_DWARF) &&
 				    (star->type != TYPE_WHITE_DWARF) &&
 				    (star->type != TYPE_STAR_O) &&
-				    (minTemp > CELSIUS-10) && (minTemp < CELSIUS+70) &&
-				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+70)) {
+				    (minTemp > CELSIUS-10) && (minTemp < CELSIUS+60) &&
+				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+60)) {
 					type = SBody::TYPE_PLANET_INDIGENOUS_LIFE;
 					humanActivity *= 2;
-				} else {
+				} else if 
+						 ((minTemp > CELSIUS-15) && (minTemp < CELSIUS+75) &&
+						 (maxTemp > CELSIUS-15) && (maxTemp < CELSIUS+75)) {
+						 type = SBody::TYPE_PLANET_TERRAFORMED_GOOD;
+						 humanActivity *= 2;
+						 }
+				else if
+						 ((minTemp > CELSIUS-20) && (minTemp < CELSIUS+80) &&
+						 (maxTemp > CELSIUS-20) && (maxTemp < CELSIUS+80)) {
+						 type = SBody::TYPE_PLANET_TERRAFORMED_POOR;
+						 humanActivity *= 1;
+						 }
+				else {
 					type = SBody::TYPE_PLANET_WATER;
 				}
 			} else {
@@ -1235,7 +1255,9 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		 (type != SBody::TYPE_PLANET_WATER) &&
 		 (type != SBody::TYPE_PLANET_CO2) &&
 		 (type != SBody::TYPE_PLANET_METHANE) &&
-		 (type != SBody::TYPE_PLANET_INDIGENOUS_LIFE)
+		 (type != SBody::TYPE_PLANET_INDIGENOUS_LIFE) &&
+		 (type != SBody::TYPE_PLANET_TERRAFORMED_POOR) &&
+		 (type != SBody::TYPE_PLANET_TERRAFORMED_GOOD)
 		)
 	   )
 	{
@@ -1244,9 +1266,13 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 	m_agricultural = fixed(0);
 
-	if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) {
+	if ((type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) ||
+		(type == SBody::TYPE_PLANET_TERRAFORMED_GOOD)) {
 		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
 		system->m_agricultural += 2*m_agricultural;
+	} else if (type == SBody::TYPE_PLANET_TERRAFORMED_POOR) {
+		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+30-averageTemp, 50), fixed(0), fixed(1,1));
+		system->m_agricultural += 1*m_agricultural;
 	} else {
 		// don't bother populating crap planets
 		if (m_metallicity < fixed(5,10)) return;
@@ -1309,7 +1335,9 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		    (t == Equip::GRAIN) ||
 		    (t == Equip::FRUIT_AND_VEG) ||
 		    (t == Equip::ANIMAL_MEAT)) {
-			if (type == SBody::TYPE_PLANET_INDIGENOUS_LIFE)
+			if ((type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) ||
+			   (type == SBody::TYPE_PLANET_TERRAFORMED_GOOD)||
+			   (type == SBody::TYPE_PLANET_TERRAFORMED_POOR))
 				continue;
 		}
 		system->m_tradeLevel[t] += rand.Int32(32,128);

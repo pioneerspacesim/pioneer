@@ -36,7 +36,8 @@ static const Sint64 crimeBaseFine[64] = {
 const char *s_blocDesc[BLOC_MAX] = {
 	"Independent",
 	"Earth Federation",
-	"Confederation of Independent Systems"
+	"Confederation of Independent Systems",
+	"The Empire"
 };
 const char *s_econDesc[ECON_MAX] = {
 	"No established order",
@@ -59,6 +60,7 @@ const politDesc_t s_govDesc[GOV_MAX] = {
 	{ "No central governance", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
 	{ "Earth Federation Colonial Rule", 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
 	{ "Earth Federation Democracy", 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
+	{ "Empirical Rule", 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
 	{ "Liberal democracy", 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
 	{ "Social democracy", 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
 	{ "Liberal democracy", 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
@@ -67,6 +69,7 @@ const politDesc_t s_govDesc[GOV_MAX] = {
 	{ "Military dictatorship", 1, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
 	{ "Military dictatorship", 1, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
 	{ "Military dictatorship", 1, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ "Military dictatorship", 1, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
 	{ "Communist", 1, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
 	{ "Plutocratic dictatorship", 1, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
 	{ "Disorder - Overall governance contested by armed factions", 0, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },

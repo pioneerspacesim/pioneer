@@ -1162,7 +1162,7 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			*outDensity = 5.0f;
 			break;
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-			*outColor = Color(.2f, .6f, .3f, 1.0f);
+			*outColor = Color(0.6f, 0.4f, 0.1f, 1.0f);
 			*outDensity = 4.0f;
 			break;
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
@@ -1171,6 +1171,14 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			break;
 		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
 			*outColor = Color(.5f, .5f, 1.0f, 1.0f);
+			*outDensity = 1.2;
+			break;
+		case SBody::TYPE_PLANET_TERRAFORMED_POOR:
+			*outColor = Color(.7f, .4f, 0.9f, 1.0f);
+			*outDensity = 1.0;
+			break;
+		case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
+			*outColor = Color(.5f, .45f, 0.95f, 1.0f);
 			*outDensity = 1.2;
 			break;
 		default:

@@ -6,7 +6,7 @@
 const CustomSBody sol_system[] = {
 	{ "Sol", SBody::TYPE_STAR_G,
 	  -1, fixed(1,1), fixed(1,1), 5700 },
-	{ "Mercury", SBody::TYPE_PLANET_SMALL,
+	{ "Mercury", SBody::TYPE_PLANET_DWARF,
 	  0, fixed(38,100), fixed(55,1000), 340,
 	  fixed(387,1000), fixed(205,1000), { (float)DEG2RAD(7.0) }, fixed(59,1) },
 	{ "Venus", SBody::TYPE_PLANET_CO2_THICK_ATMOS,
@@ -35,9 +35,28 @@ const CustomSBody sol_system[] = {
 	{ "Moon", SBody::TYPE_PLANET_DWARF,
 	  3, fixed(273,1000), fixed(12,1000), 220,
 	  fixed(257,100000), fixed(549,10000), { (float)DEG2RAD(5.145) }, fixed(273,10) },
-	{ "Mars", SBody::TYPE_PLANET_SMALL,
-	  0, fixed(533,1000), fixed(107,1000), 227,
-	  fixed(152,100), fixed(933,10000), { (float)DEG2RAD(1.85) }, fixed(1027,1000) },
+	{ "Lunar City", SBody::TYPE_STARPORT_SURFACE,
+	  11, 0, 0, 0, 0, 0, { (float)DEG2RAD(19), (float)DEG2RAD(99) } },
+	{ "Mars", SBody::TYPE_PLANET_TERRAFORMED_GOOD,
+	  0, fixed(533,1000), fixed(107,1000), 274,
+	  fixed(152,100), fixed(933,10000), { (float)DEG2RAD(1.85) }, fixed(1027,1000), ECON_INDUSTRY, },
+	{ "Cydonia", SBody::TYPE_STARPORT_SURFACE,
+	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(40.75), (float)DEG2RAD(-9.46) } },
+	{ "Olympus Mons", SBody::TYPE_STARPORT_SURFACE,
+	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(34), (float)DEG2RAD(118) } },
+	{ "Mars High", SBody::TYPE_STARPORT_ORBITAL,
+	  13, 0, 0, 0, fixed(5068,100000000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  fixed(11,24) },
+	{ "Phobos", SBody::TYPE_PLANET_LARGE_ASTEROID,
+	  13, fixed(21,10000), fixed(18,10000000000), 233,
+	  fixed(6268,100000000), fixed(151,10000), { (float)DEG2RAD(1.093) }, fixed(11,24) },
+	{ "Deimos", SBody::TYPE_PLANET_ASTEROID,
+	  13, fixed(12,10000), fixed(25,100000000000), 233,
+	  fixed(1568,10000000), fixed(2,10000), { (float)DEG2RAD(0.93) }, fixed(30,24) },
+	{ "", SBody::TYPE_STARPORT_SURFACE,
+	  17, 0, 0, 0, 0, 0, { (float)DEG2RAD(5), (float)DEG2RAD(-5) } },
+	{ "", SBody::TYPE_STARPORT_SURFACE,
+	  18, 0, 0, 0, 0, 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) } },
 	{ "Jupiter", SBody::TYPE_PLANET_LARGE_GAS_GIANT,
 	  0, fixed(11,1), fixed(3178,10), 165,
 	  fixed(5204,1000), fixed(488,10000), { (float)DEG2RAD(1.305) }, fixed(4,10) },
@@ -52,11 +71,85 @@ const CustomSBody sol_system[] = {
 	  fixed(30104,1000), fixed(112,10000), { (float)DEG2RAD(1.768) }, fixed(75,100) },
 	// moons of jupiter
 	{ "Io", SBody::TYPE_PLANET_HIGHLY_VOLCANIC,
-	  13, fixed(286,1000), fixed(15,1000), 130,
+	  21, fixed(286,1000), fixed(15,1000), 130,
 	  fixed(282,100000), fixed(41,10000), { (float)DEG2RAD(2.21) }, fixed(177,100) },
 	{ "Europa", SBody::TYPE_PLANET_WATER,
-	  13, fixed(245,1000), fixed(8,1000), 102,
+	  21, fixed(245,1000), fixed(8,1000), 102,
 	  fixed(441,100000), fixed(9,1000), {}, fixed(355,100) },
+	{ "Clarke's Station", SBody::TYPE_STARPORT_ORBITAL,
+	  26, 0, 0, 0, fixed(6,500000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  fixed(1,24*60*3) },
+	{ "Ganymede", SBody::TYPE_PLANET_SMALL,
+	  21, fixed(413,1000), fixed(25,1000), 110,
+	  fixed(72,10000), fixed(13,10000), { (float)DEG2RAD(0.2) }, fixed(72,10) },
+	{ "Callisto", SBody::TYPE_PLANET_DWARF,
+	  21, fixed(378,1000), fixed(18,1000), 134,
+	  fixed(126,10000), fixed(74,10000), { (float)DEG2RAD(0.192) }, fixed(167,10) },
+	// moons of saturn
+	{ "Titan", SBody::TYPE_PLANET_METHANE_THICK_ATMOS,
+	  //22, fixed(400,1000), fixed(225,10000), 94, 
+	  //fixed(82,10000), fixed(288,10000), { (float)DEG2RAD(0.34854) }, fixed(15945,1000) },
+	  22, fixed(301,1000), fixed(225,10000), 94,  //Oddness/ When correct Radius setting is used (0.4ER), planet has no atmosphere or gravity !?!?!
+	  fixed(82,10000), fixed(288,10000), { (float)DEG2RAD(0.34854) }, fixed(15945,1000) },
+	{ "Oasis City", SBody::TYPE_STARPORT_SURFACE,
+	  30, 0, 0, 0, 0, 0, { (float)DEG2RAD(18.4), (float)DEG2RAD(196) } },
+	{ "Port Makenzie", SBody::TYPE_STARPORT_SURFACE,
+	  30, 0, 0, 0, 0, 0, { (float)DEG2RAD(1), (float)DEG2RAD(14) } },
+	{ "Rhea", SBody::TYPE_PLANET_DWARF,
+	  22, fixed(12,100), fixed(39,100000), 81,
+	  fixed(441,100000), fixed(126,100000), { (float)DEG2RAD(0.345) }, fixed(452,100) },
+	{ "Iapetus", SBody::TYPE_PLANET_DWARF,
+	  22, fixed(1155,10000), fixed(3,10000), 115,
+	  fixed(238,10000), fixed(29,1000), { (float)DEG2RAD(15.47) }, fixed(7932,100) },
+	{ "Dione", SBody::TYPE_PLANET_DWARF,
+	  22, fixed(881,10000), fixed(328,1000000), 87,
+	  fixed(252,100000), fixed(22,10000), { (float)DEG2RAD(0.019) }, fixed(2737,1000) },
+	// moons up uranus
+	{ "Titania", SBody::TYPE_PLANET_DWARF,
+	  23, fixed(1235,10000), fixed(5908,10000000), 70,
+	  fixed(2913,1000000), fixed(11,10000), { (float)DEG2RAD(0.34) }, fixed(87,10) },
+	{ "Oberon", SBody::TYPE_PLANET_DWARF,
+	  23, fixed(1194,10000), fixed(5046,10000000), 75,
+	  fixed(39,10000), fixed(14,10000), { (float)DEG2RAD(0.058) }, fixed(135,10) },
+	{ "Umbriel", SBody::TYPE_PLANET_DWARF,
+	  23, fixed(92,1000), fixed(2,10000), 75,
+	  fixed(178,100000), fixed(39,10000), { (float)DEG2RAD(0.128) }, fixed(4144,1000) },
+	{ "Ariel", SBody::TYPE_PLANET_DWARF,
+	  23, fixed(908,10000), fixed(226,1000000), 60,
+	  fixed(1277,1000000), fixed(12,10000), { (float)DEG2RAD(0.26) }, fixed(252,100) },
+	// moons of neptune
+	{ "Triton", SBody::TYPE_PLANET_WATER,
+	  24, fixed(2122,10000), fixed(359,100000), 38,
+	  fixed(2371,100000), fixed(16,1000000), { (float)DEG2RAD(156.885) }, fixed(141,24) },
+	{ "Nereid", SBody::TYPE_PLANET_ASTEROID,
+	  24, fixed(267,10000), fixed(519,100000000), 50,
+	  fixed(3685,100000), fixed(75,100), { (float)DEG2RAD(32.55) }, fixed(115,240) },
+	{ "Proteus", SBody::TYPE_PLANET_LARGE_ASTEROID,
+	  24, fixed(310,10000), fixed(710,100000000), 51,
+	  fixed(786,1000000), fixed(53,100000), { (float)DEG2RAD(0.524) }, fixed(1122,1000) },
+	// you know you want to call pluto a planet, you really do
+	{ "Pluto", SBody::TYPE_PLANET_DWARF,
+	  0, fixed(18,100), fixed(21,10000), 44,
+	  fixed(394,10), fixed(249,1000), { (float)DEG2RAD(11.88) }, fixed(153,24) },
+	// Extra bases down here, save re-ordering the primary.
+	{ "Enki Catena", SBody::TYPE_STARPORT_SURFACE,
+	  28, 0, 0, 0, 0, 0, { (float)DEG2RAD(84), (float)DEG2RAD(96) } },
+	{ "Pluto Researh Base", SBody::TYPE_STARPORT_SURFACE,
+	  43, 0, 0, 0, 0, 0, { (float)DEG2RAD(84), (float)DEG2RAD(96) } },
+	{ "Poseidon Station", SBody::TYPE_STARPORT_ORBITAL,
+	  40, 0, 0, 0, fixed(6,500000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  fixed(11,7) },
+	//{ "Hotel Sol", SBody::TYPE_STARPORT_ORBITAL,
+	 // 0, 0, 0, 0, fixed(10,0), fixed(500,1000), { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	 // fixed(11,24) },
+	{ "Daniel's Base", SBody::TYPE_STARPORT_ORBITAL,
+	  30, 0, 0, 0, fixed(6,500000), fixed(50,1000), { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  fixed(11,9) },
+	{ "Discovery Base", SBody::TYPE_STARPORT_ORBITAL,
+	  21, 0, 0, 0, fixed(7,1000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  fixed(11,1) },
+	{ "Dante's Base", SBody::TYPE_STARPORT_SURFACE,
+	  25, 0, 0, 0, 0, 0, { (float)DEG2RAD(-0.5), (float)DEG2RAD(26.2) } },
 	  
 	{ 0 }
 };
@@ -65,6 +158,13 @@ const CustomSystem custom_systems[] = {
 	{ "Sol", sol_system, {SBody::TYPE_STAR_G}, 0, 0, vector3f(.5f, .5f, 0), 0,
        "The historical birthplace of humankind",
 	"Sol is a fine joint"	},
+{ "Alioth", 0, {SBody::TYPE_STAR_K}, 0, 4, vector3f(0.629f,0.880f,1.045f), 5/*5=2 earths*/,
+"Liberal democracy",
+"Alioth Temp Description.\n"
+"mention history of CIS membership\n"
+"And the alliance with Epsilon Eridani.\n",
+Polit::GOV_CISLIBDEM
+}, // Components: K2
 { "Epsilon Indi", 0, {SBody::TYPE_STAR_K}, -1, 0, vector3f(0.629f,0.880f,-1.045f) }, // Components: K5
 { "Luyten 1159-016", 0, {SBody::TYPE_STAR_M}, 2, 0, vector3f(0.316f,0.651f,0.008f) }, // Components: M8
 { "Wolf 424", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -2, vector3f(0.189f,0.951f,0.771f) }, // Components: M5, M7
@@ -76,20 +176,42 @@ const CustomSystem custom_systems[] = {
 { "Gliese 570", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.174f,0.358f,-0.281f) }, // Components: K5, M2
 { "Kruger 60", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -2, vector3f(0.903f,0.932f,0.004f) }, // Components: M2, M6
 { "Gliese 205", 0, {SBody::TYPE_STAR_M}, 2, 1, vector3f(0.488f,0.496f,-0.805f) }, // Components: M1
-{ "Proxima", 0, {SBody::TYPE_STAR_M}, 0, 0, vector3f(0.135f,0.882f,-0.017f) }, // Components: M5
+{ "Proxima", 0, {SBody::TYPE_STAR_M}, 0, 0, vector3f(0.135f,0.882f,-0.017f), 5,
+"Military dictatorship",
+"Closest star in the sky to early human civilisation.\n"
+"Home of the famous wright Shipyards."
+"Also home to a Federation Naval Base on the 3rd world, which houses the largest"
+"known Fleet dock in the Galaxy.",
+Polit::GOV_EARTHMILDICT
+}, // Components: M5
 { "Gliese 825", 0, {SBody::TYPE_STAR_M}, -1, 0, vector3f(0.365f,0.424f,-1.093f) }, // Components: M0
 { "Gliese 876", 0, {SBody::TYPE_STAR_M}, -2, 0, vector3f(0.603f,0.900f,-0.112f) }, // Components: M5
-{ "Gliese 725", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -1, vector3f(0.482f,0.203f,0.590f) }, // Components: M4, M5
-{ "Sigma Draconis", 0, {SBody::TYPE_STAR_K}, 0, -2, vector3f(0.914f,0.420f,0.859f) }, // Components: K0
+{ "Gliese 725", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -1, vector3f(0.482f,0.203f,0.590f), 4,
+"Earth Federation Democracy",
+"Gliese 725 is the fifteenth star system closest to the Sun ."
+"It is located within 12 light years , in the south - west of the constellation of the Dragon, "
+"in north -west of the star ? Draconis , south- east of d Draconis .",
+Polit::GOV_EARTHDEMOC
+ }, // Components: M4, M5
+{ "Sigma Draconis", 0, {SBody::TYPE_STAR_K}, 0, -2, vector3f(0.914f,0.420f,0.859f), 2,
+"Social democracy",
+"Sigma Draconis (s Dra, s Draconis) is a star 18.8 light-years away from Earth. "
+"Its traditional name is Alsafi. It is in the constellation Draco. Its visual magnitude is 4.68. "
+"The traditional name 'Alsafi' (also Athafi) supposedly derives from an Arabic word al-athafi 'the cooking tripods'. "
+"This refers to the tripods used by nomads for open-air cooking.\n"
+"The star is a main sequence dwarf of spectral type K0. ",
+Polit::GOV_SOCDEM
+
+}, // Components: K0
 { "Gliese 380", 0, {SBody::TYPE_STAR_K}, 1, -1, vector3f(0.979f,0.462f,0.631f) }, // Components: K2
-{ "Sirius", 0, {SBody::TYPE_STAR_A, SBody::TYPE_WHITE_DWARF}, 1, 1, vector3f(0.222f,0.273f,-0.173f), 0,
+{ "Sirius", 0, {SBody::TYPE_STAR_A, SBody::TYPE_WHITE_DWARF}, 1, 1, vector3f(0.222f,0.273f,-0.173f), 5,
 "Corporate system",
 "The Sirius system is home to Sirius Corporation, market leader in Robotics, Neural Computing, "
 "Security and Defence Systems, to name but a few of its endeavours. Sirius research and development "
 "institutes are at the very cutting edge of galactic science. The young, bright and ambitious from "
 "worlds all over galaxy flock to Sirius to make a name for themselves.\n"
-"Above text all rights reserved Sirius Corporation."
-
+"Above text all rights reserved Sirius Corporation.",
+Polit::GOV_CORPORATE
 }, // Components: A1, DA2
 { "Gliese 682", 0, {SBody::TYPE_STAR_M}, -2, 0, vector3f(0.643f,0.971f,-0.213f) }, // Components: M3
 { "AD Leonis", 0, {SBody::TYPE_STAR_M}, 2, 0, vector3f(0.483f,0.012f,-0.071f) }, // Components: M4
@@ -135,7 +257,11 @@ const CustomSystem custom_systems[] = {
 { "Wolf 629", 0, {SBody::TYPE_STAR_M}, -2, 0, vector3f(0.334f,0.090f,0.872f) }, // Components: M4
 { "Luyten's Star", 0, {SBody::TYPE_STAR_M}, 1, 1, vector3f(0.788f,0.305f,0.266f) }, // Components: M3
 { "Gliese 783", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.522f,0.324f,-1.169f) }, // Components: K3, M3
-{ "Barnard's star", 0, {SBody::TYPE_STAR_M}, -1, 0, vector3f(0.877f,0.131f,0.186f) }, // Components: M5
+{ "Barnard's star", 0, {SBody::TYPE_STAR_M}, -1, 0, vector3f(0.877f,0.131f,0.186f), 0 ,
+"Earth Federation Colonial Rule",
+"Federation Prison Camps.",
+Polit::GOV_EARTHCOLONIAL
+}, // Components: M5
 { "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351f,0.735f,-0.999f), 5/*5=2 earths*/,
 "First off-earth colony. Industrial world with indigenous life.",
 "Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. "
