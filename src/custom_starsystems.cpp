@@ -6,7 +6,7 @@
 const CustomSBody sol_system[] = {
 	{ "Sol", SBody::TYPE_STAR_G,
 	  -1, fixed(1,1), fixed(1,1), 5700 },
-	{ "Mercury", SBody::TYPE_PLANET_DWARF,
+	{ "Mercury", SBody::TYPE_PLANET_SMALL,
 	  0, fixed(38,100), fixed(55,1000), 340,
 	  fixed(387,1000), fixed(205,1000), { (float)DEG2RAD(7.0) }, fixed(59,1) },
 	{ "Venus", SBody::TYPE_PLANET_CO2_THICK_ATMOS,

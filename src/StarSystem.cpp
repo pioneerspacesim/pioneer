@@ -149,7 +149,7 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_small.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
-		{}, 100, "Rocky planet with liquid water and a nitrogen atmosphere", // earth radius
+		{}, 100, "Rocky frozen planet with a thin nitrogen atmosphere", // earth radius
 		"icons/object_planet_water_n2.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
@@ -161,7 +161,7 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_methane.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
-		{}, 100, "Rocky planet with liquid water and a thick nitrogen atmosphere",
+		{}, 100, "Water world with vast oceans and a thick nitrogen atmosphere",
 		"icons/object_planet_water_n2.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
@@ -1099,30 +1099,47 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 				    (minTemp > CELSIUS-10) && (minTemp < CELSIUS+60) &&
 				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+60)) {
 					type = SBody::TYPE_PLANET_INDIGENOUS_LIFE;
-					humanActivity *= 2;
+					humanActivity *= 4;
 				} else if 
-						 ((minTemp > CELSIUS-15) && (minTemp < CELSIUS+75) &&
-						 (maxTemp > CELSIUS-15) && (maxTemp < CELSIUS+75)) {
+						 ((minTemp > CELSIUS-15) && (minTemp < CELSIUS+65) &&
+						 (maxTemp > CELSIUS-15) && (maxTemp < CELSIUS+65)) {
 						 type = SBody::TYPE_PLANET_TERRAFORMED_GOOD;
 						 humanActivity *= 2;
 						 }
 				else if
-						 ((minTemp > CELSIUS-20) && (minTemp < CELSIUS+80) &&
-						 (maxTemp > CELSIUS-20) && (maxTemp < CELSIUS+80)) {
+						 ((minTemp > CELSIUS-25) && (minTemp < CELSIUS+70) &&
+						 (maxTemp > CELSIUS-25) && (maxTemp < CELSIUS+70)) {
 						 type = SBody::TYPE_PLANET_TERRAFORMED_POOR;
 						 humanActivity *= 1;
 						 }
-				else {
+				else if	
+						((minTemp > CELSIUS-00) && (minTemp < CELSIUS+95) &&
+						 (maxTemp > CELSIUS-00) && (maxTemp < CELSIUS+95)) {
+						 type = SBody::TYPE_PLANET_WATER_THICK_ATMOS;
+						 humanActivity *= 1;
+						 }
+				else if	
+						((minTemp > CELSIUS-100) && (minTemp < CELSIUS+00) &&
+						 (maxTemp > CELSIUS-100) && (maxTemp < CELSIUS+00)) {
+						 type = SBody::TYPE_PLANET_WATER;
+						 humanActivity *= 1;
+						 }
+				else
+					{
 					type = SBody::TYPE_PLANET_WATER;
-				}
+				    }
 			} else {
 				if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_CO2;
 				else type = SBody::TYPE_PLANET_METHANE;
 			}
 		} else /* 3 < mass < 6 */ {
-			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
+			if ((averageTemp > CELSIUS-4) && (averageTemp < CELSIUS+80)) {
 				type = SBody::TYPE_PLANET_WATER_THICK_ATMOS;
-			} else {
+			}
+			else if ((averageTemp > CELSIUS-150) && (averageTemp < CELSIUS-3)) {
+					type = SBody::TYPE_PLANET_WATER;
+			}
+			else {
 				if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_CO2_THICK_ATMOS;
 				else type = SBody::TYPE_PLANET_METHANE_THICK_ATMOS;
 			}
