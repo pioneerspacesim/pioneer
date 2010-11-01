@@ -249,10 +249,13 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame in the same position but with maybe 1.05*radius,
 		// which actually contains the object.
-		frameRadius = sbody->GetMaxChildOrbitalDistance()*1.05;
+		frameRadius = MAX(2.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
+		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
+		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
+		//	sbody->GetRadius()*0.001f);
 	
 		assert(sbody->GetRotationPeriod() != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());

@@ -516,6 +516,9 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->longitude) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
 		} else {
+			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
+				Error("%s's orbit is too close to its parent", c->name);
+			}
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
 		}
