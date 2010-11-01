@@ -60,7 +60,7 @@ const politDesc_t s_govDesc[GOV_MAX] = {
 	{ "No central governance", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
 	{ "Earth Federation Colonial Rule", 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
 	{ "Earth Federation Democracy", 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
-	{ "Empirical Rule", 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
+	{ "Imperial Rule", 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
 	{ "Liberal democracy", 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
 	{ "Social democracy", 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
 	{ "Liberal democracy", 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },

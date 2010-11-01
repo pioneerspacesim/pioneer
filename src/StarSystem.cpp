@@ -181,11 +181,11 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_life.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
-		{}, 60, "Un-sustainable Terraformed World with minimal plant life",
+		{}, 60, "Marginal terraformed world with minimal plant life",
 		"icons/object_planet_life3.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
-		{}, 90, "Fully terraformed world with introduced species from numerous succesful colonies",
+		{}, 90, "Fully terraformed world with introduced species from numerous successful colonies",
 		"icons/object_planet_life2.png"
 	}, {
 		SBody::SUPERTYPE_STARPORT,
