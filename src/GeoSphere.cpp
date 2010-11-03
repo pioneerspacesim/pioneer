@@ -1151,11 +1151,15 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			break;
 		case SBody::TYPE_PLANET_WATER:
 			*outColor = Color(.4f, .4f, .5f, 1.0f);
-			*outDensity = 1.2f;
+			*outDensity = 0.8f;
 			break;
 		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
 			*outColor = Color(.5f, .5f, .8f, 1.0f);
-			*outDensity = 3.0f;
+			*outDensity = 8.0f;
+			break;
+		case SBody::TYPE_PLANET_DESERT:
+			*outColor = Color(.4f, .3f, .1f, 1.0f);
+			*outDensity = 1.6f;
 			break;
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 			*outColor = Color(.8f, .8f, .8f, 1.0f);
