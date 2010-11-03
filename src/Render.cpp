@@ -173,7 +173,7 @@ static struct postprocessBuffers_t {
 		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_HALF_FLOAT, NULL);
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, tex, 0);
 		glError();
-
+		
 		glGenRenderbuffersEXT(1, &depthbuffer);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
 		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, width, height);
@@ -244,7 +244,7 @@ static struct postprocessBuffers_t {
 		//printf("%f\n", avgLum[0]);
 		// see reinhard algo
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
-
+		
 		glDisable(GL_TEXTURE_2D);
 		glViewport(0,0,width>>1,height>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
@@ -272,7 +272,7 @@ static struct postprocessBuffers_t {
 			glVertex2f(0.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-
+		
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
@@ -299,7 +299,7 @@ static struct postprocessBuffers_t {
 			glTexCoord2f(1.0, 1.0);
 			glVertex2f(1.0, 1.0);
 		glEnd();
-
+		
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
@@ -362,7 +362,7 @@ void Init(int screen_width, int screen_height)
 	if (GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float && GLEW_ARB_texture_rectangle) { // && GLEW_ARB_depth_buffer_float) {
 		s_hdrBufs.CreateBuffers(screen_width, screen_height);
 	}
-
+	
 	initted = true;
 
 	if (shadersEnabled) {
@@ -432,14 +432,14 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 //	glPointParameterfv( GL_POINT_DISTANCE_ATTENUATION, quadratic );
 //	glPointParameterf(GL_POINT_SIZE_MIN, 1.0 );
 //	glPointParameterf(GL_POINT_SIZE_MAX, 10000.0 );
-
+		
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glColor4fv(modulationCol);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 
 	// XXX point sprite thing needs some work. remember to enable point
 	// sprite shader in LmrModel.cpp
@@ -454,7 +454,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	if (0) {//GLEW_ARB_point_sprite) {
 		glTexEnvf(GL_POINT_SPRITE_ARB, GL_COORD_REPLACE_ARB, GL_TRUE);
 		glEnable(GL_POINT_SPRITE_ARB);
-
+		
 		glPointSize(size);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, v);
@@ -464,7 +464,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 
 		glDisable(GL_POINT_SPRITE_ARB);
 		glDisable(GL_TEXTURE_2D);
-
+	
 	} else {
 		// quad billboards
 		const float sz = 0.5f*size;
@@ -472,7 +472,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 		vector3f v2(sz, -sz, 0.0f);
 		vector3f v3(-sz, -sz, 0.0f);
 		vector3f v4(-sz, sz, 0.0f);
-
+		
 		matrix4x4f rot;
 		glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
 		rot.ClearToRotOnly();
@@ -482,13 +482,13 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 		for (int i=0; i<num; i++) {
 			vector3f pos(*v);
 			glTexCoord2f(0.0f,0.0f);
-			glVertex3(pos+rot*v4);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v4)));
 			glTexCoord2f(0.0f,1.0f);
-			glVertex3(pos+rot*v3);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v3)));
 			glTexCoord2f(1.0f,1.0f);
-			glVertex3(pos+rot*v2);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v2)));
 			glTexCoord2f(1.0f,0.0f);
-			glVertex3(pos+rot*v1);
+			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v1)));
 			v = reinterpret_cast<vector3f*>(reinterpret_cast<char*>(v)+stride);
 		}
 		glEnd();
@@ -541,7 +541,7 @@ static void PrintGLSLCompileError(const char *filename, GLuint obj)
 		shadersEnabled = false;
 	}
 }
-
+	
 bool Shader::Compile(const char *shader_name, const char *additional_defines)
 {
 	if (!shadersAvailable) {
@@ -559,13 +559,13 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	char *vscode = load_file((name + ".vert.glsl").c_str());
 	char *pscode = load_file((name + ".frag.glsl").c_str());
 	char *allcode = load_file((name + ".all.glsl").c_str());
-
+	
 	if (vscode == 0) {
 		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
 		m_program = 0;
 		return false;
 	}
-
+		
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
 	std::vector<const char*> shader_src;
 
@@ -595,7 +595,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		shader_src.push_back(lib_fs);
 		if (allcode) shader_src.push_back(allcode);
 		shader_src.push_back(pscode);
-
+		
 		ps = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(ps, shader_src.size(), &shader_src[0], 0);
 		glCompileShader(ps);
@@ -622,7 +622,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	free(vscode);
 	if (pscode) free(pscode);
 	if (allcode) free(allcode);
-
+	
 	return true;
 }
 
