@@ -43,8 +43,9 @@
 #include "mtrand.h"
 
 #include "utils.h"
+#include "glutils.h"
 
-#ifdef NDEBUG 
+#ifdef NDEBUG
 #define	PiVerify(x) x
 #else
 #define PiVerify(x) assert(x)
