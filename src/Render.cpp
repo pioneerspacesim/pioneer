@@ -99,13 +99,13 @@ static struct postprocessBuffers_t {
 		glGenFramebuffersEXT(1, &halfsizeFb);
 		glGenTextures(1, &halfsizeTex);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
-		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width>>1, height>>1, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, halfsizeTex, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F, width>>1, height>>1, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, halfsizeTex, 0);
 		if (!CheckFBO()) {
 			DeleteBuffers();
 			return;
@@ -133,13 +133,13 @@ static struct postprocessBuffers_t {
 		glGenFramebuffersEXT(1, &bloomFb1);
 		glGenTextures(1, &bloomTex1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, bloomTex1, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, bloomTex1, 0);
 		if (!CheckFBO()) {
 			DeleteBuffers();
 			return;
@@ -149,13 +149,13 @@ static struct postprocessBuffers_t {
 		glGenFramebuffersEXT(1, &bloomFb2);
 		glGenTextures(1, &bloomTex2);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
-		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, bloomTex2, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex2);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F, width>>2, height>>2, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, bloomTex2, 0);
 		if (!CheckFBO()) {
 			DeleteBuffers();
 			return;
@@ -165,13 +165,13 @@ static struct postprocessBuffers_t {
 		glGenFramebuffersEXT(1, &fb);
 		glGenTextures(1, &tex);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE, tex, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, tex, 0);
 		glError();
 		
 		glGenRenderbuffersEXT(1, &depthbuffer);
@@ -217,8 +217,8 @@ static struct postprocessBuffers_t {
 		// generating mipmaps for it, and grabbing the luminance at the smallest mipmap level
 		glViewport(0,0,128,128);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, luminanceFb);
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
+		glEnable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessLuminance);
 		postprocessLuminance->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -232,7 +232,7 @@ static struct postprocessBuffers_t {
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glDisable(GL_TEXTURE_RECTANGLE);
+		glDisable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_2D, luminanceTex);
 		glEnable(GL_TEXTURE_2D);
 		glGenerateMipmapEXT(GL_TEXTURE_2D);
@@ -248,8 +248,8 @@ static struct postprocessBuffers_t {
 		glDisable(GL_TEXTURE_2D);
 		glViewport(0,0,width>>1,height>>1);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, halfsizeFb);
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
+		glEnable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		State::UseProgram(postprocessBloom1Downsample);
 		postprocessBloom1Downsample->set_avgLum(avgLum[0]);
 		postprocessBloom1Downsample->set_middleGrey(midGrey);
@@ -264,8 +264,8 @@ static struct postprocessBuffers_t {
 		glViewport(0,0,width>>2,height>>2);
 		State::UseProgram(postprocessBloom2Downsample);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, halfsizeTex);
+		glEnable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, halfsizeTex);
 		glBegin(GL_TRIANGLE_STRIP);
 			glVertex2f(0.0, 0.0);
 			glVertex2f(1.0, 0.0);
@@ -274,8 +274,8 @@ static struct postprocessBuffers_t {
 		glEnd();
 		
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb2);
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
+		glEnable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
 		State::UseProgram(postprocessBloom3VBlur);
 		postprocessBloom3VBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -286,7 +286,7 @@ static struct postprocessBuffers_t {
 		glEnd();
 
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bloomFb1);
-		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex2);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex2);
 		State::UseProgram(postprocessBloom4HBlur);
 		postprocessBloom4HBlur->set_fboTex(0);
 		glBegin(GL_TRIANGLE_STRIP);
@@ -302,11 +302,11 @@ static struct postprocessBuffers_t {
 		
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, tex);
+		glEnable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, tex);
 		glActiveTexture(GL_TEXTURE1);
-		glEnable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, bloomTex1);
+		glEnable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, bloomTex1);
 		State::UseProgram(postprocessCompose);
 		postprocessCompose->set_fboTex(0);
 		postprocessCompose->set_bloomTex(1);
@@ -324,8 +324,8 @@ static struct postprocessBuffers_t {
 		glViewport(0,0,width,height);
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_TEXTURE_RECTANGLE);
-		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
+		glDisable(GL_TEXTURE_RECTANGLE_ARB);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
 		glColor3f(1.0,1.0,1.0);
 		glBindTexture(GL_TEXTURE_2D, luminanceTex);
 		State::UseProgram(0);
@@ -340,13 +340,13 @@ static struct postprocessBuffers_t {
 			glVertex2f(1.0, 1.0);
 		glEnd();
 		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
 		glDisable(GL_TEXTURE_2D);
 #endif
 		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_TEXTURE_RECTANGLE);
+		glDisable(GL_TEXTURE_RECTANGLE_ARB);
 		glActiveTexture(GL_TEXTURE0);
-		glDisable(GL_TEXTURE_RECTANGLE);
+		glDisable(GL_TEXTURE_RECTANGLE_ARB);
 		glError();
 	}
 	bool Initted() { return fb ? true : false; }
@@ -359,7 +359,7 @@ void Init(int screen_width, int screen_height)
 	shadersEnabled = shadersAvailable;
 	printf("GLSL shaders %s.\n", shadersEnabled ? "on" : "off");
 	// Framebuffers for HDR
-	if (GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float) { // && GLEW_ARB_depth_buffer_float) {
+	if (GLEW_EXT_framebuffer_object && GLEW_ARB_color_buffer_float && GLEW_ARB_texture_rectangle) { // && GLEW_ARB_depth_buffer_float) {
 		s_hdrBufs.CreateBuffers(screen_width, screen_height);
 	}
 	
