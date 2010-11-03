@@ -79,12 +79,13 @@ void ship_randomly_equip(Ship *ship, double power)
 
 ////////////////////////////////////////////////////////////
 
-EXPORT_OOLUA_FUNCTIONS_13_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_14_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
 		ShipAIDoLowOrbit,
 		ShipAIDoMediumOrbit,
 		ShipAIDoHighOrbit,
+		ShipAIDoJourney,
 		SetLabel,
 		SetMoney,
 		AddMoney,
@@ -117,6 +118,14 @@ double ObjectWrapper::GetMoney() const {
 void ObjectWrapper::SetLabel(const char *label) {
 	if (Is(Object::BODY)) {
 		static_cast<Body*>(m_obj)->SetLabel(label);
+	}
+}
+void ObjectWrapper::ShipAIDoJourney(SBodyPath *destination)
+{
+	if (Is(Object::SHIP)) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIClearInstructions();
+		s->AIInstructJourney(*destination);
 	}
 }
 void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
