@@ -411,6 +411,7 @@ define_model('hh', {
 	
 	dynamic = function(lod)
 	
+	use_material('medsteel')
 	call_model('hhbridge',v(0,0,36*get_arg(0)),v(1,0,0),v(0,1,0),1)
 	
 	if lod > 2  then
