@@ -259,6 +259,14 @@ const EquipType EquipType::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
 	  3000000, 400, 7
 	},{
+	  "Class 8 Hyperdrive",0,
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
+	  6000000, 580, 8
+	},{
+	  "Class 9 Hyperdrive",0,
+	  Equip::SLOT_ENGINE, {Equip::HYDROGEN},
+	  12000000, 740, 9
+	},{
 	  "Class 1 Military drive",0,
 	  Equip::SLOT_ENGINE, {Equip::MILITARY_FUEL},
 	  2300000, 3, 1
