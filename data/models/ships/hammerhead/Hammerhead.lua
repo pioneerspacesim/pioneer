@@ -411,15 +411,27 @@ define_model('hh', {
 	
 	dynamic = function(lod)
 	
+	call_model('hhbridge',v(0,0,36*get_arg(0)),v(1,0,0),v(0,1,0),1)
 	
-	if lod > 1 then
+	if lod > 2  then
 	
 		use_material('medsteel')
 		call_model('hhmaingear',v(0,0,0),v(1,0,0),v(0,1,0),1)
-		call_model('hhbridge',v(0,0,36*get_arg(0)),v(1,0,0),v(0,1,0),1) 
+		 
 		
 		set_material('glow', lerp_materials(os.clock()*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
 															{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
+		
+		if get_arg(8) > 0 then
+			call_model('scanner', v(5.467,14.299,(-74.73 + (36*get_arg(0)))), v(-1,0,0), v(0,1,0), 3)
+			call_model('scanner', v(-5.467,14.299,(-74.73 + (36*get_arg(0)))), v(1,0,0), v(0,1,0), 3)
+			call_model('antenna_1', v(32.212,1.994,(-91 + (36*get_arg(0)))), v(1,0,0), v(0,1,0), 4)
+		end
+		
+		if get_arg(7) > 0 then
+			call_model('ecm_1', v(-38.044,0.565,(-78.316 + (36*get_arg(0)))), v(0,1,0), v(-1,0,0), 3.5)
+			call_model('ecm_1', v(38.044,0.565,(-78.316 + (36*get_arg(0)))), v(0,-1,0), v(1,0,0), 3.5)
+		end
 															
 		if get_arg(10) > 0 then
 			use_material('darksteel')
