@@ -467,28 +467,38 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	
 	} else {
 		// quad billboards
-		const float sz = 0.5f*size;
-		vector3f v1(sz, sz, 0.0f);
-		vector3f v2(sz, -sz, 0.0f);
-		vector3f v3(-sz, -sz, 0.0f);
-		vector3f v4(-sz, sz, 0.0f);
-		
 		matrix4x4f rot;
 		glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
 		rot.ClearToRotOnly();
 		rot = rot.InverseOf();
 
+		const float sz = 0.5f*size;
+		const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+		const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+		const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+		const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
 		glBegin(GL_QUADS);
 		for (int i=0; i<num; i++) {
 			vector3f pos(*v);
+			vector3f vert;
+
+			vert = pos+rotv4;
 			glTexCoord2f(0.0f,0.0f);
-			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v4)));
+			glVertex3f(vert.x, vert.y, vert.z);
+			
+			vert = pos+rotv3;
 			glTexCoord2f(0.0f,1.0f);
-			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v3)));
+			glVertex3f(vert.x, vert.y, vert.z);
+			
+			vert = pos+rotv2;
 			glTexCoord2f(1.0f,1.0f);
-			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v2)));
+			glVertex3f(vert.x, vert.y, vert.z);
+			
+			vert = pos+rotv1;
 			glTexCoord2f(1.0f,0.0f);
-			glVertex3fv(reinterpret_cast<const GLfloat*>(&(pos+rot*v1)));
+			glVertex3f(vert.x, vert.y, vert.z);
+			
 			v = reinterpret_cast<vector3f*>(reinterpret_cast<char*>(v)+stride);
 		}
 		glEnd();
