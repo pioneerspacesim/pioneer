@@ -71,7 +71,20 @@ Module:new {
 
 	_launchTargetShip = function(mission)
 		print("Hm. should launch ship now: " .. mission.target_ship:GetLabel())
-		mission.target_ship:ShipAIDoKill(Pi.GetPlayer())
+		-- send the target on a wee journey
+		local destination = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn()
+		-- GetRandomStarportNearButNotIn can fail and return nil
+		if destination ~= nil then
+			print("Gave it a journey")
+			mission.target_ship:ShipAIDoJourney(destination)
+		else
+			print("Fuck. just sending it off do fly around a turd")
+			-- this should always work. the SBody parent of a
+			-- ground or space station will be a planet. orbit it
+			destination = mission.target_ship:GetDockedWith():GetSBody():GetParent()
+			mission.target_ship:ShipAIDoMediumOrbit(Pi.FindBodyForSBody(destination))
+			print("Orbiting " .. destination:GetBodyName())
+		end
 	end,
 
 	_setupTimersForMission = function(self, mission)

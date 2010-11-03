@@ -41,6 +41,12 @@ class SBodyPath: public SysLoc {
 public:
 	SBodyPath();
 	SBodyPath(int sectorX, int sectorY, int systemNum);
+	SBodyPath(const SBodyPath &p) {
+		sectorX = p.sectorX;
+		sectorY = p.sectorY;
+		systemNum = p.systemNum;
+		for (int i=0; i<SBODYPATHLEN; i++) elem[i] = p.elem[i];
+	}
 	Sint8 elem[SBODYPATHLEN];
 	
 	void Serialize(Serializer::Writer &wr) const;
@@ -55,6 +61,21 @@ public:
 	const char *GetBodyName() const;
 	Uint32 GetSeed() const;
 	SysLoc GetSystem() const { return (SysLoc)*this; }
+	/** Caller owns the returned SBodyPath* */
+	SBodyPath *GetParent() const {
+		SBodyPath *p = new SBodyPath(*this);
+		for (int i=0; i<SBODYPATHLEN; i++) {
+			printf("%d:", elem[i]);
+		} printf("\n");
+
+		for (int i=SBODYPATHLEN-1; i>0; i--) {
+			if (p->elem[i-1] == -1) {
+				p->elem[i] = -1;
+				break;
+			}
+		}
+		return p;
+	}
 private:
 	/** Returned SBody only valid pointer for duration described in
 	 * StarSystem::GetCached comment */
@@ -71,6 +92,7 @@ OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
 	OOLUA_MEM_FUNC_0_CONST(Uint32, GetSeed)
 	OOLUA_MEM_FUNC_0_CONST(SysLoc, GetSystem);
+	OOLUA_MEM_FUNC_0_CONST(lua_out_p<SBodyPath*>, GetParent);
 OOLUA_CLASS_END
 
 class SBody {
@@ -103,6 +125,7 @@ public:
 		TYPE_PLANET_DWARF,
 		TYPE_PLANET_SMALL,
 		TYPE_PLANET_WATER,
+		TYPE_PLANET_DESERT,
 		TYPE_PLANET_CO2,
 		TYPE_PLANET_METHANE,
 		TYPE_PLANET_WATER_THICK_ATMOS,

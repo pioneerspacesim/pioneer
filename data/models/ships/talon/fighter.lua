@@ -1,4 +1,6 @@
-
+    
+                        
+                
 define_model('lff', {
 	info = {
 			materials={'medsteel'},
@@ -281,29 +283,76 @@ define_model('fi', {
 			load_obj('models/ships/talon/fighter_RGun.obj')
 			end
 			
-			if get_arg(12) > 0 then
-			call_model('missile_1', v(3,-1.3,4.1), v(1,0,0), v(0,.95,.05), 1)
-			end
 			
-			if get_arg(13) > 0 then
-			call_model('missile_1', v(-3,-1.3,4.1), v(1,0,0), v(0,.95,.05), 1)
-			end
+            local M_1 = v(3,-1.3,4.1)
+            local M_2 = v(-3,-1.3,4.1)
+            local M_3 = v(3.5,-1.35,4.35)
+            local M_4 = v(-3.5,-1.35,4.35)
+            local M_5 = v(4,-1.48,4.6)
+            local M_6 = v(-4,-1.48,4.6)
+            
+               
+            if get_arg(12) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(12) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_1,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(12) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_1,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(12) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_1,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(13) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(13) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_2,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(13) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_2,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(13) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_2,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(14) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(14) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_3,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(14) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_3,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(14) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_3,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(15) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(15) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_4,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(15) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_4,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(15) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_4,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(16) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(16) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_5,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(16) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_5,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(16) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_5,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(17) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(17) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_6,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(17) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_6,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(17) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_6,v(1,0,0), v(0,.95,.05),1)
+            end
 			
-			if get_arg(14) > 0 then
-			call_model('missile_1', v(3.5,-1.35,4.35), v(1,0,0), v(0,.95,.05), 1)
-			end
 			
-			if get_arg(15) > 0 then
-			call_model('missile_1', v(-3.5,-1.35,4.35), v(1,0,0), v(0,.95,.05), 1)
-			end
-			
-			if get_arg(16) > 0 then
-			call_model('missile_1', v(4,-1.48,4.6), v(1,0,0), v(0,.95,.05), 1)
-			end
-			
-			if get_arg(17) > 0 then
-			call_model('missile_1', v(-4,-1.48,4.6), v(1,0,0), v(0,.95,.05), 1)
-			end
 			
 			if get_arg(6) > 0 then
 			set_material('glow', lerp_materials(os.clock()*0.25,	{0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 },

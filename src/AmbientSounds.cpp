@@ -99,6 +99,8 @@ void AmbientSounds::Update()
 				case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
 				case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
 				case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
+				case SBody::TYPE_PLANET_WATER:
+				case SBody::TYPE_PLANET_DESERT:
 					{
 						const char *s[] = {
 							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
@@ -107,7 +109,6 @@ void AmbientSounds::Update()
 						sample = s[sbody->seed % 6];
 					}
 					break;
-				case SBody::TYPE_PLANET_WATER:
 				case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
 					{
 						const char *s[] = {
