@@ -230,37 +230,97 @@ define_model('panther', {
 					call_model('ecm_1', v(9.5,-1.789,-7.958), v(0,-1,0), v(1,0,0), 1)
 				end
 				
-				if get_arg(12) > 0 then
-					call_model('missile_1', v(-5,-4.75,-11.604), v(1,0,0), v(0,.95,.05), 2)
-				end
-			
-				if get_arg(13) > 0 then
-					call_model('missile_1', v(5,-4.75,-11.604), v(1,0,0), v(0,.95,.05), 2)
-				end
-			
-				if get_arg(14) > 0 then
-					call_model('missile_1', v(-4,-4.75,-12), v(1,0,0), v(0,.95,.05), 2)
-				end
-			
-				if get_arg(15) > 0 then
-					call_model('missile_1', v(4,-4.75,-12), v(1,0,0), v(0,.95,.05), 2)
-				end
-			
-				if get_arg(16) > 0 then
-					call_model('missile_1', v(-3,-4.75,-12.4), v(1,0,0), v(0,.95,.05), 2)
-				end
-			
-				if get_arg(17) > 0 then
-					call_model('missile_1', v(3,-4.75,-12.4), v(1,0,0), v(0,.95,.05), 2)
-				end
+			local M_1 = v(-5,-4.75,-11.604)
+            local M_2 = v(5,-4.75,-11.604)
+            local M_3 = v(-4,-4.75,-12)
+            local M_4 = v(4,-4.75,-12)
+            local M_5 = v(-3,-4.75,-12.4)
+            local M_6 = v(3,-4.75,-12.4)
+            local M_7 = v(-2,-4.75,-12.8)
+            local M_8 = v(2,-4.75,-12.8)
+            
+               
+            if get_arg(12) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_1,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(12) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_1,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(12) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_1,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(12) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_1,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(13) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_2,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(13) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_2,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(13) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_2,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(13) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_2,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(14) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_3,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(14) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_3,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(14) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_3,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(14) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_3,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(15) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_4,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(15) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_4,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(15) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_4,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(15) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_4,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(16) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_5,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(16) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_5,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(16) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_5,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(16) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_5,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(17) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_6,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(17) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_6,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(17) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_6,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(17) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_6,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(18) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_7,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(18) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_7,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(18) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_7,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(18) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_7,v(1,0,0), v(0,.95,.05),1)
+            end
+            
+            if get_arg(19) == Equip.MISSILE_UNGUIDED  then
+                call_model('m_unguided',M_8,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(19) == Equip.MISSILE_GUIDED  then
+                call_model('m_guided',M_8,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(19) == Equip.MISSILE_SMART  then
+                call_model('m_smart',M_8,v(1,0,0), v(0,.95,.05),1)
+            elseif get_arg(19) == Equip.MISSILE_NAVAL  then
+                call_model('m_naval',M_8,v(1,0,0), v(0,.95,.05),1)
+            end
 				
-				if get_arg(18) > 0 then
-					call_model('missile_1', v(-2,-4.75,-12.8), v(1,0,0), v(0,.95,.05), 2)
-				end
-			
-				if get_arg(19) > 0 then
-					call_model('missile_1', v(2,-4.75,-12.8), v(1,0,0), v(0,.95,.05), 2)
-				end
+				
 		    end
 	        
 	        if get_arg(0) ~= 0 then

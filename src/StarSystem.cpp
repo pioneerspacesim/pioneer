@@ -153,6 +153,10 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_water_n2.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
+		{}, 100, "Dead world that once housed it's own intricate ecosystem.", // earth radius
+		"icons/object_planet_methane.png"
+	}, {
+		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a carbon dioxide atmosphere",
 		"icons/object_planet_co2.png"
 	}, {
@@ -1091,7 +1095,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		} else if ((mass < fixed(2,10)) && (globalwarming < fixed(5,100))) {
 			type = SBody::TYPE_PLANET_SMALL;
 		} else if (mass < 3) {
-			if ((averageTemp > CELSIUS-10) && (averageTemp < CELSIUS+70)) {
+			if ((averageTemp > CELSIUS-60) && (averageTemp < CELSIUS+200)) {
 				// try for life
 				int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, globalwarming);
 				int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, globalwarming);
@@ -1107,7 +1111,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 						 ((minTemp > CELSIUS-15) && (minTemp < CELSIUS+65) &&
 						 (maxTemp > CELSIUS-15) && (maxTemp < CELSIUS+65)) {
 						 type = SBody::TYPE_PLANET_TERRAFORMED_GOOD;
-						 humanActivity *= 2;
+						 humanActivity *= 3;
 						 }
 				else if
 						 ((minTemp > CELSIUS-25) && (minTemp < CELSIUS+70) &&
@@ -1119,7 +1123,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 						((minTemp > CELSIUS-00) && (minTemp < CELSIUS+95) &&
 						 (maxTemp > CELSIUS-00) && (maxTemp < CELSIUS+95)) {
 						 type = SBody::TYPE_PLANET_WATER_THICK_ATMOS;
-						 humanActivity *= 1;
+						 humanActivity *= 2;
 						 }
 				else if	
 						((minTemp > CELSIUS-100) && (minTemp < CELSIUS+00) &&
@@ -1127,20 +1131,36 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 						 type = SBody::TYPE_PLANET_WATER;
 						 humanActivity *= 1;
 						 }
+				else if	
+						((minTemp > CELSIUS+30) && (minTemp < CELSIUS+120) &&
+						 (maxTemp > CELSIUS+30) && (maxTemp < CELSIUS+120)) {
+						 type = SBody::TYPE_PLANET_DESERT;
+						 humanActivity *= 1;
+						//bit crap but it has the desired effect 
+						}
 				else
 					{
-					type = SBody::TYPE_PLANET_WATER;
+					if (averageTemp > CELSIUS+10)
+					{
+					type = SBody::TYPE_PLANET_DESERT;
 				    }
+					else if (averageTemp < CELSIUS-10)
+					{
+					type = SBody::TYPE_PLANET_WATER;
+					}}
 			} else {
 				if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_CO2;
 				else type = SBody::TYPE_PLANET_METHANE;
 			}
 		} else /* 3 < mass < 6 */ {
-			if ((averageTemp > CELSIUS-4) && (averageTemp < CELSIUS+80)) {
+			if ((averageTemp > CELSIUS-5) && (averageTemp < CELSIUS+80)) {
 				type = SBody::TYPE_PLANET_WATER_THICK_ATMOS;
 			}
 			else if ((averageTemp > CELSIUS-150) && (averageTemp < CELSIUS-3)) {
 					type = SBody::TYPE_PLANET_WATER;
+			}
+			else if ((averageTemp > CELSIUS+70) && (averageTemp < CELSIUS+600)) {
+					type = SBody::TYPE_PLANET_DESERT;
 			}
 			else {
 				if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_CO2_THICK_ATMOS;
