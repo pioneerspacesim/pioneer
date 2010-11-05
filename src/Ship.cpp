@@ -403,14 +403,17 @@ void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 	}
 }
 
-bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs) 
+bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus) 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
 	float hyperclass = (float)EquipType::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	outFuelRequired = 0;
-	if (hyperclass == 0) return false;
+	if (hyperclass == 0) {
+		if (outStatus) *outStatus = HYPERJUMP_NO_DRIVE;
+		return false;
+	}
 
 	float dist;
 	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
@@ -425,6 +428,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range) {
 		outFuelRequired = 0;
+		if (outStatus) *outStatus = HYPERJUMP_OUT_OF_RANGE;
 		return false;
 	} else {
 		// take at most a week. why a week? because a week is a
@@ -432,7 +436,13 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		// is, and so it is very probable that future hyperspace
 		// technologies will involve travelling a week through time.
 		outDurationSecs = (dist / m_stats.hyperspace_range_max) * 60.0 * 60.0 * 24.0 * 7.0;
-		return outFuelRequired <= fuel;
+		if (outFuelRequired <= fuel) {
+			if (outStatus) *outStatus = HYPERJUMP_OK;
+			return true;
+		} else {
+			if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
+			return false;
+		}
 	}
 }
 

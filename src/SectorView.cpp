@@ -307,15 +307,24 @@ void SectorView::Update()
 		SBodyPath sbody_path(m_secx, m_secy, m_selected);
 		int fuelRequired;
 		double dur;
-		bool canJump = Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired, dur);
-		if (canJump) {
-			snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
-			if (Pi::currentSystem->GetLocation() != sys->GetLocation()) 
-				Pi::player->SetHyperspaceTarget(&sbody_path);
-		} else if (fuelRequired) {
-			snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
-		} else {
-			snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+		enum Ship::HyperjumpStatus jumpStatus;
+		Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired, dur, &jumpStatus);
+		switch (jumpStatus) {
+			case Ship::HYPERJUMP_OK:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
+				if (Pi::currentSystem->GetLocation() != sys->GetLocation()) 
+					Pi::player->SetHyperspaceTarget(&sbody_path);
+				break;
+			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				break;
+			case Ship::HYPERJUMP_OUT_OF_RANGE:
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				break;
+			case Ship::HYPERJUMP_NO_DRIVE:
+				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+				break;
+
 		}
 
 		std::string desc;

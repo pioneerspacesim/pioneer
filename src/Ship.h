@@ -70,7 +70,13 @@ public:
 	// just jump to near an SBody
 	void SetHyperspaceTarget(const SBodyPath *path);
 	void TryHyperspaceTo(const SBodyPath *dest);
-	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs);
+	enum HyperjumpStatus {
+		HYPERJUMP_OK,
+		HYPERJUMP_NO_DRIVE,
+		HYPERJUMP_OUT_OF_RANGE,
+		HYPERJUMP_INSUFFICIENT_FUEL
+	};
+	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SBodyPath *dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	Equip::Type GetHyperdriveFuelType() const;
