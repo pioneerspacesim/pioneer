@@ -18,6 +18,9 @@ void ship_randomly_equip(Ship *ship, double power)
 	const shipstats_t *stats;
 	const ShipType &type = ship->GetShipType();
 
+	// Start with lots of money, so the AI can buy and sell fuel and stuff
+	ship->SetMoney(10000000);
+
 	// SLOT_ENGINE
 	ship->m_equipment.Set(Equip::SLOT_ENGINE, 0, type.hyperdrive);
 	stats = ship->CalcStats();

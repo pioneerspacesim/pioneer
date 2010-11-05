@@ -426,9 +426,12 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 	outFuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
 	if (outFuelRequired < 1) outFuelRequired = 1;
-	if (dist > m_stats.hyperspace_range) {
+	if (dist > m_stats.hyperspace_range_max) {
 		outFuelRequired = 0;
 		if (outStatus) *outStatus = HYPERJUMP_OUT_OF_RANGE;
+		return false;
+	} else if (m_stats.hyperspace_range < m_stats.hyperspace_range_max) {
+		if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
 		return false;
 	} else {
 		// take at most a week. why a week? because a week is a

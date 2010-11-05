@@ -165,8 +165,7 @@ void Ship::AITimeStep(const float timeStep)
 	}
 	if (done) { 
 		ClearThrusterState();
-		printf("AI '%s' successfully executed %d:'%s'\n", GetLabel().c_str(), m_todo.front().cmd,
-				m_todo.front().target->GetLabel().c_str());
+		printf("AI '%s' successfully executed %d\n", GetLabel().c_str(), m_todo.front().cmd);
 		m_todo.pop_front();
 		/* Finished autopilot program so fall out of time accel */
 		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
@@ -460,8 +459,9 @@ bool Ship::AICmdJourney(AIInstruction &inst)
 		// need to hyperspace there
 		int fuelRequired;
 		double duration;
-		bool can = CanHyperspaceTo(&inst.journeyDest, fuelRequired, duration);
-		if (can) {
+		enum Ship::HyperjumpStatus jumpStatus;
+		CanHyperspaceTo(&inst.journeyDest, fuelRequired, duration, &jumpStatus);
+		if (jumpStatus == Ship::HYPERJUMP_OK) {
 			switch (GetFlightState()) {
 			case FLYING:
 				TryHyperspaceTo(&inst.journeyDest);
@@ -478,16 +478,57 @@ bool Ship::AICmdJourney(AIInstruction &inst)
 				break;
 			}
 		} else {
-			printf("AICmdJourney() can't get to destination :-(\n");
-			Equip::Type fuelType = GetHyperdriveFuelType();
-
-			if (GetDockedWith()) {
-				printf("Fuel type %d\n", fuelType);
-				if (BuyFrom(GetDockedWith(), fuelType, false)) printf("Got a fuel\n");
-				else printf("Fuck..\n");
-			} else {
-				printf("AICmdJourney() failed\n");
+			printf("AICmdJourney() can't get to destination (reason %d) :-(\n", (int)jumpStatus);
+			if (!GetDockedWith()) {
+				// if we aren't docked then there is no point trying to
+				// buy fuel, etc. just give up
+				printf("AICmdJourney() failed (not docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
 				return true;
+			}
+
+			switch (jumpStatus) {
+			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+				{
+					Equip::Type fuelType = GetHyperdriveFuelType();
+
+					printf("Fuel type %d\n", fuelType);
+					if (BuyFrom(GetDockedWith(), fuelType, false)) {
+						// good. let's see if we are able to jump next tick
+						return false;
+					} else {
+						printf("AICmdJourney() failed (docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
+						return true;
+					}
+				}
+				break;
+			case Ship::HYPERJUMP_NO_DRIVE:
+			case Ship::HYPERJUMP_OUT_OF_RANGE:
+				{
+					const Equip::Type fuelType = GetHyperdriveFuelType();
+					const Equip::Type driveType = m_equipment.Get(Equip::SLOT_ENGINE);
+					const Equip::Type laserType = m_equipment.Get(Equip::SLOT_LASER, 0);
+					// preserve money
+					Sint64 oldMoney = GetMoney();
+					SetMoney(10000000);
+					MarketAgent *trader = GetDockedWith();
+					// need to lose some equipment and see if we get light enough
+					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
+					if ((EquipType::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
+						// try a different hyperdrive
+						SellTo(trader, driveType);
+						if (!BuyFrom(trader, t)) {
+							BuyFrom(trader, driveType);
+						}
+						printf("Switched drive to a %s\n", EquipType::types[t].name);
+					} else if ((t != fuelType) && (t != driveType) && (t != laserType)) {
+						SellTo(trader, t);
+						printf("Removed a %s\n", EquipType::types[t].name);
+					}
+					SetMoney(oldMoney);
+				}
+				break;
+			case Ship::HYPERJUMP_OK:
+				break; // shouldn't reach this though
 			}
 		}
 	} else {
