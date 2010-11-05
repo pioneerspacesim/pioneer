@@ -130,6 +130,9 @@ void Ship::AITimeStep(const float timeStep)
 {
 	bool done = false;
 	
+	// allow the launch thruster thing to happen
+	if (m_launchLockTimeout != 0) return;
+	
 	if (m_todo.size() != 0) {
 		AIInstruction &inst = m_todo.front();
 		switch (inst.cmd) {
@@ -491,7 +494,6 @@ bool Ship::AICmdJourney(AIInstruction &inst)
 				{
 					Equip::Type fuelType = GetHyperdriveFuelType();
 
-					printf("Fuel type %d\n", fuelType);
 					if (BuyFrom(GetDockedWith(), fuelType, false)) {
 						// good. let's see if we are able to jump next tick
 						return false;
@@ -550,6 +552,15 @@ bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
 
 	// don't think about it
 	if (!body->IsType(Object::PLANET)) return true;
+			
+	if (GetFlightState() == LANDED) {
+		if (GetDockedWith()) {
+			Undock();
+		} else {
+			Blastoff();
+		}
+		return false;
+	}
 
 	// is there planets in our way that we need to avoid?
 	if (AIAddAvoidancePathOnWayTo(body)) {
