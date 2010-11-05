@@ -83,7 +83,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 {
 	m_pos += m_vel * timeStep;
 
-	if (m_ship && (m_due < Pi::GetGameTime())) {
+	if (m_isArrival && m_ship && (m_due < Pi::GetGameTime())) {
 		// spawn ship
 		m_ship->SetPosition(m_pos);
 		m_ship->SetVelocity(m_vel);
