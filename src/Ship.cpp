@@ -291,6 +291,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);
 			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 		} else {
+			PiLuaModules::QueueEvent("onShipAttacked", static_cast<Object*>(this), static_cast<Object*>(attacker));
 			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
 			

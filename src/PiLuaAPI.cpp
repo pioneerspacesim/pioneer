@@ -82,6 +82,8 @@ void ship_randomly_equip(Ship *ship, double power)
 
 ////////////////////////////////////////////////////////////
 
+std::map<Object *, ObjectWrapper *> ObjectWrapper::objWrapLookup;
+
 EXPORT_OOLUA_FUNCTIONS_14_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
@@ -101,6 +103,18 @@ EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
 		IsBody,
 		GetMoney,
 		GetLabel)
+
+ObjectWrapper *ObjectWrapper::Get(Object *o)
+{
+	std::map<Object *, ObjectWrapper *>::iterator i = objWrapLookup.find(o);
+	if (i == objWrapLookup.end()) {
+		ObjectWrapper *p = new ObjectWrapper(o);
+		objWrapLookup[o] = p;
+		return p;
+	} else {
+		return (*i).second;
+	}
+}
 
 ObjectWrapper::ObjectWrapper(Object *o): m_obj(o) {
 	if (o) {
@@ -229,21 +243,22 @@ SBodyPath *ObjectWrapper::GetSBody()
 ObjectWrapper *ObjectWrapper::GetDockedWith()
 {
 	if (Is(Object::SHIP) && static_cast<Ship*>(m_obj)->GetDockedWith()) {
-		return new ObjectWrapper(static_cast<Ship*>(m_obj)->GetDockedWith());
+		return ObjectWrapper::Get(static_cast<Ship*>(m_obj)->GetDockedWith());
 	} else {
 		return 0;
 	}
 }
 
 ObjectWrapper::~ObjectWrapper() {
-//	printf("ObjWrapper for %s is being deleted\n", GetLabel());
-	m_delCon.disconnect();
+	printf("ObjWrapper for %s is being deleted\n", GetLabel());
+	OnDelete();
 }
 bool ObjectWrapper::Is(Object::Type t) const {
 	return m_obj && m_obj->IsType(t);
 }
 void ObjectWrapper::OnDelete() {
 	// object got deleted out from under us
+	objWrapLookup.erase(m_obj);
 	m_obj = 0;
 	m_delCon.disconnect();
 }
@@ -335,7 +350,7 @@ static int UserDataUnserialize(lua_State *L)
 	if (str.substr(0, 14) == "ObjectWrapper\n") {
 		int idx = atoi(str.substr(14).c_str());
 		Body *b = Serializer::LookupBody(idx);
-		push2luaWithGc(L, new ObjectWrapper(b));
+		push2luaWithGc(L, ObjectWrapper::Get(b));
 		return 1;
 	} else if (str.substr(0, 10) == "SBodyPath\n") {
 		Serializer::Reader r(str.substr(10));
@@ -382,7 +397,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 
 namespace LuaPi {
 	static int GetPlayer(lua_State *l) {
-		push2luaWithGc(l, new ObjectWrapper((Object*)Pi::player));
+		push2luaWithGc(l, ObjectWrapper::Get((Object*)Pi::player));
 		return 1;
 	}
 	static int GetGameTime(lua_State *l) {
@@ -436,7 +451,7 @@ namespace LuaPi {
 				ship->SetFrame(station->GetFrame());
 				Space::AddBody(ship);
 				ship->SetDockedWith(station, port);
-				push2luaWithGc(l, new ObjectWrapper(ship));
+				push2luaWithGc(l, ObjectWrapper::Get(ship));
 				return 1;
 			}
 		}
@@ -464,7 +479,7 @@ namespace LuaPi {
 					ship->SetPosition(pos);
 					ship->SetVelocity(Pi::player->GetVelocity());
 					Space::AddBody(ship);
-					push2luaWithGc(l, new ObjectWrapper(ship));
+					push2luaWithGc(l, ObjectWrapper::Get(ship));
 					return 1;
 				} else {
 					// hypercloud still present
@@ -475,7 +490,7 @@ namespace LuaPi {
 					cloud->SetPosition(pos);
 					cloud->SetVelocity(Pi::player->GetVelocity());
 					Space::AddBody(cloud);
-					push2luaWithGc(l, new ObjectWrapper(ship));
+					push2luaWithGc(l, ObjectWrapper::Get(ship));
 					return 1;
 				}
 			} else {
@@ -487,7 +502,7 @@ namespace LuaPi {
 				cloud->SetPosition(pos);
 				cloud->SetVelocity(Pi::player->GetVelocity());
 				Space::AddBody(cloud);
-				push2luaWithGc(l, new ObjectWrapper(ship));
+				push2luaWithGc(l, ObjectWrapper::Get(ship));
 				return 1;
 			}
 		}
@@ -569,7 +584,7 @@ namespace LuaPi {
 		SBodyPath *path;
 		OOLUA::pull2cpp(l, path);
 		Body *b = Space::FindBodyForSBodyPath(path);
-		push2luaWithGc(l, new ObjectWrapper(b));
+		push2luaWithGc(l, ObjectWrapper::Get(b));
 		return 1;
 	}
 }

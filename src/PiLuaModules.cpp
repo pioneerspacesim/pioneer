@@ -83,7 +83,7 @@ void QueueEvent(const char *eventName, Object *o1)
 	lua_setfield(L, -2, "type");
 
 	lua_pushinteger(L, 1);
-	push2luaWithGc(L, new ObjectWrapper(o1));
+	push2luaWithGc(L, ObjectWrapper::Get(o1));
 	lua_settable(L, -3);
 	
 	// insert event into __pendingEvents
@@ -106,11 +106,11 @@ void QueueEvent(const char *eventName, Object *o1, Object *o2)
 	lua_setfield(L, -2, "type");
 
 	lua_pushinteger(L, 1);
-	push2luaWithGc(L, new ObjectWrapper(o1));
+	push2luaWithGc(L, ObjectWrapper::Get(o1));
 	lua_settable(L, -3);
 	
 	lua_pushinteger(L, 2);
-	push2luaWithGc(L, new ObjectWrapper(o2));
+	push2luaWithGc(L, ObjectWrapper::Get(o2));
 	lua_settable(L, -3);
 	
 	// insert event into __pendingEvents

@@ -69,7 +69,20 @@ Module:new {
 		end
 	end,
 
-	_launchTargetShip = function(mission)
+	onShipAttacked = function(self, args)
+		local s = args[1]
+		print(s:GetLabel() .. " was attacked by " .. args[2]:GetLabel())
+		for k,mission in pairs(self.missions) do
+			if mission.status == 'active' and
+			   mission.target_ship == s then
+				s:ShipAIDoKill(Pi.GetPlayer())
+			end
+		end
+	end,
+
+	_launchTargetShip = function(args)
+		local self = args[1]
+		local mission = args[2]
 		print("Hm. should launch ship now: " .. mission.target_ship:GetLabel())
 		-- send the target on a wee journey
 		local destination = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn()
@@ -85,6 +98,8 @@ Module:new {
 			mission.target_ship:ShipAIDoMediumOrbit(Pi.FindBodyForSBody(destination))
 			print("Orbiting " .. destination:GetBodyName())
 		end
+	--	Object.ListenOnShipAttacked(mission.target_ship, self)--:ListenOnShipAttacked(self)
+		--self:EventListen("onShipAttacked")
 	end,
 
 	_setupTimersForMission = function(self, mission)
@@ -92,7 +107,8 @@ Module:new {
 		   mission.target_ship ~= nil and
 		   mission.due > Pi.GetGameTime() then
 			print("Adding timer for " .. Date.Format(mission.due))
-			Pi.AddTimer(mission.due, self._launchTargetShip, mission)
+			Pi.AddTimer(mission.due, self._launchTargetShip, {self, mission})
+			mission.target_ship:OnShipAttacked(self, "onShipAttacked")
 		end
 	end,
 

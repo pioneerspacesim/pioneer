@@ -4,6 +4,32 @@ Object = ObjectWrapper
 StarSystem = SysLoc
 SBody = SBodyPath
 
+-- A 'fake module' to dispatch object events to modules that only care
+-- about the event for a particular object (like listening for ship X being attacked)
+ObjectEventDispatcher = {
+	__onShipAttackedListeners = {},
+	onShipAttacked = function(self, args)
+		local listeners = self.__onShipAttackedListeners[args[1]]
+		if listeners ~= nil then
+			for mod,j in pairs(listeners) do
+				local m = _G[mod]
+				m[j](m, args)
+			end
+		end
+	end,
+}
+
+Object.OnShipAttacked = function(ship, mod, methodName)
+	if methodName == nil then
+		ObjectEventDispatcher.__onShipAttackedListeners[ship][mod.__name] = nil
+	else
+		if ObjectEventDispatcher.__onShipAttackedListeners[ship] == nil then
+       			ObjectEventDispatcher.__onShipAttackedListeners[ship] = {}
+		end
+		ObjectEventDispatcher.__onShipAttackedListeners[ship][mod.__name] = methodName
+	end
+end
+
 -- other jizz
 
 Pi.rand = Rand:new(os.time())
@@ -22,17 +48,16 @@ end
 
 -- Bits that make modules work ---------------------------
 
+-- Start with the 'fake module' ObjectEventDispatcher listening for some events
 __pendingEvents = {}
-__eventListeners = {}
+__eventListeners = { onShipAttacked = {ObjectEventDispatcher=true} }
 
 function EmitEvents()
-	print("Lua EmitEvents");
 	for i,event in ipairs(__pendingEvents) do
-		print(event.type)
-		mods = __eventListeners[event.type]
+		local mods = __eventListeners[event.type]
 		if mods then
 			for mod,j in pairs(mods) do
-				m = _G[mod]
+				local m = _G[mod]
 				m[event.type](m, event)
 			end
 		end
@@ -169,14 +194,3 @@ function Module:TraderOnClickBuy(self, dialog, comType)
 	return true
 end
 
---[[
-a = ObjectWrapper:new()
-b = Pi.GetPlayer()
-print(a:IsBody())
-print(b:IsBody())
-print(b:GetLabel())
-a:print()
-b:print()
-print(a == b)
---]]
-print(Pi.GetPlayer())

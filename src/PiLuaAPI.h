@@ -5,6 +5,7 @@
 #include "mylua.h"
 #include "Object.h"
 #include "StarSystem.h"
+#include <map>
 
 void RegisterPiLuaAPI(lua_State *L);
 
@@ -12,7 +13,6 @@ class ObjectWrapper
 {
 	public:
 	ObjectWrapper(): m_obj(0) {}
-	ObjectWrapper(Object *o);
 	bool IsBody() const;
 	const char *GetLabel() const;
 	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
@@ -44,6 +44,22 @@ class ObjectWrapper
 	protected:
 	void OnDelete();
 	sigc::connection m_delCon;
+
+	public:
+	/** Use this instead of new ObjectWrapper(o)
+	 *
+	 * Pass Object to lua with:
+	 * push2luaWithGc(L, ObjectWrapper::Get(o));
+	 *
+	 * It ensures that there is only one ObjectWrapper instance per Object, which is necessary
+	 * so that objects can be used as table keys in lua (Lua hashes userdata by address).
+	 * Note that without this measure the equality operator would still give the right result
+	 * (which sure confused me while debugging this...)
+	 */
+	static ObjectWrapper *Get(Object *o);
+	private:
+	static std::map<Object *, ObjectWrapper *> objWrapLookup;
+	ObjectWrapper(Object *o);
 };
 
 OOLUA_CLASS_NO_BASES(ObjectWrapper)
