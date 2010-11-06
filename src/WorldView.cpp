@@ -493,7 +493,7 @@ void WorldView::ShowAll()
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
-	if (Pi::player->IsDead()) {
+	if ((!Pi::player) || Pi::player->IsDead()) {
 		HideAll();
 	}
 	else {
