@@ -8,8 +8,18 @@ SBody = SBodyPath
 -- about the event for a particular object (like listening for ship X being attacked)
 ObjectEventDispatcher = {
 	__onShipAttackedListeners = {},
+	__onShipKilledListeners = {},
 	onShipAttacked = function(self, args)
 		local listeners = self.__onShipAttackedListeners[args[1]]
+		if listeners ~= nil then
+			for mod,j in pairs(listeners) do
+				local m = _G[mod]
+				m[j](m, args)
+			end
+		end
+	end,
+	onShipKilled = function(self, args)
+		local listeners = self.__onShipKilledListeners[args[1]]
 		if listeners ~= nil then
 			for mod,j in pairs(listeners) do
 				local m = _G[mod]
@@ -23,10 +33,18 @@ Object.OnShipAttacked = function(ship, mod, methodName)
 	if methodName == nil then
 		ObjectEventDispatcher.__onShipAttackedListeners[ship][mod.__name] = nil
 	else
-		if ObjectEventDispatcher.__onShipAttackedListeners[ship] == nil then
-       			ObjectEventDispatcher.__onShipAttackedListeners[ship] = {}
-		end
+		ObjectEventDispatcher.__onShipAttackedListeners[ship] = 
+			ObjectEventDispatcher.__onShipAttackedListeners[ship] or {}
 		ObjectEventDispatcher.__onShipAttackedListeners[ship][mod.__name] = methodName
+	end
+end
+Object.OnShipKilled = function(ship, mod, methodName)
+	if methodName == nil then
+		ObjectEventDispatcher.__onShipKilledListeners[ship][mod.__name] = nil
+	else
+		ObjectEventDispatcher.__onShipKilledListeners[ship] = 
+			ObjectEventDispatcher.__onShipKilledListeners[ship] or {}
+		ObjectEventDispatcher.__onShipKilledListeners[ship][mod.__name] = methodName
 	end
 end
 
@@ -50,7 +68,10 @@ end
 
 -- Start with the 'fake module' ObjectEventDispatcher listening for some events
 __pendingEvents = {}
-__eventListeners = { onShipAttacked = {ObjectEventDispatcher=true} }
+__eventListeners = {
+	onShipAttacked = {ObjectEventDispatcher=true},
+	onShipKilled = {ObjectEventDispatcher=true}
+}
 
 function EmitEvents()
 	for i,event in ipairs(__pendingEvents) do

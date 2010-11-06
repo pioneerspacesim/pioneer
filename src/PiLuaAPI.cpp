@@ -99,8 +99,9 @@ EXPORT_OOLUA_FUNCTIONS_14_NON_CONST(ObjectWrapper,
 		SpaceStationRemoveAdvert,
 		GetDockedWith,
 		GetSBody)
-EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_4_CONST(ObjectWrapper,
 		IsBody,
+		IsValid,
 		GetMoney,
 		GetLabel)
 

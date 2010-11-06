@@ -14,6 +14,7 @@ class ObjectWrapper
 	public:
 	ObjectWrapper(): m_obj(0) {}
 	bool IsBody() const;
+	bool IsValid() const { return m_obj; }
 	const char *GetLabel() const;
 	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
 	void SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description);
@@ -86,6 +87,7 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<ObjectWrapper*>, GetDockedWith);
 	OOLUA_MEM_FUNC_0_CONST(double,GetMoney)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
+	OOLUA_MEM_FUNC_0_CONST(bool, IsValid)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)
 OOLUA_CLASS_END
 

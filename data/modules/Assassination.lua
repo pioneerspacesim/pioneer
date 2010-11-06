@@ -27,7 +27,7 @@ Module:new {
 	Unserialize = function(self, data)
 		Module.Unserialize(self, data)
 		for i,mission in pairs(self.missions) do
-			self:_setupTimersForMission(mission)
+			self:_setupHooksForMission(mission)
 		end
 	end,
 
@@ -51,6 +51,7 @@ Module:new {
 			due = Pi.GetGameTime() + Pi.rand:Real(0, ass_flavours[flavour].time * 60*60*24*31),
 			bb = station,
 			location = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn(),
+			base = station:GetSBody(),
 			id = #self.ads+1
 		}
 		-- if we found a location
@@ -70,14 +71,31 @@ Module:new {
 	end,
 
 	onShipAttacked = function(self, args)
+		-- When the player attacks the target, make it fight back
 		local s = args[1]
-		print(s:GetLabel() .. " was attacked by " .. args[2]:GetLabel())
 		for k,mission in pairs(self.missions) do
 			if mission.status == 'active' and
 			   mission.target_ship == s then
 				s:ShipAIDoKill(Pi.GetPlayer())
+				-- stop listening for the event (our work is done)
+				s:OnShipAttacked(self, nil)
 			end
 		end
+	end,
+
+	onShipKilled = function(self, args)
+		local s = args[1]
+		for k, mission in pairs(self.missions) do
+			if mission.status == 'active' and
+			   mission.target_ship == s and
+			   mission.due < Pi.GetGameTime()
+			then
+				-- well done, comrade
+				mission.status = 'completed'
+				-- stop listening for event
+				s:OnShipKilled(self, nil)
+			end
+		end	   
 	end,
 
 	_launchTargetShip = function(args)
@@ -98,52 +116,69 @@ Module:new {
 			mission.target_ship:ShipAIDoMediumOrbit(Pi.FindBodyForSBody(destination))
 			print("Orbiting " .. destination:GetBodyName())
 		end
-	--	Object.ListenOnShipAttacked(mission.target_ship, self)--:ListenOnShipAttacked(self)
-		--self:EventListen("onShipAttacked")
+		-- Set up event hooks (onShipAttacked, onShipKilled, etc)
+		self:_setupHooksForMission(mission)
 	end,
 
-	_setupTimersForMission = function(self, mission)
+	_setupHooksForMission = function(self, mission)
 		if mission.status == 'active' and
-		   mission.target_ship ~= nil and
-		   mission.due > Pi.GetGameTime() then
-			print("Adding timer for " .. Date.Format(mission.due))
-			Pi.AddTimer(mission.due, self._launchTargetShip, {self, mission})
-			mission.target_ship:OnShipAttacked(self, "onShipAttacked")
+		   mission.target_ship ~= nil then
+			if mission.due > Pi.GetGameTime() then
+				-- Target hasn't launched yet. set up a timer to do this
+				print("Adding timer for " .. Date.Format(mission.due))
+				Pi.AddTimer(mission.due, self._launchTargetShip, {self, mission})
+			else
+				-- Target has launched. set up event hooks
+				mission.target_ship:OnShipAttacked(self, "onShipAttacked")
+				mission.target_ship:OnShipKilled(self, "onShipKilled")
+			end
 		end
 	end,
 
 	onEnterSystem = function(self)
 		for k,mission in pairs(self.missions) do
-			if mission.status == 'active' and
-			   mission.location:GetSystem() == Pi:GetCurrentSystem() then
-				ship, e = Pi.SpawnRandomDockedShip(Pi.FindBodyForSBody(mission.location), 10, 50, 500)
-				ship:SetLabel("Bag 'o shit")
-				mission.target_ship = ship
-				self:_setupTimersForMission(mission)
+			if mission.status == 'active' then
+				if mission.location:GetSystem() == Pi:GetCurrentSystem() then
+					if mission.due < Pi.GetGameTime() then
+						-- spawn our target ship
+						ship, e = Pi.SpawnRandomDockedShip(Pi.FindBodyForSBody(mission.location), 10, 50, 500)
+						ship:SetLabel("Bag 'o shit")
+						mission.target_ship = ship
+						self:_setupHooksForMission(mission)
+					else
+						-- too late
+						mission.status = 'failed'
+					end
+				elseif mission.target_ship then
+					-- if we are in the wrong system, but target_ship is set indicating the 
+					-- target has been spawned. This means we are probably leaving the target system
+					if not mission.target_ship:IsValid() then
+						-- The above condition is true if we are too late for the mission,
+						-- or have hyperspaced away from our target and lost it (if we had
+						-- followed it through hyperspace then IsValid() would be true
+						mission.status = 'failed'
+					else
+						-- can still do mission (followed target through hyperspace)
+						self:_setupHooksForMission(mission)
+					end
+				end
 			end
 		end
 	end,
 
 	onPlayerDock = function(self)
---[[		local station = Pi.GetPlayer():GetDockedWith():GetSBody()
-		print('player docked with ' .. station:GetBodyName())
+		local station = Pi.GetPlayer():GetDockedWith():GetSBody()
 		for k,mission in pairs(self.missions) do
-			if mission.status == 'active' then
-				if mission.location == station then
-					if Pi.GetGameTime() > mission.due then
-						Pi.ImportantMessage(ass_flavours[mission.flavour].failuremsg, mission.client)
-						mission.status = 'failed'
-					else
-						Pi.ImportantMessage(ass_flavours[mission.flavour].successmsg, mission.client)
-						Pi.GetPlayer():AddMoney(mission.reward)
-						mission.status = 'completed'
-					end
-				elseif Pi.GetGameTime() > mission.due then
-					mission.status = 'failed'
+			if mission.base == station then
+				if mission.status == 'completed' then
+					Pi.ImportantMessage(ass_flavours[mission.flavour].successmsg, mission.client)
+					Pi.GetPlayer():AddMoney(mission.reward)
+				elseif mission.status == 'failed' then
+					Pi.ImportantMessage(ass_flavours[mission.flavour].failuremsg, mission.client)
 				end
 			end
 		end
---]]	end,
+	end,
 	
 	onUpdateBB = function(self, args)
 		local station = args[1]
@@ -178,17 +213,21 @@ Module:new {
 		elseif optionClicked == 3 then
 			dialog:RemoveAdvertOnClose()
 			self.ads[ad.id] = nil
-			ad.description = _("Kill %1 at %2 in the %3 system.",
-					{ ad.target, ad.location:GetBodyName(), ad.location:GetSystemName() })
+			ad.description = _("Kill %1 at %2 in the %3 system. Return to %4 in the %5 system for payment.",
+					{ ad.target, ad.location:GetBodyName(), ad.location:GetSystemName(),
+				          ad.base:GetBodyName(), ad.base:GetSystemName() })
 			ad.status = "active"
 			table.insert(self.missions, ad)
 			dialog:SetMessage("Excellent.")
 			dialog:AddOption("Hang up.", -1)
 			return
+		elseif optionClicked == 4 then
+			dialog:SetMessage("Return here on the completion of the contract and you will be paid.")
 		end
 		dialog:AddOption(_("Where can I find %1?", {ad.target}), 1);
 		dialog:AddOption("Could you repeat the original request?", 0);
 		dialog:AddOption("How soon must it be done?", 2);
+		dialog:AddOption("How will I be paid?", 4);
 		dialog:AddOption("Ok, agreed.", 3);
 		dialog:AddOption("Hang up.", -1);
 	end,
