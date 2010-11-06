@@ -717,6 +717,9 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
 		printf("Started hyperspacing...\n");
 	} else {
+		// XXX note that cloud now takes ownership of the ship object, and
+		// so we can drop the reference in Space::bodies. ship will be freed
+		// when the hyperspacecloud is freed
 		HyperspaceCloud *cloud = new HyperspaceCloud(ship, Pi::GetGameTime() + duration, false);
 		cloud->SetFrame(ship->GetFrame());
 		cloud->SetPosition(ship->GetPosition());
