@@ -581,6 +581,7 @@ void Pi::InitGame()
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
 	player->m_equipment.Add(Equip::HYDROGEN, 10);
+	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
 	player->m_equipment.Add(Equip::MISSILE_GUIDED);
