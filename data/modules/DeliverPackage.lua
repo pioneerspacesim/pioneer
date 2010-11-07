@@ -127,10 +127,10 @@ Module:new {
 			if mission.status == 'active' then
 				if mission.dest == station then
 					if Pi.GetGameTime() > mission.due then
-						Pi.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
+						Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
 						mission.status = 'failed'
 					else
-						Pi.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
+						Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
 						Pi.GetPlayer():AddMoney(mission.reward)
 						mission.status = 'completed'
 					end

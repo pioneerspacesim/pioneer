@@ -172,12 +172,12 @@ Module:new {
 		for k,mission in pairs(self.missions) do
 			if mission.base == station then
 				if mission.status == 'completed' then
-					Pi.ImportantMessage(ass_flavours[mission.flavour].successmsg, mission.client)
+					Pi.ImportantMessage(mission.client, _(ass_flavours[mission.flavour].successmsg, {mission.target}))
 					Pi.GetPlayer():AddMoney(mission.reward)
 					-- erase the mission
 					self.missions[k] = nil
 				elseif mission.status == 'failed' then
-					Pi.ImportantMessage(ass_flavours[mission.flavour].failuremsg, mission.client)
+					Pi.ImportantMessage(mission.client, _(ass_flavours[mission.flavour].failuremsg, {mission.target}))
 					-- erase the mission
 					self.missions[k] = nil
 				end
