@@ -45,16 +45,15 @@ public:
 		sectorX = p.sectorX;
 		sectorY = p.sectorY;
 		systemNum = p.systemNum;
-		for (int i=0; i<SBODYPATHLEN; i++) elem[i] = p.elem[i];
+		sbodyId = p.sbodyId;
 	}
-	Sint8 elem[SBODYPATHLEN];
+	Uint32 sbodyId;
 	
 	void Serialize(Serializer::Writer &wr) const;
 	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
 	
 	bool operator== (const SBodyPath b) const {
-		for (int i=0; i<SBODYPATHLEN; i++) if (elem[i] != b.elem[i]) return false;
-		return (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
+		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
 	}
 	/** These are for the Lua wrappers -- best not to use them from C++
 	 * since they acquire a StarSystem object in a rather sub-optimal way */
@@ -62,20 +61,7 @@ public:
 	Uint32 GetSeed() const;
 	SysLoc GetSystem() const { return (SysLoc)*this; }
 	/** Caller owns the returned SBodyPath* */
-	SBodyPath *GetParent() const {
-		SBodyPath *p = new SBodyPath(*this);
-		for (int i=0; i<SBODYPATHLEN; i++) {
-			printf("%d:", elem[i]);
-		} printf("\n");
-
-		for (int i=SBODYPATHLEN-1; i>0; i--) {
-			if (p->elem[i-1] == -1) {
-				p->elem[i] = -1;
-				break;
-			}
-		}
-		return p;
-	}
+	SBodyPath *GetParent() const;
 private:
 	/** Returned SBody only valid pointer for duration described in
 	 * StarSystem::GetCached comment */
@@ -178,6 +164,7 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	Uint32 id; // index into starsystem->m_bodies
 	int tmp;
 	Orbit orbit;
 	Uint32 seed; // Planet.cpp can use to generate terrain
@@ -244,6 +231,8 @@ public:
 
 	SBody *rootBody;
 	std::vector<SBody*> m_spaceStations;
+	// index into this will be the SBody ID used by SBodyPath
+	std::vector<SBody*> m_bodies;
 	
 	fixed m_metallicity;
 	fixed m_industrial;
@@ -261,6 +250,12 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
+	SBody *NewBody() {
+		SBody *body = new SBody;
+		body->id = m_bodies.size();
+		m_bodies.push_back(body);
+		return body;
+	}
 	void MakeShortDescription(MTRand &rand);
 	void MakePlanetsAround(SBody *primary, MTRand &rand);
 	void MakeRandomStar(SBody *sbody, MTRand &rand);

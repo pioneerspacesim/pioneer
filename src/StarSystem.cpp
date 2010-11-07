@@ -357,23 +357,23 @@ EXPORT_OOLUA_FUNCTIONS_4_CONST(SBodyPath,
 
 SBodyPath::SBodyPath(): SysLoc()
 {
-	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
+	sbodyId = 0;
 }
 SBodyPath::SBodyPath(int sectorX, int sectorY, int systemNum): SysLoc(sectorX, sectorY, systemNum)
 {
-	for (int i=0; i<SBODYPATHLEN; i++) elem[i] = -1;
+	sbodyId = 0;
 }
 
 void SBodyPath::Serialize(Serializer::Writer &wr) const
 {
 	SysLoc::Serialize(wr);
-	for (int i=0; i<SBODYPATHLEN; i++) wr.Byte(elem[i]);
+	wr.Int32(sbodyId);
 }
 
 void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
 {
 	SysLoc::Unserialize(rd, path);
-	for (int i=0; i<SBODYPATHLEN; i++) path->elem[i] = rd.Byte();
+	path->sbodyId = rd.Int32();
 }
 
 const char *SBodyPath::GetBodyName() const
@@ -390,6 +390,13 @@ const SBody *SBodyPath::GetSBody() const
 {
 	StarSystem *s = StarSystem::GetCached(*this);
 	return s->GetBodyByPath(this);
+}
+	
+SBodyPath *SBodyPath::GetParent() const {
+	SBodyPath *p = new SBodyPath;
+	StarSystem *sys = StarSystem::GetCached(*this);
+	sys->GetPathOf(sys->GetBodyByPath(this)->parent, p);
+	return p;
 }
 
 template <class T>
@@ -440,45 +447,19 @@ SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
 {
 	assert((m_loc.sectorX == path->sectorX) || (m_loc.sectorY == path->sectorY) ||
 	       (m_loc.systemNum == path->systemNum));
+	assert(path->sbodyId < m_bodies.size());
 
-	SBody *body = rootBody;
-	for (int i=0; i<SBODYPATHLEN; i++) {
-		if (path->elem[i] == -1) continue;
-		else {
-			body = body->children[path->elem[i]];
-		}
-	}
-	return body;
+	return m_bodies[path->sbodyId];
 }
 
 void StarSystem::GetPathOf(const SBody *sbody, SBodyPath *path) const
 {
 	*path = SBodyPath();
 
-	int pos = SBODYPATHLEN-1;
-
-	for (const SBody *parent = sbody->parent;;) {
-		if (!parent) break;
-		assert((pos>=0) && (pos < SBODYPATHLEN));
-
-		// find position of sbody in parent
-		unsigned int index = 0;
-		bool found = false;
-		for (; index < parent->children.size(); index++) {
-			if (parent->children[index] == sbody) {
-				assert(index < 128);
-				path->elem[pos--] = index;
-				sbody = parent;
-				parent = parent->parent;
-				found = true;
-				break;
-			}
-		}
-		assert(found);
-	}
 	path->sectorX = m_loc.sectorX;
 	path->sectorY = m_loc.sectorY;
 	path->systemNum = m_loc.systemNum;
+	path->sbodyId = sbody->id;
 }
 
 /*
@@ -499,7 +480,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 	for (int i=0; c->name; c++, i++) {
 		if (c->primaryIdx != primaryIdx) continue;
 		
-		SBody *kid = new SBody;
+		SBody *kid = NewBody();
 		SBody::BodyType type = c->type;
 		kid->seed = rand.Int32();
 		kid->type = type;
@@ -548,7 +529,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	while ((csbody->name) && (csbody->primaryIdx != -1)) { csbody++; idx++; }
 	assert(csbody->primaryIdx == -1);
 
-	rootBody = new SBody;
+	rootBody = NewBody();
 	SBody::BodyType type = csbody->type;
 	rootBody->type = type;
 	rootBody->parent = NULL;
@@ -675,7 +656,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 
 	if (numStars == 1) {
 		SBody::BodyType type = s.m_systems[system_idx].starType[0];
-		star[0] = new SBody;
+		star[0] = NewBody();
 		star[0]->parent = NULL;
 		star[0]->name = s.m_systems[system_idx].name;
 		star[0]->orbMin = 0;
@@ -684,19 +665,19 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 		rootBody = star[0];
 		m_numStars = 1;
 	} else {
-		centGrav1 = new SBody;
+		centGrav1 = NewBody();
 		centGrav1->type = SBody::TYPE_GRAVPOINT;
 		centGrav1->parent = NULL;
 		centGrav1->name = s.m_systems[system_idx].name+" A,B";
 		rootBody = centGrav1;
 
 		SBody::BodyType type = s.m_systems[system_idx].starType[0];
-		star[0] = new SBody;
+		star[0] = NewBody();
 		star[0]->name = s.m_systems[system_idx].name+" A";
 		star[0]->parent = centGrav1;
 		MakeStarOfType(star[0], type, rand);
 		
-		star[1] = new SBody;
+		star[1] = NewBody();
 		star[1]->name = s.m_systems[system_idx].name+" B";
 		star[1]->parent = centGrav1;
 		MakeStarOfTypeLighterThan(star[1], s.m_systems[system_idx].starType[1],
@@ -717,7 +698,7 @@ try_that_again_guvnah:
 			}
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
-				star[2] = new SBody;
+				star[2] = NewBody();
 				star[2]->name = s.m_systems[system_idx].name+" C";
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
@@ -726,18 +707,18 @@ try_that_again_guvnah:
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
-				centGrav2 = new SBody;
+				centGrav2 = NewBody();
 				centGrav2->type = SBody::TYPE_GRAVPOINT;
 				centGrav2->name = s.m_systems[system_idx].name+" C,D";
 				centGrav2->orbMax = 0;
 
-				star[2] = new SBody;
+				star[2] = NewBody();
 				star[2]->name = s.m_systems[system_idx].name+" C";
 				star[2]->parent = centGrav2;
 				MakeStarOfTypeLighterThan(star[2], s.m_systems[system_idx].starType[2],
 					star[0]->mass, rand);
 				
-				star[3] = new SBody;
+				star[3] = NewBody();
 				star[3]->name = s.m_systems[system_idx].name+" D";
 				star[3]->parent = centGrav2;
 				MakeStarOfTypeLighterThan(star[3], s.m_systems[system_idx].starType[3],
@@ -749,7 +730,7 @@ try_that_again_guvnah:
 				centGrav2->children.push_back(star[3]);
 				m_numStars = 4;
 			}
-			SBody *superCentGrav = new SBody;
+			SBody *superCentGrav = NewBody();
 			superCentGrav->type = SBody::TYPE_GRAVPOINT;
 			superCentGrav->parent = NULL;
 			superCentGrav->name = s.m_systems[system_idx].name;
@@ -960,7 +941,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 			mass *= rand.Fixed() * discDensity;
 		}
 
-		SBody *planet = new SBody;
+		SBody *planet = NewBody();
 		planet->eccentricity = ecc;
 		planet->semiMajorAxis = semiMajorAxis;
 		planet->type = SBody::TYPE_PLANET_DWARF;
@@ -1412,7 +1393,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 	pop -= rand.Fixed();
 	if ((orbMin < orbMax) && (pop >= 0)) {
 	
-		SBody *sp = new SBody;
+		SBody *sp = system->NewBody();
 		sp->type = SBody::TYPE_STARPORT_ORBITAL;
 		sp->seed = rand.Int32();
 		sp->tmp = 0;
@@ -1435,7 +1416,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 
 		pop -= rand.Fixed();
 		if (pop > 0) {
-			SBody *sp2 = new SBody;
+			SBody *sp2 = system->NewBody();
 			*sp2 = *sp;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
 			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
@@ -1450,7 +1431,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop < 0) break;
 
-		SBody *sp = new SBody;
+		SBody *sp = system->NewBody();
 		sp->type = SBody::TYPE_STARPORT_SURFACE;
 		sp->seed = rand.Int32();
 		sp->tmp = 0;

@@ -578,9 +578,8 @@ void Pi::InitGame()
 	Pi::isGameStarted = false;
 
 	player = new Player("Eagle Long Range Fighter");
-	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS4);
+	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
-	player->m_equipment.Set(Equip::SLOT_LASER, 1, Equip::PULSECANNON_1MW);
 	player->m_equipment.Add(Equip::HYDROGEN, 10);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
@@ -755,7 +754,7 @@ void Pi::Start()
 	} else if (choice == 3) {
 		/* debug start point */
 		SBodyPath path(1,0,2);
-		path.elem[0] = 5;
+		path.sbodyId = 6;
 		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
