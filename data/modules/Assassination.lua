@@ -7,7 +7,7 @@ local ass_flavours = {
 		successmsg = "News of %1's long vacation gratefully received. Well done, I have initiated your full payment.",
 		failuremsg = "I am most displeased to find that %1 is still alive. Needless to say you will receive no payment.",
 		danger = 0,
-		time = 3,
+		time = 2,
 		money = 1.0,
 	}
 }
@@ -45,6 +45,7 @@ Module:new {
 			flavour = flavour,
 			targetGender = targetGender,
 			target = title[Pi.rand:Int(1, #title)] .. " " .. Pi.rand:PersonName(gender),
+			target_shipregid = Pi.RandomShipRegId(),
 			clientGender = gender,
 			client = Pi.rand:PersonName(gender),
 			reward = Pi.rand:Real(2000, 15000) * ass_flavours[flavour].money,
@@ -139,10 +140,10 @@ Module:new {
 		for k,mission in pairs(self.missions) do
 			if mission.status == 'active' then
 				if mission.location:GetSystem() == Pi:GetCurrentSystem() then
-					if mission.due < Pi.GetGameTime() then
+					if mission.due > Pi.GetGameTime() then
 						-- spawn our target ship
 						ship, e = Pi.SpawnRandomDockedShip(Pi.FindBodyForSBody(mission.location), 10, 50, 500)
-						ship:SetLabel("Bag 'o shit")
+						ship:SetLabel(mission.target_shipregid)
 						mission.target_ship = ship
 						self:_setupHooksForMission(mission)
 					else
@@ -173,8 +174,12 @@ Module:new {
 				if mission.status == 'completed' then
 					Pi.ImportantMessage(ass_flavours[mission.flavour].successmsg, mission.client)
 					Pi.GetPlayer():AddMoney(mission.reward)
+					-- erase the mission
+					self.missions[k] = nil
 				elseif mission.status == 'failed' then
 					Pi.ImportantMessage(ass_flavours[mission.flavour].failuremsg, mission.client)
+					-- erase the mission
+					self.missions[k] = nil
 				end
 			end
 		end
@@ -203,9 +208,9 @@ Module:new {
 			dialog:SetMessage(_(ass_flavours[ad.flavour].introtext, {
 				ad.client, format_money(ad.reward), ad.target }))
 		elseif optionClicked == 1 then
-			dialog:SetMessage(_("%1 will be leaving %2 in the %3 system at %4.",
+			dialog:SetMessage(_("%1 will be leaving %2 in the %3 system at %4. The ship has registration id %5.",
 					{ ad.target, ad.location:GetBodyName(),
-					ad.location:GetSystemName(), Date.Format(ad.due) }
+					ad.location:GetSystemName(), Date.Format(ad.due), ad.target_shipregid }
 			))
 		elseif optionClicked == 2 then
 			dialog:SetMessage(_('It must be done after %1 leaves %2. Do not miss this opportunity.',
@@ -213,9 +218,9 @@ Module:new {
 		elseif optionClicked == 3 then
 			dialog:RemoveAdvertOnClose()
 			self.ads[ad.id] = nil
-			ad.description = _("Kill %1 at %2 in the %3 system. Return to %4 in the %5 system for payment.",
+			ad.description = _("Kill %1 (on the ship %6) at %2 in the %3 system. Return to %4 in the %5 system for payment.",
 					{ ad.target, ad.location:GetBodyName(), ad.location:GetSystemName(),
-				          ad.base:GetBodyName(), ad.base:GetSystemName() })
+				          ad.base:GetBodyName(), ad.base:GetSystemName(), ad.target_shipregid })
 			ad.status = "active"
 			table.insert(self.missions, ad)
 			dialog:SetMessage("Excellent.")

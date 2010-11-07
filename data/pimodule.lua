@@ -64,6 +64,13 @@ function format_money(amount)
 	return string.format('$%.1f', amount)
 end
 
+Pi.RandomShipRegId = function()
+	local letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	local a = Pi.rand:Int(1, #letters)
+	local b = Pi.rand:Int(1, #letters)
+	return string.format("%s%s-%04d", letters:sub(a,a), letters:sub(b,b), Pi.rand:Int(0, 9999))
+end
+ 
 -- Bits that make modules work ---------------------------
 
 -- Start with the 'fake module' ObjectEventDispatcher listening for some events
