@@ -316,9 +316,11 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 void DestroyAllEvents()
 {
 	/* silence any sound events */
+	SDL_LockAudio();
 	for (int idx=0; idx<MAX_WAVSTREAMS; idx++) {
 		DestroyEvent(&wavstream[idx]);
 	}
+	SDL_UnlockAudio();
 }
 
 static void load_sound(const std::string &basename, const std::string &path)
