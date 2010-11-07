@@ -379,7 +379,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 		targ.sealevel = rand.Double();
 	}
 	if (t == TERRAIN_H2O_LIQUID) {
-		targ.sealevel = rand.Double(1,2);
+		targ.sealevel = rand.Double(0.9,1);
 	}
 
 	for (int i=0; i<8; i++) m_entropy[i] = rand.Double();
@@ -416,7 +416,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
 			double mountains = targ.mountains.amplitude * fractal(10, targ.mountains, (m_seed>>2)&3, p);
-			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
+			double hills = fractal(2, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
 			return m_maxHeight * (continents + hills + mountains);
@@ -426,7 +426,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
 			double mountains = targ.mountains.amplitude * fractal(10, targ.mountains, (m_seed>>2)&3, p);
-			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
+			double hills = fractal(4, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
 			double n = continents - targ.continents.amplitude*targ.sealevel;
@@ -436,7 +436,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				else n += hills;
 
 				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains;
+					targ.mountains.amplitude * mountains*mountains*mountains*mountains*2;
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
 			}
@@ -467,20 +467,24 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		case TERRAIN_H2O_SOLID:
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
-			double mountains = fractal(13, targ.mountains, (m_seed>>2)&3, p);
+			double mountains = fractal(15, targ.mountains, (m_seed>>2)&3, p);
 			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
-				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
+				       targ.hills.amplitude * fractal(8, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents + targ.continents.amplitude;
+			double n = continents + targ.continents.amplitude * (crater_function(p) / 2);
 			
 				// smooth in hills at shore edges 
 				if (n < 0.01) n += hills * n * 100.0f * crater_function(p) + (hills * crater_function(p) * canyon_function(p));
 				else n += hills * crater_function(p) * canyon_function(p) + (hills * crater_function(p) * canyon_function(p));
-				// adds mountains hills crators and canyons
-				mountains = fractal(1, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains*2;
-				if (n < 0.01) n += mountains * n * 100.0f ;//+ canyon_function(p);
-				else n += mountains ;//+ canyon_function(p);
+				// adds mountains hills crators 
+				mountains = fractal(8, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains*2*mountains;
+				if (n < 0.01) n += mountains * n * 100.0f;
+				else n += mountains;
+				
+				n += continents * 2;
+				
+				n += n + 0.1;
 			
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
@@ -490,18 +494,19 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
 			double mountains = fractal(13, targ.mountains, (m_seed>>2)&3, p);
 			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
-				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
+				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>8)&4, p);
 
-			double n = continents - targ.continents.amplitude*targ.sealevel;
+			double n = continents - (targ.continents.amplitude*targ.sealevel * 1.7) ;
 			if (n > 0.0) {
-				// simulate errosion for islands
-				if (n < 1.01) n += hills * n * 10.0f;
+				
+				
+				if (n < 0.01) n += hills * n * 100.0f;
 				else n += hills;
 
-				mountains = fractal(8, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains;
-				if (n < 1.01) n += mountains * n * 10.0f;
-				else n += mountains;
+				mountains = fractal(12, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains*mountains*mountains;
+				if (n < 0.01) n += mountains * n * 200.0f;
+				else n += mountains * 2.0f;
 				
 			}
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
@@ -512,11 +517,11 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double continents = targ.continents.amplitude * fractal(6, targ.continents, (m_seed>>6)&3, p);
 			double mountains = fractal(14, targ.mountains, (m_seed>>2)&3, p);
 			double dunes = fractal(6, targ.hillDistrib, (m_seed>>6)&3, p) *
-				       targ.hills.amplitude * fractal(3, targ.hills, (m_seed>>6)&3, p);  //If you can find a better seed for creating dunes, please place it here
+				       targ.hills.amplitude * fractal(4, targ.hills, (m_seed>>6)&3, p);  //If you can find a better seed for creating dunes, please place it here
 			
 			double n = continents + (canyon_function(p) / 3);
 				n += continents * targ.continents.amplitude; 
-				n += n + (n/2);
+				n += n/2;
 				
 				// makes larger dunes at lower altitudes, flat ones at high altitude.
 				if (n > 0.2) n += dunes * (0.5/n);  
@@ -526,10 +531,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				
 
 					
-				mountains = fractal(5, targ.mountainDistrib, (m_seed>>8)&3, p) *
+				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
 					targ.mountains.amplitude * mountains*mountains*mountains;
 				// smoothes edges of mountains and places them only above a set altitude
-				if (n > 0.4) n += mountains * (n - 0.4) * (1/n);
+				if (n > 0.55) n += mountains * (n - 0.55) * (1/n);
 
 				
 			
@@ -549,8 +554,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				if (n < 0.01) n += hills * n * 100.0f;
 				else n += hills;
 
-				mountains = fractal(1, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains;
+				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains*mountains;
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
 			}
