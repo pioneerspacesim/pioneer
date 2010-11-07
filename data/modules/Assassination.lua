@@ -1,11 +1,31 @@
 -- ass flavours indeed ;-)
 local ass_flavours = {
 	{
-		adtext = "~~UNFINISHED MISSION - WON'T WORK ~~ WANTED: Removal of %1 from the %2 system.",
+		adtext = "WANTED: Removal of %1 from the %2 system.",
 		introtext = "Hi, I'm %1. I'll pay you %2 to get rid of %3.",
 		wheretext = "%1 will be leaving %2 at %3.",
 		successmsg = "News of %1's long vacation gratefully received. Well done, I have initiated your full payment.",
 		failuremsg = "I am most displeased to find that %1 is still alive. Needless to say you will receive no payment.",
+		danger = 0,
+		time = 2,
+		money = 1.0,
+	},
+	{
+		adtext = "WANTED: Someone to kill %1 from the %2 system.",
+		introtext = "I need %3 taken out of the picture. I'll pay you %2 to do this.",
+		wheretext = "%1 will be leaving %2 at %3.",
+		successmsg = "I am most sad to hear of %1's demise. You have been paid in full.",
+		failuremsg = "I hear that %1 is in good health. This pains me.",
+		danger = 0,
+		time = 2,
+		money = 1.0,
+	},
+	{
+		adtext = "REMOVALS: %1 is no longer wanted in the %2 system.",
+		introtext = "I am %1, and I will pay you %2 to terminate %3",
+		wheretext = "%1 will be leaving %2 at %3.",
+		successmsg = "You have been paid in full for the completion of that important contract.",
+		failuremsg = "It is most regrettable that %1 is still live and well. You will receive no payment as you did not complete your contract.",
 		danger = 0,
 		time = 2,
 		money = 1.0,
