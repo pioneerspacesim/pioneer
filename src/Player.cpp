@@ -156,6 +156,7 @@ void Player::PollControls()
 	int mouseMotion[2];
 	double time_accel = Pi::GetTimeAccel();
 	double invTimeAccel = 1.0 / time_accel;
+	static bool stickySpeedKey = false;
 
 	if ((time_accel == 0) || GetDockedWith() || Pi::player->IsDead() ||
 	    (GetFlightState() != FLYING)) {
@@ -179,8 +180,24 @@ void Player::PollControls()
 		}
 		
 		if (m_flightControlState == CONTROL_FIXSPEED) {
-			if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
-			if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
+			float oldSpeed = m_setSpeed;
+			if (stickySpeedKey) {
+				if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
+					stickySpeedKey = false;
+				}
+			}
+			
+			if (!stickySpeedKey) {
+				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
+				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
+				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
+				     ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
+					// flipped from going forward to backwards. make the speed 'stick' at zero
+					// until the player lets go of the key and presses it again
+					stickySpeedKey = true;
+					m_setSpeed = 0;
+				}
+			}
 		}
 
 		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0f);
