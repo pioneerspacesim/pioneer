@@ -4,6 +4,8 @@
 #include "Pi.h"
 #include "Frame.h"
 #include "Space.h"
+#include "Ship.h"
+#include "HyperspaceCloud.h"
 
 #define SAVEFILE_VERSION	19
 
@@ -83,6 +85,12 @@ void IndexBodies()
 	g_bodies.clear();
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		g_bodies.push_back(*i);
+		// XXX hyperclouds can also own a reference to a body. we need to index that too
+		// since lua modules can hold references to it
+		if ((*i)->IsType(Object::HYPERSPACECLOUD)) {
+			Ship *s = static_cast<HyperspaceCloud*>(*i)->GetShip();
+			if (s) g_bodies.push_back(s);
+		}
 	}
 }
 
