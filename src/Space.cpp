@@ -784,7 +784,12 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	Space::Clear();
 	Space::BuildSystem();
 	SBody *targetBody = Pi::currentSystem->GetBodyByPath(dest);
-	Frame *pframe = Space::GetFrameWithSBody(targetBody);
+	Frame *pframe;
+       	if (targetBody->type == SBody::TYPE_STARPORT_SURFACE) {
+		pframe = Space::GetFrameWithSBody(targetBody->parent);
+	} else {
+		pframe = Space::GetFrameWithSBody(targetBody);
+	}
 	assert(pframe);
 	
 	PostHyperspacePositionBody(Pi::player, pframe);
@@ -811,14 +816,14 @@ void DoHyperspaceTo(const SBodyPath *dest)
 			// then put it near the player's destination,
 			// otherwise at random loc
 			if (Pi::player->GetHyperspaceCloudTargetId() == (*i)->GetId()) {
-				printf("near\n");
 				PostHyperspacePositionBody(*i, Pi::player->GetFrame());
 				(*i)->SetPosition(Pi::player->GetPosition() + vector3d(xoffset,0,0));
 				xoffset += 2000.0;
 			} else {
-				printf("far\n");
 				SBody *b = Pi::currentSystem->GetBodyByPath((*i)->GetShip()->GetHyperspaceTarget());
-				Frame *f = Space::GetFrameWithSBody(b);
+				Frame *f = (b->type == SBody::TYPE_STARPORT_SURFACE ?
+						Space::GetFrameWithSBody(b->parent) :
+						Space::GetFrameWithSBody(b));
 				PostHyperspacePositionBody(*i, f);
 			}
 			Space::AddBody(*i);
