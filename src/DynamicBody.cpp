@@ -172,6 +172,13 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 	}
 }
 
+void DynamicBody::GetInterpolatedPositionOrientation(float alpha, matrix4x4d &outOrient) const
+{
+	assert ((alpha >= 0) && (alpha <= 1.0));
+	// interpolating matrices like this is a sure sign of madness
+	outOrient = alpha*m_orient + (1.0-alpha)*m_oldOrient;
+}
+
 void DynamicBody::UndoTimestep()
 {
 	m_orient = m_oldOrient;

@@ -24,6 +24,13 @@ public:
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
+	virtual void GetInterpolatedPositionOrientation(float alpha, matrix4x4d &outOrient) const {
+		outOrient = matrix4x4d::Identity();
+		vector3d v = GetVelocity();
+		outOrient[12] = v.x;
+		outOrient[13] = v.y;
+		outOrient[14] = v.z;
+	}
 	/** Should really be renamed to GetClipRadius */
 	virtual double GetBoundingRadius() const = 0;
 	virtual double GetMass() const { assert(0); return 0; }
