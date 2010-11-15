@@ -160,6 +160,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 				m_orient = rotMatrix * m_orient;
 			}
 		}
+		m_oldAngDisplacement = consideredAngVel * timeStep;
 
 		pos += m_vel * (double)timeStep;
 		m_orient[12] = pos.x;
@@ -177,6 +178,22 @@ void DynamicBody::GetInterpolatedPositionOrientation(float alpha, matrix4x4d &ou
 	assert ((alpha >= 0) && (alpha <= 1.0));
 	// interpolating matrices like this is a sure sign of madness
 	outOrient = alpha*m_orient + (1.0-alpha)*m_oldOrient;
+	vector3d outPos = alpha*vector3d(m_orient[12], m_orient[13], m_orient[14]) +
+			(1.0-alpha)*vector3d(m_oldOrient[12], m_oldOrient[13], m_oldOrient[14]);
+
+	outOrient = m_oldOrient;
+	{
+		double len = m_oldAngDisplacement.Length() * (double)alpha;
+		if (len != 0) {
+			vector3d rotAxis = m_oldAngDisplacement.Normalized();
+			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
+					rotAxis.x, rotAxis.y, rotAxis.z);
+			outOrient = rotMatrix * outOrient;
+		}
+	}
+	outOrient[12] = outPos.x;
+	outOrient[13] = outPos.y;
+	outOrient[14] = outPos.z;
 }
 
 void DynamicBody::UndoTimestep()
