@@ -220,8 +220,8 @@ void DynamicBody::Disable()
 void DynamicBody::SetRotMatrix(const matrix4x4d &r)
 {
 	vector3d pos = GetPosition();
+	m_oldOrient = m_orient;
 	m_orient = r;
-	m_oldOrient = r;
 	m_oldAngDisplacement = vector3d(0.0);
 	SetPosition(pos);
 }
