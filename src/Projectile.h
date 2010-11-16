@@ -22,7 +22,7 @@ public:
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
 	virtual void NotifyDeleted(const Body* const deletedBody);
-
+	virtual void UpdateInterpolatedTransform(double alpha);
 	virtual void PostLoadFixup();
 protected:
 	virtual void Save(Serializer::Writer &wr);
