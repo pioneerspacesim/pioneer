@@ -873,8 +873,7 @@ void Render(const Frame *cam_frame)
 	int idx = 0;
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		/* This is the position-orientation interpolated between the previous and current physics tick */
-		matrix4x4d orient;
-		(*i)->GetInterpolatedPositionOrientation(Pi::GetGameTickAlpha(), orient);
+		matrix4x4d orient = (*i)->GetInterpolatedTransform();
 		const vector3d pos(orient[12], orient[13], orient[14]);
 
 		Frame::GetFrameTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);

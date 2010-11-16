@@ -24,13 +24,6 @@ public:
 	virtual vector3d GetPosition() const = 0; // within frame
 	virtual void SetVelocity(vector3d v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
-	virtual void GetInterpolatedPositionOrientation(float alpha, matrix4x4d &outOrient) const {
-		outOrient = matrix4x4d::Identity();
-		vector3d v = GetVelocity();
-		outOrient[12] = v.x;
-		outOrient[13] = v.y;
-		outOrient[14] = v.z;
-	}
 	/** Should really be renamed to GetClipRadius */
 	virtual double GetBoundingRadius() const = 0;
 	virtual double GetMass() const { assert(0); return 0; }
@@ -69,6 +62,23 @@ public:
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
+	/** Interpolated between physics ticks. */
+	const matrix4x4d &GetInterpolatedTransform() const { return m_interpolatedTransform; }
+	vector3d GetInterpolatedPosition() const {
+		return vector3d(m_interpolatedTransform[12], m_interpolatedTransform[13], m_interpolatedTransform[14]);
+	}
+	vector3d GetInterpolatedPositionRelTo(const Frame *relTo) const;
+
+	/** should set m_interpolatedTransform to the smoothly interpolated
+	 *  value (interpolated by 0 <= alpha <=1) between the previous and current
+	 *  physics tick */
+	virtual void UpdateInterpolatedTransform(double alpha) {
+		const vector3d pos = GetPosition();
+		m_interpolatedTransform = matrix4x4d::Identity();
+		m_interpolatedTransform[12] = pos.x;
+		m_interpolatedTransform[13] = pos.y;
+		m_interpolatedTransform[14] = pos.z;
+	}
 
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
                FLAG_LABEL_HIDDEN = (1<<1),
@@ -77,6 +87,9 @@ protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	unsigned int m_flags;
+
+	// Interpolated draw orientation-position
+	matrix4x4d m_interpolatedTransform;
 private:
 	// frame of reference
 	Frame *m_frame;

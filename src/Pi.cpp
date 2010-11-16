@@ -824,8 +824,6 @@ void Pi::MainLoop()
 	int frame_stat = 0;
 	int phys_stat = 0;
 	char fps_readout[128];
-	Uint32 time_before_frame = SDL_GetTicks();
-	int time_to_simulate = 0;
 	double time_player_died = 0;
 #ifdef MAKING_VIDEO
 	Uint32 last_screendump = SDL_GetTicks();
@@ -844,16 +842,20 @@ void Pi::MainLoop()
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
-		accumulator += Pi::frameTime;
+		accumulator += Pi::frameTime * GetTimeAccel();
 		
-		while (accumulator >= dt) {
-			const float step = Pi::GetTimeStep();
-			if (step) Space::TimeStep(step);
-			gameTime += step;
-			phys_stat++;
+		const float step = Pi::GetTimeStep();
+		if (step) {
+			while (accumulator >= dt) {
+				Space::TimeStep(step);
+				gameTime += step;
+				phys_stat++;
 
-			t += dt;
-			accumulator -= dt;
+				t += dt;
+				accumulator -= dt;
+			}
+		} else {
+			// paused
 		}
 		Pi::gameTickAlpha = accumulator / dt;
 
@@ -866,6 +868,11 @@ void Pi::MainLoop()
 		Render::PrepareFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		
+		/* Calculate position for this rendered frame (interpolated between two physics ticks */
+		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		}
 
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before

@@ -17,9 +17,6 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual vector3d GetPosition() const;
 	virtual vector3d GetVelocity() const;
-	/** Give the interpolated position (0 <= alpha <= 1) between previous
-	  * and current physics tick */
-	virtual void GetInterpolatedPositionOrientation(float alpha, matrix4x4d &outOrient) const;
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(vector3d v);
 	void SetMesh(ObjMesh *m);
@@ -45,6 +42,7 @@ public:
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
 	double GetAtmosphericDragGs() const { return m_atmosDragGs; }
+	virtual void UpdateInterpolatedTransform(double alpha);
 
 protected:
 	virtual void Save(Serializer::Writer &wr);
