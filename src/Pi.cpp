@@ -830,10 +830,9 @@ void Pi::MainLoop()
 	int dumpnum = 0;
 #endif /* MAKING_VIDEO */
 
-	double t = 0.0;
-	const double dt = 0.2;
 	double currentTime = 0.001 * (double)SDL_GetTicks();
-	double accumulator = dt;
+	double accumulator = Pi::GetTimeStep();
+	Pi::gameTickAlpha = 0;
 
 	memset(fps_readout, 0, sizeof(fps_readout));
 
@@ -846,18 +845,17 @@ void Pi::MainLoop()
 		
 		const float step = Pi::GetTimeStep();
 		if (step) {
-			while (accumulator >= dt) {
+			while (accumulator >= step) {
 				Space::TimeStep(step);
 				gameTime += step;
 				phys_stat++;
 
-				t += dt;
-				accumulator -= dt;
+				accumulator -= step;
 			}
+			Pi::gameTickAlpha = accumulator / step;
 		} else {
 			// paused
 		}
-		Pi::gameTickAlpha = accumulator / dt;
 
 		if (frame_stat == 0) {
 			// called not more than once per second

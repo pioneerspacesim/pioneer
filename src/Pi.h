@@ -40,6 +40,8 @@ enum MsgLevel {
 
 class Frame;
 
+#define PHYSICS_HZ (5.0)
+
 class Pi {
 public:
 	static void Init();
@@ -61,7 +63,7 @@ public:
 	static float GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
 	static float GetTimeAccelIdx() { return timeAccelIdx; }
 	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
-	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/5.0f); }
+	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/PHYSICS_HZ); }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }

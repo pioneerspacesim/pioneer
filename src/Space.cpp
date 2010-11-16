@@ -872,14 +872,10 @@ void Render(const Frame *cam_frame)
 	body_zsort_t *bz = new body_zsort_t[bodies.size()];
 	int idx = 0;
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		/* This is the position-orientation interpolated between the previous and current physics tick */
-		matrix4x4d orient = (*i)->GetInterpolatedTransform();
-		const vector3d pos(orient[12], orient[13], orient[14]);
-
+		const vector3d pos = (*i)->GetInterpolatedPosition();
 		Frame::GetFrameTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
 		vector3d toBody = bz[idx].viewTransform * pos;
-		orient.ClearToRotOnly();
-		bz[idx].viewTransform = bz[idx].viewTransform * orient;
+		bz[idx].viewTransform = bz[idx].viewTransform;
 		bz[idx].viewCoords = toBody;
 		bz[idx].dist = toBody.Length();
 		bz[idx].bodyFlags = (*i)->GetFlags();
