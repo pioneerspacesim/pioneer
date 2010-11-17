@@ -239,6 +239,81 @@ double crater_function(const vector3d &p)
 	return 4.0 * crater;
 }
 
+void bigcrater_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = -0.4;
+	const double outer = 0.2;
+	const double inner = 0.99;
+	const double midrim = 0.5;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double bigcrater_function(const vector3d &p)
+{
+	double acrater = 0.0;
+	double asz = 1.0;
+	double amax_h = 0.5;
+	for (int i=0; i<14; i++) {
+		crater_function_1pass(asz*p, acrater, amax_h);
+		asz *= 2.0;
+		amax_h *= 0.25;
+	}
+	return 4.0 * acrater;
+}
+
+void volcano_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = -1.4;
+	const double outer = -0.2;
+	const double inner = 0.8;
+	const double midrim = 0.4;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double volcano_function(const vector3d &p)
+{
+	double acrater = 0.0;
+	double asz = 1.0;
+	double amax_h = 0.5;
+	for (int i=0; i<14; i++) {
+		crater_function_1pass(asz*p, acrater, amax_h);
+		asz *= 4.0;
+		amax_h *= 0.1;
+	}
+	return 4.0 * acrater;
+}
+
+
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 {
 	n = CLAMP(n, 0.0f, 1.0f);
@@ -412,7 +487,13 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
-			return m_maxHeight * (continents + hills + mountains + crater_function(p));
+			//return m_maxHeight * (continents + hills + mountains + crater_function(p)) * (crater_function(p) + 1);
+			double n = (continents * 4) - (targ.continents.amplitude * 2);// + canyon_function(p);
+			n += continents + hills + mountains + crater_function(p);
+			//n += n * n;
+			n += bigcrater_function(p);
+			n = n * m_maxHeight;
+			return n;
 		}
 		case TERRAIN_RUGGED:
 		// same as above but no craters because of atmosphere
@@ -453,7 +534,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(14, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents - targ.continents.amplitude*targ.sealevel;
+			double n = continents - targ.continents.amplitude*targ.sealevel + volcano_function(p);
 			if (n > 0.0) {
 				// smooth in hills at shore edges
 				if (n < 0.01) n += hills * n * 100.0f + crater_function(p);
@@ -675,8 +756,25 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 	}
 	case COLOR_ROCK:
-		return m_rockColor[0];
-		//return vector3d(m_invMaxHeight*height, m_invMaxHeight*height,1);
+		{
+		double n = m_invMaxHeight*height/2;
+
+		if (n <= 0) return vector3d(.18,.15,.14);		
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = m_rockColor[0];
+
+		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low brown/orange
+		col = interpolate_color(equatorial_desert, vector3d(.12,.1,0), vector3d(.36, .33, .32));
+		// height: brown, light yellow/brown
+		col = interpolate_color(n, col, vector3d(.52,.47,.45));
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+	}
 	case COLOR_VOLCANIC:
 	{
 		double n = m_invMaxHeight*height;
