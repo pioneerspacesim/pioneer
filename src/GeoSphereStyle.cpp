@@ -381,11 +381,14 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	if (t == TERRAIN_H2O_LIQUID) {
 		targ.sealevel = rand.Double(0.9,1);
 	}
+	if (t == TERRAIN_H2O_SOLID) {
+		targ.sealevel = rand.Double(0,0.15);
+	}
 
 	for (int i=0; i<8; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<4; i++) {
 		double r,g,b;
-		r = rand.Double(0.5, 1.0);
+		r = rand.Double(0.2, 1.0);
 		g = rand.Double(0.0, r);
 		b = rand.Double(0.0, MIN(r, g));
 		m_rockColor[i] = vector3d(r, g, b);
@@ -467,24 +470,24 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		case TERRAIN_H2O_SOLID:
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
-			double mountains = fractal(15, targ.mountains, (m_seed>>2)&3, p);
+			double mountains = fractal(13, targ.mountains, (m_seed>>2)&3, p);
 			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(8, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents + targ.continents.amplitude * (crater_function(p) / 2);
+			double n = continents + targ.continents.amplitude *targ.sealevel * (crater_function(p) / 2);
 			
 				// smooth in hills at shore edges 
 				if (n < 0.01) n += hills * n * 100.0f * crater_function(p) + (hills * crater_function(p) * canyon_function(p));
 				else n += hills * crater_function(p) * canyon_function(p) + (hills * crater_function(p) * canyon_function(p));
 				// adds mountains hills crators 
 				mountains = fractal(8, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains*2*mountains;
+					targ.mountains.amplitude * mountains*mountains*mountains*mountains;
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
 				
-				n += continents * 2;
+				n += continents * targ.sealevel;
 				
-				n += n + 0.1;
+				//n += n + 0.1;
 			
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
@@ -628,11 +631,13 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	{
 		double n = m_invMaxHeight*height;
 
+		if (n <= 0.02) return vector3d(0.98,0.98,0.98);
+
 		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
-		const vector3d color_cliffs = m_rockColor[1];
+		const vector3d color_cliffs = m_rockColor[2];
 		// ice on mountains and poles
-		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
-			return interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+		if (fabs(m_icyness*p.y) + m_icyness*n > 18) {
+			return interpolate_color(flatness, color_cliffs, vector3d(0.96,0.98,1));
 		}
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -640,9 +645,9 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		vector3d col;
 		// latitude: high ~col, low orange
-		col = interpolate_color(equatorial_desert, vector3d(.2,.22,.1), vector3d(.1, .1, .1));
+		col = interpolate_color(equatorial_desert, vector3d(.97,.97,.97), vector3d(.93, .93, .93));
 		// height: dark grey, dark brown
-		col = interpolate_color(n, col, m_rockColor[0]);
+		col = interpolate_color(n, col, vector3d(.97,.97,.98));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
