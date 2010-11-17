@@ -324,6 +324,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
 	glDisable(GL_LIGHTING);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	glEnable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
 	glBegin(GL_TRIANGLE_STRIP);
