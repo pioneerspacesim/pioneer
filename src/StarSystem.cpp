@@ -154,7 +154,7 @@ static const struct SBodySubTypeInfo {
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Dead world that once housed it's own intricate ecosystem.", // earth radius
-		"icons/object_planet_methane.png"
+		"icons/object_planet_desert.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a carbon dioxide atmosphere",
@@ -166,7 +166,7 @@ static const struct SBodySubTypeInfo {
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Water world with vast oceans and a thick nitrogen atmosphere",
-		"icons/object_planet_water_n2.png"
+		"icons/object_planet_water_n1.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a thick carbon dioxide atmosphere",
