@@ -1129,7 +1129,7 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
 		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
 			*outColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
-			*outDensity = 7.0f;
+			*outDensity = 14.0f;
 			break;
 		case SBody::TYPE_PLANET_ASTEROID:
 		case SBody::TYPE_PLANET_LARGE_ASTEROID:
@@ -1143,34 +1143,34 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			break;
 		case SBody::TYPE_PLANET_CO2:
 			*outColor = Color( .8f, .8f, .8f, 1.0f);
-			*outDensity = 1.0f;
+			*outDensity = 2.0f;
 			break;
 		case SBody::TYPE_PLANET_METHANE:
-			*outColor = Color(.2f, .6f, .3f, 1.0f);
-			*outDensity = 1.4f;
+			*outColor = Color(.2f, .6f, .3f, 2.0f);
+			*outDensity = 3.4f;
 			break;
 		case SBody::TYPE_PLANET_WATER:
-			*outColor = Color(.4f, .4f, .5f, 1.0f);
+			*outColor = Color(.6f, .6f, .7f, 0.8f);
 			*outDensity = 0.8f;
 			break;
 		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-			*outColor = Color(.5f, .5f, .8f, 1.0f);
+			*outColor = Color(.5f, .5f, .8f, 2.0f);
 			*outDensity = 3.0f;
 			break;
 		case SBody::TYPE_PLANET_DESERT:
-			*outColor = Color(.4f, .3f, .1f, 1.0f);
+			*outColor = Color(.4f, .3f, .1f, 0.7f);
 			*outDensity = 1.0f;
 			break;
 		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-			*outColor = Color(.8f, .8f, .8f, 1.0f);
-			*outDensity = 5.0f;
+			*outColor = Color(.8f, .8f, .8f, 2.0f);
+			*outDensity = 7.0f;
 			break;
 		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-			*outColor = Color(0.6f, 0.4f, 0.1f, 1.0f);
-			*outDensity = 4.0f;
+			*outColor = Color(0.6f, 0.4f, 0.1f, 3.0f);
+			*outDensity = 8.0f;
 			break;
 		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			*outColor = Color(0.5f, 0.1f, 0.1f, 1.0f);
+			*outColor = Color(0.5f, 0.1f, 0.1f, 1.6f);
 			*outDensity = 1.8f;
 			break;
 		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
@@ -1178,11 +1178,11 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			*outDensity = 1.2;
 			break;
 		case SBody::TYPE_PLANET_TERRAFORMED_POOR:
-			*outColor = Color(.7f, .4f, 0.9f, 1.0f);
+			*outColor = Color(.7f, .4f, 0.9f, 0.8f);
 			*outDensity = 1.0;
 			break;
 		case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
-			*outColor = Color(.5f, .45f, 0.95f, 1.0f);
+			*outColor = Color(.5f, .45f, 0.95f, 0.9f);
 			*outDensity = 1.1;
 			break;
 		default:
