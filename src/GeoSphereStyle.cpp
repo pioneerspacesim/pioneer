@@ -226,6 +226,30 @@ void crater_function_1pass(const vector3d &p, double &out, const double height)
 	}
 }
 
+void bigcrater_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.88;
+	const double inner = 0.955;
+	const double midrim = 0.925;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
 double crater_function(const vector3d &p)  // makes large and small craters across the entire planet.
 {
 	double crater = 0.0;
@@ -242,14 +266,14 @@ double crater_function(const vector3d &p)  // makes large and small craters acro
 double bigcrater_function(const vector3d &p)  //should make a few very large craters like on Earth.
 {
 	double acrater = 0.0;
-	double asz = 1.0;
-	double amax_h = 0.3;
+	double asz = 0.7;
+	double amax_h = 0.5;
 	for (int i=0; i<14; i++) {
-		crater_function_1pass(asz*p, acrater, amax_h);
+		bigcrater_function_1pass(asz*p, acrater, amax_h);
 		asz *= 1.0;
-		amax_h *= 0.8;
+		amax_h *= 0.5;
 	}
-	return 4.0 * acrater;
+	return 4.5 * acrater;
 }
 
 void volcano_function_1pass(const vector3d &p, double &out, const double height)
@@ -477,7 +501,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	for (int i=0; i<8; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<4; i++) {
 		double r,g,b;
-		r = rand.Double(0.2, 1.0);
+		r = rand.Double(0.0, 0.5);
 		g = rand.Double(0.0, r);
 		b = rand.Double(0.0, MIN(r, g));
 		m_rockColor[i] = vector3d(r, g, b);
@@ -502,10 +526,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
 			//return m_maxHeight * (continents + hills + mountains + crater_function(p)) * (crater_function(p) + 1);
-			double n = (continents * 4) - (targ.continents.amplitude * 2);// + canyon_function(p);
+			double n = bigcrater_function(p) + (continents * 4) - (targ.continents.amplitude * 2);// + canyon_function(p);
 			n += continents + hills + mountains + crater_function(p);
 			//n += n * n;
-			n += bigcrater_function(p);
+			//n += bigcrater_function(p);
 			n = n * m_maxHeight;
 			return n;
 		}
@@ -799,7 +823,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		{
 		double n = m_invMaxHeight*height/2;
 
-		if (n <= 0) return vector3d(.18,.15,.14);		
+		if (n <= 0) return m_rockColor[1];		
 
 		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[0];
@@ -809,9 +833,9 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		vector3d col;
 		// latitude: high ~col, low brown/orange
-		col = interpolate_color(equatorial_desert, vector3d(.12,.1,0), vector3d(.36, .33, .32));
+		col = interpolate_color(equatorial_desert, m_rockColor[1], m_rockColor[3]);
 		// height: brown, light yellow/brown
-		col = interpolate_color(n, col, vector3d(.52,.47,.45));
+		col = interpolate_color(n, col, m_rockColor[2]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
