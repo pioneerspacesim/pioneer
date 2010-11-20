@@ -90,11 +90,14 @@ class GeoSphereStyle {
 	double m_invMaxHeight;
 	double m_planetRadius;
 	double m_planetEarthRadii;
+	double noise1;
+	double noise2;
+	double noise3;
 
 	double m_icyness;
-	double m_entropy[8];
+	double m_entropy[12];
 
-	vector3d m_rockColor[4];
+	vector3d m_rockColor[8];
 
 	struct {
 		fracdef_t continents;

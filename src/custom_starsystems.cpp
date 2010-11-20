@@ -41,9 +41,9 @@ const CustomSBody sol_system[] = {
 	  0, fixed(533,1000), fixed(107,1000), 274,
 	  fixed(152,100), fixed(933,10000), { (float)DEG2RAD(1.85) }, fixed(1027,1000), ECON_INDUSTRY, },
 	{ "Cydonia", SBody::TYPE_STARPORT_SURFACE,
-	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(40.75), (float)DEG2RAD(-9.46) } },
+	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(-29), (float)DEG2RAD(124) } },
 	{ "Olympus Mons", SBody::TYPE_STARPORT_SURFACE,
-	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(34), (float)DEG2RAD(118) } },
+	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(30), (float)DEG2RAD(-37) } },
 	{ "Mars High", SBody::TYPE_STARPORT_ORBITAL,
 	  13, 0, 0, 0, fixed(5068,100000000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(11,24) },
@@ -137,7 +137,7 @@ const CustomSBody sol_system[] = {
 	{ "Pluto Research Base", SBody::TYPE_STARPORT_SURFACE,
 	  43, 0, 0, 0, 0, 0, { (float)DEG2RAD(84), (float)DEG2RAD(96) } },
 	{ "Poseidon Station", SBody::TYPE_STARPORT_ORBITAL,
-	  40, 0, 0, 0, fixed(6,500000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  40, 0, 0, 0, fixed(12,500000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(11,7) },
 	//{ "Hotel Sol", SBody::TYPE_STARPORT_ORBITAL,
 	 // 0, 0, 0, 0, fixed(10,0), fixed(500,1000), { (float)DEG2RAD(0), (float)DEG2RAD(0) },
@@ -189,7 +189,7 @@ Polit::GOV_CISLIBDEM
 { "Gliese 570", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.174f,0.358f,-0.281f) }, // Components: K5, M2
 { "Kruger 60", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -2, vector3f(0.903f,0.932f,0.004f) }, // Components: M2, M6
 { "Gliese 205", 0, {SBody::TYPE_STAR_M}, 2, 1, vector3f(0.488f,0.496f,-0.805f) }, // Components: M1
-{ "Proxima", 0, {SBody::TYPE_STAR_M}, 0, 0, vector3f(0.135f,0.882f,-0.017f), 16,
+{ "Proxima", 0, {SBody::TYPE_STAR_M}, 0, 0, vector3f(0.135f,0.882f,-0.017f), 17,
 "Military dictatorship",
 "Closest star in the sky to early human civilisation.\n"
 "Home of the famous wright Shipyards."
