@@ -48,7 +48,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		m_infoBox->PackStart(l);
 	}
 
-	_add_label_and_value("Mass", stringf(64, "%.2f %s masses", b->mass.ToDouble(), 
+	_add_label_and_value("Mass", stringf(64, "%.3f %s masses", b->mass.ToDouble(), 
 		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? "Solar" : "Earth")));
 
 	_add_label_and_value("Surface temperature", stringf(64, "%d C", b->averageTemp-273));
@@ -61,8 +61,8 @@ void SystemInfoView::OnBodySelected(SBody *b)
 			data = stringf(64, "%.1f days", b->orbit.period / (60*60*24));
 		}
 		_add_label_and_value("Orbital period", data);
-		_add_label_and_value("Perihelion distance", stringf(64, "%.2f AU", b->orbMin.ToDouble()));
-		_add_label_and_value("Aphelion distance", stringf(64, "%.2f AU", b->orbMax.ToDouble()));
+		_add_label_and_value("Periapsis distance", stringf(64, "%.3f AU", b->orbMin.ToDouble()));
+		_add_label_and_value("Apoapsis distance", stringf(64, "%.3f AU", b->orbMax.ToDouble()));
 		_add_label_and_value("Eccentricity", stringf(64, "%.2f", b->orbit.eccentricity));
 		const float dayLen = (float)b->GetRotationPeriod();
 		if (dayLen) {
