@@ -23,7 +23,8 @@ class GeoSphereStyle {
 		TERRAIN_H2O_LIQUID,
 		TERRAIN_RUGGED_DESERT,
 		TERRAIN_RUGGED_H2O,
-		TERRAIN_MAX = TERRAIN_RUGGED_H2O
+		TERRAIN_RUGGED_H2O_MEGAVOLC,
+		TERRAIN_MAX = TERRAIN_RUGGED_H2O_MEGAVOLC
 	};
 
 	enum ColorType {
@@ -37,6 +38,7 @@ class GeoSphereStyle {
 		COLOR_ICEWORLD,
 		COLOR_DESERT,
 		COLOR_ROCK,
+		COLOR_ROID,
 		COLOR_VOLCANIC,
 		COLOR_METHANE,
 		COLOR_TFGOOD,
@@ -89,11 +91,14 @@ class GeoSphereStyle {
 	double m_invMaxHeight;
 	double m_planetRadius;
 	double m_planetEarthRadii;
+	double noise1;
+	double noise2;
+	double noise3;
 
 	double m_icyness;
-	double m_entropy[8];
+	double m_entropy[12];
 
-	vector3d m_rockColor[4];
+	vector3d m_rockColor[8];
 
 	struct {
 		fracdef_t continents;

@@ -46,9 +46,9 @@ const CustomSBody sol_system[] = {
 	  fixed(152,100), fixed(933,10000), { (float)DEG2RAD(1.85) }, fixed(1027,1000), 
 	  FIXED_DEG2RAD(2519,100), ECON_INDUSTRY, },
 	{ "Cydonia", SBody::TYPE_STARPORT_SURFACE,
-	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(40.75), (float)DEG2RAD(-9.46) } },
+	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(-29), (float)DEG2RAD(124) } },
 	{ "Olympus Mons", SBody::TYPE_STARPORT_SURFACE,
-	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(34), (float)DEG2RAD(118) } },
+	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(30), (float)DEG2RAD(-37) } },
 	{ "Mars High", SBody::TYPE_STARPORT_ORBITAL,
 	  13, 0, 0, 0, fixed(5068,100000000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(11,24) },
@@ -58,9 +58,9 @@ const CustomSBody sol_system[] = {
 	{ "Deimos", SBody::TYPE_PLANET_ASTEROID,
 	  13, fixed(12,10000), fixed(25,100000000000LL), 233,
 	  fixed(1568,10000000), fixed(2,10000), { (float)DEG2RAD(0.93) }, fixed(30,24) },
-	{ "", SBody::TYPE_STARPORT_SURFACE,
+	{ "Phobos Base", SBody::TYPE_STARPORT_SURFACE,
 	  17, 0, 0, 0, 0, 0, { (float)DEG2RAD(5), (float)DEG2RAD(-5) } },
-	{ "", SBody::TYPE_STARPORT_SURFACE,
+	{ "Tomm's Sanctuary", SBody::TYPE_STARPORT_SURFACE,
 	  18, 0, 0, 0, 0, 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) } },
 	{ "Jupiter", SBody::TYPE_PLANET_LARGE_GAS_GIANT,
 	  0, fixed(11,1), fixed(3178,10), 165,
@@ -98,7 +98,7 @@ const CustomSBody sol_system[] = {
 	{ "Titan", SBody::TYPE_PLANET_METHANE_THICK_ATMOS,
 	  //22, fixed(400,1000), fixed(225,10000), 94, 
 	  //fixed(82,10000), fixed(288,10000), { (float)DEG2RAD(0.34854) }, fixed(15945,1000) },
-	  22, fixed(301,1000), fixed(225,10000), 94,  //Oddness/ When correct Radius setting is used (0.4ER), planet has no atmosphere or gravity !?!?!
+	  22, fixed(400,1000), fixed(225,10000), 94,  //Oddness/ When correct Radius setting is used (0.4ER), planet has no atmosphere or gravity !?!?!
 	  fixed(82,10000), fixed(288,10000), { (float)DEG2RAD(0.34854) }, fixed(15945,1000) },
 	{ "Oasis City", SBody::TYPE_STARPORT_SURFACE,
 	  30, 0, 0, 0, 0, 0, { (float)DEG2RAD(18.4), (float)DEG2RAD(196) } },
@@ -137,29 +137,29 @@ const CustomSBody sol_system[] = {
 	  24, fixed(310,10000), fixed(710,100000000), 51,
 	  fixed(786,1000000), fixed(53,100000), { (float)DEG2RAD(0.524) }, fixed(1122,1000) },
 	// you know you want to call pluto a planet, you really do
-	{ "Pluto", SBody::TYPE_PLANET_DWARF,
+	{ "Pluto", SBody::TYPE_PLANET_WATER,
 	  0, fixed(18,100), fixed(21,10000), 44,
 	  fixed(394,10), fixed(249,1000), { (float)DEG2RAD(11.88) }, fixed(153,24),
           FIXED_DEG2RAD(296,10)	},
 	// Extra bases down here, save re-ordering the primary.
 	{ "Enki Catena", SBody::TYPE_STARPORT_SURFACE,
 	  28, 0, 0, 0, 0, 0, { (float)DEG2RAD(84), (float)DEG2RAD(96) } },
-	{ "Pluto Researh Base", SBody::TYPE_STARPORT_SURFACE,
+	{ "Pluto Research Base", SBody::TYPE_STARPORT_SURFACE,
 	  43, 0, 0, 0, 0, 0, { (float)DEG2RAD(84), (float)DEG2RAD(96) } },
 	{ "Poseidon Station", SBody::TYPE_STARPORT_ORBITAL,
-	  40, 0, 0, 0, fixed(6,500000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
+	  40, 0, 0, 0, fixed(12,500000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(11,7) },
 	//{ "Hotel Sol", SBody::TYPE_STARPORT_ORBITAL,
 	 // 0, 0, 0, 0, fixed(10,0), fixed(500,1000), { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	 // fixed(11,24) },
-	{ "Daniel's Base", SBody::TYPE_STARPORT_ORBITAL,
+	{ "Daniel's Haven", SBody::TYPE_STARPORT_ORBITAL,
 	  30, 0, 0, 0, fixed(12,500000), fixed(50,1000), { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(11,9) },
 	{ "Discovery Base", SBody::TYPE_STARPORT_ORBITAL,
 	  21, 0, 0, 0, fixed(7,1000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(11,1) },
 	{ "Dante's Base", SBody::TYPE_STARPORT_SURFACE,
-	  25, 0, 0, 0, 0, 0, { (float)DEG2RAD(-0.5), (float)DEG2RAD(26.2) } },
+	  25, 0, 0, 0, 0, 0, { (float)DEG2RAD(-0.5), (float)DEG2RAD(26.2) } },  //49
 	  
 	{ 0 }
 };
@@ -170,9 +170,22 @@ const CustomSystem custom_systems[] = {
 	"Sol is a fine joint"	},
 { "Alioth", 0, {SBody::TYPE_STAR_K}, 0, 4, vector3f(0.629f,0.880f,1.045f), 5/*5=2 earths*/,
 "Liberal democracy",
-"Alioth Temp Description.\n"
-"mention history of CIS membership\n"
-"And the alliance with Epsilon Eridani.\n",
+"Alioth comes from the ancient Arabic word alyat - fat tail of sheep.\n"
+"The two massive ark ships bound for Alioth were the first of many such"
+" sub-light vessels designed specifically for the kind of lengthy journeys"
+" required to spread to the stars.\n"
+"The twin ships departed on the year 2354 to commemorate the journey to Epsilon Eridani."
+"  The journey was uneventful and was completed in a little over 127 years, owing to the fact that"
+" propulsion technology was far geater than it had been in the past.\n"
+"The colonists had a hard life, high gravity slowed down any progress that should have been made."
+"  Communication with Earth was non-existent, politics and the 80 year time-lag made it impossible."
+"  By the late 26th Century Alioth had progressed a long way and any ties to Earth had long been lost."
+"  However with the advent of Hyper-Space Technology in the late 26th Century,"
+" Earth began to show an interest in Alioth once more and"
+" Alioth was no longer a self-governed world.\n"
+"The system remained under Earth control until the great wars of the 30th Century"
+" and the formation of the Confederation of Independent Worlds.\n"
+"Since then Alioth has become one of the most important worlds in the CIS.",
 Polit::GOV_CISLIBDEM
 }, // Components: K2
 { "Epsilon Indi", 0, {SBody::TYPE_STAR_K}, -1, 0, vector3f(0.629f,0.880f,-1.045f) }, // Components: K5
@@ -186,7 +199,7 @@ Polit::GOV_CISLIBDEM
 { "Gliese 570", 0, {SBody::TYPE_STAR_K, SBody::TYPE_STAR_M}, -2, 0, vector3f(0.174f,0.358f,-0.281f) }, // Components: K5, M2
 { "Kruger 60", 0, {SBody::TYPE_STAR_M, SBody::TYPE_STAR_M}, 0, -2, vector3f(0.903f,0.932f,0.004f) }, // Components: M2, M6
 { "Gliese 205", 0, {SBody::TYPE_STAR_M}, 2, 1, vector3f(0.488f,0.496f,-0.805f) }, // Components: M1
-{ "Proxima", 0, {SBody::TYPE_STAR_M}, 0, 0, vector3f(0.135f,0.882f,-0.017f), 5,
+{ "Proxima", 0, {SBody::TYPE_STAR_M}, 0, 0, vector3f(0.135f,0.882f,-0.017f), 17,
 "Military dictatorship",
 "Closest star in the sky to early human civilisation.\n"
 "Home of the famous wright Shipyards."

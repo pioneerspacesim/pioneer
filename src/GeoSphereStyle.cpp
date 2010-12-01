@@ -36,7 +36,7 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	{ { TERRAIN_GASGIANT },
 	  { COLOR_GG_SATURN, COLOR_GG_JUPITER, COLOR_GG_URANUS, COLOR_GG_NEPTUNE } },
 	// TYPE_PLANET_ASTEROID,
-	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
+	{ { TERRAIN_ASTEROID }, { COLOR_ROID } },
 	// TYPE_PLANET_LARGE_ASTEROID,
 	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
 	// TYPE_PLANET_DWARF,
@@ -64,7 +64,7 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	// TYPE_PLANET_TERRAFORMED_POOR,
 	{ { TERRAIN_RUGGED_H2O }, { COLOR_TFPOOR } },
 	// TYPE_PLANET_TERRAFORMED_GOOD,
-	{ { TERRAIN_RUGGED_H2O }, { COLOR_TFGOOD } },
+	{ { TERRAIN_RUGGED_H2O_MEGAVOLC }, { COLOR_TFGOOD } },
 	// TYPE_STARPORT_ORBITAL
 	{},
 	// TYPE_STARPORT_SURFACE
@@ -226,7 +226,31 @@ void crater_function_1pass(const vector3d &p, double &out, const double height)
 	}
 }
 
-double crater_function(const vector3d &p)
+void bigcrater_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.88;
+	const double inner = 0.955;
+	const double midrim = 0.925;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double crater_function(const vector3d &p)  // makes large and small craters across the entire planet.
 {
 	double crater = 0.0;
 	double sz = 1.0;
@@ -235,6 +259,130 @@ double crater_function(const vector3d &p)
 		crater_function_1pass(sz*p, crater, max_h);
 		sz *= 2.0;
 		max_h *= 0.5;
+	}
+	return 4.0 * crater;
+}
+
+double bigcrater_function(const vector3d &p)  //should make a few very large craters like on Earth.
+{
+	double acrater = 0.0;
+	double asz = 0.7;
+	double amax_h = 0.5;
+	for (int i=0; i<14; i++) {
+		bigcrater_function_1pass(asz*p, acrater, amax_h);
+		asz *= 1.0;
+		amax_h *= 0.5;
+	}
+	return 4.5 * acrater;
+}
+
+void volcano_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.92;  //Radius
+	const double inner = 0.94;
+	const double midrim = 0.937;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double volcano_function(const vector3d &p)
+{
+	double acrater = 0.0;
+	double asz = 1.2;
+	double amax_h = 0.5;
+	for (int i=0; i<14; i++) {
+		volcano_function_1pass(asz*p, acrater, amax_h);
+		asz *= 1.0;  //...
+		amax_h *= 0.4; // .
+	}
+	return 4.0 * acrater;
+}
+
+void smlvolcano_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.92;  //Radius
+	const double inner = 0.94;
+	const double midrim = 0.937;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double smlvolcano_function(const vector3d &p)
+{
+	double acrater = 0.0;
+	double asz = 0.9;
+	double amax_h = 0.3;
+	for (int i=0; i<14; i++) {
+		smlvolcano_function_1pass(asz*p, acrater, amax_h);
+		asz *= 1.0;  //...
+		amax_h *= 0.3; // .
+	}
+	return 3.0 * acrater;
+}
+
+void megavolcano_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.76;  //Radius
+	const double inner = 0.97;
+	const double midrim = 0.925;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+double megavolcano_function(const vector3d &p)
+{
+	double crater = 0.0;
+	double sz = 0.58;
+	double max_h = 0.5;
+	for (int i=0; i<14; i++) {
+		megavolcano_function_1pass(sz*p, crater, max_h);
+		sz *= 1.0;  //frequency?
+		max_h *= 0.15; // height??
 	}
 	return 4.0 * crater;
 }
@@ -343,6 +491,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 		targ.mountainDistrib.lacunarity = rand.Double(1.8, 2.2);
 	}
 	if  ((t == TERRAIN_RUGGED_H2O) ||
+		(t == TERRAIN_RUGGED_H2O_MEGAVOLC) ||
 		(t == TERRAIN_H2O_SOLID) ||
 		(t == TERRAIN_RUGGED_DESERT) ||
 		(t == TERRAIN_H2O_LIQUID))  {
@@ -375,17 +524,27 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	if (t == TERRAIN_RUGGED_METHANE) {
 		targ.sealevel = rand.Double(0,0.2);
 	}
-	if (t == TERRAIN_RUGGED_H2O) {
+	if ((t == TERRAIN_RUGGED_H2O) ||
+		(t == TERRAIN_RUGGED_H2O_MEGAVOLC)) {
 		targ.sealevel = rand.Double();
 	}
 	if (t == TERRAIN_H2O_LIQUID) {
 		targ.sealevel = rand.Double(0.9,1);
 	}
+	if (t == TERRAIN_H2O_SOLID) {
+		targ.sealevel = rand.Double(0,0.15);
+	}
+	if (t == TERRAIN_ASTEROID) {    //simple randomness to asteroid noise levels.
+		noise1 = rand.Double(2,14);
+		noise2 = rand.Double(0.1,0.75);
+		noise3 = rand.Double(0.1,2);
+		targ.sealevel = rand.Double(1,4);
+	}
 
-	for (int i=0; i<8; i++) m_entropy[i] = rand.Double();
-	for (int i=0; i<4; i++) {
+	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<8; i++) {
 		double r,g,b;
-		r = rand.Double(0.5, 1.0);
+		r = rand.Double(0.0, 0.5);
 		g = rand.Double(0.0, r);
 		b = rand.Double(0.0, MIN(r, g));
 		m_rockColor[i] = vector3d(r, g, b);
@@ -401,7 +560,11 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		case TERRAIN_GASGIANT:
 			return 0;
 		case TERRAIN_ASTEROID:
-			return m_maxHeight*octavenoise(14, 0.5, 2.0, p) + 0.01*crater_function(p);
+			{
+			
+			//return m_maxHeight*(octavenoise(14, 0.5, 2.0, p)*0.3) + 0.005*crater_function(p);
+			return m_maxHeight*(octavenoise(14, 0.5, 2.0, p)*0.6)*(octavenoise(noise1, noise2, noise3, p)*targ.sealevel) + 0.011*crater_function(p);
+			}
 		case TERRAIN_RUGGED_CRATERED:
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
@@ -409,7 +572,13 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
-			return m_maxHeight * (continents + hills + mountains + crater_function(p));
+			//return m_maxHeight * (continents + hills + mountains + crater_function(p)) * (crater_function(p) + 1);
+			double n = (bigcrater_function(p) /2) + (continents * 4) - (targ.continents.amplitude * 2);// + canyon_function(p);
+			n += continents + hills + mountains + crater_function(p);
+			//n += n * n;
+			//n += bigcrater_function(p);
+			n = n * m_maxHeight;
+			return n;
 		}
 		case TERRAIN_RUGGED:
 		// same as above but no craters because of atmosphere
@@ -419,7 +588,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(2, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(10, targ.hills, (m_seed>>6)&3, p);
 
-			return m_maxHeight * (continents + hills + mountains);
+			return m_maxHeight * (continents + hills + mountains + volcano_function(p));
 		}
 		case TERRAIN_RUGGED_METHANE:
 		// same as above but no craters because of atmosphere
@@ -450,16 +619,16 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(14, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents - targ.continents.amplitude*targ.sealevel;
+			double n = continents - targ.continents.amplitude*targ.sealevel + volcano_function(p) ;//+ bigcrater_function(p);
 			if (n > 0.0) {
 				// smooth in hills at shore edges
-				if (n < 0.01) n += hills * n * 100.0f + crater_function(p);
-				else n += hills + crater_function(p);
+				if (n < 0.01) n += hills * n * 100.0f ;
+				else n += hills ;
 
 				mountains = fractal(1, targ.mountainDistrib, (m_seed>>2)&3, p) *
 					targ.mountains.amplitude * mountains*mountains*mountains;
-				if (n < 0.01) n += mountains * n * 100.0f;
-				else n += mountains;
+				if (n < 0.01) n += mountains * n * 100.0f ;
+				else n += mountains ;
 			}
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
@@ -467,24 +636,24 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		case TERRAIN_H2O_SOLID:
 		{
 			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&3, p);
-			double mountains = fractal(15, targ.mountains, (m_seed>>2)&3, p);
+			double mountains = fractal(13, targ.mountains, (m_seed>>2)&3, p);
 			double hills = fractal(1, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(8, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents + targ.continents.amplitude * (crater_function(p) / 2);
+			double n = continents + targ.continents.amplitude *targ.sealevel * (crater_function(p) / 2);
 			
 				// smooth in hills at shore edges 
 				if (n < 0.01) n += hills * n * 100.0f * crater_function(p) + (hills * crater_function(p) * canyon_function(p));
 				else n += hills * crater_function(p) * canyon_function(p) + (hills * crater_function(p) * canyon_function(p));
 				// adds mountains hills crators 
 				mountains = fractal(8, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains*2*mountains;
+					targ.mountains.amplitude * mountains*mountains*mountains*mountains;
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
 				
-				n += continents * 2;
+				n += continents * targ.sealevel;
 				
-				n += n + 0.1;
+				//n += n + 0.1;
 			
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
@@ -496,7 +665,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>8)&4, p);
 
-			double n = continents - (targ.continents.amplitude*targ.sealevel * 1.7) ;
+			double n = continents * volcano_function(p) - (targ.continents.amplitude*targ.sealevel * 1.7) ;
 			if (n > 0.0) {
 				
 				
@@ -519,7 +688,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double dunes = fractal(6, targ.hillDistrib, (m_seed>>6)&3, p) *
 				       targ.hills.amplitude * fractal(4, targ.hills, (m_seed>>6)&3, p);  //If you can find a better seed for creating dunes, please place it here
 			
-			double n = continents + (canyon_function(p) / 3);
+			double n = continents + (canyon_function(p) / 3) + (smlvolcano_function(p) * mountains);
 				n += continents * targ.continents.amplitude; 
 				n += n/2;
 				
@@ -531,10 +700,14 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				
 
 					
-				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
+				mountains = fractal(8, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains;
+				double mountains2 = fractal(1, targ.mountainDistrib, (m_seed>>8)&3, p) *
 					targ.mountains.amplitude * mountains*mountains*mountains;
 				// smoothes edges of mountains and places them only above a set altitude
 				if (n > 0.55) n += mountains * (n - 0.55) * (1/n);
+				if (n < 0.10) n += mountains2 * n * 4.0f;
+				else n += mountains2 * 0.4f;
 
 				
 			
@@ -548,7 +721,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents - targ.continents.amplitude*targ.sealevel;
+			double n = continents - targ.continents.amplitude*targ.sealevel + smlvolcano_function(p);
 			if (n > 0.0) {
 				// smooth in hills at shore edges
 				if (n < 0.01) n += hills * n * 100.0f;
@@ -559,6 +732,34 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
 			}
+			n = (n<0.0 ? 0.0 : m_maxHeight*n);
+			return n;
+		}
+		case TERRAIN_RUGGED_H2O_MEGAVOLC:
+		{
+			double continents = targ.continents.amplitude * fractal(14, targ.continents, (m_seed)&2, p);
+			double mountains = fractal(13, targ.mountains, (m_seed>>2)&3, p);
+			double mountains2 = fractal(13, targ.mountains, (m_seed>>8)&3, p);
+			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
+				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
+
+			double n = continents - targ.continents.amplitude*targ.sealevel*1;
+			if (n < 0.01) n += 3*megavolcano_function(p) * n * 100.0f;
+			else n += 3*megavolcano_function(p);
+			if (n > 0.0) {
+				// smooth in hills at shore edges
+				if (n < 0.01) n += hills * n * 100.0f;
+				else n += hills;
+
+				mountains = fractal(1, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains*mountains*mountains;
+				mountains2 = fractal(36, targ.mountainDistrib, (m_seed>>8)&3, p) *
+					targ.mountains.amplitude * mountains2;
+				if (n > 2.2) n += mountains2 * (n - 2.2) * 0.6;
+				if (n < 0.01) n += mountains * n * 40.0f ;
+				else n += mountains * 0.4f ; 
+			}
+			
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
 		}
@@ -628,11 +829,13 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	{
 		double n = m_invMaxHeight*height;
 
+		if (n <= 0.02) return vector3d(0.98,0.98,0.98);
+
 		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
-		const vector3d color_cliffs = m_rockColor[1];
+		const vector3d color_cliffs = m_rockColor[2];
 		// ice on mountains and poles
-		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
-			return interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+		if (fabs(m_icyness*p.y) + m_icyness*n > 18) {
+			return interpolate_color(flatness, color_cliffs, vector3d(0.96,0.98,1));
 		}
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -640,9 +843,9 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		vector3d col;
 		// latitude: high ~col, low orange
-		col = interpolate_color(equatorial_desert, vector3d(.2,.22,.1), vector3d(.1, .1, .1));
+		col = interpolate_color(equatorial_desert, vector3d(.97,.97,.97), vector3d(.93, .93, .93));
 		// height: dark grey, dark brown
-		col = interpolate_color(n, col, m_rockColor[0]);
+		col = interpolate_color(n, col, vector3d(.97,.97,.98));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
@@ -670,8 +873,66 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 	}
 	case COLOR_ROCK:
-		return m_rockColor[0];
-		//return vector3d(m_invMaxHeight*height, m_invMaxHeight*height,1);
+		{
+		double n = m_invMaxHeight*height/2;
+
+		if (n <= 0) return m_rockColor[1];		
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = m_rockColor[0];
+
+		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low brown/orange
+		col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[3]);
+		// height: brown, light yellow/brown
+		if (n > 0.6) {
+		col = interpolate_color(n, col, m_rockColor[4]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+		}
+		else if (n > 0.4) {
+		col = interpolate_color(n, col, m_rockColor[5]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+		}
+		else if (n > 0.2) {
+		col = interpolate_color(n, col, m_rockColor[6]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+		}
+		else {
+		col = interpolate_color(n, col, m_rockColor[7]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+		}
+
+	}
+	case COLOR_ROID:
+		{
+		double n = m_invMaxHeight*height/2;
+
+		if (n <= 0) return m_rockColor[1];		
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = vector3d(.22,.21,.2);
+
+		double equatorial_desert = (2.0)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(2.0)*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low brown/orange
+		col = interpolate_color(equatorial_desert, vector3d(.12,.1,0), vector3d(.3,.3,.3));
+		// height: brown, light yellow/brown
+
+		col = interpolate_color(n, col, m_rockColor[2]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+
+
+	}
 	case COLOR_VOLCANIC:
 	{
 		double n = m_invMaxHeight*height;
