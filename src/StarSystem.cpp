@@ -330,7 +330,7 @@ vector3d Orbit::OrbitalPosAtTime(double t)
 	double cos_v = (cos(E) - e) / (1.0 - e*cos(E));
 	double sin_v = (sqrt(1.0-e*e)*sin(E))/ (1.0 - e*cos(E));
 
-	vector3d pos = vector3d(cos_v*r, sin_v*r, 0);
+	vector3d pos = vector3d(-cos_v*r, sin_v*r, 0);
 	pos = rotMatrix * pos;
 	return pos;
 }
@@ -341,7 +341,7 @@ vector3d Orbit::EvenSpacedPosAtTime(double t)
 	const double M = 2*M_PI*t;
 	const double v = 2*atan(sqrt((1+e)/(1-e)) * tan(M/2.0));
 	const double r = semiMajorAxis * (1 - e*e) / (1 + e*cos(v));
-	vector3d pos = vector3d(cos(v)*r, sin(v)*r, 0);
+	vector3d pos = vector3d(-cos(v)*r, sin(v)*r, 0);
 	pos = rotMatrix * pos;
 	return pos;
 }
