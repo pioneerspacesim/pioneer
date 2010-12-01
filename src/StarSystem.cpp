@@ -491,7 +491,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->name = c->name;
 		kid->rotationPeriod = c->rotationPeriod;
 		kid->eccentricity = c->eccentricity;
-		kid->axialTilt = fixed(0);
+		kid->axialTilt = c->axialTilt;
 		kid->semiMajorAxis = c->semiMajorAxis;
 		kid->orbit.eccentricity = c->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
