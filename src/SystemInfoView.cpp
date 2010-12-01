@@ -64,6 +64,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		_add_label_and_value("Periapsis distance", stringf(64, "%.3f AU", b->orbMin.ToDouble()));
 		_add_label_and_value("Apoapsis distance", stringf(64, "%.3f AU", b->orbMax.ToDouble()));
 		_add_label_and_value("Eccentricity", stringf(64, "%.2f", b->orbit.eccentricity));
+		_add_label_and_value("Axial tilt", stringf(64, "%.1f degrees", b->axialTilt.ToDouble() * (180.0/M_PI) ));
 		const float dayLen = (float)b->GetRotationPeriod();
 		if (dayLen) {
 			_add_label_and_value("Day length", stringf(64, "%.1f earth days", dayLen/(60*60*24)));

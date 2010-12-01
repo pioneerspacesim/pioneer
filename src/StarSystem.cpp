@@ -491,6 +491,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->name = c->name;
 		kid->rotationPeriod = c->rotationPeriod;
 		kid->eccentricity = c->eccentricity;
+		kid->axialTilt = fixed(0);
 		kid->semiMajorAxis = c->semiMajorAxis;
 		kid->orbit.eccentricity = c->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
@@ -943,6 +944,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 
 		SBody *planet = NewBody();
 		planet->eccentricity = ecc;
+		planet->axialTilt = fixed(100,157)*rand.NFixed(2);
 		planet->semiMajorAxis = semiMajorAxis;
 		planet->type = SBody::TYPE_PLANET_DWARF;
 		planet->seed = rand.Int32();
@@ -1405,6 +1407,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		/* just always plonk starports in near orbit */
 		sp->semiMajorAxis = orbMin;
 		sp->eccentricity = fixed(0);
+		sp->axialTilt = fixed(0);
 		sp->orbit.eccentricity = 0;
 		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);

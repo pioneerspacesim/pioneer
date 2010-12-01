@@ -173,7 +173,7 @@ void Frame::RotateInTimestep(double step)
 	vector3d rotAxis = m_angVel.Normalized();
 	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
 
-	m_orient = rotMatrix * m_orient;
+	m_orient = m_orient * rotMatrix;
 }
 
 /*

@@ -222,6 +222,13 @@ void MoveOrbitingObjectFrames(Frame *f)
 		MoveOrbitingObjectFrames(*i);
 	}
 }
+
+static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
+{
+	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
+	f->SetOrientation(rot);
+}
+
 static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
@@ -263,6 +270,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		rotFrame->SetRadius(b->GetBoundingRadius());
 		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
 		rotFrame->m_astroBody = b;
+		SetFrameOrientationFromSBodyAxialTilt(rotFrame, sbody);
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
