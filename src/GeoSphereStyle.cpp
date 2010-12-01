@@ -36,7 +36,7 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	{ { TERRAIN_GASGIANT },
 	  { COLOR_GG_SATURN, COLOR_GG_JUPITER, COLOR_GG_URANUS, COLOR_GG_NEPTUNE } },
 	// TYPE_PLANET_ASTEROID,
-	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
+	{ { TERRAIN_ASTEROID }, { COLOR_ROID } },
 	// TYPE_PLANET_LARGE_ASTEROID,
 	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
 	// TYPE_PLANET_DWARF,
@@ -908,6 +908,29 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
+
+	}
+	case COLOR_ROID:
+		{
+		double n = m_invMaxHeight*height/2;
+
+		if (n <= 0) return m_rockColor[1];		
+
+		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const vector3d color_cliffs = vector3d(.22,.21,.2);
+
+		double equatorial_desert = (2.0)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
+				1.0*(2.0)*(1.0-p.y*p.y);
+
+		vector3d col;
+		// latitude: high ~col, low brown/orange
+		col = interpolate_color(equatorial_desert, vector3d(.12,.1,0), vector3d(.3,.3,.3));
+		// height: brown, light yellow/brown
+
+		col = interpolate_color(n, col, m_rockColor[2]);
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+
 
 	}
 	case COLOR_VOLCANIC:
