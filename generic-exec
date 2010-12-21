@@ -8,9 +8,8 @@ PROGRAM_NAME=$0
 
 # To keep autoconf users happy (like me!)
 if ! which cmake > /dev/null; then
-	make
 	EXEC_BIN=src/$PROGRAM_NAME
-	exec $EXEC_BIN $*
+	make && exec $EXEC_BIN $*
 fi
 
 if [ "$1" == "--release" ]; then
