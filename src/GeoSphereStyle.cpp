@@ -721,14 +721,14 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double hills = fractal(6, targ.hillDistrib, (m_seed>>4)&3, p) *
 				       targ.hills.amplitude * fractal(13, targ.hills, (m_seed>>6)&3, p);
 
-			double n = continents - targ.continents.amplitude*targ.sealevel + smlvolcano_function(p);
+			double n = continents - targ.continents.amplitude*targ.sealevel + (mountains * smlvolcano_function(p));
 			if (n > 0.0) {
 				// smooth in hills at shore edges
 				if (n < 0.01) n += hills * n * 100.0f;
 				else n += hills;
 
 				mountains = fractal(6, targ.mountainDistrib, (m_seed>>8)&3, p) *
-					targ.mountains.amplitude * mountains*mountains*mountains*mountains;
+					targ.mountains.amplitude * mountains*mountains;
 				if (n < 0.01) n += mountains * n * 100.0f;
 				else n += mountains;
 			}
