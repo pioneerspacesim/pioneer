@@ -40,7 +40,7 @@ enum MsgLevel {
 
 class Frame;
 
-#define PHYSICS_HZ (5.0)
+#define PHYSICS_HZ (60.0)
 
 class Pi {
 public:
