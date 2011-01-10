@@ -35,6 +35,8 @@ public:
 	void SetModel(const char *lmrModelName, bool isStatic = false);
 
 	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	
+	virtual void UpdateInterpolatedTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

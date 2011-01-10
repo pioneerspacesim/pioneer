@@ -124,6 +124,15 @@ void ModelBody::GetRotMatrix(matrix4x4d &m) const
 	m = m_geom->GetRotation();
 }
 
+void ModelBody::UpdateInterpolatedTransform(double alpha)
+{
+	const vector3d pos = GetPosition();
+	GetRotMatrix(m_interpolatedTransform);
+	m_interpolatedTransform[12] = pos.x;
+	m_interpolatedTransform[13] = pos.y;
+	m_interpolatedTransform[14] = pos.z;
+}
+
 void ModelBody::TransformToModelCoords(const Frame *camFrame)
 {
 	matrix4x4d m = m_geom->GetTransform();
@@ -168,12 +177,9 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 		glEnd();
 		glEnable(GL_LIGHTING);
 	} else {*/
-		matrix4x4d rot;
-		GetRotMatrix(rot);
-		rot = viewTransform * rot;
-
+		matrix4x4d t = viewTransform * GetInterpolatedTransform();
 		matrix4x4f trans;
-		for (int i=0; i<12; i++) trans[i] = (float)rot[i];
+		for (int i=0; i<12; i++) trans[i] = (float)t[i];
 		trans[12] = viewCoords.x;
 		trans[13] = viewCoords.y;
 		trans[14] = viewCoords.z;

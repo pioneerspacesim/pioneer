@@ -33,6 +33,7 @@
 #include "PiLuaModules.h"
 #include "AmbientSounds.h"
 
+float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
 int Pi::scrWidth;
@@ -823,17 +824,39 @@ void Pi::MainLoop()
 	int frame_stat = 0;
 	int phys_stat = 0;
 	char fps_readout[128];
-	Uint32 time_before_frame = SDL_GetTicks();
-	int time_to_simulate = 0;
 	double time_player_died = 0;
 #ifdef MAKING_VIDEO
 	Uint32 last_screendump = SDL_GetTicks();
 	int dumpnum = 0;
 #endif /* MAKING_VIDEO */
 
+	double currentTime = 0.001 * (double)SDL_GetTicks();
+	double accumulator = Pi::GetTimeStep();
+	Pi::gameTickAlpha = 0;
+
 	memset(fps_readout, 0, sizeof(fps_readout));
 
 	while (isGameStarted) {
+		double newTime = 0.001 * (double)SDL_GetTicks();
+		Pi::frameTime = newTime - currentTime;
+		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
+		currentTime = newTime;
+		accumulator += Pi::frameTime * GetTimeAccel();
+		
+		const float step = Pi::GetTimeStep();
+		if (step) {
+			while (accumulator >= step) {
+				Space::TimeStep(step);
+				gameTime += step;
+				phys_stat++;
+
+				accumulator -= step;
+			}
+			Pi::gameTickAlpha = accumulator / step;
+		} else {
+			// paused
+		}
+
 		if (frame_stat == 0) {
 			// called not more than once per second
 			PiLuaModules::UpdateOncePerRealtimeSecond();
@@ -843,6 +866,11 @@ void Pi::MainLoop()
 		Render::PrepareFrame();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		
+		/* Calculate position for this rendered frame (interpolated between two physics ticks */
+		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		}
 
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
@@ -873,19 +901,6 @@ void Pi::MainLoop()
 		Render::SwapBuffers();
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
-		Pi::frameTime = 0.001*(SDL_GetTicks() - time_before_frame);
-		// don't do more than 0.160 seconds of physics updates per frame (10 ticks)
-		time_to_simulate = MIN(160, time_to_simulate + (SDL_GetTicks() - time_before_frame));
-		time_before_frame = SDL_GetTicks();
-		
-		// 62.5Hz physics (unless frame rates get really low)
-		for (; time_to_simulate > 16; time_to_simulate -= 16) {
-			const float step = Pi::GetTimeStep();
-			if (step) Space::TimeStep(step);
-			gameTime += step;
-			phys_stat++;
-		}
-
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //

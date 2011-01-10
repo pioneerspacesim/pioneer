@@ -42,6 +42,7 @@ public:
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
 	double GetAtmosphericDragGs() const { return m_atmosDragGs; }
+	virtual void UpdateInterpolatedTransform(double alpha);
 
 protected:
 	virtual void Save(Serializer::Writer &wr);
@@ -54,6 +55,7 @@ private:
 	vector3d m_torque;
 	vector3d m_vel;
 	vector3d m_angVel;
+	vector3d m_oldAngDisplacement;
 	double m_mass;
 	double m_massRadius; // set in a mickey-mouse fashion from the collision mesh and used to calculate m_angInertia
 	double m_angInertia; // always sphere mass distribution

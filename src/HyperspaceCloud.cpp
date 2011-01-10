@@ -107,6 +107,17 @@ static void make_circle_thing(float radius, const Color &colCenter, const Color 
 	glEnd();
 }
 
+void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
+{
+	m_interpolatedTransform = matrix4x4d::Identity();
+	const vector3d newPos = GetPosition();
+	const vector3d oldPos = newPos - m_vel*Pi::GetTimeStep();
+	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
+	m_interpolatedTransform[12] = p.x;
+	m_interpolatedTransform[13] = p.y;
+	m_interpolatedTransform[14] = p.z;
+}
+
 void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	Render::State::UseProgram(Render::simpleShader);
@@ -121,8 +132,10 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	glMultMatrixd(&rot[0]);
+	// precise to the rendered frame (better than PHYSICS_HZ granularity)
+	double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
 
-	float radius = 1000.0f + 200.0f*noise(10.0*Pi::GetGameTime(), (double)(m_id&0xff), 0);
+	float radius = 1000.0f + 200.0f*noise(10.0*preciseTime, (double)(m_id&0xff), 0);
 	if (m_isArrival) {
 		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {

@@ -49,6 +49,17 @@ void Projectile::PostLoadFixup()
 	m_parent = Serializer::LookupBody((size_t)m_parent);
 }
 
+void Projectile::UpdateInterpolatedTransform(double alpha)
+{
+	m_interpolatedTransform = m_orient;
+	const vector3d newPos = GetPosition();
+	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::GetTimeStep();
+	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
+	m_interpolatedTransform[12] = p.x;
+	m_interpolatedTransform[13] = p.y;
+	m_interpolatedTransform[14] = p.z;
+}
+
 void Projectile::SetPosition(vector3d p)
 {
 	m_orient[12] = p.x;
@@ -164,8 +175,8 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	static GLuint tex;
 	if (!tex) tex = util_load_tex_rgba("data/textures/laser.png");
 
-	vector3d from = viewTransform * GetPosition();
-	vector3d to = viewTransform * (GetPosition() + 0.1*m_dirVel);
+	vector3d from = viewTransform * GetInterpolatedPosition();
+	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
 	vector3d dir = to - from;
 		
 	vector3f _from(&from.x);

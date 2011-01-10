@@ -880,8 +880,10 @@ void Render(const Frame *cam_frame)
 	body_zsort_t *bz = new body_zsort_t[bodies.size()];
 	int idx = 0;
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
+		const vector3d pos = (*i)->GetInterpolatedPosition();
 		Frame::GetFrameTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
-		vector3d toBody = bz[idx].viewTransform * (*i)->GetPosition();
+		vector3d toBody = bz[idx].viewTransform * pos;
+		bz[idx].viewTransform = bz[idx].viewTransform;
 		bz[idx].viewCoords = toBody;
 		bz[idx].dist = toBody.Length();
 		bz[idx].bodyFlags = (*i)->GetFlags();

@@ -40,6 +40,8 @@ enum MsgLevel {
 
 class Frame;
 
+#define PHYSICS_HZ (5.0)
+
 class Pi {
 public:
 	static void Init();
@@ -61,7 +63,8 @@ public:
 	static float GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
 	static float GetTimeAccelIdx() { return timeAccelIdx; }
 	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
-	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/62.5f); }
+	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/PHYSICS_HZ); }
+	static float GetGameTickAlpha() { return gameTickAlpha; }
 	static int GetScrWidth() { return scrWidth; }
 	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
@@ -122,6 +125,11 @@ private:
 	static View *currentView;
 
 	static double gameTime;
+	/** So, the game physics rate (50Hz) can run slower
+	  * than the frame rate. gameTickAlpha is the interpolation
+	  * factor between one physics tick and another [0.0-1.0]
+	  */
+	static float gameTickAlpha;
 	static StarSystem *selectedSystem;
 	static int timeAccelIdx;
 	static int requestedTimeAccelIdx;

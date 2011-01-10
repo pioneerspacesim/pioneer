@@ -228,6 +228,14 @@ class matrix4x4 {
 		out.z = a.cell[2]*v.x + a.cell[6]*v.y + a.cell[10]*v.z + a.cell[14];
 		return out;
 	}
+	friend matrix4x4 operator* (const matrix4x4 &a, T v) {
+		matrix4x4 m;
+		for (int i=0; i<16; i++) m[i] = a.cell[i] * v;
+		return m;
+	}
+	friend matrix4x4 operator* (T v, const matrix4x4 &a) {
+		return (a*v);
+	}
 	vector3<T> ApplyRotationOnly (const vector3<T> &v) const {
 		vector3<T> out;
 		out.x = cell[0]*v.x + cell[4]*v.y + cell[8]*v.z;

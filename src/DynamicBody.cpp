@@ -11,6 +11,7 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_orient = matrix4x4d::Identity();
 	m_oldOrient = m_orient;
+	m_oldAngDisplacement = vector3d(0.0);
 	m_force = vector3d(0.0);
 	m_torque = vector3d(0.0);
 	m_vel = vector3d(0.0);
@@ -160,6 +161,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 				m_orient = rotMatrix * m_orient;
 			}
 		}
+		m_oldAngDisplacement = consideredAngVel * timeStep;
 
 		pos += m_vel * (double)timeStep;
 		m_orient[12] = pos.x;
@@ -169,7 +171,31 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
+	} else {
+		m_oldOrient = m_orient;
+		m_oldAngDisplacement = vector3d(0.0);
 	}
+}
+
+void DynamicBody::UpdateInterpolatedTransform(double alpha)
+{
+	// interpolating matrices like this is a sure sign of madness
+	vector3d outPos = alpha*vector3d(m_orient[12], m_orient[13], m_orient[14]) +
+			(1.0-alpha)*vector3d(m_oldOrient[12], m_oldOrient[13], m_oldOrient[14]);
+
+	m_interpolatedTransform = m_oldOrient;
+	{
+		double len = m_oldAngDisplacement.Length() * (double)alpha;
+		if (len != 0) {
+			vector3d rotAxis = m_oldAngDisplacement.Normalized();
+			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
+					rotAxis.x, rotAxis.y, rotAxis.z);
+			m_interpolatedTransform = rotMatrix * m_interpolatedTransform;
+		}
+	}
+	m_interpolatedTransform[12] = outPos.x;
+	m_interpolatedTransform[13] = outPos.y;
+	m_interpolatedTransform[14] = outPos.z;
 }
 
 void DynamicBody::UndoTimestep()
@@ -194,7 +220,9 @@ void DynamicBody::Disable()
 void DynamicBody::SetRotMatrix(const matrix4x4d &r)
 {
 	vector3d pos = GetPosition();
+	m_oldOrient = m_orient;
 	m_orient = r;
+	m_oldAngDisplacement = vector3d(0.0);
 	SetPosition(pos);
 }
 

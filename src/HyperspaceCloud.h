@@ -18,7 +18,7 @@ public:
 	virtual void SetPosition(vector3d p);
 	virtual void SetVelocity(vector3d v) { m_vel = v; }
 	virtual vector3d GetPosition() const;
-	virtual double GetBoundingRadius() const { return 10.0; }
+	virtual double GetBoundingRadius() const { return 1200.0; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void PostLoadFixup();
 	virtual void TimeStepUpdate(const float timeStep);
@@ -27,6 +27,7 @@ public:
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
 	int GetId() const { return m_id; }
+	virtual void UpdateInterpolatedTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

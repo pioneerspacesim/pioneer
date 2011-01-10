@@ -166,8 +166,8 @@ vector3d WorldView::GetExternalViewTranslation()
 	vector3d p = vector3d(0, 0, m_externalViewDist);
 	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_externalViewRotX)) * p;
 	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_externalViewRotY)) * p;
-	matrix4x4d m;
-	Pi::player->GetRotMatrix(m);
+	matrix4x4d m = Pi::player->GetInterpolatedTransform();
+	m.ClearToRotOnly();
 	p = m*p;
 	return p;
 }
@@ -433,6 +433,11 @@ void WorldView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// interpolate between last physics tick position and current one,
+	// to remove temporal aliasing
+	matrix4x4d pposOrient = Pi::player->GetInterpolatedTransform();
+	const vector3d ppos(pposOrient[12], pposOrient[13], pposOrient[14]);
+
 	// make temporary camera frame at player
 	Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
 
@@ -440,19 +445,19 @@ void WorldView::Draw3D()
 
 	enum CamType camtype = GetCamType();
 	if (camtype == CAM_FRONT) {
-		cam_frame.SetPosition(Pi::player->GetPosition());
+		cam_frame.SetPosition(ppos);
 	} else if (camtype == CAM_REAR) {
 		camRot.RotateY(M_PI);
 	//	glRotatef(180.0f, 0, 1, 0);
-		cam_frame.SetPosition(Pi::player->GetPosition());
+		cam_frame.SetPosition(ppos);
 	} else /* CAM_EXTERNAL */ {
-		cam_frame.SetPosition(Pi::player->GetPosition() + GetExternalViewTranslation());
+		cam_frame.SetPosition(ppos + GetExternalViewTranslation());
 		ApplyExternalViewRotation(camRot);
 	}
 
 	{
-		matrix4x4d prot;
-		Pi::player->GetRotMatrix(prot);
+		matrix4x4d prot = pposOrient;
+		prot.ClearToRotOnly();
 		camRot = prot * camRot;
 	}
 	cam_frame.SetOrientation(camRot);
@@ -919,7 +924,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
 			Body *b = *i;
-			vector3d _pos = b->GetPositionRelTo(cam_frame);
+			vector3d _pos = b->GetInterpolatedPositionRelTo(cam_frame);
 
 			if (_pos.z < 0
 				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
