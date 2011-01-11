@@ -23,45 +23,105 @@ KeyBinding targetObject;
 
 bool KeyBinding::IsActive()
 {
-	// 0xfff filters out numlock, capslock and other shit
-	if (mod) return Pi::KeyState(key) && ((Pi::KeyModState()&0xfff) == mod);
-	return Pi::KeyState(key);
+	if (type == KEYBOARD_KEY) {
+		// 0xfff filters out numlock, capslock and other shit
+		if (u.keyboard.mod != 0)
+			return Pi::KeyState(u.keyboard.key) && ((Pi::KeyModState()&0xfff) == u.keyboard.mod);
+
+		return Pi::KeyState(u.keyboard.key);
+
+	} else if (type == JOYSTICK_BUTTON) {
+	} else if (type == JOYSTICK_HAT) {
+	} else
+		abort();
+
+	return false;
 }
 
-bool KeyModBinding::IsActive()
-{
-	// 0xfff filters out numlock, capslock and other shit
-	return Pi::KeyState(key) && ((Pi::KeyModState()&0xfff) == mod);
-}
-
-const KeyBindingPrototype bindingProtos[] = {
+const BindingPrototype bindingProtos[] = {
 	{ "Weapons", 0 },
-	{ "Target object in crosshairs", "BindTargetObject", SDLK_TAB },
-	{ "Fire laser", "BindFireLaser", SDLK_SPACE },
+	{ "Target object in crosshairs", "BindTargetObject" },
+	{ "Fire laser", "BindFireLaser" },
 	{ "Ship orientation", 0 },
-	{ "Fast rotational control", "BindFastRotate", SDLK_LSHIFT },
-	{ "Pitch up", "BindPitchUp", SDLK_s },
-	{ "Pitch down", "BindPitchDown", SDLK_w },
-	{ "Yaw left", "BindYawLeft", SDLK_a },
-	{ "Yaw right", "BindYawRight", SDLK_d },
-	{ "Roll left", "BindRollLeft", SDLK_q },
-	{ "Roll right", "BindRollRight", SDLK_e },
+	{ "Fast rotational control", "BindFastRotate" },
+	{ "Pitch up", "BindPitchUp" },
+	{ "Pitch down", "BindPitchDown" },
+	{ "Yaw left", "BindYawLeft" },
+	{ "Yaw right", "BindYawRight" },
+	{ "Roll left", "BindRollLeft" },
+	{ "Roll right", "BindRollRight" },
 	{ "Manual control mode", 0 },
-	{ "Thrust forward", "BindThrustForward", SDLK_i },
-	{ "Thrust backwards", "BindThrustBackwards", SDLK_k },
-	{ "Thrust up", "BindThrustUp", SDLK_u },
-	{ "Thrust down", "BindThrustDown", SDLK_o },
-	{ "Thrust left", "BindThrustLeft", SDLK_j },
-	{ "Thrust right", "BindThrustRight", SDLK_l },
+	{ "Thrust forward", "BindThrustForward" },
+	{ "Thrust backwards", "BindThrustBackwards" },
+	{ "Thrust up", "BindThrustUp" },
+	{ "Thrust down", "BindThrustDown" },
+	{ "Thrust left", "BindThrustLeft" },
+	{ "Thrust right", "BindThrustRight" },
 	{ "Speed control mode", 0 },
-	{ "Increase set speed", "BindIncreaseSpeed", SDLK_RETURN },
-	{ "Decrease set speed", "BindDecreaseSpeed", SDLK_RSHIFT },
+	{ "Increase set speed", "BindIncreaseSpeed" },
+	{ "Decrease set speed", "BindDecreaseSpeed" },
 	{ 0, 0 },
 };
 
+/**
+ * Exampe strings:
+ *   Key55
+ *   Joy0Button2
+ *   Joy0Hat0Dir3
+ */
+static bool KeyBindingFromString(const char *str, KeyBinding *kb)
+{
+	const char *digits = "1234567890";
+
+	if (strncmp(str, "Key", 3) == 0) {
+		kb->type = KEYBOARD_KEY;
+		str += 3;
+
+		kb->u.keyboard.key = (SDLKey) atoi(str);
+		str += strspn(str, digits);
+
+		if (strncmp(str, "Mod", 3) == 0) {
+			str += 3;
+			kb->u.keyboard.mod = (SDLMod) atoi(str);
+		}
+
+		return true;
+
+	} else if (strncmp(str, "Joy", 3) == 0) {
+		str += 3;
+
+		int joy = atoi(str);
+		str += strspn(str, digits);
+
+		if (strncmp(str, "Button", 6) == 0) {
+			str += 6;
+			kb->type = JOYSTICK_BUTTON;
+			kb->u.joystickButton.joystick = joy;
+			kb->u.joystickButton.button = atoi(str);
+			return true;
+		} else if (strncmp(str, "Hat", 3) == 0) {
+			str += 3;
+			kb->type = JOYSTICK_HAT;
+			kb->u.joystickHat.joystick = joy;
+			kb->u.joystickHat.hat = atoi(str);
+			str += strspn(str, digits);
+
+			if (strncmp(str, "Dir", 3) != 0)
+				return false;
+
+			str += 3;
+			kb->u.joystickHat.direction = atoi(str);
+			return true;
+		}
+
+		return false;
+	}
+
+	return false;
+}
+
 #define SET_KEY_BINDING(var,bindname) \
-	(var).key = (SDLKey)Pi::config.Int(bindname "Key"); \
-	(var).mod = (SDLMod)Pi::config.Int(bindname "Mod");
+	KeyBindingFromString(Pi::config.String(bindname).c_str(), &(var));
 
 void OnKeyBindingsChanged()
 {
@@ -85,8 +145,32 @@ void OnKeyBindingsChanged()
 	//SET_KEY_BINDING(key, "Bind");
 }
 
+static void SetSDLKeyboardBinding(const char *name, SDLKey key) {
+	char buffer[64];
+	snprintf(buffer, sizeof(buffer), "Key%i", (int) key);
+	Pi::config.SetString(name, buffer);
+}
+
 void SetDefaults() 
 {
+	SetSDLKeyboardBinding("BindTargetObject", SDLK_TAB);
+	SetSDLKeyboardBinding("BindFireLaser", SDLK_SPACE);
+	SetSDLKeyboardBinding("BindFastRotate", SDLK_LSHIFT);
+	SetSDLKeyboardBinding("BindPitchUp", SDLK_s);
+	SetSDLKeyboardBinding("BindPitchDown", SDLK_w);
+	SetSDLKeyboardBinding("BindYawLeft", SDLK_a);
+	SetSDLKeyboardBinding("BindYawRight", SDLK_d);
+	SetSDLKeyboardBinding("BindRollLeft", SDLK_q);
+	SetSDLKeyboardBinding("BindRollRight", SDLK_e);
+	SetSDLKeyboardBinding("BindThrustForward", SDLK_i);
+	SetSDLKeyboardBinding("BindThrustBackwards", SDLK_k);
+	SetSDLKeyboardBinding("BindThrustUp", SDLK_u);
+	SetSDLKeyboardBinding("BindThrustDown", SDLK_o);
+	SetSDLKeyboardBinding("BindThrustLeft", SDLK_j);
+	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
+	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
+	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
+#if 0
 	for (int i=0; bindingProtos[i].label; i++) {
 		// skip group labels
 		if (bindingProtos[i].function == 0) continue;
@@ -97,7 +181,7 @@ void SetDefaults()
 		Pi::config.SetInt(buf, bindingProtos[i].defaultMod);
 	}
 	OnKeyBindingsChanged();
+#endif
 }
 
 };
-

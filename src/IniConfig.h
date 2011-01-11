@@ -13,6 +13,9 @@ class IniConfig: private std::map<std::string, std::string> {
 	void SetFloat(const char *key, float val) {
 		(*this)[key] = stringf(64, "%f", val);
 	}
+	void SetString(const char *key, const char *val) {
+		(*this)[key] = val;
+	}
 	int Int(const char *key) {
 		return atoi((*this)[key].c_str());
 	}
