@@ -27,6 +27,16 @@ AxisBinding pitchAxis;
 AxisBinding rollAxis;
 AxisBinding yawAxis;
 
+KeyBinding KeyBinding::keyboardBinding(SDLKey key, SDLMod mod) {
+	KeyBinding kb;
+
+	kb.type = KEYBOARD_KEY;
+	kb.u.keyboard.key  = key;
+	kb.u.keyboard.mod  = mod;
+
+	return kb;
+}
+
 bool KeyBinding::IsActive()
 {
 	if (type == KEYBOARD_KEY) {
@@ -46,6 +56,29 @@ bool KeyBinding::IsActive()
 	return false;
 }
 
+std::string KeyBinding::Description() const {
+	std::ostringstream oss;
+
+	if (type == KEYBOARD_KEY) {
+		if (u.keyboard.mod & KMOD_SHIFT) oss << "shift ";
+		if (u.keyboard.mod & KMOD_CTRL) oss << "ctrl ";
+		if (u.keyboard.mod & KMOD_ALT) oss << "alt ";
+		if (u.keyboard.mod & KMOD_META) oss << "meta ";
+		oss << SDL_GetKeyName(u.keyboard.key);
+	} else if (type == JOYSTICK_BUTTON) {
+		oss << "Joy" << u.joystickButton.joystick;
+		oss << " Button " << u.joystickButton.button;
+	} else if (type == JOYSTICK_HAT) {
+		oss << "Joy" << u.joystickHat.joystick;
+		oss << " Hat" << u.joystickHat.hat;
+		oss << " Dir " << u.joystickHat.direction;
+	} else
+		abort();
+
+	return oss.str();
+}
+
+
 AxisBinding::AxisBinding() {
 	this->joystick = 0;
 	this->axis = 0;
@@ -58,22 +91,19 @@ AxisBinding::AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction) {
 	this->direction = direction;
 }
 
-std::string AxisBinding::Description() const
-{
+std::string AxisBinding::Description() const {
 	const char *axis_names[] = {"X", "Y", "Z"};
 	std::ostringstream oss;
 
 	if (direction == KeyBindings::NEGATIVE)
 		oss << '-';
 
-	oss << "Joy";
-	oss << joystick;
-	oss << ' ';
+	oss << "Joy" << (int) joystick << ' ';
 
 	if (0 <= axis && axis < 3)
 		oss << axis_names[axis];
 	else
-		oss << axis;
+		oss << (int) axis;
 
 	oss << " Axis";
 
@@ -119,48 +149,50 @@ const BindingPrototype axisBindingProtos[] = {
  *   Joy0Button2
  *   Joy0Hat0Dir3
  */
-bool KeyBindingFromString(const char *str, KeyBinding *kb)
+bool KeyBindingFromString(const std::string &str, KeyBinding *kb)
 {
 	const char *digits = "1234567890";
+	const char *p = str.c_str();
 
-	if (strncmp(str, "Key", 3) == 0) {
+	if (strncmp(p, "Key", 3) == 0) {
 		kb->type = KEYBOARD_KEY;
-		str += 3;
+		p += 3;
 
-		kb->u.keyboard.key = (SDLKey) atoi(str);
-		str += strspn(str, digits);
+		kb->u.keyboard.key = (SDLKey) atoi(p);
+		p += strspn(p, digits);
 
-		if (strncmp(str, "Mod", 3) == 0) {
-			str += 3;
-			kb->u.keyboard.mod = (SDLMod) atoi(str);
-		}
+		if (strncmp(p, "Mod", 3) == 0) {
+			p += 3;
+			kb->u.keyboard.mod = (SDLMod) atoi(p);
+		} else
+			kb->u.keyboard.mod = KMOD_NONE;
 
 		return true;
 
-	} else if (strncmp(str, "Joy", 3) == 0) {
-		str += 3;
+	} else if (strncmp(p, "Joy", 3) == 0) {
+		p += 3;
 
-		int joy = atoi(str);
-		str += strspn(str, digits);
+		int joy = atoi(p);
+		p += strspn(p, digits);
 
-		if (strncmp(str, "Button", 6) == 0) {
-			str += 6;
+		if (strncmp(p, "Button", 6) == 0) {
+			p += 6;
 			kb->type = JOYSTICK_BUTTON;
 			kb->u.joystickButton.joystick = joy;
-			kb->u.joystickButton.button = atoi(str);
+			kb->u.joystickButton.button = atoi(p);
 			return true;
-		} else if (strncmp(str, "Hat", 3) == 0) {
-			str += 3;
+		} else if (strncmp(p, "Hat", 3) == 0) {
+			p += 3;
 			kb->type = JOYSTICK_HAT;
 			kb->u.joystickHat.joystick = joy;
-			kb->u.joystickHat.hat = atoi(str);
-			str += strspn(str, digits);
+			kb->u.joystickHat.hat = atoi(p);
+			p += strspn(p, digits);
 
-			if (strncmp(str, "Dir", 3) != 0)
+			if (strncmp(p, "Dir", 3) != 0)
 				return false;
 
-			str += 3;
-			kb->u.joystickHat.direction = atoi(str);
+			p += 3;
+			kb->u.joystickHat.direction = atoi(p);
 			return true;
 		}
 
@@ -170,33 +202,63 @@ bool KeyBindingFromString(const char *str, KeyBinding *kb)
 	return false;
 }
 
-bool AxisBindingFromString(const char *str, AxisBinding *ab) {
-	const char *digits = "1234567890";
+KeyBinding KeyBindingFromString(const std::string &str) {
+	KeyBinding kb;
 
-	if (str[0] == '-') {
+	if (!KeyBindingFromString(str, &kb))
+		abort();
+
+	return kb;
+}
+
+std::string KeyBindingToString(const KeyBinding &kb) {
+	std::ostringstream oss;
+
+	if (kb.type == KEYBOARD_KEY) {
+		oss << "Key" << kb.u.keyboard.key;
+		if (kb.u.keyboard.mod != 0)
+			oss << "Mod" << kb.u.keyboard.mod;
+	} else if (kb.type == JOYSTICK_BUTTON) {
+		oss << "Joy" << kb.u.joystickButton.joystick;
+		oss << "Button" << kb.u.joystickButton.button;
+	} else if (kb.type == JOYSTICK_HAT) {
+		oss << "Joy" << kb.u.joystickHat.joystick;
+		oss << "Hat" << kb.u.joystickHat.hat;
+		oss << "Dir" << kb.u.joystickHat.direction;
+	} else
+		abort();
+
+	return oss.str();
+}
+
+bool AxisBindingFromString(const std::string &str, AxisBinding *ab) {
+	const char *digits = "1234567890";
+	const char *p = str.c_str();
+
+	if (p[0] == '-') {
 		ab->direction = NEGATIVE;
-		str++;
+		p++;
 	}
 	else
 		ab->direction = POSITIVE;
 
-	if (strncmp(str, "Joy", 3) != 0)
+	if (strncmp(p, "Joy", 3) != 0)
 		return false;
 
-	str += 3;
-	ab->joystick = atoi(str);
-	str += strspn(str, digits);
+	p += 3;
+	ab->joystick = atoi(p);
+	p += strspn(p, digits);
 
-	if (strncmp(str, "Axis", 4) != 0)
+	if (strncmp(p, "Axis", 4) != 0)
 		return false;
 
-	str += 4;
-	ab->axis = atoi(str);
+	p += 4;
+	ab->axis = atoi(p);
 
 	return true;
 }
 
-AxisBinding AxisBindingFromString(const char *str) {
+AxisBinding AxisBindingFromString(const std::string &str) {
 	AxisBinding ab;
 
 	if (!AxisBindingFromString(str, &ab))

@@ -15,32 +15,19 @@
 #include <../msvc/win32-dirent.h>
 #endif
 
-std::string get_sdl_key_and_mod_name(SDLKey key, SDLMod mod)
-{
-	std::string s = "";
-	if (mod & KMOD_SHIFT) s += "shift ";
-	if (mod & KMOD_CTRL) s += "ctrl ";
-	if (mod & KMOD_ALT) s += "alt ";
-	if (mod & KMOD_META) s += "meta ";
-	s += SDL_GetKeyName(key);
-
-	return s;
-}
-
 class KeyGetter: public Gui::Fixed {
 public:
-	KeyGetter(const char *label, SDLKey key, SDLMod mod): Gui::Fixed(350, 19) {
-		m_key = key;
-		m_mod = mod;
+	KeyGetter(const char *label, const KeyBindings::KeyBinding &kb): Gui::Fixed(350, 19) {
+		m_binding = kb;
 		m_function = label;
-		m_keyLabel = new Gui::Label(get_sdl_key_and_mod_name(key, mod));
+		m_keyLabel = new Gui::Label(m_binding.Description());
 		Gui::Button *b = new Gui::LabelButton(m_keyLabel);
 		b->onClick.connect(sigc::mem_fun(this, &KeyGetter::OnClickChange));
 		Add(new Gui::Label(label), 0, 0);
 		Add(b, 180, 0);
 		m_infoTooltip = 0;
 	}
-	sigc::signal<void, SDLKey, SDLMod> onChange;
+	sigc::signal<void, KeyBindings::KeyBinding> onChange;
 private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
@@ -60,16 +47,15 @@ private:
 		delete m_infoTooltip;
 		m_infoTooltip = 0;
 
-		m_key = e->keysym.sym;
+		m_binding.u.keyboard.key = e->keysym.sym;
 		// get rid of number lock, caps lock, etc
-		m_mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
-		onChange.emit(m_key, m_mod);
-		m_keyLabel->SetText(get_sdl_key_and_mod_name(m_key, m_mod));
+		m_binding.u.keyboard.mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		onChange.emit(m_binding);
+		m_keyLabel->SetText(m_binding.Description());
 		ResizeRequest();
 	}
 
-	SDLKey m_key;
-	SDLMod m_mod;
+	KeyBindings::KeyBinding m_binding;
 	Gui::Label *m_keyLabel;
 	Gui::ToolTip *m_infoTooltip;
 	std::string m_function;
@@ -103,7 +89,6 @@ private:
 	}
 
 	void OnAxisPick(SDL_JoyAxisEvent *e) {
-		printf("Got event, value:%i\n", e->value);
 		if (e->value > -32767/3 && e->value < 32767/3)
 			return;
 
@@ -492,9 +477,8 @@ GameMenuView::GameMenuView(): View()
 			const char *function = KeyBindings::bindingProtos[i].function;
 
 			if (function) {
-				const std::string confKey = function + std::string("Key");
-				const std::string confMod = function + std::string("Mod");
-				keyg = new KeyGetter(label, (SDLKey)Pi::config.Int(confKey.c_str()), (SDLMod)Pi::config.Int(confMod.c_str()));
+				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config.String(function));
+				keyg = new KeyGetter(label, kb);
 				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
 				box->PackEnd(keyg);
 			} else {
@@ -514,8 +498,7 @@ GameMenuView::GameMenuView(): View()
 			const char *function = KeyBindings::axisBindingProtos[i].function;
 
 			if (function) {
-				KeyBindings::AxisBinding ab;
-				KeyBindings::AxisBindingFromString(Pi::config.String(function).c_str(), &ab);
+				KeyBindings::AxisBinding ab = KeyBindings::AxisBindingFromString(Pi::config.String(function).c_str());
 				axisg = new AxisGetter(label, ab);
 				axisg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeAxisBinding), function));
 				box->PackEnd(axisg);
@@ -532,13 +515,9 @@ GameMenuView::GameMenuView(): View()
 	}
 }
 
-void GameMenuView::OnChangeKeyBinding(SDLKey key, SDLMod mod, const char *fnName)
+void GameMenuView::OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName)
 {
-	char buf[128];
-	snprintf(buf, sizeof(buf), "%sKey", fnName);
-	Pi::config.SetInt(buf, key);
-	snprintf(buf, sizeof(buf), "%sMod", fnName);
-	Pi::config.SetInt(buf, mod);
+	Pi::config.SetString(fnName, KeyBindings::KeyBindingToString(kb).c_str());
 	Pi::config.Save();
 	KeyBindings::OnKeyBindingsChanged();
 }

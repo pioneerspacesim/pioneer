@@ -32,6 +32,9 @@ namespace KeyBindings {
 		} u;
 
 		bool IsActive();
+		std::string Description() const;
+
+		static KeyBinding keyboardBinding(SDLKey key, SDLMod mod);
 	};
 
 	enum AxisDirection {
@@ -60,9 +63,11 @@ namespace KeyBindings {
 	void SetDefaults();
 	void OnKeyBindingsChanged();
 
-	bool KeyBindingFromString(const char *str, KeyBinding *kb);
-	bool AxisBindingFromString(const char *str, AxisBinding *ab);
-	AxisBinding AxisBindingFromString(const char *str);
+	bool KeyBindingFromString(const std::string &str, KeyBinding *kb);
+	KeyBinding KeyBindingFromString(const std::string &str);
+	std::string KeyBindingToString(const KeyBinding &kb);
+	bool AxisBindingFromString(const std::string &str, AxisBinding *ab);
+	AxisBinding AxisBindingFromString(const std::string &str);
 	std::string AxisBindingToString(const AxisBinding &ab);
 
 	extern KeyBinding pitchUp;
