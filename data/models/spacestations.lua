@@ -301,10 +301,10 @@ function simple_lift_docking_port(baynum, pos)
 	zbias(0)
 
 	use_material('inside')
-	texture('stationwall.png', v(.5,.9,0),v(0,0,1.1),v(0,-.009,0))
+	texture('models/stationwall.png', v(.5,.9,0),v(0,0,1.1),v(0,-.009,0))
 	xref_quad(pos+v(50,0,50), pos+v(50,0,-50), pos+v(50,-75,-50), pos+v(50,-75,50))
 
-	texture('stationwall.png', v(.5,.9,0),v(.01,0,0),v(0,-.009,0))
+	texture('models/stationwall.png', v(.5,.9,0),v(.01,0,0),v(0,-.009,0))
 	quad(pos+v(-50,-75,-50), pos+v(50,-75,-50), pos+v(50,0,-50), pos+v(-50,0,-50))
 	quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
 	texture(nil)
