@@ -58,6 +58,28 @@ AxisBinding::AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction) {
 	this->direction = direction;
 }
 
+std::string AxisBinding::Description() const
+{
+	const char *axis_names[] = {"X", "Y", "Z"};
+	std::ostringstream oss;
+
+	if (direction == KeyBindings::NEGATIVE)
+		oss << '-';
+
+	oss << "Joy";
+	oss << joystick;
+	oss << ' ';
+
+	if (0 <= axis && axis < 3)
+		oss << axis_names[axis];
+	else
+		oss << axis;
+
+	oss << " Axis";
+
+	return oss.str();
+}
+
 const BindingPrototype bindingProtos[] = {
 	{ "Weapons", 0 },
 	{ "Target object in crosshairs", "BindTargetObject" },

@@ -47,6 +47,7 @@ namespace KeyBindings {
 		AxisBinding();
 		AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction);
 		double GetValue();
+		std::string Description() const;
 	};
 
 	struct BindingPrototype {

@@ -6,8 +6,6 @@
 #include "Sound.h"
 #include "KeyBindings.h"
 
-#include <sstream>
-
 #if _GNU_SOURCE
 #include <sys/types.h>
 #include <dirent.h>
@@ -28,28 +26,6 @@ std::string get_sdl_key_and_mod_name(SDLKey key, SDLMod mod)
 
 	return s;
 }
-
-static std::string get_joystick_axis_name(int joystick, int axis, KeyBindings::AxisDirection direction) {
-	const char *axis_names[] = {"X", "Y", "Z"};
-	std::ostringstream oss;
-
-	if (direction == KeyBindings::NEGATIVE)
-		oss << '-';
-
-	oss << "Joy";
-	oss << joystick;
-	oss << ' ';
-
-	if (0 <= axis && axis < 3)
-		oss << axis_names[axis];
-	else
-		oss << axis;
-
-	oss << " Axis";
-
-	return oss.str();
-}
-
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -105,7 +81,7 @@ public:
 	AxisGetter(const char *label, const KeyBindings::AxisBinding &ab): Gui::Fixed(350, 19) {
 		m_axisBinding = ab;
 		m_function = label;
-		m_keyLabel = new Gui::Label(get_joystick_axis_name(ab.joystick, ab.axis, ab.direction));
+		m_keyLabel = new Gui::Label(ab.Description());
 		Gui::Button *b = new Gui::LabelButton(m_keyLabel);
 		b->onClick.connect(sigc::mem_fun(this, &AxisGetter::OnClickChange));
 		Add(new Gui::Label(label), 0, 0);
@@ -141,7 +117,7 @@ private:
 		m_axisBinding.direction = (e->value < 0 ? KeyBindings::NEGATIVE : KeyBindings::POSITIVE);
 
 		onChange.emit(m_axisBinding);
-		m_keyLabel->SetText(get_joystick_axis_name(e->which, e->axis, m_axisBinding.direction));
+		m_keyLabel->SetText(m_axisBinding.Description());
 		ResizeRequest();
 	}
 
