@@ -464,9 +464,9 @@ void Pi::HandleEvents()
 				if (joysticks[event.jaxis.which].joystick == NULL)
 					break;
 				if (event.jaxis.value == -32768)
-					joysticks[event.jaxis.which].axes[event.jaxis.axis] = -1.f;
+					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
 				else
-					joysticks[event.jaxis.which].axes[event.jaxis.axis] = event.jaxis.value / 32767.f;
+					joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
 				break;
 			case SDL_JOYBUTTONUP:
 			case SDL_JOYBUTTONDOWN:

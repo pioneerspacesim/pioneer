@@ -220,6 +220,9 @@ void Player::PollControls()
 		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
 		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
 
+		wantAngVel.x += 2.f * KeyBindings::pitchAxis.GetValue();
+		wantAngVel.y += 2.f * KeyBindings::yawAxis.GetValue();
+		wantAngVel.z += 2.f * KeyBindings::rollAxis.GetValue();
 
 		for (int axis=0; axis<3; axis++) wantAngVel[axis] = CLAMP(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 		

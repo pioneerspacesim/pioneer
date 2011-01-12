@@ -91,6 +91,15 @@ AxisBinding::AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction) {
 	this->direction = direction;
 }
 
+float AxisBinding::GetValue() {
+	float value = Pi::JoystickAxisState(joystick, axis);
+
+	if (direction == POSITIVE)
+		return value;
+	else
+		return -value;
+}
+
 std::string AxisBinding::Description() const {
 	const char *axis_names[] = {"X", "Y", "Z"};
 	std::ostringstream oss;
@@ -343,9 +352,9 @@ void SetDefaults()
 	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
 	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
 
-	SetAxisBinding("BindAxisPitch", AxisBindingFromString("Joy0Axis1"));
-	SetAxisBinding("BindAxisRoll", AxisBindingFromString("-Joy0Axis0"));
-	SetAxisBinding("BindAxisYaw", AxisBindingFromString("Joy0Axis2"));
+	SetAxisBinding("BindAxisPitch", AxisBindingFromString("-Joy0Axis1"));
+	SetAxisBinding("BindAxisRoll", AxisBindingFromString("Joy0Axis2"));
+	SetAxisBinding("BindAxisYaw", AxisBindingFromString("Joy0Axis0"));
 
 	OnKeyBindingsChanged();
 }
