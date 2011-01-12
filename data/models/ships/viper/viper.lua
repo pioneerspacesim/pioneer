@@ -330,12 +330,12 @@ define_model('viperpol', {
    	info = {
 			scale = 10,
 			lod_pixels={.1,80,600,0},
-			bounding_radius = 15,
+			bounding_radius = 20,
 			materials={'col1'},
 			tags = { 'ship' },
                  ship_defs = {
                 	{
-                	'Viper - Police Craft', 'Protect and Sever',
+                	'Viper - Police Craft',
                     { 6*10^7,-10*10^7,4*10^7,-4*10^7,-4*10^7,4*10^7 },
                     8*10^6,
                     {
@@ -448,20 +448,20 @@ define_model('viper', {
    	info = {
 			scale = 10,
 			lod_pixels={.1,80,600,0},
-			bounding_radius = 15,
+			bounding_radius = 20,
 			materials={'col1'},
 			tags = { 'ship' },
                  ship_defs = {
                 	{
-                	'Viper - Defence Craft', 'Civilian Craft',
+                	'Viper - Defence Craft',
                      { 5*10^7,-8*10^7,3*10^7,-3*10^7,-3*10^7,3*10^7 },
                     8*10^6,
                     {
                     { v(0,-2,-46), v(0,0,-1) },
                     { v(0,0,0), v(0,0,1) },
                     },
-                    { 800, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                    800, 164, 680,
+                    { 60, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                    60, 60, 7000000,
                     3
                     }
                   }
