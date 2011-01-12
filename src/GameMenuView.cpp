@@ -31,28 +31,56 @@ public:
 private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
-		std::string msg = "Press the key you want for " + m_function;
+		std::string msg = "Press the button you want for " + m_function;
 		Gui::ToolTip *t = new Gui::ToolTip(msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
 		t->GrabFocus();
-		m_keyUpConnection.disconnect();
 		m_keyUpConnection = Gui::RawEvents::onKeyUp.connect(sigc::mem_fun(this, &KeyGetter::OnKeyUpPick));
+		m_joyButtonUpConnection = Gui::RawEvents::onJoyButtonUp.connect(sigc::mem_fun(this, &KeyGetter::OnJoyButtonUp));
+		m_joyHatConnection = Gui::RawEvents::onJoyHatMotion.connect(sigc::mem_fun(this, &KeyGetter::OnJoyHatMotion));
 		m_infoTooltip = t;
 	}
 
-	void OnKeyUpPick(SDL_KeyboardEvent *e) {
+	void Disconnect() {
 		m_keyUpConnection.disconnect();
+		m_joyButtonUpConnection.disconnect();
+		m_joyHatConnection.disconnect();
 		Gui::Screen::RemoveBaseWidget(m_infoTooltip);
 		delete m_infoTooltip;
 		m_infoTooltip = 0;
+	}
 
-		m_binding.u.keyboard.key = e->keysym.sym;
-		// get rid of number lock, caps lock, etc
-		m_binding.u.keyboard.mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+	void Close() {
 		onChange.emit(m_binding);
 		m_keyLabel->SetText(m_binding.Description());
 		ResizeRequest();
+	}
+
+	void OnKeyUpPick(SDL_KeyboardEvent *e) {
+		Disconnect();
+		m_binding.type = KeyBindings::KEYBOARD_KEY;
+		m_binding.u.keyboard.key = e->keysym.sym;
+		// get rid of number lock, caps lock, etc
+		m_binding.u.keyboard.mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		Close();
+	}
+
+	void OnJoyButtonUp(SDL_JoyButtonEvent *e) {
+		Disconnect();
+		m_binding.type = KeyBindings::JOYSTICK_BUTTON;
+		m_binding.u.joystickButton.joystick = e->which;
+		m_binding.u.joystickButton.button = e->button;
+		Close();
+	}
+
+	void OnJoyHatMotion(SDL_JoyHatEvent *e) {
+		Disconnect();
+		m_binding.type = KeyBindings::JOYSTICK_HAT;
+		m_binding.u.joystickHat.joystick = e->which;
+		m_binding.u.joystickHat.hat = e->hat;
+		m_binding.u.joystickHat.direction = e->value;
+		Close();
 	}
 
 	KeyBindings::KeyBinding m_binding;
@@ -60,6 +88,8 @@ private:
 	Gui::ToolTip *m_infoTooltip;
 	std::string m_function;
 	sigc::connection m_keyUpConnection;
+	sigc::connection m_joyButtonUpConnection;
+	sigc::connection m_joyHatConnection;
 };
 
 class AxisGetter: public Gui::Fixed {
@@ -459,7 +489,7 @@ GameMenuView::GameMenuView(): View()
 	// key binding tab
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
-		tabs->AddPage(new Gui::Label("Keyboard controls"), keybindingTab);
+		tabs->AddPage(new Gui::Label("Controls"), keybindingTab);
 
 		Gui::VBox *box1 = new Gui::VBox();
 		box1->SetSpacing(5.0f);

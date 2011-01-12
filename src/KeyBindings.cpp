@@ -66,12 +66,12 @@ std::string KeyBinding::Description() const {
 		if (u.keyboard.mod & KMOD_META) oss << "meta ";
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << "Joy" << u.joystickButton.joystick;
-		oss << " Button " << u.joystickButton.button;
+		oss << "Joy" << (int) u.joystickButton.joystick;
+		oss << " Button " << (int) u.joystickButton.button;
 	} else if (type == JOYSTICK_HAT) {
-		oss << "Joy" << u.joystickHat.joystick;
-		oss << " Hat" << u.joystickHat.hat;
-		oss << " Dir " << u.joystickHat.direction;
+		oss << "Joy" << (int) u.joystickHat.joystick;
+		oss << " Hat" << (int) u.joystickHat.hat;
+		oss << " Dir " << (int) u.joystickHat.direction;
 	} else
 		abort();
 
@@ -224,16 +224,16 @@ std::string KeyBindingToString(const KeyBinding &kb) {
 	std::ostringstream oss;
 
 	if (kb.type == KEYBOARD_KEY) {
-		oss << "Key" << kb.u.keyboard.key;
+		oss << "Key" << (int) kb.u.keyboard.key;
 		if (kb.u.keyboard.mod != 0)
-			oss << "Mod" << kb.u.keyboard.mod;
+			oss << "Mod" << (int) kb.u.keyboard.mod;
 	} else if (kb.type == JOYSTICK_BUTTON) {
-		oss << "Joy" << kb.u.joystickButton.joystick;
-		oss << "Button" << kb.u.joystickButton.button;
+		oss << "Joy" << (int) kb.u.joystickButton.joystick;
+		oss << "Button" << (int) kb.u.joystickButton.button;
 	} else if (kb.type == JOYSTICK_HAT) {
-		oss << "Joy" << kb.u.joystickHat.joystick;
-		oss << "Hat" << kb.u.joystickHat.hat;
-		oss << "Dir" << kb.u.joystickHat.direction;
+		oss << "Joy" << (int) kb.u.joystickHat.joystick;
+		oss << "Hat" << (int) kb.u.joystickHat.hat;
+		oss << "Dir" << (int) kb.u.joystickHat.direction;
 	} else
 		abort();
 
