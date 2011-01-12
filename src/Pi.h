@@ -10,6 +10,7 @@
 #include "IniConfig.h"
 #include <map>
 #include <string>
+#include <vector>
 
 class Player;
 class SectorView;
@@ -70,6 +71,9 @@ public:
 	static float GetScrAspect() { return scrAspect; }
 	static int KeyState(SDLKey k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
+	static int JoystickButtonState(int joystick, int button);
+	static int JoystickHatState(int joystick, int hat);
+	static float JoystickAxisState(int joystick, int axis);
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
@@ -121,6 +125,7 @@ public:
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
+	static void InitJoysticks();
 
 	static View *currentView;
 
@@ -143,6 +148,14 @@ private:
 	static int mouseMotion[2];
 	static const float timeAccelRates[];
 	static bool isGameStarted;
+
+	struct JoystickState {
+		SDL_Joystick *joystick;
+		std::vector<bool> buttons;
+		std::vector<int> hats;
+		std::vector<float> axes;
+	};
+	static std::vector<JoystickState> joysticks;
 };
 
 #endif /* _PI_H */

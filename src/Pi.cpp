@@ -77,6 +77,7 @@ int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
 IniConfig Pi::config;
 struct DetailLevel Pi::detail = {};
+std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
 	"Harmless",
@@ -131,7 +132,7 @@ void Pi::Init()
 	int width = config.Int("ScrWidth");
 	int height = config.Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
-	Uint32 sdlInitFlags = SDL_INIT_VIDEO;
+	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
 #if defined _WIN32 && defined _DEBUG
 	sdlInitFlags |= SDL_INIT_NOPARACHUTE;
 #endif
@@ -139,6 +140,9 @@ void Pi::Init()
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
+
+	InitJoysticks();
+
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
 		SDL_Rect **modes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
@@ -455,6 +459,25 @@ void Pi::HandleEvents()
 				Pi::mouseMotion[0] += event.motion.xrel;
 				Pi::mouseMotion[1] += event.motion.yrel;
 		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
+				break;
+			case SDL_JOYAXISMOTION:
+				if (joysticks[event.jaxis.which].joystick == NULL)
+					break;
+				if (event.jaxis.value == -32768)
+					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
+				else
+					joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
+				break;
+			case SDL_JOYBUTTONUP:
+			case SDL_JOYBUTTONDOWN:
+				if (joysticks[event.jaxis.which].joystick == NULL)
+					break;
+				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state;
+				break;
+			case SDL_JOYHATMOTION:
+				if (joysticks[event.jaxis.which].joystick == NULL)
+					break;
+				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
 			case SDL_QUIT:
 				Pi::Quit();
@@ -1073,4 +1096,53 @@ void Pi::Message(const std::string &message, const std::string &from, enum MsgLe
 	} else {
 		Pi::cpan->MsgLog()->Message(from, message);
 	}
+}
+
+void Pi::InitJoysticks() {
+	int joy_count = SDL_NumJoysticks();
+	for (int n = 0; n < joy_count; n++) {
+		JoystickState *state;
+		joysticks.push_back(JoystickState());
+		state = &joysticks.back();
+
+		state->joystick = SDL_JoystickOpen(n);
+		if (state->joystick == NULL) {
+			fprintf(stderr, "SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
+			continue;
+		}
+
+		state->axes.resize(SDL_JoystickNumAxes(state->joystick));
+		state->buttons.resize(SDL_JoystickNumButtons(state->joystick));
+		state->hats.resize(SDL_JoystickNumHats(state->joystick));
+	}
+}
+
+int Pi::JoystickButtonState(int joystick, int button) {
+	if (joystick < 0 || joystick >= (int) joysticks.size())
+		return 0;
+
+	if (button < 0 || button >= (int) joysticks[joystick].buttons.size())
+		return 0;
+
+	return joysticks[joystick].buttons[button];
+}
+
+int Pi::JoystickHatState(int joystick, int hat) {
+	if (joystick < 0 || joystick >= (int) joysticks.size())
+		return 0;
+
+	if (hat < 0 || hat >= (int) joysticks[joystick].hats.size())
+		return 0;
+
+	return joysticks[joystick].hats[hat];
+}
+
+float Pi::JoystickAxisState(int joystick, int axis) {
+	if (joystick < 0 || joystick >= (int) joysticks.size())
+		return 0;
+
+	if (axis < 0 || axis >= (int) joysticks[joystick].axes.size())
+		return 0;
+
+	return joysticks[joystick].axes[axis];
 }

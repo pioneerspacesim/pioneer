@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Gui.h"
 #include "View.h"
+#include "KeyBindings.h"
 
 extern std::string GetFullSavefileDirPath();
 
@@ -17,7 +18,8 @@ public:
 	void OpenLoadDialog();
 	void OpenSaveDialog();
 private:
-	void OnChangeKeyBinding(SDLKey key, SDLMod mod, const char *fnName);
+	void OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName);
+	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
 	void OnChangeVolume();
 	void OnChangePlanetDetail(int level);
 	void OnChangeCityDetail(int level);

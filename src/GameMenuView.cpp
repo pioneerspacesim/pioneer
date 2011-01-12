@@ -15,62 +15,128 @@
 #include <../msvc/win32-dirent.h>
 #endif
 
-std::string get_sdl_key_and_mod_name(SDLKey key, SDLMod mod)
-{
-	std::string s = "";
-	if (mod & KMOD_SHIFT) s += "shift ";
-	if (mod & KMOD_CTRL) s += "ctrl ";
-	if (mod & KMOD_ALT) s += "alt ";
-	if (mod & KMOD_META) s += "meta ";
-	s += SDL_GetKeyName(key);
-
-	return s;
-}
-
-
 class KeyGetter: public Gui::Fixed {
 public:
-	KeyGetter(const char *label, SDLKey key, SDLMod mod): Gui::Fixed(350, 19) {
-		m_key = key;
-		m_mod = mod;
+	KeyGetter(const char *label, const KeyBindings::KeyBinding &kb): Gui::Fixed(350, 19) {
+		m_binding = kb;
 		m_function = label;
-		m_keyLabel = new Gui::Label(get_sdl_key_and_mod_name(key, mod));
+		m_keyLabel = new Gui::Label(m_binding.Description());
 		Gui::Button *b = new Gui::LabelButton(m_keyLabel);
 		b->onClick.connect(sigc::mem_fun(this, &KeyGetter::OnClickChange));
 		Add(new Gui::Label(label), 0, 0);
 		Add(b, 180, 0);
 		m_infoTooltip = 0;
 	}
-	sigc::signal<void, SDLKey, SDLMod> onChange;
+	sigc::signal<void, KeyBindings::KeyBinding> onChange;
 private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
-		std::string msg = "Press the key you want for " + m_function;
+		std::string msg = "Press the button you want for " + m_function;
+		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::Screen::AddBaseWidget(t, 300, 300);
+		t->Show();
+		t->GrabFocus();
+		m_keyUpConnection = Gui::RawEvents::onKeyUp.connect(sigc::mem_fun(this, &KeyGetter::OnKeyUpPick));
+		m_joyButtonUpConnection = Gui::RawEvents::onJoyButtonUp.connect(sigc::mem_fun(this, &KeyGetter::OnJoyButtonUp));
+		m_joyHatConnection = Gui::RawEvents::onJoyHatMotion.connect(sigc::mem_fun(this, &KeyGetter::OnJoyHatMotion));
+		m_infoTooltip = t;
+	}
+
+	void Disconnect() {
+		m_keyUpConnection.disconnect();
+		m_joyButtonUpConnection.disconnect();
+		m_joyHatConnection.disconnect();
+		Gui::Screen::RemoveBaseWidget(m_infoTooltip);
+		delete m_infoTooltip;
+		m_infoTooltip = 0;
+	}
+
+	void Close() {
+		onChange.emit(m_binding);
+		m_keyLabel->SetText(m_binding.Description());
+		ResizeRequest();
+	}
+
+	void OnKeyUpPick(SDL_KeyboardEvent *e) {
+		Disconnect();
+		m_binding.type = KeyBindings::KEYBOARD_KEY;
+		m_binding.u.keyboard.key = e->keysym.sym;
+		// get rid of number lock, caps lock, etc
+		m_binding.u.keyboard.mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		Close();
+	}
+
+	void OnJoyButtonUp(SDL_JoyButtonEvent *e) {
+		Disconnect();
+		m_binding.type = KeyBindings::JOYSTICK_BUTTON;
+		m_binding.u.joystickButton.joystick = e->which;
+		m_binding.u.joystickButton.button = e->button;
+		Close();
+	}
+
+	void OnJoyHatMotion(SDL_JoyHatEvent *e) {
+		Disconnect();
+		m_binding.type = KeyBindings::JOYSTICK_HAT;
+		m_binding.u.joystickHat.joystick = e->which;
+		m_binding.u.joystickHat.hat = e->hat;
+		m_binding.u.joystickHat.direction = e->value;
+		Close();
+	}
+
+	KeyBindings::KeyBinding m_binding;
+	Gui::Label *m_keyLabel;
+	Gui::ToolTip *m_infoTooltip;
+	std::string m_function;
+	sigc::connection m_keyUpConnection;
+	sigc::connection m_joyButtonUpConnection;
+	sigc::connection m_joyHatConnection;
+};
+
+class AxisGetter: public Gui::Fixed {
+public:
+	AxisGetter(const char *label, const KeyBindings::AxisBinding &ab): Gui::Fixed(350, 19) {
+		m_axisBinding = ab;
+		m_function = label;
+		m_keyLabel = new Gui::Label(ab.Description());
+		Gui::Button *b = new Gui::LabelButton(m_keyLabel);
+		b->onClick.connect(sigc::mem_fun(this, &AxisGetter::OnClickChange));
+		Add(new Gui::Label(label), 0, 0);
+		Add(b, 180, 0);
+		m_infoTooltip = 0;
+	}
+	sigc::signal<void, KeyBindings::AxisBinding> onChange;
+private:
+	void OnClickChange() {
+		if (m_infoTooltip) return;
+		std::string msg = "Move the joystick axis you want for " + m_function;
 		Gui::ToolTip *t = new Gui::ToolTip(msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
 		t->GrabFocus();
 		m_keyUpConnection.disconnect();
-		m_keyUpConnection = Gui::RawEvents::onKeyUp.connect(sigc::mem_fun(this, &KeyGetter::OnKeyUpPick));
+		m_keyUpConnection = Gui::RawEvents::onJoyAxisMotion.connect(sigc::mem_fun(this, &AxisGetter::OnAxisPick));
 		m_infoTooltip = t;
 	}
 
-	void OnKeyUpPick(SDL_KeyboardEvent *e) {
+	void OnAxisPick(SDL_JoyAxisEvent *e) {
+		if (e->value > -32767/3 && e->value < 32767/3)
+			return;
+
 		m_keyUpConnection.disconnect();
 		Gui::Screen::RemoveBaseWidget(m_infoTooltip);
 		delete m_infoTooltip;
 		m_infoTooltip = 0;
 
-		m_key = e->keysym.sym;
-		// get rid of number lock, caps lock, etc
-		m_mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
-		onChange.emit(m_key, m_mod);
-		m_keyLabel->SetText(get_sdl_key_and_mod_name(m_key, m_mod));
+		m_axisBinding.joystick = e->which;
+		m_axisBinding.axis = e->axis;
+		m_axisBinding.direction = (e->value < 0 ? KeyBindings::NEGATIVE : KeyBindings::POSITIVE);
+
+		onChange.emit(m_axisBinding);
+		m_keyLabel->SetText(m_axisBinding.Description());
 		ResizeRequest();
 	}
 
-	SDLKey m_key;
-	SDLMod m_mod;
+	KeyBindings::AxisBinding m_axisBinding;
 	Gui::Label *m_keyLabel;
 	Gui::ToolTip *m_infoTooltip;
 	std::string m_function;
@@ -423,7 +489,7 @@ GameMenuView::GameMenuView(): View()
 	// key binding tab
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
-		tabs->AddPage(new Gui::Label("Keyboard controls"), keybindingTab);
+		tabs->AddPage(new Gui::Label("Controls"), keybindingTab);
 
 		Gui::VBox *box1 = new Gui::VBox();
 		box1->SetSpacing(5.0f);
@@ -441,11 +507,31 @@ GameMenuView::GameMenuView(): View()
 			const char *function = KeyBindings::bindingProtos[i].function;
 
 			if (function) {
-				const std::string confKey = function + std::string("Key");
-				const std::string confMod = function + std::string("Mod");
-				keyg = new KeyGetter(label, (SDLKey)Pi::config.Int(confKey.c_str()), (SDLMod)Pi::config.Int(confMod.c_str()));
+				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config.String(function));
+				keyg = new KeyGetter(label, kb);
 				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
 				box->PackEnd(keyg);
+			} else {
+				// section
+				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
+			}
+
+			/* 2nd column */
+			if (i == 20) {
+				box = box2;
+			}
+		}
+
+		for (int i=0; KeyBindings::axisBindingProtos[i].label; i++) {
+			AxisGetter *axisg;
+			const char *label = KeyBindings::axisBindingProtos[i].label;
+			const char *function = KeyBindings::axisBindingProtos[i].function;
+
+			if (function) {
+				KeyBindings::AxisBinding ab = KeyBindings::AxisBindingFromString(Pi::config.String(function).c_str());
+				axisg = new AxisGetter(label, ab);
+				axisg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeAxisBinding), function));
+				box->PackEnd(axisg);
 			} else {
 				// section
 				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
@@ -459,13 +545,15 @@ GameMenuView::GameMenuView(): View()
 	}
 }
 
-void GameMenuView::OnChangeKeyBinding(SDLKey key, SDLMod mod, const char *fnName)
+void GameMenuView::OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName)
 {
-	char buf[128];
-	snprintf(buf, sizeof(buf), "%sKey", fnName);
-	Pi::config.SetInt(buf, key);
-	snprintf(buf, sizeof(buf), "%sMod", fnName);
-	Pi::config.SetInt(buf, mod);
+	Pi::config.SetString(fnName, KeyBindings::KeyBindingToString(kb).c_str());
+	Pi::config.Save();
+	KeyBindings::OnKeyBindingsChanged();
+}
+
+void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function) {
+	Pi::config.SetString(function, KeyBindings::AxisBindingToString(ab).c_str());
 	Pi::config.Save();
 	KeyBindings::OnKeyBindingsChanged();
 }
