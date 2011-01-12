@@ -10,6 +10,7 @@ namespace RawEvents {
 	sigc::signal<void, MouseButtonEvent *> onMouseUp;
 	sigc::signal<void, SDL_KeyboardEvent *> onKeyDown;
 	sigc::signal<void, SDL_KeyboardEvent *> onKeyUp;
+	sigc::signal<void, SDL_JoyAxisEvent *> onJoyAxisMotion;
 }
 
 namespace Color {
@@ -37,6 +38,9 @@ void HandleSDLEvent(SDL_Event *event)
 			break;
 		case SDL_MOUSEMOTION:
 			Screen::OnMouseMotion(&event->motion);
+			break;
+		case SDL_JOYAXISMOTION:
+			RawEvents::onJoyAxisMotion(&event->jaxis);
 			break;
 	}
 }

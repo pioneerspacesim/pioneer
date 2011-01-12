@@ -1,8 +1,10 @@
 #include "KeyBindings.h"
 #include "Pi.h"
 
+#include <sstream>
+
 namespace KeyBindings {
-	
+
 KeyBinding pitchUp;
 KeyBinding pitchDown;
 KeyBinding yawLeft;
@@ -21,6 +23,10 @@ KeyBinding fireLaser;
 KeyBinding fastRotate;
 KeyBinding targetObject;
 
+AxisBinding pitchAxis;
+AxisBinding rollAxis;
+AxisBinding yawAxis;
+
 bool KeyBinding::IsActive()
 {
 	if (type == KEYBOARD_KEY) {
@@ -31,11 +37,25 @@ bool KeyBinding::IsActive()
 		return Pi::KeyState(u.keyboard.key);
 
 	} else if (type == JOYSTICK_BUTTON) {
+		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
+		return Pi::JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat) == u.joystickHat.direction;
 	} else
 		abort();
 
 	return false;
+}
+
+AxisBinding::AxisBinding() {
+	this->joystick = 0;
+	this->axis = 0;
+	this->direction = POSITIVE;
+}
+
+AxisBinding::AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction) {
+	this->joystick = joystick;
+	this->axis = axis;
+	this->direction = direction;
 }
 
 const BindingPrototype bindingProtos[] = {
@@ -63,13 +83,21 @@ const BindingPrototype bindingProtos[] = {
 	{ 0, 0 },
 };
 
+const BindingPrototype axisBindingProtos[] = {
+	{ "Joystick input", 0 },
+	{ "Pitch", "BindAxisPitch" },
+	{ "Roll", "BindAxisRoll" },
+	{ "Yaw", "BindAxisYaw" },
+	{ 0, 0 },
+};
+
 /**
  * Exampe strings:
  *   Key55
  *   Joy0Button2
  *   Joy0Hat0Dir3
  */
-static bool KeyBindingFromString(const char *str, KeyBinding *kb)
+bool KeyBindingFromString(const char *str, KeyBinding *kb)
 {
 	const char *digits = "1234567890";
 
@@ -120,8 +148,60 @@ static bool KeyBindingFromString(const char *str, KeyBinding *kb)
 	return false;
 }
 
+bool AxisBindingFromString(const char *str, AxisBinding *ab) {
+	const char *digits = "1234567890";
+
+	if (str[0] == '-') {
+		ab->direction = NEGATIVE;
+		str++;
+	}
+	else
+		ab->direction = POSITIVE;
+
+	if (strncmp(str, "Joy", 3) != 0)
+		return false;
+
+	str += 3;
+	ab->joystick = atoi(str);
+	str += strspn(str, digits);
+
+	if (strncmp(str, "Axis", 4) != 0)
+		return false;
+
+	str += 4;
+	ab->axis = atoi(str);
+
+	return true;
+}
+
+AxisBinding AxisBindingFromString(const char *str) {
+	AxisBinding ab;
+
+	if (!AxisBindingFromString(str, &ab))
+		abort();
+
+	return ab;
+}
+
+std::string AxisBindingToString(const AxisBinding &ab) {
+	std::ostringstream oss;
+
+	if (ab.direction == NEGATIVE)
+		oss << '-';
+
+	oss << "Joy";
+	oss << (int) ab.joystick;
+	oss << "Axis";
+	oss << (int) ab.axis;
+
+	return oss.str();
+}
+
 #define SET_KEY_BINDING(var,bindname) \
 	KeyBindingFromString(Pi::config.String(bindname).c_str(), &(var));
+
+#define SET_AXIS_BINDING(var, bindname) \
+	AxisBindingFromString(Pi::config.String(bindname).c_str(), &(var));
 
 void OnKeyBindingsChanged()
 {
@@ -143,12 +223,20 @@ void OnKeyBindingsChanged()
 	SET_KEY_BINDING(fastRotate, "BindFastRotate");
 	SET_KEY_BINDING(targetObject, "BindTargetObject");
 	//SET_KEY_BINDING(key, "Bind");
+
+	SET_AXIS_BINDING(pitchAxis, "BindAxisPitch");
+	SET_AXIS_BINDING(rollAxis, "BindAxisRoll");
+	SET_AXIS_BINDING(yawAxis, "BindAxisYaw");
 }
 
 static void SetSDLKeyboardBinding(const char *name, SDLKey key) {
 	char buffer[64];
 	snprintf(buffer, sizeof(buffer), "Key%i", (int) key);
 	Pi::config.SetString(name, buffer);
+}
+
+static void SetAxisBinding(const char *function, const AxisBinding &ab) {
+	Pi::config.SetString(function, AxisBindingToString(ab).c_str());
 }
 
 void SetDefaults() 
@@ -170,18 +258,12 @@ void SetDefaults()
 	SetSDLKeyboardBinding("BindThrustRight", SDLK_l);
 	SetSDLKeyboardBinding("BindIncreaseSpeed", SDLK_RETURN);
 	SetSDLKeyboardBinding("BindDecreaseSpeed", SDLK_RSHIFT);
-#if 0
-	for (int i=0; bindingProtos[i].label; i++) {
-		// skip group labels
-		if (bindingProtos[i].function == 0) continue;
-		char buf[128];
-		snprintf(buf, sizeof(buf), "%sKey", bindingProtos[i].function);
-		Pi::config.SetInt(buf, bindingProtos[i].defaultKey);
-		snprintf(buf, sizeof(buf), "%sMod", bindingProtos[i].function);
-		Pi::config.SetInt(buf, bindingProtos[i].defaultMod);
-	}
+
+	SetAxisBinding("BindAxisPitch", AxisBindingFromString("Joy0Axis1"));
+	SetAxisBinding("BindAxisRoll", AxisBindingFromString("-Joy0Axis0"));
+	SetAxisBinding("BindAxisYaw", AxisBindingFromString("Joy0Axis2"));
+
 	OnKeyBindingsChanged();
-#endif
 }
 
 };

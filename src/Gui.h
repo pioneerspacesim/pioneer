@@ -34,6 +34,7 @@ namespace Gui {
 		extern sigc::signal<void, MouseButtonEvent *> onMouseUp;
 		extern sigc::signal<void, SDL_KeyboardEvent *> onKeyDown;
 		extern sigc::signal<void, SDL_KeyboardEvent *> onKeyUp;
+		extern sigc::signal<void, SDL_JoyAxisEvent *> onJoyAxisMotion;
 	}
 }
 

@@ -6,6 +6,8 @@
 #include "Sound.h"
 #include "KeyBindings.h"
 
+#include <sstream>
+
 #if _GNU_SOURCE
 #include <sys/types.h>
 #include <dirent.h>
@@ -25,6 +27,27 @@ std::string get_sdl_key_and_mod_name(SDLKey key, SDLMod mod)
 	s += SDL_GetKeyName(key);
 
 	return s;
+}
+
+static std::string get_joystick_axis_name(int joystick, int axis, KeyBindings::AxisDirection direction) {
+	const char *axis_names[] = {"X", "Y", "Z"};
+	std::ostringstream oss;
+
+	if (direction == KeyBindings::NEGATIVE)
+		oss << '-';
+
+	oss << "Joy";
+	oss << joystick;
+	oss << ' ';
+
+	if (0 <= axis && axis < 3)
+		oss << axis_names[axis];
+	else
+		oss << axis;
+
+	oss << " Axis";
+
+	return oss.str();
 }
 
 
@@ -71,6 +94,58 @@ private:
 
 	SDLKey m_key;
 	SDLMod m_mod;
+	Gui::Label *m_keyLabel;
+	Gui::ToolTip *m_infoTooltip;
+	std::string m_function;
+	sigc::connection m_keyUpConnection;
+};
+
+class AxisGetter: public Gui::Fixed {
+public:
+	AxisGetter(const char *label, const KeyBindings::AxisBinding &ab): Gui::Fixed(350, 19) {
+		m_axisBinding = ab;
+		m_function = label;
+		m_keyLabel = new Gui::Label(get_joystick_axis_name(ab.joystick, ab.axis, ab.direction));
+		Gui::Button *b = new Gui::LabelButton(m_keyLabel);
+		b->onClick.connect(sigc::mem_fun(this, &AxisGetter::OnClickChange));
+		Add(new Gui::Label(label), 0, 0);
+		Add(b, 180, 0);
+		m_infoTooltip = 0;
+	}
+	sigc::signal<void, KeyBindings::AxisBinding> onChange;
+private:
+	void OnClickChange() {
+		if (m_infoTooltip) return;
+		std::string msg = "Move the joystick axis you want for " + m_function;
+		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::Screen::AddBaseWidget(t, 300, 300);
+		t->Show();
+		t->GrabFocus();
+		m_keyUpConnection.disconnect();
+		m_keyUpConnection = Gui::RawEvents::onJoyAxisMotion.connect(sigc::mem_fun(this, &AxisGetter::OnAxisPick));
+		m_infoTooltip = t;
+	}
+
+	void OnAxisPick(SDL_JoyAxisEvent *e) {
+		printf("Got event, value:%i\n", e->value);
+		if (e->value > -32767/3 && e->value < 32767/3)
+			return;
+
+		m_keyUpConnection.disconnect();
+		Gui::Screen::RemoveBaseWidget(m_infoTooltip);
+		delete m_infoTooltip;
+		m_infoTooltip = 0;
+
+		m_axisBinding.joystick = e->which;
+		m_axisBinding.axis = e->axis;
+		m_axisBinding.direction = (e->value < 0 ? KeyBindings::NEGATIVE : KeyBindings::POSITIVE);
+
+		onChange.emit(m_axisBinding);
+		m_keyLabel->SetText(get_joystick_axis_name(e->which, e->axis, m_axisBinding.direction));
+		ResizeRequest();
+	}
+
+	KeyBindings::AxisBinding m_axisBinding;
 	Gui::Label *m_keyLabel;
 	Gui::ToolTip *m_infoTooltip;
 	std::string m_function;
@@ -456,6 +531,28 @@ GameMenuView::GameMenuView(): View()
 				box = box2;
 			}
 		}
+
+		for (int i=0; KeyBindings::axisBindingProtos[i].label; i++) {
+			AxisGetter *axisg;
+			const char *label = KeyBindings::axisBindingProtos[i].label;
+			const char *function = KeyBindings::axisBindingProtos[i].function;
+
+			if (function) {
+				KeyBindings::AxisBinding ab;
+				KeyBindings::AxisBindingFromString(Pi::config.String(function).c_str(), &ab);
+				axisg = new AxisGetter(label, ab);
+				axisg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeAxisBinding), function));
+				box->PackEnd(axisg);
+			} else {
+				// section
+				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
+			}
+
+			/* 2nd column */
+			if (i == 20) {
+				box = box2;
+			}
+		}
 	}
 }
 
@@ -466,6 +563,12 @@ void GameMenuView::OnChangeKeyBinding(SDLKey key, SDLMod mod, const char *fnName
 	Pi::config.SetInt(buf, key);
 	snprintf(buf, sizeof(buf), "%sMod", fnName);
 	Pi::config.SetInt(buf, mod);
+	Pi::config.Save();
+	KeyBindings::OnKeyBindingsChanged();
+}
+
+void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function) {
+	Pi::config.SetString(function, KeyBindings::AxisBindingToString(ab).c_str());
 	Pi::config.Save();
 	KeyBindings::OnKeyBindingsChanged();
 }

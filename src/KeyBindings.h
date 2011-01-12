@@ -44,6 +44,8 @@ namespace KeyBindings {
 		Uint8 axis;
 		AxisDirection direction;
 
+		AxisBinding();
+		AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction);
 		double GetValue();
 	};
 
@@ -52,9 +54,15 @@ namespace KeyBindings {
 	};
 
 	extern const BindingPrototype bindingProtos[];
+	extern const BindingPrototype axisBindingProtos[];
 
 	void SetDefaults();
 	void OnKeyBindingsChanged();
+
+	bool KeyBindingFromString(const char *str, KeyBinding *kb);
+	bool AxisBindingFromString(const char *str, AxisBinding *ab);
+	AxisBinding AxisBindingFromString(const char *str);
+	std::string AxisBindingToString(const AxisBinding &ab);
 
 	extern KeyBinding pitchUp;
 	extern KeyBinding pitchDown;
