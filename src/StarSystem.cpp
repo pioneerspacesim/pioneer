@@ -1057,6 +1057,8 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	if (mass > 317*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
 		type = SBody::TYPE_BROWN_DWARF;
+		averageTemp = averageTemp + rand.Int32(bodyTypeInfo[type].tempMin,
+					bodyTypeInfo[type].tempMax);
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
