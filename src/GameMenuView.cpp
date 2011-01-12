@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #elif _WIN32
-#include <../msvc/win32-dirent.h>
+#include "win32-dirent.h"
 #endif
 
 class KeyGetter: public Gui::Fixed {

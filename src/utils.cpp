@@ -7,7 +7,7 @@
 #include <map>
 
 #ifdef _WIN32
-#include <../msvc/win32-dirent.h>
+#include "win32-dirent.h"
 #include <shlobj.h>
 #include <shlwapi.h>
 #else

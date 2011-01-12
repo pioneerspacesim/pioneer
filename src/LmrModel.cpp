@@ -8,7 +8,7 @@
 #include "BufferObject.h"
 #include <set>
 #ifdef _WIN32
-#include <../msvc/win32-dirent.h>
+#include "win32-dirent.h"
 #else
 #include <dirent.h>
 #include <errno.h>
