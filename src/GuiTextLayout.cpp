@@ -41,7 +41,8 @@ static bool line_clip_test(float topy, float bottomy)
 
 TextLayout::TextLayout(const char *_str)
 {
-	str = strdup(_str);
+	str = (char *)malloc(strlen(_str)+1);
+	strcpy(str, _str);
 
 	m_justify = true;
 	float wordWidth = 0;

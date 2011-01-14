@@ -12,9 +12,9 @@ void IniConfig::Load(const std::string &filename)
 	(*this)["EnableHDR"] = "0";
 	(*this)["DisableShaders"] = "0";
 	(*this)["DisableSound"] = "0";
-	(*this)["StartFullscreen"] = "1";
-	(*this)["ScrWidth"] = "0";
-	(*this)["ScrHeight"] = "0";
+	(*this)["StartFullscreen"] = "0";
+	(*this)["ScrWidth"] = "800";
+	(*this)["ScrHeight"] = "600";
 	(*this)["DetailCities"] = "1";
 	(*this)["DetailPlanets"] = "1";
 	(*this)["SfxVolume"] = "0.8";
