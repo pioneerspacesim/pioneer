@@ -1199,16 +1199,26 @@ define_model('courier', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Imperial Courier', 
-					{ 35*10^6,-7*10^7,2*10^7,-2*10^7,-2*10^7,2*10^7 },
-					6*10^7,
+					name='Imperial Courier',
+					forward_thrust = -1e7,
+					reverse_thrust = 0.5e7,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
 					{ 
 					{ v(0,0.6,-25), v(0,0,-1) },
 					{ v(0,0,16), v(0,0,1) },
 					}, 
-					{ 300, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },  -- no scoop!
-					300, 100, 61100000, -- original fe2 price
-        			4
+					max_cargo = 300,
+					max_laser = 2,
+					max_missile = 6,
+					capacity = 300,
+					hull_mass = 300,
+					price = 611000,
+					hyperdrive_class = 4,
 				}
 			}
 		},
@@ -1292,16 +1302,26 @@ define_model('trader', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Imperial Trader',
-					{ 35*10^6,-7*10^7,15*10^6,-15*10^6,-15*10^6,15*10^6 },
-					45*10^6,
+					name='Imperial Trader',
+					forward_thrust = -2e7,
+					reverse_thrust = 1e7,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
 					{
 					{ v(0,0.6,-36), v(0,0,-1) },
 					{ v(0,0,22), v(0,0,1) },
 					},
-					{ 450, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
-					450, 150, 95400000,
-          			5
+					max_cargo = 450,
+					max_laser = 2,
+					max_missile = 6,
+					capacity = 450,
+					hull_mass = 450,
+					price = 954000,
+					hyperdrive_class = 5,
 				}
 			}
 		},

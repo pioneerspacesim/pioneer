@@ -7,16 +7,26 @@ define_model('peye', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'E.Y.E',
-					{ 1*10^7,-2*10^7,5*10^6,-5*10^6,-5*10^6,5*10^6 },
-					15*10^6,
+					name='E.Y.E',
+					forward_thrust = -2e7,
+					reverse_thrust = 1e7,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
 					{
 					{ v(0,-5.8,-11), v(0,0,-1) },
 					{ v(0,0,10), v(0,0,1) },
 					},
-					{ 80, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					80, 30, 10000000,
-	 				3,
+					max_cargo = 80,
+					max_laser = 2,
+					max_missile = 0,
+					capacity = 80,
+					hull_mass = 80,
+					price = 100000,
+					hyperdrive_class = 3,
 				}
 			}
 		},

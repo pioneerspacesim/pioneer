@@ -641,16 +641,26 @@ define_model('rattlesnake', {
 			tags = {'ship'},
 			ship_defs = {
 			{
-					'Sidewinder',
-					{ 5*10^6,-9*10^6,2*10^6,-2*10^6,-2*10^6,2*10^6 },
-					4*10^6,
+					name='Sidewinder',
+					forward_thrust = -3e6,
+					reverse_thrust = 2e6,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 2e6,
+					gun_mounts = 
 					{
 					{ v(0,0,-16), v(0,0,-1) },
 					{ v(0,0,15), v(0,0,1) },
 					},
-					{ 30, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					30, 10, 4400000,
-			  		2,
+					max_cargo = 30,
+					max_laser = 2,
+					max_missile = 0,
+					capacity = 30,
+					hull_mass = 30,
+					price = 44000,
+					hyperdrive_class = 2,
 				}
 			}
 		},

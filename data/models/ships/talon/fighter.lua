@@ -95,16 +95,26 @@ define_model('fi', {
 			tags = { 'ship' },
                  ship_defs = {
                 	{
-                	'Talon Military Interceptor',
-                    { 3*10^6,-9*10^6,4*10^6,-1*10^6,-2*10^6,2*10^6 },
-                    8*10^6,
-                    {
-                    { v(0,-2,-46), v(0,0,-1) },
-                    { v(0,0,0), v(0,0,1) },
-                    },
-                    { 10, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                    10, 4, 880, --8800000, high price for size because this is a very fast military ship, the thrust is distributed between the thrust pods, for hover there are 3 pods so powerful thrust for down thrust there is 1 pod so weaker thrust. Side thrust has 2 pods each so medium thrust.  Its comparable to an eagle but sacrifice carry weight for thrust.
-                    8
+					name='Talon Military Interceptor',
+					forward_thrust = -9e6,
+					reverse_thrust = 3e6,
+					up_thrust = 1e6,
+					down_thrust = -1e6,
+					left_thrust = -1e6,
+					right_thrust = 1e6,
+					angular_thrust = 1e6,
+					gun_mounts = 
+					{
+					{ v(0,-2,-46), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					max_cargo = 10,
+					max_laser = 1,
+					max_missile = 6,
+					capacity = 10,
+					hull_mass = 10,
+					price = 33000,
+					hyperdrive_class = 8,
                     }
                   }
         	},

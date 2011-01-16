@@ -46,7 +46,6 @@ define_model('m_unguided', {
 		lod_pixels = {.1,10,100,0},
 		bounding_radius = 4,
 		materials={ 'body'},
-		tags = { 'ship' },
 		ship_defs = {
 			{
 				'MISSILE_UNGUIDED',
@@ -80,7 +79,6 @@ define_model('m_guided', {
 		lod_pixels = {.1,10,100,0},
 		bounding_radius = 4,
   		materials={ 'body', 'head'},
-		tags = { 'ship' },
 		ship_defs = {
 			{
 				'MISSILE_GUIDED', 
@@ -118,7 +116,6 @@ define_model('m_smart', {
 		lod_pixels = {.1,10,100,0},
 		bounding_radius = 4,
   		materials={ 'body', 'neck'},
-		tags = { 'ship' },
 		ship_defs = {
 			{
     			'MISSILE_SMART',
@@ -156,7 +153,6 @@ define_model('m_naval', {
 		lod_pixels = {.1,10,100,0},
 		bounding_radius = 4,
   		materials={ 'body', 'neck', 'head'},
-		tags = { 'ship' },
 		ship_defs = {
 			 {
 				'MISSILE_NAVAL', 

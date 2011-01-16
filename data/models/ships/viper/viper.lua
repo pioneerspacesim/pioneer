@@ -335,16 +335,26 @@ define_model('viperpol', {
 			tags = { 'ship' },
                  ship_defs = {
                 	{
-                	'Viper - Police Craft',
-                    { 6*10^7,-10*10^7,4*10^7,-4*10^7,-4*10^7,4*10^7 },
-                    8*10^6,
-                    {
-                    { v(0,0.3,-1), v(0,0,-1) },
-                    { v(0,0,0), v(0,0,1) },
-                    },
-                    { 800, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                    800, 102, 480,
-                    2
+					name='Viper Police Craft',
+					forward_thrust = -9e6,
+					reverse_thrust = 3e6,
+					up_thrust = 1e6,
+					down_thrust = -1e6,
+					left_thrust = -1e6,
+					right_thrust = 1e6,
+					angular_thrust = 1e6,
+					gun_mounts = 
+					{
+					{ v(0,-2,-46), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					max_cargo = 60,
+					max_laser = 1,
+					max_missile = 4,
+					capacity = 60,
+					hull_mass = 60,
+					price = 70000,
+					hyperdrive_class = 3,
                     }
                   }
         	},
@@ -453,16 +463,26 @@ define_model('viper', {
 			tags = { 'ship' },
                  ship_defs = {
                 	{
-                	'Viper - Defence Craft',
-                     { 5*10^7,-8*10^7,3*10^7,-3*10^7,-3*10^7,3*10^7 },
-                    8*10^6,
-                    {
-                    { v(0,-2,-46), v(0,0,-1) },
-                    { v(0,0,0), v(0,0,1) },
-                    },
-                    { 60, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                    60, 60, 7000000,
-                    3
+					name='Viper Defence Craft',
+					forward_thrust = -9e6,
+					reverse_thrust = 3e6,
+					up_thrust = 1e6,
+					down_thrust = -1e6,
+					left_thrust = -1e6,
+					right_thrust = 1e6,
+					angular_thrust = 1e6,
+					gun_mounts = 
+					{
+					{ v(0,-2,-46), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					max_cargo = 60,
+					max_laser = 1,
+					max_missile = 4,
+					capacity = 60,
+					hull_mass = 60,
+					price = 70000,
+					hyperdrive_class = 3,
                     }
                   }
         	},

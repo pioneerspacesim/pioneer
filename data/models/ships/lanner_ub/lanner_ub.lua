@@ -537,16 +537,26 @@ define_model('lanner_ub', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Lanner', 
-					{ 1.5*10^7,-3*10^7,1*10^7,-1*10^7,-1*10^7,1*10^7 },
-					4*10^7,
+					name='Lanner',
+					forward_thrust = -3e6,
+					reverse_thrust = 2e6,
+					up_thrust = 2e6,
+					down_thrust = -2e5,
+					left_thrust = -2e5,
+					right_thrust = 2e5,
+					angular_thrust = 4e7,
+					gun_mounts = 
 					{
 					{v(0,-1.9,-38), v(0,0,-1)},
 					{v(0,1,38), v(0,0,1)},
 					},
-     				{ 198, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					198, 53, 28400000,
-		   			3
+					max_cargo = 190,
+					max_laser = 2,
+					max_missile = 4,
+					capacity = 190,
+					hull_mass = 190,
+					price = 280000,
+					hyperdrive_class = 3,
 				}
 			}
 		},

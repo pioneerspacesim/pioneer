@@ -316,16 +316,26 @@ define_model('hh', {
 			tags = { 'ship' },
                  ship_defs = {
                 	{
-                	'Hammerhead Heavy-Freighter',
-                    { 6*10^7,-14*10^7,3*10^7,-15*10^6,-1*10^7,1*10^7 },
-                    1*10^7,
-                    {
-                    { v(0,-2,-46), v(0,0,-1) },
-                    { v(0,0,0), v(0,0,1) },
-                    },
-                    { 1220, 1, 2, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                    1220, 380, 427400000, --327400000,
-                    7
+					name='Hammerhead Heavy Freighter',
+					forward_thrust = -14e7,
+					reverse_thrust = 6e7,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
+					{
+					{ v(0,-2,-46), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					max_cargo = 1220,
+					max_laser = 2,
+					max_missile = 12,
+					capacity = 1220,
+					hull_mass = 1000,
+					price = 3e6,
+					hyperdrive_class = 7,
                     }
                   }
         	},

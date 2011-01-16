@@ -533,16 +533,26 @@ define_model('adder', {
             tags = {'ship'},
    			ship_defs = {
 				{
-					'Adder',
-					{ 51*10^5,-115*10^5,2*10^6,-2*10^6,-2*10^6,2*10^6 },
-					6*10^6,
+					name='Adder',
+					forward_thrust = -100e5,
+					reverse_thrust = 51e5,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
 					{
 					{ v(0,0,-26), v(0,0,-1) },
 					{ v(0,-2,9), v(0,0,1) },
 					},
-					{ 50, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					50, 15, 6000000,
-           			2
+					max_cargo = 50,
+					max_laser = 2,
+					max_missile = 2,
+					capacity = 50,
+					hull_mass = 40,
+					price = 60000,
+					hyperdrive_class = 2,
 				}
 			}
 		},

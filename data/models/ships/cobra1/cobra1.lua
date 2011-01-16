@@ -6,16 +6,26 @@ define_model('cobra1', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Cobra Mk I', 
-					{ 5*10^6,-12*10^6,3*10^6,-3*10^6,-3*10^6,3*10^6 },
-					6*10^6,
+					name='Cobra Mk I',
+					forward_thrust = -12e6,
+					reverse_thrust = 5e6,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
 					{
 					{ v(0,0,-13), v(0,0,-1) },
 					{ v(0,0,10), v(0,0,1) }
 					},
-					{ 60, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					60, 15, 9700000,
-					2
+					max_cargo = 60,
+					max_laser = 2,
+					max_missile = 2,
+					capacity = 60,
+					hull_mass = 60,
+					price = 97000,
+					hyperdrive_class = 2,
 				}
 			}
 		},

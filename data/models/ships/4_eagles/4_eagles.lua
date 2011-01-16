@@ -950,16 +950,26 @@ define_model('eagle_lrf', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Eagle Long Range Fighter', 
-					{ 25*10^5,-62*10^5,15*10^5,-15*10^5,-1*15^5,1*15^5 },
-					3*10^6,
+					name='Eagle Long Range Fighter',
+					forward_thrust = -20e5,
+					reverse_thrust = 10e5,
+					up_thrust = 5e5,
+					down_thrust = -5e5,
+					left_thrust = -5e5,
+					right_thrust = 5e5,
+					angular_thrust = 3e6,
+					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
 					},
-					{ 20, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
-					20, 5, 3800000,
-         			1
+					max_cargo = 20,
+					max_missile = 2,
+					max_fuelscoop = 0,
+					capacity = 20,
+					hull_mass = 15,
+					price = 38000,
+					hyperdrive_class = 1,
 				}
 			}
 		},
@@ -1097,18 +1107,28 @@ define_model('eagle_mk2', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Eagle MK-II', 
-					{ 12*10^5,-78*10^5,1*10^6,-1*10^6,-1*10^6,1*10^6 },
-					2*10^6,
+					name='Eagle MK-II',
+					forward_thrust = -25e5,
+					reverse_thrust = 12e5,
+					up_thrust = 5e5,
+					down_thrust = -5e5,
+					left_thrust = -5e5,
+					right_thrust = 5e5,
+					angular_thrust = 3e6,
+					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
 					},
-					{ 22, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
-					22, 6, 4100000,
-     				1
+					max_cargo = 22,
+					max_missile = 2,
+					max_fuelscoop = 0,
+					capacity = 22,
+					hull_mass = 15,
+					price = 41000,
+					hyperdrive_class = 1,
 				}
-            }
+			}
 		},
 		
  static = function(lod)
@@ -1219,16 +1239,26 @@ define_model('eagle_mk3', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Eagle MK-III', 
-					{ 3*10^6,-6*10^6,1*10^6,-1*10^6,-1*10^6,1*10^6 },
-					2*10^6,
+					name='Eagle MK-III',
+					forward_thrust = -26e5,
+					reverse_thrust = 13e5,
+					up_thrust = 5e5,
+					down_thrust = -5e5,
+					left_thrust = -5e5,
+					right_thrust = 5e5,
+					angular_thrust = 3e6,
+					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
 					},
-					{ 22, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
-					22, 8, 4300000,
-         			1
+					max_cargo = 22,
+					max_missile = 2,
+					max_fuelscoop = 0,
+					capacity = 22,
+					hull_mass = 15,
+					price = 43000,
+					hyperdrive_class = 1,
 				}
 			}
 		},
@@ -1359,16 +1389,27 @@ define_model('eagle_mk4', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Eagle MK-IV "Bomber"',
-					{ 36*10^5,-8*10^6,15*10^5,-15*10^5,-15*10^5,15*10^5 },
-					3*10^6,
+					name='Eagle MK-IV "Bomber"',
+					forward_thrust = -24e5,
+					reverse_thrust = 10e5,
+					up_thrust = 5e5,
+					down_thrust = -5e5,
+					left_thrust = -5e5,
+					right_thrust = 5e5,
+					angular_thrust = 2.5e6,
+					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
 					{ v(0,-.7,25), v(0,0,1) },
 					},
-					{ 36, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					36, 12, 5600000,
-         			2
+					max_cargo = 36,
+					max_laser = 2,
+					max_missile = 6,
+					max_fuelscoop = 1,
+					capacity = 36,
+					hull_mass = 20,
+					price = 56000,
+					hyperdrive_class = 2,
 				}
 			}
 		},

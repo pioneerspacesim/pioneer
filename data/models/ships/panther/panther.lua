@@ -155,16 +155,26 @@ define_model('panther', {
             tags = { 'ship' },
             ship_defs = {
 					{
-			        'Panther Trader',
-                   	{ 4*10^7,-8*10^7,2*10^7,-2*10^7,-2*10^7,2*10^7 },
-                   	2*10^7,
-                   	{
-                   	{ v(0,-0.5,0), v(0,0,-1) },
-                   	{ v(0,0,0), v(0,0,1) },
-                   	},
-                   	{ 740, 1, 2, 20, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                   	740, 160, 215300000, --275300000,
-                    7
+					name='Panther',
+					forward_thrust = -3e7,
+					reverse_thrust = 2e7,
+					up_thrust = 2e7,
+					down_thrust = -2e7,
+					left_thrust = -2e7,
+					right_thrust = 2e7,
+					angular_thrust = 2e7,
+					gun_mounts = 
+					{
+					{ v(0,-0.5,0), v(0,0,-1) },
+					{ v(0,0,0), v(0,0,1) },
+					},
+					max_cargo = 740,
+					max_laser = 2,
+					max_missile = 20,
+					capacity = 740,
+					hull_mass = 700,
+					price = 2.1e6,
+					hyperdrive_class = 7,
                    	}
                 }
             },

@@ -16,38 +16,100 @@ std::string ShipType::MISSILE_NAVAL			= "MISSILE_NAVAL";
 std::string ShipType::MISSILE_SMART			= "MISSILE_SMART";
 std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
 
+static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
+		const char *default_output)
+{
+	LUA_DEBUG_START(L)
+	lua_pushstring(L, key);
+	lua_gettable(L, -2);
+	if (lua_isnil(L, -1)) {
+		output = default_output;
+	} else {
+		output = lua_tostring(L,-1);
+	}
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0)
+}
+
+static void _get_float_attrib(lua_State *L, const char *key, float &output,
+		const float default_output)
+{
+	LUA_DEBUG_START(L)
+	lua_pushstring(L, key);
+	lua_gettable(L, -2);
+	if (lua_isnil(L, -1)) {
+		output = default_output;
+	} else {
+		output = lua_tonumber(L,-1);
+	}
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0)
+}
+
+static void _get_int_attrib(lua_State *L, const char *key, int &output,
+		const int default_output)
+{
+	LUA_DEBUG_START(L)
+	lua_pushstring(L, key);
+	lua_gettable(L, -2);
+	if (lua_isnil(L, -1)) {
+		output = default_output;
+	} else {
+		output = lua_tointeger(L,-1);
+	}
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0)
+}
 
 int ShipType::define_ship(lua_State *L, const char *model_name)
 {
 	ShipType s;
-	s.name = luaPi_gettable_checkstring(L, -1, 1);
-
 	s.lmrModelName = model_name;
-	
-	lua_rawgeti(L, -1, 2);
-	bool malformed = false;
-	if (lua_istable(L, -1)) {
-		for (int i=0; i<THRUSTER_MAX; i++) {
-			lua_pushinteger(L, i+1);
-			lua_gettable(L, -2);
-			if (lua_isnumber(L, -1)) {
-				s.linThrust[i] = lua_tonumber(L, -1);
-				lua_pop(L, 1);
-			} else {
-				malformed = true;
-				lua_pop(L, 1);
-				break;
-			}
+
+	LUA_DEBUG_START(L)
+	_get_string_attrib(L, "name", s.name, model_name);
+	_get_float_attrib(L, "reverse_thrust", s.linThrust[THRUSTER_REVERSE], 0.0f);
+	_get_float_attrib(L, "forward_thrust", s.linThrust[THRUSTER_FORWARD], 0.0f);
+	_get_float_attrib(L, "up_thrust", s.linThrust[THRUSTER_UP], 0.0f);
+	_get_float_attrib(L, "down_thrust", s.linThrust[THRUSTER_DOWN], 0.0f);
+	_get_float_attrib(L, "left_thrust", s.linThrust[THRUSTER_LEFT], 0.0f);
+	_get_float_attrib(L, "right_thrust", s.linThrust[THRUSTER_RIGHT], 0.0f);
+	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
+
+	for (int i=0; i<(int)Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
+	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
+	_get_int_attrib(L, "max_engine", s.equipSlotCapacity[Equip::SLOT_ENGINE], 1);
+	_get_int_attrib(L, "max_laser", s.equipSlotCapacity[Equip::SLOT_LASER], 1);
+	_get_int_attrib(L, "max_missile", s.equipSlotCapacity[Equip::SLOT_MISSILE], 0);
+	_get_int_attrib(L, "max_ecm", s.equipSlotCapacity[Equip::SLOT_ECM], 1);
+	_get_int_attrib(L, "max_scanner", s.equipSlotCapacity[Equip::SLOT_SCANNER], 1);
+	_get_int_attrib(L, "max_radarmapper", s.equipSlotCapacity[Equip::SLOT_RADARMAPPER], 1);
+	_get_int_attrib(L, "max_hypercloud", s.equipSlotCapacity[Equip::SLOT_HYPERCLOUD], 1);
+	_get_int_attrib(L, "max_hullautorepair", s.equipSlotCapacity[Equip::SLOT_HULLAUTOREPAIR], 1);
+	_get_int_attrib(L, "max_energybooster", s.equipSlotCapacity[Equip::SLOT_ENERGYBOOSTER], 1);
+	_get_int_attrib(L, "max_atmoshield", s.equipSlotCapacity[Equip::SLOT_ATMOSHIELD], 1);
+	_get_int_attrib(L, "max_fuelscoop", s.equipSlotCapacity[Equip::SLOT_FUELSCOOP], 1);
+	_get_int_attrib(L, "max_lasercooler", s.equipSlotCapacity[Equip::SLOT_LASERCOOLER], 1);
+	_get_int_attrib(L, "max_cargolifesupport", s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT], 1);
+	_get_int_attrib(L, "max_autopilot", s.equipSlotCapacity[Equip::SLOT_AUTOPILOT], 1);
+
+	_get_int_attrib(L, "capacity", s.capacity, 0);
+	_get_int_attrib(L, "hull_mass", s.hullMass, 100);
+	_get_int_attrib(L, "price", s.baseprice, 0);
+	s.baseprice *= 100; // in hundredths of credits
+
+	{
+		int hyperclass;
+		_get_int_attrib(L, "hyperdrive_class", hyperclass, 1);
+		if (!hyperclass) {
+			s.hyperdrive = Equip::NONE;
+		} else {
+			s.hyperdrive = (Equip::Type)((int)Equip::DRIVE_CLASS1+hyperclass-1);
 		}
-	} else {
-		malformed = true;
 	}
-	lua_pop(L, 1);
-	if (malformed) Error("Expected thruster values in ship_defs of %s\n", model_name);
-
-	s.angThrust = (float)luaPi_gettable_checknumber(L, -1, 3);
-
-	lua_rawgeti(L, -1, 4);
+	
+	lua_pushstring(L, "gun_mounts");
+	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
 		for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
@@ -66,29 +128,7 @@ int ShipType::define_ship(lua_State *L, const char *model_name)
 		}
 	}
 	lua_pop(L, 1);
-
-	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
-	lua_rawgeti(L, -1, 5);
-	if (lua_istable(L, -1)) {
-		for (unsigned int i=0; (i<lua_objlen(L,-1)) && (i<Equip::SLOT_MAX); i++) {
-			lua_pushinteger(L, i+1);
-			lua_gettable(L, -2);
-			s.equipSlotCapacity[i] = luaL_checkinteger(L, -1);
-			lua_pop(L, 1);
-		}
-	}
-	lua_pop(L, 1);
-
-	s.capacity = luaPi_gettable_checkinteger(L, -1, 6);
-	s.hullMass = luaPi_gettable_checkinteger(L, -1, 7);
-	s.baseprice = luaPi_gettable_checkinteger(L, -1, 8);
-	lua_rawgeti(L, -1, 9);
-	if(!lua_isnoneornil(L, -1)) {
-		s.hyperdrive = (Equip::Type)((int)Equip::DRIVE_CLASS1+luaL_checkinteger(L, -1)-1);
-	} else {
-		s.hyperdrive = Equip::NONE;
-	}
-	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0)
 
 	types[s.name] = s;
 	return 0;

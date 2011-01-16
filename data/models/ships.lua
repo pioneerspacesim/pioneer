@@ -5,36 +5,33 @@ define_model('missile', {
 	info = {
 		bounding_radius = 4,
 		materials={ 'body' },
-		tags = { 'ship' },
 		ship_defs = {
 			{
-				'MISSILE_UNGUIDED',
-				{ 0, -4*10^5, 0, 0, 0, 0 },
-				0,
-				{},
-				{ 0, 0, 1, 0 },
-				0, 1, 100
+				name = 'MISSILE_UNGUIDED',
+				forward_thrust = -4e5,
+				hull_mass=1,
+				price=100
 			}, {
-				'MISSILE_GUIDED', 
-				{ 1*10^5, -2*10^5, 0, 0, 0, 0 },
-				2*10^4,
-				{},
-				{ 0, 0, 1, 0 },
-				0, 1, 100
+				name = 'MISSILE_GUIDED',
+				forward_thrust = -2e5,
+				reverse_thrust = 1e5,
+				angular_thrust = 2e4,
+				hull_mass=1,
+				price=100
 			}, {
-				'MISSILE_SMART', 
-				{ 1.5*10^5, -3*10^5, 0, 0, 0, 0 },
-				2*10^4,
-				{},
-				{ 0, 0, 1, 0 },
-				0, 1, 100
+				name = 'MISSILE_SMART',
+				forward_thrust = -3e5,
+				reverse_thrust = 1.5e5,
+				angular_thrust = 2e4,
+				hull_mass=1,
+				price=100
 			}, {
-				'MISSILE_NAVAL', 
-				{ 2.0*10^5, -4*10^5, 0, 0, 0, 0 },
-				2*10^4,
-				{},
-				{ 0, 0, 1, 0 },
-				0, 1, 100
+				name = 'MISSILE_NAVAL',
+				forward_thrust = -4e5,
+				reverse_thrust = 2e5,
+				angular_thrust = 2e4,
+				hull_mass=1,
+				price=100
 			}
 		},
 	},
@@ -173,16 +170,22 @@ define_model('ladybird', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Ladybird Starfighter', 
-					{ 2*10^6,-2*10^6,1*10^6,-1*10^6,-1*10^6,2*10^6 },
-					1*10^7,
-					{
-					{ v(0,-0.5,0), v(0,0,-1) },
-					{ v(0,0,0), v(0,0,1) },
-					},
-					{ 60, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					60, 60, 8700000,
-					2	
+					name='Ladybird Starfighter',
+					forward_thrust = -2e6,
+					reverse_thrust = 2e6,
+					up_thrust = 1e6,
+					down_thrust = -1e6,
+					left_thrust = -1e6,
+					right_thrust = 1e6,
+					angular_thrust = 1e7,
+					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
+					max_cargo = 60,
+					max_missile = 2,
+					max_laser = 2,
+					capacity = 60,
+					hull_mass = 60,
+					price = 87000,
+					hyperdrive_class = 1,
 				}
 			},
 		},
@@ -359,16 +362,22 @@ define_model('taipan', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Taipan', 
-					{ 4*10^6,-4*10^6,1*10^6,-1*10^6,-1*10^6,1*10^6 },
-					1*10^7,
-					{
-						{ v(0,-0.5,0), v(0,0,-1) },
-						{ v(0,0,0), v(0,0,1) },
-					},
-					{ 240, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					240, 200, 56000000,
-					4
+					name='Taipan',
+					forward_thrust = -4e6,
+					reverse_thrust = 4e6,
+					up_thrust = 1e6,
+					down_thrust = -1e6,
+					left_thrust = -1e6,
+					right_thrust = 1e6,
+					angular_thrust = 1e7,
+					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
+					max_cargo = 240,
+					max_laser = 2,
+					max_missile = 4,
+					capacity = 240,
+					hull_mass = 200,
+					price = 560000,
+					hyperdrive_class = 4,
 				}
 			},
 		},
@@ -521,16 +530,22 @@ define_model('walrus', {
 			tags = { 'ship' },
 			ship_defs = {
 				{
-					'Walrus', 
-					{ 12*10^6,-12*10^6,4*10^6,-4*10^6,-4*10^6,4*10^6 },
-					1*10^7,
-					{
-					{ v(0,-0.5,0), v(0,0,-1) },
-					{ v(0,0,0), v(0,0,1) },
-					},
-					{ 320, 1, 2, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					320, 300, 35000000,
-					5
+					name='Walrus',
+					forward_thrust = -12e6,
+					reverse_thrust = 12e6,
+					up_thrust = 4e6,
+					down_thrust = -4e6,
+					left_thrust = -4e6,
+					right_thrust = 4e6,
+					angular_thrust = 1e7,
+					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
+					max_cargo = 320,
+					max_laser = 2,
+					max_missile = 6,
+					capacity = 320,
+					hull_mass = 300,
+					price = 350000,
+					hyperdrive_class = 5,
 				}
 			}
 		},
@@ -676,16 +691,22 @@ define_model('flowerfairy_heavy_trader', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Flowerfairy Heavy Trader', 
-					{ 1*10^5,-1*10^5,1*10^5,-1*10^5,-1*10^5,1*10^5 },
-					1*10^7,
-					{
-					{ v(0,-0.5,0), v(0,0,-1) },
-					{ v(0,0,0), v(0,0,1) },
-					},
-					{ 500, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					500, 500, 55000000,
-					6
+					name='Flowfairy Heavy Trader',
+					forward_thrust = -1e6,
+					reverse_thrust = 1e6,
+					up_thrust = 1e6,
+					down_thrust = -1e6,
+					left_thrust = -1e6,
+					right_thrust = 1e6,
+					angular_thrust = 1e7,
+					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
+					max_cargo = 500,
+					max_laser = 2,
+					max_missile = 4,
+					capacity = 500,
+					hull_mass = 500,
+					price = 550000,
+					hyperdrive_class = 6,
 				}
 			}
 		},
@@ -821,16 +842,22 @@ define_model('interdictor', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Sirius Interdictor', 
-					{ 2*10^7,-2*10^7,1*10^7,-1*10^7,-1*10^7,1*10^7 },
-					4*10^7,
-					{
-					{ v(0,-0.5,0), v(0,0,-1) },
-					{ v(0,-0.5,0), v(0,0,1) },
-					},
-					{ 90, 1, 2, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					90, 100, 16000000,
-					4
+					name='Sirius Interdictor',
+					forward_thrust = -8e6,
+					reverse_thrust = 8e6,
+					up_thrust = 4e6,
+					down_thrust = -4e6,
+					left_thrust = -4e6,
+					right_thrust = 4e6,
+					angular_thrust = 1e7,
+					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,-0.5,0), v(0,0,1) }, },
+					max_cargo = 90,
+					max_laser = 2,
+					max_missile = 8,
+					capacity = 90,
+					hull_mass = 100,
+					price = 160000,
+					hyperdrive_class = 4,
 				}
 			}
 		},
