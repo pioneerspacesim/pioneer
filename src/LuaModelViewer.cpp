@@ -445,7 +445,13 @@ void Viewer::MainLoop()
 
 		{
 			char buf[128];
-			snprintf(buf, sizeof(buf), "%d triangles", LmrModelGetStatsTris() - beforeDrawTriStats);
+			Aabb aabb = cmesh->GetAabb();
+			snprintf(buf, sizeof(buf), "%d triangles, collision mesh size: %.1fx%.1fx%.1f (radius %.1f)",
+					LmrModelGetStatsTris() - beforeDrawTriStats,
+					aabb.max.x-aabb.min.x,
+					aabb.max.y-aabb.min.y,
+					aabb.max.z-aabb.min.z,
+					aabb.GetBoundingRadius());
 			m_trisReadout->SetText(buf);
 		}
 		
