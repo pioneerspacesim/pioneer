@@ -10,52 +10,16 @@ static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static int g_mouseButton[5];
-static LmrModel *g_model;
 static float g_zbias;
 static float g_doBenchmark = false;
 
 static GLuint mytexture;
 
-static void PollEvents()
-{
-	SDL_Event event;
+class Viewer;
+static Viewer *g_viewer;
 
-	g_mouseMotion[0] = g_mouseMotion[1] = 0;
-	while (SDL_PollEvent(&event)) {
-		Gui::HandleSDLEvent(&event);
-		switch (event.type) {
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_q) { SDL_Quit(); exit(0); }
-				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-				if (event.key.keysym.sym == SDLK_s) {
-					Render::ToggleShaders();
-				}
-				g_keyState[event.key.keysym.sym] = 1;
-				break;
-			case SDL_KEYUP:
-				g_keyState[event.key.keysym.sym] = 0;
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				g_mouseButton[event.button.button] = 1;
-	//			Pi::onMouseButtonDown.emit(event.button.button,
-	//					event.button.x, event.button.y);
-				break;
-			case SDL_MOUSEBUTTONUP:
-				g_mouseButton[event.button.button] = 0;
-	//			Pi::onMouseButtonUp.emit(event.button.button,
-	//					event.button.x, event.button.y);
-				break;
-			case SDL_MOUSEMOTION:
-				g_mouseMotion[0] += event.motion.xrel;
-				g_mouseMotion[1] += event.motion.yrel;
-				break;
-			case SDL_QUIT:
-				SDL_Quit();
-				exit(0);
-				break;
-		}
-	}
-}
+static void PollEvents();
+extern void LmrModelCompilerInit();
 
 static int g_wheelMoveDir = -1;
 static float g_wheelPos = 0;
@@ -73,9 +37,6 @@ static LmrObjParams params = {
 	{ { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 	{ { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 };
-static LmrCollMesh *cmesh;
-static Geom *geom;
-static CollisionSpace *space;
 
 class Viewer: public Gui::Fixed {
 public:
@@ -84,6 +45,14 @@ public:
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
 	Gui::Label *m_trisReadout;
+	LmrCollMesh *m_cmesh;
+	LmrModel *m_model;
+	CollisionSpace *m_space;
+	Geom *m_geom;
+
+	void SetModel(LmrModel *);
+
+	void PickModel();
 
 	float GetAnimValue(int i) {
 		std::string val = m_animEntry[i]->GetText();
@@ -91,6 +60,10 @@ public:
 	}
 
 	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
+		m_model = 0;
+		m_cmesh = 0;
+		m_geom = 0;
+		m_space = new CollisionSpace();
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
 
@@ -101,7 +74,7 @@ public:
 			b->SetShortcut(SDLK_c, KMOD_NONE);
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
 			Add(b, 10, 10);
-			Add(new Gui::Label("[c] Change view (normal, collision mesh, raytraced collision mesh)"), 30, 10);
+			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
 		} 
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -195,13 +168,13 @@ public:
 		g_doBenchmark = !g_doBenchmark;
 	}
 	void OnClickRebuildCollMesh() {
-		space->RemoveGeom(geom);
-		delete geom;
-		delete cmesh;
+		m_space->RemoveGeom(m_geom);
+		delete m_geom;
+		delete m_cmesh;
 
-		cmesh = new LmrCollMesh(g_model, &params);
-		geom = new Geom(cmesh->geomTree);
-		space->AddGeom(geom);
+		m_cmesh = new LmrCollMesh(m_model, &params);
+		m_geom = new Geom(m_cmesh->geomTree);
+		m_space->AddGeom(m_geom);
 	}
 
 	void OnToggleGearState() {
@@ -211,12 +184,77 @@ public:
 
 	void OnClickChangeView() {
 		g_renderType++;
-		if (g_renderType > 2) g_renderType = 0;
+		// XXX raytraced view disabled
+		if (g_renderType > 1) g_renderType = 0;
 	}
 
 	void MainLoop();
 	void SetSbreParams();
+private:
+	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
 };
+
+void Viewer::SetModel(LmrModel *model)
+{
+	m_model = model;
+	if (m_cmesh) delete m_cmesh;
+	if (m_geom) {
+		m_space->RemoveGeom(m_geom);
+		delete m_geom;
+	}
+	m_cmesh = new LmrCollMesh(m_model, &params);
+	m_geom = new Geom(m_cmesh->geomTree);
+	m_space->AddGeom(m_geom);
+}
+
+void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
+{
+	if (sym->sym == SDLK_RETURN) {
+		LmrModel *m = 0;
+		try {
+			m = LmrLookupModelByName(entry->GetText().c_str());
+		} catch (LmrModelNotFoundException) {
+			errormsg->SetText("Could not find model: " + entry->GetText());
+		}
+		if (m) SetModel(m);
+
+	}
+}
+
+void Viewer::PickModel()
+{
+	Gui::Fixed *f = new Gui::Fixed();
+	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
+	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
+
+	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
+
+	Gui::Label *errormsg = new Gui::Label("");
+	f->Add(errormsg, 0, 64);
+
+	Gui::TextEntry *entry = new Gui::TextEntry();
+	entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
+	entry->Show();
+	f->Add(entry, 0, 32);
+
+	m_model = 0;
+
+	while (!m_model) {
+		this->Hide();
+		f->ShowAll();
+		PollEvents();
+		Render::PrepareFrame();
+		glClearColor(0,0,0,0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Render::PostProcess();
+		Gui::Draw();
+		glError();
+		Render::SwapBuffers();
+	}
+	Gui::Screen::RemoveBaseWidget(f);
+	delete f;
+	this->Show();
+}
 
 void Viewer::SetSbreParams()
 {
@@ -355,16 +393,12 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	cmesh = new LmrCollMesh(g_model, &params);
-	g_campos = vector3f(0.0f, 0.0f, cmesh->GetBoundingRadius());
+	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
-	geom = new Geom(cmesh->geomTree);
-	space = new CollisionSpace();
-	space->AddGeom(geom);
 
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 
@@ -384,7 +418,7 @@ void Viewer::MainLoop()
 				g_camorient = g_camorient * matrix4x4f::RotateYMatrix(ry);
 				if (g_mouseButton[1]) {
 					g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f) * 0.01 *
-						g_model->GetDrawClipRadius();
+						m_model->GetDrawClipRadius();
 				}
 			}
 		} else {
@@ -423,31 +457,33 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) g_model->Render(m, &params);
+				for (int i=0; i<1000; i++) m_model->Render(m, &params);
 			} else {
-				g_model->Render(m, &params);
+				m_model->Render(m, &params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
 			glPushMatrix();
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			glMultMatrixf(&m[0]);
-			render_coll_mesh(cmesh);
+			render_coll_mesh(m_cmesh);
 			glPopMatrix();
 		} else {
 			matrix4x4f tran = modelRot * g_camorient;//.InverseOf();
 			vector3d forward = tran * vector3d(0.0,0.0,-1.0);
 			vector3d up = tran * vector3d(0.0,1.0,0.0);
-			raytraceCollMesh(modelRot * g_campos, up, forward, space);
+			raytraceCollMesh(modelRot * g_campos, up, forward, m_space);
 		}
 		Render::State::UseProgram(0);
 		Render::UnbindAllBuffers();
 
 		{
 			char buf[128];
-			Aabb aabb = cmesh->GetAabb();
+			Aabb aabb = m_cmesh->GetAabb();
 			snprintf(buf, sizeof(buf), "%d triangles, collision mesh size: %.1fx%.1fx%.1f (radius %.1f)",
-					LmrModelGetStatsTris() - beforeDrawTriStats,
+					(g_renderType == 0 ? 
+						LmrModelGetStatsTris() - beforeDrawTriStats :
+						m_cmesh->m_numTris),
 					aabb.max.x-aabb.min.x,
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
@@ -472,53 +508,54 @@ void Viewer::MainLoop()
 			lastFpsReadout = SDL_GetTicks();
 		}
 
-		space->Collide(onCollision);
+		//space->Collide(onCollision);
 	}
-	delete cmesh;
 }
 
-void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry)
+static void PollEvents()
 {
-	if (sym->sym == SDLK_RETURN) {
-		printf("Trying model %s\n", entry->GetText().c_str());
-		try {
-			g_model = LmrLookupModelByName(entry->GetText().c_str());
-		} catch (LmrModelNotFoundException) {
-			Gui::Screen::ShowBadError("Could not find that model.");
-			g_model = 0;
+	SDL_Event event;
+
+	g_mouseMotion[0] = g_mouseMotion[1] = 0;
+	while (SDL_PollEvent(&event)) {
+		Gui::HandleSDLEvent(&event);
+		switch (event.type) {
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE) {
+					g_viewer->PickModel();
+				}
+				if (event.key.keysym.sym == SDLK_q) { SDL_Quit(); exit(0); }
+				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
+				if (event.key.keysym.sym == SDLK_s) {
+					Render::ToggleShaders();
+				}
+				g_keyState[event.key.keysym.sym] = 1;
+				break;
+			case SDL_KEYUP:
+				g_keyState[event.key.keysym.sym] = 0;
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				g_mouseButton[event.button.button] = 1;
+	//			Pi::onMouseButtonDown.emit(event.button.button,
+	//					event.button.x, event.button.y);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				g_mouseButton[event.button.button] = 0;
+	//			Pi::onMouseButtonUp.emit(event.button.button,
+	//					event.button.x, event.button.y);
+				break;
+			case SDL_MOUSEMOTION:
+				g_mouseMotion[0] += event.motion.xrel;
+				g_mouseMotion[1] += event.motion.yrel;
+				break;
+			case SDL_QUIT:
+				SDL_Quit();
+				exit(0);
+				break;
 		}
 	}
 }
 
-void PickModel()
-{
-	Gui::Fixed *f = new Gui::Fixed();
-	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
-	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
-
-	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
-
-	Gui::TextEntry *entry = new Gui::TextEntry();
-	entry->onKeyPress.connect(sigc::bind(sigc::ptr_fun(&TryModel), entry));
-	entry->Show();
-	f->Add(entry, 0, 32);
-	f->ShowAll();
-
-	while (!g_model) {
-		PollEvents();
-		Render::PrepareFrame();
-		glClearColor(0,0,0,0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		Render::PostProcess();
-		Gui::Draw();
-		glError();
-		Render::SwapBuffers();
-	}
-	Gui::Screen::RemoveBaseWidget(f);
-	delete f;
-}
-
-extern void LmrModelCompilerInit();
 
 int main(int argc, char **argv)
 {
@@ -586,13 +623,12 @@ int main(int argc, char **argv)
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();
 
+	g_viewer = new Viewer();
 	if (argc >= 4) {
-		g_model = LmrLookupModelByName(argv[3]);
+		g_viewer->SetModel(LmrLookupModelByName(argv[3]));
 	} else {
-		PickModel();
+		g_viewer->PickModel();
 	}
-
-	Viewer v;
-	v.MainLoop();
+	g_viewer->MainLoop();
 	return 0;
 }
