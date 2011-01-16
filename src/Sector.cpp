@@ -100,6 +100,12 @@ Sector::Sector(int x, int y)
 				}
 			}
 
+			if ((s.starType[0] <= SBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
+				// make primary a giant. never more than one giant in a system
+				// while 
+				s.starType[0] = SBody::TYPE_STAR_M_GIANT;
+			}
+
 			s.name = GenName(s, rng);
 
 			m_systems.push_back(s);
