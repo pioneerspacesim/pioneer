@@ -33,6 +33,8 @@ struct ShipType {
 
 	static std::string LADYBIRD;
 	static std::string SIRIUS_INTERDICTOR;
+	static std::string EAGLE_LRF;
+	static std::string EAGLE_MK3;
 	static std::string MISSILE_GUIDED;
 	static std::string MISSILE_NAVAL;
 	static std::string MISSILE_SMART;

@@ -821,8 +821,57 @@ void Ship::AISlowOrient(const matrix4x4d &wantedOrient)
 	}
 }
 
-/* Orient so our -ve z axis == dir. ie so that dir points forwards */
+
+// Does some kind some kind of v*v = 2as
+// where:
+//		- v = maximum angvel around arc to slow to zero by desired heading
+//		- s = angle between current and desired heading
+//		- a = maximum acceleration along desired heading
+
+static inline double ClipAccel(double desired, double max)
+{
+	if (desired < -max) return -max;
+	else if (desired > max) return max;
+	else return desired;
+}
+
 void Ship::AIFaceDirection(const vector3d &dir)
+{
+	const ShipType &stype = GetShipType();
+	double maxAccel = stype.angThrust / GetAngularInertia();
+	double frameAccel = maxAccel * Pi::GetTimeAccel() / PHYSICS_HZ;
+
+	matrix4x4d rot;	GetRotMatrix(rot);
+	vector3d head = dir * rot;		// create desired object-space heading
+	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
+
+	if (head.z > -0.99999f)
+	{
+		double ang = acos (CLAMP(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
+
+		// could skip this and just use maxAccel if you don't care about full speed
+		double acc2;
+		if (head.x*head.x > head.y*head.y) acc2 = maxAccel * head.y / head.x;
+		else acc2 = maxAccel * head.x / head.y;
+		double maxAccDir = sqrt(maxAccel*maxAccel + acc2*acc2);		// maximum accel in desired direction
+
+		double iangvel = sqrt (2.0 * maxAccDir * ang);			// ideal angvel at current time
+		dav.x = head.y * iangvel;					// convert to vector
+		dav.y = -head.x * iangvel;					// acts in direction head cross (0,0,1)
+	}
+	vector3d diff = dav - GetAngVelocity() * rot;		// find diff between current & desired angvel
+
+	// Set thrusters, relying on their clamping code
+
+	SetAngThrusterState(0, ClipAccel(diff.x, frameAccel));
+	SetAngThrusterState(1, ClipAccel(diff.y, frameAccel));
+	SetAngThrusterState(2, ClipAccel(diff.z, frameAccel));
+}
+
+
+
+/* Orient so our -ve z axis == dir. ie so that dir points forwards */
+/*void Ship::AIFaceDirection(const vector3d &dir)
 {
 	double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 	matrix4x4d rot;
@@ -884,6 +933,7 @@ void Ship::AIFaceDirection(const vector3d &dir)
 		}
 	}
 }
+*/
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness)
 {

@@ -228,6 +228,14 @@ class matrix4x4 {
 		out.z = a.cell[2]*v.x + a.cell[6]*v.y + a.cell[10]*v.z + a.cell[14];
 		return out;
 	}
+	// scam for doing a transpose operation
+	friend vector3<T> operator * (const vector3<T> &v, const matrix4x4 &a) {
+		vector3<T> out;
+		out.x = a.cell[0]*v.x + a.cell[1]*v.y + a.cell[2]*v.z;
+		out.y = a.cell[4]*v.x + a.cell[5]*v.y + a.cell[6]*v.z;
+		out.z = a.cell[8]*v.x + a.cell[9]*v.y + a.cell[10]*v.z;
+		return out;
+	}
 	friend matrix4x4 operator* (const matrix4x4 &a, T v) {
 		matrix4x4 m;
 		for (int i=0; i<16; i++) m[i] = a.cell[i] * v;
