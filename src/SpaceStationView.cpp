@@ -57,11 +57,11 @@ void StationCommoditiesView::ShowAll()
 
 	Gui::Button *backButton = new Gui::SolidButton();
 	backButton->onClick.connect(sigc::mem_fun(this, &StationCommoditiesView::Close));
-	Add(backButton,680,470);
-	Add(new Gui::Label("Go back"), 700, 470);
+	Add(backButton,680,500);
+	Add(new Gui::Label("Go back"), 700, 500);
 
 	m_commodityTradeWidget = new CommodityTradeWidget(m_station);
-	m_commodityTradeWidget->SetSizeRequest(470.0, 400.0);
+	m_commodityTradeWidget->SetSizeRequest(470.0, 450.0);
 	m_commodityTradeWidget->onClickBuy.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy));
 	m_commodityTradeWidget->onClickSell.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell));
 	Add(m_commodityTradeWidget, 320, 40);
