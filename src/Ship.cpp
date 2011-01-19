@@ -568,7 +568,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_flightState == FLYING) Enable();
 	else Disable();
 
-	AITimeStep(timeStep);
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
 		float force = stype.linThrust[i] * m_thrusters[i];
@@ -672,6 +671,8 @@ float Ship::GetHullTemperature() const
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	AITimeStep(timeStep);		// moved to correct place, maybe
+
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
 	}

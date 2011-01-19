@@ -845,7 +845,7 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	vector3d head = dir * rot;		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
-	if (head.z > -0.99999f)
+	if (head.z*head.z < 0.999999f)
 	{
 		double ang = acos (CLAMP(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 
@@ -868,8 +868,55 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	SetAngThrusterState(2, ClipAccel(diff.z, frameAccel));
 }
 
+/*
+// principle? Use linear thrusters to dodge and close or open range
+// Use angular thrusters either to get on target or increase evasion ability
+// 
+
+void Ship::AIFight()
+{
+	// determine approximate time-to-threat and damage potential
+
+		
+
+	// determine approximate time-to-threaten and damage potential
 
 
+}
+
+// need following results:
+// "optimal" angular thrust to get sights on target
+// approximate time required
+
+void Ship::CombatTurn()
+{
+	// target leading approximation?
+	// - take time-to-target using current distance between ships
+	// - don't worry about second-order issues like time required to get on target 
+	// changing end point
+
+	// So, basic target-leading...
+
+	leadpos = targetpos + targetvel*(projspeed/targdist)
+	leaddir = leadpos.norm;
+	// could repeat this with new targdist
+
+	// and approximate target angular velocity at leaddir
+	// leadpos cross targetvel? definitely gives direction of angvel...
+
+	leadangvel = (leadpos.norm cross (leadpos+(targetvel*0.01)).norm) * 100.0
+	// divide/multiply to get it closer to proper derivative-at-point
+	// does this really give a genuine angvel? Probably
+
+	// so have target heading and target angvel at that heading
+	// can now use modified version of FaceDirection?
+	// not really: direction of leaddir and leadangvel may be different
+	// so blend two results: thrust to reach leaddir and thrust to attain leadangvel
+	// bias towards leadangvel as heading approaches leaddir
+
+}
+
+*/
 /* Orient so our -ve z axis == dir. ie so that dir points forwards */
 /*void Ship::AIFaceDirection(const vector3d &dir)
 {
