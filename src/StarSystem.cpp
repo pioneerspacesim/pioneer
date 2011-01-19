@@ -359,8 +359,9 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
-EXPORT_OOLUA_FUNCTIONS_4_CONST(SBodyPath,
-		GetBodyName, GetSeed, GetSystem, GetParent)
+EXPORT_OOLUA_FUNCTIONS_8_CONST(SBodyPath,
+		GetBodyName, GetSeed, GetSystem, GetParent, GetType, GetSuperType,
+		GetNumChildren, GetNthChild)
 
 SBodyPath::SBodyPath(): SysLoc()
 {
@@ -388,21 +389,48 @@ const char *SBodyPath::GetBodyName() const
 	return GetSBody()->name.c_str();
 }
 
+int SBodyPath::GetNumChildren() const
+{
+	return GetSBody()->children.size();
+}
+
 Uint32 SBodyPath::GetSeed() const
 {
 	return GetSBody()->seed;
 }
 
+int SBodyPath::GetType() const
+{
+	return (int)GetSBody()->type;
+}
+
+int SBodyPath::GetSuperType() const
+{
+	return (int)GetSBody()->GetSuperType();
+}
+
 const SBody *SBodyPath::GetSBody() const
 {
-	StarSystem *s = StarSystem::GetCached(*this);
+	const StarSystem *s = Sys();
 	return s->GetBodyByPath(this);
 }
 	
 SBodyPath *SBodyPath::GetParent() const {
 	SBodyPath *p = new SBodyPath;
-	StarSystem *sys = StarSystem::GetCached(*this);
+	const StarSystem *sys = Sys();
 	sys->GetPathOf(sys->GetBodyByPath(this)->parent, p);
+	return p;
+}
+
+SBodyPath *SBodyPath::GetNthChild(int n) const
+{
+	const StarSystem *sys = Sys();
+	const SBody *sbody = GetSBody();
+	if ((n < 1) || (n > sbody->children.size())) {
+		return 0;
+	}
+	SBodyPath *p = new SBodyPath;
+	sys->GetPathOf(sbody->children[n-1], p);
 	return p;
 }
 
