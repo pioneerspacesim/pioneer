@@ -1,35 +1,11 @@
-define_model('peye', {
+define_model('eye_0', {
 	info = {
 			scale = 1,
 			lod_pixels = { 1, 20, 100, 0 },
 			bounding_radius = 25,
 			materials = {'text', 'engine', 'matvar0', 'win', 't_glow', 'e_glow', 'chrome', 'cutout'},
-			tags = {'ship'},
-			ship_defs = {
-				{
-					name='E.Y.E',
-					forward_thrust = -2e7,
-					reverse_thrust = 1e7,
-					up_thrust = 2e6,
-					down_thrust = -2e6,
-					left_thrust = -2e6,
-					right_thrust = 2e6,
-					angular_thrust = 6e6,
-					gun_mounts = 
-					{
-					{ v(0,-5.8,-11), v(0,0,-1) },
-					{ v(0,0,10), v(0,0,1) },
-					},
-					max_cargo = 80,
-					max_laser = 2,
-					max_missile = 0,
-					capacity = 80,
-					hull_mass = 80,
-					price = 100000,
-					hyperdrive_class = 3,
-				}
-			}
-		},
+			},
+			
 	static = function(lod)
 
 		set_material('engine', .6,.65,.65,1,.5,.5,.5,50)
@@ -132,4 +108,41 @@ define_model('peye', {
         thruster(LBBT, v(-.5,-.75,.75), 5)
 	end
 
+})
+
+define_model('peye', {
+	info = {
+			scale = 1,
+			lod_pixels = { 1, 20, 100, 0 },
+			bounding_radius = 25,
+			tags = {'ship'},
+			ship_defs = {
+				{
+					name='E.Y.E',
+					forward_thrust = -2e7,
+					reverse_thrust = 1e7,
+					up_thrust = 2e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
+					{
+					{ v(0,-5.8,-11), v(0,0,-1) },
+					{ v(0,0,10), v(0,0,1) },
+					},
+					max_cargo = 80,
+					max_laser = 2,
+					max_missile = 0,
+					capacity = 80,
+					hull_mass = 80,
+					price = 100000,
+					hyperdrive_class = 3,
+				}
+			},
+		},
+		
+	static = function(lod)
+		call_model('eye_0',v(0,0,0),v(1,0,0),v(0,1,0),1)	
+	end
 })

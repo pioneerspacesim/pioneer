@@ -1,4 +1,4 @@
-define_model('rattle_gun', {
+define_model('rattle_s_gun', {
 	info =	{
 			lod_pixels = {5,10,20,0},
 			bounding_radius = 5,
@@ -7,61 +7,93 @@ define_model('rattle_gun', {
 	static = function(lod)
      	set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
      	set_material('hole', 0,0,0,1,0,0,0,0)
-     	    	
-  	end,
-	dynamic = function(lod)
-		--local select3 = 20
-		selector3()
-  		if lod > 3 then
-			texture('models/ships/sidewinder/alu.png')
-		else
-		    texture('models/ships/sidewinder/alu_s.png')
-		end
-		if select3 < 34 then
-            use_material('chrome')
-			cylinder(3*lod, v(0,0,-11.5), v(0,0,-16), v(0,1,0), .15)
+     	
+		if lod > 1 then
             use_material('hole')
-            circle(3*lod, v(0,0,-16.001), v(0,0,-1), v(0,1,0), .12)
-            call_model('antenna_1',v(-9,0,-12.8), v(1,0,0), v(0,1,0), 2)
-    		if select3 < 17 then
-                use_material('chrome')
-				cylinder(3*lod, v(0,-4.5,12.5), v(0,-4.5,15), v(0,1,0), .15)
-                use_material('hole')
-            	circle(3*lod, v(0,-4.5,15.001), v(0,0,1), v(0,1,0), .12)
-            end
-        else
-  		    if select3 < 67 then
-    			use_material('chrome')
-				cylinder(3*lod, v(0,0,-11.5), v(0,0,-17), v(0,1,0), .2)
-		    	xref_cylinder(3*lod, v(3,0,-11.5), v(3,0,-15), v(0,1,0), .1)
-       	    	use_material('hole')
-				circle(3*lod, v(0,0,-17.001), v(0,0,-1), v(0,1,0), .17)
-				call_model('antenna_1',v(-9,0,-12.8), v(1,0,0), v(0,1,0), 2)
-                if select3 < 51 then
-                	use_material('chrome')
-					cylinder(3*lod, v(0,-4.5,12.5), v(0,-4.5,15), v(0,1,0), .15)
-                	use_material('hole')
-            		circle(3*lod, v(0,-4.5,15.001), v(0,0,1), v(0,1,0), .12)
-				end
+            zbias(1,v(0,0,-17), v(0,0,-1))
+			circle(3*lod, v(0,0,-17), v(0,0,-1), v(0,1,0), .17)
+			zbias(0)
+			if lod > 2 then
+				texture('gun.png',v(.5,0,0),v(2.2,0,0),v(0,0,-.08))
 			else
-			    if select3 > 66 then
-     				use_material('chrome')
-					xref_cylinder(3*lod, v(9,0,-11.5), v(9,0,-16), v(0,1,0), .2)
-            		use_material('hole')
-            		xref_circle(3*lod, v(9,0,-16.001), v(0,0,-1), v(0,1,0), .17)
-            		call_model('antenna_1',v(0,0,-12.8), v(1,0,0), v(0,1,0), 2)
-					if select3 < 83 then
-                		use_material('chrome')
-						cylinder(3*lod, v(0,-4.5,12.5), v(0,-4.5,15), v(0,1,0), .15)
-                		use_material('hole')
-            			circle(3*lod, v(0,-4.5,15.001), v(0,0,1), v(0,1,0), .12)
-					end
-				end
+			    texture('alu_s.png')
 			end
+			use_material('chrome')
 		end
-	end
+			cylinder(3*lod, v(0,0,-11.5), v(0,0,-17), v(0,1,0), .2)
+
+  	end
 })
 
+define_model('rattle_l_gun', {
+	info =	{
+			lod_pixels = {5,10,20,0},
+			bounding_radius = 5,
+			materials = {'chrome', 'hole'},
+			},
+	static = function(lod)
+     	set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
+     	set_material('hole', 0,0,0,1,0,0,0,0)
+     	
+        if lod > 1 then
+            use_material('hole')
+			zbias(1,v(0,0,-17), v(0,0,-1))
+			circle(3*lod, v(0,0,-17), v(0,0,-1), v(0,1,0), .17)
+			zbias(0)
+			if lod > 2 then
+				texture('gun.png',v(.5,0,0),v(2.2,0,0),v(0,0,-.08))
+			else
+			    texture('alu_s.png')
+			end
+	     	use_material('chrome')
+		end
+        cylinder(3*lod, v(0,0,-11.5), v(0,0,-17), v(0,1,0), .2)
+		xref_cylinder(3*lod, v(3,0,-11.5), v(3,0,-15), v(0,1,0), .1)
+
+  	end
+})
+
+define_model('rattle_gun', {
+	info =	{
+			lod_pixels = {5,10,20,0},
+			bounding_radius = 5,
+			materials = {'chrome', 'hole'},
+			},
+	static = function(lod)
+    end,
+	dynamic = function(lod)
+		if get_arg(10) >= 62 then
+			if get_arg(10) == 63 then
+            	call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
+            	call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
+            else
+			    if get_arg(10) == 62 then
+                	call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
+            	else
+                	if get_arg(10) > 63 then
+						call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
+					end
+            	end
+            end
+        end
+        
+        if get_arg(11) >= 62 then
+			if get_arg(11) == 63 then
+            	call_model('rattle_s_gun',v(9,0,0),v(1,0,0),v(0,1,0),1)
+            	call_model('rattle_s_gun',v(-9,0,0),v(1,0,0),v(0,1,0),1)
+		    else
+			    if get_arg(11) == 62 then
+                	call_model('rattle_s_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
+            	else
+                	if get_arg(11) > 63 then
+						call_model('rattle_l_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
+					end
+            	end
+            end
+        end 
+    end
+})
+		
 define_model('rattle', {
 	info =	{
 			lod_pixels = {5,10,50,0},
@@ -141,11 +173,11 @@ define_model('rattle', {
 		--bottom
         use_material('bot')
         if lod > 3 then
-			texture('top1.png',v(.5,.5,0), v(.0192,0,0), v(0,0,-2))
+			texture('bot1.png',v(.5,.5,0), v(.0192,0,0), v(0,0,-2))
 		elseif lod > 2 then
-		    texture('top1_m.png',v(.5,.5,0), v(.0192,0,0), v(0,0,-2))
+		    texture('bot1_m.png',v(.5,.5,0), v(.0192,0,0), v(0,0,-2))
 		else
-            texture('top1_s.png',v(.5,.5,0), v(.0192,0,0), v(0,0,-2))
+            texture('bot1_s.png',v(.5,.5,0), v(.0192,0,0), v(0,0,-2))
 		end
 		tri(v0,v6,v1)
         xref_tri(v0,v2,v6)
@@ -186,8 +218,7 @@ define_model('rattle', {
 		xref_tri(v60,v62,v64)
         xref_tri(v61,v65,v63)
 
-		-- posl
-		call_model('headlight',v(0,-1.38,-7),v(1,0,0),v(0,-1,-.15),3)
+		
 
 		--top
         use_material('top')
@@ -238,9 +269,11 @@ define_model('rattle', {
         xref_quad(v2,v100,v114,v6)
         xref_quad(v2,v4,v104,v100)
         
-        if lod > 1 then
-			--gun
-			call_model('rattle_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)	
+
+
+		if lod > 1 then
+            --gun
+			call_model('rattle_gun',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			
 			--greebles
 	        use_material('chrome')
@@ -317,12 +350,57 @@ define_model('rattle', {
 		
 		if lod > 2 then
 			-- specials
+			local scanpos_r = v(4.7,4.09,9.9)
+	        local scanpos_l = v(-4.7,4.09,9.9)
+	        local ecmpos_r  = v(6.4,2.8,.2)
+	        local ecmpos_l  = v(-6.4,2.8,.2)
+   	        if get_arg(8) == 38 then
+	        	use_material('bot')
+				selector4()
+	        	if select4 < 51 then
+	        		call_model('scanner_-',scanpos_l,v(1,0,0),v(-.22,1,-.12),2)
+	        	else
+	        		call_model('scanner_+',scanpos_r,v(1,0,0),v(.22,1,-.12),2)
+	            end
+	        end
+	        
+	        if get_arg(7) == 37 then
+	        	use_material('top')
+				selector4()
+	        	if select4 < 51 then
+	        		call_model('ecm_1',ecmpos_r,v(1,0,0),v(0,1,0),1.5)
+	        	else
+	        		call_model('ecm_1',ecmpos_l,v(1,0,0),v(0,1,0),1.5)
+	            end	
+	        else
+	        	if get_arg(7) == 39 then
+		        	use_material('top')
+					selector4()
+		        	if select4 < 51 then
+		        		call_model('ecm_2',ecmpos_r,v(1,0,0),v(0,1,0),1.5)
+		        	else
+		        		call_model('ecm_2',ecmpos_l,v(1,0,0),v(0,1,0),1.5)
+		            end
+				end	
+	        end
+
+            local mappos_0  = v(0,0,-12.8)
+		    local mappos_1  = v(-9,0,-12.8)
+		    if get_arg(8) == 38 then
+				if get_arg(10) == 63 then
+					call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
+				else
+					if get_arg(11) == 63 then
+						call_model('antenna_1',mappos_0, v(1,0,0), v(0,1,0), 2)
+					else					
+						call_model('antenna_1',mappos_1, v(1,0,0), v(0,1,0), 2)
+					end
+				end
+			end
+
 			--select4 = 60
 			selector4()
 			if select4 < 51 then
-	            use_material('bot')
-				call_model('scanner_-',v(-4.7,4.09,9.9),v(1,0,0),v(-.22,1,-.12),2)
-				call_model('ecm_1',v(6.4,2.8,.2),v(1,0,0),v(0,1,0),1.5)
 				zbias(1,v(13.43,1.753,3.05),v(0,1,0))
 				call_model('decal', v(13.43,1.753,3.05), v(0,1,0), v(-2,.577,1), 2)
 				zbias(1,v(-14.36,1.752,4.9), v(0,1,0))
@@ -330,9 +408,6 @@ define_model('rattle', {
 			    zbias(0)
 			else
 			    if select4 > 50 then
-		      		use_material('bot')
-					call_model('scanner_+',v(4.7,4.09,9.9),v(1,0,0),v(.22,1,-.12),2)
-			        call_model('ecm_2',v(-6.4,2.8,.2),v(1,0,0),v(0,1,0),1.5)
 		            zbias(1,v(-14.36,1.752,4.9), v(0,1,0))
 					call_model('decal', v(-14.36,1.752,4.9), v(0,1,0), v(2,.577,1), 2)
 		            zbias(1,v(13.43,1.753,3.05), v(0,1,0))
@@ -341,7 +416,7 @@ define_model('rattle', {
 				end
 	  		end
 	  	end
-	
+
 		local M_T1 = v(0,1.1,15)
 		local M_T2 = v(0,-1.1,15)
 		local M_T3 = v(1.9,0,15)
@@ -631,6 +706,28 @@ define_model('rattle_dash', {
 			quad(v0,v1,v3,v2)
 	end
 })
+
+define_model('rattle_scoop', {
+	info =	{
+			lod_pixels = {5,50,100,0},
+			bounding_radius = 5,
+			},			
+			
+	static = function(lod)
+		local v140 = v(3.2,-2.15,-3.65)
+		local v141 = v(-3.2,-2.15,-3.65)
+		local v142 = v(2.4,-3.33,-3.65)
+		local v143 = v(-2.4,-3.33,-3.65)	
+		if lod > 1 then	
+			if lod > 3 then
+				texture('v_glow.png', v(0,.3,0), v(.5,0,0), v(0,.5,0))
+			else
+			    texture('v_glow_s.png', v(0,.3,0), v(.5,0,0), v(0,.5,0))
+			end
+		end
+		quad(v140,v142,v143,v141)
+	end
+})			
 	
 define_model('rattlesnake', {
  	info = 	{
@@ -640,7 +737,7 @@ define_model('rattlesnake', {
    			materials = {'chrome', 'cabin', 'metal', 'no_shade', 'text', 'glow', 'e_glow', 'v_glow', 'win', 'black'},
 			tags = {'ship'},
 			ship_defs = {
-			{
+				{
 					name='Sidewinder',
 					forward_thrust = -3e6,
 					reverse_thrust = 2e6,
@@ -827,7 +924,9 @@ define_model('rattlesnake', {
 				call_model('rattle_dash',v(0,0,0),v(1,0,0),v(0,1,0),1)
 				zbias(0)
 				-- pilot
-				call_model('pilot1',v(0,2.7,3.1),v(1,0,0),v(0,1,0),.33)
+				--call_model('pilot1',v(0,2.7,3.1),v(1,0,0),v(0,1,0),.33)
+                call_model('pilot_3_m',v(0,1.4,3.1),v(1,0,0),v(0,1,0),2)
+
 			end
 			texture(nil)
 			use_material('glow')
@@ -906,13 +1005,7 @@ define_model('rattlesnake', {
 			end
 			xref_quad(v26,v27,v30,v28)
 			
-			-- scoop
-			if lod > 3 then
-				texture('v_glow.png', v(0,.3,0), v(.5,0,0), v(0,.5,0))
-			else
-			    texture('v_glow_s.png', v(0,.3,0), v(.5,0,0), v(0,.5,0))
-			end
-			quad(v140,v142,v143,v141)
+			
 			
    			-- uc
             call_model('rattle_uc',v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -925,9 +1018,9 @@ define_model('rattlesnake', {
 			
    			call_model('posl_white',v(0,5.87,12.6),v(1,0,0),v(0,1,-.3),3)
 			call_model('coll_warn',v(0,-5.87,12.6),v(1,0,0),v(0,-1,-.3),3)
-			call_model('posl_red',v(25,.1,12),v(1,0,0),v(.3,1,-.11),3)
+			call_model('posl_green',v(25,.1,12),v(1,0,0),v(.3,1,-.11),3)
 			call_model('coll_warn',v(25,-.1,12),v(1,0,0),v(.3,-1,-.11),3)
-			call_model('posl_green',v(-25,.1,12),v(1,0,0),v(-.3,1,-.11),3)
+			call_model('posl_red',v(-25,.1,12),v(1,0,0),v(-.3,1,-.11),3)
 			call_model('coll_warn',v(-25,-.1,12),v(1,0,0),v(-.3,-1,-.11),3)
    		end
 	end,
@@ -939,6 +1032,17 @@ define_model('rattlesnake', {
         set_material('v_glow', lerp_materials(os.clock()*0.5, 	{0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 0 },
 																{0, 0, 0, 1, 0, 0, 0, 0, 1, 2, .5 }))
         
+        -- scoop
+        if lod > 1 then
+			if get_arg(5) == 45 then
+        		use_material('v_glow')			
+			else
+				use_material('black')
+			end
+		end
+		call_model('rattle_scoop',v(0,0,0),v(1,0,0),v(0,1,0),1)
+		
+        
 		-- collision mesh uc
 		if lod == 1 then
 			texture(nil)
@@ -949,6 +1053,9 @@ define_model('rattlesnake', {
 				xref_ring(3,v(13.04,-.274,-2.09), v(13.04+trans,-1.2-5*trans,-2.09-2*trans), v(0,0,1), .15)
             	xref_ring(3,v(17.92,-.274,7.67), v(17.92+2*trans,-1.2-5*trans,7.67+trans), v(0,0,1), .15)
 			end
+		else
+		-- posl
+		call_model('headlight',v(0,-1.38,-7),v(1,0,0),v(0,-1,-.15),3)	
 		end
 	end
 })    

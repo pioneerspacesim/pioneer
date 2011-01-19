@@ -141,7 +141,7 @@ define_model('adder_f_flap', {
 		else
 		    texture('f_flap0_s.png')
 		end
-        load_obj('f_flap.obj',Matrix.rotate(0.5*math.pi, v(0,1.0)))
+        load_obj('f_flap.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -156,7 +156,7 @@ define_model('adder_rl_flap1', {
 		else
 		    texture('rl_flap0_s.png')
 		end
-        load_obj('rl_flap1.obj',Matrix.rotate(0.5*math.pi, v(0,1.0)))
+        load_obj('rl_flap1.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -171,7 +171,7 @@ define_model('adder_rl_flap2', {
 		else
 		    texture('rl_flap0_s.png')
 		end
-        load_obj('rl_flap2.obj',Matrix.rotate(0.5*math.pi, v(0,1.0)))
+        load_obj('rl_flap2.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -186,7 +186,7 @@ define_model('adder_rr_flap1', {
 		else
 		    texture('rr_flap0_s.png')
 		end
-        load_obj('rr_flap1.obj',Matrix.rotate(0.5*math.pi, v(0,1.0)))
+        load_obj('rr_flap1.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -201,15 +201,37 @@ define_model('adder_rr_flap2', {
 		else
 		    texture('rr_flap0_s.png')
 		end
-        load_obj('rr_flap2.obj',Matrix.rotate(0.5*math.pi, v(0,1.0)))
+        load_obj('rr_flap2.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
+
+define_model('adder_gun', {
+	info = {
+			lod_pixels = {1,5,10,0},
+			bounding_radius = 3,
+			materials = {'chrome', 'black'},
+			},
+	static = function(lod)
+        set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
+		set_material('black' ,0,0,0,1,0,0,0,0)
+		
+		use_material('chrome')
+		texture('gun.png')
+        load_obj('gun.obj')
+        
+		use_material('black')
+		zbias(1,v(0,0,-25.327),v(0,0,-1))
+		circle(lod*2,v(0,0,-25.327),v(0,0,-1),v(0,1,0),.12)
+		zbias(0)
+	end
+})
+
 
 define_model('adder_sub', {
 	info = {
 	        lod_pixels = {5,30,200,0},
 			bounding_radius = 30,
-			materials = {'text', 'head', 'body', 'non_cv', 'metal', 'chrome', 'matte', 'glow1', 'e_glow', 'wins', 'black'},
+			materials = {'text', 'head', 'body', 'non_cv', 'metal', 'chrome', 'matte', 'glow1', 'e_glow', 'wins', 'black', 'scoop'},
 			},
 			
 	static = function(lod)
@@ -257,7 +279,7 @@ define_model('adder_sub', {
 			end
 			load_obj('tech.obj')
 
-			use_material('e_glow')
+			use_material('scoop')
 			texture('scoop.png')
 			load_obj('glow2.obj')
 
@@ -271,12 +293,7 @@ define_model('adder_sub', {
 			texture(nil)
             use_material('wins')
             load_obj('win.obj')
-            
-            use_material('black')
-			zbias(1,v(0,0,-25.327),v(0,0,-1))
-			circle(8,v(0,0,-25.327),v(0,0,-1),v(0,1,0),.12)
-			zbias(0)
-			
+            			
 			use_material('head')
 			if lod > 3 then
 			    texture('head.png')
@@ -315,37 +332,20 @@ define_model('adder_sub', {
 			load_obj('door_frame.obj')
 
 			if lod > 2 then
-				use_material('non_cv')
-				call_model('scanner_+',v(0,3.3,6.2),v(1,0,0),v(0,1,0),1.2)
-    			zbias(1,v(-8.009,1.34,-10.3),v(-1,.7945,0))
+				zbias(1,v(-8.009,1.34,-10.3),v(-1,.7945,0))
 				call_model('decal',v(-8.009,1.34,-10.3),v(-1,0,0),v(.7945,1,0),1.8)
                 zbias(1,v(8.009,1.34,-12.1),v(1,.7945,0))
                 call_model('squadsign_1',v(8.009,1.34,-12.1),v(1,0,0),v(-.7945,1,0),1.8)
 				zbias(0)
 			end
 			
-			texture(nil)
-		    local  M_T = v(0,0,9.5)
-			local  R_T = v(5.4,0,-21.6) -- xref
-			local RF_T = v(9.3,0,-6.96)
-			local LF_T = v(-9.3,0,-6.96)
-			local RB_T = v(9.3,0,6.96)
-			local LB_T = v(-9.3,0,6.96)
-			local TF_T = v(0,3.9,-6.96)
-			local TB_T = v(4.8,3.9,6.96) -- xref
-			local BF_T = v(4.8,-3.9,-6.96) -- xref
-			local BB_T = v(0,-3.9,6.96)
+            call_model('coll_warn',v(8.9,0,-9.5),v(0,1,0),v(1,0,0),2)
+			call_model('coll_warn',v(-8.9,0,-9.5),v(0,1,0),v(-1,0,0),2)
+			call_model('coll_warn',v(0,-3.35,7.9),v(1,0,0),v(0,-1,0),2)
+			call_model('posl_green',v(8.9,0,-10),v(0,1,0),v(1,0,0),2)
+            call_model('posl_red',v(-8.9,0,-10),v(0,1,0),v(-1,0,0),2)
+			call_model('posl_white',v(0,3.37,7.9),v(1,0,0),v(0,1,0),2)
 
-			thruster(M_T,v(0,0,1),25, true)
-			xref_thruster(R_T,v(0,0,-1),7, true)
-			thruster(RF_T,v(1,0,0),4)
-			thruster(LF_T,v(-1,0,0),4)
-			thruster(RB_T,v(1,0,0),4)
-			thruster(LB_T,v(-1,0,0),4)
-			thruster(TF_T,v(0,1,0),4)
-			xref_thruster(TB_T,v(0,1,0),4)
-			xref_thruster(BF_T,v(0,-1,0),4)
-			thruster(BB_T,v(0,-1,0),4) 
 			
 	end,
 
@@ -353,6 +353,13 @@ define_model('adder_sub', {
         
 		set_material('e_glow', lerp_materials(os.clock()*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
 																{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
+																
+		if get_arg(5) == 45 then
+			set_material('scoop', lerp_materials(os.clock()*.5,{0, 0, 0, 1, 0, 0, 0, 0, .9, 1.4, 1.5 },
+																{0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.7 }))
+		else
+			set_material('scoop', .1,.1,.1,1,0,0,0,1)
+		end
 			
 		--select2 = 20
 	    selector2()
@@ -404,114 +411,132 @@ define_model('adder_sub', {
 		end
 
         	
-			local  v0 = v(7.546,1.511,4.811)
-		    local  v1 = v(7.546,1.511,-4.649)
-		    local  v2 = v(7.401,1.694,4.757)
-			local  v3 = v(7.401,1.694,-4.595)
-			local  v4 = v(7.605,1.723,4.757)
-			local  v5 = v(7.605,1.723,-4.595)
-			local  v6 = v(7.774,1.627,4.757)
-			local  v7 = v(7.774,1.627,-4.595)
-			local  v8 = v(7.81,1.464,4.757)
-			local  v9 = v(7.81,1.464,-4.595)
-			local v10 = v(7.691,1.328,4.757)
-			local v11 = v(7.691,1.328,-4.595)
-			local v12 = v(7.195,1.953,4.374)
-			local v13 = v(7.195,1.953,-4.212)
-			local v14 = v(7.688,2.022,4.374)
-			local v15 = v(7.688,2.022,-4.212)
-			local v16 = v(8.098,1.791,4.374)
-			local v17 = v(8.098,1.791,-4.212)
-			local v18 = v(8.184,1.397,4.374)
-			local v19 = v(8.184,1.397,-4.212)
-			local v20 = v(7.896,1.069,4.374)
-			local v21 = v(7.856,1.069,-4.212)
+		local  v0 = v(7.546,1.511,4.811)
+	    local  v1 = v(7.546,1.511,-4.649)
+	    local  v2 = v(7.401,1.694,4.757)
+		local  v3 = v(7.401,1.694,-4.595)
+		local  v4 = v(7.605,1.723,4.757)
+		local  v5 = v(7.605,1.723,-4.595)
+		local  v6 = v(7.774,1.627,4.757)
+		local  v7 = v(7.774,1.627,-4.595)
+		local  v8 = v(7.81,1.464,4.757)
+		local  v9 = v(7.81,1.464,-4.595)
+		local v10 = v(7.691,1.328,4.757)
+		local v11 = v(7.691,1.328,-4.595)
+		local v12 = v(7.195,1.953,4.374)
+		local v13 = v(7.195,1.953,-4.212)
+		local v14 = v(7.688,2.022,4.374)
+		local v15 = v(7.688,2.022,-4.212)
+		local v16 = v(8.098,1.791,4.374)
+		local v17 = v(8.098,1.791,-4.212)
+		local v18 = v(8.184,1.397,4.374)
+		local v19 = v(8.184,1.397,-4.212)
+		local v20 = v(7.896,1.069,4.374)
+		local v21 = v(7.856,1.069,-4.212)
 
-			local v30 = v(-7.546,-1.514,4.811)
-		    local v31 = v(-7.546,-1.514,-4.649)
-		    local v32 = v(-7.401,-1.697,4.757)
-			local v33 = v(-7.401,-1.697,-4.595)
-			local v34 = v(-7.605,-1.726,4.757)
-			local v35 = v(-7.605,-1.726,-4.595)
-			local v36 = v(-7.774,-1.63,4.757)
-			local v37 = v(-7.774,-1.63,-4.595)
-			local v38 = v(-7.81,-1.467,4.757)
-			local v39 = v(-7.81,-1.467,-4.595)
-			local v40 = v(-7.691,-1.331,4.757)
-			local v41 = v(-7.691,-1.331,-4.595)
-			local v42 = v(-7.195,-1.956,4.374)
-			local v43 = v(-7.195,-1.956,-4.212)
-			local v44 = v(-7.688,-2.025,4.374)
-			local v45 = v(-7.688,-2.025,-4.212)
-			local v46 = v(-8.098,-1.794,4.374)
-			local v47 = v(-8.098,-1.794,-4.212)
-			local v48 = v(-8.184,-1.4,4.374)
-			local v49 = v(-8.184,-1.4,-4.212)
-			local v50 = v(-7.896,-1.072,4.374)
-			local v51 = v(-7.856,-1.072,-4.212)
+		local v30 = v(-7.546,-1.514,4.811)
+	    local v31 = v(-7.546,-1.514,-4.649)
+	    local v32 = v(-7.401,-1.697,4.757)
+		local v33 = v(-7.401,-1.697,-4.595)
+		local v34 = v(-7.605,-1.726,4.757)
+		local v35 = v(-7.605,-1.726,-4.595)
+		local v36 = v(-7.774,-1.63,4.757)
+		local v37 = v(-7.774,-1.63,-4.595)
+		local v38 = v(-7.81,-1.467,4.757)
+		local v39 = v(-7.81,-1.467,-4.595)
+		local v40 = v(-7.691,-1.331,4.757)
+		local v41 = v(-7.691,-1.331,-4.595)
+		local v42 = v(-7.195,-1.956,4.374)
+		local v43 = v(-7.195,-1.956,-4.212)
+		local v44 = v(-7.688,-2.025,4.374)
+		local v45 = v(-7.688,-2.025,-4.212)
+		local v46 = v(-8.098,-1.794,4.374)
+		local v47 = v(-8.098,-1.794,-4.212)
+		local v48 = v(-8.184,-1.4,4.374)
+		local v49 = v(-8.184,-1.4,-4.212)
+		local v50 = v(-7.896,-1.072,4.374)
+		local v51 = v(-7.856,-1.072,-4.212)
 
-			local textrans = os.clock()*.1
+		local textrans = os.clock()*.1
 
-			use_material('glow1')
-			if lod > 2 then
-				texture('models/ships/adder/glow1.png', v(textrans,textrans*.25,0),v(0,.3,0),v(0,0,.5))
-			else
-			    texture('models/ships/adder/glow1.png', v(.5,.5,0),v(0,.3,0),v(0,0,.5))
-			end
+		use_material('glow1')
+		if lod > 2 then
+			texture('models/ships/adder/glow1.png', v(textrans,textrans*.25,0),v(0,.3,0),v(0,0,.5))
+		else
+		    texture('models/ships/adder/glow1.png', v(.5,.5,0),v(0,.3,0),v(0,0,.5))
+		end
 
-			xref_tri(v0,v4,v2)
-			xref_tri(v0,v6,v4)
-			xref_tri(v0,v8,v6)
-			xref_tri(v0,v10,v8)
-			xref_quad(v2,v4,v14,v12)
-			xref_quad(v4,v6,v16,v14)
-			xref_quad(v6,v8,v18,v16)
-			xref_quad(v8,v10,v20,v18)
-			xref_quad(v12,v14,v15,v13)
-			xref_quad(v14,v16,v17,v15)
-			xref_quad(v16,v18,v19,v17)
-			xref_quad(v18,v20,v21,v19)
-			xref_quad(v13,v15,v5,v3)
-			xref_quad(v15,v17,v7,v5)
-			xref_quad(v17,v19,v9,v7)
-			xref_quad(v19,v21,v11,v9)
-			xref_tri(v1,v3,v5)
-			xref_tri(v1,v5,v7)
-			xref_tri(v1,v7,v9)
-			xref_tri(v1,v9,v11)
+		xref_tri(v0,v4,v2)
+		xref_tri(v0,v6,v4)
+		xref_tri(v0,v8,v6)
+		xref_tri(v0,v10,v8)
+		xref_quad(v2,v4,v14,v12)
+		xref_quad(v4,v6,v16,v14)
+		xref_quad(v6,v8,v18,v16)
+		xref_quad(v8,v10,v20,v18)
+		xref_quad(v12,v14,v15,v13)
+		xref_quad(v14,v16,v17,v15)
+		xref_quad(v16,v18,v19,v17)
+		xref_quad(v18,v20,v21,v19)
+		xref_quad(v13,v15,v5,v3)
+		xref_quad(v15,v17,v7,v5)
+		xref_quad(v17,v19,v9,v7)
+		xref_quad(v19,v21,v11,v9)
+		xref_tri(v1,v3,v5)
+		xref_tri(v1,v5,v7)
+		xref_tri(v1,v7,v9)
+		xref_tri(v1,v9,v11)
 
-			xref_tri(v30,v34,v32)
-			xref_tri(v30,v36,v34)
-			xref_tri(v30,v38,v36)
-			xref_tri(v30,v40,v38)
-			xref_quad(v32,v34,v44,v42)
-			xref_quad(v34,v36,v46,v44)
-			xref_quad(v36,v38,v48,v46)
-			xref_quad(v38,v40,v50,v48)
-			xref_quad(v42,v44,v45,v43)
-			xref_quad(v44,v46,v47,v45)
-			xref_quad(v46,v48,v49,v47)
-			xref_quad(v48,v50,v51,v49)
-			xref_quad(v43,v45,v35,v33)
-			xref_quad(v45,v47,v37,v35)
-			xref_quad(v47,v49,v39,v37)
-			xref_quad(v49,v51,v41,v39)
-			xref_tri(v31,v33,v35)
-			xref_tri(v31,v35,v37)
-			xref_tri(v31,v37,v39)
-			xref_tri(v31,v39,v41)
+		xref_tri(v30,v34,v32)
+		xref_tri(v30,v36,v34)
+		xref_tri(v30,v38,v36)
+		xref_tri(v30,v40,v38)
+		xref_quad(v32,v34,v44,v42)
+		xref_quad(v34,v36,v46,v44)
+		xref_quad(v36,v38,v48,v46)
+		xref_quad(v38,v40,v50,v48)
+		xref_quad(v42,v44,v45,v43)
+		xref_quad(v44,v46,v47,v45)
+		xref_quad(v46,v48,v49,v47)
+		xref_quad(v48,v50,v51,v49)
+		xref_quad(v43,v45,v35,v33)
+		xref_quad(v45,v47,v37,v35)
+		xref_quad(v47,v49,v39,v37)
+		xref_quad(v49,v51,v41,v39)
+		xref_tri(v31,v33,v35)
+		xref_tri(v31,v35,v37)
+		xref_tri(v31,v37,v39)
+		xref_tri(v31,v39,v41)
 
-			texture(nil)
+		texture(nil)
 
+
+		if get_arg(8) == 38 then
+			use_material('non_cv')
+			call_model('scanner_+',v(0,3.3,6.2),v(1,0,0),v(0,1,0),1.2)
+			call_model('antenna_1',v(-2,0,-24.55),v(1,0,0),v(0,1,0),1)
+		end
+	
 		if lod > 2 then
             selector3()
             use_material('head')
 			if select3 < 51 then
-                call_model('ecm_2',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
-				call_model('antenna_1',v(-3,0,-24.55),v(1,0,0),v(0,1,0),1)
+				if get_arg(7) == 37 then
+                	call_model('ecm_1',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
+				end
+				if get_arg(7) == 39 then
+					call_model('ecm_2',v(4.5,-2.43,-16), v(-1,0,0),v(0,-1,0),1)
+				end
 			else
-				call_model('ecm_1',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
+				if get_arg(7) == 37 then
+					call_model('ecm_1',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
+				end
+				if get_arg(7) == 39 then	
+					call_model('ecm_2',v(-4.5,-2.43,-16),v(-1,0,0),v(0,-1,0),1)
+				end
 			end
+
+			
 
 			local reg = get_arg_string(0)
 			use_material('text')
@@ -521,15 +546,32 @@ define_model('adder_sub', {
 			text(reg,v(8.439,.8,-11.2),v(1,.7945,0),v(0,0,-1),.8, {center = true})
 			zbias(0)
 		end
-end
+		
+		if get_arg(10) >= 62 then
+			if get_arg(10) == 63 then
+			   call_model('adder_gun',v(3.5,0,0),v(1,0,0),v(0,1,0),1)
+			   call_model('adder_gun',v(-3.5,0,0),v(1,0,0),v(0,1,0),1)
+			else
+			   call_model('adder_gun',v(0,0,0),v(1,0,0),v(0,1,0),1) 				   
+			end		
+		end
+		
+		if get_arg(11) >= 62 then
+			if get_arg(11) == 63 then
+			   call_model('adder_gun',v(3.5,0,0),v(1,0,0),v(0,1,0),1)
+			   call_model('adder_gun',v(-3.5,0,0),v(1,0,0),v(0,1,0),1)
+			else
+			   call_model('adder_gun',v(0,0,0),v(1,0,0),v(0,1,0),1) 							   
+			end		
+		end
+	end
 })
-
 
 define_model('adder', {
 	info = {
 			scale = 1,
 			lod_pixels = {.1,30,100,0},
-			bounding_radius = 30,
+			bounding_radius = 27,
             tags = {'ship'},
    			ship_defs = {
 				{
@@ -599,12 +641,29 @@ define_model('adder', {
 	        
 			call_model('adder_sub',v(0,0,0),v(1,0,0),v(0,1,0),1)
 
-			call_model('coll_warn',v(8.9,0,-9.5),v(0,1,0),v(1,0,0),2)
-			call_model('coll_warn',v(-8.9,0,-9.5),v(0,1,0),v(-1,0,0),2)
-			call_model('coll_warn',v(0,-3.35,7.9),v(1,0,0),v(0,-1,0),2)
-			call_model('posl_red',v(8.9,0,-10),v(0,1,0),v(1,0,0),2)
-            call_model('posl_green',v(-8.9,0,-10),v(0,1,0),v(-1,0,0),2)
-			call_model('posl_white',v(0,3.37,7.9),v(1,0,0),v(0,1,0),2)
+            local  M_T = v(0,0,9.5)
+			local  R_T = v(5.4,0,-21.6) -- xref
+			local RF_T = v(9.3,0,-6.96)
+			local LF_T = v(-9.3,0,-6.96)
+			local RB_T = v(9.3,0,6.96)
+			local LB_T = v(-9.3,0,6.96)
+			local TF_T = v(0,3.9,-6.96)
+			local TB_T = v(4.8,3.9,6.96) -- xref
+			local BF_T = v(4.8,-3.9,-6.96) -- xref
+			local BB_T = v(0,-3.9,6.96)
+
+			thruster(M_T,v(0,0,1),25, true)
+			xref_thruster(R_T,v(0,0,-1),7, true)
+			thruster(RF_T,v(1,0,0),4)
+			thruster(LF_T,v(-1,0,0),4)
+			thruster(RB_T,v(1,0,0),4)
+			thruster(LB_T,v(-1,0,0),4)
+			thruster(TF_T,v(0,1,0),4)
+			xref_thruster(TB_T,v(0,1,0),4)
+			xref_thruster(BF_T,v(0,-1,0),4)
+			thruster(BB_T,v(0,-1,0),4)
+
+
 		end
 	end,
 	dynamic = function(lod)
@@ -614,10 +673,5 @@ define_model('adder', {
 		        xref_cylinder(4,v(4.5,-5.5,4.5),v(4.5,-5.5,1.5),v(0,1,0),.5)
 		    end
 		end
-		if lod > 1 then
-
-		end
-	        
-	
 	end
 })

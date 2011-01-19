@@ -1,7 +1,8 @@
 define_model('cobra1', {
 	info = {
+			scale = 1.1,
 			lod_pixels = { .1, 10, 100, 0 },
-			bounding_radius = 30,
+			bounding_radius = 20,
 			materials = {'text', 'top', 'bot', 'posl', 'gun', 'engine_inside'},
 			tags = {'ship'},
 			ship_defs = {
@@ -95,9 +96,9 @@ define_model('cobra1', {
 					billboard('smoke.png', 5, v(1,0.8,0), { v(0, -0.8, -7) })
 				elseif lightphase  > .4 then
 					if lightphase < .7 then
-						billboard('smoke.png', 5,  v(1,0,0), { v(13.5, 0, 7.4) })
+						billboard('smoke.png', 5,  v(.3,1,0), { v(13.5, 0, 7.4) })
 					elseif lightphase > .7 then
-						billboard('smoke.png', 5, v(.3,1,0), { v(-13.5, 0, 7.4) })
+						billboard('smoke.png', 5, v(1,0,0), { v(-13.5, 0, 7.4) })
 					end
 				end
 			end
