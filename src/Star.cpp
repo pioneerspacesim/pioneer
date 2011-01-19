@@ -78,7 +78,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		Gui::Screen::Project (fpos.x,fpos.y,fpos.z, modelMatrix, projMatrix, viewport, &pp.x, &pp.y, &pp.z);
 		Gui::Screen::EnterOrtho();
 
-		const float glowrad = (float)MIN(20.0f+20000.0f*radius/viewCoords.Length(), (float)Gui::Screen::GetHeight());
+		const float glowrad = (float)(20.0f+20000.0f*radius/viewCoords.Length());
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnable(GL_BLEND);
 		glBegin(GL_TRIANGLE_FAN);
