@@ -7,16 +7,26 @@ define_model('cobra_mk3', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					'Cobra Mk III', 
-					{ 8*10^6,-2*10^7,2*10^6,-2*10^6,-2*10^6,2*10^6 },
-					6*10^6,
+					name='Cobra Mk III',
+					forward_thrust = -16e6,
+					reverse_thrust = 8e6,
+					up_thrust = 3e6,
+					down_thrust = -3e6,
+					left_thrust = -3e6,
+					right_thrust = 3e6,
+					angular_thrust = 6e6,
+					gun_mounts = 
 					{
 					{ v(0,-0.5,0), v(0,0,-1) },
 					{ v(0,-0.5,0), v(0,0,1) },
 					},
-					{ 80, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-					80, 20, 12400000,
-					2
+					max_cargo = 80,
+					max_laser = 2,
+					max_missile = 4,
+					capacity = 80,
+					hull_mass = 60,
+					price = 124000,
+					hyperdrive_class = 3,
 				}
 			}
 		},
