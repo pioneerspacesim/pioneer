@@ -24,6 +24,12 @@ public:
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
+
+	// test code
+	virtual void TimeStepUpdate(const float timeStep);
+	vector3d GetAccumTorque() { return m_accumTorque; }
+	vector3d m_accumTorque;
+	
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

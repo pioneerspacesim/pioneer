@@ -15,6 +15,8 @@ Player::Player(ShipType::Type shipType): Ship(shipType)
 	m_killCount = 0;
 	m_knownKillCount = 0;
 	UpdateMass();
+
+	m_accumTorque = vector3d(0,0,0);
 }
 
 Player::~Player()
@@ -91,6 +93,39 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
+// Test code here
+void Player::TimeStepUpdate(const float timeStep)
+{
+/*	vector3d input(0.0, 0.0, 0.0);
+	if (KeyBindings::yawLeft.IsActive()) input.y += 1.0;
+	if (KeyBindings::yawRight.IsActive()) input.y += -1.0;
+	if (KeyBindings::pitchDown.IsActive()) input.x += -1.0;
+	if (KeyBindings::pitchUp.IsActive()) input.x += 1.0;
+	if (KeyBindings::rollLeft.IsActive()) input.z += 1.0;
+	if (KeyBindings::rollRight.IsActive()) input.z += -1.0;
+
+	const ShipType &stype = GetShipType();
+	AddRelTorque(input * stype.angThrust);
+	m_accumTorque += input * stype.angThrust;
+
+	static int facedir = 0;
+	if (KeyBindings::increaseSpeed.IsActive()) facedir = 1;
+	if (KeyBindings::decreaseSpeed.IsActive()) facedir = 0;
+
+	if (facedir)
+	{
+		ClearThrusterState();
+		vector3d dir = (GetCombatTarget()->GetPosition() - GetPosition()).Normalized();
+		AIFaceDirection(dir);
+		AddRelTorque(GetAngThrusterState() * stype.angThrust);
+		m_accumTorque += GetAngThrusterState() * stype.angThrust;
+	}
+
+	DynamicBody::TimeStepUpdate(timeStep);
+*/	
+	Ship::TimeStepUpdate(timeStep);
+}
+
 void Player::StaticUpdate(const float timeStep)
 {
 	Body *b;
@@ -163,7 +198,7 @@ void Player::PollControls()
 		return;
 	}
 
-	/* if flying */
+	// if flying 
 	{
 		ClearThrusterState();
 		

@@ -787,11 +787,10 @@ void Pi::Start()
 
 		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 		enemy->SetFrame(player->GetFrame());
-		enemy->SetPosition(player->GetPosition()+vector3d(5000,0,5000.0));
+		enemy->SetPosition(player->GetPosition()+vector3d(0,0,5000.0));
 		enemy->m_equipment.Add(Equip::PULSECANNON_1MW);
 		enemy->AIInstruct(Ship::DO_KILL, player);
 		Space::AddBody(enemy);
-
 
 //		player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 		player->SetCombatTarget(enemy);

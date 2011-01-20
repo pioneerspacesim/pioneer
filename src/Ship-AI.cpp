@@ -828,12 +828,13 @@ void Ship::AISlowOrient(const matrix4x4d &wantedOrient)
 //		- s = angle between current and desired heading
 //		- a = maximum acceleration along desired heading
 
-static inline double ClipAccel(double desired, double max)
-{
-	if (desired < -max) return -max;
-	else if (desired > max) return max;
-	else return desired;
-}
+// Fancier code to use both x and y angthrust if possible
+/*		double acc2;
+		if (head.x*head.x > head.y*head.y) acc2 = maxAccel * head.y / head.x;
+		else acc2 = maxAccel * head.x / head.y;
+		double maxAccDir = sqrt(maxAccel*maxAccel + acc2*acc2);		// maximum accel in desired direction
+		double iangvel = sqrt (2.0 * maxAccDir * ang);			// ideal angvel at current time
+*/
 
 void Ship::AIFaceDirection(const vector3d &dir)
 {
@@ -845,28 +846,30 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	vector3d head = dir * rot;		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
-	if (head.z*head.z < 0.999999f)
+	if (head.z > -0.99999999f)
 	{
 		double ang = acos (CLAMP(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
+		double iangvel = sqrt (2.0 * maxAccel * ang);		// ideal angvel at current time
 
-		// could skip this and just use maxAccel if you don't care about full speed
-		double acc2;
-		if (head.x*head.x > head.y*head.y) acc2 = maxAccel * head.y / head.x;
-		else acc2 = maxAccel * head.x / head.y;
-		double maxAccDir = sqrt(maxAccel*maxAccel + acc2*acc2);		// maximum accel in desired direction
+		double frameEndAV = iangvel - frameAccel;
+		if (frameEndAV <= 0.0) iangvel = iangvel * 0.5;		// last frame discrete correction
+		iangvel = (iangvel + frameEndAV) * 0.5;				// discrete overshoot correction
 
-		double iangvel = sqrt (2.0 * maxAccDir * ang);			// ideal angvel at current time
-		dav.x = head.y * iangvel;					// convert to vector
-		dav.y = -head.x * iangvel;					// acts in direction head cross (0,0,1)
+		// Normalize (head.x, head.y) to give desired angvel direction
+		double head2dnorm = head.x*head.x + head.y*head.y;
+		if (head2dnorm == 0.0) { head.y = 1.0; head2dnorm = 1.0; }	// NaN fix
+		else head2dnorm = 1.0 / sqrt(head2dnorm);
+		dav.x = head.y * head2dnorm * iangvel;
+		dav.y = -head.x * head2dnorm * iangvel;
 	}
-	vector3d diff = dav - GetAngVelocity() * rot;		// find diff between current & desired angvel
+	vector3d cav = GetAngVelocity() * rot;		// current obj-rel angvel
+	vector3d diff = dav - cav;					// find diff between current & desired angvel
 
-	// Set thrusters, relying on their clamping code
-
-	SetAngThrusterState(0, ClipAccel(diff.x, frameAccel));
-	SetAngThrusterState(1, ClipAccel(diff.y, frameAccel));
-	SetAngThrusterState(2, ClipAccel(diff.z, frameAccel));
+	SetAngThrusterState(0, diff.x / frameAccel);
+	SetAngThrusterState(1, diff.y / frameAccel);
+	SetAngThrusterState(2, diff.z / frameAccel);
 }
+
 
 /*
 // principle? Use linear thrusters to dodge and close or open range

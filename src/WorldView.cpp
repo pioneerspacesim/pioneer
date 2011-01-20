@@ -82,6 +82,9 @@ WorldView::WorldView(): View()
 	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 
+	m_debugText = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
+	this->Add(m_debugText, 10, 200);
+
 	m_onPlayerChangeHyperspaceTargetCon =
 		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	m_onPlayerChangeTargetCon =
@@ -190,7 +193,7 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
+//TEST CODE	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
@@ -946,7 +949,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	DrawTargetSquares();
 
 	if (Pi::showDebugInfo) {
-		char buf[1024];
+/*		char buf[1024];
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
@@ -956,12 +959,20 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
 			rel_to, pos.Length()/1000);
-
 		glPushMatrix();
 		glTranslatef(2, Gui::Screen::GetFontHeight(), 0);
 		Gui::Screen::RenderString(buf);
 		glPopMatrix();
+*/
+		char buf[1024];
+		vector3d angvel = Pi::player->GetAngVelocity();
+		vector3d torque = Pi::player->GetAccumTorque();
+		vector3d impulse = torque / Pi::player->GetAngularInertia();
+		snprintf(buf, 1024, "Angvel = %5f,%5f,%5f\n" "Impulse = %5f,%5f,%5f\n",
+			angvel.x, angvel.y, angvel.z, impulse.x, impulse.y, impulse.z);
+		m_debugText->SetText(buf);
 	}
+	else m_debugText->SetText("");
 
 	{
 		double _vel = vel.Length();

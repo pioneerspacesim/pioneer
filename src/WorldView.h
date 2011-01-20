@@ -61,7 +61,7 @@ private:
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
-	Gui::Label *m_flightStatus, *m_hyperTargetLabel;
+	Gui::Label *m_flightStatus, *m_hyperTargetLabel, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
