@@ -512,7 +512,7 @@ void WorldView::Draw3D()
 	}
 
 	Space::Render(&cam_frame);
-	if (!Pi::player->IsDead()) DrawHUD(&cam_frame);
+	if (!Pi::player->IsDead()) ProjectObjsToScreenPos(&cam_frame);
 
 	Pi::player->GetFrame()->RemoveChild(&cam_frame);
 
@@ -561,7 +561,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		}
 	}
 	// Direction indicator
-	const float sz = HUD_CROSSHAIR_SIZE;
 	vector3d vel;
 	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
 	if (velRelTo) {
@@ -1000,7 +999,7 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-void WorldView::DrawHUD(const Frame *cam_frame)
+void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 {
 	GLdouble modelMatrix[16];
 	GLdouble projMatrix[16];
@@ -1010,12 +1009,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
 	glGetIntegerv (GL_VIEWPORT, viewport);
 
-	Gui::Screen::EnterOrtho();
-	glEnable(GL_BLEND);
-	glColor4f(1,1,1,HUD_ALPHA);
-
 	// Direction indicator
-	const float sz = HUD_CROSSHAIR_SIZE;
 	vector3d vel;
 	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
 	if (velRelTo) {
@@ -1026,61 +1020,17 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 		// the stasis velocity of a rotating frame
 	}
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-
 	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
+	m_velocityIndicatorOnscreen = false;
 	if (loc_v.z < 0) {
 		GLdouble pos[3];
 		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			GLfloat vtx[16] = {
-				pos[0]-sz, pos[1]-sz,
-				pos[0]-0.5*sz, pos[1]-0.5*sz,
-				pos[0]+sz, pos[1]-sz,
-				pos[0]+0.5*sz, pos[1]-0.5*sz,
-				pos[0]+sz, pos[1]+sz,
-				pos[0]+0.5*sz, pos[1]+0.5*sz,
-				pos[0]-sz, pos[1]+sz,
-				pos[0]-0.5*sz, pos[1]+0.5*sz };
-			glVertexPointer(2, GL_FLOAT, 0, vtx);
-			glDrawArrays(GL_LINES, 0, 8);
+			
+			m_velocityIndicatorPos[0] = (int)pos[0];
+			m_velocityIndicatorPos[1] = (int)pos[1];
+			m_velocityIndicatorOnscreen = true;
 		}
 	}
-
-	// normal crosshairs
-	if (GetCamType() == WorldView::CAM_FRONT) {
-		float px = Gui::Screen::GetWidth()/2.0;
-		float py = Gui::Screen::GetHeight()/2.0;
-		GLfloat vtx[16] = {
-			px-sz, py,
-			px-0.5*sz, py,
-			px+sz, py,
-			px+0.5*sz, py,
-			px, py-sz,
-			px, py-0.5*sz,
-			px, py+sz,
-			px, py+0.5*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-
-	} else if (GetCamType() == WorldView::CAM_REAR) {
-		float px = Gui::Screen::GetWidth()/2.0;
-		float py = Gui::Screen::GetHeight()/2.0;
-		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
-		GLfloat vtx[16] = {
-			px-sz, py,
-			px-0.5*sz, py,
-			px+sz, py,
-			px+0.5*sz, py,
-			px, py-sz,
-			px, py-0.5*sz,
-			px, py+sz,
-			px, py+0.5*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	}
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
 
 	// Update object onscreen positions
 	{
@@ -1100,12 +1050,68 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 				b->SetOnscreen(false);
 		}
 	}
+}
 
-	DrawTargetSquares();
+void WorldView::Draw()
+{
+	View::Draw();
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
+	glEnable(GL_BLEND);
+
+	const float sz = HUD_CROSSHAIR_SIZE;
+	// velocity indicator
+	if (m_velocityIndicatorOnscreen) {
+		const int *pos = m_velocityIndicatorPos;
+		GLfloat vtx[16] = {
+			pos[0]-sz, pos[1]-sz,
+			pos[0]-0.5*sz, pos[1]-0.5*sz,
+			pos[0]+sz, pos[1]-sz,
+			pos[0]+0.5*sz, pos[1]-0.5*sz,
+			pos[0]+sz, pos[1]+sz,
+			pos[0]+0.5*sz, pos[1]+0.5*sz,
+			pos[0]-sz, pos[1]+sz,
+			pos[0]-0.5*sz, pos[1]+0.5*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+	}
+
+	// normal crosshairs
+	if (GetCamType() == WorldView::CAM_FRONT) {
+		float px = Gui::Screen::GetWidth()/2.0;
+		float py = Gui::Screen::GetHeight()/2.0;
+		GLfloat vtx[16] = {
+			px-sz, py,
+			px-0.5*sz, py,
+			px+sz, py,
+			px+0.5*sz, py,
+			px, py-sz,
+			px, py-0.5*sz,
+			px, py+sz,
+			px, py+0.5*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+	} else if (GetCamType() == WorldView::CAM_REAR) {
+		float px = Gui::Screen::GetWidth()/2.0;
+		float py = Gui::Screen::GetHeight()/2.0;
+		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
+		GLfloat vtx[16] = {
+			px-sz, py,
+			px-0.5*sz, py,
+			px+sz, py,
+			px+0.5*sz, py,
+			px, py-sz,
+			px, py-0.5*sz,
+			px, py+sz,
+			px, py+0.5*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisable(GL_BLEND);
 
-	Gui::Screen::LeaveOrtho();
+	DrawTargetSquares();
 }
 
 void WorldView::DrawTargetSquares()

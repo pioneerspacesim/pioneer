@@ -19,6 +19,7 @@ public:
 	virtual void ShowAll();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void Draw();
 	virtual void OnSwitchTo();
 	static const float PICK_OBJECT_RECT_SIZE;
 	bool GetShowLabels() { return m_labelsOn; }
@@ -44,7 +45,7 @@ public:
 private:
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
-	void DrawHUD(const Frame *cam_frame);
+	void ProjectObjsToScreenPos(const Frame *cam_frame);
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
@@ -83,6 +84,8 @@ private:
 	sigc::connection m_onMouseButtonDown;
 
 	Gui::LabelSet *m_bodyLabels;
+	bool m_velocityIndicatorOnscreen;
+	int m_velocityIndicatorPos[2];
 };
 
 #endif /* _WORLDVIEW_H */
