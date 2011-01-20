@@ -13,8 +13,10 @@
 #include "perlin.h"
 
 const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
+static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.5f);
 
 #define BG_STAR_MAX	65536
+#define HUD_CROSSHAIR_SIZE	24.0f
 
 #pragma pack(4)
 struct BgStar {
@@ -82,14 +84,14 @@ WorldView::WorldView(): View()
 	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 
-	m_debugInfo = new Gui::Label("");
-	m_hudVelocity = new Gui::Label("");
-	m_hudSetSpeed = new Gui::Label("");
-	m_hudAltitude = new Gui::Label("");
-	m_hudPressure = new Gui::Label("");
-	m_hudNavTarget = new Gui::Label("");
-	m_hudCombatTarget = new Gui::Label("");
-	m_hudHyperspaceInfo = new Gui::Label("");
+	m_debugInfo = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudSetSpeed = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudAltitude = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudPressure = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudNavTarget = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudCombatTarget = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_debugInfo, 0.0f, 32.0f);
 	Add(m_hudVelocity, 2.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	Add(m_hudSetSpeed, 400.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
@@ -554,13 +556,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_flightControlButton->Show();
 		}
 	}
-}
-
-#define HUD_CROSSHAIR_SIZE	24.0f
-
-void WorldView::Update()
-{
-	const float frameTime = Pi::GetFrameTime();
 	// Direction indicator
 	const float sz = HUD_CROSSHAIR_SIZE;
 	vector3d vel;
@@ -571,35 +566,6 @@ void WorldView::Update()
 		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
-	}
-
-	// show state-appropriate buttons
-	RefreshButtonStateAndVisibility();
-
-	if (Pi::player->IsDead()) {
-		m_camType = CAM_EXTERNAL;
-		m_externalViewRotX += 60*frameTime;
-		m_externalViewDist = 200;
-		m_labelsOn = false;
-		return;
-	}
-	if (GetCamType() == CAM_EXTERNAL) {
-		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
-		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
-		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
-		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
-		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
-		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
-		m_externalViewDist = MAX(Pi::player->GetBoundingRadius(), m_externalViewDist);
-
-		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0f, -10.0f);
-	}
-	if (KeyBindings::targetObject.IsActive()) {
-		/* Hitting tab causes objects in the crosshairs to be selected */
-		Body* const target = PickBody(Gui::Screen::GetWidth()/2,
-				Gui::Screen::GetHeight()/2);
-		SelectBody(target, false);
 	}
 
 	if (m_showTargetActionsTimeout) {
@@ -759,6 +725,40 @@ void WorldView::Update()
 	} else {
 		m_hudHyperspaceInfo->Hide();
 	}
+}
+
+void WorldView::Update()
+{
+	const float frameTime = Pi::GetFrameTime();
+	// show state-appropriate buttons
+	RefreshButtonStateAndVisibility();
+
+	if (Pi::player->IsDead()) {
+		m_camType = CAM_EXTERNAL;
+		m_externalViewRotX += 60*frameTime;
+		m_externalViewDist = 200;
+		m_labelsOn = false;
+		return;
+	}
+	if (GetCamType() == CAM_EXTERNAL) {
+		if (Pi::KeyState(SDLK_UP)) m_externalViewRotX -= 45*frameTime;
+		if (Pi::KeyState(SDLK_DOWN)) m_externalViewRotX += 45*frameTime;
+		if (Pi::KeyState(SDLK_LEFT)) m_externalViewRotY -= 45*frameTime;
+		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
+		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
+		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
+		m_externalViewDist = MAX(Pi::player->GetBoundingRadius(), m_externalViewDist);
+
+		// when landed don't let external view look from below
+		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0f, -10.0f);
+	}
+	if (KeyBindings::targetObject.IsActive()) {
+		/* Hitting tab causes objects in the crosshairs to be selected */
+		Body* const target = PickBody(Gui::Screen::GetWidth()/2,
+				Gui::Screen::GetHeight()/2);
+		SelectBody(target, false);
+	}
+
 }
 
 void WorldView::OnSwitchTo()
@@ -997,7 +997,8 @@ int WorldView::GetActiveWeapon() const
 	switch (GetCamType()) {
 		case CAM_REAR: return 1;
 		case CAM_EXTERNAL:
-		case CAM_FRONT: return 0;
+		case CAM_FRONT:
+		default: return 0;
 	}
 }
 

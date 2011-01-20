@@ -8,7 +8,7 @@ namespace Gui {
 Container::Container()
 {
 	m_transparent = true;
-	SetBgColor(Color::bg);
+	SetBgColor(Theme::Colors::bg);
 	onMouseLeave.connect(sigc::mem_fun(this, &Container::_OnMouseLeave));
 	onSetSize.connect(sigc::mem_fun(this, &Container::_OnSetSize));
 }

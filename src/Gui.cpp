@@ -16,11 +16,6 @@ namespace RawEvents {
 	sigc::signal<void, SDL_JoyHatEvent *> onJoyHatMotion;
 }
 
-namespace Color {
-	const float bg[] = { .25f,.37f,.63f };
-	const float bgShadow[] = { .08f,.12f,.21f };
-	const float tableHeading[] = { .7f,.7f,1.0f };
-}
 
 void HandleSDLEvent(SDL_Event *event)
 {
@@ -124,6 +119,11 @@ void MainLoopIteration()
 }
 
 namespace Theme {
+	namespace Colors {
+		const float bg[] = { .25f,.37f,.63f };
+		const float bgShadow[] = { .08f,.12f,.21f };
+		const float tableHeading[] = { .7f,.7f,1.0f };
+	}
 	static const float BORDER_WIDTH = 2.0;
 
 	void DrawRoundEdgedRect(const float size[2], float rad)
@@ -191,11 +191,11 @@ namespace Theme {
 			4,5,6,7 };
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
-		glColor3fv(Color::bgShadow);
+		glColor3fv(Colors::bgShadow);
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
 		glColor3f(.6f,.6f,.6f);
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-		glColor3fv(Color::bg);
+		glColor3fv(Colors::bg);
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
@@ -218,9 +218,9 @@ namespace Theme {
 		glVertexPointer(2, GL_FLOAT, 0, vertices);
 		glColor3f(.6f,.6f,.6f);
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-		glColor3fv(Color::bgShadow);
+		glColor3fv(Colors::bgShadow);
 		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-		glColor3fv(Color::bg);
+		glColor3fv(Colors::bg);
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}

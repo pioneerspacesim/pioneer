@@ -73,7 +73,7 @@ void CommodityTradeWidget::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	Add((new Gui::Label("Item"))->Color(col), 0, 0);
 	Add((new Gui::Label("Price"))->Color(col), 200, 0);
 	Add((new Gui::Label("Buy"))->Color(col), 380, 0);

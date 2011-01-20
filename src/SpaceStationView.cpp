@@ -259,7 +259,7 @@ void StationShipUpgradesView::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	fbox->Add((new Gui::Label("Item"))->Color(col), 0, 0);
 	fbox->Add((new Gui::Label("$ to fit"))->Color(col), 200, 0);
 	fbox->Add((new Gui::Label("$ for removal"))->Color(col), 275, 0);
@@ -554,7 +554,7 @@ void StationShipRepairsView::ShowAll()
 		fbox->Add(b, 430, ypos);
 	}
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	fbox->Add((new Gui::Label("Item"))->Color(col), 0, 0);
 	fbox->Add((new Gui::Label("Price"))->Color(col), 350, 0);
 	fbox->Add((new Gui::Label("Repair"))->Color(col), 430, 0);
@@ -632,7 +632,7 @@ void StationBuyShipsView::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	fbox->Add((new Gui::Label("Ship"))->Color(col), 0, 0);
 	fbox->Add((new Gui::Label("Price"))->Color(col), 200, 0);
 	fbox->Add((new Gui::Label("Part exchange"))->Color(col), 275, 0);
