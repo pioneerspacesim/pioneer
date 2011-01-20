@@ -23,6 +23,7 @@ private:
 	void MouseButtonDown(int button, int x, int y);
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
+	Gui::Label *m_scaleReadout;
 	float m_zoom;
 	GLuint m_texture;
 	sigc::connection m_onMouseButtonDown;

@@ -82,6 +82,32 @@ WorldView::WorldView(): View()
 	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 
+	m_debugInfo = new Gui::Label("");
+	m_hudVelocity = new Gui::Label("");
+	m_hudSetSpeed = new Gui::Label("");
+	m_hudAltitude = new Gui::Label("");
+	m_hudPressure = new Gui::Label("");
+	m_hudNavTarget = new Gui::Label("");
+	m_hudCombatTarget = new Gui::Label("");
+	m_hudHyperspaceInfo = new Gui::Label("");
+	Add(m_debugInfo, 0.0f, 32.0f);
+	Add(m_hudVelocity, 2.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
+	Add(m_hudSetSpeed, 400.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudAltitude, 600.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudPressure, 600.0f, Gui::Screen::GetHeight()-2.0f*Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudNavTarget, 0.0f, Gui::Screen::GetHeight()-2.5f*Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudCombatTarget, 0.0f, Gui::Screen::GetHeight()-4.0f*Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
+
+	m_hudHullTemp = new Gui::MeterBar(100.0f, "Hull temp", Color(1.0f,0.0f,0.0f,0.8f));
+	m_hudWeaponTemp = new Gui::MeterBar(100.0f, "Weapon temp", Color(1.0f,0.5f,0.0f,0.8f));
+	m_hudHullIntegrity = new Gui::MeterBar(100.0f, "Hull integrity", Color(1.0f,1.0f,0.0f,0.8f));
+	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, "Shield integrity", Color(1.0f,1.0f,0.0f,0.8f));
+	Add(m_hudHullTemp, 5.0f, 5.0f);
+	Add(m_hudWeaponTemp, 5.0f, 40.0f);
+	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
+	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 40.0f);
+
 	m_onPlayerChangeHyperspaceTargetCon =
 		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	m_onPlayerChangeTargetCon =
@@ -530,9 +556,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 }
 
+#define HUD_CROSSHAIR_SIZE	24.0f
+
 void WorldView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
+	// Direction indicator
+	const float sz = HUD_CROSSHAIR_SIZE;
+	vector3d vel;
+	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
+	if (velRelTo) {
+		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+	} else {
+		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+		// XXX ^ not the same as GetVelocity(), because it considers
+		// the stasis velocity of a rotating frame
+	}
 
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
@@ -571,6 +610,154 @@ void WorldView::Update()
 		m_commsOptions->ShowAll();
 	} else {
 		m_commsOptions->Hide();
+	}
+	if (Pi::showDebugInfo) {
+		char buf[1024];
+		vector3d pos = Pi::player->GetPosition();
+		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
+		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
+		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
+			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
+			"Rel-to: %s (%.0f km)",
+			pos.x, pos.y, pos.z,
+			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
+			rel_to, pos.Length()/1000);
+		m_debugInfo->SetText(buf);
+		m_debugInfo->Show();
+	} else {
+		m_debugInfo->Hide();
+	}
+
+	{
+		double _vel = vel.Length();
+		char buf[128];
+		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : Pi::player->GetFrame()->GetLabel());
+		if (_vel > 1000) {
+			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s relative to %s", _vel*0.001, rel_to);
+		} else {
+			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s relative to %s", _vel, rel_to);
+		}
+		m_hudVelocity->SetText(buf);
+	}
+
+	if (Pi::player->GetFlightControlState() == Player::CONTROL_FIXSPEED) {
+		char buf[128];
+		if (Pi::player->GetSetSpeed() > 1000) {
+			snprintf(buf,sizeof(buf), "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
+		} else {
+			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
+		}
+		m_hudSetSpeed->SetText(buf);
+	}
+
+	// altitude
+	if (Pi::player->GetFrame()->m_astroBody) {
+		Body *astro = Pi::player->GetFrame()->m_astroBody;
+		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
+		double radius;
+		vector3d surface_pos = Pi::player->GetPosition().Normalized();
+		if (astro->IsType(Object::PLANET)) {
+			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+		} else {
+			// XXX this is an improper use of GetBoundingRadius
+			// since it is not a surface radius
+			radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+		}
+		double altitude = Pi::player->GetPosition().Length() - radius;
+		if (altitude < 0) altitude = 0;
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
+
+		m_hudAltitude->SetText(buf);
+
+		if (astro->IsType(Object::PLANET)) {
+			double dist = Pi::player->GetPosition().Length();
+			float pressure, density;
+			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
+			char buf[128];
+			snprintf(buf, sizeof(buf), "Pressure: %.2f atmos", pressure);
+
+			m_hudPressure->SetText(buf);
+			m_hudPressure->Show();
+
+			m_hudHullTemp->SetValue(Pi::player->GetHullTemperature());
+			m_hudHullTemp->Show();
+		} else {
+			m_hudPressure->Hide();
+			m_hudHullTemp->Hide();
+		}
+	} else {
+		m_hudHullTemp->Hide();
+	}
+
+	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
+	if (activeWeaponTemp != 0) {
+		m_hudWeaponTemp->SetValue(activeWeaponTemp);
+		m_hudWeaponTemp->Show();
+	} else {
+		m_hudWeaponTemp->Hide();
+	}
+
+	float hull = Pi::player->GetPercentHull();
+	if (hull < 100.0f) {
+		Color c;
+		if (hull < 50.0f)
+			c = Color(1,0,0,HUD_ALPHA);
+		else if (hull < 75.0f)
+			c = Color(1,0.5,0,HUD_ALPHA);
+		else
+			c = Color(1,1,0,HUD_ALPHA);
+
+		m_hudHullIntegrity->SetColor(c);
+		m_hudHullIntegrity->SetValue(hull);
+		m_hudHullIntegrity->Show();
+	} else {
+		m_hudHullIntegrity->Hide();
+	}
+	float shields = Pi::player->GetPercentShields();
+	if (shields < 100.0f) {
+		Color c;
+		if (shields < 50.0f)
+			c = Color(1,0,0,HUD_ALPHA);
+		else if (shields < 75.0f)
+			c = Color(1,0.5,0,HUD_ALPHA);
+		else
+			c = Color(1,1,0,HUD_ALPHA);
+
+		m_hudShieldIntegrity->SetColor(c);
+		m_hudShieldIntegrity->SetValue(shields*0.01f);
+		m_hudShieldIntegrity->Show();
+	} else {
+		m_hudShieldIntegrity->Hide();
+	}
+
+	if (Pi::player->GetNavTarget()) {
+		Body *target = Pi::player->GetNavTarget();
+		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Navigation distance: %s (%s)", target->GetLabel().c_str(), format_distance(pos.Length()).c_str());
+		m_hudNavTarget->SetText(buf);
+	}
+	if (Pi::player->GetCombatTarget()) {
+		Body *target = Pi::player->GetCombatTarget();
+		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Combat target: %s (%s)", target->GetLabel().c_str(), format_distance(pos.Length()).c_str());
+		m_hudCombatTarget->SetText(buf);
+	}
+	if (Pi::player->GetHyperspaceCountdown() != 0) {
+		float val = Pi::player->GetHyperspaceCountdown();
+
+		if (!((int)ceil(val*2.0) % 2)) {
+			char buf[128];
+			snprintf(buf, sizeof(buf), "Hyperspacing in %.0f seconds", ceil(val));
+			m_hudHyperspaceInfo->SetText(buf);
+			m_hudHyperspaceInfo->Show();
+		} else {
+			m_hudHyperspaceInfo->Hide();
+		}
+	} else {
+		m_hudHyperspaceInfo->Hide();
 	}
 }
 
@@ -814,29 +1001,6 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-static void draw_hud_graph_readout(float width, const char *label, const Color &graphCol, float graphPercent)
-{
-	const float PADDING = 5.0f;
-	const float BAR_HEIGHT = 8.0f;
-
-	float sz[2] = { width, PADDING*2.0 + BAR_HEIGHT + Gui::Screen::GetFontHeight() };
-
-	glColor4f(1.0f,1.0f,1.0f,.125f);
-	Gui::Theme::DrawRoundEdgedRect(sz, 5.0);
-
-	glColor4fv(graphCol);
-	glTranslatef(PADDING, PADDING, 0.0f);
-	sz[0] = 0.01f * graphPercent * (width - 2.0f*PADDING);
-	sz[1] = BAR_HEIGHT;
-	Gui::Theme::DrawRoundEdgedRect(sz, 3.0);
-	glTranslatef(0, BAR_HEIGHT, 0.0f);
-	glColor3f(1.0,1.0,1.0);
-	Gui::Screen::RenderString(label);
-}
-
-
-#define HUD_CROSSHAIR_SIZE	24.0f
-
 void WorldView::DrawHUD(const Frame *cam_frame)
 {
 	GLdouble modelMatrix[16];
@@ -945,173 +1109,6 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 
 	DrawTargetSquares();
 
-	if (Pi::showDebugInfo) {
-		char buf[1024];
-		vector3d pos = Pi::player->GetPosition();
-		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
-		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
-		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
-			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km)",
-			pos.x, pos.y, pos.z,
-			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000);
-
-		glPushMatrix();
-		glTranslatef(2, Gui::Screen::GetFontHeight(), 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-	}
-
-	{
-		double _vel = vel.Length();
-		char buf[128];
-		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : Pi::player->GetFrame()->GetLabel());
-		if (_vel > 1000) {
-			snprintf(buf,sizeof(buf), "Velocity: %.2f km/s relative to %s", _vel*0.001, rel_to);
-		} else {
-			snprintf(buf,sizeof(buf), "Velocity: %.0f m/s relative to %s", _vel, rel_to);
-		}
-		glPushMatrix();
-		glTranslatef(2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-	}
-
-	if (Pi::player->GetFlightControlState() == Player::CONTROL_FIXSPEED) {
-		char buf[128];
-		if (Pi::player->GetSetSpeed() > 1000) {
-			snprintf(buf,sizeof(buf), "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
-		} else {
-			snprintf(buf,sizeof(buf), "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
-		}
-		glPushMatrix();
-		glTranslatef(400, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-	}
-
-	// altitude
-	if (Pi::player->GetFrame()->m_astroBody) {
-		Body *astro = Pi::player->GetFrame()->m_astroBody;
-		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
-		double radius;
-		vector3d surface_pos = Pi::player->GetPosition().Normalized();
-		if (astro->IsType(Object::PLANET)) {
-			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
-		} else {
-			// XXX this is an improper use of GetBoundingRadius
-			// since it is not a surface radius
-			radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
-		}
-		double altitude = Pi::player->GetPosition().Length() - radius;
-		if (altitude < 0) altitude = 0;
-		char buf[128];
-		snprintf(buf, sizeof(buf), "Altitude: %.0f m", altitude);
-		glPushMatrix();
-		glTranslatef(600, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66, 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-
-		if (astro->IsType(Object::PLANET)) {
-			double dist = Pi::player->GetPosition().Length();
-			float pressure, density;
-			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
-			char buf[128];
-			snprintf(buf, sizeof(buf), "Pressure: %.2f atmos", pressure);
-			glPushMatrix();
-			glTranslatef(600, Gui::Screen::GetHeight()-2.0*Gui::Screen::GetFontHeight()-66, 0);
-			Gui::Screen::RenderString(buf);
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslatef(5.0f, 5.0f, 0.0f);
-			glEnable(GL_BLEND);
-			draw_hud_graph_readout(100.0f, "Hull temp", Color(1.0f,0.0f,0.0f,0.8f), 100.0f*Pi::player->GetHullTemperature());
-			glDisable(GL_BLEND);
-			glPopMatrix();
-		}
-	}
-
-	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
-	if (activeWeaponTemp != 0) {
-		glPushMatrix();
-		glTranslatef(5.0f, 40.0f, 0.0f);
-		glEnable(GL_BLEND);
-		draw_hud_graph_readout(100.0f, "Weapon temp", Color(1.0f,0.5f,0.0f,0.8f), 100.0f*activeWeaponTemp);
-		glDisable(GL_BLEND);
-		glPopMatrix();
-	}
-
-	float hull = Pi::player->GetPercentHull();
-	if (hull < 100.0f) {
-		Color c;
-		if (hull < 50.0f)
-			c = Color(1,0,0,HUD_ALPHA);
-		else if (hull < 75.0f)
-			c = Color(1,0.5,0,HUD_ALPHA);
-		else
-			c = Color(1,1,0,HUD_ALPHA);
-
-		glPushMatrix();
-		glTranslatef(Gui::Screen::GetWidth() - 105.0f, 5.0f, 0.0f);
-		glEnable(GL_BLEND);
-		draw_hud_graph_readout(100.0f, "Hull integrity", c, hull);
-		glDisable(GL_BLEND);
-		glPopMatrix();
-	}
-	float shields = Pi::player->GetPercentShields();
-	if (shields < 100.0f) {
-		Color c;
-		if (shields < 50.0f)
-			c = Color(1,0,0,HUD_ALPHA);
-		else if (shields < 75.0f)
-			c = Color(1,0.5,0,HUD_ALPHA);
-		else
-			c = Color(1,1,0,HUD_ALPHA);
-		glPushMatrix();
-			glTranslatef(Gui::Screen::GetWidth() - 105.0f, 40.0f, 0.0f);
-			glEnable(GL_BLEND);
-			draw_hud_graph_readout(100.0f, "Shield integrity", c, shields);
-			glDisable(GL_BLEND);
-		glPopMatrix();
-	}
-
-	if (Pi::player->GetNavTarget()) {
-		Body *target = Pi::player->GetNavTarget();
-		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
-		char buf[128];
-		snprintf(buf, sizeof(buf), "Navigation distance: %s (%s)", target->GetLabel().c_str(), format_distance(pos.Length()).c_str());
-		glPushMatrix();
-		glColor4f(0,1,0,HUD_ALPHA);
-		glTranslatef(0, Gui::Screen::GetHeight()-2.5*Gui::Screen::GetFontHeight()-66, 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-	}
-	if (Pi::player->GetCombatTarget()) {
-		Body *target = Pi::player->GetCombatTarget();
-		vector3d pos = target->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
-		char buf[128];
-		snprintf(buf, sizeof(buf), "Combat target: %s (%s)", target->GetLabel().c_str(), format_distance(pos.Length()).c_str());
-		glPushMatrix();
-		glColor4f(1,0,0,HUD_ALPHA);
-		glTranslatef(0, Gui::Screen::GetHeight()-4.0*Gui::Screen::GetFontHeight()-66, 0);
-		Gui::Screen::RenderString(buf);
-		glPopMatrix();
-	}
-	if (Pi::player->GetHyperspaceCountdown() != 0) {
-		float val = Pi::player->GetHyperspaceCountdown();
-
-		if (!((int)ceil(val*2.0) % 2)) {
-			char buf[128];
-			snprintf(buf, sizeof(buf), "Hyperspacing in %.0f seconds", ceil(val));
-			glPushMatrix();
-			glColor4f(1,1,0,HUD_ALPHA);
-			glTranslatef(Gui::Screen::GetWidth()*0.4, Gui::Screen::GetHeight()*0.3, 0);
-			Gui::Screen::RenderString(buf);
-			glPopMatrix();
-		}
-	}
 	glDisable(GL_BLEND);
 
 	Gui::Screen::LeaveOrtho();
