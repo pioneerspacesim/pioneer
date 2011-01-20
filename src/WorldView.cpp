@@ -110,6 +110,10 @@ WorldView::WorldView(): View()
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 40.0f);
 
+	m_bodyLabels = new Gui::LabelSet();
+	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
+	Add(m_bodyLabels, 0, 0);
+
 	m_onPlayerChangeHyperspaceTargetCon =
 		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
 	m_onPlayerChangeTargetCon =
@@ -733,6 +737,13 @@ void WorldView::Update()
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
 
+	if (Pi::MouseButtonState(3)) {
+		// when controlling your ship with the mouse you don't want to pick targets
+		m_bodyLabels->SetLabelsClickable(false);
+	} else {
+		m_bodyLabels->SetLabelsClickable(true);
+	}
+
 	if (Pi::player->IsDead()) {
 		m_camType = CAM_EXTERNAL;
 		m_externalViewRotX += 60*frameTime;
@@ -957,19 +968,6 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 	}
 }
 
-bool WorldView::OnMouseDown(Gui::MouseButtonEvent *e)
-{
-	// if continuing to propagate mouse event, see if target is clicked on
-	if (Container::OnMouseDown(e)) {
-		if(1 == e->button && !Pi::MouseButtonState(3)) {
-			// Left click in view when RMB not pressed => Select target.
-			Body* const target = PickBody(e->screenX, e->screenY);
-			SelectBody(target, true);
-		}
-	}
-	return true;
-}
-
 Body* WorldView::PickBody(const float screenX, const float screenY) const
 {
 	Body *selected = 0;
@@ -1084,8 +1082,9 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 
-	// Object labels
+	// Update object onscreen positions
 	{
+		m_bodyLabels->Clear();
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
 			Body *b = *i;
@@ -1095,13 +1094,7 @@ void WorldView::DrawHUD(const Frame *cam_frame)
 				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
 				b->SetProjectedPos(_pos);
 				b->SetOnscreen(true);
-				if (GetShowLabels()) {
-					if ((*i)->GetFlags() & Body::FLAG_LABEL_HIDDEN) {
-						Gui::Screen::RenderLabel("", _pos.x, _pos.y);
-					} else {
-						Gui::Screen::RenderLabel(b->GetLabel(), _pos.x, _pos.y);
-					}
-				}
+				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), _pos.x, _pos.y);
 			}
 			else
 				b->SetOnscreen(false);

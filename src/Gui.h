@@ -64,6 +64,7 @@ namespace Gui {
 #include "GuiTabbed.h"
 #include "GuiTextEntry.h"
 #include "GuiMeterBar.h"
+#include "GuiLabelSet.h"
 #include "GuiScreen.h"
 
 #endif /* _GUI_H */

@@ -13,7 +13,6 @@ float Screen::invRealWidth;
 float Screen::invRealHeight;
 float Screen::fontScale[2];
 std::list<Widget*> Screen::kbshortcut_widgets;
-std::vector<Screen::LabelPos> Screen::labelPositions;
 Gui::Fixed *Screen::baseContainer;
 Gui::Widget *Screen::focusedWidget;
 
@@ -117,7 +116,6 @@ void Screen::LeaveOrtho()
 void Screen::Draw()
 {
 	assert(Screen::initted);
-	labelPositions.clear();
 	EnterOrtho();
 	baseContainer->Draw();
 	LeaveOrtho();
@@ -166,26 +164,12 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 	ev.isdown = (e->type == SDL_MOUSEBUTTONDOWN);
 	ev.screenX = ev.x = x;
 	ev.screenY = ev.y = y;
-	OnClickTestLabels(ev);
 	if (ev.isdown) {
 		baseContainer->OnMouseDown(&ev);
 		RawEvents::onMouseDown.emit(&ev);
 	} else {
 		baseContainer->OnMouseUp(&ev);
 		RawEvents::onMouseUp.emit(&ev);
-	}
-}
-
-void Screen::OnClickTestLabels(const Gui::MouseButtonEvent &ev)
-{
-	// hm. it is a pity the UI is fixed size for these purposes...
-	for (std::vector<LabelPos>::iterator l = labelPositions.begin(); l != labelPositions.end(); ++l) {
-		float dx = abs((*l).x - ev.x);
-		float dy = abs((*l).y - ev.y);
-
-		if ((dx < 5) && (dy < 5)) {
-			(*l).onClick.emit(&ev);
-		}
 	}
 }
 
@@ -215,13 +199,13 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 	h *= fontScale[1];
 }
 
-void Screen::RenderString(const std::string &s)
+void Screen::RenderString(const std::string &s, float xoff, float yoff)
 {
 	GLdouble modelMatrix[16];
 	glPushMatrix();
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12];
-	float y = modelMatrix[13];
+	float x = modelMatrix[12] + xoff;
+	float y = modelMatrix[13] + yoff;
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
@@ -243,45 +227,6 @@ void Screen::RenderMarkup(const std::string &s)
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
 	font->RenderMarkup(s.c_str(), 0, 0);
 	glPopMatrix();
-}
-
-bool Screen::CanPutLabel(float x, float y)
-{
-	for (std::vector<LabelPos>::iterator i = labelPositions.begin(); i != labelPositions.end(); ++i) {
-		if ((fabs(x-(*i).x) < 5) &&
-		    (fabs(y-(*i).y) < 5)) return false;
-	}
-	return true;
-}
-
-void Screen::RenderLabel(const std::string &s, float x, float y)
-{
-	if (CanPutLabel(x, y)) {
-		labelPositions.push_back(LabelPos(x,y));
-		glPushMatrix();
-		// want text to be drawn at integer pixel positions in real
-		// screen resolution, hence this dog-masturbation
-		glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-				floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		font->RenderString(s.c_str(), floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()));
-		glPopMatrix();
-	}
-}
-
-void Screen::PutClickableLabel(const std::string &s, float x, float y, sigc::slot<void, const Gui::MouseButtonEvent*> slot)
-{
-	if (CanPutLabel(x, y)) {
-		LabelPos p = LabelPos(x,y);
-		p.onClick.connect(slot);
-		labelPositions.push_back(p);
-		glPushMatrix();
-		glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
-				floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
-		glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-		font->RenderString(s.c_str(), floor(0.5f*font->GetWidth()), floor(-0.5f*font->GetHeight()));
-		glPopMatrix();
-	}
 }
 
 void Screen::AddShortcutWidget(Widget *w)

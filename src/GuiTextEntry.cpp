@@ -102,9 +102,7 @@ void TextEntry::Draw()
 
 
 	SetClipping(size[0], size[1]);
-	glPushMatrix();
-	glTranslatef(1.0f - m_scroll, 1.0f, 0.0f);
-	Gui::Screen::RenderString(m_text);
+	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f);
 
 	/* Cursor */
 	glColor3f(0.5,0.5,0.5);
@@ -112,8 +110,6 @@ void TextEntry::Draw()
 		glVertex2f(curs_x, 0);
 		glVertex2f(curs_x, size[1]);
 	glEnd();
-	
-	glPopMatrix();
 	
 	EndClipping();
 }

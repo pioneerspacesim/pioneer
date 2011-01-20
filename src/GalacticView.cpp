@@ -38,6 +38,9 @@ GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
 	m_scaleReadout = new Gui::Label("");
 	Add(m_scaleReadout, 500.0f, 10.0f);
 
+	m_labels = new Gui::LabelSet();
+	Add(m_labels, 0, 0);
+
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
 }
@@ -73,6 +76,8 @@ struct galaclabel_t {
 	{ 0 }
 };
 
+static void dummy() {}
+
 void GalacticView::PutLabels(vector3d offset)
 {
 	GLdouble modelMatrix[16];
@@ -91,7 +96,7 @@ void GalacticView::PutLabels(vector3d offset)
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
 		if (Gui::Screen::Project (p.x, p.y, p.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			Gui::Screen::RenderLabel(s_labels[i].label, (float)pos.x, (float)pos.y);
+			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), (float)pos.x, (float)pos.y);
 		}
 		i++;
 	}
@@ -158,6 +163,7 @@ void GalacticView::Draw3D()
 		glVertex2f(0.25,-0.93);
 	glEnd();
 
+	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
 
 	glEnable(GL_LIGHTING);

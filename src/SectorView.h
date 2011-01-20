@@ -24,7 +24,7 @@ public:
 private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
-	void OnClickSystem(const Gui::MouseButtonEvent *e, int sx, int sy, int sys_idx);
+	void OnClickSystem(int sx, int sy, int sys_idx);
 	void MouseButtonDown(int button, int x, int y);
 
 	float m_zoom;
@@ -44,6 +44,7 @@ private:
 	Gui::Label *m_distance;
 	Gui::Label *m_starType;
 	Gui::Label *m_shortDesc;
+	Gui::LabelSet *m_clickableLabels;
 	sigc::connection m_onMouseButtonDown;
 };
 

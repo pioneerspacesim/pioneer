@@ -19,6 +19,10 @@ SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
 	m_selected = -1;
 	m_zoom = 1.2;
 
+	m_clickableLabels = new Gui::LabelSet();
+	m_clickableLabels->SetLabelColor(Color(.7f,.7f,.7f,1.0f));
+	Add(m_clickableLabels, 0, 0);
+
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
@@ -104,6 +108,8 @@ static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 
 void SectorView::Draw3D()
 {
+	m_clickableLabels->Clear();
+
 	GenericSystemView::Draw3D();
 
 	glMatrixMode(GL_PROJECTION);
@@ -152,7 +158,7 @@ void SectorView::GotoSystem(int sector_x, int sector_y, int system_idx)
 	m_pyMovingTo = sector_y + p.y/Sector::SIZE;
 }
 
-void SectorView::OnClickSystem(const Gui::MouseButtonEvent *e, int sx, int sy, int sys_idx)
+void SectorView::OnClickSystem(int sx, int sy, int sys_idx)
 {
 	GotoSystem(sx, sy, sys_idx);
 }
@@ -171,10 +177,9 @@ void SectorView::PutClickableLabel(std::string &text, int sx, int sy, int sys_id
 	Gui::Screen::EnterOrtho();
 	vector3d _pos;
 	if (Gui::Screen::Project (0,0,0, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-		Gui::Screen::PutClickableLabel(text, _pos.x, _pos.y, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx));
+		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), _pos.x, _pos.y);
 	}
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);
 }
 
 void SectorView::DrawSector(int sx, int sy)
@@ -237,6 +242,7 @@ void SectorView::DrawSector(int sx, int sy)
 		glPopMatrix();
 		glColor3f(.7,.7,.7);
 		PutClickableLabel((*i).name, sx, sy, num);
+		glDisable(GL_LIGHTING);
 
 		glPopMatrix();
 		num++;

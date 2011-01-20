@@ -116,8 +116,7 @@ static void draw_progress(float progress)
 	std::string msg = stringf(256, "Simulating evolution of the universe: %.1f billion years ;-)", progress * 15.0f);
 	Gui::Screen::MeasureString(msg, w, h);
 	glColor3f(1.0f,1.0f,1.0f);
-	glTranslatef(0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h),0.0f);
-	Gui::Screen::RenderString(msg);
+	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
 	Gui::Screen::LeaveOrtho();
 	Render::SwapBuffers();
 }
@@ -915,7 +914,7 @@ void Pi::MainLoop()
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
-			Gui::Screen::RenderString(fps_readout);
+			Gui::Screen::RenderString(fps_readout, 0, 0);
 			Gui::Screen::LeaveOrtho();
 		}
 //#endif /* DEBUG */

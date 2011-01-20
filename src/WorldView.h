@@ -10,6 +10,7 @@
 class Body;
 class Frame;
 struct SBodyPath;
+class LabelSet;
 
 class WorldView: public View {
 public:
@@ -54,7 +55,6 @@ private:
 	void OnChangeHyperspaceTarget();
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeFlightControlState();
-	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const float screenX, const float screenY) const;
 	void MouseButtonDown(int button, int x, int y);
@@ -81,6 +81,8 @@ private:
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseButtonDown;
+
+	Gui::LabelSet *m_bodyLabels;
 };
 
 #endif /* _WORLDVIEW_H */
