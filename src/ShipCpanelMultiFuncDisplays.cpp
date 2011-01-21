@@ -128,6 +128,8 @@ void ScannerWidget::Draw()
 	glDisable(GL_BLEND);
 	DrawBlobs(false);
 	Widget::EndClipping();
+	glLineWidth(1.0f);
+	glPointSize(1.0f);
 }
 
 void ScannerWidget::DrawBlobs(bool below)
