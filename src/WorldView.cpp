@@ -734,6 +734,8 @@ void WorldView::Update()
 		m_bodyLabels->SetLabelsClickable(true);
 	}
 
+	m_bodyLabels->SetLabelsVisible(m_labelsOn);
+
 	if (Pi::player->IsDead()) {
 		m_camType = CAM_EXTERNAL;
 		m_externalViewRotX += 60*frameTime;
