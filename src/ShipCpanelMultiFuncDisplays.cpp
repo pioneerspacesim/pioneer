@@ -405,17 +405,13 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 	m_buttons[0]->SetShortcut(SDLK_F9, KMOD_NONE);
 	m_buttons[0]->SetSelected(true);
 
-	m_buttons[1] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_autopilot.png", PIONEER_DATA_DIR "/icons/multifunc_autopilot_on.png");
-	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_AUTOPILOT));
+	m_buttons[1] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_equip.png", PIONEER_DATA_DIR "/icons/multifunc_equip_on.png");
+	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
 
-	m_buttons[2] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_equip.png", PIONEER_DATA_DIR "/icons/multifunc_equip_on.png");
-	m_buttons[2]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
+	m_buttons[2] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_msglog.png", PIONEER_DATA_DIR "/icons/multifunc_msglog_on.png");
+	m_buttons[2]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_MSGLOG));
 	m_buttons[2]->SetShortcut(SDLK_F11, KMOD_NONE);
-
-	m_buttons[3] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_msglog.png", PIONEER_DATA_DIR "/icons/multifunc_msglog_on.png");
-	m_buttons[3]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_MSGLOG));
-	m_buttons[3]->SetShortcut(SDLK_F12, KMOD_NONE);
 
 	UpdateButtons();
 
@@ -432,9 +428,7 @@ void MultiFuncSelectorWidget::UpdateButtons()
 	RemoveAllChildren();
 
 	for (int i=0; i<MFUNC_MAX; i++) {
-		// disable equip one
-		if (i == MFUNC_AUTOPILOT) continue;
-		Add(m_buttons[i], i*36.0, 0.0);
+		Add(m_buttons[i], 36.0f+36.0f*(float)i, 0.0);
 	}
 }
 
