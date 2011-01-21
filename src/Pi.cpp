@@ -612,6 +612,7 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::MISSILE_SMART);
 	player->m_equipment.Add(Equip::MISSILE_NAVAL);
 	player->m_equipment.Add(Equip::AUTOPILOT);
+	player->m_equipment.Add(Equip::SCANNER);
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	
