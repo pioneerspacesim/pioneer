@@ -122,7 +122,7 @@ void Player::TimeStepUpdate(const float timeStep)
 	}
 
 	DynamicBody::TimeStepUpdate(timeStep);
-*/	
+*/
 	Ship::TimeStepUpdate(timeStep);
 }
 
@@ -134,7 +134,7 @@ void Player::StaticUpdate(const float timeStep)
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
-			if (Pi::GetView() == Pi::worldView) PollControls();
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
 			v = vector3d(0, 0, -m_setSpeed);
 			if (b) {
@@ -145,7 +145,7 @@ void Player::StaticUpdate(const float timeStep)
 			AIAccelToModelRelativeVelocity(v);
 			break;
 		case CONTROL_MANUAL:
-			if (Pi::GetView() == Pi::worldView) PollControls();
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
 		case CONTROL_AUTOPILOT:
 			break;
@@ -186,7 +186,7 @@ void Player::StaticUpdate(const float timeStep)
 #define MOUSE_CTRL_AREA		10.0f
 #define MOUSE_RESTITUTION	0.75f
 
-void Player::PollControls()
+void Player::PollControls(const float timeStep)
 {
 	int mouseMotion[2];
 	double time_accel = Pi::GetTimeAccel();
@@ -197,6 +197,19 @@ void Player::PollControls()
 	    (GetFlightState() != FLYING)) {
 		return;
 	}
+
+	// TEST: Test code for AI functions
+	static int facedir = 0;
+	if (KeyBindings::thrustUp.IsActive() && !facedir) {
+		AIInstruct(Ship::DO_KILL, GetCombatTarget());
+		facedir = 1;
+	}
+ 	if (KeyBindings::thrustDown.IsActive() && facedir) {
+		AIClearInstructions();
+		facedir = 0;
+	}
+	if (facedir) { AITimeStep(timeStep); return; }
+
 
 	// if flying 
 	{

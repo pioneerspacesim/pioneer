@@ -782,12 +782,14 @@ void Pi::Start()
 		path.sbodyId = 6;
 		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
+		player->SetVelocity(vector3d(0,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
 		player->m_equipment.Add(Equip::SCANNER);
 
 		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 		enemy->SetFrame(player->GetFrame());
-		enemy->SetPosition(player->GetPosition()+vector3d(0,0,5000.0));
+		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
+		enemy->SetVelocity(vector3d(0,0,0));
 		enemy->m_equipment.Add(Equip::PULSECANNON_1MW);
 		enemy->AIInstruct(Ship::DO_KILL, player);
 		Space::AddBody(enemy);

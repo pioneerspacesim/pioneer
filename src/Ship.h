@@ -90,7 +90,10 @@ public:
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
-	
+
+	// TEST
+	void AIFaceTargetLead(const Ship *enemy);
+
 	EquipSet m_equipment;
 
 	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK, DO_FOLLOW_PATH, DO_JOURNEY };
@@ -128,10 +131,12 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
+	// TEST
+	void AITimeStep(const float timeStep);
 private:
 	float GetECMRechargeTime();
 	void FireWeapon(int num);
-	void AITimeStep(const float timeStep);
 	void Init();
 	bool IsFiringLasers();
 	void TestLanded();
@@ -147,6 +152,12 @@ private:
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;
+
+	// speed/code-size temporaries for AI code
+	static matrix4x4d g_orient;
+	static double g_maxAccel;
+	static double g_invFrameAccel;
+	static double g_frameAccel;
 
 	struct HyperspacingOut {
 		int followHypercloudId;

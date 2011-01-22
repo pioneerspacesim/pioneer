@@ -12,7 +12,7 @@ public:
 	Player(ShipType::Type shipType);
 	Player() {}
 	virtual ~Player();
-	void PollControls();
+	void PollControls(const float timeStep);
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SetDockedWith(SpaceStation *, int port);
 	void StaticUpdate(const float timeStep);

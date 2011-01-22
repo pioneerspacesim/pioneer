@@ -79,7 +79,7 @@ public:
 		onChange.emit();
 	}
 	bool Add(Equip::Type e, int num) {
-		Equip::Slot s = EquipType::types[e].slot;
+		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (numDone == num) break;
@@ -96,7 +96,7 @@ public:
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
-		Equip::Slot s = EquipType::types[e].slot;
+		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (num == 0) break;
