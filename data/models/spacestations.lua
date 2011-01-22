@@ -1,4 +1,4 @@
-
+		
 -- NOTE
 -- info->ship_dock_anim function's last docking anim ship location will be
 -- used to place the ship when docked.
@@ -277,27 +277,9 @@ function simple_lift_docking_port(baynum, pos)
 	--use_material('body')
 	zbias(1, pos+v(0,baypos,0), v(0,1,0))
 	use_material('text')
+	       text(0, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 2.0, {center=true})
+       zbias(0)
 	text(baynum+1, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 20.0, {center=true})
-	text(1, pos+v(1,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(2, pos+v(2,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(3, pos+v(3,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(4, pos+v(4,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(5, pos+v(5,baypos,0), v(0,1,0), v(1,0,0), 3.0, {center=true})
-	text(6, pos+v(6,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(7, pos+v(7,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(8, pos+v(8,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(9, pos+v(9,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(10, pos+v(10,baypos,0), v(0,1,0), v(1,0,0), 3.0, {center=true})
-	text(11, pos+v(11,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(12, pos+v(12,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(13, pos+v(13,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(14, pos+v(14,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(15, pos+v(15,baypos,0), v(0,1,0), v(1,0,0), 3.0, {center=true})
-	text(16, pos+v(16,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(17, pos+v(17,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(18, pos+v(18,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(19, pos+v(19,baypos,0), v(0,1,0), v(1,0,0), 1.0, {center=true})
-	text(20, pos+v(20,baypos,0), v(0,1,0), v(1,0,0), 3.0, {center=true})
 	zbias(0)
 
 	use_material('inside')
@@ -364,7 +346,12 @@ define_model('mushroom_station', {
 		use_material('tower_base')
 		tapered_cylinder(16, v(0,0,-350), v(0,120,-350), v(0,0,1), 200, 60)
 		use_material('body')
+		--if lod>2 then
+		--texture('ships/4_eagles/tex11.png', v(.5,.5,0), v(10,0,0), v(0,.5,0))
+		--else 	texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
+		--end
 		cylinder(8, v(0,120,-350), v(0,210,-350), v(0,0,1), 20)
+		--texture(nil)
 		tapered_cylinder(8, v(0,210,-350), v(0,225,-350), v(0,0,1), 20, 30)
 		local port_pos = { v(-100,100,0), v(100,100,0) }
 		function makePortTop(pos)
@@ -425,7 +412,7 @@ define_model('mushroom_station', {
 define_model('big_crappy_spacestation', {
 	info = {
 		bounding_radius=500.0,
-		materials = {'body0'},
+		materials = {'text', 'body0'},
 		tags = {'orbital_station'},
 		angular_velocity = 0.1,
 		lod_pixels = {0},
@@ -461,22 +448,72 @@ define_model('big_crappy_spacestation', {
 		end,
 	},
 	static = function(lod)
+		
 		set_material('body0', 1,1,1,1, 1,1,1,100)
 		use_material('body0')
-		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0,150, 0.1,200, 0.2,150, 0.4,150, 0.45,300,0.55,300, 0.6,150, 0.7,150, 0.75,300, 0.95,300, 1.0,150, 1.0,0.0})
+		if lod<2 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,.033,0))
+		else
+		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.033,0,0), v(0,.033,0))
+		end
+		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0,150, 0.1,200, 0.2,149, 0.4,149, 0.45,300,0.55,300, 0.6,149, 0.7,149, 0.75,300, 0.95,300, 1.0,150, 1.0,0.0})
+		--alt tex body
+		if lod<2 then
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
+		else
+		texture('ships/4_eagles/tex2_s.png', v(.6,.5,0), v(.01,0,0), v(0,.01,0))
+		end
+		lathe(16, v(0,300,0), v(0,-250,0), v(1,0,0), {0,150, 1.0,150})
+		-- front cap
+		if lod<2 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.03,0,0), v(0,0,1))
+		else
+		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.03,0,0), v(0,0,1))
+		end
+		lathe(16, v(0,501,0), v(0,-501,0), v(1,0,0), {0,100, 0,150, 0.1,199, 0.2,149, 0.4,149, 0.45,299,0.55,299, 0.6,149, 0.7,149, 0.75,299, 0.95,299, 1.0,150, 1.0,0.0})		
+		--tube(16, v(0,500,0), v(0,501,0), v(1,0,0), 101, 144)
+		--tube(16, v(0,500,0), v(0,501,0), v(0,1,0), 101, 150)
 		-- struts to outer ring
-		ring(8, v(0,0,419), v(0,0,1500), v(1,0,0), 20)
-		ring(8, v(0,0,-419), v(0,0,-1500), v(1,0,0), 20)
+		if lod<2 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,0,.33))
+		else
+		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.033,0,0), v(0,0,.33))
+		end
+		ring(8, v(0,0,290), v(0,0,1500), v(1,0,0), 20)
+		ring(8, v(0,0,-290), v(0,0,-1500), v(1,0,0), 20)
 		-- outer ring
+		if lod<2 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.005,0,0), v(0,0,.5))
+		else
+		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.005,0,0), v(0,0,.5))
+		end	
 		tube(32, v(0,-100,0), v(0,100,0), v(0,0,1), 1500, 1600)
+		if lod<2 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
+		else
+		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
+		end	
+		tube(32, v(0,-99,0), v(0,99,0), v(0,0,1), 1499, 1601)
 		-- the inside!
 		set_insideout(true)
 		set_local_lighting(true)
 		use_light(1)
 		use_light(2)
+	if lod<2 then
+		texture('ships/4_eagles/tex2.png', v(.6,.5,0), v(.003,0,0), v(0,.003,0))
+		else
+		texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.003,0,0), v(0,.003,0))
+		end	
 		lathe(16, v(0,500,0), v(0,-500,0), v(1,0,0), {0,100, 0.7,100, 0.75,250, 0.95,250, 0.95,0})
-		set_local_lighting(false)
 		set_insideout(false)
+		--floor
+		if lod<2 then
+		texture('ships/4_eagles/tex2.png', v(.6,.5,0), v(.01,0,0), v(0,0,.5))
+		else
+		texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.003,0,0), v(0,.003,0))
+		end
+		lathe(16, v(0,-449,0), v(0,-450,0), v(1,0,0), {0,0, 0,249, 1,249, 1,0})
+		set_local_lighting(false)
 		billboard('smoke.png', 50.0, v(0,0,1), {v(0,200,0)})
 		billboard('smoke.png', 50.0, v(1,1,0), {v(0,-300,0)})
 
@@ -488,6 +525,23 @@ define_model('big_crappy_spacestation', {
 		geomflag(0)
 	end,
 	dynamic = function(lod)
+		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
+		 if lod<2 then
+			local textpos = v(0,500,-115) --0,500,-110
+			use_material('text')
+			zbias(1, textpos, v(0,100,0))
+			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			--text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0, {center=true})
+			local textpos = v(0,-500,-10) --0,500,-110
+			use_material('text')
+			zbias(1, textpos, v(0,100,0))
+			text("created by", textpos, v(0,-1000,-115), v(-1,0,0), 7.0, {center=true})
+			local textpos = v(0,-500,0) --0,500,-110
+			use_material('text')
+			zbias(1, textpos, v(0,100,0))
+			text("Tom Morton", textpos, v(0,-1000,0), v(-1,0,0), 10.0, {center=true})
+			zbias(0)
+		end
 		 billboard('smoke.png', 20.0, v(1,1,0), {
 			vlerp(get_arg(1),v(0,12,419),v(0,12,1500)),
 			vlerp(get_arg(1),v(0,12,-419),v(0,12,-1500))})
@@ -598,8 +652,7 @@ define_model('nice_spacestation', {
 		local f2b = v(400,-400,0)
 		local f3b = v(0,-400,400)
 		local f4b = v(-400,-400,0)
-		
-		set_material('text', 1.0,0.5,1.0,1)
+		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
 		set_material('body', .5,.5,.5,1)
 		use_material('body')
 		--front face
@@ -621,8 +674,10 @@ define_model('nice_spacestation', {
 		xref_tri(f5,f1,f2)
 		xref_tri(f6,f3b,f2b)
 		xref_tri(f5,f2b,f1b)
-			texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
-		
+		if lod>1 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
+		else texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(0,0,.9), v(0,.01,0))
+		end
 		xref_quad(f2,f6,f2b,f5) -- sides
 		if lod>1 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
@@ -642,7 +697,7 @@ define_model('nice_spacestation', {
 			local textpos = v(0,400,-80)
 			use_material('text')
 			zbias(1, textpos, v(0,1,0))
-			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 10.0)
+			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
 			zbias(0)
 		end
 		if (math.fmod(get_arg(1), 2) > 1) then
