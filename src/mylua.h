@@ -23,7 +23,7 @@ template <typename T>
 static inline void push2luaWithGc(lua_State *L, T *o)
 {
 	// give pointer to lua, which it owns
-	OOLUA::INTERNAL::push_pointer<T>(L,o,OOLUA::Lua);
+	OOLUA::push2lua<T>(L, o, OOLUA::Lua);
 }
 
 // Copy of:

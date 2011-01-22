@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "PiLuaAPI.h"
+#include "PiLuaModules.h"
 #include "Pi.h"
 #include "Space.h"
 #include "ShipCpanel.h"
@@ -82,8 +83,9 @@ void ship_randomly_equip(Ship *ship, double power)
 
 ////////////////////////////////////////////////////////////
 
-std::map<Object *, ObjectWrapper *> ObjectWrapper::objWrapLookup;
+std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
+EXPORT_OOLUA_NO_FUNCTIONS(Object)
 EXPORT_OOLUA_FUNCTIONS_14_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
@@ -104,18 +106,6 @@ EXPORT_OOLUA_FUNCTIONS_4_CONST(ObjectWrapper,
 		IsValid,
 		GetMoney,
 		GetLabel)
-
-ObjectWrapper *ObjectWrapper::Get(Object *o)
-{
-	std::map<Object *, ObjectWrapper *>::iterator i = objWrapLookup.find(o);
-	if (i == objWrapLookup.end()) {
-		ObjectWrapper *p = new ObjectWrapper(o);
-		objWrapLookup[o] = p;
-		return p;
-	} else {
-		return (*i).second;
-	}
-}
 
 ObjectWrapper::ObjectWrapper(Object *o): m_obj(o) {
 	if (o) {
@@ -241,17 +231,35 @@ SBodyPath *ObjectWrapper::GetSBody()
 	}
 	return 0;
 }
-ObjectWrapper *ObjectWrapper::GetDockedWith()
+Object *ObjectWrapper::GetDockedWith()
 {
 	if (Is(Object::SHIP) && static_cast<Ship*>(m_obj)->GetDockedWith()) {
-		return ObjectWrapper::Get(static_cast<Ship*>(m_obj)->GetDockedWith());
+		return static_cast<Object*> (static_cast<Ship*>(m_obj)->GetDockedWith());
 	} else {
 		return 0;
 	}
 }
 
+void ObjectWrapper::Push(lua_State * const s, Object * const & o)
+{
+	if (!o) {
+		lua_pushnil(s);
+		return;
+	}
+	std::map<Object *, int>::iterator i = objWrapLookup.find(o);
+	if (i == objWrapLookup.end()) {
+		ObjectWrapper *p = new ObjectWrapper(o);
+		OOLUA::push2lua(s, p, OOLUA::Lua);
+		lua_pushvalue(s, -1);
+		const int ref = luaL_ref(s, LUA_REGISTRYINDEX);
+		objWrapLookup[o] = ref;
+	} else {
+		lua_rawgeti(s, LUA_REGISTRYINDEX, (*i).second);
+	}
+}
+
 ObjectWrapper::~ObjectWrapper() {
-	printf("ObjWrapper for %s is being deleted\n", GetLabel());
+//	printf("ObjWrapper for %s is being deleted\n", GetLabel());
 	OnDelete();
 }
 bool ObjectWrapper::Is(Object::Type t) const {
@@ -259,7 +267,14 @@ bool ObjectWrapper::Is(Object::Type t) const {
 }
 void ObjectWrapper::OnDelete() {
 	// object got deleted out from under us
-	objWrapLookup.erase(m_obj);
+//	printf("%p->OnDelete %p\n", this, m_obj);
+	if (m_obj) {
+		std::map<Object *, int>::iterator i = objWrapLookup.find(m_obj);
+		if (i != objWrapLookup.end()) {
+			lua_unref(PiLuaModules::GetLuaState(), (*i).second);
+			objWrapLookup.erase(i);
+		}
+	}
 	m_obj = 0;
 	m_delCon.disconnect();
 }
@@ -351,7 +366,7 @@ static int UserDataUnserialize(lua_State *L)
 	if (str.substr(0, 14) == "ObjectWrapper\n") {
 		int idx = atoi(str.substr(14).c_str());
 		Body *b = Serializer::LookupBody(idx);
-		push2luaWithGc(L, ObjectWrapper::Get(b));
+		OOLUA::push2lua(L, static_cast<Object*>(b));
 		return 1;
 	} else if (str.substr(0, 10) == "SBodyPath\n") {
 		Serializer::Reader r(str.substr(10));
@@ -398,7 +413,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 
 namespace LuaPi {
 	static int GetPlayer(lua_State *l) {
-		push2luaWithGc(l, ObjectWrapper::Get((Object*)Pi::player));
+		OOLUA::push2lua(l, (Object*)Pi::player);
 		return 1;
 	}
 	static int GetGameTime(lua_State *l) {
@@ -452,7 +467,7 @@ namespace LuaPi {
 				ship->SetFrame(station->GetFrame());
 				Space::AddBody(ship);
 				ship->SetDockedWith(station, port);
-				push2luaWithGc(l, ObjectWrapper::Get(ship));
+				OOLUA::push2lua(l, static_cast<Object*>(ship));
 				return 1;
 			}
 		}
@@ -480,7 +495,7 @@ namespace LuaPi {
 					ship->SetPosition(pos);
 					ship->SetVelocity(Pi::player->GetVelocity());
 					Space::AddBody(ship);
-					push2luaWithGc(l, ObjectWrapper::Get(ship));
+					OOLUA::push2lua(l, static_cast<Object*>(ship));
 					return 1;
 				} else {
 					// hypercloud still present
@@ -491,7 +506,7 @@ namespace LuaPi {
 					cloud->SetPosition(pos);
 					cloud->SetVelocity(Pi::player->GetVelocity());
 					Space::AddBody(cloud);
-					push2luaWithGc(l, ObjectWrapper::Get(ship));
+					OOLUA::push2lua(l, static_cast<Object*>(ship));
 					return 1;
 				}
 			} else {
@@ -503,7 +518,7 @@ namespace LuaPi {
 				cloud->SetPosition(pos);
 				cloud->SetVelocity(Pi::player->GetVelocity());
 				Space::AddBody(cloud);
-				push2luaWithGc(l, ObjectWrapper::Get(ship));
+				OOLUA::push2lua(l, static_cast<Object*>(ship));
 				return 1;
 			}
 		}
@@ -585,7 +600,7 @@ namespace LuaPi {
 		SBodyPath *path;
 		OOLUA::pull2cpp(l, path);
 		Body *b = Space::FindBodyForSBodyPath(path);
-		push2luaWithGc(l, ObjectWrapper::Get(b));
+		OOLUA::push2lua(l, static_cast<Object*>(b));
 		return 1;
 	}
 }
@@ -601,6 +616,7 @@ void RegisterPiLuaAPI(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 	OOLUA::register_class<ObjectWrapper>(l);
+	OOLUA::register_class<Object>(l);
 	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);
 	OOLUA::register_class<SysLoc>(l);
