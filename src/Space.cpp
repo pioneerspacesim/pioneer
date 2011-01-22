@@ -803,6 +803,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	PostHyperspacePositionBody(Pi::player, pframe);
 	Pi::player->SetVelocity(vector3d(0.0,0.0,-1000.0));
 	Pi::player->Enable();
+	Pi::player->SetFlightState(Ship::FLYING);
 
 	if (isRealHyperspaceEvent) {
 		HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::GetGameTime(), true);
