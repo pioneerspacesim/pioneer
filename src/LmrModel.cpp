@@ -446,6 +446,7 @@ public:
 
 		if (m_thrusters.size()) {
 			Render::UnbindAllBuffers();
+			UseProgram(s_sunlightShader[Render::State::GetNumLights()-1], false);
 			RenderThrusters(rstate, cameraPos, params);
 		}
 	}

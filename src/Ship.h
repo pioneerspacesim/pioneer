@@ -84,15 +84,12 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	float GetHullTemperature() const;
 	void UseECM();
-	void AIFaceDirection(const vector3d &dir);
+	void AIFaceDirection(const vector3d &dir, float timeStep);
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
-
-	// TEST
-	void AIFaceTargetLead(const Ship *enemy);
 
 	EquipSet m_equipment;
 
@@ -153,12 +150,6 @@ private:
 	Body* m_combatTarget;
 	shipstats_t m_stats;
 
-	// speed/code-size temporaries for AI code
-	static matrix4x4d g_orient;
-	static double g_maxAccel;
-	static double g_invFrameAccel;
-	static double g_frameAccel;
-
 	struct HyperspacingOut {
 		int followHypercloudId;
 		SBodyPath dest;
@@ -176,11 +167,16 @@ private:
 		Frame *frame;
 		SBodyPath journeyDest;
 
+		// combat data
+		vector3d lastVel;	// target's position last frame
+		float timeStep;		// last timestep length
+
 		AIInstruction(AICommand c): cmd(c), path(0) {
 			target = 0;
 			endTime = 0;
 			startTime = 0;
 			frame = 0;
+			timeStep = 0.0;
 		}
 	};
 	std::list<AIInstruction> m_todo;
@@ -190,7 +186,7 @@ private:
 	void AIBodyDeleted(const Body* const body);
 	bool AICmdJourney(AIInstruction &);
 	bool AICmdDock(AIInstruction &, SpaceStation *);
-	bool AICmdKill(const Ship *);
+	bool AICmdKill(AIInstruction &, float timeStep);
 	bool AICmdOrbit(AIInstruction &, double orbitHeight);
 	bool AICmdKamikaze(const Ship *);
 	bool AICmdFlyTo(AIInstruction &);
