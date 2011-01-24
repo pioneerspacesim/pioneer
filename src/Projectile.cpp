@@ -111,7 +111,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 void Projectile::StaticUpdate(const float timeStep)
 {
 	CollisionContact c;
-	vector3d vel = m_baseVel + m_dirVel;
+	vector3d vel = m_dirVel * 0.1;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
 	
 	if (c.userData1) {

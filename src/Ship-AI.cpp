@@ -961,19 +961,9 @@ void Ship::AIFight()
 //void Ship::CombatTurn(const Ship *enemy)
 void Ship::AIFaceTargetLead(const Ship *enemy)
 {
-	// target leading approximation?
-	// - take time-to-target using current distance between ships
-	// - don't worry about second-order issues like time required to get on target 
-	// changing end point
-
-	// So, basic target-leading...
-	// do this all in object space?
-
 	// get some object space relative values
 	vector3d targpos = enemy->GetPositionRelTo(this) * g_orient;
-vector3d targpos2 = (enemy->GetPosition() - GetPosition()) * g_orient;
 	vector3d targvel = enemy->GetVelocityRelativeTo(this) * g_orient;
-vector3d targvel2 = (enemy->GetVelocity() - GetVelocity()) * g_orient;
 	// later: should adjust targpos for gunmount offset lol
 
 	int laser = Equip::types[m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
@@ -982,17 +972,74 @@ vector3d targvel2 = (enemy->GetVelocity() - GetVelocity()) * g_orient;
 	vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 	leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
 	vector3d leaddir = leadpos.Normalized();
-	// later: could repeat this with new targdist
 
+	AIFaceDirection(g_orient * leaddir);
+
+	// ok, now work out evasion and range adjustment
+	// just generate preferred evasion and range vectors and span accordingly?
+	// never mind that, just consider each thruster axis individually?
+
+	// get representation of approximate angular distance 
+	// dot product of direction and enemy heading?
+	// ideally use enemy angvel arc too - try to stay out of arc and away from heading
+
+	// so, need three vectors in object space
+	// 1. enemy position - targpos
+	// 2. enemy heading - take from their rot matrix, transform to obj space
+	// 2.5. enemy up vector, not using yet
+	// 3. enemy angvel - transform to obj space
+
+	matrix4x4d erot;
+	enemy->GetRotMatrix(erot);
+	vector3d ehead = vector3d(-erot[8], -erot[9], -erot[10]) * g_orient;
+	vector3d eup = vector3d(erot[4], erot[5], erot[6]) * g_orient;
+	vector3d eav = enemy->GetAngVelocity() * g_orient;
+
+	// stupid evade: away from heading
+	vector3d evade1, evade2;
+	evade1 = (ehead * targpos.Dot(ehead)) - targpos;
+
+	// smarter evade: away from angular velocity plane
+	if (eav.Length() > 0.0)	{
+		evade2 = eav.Normalized();
+		if (targpos.Dot(eav * targpos.Dot(eav)) > 0.0) evade2 *= -1.0;
+	}
+	else evade2 = evade1;	
+
+	// let's test evade1 first
+
+	// only do this if on target
+	if (leaddir.z < -0.98)
+	{
+		if (evade1.x > 0.0) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0);
+		else SetThrusterState(ShipType::THRUSTER_LEFT, 1.0);
+		if (evade1.y > 0.0) SetThrusterState(ShipType::THRUSTER_UP, 1.0);
+		else SetThrusterState(ShipType::THRUSTER_DOWN, 1.0);
+
+		// basic range-maintenance?
+
+		double relspeed = -targvel.Dot(targpos.Normalized());	// positive => closing
+		// use maximum *deceleration*
+		const ShipType &stype = GetShipType();
+		double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / GetMass();
+		double fwdaccel = stype.linThrust[ShipType::THRUSTER_FORWARD] / GetMass();
+		// v = sqrt(2as)
+		double idist = 500.0;		// temporary
+		double ivel = sqrt(2.0 * rearaccel * (targpos.Length() - idist));
+		double vdiff = ivel - relspeed;
+
+		if (vdiff > 0.0) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0);
+		else SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0);
+	}
+
+/*	Possibly don't need this because angvel never reaches zero on moving target
 	// and approximate target angular velocity at leaddir
 	vector3d leaddir2 = (leadpos + targvel*0.01).Normalized();
 	vector3d leadav = leaddir.Cross(leaddir2) * 100.0;
 	// does this really give a genuine angvel? Probably
-
+*/
 	// TEST: ok, let's throw this at FaceDirection for the moment
 
-	AIFaceDirection(g_orient * leaddir);
-	return;
 
 	// so have target heading and target angvel at that heading
 	// can now use modified version of FaceDirection?

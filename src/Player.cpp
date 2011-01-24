@@ -197,7 +197,7 @@ void Player::PollControls(const float timeStep)
 	    (GetFlightState() != FLYING)) {
 		return;
 	}
-
+/*
 	// TEST: Test code for AI functions
 	static int facedir = 0;
 	if (KeyBindings::thrustUp.IsActive() && !facedir) {
@@ -209,7 +209,7 @@ void Player::PollControls(const float timeStep)
 		facedir = 0;
 	}
 	if (facedir) { AITimeStep(timeStep); return; }
-
+*/
 
 	// if flying 
 	{
