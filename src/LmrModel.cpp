@@ -7,6 +7,7 @@
 #include "Render.h"
 #include "BufferObject.h"
 #include <set>
+#include <algorithm>
 #ifdef _WIN32
 #include "win32-dirent.h"
 #else
@@ -211,7 +212,16 @@ namespace ShipThruster {
 		glPopMatrix ();
 	}
 
-
+	struct CameraDistance {
+		Thruster *thruster;
+		float dist;
+	};
+	struct CameraDistanceCompare : public std::binary_function<CameraDistance, CameraDistance, bool> {
+		bool operator()(CameraDistance a, CameraDistance b)
+		{
+			return a.dist > b.dist;
+		}
+	};
 }
 
 class LmrGeomBuffer;
@@ -385,7 +395,7 @@ public:
 				{
 				// XXX materials fucked up after this
 				const matrix4x4f trans = matrix4x4f(op.callmodel.transform);
-				vector3f cam_pos = cameraPos - vector3f(trans[12], trans[13], trans[14]);
+				vector3f cam_pos = trans.InverseOf() * cameraPos;
 				RenderState rstate2;
 				rstate2.subTransform = rstate->subTransform * trans;
 				rstate2.combinedScale = rstate->combinedScale * op.callmodel.scale * op.callmodel.model->m_scale;
@@ -452,13 +462,22 @@ public:
 	}
 
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+		// depth sort thrusters so alpha doesn't look fucked up!!!
+		ShipThruster::CameraDistance *dists = (ShipThruster::CameraDistance*) alloca (m_thrusters.size() * sizeof(ShipThruster::CameraDistance));
+
+		for (unsigned int i=0; i<m_thrusters.size(); i++) {
+			dists[i].thruster = &m_thrusters[i];
+			dists[i].dist = (m_thrusters[i].pos - cameraPos).Length();
+		}
+		sort(dists, dists + m_thrusters.size(), ShipThruster::CameraDistanceCompare());
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 		glEnable (GL_BLEND);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
-			ShipThruster::RenderThruster (rstate, params, &m_thrusters[i]);
+			ShipThruster::RenderThruster (rstate, params, dists[i].thruster);
 		}
 		glDisable (GL_BLEND);
 		glDisableClientState (GL_VERTEX_ARRAY);
@@ -950,9 +969,11 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	Build(lod, params);
 
-	m_staticGeometry[lod]->Render(rstate, cameraPos, params);
+	const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
+
+	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	if (m_hasDynamicFunc) {
-		m_dynamicGeometry[lod]->Render(rstate, cameraPos, params);
+		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	}
 	s_curBuf = 0;
 
