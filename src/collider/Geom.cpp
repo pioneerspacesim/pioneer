@@ -62,7 +62,8 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
 		return;
 	}
 }
-//#include <SDL.h>
+
+#define MAX_CONTACTS 8
 
 /*
  * This geom has moved, causing a possible collision with geom b.
@@ -70,15 +71,18 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact*))
  */
 void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 {
+	int max_contacts = MAX_CONTACTS;
 	matrix4x4d transTo;
 	//unsigned int t = SDL_GetTicks();
 	/* Collide this geom's edges against tri-mesh of geom b */
 	transTo = b->m_invOrient * m_orient;
-	this->CollideEdgesWithTrisOf(b, transTo, callback);
+	this->CollideEdgesWithTrisOf(max_contacts, b, transTo, callback);
 	
 	/* Collide b's edges against this geom's tri-mesh */
-	transTo = m_invOrient * b->m_orient;
-	b->CollideEdgesWithTrisOf(this, transTo, callback);
+	if (max_contacts > 0) {
+		transTo = m_invOrient * b->m_orient;
+		b->CollideEdgesWithTrisOf(max_contacts, this, transTo, callback);
+	}
 	
 //	t = SDL_GetTicks() - t;
 //	int numEdges = GetGeomTree()->GetNumEdges() + b->GetGeomTree()->GetNumEdges();
@@ -106,7 +110,7 @@ static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &
  * Intersect this Geom's edge BVH tree with geom b's triangle BVH tree.
  * Generate collision contacts.
  */
-void Geom::CollideEdgesWithTrisOf(Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*))
+void Geom::CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*))
 {
 	struct stackobj {
 		BVHNode *edgeNode;
@@ -117,7 +121,7 @@ void Geom::CollideEdgesWithTrisOf(Geom *b, const matrix4x4d &transTo, void (*cal
 	stack[0].edgeNode = GetGeomTree()->m_edgeTree->GetRoot();
 	stack[0].triNode = b->GetGeomTree()->m_triTree->GetRoot();
 
-	while (stackpos >= 0) {
+	while ((stackpos >= 0) && (maxContacts > 0)) {
 		BVHNode *edgeNode = stack[stackpos].edgeNode;
 		BVHNode *triNode = stack[stackpos].triNode;
 		stackpos--;
@@ -127,7 +131,7 @@ void Geom::CollideEdgesWithTrisOf(Geom *b, const matrix4x4d &transTo, void (*cal
 		if (triNode->triIndicesStart || edgeNode->triIndicesStart) {
 			// reached triangle leaf node or edge leaf node.
 			// Intersect all edges under edgeNode with this leaf
-			CollideEdgesTris(edgeNode, transTo, b, triNode, callback);
+			CollideEdgesTris(maxContacts, edgeNode, transTo, b, triNode, callback);
 		} else {
 			BVHNode *left = triNode->kids[0];
 			BVHNode *right = triNode->kids[1];
@@ -166,9 +170,10 @@ void Geom::CollideEdgesWithTrisOf(Geom *b, const matrix4x4d &transTo, void (*cal
  * Collide one edgeNode (all edges below it) of this Geom with the triangle
  * BVH of another geom (b), starting from btriNode.
  */
-void Geom::CollideEdgesTris(const BVHNode *edgeNode, const matrix4x4d &transToB,
+void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
 		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*))
 {
+	if (maxContacts <= 0) return;
 	if (edgeNode->triIndicesStart) {
 		const GeomTree::Edge *edges = this->GetGeomTree()->GetEdges();
 		int numContacts = 0;
@@ -209,10 +214,11 @@ void Geom::CollideEdgesTris(const BVHNode *edgeNode, const matrix4x4d &transToB,
 			contact.geomFlag = b->m_geomtree->GetTriFlag(isect.triIdx) |
 				edges[ edgeNode->triIndicesStart[i] ].triFlag;
 			callback(&contact);
+			if (--maxContacts <= 0) return;
 		}
 	} else {
-		CollideEdgesTris(edgeNode->kids[0], transToB, b, btriNode, callback);
-		CollideEdgesTris(edgeNode->kids[1], transToB, b, btriNode, callback);
+		CollideEdgesTris(maxContacts, edgeNode->kids[0], transToB, b, btriNode, callback);
+		CollideEdgesTris(maxContacts, edgeNode->kids[1], transToB, b, btriNode, callback);
 	}
 }
 
