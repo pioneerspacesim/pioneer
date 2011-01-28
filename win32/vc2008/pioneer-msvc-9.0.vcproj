@@ -330,6 +330,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\GuiLabelSet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GuiMeterBar.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\GuiMultiStateImageButton.cpp"
 				>
 			</File>
