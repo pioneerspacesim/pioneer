@@ -57,11 +57,11 @@ void StationCommoditiesView::ShowAll()
 
 	Gui::Button *backButton = new Gui::SolidButton();
 	backButton->onClick.connect(sigc::mem_fun(this, &StationCommoditiesView::Close));
-	Add(backButton,680,470);
-	Add(new Gui::Label("Go back"), 700, 470);
+	Add(backButton,680,500);
+	Add(new Gui::Label("Go back"), 700, 500);
 
 	m_commodityTradeWidget = new CommodityTradeWidget(m_station);
-	m_commodityTradeWidget->SetSizeRequest(470.0, 400.0);
+	m_commodityTradeWidget->SetSizeRequest(470.0, 450.0);
 	m_commodityTradeWidget->onClickBuy.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickBuy));
 	m_commodityTradeWidget->onClickSell.connect(sigc::mem_fun(this, &StationCommoditiesView::OnClickSell));
 	Add(m_commodityTradeWidget, 320, 40);
@@ -259,7 +259,7 @@ void StationShipUpgradesView::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	fbox->Add((new Gui::Label("Item"))->Color(col), 0, 0);
 	fbox->Add((new Gui::Label("$ to fit"))->Color(col), 200, 0);
 	fbox->Add((new Gui::Label("$ for removal"))->Color(col), 275, 0);
@@ -554,7 +554,7 @@ void StationShipRepairsView::ShowAll()
 		fbox->Add(b, 430, ypos);
 	}
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	fbox->Add((new Gui::Label("Item"))->Color(col), 0, 0);
 	fbox->Add((new Gui::Label("Price"))->Color(col), 350, 0);
 	fbox->Add((new Gui::Label("Repair"))->Color(col), 430, 0);
@@ -632,7 +632,7 @@ void StationBuyShipsView::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Color::tableHeading;
+	const float *col = Gui::Theme::Colors::tableHeading;
 	fbox->Add((new Gui::Label("Ship"))->Color(col), 0, 0);
 	fbox->Add((new Gui::Label("Price"))->Color(col), 200, 0);
 	fbox->Add((new Gui::Label("Part exchange"))->Color(col), 275, 0);

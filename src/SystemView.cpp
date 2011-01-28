@@ -8,6 +8,9 @@ SystemView::SystemView(): GenericSystemView(GenericSystemView::MAP_SYSTEM)
 	m_system = 0;
 	SetTransparency(true);
 
+	m_objectLabels = new Gui::LabelSet();
+	Add(m_objectLabels, 0, 0);
+
 	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
@@ -95,7 +98,7 @@ void SystemView::PutOrbit(SBody *b, vector3d offset)
 	glEnd();
 }
 
-void SystemView::OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev)
+void SystemView::OnClickObject(SBody *b)
 {
 	m_selectedObject = b;
 	std::string desc;
@@ -136,8 +139,7 @@ void SystemView::PutLabel(SBody *b, vector3d offset)
 	vector3d pos;
 	if (Gui::Screen::Project (offset.x, offset.y, offset.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
 		// libsigc++ is a beautiful thing
-		Gui::Screen::PutClickableLabel(b->name, (float)pos.x, (float)pos.y,
-				sigc::bind<0>(sigc::mem_fun(this, &SystemView::OnClickObject), b));
+		m_objectLabels->Add(b->name, sigc::bind(sigc::mem_fun(this, &SystemView::OnClickObject), b), (float)pos.x, (float)pos.y);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -235,6 +237,7 @@ void SystemView::Draw3D()
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
+	m_objectLabels->Clear();
 	if (m_system->rootBody) PutBody(m_system->rootBody, pos);
 	
 	glEnable(GL_LIGHTING);

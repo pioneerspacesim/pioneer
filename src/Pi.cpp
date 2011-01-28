@@ -116,8 +116,7 @@ static void draw_progress(float progress)
 	std::string msg = stringf(256, "Simulating evolution of the universe: %.1f billion years ;-)", progress * 15.0f);
 	Gui::Screen::MeasureString(msg, w, h);
 	glColor3f(1.0f,1.0f,1.0f);
-	glTranslatef(0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h),0.0f);
-	Gui::Screen::RenderString(msg);
+	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
 	Gui::Screen::LeaveOrtho();
 	Render::SwapBuffers();
 }
@@ -235,7 +234,42 @@ void Pi::Init()
 		Sound::Pause(0);
 	}
 	draw_progress(1.0f);
-	
+
+	// test code to produce list of ship stats
+
+	FILE *pStatFile = fopen("shipstat.csv","wt");
+	if (pStatFile)
+	{
+		fprintf(pStatFile, "name,lmrname,hullmass,capacity,xsize,ysize,zsize,facc,racc,uacc,aacc\n");
+		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
+				i != ShipType::types.end(); ++i)
+		{
+			ShipType *shipdef = &(i->second);
+			LmrModel *lmrModel = LmrLookupModelByName(shipdef->lmrModelName.c_str());
+			LmrObjParams lmrParams; memset(&lmrParams, 0, sizeof(LmrObjParams));
+			LmrCollMesh *collMesh = new LmrCollMesh(lmrModel, &lmrParams);
+			Aabb aabb = collMesh->GetAabb();
+		
+			double hullmass = shipdef->hullMass;
+			double capacity = shipdef->capacity;
+			double xsize = aabb.max.x-aabb.min.x;
+			double ysize = aabb.max.y-aabb.min.y;
+			double zsize = aabb.max.z-aabb.min.z;
+			double brad = aabb.GetBoundingRadius();
+			double simass = (hullmass + capacity) * 1000.0;
+			double angInertia = (2/5.0)*simass*brad*brad;
+			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
+			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
+			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
+			double acca = shipdef->angThrust/angInertia;
+
+			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
+				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
+				xsize, ysize, zsize, acc1, acc2, acc3, acca);
+		}
+		fclose(pStatFile);
+	}
+
 	gameMenuView = new GameMenuView();
 	config.Save();
 }
@@ -613,6 +647,7 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::MISSILE_SMART);
 	player->m_equipment.Add(Equip::MISSILE_NAVAL);
 	player->m_equipment.Add(Equip::AUTOPILOT);
+	player->m_equipment.Add(Equip::SCANNER);
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	
@@ -784,7 +819,6 @@ void Pi::Start()
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 		player->SetVelocity(vector3d(0,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
-		player->m_equipment.Add(Equip::SCANNER);
 
 		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 		enemy->SetFrame(player->GetFrame());
@@ -794,9 +828,7 @@ void Pi::Start()
 		enemy->AIInstruct(Ship::DO_KILL, player);
 		Space::AddBody(enemy);
 
-//		player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 		player->SetCombatTarget(enemy);
-//		player->AIInstruct(Ship::DO_KILL, enemy);
 
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
@@ -930,7 +962,7 @@ void Pi::MainLoop()
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
-			Gui::Screen::RenderString(fps_readout);
+			Gui::Screen::RenderString(fps_readout, 0, 0);
 			Gui::Screen::LeaveOrtho();
 		}
 //#endif /* DEBUG */
@@ -952,13 +984,13 @@ void Pi::MainLoop()
 
 				if (dist < 1000.0) {
 					timeAccel = MIN(timeAccel, 1);
-				} else if (dist < rad*1.1) {
+				} else if (dist < MIN(rad+0.0001*AU, rad*1.1)) {
 					timeAccel = MIN(timeAccel, 2);
-				} else if (dist < rad*5.0) {
+				} else if (dist < MIN(rad+0.001*AU, rad*5.0)) {
 					timeAccel = MIN(timeAccel, 3);
-				} else if (dist < rad*10.0) {
+				} else if (dist < MIN(rad+0.01*AU,rad*10.0)) {
 					timeAccel = MIN(timeAccel, 4);
-				} else if (dist < rad*1000.0) {
+				} else if (dist < MIN(rad+0.1*AU, rad*1000.0)) {
 					timeAccel = MIN(timeAccel, 5);
 				}
 			}

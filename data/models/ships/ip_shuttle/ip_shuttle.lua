@@ -67,12 +67,53 @@ define_model('socket', {
 	end
 })
 
+define_model('ips_dash', {
+	info =	{
+			bounding_radius =5,
+			materials = {'dash_lit'},
+			},
+
+	static = function(lod)			
+		set_material('dash_lit', 1,1,1,.99,0,0,0,1,1,1,1)
+	end,
+	dynamic = function(lod)
+		local v14 = v(3.2,0.8,-6.7)
+		local v15 = v(-3.2,0.8,-6.7)
+		local timer = math.fmod ((os.clock()*0.2),1)
+		use_material('dash_lit')	
+		if timer < .17 then
+			texture('models/ships/ip_shuttle/dash_lit_01.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))	
+		else
+			if timer < .34 then
+				texture('models/ships/ip_shuttle/dash_lit_02.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
+			else
+				if timer < .51 then	
+					texture('models/ships/ip_shuttle/dash_lit_03.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
+				else
+					if timer < .68 then
+						texture('models/ships/ip_shuttle/dash_lit_04.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
+					else
+						if timer < .85 then
+							texture('models/ships/ip_shuttle/dash_lit_05.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
+		                else
+		                	if timer > .84 then
+		                		texture('models/ships/ip_shuttle/dash_lit_06.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
+		                	end
+		                end
+		            end
+		        end
+		    end
+		end
+		quad(v14+v(0,0.001,0.001), v15+v(0,0.001,0.001), v(-3.2,0.201,-6.201), v(3.2,0.201,-6.201)) -- dash lit	
+	end
+})
+
 define_model('ip_shuttle', {
 	info = 	{
-        	scale = 1,
+        	scale = .652,
 	        lod_pixels = {5, 10, 50, 0},
-			bounding_radius = 12,
-			materials = {'grey', 'win', 'alu', 'anth', 'matvar0', 'text', 'hole', 'dash_lit', 'thrusters', 'projector'},
+			bounding_radius = 8,
+			materials = {'grey', 'win', 'alu', 'anth', 'matvar0', 'text', 'hole', 'dash_lit', 'projector'},
 			tags = {'ship'},
 			ship_defs = {
 				{
@@ -97,6 +138,7 @@ define_model('ip_shuttle', {
 					hull_mass = 12,
 					price = 14000,
 					hyperdrive_class = 0,
+	
 				  }
 				 }
 				},
@@ -120,7 +162,7 @@ define_model('ip_shuttle', {
 		local v14 = v(3.2,0.8,-6.7)
 		local v15 = v(-3.2,0.8,-6.7)
 
-
+        set_material('alu',  .5, .51, .65,1, .5, .5, .7, 50)
 
    		use_material('grey')
         if lod > 2 then
@@ -201,97 +243,7 @@ define_model('ip_shuttle', {
 		    use_material('hole')
 			circle(2*lod, v(0,-0.3,-7.901), v(0,0,-1), v(0,1,0), 0.06)
 		end
-				
-	end,
-
-	dynamic = function(lod)
 		
-		local v08 = v(3.1,-1.2,-6.8)
-		local v09 = v(-3.1,-1.2,-6.8)
-		local v10 = v(3.1,-1.2,6.8)
-		local v11 = v(-3.1,-1.2,6.8)
-		local v12 = v(2.8,2.3,-5.2)
-		local v13 = v(-2.8,2.3,-5.2)
-		local v14 = v(3.2,0.8,-6.7)
-		local v15 = v(-3.2,0.8,-6.7)
-		local v16 = v(-3.37,1.4,1)
-		local v17 = v(3.37,1.4,1)
-        local v32 = v(2.3,-1.2,5.2)
-    	local v33 = v(1.2,-1.2,5.2)
-    	local v34 = v(1.2,-1.2,-5.2)
-    	local v35 = v(2.3,-1.2,-5.2)
-    	local v36 = v(-1.2,-1.2,5.2)
-    	local v37 = v(-2.3,-1.2,5.2)
-    	local v38 = v(-2.3,-1.2,-5.2)
-    	local v39 = v(-1.2,-1.2,-5.2)
-	    local v40 = v(2.3,-0.7,5.2)
-    	local v41 = v(1.2,-0.7,5.2)
-    	local v42 = v(1.2,-0.7,-5.2)
-    	local v43 = v(2.3,-0.7,-5.2)
-        local v99 = v(0,2.49,3)
-	    
-	    set_material('matvar0', get_arg_material(0))
-
-		if lod > 2 then
-			set_material('grey', 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 10)
-			set_material('anth', .2,.2,.2,1,.3,.3,.3,10)
-		else
-			set_material('grey', 0.3, 0.3, 0.3, 1, 0.35, 0.35, 0.35, 10)
-			set_material('anth', .1,.1,.1,1,.15,.15,.15,10)
-		end
-        set_material('alu',  .5, .51, .65,1, .5, .5, .7, 50)
-
-		use_material('grey')
-		
-		if lod > 1 then
-		    
-			if lod > 2 then
-			    texture('models/ships/ip_shuttle/ips_bottom.png', v(0.5,0.5,0), v(0.162,0,0), v(0,0,0.455))
-			end					
-			if get_arg(0) ~= 0 then
-				
-				quad(v10,v32,v35,v08) -- bottom uc engaged
-				quad(v10,v11,v33,v32)
-				quad(v11,v37,v36,v33)
-				quad(v37,v11,v09,v38)
-				quad(v39,v38,v09,v08)
-				quad(v08,v35,v34,v39)
-				quad(v33,v36,v39,v34)
-			    			
-				local flap = 1.2*math.pi*math.clamp(get_arg(0), 0, 0.6)  -- flap factor
-
-				call_model('ips_r1_flap', v(1.2,-1.2,0), v(0,-1,0), v(math.sin(flap),math.cos(flap),0), 1)  -- right uc flaps
-				call_model('ips_r2_flap', v(2.3,-1.2,0), v(0,1,0), v(-math.sin(flap),math.cos(flap),0), 1)
-				call_model('ips_l1_flap', v(-2.3,-1.2,0), v(0,-1,0), v(math.sin(flap),math.cos(flap),0), 1)  -- left uc flaps
-				call_model('ips_l2_flap', v(-1.2,-1.2,0), v(0,1,0), v(-math.sin(flap),math.cos(flap),0), 1)
-
-				texture('models/ships/ip_shuttle/shut02.png', v(0.5,0.5,0), v(0,0.4,0), v(0,0,0.8))
-				use_material('anth')
-				xref_quad(v40,v41,v42,v43) -- uc cage top
-                texture('models/ships/ip_shuttle/shut02.png', v(0,0,0), v(0,0.8,0), v(0,0,0.2) )
-				xref_quad(v32,v40,v43,v35) -- uc cage sides
-				xref_quad(v33,v34,v42,v41)
-				texture('models/ships/ip_shuttle/shut02.png', v(0,0,0), v(0.4,0,0), v(0,0.8,0) )
-				xref_quad(v32,v33,v41,v40) -- uc cage back
-				xref_quad(v34,v35,v43,v42) -- uc cage front
-			    	
-				texture(nil)	
-                use_material('alu')
-
-				local uc_rot = 0.5*math.pi*math.clamp(get_arg(0), 0.14, 1)  -- uc factor
-				local uc_trans = 1.9*math.clamp(get_arg(0), 0.14, 1)
-
-				xref_ring(3*lod, v(1.4,-0.6,-2.5), v(1.4+uc_rot,-0.6-uc_trans,-2.5), v(1,1,0),0.08)  -- under carriage
-                xref_ring(3*lod, v(1.4,-0.6,2.5), v(1.4+uc_rot,-0.6-uc_trans,2.5), v(1,1,0),0.08)
-                xref_cylinder(3*lod, v(1.4+uc_rot,-0.6-uc_trans,-5.0), v(1.4+uc_rot,-0.6-uc_trans,5.0), v(0,1,0),0.1)
-                           
-			else
-				quad(v08, v10, v11, v09) -- bottom uc not engagaged
-			end
-        else
-      		quad(v08, v10, v11, v09) -- bottom uc engaged when far away
-		end
-
 		if lod > 1 then
         	use_material('anth')
 			call_model('socket', v(2.5,-0.6,6.97), v(1,0,0), v(0,1,0), .85) -- socket main
@@ -351,58 +303,17 @@ define_model('ip_shuttle', {
 				call_model('nazzle_l', v(2.5,-0.6,7.9), v(1,0,0), v(0,0,1),.4)
         		call_model('nazzle_l', v(-2.5,-0.6,7.9), v(1,0,0), v(0,0,1),.4)
         	end
-		end  		
-  		
-        if lod > 1 then
-        	set_material('text', .6,.6,.6, 1)
-        	use_material('text')
- 			reg = get_arg_string(0)
- 			zbias(1,v(-1,0.235,0), v(0,0,1))
-			text(reg, v16, v(-1,0.235,0), v(0,0,1), 1.7, {center = true})  -- text label
-			zbias(1,v(1,0.235,0), v(0,0,-1))
-			text(reg, v17, v(1,0.235,0), v(0,0,-1), 1.7, {center = true})
-			zbias(0)
-		end	
-				
-		if lod > 2 then
-			local timer = math.fmod ((os.clock()*0.2),1)
-			set_material('dash_lit', 1,1,1,.99,0,0,0,1,1,1,1)
-			use_material('dash_lit')
-			if timer < .17 then
-				texture('models/ships/ip_shuttle/dash_lit_01.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))	
-			else
-				if timer < .34 then
-					texture('models/ships/ip_shuttle/dash_lit_02.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
-				else
-					if timer < .51 then	
-						texture('models/ships/ip_shuttle/dash_lit_03.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
-					else
-						if timer < .68 then
-							texture('models/ships/ip_shuttle/dash_lit_04.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
-						else
-							if timer < .85 then
-								texture('models/ships/ip_shuttle/dash_lit_05.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
-			                else
-			                	if timer > .84 then
-			                		texture('models/ships/ip_shuttle/dash_lit_06.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))
-			                	end
-			                end
-			            end
-			        end
-			    end
-			end
-			quad(v14+v(0,0.001,0.001), v15+v(0,0.001,0.001), v(-3.2,0.201,-6.201), v(3.2,0.201,-6.201)) -- dash lit
-		    
 		end
-		texture(nil)
-        if lod > 1 then	        
+		
+		if lod > 1 then	        
    			use_material('grey')
 			call_model('scanner_+', v(0,2.5,4), v(1,0,0), v(0,1,0),0.75)
         end
         
 		if lod > 2 then
-        	call_model('pilot1', v(0,0.8,-5.5), v(1,0,0), v(0,1,0), 0.2)
-        end
+        	call_model('pilot1', v(0,0.9,-5.5), v(1,0,0), v(0,1,0), 0.25)
+            call_model('ips_dash',v(0,0,0),v(1,0,0),v(0,1,0),1)
+		end
 
         if lod > 2 then
         	texture(nil)
@@ -415,27 +326,22 @@ define_model('ip_shuttle', {
 			use_material('win')
 			quad(v14-v(0,0,.01),v15-v(0,0,.01),v13-v(0,0,.01),v12-v(0,0,.01))
 		end
-
-        if lod > 1 then
-			set_material('projector', lerp_materials(os.clock()*0.5,	{.5,.51,.65,.7,1.7,1.75,2,100,.08,.081,.1},       -- shield projectors
-																		{.5,.51,.65,.7,1.7,1.75,2,100,.3,.31,.5})) 
+		
+		if lod > 1 then
 			use_material('projector')															
 		    sphere_slice(4*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,-1.2,0)) * Matrix.rotate(math.pi,v(0,0,1)) * Matrix.scale(v(0.7,0.3,0.7)))
 		    sphere_slice(4*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,2.5,0)) * Matrix.scale(v(0.7,0.3,0.7)))
-		end
 
-		if lod > 1 then
         	call_model('headlight', v(0,-0.9,-6.95), v(1,0,0), v(0,-0.5,-1),1.2)
-  			call_model('posl_green', v(-3.64,0.2,1), v(0,0,1), v(-1,0.27,0),1)
-  			call_model('posl_red', v(3.64,0.2,1), v(0,0,1), v(1,0.27,0),1)
+  			call_model('posl_red', v(-3.64,0.2,1), v(0,0,1), v(-1,0.27,0),1)
+  			call_model('posl_green', v(3.64,0.2,1), v(0,0,1), v(1,0.27,0),1)
   			call_model('posl_white', v(0,2.5,6.6), v(1,0,0), v(0,1,0),1)
   			call_model('coll_warn', v(-3.6,-0.2,1), v(0,0,1), v(-1,-0.5,0),1)
     		call_model('coll_warn', v(3.6,-0.2,1), v(0,0,1), v(1,-0.5,0),1)
   			call_model('coll_warn', v(0,-1.2,6.6), v(1,0,0), v(0,-1,0),1)
 		end
 		
-		set_material('thrusters', .30, .30, .30,.9, .30, .30, .30, 20)
-		use_material('thrusters')
+		call_model('blank',v(0,0,0),v(1,0,0),v(0,1,0),0)
 		
 		local BackThrust = v(2.5, -0.6, 8)
 		local FrontThrust = v(2.5, -0.6, -7.6)
@@ -473,7 +379,105 @@ define_model('ip_shuttle', {
 		local FrontRightThrust = v(4.25, 0, -3)
 
 		thruster(FrontLeftThrust, v(-1,0,0), 2)
-		thruster(FrontRightThrust, v(1,0,0), 2)	         
+		thruster(FrontRightThrust, v(1,0,0), 2)				
+	end,
 
-  	end
+	dynamic = function(lod)
+		
+		local v08 = v(3.1,-1.2,-6.8)
+		local v09 = v(-3.1,-1.2,-6.8)
+		local v10 = v(3.1,-1.2,6.8)
+		local v11 = v(-3.1,-1.2,6.8)
+		local v12 = v(2.8,2.3,-5.2)
+		local v13 = v(-2.8,2.3,-5.2)
+		local v14 = v(3.2,0.8,-6.7)
+		local v15 = v(-3.2,0.8,-6.7)
+		local v16 = v(-3.37,1.4,1)
+		local v17 = v(3.37,1.4,1)
+        local v32 = v(2.3,-1.2,5.2)
+    	local v33 = v(1.2,-1.2,5.2)
+    	local v34 = v(1.2,-1.2,-5.2)
+    	local v35 = v(2.3,-1.2,-5.2)
+    	local v36 = v(-1.2,-1.2,5.2)
+    	local v37 = v(-2.3,-1.2,5.2)
+    	local v38 = v(-2.3,-1.2,-5.2)
+    	local v39 = v(-1.2,-1.2,-5.2)
+	    local v40 = v(2.3,-0.7,5.2)
+    	local v41 = v(1.2,-0.7,5.2)
+    	local v42 = v(1.2,-0.7,-5.2)
+    	local v43 = v(2.3,-0.7,-5.2)
+        local v99 = v(0,2.49,3)
+        
+	    
+	    set_material('matvar0', get_arg_material(0))
+        set_material('projector', lerp_materials(os.clock()*0.5,	{.5,.51,.65,.7,1.7,1.75,2,100,.08,.081,.1},       -- shield projectors
+																		{.5,.51,.65,.7,1.7,1.75,2,100,.3,.31,.5})) 
+		if lod > 2 then
+			set_material('grey', 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 10)
+			set_material('anth', .2,.2,.2,1,.3,.3,.3,10)
+		else
+			set_material('grey', 0.3, 0.3, 0.3, 1, 0.35, 0.35, 0.35, 10)
+			set_material('anth', .1,.1,.1,1,.15,.15,.15,10)
+		end																
+		use_material('grey')                                            		
+		if lod > 1 then
+			if lod > 2 then
+			    texture('models/ships/ip_shuttle/ips_bottom.png', v(0.5,0.5,0), v(0.162,0,0), v(0,0,0.455))
+			end					
+			if get_arg(0) ~= 0 then
+				
+				quad(v10,v32,v35,v08) -- bottom uc engaged
+				quad(v10,v11,v33,v32)
+				quad(v11,v37,v36,v33)
+				quad(v37,v11,v09,v38)
+				quad(v39,v38,v09,v08)
+				quad(v08,v35,v34,v39)
+				quad(v33,v36,v39,v34)
+			    			
+				local flap = 1.2*math.pi*math.clamp(get_arg(0), 0, 0.6)  -- flap factor
+
+				call_model('ips_r1_flap', v(1.2,-1.2,0), v(0,-1,0), v(math.sin(flap),math.cos(flap),0), 1)  -- right uc flaps
+				call_model('ips_r2_flap', v(2.3,-1.2,0), v(0,1,0), v(-math.sin(flap),math.cos(flap),0), 1)
+				call_model('ips_l1_flap', v(-2.3,-1.2,0), v(0,-1,0), v(math.sin(flap),math.cos(flap),0), 1)  -- left uc flaps
+				call_model('ips_l2_flap', v(-1.2,-1.2,0), v(0,1,0), v(-math.sin(flap),math.cos(flap),0), 1)
+
+				texture('models/ships/ip_shuttle/shut02.png', v(0.5,0.5,0), v(0,0.4,0), v(0,0,0.8))
+				use_material('anth')
+				xref_quad(v40,v41,v42,v43) -- uc cage top
+                texture('models/ships/ip_shuttle/shut02.png', v(0,0,0), v(0,0.8,0), v(0,0,0.2) )
+				xref_quad(v32,v40,v43,v35) -- uc cage sides
+				xref_quad(v33,v34,v42,v41)
+				texture('models/ships/ip_shuttle/shut02.png', v(0,0,0), v(0.4,0,0), v(0,0.8,0) )
+				xref_quad(v32,v33,v41,v40) -- uc cage back
+				xref_quad(v34,v35,v43,v42) -- uc cage front
+			    	
+				texture(nil)	
+                use_material('alu')
+
+				local uc_rot = 0.5*math.pi*math.clamp(get_arg(0), 0.14, 1)  -- uc factor
+				local uc_trans = 1.9*math.clamp(get_arg(0), 0.14, 1)
+
+				xref_ring(3*lod, v(1.4,-0.6,-2.5), v(1.4+uc_rot,-0.6-uc_trans,-2.5), v(1,1,0),0.08)  -- under carriage
+                xref_ring(3*lod, v(1.4,-0.6,2.5), v(1.4+uc_rot,-0.6-uc_trans,2.5), v(1,1,0),0.08)
+                xref_cylinder(3*lod, v(1.4+uc_rot,-0.6-uc_trans,-5.0), v(1.4+uc_rot,-0.6-uc_trans,5.0), v(0,1,0),0.1)
+                           
+			else
+				quad(v08, v10, v11, v09) -- bottom uc not engagaged
+			end
+        else
+      		quad(v08, v10, v11, v09) -- bottom uc engaged when far away
+		end
+          		
+        if lod > 1 then
+        	set_material('text', .6,.6,.6, 1)
+        	use_material('text')
+ 			reg = get_arg_string(0)
+ 			texture(nil)
+ 			zbias(1,v(-1,0.235,0), v(0,0,1))
+			text(reg, v16, v(-1,0.235,0), v(0,0,1), 1.7, {center = true})  -- text label
+			zbias(1,v(1,0.235,0), v(0,0,-1))
+			text(reg, v17, v(1,0.235,0), v(0,0,-1), 1.7, {center = true})
+			zbias(0)
+		end	
+	end
 })

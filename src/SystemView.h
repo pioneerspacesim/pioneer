@@ -20,7 +20,7 @@ private:
 	void PutBody(SBody *b, vector3d offset);
 	void PutLabel(SBody *b, vector3d offset);
 	void GetTransformTo(SBody *b, vector3d &pos);
-	void OnClickObject(SBody *b, const Gui::MouseButtonEvent *ev);
+	void OnClickObject(SBody *b);
 	void OnClickAccel(float step);
 	void ResetViewpoint();
 	void MouseButtonDown(int button, int x, int y);
@@ -36,6 +36,7 @@ private:
 	Gui::Label *m_timePoint;
 	Gui::Label *m_infoLabel;
 	Gui::Label *m_infoText;
+	Gui::LabelSet *m_objectLabels;
 	sigc::connection m_onMouseButtonDown;
 };
 

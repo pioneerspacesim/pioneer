@@ -3,10 +3,11 @@
 #include "Pi.h"
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SysLoc)
-EXPORT_OOLUA_FUNCTIONS_8_CONST(SysLoc,
+EXPORT_OOLUA_FUNCTIONS_9_CONST(SysLoc,
 		GetSystemShortDescription, GetSystemName,
 		GetSectorX, GetSectorY, GetSystemNum,
 		GetRandomStarportNearButNotIn,
+		GetRootSBody,
 		GetSystemLawlessness,
 		IsCommodityLegal)
 
@@ -53,6 +54,14 @@ SBodyPath *SysLoc::GetRandomStarportNearButNotIn() const
 		delete path;
 		return 0;
 	}
+}
+
+SBodyPath *SysLoc::GetRootSBody() const
+{
+	SBodyPath *path = new SBodyPath;
+	const StarSystem *sys = Sys();
+	sys->GetPathOf(sys->rootBody, path);
+	return path;
 }
 
 const StarSystem *SysLoc::Sys() const

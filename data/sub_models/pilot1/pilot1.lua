@@ -388,3 +388,502 @@ define_model('pilot2', {
 
 	end
 })
+
+define_model('pilot_3_m_helmet', {
+	info = {
+ 			lod_pixels = {2, 5, 10, 0},
+			bounding_radius = 2,
+			materials = {'glass', 'radio'},
+			},
+
+	static = function(lod)
+     	set_material('glass', 0,0,.05,.4,1,1,1.5,100)
+     	set_material('radio', .3,.32,.35,1,.5,.55,.6,5)
+
+		use_material('radio')
+		xref_cylinder(3*lod,v(1,0,0),v(1.05,0,0),v(0,1,0),.2)
+		xref_tapered_cylinder(3*lod,v(1.025,.2,0),v(1.025,.7,0),v(1,0,0),.02,.01)
+		tube(3*lod, v(0,-1.1,0),v(0,-.7,0),v(1,0,0),.58,.6)
+
+		use_material('glass')
+		sphere(2)
+	end
+})
+
+define_model('pilot_3_m', {
+	info = 	{
+            lod_pixels = {2, 5, 10, 0},
+			bounding_radius = 2,
+			materials = {'feet', 'face', 'head', 'hands', 'body', 'black', 'sign'},
+			},
+
+	static = function(lod)
+	    set_material('feet', .2,.2,.2,1,.2,.2,.2,5)
+		set_material('hands', .48,.32,.2,1,.3,.3,.3,5)
+		set_material('black',.12,.12,.1,1,.2,.2,.2,10)
+        set_material('face', .45,.43,.4,1,.4,.4,.4,5)
+     	set_material('head', .25,.22,.2,1,.3,.3,.3,5)
+
+        set_light(1, 0.05, v(0,1.5,-3), v(2,2,2))
+        set_light(2, 0.05, v(0,3,3), v(2,2,2))
+        
+        set_local_lighting(true)
+        use_light(1)
+        use_light(2)
+        
+		use_material('black')
+		load_obj('chair_1.obj')
+
+		texture('head3_m_b.png')
+		use_material('head')
+		load_obj('pilot3_m_head_b.obj')
+
+     	texture('head3_m_b.png')
+		use_material('head')
+		load_obj('pilot3_m_head_b.obj')
+
+		texture('pilot3_m.png')
+  		use_material('body')
+		load_obj('pilot3_m_body.obj')
+		
+		use_material('hands')
+		load_obj('pilot3_m_hands.obj')
+		
+		use_material('feet')
+		load_obj('pilot3_m_feet.obj')
+
+        texture('sign.png')
+		use_material('sign')
+        zbias(1,v(0,0,0),v(0,0,-1))
+		load_obj('pilot3_m_sign.obj')
+		zbias(0)
+  	end,
+	
+	dynamic = function(lod)
+     	use_light(1)
+     	use_light(2)
+     	
+		selector2()
+  		if select2 < 34 then
+		    texture('sub_models/pilot1/head3_m_f.png')
+		else
+		    if select2 < 67 then
+		        texture('sub_models/pilot1/head3_m_f_2.png')
+		    else
+		        if select2 > 66 then
+		            texture('sub_models/pilot1/head3_m_f_3.png')
+		        end
+			end
+		end
+        use_material('face')
+		load_obj('sub_models/pilot1/pilot3_m_head_f.obj')
+	    set_local_lighting(false)
+	    
+		selector3()
+        if select3 < 11 then
+        	set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+        else
+            if select3 < 21 then
+                set_material('body', .65, .25, .02, 1, .3, .3, .3, 5)
+			else
+			    if select3 < 31 then
+			        set_material('body', .0, .3, .6, 1, .3, .3, .3, 5)
+				else
+				    if select3 < 41 then
+				        set_material('body', .5, .10, .6, 1, .4, .4, .4, 5)
+					else
+						if select3 < 51 then
+							set_material('body', .02, 0, .04, 1, .2, .2, .2, 5)
+						else
+							if select3 < 61 then
+        						set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+        					else
+            					if select3 < 71 then
+                					set_material('body', .65, .25, .02, 1, .3, .3, .3, 5)
+								else
+			    					if select3 < 81 then
+			        					set_material('body', .0, .3, .6, 1, .3, .3, .3, 5)
+									else
+				    					if select3 < 91 then
+				        					set_material('body', .5, .10, .6, 1, .4, .4, .4, 5)
+										else
+											if select3 > 90 then
+												set_material('body', .02, 0, .04, 1, .2, .2, .2, 5)
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		
+		selector1()
+		if select1 < 201 then
+	        set_material('sign', .5,0,0,.99,.2,.2,.2,10)
+	    else
+			if select1 < 401 then
+               	set_material('sign', .45,.35,.01,.99,.2,.2,.2,10)
+			else
+    		    if select1 < 601 then
+					set_material('sign', 0,.15,.7,.99,.2,.2,.2,10)
+   				else
+   				    if select1 < 801 then
+						set_material('sign', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 > 800 then
+							set_material('sign', .2,0,.35,.99,.2,.2,.2,10)
+						end
+					end
+				end
+			end
+		end
+	
+	end
+})
+
+define_model('pilot_4_m', {
+	info = 	{
+            lod_pixels = {2, 5, 10, 0},
+			bounding_radius = 2,
+			materials = {'feet', 'face', 'head', 'hands', 'body', 'black', 'sign'},
+			},
+
+	static = function(lod)
+     	set_material('feet', .2,.2,.2,1,.2,.2,.2,5)
+		set_material('hands', .48,.32,.2,1,.3,.3,.3,5)
+		set_material('black',.12,.12,.1,1,.2,.2,.2,10)
+        set_material('face', .45,.43,.4,1,.4,.4,.4,5)
+     	set_material('head', .25,.22,.2,1,.3,.3,.3,5)
+
+        set_light(1, 0.05, v(0,1.5,-3), v(2,2,2))
+        set_light(2, 0.05, v(0,3,3), v(2,2,2))
+
+        set_local_lighting(true)
+        use_light(1)
+        use_light(2)
+
+        use_material('black')
+		load_obj('chair_1.obj')
+        
+     	texture('head3_m_b.png')
+		use_material('head')
+		load_obj('pilot3_m_head_b.obj')
+
+		texture('pilot3_m.png')
+  		use_material('body')
+		load_obj('pilot3_m_body.obj')
+
+		use_material('hands')
+		load_obj('pilot3_m_hands.obj')
+
+		use_material('feet')
+		load_obj('pilot3_m_feet.obj')
+
+        texture('sign.png')
+		use_material('sign')
+        zbias(1,v(0,0,0),v(0,0,-1))
+		load_obj('pilot3_m_sign.obj')
+		zbias(0)
+
+	end,
+
+	dynamic = function(lod)
+        use_light(1)
+        use_light(2)
+        
+  		selector2()
+  		if select2 < 34 then
+		    texture('sub_models/pilot1/head3_m_f_2.png')
+		else
+		    if select2 < 67 then
+		        texture('sub_models/pilot1/head3_m_f_3.png')
+		    else
+		        if select2 > 66 then
+		            texture('sub_models/pilot1/head3_m_f.png')
+		        end
+			end
+		end
+        use_material('face')
+		load_obj('sub_models/pilot1/pilot3_m_head_f.obj')
+		set_local_lighting(false)
+        
+        --texture(nil)
+        --call_model('pilot_3_m_helmet',v(0,.85,.13),v(1,0,0),v(0,1,.2),.18)
+        
+        
+		selector3()
+        if select3 < 11 then
+        	set_material('body', .65, .25, .02, 1, .3, .3, .3, 5)
+        else
+            if select3 < 21 then
+                set_material('body', .0, .3, .6, 1, .3, .3, .3, 5)
+			else
+			    if select3 < 31 then
+			        set_material('body', .5, .10, .6, 1, .4, .4, .4, 5)
+				else
+				    if select3 < 41 then
+				        set_material('body', .02, 0, .04, 1, .2, .2, .2, 5)
+					else
+						if select3 < 51 then
+							set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+						else
+							if select3 < 61 then
+        						set_material('body', .65, .25, .02, 1, .3, .3, .3, 5)
+        					else
+            					if select3 < 71 then
+                					set_material('body', .0, .3, .6, 1, .3, .3, .3, 5)
+								else
+			    					if select3 < 81 then
+			        					set_material('body', .5, .10, .6, 1, .4, .4, .4, 5)
+									else
+				    					if select3 < 91 then
+				        					set_material('body', .02, 0, .04, 1, .2, .2, .2, 5)
+										else
+											if select3 > 90 then
+												set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+
+		selector1()
+		if select1 < 201 then
+	        set_material('sign', .5,0,0,.99,.2,.2,.2,10)
+	    else
+			if select1 < 401 then
+               	set_material('sign', .45,.35,.01,.99,.2,.2,.2,10)
+			else
+    		    if select1 < 601 then
+					set_material('sign', 0,.15,.7,.99,.2,.2,.2,10)
+   				else
+   				    if select1 < 801 then
+						set_material('sign', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 > 800 then
+							set_material('sign', .2,0,.35,.99,.2,.2,.2,10)
+						end
+					end
+				end
+			end
+		end
+
+	end
+})
+
+define_model('pilot_5_m_glob', {
+	info = 	{
+            lod_pixels = {2, 5, 10, 0},
+			bounding_radius = 2,
+			materials = {'feet', 'face', 'head', 'hands', 'body', 'black', 'sign'},
+			},
+
+	static = function(lod)
+     	set_material('feet', .2,.2,.2,1,.2,.2,.2,5)
+		set_material('hands', .48,.32,.2,1,.3,.3,.3,5)
+		set_material('black',.12,.12,.1,1,.2,.2,.2,10)
+        set_material('face', .45,.43,.4,1,.4,.4,.4,5)
+     	set_material('head', .25,.22,.2,1,.3,.3,.3,5)
+
+        --set_light(1, 0.05, v(0,1.5,-3), v(2,2,2))
+        --set_light(2, 0.05, v(0,3,3), v(2,2,2))
+
+        --set_local_lighting(true)
+        --use_light(1)
+        --use_light(2)
+
+        use_material('black')
+		load_obj('chair_1.obj')
+        
+     	texture('head3_m_b.png')
+		use_material('head')
+		load_obj('pilot3_m_head_b.obj')
+
+		texture('pilot3_m.png')
+  		use_material('body')
+		load_obj('pilot3_m_body.obj')
+
+		use_material('hands')
+		load_obj('pilot3_m_hands.obj')
+
+		use_material('feet')
+		load_obj('pilot3_m_feet.obj')
+
+        texture('sign.png')
+		use_material('sign')
+        zbias(1,v(0,0,0),v(0,0,-1))
+		load_obj('pilot3_m_sign.obj')
+		zbias(0)
+
+	end,
+
+	dynamic = function(lod)
+        --use_light(1)
+        --use_light(2)
+        
+  		selector2()
+  		if select2 < 34 then
+		    texture('sub_models/pilot1/head3_m_f_3.png')
+		else
+		    if select2 < 67 then
+		        texture('sub_models/pilot1/head3_m_f.png')
+		    else
+		        if select2 > 66 then
+		            texture('sub_models/pilot1/head3_m_f_2.png')
+		        end
+			end
+		end
+        use_material('face')
+		load_obj('sub_models/pilot1/pilot3_m_head_f.obj')
+		--set_local_lighting(false)
+        
+        texture(nil)
+        call_model('pilot_3_m_helmet',v(0,.85,.15),v(1,0,0),v(0,1,.2),.18)
+        
+        
+		selector3()
+        if select3 < 11 then
+        	set_material('body', .65, .25, .02, 1, .3, .3, .3, 5)
+        else
+            if select3 < 21 then
+                set_material('body', .0, .3, .6, 1, .3, .3, .3, 5)
+			else
+			    if select3 < 31 then
+			        set_material('body', .5, .10, .6, 1, .4, .4, .4, 5)
+				else
+				    if select3 < 41 then
+				        set_material('body', .02, 0, .04, 1, .2, .2, .2, 5)
+					else
+						if select3 < 51 then
+							set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+						else
+							if select3 < 61 then
+        						set_material('body', .65, .25, .02, 1, .3, .3, .3, 5)
+        					else
+            					if select3 < 71 then
+                					set_material('body', .0, .3, .6, 1, .3, .3, .3, 5)
+								else
+			    					if select3 < 81 then
+			        					set_material('body', .5, .10, .6, 1, .4, .4, .4, 5)
+									else
+				    					if select3 < 91 then
+				        					set_material('body', .02, 0, .04, 1, .2, .2, .2, 5)
+										else
+											if select3 > 90 then
+												set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+
+		selector1()
+		if select1 < 201 then
+	        set_material('sign', .5,0,0,.99,.2,.2,.2,10)
+	    else
+			if select1 < 401 then
+               	set_material('sign', .45,.35,.01,.99,.2,.2,.2,10)
+			else
+    		    if select1 < 601 then
+					set_material('sign', 0,.15,.7,.99,.2,.2,.2,10)
+   				else
+   				    if select1 < 801 then
+						set_material('sign', .06,.35,0,.99,.2,.2,.2,10)
+					else
+						if select1 > 800 then
+							set_material('sign', .2,0,.35,.99,.2,.2,.2,10)
+						end
+					end
+				end
+			end
+		end
+
+	end
+})
+
+define_model('pilot_6_m_helmet', {
+	info = {
+ 			lod_pixels = {2, 5, 10, 0},
+			bounding_radius = 2,
+			materials = {'broken', 'glass', 'radio'},
+			},
+
+	static = function(lod)
+     	set_material('broken', .1,.1,.2,.99999,1,1,1.5,100)
+        set_material('glass', 0,0,.05,.4,1,1,1.5,100)
+		set_material('radio', .3,.32,.35,1,.5,.55,.6,5)
+
+		use_material('radio')
+		xref_cylinder(3*lod,v(1,0,0),v(1.05,0,0),v(0,1,0),.2)
+		xref_tapered_cylinder(3*lod,v(1.025,.2,0),v(1.025,.7,0),v(1,0,0),.02,.01)
+		tube(3*lod, v(0,-1.1,0),v(0,-.7,0),v(1,0,0),.58,.6)
+
+		texture('broken.png')
+		use_material('broken')
+		sphere(1)
+        use_material('glass')
+		texture(nil)
+		zbias(2,v(0,0,0),v(0,0,0))
+		use_material('glass')
+		sphere(2)
+		zbias(0)
+	end
+})
+
+define_model('pilot_6_dead', {
+	info = 	{
+            lod_pixels = {2, 5, 10, 0},
+			bounding_radius = 2,
+			materials = {'feet', 'face', 'head', 'hands', 'body', 'black', 'sign'},
+			},
+
+	static = function(lod)
+     	set_material('feet', .2,.2,.2,1,.2,.2,.2,5)
+		set_material('hands', .48,.32,.2,1,.3,.3,.3,5)
+		set_material('black',.12,.12,.1,1,.2,.2,.2,10)
+        set_material('face', .45,.43,.4,1,.4,.4,.4,5)
+     	set_material('head', .25,.22,.2,1,.3,.3,.3,5)
+        set_material('body', .6, .6, .6, 1, .3, .3, .3, 5)
+        set_material('sign', .5,0,0,.99,.2,.2,.2,10)
+        
+     	texture('head3_m_b.png')
+		use_material('head')
+		load_obj('pilot3_m_head_b.obj')
+
+		texture('pilot3_m.png')
+  		use_material('body')
+		load_obj('pilot3_m_body.obj')
+
+		use_material('hands')
+		load_obj('pilot3_m_hands.obj')
+
+		use_material('feet')
+		load_obj('pilot3_m_feet.obj')
+
+        texture('sign.png')
+		use_material('sign')
+        zbias(1,v(0,0,0),v(0,0,-1))
+		load_obj('pilot3_m_sign.obj')
+		zbias(0)
+
+        texture('head3_m_f.png')
+        use_material('face')
+		load_obj('pilot3_m_head_f.obj')
+
+
+        call_model('pilot_6_m_helmet',v(0,.85,.15),v(1,0,0),v(0,1,.2),.18)
+	end
+})

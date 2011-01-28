@@ -34,6 +34,12 @@ GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
 	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_zoomOutButton->SetToolTip("Zoom out");
 	Add(m_zoomOutButton, 732, 5);
+	
+	m_scaleReadout = new Gui::Label("");
+	Add(m_scaleReadout, 500.0f, 10.0f);
+
+	m_labels = new Gui::LabelSet();
+	Add(m_labels, 0, 0);
 
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
@@ -70,6 +76,8 @@ struct galaclabel_t {
 	{ 0 }
 };
 
+static void dummy() {}
+
 void GalacticView::PutLabels(vector3d offset)
 {
 	GLdouble modelMatrix[16];
@@ -88,7 +96,7 @@ void GalacticView::PutLabels(vector3d offset)
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
 		if (Gui::Screen::Project (p.x, p.y, p.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			Gui::Screen::RenderLabel(s_labels[i].label, (float)pos.x, (float)pos.y);
+			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), (float)pos.x, (float)pos.y);
 		}
 		i++;
 	}
@@ -155,12 +163,8 @@ void GalacticView::Draw3D()
 		glVertex2f(0.25,-0.93);
 	glEnd();
 
+	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
-
-	Gui::Screen::EnterOrtho();
-	glTranslatef(500,10,0.0);
-	Gui::Screen::RenderString(stringf(128, "%d ly", (int)(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
-	Gui::Screen::LeaveOrtho();
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
@@ -175,6 +179,8 @@ void GalacticView::Update()
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(4.0f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
 	m_zoom = CLAMP(m_zoom, 0.5, 100.0);
+
+	m_scaleReadout->SetText(stringf(128, "%d ly", (int)(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
 }
 
 void GalacticView::MouseButtonDown(int button, int x, int y)

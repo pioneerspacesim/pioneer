@@ -18,7 +18,7 @@ define_model('decal', {
         selector1()  -- requests "random" number from selector function
 		set_material('decal', .7,.7,.7, 0.9, .3,.3,.3,5) -- creates semi-transparent material to cut out alpha channel, has to be < 1 but > 0
 		use_material('decal')
-	
+	    
   		if select1 < 26 then
 	    	texture('sub_models/decals/decal_a.png', v(0,0,0), v(0,0,-1), v(0,-1,0)) -- calls the texture for the decal,
       	else
@@ -178,8 +178,8 @@ define_model('decal', {
 				end
 			end
 		end
-
+        zbias(100,v(0,0,0),v(0,0,0))
 		quad(v(0,0,0), v(0,1,0), v(0,1,1), v(0,0,1)) -- creates a quadratic shape 1m x 1m for the decal
-
+		zbias(0)
 	end
 })

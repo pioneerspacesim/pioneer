@@ -59,9 +59,13 @@ public:
 	 * since they acquire a StarSystem object in a rather sub-optimal way */
 	const char *GetBodyName() const;
 	Uint32 GetSeed() const;
+	int GetType() const;
+	int GetSuperType() const;
 	SysLoc GetSystem() const { return (SysLoc)*this; }
+	int GetNumChildren() const;
 	/** Caller owns the returned SBodyPath* */
 	SBodyPath *GetParent() const;
+	SBodyPath *GetNthChild(int n) const;
 private:
 	/** Returned SBody only valid pointer for duration described in
 	 * StarSystem::GetCached comment */
@@ -79,6 +83,10 @@ OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
 	OOLUA_MEM_FUNC_0_CONST(Uint32, GetSeed)
 	OOLUA_MEM_FUNC_0_CONST(SysLoc, GetSystem);
 	OOLUA_MEM_FUNC_0_CONST(lua_out_p<SBodyPath*>, GetParent);
+	OOLUA_MEM_FUNC_0_CONST(int, GetNumChildren)
+	OOLUA_MEM_FUNC_1_CONST(lua_out_p<SBodyPath*>, GetNthChild, int);
+	OOLUA_MEM_FUNC_0_CONST(int, GetType)
+	OOLUA_MEM_FUNC_0_CONST(int, GetSuperType)
 OOLUA_CLASS_END
 
 class SBody {
@@ -90,47 +98,56 @@ public:
 	SBody *parent;
 	std::vector<SBody*> children;
 
+	/** XXX Keep in sync with data/pimodule.lua
+	  * Hence the redundant numbers */
 	enum BodyType {
-		TYPE_GRAVPOINT,
-		TYPE_BROWN_DWARF,
-		TYPE_STAR_M,
-		TYPE_STAR_K,
-		TYPE_WHITE_DWARF,
-		TYPE_STAR_G,
-		TYPE_STAR_F,
-		TYPE_STAR_A,
-		TYPE_STAR_B,
-		TYPE_STAR_O,
-		TYPE_PLANET_SMALL_GAS_GIANT,
-		TYPE_PLANET_MEDIUM_GAS_GIANT,
-		TYPE_PLANET_LARGE_GAS_GIANT,
-		TYPE_PLANET_VERY_LARGE_GAS_GIANT,
+		TYPE_GRAVPOINT = 0,
+		TYPE_BROWN_DWARF = 1,
+		TYPE_STAR_M = 2,
+		TYPE_STAR_K = 3,
+		TYPE_STAR_G = 4,
+		TYPE_STAR_F = 5,
+		TYPE_STAR_A = 6,
+		TYPE_STAR_B = 7,
+		TYPE_STAR_O = 8,
+		TYPE_STAR_M_GIANT = 9,
+		TYPE_WHITE_DWARF = 10,
+		TYPE_PLANET_SMALL_GAS_GIANT = 11,
+		TYPE_PLANET_MEDIUM_GAS_GIANT = 12,
+		TYPE_PLANET_LARGE_GAS_GIANT = 13,
+		TYPE_PLANET_VERY_LARGE_GAS_GIANT = 14,
 		/* yeah yeah, asteroids aren't planets technically... */
-		TYPE_PLANET_ASTEROID,
-		TYPE_PLANET_LARGE_ASTEROID,
-		TYPE_PLANET_DWARF,
-		TYPE_PLANET_SMALL,
-		TYPE_PLANET_WATER,
-		TYPE_PLANET_DESERT,
-		TYPE_PLANET_CO2,
-		TYPE_PLANET_METHANE,
-		TYPE_PLANET_WATER_THICK_ATMOS,
-		TYPE_PLANET_CO2_THICK_ATMOS,
-		TYPE_PLANET_METHANE_THICK_ATMOS,
-		TYPE_PLANET_HIGHLY_VOLCANIC,
-		TYPE_PLANET_INDIGENOUS_LIFE,
-		TYPE_PLANET_TERRAFORMED_POOR,
-		TYPE_PLANET_TERRAFORMED_GOOD,
-		TYPE_STARPORT_ORBITAL,
-		TYPE_STARPORT_SURFACE,
-		TYPE_MAX,
+		TYPE_PLANET_ASTEROID = 15,
+		TYPE_PLANET_LARGE_ASTEROID = 16,
+		TYPE_PLANET_DWARF = 17,
+		TYPE_PLANET_SMALL = 18,
+		TYPE_PLANET_WATER = 19,
+		TYPE_PLANET_DESERT = 20,
+		TYPE_PLANET_CO2 = 21,
+		TYPE_PLANET_METHANE = 22,
+		TYPE_PLANET_WATER_THICK_ATMOS = 23,
+		TYPE_PLANET_CO2_THICK_ATMOS = 24,
+		TYPE_PLANET_METHANE_THICK_ATMOS = 25,
+		TYPE_PLANET_HIGHLY_VOLCANIC = 26,
+		TYPE_PLANET_INDIGENOUS_LIFE = 27,
+		TYPE_PLANET_TERRAFORMED_POOR = 28,
+		TYPE_PLANET_TERRAFORMED_GOOD = 29,
+		TYPE_STARPORT_ORBITAL = 30,
+		TYPE_STARPORT_SURFACE = 31,
+		TYPE_MAX = 32,
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF,
-		TYPE_STAR_MAX = TYPE_STAR_O
+		TYPE_STAR_MAX = TYPE_WHITE_DWARF
 		// XXX need larger atmosphereless thing
 	};
 	
+	/** XXX Keep in sync with data/pimodule.lua
+	  * Hence the redundant numbers */
 	enum BodySuperType {
-		SUPERTYPE_NONE, SUPERTYPE_STAR, SUPERTYPE_ROCKY_PLANET, SUPERTYPE_GAS_GIANT, SUPERTYPE_STARPORT
+		SUPERTYPE_NONE = 0,
+		SUPERTYPE_STAR = 1,
+		SUPERTYPE_ROCKY_PLANET = 2,
+		SUPERTYPE_GAS_GIANT = 3,
+		SUPERTYPE_STARPORT = 4
 	};
 
 	const char *GetAstroDescription();

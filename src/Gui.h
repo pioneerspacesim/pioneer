@@ -2,6 +2,7 @@
 #define _GUI_H
 
 #include "libs.h"
+#include "Color.h"
 
 namespace Gui {
 
@@ -10,13 +11,13 @@ namespace Gui {
 		void DrawIndent(const float size[2]);
 		void DrawOutdent(const float size[2]);
 		void DrawHollowRect(const float size[2]);
+		namespace Colors {
+			extern const float bg[];
+			extern const float bgShadow[];
+			extern const float tableHeading[];
+		}
 	}
 
-	namespace Color {
-		extern const float bg[];
-		extern const float bgShadow[];
-		extern const float tableHeading[];
-	}
 
 	void HandleSDLEvent(SDL_Event *event);
 	void Draw();
@@ -62,6 +63,8 @@ namespace Gui {
 #include "GuiToolTip.h"
 #include "GuiTabbed.h"
 #include "GuiTextEntry.h"
+#include "GuiMeterBar.h"
+#include "GuiLabelSet.h"
 #include "GuiScreen.h"
 
 #endif /* _GUI_H */

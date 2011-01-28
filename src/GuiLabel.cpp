@@ -8,7 +8,7 @@ Label::Label(const char *text)
 	m_layout = 0;
 	m_dlist = 0;
 	SetText(text);
-	m_color[0] = m_color[1] = m_color[2] = 1.0f;
+	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 Label::Label(const std::string &text)
@@ -17,7 +17,7 @@ Label::Label(const std::string &text)
 	m_layout = 0;
 	m_dlist = 0;
 	SetText(text);
-	m_color[0] = m_color[1] = m_color[2] = 1.0f;
+	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 Label::~Label()
@@ -43,6 +43,7 @@ Label *Label::Color(const float rgb[3])
 	m_color[0] = rgb[0];
 	m_color[1] = rgb[1];
 	m_color[2] = rgb[2];
+	m_color[3] = 1.0f;
 	return this;
 }
 
@@ -51,6 +52,13 @@ Label *Label::Color(float r, float g, float b)
 	m_color[0] = r;
 	m_color[1] = g;
 	m_color[2] = b;
+	m_color[3] = 1.0f;
+	return this;
+}
+
+Label *Label::Color(const ::Color &c)
+{
+	m_color = c;
 	return this;
 }
 
@@ -85,8 +93,10 @@ void Label::Draw()
 		m_layout->Render(size[0]);
 		glTranslatef(-1,-1,0);
 	}
-	glColor3fv(m_color);
+	if (m_color.a != 1.0f) glEnable(GL_BLEND);
+	glColor4fv(m_color);
 	m_layout->Render(size[0]);
+	glDisable(GL_BLEND);
 }
 
 void Label::GetSizeRequested(float size[2])

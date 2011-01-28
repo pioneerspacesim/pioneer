@@ -10,6 +10,7 @@
 class Body;
 class Frame;
 struct SBodyPath;
+class LabelSet;
 
 class WorldView: public View {
 public:
@@ -18,6 +19,7 @@ public:
 	virtual void ShowAll();
 	virtual void Update();
 	virtual void Draw3D();
+	virtual void Draw();
 	virtual void OnSwitchTo();
 	static const float PICK_OBJECT_RECT_SIZE;
 	bool GetShowLabels() { return m_labelsOn; }
@@ -43,9 +45,11 @@ public:
 private:
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
-	void DrawHUD(const Frame *cam_frame);
+	void ProjectObjsToScreenPos(const Frame *cam_frame);
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
+	void DrawCombatTargetIndicator(const Ship* const target);
+
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
@@ -54,7 +58,6 @@ private:
 	void OnChangeHyperspaceTarget();
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeFlightControlState();
-	virtual bool OnMouseDown(Gui::MouseButtonEvent *e);
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const float screenX, const float screenY) const;
 	void MouseButtonDown(int button, int x, int y);
@@ -71,10 +74,21 @@ private:
 	Uint32 m_showTargetActionsTimeout;
 	Render::Shader *m_bgStarShader;
 
+	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo;
+
+	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
+
 	sigc::connection m_onPlayerChangeHyperspaceTargetCon;
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseButtonDown;
+
+	Gui::LabelSet *m_bodyLabels;
+	Gui::Label *m_combatDist, *m_combatSpeed;
+	bool m_velocityIndicatorOnscreen;
+	int m_velocityIndicatorPos[2];
+	bool m_targLeadOnscreen;
+	vector3d m_targLeadPos;
 };
 
 #endif /* _WORLDVIEW_H */

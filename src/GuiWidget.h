@@ -1,6 +1,7 @@
 #ifndef _GUIWIDGET_H
 #define _GUIWIDGET_H
 
+#include "Color.h"
 #include "GuiEvents.h"
 
 namespace Gui {

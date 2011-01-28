@@ -39,9 +39,10 @@ public:
 	const char *GetSystemName() const;
 	/** Caller owns the returned pointer */
 	SBodyPath *GetRandomStarportNearButNotIn() const;
+	SBodyPath *GetRootSBody() const;
 	double GetSystemLawlessness() const;
 	bool IsCommodityLegal(int equip_type) const;
-private:
+protected:
 	/** Returns a cached StarSystem object, with limited lifetime as
 	 * described in StarSystem::GetCached comment. */
 	const StarSystem *Sys() const;
@@ -62,6 +63,7 @@ OOLUA_CLASS_NO_BASES(SysLoc)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemShortDescription)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemName)
 	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRandomStarportNearButNotIn)
+	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRootSBody)
 OOLUA_CLASS_END
 
 #endif /* _SYSLOC_H */

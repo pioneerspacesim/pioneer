@@ -6,14 +6,18 @@ define_model('courier_tip', {     -- engine tips
 			},
 
 	static = function(lod)
-
-        set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
-		set_material('color1', .35,.1,.15,1,1,.85,.9,100)
-        set_material('color2', .15,.1,.35,1,.90,.85,1,100)
+        set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)        
+		set_material('color1', .6,.6,.6,1,1,.85,.9,100,1.5,.4,.7)  -- ('color1', .35,.1,.15,1,1,.85,.9,100)
+        set_material('color2', .6,.6,.6,1,.90,.85,1,100,.7,.4,1.5) -- ('color2', .15,.1,.35,1,.90,.85,1,100)
         set_material('grey', .3,.3,.3,1,.3,.3,.3,10)
         set_material('nazzle', .63,.7,.83,1,1.26,1.4,1.66,10)
 
-		use_material('courier')
+        use_material('courier')
+		if lod > 1 then
+			texture('c_nazzles.png')
+        	load_obj('c_tip_n_out.obj')
+	    end		
+		
 		if lod > 2 then
 			texture('c_eng_l.png')
 		else
@@ -21,7 +25,12 @@ define_model('courier_tip', {     -- engine tips
 		end
   		load_obj('c_tip1.obj')
 
-        use_material('color1')
+        if lod > 3 then
+			texture('wtr.png')
+		else
+		    texture('wtr_s.png')
+		end
+		use_material('color1')
 		load_obj('c_tip2.obj')
 
 		use_material('color2')
@@ -972,7 +981,7 @@ define_model('courier_eng_l', {      -- engine part left all models
         set_material('e_glow2', lerp_materials(os.clock()*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
         if lod > 1 then
-         	call_model('posl_green', v(-34,-11.16,7), v(0,0,1), v(-1,0.0),2.5)
+         	call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0.0),2.5)
        		call_model('coll_warn', v(-31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
       	end
 
@@ -1044,7 +1053,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 		set_material('e_glow2', lerp_materials(os.clock()*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
-        	call_model('posl_red', v(34,-11.16,7), v(0,0,1), v(1,0.0),2.5)
+        	call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0.0),2.5)
        		call_model('coll_warn', v(31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
    		end
 
@@ -1190,12 +1199,9 @@ define_model('courier_sub', {     -- courier sub-model, all models
 
 define_model('courier', {
 	info = {
-			scale = 1,  --[[ original scale to match fe2 would be 1.43,
-							but since both have the same size in fe2 i made the courier a bit smaller,
-							in fe2 they have a span of 100m, so they fit exactly into the dock
-							]]--
-			lod_pixels = {1, 50, 200, 0},
-			bounding_radius = 50,
+			scale = 1,   --1.5 = ffed3d export scale, mentioned for trader?
+			lod_pixels = {1, 50, 300, 0},
+			bounding_radius = 45,
 			tags = {'ship'},
 			ship_defs = {
 				{
@@ -1296,9 +1302,9 @@ define_model('courier', {
 
 define_model('trader', {
 	info = {
-			scale = 1.43,
-			lod_pixels = { 1, 50, 200, 0 },
-			bounding_radius = 72,
+			scale = 1.5,
+			lod_pixels = { 1, 50, 300, 0 },
+			bounding_radius = 70,
 			tags = {'ship'},
 			ship_defs = {
 				{

@@ -179,6 +179,10 @@ end
 
 dofile "data/pienums.lua"
 
+-- The following enums haven't been put in pienums because
+-- pienums is also included from the pioneer model lua context,
+-- which doesn't have the Pi & SBody objects.
+
 -- Keep in sync with Polit.h enum Crime
 Pi.Crime = {
 	CRIME_TRADING_ILLEGAL_GOODS=1,
@@ -186,6 +190,48 @@ Pi.Crime = {
 	CRIME_PIRACY=4,
 	CRIME_MURDER=8,
 }
+
+-- Keep in sync with StarSystem.h SBody enum BodyType
+SBody.TYPE_GRAVPOINT = 0;
+SBody.TYPE_BROWN_DWARF = 1;
+SBody.TYPE_STAR_M = 2;
+SBody.TYPE_STAR_K = 3;
+SBody.TYPE_STAR_G = 4;
+SBody.TYPE_STAR_F = 5;
+SBody.TYPE_STAR_A = 6;
+SBody.TYPE_STAR_B = 7;
+SBody.TYPE_STAR_O = 8;
+SBody.TYPE_STAR_M_GIANT = 9;
+SBody.TYPE_WHITE_DWARF = 10;
+SBody.TYPE_PLANET_SMALL_GAS_GIANT = 11;
+SBody.TYPE_PLANET_MEDIUM_GAS_GIANT = 12;
+SBody.TYPE_PLANET_LARGE_GAS_GIANT = 13;
+SBody.TYPE_PLANET_VERY_LARGE_GAS_GIANT = 14;
+SBody.TYPE_PLANET_ASTEROID = 15;
+SBody.TYPE_PLANET_LARGE_ASTEROID = 16;
+SBody.TYPE_PLANET_DWARF = 17;
+SBody.TYPE_PLANET_SMALL = 18;
+SBody.TYPE_PLANET_WATER = 19;
+SBody.TYPE_PLANET_DESERT = 20;
+SBody.TYPE_PLANET_CO2 = 21;
+SBody.TYPE_PLANET_METHANE = 22;
+SBody.TYPE_PLANET_WATER_THICK_ATMOS = 23;
+SBody.TYPE_PLANET_CO2_THICK_ATMOS = 24;
+SBody.TYPE_PLANET_METHANE_THICK_ATMOS = 25;
+SBody.TYPE_PLANET_HIGHLY_VOLCANIC = 26;
+SBody.TYPE_PLANET_INDIGENOUS_LIFE = 27;
+SBody.TYPE_PLANET_TERRAFORMED_POOR = 28;
+SBody.TYPE_PLANET_TERRAFORMED_GOOD = 29;
+SBody.TYPE_STARPORT_ORBITAL = 30;
+SBody.TYPE_STARPORT_SURFACE = 31;
+SBody.TYPE_MAX = 32;
+		
+-- Keep in sync with StarSystem.h SBody enum BodySuperType
+SBody.SUPERTYPE_NONE = 0;
+SBody.SUPERTYPE_STAR = 1;
+SBody.SUPERTYPE_ROCKY_PLANET = 2;
+SBody.SUPERTYPE_GAS_GIANT = 3;
+SBody.SUPERTYPE_STARPORT = 4;
 
 Module = {}
 function Module:new(o)

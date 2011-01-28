@@ -18,10 +18,9 @@ namespace Gui {
 		static void OnClick(SDL_MouseButtonEvent *e);
 		static void OnKeyDown(const SDL_keysym *sym);
 		static void OnKeyUp(const SDL_keysym *sym);
-		static void RenderString(const std::string &s);
+		static void RenderString(const std::string &s, float xoff, float yoff);
 		static void MeasureString(const std::string &s, float &w, float &h);
 		static void RenderMarkup(const std::string &s);
-		static void PutClickableLabel(const std::string &s, float x, float y, sigc::slot<void, const Gui::MouseButtonEvent*> slot);
 		static void RenderLabel(const std::string &s, float x, float y);
 		static void EnterOrtho();
 		static void LeaveOrtho();
@@ -44,14 +43,6 @@ namespace Gui {
 			return w == focusedWidget;
 		}
 	private:
-		struct LabelPos {
-			LabelPos(float _x, float _y): x(_x), y(_y) {}
-			float x, y;
-			sigc::signal<void, const Gui::MouseButtonEvent*> onClick;
-		};
-		static std::vector<LabelPos> labelPositions;
-		static void OnClickTestLabels(const Gui::MouseButtonEvent &ev);
-		static bool CanPutLabel(float x, float y);
 		static void AddShortcutWidget(Widget *w);
 		static void RemoveShortcutWidget(Widget *w);
 		static void SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y);

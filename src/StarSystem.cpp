@@ -26,12 +26,13 @@ float StarSystem::starColors[][3] = {
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.6, 0.1 }, // K
-	{ 0.4, 0.4, 0.8 }, // white dwarf
 	{ 1.0, 1.0, 0.4 }, // G
 	{ 1.0, 1.0, 0.8 }, // F
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.7, 0.7, 1.0 }, // B
-	{ 1.0, 0.7, 1.0 }  // O
+	{ 1.0, 0.7, 1.0 }, // O
+	{ 1.0, 0.2, 0.0 }, // red giant
+	{ 0.4, 0.4, 0.8 }, // white dwarf
 };
 
 // indexed by enum type turd  
@@ -40,12 +41,13 @@ float StarSystem::starRealColors[][3] = {
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
 	{ 1.0, 0.5, 0.2 }, // M
 	{ 1.0, 1.0, 0.4 }, // K
-	{ 1.0, 1.0, 1.0 }, // white dwarf
 	{ 1.0, 1.0, 0.95 }, // G
 	{ 1.0, 1.0, 1.0 }, // F
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.8, 0.8, 1.0 }, // B
-	{ 1.0, 0.8, 1.0 }  // O
+	{ 1.0, 0.8, 1.0 },  // O
+	{ 1.0, 0.5, 0.2 }, // red giant
+	{ 1.0, 1.0, 1.0 }, // white dwarf
 };
 
 float StarSystem::starLuminosities[] = {
@@ -85,11 +87,6 @@ static const struct SBodySubTypeInfo {
 		{50,78}, 90, "Type 'K' orange star",
 		"icons/object_star_k.png",
 		3500, 5000
-	}, {
-		SBody::SUPERTYPE_STAR,
-		{20,100}, 1, "White dwarf",
-		"icons/object_white_dwarf.png",
-		4000, 40000
 	}, { 
 		SBody::SUPERTYPE_STAR,
 		{80,110}, 110, "Type 'G' yellow star",
@@ -115,6 +112,16 @@ static const struct SBodySubTypeInfo {
 		{2000,4000}, 1600, "Hot, massive type 'O' blue star",
 		"icons/object_star_o.png",
 		30000, 60000
+	}, {
+		SBody::SUPERTYPE_STAR,
+		{60,1000}, 15000, "Red giant star",
+		"icons/object_star_m_giant.png",
+		2000, 3500
+	}, {
+		SBody::SUPERTYPE_STAR,
+		{20,100}, 1, "White dwarf",
+		"icons/object_white_dwarf.png",
+		4000, 40000
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
 		{}, 390, "Small gas giant",
@@ -352,8 +359,9 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
-EXPORT_OOLUA_FUNCTIONS_4_CONST(SBodyPath,
-		GetBodyName, GetSeed, GetSystem, GetParent)
+EXPORT_OOLUA_FUNCTIONS_8_CONST(SBodyPath,
+		GetBodyName, GetSeed, GetSystem, GetParent, GetType, GetSuperType,
+		GetNumChildren, GetNthChild)
 
 SBodyPath::SBodyPath(): SysLoc()
 {
@@ -381,21 +389,48 @@ const char *SBodyPath::GetBodyName() const
 	return GetSBody()->name.c_str();
 }
 
+int SBodyPath::GetNumChildren() const
+{
+	return GetSBody()->children.size();
+}
+
 Uint32 SBodyPath::GetSeed() const
 {
 	return GetSBody()->seed;
 }
 
+int SBodyPath::GetType() const
+{
+	return (int)GetSBody()->type;
+}
+
+int SBodyPath::GetSuperType() const
+{
+	return (int)GetSBody()->GetSuperType();
+}
+
 const SBody *SBodyPath::GetSBody() const
 {
-	StarSystem *s = StarSystem::GetCached(*this);
+	const StarSystem *s = Sys();
 	return s->GetBodyByPath(this);
 }
 	
 SBodyPath *SBodyPath::GetParent() const {
 	SBodyPath *p = new SBodyPath;
-	StarSystem *sys = StarSystem::GetCached(*this);
+	const StarSystem *sys = Sys();
 	sys->GetPathOf(sys->GetBodyByPath(this)->parent, p);
+	return p;
+}
+
+SBodyPath *SBodyPath::GetNthChild(int n) const
+{
+	const StarSystem *sys = Sys();
+	const SBody *sbody = GetSBody();
+	if ((n < 1) || (n > sbody->children.size())) {
+		return 0;
+	}
+	SBodyPath *p = new SBodyPath;
+	sys->GetPathOf(sbody->children[n-1], p);
 	return p;
 }
 
