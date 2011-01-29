@@ -170,13 +170,20 @@ private:
 		// combat data
 		vector3d lastVel;	// target's position last frame
 		float timeStep;		// last timestep length
+		
+		float timeSinceChange;
+		float changeTime;
+		vector3d curDir;
 
 		AIInstruction(AICommand c): cmd(c), path(0) {
 			target = 0;
 			endTime = 0;
 			startTime = 0;
 			frame = 0;
-			timeStep = 0.0;
+			timeStep = 0.0f;
+
+			timeSinceChange = 0.0f;
+			changeTime = 0.0f;
 		}
 	};
 	std::list<AIInstruction> m_todo;

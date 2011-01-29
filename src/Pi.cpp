@@ -951,9 +951,11 @@ void Pi::MainLoop()
 		if (Pi::MouseButtonState(3)) {
 			SDL_ShowCursor(0);
 			SDL_WM_GrabInput(SDL_GRAB_ON);
+//			SDL_SetRelativeMouseMode(true);
 		} else {
 			SDL_ShowCursor(1);
 			SDL_WM_GrabInput(SDL_GRAB_OFF);
+//			SDL_SetRelativeMouseMode(false);
 		}
 
 		Render::PostProcess();

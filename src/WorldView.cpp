@@ -606,8 +606,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d angvel = Pi::player->GetAngVelocity();
 		vector3d torque = Pi::player->GetAccumTorque();
 		vector3d impulse = torque / Pi::player->GetAngularInertia();
-		snprintf(buf, 1024, "Angvel = %5f,%5f,%5f\n" "Impulse = %5f,%5f,%5f\n",
-			angvel.x, angvel.y, angvel.z, impulse.x, impulse.y, impulse.z);
+		vector3d mdir = Pi::player->GetMouseDir();
+		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
+			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
@@ -1037,6 +1038,14 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		}
 	}
 
+	// test code for mousedir
+/*	vector3d mdir = Pi::player->GetMouseDir();
+	if (mdir.z < 0) {
+		GLdouble pos[3];
+		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+
+	}
+*/
 	// Update object onscreen positions
 	{
 		m_bodyLabels->Clear();

@@ -650,7 +650,7 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 	bool engines_not_powerful_enough = false;
 	for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) {
 		if (state[i] > 1.0) engines_not_powerful_enough = true;
-		SetThrusterState((ShipType::Thruster)i, state[i]);
+		SetThrusterState((ShipType::Thruster)i, (float)state[i]);
 	}
 #ifdef DEBUG
 	if (engines_not_powerful_enough) {
@@ -723,7 +723,7 @@ bool Ship::AICmdKamikaze(const Ship *enemy)
 	SetGunState(0,0);
 	/* needs to deal with frames, large distances, and success */
 	if (GetFrame() == enemy->GetFrame()) {
-		const float dist = (enemy->GetPosition() - GetPosition()).Length();
+		const float dist = (float)(enemy->GetPosition() - GetPosition()).Length();
 		vector3d vRel = GetVelocityRelativeTo(enemy);
 		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
 
@@ -732,7 +732,7 @@ bool Ship::AICmdKamikaze(const Ship *enemy)
 		dir = (enemyProjectedPos - GetPosition()).Normalized();
 
 		ClearThrusterState();
-		AIFaceDirection(dir, Pi::GetTimeStep()/PHYSICS_HZ);
+		AIFaceDirection(dir, (float)(Pi::GetTimeStep()/PHYSICS_HZ));
 
 		// thunder at target at 400m/sec
 		AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), enemy);
@@ -895,7 +895,6 @@ void Ship::AIMatchAngVel(const vector3d &dav)
 */
 
 // Applies thrust directly
-
 void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -912,8 +911,8 @@ void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
 		double iangvel = sqrt (2.0 * maxAccel * ang);		// ideal angvel at current time
 
 		double frameEndAV = iangvel - frameAccel;
-		if (frameEndAV <= 0.0) iangvel = iangvel * 0.5;		// last frame discrete correction
-		iangvel = (iangvel + frameEndAV) * 0.5;				// discrete overshoot correction
+		if (frameEndAV <= 0.0) iangvel = ang / timeStep;		// last frame discrete correction
+		else iangvel = (iangvel + frameEndAV) * 0.5;				// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
 		double head2dnorm = head.x*head.x + head.y*head.y;
@@ -925,15 +924,15 @@ void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
 	vector3d cav = GetAngVelocity() * rot;		// current obj-rel angvel
 	vector3d diff = dav - cav;					// find diff between current & desired angvel
 
-	SetAngThrusterState(0, diff.x * invFrameAccel);
-	SetAngThrusterState(1, diff.y * invFrameAccel);
-	SetAngThrusterState(2, diff.z * invFrameAccel);
+	SetAngThrusterState(0, (float)(diff.x * invFrameAccel));
+	SetAngThrusterState(1, (float)(diff.y * invFrameAccel));
+	SetAngThrusterState(2, (float)(diff.z * invFrameAccel));
 }
 
 
-
-/* Orient so our -ve z axis == dir. ie so that dir points forwards */
-/*void Ship::AIFaceDirection(const vector3d &dir)
+/*
+// Orient so our -ve z axis == dir. ie so that dir points forwards
+void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
 {
 	double invTimeAccel = 1.0 / Pi::GetTimeAccel();
 	matrix4x4d rot;
@@ -1015,9 +1014,9 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness)
 			thrust[axis] = (angVel[axis] > 0.0 ? 1.0 : -1.0);
 		}
 	}
-	SetAngThrusterState(0, thrust.x);
-	SetAngThrusterState(1, thrust.y);
-	SetAngThrusterState(2, thrust.z);
+	SetAngThrusterState(0, (float)thrust.x);
+	SetAngThrusterState(1, (float)thrust.y);
+	SetAngThrusterState(2, (float)thrust.z);
 }
 
 
@@ -1050,21 +1049,21 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	vector3d difVel = v - relVel;
 	// want to change velocity by difVel...
 //	SetVelocity(m * (relVel + difVel));
-	const float invMass = 1.0 / GetMass();
+	const float invMass = (float)(1.0 / GetMass());
 
 	if (difVel.x > 0) {
 		// figure out biggest accel can get, and then what we need this timestep.
 		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_RIGHT] * invMass;
 		float thrust;
 		if (velChange < difVel.x) thrust = 1.0;
-		else thrust = difVel.x / velChange;
+		else thrust = (float)difVel.x / velChange;
 		thrust *= thrust; // this is just to hide control jiggle
 		SetThrusterState(ShipType::THRUSTER_RIGHT, thrust);
 	} else {
 		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_LEFT] * invMass;
 		float thrust;
 		if (velChange > difVel.x) thrust = 1.0;
-		else thrust = difVel.x / velChange;
+		else thrust = (float)difVel.x / velChange;
 		thrust *= thrust;
 		SetThrusterState(ShipType::THRUSTER_LEFT, thrust);
 	}
@@ -1073,14 +1072,14 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_UP] * invMass;
 		float thrust;
 		if (velChange < difVel.y) thrust = 1.0;
-		else thrust = difVel.y / velChange;
+		else thrust = (float)difVel.y / velChange;
 		thrust *= thrust;
 		SetThrusterState(ShipType::THRUSTER_UP, thrust);
 	} else {
 		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_DOWN] * invMass;
 		float thrust;
 		if (velChange > difVel.y) thrust = 1.0;
-		else thrust = difVel.y / velChange;
+		else thrust = (float)difVel.y / velChange;
 		thrust *= thrust;
 		SetThrusterState(ShipType::THRUSTER_DOWN, thrust);
 	}
@@ -1089,14 +1088,14 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_REVERSE] * invMass;
 		float thrust;
 		if (velChange < difVel.z) thrust = 1.0;
-		else thrust = difVel.z / velChange;
+		else thrust = (float)difVel.z / velChange;
 		thrust *= thrust;
 		SetThrusterState(ShipType::THRUSTER_REVERSE, thrust);
 	} else {
 		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_FORWARD] * invMass;
 		float thrust;
 		if (velChange > difVel.z) thrust = 1.0;
-		else thrust = difVel.z / velChange;
+		else thrust = (float)difVel.z / velChange;
 		thrust *= thrust;
 		SetThrusterState(ShipType::THRUSTER_FORWARD, thrust);
 	}
@@ -1121,6 +1120,44 @@ void Ship::AIFight()
 }
 */
 
+// temporary evasion-test version
+bool Ship::AICmdKill(AIInstruction &inst, float timeStep)
+{
+	inst.timeSinceChange += timeStep;
+	if (inst.timeSinceChange < inst.changeTime) {
+		AIFaceDirection(inst.curDir, timeStep);
+		return false;
+	}
+
+	ClearThrusterState();
+
+	// ok, so now pick new direction
+	vector3d targdir = inst.target->GetPositionRelTo(this).Normalized();
+	vector3d tdir1 = targdir.Cross(vector3d(targdir.z+0.1, targdir.x, targdir.y));
+	tdir1 = tdir1.Normalized();
+	vector3d tdir2 = targdir.Cross(tdir2);
+
+	double d1 = Pi::rng.Double() - 0.5;
+	double d2 = Pi::rng.Double() - 0.5;
+
+	inst.curDir = (targdir + d1*tdir1 + d2*tdir2).Normalized();
+	AIFaceDirection(inst.curDir, timeStep);
+
+	SetThrusterState(ShipType::THRUSTER_FORWARD, 0.66);		// give player a chance
+	switch(Pi::rng.Int32() & 0x3)
+	{
+		case 0x0: SetThrusterState(ShipType::THRUSTER_LEFT, 0.7); break;
+		case 0x1: SetThrusterState(ShipType::THRUSTER_RIGHT, 0.7); break;
+		case 0x2: SetThrusterState(ShipType::THRUSTER_UP, 0.7); break;
+		case 0x3: SetThrusterState(ShipType::THRUSTER_DOWN, 0.7); break;
+	}
+
+	inst.timeSinceChange = 0.0f;
+	inst.changeTime = (float)Pi::rng.Double() * 10.0f;
+	return false;
+}
+
+/*
 bool Ship::AICmdKill(AIInstruction &inst, float timeStep)
 {
 	SetGunState(0,0);
@@ -1204,10 +1241,10 @@ bool Ship::AICmdKill(AIInstruction &inst, float timeStep)
 		SetGunState(0,1);
 	}
 
-/*	Possibly don't need this because angvel never reaches zero on moving target
+//	Possibly don't need this because angvel never reaches zero on moving target
 	// and approximate target angular velocity at leaddir
-	vector3d leaddir2 = (leadpos + targvel*0.01).Normalized();
-	vector3d leadav = leaddir.Cross(leaddir2) * 100.0;
+//	vector3d leaddir2 = (leadpos + targvel*0.01).Normalized();
+//	vector3d leadav = leaddir.Cross(leaddir2) * 100.0;
 	// does this really give a genuine angvel? Probably
 
 	// so have target heading and target angvel at that heading
@@ -1215,6 +1252,7 @@ bool Ship::AICmdKill(AIInstruction &inst, float timeStep)
 	// not really: direction of leaddir and leadangvel may be different
 	// so blend two results: thrust to reach leaddir and thrust to attain leadangvel
 	// bias towards leadangvel as heading approaches leaddir
-*/
+
 	return false;
 }
+*/
