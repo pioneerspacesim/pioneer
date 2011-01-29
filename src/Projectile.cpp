@@ -11,12 +11,10 @@
 #include "Planet.h"
 #include "Sfx.h"
 
-#define PROJECTILE_AGE 1.0f
-
 Projectile::Projectile(): Body()
 {
 	m_orient = matrix4x4d::Identity();
-	m_type = TYPE_1MW_PULSE;
+	m_type = 1;
 	m_age = 0;
 	m_parent = 0;
 	m_flags |= FLAG_DRAW_LAST;
@@ -40,7 +38,7 @@ void Projectile::Load(Serializer::Reader &rd)
 	m_baseVel = rd.Vector3d();
 	m_dirVel = rd.Vector3d();
 	m_age = rd.Float();
-	m_type = static_cast<Projectile::TYPE>(rd.Int32());
+	m_type = rd.Int32();
 	m_parent = (Body*)rd.Int32();
 }
 
@@ -76,36 +74,17 @@ void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
 	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * (double)timeStep);
-
-	switch (m_type) {
-		case TYPE_1MW_PULSE:
-		case TYPE_2MW_PULSE:
-		case TYPE_4MW_PULSE:
-		case TYPE_10MW_PULSE:
-		case TYPE_20MW_PULSE:
-		case TYPE_17MW_MINING:
-		case TYPE_SMALL_PLASMA_ACCEL:
-		case TYPE_LARGE_PLASMA_ACCEL:
-			if (m_age > PROJECTILE_AGE) Space::KillBody(this);
-			break;
-	}
+	if (m_age > Equip::lasers[m_type].lifespan) Space::KillBody(this);
 }
 
 /* In hull kg */
 float Projectile::GetDamage() const
 {
-	float dam = 0;
-	switch (m_type) {
-		case TYPE_1MW_PULSE: dam = 1000.0f; break;
-		case TYPE_2MW_PULSE: dam = 2000.0f; break;
-		case TYPE_4MW_PULSE: dam = 4000.0f; break;
-		case TYPE_10MW_PULSE: dam = 10000.0f; break;
-		case TYPE_20MW_PULSE: dam = 20000.0f; break;
-		case TYPE_17MW_MINING: dam = 17000.0f; break;
-		case TYPE_SMALL_PLASMA_ACCEL: dam = 50000.0f; break;
-		case TYPE_LARGE_PLASMA_ACCEL: dam = 100000.0f; break;
-	}
-	return dam * (PROJECTILE_AGE - m_age)/PROJECTILE_AGE;
+	float dam = Equip::lasers[m_type].damage;
+	float lifespan = Equip::lasers[m_type].lifespan;
+//	return dam * sqrt((lifespan - m_age)/lifespan);
+	// TEST
+	return 0.01f;
 }
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
@@ -132,7 +111,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 void Projectile::StaticUpdate(const float timeStep)
 {
 	CollisionContact c;
-	vector3d vel = m_baseVel + m_dirVel;
+	vector3d vel = m_dirVel * 0.1;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
 	
 	if (c.userData1) {
@@ -149,7 +128,7 @@ void Projectile::StaticUpdate(const float timeStep)
 			}
 		}
 	}
-	if (m_type == TYPE_17MW_MINING) {
+	if (Equip::lasers[m_type].flags & Equip::LASER_MINING) {
 		// need to test for terrain hit
 		if (GetFrame()->m_astroBody && GetFrame()->m_astroBody->IsType(Object::PLANET)) {
 			Planet *const planet = static_cast<Planet*>(GetFrame()->m_astroBody);
@@ -186,49 +165,16 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	for (int i=0; i<50; i++, p+=0.02) {
 		points[i] = _from + p*_dir;
 	}
-	Color col;
-
-	switch (m_type) {
-		case TYPE_1MW_PULSE:
-			col = Color(1.0f, 0.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 10.0f, col, tex);
-			break;
-		case TYPE_2MW_PULSE:
-			col = Color(1.0f, 0.5f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 10.0f, col, tex);
-			break;
-		case TYPE_4MW_PULSE:
-			col = Color(1.0f, 1.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 10.0f, col, tex);
-			break;
-		case TYPE_10MW_PULSE:
-			col = Color(0.0f, 1.0f, 0.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 10.0f, col, tex);
-			break;
-		case TYPE_20MW_PULSE:
-			col = Color(0.0f, 0.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 10.0f, col, tex);
-			break;
-		case TYPE_17MW_MINING:
-			col = Color(0.0f, 0.3f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 10.0f, col, tex);
-			break;
-		case TYPE_SMALL_PLASMA_ACCEL:
-			col = Color(0.0f, 1.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 14.0f, col, tex);
-			break;
-		case TYPE_LARGE_PLASMA_ACCEL:
-			col = Color(0.5f, 1.0f, 1.0f, 1.0f-(m_age/PROJECTILE_AGE));
-			Render::PutPointSprites(50, points, 18.0f, col, tex);
-			break;
-	}
+	Color col = Equip::lasers[m_type].color;
+	col.a = 1.0f - m_age/Equip::lasers[m_type].lifespan;
+	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col, tex);
 }
 
-void Projectile::Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
+void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
 {
 	Projectile *p = new Projectile();
 	p->m_parent = parent;
-	p->m_type = t;
+	p->m_type = Equip::types[type].tableIndex;
 	p->SetFrame(parent->GetFrame());
 	
 	parent->GetRotMatrix(p->m_orient);

@@ -84,13 +84,13 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	float GetHullTemperature() const;
 	void UseECM();
-	void AIFaceDirection(const vector3d &dir);
+	void AIFaceDirection(const vector3d &dir, float timeStep);
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
-	
+
 	EquipSet m_equipment;
 
 	enum AICommand { DO_NOTHING, DO_KILL, DO_FLY_TO, DO_KAMIKAZE, DO_LOW_ORBIT, DO_MEDIUM_ORBIT, DO_HIGH_ORBIT, DO_DOCK, DO_FOLLOW_PATH, DO_JOURNEY };
@@ -128,10 +128,12 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
+	// TEST
+	void AITimeStep(const float timeStep);
 private:
 	float GetECMRechargeTime();
 	void FireWeapon(int num);
-	void AITimeStep(const float timeStep);
 	void Init();
 	bool IsFiringLasers();
 	void TestLanded();
@@ -165,11 +167,23 @@ private:
 		Frame *frame;
 		SBodyPath journeyDest;
 
+		// combat data
+		vector3d lastVel;	// target's position last frame
+		float timeStep;		// last timestep length
+		
+		float timeSinceChange;
+		float changeTime;
+		vector3d curDir;
+
 		AIInstruction(AICommand c): cmd(c), path(0) {
 			target = 0;
 			endTime = 0;
 			startTime = 0;
 			frame = 0;
+			timeStep = 0.0f;
+
+			timeSinceChange = 0.0f;
+			changeTime = 0.0f;
 		}
 	};
 	std::list<AIInstruction> m_todo;
@@ -179,7 +193,7 @@ private:
 	void AIBodyDeleted(const Body* const body);
 	bool AICmdJourney(AIInstruction &);
 	bool AICmdDock(AIInstruction &, SpaceStation *);
-	bool AICmdKill(const Ship *);
+	bool AICmdKill(AIInstruction &, float timeStep);
 	bool AICmdOrbit(AIInstruction &, double orbitHeight);
 	bool AICmdKamikaze(const Ship *);
 	bool AICmdFlyTo(AIInstruction &);

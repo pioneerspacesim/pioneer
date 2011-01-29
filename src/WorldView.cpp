@@ -84,7 +84,7 @@ WorldView::WorldView(): View()
 	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
 
-	m_debugInfo = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudAltitude = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudPressure = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -92,7 +92,7 @@ WorldView::WorldView(): View()
 	m_hudVelocity->SetToolTip("Ship velocity by reference object");
 	m_hudAltitude->SetToolTip("Ship altitude above terrain");
 	m_hudPressure->SetToolTip("External atmospheric pressure");
-	Add(m_debugInfo, 0.0f, 32.0f);
+	Add(m_debugInfo, 10, 200);
 	Add(m_hudVelocity, 170.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
 	Add(m_hudAltitude, 560.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
 	Add(m_hudPressure, 480.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
@@ -110,6 +110,11 @@ WorldView::WorldView(): View()
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
 	Add(m_bodyLabels, 0, 0);
+
+	m_combatDist = new Gui::Label("");
+	m_combatSpeed = new Gui::Label("");
+	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
+	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
 
 	m_onPlayerChangeHyperspaceTargetCon =
 		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
@@ -219,7 +224,7 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
+//TEST CODE	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
@@ -588,7 +593,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
-		vector3d pos = Pi::player->GetPosition();
+/*		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
@@ -597,6 +602,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
 			rel_to, pos.Length()/1000);
+*/
+		vector3d angvel = Pi::player->GetAngVelocity();
+		vector3d torque = Pi::player->GetAccumTorque();
+		vector3d impulse = torque / Pi::player->GetAngularInertia();
+		vector3d mdir = Pi::player->GetMouseDir();
+		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
+			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
+
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
@@ -1025,6 +1038,14 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		}
 	}
 
+	// test code for mousedir
+/*	vector3d mdir = Pi::player->GetMouseDir();
+	if (mdir.z < 0) {
+		GLdouble pos[3];
+		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+
+	}
+*/
 	// Update object onscreen positions
 	{
 		m_bodyLabels->Clear();
@@ -1043,6 +1064,64 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 				b->SetOnscreen(false);
 		}
 	}
+
+	// update combat HUD
+
+	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
+	m_targLeadOnscreen = false;
+	m_combatDist->SetEnabled(false);
+	m_combatSpeed->SetEnabled(false);
+	if (GetCamType() == CAM_FRONT && enemy)
+	{
+		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
+		matrix4x4d prot = cam_frame->GetOrientation(); prot[12] = prot[13] = prot[14] = 0.0;
+		vector3d targvel = enemy->GetVelocityRelativeTo(Pi::player) * prot;
+
+		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
+		double projspeed = Equip::lasers[laser].speed;
+
+		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
+		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
+		vector3d leaddir = leadpos.Normalized();
+
+		if (leaddir.z < 0.0 && Gui::Screen::Project (leaddir.x, leaddir.y, leaddir.z,
+			modelMatrix, projMatrix, viewport, &m_targLeadPos.x, &m_targLeadPos.y, &m_targLeadPos.z))
+			m_targLeadOnscreen = true;
+
+		// now the text speed/distance
+
+		if (enemy->IsOnscreen())
+		{
+			// want to calculate closing velocity that you couldn't counter with retros
+
+			double dist = targpos.Length();
+			double vel = targvel.z;				// position should be towards
+			double raccel = Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE]
+				/ Pi::player->GetMass();
+
+			double c = vel / sqrt(2.0 * raccel * dist);
+			if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
+			float r = (float)(0.2+(c+1.0)*0.4);
+			float b = (float)(0.2+(1.0-c)*0.4);
+			m_combatSpeed->Color(r, 0.0f, b);
+			m_combatDist->Color(r, 0.0f, b);
+			
+			char buf[1024]; vector3d lpos;
+			snprintf(buf, sizeof(buf), "%.0fm", dist);
+			m_combatDist->SetText(buf);
+			lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
+			MoveChild(m_combatDist, lpos.x, lpos.y);
+			m_combatDist->SetEnabled(true);
+
+			snprintf(buf, sizeof(buf), "%.0fm/s", vel);
+			m_combatSpeed->SetText(buf);
+			lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
+			MoveChild(m_combatSpeed, lpos.x, lpos.y);
+			m_combatSpeed->SetEnabled(true);
+		}
+	}
+
+
 }
 
 void WorldView::Draw()
@@ -1055,7 +1134,7 @@ void WorldView::Draw()
 
 	const float sz = HUD_CROSSHAIR_SIZE;
 	// velocity indicator
-	if (m_velocityIndicatorOnscreen) {
+/*	if (m_velocityIndicatorOnscreen) {
 		const int *pos = m_velocityIndicatorPos;
 		GLfloat vtx[16] = {
 			pos[0]-sz, pos[1]-sz,
@@ -1069,6 +1148,24 @@ void WorldView::Draw()
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
+*/
+/*	if (m_targLeadOnscreen) {
+		int pos[2];
+		pos[0] = (int)m_targLeadPos[0];
+		pos[1] = (int)m_targLeadPos[1];
+		GLfloat vtx[16] = {
+			pos[0]-sz, pos[1]-sz,
+			pos[0]-0.5*sz, pos[1]-0.5*sz,
+			pos[0]+sz, pos[1]-sz,
+			pos[0]+0.5*sz, pos[1]-0.5*sz,
+			pos[0]+sz, pos[1]+sz,
+			pos[0]+0.5*sz, pos[1]+0.5*sz,
+			pos[0]-sz, pos[1]+sz,
+			pos[0]-0.5*sz, pos[1]+0.5*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+	}
+*/
 
 	// normal crosshairs
 	if (GetCamType() == WorldView::CAM_FRONT) {
@@ -1102,9 +1199,10 @@ void WorldView::Draw()
 		glDrawArrays(GL_LINES, 0, 8);
 	}
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisable(GL_BLEND);
 
 	DrawTargetSquares();
+
+	glDisable(GL_BLEND);
 }
 
 void WorldView::DrawTargetSquares()
@@ -1118,11 +1216,52 @@ void WorldView::DrawTargetSquares()
 	}
 
 	if(Pi::player->GetCombatTarget()) {
-		glColor3f(1.0f, 0.0f, 0.0f);
-		DrawTargetSquare(Pi::player->GetCombatTarget());
+//		glColor3f(1.0f, 0.0f, 0.0f);
+//		DrawTargetSquare(Pi::player->GetCombatTarget());
+
+// ok, let's put the fancy stuff in here
+
+		DrawCombatTargetIndicator(static_cast<Ship *>(Pi::player->GetCombatTarget()));
 	}
 
 	glPopAttrib();
+}
+
+
+void WorldView::DrawCombatTargetIndicator(const Ship* const target)
+{
+	if(!target->IsOnscreen()) return;		// fix later
+
+	vector3d pos1 = target->GetProjectedPos();
+	vector3d pos2 = m_targLeadPos;
+
+	vector3d dir = (pos2 - pos1).Normalized();
+
+	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
+	GLfloat vtx[28] = {
+		pos1[0]+10*dir[0], pos1[1]+10*dir[1],
+		pos1[0]+20*dir[0], pos1[1]+20*dir[1],
+		pos1[0]-10*dir[0], pos1[1]-10*dir[1],
+		pos1[0]-20*dir[0], pos1[1]-20*dir[1],
+		pos1[0]-10*dir[1], pos1[1]+10*dir[0],
+		pos1[0]-20*dir[1], pos1[1]+20*dir[0],
+		pos1[0]+10*dir[1], pos1[1]-10*dir[0],
+		pos1[0]+20*dir[1], pos1[1]-20*dir[0],
+
+		pos2[0]-10*dir[0], pos2[1]-10*dir[1],
+		pos2[0]+10*dir[0], pos2[1]+10*dir[1],
+		pos2[0]-10*dir[1], pos2[1]+10*dir[0],
+		pos2[0]+10*dir[1], pos2[1]-10*dir[0],
+
+		pos1[0]+10*dir[0], pos1[1]+10*dir[1],
+		pos2[0], pos2[1],
+	};
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2, GL_FLOAT, 0, vtx);
+	glDrawArrays(GL_LINES, 0, 14);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	
 }
 
 void WorldView::DrawTargetSquare(const Body* const target)

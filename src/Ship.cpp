@@ -568,7 +568,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_flightState == FLYING) Enable();
 	else Disable();
 
-	AITimeStep(timeStep);
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
 		float force = stype.linThrust[i] * m_thrusters[i];
@@ -604,58 +603,31 @@ void Ship::FireWeapon(int num)
 	dir = m.ApplyRotationOnly(dir);
 	pos = m.ApplyRotationOnly(pos);
 	pos += GetPosition();
-	const vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
-	m_gunRecharge[num] = EquipType::types[t].rechargeTime;
-//	const float damage = 1000.0f * (float)EquipType::types[t].pval;
+	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
+	m_gunRecharge[num] = lt.rechargeTime;
 	vector3d baseVel = GetVelocity();
-	vector3d dirVel = 1000.0*dir.Normalized();
+	vector3d dirVel = lt.speed * dir.Normalized();
 	
-	CollisionContact c;
-	switch (t) {
-		case Equip::PULSECANNON_1MW:
-			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_DUAL_1MW:
-			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos+5.0*sep, baseVel, dirVel);
-			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos-5.0*sep, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_2MW:
-		case Equip::PULSECANNON_RAPID_2MW:
-			Projectile::Add(this, Projectile::TYPE_2MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_4MW:
-			Projectile::Add(this, Projectile::TYPE_4MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_10MW:
-			Projectile::Add(this, Projectile::TYPE_10MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_20MW:
-			Projectile::Add(this, Projectile::TYPE_20MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::MININGCANNON_17MW:
-			Projectile::Add(this, Projectile::TYPE_17MW_MINING, pos, baseVel, dirVel);
-			break;
-		case Equip::SMALL_PLASMA_ACCEL:
-			Projectile::Add(this, Projectile::TYPE_SMALL_PLASMA_ACCEL, pos, baseVel, dirVel);
-			break;
-		case Equip::LARGE_PLASMA_ACCEL:
-			Projectile::Add(this, Projectile::TYPE_LARGE_PLASMA_ACCEL, pos, baseVel, dirVel);
-			break;
+	if (lt.flags & Equip::LASER_DUAL)
+	{
+		vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
+		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
+		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
+	}
+	else Projectile::Add(this, t, pos, baseVel, dirVel);
+
+	/*
 			// trace laser beam through frame to see who it hits
-	/*		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
+			CollisionContact c;
+			GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
 			if (c.userData1) {
 				Body *hit = static_cast<Body*>(c.userData1);
 				hit->OnDamage(this, damage);
 			}
-			*/
-			break;
-		default:
-			fprintf(stderr, "Unknown weapon %d\n", t);
-			assert(0);
-			break;
-	}
+	*/
+
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 }
@@ -672,6 +644,8 @@ float Ship::GetHullTemperature() const
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	AITimeStep(timeStep);		// moved to correct place, maybe
+
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
 	}

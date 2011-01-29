@@ -48,6 +48,8 @@ private:
 	void ProjectObjsToScreenPos(const Frame *cam_frame);
 	void DrawTargetSquares();
 	void DrawTargetSquare(const Body* const target);
+	void DrawCombatTargetIndicator(const Ship* const target);
+
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
@@ -62,7 +64,7 @@ private:
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
-	Gui::Label *m_flightStatus, *m_hyperTargetLabel;
+	Gui::Label *m_flightStatus, *m_hyperTargetLabel, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
@@ -82,8 +84,11 @@ private:
 	sigc::connection m_onMouseButtonDown;
 
 	Gui::LabelSet *m_bodyLabels;
+	Gui::Label *m_combatDist, *m_combatSpeed;
 	bool m_velocityIndicatorOnscreen;
 	int m_velocityIndicatorPos[2];
+	bool m_targLeadOnscreen;
+	vector3d m_targLeadPos;
 };
 
 #endif /* _WORLDVIEW_H */
