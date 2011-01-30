@@ -319,7 +319,7 @@ public:
 	}
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
-		int activeLights;
+		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
 		
 		LmrShader *curShader = s_sunlightShader[Render::State::GetNumLights()-1];
