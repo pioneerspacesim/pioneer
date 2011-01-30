@@ -23,6 +23,8 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	{},
 	// TYPE_STAR_O,
 	{},
+	// TYPE_STAR_M_GIANT
+	{},
 	// TYPE_PLANET_SMALL_GAS_GIANT,
 	{ { TERRAIN_GASGIANT },
 	  { COLOR_GG_SATURN, COLOR_GG_JUPITER, COLOR_GG_URANUS, COLOR_GG_NEPTUNE } },
