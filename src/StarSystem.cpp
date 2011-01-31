@@ -60,6 +60,8 @@ float StarSystem::starLuminosities[] = {
 	24.0f, // A0
 	24000.0f, // B0
 	200000.0f, // O5
+	200000.0f, // red giant
+	0.1f, // white dwarf
 };
 
 static const struct SBodySubTypeInfo {
