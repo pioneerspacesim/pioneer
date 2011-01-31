@@ -99,6 +99,7 @@ class GeoSphereStyle {
 	double m_entropy[12];
 
 	vector3d m_rockColor[8];
+	vector3d m_greyrockColor[8];
 
 	struct {
 		fracdef_t continents;
