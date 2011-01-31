@@ -17,6 +17,7 @@ namespace Gui {
 		bool OnMouseMotion(MouseMotionEvent *e);
 		void RemoveAllChildren();
 		void DeleteAllChildren();
+		void GetChildPosition(const Widget *child, float outPos[2]) const;
 		int GetNumChildren() { return m_children.size(); }
 		virtual void Draw();
 		void ShowChildren();

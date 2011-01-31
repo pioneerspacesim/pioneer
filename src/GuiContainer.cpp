@@ -36,7 +36,7 @@ bool Container::OnMouseMotion(MouseMotionEvent *e)
 	float x = e->x;
 	float y = e->y;
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		float pos[2],size[2];
+		float *pos,size[2];
 		if (!(*i).w->IsVisible()) {
 			if ((*i).w->IsMouseOver() == true)
 				(*i).w->OnMouseLeave();
@@ -45,7 +45,7 @@ bool Container::OnMouseMotion(MouseMotionEvent *e)
 		int evmask = (*i).w->GetEventMask();
 		if (!(evmask & Widget::EVENT_MOUSEMOTION)) continue;
 
-		(*i).w->GetPosition(pos);
+		pos = (*i).pos;
 		(*i).w->GetSize(size);
 
 		if ((x >= pos[0]) && (x < pos[0]+size[0]) &&
@@ -70,7 +70,7 @@ bool Container::HandleMouseEvent(MouseButtonEvent *e)
 	float x = e->x;
 	float y = e->y;
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		float pos[2],size[2];
+		float *pos,size[2];
 		if (!(*i).w->IsVisible()) continue;
 		if (!(*i).w->GetEnabled()) continue;
 		int evmask = (*i).w->GetEventMask();
@@ -79,7 +79,7 @@ bool Container::HandleMouseEvent(MouseButtonEvent *e)
 		} else {
 			if (!(evmask & Widget::EVENT_MOUSEUP)) continue;
 		}
-		(*i).w->GetPosition(pos);
+		pos = (*i).pos;
 		(*i).w->GetSize(size);
 
 		if ((x >= pos[0]) && (x < pos[0]+size[0]) &&
@@ -118,7 +118,6 @@ void Container::PrependChild(Widget *child, float x, float y)
 	wp.w = child;
 	wp.pos[0] = x; wp.pos[1] = y;
 	wp.flags = 0;
-	child->SetPosition(x, y);
 	child->SetParent(this);
 	m_children.push_front(wp);
 }
@@ -129,7 +128,6 @@ void Container::AppendChild(Widget *child, float x, float y)
 	wp.w = child;
 	wp.pos[0] = x; wp.pos[1] = y;
 	wp.flags = 0;
-	child->SetPosition(x, y);
 	child->SetParent(this);
 	m_children.push_back(wp);
 }
@@ -140,7 +138,6 @@ void Container::MoveChild(Widget *child, float x, float y)
 		if ((*i).w == child) {
 			(*i).pos[0] = x;
 			(*i).pos[1] = y;
-			child->SetPosition(x,y);
 			return;
 		}
 	}
@@ -224,6 +221,18 @@ void Container::HideChildren()
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i).w->Hide();
 	}
+}
+
+void Container::GetChildPosition(const Widget *child, float outPos[2]) const
+{
+	for (std::list<widget_pos>::const_iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		if ((*i).w == child) {
+			outPos[0] = (*i).pos[0];
+			outPos[1] = (*i).pos[1];
+			return;
+		}
+	}
+	assert(0);
 }
 
 void Container::Show()

@@ -15,9 +15,7 @@ namespace Gui {
 		/** containers call this on children. input: size[] will contain max permissible size
 		 *  output: size[] will contain what space the widget desires */
 		virtual void GetSizeRequested(float size[2]) = 0;
-		void GetPosition(float pos[2]) const { pos[0] = m_size.x; pos[1] = m_size.y; }
-		void GetAbsolutePosition(float pos[2]);
-		void SetPosition(float x, float y) { m_size.x = x; m_size.y = y; }
+		void GetAbsolutePosition(float pos[2]) const;
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
 		void ResizeRequest();
@@ -74,7 +72,7 @@ namespace Gui {
 		void UpdateOverriddenTooltip();
 	private:
 		struct {
-			float x,y,w,h;
+			float w,h;
 		} m_size;
 		bool m_visible;
 		bool m_mouseOver;

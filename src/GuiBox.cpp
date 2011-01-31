@@ -147,9 +147,6 @@ void Box::UpdateAllChildSizes()
 			}
 		}
 	}
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i).w->SetPosition((*i).pos[0], (*i).pos[1]);
-	}
 }
 
 void Box::Remove(Widget *child)
