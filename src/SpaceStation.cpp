@@ -497,7 +497,7 @@ void SpaceStation::DoLawAndOrder()
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
 			Ship *ship = new Ship(ShipType::LADYBIRD);
-			ship->AIInstruct(Ship::DO_KILL, Pi::player);
+			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Space::AddBody(ship);

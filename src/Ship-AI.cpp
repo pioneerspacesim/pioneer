@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "Ship.h"
+#include "ShipAICmd.h"
 #include "Pi.h"
 #include "Player.h"
 #include "perlin.h"
@@ -7,6 +8,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "Space.h"
+
 
 /**
  * Should be at least 3 points (start, 1 control point, and endpoint). This
@@ -54,27 +56,6 @@ static void path(int numPoints, const vector3d *points,
 	}
 }
 
-void Ship::AIBodyDeleted(const Body* const body)
-{
-	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ) {
-		switch ((*i).cmd) {
-			case DO_KILL:
-			case DO_LOW_ORBIT:
-			case DO_MEDIUM_ORBIT:
-			case DO_HIGH_ORBIT:
-			case DO_KAMIKAZE:
-			case DO_FLY_TO:
-			case DO_DOCK:
-				if (body == (*i).target) i = m_todo.erase(i);
-				else i++;
-				break;
-			default:
-				i++;
-				break;
-		}
-	}
-}
-
 static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, const double sphereRadius, double &outDist)
 {
 	outDist = 0;
@@ -104,10 +85,10 @@ static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, con
 	return false;
 }
 
-/**
- * Target should be in this->GetFrame() coordinates
- * If obstructor is not null then *obstructor will be set.
- */
+
+// Target should be in this->GetFrame() coordinates
+// If obstructor is not null then *obstructor will be set.
+
 bool Ship::AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor, double &outDist)
 {
 	Body *body = Space::FindNearestTo(this, Object::PLANET);
@@ -126,62 +107,8 @@ bool Ship::AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstru
 	return false;
 }
 
-void Ship::AITimeStep(const float timeStep)
-{
-	bool done = false;
-	
-	// allow the launch thruster thing to happen
-	if (m_launchLockTimeout != 0) return;
-	
-	if (m_todo.size() != 0) {
-		AIInstruction &inst = m_todo.front();
-		switch (inst.cmd) {
-			case DO_DOCK:
-				done = AICmdDock(inst, static_cast<SpaceStation*>(inst.target));
-				break;
-			case DO_KAMIKAZE:
-				done = AICmdKamikaze(static_cast<const Ship*>(inst.target));
-				break;
-			case DO_KILL:
-				done = AICmdKill(inst, timeStep);
-				break;
-			case DO_LOW_ORBIT:
-				done = AICmdOrbit(inst, 1.1);
-				break;
-			case DO_MEDIUM_ORBIT:
-				done = AICmdOrbit(inst, 2.0);
-				break;
-			case DO_HIGH_ORBIT:
-				done = AICmdOrbit(inst, 5.0);
-				break;
-			case DO_FLY_TO:
-				done = AICmdFlyTo(inst);
-				break;
-			case DO_FOLLOW_PATH:
-				done = AIFollowPath(inst, inst.frame, true);
-				break;
-			case DO_JOURNEY:
-				done = AICmdJourney(inst);
-				break;
-			case DO_NOTHING: done = true; break;
-		}
-	}
-	if (done) { 
-		ClearThrusterState();
-		printf("AI '%s' successfully executed %d\n", GetLabel().c_str(), m_todo.front().cmd);
-		m_todo.pop_front();
-		/* Finished autopilot program so fall out of time accel */
-		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
-			// doesn't happen until next game tick, which is good
-			// because AI will have set thrusters assuming a
-			// particular timestep
-			Pi::RequestTimeAccel(1);
-			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
-		}
-	}
-}
-
-bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
+// returns false if path is clear, otherwise generates new AI path and returns it
+bool Ship::AIAddAvoidancePathOnWayTo(const Body *target, AIPath &newPath)
 {
 	Body *obstructor;
 	double distanceToHit;
@@ -293,129 +220,42 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target)
 	double duration;
 	const ShipType &type = GetShipType();
 	const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
-	AIInstruction &inst = AIPrependInstruction(DO_FOLLOW_PATH, obstructor);
-	path(pos.size(), &pos[0], ourVelocity, endVelocity, maxAccel*.75, duration, inst.path);
+	path(pos.size(), &pos[0], ourVelocity, endVelocity, maxAccel*.75, duration, newPath.path);
+
 	int i = 0;
 	for (float t=0.0; i<=10; i++, t+=0.1) {
-		vector3d v = inst.path.DerivativeOf().Eval(t) * (1.0/duration);
+		vector3d v = newPath.path.DerivativeOf().Eval(t) * (1.0/duration);
 		//printf("%.1f: %f,%f,%f\n", t, v.x,v.y,v.z);
 	}
-
 	printf("duration %f\n", duration);
-	inst.startTime = Pi::GetGameTime();
-	inst.endTime = inst.startTime + duration;
-	inst.frame = frame;
+
+	newPath.startTime = Pi::GetGameTime();
+	newPath.endTime = newPath.startTime + duration;
+	newPath.frame = frame;
+
 	return true;
 }
 
-bool Ship::AICmdDock(AIInstruction &inst, SpaceStation *target)
+// returns true if path is complete
+bool Ship::AIFollowPath(AIPath &path, bool pointShipAtVelocityVector)
 {
-	Frame *frame = target->GetFrame();
-
-	// Ship::DOCKING for example...
-	if (GetFlightState() != Ship::FLYING) return true;
-
-	// is there planets in our way that we need to avoid?
-	if (AIAddAvoidancePathOnWayTo(target)) {
-		// since we have added a new path, the current one will be invalid
-		// and must be rebuilt:
-		inst.endTime = 0;
-		return false;
-	}
-
-	if (target->GetPositionRelTo(this).Length() > 100000.0) {
-		AIPrependInstruction(DO_FLY_TO, target);
-		return false;
-	}
-
-	if (frame->IsRotatingFrame() && !target->IsGroundStation()) {
-		// can't autopilot by the rotating frame of a space station
-		// (it rotates too fast and it would be incorrect anyway)
-		frame = frame->m_parent;
-	}
-
-	int port = target->GetMyDockingPort(this);
-	if (port == -1) {
-		std::string msg;
-		target->GetDockingClearance(this, msg);
-		port = target->GetMyDockingPort(this);
-		if (port == -1) {
-			// hm should give a failure message, that we couldn't
-			// get docking
-			return true;
-		}
-	}
-
-	if (inst.startTime == 0) {
-		inst.startTime = Pi::GetGameTime();
-		
-		const double maxAccel = GetWeakestThrustersForce() / GetMass();
-		vector3d pos[3];
-		pos[0] = GetPositionRelTo(frame);
-		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
-		const vector3d endVelocity = vector3d(0.0,-25.0,0.0);
-
-		SpaceStationType::positionOrient_t shipOrientStartDocking, shipOrientEndDocking;
-		bool good = target->GetSpaceStationType()->GetShipApproachWaypoints(port, 1, shipOrientStartDocking);
-		good = good && target->GetSpaceStationType()->GetShipApproachWaypoints(port, 2, shipOrientEndDocking);
-
-		assert(good);
-		double duration;
-
-		matrix4x4d target_rot;
-		target->GetRotMatrix(target_rot);
-		pos[1] = target->GetPosition() + target_rot * shipOrientStartDocking.pos;
-		pos[2] = target->GetPosition() + target_rot * shipOrientEndDocking.pos;
-	
-		path(3, pos, ourVelocity, endVelocity, maxAccel*.5, duration, inst.path);
-		inst.endTime = inst.startTime + duration;
-	}
-	if (inst.endTime > 0) {
-		bool done = AIFollowPath(inst, frame, true);
-		
-		if (inst.endTime - Pi::GetGameTime() < 30.0) {
-			// orient the ship in the last 30 seconds
-			// should maybe cache this final orientation to avoid
-			// the lua calls
-			SpaceStationType::positionOrient_t shipOrientEndDocking;
-			target->GetSpaceStationType()->GetShipApproachWaypoints(port, 2, shipOrientEndDocking);
-
-			matrix4x4d orient;
-			target->GetRotMatrix(orient);
-			orient = orient * matrix4x4d::MakeRotMatrix(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis,
-					vector3d::Cross(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis));
-			SetAngThrusterState(0, 0);
-			SetAngThrusterState(1, 0);
-			SetAngThrusterState(2, 0);
-			AISlowOrient(orient);
-	
-			if (GetWheelState() == 0) SetWheelState(true);
-		}
-		return done;
-	} else {
-		return true;
-	}
-}
-
-bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVelocityVector)
-{
-	const vector3d ourPosition = GetPositionRelTo(frame);
-	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
-	double dur = inst.endTime - inst.startTime;
+	const vector3d ourPosition = GetPositionRelTo(path.frame);
+	const vector3d ourVelocity = GetVelocityRelativeTo(path.frame);
+	double dur = path.endTime - path.startTime;
 	// instead of trying to get to desired location on path curve
 	// within a game tick, try adopting acceleration necessary to
 	// get to desired point some fraction of remaining journey time in the
 	// future, within that time. this avoids oscillation around a perfect position
-	double reactionTime = CLAMP((inst.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 200.0);
-	reactionTime = MIN(reactionTime, inst.endTime - Pi::GetGameTime());
-	double t = (Pi::GetGameTime()+reactionTime - inst.startTime) / dur;
+	double reactionTime = CLAMP((path.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 200.0);
+	reactionTime = MIN(reactionTime, path.endTime - Pi::GetGameTime());
+	double t = (Pi::GetGameTime()+reactionTime - path.startTime) / dur;
 	vector3d wantVel;
 	//printf("rtime: %f t %f\n", reactionTime, t);
-	if (Pi::GetGameTime()+Pi::GetTimeStep() >= inst.endTime) {
-		printf("end time %f, current time %f\n", inst.endTime, Pi::GetGameTime());
+	if (Pi::GetGameTime()+Pi::GetTimeStep() >= path.endTime) {
+		printf("end time %f, current time %f\n", path.endTime, Pi::GetGameTime());
 		return true;
 	} else {
-		vector3d wantPos = inst.path.Eval(t);
+		vector3d wantPos = path.path.Eval(t);
 		vector3d diffPos = wantPos - ourPosition;
 		wantVel = diffPos / reactionTime;
 	}
@@ -436,7 +276,7 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVeloc
 		matrix4x4d tran;
 		// need rotation between target frame and ship, so force is in
 		// correct model coords.
-		Frame::GetFrameTransform(frame, GetFrame(), tran);
+		Frame::GetFrameTransform(path.frame, GetFrame(), tran);
 		tran.ClearToRotOnly();
 		// make body-relative and apply force using thrusters
 		matrix4x4d rot;
@@ -448,7 +288,7 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVeloc
 			if (wantVel.Length()) AISlowFaceDirection((tran * wantVel).Normalized());
 		} else {
 			// orient so main engines can be used most effectively
-			vector3d perfectForce = inst.path.DerivativeOf().DerivativeOf().Eval(t);
+			vector3d perfectForce = path.path.DerivativeOf().DerivativeOf().Eval(t);
 			if (perfectForce.Length()) AISlowFaceDirection(perfectForce.Normalized());
 		}
 	}
@@ -456,185 +296,7 @@ bool Ship::AIFollowPath(AIInstruction &inst, Frame *frame, bool pointShipAtVeloc
 	//SetForce(force);
 }
 
-bool Ship::AICmdJourney(AIInstruction &inst)
-{
-	if (Pi::currentSystem->GetLocation() != (SysLoc)inst.journeyDest) {
-		// need to hyperspace there
-		int fuelRequired;
-		double duration;
-		enum Ship::HyperjumpStatus jumpStatus;
-		CanHyperspaceTo(&inst.journeyDest, fuelRequired, duration, &jumpStatus);
-		if (jumpStatus == Ship::HYPERJUMP_OK) {
-			switch (GetFlightState()) {
-			case FLYING:
-				TryHyperspaceTo(&inst.journeyDest);
-				break;
-			case DOCKING:
-				// just wait
-				break;
-			case LANDED:
-				if (GetDockedWith()) {
-					Undock();
-				} else {
-					Blastoff();
-				}
-				break;
-			}
-		} else {
-			printf("AICmdJourney() can't get to destination (reason %d) :-(\n", (int)jumpStatus);
-			if (!GetDockedWith()) {
-				// if we aren't docked then there is no point trying to
-				// buy fuel, etc. just give up
-				printf("AICmdJourney() failed (not docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
-				return true;
-			}
 
-			switch (jumpStatus) {
-			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				{
-					Equip::Type fuelType = GetHyperdriveFuelType();
-
-					if (BuyFrom(GetDockedWith(), fuelType, false)) {
-						// good. let's see if we are able to jump next tick
-						return false;
-					} else {
-						printf("AICmdJourney() failed (docked, HyperjumpStatus=%d)\n", (int)jumpStatus);
-						return true;
-					}
-				}
-				break;
-			case Ship::HYPERJUMP_NO_DRIVE:
-			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				{
-					const Equip::Type fuelType = GetHyperdriveFuelType();
-					const Equip::Type driveType = m_equipment.Get(Equip::SLOT_ENGINE);
-					const Equip::Type laserType = m_equipment.Get(Equip::SLOT_LASER, 0);
-					// preserve money
-					Sint64 oldMoney = GetMoney();
-					SetMoney(10000000);
-					MarketAgent *trader = GetDockedWith();
-					// need to lose some equipment and see if we get light enough
-					Equip::Type t = (Equip::Type)Pi::rng.Int32(Equip::TYPE_MAX);
-					if ((EquipType::types[t].slot == Equip::SLOT_ENGINE) && trader->CanSell(t)) {
-						// try a different hyperdrive
-						SellTo(trader, driveType);
-						if (!BuyFrom(trader, t)) {
-							BuyFrom(trader, driveType);
-						}
-						printf("Switched drive to a %s\n", EquipType::types[t].name);
-					} else if ((t != fuelType) && (t != driveType) && (t != laserType)) {
-						SellTo(trader, t);
-						printf("Removed a %s\n", EquipType::types[t].name);
-					}
-					SetMoney(oldMoney);
-				}
-				break;
-			case Ship::HYPERJUMP_OK:
-				break; // shouldn't reach this though
-			}
-		}
-	} else {
-		// we are in the desired system. fly to the target and dock
-		// first remove the 'DO_JOURNEY' command
-		m_todo.pop_front();
-		// then specific instructions to get us there
-		Body *b = Space::FindBodyForSBodyPath(&inst.journeyDest);
-		AIPrependInstruction(DO_DOCK, b);
-		AIPrependInstruction(DO_FLY_TO, b);
-	}
-	return false;
-}
-
-bool Ship::AICmdOrbit(AIInstruction &inst, double orbitHeight)
-{
-	bool done = false;
-	Body *body = inst.target;
-
-	// don't think about it
-	if (!body->IsType(Object::PLANET)) return true;
-			
-	if (GetFlightState() == LANDED) {
-		if (GetDockedWith()) {
-			Undock();
-		} else {
-			Blastoff();
-		}
-		return false;
-	}
-
-	// is there planets in our way that we need to avoid?
-	if (AIAddAvoidancePathOnWayTo(body)) {
-		// since we have added a new path, the current one will be invalid
-		// and must be rebuilt:
-		inst.endTime = 0;
-		return false;
-	}
-
-	Frame *frame = body->GetFrame()->m_parent;
-	PiVerify(frame);
-
-	if (inst.endTime == 0) {
-		Planet *planet = static_cast<Planet*>(body);
-		const ShipType &type = GetShipType();
-		const vector3d ourPosition = GetPositionRelTo(frame);
-		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
-		// XXX nice naming inconsistency ^^
-		const double orbitalRadius = planet->GetSBody()->GetRadius() * orbitHeight;
-		const double orbitalSpeed = sqrt(planet->GetMass() * G / orbitalRadius);
-
-		vector3d midpos, endpos, endVel;
-		// approach differently if we are currently above or below orbit
-		if (ourPosition.Length() < orbitalRadius) {
-			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition).Normalized();
-			midpos = ourPosition.Normalized() * orbitalRadius*1.1;
-			endVel = endpos * orbitalSpeed;
-			endpos = (midpos + endpos*(midpos-ourPosition).Length()).Normalized() * orbitalRadius;
-		} else {
-			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition);
-			endpos = endpos.Normalized() * orbitalRadius;
-			midpos = (ourPosition.Normalized() + endpos.Normalized())
-					.Normalized()* orbitalRadius*1.1;
-			endVel = ourPosition.Normalized()*-orbitalSpeed;
-		}
-		printf("Pos %f,%f,%f\n",
-				ourPosition.x,
-				ourPosition.y,
-				ourPosition.z);
-		printf("Endpos %f,%f,%f (%f)\n", endpos.x, endpos.y, endpos.z, endpos.Length());
-		// generate path
-		double duration;
-		// assumption that rear thruster is most powerful
-		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
-		printf("max accel %f m/sec/sec\n",maxAccel);
-		vector3d pos[3];
-		pos[0] = ourPosition;
-		pos[1] = midpos;
-		pos[2] = endpos;
-		path(3, pos,
-				ourVelocity, endVel, maxAccel*.75, duration, inst.path);
-		inst.startTime = Pi::GetGameTime();
-		inst.endTime = inst.startTime + duration;
-
-		{
-			double invD = 1.0/duration;
-			vector3d p1 = inst.path.Eval(0.0);
-			vector3d p2 = inst.path.Eval(invD);
-			printf("starts at %f m/sec\n", (p1-p2).Length());
-			p1 = inst.path.Eval(1.0-invD);
-			p2 = inst.path.Eval(1.0);
-			printf("ends at %f m/sec\n", (p1-p2).Length());
-
-		}
-	}
-
-	if (inst.endTime > 0) {
-		if (AIFollowPath(inst, frame)) {
-			done = true;
-		}
-	}
-
-	return done;
-}
 
 void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 {
@@ -661,145 +323,7 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 #endif
 }
 
-bool Ship::AICmdFlyTo(AIInstruction &inst)
-{
-	bool done = false;
-	Body *body = inst.target;
-
-	Frame *frame = body->GetFrame();
-	if (frame->IsRotatingFrame()) frame = frame->m_parent;
-	assert(frame);
-	
-	// is there planets in our way that we need to avoid?
-	if (AIAddAvoidancePathOnWayTo(body)) {
-		// since we have added a new path, the current one will be invalid
-		// and must be rebuilt:
-		inst.endTime = 0;
-		return false;
-	}
-
-	if (inst.endTime == 0) {
-		const ShipType &type = GetShipType();
-		const vector3d ourPosition = GetPositionRelTo(frame);
-		const vector3d ourVelocity = GetVelocityRelativeTo(frame);
-		const vector3d endPosition = MAX(50000.0, 4.0 * body->GetBoundingRadius()) * (ourPosition - body->GetPosition()).Normalized();
-
-		// generate path
-		double duration;
-		// assumption that rear thruster is most powerful
-		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / GetMass());
-		vector3d pos[3];
-		pos[0] = ourPosition;
-		pos[1] = 0.5*(ourPosition+endPosition);
-		pos[2] = endPosition;
-		path(3, pos,
-				ourVelocity, body->GetVelocity(), maxAccel*.75, duration, inst.path);
-		inst.startTime = Pi::GetGameTime();
-		inst.endTime = inst.startTime + duration;
-
-		{
-			double invD = 1.0/duration;
-			vector3d p1 = inst.path.Eval(0.0);
-			vector3d p2 = inst.path.Eval(invD);
-			printf("starts at %f m/sec\n", (p1-p2).Length());
-			p1 = inst.path.Eval(1.0-invD);
-			p2 = inst.path.Eval(1.0);
-			printf("ends at %f m/sec\n", (p1-p2).Length());
-
-		}
-	}
-
-	if (inst.endTime > 0) {
-		if (AIFollowPath(inst, frame)) {
-			done = true;
-		}
-	}
-
-	return done;
-}
-
-bool Ship::AICmdKamikaze(const Ship *enemy)
-{
-	SetGunState(0,0);
-	/* needs to deal with frames, large distances, and success */
-	if (GetFrame() == enemy->GetFrame()) {
-		const float dist = (float)(enemy->GetPosition() - GetPosition()).Length();
-		vector3d vRel = GetVelocityRelativeTo(enemy);
-		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
-
-		const double eta = CLAMP(dist / vector3d::Dot(vRel, dir), 0.0, 10.0);
-		const vector3d enemyProjectedPos = enemy->GetPosition() + eta*enemy->GetVelocity() - eta*GetVelocity();
-		dir = (enemyProjectedPos - GetPosition()).Normalized();
-
-		ClearThrusterState();
-		AIFaceDirection(dir, (float)(Pi::GetTimeStep()/PHYSICS_HZ));
-
-		// thunder at target at 400m/sec
-		AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), enemy);
-	}
-	return false;
-}
-
-/*
-bool Ship::AICmdKill(const Ship *enemy)
-{
-	SetGunState(0,0);
-	// launch if docked
-	if (GetDockedWith()) Undock();
-	// needs to deal with frames, large distances, and success
-	if (GetFrame() == enemy->GetFrame()) {
-		const float dist = (enemy->GetPosition() - GetPosition()).Length();
-		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
-		ClearThrusterState();
-//		if (dist > 500.0) {
-//			AIFaceDirection(dir);
-			AIFaceTargetLead(enemy);
-			// thunder at player at 400m/sec
-//			if (dist > 5000.0) AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), enemy);
-			// fire guns if aiming well enough	
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			const vector3d zaxis = vector3d(-rot[8], -rot[9], -rot[10]);
-			const float dot = vector3d::Dot(dir, vector3d(-rot[8], -rot[9], -rot[10]));
-			if (dot > 0.95f) {
-				SetGunState(0,1);
-	//const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	//TryHyperspaceTo(path);
-			}
-//		} else {
-//			// if too close turn away!
-//			AIFaceDirection(-dir);
-//			AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-1000), enemy);
-//		}
-	}
-	return false;
-}
-*/
-
-
-void Ship::AIInstruct(enum AICommand cmd, void *arg)
-{
-	AIInstruction inst(cmd);
-	inst.target = (Body*)arg;
-	m_todo.push_back(inst);
-}
-
-void Ship::AIInstructJourney(const SBodyPath &path)
-{
-	AIInstruction inst(DO_JOURNEY);
-	inst.journeyDest = path;
-	m_todo.push_back(inst);
-}
-
-Ship::AIInstruction &Ship::AIPrependInstruction(enum AICommand cmd, void *arg)
-{
-	AIInstruction inst(cmd);
-	inst.target = (Body*)arg;
-	m_todo.push_front(inst);
-	return m_todo.front();
-}
-
-/* Orient so our -ve z axis == dir. ie so that dir points forwards */
+// Orient so our -ve z axis == dir. ie so that dir points forwards
 void Ship::AISlowFaceDirection(const vector3d &dir)
 {
 	vector3d zaxis = -dir;
@@ -826,7 +350,6 @@ void Ship::AISlowOrient(const matrix4x4d &wantedOrient)
 }
 
 /*
-
 // First half of FaceDirection(dir)
 // input dir = direction to face
 // output dav = desired angular velocity at current frame
@@ -878,8 +401,8 @@ void Ship::AIMatchAngVel(const vector3d &dav)
 	SetAngThrusterState(1, diff.y * g_invFrameAccel);
 	SetAngThrusterState(2, diff.z * g_invFrameAccel);
 }
-
 */
+
 // Does some kind some kind of v*v = 2as
 // where:
 //		- v = maximum angvel around arc to slow to zero by desired heading
@@ -887,16 +410,17 @@ void Ship::AIMatchAngVel(const vector3d &dav)
 //		- a = maximum acceleration along desired heading
 
 // Fancier code to use both x and y angthrust if possible
-/*		double acc2;
-		if (head.x*head.x > head.y*head.y) acc2 = maxAccel * head.y / head.x;
-		else acc2 = maxAccel * head.x / head.y;
-		double maxAccDir = sqrt(maxAccel*maxAccel + acc2*acc2);		// maximum accel in desired direction
-		double iangvel = sqrt (2.0 * maxAccDir * ang);			// ideal angvel at current time
-*/
+//		double acc2;
+//		if (head.x*head.x > head.y*head.y) acc2 = maxAccel * head.y / head.x;
+//		else acc2 = maxAccel * head.x / head.y;
+//		double maxAccDir = sqrt(maxAccel*maxAccel + acc2*acc2);		// maximum accel in desired direction
+//		double iangvel = sqrt (2.0 * maxAccDir * ang);			// ideal angvel at current time
 
 // Applies thrust directly
-void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
+
+void Ship::AIFaceDirection(const vector3d &dir)
 {
+	double timeStep = Pi::GetTimeStep();
 	matrix4x4d rot; GetRotMatrix(rot);
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	double frameAccel = maxAccel * timeStep;
@@ -1027,10 +551,10 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 	AIAccelToModelRelativeVelocity(relToVel);
 }
 
-#include "Frame.h"
-/* Try to reach this model-relative velocity.
- * (0,0,-100) would mean going 100m/s forward.
- */
+
+// Try to reach this model-relative velocity.
+// (0,0,-100) would mean going 100m/s forward.
+
 void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
 	const ShipType &stype = GetShipType();
@@ -1102,157 +626,61 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 }
 
 
-
-/*
-// principle? Use linear thrusters to dodge and close or open range
-// Use angular thrusters either to get on target or increase evasion ability
-// 
-
-void Ship::AIFight()
+// returns true if command is complete
+bool Ship::AITimeStep(float timeStep)
 {
-	// determine approximate time-to-threat and damage potential
+	// allow the launch thruster thing to happen
+	if (m_launchLockTimeout != 0) return false;
 
-		
-
-	// determine approximate time-to-threaten and damage potential
-
-
-}
-*/
-
-// temporary evasion-test version
-bool Ship::AICmdKill(AIInstruction &inst, float timeStep)
-{
-	inst.timeSinceChange += timeStep;
-	if (inst.timeSinceChange < inst.changeTime) {
-		AIFaceDirection(inst.curDir, timeStep);
-		return false;
+	if (!m_curAICmd) return true;
+	if (m_curAICmd->TimeStepUpdate()) {
+		AIClearInstructions();
+		ClearThrusterState();
+		return true;
 	}
-
-	ClearThrusterState();
-
-	// ok, so now pick new direction
-	vector3d targdir = inst.target->GetPositionRelTo(this).Normalized();
-	vector3d tdir1 = targdir.Cross(vector3d(targdir.z+0.1, targdir.x, targdir.y));
-	tdir1 = tdir1.Normalized();
-	vector3d tdir2 = targdir.Cross(tdir2);
-
-	double d1 = Pi::rng.Double() - 0.5;
-	double d2 = Pi::rng.Double() - 0.5;
-
-	inst.curDir = (targdir + d1*tdir1 + d2*tdir2).Normalized();
-	AIFaceDirection(inst.curDir, timeStep);
-
-	SetThrusterState(ShipType::THRUSTER_FORWARD, 0.66);		// give player a chance
-	switch(Pi::rng.Int32() & 0x3)
-	{
-		case 0x0: SetThrusterState(ShipType::THRUSTER_LEFT, 0.7); break;
-		case 0x1: SetThrusterState(ShipType::THRUSTER_RIGHT, 0.7); break;
-		case 0x2: SetThrusterState(ShipType::THRUSTER_UP, 0.7); break;
-		case 0x3: SetThrusterState(ShipType::THRUSTER_DOWN, 0.7); break;
-	}
-
-	inst.timeSinceChange = 0.0f;
-	inst.changeTime = (float)Pi::rng.Double() * 10.0f;
-	return false;
+	else return false;
 }
 
-/*
-bool Ship::AICmdKill(AIInstruction &inst, float timeStep)
+void Ship::AIClearInstructions()
 {
-	SetGunState(0,0);
-	if (GetDockedWith()) Undock();
-	ClearThrusterState();
+	if (!m_curAICmd) return;
 
-	// do everything in object space
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d targpos = inst.target->GetPositionRelTo(this) * rot;
-	vector3d targvel = (inst.lastVel - inst.target->GetVelocity()) * inst.timeStep;
-	targvel = (targvel + inst.target->GetVelocityRelativeTo(this)) * rot;
-	// TODO: should adjust targpos for gunmount offset
-
-	// store current target velocity for next frame's accel calc
-	inst.lastVel = inst.target->GetVelocity();
-	inst.timeStep = timeStep;
-
-	int laser = Equip::types[m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
-	double projspeed = Equip::lasers[laser].speed;
-
-	vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
-	leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
-	vector3d leaddir = leadpos.Normalized();
-
-	AIFaceDirection(rot * leaddir, timeStep);
-
-	// ok, now work out evasion and range adjustment
-	// just generate preferred evasion and range vectors and span accordingly?
-	// never mind that, just consider each thruster axis individually?
-
-	// get representation of approximate angular distance 
-	// dot product of direction and enemy heading?
-	// ideally use enemy angvel arc too - try to stay out of arc and away from heading
-
-	// so, need three vectors in object space
-	// 1. enemy position - targpos
-	// 2. enemy heading - take from their rot matrix, transform to obj space
-	// 2.5. enemy up vector, not using yet
-	// 3. enemy angvel - transform to obj space
-
-	matrix4x4d erot;
-	inst.target->GetRotMatrix(erot);
-	vector3d ehead = vector3d(-erot[8], -erot[9], -erot[10]) * rot;
-//	vector3d eup = vector3d(erot[4], erot[5], erot[6]) * rot;
-	vector3d eav = ((Ship *)inst.target)->GetAngVelocity() * rot;
-
-	// stupid evade: away from heading
-	vector3d evade1, evade2;
-	evade1 = (ehead * targpos.Dot(ehead)) - targpos;
-
-	// smarter evade? away from angular velocity plane
-	if (eav.Length() > 0.0)	{
-		evade2 = eav.Normalized();
-		if (targpos.Dot(eav * targpos.Dot(eav)) > 0.0) evade2 *= -1.0;
-	}
-	else evade2 = evade1;	
-
-	// only do this if on target
-	if (leaddir.z < -0.98)
-	{
-		if (evade1.x > 0.0) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0);
-		else SetThrusterState(ShipType::THRUSTER_LEFT, 1.0);
-		if (evade1.y > 0.0) SetThrusterState(ShipType::THRUSTER_UP, 1.0);
-		else SetThrusterState(ShipType::THRUSTER_DOWN, 1.0);
-
-		// basic range-maintenance?
-
-		double relspeed = -targvel.Dot(targpos.Normalized());	// positive => closing
-		// use maximum *deceleration*
-		const ShipType &stype = GetShipType();
-		double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / GetMass();
-		double fwdaccel = stype.linThrust[ShipType::THRUSTER_FORWARD] / GetMass();
-		// v = sqrt(2as)
-		double idist = 500.0;		// temporary
-		double ivel = sqrt(2.0 * rearaccel * (targpos.Length() - idist));
-		double vdiff = ivel - relspeed;
-
-		if (vdiff > 0.0) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0);
-		else SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0);
-
-		SetGunState(0,1);
-	}
-
-//	Possibly don't need this because angvel never reaches zero on moving target
-	// and approximate target angular velocity at leaddir
-//	vector3d leaddir2 = (leadpos + targvel*0.01).Normalized();
-//	vector3d leadav = leaddir.Cross(leaddir2) * 100.0;
-	// does this really give a genuine angvel? Probably
-
-	// so have target heading and target angvel at that heading
-	// can now use modified version of FaceDirection?
-	// not really: direction of leaddir and leadangvel may be different
-	// so blend two results: thrust to reach leaddir and thrust to attain leadangvel
-	// bias towards leadangvel as heading approaches leaddir
-
-	return false;
+	delete m_curAICmd;		// rely on destructor to kill children
+	m_curAICmd = 0;
 }
-*/
+
+void Ship::AIKamikaze(Body *target)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdKamikaze(this, target);
+}
+
+void Ship::AIKill(Ship *target)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdKill(this, target);
+}
+
+void Ship::AIJourney(SBodyPath &dest)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdJourney(this, dest);
+}
+
+void Ship::AIFlyTo(Body *target)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdFlyTo(this, target);
+}
+
+void Ship::AIDock(SpaceStation *target)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdDock(this, target);
+}
+
+void Ship::AIOrbit(Body *target, double alt)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdOrbit(this, target, alt);
+}

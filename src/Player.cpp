@@ -151,7 +151,11 @@ void Player::StaticUpdate(const float timeStep)
 			break;
 		}
 	}
-	Ship::StaticUpdate(timeStep);
+	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
+	if (m_flightControlState == CONTROL_AUTOPILOT && !AIIsActive()) {
+		Pi::RequestTimeAccel(1);
+		SetFlightControlState(CONTROL_MANUAL);
+	}
 		
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
@@ -284,7 +288,7 @@ void Player::PollControls(const float timeStep)
 		
 		const float angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0f : 50.0f;
 		
-		if (m_mouseActive) AIFaceDirection(m_mouseDir, timeStep);
+		if (m_mouseActive) AIFaceDirection(m_mouseDir);
 		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 	}
 }

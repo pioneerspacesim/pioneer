@@ -1,4 +1,5 @@
 #include "Ship.h"
+#include "ShipAICmd.h"
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -54,36 +55,8 @@ void Ship::Save(Serializer::Writer &wr)
 	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
-	wr.Int32(m_todo.size());
-	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
-		wr.Int32((int)(*i).cmd);
-		switch ((*i).cmd) {
-			case DO_DOCK:
-			case DO_KILL:
-			case DO_KAMIKAZE:
-			case DO_FLY_TO:
-			case DO_LOW_ORBIT:
-			case DO_MEDIUM_ORBIT:
-			case DO_HIGH_ORBIT:
-			case DO_FOLLOW_PATH:
-				wr.Int32(Serializer::LookupBody((*i).target));
-				{
-					int n = (*i).path.p.size();
-					wr.Int32(n);
-					for (int j=0; j<n; j++) {
-						wr.Vector3d((*i).path.p[j]);
-					}
-				}
-				wr.Double((*i).endTime);
-				wr.Double((*i).startTime);
-				wr.Int32(Serializer::LookupFrame((*i).frame));
-				break;
-			case DO_JOURNEY:
-				(*i).journeyDest.Serialize(wr);
-				break;
-			case DO_NOTHING: wr.Int32(0); break;
-		}
-	}
+	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
+	else wr.Int32(0);
 }
 
 void Ship::Load(Serializer::Reader &rd)
@@ -121,45 +94,8 @@ void Ship::Load(Serializer::Reader &rd)
 	Init();
 	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
 	m_stats.shield_mass_left = rd.Float();
-	int num = rd.Int32();
-	while (num-- > 0) {
-		AICommand c = (AICommand)rd.Int32();
-		AIInstruction inst = AIInstruction(c);
-		switch (c) {
-		case DO_DOCK:
-		case DO_KILL:
-		case DO_KAMIKAZE:
-		case DO_FLY_TO:
-		case DO_LOW_ORBIT:
-		case DO_MEDIUM_ORBIT:
-		case DO_HIGH_ORBIT:
-		case DO_FOLLOW_PATH:
-			{
-				Body *target = (Body*)rd.Int32();
-				inst.target = target;
-				int n = rd.Int32();
-				inst.path = BezierCurve(n);
-				for (int i=0; i<n; i++) {
-					inst.path.p[i] = rd.Vector3d();
-				}
-				inst.endTime = rd.Double();
-				inst.startTime = rd.Double();
-				if (rd.StreamVersion() < 19) {
-					inst.frame = 0;
-				} else {
-					inst.frame = Serializer::LookupFrame(rd.Int32());
-				}
-			}
-			break;
-		case DO_JOURNEY:
-			SBodyPath::Unserialize(rd, &inst.journeyDest);
-			break;
-		case DO_NOTHING:
-			rd.Int32();
-			break;
-		}
-		m_todo.push_back(inst);
-	}
+	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
+	else m_curAICmd = 0;
 }
 
 void Ship::Init()
@@ -177,24 +113,7 @@ void Ship::PostLoadFixup()
 	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
 	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
 	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
-
-	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
-		switch ((*i).cmd) {
-			case DO_DOCK:
-			case DO_KILL:
-			case DO_KAMIKAZE:
-			case DO_FLY_TO:
-			case DO_LOW_ORBIT:
-			case DO_MEDIUM_ORBIT:
-			case DO_HIGH_ORBIT:
-			case DO_FOLLOW_PATH:
-				(*i).target = Serializer::LookupBody((size_t)(*i).target);
-				break;
-			case DO_NOTHING:
-			case DO_JOURNEY:
-				break;
-		}
-	}
+	if (m_curAICmd) m_curAICmd->PostLoadFixup();
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
@@ -221,6 +140,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	memset(m_thrusters, 0, sizeof(m_thrusters));
 	SetLabel(m_shipFlavour.regid);
+	m_curAICmd = 0;
 
 	Init();	
 }

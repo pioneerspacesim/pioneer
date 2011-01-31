@@ -435,7 +435,7 @@ void Pi::HandleEvents()
 									printf("Putting ship into station\n");
 									// Make police ship intent on killing the player
 									Ship *ship = new Ship(ShipType::LADYBIRD);
-									ship->AIInstruct(Ship::DO_KILL, Pi::player);
+									ship->AIKill(Pi::player);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetDockedWith(s, port);
 									Space::AddBody(ship);
@@ -448,7 +448,7 @@ void Pi::HandleEvents()
 						} else {
 							Ship *ship = new Ship(ShipType::LADYBIRD);
 							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-							ship->AIInstruct(Ship::DO_KILL, Pi::player);
+							ship->AIKill(Pi::player);
 							ship->SetFrame(Pi::player->GetFrame());
 							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 							ship->SetVelocity(Pi::player->GetVelocity());
@@ -825,7 +825,7 @@ void Pi::Start()
 		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
 		enemy->SetVelocity(vector3d(0,0,0));
 		enemy->m_equipment.Add(Equip::PULSECANNON_1MW);
-		enemy->AIInstruct(Ship::DO_KILL, player);
+		enemy->AIKill(player);
 		Space::AddBody(enemy);
 
 		player->SetCombatTarget(enemy);
