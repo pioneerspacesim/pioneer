@@ -318,8 +318,7 @@ void SectorView::Update()
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
-				if (Pi::currentSystem->GetLocation() != sys->GetLocation()) 
-					Pi::player->SetHyperspaceTarget(&sbody_path);
+				Pi::player->SetHyperspaceTarget(&sbody_path);
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:
 				snprintf(buf, sizeof(buf), "Current system");

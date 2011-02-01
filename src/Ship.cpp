@@ -456,9 +456,6 @@ void Ship::TryHyperspaceTo(const SBodyPath *dest)
 	double dur;
 	if (m_hyperspace.countdown) return;
 	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
-	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
-		return;
-	}
 	m_hyperspace.countdown = 3.0;
 	m_hyperspace.dest = *dest;
 }
