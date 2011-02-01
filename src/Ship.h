@@ -72,6 +72,7 @@ public:
 	void TryHyperspaceTo(const SBodyPath *dest);
 	enum HyperjumpStatus {
 		HYPERJUMP_OK,
+		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL
