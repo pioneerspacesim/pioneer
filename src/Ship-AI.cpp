@@ -530,6 +530,7 @@ bool Ship::AICmdJourney(AIInstruction &inst)
 				}
 				break;
 			case Ship::HYPERJUMP_OK:
+			case Ship::HYPERJUMP_CURRENT_SYSTEM:
 				break; // shouldn't reach this though
 			}
 		}
