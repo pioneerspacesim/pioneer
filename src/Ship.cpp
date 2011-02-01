@@ -245,6 +245,12 @@ void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
 	if (this == (Ship*)Pi::player) Pi::onPlayerChangeHyperspaceTarget.emit();
 }
 
+void Ship::ClearHyperspaceTarget()
+{
+	SBodyPath p(0,0,0);
+	SetHyperspaceTarget(&p);
+}
+
 float Ship::GetPercentHull() const
 {
 	const ShipType &stype = GetShipType();

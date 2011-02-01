@@ -322,17 +322,20 @@ void SectorView::Update()
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:
 				snprintf(buf, sizeof(buf), "Current system");
+				Pi::player->ClearHyperspaceTarget();
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				Pi::player->ClearHyperspaceTarget();
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				Pi::player->ClearHyperspaceTarget();
 				break;
 			case Ship::HYPERJUMP_NO_DRIVE:
 				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+				Pi::player->ClearHyperspaceTarget();
 				break;
-
 		}
 
 		std::string desc;
