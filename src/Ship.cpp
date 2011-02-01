@@ -416,12 +416,12 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		return false;
 	}
 
-	float dist;
 	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
-		dist = 0;
-	} else {
-		dist = distance_to_system(dest);
+		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
+		return false;
 	}
+
+	float dist = distance_to_system(dest);
 
 	this->CalcStats();
 	outFuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
