@@ -258,7 +258,7 @@ void SectorView::Update()
 
 	if (Pi::KeyState(SDLK_c)) {
 		GotoSystem(playerLocSecX, playerLocSecY, playerLocSysIdx);
-		if (Pi::KeyState(SDLK_LSHIFT)) {
+		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 			m_rot_x = m_rot_z = 0;
 			m_zoom = 1.2;
 		}
