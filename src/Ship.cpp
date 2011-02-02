@@ -245,6 +245,12 @@ void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
 	if (this == (Ship*)Pi::player) Pi::onPlayerChangeHyperspaceTarget.emit();
 }
 
+void Ship::ClearHyperspaceTarget()
+{
+	SBodyPath p(0,0,0);
+	SetHyperspaceTarget(&p);
+}
+
 float Ship::GetPercentHull() const
 {
 	const ShipType &stype = GetShipType();
@@ -416,12 +422,12 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		return false;
 	}
 
-	float dist;
 	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
-		dist = 0;
-	} else {
-		dist = distance_to_system(dest);
+		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
+		return false;
 	}
+
+	float dist = distance_to_system(dest);
 
 	this->CalcStats();
 	outFuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
@@ -456,9 +462,6 @@ void Ship::TryHyperspaceTo(const SBodyPath *dest)
 	double dur;
 	if (m_hyperspace.countdown) return;
 	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
-	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
-		return;
-	}
 	m_hyperspace.countdown = 3.0;
 	m_hyperspace.dest = *dest;
 }

@@ -689,9 +689,6 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 	int fuelUsage;
 	double duration;
 	if (!ship->CanHyperspaceTo(dest, fuelUsage, duration)) return;
-	if (Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
-		return;
-	}
 	ship->UseHyperspaceFuel(dest);
 		
 	if (Pi::player == ship) {
