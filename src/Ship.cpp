@@ -431,7 +431,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		outFuelRequired = 0;
 		if (outStatus) *outStatus = HYPERJUMP_OUT_OF_RANGE;
 		return false;
-	} else if (m_stats.hyperspace_range < m_stats.hyperspace_range_max) {
+	} else if (fuel < outFuelRequired) {
 		if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
 		return false;
 	} else {
