@@ -895,10 +895,13 @@ void Render(const Frame *cam_frame)
 
 		// test against all frustum planes except far plane
 		bool do_draw = true;
-		for (int p=0; p<5; p++) {
-			if (planes[p].DistanceToPoint(bz[i].viewCoords)+boundingRadius < 0) {
-				do_draw = false;
-				break;
+		// always render stars (they have a huge glow). Other things do frustum cull
+		if (!bz[i].b->IsType(Object::STAR)) {
+			for (int p=0; p<5; p++) {
+				if (planes[p].DistanceToPoint(bz[i].viewCoords)+boundingRadius < 0) {
+					do_draw = false;
+					break;
+				}
 			}
 		}
 		if (do_draw) bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
