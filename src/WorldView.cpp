@@ -529,6 +529,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 {
 	if ((!Pi::player) || Pi::player->IsDead()) {
 		HideAll();
+		return;
 	}
 	else {
 		m_wheelsButton->SetActiveState((int)Pi::player->GetWheelState());
