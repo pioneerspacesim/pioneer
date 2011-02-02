@@ -249,6 +249,11 @@ void SectorView::DrawSector(int sx, int sy)
 	}
 }
 
+void SectorView::OnSwitchTo() {
+	m_lastShownLoc = SysLoc(9999,9999,9999);
+	Update();
+}
+
 void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();

@@ -20,7 +20,7 @@ public:
 	void GetSector(int *outSecX, int *outSecY) const { *outSecX = m_secx; *outSecY = m_secy; }
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
-	virtual void OnSwitchTo() {}
+	virtual void OnSwitchTo();
 private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
