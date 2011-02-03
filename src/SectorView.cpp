@@ -309,6 +309,7 @@ void SectorView::Update()
 	int playerLocSecX, playerLocSecY, playerLocSysIdx;
 	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
 	StarSystem *sys = Pi::GetSelectedSystem();
+	if (!sys) return;
 
 	if (sys->GetLocation() != m_lastShownLoc) {
 		Sector sec(m_secx, m_secy);
