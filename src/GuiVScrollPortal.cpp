@@ -58,6 +58,13 @@ float VScrollPortal::GetScrollPixels()
 
 bool VScrollPortal::OnMouseDown(MouseButtonEvent *e)
 {
+	if (e->button == 4 || e->button == 5) {
+		float change = e->button == 4 ? -0.1 : 0.1;
+		float pos = vscrollAdjust.GetValue();
+		vscrollAdjust.SetValue(CLAMP(pos+change, 0.0, 1.0));
+		return false;
+	}
+
 	e->y += GetScrollPixels();
 	return Container::OnMouseDown(e);
 }
