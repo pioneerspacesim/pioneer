@@ -247,8 +247,9 @@ void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
 
 void Ship::ClearHyperspaceTarget()
 {
-	SBodyPath p(0,0,0);
-	SetHyperspaceTarget(&p);
+	m_hyperspace.followHypercloudId = 0;
+	m_hyperspace.dest = SBodyPath();
+	m_hyperspace.countdown = 0;
 }
 
 float Ship::GetPercentHull() const
