@@ -258,6 +258,17 @@ void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
 
+	int playerLocSecX, playerLocSecY, playerLocSysIdx;
+	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
+
+	if (Pi::KeyState(SDLK_c)) {
+		GotoSystem(playerLocSecX, playerLocSecY, playerLocSysIdx);
+		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
+			m_rot_x = m_rot_z = 0;
+			m_zoom = 1.2;
+		}
+	}
+
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 	
@@ -306,8 +317,6 @@ void SectorView::Update()
 		}
 	}
 	
-	int playerLocSecX, playerLocSecY, playerLocSysIdx;
-	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
 	StarSystem *sys = Pi::GetSelectedSystem();
 	if (!sys) return;
 
