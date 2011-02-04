@@ -38,6 +38,7 @@ class GeoSphereStyle {
 		COLOR_ICEWORLD,
 		COLOR_DESERT,
 		COLOR_ROCK,
+		COLOR_ROCK2,
 		COLOR_ROID,
 		COLOR_VOLCANIC,
 		COLOR_METHANE,
@@ -112,7 +113,7 @@ class GeoSphereStyle {
 
 	struct sbody_valid_styles_t {
 		TerrainType terrainType[16];
-		ColorType colorType[16];
+		ColorType colorType[20];
 	};
 	static const sbody_valid_styles_t sbody_valid_styles[SBody::TYPE_MAX];
 };

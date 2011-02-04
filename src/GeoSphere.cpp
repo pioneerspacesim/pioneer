@@ -1137,6 +1137,10 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			*outDensity = 0.0f;
 			break;
+		case SBody::TYPE_PLANET_DWARF2:
+			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			*outDensity = 0.0f;
+			break;
 		case SBody::TYPE_PLANET_SMALL:
 			*outColor = Color(.2f, .2f, .3f, 1.0f);
 			*outDensity = 0.1f;
