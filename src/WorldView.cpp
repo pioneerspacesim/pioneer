@@ -114,7 +114,7 @@ WorldView::WorldView(): View()
 	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
 
 	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 85.0f);
+	Add(m_hudTargetInfo, 0, 85.0f);
 
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
@@ -748,6 +748,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
 
 			m_hudTargetInfo->SetText(text);
+			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
 			m_hudTargetInfo->Show();
 		}
 
@@ -779,6 +780,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 
 			m_hudTargetInfo->SetText(text);
+			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 85.0f);
 			m_hudTargetInfo->Show();
 		}
 
