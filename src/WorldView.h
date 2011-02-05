@@ -11,6 +11,7 @@ class Body;
 class Frame;
 struct SBodyPath;
 class LabelSet;
+class Ship;
 
 class WorldView: public View {
 public:

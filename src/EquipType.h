@@ -1,6 +1,6 @@
 #ifndef _EQUIPTYPE_H
 #define _EQUIPTYPE_H
-#include "color.h"
+#include "Color.h"
 
 #define EQUIP_INPUTS	2
 

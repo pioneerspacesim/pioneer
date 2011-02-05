@@ -855,11 +855,20 @@ void WorldView::OnChangeHyperspaceTarget()
 	else m_hyperspaceButton->Hide();
 }
 
-static void player_do_autopilot(Body *b, Ship::AICommand cmd)
+static void autopilot_flyto(Body *b)
 {
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
-	Pi::player->AIClearInstructions();
-	Pi::player->AIInstruct(cmd, b);
+	Pi::player->AIFlyTo(b);
+}
+static void autopilot_dock(Body *b)
+{
+	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->AIDock(static_cast<SpaceStation*>(b));
+}
+static void autopilot_orbit(Body *b, double alt)
+{
+	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->AIOrbit(b, alt);
 }
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
@@ -891,7 +900,7 @@ void WorldView::UpdateCommsOptions()
 
 			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
 				button = AddCommsOption("Autopilot: Dock with space station", ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&player_do_autopilot), navtarget, Ship::DO_DOCK));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
 				ypos += 32;
 			}
 
@@ -906,20 +915,20 @@ void WorldView::UpdateCommsOptions()
 		}
 		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
 			button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_FLY_TO));
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
 
 			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
 				button = AddCommsOption("Autopilot: Enter low orbit around " + navtarget->GetLabel(), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_LOW_ORBIT));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1));
 				ypos += 32;
 
 				button = AddCommsOption("Autopilot: Enter medium orbit around " + navtarget->GetLabel(), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_MEDIUM_ORBIT));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0));
 				ypos += 32;
 
 				button = AddCommsOption("Autopilot: Enter high orbit around " + navtarget->GetLabel(), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), navtarget, Ship::DO_HIGH_ORBIT));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0));
 				ypos += 32;
 			}
 		}
@@ -949,7 +958,7 @@ void WorldView::UpdateCommsOptions()
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, (float)ypos);
 		ypos += 32;
 		button = AddCommsOption("Autopilot: Fly to vacinity of "+comtarget->GetLabel(), ypos, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(player_do_autopilot), comtarget, Ship::DO_FLY_TO));
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 
 	}
 }
