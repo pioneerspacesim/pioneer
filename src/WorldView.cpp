@@ -728,6 +728,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		std::string text;
 		text += stringf(256, "%s\n", ShipType::types[flavour->type].name.c_str());
+		text += stringf(256, "%s\n", flavour->regid);
 
 		if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
 			text += "No hyperdrive";
@@ -738,6 +739,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		text += stringf(256, "\nMass: %dt\n", stats->total_mass);
 		text += stringf(256, "Shield strength: %.2f\n",
 			(shields*0.01f) * (float)s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+		text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
 
 		m_hudTargetInfo->SetText(text);
 		m_hudTargetInfo->Show();
