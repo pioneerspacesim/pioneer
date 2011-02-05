@@ -780,7 +780,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 
 			m_hudTargetInfo->SetText(text);
-			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 85.0f);
+			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
 			m_hudTargetInfo->Show();
 		}
 
