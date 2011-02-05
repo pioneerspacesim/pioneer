@@ -29,6 +29,8 @@
 #include "GuiImageRadioButton.h"
 #include "GuiISelectable.h"
 #include "GuiLabel.h"
+#include "GuiLabelSet.h"
+#include "GuiMeterBar.h"
 #include "GuiMultiStateImageButton.h"
 #include "GuiRadioButton.h"
 #include "GuiRadioGroup.h"

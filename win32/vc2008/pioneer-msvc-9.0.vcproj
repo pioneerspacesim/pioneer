@@ -574,6 +574,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipAICmd.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipCpanel.cpp"
 				>
 			</File>
@@ -841,6 +845,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GuiLabel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GuiLabelSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GuiMeterBar.h"
 				>
 			</File>
 			<File
@@ -1245,6 +1257,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Ship.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipAICmd.h"
 				>
 			</File>
 			<File

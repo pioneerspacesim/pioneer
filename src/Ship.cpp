@@ -1,4 +1,5 @@
 #include "Ship.h"
+#include "ShipAICmd.h"
 #include "Frame.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -54,36 +55,8 @@ void Ship::Save(Serializer::Writer &wr)
 	m_equipment.Save(wr);
 	wr.Float(m_stats.hull_mass_left);
 	wr.Float(m_stats.shield_mass_left);
-	wr.Int32(m_todo.size());
-	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
-		wr.Int32((int)(*i).cmd);
-		switch ((*i).cmd) {
-			case DO_DOCK:
-			case DO_KILL:
-			case DO_KAMIKAZE:
-			case DO_FLY_TO:
-			case DO_LOW_ORBIT:
-			case DO_MEDIUM_ORBIT:
-			case DO_HIGH_ORBIT:
-			case DO_FOLLOW_PATH:
-				wr.Int32(Serializer::LookupBody((*i).target));
-				{
-					int n = (*i).path.p.size();
-					wr.Int32(n);
-					for (int j=0; j<n; j++) {
-						wr.Vector3d((*i).path.p[j]);
-					}
-				}
-				wr.Double((*i).endTime);
-				wr.Double((*i).startTime);
-				wr.Int32(Serializer::LookupFrame((*i).frame));
-				break;
-			case DO_JOURNEY:
-				(*i).journeyDest.Serialize(wr);
-				break;
-			case DO_NOTHING: wr.Int32(0); break;
-		}
-	}
+	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
+	else wr.Int32(0);
 }
 
 void Ship::Load(Serializer::Reader &rd)
@@ -121,45 +94,8 @@ void Ship::Load(Serializer::Reader &rd)
 	Init();
 	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
 	m_stats.shield_mass_left = rd.Float();
-	int num = rd.Int32();
-	while (num-- > 0) {
-		AICommand c = (AICommand)rd.Int32();
-		AIInstruction inst = AIInstruction(c);
-		switch (c) {
-		case DO_DOCK:
-		case DO_KILL:
-		case DO_KAMIKAZE:
-		case DO_FLY_TO:
-		case DO_LOW_ORBIT:
-		case DO_MEDIUM_ORBIT:
-		case DO_HIGH_ORBIT:
-		case DO_FOLLOW_PATH:
-			{
-				Body *target = (Body*)rd.Int32();
-				inst.target = target;
-				int n = rd.Int32();
-				inst.path = BezierCurve(n);
-				for (int i=0; i<n; i++) {
-					inst.path.p[i] = rd.Vector3d();
-				}
-				inst.endTime = rd.Double();
-				inst.startTime = rd.Double();
-				if (rd.StreamVersion() < 19) {
-					inst.frame = 0;
-				} else {
-					inst.frame = Serializer::LookupFrame(rd.Int32());
-				}
-			}
-			break;
-		case DO_JOURNEY:
-			SBodyPath::Unserialize(rd, &inst.journeyDest);
-			break;
-		case DO_NOTHING:
-			rd.Int32();
-			break;
-		}
-		m_todo.push_back(inst);
-	}
+	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
+	else m_curAICmd = 0;
 }
 
 void Ship::Init()
@@ -177,24 +113,7 @@ void Ship::PostLoadFixup()
 	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
 	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
 	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
-
-	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
-		switch ((*i).cmd) {
-			case DO_DOCK:
-			case DO_KILL:
-			case DO_KAMIKAZE:
-			case DO_FLY_TO:
-			case DO_LOW_ORBIT:
-			case DO_MEDIUM_ORBIT:
-			case DO_HIGH_ORBIT:
-			case DO_FOLLOW_PATH:
-				(*i).target = Serializer::LookupBody((size_t)(*i).target);
-				break;
-			case DO_NOTHING:
-			case DO_JOURNEY:
-				break;
-		}
-	}
+	if (m_curAICmd) m_curAICmd->PostLoadFixup();
 }
 
 Ship::Ship(ShipType::Type shipType): DynamicBody()
@@ -221,6 +140,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_ecmRecharge = 0;
 	memset(m_thrusters, 0, sizeof(m_thrusters));
 	SetLabel(m_shipFlavour.regid);
+	m_curAICmd = 0;
 
 	Init();	
 }
@@ -576,7 +496,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_flightState == FLYING) Enable();
 	else Disable();
 
-	AITimeStep(timeStep);
 	const ShipType &stype = GetShipType();
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
 		float force = stype.linThrust[i] * m_thrusters[i];
@@ -612,58 +531,31 @@ void Ship::FireWeapon(int num)
 	dir = m.ApplyRotationOnly(dir);
 	pos = m.ApplyRotationOnly(pos);
 	pos += GetPosition();
-	const vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
 	
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
-	m_gunRecharge[num] = EquipType::types[t].rechargeTime;
-//	const float damage = 1000.0f * (float)EquipType::types[t].pval;
+	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
+	m_gunRecharge[num] = lt.rechargeTime;
 	vector3d baseVel = GetVelocity();
-	vector3d dirVel = 1000.0*dir.Normalized();
+	vector3d dirVel = lt.speed * dir.Normalized();
 	
-	CollisionContact c;
-	switch (t) {
-		case Equip::PULSECANNON_1MW:
-			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_DUAL_1MW:
-			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos+5.0*sep, baseVel, dirVel);
-			Projectile::Add(this, Projectile::TYPE_1MW_PULSE, pos-5.0*sep, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_2MW:
-		case Equip::PULSECANNON_RAPID_2MW:
-			Projectile::Add(this, Projectile::TYPE_2MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_4MW:
-			Projectile::Add(this, Projectile::TYPE_4MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_10MW:
-			Projectile::Add(this, Projectile::TYPE_10MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::PULSECANNON_20MW:
-			Projectile::Add(this, Projectile::TYPE_20MW_PULSE, pos, baseVel, dirVel);
-			break;
-		case Equip::MININGCANNON_17MW:
-			Projectile::Add(this, Projectile::TYPE_17MW_MINING, pos, baseVel, dirVel);
-			break;
-		case Equip::SMALL_PLASMA_ACCEL:
-			Projectile::Add(this, Projectile::TYPE_SMALL_PLASMA_ACCEL, pos, baseVel, dirVel);
-			break;
-		case Equip::LARGE_PLASMA_ACCEL:
-			Projectile::Add(this, Projectile::TYPE_LARGE_PLASMA_ACCEL, pos, baseVel, dirVel);
-			break;
+	if (lt.flags & Equip::LASER_DUAL)
+	{
+		vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
+		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
+		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
+	}
+	else Projectile::Add(this, t, pos, baseVel, dirVel);
+
+	/*
 			// trace laser beam through frame to see who it hits
-	/*		GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
+			CollisionContact c;
+			GetFrame()->GetCollisionSpace()->TraceRay(pos, dir, 10000.0, &c, this->GetGeom());
 			if (c.userData1) {
 				Body *hit = static_cast<Body*>(c.userData1);
 				hit->OnDamage(this, damage);
 			}
-			*/
-			break;
-		default:
-			fprintf(stderr, "Unknown weapon %d\n", t);
-			assert(0);
-			break;
-	}
+	*/
+
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 }
@@ -680,6 +572,8 @@ float Ship::GetHullTemperature() const
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	AITimeStep(timeStep);		// moved to correct place, maybe
+
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
 	}

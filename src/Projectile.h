@@ -2,16 +2,15 @@
 #define _PROJECTILE_H
 
 #include "Body.h"
+#include "EquipType.h"
 
 class Frame;
 
 class Projectile: public Body {
 public:
 	OBJDEF(Projectile, Body, PROJECTILE);
-	enum TYPE { TYPE_1MW_PULSE, TYPE_2MW_PULSE, TYPE_4MW_PULSE, TYPE_10MW_PULSE, TYPE_20MW_PULSE,
-			TYPE_17MW_MINING, TYPE_SMALL_PLASMA_ACCEL, TYPE_LARGE_PLASMA_ACCEL };
 
-	static void Add(Body *parent, TYPE t, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
+	static void Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel);
 
 	Projectile();
 	//virtual ~Projectile();
@@ -34,7 +33,7 @@ private:
 	vector3d m_baseVel;
 	vector3d m_dirVel;
 	float m_age;
-	enum TYPE m_type;
+	int m_type;
 };
 
 #endif /* _PROJECTILE_H */

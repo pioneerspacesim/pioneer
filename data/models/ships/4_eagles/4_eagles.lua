@@ -1106,7 +1106,8 @@ define_model('eagle_all', {
 
 define_model('eagle_lrf', {
 	info = {
-			scale = 0.261, -- FE2 to Pioneer vector spacing scale for the eagle, each ship is different!
+--			scale = 0.261, -- FE2 to Pioneer vector spacing scale for the eagle, each ship is different!
+			scale = 0.5,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'steel', 'cutout', 'win'},
@@ -1120,7 +1121,7 @@ define_model('eagle_lrf', {
 					down_thrust = -5e5,
 					left_thrust = -5e5,
 					right_thrust = 5e5,
-					angular_thrust = 3e6,
+					angular_thrust = 5e6,
 					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
