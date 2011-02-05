@@ -112,6 +112,9 @@ WorldView::WorldView(): View()
 	Add(m_hudTargetHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
 	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
 
+	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
+	Add(m_hudTargetInfo, Gui::Screen::GetWidth() - 120.0f, 85.0f);
+
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
 	Add(m_bodyLabels, 0, 0);
@@ -709,7 +712,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 	Ship *s = static_cast<Ship*>(Pi::player->GetCombatTarget());
 	if (s && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
 		assert(s->IsType(Object::SHIP));
-		s->CalcStats();
+
+		const ShipFlavour *flavour = s->GetFlavour();
+		const shipstats_t *stats = s->CalcStats();
 
 		float hull = s->GetPercentHull();
 		m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
@@ -720,9 +725,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
 		m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
 		m_hudTargetShieldIntegrity->Show();
+
+		std::string text;
+		text += stringf(256, "%s\n", ShipType::types[flavour->type].name.c_str());
+
+		if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
+			text += "No hyperdrive";
+		} else {
+			text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+		}
+
+		m_hudTargetInfo->SetText(text);
+		m_hudTargetInfo->Show();
 	} else {
 		m_hudTargetHullIntegrity->Hide();
 		m_hudTargetShieldIntegrity->Hide();
+		m_hudTargetInfo->Hide();
 	}
 
 	if (Pi::player->GetHyperspaceCountdown() != 0) {
