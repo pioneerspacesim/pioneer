@@ -8,6 +8,7 @@
 #include "ShipCpanel.h"
 #include "Serializer.h"
 #include "StarSystem.h"
+#include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
@@ -709,44 +710,83 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudShieldIntegrity->Hide();
 	}
 
-	Ship *s = static_cast<Ship*>(Pi::player->GetCombatTarget());
-	if (s && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
-		assert(s->IsType(Object::SHIP));
+	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
+	if (b) {
+		if (b->IsType(Object::SHIP) && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
+			assert(b->IsType(Object::SHIP));
+			Ship *s = static_cast<Ship*>(b);
 
-		const ShipFlavour *flavour = s->GetFlavour();
-		const shipstats_t *stats = s->CalcStats();
+			const ShipFlavour *flavour = s->GetFlavour();
+			const shipstats_t *stats = s->CalcStats();
 
-		float hull = s->GetPercentHull();
-		m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
-		m_hudTargetHullIntegrity->SetValue(hull*0.01f);
-		m_hudTargetHullIntegrity->Show();
+			float hull = s->GetPercentHull();
+			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
+			m_hudTargetHullIntegrity->SetValue(hull*0.01f);
+			m_hudTargetHullIntegrity->Show();
 
-		float shields = 0;
-		if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
-			shields = s->GetPercentShields();
+			float shields = 0;
+			if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
+				shields = s->GetPercentShields();
+			}
+			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
+			m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
+			m_hudTargetShieldIntegrity->Show();
+
+			std::string text;
+			text += stringf(256, "%s\n", ShipType::types[flavour->type].name.c_str());
+			text += stringf(256, "%s\n", flavour->regid);
+
+			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
+				text += "No hyperdrive";
+			} else {
+				text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+			}
+
+			text += stringf(256, "\nMass: %dt\n", stats->total_mass);
+			text += stringf(256, "Shield strength: %.2f\n",
+				(shields*0.01f) * (float)s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+			text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
+
+			m_hudTargetInfo->SetText(text);
+			m_hudTargetInfo->Show();
 		}
-		m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
-		m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
-		m_hudTargetShieldIntegrity->Show();
 
-		std::string text;
-		text += stringf(256, "%s\n", ShipType::types[flavour->type].name.c_str());
-		text += stringf(256, "%s\n", flavour->regid);
+		else if (b->IsType(Object::HYPERSPACECLOUD) && Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD) == Equip::HYPERCLOUD_ANALYZER) {
+			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
 
-		if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
-			text += "No hyperdrive";
-		} else {
-			text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+			m_hudTargetHullIntegrity->Hide();
+			m_hudTargetShieldIntegrity->Hide();
+
+			std::string text;
+
+			Ship *ship = cloud->GetShip();
+			if (!ship) {
+				text += "Hyperspace arrival cloud remnant";
+			}
+			else {
+				const SBodyPath *dest = ship->GetHyperspaceTarget();
+				Sector s(dest->sectorX, dest->sectorY);
+				text += stringf(512,
+					"Hyperspace %s cloud\n"
+					"Ship mass: %dt\n"
+					"Destination: %s\n"
+					"Date due: %s\n",
+					cloud->IsArrival() ? "arrival" : "departure",
+					ship->CalcStats()->total_mass,
+					s.m_systems[dest->systemNum].name.c_str(),
+					format_date(cloud->GetDueDate()).c_str()
+				);
+			}
+
+			m_hudTargetInfo->SetText(text);
+			m_hudTargetInfo->Show();
 		}
 
-		text += stringf(256, "\nMass: %dt\n", stats->total_mass);
-		text += stringf(256, "Shield strength: %.2f\n",
-			(shields*0.01f) * (float)s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
-		text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
-
-		m_hudTargetInfo->SetText(text);
-		m_hudTargetInfo->Show();
-	} else {
+		else {
+			b = 0;
+		}
+	}
+	if (!b) {
 		m_hudTargetHullIntegrity->Hide();
 		m_hudTargetShieldIntegrity->Hide();
 		m_hudTargetInfo->Hide();
