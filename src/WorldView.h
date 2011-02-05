@@ -75,6 +75,7 @@ private:
 	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo;
 
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
+	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 
 	sigc::connection m_onPlayerChangeHyperspaceTargetCon;
 	sigc::connection m_onPlayerChangeTargetCon;

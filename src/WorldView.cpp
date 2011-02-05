@@ -107,6 +107,11 @@ WorldView::WorldView(): View()
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
 
+	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, "Hull integrity", Color(1.0f,1.0f,0.0f,0.8f));
+	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, "Shield integrity", Color(1.0f,1.0f,0.0f,0.8f));
+	Add(m_hudTargetHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
+	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
+
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
 	Add(m_bodyLabels, 0, 0);
@@ -525,6 +530,17 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
+static Color get_color_for_warning_meter_bar(float v) {
+	Color c;
+	if (v < 50.0f)
+		c = Color(1,0,0,HUD_ALPHA);
+	else if (v < 75.0f)
+		c = Color(1,0.5,0,HUD_ALPHA);
+	else
+		c = Color(1,1,0,HUD_ALPHA);
+	return c;
+}
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	if ((!Pi::player) || Pi::player->IsDead()) {
@@ -675,15 +691,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	float hull = Pi::player->GetPercentHull();
 	if (hull < 100.0f) {
-		Color c;
-		if (hull < 50.0f)
-			c = Color(1,0,0,HUD_ALPHA);
-		else if (hull < 75.0f)
-			c = Color(1,0.5,0,HUD_ALPHA);
-		else
-			c = Color(1,1,0,HUD_ALPHA);
-
-		m_hudHullIntegrity->SetColor(c);
+		m_hudHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
 		m_hudHullIntegrity->SetValue(hull);
 		m_hudHullIntegrity->Show();
 	} else {
@@ -691,19 +699,30 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	float shields = Pi::player->GetPercentShields();
 	if (shields < 100.0f) {
-		Color c;
-		if (shields < 50.0f)
-			c = Color(1,0,0,HUD_ALPHA);
-		else if (shields < 75.0f)
-			c = Color(1,0.5,0,HUD_ALPHA);
-		else
-			c = Color(1,1,0,HUD_ALPHA);
-
-		m_hudShieldIntegrity->SetColor(c);
+		m_hudShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
 		m_hudShieldIntegrity->SetValue(shields*0.01f);
 		m_hudShieldIntegrity->Show();
 	} else {
 		m_hudShieldIntegrity->Hide();
+	}
+
+	Ship *s = static_cast<Ship*>(Pi::player->GetCombatTarget());
+	if (s && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
+		assert(s->IsType(Object::SHIP));
+		s->CalcStats();
+
+		float hull = s->GetPercentHull();
+		m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
+		m_hudTargetHullIntegrity->SetValue(hull*0.01f);
+		m_hudTargetHullIntegrity->Show();
+
+		float shields = s->GetPercentShields();
+		m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
+		m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
+		m_hudTargetShieldIntegrity->Show();
+	} else {
+		m_hudTargetHullIntegrity->Hide();
+		m_hudTargetShieldIntegrity->Hide();
 	}
 
 	if (Pi::player->GetHyperspaceCountdown() != 0) {
