@@ -721,7 +721,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudTargetHullIntegrity->SetValue(hull*0.01f);
 		m_hudTargetHullIntegrity->Show();
 
-		float shields = s->GetPercentShields();
+		float shields = 0;
+		if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
+			shields = s->GetPercentShields();
+		}
 		m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
 		m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
 		m_hudTargetShieldIntegrity->Show();
