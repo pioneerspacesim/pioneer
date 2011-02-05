@@ -1,7 +1,9 @@
 #include "GeoSphereStyle.h"
 #include "perlin.h"
 
+
 /* What a bloated waste of space */
+/*
 const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SBody::TYPE_MAX] = {
 	// TYPE_GRAVPOINT,
 	{},
@@ -38,7 +40,7 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	{ { TERRAIN_GASGIANT },
 	  { COLOR_GG_SATURN, COLOR_GG_JUPITER, COLOR_GG_URANUS, COLOR_GG_NEPTUNE } },
 	// TYPE_PLANET_ASTEROID,
-	{ { TERRAIN_ASTEROID }, { COLOR_ROID } },
+	{ { TERRAIN_ASTEROID }, { COLOR_ASTEROID } },
 	// TYPE_PLANET_LARGE_ASTEROID,
 	{ { TERRAIN_ASTEROID }, { COLOR_ROCK } },
 	// TYPE_PLANET_DWARF,
@@ -74,7 +76,7 @@ const GeoSphereStyle::sbody_valid_styles_t GeoSphereStyle::sbody_valid_styles[SB
 	// TYPE_STARPORT_SURFACE
 	{}
 };
-
+*/
 /**
  * All these stinking octavenoise functions return range [0,1] if persistence = 0.5
  */
@@ -410,28 +412,21 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 	rand.seed(body->seed);
 	m_seed = body->seed;
 
-	const sbody_valid_styles_t &styles = sbody_valid_styles[body->type];
-
-	int numTerrain;
-	int numColor;
-
-	for (numTerrain=0; numTerrain<16; numTerrain++) {
-		if (!styles.terrainType[numTerrain]) break;
-	}
-	for (numColor=0; numColor<16; numColor++) {
-		if (!styles.colorType[numColor]) break;
-	}
-	printf("%d possible terrain and %d possible color for %s\n", numTerrain, numColor, body->name.c_str());
-
-	if (numTerrain) {
-		m_terrainType = styles.terrainType[ rand.Int32(numTerrain) ];
-	} else {
-		m_terrainType = TERRAIN_NONE;
-	}
-	if (numColor) {
-		m_colorType = styles.colorType[ rand.Int32(numColor) ];
-	} else {
-		m_colorType = COLOR_NONE;
+	/* Pick terrain and color fractals to use */
+	if (body->type == SBody::TYPE_PLANET_GAS_GIANT) {
+		m_terrainType = TERRAIN_GASGIANT;
+		switch (rand.Int32(4)) {
+			case 0: m_colorType = COLOR_GG_SATURN; break;
+			case 1: m_colorType = COLOR_GG_URANUS; break;
+			case 2: m_colorType = COLOR_GG_JUPITER; break;
+			default: m_colorType = COLOR_GG_NEPTUNE; break;
+		}
+	} else if (body->type == SBody::TYPE_PLANET_ASTEROID) {
+		m_terrainType = TERRAIN_ASTEROID;
+		m_colorType = COLOR_ASTEROID;
+	} else /* SBody::TYPE_PLANET_TERRESTRIAL */ {
+		m_terrainType = TERRAIN_RUGGED;
+		m_colorType = COLOR_VOLCANIC;
 	}
 
 	/* Height map? */
@@ -581,7 +576,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			
 			//return m_maxHeight*(octavenoise(14, 0.5, 2.0, p)*0.3) + 0.005*crater_function(p);
 			return m_maxHeight*(octavenoise(14, 0.5, 2.0, p)*0.6)*(octavenoise(noise1, noise2, noise3, p)*targ.sealevel) 
-				+ (0.005*crater_function(p)) + (.1*smlvolcano_function(p)) + (0.005*bigcrater_function(p));
+				+ (0.005*crater_function(p)) + (0.005*bigcrater_function(p));
 			}
 		case TERRAIN_RUGGED_CRATERED:
 		{
@@ -1119,7 +1114,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		}
 
 	}
-	case COLOR_ROID:
+	case COLOR_ASTEROID:
 		{
 		double n = m_invMaxHeight*height/2;
 

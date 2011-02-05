@@ -1123,20 +1123,23 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 	 * by density*alpha, so that we can have very dense atmospheres
 	 * without having them a bit stinking solid color obscuring everything
 	 */
+
+
 	switch (GEOSPHERE_TYPE) {
-		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
-		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
-		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
-		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
+		case SBody::TYPE_PLANET_GAS_GIANT:
 			*outColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
 			*outDensity = 14.0f;
 			break;
 		case SBody::TYPE_PLANET_ASTEROID:
-		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-		case SBody::TYPE_PLANET_DWARF:
 			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			*outDensity = 0.0f;
 			break;
+		default:
+			*outColor = Color(.6f, .6f, .7f, 0.8f);
+			*outDensity = m_sbody->m_volatileGas.ToFloat();
+			break;
+#warning fix me
+			/*
 		case SBody::TYPE_PLANET_DWARF2:
 			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			*outDensity = 0.0f;
@@ -1192,7 +1195,7 @@ void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 		default:
 			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			*outDensity = 0.0f;
-			break;
+			break;*/
 	}
 }
 

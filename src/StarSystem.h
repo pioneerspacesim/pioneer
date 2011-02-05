@@ -112,30 +112,11 @@ public:
 		TYPE_STAR_O = 8,
 		TYPE_STAR_M_GIANT = 9,
 		TYPE_WHITE_DWARF = 10,
-		TYPE_PLANET_SMALL_GAS_GIANT = 11,
-		TYPE_PLANET_MEDIUM_GAS_GIANT = 12,
-		TYPE_PLANET_LARGE_GAS_GIANT = 13,
-		TYPE_PLANET_VERY_LARGE_GAS_GIANT = 14,
-		/* yeah yeah, asteroids aren't planets technically... */
-		TYPE_PLANET_ASTEROID = 15,
-		TYPE_PLANET_LARGE_ASTEROID = 16,
-		TYPE_PLANET_DWARF = 17,
-		TYPE_PLANET_DWARF2 = 18,
-		TYPE_PLANET_SMALL = 19,
-		TYPE_PLANET_WATER = 20,
-		TYPE_PLANET_DESERT = 21,
-		TYPE_PLANET_CO2 = 22,
-		TYPE_PLANET_METHANE = 23,
-		TYPE_PLANET_WATER_THICK_ATMOS = 24,
-		TYPE_PLANET_CO2_THICK_ATMOS = 25,
-		TYPE_PLANET_METHANE_THICK_ATMOS = 26,
-		TYPE_PLANET_HIGHLY_VOLCANIC = 27,
-		TYPE_PLANET_INDIGENOUS_LIFE = 28,
-		TYPE_PLANET_TERRAFORMED_POOR = 29,
-		TYPE_PLANET_TERRAFORMED_GOOD = 30,
-		TYPE_STARPORT_ORBITAL = 31,
-		TYPE_STARPORT_SURFACE = 32,
-		TYPE_MAX = 33,
+		TYPE_PLANET_GAS_GIANT = 11,
+		TYPE_PLANET_ASTEROID = 12,
+		TYPE_PLANET_TERRESTRIAL = 13,
+		TYPE_STARPORT_ORBITAL = 14,
+		TYPE_STARPORT_SURFACE = 15,
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF,
 		TYPE_STAR_MAX = TYPE_WHITE_DWARF
 		// XXX need larger atmosphereless thing
@@ -151,7 +132,7 @@ public:
 		SUPERTYPE_STARPORT = 4
 	};
 
-	const char *GetAstroDescription();
+	std::string GetAstroDescription();
 	const char *GetIcon();
 	BodySuperType GetSuperType() const;
 	double GetRadius() const {
@@ -197,10 +178,18 @@ public:
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
+
+	/* composition */
+	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
+	fixed m_volatileGas; // 1.0 = earth atmosphere density
+	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
+	fixed m_volatileIces; // 1.0 = 100% ice cover (earth = 3%)
+	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
+	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+	fixed m_life; // 0.0 = dead, 1.0 = teeming
 	
 	/* economy type stuff */
 	fixed m_population;
-	fixed m_metallicity;
 	fixed m_agricultural;
 
 	const char *heightMapFilename;

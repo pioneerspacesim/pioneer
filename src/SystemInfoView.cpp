@@ -19,6 +19,11 @@ void SystemInfoView::OnBodySelected(SBody *b)
 {
 	m_bodySelected = b;
 
+	{
+		printf("\n");
+		printf("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
+	}
+
 	SBodyPath path;
 	m_system->GetPathOf(b, &path);
 	Pi::player->SetHyperspaceTarget(&path);
@@ -43,7 +48,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 }
 
 	{
-		Gui::Label *l = new Gui::Label(stringf(256, "%s: %s", b->name.c_str(), b->GetAstroDescription()));
+		Gui::Label *l = new Gui::Label(b->name + ": " + b->GetAstroDescription());
 		l->Color(1,1,0);
 		m_infoBox->PackStart(l);
 	}

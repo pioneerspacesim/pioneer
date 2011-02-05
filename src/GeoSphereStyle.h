@@ -39,7 +39,7 @@ class GeoSphereStyle {
 		COLOR_DESERT,
 		COLOR_ROCK,
 		COLOR_ROCK2,
-		COLOR_ROID,
+		COLOR_ASTEROID,
 		COLOR_VOLCANIC,
 		COLOR_METHANE,
 		COLOR_TFGOOD,
@@ -110,12 +110,6 @@ class GeoSphereStyle {
 		fracdef_t mountainDistrib;
 		double sealevel;
 	} targ;
-
-	struct sbody_valid_styles_t {
-		TerrainType terrainType[16];
-		ColorType colorType[20];
-	};
-	static const sbody_valid_styles_t sbody_valid_styles[SBody::TYPE_MAX];
 };
 
 #endif /* GEOSPHERESTYLE_H */

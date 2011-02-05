@@ -87,6 +87,11 @@ void AmbientSounds::Update()
 			SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
 			assert(sbody);
 			const char *sample;
+						const char *s[] = { "Wind", "Storm" };
+						sample = s[sbody->seed % 2];
+
+#warning fix me
+						/*
 			switch (sbody->type) {
 				case SBody::TYPE_PLANET_SMALL:
 				case SBody::TYPE_PLANET_CO2:
@@ -132,7 +137,7 @@ void AmbientSounds::Update()
 					}
 					break;
 				default: sample = 0;
-			}
+			}*/
 			if (sample) {
 				planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 			}
@@ -172,10 +177,11 @@ void AmbientSounds::Update()
 					case SBody::TYPE_STAR_A: sample = "A_Star"; break;
 					case SBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
 					case SBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
-					case SBody::TYPE_PLANET_SMALL_GAS_GIANT: sample = "Small_Gas_Giant"; break;
-					case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT: sample = "Medium_Gas_Giant"; break;
-					case SBody::TYPE_PLANET_LARGE_GAS_GIANT: sample = "Large_Gas_Giant"; break;
-					case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT: sample = "Very_Large_Gas_Giant"; break;
+					case SBody::TYPE_PLANET_GAS_GIANT: sample = "Small_Gas_Giant"; break;
+//					case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT: sample = "Medium_Gas_Giant"; break;
+//					case SBody::TYPE_PLANET_LARGE_GAS_GIANT: sample = "Large_Gas_Giant"; break;
+//					case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT: sample = "Very_Large_Gas_Giant"; break;
+#warning fix me
 					default: sample = 0; break;
 				}
 				if (sample) {
