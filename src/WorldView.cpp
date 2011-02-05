@@ -735,6 +735,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 			text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
 		}
 
+		text += stringf(256, "\nMass: %dt\n", stats->total_mass);
+		text += stringf(256, "Shield strength: %.2f\n",
+			(shields*0.01f) * (float)s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+
 		m_hudTargetInfo->SetText(text);
 		m_hudTargetInfo->Show();
 	} else {
