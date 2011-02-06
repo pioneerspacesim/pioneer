@@ -391,7 +391,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
 			i != ShipType::types.end(); ++i) {
 		int hullMass = (*i).second.hullMass;
-		if ((hullMass >= minMass) && (hullMass <= maxMass)) {
+		if (((*i).second.name.find("MISSILE") < 0) && (hullMass >= minMass) && (hullMass <= maxMass)) {
 			candidates.push_back((*i).first);
 		}
 	}

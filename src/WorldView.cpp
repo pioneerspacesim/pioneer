@@ -697,7 +697,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			c = Color(1,1,0,HUD_ALPHA);
 
 		m_hudHullIntegrity->SetColor(c);
-		m_hudHullIntegrity->SetValue(hull);
+		m_hudHullIntegrity->SetValue(hull*0.01f);
 		m_hudHullIntegrity->Show();
 	} else {
 		m_hudHullIntegrity->Hide();
