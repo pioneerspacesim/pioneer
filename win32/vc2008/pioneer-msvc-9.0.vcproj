@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\src;..\..\win32\vc2008\include;..\..\win32\vc2008"
+				AdditionalIncludeDirectories="..\..\src;..\..\win32\include;..\..\win32\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -130,7 +130,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\..\src;..\..\win32\vc2008\include;..\..\win32\vc2008"
+				AdditionalIncludeDirectories="..\..\src;..\..\win32\include;..\..\win32\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -486,7 +486,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pch.cpp"
+				RelativePath="..\..\win32\src\pch.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -634,7 +634,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\win32-dirent.cpp"
+				RelativePath="..\..\win32\src\win32-dirent.cpp"
 				>
 			</File>
 			<File
@@ -1176,7 +1176,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pch.h"
+				RelativePath="..\..\win32\src\pch.h"
 				>
 			</File>
 			<File
@@ -1336,7 +1336,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\win32-dirent.h"
+				RelativePath="..\..\win32\src\win32-dirent.h"
 				>
 			</File>
 			<File
