@@ -25,7 +25,7 @@ class InfoView;
 class SpaceStation;
 class GalacticView;
 class Ship;
-struct SBodyPath;
+class SBodyPath;
 class GameMenuView;
 struct lua_State;
 

@@ -9,7 +9,7 @@
 class Body;
 class Frame;
 class SBody;
-struct SBodyPath;
+class SBodyPath;
 class Ship;
 
 // The place all the 'Body's exist in

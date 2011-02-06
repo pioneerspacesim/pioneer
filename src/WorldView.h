@@ -9,7 +9,7 @@
 
 class Body;
 class Frame;
-struct SBodyPath;
+class SBodyPath;
 class LabelSet;
 class Ship;
 
