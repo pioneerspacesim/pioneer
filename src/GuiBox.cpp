@@ -46,11 +46,11 @@ void Box::GetSizeRequested(float size[2])
 			rsize[1] = size[1];
 			(*i).w->GetSizeRequested(rsize);
 			if (m_orient == BOX_VERTICAL) {
-				want[0] = MAX(want[0], rsize[0]);
+				want[0] = std::max(want[0], rsize[0]);
 				want[1] += rsize[1];
 			} else {
 				want[0] += rsize[0];
-				want[1] = MAX(want[1], rsize[1]);
+				want[1] = std::max(want[1], rsize[1]);
 			}
 		}
 		if (num_kids) want[m_orient] += (num_kids-1)*m_spacing;

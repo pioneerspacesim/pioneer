@@ -12,9 +12,6 @@
 #include "GeomTree.h"
 #include "BVHTree.h"
 
-#define MIN(a,b) ((a)<(b) ? (a) : (b))
-#define MAX(a,b) ((a)>(b) ? (a) : (b))
-
 int GeomTree::stats_rayTriIntersections;
 
 
@@ -144,18 +141,18 @@ static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vect
 	float
 	l1      = (n->aabb.min.x - start.x) * invDir.x,
 	l2      = (n->aabb.max.x - start.x) * invDir.x,
-	lmin    = MIN(l1,l2),
-	lmax    = MAX(l1,l2);
+	lmin    = std::min(l1,l2),
+	lmax    = std::max(l1,l2);
 
 	l1      = (n->aabb.min.y - start.y) * invDir.y;
 	l2      = (n->aabb.max.y - start.y) * invDir.y;
-	lmin    = MAX(MIN(l1,l2), lmin);
-	lmax    = MIN(MAX(l1,l2), lmax);
+	lmin    = std::max(std::min(l1,l2), lmin);
+	lmax    = std::min(std::max(l1,l2), lmax);
 
 	l1      = (n->aabb.min.z - start.z) * invDir.z;
 	l2      = (n->aabb.max.z - start.z) * invDir.z;
-	lmin    = MAX(MIN(l1,l2), lmin);
-	lmax    = MIN(MAX(l1,l2), lmax);
+	lmin    = std::max(std::min(l1,l2), lmin);
+	lmax    = std::min(std::max(l1,l2), lmax);
 
 	return ((lmax >= 0.f) & (lmax >= lmin) & (lmin < isect->dist));
 }

@@ -217,9 +217,9 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			/* Volume animations */
 			for (int chan=0; chan<2; chan++) {
 				if (ev.ascend[chan]) {
-					ev.volume[chan] = MIN(ev.volume[chan] + ev.rateOfChange[chan], ev.targetVolume[chan]);
+					ev.volume[chan] = std::min(ev.volume[chan] + ev.rateOfChange[chan], ev.targetVolume[chan]);
 				} else {
-					ev.volume[chan] = MAX(ev.volume[chan] - ev.rateOfChange[chan], ev.targetVolume[chan]);
+					ev.volume[chan] = std::max(ev.volume[chan] - ev.rateOfChange[chan], ev.targetVolume[chan]);
 				}
 			}
 

@@ -82,7 +82,7 @@ public:
 		clipCentroid = (v0+v1+v2+v3) * 0.25;
 		clipRadius = 0;
 		for (int i=0; i<4; i++) {
-			clipRadius = MAX(clipRadius, (v[i]-clipCentroid).Length());
+			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
 		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth);
 		m_needUpdateVBOs = false;
@@ -315,7 +315,7 @@ public:
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, 0, GL_DYNAMIC_DRAW);
 			for (int i=0; i<GEOPATCH_NUMVERTICES; i++)
 			{
-				clipRadius = MAX(clipRadius, (vertices[i]-clipCentroid).Length());
+				clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
 				VBOVertex *pData = vbotemp + i;
 				pData->x = (float)vertices[i].x;
 				pData->y = (float)vertices[i].y;

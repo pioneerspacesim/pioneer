@@ -47,7 +47,7 @@ static void path(int numPoints, const vector3d *points,
 		BezierCurve accel = vel.DerivativeOf();
 
 		double this_path_max_accel = 0;
-		for (int j=0; j<accel.p.size(); j++) this_path_max_accel = MAX(this_path_max_accel, accel.p[j].Length());
+		for (int j=0; j<accel.p.size(); j++) this_path_max_accel = std::max(this_path_max_accel, accel.p[j].Length());
 		this_path_max_accel /= (outDuration*outDuration);
 		if (this_path_max_accel < maxAccel) {
 			printf("Path max accel is %f m.sec^-2, duration %f\n", this_path_max_accel, outDuration);
@@ -387,7 +387,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		const vector3d ourPosition = m_ship->GetPositionRelTo(frame);
 		const vector3d ourVelocity = m_ship->GetVelocityRelativeTo(frame);
 		// bug: broken
-		const vector3d endPosition = MAX(50000.0, 4.0 * m_target->GetBoundingRadius()) * (ourPosition - m_target->GetPosition()).Normalized();
+		const vector3d endPosition = std::max(50000.0, 4.0 * m_target->GetBoundingRadius()) * (ourPosition - m_target->GetPosition()).Normalized();
 
 		// generate path
 		double duration;

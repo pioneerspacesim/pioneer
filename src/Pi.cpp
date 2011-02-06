@@ -584,7 +584,7 @@ static void draw_tombstone(float _time)
 	glEnable(GL_LIGHT0);
 	
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -MAX(150 - 30*_time, 30);
+	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
 	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
@@ -985,15 +985,15 @@ void Pi::MainLoop()
 				double rad = (*i)->GetBoundingRadius();
 
 				if (dist < 1000.0) {
-					timeAccel = MIN(timeAccel, 1);
-				} else if (dist < MIN(rad+0.0001*AU, rad*1.1)) {
-					timeAccel = MIN(timeAccel, 2);
-				} else if (dist < MIN(rad+0.001*AU, rad*5.0)) {
-					timeAccel = MIN(timeAccel, 3);
-				} else if (dist < MIN(rad+0.01*AU,rad*10.0)) {
-					timeAccel = MIN(timeAccel, 4);
-				} else if (dist < MIN(rad+0.1*AU, rad*1000.0)) {
-					timeAccel = MIN(timeAccel, 5);
+					timeAccel = std::min(timeAccel, 1);
+				} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+					timeAccel = std::min(timeAccel, 2);
+				} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
+					timeAccel = std::min(timeAccel, 3);
+				} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
+					timeAccel = std::min(timeAccel, 4);
+				} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+					timeAccel = std::min(timeAccel, 5);
 				}
 			}
 		}

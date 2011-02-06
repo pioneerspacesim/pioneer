@@ -47,7 +47,7 @@ static void path(int numPoints, const vector3d *points,
 		BezierCurve accel = vel.DerivativeOf();
 
 		double this_path_max_accel = 0;
-		for (int j=0; j<accel.p.size(); j++) this_path_max_accel = MAX(this_path_max_accel, accel.p[j].Length());
+		for (int j=0; j<accel.p.size(); j++) this_path_max_accel = std::max(this_path_max_accel, accel.p[j].Length());
 		this_path_max_accel /= (outDuration*outDuration);
 		if (this_path_max_accel < maxAccel) {
 			printf("Path max accel is %f m.sec^-2, duration %f\n", this_path_max_accel, outDuration);
@@ -247,7 +247,7 @@ bool Ship::AIFollowPath(AIPath &path, bool pointShipAtVelocityVector)
 	// get to desired point some fraction of remaining journey time in the
 	// future, within that time. this avoids oscillation around a perfect position
 	double reactionTime = CLAMP((path.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 200.0);
-	reactionTime = MIN(reactionTime, path.endTime - Pi::GetGameTime());
+	reactionTime = std::min(reactionTime, path.endTime - Pi::GetGameTime());
 	double t = (Pi::GetGameTime()+reactionTime - path.startTime) / dur;
 	vector3d wantVel;
 	//printf("rtime: %f t %f\n", reactionTime, t);
@@ -303,12 +303,12 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 	const ShipType &type = GetShipType();
 
 	double state[ShipType::THRUSTER_MAX];
-	state[ShipType::THRUSTER_FORWARD] = MAX(force.z / type.linThrust[ShipType::THRUSTER_FORWARD], 0.0);
-	state[ShipType::THRUSTER_REVERSE] = MAX(force.z / type.linThrust[ShipType::THRUSTER_REVERSE], 0.0);
-	state[ShipType::THRUSTER_UP] = MAX(force.y / type.linThrust[ShipType::THRUSTER_UP], 0.0);
-	state[ShipType::THRUSTER_DOWN] = MAX(force.y / type.linThrust[ShipType::THRUSTER_DOWN], 0.0);
-	state[ShipType::THRUSTER_LEFT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_LEFT], 0.0);
-	state[ShipType::THRUSTER_RIGHT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_RIGHT], 0.0);
+	state[ShipType::THRUSTER_FORWARD] = std::max(force.z / type.linThrust[ShipType::THRUSTER_FORWARD], 0.0);
+	state[ShipType::THRUSTER_REVERSE] = std::max(force.z / type.linThrust[ShipType::THRUSTER_REVERSE], 0.0);
+	state[ShipType::THRUSTER_UP] = std::max(force.y / type.linThrust[ShipType::THRUSTER_UP], 0.0);
+	state[ShipType::THRUSTER_DOWN] = std::max(force.y / type.linThrust[ShipType::THRUSTER_DOWN], 0.0);
+	state[ShipType::THRUSTER_LEFT] = std::max(force.x / type.linThrust[ShipType::THRUSTER_LEFT], 0.0);
+	state[ShipType::THRUSTER_RIGHT] = std::max(force.x / type.linThrust[ShipType::THRUSTER_RIGHT], 0.0);
 	bool engines_not_powerful_enough = false;
 	for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) {
 		if (state[i] > 1.0) engines_not_powerful_enough = true;

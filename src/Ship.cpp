@@ -303,7 +303,7 @@ const shipstats_t *Ship::CalcStats()
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
 			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
-			m_stats.hyperspace_range = MIN(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
+			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 				(hyperclass * hyperclass));
 		}
 	} else {
@@ -651,7 +651,7 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	if (m_ecmRecharge) {
-		m_ecmRecharge = MAX(0, m_ecmRecharge - timeStep);
+		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
 	}
 
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
@@ -674,7 +674,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (m_equipment.Get(Equip::SLOT_HULLAUTOREPAIR) == Equip::HULL_AUTOREPAIR) {
 		const ShipType &stype = GetShipType();
-		m_stats.hull_mass_left = MIN(m_stats.hull_mass_left + 0.1f*timeStep, (float)stype.hullMass);
+		m_stats.hull_mass_left = std::min(m_stats.hull_mass_left + 0.1f*timeStep, (float)stype.hullMass);
 	}
 
 	// After calling StartHyperspaceTo this Ship must not spawn objects
@@ -682,7 +682,7 @@ void Ship::StaticUpdate(const float timeStep)
 	// removes the ship from Space::bodies and so the missile will not
 	// have references to this cleared by NotifyDeleted()
 	if (m_hyperspace.countdown) {
-		m_hyperspace.countdown = MAX(m_hyperspace.countdown - timeStep, 0);
+		m_hyperspace.countdown = std::max(m_hyperspace.countdown - timeStep, 0.0f);
 		if (m_hyperspace.countdown == 0) {
 			Space::StartHyperspaceTo(this, &m_hyperspace.dest);
 		}
@@ -914,7 +914,7 @@ float Ship::GetWeakestThrustersForce() const
 	const ShipType &type = GetShipType();
 	float val = FLT_MAX;
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		val = MIN(val, fabs(type.linThrust[i]));
+		val = std::min(val, fabs(type.linThrust[i]));
 	}
 	return val;
 }

@@ -99,7 +99,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
 		
-		const float spikerad = (float)MIN(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*(float)Gui::Screen::GetHeight());
+		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*(float)Gui::Screen::GetHeight());
 		{
 			/* cubic bezier with 2 (0,0,0) control points */
 			vector3f p0(0,spikerad,0), p1(spikerad,0,0);

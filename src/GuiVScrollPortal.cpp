@@ -23,7 +23,7 @@ void VScrollPortal::OnChildResizeRequest(Widget *child)
 	rsize[0] = size[0];
 	rsize[1] = FLT_MAX;
 	child->GetSizeRequested(rsize);
-	rsize[0] = MIN(rsize[0], size[0]);
+	rsize[0] = std::min(rsize[0], size[0]);
 	m_childSizeY = rsize[1];
 	child->SetSize(rsize[0], rsize[1]);
 }

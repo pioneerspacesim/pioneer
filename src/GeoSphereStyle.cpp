@@ -475,7 +475,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	m_invMaxHeight = 1.0 / m_maxHeight;
 
 	// Bunch of random calculated attributes
-	m_icyness = 38.0 / (MAX(1.0, averageTemp-250.0));
+	m_icyness = 38.0 / (std::max(1.0, averageTemp-250.0));
 
 	if (t == TERRAIN_ASTEROID) {
 		m_maxHeight = rand.Double(0.2,0.4);
@@ -566,7 +566,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 		double r,g,b;
 		r = rand.Double(0.0, 0.5);
 		g = rand.Double(0.1, r);
-		b = rand.Double(0.05, MIN(r, g));
+		b = rand.Double(0.05, std::min(r, g));
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 

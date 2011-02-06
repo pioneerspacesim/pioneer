@@ -5,8 +5,6 @@
 #include <vector>
 #include "../vector3.h"
 #include "../Aabb.h"
-#define MIN(a,b) ((a)<(b) ? (a) : (b))
-#define MAX(a,b) ((a)>(b) ? (a) : (b))
 
 #define MAX_SPLITPOS_RETRIES 15
 

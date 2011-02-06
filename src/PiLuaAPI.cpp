@@ -77,7 +77,7 @@ void ship_randomly_equip(Ship *ship, double power)
 		stats = ship->CalcStats();
 	}
 	
-	int amount = MIN(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
+	int amount = std::min(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
 	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);
 }
 

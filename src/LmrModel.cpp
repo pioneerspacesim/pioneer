@@ -724,8 +724,8 @@ private:
 		m_ops.push_back(curOp);
 	}
 	void PushIdx(Uint16 v) {
-		curOp.elems.elemMin = MIN(v, curOp.elems.elemMin);
-		curOp.elems.elemMax = MAX(v, curOp.elems.elemMax);
+		curOp.elems.elemMin = std::min<int>(v, curOp.elems.elemMin);
+		curOp.elems.elemMax = std::max<int>(v, curOp.elems.elemMax);
 		m_indices.push_back(v);
 	}
 

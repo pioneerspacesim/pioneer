@@ -904,7 +904,7 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 
 static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
 {
-	discMax = MAX(discMax, discMin);
+	discMax = std::max(discMax, discMin);
 	fixed total = mass_from_disk_area(discMin, discMax, discMax);
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
@@ -940,18 +940,18 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 
 		if ((superType == SBody::SUPERTYPE_STAR) && (primary->parent)) {
 			// limit planets out to 10% distance to star's binary companion
-			discMax = MIN(discMax, primary->orbMin * fixed(1,10));
+			discMax = std::min(discMax, primary->orbMin * fixed(1,10));
 		}
 
 		/* in trinary and quaternary systems don't bump into other pair... */
 		if (m_numStars >= 3) {
-			discMax = MIN(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
+			discMax = std::min(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
 		}
 	} else {
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
 		/* use hill radius to find max size of moon system. for stars botch it */
-		discMax = MIN(discMax, fixed(1,20)*primary->CalcHillRadius());
+		discMax = std::min(discMax, fixed(1,20)*primary->CalcHillRadius());
 		
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
 	}
@@ -1099,7 +1099,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
-		mass = MIN(mass, fixed(317*65, 1)) / 332998;
+		mass = std::min(mass, fixed(317*65, 1)) / 332998;
 	} else if (mass > 300) {
 		type = SBody::TYPE_PLANET_LARGE_GAS_GIANT;
 	} else if (mass > 90) {
@@ -1270,7 +1270,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	// alterations
 	int maximum = 0;
 	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
-		maximum = MAX(abs(m_tradeLevel[i]), maximum);
+		maximum = std::max(abs(m_tradeLevel[i]), maximum);
 	}
 	if (maximum) for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
@@ -1428,7 +1428,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 
 	fixed orbMax = fixed(1,4)*this->CalcHillRadius();
 	fixed orbMin = 4 * this->radius * AU_EARTH_RADIUS;
-	if (children.size()) orbMax = MIN(orbMax, fixed(1,2) * children[0]->orbMin);
+	if (children.size()) orbMax = std::min(orbMax, fixed(1,2) * children[0]->orbMin);
 
 	// starports - orbital
 	pop -= rand.Fixed();

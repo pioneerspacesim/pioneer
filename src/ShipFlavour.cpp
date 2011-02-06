@@ -21,7 +21,7 @@ void ShipFlavour::MakeRandomColor(LmrMaterial &m)
 	float g = Pi::rng.Double();
 	float b = Pi::rng.Double();
 
-	float invmax = 1.0f / MAX(r, MAX(g, b));
+	float invmax = 1.0f / std::max(r, std::max(g, b));
 
 	r *= invmax;
 	g *= invmax;
@@ -44,7 +44,7 @@ ShipFlavour::ShipFlavour(ShipType::Type type)
 		'A' + Pi::rng.Int32(26),
 		'A' + Pi::rng.Int32(26),
 		Pi::rng.Int32(10000));
-	price = MAX(ShipType::types[type].baseprice, 1);
+	price = std::max(ShipType::types[type].baseprice, 1);
 	price = price + Pi::rng.Int32(price)/64;
 
 	MakeRandomColor(primaryColor);
