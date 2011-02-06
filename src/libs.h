@@ -22,8 +22,8 @@
 #ifdef _WIN32
 #include <malloc.h>
 #define alloca _alloca
-#define strncasecmp strnicmp
-#define strcasecmp stricmp
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
 #else
 #include <alloca.h>
 #endif
