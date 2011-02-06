@@ -319,7 +319,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->radius, primary->averageTemp, distToPrimary);
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
-	return isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
+	return (int)isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
 }
 
 vector3d Orbit::OrbitalPosAtTime(double t)

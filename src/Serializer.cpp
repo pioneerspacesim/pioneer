@@ -206,7 +206,7 @@ Uint8 Reader::Byte() {
 	return (Uint8)m_data[m_pos++];
 }
 bool Reader::Bool() {
-	return (bool)Byte();
+	return Byte() != 0;
 }
 Uint16 Reader::Int16()
 {

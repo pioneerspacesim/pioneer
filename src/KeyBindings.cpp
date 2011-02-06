@@ -44,10 +44,10 @@ bool KeyBinding::IsActive()
 		if (u.keyboard.mod != 0)
 			return Pi::KeyState(u.keyboard.key) && ((Pi::KeyModState()&0xfff) == u.keyboard.mod);
 
-		return Pi::KeyState(u.keyboard.key);
+		return Pi::KeyState(u.keyboard.key) != 0;
 
 	} else if (type == JOYSTICK_BUTTON) {
-		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button);
+		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
 	} else if (type == JOYSTICK_HAT) {
 		return Pi::JoystickHatState(u.joystickHat.joystick, u.joystickHat.hat) == u.joystickHat.direction;
 	} else

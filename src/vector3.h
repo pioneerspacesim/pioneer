@@ -10,12 +10,10 @@ class vector3 {
 	T x,y,z;
 
 	vector3 () {}
-	vector3 (const vector3<float> &v): x(v.x), y(v.y), z(v.z) {}
-	vector3 (const vector3<double> &v): x(v.x), y(v.y), z(v.z) {}
+	template<typename Q> vector3 (const vector3<Q> &v): x((T)v.x), y((T)v.y), z((T)v.z) {}
 	vector3 (T val): x(val), y(val), z(val) {}
 	vector3 (T _x, T _y, T _z): x(_x), y(_y), z(_z) {}
-	vector3 (const double vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
-	vector3 (const float vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
+	template<typename Q> vector3 (const Q vals[3]): x((T)vals[0]), y((T)vals[1]), z((T)vals[2]) {}
 
 	const T& operator [] (const size_t i) const { return ((const T *)this)[i]; }
 	T& operator [] (const size_t i) { return ((T *)this)[i]; }
@@ -32,12 +30,9 @@ class vector3 {
 	bool operator!= (const vector3 a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
 //	friend vector3 operator* (const vector3 a, const vector3 b) 
 //	{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
-	friend vector3 operator* (const vector3 a, const float scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
-	friend vector3 operator* (const float scalar, const vector3 a) { return a*scalar; }
-	friend vector3 operator* (const vector3 a, const double scalar) { return vector3 (a.x*scalar, a.y*scalar, a.z*scalar); }
-	friend vector3 operator* (const double scalar, const vector3 a) { return a*scalar; }
-	friend vector3 operator/ (const vector3 a, const float scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
-	friend vector3 operator/ (const vector3 a, const double scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
+	template<typename Q> friend vector3 operator* (const vector3 a, const Q scalar) { return vector3 ((T)(a.x*scalar), (T)(a.y*scalar), (T)(a.z*scalar)); }
+	template<typename Q> friend vector3 operator* (const Q scalar, const vector3 a) { return a*scalar; }
+	template<typename Q> friend vector3 operator/ (const vector3 a, const Q scalar) { const T inv = (T)(1.0/scalar); return vector3 (a.x*inv, a.y*inv, a.z*inv); }
 	// why did i ever make these awful static functions...
 	static vector3 Cross (const vector3 a, const vector3 b)
 		{ return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }

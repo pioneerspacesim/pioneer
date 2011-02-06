@@ -22,7 +22,7 @@ class ObjectWrapper
 	public:
 	ObjectWrapper(): m_obj(0) {}
 	bool IsBody() const;
-	bool IsValid() const { return m_obj; }
+	bool IsValid() const { return m_obj != NULL; }
 	const char *GetLabel() const;
 	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
 	void SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description);

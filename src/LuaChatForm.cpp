@@ -103,7 +103,7 @@ bool LuaChatForm::CanSell(Equip::Type t, bool verbose) const {
 bool LuaChatForm::DoesSell(Equip::Type t) const {
 	lua_State *l = PiLuaModules::GetLuaState();
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderCanTrade", 1, this, (int)t);
-	bool can = lua_toboolean(l, -1);
+	bool can = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
 	return can;
 }
@@ -125,7 +125,7 @@ void LuaChatForm::OnClickBuy(int equipType) {
 	lua_State *l = PiLuaModules::GetLuaState();
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderOnClickBuy", 1, this, equipType);
 
-	bool doBuy = lua_toboolean(l, -1);
+	bool doBuy = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
 	if (doBuy) {
 		if (SellTo(Pi::player, (Equip::Type)equipType, true)) {
@@ -139,7 +139,7 @@ void LuaChatForm::OnClickSell(int equipType) {
 	lua_State *l = PiLuaModules::GetLuaState();
 
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderOnClickSell", 1, this, equipType);
-	bool doSell = lua_toboolean(l, -1);
+	bool doSell = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
 	if (doSell) {
 		if (BuyFrom(Pi::player, (Equip::Type)equipType, true)) {

@@ -506,7 +506,7 @@ void Pi::HandleEvents()
 			case SDL_JOYBUTTONDOWN:
 				if (joysticks[event.jaxis.which].joystick == NULL)
 					break;
-				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state;
+				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
 				break;
 			case SDL_JOYHATMOTION:
 				if (joysticks[event.jaxis.which].joystick == NULL)
