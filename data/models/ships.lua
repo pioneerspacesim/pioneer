@@ -5,6 +5,7 @@ define_model('missile', {
 	info = {
 		bounding_radius = 4,
 		materials={ 'body' },
+		tags = {'ship'},
 		ship_defs = {
 			{
 				name = 'MISSILE_UNGUIDED',
