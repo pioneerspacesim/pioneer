@@ -614,7 +614,7 @@ public:
 			m.specular[1] = mat[5];
 			m.specular[2] = mat[6];
 			m.specular[3] = 1.0f;
-			m.shininess = CLAMP(mat[7], 1.0f, 100.0f);
+			m.shininess = Clamp(mat[7], 1.0f, 100.0f);
 			m.emissive[0] = mat[8];
 			m.emissive[1] = mat[9];
 			m.emissive[2] = mat[10];

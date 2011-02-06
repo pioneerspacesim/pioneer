@@ -71,7 +71,7 @@ public:
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void SetThrusterState(enum ShipType::Thruster t, float level);
 	float GetThrusterState(enum ShipType::Thruster t) const { return m_thrusters[t]; }
-	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = CLAMP(level, -1, 1); }
+	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = Clamp(level, -1.0f, 1.0f); }
 	vector3f GetAngThrusterState() const { return vector3f(m_angThrusters); }
 	void ClearThrusterState();
 	void SetGunState(int idx, int state);

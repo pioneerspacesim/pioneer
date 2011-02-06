@@ -187,7 +187,7 @@ float Ship::GetPercentShields() const
 void Ship::SetPercentHull(float p)
 {
 	const ShipType &stype = GetShipType();
-	m_stats.hull_mass_left = 0.01f * CLAMP(p, 0.0f, 100.0f) * (float)stype.hullMass;
+	m_stats.hull_mass_left = 0.01f * Clamp(p, 0.0f, 100.0f) * (float)stype.hullMass;
 }
 
 void Ship::UpdateMass()
@@ -256,7 +256,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 
 void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
 {
-	m_thrusters[t] = CLAMP(level, 0.0f, 1.0f);
+	m_thrusters[t] = Clamp(level, 0.0f, 1.0f);
 }
 
 void Ship::ClearThrusterState()
@@ -662,11 +662,11 @@ void Ship::StaticUpdate(const float timeStep)
 		}
 		m_stats.shield_mass_left += m_stats.shield_mass * recharge_rate * timeStep;
 	}
-	m_stats.shield_mass_left = CLAMP(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
+	m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left, 0.0f, m_stats.shield_mass);
 
 	if (m_wheelTransition != 0.0f) {
 		m_wheelState += m_wheelTransition*0.3f*timeStep;
-		m_wheelState = CLAMP(m_wheelState, 0, 1);
+		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
 		if ((m_wheelState == 0) || (m_wheelState == 1)) m_wheelTransition = 0;
 	}
 

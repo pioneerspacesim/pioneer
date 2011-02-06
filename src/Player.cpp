@@ -171,8 +171,8 @@ void Player::StaticUpdate(const float timeStep)
 	targetVol[0] += 0.5f*GetThrusterState(ShipType::THRUSTER_RIGHT);
 	targetVol[1] += 0.5f*GetThrusterState(ShipType::THRUSTER_LEFT);
 
-	targetVol[0] = v_env * CLAMP(targetVol[0], 0.0f, 1.0f);
-	targetVol[1] = v_env * CLAMP(targetVol[1], 0.0f, 1.0f);
+	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
+	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
 	float dv_dt[2] = { 4.0f, 4.0f };
 	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
 		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
@@ -284,7 +284,7 @@ void Player::PollControls(const float timeStep)
 		wantAngVel.z += 2.f * KeyBindings::rollAxis.GetValue();
 
 		for (int axis=0; axis<3; axis++)
-			wantAngVel[axis] = (float)CLAMP(wantAngVel[axis], -invTimeAccel, invTimeAccel);
+			wantAngVel[axis] = Clamp<float>(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 		
 		const float angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0f : 50.0f;
 		

@@ -323,9 +323,9 @@ public:
 				pData->nx = (float)normals[i].x;
 				pData->ny = (float)normals[i].y;
 				pData->nz = (float)normals[i].z;
-				pData->col[0] = (unsigned char)CLAMP(colors[i].x*255.0, 0.0, 255.0);
-				pData->col[1] = (unsigned char)CLAMP(colors[i].y*255.0, 0.0, 255.0);
-				pData->col[2] = (unsigned char)CLAMP(colors[i].z*255.0, 0.0, 255.0);
+				pData->col[0] = (unsigned char)Clamp(colors[i].x*255.0, 0.0, 255.0);
+				pData->col[1] = (unsigned char)Clamp(colors[i].y*255.0, 0.0, 255.0);
+				pData->col[2] = (unsigned char)Clamp(colors[i].z*255.0, 0.0, 255.0);
 				pData->col[3] = 1.0;
 			}
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_DYNAMIC_DRAW);

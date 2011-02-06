@@ -55,8 +55,8 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	} else {
 		v[0] = v[1] = vol;
 	}
-	v[0] = CLAMP(v[0], 0.0f, 1.0f);
-	v[1] = CLAMP(v[1], 0.0f, 1.0f);
+	v[0] = Clamp(v[0], 0.0f, 1.0f);
+	v[1] = Clamp(v[1], 0.0f, 1.0f);
 
 	return Sound::PlaySfx(sfx, v[0], v[1], false);
 }
@@ -309,7 +309,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
 	for (int pos=0; pos<len_in_floats; pos++) {
 		const float val = m_globalVol * tmpbuf[pos];
-		((Sint16*)dsp_buf)[pos] = (Sint16) CLAMP(val, -32768.0, 32767.0);
+		((Sint16*)dsp_buf)[pos] = (Sint16) Clamp(val, -32768.0f, 32767.0f);
 	}
 }
 

@@ -75,7 +75,7 @@ void ObjectViewerView::Update()
 {
 	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99;
 	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01;
-	viewingDist = CLAMP(viewingDist, 10, 1e12);
+	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	char buf[128];
 	Body *body = Pi::player->GetNavTarget();
@@ -101,8 +101,8 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	int terrain_style = atoi(m_geosphereTerrainStyle->GetText().c_str());
 	int color_style = atoi(m_geosphereColorStyle->GetText().c_str());
 
-	terrain_style = CLAMP(terrain_style, 0, (int)GeoSphereStyle::TERRAIN_MAX);
-	color_style = CLAMP(color_style, 0, (int)GeoSphereStyle::COLOR_MAX);
+	terrain_style = Clamp(terrain_style, 0, (int)GeoSphereStyle::TERRAIN_MAX);
+	color_style = Clamp(color_style, 0, (int)GeoSphereStyle::COLOR_MAX);
 
 	Body *body = Pi::player->GetNavTarget();
 	if (body->IsType(Object::PLANET)) {

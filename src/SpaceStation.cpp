@@ -479,8 +479,8 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_openAnimState[i] = CLAMP(m_openAnimState[i], 0.0f, 1.0f);
-		m_dockAnimState[i] = CLAMP(m_dockAnimState[i], 0.0f, 1.0f);
+		m_openAnimState[i] = Clamp(m_openAnimState[i], 0.0f, 1.0f);
+		m_dockAnimState[i] = Clamp(m_dockAnimState[i], 0.0f, 1.0f);
 	}
 }
 

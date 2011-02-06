@@ -15,7 +15,7 @@ struct ColRangeObj_t {
 	void GenCol(float col[4], MTRand &rng) const {
 		float ma = 1 + (float)(rng.Double(modAll*2)-modAll);
 		for (int i=0; i<4; i++) col[i] = baseCol[i] + (float)rng.Double(-modCol[i], modCol[i]);
-		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
+		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
 	}
 };
 

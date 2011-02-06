@@ -196,7 +196,7 @@ void AmbientSounds::Update()
 			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
 			// maximum volume at around 2km/sec at earth density, pressure
 			float volume = density * Pi::player->GetVelocity().Length() * 0.0005;
-			volume = CLAMP(volume, 0.0f, 1.0f) * v_env;
+			volume = Clamp(volume, 0.0f, 1.0f) * v_env;
 			if (atmosphereNoise.IsPlaying()) {
 				float target[2] = {volume, volume};
 				float dv_dt[2] = {1.0f,1.0f};

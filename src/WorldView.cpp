@@ -127,7 +127,7 @@ WorldView::WorldView(): View()
 
 	for (int i=0; i<BG_STAR_MAX; i++) {
 		float col = (float)Pi::rng.NDouble(4);
-		col = CLAMP(col, 0.05f, 1.0f);
+		col = Clamp(col, 0.05f, 1.0f);
 		s_bgstar[i].r = col;
 		s_bgstar[i].g = col;
 		s_bgstar[i].b = col;
@@ -767,7 +767,7 @@ void WorldView::Update()
 		m_externalViewDist = std::max<float>(Pi::player->GetBoundingRadius(), m_externalViewDist);
 
 		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = CLAMP(m_externalViewRotX, -170.0f, -10.0f);
+		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = Clamp(m_externalViewRotX, -170.0f, -10.0f);
 	}
 	if (KeyBindings::targetObject.IsActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */

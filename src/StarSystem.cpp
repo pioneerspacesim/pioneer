@@ -1055,7 +1055,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	if (mass < 1) globalwarming *= mass;
 	// big planets get high global warming due to thick atmos
 	if (mass > 3) globalwarming *= (mass-2);
-	globalwarming = CLAMP(globalwarming, fixed(0), fixed(95,100));
+	globalwarming = Clamp(globalwarming, fixed(0), fixed(95,100));
 
 	fixed minDistToStar, maxDistToStar, averageDistToStar;
 	const SBody *star = FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
@@ -1254,7 +1254,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY));
 	m_metallicity = rand.Fixed();
 	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
-	m_techlevel = CLAMP(m_techlevel, 1, 5);
+	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -1330,10 +1330,10 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 	if ((type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) ||
 		(type == SBody::TYPE_PLANET_TERRAFORMED_GOOD)) {
-		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
+		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
 		system->m_agricultural += 2*m_agricultural;
 	} else if (type == SBody::TYPE_PLANET_TERRAFORMED_POOR) {
-		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+30-averageTemp, 50), fixed(0), fixed(1,1));
+		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+30-averageTemp, 50), fixed(0), fixed(1,1));
 		system->m_agricultural += 1*m_agricultural;
 	} else {
 		// don't bother populating crap planets

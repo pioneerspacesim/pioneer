@@ -246,7 +246,7 @@ bool Ship::AIFollowPath(AIPath &path, bool pointShipAtVelocityVector)
 	// within a game tick, try adopting acceleration necessary to
 	// get to desired point some fraction of remaining journey time in the
 	// future, within that time. this avoids oscillation around a perfect position
-	double reactionTime = CLAMP((path.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 200.0);
+	double reactionTime = Clamp<double>((path.endTime-Pi::GetGameTime())*0.01, Pi::GetTimeStep(), 200.0);
 	reactionTime = std::min(reactionTime, path.endTime - Pi::GetGameTime());
 	double t = (Pi::GetGameTime()+reactionTime - path.startTime) / dur;
 	vector3d wantVel;
@@ -363,7 +363,7 @@ void Ship::AIFaceDirection(const vector3d &dir, vector3d &dav, double time)
 
 	if (head.z < -0.99999999f) { time = 0.0; return; }
 
-	double ang = acos (CLAMP(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
+	double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 	double iangvel = sqrt (2.0 * g_maxAccel * ang);		// ideal angvel at current time
 
 	// probably shouldn't have this in combat AI? put inaccuracy somewhere else maybe
@@ -431,7 +431,7 @@ void Ship::AIFaceDirection(const vector3d &dir)
 
 	if (head.z > -0.99999999f)
 	{
-		double ang = acos (CLAMP(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
+		double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = sqrt (2.0 * maxAccel * ang);		// ideal angvel at current time
 
 		double frameEndAV = iangvel - frameAccel;
@@ -473,11 +473,11 @@ void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
 	} else {
 		vector3d rotaxis = rot * vector3d::Cross(zaxis, dir);
 		vector3d angVel = rot * GetAngVelocity();
-		const float dot = vector3d::Dot(dir, zaxis);
+		const double dot = vector3d::Dot(dir, zaxis);
 		// if facing > 90 degrees away then max turn rate
 		rotaxis = rotaxis.Normalized();
 //		if (dot < 0) rotaxis = -rotaxis;
-		double angToGo = acos(CLAMP(dot, -1.0, 1.0));
+		double angToGo = acos(Clamp(dot, -1.0, 1.0));
 		// agreement between angVel and rotAxis
 		double goodAngVel = vector3d::Dot(angVel, rotaxis);
 
