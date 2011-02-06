@@ -1,34 +1,8 @@
 #!/bin/bash
 # Executable wrapper script
 # Ensures the program is up-to-date, then hands over
-# Runs the debug build by default.
-# Pass --release as the first argument to run the release build
 
 PROGRAM_NAME=$0
 
-# To keep autoconf users happy (like me!)
-if ! which cmake > /dev/null; then
-	EXEC_BIN=src/$PROGRAM_NAME
-	make && exec $EXEC_BIN $*
-fi
-
-if [ "$1" == "--release" ]; then
-	EXEC_BIN=bin/$PROGRAM_NAME
-	BUILD_DIR=build/release
-	MAKE_GOAL=$PROGRAM_NAME
-	# strip --release from the argument list
-	shift 1
-else
-	EXEC_BIN=bin/$PROGRAM_NAME-dbg
-	BUILD_DIR=build/debug
-	MAKE_GOAL=$PROGRAM_NAME
-fi
-
-if [ ! -f "$BUILD_DIR/Makefile" ]; then
-	echo "Build directory ($BUILD_DIR) is not initialised."
-	exit 1
-fi
-
-(cd "$BUILD_DIR" && make "$MAKE_GOAL")
-if [ $? -ne 0 ]; then exit $?; fi
-exec $EXEC_BIN $*
+EXEC_BIN=src/$PROGRAM_NAME
+make && exec $EXEC_BIN $*
