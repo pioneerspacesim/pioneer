@@ -43,7 +43,7 @@ private:
 			std::vector<objPtr_t> &activeObjIdxs);
 	void MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs);
 	BVHNode *AllocNode() {
-		assert(m_nodeAllocPos < m_nodeAllocMax);
+		if (m_nodeAllocPos >= m_nodeAllocMax) Error("Out of space in m_bvhNodes.");
 		return &m_bvhNodes[m_nodeAllocPos++];
 	}
 	BVHNode *m_root;
