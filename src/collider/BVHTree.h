@@ -5,6 +5,7 @@
 #include <vector>
 #include "../vector3.h"
 #include "../Aabb.h"
+#include "../utils.h"
 
 #define MAX_SPLITPOS_RETRIES 15
 
