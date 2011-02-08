@@ -2,6 +2,7 @@
 #define _SHIPAICMD_H
 
 #include "Ship.h"
+#include "SpaceStation.h"
 #include "Serializer.h"
 
 class AICommand {
@@ -145,42 +146,31 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdKill(Ship *ship, Ship *target) : AICommand (ship, CMD_KILL) {
 		m_target = target;
-		m_timeSinceChange = 0.0f;
-		m_changeTime = 0.0f;
+		m_leadTime = m_evadeTime = m_closeTime = 0.0;
+		m_lastVel = m_target->GetVelocity();
 	}
 
 	// don't actually need to save all this crap
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_target));
-		wr.Vector3d(m_lastVel);
-		wr.Float(m_timeStep);
-		wr.Float(m_timeSinceChange);
-		wr.Float(m_changeTime);
-		wr.Vector3d(m_curDir);
 	}
 	AICmdKill(Serializer::Reader &rd) : AICommand(rd, CMD_KILL) {
 		m_target = (Ship *)rd.Int32();
-		m_lastVel = rd.Vector3d();
-		m_timeStep = rd.Float();
-		m_timeSinceChange = rd.Float();
-		m_changeTime = rd.Float();
-		m_curDir = rd.Vector3d();
+		m_leadTime = m_evadeTime = m_closeTime = 0.0;
+		m_lastVel = m_target->GetVelocity();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = (Ship *)Serializer::LookupBody((size_t)m_target);
+
 	}
 
 private:
 	Ship *m_target;
 	
-	vector3d m_lastVel;	// target's position last frame
-	float m_timeStep;		// last timestep length
-		
-	float m_timeSinceChange;
-	float m_changeTime;
-	vector3d m_curDir;
+	double m_leadTime, m_evadeTime, m_closeTime;
+	vector3d m_leadDir, m_lastVel;
 };
 
 class AICmdKamikaze : public AICommand {

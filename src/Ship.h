@@ -69,11 +69,16 @@ public:
 	void SetCombatTarget(Body* const target);
 	Body *GetCombatTarget() const { return m_combatTarget; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	void SetThrusterState(enum ShipType::Thruster t, float level);
-	float GetThrusterState(enum ShipType::Thruster t) const { return m_thrusters[t]; }
-	void SetAngThrusterState(int axis, float level) { m_angThrusters[axis] = Clamp(level, -1.0f, 1.0f); }
-	vector3f GetAngThrusterState() const { return vector3f(m_angThrusters); }
+
+	void SetThrusterState(int axis, double level) { m_thrusters[axis] = Clamp(level, -1.0, 1.0); }
+	void SetThrusterState(const vector3d &levels);
+	vector3d GetThrusterState() const { return m_thrusters; }
+	void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
+	void SetAngThrusterState(const vector3d &levels);
+	vector3d GetAngThrusterState() const { return m_angThrusters; }
 	void ClearThrusterState();
+
+	vector3d GetMaxThrust(const vector3d &dir);
 	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
 	const shipstats_t *CalcStats();
@@ -118,6 +123,7 @@ public:
 	void UseECM();
 
 	void AIFaceDirection(const vector3d &dir);
+	vector3d AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex);
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
@@ -191,8 +197,8 @@ private:
 	float m_wheelState;
 	float m_wheelTransition;
 
-	float m_thrusters[ShipType::THRUSTER_MAX];
-	float m_angThrusters[3];
+	vector3d m_thrusters;
+	vector3d m_angThrusters;
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;

@@ -162,14 +162,13 @@ void Player::StaticUpdate(const float timeStep)
 	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
-	volBoth += 0.5f*GetThrusterState(ShipType::THRUSTER_FORWARD);
-	volBoth += 0.5f*GetThrusterState(ShipType::THRUSTER_REVERSE);
-	volBoth += 0.5f*GetThrusterState(ShipType::THRUSTER_UP);
-	volBoth += 0.5f*GetThrusterState(ShipType::THRUSTER_DOWN);
+	volBoth += 0.5f*fabs(GetThrusterState().y);
+	volBoth += 0.5f*fabs(GetThrusterState().z);
 	
 	float targetVol[2] = { volBoth, volBoth };
-	targetVol[0] += 0.5f*GetThrusterState(ShipType::THRUSTER_RIGHT);
-	targetVol[1] += 0.5f*GetThrusterState(ShipType::THRUSTER_LEFT);
+	if (GetThrusterState().x > 0.0)
+		targetVol[0] += 0.5f*(float)GetThrusterState().x;
+	else targetVol[1] += -0.5f*(float)GetThrusterState().x;
 
 	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
 	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
@@ -178,7 +177,7 @@ void Player::StaticUpdate(const float timeStep)
 		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
 		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
-	float angthrust = 0.1f * v_env * Pi::player->GetAngThrusterState().Length();
+	float angthrust = 0.1f * v_env * (float)Pi::player->GetAngThrusterState().Length();
 
 	static Sound::Event angThrustSnd;
 	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
@@ -221,7 +220,7 @@ void Player::PollControls(const float timeStep)
 		
 		vector3f wantAngVel(0.0f);
 
-		// have to use this function. mouse position event is bugged in windows
+		// have to use this function. SDL mouse position event is bugged in windows
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
 		if (Pi::MouseButtonState(3)) {
 			matrix4x4d rot; GetRotMatrix(rot);
@@ -231,7 +230,7 @@ void Player::PollControls(const float timeStep)
 			}
 			double mousex = mouseMotion[0] * 0.002;
 			double mousey = mouseMotion[1] * 0.002;		// factor pixels => radians
-			// probably needs a clamp at 90-180 degrees
+			// todo: probably needs a clamp at 90-180 degrees
 			matrix4x4d mrot = matrix4x4d::RotateYMatrix(mousex); mrot.RotateX(mousey);
 			m_mouseDir = (rot * (mrot * (m_mouseDir * rot))).Normalized();			// lol
 		}
@@ -259,12 +258,12 @@ void Player::PollControls(const float timeStep)
 			}
 		}
 
-		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0f);
-		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0f);
-		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
-		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(ShipType::THRUSTER_DOWN, 1.0f);
-		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
-		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
+		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);
+		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(2, 1.0);
+		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(1, 1.0);
+		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(1, -1.0);
+		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(0, -1.0);
+		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(0, 1.0);
 		
 		SetGunState(0,0);
 		SetGunState(1,0);

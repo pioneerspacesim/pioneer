@@ -830,6 +830,27 @@ void Pi::Start()
 
 		player->SetCombatTarget(enemy);
 
+
+		const ShipType *shipdef;
+		double mass, acc1, acc2, acc3;
+		printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
+			player->GetMass(), enemy->GetMass());
+
+		shipdef = &player->GetShipType();
+		mass = player->GetMass();
+		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+		printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+		shipdef = &enemy->GetShipType();
+		mass = enemy->GetMass();
+		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+		printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
 		stationFrame->m_sbody = 0;

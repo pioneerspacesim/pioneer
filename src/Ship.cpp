@@ -128,7 +128,8 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_navTarget = 0;
 	m_combatTarget = 0;
 	m_shipFlavour = ShipFlavour(shipType);
-	m_angThrusters[0] = m_angThrusters[1] = m_angThrusters[2] = 0;
+	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
+	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipType);
 	m_hyperspace.countdown = 0;
 	m_hyperspace.followHypercloudId = 0;
@@ -138,7 +139,6 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 		m_gunTemperature[i] = 0;
 	}
 	m_ecmRecharge = 0;
-	memset(m_thrusters, 0, sizeof(m_thrusters));
 	SetLabel(m_shipFlavour.regid);
 	m_curAICmd = 0;
 
@@ -254,20 +254,37 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	return DynamicBody::OnCollision(b, flags, relVel);
 }
 
-void Ship::SetThrusterState(enum ShipType::Thruster t, float level)
+void Ship::SetThrusterState(const vector3d &levels)
 {
-	m_thrusters[t] = Clamp(level, 0.0f, 1.0f);
+	m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
+	m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
+	m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+}
+
+void Ship::SetAngThrusterState(const vector3d &levels)
+{
+	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0);
+	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0);
+	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
+}
+
+vector3d Ship::GetMaxThrust(const vector3d &dir)
+{
+	const ShipType &stype = GetShipType();
+	vector3d maxThrust;
+	maxThrust.x = (dir.x > 0) ? stype.linThrust[ShipType::THRUSTER_RIGHT]
+		: -stype.linThrust[ShipType::THRUSTER_LEFT];
+	maxThrust.y = (dir.y > 0) ? stype.linThrust[ShipType::THRUSTER_UP]
+		: -stype.linThrust[ShipType::THRUSTER_DOWN];
+	maxThrust.z = (dir.z > 0) ? stype.linThrust[ShipType::THRUSTER_REVERSE]
+		: -stype.linThrust[ShipType::THRUSTER_FORWARD];
+	return maxThrust;
 }
 
 void Ship::ClearThrusterState()
 {
-	SetAngThrusterState(0, 0.0f);
-	SetAngThrusterState(1, 0.0f);
-	SetAngThrusterState(2, 0.0f);
-
-	if (m_launchLockTimeout == 0) {
-		for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = 0;
-	}
+	m_angThrusters = vector3d(0,0,0);
+	if (m_launchLockTimeout == 0) m_thrusters = vector3d(0,0,0);
 }
 
 Equip::Type Ship::GetHyperdriveFuelType() const
@@ -435,7 +452,7 @@ void Ship::Blastoff()
 	GetAabb(aabb);
 	// XXX hm. we need to be able to get sbre aabb
 	SetPosition(up*planetRadius - aabb.min.y*up);
-	SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
+	SetThrusterState(1, 1.0);		// thrust upwards
 }
 
 void Ship::TestLanded()
@@ -496,24 +513,11 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_flightState == FLYING) Enable();
 	else Disable();
 
-	const ShipType &stype = GetShipType();
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		float force = stype.linThrust[i] * m_thrusters[i];
-		switch (i) {
-		case ShipType::THRUSTER_FORWARD: 
-		case ShipType::THRUSTER_REVERSE:
-			AddRelForce(vector3d(0, 0, force)); break;
-		case ShipType::THRUSTER_UP:
-		case ShipType::THRUSTER_DOWN:
-			AddRelForce(vector3d(0, force, 0)); break;
-		case ShipType::THRUSTER_LEFT:
-		case ShipType::THRUSTER_RIGHT:
-			AddRelForce(vector3d(force, 0, 0)); break;
-		}
-	}
-	AddRelTorque(vector3d(stype.angThrust*m_angThrusters[0],
-				  stype.angThrust*m_angThrusters[1],
-				  stype.angThrust*m_angThrusters[2]));
+	vector3d maxThrust = GetMaxThrust(m_thrusters);
+	AddRelForce(vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
+		maxThrust.z*m_thrusters.z));
+	AddRelTorque(GetShipType().angThrust * m_angThrusters);
+
 	DynamicBody::TimeStepUpdate(timeStep);
 }
 
@@ -815,9 +819,9 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		params.angthrust[0] = -m_angThrusters[0];
 		params.angthrust[1] = -m_angThrusters[1];
 		params.angthrust[2] = -m_angThrusters[2];
-		params.linthrust[0] = m_thrusters[ShipType::THRUSTER_RIGHT] - m_thrusters[ShipType::THRUSTER_LEFT];
-		params.linthrust[1] = m_thrusters[ShipType::THRUSTER_UP] - m_thrusters[ShipType::THRUSTER_DOWN];
-		params.linthrust[2] = m_thrusters[ShipType::THRUSTER_REVERSE] - m_thrusters[ShipType::THRUSTER_FORWARD];
+		params.linthrust[0] = m_thrusters[0];
+		params.linthrust[1] = m_thrusters[1];
+		params.linthrust[2] = m_thrusters[2];
 		params.argFloats[0] = m_wheelState;
 		params.argFloats[5] = (float)m_equipment.Get(Equip::SLOT_FUELSCOOP);
 		params.argFloats[6] = (float)m_equipment.Get(Equip::SLOT_ENGINE);
