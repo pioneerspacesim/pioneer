@@ -283,7 +283,11 @@ bool Ship::AIFollowPath(AIPath &path, bool pointShipAtVelocityVector)
 		GetRotMatrix(rot);
 		force = rot.InverseOf() * tran * force;
 		ClearThrusterState();
-		AITrySetBodyRelativeThrust(force);
+
+		vector3d maxThrust = GetMaxThrust(force);
+		vector3d relThrust(force.x/maxThrust.x, force.y/maxThrust.y, force.z/maxThrust.z);
+		SetThrusterState(relThrust);
+	//	AITrySetBodyRelativeThrust(force);
 		if (pointShipAtVelocityVector) {
 			if (wantVel.Length()) AISlowFaceDirection((tran * wantVel).Normalized());
 		} else {
@@ -302,25 +306,13 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 {
 	const ShipType &type = GetShipType();
 
-	double state[ShipType::THRUSTER_MAX];
-	state[ShipType::THRUSTER_FORWARD] = MAX(force.z / type.linThrust[ShipType::THRUSTER_FORWARD], 0.0);
-	state[ShipType::THRUSTER_REVERSE] = MAX(force.z / type.linThrust[ShipType::THRUSTER_REVERSE], 0.0);
-	state[ShipType::THRUSTER_UP] = MAX(force.y / type.linThrust[ShipType::THRUSTER_UP], 0.0);
-	state[ShipType::THRUSTER_DOWN] = MAX(force.y / type.linThrust[ShipType::THRUSTER_DOWN], 0.0);
-	state[ShipType::THRUSTER_LEFT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_LEFT], 0.0);
-	state[ShipType::THRUSTER_RIGHT] = MAX(force.x / type.linThrust[ShipType::THRUSTER_RIGHT], 0.0);
-	bool engines_not_powerful_enough = false;
-	for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) {
-		if (state[i] > 1.0) engines_not_powerful_enough = true;
-		SetThrusterState((ShipType::Thruster)i, (float)state[i]);
-	}
-#ifdef DEBUG
-	if (engines_not_powerful_enough) {
-		printf("AI: Crud. thrusters insufficient: ");
-		for (int i=0; i<(int)ShipType::THRUSTER_MAX; i++) printf("%f ", state[i]);
-		printf("\n");
-	}
-#endif
+	vector3d thrust;
+	if (force.x > 0.0) thrust.x = force.x / type.linThrust [ShipType::THRUSTER_RIGHT];
+	else thrust.x = -force.x / type.linThrust [ShipType::THRUSTER_LEFT];
+	if (force.y > 0.0) thrust.y = force.y / type.linThrust [ShipType::THRUSTER_UP];
+	else thrust.y = -force.y / type.linThrust [ShipType::THRUSTER_DOWN];
+	if (force.z > 0.0) thrust.z = force.z / type.linThrust [ShipType::THRUSTER_REVERSE];
+	else thrust.z = -force.z / type.linThrust [ShipType::THRUSTER_FORWARD];
 }
 
 // Orient so our -ve z axis == dir. ie so that dir points forwards
@@ -448,77 +440,29 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	vector3d cav = GetAngVelocity() * rot;		// current obj-rel angvel
 	vector3d diff = dav - cav;					// find diff between current & desired angvel
 
-	SetAngThrusterState(0, (float)(diff.x * invFrameAccel));
-	SetAngThrusterState(1, (float)(diff.y * invFrameAccel));
-	SetAngThrusterState(2, (float)(diff.z * invFrameAccel));
+	SetAngThrusterState(diff * invFrameAccel);
 }
 
-
-/*
-// Orient so our -ve z axis == dir. ie so that dir points forwards
-void Ship::AIFaceDirection(const vector3d &dir, float timeStep)
+// returns direction in world space from this ship to target lead position
+vector3d Ship::AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex)
 {
-	double invTimeAccel = 1.0 / Pi::GetTimeAccel();
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	rot = rot.InverseOf();
-	vector3d zaxis = vector3d(-rot[2], -rot[6], -rot[10]);
-	if (Pi::GetTimeAccel() > 11.0) {
-		// fake it
-		zaxis = -dir;
-		vector3d yaxis(rot[1], rot[5], rot[9]);
-		vector3d xaxis = vector3d::Cross(yaxis, zaxis).Normalized();
-		yaxis = vector3d::Cross(zaxis, xaxis);
-		SetRotMatrix(matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf());
-	} else {
-		vector3d rotaxis = rot * vector3d::Cross(zaxis, dir);
-		vector3d angVel = rot * GetAngVelocity();
-		const float dot = vector3d::Dot(dir, zaxis);
-		// if facing > 90 degrees away then max turn rate
-		rotaxis = rotaxis.Normalized();
-//		if (dot < 0) rotaxis = -rotaxis;
-		double angToGo = acos(CLAMP(dot, -1.0, 1.0));
-		// agreement between angVel and rotAxis
-		double goodAngVel = vector3d::Dot(angVel, rotaxis);
+	vector3d targpos = target->GetPositionRelTo(this);
+	vector3d targvel = target->GetVelocityRelativeTo(this);
+	// todo: should adjust targpos for gunmount offset
 
-		if (dot > 0.99999) {
-			angVel *= -invTimeAccel;
-			SetAngThrusterState(0, angVel.x);
-			SetAngThrusterState(1, angVel.y);
-			SetAngThrusterState(2, angVel.z);
-			return;
-		}
+	int laser = Equip::types[m_equipment.Get(Equip::SLOT_LASER, gunindex)].tableIndex;
+	double projspeed = Equip::lasers[laser].speed;
 
-		const ShipType &stype = GetShipType();
-		double angAccel = stype.angThrust / GetAngularInertia();
-		double timeToStop = goodAngVel / angAccel;
-		// angle travelled until rotation can be stopped by thrusters
-		double stoppingAng = 0.5 * angAccel * timeToStop * timeToStop;
+	// first attempt
+	double projtime = targpos.Length() / projspeed;
+	vector3d leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
 
-		vector3d desiredAngVelChange = (rotaxis - angVel) * invTimeAccel;
-		if (dot < 0.95) {
-			// weirdness!
-		//	desiredAngVelChange += vector3d(noise(angVel), noise(angVel+vector3d(1,0,0)), noise(2.0*angVel+vector3d(2,0,0)));
-		}
-		if (stoppingAng < 0.8*angToGo) {
-			SetAngThrusterState(0, desiredAngVelChange.x);
-			SetAngThrusterState(1, desiredAngVelChange.y);
-			SetAngThrusterState(2, desiredAngVelChange.z);
-		}
-		else if (stoppingAng > 0.9*angToGo) {
-			if (timeToStop > 0.0) {
-				SetAngThrusterState(0, -desiredAngVelChange.x);
-				SetAngThrusterState(1, -desiredAngVelChange.y);
-				SetAngThrusterState(2, -desiredAngVelChange.z);
-			} else {
-				SetAngThrusterState(0, desiredAngVelChange.x);
-				SetAngThrusterState(1, desiredAngVelChange.y);
-				SetAngThrusterState(2, desiredAngVelChange.z);
-			}
-		}
-	}
+	// second pass
+	projtime = leadpos.Length() / projspeed;
+	leadpos = targpos + targvel*projtime + 0.5*targaccel*projtime*projtime;
+
+	return leadpos.Normalized();
 }
-*/
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness)
 {
@@ -538,9 +482,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness)
 			thrust[axis] = (angVel[axis] > 0.0 ? 1.0 : -1.0);
 		}
 	}
-	SetAngThrusterState(0, (float)thrust.x);
-	SetAngThrusterState(1, (float)thrust.y);
-	SetAngThrusterState(2, (float)thrust.z);
+	SetAngThrusterState(thrust);
 }
 
 
@@ -570,59 +512,14 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	matrix4x4d m; GetRotMatrix(m);
 	relVel = m.InverseOf() * relVel;
 
-	vector3d difVel = v - relVel;
-	// want to change velocity by difVel...
-//	SetVelocity(m * (relVel + difVel));
-	const float invMass = (float)(1.0 / GetMass());
+	vector3d difVel = v - relVel;		// required change in velocity
 
-	if (difVel.x > 0) {
-		// figure out biggest accel can get, and then what we need this timestep.
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_RIGHT] * invMass;
-		float thrust;
-		if (velChange < difVel.x) thrust = 1.0;
-		else thrust = (float)difVel.x / velChange;
-		thrust *= thrust; // this is just to hide control jiggle
-		SetThrusterState(ShipType::THRUSTER_RIGHT, thrust);
-	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_LEFT] * invMass;
-		float thrust;
-		if (velChange > difVel.x) thrust = 1.0;
-		else thrust = (float)difVel.x / velChange;
-		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_LEFT, thrust);
-	}
+	vector3d maxThrust = GetMaxThrust(difVel);
+	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
 
-	if (difVel.y > 0) {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_UP] * invMass;
-		float thrust;
-		if (velChange < difVel.y) thrust = 1.0;
-		else thrust = (float)difVel.y / velChange;
-		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_UP, thrust);
-	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_DOWN] * invMass;
-		float thrust;
-		if (velChange > difVel.y) thrust = 1.0;
-		else thrust = (float)difVel.y / velChange;
-		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_DOWN, thrust);
-	}
-
-	if (difVel.z > 0) {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_REVERSE] * invMass;
-		float thrust;
-		if (velChange < difVel.z) thrust = 1.0;
-		else thrust = (float)difVel.z / velChange;
-		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_REVERSE, thrust);
-	} else {
-		float velChange = Pi::GetTimeStep() * stype.linThrust[ShipType::THRUSTER_FORWARD] * invMass;
-		float thrust;
-		if (velChange > difVel.z) thrust = 1.0;
-		else thrust = (float)difVel.z / velChange;
-		thrust *= thrust;
-		SetThrusterState(ShipType::THRUSTER_FORWARD, thrust);
-	}
+	SetThrusterState(0, difVel.x / maxFrameAccel.x);
+	SetThrusterState(1, difVel.y / maxFrameAccel.y);
+	SetThrusterState(2, difVel.z / maxFrameAccel.z);	// use clamping
 }
 
 
