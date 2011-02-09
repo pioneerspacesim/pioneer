@@ -26,7 +26,9 @@ public:
 #endif /* DEBUG */
 	static void Init();
 	static void OnChangeDetailLevel();
-	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const;
+	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const {
+		m_style.GetAtmosphereFlavor(outColor, outDensity);
+	}
 	// in sbody radii
 	double GetMaxFeatureHeight() const { return m_style.GetMaxHeight(); }
 private:
@@ -37,7 +39,6 @@ private:
 
 	/* all variables for GetHeight(), GetColor() */
 	GeoSphereStyle m_style;
-	vector3d m_fractalOffset;
 
 	///////////////////////////
 	// threading rubbbbbish

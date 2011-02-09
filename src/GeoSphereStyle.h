@@ -7,24 +7,19 @@ struct fracdef_t {
 	double amplitude;
 	double frequency;
 	double lacunarity;
+	int octaves;
 };
 
 class GeoSphereStyle {
 	public:
 	enum TerrainType {
 		TERRAIN_NONE,
-		TERRAIN_GASGIANT,
-		TERRAIN_ASTEROID,
+		TERRAIN_ROLLING_HILLS,
+		TERRAIN_BIG_MOUNTAINS,
 		TERRAIN_RUGGED,
-		TERRAIN_RUGGED_CRATERED,
-		TERRAIN_RUGGED_LAVA,
-		TERRAIN_RUGGED_METHANE,
-		TERRAIN_H2O_SOLID,
-		TERRAIN_H2O_LIQUID,
-		TERRAIN_RUGGED_DESERT,
-		TERRAIN_RUGGED_H2O,
-		TERRAIN_RUGGED_H2O_MEGAVOLC,
-		TERRAIN_MAX = TERRAIN_RUGGED_H2O_MEGAVOLC
+		TERRAIN_ASTEROID,
+		TERRAIN_GASGIANT,
+		TERRAIN_MAX = TERRAIN_GASGIANT
 	};
 
 	enum ColorType {
@@ -48,6 +43,7 @@ class GeoSphereStyle {
 		COLOR_MAX = COLOR_BANDED_ROCK
 	};
 
+	GeoSphereStyle(const SBody *body);
 	~GeoSphereStyle() {
 		if (m_heightMap) delete [] m_heightMap;
 		m_heightMap = 0;
@@ -55,31 +51,30 @@ class GeoSphereStyle {
 	GeoSphereStyle(): m_terrainType(TERRAIN_NONE), m_colorType(COLOR_NONE) {
 		m_heightMap = 0;
 	}
-	GeoSphereStyle(const SBody *body);
-	GeoSphereStyle(TerrainType t, ColorType c, Uint32 random_seed) {
-		MTRand rand;
-		rand.seed(random_seed);
-		m_seed = random_seed;
-		m_heightMap = 0;
-		Init(t, c, EARTH_RADIUS, 273.0, rand);
-	}
 	double GetHeight(const vector3d &p);
 	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
+	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const {
+		*outColor = m_atmosColor;
+		*outDensity = m_atmosDensity;
+	}
 	double GetMaxHeight() const { return m_maxHeight; }
 
-	// so the object viewer can play with planet types
-#ifdef DEBUG
-	friend class ObjectViewerView;
-#endif /* DEBUG */
-	
 	private:
-	void Init(TerrainType t, ColorType c, double planetRadius, double averageTemp, MTRand &rand);
+	void PickAtmosphere(const SBody *sbody);
+	void InitFractalType(TerrainType t, ColorType c, double averageTemp, MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
+	void InitHeightMap(const SBody *sbody);
+	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, double lacunarity, double smallestOctaveMeters = 20.0);
 
 	TerrainType m_terrainType;
 	ColorType m_colorType;
 	Uint32 m_seed;
+
+	Color m_atmosColor;
+	float m_atmosDensity;
+	double m_sealevel; // 0 - no water, 1 - 100% coverage
+	double m_icyness; // 0 - 1 (0% to 100% cover)
 	
 	/** for sbodies with a heightMap we load this turd
 	 * and use it instead of perlin height function */
@@ -89,6 +84,7 @@ class GeoSphereStyle {
 
 	/** General attributes */
 	double m_maxHeight;
+	double m_maxHeightInMeters;
 	double m_invMaxHeight;
 	double m_planetRadius;
 	double m_planetEarthRadii;
@@ -96,7 +92,6 @@ class GeoSphereStyle {
 	double noise2;
 	double noise3;
 
-	double m_icyness;
 	double m_entropy[12];
 
 	vector3d m_rockColor[8];
@@ -104,11 +99,10 @@ class GeoSphereStyle {
 
 	struct {
 		fracdef_t continents;
-		fracdef_t mountains;
-		fracdef_t hills;
-		fracdef_t hillDistrib;
-		fracdef_t mountainDistrib;
-		double sealevel;
+		fracdef_t midTerrain;
+		fracdef_t midDistrib;
+		fracdef_t localTerrain;
+		fracdef_t localDistrib;
 	} targ;
 };
 
