@@ -4,9 +4,12 @@
 #include <math.h>
 #include <stdio.h>
 
+// Need this pragma due to operator[] implementation.
+#pragma pack(4)
+
 template <typename T>
 class vector3 {
-	public:
+public:
 	T x,y,z;
 
 	vector3 () {}
@@ -15,8 +18,9 @@ class vector3 {
 	vector3 (T _x, T _y, T _z): x(_x), y(_y), z(_z) {}
 	template<typename Q> vector3 (const Q vals[3]): x((T)vals[0]), y((T)vals[1]), z((T)vals[2]) {}
 
-	const T& operator [] (const size_t i) const { return ((const T *)this)[i]; }
-	T& operator [] (const size_t i) { return ((T *)this)[i]; }
+	const T& operator [] (const size_t i) const { return ((const T *)&x)[i]; }
+	T& operator [] (const size_t i) { return (&x)[i]; }
+
 	vector3 operator+ (const vector3 a) const { return vector3 (a.x+x, a.y+y, a.z+z); }
 	vector3 &operator+= (const vector3 a) { x+=a.x; y+=a.y; z+=a.z; return *this; }
 	vector3 &operator-= (const vector3 a) { x-=a.x; y-=a.y; z-=a.z; return *this; }
@@ -108,6 +112,7 @@ class vector3 {
 	}
 };
 
+#pragma pack()
 
 typedef vector3<float> vector3f;
 typedef vector3<double> vector3d;
