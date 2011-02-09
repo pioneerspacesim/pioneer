@@ -130,7 +130,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 		float lawlessness = Pi::currentSystem->GetSysPolit().lawlessness.ToFloat();
 		Sint64 oldCrimes, oldFine;
 		GetCrime(&oldCrimes, &oldFine);
-		Sint64 newFine = MAX(1, 1 + (int)(crimeBaseFine[crimeIdx] * (1.0-lawlessness)));
+		Sint64 newFine = std::max(1, 1 + (int)(crimeBaseFine[crimeIdx] * (1.0-lawlessness)));
 		// don't keep compounding fines (maybe should for murder, etc...)
 		if ( (!(crime & CRIME_MURDER)) && (newFine < oldFine) ) newFine = 0;
 		AddCrime(crime, newFine);

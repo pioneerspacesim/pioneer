@@ -240,7 +240,7 @@ static struct postprocessBuffers_t {
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
 		//printf("%f -> ", avgLum[0]);
-		avgLum[0] = MAX(exp(avgLum[0]), 0.03f);
+		avgLum[0] = std::max((float)exp(avgLum[0]), 0.03f);
 		//printf("%f\n", avgLum[0]);
 		// see reinhard algo
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));

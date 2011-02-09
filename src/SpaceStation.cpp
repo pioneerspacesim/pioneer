@@ -465,10 +465,10 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 					dt.ship->SetForce(vector3d(0,0,0));
 					dt.ship->SetTorque(vector3d(0,0,0));
 					if (m_type->dockMethod == SpaceStationType::SURFACE) {
-						dt.ship->SetThrusterState(ShipType::THRUSTER_UP, 1.0);
+						dt.ship->SetThrusterState(1, 1.0);		// up
 					} else {
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
-						dt.ship->SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0);
+						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
 				}
 			}
@@ -479,8 +479,8 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_openAnimState[i] = CLAMP(m_openAnimState[i], 0.0f, 1.0f);
-		m_dockAnimState[i] = CLAMP(m_dockAnimState[i], 0.0f, 1.0f);
+		m_openAnimState[i] = Clamp(m_openAnimState[i], 0.0f, 1.0f);
+		m_dockAnimState[i] = Clamp(m_dockAnimState[i], 0.0f, 1.0f);
 	}
 }
 
@@ -497,7 +497,7 @@ void SpaceStation::DoLawAndOrder()
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
 			Ship *ship = new Ship(ShipType::LADYBIRD);
-			ship->AIInstruct(Ship::DO_KILL, Pi::player);
+			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Space::AddBody(ship);

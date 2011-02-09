@@ -22,8 +22,8 @@
 #ifdef _WIN32
 #include <malloc.h>
 #define alloca _alloca
-#define strncasecmp strnicmp
-#define strcasecmp stricmp
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
 #else
 #include <alloca.h>
 #endif
@@ -67,9 +67,8 @@
 
 #define HUD_ALPHA 0.34f
 
-#define MIN(x,y)        ((x)<(y)?(x):(y))
-#define MAX(x,y)        ((x)>(y)?(x):(y))
-#define CLAMP(a, min, max)      (((a) > (max)) ? (max) : (((a) < (min)) ? (min) : (a)))
+template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) { return x > max ? max : (x < min ? min : x); }
+
 #define DEG_2_RAD	0.0174532925
 #define DEG2RAD(x) ((x)*M_PI/180.0)
 

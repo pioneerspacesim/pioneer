@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{408363ad-8810-4809-9acb-38c5ddc4b9db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win32">
+      <UniqueIdentifier>{8c51b711-ab01-4922-9660-0e4c6f59ce28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win32\src">
+      <UniqueIdentifier>{2f04a4de-46b7-414c-8325-3bb64b79304f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\collider">
+      <UniqueIdentifier>{d0894680-33d7-4d7d-9a65-7a72c5102590}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\pch.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32-dirent.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\BVHTree.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\CollisionSpace.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\Geom.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\GeomTree.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Gui.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiContainer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiFixed.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiImage.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiImageButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiImageRadioButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiLabel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiLabelSet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiMeterBar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiMultiStateImageButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiRadioButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiRadioGroup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiRepeaterButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiScreen.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiTabbed.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiTextEntry.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiTextLayout.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiToggleButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiToolTip.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiVScrollBar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiVScrollPortal.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GuiWidget.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\glfreetype.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LmrModel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaModelViewer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mylua.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\perlin.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Render.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\pch.h">
+      <Filter>win32\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\win32-dirent.h">
+      <Filter>win32\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\BVHTree.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\collider.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\CollisionContact.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\CollisionSpace.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\Geom.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\GeomTree.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Gui.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiAdjustment.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiBox.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiContainer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiEvents.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiFixed.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiImage.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiImageButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiImageRadioButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiISelectable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiLabel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiLabelSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiMeterBar.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiMultiStateImageButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiRadioButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiRadioGroup.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiRepeaterButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiScreen.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiTabbed.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiTextEntry.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiTextLayout.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiToggleButton.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiToolTip.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiVScrollBar.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiVScrollPortal.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GuiWidget.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glfreetype.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\libs.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LmrModel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\matrix4x4.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mylua.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\MyLuaMathTypes.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\perlin.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Render.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\vector3.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

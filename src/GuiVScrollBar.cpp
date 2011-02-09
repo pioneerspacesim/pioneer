@@ -37,7 +37,7 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 	else if (e->button == 4 || e->button == 5) {
 		float change = e->button == 4 ? -0.1 : 0.1;
 		float pos = m_adjustment->GetValue();
-		m_adjustment->SetValue(CLAMP(pos+change, 0.0, 1.0));
+		m_adjustment->SetValue(Clamp(pos+change, 0.0f, 1.0f));
 	}
 	return false;
 }

@@ -77,7 +77,7 @@ void ship_randomly_equip(Ship *ship, double power)
 		stats = ship->CalcStats();
 	}
 	
-	int amount = MIN(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
+	int amount = std::min(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
 	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);
 }
 
@@ -132,48 +132,42 @@ void ObjectWrapper::ShipAIDoJourney(SBodyPath *destination)
 {
 	if (Is(Object::SHIP)) {
 		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIClearInstructions();
-		s->AIInstructJourney(*destination);
+		s->AIJourney(*destination);
 	}
 }
 void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
 {
-	if (Is(Object::SHIP) && o.m_obj) {
+	if (Is(Object::SHIP) && o.Is(Object::SHIP)) {
 		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIClearInstructions();
-		s->AIInstruct(Ship::DO_KILL, o.m_obj);
+		s->AIKill(static_cast<Ship*>(o.m_obj));
 	}
 }
 void ObjectWrapper::ShipAIDoFlyTo(ObjectWrapper &o)
 {
-	if (Is(Object::SHIP) && o.m_obj) {
+	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
 		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIClearInstructions();
-		s->AIInstruct(Ship::DO_FLY_TO, o.m_obj);
+		s->AIFlyTo(static_cast<Body*>(o.m_obj));
 	}
 }
 void ObjectWrapper::ShipAIDoLowOrbit(ObjectWrapper &o)
 {
-	if (Is(Object::SHIP) && o.m_obj) {
+	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
 		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIClearInstructions();
-		s->AIInstruct(Ship::DO_LOW_ORBIT, o.m_obj);
+		s->AIOrbit(static_cast<Body*>(o.m_obj), 1.1);
 	}
 }
 void ObjectWrapper::ShipAIDoMediumOrbit(ObjectWrapper &o)
 {
-	if (Is(Object::SHIP) && o.m_obj) {
+	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
 		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIClearInstructions();
-		s->AIInstruct(Ship::DO_MEDIUM_ORBIT, o.m_obj);
+		s->AIOrbit(static_cast<Body*>(o.m_obj), 2.0);
 	}
 }
 void ObjectWrapper::ShipAIDoHighOrbit(ObjectWrapper &o)
 {
-	if (Is(Object::SHIP) && o.m_obj) {
+	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
 		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIClearInstructions();
-		s->AIInstruct(Ship::DO_HIGH_ORBIT, o.m_obj);
+		s->AIOrbit(static_cast<Body*>(o.m_obj), 5.0);
 	}
 }
 void ObjectWrapper::SetMoney(double m) {
@@ -397,7 +391,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
 			i != ShipType::types.end(); ++i) {
 		int hullMass = (*i).second.hullMass;
-		if ((hullMass >= minMass) && (hullMass <= maxMass)) {
+		if (((*i).second.name.find("MISSILE") < 0) && (hullMass >= minMass) && (hullMass <= maxMass)) {
 			candidates.push_back((*i).first);
 		}
 	}

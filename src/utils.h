@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
+#include <stdarg.h>
+#include <GL/glew.h>
+#include "libs.h"
 
 #ifdef DEBUG
 #define glError() { \

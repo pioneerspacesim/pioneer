@@ -10,11 +10,13 @@
 
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
-	m_mouseCMov[0] = m_mouseCMov[1] = 0;
+	m_mouseActive = false;
 	m_flightControlState = CONTROL_MANUAL;
 	m_killCount = 0;
 	m_knownKillCount = 0;
 	UpdateMass();
+
+	m_accumTorque = vector3d(0,0,0);
 }
 
 Player::~Player()
@@ -66,7 +68,7 @@ void Player::SetFlightControlState(enum FlightControlState s)
 		AIClearInstructions();
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
-		m_setSpeed = GetVelocity().Length();
+		m_setSpeed = (float)GetVelocity().Length();
 	} else {
 		AIClearInstructions();
 	}
@@ -91,6 +93,39 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
+// Test code here
+void Player::TimeStepUpdate(const float timeStep)
+{
+/*	vector3d input(0.0, 0.0, 0.0);
+	if (KeyBindings::yawLeft.IsActive()) input.y += 1.0;
+	if (KeyBindings::yawRight.IsActive()) input.y += -1.0;
+	if (KeyBindings::pitchDown.IsActive()) input.x += -1.0;
+	if (KeyBindings::pitchUp.IsActive()) input.x += 1.0;
+	if (KeyBindings::rollLeft.IsActive()) input.z += 1.0;
+	if (KeyBindings::rollRight.IsActive()) input.z += -1.0;
+
+	const ShipType &stype = GetShipType();
+	AddRelTorque(input * stype.angThrust);
+	m_accumTorque += input * stype.angThrust;
+
+	static int facedir = 0;
+	if (KeyBindings::increaseSpeed.IsActive()) facedir = 1;
+	if (KeyBindings::decreaseSpeed.IsActive()) facedir = 0;
+
+	if (facedir)
+	{
+		ClearThrusterState();
+		vector3d dir = (GetCombatTarget()->GetPosition() - GetPosition()).Normalized();
+		AIFaceDirection(dir);
+		AddRelTorque(GetAngThrusterState() * stype.angThrust);
+		m_accumTorque += GetAngThrusterState() * stype.angThrust;
+	}
+
+	DynamicBody::TimeStepUpdate(timeStep);
+*/
+	Ship::TimeStepUpdate(timeStep);
+}
+
 void Player::StaticUpdate(const float timeStep)
 {
 	Body *b;
@@ -99,7 +134,7 @@ void Player::StaticUpdate(const float timeStep)
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
-			if (Pi::GetView() == Pi::worldView) PollControls();
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
 			v = vector3d(0, 0, -m_setSpeed);
 			if (b) {
@@ -110,36 +145,39 @@ void Player::StaticUpdate(const float timeStep)
 			AIAccelToModelRelativeVelocity(v);
 			break;
 		case CONTROL_MANUAL:
-			if (Pi::GetView() == Pi::worldView) PollControls();
+			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
 		case CONTROL_AUTOPILOT:
 			break;
 		}
 	}
-	Ship::StaticUpdate(timeStep);
+	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
+	if (m_flightControlState == CONTROL_AUTOPILOT && !AIIsActive()) {
+		Pi::RequestTimeAccel(1);
+		SetFlightControlState(CONTROL_MANUAL);
+	}
 		
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
 	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_FORWARD);
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_REVERSE);
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_UP);
-	volBoth += 0.5*GetThrusterState(ShipType::THRUSTER_DOWN);
+	volBoth += 0.5f*fabs(GetThrusterState().y);
+	volBoth += 0.5f*fabs(GetThrusterState().z);
 	
 	float targetVol[2] = { volBoth, volBoth };
-	targetVol[0] += 0.5*GetThrusterState(ShipType::THRUSTER_RIGHT);
-	targetVol[1] += 0.5*GetThrusterState(ShipType::THRUSTER_LEFT);
+	if (GetThrusterState().x > 0.0)
+		targetVol[0] += 0.5f*(float)GetThrusterState().x;
+	else targetVol[1] += -0.5f*(float)GetThrusterState().x;
 
-	targetVol[0] = v_env * CLAMP(targetVol[0], 0.0f, 1.0f);
-	targetVol[1] = v_env * CLAMP(targetVol[1], 0.0f, 1.0f);
+	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
+	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
 	float dv_dt[2] = { 4.0f, 4.0f };
 	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
 		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
 		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
-	float angthrust = 0.1f * v_env * Pi::player->GetAngThrusterState().Length();
+	float angthrust = 0.1f * v_env * (float)Pi::player->GetAngThrusterState().Length();
 
 	static Sound::Event angThrustSnd;
 	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
@@ -151,7 +189,7 @@ void Player::StaticUpdate(const float timeStep)
 #define MOUSE_CTRL_AREA		10.0f
 #define MOUSE_RESTITUTION	0.75f
 
-void Player::PollControls()
+void Player::PollControls(const float timeStep)
 {
 	int mouseMotion[2];
 	double time_accel = Pi::GetTimeAccel();
@@ -162,23 +200,43 @@ void Player::PollControls()
 	    (GetFlightState() != FLYING)) {
 		return;
 	}
+/*
+	// TEST: Test code for AI functions
+	static int facedir = 0;
+	if (KeyBindings::thrustUp.IsActive() && !facedir) {
+		AIInstruct(Ship::DO_KILL, GetCombatTarget());
+		facedir = 1;
+	}
+ 	if (KeyBindings::thrustDown.IsActive() && facedir) {
+		AIClearInstructions();
+		facedir = 0;
+	}
+	if (facedir) { AITimeStep(timeStep); return; }
+*/
 
-	/* if flying */
+	// if flying 
 	{
 		ClearThrusterState();
 		
 		vector3f wantAngVel(0.0f);
 
+		// have to use this function. SDL mouse position event is bugged in windows
+		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
 		if (Pi::MouseButtonState(3)) {
-			Pi::GetMouseMotion(mouseMotion);
-			m_mouseCMov[0] += mouseMotion[0];
-			m_mouseCMov[1] += mouseMotion[1];
-			m_mouseCMov[0] = CLAMP(m_mouseCMov[0]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-			m_mouseCMov[1] = CLAMP(m_mouseCMov[1]*MOUSE_RESTITUTION, -MOUSE_CTRL_AREA, MOUSE_CTRL_AREA);
-			wantAngVel.y = -m_mouseCMov[0] / MOUSE_CTRL_AREA;
-			wantAngVel.x = m_mouseCMov[1] / MOUSE_CTRL_AREA;
+			matrix4x4d rot; GetRotMatrix(rot);
+			if (!m_mouseActive) {
+				m_mouseDir = vector3d(-rot[8],-rot[9],-rot[10]);	// in world space
+				m_mouseActive = true;
+			}
+			double mousex = mouseMotion[0] * 0.002;
+			double mousey = mouseMotion[1] * 0.002;		// factor pixels => radians
+			// todo: probably needs a clamp at 90-180 degrees
+			matrix4x4d mrot = matrix4x4d::RotateYMatrix(mousex); mrot.RotateX(mousey);
+			m_mouseDir = (rot * (mrot * (m_mouseDir * rot))).Normalized();			// lol
 		}
+		else m_mouseActive = false;
 		
+	
 		if (m_flightControlState == CONTROL_FIXSPEED) {
 			float oldSpeed = m_setSpeed;
 			if (stickySpeedKey) {
@@ -188,8 +246,8 @@ void Player::PollControls()
 			}
 			
 			if (!stickySpeedKey) {
-				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += MAX(m_setSpeed*0.05, 1.0);
-				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= MAX(m_setSpeed*0.05, 1.0);
+				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += std::max(m_setSpeed*0.05f, 1.0f);
+				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= std::max(m_setSpeed*0.05f, 1.0f);
 				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 				     ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
@@ -200,12 +258,12 @@ void Player::PollControls()
 			}
 		}
 
-		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0f);
-		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(ShipType::THRUSTER_REVERSE, 1.0f);
-		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(ShipType::THRUSTER_UP, 1.0f);
-		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(ShipType::THRUSTER_DOWN, 1.0f);
-		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(ShipType::THRUSTER_LEFT, 1.0f);
-		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(ShipType::THRUSTER_RIGHT, 1.0f);
+		if (KeyBindings::thrustForward.IsActive()) SetThrusterState(2, -1.0);
+		if (KeyBindings::thrustBackwards.IsActive()) SetThrusterState(2, 1.0);
+		if (KeyBindings::thrustUp.IsActive()) SetThrusterState(1, 1.0);
+		if (KeyBindings::thrustDown.IsActive()) SetThrusterState(1, -1.0);
+		if (KeyBindings::thrustLeft.IsActive()) SetThrusterState(0, -1.0);
+		if (KeyBindings::thrustRight.IsActive()) SetThrusterState(0, 1.0);
 		
 		SetGunState(0,0);
 		SetGunState(1,0);
@@ -224,11 +282,13 @@ void Player::PollControls()
 		wantAngVel.y += 2.f * KeyBindings::yawAxis.GetValue();
 		wantAngVel.z += 2.f * KeyBindings::rollAxis.GetValue();
 
-		for (int axis=0; axis<3; axis++) wantAngVel[axis] = CLAMP(wantAngVel[axis], -invTimeAccel, invTimeAccel);
+		for (int axis=0; axis<3; axis++)
+			wantAngVel[axis] = Clamp<float>(wantAngVel[axis], -invTimeAccel, invTimeAccel);
 		
-		const float angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0 : 50.0;
+		const float angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0f : 50.0f;
 		
-		AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
+		if (m_mouseActive) AIFaceDirection(m_mouseDir);
+		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 	}
 }
 

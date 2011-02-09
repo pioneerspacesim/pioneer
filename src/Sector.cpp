@@ -123,7 +123,7 @@ float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int
 std::string Sector::GenName(System &sys, MTRand &rng)
 {
 	std::string name;
-	const int dist = MAX(abs(sx),abs(sy));
+	const int dist = std::max(abs(sx),abs(sy));
 
 	int chance = 100;
 	switch (sys.starType[0]) {

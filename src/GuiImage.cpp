@@ -27,12 +27,12 @@ Image::Image(const char *filename): Widget()
 		int nbit = 0;
 		int sz = m_imgw;
 		while (sz) { sz >>= 1; nbit++; }
-		texw = MAX(64, 1<<nbit);
+		texw = std::max(64, 1<<nbit);
 
 		sz = m_imgh;
 		nbit = 0;
 		while (sz) { sz >>= 1; nbit++; }
-		texh = MAX(64, 1<<nbit);
+		texh = std::max(64, 1<<nbit);
 	}
 	m_invtexw = 1.0f / texw;
 	m_invtexh = 1.0f / texh;

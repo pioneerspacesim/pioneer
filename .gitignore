@@ -1,3 +1,10 @@
 build/
 bin/
 lib/
+Debug/
+Release/
+ipch/
+*.vcxproj.user
+*.suo
+*.sdf
+*.opensdf

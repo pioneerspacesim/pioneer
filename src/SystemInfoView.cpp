@@ -203,8 +203,10 @@ void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
-	
+
 	m_system = s;
+	if (!s) return;			// Does happen
+
 	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	Gui::Fixed *demographicsTab = new Gui::Fixed();

@@ -44,7 +44,7 @@ void ToolTip::Draw()
 {
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
-	float alpha = age/(float)FADE_TIME_MS; alpha = MIN(alpha, 0.75f);
+	float alpha = age/(float)FADE_TIME_MS; alpha = std::min(alpha, 0.75f);
 	glEnable(GL_BLEND);
 	GetSize(size);
 	glColor4f(.2f,.2f,.6f,alpha);

@@ -23,7 +23,7 @@ void VScrollPortal::OnChildResizeRequest(Widget *child)
 	rsize[0] = size[0];
 	rsize[1] = FLT_MAX;
 	child->GetSizeRequested(rsize);
-	rsize[0] = MIN(rsize[0], size[0]);
+	rsize[0] = std::min(rsize[0], size[0]);
 	m_childSizeY = rsize[1];
 	child->SetSize(rsize[0], rsize[1]);
 }
@@ -61,7 +61,7 @@ bool VScrollPortal::OnMouseDown(MouseButtonEvent *e)
 	if (e->button == 4 || e->button == 5) {
 		float change = e->button == 4 ? -0.1 : 0.1;
 		float pos = vscrollAdjust.GetValue();
-		vscrollAdjust.SetValue(CLAMP(pos+change, 0.0, 1.0));
+		vscrollAdjust.SetValue(Clamp(pos+change, 0.0f, 1.0f));
 		return false;
 	}
 

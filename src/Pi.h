@@ -25,7 +25,7 @@ class InfoView;
 class SpaceStation;
 class GalacticView;
 class Ship;
-struct SBodyPath;
+class SBodyPath;
 class GameMenuView;
 struct lua_State;
 
@@ -41,7 +41,7 @@ enum MsgLevel {
 
 class Frame;
 
-#define PHYSICS_HZ (60.0)
+#define PHYSICS_HZ (60.0f)
 
 class Pi {
 public:
@@ -61,8 +61,8 @@ public:
 	static double GetGameTime() { return gameTime; }
 	static void SetTimeAccel(int v);
 	static void RequestTimeAccel(int v);
-	static float GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
-	static float GetTimeAccelIdx() { return timeAccelIdx; }
+	static int GetRequestedTimeAccelIdx() { return requestedTimeAccelIdx; }
+	static int GetTimeAccelIdx() { return timeAccelIdx; }
 	static float GetTimeAccel() { return timeAccelRates[timeAccelIdx]; }
 	static float GetTimeStep() { return timeAccelRates[timeAccelIdx]*(1.0f/PHYSICS_HZ); }
 	static float GetGameTickAlpha() { return gameTickAlpha; }

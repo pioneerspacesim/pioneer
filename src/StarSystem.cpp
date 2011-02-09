@@ -233,8 +233,13 @@ static void position_settlement_on_planet(SBody *b)
 {
 	MTRand r(b->seed);
 	// used for orientation on planet surface
-	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-			matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
+	double r1 = r.Double();		// can't put two rands in the same expression
+	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
+			matrix4x4d::RotateYMatrix(2*M_PI*r2);
+
+//	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
+//			matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
 }
 
 double SBody::GetMaxChildOrbitalDistance() const
@@ -319,7 +324,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->radius, primary->averageTemp, distToPrimary);
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
-	return isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
+	return (int)isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
 }
 
 vector3d Orbit::OrbitalPosAtTime(double t)
@@ -904,7 +909,7 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 
 static fixed get_disc_density(SBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
 {
-	discMax = MAX(discMax, discMin);
+	discMax = std::max(discMax, discMin);
 	fixed total = mass_from_disk_area(discMin, discMax, discMax);
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
@@ -929,7 +934,8 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		if (primary->type == SBody::TYPE_WHITE_DWARF) {
 			// white dwarfs will have started as stars < 8 solar
 			// masses or so, so pick discMax according to that
-			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
+			discMax = 100 * rand.NFixed(2);		// rand-splitting again
+			discMax *= fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
 		} else {
 			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
 		}
@@ -940,18 +946,18 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 
 		if ((superType == SBody::SUPERTYPE_STAR) && (primary->parent)) {
 			// limit planets out to 10% distance to star's binary companion
-			discMax = MIN(discMax, primary->orbMin * fixed(1,10));
+			discMax = std::min(discMax, primary->orbMin * fixed(1,10));
 		}
 
 		/* in trinary and quaternary systems don't bump into other pair... */
 		if (m_numStars >= 3) {
-			discMax = MIN(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
+			discMax = std::min(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
 		}
 	} else {
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
 		/* use hill radius to find max size of moon system. for stars botch it */
-		discMax = MIN(discMax, fixed(1,20)*primary->CalcHillRadius());
+		discMax = std::min(discMax, fixed(1,20)*primary->CalcHillRadius());
 		
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
 	}
@@ -994,8 +1000,16 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
+
+
+		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
+		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
+		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
+			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
+
+//		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
+//			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
+
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
 		primary->children.push_back(planet);
@@ -1055,7 +1069,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	if (mass < 1) globalwarming *= mass;
 	// big planets get high global warming due to thick atmos
 	if (mass > 3) globalwarming *= (mass-2);
-	globalwarming = CLAMP(globalwarming, fixed(0), fixed(95,100));
+	globalwarming = Clamp(globalwarming, fixed(0), fixed(95,100));
 
 	fixed minDistToStar, maxDistToStar, averageDistToStar;
 	const SBody *star = FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
@@ -1099,7 +1113,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
-		mass = MIN(mass, fixed(317*65, 1)) / 332998;
+		mass = std::min(mass, fixed(317*65, 1)) / 332998;
 	} else if (mass > 300) {
 		type = SBody::TYPE_PLANET_LARGE_GAS_GIANT;
 	} else if (mass > 90) {
@@ -1254,7 +1268,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY));
 	m_metallicity = rand.Fixed();
 	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
-	m_techlevel = CLAMP(m_techlevel, 1, 5);
+	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -1270,7 +1284,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	// alterations
 	int maximum = 0;
 	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
-		maximum = MAX(abs(m_tradeLevel[i]), maximum);
+		maximum = std::max(abs(m_tradeLevel[i]), maximum);
 	}
 	if (maximum) for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
@@ -1330,10 +1344,10 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 	if ((type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) ||
 		(type == SBody::TYPE_PLANET_TERRAFORMED_GOOD)) {
-		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
+		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
 		system->m_agricultural += 2*m_agricultural;
 	} else if (type == SBody::TYPE_PLANET_TERRAFORMED_POOR) {
-		m_agricultural = CLAMP(fixed(1,1) - fixed(CELSIUS+30-averageTemp, 50), fixed(0), fixed(1,1));
+		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+30-averageTemp, 50), fixed(0), fixed(1,1));
 		system->m_agricultural += 1*m_agricultural;
 	} else {
 		// don't bother populating crap planets
@@ -1428,7 +1442,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 
 	fixed orbMax = fixed(1,4)*this->CalcHillRadius();
 	fixed orbMin = 4 * this->radius * AU_EARTH_RADIUS;
-	if (children.size()) orbMax = MIN(orbMax, fixed(1,2) * children[0]->orbMin);
+	if (children.size()) orbMax = std::min(orbMax, fixed(1,2) * children[0]->orbMin);
 
 	// starports - orbital
 	pop -= rand.Fixed();

@@ -15,7 +15,7 @@ struct ColRangeObj_t {
 	void GenCol(float col[4], MTRand &rng) const {
 		float ma = 1 + (float)(rng.Double(modAll*2)-modAll);
 		for (int i=0; i<4; i++) col[i] = baseCol[i] + (float)rng.Double(-modCol[i], modCol[i]);
-		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
+		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
 	}
 };
 
@@ -257,7 +257,7 @@ void Planet::DrawGasGiantRings()
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = (float)rng.Double(1.15,1.5);
 		float end = pos + (float)rng.Double(0.1, 1.0);
-		end = MIN(end, 2.5f);
+		end = std::min(end, 2.5f);
 		while (pos < end) {
 			float size = (float)rng.Double(maxRingWidth);
 			float n =

@@ -5,10 +5,6 @@
 #include "vector3.h"
 #include "matrix4x4.h"
 
-#ifndef MAX
-#define MAX(a,b) ((a)>(b)?(a):(b))
-#endif /* MAX */
-
 template <typename T>
 class Quaternion {
 public:

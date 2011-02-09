@@ -21,12 +21,19 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 
 void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs)
 {
-	node->numTris = objs.size();
+	const size_t numTris = objs.size();
+	if (numTris <= 0) Error("MakeLeaf called with no elements in objs.");
+
+	if (numTris > m_objPtrAllocMax - m_objPtrAllocPos) {
+		Error("Out of space in m_objPtrAlloc. Left: %d; required: %d.", m_objPtrAllocMax - m_objPtrAllocPos, numTris);
+	}
+
+	node->numTris = numTris;
 	node->triIndicesStart = &m_objPtrAlloc[m_objPtrAllocPos];
 	//if (objs.size()>3) printf("fat node %d\n", objs.size());
 
 	// copy tri indices to the stinking flat array
-	for (int i=objs.size()-1; i>=0; i--) {
+	for (int i=numTris-1; i>=0; i--) {
 		m_objPtrAlloc[m_objPtrAllocPos++] = objPtrs[objs[i]];
 	}
 }
@@ -37,6 +44,15 @@ void BVHTree::BuildNode(BVHNode *node,
 			std::vector<objPtr_t> &activeObjIdx)
 {
 	const int numTris = activeObjIdx.size();
+	if (numTris <= 0) Error("BuildNode called with no elements in activeObjIndex.");
+
+	if (numTris == 1) {
+		MakeLeaf(node, objPtrs, activeObjIdx);
+		return;
+	}
+
+	std::vector<int> splitSides(numTris);
+
 	Aabb aabb;
 	aabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -70,8 +86,13 @@ void BVHTree::BuildNode(BVHNode *node,
 		for (int i=0; i<numTris; i++) {
 			int idx = activeObjIdx[i];
 			float mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
-			if (mid < splitPos) s1count++;
-			else s2count++;
+			if (mid < splitPos) {
+				splitSides[i] = 0;
+				s1count++;
+			} else {
+				splitSides[i] = 1;
+				s2count++;
+			}
 		}
 
 		if (s1count == numTris) {
@@ -101,14 +122,7 @@ void BVHTree::BuildNode(BVHNode *node,
 	std::vector<int> side[2];
 
 	for (int i=0; i<numTris; i++) {
-		int idx = activeObjIdx[i];
-		float mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
-
-		if (mid < splitPos) {
-			side[0].push_back(idx);
-		} else {
-			side[1].push_back(idx);
-		}
+		side[splitSides[i]].push_back(activeObjIdx[i]);
 	}
 
 	// recurse!
@@ -119,5 +133,3 @@ void BVHTree::BuildNode(BVHNode *node,
 	BuildNode(node->kids[0], objPtrs, objAabbs, side[0]);
 	BuildNode(node->kids[1], objPtrs, objAabbs, side[1]);
 }
-
-

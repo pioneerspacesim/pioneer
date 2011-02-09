@@ -177,7 +177,7 @@ void ShipCpanel::Update()
 	}
 	// make requested but not selected icon blink
 	if (timeAccel != requested) {
-		m_timeAccelButtons[CLAMP(requested,0,5)]->SetSelected(SDL_GetTicks() & 0x200);
+		m_timeAccelButtons[Clamp(requested,0,5)]->SetSelected((SDL_GetTicks() & 0x200) != 0);
 	}
 
 	m_scanner->Update();

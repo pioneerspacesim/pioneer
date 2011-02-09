@@ -234,7 +234,42 @@ void Pi::Init()
 		Sound::Pause(0);
 	}
 	draw_progress(1.0f);
-	
+
+	// test code to produce list of ship stats
+
+	FILE *pStatFile = fopen("shipstat.csv","wt");
+	if (pStatFile)
+	{
+		fprintf(pStatFile, "name,lmrname,hullmass,capacity,xsize,ysize,zsize,facc,racc,uacc,aacc\n");
+		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
+				i != ShipType::types.end(); ++i)
+		{
+			ShipType *shipdef = &(i->second);
+			LmrModel *lmrModel = LmrLookupModelByName(shipdef->lmrModelName.c_str());
+			LmrObjParams lmrParams; memset(&lmrParams, 0, sizeof(LmrObjParams));
+			LmrCollMesh *collMesh = new LmrCollMesh(lmrModel, &lmrParams);
+			Aabb aabb = collMesh->GetAabb();
+		
+			double hullmass = shipdef->hullMass;
+			double capacity = shipdef->capacity;
+			double xsize = aabb.max.x-aabb.min.x;
+			double ysize = aabb.max.y-aabb.min.y;
+			double zsize = aabb.max.z-aabb.min.z;
+			double brad = aabb.GetBoundingRadius();
+			double simass = (hullmass + capacity) * 1000.0;
+			double angInertia = (2/5.0)*simass*brad*brad;
+			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
+			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
+			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
+			double acca = shipdef->angThrust/angInertia;
+
+			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
+				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
+				xsize, ysize, zsize, acc1, acc2, acc3, acca);
+		}
+		fclose(pStatFile);
+	}
+
 	gameMenuView = new GameMenuView();
 	config.Save();
 }
@@ -400,7 +435,7 @@ void Pi::HandleEvents()
 									printf("Putting ship into station\n");
 									// Make police ship intent on killing the player
 									Ship *ship = new Ship(ShipType::LADYBIRD);
-									ship->AIInstruct(Ship::DO_KILL, Pi::player);
+									ship->AIKill(Pi::player);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetDockedWith(s, port);
 									Space::AddBody(ship);
@@ -413,7 +448,7 @@ void Pi::HandleEvents()
 						} else {
 							Ship *ship = new Ship(ShipType::LADYBIRD);
 							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-							ship->AIInstruct(Ship::DO_KILL, Pi::player);
+							ship->AIKill(Pi::player);
 							ship->SetFrame(Pi::player->GetFrame());
 							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 							ship->SetVelocity(Pi::player->GetVelocity());
@@ -471,7 +506,7 @@ void Pi::HandleEvents()
 			case SDL_JOYBUTTONDOWN:
 				if (joysticks[event.jaxis.which].joystick == NULL)
 					break;
-				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state;
+				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
 				break;
 			case SDL_JOYHATMOTION:
 				if (joysticks[event.jaxis.which].joystick == NULL)
@@ -549,7 +584,7 @@ static void draw_tombstone(float _time)
 	glEnable(GL_LIGHT0);
 	
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -MAX(150 - 30*_time, 30);
+	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
 	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
@@ -782,7 +817,40 @@ void Pi::Start()
 		path.sbodyId = 6;
 		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
+		player->SetVelocity(vector3d(0,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
+
+		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
+		enemy->SetFrame(player->GetFrame());
+		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
+		enemy->SetVelocity(vector3d(0,0,0));
+		enemy->m_equipment.Add(Equip::PULSECANNON_1MW);
+		enemy->AIKill(player);
+		Space::AddBody(enemy);
+
+		player->SetCombatTarget(enemy);
+
+
+		const ShipType *shipdef;
+		double mass, acc1, acc2, acc3;
+		printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
+			player->GetMass(), enemy->GetMass());
+
+		shipdef = &player->GetShipType();
+		mass = player->GetMass();
+		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+		printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+		shipdef = &enemy->GetShipType();
+		mass = enemy->GetMass();
+		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+		printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
 		stationFrame->m_sbody = 0;
@@ -904,9 +972,11 @@ void Pi::MainLoop()
 		if (Pi::MouseButtonState(3)) {
 			SDL_ShowCursor(0);
 			SDL_WM_GrabInput(SDL_GRAB_ON);
+//			SDL_SetRelativeMouseMode(true);
 		} else {
 			SDL_ShowCursor(1);
 			SDL_WM_GrabInput(SDL_GRAB_OFF);
+//			SDL_SetRelativeMouseMode(false);
 		}
 
 		Render::PostProcess();
@@ -936,15 +1006,15 @@ void Pi::MainLoop()
 				double rad = (*i)->GetBoundingRadius();
 
 				if (dist < 1000.0) {
-					timeAccel = MIN(timeAccel, 1);
-				} else if (dist < MIN(rad+0.0001*AU, rad*1.1)) {
-					timeAccel = MIN(timeAccel, 2);
-				} else if (dist < MIN(rad+0.001*AU, rad*5.0)) {
-					timeAccel = MIN(timeAccel, 3);
-				} else if (dist < MIN(rad+0.01*AU,rad*10.0)) {
-					timeAccel = MIN(timeAccel, 4);
-				} else if (dist < MIN(rad+0.1*AU, rad*1000.0)) {
-					timeAccel = MIN(timeAccel, 5);
+					timeAccel = std::min(timeAccel, 1);
+				} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+					timeAccel = std::min(timeAccel, 2);
+				} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
+					timeAccel = std::min(timeAccel, 3);
+				} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
+					timeAccel = std::min(timeAccel, 4);
+				} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+					timeAccel = std::min(timeAccel, 5);
 				}
 			}
 		}

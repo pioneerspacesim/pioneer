@@ -115,7 +115,7 @@ inline double ridged_octavenoise(int octaves, double persistence, double lacunar
 
 int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
 {
-	return m_heightMap[CLAMP(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + CLAMP(x, 0, m_heightMapSizeX-1)];
+	return m_heightMap[Clamp(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(x, 0, m_heightMapSizeX-1)];
 }
 
 /*
@@ -135,8 +135,8 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 	double py = ((m_heightMapSizeY-1)*(latitude + 0.5*M_PI)) / M_PI;
 	int ix = floor(px);
 	int iy = floor(py);
-	ix = CLAMP(ix, 0, m_heightMapSizeX-1);
-	iy = CLAMP(iy, 0, m_heightMapSizeY-1);
+	ix = Clamp(ix, 0, m_heightMapSizeX-1);
+	iy = Clamp(iy, 0, m_heightMapSizeY-1);
 	double dx = px-ix;
 	double dy = py-iy;
 
@@ -409,7 +409,7 @@ double megavolcano_function(const vector3d &p)
 
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 {
-	n = CLAMP(n, 0.0f, 1.0f);
+	n = Clamp(n, 0.0, 1.0);
 	return start*(1.0-n) + end*n;
 }
 
@@ -475,7 +475,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 	m_invMaxHeight = 1.0 / m_maxHeight;
 
 	// Bunch of random calculated attributes
-	m_icyness = 38.0 / (MAX(1.0, averageTemp-250.0));
+	m_icyness = 38.0 / (std::max(1.0, averageTemp-250.0));
 
 	if (t == TERRAIN_ASTEROID) {
 		m_maxHeight = rand.Double(0.2,0.4);
@@ -566,7 +566,7 @@ void GeoSphereStyle::Init(TerrainType t, ColorType c, double planetRadius, doubl
 		double r,g,b;
 		r = rand.Double(0.0, 0.5);
 		g = rand.Double(0.1, r);
-		b = rand.Double(0.05, MIN(r, g));
+		b = rand.Double(0.05, std::min(r, g));
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 

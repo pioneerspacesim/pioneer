@@ -280,7 +280,7 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
-	m_zoom = CLAMP(m_zoom, 0.1, 5.0);
+	m_zoom = Clamp(m_zoom, 0.1f, 5.0f);
 	
 	// when zooming to a clicked on spot
 	{

@@ -152,8 +152,8 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		list->buildings[i].resolvedModel = *m;
 		const LmrCollMesh *collMesh = new LmrCollMesh(*m, &cityobj_params);
 		list->buildings[i].collMesh = collMesh;
-		float maxx = MAX(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
-		float maxy = MAX(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
+		float maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
+		float maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
