@@ -233,8 +233,13 @@ static void position_settlement_on_planet(SBody *b)
 {
 	MTRand r(b->seed);
 	// used for orientation on planet surface
-	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-			matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
+	double r1 = r.Double();		// can't put two rands in the same expression
+	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
+			matrix4x4d::RotateYMatrix(2*M_PI*r2);
+
+//	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
+//			matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
 }
 
 double SBody::GetMaxChildOrbitalDistance() const
@@ -929,7 +934,8 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		if (primary->type == SBody::TYPE_WHITE_DWARF) {
 			// white dwarfs will have started as stars < 8 solar
 			// masses or so, so pick discMax according to that
-			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
+			discMax = 100 * rand.NFixed(2);		// rand-splitting again
+			discMax *= fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
 		} else {
 			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
 		}
@@ -994,8 +1000,16 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
+
+
+		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
+		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
+		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
+			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
+
+//		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
+//			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
+
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
 		primary->children.push_back(planet);
