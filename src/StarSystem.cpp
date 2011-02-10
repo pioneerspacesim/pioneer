@@ -813,6 +813,9 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	MTRand rand;
 	rand.seed(_init, 5);
 
+	int dist = isqrt(1 + sector_x*sector_x + sector_y+sector_y);
+	m_unexplored = rand.Int32(dist) > 20;
+
 	if (s.m_systems[system_idx].customSys) {
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
 		if (custom->shortDesc) m_shortDesc = custom->shortDesc;
@@ -1292,14 +1295,13 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 		m_econType = ECON_AGRICULTURE;
 	}
 
+	if (m_unexplored) {
+		m_shortDesc = "Unexplored system. No more data available.";
+	}
+
 	/* Total population is in billions */
-	if (m_totalPop == 0) {
-		int dist = isqrt(1 + m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY);
-		if (rand.Int32(dist) > 20) {
-			m_shortDesc = "Unexplored system.";
-		} else {
-			m_shortDesc = "Small-scale prospecting. No registered settlements.";
-		}
+	else if(m_totalPop == 0) {
+		m_shortDesc = "Small-scale prospecting. No registered settlements.";
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
 			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
