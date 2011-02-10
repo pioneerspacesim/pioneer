@@ -22,6 +22,8 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs)
 {
 	const size_t numTris = objs.size();
+	if (numTris <= 0) Error("MakeLeaf called with no elements in objs.");
+
 	if (numTris > m_objPtrAllocMax - m_objPtrAllocPos) {
 		Error("Out of space in m_objPtrAlloc. Left: %d; required: %d.", m_objPtrAllocMax - m_objPtrAllocPos, numTris);
 	}
@@ -42,6 +44,13 @@ void BVHTree::BuildNode(BVHNode *node,
 			std::vector<objPtr_t> &activeObjIdx)
 {
 	const int numTris = activeObjIdx.size();
+	if (numTris <= 0) Error("BuildNode called with no elements in activeObjIndex.");
+
+	if (numTris == 1) {
+		MakeLeaf(node, objPtrs, activeObjIdx);
+		return;
+	}
+
 	std::vector<int> splitSides(numTris);
 
 	Aabb aabb;

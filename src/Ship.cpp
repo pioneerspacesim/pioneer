@@ -918,7 +918,7 @@ float Ship::GetWeakestThrustersForce() const
 	const ShipType &type = GetShipType();
 	float val = FLT_MAX;
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) {
-		val = std::min(val, fabs(type.linThrust[i]));
+		val = std::min(val, fabsf(type.linThrust[i]));
 	}
 	return val;
 }
