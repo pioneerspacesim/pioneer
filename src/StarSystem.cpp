@@ -813,7 +813,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	MTRand rand;
 	rand.seed(_init, 5);
 
-	int dist = isqrt(1 + sector_x*sector_x + sector_y+sector_y);
+	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
 	m_unexplored = rand.Int32(dist) > 20;
 
 	if (s.m_systems[system_idx].customSys) {
