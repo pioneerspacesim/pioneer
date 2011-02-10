@@ -594,31 +594,41 @@ bool AICmdKill::TimeStepUpdate()
 	vector3d targdir = targpos.Normalized();
 	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
-	vector3d targaccel = (m_lastVel - m_target->GetVelocity()) * Pi::GetTimeStep();
+	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::GetTimeStep();
+	m_lastVel = m_target->GetVelocity();		// may need next frame
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
-
 
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
 
+// ok, better idea
+// store shooting offset instead, relative to leaddir
+// update *that*, infrequently
+
+// so, error dependence?
+// distance between 
+
+// hmm. go smoothly between one offset and the next?
+// closer to human behaviour maybe
+// so start offset = heading - leaddir,
+
 	vector3d angvel = m_ship->GetAngVelocity();
-	if (m_leadTime < Pi::GetGameTime() || angvel.Dot(angvel) == 0.0)
+	if (m_leadTime < Pi::GetGameTime())		// || angvel.Dot(angvel) == 0.0)
 	{
 		double skillShoot = 0.5;		// todo: should come from AI stats
-		m_leadTime = Pi::GetGameTime() + (Pi::rng.Double() * skillShoot);
+
+		double headdiff = (leaddir - heading).Length();
+		double leaddiff = (leaddir - targdir).Length();
+		m_leadTime = Pi::GetGameTime() + headdiff + (1.0*Pi::rng.Double()*skillShoot);
 
 		// lead inaccuracy based on diff between heading and leaddir
-		// skillShoot = 0 to 1, 0 is best?
-		// more likely to overshoot than undershoot
-		vector3d offset = (leaddir - heading) * Pi::rng.Double(-0.2,0.5) * skillShoot;
-
-		// lead inaccuracy based on target velocity
-		vector3d perpvel = targvel - targdir * targvel.Dot(targdir);
-		m_leadDir = offset + offset * 2.0 * perpvel.Length() / targpos.Length();
-		m_leadDir = (leaddir + m_leadDir).Normalized();
+		vector3d r(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5);
+		vector3d newoffset = r * (0.1 + leaddiff + 2.0*headdiff) * Pi::rng.Double() * skillShoot;
+		m_leadOffset = heading - leaddir;	// should be already...
+		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::GetGameTime());
 	}
-	m_ship->AIFaceDirection(m_leadDir);
-	m_lastVel = m_target->GetVelocity();		// may need next frame
+	m_leadOffset += m_leadDrift * Pi::GetTimeStep();
+	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized());
 
 
 	vector3d evadethrust(0,0,0);

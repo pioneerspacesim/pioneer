@@ -170,7 +170,7 @@ private:
 	Ship *m_target;
 	
 	double m_leadTime, m_evadeTime, m_closeTime;
-	vector3d m_leadDir, m_lastVel;
+	vector3d m_leadOffset, m_leadDrift, m_lastVel;
 };
 
 class AICmdKamikaze : public AICommand {
