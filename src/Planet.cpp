@@ -383,6 +383,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 
 	double dist_to_horizon;
 	for (;;) {
+		if (len < rad) break;		// player inside radius case
 		dist_to_horizon = sqrt(len*len - rad*rad);
 
 		if (dist_to_horizon < zfar*0.5) break;
