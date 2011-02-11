@@ -813,8 +813,13 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	MTRand rand;
 	rand.seed(_init, 5);
 
+	/*
+	 * 0 - ~500ly from sol: explored
+	 * ~500ly - ~700ly (65-90 sectors): gradual
+	 * ~700ly+: unexplored
+	 */
 	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
-	m_unexplored = rand.Int32(dist) > 40;   // unexplored systems start ~350ly from sol
+	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
 	if (s.m_systems[system_idx].customSys) {
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
