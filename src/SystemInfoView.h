@@ -4,12 +4,12 @@
 #include "libs.h"
 #include "Gui.h"
 #include "View.h"
-#include "GenericSystemView.h"
+#include "View.h"
 
 class StarSystem;
 class SBody;
 
-class SystemInfoView: public GenericSystemView {
+class SystemInfoView: public View {
 public:
 	SystemInfoView();
 	virtual void Update();

@@ -6,9 +6,9 @@
 #include "View.h"
 #include <vector>
 #include <string>
-#include "GenericSystemView.h"
+#include "View.h"
 
-class GalacticView: public GenericSystemView {
+class GalacticView: public View {
 public:
 	GalacticView();
 	virtual ~GalacticView();

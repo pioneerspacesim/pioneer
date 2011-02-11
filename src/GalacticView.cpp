@@ -9,7 +9,7 @@
 #include "Sector.h"
 #include "Galaxy.h"
 		
-GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
+GalacticView::GalacticView()
 {
 	const SDL_Surface *s = Galaxy::GetGalaxyBitmap();
 	glEnable(GL_TEXTURE_2D);
@@ -112,7 +112,6 @@ void GalacticView::Draw3D()
 	Pi::sectorView->GetSector(&secx, &secy);
 	float offset_x = (secx*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-secy*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
-	GenericSystemView::Draw3D();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

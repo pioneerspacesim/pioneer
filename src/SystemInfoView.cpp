@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Polit.h"
 
-SystemInfoView::SystemInfoView(): GenericSystemView(GenericSystemView::MAP_INFO)
+SystemInfoView::SystemInfoView()
 {
 	SetTransparency(true);
 	m_system = 0;
@@ -339,8 +339,6 @@ void SystemInfoView::Draw3D()
 	glLoadIdentity();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	GenericSystemView::Draw3D();
 }
 
 void SystemInfoView::Update()

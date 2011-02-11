@@ -3,7 +3,7 @@
 #include "SectorView.h"
 #include "StarSystem.h"
 
-SystemView::SystemView(): GenericSystemView(GenericSystemView::MAP_SYSTEM)
+SystemView::SystemView()
 {
 	m_system = 0;
 	SetTransparency(true);

@@ -16,8 +16,11 @@ public:
 	void Update();
 	MsgLogWidget *MsgLog() { return m_msglog; }
 private:
+	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
+
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
-	void OnChangeMapView(Gui::MultiStateImageButton *b);
+	void OnChangeToMapView(Gui::MultiStateImageButton *b);
+	void OnChangeMapView(enum MapView);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(int val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
@@ -27,7 +30,9 @@ private:
 	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
 	void OnMultiFuncGrabFocus(multifuncfunc_t);
 	void OnMultiFuncUngrabFocus(multifuncfunc_t);
+	void HideMapviewButtons();
 
+	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;
 	Gui::Label *m_clock;
 
@@ -38,6 +43,7 @@ private:
 	MsgLogWidget *m_msglog;
 	UseEquipWidget *m_useEquipWidget;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
+	Gui::Widget *m_mapViewButtons[4];
 };
 
 #endif /* _SHIP_CPANEL_H */
