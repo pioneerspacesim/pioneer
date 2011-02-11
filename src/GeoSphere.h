@@ -16,7 +16,14 @@ public:
 	~GeoSphere();
 	void Render(vector3d campos, const float radius, const float scale);
 	inline double GetHeight(vector3d p) {
-		return m_style.GetHeight(p);
+		const double h = m_style.GetHeight(p);
+#ifdef DEBUG
+		// XXX don't remove this. Fix your fractals instead
+		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
+		// otherwise atmosphere and other things break.
+		assert(h >= 0.0);
+#endif /* DEBUG */
+		return h;
 	}
 	// only called from fishy thread
 	void _UpdateLODs();

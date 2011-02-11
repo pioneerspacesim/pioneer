@@ -12,17 +12,26 @@ struct fracdef_t {
 
 class GeoSphereStyle {
 	public:
-	enum TerrainType {
+	enum ContinentFractal {
+		CONTINENT_FLAT,
+		CONTINENT_SIMPLE,
+		CONTINENT_VOLCANIC_MARE,
+	};
+
+	enum TerrainFractal {
 		TERRAIN_NONE,
-		TERRAIN_ROLLING_HILLS,
-		TERRAIN_BIG_MOUNTAINS,
-		TERRAIN_RUGGED,
+		TERRAIN_HILLS_NORMAL,
+		TERRAIN_HILLS_RIDGED,
+		TERRAIN_HILLS_RIVERS,
+		TERRAIN_MOUNTAINS_NORMAL,
+		TERRAIN_MOUNTAINS_RIDGED,
+		TERRAIN_MOUNTAINS_RIVERS,
 		TERRAIN_ASTEROID,
 		TERRAIN_GASGIANT,
 		TERRAIN_MAX = TERRAIN_GASGIANT
 	};
 
-	enum ColorType {
+	enum ColorFractal {
 		COLOR_NONE,
 		COLOR_GG_SATURN,
 		COLOR_GG_JUPITER,
@@ -61,14 +70,15 @@ class GeoSphereStyle {
 
 	private:
 	void PickAtmosphere(const SBody *sbody);
-	void InitFractalType(TerrainType t, ColorType c, double averageTemp, MTRand &rand);
+	void InitFractalType(MTRand &rand);
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
 	void InitHeightMap(const SBody *sbody);
 	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, double lacunarity, double smallestOctaveMeters = 20.0);
 
-	TerrainType m_terrainType;
-	ColorType m_colorType;
+	ContinentFractal m_continentType;
+	TerrainFractal m_terrainType;
+	ColorFractal m_colorType;
 	Uint32 m_seed;
 
 	Color m_atmosColor;
