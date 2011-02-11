@@ -3,7 +3,7 @@ SUBDIRS = collider/ lua/ oolua/
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
-include_HEADERS = Body.h Frame.h GenericSystemView.h glfreetype.h GuiButton.h GuiContainer.h GuiEvents.h GuiFixed.h \
+include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEvents.h GuiFixed.h \
 		Gui.h GuiImageButton.h GuiImage.h GuiImageRadioButton.h GuiLabel.h GuiMultiStateImageButton.h GuiRadioButton.h \
 		GuiRadioGroup.h GuiScreen.h GuiToggleButton.h GuiWidget.h GuiToolTip.h libs.h matrix4x4.h mtrand.h Pi.h \
 		Planet.h Player.h DynamicBody.h Sector.h SectorView.h ShipCpanel.h Ship.h Space.h Star.h StarSystem.h SystemInfoView.h \
@@ -24,7 +24,7 @@ libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp
 
 pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
-		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp utils.cpp SpaceStation.cpp \
+		StarSystem.cpp Sector.cpp SystemInfoView.cpp utils.cpp SpaceStation.cpp \
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp ShipFlavour.cpp \
@@ -42,7 +42,7 @@ modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
 check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
-		StarSystem.cpp Sector.cpp SystemInfoView.cpp GenericSystemView.cpp utils.cpp SpaceStation.cpp \
+		StarSystem.cpp Sector.cpp SystemInfoView.cpp utils.cpp SpaceStation.cpp \
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
 		ObjectViewerView.cpp custom_starsystems.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp 

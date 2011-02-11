@@ -6,10 +6,10 @@
 #include "View.h"
 #include <vector>
 #include <string>
-#include "GenericSystemView.h"
+#include "View.h"
 #include "SysLoc.h"
 
-class SectorView: public GenericSystemView {
+class SectorView: public View {
 public:
 	SectorView();
 	virtual ~SectorView();

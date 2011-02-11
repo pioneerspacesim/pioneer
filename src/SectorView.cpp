@@ -9,7 +9,7 @@
 #include "StarSystem.h"
 #include "GalacticView.h"
 		
-SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
+SectorView::SectorView()
 {
 	SetTransparency(true);
 	m_lastShownLoc = SysLoc(9999,9999,9999);
@@ -109,8 +109,6 @@ static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
-
-	GenericSystemView::Draw3D();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

@@ -8,7 +8,9 @@
 #include "SpaceStation.h"
 #include "ShipCpanelMultiFuncDisplays.h"
 #include "SectorView.h"
-#include "GenericSystemView.h"
+#include "SystemView.h"
+#include "SystemInfoView.h"
+#include "GalacticView.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
 {
@@ -18,6 +20,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
 	Gui::Image *img = new Gui::Image(PIONEER_DATA_DIR "/icons/cpanel.png");
 	Add(img, 0, 0);
 
+	m_currentMapView = MAP_SECTOR;
 	m_scanner = new ScannerWidget();
 	m_useEquipWidget = new UseEquipWidget();
 	m_msglog = new MsgLogWidget();
@@ -92,7 +95,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
 	map_button->SetSelected(false);
 	map_button->SetShortcut(SDLK_F2, KMOD_NONE);
 	map_button->AddState(0, PIONEER_DATA_DIR "/icons/cpan_f2_map.png", PIONEER_DATA_DIR "/icons/cpan_f2_map_on.png", "Navigation and star maps");
-	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView));
+	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeToMapView));
 	Add(map_button, 34, 56);
 
 	Gui::MultiStateImageButton *info_button = new Gui::MultiStateImageButton();
@@ -113,6 +116,35 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
 
 	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
 	Add(m_clock, 4, 18);
+	
+	g = new Gui::RadioGroup();
+	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_sector_view.png", PIONEER_DATA_DIR "/icons/map_sector_view_on.png");
+	g->SetSelected(0);
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SECTOR));
+	b->SetShortcut(SDLK_F5, KMOD_NONE);
+	b->SetToolTip("Galaxy sector view");
+	Add(b, 674, 56);
+	m_mapViewButtons[0] = b;
+	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_system_view.png", PIONEER_DATA_DIR "/icons/map_system_view_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SYSTEM));
+	b->SetShortcut(SDLK_F6, KMOD_NONE);
+	b->SetToolTip("System orbit view");
+	Add(b, 706, 56);
+	m_mapViewButtons[1] = b;
+	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_sysinfo_view.png", PIONEER_DATA_DIR "/icons/map_sysinfo_view_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_INFO));
+	b->SetShortcut(SDLK_F7, KMOD_NONE);
+	b->SetToolTip("Star system information");
+	Add(b, 738, 56);
+	m_mapViewButtons[2] = b;
+	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_galactic_view.png", PIONEER_DATA_DIR "/icons/map_galactic_view_on.png");
+	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_GALACTIC));
+	b->SetShortcut(SDLK_F8, KMOD_NONE);
+	b->SetToolTip("Galactic view");
+	Add(b, 770, 56);
+	m_mapViewButtons[3] = b;
+
+
 
 	m_connOnDockingClearanceExpired =
 		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
@@ -190,6 +222,12 @@ void ShipCpanel::Draw()
 	std::string time = format_date(Pi::GetGameTime());
 	m_clock->SetText(time);
 
+	View *cur = Pi::GetView();
+	if ((cur != Pi::sectorView) && (cur != Pi::systemView) &&
+	    (cur != Pi::systemInfoView) && (cur != Pi::galacticView)) {
+		HideMapviewButtons();
+	}
+
 	Gui::Fixed::Draw();
 }
 
@@ -211,10 +249,27 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 	}
 }
 
-void ShipCpanel::OnChangeMapView(Gui::MultiStateImageButton *b)
+void ShipCpanel::OnChangeToMapView(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	GenericSystemView::SwitchToCurrentView();
+	OnChangeMapView(m_currentMapView);
+}
+
+void ShipCpanel::OnChangeMapView(enum MapView view)
+{
+	m_currentMapView = view;
+	switch (m_currentMapView) {
+		case MAP_SECTOR: Pi::SetView(Pi::sectorView); break;
+		case MAP_SYSTEM: Pi::SetView(Pi::systemView); break;
+		case MAP_INFO: Pi::SetView(Pi::systemInfoView); break;
+		case MAP_GALACTIC: Pi::SetView(Pi::galacticView); break;
+	}
+	for (int i=0; i<4; i++) m_mapViewButtons[i]->Show();
+}
+
+void ShipCpanel::HideMapviewButtons()
+{
+	for (int i=0; i<4; i++) m_mapViewButtons[i]->Hide();
 }
 
 void ShipCpanel::OnClickTimeaccel(int val)
