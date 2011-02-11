@@ -15,7 +15,6 @@
 #include "fixed.h"
 #include "Frame.h"
 #include "gameconsts.h"
-#include "GenericSystemView.h"
 #include "GeoSphere.h"
 #include "glfreetype.h"
 #include "Gui.h"
