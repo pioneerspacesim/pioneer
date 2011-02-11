@@ -237,9 +237,6 @@ static void position_settlement_on_planet(SBody *b)
 	double r1 = r.Double();		// can't put two rands in the same expression
 	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
 			matrix4x4d::RotateYMatrix(2*M_PI*r2);
-
-//	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-//			matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
 }
 
 double SBody::GetMaxChildOrbitalDistance() const
@@ -1001,14 +998,10 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 
-
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
 		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
 			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
-
-//		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-//			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
 
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;

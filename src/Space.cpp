@@ -321,10 +321,8 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 				// used for orientation on planet surface
 				double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 				double r1 = r.Double();		// can't put two rands in the same expression
-				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
-					matrix4x4d::RotateYMatrix(2*M_PI*r2);
-//				rot = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-//						      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
+					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
 				pos = rot * vector3d(0,1,0);
 				height = planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius();
 				// don't want to be under water
