@@ -601,19 +601,7 @@ bool AICmdKill::TimeStepUpdate()
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
 
-// ok, better idea
-// store shooting offset instead, relative to leaddir
-// update *that*, infrequently
-
-// so, error dependence?
-// distance between 
-
-// hmm. go smoothly between one offset and the next?
-// closer to human behaviour maybe
-// so start offset = heading - leaddir,
-
-	vector3d angvel = m_ship->GetAngVelocity();
-	if (m_leadTime < Pi::GetGameTime())		// || angvel.Dot(angvel) == 0.0)
+	if (m_leadTime < Pi::GetGameTime())
 	{
 		double skillShoot = 0.5;		// todo: should come from AI stats
 
@@ -623,12 +611,13 @@ bool AICmdKill::TimeStepUpdate()
 
 		// lead inaccuracy based on diff between heading and leaddir
 		vector3d r(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5);
-		vector3d newoffset = r * (0.1 + leaddiff + 2.0*headdiff) * Pi::rng.Double() * skillShoot;
-		m_leadOffset = heading - leaddir;	// should be already...
+		vector3d newoffset = r * (0.02 + 2.0*leaddiff + 2.0*headdiff) * Pi::rng.Double() * skillShoot;
+		m_leadOffset = (heading - leaddir);		// should be already...
 		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::GetGameTime());
 	}
 	m_leadOffset += m_leadDrift * Pi::GetTimeStep();
-	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized());
+	double leadAV = (leaddir-targdir).Dot((leaddir-heading).Normalized());	// leaddir angvel
+	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized(), leadAV);
 
 
 	vector3d evadethrust(0,0,0);
@@ -745,6 +734,7 @@ bool AICmdKill::TimeStepUpdate()
 // So what actually matters?
 
 // 1. closer range, closing velocity => worth doing a flypast
+
 
 
 
