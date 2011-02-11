@@ -154,6 +154,10 @@ static const struct SBodySubTypeInfo {
 		"icons/object_planet_dwarf.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
+		{}, 26, "Small, rocky dwarf planet", // dwarf2 for moon-like colours
+		"icons/object_planet_dwarf.png"
+	}, {
+		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 52, "Small, rocky planet with a thin atmosphere", // mars radius
 		"icons/object_planet_small.png"
 	}, {
@@ -989,7 +993,8 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		planet->eccentricity = ecc;
 		planet->axialTilt = fixed(100,157)*rand.NFixed(2);
 		planet->semiMajorAxis = semiMajorAxis;
-		planet->type = SBody::TYPE_PLANET_DWARF;
+		if (rand.Int32(0,1)) planet->type = SBody::TYPE_PLANET_DWARF;
+		else planet->type = SBody::TYPE_PLANET_DWARF2;
 		planet->seed = rand.Int32();
 		planet->tmp = 0;
 		planet->parent = primary;
@@ -1127,7 +1132,8 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		} else if (mass < fixed(1, 15000)) {
 			type = SBody::TYPE_PLANET_LARGE_ASTEROID;
 		} else if (mass < fixed(2,1000)) {
-			type = SBody::TYPE_PLANET_DWARF;
+			if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_DWARF;
+			else type = SBody::TYPE_PLANET_DWARF2;
 		} else if ((mass < fixed(2,10)) && (globalwarming < fixed(5,100))) {
 			type = SBody::TYPE_PLANET_SMALL;
 		} else if (mass < 3) {

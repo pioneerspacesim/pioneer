@@ -35,7 +35,7 @@ const CustomSBody sol_system[] = {
 	{ "Gates Spaceport", SBody::TYPE_STARPORT_ORBITAL,
 	  3, 0, 0, 0, fixed(100,100000), 0, { (float)DEG2RAD(0), (float)DEG2RAD(0) },
 	  fixed(1,24*60*3) },
-	{ "Moon", SBody::TYPE_PLANET_DWARF,
+	{ "Moon", SBody::TYPE_PLANET_DWARF2,
 	  3, fixed(273,1000), fixed(12,1000), 220,
 	  fixed(257,100000), fixed(549,10000), { (float)DEG2RAD(5.145) }, fixed(273,10),
           FIXED_DEG2RAD(668,100) },
