@@ -410,7 +410,10 @@ void Ship::AIMatchAngVel(const vector3d &dav)
 
 // Applies thrust directly
 
-void Ship::AIFaceDirection(const vector3d &dir)
+// Added input of target angular velocity in direction of dir-heading
+// god knows whether this works for negative iangvel
+
+void Ship::AIFaceDirection(const vector3d &dir, double av)
 {
 	double timeStep = Pi::GetTimeStep();
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -424,11 +427,11 @@ void Ship::AIFaceDirection(const vector3d &dir)
 	if (head.z > -0.99999999f)
 	{
 		double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
-		double iangvel = sqrt (2.0 * maxAccel * ang);		// ideal angvel at current time
+		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time
 
 		double frameEndAV = iangvel - frameAccel;
-		if (frameEndAV <= 0.0) iangvel = ang / timeStep;		// last frame discrete correction
-		else iangvel = (iangvel + frameEndAV) * 0.5;				// discrete overshoot correction
+		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
+		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
 		double head2dnorm = head.x*head.x + head.y*head.y;

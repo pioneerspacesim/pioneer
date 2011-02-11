@@ -262,10 +262,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GenericSystemView.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\collider\Geom.cpp"
 				>
 			</File>
@@ -765,10 +761,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GenericChatForm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GenericSystemView.h"
 				>
 			</File>
 			<File
