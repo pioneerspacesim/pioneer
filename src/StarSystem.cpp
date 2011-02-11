@@ -1387,6 +1387,13 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateStage1(system, outTotalPop);
 	}
+
+	// unexplored systems have no population (that we know about)
+	if (system->m_unexplored) {
+		m_population = outTotalPop = fixed(0);
+		return;
+	}
+
 	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
 			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
 	MTRand rand;
