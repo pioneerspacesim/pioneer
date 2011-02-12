@@ -90,6 +90,67 @@ private:
 void GenericChatForm::AddVideoWidget()
 {
 	Add(new DeadVideoLink(295,285), 5, 40);
+	AddFaceWidget();
+}
+
+void GenericChatForm::AddFaceWidget()
+{
+	//SpaceStation *name = Pi::player->GetDockedWith();
+
+	//This crap is to do with randomly generating faces
+	MTRand rand;
+	SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
+	int face_seed  = sbody->seed %20;
+	int eyes_seed  = sbody->seed ;
+	int mouth_seed = eyes_seed %80 ;
+	int nose_seed  = eyes_seed ;
+	int hair_seed  = eyes_seed %100 ;
+	int extra_seed = eyes_seed %240 ;
+	eyes_seed  = rand.Int32(0,eyes_seed);
+	eyes_seed  = eyes_seed %20 ;
+	mouth_seed = rand.Int32(0,mouth_seed);
+	mouth_seed = mouth_seed * 0.25f ;
+	nose_seed  = rand.Int32(0,nose_seed);
+	nose_seed  = nose_seed * rand.Int32(0,1);
+	nose_seed  = nose_seed %20 ;
+	hair_seed  = hair_seed * 0.2f ;
+	extra_seed = extra_seed / 12.0f ;
+
+	//Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/" + (stringf(64, "face%d", face_seed)) + ".png"), 10, 40);
+	//Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/" + std::string(face_seed) + ".png").c_str() ),10 ,40);
+	//name = "test" ;
+	//Gui::Image *b = new Gui::Image((PIONEER_DATA_DIR "/icons/faces/face" + face_seed ) ),10 ,40
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/face" + face_seed ) ),10 ,40);
+	char buf[32] = "/icons/faces/face"  ;
+	//buf += face_seed ;
+
+	/*if (face_seed > 16) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face9.png"), 10, 40);
+	} else if (face_seed > 14) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face8.png"), 10, 40);
+	} else if (face_seed > 10) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face7.png"), 10, 40);
+	} else if (face_seed > 8) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face6.png"), 10, 40);
+	} else if (face_seed > 6) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face5.png"), 10, 40);
+	} else if (face_seed > 4) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face4.png"), 10, 40);
+	} else if (face_seed > 3) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face3.png"), 10, 40);
+	} else if (face_seed > 2) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face2.png"), 10, 40);
+	} else if (face_seed > 1) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face1.png"), 10, 40);
+	} else if (face_seed > 0) {
+		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face0.png"), 10, 40);  
+	}*/
+	Add(new Gui::Label(stringf(64, "Face:  %d", face_seed)), 10, 50);
+	Add(new Gui::Label(stringf(64, "Eyes:  %d", eyes_seed)), 10, 60);
+	Add(new Gui::Label(stringf(64, "Mouth: %d", mouth_seed)), 10, 70);
+	Add(new Gui::Label(stringf(64, "Nose:  %d", nose_seed)), 10, 80);
+	Add(new Gui::Label(stringf(64, "Hair:  %d", hair_seed)), 10, 90);
+	Add(new Gui::Label(stringf(64, "Extra: %d", extra_seed)), 10, 100);
 }
 
 void GenericChatForm::Close()
