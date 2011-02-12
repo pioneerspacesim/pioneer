@@ -1823,7 +1823,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		}
 	}
 
-	if (m_population > fixed(1,10)) NameGenerator::PlanetName(rand);
+	if (m_population > fixed(1,10)) name = NameGenerator::PlanetName(rand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
