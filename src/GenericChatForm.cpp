@@ -99,7 +99,7 @@ void GenericChatForm::AddFaceWidget()
 
 	//This crap is to do with randomly generating faces
 	MTRand rand;
-	SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
+	const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
 	int face_seed  = sbody->seed %20;
 	int eyes_seed  = sbody->seed ;
 	int mouth_seed = eyes_seed %80 ;
@@ -116,7 +116,7 @@ void GenericChatForm::AddFaceWidget()
 	hair_seed  = hair_seed * 0.2f ;
 	extra_seed = extra_seed / 12.0f ;
 
-	//Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/" + (stringf(64, "face%d", face_seed)) + ".png"), 10, 40);
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/" + (stringf(64, "face%d", face_seed)) + ".png").c_str()), 10, 40);
 	//Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/" + std::string(face_seed) + ".png").c_str() ),10 ,40);
 	//name = "test" ;
 	//Gui::Image *b = new Gui::Image((PIONEER_DATA_DIR "/icons/faces/face" + face_seed ) ),10 ,40
@@ -124,7 +124,7 @@ void GenericChatForm::AddFaceWidget()
 	//char buf[32] = "/icons/faces/face"  ;
 	//buf += face_seed ;
 
-	if (face_seed > 16) {
+	/*if (face_seed > 16) {
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face9.png"), 10, 40);
 	} else if (face_seed > 14) {
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face8.png"), 10, 40);
@@ -145,6 +145,7 @@ void GenericChatForm::AddFaceWidget()
 	} else if (face_seed > 0) {
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face0.png"), 10, 40);  
 	}
+	*/
 	Add(new Gui::Label(stringf(64, "Face:  %d", face_seed)), 10, 50);
 	Add(new Gui::Label(stringf(64, "Eyes:  %d", eyes_seed)), 10, 60);
 	Add(new Gui::Label(stringf(64, "Mouth: %d", mouth_seed)), 10, 70);
