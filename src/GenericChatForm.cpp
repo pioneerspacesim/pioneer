@@ -120,11 +120,11 @@ void GenericChatForm::AddFaceWidget()
 	//Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/" + std::string(face_seed) + ".png").c_str() ),10 ,40);
 	//name = "test" ;
 	//Gui::Image *b = new Gui::Image((PIONEER_DATA_DIR "/icons/faces/face" + face_seed ) ),10 ,40
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/face" + face_seed ) ),10 ,40);
-	char buf[32] = "/icons/faces/face"  ;
+	//Add(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/face" + face_seed ) ),10 ,40);
+	//char buf[32] = "/icons/faces/face"  ;
 	//buf += face_seed ;
 
-	/*if (face_seed > 16) {
+	if (face_seed > 16) {
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face9.png"), 10, 40);
 	} else if (face_seed > 14) {
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face8.png"), 10, 40);
@@ -144,7 +144,7 @@ void GenericChatForm::AddFaceWidget()
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face1.png"), 10, 40);
 	} else if (face_seed > 0) {
 		Add(new Gui::Image(PIONEER_DATA_DIR "/icons/faces/face0.png"), 10, 40);  
-	}*/
+	}
 	Add(new Gui::Label(stringf(64, "Face:  %d", face_seed)), 10, 50);
 	Add(new Gui::Label(stringf(64, "Eyes:  %d", eyes_seed)), 10, 60);
 	Add(new Gui::Label(stringf(64, "Mouth: %d", mouth_seed)), 10, 70);
