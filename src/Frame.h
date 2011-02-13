@@ -26,15 +26,15 @@ public:
 	static Frame *Unserialize(Serializer::Reader &rd, Frame *parent);
 	const char *GetLabel() const { return m_label.c_str(); }
 	void SetLabel(const char *label) { m_label = label; }
-	void SetPosition(const vector3d &pos) { m_pos = pos; }
-	vector3d GetPosition() const { return m_pos; }
+	void SetPosition(const vector3d &pos) { m_orient.SetTranslate(pos); }
+	vector3d GetPosition() const { return m_orient.GetTranslate(); }
 	void SetVelocity(const vector3d &vel) { m_vel = vel; }
 	vector3d GetVelocity() const { return m_vel; }
 	void SetAngVelocity(const vector3d &angvel) { m_angVel = angvel; }
 	vector3d GetAngVelocity() const { return m_angVel; }
 	vector3d GetStasisVelocityAtPosition(const vector3d &pos) const;
-	const matrix4x4d &GetOrientation() const { return m_orient; }
-	void SetOrientation(const matrix4x4d &m) { m_orient = m; }
+	const matrix4x4d &GetTransform() const { return m_orient; }
+	void SetRotationOnly(const matrix4x4d &m) { for (int i=0; i<12; i++) m_orient[i] = m[i]; }
 	void SetRadius(double radius) { m_radius = radius; }
 	void RemoveChild(Frame *f);
 	void AddGeom(Geom *);
@@ -67,7 +67,6 @@ public:
 	enum { TEMP_VIEWING=1 };
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);
-	vector3d m_pos;
 	vector3d m_vel; // note we don't use this to move frame. rather,
 			// orbital rails determine velocity.
 	vector3d m_angVel; // this however *is* directly applied (for rotating frames)

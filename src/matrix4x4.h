@@ -19,6 +19,8 @@ class matrix4x4 {
 	matrix4x4 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*16);
 	}
+	void SetTranslate(const vector3<T> v) { cell[12] = v.x; cell[13] = v.y; cell[14] = v.z; }
+	vector3<T> GetTranslate() const { return vector3<T>(cell[12], cell[13], cell[14]); }
 	// row-major 3x3 matrix
 	void LoadFrom3x3Matrix(const T *r) {
 		cell[0] = r[0]; cell[4] = r[1]; cell[8] = r[2]; cell[12] = 0;

@@ -493,7 +493,7 @@ void WorldView::Draw3D()
 		prot.ClearToRotOnly();
 		camRot = prot * camRot;
 	}
-	cam_frame.SetOrientation(camRot);
+	cam_frame.SetRotationOnly(camRot);
 
 	matrix4x4d trans2bg;
 	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
@@ -1043,7 +1043,9 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		// the stasis velocity of a rotating frame
 	}
 
-	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
+	matrix4x4d cam_rot = cam_frame->GetTransform();
+	cam_rot.ClearToRotOnly();
+	vector3d loc_v = cam_rot.InverseOf() * vel;
 	m_velocityIndicatorOnscreen = false;
 	if (loc_v.z < 0) {
 		GLdouble pos[3];
@@ -1091,7 +1093,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	if (GetCamType() == CAM_FRONT && enemy)
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
-		matrix4x4d prot = cam_frame->GetOrientation(); prot[12] = prot[13] = prot[14] = 0.0;
+		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
 		vector3d targvel = enemy->GetVelocityRelativeTo(Pi::player) * prot;
 
 		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;

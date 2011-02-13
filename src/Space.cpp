@@ -226,7 +226,7 @@ void MoveOrbitingObjectFrames(Frame *f)
 static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
 {
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetOrientation(rot);
+	f->SetRotationOnly(rot);
 }
 
 static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)

@@ -25,7 +25,6 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 	wr.String(f->m_label);
 	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
 	wr.Vector3d(f->m_angVel);
-	wr.Vector3d(f->m_pos);
 	wr.Int32(Serializer::LookupSystemBody(f->m_sbody));
 	wr.Int32(Serializer::LookupBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
@@ -45,7 +44,10 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 	f->m_label = rd.String();
 	for (int i=0; i<16; i++) f->m_orient[i] = rd.Double();
 	f->m_angVel = rd.Vector3d();
-	f->m_pos = rd.Vector3d();
+	if (rd.StreamVersion() < 20) {
+		vector3d pos = rd.Vector3d();
+		f->m_orient.SetTranslate(pos);
+	}
 	f->m_sbody = Serializer::LookupSystemBody(rd.Int32());
 	f->m_astroBody = (Body*)rd.Int32();
 	f->m_vel = vector3d(0.0);
@@ -79,7 +81,6 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_parent = parent;
 	m_flags = flags;
 	m_radius = 0;
-	m_pos = vector3d(0.0f);
 	m_vel = vector3d(0.0);
 	m_angVel = vector3d(0.0);
 	m_orient = matrix4x4d::Identity();
@@ -108,12 +109,12 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 
 void Frame::ApplyLeavingTransform(matrix4x4d &m) const
 {
-	m = matrix4x4d::Translation(m_pos) * m_orient * m;
+	m = m_orient * m;
 }
 
 void Frame::ApplyEnteringTransform(matrix4x4d &m) const
 {
-	m = m * m_orient.InverseOf() * matrix4x4d::Translation(-m_pos);
+	m = m * m_orient.InverseOf();
 }
 
 vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
@@ -173,7 +174,9 @@ void Frame::RotateInTimestep(double step)
 	vector3d rotAxis = m_angVel.Normalized();
 	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
 
+	const vector3d pos = m_orient.GetTranslate();
 	m_orient = m_orient * rotMatrix;
+	m_orient.SetTranslate(pos);
 }
 
 /*
