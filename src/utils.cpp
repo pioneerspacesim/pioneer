@@ -7,9 +7,14 @@
 #include <map>
 
 #ifdef _WIN32
-#include "win32-dirent.h"
+//#include "win32-dirent.h"
 #include <shlobj.h>
 #include <shlwapi.h>
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#define mkdir(a,b) mkdir(a)
 #else
 #include <dirent.h>
 #include <errno.h>
@@ -20,7 +25,9 @@
 std::string GetPiUserDir(const std::string &subdir)
 {
 	// i think this test only works with glibc...
-#if _GNU_SOURCE
+#if __MINGW32__
+    return "C:\\";
+#elif _GNU_SOURCE
 	const char *homedir = getenv("HOME");
 	std::string path = join_path(homedir, ".pioneer", 0);
 	DIR *dir = opendir(path.c_str());

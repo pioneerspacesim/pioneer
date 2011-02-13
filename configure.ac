@@ -22,9 +22,10 @@ PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
 LIBS="$LIBS $SIGC_LIBS"
 
-AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
-AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
-AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
+#AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
+#AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
+#AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
+LIBS="$LIBS -lglew32s -lglu32 -lopengl32"
 
 AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
 if test "$SDLCONFIG" = "no"; then
@@ -42,12 +43,12 @@ fi
 CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
 LIBS="$LIBS `$FTCONFIG --libs`"
 
-CFLAGS="$CFLAGS -DLUA_USE_POSIX"
+CFLAGS="$CFLAGS" # -DLUA_USE_POSIX"
 
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
-CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
-LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
+CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
+LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS"
 
 CXXFLAGS="$CFLAGS"
 
