@@ -95,30 +95,70 @@ public:
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, randcrap);
 	}
 	void RandomFace() {
-		MTRand rand;
-		const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
-		int face_seed  = sbody->seed %20;
-		int eyes_seed  = sbody->seed ;
-		int mouth_seed = eyes_seed %80 ;
-		int nose_seed  = eyes_seed ;
-		int hair_seed  = eyes_seed %100 ;
-		int extra_seed = eyes_seed %240 ;
-		eyes_seed  = rand.Int32(0,eyes_seed);
-		eyes_seed  = eyes_seed %20 ;
-		mouth_seed = rand.Int32(0,mouth_seed);
-		mouth_seed = mouth_seed * 0.25f ;
-		nose_seed  = rand.Int32(0,nose_seed);
-		nose_seed  = nose_seed * rand.Int32(0,1);
-		nose_seed  = nose_seed %20 ;
-		hair_seed  = hair_seed * 0.2f ;
-		extra_seed = extra_seed / 12.0f ;
-		(new Gui::Image((PIONEER_DATA_DIR "/icons/faces/" + (stringf(64, "face%d", face_seed)) + ".png").c_str()), 10, 40);
-		(new Gui::Label(stringf(64, "Face:  %d", face_seed)), 10, 50);
-		(new Gui::Label(stringf(64, "Eyes:  %d", eyes_seed)), 10, 60);
-		(new Gui::Label(stringf(64, "Mouth: %d", mouth_seed)), 10, 70);
-		(new Gui::Label(stringf(64, "Nose:  %d", nose_seed)), 10, 80);
-		(new Gui::Label(stringf(64, "Hair:  %d", hair_seed)), 10, 90);
-		(new Gui::Label(stringf(64, "Extra: %d", extra_seed)), 10, 100);
+			MTRand rand;
+	const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
+	int eyes_seed  = sbody->seed ;
+
+	if (eyes_seed < 0) {
+		eyes_seed  = eyes_seed * -1.0f ;
+	}
+
+	int face_seed  = eyes_seed %20;
+	int mouth_seed = eyes_seed %80 ;
+	int nose_seed  = eyes_seed ;
+	int hair_seed  = eyes_seed %100 ;
+	int extr1_seed = eyes_seed %240 ;
+	int extr2_seed = eyes_seed %1500 ;
+	int sex_seed   = eyes_seed %1 ;
+	int race_seed  = eyes_seed %3 ;
+	int cloth_seed = eyes_seed %40 ;
+	eyes_seed      = rand.Int32(0,eyes_seed);
+	eyes_seed      = eyes_seed %20 ;
+	mouth_seed     = rand.Int32(0,mouth_seed);
+	mouth_seed     = mouth_seed * 0.25f ;
+	nose_seed      = rand.Int32(0,nose_seed);
+	nose_seed      = nose_seed * rand.Int32(0,1);
+	nose_seed      = nose_seed %20 ;
+	hair_seed      = hair_seed * 0.2f ;
+	extr1_seed     = extr1_seed / 12.0f ;
+	extr2_seed     = extr2_seed / 75.0f ;
+	cloth_seed     = rand.Int32(0,cloth_seed);
+	cloth_seed     = cloth_seed %20 ;
+	race_seed      = 0 ;
+
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"
+		+ (stringf(64, "race_%d" , race_seed))
+		+ (stringf(64, "/head/head_%d" , sex_seed))
+		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 10, 40);
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"   
+		+ (stringf(64, "race_%d" , race_seed))
+		+ (stringf(64, "/eyes/eyes_%d" , sex_seed))
+		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 89, 144);
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/" 
+		+ (stringf(64, "race_%d" , race_seed))
+		+ (stringf(64, "/nose/nose_%d" , sex_seed))
+		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 123, 192);
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"  
+		+ (stringf(64, "race_%d" , race_seed))
+		+ (stringf(64, "/mouth/mouth_%d" , sex_seed))
+		+ (stringf(64, "_%d", face_seed)) + ".png").c_str()), 114, 224);
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"  
+		+ (stringf(64, "race_%d" , race_seed))
+		+ (stringf(64, "/hair/hair_%d" , sex_seed))
+		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 10, 40);
+	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/clothes/"
+		+ (stringf(64, "cloth_%d", face_seed)) + ".png").c_str()), 10, 185);
+	
+	Add(new Gui::Label(stringf(64, "Face:   %d", face_seed )), 10, 50);
+	Add(new Gui::Label(stringf(64, "Eyes:   %d", eyes_seed )), 10, 60);
+	Add(new Gui::Label(stringf(64, "Mouth:  %d", mouth_seed)), 10, 70);
+	Add(new Gui::Label(stringf(64, "Nose:   %d", nose_seed )), 10, 80);
+	Add(new Gui::Label(stringf(64, "Hair:   %d", hair_seed )), 10, 90);
+	Add(new Gui::Label(stringf(64, "Clothes:%d", cloth_seed)), 10, 100);
+	Add(new Gui::Label(stringf(64, "Extra1: %d", extr1_seed)), 10, 110);
+	Add(new Gui::Label(stringf(64, "Extra2: %d", extr2_seed)), 10, 120);
+	Add(new Gui::Label(stringf(64, "Sex:    %d", sex_seed  )), 10, 130);
+	Add(new Gui::Label(stringf(64, "Race:   %d", race_seed )), 10, 140);
 		
 	}
 	VideoLink(float w, float h) {
