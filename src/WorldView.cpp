@@ -411,12 +411,11 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 		const float *col = StarSystem::starRealColors[body->type];
 		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
+		float ambCol[4] = { 0,0,0,0 };
 		if (Render::IsHDREnabled()) {
 			for (int i=0; i<4; i++) {
 				// not too high or we overflow our float16 colorbuffer
 				lightCol[i] *= std::min<float>(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0f);
-		//		ambCol[i] *= 10.0f;
 			}
 		}
 

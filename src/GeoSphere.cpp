@@ -1114,8 +1114,6 @@ void GeoSphere::BuildFirstPatches()
 	for (int i=0; i<6; i++) m_patches[i]->UpdateVBOs();
 }
 
-static const float g_ambient[4] = { 0, 0, 0, 1.0 };
-
 /* Density is density at 'sea level' */
 void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
 {
@@ -1291,12 +1289,28 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	}
 
 	if (!m_patches[0]) BuildFirstPatches();
+
+	const float black[4] = { 0,0,0,0 };
+	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+
+	// save old global ambient
+	float oldAmbient[4];
+	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+
+	// give planet some ambient lighting if the viewer is close to it
+	{
+		double camdist = campos.Length();
+		camdist = 0.1 / (camdist*camdist);
+		// why the fuck is this returning 0.1 when we are sat on the planet??
+		// XXX oh well, it is the value we want anyway...
+		ambient[0] = ambient[1] = ambient[2] = (float)camdist;
+		ambient[3] = 1.0f;
+	}
 	
-	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
-	glColorMaterial(GL_FRONT, GL_DIFFUSE);
-	glMaterialfv (GL_FRONT, GL_SPECULAR, g_ambient);
-	glMaterialfv (GL_FRONT, GL_EMISSION, g_ambient);
-	glMaterialfv (GL_FRONT, GL_AMBIENT, g_ambient);
+	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
+	glMaterialfv (GL_FRONT, GL_EMISSION, black);
 	glEnable(GL_COLOR_MATERIAL);
 
 //	glLineWidth(1.0);
@@ -1307,6 +1321,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	Render::State::UseProgram(0);
 
 	glDisable(GL_COLOR_MATERIAL);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them
