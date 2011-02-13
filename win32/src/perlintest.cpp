@@ -6,7 +6,7 @@ double testfunc()
 {	
 	MTRand rng;
 	double r = 0.0;
-	for (int i=0; i<100; i++)
+	for (int i=0; i<1000; i++)
 		r += noise(1000.0*rng.Double(), 1000.0*rng.Double(), 1000.0*rng.Double());
 	return r;
 }
@@ -15,7 +15,7 @@ double testfunc2()
 {	
 	MTRand rng;
 	double r = 0.0;
-	for (int i=0; i<100; i++) {
+	for (int i=0; i<1000; i++) {
 		r += 1000.0*rng.Double();
 		r += 1000.0*rng.Double();
 		r += 1000.0*rng.Double();

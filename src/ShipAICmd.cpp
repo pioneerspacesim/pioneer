@@ -530,14 +530,14 @@ bool AICmdKill::TimeStepUpdate()
 	return false;
 }
 */
-/*
+
 // goals of this command:
 //	1. inflict damage on current target
 //	2. avoid taking damage to self
 // two sub-patterns:
 //	1. point at leaddir, shift sideways, adjust range with front/rear
 //	2. flypast - change angle to target as rapidly as possible
-
+/*
 bool AICmdKill::TimeStepUpdate()
 {
 	if (GetDockedWith()) Undock();
@@ -552,10 +552,43 @@ bool AICmdKill::TimeStepUpdate()
 		case 0: break;
 		case 1: rval = PatternKill(); break;
 		case 2: rval = PatternShift(); break;
-//		case 3: rval = PatternEvade(); break;		// full evades should be in higher level function
+		case 3: rval = PatternEvade(); break;		// full evades should be in higher level function
 	}
+
+// have the following things to pass from higher-level function:
+// 1. whether to evade or counter-evade 
+// 2. desired separation (based on relative ship sizes + random)
+
+	// long term factors:
+	// if our angular accel is higher, flypast and close-range combat become more effective
+	m_accRatio = (m_target->GetShipType().angThrust * m_ship->GetAngularInertia())
+		/ (m_ship->GetShipType().angThrust * m_target->GetAngularInertia());
+
+	// if their ship is relatively large, want to use longer distances or more evasion
+	m_sizeRatio = m_target->GetBoundingRadius() / m_ship->GetBoundingRadius();
+
+	// if their ship has higher-speed weaponry, want to use closer distances or less evasion
+
+//	m_wpnSpeedRatio = Equip::types[m_ship->m_equipment.Get(Equip::SLOT_LASERS, 0)]
+
+
+	// Immediate factors:
+	// if their laser temperature is high, counter-evade and close range
+	
+	// if our laser temperature is high, full evade and increase range
+
+	// if outmatched, run away?
+
+	// if under attack from other ships, may evade randomly
+
+	// if opponent is not visible, may enter random control mode
+
+	// if not visible to opponent and close, may attempt to stay in blind spot?
+
 	
 	if (rval) {			// current pattern complete, pick which to use next
+
+
 		// danger metrics: damage taken, target heading & range, 
 		// separate danger from target and danger from elsewhere?
 
@@ -585,9 +618,6 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 }
 */
 
-// have the following things to pass from higher-level function:
-// 1. whether to evade or counter-evade 
-// 2. desired separation (based on relative ship sizes + random)
 
 bool AICmdKill::TimeStepUpdate()
 {
