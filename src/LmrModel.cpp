@@ -978,6 +978,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	s_curBuf = 0;
 
 	glDisable(GL_NORMALIZE);
+	glDisable(GL_BLEND);
 	glPopMatrix();
 }
 
