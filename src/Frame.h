@@ -47,6 +47,7 @@ public:
 	bool IsRotatingFrame() const { return m_angVel.Length() != 0.0; }
 	// snoops into parent frames so beware
 	SBody *GetSBodyFor();
+	void UpdateOrbitRails();
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;
 	void ApplyEnteringTransform(matrix4x4d &m) const;
