@@ -17,9 +17,17 @@ static inline double octavenoise(int octaves, double persistence, double lacunar
 	}
 	return (n+1.0)*0.5;
 }
-static inline double octavenoise(fracdef_t &def, const vector3d &p)
+static inline double octavenoise(fracdef_t &def, double roughness, const vector3d &p)
 {
-	return octavenoise(def.octaves, 0.5, def.lacunarity, def.frequency * p);
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<def.octaves; i++) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return (n+1.0)*0.5;
 }
 
 static inline double river_octavenoise(int octaves, double persistence, double lacunarity, const vector3d &p)
@@ -34,9 +42,17 @@ static inline double river_octavenoise(int octaves, double persistence, double l
 	}
 	return n;
 }
-static inline double river_octavenoise(fracdef_t &def, const vector3d &p)
+static inline double river_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
 {
-	return river_octavenoise(def.octaves, 0.5, def.lacunarity, def.frequency * p);
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<def.octaves; i++) {
+		n += octaveAmplitude * fabs(noise(jizm*p));
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return fabs(n);
 }
 
 static inline double ridged_octavenoise(int octaves, double persistence, double lacunarity, const vector3d &p)
@@ -45,15 +61,23 @@ static inline double ridged_octavenoise(int octaves, double persistence, double 
 	double octaveAmplitude = 0.5;
 	double jizm = 1.0;
 	while (octaves--) {
-		n += octaveAmplitude * (1.0 - fabs(noise(jizm*p)));
+		n += octaveAmplitude * noise(jizm*p);
 		octaveAmplitude *= persistence;
 		jizm *= lacunarity;
 	}
-	return n;
+	return 1.0 - fabs(n);
 }
-static inline double ridged_octavenoise(fracdef_t &def, const vector3d &p)
+static inline double ridged_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
 {
-	return ridged_octavenoise(def.octaves, 0.5, def.lacunarity, def.frequency * p);
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<def.octaves; i++) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return 1.0 - fabs(n);
 }
 
 
@@ -121,23 +145,6 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 			(v/400) + ((20*octavenoise(2, 0.0, 2.0, 100.0*pt))* ((v/200)*(v/200))));
 
 	}
-}
-
-static inline double fractal(fracdef_t &def, int type, const vector3d &p)
-{
-	double v;
-	switch (type) {
-		case 0:	
-			v = river_octavenoise(def.octaves, 0.5, def.lacunarity, def.frequency * p);
-			break;
-		case 1:
-			v = ridged_octavenoise(def.octaves, 0.5, def.lacunarity, def.frequency * p);
-			break;
-		default:
-			v = octavenoise(def.octaves, 0.5, def.lacunarity, def.frequency * p);
-			break;
-	}
-	return v;
 }
 
 static double canyon_function(const vector3d &p)
@@ -436,7 +443,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		/* Pick terrain and color fractals for terrestrial planets */
 	}
 	m_continentType = CONTINENT_SIMPLE;
-	m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
+	m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 	m_colorType = COLOR_EARTHLIKE;
 
 	m_sealevel = CLAMP(body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
@@ -480,13 +487,13 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
  */
-void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, double lacunarity, double smallestOctaveMeters)
+void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters)
 {
 	// feature 
 	def->amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	def->frequency = m_planetRadius / featureWidthMeters;
-	def->lacunarity = lacunarity;
 	def->octaves = std::max(1, (int)ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0)));
+	def->lacunarity = 2.0;
 	printf("%d octaves\n", def->octaves);
 }
 
@@ -496,11 +503,11 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case CONTINENT_FLAT:
 			break;
 		case CONTINENT_VOLCANIC_MARE:
-			SetFracDef(&targ.continents, m_maxHeightInMeters, rand.Double(5e5,1.5e6), rand.Double(1.8, 2.2), 1e5);
+			SetFracDef(&targ.continents, m_maxHeightInMeters, rand.Double(5e5,1.5e6), rand, 1e5);
 			break;
 		case CONTINENT_SIMPLE:
 			/* Continent sizes between 1000km and 10,000km */
-			SetFracDef(&targ.continents, m_maxHeightInMeters, rand.Double(1e6,1e7), rand.Double(1.8, 2.2));
+			SetFracDef(&targ.continents, m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
 			break;
 	}
 
@@ -517,42 +524,42 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case TERRAIN_HILLS_RIVERS:
 		{
 			double height = m_maxHeightInMeters*0.7;
-			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand);
+			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
 			double height = m_maxHeightInMeters*0.2;
-			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand);
+			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
 
 			height = m_maxHeightInMeters*0.5;
-			SetFracDef(&targ.localDistrib, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.localTerrain, height, rand.Double(2.5,3.5)*height, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.localDistrib, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
+			SetFracDef(&targ.localTerrain, height, rand.Double(2.5,3.5)*height, rand);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIDGED:
 		{
 			double height = m_maxHeightInMeters*0.2;
-			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand);
+			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
 
 			height = m_maxHeightInMeters*0.5;
-			SetFracDef(&targ.localDistrib, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.localTerrain, height, rand.Double(6.0,8.0)*height, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.localDistrib, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
+			SetFracDef(&targ.localTerrain, height, rand.Double(6.0,8.0)*height, rand);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIVERS:
 		{
 			// XXX looks too flat and crappy
 			double height = m_maxHeightInMeters*0.2;
-			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.midTerrain, height, rand.Double(4.0, 20.0)*height, rand);
+			SetFracDef(&targ.midDistrib, m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
 
 			height = m_maxHeightInMeters*0.5;
-			SetFracDef(&targ.localDistrib, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand.Double(1.8, 2.2));
-			SetFracDef(&targ.localTerrain, height, rand.Double(6.0,8.0)*height, rand.Double(1.8, 2.2));
+			SetFracDef(&targ.localDistrib, m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
+			SetFracDef(&targ.localTerrain, height, rand.Double(6.0,8.0)*height, rand);
 			break;
 		}
 	}
@@ -573,7 +580,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			break;
 		case CONTINENT_VOLCANIC_MARE:
 		case CONTINENT_SIMPLE:
-			continents = octavenoise(targ.continents, p) - m_sealevel;
+			continents = octavenoise(targ.continents, 0.5, p) - m_sealevel;
 			break;
 	}
 
@@ -591,9 +598,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			if (continents < 0) return 0;
 			double out = 0.3 * continents;
-			double distrib = octavenoise(targ.midDistrib, p);
-			double m = 0;
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.midTerrain.amplitude * octavenoise(targ.midTerrain, p);
+			double distrib = ridged_octavenoise(targ.midDistrib, 0.5, p);
+			double m = targ.midTerrain.amplitude * octavenoise(targ.midTerrain, 0.5*distrib, p);
 			// cliffs at shore
 			if (continents < 0.001) out += m * continents * 1000.0f;
 			else out += m;
@@ -604,9 +610,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			if (continents < 0) return 0;
 			// == TERRAIN_HILLS_NORMAL except ridged_octavenoise
 			double out = 0.3 * continents;
-			double distrib = ridged_octavenoise(targ.midDistrib, p);
-			double m = 0;
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.midTerrain.amplitude * ridged_octavenoise(targ.midTerrain, p);
+			double distrib = ridged_octavenoise(targ.midDistrib, 0.5, p);
+			double m = targ.midTerrain.amplitude * ridged_octavenoise(targ.midTerrain, 0.5*distrib, p);
 			// cliffs at shore
 			if (continents < 0.001) out += m * continents * 1000.0f;
 			else out += m;
@@ -617,9 +622,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			if (continents < 0) return 0;
 			// == TERRAIN_HILLS_NORMAL except river_octavenoise
 			double out = 0.3 * continents;
-			double distrib = river_octavenoise(targ.midDistrib, p);
-			double m = 0;
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.midTerrain.amplitude * river_octavenoise(targ.midTerrain, p);
+			double distrib = river_octavenoise(targ.midDistrib, 0.5, p);
+			double m = targ.midTerrain.amplitude * river_octavenoise(targ.midTerrain, 0.5*distrib, p);
 			// cliffs at shore
 			if (continents < 0.001) out += m * continents * 1000.0f;
 			else out += m;
@@ -629,9 +633,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			if (continents < 0) return 0;
 			double out = 0.3 * continents;
-			double m = targ.midTerrain.amplitude * octavenoise(targ.midTerrain, p);
-			double distrib = octavenoise(targ.localTerrain, p);
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.localTerrain.amplitude * octavenoise(targ.localTerrain, p);
+			double m = 0;//targ.midTerrain.amplitude * octavenoise(targ.midTerrain, 0.5, p);
+			double distrib = ridged_octavenoise(targ.localTerrain, 0.5, p);
+			m += targ.localTerrain.amplitude * octavenoise(targ.localDistrib, 0.5*distrib, p);
 			// cliffs at shore
 			if (continents < 0.001) out += m * continents * 1000.0f;
 			else out += m;
@@ -641,9 +645,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			if (continents < 0) return 0;
 			double out = 0.3 * continents;
-			double m = targ.midTerrain.amplitude * ridged_octavenoise(targ.midTerrain, p);
-			double distrib = ridged_octavenoise(targ.localTerrain, p);
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.localTerrain.amplitude * ridged_octavenoise(targ.localTerrain, p);
+			double m = targ.midTerrain.amplitude * ridged_octavenoise(targ.midTerrain, 0.5, p);
+			double distrib = ridged_octavenoise(targ.localDistrib, 0.5, p);
+			m += targ.localTerrain.amplitude * ridged_octavenoise(targ.localTerrain, 0.5*distrib, p);
 			// cliffs at shore
 			if (continents < 0.001) out += m * continents * 1000.0f;
 			else out += m;
@@ -653,9 +657,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			if (continents < 0) return 0;
 			double out = 0.3 * continents;
-			double m = targ.midTerrain.amplitude * river_octavenoise(targ.midTerrain, p);
-			double distrib = river_octavenoise(targ.localTerrain, p);
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.localTerrain.amplitude * river_octavenoise(targ.localTerrain, p);
+			double m = targ.midTerrain.amplitude * river_octavenoise(targ.midTerrain, 0.5, p);
+			double distrib = river_octavenoise(targ.localDistrib, 0.5, p);
+			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * targ.localTerrain.amplitude * river_octavenoise(targ.localTerrain, 0.5, p);
 			// cliffs at shore
 			if (continents < 0.001) out += m * continents * 1000.0f;
 			else out += m;

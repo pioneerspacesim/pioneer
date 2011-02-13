@@ -3,6 +3,8 @@
 #include "libs.h"
 #include "StarSystem.h"
 
+#define GEOSPHERESTYLE_MAX_OCTAVES 24
+
 struct fracdef_t {
 	double amplitude;
 	double frequency;
@@ -74,7 +76,7 @@ class GeoSphereStyle {
 	int GetRawHeightMapVal(int x, int y);
 	double GetHeightMapVal(const vector3d &pt);
 	void InitHeightMap(const SBody *sbody);
-	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, double lacunarity, double smallestOctaveMeters = 20.0);
+	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
 
 	ContinentFractal m_continentType;
 	TerrainFractal m_terrainType;
