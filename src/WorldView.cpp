@@ -860,6 +860,11 @@ static void autopilot_flyto(Body *b)
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
 	Pi::player->AIFlyTo(b);
 }
+static void autopilot_attack(Body *b)
+{
+	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
+	Pi::player->AIKill(static_cast<Ship*>(b));
+}
 static void autopilot_dock(Body *b)
 {
 	Pi::player->SetFlightControlState(Player::CONTROL_AUTOPILOT);
@@ -914,7 +919,7 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-			button = AddCommsOption("Autopilot: Fly to vacinity of " + navtarget->GetLabel(), ypos, optnum++);
+			button = AddCommsOption("Autopilot: Fly to vicinity of " + navtarget->GetLabel(), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
 
@@ -957,9 +962,12 @@ void WorldView::UpdateCommsOptions()
 	if (comtarget) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, (float)ypos);
 		ypos += 32;
-		button = AddCommsOption("Autopilot: Fly to vacinity of "+comtarget->GetLabel(), ypos, optnum++);
+		button = AddCommsOption("Autopilot: Fly to vicinity of "+comtarget->GetLabel(), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
-
+		ypos += 32;
+		button = AddCommsOption("Autopilot: Attack "+comtarget->GetLabel(), ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_attack), comtarget));
+		ypos += 32;
 	}
 }
 

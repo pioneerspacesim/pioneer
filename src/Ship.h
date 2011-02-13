@@ -122,7 +122,7 @@ public:
 	float GetHullTemperature() const;
 	void UseECM();
 
-	void AIFaceDirection(const vector3d &dir);
+	void AIFaceDirection(const vector3d &dir, double av=0.0);
 	vector3d AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex);
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);

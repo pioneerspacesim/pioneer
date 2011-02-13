@@ -887,16 +887,17 @@ public:
 
 		if (canSplit) {
 			if (!kids[0]) {
-				vector3d v01, v12, v23, v30;
+				vector3d v01, v12, v23, v30, cn;
+				cn = centroid.Normalized();			
 				v01 = (v[0]+v[1]).Normalized();
 				v12 = (v[1]+v[2]).Normalized();
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(v[0], v01, centroid, v30, m_depth+1);
-				_kids[1] = new GeoPatch(v01, v[1], v12, centroid, m_depth+1);
-				_kids[2] = new GeoPatch(centroid, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(v30, centroid, v23, v[3], m_depth+1);
+				_kids[0] = new GeoPatch(v[0], v01, cn, v30, m_depth+1);
+				_kids[1] = new GeoPatch(v01, v[1], v12, cn, m_depth+1);
+				_kids[2] = new GeoPatch(cn, v12, v[2], v23, m_depth+1);
+				_kids[3] = new GeoPatch(v30, cn, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);

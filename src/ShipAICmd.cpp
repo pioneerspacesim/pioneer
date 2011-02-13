@@ -530,14 +530,14 @@ bool AICmdKill::TimeStepUpdate()
 	return false;
 }
 */
-/*
+
 // goals of this command:
 //	1. inflict damage on current target
 //	2. avoid taking damage to self
 // two sub-patterns:
 //	1. point at leaddir, shift sideways, adjust range with front/rear
 //	2. flypast - change angle to target as rapidly as possible
-
+/*
 bool AICmdKill::TimeStepUpdate()
 {
 	if (GetDockedWith()) Undock();
@@ -552,10 +552,43 @@ bool AICmdKill::TimeStepUpdate()
 		case 0: break;
 		case 1: rval = PatternKill(); break;
 		case 2: rval = PatternShift(); break;
-//		case 3: rval = PatternEvade(); break;		// full evades should be in higher level function
+		case 3: rval = PatternEvade(); break;		// full evades should be in higher level function
 	}
+
+// have the following things to pass from higher-level function:
+// 1. whether to evade or counter-evade 
+// 2. desired separation (based on relative ship sizes + random)
+
+	// long term factors:
+	// if our angular accel is higher, flypast and close-range combat become more effective
+	m_accRatio = (m_target->GetShipType().angThrust * m_ship->GetAngularInertia())
+		/ (m_ship->GetShipType().angThrust * m_target->GetAngularInertia());
+
+	// if their ship is relatively large, want to use longer distances or more evasion
+	m_sizeRatio = m_target->GetBoundingRadius() / m_ship->GetBoundingRadius();
+
+	// if their ship has higher-speed weaponry, want to use closer distances or less evasion
+
+//	m_wpnSpeedRatio = Equip::types[m_ship->m_equipment.Get(Equip::SLOT_LASERS, 0)]
+
+
+	// Immediate factors:
+	// if their laser temperature is high, counter-evade and close range
+	
+	// if our laser temperature is high, full evade and increase range
+
+	// if outmatched, run away?
+
+	// if under attack from other ships, may evade randomly
+
+	// if opponent is not visible, may enter random control mode
+
+	// if not visible to opponent and close, may attempt to stay in blind spot?
+
 	
 	if (rval) {			// current pattern complete, pick which to use next
+
+
 		// danger metrics: damage taken, target heading & range, 
 		// separate danger from target and danger from elsewhere?
 
@@ -585,6 +618,7 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 }
 */
 
+
 bool AICmdKill::TimeStepUpdate()
 {
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
@@ -594,31 +628,37 @@ bool AICmdKill::TimeStepUpdate()
 	vector3d targdir = targpos.Normalized();
 	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
-	vector3d targaccel = (m_lastVel - m_target->GetVelocity()) * Pi::GetTimeStep();
+	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::GetTimeStep();
+	m_lastVel = m_target->GetVelocity();		// may need next frame
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
-
 
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
 
-	vector3d angvel = m_ship->GetAngVelocity();
-	if (m_leadTime < Pi::GetGameTime() || angvel.Dot(angvel) == 0.0)
+	if (m_leadTime < Pi::GetGameTime())
 	{
 		double skillShoot = 0.5;		// todo: should come from AI stats
-		m_leadTime = Pi::GetGameTime() + (Pi::rng.Double() * skillShoot);
+
+		double headdiff = (leaddir - heading).Length();
+		double leaddiff = (leaddir - targdir).Length();
+		m_leadTime = Pi::GetGameTime() + headdiff + (1.0*Pi::rng.Double()*skillShoot);
 
 		// lead inaccuracy based on diff between heading and leaddir
-		// skillShoot = 0 to 1, 0 is best?
-		// more likely to overshoot than undershoot
-		vector3d offset = (leaddir - heading) * Pi::rng.Double(-0.2,0.5) * skillShoot;
+		vector3d r(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5);
+		vector3d newoffset = r * (0.02 + 2.0*leaddiff + 2.0*headdiff)*Pi::rng.Double()*skillShoot;
+		m_leadOffset = (heading - leaddir);		// should be already...
+		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::GetGameTime());
 
-		// lead inaccuracy based on target velocity
-		vector3d perpvel = targvel - targdir * targvel.Dot(targdir);
-		m_leadDir = offset + offset * 2.0 * perpvel.Length() / targpos.Length();
-		m_leadDir = (leaddir + m_leadDir).Normalized();
+		// Shoot only when close to target
+
+		double vissize = 1.3 * m_ship->GetBoundingRadius() / targpos.Length();
+		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
+		if (vissize > headdiff) m_ship->SetGunState(0,1);
+		else m_ship->SetGunState(0,0);
 	}
-	m_ship->AIFaceDirection(m_leadDir);
-	m_lastVel = m_target->GetVelocity();		// may need next frame
+	m_leadOffset += m_leadDrift * Pi::GetTimeStep();
+	double leadAV = (leaddir-targdir).Dot((leaddir-heading).Normalized());	// leaddir angvel
+	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized(), leadAV);
 
 
 	vector3d evadethrust(0,0,0);
@@ -642,7 +682,7 @@ bool AICmdKill::TimeStepUpdate()
 		{
 			skillEvade += targpos.Length() / 2000;				// 0.25 per 500m
 
-			if (skillEvade < 1.0 && targav.Length() < 0.1) {	// smart evade, assumes facing
+			if (skillEvade < 1.0 && targav.Length() < 0.05) {	// smart evade, assumes facing
 				evadethrust.x = targhead.x < 0.0 ? 1.0 : -1.0;
 				evadethrust.y = targhead.y < 0.0 ? 1.0 : -1.0;
 			}
@@ -661,33 +701,29 @@ bool AICmdKill::TimeStepUpdate()
 	else evadethrust = m_ship->GetThrusterState();
 
 
-	// todo: some logic behind desired range? 
+	// todo: some logic behind desired range? pass from higher level
 	if (m_closeTime < Pi::GetGameTime())
 	{
 		double skillEvade = 0.5;
-		if (heading.Dot(targdir) < 0.7) m_closeTime = 0.0;			// not in view
-		else {
-			m_closeTime = Pi::GetGameTime();	// + skillEvade * Pi::rng.Double(4.0,10.0);
+		if (heading.Dot(targdir) < 0.7) skillEvade += 0.5;		// not in view
+
+		m_closeTime = Pi::GetGameTime() + skillEvade * Pi::rng.Double(1.0,5.0);
 	
-			double reqdist = 500.0;			//Pi::rng.Double(100.0, 1000.0);
-			double dist = targpos.Length(), ispeed;
-			double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / m_ship->GetMass();
-			// v = sqrt(2as), positive => towards
-			if (dist > reqdist) ispeed = sqrt(2.0 * rearaccel * (dist - reqdist));
-			else ispeed = -sqrt(2.0 * rearaccel * (reqdist - dist));
-			double vdiff = ispeed + targvel.Dot(targdir);
+		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
+		double dist = targpos.Length(), ispeed;
+		double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / m_ship->GetMass();
+		// v = sqrt(2as), positive => towards
+		if (dist > reqdist) ispeed = sqrt(2.0 * rearaccel * (dist - reqdist));
+		else ispeed = -sqrt(2.0 * rearaccel * (reqdist - dist));
+		double vdiff = ispeed + targvel.Dot(targdir);
 
-			if (vdiff*vdiff < 400.0) evadethrust.z = 0.0;
-			else evadethrust.z = (vdiff > 0.0) ? -1.0 : 1.0;
-
-//			evadethrust.z = MaintainDistance(targpos.Length(), targvel.Length(), reqdist, 20.0);
-		}
+		if (skillEvade + Pi::rng.Double() > 1.5) evadethrust.z = 0.0;
+		else if (vdiff*vdiff < 400.0) evadethrust.z = 0.0;
+		else evadethrust.z = (vdiff > 0.0) ? -1.0 : 1.0;
 	}
 	else evadethrust.z = m_ship->GetThrusterState().z;
-
-	// finally, set thrusters and gun state:
 	m_ship->SetThrusterState(evadethrust);
-	if (leaddir.Dot(heading) > 0.95) m_ship->SetGunState(0,1);
+
 	return false;
 }
 
@@ -735,6 +771,7 @@ bool AICmdKill::TimeStepUpdate()
 // So what actually matters?
 
 // 1. closer range, closing velocity => worth doing a flypast
+
 
 
 
