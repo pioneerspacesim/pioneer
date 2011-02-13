@@ -48,7 +48,7 @@ CFLAGS="$CFLAGS" # -DLUA_USE_POSIX"
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
 CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
-LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS"
+LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS -lshlwapi"
 
 CXXFLAGS="$CFLAGS"
 
