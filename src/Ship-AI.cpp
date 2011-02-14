@@ -424,7 +424,7 @@ void Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d head = dir * rot;		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
-	if (head.z > -0.99999999f)
+	if (head.z > -0.99999999)
 	{
 		double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time

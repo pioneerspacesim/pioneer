@@ -1060,11 +1060,14 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	}
 
 	// test code for mousedir
-/*	vector3d mdir = Pi::player->GetMouseDir();
+/*	vector3d mdir = Pi::player->GetMouseDir() * cam_rot;
 	if (mdir.z < 0) {
 		GLdouble pos[3];
-		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-
+		if (Gui::Screen::Project (mdir.x,mdir.y,mdir.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+			m_velocityIndicatorPos[0] = (int)pos[0];
+			m_velocityIndicatorPos[1] = (int)pos[1];
+			m_velocityIndicatorOnscreen = true;
+		}
 	}
 */
 	// Update object onscreen positions
