@@ -163,6 +163,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>../../src</AdditionalIncludeDirectories>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,6 +182,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>../../src</AdditionalIncludeDirectories>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

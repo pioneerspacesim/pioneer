@@ -411,12 +411,11 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 
 		const float *col = StarSystem::starRealColors[body->type];
 		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { col[0]*0.1f, col[1]*0.1f, col[2]*0.1f, 0 };
+		float ambCol[4] = { 0,0,0,0 };
 		if (Render::IsHDREnabled()) {
 			for (int i=0; i<4; i++) {
 				// not too high or we overflow our float16 colorbuffer
 				lightCol[i] *= std::min<float>(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0f);
-		//		ambCol[i] *= 10.0f;
 			}
 		}
 
@@ -473,7 +472,7 @@ void WorldView::Draw3D()
 	const vector3d ppos(pposOrient[12], pposOrient[13], pposOrient[14]);
 
 	// make temporary camera frame at player
-	Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
+	Frame cam_frame(Pi::player->GetFrame(), "camera", Frame::TEMP_VIEWING);
 
 	matrix4x4d camRot = matrix4x4d::Identity();
 
@@ -494,7 +493,9 @@ void WorldView::Draw3D()
 		prot.ClearToRotOnly();
 		camRot = prot * camRot;
 	}
-	cam_frame.SetOrientation(camRot);
+	cam_frame.SetRotationOnly(camRot);
+	// make sure old orient and interpolated orient (rendering orient) are not rubbish
+	cam_frame.ClearMovement();
 
 	matrix4x4d trans2bg;
 	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);
@@ -1044,7 +1045,9 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		// the stasis velocity of a rotating frame
 	}
 
-	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
+	matrix4x4d cam_rot = cam_frame->GetTransform();
+	cam_rot.ClearToRotOnly();
+	vector3d loc_v = cam_rot.InverseOf() * vel;
 	m_velocityIndicatorOnscreen = false;
 	if (loc_v.z < 0 && !Pi::player->GetCombatTarget()) {
 		GLdouble pos[3];
@@ -1092,7 +1095,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	if (GetCamType() == CAM_FRONT && enemy && enemy->IsOnscreen())
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
-		matrix4x4d prot = cam_frame->GetOrientation(); prot[12] = prot[13] = prot[14] = 0.0;
+		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
 		vector3d targvel = enemy->GetVelocityRelativeTo(Pi::player) * prot;
 
 		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;

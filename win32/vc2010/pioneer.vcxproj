@@ -56,6 +56,7 @@
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,6 +78,7 @@
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <FloatingPointModel>Fast</FloatingPointModel>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

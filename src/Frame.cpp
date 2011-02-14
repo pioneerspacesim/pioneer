@@ -2,6 +2,8 @@
 #include "Space.h"
 #include "collider/collider.h"
 #include "Sfx.h"
+#include "StarSystem.h"
+#include "Pi.h"
 
 Frame::Frame()
 {
@@ -25,7 +27,6 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f)
 	wr.String(f->m_label);
 	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
 	wr.Vector3d(f->m_angVel);
-	wr.Vector3d(f->m_pos);
 	wr.Int32(Serializer::LookupSystemBody(f->m_sbody));
 	wr.Int32(Serializer::LookupBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
@@ -45,7 +46,10 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 	f->m_label = rd.String();
 	for (int i=0; i<16; i++) f->m_orient[i] = rd.Double();
 	f->m_angVel = rd.Vector3d();
-	f->m_pos = rd.Vector3d();
+	if (rd.StreamVersion() < 20) {
+		vector3d pos = rd.Vector3d();
+		f->m_orient.SetTranslate(pos);
+	}
 	f->m_sbody = Serializer::LookupSystemBody(rd.Int32());
 	f->m_astroBody = (Body*)rd.Int32();
 	f->m_vel = vector3d(0.0);
@@ -53,6 +57,9 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 		f->m_children.push_back(Unserialize(rd, f));
 	}
 	Sfx::Unserialize(rd, f);
+
+	f->m_oldOrient = f->m_orient;
+	f->m_oldAngDisplacement = vector3d(0.0);
 	
 	return f;
 }
@@ -79,10 +86,11 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_parent = parent;
 	m_flags = flags;
 	m_radius = 0;
-	m_pos = vector3d(0.0f);
 	m_vel = vector3d(0.0);
 	m_angVel = vector3d(0.0);
 	m_orient = matrix4x4d::Identity();
+	m_oldOrient = matrix4x4d::Identity();
+	m_oldAngDisplacement = vector3d(0.0);
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) {
 		m_parent->m_children.push_back(this);
@@ -108,12 +116,12 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 
 void Frame::ApplyLeavingTransform(matrix4x4d &m) const
 {
-	m = matrix4x4d::Translation(m_pos) * m_orient * m;
+	m = m_orient * m;
 }
 
 void Frame::ApplyEnteringTransform(matrix4x4d &m) const
 {
-	m = m * m_orient.InverseOf() * matrix4x4d::Translation(-m_pos);
+	m = m * m_orient.InverseOf();
 }
 
 vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
@@ -166,6 +174,27 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = m2 * m;
 }
 	
+void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
+{
+	matrix4x4d m2 = matrix4x4d::Identity();
+	m = matrix4x4d::Identity();
+
+	const Frame *f = fFrom;
+	const Frame *root = Space::rootFrame;
+
+	while ((f!=root) && (fTo != f)) {
+		m = f->m_interpolatedTransform * m;
+		f = f->m_parent;
+	}
+
+	while (fTo != f) {
+		m2 = m2 * fTo->m_interpolatedTransform.InverseOf();
+		fTo = fTo->m_parent;
+	}
+
+	m = m2 * m;
+}
+	
 void Frame::RotateInTimestep(double step)
 {
 	double ang = m_angVel.Length() * step;
@@ -173,7 +202,9 @@ void Frame::RotateInTimestep(double step)
 	vector3d rotAxis = m_angVel.Normalized();
 	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
 
+	const vector3d pos = m_orient.GetTranslate();
 	m_orient = m_orient * rotMatrix;
+	m_orient.SetTranslate(pos);
 }
 
 /*
@@ -205,3 +236,51 @@ SBody *Frame::GetSBodyFor()
 	if (m_parent) return m_parent->m_sbody; // rotating frame of planet
 	else return 0;
 }
+
+void Frame::UpdateInterpolatedTransform(double alpha)
+{
+	vector3d outPos = alpha*vector3d(m_orient[12], m_orient[13], m_orient[14]) +
+			(1.0-alpha)*vector3d(m_oldOrient[12], m_oldOrient[13], m_oldOrient[14]);
+
+	m_interpolatedTransform = m_oldOrient;
+	{
+		double len = m_oldAngDisplacement.Length() * (double)alpha;
+		if (len != 0) {
+			vector3d rotAxis = m_oldAngDisplacement.Normalized();
+			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
+					rotAxis.x, rotAxis.y, rotAxis.z);
+			m_interpolatedTransform = rotMatrix * m_interpolatedTransform;
+		}
+	}
+	m_interpolatedTransform[12] = outPos.x;
+	m_interpolatedTransform[13] = outPos.y;
+	m_interpolatedTransform[14] = outPos.z;
+	
+	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		(*i)->UpdateInterpolatedTransform(alpha);
+	}
+
+}
+
+void Frame::UpdateOrbitRails()
+{
+	double timestep = Pi::GetTimeStep();
+	m_oldOrient = m_orient;
+	m_oldAngDisplacement = m_angVel * timestep;
+	if (!m_parent) {
+		m_orient = matrix4x4d::Identity();
+	} else if (m_sbody) {
+		// this isn't very smegging efficient
+		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime());
+		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime()+1.0);
+		vector3d vel = pos2 - pos;
+		SetPosition(pos);
+		SetVelocity(vel);
+	}
+	RotateInTimestep(timestep);
+
+	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		(*i)->UpdateOrbitRails();
+	}
+}
+

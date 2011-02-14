@@ -119,7 +119,7 @@ vector3d Body::GetPositionRelTo(const Frame *relTo) const
 vector3d Body::GetInterpolatedPositionRelTo(const Frame *relTo) const
 {
 	matrix4x4d m;
-	Frame::GetFrameTransform(m_frame, relTo, m);
+	Frame::GetFrameRenderTransform(m_frame, relTo, m);
 	return m * GetInterpolatedPosition();
 }
 
