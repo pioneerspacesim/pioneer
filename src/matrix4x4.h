@@ -53,7 +53,7 @@ class matrix4x4 {
 		m[12] = m[13] = m[14] = 0; m[15] = 1;
 		return m;
 	}
-	static matrix4x4 MakeRotMatrix(vector3<T> rx, vector3<T> ry, vector3<T> rz) {
+	static matrix4x4 MakeRotMatrix(const vector3<T> &rx, const vector3<T> &ry, const vector3<T> &rz) {
 		matrix4x4 m;
 		m[0] = rx.x; m[4] = rx.y; m[8] = rx.z; m[12] = 0;
 		m[1] = ry.x; m[5] = ry.y; m[9] = ry.z; m[13] = 0;
@@ -61,7 +61,7 @@ class matrix4x4 {
 		m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1;
 		return m;
 	}
-	static matrix4x4 MakeInvRotMatrix(vector3<T> rx, vector3<T> ry, vector3<T> rz) {
+	static matrix4x4 MakeInvRotMatrix(const vector3<T> &rx, const vector3<T> &ry, const vector3<T> &rz) {
 		matrix4x4 m;
 		m[0] = rx.x; m[4] = ry.x; m[8] = rz.x; m[12] = 0;
 		m[1] = rx.y; m[5] = ry.y; m[9] = rz.y; m[13] = 0;
@@ -251,7 +251,7 @@ class matrix4x4 {
 		out.z = cell[2]*v.x + cell[6]*v.y + cell[10]*v.z;
 		return out;
 	}
-	void Translate(vector3<T> t) {
+	void Translate(const vector3<T> &t) {
 		Translate(t.x, t.y, t.z);
 	}
 	void Translate(T x, T y, T z) {
@@ -261,7 +261,7 @@ class matrix4x4 {
 		m[14] = z;
 		*this = m * (*this);
 	}
-	static matrix4x4 Translation(vector3<T> v) {
+	static matrix4x4 Translation(const vector3<T> &v) {
 		return Translation(v.x, v.y, v.z);
 	}
 	static matrix4x4 Translation(T x, T y, T z) {

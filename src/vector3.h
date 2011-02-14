@@ -19,36 +19,37 @@ public:
 	vector3(const vector3<double> &v);
 	vector3(T val);
 	vector3(T _x, T _y, T _z);
-	vector3(const T vals[3]);
+	vector3(const float  vals[3]);
+	vector3(const double vals[3]);
 
-	const T& operator[] (const size_t i) const { return ((const T *)&x)[i]; }
-	T& operator[] (const size_t i) { return (&x)[i]; }
+	const T& operator[](const size_t i) const { return ((const T *)&x)[i]; }
+	T& operator[](const size_t i) { return (&x)[i]; }
 
-	vector3 operator+ (const vector3 a) const { return vector3 (a.x+x, a.y+y, a.z+z); }
-	vector3 &operator+= (const vector3 a) { x+=a.x; y+=a.y; z+=a.z; return *this; }
-	vector3 &operator-= (const vector3 a) { x-=a.x; y-=a.y; z-=a.z; return *this; }
-	vector3 &operator*= (const float a) { x*=a; y*=a; z*=a; return *this; }
-	vector3 &operator*= (const double a) { x*=a; y*=a; z*=a; return *this; }
-	vector3 &operator/= (const float a) { const T inva = (T)(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
-	vector3 &operator/= (const double a) { const T inva = (T)(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
-	vector3 operator- (const vector3 a) const { return vector3(x-a.x, y-a.y, z-a.z); }
-	vector3 operator- () const { return vector3(-x, -y, -z); }
-	bool operator== (const vector3 a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
-	bool operator!= (const vector3 a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
+	vector3 operator+(const vector3 &a) const { return vector3 (a.x+x, a.y+y, a.z+z); }
+	vector3 &operator+=(const vector3 &a) { x+=a.x; y+=a.y; z+=a.z; return *this; }
+	vector3 &operator-=(const vector3 &a) { x-=a.x; y-=a.y; z-=a.z; return *this; }
+	vector3 &operator*=(const float a) { x*=a; y*=a; z*=a; return *this; }
+	vector3 &operator*=(const double a) { x*=a; y*=a; z*=a; return *this; }
+	vector3 &operator/=(const float a) { const T inva = (T)(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
+	vector3 &operator/=(const double a) { const T inva = (T)(1.0/a); x*=inva; y*=inva; z*=inva; return *this; }
+	vector3 operator-(const vector3 &a) const { return vector3(x-a.x, y-a.y, z-a.z); }
+	vector3 operator-() const { return vector3(-x, -y, -z); }
+	bool operator==(const vector3 &a) const { return ((a.x==x)&&(a.y==y)&&(a.z==z)); }
+	bool operator!=(const vector3 &a) const { return ((a.x!=x)||(a.y!=y)||(a.z!=z)); }
 
-	friend vector3 operator* (const vector3 a, const float  scalar) { return vector3((T)(a.x*scalar), (T)(a.y*scalar), (T)(a.z*scalar)); }
-	friend vector3 operator* (const vector3 a, const double scalar) { return vector3((T)(a.x*scalar), (T)(a.y*scalar), (T)(a.z*scalar)); }
-	friend vector3 operator* (const float  scalar, const vector3 a) { return a*scalar; }
-	friend vector3 operator* (const double scalar, const vector3 a) { return a*scalar; }
-	friend vector3 operator/ (const vector3 a, const float  scalar) { const T inv = (T)(1.0/scalar); return vector3(a.x*inv, a.y*inv, a.z*inv); }
-	friend vector3 operator/ (const vector3 a, const double scalar) { const T inv = (T)(1.0/scalar); return vector3(a.x*inv, a.y*inv, a.z*inv); }
+	friend vector3 operator*(const vector3 &a, const float  scalar) { return vector3((T)(a.x*scalar), (T)(a.y*scalar), (T)(a.z*scalar)); }
+	friend vector3 operator*(const vector3 &a, const double scalar) { return vector3((T)(a.x*scalar), (T)(a.y*scalar), (T)(a.z*scalar)); }
+	friend vector3 operator*(const float  scalar, const vector3 &a) { return a*scalar; }
+	friend vector3 operator*(const double scalar, const vector3 &a) { return a*scalar; }
+	friend vector3 operator/(const vector3 &a, const float  scalar) { const T inv = (T)(1.0/scalar); return vector3(a.x*inv, a.y*inv, a.z*inv); }
+	friend vector3 operator/(const vector3 &a, const double scalar) { const T inv = (T)(1.0/scalar); return vector3(a.x*inv, a.y*inv, a.z*inv); }
 
 	// why did i ever make these awful static functions...
-	static vector3 Cross(const vector3 a, const vector3 b) { return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
-	static T Dot(const vector3 a, const vector3 b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
+	static vector3 Cross(const vector3 &a, const vector3 &b) { return vector3 (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); }
+	static T Dot(const vector3 &a, const vector3 &b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
 
-	vector3 Cross(const vector3 b) const { return vector3 (y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x); }
-	T Dot(const vector3 b) const { return x*b.x + y*b.y + z*b.z; }
+	vector3 Cross(const vector3 &b) const { return vector3 (y*b.z - z*b.y, z*b.x - x*b.z, x*b.y - y*b.x); }
+	T Dot(const vector3 &b) const { return x*b.x + y*b.y + z*b.z; }
 	T Length() const { return sqrt (x*x + y*y + z*z); }
 	vector3 Normalized() const { const T l = 1.0f / sqrt(x*x + y*y + z*z); return vector3(x*l, y*l, z*l); }
 
@@ -112,6 +113,8 @@ template<> inline vector3<double>::vector3(double val): x(val), y(val), z(val) {
 template<> inline vector3<float >::vector3(float  _x, float  _y, float  _z): x(_x), y(_y), z(_z) {}
 template<> inline vector3<double>::vector3(double _x, double _y, double _z): x(_x), y(_y), z(_z) {}
 template<> inline vector3<float >::vector3(const float  vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
+template<> inline vector3<float >::vector3(const double vals[3]): x((float)vals[0]), y((float)vals[1]), z((float)vals[2]) {}
+template<> inline vector3<double>::vector3(const float  vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
 template<> inline vector3<double>::vector3(const double vals[3]): x(vals[0]), y(vals[1]), z(vals[2]) {}
 
 #pragma pack()
