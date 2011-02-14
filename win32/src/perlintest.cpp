@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "mtrand.h"
 #include "perlin.h"
+#include "vector3.h"
+#include "matrix4x4.h"
+#include <vector>
 
 double testfunc()
 {	
@@ -55,7 +58,7 @@ int main(int argc, char **argv)
 	t3 = ReadTSC();
 	r += testfunc2();
 	t4 = ReadTSC();
-	
+
 	printf ("Times: %i, %i, %i: result %f\n", t2-t1, t3-t2, t4-t3, r);
 
 	getchar();

@@ -1046,7 +1046,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 	vector3d loc_v = cam_frame->GetOrientation().InverseOf() * vel;
 	m_velocityIndicatorOnscreen = false;
-	if (loc_v.z < 0) {
+	if (loc_v.z < 0 && !Pi::player->GetCombatTarget()) {
 		GLdouble pos[3];
 		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
 			
@@ -1087,9 +1087,9 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	m_targLeadOnscreen = false;
-	m_combatDist->SetEnabled(false);
-	m_combatSpeed->SetEnabled(false);
-	if (GetCamType() == CAM_FRONT && enemy)
+	m_combatDist->Hide();
+	m_combatSpeed->Hide();
+	if (GetCamType() == CAM_FRONT && enemy && enemy->IsOnscreen())
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
 		matrix4x4d prot = cam_frame->GetOrientation(); prot[12] = prot[13] = prot[14] = 0.0;
@@ -1107,39 +1107,33 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
+		// want to calculate closing velocity that you couldn't counter with retros
 
-		if (enemy->IsOnscreen())
-		{
-			// want to calculate closing velocity that you couldn't counter with retros
+		double dist = targpos.Length();
+		double vel = targvel.z;				// position should be towards
+		double raccel = Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE]
+			/ Pi::player->GetMass();
 
-			double dist = targpos.Length();
-			double vel = targvel.z;				// position should be towards
-			double raccel = Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE]
-				/ Pi::player->GetMass();
-
-			double c = vel / sqrt(2.0 * raccel * dist);
-			if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
-			float r = (float)(0.2+(c+1.0)*0.4);
-			float b = (float)(0.2+(1.0-c)*0.4);
-			m_combatSpeed->Color(r, 0.0f, b);
-			m_combatDist->Color(r, 0.0f, b);
+		double c = vel / sqrt(2.0 * raccel * dist);
+		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
+		float r = (float)(0.2+(c+1.0)*0.4);
+		float b = (float)(0.2+(1.0-c)*0.4);
+		m_combatSpeed->Color(r, 0.0f, b);
+		m_combatDist->Color(r, 0.0f, b);
 			
-			char buf[1024]; vector3d lpos;
-			snprintf(buf, sizeof(buf), "%.0fm", dist);
-			m_combatDist->SetText(buf);
-			lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
-			MoveChild(m_combatDist, lpos.x, lpos.y);
-			m_combatDist->SetEnabled(true);
+		char buf[1024]; vector3d lpos;
+		snprintf(buf, sizeof(buf), "%.0fm", dist);
+		m_combatDist->SetText(buf);
+		lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
+		MoveChild(m_combatDist, lpos.x, lpos.y);
+		m_combatDist->Show();
 
-			snprintf(buf, sizeof(buf), "%.0fm/s", vel);
-			m_combatSpeed->SetText(buf);
-			lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
-			MoveChild(m_combatSpeed, lpos.x, lpos.y);
-			m_combatSpeed->SetEnabled(true);
-		}
+		snprintf(buf, sizeof(buf), "%.0fm/s", vel);
+		m_combatSpeed->SetText(buf);
+		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
+		MoveChild(m_combatSpeed, lpos.x, lpos.y);
+		m_combatSpeed->Show();
 	}
-
-
 }
 
 void WorldView::Draw()
@@ -1152,7 +1146,7 @@ void WorldView::Draw()
 
 	const float sz = HUD_CROSSHAIR_SIZE;
 	// velocity indicator
-/*	if (m_velocityIndicatorOnscreen) {
+	if (m_velocityIndicatorOnscreen) {
 		const int *pos = m_velocityIndicatorPos;
 		GLfloat vtx[16] = {
 			pos[0]-sz, pos[1]-sz,
@@ -1166,24 +1160,6 @@ void WorldView::Draw()
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
-*/
-/*	if (m_targLeadOnscreen) {
-		int pos[2];
-		pos[0] = (int)m_targLeadPos[0];
-		pos[1] = (int)m_targLeadPos[1];
-		GLfloat vtx[16] = {
-			pos[0]-sz, pos[1]-sz,
-			pos[0]-0.5*sz, pos[1]-0.5*sz,
-			pos[0]+sz, pos[1]-sz,
-			pos[0]+0.5*sz, pos[1]-0.5*sz,
-			pos[0]+sz, pos[1]+sz,
-			pos[0]+0.5*sz, pos[1]+0.5*sz,
-			pos[0]-sz, pos[1]+sz,
-			pos[0]-0.5*sz, pos[1]+0.5*sz };
-		glVertexPointer(2, GL_FLOAT, 0, vtx);
-		glDrawArrays(GL_LINES, 0, 8);
-	}
-*/
 
 	// normal crosshairs
 	if (GetCamType() == WorldView::CAM_FRONT) {
@@ -1248,12 +1224,12 @@ void WorldView::DrawTargetSquares()
 
 void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 {
-	if(!target->IsOnscreen()) return;		// fix later
-
+	if (!target->IsOnscreen()) return;
 	vector3d pos1 = target->GetProjectedPos();
 	vector3d pos2 = m_targLeadPos;
-
-	vector3d dir = (pos2 - pos1).Normalized();
+	vector3d dir = (pos2 - pos1); dir.z = 0.0;
+	if (dir.Length() == 0.0 || !m_targLeadOnscreen) dir = vector3d(1,0,0);
+	else dir = dir.Normalized();
 
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
 	GLfloat vtx[28] = {
@@ -1271,15 +1247,15 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 		pos2[0]-10*dir[1], pos2[1]+10*dir[0],
 		pos2[0]+10*dir[1], pos2[1]-10*dir[0],
 
-		pos1[0]+10*dir[0], pos1[1]+10*dir[1],
-		pos2[0], pos2[1],
+		pos1[0]+20*dir[0], pos1[1]+20*dir[1],
+		pos2[0]-10*dir[0], pos2[1]-10*dir[1],
 	};
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vtx);
-	glDrawArrays(GL_LINES, 0, 14);
+	glDrawArrays(GL_LINES, 0, 8);
+	if (m_targLeadOnscreen) glDrawArrays(GL_LINES, 8, 6);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
-	
 }
 
 void WorldView::DrawTargetSquare(const Body* const target)
