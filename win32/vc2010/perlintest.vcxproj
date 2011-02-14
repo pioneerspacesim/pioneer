@@ -55,6 +55,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <AdditionalIncludeDirectories>..\..\src;..\..\win32\include</AdditionalIncludeDirectories>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -73,6 +74,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <AdditionalIncludeDirectories>..\..\src;..\..\win32\include</AdditionalIncludeDirectories>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
