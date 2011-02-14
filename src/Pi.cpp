@@ -962,6 +962,7 @@ void Pi::MainLoop()
 		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
+		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before

@@ -472,7 +472,7 @@ void WorldView::Draw3D()
 	const vector3d ppos(pposOrient[12], pposOrient[13], pposOrient[14]);
 
 	// make temporary camera frame at player
-	Frame cam_frame(Pi::player->GetFrame(), "", Frame::TEMP_VIEWING);
+	Frame cam_frame(Pi::player->GetFrame(), "camera", Frame::TEMP_VIEWING);
 
 	matrix4x4d camRot = matrix4x4d::Identity();
 
@@ -494,6 +494,8 @@ void WorldView::Draw3D()
 		camRot = prot * camRot;
 	}
 	cam_frame.SetRotationOnly(camRot);
+	// make sure old orient and interpolated orient (rendering orient) are not rubbish
+	cam_frame.ClearMovement();
 
 	matrix4x4d trans2bg;
 	Frame::GetFrameTransform(Space::rootFrame, &cam_frame, trans2bg);

@@ -54,6 +54,15 @@ public:
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 	static vector3d GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo);
+	/** Same as GetFrameTransform except it does interpolation between
+	  * physics ticks so rendering is smooth above physics hz */
+	static void GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
+	void UpdateInterpolatedTransform(double alpha);
+	void ClearMovement() {
+		m_oldOrient = m_interpolatedTransform = m_orient;
+		m_oldAngDisplacement = vector3d(0.0);
+	}
+
 
 	bool IsLocalPosInFrame(const vector3d &pos) {
 		return (pos.Length() < m_radius);
@@ -71,7 +80,10 @@ private:
 	vector3d m_vel; // note we don't use this to move frame. rather,
 			// orbital rails determine velocity.
 	vector3d m_angVel; // this however *is* directly applied (for rotating frames)
+	vector3d m_oldAngDisplacement;
 	matrix4x4d m_orient;
+	matrix4x4d m_oldOrient;
+	matrix4x4d m_interpolatedTransform;
 	std::string m_label;
 	double m_radius;
 	int m_flags;
