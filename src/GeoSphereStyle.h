@@ -14,12 +14,6 @@ struct fracdef_t {
 
 class GeoSphereStyle {
 	public:
-	enum ContinentFractal {
-		CONTINENT_FLAT,
-		CONTINENT_SIMPLE,
-		CONTINENT_VOLCANIC_MARE,
-	};
-
 	enum TerrainFractal {
 		TERRAIN_NONE,
 		TERRAIN_HILLS_NORMAL,
@@ -28,6 +22,8 @@ class GeoSphereStyle {
 		TERRAIN_MOUNTAINS_NORMAL,
 		TERRAIN_MOUNTAINS_RIDGED,
 		TERRAIN_MOUNTAINS_RIVERS,
+		TERRAIN_H2O_SOLID,
+		TERRAIN_RUGGED_DESERT,
 		TERRAIN_ASTEROID,
 		TERRAIN_GASGIANT,
 		TERRAIN_MAX = TERRAIN_GASGIANT
@@ -78,7 +74,6 @@ class GeoSphereStyle {
 	void InitHeightMap(const SBody *sbody);
 	void SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters = 20.0);
 
-	ContinentFractal m_continentType;
 	TerrainFractal m_terrainType;
 	ColorFractal m_colorType;
 	Uint32 m_seed;
@@ -100,22 +95,18 @@ class GeoSphereStyle {
 	double m_invMaxHeight;
 	double m_planetRadius;
 	double m_planetEarthRadii;
-	double noise1;
-	double noise2;
-	double noise3;
+	double m_noise1;
+	double m_noise2;
+	double m_noise3;
 
 	double m_entropy[12];
 
 	vector3d m_rockColor[8];
 	vector3d m_greyrockColor[8];
 
-	struct {
-		fracdef_t continents;
-		fracdef_t midTerrain;
-		fracdef_t midDistrib;
-		fracdef_t localTerrain;
-		fracdef_t localDistrib;
-	} targ;
+	/* XXX you probably shouldn't increase this. If you are
+	   using more than 10 then things will be slow as hell */
+	fracdef_t m_fracdef[10];
 };
 
 #endif /* GEOSPHERESTYLE_H */
