@@ -87,105 +87,77 @@ private:
 	Gui::ToolTip *m_message;
 };
 
-/*class VideoLink: public Gui::Widget {
+class VideoLink: public Gui::Widget {
 public:
-	void PutRandomCrapIntoTexture() {
-		int *randcrap = (int*)alloca(TEXSIZE*TEXSIZE);
-		for (unsigned int i=0; i<TEXSIZE*TEXSIZE/sizeof(int); i++) randcrap[i] = (Pi::rng.Int32() & 0xfcfcfcfc) >> 2;
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, randcrap);
-	}
-	void RandomFace() {
-			MTRand rand;
-	const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
-	int eyes_seed  = sbody->seed ;
-
-	if (eyes_seed < 0) {
-		eyes_seed  = eyes_seed * -1.0f ;
-	}
-
-	int face_seed  = eyes_seed %20;
-	int mouth_seed = eyes_seed %80 ;
-	int nose_seed  = eyes_seed ;
-	int hair_seed  = eyes_seed %100 ;
-	int extr1_seed = eyes_seed %240 ;
-	int extr2_seed = eyes_seed %1500 ;
-	int sex_seed   = eyes_seed %1 ;
-	int race_seed  = eyes_seed %3 ;
-	int cloth_seed = eyes_seed %40 ;
-	eyes_seed      = rand.Int32(0,eyes_seed);
-	eyes_seed      = eyes_seed %20 ;
-	mouth_seed     = rand.Int32(0,mouth_seed);
-	mouth_seed     = mouth_seed * 0.25f ;
-	nose_seed      = rand.Int32(0,nose_seed);
-	nose_seed      = nose_seed * rand.Int32(0,1);
-	nose_seed      = nose_seed %20 ;
-	hair_seed      = hair_seed * 0.2f ;
-	extr1_seed     = extr1_seed / 12.0f ;
-	extr2_seed     = extr2_seed / 75.0f ;
-	cloth_seed     = rand.Int32(0,cloth_seed);
-	cloth_seed     = cloth_seed %20 ;
-	race_seed      = 0 ;
-
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/head/head_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 10, 40);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"   
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/eyes/eyes_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 89, 144);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/" 
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/nose/nose_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 123, 192);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"  
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/mouth/mouth_%d" , sex_seed))
-		+ (stringf(64, "_%d", face_seed)) + ".png").c_str()), 114, 224);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"  
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/hair/hair_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 10, 40);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/clothes/"
-		+ (stringf(64, "cloth_%d", face_seed)) + ".png").c_str()), 10, 185);
 	
-	Add(new Gui::Label(stringf(64, "Face:   %d", face_seed )), 10, 50);
-	Add(new Gui::Label(stringf(64, "Eyes:   %d", eyes_seed )), 10, 60);
-	Add(new Gui::Label(stringf(64, "Mouth:  %d", mouth_seed)), 10, 70);
-	Add(new Gui::Label(stringf(64, "Nose:   %d", nose_seed )), 10, 80);
-	Add(new Gui::Label(stringf(64, "Hair:   %d", hair_seed )), 10, 90);
-	Add(new Gui::Label(stringf(64, "Clothes:%d", cloth_seed)), 10, 100);
-	Add(new Gui::Label(stringf(64, "Extra1: %d", extr1_seed)), 10, 110);
-	Add(new Gui::Label(stringf(64, "Extra2: %d", extr2_seed)), 10, 120);
-	Add(new Gui::Label(stringf(64, "Sex:    %d", sex_seed  )), 10, 130);
-	Add(new Gui::Label(stringf(64, "Race:   %d", race_seed )), 10, 140);
-		
-	}
 	VideoLink(float w, float h) {
+		MTRand rand;
+		const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
+		int eyes_seed  = sbody->seed ;
 
+		if (eyes_seed < 0) {
+			eyes_seed  = eyes_seed * -1.0f ;
+		}
+
+		int face_seed  = eyes_seed %20;
+		int mouth_seed = eyes_seed %80 ;
+		int nose_seed  = eyes_seed ;
+		int hair_seed  = eyes_seed %100 ;
+		int extr1_seed = eyes_seed %240 ;
+		int extr2_seed = eyes_seed %1500 ;
+		int sex_seed   = eyes_seed %1 ;
+		int race_seed  = eyes_seed %3 ;
+		int cloth_seed = eyes_seed %40 ;
+		eyes_seed      = rand.Int32(0,eyes_seed);
+		eyes_seed      = eyes_seed %20 ;
+		mouth_seed     = rand.Int32(0,mouth_seed);
+		mouth_seed     = mouth_seed * 0.25f ;
+		nose_seed      = rand.Int32(0,nose_seed);
+		nose_seed      = nose_seed * rand.Int32(0,1);
+		nose_seed      = nose_seed %20 ;
+		hair_seed      = hair_seed * 0.2f ;
+		extr1_seed     = extr1_seed / 12.0f ;
+		extr2_seed     = extr2_seed / 75.0f ;
+		cloth_seed     = rand.Int32(0,cloth_seed);
+		cloth_seed     = cloth_seed %20 ;
+		race_seed      = 0 ;
 		m_w = w; m_h = h;
 		m_created = SDL_GetTicks();
-		m_message = new Gui::ToolTip("Video link down");
-		glEnable (GL_TEXTURE_2D);
-		glGenTextures (1, &m_tex);
-		glBindTexture (GL_TEXTURE_2D, m_tex);
-		PutRandomCrapIntoTexture();
-		//RandomFace();
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glDisable (GL_TEXTURE_2D);
+		m_message = new Gui::ToolTip("Video link established");
+		std::string str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/head/head_%d_%d.png", race_seed, sex_seed, face_seed);
+		printf("%s\n", str.c_str());
+		m_face = new Gui::Image(("" + str).c_str());
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/eyes/eyes_%d_%d.png", race_seed, sex_seed, eyes_seed);
+		printf("%s\n", str.c_str());
+		m_eyes = new Gui::Image(("" + str).c_str());
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/nose/nose_%d_%d.png", race_seed, sex_seed, nose_seed);
+		printf("%s\n", str.c_str());
+		m_nose = new Gui::Image(("" + str).c_str());
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/mouth/mouth_%d_%d.png", race_seed, sex_seed, mouth_seed);
+		printf("%s\n", str.c_str());
+		m_mouth = new Gui::Image(("" + str).c_str());
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/hair/hair_%d_%d.png", race_seed, sex_seed, hair_seed);
+		printf("%s\n", str.c_str());
+		m_hair = new Gui::Image(("" + str).c_str());
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/clothes/cloth_%d.png", cloth_seed);
+		printf("%s\n", str.c_str());
+		m_cloth = new Gui::Image(("" + str).c_str());
+
 	}
 	virtual ~VideoLink() {
-		glDeleteTextures(1, &m_tex);
+
 		delete m_message;
+		delete m_face;
+		delete m_eyes;
+		delete m_nose;
+		delete m_mouth;
+		delete m_hair;
+		delete m_cloth;
 	}
 	virtual void Draw() {
 		float size[2]; GetSize(size);
 		if (SDL_GetTicks() - m_created < 1500) {
 			m_message->SetText("Connecting...");
-			//RandomFace();
 			glBegin(GL_QUADS);
 				glColor3f(0,0,0);
 				glVertex2f(0,0);
@@ -195,11 +167,10 @@ public:
 			glEnd();
 			DrawMessage();
 		} else {
-			m_message->SetText("Video link down");
+			m_message->SetText("Video link established.");
 
 			glEnable (GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, m_tex);
-			PutRandomCrapIntoTexture();
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 			glBegin(GL_QUADS);
 				glColor3f(0,0,0);
@@ -213,6 +184,7 @@ public:
 				glVertex2f(size[0],0);
 			glEnd();
 			glDisable (GL_TEXTURE_2D);
+			DrawFace();
 			if (SDL_GetTicks() & 0x400) {
 				DrawMessage();
 			}
@@ -229,96 +201,60 @@ private:
 		GetSize(size);
 		m_message->GetSize(msgSize);
 		glPushMatrix();
-		glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]*0.5f-msgSize[1]*0.5f, 0);
+		if (SDL_GetTicks() - m_created < 1500) {
+			glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]*0.5f-msgSize[1]*0.5f, 0);
+		} else {
+			glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, 0, 0);
+		}
+		
 		m_message->Draw();
 		glPopMatrix();
+	}
+	void DrawFace() {
+		float size[2];
+		GetSize(size);
+		m_face->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
+		m_face->Draw();	
+		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
+		m_cloth->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
+		m_cloth->Draw();
+		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
+		m_eyes->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 142 - size[1], 0);
+		m_eyes->Draw();
+		glTranslatef((size[0] - 295)*0.5f, size[1] -142, 0);
+		m_nose->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 174 - size[1], 0);
+		m_nose->Draw();
+		glTranslatef((size[0] - 295)*0.5f, size[1] -174, 0);
+		m_mouth->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 212 - size[1], 0);
+		m_mouth->Draw();
+		glTranslatef((size[0] - 295)*0.5f, size[1] -212, 0);
+		m_hair->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
+		m_hair->Draw();
+		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
 	}
 	Uint32 m_created;
 	GLuint m_tex;
 	float m_w, m_h;
 	Gui::ToolTip *m_message;
-};*/
-
-void GenericChatForm::AddFaceWidget()
-{
-	//SpaceStation *name = Pi::player->GetDockedWith();
-
-	//This crap is to do with randomly generating faces
-	MTRand rand;
-	const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
-	int eyes_seed  = sbody->seed ;
-
-	if (eyes_seed < 0) {
-		eyes_seed  = eyes_seed * -1.0f ;
-	}
-
-	int face_seed  = eyes_seed %20;
-	int mouth_seed = eyes_seed %80 ;
-	int nose_seed  = eyes_seed ;
-	int hair_seed  = eyes_seed %100 ;
-	int extr1_seed = eyes_seed %240 ;
-	int extr2_seed = eyes_seed %1500 ;
-	int sex_seed   = eyes_seed %1 ;
-	int race_seed  = eyes_seed %3 ;
-	int cloth_seed = eyes_seed %40 ;
-	eyes_seed      = rand.Int32(0,eyes_seed);
-	eyes_seed      = eyes_seed %20 ;
-	mouth_seed     = rand.Int32(0,mouth_seed);
-	mouth_seed     = mouth_seed * 0.25f ;
-	nose_seed      = rand.Int32(0,nose_seed);
-	nose_seed      = nose_seed * rand.Int32(0,1);
-	nose_seed      = nose_seed %20 ;
-	hair_seed      = hair_seed * 0.2f ;
-	extr1_seed     = extr1_seed / 12.0f ;
-	extr2_seed     = extr2_seed / 75.0f ;
-	cloth_seed     = rand.Int32(0,cloth_seed);
-	cloth_seed     = cloth_seed %20 ;
-	race_seed      = 0 ;
-
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/head/head_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 10, 40);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"   
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/eyes/eyes_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 89, 144);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/" 
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/nose/nose_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 123, 192);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"  
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/mouth/mouth_%d" , sex_seed))
-		+ (stringf(64, "_%d", face_seed)) + ".png").c_str()), 114, 224);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/"  
-		+ (stringf(64, "race_%d" , race_seed))
-		+ (stringf(64, "/hair/hair_%d" , sex_seed))
-		+ (stringf(64, "_%d" , face_seed)) + ".png").c_str()), 10, 40);
-	Add(new Gui::Image((PIONEER_DATA_DIR "/icons/facegen/clothes/"
-		+ (stringf(64, "cloth_%d", face_seed)) + ".png").c_str()), 10, 185);
-
-	
-	Add(new Gui::Label(stringf(64, "Face:   %d", face_seed )), 10, 50);
-	Add(new Gui::Label(stringf(64, "Eyes:   %d", eyes_seed )), 10, 60);
-	Add(new Gui::Label(stringf(64, "Mouth:  %d", mouth_seed)), 10, 70);
-	Add(new Gui::Label(stringf(64, "Nose:   %d", nose_seed )), 10, 80);
-	Add(new Gui::Label(stringf(64, "Hair:   %d", hair_seed )), 10, 90);
-	Add(new Gui::Label(stringf(64, "Clothes:%d", cloth_seed)), 10, 100);
-	Add(new Gui::Label(stringf(64, "Extra1: %d", extr1_seed)), 10, 110);
-	Add(new Gui::Label(stringf(64, "Extra2: %d", extr2_seed)), 10, 120);
-	Add(new Gui::Label(stringf(64, "Sex:    %d", sex_seed  )), 10, 130);
-	Add(new Gui::Label(stringf(64, "Race:   %d", race_seed )), 10, 140);
-
-	onClose.emit(this);
-}
+	Gui::Image *m_face;
+	Gui::Image *m_eyes;
+	Gui::Image *m_nose;
+	Gui::Image *m_hair;
+	Gui::Image *m_mouth;
+	Gui::Image *m_cloth;
+};
 
 
 void GenericChatForm::AddVideoWidget()
 {
-	Add(new DeadVideoLink(295,285), 5, 40);
-	//Add(new VideoLink(295,285), 5, 40);
-	 AddFaceWidget();
+	Add(new VideoLink(295,285), 5, 40);
+	//AddFaceWidget();
 }
 
 
