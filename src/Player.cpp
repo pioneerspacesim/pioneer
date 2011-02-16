@@ -93,36 +93,8 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	}
 }
 
-// Test code here
 void Player::TimeStepUpdate(const float timeStep)
 {
-/*	vector3d input(0.0, 0.0, 0.0);
-	if (KeyBindings::yawLeft.IsActive()) input.y += 1.0;
-	if (KeyBindings::yawRight.IsActive()) input.y += -1.0;
-	if (KeyBindings::pitchDown.IsActive()) input.x += -1.0;
-	if (KeyBindings::pitchUp.IsActive()) input.x += 1.0;
-	if (KeyBindings::rollLeft.IsActive()) input.z += 1.0;
-	if (KeyBindings::rollRight.IsActive()) input.z += -1.0;
-
-	const ShipType &stype = GetShipType();
-	AddRelTorque(input * stype.angThrust);
-	m_accumTorque += input * stype.angThrust;
-
-	static int facedir = 0;
-	if (KeyBindings::increaseSpeed.IsActive()) facedir = 1;
-	if (KeyBindings::decreaseSpeed.IsActive()) facedir = 0;
-
-	if (facedir)
-	{
-		ClearThrusterState();
-		vector3d dir = (GetCombatTarget()->GetPosition() - GetPosition()).Normalized();
-		AIFaceDirection(dir);
-		AddRelTorque(GetAngThrusterState() * stype.angThrust);
-		m_accumTorque += GetAngThrusterState() * stype.angThrust;
-	}
-
-	DynamicBody::TimeStepUpdate(timeStep);
-*/
 	Ship::TimeStepUpdate(timeStep);
 }
 
@@ -186,12 +158,17 @@ void Player::StaticUpdate(const float timeStep)
 	}
 }
 
-#define MOUSE_CTRL_AREA		10.0f
-#define MOUSE_RESTITUTION	0.75f
+// mouse wraparound control function
+static double clipmouse(double cur, double inp)
+{
+	if (cur*cur > 0.7 && cur*inp > 0) return 0.0;
+	if (inp > 0.2) return 0.2;
+	if (inp < -0.2) return -0.2;
+	return inp;
+}
 
 void Player::PollControls(const float timeStep)
 {
-	int mouseMotion[2];
 	double time_accel = Pi::GetTimeAccel();
 	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
@@ -200,19 +177,6 @@ void Player::PollControls(const float timeStep)
 	    (GetFlightState() != FLYING)) {
 		return;
 	}
-/*
-	// TEST: Test code for AI functions
-	static int facedir = 0;
-	if (KeyBindings::thrustUp.IsActive() && !facedir) {
-		AIInstruct(Ship::DO_KILL, GetCombatTarget());
-		facedir = 1;
-	}
- 	if (KeyBindings::thrustDown.IsActive() && facedir) {
-		AIClearInstructions();
-		facedir = 0;
-	}
-	if (facedir) { AITimeStep(timeStep); return; }
-*/
 
 	// if flying 
 	{
@@ -221,18 +185,29 @@ void Player::PollControls(const float timeStep)
 		vector3f wantAngVel(0.0f);
 
 		// have to use this function. SDL mouse position event is bugged in windows
+		int mouseMotion[2];
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
 		if (Pi::MouseButtonState(3)) {
 			matrix4x4d rot; GetRotMatrix(rot);
 			if (!m_mouseActive) {
 				m_mouseDir = vector3d(-rot[8],-rot[9],-rot[10]);	// in world space
+				m_mouseX = m_mouseY = 0;
 				m_mouseActive = true;
 			}
-			double mousex = mouseMotion[0] * 0.002;
-			double mousey = mouseMotion[1] * 0.002;		// factor pixels => radians
-			// todo: probably needs a clamp at 90-180 degrees
-			matrix4x4d mrot = matrix4x4d::RotateYMatrix(mousex); mrot.RotateX(mousey);
-			m_mouseDir = (rot * (mrot * (m_mouseDir * rot))).Normalized();			// lol
+			vector3d objDir = m_mouseDir * rot;
+
+			m_mouseX += mouseMotion[0] * 0.002;
+			double modx = clipmouse(objDir.x, m_mouseX);			
+			m_mouseX -= modx;
+
+			m_mouseY += mouseMotion[1] * 0.002;		// factor pixels => radians
+			double mody = clipmouse(objDir.y, m_mouseY);
+			m_mouseY -= mody;
+
+			if(modx != 0.0 || mody != 0.0) {
+				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
+				m_mouseDir = (rot * (mrot * (m_mouseDir * rot))).Normalized();			// lol
+			}
 		}
 		else m_mouseActive = false;
 		

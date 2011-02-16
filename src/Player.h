@@ -37,8 +37,8 @@ protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 private:
-//	float m_mouseCMov[2];
 	vector3d m_mouseDir;
+	double m_mouseX, m_mouseY;
 	bool m_mouseActive;
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
