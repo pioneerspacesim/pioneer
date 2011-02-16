@@ -187,7 +187,8 @@ void Player::PollControls(const float timeStep)
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
-		if (Pi::MouseButtonState(3)) {
+		if (Pi::MouseButtonState(3))
+		{
 			matrix4x4d rot; GetRotMatrix(rot);
 			if (!m_mouseActive) {
 				m_mouseDir = vector3d(-rot[8],-rot[9],-rot[10]);	// in world space
@@ -206,7 +207,7 @@ void Player::PollControls(const float timeStep)
 
 			if(modx != 0.0 || mody != 0.0) {
 				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
-				m_mouseDir = (rot * (mrot * (m_mouseDir * rot))).Normalized();			// lol
+				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
 		}
 		else m_mouseActive = false;

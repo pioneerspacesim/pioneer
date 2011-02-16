@@ -502,8 +502,6 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 
 void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
-	const ShipType &stype = GetShipType();
-	
 	// OK. For rotating frames linked to space stations we want to set
 	// speed relative to non-rotating frame (so we apply Frame::GetStasisVelocityAtPosition.
 	// For rotating frames linked to planets we want to set velocity relative to
@@ -513,9 +511,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 		relVel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
 	}
 	matrix4x4d m; GetRotMatrix(m);
-	relVel = m.InverseOf() * relVel;
-
-	vector3d difVel = v - relVel;		// required change in velocity
+	vector3d difVel = v - (relVel * m);		// required change in velocity
 
 	vector3d maxThrust = GetMaxThrust(difVel);
 	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
@@ -584,3 +580,85 @@ void Ship::AIOrbit(Body *target, double alt)
 	AIClearInstructions();
 	m_curAICmd = new AICmdOrbit(this, target, alt);
 }
+
+static double calc_ivel(double dist, double vel, double posacc, double negacc)
+{
+	double acc = negacc; bool inv = false;
+	if (dist < 0) { acc = posacc; dist = -dist; vel = -vel; inv = true; }
+	double ivel = sqrt(vel*vel + 2.0 * acc * dist);
+
+	double endvel = ivel - (acc * Pi::GetTimeStep());
+	if (endvel <= vel) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
+	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
+	if (inv) ivel = -ivel;
+	return ivel;
+}
+
+// kinda heavyweight - makes no assumptions about facing
+// targpos is in ship's frame
+// targvel is in direction of motion
+// returns distance from target pos
+
+double Ship::AIMatchPosVel(Body *body, vector3d &posoff, double targvel, bool flip)
+{
+	matrix4x4d trot, tran; body->GetRotMatrix(trot);
+	Frame::GetFrameTransform(body->GetFrame(), GetFrame(), tran);
+	vector3d targpos = tran * (trot * posoff + body->GetPosition());
+
+	// That should be targpos in this ship's frame
+	matrix4x4d rot; GetRotMatrix(rot);
+	vector3d relpos = (targpos - GetPosition()) * rot;
+	vector3d relvel = targvel * relpos.Normalized();
+	if (relpos.Length() < 1.0) relvel = vector3d(0,0,0);
+
+	// get all six thruster values (values are positive)
+	double invmass = 1.0 / GetMass();
+	vector3d paccel = GetMaxThrust(vector3d(1,1,1)) * invmass;
+	vector3d naccel = GetMaxThrust(vector3d(-1,-1,-1)) * invmass;
+	if (flip) paccel.z = naccel.z;			// assume rear thrust most powerful
+
+	// find ideal velocities at current time given reverse thrust level
+	vector3d ivel;
+	ivel.x = calc_ivel(relpos.x, relvel.x, paccel.x, naccel.x);
+	ivel.y = calc_ivel(relpos.y, relvel.y, paccel.y, naccel.y);
+	ivel.z = calc_ivel(relpos.z, relvel.z, paccel.z, naccel.z);
+
+	vector3d objvel = GetVelocityRelativeTo(body) * rot;
+	vector3d diffvel = ivel - objvel;		// required change in velocity
+	vector3d maxThrust = GetMaxThrust(diffvel);
+	vector3d maxFrameAccel = maxThrust * (Pi::GetTimeStep() / GetMass());
+
+	SetThrusterState(0, diffvel.x / maxFrameAccel.x);
+	SetThrusterState(1, diffvel.y / maxFrameAccel.y);
+	SetThrusterState(2, diffvel.z / maxFrameAccel.z);	// use clamping
+
+	return relpos.Length();
+//	AIAccelToModelRelativeVelocity(ivel)
+}
+
+/*
+	if (relpos.x > 0) {
+		ivel.x = targvel.x + sqrt(2.0 * naccel.x * relpos.x);
+		ivel.x = discrete_correction(ivel.x, naccel.x, relpos.x, targvel.x);
+	} else {
+		ivel.x = -targvel.x + sqrt(2.0 * paccel.x * -relpos.x);
+		ivel.x = discrete_correction(ivel.x, paccel.x, -relpos.x, -targvel.x);
+		ivel.x = -ivel.x;
+	}
+	if (relpos.y > 0) {
+		ivel.y = targvel.y + sqrt(2.0 * naccel.y * relpos.y);
+		ivel.y = discrete_correction(ivel.y, naccel.y, relpos.y, targvel.y);
+	} else {
+		ivel.y = -targvel.y + sqrt(2.0 * paccel.y * -relpos.y);
+		ivel.y = discrete_correction(ivel.y, paccel.y, -relpos.y, -targvel.y);
+		ivel.y = -ivel.y;
+	}
+	if (relpos.z > 0) {
+		ivel.z = targvel.z + sqrt(2.0 * naccel.z * relpos.z);
+		ivel.z = discrete_correction(ivel.z, naccel.z, relpos.z, targvel.z);
+	} else {
+		ivel.z = -targvel.z + sqrt(2.0 * paccel.z * -relpos.z);
+		ivel.z = discrete_correction(ivel.z, paccel.z, -relpos.z, -targvel.z);
+		ivel.z = -ivel.z;
+	}
+*/

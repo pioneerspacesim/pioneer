@@ -367,6 +367,10 @@ bool AICmdOrbit::TimeStepUpdate()
 	return m_ship->AIFollowPath(m_path);
 }
 
+
+
+
+/*
 bool AICmdFlyTo::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
@@ -416,6 +420,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	return m_ship->AIFollowPath(m_path);
 }
+*/
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
@@ -621,6 +626,7 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 bool AICmdKill::TimeStepUpdate()
 {
+return false;
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
 	const ShipType &stype = m_ship->GetShipType();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
@@ -879,3 +885,41 @@ bool AICmdKill::TimeStepUpdate()
 	return false;
 }
 */
+
+
+bool AICmdFlyTo::TimeStepUpdate()
+{
+	if (!ProcessChild()) return false;
+
+/*	// calculate in target frame because it's easier with these functions
+	matrix4x4d trot, tran; m_target->GetRotMatrix(trot);
+	vector3d targpos = trot * m_posoff - m_ship->GetPositionRelTo(m_target);
+	vector3d targvel = trot * m_veloff - m_ship->GetVelocityRelativeTo(m_target);
+
+	// that gives target+offset position in target's frame, so translate
+	Frame::GetFrameTransform(m_target->GetFrame(), m_ship->GetFrame(), tran);
+	targpos = tran * targpos;
+	targvel = tran * targvel;
+*/	
+
+/*	matrix4x4d trot, tran; m_target->GetRotMatrix(trot);
+	vector3d targpos = trot * m_posoff + m_target->GetPosition();
+	vector3d targvel = trot * m_veloff + m_target->GetVelocity();
+
+	// that gives target+offset position in target's frame, so translate
+	Frame::GetFrameTransform(m_target->GetFrame(), m_ship->GetFrame(), tran);
+	targpos = tran * targpos;
+	targvel = tran * targvel;
+*/
+
+
+	// now have target pos & vel in ship's frame
+//	m_ship->FaceDirection(targpos.Normalized());
+	double dist = m_ship->AIMatchPosVel(m_target, m_posoff, 0.0);	//m_endvel, false);
+	if (dist < 10.0) {
+//		test, cancel thrust?
+//		return true;
+	}
+
+	return false;
+}

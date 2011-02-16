@@ -109,6 +109,7 @@ private:
 	double m_orbitHeight;
 };
 
+/*
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
@@ -140,6 +141,47 @@ private:
 	Body *m_target;
 	AIPath m_path;
 };
+*/
+
+
+class AICmdFlyTo : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO) {
+		m_target = target;
+		m_posoff = vector3d(0,0,500);
+		m_endvel = 10;
+	}
+	AICmdFlyTo(Ship *ship, Body *target, AIPath &path) : AICommand (ship, CMD_FLYTO) {
+		m_target = target;
+		m_posoff = vector3d(0,0,0);
+		m_endvel = 0;
+	}
+
+	virtual void Save(Serializer::Writer &wr) {
+		AICommand::Save(wr);
+		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Vector3d(m_posoff);
+		wr.Double(m_endvel);
+	}
+	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
+		m_target = (SpaceStation *)rd.Int32();
+		vector3d m_posoff = rd.Vector3d();
+		vector3d m_endvel = rd.Double();
+	}
+	virtual void PostLoadFixup() {
+		AICommand::PostLoadFixup();
+		m_target = Serializer::LookupBody((size_t)m_target);
+	}
+
+private:
+	Body *m_target;
+	vector3d m_posoff;
+	double m_endvel;
+};
+
+
+
 
 class AICmdKill : public AICommand {
 public:

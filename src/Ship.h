@@ -123,7 +123,9 @@ public:
 	void UseECM();
 
 	void AIFaceDirection(const vector3d &dir, double av=0.0);
-	vector3d AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex);
+	double AIMatchPosVel(Body *target, vector3d &targpos, double targvel, bool flip=false);
+	vector3d AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex=0);
+
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);

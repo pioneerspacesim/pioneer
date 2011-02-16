@@ -606,7 +606,7 @@ void ApplyGravity()
 			const double r = b1b2.Length();
 			const double force = G*m1m2 / (r*r);
 			b1b2 = b1b2.Normalized() * force;
-			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
+//			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
 		}
 	}
 
