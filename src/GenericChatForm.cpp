@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "GenericChatForm.h"
 
-#define TEXSIZE	128
+#define TEXSIZE	512
 
 class DeadVideoLink: public Gui::Widget {
 public:
@@ -222,17 +222,17 @@ private:
 		m_cloth->Draw();
 		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
 		m_eyes->GetSize(size);
-		glTranslatef((295 - size[0])*0.5f, 142 - size[1], 0);
+		glTranslatef((295 - size[0])*0.5f, 189 - size[1], 0);
 		m_eyes->Draw();
-		glTranslatef((size[0] - 295)*0.5f, size[1] -142, 0);
+		glTranslatef((size[0] - 295)*0.5f, size[1] -189, 0);
 		m_nose->GetSize(size);
-		glTranslatef((295 - size[0])*0.5f, 174 - size[1], 0);
+		glTranslatef((295 - size[0])*0.5f, 221.5 - size[1], 0);
 		m_nose->Draw();
-		glTranslatef((size[0] - 295)*0.5f, size[1] -174, 0);
+		glTranslatef((size[0] - 295)*0.5f, size[1] -221.5, 0);
 		m_mouth->GetSize(size);
-		glTranslatef((295 - size[0])*0.5f, 212 - size[1], 0);
+		glTranslatef((295 - size[0])*0.5f, 225 - size[1], 0);
 		m_mouth->Draw();
-		glTranslatef((size[0] - 295)*0.5f, size[1] -212, 0);
+		glTranslatef((size[0] - 295)*0.5f, size[1] -225, 0);
 		m_hair->GetSize(size);
 		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
 		m_hair->Draw();
@@ -254,6 +254,7 @@ private:
 void GenericChatForm::AddVideoWidget()
 {
 	Add(new VideoLink(295,285), 5, 40);
+	//Add(new DeadVideoLink(295,285), 5, 40);
 	//AddFaceWidget();
 }
 
