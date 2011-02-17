@@ -26,18 +26,18 @@
 static int fastfloor( const double x ) { return x > 0 ? (int) x : (int) x - 1; }
 
 //static double dot( const int* g, const double x, const double y ) { return g[0]*x + g[1]*y; }
-static double dot( const int* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
+static double dot( const double* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
 //static double dot( const int* g, const double x, const double y, const double z, const double w ) { return g[0]*x + g[1]*y + g[2]*z + g[3]*w; }
 
 // The gradients are the midpoints of the vertices of a cube.
-static const int grad3[12][3] = {
+static const double grad3[12][3] = {
 	{1,1,0}, {-1,1,0}, {1,-1,0}, {-1,-1,0},
 	{1,0,1}, {-1,0,1}, {1,0,-1}, {-1,0,-1},
 	{0,1,1}, {0,-1,1}, {0,1,-1}, {0,-1,-1}
 };
 
 // Permutation table.  The same list is repeated twice.
-static const int perm[512] = {
+static const unsigned char perm[512] = {
 	151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
 	8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,
 	35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,
@@ -65,19 +65,29 @@ static const int perm[512] = {
 	138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
 
+static const unsigned char mod12[] = {
+	0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,
+	11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,
+	10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,
+	9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,
+	8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,
+	7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,
+	6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,
+	5,6,7,8,9,10,11,0,1,2,
+};
 
 // 3D raw Simplex noise
 double noise( const double x, const double y, const double z ) {
 	double n0, n1, n2, n3; // Noise contributions from the four corners
 
 	// Skew the input space to determine which simplex cell we're in
-	double F3 = 1.0/3.0;
+	const double F3 = 1.0/3.0;
 	double s = (x+y+z)*F3; // Very nice and simple skew factor for 3D
 	int i = fastfloor(x+s);
 	int j = fastfloor(y+s);
 	int k = fastfloor(z+s);
 
-	double G3 = 1.0/6.0; // Very nice and simple unskew factor, too
+	const double G3 = 1.0/6.0; // Very nice and simple unskew factor, too
 	double t = (i+j+k)*G3;
 	double X0 = i-t; // Unskew the cell origin back to (x,y,z) space
 	double Y0 = j-t;
@@ -121,10 +131,10 @@ double noise( const double x, const double y, const double z ) {
 	int ii = i & 255;
 	int jj = j & 255;
 	int kk = k & 255;
-	int gi0 = perm[ii+perm[jj+perm[kk]]] % 12;
-	int gi1 = perm[ii+i1+perm[jj+j1+perm[kk+k1]]] % 12;
-	int gi2 = perm[ii+i2+perm[jj+j2+perm[kk+k2]]] % 12;
-	int gi3 = perm[ii+1+perm[jj+1+perm[kk+1]]] % 12;
+	int gi0 = mod12[perm[ii+perm[jj+perm[kk]]]];
+	int gi1 = mod12[perm[ii+i1+perm[jj+j1+perm[kk+k1]]]];
+	int gi2 = mod12[perm[ii+i2+perm[jj+j2+perm[kk+k2]]]];
+	int gi3 = mod12[perm[ii+1+perm[jj+1+perm[kk+1]]]];
 
 	// Calculate the contribution from the four corners
 	double t0 = 0.6 - x0*x0 - y0*y0 - z0*z0;
@@ -160,3 +170,21 @@ double noise( const double x, const double y, const double z ) {
 	return 32.0*(n0 + n1 + n2 + n3);
 }
 
+#ifdef UNIT_TEST
+#include <stdlib.h>
+#include <stdio.h>
+int main()
+{
+	double x,y,z;
+	double a = 0.0;
+	x = 0.0; y = 0.0; z = 0.0;
+	for (int i=0; i<10000000; i++) {
+		a += noise(x,y,z);
+		x += 0.1;
+		y += 0.2;
+		z += 0.3;
+	}
+	return (int)a;
+}
+
+#endif /* UNIT_TEST */
