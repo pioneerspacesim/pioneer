@@ -22,7 +22,8 @@ public:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void PostLoadFixup();
 
-	// various signal functions todo
+	// Signal functions
+	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
 	CmdName m_cmdName;	
@@ -72,6 +73,11 @@ public:
 		m_path.PostLoadFixup();
 	}
 
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
 private:
 	SpaceStation *m_target;
 	AIPath m_path;
@@ -101,6 +107,11 @@ public:
 		AICommand::PostLoadFixup();
 		m_target = Serializer::LookupBody((size_t)m_target);
 		m_path.PostLoadFixup();
+	}
+
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
 	}
 
 private:
@@ -174,6 +185,11 @@ public:
 		m_target = Serializer::LookupBody((size_t)m_target);
 	}
 
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
 private:
 	Body *m_target;
 	vector3d m_posoff;
@@ -207,6 +223,11 @@ public:
 		m_lastVel = m_target->GetVelocity();
 	}
 
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
 private:
 	Ship *m_target;
 	
@@ -231,6 +252,11 @@ public:
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = Serializer::LookupBody((size_t)m_target);
+	}
+
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
 	}
 
 private:

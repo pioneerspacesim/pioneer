@@ -125,7 +125,10 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			m_force += fDrag;
 		}
 
-		/* This shit is for rotating frames. It is a bit smelly */
+		// Gravity
+//		m_force += GetGravity();
+
+		// This shit is for rotating frames. It is a bit smelly
 		vector3d angRot = GetFrame()->GetAngVelocity();
 		{
 			double omega = angRot.Length();
@@ -174,6 +177,33 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 	} else {
 		m_oldOrient = m_orient;
 		m_oldAngDisplacement = vector3d(0.0);
+	}
+}
+
+vector3d DynamicBody::GetGravity()
+{
+	// don't apply gravity to AIs if they have any thrust
+	if (IsType(SHIP)) {
+		Ship *ship = static_cast<Ship*>(this);
+		if (ship->AIIsActive() && (ship->GetThrusterState().LengthSqr() > 0
+			|| ship->GetAngThrusterState().LengthSqr() > 0)) return vector3d(0.0);
+	}
+
+	Body *lump = 0;
+	Frame *frame = GetFrame();
+	// gravity is applied when our frame contains an 'astroBody', ie a star or planet,
+	// or when our frame contains a rotating frame which contains this body.
+	if (frame->m_astroBody)
+		lump = frame->m_astroBody;
+	else if (frame->m_sbody && !frame->m_children.empty())
+		lump = (*frame->m_children.begin())->m_astroBody;
+
+	if (lump) { 
+		vector3d b1b2 = lump->GetPosition() - GetPosition();
+		const double m1m2 = GetMass() * lump->GetMass();
+		const double invrsqr = 1.0 / b1b2.LengthSqr();
+		const double force = G*m1m2 * invrsqr;
+		return b1b2 * sqrt(invrsqr) * force;
 	}
 }
 

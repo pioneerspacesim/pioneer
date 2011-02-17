@@ -582,35 +582,6 @@ void CollideFrame(Frame *f)
 	}
 }
 
-void ApplyGravity()
-{
-	Body *lump = 0;
-	// gravity is applied when our frame contains an 'astroBody', ie a star or planet,
-	// or when our frame contains a rotating frame which contains this body.
-	if (Pi::player->GetFrame()->m_astroBody) {
-		lump = Pi::player->GetFrame()->m_astroBody;
-	} else if (Pi::player->GetFrame()->m_sbody &&
-		(Pi::player->GetFrame()->m_children.begin() !=
-	           Pi::player->GetFrame()->m_children.end())) {
-
-		lump = (*Pi::player->GetFrame()->m_children.begin())->m_astroBody;
-	}
-	// just to crap in the player's frame
-	if (lump) { 
-		for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-			if ((*i)->GetFrame() != Pi::player->GetFrame()) continue;
-			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
-
-			vector3d b1b2 = lump->GetPosition() - (*i)->GetPosition();
-			const double m1m2 = (*i)->GetMass() * lump->GetMass();
-			const double r = b1b2.Length();
-			const double force = G*m1m2 / (r*r);
-			b1b2 = b1b2.Normalized() * force;
-//			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
-		}
-	}
-
-}
 
 void TimeStep(float step)
 {
@@ -632,17 +603,17 @@ void TimeStep(float step)
 		return;
 	}
 
-	ApplyGravity();
+//	ApplyGravity();				// now called by TimeStepUpdate per body
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
 	rootFrame->UpdateOrbitRails();
 	
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->TimeStepUpdate(step);
+		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
 	}
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->StaticUpdate(step);
+		(*i)->TimeStepUpdate(step);
 	}
 	Sfx::TimeStepAll(step, rootFrame);
 
