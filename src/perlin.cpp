@@ -26,11 +26,11 @@
 static int fastfloor( const double x ) { return x > 0 ? (int) x : (int) x - 1; }
 
 //static double dot( const int* g, const double x, const double y ) { return g[0]*x + g[1]*y; }
-static double dot( const int* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
+static double dot( const double* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
 //static double dot( const int* g, const double x, const double y, const double z, const double w ) { return g[0]*x + g[1]*y + g[2]*z + g[3]*w; }
 
 // The gradients are the midpoints of the vertices of a cube.
-static const int grad3[12][3] = {
+static const double grad3[12][3] = {
 	{1,1,0}, {-1,1,0}, {1,-1,0}, {-1,-1,0},
 	{1,0,1}, {-1,0,1}, {1,0,-1}, {-1,0,-1},
 	{0,1,1}, {0,-1,1}, {0,1,-1}, {0,-1,-1}
@@ -81,13 +81,13 @@ double noise( const double x, const double y, const double z ) {
 	double n0, n1, n2, n3; // Noise contributions from the four corners
 
 	// Skew the input space to determine which simplex cell we're in
-	double F3 = 1.0/3.0;
+	const double F3 = 1.0/3.0;
 	double s = (x+y+z)*F3; // Very nice and simple skew factor for 3D
 	int i = fastfloor(x+s);
 	int j = fastfloor(y+s);
 	int k = fastfloor(z+s);
 
-	double G3 = 1.0/6.0; // Very nice and simple unskew factor, too
+	const double G3 = 1.0/6.0; // Very nice and simple unskew factor, too
 	double t = (i+j+k)*G3;
 	double X0 = i-t; // Unskew the cell origin back to (x,y,z) space
 	double Y0 = j-t;
