@@ -1019,7 +1019,10 @@ void Pi::MainLoop()
 				}
 			}
 		}
-		Pi::SetTimeAccel(timeAccel);
+		if (timeAccel != Pi::GetTimeAccelIdx()) {
+			Pi::SetTimeAccel(timeAccel);
+			accumulator = 0;				// fix for huge pauses 10000x -> 1x
+		}
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {
