@@ -975,9 +975,9 @@ void WorldView::UpdateCommsOptions()
 
 void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 {
-	if (!target) {
+	if (!target || target == Pi::player) return;		// don't select self
 
-	} else if (target->IsType(Object::SHIP)) {
+	if (target->IsType(Object::SHIP)) {
 		if (Pi::player->GetCombatTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
 		} else {
