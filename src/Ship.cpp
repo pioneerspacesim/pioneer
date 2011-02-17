@@ -699,7 +699,7 @@ void Ship::NotifyDeleted(const Body* const deletedBody)
 		SetNavTarget(0);
 	if(GetCombatTarget() == deletedBody)
 		SetCombatTarget(0);
-	m_curAICmd->OnDeleted(deletedBody);
+	if (m_curAICmd) m_curAICmd->OnDeleted(deletedBody);
 }
 
 const ShipType &Ship::GetShipType() const
