@@ -138,7 +138,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 				vector3d perpend = vector3d::Cross(angRot, GetPosition());
 				if (perpend != vector3d(0,0,0)) {
 					perpend = vector3d::Cross(perpend, angRot).Normalized();
-					double R = vector3d::Dot(perpend, GetPosition());
+					double R = perpend.Dot(GetPosition());
 					double centrifugal = m_mass * omega * omega * R;
 					m_force += centrifugal*perpend;
 					// coriolis force

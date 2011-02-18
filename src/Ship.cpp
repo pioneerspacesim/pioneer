@@ -475,7 +475,7 @@ void Ship::TestLanded()
 			matrix4x4d invRot = rot.InverseOf();
 
 			// check player is sortof sensibly oriented for landing
-			const double dot = vector3d::Dot( vector3d(invRot[1], invRot[5], invRot[9]).Normalized(), up);
+			const double dot = vector3d(invRot[1], invRot[5], invRot[9]).Normalized().Dot(up);
 			if (dot > 0.99) {
 
 				Aabb aabb;
@@ -597,7 +597,7 @@ void Ship::StaticUpdate(const float timeStep)
 				matrix4x4d rot;
 				GetRotMatrix(rot);
 				vector3d pdir = -vector3d(rot[8], rot[9], rot[10]).Normalized();
-				double dot = vector3d::Dot(vdir, pdir);
+				double dot = vdir.Dot(pdir);
 				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {

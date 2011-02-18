@@ -219,7 +219,7 @@ vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 		vector3d perpend = vector3d::Cross(m_angVel, pos);
 		if (perpend == vzero) return vzero;
 		perpend = vector3d::Cross(perpend, m_angVel).Normalized();
-		double R = vector3d::Dot(perpend, pos);
+		double R = perpend.Dot(pos);
 		perpend *= R;
 		return -vector3d::Cross(m_angVel, perpend);
 	} else {

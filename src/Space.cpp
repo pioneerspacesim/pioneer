@@ -474,7 +474,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d hitPos2 = c->pos - b2->GetPosition();
 		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
 		const vector3d hitVel2 = linVel2 + vector3d::Cross(angVel2, hitPos2);
-		const double relVel = vector3d::Dot(hitVel1 - hitVel2, c->normal);
+		const double relVel = (hitVel1 - hitVel2).Dot(c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
@@ -483,8 +483,8 @@ static void hitCallback(CollisionContact *c)
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
 		const double term2 = invMass2;
-		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert1, hitPos1));
-		const double term4 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos2, c->normal)*invAngInert2, hitPos2));
+		const double term3 = c->normal.Dot(vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert1, hitPos1));
+		const double term4 = c->normal.Dot(vector3d::Cross(vector3d::Cross(hitPos2, c->normal)*invAngInert2, hitPos2));
 
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
@@ -516,14 +516,14 @@ static void hitCallback(CollisionContact *c)
 		const double invMass1 = 1.0 / mover->GetMass();
 		const vector3d hitPos1 = c->pos - mover->GetPosition();
 		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
-		const double relVel = vector3d::Dot(hitVel1, c->normal);
+		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
-		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert, hitPos1));
+		const double term3 = c->normal.Dot(vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert, hitPos1));
 
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;

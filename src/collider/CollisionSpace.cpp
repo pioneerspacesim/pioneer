@@ -225,8 +225,8 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 	if (sphere.radius != 0) {
 		/* Collide with lovely sphere! */
 		const vector3d v = start - sphere.pos;
-		const double b = -vector3d::Dot (v, dir);
-		double det = (b * b) - vector3d::Dot (v, v) + (sphere.radius*sphere.radius);
+		const double b = -v.Dot(dir);
+		double det = (b * b) - v.LengthSqr() + (sphere.radius*sphere.radius);
 		if (det > 0) {
 			det = sqrt(det);
 			const double i1 = b - det;

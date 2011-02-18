@@ -139,7 +139,7 @@ namespace ShipThruster {
 
 		vector3f start, end, dir = pThruster->dir;
 		start = pThruster->pos * scale;
-		float power = -vector3f::Dot(dir, invSubModelMat * vector3f(params->linthrust));
+		float power = -dir.Dot(invSubModelMat * vector3f(params->linthrust));
 
 		if (!pThruster->linear_only) {
 			vector3f angdir, cpos;

@@ -431,7 +431,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 		vector3d vRel = m_ship->GetVelocityRelativeTo(m_target);
 		vector3d dir = (m_target->GetPosition() - m_ship->GetPosition()).Normalized();
 
-		const double eta = Clamp(dist / vector3d::Dot(vRel, dir), 0.0, 10.0);
+		const double eta = Clamp(dist / vRel.Dot(dir), 0.0, 10.0);
 		const vector3d enemyProjectedPos = m_target->GetPosition() + eta*m_target->GetVelocity() - eta*m_ship->GetVelocity();
 		dir = (enemyProjectedPos - m_ship->GetPosition()).Normalized();
 

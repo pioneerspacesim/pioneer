@@ -48,7 +48,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	float v[2];
 	if (len != 0) {
 		vol = vol / (0.002*len);
-		double dot = vector3d::Dot(pos.Normalized(), vector3d(vol, 0, 0));
+		double dot = pos.Normalized().Dot(vector3d(vol, 0, 0));
 
 		v[0] = vol * (2.0f - (1.0+dot));
 		v[1] = vol * (1.0 + dot);

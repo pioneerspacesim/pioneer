@@ -62,8 +62,8 @@ static bool FrameSphereIntersect(const vector3d &start, const vector3d &end, con
 	if (start.Length() <= sphereRadius) return true;
 	if (end.Length() <= sphereRadius) return true;
 	double length = (end-start).Length();
-	double b = -vector3d::Dot(start, (end-start).Normalized());
-	double det = (b*b) - vector3d::Dot(start, start) + sphereRadius*sphereRadius;
+	double b = -start.Dot((end-start).Normalized());
+	double det = (b*b) - start.LengthSqr() + sphereRadius*sphereRadius;
 	if (det > 0.0) {
 		det = sqrt(det);
 		double i1 = b - det;

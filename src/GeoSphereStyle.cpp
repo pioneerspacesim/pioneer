@@ -835,7 +835,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// water
 		if (n <= 0) return vector3d(0,0,0.5);
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[1];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
@@ -919,7 +919,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		if (n <= 0.0) return vector3d(0.96,0.96,0.96);
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[2];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 18) {
@@ -942,7 +942,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height/2;
 		
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[1];
 		// Ice has been left as is so the occasional desert world will have polar ice-caps like mars
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
@@ -966,7 +966,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		if (n <= 0) return m_rockColor[1];		
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[0];
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -1044,7 +1044,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = m_invMaxHeight*height/2;
 
 		if (n <= 0.02) {
-			const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+			const double flatness = pow(p.Dot(norm), 6.0);
 			const vector3d color_cliffs = m_rockColor[1];
 
 			double equatorial_desert = (2.0)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -1056,7 +1056,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			col = interpolate_color(flatness, color_cliffs, col);
 			return col;
 		} else {
-			const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+			const double flatness = pow(p.Dot(norm), 6.0);
 			const vector3d color_cliffs = m_greyrockColor[1];
 
 			double equatorial_desert = (2.0)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -1077,7 +1077,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// water
 		if (n <= 0) return vector3d(.75,.6,0);
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = vector3d(.05, .02, .0);
 		
 		double equatorial_desert = (-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
@@ -1102,7 +1102,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// water
 		if (n <= 0) return vector3d(0,0.1,0.4);
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[1];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
@@ -1144,7 +1144,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// water
 		if (n <= 0) return vector3d(0.1,0.2,0.4);
 
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[1];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
@@ -1218,7 +1218,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		}
 	}
 	case COLOR_BANDED_ROCK: {
-		const double flatness = pow(vector3d::Dot(p, norm), 6.0);
+		const double flatness = pow(p.Dot(norm), 6.0);
 		double n = fabs(noise(vector3d(height*10000.0,0.0,0.0)));
 		vector3d col = interpolate_color(n, m_rockColor[0], m_rockColor[1]);
 		return interpolate_color(flatness, col, m_rockColor[2]);

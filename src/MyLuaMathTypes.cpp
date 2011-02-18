@@ -349,7 +349,7 @@ namespace MyLuaVec {
 	{
 		vector3f *v1 = checkVec(L, 1);
 		vector3f *v2 = checkVec(L, 2);
-		lua_pushnumber(L, vector3f::Dot(*v1, *v2));
+		lua_pushnumber(L, v1->Dot(*v2));
 		return 1;
 	}
 
