@@ -287,8 +287,8 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glPushMatrix();
 	// face the camera dammit
 	vector3d zaxis = (-pos).Normalized();
-	vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
-	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 	glMultMatrixd(&rot[0]);
 
@@ -406,8 +406,8 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 		// face the camera dammit
 		vector3d zaxis = fpos.Normalized();
-		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
-		vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+		vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+		vector3d yaxis = zaxis.Cross(xaxis);
 		matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 		glMultMatrixd(&rot[0]);
 

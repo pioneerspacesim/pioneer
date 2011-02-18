@@ -140,8 +140,7 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target, AIPath &newPath)
 
 	const vector3d fromCToHitPos = ((a + distanceToHit*((b-a).Normalized())) - c).Normalized();
 
-	const vector3d perpendicularToHit = vector3d::Cross(vector3d::Cross(fromCToHitPos, vector3d(0.0,1.0,0.0)),
-			a).Normalized();
+	const vector3d perpendicularToHit = fromCToHitPos.Cross(vector3d(0.0,1.0,0.0)).Cross(a).Normalized();
 
 	// So there is a circle around obstructor with radius 'outerRadius'.
 	// Try to find a line from 'a' to the point on this circle nearest to
@@ -319,8 +318,8 @@ void Ship::AITrySetBodyRelativeThrust(const vector3d &force)
 void Ship::AISlowFaceDirection(const vector3d &dir)
 {
 	vector3d zaxis = -dir;
-	vector3d xaxis = vector3d::Cross(vector3d(0.0,1.0,0.0), zaxis).Normalized();
-	vector3d yaxis = vector3d::Cross(zaxis, xaxis).Normalized();
+	vector3d xaxis = vector3d(0.0,1.0,0.0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis).Normalized();
 	matrix4x4d wantOrient = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 	AISlowOrient(wantOrient);
 }

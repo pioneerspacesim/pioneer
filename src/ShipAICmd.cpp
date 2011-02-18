@@ -176,7 +176,7 @@ bool AICmdDock::TimeStepUpdate()
 			matrix4x4d orient;
 			m_target->GetRotMatrix(orient);
 			orient = orient * matrix4x4d::MakeRotMatrix(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis,
-					vector3d::Cross(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis));
+					shipOrientEndDocking.xaxis.Cross(shipOrientEndDocking.yaxis));
 			m_ship->SetAngThrusterState(0, 0);
 			m_ship->SetAngThrusterState(1, 0);
 			m_ship->SetAngThrusterState(2, 0);
@@ -321,12 +321,12 @@ bool AICmdOrbit::TimeStepUpdate()
 		vector3d midpos, endpos, endVel;
 		// approach differently if we are currently above or below orbit
 		if (ourPosition.Length() < orbitalRadius) {
-			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition).Normalized();
+			endpos = vector3d(0.0,1.0,0.0).Cross(ourPosition).Normalized();
 			midpos = ourPosition.Normalized() * orbitalRadius*1.1;
 			endVel = endpos * orbitalSpeed;
 			endpos = (midpos + endpos*(midpos-ourPosition).Length()).Normalized() * orbitalRadius;
 		} else {
-			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition);
+			endpos = vector3d(0.0,1.0,0.0).Cross(ourPosition);
 			endpos = endpos.Normalized() * orbitalRadius;
 			midpos = (ourPosition.Normalized() + endpos.Normalized())
 					.Normalized()* orbitalRadius*1.1;

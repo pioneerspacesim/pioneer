@@ -242,12 +242,12 @@ void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector
 	const vector3f c(&m_vertices[3*m_indices[triIdx+2]]);
 
 	vector3f v0_cross, v1_cross, v2_cross;
-	const vector3f n = vector3f::Cross(c-a, b-a);
+	const vector3f n = (c-a).Cross(b-a);
 	const float nominator = n.Dot(a-origin);
 
-	v0_cross = vector3f::Cross(c-origin, b-origin);
-	v1_cross = vector3f::Cross(b-origin, a-origin);
-	v2_cross = vector3f::Cross(a-origin, c-origin);
+	v0_cross = (c-origin).Cross(b-origin);
+	v1_cross = (b-origin).Cross(a-origin);
+	v2_cross = (a-origin).Cross(c-origin);
 
 	for (int i=0; i<numRays; i++) {
 		const float v0d = v0_cross.Dot(dirs[i]);
@@ -271,5 +271,5 @@ vector3f GeomTree::GetTriNormal(int triIdx) const
 	const vector3f b(&m_vertices[3*m_indices[3*triIdx+1]]);
 	const vector3f c(&m_vertices[3*m_indices[3*triIdx+2]]);
 	
-	return vector3f::Cross(b-a, c-a).Normalized();
+	return (b-a).Cross(c-a).Normalized();
 }

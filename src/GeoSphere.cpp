@@ -393,7 +393,7 @@ public:
 				const vector3d x2 = vertices[x+1];
 				const vector3d y1 = ev[x];
 				const vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[x] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, 0);
@@ -408,7 +408,7 @@ public:
 				const vector3d x2 = ev[y];
 				const vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
 				const vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[x + y*GEOPATCH_EDGELEN] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
@@ -424,7 +424,7 @@ public:
 				const vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
 				const vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
 				const vector3d y2 = ev[GEOPATCH_EDGELEN-1-x];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[x + y*GEOPATCH_EDGELEN] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
@@ -438,7 +438,7 @@ public:
 				const vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
 				const vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
 				const vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[y*GEOPATCH_EDGELEN] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(0, y*GEOPATCH_FRAC);
@@ -507,7 +507,7 @@ public:
 			x2 = vertices[1];
 			y1 = ev2[0];
 			y2 = vertices[GEOPATCH_EDGELEN];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[0] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(0, 0);
@@ -522,7 +522,7 @@ public:
 			x2 = ev2[0];
 			y1 = ev[GEOPATCH_EDGELEN-1];
 			y2 = vertices[p + GEOPATCH_EDGELEN];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[p] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(p*GEOPATCH_FRAC, 0);
@@ -537,7 +537,7 @@ public:
 			x2 = ev[GEOPATCH_EDGELEN-1];
 			y1 = vertices[p + (p-1)*GEOPATCH_EDGELEN];
 			y2 = ev2[0];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[p + p*GEOPATCH_EDGELEN] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(p*GEOPATCH_FRAC, p*GEOPATCH_FRAC);
@@ -552,7 +552,7 @@ public:
 			x2 = vertices[1 + p*GEOPATCH_EDGELEN];
 			y1 = vertices[(p-1)*GEOPATCH_EDGELEN];
 			y2 = ev[GEOPATCH_EDGELEN-1];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[p*GEOPATCH_EDGELEN] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(0, p*GEOPATCH_FRAC);
@@ -689,7 +689,7 @@ public:
 				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
 				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
 
-				vector3d n = vector3d::Cross(x2-x1, y2-y1);
+				vector3d n = (x2-x1).Cross(y2-y1);
 				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
 				// color
 				vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
@@ -1196,8 +1196,8 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
 	vector3d yaxis = campos.Normalized();
-	vector3d zaxis = vector3d::Cross(vector3d(1.0,0.0,0.0), yaxis).Normalized();
-	vector3d xaxis = vector3d::Cross(yaxis, zaxis);
+	vector3d zaxis = vector3d(1.0,0.0,0.0).Cross(yaxis).Normalized();
+	vector3d xaxis = yaxis.Cross(zaxis);
 	const matrix4x4d m = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 
 	glPushMatrix();

@@ -443,7 +443,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			dt.ship->SetPosition(GetPosition() + rot*shipOrient.pos);
 			wantRot = matrix4x4d::MakeRotMatrix(
 					shipOrient.xaxis, shipOrient.yaxis,
-					vector3d::Cross(shipOrient.xaxis, shipOrient.yaxis)) * rot;
+					shipOrient.xaxis.Cross(shipOrient.yaxis)) * rot;
 			// use quaternion spherical linear interpolation to do
 			// rotation smoothly
 			Quaternionf wantQuat = Quaternionf::FromMatrix4x4<double>(wantRot);
@@ -554,7 +554,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	if (dockMethod == SpaceStationType::SURFACE) {
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport.xaxis, dport.yaxis);
+		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		vector3d pos = GetPosition() + stationRot*dport.pos;
 
@@ -599,7 +599,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 		ship->SetFrame(GetFrame());
 		ship->SetPosition(p);
 		// duplicated from DoDockingAnimation()
-		vector3d zaxis = vector3d::Cross(dport.xaxis, dport.yaxis);
+		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
 		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(dport.xaxis,
 					dport.yaxis, zaxis) * rot);
 	} else {
@@ -608,7 +608,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 
 	 	matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport.xaxis, dport.yaxis);
+		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		// position slightly (1m) off landing surface
 		vector3d pos = GetPosition() + stationRot*(dport.pos +

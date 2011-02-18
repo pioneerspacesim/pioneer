@@ -485,8 +485,8 @@ void Ship::TestLanded()
 				SetPosition(up * (planetRadius - aabb.min.y));
 
 				vector3d forward = rot * vector3d(0,0,1);
-				vector3d other = vector3d::Cross(up, forward).Normalized();
-				forward = vector3d::Cross(other, up);
+				vector3d other = up.Cross(forward).Normalized();
+				forward = other.Cross(up);
 
 				rot = matrix4x4d::MakeRotMatrix(other, up, forward);
 				rot = rot.InverseOf();
@@ -544,7 +544,7 @@ void Ship::FireWeapon(int num)
 	
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
+		vector3f sep = dir.Cross(vector3f(m[4],m[5],m[6])).Normalized();
 		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
 		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
 	}
