@@ -22,7 +22,7 @@ public:
 	virtual void Draw3D();
 	virtual void Draw();
 	virtual void OnSwitchTo();
-	static const float PICK_OBJECT_RECT_SIZE;
+	static const double PICK_OBJECT_RECT_SIZE;
 	bool GetShowLabels() { return m_labelsOn; }
 	void DrawBgStars();
 	vector3d GetExternalViewTranslation();
@@ -40,8 +40,8 @@ public:
 
 	sigc::signal<void> onChangeCamType;
 
-	float m_externalViewRotX, m_externalViewRotY;
-	float m_externalViewDist;
+	double m_externalViewRotX, m_externalViewRotY;
+	double m_externalViewDist;
 
 private:
 	void RefreshButtonStateAndVisibility();
@@ -60,7 +60,7 @@ private:
 	void OnPlayerDockOrUndock();
 	void OnPlayerChangeFlightControlState();
 	void SelectBody(Body *, bool reselectIsDeselect);
-	Body* PickBody(const float screenX, const float screenY) const;
+	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsVbo;

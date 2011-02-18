@@ -102,22 +102,22 @@ void Planet::SetRadius(double radius)
  * dist = distance from centre
  * returns pressure in earth atmospheres
  */
-void Planet::GetAtmosphericState(float dist, float &outPressure, float &outDensity)
+void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity)
 {
 	Color c;
-	float surfaceDensity;
-	float atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
+	double surfaceDensity;
+	double atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
 	
 	m_geosphere->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
-	outDensity = 1.15f*surfaceDensity * exp(-500.0f * (atmosDist - (2.0f - ATMOSPHERE_RADIUS)));
+	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
 	// XXX using earth's molar mass of air...
-	const float GAS_MOLAR_MASS = 28.97f;
-	const float GAS_CONSTANT = 8.314f;
-	const float KPA_2_ATMOS = 1.0f / 101.325f;
+	const double GAS_MOLAR_MASS = 28.97;
+	const double GAS_CONSTANT = 8.314;
+	const double KPA_2_ATMOS = 1.0 / 101.325;
 	// atmospheres
-	outPressure = KPA_2_ATMOS*(outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*(float)sbody->averageTemp;
+	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*(double)sbody->averageTemp;
 }
 
 double Planet::GetTerrainHeight(const vector3d pos) const
@@ -358,7 +358,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 void Planet::DrawAtmosphere(vector3d &pos)
 {
 	Color c;
-	float density;
+	double density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
 	_DrawAtmosphere(0.999, 1.05, pos, c);

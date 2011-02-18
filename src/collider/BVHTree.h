@@ -49,12 +49,12 @@ private:
 	}
 	BVHNode *m_root;
 	objPtr_t *m_objPtrAlloc;
-	int m_objPtrAllocPos;
-	int m_objPtrAllocMax;
+	size_t m_objPtrAllocPos;
+	size_t m_objPtrAllocMax;
 
 	BVHNode *m_bvhNodes;
-	int m_nodeAllocPos;
-	int m_nodeAllocMax;
+	size_t m_nodeAllocPos;
+	size_t m_nodeAllocMax;
 };
 
 

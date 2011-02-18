@@ -24,7 +24,7 @@ public:
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
 	double GetTerrainHeight(const vector3d pos) const;
-	void GetAtmosphericState(float dist, float &outPressure, float &outDensity);
+	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
 	bool IsSuperType(SBody::BodySuperType t) const;
 	virtual const SBody *GetSBody() const { return sbody; }
 #ifdef DEBUG

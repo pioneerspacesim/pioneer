@@ -112,8 +112,8 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			Planet *planet = static_cast<Planet*>(GetFrame()->m_astroBody);
 
 			double dist = GetPosition().Length();
-			float pressure, density;
-			planet->GetAtmosphericState(dist, pressure, density);
+			double pressure, density;
+			planet->GetAtmosphericState(dist, &pressure, &density);
 			const double radius = GetBoundingRadius();
 			const double AREA = radius;
 			// ^^^ yes that is as stupid as it looks

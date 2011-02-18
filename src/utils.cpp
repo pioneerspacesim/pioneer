@@ -159,6 +159,13 @@ std::string format_money(int money)
 	return std::string(buf);
 }
 
+std::string format_money(Sint64 money)
+{
+	char buf[32];
+	snprintf(buf, sizeof(buf), "$%.1f", 0.01f*(double)money);
+	return std::string(buf);
+}
+
 std::string format_date(double t)
 {
 	int year = (int)floor(t/(60*60*24*365)); year += 3200;

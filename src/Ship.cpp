@@ -589,8 +589,8 @@ void Ship::StaticUpdate(const float timeStep)
 			Planet *p = static_cast<Planet*>(astro);
 			if (p->IsSuperType(SBody::SUPERTYPE_GAS_GIANT)) {
 				double dist = GetPosition().Length();
-				float pressure, density;
-				p->GetAtmosphericState(dist, pressure, density);
+				double pressure, density;
+				p->GetAtmosphericState(dist, &pressure, &density);
 			
 				double speed = GetVelocity().Length();
 				vector3d vdir = GetVelocity().Normalized();
