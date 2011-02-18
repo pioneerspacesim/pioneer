@@ -119,7 +119,7 @@ public:
 	Equip::Type GetHyperdriveFuelType() const;
 	float GetWeakestThrustersForce() const;
 	// 0 to 1.0 is alive, > 1.0 = death
-	float GetHullTemperature() const;
+	double GetHullTemperature() const;
 	void UseECM();
 
 	void AIFaceDirection(const vector3d &dir, double av=0.0);
