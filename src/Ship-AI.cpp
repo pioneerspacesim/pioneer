@@ -447,7 +447,7 @@ void Ship::AIFaceDirection(const vector3d &dir, double av)
 }
 
 // returns direction in world space from this ship to target lead position
-vector3d Ship::AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex)
+vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex)
 {
 	vector3d targpos = target->GetPositionRelTo(this);
 	vector3d targvel = target->GetVelocityRelativeTo(this);
@@ -502,8 +502,6 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 
 void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
-	const ShipType &stype = GetShipType();
-	
 	// OK. For rotating frames linked to space stations we want to set
 	// speed relative to non-rotating frame (so we apply Frame::GetStasisVelocityAtPosition.
 	// For rotating frames linked to planets we want to set velocity relative to
@@ -513,9 +511,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 		relVel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
 	}
 	matrix4x4d m; GetRotMatrix(m);
-	relVel = m.InverseOf() * relVel;
-
-	vector3d difVel = v - relVel;		// required change in velocity
+	vector3d difVel = v - (relVel * m);		// required change in velocity
 
 	vector3d maxThrust = GetMaxThrust(difVel);
 	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
@@ -583,4 +579,76 @@ void Ship::AIOrbit(Body *target, double alt)
 {
 	AIClearInstructions();
 	m_curAICmd = new AICmdOrbit(this, target, alt);
+}
+
+// Because of issues when reducing timestep, must do parts of this as if 1x accel
+
+static double calc_ivel(double dist, double vel, double posacc, double negacc)
+{
+	double acc = negacc; bool inv = false;
+	if (dist < 0) { acc = posacc; dist = -dist; vel = -vel; inv = true; }
+	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
+
+	double endvel = ivel - (acc * Pi::GetTimeStep());
+	if (endvel <= vel) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
+//	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
+	else ivel = endvel + 0.5 * acc / PHYSICS_HZ;		// unknown next timestep discrete overshoot correction
+	if (inv) ivel = -ivel;
+	return ivel;
+}
+
+// posoff is relative to body
+// targvel is in direction of motion, probably relative to body
+// returns distance from target pos
+// don't use FACING_FLIP if you're too close to turn around in a reasonable time
+
+double Ship::AIMatchPosVel(const Body *body, const vector3d &posoff, double targvel, int mode)
+{
+	matrix4x4d trot, tran; body->GetRotMatrix(trot);
+	Frame::GetFrameTransform(body->GetFrame(), GetFrame(), tran);
+	vector3d targpos = tran * (trot * posoff + body->GetPosition());
+
+	// That should be targpos in this ship's frame
+	matrix4x4d rot; GetRotMatrix(rot);
+	vector3d relpos = (targpos - GetPosition()) * rot;
+	vector3d reldir = relpos.NormalizedSafe();
+	vector3d relvel = targvel * reldir;
+	double targdist = relpos.Length();
+	if (targdist < 10.0 * Pi::GetTimeAccel()) mode = FACING_NONE;	// don't mess around close to the target
+
+	// get all six thruster values (values are positive)
+	double invmass = 1.0 / GetMass();
+	vector3d paccel = GetMaxThrust(vector3d(1,1,1)) * invmass;
+	vector3d naccel = GetMaxThrust(vector3d(-1,-1,-1)) * invmass;
+	if (mode == FACING_FLIP) paccel.z = naccel.z;			// assume rear thrust most powerful
+
+	// find ideal velocities at current time given reverse thrust level
+	vector3d ivel;
+	ivel.x = calc_ivel(relpos.x, relvel.x, paccel.x, naccel.x);
+	ivel.y = calc_ivel(relpos.y, relvel.y, paccel.y, naccel.y);
+	ivel.z = calc_ivel(relpos.z, relvel.z, paccel.z, naccel.z);
+
+	vector3d objvel = GetVelocityRelativeTo(body) * rot;
+	vector3d diffvel = ivel - objvel;		// required change in velocity
+	vector3d maxThrust = GetMaxThrust(diffvel);
+	vector3d maxFrameAccel = maxThrust * (Pi::GetTimeStep() / GetMass());
+
+	SetThrusterState(0, diffvel.x / maxFrameAccel.x);
+	SetThrusterState(1, diffvel.y / maxFrameAccel.y);
+	SetThrusterState(2, diffvel.z / maxFrameAccel.z);	// use clamping
+
+	// face in the chosen direction
+	if (mode == FACING_NONE) return targdist;
+	if (mode == FACING_MATCH) {
+		vector3d targdir = tran * vector3d(-trot[8], -trot[9], -trot[10]);
+		AIFaceDirection(targdir.Normalized());
+		return targdist;
+	}
+	// TOWARDS and FLIP
+	vector3d targdir = (targpos - GetPosition()).NormalizedSafe();
+	// only switch if diffvel < some value
+	if (mode == FACING_FLIP
+		&& diffvel.Dot(reldir) < 10.0 * Pi::GetTimeAccel()) targdir = -targdir;
+	AIFaceDirection(targdir);
+	return targdist;
 }

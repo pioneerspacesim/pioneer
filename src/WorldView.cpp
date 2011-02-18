@@ -975,9 +975,9 @@ void WorldView::UpdateCommsOptions()
 
 void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 {
-	if (!target) {
+	if (!target || target == Pi::player) return;		// don't select self
 
-	} else if (target->IsType(Object::SHIP)) {
+	if (target->IsType(Object::SHIP)) {
 		if (Pi::player->GetCombatTarget() == target) {
 			if (reselectIsDeselect) Pi::player->SetCombatTarget(0);
 		} else {
@@ -1103,12 +1103,10 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
 		double projspeed = Equip::lasers[laser].speed;
-
 		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
-		vector3d leaddir = leadpos.Normalized();
 
-		if (leaddir.z < 0.0 && Gui::Screen::Project (leaddir.x, leaddir.y, leaddir.z,
+		if (leadpos.z < 0.0 && Gui::Screen::Project (leadpos.x, leadpos.y, leadpos.z,
 			modelMatrix, projMatrix, viewport, &m_targLeadPos.x, &m_targLeadPos.y, &m_targLeadPos.z))
 			m_targLeadOnscreen = true;
 

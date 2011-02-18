@@ -42,6 +42,7 @@ public:
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
 	double GetAtmosphericDragGs() const { return m_atmosDragGs; }
+	vector3d GetGravity();
 	virtual void UpdateInterpolatedTransform(double alpha);
 
 protected:

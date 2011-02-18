@@ -22,7 +22,8 @@ public:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void PostLoadFixup();
 
-	// various signal functions todo
+	// Signal functions
+	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
 	CmdName m_cmdName;	
@@ -72,6 +73,11 @@ public:
 		m_path.PostLoadFixup();
 	}
 
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
 private:
 	SpaceStation *m_target;
 	AIPath m_path;
@@ -103,12 +109,18 @@ public:
 		m_path.PostLoadFixup();
 	}
 
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
 private:
 	Body *m_target;
 	AIPath m_path;
 	double m_orbitHeight;
 };
 
+/*
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
@@ -140,6 +152,52 @@ private:
 	Body *m_target;
 	AIPath m_path;
 };
+*/
+
+
+class AICmdFlyTo : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO) {
+		m_target = target;
+		m_posoff = vector3d(0,0,500);
+		m_endvel = 10;
+	}
+	AICmdFlyTo(Ship *ship, Body *target, AIPath &path) : AICommand (ship, CMD_FLYTO) {
+		m_target = target;
+		m_posoff = vector3d(0,0,0);
+		m_endvel = 0;
+	}
+
+	virtual void Save(Serializer::Writer &wr) {
+		AICommand::Save(wr);
+		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Vector3d(m_posoff);
+		wr.Double(m_endvel);
+	}
+	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
+		m_target = (SpaceStation *)rd.Int32();
+		vector3d m_posoff = rd.Vector3d();
+		vector3d m_endvel = rd.Double();
+	}
+	virtual void PostLoadFixup() {
+		AICommand::PostLoadFixup();
+		m_target = Serializer::LookupBody((size_t)m_target);
+	}
+
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
+private:
+	Body *m_target;
+	vector3d m_posoff;
+	double m_endvel;
+};
+
+
+
 
 class AICmdKill : public AICommand {
 public:
@@ -163,6 +221,11 @@ public:
 		m_target = (Ship *)Serializer::LookupBody((size_t)m_target);
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
+	}
+
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
 	}
 
 private:
@@ -189,6 +252,11 @@ public:
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = Serializer::LookupBody((size_t)m_target);
+	}
+
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
 	}
 
 private:

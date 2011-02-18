@@ -123,7 +123,10 @@ public:
 	void UseECM();
 
 	void AIFaceDirection(const vector3d &dir, double av=0.0);
-	vector3d AIGetLeadDir(Body *target, vector3d& targaccel, int gunindex);
+	enum AIFacingMode { FACING_NONE, FACING_TOWARDS, FACING_FLIP, FACING_MATCH };
+	double AIMatchPosVel(const Body *target, const vector3d &targpos, double targvel, int mode=FACING_NONE);
+	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
+
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
@@ -219,117 +222,3 @@ private:
 #endif /* _SHIP_H */
 
 
-
-/* Temporary stuff to put back
-
-//		printf("AI '%s' successfully executed %d\n", GetLabel().c_str(), m_todo.front().cmd);
-		m_todo.pop_front();
-		// Finished autopilot program so fall out of time accel
-		if ((this == static_cast<Ship*>(Pi::player)) && (m_todo.size() == 0)) {
-			// doesn't happen until next game tick, which is good
-			// because AI will have set thrusters assuming a
-			// particular timestep
-
-	if (m_todo.size() != 0) {
-		AIInstruction &inst = m_todo.front();
-		switch (inst.cmd) {
-			case DO_DOCK:
-				done = AICmdDock(inst, static_cast<SpaceStation*>(inst.target));
-				break;
-			case DO_KAMIKAZE:
-				done = AICmdKamikaze(static_cast<const Ship*>(inst.target));
-				break;
-			case DO_KILL:
-				done = AICmdKill(inst, timeStep);
-				break;
-			case DO_LOW_ORBIT:
-				done = AICmdOrbit(inst, 1.1);
-				break;
-			case DO_MEDIUM_ORBIT:
-				done = AICmdOrbit(inst, 2.0);
-				break;
-			case DO_HIGH_ORBIT:
-				done = AICmdOrbit(inst, 5.0);
-				break;
-			case DO_FLY_TO:
-				done = AICmdFlyTo(inst);
-				break;
-			case DO_FOLLOW_PATH:
-				done = AIFollowPath(inst, inst.frame, true);
-				break;
-			case DO_JOURNEY:
-				done = AICmdJourney(inst);
-				break;
-			case DO_NOTHING: done = true; break;
-		}
-
-	for (std::list<AIInstruction>::iterator i = m_todo.begin(); i != m_todo.end(); ++i) {
-		wr.Int32((int)(*i).cmd);
-		switch ((*i).cmd) {
-			case DO_DOCK:
-			case DO_KILL:
-			case DO_KAMIKAZE:
-			case DO_FLY_TO:
-			case DO_LOW_ORBIT:
-			case DO_MEDIUM_ORBIT:
-			case DO_HIGH_ORBIT:
-			case DO_FOLLOW_PATH:
-				wr.Int32(Serializer::LookupBody((*i).target));
-				{
-					int n = (*i).path.p.size();
-					wr.Int32(n);
-					for (int j=0; j<n; j++) {
-						wr.Vector3d((*i).path.p[j]);
-					}
-				}
-				wr.Double((*i).endTime);
-				wr.Double((*i).startTime);
-				wr.Int32(Serializer::LookupFrame((*i).frame));
-				break;
-			case DO_JOURNEY:
-				(*i).journeyDest.Serialize(wr);
-				break;
-			case DO_NOTHING: wr.Int32(0); break;
-		}
-	}
-
-	int num = rd.Int32();
-	while (num-- > 0) {
-		AICommand c = (AICommand)rd.Int32();
-		AIInstruction inst = AIInstruction(c);
-		switch (c) {
-		case DO_DOCK:
-		case DO_KILL:
-		case DO_KAMIKAZE:
-		case DO_FLY_TO:
-		case DO_LOW_ORBIT:
-		case DO_MEDIUM_ORBIT:
-		case DO_HIGH_ORBIT:
-		case DO_FOLLOW_PATH:
-			{
-				Body *target = (Body*)rd.Int32();
-				inst.target = target;
-				int n = rd.Int32();
-				inst.path = BezierCurve(n);
-				for (int i=0; i<n; i++) {
-					inst.path.p[i] = rd.Vector3d();
-				}
-				inst.endTime = rd.Double();
-				inst.startTime = rd.Double();
-				if (rd.StreamVersion() < 19) {
-					inst.frame = 0;
-				} else {
-					inst.frame = Serializer::LookupFrame(rd.Int32());
-				}
-			}
-			break;
-		case DO_JOURNEY:
-			SBodyPath::Unserialize(rd, &inst.journeyDest);
-			break;
-		case DO_NOTHING:
-			rd.Int32();
-			break;
-		}
-		m_todo.push_back(inst);
-	}
-*/

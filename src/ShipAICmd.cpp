@@ -367,6 +367,10 @@ bool AICmdOrbit::TimeStepUpdate()
 	return m_ship->AIFollowPath(m_path);
 }
 
+
+
+
+/*
 bool AICmdFlyTo::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
@@ -416,6 +420,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	return m_ship->AIFollowPath(m_path);
 }
+*/
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
@@ -621,6 +626,10 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 bool AICmdKill::TimeStepUpdate()
 {
+return false;
+
+	if (!m_target) return true;
+
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
 	const ShipType &stype = m_ship->GetShipType();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
@@ -879,3 +888,24 @@ bool AICmdKill::TimeStepUpdate()
 	return false;
 }
 */
+
+
+bool AICmdFlyTo::TimeStepUpdate()
+{
+	if (!ProcessChild()) return false;
+	if (!m_target) return true;
+
+	// now have target pos & vel in ship's frame
+
+	double dist = m_ship->AIMatchPosVel(m_target, m_posoff, m_endvel, Ship::FACING_FLIP);
+	// flip hysteresis? timeout on next flip?
+
+
+	if (dist < 100.0) {
+		vector3d relpos = m_ship->GetPositionRelTo(m_target);
+		printf("dist = %.0f, pos = %.0f,%.0f,%.0f\n", dist, relpos.x, relpos.y, relpos.z);
+		if (m_ship->GetVelocity().Length() < 1) { fflush(stdout); return true; }
+	}
+
+	return false;
+}

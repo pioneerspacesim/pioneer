@@ -22,8 +22,9 @@ bool RadioButton::OnMouseDown(MouseButtonEvent *e)
 }
 void RadioButton::OnActivate()
 {
-	if (!m_pressed) onSelect.emit();
-	m_pressed = true;
+//	if (!m_pressed) onSelect.emit();
+	onSelect.emit();			// needs to emit even when pressed for time accel buttons
+	m_pressed = true;			// does this break anything?
 }
 void RadioButton::GetSizeRequested(float size[2])
 {
