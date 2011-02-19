@@ -5,81 +5,13 @@
 /**
  * All these stinking octavenoise functions return range [0,1] if roughness = 0.5
  */
-static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return (n+1.0)*0.5;
-}
-static inline double octavenoise(fracdef_t &def, double roughness, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = def.frequency;
-	for (int i=0; i<def.octaves; i++) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= def.lacunarity;
-	}
-	return (n+1.0)*0.5;
-}
-
-static inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * fabs(noise(jizm*p));
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return n;
-}
-static inline double river_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = def.frequency;
-	for (int i=0; i<def.octaves; i++) {
-		n += octaveAmplitude * fabs(noise(jizm*p));
-		octaveAmplitude *= roughness;
-		jizm *= def.lacunarity;
-	}
-	return fabs(n);
-}
-
-static inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return 1.0 - fabs(n);
-}
-static inline double ridged_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = def.frequency;
-	for (int i=0; i<def.octaves; i++) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= def.lacunarity;
-	}
-	return 1.0 - fabs(n);
-}
-
+static inline double octavenoise(fracdef_t &def, double roughness, const vector3d &p);
+static inline double river_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
+static inline double ridged_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
+static double canyon_function(const fracdef_t &def, const vector3d &p);
+static double canyon2_function(const fracdef_t &def, const vector3d &p);
+static double canyon3_function(const fracdef_t &def, const vector3d &p);
+static double crater_function(const fracdef_t &def, const vector3d &p);
 
 int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
 {
@@ -140,121 +72,11 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		double a2 = 0.5*d0 + 0.5*d2;
 		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
 		double v = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
-		return (v<0 ? 0 : v + 100*octavenoise(10, 0.5, 2.0, 1000.0*pt) + (50*octavenoise(14, 0.5, 2.0, 1000.0*pt) + 
-			50*octavenoise(8, 0.7, 1.0, 1000.0*pt) + 30*octavenoise(7, 0.6, 1.2, 1000.0*pt) + 30*octavenoise(6, 0.4, 1.8, 1000.0*pt)) *
-			(v/400) + ((20*octavenoise(2, 0.0, 2.0, 100.0*pt))* ((v/200)*(v/200))));
-
+		return (v<0 ? 0 : v + 1000.0*river_octavenoise(m_fracdef[0], CLAMP(v*0.0002, 0.3, 0.5), pt));
 	}
 }
 
-// Creates small canyons.
-static double canyon_function(const fracdef_t &def, const vector3d &p)
-{
-	double h;
-	double n = octavenoise(def.octaves, 0.5, 2.0, def.frequency*p);
-	const double outer = 0.71;
-	const double inner = 0.715;
-	const double inner2 = 0.715;
-	const double outer2 = 0.72;
-	if (n > outer2) {
-		h = 1;
-	} else if (n > inner2) {
-		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
-	} else if (n > inner) {
-		h = 0;
-	} else if (n > outer) {
-		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
-	} else {
-		h = 1.0;
-	}
-	return h * def.amplitude;
-}
-
-// Larger canyon.
-double canyon2_function(const fracdef_t &def, const vector3d &p)
-{
-	double h;
-	double n = octavenoise(def.octaves, 0.55, 2.0, def.frequency*p);
-	const double outer = 0.7;
-	const double inner = 0.71;
-	const double inner2 = 0.72;
-	const double outer2 = 0.73;
-	if (n > outer2) {
-		h = 1;
-	} else if (n > inner2) {
-		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
-	} else if (n > inner) {
-		h = 0;
-	} else if (n > outer) {
-		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
-	} else {
-		h = 1.0;
-	}
-	return h * def.amplitude;
-}
-
-// Largest and best looking canyon, combine them together for best results.
-double canyon3_function(const fracdef_t &def, const vector3d &p)
-{
-	double h;
-	double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
-	const double outer = 0.7;
-	const double inner = 0.71;
-	const double inner2 = 0.72;
-	const double outer2 = 0.73;
-	if (n > outer2) {
-		h = 1;
-	} else if (n > inner2) {
-		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
-	} else if (n > inner) {
-		h = 0;
-	} else if (n > outer) {
-		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
-	} else {
-		h = 1.0;
-	}
-	return h * def.amplitude;
-}
-
-
-static void crater_function_1pass(const vector3d &p, double &out, const double height)
-{
-	double n = fabs(noise(p));
-	const double ejecta_outer = 0.6;
-	const double outer = 0.9;
-	const double inner = 0.94;
-	const double midrim = 0.93;
-	if (n > inner) {
-		//out = 0;
-	} else if (n > midrim) {
-		double hrim = inner - midrim;
-		double descent = (hrim-(n-midrim))/hrim;
-		out += height * descent * descent;
-	} else if (n > outer) {
-		double hrim = midrim - outer;
-		double ascent = (n-outer)/hrim;
-		out += height * ascent * ascent;
-	} else if (n > ejecta_outer) {
-		// blow down walls of other craters too near this one,
-		// so we don't have sharp transition
-		//out *= (outer-n)/-(ejecta_outer-outer);
-	}
-}
-
-// makes large and small craters across the entire planet.
-static double crater_function(const fracdef_t &def, const vector3d &p) 
-{
-	double crater = 0.0;
-	double sz = def.frequency;
-	double max_h = def.amplitude;
-	for (int i=0; i<def.octaves; i++) {
-		crater_function_1pass(sz*p, crater, max_h);
-		sz *= 2.0;
-		max_h *= 0.5;
-	}
-	return crater;
-}
-
+/*
 static void volcano_function_1pass(const vector3d &p, double &out, const double height)
 {
 	double n = fabs(noise(p));
@@ -368,7 +190,7 @@ static double megavolcano_function(const vector3d &p)
 	}
 	return 4.0 * crater;
 }
-
+*/
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 {
 	n = CLAMP(n, 0.0f, 1.0f);
@@ -513,14 +335,15 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		}
 	}
 	// XXX override the above so you can test particular fractals XXX
-	m_terrainType = TERRAIN_H2O_SOLID;
-	m_colorType = COLOR_ICEWORLD;
+	m_terrainType = TERRAIN_ASTEROID;
+	m_colorType = COLOR_EARTHLIKE;
 
 	m_sealevel = CLAMP(body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
 	m_icyness = CLAMP(body->m_volatileIces.ToDouble(), 0.0, 1.0);
 
 	const double rad = body->GetRadius();
 	m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad) / (body->GetMass() * 6.64e-12));
+	if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 	//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 	// and then in sphere normalized jizz
 	m_maxHeight = std::min(0.5, m_maxHeightInMeters / rad);
@@ -569,6 +392,10 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 
 void GeoSphereStyle::InitFractalType(MTRand &rand)
 {
+	if (m_heightMap) {
+		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 10000.0, rand);
+		return;
+	}
 /*	
 		case CONTINENT_VOLCANIC_MARE:
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5e5,1.5e6), rand, 1e5);
@@ -576,11 +403,11 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 */
 	switch (m_terrainType) {
 		case TERRAIN_ASTEROID:
-			m_maxHeight = rand.Double(0.2,0.4);
-			m_invMaxHeight = 1.0 / m_maxHeight;
-			m_noise1 = rand.Double(2,14);
-			m_noise2 = rand.Double(0.1,0.75);
-			m_noise3 = rand.Double(0.1,2);
+			//m_maxHeight = rand.Double(0.2,0.4);
+			//m_invMaxHeight = 1.0 / m_maxHeight;
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, m_planetRadius, rand);
+			// craters
+			SetFracDef(&m_fracdef[1], 5000.0, 1000000.0, rand, 1000.0);
 			break;
 		case TERRAIN_HILLS_NORMAL:
 		case TERRAIN_HILLS_RIDGED:
@@ -639,14 +466,35 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			height = m_maxHeightInMeters*0.5;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[3], height, rand.Double(2.5,3.5)*height, rand);
-
+			// craters
 			SetFracDef(&m_fracdef[5], 10000.0, 1000000.0, rand, 1000.0);
 
 			// canyon
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.1, 2e6, rand, 1000.0);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.1, 5e6, rand, 1000.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.1, 5e6, rand, 1000.0);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.1, 1e6, rand, 100.0);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.1, 1.5e6, rand, 100.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.1, 2e6, rand, 100.0);
+			// so dan, the above means: make a fractal with 10% of the planet maximum
+			// terrain height, feature size of around 2000km, and detail down to
+			// 100.0 meters. SetFracDef will choose the right p multiplier and octaves - Tom
 			break;
+		}
+		case TERRAIN_RUGGED_DESERT:
+		{
+			SetFracDef(&m_fracdef[0], 0.1*m_maxHeightInMeters, 2e6, rand, 180e3);
+			double height = m_maxHeightInMeters*0.4;
+			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+
+			height = m_maxHeightInMeters*0.3;
+			SetFracDef(&m_fracdef[3], height, rand.Double(6.0,8.0)*height, rand);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
+			// dunes
+			height = m_maxHeightInMeters*0.1;
+			SetFracDef(&m_fracdef[5], height, 4.0*height, rand, 1000.0);
+			// canyon
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.1, 1e6, rand, 100.0);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.1, 1.5e6, rand, 100.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.1, 2e6, rand, 100.0);
 		}
 	}
 }
@@ -666,9 +514,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			return 0;
 		case TERRAIN_ASTEROID:
 		{
-			//return m_maxHeight*(octavenoise(14, 0.5, 2.0, p)*0.3) + 0.005*crater_function(p);
-			return m_maxHeight*(octavenoise(14, 0.5, 2.0, p)*0.6)*(octavenoise(m_noise1, m_noise2, m_noise3, p)*m_sealevel) 
-			;//	+ (0.005*crater_function(p));
+			return std::max(0.0, m_maxHeight * (octavenoise(m_fracdef[0], 0.5, p) + 
+					m_fracdef[1].amplitude * crater_function(m_fracdef[1], p)));
 		}
 		case TERRAIN_HILLS_NORMAL:
 		{
@@ -778,9 +625,39 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n = m_maxHeight*n;
 			return (n > 0.0 ? n : 0.0);
 		}
+		case TERRAIN_RUGGED_DESERT:
+		{
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			if (continents < 0) return 0;
+			double mountain_distrib = octavenoise(m_fracdef[2], 0.5, p);
+			double mountains = octavenoise(m_fracdef[1], 0.5, p);
+			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+			double hills = hill_distrib * m_fracdef[3].amplitude * octavenoise(m_fracdef[3], 0.5, p);
+			double dunes = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
 
+			double n = continents * m_fracdef[0].amplitude;// + cliff_function(p) + (smlvolcano_function(p)*2.0f);
+			n += canyon_function(m_fracdef[6], p);
+			n += canyon2_function(m_fracdef[7], p);
+			n += canyon3_function(m_fracdef[8], p);
+
+			// makes larger dunes at lower altitudes, flat ones at high altitude.
+			mountains = mountain_distrib * m_fracdef[1].amplitude * mountains*mountains*mountains;
+			// smoothes edges of mountains and places them only above a set altitude
+			if (n > 0.45) n += mountains * (n - 0.45);
+			if (n > 0.2) n += dunes * (n-0.2);  
+			else n += dunes * 2.5f;
+			if (n > 0.5) n += hills * (n-0.5);
+			return n * m_maxHeight;
+		}
 	}
 }
+
+/* These fuctions should not be used by GeoSphereStyle::GetHeight, so don't move these definitions
+   to above that function. GetHeight should use the versions of these functions that take fracdef_t
+   objects, ensuring that the resulting terrains have the desired scale */
+static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
+static inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
+static inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 
 /**
  * Height: 0.0 would be sea-level. 1.0 would be an extra elevation of 1 radius (huge)
@@ -1295,3 +1172,186 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	}
 
 }
+
+static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = 1.0;
+	while (octaves--) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= lacunarity;
+	}
+	return (n+1.0)*0.5;
+}
+static inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = 1.0;
+	while (octaves--) {
+		n += octaveAmplitude * fabs(noise(jizm*p));
+		octaveAmplitude *= roughness;
+		jizm *= lacunarity;
+	}
+	return n;
+}
+static inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = 1.0;
+	while (octaves--) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= lacunarity;
+	}
+	return 1.0 - fabs(n);
+}
+static inline double octavenoise(fracdef_t &def, double roughness, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<def.octaves; i++) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return (n+1.0)*0.5;
+}
+
+static inline double river_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<def.octaves; i++) {
+		n += octaveAmplitude * fabs(noise(jizm*p));
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return fabs(n);
+}
+
+static inline double ridged_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<def.octaves; i++) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return 1.0 - fabs(n);
+}
+
+// Creates small canyons.
+static double canyon_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = octavenoise(def.octaves, 0.5, 2.0, def.frequency*p);
+	const double outer = 0.71;
+	const double inner = 0.715;
+	const double inner2 = 0.715;
+	const double outer2 = 0.72;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+// Larger canyon.
+double canyon2_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = octavenoise(def.octaves, 0.55, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+// Largest and best looking canyon, combine them together for best results.
+double canyon3_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+static void crater_function_1pass(const vector3d &p, double &out, const double height)
+{
+	double n = fabs(noise(p));
+	const double ejecta_outer = 0.6;
+	const double outer = 0.9;
+	const double inner = 0.94;
+	const double midrim = 0.93;
+	if (n > inner) {
+		//out = 0;
+	} else if (n > midrim) {
+		double hrim = inner - midrim;
+		double descent = (hrim-(n-midrim))/hrim;
+		out += height * descent * descent;
+	} else if (n > outer) {
+		double hrim = midrim - outer;
+		double ascent = (n-outer)/hrim;
+		out += height * ascent * ascent;
+	} else if (n > ejecta_outer) {
+		// blow down walls of other craters too near this one,
+		// so we don't have sharp transition
+		//out *= (outer-n)/-(ejecta_outer-outer);
+	}
+}
+
+// makes large and small craters across the entire planet.
+static double crater_function(const fracdef_t &def, const vector3d &p) 
+{
+	double crater = 0.0;
+	double sz = def.frequency;
+	double max_h = def.amplitude;
+	for (int i=0; i<def.octaves; i++) {
+		crater_function_1pass(sz*p, crater, max_h);
+		sz *= 2.0;
+		max_h *= 0.5;
+	}
+	return crater;
+}
+
