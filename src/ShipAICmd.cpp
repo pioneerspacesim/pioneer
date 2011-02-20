@@ -913,7 +913,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 
 	// check for target proximity - don't mess around close to the target
-	// this needs fixing with a 2as or similar
+	// todo: this needs fixing with a 2as or similar
 	if (targdist < 10.0 * Pi::GetTimeAccel()) m_headmode = 4;
 
 	bool flip = (m_headmode == 1) ? true : false;
@@ -929,14 +929,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 	if (m_headmode == 4) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
 
-/*	if (m_headmode == 0 || m_headmode == 1) m_ship->AIFaceDirection(reldir);
-	if (m_headmode == 2) m_ship->AIFaceDirection(-reldir);
-	if (m_headmode == 3) {
-		vector3d newhead = 1.02 * GenerateTangent(m_ship->GetPosition(), targpos, m_target->GetBoundingRadius());
-//bug		m_ship->AIFaceDirection(newhead.Normalized());
-	}
-	if (m_headmode == 4) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-*/
 	return false;
 }
 

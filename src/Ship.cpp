@@ -816,12 +816,12 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
 		SetLmrTimeParams();
-		params.angthrust[0] = -m_angThrusters[0];
-		params.angthrust[1] = -m_angThrusters[1];
-		params.angthrust[2] = -m_angThrusters[2];
-		params.linthrust[0] = m_thrusters[0];
-		params.linthrust[1] = m_thrusters[1];
-		params.linthrust[2] = m_thrusters[2];
+		params.angthrust[0] = -m_angThrusters.x;
+		params.angthrust[1] = -m_angThrusters.y;
+		params.angthrust[2] = -m_angThrusters.z;
+		params.linthrust[0] = m_thrusters.x;
+		params.linthrust[1] = m_thrusters.y;
+		params.linthrust[2] = m_thrusters.z;
 		params.argFloats[0] = m_wheelState;
 		params.argFloats[5] = (float)m_equipment.Get(Equip::SLOT_FUELSCOOP);
 		params.argFloats[6] = (float)m_equipment.Get(Equip::SLOT_ENGINE);

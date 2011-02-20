@@ -1,4 +1,5 @@
 #include "Gui.h"
+#include "vector3.h"		// for projection
 #include "glfreetype.h"
 
 namespace Gui {
@@ -15,6 +16,10 @@ float Screen::fontScale[2];
 std::list<Widget*> Screen::kbshortcut_widgets;
 Gui::Fixed *Screen::baseContainer;
 Gui::Widget *Screen::focusedWidget;
+GLdouble Screen::modelMatrix[16];
+GLdouble Screen::projMatrix[16];
+GLint Screen::viewport[4];
+
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -80,16 +85,22 @@ void Screen::ShowBadError(const char *msg)
 	baseContainer->ShowAll();
 }
 
-GLint Screen::Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ)
+bool Screen::Project(const vector3d &in, vector3d &out)
 {
-	GLint o = gluProject(objX, objY, objZ, model, proj, view, winX, winY, winZ);
-	*winX = (*winX) * width * invRealWidth;
-	*winY = GetHeight() - (*winY) * height * invRealHeight;
-	return o;
+	GLint o = gluProject(in.x, in.y, in.z, modelMatrix, projMatrix, viewport, &out.x, &out.y, &out.z);
+	out.x = out.x * width * invRealWidth;
+	out.y = GetHeight() - out.y * height * invRealHeight;
+	if (out.x*out.x > 1e8) return false;
+	if (out.y*out.y > 1e8) return false;			// these get converted to ints later, must be sane
+	return (o == GL_TRUE) ? true : false;
 }
 
 void Screen::EnterOrtho()
 {
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
+	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
+	glGetIntegerv (GL_VIEWPORT, viewport);
+
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
@@ -200,11 +211,11 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff)
 {
-	GLdouble modelMatrix[16];
+	GLdouble modelMatrix2[16];
 	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12] + xoff;
-	float y = modelMatrix[13] + yoff;
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix2);
+	float x = modelMatrix2[12] + xoff;
+	float y = modelMatrix2[13] + yoff;
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);

@@ -566,6 +566,8 @@ void Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d head = dir * rot;		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
+	assert(head.Length() > 0.99999999);
+
 	if (head.z > -0.99999999)			
 	{
 		double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
@@ -576,9 +578,7 @@ void Ship::AIFaceDirection(const vector3d &dir, double av)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
-		double head2dnorm = head.x*head.x + head.y*head.y;
-		if (head2dnorm == 0.0) { head.y = 1.0; head2dnorm = 1.0; }	// NaN fix
-		else head2dnorm = 1.0 / sqrt(head2dnorm);
+		double head2dnorm = 1.0 / sqrt(head.x*head.x + head.y*head.y);		// NAN fix shouldn't be necessary if inputs are normalized
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
 	}

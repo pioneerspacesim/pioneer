@@ -1031,35 +1031,25 @@ int WorldView::GetActiveWeapon() const
 
 void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 {
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
+	Gui::Screen::EnterOrtho();		// To save matrices
 
 	// Direction indicator
 	vector3d vel;
-	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
-	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
-	} else {
-		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+	Body *velRelTo = Pi::player->GetNavTarget();
+	if (velRelTo) vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+	else vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
-	}
 
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
-	vector3d loc_v = cam_rot.InverseOf() * vel;
+	vector3d vdir = vel * cam_rot;			// transform to camera space
 	m_velocityIndicatorOnscreen = false;
-	if (loc_v.z < 0 && !Pi::player->GetCombatTarget()) {
-		GLdouble pos[3];
-		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			
-			m_velocityIndicatorPos[0] = (int)pos[0];
-			m_velocityIndicatorPos[1] = (int)pos[1];
+	if (vdir.z < 0) {
+		vector3d pos;
+		if (Gui::Screen::Project(vdir, pos)) {
+			m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
+			m_velocityIndicatorPos[1] = (int)pos.y;
 			m_velocityIndicatorOnscreen = true;
 		}
 	}
@@ -1067,10 +1057,10 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	// test code for mousedir
 /*	vector3d mdir = Pi::player->GetMouseDir() * cam_rot;
 	if (mdir.z < 0) {
-		GLdouble pos[3];
-		if (Gui::Screen::Project (mdir.x,mdir.y,mdir.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			m_velocityIndicatorPos[0] = (int)pos[0];
-			m_velocityIndicatorPos[1] = (int)pos[1];
+		vector3d pos;
+		if (Gui::Screen::Project(mdir, pos)) {
+			m_velocityIndicatorPos[0] = (int)pos.x;
+			m_velocityIndicatorPos[1] = (int)pos.y;
 			m_velocityIndicatorOnscreen = true;
 		}
 	}
@@ -1081,21 +1071,17 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
 			Body *b = *i;
-			vector3d _pos = b->GetInterpolatedPositionRelTo(cam_frame);
-
-			if (_pos.z < 0
-				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-				b->SetProjectedPos(_pos);
+			b->SetOnscreen(false);
+			vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
+			if (pos.z < 0 && Gui::Screen::Project(pos, pos)) {
+				b->SetProjectedPos(pos);
 				b->SetOnscreen(true);
-				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), _pos.x, _pos.y);
+				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), pos.x, pos.y);
 			}
-			else
-				b->SetOnscreen(false);
 		}
 	}
 
 	// update combat HUD
-
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	m_targLeadOnscreen = false;
 	m_combatDist->Hide();
@@ -1111,8 +1097,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
 
-		if (leadpos.z < 0.0 && Gui::Screen::Project (leadpos.x, leadpos.y, leadpos.z,
-			modelMatrix, projMatrix, viewport, &m_targLeadPos.x, &m_targLeadPos.y, &m_targLeadPos.z))
+		if (leadpos.z < 0.0 && Gui::Screen::Project(leadpos, m_targLeadPos))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
@@ -1127,22 +1112,20 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
 		float r = (float)(0.2+(c+1.0)*0.4);
 		float b = (float)(0.2+(1.0-c)*0.4);
-		m_combatSpeed->Color(r, 0.0f, b);
-		m_combatDist->Color(r, 0.0f, b);
 			
-		char buf[1024]; vector3d lpos;
-		snprintf(buf, sizeof(buf), "%.0fm", dist);
-		m_combatDist->SetText(buf);
-		lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
+		m_combatDist->Color(r, 0.0f, b);
+		m_combatDist->SetText(stringf(40, "%.0fm", dist).c_str());
+		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
 		MoveChild(m_combatDist, lpos.x, lpos.y);
 		m_combatDist->Show();
 
-		snprintf(buf, sizeof(buf), "%.0fm/s", vel);
-		m_combatSpeed->SetText(buf);
+		m_combatSpeed->Color(r, 0.0f, b);
+		m_combatSpeed->SetText(stringf(40, "%0.fm/s", vel).c_str());
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
 		MoveChild(m_combatSpeed, lpos.x, lpos.y);
 		m_combatSpeed->Show();
 	}
+	Gui::Screen::LeaveOrtho();		// To save matrices
 }
 
 void WorldView::Draw()

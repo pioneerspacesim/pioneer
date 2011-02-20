@@ -216,8 +216,17 @@ void Pi::Init()
 
 	draw_progress(0.3f);
 	LmrModelCompilerInit();
+
+unsigned int control_word;
+_clearfp();
+_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+//double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
+
+
 	draw_progress(0.4f);
 	ShipType::Init();
+
+
 	draw_progress(0.5f);
 	GeoSphere::Init();
 	draw_progress(0.6f);
@@ -777,6 +786,7 @@ void Pi::Start()
 	delete view;
 	
 	InitGame();
+
 
 	if (choice == 1) {
 		/* Earth start point */
