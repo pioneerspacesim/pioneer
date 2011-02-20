@@ -207,10 +207,10 @@ void Frame::RotateInTimestep(double step)
 	m_orient.SetTranslate(pos);
 }
 
-/*
- * For an object in a rotating frame, relative to non-rotating frames it
- * must attain this velocity within rotating frame to be stationary.
- */
+
+// For an object in a rotating frame, relative to non-rotating frames it
+// must attain this velocity within rotating frame to be stationary.
+
 vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 {
 	const double omega = m_angVel.Length();
@@ -227,14 +227,23 @@ vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 	}
 }
 
-/*
- * Find system body this frame is for.
- */
+// Find system body this frame is for.
+
 SBody *Frame::GetSBodyFor()
 {
 	if (m_sbody) return m_sbody;
 	if (m_parent) return m_parent->m_sbody; // rotating frame of planet
 	else return 0;
+}
+
+// Find body this frame is for
+
+Body *Frame::GetBodyFor()
+{
+	if (m_astroBody) return m_astroBody;
+	if (m_sbody && !m_children.empty())
+		return (*m_children.begin())->m_astroBody;
+	return 0;
 }
 
 void Frame::UpdateInterpolatedTransform(double alpha)

@@ -10,60 +10,14 @@
 #include "Space.h"
 
 
-/**
- * Should be at least 3 points (start, 1 control point, and endpoint). This
- * will give a bezier curve with 5 points, because the velocity constraints at
- * either end introduce a control point each. */
-static void path(int numPoints, const vector3d *points,
-		const vector3d &startVel, const vector3d &endVel, const double maxAccel,
-		double &outDuration, BezierCurve &outPath)
-{
-	assert(numPoints >= 3);
-	// How do you get derivative of a bezier line?
-	// http://www.cs.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/bezier-der.html
-	// path is a quartic bezier:
-//	vector3d /*p0,*/ p1, p2, p3/*, p4*/;
-	// velocity along this path is derivative of above bezier, and
-	// is a cubic bezier:
-	// acceleration is derivative of the velocity bezier and is a quadric bezier
-
-	outDuration = 1.0;
-	
-	// max journey length 2^30 seconds
-	for (int i=0; i<30; i++, outDuration *= 2.0) {
-		const vector3d _startVel = startVel * outDuration;
-		const vector3d _endVel = endVel * outDuration;
-
-		/* comes from differentiation. see BezierCurve.h */
-		const double d = 1.0/(double)(numPoints+1);
-		outPath = BezierCurve(numPoints+2);
-		outPath.p[0] = points[0];
-		outPath.p[1] = points[0] + d*_startVel;
-		for (int j=2; j<numPoints; j++) outPath.p[j] = points[j-1];
-		outPath.p[numPoints] = points[numPoints-1] - d*_endVel;
-		outPath.p[numPoints+1] = points[numPoints-1];
-
-		BezierCurve vel = outPath.DerivativeOf();
-		BezierCurve accel = vel.DerivativeOf();
-
-		double this_path_max_accel = 0;
-		for (int j=0; j<accel.p.size(); j++) this_path_max_accel = std::max(this_path_max_accel, accel.p[j].Length());
-		this_path_max_accel /= (outDuration*outDuration);
-		if (this_path_max_accel < maxAccel) {
-			printf("Path max accel is %f m.sec^-2, duration %f\n", this_path_max_accel, outDuration);
-			return;
-		}
-	}
-}
-
 AICommand *AICommand::Load(Serializer::Reader &rd)
 {
 	CmdName name = (CmdName)rd.Int32();
 	switch (name) {
-		case CMD_NONE: return 0;
-		case CMD_JOURNEY: return new AICmdJourney(rd);
-		case CMD_DOCK: return new AICmdDock(rd);
-		case CMD_ORBIT: return new AICmdOrbit(rd);
+		case CMD_NONE: default: return 0;
+//		case CMD_JOURNEY: return new AICmdJourney(rd);
+//		case CMD_DOCK: return new AICmdDock(rd);
+//		case CMD_ORBIT: return new AICmdOrbit(rd);
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_KILL: return new AICmdKill(rd);
 		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
@@ -100,7 +54,7 @@ bool AICommand::ProcessChild()
 	return true;								// child finished
 }
 
-
+/*
 bool AICmdDock::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
@@ -281,153 +235,14 @@ bool AICmdJourney::TimeStepUpdate()
 	}
 	return false;
 }
-
-bool AICmdOrbit::TimeStepUpdate()
-{
-	if (!ProcessChild()) return false;
-
-	// don't think about it
-	if (!m_target->IsType(Object::PLANET)) return true;
-			
-	if (m_ship->GetFlightState() == Ship::LANDED) {
-		if (m_ship->GetDockedWith()) {
-			m_ship->Undock();
-		} else {
-			m_ship->Blastoff();
-		}
-		return false;
-	}
-
-	// is there planets in our way that we need to avoid?
-	AIPath newPath;
-	if (m_ship->AIAddAvoidancePathOnWayTo(m_target, newPath)) {
-		m_child = new AICmdFlyTo(m_ship, m_target, newPath);
-		m_path.endTime = 0;
-		return false;
-	}
-
-	if (m_path.endTime == 0) {
-		Frame *frame = m_target->GetFrame()->m_parent;
-		PiVerify(frame);
-
-		Planet *planet = static_cast<Planet*>(m_target);
-		const ShipType &type = m_ship->GetShipType();
-		const vector3d ourPosition = m_ship->GetPositionRelTo(frame);
-		const vector3d ourVelocity = m_ship->GetVelocityRelativeTo(frame);
-		// XXX nice naming inconsistency ^^
-		const double orbitalRadius = planet->GetSBody()->GetRadius() * m_orbitHeight;
-		const double orbitalSpeed = sqrt(planet->GetMass() * G / orbitalRadius);
-
-		vector3d midpos, endpos, endVel;
-		// approach differently if we are currently above or below orbit
-		if (ourPosition.Length() < orbitalRadius) {
-			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition).Normalized();
-			midpos = ourPosition.Normalized() * orbitalRadius*1.1;
-			endVel = endpos * orbitalSpeed;
-			endpos = (midpos + endpos*(midpos-ourPosition).Length()).Normalized() * orbitalRadius;
-		} else {
-			endpos = vector3d::Cross(vector3d(0.0,1.0,0.0), ourPosition);
-			endpos = endpos.Normalized() * orbitalRadius;
-			midpos = (ourPosition.Normalized() + endpos.Normalized())
-					.Normalized()* orbitalRadius*1.1;
-			endVel = ourPosition.Normalized()*-orbitalSpeed;
-		}
-		printf("Pos %f,%f,%f\n",
-				ourPosition.x,
-				ourPosition.y,
-				ourPosition.z);
-		printf("Endpos %f,%f,%f (%f)\n", endpos.x, endpos.y, endpos.z, endpos.Length());
-		// generate path
-		double duration;
-		// assumption that rear thruster is most powerful
-		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / m_ship->GetMass());
-		printf("max accel %f m/sec/sec\n",maxAccel);
-		vector3d pos[3];
-		pos[0] = ourPosition;
-		pos[1] = midpos;
-		pos[2] = endpos;
-		path(3, pos, ourVelocity, endVel, maxAccel*.75, duration, m_path.path);
-		m_path.startTime = Pi::GetGameTime();
-		m_path.endTime = m_path.startTime + duration;
-		m_path.frame = frame;
-
-		{
-			double invD = 1.0/duration;
-			vector3d p1 = m_path.path.Eval(0.0);
-			vector3d p2 = m_path.path.Eval(invD);
-			printf("starts at %f m/sec\n", (p1-p2).Length());
-			p1 = m_path.path.Eval(1.0-invD);
-			p2 = m_path.path.Eval(1.0);
-			printf("ends at %f m/sec\n", (p1-p2).Length());
-
-		}
-	}
-
-	if (m_path.endTime <= 0) return true;
-	return m_ship->AIFollowPath(m_path);
-}
-
-
-
-
-/*
-bool AICmdFlyTo::TimeStepUpdate()
-{
-	if (!ProcessChild()) return false;
-
-	if (m_path.endTime == 0) {
-		AIPath newPath;
-		if (m_ship->AIAddAvoidancePathOnWayTo(m_target, newPath)) {
-			m_child = new AICmdFlyTo(m_ship, m_target, newPath);
-			m_path.endTime = 0;
-			return false;
-		}
-
-		Frame *frame = m_target->GetFrame();
-		if (frame->IsRotatingFrame()) frame = frame->m_parent;
-		assert(frame);
-
-		const ShipType &type = m_ship->GetShipType();
-		const vector3d ourPosition = m_ship->GetPositionRelTo(frame);
-		const vector3d ourVelocity = m_ship->GetVelocityRelativeTo(frame);
-		// bug: broken
-		const vector3d endPosition = std::max(50000.0, 4.0 * m_target->GetBoundingRadius()) * (ourPosition - m_target->GetPosition()).Normalized();
-
-		// generate path
-		double duration;
-		// assumption that rear thruster is most powerful
-		const double maxAccel = fabs(type.linThrust[ShipType::THRUSTER_FORWARD] / m_ship->GetMass());
-		vector3d pos[3];
-		pos[0] = ourPosition;
-		pos[1] = 0.5*(ourPosition+endPosition);
-		pos[2] = endPosition;
-		path(3, pos, ourVelocity, m_target->GetVelocity(), maxAccel*.75, duration, m_path.path);
-		m_path.startTime = Pi::GetGameTime();
-		m_path.endTime = m_path.startTime + duration;
-		m_path.frame = frame;
-
-		{
-			double invD = 1.0/duration;
-			vector3d p1 = m_path.path.Eval(0.0);
-			vector3d p2 = m_path.path.Eval(invD);
-			printf("starts at %f m/sec\n", (p1-p2).Length());
-			p1 = m_path.path.Eval(1.0-invD);
-			p2 = m_path.path.Eval(1.0);
-			printf("ends at %f m/sec\n", (p1-p2).Length());
-
-		}
-	}
-
-	return m_ship->AIFollowPath(m_path);
-}
 */
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
 	m_ship->SetGunState(0,0);
-	/* needs to deal with frames, large distances, and success */
+	// needs to deal with frames, large distances, and success
 	if (m_ship->GetFrame() == m_target->GetFrame()) {
-		const float dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
+		double dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
 		vector3d vRel = m_ship->GetVelocityRelativeTo(m_target);
 		vector3d dir = (m_target->GetPosition() - m_ship->GetPosition()).Normalized();
 
@@ -445,58 +260,6 @@ bool AICmdKamikaze::TimeStepUpdate()
 	return false;
 }
 
-/*
-bool Ship::AICmdKill(const Ship *enemy)
-{
-	SetGunState(0,0);
-	// launch if docked
-	if (GetDockedWith()) Undock();
-	// needs to deal with frames, large distances, and success
-	if (GetFrame() == enemy->GetFrame()) {
-		const float dist = (enemy->GetPosition() - GetPosition()).Length();
-		vector3d dir = (enemy->GetPosition() - GetPosition()).Normalized();
-		ClearThrusterState();
-//		if (dist > 500.0) {
-//			AIFaceDirection(dir);
-			AIFaceTargetLead(enemy);
-			// thunder at player at 400m/sec
-//			if (dist > 5000.0) AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), enemy);
-			// fire guns if aiming well enough	
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			const vector3d zaxis = vector3d(-rot[8], -rot[9], -rot[10]);
-			const float dot = vector3d::Dot(dir, vector3d(-rot[8], -rot[9], -rot[10]));
-			if (dot > 0.95f) {
-				SetGunState(0,1);
-	//const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	//TryHyperspaceTo(path);
-			}
-//		} else {
-//			// if too close turn away!
-//			AIFaceDirection(-dir);
-//			AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-1000), enemy);
-//		}
-	}
-	return false;
-}
-*/
-
-/*
-// principle? Use linear thrusters to dodge and close or open range
-// Use angular thrusters either to get on target or increase evasion ability
-// 
-
-void Ship::AIFight()
-{
-	// determine approximate time-to-threat and damage potential
-
-		
-
-	// determine approximate time-to-threaten and damage potential
-
-
-}
-*/
 /*
 // temporary evasion-test version
 bool AICmdKill::TimeStepUpdate()
@@ -889,23 +652,337 @@ bool AICmdKill::TimeStepUpdate()
 }
 */
 
+// three cases?
+// if target is rotating frame, want position relative to parent frame
+// if target is ground station, want offset relative to self?
+// if target is ship, want both ways... but that's a different function
+
+// gets position of (target + offset in target's frame) in frame
+// if object has its own rotational frame, ignores it
+static vector3d GetPosInFrame(Frame *frame, Body *target, vector3d &offset)
+{
+	matrix4x4d trot, tran; 
+	if (target->GetFrame()->GetBodyFor() == target)			// own frame of reference
+		Frame::GetFrameTransform(target->GetFrame()->m_parent, frame, tran);
+	else Frame::GetFrameTransform(target->GetFrame(), frame, tran);
+	return tran * (offset + target->GetPosition());
+}
+
+// targpos in frame of obj1
+static bool CheckCollision(Body *obj1, Body *obj2, vector3d &targpos)
+{
+	vector3d p = obj2->GetPositionRelTo(obj1->GetFrame());
+	vector3d p1 = obj1->GetPosition() - p;
+	vector3d p2 = targpos - p;
+	double r = obj1->GetBoundingRadius() + obj2->GetBoundingRadius();
+	if (p1.LengthSqr() < r*r) return true;
+	if (p2.LengthSqr() < r*r) return true;		// either point actually within radius
+
+	vector3d dir = (p2-p1).Normalized();
+	double tanlen = -p1.Dot(dir);
+	if (tanlen < 0 || tanlen > (p2-p1).Length()) return false;	// closest point outside path 
+	vector3d tan = p1 + tanlen * dir;
+	return (tan.LengthSqr() < r*r) ? true : false;		// closest point within radius?
+}
+
+// only care about wells if inside rotating frame?
+// valid possibilities? targets within object's bounding radius only
+// so must be in rotational FOR already
+// todo: needs offset to avoid issues around zero?
+static bool TargetWellTest(Body *obj1, Body *obj2)
+{
+	if (!obj2->IsType(Object::SPACESTATION)) return false;
+	if (!((SpaceStation *)obj2)->IsGroundStation()) return false;
+
+	vector3d ourdir = obj1->GetPositionRelTo(obj2).NormalizedSafe();
+	vector3d targupdir = obj2->GetPosition().NormalizedSafe();
+	return (ourdir.Dot(targupdir) > 0.707) ? true : false;
+}
+
+// generates from (0,0,0) to spos, in plane of target 
+// formula uses similar triangles
+static vector3d GenerateTangent(vector3d &spos, vector3d &targ, double radius)
+{
+	double a = spos.Length(), b = radius, c = sqrt(a*a - b*b);
+	return spos.Normalized()*b*b/a + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
+}
+
+// run this on frame switches? sounds like a plan.
+// obj1 is ship, obj2 is target body, targpos is destination in obj1's frame
+// only bother checking this frame's astrobody and target's astrobody atm
+static Body *FindNearestObstructor(Body *obj1, Body *obj2, vector3d &targpos)
+{
+	Body *body = obj1->GetFrame()->GetBodyFor();
+	if (body && CheckCollision(obj1, body, targpos)) return body;
+
+	body = obj2->GetFrame()->GetBodyFor();
+	if (body && CheckCollision(obj1, body, targpos)) return body;
+
+	return 0;
+}
+
+static int GetFlipMode(Body *ship, Body *target, vector3d &posoff)
+{
+	vector3d targpos = GetPosInFrame(ship->GetFrame(), target, posoff);
+	return (targpos.Length() > 100000000.0) ? 1 : 0;
+}
+
+void AICmdFlyTo::GetAwayFromBody(Body *body, vector3d &targpos)
+{
+	if (TargetWellTest(m_ship, m_target)) return;
+
+	// check if direct escape is safe
+	vector3d pos = m_ship->GetPosition();
+	vector3d targdir = (targpos-pos).Normalized();
+	vector3d ourdir = pos.Normalized();
+	if (targdir.Dot(ourdir) > 0.707) return;
+
+	// build escape vector	
+	vector3d sidedir = ourdir.Cross(targdir).Cross(ourdir).Normalized();
+	vector3d newdir = ourdir + sidedir;
+	newdir = pos + newdir * (body->GetBoundingRadius()*1.02 - pos.Length());
+
+	// offsets to rotating objects are relative to the non-rotating frame
+	matrix4x4d tran;
+	Frame::GetFrameTransform(body->GetFrame(), body->GetFrame()->m_parent, tran);
+	newdir = tran * newdir;
+
+	// todo: terminal velocity
+
+	// ignore further collisions, forward only
+	m_child = new AICmdFlyTo(m_ship, body, newdir, 0.0, 0, false);
+	m_frame = 0;		// trigger rebuild when child finishes
+}
+
+int g_navbodycount = 0;
+
+void AICmdFlyTo::NavigateAroundBody(Body *body, vector3d &targpos)
+{
+	if (TargetWellTest(m_ship, m_target)) return;
+g_navbodycount++;
+	// offset tangent by a bit
+	vector3d newpos = 1.02 * GenerateTangent(m_ship->GetPosition(), targpos, body->GetBoundingRadius());
+
+	// should already be a position in non-rotating frame
+	// todo: terminal velocity
+
+	// ignore further collisions
+	int newmode = GetFlipMode(m_ship, body, newpos) ? 1 : 3;
+	m_child = new AICmdFlyTo(m_ship, body, newpos, 0.0, 0, false);	//newmode, false);
+	m_frame = 0;		// trigger rebuild when child finishes
+}
+
+
+void AICmdFlyTo::CheckCollisions(bool coll)
+{
+	// first get target pos in our frame
+	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_posoff);
+	m_relpos = targpos - m_ship->GetPosition();
+	m_frame = m_ship->GetFrame();				// set up the termination test
+
+	// check collisions
+	if (!coll) return;
+	Body *body = FindNearestObstructor(m_ship, m_target, targpos);
+	if (!body) return;
+
+	// todo: check bounding radius vs rotating frame
+	// if inside bounding radius of body, head out unless target is in same well
+	if (body->GetBoundingRadius() > m_ship->GetPositionRelTo(body).Length())
+		GetAwayFromBody(body, targpos);
+			
+	// if outside obstructor's radius but in frame, head for either well or tangent
+	else if (m_ship->GetFrame()->GetBodyFor() == body)
+		NavigateAroundBody(body, targpos);
+	
+	// if outside obstructor's frame, just head to vicinity of obstructor
+	else m_child = new AICmdFlyTo(m_ship, body);
+}
+
+// Fly to "vicinity" of body
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
+{
+	m_target = target;
+
+	double dist = std::max(500.0, 4.0 * m_target->GetBoundingRadius());
+	if (m_target->IsType(Object::SPACESTATION) && ((SpaceStation *)m_target)->IsGroundStation()) {
+		matrix4x4d rot; m_target->GetRotMatrix(rot);
+		m_posoff = dist * vector3d(rot[4], rot[5], rot[6]);		// up vector for starport
+	}
+	else if(m_target->GetFrame()->GetBodyFor() == m_target)
+		m_posoff = dist * m_ship->GetPositionRelTo(m_target->GetFrame()->m_parent).Normalized();
+	else m_posoff = dist * m_ship->GetPositionRelTo(m_target).Normalized();
+
+	m_endvel = 0;
+	m_orbitrad = 0;
+	m_frame = m_ship->GetFrame();
+	m_headmode = GetFlipMode(m_ship, m_target, m_posoff);
+
+	CheckCollisions(true);
+}
+
+// Orbit
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, double alt) : AICommand (ship, CMD_FLYTO)
+{
+	m_target = target;
+	m_orbitrad = target->GetSBody()->GetRadius() * alt;
+	m_endvel = sqrt(target->GetMass() * G / m_orbitrad);
+
+	matrix4x4d rot; m_ship->GetRotMatrix(rot);
+	vector3d heading(-rot[8], -rot[9], -rot[10]);
+	m_posoff = GenerateTangent(m_ship->GetPosition(), heading, m_orbitrad);
+	m_frame = m_ship->GetFrame();
+	m_headmode = GetFlipMode(m_ship, m_target, m_posoff);
+
+	CheckCollisions(true);
+}
+
+// Specified pos, endvel should be > 0
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, vector3d &posoff, double endvel, int headmode, bool coll)
+	: AICommand (ship, CMD_FLYTO)
+{
+	m_target = target;
+	m_posoff = posoff;
+	m_frame = m_ship->GetFrame();
+	m_endvel = endvel;
+	m_orbitrad = 0;
+	m_headmode = headmode;
+
+	CheckCollisions(coll);
+}
+
+
+// so heading cases?
+// if flip == 0, head towards
+// if flip == 1, head towards unless flip conditions pass, flip++
+// if flip == 2, head away
+// if flip == 3, head towards tangent in direction of target
+// if flip == 4, if within certain distance of origin, do not change heading. cancel angvel.
+// if flip == 5, very close to or past target
+// interceptions? Maybe need another thing.
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
-	if (!ProcessChild()) return false;
+	if (!ProcessChild()) return false;		// child not finished
 	if (!m_target) return true;
-
-	// now have target pos & vel in ship's frame
-
-	double dist = m_ship->AIMatchPosVel(m_target, m_posoff, m_endvel, Ship::FACING_FLIP);
-	// flip hysteresis? timeout on next flip?
-
-
-	if (dist < 100.0) {
-		vector3d relpos = m_ship->GetPositionRelTo(m_target);
-		printf("dist = %.0f, pos = %.0f,%.0f,%.0f\n", dist, relpos.x, relpos.y, relpos.z);
-		if (m_ship->GetVelocity().Length() < 1) { fflush(stdout); return true; }
+	if (m_frame != m_ship->GetFrame()) {
+		CheckCollisions(true);
+		m_ship->ClearThrusterState();				// fix for bogus frame between
+		return false;
 	}
+	if (m_headmode == 6) return true;		// finished
+
+	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_posoff);
+	vector3d relpos = targpos - m_ship->GetPosition();
+	vector3d reldir = relpos.Normalized();
+	vector3d relvel = m_ship->GetVelocityRelativeTo(m_target);
+	double targdist = relpos.Length();
+
+	if (targdist < 100.0) {
+		printf("dist = %.0f, vel = %.1f\n", targdist, relvel.Length());
+		fflush(stdout);
+	}
+
+
+	// check for termination condition: other side of original targpos
+	if (relpos.Dot(m_relpos) < 0 || targdist < 1.0) m_headmode = 5;
+	if (m_headmode == 5) {
+		vector3d targvel = vector3d(0.0);
+		if (m_orbitrad > 0) {			// force into proper orbit at current alt
+			matrix4x4d rot; m_ship->GetRotMatrix(rot);
+			vector3d pos = m_ship->GetPositionRelTo(m_target);
+			double orbspd = sqrt(m_target->GetMass() * G / pos.Length());
+			targvel = orbspd * pos.Cross(relvel).Cross(pos).Normalized();
+		}
+		else if (m_endvel > 0) return true;
+		else targvel = m_target->GetVelocityRelativeTo(m_frame);
+		m_ship->AIMatchVel(targvel);
+		m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
+		if ((targvel - m_ship->GetVelocity()).LengthSqr() < 1.0) m_headmode = 6;
+//		if (!m_target->IsType(Object::SPACESTATION)) m_headmode = 6;	// stupid fucking corner case
+		return false;				// keep trying to zero velocity
+	}
+	// todo: actually, why am I bothering to zero velocity...
+
+	// check for uncorrectable side velocity
+	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
+	double sideacc = m_ship->GetMaxThrust(vector3d(0.0)).x / m_ship->GetMass();
+	if (perpvel.LengthSqr() > 4.0 * 2.0 * sideacc * targdist) {
+		m_ship->AIFaceDirection(-perpvel.Normalized());
+		m_ship->AIMatchVel(relvel - perpvel);
+		return false;
+	}
+
+	// check for target proximity - don't mess around close to the target
+	// this needs fixing with a 2as or similar
+	if (targdist < 10.0 * Pi::GetTimeAccel()) m_headmode = 4;
+
+	bool flip = (m_headmode == 1) ? true : false;
+	double decel = m_ship->AIMatchPosVel(targpos, relvel, m_endvel, flip);
+	if (m_headmode == 1 && decel < 0) m_headmode = 2;		// time to flip
+
+	// set heading according to current state
+	if (m_headmode == 0 || m_headmode == 1) m_ship->AIFacePosition(targpos);
+	if (m_headmode == 2) m_ship->AIFacePosition(-targpos);
+	if (m_headmode == 3) {
+		vector3d newhead = 1.02 * GenerateTangent(m_ship->GetPosition(), targpos, m_target->GetBoundingRadius());
+		m_ship->AIFacePosition(newhead);
+	}
+	if (m_headmode == 4) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
+
+/*	if (m_headmode == 0 || m_headmode == 1) m_ship->AIFaceDirection(reldir);
+	if (m_headmode == 2) m_ship->AIFaceDirection(-reldir);
+	if (m_headmode == 3) {
+		vector3d newhead = 1.02 * GenerateTangent(m_ship->GetPosition(), targpos, m_target->GetBoundingRadius());
+//bug		m_ship->AIFaceDirection(newhead.Normalized());
+	}
+	if (m_headmode == 4) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
+*/
+	return false;
+}
+
+
+/*	if (m_terminal)			// to finish off, just get velocity right
+	{
+//return true;
+		vector3d targvel = vector3d(0.0);
+		if (m_orbitrad > 0) {
+			matrix4x4d rot; m_ship->GetRotMatrix(rot);
+			vector3d pos = m_ship->GetPosition(), vel = m_ship->GetVelocity();
+			double orbspd = sqrt(m_target->GetMass() * G / pos.Length());
+			vector3d targvel = orbspd * pos.Cross(vel).Cross(pos).Normalized();
+		}
+		else if (m_endvel > 0) return true;
+		if ((targvel - m_ship->GetVelocityRelativeTo(m_target)).LengthSqr() < 1.0) return true;
+		m_ship->AIAccelToModelRelativeVelocity(targvel);
+	}
+
+	bool isframe = (m_target->GetFrame()->GetBodyFor() == m_target) ? true : false;
+	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_posoff, false);
+	vector3d relpos = targpos - m_ship->GetPosition();
+
+	if (!m_flip) m_ship->AIFaceDirection(relpos.Normalized());
+	m_ship->AIMatchPosVel(m_target, targpos, m_endvel, m_flip);
+
+	vector3d relvel = m_ship->GetVelocityRelativeTo(m_target);
+	vector3d relpos2 = relpos + relvel*Pi::GetTimeStep();
+	if (relpos.Length() < 1.0 || relpos.Dot(relpos2) < 0) m_terminal = true;
+
+// todo: should generate an approx journey time and compare stuff to that really
+
+//	if (dist < 100.0) {
+//		vector3d relpos = m_ship->GetPositionRelTo(m_target);
+//		printf("dist = %.0f, pos = %.0f,%.0f,%.0f\n", dist, relpos.x, relpos.y, relpos.z);
+//		if (m_ship->GetVelocity().Length() < 1) { fflush(stdout); return true; }
+//	}
 
 	return false;
 }
+*/
+
+/* for AIFollowShip command
+	if (mode == FACING_MATCH) {
+		vector3d targdir = tran * vector3d(-trot[8], -trot[9], -trot[10]);
+		AIFaceDirection(targdir.Normalized());
+		return targdist;
+	}
+*/

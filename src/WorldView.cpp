@@ -531,6 +531,8 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
+extern int g_navbodycount;
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	if ((!Pi::player) || Pi::player->IsDead()) {
@@ -595,23 +597,26 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
-/*		vector3d pos = Pi::player->GetPosition();
+		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
+		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km)",
+			"Rel-to: %s (%.0f km), rotating: %s\n"
+			"Body navigation count = %i\n",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000);
-*/
-		vector3d angvel = Pi::player->GetAngVelocity();
+			rel_to, pos.Length()/1000, rot_frame,
+			g_navbodycount);
+
+/*		vector3d angvel = Pi::player->GetAngVelocity();
 		vector3d torque = Pi::player->GetAccumTorque();
 		vector3d impulse = torque / Pi::player->GetAngularInertia();
 		vector3d mdir = Pi::player->GetMouseDir();
 		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
 			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
-
+*/
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {

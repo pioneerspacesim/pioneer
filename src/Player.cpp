@@ -126,7 +126,8 @@ void Player::StaticUpdate(const float timeStep)
 	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
 	if (m_flightControlState == CONTROL_AUTOPILOT && !AIIsActive()) {
 		Pi::RequestTimeAccel(1);
-		SetFlightControlState(CONTROL_MANUAL);
+		SetFlightControlState(CONTROL_MANUAL);		//FIXSPEED);
+//		m_setSpeed = 0;
 	}
 		
 	/* This wank probably shouldn't be in Player... */
