@@ -475,7 +475,7 @@ void Ship::TestLanded()
 			matrix4x4d invRot = rot.InverseOf();
 
 			// check player is sortof sensibly oriented for landing
-			const double dot = vector3d::Dot( vector3d(invRot[1], invRot[5], invRot[9]).Normalized(), up);
+			const double dot = vector3d(invRot[1], invRot[5], invRot[9]).Normalized().Dot(up);
 			if (dot > 0.99) {
 
 				Aabb aabb;
@@ -485,8 +485,8 @@ void Ship::TestLanded()
 				SetPosition(up * (planetRadius - aabb.min.y));
 
 				vector3d forward = rot * vector3d(0,0,1);
-				vector3d other = vector3d::Cross(up, forward).Normalized();
-				forward = vector3d::Cross(other, up);
+				vector3d other = up.Cross(forward).Normalized();
+				forward = other.Cross(up);
 
 				rot = matrix4x4d::MakeRotMatrix(other, up, forward);
 				rot = rot.InverseOf();
@@ -544,7 +544,7 @@ void Ship::FireWeapon(int num)
 	
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		vector3f sep = vector3f::Cross(dir, vector3f(m[4],m[5],m[6])).Normalized();
+		vector3f sep = dir.Cross(vector3f(m[4],m[5],m[6])).Normalized();
 		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
 		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
 	}
@@ -589,15 +589,15 @@ void Ship::StaticUpdate(const float timeStep)
 			Planet *p = static_cast<Planet*>(astro);
 			if (p->IsSuperType(SBody::SUPERTYPE_GAS_GIANT)) {
 				double dist = GetPosition().Length();
-				float pressure, density;
-				p->GetAtmosphericState(dist, pressure, density);
+				double pressure, density;
+				p->GetAtmosphericState(dist, &pressure, &density);
 			
 				double speed = GetVelocity().Length();
 				vector3d vdir = GetVelocity().Normalized();
 				matrix4x4d rot;
 				GetRotMatrix(rot);
 				vector3d pdir = -vector3d(rot[8], rot[9], rot[10]).Normalized();
-				double dot = vector3d::Dot(vdir, pdir);
+				double dot = vdir.Dot(pdir);
 				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {

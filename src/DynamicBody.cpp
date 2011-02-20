@@ -112,8 +112,8 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			Planet *planet = static_cast<Planet*>(GetFrame()->m_astroBody);
 
 			double dist = GetPosition().Length();
-			float pressure, density;
-			planet->GetAtmosphericState(dist, pressure, density);
+			double pressure, density;
+			planet->GetAtmosphericState(dist, &pressure, &density);
 			const double radius = GetBoundingRadius();
 			const double AREA = radius;
 			// ^^^ yes that is as stupid as it looks
@@ -135,14 +135,14 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 			if (omega) {
 			
 				// centrifugal force
-				vector3d perpend = vector3d::Cross(angRot, GetPosition());
+				vector3d perpend = angRot.Cross(GetPosition());
 				if (perpend != vector3d(0,0,0)) {
-					perpend = vector3d::Cross(perpend, angRot).Normalized();
-					double R = vector3d::Dot(perpend, GetPosition());
+					perpend = perpend.Cross(angRot).Normalized();
+					double R = perpend.Dot(GetPosition());
 					double centrifugal = m_mass * omega * omega * R;
 					m_force += centrifugal*perpend;
 					// coriolis force
-					m_force += -2*m_mass*vector3d::Cross(angRot, GetVelocity());
+					m_force += -2*m_mass*angRot.Cross(GetVelocity());
 				}
 			}
 

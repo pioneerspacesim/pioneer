@@ -92,7 +92,7 @@ namespace Serializer {
 		void SetStreamVersion(int x) { m_streamVersion = x; }
 	private:
 		std::string m_data;
-		int m_pos;
+		size_t m_pos;
 		int m_streamVersion;
 	};
 

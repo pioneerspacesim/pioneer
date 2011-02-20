@@ -140,13 +140,13 @@ namespace ShipThruster {
 
 		vector3f start, end, dir = pThruster->dir;
 		start = pThruster->pos * scale;
-		float power = -vector3f::Dot(dir, invSubModelMat * vector3f(params->linthrust));
+		float power = -dir.Dot(invSubModelMat * vector3f(params->linthrust));
 
 		if (!pThruster->linear_only) {
 			vector3f angdir, cpos;
 			const vector3f at = invSubModelMat * vector3f(params->angthrust);
 			cpos = compos + start;
-			angdir = vector3f::Cross(cpos, dir);
+			angdir = cpos.Cross(dir);
 			float xp = angdir.x * at.x;
 			float yp = angdir.y * at.y;
 			float zp = angdir.z * at.z;
@@ -168,8 +168,8 @@ namespace ShipThruster {
 		matrix4x4f m2;
 		matrix4x4f m = matrix4x4f::Identity();
 		v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
-		v2 = vector3f::Cross(v1, dir).Normalized();
-		v1 = vector3f::Cross(v2, dir);
+		v2 = v1.Cross(dir).Normalized();
+		v1 = v2.Cross(dir);
 		m[0] = v1.x; m[4] = v2.x; m[8] = dir.x;
 		m[1] = v1.y; m[5] = v2.y; m[9] = dir.y;
 		m[2] = v1.z; m[6] = v2.z; m[10] = dir.z;
@@ -1070,9 +1070,9 @@ namespace ModelFuncs {
 			const vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
 			float scale = luaL_checknumber(L, 5);
 
-			vector3f zaxis = vector3f::Cross(*_xaxis, *_yaxis).Normalized();
-			vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
-			vector3f yaxis = vector3f::Cross(zaxis, xaxis);
+			vector3f zaxis = _xaxis->Cross(*_yaxis).Normalized();
+			vector3f xaxis = _yaxis->Cross(zaxis).Normalized();
+			vector3f yaxis = zaxis.Cross(xaxis);
 
 			matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
 			trans[12] = pos->x;
@@ -1147,7 +1147,7 @@ namespace ModelFuncs {
 
 		const vector3f dir = (*end-*start).Normalized();
 		const vector3f axis1 = updir->Normalized();
-		const vector3f axis2 = vector3d::Cross(*updir, dir).Normalized();
+		const vector3f axis2 = updir->Cross(dir).Normalized();
 		const float inc = 2.0f*M_PI / (float)steps;
 
 		for (int i=0; i<num-3; i+=2) {
@@ -1167,8 +1167,8 @@ namespace ModelFuncs {
 					if (rad1 > rad2) n = dir;
 					else n = -dir;
 				} else {
-					n = vector3d::Cross(vector3f::Cross((_end+p2)-(_start+p1), p1), (_end+p2)-(_start+p1))
-						.Normalized();
+					vector3f tmp = (_end+p2)-(_start+p1);
+					n = tmp.Cross(p1).Cross(tmp).Normalized();
 				}
 				s_curBuf->SetVertex(basevtx + j, _start+p1, n);
 				s_curBuf->SetVertex(basevtx + steps + j, _end+p2, n);
@@ -1206,7 +1206,7 @@ namespace ModelFuncs {
 		vector3f yax = *updir;
 		vector3f xax, zax;
 		zax = ((*end) - (*start)).Normalized();
-		xax = vector3f::Cross(yax, zax);
+		xax = yax.Cross(zax);
 
 		for (int i=0; i<steps; i++) {
 			vector3f tv, norm;
@@ -1232,7 +1232,7 @@ namespace ModelFuncs {
 			const vector3f &v2 = s_curBuf->GetVertex(vtxStart + (i + 1)%steps);
 			const vector3f &v3 = s_curBuf->GetVertex(vtxStart + i + steps);
 			const vector3f &v4 = s_curBuf->GetVertex(vtxStart + (i + 1)%steps + steps);
-			const vector3f norm = vector3f::Cross(v2-v1, v3-v1).Normalized();
+			const vector3f norm = (v2-v1).Cross(v3-v1).Normalized();
 
 			const int idx = vtxStart + 2*steps + i*4;
 			s_curBuf->SetVertex(idx, v1, norm);
@@ -1447,7 +1447,7 @@ namespace ModelFuncs {
 					pu = eval_cubic_bezier_triangle(pts, s+0.1f*inc, t-0.1f*inc, u);
 					pv = eval_cubic_bezier_triangle(pts, s-0.05f*inc, t-0.05f*inc, u+0.1f*inc);
 				}
-				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
+				vector3f norm = (pu-p).Cross(pv-p).Normalized();
 				s_curBuf->SetVertex(vtxPos, p, norm);
 
 				if (xref) {
@@ -1523,7 +1523,7 @@ namespace ModelFuncs {
 				// calculating normals...
 				vector3f pu = eval_quadric_bezier_u_v(pts, u+0.01f*inc_u, v);
 				vector3f pv = eval_quadric_bezier_u_v(pts, u, v+0.01f*inc_v);
-				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
+				vector3f norm = (pu-p).Cross(pv-p).Normalized();
 
 				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
 				if (xref) {
@@ -1606,7 +1606,7 @@ namespace ModelFuncs {
 				// calculating normals...
 				vector3f pu = eval_cubic_bezier_u_v(pts, u+0.01f*inc_u, v);
 				vector3f pv = eval_cubic_bezier_u_v(pts, u, v+0.01f*inc_v);
-				vector3f norm = vector3f::Cross(pu-p, pv-p).Normalized();
+				vector3f norm = (pu-p).Cross(pv-p).Normalized();
 
 				s_curBuf->SetVertex(vtxStart + i*(divs_v+1) + j, p, norm);
 				if (xref) {
@@ -1687,7 +1687,7 @@ namespace ModelFuncs {
 				vector3f pos = *MyLuaVec::checkVec(L, 2);
 				vector3f uaxis = *MyLuaVec::checkVec(L, 3);
 				vector3f vaxis = *MyLuaVec::checkVec(L, 4);
-				vector3f waxis = vector3f::Cross(uaxis, vaxis);
+				vector3f waxis = uaxis.Cross(vaxis);
 
 				matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(uaxis, vaxis, waxis);
 				trans[12] = -pos.x;
@@ -1722,9 +1722,9 @@ namespace ModelFuncs {
 		vector3f *norm = MyLuaVec::checkVec(L, 3);
 		vector3f *textdir = MyLuaVec::checkVec(L, 4);
 		float scale = luaL_checknumber(L, 5);
-		vector3f yaxis = vector3f::Cross(*norm, *textdir).Normalized();
-		vector3f zaxis = vector3f::Cross(*textdir, yaxis).Normalized();
-		vector3f xaxis = vector3f::Cross(yaxis, zaxis);
+		vector3f yaxis = norm->Cross(*textdir).Normalized();
+		vector3f zaxis = textdir->Cross(yaxis).Normalized();
+		vector3f xaxis = yaxis.Cross(zaxis);
 		_textTrans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
 		
 		bool do_center = false;
@@ -1784,7 +1784,7 @@ namespace ModelFuncs {
 		const int vtxStart = s_curBuf->AllocVertices(steps);
 
 		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, normal).Normalized();
+		const vector3f axis2 = updir.Cross(normal).Normalized();
 
 		const float inc = 2.0f*M_PI / (float)steps;
 		float ang = 0.5f*inc;
@@ -1831,7 +1831,7 @@ namespace ModelFuncs {
 
 		const vector3f dir = (end-start).Normalized();
 		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+		const vector3f axis2 = updir.Cross(dir).Normalized();
 
 		const float inc = 2.0f*M_PI / (float)steps;
 		float ang = 0.5*inc;
@@ -1917,7 +1917,7 @@ namespace ModelFuncs {
 
 		const vector3f dir = (end-start).Normalized();
 		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+		const vector3f axis2 = updir.Cross(dir).Normalized();
 
 		const float inc = 2.0f*M_PI / (float)steps;
 		float ang = 0.5*inc;
@@ -1926,8 +1926,8 @@ namespace ModelFuncs {
 		for (int i=0; i<steps; i++, ang += inc) {
 			vector3f p1 = radius1 * (sin(ang)*axis1 + cos(ang)*axis2);
 			vector3f p2 = radius2 * (sin(ang)*axis1 + cos(ang)*axis2);
-			vector3f n = vector3d::Cross(vector3f::Cross((end+p2)-(start+p1), p1), (end+p2)-(start+p1))
-				.Normalized();
+			vector3f tmp = (end+p2)-(start+p1);
+			vector3f n = tmp.Cross(p1).Cross(tmp).Normalized();
 
 			s_curBuf->SetVertex(vtxStart+i, start+p1, n);
 			s_curBuf->SetVertex(vtxStart+i+steps, end+p2, n);
@@ -1984,7 +1984,7 @@ namespace ModelFuncs {
 
 		const vector3f dir = (end-start).Normalized();
 		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+		const vector3f axis2 = updir.Cross(dir).Normalized();
 
 		const float inc = 2.0f*M_PI / (float)steps;
 		float ang = 0.5*inc;
@@ -2045,7 +2045,7 @@ namespace ModelFuncs {
 
 		const vector3f dir = (end-start).Normalized();
 		const vector3f axis1 = updir.Normalized();
-		const vector3f axis2 = vector3f::Cross(updir, dir).Normalized();
+		const vector3f axis2 = updir.Cross(dir).Normalized();
 
 		const int vtxStart = s_curBuf->AllocVertices(2*steps);
 
@@ -2101,7 +2101,7 @@ namespace ModelFuncs {
 		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
 		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
 		
-		vector3f n = vector3f::Cross((*v1)-(*v2), (*v1)-(*v3)).Normalized();
+		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
 		int i1 = s_curBuf->PushVertex(*v1, n);
 		int i2 = s_curBuf->PushVertex(*v2, n);
 		int i3 = s_curBuf->PushVertex(*v3, n);
@@ -2115,7 +2115,7 @@ namespace ModelFuncs {
 		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
 		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
 		
-		vector3f n = vector3f::Cross((*v1)-(*v2), (*v1)-(*v3)).Normalized();
+		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
 		int i1 = s_curBuf->PushVertex(*v1, n);
 		int i2 = s_curBuf->PushVertex(*v2, n);
 		int i3 = s_curBuf->PushVertex(*v3, n);
@@ -2129,7 +2129,7 @@ namespace ModelFuncs {
 		vector3f v2 = *MyLuaVec::checkVec(L, 2);
 		vector3f v3 = *MyLuaVec::checkVec(L, 3);
 		
-		vector3f n = vector3f::Cross((v1)-(v2), (v1)-(v3)).Normalized();
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
 		int i1 = s_curBuf->PushVertex(v1, n);
 		int i2 = s_curBuf->PushVertex(v2, n);
 		int i3 = s_curBuf->PushVertex(v3, n);
@@ -2149,7 +2149,7 @@ namespace ModelFuncs {
 		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
 		const vector3f *v4 = MyLuaVec::checkVec(L, 4);
 		
-		vector3f n = vector3f::Cross((*v1)-(*v2), (*v1)-(*v3)).Normalized();
+		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
 		int i1 = s_curBuf->PushVertex(*v1, n);
 		int i2 = s_curBuf->PushVertex(*v2, n);
 		int i3 = s_curBuf->PushVertex(*v3, n);
@@ -2166,7 +2166,7 @@ namespace ModelFuncs {
 		vector3f v3 = *MyLuaVec::checkVec(L, 3);
 		vector3f v4 = *MyLuaVec::checkVec(L, 4);
 		
-		vector3f n = vector3f::Cross((v1)-(v2), (v1)-(v3)).Normalized();
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
 		int i1 = s_curBuf->PushVertex(v1, n);
 		int i2 = s_curBuf->PushVertex(v2, n);
 		int i3 = s_curBuf->PushVertex(v3, n);
@@ -2568,7 +2568,7 @@ namespace ObjLoader {
 						vector3f &a = vertices[vi[0]];
 						vector3f &b = vertices[vi[i+1]];
 						vector3f &c = vertices[vi[i+2]];
-						vector3f n = vector3f::Cross(a-b, a-c).Normalized();
+						vector3f n = (a-b).Cross(a-c).Normalized();
 						int vtxStart = s_curBuf->AllocVertices(3);
 						s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
 						s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);

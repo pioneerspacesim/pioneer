@@ -141,8 +141,8 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	SetPosition(pos);
 
 	vector3d forward = vector3d(0,0,1);
-	vector3d other = vector3d::Cross(up, forward).Normalized();
-	forward = vector3d::Cross(other, up);
+	vector3d other = up.Cross(forward).Normalized();
+	forward = other.Cross(up);
 
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(other, up, forward);
 	rot = rot.InverseOf();

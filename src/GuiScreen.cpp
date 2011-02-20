@@ -211,11 +211,11 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff)
 {
-	GLdouble modelMatrix2[16];
+	GLdouble modelMatrix[16];
 	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix2);
-	float x = modelMatrix2[12] + xoff;
-	float y = modelMatrix2[13] + yoff;
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
+	float x = modelMatrix[12] + xoff;
+	float y = modelMatrix[13] + yoff;
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);

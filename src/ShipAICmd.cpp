@@ -130,7 +130,7 @@ bool AICmdDock::TimeStepUpdate()
 			matrix4x4d orient;
 			m_target->GetRotMatrix(orient);
 			orient = orient * matrix4x4d::MakeRotMatrix(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis,
-					vector3d::Cross(shipOrientEndDocking.xaxis, shipOrientEndDocking.yaxis));
+					shipOrientEndDocking.xaxis.Cross(shipOrientEndDocking.yaxis));
 			m_ship->SetAngThrusterState(0, 0);
 			m_ship->SetAngThrusterState(1, 0);
 			m_ship->SetAngThrusterState(2, 0);
@@ -235,6 +235,7 @@ bool AICmdJourney::TimeStepUpdate()
 	}
 	return false;
 }
+
 */
 
 bool AICmdKamikaze::TimeStepUpdate()
@@ -246,7 +247,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 		vector3d vRel = m_ship->GetVelocityRelativeTo(m_target);
 		vector3d dir = (m_target->GetPosition() - m_ship->GetPosition()).Normalized();
 
-		const double eta = Clamp(dist / vector3d::Dot(vRel, dir), 0.0, 10.0);
+		const double eta = Clamp(dist / vRel.Dot(dir), 0.0, 10.0);
 		const vector3d enemyProjectedPos = m_target->GetPosition() + eta*m_target->GetVelocity() - eta*m_ship->GetVelocity();
 		dir = (enemyProjectedPos - m_ship->GetPosition()).Normalized();
 

@@ -9,17 +9,16 @@ template <typename T>
 class Quaternion {
 public:
 	T w,x,y,z;
-	Quaternion() {}
-	Quaternion(T w, T x, T y, T z): w(w), x(x), y(y), z(z) {}
+
+	// Constructor definitions are outside class declaration to enforce that
+	// only float and double versions are possible.
+	Quaternion();
+	Quaternion(T w, T x, T y, T z);
 	// from angle and axis
-	Quaternion(T ang, vector3<T> axis) {
-		const T halfAng = ang*(T)0.5;
-		const T sinHalfAng = sin(halfAng);
-		w = cos(halfAng);
-		x = axis.x * sinHalfAng;
-		y = axis.y * sinHalfAng;
-		z = axis.z * sinHalfAng;
-	}
+	Quaternion(T ang, vector3<T> axis);
+	Quaternion(const Quaternion<float > &o);
+	Quaternion(const Quaternion<double> &o);
+
 	void GetAxisAngle(T &angle, vector3<T> &axis) {
 		if (w > 1.0) *this = Normalized(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
 		angle = 2.0 * acos(w);
@@ -77,6 +76,7 @@ public:
 		r.z = a.z-b.z;
 		return r;
 	}
+
 	Quaternion Normalized() const {
 		T l = 1.0 / sqrt (w*w + x*x + y*y + z*z);
 		return Quaternion(w*l, x*l, y*l, z*l);
@@ -160,7 +160,35 @@ public:
 	//	printf("%f,%f,%f,%f\n", w, x, y, z);
 	//}
 };
-typedef Quaternion<float> Quaternionf;
+
+template<> inline Quaternion<float >::Quaternion() {}
+template<> inline Quaternion<double>::Quaternion() {}
+template<> inline Quaternion<float >::Quaternion(float  w, float  x, float  y, float  z): w(w), x(x), y(y), z(z) {}
+template<> inline Quaternion<double>::Quaternion(double w, double x, double y, double z): w(w), x(x), y(y), z(z) {}
+
+template<> inline Quaternion<float >::Quaternion(float  ang, vector3<float > axis) {
+	const float halfAng = ang*0.5f;
+	const float sinHalfAng = sin(halfAng);
+	w = cos(halfAng);
+	x = axis.x * sinHalfAng;
+	y = axis.y * sinHalfAng;
+	z = axis.z * sinHalfAng;
+}
+template<> inline Quaternion<double>::Quaternion(double ang, vector3<double> axis) {
+	const double halfAng = ang*0.5;
+	const double sinHalfAng = sin(halfAng);
+	w = cos(halfAng);
+	x = axis.x * sinHalfAng;
+	y = axis.y * sinHalfAng;
+	z = axis.z * sinHalfAng;
+}
+
+template<> inline Quaternion<float >::Quaternion(const Quaternion<float > &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
+template<> inline Quaternion<float >::Quaternion(const Quaternion<double> &o): w((float)o.w), x((float)o.x), y((float)o.y), z((float)o.z) {}
+template<> inline Quaternion<double>::Quaternion(const Quaternion<float > &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
+template<> inline Quaternion<double>::Quaternion(const Quaternion<double> &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
+
+typedef Quaternion<float > Quaternionf;
 typedef Quaternion<double> Quaterniond;
 
 #endif /* _QUATERNION_H */

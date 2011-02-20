@@ -12,7 +12,7 @@
 #include "KeyBindings.h"
 #include "perlin.h"
 
-const float WorldView::PICK_OBJECT_RECT_SIZE = 20.0f;
+const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
 #define BG_STAR_MAX	65536
@@ -135,11 +135,10 @@ WorldView::WorldView(): View()
 		// XXX TODO
 		// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
 		const float theta = (float)Pi::rng.Double(0.0, 2.0*M_PI);
-		const float u = (float)
-			Pi::rng.Double(-1.0, 1.0);
-		s_bgstar[i].x = 1000.0f * sqrt(1.0 - u*u) * cos(theta);
+		const float u = (float)Pi::rng.Double(-1.0, 1.0);
+		s_bgstar[i].x = 1000.0f * sqrt(1.0f - u*u) * cos(theta);
 		s_bgstar[i].y = 1000.0f * u;
-		s_bgstar[i].z = 1000.0f * sqrt(1.0 - u*u) * sin(theta);
+		s_bgstar[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
 	}
 	if (USE_VBO) {
 		glGenBuffersARB(1, &m_bgstarsVbo);
@@ -161,9 +160,9 @@ WorldView::~WorldView()
 
 void WorldView::Save(Serializer::Writer &wr)
 {
-	wr.Float(m_externalViewRotX);
-	wr.Float(m_externalViewRotY);
-	wr.Float(m_externalViewDist);
+	wr.Float((float)m_externalViewRotX);
+	wr.Float((float)m_externalViewRotY);
+	wr.Float((float)m_externalViewDist);
 	wr.Int32((int)m_camType);
 }
 
@@ -278,29 +277,29 @@ void WorldView::DrawBgStars()
 		glBegin(GL_TRIANGLE_STRIP);
 		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
 			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100*sin(theta), -40.0 - 30.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
+			glVertex3f(100.0f*sin(theta), (float)(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
 			glColor3f(0.05,0.05,0.05);
-			glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
+			glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 		}
 		theta = 2.0*M_PI;
 		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100*sin(theta), -40.0 - 30.0*noise(sin(theta),1.0,cos(theta)), 100*cos(theta));
+		glVertex3f(100.0f*sin(theta), (float)(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
 		glColor3f(0.05,0.05,0.05);
-		glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
+		glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 
 		glEnd();
 		glBegin(GL_TRIANGLE_STRIP);
 		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
 			glColor3f(0.05,0.05,0.05);
-			glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
+			glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100*sin(theta), 40.0 + 30.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
+			glVertex3f(100.0f*sin(theta), (float)(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
 		}
 		theta = 2.0*M_PI;
 		glColor3f(0.05,0.05,0.05);
-		glVertex3f(100*sin(theta), 5.0*noise(sin(theta),0.0,cos(theta)), 100*cos(theta));
+		glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100*sin(theta), 40.0 + 30.0*noise(sin(theta),-1.0,cos(theta)), 100*cos(theta));
+		glVertex3f(100.0f*sin(theta), (float)(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
 		glEnd();
 		glPopMatrix();
 	}
@@ -351,7 +350,7 @@ void WorldView::DrawBgStars()
 			vtx[i*12+4] = s_bgstar[i].g;
 			vtx[i*12+5] = s_bgstar[i].b;
 
-			vector3d v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
+			vector3f v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
 			v += pz*hyperspaceAnim*0.001;
 
 			vtx[i*12+6] = v.x;
@@ -401,7 +400,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
-		float dist = lpos.Length() / AU;
+		double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 		float lightPos[4];
 		lightPos[0] = (float)lpos.x;
@@ -415,7 +414,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		if (Render::IsHDREnabled()) {
 			for (int i=0; i<4; i++) {
 				// not too high or we overflow our float16 colorbuffer
-				lightCol[i] *= std::min<float>(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0f);
+				lightCol[i] *= (float)std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0);
 			}
 		}
 
@@ -664,8 +663,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		if (astro->IsType(Object::PLANET)) {
 			double dist = Pi::player->GetPosition().Length();
-			float pressure, density;
-			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
+			double pressure, density;
+			((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
 			char buf[128];
 			snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
 
@@ -743,7 +742,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 void WorldView::Update()
 {
-	const float frameTime = Pi::GetFrameTime();
+	const double frameTime = Pi::GetFrameTime();
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
 
@@ -770,15 +769,14 @@ void WorldView::Update()
 		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
 		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
 		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
-		m_externalViewDist = std::max<float>(Pi::player->GetBoundingRadius(), m_externalViewDist);
+		m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
 
 		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = Clamp(m_externalViewRotX, -170.0f, -10.0f);
+		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
 	}
 	if (KeyBindings::targetObject.IsActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
-		Body* const target = PickBody(Gui::Screen::GetWidth()/2,
-				Gui::Screen::GetHeight()/2);
+		Body* const target = PickBody((double)Gui::Screen::GetWidth()/2, (double)Gui::Screen::GetHeight()/2);
 		SelectBody(target, false);
 	}
 
@@ -997,7 +995,7 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 	}
 }
 
-Body* WorldView::PickBody(const float screenX, const float screenY) const
+Body* WorldView::PickBody(const double screenX, const double screenY) const
 {
 	Body *selected = 0;
 
@@ -1005,10 +1003,10 @@ Body* WorldView::PickBody(const float screenX, const float screenY) const
 		Body *b = *i;
 		if(b->IsOnscreen() && (b != Pi::player)) {
 			const vector3d& _pos = b->GetProjectedPos();
-			const float x1 = (float)_pos.x - PICK_OBJECT_RECT_SIZE * 0.5f;
-			const float x2 = x1 + PICK_OBJECT_RECT_SIZE;
-			const float y1 = (float)_pos.y - PICK_OBJECT_RECT_SIZE * 0.5f;
-			const float y2 = y1 + PICK_OBJECT_RECT_SIZE;
+			const double x1 = _pos.x - PICK_OBJECT_RECT_SIZE * 0.5;
+			const double x2 = x1 + PICK_OBJECT_RECT_SIZE;
+			const double y1 = _pos.y - PICK_OBJECT_RECT_SIZE * 0.5;
+			const double y2 = y1 + PICK_OBJECT_RECT_SIZE;
 			if(screenX >= x1 && screenX <= x2 && screenY >= y1 && screenY <= y2) {
 				selected = b;
 				break;
@@ -1076,7 +1074,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 			if (pos.z < 0 && Gui::Screen::Project(pos, pos)) {
 				b->SetProjectedPos(pos);
 				b->SetOnscreen(true);
-				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), pos.x, pos.y);
+				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)pos.x, (float)pos.y);
 			}
 		}
 	}
@@ -1116,13 +1114,13 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		m_combatDist->Color(r, 0.0f, b);
 		m_combatDist->SetText(stringf(40, "%.0fm", dist).c_str());
 		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
-		MoveChild(m_combatDist, lpos.x, lpos.y);
+		MoveChild(m_combatDist, (float)lpos.x, (float)lpos.y);
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
 		m_combatSpeed->SetText(stringf(40, "%0.fm/s", vel).c_str());
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
-		MoveChild(m_combatSpeed, lpos.x, lpos.y);
+		MoveChild(m_combatSpeed, (float)lpos.x, (float)lpos.y);
 		m_combatSpeed->Show();
 	}
 	Gui::Screen::LeaveOrtho();		// To save matrices
@@ -1142,45 +1140,45 @@ void WorldView::Draw()
 		const int *pos = m_velocityIndicatorPos;
 		GLfloat vtx[16] = {
 			pos[0]-sz, pos[1]-sz,
-			pos[0]-0.5*sz, pos[1]-0.5*sz,
+			pos[0]-0.5f*sz, pos[1]-0.5f*sz,
 			pos[0]+sz, pos[1]-sz,
-			pos[0]+0.5*sz, pos[1]-0.5*sz,
+			pos[0]+0.5f*sz, pos[1]-0.5f*sz,
 			pos[0]+sz, pos[1]+sz,
-			pos[0]+0.5*sz, pos[1]+0.5*sz,
+			pos[0]+0.5f*sz, pos[1]+0.5f*sz,
 			pos[0]-sz, pos[1]+sz,
-			pos[0]-0.5*sz, pos[1]+0.5*sz };
+			pos[0]-0.5f*sz, pos[1]+0.5f*sz };
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
 
 	// normal crosshairs
 	if (GetCamType() == WorldView::CAM_FRONT) {
-		float px = Gui::Screen::GetWidth()/2.0;
-		float py = Gui::Screen::GetHeight()/2.0;
+		float px = (float)Gui::Screen::GetWidth()/2.0f;
+		float py = (float)Gui::Screen::GetHeight()/2.0f;
 		GLfloat vtx[16] = {
 			px-sz, py,
-			px-0.5*sz, py,
+			px-0.5f*sz, py,
 			px+sz, py,
-			px+0.5*sz, py,
+			px+0.5f*sz, py,
 			px, py-sz,
-			px, py-0.5*sz,
+			px, py-0.5f*sz,
 			px, py+sz,
-			px, py+0.5*sz };
+			px, py+0.5f*sz };
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	} else if (GetCamType() == WorldView::CAM_REAR) {
-		float px = Gui::Screen::GetWidth()/2.0;
-		float py = Gui::Screen::GetHeight()/2.0;
+		float px = (float)Gui::Screen::GetWidth()/2.0f;
+		float py = (float)Gui::Screen::GetHeight()/2.0f;
 		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
 		GLfloat vtx[16] = {
 			px-sz, py,
-			px-0.5*sz, py,
+			px-0.5f*sz, py,
 			px+sz, py,
-			px+0.5*sz, py,
+			px+0.5f*sz, py,
 			px, py-sz,
-			px, py-0.5*sz,
+			px, py-0.5f*sz,
 			px, py+sz,
-			px, py+0.5*sz };
+			px, py+0.5f*sz };
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
@@ -1223,24 +1221,21 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 	if (dir.Length() == 0.0 || !m_targLeadOnscreen) dir = vector3d(1,0,0);
 	else dir = dir.Normalized();
 
+	float x1 = (float)pos1.x, y1 = (float)pos1.y;
+	float x2 = (float)pos2.x, y2 = (float)pos2.y;
+	float xd = (float)dir.x, yd = (float)dir.y;
+
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
 	GLfloat vtx[28] = {
-		pos1[0]+10*dir[0], pos1[1]+10*dir[1],
-		pos1[0]+20*dir[0], pos1[1]+20*dir[1],
-		pos1[0]-10*dir[0], pos1[1]-10*dir[1],
-		pos1[0]-20*dir[0], pos1[1]-20*dir[1],
-		pos1[0]-10*dir[1], pos1[1]+10*dir[0],
-		pos1[0]-20*dir[1], pos1[1]+20*dir[0],
-		pos1[0]+10*dir[1], pos1[1]-10*dir[0],
-		pos1[0]+20*dir[1], pos1[1]-20*dir[0],
+		x1+10*xd, y1+10*yd,	x1+20*xd, y1+20*yd,		// target crosshairs
+		x1-10*xd, y1-10*yd,	x1-20*xd, y1-20*yd,
+		x1-10*yd, y1+10*xd,	x1-20*yd, y1+20*xd,
+		x1+10*yd, y1-10*xd,	x1+20*yd, y1-20*xd,
 
-		pos2[0]-10*dir[0], pos2[1]-10*dir[1],
-		pos2[0]+10*dir[0], pos2[1]+10*dir[1],
-		pos2[0]-10*dir[1], pos2[1]+10*dir[0],
-		pos2[0]+10*dir[1], pos2[1]-10*dir[0],
+		x2-10*xd, y2-10*yd,	x2+10*xd, y2+10*yd,		// lead crosshairs
+		x2-10*yd, y2+10*xd,	x2+10*yd, y2-10*xd,
 
-		pos1[0]+20*dir[0], pos1[1]+20*dir[1],
-		pos2[0]-10*dir[0], pos2[1]-10*dir[1],
+		x1+20*xd, y1+20*yd,	x2-10*xd, y2-10*yd,		// line between crosshairs
 	};
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vtx);
@@ -1254,10 +1249,10 @@ void WorldView::DrawTargetSquare(const Body* const target)
 {
 	if(target->IsOnscreen()) {
 		const vector3d& _pos = target->GetProjectedPos();
-		const float x1 = _pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
-		const float x2 = x1 + WorldView::PICK_OBJECT_RECT_SIZE;
-		const float y1 = _pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5f;
-		const float y2 = y1 + WorldView::PICK_OBJECT_RECT_SIZE;
+		const float x1 = (float)(_pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+		const float x2 = (float)(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
+		const float y1 = (float)(_pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+		const float y2 = (float)(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
 
 		GLfloat vtx[8] = {
 			x1, y1,
