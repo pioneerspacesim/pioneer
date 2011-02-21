@@ -51,6 +51,7 @@ public:
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
 	Frame *GetFrame() const { return m_frame; }
+	bool HasDoubleFrame() const { return m_hasDoubleFrame; }
 	void SetLabel(const char *label) { m_label = label; }
 	const std::string &GetLabel() const { return m_label; }
 	unsigned int GetFlags() { return m_flags; }
@@ -87,6 +88,7 @@ protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	unsigned int m_flags;
+	bool m_hasDoubleFrame;
 
 	// Interpolated draw orientation-position
 	matrix4x4d m_interpolatedTransform;

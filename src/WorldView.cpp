@@ -1043,7 +1043,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	cam_rot.ClearToRotOnly();
 	vector3d vdir = vel * cam_rot;			// transform to camera space
 	m_velocityIndicatorOnscreen = false;
-	if (vdir.z < 0) {
+	if (vdir.z < -1.0) {					// increase this maybe
 		vector3d pos;
 		if (Gui::Screen::Project(vdir, pos)) {
 			m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh

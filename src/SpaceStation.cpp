@@ -321,6 +321,7 @@ void SpaceStation::InitStation()
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
+		m_hasDoubleFrame = true;
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}

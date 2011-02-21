@@ -29,10 +29,8 @@ void Ship::Save(Serializer::Writer &wr)
 	MarketAgent::Save(wr);
 	wr.Int32(Serializer::LookupBody(m_combatTarget));
 	wr.Int32(Serializer::LookupBody(m_navTarget));
-	wr.Float(m_angThrusters[0]);
-	wr.Float(m_angThrusters[1]);
-	wr.Float(m_angThrusters[2]);
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) wr.Float(m_thrusters[i]);
+	wr.Vector3d(m_angThrusters);
+	wr.Vector3d(m_thrusters);
 	wr.Float(m_wheelTransition);
 	wr.Float(m_wheelState);
 	wr.Float(m_launchLockTimeout);
@@ -66,10 +64,8 @@ void Ship::Load(Serializer::Reader &rd)
 	// needs fixups
 	m_combatTarget = (Body*)rd.Int32();
 	m_navTarget = (Body*)rd.Int32();
-	m_angThrusters[0] = rd.Float();
-	m_angThrusters[1] = rd.Float();
-	m_angThrusters[2] = rd.Float();
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = rd.Float();
+	m_angThrusters = rd.Vector3d();
+	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Float();
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();

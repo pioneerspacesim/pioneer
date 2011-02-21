@@ -122,7 +122,7 @@ public:
 protected:
 	void GetAwayFromBody(Body *body, vector3d &targpos);
 	void NavigateAroundBody(Body *body, vector3d &targpos);
-	void CheckCollisions(bool coll);
+	void CheckCollisions();
 
 private:
 	Body *m_target;
@@ -131,6 +131,7 @@ private:
 	vector3d m_relpos;	// target position relative to ship at last frame change
 	double m_endvel, m_orbitrad;
 	int m_headmode;
+	bool m_coll;		// whether to bother checking for collisions
 };
 
 class AICmdKill : public AICommand {

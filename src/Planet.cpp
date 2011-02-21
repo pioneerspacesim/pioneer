@@ -40,6 +40,7 @@ Planet::Planet(SBody *sbody): Body()
 	this->sbody = sbody;
 	this->m_geosphere = 0;
 	Init();
+	m_hasDoubleFrame = true;
 }
 
 void Planet::Init()

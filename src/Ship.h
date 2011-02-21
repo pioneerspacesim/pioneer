@@ -122,12 +122,13 @@ public:
 	float GetHullTemperature() const;
 	void UseECM();
 
-	void AIMatchVel(const vector3d &vel);
-	void AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
+	bool AIMatchVel(const vector3d &vel);
+	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
 	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, bool flip=false);
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
-	void AIFaceDirection(const vector3d &dir, double av=0);
-	void AIFacePosition(const vector3d &targpos);
+	void AIFaceDirectionImmediate(const vector3d &dir);
+	double AIFaceDirection(const vector3d &dir, double av=0);
+	double AIFacePosition(const vector3d &targpos);
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
 
 	// old stuff, deprecated
