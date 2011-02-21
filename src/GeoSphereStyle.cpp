@@ -356,12 +356,12 @@ static void megavolcano_function_1pass(const vector3d &p, double &out, const dou
 	}
 }
 
-static double megavolcano_function(const vector3d &p)
+static double megavolcano_function(const fracdef_t &def, const vector3d &p)
 {
 	double crater = 0.0;
-	double sz = 0.58;
-	double max_h = 0.5;
-	for (int i=0; i<14; i++) {
+	double sz = def.frequency;
+	double max_h = def.amplitude;
+	for (int i=0; i<def.octaves; i++) {
 		megavolcano_function_1pass(sz*p, crater, max_h);
 		sz *= 1.0;  //frequency?
 		max_h *= 0.15; // height??
@@ -1192,27 +1192,33 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 
 		vector3d col;
-		if (n > 0.05) {
-		col = interpolate_color(equatorial_desert, m_rockColor[0], vector3d(.86, .75, .48));
+		if (n >= 0.1) {
+		col = interpolate_color(equatorial_desert, m_rockColor[5], m_rockColor[6]);
 		col = interpolate_color(n, col, m_rockColor[2]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
-		else if (n > 0.03) {      
-		col = interpolate_color(equatorial_desert, vector3d(0,.2,0), vector3d(.0, .6, .0));
-		col = interpolate_color(n, col, m_rockColor[0]);
+		else if (n >= 0.04) {      
+		col = interpolate_color(equatorial_desert, vector3d(.45,.43, .2), vector3d(.4, .43, .2));
+		col = interpolate_color(n, col, vector3d(-2.5,-3, -2.5));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
-		else if (n > 0.01) {      
-		col = interpolate_color(equatorial_desert, vector3d(.2,.6,0), vector3d(.1, .2, .0));
-		col = interpolate_color(n, col, m_rockColor[1]);
+		else if (n >= 0.02) {      
+		col = interpolate_color(equatorial_desert, vector3d(.15,.5, -.1), vector3d(.2, .6, -.1));
+		col = interpolate_color(n, col, vector3d(5,-5, 5));
+		col = interpolate_color(flatness, color_cliffs, col);
+		return col;
+		}
+		else if (n >= 0.01) {      
+		col = interpolate_color(equatorial_desert, vector3d(.45,.6,0), vector3d(.5, .6, .0));
+		col = interpolate_color(n, col, vector3d(-10,-10,0));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		else {                                      
-		col = interpolate_color(equatorial_desert, vector3d(.45,.7,0), vector3d(.2, .6, .0));
-		col = interpolate_color(n, col, m_rockColor[0]);
+		col = interpolate_color(equatorial_desert, vector3d(.35,.3,0), vector3d(.4, .3, .0));
+		col = interpolate_color(n, col, vector3d(0,20,0));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
