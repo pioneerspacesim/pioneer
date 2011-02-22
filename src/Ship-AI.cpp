@@ -501,18 +501,17 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 	return true;
 }
 
-// targpos is in ship's frame
-// curvel ship's velocity relative to target, in ship's frame
-// targvel is in direction of motion, in ship's frame eventually
-// returns difference in closing speed from ideal
+// relpos and relvel are position and velocity of ship relative to target in ship's frame
+// targvel is in direction of motion, must be positive
+// returns difference in closing speed from ideal, or zero if it thinks it's at the target
 // flip == true means it uses main thruster value for determining decel point
-double Ship::AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, bool flip)
+double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d relpos = (targpos - GetPosition()) * rot;
-	vector3d reldir = relpos.NormalizedSafe();
-	vector3d relvel = targvel * reldir;
-	double targdist = relpos.Length();
+	vector3d objpos = relpos * rot;
+	vector3d reldir = objpos.NormalizedSafe();
+	vector3d endvel = targspeed * reldir;
+	double targdist = objpos.Length();
 
 	// get all six thruster values (values are positive)
 	double invmass = 1.0 / GetMass();
@@ -522,15 +521,13 @@ double Ship::AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, doub
 
 	// find ideal velocities at current time given reverse thrust level
 	vector3d ivel;
-	ivel.x = calc_ivel(relpos.x, relvel.x, paccel.x, naccel.x);
-	ivel.y = calc_ivel(relpos.y, relvel.y, paccel.y, naccel.y);
-	ivel.z = calc_ivel(relpos.z, relvel.z, paccel.z, naccel.z);
+	ivel.x = calc_ivel(objpos.x, endvel.x, paccel.x, naccel.x);
+	ivel.y = calc_ivel(objpos.y, endvel.y, paccel.y, naccel.y);
+	ivel.z = calc_ivel(objpos.z, endvel.z, paccel.z, naccel.z);
 
-	// problem? does this work for rotating frames?
-	vector3d objvel = curvel * rot;
+	vector3d objvel = relvel * rot;
 	vector3d diffvel = ivel - objvel;		// required change in velocity
 	AIChangeVelBy(diffvel);
-
 	return diffvel.Dot(reldir);
 }
 
@@ -556,8 +553,7 @@ void Ship::AIFaceDirectionImmediate(const vector3d &dir)
 }
 
 // position in ship's frame
-// assumes that linear thrusters are already set for feedback correction
-double Ship::AIFacePosition(const vector3d &targpos)
+vector3d Ship::AIGetNextFramePos()
 {
 	vector3d thrusters = GetThrusterState();
 	vector3d maxThrust = GetMaxThrust(thrusters);
@@ -566,7 +562,7 @@ double Ship::AIFacePosition(const vector3d &targpos)
 	matrix4x4d rot; GetRotMatrix(rot);
 	vector3d vel = GetVelocity() + rot * thrust * Pi::GetTimeStep() / GetMass();
 	vector3d pos = GetPosition() + vel * Pi::GetTimeStep();
-	return AIFaceDirection((targpos - pos).Normalized());
+	return pos;
 }
 
 // Input: direction in ship's frame
@@ -578,9 +574,8 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	matrix4x4d rot; GetRotMatrix(rot);
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	double frameAccel = maxAccel * timeStep;
-	double invFrameAccel = 1.0 / frameAccel;
 
-	vector3d head = dir * rot;		// create desired object-space heading
+	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
 	assert(head.Length() > 0.99999999);
@@ -603,7 +598,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d cav = GetAngVelocity() * rot;		// current obj-rel angvel
 	vector3d diff = dav - cav;					// find diff between current & desired angvel
 
-	SetAngThrusterState(diff * invFrameAccel);
+	SetAngThrusterState(diff / frameAccel);
 	return ang;
 }
 
@@ -628,3 +623,34 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 
 	return leadpos.Normalized();
 }
+
+/* Don't actually need this
+// same inputs as matchposvel, returns approximate travel time instead
+double Ship::AITravelTime(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip)
+{
+	matrix4x4d rot; GetRotMatrix(rot);
+	double dist = relpos.Length();
+	double speed = -(relvel * rot).z;		// speed >0 is towards
+
+	double faccel = -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass();
+	double raccel = GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass();
+	if (flip) raccel = faccel;
+
+	// first part is time necessary to change speed to zero
+	double time1, time2, time3;
+	time1 = (targspeed-speed) / faccel;
+	dist += 0.5 * time1 * (targspeed-speed);
+
+	// now time to cover the remaining distance		
+
+	time2 = sqrt(2 * naccel)
+
+	// find ideal velocities at current time given reverse thrust level
+	double ispeed = 0.9 * sqrt(targspeed*targspeed + 2.0*paccel*dist);
+
+	vector3d diffvel = ivel - objvel;		// required change in velocity
+	AIChangeVelBy(diffvel);
+
+	return diffvel.Dot(reldir);
+}
+*/
