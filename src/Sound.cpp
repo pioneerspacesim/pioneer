@@ -409,9 +409,7 @@ bool Init ()
 		}
 
 		// load all the wretched effects
-#if !defined _MSC_VER || _MSC_VER < 1600
 		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
-#endif
 	}
 
 	/* silence any sound events */
