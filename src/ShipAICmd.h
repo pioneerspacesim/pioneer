@@ -99,14 +99,14 @@ public:
 		wr.Int32(Serializer::LookupFrame(m_frame));
 		wr.Vector3d(m_posoff); wr.Vector3d(m_relpos);
 		wr.Double(m_endvel); wr.Double(m_orbitrad);
-		wr.Int32(m_headmode);
+		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
 		m_target = (SpaceStation *)rd.Int32();
 		m_frame = (Frame *)rd.Int32();
 		m_posoff = rd.Vector3d(); m_relpos = rd.Vector3d();
 		m_endvel = rd.Double();	m_orbitrad = rd.Double();
-		m_headmode = rd.Int32();
+		m_state = rd.Int32(); m_coll = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
@@ -129,8 +129,9 @@ private:
 	Frame *m_frame;		// current frame of ship, used to check for changes	
 	vector3d m_posoff;	// offset in target's frame
 	vector3d m_relpos;	// target position relative to ship at last frame change
-	double m_endvel, m_orbitrad;
-	int m_headmode;
+	double m_endvel;	// target speed in direction of motion at end of path, positive only
+	double m_orbitrad;	// orbital radius in metres
+	int m_state;		// see TimeStepUpdate()
 	bool m_coll;		// whether to bother checking for collisions
 };
 

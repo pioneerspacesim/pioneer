@@ -463,6 +463,10 @@ void Ship::AIOrbit(Body *target, double alt)
 //	if (endvel <= vel) { endvel = vel; ivel = dist / Pi::GetTimeStep(); }	// last frame discrete correction
 //	ivel = std::min(ivel, endvel + 0.5*acc/PHYSICS_HZ);	// unknown next timestep discrete overshoot correction
 
+// yeah ok, this doesn't work
+// sometimes endvel is too low to catch moving objects
+// 
+
 static double calc_ivel(double dist, double vel, double posacc, double negacc)
 {
 	double acc = negacc; bool inv = false;
@@ -565,7 +569,7 @@ vector3d Ship::AIGetNextFramePos()
 	return pos;
 }
 
-// Input: direction in ship's frame
+// Input: direction in ship's frame, doesn't need to be normalized
 // Approximate positive angular velocity at match point
 // Applies thrust directly
 double Ship::AIFaceDirection(const vector3d &dir, double av)
@@ -577,8 +581,6 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 
 	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
-
-	assert(head.Length() > 0.99999999);
 
 	double ang = 0;
 	if (head.z > -0.99999999)			
