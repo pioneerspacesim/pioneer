@@ -292,7 +292,7 @@ OOLUA_CLASS_NO_BASES(Rand)
 		OOLUA_CONSTRUCTOR_1(unsigned long)
 	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_2_RENAME(Real, double, Double, double, double)
-	OOLUA_MEM_FUNC_2_RENAME(Int, unsigned int, Int32, int, int)
+	OOLUA_MEM_FUNC_2_RENAME(Int, int, Int32, int, int)
 	OOLUA_MEM_FUNC_1(std::string, PersonName, bool)
 	OOLUA_MEM_FUNC_0(std::string, Surname)
 OOLUA_CLASS_END
