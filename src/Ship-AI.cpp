@@ -465,7 +465,7 @@ void Ship::AIOrbit(Body *target, double alt)
 
 // yeah ok, this doesn't work
 // sometimes endvel is too low to catch moving objects
-// 
+// worked around with half-accel hack in dynamicbody & pi.cpp
 
 static double calc_ivel(double dist, double vel, double posacc, double negacc)
 {
@@ -475,8 +475,9 @@ static double calc_ivel(double dist, double vel, double posacc, double negacc)
 
 	double endvel = ivel - (acc * Pi::GetTimeStep());
 	if (endvel <= vel) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
-//	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
-	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
+	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
+//	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
+
 	if (inv) ivel = -ivel;
 	return ivel;
 }

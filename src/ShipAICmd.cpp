@@ -653,10 +653,6 @@ bool AICmdKill::TimeStepUpdate()
 }
 */
 
-// three cases?
-// if target is rotating frame, want position relative to parent frame
-// if target is ground station, want offset relative to self?
-// if target is ship, want both ways... but that's a different function
 
 // gets position of (target + offset in target's frame) in frame
 // if object has its own rotational frame, ignores it
@@ -669,9 +665,6 @@ static vector3d GetPosInFrame(Frame *frame, Body *target, vector3d &offset)
 	return tran * (offset + target->GetPosition());
 }
 
-// ok, how do deal with moving bodies...
-// increase effective radius by difference in lateral velocity * travel time
-
 // targpos in frame of obj1
 static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 {
@@ -681,6 +674,9 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 	vector3d p1n = p1.Normalized();
 	vector3d p2p1dir = (p2-p1).Normalized();
 	double r = obj1->GetBoundingRadius() + obj2->GetBoundingRadius();
+	
+	// ignore if targpos is closer than body surface
+	if ((p2-p1).Length() < p1.Length() - r) return false;
 
 	// check if direct escape is safe (30 degree limit)
 	if (p2p1dir.Dot(p1n) > 0.5) return false;
@@ -702,10 +698,7 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 	return (tan.LengthSqr() < r*r) ? true : false;		// closest point within radius?
 }
 
-// only care about wells if inside rotating frame?
-// valid possibilities? targets within object's bounding radius only
-// so must be in rotational FOR already
-// todo: needs offset to avoid issues around zero?
+// used to detect whether it's safe to head into atmosphere to reach target
 static bool TargetWellTest(Ship *obj1, Body *obj2)
 {
 	if (!obj2->IsType(Object::SPACESTATION)) return false;
@@ -735,7 +728,6 @@ static vector3d GenerateTangent(Ship *ship, Body *body, vector3d &shiptarg)
 	return spos.Normalized()*b*b/a + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
 }
 
-// run this on frame switches? sounds like a plan.
 // obj1 is ship, obj2 is target body, targpos is destination in obj1's frame
 static Body *FindNearestObstructor(Ship *obj1, Body *obj2, vector3d &targpos)
 {
@@ -896,14 +888,15 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, vector3d &posoff, double endvel
 // 3, head towards tangent in direction of target
 // 4, don't change heading
 // 5, just the final velocity cancellation to be applied
-// 6, just waiting for last timestep to be applied before termination
-// 7, terminal orbital adjustment mode
+// 6, second attempt - needed in last-step frame switch cases
+// 7, just waiting for last timestep to be applied before termination
+// 10, terminal orbital adjustment mode
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;		// child not finished
 	if (!m_target) return true;
-	if (m_state == 6) return true;		// finished orbital correction
+	if (m_state == 7) return true;		// finished orbital correction
 	if (m_frame != m_ship->GetFrame()) {
 		CheckCollisions();
 		return TimeStepUpdate();		// recurse, no reason that it shouldn't work second time...
@@ -916,11 +909,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double targdist = relpos.Length();
 
 	// terminal orbit mode: force into proper orbit at current alt
-	if (m_state == 7) {
+	if (m_state == 10) {
 		vector3d pos = m_ship->GetPositionRelTo(m_target);
 		double orbspd = sqrt(m_target->GetMass() * G / pos.Length());
 		vector3d targvel = orbspd * pos.Cross(relvel).Cross(pos).Normalized();
-		if (m_ship->AIMatchVel(targvel)) m_state = 6;
+		if (m_ship->AIMatchVel(targvel)) m_state = 7;
 		m_ship->AIMatchAngVelObjSpace(vector3d(0.0));		// face towards target at end maybe?
 		return false;				// applied thrust this frame, wait until next to bail
 	}
@@ -940,10 +933,10 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	// termination conditions
 	vector3d nextpos = m_ship->AIGetNextFramePos();			// position next frame before atmos/grav
-	if (m_state == 5) m_state = 6;							// finished last adjustment, hopefully
+	if (m_state >= 5) m_state++;							// finished last adjustment, hopefully
 	else if (m_endvel <= 0)			// first one needed for atmosphere, second for out-of-frame objects
 		if ((nextpos - targpos).LengthSqr() <= 1.0 || targdist < 1.0) m_state = 5;		// 1m is arbitrary
-	else if (relpos.Dot(m_relpos) <= 0) m_state = (m_orbitrad > 0) ? 7 : 6;
+	else if (relpos.Dot(m_relpos) <= 0) m_state = (m_orbitrad > 0) ? 10 : 7;
 
 	// check for target proximity - don't mess around close to the target
 	// currently uses full accel for last timestep, so have to check two.
@@ -966,3 +959,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 
 
+// two remaining basic target-vicinity navigation issues:
+// 1. Can't deal with atmospheric forces at high timesteps (10k).
+//	- compensate directly for external forces
+// 2. Never triggers end condition on fast-moving objects
+//	- switch to distance/accel/time method

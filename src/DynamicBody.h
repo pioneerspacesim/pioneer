@@ -30,6 +30,7 @@ public:
 	virtual void Enable();
 	virtual double GetMass() const { return m_mass; }
 	virtual void TimeStepUpdate(const float timeStep);
+	void ApplyAccel(const float timeStep);
 	void UndoTimestep();
 	
 	void SetMass(double);

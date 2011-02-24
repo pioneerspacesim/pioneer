@@ -180,6 +180,13 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 	}
 }
 
+// for timestep changes, to stop autopilot overshoot
+void DynamicBody::ApplyAccel(const float timeStep)
+{
+	m_vel += (double)timeStep * m_force * (1.0 / m_mass);
+	m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
+}
+
 vector3d DynamicBody::GetGravity()
 {
 	// don't apply gravity to AIs if they have any thrust
