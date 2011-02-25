@@ -17,8 +17,9 @@ const CustomSBody sol_system[] = {
           FIXED_DEG2RAD(26,10)	},
 	{ "Earth", SBody::TYPE_PLANET_TERRESTRIAL,
 	  0, fixed(1,1), fixed(1,1), 288,
-	  fixed(1,1), fixed(167,10000), {}, fixed(1,1), FIXED_DEG2RAD(2344,100), {}, ECON_INDUSTRY,
-	  "data/earth.hmap"
+	  fixed(1,1), fixed(167,10000), {}, fixed(1,1), FIXED_DEG2RAD(2344,100),
+	  { fixed(1,2), fixed(1,1), fixed(7,10), fixed(3,100), fixed(1,10), fixed(8,10), fixed(9,10) },
+	  ECON_INDUSTRY, "data/earth.hmap"
 	},
 	{ "Shanghai", SBody::TYPE_STARPORT_SURFACE,
 	  3, 0, 0, 0, 0, 0, { (float)DEG2RAD(31), (float)DEG2RAD(-121) } },
