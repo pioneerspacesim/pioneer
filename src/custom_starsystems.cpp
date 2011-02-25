@@ -89,7 +89,10 @@ const CustomSBody sol_system[] = {
 	// moons of jupiter
 	{ "Io", SBody::TYPE_PLANET_TERRESTRIAL,
 	  21, fixed(286,1000), fixed(15,1000), 130,
-	  fixed(282,100000), fixed(41,10000), { (float)DEG2RAD(2.21) }, fixed(177,100) },
+	  fixed(282,100000), fixed(41,10000), { (float)DEG2RAD(2.21) }, fixed(177,100),
+	  FIXED_DEG2RAD(0,1),
+	  { fixed(7,10), fixed(0,1), fixed(0,1), fixed(1,1000), fixed(1,1), fixed(8,10), fixed(0,1) }
+	},
 	{ "Europa", SBody::TYPE_PLANET_TERRESTRIAL,
 	  21, fixed(245,1000), fixed(8,1000), 102,
 	  fixed(441,100000), fixed(9,1000), {}, fixed(355,100) },
