@@ -648,6 +648,14 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
 		kid->heightMapFilename = c->heightMapFilename;
 
+		kid->m_metallicity    = c->composition.metallicity;
+		kid->m_volatileGas    = c->composition.volatileGas;
+		kid->m_volatileLiquid = c->composition.volatileLiquid;
+		kid->m_volatileIces   = c->composition.volatileIces;
+		kid->m_volcanicity    = c->composition.volcanicity;
+		kid->m_atmosOxidizing = c->composition.atmosOxidizing;
+		kid->m_life           = c->composition.life;
+
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->longitude) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
