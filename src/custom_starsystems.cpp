@@ -17,7 +17,7 @@ const CustomSBody sol_system[] = {
           FIXED_DEG2RAD(26,10)	},
 	{ "Earth", SBody::TYPE_PLANET_TERRESTRIAL,
 	  0, fixed(1,1), fixed(1,1), 288,
-	  fixed(1,1), fixed(167,10000), {}, fixed(1,1), FIXED_DEG2RAD(2344,100), ECON_INDUSTRY,
+	  fixed(1,1), fixed(167,10000), {}, fixed(1,1), FIXED_DEG2RAD(2344,100), {}, ECON_INDUSTRY,
 	  "data/earth.hmap"
 	},
 	{ "Shanghai", SBody::TYPE_STARPORT_SURFACE,
@@ -44,7 +44,7 @@ const CustomSBody sol_system[] = {
 	{ "Mars", SBody::TYPE_PLANET_TERRESTRIAL,
 	  0, fixed(533,1000), fixed(107,1000), 274,
 	  fixed(152,100), fixed(933,10000), { (float)DEG2RAD(1.85) }, fixed(1027,1000), 
-	  FIXED_DEG2RAD(2519,100), ECON_INDUSTRY, },
+	  FIXED_DEG2RAD(2519,100), {}, ECON_INDUSTRY, },
 	{ "Cydonia", SBody::TYPE_STARPORT_SURFACE,
 	  13, 0, 0, 0, 0, 0, { (float)DEG2RAD(-29), (float)DEG2RAD(124) } },
 	{ "Olympus Mons", SBody::TYPE_STARPORT_SURFACE,
