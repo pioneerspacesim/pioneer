@@ -562,7 +562,7 @@ void Ship::FireWeapon(int num)
 
 float Ship::GetHullTemperature() const
 {
-	double dragGs = GetAtmosphericDragGs();
+	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
 		return dragGs / 30.0;
 	} else {

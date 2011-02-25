@@ -30,6 +30,7 @@ public:
 	virtual void Enable();
 	virtual double GetMass() const { return m_mass; }
 	virtual void TimeStepUpdate(const float timeStep);
+	void CalcExternalForce();
 	void ApplyAccel(const float timeStep);
 	void UndoTimestep();
 	
@@ -42,10 +43,12 @@ public:
 	// body-relative forces
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
-	double GetAtmosphericDragGs() const { return m_atmosDragGs; }
-	vector3d GetGravity();
+	vector3d GetExternalForce() const { return m_externalForce; }
+	vector3d GetAtmosForce() const { return m_atmosForce; }		
+	vector3d GetGravityForce() const { return m_gravityForce; }
 	virtual void UpdateInterpolatedTransform(double alpha);
 
+	virtual void PostLoadFixup();
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -63,7 +66,9 @@ private:
 	double m_angInertia; // always sphere mass distribution
 	bool m_enabled;
 	//
-	double m_atmosDragGs;
+	vector3d m_externalForce;
+	vector3d m_atmosForce;
+	vector3d m_gravityForce;	
 };
 
 #endif /* _DYNAMICBODY_H */

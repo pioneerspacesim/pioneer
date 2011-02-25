@@ -127,7 +127,7 @@ public:
 	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, bool flip=false);
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
 	void AIFaceDirectionImmediate(const vector3d &dir);
-	double AIFaceDirection(const vector3d &dir, double av=0);
+	bool AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
 
@@ -135,7 +135,7 @@ public:
 	void AISlowOrient(const matrix4x4d &dir);
 	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
-	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness);
+	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
 	void AITrySetBodyRelativeThrust(const vector3d &force);
 

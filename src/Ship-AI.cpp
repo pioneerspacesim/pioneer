@@ -343,11 +343,11 @@ void Ship::AISlowOrient(const matrix4x4d &wantedOrient)
 
 
 
-void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, float softness)
+void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 {
 	const ShipType &stype = GetShipType();
 	double angAccel = stype.angThrust / GetAngularInertia();
-	const double softTimeStep = Pi::GetTimeStep() * (double)softness;
+	const double softTimeStep = Pi::GetTimeStep() * softness;
 
 	matrix4x4d rot;
 	GetRotMatrix(rot);
@@ -407,7 +407,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (!m_curAICmd) return true;
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
-		ClearThrusterState();
+//		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
 		return true;
 	}
 	else return false;
@@ -496,11 +496,16 @@ bool Ship::AIMatchVel(const vector3d &vel)
 // returns true if this can be done in a single timestep
 bool Ship::AIChangeVelBy(const vector3d &diffvel)
 {
-	vector3d maxThrust = GetMaxThrust(diffvel);
+	// counter external forces
+	matrix4x4d rot; GetRotMatrix(rot);
+	vector3d diffvel2 = GetExternalForce() * Pi::GetTimeStep() / GetMass();
+	diffvel2 = diffvel - diffvel2 * rot;
+
+	vector3d maxThrust = GetMaxThrust(diffvel2);
 	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
-	vector3d thrust(diffvel.x / maxFrameAccel.x,
-					diffvel.y / maxFrameAccel.y,
-					diffvel.z / maxFrameAccel.z);
+	vector3d thrust(diffvel2.x / maxFrameAccel.x,
+					diffvel2.y / maxFrameAccel.y,
+					diffvel2.z / maxFrameAccel.z);
 	SetThrusterState(thrust);			// use clamping
 	if (thrust.x*thrust.x > 1.0 || thrust.y*thrust.y > 1.0 || thrust.z*thrust.z > 1.0) return false;
 	return true;
@@ -573,7 +578,8 @@ vector3d Ship::AIGetNextFramePos()
 // Input: direction in ship's frame, doesn't need to be normalized
 // Approximate positive angular velocity at match point
 // Applies thrust directly
-double Ship::AIFaceDirection(const vector3d &dir, double av)
+// returns whether it can reach that direction in this frame
+bool Ship::AIFaceDirection(const vector3d &dir, double av)
 {
 	double timeStep = Pi::GetTimeStep();
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -599,10 +605,11 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		dav.y = -head.x * head2dnorm * iangvel;
 	}
 	vector3d cav = GetAngVelocity() * rot;		// current obj-rel angvel
-	vector3d diff = dav - cav;					// find diff between current & desired angvel
+	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
-	SetAngThrusterState(diff / frameAccel);
-	return ang;
+	SetAngThrusterState(diff);
+	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
+	else return true;
 }
 
 
