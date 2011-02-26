@@ -1,5 +1,11 @@
 #ifndef _EQUIPTYPE_H
 #define _EQUIPTYPE_H
+#include "Color.h"
+
+#define EQUIP_INPUTS	2
+
+struct EquipType;
+struct LaserType;
 
 namespace Equip {
 	enum Slot { SLOT_CARGO, SLOT_ENGINE, SLOT_LASER, SLOT_MISSILE, SLOT_ECM,
@@ -27,14 +33,19 @@ namespace Equip {
 	FIRST_COMMODITY=HYDROGEN, LAST_COMMODITY=RADIOACTIVES,
         FIRST_SHIPEQUIP=MISSILE_UNGUIDED, LAST_SHIPEQUIP=LARGE_PLASMA_ACCEL
 	};
-};
 
-#define EQUIP_INPUTS	2
+	const int LASER_MINING = 0x1;
+	const int LASER_DUAL = 0x2;
+
+	extern const LaserType lasers[];
+	extern const EquipType types[];
+};
 
 struct EquipType {
 	const char *name;
 	const char *description;
 	Equip::Slot slot;
+	int tableIndex;			// Index into subtype-specific table
 	// for commodities: production requirement. eg metal alloys input would be metal ore
 	// for hyperdrives: inputs[0] = fuel commodity
 	Equip::Type inputs[EQUIP_INPUTS];
@@ -43,9 +54,19 @@ struct EquipType {
 	int pval; // hello angband. used for general 'power' attribute...
 	int econType;
 	int techLevel; /* 0-5 */
+	float rechargeTime;			// to be eliminated maybe
+
+	static const EquipType *types;		// deprecated
+};
+
+struct LaserType {
+	float lifespan;
+	float speed;
+	float damage;
 	float rechargeTime;
-	
-	static const EquipType types[];
+	float psize;
+	int flags;
+	Color color;
 };
 
 #endif /* _EQUIPTYPE_H */

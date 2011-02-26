@@ -11,6 +11,8 @@ const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 std::map<ShipType::Type, ShipType> ShipType::types;
 std::string ShipType::LADYBIRD				= "Ladybird Starfighter";
 std::string ShipType::SIRIUS_INTERDICTOR	= "Sirius Interdictor";
+std::string ShipType::EAGLE_LRF				= "Eagle Long Range Fighter";
+std::string ShipType::EAGLE_MK3				= "Eagle MK-III";
 std::string ShipType::MISSILE_GUIDED		= "MISSILE_GUIDED";
 std::string ShipType::MISSILE_NAVAL			= "MISSILE_NAVAL";
 std::string ShipType::MISSILE_SMART			= "MISSILE_SMART";

@@ -40,7 +40,7 @@ BBAdvert BBAdvert::Load(Serializer::Reader &rd)
 	return BBAdvert(luaMod, luaRef, desc);
 }	
 
-void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, float **durationArray) {
+void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
 	lua_State *L = LmrGetLuaState();
 	model->PushAttributeToLuaStack(key);
 	assert(lua_istable(L, -1));
@@ -50,7 +50,7 @@ void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, f
 	if (num == 0) {
 		*durationArray = 0;
 	} else {
-		*durationArray = new float[num];
+		*durationArray = new double[num];
 		for (int i=1; i<=num; i++) {
 			lua_pushinteger(L, i);
 			lua_gettable(L, -2);
@@ -110,7 +110,7 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
  * when ship has been released (or docked) it returns false.
  * Note station animations may continue for any number of stages after
  * ship has been released and is under player control again */
-bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, float t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
+bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
@@ -227,12 +227,12 @@ void SpaceStation::Save(Serializer::Writer &wr)
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
-		wr.Float(m_shipDocking[i].stagePos);
+		wr.Float((float)m_shipDocking[i].stagePos);
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 
-		wr.Float(m_openAnimState[i]);
-		wr.Float(m_dockAnimState[i]);
+		wr.Float((float)m_openAnimState[i]);
+		wr.Float((float)m_dockAnimState[i]);
 	}
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(Serializer::LookupSystemBody(m_sbody));
@@ -321,6 +321,7 @@ void SpaceStation::InitStation()
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
+		m_hasDoubleFrame = true;
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
@@ -395,7 +396,7 @@ void SpaceStation::UpdateBB()
 
 
 
-void SpaceStation::DoDockingAnimation(const float timeStep)
+void SpaceStation::DoDockingAnimation(const double timeStep)
 {
 	matrix4x4d rot, wantRot;
 	vector3d p1, p2, zaxis;
@@ -407,7 +408,7 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 		if (dt.stage > m_type->numDockingStages) continue;
 		GetRotMatrix(rot);
 
-		float stageDuration = (dt.stage > 0 ?
+		double stageDuration = (dt.stage > 0 ?
 				m_type->dockAnimStageDuration[dt.stage-1] :
 				m_type->undockAnimStageDuration[abs(dt.stage)-1]);
 		dt.stagePos += timeStep / stageDuration;
@@ -426,14 +427,14 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			continue;
 		}
 	
-		if (dt.stagePos > 1.0f) {
+		if (dt.stagePos > 1.0) {
 			dt.stagePos = 0;
 			if (dt.stage >= 0) dt.stage++;
 			else dt.stage--;
 			dt.fromPos = rot.InverseOf() * (dt.ship->GetPosition() - GetPosition());
 			matrix4x4d temp;
 			dt.ship->GetRotMatrix(temp);
-			dt.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
+			dt.fromRot = Quaterniond::FromMatrix4x4(temp);
 		}
 
 		SpaceStationType::positionOrient_t shipOrient;
@@ -443,11 +444,11 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 			dt.ship->SetPosition(GetPosition() + rot*shipOrient.pos);
 			wantRot = matrix4x4d::MakeRotMatrix(
 					shipOrient.xaxis, shipOrient.yaxis,
-					vector3d::Cross(shipOrient.xaxis, shipOrient.yaxis)) * rot;
+					shipOrient.xaxis.Cross(shipOrient.yaxis)) * rot;
 			// use quaternion spherical linear interpolation to do
 			// rotation smoothly
-			Quaternionf wantQuat = Quaternionf::FromMatrix4x4<double>(wantRot);
-			Quaternionf q = Quaternionf::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
+			Quaterniond wantQuat = Quaterniond::FromMatrix4x4(wantRot);
+			Quaterniond q = Quaterniond::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
 			wantRot = q.ToMatrix4x4<double>();
 		//	wantRot.Renormalize();
 			dt.ship->SetRotMatrix(wantRot);
@@ -465,10 +466,10 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 					dt.ship->SetForce(vector3d(0,0,0));
 					dt.ship->SetTorque(vector3d(0,0,0));
 					if (m_type->dockMethod == SpaceStationType::SURFACE) {
-						dt.ship->SetThrusterState(ShipType::THRUSTER_UP, 1.0);
+						dt.ship->SetThrusterState(1, 1.0);		// up
 					} else {
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
-						dt.ship->SetThrusterState(ShipType::THRUSTER_FORWARD, 1.0);
+						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
 				}
 			}
@@ -479,8 +480,8 @@ void SpaceStation::DoDockingAnimation(const float timeStep)
 		}
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_openAnimState[i] = CLAMP(m_openAnimState[i], 0.0f, 1.0f);
-		m_dockAnimState[i] = CLAMP(m_dockAnimState[i], 0.0f, 1.0f);
+		m_openAnimState[i] = Clamp(m_openAnimState[i], 0.0, 1.0);
+		m_dockAnimState[i] = Clamp(m_dockAnimState[i], 0.0, 1.0);
 	}
 }
 
@@ -497,7 +498,7 @@ void SpaceStation::DoLawAndOrder()
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
 			Ship *ship = new Ship(ShipType::LADYBIRD);
-			ship->AIInstruct(Ship::DO_KILL, Pi::player);
+			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Space::AddBody(ship);
@@ -554,7 +555,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	if (dockMethod == SpaceStationType::SURFACE) {
 		matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport.xaxis, dport.yaxis);
+		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		vector3d pos = GetPosition() + stationRot*dport.pos;
 
@@ -599,7 +600,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 		ship->SetFrame(GetFrame());
 		ship->SetPosition(p);
 		// duplicated from DoDockingAnimation()
-		vector3d zaxis = vector3d::Cross(dport.xaxis, dport.yaxis);
+		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
 		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(dport.xaxis,
 					dport.yaxis, zaxis) * rot);
 	} else {
@@ -608,7 +609,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 
 	 	matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
-		vector3d port_z = vector3d::Cross(dport.xaxis, dport.yaxis);
+		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		// position slightly (1m) off landing surface
 		vector3d pos = GetPosition() + stationRot*(dport.pos +
@@ -641,7 +642,7 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 	{
 		matrix4x4d temp;
 		ship->GetRotMatrix(temp);
-		sd.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
+		sd.fromRot = Quaterniond::FromMatrix4x4(temp);
 	}
 	ship->SetFlightState(Ship::DOCKING);
 	
@@ -744,7 +745,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 				vector3d dockingNormal = rot*dport.yaxis;
 
 				// check player is sortof sensibly oriented for landing
-				const double dot = vector3d::Dot(vector3d(invShipRot[1], invShipRot[5], invShipRot[9]), dockingNormal);
+				const double dot = vector3d(invShipRot[1], invShipRot[5], invShipRot[9]).Dot(dockingNormal);
 				if ((dot < 0.99) || (s->GetWheelState() != 1.0)) return false;
 			}
 			
@@ -761,7 +762,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					sd.fromPos = rot.InverseOf() * (s->GetPosition() - GetPosition());
 					matrix4x4d temp;
 					s->GetRotMatrix(temp);
-					sd.fromRot = Quaternionf::FromMatrix4x4<double>(temp);
+					sd.fromRot = Quaterniond::FromMatrix4x4(temp);
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
@@ -813,8 +814,8 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.argFloats[ARG_STATION_BAY1_STAGE + i] = m_shipDocking[i].stage;
-		params.argFloats[ARG_STATION_BAY1_POS + i] = m_shipDocking[i].stagePos;
+		params.argFloats[ARG_STATION_BAY1_STAGE + i] = (float)m_shipDocking[i].stage;
+		params.argFloats[ARG_STATION_BAY1_POS + i] = (float)m_shipDocking[i].stagePos;
 	}
 
 	RenderLmrModel(viewCoords, viewTransform);

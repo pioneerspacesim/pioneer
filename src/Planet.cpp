@@ -15,7 +15,7 @@ struct ColRangeObj_t {
 	void GenCol(float col[4], MTRand &rng) const {
 		float ma = 1 + (float)(rng.Double(modAll*2)-modAll);
 		for (int i=0; i<4; i++) col[i] = baseCol[i] + (float)rng.Double(-modCol[i], modCol[i]);
-		for (int i=0; i<3; i++) col[i] = CLAMP(ma*col[i], 0, 1);
+		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
 	}
 };
 
@@ -40,6 +40,7 @@ Planet::Planet(SBody *sbody): Body()
 	this->sbody = sbody;
 	this->m_geosphere = 0;
 	Init();
+	m_hasDoubleFrame = true;
 }
 
 void Planet::Init()
@@ -102,22 +103,22 @@ void Planet::SetRadius(double radius)
  * dist = distance from centre
  * returns pressure in earth atmospheres
  */
-void Planet::GetAtmosphericState(float dist, float &outPressure, float &outDensity)
+void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity)
 {
 	Color c;
-	float surfaceDensity;
-	float atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
+	double surfaceDensity;
+	double atmosDist = dist/(sbody->GetRadius()*ATMOSPHERE_RADIUS);
 	
 	m_geosphere->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
-	outDensity = 1.15f*surfaceDensity * exp(-500.0f * (atmosDist - (2.0f - ATMOSPHERE_RADIUS)));
+	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
 	// XXX using earth's molar mass of air...
-	const float GAS_MOLAR_MASS = 28.97f;
-	const float GAS_CONSTANT = 8.314f;
-	const float KPA_2_ATMOS = 1.0f / 101.325f;
+	const double GAS_MOLAR_MASS = 28.97;
+	const double GAS_CONSTANT = 8.314;
+	const double KPA_2_ATMOS = 1.0 / 101.325;
 	// atmospheres
-	outPressure = KPA_2_ATMOS*(outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*(float)sbody->averageTemp;
+	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*(double)sbody->averageTemp;
 }
 
 double Planet::GetTerrainHeight(const vector3d pos) const
@@ -257,7 +258,7 @@ void Planet::DrawGasGiantRings()
 	if (rng.Double(1.0) < ggdef.ringProbability) {
 		float pos = (float)rng.Double(1.15,1.5);
 		float end = pos + (float)rng.Double(0.1, 1.0);
-		end = MIN(end, 2.5f);
+		end = std::min(end, 2.5f);
 		while (pos < end) {
 			float size = (float)rng.Double(maxRingWidth);
 			float n =
@@ -287,8 +288,8 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glPushMatrix();
 	// face the camera dammit
 	vector3d zaxis = (-pos).Normalized();
-	vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
-	vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 	glMultMatrixd(&rot[0]);
 
@@ -324,7 +325,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 	glEnable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
 	glBegin(GL_TRIANGLE_STRIP);
@@ -358,7 +359,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 void Planet::DrawAtmosphere(vector3d &pos)
 {
 	Color c;
-	float density;
+	double density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
 	_DrawAtmosphere(0.999, 1.05, pos, c);
@@ -383,6 +384,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 
 	double dist_to_horizon;
 	for (;;) {
+		if (len < rad) break;		// player inside radius case
 		dist_to_horizon = sqrt(len*len - rad*rad);
 
 		if (dist_to_horizon < zfar*0.5) break;
@@ -405,8 +407,8 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 		// face the camera dammit
 		vector3d zaxis = fpos.Normalized();
-		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
-		vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+		vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+		vector3d yaxis = zaxis.Cross(xaxis);
 		matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 		glMultMatrixd(&rot[0]);
 

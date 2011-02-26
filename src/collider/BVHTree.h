@@ -5,8 +5,7 @@
 #include <vector>
 #include "../vector3.h"
 #include "../Aabb.h"
-#define MIN(a,b) ((a)<(b) ? (a) : (b))
-#define MAX(a,b) ((a)>(b) ? (a) : (b))
+#include "../utils.h"
 
 #define MAX_SPLITPOS_RETRIES 15
 
@@ -45,17 +44,17 @@ private:
 			std::vector<objPtr_t> &activeObjIdxs);
 	void MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs);
 	BVHNode *AllocNode() {
-		assert(m_nodeAllocPos < m_nodeAllocMax);
+		if (m_nodeAllocPos >= m_nodeAllocMax) Error("Out of space in m_bvhNodes.");
 		return &m_bvhNodes[m_nodeAllocPos++];
 	}
 	BVHNode *m_root;
 	objPtr_t *m_objPtrAlloc;
-	int m_objPtrAllocPos;
-	int m_objPtrAllocMax;
+	size_t m_objPtrAllocPos;
+	size_t m_objPtrAllocMax;
 
 	BVHNode *m_bvhNodes;
-	int m_nodeAllocPos;
-	int m_nodeAllocMax;
+	size_t m_nodeAllocPos;
+	size_t m_nodeAllocMax;
 };
 
 

@@ -61,7 +61,7 @@ class GeoSphereStyle {
 	}
 	double GetHeight(const vector3d &p);
 	vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
-	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const {
+	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
@@ -80,7 +80,7 @@ class GeoSphereStyle {
 	Uint32 m_seed;
 
 	Color m_atmosColor;
-	float m_atmosDensity;
+	double m_atmosDensity;
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	

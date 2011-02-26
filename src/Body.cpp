@@ -15,6 +15,7 @@ Body::Body()
 {
 	m_frame = 0;
 	m_flags = 0;
+	m_hasDoubleFrame = false;
 	m_projectedPos = vector3d(0.0f, 0.0f, 0.0f);
 	m_onscreen = false;
 	m_dead = false;
@@ -31,6 +32,7 @@ void Body::Save(Serializer::Writer &wr)
 	wr.Bool(m_onscreen);
 	wr.Vector3d(m_projectedPos);
 	wr.Bool(m_dead);
+	wr.Bool(m_hasDoubleFrame);
 }
 
 void Body::Load(Serializer::Reader &rd)
@@ -40,6 +42,7 @@ void Body::Load(Serializer::Reader &rd)
 	m_onscreen = rd.Bool();
 	m_projectedPos = rd.Vector3d();
 	m_dead = rd.Bool();
+	m_hasDoubleFrame = rd.Bool();
 }	
 
 void Body::Serialize(Serializer::Writer &_wr)
@@ -119,7 +122,7 @@ vector3d Body::GetPositionRelTo(const Frame *relTo) const
 vector3d Body::GetInterpolatedPositionRelTo(const Frame *relTo) const
 {
 	matrix4x4d m;
-	Frame::GetFrameTransform(m_frame, relTo, m);
+	Frame::GetFrameRenderTransform(m_frame, relTo, m);
 	return m * GetInterpolatedPosition();
 }
 
@@ -141,8 +144,8 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	SetPosition(pos);
 
 	vector3d forward = vector3d(0,0,1);
-	vector3d other = vector3d::Cross(up, forward).Normalized();
-	forward = vector3d::Cross(other, up);
+	vector3d other = up.Cross(forward).Normalized();
+	forward = other.Cross(up);
 
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(other, up, forward);
 	rot = rot.InverseOf();

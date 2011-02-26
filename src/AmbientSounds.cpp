@@ -87,57 +87,27 @@ void AmbientSounds::Update()
 			SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
 			assert(sbody);
 			const char *sample;
-						const char *s[] = { "Wind", "Storm" };
-						sample = s[sbody->seed % 2];
 
-#warning fix me
-						/*
-			switch (sbody->type) {
-				case SBody::TYPE_PLANET_SMALL:
-				case SBody::TYPE_PLANET_CO2:
-				case SBody::TYPE_PLANET_METHANE:
-					{
-						const char *s[] = { "Wind", "Storm" };
-						sample = s[sbody->seed % 2];
-					}
-					break;
-				case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-				case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-				case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-				case SBody::TYPE_PLANET_WATER:
-				case SBody::TYPE_PLANET_DESERT:
-					{
-						const char *s[] = {
-							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-							"Thunder_4", "Storm"
-						};
-						sample = s[sbody->seed % 6];
-					}
-					break;
-				case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-					{
-						const char *s[] = {
-							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-							"Thunder_4", "Storm", "Rain_Light", "River"
-						};
-						sample = s[sbody->seed % 8];
-					}
-					break;
-				case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-				case SBody::TYPE_PLANET_TERRAFORMED_POOR:
-				case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
-					{
-						const char *s[] = {
-							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-							"Thunder_4", "Storm", "Rain_Light", "River",
-							"RainForestIntroducedNight", "RainForestIntroduced",
-							"NormalForestIntroduced"
-						};
-						sample = s[sbody->seed % 11];
-					}
-					break;
-				default: sample = 0;
-			}*/
+			if (sbody->m_life > fixed(1,5)) {
+				const char *s[] = {
+					"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
+					"Thunder_4", "Storm", "Rain_Light", "River",
+					"RainForestIntroducedNight", "RainForestIntroduced",
+					"NormalForestIntroduced"
+				};
+				sample = s[sbody->seed % 11];
+			}
+			else if (sbody->m_volatileGas > fixed(1,2)) {
+				const char *s[] = {
+					"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
+					"Thunder_4", "Storm"
+				};
+				sample = s[sbody->seed % 6];
+			}
+			else if (sbody->m_volatileGas > fixed(1,10)) {
+				sample = "Wind";
+			}
+
 			if (sample) {
 				planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 			}
@@ -177,11 +147,18 @@ void AmbientSounds::Update()
 					case SBody::TYPE_STAR_A: sample = "A_Star"; break;
 					case SBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
 					case SBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
-					case SBody::TYPE_PLANET_GAS_GIANT: sample = "Small_Gas_Giant"; break;
-//					case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT: sample = "Medium_Gas_Giant"; break;
-//					case SBody::TYPE_PLANET_LARGE_GAS_GIANT: sample = "Large_Gas_Giant"; break;
-//					case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT: sample = "Very_Large_Gas_Giant"; break;
-#warning fix me
+					case SBody::TYPE_PLANET_GAS_GIANT: {
+							if (sbody->mass > fixed(400,1)) {
+								sample = "Very_Large_Gas_Giant";
+							} else if (sbody->mass > fixed(80,1)) {
+								sample = "Large_Gas_Giant";
+							} else if (sbody->mass > fixed(20,1)) {
+								sample = "Medium_Gas_Giant";
+							} else {
+								sample = "Small_Gas_Giant";
+							}
+						}
+						break;
 					default: sample = 0; break;
 				}
 				if (sample) {
@@ -198,11 +175,11 @@ void AmbientSounds::Update()
 		Body *astro;
 		if ((astro = Pi::player->GetFrame()->m_astroBody) && (astro->IsType(Object::PLANET))) {
 			double dist = Pi::player->GetPosition().Length();
-			float pressure, density;
-			((Planet*)astro)->GetAtmosphericState(dist, pressure, density);
+			double pressure, density;
+			((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
 			// maximum volume at around 2km/sec at earth density, pressure
-			float volume = density * Pi::player->GetVelocity().Length() * 0.0005;
-			volume = CLAMP(volume, 0.0f, 1.0f) * v_env;
+			double volume = density * Pi::player->GetVelocity().Length() * 0.0005;
+			volume = Clamp(volume, 0.0, 1.0) * v_env;
 			if (atmosphereNoise.IsPlaying()) {
 				float target[2] = {volume, volume};
 				float dv_dt[2] = {1.0f,1.0f};

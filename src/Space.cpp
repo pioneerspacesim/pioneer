@@ -22,7 +22,6 @@ namespace Space {
 
 std::list<Body*> bodies;
 Frame *rootFrame;
-static void MoveOrbitingObjectFrames(Frame *f);
 static void UpdateFramesOfReference();
 static void CollideFrame(Frame *f);
 static void PruneCorpses();
@@ -203,30 +202,10 @@ Frame *GetFrameWithSBody(const SBody *b)
 	return find_frame_with_sbody(rootFrame, b);
 }
 
-void MoveOrbitingObjectFrames(Frame *f)
-{
-	if (f == Space::rootFrame) {
-		f->SetPosition(vector3d(0,0,0));
-		f->SetVelocity(vector3d(0,0,0));
-	} else if (f->m_sbody) {
-		// this isn't very smegging efficient
-		vector3d pos = f->m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime());
-		vector3d pos2 = f->m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime()+1.0);
-		vector3d vel = pos2 - pos;
-		f->SetPosition(pos);
-		f->SetVelocity(vel);
-	}
-	f->RotateInTimestep(Pi::GetTimeStep());
-
-	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
-		MoveOrbitingObjectFrames(*i);
-	}
-}
-
 static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
 {
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetOrientation(rot);
+	f->SetRotationOnly(rot);
 }
 
 static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
@@ -256,7 +235,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame in the same position but with maybe 1.05*radius,
 		// which actually contains the object.
-		frameRadius = MAX(2.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
+		frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
@@ -295,6 +274,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
 		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
+		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
@@ -319,8 +299,10 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {
 				// used for orientation on planet surface
-				rot = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-						      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+				double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
+				double r1 = r.Double();		// can't put two rands in the same expression
+				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
+					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
 				pos = rot * vector3d(0,1,0);
 				height = planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius();
 				// don't want to be under water
@@ -365,7 +347,9 @@ void GenBody(SBody *sbody, Frame *f)
 void BuildSystem()
 {
 	GenBody(Pi::currentSystem->rootBody, rootFrame);
-	MoveOrbitingObjectFrames(rootFrame);
+	rootFrame->SetPosition(vector3d(0,0,0));
+	rootFrame->SetVelocity(vector3d(0,0,0));
+	rootFrame->UpdateOrbitRails();
 }
 
 void AddBody(Body *b)
@@ -489,9 +473,9 @@ static void hitCallback(CollisionContact *c)
 		const double invMass2 = 1.0 / b2->GetMass();
 		const vector3d hitPos1 = c->pos - b1->GetPosition();
 		const vector3d hitPos2 = c->pos - b2->GetPosition();
-		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
-		const vector3d hitVel2 = linVel2 + vector3d::Cross(angVel2, hitPos2);
-		const double relVel = vector3d::Dot(hitVel1 - hitVel2, c->normal);
+		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
+		const vector3d hitVel2 = linVel2 + angVel2.Cross(hitPos2);
+		const double relVel = (hitVel1 - hitVel2).Dot(c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
@@ -500,16 +484,16 @@ static void hitCallback(CollisionContact *c)
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
 		const double term2 = invMass2;
-		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert1, hitPos1));
-		const double term4 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos2, c->normal)*invAngInert2, hitPos2));
+		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal)*invAngInert1).Cross(hitPos1));
+		const double term4 = c->normal.Dot((hitPos2.Cross(c->normal)*invAngInert2).Cross(hitPos2));
 
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
 					
 		b1->SetVelocity(linVel1 + force*invMass1);
-		b1->SetAngVelocity(angVel1 + vector3d::Cross(hitPos1, force)*invAngInert1);
+		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert1);
 		b2->SetVelocity(linVel2 - force*invMass2);
-		b2->SetAngVelocity(angVel2 - vector3d::Cross(hitPos2, force)*invAngInert2);
+		b2->SetAngVelocity(angVel2 - hitPos2.Cross(force)*invAngInert2);
 	} else {
 		// one body is static
 		vector3d hitNormal;
@@ -532,21 +516,21 @@ static void hitCallback(CollisionContact *c)
 
 		const double invMass1 = 1.0 / mover->GetMass();
 		const vector3d hitPos1 = c->pos - mover->GetPosition();
-		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
-		const double relVel = vector3d::Dot(hitVel1, c->normal);
+		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
+		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
-		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert, hitPos1));
+		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal)*invAngInert).Cross(hitPos1));
 
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;
 					
 		mover->SetVelocity(linVel1 + force*invMass1);
-		mover->SetAngVelocity(angVel1 + vector3d::Cross(hitPos1, force)*invAngInert);
+		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert);
 	}
 }
 
@@ -599,35 +583,6 @@ void CollideFrame(Frame *f)
 	}
 }
 
-void ApplyGravity()
-{
-	Body *lump = 0;
-	// gravity is applied when our frame contains an 'astroBody', ie a star or planet,
-	// or when our frame contains a rotating frame which contains this body.
-	if (Pi::player->GetFrame()->m_astroBody) {
-		lump = Pi::player->GetFrame()->m_astroBody;
-	} else if (Pi::player->GetFrame()->m_sbody &&
-		(Pi::player->GetFrame()->m_children.begin() !=
-	           Pi::player->GetFrame()->m_children.end())) {
-
-		lump = (*Pi::player->GetFrame()->m_children.begin())->m_astroBody;
-	}
-	// just to crap in the player's frame
-	if (lump) { 
-		for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-			if ((*i)->GetFrame() != Pi::player->GetFrame()) continue;
-			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
-
-			vector3d b1b2 = lump->GetPosition() - (*i)->GetPosition();
-			const double m1m2 = (*i)->GetMass() * lump->GetMass();
-			const double r = b1b2.Length();
-			const double force = G*m1m2 / (r*r);
-			b1b2 = b1b2.Normalized() * force;
-			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
-		}
-	}
-
-}
 
 void TimeStep(float step)
 {
@@ -649,17 +604,17 @@ void TimeStep(float step)
 		return;
 	}
 
-	ApplyGravity();
+//	ApplyGravity();				// now called by TimeStepUpdate per body
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
 	UpdateFramesOfReference();
-	MoveOrbitingObjectFrames(rootFrame);
+	rootFrame->UpdateOrbitRails();
 	
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->TimeStepUpdate(step);
+		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
 	}
 	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->StaticUpdate(step);
+		(*i)->TimeStepUpdate(step);
 	}
 	Sfx::TimeStepAll(step, rootFrame);
 
@@ -879,7 +834,7 @@ void Render(const Frame *cam_frame)
 	int idx = 0;
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		const vector3d pos = (*i)->GetInterpolatedPosition();
-		Frame::GetFrameTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
+		Frame::GetFrameRenderTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
 		vector3d toBody = bz[idx].viewTransform * pos;
 		bz[idx].viewTransform = bz[idx].viewTransform;
 		bz[idx].viewCoords = toBody;

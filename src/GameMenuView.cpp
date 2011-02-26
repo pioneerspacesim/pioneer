@@ -650,7 +650,7 @@ void GameMenuView::OnSwitchTo() {
 		m_cityDetail[Pi::detail.cities]->OnActivate();
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());
-		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen"));
+		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
 	}
 }
 

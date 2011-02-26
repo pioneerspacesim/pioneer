@@ -104,7 +104,7 @@ void ObjectViewerView::Update()
 {
 	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99;
 	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01;
-	viewingDist = CLAMP(viewingDist, 10, 1e12);
+	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	char buf[128];
 	Body *body = Pi::player->GetNavTarget();

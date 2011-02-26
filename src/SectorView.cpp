@@ -9,7 +9,7 @@
 #include "StarSystem.h"
 #include "GalacticView.h"
 		
-SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
+SectorView::SectorView()
 {
 	SetTransparency(true);
 	m_lastShownLoc = SysLoc(9999,9999,9999);
@@ -110,8 +110,6 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	GenericSystemView::Draw3D();
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(40, Pi::GetScrAspect(), 1.0, 100.0);
@@ -165,19 +163,10 @@ void SectorView::OnClickSystem(int sx, int sy, int sys_idx)
 
 void SectorView::PutClickableLabel(std::string &text, int sx, int sy, int sys_idx)
 {
-	// highly optimal..
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-
 	Gui::Screen::EnterOrtho();
-	vector3d _pos;
-	if (Gui::Screen::Project (0,0,0, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), _pos.x, _pos.y);
+	vector3d pos;
+	if (Gui::Screen::Project(vector3d(0.0), pos)) {
+		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), pos.x, pos.y);
 	}
 	Gui::Screen::LeaveOrtho();
 }
@@ -280,7 +269,7 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
-	m_zoom = CLAMP(m_zoom, 0.1, 5.0);
+	m_zoom = Clamp(m_zoom, 0.1f, 5.0f);
 	
 	// when zooming to a clicked on spot
 	{

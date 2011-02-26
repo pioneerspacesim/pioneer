@@ -66,17 +66,10 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
 
 		/* Draw star spikes and halo to 2d ortho screen */
-		GLdouble modelMatrix[16];
-		GLdouble projMatrix[16];
-		GLint viewport[4];
-
-		glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-		glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-		glGetIntegerv (GL_VIEWPORT, viewport);
 		
-		vector3d pp;
-		Gui::Screen::Project (fpos.x,fpos.y,fpos.z, modelMatrix, projMatrix, viewport, &pp.x, &pp.y, &pp.z);
 		Gui::Screen::EnterOrtho();
+		vector3d pp;
+		Gui::Screen::Project(fpos, pp);
 
 		const float glowrad = (float)(20.0f+20000.0f*radius/viewCoords.Length());
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
@@ -99,7 +92,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
 		
-		const float spikerad = (float)MIN(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*(float)Gui::Screen::GetHeight());
+		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*(float)Gui::Screen::GetHeight());
 		{
 			/* cubic bezier with 2 (0,0,0) control points */
 			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
@@ -135,8 +128,8 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glDisable(GL_BLEND);
 		// face the camera dammit
 		vector3d zaxis = fpos.Normalized();
-		vector3d xaxis = vector3d::Cross(vector3d(0,1,0), zaxis).Normalized();
-		vector3d yaxis = vector3d::Cross(zaxis,xaxis);
+		vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+		vector3d yaxis = zaxis.Cross(xaxis);
 		matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
 		glMultMatrixd(&rot[0]);
 

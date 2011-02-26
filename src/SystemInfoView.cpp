@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Polit.h"
 
-SystemInfoView::SystemInfoView(): GenericSystemView(GenericSystemView::MAP_INFO)
+SystemInfoView::SystemInfoView()
 {
 	SetTransparency(true);
 	m_system = 0;
@@ -208,8 +208,10 @@ void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 void SystemInfoView::SystemChanged(StarSystem *s)
 {
 	DeleteAllChildren();
-	
+
 	m_system = s;
+	if (!s) return;			// Does happen
+
 	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
@@ -342,8 +344,6 @@ void SystemInfoView::Draw3D()
 	glLoadIdentity();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	GenericSystemView::Draw3D();
 }
 
 void SystemInfoView::Update()

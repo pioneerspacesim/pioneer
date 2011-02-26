@@ -41,8 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\src;..\..\win32\vc2008\include;..\..\win32\vc2008"
+				AdditionalIncludeDirectories="..\..\src;..\..\win32\include;..\..\win32\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -51,7 +50,6 @@
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="pch.h"
-				PrecompiledHeaderFile="c:\TEMP\pioneer.pch"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				ForcedIncludeFiles="pch.h"
@@ -70,6 +68,7 @@
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib"
 				OutputFile="..\..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -123,24 +122,21 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
+				Optimization="3"
+				InlineFunctionExpansion="1"
 				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				EnableFiberSafeOptimizations="false"
-				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\..\src;..\..\win32\vc2008\include;..\..\win32\vc2008"
+				FavorSizeOrSpeed="0"
+				OmitFramePointers="false"
+				WholeProgramOptimization="true"
+				AdditionalIncludeDirectories="..\..\src;..\..\win32\include;..\..\win32\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="true"
-				EnableFunctionLevelLinking="true"
+				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="pch.h"
-				PrecompiledHeaderFile="C:\temp\pioneer.pch"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				ForcedIncludeFiles="pch.h"
@@ -159,11 +155,12 @@
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib"
 				OutputFile="..\..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
+				LinkTimeCodeGeneration="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -262,10 +259,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GenericSystemView.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\collider\Geom.cpp"
 				>
 			</File>
@@ -275,14 +268,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GeoSphere.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GeoSphereStyle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GeoSphereStyle.cpp"
 				>
 			</File>
 			<File
@@ -486,7 +471,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pch.cpp"
+				RelativePath="..\..\win32\src\pch.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -574,6 +559,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipAICmd.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipCpanel.cpp"
 				>
 			</File>
@@ -630,7 +619,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\win32-dirent.cpp"
+				RelativePath="..\..\win32\src\win32-dirent.cpp"
 				>
 			</File>
 			<File
@@ -764,10 +753,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GenericSystemView.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\collider\Geom.h"
 				>
 			</File>
@@ -841,6 +826,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GuiLabel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GuiLabelSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GuiMeterBar.h"
 				>
 			</File>
 			<File
@@ -1164,7 +1157,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pch.h"
+				RelativePath="..\..\win32\src\pch.h"
 				>
 			</File>
 			<File
@@ -1248,6 +1241,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipAICmd.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipCpanel.h"
 				>
 			</File>
@@ -1320,7 +1317,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\win32-dirent.h"
+				RelativePath="..\..\win32\src\win32-dirent.h"
 				>
 			</File>
 			<File

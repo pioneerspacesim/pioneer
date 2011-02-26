@@ -6,7 +6,7 @@
 #include "GeoSphereStyle.h"
 
 extern int GEOPATCH_EDGELEN;
-#define ATMOSPHERE_RADIUS 1.015f
+#define ATMOSPHERE_RADIUS 1.015
 
 class SBody;
 class GeoPatch;
@@ -33,7 +33,7 @@ public:
 #endif /* DEBUG */
 	static void Init();
 	static void OnChangeDetailLevel();
-	void GetAtmosphereFlavor(Color *outColor, float *outDensity) const {
+	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		m_style.GetAtmosphereFlavor(outColor, outDensity);
 	}
 	// in sbody radii

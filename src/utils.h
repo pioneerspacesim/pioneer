@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
+#include <stdarg.h>
+#include <GL/glew.h>
+#include "libs.h"
 
 #ifdef DEBUG
 #define glError() { \
@@ -37,7 +40,7 @@ std::string string_subst(const char *format, const unsigned int num_args, std::s
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist);
-std::string format_money(int money);
+std::string format_money(Sint64 money);
 void strip_cr_lf(char *string);
 
 GLuint util_load_tex_rgba(const char *filename);

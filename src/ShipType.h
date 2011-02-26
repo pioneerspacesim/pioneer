@@ -33,6 +33,8 @@ struct ShipType {
 
 	static std::string LADYBIRD;
 	static std::string SIRIUS_INTERDICTOR;
+	static std::string EAGLE_LRF;
+	static std::string EAGLE_MK3;
 	static std::string MISSILE_GUIDED;
 	static std::string MISSILE_NAVAL;
 	static std::string MISSILE_SMART;
@@ -77,7 +79,7 @@ public:
 		onChange.emit();
 	}
 	bool Add(Equip::Type e, int num) {
-		Equip::Slot s = EquipType::types[e].slot;
+		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (numDone == num) break;
@@ -94,7 +96,7 @@ public:
 	}
 	// returns number removed
 	int Remove(Equip::Type e, int num) {
-		Equip::Slot s = EquipType::types[e].slot;
+		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
 			if (num == 0) break;

@@ -16,7 +16,7 @@ Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 	m_distToTarget = FLT_MAX;
 	SetLabel("missile");
 
-	AIInstruct(DO_KAMIKAZE, target);
+	AIKamikaze(target);
 }
 
 void Missile::ECMAttack(int power_val)

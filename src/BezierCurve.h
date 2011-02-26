@@ -2,11 +2,13 @@
 #define _BEZIERCURVE_H
 
 #include "vector3.h"
+#include "Serializer.h"
 
 class BezierCurve {
 	public:
 	std::vector<vector3d> p;
 
+	BezierCurve() {}
 	BezierCurve(unsigned int numPoints) {
 		p.resize(numPoints);
 	}
@@ -29,6 +31,15 @@ class BezierCurve {
 		}
 		return out;
 	}
+	void Save(Serializer::Writer &wr) {
+		wr.Int32(p.size());
+		for (std::vector<vector3d>::size_type i=0; i<p.size(); i++) wr.Vector3d(p[i]);
+	}
+	void Load(Serializer::Reader &rd) {
+		p.resize(rd.Int32());
+		for (std::vector<vector3d>::size_type i=0; i<p.size(); i++) p[i] = rd.Vector3d();
+	}
+
 	private:
 	inline double BinomialCoeff(int n, int k)
 	{
