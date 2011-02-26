@@ -318,7 +318,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		m_colorType = COLOR_ASTEROID;
 	} else /* SBody::TYPE_PLANET_TERRESTRIAL */ {
 		/* Pick terrain and color fractals for terrestrial planets */
-		if (body->m_volatileLiquid > fixed(1,3)) {
+		if (body->m_life > fixed(1,2)) {
 			const enum TerrainFractal choices[] = {
 				TERRAIN_HILLS_RIDGED,
 				TERRAIN_HILLS_RIVERS,
@@ -326,12 +326,27 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_MOUNTAINS_RIVERS,
 			};
 			m_terrainType = choices[rand.Int32(4)];
+			m_colorType = COLOR_EARTHLIKE;
+		} else if (body->m_volatileLiquid > fixed(1,3)) {
+			const enum TerrainFractal choices[] = {
+				TERRAIN_HILLS_RIDGED,
+				TERRAIN_HILLS_RIVERS,
+				TERRAIN_MOUNTAINS_RIDGED,
+				TERRAIN_MOUNTAINS_RIVERS,
+			};
+			m_terrainType = choices[rand.Int32(4)];
+			m_colorType = COLOR_DEAD_WITH_H2O;
+		} else if ((body->m_volatileLiquid < fixed(1,10)) &&
+		           (body->m_volatileGas > fixed(1,3))) {
+			m_terrainType = TERRAIN_RUGGED_DESERT;
+			m_colorType = COLOR_DESERT;
 		} else {
 			const enum TerrainFractal choices[] = {
 				TERRAIN_HILLS_NORMAL,
 				TERRAIN_MOUNTAINS_NORMAL,
 			};
 			m_terrainType = choices[rand.Int32(2)];
+			m_colorType = COLOR_ROCK;
 		}
 	}
 	// XXX override the above so you can test particular fractals XXX
