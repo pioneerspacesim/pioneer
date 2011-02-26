@@ -216,8 +216,17 @@ void Pi::Init()
 
 	draw_progress(0.3f);
 	LmrModelCompilerInit();
+
+//unsigned int control_word;
+//_clearfp();
+//_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+//double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
+
+
 	draw_progress(0.4f);
 	ShipType::Init();
+
+
 	draw_progress(0.5f);
 	GeoSphere::Init();
 	draw_progress(0.6f);
@@ -315,6 +324,11 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(1, 0.0f);
 		player->SetAngThrusterState(2, 0.0f);
 	}
+	// Give all ships a half-step acceleration to stop autopilot overshoot
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		if ((*i)->IsType(Object::SHIP)) ((DynamicBody *)(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
+	}
+
 	timeAccelIdx = s;
 }
 
@@ -506,7 +520,7 @@ void Pi::HandleEvents()
 			case SDL_JOYBUTTONDOWN:
 				if (joysticks[event.jaxis.which].joystick == NULL)
 					break;
-				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state;
+				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
 				break;
 			case SDL_JOYHATMOTION:
 				if (joysticks[event.jaxis.which].joystick == NULL)
@@ -584,7 +598,7 @@ static void draw_tombstone(float _time)
 	glEnable(GL_LIGHT0);
 	
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -MAX(150 - 30*_time, 30);
+	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
 	Render::State::UseProgram(0);
 	Render::UnbindAllBuffers();
@@ -778,6 +792,7 @@ void Pi::Start()
 	
 	InitGame();
 
+
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
@@ -829,6 +844,27 @@ void Pi::Start()
 		Space::AddBody(enemy);
 
 		player->SetCombatTarget(enemy);
+
+
+		const ShipType *shipdef;
+		double mass, acc1, acc2, acc3;
+		printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
+			player->GetMass(), enemy->GetMass());
+
+		shipdef = &player->GetShipType();
+		mass = player->GetMass();
+		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+		printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
+		shipdef = &enemy->GetShipType();
+		mass = enemy->GetMass();
+		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+		printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+
 
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
@@ -941,6 +977,7 @@ void Pi::MainLoop()
 		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
+		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
@@ -976,7 +1013,7 @@ void Pi::MainLoop()
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
-			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+/*			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -985,19 +1022,23 @@ void Pi::MainLoop()
 				double rad = (*i)->GetBoundingRadius();
 
 				if (dist < 1000.0) {
-					timeAccel = MIN(timeAccel, 1);
-				} else if (dist < MIN(rad+0.0001*AU, rad*1.1)) {
-					timeAccel = MIN(timeAccel, 2);
-				} else if (dist < MIN(rad+0.001*AU, rad*5.0)) {
-					timeAccel = MIN(timeAccel, 3);
-				} else if (dist < MIN(rad+0.01*AU,rad*10.0)) {
-					timeAccel = MIN(timeAccel, 4);
-				} else if (dist < MIN(rad+0.1*AU, rad*1000.0)) {
-					timeAccel = MIN(timeAccel, 5);
+					timeAccel = std::min(timeAccel, 1);
+				} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+					timeAccel = std::min(timeAccel, 2);
+				} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
+					timeAccel = std::min(timeAccel, 3);
+				} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
+					timeAccel = std::min(timeAccel, 4);
+				} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+					timeAccel = std::min(timeAccel, 5);
 				}
 			}
+*/
 		}
-		Pi::SetTimeAccel(timeAccel);
+		if (timeAccel != Pi::GetTimeAccelIdx()) {
+			Pi::SetTimeAccel(timeAccel);
+			accumulator = 0;				// fix for huge pauses 10000x -> 1x
+		}
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {

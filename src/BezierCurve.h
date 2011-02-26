@@ -33,11 +33,11 @@ class BezierCurve {
 	}
 	void Save(Serializer::Writer &wr) {
 		wr.Int32(p.size());
-		for (int i=0; i<p.size(); i++) wr.Vector3d(p[i]);
+		for (std::vector<vector3d>::size_type i=0; i<p.size(); i++) wr.Vector3d(p[i]);
 	}
 	void Load(Serializer::Reader &rd) {
 		p.resize(rd.Int32());
-		for (int i=0; i<p.size(); i++) p[i] = rd.Vector3d();
+		for (std::vector<vector3d>::size_type i=0; i<p.size(); i++) p[i] = rd.Vector3d();
 	}
 
 	private:

@@ -7,7 +7,7 @@
 
 struct CouldNotMakeMissionException {};
 
-struct SBodyPath;
+class SBodyPath;
 
 class Mission {
 public:

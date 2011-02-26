@@ -28,7 +28,7 @@ namespace Gui {
 		static int GetHeight() { return height; }
 		static float GetFontHeight();
 		// gluProject but fixes UI/screen size mismatch
-		static GLint Project(GLdouble objX, GLdouble objY, GLdouble objZ, const GLdouble *model, const GLdouble *proj, const GLint *view, GLdouble* winX, GLdouble *winY, GLdouble *winZ);
+		static bool Project(const vector3d &in, vector3d &out);
 		friend void Widget::SetShortcut(SDLKey key, SDLMod mod);
 		friend Widget::~Widget();
 		static bool IsBaseWidget(const Widget *);
@@ -58,6 +58,9 @@ namespace Gui {
 		static Gui::Fixed *baseContainer;
 		static Gui::Widget *focusedWidget;
 		static void OnDeleteFocusedWidget();
+		static GLdouble modelMatrix[16];
+		static GLdouble projMatrix[16];
+		static GLint viewport[4];
 	};
 }
 

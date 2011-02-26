@@ -78,14 +78,18 @@ void Widget::OnPreShortcut(const SDL_keysym *sym)
 	}
 }
 
-void Widget::GetAbsolutePosition(float pos[2])
+void Widget::GetAbsolutePosition(float pos[2]) const
 {
-	GetPosition(pos);
 	const Container *parent = GetParent();
-	while (parent) {
-		pos[0] += parent->m_size.x;
-		pos[1] += parent->m_size.y;
-		parent = parent->GetParent();
+
+	if (parent) {
+		float parentPos[2];
+		parent->GetAbsolutePosition(parentPos);
+		parent->GetChildPosition(this, pos);
+		pos[0] += parentPos[0];
+		pos[1] += parentPos[1];
+	} else {
+		pos[0] = pos[1] = 0;
 	}
 }
 	

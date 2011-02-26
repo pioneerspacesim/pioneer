@@ -93,8 +93,8 @@ void Tabbed::OnChildResizeRequest(Widget *child)
 		rsize[0] = size[0];
 		rsize[1] = TAB_BAR_HEIGHT;
 		child->GetSizeRequested(rsize);
-		rsize[0] = MIN(rsize[0], size[0]);
-		rsize[1] = MIN(rsize[1], TAB_BAR_HEIGHT);
+		rsize[0] = std::min(rsize[0], size[0]);
+		rsize[1] = std::min(rsize[1], TAB_BAR_HEIGHT);
 		child->SetSize(rsize[0], rsize[1]);
 		ShuffleLabels();
 	} else {
@@ -103,7 +103,7 @@ void Tabbed::OnChildResizeRequest(Widget *child)
 		rsize[0] = size[0];
 		rsize[1] = size[1] - TAB_BAR_HEIGHT;
 		child->GetSizeRequested(rsize);
-		rsize[0] = MIN(rsize[0], size[0]);
+		rsize[0] = std::min(rsize[0], size[0]);
 		child->SetSize(rsize[0], rsize[1]);
 	}
 }

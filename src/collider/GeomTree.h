@@ -15,7 +15,7 @@ struct isect_t {
 };
 
 class BVHTree;
-class BVHNode;
+struct BVHNode;
 
 class GeomTree {
 public:

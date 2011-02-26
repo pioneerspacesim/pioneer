@@ -152,10 +152,10 @@ int wankmod(int a, int b)
 	return r>=0 ? r : r+b;
 }
 
-std::string format_money(int money)
+std::string format_money(Sint64 money)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.1f", 0.01f*(float)money);
+	snprintf(buf, sizeof(buf), "$%.1f", 0.01*(double)money);
 	return std::string(buf);
 }
 

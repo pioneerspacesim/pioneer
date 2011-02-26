@@ -24,18 +24,18 @@ struct BvhNode {
 		double
                 l1      = (aabb.min.x - start.x) * invDir.x,
                 l2      = (aabb.max.x - start.x) * invDir.x,
-                lmin    = MIN(l1,l2),
-                lmax    = MAX(l1,l2);
+                lmin    = std::min(l1,l2),
+                lmax    = std::max(l1,l2);
 
 		l1      = (aabb.min.y - start.y) * invDir.y;
 		l2      = (aabb.max.y - start.y) * invDir.y;
-		lmin    = MAX(MIN(l1,l2), lmin);
-		lmax    = MIN(MAX(l1,l2), lmax);
+		lmin    = std::max(std::min(l1,l2), lmin);
+		lmax    = std::min(std::max(l1,l2), lmax);
 
 		l1      = (aabb.min.z - start.z) * invDir.z;
 		l2      = (aabb.max.z - start.z) * invDir.z;
-		lmin    = MAX(MIN(l1,l2), lmin);
-		lmax    = MIN(MAX(l1,l2), lmax);
+		lmin    = std::max(std::min(l1,l2), lmin);
+		lmax    = std::min(std::max(l1,l2), lmax);
 
 		return ((lmax >= 0.f) & (lmax >= lmin) & (lmin < isect->dist));
 	}
@@ -225,8 +225,8 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 	if (sphere.radius != 0) {
 		/* Collide with lovely sphere! */
 		const vector3d v = start - sphere.pos;
-		const double b = -vector3d::Dot (v, dir);
-		double det = (b * b) - vector3d::Dot (v, v) + (sphere.radius*sphere.radius);
+		const double b = -v.Dot(dir);
+		double det = (b * b) - v.LengthSqr() + (sphere.radius*sphere.radius);
 		if (det > 0) {
 			det = sqrt(det);
 			const double i1 = b - det;

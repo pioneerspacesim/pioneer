@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer-msvc-9.0", "pioneer
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modelviewer-msvc-9.0", "sbreviewer-msvc-9.0.vcproj", "{6AF5E04A-5CB2-4E96-8CA4-E95A144EE0BF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perlintest", "perlintest.vcproj", "{CB44837C-39A9-4B73-818A-E9F0076E0799}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{6AF5E04A-5CB2-4E96-8CA4-E95A144EE0BF}.Debug|Win32.Build.0 = Debug|Win32
 		{6AF5E04A-5CB2-4E96-8CA4-E95A144EE0BF}.Release|Win32.ActiveCfg = Release|Win32
 		{6AF5E04A-5CB2-4E96-8CA4-E95A144EE0BF}.Release|Win32.Build.0 = Release|Win32
+		{CB44837C-39A9-4B73-818A-E9F0076E0799}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CB44837C-39A9-4B73-818A-E9F0076E0799}.Debug|Win32.Build.0 = Debug|Win32
+		{CB44837C-39A9-4B73-818A-E9F0076E0799}.Release|Win32.ActiveCfg = Release|Win32
+		{CB44837C-39A9-4B73-818A-E9F0076E0799}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

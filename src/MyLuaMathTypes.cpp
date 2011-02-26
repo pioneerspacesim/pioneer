@@ -61,9 +61,9 @@ namespace MyLuaMatrix {
 		const vector3f *_xaxis = MyLuaVec::checkVec(L, 2);
 		const vector3f *_yaxis = MyLuaVec::checkVec(L, 3);
 
-		vector3f zaxis = vector3f::Cross(*_xaxis, *_yaxis).Normalized();
-		vector3f xaxis = vector3f::Cross(*_yaxis, zaxis).Normalized();
-		vector3f yaxis = vector3f::Cross(zaxis, xaxis);
+		vector3f zaxis = _xaxis->Cross(*_yaxis).Normalized();
+		vector3f xaxis = _yaxis->Cross(zaxis).Normalized();
+		vector3f yaxis = zaxis.Cross(xaxis);
 
 		matrix4x4f *out = pushMatrix(L);
 		*out = matrix4x4f::MakeInvRotMatrix(xaxis, yaxis, zaxis);
@@ -296,7 +296,7 @@ namespace MyLuaVec {
 		vector3f *v1 = checkVec(L, 1);
 		vector3f *v2 = checkVec(L, 2);
 		vector3f *out = pushVec(L);
-		*out = vector3f::Cross(*v1, *v2);
+		*out = v1->Cross(*v2);
 		return 1;
 	}
 
@@ -349,7 +349,7 @@ namespace MyLuaVec {
 	{
 		vector3f *v1 = checkVec(L, 1);
 		vector3f *v2 = checkVec(L, 2);
-		lua_pushnumber(L, vector3f::Dot(*v1, *v2));
+		lua_pushnumber(L, v1->Dot(*v2));
 		return 1;
 	}
 

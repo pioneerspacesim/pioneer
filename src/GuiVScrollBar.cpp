@@ -34,6 +34,11 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 		_m_release = RawEvents::onMouseUp.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseUp));
 		_m_motion = RawEvents::onMouseMotion.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseMotion));
 	}
+	else if (e->button == 4 || e->button == 5) {
+		float change = e->button == 4 ? -0.1 : 0.1;
+		float pos = m_adjustment->GetValue();
+		m_adjustment->SetValue(Clamp(pos+change, 0.0f, 1.0f));
+	}
 	return false;
 }
 

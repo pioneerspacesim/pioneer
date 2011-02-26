@@ -9,7 +9,7 @@
 #include "StarSystem.h"
 #include "GalacticView.h"
 		
-SectorView::SectorView(): GenericSystemView(GenericSystemView::MAP_SECTOR)
+SectorView::SectorView()
 {
 	SetTransparency(true);
 	m_lastShownLoc = SysLoc(9999,9999,9999);
@@ -110,8 +110,6 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	GenericSystemView::Draw3D();
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(40, Pi::GetScrAspect(), 1.0, 100.0);
@@ -165,19 +163,10 @@ void SectorView::OnClickSystem(int sx, int sy, int sys_idx)
 
 void SectorView::PutClickableLabel(std::string &text, int sx, int sy, int sys_idx)
 {
-	// highly optimal..
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-
 	Gui::Screen::EnterOrtho();
-	vector3d _pos;
-	if (Gui::Screen::Project (0,0,0, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), _pos.x, _pos.y);
+	vector3d pos;
+	if (Gui::Screen::Project(vector3d(0.0), pos)) {
+		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), pos.x, pos.y);
 	}
 	Gui::Screen::LeaveOrtho();
 }
@@ -249,9 +238,25 @@ void SectorView::DrawSector(int sx, int sy)
 	}
 }
 
+void SectorView::OnSwitchTo() {
+	m_lastShownLoc = SysLoc(9999,9999,9999);
+	Update();
+}
+
 void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
+
+	int playerLocSecX, playerLocSecY, playerLocSysIdx;
+	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
+
+	if (Pi::KeyState(SDLK_c)) {
+		GotoSystem(playerLocSecX, playerLocSecY, playerLocSysIdx);
+		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
+			m_rot_x = m_rot_z = 0;
+			m_zoom = 1.2;
+		}
+	}
 
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
@@ -264,7 +269,7 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(2.0f, frameTime);
-	m_zoom = CLAMP(m_zoom, 0.1, 5.0);
+	m_zoom = Clamp(m_zoom, 0.1f, 5.0f);
 	
 	// when zooming to a clicked on spot
 	{
@@ -301,9 +306,8 @@ void SectorView::Update()
 		}
 	}
 	
-	int playerLocSecX, playerLocSecY, playerLocSysIdx;
-	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
 	StarSystem *sys = Pi::GetSelectedSystem();
+	if (!sys) return;
 
 	if (sys->GetLocation() != m_lastShownLoc) {
 		Sector sec(m_secx, m_secy);
@@ -318,19 +322,24 @@ void SectorView::Update()
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
-				if (Pi::currentSystem->GetLocation() != sys->GetLocation()) 
-					Pi::player->SetHyperspaceTarget(&sbody_path);
+				Pi::player->SetHyperspaceTarget(&sbody_path);
+				break;
+			case Ship::HYPERJUMP_CURRENT_SYSTEM:
+				snprintf(buf, sizeof(buf), "Current system");
+				Pi::player->ClearHyperspaceTarget();
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				Pi::player->ClearHyperspaceTarget();
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				Pi::player->ClearHyperspaceTarget();
 				break;
 			case Ship::HYPERJUMP_NO_DRIVE:
 				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+				Pi::player->ClearHyperspaceTarget();
 				break;
-
 		}
 
 		std::string desc;

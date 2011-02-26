@@ -19,8 +19,12 @@ Module:new {
 			local minMass = 10
 			local maxMass = 50 + 150*plvl
 			ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), power, minMass, maxMass)
-			print("Pirates module spawned " .. ship:GetLabel() .. " with power " .. power)
-			ship:ShipAIDoKill(Pi.GetPlayer())
+			if not e then
+				print("Pirates module spawned " .. ship:GetLabel() .. " with power " .. power)
+				ship:ShipAIDoKill(Pi.GetPlayer())
+			else
+				print("Pirate module: " .. e)
+			end
 		end
 	end,
 }

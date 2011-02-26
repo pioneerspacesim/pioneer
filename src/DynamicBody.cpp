@@ -7,7 +7,6 @@
 
 DynamicBody::DynamicBody(): ModelBody()
 {
-	m_atmosDragGs = 0;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_orient = matrix4x4d::Identity();
 	m_oldOrient = m_orient;
@@ -20,6 +19,9 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_angInertia = 1;
 	m_massRadius = 1;
 	m_enabled = true;
+	m_atmosForce = vector3d(0.0);
+	m_gravityForce = vector3d(0.0);
+	m_externalForce = vector3d(0.0);		// do external forces calc instead?
 }
 
 void DynamicBody::SetForce(const vector3d f)
@@ -76,6 +78,11 @@ void DynamicBody::Load(Serializer::Reader &rd)
 	m_enabled = rd.Bool();
 }
 
+void DynamicBody::PostLoadFixup()
+{
+	CalcExternalForce();
+}
+
 void DynamicBody::SetTorque(const vector3d t)
 {
 	m_torque = t;
@@ -101,54 +108,56 @@ vector3d DynamicBody::GetPosition() const
 	return vector3d(m_orient[12], m_orient[13], m_orient[14]);
 }
 
+void DynamicBody::CalcExternalForce()
+{
+	// gravity
+	vector3d b1b2 = GetPosition();
+	double m1m2 = GetMass() * GetFrame()->GetBodyFor()->GetMass();
+	double invrsqr = 1.0 / b1b2.LengthSqr();
+	double force = G*m1m2 * invrsqr;
+	m_externalForce = -b1b2 * sqrt(invrsqr) * force;
+	m_gravityForce = m_externalForce;
+
+	// atmospheric drag
+	const double speed = m_vel.Length();
+	if ((speed > 0) && GetFrame()->GetBodyFor()->IsType(Object::PLANET))
+	{
+		Planet *planet = static_cast<Planet*>(GetFrame()->GetBodyFor());
+		double dist = GetPosition().Length();
+		double pressure, density;
+		planet->GetAtmosphericState(dist, &pressure, &density);
+		const double radius = GetBoundingRadius();
+		const double AREA = radius;
+		// ^^^ yes that is as stupid as it looks
+		const double DRAG_COEFF = 0.1; // 'smooth sphere'
+		vector3d fDrag = -0.5*density*speed*speed*AREA*DRAG_COEFF*m_vel.Normalized();
+
+		// make this a bit less daft at high time accel
+		if (Pi::GetTimeAccel() > 1000) m_atmosForce += 0.01 * (fDrag - m_atmosForce);
+		else if (Pi::GetTimeAccel() > 100) m_atmosForce += 0.1 * (fDrag - m_atmosForce);
+		else m_atmosForce = fDrag;
+
+		m_externalForce += m_atmosForce;
+	}
+
+	// centrifugal and coriolis forces for rotating frames
+	vector3d angRot = GetFrame()->GetAngVelocity();
+	if (angRot.LengthSqr() > 0.0) {
+		m_externalForce += m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
+		m_externalForce += -2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
+	}
+
+}
+
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
 	if (m_enabled) {
-		const double speed = m_vel.Length();
-		// atmospheric drag
-		if ((speed != 0) &&
-		    GetFrame()->m_astroBody &&
-		    GetFrame()->m_astroBody->IsType(Object::PLANET)) {
-			Planet *planet = static_cast<Planet*>(GetFrame()->m_astroBody);
-
-			double dist = GetPosition().Length();
-			float pressure, density;
-			planet->GetAtmosphericState(dist, pressure, density);
-			const double radius = GetBoundingRadius();
-			const double AREA = radius;
-			// ^^^ yes that is as stupid as it looks
-			const double DRAG_COEFF = 0.1; // 'smooth sphere'
-			vector3d fDrag = -0.5*density*speed*speed*
-					AREA*DRAG_COEFF*(m_vel.Normalized());
-			m_atmosDragGs = (fDrag*(1.0/m_mass)).Length()/9.81;
-
-			m_force += fDrag;
-		}
-
-		/* This shit is for rotating frames. It is a bit smelly */
-		vector3d angRot = GetFrame()->GetAngVelocity();
-		{
-			double omega = angRot.Length();
-			if (omega) {
-			
-				// centrifugal force
-				vector3d perpend = vector3d::Cross(angRot, GetPosition());
-				if (perpend != vector3d(0,0,0)) {
-					perpend = vector3d::Cross(perpend, angRot).Normalized();
-					double R = vector3d::Dot(perpend, GetPosition());
-					double centrifugal = m_mass * omega * omega * R;
-					m_force += centrifugal*perpend;
-					// coriolis force
-					m_force += -2*m_mass*vector3d::Cross(angRot, GetVelocity());
-				}
-			}
-
-		}
+		m_force += m_externalForce;
 
 		m_oldOrient = m_orient;
 		m_vel += (double)timeStep * m_force * (1.0 / m_mass);
 		m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
-		vector3d consideredAngVel = m_angVel - angRot;
+		vector3d consideredAngVel = m_angVel - GetFrame()->GetAngVelocity();
 		
 		vector3d pos = GetPosition();
 		// applying angular velocity :-/
@@ -171,10 +180,18 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
+		CalcExternalForce();			// regenerate for new pos/vel
 	} else {
 		m_oldOrient = m_orient;
 		m_oldAngDisplacement = vector3d(0.0);
 	}
+}
+
+// for timestep changes, to stop autopilot overshoot
+void DynamicBody::ApplyAccel(const float timeStep)
+{
+	m_vel += (double)timeStep * m_force * (1.0 / m_mass);
+	m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
 }
 
 void DynamicBody::UpdateInterpolatedTransform(double alpha)
@@ -275,13 +292,13 @@ void DynamicBody::SetAngVelocity(vector3d v)
 #define KINETIC_ENERGY_MULT	0.00001f
 bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 {
-	float kineticEnergy = 0;
+	double kineticEnergy = 0;
 	if (o->IsType(Object::DYNAMICBODY)) {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	} else {
-		const float v = (float)GetVelocity().Length();
+		const double v = GetVelocity().Length();		// unused... copypaste bug?
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
-	if (kineticEnergy) OnDamage(o, kineticEnergy);
+	if (kineticEnergy) OnDamage(o, (float)kineticEnergy);
 	return true;
 }

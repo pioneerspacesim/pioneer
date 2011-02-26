@@ -77,7 +77,7 @@ void ship_randomly_equip(Ship *ship, double power)
 		stats = ship->CalcStats();
 	}
 	
-	int amount = MIN(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
+	int amount = std::min(EquipType::types[type.hyperdrive].pval, stats->free_capacity);
 	while (amount--) ship->m_equipment.Add(Equip::HYDROGEN);
 }
 
@@ -391,7 +391,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
 			i != ShipType::types.end(); ++i) {
 		int hullMass = (*i).second.hullMass;
-		if ((hullMass >= minMass) && (hullMass <= maxMass)) {
+		if (((*i).second.name.find("MISSILE") < 0) && (hullMass >= minMass) && (hullMass <= maxMass)) {
 			candidates.push_back((*i).first);
 		}
 	}

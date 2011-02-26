@@ -155,7 +155,7 @@ public:
 		ypos = 160.0f;
 		Add((new Gui::Label("CRIMINAL RECORD:"))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
-			if (!(crime & (1<<i))) continue;
+			if (!(crime & ((Uint64)1<<i))) continue;
 			if (!Polit::crimeNames[i]) continue;
 			ypos += YSEP;
 			Add(new Gui::Label(Polit::crimeNames[i]), 40, ypos);

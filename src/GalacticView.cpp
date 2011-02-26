@@ -9,7 +9,7 @@
 #include "Sector.h"
 #include "Galaxy.h"
 		
-GalacticView::GalacticView(): GenericSystemView(GenericSystemView::MAP_GALACTIC)
+GalacticView::GalacticView()
 {
 	const SDL_Surface *s = Galaxy::GetGalaxyBitmap();
 	glEnable(GL_TEXTURE_2D);
@@ -80,29 +80,19 @@ static void dummy() {}
 
 void GalacticView::PutLabels(vector3d offset)
 {
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-
 	Gui::Screen::EnterOrtho();
 	glColor3f(1,1,1);
 	
-	int i = 0;
-	while (s_labels[i].label) {
+	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
-		if (Gui::Screen::Project (p.x, p.y, p.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+		if (Gui::Screen::Project(p, pos)) {
 			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), (float)pos.x, (float)pos.y);
 		}
-		i++;
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHTING);			// what
 }
 
 
@@ -112,7 +102,6 @@ void GalacticView::Draw3D()
 	Pi::sectorView->GetSector(&secx, &secy);
 	float offset_x = (secx*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
 	float offset_y = (-secy*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
-	GenericSystemView::Draw3D();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -178,7 +167,7 @@ void GalacticView::Update()
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25f, frameTime);
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(4.0f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
-	m_zoom = CLAMP(m_zoom, 0.5, 100.0);
+	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 
 	m_scaleReadout->SetText(stringf(128, "%d ly", (int)(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
 }

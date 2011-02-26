@@ -129,7 +129,7 @@ namespace Theme {
 	void DrawRoundEdgedRect(const float size[2], float rad)
 	{
 		const int STEPS = 6;
-		if (rad > 0.5f*MIN(size[0], size[1])) rad = 0.5f*MIN(size[0], size[1]);
+		if (rad > 0.5f*std::min(size[0], size[1])) rad = 0.5f*std::min(size[0], size[1]);
 		glBegin(GL_TRIANGLE_FAN);
 			// top left
 			// bottom left

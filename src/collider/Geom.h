@@ -8,7 +8,7 @@
 class GeomTree;
 struct isect_t;
 struct Sphere;
-class BVHNode;
+struct BVHNode;
 
 class Geom {
 public:

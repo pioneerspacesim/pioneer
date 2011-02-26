@@ -318,7 +318,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 
 	vector3d topLeft, topRight, botRight, cross;
 	topLeft = topRight = botRight = camera_forward * camera_zoom;
-	cross = vector3d::Cross (camera_forward, camera_up) * aspectRatio;
+	cross = camera_forward.Cross(camera_up) * aspectRatio;
 	topLeft = topLeft + camera_up - cross;
 	topRight = topRight + camera_up + cross;
 	botRight = botRight - camera_up + cross;
