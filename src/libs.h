@@ -24,6 +24,11 @@
 #define alloca _alloca
 #define strncasecmp _strnicmp
 #define strcasecmp _stricmp
+
+#ifndef isfinite
+inline int isfinite(double x) { return _finite(x); }
+#endif
+
 #else
 #include <alloca.h>
 #endif
