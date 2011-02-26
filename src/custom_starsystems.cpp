@@ -296,7 +296,7 @@ Polit::GOV_CORPORATE
 "Federation Prison Camps.",
 Polit::GOV_EARTHCOLONIAL
 }, // Components: M5
-{ "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351f,0.735f,-0.999f), 5/*5=2 earths*/,
+{ "Epsilon Eridani", 0, {SBody::TYPE_STAR_K}, 1, 0, vector3f(0.351f,0.735f,-0.999f), 42,
 "First off-earth colony. Industrial world with indigenous life.",
 "Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. "
 "The New Hope colony on the life-bearing planet of the same name was founded in 2279. "
