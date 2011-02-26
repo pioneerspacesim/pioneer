@@ -456,11 +456,10 @@ void Ship::TestLanded()
 	m_testLanded = false;
 	if (m_launchLockTimeout != 0) return;
 	if (m_wheelState != 1.0) return;
-	if (GetFrame()->m_astroBody) {
+	if (GetFrame()->GetBodyFor()->IsType(Object::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
-		assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
-		const double planetRadius = static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
+		const double planetRadius = static_cast<Planet*>(GetFrame()->GetBodyFor())->GetTerrainHeight(up);
 
 		if (speed < MAX_LANDING_SPEED) {
 			// orient the damn thing right

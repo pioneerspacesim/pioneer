@@ -10,6 +10,10 @@
 #include "Space.h"
 
 
+static const double VICINITY_MIN = 5000.0;
+static const double VICINITY_MUL = 4.0;
+
+
 AICommand *AICommand::Load(Serializer::Reader &rd)
 {
 	CmdName name = (CmdName)rd.Int32();
@@ -808,18 +812,20 @@ void AICmdFlyTo::CheckCollisions()
 	Body *body = FindNearestObstructor(m_ship, m_ship->GetFrame()->GetBodyFor(), targpos);
 	if (!body) body = FindNearestObstructor(m_ship, m_target, targpos);
 	if (!body) return;
+	double dist = m_ship->GetPositionRelTo(body).Length();
+	double rad = body->GetBoundingRadius();
 
 	// todo: check bounding radius vs rotating frame
 	// if inside bounding radius of body, head out unless target is in same well
-	if (body->GetBoundingRadius() > m_ship->GetPositionRelTo(body).Length())
+	if (rad > dist)
 		GetAwayFromBody(body, targpos);
 			
 	// Else fly to tangent (todo: or well if visible? hopefully don't need with 30 degree escape)
-	else if (body->GetBoundingRadius() * 8 > m_ship->GetPositionRelTo(body).Length())
+	else if (rad*VICINITY_MUL*1.5 > dist)
 		NavigateAroundBody(body, targpos);
 	
 	// if far enough away, just head to vicinity of obstructor unless we were already
-	else if (body != m_target || m_posoff.Length() < body->GetBoundingRadius() * 2)
+	else if (body != m_target || m_posoff.Length() < rad*VICINITY_MUL*0.5)
 		m_child = new AICmdFlyTo(m_ship, body);
 }
 
@@ -828,7 +834,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 {
 	m_target = target;
 
-	double dist = std::max(500.0, 4.0 * m_target->GetBoundingRadius());
+	double dist = std::max(VICINITY_MIN, VICINITY_MUL * m_target->GetBoundingRadius());
 	if (m_target->IsType(Object::SPACESTATION) && ((SpaceStation *)m_target)->IsGroundStation()) {
 		matrix4x4d rot; m_target->GetRotMatrix(rot);
 		m_posoff = dist * vector3d(rot[4], rot[5], rot[6]);		// up vector for starport
@@ -905,7 +911,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = m_ship->GetVelocityRelativeTo(m_target);
-	double targdist = relpos.Length(), timestep = Pi::GetTimeStep(), ang;
+	double targdist = relpos.Length(), timestep = Pi::GetTimeStep();
 	double sideacc = m_ship->GetMaxThrust(vector3d(0.0)).x / m_ship->GetMass();
 
 	// terminal orbit mode: force into proper orbit at current alt
@@ -955,4 +961,70 @@ bool AICmdFlyTo::TimeStepUpdate()
 	return false;
 }
 
+
+// improvements to make:
+// 1. Speed limit implementation for last step to ground station
+//	- should be fairly easy with MatchPosVel param
+// 2. Ground station above-atmosphere waypoint. generate from targetwelltest?
+//	- may be needed for fast-spinning planets
+// 3. Check that really heavy atmospheres don't still break
+// 4. Reduce tangent steps for large planets to ensure you don't dodge well
+
+// 5. Potential problem with small thrusters and large gravity, ivel overdone?
+
+
+// m_state values:
+// 0: get data for docking start pos
+// 1: Fly to docking start pos
+// 2: get data for docking end pos
+// 3: Fly to docking end pos
+
+bool AICmdDock::TimeStepUpdate()
+{
+	if (!ProcessChild()) return false;
+	if (!m_target) return true;
+	if (m_state == 1) m_state = 2;				// finished moving into dock start pos
+	if (m_ship->GetFlightState() != Ship::FLYING)
+		{ m_ship->ClearThrusterState(); return true; }		// docked, hopefully
+
+	// if we're not close to target, do a flyto first
+	double targdist = m_target->GetPositionRelTo(m_ship).Length();
+	if (targdist > m_target->GetBoundingRadius() * VICINITY_MUL * 1.5) {
+		m_child = new AICmdFlyTo(m_ship, m_target);
+		return TimeStepUpdate();			// should be safe...
+	}
+
+	int port = m_target->GetMyDockingPort(m_ship);
+	if (port == -1) {
+		std::string msg;
+		m_target->GetDockingClearance(m_ship, msg);
+		port = m_target->GetMyDockingPort(m_ship);
+		if (port == -1) return true;			// failure message?
+	}
+
+	// state 0,2: Get docking data
+	if (m_state == 0 || m_state == 2) {
+		SpaceStationType::positionOrient_t dockpos;
+		bool good = m_target->GetSpaceStationType()->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
+		matrix4x4d trot; m_target->GetRotMatrix(trot);
+		m_dockpos = trot * dockpos.pos;
+		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();
+		m_dockupdir = (trot * dockpos.yaxis).Normalized();		// don't trust these enough
+		m_state++;
+	}
+
+	if (m_state == 1) {			// fly to first docking waypoint
+		m_child = new AICmdFlyTo(m_ship, m_target, m_dockpos, 0.0, 0, false);
+		return TimeStepUpdate();
+	}
+	// second docking waypoint
+	if (m_ship->AIFaceOrient(m_dockdir, m_dockupdir)) {		// second docking waypoint
+		vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_dockpos);
+		vector3d relpos = targpos - m_ship->GetPosition();
+		vector3d relvel = m_ship->GetVelocityRelativeTo(m_target);
+		m_ship->AIMatchPosVel(relpos, relvel, 0.0, 0);
+	}
+	else m_ship->AIMatchVel(vector3d(0.0));
+	return false;
+}
 

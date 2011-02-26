@@ -448,7 +448,7 @@ void Ship::AIFlyTo(Body *target)
 void Ship::AIDock(SpaceStation *target)
 {
 	AIClearInstructions();
-//	m_curAICmd = new AICmdDock(this, target);
+	m_curAICmd = new AICmdDock(this, target);
 }
 
 void Ship::AIOrbit(Body *target, double alt)
@@ -575,6 +575,37 @@ vector3d Ship::AIGetNextFramePos()
 	return pos;
 }
 
+bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
+{
+	double timeStep = Pi::GetTimeStep();
+	matrix4x4d rot; GetRotMatrix(rot);
+	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	double frameAccel = maxAccel * timeStep;
+	
+	if (dir.Dot(vector3d(rot[8], rot[9], rot[10])) > -0.999999)
+		{ AIFaceDirection(dir); return false; }
+	
+	vector3d uphead = (updir * rot).Normalized();		// create desired object-space updir
+	vector3d dav(0.0, 0.0, 0.0);			// desired angular velocity
+	if (uphead.y < 0.999999)
+	{
+		double ang = acos(Clamp(uphead.y, -1.0, 1.0));		// scalar angle from head to curhead
+		double iangvel = sqrt(2.0 * maxAccel * ang);	// ideal angvel at current time
+
+		double frameEndAV = iangvel - frameAccel;
+		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
+		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
+		dav.z = iangvel;
+	}
+	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
+	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
+
+	SetAngThrusterState(diff);
+	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
+	else return true;
+}
+
+
 // Input: direction in ship's frame, doesn't need to be normalized
 // Approximate positive angular velocity at match point
 // Applies thrust directly
@@ -589,10 +620,9 @@ bool Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
-	double ang = 0;
 	if (head.z > -0.99999999)			
 	{
-		ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
+		double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time
 
 		double frameEndAV = iangvel - frameAccel;
@@ -604,7 +634,7 @@ bool Ship::AIFaceDirection(const vector3d &dir, double av)
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
 	}
-	vector3d cav = GetAngVelocity() * rot;		// current obj-rel angvel
+	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;		// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);

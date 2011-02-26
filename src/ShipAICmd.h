@@ -50,40 +50,41 @@ public:
 private:
 	SBodyPath m_dest;
 };
+*/
 
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target) : AICommand (ship, CMD_DOCK) {
+	AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK) {
 		m_target = target;
-		m_path.endTime = 0;			// trigger path generation
+		m_state = 0;
 	}
-
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_target));
-		m_path.Save(wr);
+		wr.Vector3d(m_dockpos); wr.Vector3d(m_dockdir);
+		wr.Vector3d(m_dockupdir); wr.Int32(m_state);
 	}
 	AICmdDock(Serializer::Reader &rd) : AICommand(rd, CMD_DOCK) {
 		m_target = (SpaceStation *)rd.Int32();
-		m_path.Load(rd);
+		m_dockpos = rd.Vector3d(); m_dockdir = rd.Vector3d();
+		m_dockupdir = rd.Vector3d(); m_state = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = (SpaceStation *)Serializer::LookupBody((size_t)m_target);
-		m_path.PostLoadFixup();
 	}
-
 	virtual void OnDeleted(const Body *body) {
-		if ((Body *)m_target == body) m_target = 0;
 		AICommand::OnDeleted(body);
+		if ((Body *)m_target == body) m_target = 0;
 	}
-
 private:
 	SpaceStation *m_target;
-	AIPath m_path;
+	vector3d m_dockpos;	// offset in target's frame
+	vector3d m_dockdir;
+	vector3d m_dockupdir;
+	int m_state;		// see TimeStepUpdate()
 };
-*/
 
 
 class AICmdFlyTo : public AICommand {
@@ -102,7 +103,7 @@ public:
 		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
-		m_target = (SpaceStation *)rd.Int32();
+		m_target = (Body *)rd.Int32();
 		m_frame = (Frame *)rd.Int32();
 		m_posoff = rd.Vector3d(); m_relpos = rd.Vector3d();
 		m_endvel = rd.Double();	m_orbitrad = rd.Double();
@@ -113,7 +114,6 @@ public:
 		m_target = Serializer::LookupBody((size_t)m_target);
 		m_frame = Serializer::LookupFrame((size_t)m_frame);
 	}
-
 	virtual void OnDeleted(const Body *body) {
 		if ((Body *)m_target == body) m_target = 0;
 		AICommand::OnDeleted(body);
@@ -166,7 +166,6 @@ public:
 
 private:
 	Ship *m_target;
-
 	double m_leadTime, m_evadeTime, m_closeTime;
 	vector3d m_leadOffset, m_leadDrift, m_lastVel;
 };
