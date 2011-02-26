@@ -21,7 +21,7 @@ public:
 		}
 		std::string text;
 		sigc::slot<void> onClick;
-		int screenx, screeny;
+		float screenx, screeny;
 	};
 
 	LabelSet() {

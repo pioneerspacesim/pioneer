@@ -99,7 +99,7 @@ private:
 			p->ShowAll();
 		} else {
 			// remove 
-			const int value = station->GetPrice(m_equipType) * REMOVAL_VALUE_PERCENT / 100;
+			const Sint64 value = station->GetPrice(m_equipType) * REMOVAL_VALUE_PERCENT / 100;
 			Pi::player->m_equipment.Set(slot, mount, Equip::NONE);
 			Pi::player->CalcStats();
 			Pi::player->SetMoney(Pi::player->GetMoney() + value);
@@ -130,8 +130,8 @@ void StationLaserPickMount::ShowAll()
 		if ((!m_doFit) && (Pi::player->m_equipment.Get(slot, i) != m_equipType)) continue;
 		Gui::Button *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationLaserPickMount::SelectMount), i));
-		Add(b, xpos, 250);
-		Add(new Gui::Label(ShipType::gunmountNames[i]), xpos, 270);
+		Add(b, (float)xpos, 250);
+		Add(new Gui::Label(ShipType::gunmountNames[i]), (float)xpos, 270);
 
 		xpos += 50;
 	}
@@ -148,7 +148,7 @@ private:
 	void RemoveItem(Equip::Type t) {
 		SpaceStation *station = Pi::player->GetDockedWith();
 		Equip::Slot s = EquipType::types[t].slot;
-		int value = station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100;
+		Sint64 value = station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100;
 		int num = Pi::player->m_equipment.Count(s, t);
 		
 		if (num) {
@@ -339,7 +339,7 @@ void StationViewShipView::Draw3D()
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
 	static float rot1, rot2;
-	rot1 += .5*Pi::GetFrameTime();
+	rot1 += .5f*Pi::GetFrameTime();
 	rot2 += Pi::GetFrameTime();
 	glClearColor(0.25,.37,.63,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -377,8 +377,11 @@ void StationViewShipView::Draw3D()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
 	glEnable(GL_LIGHT0);
 //	sbreSetDirLight (lightCol, lightDir);
-	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 400)/guiscale[1],
-			400/guiscale[0], 400/guiscale[1]);
+	glViewport(
+		(GLint)(bx/guiscale[0]),
+		(GLint)((Gui::Screen::GetHeight() - by - 400)/guiscale[1]),
+		(GLsizei)(400/guiscale[0]),
+		(GLsizei)(400/guiscale[1]));
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
@@ -433,20 +436,20 @@ void StationViewShipView::ShowAll()
 	y+=YSEP;
 	y+=YSEP;
 	// forward accel
-	float accel = t.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81*1000.0*(t.hullMass));
+	float accel = t.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(t.hullMass));
 	Add(new Gui::Label("Forward accel (empty)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
-	accel = t.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81*1000.0*(t.hullMass + t.capacity));
+	accel = t.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(t.hullMass + t.capacity));
 	Add(new Gui::Label("Forward accel (laden)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
 	// rev accel
-	accel = t.linThrust[ShipType::THRUSTER_REVERSE] / (9.81*1000.0*(t.hullMass));
+	accel = t.linThrust[ShipType::THRUSTER_REVERSE] / (9.81f*1000.0f*(t.hullMass));
 	Add(new Gui::Label("Reverse accel (empty)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
-	accel = t.linThrust[ShipType::THRUSTER_REVERSE] / (9.81*1000.0*(t.hullMass + t.capacity));
+	accel = t.linThrust[ShipType::THRUSTER_REVERSE] / (9.81f*1000.0f*(t.hullMass + t.capacity));
 	Add(new Gui::Label("Reverse accel (laden)"), 420, y);
 	Add(new Gui::Label(stringf(64, "%.1f G", accel)), 600, y);
 	y+=YSEP;
@@ -464,11 +467,11 @@ void StationViewShipView::ShowAll()
 				drivetype++, x+=52) {
 			int hyperclass = EquipType::types[drivetype].pval;
 			float range = Pi::CalcHyperspaceRange(hyperclass, t.hullMass + t.capacity);
-			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), x, y);
+			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), (float)x, y);
 			if (t.capacity < EquipType::types[drivetype].mass) {
-				Add(new Gui::Label("---"), x, y+YSEP);
+				Add(new Gui::Label("---"), (float)x, (float)(y+YSEP));
 			} else {
-				Add(new Gui::Label(stringf(128, "%.2f ly", range)), x, y+YSEP);
+				Add(new Gui::Label(stringf(128, "%.2f ly", range)), (float)x, y+YSEP);
 			}
 		}
 	}

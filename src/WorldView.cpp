@@ -671,7 +671,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudPressure->SetText(buf);
 			m_hudPressure->Show();
 
-			m_hudHullTemp->SetValue(Pi::player->GetHullTemperature());
+			m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
 			m_hudHullTemp->Show();
 		} else {
 			m_hudPressure->SetText("P. 0.0 bar");

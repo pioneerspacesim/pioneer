@@ -137,7 +137,7 @@ public:
 	  return o;
   }
   // [min,max]
-  unsigned int Int32(int min, int max) {
+  int Int32(int min, int max) {
 	  return (rand_int32()%(1+max-min))+min;
   }
   // [0,max)

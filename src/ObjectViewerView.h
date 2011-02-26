@@ -19,8 +19,15 @@ private:
 	const Body* lastTarget;
 	matrix4x4d m_camRot;
 
-	Gui::TextEntry *m_geosphereTerrainStyle;
-	Gui::TextEntry *m_geosphereColorStyle;
+	Gui::TextEntry *m_sbodyMass;
+	Gui::TextEntry *m_sbodyRadius;
+	Gui::TextEntry *m_sbodySeed;
+	Gui::TextEntry *m_sbodyVolatileGas;
+	Gui::TextEntry *m_sbodyVolatileLiquid;
+	Gui::TextEntry *m_sbodyVolatileIces;
+	Gui::TextEntry *m_sbodyLife;
+	Gui::TextEntry *m_sbodyVolcanicity;
+	Gui::TextEntry *m_sbodyMetallicity;
 	void OnChangeGeoSphereStyle();
 };
 

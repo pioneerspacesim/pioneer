@@ -311,7 +311,7 @@ const shipstats_t *Ship::CalcStats()
 
 	if (stype.equipSlotCapacity[Equip::SLOT_ENGINE]) {
 		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-		float hyperclass = (float)EquipType::types[t].pval;
+		int hyperclass = EquipType::types[t].pval;
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
@@ -352,7 +352,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
-	float hyperclass = (float)EquipType::types[t].pval;
+	int hyperclass = EquipType::types[t].pval;
 	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	outFuelRequired = 0;
 	if (hyperclass == 0) {
@@ -539,7 +539,7 @@ void Ship::FireWeapon(int num)
 	
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		vector3f sep = dir.Cross(vector3f(m[4],m[5],m[6])).Normalized();
+		vector3d sep = dir.Cross(vector3d(m[4],m[5],m[6])).Normalized();
 		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
 		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
 	}
@@ -559,7 +559,7 @@ void Ship::FireWeapon(int num)
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 }
 
-float Ship::GetHullTemperature() const
+double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
@@ -811,12 +811,12 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
 		SetLmrTimeParams();
-		params.angthrust[0] = -m_angThrusters.x;
-		params.angthrust[1] = -m_angThrusters.y;
-		params.angthrust[2] = -m_angThrusters.z;
-		params.linthrust[0] = m_thrusters.x;
-		params.linthrust[1] = m_thrusters.y;
-		params.linthrust[2] = m_thrusters.z;
+		params.angthrust[0] = (float)-m_angThrusters.x;
+		params.angthrust[1] = (float)-m_angThrusters.y;
+		params.angthrust[2] = (float)-m_angThrusters.z;
+		params.linthrust[0] = (float)m_thrusters.x;
+		params.linthrust[1] = (float)m_thrusters.y;
+		params.linthrust[2] = (float)m_thrusters.z;
 		params.argFloats[0] = m_wheelState;
 		params.argFloats[5] = (float)m_equipment.Get(Equip::SLOT_FUELSCOOP);
 		params.argFloats[6] = (float)m_equipment.Get(Equip::SLOT_ENGINE);
@@ -838,7 +838,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 			glEnable(GL_BLEND);
 			glColor4f((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 			glPushMatrix();
-			glTranslatef(viewCoords.x, viewCoords.y, viewCoords.z);
+			glTranslatef((GLfloat)viewCoords.x, (GLfloat)viewCoords.y, (GLfloat)viewCoords.z);
 			Render::State::UseProgram(Render::simpleShader);
 			gluSphere(Pi::gluQuadric, GetLmrCollMesh()->GetBoundingRadius(), 20, 20);
 			Render::State::UseProgram(0);
@@ -851,8 +851,14 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		// pish effect
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
-			v[i] = vector3f(viewTransform * (GetPosition() +
-					GetLmrCollMesh()->GetBoundingRadius() *vector3f(Pi::rng.Double()-0.5, Pi::rng.Double()-0.5, Pi::rng.Double()-0.5).Normalized()));
+			const double r1 = Pi::rng.Double()-0.5;
+			const double r2 = Pi::rng.Double()-0.5;
+			const double r3 = Pi::rng.Double()-0.5;
+			v[i] = viewTransform * (
+				GetPosition() +
+				GetLmrCollMesh()->GetBoundingRadius() *
+				vector3d(r1, r2, r3).Normalized()
+			);
 		}
 		Color c(0.5,0.5,1.0,1.0);
 		float totalRechargeTime = GetECMRechargeTime();
