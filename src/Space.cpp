@@ -519,7 +519,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
 		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
-		if (relVel > 0) return;
+		if (relVel > 0 && !c->geomFlag) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;

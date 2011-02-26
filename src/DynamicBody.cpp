@@ -111,11 +111,14 @@ vector3d DynamicBody::GetPosition() const
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
-	vector3d b1b2 = GetPosition();
-	double m1m2 = GetMass() * GetFrame()->GetBodyFor()->GetMass();
-	double invrsqr = 1.0 / b1b2.LengthSqr();
-	double force = G*m1m2 * invrsqr;
-	m_externalForce = -b1b2 * sqrt(invrsqr) * force;
+	if (!GetFrame()->GetBodyFor()->IsType(Object::SPACESTATION)) {	// they ought to have mass though...
+		vector3d b1b2 = GetPosition();
+		double m1m2 = GetMass() * GetFrame()->GetBodyFor()->GetMass();
+		double invrsqr = 1.0 / b1b2.LengthSqr();
+		double force = G*m1m2 * invrsqr;
+		m_externalForce = -b1b2 * sqrt(invrsqr) * force;
+	}
+	else m_externalForce = vector3d(0.0);
 	m_gravityForce = m_externalForce;
 
 	// atmospheric drag
