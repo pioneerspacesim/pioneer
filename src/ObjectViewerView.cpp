@@ -17,19 +17,48 @@ ObjectViewerView::ObjectViewerView(): View()
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-66-Gui::Screen::GetFontHeight());
 
-	Gui::Label *l = new Gui::Label("Terrain type:");
-	Add(l, 600, 2);
-	m_geosphereTerrainStyle = new Gui::TextEntry();
-	Add(m_geosphereTerrainStyle, 700, 2);
+	Gui::VBox *vbox = new Gui::VBox();
+	Add(vbox, 580, 2);
 
-	l = new Gui::Label("Coloring type:");
-	Add(l, 600, 32);
-	m_geosphereColorStyle = new Gui::TextEntry();
-	Add(m_geosphereColorStyle, 700, 32);
+	vbox->PackEnd(new Gui::Label("Mass (earths):"));
+	m_sbodyMass = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyMass);
+
+	vbox->PackEnd(new Gui::Label("Radius (earths):"));
+	m_sbodyRadius = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyRadius);
+
+	vbox->PackEnd(new Gui::Label("Integer seed:"));
+	m_sbodySeed = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodySeed);
+
+	vbox->PackEnd(new Gui::Label("Volatile gases (>= 0):"));
+	m_sbodyVolatileGas = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyVolatileGas);
+
+	vbox->PackEnd(new Gui::Label("Volatile liquid (0-1):"));
+	m_sbodyVolatileLiquid = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyVolatileLiquid);
+
+	vbox->PackEnd(new Gui::Label("Volatile ices (0-1):"));
+	m_sbodyVolatileIces = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyVolatileIces);
+
+	vbox->PackEnd(new Gui::Label("Life (0-1):"));
+	m_sbodyLife = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyLife);
+
+	vbox->PackEnd(new Gui::Label("Volcanicity (0-1):"));
+	m_sbodyVolcanicity = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyVolcanicity);
+
+	vbox->PackEnd(new Gui::Label("Crust metallicity (0-1):"));
+	m_sbodyMetallicity = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyMetallicity);
 
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
 	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeGeoSphereStyle));
-	Add(b, 600, 64);
+	vbox->PackEnd(b);
 }
 
 void ObjectViewerView::Draw3D()
@@ -86,10 +115,16 @@ void ObjectViewerView::Update()
 
 		if (body->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(body);
-			GeoSphere *gs = planet->m_geosphere;
-			m_geosphereTerrainStyle->SetText(stringf(64, "%d", (int)gs->m_style.m_terrainType));
-			m_geosphereColorStyle->SetText(stringf(64, "%d", (int)gs->m_style.m_colorType));
-
+			const SBody *sbody = planet->GetSBody();
+			m_sbodyVolatileGas->SetText(stringf(64, "%.3f", sbody->m_volatileGas.ToFloat()));
+			m_sbodyVolatileLiquid->SetText(stringf(64, "%.3f", sbody->m_volatileLiquid.ToFloat()));
+			m_sbodyVolatileIces->SetText(stringf(64, "%.3f", sbody->m_volatileIces.ToFloat()));
+			m_sbodyLife->SetText(stringf(64, "%.3f", sbody->m_life.ToFloat()));
+			m_sbodyVolcanicity->SetText(stringf(64, "%.3f", sbody->m_volcanicity.ToFloat()));
+			m_sbodyMetallicity->SetText(stringf(64, "%.3f", sbody->m_metallicity.ToFloat()));
+			m_sbodySeed->SetText(stringf(64, "%d", sbody->seed));
+			m_sbodyMass->SetText(stringf(64, "%f", sbody->mass.ToFloat()));
+			m_sbodyRadius->SetText(stringf(64, "%f", sbody->radius.ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
@@ -98,18 +133,38 @@ void ObjectViewerView::Update()
 
 void ObjectViewerView::OnChangeGeoSphereStyle()
 {
-	int terrain_style = atoi(m_geosphereTerrainStyle->GetText().c_str());
-	int color_style = atoi(m_geosphereColorStyle->GetText().c_str());
+	SBody sbody;
 
-	terrain_style = Clamp(terrain_style, 0, (int)GeoSphereStyle::TERRAIN_MAX);
-	color_style = Clamp(color_style, 0, (int)GeoSphereStyle::COLOR_MAX);
+	const fixed volatileGas = fixed((int)65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
+	const fixed volatileLiquid = fixed((int)65536.0*atof(m_sbodyVolatileLiquid->GetText().c_str()), 65536);
+	const fixed volatileIces = fixed((int)65536.0*atof(m_sbodyVolatileIces->GetText().c_str()), 65536);
+	const fixed life = fixed((int)65536.0*atof(m_sbodyLife->GetText().c_str()), 65536);
+	const fixed volcanicity = fixed((int)65536.0*atof(m_sbodyVolcanicity->GetText().c_str()), 65536);
+	const fixed metallicity = fixed((int)65536.0*atof(m_sbodyMetallicity->GetText().c_str()), 65536);
+	const fixed mass = fixed((int)65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
+	const fixed radius = fixed((int)65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
+
+	sbody.parent = 0;
+	sbody.name = "Test";
+	/* These should be the only SBody attributes GeoSphereStyle uses */
+	sbody.type = SBody::TYPE_PLANET_TERRESTRIAL;
+	sbody.seed = atoi(m_sbodySeed->GetText().c_str());
+	sbody.radius = radius;
+	sbody.mass = mass;
+	sbody.averageTemp = 273;
+	sbody.m_metallicity = metallicity;
+	sbody.m_volatileGas = volatileGas;
+	sbody.m_volatileLiquid = volatileLiquid;
+	sbody.m_volatileIces = volatileIces;
+	sbody.m_volcanicity = volcanicity;
+	sbody.m_life = life;
+	sbody.heightMapFilename = 0;
 
 	Body *body = Pi::player->GetNavTarget();
 	if (body->IsType(Object::PLANET)) {
 		Planet *planet = static_cast<Planet*>(body);
 		GeoSphere *gs = planet->m_geosphere;
-		gs->m_style.m_terrainType = (GeoSphereStyle::TerrainType)terrain_style;
-		gs->m_style.m_colorType = (GeoSphereStyle::ColorType)color_style;
+		gs->m_style = GeoSphereStyle(&sbody);
 		// force rebuild
 		gs->OnChangeDetailLevel();
 	}

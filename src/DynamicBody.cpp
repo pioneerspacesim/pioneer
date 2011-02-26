@@ -4,6 +4,7 @@
 #include "Frame.h"
 #include "Serializer.h"
 #include "Planet.h"
+#include "Pi.h"
 
 DynamicBody::DynamicBody(): ModelBody()
 {
