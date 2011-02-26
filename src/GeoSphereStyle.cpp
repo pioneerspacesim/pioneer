@@ -335,8 +335,8 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		}
 	}
 	// XXX override the above so you can test particular fractals XXX
-	m_terrainType = TERRAIN_ASTEROID;
-	m_colorType = COLOR_EARTHLIKE;
+	//m_terrainType = TERRAIN_ASTEROID;
+	//m_colorType = COLOR_EARTHLIKE;
 
 	m_sealevel = CLAMP(body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
 	m_icyness = CLAMP(body->m_volatileIces.ToDouble(), 0.0, 1.0);
