@@ -34,6 +34,7 @@ struct LmrUnknownMaterial {};
 namespace ShipThruster {
 	struct Thruster
 	{
+		Thruster() : pos(0.0), dir(0.0), power(0) {}	// zero this shit to stop denormal-copying on resize
 		// cannot be used as an angular thruster
 		bool linear_only;
 		vector3f pos;
@@ -244,7 +245,7 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 
 struct Vertex {
-	Vertex() {}
+	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
 	Vertex(const vector3f &v, const vector3f &n, const GLfloat tex_u, const GLfloat tex_v): v(v), n(n), tex_u(tex_u), tex_v(tex_v) {}
 	vector3f v, n;
 	GLfloat tex_u, tex_v;

@@ -1039,9 +1039,6 @@ GeoSphere::GeoSphere(const SBody *body): m_style(body)
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_runUpdateThread = 0;
 	m_sbody = body;
-#if 0
-	m_fractalOffset = vector3d(rand.Double(255), rand.Double(255), rand.Double(255));
-#endif	
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	SDL_mutexP(s_allGeospheresLock);
@@ -1115,81 +1112,7 @@ void GeoSphere::BuildFirstPatches()
 	for (int i=0; i<6; i++) m_patches[i]->UpdateVBOs();
 }
 
-/* Density is density at 'sea level' */
-void GeoSphere::GetAtmosphereFlavor(Color *outColor, double *outDensity) const
-{
-	/* Alpha value isn't real alpha. in the shader fog depth is determined
-	 * by density*alpha, so that we can have very dense atmospheres
-	 * without having them a bit stinking solid color obscuring everything
-	 */
-	switch (GEOSPHERE_TYPE) {
-		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
-		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
-		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
-		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
-			*outColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
-			*outDensity = 14.0;
-			break;
-		case SBody::TYPE_PLANET_ASTEROID:
-		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-		case SBody::TYPE_PLANET_DWARF:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0;
-			break;
-		case SBody::TYPE_PLANET_SMALL:
-			*outColor = Color(.2f, .2f, .3f, 1.0f);
-			*outDensity = 0.1;
-			break;
-		case SBody::TYPE_PLANET_CO2:
-			*outColor = Color( .8f, .8f, .8f, 1.0f);
-			*outDensity = 2.0;
-			break;
-		case SBody::TYPE_PLANET_METHANE:
-			*outColor = Color(.2f, .6f, .3f, 2.0f);
-			*outDensity = 3.4;
-			break;
-		case SBody::TYPE_PLANET_WATER:
-			*outColor = Color(.6f, .6f, .7f, 0.8f);
-			*outDensity = 0.8;
-			break;
-		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-			*outColor = Color(.5f, .5f, .8f, 2.0f);
-			*outDensity = 3.0;
-			break;
-		case SBody::TYPE_PLANET_DESERT:
-			*outColor = Color(.4f, .3f, .1f, 0.7f);
-			*outDensity = 1.0;
-			break;
-		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-			*outColor = Color(.8f, .8f, .8f, 2.0f);
-			*outDensity = 7.0;
-			break;
-		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-			*outColor = Color(0.6f, 0.4f, 0.1f, 3.0f);
-			*outDensity = 8.0;
-			break;
-		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			*outColor = Color(0.5f, 0.1f, 0.1f, 1.6f);
-			*outDensity = 1.8;
-			break;
-		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			*outColor = Color(.5f, .5f, 1.0f, 1.0f);
-			*outDensity = 1.2;
-			break;
-		case SBody::TYPE_PLANET_TERRAFORMED_POOR:
-			*outColor = Color(.7f, .4f, 0.9f, 0.8f);
-			*outDensity = 1.0;
-			break;
-		case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
-			*outColor = Color(.5f, .45f, 0.95f, 0.9f);
-			*outDensity = 1.1;
-			break;
-		default:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0;
-			break;
-	}
-}
+static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
 static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 {

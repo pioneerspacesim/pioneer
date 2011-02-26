@@ -29,10 +29,8 @@ void Ship::Save(Serializer::Writer &wr)
 	MarketAgent::Save(wr);
 	wr.Int32(Serializer::LookupBody(m_combatTarget));
 	wr.Int32(Serializer::LookupBody(m_navTarget));
-	wr.Float((float)m_angThrusters[0]);
-	wr.Float((float)m_angThrusters[1]);
-	wr.Float((float)m_angThrusters[2]);
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) wr.Float((float)m_thrusters[i]);
+	wr.Vector3d(m_angThrusters);
+	wr.Vector3d(m_thrusters);
 	wr.Float(m_wheelTransition);
 	wr.Float(m_wheelState);
 	wr.Float(m_launchLockTimeout);
@@ -66,10 +64,8 @@ void Ship::Load(Serializer::Reader &rd)
 	// needs fixups
 	m_combatTarget = (Body*)rd.Int32();
 	m_navTarget = (Body*)rd.Int32();
-	m_angThrusters[0] = rd.Float();
-	m_angThrusters[1] = rd.Float();
-	m_angThrusters[2] = rd.Float();
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) m_thrusters[i] = rd.Float();
+	m_angThrusters = rd.Vector3d();
+	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Float();
 	m_wheelState = rd.Float();
 	m_launchLockTimeout = rd.Float();
@@ -460,11 +456,10 @@ void Ship::TestLanded()
 	m_testLanded = false;
 	if (m_launchLockTimeout != 0) return;
 	if (m_wheelState != 1.0) return;
-	if (GetFrame()->m_astroBody) {
+	if (GetFrame()->GetBodyFor()->IsType(Object::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
-		assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
-		const double planetRadius = static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
+		const double planetRadius = static_cast<Planet*>(GetFrame()->GetBodyFor())->GetTerrainHeight(up);
 
 		if (speed < MAX_LANDING_SPEED) {
 			// orient the damn thing right
@@ -566,7 +561,7 @@ void Ship::FireWeapon(int num)
 
 double Ship::GetHullTemperature() const
 {
-	double dragGs = GetAtmosphericDragGs();
+	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
 		return dragGs / 30.0;
 	} else {
@@ -816,12 +811,12 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	     (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL) ) {
 		m_shipFlavour.ApplyTo(&params);
 		SetLmrTimeParams();
-		params.angthrust[0] = (float)-m_angThrusters[0];
-		params.angthrust[1] = (float)-m_angThrusters[1];
-		params.angthrust[2] = (float)-m_angThrusters[2];
-		params.linthrust[0] = (float)m_thrusters[0];
-		params.linthrust[1] = (float)m_thrusters[1];
-		params.linthrust[2] = (float)m_thrusters[2];
+		params.angthrust[0] = (float)-m_angThrusters.x;
+		params.angthrust[1] = (float)-m_angThrusters.y;
+		params.angthrust[2] = (float)-m_angThrusters.z;
+		params.linthrust[0] = (float)m_thrusters.x;
+		params.linthrust[1] = (float)m_thrusters.y;
+		params.linthrust[2] = (float)m_thrusters.z;
 		params.argFloats[0] = m_wheelState;
 		params.argFloats[5] = (float)m_equipment.Get(Equip::SLOT_FUELSCOOP);
 		params.argFloats[6] = (float)m_equipment.Get(Equip::SLOT_ENGINE);

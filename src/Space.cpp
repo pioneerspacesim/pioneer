@@ -274,6 +274,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
 		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
+		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {

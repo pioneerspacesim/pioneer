@@ -15,6 +15,7 @@ Body::Body()
 {
 	m_frame = 0;
 	m_flags = 0;
+	m_hasDoubleFrame = false;
 	m_projectedPos = vector3d(0.0f, 0.0f, 0.0f);
 	m_onscreen = false;
 	m_dead = false;
@@ -31,6 +32,7 @@ void Body::Save(Serializer::Writer &wr)
 	wr.Bool(m_onscreen);
 	wr.Vector3d(m_projectedPos);
 	wr.Bool(m_dead);
+	wr.Bool(m_hasDoubleFrame);
 }
 
 void Body::Load(Serializer::Reader &rd)
@@ -40,6 +42,7 @@ void Body::Load(Serializer::Reader &rd)
 	m_onscreen = rd.Bool();
 	m_projectedPos = rd.Vector3d();
 	m_dead = rd.Bool();
+	m_hasDoubleFrame = rd.Bool();
 }	
 
 void Body::Serialize(Serializer::Writer &_wr)

@@ -42,7 +42,7 @@ private:
 	bool m_mouseActive;
 	bool polledControlsThisTurn;
 	enum FlightControlState m_flightControlState;
-	float m_setSpeed;
+	double m_setSpeed;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
 };

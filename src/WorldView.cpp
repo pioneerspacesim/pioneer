@@ -530,6 +530,8 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
+extern int g_navbodycount;
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	if ((!Pi::player) || Pi::player->IsDead()) {
@@ -594,23 +596,26 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
-/*		vector3d pos = Pi::player->GetPosition();
+		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
+		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km)",
+			"Rel-to: %s (%.0f km), rotating: %s\n"
+			"Body navigation count = %i\n",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000);
-*/
-		vector3d angvel = Pi::player->GetAngVelocity();
+			rel_to, pos.Length()/1000, rot_frame,
+			g_navbodycount);
+
+/*		vector3d angvel = Pi::player->GetAngVelocity();
 		vector3d torque = Pi::player->GetAccumTorque();
 		vector3d impulse = torque / Pi::player->GetAngularInertia();
 		vector3d mdir = Pi::player->GetMouseDir();
 		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
 			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
-
+*/
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
@@ -1024,35 +1029,25 @@ int WorldView::GetActiveWeapon() const
 
 void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 {
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
+	Gui::Screen::EnterOrtho();		// To save matrices
 
 	// Direction indicator
 	vector3d vel;
-	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
-	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
-	} else {
-		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+	Body *velRelTo = Pi::player->GetNavTarget();
+	if (velRelTo) vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+	else vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
-	}
 
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
-	vector3d loc_v = cam_rot.InverseOf() * vel;
+	vector3d vdir = vel * cam_rot;			// transform to camera space
 	m_velocityIndicatorOnscreen = false;
-	if (loc_v.z < 0 && !Pi::player->GetCombatTarget()) {
-		GLdouble pos[3];
-		if (Gui::Screen::Project (loc_v[0],loc_v[1],loc_v[2], modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			
-			m_velocityIndicatorPos[0] = (int)pos[0];
-			m_velocityIndicatorPos[1] = (int)pos[1];
+	if (vdir.z < -1.0) {					// increase this maybe
+		vector3d pos;
+		if (Gui::Screen::Project(vdir, pos)) {
+			m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
+			m_velocityIndicatorPos[1] = (int)pos.y;
 			m_velocityIndicatorOnscreen = true;
 		}
 	}
@@ -1060,10 +1055,10 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	// test code for mousedir
 /*	vector3d mdir = Pi::player->GetMouseDir() * cam_rot;
 	if (mdir.z < 0) {
-		GLdouble pos[3];
-		if (Gui::Screen::Project (mdir.x,mdir.y,mdir.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
-			m_velocityIndicatorPos[0] = (int)pos[0];
-			m_velocityIndicatorPos[1] = (int)pos[1];
+		vector3d pos;
+		if (Gui::Screen::Project(mdir, pos)) {
+			m_velocityIndicatorPos[0] = (int)pos.x;
+			m_velocityIndicatorPos[1] = (int)pos.y;
 			m_velocityIndicatorOnscreen = true;
 		}
 	}
@@ -1074,21 +1069,17 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		for(std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			if ((GetCamType() != WorldView::CAM_EXTERNAL) && (*i == Pi::player)) continue;
 			Body *b = *i;
-			vector3d _pos = b->GetInterpolatedPositionRelTo(cam_frame);
-
-			if (_pos.z < 0
-				&& Gui::Screen::Project (_pos.x,_pos.y,_pos.z, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-				b->SetProjectedPos(_pos);
+			b->SetOnscreen(false);
+			vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
+			if (pos.z < 0 && Gui::Screen::Project(pos, pos)) {
+				b->SetProjectedPos(pos);
 				b->SetOnscreen(true);
-				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)_pos.x, (float)_pos.y);
+				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)pos.x, (float)pos.y);
 			}
-			else
-				b->SetOnscreen(false);
 		}
 	}
 
 	// update combat HUD
-
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	m_targLeadOnscreen = false;
 	m_combatDist->Hide();
@@ -1104,8 +1095,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
 
-		if (leadpos.z < 0.0 && Gui::Screen::Project (leadpos.x, leadpos.y, leadpos.z,
-			modelMatrix, projMatrix, viewport, &m_targLeadPos.x, &m_targLeadPos.y, &m_targLeadPos.z))
+		if (leadpos.z < 0.0 && Gui::Screen::Project(leadpos, m_targLeadPos))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
@@ -1120,22 +1110,20 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
 		float r = (float)(0.2+(c+1.0)*0.4);
 		float b = (float)(0.2+(1.0-c)*0.4);
-		m_combatSpeed->Color(r, 0.0f, b);
-		m_combatDist->Color(r, 0.0f, b);
 			
-		char buf[1024]; vector3d lpos;
-		snprintf(buf, sizeof(buf), "%.0fm", dist);
-		m_combatDist->SetText(buf);
-		lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
+		m_combatDist->Color(r, 0.0f, b);
+		m_combatDist->SetText(stringf(40, "%.0fm", dist).c_str());
+		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
 		MoveChild(m_combatDist, (float)lpos.x, (float)lpos.y);
 		m_combatDist->Show();
 
-		snprintf(buf, sizeof(buf), "%.0fm/s", vel);
-		m_combatSpeed->SetText(buf);
+		m_combatSpeed->Color(r, 0.0f, b);
+		m_combatSpeed->SetText(stringf(40, "%0.fm/s", vel).c_str());
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
 		MoveChild(m_combatSpeed, (float)lpos.x, (float)lpos.y);
 		m_combatSpeed->Show();
 	}
+	Gui::Screen::LeaveOrtho();		// To save matrices
 }
 
 void WorldView::Draw()
@@ -1233,24 +1221,21 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 	if (dir.Length() == 0.0 || !m_targLeadOnscreen) dir = vector3d(1,0,0);
 	else dir = dir.Normalized();
 
+	float x1 = (float)pos1.x, y1 = (float)pos1.y;
+	float x2 = (float)pos2.x, y2 = (float)pos2.y;
+	float xd = (float)dir.x, yd = (float)dir.y;
+
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
 	GLfloat vtx[28] = {
-		(float)(pos1[0]+10*dir[0]), (float)(pos1[1]+10*dir[1]),
-		(float)(pos1[0]+20*dir[0]), (float)(pos1[1]+20*dir[1]),
-		(float)(pos1[0]-10*dir[0]), (float)(pos1[1]-10*dir[1]),
-		(float)(pos1[0]-20*dir[0]), (float)(pos1[1]-20*dir[1]),
-		(float)(pos1[0]-10*dir[1]), (float)(pos1[1]+10*dir[0]),
-		(float)(pos1[0]-20*dir[1]), (float)(pos1[1]+20*dir[0]),
-		(float)(pos1[0]+10*dir[1]), (float)(pos1[1]-10*dir[0]),
-		(float)(pos1[0]+20*dir[1]), (float)(pos1[1]-20*dir[0]),
+		x1+10*xd, y1+10*yd,	x1+20*xd, y1+20*yd,		// target crosshairs
+		x1-10*xd, y1-10*yd,	x1-20*xd, y1-20*yd,
+		x1-10*yd, y1+10*xd,	x1-20*yd, y1+20*xd,
+		x1+10*yd, y1-10*xd,	x1+20*yd, y1-20*xd,
 
-		(float)(pos2[0]-10*dir[0]), (float)(pos2[1]-10*dir[1]),
-		(float)(pos2[0]+10*dir[0]), (float)(pos2[1]+10*dir[1]),
-		(float)(pos2[0]-10*dir[1]), (float)(pos2[1]+10*dir[0]),
-		(float)(pos2[0]+10*dir[1]), (float)(pos2[1]-10*dir[0]),
+		x2-10*xd, y2-10*yd,	x2+10*xd, y2+10*yd,		// lead crosshairs
+		x2-10*yd, y2+10*xd,	x2+10*yd, y2-10*xd,
 
-		(float)(pos1[0]+20*dir[0]), (float)(pos1[1]+20*dir[1]),
-		(float)(pos2[0]-10*dir[0]), (float)(pos2[1]-10*dir[1]),
+		x1+20*xd, y1+20*yd,	x2-10*xd, y2-10*yd,		// line between crosshairs
 	};
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, vtx);

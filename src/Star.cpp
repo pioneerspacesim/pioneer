@@ -66,17 +66,10 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		const float b = (Render::IsHDREnabled() ? 100.0f : 1.0f);
 
 		/* Draw star spikes and halo to 2d ortho screen */
-		GLdouble modelMatrix[16];
-		GLdouble projMatrix[16];
-		GLint viewport[4];
-
-		glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-		glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-		glGetIntegerv (GL_VIEWPORT, viewport);
 		
-		vector3d pp;
-		Gui::Screen::Project (fpos.x,fpos.y,fpos.z, modelMatrix, projMatrix, viewport, &pp.x, &pp.y, &pp.z);
 		Gui::Screen::EnterOrtho();
+		vector3d pp;
+		Gui::Screen::Project(fpos, pp);
 
 		const float glowrad = (float)(20.0f+20000.0f*radius/viewCoords.Length());
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	

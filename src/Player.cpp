@@ -29,7 +29,7 @@ void Player::Save(Serializer::Writer &wr)
 {
 	Ship::Save(wr);
 	wr.Int32(static_cast<int>(m_flightControlState));
-	wr.Float(m_setSpeed);
+	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
 }
@@ -39,7 +39,7 @@ void Player::Load(Serializer::Reader &rd)
 	Pi::player = this;
 	Ship::Load(rd);
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
-	m_setSpeed = rd.Float();
+	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
 }
@@ -68,7 +68,7 @@ void Player::SetFlightControlState(enum FlightControlState s)
 		AIClearInstructions();
 	} else if (m_flightControlState == CONTROL_FIXSPEED) {
 		AIClearInstructions();
-		m_setSpeed = (float)GetVelocity().Length();
+		m_setSpeed = GetVelocity().Length();
 	} else {
 		AIClearInstructions();
 	}
@@ -102,19 +102,17 @@ void Player::StaticUpdate(const float timeStep)
 {
 	Body *b;
 	vector3d v;
+	matrix4x4d m;
 
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
-			v = vector3d(0, 0, -m_setSpeed);
-			if (b) {
-				matrix4x4d m;
-				GetRotMatrix(m);
-				v += m.InverseOf() * b->GetVelocityRelativeTo(this->GetFrame());
-			}
-			AIAccelToModelRelativeVelocity(v);
+			GetRotMatrix(m);
+			v = m * vector3d(0, 0, -m_setSpeed);
+			if (b) v += b->GetVelocityRelativeTo(this->GetFrame());
+			AIMatchVel(v);
 			break;
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
@@ -126,7 +124,8 @@ void Player::StaticUpdate(const float timeStep)
 	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
 	if (m_flightControlState == CONTROL_AUTOPILOT && !AIIsActive()) {
 		Pi::RequestTimeAccel(1);
-		SetFlightControlState(CONTROL_MANUAL);
+		SetFlightControlState(CONTROL_MANUAL);		//FIXSPEED);
+//		m_setSpeed = 0;
 	}
 		
 	/* This wank probably shouldn't be in Player... */
@@ -182,7 +181,7 @@ void Player::PollControls(const float timeStep)
 	{
 		ClearThrusterState();
 		
-		vector3f wantAngVel(0.0f);
+		vector3d wantAngVel(0.0);
 
 		// have to use this function. SDL mouse position event is bugged in windows
 		int mouseMotion[2];
@@ -214,7 +213,7 @@ void Player::PollControls(const float timeStep)
 		
 	
 		if (m_flightControlState == CONTROL_FIXSPEED) {
-			float oldSpeed = m_setSpeed;
+			double oldSpeed = m_setSpeed;
 			if (stickySpeedKey) {
 				if (!(KeyBindings::increaseSpeed.IsActive() || KeyBindings::decreaseSpeed.IsActive())) {
 					stickySpeedKey = false;
@@ -222,8 +221,8 @@ void Player::PollControls(const float timeStep)
 			}
 			
 			if (!stickySpeedKey) {
-				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += std::max(m_setSpeed*0.05f, 1.0f);
-				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= std::max(m_setSpeed*0.05f, 1.0f);
+				if (KeyBindings::increaseSpeed.IsActive()) m_setSpeed += std::max(m_setSpeed*0.05, 1.0);
+				if (KeyBindings::decreaseSpeed.IsActive()) m_setSpeed -= std::max(m_setSpeed*0.05, 1.0);
 				if ( ((oldSpeed < 0.0) && (m_setSpeed >= 0.0)) ||
 				     ((oldSpeed > 0.0) && (m_setSpeed <= 0.0)) ) {
 					// flipped from going forward to backwards. make the speed 'stick' at zero
@@ -254,14 +253,15 @@ void Player::PollControls(const float timeStep)
 		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
 		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
 
-		wantAngVel.x += 2.f * KeyBindings::pitchAxis.GetValue();
-		wantAngVel.y += 2.f * KeyBindings::yawAxis.GetValue();
-		wantAngVel.z += 2.f * KeyBindings::rollAxis.GetValue();
+		wantAngVel.x += 2 * KeyBindings::pitchAxis.GetValue();
+		wantAngVel.y += 2 * KeyBindings::yawAxis.GetValue();
+		wantAngVel.z += 2 * KeyBindings::rollAxis.GetValue();
 
 		for (int axis=0; axis<3; axis++)
-			wantAngVel[axis] = Clamp<float>(wantAngVel[axis], -invTimeAccel, invTimeAccel);
-		
-		const float angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0f : 50.0f;
+			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccel, invTimeAccel);
+
+//		matrix4x4d rot; GetRotMatrix(rot);
+		const double angThrustSoftness = KeyBindings::fastRotate.IsActive() ? 10.0 : 50.0;
 		
 		if (m_mouseActive) AIFaceDirection(m_mouseDir);
 		else AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);

@@ -87,52 +87,27 @@ void AmbientSounds::Update()
 			SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
 			assert(sbody);
 			const char *sample;
-			switch (sbody->type) {
-				case SBody::TYPE_PLANET_SMALL:
-				case SBody::TYPE_PLANET_CO2:
-				case SBody::TYPE_PLANET_METHANE:
-					{
-						const char *s[] = { "Wind", "Storm" };
-						sample = s[sbody->seed % 2];
-					}
-					break;
-				case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-				case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-				case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-				case SBody::TYPE_PLANET_WATER:
-				case SBody::TYPE_PLANET_DESERT:
-					{
-						const char *s[] = {
-							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-							"Thunder_4", "Storm"
-						};
-						sample = s[sbody->seed % 6];
-					}
-					break;
-				case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-					{
-						const char *s[] = {
-							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-							"Thunder_4", "Storm", "Rain_Light", "River"
-						};
-						sample = s[sbody->seed % 8];
-					}
-					break;
-				case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-				case SBody::TYPE_PLANET_TERRAFORMED_POOR:
-				case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
-					{
-						const char *s[] = {
-							"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
-							"Thunder_4", "Storm", "Rain_Light", "River",
-							"RainForestIntroducedNight", "RainForestIntroduced",
-							"NormalForestIntroduced"
-						};
-						sample = s[sbody->seed % 11];
-					}
-					break;
-				default: sample = 0;
+
+			if (sbody->m_life > fixed(1,5)) {
+				const char *s[] = {
+					"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
+					"Thunder_4", "Storm", "Rain_Light", "River",
+					"RainForestIntroducedNight", "RainForestIntroduced",
+					"NormalForestIntroduced"
+				};
+				sample = s[sbody->seed % 11];
 			}
+			else if (sbody->m_volatileGas > fixed(1,2)) {
+				const char *s[] = {
+					"Wind", "Thunder_1", "Thunder_2", "Thunder_3",
+					"Thunder_4", "Storm"
+				};
+				sample = s[sbody->seed % 6];
+			}
+			else if (sbody->m_volatileGas > fixed(1,10)) {
+				sample = "Wind";
+			}
+
 			if (sample) {
 				planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 			}
@@ -172,10 +147,18 @@ void AmbientSounds::Update()
 					case SBody::TYPE_STAR_A: sample = "A_Star"; break;
 					case SBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
 					case SBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
-					case SBody::TYPE_PLANET_SMALL_GAS_GIANT: sample = "Small_Gas_Giant"; break;
-					case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT: sample = "Medium_Gas_Giant"; break;
-					case SBody::TYPE_PLANET_LARGE_GAS_GIANT: sample = "Large_Gas_Giant"; break;
-					case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT: sample = "Very_Large_Gas_Giant"; break;
+					case SBody::TYPE_PLANET_GAS_GIANT: {
+							if (sbody->mass > fixed(400,1)) {
+								sample = "Very_Large_Gas_Giant";
+							} else if (sbody->mass > fixed(80,1)) {
+								sample = "Large_Gas_Giant";
+							} else if (sbody->mass > fixed(20,1)) {
+								sample = "Medium_Gas_Giant";
+							} else {
+								sample = "Small_Gas_Giant";
+							}
+						}
+						break;
 					default: sample = 0; break;
 				}
 				if (sample) {
