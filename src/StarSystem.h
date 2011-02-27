@@ -270,7 +270,7 @@ private:
 	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
 	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx, int *outHumanInfestedness, MTRand &rand);
+	void CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *children, int *outHumanInfestedness, MTRand &rand);
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 

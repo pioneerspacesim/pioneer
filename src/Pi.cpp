@@ -32,6 +32,7 @@
 #include "Render.h"
 #include "PiLuaModules.h"
 #include "AmbientSounds.h"
+#include "CustomSystem.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -214,7 +215,10 @@ void Pi::Init()
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
+    CustomSystem::Init();
 	draw_progress(0.3f);
+
+	draw_progress(0.4f);
 	LmrModelCompilerInit();
 
 //unsigned int control_word;
@@ -223,19 +227,18 @@ void Pi::Init()
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
 
-	draw_progress(0.4f);
+	draw_progress(0.5f);
 	ShipType::Init();
 
 
-	draw_progress(0.5f);
-	GeoSphere::Init();
 	draw_progress(0.6f);
-	Space::Init();
+	GeoSphere::Init();
 	draw_progress(0.7f);
-	Polit::Init();
+	Space::Init();
 	draw_progress(0.8f);
-	SpaceStation::Init();
+	Polit::Init();
 	draw_progress(0.9f);
+	SpaceStation::Init();
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();

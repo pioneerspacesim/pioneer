@@ -1,6 +1,5 @@
 #include "StarSystem.h"
 #include "Sector.h"
-#include "custom_starsystems.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
 
@@ -626,47 +625,46 @@ struct CustomSBody {
 	fixed eccentricity;
 };
 */
-void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx, int *outHumanInfestedness, MTRand &rand)
+void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *children, int *outHumanInfestedness, MTRand &rand)
 {
-	const CustomSBody *c = customDef;
-	for (int i=0; c->name; c++, i++) {
-		if (c->primaryIdx != primaryIdx) continue;
-		
-		SBody *kid = NewBody();
-		SBody::BodyType type = c->type;
-		kid->seed = rand.Int32();
-		kid->type = type;
-		kid->parent = parent;
-		kid->radius = c->radius;
-		kid->mass = c->mass;
-		kid->averageTemp = c->averageTemp;
-		kid->name = c->name;
-		kid->rotationPeriod = c->rotationPeriod;
-		kid->eccentricity = c->eccentricity;
-		kid->axialTilt = c->axialTilt;
-		kid->semiMajorAxis = c->semiMajorAxis;
-		kid->orbit.eccentricity = c->eccentricity.ToDouble();
-		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
-		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
-		kid->heightMapFilename = c->heightMapFilename;
+	for (std::list<CustomSBody>::const_iterator i = children->begin(); i != children->end(); i++) {
+		const CustomSBody *csbody = &(*i);
 
-		kid->m_metallicity    = c->composition.metallicity;
-		kid->m_volatileGas    = c->composition.volatileGas;
-		kid->m_volatileLiquid = c->composition.volatileLiquid;
-		kid->m_volatileIces   = c->composition.volatileIces;
-		kid->m_volcanicity    = c->composition.volcanicity;
-		kid->m_atmosOxidizing = c->composition.atmosOxidizing;
-		kid->m_life           = c->composition.life;
+		SBody *kid = NewBody();
+		kid->type = csbody->type;
+		kid->parent = parent;
+		kid->seed = rand.Int32();
+		kid->radius = csbody->radius;
+		kid->mass = csbody->mass;
+		kid->averageTemp = csbody->averageTemp;
+		kid->name = csbody->name;
+
+		kid->m_metallicity    = csbody->metallicity;
+		kid->m_volatileGas    = csbody->volatileGas;
+		kid->m_volatileLiquid = csbody->volatileLiquid;
+		kid->m_volatileIces   = csbody->volatileIces;
+		kid->m_volcanicity    = csbody->volcanicity;
+		kid->m_atmosOxidizing = csbody->atmosOxidizing;
+		kid->m_life           = csbody->life;
+
+		kid->rotationPeriod = csbody->rotationPeriod;
+		kid->eccentricity = csbody->eccentricity;
+		kid->axialTilt = csbody->axialTilt;
+		kid->semiMajorAxis = csbody->semiMajorAxis;
+		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
+		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
+		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		if (csbody->heightMapFilename.length() > 0) kid->heightMapFilename = csbody->heightMapFilename.c_str();
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->longitude) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
+				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		} else {
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
-				Error("%s's orbit is too close to its parent", c->name);
+				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
+				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
@@ -674,34 +672,29 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		parent->children.push_back(kid);
 
 		// perihelion and aphelion (in AUs)
-		kid->orbMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
-		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
+		kid->orbMin = csbody->semiMajorAxis - csbody->eccentricity*csbody->semiMajorAxis;
+		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
-		CustomGetKidsOf(kid, customDef, i, outHumanInfestedness, rand);
+		CustomGetKidsOf(kid, &csbody->children, outHumanInfestedness, rand);
 	}
+
 }
 
 void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 {
-	// find primary
-	const CustomSBody *csbody = customSys->sbodies;
-
-	int idx = 0;
-	while ((csbody->name) && (csbody->primaryIdx != -1)) { csbody++; idx++; }
-	assert(csbody->primaryIdx == -1);
+	const CustomSBody *csbody = &customSys->sBody;
 
 	rootBody = NewBody();
-	SBody::BodyType type = csbody->type;
-	rootBody->type = type;
+	rootBody->type = csbody->type;
 	rootBody->parent = NULL;
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
-	
+
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody, customSys->sbodies, idx, &humanInfestedness, rand);
+	CustomGetKidsOf(rootBody, &csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
 }
@@ -801,9 +794,9 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 
 	if (s.m_systems[system_idx].customSys) {
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
-		if (custom->shortDesc) m_shortDesc = custom->shortDesc;
-		if (custom->longDesc) m_longDesc = custom->longDesc;
-		if (custom->sbodies) {
+		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
+		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
+		if (!custom->IsRandom()) {
 			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
 			return;
 		}
