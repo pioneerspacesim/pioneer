@@ -8,6 +8,7 @@
 #include "ShipCpanel.h"
 #include "Serializer.h"
 #include "StarSystem.h"
+#include "Sector.h"
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
@@ -106,6 +107,14 @@ WorldView::WorldView(): View()
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
+
+	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, "Hull integrity", Color(1.0f,1.0f,0.0f,0.8f));
+	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, "Shield integrity", Color(1.0f,1.0f,0.0f,0.8f));
+	Add(m_hudTargetHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
+	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
+
+	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
+	Add(m_hudTargetInfo, 0, 85.0f);
 
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
@@ -532,6 +541,17 @@ void WorldView::ShowAll()
 
 extern int g_navbodycount;
 
+static Color get_color_for_warning_meter_bar(float v) {
+	Color c;
+	if (v < 50.0f)
+		c = Color(1,0,0,HUD_ALPHA);
+	else if (v < 75.0f)
+		c = Color(1,0.5,0,HUD_ALPHA);
+	else
+		c = Color(1,1,0,HUD_ALPHA);
+	return c;
+}
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	if ((!Pi::player) || Pi::player->IsDead()) {
@@ -693,15 +713,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	float hull = Pi::player->GetPercentHull();
 	if (hull < 100.0f) {
-		Color c;
-		if (hull < 50.0f)
-			c = Color(1,0,0,HUD_ALPHA);
-		else if (hull < 75.0f)
-			c = Color(1,0.5,0,HUD_ALPHA);
-		else
-			c = Color(1,1,0,HUD_ALPHA);
-
-		m_hudHullIntegrity->SetColor(c);
+		m_hudHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
 		m_hudHullIntegrity->SetValue(hull*0.01f);
 		m_hudHullIntegrity->Show();
 	} else {
@@ -709,19 +721,95 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	float shields = Pi::player->GetPercentShields();
 	if (shields < 100.0f) {
-		Color c;
-		if (shields < 50.0f)
-			c = Color(1,0,0,HUD_ALPHA);
-		else if (shields < 75.0f)
-			c = Color(1,0.5,0,HUD_ALPHA);
-		else
-			c = Color(1,1,0,HUD_ALPHA);
-
-		m_hudShieldIntegrity->SetColor(c);
+		m_hudShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
 		m_hudShieldIntegrity->SetValue(shields*0.01f);
 		m_hudShieldIntegrity->Show();
 	} else {
 		m_hudShieldIntegrity->Hide();
+	}
+
+	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
+	if (b) {
+		if (b->IsType(Object::SHIP) && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
+			assert(b->IsType(Object::SHIP));
+			Ship *s = static_cast<Ship*>(b);
+
+			const ShipFlavour *flavour = s->GetFlavour();
+			const shipstats_t *stats = s->CalcStats();
+
+			float hull = s->GetPercentHull();
+			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
+			m_hudTargetHullIntegrity->SetValue(hull*0.01f);
+			m_hudTargetHullIntegrity->Show();
+
+			float shields = 0;
+			if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
+				shields = s->GetPercentShields();
+			}
+			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
+			m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
+			m_hudTargetShieldIntegrity->Show();
+
+			std::string text;
+			text += stringf(256, "%s\n", ShipType::types[flavour->type].name.c_str());
+			text += stringf(256, "%s\n", flavour->regid);
+
+			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
+				text += "No hyperdrive";
+			} else {
+				text += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
+			}
+
+			text += stringf(256, "\nMass: %dt\n", stats->total_mass);
+			text += stringf(256, "Shield strength: %.2f\n",
+				(shields*0.01f) * (float)s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+			text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
+
+			m_hudTargetInfo->SetText(text);
+			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
+			m_hudTargetInfo->Show();
+		}
+
+		else if (b->IsType(Object::HYPERSPACECLOUD) && Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD) == Equip::HYPERCLOUD_ANALYZER) {
+			HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
+
+			m_hudTargetHullIntegrity->Hide();
+			m_hudTargetShieldIntegrity->Hide();
+
+			std::string text;
+
+			Ship *ship = cloud->GetShip();
+			if (!ship) {
+				text += "Hyperspace arrival cloud remnant";
+			}
+			else {
+				const SBodyPath *dest = ship->GetHyperspaceTarget();
+				Sector s(dest->sectorX, dest->sectorY);
+				text += stringf(512,
+					"Hyperspace %s cloud\n"
+					"Ship mass: %dt\n"
+					"Destination: %s\n"
+					"Date due: %s\n",
+					cloud->IsArrival() ? "arrival" : "departure",
+					ship->CalcStats()->total_mass,
+					s.m_systems[dest->systemNum].name.c_str(),
+					format_date(cloud->GetDueDate()).c_str()
+				);
+			}
+
+			m_hudTargetInfo->SetText(text);
+			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
+			m_hudTargetInfo->Show();
+		}
+
+		else {
+			b = 0;
+		}
+	}
+	if (!b) {
+		m_hudTargetHullIntegrity->Hide();
+		m_hudTargetShieldIntegrity->Hide();
+		m_hudTargetInfo->Hide();
 	}
 
 	if (Pi::player->GetHyperspaceCountdown() != 0) {
