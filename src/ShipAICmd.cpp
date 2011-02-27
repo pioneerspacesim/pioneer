@@ -971,7 +971,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 // 4. Reduce tangent steps for large planets to ensure you don't dodge well
 
 // 5. Potential problem with small thrusters and large gravity, ivel overdone?
-
+//  - yep, happens while docking
 
 // m_state values:
 // 0: get data for docking start pos

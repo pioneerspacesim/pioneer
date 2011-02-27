@@ -158,7 +158,7 @@ vector3d Body::GetVelocityRelativeTo(const Frame *f) const
 	matrix4x4d m;
 	Frame::GetFrameTransform(GetFrame(), f, m);
 	vector3d vel = GetVelocity();
-	if (!GetFrame()->m_astroBody) {
+	if (GetFrame()->GetBodyFor() && GetFrame()->GetBodyFor()->IsType(Object::SPACESTATION)) {
 		// for rotating space station frames, need to subtract the
 		// velocity that is counteracting coriolis force (an object
 		// stationary relative to a non-rotating frame will be moving

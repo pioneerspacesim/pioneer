@@ -147,8 +147,8 @@ void DynamicBody::CalcExternalForce()
 	// centrifugal and coriolis forces for rotating frames
 	vector3d angRot = GetFrame()->GetAngVelocity();
 	if (angRot.LengthSqr() > 0.0) {
-		m_externalForce += m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
-		m_externalForce += -2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
+		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
+		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
 	}
 
 }
@@ -161,6 +161,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_oldOrient = m_orient;
 		m_vel += (double)timeStep * m_force * (1.0 / m_mass);
 		m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
+		// angvel is always relative to non-rotating frame, so need to counter frame angvel
 		vector3d consideredAngVel = m_angVel - GetFrame()->GetAngVelocity();
 		
 		vector3d pos = GetPosition();

@@ -382,26 +382,23 @@ void UpdateFramesOfReference()
 		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
 			printf("%s leaves frame %s\n", b->GetLabel().c_str(), b->GetFrame()->GetLabel());
 			
-			vector3d oldFrameVel = b->GetFrame()->GetVelocity();
-			
 			Frame *new_frame = b->GetFrame()->m_parent;
 			if (new_frame) { // don't let fall out of root frame
 				matrix4x4d m = matrix4x4d::Identity();
 				b->GetFrame()->ApplyLeavingTransform(m);
 
-				vector3d new_pos = m * b->GetPosition();//b->GetPositionRelTo(new_frame);
+				vector3d new_pos = m * b->GetPosition();
 
 				matrix4x4d rot;
 				b->GetRotMatrix(rot);
 				b->SetRotMatrix(m * rot);
 				
-				b->SetVelocity(oldFrameVel + m.ApplyRotationOnly(b->GetVelocity() - 
+				m.ClearToRotOnly();
+				b->SetVelocity(b->GetFrame()->GetVelocity() + m*(b->GetVelocity() - 
 					b->GetFrame()->GetStasisVelocityAtPosition(b->GetPosition())));
 
 				b->SetFrame(new_frame);
 				b->SetPosition(new_pos);
-			} else {
-				b->SetVelocity(b->GetVelocity() + oldFrameVel);
 			}
 		}
 
@@ -413,6 +410,7 @@ void UpdateFramesOfReference()
 			vector3d pos = m * b->GetPosition();
 			if (kid->IsLocalPosInFrame(pos)) {
 				printf("%s enters frame %s\n", b->GetLabel().c_str(), kid->GetLabel());
+
 				b->SetPosition(pos);
 				b->SetFrame(kid);
 
@@ -422,9 +420,9 @@ void UpdateFramesOfReference()
 				
 				// get rid of transforms
 				m.ClearToRotOnly();
-				b->SetVelocity(m*b->GetVelocity()
-					- kid->GetVelocity()
+				b->SetVelocity(m*(b->GetVelocity() - kid->GetVelocity())
 					+ kid->GetStasisVelocityAtPosition(pos));
+
 				break;
 			}
 		}

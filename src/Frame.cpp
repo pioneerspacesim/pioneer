@@ -213,6 +213,16 @@ void Frame::RotateInTimestep(double step)
 
 vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 {
+	if (m_angVel.LengthSqr() == 0.0) return vector3d(0.0);
+
+//	vector3d avdir = m_angVel.Normalized();
+//	vector3d perppos = pos - avdir*(avdir.Dot(pos));
+	return -m_angVel.Cross(pos);
+}
+
+/*
+vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
+{
 	const double omega = m_angVel.Length();
 	vector3d vzero(0,0,0);
 	if (omega) {
@@ -226,6 +236,7 @@ vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 		return vzero;
 	}
 }
+*/
 
 // Find system body this frame is for.
 
