@@ -268,11 +268,13 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		frameRadius = 1000000.0; // XXX NFI!
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
+//		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
 	
 		assert(sbody->GetRotationPeriod() != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
-		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
+		rotFrame->SetRadius(1000.0);
+//		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
 		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
 		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
@@ -368,64 +370,6 @@ void KillBody(Body* const b)
 	if (!b->IsDead()) {
 		b->MarkDead();
 		if (b != Pi::player) corpses.push_back(b);
-	}
-}
-
-void UpdateFramesOfReference()
-{
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		Body *b = *i;
-
-		if (!(b->GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) continue;
-
-		// falling out of frames
-		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
-			printf("%s leaves frame %s\n", b->GetLabel().c_str(), b->GetFrame()->GetLabel());
-			
-			Frame *new_frame = b->GetFrame()->m_parent;
-			if (new_frame) { // don't let fall out of root frame
-				matrix4x4d m = matrix4x4d::Identity();
-				b->GetFrame()->ApplyLeavingTransform(m);
-
-				vector3d new_pos = m * b->GetPosition();
-
-				matrix4x4d rot;
-				b->GetRotMatrix(rot);
-				b->SetRotMatrix(m * rot);
-				
-				m.ClearToRotOnly();
-				b->SetVelocity(b->GetFrame()->GetVelocity() + m*(b->GetVelocity() - 
-					b->GetFrame()->GetStasisVelocityAtPosition(b->GetPosition())));
-
-				b->SetFrame(new_frame);
-				b->SetPosition(new_pos);
-			}
-		}
-
-		// entering into frames
-		for (std::list<Frame*>::iterator j = b->GetFrame()->m_children.begin(); j != b->GetFrame()->m_children.end(); ++j) {
-			Frame *kid = *j;
-			matrix4x4d m;
-			Frame::GetFrameTransform(b->GetFrame(), kid, m);
-			vector3d pos = m * b->GetPosition();
-			if (kid->IsLocalPosInFrame(pos)) {
-				printf("%s enters frame %s\n", b->GetLabel().c_str(), kid->GetLabel());
-
-				b->SetPosition(pos);
-				b->SetFrame(kid);
-
-				matrix4x4d rot;
-				b->GetRotMatrix(rot);
-				b->SetRotMatrix(m * rot);
-				
-				// get rid of transforms
-				m.ClearToRotOnly();
-				b->SetVelocity(m*(b->GetVelocity() - kid->GetVelocity())
-					+ kid->GetStasisVelocityAtPosition(pos));
-
-				break;
-			}
-		}
 	}
 }
 
@@ -602,18 +546,21 @@ void TimeStep(float step)
 		return;
 	}
 
-//	ApplyGravity();				// now called by TimeStepUpdate per body
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
-	UpdateFramesOfReference();
+
+	// update frames of reference
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
+		(*i)->UpdateFrame();
+
 	rootFrame->UpdateOrbitRails();
 	
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
-	}
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
-	}
+
 	Sfx::TimeStepAll(step, rootFrame);
 
 	PiLuaModules::EmitEvents();

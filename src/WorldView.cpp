@@ -576,11 +576,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	// Direction indicator
 	vector3d vel;
-	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
+	Body *velRelTo = Pi::player->GetNavTarget();
 	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+		vel = Pi::player->GetVelocityRelTo(velRelTo);
 	} else {
-		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+		vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 	}
@@ -596,7 +596,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
-		vector3d pos = Pi::player->GetPosition();
+/*		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
@@ -608,14 +608,30 @@ void WorldView::RefreshButtonStateAndVisibility()
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
 			rel_to, pos.Length()/1000, rot_frame,
 			g_navbodycount);
-
-/*		vector3d angvel = Pi::player->GetAngVelocity();
-		vector3d torque = Pi::player->GetAccumTorque();
-		vector3d impulse = torque / Pi::player->GetAngularInertia();
-		vector3d mdir = Pi::player->GetMouseDir();
-		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
-			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
 */
+		Frame *f = Pi::player->GetFrame();
+		vector3d v1 = Pi::player->GetVelocity();
+		vector3d v2 = f->GetStasisVelocityAtPosition(Pi::player->GetPosition());
+		vector3d v3 = f->GetAngVelocity();
+		vector3d v4 = f->m_parent->GetVelocity();		// earth non-rot frame vel
+
+		vector3d v5 = Frame::GetFrameRelativeVelocity(f, Space::rootFrame);
+		vector3d v6 = Frame::GetFrameRelativeVelocity(Space::rootFrame, f);
+	//	vector3d v5 = Pi::player->GetVelocityRelTo(f);
+	//	vector3d v6 = Pi::player->GetVelocityRelTo(f->m_parent);
+		vector3d v7 = Pi::player->GetVelocityRelTo(Space::rootFrame);
+
+		snprintf(buf, sizeof(buf), "player vel: %.1f,%.1f,%.1f\n"
+			"stasis vel: %.1f,%.1f,%.1f\n"
+			"non-rot frame vel: %.1f,%.1f,%.1f\n"
+//			"vel relto rot frame: %.1f,%.1f,%.1f\n"
+//			"vel relto non-rot frame: %.1f,%.1f,%.1f\n"
+			"velocity from frame to root: %.1f,%.1f,%.1f\n"
+			"velocity from root to frame: %.1f,%.1f,%.1f\n"
+			"vel relto root frame: %.1f,%.1f,%.1f\n",
+			v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z, 
+			v5.x, v5.y, v5.z, v6.x, v6.y, v6.z, v7.x, v7.y, v7.z);
+
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
@@ -1034,8 +1050,8 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	// Direction indicator
 	vector3d vel;
 	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) vel = Pi::player->GetVelocityRelativeTo(velRelTo);
-	else vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+	if (velRelTo) vel = Pi::player->GetVelocityRelTo(velRelTo);
+	else vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 
@@ -1088,7 +1104,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
 		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
-		vector3d targvel = enemy->GetVelocityRelativeTo(Pi::player) * prot;
+		vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * prot;
 
 		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
 		double projspeed = Equip::lasers[laser].speed;
@@ -1110,15 +1126,18 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
 		float r = (float)(0.2+(c+1.0)*0.4);
 		float b = (float)(0.2+(1.0-c)*0.4);
+		char buf[1024];
 			
 		m_combatDist->Color(r, 0.0f, b);
-		m_combatDist->SetText(stringf(40, "%.0fm", dist).c_str());
+		sprintf(buf, "%.0fm", dist);
+		m_combatDist->SetText(buf);
 		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
 		MoveChild(m_combatDist, (float)lpos.x, (float)lpos.y);
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
-		m_combatSpeed->SetText(stringf(40, "%0.fm/s", vel).c_str());
+		sprintf(buf, "%0.fm/s", vel);
+		m_combatSpeed->SetText(buf);
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
 		MoveChild(m_combatSpeed, (float)lpos.x, (float)lpos.y);
 		m_combatSpeed->Show();

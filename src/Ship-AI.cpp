@@ -213,7 +213,7 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target, AIPath &newPath)
 		pos.push_back(p + (pos[pos.size()-1] - pos[pos.size()-2]));
 	}
 
-	const vector3d ourVelocity = GetVelocityRelativeTo(frame);
+	const vector3d ourVelocity = GetVelocityRelTo(frame);
 	const vector3d endVelocity = vector3d(0.0);
 
 	double duration;
@@ -239,7 +239,7 @@ bool Ship::AIAddAvoidancePathOnWayTo(const Body *target, AIPath &newPath)
 bool Ship::AIFollowPath(AIPath &path, bool pointShipAtVelocityVector)
 {
 	const vector3d ourPosition = GetPositionRelTo(path.frame);
-	const vector3d ourVelocity = GetVelocityRelativeTo(path.frame);
+	const vector3d ourVelocity = GetVelocityRelTo(path.frame);
 	double dur = path.endTime - path.startTime;
 	// instead of trying to get to desired location on path curve
 	// within a game tick, try adopting acceleration necessary to
@@ -488,7 +488,7 @@ static double calc_ivel(double dist, double vel, double posacc, double negacc)
 bool Ship::AIMatchVel(const vector3d &vel)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d diffvel = (vel - GetVelocityRelativeTo(GetFrame())) * rot;		// convert to object space
+	vector3d diffvel = (vel - GetVelocityRelTo(GetFrame())) * rot;		// convert to object space
 	return AIChangeVelBy(diffvel);
 }
 
@@ -496,10 +496,12 @@ bool Ship::AIMatchVel(const vector3d &vel)
 // returns true if this can be done in a single timestep
 bool Ship::AIChangeVelBy(const vector3d &diffvel)
 {
-	// counter external forces except rotational frame stuff
+	// counter external forces unless we're in an orbital station rotating frame
 	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d diffvel2 = (GetGravityForce() + GetAtmosForce()) * Pi::GetTimeStep() / GetMass();
-	diffvel2 = diffvel - diffvel2 * rot;
+	vector3d diffvel2 = GetExternalForce() * Pi::GetTimeStep() / GetMass();
+	if (GetFrame()->IsRotatingFrame() && GetFrame()->GetBodyFor()->IsType(SPACESTATION))
+		diffvel2 = diffvel;
+	else diffvel2 = diffvel - diffvel2 * rot;
 
 	vector3d maxThrust = GetMaxThrust(diffvel2);
 	vector3d maxFrameAccel = maxThrust * Pi::GetTimeStep() / GetMass();
@@ -597,8 +599,8 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 		dav.z = iangvel;
 	}
-//	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
-	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
+	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
+//	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);
@@ -635,8 +637,8 @@ bool Ship::AIFaceDirection(const vector3d &dir, double av)
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
 	}
-//	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;		// current obj-rel angvel
-	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
+	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;		// current obj-rel angvel
+//	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);
@@ -649,7 +651,7 @@ bool Ship::AIFaceDirection(const vector3d &dir, double av)
 vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex)
 {
 	vector3d targpos = target->GetPositionRelTo(this);
-	vector3d targvel = target->GetVelocityRelativeTo(this);
+	vector3d targvel = target->GetVelocityRelTo(this);
 	// todo: should adjust targpos for gunmount offset
 
 	int laser = Equip::types[m_equipment.Get(Equip::SLOT_LASER, gunindex)].tableIndex;

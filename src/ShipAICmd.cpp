@@ -248,7 +248,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 	// needs to deal with frames, large distances, and success
 	if (m_ship->GetFrame() == m_target->GetFrame()) {
 		double dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
-		vector3d vRel = m_ship->GetVelocityRelativeTo(m_target);
+		vector3d vRel = m_ship->GetVelocityRelTo(m_target);
 		vector3d dir = (m_target->GetPosition() - m_ship->GetPosition()).Normalized();
 
 		const double eta = Clamp(dist / vRel.Dot(dir), 0.0, 10.0);
@@ -401,7 +401,7 @@ return false;
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
 	const ShipType &stype = m_ship->GetShipType();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
-	vector3d targvel = m_target->GetVelocityRelativeTo(m_ship);		
+	vector3d targvel = m_target->GetVelocityRelTo(m_ship);		
 	vector3d targdir = targpos.Normalized();
 	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
@@ -687,7 +687,7 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 
 	// add velocity / distance modifier to radius if body is ahead
 	if (p2p1dir.Dot(p1n) < -0.5) {
-		vector3d v1 = obj1->GetVelocityRelativeTo(obj2);
+		vector3d v1 = obj1->GetVelocityRelTo(obj2);
 		double acc = obj1->GetMaxThrust(vector3d(-1.0)).z / obj1->GetMass();
 		double perpvel = (v1 - p1n * v1.Dot(p1n)).Length();
 		double time = sqrt(2 * p1.Length() / acc);
@@ -910,7 +910,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_posoff);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
-	vector3d relvel = m_ship->GetVelocityRelativeTo(m_target);
+	vector3d relvel = m_ship->GetVelocityRelTo(m_target);
 	double targdist = relpos.Length(), timestep = Pi::GetTimeStep();
 	double sideacc = m_ship->GetMaxThrust(vector3d(0.0)).x / m_ship->GetMass();
 
@@ -1021,7 +1021,7 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_ship->AIFaceOrient(m_dockdir, m_dockupdir)) {		// second docking waypoint
 		vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_dockpos);
 		vector3d relpos = targpos - m_ship->GetPosition();
-		vector3d relvel = m_ship->GetVelocityRelativeTo(m_target);
+		vector3d relvel = m_ship->GetVelocityRelTo(m_target);
 		m_ship->AIMatchPosVel(relpos, relvel, 0.0, 0);
 	}
 	else m_ship->AIMatchVel(vector3d(0.0));

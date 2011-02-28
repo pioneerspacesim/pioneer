@@ -207,40 +207,17 @@ void Frame::RotateInTimestep(double step)
 	m_orient.SetTranslate(pos);
 }
 
-
 // For an object in a rotating frame, relative to non-rotating frames it
 // must attain this velocity within rotating frame to be stationary.
 
 vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 {
-	if (m_angVel.LengthSqr() == 0.0) return vector3d(0.0);
-
-//	vector3d avdir = m_angVel.Normalized();
-//	vector3d perppos = pos - avdir*(avdir.Dot(pos));
 	return -m_angVel.Cross(pos);
 }
 
-/*
-vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
-{
-	const double omega = m_angVel.Length();
-	vector3d vzero(0,0,0);
-	if (omega) {
-		vector3d perpend = m_angVel.Cross(pos);
-		if (perpend == vzero) return vzero;
-		perpend = perpend.Cross(m_angVel).Normalized();
-		double R = perpend.Dot(pos);
-		perpend *= R;
-		return -m_angVel.Cross(perpend);
-	} else {
-		return vzero;
-	}
-}
-*/
-
 // Find system body this frame is for.
 
-SBody *Frame::GetSBodyFor()
+SBody *Frame::GetSBodyFor() const
 {
 	if (m_sbody) return m_sbody;
 	if (m_parent) return m_parent->m_sbody; // rotating frame of planet
@@ -249,7 +226,7 @@ SBody *Frame::GetSBodyFor()
 
 // Find body this frame is for
 
-Body *Frame::GetBodyFor()
+Body *Frame::GetBodyFor() const
 {
 	if (m_astroBody) return m_astroBody;
 	if (m_sbody && !m_children.empty())

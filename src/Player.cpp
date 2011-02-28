@@ -111,7 +111,7 @@ void Player::StaticUpdate(const float timeStep)
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
-			if (b) v += b->GetVelocityRelativeTo(this->GetFrame());
+			if (b) v += b->GetVelocityRelTo(this->GetFrame());
 			AIMatchVel(v);
 			break;
 		case CONTROL_MANUAL:
