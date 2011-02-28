@@ -1,4 +1,4 @@
-local s = CustomSystem:new()
+local s = CustomSystem:new("Epsilon Eridani")
 
 s:type({ TYPE_STAR_K })
 s:sector(1,0)
