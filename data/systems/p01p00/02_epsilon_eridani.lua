@@ -1,6 +1,6 @@
 local s = CustomSystem:new("Epsilon Eridani")
 
-s:type({ TYPE_STAR_K })
+s:type({ Body.Type.STAR_K })
 s:sector(1,0)
 s:pos(v(0.351,0.735,-0.999))
 s:seed(5)
@@ -14,4 +14,4 @@ Independence was not finally won until the wars of the 30th century, and the for
 Epsilon Eridani is today a thriving centre of industry, cutting-edge technology and tourism.
 Reproduced with the kind permission of Enrique Watson, New Hope University, 2992]])
 
-s.add_to_universe()
+s:add_to_universe()
