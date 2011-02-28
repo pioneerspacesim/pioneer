@@ -11,6 +11,8 @@
 
 class CustomSBody {
 public:
+	CustomSBody() {}
+
 	std::string            name;
 	SBody::BodyType        type;
 	fixed                  radius; // in earth radii for planets, sol radii for stars
@@ -33,7 +35,45 @@ public:
 	fixed volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed life; // 0.0 = dead, 1.0 = teeming
+
+	// lua interface
+	CustomSBody(std::string s, int type);
+
+	inline void l_radius(pi_fixed& r) { radius = r; }
+	inline void l_mass(pi_fixed& m) { mass = m; }
+	inline void l_average_temp(int t) { averageTemp = t; }
+	inline void l_semi_major_axis(pi_fixed& n) { semiMajorAxis = n; }
+	inline void l_eccentricity(pi_fixed& e) { eccentricity = e; }
+	inline void l_latitude(float l) { latitude = l; }
+	inline void l_longitude(float l) { longitude = l; }
+	inline void l_rotation_period(pi_fixed &p) { rotationPeriod = p; }
+	inline void l_axial_tilt(pi_fixed &t) { axialTilt = t; }
+	inline void l_height_map_filename(std::string f) { heightMapFilename = f; }
+
+	inline void l_add(CustomSBody& sbody) { children.push_back(sbody); }
 };
+
+OOLUA_CLASS_NO_BASES(CustomSBody)
+	OOLUA_TYPEDEFS
+		No_default_constructor
+	OOLUA_END_TYPES
+	OOLUA_CONSTRUCTORS_BEGIN
+		OOLUA_CONSTRUCTOR_2(std::string, int)
+	OOLUA_CONSTRUCTORS_END
+
+	OOLUA_MEM_FUNC_1_RENAME(radius, void, l_radius, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(mass, void, l_mass, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(average_temp, void, l_average_temp, int)
+	OOLUA_MEM_FUNC_1_RENAME(semi_major_axis, void, l_semi_major_axis, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(eccentricity, void, l_eccentricity, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(latitude, void, l_latitude, float)
+	OOLUA_MEM_FUNC_1_RENAME(inclination, void, l_latitude, float)  // duplicate, latitude has different meaning for orbiting things
+	OOLUA_MEM_FUNC_1_RENAME(longitude, void, l_longitude, float)
+	OOLUA_MEM_FUNC_1_RENAME(rotation_period, void, l_rotation_period, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, void, l_axial_tilt, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(height_map_filename, void, l_height_map_filename, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(add, void, l_add, CustomSBody&)
+OOLUA_CLASS_END
 
 class CustomSystem {
 public:
@@ -63,6 +103,8 @@ public:
 	inline void l_short_desc(std::string s) { shortDesc = s; }
 	inline void l_long_desc(std::string s) { longDesc = s; }
 
+	inline void l_primary_star(CustomSBody& star) { sBody = star; }
+    
 	void l_add_to_sector(int x, int y, pi_vector& v);
 };
 
@@ -77,6 +119,7 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 	OOLUA_MEM_FUNC_1_RENAME(govtype, void, l_govtype, int)
 	OOLUA_MEM_FUNC_1_RENAME(short_desc, void, l_short_desc, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(long_desc, void, l_long_desc, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(primary_star, void, l_primary_star, CustomSBody&)
 	OOLUA_MEM_FUNC_3_RENAME(add_to_sector, void, l_add_to_sector, int, int, pi_vector&)
 OOLUA_CLASS_END
 

@@ -15,6 +15,7 @@ void CustomSystem::Init()
     PiLuaConstants::RegisterConstants(L);
 
     OOLUA::register_class<CustomSystem>(L);
+    OOLUA::register_class<CustomSBody>(L);
 
 	lua_register(L, "load_lua", mylua_load_lua);
 
@@ -95,4 +96,17 @@ void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
-EXPORT_OOLUA_FUNCTIONS_5_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, add_to_sector)
+EXPORT_OOLUA_FUNCTIONS_6_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, primary_star, add_to_sector)
+
+CustomSBody::CustomSBody(std::string s, int t)
+{
+	name = s;
+	type = static_cast<SBody::BodyType>(t);
+
+	averageTemp = 0;
+	latitude = longitude = 0.0;
+}
+
+EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
+EXPORT_OOLUA_FUNCTIONS_NON_CONST(CustomSBody, radius, mass, average_temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period, axial_tilt, height_map_filename, add)
+
