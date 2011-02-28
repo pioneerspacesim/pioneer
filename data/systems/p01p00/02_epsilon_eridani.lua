@@ -3,7 +3,7 @@ local s = CustomSystem:new("Epsilon Eridani")
 s:type({ Body.Type.STAR_K })
 s:sector(1,0)
 s:pos(v(0.351,0.735,-0.999))
-s:seed(5)
+s:seed(42)
 s:govtype(Polit.GovType.CISLIBDEM)
 s:short_desc('First off-earth colony. Industrial world with indigenous life.')
 s:long_desc([[Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. The New Hope colony on the life-bearing planet of the same name was founded in 2279. Its 1520 initial inhabitants completed their pre-hyperspace voyage of 10.7 lightyears from Sol in just under 25 years.
