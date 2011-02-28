@@ -14,6 +14,8 @@ void CustomSystem::Init()
     PiLuaClasses::RegisterClasses(L);
     PiLuaConstants::RegisterConstants(L);
 
+    OOLUA::register_class<CustomSystem>(L);
+
 	lua_register(L, "load_lua", mylua_load_lua);
 
 	lua_pushstring(L, PIONEER_DATA_DIR);
@@ -67,3 +69,21 @@ const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const char* name)
 {
 	return GetSBodyPathForCustomSystem(GetCustomSystem(name));
 }
+
+void CustomSystem::l_type(OOLUA::Lua_table t)
+{
+	for (int i=0 ; i<4; i++) {
+		int type;
+		if (!t.safe_at(i+1, type))
+			type = SBody::TYPE_GRAVPOINT;
+        primaryType[i] = static_cast<SBody::BodyType>(type);
+	}
+}
+
+void CustomSystem::l_add_to_universe()
+{
+    custom_systems.push_back(*this);
+}
+
+EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
+EXPORT_OOLUA_FUNCTIONS_8_NON_CONST(CustomSystem, type, sector, pos, seed, govtype, short_desc, long_desc, add_to_universe)
