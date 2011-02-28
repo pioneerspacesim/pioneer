@@ -70,8 +70,10 @@ const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const char* name)
 	return GetSBodyPathForCustomSystem(GetCustomSystem(name));
 }
 
-void CustomSystem::l_type(OOLUA::Lua_table t)
+CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
+	name = s;
+
 	for (int i=0 ; i<4; i++) {
 		int type;
 		if (!t.safe_at(i+1, type))
@@ -80,10 +82,14 @@ void CustomSystem::l_type(OOLUA::Lua_table t)
 	}
 }
 
-void CustomSystem::l_add_to_universe()
+void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
 {
+	sectorX = x;
+	sectorY = y;
+	pos = v;
+
     custom_systems.push_back(*this);
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
-EXPORT_OOLUA_FUNCTIONS_8_NON_CONST(CustomSystem, type, sector, pos, seed, govtype, short_desc, long_desc, add_to_universe)
+EXPORT_OOLUA_FUNCTIONS_5_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, add_to_sector)

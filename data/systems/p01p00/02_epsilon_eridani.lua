@@ -1,8 +1,5 @@
-local s = CustomSystem:new("Epsilon Eridani")
+local s = CustomSystem:new("Epsilon Eridani", { Body.Type.STAR_K })
 
-s:type({ Body.Type.STAR_K })
-s:sector(1,0)
-s:pos(v(0.351,0.735,-0.999))
 s:seed(42)
 s:govtype(Polit.GovType.CISLIBDEM)
 s:short_desc('First off-earth colony. Industrial world with indigenous life.')
@@ -14,4 +11,4 @@ Independence was not finally won until the wars of the 30th century, and the for
 Epsilon Eridani is today a thriving centre of industry, cutting-edge technology and tourism.
 Reproduced with the kind permission of Enrique Watson, New Hope University, 2992]])
 
-s:add_to_universe()
+s:add_to_sector(1,0,v(0.351,0.735,-0.999))

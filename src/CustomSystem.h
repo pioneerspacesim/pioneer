@@ -56,16 +56,14 @@ public:
 	bool IsRandom() const { return sBody.name.length() == 0; }
 
 	// lua interface
-	inline CustomSystem(std::string s) { name = s; }
-	inline void l_sector(int x, int y) { sectorX = x; sectorY = y; }
-	inline void l_pos(pi_vector& v) { pos = v; }
+	CustomSystem(std::string s, OOLUA::Lua_table t);
+
 	inline void l_seed(int s) { seed = s; }
 	inline void l_govtype(int t) { govType = static_cast<Polit::GovType>(t); }
 	inline void l_short_desc(std::string s) { shortDesc = s; }
 	inline void l_long_desc(std::string s) { longDesc = s; }
 
-	void l_type(OOLUA::Lua_table t);
-	void l_add_to_universe();
+	void l_add_to_sector(int x, int y, pi_vector& v);
 };
 
 OOLUA_CLASS_NO_BASES(CustomSystem)
@@ -73,16 +71,13 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 		No_default_constructor
 	OOLUA_END_TYPES
 	OOLUA_CONSTRUCTORS_BEGIN
-		OOLUA_CONSTRUCTOR_1(std::string)
+		OOLUA_CONSTRUCTOR_2(std::string, OOLUA::Lua_table)
 	OOLUA_CONSTRUCTORS_END
-	OOLUA_MEM_FUNC_1_RENAME(type, void, l_type, OOLUA::Lua_table)
-	OOLUA_MEM_FUNC_2_RENAME(sector, void, l_sector, int, int)
-	OOLUA_MEM_FUNC_1_RENAME(pos, void, l_pos, pi_vector&)
 	OOLUA_MEM_FUNC_1_RENAME(seed, void, l_seed, int)
 	OOLUA_MEM_FUNC_1_RENAME(govtype, void, l_govtype, int)
 	OOLUA_MEM_FUNC_1_RENAME(short_desc, void, l_short_desc, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(long_desc, void, l_long_desc, std::string)
-	OOLUA_MEM_FUNC_0_RENAME(add_to_universe, void, l_add_to_universe)
+	OOLUA_MEM_FUNC_3_RENAME(add_to_sector, void, l_add_to_sector, int, int, pi_vector&)
 OOLUA_CLASS_END
 
 #endif /* _CUSTOMSYSTEM_H */
