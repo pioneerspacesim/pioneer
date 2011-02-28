@@ -80,6 +80,9 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 			type = SBody::TYPE_GRAVPOINT;
         primaryType[i] = static_cast<SBody::BodyType>(type);
 	}
+
+	seed = 0;
+	govType = Polit::GOV_NONE;
 }
 
 void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
