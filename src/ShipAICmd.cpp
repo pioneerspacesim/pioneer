@@ -887,6 +887,14 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, vector3d &posoff, double endvel
 	CheckCollisions();
 }
 
+static double GetGravityAtPos(Ship *ship, Body *target, vector3d &posoff)
+{
+	if (target->GetFrame()->GetBodyFor()->IsType(Object::SPACESTATION)) return 0;
+	double rsqr = (posoff + target->GetPosition()).LengthSqr();
+	double m1m2 = ship->GetMass() * target->GetFrame()->GetBodyFor()->GetMass();
+	return 6.67428e-11 * m1m2 / rsqr;
+}
+
 
 // m_state values:
 // 0, head towards
@@ -933,14 +941,16 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
 	if (m_state < 4 && perpvel.LengthSqr() > 2.0 * sideacc * targdist) {
 		m_ship->AIFaceDirection(-perpvel.Normalized());
-		m_ship->AIMatchPosVel(relpos, relvel, m_endvel, false);
+		m_ship->AIMatchPosVel(relpos, relvel, m_endvel, vector3d(sideacc));
 		return false;
 	}
 
 	// linear thrust
 	if (m_state & 0x10) { m_ship->AIMatchVel(vector3d(0.0)); m_state &= 0xf; }
 	else {
-		double decel = m_ship->AIMatchPosVel(relpos, relvel, m_endvel, (m_state == 1));
+		vector3d maxthrust = m_ship->GetMaxThrust(vector3d(1,1,(m_state==1)?-1:1));
+		maxthrust.z -= GetGravityAtPos(m_ship, m_target, m_posoff);
+		double decel = m_ship->AIMatchPosVel(relpos, relvel, m_endvel, maxthrust);
 		if (m_state == 1 && decel < 0) m_state = 2;		// time to flip
 	}
 	
@@ -971,7 +981,10 @@ bool AICmdFlyTo::TimeStepUpdate()
 // 4. Reduce tangent steps for large planets to ensure you don't dodge well
 
 // 5. Potential problem with small thrusters and large gravity, ivel overdone?
-//  - yep, happens while docking
+//  - yep, happens while docking at h1
+// so... need to reduce max accs. all of them? yeah...
+// just pass 
+
 
 // m_state values:
 // 0: get data for docking start pos
@@ -1018,11 +1031,13 @@ bool AICmdDock::TimeStepUpdate()
 		return TimeStepUpdate();
 	}
 	// second docking waypoint
-	if (m_ship->AIFaceOrient(m_dockdir, m_dockupdir)) {		// second docking waypoint
+	if (m_ship->AIFaceOrient(m_dockdir, m_dockupdir) && m_state++ > 4) {		// second docking waypoint
 		vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target, m_dockpos);
 		vector3d relpos = targpos - m_ship->GetPosition();
 		vector3d relvel = m_ship->GetVelocityRelTo(m_target);
-		m_ship->AIMatchPosVel(relpos, relvel, 0.0, 0);
+		vector3d maxthrust = m_ship->GetMaxThrust(vector3d(1,1,1));
+		maxthrust.y -= GetGravityAtPos(m_ship, m_target, m_dockpos);
+		m_ship->AIMatchPosVel(relpos, relvel, 0.0, maxthrust);
 	}
 	else m_ship->AIMatchVel(vector3d(0.0));
 	return false;

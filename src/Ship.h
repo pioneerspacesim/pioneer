@@ -124,7 +124,7 @@ public:
 
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
-	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, bool flip=false);
+	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, const vector3d &maxthrust);
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
 	void AIFaceDirectionImmediate(const vector3d &dir);
 	bool AIFaceOrient(const vector3d &dir, const vector3d &updir);

@@ -467,10 +467,10 @@ void Ship::AIOrbit(Body *target, double alt)
 // sometimes endvel is too low to catch moving objects
 // worked around with half-accel hack in dynamicbody & pi.cpp
 
-static double calc_ivel(double dist, double vel, double posacc, double negacc)
+static double calc_ivel(double dist, double vel, double acc)
 {
-	double acc = negacc; bool inv = false;
-	if (dist < 0) { acc = posacc; dist = -dist; vel = -vel; inv = true; }
+	bool inv = false;
+	if (dist < 0) { dist = -dist; vel = -vel; inv = true; }
 	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
 
 	double endvel = ivel - (acc * Pi::GetTimeStep());
@@ -478,8 +478,7 @@ static double calc_ivel(double dist, double vel, double posacc, double negacc)
 	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
 //	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
 
-	if (inv) ivel = -ivel;
-	return ivel;
+	return (inv) ? -ivel : ivel;
 }
 
 // vel is desired velocity in ship's frame
@@ -517,25 +516,20 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 // targvel is in direction of motion, must be positive
 // returns difference in closing speed from ideal, or zero if it thinks it's at the target
 // flip == true means it uses main thruster value for determining decel point
-double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, bool flip)
+double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, const vector3d &maxthrust)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
 	vector3d objpos = relpos * rot;
 	vector3d reldir = objpos.NormalizedSafe();
 	vector3d endvel = targspeed * reldir;
 	double targdist = objpos.Length();
-
-	// get all six thruster values (values are positive)
 	double invmass = 1.0 / GetMass();
-	vector3d paccel = GetMaxThrust(vector3d(1,1,1)) * invmass;
-	vector3d naccel = GetMaxThrust(vector3d(-1,-1,-1)) * invmass;
-	if (flip) paccel.z = naccel.z;			// assume rear thrust most powerful
 
 	// find ideal velocities at current time given reverse thrust level
 	vector3d ivel;
-	ivel.x = calc_ivel(objpos.x, endvel.x, paccel.x, naccel.x);
-	ivel.y = calc_ivel(objpos.y, endvel.y, paccel.y, naccel.y);
-	ivel.z = calc_ivel(objpos.z, endvel.z, paccel.z, naccel.z);
+	ivel.x = calc_ivel(objpos.x, endvel.x, maxthrust.x * invmass);
+	ivel.y = calc_ivel(objpos.y, endvel.y, maxthrust.y * invmass);
+	ivel.z = calc_ivel(objpos.z, endvel.z, maxthrust.z * invmass);
 
 	vector3d objvel = relvel * rot;
 	vector3d diffvel = ivel - objvel;		// required change in velocity
@@ -597,7 +591,7 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 		double frameEndAV = iangvel - frameAccel;
 		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
-		dav.z = iangvel;
+		dav.z = -iangvel;
 	}
 	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
 //	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
