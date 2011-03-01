@@ -95,8 +95,9 @@ static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children
 		if (children.safe_at(i++, kid) && kid != NULL) {
 			OOLUA::Lua_table sub;
 
-			if (children.safe_at(i+1, sub)) {
+			if (children.safe_at(i, sub) && sub.valid()) {
 				_add_children_to_sbody(kid, sub);
+				i++;
 			}
 
 			sbody->children.push_back(*kid);
