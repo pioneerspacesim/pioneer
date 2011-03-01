@@ -49,8 +49,6 @@ public:
 	inline void l_rotation_period(pi_fixed &p) { rotationPeriod = p; }
 	inline void l_axial_tilt(pi_fixed &t) { axialTilt = t; }
 	inline void l_height_map(std::string f) { heightMapFilename = f; }
-
-	inline void l_add(CustomSBody& sbody) { children.push_back(sbody); }
 };
 
 OOLUA_CLASS_NO_BASES(CustomSBody)
@@ -72,7 +70,6 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(rotation_period, void, l_rotation_period, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, void, l_axial_tilt, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(height_map, void, l_height_map, std::string)
-	OOLUA_MEM_FUNC_1_RENAME(add, void, l_add, CustomSBody&)
 OOLUA_CLASS_END
 
 class CustomSystem {
@@ -103,6 +100,8 @@ public:
 	inline void l_short_desc(std::string s) { shortDesc = s; }
 	inline void l_long_desc(std::string s) { longDesc = s; }
 
+	void l_bodies(CustomSBody& primary_star, OOLUA::Lua_table t);
+
 	inline void l_primary_star(CustomSBody& star) { sBody = star; }
     
 	void l_add_to_sector(int x, int y, pi_vector& v);
@@ -119,7 +118,7 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 	OOLUA_MEM_FUNC_1_RENAME(govtype, void, l_govtype, int)
 	OOLUA_MEM_FUNC_1_RENAME(short_desc, void, l_short_desc, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(long_desc, void, l_long_desc, std::string)
-	OOLUA_MEM_FUNC_1_RENAME(primary_star, void, l_primary_star, CustomSBody&)
+	OOLUA_MEM_FUNC_2_RENAME(bodies, void, l_bodies, CustomSBody&, OOLUA::Lua_table)
 	OOLUA_MEM_FUNC_3_RENAME(add_to_sector, void, l_add_to_sector, int, int, pi_vector&)
 OOLUA_CLASS_END
 

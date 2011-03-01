@@ -86,17 +86,45 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 	govType = Polit::GOV_NONE;
 }
 
+static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children)
+{
+	int i=1;
+	while (1) {
+		CustomSBody *kid;
+
+		if (children.safe_at(i++, kid) && kid != NULL) {
+			OOLUA::Lua_table sub;
+
+			if (children.safe_at(i+1, sub)) {
+				_add_children_to_sbody(kid, sub);
+			}
+
+			sbody->children.push_back(*kid);
+		}
+		else {
+			// XXX error if they passed something thats not a sbody
+			break;
+		}
+	}
+}
+
+void CustomSystem::l_bodies(CustomSBody& primary_star, OOLUA::Lua_table children)
+{
+	_add_children_to_sbody(&primary_star, children);
+	sBody = primary_star;
+}
+
 void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
 {
 	sectorX = x;
 	sectorY = y;
 	pos = v;
 
-    custom_systems.push_back(*this);
+	custom_systems.push_back(*this);
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
-EXPORT_OOLUA_FUNCTIONS_6_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, primary_star, add_to_sector)
+EXPORT_OOLUA_FUNCTIONS_6_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, bodies, add_to_sector)
 
 CustomSBody::CustomSBody(std::string s, int t)
 {
@@ -108,5 +136,5 @@ CustomSBody::CustomSBody(std::string s, int t)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
-EXPORT_OOLUA_FUNCTIONS_NON_CONST(CustomSBody, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period, axial_tilt, height_map, add)
+EXPORT_OOLUA_FUNCTIONS_NON_CONST(CustomSBody, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period, axial_tilt, height_map)
 

@@ -17,7 +17,6 @@ mercury:eccentricity(f(205,1000))
 mercury:latitude(math.deg2rad(7.0))
 mercury:rotation_period(f(59,1))
 mercury:axial_tilt(math.fixed.deg2rad(f(1,100)))
-sol:add(mercury)
 
 local venus = CustomSBody:new('Venus', Body.Type.PLANET_TERRESTRIAL)
 venus:radius(f(95,100))
@@ -28,7 +27,6 @@ venus:eccentricity(f(7,1000))
 venus:latitude(math.deg2rad(3.39))
 venus:rotation_period(f(243,1))
 venus:axial_tilt(math.fixed.deg2rad(f(26,10)))
-sol:add(venus)
 
 local earth = CustomSBody:new('Earth', Body.Type.PLANET_TERRESTRIAL)
 earth:radius(f(1,1))
@@ -39,7 +37,6 @@ earth:eccentricity(f(167,10000))
 earth:rotation_period(f(1,1))
 earth:axial_tilt(math.fixed.deg2rad(f(2344,100)))
 earth:height_map('data/earth.hmap')
-sol:add(earth)
 
 local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
 mars:radius(f(533,1000))
@@ -50,7 +47,6 @@ mars:eccentricity(f(933,10000))
 mars:latitude(math.deg2rad(1.85))
 mars:rotation_period(f(1027,1000))
 mars:axial_tilt(math.fixed.deg2rad(f(2519,100)))
-sol:add(mars)
 
 local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
 jupiter:radius(f(11,1))
@@ -61,7 +57,6 @@ jupiter:eccentricity(f(488,10000))
 jupiter:latitude(math.deg2rad(1.305))
 jupiter:rotation_period(f(4,10))
 jupiter:axial_tilt(math.fixed.deg2rad(f(313,100)))
-sol:add(jupiter)
 
 local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
 saturn:radius(f(9,1))
@@ -72,7 +67,6 @@ saturn:eccentricity(f(557,10000))
 saturn:latitude(math.deg2rad(2.485))
 saturn:rotation_period(f(4,10))
 saturn:axial_tilt(math.fixed.deg2rad(f(2673,100)))
-sol:add(saturn)
 
 local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
 uranus:radius(f(4,1))
@@ -83,7 +77,6 @@ uranus:eccentricity(f(444,10000))
 uranus:latitude(math.deg2rad(0.772))
 uranus:rotation_period(f(7,10))
 uranus:axial_tilt(math.fixed.deg2rad(f(9777,100)))
-sol:add(uranus)
 
 local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
 neptune:radius(f(38,10))
@@ -94,7 +87,6 @@ neptune:eccentricity(f(112,10000))
 neptune:latitude(math.deg2rad(1.768))
 neptune:rotation_period(f(75,100))
 neptune:axial_tilt(math.fixed.deg2rad(f(2832,100)))
-sol:add(neptune)
 
 local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
 pluto:radius(f(18,100))
@@ -105,9 +97,18 @@ pluto:eccentricity(f(249,1000))
 pluto:latitude(math.deg2rad(11.88))
 pluto:rotation_period(f(153,24))
 pluto:axial_tilt(math.fixed.deg2rad(f(296,10)))
-sol:add(pluto)
 
-s:primary_star(sol)
+s:bodies(sol, {
+	mercury,
+	venus,
+	earth,
+	mars,
+	saturn,
+	uranus,
+	neptune,
+	pluto
+})
+
 s:add_to_sector(0,0,v(0.5,0.5,0))
 
 --[[
