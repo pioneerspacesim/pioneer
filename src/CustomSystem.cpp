@@ -9,13 +9,13 @@ void CustomSystem::Init()
 {
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
-    OOLUA::setup_user_lua_state(L);
+	OOLUA::setup_user_lua_state(L);
 
-    PiLuaClasses::RegisterClasses(L);
-    PiLuaConstants::RegisterConstants(L);
+	PiLuaClasses::RegisterClasses(L);
+	PiLuaConstants::RegisterConstants(L);
 
-    OOLUA::register_class<CustomSystem>(L);
-    OOLUA::register_class<CustomSBody>(L);
+	OOLUA::register_class<CustomSystem>(L);
+	OOLUA::register_class<CustomSBody>(L);
 
 	lua_register(L, "load_lua", mylua_load_lua);
 
@@ -79,7 +79,7 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 		int type;
 		if (!t.safe_at(i+1, type))
 			type = SBody::TYPE_GRAVPOINT;
-        primaryType[i] = static_cast<SBody::BodyType>(type);
+		primaryType[i] = static_cast<SBody::BodyType>(type);
 	}
 
 	seed = 0;
@@ -93,11 +93,14 @@ static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children
 		CustomSBody *kid;
 
 		if (children.safe_at(i++, kid) && kid != NULL) {
-			OOLUA::Lua_table sub;
-
-			if (children.safe_at(i, sub) && sub.valid()) {
-				_add_children_to_sbody(kid, sub);
-				i++;
+			while (1) {
+				OOLUA::Lua_table sub;
+				if (children.safe_at(i, sub) && sub.valid()) {
+					_add_children_to_sbody(kid, sub);
+					i++;
+					continue;
+				}
+				break;
 			}
 
 			sbody->children.push_back(*kid);
