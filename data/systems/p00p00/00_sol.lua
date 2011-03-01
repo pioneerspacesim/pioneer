@@ -1,153 +1,68 @@
 local s = CustomSystem:new('Sol', { Body.Type.STAR_G })
-
-s:short_desc('The historical birthplace of humankind')
-s:long_desc([[Sol is a fine joint]])
+	:short_desc('The historical birthplace of humankind')
+	:long_desc([[Sol is a fine joint]])
 
 local sol = CustomSBody:new('Sol', Body.Type.STAR_G)
-sol:radius(f(1,1))
-sol:mass(f(1,1))
-sol:temp(5700)
+	:radius(f(1,1))
+	:mass(f(1,1))
+	:temp(5700)
 
 local mercury = CustomSBody:new('Mercury', Body.Type.PLANET_TERRESTRIAL)
-mercury:radius(f(38,100))
-mercury:mass(f(55,1000))
-mercury:temp(340)
-mercury:semi_major_axis(f(387,1000))
-mercury:eccentricity(f(205,1000))
-mercury:latitude(math.deg2rad(7.0))
-mercury:rotation_period(f(59,1))
-mercury:axial_tilt(math.fixed.deg2rad(f(1,100)))
+	:radius(f(38,100))
+	:mass(f(55,1000))
+	:temp(340)
+	:semi_major_axis(f(387,1000))
+	:eccentricity(f(205,1000))
+	:inclination(math.deg2rad(7.0))
+	:rotation_period(f(59,1))
+	:axial_tilt(math.fixed.deg2rad(f(1,100)))
 
 local venus = CustomSBody:new('Venus', Body.Type.PLANET_TERRESTRIAL)
-venus:radius(f(95,100))
-venus:mass(f(815,1000))
-venus:temp(735)
-venus:semi_major_axis(f(723,1000))
-venus:eccentricity(f(7,1000))
-venus:latitude(math.deg2rad(3.39))
-venus:rotation_period(f(243,1))
-venus:axial_tilt(math.fixed.deg2rad(f(26,10)))
+	:radius(f(95,100))
+	:mass(f(815,1000))
+	:temp(735)
+	:semi_major_axis(f(723,1000))
+	:eccentricity(f(7,1000))
+	:inclination(math.deg2rad(3.39))
+	:rotation_period(f(243,1))
+	:axial_tilt(math.fixed.deg2rad(f(26,10)))
 
 local earth = CustomSBody:new('Earth', Body.Type.PLANET_TERRESTRIAL)
-earth:radius(f(1,1))
-earth:mass(f(1,1))
-earth:temp(288)
-earth:semi_major_axis(f(1,1))
-earth:eccentricity(f(167,10000))
-earth:rotation_period(f(1,1))
-earth:axial_tilt(math.fixed.deg2rad(f(2344,100)))
-earth:height_map('data/earth.hmap')
+	:radius(f(1,1))
+	:mass(f(1,1))
+	:temp(288)
+	:semi_major_axis(f(1,1))
+	:eccentricity(f(167,10000))
+	:rotation_period(f(1,1))
+	:axial_tilt(math.fixed.deg2rad(f(2344,100)))
+	:height_map('data/earth.hmap')
 
-local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
-mars:radius(f(533,1000))
-mars:mass(f(107,1000))
-mars:temp(274)
-mars:semi_major_axis(f(152,100))
-mars:eccentricity(f(933,10000))
-mars:latitude(math.deg2rad(1.85))
-mars:rotation_period(f(1027,1000))
-mars:axial_tilt(math.fixed.deg2rad(f(2519,100)))
-
-local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
-jupiter:radius(f(11,1))
-jupiter:mass(f(3178,10))
-jupiter:temp(165)
-jupiter:semi_major_axis(f(5204,1000))
-jupiter:eccentricity(f(488,10000))
-jupiter:latitude(math.deg2rad(1.305))
-jupiter:rotation_period(f(4,10))
-jupiter:axial_tilt(math.fixed.deg2rad(f(313,100)))
-
-local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
-saturn:radius(f(9,1))
-saturn:mass(f(95152,1000))
-saturn:temp(134)
-saturn:semi_major_axis(f(9582,1000))
-saturn:eccentricity(f(557,10000))
-saturn:latitude(math.deg2rad(2.485))
-saturn:rotation_period(f(4,10))
-saturn:axial_tilt(math.fixed.deg2rad(f(2673,100)))
-
-local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
-uranus:radius(f(4,1))
-uranus:mass(f(145,10))
-uranus:temp(76)
-uranus:semi_major_axis(f(19229,1000))
-uranus:eccentricity(f(444,10000))
-uranus:latitude(math.deg2rad(0.772))
-uranus:rotation_period(f(7,10))
-uranus:axial_tilt(math.fixed.deg2rad(f(9777,100)))
-
-local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
-neptune:radius(f(38,10))
-neptune:mass(f(17147,100))
-neptune:temp(72)
-neptune:semi_major_axis(f(30104,1000))
-neptune:eccentricity(f(112,10000))
-neptune:latitude(math.deg2rad(1.768))
-neptune:rotation_period(f(75,100))
-neptune:axial_tilt(math.fixed.deg2rad(f(2832,100)))
-
-local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
-pluto:radius(f(18,100))
-pluto:mass(f(21,10000))
-pluto:temp(44)
-pluto:semi_major_axis(f(394,10))
-pluto:eccentricity(f(249,1000))
-pluto:latitude(math.deg2rad(11.88))
-pluto:rotation_period(f(153,24))
-pluto:axial_tilt(math.fixed.deg2rad(f(296,10)))
-
-s:bodies(sol, {
-	mercury,
-	venus,
-	earth,
-	mars,
-	saturn,
-	uranus,
-	neptune,
-	pluto
-})
-
-s:add_to_sector(0,0,v(0.5,0.5,0))
-
+local earth_starports = {
+	CustomSBody:new('Shanghai', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(31))
+		:longitude(math.deg2rad(-121)),
+	CustomSBody:new('Mexico City', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(19))
+		:longitude(math.deg2rad(99)),
+	CustomSBody:new('London', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(51))
+		:longitude(0),
+	CustomSBody:new('Moscow', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(55))
+		:longitude(math.deg2rad(-37.5)),
+	CustomSBody:new('Brasilia', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(-15.5))
+		:longitude(math.deg2rad(48)),
+	CustomSBody:new('Los Angeles', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(34))
+		:longitude(math.deg2rad(118)),
+}
+local earth_spaceports = {
+	CustomSBody:new('Gates Spaceport', Body.Type.STARPORT_ORBITAL)
+		:semi_major_axis(f(100,100000))
+		:rotation_period(f(1,24*60*3)),
+}
 --[[
-earth_children = {
-	{
-		name('Shanghai')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(31))
-		longitude(math.deg2rad(-121))
-	}, {
-		name('Mexico City')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(19))
-		longitude(math.deg2rad(99))
-	}, {
-		name('London')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(51))
-		longitude(0)
-	}, {
-		name('Moscow')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(55))
-		longitude(math.deg2rad(-37.5))
-	}, {
-		name('Brasilia')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(-15.5))
-		longitude(math.deg2rad(48))
-	}, {
-		name('Los Angeles')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(34))
-		longitude(math.deg2rad(118))
-	}, {
-		name('Gates Spaceport')
-		type(TYPE_STARPORT_ORBITAL)
-		semi_major_axis(f(100,100000))
-		rotation_period(f(1)24*60*3)
 	}, {
 		name('Moon')
 		type(TYPE_PLANET_DWARF)
@@ -156,7 +71,7 @@ earth_children = {
 		temp(220)
 		semi_major_axis(f(257,100000))
 		eccentricity(f(549,10000))
-		latitude(math.deg2rad(5.145))
+		inclination(math.deg2rad(5.145))
 		rotation_period(f(273,10))
 		axial_tilt(math.fixed.deg2rad(f(668,100)))
 		children = { {
@@ -167,6 +82,84 @@ earth_children = {
 		} },
 	},
 }
+]]--
+
+local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
+	:radius(f(533,1000))
+	:mass(f(107,1000))
+	:temp(274)
+	:semi_major_axis(f(152,100))
+	:eccentricity(f(933,10000))
+	:inclination(math.deg2rad(1.85))
+	:rotation_period(f(1027,1000))
+	:axial_tilt(math.fixed.deg2rad(f(2519,100)))
+
+local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
+	:radius(f(11,1))
+	:mass(f(3178,10))
+	:temp(165)
+	:semi_major_axis(f(5204,1000))
+	:eccentricity(f(488,10000))
+	:inclination(math.deg2rad(1.305))
+	:rotation_period(f(4,10))
+	:axial_tilt(math.fixed.deg2rad(f(313,100)))
+
+local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
+	:radius(f(9,1))
+	:mass(f(95152,1000))
+	:temp(134)
+	:semi_major_axis(f(9582,1000))
+	:eccentricity(f(557,10000))
+	:inclination(math.deg2rad(2.485))
+	:rotation_period(f(4,10))
+	:axial_tilt(math.fixed.deg2rad(f(2673,100)))
+
+local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
+	:radius(f(4,1))
+	:mass(f(145,10))
+	:temp(76)
+	:semi_major_axis(f(19229,1000))
+	:eccentricity(f(444,10000))
+	:inclination(math.deg2rad(0.772))
+	:rotation_period(f(7,10))
+	:axial_tilt(math.fixed.deg2rad(f(9777,100)))
+
+local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
+	:radius(f(38,10))
+	:mass(f(17147,100))
+	:temp(72)
+	:semi_major_axis(f(30104,1000))
+	:eccentricity(f(112,10000))
+	:inclination(math.deg2rad(1.768))
+	:rotation_period(f(75,100))
+	:axial_tilt(math.fixed.deg2rad(f(2832,100)))
+
+local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
+	:radius(f(18,100))
+	:mass(f(21,10000))
+	:temp(44)
+	:semi_major_axis(f(394,10))
+	:eccentricity(f(249,1000))
+	:inclination(math.deg2rad(11.88))
+	:rotation_period(f(153,24))
+	:axial_tilt(math.fixed.deg2rad(f(296,10)))
+
+s:bodies(sol, {
+	mercury,
+	venus,
+	earth,
+		earth_starports,
+		earth_spaceports,
+	mars,
+	saturn,
+	uranus,
+	neptune,
+	pluto
+})
+
+s:add_to_sector(0,0,v(0.5,0.5,0))
+
+--[[
 
 mars_children = {
 	{
