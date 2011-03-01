@@ -39,16 +39,16 @@ public:
 	// lua interface
 	CustomSBody(std::string s, int type);
 
-	inline void l_radius(pi_fixed& r) { radius = r; }
-	inline void l_mass(pi_fixed& m) { mass = m; }
-	inline void l_temp(int t) { averageTemp = t; }
-	inline void l_semi_major_axis(pi_fixed& n) { semiMajorAxis = n; }
-	inline void l_eccentricity(pi_fixed& e) { eccentricity = e; }
-	inline void l_latitude(float l) { latitude = l; }
-	inline void l_longitude(float l) { longitude = l; }
-	inline void l_rotation_period(pi_fixed &p) { rotationPeriod = p; }
-	inline void l_axial_tilt(pi_fixed &t) { axialTilt = t; }
-	inline void l_height_map(std::string f) { heightMapFilename = f; }
+	inline CustomSBody* l_radius(pi_fixed& r) { radius = r; return this; }
+	inline CustomSBody* l_mass(pi_fixed& m) { mass = m; return this; }
+	inline CustomSBody* l_temp(int t) { averageTemp = t; return this; }
+	inline CustomSBody* l_semi_major_axis(pi_fixed& n) { semiMajorAxis = n; return this; }
+	inline CustomSBody* l_eccentricity(pi_fixed& e) { eccentricity = e; return this; }
+	inline CustomSBody* l_latitude(float l) { latitude = l; return this; }
+	inline CustomSBody* l_longitude(float l) { longitude = l; return this; }
+	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }
+	inline CustomSBody* l_axial_tilt(pi_fixed &t) { axialTilt = t; return this; }
+	inline CustomSBody* l_height_map(std::string f) { heightMapFilename = f; return this; }
 };
 
 OOLUA_CLASS_NO_BASES(CustomSBody)
@@ -59,17 +59,17 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 		OOLUA_CONSTRUCTOR_2(std::string, int)
 	OOLUA_CONSTRUCTORS_END
 
-	OOLUA_MEM_FUNC_1_RENAME(radius, void, l_radius, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(mass, void, l_mass, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(temp, void, l_temp, int)
-	OOLUA_MEM_FUNC_1_RENAME(semi_major_axis, void, l_semi_major_axis, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(eccentricity, void, l_eccentricity, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(latitude, void, l_latitude, float)
-	OOLUA_MEM_FUNC_1_RENAME(inclination, void, l_latitude, float)  // duplicate, latitude has different meaning for orbiting things
-	OOLUA_MEM_FUNC_1_RENAME(longitude, void, l_longitude, float)
-	OOLUA_MEM_FUNC_1_RENAME(rotation_period, void, l_rotation_period, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, void, l_axial_tilt, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(height_map, void, l_height_map, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(radius, CustomSBody*, l_radius, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(mass, CustomSBody*, l_mass, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(temp, CustomSBody*, l_temp, int)
+	OOLUA_MEM_FUNC_1_RENAME(semi_major_axis, CustomSBody*, l_semi_major_axis, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(eccentricity, CustomSBody*, l_eccentricity, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(latitude, CustomSBody*, l_latitude, float)
+	OOLUA_MEM_FUNC_1_RENAME(inclination, CustomSBody*, l_latitude, float)  // duplicate, latitude has different meaning for orbiting things
+	OOLUA_MEM_FUNC_1_RENAME(longitude, CustomSBody*, l_longitude, float)
+	OOLUA_MEM_FUNC_1_RENAME(rotation_period, CustomSBody*, l_rotation_period, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, CustomSBody*, l_axial_tilt, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(height_map, CustomSBody*, l_height_map, std::string)
 OOLUA_CLASS_END
 
 class CustomSystem {
@@ -95,15 +95,13 @@ public:
 	// lua interface
 	CustomSystem(std::string s, OOLUA::Lua_table t);
 
-	inline void l_seed(int s) { seed = s; }
-	inline void l_govtype(int t) { govType = static_cast<Polit::GovType>(t); }
-	inline void l_short_desc(std::string s) { shortDesc = s; }
-	inline void l_long_desc(std::string s) { longDesc = s; }
+	inline CustomSystem* l_seed(int s) { seed = s; return this; }
+	inline CustomSystem* l_govtype(int t) { govType = static_cast<Polit::GovType>(t); return this; }
+	inline CustomSystem* l_short_desc(std::string s) { shortDesc = s; return this; }
+	inline CustomSystem* l_long_desc(std::string s) { longDesc = s; return this; }
 
 	void l_bodies(CustomSBody& primary_star, OOLUA::Lua_table t);
 
-	inline void l_primary_star(CustomSBody& star) { sBody = star; }
-    
 	void l_add_to_sector(int x, int y, pi_vector& v);
 };
 
@@ -114,10 +112,10 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 	OOLUA_CONSTRUCTORS_BEGIN
 		OOLUA_CONSTRUCTOR_2(std::string, OOLUA::Lua_table)
 	OOLUA_CONSTRUCTORS_END
-	OOLUA_MEM_FUNC_1_RENAME(seed, void, l_seed, int)
-	OOLUA_MEM_FUNC_1_RENAME(govtype, void, l_govtype, int)
-	OOLUA_MEM_FUNC_1_RENAME(short_desc, void, l_short_desc, std::string)
-	OOLUA_MEM_FUNC_1_RENAME(long_desc, void, l_long_desc, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(seed, CustomSystem*, l_seed, int)
+	OOLUA_MEM_FUNC_1_RENAME(govtype, CustomSystem*, l_govtype, int)
+	OOLUA_MEM_FUNC_1_RENAME(short_desc, CustomSystem*, l_short_desc, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(long_desc, CustomSystem*, l_long_desc, std::string)
 	OOLUA_MEM_FUNC_2_RENAME(bodies, void, l_bodies, CustomSBody&, OOLUA::Lua_table)
 	OOLUA_MEM_FUNC_3_RENAME(add_to_sector, void, l_add_to_sector, int, int, pi_vector&)
 OOLUA_CLASS_END
