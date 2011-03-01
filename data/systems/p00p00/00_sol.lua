@@ -56,33 +56,27 @@ local earth_starports = {
 	CustomSBody:new('Los Angeles', Body.Type.STARPORT_SURFACE)
 		:latitude(math.deg2rad(34))
 		:longitude(math.deg2rad(118)),
-}
-local earth_spaceports = {
 	CustomSBody:new('Gates Spaceport', Body.Type.STARPORT_ORBITAL)
 		:semi_major_axis(f(100,100000))
 		:rotation_period(f(1,24*60*3)),
 }
---[[
-	}, {
-		name('Moon')
-		type(TYPE_PLANET_DWARF)
-		radius(f(273,1000))
-		mass(f(12,1000))
-		temp(220)
-		semi_major_axis(f(257,100000))
-		eccentricity(f(549,10000))
-		inclination(math.deg2rad(5.145))
-		rotation_period(f(273,10))
-		axial_tilt(math.fixed.deg2rad(f(668,100)))
-		children = { {
-			name('Lunar City')
-			type(TYPE_STARPORT_SURFACE)
-			latitude(math.deg2rad(19))
-			longitude(math.deg2rad(99))
-		} },
+
+local moon = {
+	CustomSBody:new('Moon', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(273,1000))
+		:mass(f(12,1000))
+		:temp(220)
+		:semi_major_axis(f(257,100000))
+		:eccentricity(f(549,10000))
+		:inclination(math.deg2rad(5.145))
+		:rotation_period(f(273,10))
+		:axial_tilt(math.fixed.deg2rad(f(668,100))),
+	{
+		CustomSBody:new('Lunar City', Body.Type.STARPORT_SURFACE)
+			:latitude(math.deg2rad(19))
+			:longitude(math.deg2rad(99)),
 	},
 }
-]]--
 
 local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
 	:radius(f(533,1000))
@@ -94,6 +88,45 @@ local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
 	:rotation_period(f(1027,1000))
 	:axial_tilt(math.fixed.deg2rad(f(2519,100)))
 
+local mars_starports = {
+	CustomSBody:new('Cydonia', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(-29))
+		:longitude(math.deg2rad(124)),
+	CustomSBody:new('Olympus Mons', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(30))
+		:longitude(math.deg2rad(-37)),
+	CustomSBody:new('Mars High', Body.Type.STARPORT_ORBITAL)
+		:semi_major_axis(f(5068,100000000))
+		:rotation_period(f(11,24)),
+}
+
+local mars_moons = {
+	CustomSBody:new('Phobos', Body.Type.PLANET_ASTEROID)
+		:radius(f(21,10000))
+		:mass(f(18,10000000000))
+		:temp(233)
+		:semi_major_axis(f(6268,100000000))
+		:eccentricity(f(151,10000))
+		:inclination(math.deg2rad(1.093))
+		:rotation_period(f(11,24)),
+	{
+		CustomSBody:new('Phobos Base', Body.Type.STARPORT_SURFACE)
+			:latitude(math.deg2rad(5))
+			:longitude(math.deg2rad(-5)),
+	},
+	CustomSBody:new('Deimos', Body.Type.PLANET_ASTEROID)
+		:radius(f(12,10000))
+		:mass(f(25,100000000000))
+		:temp(233)
+		:semi_major_axis(f(1568,10000000))
+		:eccentricity(f(2,10000))
+		:inclination(math.deg2rad(0.93))
+		:rotation_period(f(30,24)),
+	{
+		CustomSBody:new('Tomm\'s Sanctuary', Body.Type.STARPORT_SURFACE),
+	},
+}
+
 local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
 	:radius(f(11,1))
 	:mass(f(3178,10))
@@ -103,6 +136,58 @@ local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
 	:inclination(math.deg2rad(1.305))
 	:rotation_period(f(4,10))
 	:axial_tilt(math.fixed.deg2rad(f(313,100)))
+
+local jupiter_moons = {
+	CustomSBody:new('Io', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(286,1000))
+		:mass(f(15,1000))
+		:temp(130)
+		:semi_major_axis(f(282,100000))
+		:eccentricity(f(41,10000))
+		:inclination(math.deg2rad(2.21))
+		:rotation_period(f(177,100)),
+	{
+		CustomSBody:new('Dante\'s Base', Body.Type.STARPORT_SURFACE)
+			:latitude(math.deg2rad(-0.5))
+			:longitude(math.deg2rad(26.2)),
+	},
+	CustomSBody:new('Europa', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(245,1000))
+		:mass(f(8,1000))
+		:temp(102)
+		:semi_major_axis(f(441,100000))
+		:eccentricity(f(9,1000))
+		:rotation_period(f(355,100)),
+	{
+		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)
+			:semi_major_axis(f(12,500000))
+			:rotation_period(f(1,24*60*3)),
+	},
+	CustomSBody:new('Ganymede', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(413,1000))
+		:mass(f(25,1000))
+		:temp(110)
+		:semi_major_axis(f(72,10000))
+		:eccentricity(f(13,10000))
+		:inclination(math.deg2rad(0.2))
+		:rotation_period(f(72,10)),
+	{
+		CustomSBody:new('Enki Catena', Body.Type.STARPORT_SURFACE)
+			:latitude(math.deg2rad(84))
+			:longitude(math.deg2rad(96)),
+	},
+	CustomSBody:new('Callisto', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(378,1000))
+		:mass(f(18,1000))
+		:temp(134)
+		:semi_major_axis(f(126,10000))
+		:eccentricity(f(74,10000))
+		:inclination(math.deg2rad(0.192))
+		:rotation_period(f(167,10)),
+	CustomSBody:new('Discovery Base', Body.Type.STARPORT_ORBITAL)
+		:semi_major_axis(f(7,1000))
+		:rotation_period(f(11,1)),
+}
 
 local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
 	:radius(f(9,1))
@@ -114,6 +199,53 @@ local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
 	:rotation_period(f(4,10))
 	:axial_tilt(math.fixed.deg2rad(f(2673,100)))
 
+local saturn_moons = {
+	CustomSBody:new('Titan', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(400,1000))
+		:mass(f(225,10000))
+		:temp(94)
+		:semi_major_axis(f(82,10000))
+		:eccentricity(f(288,10000))
+		:inclination(math.deg2rad(0.34854))
+		:rotation_period(f(15945,1000)),
+	{
+		CustomSBody:new('Oasis City', Body.Type.STARPORT_SURFACE)
+			:latitude(math.deg2rad(18.4))
+			:longitude(math.deg2rad(196)),
+		CustomSBody:new('Port Makenzie', Body.Type.STARPORT_SURFACE)
+			:latitude(math.deg2rad(1))
+			:longitude(math.deg2rad(14)),
+		CustomSBody:new('Daniel\'s Haven', Body.Type.STARPORT_ORBITAL)
+			:semi_major_axis(f(12,500000))
+			:eccentricity(f(50,1000))
+			:rotation_period(f(11,9)),
+	},
+	CustomSBody:new('Rhea', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(12,100))
+		:mass(f(39,10000))
+		:temp(81)
+		:semi_major_axis(f(441,100000))
+		:eccentricity(f(126,100000))
+		:inclination(math.deg2rad(0.345))
+		:rotation_period(f(452,100)),
+	CustomSBody:new('Iapetus', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(1155,10000))
+		:mass(f(3,10000))
+		:temp(115)
+		:semi_major_axis(f(238,10000))
+		:eccentricity(f(29,1000))
+		:inclination(math.deg2rad(15.47))
+		:rotation_period(f(7932,100)),
+	CustomSBody:new('Dione', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(881,10000))
+		:mass(f(328,1000000))
+		:temp(87)
+		:semi_major_axis(f(252,100000))
+		:eccentricity(f(22,10000))
+		:inclination(math.deg2rad(0.019))
+		:rotation_period(f(2737,1000)),
+}
+
 local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
 	:radius(f(4,1))
 	:mass(f(145,10))
@@ -123,6 +255,41 @@ local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
 	:inclination(math.deg2rad(0.772))
 	:rotation_period(f(7,10))
 	:axial_tilt(math.fixed.deg2rad(f(9777,100)))
+
+local uranus_moons = {
+	CustomSBody:new('Titania', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(1235,10000))
+		:mass(f(5908,10000000))
+		:temp(70)
+		:semi_major_axis(f(2913,1000000))
+		:eccentricity(f(11,10000))
+		:inclination(math.deg2rad(0.34))
+		:rotation_period(f(87,10)),
+	CustomSBody:new('Oberon', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(1194,10000))
+		:mass(f(5046,10000000))
+		:temp(75)
+		:semi_major_axis(f(39,10000))
+		:eccentricity(f(14,10000))
+		:inclination(math.deg2rad(0.058))
+		:rotation_period(f(135,10)),
+	CustomSBody:new('Umbriel', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(92,1000))
+		:mass(f(2,10000))
+		:temp(75)
+		:semi_major_axis(f(178,100000))
+		:eccentricity(f(39,10000))
+		:inclination(math.deg2rad(0.128))
+		:rotation_period(f(4144,1000)),
+	CustomSBody:new('Ariel', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(908,10000))
+		:mass(f(226,1000000))
+		:temp(60)
+		:semi_major_axis(f(1277,1000000))
+		:eccentricity(f(12,10000))
+		:inclination(math.deg2rad(0.26))
+		:rotation_period(f(252,100)),
+}
 
 local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
 	:radius(f(38,10))
@@ -134,6 +301,37 @@ local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
 	:rotation_period(f(75,100))
 	:axial_tilt(math.fixed.deg2rad(f(2832,100)))
 
+local neptune_moons = {
+	CustomSBody:new('Triton', Body.Type.PLANET_TERRESTRIAL)
+		:radius(f(2122,10000))
+		:mass(f(359,100000))
+		:temp(38)
+		:semi_major_axis(f(2371,100000))
+		:eccentricity(f(16,1000000))
+		:inclination(math.deg2rad(156.885))
+		:rotation_period(f(141,24)),
+	{
+		CustomSBody:new('Poseidon Station', Body.Type.STARPORT_ORBITAL)
+			:semi_major_axis(f(12,500000))
+			:rotation_period(f(11,7)),
+	},
+	CustomSBody:new('Nereid', Body.Type.PLANET_ASTEROID)
+		:mass(f(519,100000000))
+		:temp(50)
+		:semi_major_axis(f(3685,100000))
+		:eccentricity(f(75,100))
+		:inclination(math.deg2rad(32.55))
+		:rotation_period(f(115,240)),
+	CustomSBody:new('Proteus', Body.Type.PLANET_ASTEROID)
+		:radius(f(310,10000))
+		:mass(f(710,100000000))
+		:temp(51)
+		:semi_major_axis(f(786,1000000))
+		:eccentricity(f(53,100000))
+		:inclination(math.deg2rad(0.524))
+		:rotation_period(f(1122,1000)),
+}
+
 local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
 	:radius(f(18,100))
 	:mass(f(21,10000))
@@ -144,290 +342,31 @@ local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
 	:rotation_period(f(153,24))
 	:axial_tilt(math.fixed.deg2rad(f(296,10)))
 
+local pluto_starports = {
+	CustomSBody:new('Pluto Research Base', Body.Type.STARPORT_SURFACE)
+		:latitude(math.deg2rad(84))
+		:longitude(math.deg2rad(96)),
+}
+
 s:bodies(sol, {
 	mercury,
 	venus,
 	earth,
 		earth_starports,
-		earth_spaceports,
+		moon,
 	mars,
+		mars_starports,
+		mars_moons,
+	jupiter,
+		jupiter_moons,
 	saturn,
+		saturn_moons,
 	uranus,
+		uranus_moons,
 	neptune,
-	pluto
+		neptune_moons,
+	pluto,
+		pluto_starports,
 })
 
 s:add_to_sector(0,0,v(0.5,0.5,0))
-
---[[
-
-mars_children = {
-	{
-		name('Cydonia')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(-29))
-		longitude(math.deg2rad(124))
-	}, {
-		name('Olympus Mons')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(30))
-		longitude(math.deg2rad(-37))
-	}, {
-		name('Mars High')
-		type(TYPE_STARPORT_ORBITAL)
-		semi_major_axis(f(5068,100000000))
-		rotation_period(f(11,24))
-	}, {
-		name('Phobos')
-		type(TYPE_PLANET_LARGE_ASTEROID)
-		radius(f(21,10000))
-		mass(f(18,10000000000))
-		temp(233)
-		semi_major_axis(f(6268,100000000))
-		eccentricity(f(151,10000))
-		latitude(math.deg2rad(1.093))
-		rotation_period(f(11,24))
-		children = { {
-			name('Phobos Base')
-			type(TYPE_STARPORT_SURFACE)
-			latitude(math.deg2rad(5))
-			longitude(math.deg2rad(-5))
-		} },
-	}, {
-		name('Deimos')
-		type(TYPE_PLANET_ASTEROID)
-		radius(f(12,10000))
-		mass(f(25,100000000000))
-		temp(233)
-		semi_major_axis(f(1568,10000000))
-		eccentricity(f(2,10000))
-		latitude(math.deg2rad(0.93))
-		rotation_period(f(30,24))
-		children = { {
-			name('Tomm\'s Sanctuary')
-			type(TYPE_STARPORT_SURFACE)
-		} },
-	},
-}
-
-jupiter_children = {
-	{
-		name('Io')
-		type(TYPE_PLANET_HIGHLY_VOLCANIC)
-		radius(f(286,1000))
-		mass(f(15,1000))
-		temp(130)
-		semi_major_axis(f(282,100000))
-		eccentricity(f(41,10000))
-		latitude(math.deg2rad(2.21))
-		rotation_period(f(177,100))
-		children = { {
-			name('Dante\'s Base')
-			type(TYPE_STARPORT_SURFACE)
-			latitude(math.deg2rad(-0.5))
-			longitude(math.deg2rad(26.2))
-		} },
-	}, {
-		name('Europa')
-		type(TYPE_PLANET_WATER)
-		radius(f(245,1000))
-		mass(f(8,1000))
-		temp(102)
-		semi_major_axis(f(441,100000))
-		eccentricity(f(9,1000))
-		rotation_period(f(355,100))
-		children = { {
-			name('Clarke\'s Station')
-			type(TYPE_STARPORT_ORBITAL)
-			semi_major_axis(f(12,500000))
-			rotation_period(f(1,24*60*3))
-		} },
-	}, {
-		name('Ganymede')
-		type(TYPE_PLANET_SMALL)
-		radius(f(413,1000))
-		mass(f(25,1000))
-		temp(110)
-		semi_major_axis(f(72,10000))
-		eccentricity(f(13,10000))
-		latitude(math.deg2rad(0.2))
-		rotation_period(f(72,10))
-		children = { {
-			name('Enki Catena')
-			type(TYPE_STARPORT_SURFACE)
-			latitude(math.deg2rad(84))
-			longitude(math.deg2rad(96))
-		} },
-	}, {
-		name('Callisto')
-		type(TYPE_PLANET_DWARF)
-		radius(f(378,1000))
-		mass(f(18,1000))
-		temp(134)
-		semi_major_axis(f(126,10000))
-		eccentricity(f(74,10000))
-		latitude(math.deg2rad(0.192))
-		rotation_period(f(167,10))
-	}, {
-		name('Discovery Base')
-		type(TYPE_STARPORT_ORBITAL)
-		semi_major_axis(f(7,1000))
-		rotation_period(f(11,1))
-	},
-}
-
-saturn_children = {
-	{
-		name('Titan')
-		type(TYPE_PLANET_METHANE_THICK_ATMOS)
-		radius(f(400,1000))
-		mass(f(225,10000))
-		temp(94)
-		semi_major_axis(f(82,10000))
-		eccentricity(f(288,10000))
-		latitude(math.deg2rad(0.34854))
-		rotation_period(f(15945,1000))
-		children = { {
-			name('Oasis City')
-			type(TYPE_STARPORT_SURFACE)
-			latitude(math.deg2rad(18.4))
-			longitude(math.deg2rad(196))
-		}, {
-			name('Port Makenzie')
-			type(TYPE_STARPORT_SURFACE)
-			latitude(math.deg2rad(1))
-			longitude(math.deg2rad(14))
-		}, {
-			name('Daniel\'s Haven')
-			type(TYPE_STARPORT_ORBITAL)
-			semi_major_axis(f(12,500000))
-			eccentricity(f(50,1000))
-			rotation_period(f(11,9))
-		} },
-	}, {
-		name('Rhea')
-		type(TYPE_PLANET_DWARF)
-		radius(f(12,100))
-		mass(f(39,10000))
-		temp(81)
-		semi_major_axis(f(441,100000))
-		eccentricity(f(126,100000))
-		latitude(math.deg2rad(0.345))
-		rotation_period(f(452,100))
-	}, {
-		name('Iapetus')
-		type(TYPE_PLANET_DWARF)
-		radius(f(1155,10000))
-		mass(f(3,10000))
-		temp(115)
-		semi_major_axis(f(238,10000))
-		eccentricity(f(29,1000))
-		latitude(math.deg2rad(15.47))
-		rotation_period(f(7932,100))
-	}, {
-		name('Dione')
-		type(TYPE_PLANET_DWARF)
-		radius(f(881,10000))
-		mass(f(328,1000000))
-		temp(87)
-		semi_major_axis(f(252,100000))
-		eccentricity(f(22,10000))
-		latitude(math.deg2rad(0.019))
-		rotation_period(f(2737,1000))
-	},
-}
-
-uranus_children = {
-	{
-		name('Titania')
-		type(TYPE_PLANET_DWARF)
-		radius(f(1235,10000))
-		mass(f(5908,10000000))
-		temp(70)
-		semi_major_axis(f(2913,1000000))
-		eccentricity(f(11,10000))
-		latitude(math.deg2rad(0.34))
-		rotation_period(f(87,10))
-	}, {
-		name('Oberon')
-		type(TYPE_PLANET_DWARF)
-		radius(f(1194,10000))
-		mass(f(5046,10000000))
-		temp(75)
-		semi_major_axis(f(39,10000))
-		eccentricity(f(14,10000))
-		latitude(math.deg2rad(0.058))
-		rotation_period(f(135,10))
-	}, {
-		name('Umbriel')
-		type(TYPE_PLANET_DWARF)
-		radius(f(92,1000))
-		mass(f(2,10000))
-		temp(75)
-		semi_major_axis(f(178,100000))
-		eccentricity(f(39,10000))
-		latitude(math.deg2rad(0.128))
-		rotation_period(f(4144,1000))
-	}, {
-		name('Ariel')
-		type(TYPE_PLANET_DWARF)
-		radius(f(908,10000))
-		mass(f(226,1000000))
-		temp(60)
-		semi_major_axis(f(1277,1000000))
-		eccentricity(f(12,10000))
-		latitude(math.deg2rad(0.26))
-		rotation_period(f(252,100))
-	},
-}
-
-neptune_children = {
-	{
-		name('Triton')
-		type(TYPE_PLANET_WATER)
-		radius(f(2122,10000))
-		mass(f(359,100000))
-		temp(38)
-		semi_major_axis(f(2371,100000))
-		eccentricity(f(16,1000000))
-		latitude(math.deg2rad(156.885))
-		rotation_period(f(141,24))
-		children = { {
-			name('Poseidon Station')
-			type(TYPE_STARPORT_ORBITAL)
-			semi_major_axis(f(12,500000))
-			rotation_period(f(11,7))
-		} },
-	}, {
-		name('Nereid')
-		type(TYPE_PLANET_ASTEROID)
-		radius(f(267,10000))
-		mass(f(519,100000000))
-		temp(50)
-		semi_major_axis(f(3685,100000))
-		eccentricity(f(75,100))
-		latitude(math.deg2rad(32.55))
-		rotation_period(f(115,240))
-	}, {
-		name('Proteus')
-		type(TYPE_PLANET_LARGE_ASTEROID)
-		radius(f(310,10000))
-		mass(f(710,100000000))
-		temp(51)
-		semi_major_axis(f(786,1000000))
-		eccentricity(f(53,100000))
-		latitude(math.deg2rad(0.524))
-		rotation_period(f(1122,1000))
-	},
-}
-
-pluto_children = {
-	{
-		name('Pluto Research Base')
-		type(TYPE_STARPORT_SURFACE)
-		latitude(math.deg2rad(84))
-		longitude(math.deg2rad(96))
-	},
-}
-]]--
-
