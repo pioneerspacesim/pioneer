@@ -49,6 +49,14 @@ public:
 	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }
 	inline CustomSBody* l_axial_tilt(pi_fixed &t) { axialTilt = t; return this; }
 	inline CustomSBody* l_height_map(std::string f) { heightMapFilename = f; return this; }
+
+	inline CustomSBody* l_metallicity(pi_fixed& f) { metallicity = f; return this; }
+	inline CustomSBody* l_volatile_gas(pi_fixed& f) { volatileGas = f; return this; }
+	inline CustomSBody* l_volatile_liquid(pi_fixed& f) { volatileLiquid = f; return this; }
+	inline CustomSBody* l_volatile_ices(pi_fixed& f) { volatileIces = f; return this; }
+	inline CustomSBody* l_volcanicity(pi_fixed& f) { volcanicity = f; return this; }
+	inline CustomSBody* l_atmos_oxidizing(pi_fixed& f) { atmosOxidizing = f; return this; }
+	inline CustomSBody* l_life(pi_fixed& f) { life = f; return this; }
 };
 
 OOLUA_CLASS_NO_BASES(CustomSBody)
@@ -70,6 +78,13 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(rotation_period, CustomSBody*, l_rotation_period, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, CustomSBody*, l_axial_tilt, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(height_map, CustomSBody*, l_height_map, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(metallicity, CustomSBody*, l_metallicity, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(volatile_gas, CustomSBody*, l_volatile_gas, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(volatile_liquid, CustomSBody*, l_volatile_liquid, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(volatile_ices, CustomSBody*, l_volatile_ices, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(volcanicity, CustomSBody*, l_volcanicity, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(atmos_oxidizing, CustomSBody*, l_atmos_oxidizing, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(life, CustomSBody*, l_life, pi_fixed&)
 OOLUA_CLASS_END
 
 class CustomSystem {

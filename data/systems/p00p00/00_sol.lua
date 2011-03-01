@@ -36,6 +36,13 @@ local earth = CustomSBody:new('Earth', Body.Type.PLANET_TERRESTRIAL)
 	:rotation_period(f(1,1))
 	:axial_tilt(math.fixed.deg2rad(f(2344,100)))
 	:height_map('data/earth.hmap')
+	:metallicity(f(1,2))
+	:volatile_gas(f(1,1))
+	:volatile_liquid(f(7,10))
+	:volatile_ices(f(3,100))
+	:volcanicity(f(1,10))
+	:atmos_oxidizing(f(8,10))
+	:life(f(9,10))
 
 local earth_starports = {
 	CustomSBody:new('Shanghai', Body.Type.STARPORT_SURFACE)

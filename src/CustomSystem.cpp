@@ -140,5 +140,11 @@ CustomSBody::CustomSBody(std::string s, int t)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
-EXPORT_OOLUA_FUNCTIONS_NON_CONST(CustomSBody, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period, axial_tilt, height_map)
 
+// this is the same as EXPORT_OOLUA_FUNCTIONS_18_NON_CONST. oolua doesn't
+// provide a macro for that many members, and the varargs version seems to
+// fail after 16 parameters
+CLASS_LIST_MEMBERS_START_OOLUA_NON_CONST(CustomSBody)
+LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period)
+LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, axial_tilt, height_map, metallicity, volatile_gas, volatile_liquid, volatile_ices, volcanicity, atmos_oxidizing, life)
+CLASS_LIST_MEMBERS_END
