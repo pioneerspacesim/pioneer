@@ -108,5 +108,5 @@ CustomSBody::CustomSBody(std::string s, int t)
 }
 
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
-EXPORT_OOLUA_FUNCTIONS_NON_CONST(CustomSBody, radius, mass, average_temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period, axial_tilt, height_map_filename, add)
+EXPORT_OOLUA_FUNCTIONS_NON_CONST(CustomSBody, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude, rotation_period, axial_tilt, height_map, add)
 

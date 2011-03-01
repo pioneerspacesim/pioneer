@@ -41,14 +41,14 @@ public:
 
 	inline void l_radius(pi_fixed& r) { radius = r; }
 	inline void l_mass(pi_fixed& m) { mass = m; }
-	inline void l_average_temp(int t) { averageTemp = t; }
+	inline void l_temp(int t) { averageTemp = t; }
 	inline void l_semi_major_axis(pi_fixed& n) { semiMajorAxis = n; }
 	inline void l_eccentricity(pi_fixed& e) { eccentricity = e; }
 	inline void l_latitude(float l) { latitude = l; }
 	inline void l_longitude(float l) { longitude = l; }
 	inline void l_rotation_period(pi_fixed &p) { rotationPeriod = p; }
 	inline void l_axial_tilt(pi_fixed &t) { axialTilt = t; }
-	inline void l_height_map_filename(std::string f) { heightMapFilename = f; }
+	inline void l_height_map(std::string f) { heightMapFilename = f; }
 
 	inline void l_add(CustomSBody& sbody) { children.push_back(sbody); }
 };
@@ -63,7 +63,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 
 	OOLUA_MEM_FUNC_1_RENAME(radius, void, l_radius, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(mass, void, l_mass, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(average_temp, void, l_average_temp, int)
+	OOLUA_MEM_FUNC_1_RENAME(temp, void, l_temp, int)
 	OOLUA_MEM_FUNC_1_RENAME(semi_major_axis, void, l_semi_major_axis, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(eccentricity, void, l_eccentricity, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(latitude, void, l_latitude, float)
@@ -71,7 +71,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(longitude, void, l_longitude, float)
 	OOLUA_MEM_FUNC_1_RENAME(rotation_period, void, l_rotation_period, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, void, l_axial_tilt, pi_fixed&)
-	OOLUA_MEM_FUNC_1_RENAME(height_map_filename, void, l_height_map_filename, std::string)
+	OOLUA_MEM_FUNC_1_RENAME(height_map, void, l_height_map, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(add, void, l_add, CustomSBody&)
 OOLUA_CLASS_END
 
