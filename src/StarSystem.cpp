@@ -64,6 +64,20 @@ double StarSystem::starLuminosities[] = {
 	0.1, // white dwarf
 };
 
+fixed StarSystem::starMetallicities[] = {
+	fixed(0,1),
+	fixed(9,10), // brown dwarf
+	fixed(7,10), // M0
+	fixed(6,10), // K0
+	fixed(5,10), // G0
+	fixed(4,10), // F0
+	fixed(3,10), // A0
+	fixed(2,10), // B0
+	fixed(1,10), // O5
+	fixed(8,10), // red giant
+	fixed(5,10), // white dwarf
+};
+
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
 	int mass[2]; // min,max % sol for stars, unused for planets
@@ -905,6 +919,8 @@ try_that_again_guvnah:
 
 		}
 	}
+
+	m_metallicity = starMetallicities[rootBody->type];
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 

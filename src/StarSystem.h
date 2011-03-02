@@ -232,6 +232,7 @@ public:
 	static float starColors[][3];
 	static float starRealColors[][3];
 	static double starLuminosities[];
+	static fixed starMetallicities[];
 
 	struct BodyStats {
 
