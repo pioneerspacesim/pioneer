@@ -29,11 +29,10 @@
 #ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #endif
+#endif /* __MINGW32__ */
 
 #else
 #include <alloca.h>
-#endif
-
 #endif
 
 #ifdef _WIN32
