@@ -92,23 +92,34 @@ static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children
 	while (1) {
 		CustomSBody *kid;
 
-		if (children.safe_at(i++, kid) && kid != NULL) {
+		if (!children.safe_at(i++, kid))
+			break;
+
+		if (kid == NULL) {
+			// XXX something in the table that shouldn't be there. I still
+			// don't have a good way to trigger a proper lua error from inside
+			// a oolua method
+			printf("not sbody or table\n");
+			assert(0);
+		}
+
+		else {
 			while (1) {
 				OOLUA::Lua_table sub;
-				if (children.safe_at(i, sub) && sub.valid()) {
-					_add_children_to_sbody(kid, sub);
-					i++;
-					continue;
-				}
-				break;
-			}
 
-			sbody->children.push_back(*kid);
+				if (!children.safe_at(i, sub))
+					break;
+
+				if (!sub.valid())
+					break;
+
+				_add_children_to_sbody(kid, sub);
+				i++;
+				continue;
+			}
 		}
-		else {
-			// XXX error if they passed something thats not a sbody
-			break;
-		}
+
+		sbody->children.push_back(*kid);
 	}
 }
 
