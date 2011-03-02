@@ -36,6 +36,9 @@ public:
 	fixed atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed life; // 0.0 = dead, 1.0 = teeming
 
+	Uint32 seed;
+	bool   want_rand_seed;
+
 	// lua interface
 	CustomSBody(std::string s, int type);
 
@@ -57,6 +60,8 @@ public:
 	inline CustomSBody* l_volcanicity(pi_fixed& f) { volcanicity = f; return this; }
 	inline CustomSBody* l_atmos_oxidizing(pi_fixed& f) { atmosOxidizing = f; return this; }
 	inline CustomSBody* l_life(pi_fixed& f) { life = f; return this; }
+
+	inline CustomSBody* l_seed(int s) { seed = s; want_rand_seed = false; return this; }
 };
 
 OOLUA_CLASS_NO_BASES(CustomSBody)
@@ -67,6 +72,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 		OOLUA_CONSTRUCTOR_2(std::string, int)
 	OOLUA_CONSTRUCTORS_END
 
+	OOLUA_MEM_FUNC_1_RENAME(seed, CustomSBody*, l_seed, int)
 	OOLUA_MEM_FUNC_1_RENAME(radius, CustomSBody*, l_radius, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(mass, CustomSBody*, l_mass, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(temp, CustomSBody*, l_temp, int)
