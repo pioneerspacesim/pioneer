@@ -917,7 +917,12 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
-Gui::Button *WorldView::AddCommsNavOption(std::string msg)
+static void PlayerSetNavTarget(Body *target)
+{
+	Pi::player->SetNavTarget(target);
+}
+
+Gui::Button *WorldView::AddCommsNavOption(std::string msg, Body *target)
 {
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5);
@@ -929,6 +934,8 @@ Gui::Button *WorldView::AddCommsNavOption(std::string msg)
 	// hide target actions when things get clicked on
 	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
 	hbox->PackStart(b);
+
+	b->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerSetNavTarget), target));
 
 	m_commsNavOptions->PackEnd(hbox);
 	return b;
@@ -1025,7 +1032,10 @@ void WorldView::UpdateCommsOptions()
 		Gui::Button *button;
 		for ( std::vector<SBody*>::iterator i = Pi::currentSystem->m_spaceStations.begin();
 		      i != Pi::currentSystem->m_spaceStations.end(); i++) {
-			button = AddCommsNavOption((*i)->name);
+			SBodyPath path;
+			Pi::currentSystem->GetPathOf(*i, &path);
+			Body *body = Space::FindBodyForSBodyPath(&path);
+			button = AddCommsNavOption((*i)->name, body);
 	    }
     }
 
