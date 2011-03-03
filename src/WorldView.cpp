@@ -45,6 +45,10 @@ WorldView::WorldView(): View()
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
+	m_commsNavOptions = new Fixed(size[0], size[1]/2);
+	m_commsNavOptions->SetTransparency(true);
+	Add(m_commsNavOptions, size[0]-260, 20);
+
 	m_wheelsButton = new Gui::MultiStateImageButton();
 	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_wheelsButton->AddState(0, PIONEER_DATA_DIR "/icons/wheels_up.png", "Wheels are up");
@@ -609,10 +613,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
 			m_showTargetActionsTimeout = 0;
 			m_commsOptions->DeleteAllChildren();
+			m_commsNavOptions->DeleteAllChildren();
 		}
 		m_commsOptions->ShowAll();
+		m_commsNavOptions->ShowAll();
 	} else {
 		m_commsOptions->Hide();
+		m_commsNavOptions->Hide();
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
@@ -897,6 +904,18 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
+Gui::Button *WorldView::AddCommsNavOption(std::string msg, int ypos)
+{
+	Gui::Label *l = new Gui::Label(msg);
+	m_commsNavOptions->Add(l, 50, (float)ypos);
+
+	Gui::Button *b = new Gui::SolidButton();
+	// hide target actions when things get clicked on
+	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
+	m_commsNavOptions->Add(b, 16, (float)ypos);
+	return b;
+}
+
 static void PlayerRequestDockingClearance(SpaceStation *s)
 {
 	std::string msg;
@@ -977,8 +996,23 @@ static void player_target_hypercloud(HyperspaceCloud *cloud)
 void WorldView::UpdateCommsOptions()
 {
 	m_commsOptions->DeleteAllChildren();
+	m_commsNavOptions->DeleteAllChildren();
 
 	if (m_showTargetActionsTimeout == 0) return;
+
+	if (Pi::currentSystem->m_spaceStations.size() > 0)
+	{
+		int ypos = 0;
+		m_commsNavOptions->Add(new Gui::Label("#ff0Navigation targets in this system"), 16, (float)ypos);
+		ypos += 32;
+
+		Gui::Button *button;
+		for ( std::vector<SBody*>::iterator i = Pi::currentSystem->m_spaceStations.begin();
+		      i != Pi::currentSystem->m_spaceStations.end(); i++) {
+			button = AddCommsNavOption((*i)->name, ypos);
+			ypos += 32;
+	    }
+    }
 
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();

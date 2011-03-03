@@ -52,6 +52,7 @@ private:
 	void DrawCombatTargetIndicator(const Ship* const target);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
+	Gui::Button *AddCommsNavOption(const std::string msg, int ypos);
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
@@ -65,6 +66,7 @@ private:
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
+	Gui::Fixed *m_commsNavOptions;
 	Gui::Label *m_flightStatus, *m_hyperTargetLabel, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
