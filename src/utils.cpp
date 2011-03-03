@@ -56,6 +56,29 @@ std::string GetPiUserDir(const std::string &subdir)
 		closedir(dir);
 	}
 	return path+"/";
+#elif defined(__MINGW32__)
+
+	/* XXX limiting this implementation to mingw32 for now, because the normal
+	 * win32 seems to work fine under msvc and I'm unable to test thoroughly */
+	std::string path = getenv("appdata");
+	path += "\\Pioneer";
+
+	struct stat st;
+	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
+		exit(-1);
+	}
+
+	if (subdir.length() > 0) {
+		path += "\\" + subdir;
+		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
+			exit(-1);
+		}
+	}
+
+	return path + "\\";
+
 #elif defined(_WIN32)
 	try {
 		TCHAR path[MAX_PATH];
