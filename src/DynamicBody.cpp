@@ -137,9 +137,10 @@ void DynamicBody::CalcExternalForce()
 		vector3d fDrag = -0.5*density*speed*speed*AREA*DRAG_COEFF*m_vel.Normalized();
 
 		// make this a bit less daft at high time accel
-		if (Pi::GetTimeAccel() > 1000) m_atmosForce += 0.01 * (fDrag - m_atmosForce);
-		else if (Pi::GetTimeAccel() > 100) m_atmosForce += 0.1 * (fDrag - m_atmosForce);
-		else m_atmosForce = fDrag;
+		// better way? cap force to some percentage of velocity given current timestep...
+		m_atmosForce += 0.01 * (fDrag - m_atmosForce);
+//		else if (Pi::GetTimeAccel() > 100) m_atmosForce += 0.1 * (fDrag - m_atmosForce);
+//		else m_atmosForce = fDrag;
 
 		m_externalForce += m_atmosForce;
 	}
@@ -183,6 +184,10 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_orient[14] = pos.z;
 		TriMeshUpdateLastPos(m_orient);
 
+//printf("vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
+//	m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
+//	m_externalForce.x, m_externalForce.y, m_externalForce.z);
+
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
 		CalcExternalForce();			// regenerate for new pos/vel
@@ -195,8 +200,10 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 // for timestep changes, to stop autopilot overshoot
 void DynamicBody::ApplyAccel(const float timeStep)
 {
-	m_vel += (double)timeStep * m_force * (1.0 / m_mass);
-	m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
+//	vector3d newvel = m_vel + (double)timeStep * m_force * (1.0 / m_mass);
+//	if (newvel.LengthSqr() < m_vel.LengthSqr()) m_vel = newvel;
+//	vector3d newav = m_angVel + (double)timeStep * m_torque * (1.0 / m_angInertia);
+//	if (newav.LengthSqr() < m_angVel.LengthSqr()) m_angVel = newav;
 }
 
 void DynamicBody::UpdateInterpolatedTransform(double alpha)

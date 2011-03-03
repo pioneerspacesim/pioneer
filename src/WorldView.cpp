@@ -223,7 +223,7 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-//TEST CODE	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
+	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
@@ -596,7 +596,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
-/*		vector3d pos = Pi::player->GetPosition();
+		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Space::rootFrame);
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
@@ -608,7 +608,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
 			rel_to, pos.Length()/1000, rot_frame,
 			g_navbodycount);
-*/
+/*
 		Frame *f = Pi::player->GetFrame();
 		vector3d v1 = Pi::player->GetVelocity();
 		vector3d v2 = f->GetStasisVelocityAtPosition(Pi::player->GetPosition());
@@ -631,7 +631,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			"vel relto root frame: %.1f,%.1f,%.1f\n",
 			v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z, 
 			v5.x, v5.y, v5.z, v6.x, v6.y, v6.z, v7.x, v7.y, v7.z);
-
+*/
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
