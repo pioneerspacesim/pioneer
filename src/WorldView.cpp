@@ -45,9 +45,22 @@ WorldView::WorldView(): View()
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
-	m_commsNavOptions = new Fixed(size[0], size[1]/2);
-	m_commsNavOptions->SetTransparency(true);
-	Add(m_commsNavOptions, size[0]-260, 20);
+
+	m_commsNavOptionsContainer = new Gui::HBox();
+	m_commsNavOptionsContainer->SetSpacing(5);
+	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
+	Add(m_commsNavOptionsContainer, size[0]-230, 20);
+
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(220, size[1]-50);
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	m_commsNavOptionsContainer->PackStart(scroll);
+	m_commsNavOptionsContainer->PackStart(portal, true);
+
+	m_commsNavOptions = new Gui::VBox();
+	m_commsNavOptions->SetSpacing(5);
+	portal->Add(m_commsNavOptions);
+
 
 	m_wheelsButton = new Gui::MultiStateImageButton();
 	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
@@ -616,10 +629,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_commsNavOptions->DeleteAllChildren();
 		}
 		m_commsOptions->ShowAll();
-		m_commsNavOptions->ShowAll();
+		m_commsNavOptionsContainer->ShowAll();
 	} else {
 		m_commsOptions->Hide();
-		m_commsNavOptions->Hide();
+		m_commsNavOptionsContainer->Hide();
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
@@ -904,15 +917,20 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
-Gui::Button *WorldView::AddCommsNavOption(std::string msg, int ypos)
+Gui::Button *WorldView::AddCommsNavOption(std::string msg)
 {
+	Gui::HBox *hbox = new Gui::HBox();
+	hbox->SetSpacing(5);
+
 	Gui::Label *l = new Gui::Label(msg);
-	m_commsNavOptions->Add(l, 50, (float)ypos);
+	hbox->PackStart(l, true);
 
 	Gui::Button *b = new Gui::SolidButton();
 	// hide target actions when things get clicked on
 	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
-	m_commsNavOptions->Add(b, 16, (float)ypos);
+	hbox->PackStart(b);
+
+	m_commsNavOptions->PackEnd(hbox);
 	return b;
 }
 
@@ -1002,15 +1020,12 @@ void WorldView::UpdateCommsOptions()
 
 	if (Pi::currentSystem->m_spaceStations.size() > 0)
 	{
-		int ypos = 0;
-		m_commsNavOptions->Add(new Gui::Label("#ff0Navigation targets in this system"), 16, (float)ypos);
-		ypos += 32;
+		m_commsNavOptions->PackEnd(new Gui::Label("#ff0Navigation targets in this system"));
 
 		Gui::Button *button;
 		for ( std::vector<SBody*>::iterator i = Pi::currentSystem->m_spaceStations.begin();
 		      i != Pi::currentSystem->m_spaceStations.end(); i++) {
-			button = AddCommsNavOption((*i)->name, ypos);
-			ypos += 32;
+			button = AddCommsNavOption((*i)->name);
 	    }
     }
 
