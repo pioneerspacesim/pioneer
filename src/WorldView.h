@@ -53,6 +53,8 @@ private:
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
 	Gui::Button *AddCommsNavOption(const std::string msg, Body *target);
+	void OnClickCommsNavOption(Body *target);
+
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);

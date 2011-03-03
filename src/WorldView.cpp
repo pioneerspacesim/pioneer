@@ -917,9 +917,10 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
-static void PlayerSetNavTarget(Body *target)
+void WorldView::OnClickCommsNavOption(Body *target)
 {
 	Pi::player->SetNavTarget(target);
+	m_showTargetActionsTimeout = SDL_GetTicks();
 }
 
 Gui::Button *WorldView::AddCommsNavOption(std::string msg, Body *target)
@@ -931,13 +932,11 @@ Gui::Button *WorldView::AddCommsNavOption(std::string msg, Body *target)
 	hbox->PackStart(l, true);
 
 	Gui::Button *b = new Gui::SolidButton();
-	// hide target actions when things get clicked on
-	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
+	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
 	hbox->PackStart(b);
 
-	b->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerSetNavTarget), target));
-
 	m_commsNavOptions->PackEnd(hbox);
+
 	return b;
 }
 
