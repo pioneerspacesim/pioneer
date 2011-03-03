@@ -20,8 +20,7 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 	switch (name) {
 		case CMD_NONE: default: return 0;
 //		case CMD_JOURNEY: return new AICmdJourney(rd);
-//		case CMD_DOCK: return new AICmdDock(rd);
-//		case CMD_ORBIT: return new AICmdOrbit(rd);
+		case CMD_DOCK: return new AICmdDock(rd);
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_KILL: return new AICmdKill(rd);
 		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);

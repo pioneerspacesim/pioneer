@@ -28,32 +28,7 @@ struct shipstats_t {
 	float shield_mass_left;
 };
 
-struct AIPath {
-	BezierCurve path;
-	double endTime;
-	double startTime;
-	Frame *frame;
 
-	void Save(Serializer::Writer &wr) {
-		wr.Double(endTime);
-		if (endTime == 0.0) return;
-		wr.Double(startTime);
-		wr.Int32(Serializer::LookupFrame(frame));
-		path.Save(wr);
-	}
-	void Load(Serializer::Reader &rd)
-	{
-		endTime = rd.Double();
-		if (endTime == 0.0) return;
-		startTime = rd.Double();
-		frame = (Frame *)rd.Int32();
-		path.Load(rd);
-	}
-	void PostLoadFixup() {
-		if (endTime == 0.0) return;
-		frame = (Frame *)Serializer::LookupFrame((size_t)frame);
-	}
-};
 
 class Ship: public DynamicBody, public MarketAgent {
 public:
@@ -133,16 +108,9 @@ public:
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
 
 	// old stuff, deprecated
-	void AISlowOrient(const matrix4x4d &dir);
-	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
-	void AITrySetBodyRelativeThrust(const vector3d &force);
-
-	bool AIAddAvoidancePathOnWayTo(const Body *target, AIPath &);
-	bool AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor, double &outDist);
-	bool AIFollowPath(AIPath &, bool pointShipAtVelocityVector = false);
 
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }

@@ -38,11 +38,11 @@ public:
 	// Override to clear any pointers you hold to the body
 	virtual void NotifyDeleted(const Body* const deletedBody) {}
 
-	virtual void TimeStepUpdate(const float timeStep) {}
-	// after all bodies have had TimeStepUpdate (their moving step),
+	// before all bodies have had TimeStepUpdate (their moving step),
 	// StaticUpdate() is called. Good for special collision testing (Projectiles)
 	// as you can't test for collisions if different objects are on different 'steps'
 	virtual void StaticUpdate(const float timeStep) {}
+	virtual void TimeStepUpdate(const float timeStep) {}
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 
 	virtual void SetFrame(Frame *f) { m_frame = f; }
