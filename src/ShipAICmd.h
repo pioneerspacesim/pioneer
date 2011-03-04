@@ -98,14 +98,14 @@ public:
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupFrame(m_targframe));
 		wr.Int32(Serializer::LookupFrame(m_frame));
-		wr.Vector3d(m_posoff); wr.Vector3d(m_relpos);
+		wr.Vector3d(m_posoff); wr.Vector3d(m_reldir);
 		wr.Double(m_endvel); wr.Double(m_orbitrad);
 		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
 		m_targframe = (Frame *)rd.Int32();
 		m_frame = (Frame *)rd.Int32();
-		m_posoff = rd.Vector3d(); m_relpos = rd.Vector3d();
+		m_posoff = rd.Vector3d(); m_reldir = rd.Vector3d();
 		m_endvel = rd.Double();	m_orbitrad = rd.Double();
 		m_state = rd.Int32(); m_coll = rd.Bool();
 	}
@@ -116,7 +116,6 @@ public:
 	}
 
 protected:
-	void GetAwayFromBody(Body *body, vector3d &targpos);
 	void NavigateAroundBody(Body *body, vector3d &targpos);
 	void CheckCollisions();
 	bool OrbitCorrection();
@@ -127,7 +126,7 @@ private:
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	double m_orbitrad;	// orbital radius in metres
 	Frame *m_frame;	// current frame of ship, used to check for changes	
-	vector3d m_relpos;	// target position relative to ship at last frame change
+	vector3d m_reldir;	// target direction relative to ship at last frame change
 	int m_state;		// see TimeStepUpdate()
 	bool m_coll;		// whether to bother checking for collisions
 };

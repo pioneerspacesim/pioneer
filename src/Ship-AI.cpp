@@ -142,7 +142,7 @@ static double calc_ivel(double dist, double vel, double acc)
 	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
 
 	double endvel = ivel - (acc * Pi::GetTimeStep());
-	if (endvel <= vel) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
+	if (vel == 0.0 && endvel <= 0) ivel = dist / Pi::GetTimeStep();	// last frame discrete correction
 	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
 //	else ivel = endvel + 0.5*acc/PHYSICS_HZ;			// unknown next timestep discrete overshoot correction
 
@@ -239,7 +239,7 @@ vector3d Ship::AIGetNextFramePos()
 	return pos;
 }
 
-bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
+double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 {
 	double timeStep = Pi::GetTimeStep();
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -251,9 +251,10 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 	
 	vector3d uphead = (updir * rot).Normalized();		// create desired object-space updir
 	vector3d dav(0.0, 0.0, 0.0);			// desired angular velocity
+	double ang = 0.0;
 	if (uphead.y < 0.999999)
 	{
-		double ang = acos(Clamp(uphead.y, -1.0, 1.0));		// scalar angle from head to curhead
+		ang = acos(Clamp(uphead.y, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = sqrt(2.0 * maxAccel * ang);	// ideal angvel at current time
 
 		double frameEndAV = iangvel - frameAccel;
@@ -266,16 +267,18 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);
-	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
-	else return true;
+	return ang;
+//	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
+//	else return true;
 }
 
 
 // Input: direction in ship's frame, doesn't need to be normalized
 // Approximate positive angular velocity at match point
 // Applies thrust directly
-// returns whether it can reach that direction in this frame
-bool Ship::AIFaceDirection(const vector3d &dir, double av)
+// old: returns whether it can reach that direction in this frame
+// returns angle to target
+double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
 	double timeStep = Pi::GetTimeStep();
 	matrix4x4d rot; GetRotMatrix(rot);
@@ -285,9 +288,10 @@ bool Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
+	double ang = 0.0;
 	if (head.z > -0.99999999)			
 	{
-		double ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
+		ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time
 
 		double frameEndAV = iangvel - frameAccel;
@@ -304,8 +308,9 @@ bool Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
 	SetAngThrusterState(diff);
-	if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
-	else return true;
+	return ang;
+//if (diff.x*diff.x > 1.0 || diff.y*diff.y > 1.0 || diff.z*diff.z > 1.0) return false;
+//	else return true;
 }
 
 

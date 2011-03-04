@@ -102,8 +102,8 @@ public:
 	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, const vector3d &maxthrust);
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
 	void AIFaceDirectionImmediate(const vector3d &dir);
-	bool AIFaceOrient(const vector3d &dir, const vector3d &updir);
-	bool AIFaceDirection(const vector3d &dir, double av=0);
+	double AIFaceOrient(const vector3d &dir, const vector3d &updir);
+	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
 

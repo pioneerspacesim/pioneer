@@ -530,8 +530,6 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-extern int g_navbodycount;
-
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	if ((!Pi::player) || Pi::player->IsDead()) {
@@ -602,36 +600,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n"
-			"Body navigation count = %i\n",
+			"Rel-to: %s (%.0f km), rotating: %s\n",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame,
-			g_navbodycount);
-/*
-		Frame *f = Pi::player->GetFrame();
-		vector3d v1 = Pi::player->GetVelocity();
-		vector3d v2 = f->GetStasisVelocityAtPosition(Pi::player->GetPosition());
-		vector3d v3 = f->GetAngVelocity();
-		vector3d v4 = f->m_parent->GetVelocity();		// earth non-rot frame vel
+			rel_to, pos.Length()/1000, rot_frame);
 
-		vector3d v5 = Frame::GetFrameRelativeVelocity(f, Space::rootFrame);
-		vector3d v6 = Frame::GetFrameRelativeVelocity(Space::rootFrame, f);
-	//	vector3d v5 = Pi::player->GetVelocityRelTo(f);
-	//	vector3d v6 = Pi::player->GetVelocityRelTo(f->m_parent);
-		vector3d v7 = Pi::player->GetVelocityRelTo(Space::rootFrame);
-
-		snprintf(buf, sizeof(buf), "player vel: %.1f,%.1f,%.1f\n"
-			"stasis vel: %.1f,%.1f,%.1f\n"
-			"non-rot frame vel: %.1f,%.1f,%.1f\n"
-//			"vel relto rot frame: %.1f,%.1f,%.1f\n"
-//			"vel relto non-rot frame: %.1f,%.1f,%.1f\n"
-			"velocity from frame to root: %.1f,%.1f,%.1f\n"
-			"velocity from root to frame: %.1f,%.1f,%.1f\n"
-			"vel relto root frame: %.1f,%.1f,%.1f\n",
-			v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, v4.x, v4.y, v4.z, 
-			v5.x, v5.y, v5.z, v6.x, v6.y, v6.z, v7.x, v7.y, v7.z);
-*/
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
