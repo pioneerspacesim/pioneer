@@ -1,9 +1,6 @@
 #ifndef OOLUA_CONFIG_H_
 #	define OOLUA_CONFIG_H_
 
-// XXX -TM-
-#define OOLUA_STORE_ERROR
-
 /*
  * Pioneer uses a customised version of OOLua that has some stuff we need that
  * likely won't make it upstream. These changes are marked with the
