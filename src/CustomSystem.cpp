@@ -78,8 +78,8 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 	for (int i=0 ; i<4; i++) {
 		int type = SBody::TYPE_GRAVPOINT;
 		if (t.safe_at(i+1, type)) {
-			if ( type < SBody::TYPE_BROWN_DWARF || type > SBody::TYPE_WHITE_DWARF ) {
-				printf("system star %d does not have a valid star type", i+1);
+			if ( type < SBody::TYPE_STAR_MIN || type > SBody::TYPE_STAR_MAX ) {
+				printf("system star %d does not have a valid star type\n", i+1);
 				assert(0);
 			}
 		}
@@ -152,6 +152,11 @@ CustomSBody::CustomSBody(std::string s, int t)
 {
 	name = s;
 	type = static_cast<SBody::BodyType>(t);
+
+	if ( type < SBody::TYPE_MIN || type > SBody::TYPE_MAX ) {
+		printf("body '%s' does not have a valid type\n", s.c_str());
+		assert(0);
+	}
 
 	seed = averageTemp = 0;
 	latitude = longitude = 0.0;
