@@ -121,7 +121,7 @@ public:
 	inline CustomSystem* l_short_desc(std::string s) { shortDesc = s; return this; }
 	inline CustomSystem* l_long_desc(std::string s) { longDesc = s; return this; }
 
-	void l_bodies(CustomSBody& primary_star, OOLUA::Lua_table t);
+	void l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table t);
 
 	void l_add_to_sector(int x, int y, pi_vector& v);
 };
@@ -137,7 +137,7 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 	OOLUA_MEM_FUNC_1_RENAME(govtype, CustomSystem*, l_govtype, int)
 	OOLUA_MEM_FUNC_1_RENAME(short_desc, CustomSystem*, l_short_desc, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(long_desc, CustomSystem*, l_long_desc, std::string)
-	OOLUA_MEM_FUNC_2_RENAME(bodies, void, l_bodies, CustomSBody&, OOLUA::Lua_table)
+	OOLUA_MEM_FUNC_3_RENAME(bodies, void, l_bodies, lua_State*, CustomSBody&, OOLUA::Lua_table)
 	OOLUA_MEM_FUNC_3_RENAME(add_to_sector, void, l_add_to_sector, int, int, pi_vector&)
 OOLUA_CLASS_END
 

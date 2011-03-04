@@ -86,7 +86,7 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 	govType = Polit::GOV_NONE;
 }
 
-static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children)
+static void _add_children_to_sbody(lua_State* L, CustomSBody* sbody, OOLUA::Lua_table children)
 {
 	int i=1;
 	while (1) {
@@ -96,11 +96,9 @@ static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children
 			break;
 
 		if (kid == NULL) {
-			// XXX something in the table that shouldn't be there. I still
-			// don't have a good way to trigger a proper lua error from inside
-			// a oolua method
-			printf("not sbody or table\n");
-			assert(0);
+			luaL_error(L,
+				"invalid element (must be CustomSBody or table of CustomSBody)\n"
+				"invalid element is child of CustomSBody '%s'", sbody->name.c_str());
 		}
 
 		else {
@@ -113,7 +111,7 @@ static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children
 				if (!sub.valid())
 					break;
 
-				_add_children_to_sbody(kid, sub);
+				_add_children_to_sbody(L, kid, sub);
 				i++;
 				continue;
 			}
@@ -123,9 +121,9 @@ static void _add_children_to_sbody(CustomSBody* sbody, OOLUA::Lua_table children
 	}
 }
 
-void CustomSystem::l_bodies(CustomSBody& primary_star, OOLUA::Lua_table children)
+void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table children)
 {
-	_add_children_to_sbody(&primary_star, children);
+	_add_children_to_sbody(L, &primary_star, children);
 	sBody = primary_star;
 }
 
