@@ -76,9 +76,13 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 	name = s;
 
 	for (int i=0 ; i<4; i++) {
-		int type;
-		if (!t.safe_at(i+1, type))
-			type = SBody::TYPE_GRAVPOINT;
+		int type = SBody::TYPE_GRAVPOINT;
+		if (t.safe_at(i+1, type)) {
+			if ( type < SBody::TYPE_BROWN_DWARF || type > SBody::TYPE_WHITE_DWARF ) {
+				printf("system star %d does not have a valid star type", i+1);
+				assert(0);
+			}
+		}
 		primaryType[i] = static_cast<SBody::BodyType>(type);
 	}
 
@@ -123,6 +127,8 @@ static void _add_children_to_sbody(lua_State* L, CustomSBody* sbody, OOLUA::Lua_
 
 void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table children)
 {
+	if ( primary_star.type < SBody::TYPE_BROWN_DWARF || primary_star.type > SBody::TYPE_WHITE_DWARF )
+		luaL_error(L, "first body does not have a valid star type");
 	if ( primary_star.type != primaryType[0] )
 		luaL_error(L, "first body is not of same type as system primary star");
 

@@ -1,4 +1,4 @@
-local s = CustomSystem:new('Sol', { Body.Type.STAR_G })
+local s = CustomSystem:new('Sol', { Body.Type.STAR_G, Body.Type.STARPORT_ORBITAL })
 	:short_desc('The historical birthplace of humankind')
 	:long_desc([[Sol is a fine joint]])
 
