@@ -711,13 +711,15 @@ void AICmdFlyTo::CheckCollisions()
 	if (rad * 2 > dist && body->GetFrame() == m_targframe &&
 		TargetWellTest(m_ship, m_targframe, m_posoff)) { m_coll = false; return; }
 
-	// Else fly to sort-of tangent
+	// Else if closer, fly to sort-of tangent
 	if (rad*VICINITY_MUL*1.5 > dist)
 		NavigateAroundBody(body, targpos);
 	
-	// if far enough away, just head to vicinity of obstructor unless we were already
-	else if (body != m_targframe->GetBodyFor() || m_posoff.Length() < rad*VICINITY_MUL*0.5)
+	// Otherwise just head to vicinity of obstructor unless we were already
+	else if (body != m_targframe->GetBodyFor() || m_posoff.Length() < rad*VICINITY_MUL*0.5) {
+		m_frame = 0;		// trigger recheck when done
 		m_child = new AICmdFlyTo(m_ship, body);
+	}
 }
 
 // Fly to "vicinity" of body
