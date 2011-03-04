@@ -123,6 +123,9 @@ static void _add_children_to_sbody(lua_State* L, CustomSBody* sbody, OOLUA::Lua_
 
 void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table children)
 {
+	if ( primary_star.type != primaryType[0] )
+		luaL_error(L, "first body is not of same type as system primary star");
+
 	_add_children_to_sbody(L, &primary_star, children);
 	sBody = primary_star;
 }
