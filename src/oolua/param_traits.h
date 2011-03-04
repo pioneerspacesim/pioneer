@@ -907,6 +907,25 @@ namespace OOLUA
 		enum { is_integral = 1 };
 	};
 
+
+#ifdef PIONEER_OOLUA
+	// specialisation for lua_State*. allows lua_State* to be put in method
+	// signature so lua-invoked methods can receive the lua context
+	template<>
+	struct in_p<lua_State*>
+	{
+		typedef lua_State* type;
+		typedef lua_State* raw;
+		typedef lua_State* pull_type;
+		enum {in = 1};
+		enum {out = 0};
+		enum {owner = No_change};
+		enum { is_by_value = 0 };
+		enum { is_constant = 0 };
+		enum { is_integral = 1 };
+	};
+#endif
+
 }
 
 namespace OOLUA
