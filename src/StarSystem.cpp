@@ -1352,7 +1352,8 @@ void StarSystem::Populate(bool addSpaceStations)
 		rootBody->PopulateAddStations(this);
 	}
 
-	MakeShortDescription(rand);
+	if (!m_shortDesc.size())
+		MakeShortDescription(rand);
 }
 
 /*
