@@ -170,6 +170,6 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
 // fail after 16 parameters
 CLASS_LIST_MEMBERS_START_OOLUA_NON_CONST(CustomSBody)
 LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, seed, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude)
-LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, rotation_period, axial_tilt, height_map, metallicity, volatile_gas, volatile_liquid, volatile_ices, volcanicity, atmos_oxidizing)
+LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, rotation_period, axial_tilt, height_map, metallicity, volcanicity, atmos_density, atmos_oxidizing, ocean_cover, ice_cover)
 LUA_MEMBER_FUNC_1(OOLUA::Proxy_class<CustomSBody>, life)
 CLASS_LIST_MEMBERS_END
