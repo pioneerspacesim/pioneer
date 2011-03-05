@@ -51,7 +51,12 @@ public:
 	inline CustomSBody* l_longitude(float l) { longitude = l; return this; }
 	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }
 	inline CustomSBody* l_axial_tilt(pi_fixed &t) { axialTilt = t; return this; }
-	inline CustomSBody* l_height_map(std::string f) { heightMapFilename = f; return this; }
+
+	inline CustomSBody* l_height_map(std::string f) {
+        heightMapFilename = PIONEER_DATA_DIR;
+        heightMapFilename += "/" + f;
+        return this; 
+    }
 
 	inline CustomSBody* l_metallicity(pi_fixed& f) { metallicity = f; return this; }
 	inline CustomSBody* l_volatile_gas(pi_fixed& f) { volatileGas = f; return this; }
