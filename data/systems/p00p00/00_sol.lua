@@ -1,4 +1,5 @@
 local s = CustomSystem:new('Sol', { Body.Type.STAR_G })
+	:govtype(Polit.GovType.EARTHDEMOC)
 	:short_desc('The historical birthplace of humankind')
 	:long_desc([[Sol is a fine joint]])
 
