@@ -232,6 +232,7 @@ public:
 	static float starColors[][3];
 	static float starRealColors[][3];
 	static double starLuminosities[];
+	static fixed starMetallicities[];
 
 	struct BodyStats {
 
@@ -253,6 +254,8 @@ public:
 	int m_econType;
 	int m_techlevel; /* 0-5 like in EquipType.h */
 	int m_seed;
+
+	bool m_unexplored;
 	
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
