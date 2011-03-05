@@ -232,7 +232,7 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-//TEST CODE	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
+	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
@@ -539,7 +539,6 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-extern int g_navbodycount;
 
 static Color get_color_for_warning_meter_bar(float v) {
 	Color c;
@@ -596,11 +595,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	// Direction indicator
 	vector3d vel;
-	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
+	Body *velRelTo = Pi::player->GetNavTarget();
 	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+		vel = Pi::player->GetVelocityRelTo(velRelTo);
 	} else {
-		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+		vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 	}
@@ -622,20 +621,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n"
-			"Body navigation count = %i\n",
+			"Rel-to: %s (%.0f km), rotating: %s\n",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame,
-			g_navbodycount);
+			rel_to, pos.Length()/1000, rot_frame);
 
-/*		vector3d angvel = Pi::player->GetAngVelocity();
-		vector3d torque = Pi::player->GetAccumTorque();
-		vector3d impulse = torque / Pi::player->GetAngularInertia();
-		vector3d mdir = Pi::player->GetMouseDir();
-		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
-			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
-*/
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
@@ -1122,8 +1112,8 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	// Direction indicator
 	vector3d vel;
 	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) vel = Pi::player->GetVelocityRelativeTo(velRelTo);
-	else vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+	if (velRelTo) vel = Pi::player->GetVelocityRelTo(velRelTo);
+	else vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 
@@ -1176,7 +1166,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
 		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
-		vector3d targvel = enemy->GetVelocityRelativeTo(Pi::player) * prot;
+		vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * prot;
 
 		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
 		double projspeed = Equip::lasers[laser].speed;
@@ -1198,15 +1188,18 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
 		float r = (float)(0.2+(c+1.0)*0.4);
 		float b = (float)(0.2+(1.0-c)*0.4);
+		char buf[1024];
 			
 		m_combatDist->Color(r, 0.0f, b);
-		m_combatDist->SetText(stringf(40, "%.0fm", dist).c_str());
+		sprintf(buf, "%.0fm", dist);
+		m_combatDist->SetText(buf);
 		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
 		MoveChild(m_combatDist, (float)lpos.x, (float)lpos.y);
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
-		m_combatSpeed->SetText(stringf(40, "%0.fm/s", vel).c_str());
+		sprintf(buf, "%0.fm/s", vel);
+		m_combatSpeed->SetText(buf);
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
 		MoveChild(m_combatSpeed, (float)lpos.x, (float)lpos.y);
 		m_combatSpeed->Show();

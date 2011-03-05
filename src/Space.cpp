@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "PiLuaModules.h"
 #include "Render.h"
+#include "WorldView.h"
 
 namespace Space {
 
@@ -268,11 +269,13 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		frameRadius = 1000000.0; // XXX NFI!
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
+//		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
 	
 		assert(sbody->GetRotationPeriod() != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
-		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
+		rotFrame->SetRadius(1000.0);
+//		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
 		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
 		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
@@ -371,66 +374,6 @@ void KillBody(Body* const b)
 	}
 }
 
-void UpdateFramesOfReference()
-{
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		Body *b = *i;
-
-		if (!(b->GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) continue;
-
-		// falling out of frames
-		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
-			printf("%s leaves frame %s\n", b->GetLabel().c_str(), b->GetFrame()->GetLabel());
-			
-			vector3d oldFrameVel = b->GetFrame()->GetVelocity();
-			
-			Frame *new_frame = b->GetFrame()->m_parent;
-			if (new_frame) { // don't let fall out of root frame
-				matrix4x4d m = matrix4x4d::Identity();
-				b->GetFrame()->ApplyLeavingTransform(m);
-
-				vector3d new_pos = m * b->GetPosition();//b->GetPositionRelTo(new_frame);
-
-				matrix4x4d rot;
-				b->GetRotMatrix(rot);
-				b->SetRotMatrix(m * rot);
-				
-				b->SetVelocity(oldFrameVel + m.ApplyRotationOnly(b->GetVelocity() - 
-					b->GetFrame()->GetStasisVelocityAtPosition(b->GetPosition())));
-
-				b->SetFrame(new_frame);
-				b->SetPosition(new_pos);
-			} else {
-				b->SetVelocity(b->GetVelocity() + oldFrameVel);
-			}
-		}
-
-		// entering into frames
-		for (std::list<Frame*>::iterator j = b->GetFrame()->m_children.begin(); j != b->GetFrame()->m_children.end(); ++j) {
-			Frame *kid = *j;
-			matrix4x4d m;
-			Frame::GetFrameTransform(b->GetFrame(), kid, m);
-			vector3d pos = m * b->GetPosition();
-			if (kid->IsLocalPosInFrame(pos)) {
-				printf("%s enters frame %s\n", b->GetLabel().c_str(), kid->GetLabel());
-				b->SetPosition(pos);
-				b->SetFrame(kid);
-
-				matrix4x4d rot;
-				b->GetRotMatrix(rot);
-				b->SetRotMatrix(m * rot);
-				
-				// get rid of transforms
-				m.ClearToRotOnly();
-				b->SetVelocity(m*b->GetVelocity()
-					- kid->GetVelocity()
-					+ kid->GetStasisVelocityAtPosition(pos));
-				break;
-			}
-		}
-	}
-}
-
 static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double relativeVel)
 {
 	Body *pb1 = static_cast<Body*>(o1);
@@ -519,7 +462,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
 		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
-		if (relVel > 0) return;
+		if (relVel > 0 && !c->geomFlag) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
@@ -604,18 +547,21 @@ void TimeStep(float step)
 		return;
 	}
 
-//	ApplyGravity();				// now called by TimeStepUpdate per body
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
-	UpdateFramesOfReference();
+
+	// update frames of reference
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
+		(*i)->UpdateFrame();
+
 	rootFrame->UpdateOrbitRails();
 	
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
-	}
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
-	}
+
 	Sfx::TimeStepAll(step, rootFrame);
 
 	PiLuaModules::EmitEvents();
@@ -804,6 +750,75 @@ float GetHyperspaceAnim()
 	return hyperspaceAnim;
 }
 
+void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
+{
+	glPushMatrix();
+
+	float znear, zfar;
+	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	double newdist = znear + 0.5f * (zfar - znear);
+	double scale = newdist / fpos.Length();
+
+	glTranslatef((float)(scale*fpos.x), (float)(scale*fpos.y), (float)(scale*fpos.z));
+
+	Render::State::UseProgram(0);
+	// face the camera dammit
+	vector3d zaxis = fpos.Normalized();
+	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis);
+	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
+	glMultMatrixd(&rot[0]);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+
+	// XXX WRONG. need to pick light from appropriate turd.
+	GLfloat col[4];
+	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
+	glColor4f(col[0], col[1], col[2], 1);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0,0,0);
+	glColor4f(col[0], col[1], col[2], 0);
+
+	const float spikerad = (float)(scale*rad);
+
+	// bezier with (0,0,0) control points
+		{
+			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+	glEnd();
+	glDisable(GL_BLEND);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+	glPopMatrix();
+}
+
 struct body_zsort_t {
 	double dist;
 	vector3d viewCoords;
@@ -824,6 +839,7 @@ struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort
 	}
 };
 
+/** Perhaps this should be moved to WorldView.cpp. It is only called from there. */
 void Render(const Frame *cam_frame)
 {
 	Plane planes[6];
@@ -836,7 +852,6 @@ void Render(const Frame *cam_frame)
 		const vector3d pos = (*i)->GetInterpolatedPosition();
 		Frame::GetFrameRenderTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
 		vector3d toBody = bz[idx].viewTransform * pos;
-		bz[idx].viewTransform = bz[idx].viewTransform;
 		bz[idx].viewCoords = toBody;
 		bz[idx].dist = toBody.Length();
 		bz[idx].bodyFlags = (*i)->GetFlags();
@@ -846,20 +861,29 @@ void Render(const Frame *cam_frame)
 	sort(bz, bz+bodies.size(), body_zsort_compare());
 
 	for (unsigned int i=0; i<bodies.size(); i++) {
-		double boundingRadius = bz[i].b->GetBoundingRadius();
+		double rad = bz[i].b->GetBoundingRadius();
 
 		// test against all frustum planes except far plane
 		bool do_draw = true;
 		// always render stars (they have a huge glow). Other things do frustum cull
 		if (!bz[i].b->IsType(Object::STAR)) {
 			for (int p=0; p<5; p++) {
-				if (planes[p].DistanceToPoint(bz[i].viewCoords)+boundingRadius < 0) {
+				if (planes[p].DistanceToPoint(bz[i].viewCoords)+rad < 0) {
 					do_draw = false;
 					break;
 				}
 			}
 		}
-		if (do_draw) bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
+		if (!do_draw) continue;
+
+		double screenrad = 500 * rad / bz[i].dist;		// approximate pixel size
+		if (!bz[i].b->IsType(Object::STAR) && screenrad < 2) {
+			if (!bz[i].b->IsType(Object::PLANET)) continue;
+			// absolute bullshit
+			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
+			DrawSpike(spikerad, bz[i].viewCoords, bz[i].viewTransform);
+		}
+		else bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
 	}
 	Sfx::RenderAll(rootFrame, cam_frame);
 	Render::State::UseProgram(0);
