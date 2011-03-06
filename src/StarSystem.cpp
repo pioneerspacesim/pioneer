@@ -64,6 +64,20 @@ double StarSystem::starLuminosities[] = {
 	0.1, // white dwarf
 };
 
+fixed StarSystem::starMetallicities[] = {
+	fixed(0,1),
+	fixed(9,10), // brown dwarf
+	fixed(7,10), // M0
+	fixed(6,10), // K0
+	fixed(5,10), // G0
+	fixed(4,10), // F0
+	fixed(3,10), // A0
+	fixed(2,10), // B0
+	fixed(1,10), // O5
+	fixed(8,10), // red giant
+	fixed(5,10), // white dwarf
+};
+
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
 	int mass[2]; // min,max % sol for stars, unused for planets
@@ -800,6 +814,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	MTRand rand;
 	rand.seed(_init, 5);
 
+	/*
+	 * 0 - ~500ly from sol: explored
+	 * ~500ly - ~700ly (65-90 sectors): gradual
+	 * ~700ly+: unexplored
+	 */
+	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
+	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
+
 	if (s.m_systems[system_idx].customSys) {
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
 		if (custom->shortDesc) m_shortDesc = custom->shortDesc;
@@ -906,6 +928,8 @@ try_that_again_guvnah:
 
 		}
 	}
+
+	m_metallicity = starMetallicities[rootBody->type];
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
@@ -1277,14 +1301,13 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 		m_econType = ECON_AGRICULTURE;
 	}
 
+	if (m_unexplored) {
+		m_shortDesc = "Unexplored system. No more data available.";
+	}
+
 	/* Total population is in billions */
-	if (m_totalPop == 0) {
-		int dist = isqrt(1 + m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY);
-		if (rand.Int32(dist) > 20) {
-			m_shortDesc = "Unexplored system.";
-		} else {
-			m_shortDesc = "Small-scale prospecting. No registered settlements.";
-		}
+	else if(m_totalPop == 0) {
+		m_shortDesc = "Small-scale prospecting. No registered settlements.";
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
 			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
@@ -1370,6 +1393,13 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateStage1(system, outTotalPop);
 	}
+
+	// unexplored systems have no population (that we know about)
+	if (system->m_unexplored) {
+		m_population = outTotalPop = fixed(0);
+		return;
+	}
+
 	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
 			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
 	MTRand rand;
