@@ -60,7 +60,7 @@ const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const CustomSystem* cs
 	int idx = 0;
 	for (std::list<const CustomSystem*>::const_iterator i = cslist.begin(); i != cslist.end(); i++) {
 		if (!(*i)->name.compare(cs->name)) break;
-			idx++;
+		idx++;
 	}
 	assert(idx < static_cast<int>(cslist.size()));
 	return SBodyPath(cs->sectorX, cs->sectorY, idx);
@@ -105,20 +105,18 @@ static void _add_children_to_sbody(lua_State* L, CustomSBody* sbody, OOLUA::Lua_
 				"invalid element is child of CustomSBody '%s'", sbody->name.c_str());
 		}
 
-		else {
-			while (1) {
-				OOLUA::Lua_table sub;
+		while (1) {
+			OOLUA::Lua_table sub;
 
-				if (!children.safe_at(i, sub))
-					break;
+			if (!children.safe_at(i, sub))
+				break;
 
-				if (!sub.valid())
-					break;
+			if (!sub.valid())
+				break;
 
-				_add_children_to_sbody(L, kid, sub);
-				i++;
-				continue;
-			}
+			_add_children_to_sbody(L, kid, sub);
+			i++;
+			continue;
 		}
 
 		sbody->children.push_back(*kid);
