@@ -913,7 +913,7 @@ void WorldView::OnClickCommsNavOption(Body *target)
 	m_showTargetActionsTimeout = SDL_GetTicks();
 }
 
-Gui::Button *WorldView::AddCommsNavOption(std::string msg, Body *target)
+void WorldView::AddCommsNavOption(std::string msg, Body *target)
 {
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5);
@@ -926,8 +926,35 @@ Gui::Button *WorldView::AddCommsNavOption(std::string msg, Body *target)
 	hbox->PackStart(b);
 
 	m_commsNavOptions->PackEnd(hbox);
+}
 
-	return b;
+void WorldView::BuildCommsNavOptions()
+{
+	std::map<std::string, std::vector<SBody*> > groups;
+
+	m_commsNavOptions->PackEnd(new Gui::Label("#ff0Navigation targets in this system\n"));
+
+	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
+	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
+
+		groups[(*i)->parent->name].push_back(*i);
+	}
+
+	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_bodies.begin();
+	      i != Pi::currentSystem->m_bodies.end(); i++) {
+
+		std::vector<SBody*> group = groups[(*i)->name];
+		if ( group.size() == 0 ) continue;
+
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
+
+		for ( std::vector<SBody*>::const_iterator j = group.begin(); j != group.end(); j++) {
+			SBodyPath path;
+			Pi::currentSystem->GetPathOf(*j, &path);
+			Body *body = Space::FindBodyForSBodyPath(&path);
+			AddCommsNavOption((*j)->name, body);
+		}
+	}
 }
 
 static void PlayerRequestDockingClearance(SpaceStation *s)
@@ -1016,17 +1043,8 @@ void WorldView::UpdateCommsOptions()
 
 	if (Pi::currentSystem->m_spaceStations.size() > 0)
 	{
-		m_commsNavOptions->PackEnd(new Gui::Label("#ff0Navigation targets in this system"));
-
-		Gui::Button *button;
-		for ( std::vector<SBody*>::iterator i = Pi::currentSystem->m_spaceStations.begin();
-		      i != Pi::currentSystem->m_spaceStations.end(); i++) {
-			SBodyPath path;
-			Pi::currentSystem->GetPathOf(*i, &path);
-			Body *body = Space::FindBodyForSBodyPath(&path);
-			button = AddCommsNavOption((*i)->name, body);
-	    }
-    }
+		BuildCommsNavOptions();
+	}
 
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();

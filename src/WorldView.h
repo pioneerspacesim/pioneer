@@ -52,8 +52,9 @@ private:
 	void DrawCombatTargetIndicator(const Ship* const target);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
-	Gui::Button *AddCommsNavOption(const std::string msg, Body *target);
+	void AddCommsNavOption(const std::string msg, Body *target);
 	void OnClickCommsNavOption(Body *target);
+	void BuildCommsNavOptions();
 
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
