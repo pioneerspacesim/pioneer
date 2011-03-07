@@ -682,6 +682,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		}
 		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
+            m_spaceStations.push_back(kid);
 		}
 		parent->children.push_back(kid);
 

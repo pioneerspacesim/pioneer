@@ -45,6 +45,23 @@ WorldView::WorldView(): View()
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
+
+	m_commsNavOptionsContainer = new Gui::HBox();
+	m_commsNavOptionsContainer->SetSpacing(5);
+	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
+	Add(m_commsNavOptionsContainer, size[0]-230, 20);
+
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(220, size[1]-50);
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	m_commsNavOptionsContainer->PackStart(scroll);
+	m_commsNavOptionsContainer->PackStart(portal, true);
+
+	m_commsNavOptions = new Gui::VBox();
+	m_commsNavOptions->SetSpacing(5);
+	portal->Add(m_commsNavOptions);
+
+
 	m_wheelsButton = new Gui::MultiStateImageButton();
 	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_wheelsButton->AddState(0, PIONEER_DATA_DIR "/icons/wheels_up.png", "Wheels are up");
@@ -608,10 +625,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
 			m_showTargetActionsTimeout = 0;
 			m_commsOptions->DeleteAllChildren();
+			m_commsNavOptions->DeleteAllChildren();
 		}
 		m_commsOptions->ShowAll();
+		m_commsNavOptionsContainer->ShowAll();
 	} else {
 		m_commsOptions->Hide();
+		m_commsNavOptionsContainer->Hide();
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
@@ -887,6 +907,56 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
+void WorldView::OnClickCommsNavOption(Body *target)
+{
+	Pi::player->SetNavTarget(target);
+	m_showTargetActionsTimeout = SDL_GetTicks();
+}
+
+void WorldView::AddCommsNavOption(std::string msg, Body *target)
+{
+	Gui::HBox *hbox = new Gui::HBox();
+	hbox->SetSpacing(5);
+
+	Gui::Label *l = new Gui::Label(msg);
+	hbox->PackStart(l, true);
+
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
+	hbox->PackStart(b);
+
+	m_commsNavOptions->PackEnd(hbox);
+}
+
+void WorldView::BuildCommsNavOptions()
+{
+	std::map<std::string, std::vector<SBody*> > groups;
+
+	m_commsNavOptions->PackEnd(new Gui::Label("#ff0Navigation targets in this system\n"));
+
+	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
+	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
+
+		groups[(*i)->parent->name].push_back(*i);
+	}
+
+	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_bodies.begin();
+	      i != Pi::currentSystem->m_bodies.end(); i++) {
+
+		std::vector<SBody*> group = groups[(*i)->name];
+		if ( group.size() == 0 ) continue;
+
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
+
+		for ( std::vector<SBody*>::const_iterator j = group.begin(); j != group.end(); j++) {
+			SBodyPath path;
+			Pi::currentSystem->GetPathOf(*j, &path);
+			Body *body = Space::FindBodyForSBodyPath(&path);
+			AddCommsNavOption((*j)->name, body);
+		}
+	}
+}
+
 static void PlayerRequestDockingClearance(SpaceStation *s)
 {
 	std::string msg;
@@ -967,8 +1037,14 @@ static void player_target_hypercloud(HyperspaceCloud *cloud)
 void WorldView::UpdateCommsOptions()
 {
 	m_commsOptions->DeleteAllChildren();
+	m_commsNavOptions->DeleteAllChildren();
 
 	if (m_showTargetActionsTimeout == 0) return;
+
+	if (Pi::currentSystem->m_spaceStations.size() > 0)
+	{
+		BuildCommsNavOptions();
+	}
 
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();
