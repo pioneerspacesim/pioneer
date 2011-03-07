@@ -532,6 +532,24 @@ void WorldView::Draw3D()
 
 	m_numLights = 0;
 	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
+
+	if (m_numLights == 0) {
+		// no lights means we're somewhere weird (eg hyperspace). fake one
+		// fake one up and give a little ambient light so that we can see and
+		// so that things that need lights don't explode
+		float lightPos[4] = { 0,0,0,0 };
+		float lightCol[4] = { 1.0, 1.0, 1.0, 0 };
+		float ambCol[4] = { 1.0,1.0,1.0,0 };
+
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+		glEnable(GL_LIGHT0);
+
+		m_numLights++;
+	}
+
 	Render::State::SetNumLights(m_numLights);
 	{
 		float znear, zfar;
