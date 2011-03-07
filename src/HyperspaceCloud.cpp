@@ -127,7 +127,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	glTranslatef((float)viewCoords.x, (float)viewCoords.y, (float)viewCoords.z);
 	
 	// face the camera dammit
-	vector3d zaxis = viewCoords.Normalized();
+	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();

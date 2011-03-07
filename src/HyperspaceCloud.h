@@ -16,8 +16,9 @@ public:
 	HyperspaceCloud();
 	virtual ~HyperspaceCloud();
 	virtual void SetPosition(vector3d p);
-	virtual void SetVelocity(vector3d v) { m_vel = v; }
 	virtual vector3d GetPosition() const;
+	virtual void SetVelocity(vector3d v) { m_vel = v; }
+	virtual vector3d GetVelocity() const { return m_vel; }
 	virtual double GetBoundingRadius() const { return 1200.0; }
 	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void PostLoadFixup();
