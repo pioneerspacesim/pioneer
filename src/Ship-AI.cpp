@@ -51,7 +51,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	// For rotating frames linked to planets we want to set velocity relative to
 	// surface, so we do not apply Frame::GetStasisVelocityAtPosition
 	vector3d relVel = GetVelocity();
-	if (GetFrame()->GetBodyFor()->IsType(Object::SPACESTATION)) {
+	if (GetFrame()->IsStationRotFrame()) {
 		relVel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
 	}
 	matrix4x4d m; GetRotMatrix(m);
@@ -166,8 +166,7 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 	// counter external forces unless we're in an orbital station rotating frame
 	matrix4x4d rot; GetRotMatrix(rot);
 	vector3d diffvel2 = GetExternalForce() * Pi::GetTimeStep() / GetMass();
-	if (GetFrame()->IsRotatingFrame() && GetFrame()->GetBodyFor()->IsType(SPACESTATION))
-		diffvel2 = diffvel;
+	if (GetFrame()->IsStationRotFrame()) diffvel2 = diffvel;
 	else diffvel2 = diffvel - diffvel2 * rot;
 
 	vector3d maxThrust = GetMaxThrust(diffvel2);

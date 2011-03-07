@@ -735,6 +735,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 		if(target->HasDoubleFrame()) m_targframe = target->GetFrame()->m_parent;
 		else m_targframe = target->GetFrame();
 		m_posoff = dist * m_ship->GetPositionRelTo(m_targframe).Normalized();
+		m_posoff += target->GetPosition();
 	}
 
 	m_endvel = 0;
@@ -781,9 +782,10 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double en
 
 static double GetGravityAtPos(Ship *ship, Frame *targframe, vector3d &posoff)
 {
-	if (targframe->GetBodyFor()->IsType(Object::SPACESTATION)) return 0;
+	Body *body = targframe->GetBodyFor();
+	if (!body || body->IsType(Object::SPACESTATION)) return 0;
 	double rsqr = posoff.LengthSqr();
-	double m1m2 = ship->GetMass() * targframe->GetBodyFor()->GetMass();
+	double m1m2 = ship->GetMass() * body->GetMass();
 	return G * m1m2 / rsqr;
 }
 
@@ -804,6 +806,7 @@ static void ClampMainThruster(Ship *ship)
 // terminal orbit function: force into proper orbit at current alt
 bool AICmdFlyTo::OrbitCorrection()
 {
+	if (!m_targframe->GetBodyFor()) return true;	// tried to orbit something that isn't a planet or star
 	vector3d pos = m_targframe->GetBodyFor()->GetPositionRelTo(m_ship);
 	vector3d vel = m_targframe->GetBodyFor()->GetVelocityRelTo(m_ship);
 
@@ -863,6 +866,7 @@ printf("Uncorrectable sidevel result triggered");
 	// linear thrust
 	vector3d maxthrust = m_ship->GetMaxThrust(vector3d(1,1,(m_state==1)?-1:1));
 	maxthrust.z -= GetGravityAtPos(m_ship, m_targframe, m_posoff);
+	assert(maxthrust.z > 0);			// gravity too large to fly there - should be dealt with
 	double decel = m_ship->AIMatchPosVel(relpos, relvel, m_endvel, maxthrust);
 	if (m_state == 1 && decel < 0) m_state = 2;		// time to flip
 	
@@ -870,7 +874,7 @@ printf("Uncorrectable sidevel result triggered");
 	double ang = 0.0;
 	if (m_state < 2) {
 		vector3d nextpos = m_ship->AIGetNextFramePos();			// position next frame before atmos/grav
-		if ((targpos-nextpos).Dot(relpos) < 0.0) nextpos = m_ship->GetPosition();	// last frame turning workaround
+		if ((targpos-nextpos).Dot(relpos) <= 0.0) nextpos = m_ship->GetPosition();	// last frame turning workaround
 		ang = m_ship->AIFaceDirection(targpos-nextpos);
 	}
 	else if (m_state == 2) ang = m_ship->AIFaceDirection(-reldir);

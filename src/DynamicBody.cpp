@@ -112,9 +112,10 @@ vector3d DynamicBody::GetPosition() const
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
-	if (!GetFrame()->GetBodyFor()->IsType(Object::SPACESTATION)) {	// they ought to have mass though...
+	Body *body = GetFrame()->GetBodyFor();
+	if (body && !body->IsType(Object::SPACESTATION)) {	// they ought to have mass though...
 		vector3d b1b2 = GetPosition();
-		double m1m2 = GetMass() * GetFrame()->GetBodyFor()->GetMass();
+		double m1m2 = GetMass() * body->GetMass();
 		double invrsqr = 1.0 / b1b2.LengthSqr();
 		double force = G*m1m2 * invrsqr;
 		m_externalForce = -b1b2 * sqrt(invrsqr) * force;
@@ -124,9 +125,9 @@ void DynamicBody::CalcExternalForce()
 
 	// atmospheric drag
 	const double speed = m_vel.Length();
-	if ((speed > 0) && GetFrame()->GetBodyFor()->IsType(Object::PLANET))
+	if ((speed > 0) && body && body->IsType(Object::PLANET))
 	{
-		Planet *planet = static_cast<Planet*>(GetFrame()->GetBodyFor());
+		Planet *planet = static_cast<Planet*>(body);
 		double dist = GetPosition().Length();
 		double pressure, density;
 		planet->GetAtmosphericState(dist, &pressure, &density);

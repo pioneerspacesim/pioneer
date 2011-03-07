@@ -157,7 +157,7 @@ vector3d Body::GetVelocityRelTo(const Frame *f) const
 	matrix4x4d m;
 	Frame::GetFrameTransform(GetFrame(), f, m);
 	vector3d vel = GetVelocity();
-	if (f != GetFrame() || f->GetBodyFor()->IsType(SPACESTATION))
+	if (f != GetFrame() || f->IsStationRotFrame())
 		vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
 	return (m.ApplyRotationOnly(vel) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
 }

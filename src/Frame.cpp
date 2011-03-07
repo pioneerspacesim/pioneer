@@ -1,4 +1,5 @@
 #include "Frame.h"
+#include "Body.h"
 #include "Space.h"
 #include "collider/collider.h"
 #include "Sfx.h"
@@ -213,6 +214,11 @@ void Frame::RotateInTimestep(double step)
 vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
 {
 	return -m_angVel.Cross(pos);
+}
+
+bool Frame::IsStationRotFrame() const
+{
+	return (m_astroBody && m_astroBody->IsType(Object::SPACESTATION));
 }
 
 // Find system body this frame is for.
