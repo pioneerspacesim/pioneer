@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "PiLuaModules.h"
 #include "Render.h"
+#include "WorldView.h"
 
 namespace Space {
 
