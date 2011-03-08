@@ -3,12 +3,13 @@
 #include "Pi.h"
 
 EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SysLoc)
-EXPORT_OOLUA_FUNCTIONS_9_CONST(SysLoc,
+EXPORT_OOLUA_FUNCTIONS_CONST(SysLoc,
 		GetSystemShortDescription, GetSystemName,
 		GetSectorX, GetSectorY, GetSystemNum,
 		GetRandomStarportNearButNotIn,
 		GetRootSBody,
 		GetSystemLawlessness,
+		GetSystemPopulation,
 		IsCommodityLegal)
 
 void SysLoc::Serialize(Serializer::Writer &wr) const
@@ -38,6 +39,11 @@ const char *SysLoc::GetSystemName() const
 double SysLoc::GetSystemLawlessness() const
 {
 	return Sys()->GetSysPolit().lawlessness.ToDouble();
+}
+
+double SysLoc::GetSystemPopulation() const
+{
+	return Sys()->m_totalPop.ToDouble();
 }
 
 bool SysLoc::IsCommodityLegal(int equip_type) const

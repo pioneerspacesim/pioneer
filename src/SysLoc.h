@@ -41,6 +41,7 @@ public:
 	SBodyPath *GetRandomStarportNearButNotIn() const;
 	SBodyPath *GetRootSBody() const;
 	double GetSystemLawlessness() const;
+	double GetSystemPopulation() const;
 	bool IsCommodityLegal(int equip_type) const;
 protected:
 	/** Returns a cached StarSystem object, with limited lifetime as
@@ -56,6 +57,7 @@ OOLUA_CLASS_NO_BASES(SysLoc)
 		OOLUA_CONSTRUCTOR_3(int, int, int)
 	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_0_CONST(double, GetSystemLawlessness);
+	OOLUA_MEM_FUNC_0_CONST(double, GetSystemPopulation);
 	OOLUA_MEM_FUNC_1_CONST(bool, IsCommodityLegal, int)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSectorX)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSectorY)
