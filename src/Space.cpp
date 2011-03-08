@@ -34,10 +34,20 @@ static double hyperspaceEndTime;
 static std::list<HyperspaceCloud*> storedArrivalClouds;
 static bool beingBuilt;
 
+static void do_on_enter_system()
+{
+	beingBuilt = true;
+	PiLuaModules::QueueEvent("onEnterSystem");
+	PiLuaModules::EmitEvents();
+	beingBuilt = false;
+}
+
 void Init()
 {
 	rootFrame = new Frame(NULL, "System");
 	rootFrame->SetRadius(FLT_MAX);
+
+	Pi::onPlayerHyperspaceToNewSystem.connect(sigc::ptr_fun(&do_on_enter_system));
 }
 
 void Clear()
@@ -534,14 +544,9 @@ void TimeStep(float step)
 
 		hyperspaceAnim += step;
 		if (Pi::GetGameTime() > hyperspaceEndTime) {
-			beingBuilt = true;
 			DoHyperspaceTo(0);
 			Pi::RequestTimeAccel(1);
 			hyperspaceAnim = 0;
-			/* Event must be run right now (so 'beingBuilt' is correct) */
-			PiLuaModules::QueueEvent("onEnterSystem");
-			PiLuaModules::EmitEvents();
-			beingBuilt = false;
 		}
 		// don't take a physics step at this mental time accel
 		return;
