@@ -836,7 +836,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_state == 3) return true;			// bailout case for accidental planet-dives
 		CheckCollisions();
-		return TimeStepUpdate();		// recurse, no reason that it shouldn't work second time...
+		if (m_child) { ProcessChild(); return false; }			// child can handle at least one timestep
 	}
 
 	double timestep = Pi::GetTimeStep();
