@@ -122,7 +122,7 @@ void Player::StaticUpdate(const float timeStep)
 		case CONTROL_AUTOPILOT:
 			if (AIIsActive()) break;
 			Pi::RequestTimeAccel(1);
-			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
+//			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
 						// actually this breaks last timestep slightly in non-relative target cases
 			AIMatchAngVelObjSpace(vector3d(0.0));
 			SetFlightControlState(CONTROL_FIXSPEED);
