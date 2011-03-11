@@ -10,8 +10,6 @@ Module:new {
 		local lawlessness = sys:GetSystemLawlessness()
 		local population = sys:GetSystemPopulation()
 
-		print(string.format("TradeShips: entering system: %s [lawless %f pop %f]", sys:GetSystemName(), lawlessness, population))
-
 		--[[
 		traders will be attracted by:
 		 - large populations (more people to sell your shit to)
@@ -25,7 +23,6 @@ Module:new {
 
 		-- no point trading with an empty system
 		if population == 0 then
-			print("TradeShips: nobody to trade with here :(")
 			return
 		end
 
@@ -51,9 +48,6 @@ Module:new {
 				exports = exports+1
 			end
 		end
-
-		print("TradeShips: num ships: "..num_trade_ships)
-		print(string.format("TradeShips: imports %d exports %d", imports, exports))
 
 		for i = 0, num_trade_ships, 1 do
 			-- 80% chance of spawning this ship. this is somewhat arbitrary,
@@ -82,18 +76,10 @@ Module:new {
 
 				if spawn_in_starport then
 					local ship, e = Pi.SpawnRandomDockedShip(body, 10, 0, 10000000)
-					if ship then
-						print(string.format("TradeShips: spawned '%s' docked at '%s'", ship:GetLabel(), starport:GetBodyName()))
-					else
-						print("TradeShips: couldn't spawn ship: "..e)
-					end
 				else
 					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), 10, 0, 10000000)
 					if ship then
 						ship:ShipAIDoDock(body)
-						print(string.format("TradeShips: spawned '%s' travelling to '%s'", ship:GetLabel(), starport:GetBodyName()))
-					else
-						print("TradeShips: couldn't spawn ship: "..e)
 					end
 				end
 
