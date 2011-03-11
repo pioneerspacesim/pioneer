@@ -38,6 +38,7 @@ public:
 	const char *GetSystemShortDescription() const;
 	const char *GetSystemName() const;
 	/** Caller owns the returned pointer */
+	SBodyPath *GetRandomStarport() const;
 	SBodyPath *GetRandomStarportNearButNotIn() const;
 	SBodyPath *GetRootSBody() const;
 	double GetSystemLawlessness() const;
@@ -66,6 +67,7 @@ OOLUA_CLASS_NO_BASES(SysLoc)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSystemNum)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemShortDescription)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemName)
+	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRandomStarport)
 	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRandomStarportNearButNotIn)
 	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRootSBody)
 OOLUA_CLASS_END

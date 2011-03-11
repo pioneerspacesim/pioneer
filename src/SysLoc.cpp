@@ -7,6 +7,7 @@ EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SysLoc)
 EXPORT_OOLUA_FUNCTIONS_CONST(SysLoc,
 		GetSystemShortDescription, GetSystemName,
 		GetSectorX, GetSectorY, GetSystemNum,
+		GetRandomStarport,
 		GetRandomStarportNearButNotIn,
 		GetRootSBody,
 		GetSystemLawlessness,
@@ -62,6 +63,17 @@ OOLUA::Lua_table SysLoc::GetCommodityBasePriceAlterations(lua_State *l) const
 bool SysLoc::IsCommodityLegal(int equip_type) const
 {
 	return Polit::IsCommodityLegal(Sys(), (Equip::Type)equip_type);
+}
+
+SBodyPath *SysLoc::GetRandomStarport() const
+{
+	SBodyPath *path = new SBodyPath;
+	if (Sys()->GetRandomStarport(Pi::rng, path)) {
+		return path;
+	} else {
+		delete path;
+		return 0;
+	}
 }
 
 SBodyPath *SysLoc::GetRandomStarportNearButNotIn() const

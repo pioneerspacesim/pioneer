@@ -575,6 +575,15 @@ static void shuffle_array(MTRand &rand, T *array, int len)
 	}
 }
 
+bool StarSystem::GetRandomStarport(MTRand &rand, SBodyPath *outDest) const
+{
+	if (!m_spaceStations.size())
+		return false;
+	
+	GetPathOf(m_spaceStations[rand.Int32(m_spaceStations.size())], outDest);
+	return true;
+}
+
 /*
  * Doesn't try very hard
  */
@@ -596,10 +605,7 @@ bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest)
 
 		StarSystem *sys = new StarSystem(sx, sy, idxs[i]);
 
-		const int numStations = sys->m_spaceStations.size();
-		if (numStations) {
-			sys->GetPathOf(sys->m_spaceStations[rand.Int32(numStations)],
-					outDest);
+		if (sys->GetRandomStarport(rand, outDest)) {
 			delete sys;
 			return true;
 		}
