@@ -228,6 +228,7 @@ public:
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
+	bool GetRandomStarport(MTRand &rand, SBodyPath *outDest) const;
 	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 	const SysPolit &GetSysPolit() const { return m_polit; }
 

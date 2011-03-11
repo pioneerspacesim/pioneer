@@ -86,9 +86,10 @@ void ship_randomly_equip(Ship *ship, double power)
 std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
 EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_14_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_15_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
+		ShipAIDoDock,
 		ShipAIDoLowOrbit,
 		ShipAIDoMediumOrbit,
 		ShipAIDoHighOrbit,
@@ -147,6 +148,13 @@ void ObjectWrapper::ShipAIDoFlyTo(ObjectWrapper &o)
 	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
 		Ship *s = static_cast<Ship*>(m_obj);
 		s->AIFlyTo(static_cast<Body*>(o.m_obj));
+	}
+}
+void ObjectWrapper::ShipAIDoDock(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.Is(Object::SPACESTATION)) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIDock(static_cast<SpaceStation*>(o.m_obj));
 	}
 }
 void ObjectWrapper::ShipAIDoLowOrbit(ObjectWrapper &o)
@@ -390,17 +398,15 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 
 	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
 			i != ShipType::types.end(); ++i) {
+
 		int hullMass = (*i).second.hullMass;
-		if (((*i).second.name.find("MISSILE") < 0) && (hullMass >= minMass) && (hullMass <= maxMass)) {
+		bool is_missile = (*i).second.name.find("MISSILE") == 0;
+
+		if (!is_missile && hullMass >= minMass && hullMass <= maxMass)
 			candidates.push_back((*i).first);
-		}
 	}
 	printf("%d candidates\n", candidates.size());
 	if (candidates.size() == 0) throw UnknownShipType();
-
-	for (int i=0; i<candidates.size(); i++) {
-		printf("%s\n", candidates[i].c_str());
-	}
 
 	return candidates[ Pi::rng.Int32(candidates.size()) ];
 }

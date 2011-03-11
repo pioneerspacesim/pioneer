@@ -38,9 +38,12 @@ public:
 	const char *GetSystemShortDescription() const;
 	const char *GetSystemName() const;
 	/** Caller owns the returned pointer */
+	SBodyPath *GetRandomStarport() const;
 	SBodyPath *GetRandomStarportNearButNotIn() const;
 	SBodyPath *GetRootSBody() const;
 	double GetSystemLawlessness() const;
+	double GetSystemPopulation() const;
+	OOLUA::Lua_table GetCommodityBasePriceAlterations(lua_State* l) const;
 	bool IsCommodityLegal(int equip_type) const;
 protected:
 	/** Returns a cached StarSystem object, with limited lifetime as
@@ -56,12 +59,15 @@ OOLUA_CLASS_NO_BASES(SysLoc)
 		OOLUA_CONSTRUCTOR_3(int, int, int)
 	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_0_CONST(double, GetSystemLawlessness);
+	OOLUA_MEM_FUNC_0_CONST(double, GetSystemPopulation);
+	OOLUA_MEM_FUNC_1_CONST(OOLUA::Lua_table, GetCommodityBasePriceAlterations, lua_State*);
 	OOLUA_MEM_FUNC_1_CONST(bool, IsCommodityLegal, int)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSectorX)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSectorY)
 	OOLUA_MEM_FUNC_0_CONST(int, GetSystemNum)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemShortDescription)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetSystemName)
+	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRandomStarport)
 	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRandomStarportNearButNotIn)
 	OOLUA_MEM_FUNC_0_CONST(OOLUA::lua_out_p<SBodyPath*>, GetRootSBody)
 OOLUA_CLASS_END
