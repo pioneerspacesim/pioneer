@@ -74,6 +74,8 @@ public:
 	static int JoystickButtonState(int joystick, int button);
 	static int JoystickHatState(int joystick, int hat);
 	static float JoystickAxisState(int joystick, int axis);
+	static bool IsJoystickEnabled() { return joystickEnabled; }
+	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
@@ -149,6 +151,7 @@ private:
 	static const float timeAccelRates[];
 	static bool isGameStarted;
 
+	static bool joystickEnabled;
 	struct JoystickState {
 		SDL_Joystick *joystick;
 		std::vector<bool> buttons;

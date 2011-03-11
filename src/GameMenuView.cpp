@@ -542,6 +542,14 @@ GameMenuView::GameMenuView(): View()
 				box = box2;
 			}
 		}
+
+		m_toggleJoystick = new Gui::ToggleButton();
+		m_toggleJoystick->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleJoystick));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_toggleJoystick, false);
+		hbox->PackEnd(new Gui::Label("Enable joystick control"), false);
+		box->PackEnd(hbox, false);
 	}
 }
 
@@ -614,6 +622,13 @@ void GameMenuView::OnToggleHDR(Gui::ToggleButton *b, bool state)
 	Render::ToggleHDR();
 }
 
+void GameMenuView::OnToggleJoystick(Gui::ToggleButton *b, bool state)
+{
+	Pi::config.SetInt("EnableJoystick", (state ? 1 : 0));
+	Pi::config.Save();
+	Pi::SetJoystickEnabled(state);
+}
+
 void GameMenuView::HideAll()
 {
 	if (m_changedDetailLevel) {
@@ -651,6 +666,7 @@ void GameMenuView::OnSwitchTo() {
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());
 		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
+		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	}
 }
 

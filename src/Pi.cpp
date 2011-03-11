@@ -78,6 +78,7 @@ int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
 IniConfig Pi::config;
 struct DetailLevel Pi::detail = {};
+bool Pi::joystickEnabled;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
@@ -142,6 +143,7 @@ void Pi::Init()
 	}
 
 	InitJoysticks();
+	joystickEnabled = (config.Int("EnableJoystick")) ? true : false;
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
@@ -226,11 +228,10 @@ void Pi::Init()
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-
-	draw_progress(0.5f);
+	draw_progress(0.4f);
 	ShipType::Init();
-
-
+	draw_progress(0.5f);
+	GeoSphere::Init();
 	draw_progress(0.6f);
 	GeoSphere::Init();
 	draw_progress(0.7f);
@@ -323,9 +324,7 @@ void Pi::SetTimeAccel(int s)
 	if ((s != timeAccelIdx) && (s > 2)) {
 		player->SetAngVelocity(vector3d(0,0,0));
 		player->SetTorque(vector3d(0,0,0));
-		player->SetAngThrusterState(0, 0.0f);
-		player->SetAngThrusterState(1, 0.0f);
-		player->SetAngThrusterState(2, 0.0f);
+		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
@@ -1016,7 +1015,7 @@ void Pi::MainLoop()
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
-/*			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1036,7 +1035,7 @@ void Pi::MainLoop()
 					timeAccel = std::min(timeAccel, 5);
 				}
 			}
-*/
+
 		}
 		if (timeAccel != Pi::GetTimeAccelIdx()) {
 			Pi::SetTimeAccel(timeAccel);
@@ -1211,6 +1210,7 @@ void Pi::InitJoysticks() {
 }
 
 int Pi::JoystickButtonState(int joystick, int button) {
+	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= (int) joysticks.size())
 		return 0;
 
@@ -1221,6 +1221,7 @@ int Pi::JoystickButtonState(int joystick, int button) {
 }
 
 int Pi::JoystickHatState(int joystick, int hat) {
+	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= (int) joysticks.size())
 		return 0;
 
@@ -1231,6 +1232,7 @@ int Pi::JoystickHatState(int joystick, int hat) {
 }
 
 float Pi::JoystickAxisState(int joystick, int axis) {
+	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= (int) joysticks.size())
 		return 0;
 

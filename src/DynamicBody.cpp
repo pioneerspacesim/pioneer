@@ -201,10 +201,10 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 // for timestep changes, to stop autopilot overshoot
 void DynamicBody::ApplyAccel(const float timeStep)
 {
-//	vector3d newvel = m_vel + (double)timeStep * m_force * (1.0 / m_mass);
-//	if (newvel.LengthSqr() < m_vel.LengthSqr()) m_vel = newvel;
-//	vector3d newav = m_angVel + (double)timeStep * m_torque * (1.0 / m_angInertia);
-//	if (newav.LengthSqr() < m_angVel.LengthSqr()) m_angVel = newav;
+	vector3d newvel = m_vel + (double)timeStep * m_force * (1.0 / m_mass);
+	if (newvel.LengthSqr() < m_vel.LengthSqr()) m_vel = newvel;
+	vector3d newav = m_angVel + (double)timeStep * m_torque * (1.0 / m_angInertia);
+	if (newav.LengthSqr() < m_angVel.LengthSqr()) m_angVel = newav;
 }
 
 void DynamicBody::UpdateInterpolatedTransform(double alpha)

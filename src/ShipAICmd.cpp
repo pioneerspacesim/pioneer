@@ -303,8 +303,6 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 bool AICmdKill::TimeStepUpdate()
 {
-return false;
-
 	if (!m_target) return true;
 
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
@@ -341,6 +339,7 @@ return false;
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
 		if (vissize > headdiff) m_ship->SetGunState(0,1);
 		else m_ship->SetGunState(0,0);
+		if (targpos.LengthSqr() > 4000*4000) m_ship->SetGunState(0,0);		// temp
 	}
 	m_leadOffset += m_leadDrift * Pi::GetTimeStep();
 	double leadAV = (leaddir-targdir).Dot((leaddir-heading).Normalized());	// leaddir angvel
@@ -661,7 +660,7 @@ static int GetFlipMode(Ship *ship, Frame *targframe, vector3d &posoff)
 
 void AICmdFlyTo::NavigateAroundBody(Body *body, vector3d &targpos)
 {
-printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
+//printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 
 	// build tangent vector in body's rotating frame unless space station (or distant)
 	Frame *targframe = body->GetFrame();
@@ -836,7 +835,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_state == 3) return true;			// bailout case for accidental planet-dives
 		CheckCollisions();
-		return TimeStepUpdate();		// recurse, no reason that it shouldn't work second time...
+		if (m_child) { ProcessChild(); return false; }			// child can handle at least one timestep
 	}
 
 	double timestep = Pi::GetTimeStep();
@@ -888,8 +887,8 @@ printf("Uncorrectable sidevel result triggered");
 	// limit forward acceleration when facing wrong way
 	if (decel > 0 && fabs(ang) > 0.02) ClampMainThruster(m_ship);
 
-printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
-	reldir.Dot(m_reldir), m_state);
+//printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
+//	reldir.Dot(m_reldir), m_state);
 
 	if (m_state == 5) return true;
 	return false;
