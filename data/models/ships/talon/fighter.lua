@@ -114,7 +114,7 @@ define_model('fi', {
 					capacity = 10,
 					hull_mass = 10,
 					price = 33000,
-					hyperdrive_class = 8,
+					hyperdrive_class = 1,
                     }
                   }
         	},
