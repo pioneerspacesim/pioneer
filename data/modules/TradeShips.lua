@@ -77,7 +77,25 @@ Module:new {
 					end
 				end
 
-				-- XXX spawn the ship
+				local starport = sys:GetRandomStarport(Pi.rand)
+				local body = Pi.FindBodyForSBody(starport)
+
+				if spawn_in_starport then
+					local ship, e = Pi.SpawnRandomDockedShip(body, 10, 0, 10000000)
+					if ship then
+						print(string.format("TradeShips: spawned '%s' docked at '%s'", ship:GetLabel(), starport:GetBodyName()))
+					else
+						print("TradeShips: couldn't spawn ship: "..e)
+					end
+				else
+					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), 10, 0, 10000000)
+					if ship then
+						ship:ShipAIDoDock(body)
+						print(string.format("TradeShips: spawned '%s' travelling to '%s'", ship:GetLabel(), starport:GetBodyName()))
+					else
+						print("TradeShips: couldn't spawn ship: "..e)
+					end
+				end
 
 			end
 		end
