@@ -309,7 +309,7 @@ define_model('hhrgun', {
 
 define_model('hh', {     
    	info = {
-			scale = 0.8,
+			scale = 0.65,
 			lod_pixels={.1,50,150,0},
 			bounding_radius = 100,
 			materials={'steel', 'darksteel', 'medsteel', 'glow', 'rand1', 'rand2', 'glass', 'inside','text1', 'text2'},

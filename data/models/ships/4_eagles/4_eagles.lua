@@ -1107,7 +1107,7 @@ define_model('eagle_all', {
 define_model('eagle_lrf', {
 	info = {
 --			scale = 0.261, -- FE2 to Pioneer vector spacing scale for the eagle, each ship is different!
-			scale = 0.5,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'steel', 'cutout', 'win'},
@@ -1264,7 +1264,7 @@ define_model('eagle_lrf', {
 
 define_model('eagle_mk2', {
  info = {
-			scale = 0.261,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'chrome', 'cutout', 'win'},
@@ -1396,7 +1396,7 @@ define_model('eagle_mk2', {
 
 define_model('eagle_mk3', {
  info = {
-			scale = 0.261,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'chrome', 'e_glow', 'win', 'cutout'},
@@ -1546,7 +1546,7 @@ define_model('eagle_mk3', {
 
 define_model('eagle_mk4', {
  info = {
-			scale = 0.261,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout'},

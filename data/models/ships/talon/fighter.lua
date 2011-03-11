@@ -88,7 +88,7 @@ define_model('tfrgear', {
 
 define_model('fi', {     
    	info = {
-			scale = 1.1,
+			scale = 1.5,
 			lod_pixels={.1,40,80,0},
 			bounding_radius = 18,
 			materials={'steel', 'darksteel', 'medsteel', 'glow', 'rand1', 'rand2', 'glass', 'inside','text1', 'text2'},

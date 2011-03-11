@@ -375,7 +375,7 @@ define_model('vipx_galmap', {
 
 define_model('viper_x', {
 	info = {
-			scale = .8,
+			scale = 1.0,
 			lod_pixels = { .1, 50, 100, 0 },
    			bounding_radius = 20,
 			materials = {'win', 'cv0', 'ncv', 'chrome', 'black', 'layer', 'glow1', 'glow2a',

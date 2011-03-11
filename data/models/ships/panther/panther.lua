@@ -148,7 +148,7 @@ define_model('pant_sub', {
 
 define_model('panther', {     
 	info = {
-            scale = 2,
+            scale = 2.8,
             lod_pixels = { .1, 100 ,500, 0 },
 			bounding_radius = 70,
             materials={'top', 'bot', 'steel', 'text1', 'text2', 'glow'},

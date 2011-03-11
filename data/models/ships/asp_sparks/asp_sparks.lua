@@ -297,7 +297,7 @@ define_model('asps_sub0', {
 
 define_model('asp_sparks', {
 	info = {
-			scale = 10.2,
+			scale = 8.5,
 			lod_pixels = {.1,20,50,0},
 			bounding_radius = 41,
 			materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},

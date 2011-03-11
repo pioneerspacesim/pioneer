@@ -1,6 +1,6 @@
 define_model('cobra1', {
 	info = {
-			scale = 1.1,
+			scale = 1.5,
 			lod_pixels = { .1, 10, 100, 0 },
 			bounding_radius = 20,
 			materials = {'text', 'top', 'bot', 'posl', 'gun', 'engine_inside'},

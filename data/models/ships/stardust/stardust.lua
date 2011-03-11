@@ -49,7 +49,7 @@ define_model('sd_wing', {
             
 define_model('stardust', {
 	info = {
-	        scale = 1.2,
+	        scale = 0.9,
 			lod_pixels = {.1,20,100,0},
 			bounding_radius = 35,
    			materials = {'steel', 'scoop', 'e_glow', 'win', 'thrusters'},

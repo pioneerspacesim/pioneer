@@ -569,7 +569,7 @@ define_model('adder_sub', {
 
 define_model('adder', {
 	info = {
-			scale = 1,
+			scale = 1.3,
 			lod_pixels = {.1,30,100,0},
 			bounding_radius = 27,
             tags = {'ship'},

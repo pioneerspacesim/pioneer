@@ -109,7 +109,7 @@ define_model('boa_frflap', {
 
 define_model('boa', {     
 		info = {
-                scale = 1.2,
+                scale = 1.34,
 				lod_pixels={.1,50,200,0},
 				bounding_radius = 70, -- "scale" for lod calculation, bounding box in preview and closest zoom limit
                 materials={'steel', 'body', 'glow', 'wing', 'darksteel', 'glass', 'inside', 'text1'},

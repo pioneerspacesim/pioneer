@@ -1199,7 +1199,7 @@ define_model('courier_sub', {     -- courier sub-model, all models
 
 define_model('courier', {
 	info = {
-			scale = 1,   --1.5 = ffed3d export scale, mentioned for trader?
+			scale = 1.2,   --1.5 = ffed3d export scale, mentioned for trader?
 			lod_pixels = {1, 50, 300, 0},
 			bounding_radius = 45,
 			tags = {'ship'},
@@ -1302,7 +1302,7 @@ define_model('courier', {
 
 define_model('trader', {
 	info = {
-			scale = 1.5,
+			scale = 1,
 			lod_pixels = { 1, 50, 300, 0 },
 			bounding_radius = 70,
 			tags = {'ship'},
