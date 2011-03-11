@@ -390,17 +390,15 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 
 	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
 			i != ShipType::types.end(); ++i) {
+
 		int hullMass = (*i).second.hullMass;
-		if (((*i).second.name.find("MISSILE") < 0) && (hullMass >= minMass) && (hullMass <= maxMass)) {
+		bool is_missile = (*i).second.name.find("MISSILE") == 0;
+
+		if (!is_missile && hullMass >= minMass && hullMass <= maxMass)
 			candidates.push_back((*i).first);
-		}
 	}
 	printf("%d candidates\n", candidates.size());
 	if (candidates.size() == 0) throw UnknownShipType();
-
-	for (int i=0; i<candidates.size(); i++) {
-		printf("%s\n", candidates[i].c_str());
-	}
 
 	return candidates[ Pi::rng.Int32(candidates.size()) ];
 }
