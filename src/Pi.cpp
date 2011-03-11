@@ -653,18 +653,15 @@ void Pi::InitGame()
 
 	player = new Player("Eagle Long Range Fighter");
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
-	player->m_equipment.Add(Equip::HYDROGEN, 10);
+	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+	player->m_equipment.Add(Equip::HYDROGEN, 1);
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_SMART);
-	player->m_equipment.Add(Equip::MISSILE_NAVAL);
+	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::AUTOPILOT);
 	player->m_equipment.Add(Equip::SCANNER);
-	player->SetMoney(10000);
+	player->SetMoney(100);
 	Space::AddBody(player);
 	
 	cpan = new ShipCpanel();
