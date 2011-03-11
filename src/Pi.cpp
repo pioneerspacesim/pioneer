@@ -1010,7 +1010,7 @@ void Pi::MainLoop()
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
-/*			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1030,7 +1030,7 @@ void Pi::MainLoop()
 					timeAccel = std::min(timeAccel, 5);
 				}
 			}
-*/
+
 		}
 		if (timeAccel != Pi::GetTimeAccelIdx()) {
 			Pi::SetTimeAccel(timeAccel);

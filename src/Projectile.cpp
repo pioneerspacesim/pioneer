@@ -82,9 +82,9 @@ float Projectile::GetDamage() const
 {
 	float dam = Equip::lasers[m_type].damage;
 	float lifespan = Equip::lasers[m_type].lifespan;
-//	return dam * sqrt((lifespan - m_age)/lifespan);
+	return dam * sqrt((lifespan - m_age)/lifespan);
 	// TEST
-	return 0.01f;
+//	return 0.01f;
 }
 
 static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
