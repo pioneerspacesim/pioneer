@@ -86,9 +86,10 @@ void ship_randomly_equip(Ship *ship, double power)
 std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
 EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_14_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_15_NON_CONST(ObjectWrapper,
 		ShipAIDoKill,
 		ShipAIDoFlyTo,
+		ShipAIDoDock,
 		ShipAIDoLowOrbit,
 		ShipAIDoMediumOrbit,
 		ShipAIDoHighOrbit,
@@ -147,6 +148,13 @@ void ObjectWrapper::ShipAIDoFlyTo(ObjectWrapper &o)
 	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
 		Ship *s = static_cast<Ship*>(m_obj);
 		s->AIFlyTo(static_cast<Body*>(o.m_obj));
+	}
+}
+void ObjectWrapper::ShipAIDoDock(ObjectWrapper &o)
+{
+	if (Is(Object::SHIP) && o.Is(Object::SPACESTATION)) {
+		Ship *s = static_cast<Ship*>(m_obj);
+		s->AIDock(static_cast<SpaceStation*>(o.m_obj));
 	}
 }
 void ObjectWrapper::ShipAIDoLowOrbit(ObjectWrapper &o)
