@@ -75,9 +75,9 @@ Module:new {
 				local body = Pi.FindBodyForSBody(starport)
 
 				if spawn_in_starport then
-					local ship, e = Pi.SpawnRandomDockedShip(body, 10, 0, 10000000)
+					local ship, e = Pi.SpawnRandomDockedShip(body, 10, 100, 10000000)
 				else
-					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), 10, 0, 10000000)
+					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), 10, 100, 10000000)
 					if ship then
 						ship:ShipAIDoDock(body)
 					end
