@@ -153,6 +153,8 @@ bool AICmdJourney::TimeStepUpdate()
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
+	m_ship->SetWheelState(false);
+
 	m_ship->SetGunState(0,0);
 	// needs to deal with frames, large distances, and success
 	if (m_ship->GetFrame() == m_target->GetFrame()) {
@@ -303,6 +305,8 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 bool AICmdKill::TimeStepUpdate()
 {
+	m_ship->SetWheelState(false);
+
 	if (!m_target) return true;
 
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
@@ -831,6 +835,9 @@ bool AICmdFlyTo::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;		// child not finished
 	if (m_state == 6) return true;			// started within range
+
+	m_ship->SetWheelState(false);
+
 	if (m_state == 10) return OrbitCorrection();		// terminal orbit mode
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_state == 3) return true;			// bailout case for accidental planet-dives
@@ -934,8 +941,11 @@ bool AICmdDock::TimeStepUpdate()
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
 	if (m_state == 1) m_state = 2;				// finished moving into dock start pos
-	if (m_ship->GetFlightState() != Ship::FLYING)
-		{ m_ship->ClearThrusterState(); return true; }		// docked, hopefully
+	if (m_ship->GetFlightState() != Ship::FLYING) {
+		m_ship->ClearThrusterState();
+		m_ship->SetWheelState(true);
+		return true; // docked, hopefully
+	}
 
 	// if we're not close to target, do a flyto first
 	double targdist = m_target->GetPositionRelTo(m_ship).Length();
@@ -975,6 +985,7 @@ bool AICmdDock::TimeStepUpdate()
 		vector3d maxthrust = m_ship->GetMaxThrust(vector3d(1,1,1));
 		maxthrust.y -= GetGravityAtPos(m_ship, m_target->GetFrame(), m_dockpos);
 		m_ship->AIMatchPosVel(relpos, relvel, 0.0, maxthrust);
+		m_ship->SetWheelState(true);
 	}
 	else m_ship->AIMatchVel(vector3d(0.0));
 	return false;
