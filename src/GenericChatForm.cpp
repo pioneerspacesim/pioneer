@@ -105,7 +105,7 @@ public:
 		int hair_seed  = eyes_seed %100 ;
 		int extr1_seed = eyes_seed %240 ;
 		int extr2_seed = eyes_seed %1500 ;
-		int sex_seed   = eyes_seed %1 ;
+		int sex_seed   = eyes_seed %1 ; // rand.Int32(0,1) ;
 		int race_seed  = eyes_seed %3 ;
 		int cloth_seed = eyes_seed %40 ;
 		eyes_seed      = rand.Int32(0,eyes_seed);
@@ -120,7 +120,9 @@ public:
 		extr2_seed     = extr2_seed / 75.0f ;
 		cloth_seed     = rand.Int32(0,cloth_seed);
 		cloth_seed     = cloth_seed %20 ;
-		race_seed      = 0 ;
+		race_seed      = 0 ;  //temp
+		extr1_seed     = extr1_seed %2 ;  //temp
+		extr2_seed     = rand.Int32(0,2) ; // temp
 		m_w = w; m_h = h;
 		m_created = SDL_GetTicks();
 		m_message = new Gui::ToolTip("Video link established");
@@ -142,6 +144,14 @@ public:
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/clothes/cloth_%d.png", cloth_seed);
 		printf("%s\n", str.c_str());
 		m_cloth = new Gui::Image(("" + str).c_str());
+		if (rand.Int32(0,1)) {
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/accessories/acc_%d.png", extr1_seed);
+		printf("%s\n", str.c_str());
+		m_extr1 = new Gui::Image(("" + str).c_str());
+		}
+		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/backgrounds/background_%d.png", extr2_seed);
+		printf("%s\n", str.c_str());
+		m_extr2 = new Gui::Image(("" + str).c_str());
 
 	}
 	virtual ~VideoLink() {
@@ -153,6 +163,8 @@ public:
 		delete m_mouth;
 		delete m_hair;
 		delete m_cloth;
+		delete m_extr1;
+		delete m_extr2;
 	}
 	virtual void Draw() {
 		float size[2]; GetSize(size);
@@ -204,7 +216,7 @@ private:
 		if (SDL_GetTicks() - m_created < 1500) {
 			glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]*0.5f-msgSize[1]*0.5f, 0);
 		} else {
-			glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, 0, 0);
+			glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
 		}
 		
 		m_message->Draw();
@@ -213,6 +225,10 @@ private:
 	void DrawFace() {
 		float size[2];
 		GetSize(size);
+		m_extr2->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
+		m_extr2->Draw();	
+		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
 		m_face->GetSize(size);
 		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
 		m_face->Draw();	
@@ -237,6 +253,10 @@ private:
 		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
 		m_hair->Draw();
 		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
+		m_extr1->GetSize(size);
+		glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
+		m_extr1->Draw();
+		glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
 	}
 	Uint32 m_created;
 	GLuint m_tex;
@@ -248,6 +268,8 @@ private:
 	Gui::Image *m_hair;
 	Gui::Image *m_mouth;
 	Gui::Image *m_cloth;
+	Gui::Image *m_extr1;
+	Gui::Image *m_extr2;
 };
 
 
@@ -311,7 +333,7 @@ void GenericChatForm::AddBaseDisplay()
 	m_equipmentMass = new Gui::Label("");
 	Add(m_equipmentMass, 140, ystart + 6*YSEP);
 	
-	m_legalstatus = new Gui::Label("Clean");
+	m_legalstatus = new Gui::Label("Dirty");
 	Add(m_legalstatus, 220, ystart + 2*YSEP);
 
 	UpdateBaseDisplay();
