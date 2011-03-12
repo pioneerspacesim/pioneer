@@ -72,6 +72,10 @@ Module:new {
 				end
 
 				local starport = sys:GetRandomStarport(Pi.rand)
+				if not starport then
+					-- not much for traders to do if there's no starports
+					return
+				end
 				local body = Pi.FindBodyForSBody(starport)
 
 				if spawn_in_starport then
