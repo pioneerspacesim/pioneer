@@ -476,9 +476,12 @@ namespace LuaPi {
 		if (ShipType::Get(type.c_str()) == 0) {
 			throw UnknownShipType();
 		} else {
-			// for the mo, just put it near the player
-			const vector3d pos = Pi::player->GetPosition() +
-				10000.0 * vector3d(Pi::rng.Double(-1.0, 1.0), Pi::rng.Double(-1.0, 1.0), Pi::rng.Double(-1.0, 1.0));
+
+			float longitude = Pi::rng.Double(M_PI);
+			float latitude = Pi::rng.Double(M_PI);
+			float dist = (1.0 + Pi::rng.Double(9.0)) * AU;
+			const vector3d pos(sin(longitude)*cos(latitude)*dist, sin(latitude)*dist, cos(longitude)*cos(latitude)*dist);
+
 			if (due <= Pi::GetGameTime()) {
 				// already entered
 				if (!Space::IsSystemBeingBuilt()) {
@@ -491,9 +494,9 @@ namespace LuaPi {
 					// ago and the hyperspace cloud is gone
 					Ship *ship = new Ship(type.c_str());
 					ship_randomly_equip(ship, power);
-					ship->SetFrame(Pi::player->GetFrame());
+					ship->SetFrame(Space::rootFrame);
 					ship->SetPosition(pos);
-					ship->SetVelocity(Pi::player->GetVelocity());
+					ship->SetVelocity(vector3d(0,0,0));
 					Space::AddBody(ship);
 					OOLUA::push2lua(l, static_cast<Object*>(ship));
 					return 1;
@@ -502,9 +505,9 @@ namespace LuaPi {
 					Ship *ship = new Ship(type.c_str());
 					ship_randomly_equip(ship, power);
 					HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
-					cloud->SetFrame(Pi::player->GetFrame());
+					cloud->SetFrame(Space::rootFrame);
 					cloud->SetPosition(pos);
-					cloud->SetVelocity(Pi::player->GetVelocity());
+					cloud->SetVelocity(vector3d(0,0,0));
 					Space::AddBody(cloud);
 					OOLUA::push2lua(l, static_cast<Object*>(ship));
 					return 1;
@@ -514,9 +517,9 @@ namespace LuaPi {
 				Ship *ship = new Ship(type.c_str());
 				ship_randomly_equip(ship, power);
 				HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
-				cloud->SetFrame(Pi::player->GetFrame());
+				cloud->SetFrame(Space::rootFrame);
 				cloud->SetPosition(pos);
-				cloud->SetVelocity(Pi::player->GetVelocity());
+				cloud->SetVelocity(vector3d(0,0,0));
 				Space::AddBody(cloud);
 				OOLUA::push2lua(l, static_cast<Object*>(ship));
 				return 1;
