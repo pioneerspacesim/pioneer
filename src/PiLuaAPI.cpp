@@ -477,8 +477,8 @@ namespace LuaPi {
 			throw UnknownShipType();
 		} else {
 
-			float longitude = Pi::rng.Double(M_PI);
-			float latitude = Pi::rng.Double(M_PI);
+			float longitude = Pi::rng.Double(-M_PI,M_PI);
+			float latitude = Pi::rng.Double(-M_PI,M_PI);
 			float dist = (1.0 + Pi::rng.Double(9.0)) * AU;
 			const vector3d pos(sin(longitude)*cos(latitude)*dist, sin(latitude)*dist, cos(longitude)*cos(latitude)*dist);
 
