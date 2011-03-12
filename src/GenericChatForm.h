@@ -14,6 +14,7 @@ public:
 	void SetTitle(const char *title);
 	void AddBaseDisplay();
 	void AddVideoWidget();
+	void AddFaceWidget();
 	void UpdateBaseDisplay();
 	void OpenChildChatForm(GenericChatForm *form);
 	void AddOption(sigc::slot<void,GenericChatForm*,int> slot, const char *text, int val);
