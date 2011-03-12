@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "GenericChatForm.h"
+#include "SpaceStation.h"
 
 #define TEXSIZE	512
 
