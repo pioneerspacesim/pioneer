@@ -1302,7 +1302,7 @@ define_model('courier', {
 
 define_model('trader', {
 	info = {
-			scale = 1,
+			scale = 1.1,
 			lod_pixels = { 1, 50, 300, 0 },
 			bounding_radius = 70,
 			tags = {'ship'},

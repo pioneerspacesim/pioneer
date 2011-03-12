@@ -163,7 +163,7 @@ define_model('mainwheelunit', {
 
 define_model('ladybird', {
 	info = {
-	        scale = 1,
+	        scale = 0.8,
 			lod_pixels = {50,100,200,0},
 			bounding_radius = 26, --35
 			materials={'white','engines','matvar0', 'matvar2',
@@ -387,7 +387,7 @@ define_model('__walruswing', {
 
 define_model('walrus', {
 	info = {
-			scale = 1.0,
+			scale = 0.5,
 			bounding_radius = 70,
 			materials = {'matvar0', 'text'},
 			tags = { 'ship' },
@@ -547,7 +547,7 @@ define_model('walrus', {
 
 define_model('flowerfairy', {
 	info = {
-			scale=2.0,
+			scale=1.3,
 			lod_pixels = {25,50,0},
 			bounding_radius = 100,
 			materials = {'matvar0','gray','text','engine_inside'},
@@ -699,6 +699,7 @@ define_model('flowerfairy', {
 
 define_model('interdictor', {
 	info = {
+			scale = 1.2,
 			lod_pixels = { 50, 100, 200, 0 },
 			bounding_radius = 50,
 			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'},

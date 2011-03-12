@@ -873,7 +873,7 @@ define_model('conny_top', {
 
 define_model('conny', {
 	info = {
-			scale = 1, --1.5, -- should be 2.08, but didn't fits?
+			scale = 1.4, --1.5, -- should be 2.08, but didn't fits?
 			lod_pixels = { .1, 30, 120, 0 },
 			bounding_radius = 35,
 			materials = {'text', 'cv0', 'cv1', 'ncv', 'chrome', 'matte', 'pit', 'pit_0', 'layer',
