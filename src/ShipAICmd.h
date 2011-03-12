@@ -8,7 +8,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_ORBIT, CMD_FLYTO, CMD_KILL, CMD_KAMIKAZE };
+	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_KILL, CMD_KAMIKAZE };
 
 	AICommand(Ship *ship, CmdName name) { m_ship = ship; m_cmdName = name; m_child = 0; }
 	virtual ~AICommand() { if(m_child) delete m_child; }
@@ -22,7 +22,8 @@ public:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void PostLoadFixup();
 
-	// various signal functions todo
+	// Signal functions
+	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
 	CmdName m_cmdName;	
@@ -30,6 +31,7 @@ protected:
 	AICommand *m_child;
 };
 
+/*
 class AICmdJourney : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
@@ -48,97 +50,85 @@ public:
 private:
 	SBodyPath m_dest;
 };
+*/
 
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target) : AICommand (ship, CMD_DOCK) {
+	AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK) {
 		m_target = target;
-		m_path.endTime = 0;			// trigger path generation
+		m_state = 0;
 	}
-
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_target));
-		m_path.Save(wr);
+		wr.Vector3d(m_dockpos); wr.Vector3d(m_dockdir);
+		wr.Vector3d(m_dockupdir); wr.Int32(m_state);
 	}
 	AICmdDock(Serializer::Reader &rd) : AICommand(rd, CMD_DOCK) {
 		m_target = (SpaceStation *)rd.Int32();
-		m_path.Load(rd);
+		m_dockpos = rd.Vector3d(); m_dockdir = rd.Vector3d();
+		m_dockupdir = rd.Vector3d(); m_state = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = (SpaceStation *)Serializer::LookupBody((size_t)m_target);
-		m_path.PostLoadFixup();
 	}
-
+	virtual void OnDeleted(const Body *body) {
+		AICommand::OnDeleted(body);
+		if ((Body *)m_target == body) m_target = 0;
+	}
 private:
 	SpaceStation *m_target;
-	AIPath m_path;
+	vector3d m_dockpos;	// offset in target's frame
+	vector3d m_dockdir;
+	vector3d m_dockupdir;
+	int m_state;		// see TimeStepUpdate()
 };
 
-class AICmdOrbit : public AICommand {
-public:
-	virtual bool TimeStepUpdate();
-	AICmdOrbit(Ship *ship, Body *target, double orbitHeight) : AICommand (ship, CMD_ORBIT) {
-		m_target = target;
-		m_path.endTime = 0;			// trigger path generation
-		m_orbitHeight = orbitHeight;
-	}
-
-	virtual void Save(Serializer::Writer &wr) {
-		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
-		m_path.Save(wr);
-		wr.Double(m_orbitHeight);
-	}
-	AICmdOrbit(Serializer::Reader &rd) : AICommand(rd, CMD_ORBIT) {
-		m_target = (SpaceStation *)rd.Int32();
-		m_path.Load(rd);
-		m_orbitHeight = rd.Double();
-	}
-	virtual void PostLoadFixup() {
-		AICommand::PostLoadFixup();
-		m_target = Serializer::LookupBody((size_t)m_target);
-		m_path.PostLoadFixup();
-	}
-
-private:
-	Body *m_target;
-	AIPath m_path;
-	double m_orbitHeight;
-};
 
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO) {
-		m_target = target;
-		m_path.endTime = 0;			// trigger path generation
-	}
-	AICmdFlyTo(Ship *ship, Body *target, AIPath &path) : AICommand (ship, CMD_FLYTO) {
-		m_target = target;
-		m_path = path;
-	}
+	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
+	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
+	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
 
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
-		m_path.Save(wr);
+		wr.Int32(Serializer::LookupFrame(m_targframe));
+		wr.Int32(Serializer::LookupFrame(m_frame));
+		wr.Vector3d(m_posoff); wr.Vector3d(m_reldir);
+		wr.Double(m_endvel); wr.Double(m_orbitrad);
+		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
-		m_target = (SpaceStation *)rd.Int32();
-		m_path.Load(rd);
+		m_targframe = (Frame *)rd.Int32();
+		m_frame = (Frame *)rd.Int32();
+		m_posoff = rd.Vector3d(); m_reldir = rd.Vector3d();
+		m_endvel = rd.Double();	m_orbitrad = rd.Double();
+		m_state = rd.Int32(); m_coll = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = Serializer::LookupBody((size_t)m_target);
-		m_path.PostLoadFixup();
+		m_targframe = Serializer::LookupFrame((size_t)m_targframe);
+		m_frame = Serializer::LookupFrame((size_t)m_frame);
 	}
 
+protected:
+	void NavigateAroundBody(Body *body, vector3d &targpos);
+	void CheckCollisions();
+	bool OrbitCorrection();
+
 private:
-	Body *m_target;
-	AIPath m_path;
+	Frame *m_targframe;	// target frame for waypoint
+	vector3d m_posoff;	// offset in target frame
+	double m_endvel;	// target speed in direction of motion at end of path, positive only
+	double m_orbitrad;	// orbital radius in metres
+	Frame *m_frame;	// current frame of ship, used to check for changes	
+	vector3d m_reldir;	// target direction relative to ship at last frame change
+	int m_state;		// see TimeStepUpdate()
+	bool m_coll;		// whether to bother checking for collisions
 };
 
 class AICmdKill : public AICommand {
@@ -157,20 +147,23 @@ public:
 	}
 	AICmdKill(Serializer::Reader &rd) : AICommand(rd, CMD_KILL) {
 		m_target = (Ship *)rd.Int32();
-		m_leadTime = m_evadeTime = m_closeTime = 0.0;
-		m_lastVel = m_target->GetVelocity();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = (Ship *)Serializer::LookupBody((size_t)m_target);
+		m_leadTime = m_evadeTime = m_closeTime = 0.0;
+		m_lastVel = m_target->GetVelocity();
+	}
 
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
 	}
 
 private:
 	Ship *m_target;
-	
 	double m_leadTime, m_evadeTime, m_closeTime;
-	vector3d m_leadDir, m_lastVel;
+	vector3d m_leadOffset, m_leadDrift, m_lastVel;
 };
 
 class AICmdKamikaze : public AICommand {
@@ -190,6 +183,11 @@ public:
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
 		m_target = Serializer::LookupBody((size_t)m_target);
+	}
+
+	virtual void OnDeleted(const Body *body) {
+		if ((Body *)m_target == body) m_target = 0;
+		AICommand::OnDeleted(body);
 	}
 
 private:

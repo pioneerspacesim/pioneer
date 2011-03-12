@@ -216,8 +216,17 @@ void Pi::Init()
 
 	draw_progress(0.3f);
 	LmrModelCompilerInit();
+
+//unsigned int control_word;
+//_clearfp();
+//_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+//double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
+
+
 	draw_progress(0.4f);
 	ShipType::Init();
+
+
 	draw_progress(0.5f);
 	GeoSphere::Init();
 	draw_progress(0.6f);
@@ -315,6 +324,11 @@ void Pi::SetTimeAccel(int s)
 		player->SetAngThrusterState(1, 0.0f);
 		player->SetAngThrusterState(2, 0.0f);
 	}
+	// Give all ships a half-step acceleration to stop autopilot overshoot
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+		if ((*i)->IsType(Object::SHIP)) ((DynamicBody *)(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
+	}
+
 	timeAccelIdx = s;
 }
 
@@ -778,6 +792,7 @@ void Pi::Start()
 	
 	InitGame();
 
+
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
@@ -962,6 +977,7 @@ void Pi::MainLoop()
 		for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 		}
+		Space::rootFrame->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
 
 		currentView->Draw3D();
 		// XXX HandleEvents at the moment must be after view->Draw3D and before
@@ -997,7 +1013,7 @@ void Pi::MainLoop()
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
-			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+/*			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1017,8 +1033,12 @@ void Pi::MainLoop()
 					timeAccel = std::min(timeAccel, 5);
 				}
 			}
+*/
 		}
-		Pi::SetTimeAccel(timeAccel);
+		if (timeAccel != Pi::GetTimeAccelIdx()) {
+			Pi::SetTimeAccel(timeAccel);
+			accumulator = 0;				// fix for huge pauses 10000x -> 1x
+		}
 
 		// fuckadoodledoo, did the player die?
 		if (Pi::player->IsDead()) {

@@ -17,12 +17,12 @@
 #include "HyperspaceCloud.h"
 #include "PiLuaModules.h"
 #include "Render.h"
+#include "WorldView.h"
 
 namespace Space {
 
 std::list<Body*> bodies;
 Frame *rootFrame;
-static void MoveOrbitingObjectFrames(Frame *f);
 static void UpdateFramesOfReference();
 static void CollideFrame(Frame *f);
 static void PruneCorpses();
@@ -203,30 +203,10 @@ Frame *GetFrameWithSBody(const SBody *b)
 	return find_frame_with_sbody(rootFrame, b);
 }
 
-void MoveOrbitingObjectFrames(Frame *f)
-{
-	if (f == Space::rootFrame) {
-		f->SetPosition(vector3d(0,0,0));
-		f->SetVelocity(vector3d(0,0,0));
-	} else if (f->m_sbody) {
-		// this isn't very smegging efficient
-		vector3d pos = f->m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime());
-		vector3d pos2 = f->m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime()+1.0);
-		vector3d vel = pos2 - pos;
-		f->SetPosition(pos);
-		f->SetVelocity(vel);
-	}
-	f->RotateInTimestep(Pi::GetTimeStep());
-
-	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
-		MoveOrbitingObjectFrames(*i);
-	}
-}
-
 static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
 {
 	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetOrientation(rot);
+	f->SetRotationOnly(rot);
 }
 
 static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
@@ -256,7 +236,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame in the same position but with maybe 1.05*radius,
 		// which actually contains the object.
-		frameRadius = std::max(2.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
+		frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
@@ -289,12 +269,15 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		frameRadius = 1000000.0; // XXX NFI!
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
+//		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(frameRadius ? frameRadius : 10*sbody->GetRadius());
 	
 		assert(sbody->GetRotationPeriod() != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
-		rotFrame->SetRadius(5000.0);//(1.1*sbody->GetRadius());
+		rotFrame->SetRadius(1000.0);
+//		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
 		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
+		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
@@ -321,10 +304,8 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 				// used for orientation on planet surface
 				double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 				double r1 = r.Double();		// can't put two rands in the same expression
-				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
-					matrix4x4d::RotateYMatrix(2*M_PI*r2);
-//				rot = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-//						      matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
+				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
+					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
 				pos = rot * vector3d(0,1,0);
 				height = planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius();
 				// don't want to be under water
@@ -369,7 +350,9 @@ void GenBody(SBody *sbody, Frame *f)
 void BuildSystem()
 {
 	GenBody(Pi::currentSystem->rootBody, rootFrame);
-	MoveOrbitingObjectFrames(rootFrame);
+	rootFrame->SetPosition(vector3d(0,0,0));
+	rootFrame->SetVelocity(vector3d(0,0,0));
+	rootFrame->UpdateOrbitRails();
 }
 
 void AddBody(Body *b)
@@ -388,66 +371,6 @@ void KillBody(Body* const b)
 	if (!b->IsDead()) {
 		b->MarkDead();
 		if (b != Pi::player) corpses.push_back(b);
-	}
-}
-
-void UpdateFramesOfReference()
-{
-	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-		Body *b = *i;
-
-		if (!(b->GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) continue;
-
-		// falling out of frames
-		if (!b->GetFrame()->IsLocalPosInFrame(b->GetPosition())) {
-			printf("%s leaves frame %s\n", b->GetLabel().c_str(), b->GetFrame()->GetLabel());
-			
-			vector3d oldFrameVel = b->GetFrame()->GetVelocity();
-			
-			Frame *new_frame = b->GetFrame()->m_parent;
-			if (new_frame) { // don't let fall out of root frame
-				matrix4x4d m = matrix4x4d::Identity();
-				b->GetFrame()->ApplyLeavingTransform(m);
-
-				vector3d new_pos = m * b->GetPosition();//b->GetPositionRelTo(new_frame);
-
-				matrix4x4d rot;
-				b->GetRotMatrix(rot);
-				b->SetRotMatrix(m * rot);
-				
-				b->SetVelocity(oldFrameVel + m.ApplyRotationOnly(b->GetVelocity() - 
-					b->GetFrame()->GetStasisVelocityAtPosition(b->GetPosition())));
-
-				b->SetFrame(new_frame);
-				b->SetPosition(new_pos);
-			} else {
-				b->SetVelocity(b->GetVelocity() + oldFrameVel);
-			}
-		}
-
-		// entering into frames
-		for (std::list<Frame*>::iterator j = b->GetFrame()->m_children.begin(); j != b->GetFrame()->m_children.end(); ++j) {
-			Frame *kid = *j;
-			matrix4x4d m;
-			Frame::GetFrameTransform(b->GetFrame(), kid, m);
-			vector3d pos = m * b->GetPosition();
-			if (kid->IsLocalPosInFrame(pos)) {
-				printf("%s enters frame %s\n", b->GetLabel().c_str(), kid->GetLabel());
-				b->SetPosition(pos);
-				b->SetFrame(kid);
-
-				matrix4x4d rot;
-				b->GetRotMatrix(rot);
-				b->SetRotMatrix(m * rot);
-				
-				// get rid of transforms
-				m.ClearToRotOnly();
-				b->SetVelocity(m*b->GetVelocity()
-					- kid->GetVelocity()
-					+ kid->GetStasisVelocityAtPosition(pos));
-				break;
-			}
-		}
 	}
 }
 
@@ -493,9 +416,9 @@ static void hitCallback(CollisionContact *c)
 		const double invMass2 = 1.0 / b2->GetMass();
 		const vector3d hitPos1 = c->pos - b1->GetPosition();
 		const vector3d hitPos2 = c->pos - b2->GetPosition();
-		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
-		const vector3d hitVel2 = linVel2 + vector3d::Cross(angVel2, hitPos2);
-		const double relVel = vector3d::Dot(hitVel1 - hitVel2, c->normal);
+		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
+		const vector3d hitVel2 = linVel2 + angVel2.Cross(hitPos2);
+		const double relVel = (hitVel1 - hitVel2).Dot(c->normal);
 		// moving away so no collision
 		if (relVel > 0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
@@ -504,16 +427,16 @@ static void hitCallback(CollisionContact *c)
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
 		const double term2 = invMass2;
-		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert1, hitPos1));
-		const double term4 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos2, c->normal)*invAngInert2, hitPos2));
+		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal)*invAngInert1).Cross(hitPos1));
+		const double term4 = c->normal.Dot((hitPos2.Cross(c->normal)*invAngInert2).Cross(hitPos2));
 
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
 					
 		b1->SetVelocity(linVel1 + force*invMass1);
-		b1->SetAngVelocity(angVel1 + vector3d::Cross(hitPos1, force)*invAngInert1);
+		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert1);
 		b2->SetVelocity(linVel2 - force*invMass2);
-		b2->SetAngVelocity(angVel2 - vector3d::Cross(hitPos2, force)*invAngInert2);
+		b2->SetAngVelocity(angVel2 - hitPos2.Cross(force)*invAngInert2);
 	} else {
 		// one body is static
 		vector3d hitNormal;
@@ -536,21 +459,21 @@ static void hitCallback(CollisionContact *c)
 
 		const double invMass1 = 1.0 / mover->GetMass();
 		const vector3d hitPos1 = c->pos - mover->GetPosition();
-		const vector3d hitVel1 = linVel1 + vector3d::Cross(angVel1, hitPos1);
-		const double relVel = vector3d::Dot(hitVel1, c->normal);
+		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
+		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
-		if (relVel > 0) return;
+		if (relVel > 0 && !c->geomFlag) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;
 		const double term1 = invMass1;
-		const double term3 = vector3d::Dot(c->normal, vector3d::Cross(vector3d::Cross(hitPos1, c->normal)*invAngInert, hitPos1));
+		const double term3 = c->normal.Dot((hitPos1.Cross(c->normal)*invAngInert).Cross(hitPos1));
 
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;
 					
 		mover->SetVelocity(linVel1 + force*invMass1);
-		mover->SetAngVelocity(angVel1 + vector3d::Cross(hitPos1, force)*invAngInert);
+		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert);
 	}
 }
 
@@ -603,35 +526,6 @@ void CollideFrame(Frame *f)
 	}
 }
 
-void ApplyGravity()
-{
-	Body *lump = 0;
-	// gravity is applied when our frame contains an 'astroBody', ie a star or planet,
-	// or when our frame contains a rotating frame which contains this body.
-	if (Pi::player->GetFrame()->m_astroBody) {
-		lump = Pi::player->GetFrame()->m_astroBody;
-	} else if (Pi::player->GetFrame()->m_sbody &&
-		(Pi::player->GetFrame()->m_children.begin() !=
-	           Pi::player->GetFrame()->m_children.end())) {
-
-		lump = (*Pi::player->GetFrame()->m_children.begin())->m_astroBody;
-	}
-	// just to crap in the player's frame
-	if (lump) { 
-		for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
-			if ((*i)->GetFrame() != Pi::player->GetFrame()) continue;
-			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
-
-			vector3d b1b2 = lump->GetPosition() - (*i)->GetPosition();
-			const double m1m2 = (*i)->GetMass() * lump->GetMass();
-			const double r = b1b2.Length();
-			const double force = G*m1m2 / (r*r);
-			b1b2 = b1b2.Normalized() * force;
-			static_cast<DynamicBody*>(*i)->AddForce(b1b2);
-		}
-	}
-
-}
 
 void TimeStep(float step)
 {
@@ -653,18 +547,21 @@ void TimeStep(float step)
 		return;
 	}
 
-	ApplyGravity();
 	CollideFrame(rootFrame);
 	// XXX does not need to be done this often
-	UpdateFramesOfReference();
-	MoveOrbitingObjectFrames(rootFrame);
+
+	// update frames of reference
+	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i)
+		(*i)->UpdateFrame();
+
+	rootFrame->UpdateOrbitRails();
 	
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
+		(*i)->StaticUpdate(step);			// moved so timestep is correct during StaticUpdate
+
+	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
-	}
-	for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
-		(*i)->StaticUpdate(step);
-	}
+
 	Sfx::TimeStepAll(step, rootFrame);
 
 	PiLuaModules::EmitEvents();
@@ -853,6 +750,75 @@ float GetHyperspaceAnim()
 	return hyperspaceAnim;
 }
 
+void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
+{
+	glPushMatrix();
+
+	float znear, zfar;
+	Pi::worldView->GetNearFarClipPlane(&znear, &zfar);
+	double newdist = znear + 0.5f * (zfar - znear);
+	double scale = newdist / fpos.Length();
+
+	glTranslatef((float)(scale*fpos.x), (float)(scale*fpos.y), (float)(scale*fpos.z));
+
+	Render::State::UseProgram(0);
+	// face the camera dammit
+	vector3d zaxis = fpos.Normalized();
+	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis);
+	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
+	glMultMatrixd(&rot[0]);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+
+	// XXX WRONG. need to pick light from appropriate turd.
+	GLfloat col[4];
+	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
+	glColor4f(col[0], col[1], col[2], 1);
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0,0,0);
+	glColor4f(col[0], col[1], col[2], 0);
+
+	const float spikerad = (float)(scale*rad);
+
+	// bezier with (0,0,0) control points
+		{
+			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+		{
+			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
+			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
+				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+				glVertex3fv(&p[0]);
+			}
+		}
+	glEnd();
+	glDisable(GL_BLEND);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+	glPopMatrix();
+}
+
 struct body_zsort_t {
 	double dist;
 	vector3d viewCoords;
@@ -873,6 +839,7 @@ struct body_zsort_compare : public std::binary_function<body_zsort_t, body_zsort
 	}
 };
 
+/** Perhaps this should be moved to WorldView.cpp. It is only called from there. */
 void Render(const Frame *cam_frame)
 {
 	Plane planes[6];
@@ -883,9 +850,8 @@ void Render(const Frame *cam_frame)
 	int idx = 0;
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		const vector3d pos = (*i)->GetInterpolatedPosition();
-		Frame::GetFrameTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
+		Frame::GetFrameRenderTransform((*i)->GetFrame(), cam_frame, bz[idx].viewTransform);
 		vector3d toBody = bz[idx].viewTransform * pos;
-		bz[idx].viewTransform = bz[idx].viewTransform;
 		bz[idx].viewCoords = toBody;
 		bz[idx].dist = toBody.Length();
 		bz[idx].bodyFlags = (*i)->GetFlags();
@@ -895,20 +861,29 @@ void Render(const Frame *cam_frame)
 	sort(bz, bz+bodies.size(), body_zsort_compare());
 
 	for (unsigned int i=0; i<bodies.size(); i++) {
-		double boundingRadius = bz[i].b->GetBoundingRadius();
+		double rad = bz[i].b->GetBoundingRadius();
 
 		// test against all frustum planes except far plane
 		bool do_draw = true;
 		// always render stars (they have a huge glow). Other things do frustum cull
 		if (!bz[i].b->IsType(Object::STAR)) {
 			for (int p=0; p<5; p++) {
-				if (planes[p].DistanceToPoint(bz[i].viewCoords)+boundingRadius < 0) {
+				if (planes[p].DistanceToPoint(bz[i].viewCoords)+rad < 0) {
 					do_draw = false;
 					break;
 				}
 			}
 		}
-		if (do_draw) bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
+		if (!do_draw) continue;
+
+		double screenrad = 500 * rad / bz[i].dist;		// approximate pixel size
+		if (!bz[i].b->IsType(Object::STAR) && screenrad < 2) {
+			if (!bz[i].b->IsType(Object::PLANET)) continue;
+			// absolute bullshit
+			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
+			DrawSpike(spikerad, bz[i].viewCoords, bz[i].viewTransform);
+		}
+		else bz[i].b->Render(bz[i].viewCoords, bz[i].viewTransform);
 	}
 	Sfx::RenderAll(rootFrame, cam_frame);
 	Render::State::UseProgram(0);

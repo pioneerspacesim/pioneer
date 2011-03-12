@@ -66,7 +66,7 @@ void BVHTree::BuildNode(BVHNode *node,
 	node->aabb = aabb;
 
 	Aabb splitBox = aabb;
-	float splitPos;
+	double splitPos;
 	int splitAxis;
 	int s1count, s2count;
 	int attempt = 0;
@@ -85,7 +85,7 @@ void BVHTree::BuildNode(BVHNode *node,
 
 		for (int i=0; i<numTris; i++) {
 			int idx = activeObjIdx[i];
-			float mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
+			double mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
 			if (mid < splitPos) {
 				splitSides[i] = 0;
 				s1count++;

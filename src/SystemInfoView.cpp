@@ -19,6 +19,11 @@ void SystemInfoView::OnBodySelected(SBody *b)
 {
 	m_bodySelected = b;
 
+	{
+		printf("\n");
+		printf("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
+	}
+
 	SBodyPath path;
 	m_system->GetPathOf(b, &path);
 	Pi::player->SetHyperspaceTarget(&path);
@@ -43,7 +48,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 }
 
 	{
-		Gui::Label *l = new Gui::Label(stringf(256, "%s: %s", b->name.c_str(), b->GetAstroDescription()));
+		Gui::Label *l = new Gui::Label(b->name + ": " + b->GetAstroDescription());
 		l->Color(1,1,0);
 		m_infoBox->PackStart(l);
 	}
@@ -208,6 +213,20 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	if (!s) return;			// Does happen
 
 	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+
+	if (s->m_unexplored) {
+		Add(m_sbodyInfoTab, 0, 0);
+
+		std::string _info =
+			"Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available.";
+
+		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
+		m_sbodyInfoTab->Add(l, 35, 300);
+
+		ShowAll();
+		return;
+	}
+
 	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	

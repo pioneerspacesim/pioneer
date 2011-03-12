@@ -50,96 +50,92 @@ float StarSystem::starRealColors[][3] = {
 	{ 1.0, 1.0, 1.0 }, // white dwarf
 };
 
-float StarSystem::starLuminosities[] = {
+double StarSystem::starLuminosities[] = {
 	0,
-	0.0003f, // brown dwarf
-	0.08f, // M0
-	0.38f, // K0
-	1.2f, // G0
-	5.1f, // F0
-	24.0f, // A0
-	24000.0f, // B0
-	200000.0f, // O5
-	200000.0f, // red giant
-	0.1f, // white dwarf
+	0.0003, // brown dwarf
+	0.08, // M0
+	0.38, // K0
+	1.2, // G0
+	5.1, // F0
+	24.0, // A0
+	24000.0, // B0
+	200000.0, // O5
+	200000.0, // red giant
+	0.1, // white dwarf
 };
 
-static const struct SBodySubTypeInfo {
+fixed StarSystem::starMetallicities[] = {
+	fixed(0,1),
+	fixed(9,10), // brown dwarf
+	fixed(7,10), // M0
+	fixed(6,10), // K0
+	fixed(5,10), // G0
+	fixed(4,10), // F0
+	fixed(3,10), // A0
+	fixed(2,10), // B0
+	fixed(1,10), // O5
+	fixed(8,10), // red giant
+	fixed(5,10), // white dwarf
+};
+
+static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
 	int mass[2]; // min,max % sol for stars, unused for planets
 	int radius; // % sol radii for stars, % earth radii for planets
-	const char *description;
-	const char *icon;
 	int tempMin, tempMax;
-} bodyTypeInfo[SBody::TYPE_MAX] = {
+} starTypeInfo[] = {
 	{
-		SBody::SUPERTYPE_NONE, {}, 0, "Shouldn't see this!",
+		SBody::SUPERTYPE_NONE, {}, 0,
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{2,8}, 30, "Brown dwarf sub-stellar object",
-		"icons/object_brown_dwarf.png",
+		{2,8}, 30,
 		1000, 2000
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{10,47}, 50, "Type 'M' red star",
-		"icons/object_star_m.png",
+		{10,47}, 50,
 		2000, 3500
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{50,78}, 90, "Type 'K' orange star",
-		"icons/object_star_k.png",
+		{50,78}, 90,
 		3500, 5000
 	}, { 
 		SBody::SUPERTYPE_STAR,
-		{80,110}, 110, "Type 'G' yellow star",
-		"icons/object_star_g.png",
+		{80,110}, 110,
 		5000, 6000
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{115,170}, 140, "Type 'F' white star",
-		"icons/object_star_f.png",
+		{115,170}, 140,
 		6000, 7500
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{180,320}, 210, "Type 'A' hot white star",
-		"icons/object_star_a.png",
+		{180,320}, 210,
 		7500, 10000
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{400,1800}, 700, "Bright type 'B' blue star",
-		"icons/object_star_b.png",
+		{400,1800}, 700,
 		10000, 30000
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{2000,4000}, 1600, "Hot, massive type 'O' blue star",
-		"icons/object_star_o.png",
+		{2000,4000}, 1600,
 		30000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{60,1000}, 15000, "Red giant star",
-		"icons/object_star_m_giant.png",
+		{60,1000}, 15000,
 		2000, 3500
 	}, {
 		SBody::SUPERTYPE_STAR,
-		{20,100}, 1, "White dwarf",
-		"icons/object_white_dwarf.png",
+		{20,100}, 1, 
 		4000, 40000
-	}, {
-		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 390, "Small gas giant",
-		"icons/object_planet_small_gas_giant.png"
-	}, {
+	}
+/*	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
 		{}, 950, "Medium gas giant",
-		"icons/object_planet_medium_gas_giant.png"
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
 		{}, 1110, "Large gas giant",
-		"icons/object_planet_large_gas_giant.png"
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
 		{}, 1500, "Very large gas giant",
-		"icons/object_planet_large_gas_giant.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 1, "Asteroid",
@@ -147,86 +143,213 @@ static const struct SBodySubTypeInfo {
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 2, "Large asteroid",
-		"icons/object_planet_asteroid.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 26, "Small, rocky dwarf planet", // moon radius
-		"icons/object_planet_dwarf.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 26, "Small, rocky dwarf planet", // dwarf2 for moon-like colours
-		"icons/object_planet_dwarf.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 52, "Small, rocky planet with a thin atmosphere", // mars radius
-		"icons/object_planet_small.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky frozen planet with a thin nitrogen atmosphere", // earth radius
-		"icons/object_planet_water_n2.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Dead world that once housed it's own intricate ecosystem.", // earth radius
-		"icons/object_planet_desert.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a carbon dioxide atmosphere",
-		"icons/object_planet_co2.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a methane atmosphere",
-		"icons/object_planet_methane.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Water world with vast oceans and a thick nitrogen atmosphere",
-		"icons/object_planet_water_n1.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a thick carbon dioxide atmosphere",
-		"icons/object_planet_co2.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Rocky planet with a thick methane atmosphere",
-		"icons/object_planet_methane.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "Highly volcanic world",
-		"icons/object_planet_volcanic.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 100, "World with indigenous life and an oxygen atmosphere",
-		"icons/object_planet_life.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 60, "Marginal terraformed world with minimal plant life",
-		"icons/object_planet_life3.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
 		{}, 90, "Fully terraformed world with introduced species from numerous successful colonies",
-		"icons/object_planet_life2.png"
 	}, {
 		SBody::SUPERTYPE_STARPORT,
 		{}, 0, "Orbital starport",
-		"icons/object_orbital_starport.png"
 	}, {
 		SBody::SUPERTYPE_STARPORT,
 		{}, 0, "Starport",
-	}
+	}*/
 };
 
 SBody::BodySuperType SBody::GetSuperType() const
 {
-	return bodyTypeInfo[type].supertype;
+	switch (type) {
+		case TYPE_BROWN_DWARF:
+		case TYPE_STAR_M:
+		case TYPE_STAR_K:
+		case TYPE_STAR_G:
+		case TYPE_STAR_F:
+		case TYPE_STAR_A:
+		case TYPE_STAR_B:
+		case TYPE_STAR_O:
+		case TYPE_STAR_M_GIANT:
+		case TYPE_WHITE_DWARF:
+		     return SUPERTYPE_STAR;
+		case TYPE_PLANET_GAS_GIANT:
+		     return SUPERTYPE_GAS_GIANT;
+		case TYPE_PLANET_ASTEROID:
+		case TYPE_PLANET_TERRESTRIAL:
+		     return SUPERTYPE_ROCKY_PLANET;
+		case TYPE_STARPORT_ORBITAL:
+		case TYPE_STARPORT_SURFACE:
+		     return SUPERTYPE_STARPORT;
+		case TYPE_GRAVPOINT:
+		     return SUPERTYPE_NONE;
+	}
 }
 
-const char *SBody::GetAstroDescription()
+std::string SBody::GetAstroDescription()
 {
-	return bodyTypeInfo[type].description;
+	switch (type) {
+	case TYPE_BROWN_DWARF: return "Brown dwarf sub-stellar object";
+	case TYPE_STAR_M: return "Type 'M' red star";
+	case TYPE_STAR_K: return "Type 'K' orange star";
+	case TYPE_STAR_G: return "Type 'G' yellow star";
+	case TYPE_STAR_F: return "Type 'F' white star";
+	case TYPE_STAR_A: return "Type 'A' hot white star";
+	case TYPE_STAR_B: return "Bright type 'B' blue star";
+	case TYPE_STAR_O: return "Hot, massive type 'O' star";
+	case TYPE_STAR_M_GIANT: return "Red giant star";
+	case TYPE_WHITE_DWARF: return "White dwarf stellar remnant";
+	case TYPE_PLANET_GAS_GIANT:
+		if (mass > 800) return "Very large gas giant";
+		if (mass > 300) return "Large gas giant";
+		if (mass > 80) return "Medium gas giant";
+		else return "Small gas giant";
+	case TYPE_PLANET_ASTEROID: return "Asteroid";
+	case TYPE_PLANET_TERRESTRIAL: {
+		std::string s;
+		if (mass > fixed(2,1)) s = "Massive";
+		else if (mass > fixed(3,2)) s = "Large";
+		else if (mass < fixed(1,10)) s = "Tiny";
+		else if (mass < fixed(1,5)) s = "Small";
+
+		if (m_volcanicity > fixed(1,2)) {
+			if (s.size()) s += ", highly volcanic";
+			else s = "Highly volcanic";
+		}
+
+		if (m_volatileIces + m_volatileLiquid > fixed(1,5)) {
+			if (m_volatileIces > m_volatileLiquid) {
+				s += " ice world";
+			} else {
+				s += " ocean world";
+			}
+		} else {
+			s += " rocky planet";
+		}
+
+		if (m_volatileGas < fixed(1,100)) {
+			s += " with no significant atmosphere";
+		} else {
+			std::string thickness;
+			if (m_volatileGas < fixed(1,10)) thickness = "tenuous";
+			else if (m_volatileGas < fixed(1,5)) thickness = "thin";
+			else if (m_volatileGas < fixed(2,1)) {}
+			else if (m_volatileGas < fixed(4,1)) thickness = "thick";
+			else thickness = "very dense";
+
+			if (m_atmosOxidizing < fixed(1,2)) {
+				if (mass > fixed(3,1)) {
+					s += " with a "+thickness+" Hydrogen atmosphere";
+				} else {
+					s += " with a "+thickness+" Methane atmosphere";
+				}
+			} else {
+				if (m_life > fixed(1,2)) {
+					s += " with a "+thickness+" Oxygen atmosphere";
+				} else {
+					s += " with a "+thickness+" Carbon Dioxide atmosphere";
+				}
+			}
+		}
+
+		if (m_life > fixed(1,7)) {
+			s += " and advanced indigenous life.";
+		} else if (m_life > fixed(0)) {
+			s += " and indigenous microbial life.";
+		} else {
+			s += ".";
+		}
+		
+		return s;
+	}
+	case TYPE_STARPORT_ORBITAL:
+		return "Orbital starport";
+	case TYPE_STARPORT_SURFACE:
+		return "Starport";
+	case TYPE_GRAVPOINT:
+		return "<unknown>";
+	}
 }
 
 const char *SBody::GetIcon()
 {
-	return bodyTypeInfo[type].icon;
+	switch (type) {
+	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
+	case TYPE_STAR_M: return "icons/object_star_m.png";
+	case TYPE_STAR_K: return "icons/object_star_k.png";
+	case TYPE_STAR_G: return "icons/object_star_g.png";
+	case TYPE_STAR_F: return "icons/object_star_f.png";
+	case TYPE_STAR_A: return "icons/object_star_a.png";
+	case TYPE_STAR_B: return "icons/object_star_b.png";
+	case TYPE_STAR_O: return "icons/object_star_o.png";
+	case TYPE_STAR_M_GIANT: return "icons/object_star_m_giant.png";
+	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
+	case TYPE_PLANET_GAS_GIANT:
+		if (mass > 800) return "icons/object_planet_large_gas_giant.png";
+		if (mass > 300) return "icons/object_planet_large_gas_giant.png";
+		if (mass > 80) return "icons/object_planet_medium_gas_giant.png";
+		else return "icons/object_planet_small_gas_giant.png";
+	case TYPE_PLANET_ASTEROID:
+		return "icons/object_planet_asteroid.png";
+	case TYPE_PLANET_TERRESTRIAL:
+		if (m_life > fixed(1,7)) return "icons/object_planet_life.png";
+		if (m_life > fixed(1,1)) return "icons/object_planet_life3.png";
+		if (mass < fixed(1,100)) return "icons/object_planet_dwarf.png";
+		if (mass < fixed(1,10)) return "icons/object_planet_small.png";
+		if (m_volatileLiquid == 0) return "icons/object_planet_desert.png";
+		if (m_volatileLiquid > fixed(1,2)) return "icons/object_planet_water_n2.png";
+		if (m_volatileGas > fixed(1,2)) {
+			if (m_atmosOxidizing < fixed(1,2)) return "icons/object_planet_methane.png";
+			else return "icons/object_planet_co2.png";
+		}
+		if (m_volcanicity > fixed(1,8)) return "icons/object_planet_volcanic.png";
+		return "icons/object_planet_small.png";
+		/*
+		"icons/object_planet_water_n1.png"
+		"icons/object_planet_life3.png"
+		"icons/object_planet_life2.png"
+		*/
+	case TYPE_STARPORT_ORBITAL:
+		return "icons/object_orbital_starport.png";
+	case TYPE_GRAVPOINT:
+	case TYPE_STARPORT_SURFACE:
+		return 0;
+	}
 }
 
 /*
@@ -241,9 +364,6 @@ static void position_settlement_on_planet(SBody *b)
 	double r1 = r.Double();		// can't put two rands in the same expression
 	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
 			matrix4x4d::RotateYMatrix(2*M_PI*r2);
-
-//	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r.Double()) *
-//			matrix4x4d::RotateYMatrix(2*M_PI*r.Double());
 }
 
 double SBody::GetMaxChildOrbitalDistance() const
@@ -544,6 +664,14 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, co
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
 		kid->heightMapFilename = c->heightMapFilename;
 
+		kid->m_metallicity    = c->composition.metallicity;
+		kid->m_volatileGas    = c->composition.volatileGas;
+		kid->m_volatileLiquid = c->composition.volatileLiquid;
+		kid->m_volatileIces   = c->composition.volatileIces;
+		kid->m_volcanicity    = c->composition.volcanicity;
+		kid->m_atmosOxidizing = c->composition.atmosOxidizing;
+		kid->m_life           = c->composition.life;
+
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->longitude) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
@@ -595,11 +723,11 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 void StarSystem::MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand)
 {
 	sbody->type = type;
-	sbody->radius = fixed(bodyTypeInfo[type].radius, 100);
-	sbody->mass = fixed(rand.Int32(bodyTypeInfo[type].mass[0],
-				bodyTypeInfo[type].mass[1]), 100);
-	sbody->averageTemp = rand.Int32(bodyTypeInfo[type].tempMin,
-				bodyTypeInfo[type].tempMax);
+	sbody->radius = fixed(starTypeInfo[type].radius, 100);
+	sbody->mass = fixed(rand.Int32(starTypeInfo[type].mass[0],
+				starTypeInfo[type].mass[1]), 100);
+	sbody->averageTemp = rand.Int32(starTypeInfo[type].tempMin,
+				starTypeInfo[type].tempMax);
 }
 
 void StarSystem::MakeRandomStar(SBody *sbody, MTRand &rand)
@@ -684,6 +812,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	_init[4] = m_seed;
 	MTRand rand;
 	rand.seed(_init, 5);
+
+	/*
+	 * 0 - ~500ly from sol: explored
+	 * ~500ly - ~700ly (65-90 sectors): gradual
+	 * ~700ly+: unexplored
+	 */
+	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
+	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
 	if (s.m_systems[system_idx].customSys) {
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
@@ -791,6 +927,8 @@ try_that_again_guvnah:
 
 		}
 	}
+
+	m_metallicity = starMetallicities[rootBody->type];
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
@@ -993,12 +1131,10 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		planet->eccentricity = ecc;
 		planet->axialTilt = fixed(100,157)*rand.NFixed(2);
 		planet->semiMajorAxis = semiMajorAxis;
-		if (rand.Int32(0,1)) planet->type = SBody::TYPE_PLANET_DWARF;
-		else planet->type = SBody::TYPE_PLANET_DWARF2;
+		planet->type = SBody::TYPE_PLANET_TERRESTRIAL;
 		planet->seed = rand.Int32();
 		planet->tmp = 0;
 		planet->parent = primary;
-	//	planet->radius = EARTH_RADIUS*bodyTypeInfo[type].radius;
 		planet->mass = mass;
 		planet->rotationPeriod = fixed(rand.Int32(1,200), 24);
 
@@ -1006,14 +1142,10 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 
-
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
 		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
 			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
-
-//		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-//			matrix4x4d::RotateXMatrix(-0.5*M_PI + rand.NDouble(5)*M_PI/2.0);
 
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
@@ -1068,151 +1200,93 @@ const SBody *SBody::FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax)
 
 void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 {
-	fixed albedo = rand.Fixed() * fixed(1,2);
-	fixed globalwarming = rand.Fixed() * fixed(9,10);
-	// light planets have bugger all atmosphere
-	if (mass < 1) globalwarming *= mass;
-	// big planets get high global warming due to thick atmos
-	if (mass > 3) globalwarming *= (mass-2);
-	globalwarming = Clamp(globalwarming, fixed(0), fixed(95,100));
+	fixed albedo = fixed(0);
+	fixed greenhouse = fixed(0);
 
 	fixed minDistToStar, maxDistToStar, averageDistToStar;
 	const SBody *star = FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
 	averageDistToStar = (minDistToStar+maxDistToStar)>>1;
 
-	/* this is all of course a total fucking joke and un-physical */
-	int bbody_temp;
-	bool fiddle = false;
-	for (int i=0; i<10; i++) {
-		bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, globalwarming);
-		//printf("temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
-		// extreme high temperature and low mass causes atmosphere loss
-#define ATMOS_LOSS_MASS_CUTOFF	2
-#define ATMOS_TEMP_CUTOFF	400
-#define FREEZE_TEMP_CUTOFF	220
-		if ((bbody_temp > ATMOS_TEMP_CUTOFF) &&
-		   (mass < ATMOS_LOSS_MASS_CUTOFF)) {
-		//	printf("atmos loss\n");
-			globalwarming = globalwarming * (mass/ATMOS_LOSS_MASS_CUTOFF);
-			fiddle = true;
-		}
-		if (!fiddle) break;
-		fiddle = false;
-	}
-	// this is utter rubbish. should decide atmosphere composition and then freeze out
-	// components of it in the previous loop
-	if ((bbody_temp < FREEZE_TEMP_CUTOFF) && (mass < 5)) {
-		globalwarming *= 0.2;
-		albedo = rand.Fixed()*fixed(5,100) + 0.9;
-	}
-	bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, globalwarming);
-//	printf("= temp %f, albedo %f, globalwarming %f\n", bbody_temp, albedo, globalwarming);
-
+	/* first calculate blackbody temp (no greenhouse effect, zero albedo) */
+	int bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+	
 	averageTemp = bbody_temp;
+	radius = fixed::CubeRootOf(mass);
+	
+	m_metallicity = system->m_metallicity * rand.Fixed();
+	// harder to be volcanic when you are tiny (you cool down)
+	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
+	m_atmosOxidizing = rand.Fixed();
+	m_life = fixed(0);
+	m_volatileGas = fixed(0);
+	m_volatileLiquid = fixed(0);
+	m_volatileIces = fixed(0);
 
+	// pick body type
 	if (mass > 317*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
 		type = SBody::TYPE_BROWN_DWARF;
-		averageTemp = averageTemp + rand.Int32(bodyTypeInfo[type].tempMin,
-					bodyTypeInfo[type].tempMax);
+		averageTemp = averageTemp + rand.Int32(starTypeInfo[type].tempMin,
+					starTypeInfo[type].tempMax);
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
 		mass = std::min(mass, fixed(317*65, 1)) / 332998;
-	} else if (mass > 300) {
-		type = SBody::TYPE_PLANET_LARGE_GAS_GIANT;
-	} else if (mass > 90) {
-		type = SBody::TYPE_PLANET_MEDIUM_GAS_GIANT;
 	} else if (mass > 6) {
-		type = SBody::TYPE_PLANET_SMALL_GAS_GIANT;
-	} else {
-		// terrestrial planets
-		if (mass < fixed(1,20000)) {
-			type = SBody::TYPE_PLANET_ASTEROID;
-		} else if (mass < fixed(1, 15000)) {
-			type = SBody::TYPE_PLANET_LARGE_ASTEROID;
-		} else if (mass < fixed(2,1000)) {
-			if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_DWARF;
-			else type = SBody::TYPE_PLANET_DWARF2;
-		} else if ((mass < fixed(2,10)) && (globalwarming < fixed(5,100))) {
-			type = SBody::TYPE_PLANET_SMALL;
-		} else if (mass < 3) {
-			if ((averageTemp > CELSIUS-60) && (averageTemp < CELSIUS+200)) {
-				// try for life
-				int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, globalwarming);
-				int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, globalwarming);
+		type = SBody::TYPE_PLANET_GAS_GIANT;
+	} else if (mass > fixed(1, 15000)) {
+		type = SBody::TYPE_PLANET_TERRESTRIAL;
 
-				if ((star->type != TYPE_BROWN_DWARF) &&
-				    (star->type != TYPE_WHITE_DWARF) &&
-				    (star->type != TYPE_STAR_O) &&
-				    (minTemp > CELSIUS-10) && (minTemp < CELSIUS+60) &&
-				    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+60)) {
-					type = SBody::TYPE_PLANET_INDIGENOUS_LIFE;
-					humanActivity *= 4;
-				} else if 
-						 ((minTemp > CELSIUS-15) && (minTemp < CELSIUS+65) &&
-						 (maxTemp > CELSIUS-15) && (maxTemp < CELSIUS+65)) {
-						 type = SBody::TYPE_PLANET_TERRAFORMED_GOOD;
-						 humanActivity *= 3;
-						 }
-				else if
-						 ((minTemp > CELSIUS-25) && (minTemp < CELSIUS+70) &&
-						 (maxTemp > CELSIUS-25) && (maxTemp < CELSIUS+70)) {
-						 type = SBody::TYPE_PLANET_TERRAFORMED_POOR;
-						 humanActivity *= 1;
-						 }
-				else if	
-						((minTemp > CELSIUS-00) && (minTemp < CELSIUS+95) &&
-						 (maxTemp > CELSIUS-00) && (maxTemp < CELSIUS+95)) {
-						 type = SBody::TYPE_PLANET_WATER_THICK_ATMOS;
-						 humanActivity *= 2;
-						 }
-				else if	
-						((minTemp > CELSIUS-100) && (minTemp < CELSIUS+00) &&
-						 (maxTemp > CELSIUS-100) && (maxTemp < CELSIUS+00)) {
-						 type = SBody::TYPE_PLANET_WATER;
-						 humanActivity *= 1;
-						 }
-				else if	
-						((minTemp > CELSIUS+30) && (minTemp < CELSIUS+120) &&
-						 (maxTemp > CELSIUS+30) && (maxTemp < CELSIUS+120)) {
-						 type = SBody::TYPE_PLANET_DESERT;
-						 humanActivity *= 1;
-						//bit crap but it has the desired effect 
-						}
-				else
-					{
-					if (averageTemp > CELSIUS+10)
-					{
-					type = SBody::TYPE_PLANET_DESERT;
-				    }
-					else if (averageTemp < CELSIUS-10)
-					{
-					type = SBody::TYPE_PLANET_WATER;
-					}}
-			} else {
-				if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_CO2;
-				else type = SBody::TYPE_PLANET_METHANE;
-			}
-		} else /* 3 < mass < 6 */ {
-			if ((averageTemp > CELSIUS-5) && (averageTemp < CELSIUS+80)) {
-				type = SBody::TYPE_PLANET_WATER_THICK_ATMOS;
-			}
-			else if ((averageTemp > CELSIUS-150) && (averageTemp < CELSIUS-3)) {
-					type = SBody::TYPE_PLANET_WATER;
-			}
-			else if ((averageTemp > CELSIUS+70) && (averageTemp < CELSIUS+600)) {
-					type = SBody::TYPE_PLANET_DESERT;
-			}
-			else {
-				if (rand.Int32(0,1)) type = SBody::TYPE_PLANET_CO2_THICK_ATMOS;
-				else type = SBody::TYPE_PLANET_METHANE_THICK_ATMOS;
+		fixed amount_volatiles = fixed(2,1)*rand.Fixed();
+		if (rand.Int32(3)) amount_volatiles *= mass;
+		// total atmosphere loss
+		if (rand.Fixed() > mass) amount_volatiles = fixed(0);
+
+		//printf("Amount volatiles: %f\n", amount_volatiles.ToFloat());
+		// fudge how much of the volatiles are in which state
+		greenhouse = fixed(0);
+		albedo = fixed(0);
+		// CO2 sublimation
+		if (averageTemp > 195) greenhouse += amount_volatiles * fixed(1,3);
+		else albedo += fixed(2,6);
+		// H2O liquid
+		if (averageTemp > 273) greenhouse += amount_volatiles * fixed(1,5);
+		else albedo += fixed(3,6);
+		// H2O boils
+		if (averageTemp > 373) greenhouse += amount_volatiles * fixed(1,3);
+
+		averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+
+		const fixed proportion_gas = averageTemp / (fixed(100,1) + averageTemp);
+		m_volatileGas = proportion_gas * amount_volatiles;
+
+		const fixed proportion_liquid = (fixed(1,1)-proportion_gas) * (averageTemp / (fixed(50,1) + averageTemp));
+		m_volatileLiquid = proportion_liquid * amount_volatiles;
+
+		const fixed proportion_ices = fixed(1,1) - (proportion_gas + proportion_liquid);
+		m_volatileIces = proportion_ices * amount_volatiles;
+
+		//printf("temp %dK, gas:liquid:ices %f:%f:%f\n", averageTemp, proportion_gas.ToFloat(),
+		//		proportion_liquid.ToFloat(), proportion_ices.ToFloat());
+
+		if ((m_volatileLiquid > fixed(0)) &&
+		    (averageTemp > CELSIUS-60) &&
+		    (averageTemp < CELSIUS+200)) {
+			// try for life
+			int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, greenhouse);
+			int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, greenhouse);
+
+			if ((star->type != TYPE_BROWN_DWARF) &&
+			    (star->type != TYPE_WHITE_DWARF) &&
+			    (star->type != TYPE_STAR_O) &&
+			    (minTemp > CELSIUS-10) && (minTemp < CELSIUS+90) &&
+			    (maxTemp > CELSIUS-10) && (maxTemp < CELSIUS+90)) {
+				m_life = rand.Fixed();
 			}
 		}
-		// kind of crappy
-		if ((mass > fixed(8,10)) && (!rand.Int32(0,15))) type = SBody::TYPE_PLANET_HIGHLY_VOLCANIC;
+	} else {
+		type = SBody::TYPE_PLANET_ASTEROID;
 	}
-	radius = fixed(bodyTypeInfo[type].radius, 100);
 }
 
 void StarSystem::MakeShortDescription(MTRand &rand)
@@ -1226,14 +1300,13 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 		m_econType = ECON_AGRICULTURE;
 	}
 
+	if (m_unexplored) {
+		m_shortDesc = "Unexplored system. No more data available.";
+	}
+
 	/* Total population is in billions */
-	if (m_totalPop == 0) {
-		int dist = isqrt(1 + m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY);
-		if (rand.Int32(dist) > 20) {
-			m_shortDesc = "Unexplored system.";
-		} else {
-			m_shortDesc = "Small-scale prospecting. No registered settlements.";
-		}
+	else if(m_totalPop == 0) {
+		m_shortDesc = "Small-scale prospecting. No registered settlements.";
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
 			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
@@ -1272,7 +1345,6 @@ void StarSystem::Populate(bool addSpaceStations)
 
 	/* Various system-wide characteristics */
 	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY));
-	m_metallicity = rand.Fixed();
 	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
 	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
@@ -1320,39 +1392,32 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateStage1(system, outTotalPop);
 	}
+
+	// unexplored systems have no population (that we know about)
+	if (system->m_unexplored) {
+		m_population = outTotalPop = fixed(0);
+		return;
+	}
+
 	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
 			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
 	MTRand rand;
 	rand.seed(_init, 5);
 
-	m_metallicity = system->m_metallicity * rand.Fixed();
 	m_population = fixed(0);
 
 	/* Bad type of planet for settlement */
-	if (
-		(averageTemp > CELSIUS+100) ||
-		(averageTemp < 100) ||
-	        ((type != SBody::TYPE_PLANET_DWARF) &&
-		 (type != SBody::TYPE_PLANET_SMALL) &&
-		 (type != SBody::TYPE_PLANET_WATER) &&
-		 (type != SBody::TYPE_PLANET_CO2) &&
-		 (type != SBody::TYPE_PLANET_METHANE) &&
-		 (type != SBody::TYPE_PLANET_INDIGENOUS_LIFE) &&
-		 (type != SBody::TYPE_PLANET_TERRAFORMED_POOR) &&
-		 (type != SBody::TYPE_PLANET_TERRAFORMED_GOOD)
-		)
-	   )
-	{
+	if ((averageTemp > CELSIUS+100) || (averageTemp < 100) ||
+	    (type != SBody::TYPE_PLANET_TERRESTRIAL)) {
 		return;
 	}
 
 	m_agricultural = fixed(0);
 
-	if ((type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) ||
-		(type == SBody::TYPE_PLANET_TERRAFORMED_GOOD)) {
+	if (m_life > fixed(9,10)) {
 		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+25-averageTemp, 40), fixed(0), fixed(1,1));
 		system->m_agricultural += 2*m_agricultural;
-	} else if (type == SBody::TYPE_PLANET_TERRAFORMED_POOR) {
+	} else if (m_life > fixed(1,2)) {
 		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+30-averageTemp, 50), fixed(0), fixed(1,1));
 		system->m_agricultural += 1*m_agricultural;
 	} else {
@@ -1412,15 +1477,15 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
 		Equip::Type t = consumables[i];
-		if ((t == Equip::AIR_PROCESSORS) ||
-		    (t == Equip::LIQUID_OXYGEN) ||
-		    (t == Equip::GRAIN) ||
-		    (t == Equip::FRUIT_AND_VEG) ||
-		    (t == Equip::ANIMAL_MEAT)) {
-			if ((type == SBody::TYPE_PLANET_INDIGENOUS_LIFE) ||
-			   (type == SBody::TYPE_PLANET_TERRAFORMED_GOOD)||
-			   (type == SBody::TYPE_PLANET_TERRAFORMED_POOR))
+		if (m_life > fixed(1,2)) {
+			// life planets can make this jizz probably
+			if ((t == Equip::AIR_PROCESSORS) ||
+			    (t == Equip::LIQUID_OXYGEN) ||
+			    (t == Equip::GRAIN) ||
+			    (t == Equip::FRUIT_AND_VEG) ||
+			    (t == Equip::ANIMAL_MEAT)) {
 				continue;
+			}
 		}
 		system->m_tradeLevel[t] += rand.Int32(32,128);
 	}

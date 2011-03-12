@@ -7,7 +7,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	19
+#define SAVEFILE_VERSION	20
 
 namespace Serializer {
 
@@ -160,7 +160,7 @@ void Writer::String(const std::string &s)
 {
 	Int32(s.size()+1);
 
-	for(int i=0; i<s.size(); i++) {
+	for(size_t i=0; i<s.size(); i++) {
 		Byte(s[i]);
 	}
 	Byte(0);
@@ -371,7 +371,7 @@ bool SaveGame(const char *filename)
 
 	// actually write the shit
 	const std::string &data = wr.GetData();
-	for (int i=0; i<data.size(); i++) {
+	for (size_t i=0; i<data.size(); i++) {
 		putc(data[i], sfptr);
 	}
 

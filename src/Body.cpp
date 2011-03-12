@@ -15,6 +15,7 @@ Body::Body()
 {
 	m_frame = 0;
 	m_flags = 0;
+	m_hasDoubleFrame = false;
 	m_projectedPos = vector3d(0.0f, 0.0f, 0.0f);
 	m_onscreen = false;
 	m_dead = false;
@@ -31,6 +32,7 @@ void Body::Save(Serializer::Writer &wr)
 	wr.Bool(m_onscreen);
 	wr.Vector3d(m_projectedPos);
 	wr.Bool(m_dead);
+	wr.Bool(m_hasDoubleFrame);
 }
 
 void Body::Load(Serializer::Reader &rd)
@@ -40,6 +42,7 @@ void Body::Load(Serializer::Reader &rd)
 	m_onscreen = rd.Bool();
 	m_projectedPos = rd.Vector3d();
 	m_dead = rd.Bool();
+	m_hasDoubleFrame = rd.Bool();
 }	
 
 void Body::Serialize(Serializer::Writer &_wr)
@@ -119,7 +122,7 @@ vector3d Body::GetPositionRelTo(const Frame *relTo) const
 vector3d Body::GetInterpolatedPositionRelTo(const Frame *relTo) const
 {
 	matrix4x4d m;
-	Frame::GetFrameTransform(m_frame, relTo, m);
+	Frame::GetFrameRenderTransform(m_frame, relTo, m);
 	return m * GetInterpolatedPosition();
 }
 
@@ -141,33 +144,81 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	SetPosition(pos);
 
 	vector3d forward = vector3d(0,0,1);
-	vector3d other = vector3d::Cross(up, forward).Normalized();
-	forward = vector3d::Cross(other, up);
+	vector3d other = up.Cross(forward).Normalized();
+	forward = other.Cross(up);
 
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(other, up, forward);
 	rot = rot.InverseOf();
 	SetRotMatrix(rot);
 }
 
-
-vector3d Body::GetVelocityRelativeTo(const Frame *f) const
+vector3d Body::GetVelocityRelTo(const Frame *f) const
 {
 	matrix4x4d m;
 	Frame::GetFrameTransform(GetFrame(), f, m);
 	vector3d vel = GetVelocity();
-	if (!GetFrame()->m_astroBody) {
-		// for rotating space station frames, need to subtract the
-		// velocity that is counteracting coriolis force (an object
-		// stationary relative to a non-rotating frame will be moving
-		// in a rotating frame)
+	if (f != GetFrame() || f->GetBodyFor()->IsType(SPACESTATION))
 		vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
-	}
 	return (m.ApplyRotationOnly(vel) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
 }
 
-
-vector3d Body::GetVelocityRelativeTo(const Body *other) const
+vector3d Body::GetVelocityRelTo(const Body *other) const
 {
-	return GetVelocityRelativeTo(GetFrame()) - other->GetVelocityRelativeTo(GetFrame());
+	return GetVelocityRelTo(GetFrame()) - other->GetVelocityRelTo(GetFrame());
+}
+
+void Body::UpdateFrame()
+{
+	if (!(GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) return;
+
+	// falling out of frames
+	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
+		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
+			
+		Frame *new_frame = GetFrame()->m_parent;
+		if (new_frame) { // don't let fall out of root frame
+			matrix4x4d m = matrix4x4d::Identity();
+			GetFrame()->ApplyLeavingTransform(m);
+
+			vector3d new_pos = m * GetPosition();
+
+			matrix4x4d rot;
+			GetRotMatrix(rot);
+			SetRotMatrix(m * rot);
+			
+			m.ClearToRotOnly();
+			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() - 
+				GetFrame()->GetStasisVelocityAtPosition(GetPosition())));
+
+			SetFrame(new_frame);
+			SetPosition(new_pos);
+			return;
+		}
+	}
+
+	// entering into frames
+	for (std::list<Frame*>::iterator j = GetFrame()->m_children.begin(); j != GetFrame()->m_children.end(); ++j) {
+		Frame *kid = *j;
+		matrix4x4d m;
+		Frame::GetFrameTransform(GetFrame(), kid, m);
+		vector3d pos = m * GetPosition();
+		if (!kid->IsLocalPosInFrame(pos)) continue;
+		
+		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel());
+
+		SetPosition(pos);
+		SetFrame(kid);
+
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		SetRotMatrix(m * rot);
+				
+		// get rid of transforms
+		m.ClearToRotOnly();
+		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
+			+ kid->GetStasisVelocityAtPosition(pos));
+
+		break;
+	}
 }
 

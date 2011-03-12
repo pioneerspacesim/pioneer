@@ -12,7 +12,7 @@
 bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
-	float xzradius;
+	double xzradius;
 	LmrModel *resolvedModel;
 	const LmrCollMesh *collMesh;
 };
@@ -152,8 +152,8 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		list->buildings[i].resolvedModel = *m;
 		const LmrCollMesh *collMesh = new LmrCollMesh(*m, &cityobj_params);
 		list->buildings[i].collMesh = collMesh;
-		float maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
-		float maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
+		double maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
+		double maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
@@ -209,11 +209,10 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 	for (int i=1; i<CITYFLAVOURS; i++) {
 		cityflavour[i].buildingListIdx = rand.Int32(MAX_BUILDING_LISTS-1);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
-		int a, b;
-		a = rand.Int32(-1000,1000);
-		b = rand.Int32(-1000,1000);
-		cityflavour[i].center = p + (double)a*mx + (double)b*mz;
-		cityflavour[i].size = (double)rand.Int32(blist->minRadius, blist->maxRadius);
+		double a = rand.Int32(-1000,1000);
+		double b = rand.Int32(-1000,1000);
+		cityflavour[i].center = p + a*mx + b*mz;
+		cityflavour[i].size = rand.Int32((int)blist->minRadius, (int)blist->maxRadius);
 	}
 	
 	for (int side=0; side<4; side++) {
@@ -294,10 +293,10 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		}
 		if (cull) continue;
 		matrix4x4f _rot;
-		for (int e=0; e<16; e++) _rot[e] = rot[(*i).rotation][e];
-		_rot[12] = pos.x;
-		_rot[13] = pos.y;
-		_rot[14] = pos.z;
+		for (int e=0; e<16; e++) _rot[e] = (float)rot[(*i).rotation][e];
+		_rot[12] = (float)pos.x;
+		_rot[13] = (float)pos.y;
+		_rot[14] = (float)pos.z;
 		(*i).model->Render(_rot, &cityobj_params);
 	}
 }

@@ -48,7 +48,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	float v[2];
 	if (len != 0) {
 		vol = vol / (0.002*len);
-		double dot = vector3d::Dot(pos.Normalized(), vector3d(vol, 0, 0));
+		double dot = pos.Normalized().Dot(vector3d(vol, 0, 0));
 
 		v[0] = vol * (2.0f - (1.0+dot));
 		v[1] = vol * (1.0 + dot);
@@ -409,9 +409,7 @@ bool Init ()
 		}
 
 		// load all the wretched effects
-#if !defined _MSC_VER || _MSC_VER < 1600
 		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
-#endif
 	}
 
 	/* silence any sound events */

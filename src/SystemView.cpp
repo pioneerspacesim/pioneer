@@ -126,20 +126,12 @@ void SystemView::OnClickObject(SBody *b)
 
 void SystemView::PutLabel(SBody *b, vector3d offset)
 {
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-
 	Gui::Screen::EnterOrtho();
 	
 	vector3d pos;
-	if (Gui::Screen::Project (offset.x, offset.y, offset.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+	if (Gui::Screen::Project(offset, pos)) {
 		// libsigc++ is a beautiful thing
-		m_objectLabels->Add(b->name, sigc::bind(sigc::mem_fun(this, &SystemView::OnClickObject), b), (float)pos.x, (float)pos.y);
+		m_objectLabels->Add(b->name, sigc::bind(sigc::mem_fun(this, &SystemView::OnClickObject), b), pos.x, pos.y);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -238,7 +230,10 @@ void SystemView::Draw3D()
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
 	m_objectLabels->Clear();
-	if (m_system->rootBody) PutBody(m_system->rootBody, pos);
+	if (m_system->m_unexplored)
+		m_infoLabel->SetText("Unexplored system. System view unavailable.");
+	else if (m_system->rootBody)
+		PutBody(m_system->rootBody, pos);
 	
 	glEnable(GL_LIGHTING);
 	glDisable(GL_FOG);

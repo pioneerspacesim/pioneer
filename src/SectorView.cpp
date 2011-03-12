@@ -163,19 +163,10 @@ void SectorView::OnClickSystem(int sx, int sy, int sys_idx)
 
 void SectorView::PutClickableLabel(std::string &text, int sx, int sy, int sys_idx)
 {
-	// highly optimal..
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-
 	Gui::Screen::EnterOrtho();
-	vector3d _pos;
-	if (Gui::Screen::Project (0,0,0, modelMatrix, projMatrix, viewport, &_pos.x, &_pos.y, &_pos.z)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), _pos.x, _pos.y);
+	vector3d pos;
+	if (Gui::Screen::Project(vector3d(0.0), pos)) {
+		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sx, sy, sys_idx), pos.x, pos.y);
 	}
 	Gui::Screen::LeaveOrtho();
 }

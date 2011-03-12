@@ -393,7 +393,7 @@ public:
 				const vector3d x2 = vertices[x+1];
 				const vector3d y1 = ev[x];
 				const vector3d y2 = vertices[x + GEOPATCH_EDGELEN];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[x] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, 0);
@@ -408,7 +408,7 @@ public:
 				const vector3d x2 = ev[y];
 				const vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
 				const vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[x + y*GEOPATCH_EDGELEN] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
@@ -424,7 +424,7 @@ public:
 				const vector3d x2 = vertices[x+1 + y*GEOPATCH_EDGELEN];
 				const vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
 				const vector3d y2 = ev[GEOPATCH_EDGELEN-1-x];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[x + y*GEOPATCH_EDGELEN] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
@@ -438,7 +438,7 @@ public:
 				const vector3d x2 = vertices[1 + y*GEOPATCH_EDGELEN];
 				const vector3d y1 = vertices[(y-1)*GEOPATCH_EDGELEN];
 				const vector3d y2 = vertices[(y+1)*GEOPATCH_EDGELEN];
-				const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+				const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 				normals[y*GEOPATCH_EDGELEN] = norm;
 				// make color
 				const vector3d p = GetSpherePoint(0, y*GEOPATCH_FRAC);
@@ -507,7 +507,7 @@ public:
 			x2 = vertices[1];
 			y1 = ev2[0];
 			y2 = vertices[GEOPATCH_EDGELEN];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[0] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(0, 0);
@@ -522,7 +522,7 @@ public:
 			x2 = ev2[0];
 			y1 = ev[GEOPATCH_EDGELEN-1];
 			y2 = vertices[p + GEOPATCH_EDGELEN];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[p] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(p*GEOPATCH_FRAC, 0);
@@ -537,7 +537,7 @@ public:
 			x2 = ev[GEOPATCH_EDGELEN-1];
 			y1 = vertices[p + (p-1)*GEOPATCH_EDGELEN];
 			y2 = ev2[0];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[p + p*GEOPATCH_EDGELEN] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(p*GEOPATCH_FRAC, p*GEOPATCH_FRAC);
@@ -552,7 +552,7 @@ public:
 			x2 = vertices[1 + p*GEOPATCH_EDGELEN];
 			y1 = vertices[(p-1)*GEOPATCH_EDGELEN];
 			y2 = ev[GEOPATCH_EDGELEN-1];
-			const vector3d norm = vector3d::Cross(x2-x1, y2-y1).Normalized();
+			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
 			normals[p*GEOPATCH_EDGELEN] = norm;
 			// make color
 			const vector3d pt = GetSpherePoint(0, p*GEOPATCH_FRAC);
@@ -689,7 +689,7 @@ public:
 				vector3d y1 = vertices[x + (y-1)*GEOPATCH_EDGELEN];
 				vector3d y2 = vertices[x + (y+1)*GEOPATCH_EDGELEN];
 
-				vector3d n = vector3d::Cross(x2-x1, y2-y1);
+				vector3d n = (x2-x1).Cross(y2-y1);
 				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
 				// color
 				vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
@@ -887,16 +887,17 @@ public:
 
 		if (canSplit) {
 			if (!kids[0]) {
-				vector3d v01, v12, v23, v30;
+				vector3d v01, v12, v23, v30, cn;
+				cn = centroid.Normalized();			
 				v01 = (v[0]+v[1]).Normalized();
 				v12 = (v[1]+v[2]).Normalized();
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(v[0], v01, centroid, v30, m_depth+1);
-				_kids[1] = new GeoPatch(v01, v[1], v12, centroid, m_depth+1);
-				_kids[2] = new GeoPatch(centroid, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(v30, centroid, v23, v[3], m_depth+1);
+				_kids[0] = new GeoPatch(v[0], v01, cn, v30, m_depth+1);
+				_kids[1] = new GeoPatch(v01, v[1], v12, cn, m_depth+1);
+				_kids[2] = new GeoPatch(cn, v12, v[2], v23, m_depth+1);
+				_kids[3] = new GeoPatch(v30, cn, v23, v[3], m_depth+1);
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -1038,9 +1039,6 @@ GeoSphere::GeoSphere(const SBody *body): m_style(body)
 	m_vbosToDestroyLock = SDL_CreateMutex();
 	m_runUpdateThread = 0;
 	m_sbody = body;
-#if 0
-	m_fractalOffset = vector3d(rand.Double(255), rand.Double(255), rand.Double(255));
-#endif	
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
 	SDL_mutexP(s_allGeospheresLock);
@@ -1116,93 +1114,13 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-/* Density is density at 'sea level' */
-void GeoSphere::GetAtmosphereFlavor(Color *outColor, float *outDensity) const
-{
-	/* Alpha value isn't real alpha. in the shader fog depth is determined
-	 * by density*alpha, so that we can have very dense atmospheres
-	 * without having them a bit stinking solid color obscuring everything
-	 */
-	switch (GEOSPHERE_TYPE) {
-		case SBody::TYPE_PLANET_SMALL_GAS_GIANT:
-		case SBody::TYPE_PLANET_MEDIUM_GAS_GIANT:
-		case SBody::TYPE_PLANET_LARGE_GAS_GIANT:
-		case SBody::TYPE_PLANET_VERY_LARGE_GAS_GIANT:
-			*outColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
-			*outDensity = 14.0f;
-			break;
-		case SBody::TYPE_PLANET_ASTEROID:
-		case SBody::TYPE_PLANET_LARGE_ASTEROID:
-		case SBody::TYPE_PLANET_DWARF:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0.0f;
-			break;
-		case SBody::TYPE_PLANET_DWARF2:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0.0f;
-			break;
-		case SBody::TYPE_PLANET_SMALL:
-			*outColor = Color(.2f, .2f, .3f, 1.0f);
-			*outDensity = 0.1f;
-			break;
-		case SBody::TYPE_PLANET_CO2:
-			*outColor = Color( .8f, .8f, .8f, 1.0f);
-			*outDensity = 2.0f;
-			break;
-		case SBody::TYPE_PLANET_METHANE:
-			*outColor = Color(.2f, .6f, .3f, 2.0f);
-			*outDensity = 3.4f;
-			break;
-		case SBody::TYPE_PLANET_WATER:
-			*outColor = Color(.6f, .6f, .7f, 0.8f);
-			*outDensity = 0.8f;
-			break;
-		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-			*outColor = Color(.5f, .5f, .8f, 2.0f);
-			*outDensity = 3.0f;
-			break;
-		case SBody::TYPE_PLANET_DESERT:
-			*outColor = Color(.4f, .3f, .1f, 0.7f);
-			*outDensity = 1.0f;
-			break;
-		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-			*outColor = Color(.8f, .8f, .8f, 2.0f);
-			*outDensity = 7.0f;
-			break;
-		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-			*outColor = Color(0.6f, 0.4f, 0.1f, 3.0f);
-			*outDensity = 8.0f;
-			break;
-		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			*outColor = Color(0.5f, 0.1f, 0.1f, 1.6f);
-			*outDensity = 1.8f;
-			break;
-		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			*outColor = Color(.5f, .5f, 1.0f, 1.0f);
-			*outDensity = 1.2;
-			break;
-		case SBody::TYPE_PLANET_TERRAFORMED_POOR:
-			*outColor = Color(.7f, .4f, 0.9f, 0.8f);
-			*outDensity = 1.0;
-			break;
-		case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
-			*outColor = Color(.5f, .45f, 0.95f, 0.9f);
-			*outDensity = 1.1;
-			break;
-		default:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0.0f;
-			break;
-	}
-}
-
 static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
 	vector3d yaxis = campos.Normalized();
-	vector3d zaxis = vector3d::Cross(vector3d(1.0,0.0,0.0), yaxis).Normalized();
-	vector3d xaxis = vector3d::Cross(yaxis, zaxis);
+	vector3d zaxis = vector3d(1.0,0.0,0.0).Cross(yaxis).Normalized();
+	vector3d xaxis = yaxis.Cross(zaxis);
 	const matrix4x4d m = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
 
 	glPushMatrix();
@@ -1259,15 +1177,15 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 
 	if (Render::AreShadersEnabled()) {
 		Color atmosCol;
-		float atmosDensity;
+		double atmosDensity;
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		
 		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
-		atmosDensity *= 0.00005f;
+		atmosDensity *= 0.00005;
 
-		if (atmosDensity != 0.0f) {
+		if (atmosDensity != 0.0) {
 			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
 			shader->set_geosphereScale(scale);
@@ -1295,12 +1213,28 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	}
 
 	if (!m_patches[0]) BuildFirstPatches();
+
+	const float black[4] = { 0,0,0,0 };
+	float ambient[4];// = { 0.1, 0.1, 0.1, 1.0 };
+
+	// save old global ambient
+	float oldAmbient[4];
+	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+
+	// give planet some ambient lighting if the viewer is close to it
+	{
+		double camdist = campos.Length();
+		camdist = 0.1 / (camdist*camdist);
+		// why the fuck is this returning 0.1 when we are sat on the planet??
+		// XXX oh well, it is the value we want anyway...
+		ambient[0] = ambient[1] = ambient[2] = (float)camdist;
+		ambient[3] = 1.0f;
+	}
 	
-	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, g_ambient);
-	glColorMaterial(GL_FRONT, GL_DIFFUSE);
-	glMaterialfv (GL_FRONT, GL_SPECULAR, g_ambient);
-	glMaterialfv (GL_FRONT, GL_EMISSION, g_ambient);
-	glMaterialfv (GL_FRONT, GL_AMBIENT, g_ambient);
+	glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
+	glMaterialfv (GL_FRONT, GL_EMISSION, black);
 	glEnable(GL_COLOR_MATERIAL);
 
 //	glLineWidth(1.0);
@@ -1311,6 +1245,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	Render::State::UseProgram(0);
 
 	glDisable(GL_COLOR_MATERIAL);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them

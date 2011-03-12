@@ -1121,7 +1121,7 @@ define_model('eagle_lrf', {
 					down_thrust = -5e5,
 					left_thrust = -5e5,
 					right_thrust = 5e5,
-					angular_thrust = 5e6,
+					angular_thrust = 1e6,	-- was 5e6
 					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },

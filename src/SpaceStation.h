@@ -24,8 +24,8 @@ struct SpaceStationType {
 	int numDockingPorts;
 	int numDockingStages;
 	int numUndockStages;
-	float *dockAnimStageDuration;
-	float *undockAnimStageDuration;
+	double *dockAnimStageDuration;
+	double *undockAnimStageDuration;
 	bool dockOneAtATimePlease;
 	
 	struct positionOrient_t {
@@ -34,7 +34,7 @@ struct SpaceStationType {
 		vector3d yaxis;
 	};
 
-	void _ReadStageDurations(const char *key, int *outNumStages, float **durationArray);
+	void _ReadStageDurations(const char *key, int *outNumStages, double **durationArray);
 	// read from lua model definition
 	void ReadStageDurations();
 	bool GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const;
@@ -42,7 +42,7 @@ struct SpaceStationType {
 	 * when ship has been released (or docked) it returns false.
 	 * Note station animations may continue for any number of stages after
 	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(int port, int stage, float t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
+	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 };
 
 /**
@@ -132,7 +132,7 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
-	void DoDockingAnimation(const float timeStep);
+	void DoDockingAnimation(const double timeStep);
 	void DoLawAndOrder();
 
 	/* Stage 0 means docking port empty
@@ -145,13 +145,13 @@ private:
 		Ship *ship;
 		int stage;
 		vector3d fromPos; // in station model coords
-		Quaternionf fromRot;
-		float stagePos; // 0 -> 1.0
+		Quaterniond fromRot;
+		double stagePos; // 0 -> 1.0
 	};
 	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
 
-	float m_openAnimState[MAX_DOCKING_PORTS];
-	float m_dockAnimState[MAX_DOCKING_PORTS];
+	double m_openAnimState[MAX_DOCKING_PORTS];
+	double m_dockAnimState[MAX_DOCKING_PORTS];
 
 	void InitStation();
 	void PositionDockedShip(Ship *ship, int port);

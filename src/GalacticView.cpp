@@ -80,29 +80,19 @@ static void dummy() {}
 
 void GalacticView::PutLabels(vector3d offset)
 {
-	GLdouble modelMatrix[16];
-	GLdouble projMatrix[16];
-	GLint viewport[4];
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	glGetDoublev (GL_PROJECTION_MATRIX, projMatrix);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-
 	Gui::Screen::EnterOrtho();
 	glColor3f(1,1,1);
 	
-	int i = 0;
-	while (s_labels[i].label) {
+	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
-		if (Gui::Screen::Project (p.x, p.y, p.z, modelMatrix, projMatrix, viewport, &pos[0], &pos[1], &pos[2])) {
+		if (Gui::Screen::Project(p, pos)) {
 			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), (float)pos.x, (float)pos.y);
 		}
-		i++;
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHTING);			// what
 }
 
 
