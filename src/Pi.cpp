@@ -661,7 +661,7 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::AUTOPILOT);
 	player->m_equipment.Add(Equip::SCANNER);
-	player->SetMoney(100);
+	player->SetMoney(10000);
 	Space::AddBody(player);
 	
 	cpan = new ShipCpanel();
