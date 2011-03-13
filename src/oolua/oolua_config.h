@@ -60,11 +60,15 @@
 ///def OOLUA_DEBUG_CHECKS
 ///Checks for null pointers 
 ///adds a stack trace to messages called within pcall
+#ifdef PIONEER_OOLUA
+#	define OOLUA_DEBUG_CHECKS 0
+#else
 #if defined DEBUG || defined _DEBUG
 #	define OOLUA_DEBUG_CHECKS 1
 #else
 #	define OOLUA_DEBUG_CHECKS 0
 #endif
+#endif /* PIONEER_OOLUA */
 
 
 //TODO: implement this
