@@ -670,8 +670,7 @@ static void PostHyperspacePositionBody(Body *b, Frame *f)
 }
 
 /*
- * Called at end of hyperspace sequence or at start of game
- * to place the player in a system.
+ * Called at end of hyperspace sequence to place the player in a system.
  */
 void DoHyperspaceTo(const SBodyPath *dest)
 {
@@ -748,6 +747,33 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
 	
+}
+
+/* called at game start to load the system and put the player in a starport */
+void SetupSystemForGameStart(const SBodyPath *dest, int starport, int port)
+{
+	if (Pi::currentSystem) delete Pi::currentSystem;
+	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemNum);
+	Space::Clear();
+	Space::BuildSystem();
+
+	SpaceStation *station = 0;
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
+		if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
+			station = (SpaceStation*)*i;
+			break;
+		}
+	}
+	assert(station);
+
+	Pi::player->Enable();
+	Pi::player->SetPosition(vector3d(0,0,0)); 
+	Pi::player->SetVelocity(vector3d(0,0,0));
+
+	Pi::player->SetFrame(station->GetFrame()); 
+	Pi::player->SetDockedWith(station, port); 
+
+	Pi::onPlayerHyperspaceToNewSystem.emit();
 }
 
 float GetHyperspaceAnim()

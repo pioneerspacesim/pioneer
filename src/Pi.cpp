@@ -797,35 +797,12 @@ void Pi::Start()
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
-		Space::DoHyperspaceTo(&path);
-		//Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
-		//player->SetFrame(pframe);
-		// XXX there isn't a sensible way to find stations for a planet.
-		SpaceStation *station = 0;
-		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-			if ((*i)->IsType(Object::SPACESTATION)) { station = (SpaceStation*)*i; break; }
-		}
-		assert(station);
-		player->SetPosition(vector3d(0,0,0));
-		player->SetFrame(station->GetFrame());
-		player->SetDockedWith(station, 0);
+		Space::SetupSystemForGameStart(&path, 0, 0);
 		MainLoop();
 	} else if (choice == 2) {
 		/* Epsilon Eridani start point */
 		SBodyPath path(1,0,2);
-		Space::DoHyperspaceTo(&path);
-		// XXX there isn't a sensible way to find stations for a planet.
-		SpaceStation *station = 0;
-		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-			if ((*i)->IsType(Object::SPACESTATION)) {
-				station = (SpaceStation*)*i;
-				if (!station->IsGroundStation()) break;
-			}
-		}
-		assert(station);
-		player->SetPosition(vector3d(0,0,0));
-		player->SetFrame(station->GetFrame());
-		player->SetDockedWith(station, 0);
+		Space::SetupSystemForGameStart(&path, 0, 0);
 		MainLoop();
 	} else if (choice == 3) {
 		/* debug start point */
