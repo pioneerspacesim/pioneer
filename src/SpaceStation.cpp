@@ -522,6 +522,7 @@ void SpaceStation::DoLawAndOrder()
 			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+			ship->UpdateMass();
 		}
 	}
 }
