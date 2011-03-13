@@ -101,23 +101,23 @@ local moon = {
 }
 
 local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
-	:seed(283)
+	:seed(1)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
-	:temp(274)
+	:temp(278)
 	:semi_major_axis(f(152,100))
 	:eccentricity(f(933,10000))
 	:inclination(math.deg2rad(1.85))
 	:rotation_period(f(1027,1000))
 	:axial_tilt(math.fixed.deg2rad(f(2519,100)))
 	-- XXX composition copied from earth until there's a way to indicate terraformed
-	:metallicity(f(1,2))
-	:volcanicity(f(1,10))
-	:atmos_density(f(1,1))
+	:metallicity(f(4,5))
+	:volcanicity(f(2,10))
+	:atmos_density(f(3,5))
 	:atmos_oxidizing(f(8,10))
-	:ocean_cover(f(50,100))
-	:ice_cover(f(3,100))
-	:life(f(9,10))
+	:ocean_cover(f(205,1000))
+	:ice_cover(f(9,10))
+	:life(f(45,100))
 
 local mars_starports = {
 	CustomSBody:new('Cydonia', Body.Type.STARPORT_SURFACE)

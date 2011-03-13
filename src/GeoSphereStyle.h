@@ -110,6 +110,7 @@ class GeoSphereStyle {
 	double m_entropy[12];
 
 	vector3d m_rockColor[8];
+	vector3d m_darkrockColor[8];
 	vector3d m_greyrockColor[8];
 
 	/* XXX you probably shouldn't increase this. If you are

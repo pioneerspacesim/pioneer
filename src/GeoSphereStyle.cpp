@@ -323,6 +323,19 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
+	// Pick some darker colours
+	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
+	for (int i=0; i<8; i++) {
+		double r,g,b;
+		r = rand.Double(0.05, 0.3);
+		g = rand.Double(0.05, r);
+		b = rand.Double(0.05, std::min(r, g));
+		//r = std::min(1.0, r + body->m_metallicity.ToFloat());
+		r = std::max(b, r * body->m_metallicity.ToFloat());
+		g = std::max(b, g * body->m_metallicity.ToFloat());
+		m_darkrockColor[i] = vector3d(r, g, b);
+	}
+
 	// might not be needed now
 	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<8; i++) {
@@ -500,7 +513,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			double height = m_maxHeightInMeters*0.6;
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 20.0)*height, rand);
-			SetFracDef(&m_fracdef[3], height, rand.Double(12.0, 200.0)*m_maxHeightInMeters, rand);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 8);
 
 			height = m_maxHeightInMeters*0.3;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
@@ -510,8 +523,8 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[7], 20000.0, 5000000.0, rand, 10.0);
 
 			// canyons and rivers
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.8, 2e6, rand, 10.0);
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.8, 1e6, rand, 10.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*1.0, 4e6, rand, 10.0);
+			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*1.0, 5e6, rand, 10.0);
 			//SetFracDef(&m_fracdef[10], m_maxHeightInMeters*0.5, 2e6, rand, 100.0);
 			break;
 		}
@@ -532,7 +545,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, 3e6, rand, 10.0);
 
 			// canyon
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 2e6, rand, 10.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 4e6, rand, 10.0);
 			// bumps/rocks
 			SetFracDef(&m_fracdef[9], height*0.01, rand.Double(1,20), rand, 8.0);
 			break;
@@ -553,8 +566,8 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 
 			// canyon
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.2, 1e5, rand, 10.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.3, 1.5e6, rand, 10.0);
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.4, 2e6, rand, 50.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.3, 2.5e6, rand, 10.0);
+			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.4, 3e6, rand, 50.0);
 			// so dan, the above means: make a fractal with 40% of the planet maximum
 			// terrain height, feature size of around 2000km, and detail down to
 			// 50.0 meters. SetFracDef will choose the right p multiplier and octaves - Tom
@@ -820,54 +833,57 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
 
 			
-			if (n < 0.01) n += megavolcano_function(m_fracdef[7], p) * n * 2000.0f;
-			else n += megavolcano_function(m_fracdef[7], p) * 20.0f;
+			if (n < 0.01) n += megavolcano_function(m_fracdef[7], p) * n * 800.0f;
+			else n += megavolcano_function(m_fracdef[7], p) * 8.0f;
 
 			//n = (n > 0.0 ? n : 0.0); 
+			//n = n*.1f;
 
-			if (n < .2f) n += canyon3_function(m_fracdef[8], p) * n ;
-			else if (n < .4f) n += canyon3_function(m_fracdef[8], p) * .2f;
-			else n += canyon3_function(m_fracdef[8], p) * (.4f/n) * .2f;
+			if (n < .2f) n += canyon3_function(m_fracdef[8], p) * n * 5.0f;
+			else if (n < .4f) n += canyon3_function(m_fracdef[8], p) ;
+			else n += canyon3_function(m_fracdef[8], p) * (.4f/n) ;
 
-			if (n < .2f) n += canyon2_function(m_fracdef[8], p) * n ;
-			else if (n < .4f) n += canyon2_function(m_fracdef[8], p) * .2f;
-			else n += canyon2_function(m_fracdef[8], p) * (.4f/n) * .2f;
+			if (n < .2f) n += canyon2_function(m_fracdef[8], p) * n * 5.0f;
+			else if (n < .4f) n += canyon2_function(m_fracdef[8], p) ;
+			else n += canyon2_function(m_fracdef[8], p) * (.4f/n) ;
 
 			if (n < .2f) n += river_function(m_fracdef[8], p) * n * 5.0f;
 			else if (n < .4f) n += river_function(m_fracdef[8], p);
 			else n += river_function(m_fracdef[8], p) * (.4f/n);
 
-			if (n < .2f) n += canyon3_function(m_fracdef[9], p) * n ;
-			else if (n < .4f) n += canyon3_function(m_fracdef[9], p) * .2f;
-			else n += canyon3_function(m_fracdef[9], p) * (.4f/n) * .2f;
+			if (n < .2f) n += canyon3_function(m_fracdef[9], p) * n * 5.0f;
+			else if (n < .4f) n += canyon3_function(m_fracdef[9], p) ;
+			else n += canyon3_function(m_fracdef[9], p) * (.4f/n) ;
 
-			if (n < .2f) n += canyon2_function(m_fracdef[9], p) * n ;
-			else if (n < .4f) n += canyon2_function(m_fracdef[9], p) * .2f;
-			else n += canyon2_function(m_fracdef[9], p) * (.4f/n) * .2f;
+			if (n < .2f) n += canyon2_function(m_fracdef[9], p) * n * 5.0f;
+			else if (n < .4f) n += canyon2_function(m_fracdef[9], p) ;
+			else n += canyon2_function(m_fracdef[9], p) * (.4f/n) ;
 
 			if (n < .2f) n += river_function(m_fracdef[9], p) * n * 5.0f;
 			else if (n < .4f) n += river_function(m_fracdef[9], p);
 			else n += river_function(m_fracdef[9], p) * (.4f/n);
 
-			//n += -0.05f;
+			n += -1.0f;
 			n = (n > 0.0 ? n : 0.0); 
 
-			n = n*.01f;
+			n = n*.03f;
+
+			//n += continents - (m_fracdef[0].amplitude*m_sealevel);
 
 			if (n > 0.0) {
 				// smooth in hills at shore edges
-				if (n < 0.01) n += hills * n * 100.0f;
+				if (n < 0.1) n += hills * n * 10.0f;
 				else n += hills;
-				if (n < 0.02) n += hills2 * n * 50.0f;
-				else n += hills2 * (0.02f/n);
+				if (n < 0.05) n += hills2 * n * 20.0f;
+				else n += hills2 ;
 
 				mountains  = octavenoise(m_fracdef[1], 0.5, p) *
 					m_fracdef[2].amplitude * mountains*mountains*mountains;
 				mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
 					m_fracdef[3].amplitude * mountains2*mountains2*mountains2;
-				if (n > 2.5) n += mountains2 * (n - 2.5) * 0.6f;
-				if (n < 0.01) n += mountains * n * 60.0f ;
-				else n += mountains * 0.6f ; 
+				if (n > 0.5) n += mountains2 * (n - 0.5) ;
+				if (n < 0.2) n += mountains * n * 5.0f ;
+				else n += mountains  ; 
 			}
 			
 			n = m_maxHeight*n;
@@ -1085,7 +1101,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		}
 		else if (n > 0.18) {                                 
 		col = interpolate_color(equatorial_desert, vector3d(.59,.57,.4), vector3d(.86, .75, .38));
-		col = interpolate_color(n, col, m_greyrockColor[2]);
+		col = interpolate_color(n, col, m_rockColor[2]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
@@ -1230,9 +1246,9 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// Below is to do with variable colours for different heights, it gives a nice effect.
 		// n is height.
 		vector3d col;
-		col = interpolate_color(equatorial_desert, m_rockColor[2], m_greyrockColor[3]);
+		col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[3]);
 		if (n > 0.45) {
-		col = interpolate_color(n, col, m_greyrockColor[6]);
+		col = interpolate_color(n, col, m_rockColor[6]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
@@ -1242,22 +1258,22 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 		}
 		else if (n > 0.35) {
-		col = interpolate_color(n, m_greyrockColor[7], col);
+		col = interpolate_color(n, m_rockColor[7], col);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		else if (n > 0.3) {
-		col = interpolate_color(n, m_greyrockColor[0], col);
+		col = interpolate_color(n, m_rockColor[0], col);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		else if (n > 0.25) {
-		col = interpolate_color(n, col, m_greyrockColor[0]);
+		col = interpolate_color(n, col, m_rockColor[0]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		else if (n > 0.2) {
-		col = interpolate_color(n, col, m_greyrockColor[2]);
+		col = interpolate_color(n, col, m_rockColor[2]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
@@ -1428,22 +1444,22 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		const vector3d color_cliffs = m_rockColor[1];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
-			return interpolate_color(flatness, color_cliffs, vector3d(0.9,0.9,0.9));
+			return interpolate_color(flatness, color_cliffs, vector3d(0.98,0.98,0.98));
 		}
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 
 		vector3d col;
-		if (n >= 0.1) {
-		col = interpolate_color(equatorial_desert, m_rockColor[5], m_rockColor[6]);
+		if (n >= 0.2) {
+		col = interpolate_color(equatorial_desert, m_darkrockColor[0], m_darkrockColor[3]);
 		col = interpolate_color(n, col, m_rockColor[2]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		else if (n >= 0.04) {      
 		col = interpolate_color(equatorial_desert, vector3d(.45,.43, .2), vector3d(.4, .43, .2));
-		col = interpolate_color(n, col, vector3d(-2.5,-3, -2.5));
+		col = interpolate_color(n, col, vector3d(-1.66,-2.3, -1.75));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
@@ -1473,7 +1489,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		if (n <= 0) return vector3d(0.1,0.2,0.4);
 
 		const double flatness = pow(p.Dot(norm), 6.0);
-		const vector3d color_cliffs = m_greyrockColor[1];
+		const vector3d color_cliffs = m_rockColor[1];
 		// ice on mountains and poles
 		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
 			return interpolate_color(flatness, color_cliffs, vector3d(0.9,0.9,0.9));
@@ -1485,7 +1501,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		vector3d col;
 		col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[3]);
 		if (n > 0.45) {
-		col = interpolate_color(n, col, m_greyrockColor[3]);
+		col = interpolate_color(n, col, m_rockColor[3]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
