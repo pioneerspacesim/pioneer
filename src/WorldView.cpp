@@ -1142,9 +1142,11 @@ void WorldView::UpdateCommsOptions()
 		button = AddCommsOption("Autopilot: Fly to vicinity of "+comtarget->GetLabel(), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
+        /*
 		button = AddCommsOption("Autopilot: Attack "+comtarget->GetLabel(), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_attack), comtarget));
 		ypos += 32;
+        */
 	}
 }
 
