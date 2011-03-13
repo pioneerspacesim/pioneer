@@ -17,8 +17,8 @@ local mercury = CustomSBody:new('Mercury', Body.Type.PLANET_TERRESTRIAL)
 	:inclination(math.deg2rad(7.0))
 	:rotation_period(f(59,1))
 	:axial_tilt(math.fixed.deg2rad(f(1,100)))
-	:metallicity(f(8,10))
-	:volcanicity(f(0,1))
+	:metallicity(f(9,10))
+	:volcanicity(f(1,2))
 	:atmos_density(f(0,1))
 	:atmos_oxidizing(f(0,1))
 	:ocean_cover(f(0,1))
@@ -85,6 +85,7 @@ local earth_starports = {
 
 local moon = {
 	CustomSBody:new('Moon', Body.Type.PLANET_TERRESTRIAL)
+		:seed(191080)
 		:radius(f(273,1000))
 		:mass(f(12,1000))
 		:temp(220)
@@ -92,7 +93,8 @@ local moon = {
 		:eccentricity(f(549,10000))
 		:inclination(math.deg2rad(5.145))
 		:rotation_period(f(273,10))
-		:axial_tilt(math.fixed.deg2rad(f(668,100))),
+		:axial_tilt(math.fixed.deg2rad(f(668,100)))
+		:volcanicity(f(0,1)),
 	{
 		CustomSBody:new('Lunar City', Body.Type.STARPORT_SURFACE)
 			:latitude(math.deg2rad(19))
@@ -139,7 +141,9 @@ local mars_moons = {
 		:semi_major_axis(f(6268,100000000))
 		:eccentricity(f(151,10000))
 		:inclination(math.deg2rad(1.093))
-		:rotation_period(f(11,24)),
+		:rotation_period(f(11,24))
+		:metallicity(f(4,5))
+		:volcanicity(f(3,4)),
 	{
 		CustomSBody:new('Phobos Base', Body.Type.STARPORT_SURFACE)
 			:latitude(math.deg2rad(5))
@@ -152,7 +156,9 @@ local mars_moons = {
 		:semi_major_axis(f(1568,10000000))
 		:eccentricity(f(2,10000))
 		:inclination(math.deg2rad(0.93))
-		:rotation_period(f(30,24)),
+		:rotation_period(f(30,24))
+		:metallicity(f(2,5))
+		:volcanicity(f(0,1)),
 	{
 		CustomSBody:new('Tomm\'s Sanctuary', Body.Type.STARPORT_SURFACE),
 	},
@@ -195,7 +201,10 @@ local jupiter_moons = {
 		:temp(102)
 		:semi_major_axis(f(441,100000))
 		:eccentricity(f(9,1000))
-		:rotation_period(f(355,100)),
+		:rotation_period(f(355,100))
+		:ocean_cover(f(1,2))
+		:atmos_density(f(1,12))
+		:volcanicity(f(3,4)),
 	{
 		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)
 			:semi_major_axis(f(12,500000))

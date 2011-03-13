@@ -409,10 +409,10 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			double height = m_maxHeightInMeters*0.6;
 			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.07, 6e5, rand, 10.0);
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.05, 8e5, rand, 10.0);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.07, 11e5, rand, 10.0);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.05, 98e4, rand, 10.0);
 			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 1e6, rand, 10.0);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 7e5, rand, 10.0);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 99e4, rand, 10.0);
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 12e5, rand, 10.0);
 			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 9e5, rand, 10.0);
 			break;
@@ -480,10 +480,10 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
 			SetFracDef(&m_fracdef[3], height, rand.Double(2.5,3.5)*height, rand);
 			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.05, 1e6, rand, 10.0);
-			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 7e5, rand, 10.0);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 5e5, rand, 10.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 4e5, rand, 10.0);
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.07, 1.2e6, rand, 10.0);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.04, 9e5, rand, 10.0);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.05, 8e5, rand, 10.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.04, 11e5, rand, 10.0);
+			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.07, 12e5, rand, 10.0);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_VOLCANO:  
@@ -1263,7 +1263,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 		}
 		else if (n > 0.3) {
-		col = interpolate_color(n, m_rockColor[0], col);
+		col = interpolate_color(n, m_darkrockColor[0], col);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
@@ -1273,12 +1273,12 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 		}
 		else if (n > 0.2) {
-		col = interpolate_color(n, col, m_rockColor[2]);
+		col = interpolate_color(n, col, m_darkrockColor[2]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		if (n > 0.15) {
-		col = interpolate_color(n, m_rockColor[3], col);
+		col = interpolate_color(n, m_darkrockColor[3], col);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
@@ -1288,12 +1288,12 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 		}
 		else if (n > 0.05) {
-		col = interpolate_color(n, col, m_rockColor[1]);
+		col = interpolate_color(n, col, m_darkrockColor[1]);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
 		else {
-		col = interpolate_color(n, m_rockColor[0], col);
+		col = interpolate_color(n, m_darkrockColor[0], col);
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 		}
