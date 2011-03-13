@@ -77,6 +77,7 @@ int ShipType::define_ship(lua_State *L, const char *model_name)
 	_get_float_attrib(L, "left_thrust", s.linThrust[THRUSTER_LEFT], 0.0f);
 	_get_float_attrib(L, "right_thrust", s.linThrust[THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
+	s.angThrust = s.angThrust / 2;		// fudge
 
 	for (int i=0; i<(int)Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);

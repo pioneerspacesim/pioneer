@@ -163,7 +163,7 @@ define_model('mainwheelunit', {
 
 define_model('ladybird', {
 	info = {
-	        scale = .5,
+	        scale = 0.8,
 			lod_pixels = {50,100,200,0},
 			bounding_radius = 26, --35
 			materials={'white','engines','matvar0', 'matvar2',
@@ -172,13 +172,13 @@ define_model('ladybird', {
 			ship_defs = {
 				{
 					name='Ladybird Starfighter',
-					forward_thrust = -2e6,
-					reverse_thrust = 2e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e7,
+					forward_thrust = -10e6,
+					reverse_thrust = 4e6,
+					up_thrust = 3e6,
+					down_thrust = -3e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 16e6,
 					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
 					max_cargo = 60,
 					max_missile = 2,
@@ -354,144 +354,6 @@ define_model('ladybird', {
 	end
 })
 
-define_model('taipan', {
-	info = {
-			lod_pixels = {50,100,200,0},
-			bounding_radius = 35,
-			materials={'white','engines','matvar0', 'matvar2',
-			'engine_inside'},
-			tags = {'ship'},
-			ship_defs = {
-				{
-					name='Taipan',
-					forward_thrust = -4e6,
-					reverse_thrust = 4e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e7,
-					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
-					max_cargo = 240,
-					max_laser = 2,
-					max_missile = 4,
-					capacity = 240,
-					hull_mass = 200,
-					price = 560000,
-					hyperdrive_class = 4,
-				}
-			},
-		},
-	static = function(lod)
-		local v06 = v(-4.0, -5.0, -20.0);
-		local v07 = v(4.0, -5.0, -20.0);
-
-		local v08 = v(-6.0, 4.0, -10.0);
-		local v09 = v(6.0, 4.0, -10.0);
-
-		local v10 = v(-14.0, -5.0, -10.0);
-		local v11 = v(-10.0, 5.0, 10.0);
-
-		local v29 = v(10.0, 5.0, 10.0);
-		local v30 = v(14.0, -5.0, -10.0);
-		local v31 = v(-10.0, -5.0, 10.0);
-		local v32 = v(10.0, -5.0, 10.0);
-
-		local v33 = v(-12.0, 0.0, 10.0);
-		local v34 = v(-12.0, 0.0, 13.0);
-
-		--// thruster jets
-		local v38 = v(-12.0, 0.0, 13.0);
-		local v39 = v(-15.0, -3.0, -9.0);
-
-		local v40 = v(-30.0, -4.0, 9.0);
-		local v41 = v(-29.0, -5.5, 9.0);
-		local v42 = v(-29.0, -4.0, 9.0);
-		local v43 = v(-10.0, 0.0, -11.0);
-
-		xref_thruster(v38, v(0,0,1), 50, true)
-		xref_thruster(v43, v(0,0,-1), 25)
-		
-		set_material('white',.5,.5,.5,1,1,1,1,100)
-		use_material('matvar0')
-		-- matvar(0)
-		quad(v06,v08,v09,v07)
-		quad(v09,v08,v11,v29)
-		xref_tri(v08,v06,v10)
-
-		local divs = lod*2
-
-		local wingtip_rear = v(30,-5,10)
-		local cpoint_rear = v(20,4,10)
-
-		local leadingedge_mid = v(24,-5,-3)
-		local tmp = v(5,0,5)
-		local cpoint_leadingedge1 = leadingedge_mid - tmp
-		local cpoint_leadingedge2 = leadingedge_mid + tmp
-
-
-		-- body flat side piece
-		local normal = ((v29-v09):cross(v30-v09)):norm()
-		local cpoint_bodycurve = 0.5*(v29+v30) + 3.0*(v29-v30):cross(normal):norm()
-		xref_flat(divs, normal,
-			{ v09 },
-			{ v29 },
-			{ cpoint_bodycurve, v30 }
-			)
-
-		-- top wing bulge
-		xref_quadric_bezier_quad(divs,divs,
-			wingtip_rear, cpoint_leadingedge2, leadingedge_mid,
-			cpoint_rear, v(17,5,0), cpoint_leadingedge1,
-			v29, cpoint_bodycurve, v30)
-
-
-		-- rear
-		xref_flat(divs, v(0,0,1),
-			{ wingtip_rear },
-			{ cpoint_rear, v29 },
-			{ v32 }
-		)
-		quad(v29,v11,v31,v32) -- rear
-		use_material('matvar2')
-		quad(v10,v06,v07,v30)
-		quad(v32,v31,v10,v30)
-		-- underside of wing
-		xref_tri(v30, wingtip_rear, v32)
-		-- wing leading edge underside
-		xref_flat(divs, v(0,-1,0),
-			{ v30 },
-			{ cpoint_leadingedge1, leadingedge_mid },
-			{ cpoint_leadingedge2, wingtip_rear }
-		)
-
-		zbias(1, v33, v(0,0,1))
-		set_material('engines',.3,.3,.3,1,.3,.3,.3,20)
-		use_material('engines')
-		xref_tube(4*lod, v33, v34, v(0,1,0), 2.5, 3.0)
-		use_material('engine_inside')
-		-- matanim!!
-		xref_circle(4*lod, v33, v(0,0,1), v(0,1,0), 2.5)
-		-- wheels my friend
-	end,
-	dynamic = function(lod)
-		set_material('matvar0', get_arg_material(0))
-		set_material('matvar2', get_arg_material(2))
-		set_material('engine_inside', lerp_materials(get_arg(2)*30.0, {0, 0, 0, 1, 0, 0, 0, 10, .5, .5, 1 },
-					{0, 0, 0, 1, 0, 0, 0, 10, 0, 0, .5 }))
-		if get_arg(0) ~= 0 then
-			local v35 = v(0.0, -5.0, -13.0);
-			local v36 = v(-15.0, -5.0, 3.0);
-			local v37 = v(15.0, -5.0, 3.0);
---------------------------
-			zbias(1, v35, v(0,-1,0))
-			call_model('nosewheelunit', v35, v(-1,0,0), v(0,-1,0), 1)
-			call_model('mainwheelunit', v36, v(-1,0,0), v(0,-1,0), 1)
-			call_model('mainwheelunit', v37, v(-1,0,0), v(0,-1,0), 1)
-			zbias(0)
-		end
-	end
-})
 
 define_model('__walruswing', {
 	info = {
@@ -525,20 +387,20 @@ define_model('__walruswing', {
 
 define_model('walrus', {
 	info = {
-			scale = 1.0,
+			scale = 0.5,
 			bounding_radius = 70,
 			materials = {'matvar0', 'text'},
 			tags = { 'ship' },
 			ship_defs = {
 				{
 					name='Walrus',
-					forward_thrust = -12e6,
+					forward_thrust = -40e6,
 					reverse_thrust = 12e6,
-					up_thrust = 4e6,
-					down_thrust = -4e6,
-					left_thrust = -4e6,
-					right_thrust = 4e6,
-					angular_thrust = 1e7,
+					up_thrust = 12e6,
+					down_thrust = -6e6,
+					left_thrust = -6e6,
+					right_thrust = 6e6,
+					angular_thrust = 70e6,
 					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
 					max_cargo = 320,
 					max_laser = 2,
@@ -683,9 +545,9 @@ define_model('walrus', {
 	end
 })
 
-define_model('flowerfairy_heavy_trader', {
+define_model('flowerfairy', {
 	info = {
-			scale=2.0,
+			scale=1.3,
 			lod_pixels = {25,50,0},
 			bounding_radius = 100,
 			materials = {'matvar0','gray','text','engine_inside'},
@@ -693,13 +555,13 @@ define_model('flowerfairy_heavy_trader', {
 			ship_defs = {
 				{
 					name='Flowfairy Heavy Trader',
-					forward_thrust = -1e6,
-					reverse_thrust = 1e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e7,
+					forward_thrust = -60e6,
+					reverse_thrust = 20e6,
+					up_thrust = 20e6,
+					down_thrust = -10e6,
+					left_thrust = -10e6,
+					right_thrust = 10e6,
+					angular_thrust = 220e6,
 					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,0,0), v(0,0,1) }, },
 					max_cargo = 500,
 					max_laser = 2,
@@ -837,6 +699,7 @@ define_model('flowerfairy_heavy_trader', {
 
 define_model('interdictor', {
 	info = {
+			scale = 1.2,
 			lod_pixels = { 50, 100, 200, 0 },
 			bounding_radius = 50,
 			materials = {'matvar0', 'matvar2', 'engine', 'engine_inside', 'cockpit', 'text'},
@@ -844,13 +707,13 @@ define_model('interdictor', {
 			ship_defs = {
 				{
 					name='Sirius Interdictor',
-					forward_thrust = -8e6,
-					reverse_thrust = 8e6,
-					up_thrust = 4e6,
-					down_thrust = -4e6,
-					left_thrust = -4e6,
-					right_thrust = 4e6,
-					angular_thrust = 1e7,
+					forward_thrust = -24e6,
+					reverse_thrust = 12e6,
+					up_thrust = 6e6,
+					down_thrust = -6e6,
+					left_thrust = -6e6,
+					right_thrust = 6e6,
+					angular_thrust = 120e6,
 					gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,-0.5,0), v(0,0,1) }, },
 					max_cargo = 90,
 					max_laser = 2,

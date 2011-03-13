@@ -1107,7 +1107,7 @@ define_model('eagle_all', {
 define_model('eagle_lrf', {
 	info = {
 --			scale = 0.261, -- FE2 to Pioneer vector spacing scale for the eagle, each ship is different!
-			scale = 0.5,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'steel', 'cutout', 'win'},
@@ -1115,13 +1115,13 @@ define_model('eagle_lrf', {
 			ship_defs = {
 				{
 					name='Eagle Long Range Fighter',
-					forward_thrust = -20e5,
-					reverse_thrust = 10e5,
-					up_thrust = 5e5,
-					down_thrust = -5e5,
-					left_thrust = -5e5,
-					right_thrust = 5e5,
-					angular_thrust = 1e6,	-- was 5e6
+					forward_thrust = -34e5,
+					reverse_thrust = 17e5,
+					up_thrust = 8e5,
+					down_thrust = -8e5,
+					left_thrust = -8e5,
+					right_thrust = 8e5,
+					angular_thrust = 64e5,
 					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
@@ -1264,7 +1264,7 @@ define_model('eagle_lrf', {
 
 define_model('eagle_mk2', {
  info = {
-			scale = 0.261,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'chrome', 'cutout', 'win'},
@@ -1272,13 +1272,13 @@ define_model('eagle_mk2', {
 			ship_defs = {
 				{
 					name='Eagle MK-II',
-					forward_thrust = -25e5,
-					reverse_thrust = 12e5,
-					up_thrust = 5e5,
-					down_thrust = -5e5,
-					left_thrust = -5e5,
-					right_thrust = 5e5,
-					angular_thrust = 3e6,
+					forward_thrust = -34e5,
+					reverse_thrust = 17e5,
+					up_thrust = 8e5,
+					down_thrust = -8e5,
+					left_thrust = -8e5,
+					right_thrust = 8e5,
+					angular_thrust = 64e5,
 					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
@@ -1396,7 +1396,7 @@ define_model('eagle_mk2', {
 
 define_model('eagle_mk3', {
  info = {
-			scale = 0.261,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'chrome', 'e_glow', 'win', 'cutout'},
@@ -1404,13 +1404,13 @@ define_model('eagle_mk3', {
 			ship_defs = {
 				{
 					name='Eagle MK-III',
-					forward_thrust = -26e5,
-					reverse_thrust = 13e5,
-					up_thrust = 5e5,
-					down_thrust = -5e5,
-					left_thrust = -5e5,
-					right_thrust = 5e5,
-					angular_thrust = 3e6,
+					forward_thrust = -36e5,
+					reverse_thrust = 25e5,
+					up_thrust = 8e5,
+					down_thrust = -8e5,
+					left_thrust = -8e5,
+					right_thrust = 8e5,
+					angular_thrust = 64e5,
 					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },
@@ -1546,7 +1546,7 @@ define_model('eagle_mk3', {
 
 define_model('eagle_mk4', {
  info = {
-			scale = 0.261,
+			scale = 0.45,
 			lod_pixels = {.1,10,50,0},
 			bounding_radius = 15,
    			materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout'},
@@ -1554,13 +1554,13 @@ define_model('eagle_mk4', {
 			ship_defs = {
 				{
 					name='Eagle MK-IV "Bomber"',
-					forward_thrust = -24e5,
-					reverse_thrust = 10e5,
-					up_thrust = 5e5,
-					down_thrust = -5e5,
-					left_thrust = -5e5,
-					right_thrust = 5e5,
-					angular_thrust = 2.5e6,
+					forward_thrust = -50e5,
+					reverse_thrust = 25e5,
+					up_thrust = 14e5,
+					down_thrust = -12e5,
+					left_thrust = -12e5,
+					right_thrust = 12e5,
+					angular_thrust = 90e5,
 					gun_mounts = 
 					{
 					{ v(0,-.7,-40), v(0,0,-1) },

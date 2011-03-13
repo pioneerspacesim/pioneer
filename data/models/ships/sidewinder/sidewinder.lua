@@ -731,7 +731,7 @@ define_model('rattle_scoop', {
 	
 define_model('rattlesnake', {
  	info = 	{
-			scale = .52,
+			scale = .75,
 			lod_pixels = {.1,10,100,0},
 			bounding_radius = 15,
    			materials = {'chrome', 'cabin', 'metal', 'no_shade', 'text', 'glow', 'e_glow', 'v_glow', 'win', 'black'},
@@ -739,13 +739,13 @@ define_model('rattlesnake', {
 			ship_defs = {
 				{
 					name='Sidewinder',
-					forward_thrust = -3e6,
-					reverse_thrust = 2e6,
+					forward_thrust = -4e6,
+					reverse_thrust = 3e6,
 					up_thrust = 2e6,
 					down_thrust = -2e6,
 					left_thrust = -2e6,
 					right_thrust = 2e6,
-					angular_thrust = 2e6,
+					angular_thrust = 10e6,
 					gun_mounts = 
 					{
 					{ v(0,0,-16), v(0,0,-1) },

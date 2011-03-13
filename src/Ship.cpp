@@ -599,7 +599,7 @@ void Ship::StaticUpdate(const float timeStep)
 						m_equipment.Add(Equip::HYDROGEN);
 						Pi::Message(stringf(512, "Fuel scoop active. You now have %d tonnes of hydrogen.",
 									m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN)));
-						CalcStats();
+						UpdateMass();
 					}
 				}
 			}
@@ -744,6 +744,7 @@ void Ship::SetGunState(int idx, int state)
 bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
+	if (m_wheelState == (down ? 1.0f : 0.0f)) return false;
 	if (down) m_wheelTransition = 1;
 	else m_wheelTransition = -1;
 	return true;
@@ -886,6 +887,7 @@ bool Ship::Jettison(Equip::Type t)
 	Equip::Slot slot = EquipType::types[(int)t].slot;
 	if (m_equipment.Count(slot, t) > 0) {
 		m_equipment.Remove(t, 1);
+		UpdateMass();
 
 		Aabb aabb;
 		GetAabb(aabb);
@@ -927,11 +929,11 @@ float Ship::GetWeakestThrustersForce() const
 /* MarketAgent shite */
 void Ship::Bought(Equip::Type t) {
 	m_equipment.Add(t);
-	CalcStats();
+	UpdateMass();
 }
 void Ship::Sold(Equip::Type t) {
 	m_equipment.Remove(t, 1);
-	CalcStats();
+	UpdateMass();
 }
 bool Ship::CanBuy(Equip::Type t, bool verbose) const {
 	Equip::Slot slot = EquipType::types[(int)t].slot;

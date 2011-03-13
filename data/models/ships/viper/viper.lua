@@ -173,6 +173,154 @@ define_model('viper_body', {
 															
 })
 
+define_model('viperpol_gear20', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear20.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear19', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear19.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear18', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear18.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear17', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear17.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear16', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear16.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear15', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear15.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear14', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear14.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear13', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear13.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear12', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear12.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear11', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear11.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear10', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear10.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear09', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear9.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear08', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear8.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear07', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear7.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear06', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear6.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear05', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear5.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear04', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear4.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear03', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear3.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear02', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear2.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear01', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viperpol_gear00', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_pol1.png')
+		load_obj('gear.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+
 define_model('viper_pol_gear', {     
    	info = {
 			scale = 1,
@@ -190,65 +338,211 @@ define_model('viper_pol_gear', {
 		
 	dynamic = function(lod)	
 		use_material('col1')
-		if lod > 3 then
-			texture('models/ships/viper/viper_pol1.png')
-		elseif lod > 2 then
-			texture('models/ships/viper/viper_pol2.png')
-		else
-			texture('models/ships/viper/viper_pol3.png')
-		end
-		--texture('models/ships/viper/viper_pol1.png')	
+--		if lod > 3 then
+--			texture('models/ships/viper/viper_pol1.png')
+--		elseif lod > 2 then
+--			texture('models/ships/viper/viper_pol2.png')
+--		else
+--			texture('models/ships/viper/viper_pol3.png')
+--		end
+--texture('models/ships/viper/viper_pol1.png')	
 		if get_arg(0) > 0.95 then
-			load_obj('/models/ships/viper/gear20.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear20', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.9 then
-			load_obj('/models/ships/viper/gear19.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear19', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.85 then
-			load_obj('/models/ships/viper/gear18.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear18', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.8 then
-			load_obj('/models/ships/viper/gear17.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear17', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.75 then
-			load_obj('/models/ships/viper/gear16.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear16', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.7 then
-			load_obj('/models/ships/viper/gear15.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear15', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.65 then
-			load_obj('/models/ships/viper/gear14.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear14', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.6 then
-			load_obj('/models/ships/viper/gear13.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear13', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.55 then
-			load_obj('/models/ships/viper/gear12.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear12', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.5 then
-			load_obj('/models/ships/viper/gear11.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear11', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.45 then
-			load_obj('/models/ships/viper/gear10.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear10', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.4 then
-			load_obj('/models/ships/viper/gear9.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear09', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.35 then
-			load_obj('/models/ships/viper/gear8.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear08', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.3 then
-			load_obj('/models/ships/viper/gear7.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear07', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.25 then
-			load_obj('/models/ships/viper/gear6.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear06', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.2 then
-			load_obj('/models/ships/viper/gear5.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear05', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.15 then
-			load_obj('/models/ships/viper/gear4.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear04', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.1 then
-			load_obj('/models/ships/viper/gear3.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear03', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.05 then
-			load_obj('/models/ships/viper/gear2.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear02', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0 then
-			load_obj('/models/ships/viper/gear1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viperpol_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			load_obj('/models/ships/viper/gear.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))			
+			call_model('viperpol_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		end
-
-		
-
 
 	end
 
 															
 })
+
+define_model('viper_gear20', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear20.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear19', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear19.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear18', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear18.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear17', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear17.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear16', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear16.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear15', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear15.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear14', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear14.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear13', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear13.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear12', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear12.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear11', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear11.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear10', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear10.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear09', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear9.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear08', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear8.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear07', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear7.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear06', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear6.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear05', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear5.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear04', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear4.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear03', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear3.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear02', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear2.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear01', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+define_model('viper_gear00', {
+	info = { bounding_radius = 5, },
+	static = function(lod)
+		texture('viper_a1.png')
+		load_obj('gear.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+	end,
+})
+
 
 define_model('viper_gear', {     
    	info = {
@@ -267,55 +561,55 @@ define_model('viper_gear', {
 		
 	dynamic = function(lod)	
 		use_material('col1')
-		if lod > 3 then
-			texture('models/ships/viper/viper_a1.png')
-		elseif lod > 2 then
-			texture('models/ships/viper/viper_a2.png')
-		else
-			texture('models/ships/viper/viper_a3.png')
-		end
+--		if lod > 3 then
+--			texture('models/ships/viper/viper_a1.png')
+--		elseif lod > 2 then
+--			texture('models/ships/viper/viper_a2.png')
+--		else
+--			texture('models/ships/viper/viper_a3.png')
+--		end
 		if get_arg(0) > 0.95 then
-			load_obj('/models/ships/viper/gear20.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear20', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.9 then
-			load_obj('/models/ships/viper/gear19.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear19', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.85 then
-			load_obj('/models/ships/viper/gear18.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear18', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.8 then
-			load_obj('/models/ships/viper/gear17.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear17', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.75 then
-			load_obj('/models/ships/viper/gear16.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear16', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.7 then
-			load_obj('/models/ships/viper/gear15.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear15', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.65 then
-			load_obj('/models/ships/viper/gear14.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear14', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.6 then
-			load_obj('/models/ships/viper/gear13.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear13', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.55 then
-			load_obj('/models/ships/viper/gear12.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear12', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.5 then
-			load_obj('/models/ships/viper/gear11.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear11', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.45 then
-			load_obj('/models/ships/viper/gear10.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear10', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.4 then
-			load_obj('/models/ships/viper/gear9.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear09', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.35 then
-			load_obj('/models/ships/viper/gear8.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear08', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.3 then
-			load_obj('/models/ships/viper/gear7.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear07', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.25 then
-			load_obj('/models/ships/viper/gear6.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear06', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.2 then
-			load_obj('/models/ships/viper/gear5.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear05', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.15 then
-			load_obj('/models/ships/viper/gear4.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear04', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.1 then
-			load_obj('/models/ships/viper/gear3.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear03', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0.05 then
-			load_obj('/models/ships/viper/gear2.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear02', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif get_arg(0) > 0 then
-			load_obj('/models/ships/viper/gear1.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))
+			call_model('viper_gear01', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		else
-			load_obj('/models/ships/viper/gear.obj', Matrix.rotate(0.5*math.pi,v(-1,0,0)))			
+			call_model('viper_gear00', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		end
 
 		
@@ -336,13 +630,13 @@ define_model('viperpol', {
                  ship_defs = {
                 	{
 					name='Viper Police Craft',
-					forward_thrust = -9e6,
-					reverse_thrust = 3e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e6,
+					forward_thrust = -10e6,
+					reverse_thrust = 4e6,
+					up_thrust = 4e6,
+					down_thrust = -3e6,
+					left_thrust = -3e6,
+					right_thrust = 3e6,
+					angular_thrust = 30e6,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },
@@ -464,13 +758,13 @@ define_model('viper', {
                  ship_defs = {
                 	{
 					name='Viper Defence Craft',
-					forward_thrust = -9e6,
-					reverse_thrust = 3e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e6,
+					forward_thrust = -10e6,
+					reverse_thrust = 4e6,
+					up_thrust = 4e6,
+					down_thrust = -3e6,
+					left_thrust = -3e6,
+					right_thrust = 3e6,
+					angular_thrust = 30e6,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },

@@ -251,80 +251,6 @@ void UseEquipWidget::FireMissile(int idx)
 	Sound::PlaySfx("Missile launch", 1.0f, 1.0f, 0);
 }
 
-void UseEquipWidget::UseRadarMapper()
-{
-	if (!Pi::player->GetCombatTarget()) {
-		Pi::cpan->MsgLog()->Message("", "Radar Mapper: You must target a ship");
-		return;
-	} else {
-		Body *b = Pi::player->GetCombatTarget();
-		assert (b->IsType(Object::SHIP));
-		Ship *s = static_cast<Ship*>(b);
-		std::string msg;
-		const ShipFlavour *flavour = s->GetFlavour();
-		const shipstats_t *stats = s->CalcStats();
-		msg += stringf(256, "Type: %s, Reg-id: %s\n", ShipType::types[flavour->type].name.c_str(), flavour->regid);
-		if (stats->shield_mass > 0) {
-			msg += stringf(128, "Hull integrity: %.0f%%, Shields: %d (%.0f%%), %d tonnes of cargo\n",
-					s->GetPercentHull(),
-					s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR),
-					s->GetPercentShields(),
-					stats->used_cargo);
-		} else {
-			msg += stringf(128, "Hull integrity: %.0f%%, %d tonnes of cargo\n",
-					s->GetPercentHull(),
-					stats->used_cargo);
-		}
-		Equip::Type t = s->m_equipment.Get(Equip::SLOT_ENGINE);
-		if (t == Equip::NONE) msg += "No hyperdrive";
-		else msg += EquipType::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
-
-		for (int i=(int)Equip::FIRST_SHIPEQUIP; i<=(int)Equip::LAST_SHIPEQUIP; i++) {
-			Equip::Type t = (Equip::Type)i;
-			Equip::Slot slot = EquipType::types[t].slot;
-			if ((slot == Equip::SLOT_MISSILE) ||
-			    (slot == Equip::SLOT_ENGINE) ||
-			    (slot == Equip::SLOT_LASER) ||
-			    (t == Equip::SHIELD_GENERATOR)) continue;
-			int num = s->m_equipment.Count(slot, t);
-			if (num == 1) {
-				msg += stringf(128, ", %s", EquipType::types[t].name);
-			} else if (num > 1) {
-				msg += stringf(128, ", %d %ss", num, EquipType::types[t].name);
-			}
-		}
-
-		Pi::cpan->MsgLog()->Message("", msg);
-	}
-}
-
-void UseEquipWidget::UseHypercloudAnalyzer()
-{
-	Body *target = Pi::player->GetNavTarget();
-
-	if ((!target) || (!target->IsType(Object::HYPERSPACECLOUD))) {
-		Pi::cpan->MsgLog()->Message("", "Hypercloud Analyzer: You must target a hyperspace cloud");
-		return;
-	}
-	HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(target);
-	Ship *ship = cloud->GetShip();
-	if (ship == 0) {
-		Pi::cpan->MsgLog()->Message("", "Hyperspace arrival cloud remnant");
-	} else {
-		const SBodyPath *dest = ship->GetHyperspaceTarget();
-		Sector s(dest->sectorX, dest->sectorY);
-		Pi::cpan->MsgLog()->Message("", stringf(512,
-				"Hyperspace %s cloud: Ship mass %dt\n"
-				"Destination: %s\n"
-				"Date due: %s\n",
-				cloud->IsArrival() ? "arrival" : "departure",
-				ship->CalcStats()->total_mass,
-				s.m_systems[dest->systemNum].name.c_str(),
-				format_date(cloud->GetDueDate()).c_str()
-				));
-	}
-}
-
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
@@ -370,22 +296,6 @@ void UseEquipWidget::UpdateEquip()
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
 
 			Add(b, 32, 0);
-		}
-	}
-	{
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER);
-		if (t != Equip::NONE) {
-			Gui::Button *b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/radarmapper.png");
-			b->onClick.connect(sigc::mem_fun(this, &UseEquipWidget::UseRadarMapper));
-			Add(b, 64, 0);
-		}
-	}
-	{
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);
-		if (t != Equip::NONE) {
-			Gui::Button *b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/hypercloud_anal.png");
-			b->onClick.connect(sigc::mem_fun(this, &UseEquipWidget::UseHypercloudAnalyzer));
-			Add(b, 96, 0);
 		}
 	}
 		

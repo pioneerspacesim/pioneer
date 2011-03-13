@@ -18,6 +18,7 @@
 #endif
 
 extern int mylua_panic(lua_State *L);
+extern int mylua_load_lua(lua_State *L);
 
 template <typename T>
 static inline void push2luaWithGc(lua_State *L, T *o)

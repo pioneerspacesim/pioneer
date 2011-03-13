@@ -104,6 +104,8 @@ void Player::StaticUpdate(const float timeStep)
 	vector3d v;
 	matrix4x4d m;
 
+	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
+
 	if (GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
@@ -111,23 +113,25 @@ void Player::StaticUpdate(const float timeStep)
 			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
-			if (b) v += b->GetVelocityRelativeTo(this->GetFrame());
+			if (b) v += b->GetVelocityRelTo(this->GetFrame());
 			AIMatchVel(v);
 			break;
 		case CONTROL_MANUAL:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
 			break;
 		case CONTROL_AUTOPILOT:
+			if (AIIsActive()) break;
+			Pi::RequestTimeAccel(1);
+//			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
+						// actually this breaks last timestep slightly in non-relative target cases
+			AIMatchAngVelObjSpace(vector3d(0.0));
+			SetFlightControlState(CONTROL_FIXSPEED);
+			m_setSpeed = 0.0;
 			break;
 		}
 	}
-	Ship::StaticUpdate(timeStep);		// also calls autopilot AI
-	if (m_flightControlState == CONTROL_AUTOPILOT && !AIIsActive()) {
-		Pi::RequestTimeAccel(1);
-		SetFlightControlState(CONTROL_MANUAL);		//FIXSPEED);
-//		m_setSpeed = 0;
-	}
-		
+	else SetFlightControlState(CONTROL_MANUAL);
+	
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
 	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);

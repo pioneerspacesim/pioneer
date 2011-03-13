@@ -110,7 +110,7 @@ define_model('ips_dash', {
 
 define_model('ip_shuttle', {
 	info = 	{
-        	scale = .652,
+        	scale = 1.8,
 	        lod_pixels = {5, 10, 50, 0},
 			bounding_radius = 8,
 			materials = {'grey', 'win', 'alu', 'anth', 'matvar0', 'text', 'hole', 'dash_lit', 'projector'},
@@ -118,13 +118,13 @@ define_model('ip_shuttle', {
 			ship_defs = {
 				{
 					name='Interplanetary Shuttle',
-					forward_thrust = -8e5,
-					reverse_thrust = 5e5,
-					up_thrust = 2e6,
-					down_thrust = -2e5,
-					left_thrust = -2e5,
-					right_thrust = 2e5,
-					angular_thrust = 5e5,
+					forward_thrust = -15e5,
+					reverse_thrust = 8e5,
+					up_thrust = 8e5,
+					down_thrust = -4e5,
+					left_thrust = -4e5,
+					right_thrust = 4e5,
+					angular_thrust = 28e5,
 					gun_mounts = 
 					{
 					{ v(0,-0.3,-7.9) , v(0,0,-1) },

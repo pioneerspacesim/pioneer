@@ -30,6 +30,7 @@ namespace Space {
 	extern void Render(const Frame *cam_frame);
 	extern void StartHyperspaceTo(Ship *s, const SBodyPath *);
 	extern void DoHyperspaceTo(const SBodyPath *);
+	extern void SetupSystemForGameStart(const SBodyPath *, int, int);
 	/** Are we at the moment of hyperspacing into a system? */
 	extern bool IsSystemBeingBuilt();
 	// make sure SBody* is in Pi::currentSystem

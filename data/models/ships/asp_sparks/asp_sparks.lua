@@ -297,7 +297,7 @@ define_model('asps_sub0', {
 
 define_model('asp_sparks', {
 	info = {
-			scale = 10.2,
+			scale = 8.5,
 			lod_pixels = {.1,20,50,0},
 			bounding_radius = 41,
 			materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},
@@ -305,13 +305,13 @@ define_model('asp_sparks', {
 			ship_defs = {
 				{
 					name='Asp Explorer',
-					forward_thrust = -300e5,
+					forward_thrust = -220e5,
 					reverse_thrust = 100e5,
-					up_thrust = 20e5,
-					down_thrust = -20e5,
-					left_thrust = -20e5,
-					right_thrust = 20e5,
-					angular_thrust = 2e7,
+					up_thrust = 60e5,
+					down_thrust = -60e5,
+					left_thrust = -60e5,
+					right_thrust = 60e5,
+					angular_thrust = 600e5,
 					gun_mounts = 
 					{
 					{ v(0,2.57,-21.35), v(0,0,-1) },

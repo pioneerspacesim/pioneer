@@ -7,7 +7,6 @@
 #include "Ship.h"
 #include "ShipCpanel.h"
 #include "SpaceStation.h"
-#include "custom_starsystems.h"
 #include "EquipType.h"
 #include "PersistSystemData.h"
 

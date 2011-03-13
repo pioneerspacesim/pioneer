@@ -152,25 +152,73 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	SetRotMatrix(rot);
 }
 
-
-vector3d Body::GetVelocityRelativeTo(const Frame *f) const
+vector3d Body::GetVelocityRelTo(const Frame *f) const
 {
 	matrix4x4d m;
 	Frame::GetFrameTransform(GetFrame(), f, m);
 	vector3d vel = GetVelocity();
-	if (!GetFrame()->m_astroBody) {
-		// for rotating space station frames, need to subtract the
-		// velocity that is counteracting coriolis force (an object
-		// stationary relative to a non-rotating frame will be moving
-		// in a rotating frame)
+	if (f != GetFrame() || f->IsStationRotFrame())
 		vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
-	}
 	return (m.ApplyRotationOnly(vel) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
 }
 
-
-vector3d Body::GetVelocityRelativeTo(const Body *other) const
+vector3d Body::GetVelocityRelTo(const Body *other) const
 {
-	return GetVelocityRelativeTo(GetFrame()) - other->GetVelocityRelativeTo(GetFrame());
+	return GetVelocityRelTo(GetFrame()) - other->GetVelocityRelTo(GetFrame());
+}
+
+void Body::UpdateFrame()
+{
+	if (!(GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) return;
+
+	// falling out of frames
+	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
+		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
+			
+		Frame *new_frame = GetFrame()->m_parent;
+		if (new_frame) { // don't let fall out of root frame
+			matrix4x4d m = matrix4x4d::Identity();
+			GetFrame()->ApplyLeavingTransform(m);
+
+			vector3d new_pos = m * GetPosition();
+
+			matrix4x4d rot;
+			GetRotMatrix(rot);
+			SetRotMatrix(m * rot);
+			
+			m.ClearToRotOnly();
+			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() - 
+				GetFrame()->GetStasisVelocityAtPosition(GetPosition())));
+
+			SetFrame(new_frame);
+			SetPosition(new_pos);
+			return;
+		}
+	}
+
+	// entering into frames
+	for (std::list<Frame*>::iterator j = GetFrame()->m_children.begin(); j != GetFrame()->m_children.end(); ++j) {
+		Frame *kid = *j;
+		matrix4x4d m;
+		Frame::GetFrameTransform(GetFrame(), kid, m);
+		vector3d pos = m * GetPosition();
+		if (!kid->IsLocalPosInFrame(pos)) continue;
+		
+		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel());
+
+		SetPosition(pos);
+		SetFrame(kid);
+
+		matrix4x4d rot;
+		GetRotMatrix(rot);
+		SetRotMatrix(m * rot);
+				
+		// get rid of transforms
+		m.ClearToRotOnly();
+		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
+			+ kid->GetStasisVelocityAtPosition(pos));
+
+		break;
+	}
 }
 

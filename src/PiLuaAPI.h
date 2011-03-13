@@ -36,6 +36,7 @@ class ObjectWrapper
 
 	void ShipAIDoKill(ObjectWrapper &o);
 	void ShipAIDoFlyTo(ObjectWrapper &o);
+	void ShipAIDoDock(ObjectWrapper &o);
 	void ShipAIDoLowOrbit(ObjectWrapper &o);
 	void ShipAIDoMediumOrbit(ObjectWrapper &o);
 	void ShipAIDoHighOrbit(ObjectWrapper &o);
@@ -81,6 +82,7 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_1(double, GetEquipmentPrice, int)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoKill, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoFlyTo, ObjectWrapper&)
+	OOLUA_MEM_FUNC_1(void, ShipAIDoDock, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoLowOrbit, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoMediumOrbit, ObjectWrapper&)
 	OOLUA_MEM_FUNC_1(void, ShipAIDoHighOrbit, ObjectWrapper&)

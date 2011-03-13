@@ -45,9 +45,10 @@ public:
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
 	void RotateInTimestep(double step);
 	bool IsRotatingFrame() const { return m_angVel.Length() != 0.0; }
+	bool IsStationRotFrame() const;
 	// snoops into parent frames so beware
-	SBody *GetSBodyFor();
-	Body *GetBodyFor();
+	SBody *GetSBodyFor() const;
+	Body *GetBodyFor() const;
 	void UpdateOrbitRails();
 
 	void ApplyLeavingTransform(matrix4x4d &m) const;

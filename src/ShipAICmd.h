@@ -92,45 +92,41 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
 	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
-	AICmdFlyTo(Ship *ship, Body *target, vector3d &posoff, double endvel, int headmode, bool coll);
+	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
 
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Int32(Serializer::LookupFrame(m_targframe));
 		wr.Int32(Serializer::LookupFrame(m_frame));
-		wr.Vector3d(m_posoff); wr.Vector3d(m_relpos);
+		wr.Vector3d(m_posoff); wr.Vector3d(m_reldir);
 		wr.Double(m_endvel); wr.Double(m_orbitrad);
 		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
-		m_target = (Body *)rd.Int32();
+		m_targframe = (Frame *)rd.Int32();
 		m_frame = (Frame *)rd.Int32();
-		m_posoff = rd.Vector3d(); m_relpos = rd.Vector3d();
+		m_posoff = rd.Vector3d(); m_reldir = rd.Vector3d();
 		m_endvel = rd.Double();	m_orbitrad = rd.Double();
 		m_state = rd.Int32(); m_coll = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = Serializer::LookupBody((size_t)m_target);
+		m_targframe = Serializer::LookupFrame((size_t)m_targframe);
 		m_frame = Serializer::LookupFrame((size_t)m_frame);
-	}
-	virtual void OnDeleted(const Body *body) {
-		if ((Body *)m_target == body) m_target = 0;
-		AICommand::OnDeleted(body);
 	}
 
 protected:
-	void GetAwayFromBody(Body *body, vector3d &targpos);
 	void NavigateAroundBody(Body *body, vector3d &targpos);
 	void CheckCollisions();
+	bool OrbitCorrection();
 
 private:
-	Body *m_target;
-	Frame *m_frame;		// current frame of ship, used to check for changes	
-	vector3d m_posoff;	// offset in target's frame
-	vector3d m_relpos;	// target position relative to ship at last frame change
+	Frame *m_targframe;	// target frame for waypoint
+	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	double m_orbitrad;	// orbital radius in metres
+	Frame *m_frame;	// current frame of ship, used to check for changes	
+	vector3d m_reldir;	// target direction relative to ship at last frame change
 	int m_state;		// see TimeStepUpdate()
 	bool m_coll;		// whether to bother checking for collisions
 };

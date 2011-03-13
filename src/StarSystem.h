@@ -117,6 +117,8 @@ public:
 		TYPE_PLANET_TERRESTRIAL = 13,
 		TYPE_STARPORT_ORBITAL = 14,
 		TYPE_STARPORT_SURFACE = 15,
+		TYPE_MIN = TYPE_BROWN_DWARF,
+		TYPE_MAX = TYPE_STARPORT_SURFACE,
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF,
 		TYPE_STAR_MAX = TYPE_WHITE_DWARF
 		// XXX need larger atmosphereless thing
@@ -226,12 +228,14 @@ public:
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
+	bool GetRandomStarport(MTRand &rand, SBodyPath *outDest) const;
 	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static float starColors[][3];
 	static float starRealColors[][3];
 	static double starLuminosities[];
+	static fixed starMetallicities[];
 
 	struct BodyStats {
 
@@ -253,6 +257,8 @@ public:
 	int m_econType;
 	int m_techlevel; /* 0-5 like in EquipType.h */
 	int m_seed;
+
+	bool m_unexplored;
 	
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
@@ -270,7 +276,7 @@ private:
 	void MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand);
 	void MakeStarOfTypeLighterThan(SBody *sbody, SBody::BodyType type, fixed maxMass, MTRand &rand);
 	void MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int parentIdx, int *outHumanInfestedness, MTRand &rand);
+	void CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *children, int *outHumanInfestedness, MTRand &rand);
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 
