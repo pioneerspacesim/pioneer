@@ -1267,14 +1267,14 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		double projspeed = Equip::lasers[laser].speed;
 		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
+		double dist = targpos.Length();
 
-		if (leadpos.z < 0.0 && Gui::Screen::Project(leadpos, m_targLeadPos))
+		if (leadpos.z < 0.0 && dist < 100000 && Gui::Screen::Project(leadpos, m_targLeadPos))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
 		// want to calculate closing velocity that you couldn't counter with retros
 
-		double dist = targpos.Length();
 		double vel = targvel.z;				// position should be towards
 		double raccel = Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE]
 			/ Pi::player->GetMass();

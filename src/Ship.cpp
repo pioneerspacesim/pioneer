@@ -744,6 +744,7 @@ void Ship::SetGunState(int idx, int state)
 bool Ship::SetWheelState(bool down)
 {
 	if (m_flightState != FLYING) return false;
+	if (m_wheelState == (down ? 1.0f : 0.0f)) return false;
 	if (down) m_wheelTransition = 1;
 	else m_wheelTransition = -1;
 	return true;
