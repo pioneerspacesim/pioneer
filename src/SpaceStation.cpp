@@ -455,7 +455,9 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 		} else {
 			if (dt.stage >= 0) {
 				// set docked
-				PiLuaModules::QueueEvent("onPlayerDock", this);
+				// XXX have a general onDock event instead
+				if (dt.ship == Pi::player)
+					PiLuaModules::QueueEvent("onPlayerDock", this);
 				dt.ship->SetDockedWith(this, i);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -766,7 +768,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
-					PiLuaModules::QueueEvent("onPlayerDock", this);
+					// XXX have a general onDock event instead
+					if (s == Pi::player)
+						PiLuaModules::QueueEvent("onPlayerDock", this);
 					s->SetDockedWith(this, port);
 				}
 			}
