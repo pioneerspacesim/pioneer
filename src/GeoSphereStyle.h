@@ -19,11 +19,16 @@ class GeoSphereStyle {
 		TERRAIN_HILLS_NORMAL,
 		TERRAIN_HILLS_RIDGED,
 		TERRAIN_HILLS_RIVERS,
+		TERRAIN_HILLS_CRATERS,
+		TERRAIN_HILLS_CRATERS2,
 		TERRAIN_MOUNTAINS_NORMAL,
 		TERRAIN_MOUNTAINS_RIDGED,
 		TERRAIN_MOUNTAINS_RIVERS,
+		TERRAIN_MOUNTAINS_CRATERS,
+		TERRAIN_MOUNTAINS_CRATERS2,
 		TERRAIN_MOUNTAINS_VOLCANO,
 		TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
+		TERRAIN_RUGGED_LAVA,
 		TERRAIN_H2O_SOLID,
 		TERRAIN_RUGGED_DESERT,
 		TERRAIN_ASTEROID,
@@ -84,6 +89,7 @@ class GeoSphereStyle {
 	double m_atmosDensity;
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
+	double m_volcanic;
 	
 	/** for sbodies with a heightMap we load this turd
 	 * and use it instead of perlin height function */
