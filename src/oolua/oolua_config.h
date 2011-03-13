@@ -1,8 +1,14 @@
 #ifndef OOLUA_CONFIG_H_
 #	define OOLUA_CONFIG_H_
 
-// XXX -TM-
-#define OOLUA_STORE_ERROR
+/*
+ * Pioneer uses a customised version of OOLua that has some stuff we need that
+ * likely won't make it upstream. These changes are marked with the
+ * PIONEER_OOLUA define to make them stand out. If you hack OOLua yourself
+ * please wrap it in this define. If you try to upgrade OOLua, please make
+ * sure our hacks continue to work.
+ */
+#define PIONEER_OOLUA 1
 
 ///def OOLUA_RUNTIME_CHECKS_ENABLED
 ///Checks that a type being pulled off the stack is of the correct type

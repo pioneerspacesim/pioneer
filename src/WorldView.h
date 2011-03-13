@@ -52,6 +52,10 @@ private:
 	void DrawCombatTargetIndicator(const Ship* const target);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
+	void AddCommsNavOption(const std::string msg, Body *target);
+	void OnClickCommsNavOption(Body *target);
+	void BuildCommsNavOptions();
+
 	void OnClickHyperspace();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
@@ -65,6 +69,8 @@ private:
 	Gui::ImageButton *m_hyperspaceButton;
 	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
+	Gui::VBox *m_commsNavOptions;
+	Gui::HBox *m_commsNavOptionsContainer;
 	Gui::Label *m_flightStatus, *m_hyperTargetLabel, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
@@ -75,9 +81,10 @@ private:
 	Uint32 m_showTargetActionsTimeout;
 	Render::Shader *m_bgStarShader;
 
-	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo;
+	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
+	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 
 	sigc::connection m_onPlayerChangeHyperspaceTargetCon;
 	sigc::connection m_onPlayerChangeTargetCon;

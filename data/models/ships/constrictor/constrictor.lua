@@ -881,25 +881,25 @@ define_model('conny', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					name='Constrictor',
-					forward_thrust = -12e6,
-					reverse_thrust = 5e6,
-					up_thrust = 2e6,
-					down_thrust = -2e6,
-					left_thrust = -2e6,
-					right_thrust = 2e6,
+					name = 'Constrictor',
+					forward_thrust = -259e5,
+					reverse_thrust = 118e5,
+					up_thrust = 6e6,
+					down_thrust = -6e6,
+					left_thrust = -6e6,
+					right_thrust = 6e6,
 					angular_thrust = 6e6,
-					gun_mounts = 
+					gun_mounts =
 					{
 					{ v(0,-2,-26), v(0,0,-1) },
 					{ v(0,-2,19), v(0,0,1) }
 					},
-					max_cargo = 100,
+					max_cargo = 90,
 					max_laser = 2,
 					max_missile = 2,
-					capacity = 100,
-					hull_mass = 100,
-					price = 200000,
+					capacity = 90,
+					hull_mass = 90,
+					price = 143000,
 					hyperdrive_class = 3,
 				}
 			}

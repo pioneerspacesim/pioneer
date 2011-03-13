@@ -227,7 +227,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\custom_starsystems.cpp"
+				RelativePath="..\..\src\CustomSystem.cpp"
 				>
 			</File>
 			<File
@@ -503,6 +503,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\PiLuaClasses.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PiLuaConstants.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\PiLuaModules.cpp"
 				>
 			</File>
@@ -702,6 +710,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\custom_starsystems.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CustomSystem.h"
 				>
 			</File>
 			<File
@@ -1174,6 +1186,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\PiLuaAPI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PiLuaClasses.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PiLuaConstants.h"
 				>
 			</File>
 			<File

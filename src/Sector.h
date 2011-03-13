@@ -5,8 +5,7 @@
 #include <string>
 #include <vector>
 #include "StarSystem.h"
-
-struct CustomSystem;
+#include "CustomSystem.h"
 
 class Sector {
 public:
@@ -14,6 +13,7 @@ public:
 	static const float SIZE;
 	Sector(int x, int y);
 	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
+	static void Init();
 	
 	struct System {
 		std::string name;

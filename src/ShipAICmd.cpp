@@ -57,6 +57,7 @@ bool AICommand::ProcessChild()
 	return true;								// child finished
 }
 
+
 /*
 bool AICmdJourney::TimeStepUpdate()
 {
@@ -150,29 +151,6 @@ bool AICmdJourney::TimeStepUpdate()
 }
 
 */
-
-bool AICmdKamikaze::TimeStepUpdate()
-{
-	m_ship->SetGunState(0,0);
-	// needs to deal with frames, large distances, and success
-	if (m_ship->GetFrame() == m_target->GetFrame()) {
-		double dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
-		vector3d vRel = m_ship->GetVelocityRelTo(m_target);
-		vector3d dir = (m_target->GetPosition() - m_ship->GetPosition()).Normalized();
-
-		const double eta = Clamp(dist / vRel.Dot(dir), 0.0, 10.0);
-		const vector3d enemyProjectedPos = m_target->GetPosition() + eta*m_target->GetVelocity() - eta*m_ship->GetVelocity();
-		dir = (enemyProjectedPos - m_ship->GetPosition()).Normalized();
-
-		m_ship->ClearThrusterState();
-		m_ship->AIFaceDirection(dir);
-
-		// thunder at target at 400m/sec
-		// todo: fix that static cast - redo this function anyway
-		m_ship->AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), static_cast<Ship*>(m_target));
-	}
-	return false;
-}
 
 /*
 // temporary evasion-test version
@@ -300,10 +278,48 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 }
 */
 
+static void LaunchShip(Ship *ship)
+{
+	if (ship->GetFlightState() == Ship::LANDED) {
+		if (ship->GetDockedWith()) ship->Undock();
+		else ship->Blastoff();
+	}
+}
+
+bool AICmdKamikaze::TimeStepUpdate()
+{
+	if (!m_target) return true;
+
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else { LaunchShip(m_ship); return false; }
+
+	m_ship->SetGunState(0,0);
+	// needs to deal with frames, large distances, and success
+	if (m_ship->GetFrame() == m_target->GetFrame()) {
+		double dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
+		vector3d vRel = m_ship->GetVelocityRelTo(m_target);
+		vector3d dir = (m_target->GetPosition() - m_ship->GetPosition()).Normalized();
+
+		const double eta = Clamp(dist / vRel.Dot(dir), 0.0, 10.0);
+		const vector3d enemyProjectedPos = m_target->GetPosition() + eta*m_target->GetVelocity() - eta*m_ship->GetVelocity();
+		dir = (enemyProjectedPos - m_ship->GetPosition()).Normalized();
+
+		m_ship->ClearThrusterState();
+		m_ship->AIFaceDirection(dir);
+
+		// thunder at target at 400m/sec
+		// todo: fix that static cast - redo this function anyway
+		m_ship->AIModelCoordsMatchSpeedRelTo(vector3d(0,0,-400), static_cast<Ship*>(m_target));
+	}
+	return false;
+}
 
 bool AICmdKill::TimeStepUpdate()
 {
 	if (!m_target) return true;
+
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else { LaunchShip(m_ship); return false; }
 
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
 	const ShipType &stype = m_ship->GetShipType();
@@ -831,6 +847,10 @@ bool AICmdFlyTo::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;		// child not finished
 	if (m_state == 6) return true;			// started within range
+
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else { LaunchShip(m_ship); return false; }
+
 	if (m_state == 10) return OrbitCorrection();		// terminal orbit mode
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_state == 3) return true;			// bailout case for accidental planet-dives
@@ -895,34 +915,6 @@ printf("Uncorrectable sidevel result triggered");
 }
 
 
-// ok, new heading idea.
-// If heading is too far off, cap forward/reverse thrust to sideacc
-// how?
-// GetThrusterState
-
-
-
-// improvements to make:
-// 1. Speed limit implementation for last step to ground station
-//	- should be fairly easy with MatchPosVel param
-// 2. Ground station above-atmosphere waypoint. generate from targetwelltest?
-//	- may be needed for fast-spinning planets
-// 3. Check that really heavy atmospheres don't still break
-// 4. Reduce tangent steps for large planets to ensure you don't dodge well?
-// ^^^^^^^^^^none of these necessary after frame conversion and single-step leading?
-
-// ok, 2 may be needed for vel > 0 case
-// 
-// 
-
-// 5. Potential problem with small thrusters and large gravity, ivel overdone?
-//  - yep, happens while docking at h1
-//	^^^^^^^^^^fixed
-// 6. uh, forgot
-// 7. should stay further away from planets that it's not visiting
-// 8. heading correction needs a better test, ang based probably
-
-
 // m_state values:
 // 0: get data for docking start pos
 // 1: Fly to docking start pos
@@ -934,8 +926,10 @@ bool AICmdDock::TimeStepUpdate()
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
 	if (m_state == 1) m_state = 2;				// finished moving into dock start pos
-	if (m_ship->GetFlightState() != Ship::FLYING)
-		{ m_ship->ClearThrusterState(); return true; }		// docked, hopefully
+	if (m_ship->GetFlightState() != Ship::FLYING) {		// todo: should probably launch if docked with something else
+		m_ship->ClearThrusterState();
+		return true; // docked, hopefully
+	}
 
 	// if we're not close to target, do a flyto first
 	double targdist = m_target->GetPositionRelTo(m_ship).Length();
@@ -968,6 +962,7 @@ bool AICmdDock::TimeStepUpdate()
 		return TimeStepUpdate();
 	}
 	// second docking waypoint
+	m_ship->SetWheelState(true);
 	if (m_ship->AIFaceOrient(m_dockdir, m_dockupdir) < 0.01 && m_state++ > 3) {		// second docking waypoint
 		vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_dockpos);
 		vector3d relpos = targpos - m_ship->GetPosition();

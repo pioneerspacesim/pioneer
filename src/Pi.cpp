@@ -32,6 +32,7 @@
 #include "Render.h"
 #include "PiLuaModules.h"
 #include "AmbientSounds.h"
+#include "CustomSystem.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -216,7 +217,10 @@ void Pi::Init()
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
+    CustomSystem::Init();
 	draw_progress(0.3f);
+
+	draw_progress(0.4f);
 	LmrModelCompilerInit();
 
 //unsigned int control_word;
@@ -229,12 +233,13 @@ void Pi::Init()
 	draw_progress(0.5f);
 	GeoSphere::Init();
 	draw_progress(0.6f);
-	Space::Init();
+	GeoSphere::Init();
 	draw_progress(0.7f);
-	Polit::Init();
+	Space::Init();
 	draw_progress(0.8f);
-	SpaceStation::Init();
+	Polit::Init();
 	draw_progress(0.9f);
+	SpaceStation::Init();
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
@@ -650,15 +655,12 @@ void Pi::InitGame()
 
 	player = new Player("Eagle Long Range Fighter");
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
-	player->m_equipment.Add(Equip::HYDROGEN, 10);
+	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+	player->m_equipment.Add(Equip::HYDROGEN, 1);
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_SMART);
-	player->m_equipment.Add(Equip::MISSILE_NAVAL);
+	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::AUTOPILOT);
 	player->m_equipment.Add(Equip::SCANNER);
 	player->SetMoney(10000);
