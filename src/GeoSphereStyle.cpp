@@ -541,7 +541,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], height, rand.Double(2.5,3.5)*height, rand);
 
 			// volcanoes
-			SetFracDef(&m_fracdef[7], 20000.0, 5e6, rand, 50.0);
+			SetFracDef(&m_fracdef[6], 20000.0, 5e6, rand, 50.0);
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, 3e6, rand, 50.0);
 
 			// canyon
