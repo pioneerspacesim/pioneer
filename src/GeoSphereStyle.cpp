@@ -969,9 +969,8 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += canyon2_function(m_fracdef[8], p);
 			n += canyon3_function(m_fracdef[8], p);
 			n += -0.5;
-			//n = n * 0.5;
+			n = n * 0.5;
 			n = (n<0.0 ? 0.0 : n);
-			n = (n<1 ? n : 1/n );
 
 			// makes larger dunes at lower altitudes, flat ones at high altitude.
 			mountains = mountain_distrib * m_fracdef[1].amplitude * mountains*mountains*mountains;
