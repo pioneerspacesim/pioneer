@@ -334,7 +334,7 @@ void GenericChatForm::AddBaseDisplay()
 	m_equipmentMass = new Gui::Label("");
 	Add(m_equipmentMass, 140, ystart + 6*YSEP);
 	
-	m_legalstatus = new Gui::Label("Dirty");
+	m_legalstatus = new Gui::Label("Clean");
 	Add(m_legalstatus, 220, ystart + 2*YSEP);
 
 	UpdateBaseDisplay();
