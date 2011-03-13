@@ -476,6 +476,7 @@ void Pi::HandleEvents()
 							ship->m_equipment.Add(Equip::SCANNER);
 							ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 							ship->m_equipment.Add(Equip::HYDROGEN, 10);
+							ship->UpdateMass();
 							Space::AddBody(ship);
 						}
 					}
@@ -664,6 +665,7 @@ void Pi::InitGame()
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::AUTOPILOT);
 	player->m_equipment.Add(Equip::SCANNER);
+	player->UpdateMass();
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	
@@ -813,12 +815,19 @@ void Pi::Start()
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 		player->SetVelocity(vector3d(0,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
+		player->UpdateMass();
 
 		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 		enemy->SetFrame(player->GetFrame());
 		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
 		enemy->SetVelocity(vector3d(0,0,0));
-		enemy->m_equipment.Add(Equip::PULSECANNON_1MW);
+		enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+		enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+		enemy->m_equipment.Add(Equip::HYDROGEN, 2);
+		enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+		enemy->m_equipment.Add(Equip::AUTOPILOT);
+		enemy->m_equipment.Add(Equip::SCANNER);
+		enemy->UpdateMass();
 		enemy->AIKill(player);
 		Space::AddBody(enemy);
 
