@@ -510,10 +510,11 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			// volcanoes
 			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.44, 1e7, rand, 10.0);
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.3, 5e6, rand, 10.0);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.14, 7e5, rand, 10.0);
 
 			// canyon
-			SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.4, 2e6, rand, 10.0);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 2e6, rand, 10.0);
+			// bumps/rocks
+			SetFracDef(&m_fracdef[9], height*0.01, rand.Double(1,20), rand, 8.0);
 			break;
 		}
 		case TERRAIN_H2O_SOLID:
@@ -861,6 +862,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
 			double hills = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
+			double rocks = octavenoise(m_fracdef[9], 0.5, p);
 
 			
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
@@ -871,18 +873,16 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += megavolcano_function(m_fracdef[7], p);
 			n += volcano_function(m_fracdef[7], p);
 
-			n += megavolcano_function(m_fracdef[8], p);
-			n += volcano_function(m_fracdef[8], p);
 			
 			//n += 1.4*(continents - targ.continents.amplitude*targ.sealevel + (volcano_function(p)*1)) ;
 			//smooth canyon transitions and limit height of canyon placement
-			if (n < .01) n += n * 100.0f * canyon3_function(m_fracdef[9], p);
-			else if (n < .7) n += canyon3_function(m_fracdef[9], p);
-			else n += canyon3_function(m_fracdef[9], p);
+			if (n < .01) n += n * 100.0f * canyon3_function(m_fracdef[8], p);
+			else if (n < .7) n += canyon3_function(m_fracdef[8], p);
+			else n += canyon3_function(m_fracdef[8], p);
 
-			if (n < .01) n += n * 100.0f * canyon2_function(m_fracdef[9], p);
-			else if (n < .7) n += canyon2_function(m_fracdef[9], p);
-			else n += canyon2_function(m_fracdef[9], p);
+			if (n < .01) n += n * 100.0f * canyon2_function(m_fracdef[8], p);
+			else if (n < .7) n += canyon2_function(m_fracdef[8], p);
+			else n += canyon2_function(m_fracdef[8], p);
 			n = n*.3f;
 
 			n += hills ;
@@ -899,6 +899,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += mountains ;
 			if (n < 0.01) n += mountains2 * n * 40.0f ;
 			else n += mountains2*.4f ;
+
+			rocks = mountain_distrib * m_fracdef[9].amplitude * rocks*rocks*rocks;
+			n += rocks ;
 		
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
@@ -962,6 +965,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += canyon_function(m_fracdef[6], p);
 			n += canyon2_function(m_fracdef[6], p);
 			n += canyon3_function(m_fracdef[6], p);
+			n = (n<1 ? n : 1/n ); 
 			n += canyon_function(m_fracdef[7], p);
 			n += canyon2_function(m_fracdef[7], p);
 			n += canyon3_function(m_fracdef[7], p);
