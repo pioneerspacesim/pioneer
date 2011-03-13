@@ -122,7 +122,7 @@ void QueueEvent(const char *eventName, Object *o1, Object *o2)
 static void CallModFunction(const char *modname, const char *funcname)
 {
 	LUA_DEBUG_START(L)
-	printf("Calling %s:%s()\n", modname, funcname);
+	//printf("Calling %s:%s()\n", modname, funcname);
 	lua_pushcfunction(L, mylua_panic);
 	lua_getglobal(L, modname);
 	lua_getfield(L, -1, funcname);
@@ -289,7 +289,7 @@ static void DoAllLuaModuleFiles(lua_State *L)
 				continue;
 			}
 			std::string path = "data/modules/" + std::string(entry->d_name);
-			printf("Running %s\n", path.c_str());
+			//printf("Running %s\n", path.c_str());
 			if (luaL_dofile(L, path.c_str())) {
 				Error("%s", lua_tostring(L, -1));
 			}

@@ -287,7 +287,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 	//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 	// and then in sphere normalized jizz
 	m_maxHeight = std::min(0.5, m_maxHeightInMeters / rad);
-	printf("%s: max terrain height: %fm [%f]\n", body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
+	//printf("%s: max terrain height: %fm [%f]\n", body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
@@ -314,7 +314,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 
 	PickAtmosphere(body);
 	InitHeightMap(body);
-	fprintf(stderr, "picked terrain %d, colortype %d for %s\n", (int)m_terrainType, (int)m_colorType, body->name.c_str());
+	//fprintf(stderr, "picked terrain %d, colortype %d for %s\n", (int)m_terrainType, (int)m_colorType, body->name.c_str());
 	InitFractalType(rand);
 }
 
@@ -329,7 +329,7 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 	def->frequency = m_planetRadius / featureWidthMeters;
 	def->octaves = std::max(1, (int)ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0)));
 	def->lacunarity = 2.0;
-	printf("%d octaves\n", def->octaves);
+	//printf("%d octaves\n", def->octaves);
 }
 
 void GeoSphereStyle::InitFractalType(MTRand &rand)

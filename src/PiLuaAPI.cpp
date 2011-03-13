@@ -406,7 +406,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 		if (!is_missile && hullMass >= minMass && hullMass <= maxMass)
 			candidates.push_back((*i).first);
 	}
-	printf("%d candidates\n", candidates.size());
+	//printf("%d candidates\n", candidates.size());
 	if (candidates.size() == 0) throw UnknownShipType();
 
 	return candidates[ Pi::rng.Int32(candidates.size()) ];
@@ -550,7 +550,7 @@ namespace LuaPi {
 		OOLUA::pull2cpp(l, minMass);
 		OOLUA::pull2cpp(l, power);
 		OOLUA::pull2cpp(l, due);
-		printf("power %f, mass %d to %d\n", power, minMass, maxMass);
+		//printf("power %f, mass %d to %d\n", power, minMass, maxMass);
 		int ret;
 		try {
 			type = get_random_ship_type(power, minMass, maxMass);
@@ -573,11 +573,11 @@ namespace LuaPi {
 		OOLUA::pull2cpp(l, o);
 		if (o->m_obj && o->m_obj->IsType(Object::SPACESTATION)) {
 			SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
-			printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
+			//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
 			int ret;
 			try {
 				type = get_random_ship_type(power, minMass, maxMass);
-				printf("Spawning a %s\n", type.c_str());
+				//printf("Spawning a %s\n", type.c_str());
 				ret = _spawn_ship_docked(l, type, power, station);
 			} catch (UnknownShipType) {
 				lua_pushnil(l);
