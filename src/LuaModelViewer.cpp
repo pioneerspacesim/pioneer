@@ -391,12 +391,11 @@ void Viewer::MainLoop()
 	Uint32 lastTurd = SDL_GetTicks();
 
 	Uint32 t = SDL_GetTicks();
-	int numFrames = 0;
+	int numFrames = 0, fps = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
 	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
-	
 
 	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
 
@@ -480,10 +479,10 @@ void Viewer::MainLoop()
 		{
 			char buf[128];
 			Aabb aabb = m_cmesh->GetAabb();
-			snprintf(buf, sizeof(buf), "%d triangles, collision mesh size: %.1fx%.1fx%.1f (radius %.1f)",
+			snprintf(buf, sizeof(buf), "%d triangles, %d fps\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)",
 					(g_renderType == 0 ? 
 						LmrModelGetStatsTris() - beforeDrawTriStats :
-						m_cmesh->m_numTris),
+						m_cmesh->m_numTris), fps,
 					aabb.max.x-aabb.min.x,
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
@@ -504,8 +503,10 @@ void Viewer::MainLoop()
 			int numTris = LmrModelGetStatsTris();
 			LmrModelClearStatsTris();
 			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
+			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
+			
 		}
 
 		//space->Collide(onCollision);

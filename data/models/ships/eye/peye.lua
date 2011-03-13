@@ -119,13 +119,13 @@ define_model('peye', {
 			ship_defs = {
 				{
 					name='E.Y.E',
-					forward_thrust = -2e7,
-					reverse_thrust = 1e7,
-					up_thrust = 2e6,
-					down_thrust = -2e6,
-					left_thrust = -2e6,
-					right_thrust = 2e6,
-					angular_thrust = 6e6,
+					forward_thrust = -20e6,
+					reverse_thrust = 10e6,
+					up_thrust = 5e6,
+					down_thrust = -4e6,
+					left_thrust = -4e6,
+					right_thrust = 4e6,
+					angular_thrust = 20e6,
 					gun_mounts = 
 					{
 					{ v(0,-5.8,-11), v(0,0,-1) },

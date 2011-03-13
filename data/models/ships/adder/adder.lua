@@ -578,11 +578,11 @@ define_model('adder', {
 					name='Adder',
 					forward_thrust = -100e5,
 					reverse_thrust = 51e5,
-					up_thrust = 2e6,
+					up_thrust = 3e6,
 					down_thrust = -2e6,
 					left_thrust = -2e6,
 					right_thrust = 2e6,
-					angular_thrust = 6e6,
+					angular_thrust = 22e6,
 					gun_mounts = 
 					{
 					{ v(0,0,-26), v(0,0,-1) },

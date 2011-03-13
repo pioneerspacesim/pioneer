@@ -318,12 +318,12 @@ define_model('hh', {
                 	{
 					name='Hammerhead Heavy Freighter',
 					forward_thrust = -14e7,
-					reverse_thrust = 6e7,
-					up_thrust = 2e6,
-					down_thrust = -2e6,
-					left_thrust = -2e6,
-					right_thrust = 2e6,
-					angular_thrust = 6e6,
+					reverse_thrust = 5e7,
+					up_thrust = 5e7,
+					down_thrust = -2e7,
+					left_thrust = -2e7,
+					right_thrust = 2e7,
+					angular_thrust = 50e7,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },

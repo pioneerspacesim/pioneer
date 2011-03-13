@@ -253,7 +253,7 @@ void Pi::Init()
 	FILE *pStatFile = fopen("shipstat.csv","wt");
 	if (pStatFile)
 	{
-		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,aacc\n");
+		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc\n");
 		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
 				i != ShipType::types.end(); ++i)
 		{
@@ -276,11 +276,12 @@ void Pi::Init()
 			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
 			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
 			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
+			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
 			double acca = shipdef->angThrust/angInertia;
 
-			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
+			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
 				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
-				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acca);
+				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca);
 		}
 		fclose(pStatFile);
 	}

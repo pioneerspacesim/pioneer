@@ -1,3 +1,5 @@
+--[[
+
 define_model('pantengl', {     
    	info = {
 			lod_pixels = { .1, 10 ,100, 0 },
@@ -26,11 +28,10 @@ define_model('pantengr', {
      end
 })    
 
---[[
-	you had once used the selector for skin variation, why not?
-	if you still like to have two models
-	all what is dynamic here will be static in the main model
---]]
+
+--	you had once used the selector for skin variation, why not?
+--	if you still like to have two models
+--	all what is dynamic here will be static in the main model
 
 define_model('pant_sub', {     
    	info = {
@@ -43,19 +44,19 @@ define_model('pant_sub', {
    			if lod == 1 then
 				load_obj('pant_coll.obj')
 			end   
-			--[[
-			i added this because lod 1 represents the collision mesh
-			if the collision mesh is large (>1000 polys) the program can get slow
-			further textures and materials aren't needed for a collision mesh (textures slow down to)
-			the "pant_coll.obj" is rebuild using ~50 polys
-			you can script or rebuild a very low poly mesh based on the main vectors of your ship to make it as low as possible
-			but leave lod 1 or add a collision mesh for the UC, else the docking can't be released proper and the ship is levelled wrong.
-			this could be a very simple one, maybe a box that appears only "if get_arg(0) ~= 0" to represent the UC.
-			even a single quad where the lowest part of the UC is would be enough
-			if the lod is set "if lod == 1 then" and lod_pixels is ".1" for lod 1, the mesh won't appear, it's used for collision detection only.
-			you can use the low poly mesh also for a real body at next lod if you map the texture to it
-			set lod 2 to 50 instead 100 if you don't like the lowpoly mesh appear so early
-			--]]
+
+--			i added this because lod 1 represents the collision mesh
+--			if the collision mesh is large (>1000 polys) the program can get slow
+--			further textures and materials aren't needed for a collision mesh (textures slow down to)
+--			the "pant_coll.obj" is rebuild using ~50 polys
+--			you can script or rebuild a very low poly mesh based on the main vectors of your ship to make it as low as possible
+--			but leave lod 1 or add a collision mesh for the UC, else the docking can't be released proper and the ship is levelled wrong.
+--			this could be a very simple one, maybe a box that appears only "if get_arg(0) ~= 0" to represent the UC.
+--			even a single quad where the lowest part of the UC is would be enough
+--			if the lod is set "if lod == 1 then" and lod_pixels is ".1" for lod 1, the mesh won't appear, it's used for collision detection only.
+--			you can use the low poly mesh also for a real body at next lod if you map the texture to it
+--			set lod 2 to 50 instead 100 if you don't like the lowpoly mesh appear so early
+
 	end,
    	dynamic = function(lod)
    		if lod > 1 then
@@ -128,12 +129,11 @@ define_model('pant_sub', {
 			end
 		end
 	    
-		--[[
-		i call them here to make use of colorvariable material
-		they have no special collision mesh so they are excludet and used in all lod
-		therefore texture is limited to "lod > 1"
-		the material "top" is taken from the last command above, so it don't need to be repeatet here
-		--]]
+--		i call them here to make use of colorvariable material
+--		they have no special collision mesh so they are excludet and used in all lod
+--		therefore texture is limited to "lod > 1"
+--		the material "top" is taken from the last command above, so it don't need to be repeatet here
+
 		local rot = get_arg(0)	
 		local v1 = v(-6,-3.627+3*rot,-7.017+2*rot) 
 		local v2 = v(6,-3.627+3*rot,-7.017+2*rot)  
@@ -156,13 +156,13 @@ define_model('panther', {
             ship_defs = {
 					{
 					name='Panther',
-					forward_thrust = -3e7,
-					reverse_thrust = 2e7,
-					up_thrust = 2e7,
-					down_thrust = -2e7,
-					left_thrust = -2e7,
-					right_thrust = 2e7,
-					angular_thrust = 2e7,
+					forward_thrust = -10e7,
+					reverse_thrust = 3e7,
+					up_thrust = 3e7,
+					down_thrust = -1e7,
+					left_thrust = -1e7,
+					right_thrust = 1e7,
+					angular_thrust = 25e7,
 					gun_mounts = 
 					{
 					{ v(0,-0.5,0), v(0,0,-1) },
@@ -218,7 +218,7 @@ define_model('panther', {
 				zbias(1, v(0, -1.527, -18.867), v(0,.2,-1))
 				text(reg, v(0, -1.527, -18.867), v(0,.2,-1), v(-1,0,0), 1.0, {center=true})
 			    zbias(0)
-			    
+
 			    if get_arg(10) > 0 then
 					use_material('steel')
 					call_model('largegun1',v(0,-2.56,-19),v(1,0,0),v(0,1,0),.34)
@@ -342,6 +342,21 @@ define_model('panther', {
 	        
 			local M_T = v(-7,-1.127,16.017)
 			xref_thruster(M_T, v(0,0,1), 20, true) -- i set thrusters dynamic, else the billboard function (posl.) messes with them
+
+			local rot = get_arg(0)	
+			local LFB_T = v(-6,-4.7-.8*rot,-6+5*(1-rot))
+	        local RFB_T = v(6,-4.7-.8*rot,-6+5*(1-rot))
+	        local LRB_T = v(-6,-4.7-.8*rot,10-5*(1-rot))
+	        local RRB_T = v(6,-4.7-.8*rot,10-5*(1-rot))
+			thruster(LFB_T, v(0,-rot,-rot+.8), 8)
+			thruster(RFB_T, v(0,-rot,-rot+.8), 8)
+			thruster(LRB_T, v(0,-rot,rot-.8), 8)
+			thruster(RRB_T, v(0,-rot,rot-.8), 8)
+	   	end
+	end
+})
+--]]
+
 			--[[
 			useful abbreviations for thruster vectors
 			
@@ -373,16 +388,3 @@ define_model('panther', {
 			or
 			RB_T(n)		= rear botom thruster
 			--]]			
-
-			local rot = get_arg(0)	
-			local LFB_T = v(-6,-4.7-.8*rot,-6+5*(1-rot))
-	        local RFB_T = v(6,-4.7-.8*rot,-6+5*(1-rot))
-	        local LRB_T = v(-6,-4.7-.8*rot,10-5*(1-rot))
-	        local RRB_T = v(6,-4.7-.8*rot,10-5*(1-rot))
-			thruster(LFB_T, v(0,-rot,-rot+.8), 8)
-			thruster(RFB_T, v(0,-rot,-rot+.8), 8)
-			thruster(LRB_T, v(0,-rot,rot-.8), 8)
-			thruster(RRB_T, v(0,-rot,rot-.8), 8)
-	   	end
-	end
-})
