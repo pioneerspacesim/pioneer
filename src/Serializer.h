@@ -19,16 +19,16 @@ namespace Serializer {
 	void LoadGame(const char *filename);
 
 	void IndexFrames();
-	Frame *LookupFrame(size_t index);
-	int LookupFrame(const Frame *f);
+	Frame *LookupFrame(uint32_t index);
+	uint32_t LookupFrame(const Frame *f);
 
 	void IndexBodies();
-	Body *LookupBody(size_t index);
-	int LookupBody(const Body *);
+	Body *LookupBody(uint32_t index);
+	uint32_t LookupBody(const Body *);
 
 	void IndexSystemBodies(StarSystem *);
-	SBody *LookupSystemBody(size_t index);
-	int LookupSystemBody(const SBody*);
+	SBody *LookupSystemBody(uint32_t index);
+	uint32_t LookupSystemBody(const SBody*);
 
 	class Writer {
 	public:

@@ -136,7 +136,7 @@ local mars_starports = {
 local mars_moons = {
 	CustomSBody:new('Phobos', Body.Type.PLANET_ASTEROID)
 		:radius(f(21,10000))
-		:mass(f(18,10000000000))
+		:mass(f(18,100000))
 		:temp(233)
 		:semi_major_axis(f(6268,100000000))
 		:eccentricity(f(151,10000))
@@ -151,7 +151,7 @@ local mars_moons = {
 	},
 	CustomSBody:new('Deimos', Body.Type.PLANET_ASTEROID)
 		:radius(f(12,10000))
-		:mass(f(25,100000000000))
+		:mass(f(25,1000000))
 		:temp(233)
 		:semi_major_axis(f(1568,10000000))
 		:eccentricity(f(2,10000))
@@ -363,7 +363,7 @@ local neptune_moons = {
 			:rotation_period(f(11,7)),
 	},
 	CustomSBody:new('Nereid', Body.Type.PLANET_ASTEROID)
-		:mass(f(519,100000000))
+		:mass(f(519,1000))
 		:temp(50)
 		:semi_major_axis(f(3685,100000))
 		:eccentricity(f(75,100))
@@ -371,7 +371,7 @@ local neptune_moons = {
 		:rotation_period(f(115,240)),
 	CustomSBody:new('Proteus', Body.Type.PLANET_ASTEROID)
 		:radius(f(310,10000))
-		:mass(f(710,100000000))
+		:mass(f(710,1000))
 		:temp(51)
 		:semi_major_axis(f(786,1000000))
 		:eccentricity(f(53,100000))
