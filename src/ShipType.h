@@ -40,8 +40,12 @@ struct ShipType {
 	static std::string MISSILE_SMART;
 	static std::string MISSILE_UNGUIDED;
 
-	static Type GetRandomType();
 	static std::map<Type, ShipType> types;
+	static std::vector<Type> player_ships;
+	static std::vector<Type> static_ships;
+	static std::vector<Type> missile_ships;
+
+	static Type GetRandomType();
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
 	static const ShipType *Get(const char *name) {
@@ -49,8 +53,6 @@ struct ShipType {
 		if (t == types.end()) return 0;
 		else return &(*t).second;
 	}
-private:
-	static int define_ship(lua_State *L, const char *model_name);
 };
 
 class EquipSet {

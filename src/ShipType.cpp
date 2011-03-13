@@ -9,6 +9,11 @@ const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	"Front", "Rear" };
 
 std::map<ShipType::Type, ShipType> ShipType::types;
+
+std::vector<ShipType::Type> ShipType::player_ships;
+std::vector<ShipType::Type> ShipType::static_ships;
+std::vector<ShipType::Type> ShipType::missile_ships;
+
 std::string ShipType::LADYBIRD				= "Ladybird Starfighter";
 std::string ShipType::SIRIUS_INTERDICTOR	= "Sirius Interdictor";
 std::string ShipType::EAGLE_LRF				= "Eagle Long Range Fighter";
@@ -63,19 +68,19 @@ static void _get_int_attrib(lua_State *L, const char *key, int &output,
 	LUA_DEBUG_END(L, 0)
 }
 
-int ShipType::define_ship(lua_State *L, const char *model_name)
+static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipType::Type> &list)
 {
 	ShipType s;
 	s.lmrModelName = model_name;
 
 	LUA_DEBUG_START(L)
 	_get_string_attrib(L, "name", s.name, model_name);
-	_get_float_attrib(L, "reverse_thrust", s.linThrust[THRUSTER_REVERSE], 0.0f);
-	_get_float_attrib(L, "forward_thrust", s.linThrust[THRUSTER_FORWARD], 0.0f);
-	_get_float_attrib(L, "up_thrust", s.linThrust[THRUSTER_UP], 0.0f);
-	_get_float_attrib(L, "down_thrust", s.linThrust[THRUSTER_DOWN], 0.0f);
-	_get_float_attrib(L, "left_thrust", s.linThrust[THRUSTER_LEFT], 0.0f);
-	_get_float_attrib(L, "right_thrust", s.linThrust[THRUSTER_RIGHT], 0.0f);
+	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
+	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
+	_get_float_attrib(L, "up_thrust", s.linThrust[ShipType::THRUSTER_UP], 0.0f);
+	_get_float_attrib(L, "down_thrust", s.linThrust[ShipType::THRUSTER_DOWN], 0.0f);
+	_get_float_attrib(L, "left_thrust", s.linThrust[ShipType::THRUSTER_LEFT], 0.0f);
+	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
 	s.angThrust = s.angThrust / 2;		// fudge
 
@@ -133,18 +138,15 @@ int ShipType::define_ship(lua_State *L, const char *model_name)
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0)
 
-	types[s.name] = s;
+	ShipType::types[s.name] = s;
+	list.push_back(s.name);
 	return 0;
 }
 
-void ShipType::Init()
+static void _define_ships(const char *tag, std::vector<ShipType::Type> &list)
 {
-	static bool isInitted = false;
-	if (isInitted) return;
-	isInitted = true;
-
 	std::vector<LmrModel*> ship_models;
-	LmrGetModelsWithTag("ship", ship_models);
+	LmrGetModelsWithTag(tag, ship_models);
 	lua_State *L = LmrGetLuaState();
 	int num = 0;
 
@@ -160,7 +162,7 @@ void ShipType::Init()
 			for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
 				lua_pushinteger(L, i+1);
 				lua_gettable(L, -2);
-				define_ship(L, model->GetName());
+				_define_ship(L, model->GetName(), list);
 				num++;
 				lua_pop(L, 1);
 			}
@@ -169,23 +171,22 @@ void ShipType::Init()
 		}
 		lua_pop(L, 1);
 	}
-	printf("%d ship types.\n", num);
+	printf("ShipType: %d ships with tag '%s'\n", num, tag);
+}
+
+void ShipType::Init()
+{
+	static bool isInitted = false;
+	if (isInitted) return;
+	isInitted = true;
+
+	_define_ships("ship", player_ships);
+	_define_ships("static_ship", static_ships);
+	_define_ships("missile", missile_ships);
 }
 
 ShipType::Type ShipType::GetRandomType() {
-	ShipType::Type type = "";
-	while (true) {
-		std::map<ShipType::Type, ShipType>::iterator iter = types.begin();
-		int idx = Pi::rng.Int32(types.size());
-		for (int i=0; i<=idx; i++) {
-			type = iter->first;
-			iter++;
-		}
-		// Don't include missiles
-		if (type.find("MISSILE")!=0)
-			break;
-	}
-	return type;
+	return player_ships[Pi::rng.Int32(player_ships.size())];
 }
 
 void EquipSet::Save(Serializer::Writer &wr)
