@@ -655,9 +655,11 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->parent = parent;
 		kid->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 		kid->radius = csbody->radius;
-		kid->mass = csbody->mass;
 		kid->averageTemp = csbody->averageTemp;
 		kid->name = csbody->name;
+
+		kid->mass = csbody->mass;
+		if (kid->type == SBody::TYPE_PLANET_ASTEROID) kid->mass /= 100000;
 
 		kid->m_metallicity    = csbody->metallicity;
 		kid->m_volatileGas    = csbody->volatileGas;
