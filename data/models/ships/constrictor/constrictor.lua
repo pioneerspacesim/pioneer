@@ -888,7 +888,7 @@ define_model('conny', {
 					down_thrust = -6e6,
 					left_thrust = -6e6,
 					right_thrust = 6e6,
-					angular_thrust = 6e6,
+					angular_thrust = 90e6,
 					gun_mounts =
 					{
 					{ v(0,-2,-26), v(0,0,-1) },

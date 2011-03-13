@@ -1206,13 +1206,13 @@ define_model('courier', {
 			ship_defs = {
 				{
 					name='Imperial Courier',
-					forward_thrust = -1e7,
-					reverse_thrust = 0.5e7,
-					up_thrust = 2e6,
-					down_thrust = -2e6,
-					left_thrust = -2e6,
-					right_thrust = 2e6,
-					angular_thrust = 6e6,
+					forward_thrust = -50e6,
+					reverse_thrust = 15e6,
+					up_thrust = 15e6,
+					down_thrust = -8e6,
+					left_thrust = -8e6,
+					right_thrust = 8e6,
+					angular_thrust = 110e6,
 					gun_mounts = 
 					{ 
 					{ v(0,0.6,-25), v(0,0,-1) },
@@ -1309,13 +1309,13 @@ define_model('trader', {
 			ship_defs = {
 				{
 					name='Imperial Trader',
-					forward_thrust = -2e7,
-					reverse_thrust = 1e7,
-					up_thrust = 2e6,
-					down_thrust = -2e6,
-					left_thrust = -2e6,
-					right_thrust = 2e6,
-					angular_thrust = 6e6,
+					forward_thrust = -8e7,
+					reverse_thrust = 3e7,
+					up_thrust = 3e7,
+					down_thrust = -1e7,
+					left_thrust = -1e7,
+					right_thrust = 1e7,
+					angular_thrust = 15e7,
 					gun_mounts = 
 					{
 					{ v(0,0.6,-36), v(0,0,-1) },

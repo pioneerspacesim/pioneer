@@ -10,11 +10,11 @@ define_model('cobra_mk3', {
 					name='Cobra Mk III',
 					forward_thrust = -16e6,
 					reverse_thrust = 8e6,
-					up_thrust = 3e6,
-					down_thrust = -3e6,
-					left_thrust = -3e6,
-					right_thrust = 3e6,
-					angular_thrust = 6e6,
+					up_thrust = 4e6,
+					down_thrust = -4e6,
+					left_thrust = -4e6,
+					right_thrust = 4e6,
+					angular_thrust = 22e6,
 					gun_mounts = 
 					{
 					{ v(0,-0.5,0), v(0,0,-1) },

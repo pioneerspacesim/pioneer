@@ -118,13 +118,13 @@ define_model('ip_shuttle', {
 			ship_defs = {
 				{
 					name='Interplanetary Shuttle',
-					forward_thrust = -8e5,
-					reverse_thrust = 5e5,
-					up_thrust = 2e6,
-					down_thrust = -2e5,
-					left_thrust = -2e5,
-					right_thrust = 2e5,
-					angular_thrust = 5e5,
+					forward_thrust = -15e5,
+					reverse_thrust = 8e5,
+					up_thrust = 8e5,
+					down_thrust = -4e5,
+					left_thrust = -4e5,
+					right_thrust = 4e5,
+					angular_thrust = 28e5,
 					gun_mounts = 
 					{
 					{ v(0,-0.3,-7.9) , v(0,0,-1) },

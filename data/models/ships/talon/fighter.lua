@@ -96,13 +96,13 @@ define_model('fi', {
                  ship_defs = {
                 	{
 					name='Talon Military Interceptor',
-					forward_thrust = -9e6,
-					reverse_thrust = 3e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e6,
+					forward_thrust = -20e5,
+					reverse_thrust = 5e5,
+					up_thrust = 4e5,
+					down_thrust = -3e5,
+					left_thrust = -3e5,
+					right_thrust = 3e5,
+					angular_thrust = 15e5,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },

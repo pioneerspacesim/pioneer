@@ -58,12 +58,12 @@ define_model('stardust', {
 			{
 					name='Stardust',
 					forward_thrust = -200e5,
-					reverse_thrust = 100e5,
-					up_thrust = 15e5,
-					down_thrust = -15e5,
-					left_thrust = -15e5,
-					right_thrust = 15e5,
-					angular_thrust = 3e7,
+					reverse_thrust = 80e5,
+					up_thrust = 40e5,
+					down_thrust = -40e5,
+					left_thrust = -40e5,
+					right_thrust = 40e5,
+					angular_thrust = 320e5,
 					gun_mounts = 
 					{
 					{ v(0,0,-26), v(0,0,-1) },

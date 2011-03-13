@@ -119,11 +119,11 @@ define_model('boa', {
 					name='Boa Freighter',
 					forward_thrust = -12e7,
 					reverse_thrust = 4e7,
-					up_thrust = 2e7,
+					up_thrust = 4e7,
 					down_thrust = -2e7,
 					left_thrust = -2e7,
 					right_thrust = 2e7,
-					angular_thrust = 6e7,
+					angular_thrust = 50e7,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },
