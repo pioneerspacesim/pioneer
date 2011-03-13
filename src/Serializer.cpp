@@ -7,7 +7,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	20
+#define SAVEFILE_VERSION	21
 
 namespace Serializer {
 
@@ -17,44 +17,36 @@ static std::vector<SBody*> g_sbodies;
 // why do we do this? so PiLuaAPI's use of Serializer::Reader has the correct stream version
 static int stream_version_context = SAVEFILE_VERSION;
 
-Frame *LookupFrame(size_t index)
+Frame *LookupFrame(uint32_t index) { return g_frames[index]; }
+uint32_t LookupFrame(const Frame *f)
 {
-	if (index == -1) return 0;
-	return g_frames[index];
-}
-
-int LookupFrame(const Frame *f)
-{
-	if (f == 0) return -1;
 	for (unsigned int i=0; i<g_frames.size(); i++) {
 		if (g_frames[i] == f) return i;
 	}
-	assert(0);
+	assert(0); return 0;
 }
-
 static void AddFrame(Frame *f)
 {
 	g_frames.push_back(f);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
-	     i != f->m_children.end(); ++i) {
+	      i != f->m_children.end(); ++i) {
 		AddFrame(*i);
 	}
 }
-
 void IndexFrames()
 {
 	g_frames.clear();
+	g_frames.push_back(0);			// map zero to null
 	AddFrame(Space::rootFrame);
 }
 
-SBody *LookupSystemBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_sbodies[index]); }
-int LookupSystemBody(const SBody *b)
+SBody *LookupSystemBody(uint32_t index) { return g_sbodies[index]; }
+uint32_t LookupSystemBody(const SBody *b)
 {
-	if (!b) return -1;
 	for (unsigned int i=0; i<g_sbodies.size(); i++) {
 		if (g_sbodies[i] == b) return i;
 	}
-	assert(0);
+	assert(0); return 0;
 }
 static void add_sbody(SBody *b)
 {
@@ -66,23 +58,24 @@ static void add_sbody(SBody *b)
 void IndexSystemBodies(StarSystem *s)
 {
 	g_sbodies.clear();
+	g_sbodies.push_back(0);			// map zero to null
 	add_sbody(s->rootBody);
 }
 
 
-Body *LookupBody(size_t index) { return (index == ~(size_t)0 ? 0 : g_bodies[index]); }
-int LookupBody(const Body *b)
+Body *LookupBody(uint32_t index) { return g_bodies[index]; }
+uint32_t LookupBody(const Body *b)
 {
-	if (!b) return -1;
 	for (unsigned int i=0; i<g_bodies.size(); i++) {
 		if (g_bodies[i] == b) return i;
 	}
-	assert(0);
+	assert(0); return 0;
 }
 
 void IndexBodies()
 {
 	g_bodies.clear();
+	g_bodies.push_back(0);		// map zero to null
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 		g_bodies.push_back(*i);
 		// XXX hyperclouds can also own a reference to a body. we need to index that too
@@ -410,8 +403,8 @@ void LoadGame(const char *filename)
 		throw SavedGameCorruptException();
 	}
 
-	if (rd.StreamVersion() < 18) {
-		fprintf(stderr, "Can't load old savefile < alpha3.\n");
+	if (rd.StreamVersion() < 21) {
+		fprintf(stderr, "Can't load old savefile < alpha9.\n");
 		throw SavedGameCorruptException();
 	}
 
