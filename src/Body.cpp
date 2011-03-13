@@ -173,7 +173,7 @@ void Body::UpdateFrame()
 
 	// falling out of frames
 	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
-		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
+		//printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
 			
 		Frame *new_frame = GetFrame()->m_parent;
 		if (new_frame) { // don't let fall out of root frame
@@ -204,7 +204,7 @@ void Body::UpdateFrame()
 		vector3d pos = m * GetPosition();
 		if (!kid->IsLocalPosInFrame(pos)) continue;
 		
-		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel());
+		//printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel());
 
 		SetPosition(pos);
 		SetFrame(kid);
