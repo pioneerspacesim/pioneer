@@ -81,7 +81,8 @@ Module:new {
 				if spawn_in_starport then
 					local ship, e = Pi.SpawnRandomDockedShip(body, 10, 100, 10000000)
 				else
-					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), 10, 100, 10000000)
+					-- XXX random the due time a bit so that some aren't in system yet
+					ship, e = Pi.SpawnRandomShip(0, 10, 100, 10000000)
 					if ship then
 						ship:ShipAIDoDock(body)
 					end
