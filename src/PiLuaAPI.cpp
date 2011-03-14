@@ -614,6 +614,7 @@ namespace LuaPi {
 		const SBody *body = station->GetSBody();
 
 		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+		printf("spawned ship: %s\n", ship->GetLabel().c_str());
 
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
 			// XXX put it in orbit
@@ -623,13 +624,18 @@ namespace LuaPi {
 			// XXX put it near the entrance somewhere
 			printf("want static near orbital starport %s\n", body->name.c_str());
 
-			vector3d pos = station->GetPosition() - vector3d(0,-5000,0);
-
 			ship->SetFrame(station->GetFrame());
-			ship->SetPosition(pos);
-			ship->SetRotMatrix(rot);
 			ship->SetVelocity(vector3d(0,0,0));
+
+			ship->SetPosition(vector3d(200,5000,200));
+
+			matrix4x4d rot;
+			ship->GetRotMatrix(rot);
+			rot.RotateX(M_PI/2);
+			ship->SetRotMatrix(rot);
+
 			Space::AddBody(ship);
+
 			OOLUA::push2lua(l, static_cast<Object*>(ship));
 			return 1;
 		}
