@@ -328,6 +328,7 @@ const char *SBody::GetIcon()
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
+		if (m_volatileLiquid > fixed(7,10)) return "icons/object_planet_water_n1.png";
 		if ((m_life > fixed(1,2)) &&  
 		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life.png";
 		if ((m_life > fixed(1,10)) &&  
@@ -335,15 +336,23 @@ const char *SBody::GetIcon()
 		if (m_life > fixed(1,10)) return "icons/object_planet_life3.png";
 		if (mass < fixed(1,100)) return "icons/object_planet_dwarf.png";
 		if (mass < fixed(1,10)) return "icons/object_planet_small.png";
-		if ((m_life > fixed(1,10)) &&  
+		if ((m_volatileLiquid < fixed(1,10)) &&  
 		   (m_volatileGas > fixed(1,5))) return "icons/object_planet_desert.png";
-		if (m_volatileLiquid < fixed(1,10)) return "icons/object_planet_water_n2.png";
+		
+		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
+			if (m_volatileIces > m_volatileLiquid) {
+				return "icons/object_planet_water_n2.png";
+			} else { 
+				return "icons/object_planet_water_n1.png";
+			}
+		}
+
 		if (m_volatileGas > fixed(1,2)) {
 			if (m_atmosOxidizing < fixed(1,2)) return "icons/object_planet_methane.png";
 			else return "icons/object_planet_co2.png";
 		}
 		if ((m_volatileLiquid > fixed(1,10)) &&  
-		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n1.png";
+		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n2.png";
 		if (m_volcanicity > fixed(7,10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
@@ -1176,7 +1185,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		char buf[8];
 		if (superType <= SBody::SUPERTYPE_STAR) {
 			// planet naming scheme
-			snprintf(buf, sizeof(buf), " %c", 'b'+idx);
+			snprintf(buf, sizeof(buf), " %c", 'a'+idx);
 		} else {
 			// moon naming scheme
 			snprintf(buf, sizeof(buf), " %d", 1+idx);
