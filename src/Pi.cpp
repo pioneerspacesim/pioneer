@@ -800,7 +800,8 @@ void Pi::Start()
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
-		Space::SetupSystemForGameStart(&path, 0, 0);
+		Space::SetupSystemForGameStart(&path, 6, 0);
+		player->m_equipment.Add(Equip::RADAR_MAPPER);
 		MainLoop();
 	} else if (choice == 2) {
 		/* Epsilon Eridani start point */
