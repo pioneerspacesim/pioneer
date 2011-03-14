@@ -591,6 +591,51 @@ namespace LuaPi {
 			return 2;
 		}
 	}
+	static int SpawnRandomStaticShip(lua_State *l) {
+		ObjectWrapper *o;
+		OOLUA::pull2cpp(l, o);
+		if (!o || !o->m_obj->IsType(Object::SPACESTATION)) {
+			lua_pushnil(l);
+			lua_pushstring(l, "argument must be a space station");
+			return 2;
+		}
+
+		SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
+
+		/* XXX kill this */
+		int starport = 6;
+		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
+			if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
+				station = (SpaceStation*)*i;
+				break;
+			}
+		}
+
+		const SBody *body = station->GetSBody();
+
+		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+
+		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
+			// XXX put it in orbit
+			printf("want static over surface starport %s\n", body->name.c_str());
+		}
+		else {
+			// XXX put it near the entrance somewhere
+			printf("want static near orbital starport %s\n", body->name.c_str());
+
+			vector3d pos = station->GetPosition() - vector3d(0,-5000,0);
+
+			ship->SetFrame(station->GetFrame());
+			ship->SetPosition(pos);
+			ship->SetRotMatrix(rot);
+			ship->SetVelocity(vector3d(0,0,0));
+			Space::AddBody(ship);
+			OOLUA::push2lua(l, static_cast<Object*>(ship));
+			return 1;
+		}
+
+		return 0;
+	}
 	static int AddPlayerCrime(lua_State *l) {
 		Sint64 crimeBitset;
 		double fine;
@@ -641,6 +686,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
 	REG_FUNC("SpawnRandomShip", &LuaPi::SpawnRandomShip);
 	REG_FUNC("SpawnRandomDockedShip", &LuaPi::SpawnRandomDockedShip);
+	REG_FUNC("SpawnRandomStaticShip", &LuaPi::SpawnRandomStaticShip);
 	lua_setglobal(l, "Pi");
 	
 	lua_newtable(l);

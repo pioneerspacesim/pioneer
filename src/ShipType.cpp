@@ -189,6 +189,10 @@ ShipType::Type ShipType::GetRandomType() {
 	return player_ships[Pi::rng.Int32(player_ships.size())];
 }
 
+ShipType::Type ShipType::GetRandomStaticType() {
+	return static_ships[Pi::rng.Int32(static_ships.size())];
+}
+
 void EquipSet::Save(Serializer::Writer &wr)
 {
 	wr.Int32(Equip::SLOT_MAX);
