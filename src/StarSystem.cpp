@@ -246,12 +246,12 @@ std::string SBody::GetAstroDescription()
 		else if (mass < fixed(1,10)) s = "Tiny";
 		else if (mass < fixed(1,5)) s = "Small";
 
-		if (m_volcanicity > fixed(1,2)) {
+		if (m_volcanicity > fixed(7,10)) {
 			if (s.size()) s += ", highly volcanic";
 			else s = "Highly volcanic";
 		}
 
-		if (m_volatileIces + m_volatileLiquid > fixed(1,5)) {
+		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
 				s += " ice world";
 			} else {
@@ -286,8 +286,10 @@ std::string SBody::GetAstroDescription()
 			}
 		}
 
-		if (m_life > fixed(1,7)) {
-			s += " and advanced indigenous life.";
+		if (m_life > fixed(1,2)) {
+			s += " and a highly complex ecosystem.";
+		} else if (m_life > fixed(1,10)) {
+			s += " and indigenous plant life.";
 		} else if (m_life > fixed(0)) {
 			s += " and indigenous microbial life.";
 		} else {
@@ -326,17 +328,23 @@ const char *SBody::GetIcon()
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
-		if (m_life > fixed(1,7)) return "icons/object_planet_life.png";
-		if (m_life > fixed(1,1)) return "icons/object_planet_life3.png";
+		if ((m_life > fixed(1,2)) &&  
+		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life.png";
+		if ((m_life > fixed(1,10)) &&  
+		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life2.png";
+		if (m_life > fixed(1,10)) return "icons/object_planet_life3.png";
 		if (mass < fixed(1,100)) return "icons/object_planet_dwarf.png";
 		if (mass < fixed(1,10)) return "icons/object_planet_small.png";
-		if (m_volatileLiquid == 0) return "icons/object_planet_desert.png";
-		if (m_volatileLiquid > fixed(1,2)) return "icons/object_planet_water_n2.png";
+		if ((m_life > fixed(1,10)) &&  
+		   (m_volatileGas > fixed(1,5))) return "icons/object_planet_desert.png";
+		if (m_volatileLiquid < fixed(1,10)) return "icons/object_planet_water_n2.png";
 		if (m_volatileGas > fixed(1,2)) {
 			if (m_atmosOxidizing < fixed(1,2)) return "icons/object_planet_methane.png";
 			else return "icons/object_planet_co2.png";
 		}
-		if (m_volcanicity > fixed(1,8)) return "icons/object_planet_volcanic.png";
+		if ((m_life > fixed(1,10)) &&  
+		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n1.png";
+		if (m_volatileLiquid > fixed(1,10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
 		"icons/object_planet_water_n1.png"
