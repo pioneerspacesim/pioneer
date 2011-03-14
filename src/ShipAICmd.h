@@ -197,22 +197,16 @@ private:
 class AICmdHoldPosition : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-    AICmdHoldPosition(Ship *ship, Body *target, const vector3d& position, const vector3d& direction) : AICommand (ship, CMD_HOLDPOSITION) {
+	AICmdHoldPosition(Ship *ship, Body *target) : AICommand (ship, CMD_HOLDPOSITION) {
 		m_target = target;
-		m_position = position;
-		m_direction = direction;
 	}
 
 	virtual void Save(Serializer::Writer &wr) {
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupBody(m_target));
-		wr.Vector3d(m_position);
-		wr.Vector3d(m_direction);
 	}
 	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) {
 		m_target = (Body*) rd.Int32();
-		m_position = rd.Vector3d();
-		m_direction = rd.Vector3d();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
@@ -221,7 +215,5 @@ public:
 
 private:
 	Body *m_target;
-	vector3d m_position;
-	vector3d m_direction;
 };
 #endif /* _SHIPAICMD_H */

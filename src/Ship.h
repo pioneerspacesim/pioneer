@@ -121,7 +121,7 @@ public:
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
-    void AIHoldPosition(Body *target, const vector3d& position, const vector3d& direction);
+    void AIHoldPosition(Body *target);
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 

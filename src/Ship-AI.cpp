@@ -125,10 +125,10 @@ void Ship::AIOrbit(Body *target, double alt)
 	m_curAICmd = new AICmdFlyTo(this, target, alt);
 }
 
-void Ship::AIHoldPosition(Body *target, const vector3d& position, const vector3d& direction)
+void Ship::AIHoldPosition(Body *target)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdHoldPosition(this, target, position, direction);
+	m_curAICmd = new AICmdHoldPosition(this, target);
 }
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel

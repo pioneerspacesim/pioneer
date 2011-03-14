@@ -636,7 +636,7 @@ namespace LuaPi {
 
 			Space::AddBody(ship);
 
-			ship->AIHoldPosition(station, vector3d(200,5000,200), vector3d(0,0,0));
+			ship->AIHoldPosition(station);
 
 			Pi::player->SetCombatTarget(ship);
 
