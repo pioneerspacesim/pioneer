@@ -948,20 +948,20 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 
 void WorldView::BuildCommsNavOptions()
 {
-	std::map<std::string, std::vector<SBody*> > groups;
+	std::map<Uint32, std::vector<SBody*> > groups;
 
 	m_commsNavOptions->PackEnd(new Gui::Label("#ff0Navigation targets in this system\n"));
 
 	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
 	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
 
-		groups[(*i)->parent->name].push_back(*i);
+		groups[(*i)->parent->id].push_back(*i);
 	}
 
 	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_bodies.begin();
 	      i != Pi::currentSystem->m_bodies.end(); i++) {
 
-		std::vector<SBody*> group = groups[(*i)->name];
+		std::vector<SBody*> group = groups[(*i)->id];
 		if ( group.size() == 0 ) continue;
 
 		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
