@@ -103,7 +103,7 @@ local moon = {
 }
 
 local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
-	:seed(1)
+	:seed(3)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
 	:temp(278)
@@ -117,7 +117,7 @@ local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
 	:volcanicity(f(2,10))
 	:atmos_density(f(3,5))
 	:atmos_oxidizing(f(8,10))
-	:ocean_cover(f(205,1000))
+	:ocean_cover(f(3,10))
 	:ice_cover(f(9,10))
 	:life(f(45,100))
 
