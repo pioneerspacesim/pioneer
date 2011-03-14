@@ -216,42 +216,29 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_HILLS_RIDGED,
 				TERRAIN_HILLS_RIVERS,
 				TERRAIN_MOUNTAINS_RIDGED,
+				TERRAIN_MOUNTAINS_NORMAL,
 				TERRAIN_MOUNTAINS_RIVERS,
 				TERRAIN_MOUNTAINS_VOLCANO,
 				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 			};
-			//m_terrainType = TERRAIN_MOUNTAINS_VOLCANO;
 			m_terrainType = choices[rand.Int32(6)];
+			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
 			m_colorType = COLOR_EARTHLIKE;
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
 			const enum TerrainFractal choices[] = {
 				TERRAIN_HILLS_RIDGED,
 				TERRAIN_HILLS_RIVERS,
+				TERRAIN_MOUNTAINS_NORMAL,
 				TERRAIN_MOUNTAINS_RIDGED,
 				TERRAIN_MOUNTAINS_VOLCANO,
 				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 				TERRAIN_MOUNTAINS_RIVERS,
 				TERRAIN_RUGGED_DESERT,
 			};
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS_VOLCANO;
 			m_terrainType = choices[rand.Int32(7)];
+			//m_terrainType = TERRAIN_MOUNTAINS_RIDGED;
 			m_colorType = COLOR_TFGOOD;
-		} else if (body->m_life > fixed(1,10))  {
-			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
-				TERRAIN_MOUNTAINS_RIDGED,
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS,
-				TERRAIN_H2O_SOLID,
-				TERRAIN_RUGGED_LAVA,
-				TERRAIN_RUGGED_DESERT,
-			};
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS_VOLCANO;
-			m_terrainType = choices[rand.Int32(9)];
-			m_colorType = COLOR_TFPOOR;
 		} else if ((body->m_volatileLiquid < fixed(1,10)) &&
 		           (body->m_volatileGas > fixed(1,5))) {
 			const enum TerrainFractal choices[] = {
@@ -262,6 +249,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 			};
 			m_terrainType = choices[rand.Int32(5)];
+			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_DESERT;
 		} else if ((body->m_volatileLiquid > fixed(1,10)) &&  
 		           (body->m_volatileGas < fixed(1,10))) {
@@ -277,7 +265,27 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		} else if (body->m_volcanicity > fixed(7,10)) {
 					   // Volcanic world
 			m_terrainType = TERRAIN_RUGGED_LAVA;
-			m_colorType = COLOR_VOLCANIC;
+			if (body->m_life > fixed(5,10)) { // life on a volcanic world ;)
+				m_colorType = COLOR_TFGOOD;
+			} else if (body->m_life > fixed(1,10)) {
+				m_colorType = COLOR_TFPOOR;
+			} else m_colorType = COLOR_VOLCANIC;
+		} else if (body->m_life > fixed(1,10))  {
+			const enum TerrainFractal choices[] = {
+				TERRAIN_HILLS_RIDGED,
+				TERRAIN_HILLS_RIVERS,
+				TERRAIN_MOUNTAINS_NORMAL,
+				TERRAIN_MOUNTAINS_RIDGED,
+				TERRAIN_MOUNTAINS_VOLCANO,
+				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
+				TERRAIN_MOUNTAINS_RIVERS,
+				TERRAIN_H2O_SOLID,
+				TERRAIN_RUGGED_LAVA,
+				TERRAIN_RUGGED_DESERT,
+			};
+			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
+			m_terrainType = choices[rand.Int32(9)];
+			m_colorType = COLOR_TFPOOR;
 		} else if (body->m_volatileGas > fixed(1,10)) {
 				const enum TerrainFractal choices[] = {
 				TERRAIN_HILLS_NORMAL,
@@ -402,8 +410,8 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
 			double height = m_maxHeightInMeters*0.7;
-			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+			SetFracDef(&m_fracdef[1], height, rand.Double(40.0, 2000.0)*height, rand);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(500.0, 10000.0)*m_maxHeightInMeters, rand);
 			break;
 		}
 		case TERRAIN_HILLS_CRATERS:
@@ -433,38 +441,55 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
-			double height = m_maxHeightInMeters*0.15;
-			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+			double height = m_maxHeightInMeters*0.9;
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand, 8);
+			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 200.0)*height, rand, 10);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 10);
 
-			height = m_maxHeightInMeters*0.3;
+			height = m_maxHeightInMeters*0.4;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[3], height, rand.Double(2.5,3.5)*height, rand);
+			SetFracDef(&m_fracdef[5], height*0.4, rand.Double(2.5,30.5)*height, rand);
+			SetFracDef(&m_fracdef[6], height*0.2, rand.Double(20.5,350.5)*height, rand, 1000);
+
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, rand.Double(100.0, 2000.0)*m_maxHeightInMeters, rand, 1000);
+			SetFracDef(&m_fracdef[8], height*0.3, rand.Double(2.5,300.5)*height, rand, 250);
+			SetFracDef(&m_fracdef[9], height*0.2, rand.Double(2.5,300.5)*height, rand, 500);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIDGED:
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
-			double height = m_maxHeightInMeters*0.15;
-			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+			double height = m_maxHeightInMeters*0.9;
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand, 8);
+			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 200.0)*height, rand, 10);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 10);
 
 			height = m_maxHeightInMeters*0.4;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[3], height, rand.Double(6.0,8.0)*height, rand);
+			SetFracDef(&m_fracdef[5], height*0.4, rand.Double(2.5,30.5)*height, rand);
+			SetFracDef(&m_fracdef[6], height*0.2, rand.Double(20.5,350.5)*height, rand, 1000);
+
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, rand.Double(100.0, 2000.0)*m_maxHeightInMeters, rand, 1000);
+			SetFracDef(&m_fracdef[8], height*0.3, rand.Double(2.5,300.5)*height, rand, 250);
+			SetFracDef(&m_fracdef[9], height*0.2, rand.Double(2.5,300.5)*height, rand, 500);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIVERS:
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
-			// XXX looks too flat and crappy
-			double height = m_maxHeightInMeters*0.2;
-			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand);
+			double height = m_maxHeightInMeters*0.9;
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand, 8);
+			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 200.0)*height, rand, 10);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 10);
 
-			height = m_maxHeightInMeters*0.5;
+			height = m_maxHeightInMeters*0.4;
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[3], height, rand.Double(6.0,8.0)*height, rand);
+			SetFracDef(&m_fracdef[5], height*0.4, rand.Double(2.5,30.5)*height, rand);
+			SetFracDef(&m_fracdef[6], height*0.2, rand.Double(20.5,350.5)*height, rand, 1000);
+
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, rand.Double(100.0, 2000.0)*m_maxHeightInMeters, rand, 1000);
+			SetFracDef(&m_fracdef[8], height*0.3, rand.Double(2.5,300.5)*height, rand, 250);
+			SetFracDef(&m_fracdef[9], height*0.2, rand.Double(2.5,300.5)*height, rand, 500);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_CRATERS:
@@ -703,42 +728,129 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double out = 0.3 * continents;
-			double m = 0;//m_fracdef[1].amplitude * octavenoise(m_fracdef[1], 0.5, p);
-			double distrib = ridged_octavenoise(m_fracdef[3], 0.5, p);
-			m += m_fracdef[3].amplitude * octavenoise(m_fracdef[4], 0.5*distrib, p);
-			// cliffs at shore
-			if (continents < 0.001) out += m * continents * 1000.0f;
-			else out += m;
-			return m_maxHeight * out;
+			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			double mountains = octavenoise(m_fracdef[2], 0.5, p);
+			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
+
+			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+			double hills = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
+			double hills2 = hill_distrib * m_fracdef[6].amplitude * octavenoise(m_fracdef[6], 0.5, p);
+
+			double hill2_distrib = octavenoise(m_fracdef[7], 0.5, p);
+			double hills3 = hill2_distrib * m_fracdef[8].amplitude * octavenoise(m_fracdef[8], 0.5, p);
+			double hills4 = hill2_distrib * m_fracdef[9].amplitude * octavenoise(m_fracdef[9], 0.5, p);
+
+			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
+
+			if (n > 0.0) {
+				// smooth in hills at shore edges
+				if (n < 0.1) n += hills * n * 10.0f;
+				else n += hills;
+				if (n < 0.05) n += hills2 * n * 20.0f;
+				else n += hills2 ;
+
+				if (n < 0.1) n += hills3 * n * 10.0f;
+				else n += hills3;
+				if (n < 0.05) n += hills4 * n * 20.0f;
+				else n += hills4 ;
+
+				mountains  = octavenoise(m_fracdef[1], 0.5, p) *
+					m_fracdef[2].amplitude * mountains*mountains*mountains;
+				mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
+					m_fracdef[3].amplitude * mountains2*mountains2*mountains2*mountains2;
+				if (n > 0.2) n += mountains2 * (n - 0.2) ;
+				if (n < 0.2) n += mountains * n * 5.0f ;
+				else n += mountains  ; 
+			}
+			
+			n = m_maxHeight*n;
+			return (n > 0.0 ? n : 0.0); 
 		}
 		case TERRAIN_MOUNTAINS_RIDGED:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double out = 0.3 * continents;
-			double m = m_fracdef[1].amplitude * ridged_octavenoise(m_fracdef[1], 0.5, p);
-			double distrib = ridged_octavenoise(m_fracdef[4], 0.5, p);
-			m += m_fracdef[3].amplitude * ridged_octavenoise(m_fracdef[3], 0.5*distrib, p);
-			// cliffs at shore
-			if (continents < 0.001) out += m * continents * 1000.0f;
-			else out += m;
-			return m_maxHeight * out;
+			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			double mountains = octavenoise(m_fracdef[2], 0.5, p);
+			double mountains2 = ridged_octavenoise(m_fracdef[3], 0.5, p);
+
+			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+			double hills = hill_distrib * m_fracdef[5].amplitude * ridged_octavenoise(m_fracdef[5], 0.5, p);
+			double hills2 = hill_distrib * m_fracdef[6].amplitude * octavenoise(m_fracdef[6], 0.5, p);
+
+			double hill2_distrib = octavenoise(m_fracdef[7], 0.5, p);
+			double hills3 = hill2_distrib * m_fracdef[8].amplitude * ridged_octavenoise(m_fracdef[8], 0.5, p);
+			double hills4 = hill2_distrib * m_fracdef[9].amplitude * ridged_octavenoise(m_fracdef[9], 0.5, p);
+
+			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
+
+			if (n > 0.0) {
+				// smooth in hills at shore edges
+				if (n < 0.1) n += hills * n * 10.0f;
+				else n += hills;
+				if (n < 0.05) n += hills2 * n * 20.0f;
+				else n += hills2 ;
+
+				if (n < 0.1) n += hills3 * n * 10.0f;
+				else n += hills3;
+				if (n < 0.05) n += hills4 * n * 20.0f;
+				else n += hills4 ;
+
+				mountains  = octavenoise(m_fracdef[1], 0.5, p) *
+					m_fracdef[2].amplitude * mountains*mountains*mountains;
+				mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
+					m_fracdef[3].amplitude * mountains2*mountains2*mountains2*mountains2;
+				if (n > 0.2) n += mountains2 * (n - 0.2) ;
+				if (n < 0.2) n += mountains * n * 5.0f ;
+				else n += mountains  ; 
+			}
+			
+			n = m_maxHeight*n;
+			return (n > 0.0 ? n : 0.0); 
 		}
 		case TERRAIN_MOUNTAINS_RIVERS:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = river_octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double out = 0.3 * continents;
-			double m = m_fracdef[1].amplitude * river_octavenoise(m_fracdef[1], 0.5, p);
-			double distrib = river_octavenoise(m_fracdef[4], 0.5, p);
-			if (distrib > 0.5) m += 2.0 * (distrib-0.5) * m_fracdef[3].amplitude * river_octavenoise(m_fracdef[3], 0.5, p);
-			// cliffs at shore
-			if (continents < 0.001) out += m * continents * 1000.0f;
-			else out += m;
-			return m_maxHeight * out;
+			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			double mountains = octavenoise(m_fracdef[2], 0.5, p);
+			double mountains2 = river_octavenoise(m_fracdef[3], 0.5, p);
+
+			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+			double hills = hill_distrib * m_fracdef[5].amplitude * river_octavenoise(m_fracdef[5], 0.5, p);
+			double hills2 = hill_distrib * m_fracdef[6].amplitude * river_octavenoise(m_fracdef[6], 0.5, p);
+
+			double hill2_distrib = octavenoise(m_fracdef[7], 0.5, p);
+			double hills3 = hill2_distrib * m_fracdef[8].amplitude * river_octavenoise(m_fracdef[8], 0.5, p);
+			double hills4 = hill2_distrib * m_fracdef[9].amplitude * octavenoise(m_fracdef[9], 0.5, p);
+
+			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
+
+			if (n > 0.0) {
+				// smooth in hills at shore edges
+				if (n < 0.1) n += hills * n * 10.0f;
+				else n += hills;
+				if (n < 0.05) n += hills2 * n * 20.0f;
+				else n += hills2 ;
+
+				if (n < 0.1) n += hills3 * n * 10.0f;
+				else n += hills3;
+				if (n < 0.05) n += hills4 * n * 20.0f;
+				else n += hills4 ;
+
+				mountains  = octavenoise(m_fracdef[1], 0.5, p) *
+					m_fracdef[2].amplitude * mountains*mountains*mountains;
+				mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
+					m_fracdef[3].amplitude * mountains2*mountains2*mountains2*mountains2;
+				if (n > 0.2) n += mountains2 * (n - 0.2) ;
+				if (n < 0.2) n += mountains * n * 5.0f ;
+				else n += mountains  ; 
+			}
+			
+			n = m_maxHeight*n;
+			return (n > 0.0 ? n : 0.0); 
 		}
 		case TERRAIN_MOUNTAINS_CRATERS:
 		{
