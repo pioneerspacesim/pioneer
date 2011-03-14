@@ -8,7 +8,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_KILL, CMD_KAMIKAZE };
+	enum CmdName { CMD_NONE, CMD_JOURNEY, CMD_DOCK, CMD_FLYTO, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
 	AICommand(Ship *ship, CmdName name) { m_ship = ship; m_cmdName = name; m_child = 0; }
 	virtual ~AICommand() { if(m_child) delete m_child; }
@@ -194,4 +194,34 @@ private:
 	Body *m_target;
 };
 
+class AICmdHoldPosition : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+    AICmdHoldPosition(Ship *ship, Body *target, const vector3d& position, const vector3d& direction) : AICommand (ship, CMD_HOLDPOSITION) {
+		m_target = target;
+		m_position = position;
+		m_direction = direction;
+	}
+
+	virtual void Save(Serializer::Writer &wr) {
+		AICommand::Save(wr);
+		wr.Int32(Serializer::LookupBody(m_target));
+		wr.Vector3d(m_position);
+		wr.Vector3d(m_direction);
+	}
+	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) {
+		m_target = (Body*) rd.Int32();
+		m_position = rd.Vector3d();
+		m_direction = rd.Vector3d();
+	}
+	virtual void PostLoadFixup() {
+		AICommand::PostLoadFixup();
+		m_target = Serializer::LookupBody((size_t)m_target);
+	}
+
+private:
+	Body *m_target;
+	vector3d m_position;
+	vector3d m_direction;
+};
 #endif /* _SHIPAICMD_H */

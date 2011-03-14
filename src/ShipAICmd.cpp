@@ -24,6 +24,7 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_KILL: return new AICmdKill(rd);
 		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
+		case CMD_HOLDPOSITION: return new AICmdHoldPosition(rd);
 	}
 }
 
@@ -972,5 +973,10 @@ bool AICmdDock::TimeStepUpdate()
 		m_ship->AIMatchPosVel(relpos, relvel, 0.0, maxthrust);
 	}
 	else m_ship->AIMatchVel(vector3d(0.0));
+	return false;
+}
+
+bool AICmdHoldPosition::TimeStepUpdate()
+{
 	return false;
 }

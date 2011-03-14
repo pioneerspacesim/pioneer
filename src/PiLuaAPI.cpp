@@ -636,6 +636,10 @@ namespace LuaPi {
 
 			Space::AddBody(ship);
 
+			ship->AIHoldPosition(station, vector3d(200,5000,200), vector3d(0,0,0));
+
+			Pi::player->SetCombatTarget(ship);
+
 			OOLUA::push2lua(l, static_cast<Object*>(ship));
 			return 1;
 		}
