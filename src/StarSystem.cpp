@@ -342,9 +342,9 @@ const char *SBody::GetIcon()
 			if (m_atmosOxidizing < fixed(1,2)) return "icons/object_planet_methane.png";
 			else return "icons/object_planet_co2.png";
 		}
-		if ((m_life > fixed(1,10)) &&  
+		if ((m_volatileLiquid > fixed(1,10)) &&  
 		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n1.png";
-		if (m_volatileLiquid > fixed(1,10)) return "icons/object_planet_volcanic.png";
+		if (m_volcanicity > fixed(7,10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
 		"icons/object_planet_water_n1.png"
