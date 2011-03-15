@@ -580,13 +580,13 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], height, rand.Double(2.5,3.5)*height, rand);
 
 			// volcanoes
-			SetFracDef(&m_fracdef[6], 20000.0, 5e6, rand, 5.0);
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, 3e6, rand, 5.0);
+			SetFracDef(&m_fracdef[6], height, 5e6, rand, 10.0);
+			SetFracDef(&m_fracdef[7], height, 3e6, rand, 10.0);
 
 			// canyon
 			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 4e6, rand, 10.0);
 			// bumps/rocks
-			SetFracDef(&m_fracdef[9], height*0.015, rand.Double(1,20), rand, 8.0);
+			SetFracDef(&m_fracdef[9], height*0.001, rand.Double(10,100), rand, 10.0);
 			break;
 		}
 		case TERRAIN_H2O_SOLID:
@@ -649,7 +649,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 
 			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.1, 100, rand, 10.0);
 			// adds bumps to the landscape
-			SetFracDef(&m_fracdef[9], height*0.005, rand.Double(1,10), rand, 10.0);
+			SetFracDef(&m_fracdef[9], height*0.0025, rand.Double(1,100), rand, 10.0);
 		}
 	}
 }
@@ -1160,9 +1160,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += canyon_function(m_fracdef[9], p);
 			n += canyon2_function(m_fracdef[9], p);
 			n += canyon3_function(m_fracdef[9], p);
-			n += -5.6;
-			n = n*0.1;
-			n = (n<0.0 ? 0.0 : n);
+			n += -5.6;  //Each canyon function adds 0.4 height to the total planet height, making a reduction in height like this necessary
+			n = n*0.1;  //Better to scale by a low number than subract extra height.
+			n = (n<0.0 ? 0.0 : n);  // To ensure we have nothing below 0 height.
 
 			// craters
 			//n += crater_function(m_fracdef[5], p);
@@ -1200,7 +1200,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			n += canyon_function(m_fracdef[6], p);
 			n += canyon2_function(m_fracdef[6], p);
 			n += canyon3_function(m_fracdef[6], p);
-			n = (n<1 ? n : 1/n ); 
+			n = (n<1 ? n : 1/n ); //sometimes creates some interesting features
 			n += canyon_function(m_fracdef[7], p);
 			n += canyon2_function(m_fracdef[7], p);
 			n += canyon3_function(m_fracdef[7], p);
@@ -1948,8 +1948,8 @@ static void volcano_function_1pass(const vector3d &p, double &out, const double 
 	double n = fabs(noise(p));
 	const double ejecta_outer = 0.6;
 	const double outer = 0.9;  //Radius
-	const double inner = 0.951;
-	const double midrim = 0.941;
+	const double inner = 0.975;
+	const double midrim = 0.971;
 	if (n > inner) {
 		//out = 0;
 	} else if (n > midrim) {
@@ -1985,8 +1985,8 @@ static void megavolcano_function_1pass(const vector3d &p, double &out, const dou
 	double n = fabs(noise(p));
 	const double ejecta_outer = 0.6;
 	const double outer = 0.76;  //Radius
-	const double inner = 0.97;
-	const double midrim = 0.925;
+	const double inner = 0.98;
+	const double midrim = 0.964;
 	if (n > inner) {
 		//out = 0;
 	} else if (n > midrim) {
