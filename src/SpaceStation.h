@@ -125,6 +125,9 @@ public:
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
+
+	bool AllocateStaticSlot(int& slot);
+
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -165,6 +168,7 @@ private:
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	int m_numPoliceDocked;
+	bool m_staticSlot[4];
 };
 
 #endif /* _SPACESTATION_H */
