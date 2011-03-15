@@ -617,10 +617,8 @@ namespace LuaPi {
 			// XXX put it in orbit
 			printf("want static over surface starport %s\n", body->name.c_str());
 		}
-		else {
-			// XXX put it near the entrance somewhere
-			printf("want static near orbital starport %s\n", body->name.c_str());
 
+		else {
 			int slot;
 			if (!station->AllocateStaticSlot(slot)) {
 				lua_pushnil(l);
@@ -628,10 +626,7 @@ namespace LuaPi {
 				return 2;
 			}
 
-			printf("allocated static slot %d\n", slot);
-
 			Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
-			printf("spawned ship: %s\n", ship->GetLabel().c_str());
 
 			ship->SetFrame(station->GetFrame());
 			ship->SetVelocity(vector3d(0,0,0));
