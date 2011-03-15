@@ -979,6 +979,6 @@ bool AICmdDock::TimeStepUpdate()
 bool AICmdHoldPosition::TimeStepUpdate()
 {
 	// XXX perhaps try harder to move back to the original position
-    m_ship->AIMatchVel(vector3d(0,0,0));
-	return true;
+	m_ship->AIMatchVel(vector3d(0,0,0));
+	return false;
 }
