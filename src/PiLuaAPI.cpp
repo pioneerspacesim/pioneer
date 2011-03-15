@@ -614,12 +614,15 @@ namespace LuaPi {
 		const SBody *body = station->GetSBody();
 
 		vector3d pos, vel;
+		matrix4x4d rot = matrix4x4d::Identity();
 
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
 			printf("want static over surface starport %s\n", body->name.c_str());
 
 			pos = station->GetPosition() * 1.1;
 			vel = vector3d(0.0);
+
+			station->GetRotMatrix(rot);
 		}
 
 		else {
@@ -639,17 +642,15 @@ namespace LuaPi {
 
 			pos = vector3d(xpos,5000,zpos);
 			vel = vector3d(0.0);
+			rot.RotateX(M_PI/2);
 		}
 
 		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
 
 		ship->SetFrame(station->GetFrame());
+
 		ship->SetVelocity(vel);
 		ship->SetPosition(pos);
-
-		matrix4x4d rot;
-		ship->GetRotMatrix(rot);
-		rot.RotateX(M_PI/2);
 		ship->SetRotMatrix(rot);
 
 		Space::AddBody(ship);
