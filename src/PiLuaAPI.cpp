@@ -611,32 +611,32 @@ namespace LuaPi {
 			}
 		}
 
-		const SBody *body = station->GetSBody();
+		int slot;
+		if (!station->AllocateStaticSlot(slot)) {
+			lua_pushnil(l);
+			lua_pushstring(l, "no space near station to spawn static ship");
+			return 2;
+		}
 
 		vector3d pos, vel;
 		matrix4x4d rot = matrix4x4d::Identity();
 
+		const SBody *body = station->GetSBody();
+
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
 			printf("want static over surface starport %s\n", body->name.c_str());
 
-			pos = station->GetPosition() * 1.1;
 			vel = vector3d(0.0);
 
+			pos = station->GetPosition() * 1.1;
 			station->GetRotMatrix(rot);
+
+			double ang = atan( ((slot < 2) ? 1500.0 : -1500.0) / pos.Length() );
+			vector3d axis = (slot == 0 || slot == 3) ? vector3d(0.0,1.0,0.0) : vector3d(0.0,0.0,1.0);
+			pos.ArbRotate(axis, ang);
 		}
 
 		else {
-			int slot;
-			if (!station->AllocateStaticSlot(slot)) {
-				lua_pushnil(l);
-				lua_pushstring(l, "no space near station to spawn static ship");
-				return 2;
-			}
-
-			// slot 0: -750, -750
-			// slot 1:  750, -750
-			// slot 2:  750,  750
-			// slot 3  -750,  750
 			double xpos = (slot == 0 || slot == 3) ? -750.0 : 750.0;
 			double zpos = (slot == 0 || slot == 1) ? -750.0 : 750.0;
 
