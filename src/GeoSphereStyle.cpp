@@ -586,7 +586,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			// canyon
 			SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 4e6, rand, 10.0);
 			// bumps/rocks
-			SetFracDef(&m_fracdef[9], height*0.001, rand.Double(10,100), rand, 10.0);
+			SetFracDef(&m_fracdef[9], height*0.001, rand.Double(10,100), rand, 2.0);
 			break;
 		}
 		case TERRAIN_H2O_SOLID:
