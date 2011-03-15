@@ -616,8 +616,10 @@ namespace LuaPi {
 		vector3d pos, vel;
 
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
-			// XXX put it in orbit
 			printf("want static over surface starport %s\n", body->name.c_str());
+
+			pos = station->GetPosition() * 1.1;
+			vel = vector3d(0.0);
 		}
 
 		else {
