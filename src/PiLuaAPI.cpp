@@ -613,9 +613,6 @@ namespace LuaPi {
 
 		const SBody *body = station->GetSBody();
 
-		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
-		printf("spawned ship: %s\n", ship->GetLabel().c_str());
-
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
 			// XXX put it in orbit
 			printf("want static over surface starport %s\n", body->name.c_str());
@@ -624,10 +621,29 @@ namespace LuaPi {
 			// XXX put it near the entrance somewhere
 			printf("want static near orbital starport %s\n", body->name.c_str());
 
+			int slot;
+			if (!station->AllocateStaticSlot(slot)) {
+				lua_pushnil(l);
+				lua_pushstring(l, "no space near station to spawn static ship");
+				return 2;
+			}
+
+			printf("allocated static slot %d\n", slot);
+
+			Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+			printf("spawned ship: %s\n", ship->GetLabel().c_str());
+
 			ship->SetFrame(station->GetFrame());
 			ship->SetVelocity(vector3d(0,0,0));
 
-			ship->SetPosition(vector3d(200,5000,200));
+			// slot 0: -750, -750
+			// slot 1:  750, -750
+			// slot 2:  750,  750
+			// slot 3  -750,  750
+			double xpos = (slot == 0 || slot == 3) ? -750.0 : 750.0;
+			double zpos = (slot == 0 || slot == 1) ? -750.0 : 750.0;
+
+			ship->SetPosition(vector3d(xpos,5000,zpos));
 
 			matrix4x4d rot;
 			ship->GetRotMatrix(rot);
