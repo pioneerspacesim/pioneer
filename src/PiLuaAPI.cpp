@@ -603,7 +603,7 @@ namespace LuaPi {
 		SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
 
 		/* XXX kill this */
-		int starport = 6;
+		int starport = 8;
 		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
 			if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
 				station = (SpaceStation*)*i;
@@ -612,6 +612,8 @@ namespace LuaPi {
 		}
 
 		const SBody *body = station->GetSBody();
+
+		vector3d pos, vel;
 
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
 			// XXX put it in orbit
@@ -626,11 +628,6 @@ namespace LuaPi {
 				return 2;
 			}
 
-			Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
-
-			ship->SetFrame(station->GetFrame());
-			ship->SetVelocity(vector3d(0,0,0));
-
 			// slot 0: -750, -750
 			// slot 1:  750, -750
 			// slot 2:  750,  750
@@ -638,24 +635,29 @@ namespace LuaPi {
 			double xpos = (slot == 0 || slot == 3) ? -750.0 : 750.0;
 			double zpos = (slot == 0 || slot == 1) ? -750.0 : 750.0;
 
-			ship->SetPosition(vector3d(xpos,5000,zpos));
-
-			matrix4x4d rot;
-			ship->GetRotMatrix(rot);
-			rot.RotateX(M_PI/2);
-			ship->SetRotMatrix(rot);
-
-			Space::AddBody(ship);
-
-			ship->AIHoldPosition(station);
-
-			Pi::player->SetCombatTarget(ship);
-
-			OOLUA::push2lua(l, static_cast<Object*>(ship));
-			return 1;
+			pos = vector3d(xpos,5000,zpos);
+			vel = vector3d(0.0);
 		}
 
-		return 0;
+		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+
+		ship->SetFrame(station->GetFrame());
+		ship->SetVelocity(vel);
+		ship->SetPosition(pos);
+
+		matrix4x4d rot;
+		ship->GetRotMatrix(rot);
+		rot.RotateX(M_PI/2);
+		ship->SetRotMatrix(rot);
+
+		Space::AddBody(ship);
+
+		ship->AIHoldPosition(station);
+
+		Pi::player->SetCombatTarget(ship);
+
+		OOLUA::push2lua(l, static_cast<Object*>(ship));
+		return 1;
 	}
 	static int AddPlayerCrime(lua_State *l) {
 		Sint64 crimeBitset;
