@@ -196,6 +196,7 @@ local jupiter_moons = {
 			:longitude(math.deg2rad(26.2)),
 	},
 	CustomSBody:new('Europa', Body.Type.PLANET_TERRESTRIAL)
+		:seed(5)
 		:radius(f(245,1000))
 		:mass(f(8,1000))
 		:temp(102)
@@ -204,7 +205,7 @@ local jupiter_moons = {
 		:rotation_period(f(355,100))
 		:ocean_cover(f(1,2))
 		:atmos_density(f(1,12))
-		:volcanicity(f(3,4)),
+		:volcanicity(f(0,1)),
 	{
 		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)
 			:semi_major_axis(f(12,500000))
