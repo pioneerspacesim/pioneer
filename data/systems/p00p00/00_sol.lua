@@ -165,6 +165,7 @@ local mars_moons = {
 }
 
 local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
+	:seed(3)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
