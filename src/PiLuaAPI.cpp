@@ -631,9 +631,16 @@ namespace LuaPi {
 			pos = station->GetPosition() * 1.1;
 			station->GetRotMatrix(rot);
 
+			vector3d axis1, axis2;
+
+			axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
+			axis2 = pos.Cross(axis1);
+
 			double ang = atan( ((slot < 2) ? 1500.0 : -1500.0) / pos.Length() );
-			vector3d axis = (slot == 0 || slot == 3) ? vector3d(0.0,1.0,0.0) : vector3d(0.0,0.0,1.0);
+			vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
 			pos.ArbRotate(axis, ang);
+
+			printf("slot %d position [%lf,%lf,%lf]\n", slot, pos.x, pos.y, pos.z);
 		}
 
 		else {
@@ -646,6 +653,7 @@ namespace LuaPi {
 		}
 
 		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+		//printf("radius: %lf\n", ship->GetLmrCollMesh()->GetBoundingRadius());
 
 		ship->SetFrame(station->GetFrame());
 
