@@ -999,7 +999,7 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		int timeAccel = Pi::requestedTimeAccelIdx;
-		if (Pi::player->GetFlightState() == Ship::FLYING) {
+/*		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
 			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
@@ -1023,6 +1023,7 @@ void Pi::MainLoop()
 			}
 
 		}
+*/
 		if (timeAccel != Pi::GetTimeAccelIdx()) {
 			Pi::SetTimeAccel(timeAccel);
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x

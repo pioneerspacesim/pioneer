@@ -607,6 +607,7 @@ static bool CheckCollision(Ship *obj1, Body *obj2, vector3d &targpos)
 	vector3d p1n = p1.Normalized();
 	vector3d p2p1dir = (p2-p1).Normalized();
 	double r = obj1->GetBoundingRadius() + obj2->GetBoundingRadius();
+	if (p2.LengthSqr() > r * 1.08) r *= 1.05;			// take wider line if target outside
 	
 	// ignore if targpos is closer than body surface
 	if ((p2-p1).Length() < p1.Length() - r) return false;
@@ -676,7 +677,7 @@ static int GetFlipMode(Ship *ship, Frame *targframe, vector3d &posoff)
 
 void AICmdFlyTo::NavigateAroundBody(Body *body, vector3d &targpos)
 {
-//printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
+printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 
 	// build tangent vector in body's rotating frame unless space station (or distant)
 	Frame *targframe = body->GetFrame();
@@ -719,6 +720,7 @@ void AICmdFlyTo::CheckCollisions()
 	Body *body = FindNearestObstructor(m_ship, m_frame->GetBodyFor(), targpos);
 	if (!body) body = FindNearestObstructor(m_ship, m_targframe->GetBodyFor(), targpos);
 	if (!body) return;
+//	if (m_orbitrad > 0 && body == m_targframe->GetBodyFor()) return;		// don't bother checking orbit target
 	double dist = m_ship->GetPositionRelTo(body).Length();
 	double rad = body->GetBoundingRadius();
 
@@ -768,13 +770,12 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, double alt) : AICommand (ship, 
 {
 	if(target->HasDoubleFrame()) m_targframe = target->GetFrame()->m_parent;
 	else m_targframe = target->GetFrame();				// use non-rot frame
-	m_orbitrad = target->GetSBody()->GetRadius() * alt;
+	m_orbitrad = target->GetBoundingRadius() * alt;
 	m_endvel = sqrt(target->GetMass() * G / m_orbitrad);
 
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);
 	vector3d heading(-rot[8], -rot[9], -rot[10]);
-	m_posoff = GenerateTangent(m_ship, m_targframe, heading);
-	m_posoff *= m_orbitrad / target->GetBoundingRadius();
+	m_posoff = GenerateTangent(m_ship, m_targframe, heading) * alt;
 	m_state = GetFlipMode(m_ship, m_targframe, m_posoff);		// | 0x10;
 	m_coll = true;
 
@@ -822,8 +823,9 @@ static void ClampMainThruster(Ship *ship)
 bool AICmdFlyTo::OrbitCorrection()
 {
 	if (!m_targframe->GetBodyFor()) return true;	// tried to orbit something that isn't a planet or star
-	vector3d pos = m_targframe->GetBodyFor()->GetPositionRelTo(m_ship);
-	vector3d vel = m_targframe->GetBodyFor()->GetVelocityRelTo(m_ship);
+	if ( m_ship->GetFrame() != m_targframe) return true;		// no gravity outside frame anyway
+	vector3d pos = m_ship->GetPosition();
+	vector3d vel = m_ship->GetVelocity();
 
 	double orbspd = sqrt(m_targframe->GetBodyFor()->GetMass() * G / pos.Length());
 	vector3d targvel = orbspd * pos.Cross(vel).Cross(pos).Normalized();
@@ -907,8 +909,8 @@ printf("Uncorrectable sidevel result triggered");
 	// limit forward acceleration when facing wrong way
 	if (decel > 0 && fabs(ang) > 0.02) ClampMainThruster(m_ship);
 
-//printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
-//	reldir.Dot(m_reldir), m_state);
+printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
+	reldir.Dot(m_reldir), m_state);
 
 	if (m_state == 5) return true;
 	return false;

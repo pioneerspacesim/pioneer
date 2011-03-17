@@ -10,6 +10,10 @@ Module:new {
 		local lawlessness = sys:GetSystemLawlessness()
 		local population = sys:GetSystemPopulation()
 
+		if 1 then
+			return
+		end
+
 		--[[
 		traders will be attracted by:
 		 - large populations (more people to sell your shit to)
