@@ -602,15 +602,6 @@ namespace LuaPi {
 
 		SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
 
-		/* XXX kill this */
-		int starport = 8;
-		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-			if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
-				station = (SpaceStation*)*i;
-				break;
-			}
-		}
-
 		int slot;
 		if (!station->AllocateStaticSlot(slot)) {
 			lua_pushnil(l);
@@ -626,8 +617,6 @@ namespace LuaPi {
 		const SBody *body = station->GetSBody();
 
 		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
-			printf("want static over surface starport %s\n", body->name.c_str());
-
 			vel = vector3d(0.0);
 
 			pos = station->GetPosition() * 1.1;
@@ -644,8 +633,6 @@ namespace LuaPi {
 			vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
 
 			pos.ArbRotate(axis, ang);
-
-			printf("slot %d position [%lf,%lf,%lf]\n", slot, pos.x, pos.y, pos.z);
 		}
 
 		else {
@@ -667,8 +654,6 @@ namespace LuaPi {
 		Space::AddBody(ship);
 
 		ship->AIHoldPosition(station);
-
-		Pi::player->SetCombatTarget(ship);
 
 		OOLUA::push2lua(l, static_cast<Object*>(ship));
 		return 1;
