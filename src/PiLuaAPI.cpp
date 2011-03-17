@@ -618,6 +618,8 @@ namespace LuaPi {
 			return 2;
 		}
 
+		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+
 		vector3d pos, vel;
 		matrix4x4d rot = matrix4x4d::Identity();
 
@@ -636,24 +638,25 @@ namespace LuaPi {
 			axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
 			axis2 = pos.Cross(axis1);
 
-			double ang = atan( ((slot < 2) ? 1500.0 : -1500.0) / pos.Length() );
+			double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
+			if (slot<2) ang = -ang;
+
 			vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
+
 			pos.ArbRotate(axis, ang);
 
 			printf("slot %d position [%lf,%lf,%lf]\n", slot, pos.x, pos.y, pos.z);
 		}
 
 		else {
-			double xpos = (slot == 0 || slot == 3) ? -750.0 : 750.0;
-			double zpos = (slot == 0 || slot == 1) ? -750.0 : 750.0;
+			double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+			double xpos = (slot == 0 || slot == 3) ? -dist : dist;
+			double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 
 			pos = vector3d(xpos,5000,zpos);
 			vel = vector3d(0.0);
 			rot.RotateX(M_PI/2);
 		}
-
-		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
-		//printf("radius: %lf\n", ship->GetLmrCollMesh()->GetBoundingRadius());
 
 		ship->SetFrame(station->GetFrame());
 
