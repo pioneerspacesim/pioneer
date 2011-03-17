@@ -165,6 +165,7 @@ local mars_moons = {
 }
 
 local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
+	:seed(3)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
@@ -196,6 +197,7 @@ local jupiter_moons = {
 			:longitude(math.deg2rad(26.2)),
 	},
 	CustomSBody:new('Europa', Body.Type.PLANET_TERRESTRIAL)
+		:seed(5)
 		:radius(f(245,1000))
 		:mass(f(8,1000))
 		:temp(102)
@@ -204,7 +206,7 @@ local jupiter_moons = {
 		:rotation_period(f(355,100))
 		:ocean_cover(f(1,2))
 		:atmos_density(f(1,12))
-		:volcanicity(f(3,4)),
+		:volcanicity(f(0,1)),
 	{
 		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)
 			:semi_major_axis(f(12,500000))
