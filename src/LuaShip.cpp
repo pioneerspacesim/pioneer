@@ -12,14 +12,14 @@ void LuaShip::RegisterClass()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
+	// create Ship table, attach methods to it, leave it on the stack
 	luaL_openlib(l, "Ship", ship_methods, 0);
+
+	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, "Ship");
+	// attach metamethods to it
 	luaL_openlib(l, 0, ship_meta, 0);
-	lua_pushliteral(l, "__index");
-	lua_pushvalue(l, -3);
-	lua_rawset(l, -3);
-	lua_pushliteral(l, "__metatable");
-	lua_pushvalue(l, -3);
-	lua_rawset(l, -3);
+
+	// remove them both from the stack
 	lua_pop(l, 2);
 }
