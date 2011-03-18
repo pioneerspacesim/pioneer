@@ -1,15 +1,18 @@
 #ifndef _LUAOBJECT_H
 #define _LUAOBJECT_H
 
-#include "Object.h"
-
 #include <stdint.h>
 #include <map>
 
+#include "LuaManager.h"
+#include "Object.h"
+
 class LuaObject {
+	virtual void RegisterClass() {};
+
 protected:
 	LuaObject(Object *o);
-	~LuaObject();
+	virtual ~LuaObject();
 
 	uint32_t m_id;
 

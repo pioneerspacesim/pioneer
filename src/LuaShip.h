@@ -6,6 +6,8 @@
 
 class LuaShip : public LuaObject {
 	LuaShip(Ship *s) : LuaObject(s) {}
+
+	virtual void RegisterClass();
 };
 
 
