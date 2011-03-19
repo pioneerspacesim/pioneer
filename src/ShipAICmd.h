@@ -118,6 +118,7 @@ public:
 protected:
 	void NavigateAroundBody(Body *body, vector3d &targpos);
 	void CheckCollisions();
+	void CheckSuicide();
 	bool OrbitCorrection();
 
 private:
