@@ -114,7 +114,8 @@ local hercules = CustomSBody:new('Hercules', Body.Type.PLANET_GAS_GIANT)
 	:rotation_period(f(4,10))
 	:axial_tilt(math.fixed.deg2rad(f(313,100)))
 	
-	local hale = CustomSBody:new('Halee', Body.Type.PLANET_TERRESTRIAL)
+	local hale = {
+	CustomSBody:new('Halee', Body.Type.PLANET_TERRESTRIAL)
 		:seed(14782)
 		:radius(f(317,1000))
 		:mass(f(117,1000))
@@ -128,6 +129,7 @@ local hercules = CustomSBody:new('Hercules', Body.Type.PLANET_GAS_GIANT)
 		:atmos_density(f(1,15))
 		:ocean_cover(f(4,10))
 		:ice_cover(f(9,10))
+	}
 	
 	s:bodies(epserid, {
 	icarus,
