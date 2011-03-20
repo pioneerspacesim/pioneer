@@ -11,12 +11,6 @@ LuaObject::LuaObject(Object *o)
 	Register(o);
 }
 
-LuaObject::~LuaObject()
-{
-	if (m_id == (lid)-1) return;
-	//Deregister();
-}
-
 void LuaObject::Register(Object *o)
 {
 	registry[m_id] = o;
@@ -29,9 +23,22 @@ void LuaObject::Deregister()
 	m_id = -1;
 }
 
+void LuaObject::Deregister(lid id)
+{
+	registry.erase(id);
+}
+
 Object *LuaObject::Lookup(lid id)
 {
 	return registry[id];
+}
+
+static int object_gc (lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	LuaObject::Deregister(*idp);
+	return 0;
 }
 
 void LuaObject::CreateClass(const char *name, const luaL_reg methods[], const luaL_reg meta[])
@@ -45,6 +52,11 @@ void LuaObject::CreateClass(const char *name, const luaL_reg methods[], const lu
 	luaL_newmetatable(l, name);
 	// attach metamethods to it
 	luaL_openlib(l, 0, meta, 0);
+
+	// add a generic garbage collector
+	lua_pushstring(l, "__gc");
+	lua_pushcfunction(l, object_gc);
+	lua_rawset(l, -3);
 
 	// attach the metatable to __index
 	lua_pushstring(l, "__index");
