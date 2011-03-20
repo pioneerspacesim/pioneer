@@ -713,7 +713,7 @@ printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 	// terminal velocity based on centripetal force:
 	// v = sqrt(rad * force / mass)
 	double sideacc = m_ship->GetMaxThrust(vector3d(0.0)).x / m_ship->GetMass();
-	sideacc += GetGravityAtPos(m_ship, targframe, newpos);
+	sideacc += GetGravityAtPos(m_ship, targframe, newpos) / m_ship->GetMass();
 	double endvel = sqrt(newpos.Length() * 0.25*sideacc);
 	// limit by targdir - not sure this one is needed with the heading limit
 	double maxendvel = sqrt(0.5*sideacc*(targpos2-newpos).Length());
@@ -829,7 +829,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 6;
 	else {
 		CheckCollisions();
-		CheckSuicide();
+		if (!m_child) CheckSuicide();
 	}
 }
 
@@ -848,7 +848,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, double alt) : AICommand (ship, 
 	m_coll = true;
 
 	CheckCollisions();
-	CheckSuicide();
+	if (!m_child) CheckSuicide();
 }
 
 // Specified pos, endvel should be > 0
@@ -863,7 +863,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double en
 	m_coll = coll;
 
 	CheckCollisions();
-	CheckSuicide();
+	if (!m_child) CheckSuicide();
 }
 
 
@@ -924,7 +924,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	if (m_frame != m_ship->GetFrame()) {				// frame switch check
 		if (m_state >= 3 && m_state <= 5) return true;			// bailout case for accidental planet-dives
 		CheckCollisions();
-		CheckSuicide();
+		if (!m_child) CheckSuicide();
 		if (m_child) { ProcessChild(); return false; }			// child can handle at least one timestep
 	}
 
