@@ -7,6 +7,8 @@
 #include "LuaManager.h"
 #include "Object.h"
 
+typedef uintptr_t lid;
+
 class LuaObject {
 protected:
 	LuaObject(Object *o);
@@ -14,7 +16,7 @@ protected:
 
 	static void RegisterClass() {};
 
-	uint32_t m_id;
+	lid m_id;
 
 private:
 	LuaObject(LuaObject &lo);
@@ -22,7 +24,7 @@ private:
 	void Register(Object *o);
 	void Deregister();
 
-	static Object *Lookup(uint32_t id);
+	static Object *Lookup(lid id);
 };
 
 #endif

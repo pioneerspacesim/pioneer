@@ -1,19 +1,19 @@
 #include "LuaObject.h"
 
-static uint32_t next_id = 0;
-static std::map<uint32_t, Object*> registry;
+static lid next_id = 0;
+static std::map<lid, Object*> registry;
 
 LuaObject::LuaObject(Object *o)
 {
 	m_id = next_id++;
-	assert(m_id < (uint32_t)-1);
+	assert(m_id < (lid)-1);
 
 	Register(o);
 }
 
 LuaObject::~LuaObject()
 {
-	if (m_id == (uint32_t)-1) return;
+	if (m_id == (lid)-1) return;
 	Deregister();
 }
 
@@ -29,7 +29,7 @@ void LuaObject::Deregister()
 	m_id = -1;
 }
 
-Object *Lookup(uint32_t id)
+Object *Lookup(lid id)
 {
 	return registry[id];
 }
