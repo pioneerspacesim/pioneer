@@ -1366,14 +1366,20 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		const double flatness = pow(p.Dot(norm), 6.0);
 		const vector3d color_cliffs = m_rockColor[5];
 		// ice on mountains and poles
-		if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
-			return interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
-		}
+			if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
+				return interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
+			}
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 
 		vector3d col;
+		//we don't want water on the poles if there are ice-caps
+		if (fabs(m_icyness*p.y) > 0.67) {
+			col = interpolate_color(equatorial_desert, vector3d(0.42, 0.46, 0), vector3d(0.5, 0.3, 0));
+			col = interpolate_color(flatness, col, vector3d(1,1,1));
+			return col;
+		}
 		// water
 		if (n <= 0) {
 			n += billow_octavenoise(m_fracdef[0], 0.5, p);
@@ -1383,7 +1389,10 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			//col = interpolate_color(n, vector3d(0,0,0.35), vector3d(0,0.09,0.375));
 			col = interpolate_color(equatorial_desert, vector3d(0,0,0.3), vector3d(0,0.0,0.4));
 			col = interpolate_color(n, col, vector3d(0,0.12,0.45));
-			return col;
+			//adds icebergs... sort of.. ;)
+			if (fabs(m_icyness*p.y) + m_icyness*n > 0.78) {
+				return interpolate_color(flatness, col, vector3d(1,1,1));
+			} else return col;
 			//return vector3d(0,0,0.5);
 		}
 
