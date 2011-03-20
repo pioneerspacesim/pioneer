@@ -13,6 +13,7 @@
 #include "NameGenerator.h"
 #include "HyperspaceCloud.h"
 #include "Polit.h"
+#include "LuaShip.h"
 
 void ship_randomly_equip(Ship *ship, double power)
 {
@@ -499,7 +500,7 @@ namespace LuaPi {
 					ship->SetPosition(pos);
 					ship->SetVelocity(vector3d(0,0,0));
 					Space::AddBody(ship);
-					OOLUA::push2lua(l, static_cast<Object*>(ship));
+					LuaShip(ship).PushToLua();
 					return 1;
 				} else {
 					// hypercloud still present
@@ -510,7 +511,7 @@ namespace LuaPi {
 					cloud->SetPosition(pos);
 					cloud->SetVelocity(vector3d(0,0,0));
 					Space::AddBody(cloud);
-					OOLUA::push2lua(l, static_cast<Object*>(ship));
+					LuaShip(ship).PushToLua();
 					return 1;
 				}
 			} else {
@@ -522,7 +523,7 @@ namespace LuaPi {
 				cloud->SetPosition(pos);
 				cloud->SetVelocity(vector3d(0,0,0));
 				Space::AddBody(cloud);
-				OOLUA::push2lua(l, static_cast<Object*>(ship));
+				LuaShip(ship).PushToLua();
 				return 1;
 			}
 		}

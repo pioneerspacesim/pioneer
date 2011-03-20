@@ -12,9 +12,12 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	// XXX remove once oolua is gone
 	OOLUA::setup_user_lua_state(m_lua);
+}
 
-    // XXX initialise built in stuff here
-	LuaShip::RegisterClass(m_lua);
+void LuaManager::Init()
+{
+	// initialise things that require the singleton
+	LuaShip::RegisterClass();
 }
 
 LuaManager::~LuaManager() {

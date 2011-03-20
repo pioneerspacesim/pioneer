@@ -2,41 +2,30 @@
 
 static int l_ship_get_label(lua_State *l)
 {
-	luaL_checktype(l, 1, LUA_TLIGHTUSERDATA);
-	lid id = (lid)lua_touserdata(l, 1);
-	Ship *s = static_cast<Ship*>(LuaObject::Lookup(id));
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	Ship *s = static_cast<Ship*>(LuaObject::Lookup(*idp));
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
-}
+} 
 
-static const luaL_reg ship_methods[] = {
+static const char *s_name = "Ship";
+
+static const luaL_reg s_methods[] = {
 	{ "get_label", l_ship_get_label },
 	{ 0, 0 }
 };
 
-static const luaL_reg ship_meta[] = {
+static const luaL_reg s_meta[] = {
 	{ 0, 0 }
 };
 
-void LuaShip::RegisterClass(lua_State *l)
+void LuaShip::RegisterClass()
 {
-	// create Ship table, attach methods to it, leave it on the stack
-	luaL_openlib(l, "Ship", ship_methods, 0);
-
-	// create the metatable, leave it on the stack
-	luaL_newmetatable(l, "Ship");
-	// attach metamethods to it
-	luaL_openlib(l, 0, ship_meta, 0);
-
-	// remove them both from the stack
-	lua_pop(l, 2);
+	CreateClass(s_name, s_methods, s_meta);
 }
 
-void LuaShip::Push(lua_State *l)
+void LuaShip::PushToLua()
 {
-	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
-	*idp = m_id;
-
-	luaL_getmetatable(l, "Ship");
-	lua_setmetatable(l, -2);
+	LuaObject::PushToLua(s_name);
 }

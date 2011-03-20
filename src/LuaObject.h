@@ -14,15 +14,15 @@ public:
 	static Object *Lookup(lid id);
 	inline lid GetId() const { return m_id; }
 
-	virtual void Push(lua_State *l) = 0;
-
 protected:
 	LuaObject(Object *o);
 	virtual ~LuaObject();
 
+	virtual void PushToLua(const char *name);
+
 	lid m_id;
 
-	static void RegisterClass() {};
+	static void CreateClass(const char *name, const luaL_reg methods[], const luaL_reg meta[]);
 
 private:
 	LuaObject(LuaObject &lo);
