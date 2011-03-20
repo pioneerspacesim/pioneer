@@ -2,7 +2,9 @@
 
 static int l_ship_get_label(lua_State *l)
 {
-	Ship *s = static_cast<Ship*>(luaL_checkudata(l, 1, "Ship"));
+	luaL_checktype(l, 1, LUA_TLIGHTUSERDATA);
+	lid id = (lid)lua_touserdata(l, 1);
+	Ship *s = static_cast<Ship*>(LuaObject::Lookup(id));
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 }

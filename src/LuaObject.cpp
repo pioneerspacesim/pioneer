@@ -29,7 +29,7 @@ void LuaObject::Deregister()
 	m_id = -1;
 }
 
-Object *Lookup(lid id)
+Object *LuaObject::Lookup(lid id)
 {
 	return registry[id];
 }

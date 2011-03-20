@@ -10,21 +10,22 @@
 typedef uintptr_t lid;
 
 class LuaObject {
+public:
+	static Object *Lookup(lid id);
+
 protected:
 	LuaObject(Object *o);
 	virtual ~LuaObject();
 
-	static void RegisterClass() {};
-
 	lid m_id;
+
+	static void RegisterClass() {};
 
 private:
 	LuaObject(LuaObject &lo);
 
 	void Register(Object *o);
 	void Deregister();
-
-	static Object *Lookup(lid id);
 };
 
 #endif
