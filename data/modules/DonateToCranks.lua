@@ -16,8 +16,8 @@ Module:new {
 	__name='DonateToCranks', 
 	
 	Init = function(self)
-		self:EventListen("onCreateBB")
-		self:EventListen("onUpdateBB")
+		--self:EventListen("onCreateBB")
+		--self:EventListen("onUpdateBB")
 		self.ads = {}
 	end,
 

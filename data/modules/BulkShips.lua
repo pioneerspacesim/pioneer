@@ -2,7 +2,7 @@ Module:new {
 	__name = 'BulkShips',
 
 	Init = function(self)
-		self:EventListen("onEnterSystem")
+		--self:EventListen("onEnterSystem")
 	end,
 
 	onEnterSystem = function(self)

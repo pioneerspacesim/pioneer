@@ -12,7 +12,7 @@ Module:new {
 	x=123,
 	
 	Init = function(self)
-		self:EventListen("onCreateBB")
+		--self:EventListen("onCreateBB")
 		self.ads = {}
 	end,
 

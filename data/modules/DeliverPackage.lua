@@ -60,10 +60,10 @@ Module:new {
 	__name = 'DeliverPackage',
 
 	Init = function(self)
-		self:EventListen("onCreateBB")
-		self:EventListen("onUpdateBB")
-		self:EventListen("onEnterSystem")
-		self:EventListen("onPlayerDock")
+		--self:EventListen("onCreateBB")
+		--self:EventListen("onUpdateBB")
+		--self:EventListen("onEnterSystem")
+		--self:EventListen("onPlayerDock")
 		self.ads = {}
 		self.missions = {}
 	end,

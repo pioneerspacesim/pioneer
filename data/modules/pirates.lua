@@ -3,7 +3,7 @@ Module:new {
 	__name = 'Pirates',
 
 	Init = function(self)
-		self:EventListen("onEnterSystem")
+		--self:EventListen("onEnterSystem")
 	end,
 
 	onEnterSystem = function(self)
