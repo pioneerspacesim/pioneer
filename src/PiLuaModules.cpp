@@ -7,6 +7,7 @@
 #include "PiLuaModules.h"
 #include "mylua.h"
 #include "PiLuaAPI.h"
+#include "LuaManager.h"
 #ifdef _WIN32
 #include "win32-dirent.h"
 #else
@@ -303,8 +304,8 @@ void Init()
 	if (!s_isInitted) {
 		s_isInitted = true;
 
-		OOLUA::Script *S = new OOLUA::Script;
-		L = S->get_ptr();
+		L = LuaManager::Instance()->GetLuaState();
+
 		luaL_openlibs(L);
 		lua_register(L, "PiModule", register_module);
 
