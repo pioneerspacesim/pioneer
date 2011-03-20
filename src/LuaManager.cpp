@@ -1,6 +1,8 @@
 #include "LuaManager.h"
 #include "oolua/oolua.h"
 
+#include "LuaShip.h"
+
 std::auto_ptr<LuaManager> LuaManager::s_instance;
 
 LuaManager::LuaManager() : m_lua(NULL) {
@@ -12,6 +14,7 @@ LuaManager::LuaManager() : m_lua(NULL) {
 	OOLUA::setup_user_lua_state(m_lua);
 
     // XXX initialise built in stuff here
+	LuaShip::RegisterClass(m_lua);
 }
 
 LuaManager::~LuaManager() {

@@ -18,10 +18,8 @@ static const luaL_reg ship_meta[] = {
 	{ 0, 0 }
 };
 
-void LuaShip::RegisterClass()
+void LuaShip::RegisterClass(lua_State *l)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
-
 	// create Ship table, attach methods to it, leave it on the stack
 	luaL_openlib(l, "Ship", ship_methods, 0);
 
