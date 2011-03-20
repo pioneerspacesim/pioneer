@@ -1,19 +1,24 @@
 #include "LuaObject.h"
 
 static lid next_id = 0;
-static std::map<lid, Object*> registry;
+static std::map<lid, lpair> registry;
 
-LuaObject::LuaObject(Object *o)
+LuaObject::LuaObject(Object *o, const char *type)
 {
 	m_id = next_id++;
 	assert(m_id < (lid)-1);
 
-	Register(o);
+	Register(o, type);
 }
 
-void LuaObject::Register(Object *o)
+void LuaObject::Register(Object *o, const char *type)
 {
-	registry[m_id] = o;
+	lpair pair;
+	pair.o = o;
+	pair.type = type;
+
+	registry[m_id] = pair;
+
 	o->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
 }
 
@@ -28,7 +33,7 @@ void LuaObject::Deregister(lid id)
 	registry.erase(id);
 }
 
-Object *LuaObject::Lookup(lid id)
+lpair LuaObject::Lookup(lid id)
 {
 	return registry[id];
 }
@@ -41,15 +46,15 @@ static int object_gc (lua_State *l)
 	return 0;
 }
 
-void LuaObject::CreateClass(const char *name, const luaL_reg methods[], const luaL_reg meta[])
+void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[])
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	// create table, attach methods to it, leave it on the stack
-	luaL_openlib(l, name, methods, 0);
+	luaL_openlib(l, type, methods, 0);
 
 	// create the metatable, leave it on the stack
-	luaL_newmetatable(l, name);
+	luaL_newmetatable(l, type);
 	// attach metamethods to it
 	luaL_openlib(l, 0, meta, 0);
 
@@ -72,13 +77,13 @@ void LuaObject::CreateClass(const char *name, const luaL_reg methods[], const lu
 	lua_pop(l, 2);
 }
 
-void LuaObject::PushToLua(const char *name)
+void LuaObject::PushToLua(const char *type)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
 	*idp = m_id;
 
-	luaL_getmetatable(l, name);
+	luaL_getmetatable(l, type);
 	lua_setmetatable(l, -2);
 }

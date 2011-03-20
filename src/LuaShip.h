@@ -6,8 +6,9 @@
 
 class LuaShip : public LuaObject {
 public:
-	LuaShip(Ship *s) : LuaObject(s) {}
+	LuaShip(Ship *s) : LuaObject(s, GetType()) {}
 
+	virtual const char *GetType() const;
     virtual void PushToLua();
 
 	static void RegisterClass();
