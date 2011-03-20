@@ -5,9 +5,10 @@
 #include "Ship.h"
 
 class LuaShip : public LuaObject {
+public:
 	LuaShip(Ship *s) : LuaObject(s) {}
 
-	virtual void RegisterClass();
+	static void RegisterClass();
 };
 
 

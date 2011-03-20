@@ -8,11 +8,11 @@
 #include "Object.h"
 
 class LuaObject {
-	virtual void RegisterClass() {};
-
 protected:
 	LuaObject(Object *o);
 	virtual ~LuaObject();
+
+	static void RegisterClass() {};
 
 	uint32_t m_id;
 
