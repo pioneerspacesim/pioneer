@@ -14,12 +14,69 @@ static int l_ship_get_label(lua_State *l)
 	lpair pair = LuaObject::Lookup(*idp);
 	assert(strcmp(pair.type, s_type) == 0);
 	Ship *s = static_cast<Ship*>(pair.o);
+
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 } 
 
+static int l_ship_get_stats(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	lpair pair = LuaObject::Lookup(*idp);
+	assert(strcmp(pair.type, s_type) == 0);
+	Ship *s = static_cast<Ship*>(pair.o);
+
+	const shipstats_t *stats = s->CalcStats();
+	
+	lua_newtable(l);
+
+	lua_pushstring(l, "max_capacity");
+	lua_pushinteger(l, stats->max_capacity);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "used_capacity");
+	lua_pushinteger(l, stats->used_capacity);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "used_cargo");
+	lua_pushinteger(l, stats->used_cargo);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "free_capacity");
+	lua_pushinteger(l, stats->free_capacity);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "total_mass");
+	lua_pushinteger(l, stats->total_mass);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "hull_mass_left");
+	lua_pushnumber(l, stats->hull_mass_left);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "hyperspace_range");
+	lua_pushnumber(l, stats->hyperspace_range);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "hyperspace_range_max");
+	lua_pushnumber(l, stats->hyperspace_range_max);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "shield_mass");
+	lua_pushnumber(l, stats->shield_mass);
+	lua_settable(l, -3);
+
+	lua_pushstring(l, "shield_mass_left");
+	lua_pushnumber(l, stats->shield_mass_left);
+	lua_settable(l, -3);
+
+	return 1;
+}
+
 static const luaL_reg s_methods[] = {
 	{ "get_label", l_ship_get_label },
+	{ "get_stats", l_ship_get_stats },
 	{ 0, 0 }
 };
 
