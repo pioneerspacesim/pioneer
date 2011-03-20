@@ -8,6 +8,8 @@ class LuaShip : public LuaObject {
 public:
 	LuaShip(Ship *s) : LuaObject(s) {}
 
+	virtual void Push(lua_State *l);
+
 	static void RegisterClass(lua_State *l);
 };
 

@@ -31,3 +31,12 @@ void LuaShip::RegisterClass(lua_State *l)
 	// remove them both from the stack
 	lua_pop(l, 2);
 }
+
+void LuaShip::Push(lua_State *l)
+{
+	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
+	*idp = m_id;
+
+	luaL_getmetatable(l, "Ship");
+	lua_setmetatable(l, -2);
+}

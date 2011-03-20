@@ -12,6 +12,9 @@ typedef uintptr_t lid;
 class LuaObject {
 public:
 	static Object *Lookup(lid id);
+	inline lid GetId() const { return m_id; }
+
+	virtual void Push(lua_State *l) = 0;
 
 protected:
 	LuaObject(Object *o);
