@@ -9,24 +9,14 @@ const char *LuaShip::GetType() const
 
 static int l_ship_get_label(lua_State *l)
 {
-	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
-	lpair pair = LuaObject::Lookup(*idp);
-	assert(strcmp(pair.type, s_type) == 0);
-	Ship *s = static_cast<Ship*>(pair.o);
-
+	Ship *s = unpack_object<Ship*>(l,s_type);
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 } 
 
 static int l_ship_get_stats(lua_State *l)
 {
-	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
-	lpair pair = LuaObject::Lookup(*idp);
-	assert(strcmp(pair.type, s_type) == 0);
-	Ship *s = static_cast<Ship*>(pair.o);
-
+	Ship *s = unpack_object<Ship*>(l,s_type);
 	const shipstats_t *stats = s->CalcStats();
 	
 	lua_newtable(l);

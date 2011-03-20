@@ -40,4 +40,14 @@ private:
 	void Deregister();
 };
 
+template <typename T>
+inline T unpack_object(lua_State *l, const char *type)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	lpair pair = LuaObject::Lookup(*idp);
+	assert(strcmp(pair.type, type) == 0);  // XXX handle gracefully
+	return static_cast<T>(pair.o);
+}
+
 #endif
