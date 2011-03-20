@@ -95,24 +95,22 @@ public:
 	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
 
 	virtual void Save(Serializer::Writer &wr) {
+		if(m_child) delete m_child;				// can regen children anyway
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupFrame(m_targframe));
-		wr.Int32(Serializer::LookupFrame(m_frame));
-		wr.Vector3d(m_posoff); wr.Vector3d(m_reldir);
+		wr.Vector3d(m_posoff);
 		wr.Double(m_endvel); wr.Double(m_orbitrad);
 		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
 		m_targframe = (Frame *)rd.Int32();
-		m_frame = (Frame *)rd.Int32();
-		m_posoff = rd.Vector3d(); m_reldir = rd.Vector3d();
+		m_posoff = rd.Vector3d();
 		m_endvel = rd.Double();	m_orbitrad = rd.Double();
 		m_state = rd.Int32(); m_coll = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
-		AICommand::PostLoadFixup();
+		AICommand::PostLoadFixup(); m_frame = 0;		// regen
 		m_targframe = Serializer::LookupFrame((size_t)m_targframe);
-		m_frame = Serializer::LookupFrame((size_t)m_frame);
 	}
 
 protected:
@@ -120,16 +118,22 @@ protected:
 	void CheckCollisions();
 	void CheckSuicide();
 	bool OrbitCorrection();
+	void SetOrigTarg(Frame *origframe, vector3d &origpos)
+		{ m_origframe = origframe; m_origpos = origpos; }
 
 private:
 	Frame *m_targframe;	// target frame for waypoint
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	double m_orbitrad;	// orbital radius in metres
-	Frame *m_frame;	// current frame of ship, used to check for changes	
-	vector3d m_reldir;	// target direction relative to ship at last frame change
 	int m_state;		// see TimeStepUpdate()
 	bool m_coll;		// whether to bother checking for collisions
+
+	Frame *m_frame;		// current frame of ship, used to check for changes	
+	vector3d m_reldir;	// target direction relative to ship at last frame change
+
+	Frame *m_origframe;		// original target frame, used for tangent heading 
+	vector3d m_origpos;		// original target offset, used for tangent heading
 };
 
 class AICmdKill : public AICommand {

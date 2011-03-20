@@ -724,6 +724,7 @@ printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 	// ignore further collisions
 	int newmode = GetFlipMode(m_ship, targframe, newpos) ? 1 : 3;
 	m_child = new AICmdFlyTo(m_ship, targframe, newpos, endvel, newmode, false);
+	((AICmdFlyTo *)m_child)->SetOrigTarg(m_targframe, m_posoff);			// needed for tangent heading
 	m_frame = 0;		// trigger rebuild when child finishes
 }
 
@@ -966,7 +967,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 	else if (m_state == 2) ang = m_ship->AIFaceDirection(-reldir);
 	else if (m_state == 3) {
-		vector3d newhead = GenerateTangent(m_ship, m_targframe, targpos);
+		vector3d origtarg = GetPosInFrame(m_frame, m_origframe, m_origpos);
+		vector3d newhead = GenerateTangent(m_ship, m_targframe, origtarg);
 		newhead = GetPosInFrame(m_frame, m_targframe, newhead);
 		ang = m_ship->AIFaceDirection(newhead-m_ship->GetPosition());
 	}
