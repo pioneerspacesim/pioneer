@@ -1,6 +1,14 @@
 #include "LuaShip.h"
 
+static int l_ship_get_label(lua_State *l)
+{
+	Ship *s = static_cast<Ship*>(luaL_checkudata(l, 1, "Ship"));
+	lua_pushstring(l, s->GetLabel().c_str());
+	return 1;
+}
+
 static const luaL_reg ship_methods[] = {
+	{ "get_label", l_ship_get_label },
 	{ 0, 0 }
 };
 
