@@ -88,10 +88,8 @@ void ship_randomly_equip(Ship *ship, double power)
 std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
 EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_4_NON_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_2_NON_CONST(ObjectWrapper,
 		GetEquipmentPrice,
-		SpaceStationAddAdvert,
-		SpaceStationRemoveAdvert,
 		GetSBody)
 EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
 		IsBody,
@@ -129,16 +127,6 @@ const char *ObjectWrapper::GetLabel() const {
 		return static_cast<Body*>(m_obj)->GetLabel().c_str();
 	} else {
 		return "";
-	}
-}
-void ObjectWrapper::SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description) {
-	if (Is(Object::SPACESTATION)) {
-		static_cast<SpaceStation*>(m_obj)->BBAddAdvert(BBAdvert(luaMod, luaRef, description));
-	}
-}
-void ObjectWrapper::SpaceStationRemoveAdvert(const char *luaMod, int luaRef) {
-	if (Is(Object::SPACESTATION)) {
-		static_cast<SpaceStation*>(m_obj)->BBRemoveAdvert(luaMod, luaRef);
 	}
 }
 SBodyPath *ObjectWrapper::GetSBody()
@@ -475,44 +463,29 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomDockedShip(lua_State *l) {
-		ObjectWrapper *o;
 		double power;
 		int minMass, maxMass;
 		std::string type;
 		OOLUA::pull2cpp(l, maxMass);
 		OOLUA::pull2cpp(l, minMass);
 		OOLUA::pull2cpp(l, power);
-		OOLUA::pull2cpp(l, o);
-		if (o->m_obj && o->m_obj->IsType(Object::SPACESTATION)) {
-			SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
-			//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
-			int ret;
-			try {
-				type = get_random_ship_type(power, minMass, maxMass);
-				//printf("Spawning a %s\n", type.c_str());
-				ret = _spawn_ship_docked(l, type, power, station);
-			} catch (UnknownShipType) {
-				lua_pushnil(l);
-				lua_pushstring(l, "Unknown ship type");
-				return 2;
-			}
-			return ret;
-		} else {
+		SpaceStation *station = LuaSpaceStation::PullFromLua(l);
+		
+		//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
+		int ret;
+		try {
+			type = get_random_ship_type(power, minMass, maxMass);
+			//printf("Spawning a %s\n", type.c_str());
+			ret = _spawn_ship_docked(l, type, power, station);
+		} catch (UnknownShipType) {
 			lua_pushnil(l);
-			lua_pushstring(l, "4th argument must be a space station");
+			lua_pushstring(l, "Unknown ship type");
 			return 2;
 		}
+		return ret;
 	}
 	static int SpawnRandomStaticShip(lua_State *l) {
-		ObjectWrapper *o;
-		OOLUA::pull2cpp(l, o);
-		if (!o || !o->m_obj->IsType(Object::SPACESTATION)) {
-			lua_pushnil(l);
-			lua_pushstring(l, "argument must be a space station");
-			return 2;
-		}
-
-		SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
+		SpaceStation *station = LuaSpaceStation::PullFromLua(l);
 
 		int slot;
 		if (!station->AllocateStaticSlot(slot)) {

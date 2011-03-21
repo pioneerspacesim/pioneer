@@ -24,9 +24,6 @@ class ObjectWrapper
 	bool IsBody() const;
 	bool IsValid() const { return m_obj != NULL; }
 	const char *GetLabel() const;
-	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
-	void SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description);
-	void SpaceStationRemoveAdvert(const char *luaMod, int luaRef);
 	void SetLabel(const char *label);
 	double GetEquipmentPrice(int equip_type);
 
@@ -61,8 +58,6 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 //	OOLUA_CONSTRUCTORS_BEGIN
 //		OOLUA_CONSTRUCTOR_1(const ObjectWrapper &)
 //	OOLUA_CONSTRUCTORS_END
-	OOLUA_MEM_FUNC_3(void, SpaceStationAddAdvert, const char *, int, const char *)
-	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
 	OOLUA_MEM_FUNC_1(void, SetLabel, const char *)
 	OOLUA_MEM_FUNC_1(double, GetEquipmentPrice, int)
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
