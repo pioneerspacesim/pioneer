@@ -1,22 +1,17 @@
 #include "LuaShip.h"
 
-static const char *s_type = "Ship";
-
-const char *LuaShip::GetType() const
-{
-	return s_type;
-}
+const char *LuaShip::s_type = "Ship";
 
 static int l_ship_get_label(lua_State *l)
 {
-	Ship *s = unpack_object<Ship*>(l,s_type);
+	Ship *s = dynamic_cast<Ship*>(LuaObject::PullFromLua(l, "Ship"));
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 } 
 
 static int l_ship_get_stats(lua_State *l)
 {
-	Ship *s = unpack_object<Ship*>(l,s_type);
+	Ship *s = dynamic_cast<Ship*>(LuaObject::PullFromLua(l, "Ship"));
 	const shipstats_t *stats = s->CalcStats();
 	
 	lua_newtable(l);
@@ -77,9 +72,4 @@ static const luaL_reg s_meta[] = {
 void LuaShip::RegisterClass()
 {
 	CreateClass(s_type, s_methods, s_meta);
-}
-
-void LuaShip::PushToLua()
-{
-	LuaObject::PushToLua(s_type);
 }

@@ -1,25 +1,16 @@
 #include "LuaObject.h"
 
 static lid next_id = 0;
-static std::map<lid, lpair> registry;
+static std::map<lid, LuaObject> registry;
 
-LuaObject::LuaObject(Object *o, const char *type)
+void LuaObject::Register()
 {
 	m_id = next_id++;
 	assert(m_id < (lid)-1);
 
-	Register(o, type);
-}
+	registry[m_id] = *this;
 
-void LuaObject::Register(Object *o, const char *type)
-{
-	lpair pair;
-	pair.o = o;
-	pair.type = type;
-
-	registry[m_id] = pair;
-
-	o->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
+	m_object->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
 }
 
 void LuaObject::Deregister()
@@ -28,21 +19,16 @@ void LuaObject::Deregister()
 	m_id = -1;
 }
 
-void LuaObject::Deregister(lid id)
-{
-	registry.erase(id);
-}
-
-lpair LuaObject::Lookup(lid id)
+LuaObject LuaObject::Lookup(lid id)
 {
 	return registry[id];
 }
 
-static int object_gc (lua_State *l)
+int LuaObject::GC(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	LuaObject::Deregister(*idp);
+	LuaObject::Lookup(*idp).Deregister();
 	return 0;
 }
 
@@ -60,7 +46,7 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
-	lua_pushcfunction(l, object_gc);
+	lua_pushcfunction(l, LuaObject::GC);
 	lua_rawset(l, -3);
 
 	// attach the metatable to __index
@@ -77,13 +63,22 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 	lua_pop(l, 2);
 }
 
-void LuaObject::PushToLua(const char *type)
+void LuaObject::PushToLua() const
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
 	*idp = m_id;
 
-	luaL_getmetatable(l, type);
+	luaL_getmetatable(l, this->GetType());
 	lua_setmetatable(l, -2);
+}
+
+Object *LuaObject::PullFromLua(lua_State *l, const char *want_type)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	LuaObject lo = LuaObject::Lookup(*idp);
+	assert(strcmp(lo.GetType(), want_type) == 0);  // XXX handle gracefully
+	return lo.GetObject();
 }
