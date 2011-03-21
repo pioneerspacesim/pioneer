@@ -2,6 +2,13 @@
 #include "LuaUtils.h"
 #include "SpaceStation.h"
 
+static int l_spacestation_get_label(lua_State *l)
+{
+	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
+	lua_pushstring(l, s->GetLabel().c_str());
+	return 1;
+} 
+
 static int l_spacestation_add_advert(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
@@ -36,6 +43,8 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 template <> const char *LuaSubObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> const luaL_reg LuaSubObject<SpaceStation>::s_methods[] = {
+	{ "get_label", l_spacestation_get_label },
+
 	{ "add_advert",    l_spacestation_add_advert    },
 	{ "remove_advert", l_spacestation_remove_advert },
 

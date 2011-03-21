@@ -140,6 +140,7 @@ template <> const char *LuaSubObject<Ship>::s_type = "Ship";
 
 template <> const luaL_reg LuaSubObject<Ship>::s_methods[] = {
 	{ "get_label", l_ship_get_label },
+
 	{ "get_stats", l_ship_get_stats },
 
 	{ "get_money", l_ship_get_money },
