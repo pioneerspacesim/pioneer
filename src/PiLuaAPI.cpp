@@ -88,8 +88,7 @@ void ship_randomly_equip(Ship *ship, double power)
 std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
 EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_2_NON_CONST(ObjectWrapper,
-		GetEquipmentPrice,
+EXPORT_OOLUA_FUNCTIONS_1_NON_CONST(ObjectWrapper,
 		GetSBody)
 EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
 		IsBody,
@@ -108,19 +107,6 @@ void ObjectWrapper::SetLabel(const char *label) {
 	if (Is(Object::BODY)) {
 		static_cast<Body*>(m_obj)->SetLabel(label);
 	}
-}
-double ObjectWrapper::GetEquipmentPrice(int equip_type) {
-	MarketAgent *m = 0;
-	if (Is(Object::SHIP)) {
-		m = static_cast<MarketAgent*>(static_cast<Ship*>(m_obj));
-	}
-	else if (Is(Object::SPACESTATION)) {
-		m = static_cast<MarketAgent*>(static_cast<SpaceStation*>(m_obj));
-	} else {
-		return 0;
-	}
-	Sint64 cost = m->GetPrice((Equip::Type)equip_type);
-	return 0.01 * (double)cost;
 }
 const char *ObjectWrapper::GetLabel() const {
 	if (Is(Object::BODY)) {

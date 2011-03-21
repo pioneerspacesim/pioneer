@@ -23,11 +23,23 @@ static int l_spacestation_remove_advert(lua_State *l)
 	return 0;
 } 
 
+static int l_spacestation_get_equipment_price(lua_State *l)
+{
+	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
+	int equip_type = luaL_checkinteger(l, 1);
+
+	Sint64 cost = s->GetPrice(static_cast<Equip::Type>(equip_type));
+	lua_pushnumber(l, cost * 0.01);
+	return 1;
+}
+
 template <> const char *LuaSubObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> const luaL_reg LuaSubObject<SpaceStation>::s_methods[] = {
 	{ "add_advert",    l_spacestation_add_advert    },
 	{ "remove_advert", l_spacestation_remove_advert },
+
+	{ "get_equipment_price", l_spacestation_get_equipment_price },
 	{ 0, 0 }
 };
 

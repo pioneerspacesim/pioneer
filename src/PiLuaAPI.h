@@ -25,7 +25,6 @@ class ObjectWrapper
 	bool IsValid() const { return m_obj != NULL; }
 	const char *GetLabel() const;
 	void SetLabel(const char *label);
-	double GetEquipmentPrice(int equip_type);
 
 	SBodyPath *GetSBody();
 	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
@@ -59,7 +58,6 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 //		OOLUA_CONSTRUCTOR_1(const ObjectWrapper &)
 //	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_1(void, SetLabel, const char *)
-	OOLUA_MEM_FUNC_1(double, GetEquipmentPrice, int)
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
 	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsValid)
