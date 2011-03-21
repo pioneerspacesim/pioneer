@@ -5,6 +5,7 @@
 #include <map>
 
 #include "LuaManager.h"
+#include "DeleteEmitter.h"
 
 typedef uintptr_t lid;
 
@@ -17,15 +18,15 @@ public:
 	static LuaObject Lookup(lid id);
 
 	inline lid GetId() const { return m_id; }
-	inline void *GetObject() const { return m_object; }
+	inline DeleteEmitter *GetObject() const { return m_object; }
 	inline const char *GetType() const { return m_type; }
 
 	virtual void PushToLua() const;
 
 protected:
-	LuaObject(void *o, const char *type) : m_object(o), m_type(type) { Register(); }
+	LuaObject(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) { Register(); }
 
-	static void *PullFromLua(lua_State *l, const char *want_type);
+	static DeleteEmitter *PullFromLua(lua_State *l, const char *want_type);
 
 	static void CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[]);
 
@@ -35,9 +36,9 @@ private:
 
 	static int GC(lua_State *l);
 
-	lid         m_id;
-	void       *m_object;
-	const char *m_type;
+	lid            m_id;
+	DeleteEmitter *m_object;
+	const char    *m_type;
 };
 
 template <typename T>
