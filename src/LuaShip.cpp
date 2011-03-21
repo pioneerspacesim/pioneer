@@ -4,14 +4,14 @@ const char *LuaShip::s_type = "Ship";
 
 static int l_ship_get_label(lua_State *l)
 {
-	Ship *s = dynamic_cast<Ship*>(LuaObject::PullFromLua(l, "Ship"));
+	Ship *s = LuaShip::PullFromLua(l);
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 } 
 
 static int l_ship_get_stats(lua_State *l)
 {
-	Ship *s = dynamic_cast<Ship*>(LuaObject::PullFromLua(l, "Ship"));
+	Ship *s = LuaShip::PullFromLua(l);
 	const shipstats_t *stats = s->CalcStats();
 	
 	lua_newtable(l);
@@ -72,4 +72,9 @@ static const luaL_reg s_meta[] = {
 void LuaShip::RegisterClass()
 {
 	CreateClass(s_type, s_methods, s_meta);
+}
+
+Ship *LuaShip::PullFromLua(lua_State *l)
+{
+	return dynamic_cast<Ship*>(LuaObject::PullFromLua(l, s_type));
 }

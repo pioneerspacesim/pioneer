@@ -10,6 +10,8 @@ public:
 
 	static void RegisterClass();
 
+	static Ship *PullFromLua(lua_State *l);
+
 private:
 	static const char *s_type;
 };

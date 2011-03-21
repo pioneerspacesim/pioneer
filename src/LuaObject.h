@@ -22,10 +22,11 @@ public:
 	inline const char *GetType() const { return m_type; }
 
 	virtual void PushToLua() const;
-	static Object *PullFromLua(lua_State *l, const char *want_type);
 
 protected:
 	LuaObject(Object *o, const char *type) : m_object(o), m_type(type) { Register(); }
+
+	static Object *PullFromLua(lua_State *l, const char *want_type);
 
 	static void CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[]);
 
