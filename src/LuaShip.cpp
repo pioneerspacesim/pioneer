@@ -1,6 +1,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Ship.h"
+#include "SpaceStation.h"
 
 static int l_ship_get_label(lua_State *l)
 {
@@ -55,14 +56,11 @@ static int l_ship_add_money(lua_State *l)
 
 static int l_ship_get_docked_with(lua_State *l)
 {
-	/*
 	Ship *s = LuaShip::PullFromLua(l);
 	SpaceStation *station = s->GetDockedWith();
 	if (!station) return 0;
 	LuaSpaceStation(station).PushToLua();
 	return 1;
-	*/
-	return 0;
 }
 
 static int l_ship_ai_do_kill(lua_State *l)
@@ -85,11 +83,9 @@ static int l_ship_ai_do_flyto(lua_State *l)
 
 static int l_ship_ai_do_dock(lua_State *l)
 {
-	/*
 	Ship *s = LuaShip::PullFromLua(l);
 	SpaceStation *target = LuaSpaceStation::PullFromLua(l);
 	s->AIDock(target);
-	*/
 	return 0;
 }
 
