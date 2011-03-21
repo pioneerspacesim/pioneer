@@ -11,11 +11,13 @@ void LuaObject::Register()
 
 	registry[m_id] = *this;
 
-	m_object->onDelete.connect(sigc::mem_fun(registry[m_id], &LuaObject::Deregister));
+	m_deleteConnection = m_object->onDelete.connect(sigc::mem_fun(registry[m_id], &LuaObject::Deregister));
 }
 
 void LuaObject::Deregister()
 {
+	m_deleteConnection.disconnect();
+
 	registry.erase(m_id);
 	m_id = -1;
 }

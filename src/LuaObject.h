@@ -12,7 +12,7 @@ typedef uintptr_t lid;
 class LuaObject {
 public:
 	LuaObject() : m_id(-1), m_object(NULL), m_type(NULL) {}
-	LuaObject(const LuaObject &lo) : m_id(lo.m_id), m_object(lo.m_object), m_type(lo.m_type) {}
+	LuaObject(const LuaObject &lo) : m_id(lo.m_id), m_object(lo.m_object), m_type(lo.m_type), m_deleteConnection(lo.m_deleteConnection) {}
 	virtual ~LuaObject() {}
 
 	static LuaObject Lookup(lid id);
@@ -39,6 +39,8 @@ private:
 	lid            m_id;
 	DeleteEmitter *m_object;
 	const char    *m_type;
+
+	sigc::connection m_deleteConnection;
 };
 
 template <typename T>
