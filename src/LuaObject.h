@@ -60,4 +60,7 @@ private:
 	static const luaL_reg s_meta[];
 };
 
+class Ship;
+typedef LuaSubObject<Ship> LuaShip;
+
 #endif

@@ -13,7 +13,7 @@
 #include "NameGenerator.h"
 #include "HyperspaceCloud.h"
 #include "Polit.h"
-#include "LuaShip.h"
+#include "LuaObject.h"
 
 void ship_randomly_equip(Ship *ship, double power)
 {

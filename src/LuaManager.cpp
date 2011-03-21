@@ -1,7 +1,6 @@
 #include "LuaManager.h"
+#include "LuaObject.h"
 #include "oolua/oolua.h"
-
-#include "LuaShip.h"
 
 std::auto_ptr<LuaManager> LuaManager::s_instance;
 

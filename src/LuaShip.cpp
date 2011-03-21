@@ -1,4 +1,5 @@
-#include "LuaShip.h"
+#include "LuaObject.h"
+#include "Ship.h"
 
 static int l_ship_get_label(lua_State *l)
 {
