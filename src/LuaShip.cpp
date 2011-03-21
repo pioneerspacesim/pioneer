@@ -1,4 +1,5 @@
 #include "LuaObject.h"
+#include "LuaUtils.h"
 #include "Ship.h"
 
 static int l_ship_get_label(lua_State *l)
@@ -14,46 +15,16 @@ static int l_ship_get_stats(lua_State *l)
 	const shipstats_t *stats = s->CalcStats();
 	
 	lua_newtable(l);
-
-	lua_pushstring(l, "max_capacity");
-	lua_pushinteger(l, stats->max_capacity);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "used_capacity");
-	lua_pushinteger(l, stats->used_capacity);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "used_cargo");
-	lua_pushinteger(l, stats->used_cargo);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "free_capacity");
-	lua_pushinteger(l, stats->free_capacity);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "total_mass");
-	lua_pushinteger(l, stats->total_mass);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "hull_mass_left");
-	lua_pushnumber(l, stats->hull_mass_left);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "hyperspace_range");
-	lua_pushnumber(l, stats->hyperspace_range);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "hyperspace_range_max");
-	lua_pushnumber(l, stats->hyperspace_range_max);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "shield_mass");
-	lua_pushnumber(l, stats->shield_mass);
-	lua_settable(l, -3);
-
-	lua_pushstring(l, "shield_mass_left");
-	lua_pushnumber(l, stats->shield_mass_left);
-	lua_settable(l, -3);
+	pi_lua_settable(l, "max_capacity",         stats->max_capacity);
+	pi_lua_settable(l, "used_capacity",        stats->used_capacity);
+	pi_lua_settable(l, "used_cargo",           stats->used_cargo);
+	pi_lua_settable(l, "free_capacity",        stats->free_capacity);
+	pi_lua_settable(l, "total_mass",           stats->total_mass);
+	pi_lua_settable(l, "hull_mass_left",       stats->hull_mass_left);
+	pi_lua_settable(l, "hyperspace_range",     stats->hyperspace_range);
+	pi_lua_settable(l, "hyperspace_range_max", stats->hyperspace_range_max);
+	pi_lua_settable(l, "shield_mass",          stats->shield_mass);
+	pi_lua_settable(l, "shield_mass_left",     stats->shield_mass_left);
 
 	return 1;
 }
