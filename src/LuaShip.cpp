@@ -57,14 +57,14 @@ static int l_ship_get_stats(lua_State *l)
 	return 1;
 }
 
-const char *LuaShip::s_type = "Ship";
+template <> const char *LuaSubObject<Ship>::s_type = "Ship";
 
-const luaL_reg LuaShip::s_methods[] = {
+template <> const luaL_reg LuaSubObject<Ship>::s_methods[] = {
 	{ "get_label", l_ship_get_label },
 	{ "get_stats", l_ship_get_stats },
 	{ 0, 0 }
 };
 
-const luaL_reg LuaShip::s_meta[] = {
+template <> const luaL_reg LuaSubObject<Ship>::s_meta[] = {
 	{ 0, 0 }
 };
