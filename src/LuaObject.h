@@ -5,7 +5,6 @@
 #include <map>
 
 #include "LuaManager.h"
-#include "Object.h"
 
 typedef uintptr_t lid;
 
@@ -18,15 +17,15 @@ public:
 	static LuaObject Lookup(lid id);
 
 	inline lid GetId() const { return m_id; }
-	inline Object *GetObject() const { return m_object; }
+	inline void *GetObject() const { return m_object; }
 	inline const char *GetType() const { return m_type; }
 
 	virtual void PushToLua() const;
 
 protected:
-	LuaObject(Object *o, const char *type) : m_object(o), m_type(type) { Register(); }
+	LuaObject(void *o, const char *type) : m_object(o), m_type(type) { Register(); }
 
-	static Object *PullFromLua(lua_State *l, const char *want_type);
+	static void *PullFromLua(lua_State *l, const char *want_type);
 
 	static void CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[]);
 
@@ -37,7 +36,7 @@ private:
 	static int GC(lua_State *l);
 
 	lid         m_id;
-	Object     *m_object;
+	void       *m_object;
 	const char *m_type;
 };
 
@@ -51,7 +50,7 @@ public:
 	};
 
 	static inline T *PullFromLua(lua_State *l) {
-		return dynamic_cast<T *>(LuaObject::PullFromLua(l, s_type));
+		return static_cast<T *>(LuaObject::PullFromLua(l, s_type));
 	}
 
 private:

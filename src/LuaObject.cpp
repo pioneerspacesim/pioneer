@@ -1,3 +1,4 @@
+#include "libs.h"
 #include "LuaObject.h"
 
 static lid next_id = 0;
@@ -10,7 +11,7 @@ void LuaObject::Register()
 
 	registry[m_id] = *this;
 
-	m_object->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
+	//m_object->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
 }
 
 void LuaObject::Deregister()
@@ -74,7 +75,7 @@ void LuaObject::PushToLua() const
 	lua_setmetatable(l, -2);
 }
 
-Object *LuaObject::PullFromLua(lua_State *l, const char *want_type)
+void *LuaObject::PullFromLua(lua_State *l, const char *want_type)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
