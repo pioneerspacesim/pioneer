@@ -321,10 +321,7 @@ namespace LuaPi {
 		return 0;
 	}
 	static int GetCurrentSystem(lua_State *l) {
-		// sadly must rebuild for the mo
-		StarSystem *cur = Pi::currentSystem;
-		SysLoc *s = new SysLoc(cur->SectorX(), cur->SectorY(), cur->SystemIdx());
-		push2luaWithGc(l, s);
+		LuaStarSystem(Pi::currentSystem).PushToLua();
 		return 1;
 	}
 	static int FormatDate(lua_State *l) {

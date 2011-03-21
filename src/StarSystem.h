@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include "mylua.h"
+#include "DeleteEmitter.h"
 
 struct CustomSBody;
 struct CustomSystem;
@@ -199,7 +200,7 @@ public:
 private:
 };
 
-class StarSystem {
+class StarSystem : public DeleteEmitter {
 public:
 	friend class SBody;
 	StarSystem() { rootBody = 0; }

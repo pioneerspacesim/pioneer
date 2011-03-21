@@ -66,4 +66,7 @@ typedef LuaSubObject<Ship> LuaShip;
 class SpaceStation;
 typedef LuaSubObject<SpaceStation> LuaSpaceStation;
 
+class StarSystem;
+typedef LuaSubObject<StarSystem> LuaStarSystem;
+
 #endif
