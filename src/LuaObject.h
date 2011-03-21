@@ -53,7 +53,7 @@ public:
 	};
 
 	static inline T *PullFromLua(lua_State *l) {
-		return static_cast<T *>(LuaObject::PullFromLua(l, s_type));
+		return dynamic_cast<T *>(LuaObject::PullFromLua(l, s_type));
 	}
 
 private:
