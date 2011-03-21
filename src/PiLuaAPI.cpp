@@ -88,26 +88,14 @@ void ship_randomly_equip(Ship *ship, double power)
 std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
 EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_15_NON_CONST(ObjectWrapper,
-		ShipAIDoKill,
-		ShipAIDoFlyTo,
-		ShipAIDoDock,
-		ShipAIDoLowOrbit,
-		ShipAIDoMediumOrbit,
-		ShipAIDoHighOrbit,
-		ShipAIDoJourney,
-		SetLabel,
-		SetMoney,
-		AddMoney,
+EXPORT_OOLUA_FUNCTIONS_4_NON_CONST(ObjectWrapper,
 		GetEquipmentPrice,
 		SpaceStationAddAdvert,
 		SpaceStationRemoveAdvert,
-		GetDockedWith,
 		GetSBody)
-EXPORT_OOLUA_FUNCTIONS_4_CONST(ObjectWrapper,
+EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
 		IsBody,
 		IsValid,
-		GetMoney,
 		GetLabel)
 
 ObjectWrapper::ObjectWrapper(Object *o): m_obj(o) {
@@ -118,78 +106,9 @@ ObjectWrapper::ObjectWrapper(Object *o): m_obj(o) {
 bool ObjectWrapper::IsBody() const {
 	return Is(Object::BODY);
 }
-double ObjectWrapper::GetMoney() const {
-	if (Is(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		return 0.01 * s->GetMoney();
-	} else {
-		return 0;
-	}
-}
 void ObjectWrapper::SetLabel(const char *label) {
 	if (Is(Object::BODY)) {
 		static_cast<Body*>(m_obj)->SetLabel(label);
-	}
-}
-void ObjectWrapper::ShipAIDoJourney(SBodyPath *destination)
-{
-	if (Is(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIJourney(*destination);
-	}
-}
-void ObjectWrapper::ShipAIDoKill(ObjectWrapper &o)
-{
-	if (Is(Object::SHIP) && o.Is(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIKill(static_cast<Ship*>(o.m_obj));
-	}
-}
-void ObjectWrapper::ShipAIDoFlyTo(ObjectWrapper &o)
-{
-	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIFlyTo(static_cast<Body*>(o.m_obj));
-	}
-}
-void ObjectWrapper::ShipAIDoDock(ObjectWrapper &o)
-{
-	if (Is(Object::SHIP) && o.Is(Object::SPACESTATION)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIDock(static_cast<SpaceStation*>(o.m_obj));
-	}
-}
-void ObjectWrapper::ShipAIDoLowOrbit(ObjectWrapper &o)
-{
-	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIOrbit(static_cast<Body*>(o.m_obj), 1.1);
-	}
-}
-void ObjectWrapper::ShipAIDoMediumOrbit(ObjectWrapper &o)
-{
-	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIOrbit(static_cast<Body*>(o.m_obj), 2.0);
-	}
-}
-void ObjectWrapper::ShipAIDoHighOrbit(ObjectWrapper &o)
-{
-	if (Is(Object::SHIP) && o.Is(Object::BODY)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->AIOrbit(static_cast<Body*>(o.m_obj), 5.0);
-	}
-}
-void ObjectWrapper::SetMoney(double m) {
-	if (Is(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->SetMoney((Sint64)(m*100.0));
-	}
-}
-void ObjectWrapper::AddMoney(double m) {
-	if (Is(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(m_obj);
-		s->SetMoney(s->GetMoney() + (Sint64)(m*100.0));
 	}
 }
 double ObjectWrapper::GetEquipmentPrice(int equip_type) {
@@ -234,14 +153,6 @@ SBodyPath *ObjectWrapper::GetSBody()
 		}
 	}
 	return 0;
-}
-Object *ObjectWrapper::GetDockedWith()
-{
-	if (Is(Object::SHIP) && static_cast<Ship*>(m_obj)->GetDockedWith()) {
-		return static_cast<Object*> (static_cast<Ship*>(m_obj)->GetDockedWith());
-	} else {
-		return 0;
-	}
 }
 
 void ObjectWrapper::Push(lua_State * const s, Object * const & o)
@@ -469,7 +380,7 @@ namespace LuaPi {
 				ship->SetFrame(station->GetFrame());
 				Space::AddBody(ship);
 				ship->SetDockedWith(station, port);
-				OOLUA::push2lua(l, static_cast<Object*>(ship));
+				LuaShip(ship).PushToLua();
 				return 1;
 			}
 		}
@@ -656,7 +567,7 @@ namespace LuaPi {
 
 		ship->AIHoldPosition(station);
 
-		OOLUA::push2lua(l, static_cast<Object*>(ship));
+		LuaShip(ship).PushToLua();
 		return 1;
 	}
 	static int AddPlayerCrime(lua_State *l) {

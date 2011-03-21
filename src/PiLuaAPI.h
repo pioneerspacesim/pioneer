@@ -27,23 +27,10 @@ class ObjectWrapper
 	//void BBAddAdvert(const BBAddAdvert &a) { m_bbadverts.push_back(a); }
 	void SpaceStationAddAdvert(const char *luaMod, int luaRef, const char *description);
 	void SpaceStationRemoveAdvert(const char *luaMod, int luaRef);
-	double GetMoney() const;
-	void SetMoney(double m);
-	void AddMoney(double m);
 	void SetLabel(const char *label);
 	double GetEquipmentPrice(int equip_type);
 
-
-	void ShipAIDoKill(ObjectWrapper &o);
-	void ShipAIDoFlyTo(ObjectWrapper &o);
-	void ShipAIDoDock(ObjectWrapper &o);
-	void ShipAIDoLowOrbit(ObjectWrapper &o);
-	void ShipAIDoMediumOrbit(ObjectWrapper &o);
-	void ShipAIDoHighOrbit(ObjectWrapper &o);
-	void ShipAIDoJourney(SBodyPath *destination);
-
 	SBodyPath *GetSBody();
-	Object *GetDockedWith();
 	friend bool operator==(const ObjectWrapper &a, const ObjectWrapper &b) {
 		return a.m_obj == b.m_obj;
 	}
@@ -77,19 +64,8 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 	OOLUA_MEM_FUNC_3(void, SpaceStationAddAdvert, const char *, int, const char *)
 	OOLUA_MEM_FUNC_2(void, SpaceStationRemoveAdvert, const char *, int)
 	OOLUA_MEM_FUNC_1(void, SetLabel, const char *)
-	OOLUA_MEM_FUNC_1(void, SetMoney, double)
-	OOLUA_MEM_FUNC_1(void, AddMoney, double)
 	OOLUA_MEM_FUNC_1(double, GetEquipmentPrice, int)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoKill, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoFlyTo, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoDock, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoLowOrbit, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoMediumOrbit, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoHighOrbit, ObjectWrapper&)
-	OOLUA_MEM_FUNC_1(void, ShipAIDoJourney, SBodyPath*)
 	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
-	OOLUA_MEM_FUNC_0(Object*, GetDockedWith);
-	OOLUA_MEM_FUNC_0_CONST(double,GetMoney)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsValid)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)
