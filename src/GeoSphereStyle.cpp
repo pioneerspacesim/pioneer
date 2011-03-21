@@ -11,10 +11,18 @@ static inline double ridged_octavenoise(fracdef_t &def, double roughness, const 
 static inline double billow_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double voronoiscam_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double river2_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
-static double canyon_function(const fracdef_t &def, const vector3d &p);
-static double canyon2_function(const fracdef_t &def, const vector3d &p);
-static double canyon3_function(const fracdef_t &def, const vector3d &p);
-static double canyon3_function(const fracdef_t &def, const vector3d &p);
+static double canyon_ridged_function(const fracdef_t &def, const vector3d &p);
+static double canyon2_ridged_function(const fracdef_t &def, const vector3d &p);
+static double canyon3_ridged_function(const fracdef_t &def, const vector3d &p);
+static double canyon_normal_function(const fracdef_t &def, const vector3d &p);
+static double canyon2_normal_function(const fracdef_t &def, const vector3d &p);
+static double canyon3_normal_function(const fracdef_t &def, const vector3d &p);
+static double canyon_voronoi_function(const fracdef_t &def, const vector3d &p);
+static double canyon2_voronoi_function(const fracdef_t &def, const vector3d &p);
+static double canyon3_voronoi_function(const fracdef_t &def, const vector3d &p);
+static double canyon_billow_function(const fracdef_t &def, const vector3d &p);
+static double canyon2_billow_function(const fracdef_t &def, const vector3d &p);
+static double canyon3_billow_function(const fracdef_t &def, const vector3d &p);
 static double crater_function(const fracdef_t &def, const vector3d &p);
 static double volcano_function(const fracdef_t &def, const vector3d &p);
 static double megavolcano_function(const fracdef_t &def, const vector3d &p);
@@ -129,11 +137,50 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			m_atmosDensity = 0.0;
 			break;
-		default:
-			//if (sbody->m_life > fixed(5,10)) {
-			m_atmosColor = Color(.6f, .6f, .7f, 0.8f);
+		//default:
+		case SBody::TYPE_PLANET_TERRESTRIAL:
+			double r,g,b;
+			r = sbody->m_atmosOxidizing.ToDouble();
+			g = sbody->m_atmosOxidizing.ToDouble();
+			b = sbody->m_atmosOxidizing.ToDouble();
+			if ((sbody->m_atmosOxidizing > fixed(1,100)) 
+			&& (sbody->m_volatileGas > fixed(1,10))) {
+				if (sbody->m_atmosOxidizing < fixed(1,2)) {
+					if (sbody->mass > fixed(3,1)) {
+						// hydrogen
+						r = 1.0f;
+						g = 1.0f;
+						b = 1.0f;
+						m_atmosColor = Color(r, g, b, 1.0f);
+					} else {
+						// methane
+						r = 0.8f + (r * 1.4);
+						g = 1.0f - (g * 1.85) ;
+						b = 0.82f - (b * 0.6);
+						m_atmosColor = Color(r, g, b, 1.0f);
+					}
+				} else {
+					if (sbody->m_life > fixed(1,2)) {
+						// oxygen
+						r = 1.0f - (r * 0.9);
+						g = 1.0f - (g * 0.75) ;
+						b = 0.9f + (b * 0.4);
+						m_atmosColor = Color(r, g, b, 3.0f);
+					} else {
+						// co2
+						r = 1.0f - (r * 0.3);
+						g = 0.9f - (g * 0.2);
+						b = 1.0f - (b * 0.3);
+						m_atmosColor = Color(r, g, b, 1.0f);
+					}
+				}
+			} else m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);;
+
 			m_atmosDensity = sbody->m_volatileGas.ToDouble();
-			//}
+			break;
+		default:
+			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
+			m_atmosDensity = sbody->m_volatileGas.ToDouble();
 			break;
 	}
 #if 0
@@ -1003,17 +1050,19 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 
 			n = (n > 0.0 ? n : 0.0); 
 
-			if (n < .2f) n += canyon3_function(m_fracdef[8], p) * n * 2;
-			else if (n < .4f) n += canyon3_function(m_fracdef[8], p) * .4;
-			else n += canyon3_function(m_fracdef[8], p) * (.4/n) * .4;
-
-			//if (n < .2) n += canyon2_function(m_fracdef[9], p) * n ;
-			//else if (n < .4) n += canyon2_function(m_fracdef[9], p) * .2f;
-			//else n += canyon2_function(m_fracdef[9], p) * (.4f/n) * .2f;
-
-			//if (n < .2) n += river_function(m_fracdef[9], p) * n * 5.0f;
-			//else if (n < .4) n += river_function(m_fracdef[9], p);
-			//else n += river_function(m_fracdef[9], p) * (.4f/n);
+			if ((m_seed>>2)%3 > 2) {
+				if (n < .2f) n += canyon3_ridged_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon3_ridged_function(m_fracdef[8], p) * .4;
+				else n += canyon3_ridged_function(m_fracdef[8], p) * (.4/n) * .4;
+			} else if ((m_seed>>2)%3 > 1) {
+				if (n < .2f) n += canyon3_billow_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon3_billow_function(m_fracdef[8], p) * .4;
+				else n += canyon3_billow_function(m_fracdef[8], p) * (.4/n) * .4;
+			} else {
+				if (n < .2f) n += canyon3_voronoi_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon3_voronoi_function(m_fracdef[8], p) * .4;
+				else n += canyon3_voronoi_function(m_fracdef[8], p) * (.4/n) * .4;
+			}
 
 			n += -0.05f;
 			n = (n > 0.0 ? n : 0.0); 
@@ -1061,29 +1110,86 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			//n = (n > 0.0 ? n : 0.0); 
 			//n = n*.1f;
 
-			if (n < .2f) n += canyon3_function(m_fracdef[8], p) * n * 5.0f;
-			else if (n < .4f) n += canyon3_function(m_fracdef[8], p) ;
-			else n += canyon3_function(m_fracdef[8], p) * (.4f/n) ;
+			// BEWARE THE WALL OF TEXT
+			if ((m_seed>>2) %3 > 2) {
 
-			if (n < .2f) n += canyon2_function(m_fracdef[8], p) * n * 5.0f;
-			else if (n < .4f) n += canyon2_function(m_fracdef[8], p) ;
-			else n += canyon2_function(m_fracdef[8], p) * (.4f/n) ;
+				if (n < .2f) n += canyon3_ridged_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon3_ridged_function(m_fracdef[8], p) * .4;
+				else n += canyon3_ridged_function(m_fracdef[8], p) * (.4/n) * .4;
 
-			if (n < .2f) n += river_function(m_fracdef[8], p) * n * 5.0f;
-			else if (n < .4f) n += river_function(m_fracdef[8], p);
-			else n += river_function(m_fracdef[8], p) * (.4f/n);
+				if (n < .2f) n += canyon2_ridged_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon2_ridged_function(m_fracdef[8], p) * .4;
+				else n += canyon2_ridged_function(m_fracdef[8], p) * (.4/n) * .4;
 
-			if (n < .2f) n += canyon3_function(m_fracdef[9], p) * n * 5.0f;
-			else if (n < .4f) n += canyon3_function(m_fracdef[9], p) ;
-			else n += canyon3_function(m_fracdef[9], p) * (.4f/n) ;
+				if (n < .2f) n += canyon_ridged_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon_ridged_function(m_fracdef[8], p) * .4;
+				else n += canyon_ridged_function(m_fracdef[8], p) * (.4/n) * .4;
 
-			if (n < .2f) n += canyon2_function(m_fracdef[9], p) * n * 5.0f;
-			else if (n < .4f) n += canyon2_function(m_fracdef[9], p) ;
-			else n += canyon2_function(m_fracdef[9], p) * (.4f/n) ;
+				if (n < .2f) n += canyon3_ridged_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon3_ridged_function(m_fracdef[9], p) * .4;
+				else n += canyon3_ridged_function(m_fracdef[9], p) * (.4/n) * .4;
 
-			if (n < .2f) n += river_function(m_fracdef[9], p) * n * 5.0f;
-			else if (n < .4f) n += river_function(m_fracdef[9], p);
-			else n += river_function(m_fracdef[9], p) * (.4f/n);
+				if (n < .2f) n += canyon2_ridged_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon2_ridged_function(m_fracdef[9], p) * .4;
+				else n += canyon2_ridged_function(m_fracdef[9], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon_ridged_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon_ridged_function(m_fracdef[9], p) * .4;
+				else n += canyon_ridged_function(m_fracdef[9], p) * (.4/n) * .4;
+
+			} else if ((m_seed>>2) %3 > 1) {
+
+				if (n < .2f) n += canyon3_billow_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon3_billow_function(m_fracdef[8], p) * .4;
+				else n += canyon3_billow_function(m_fracdef[8], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon2_billow_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon2_billow_function(m_fracdef[8], p) * .4;
+				else n += canyon2_billow_function(m_fracdef[8], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon_billow_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon_billow_function(m_fracdef[8], p) * .4;
+				else n += canyon_billow_function(m_fracdef[8], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon3_billow_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon3_billow_function(m_fracdef[9], p) * .4;
+				else n += canyon3_billow_function(m_fracdef[9], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon2_billow_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon2_billow_function(m_fracdef[9], p) * .4;
+				else n += canyon2_billow_function(m_fracdef[9], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon_billow_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon_billow_function(m_fracdef[9], p) * .4;
+				else n += canyon_billow_function(m_fracdef[9], p) * (.4/n) * .4;
+
+			} else {
+
+				if (n < .2f) n += canyon3_voronoi_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon3_voronoi_function(m_fracdef[8], p) * .4;
+				else n += canyon3_voronoi_function(m_fracdef[8], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon2_voronoi_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon2_voronoi_function(m_fracdef[8], p) * .4;
+				else n += canyon2_voronoi_function(m_fracdef[8], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon_voronoi_function(m_fracdef[8], p) * n * 2;
+				else if (n < .4f) n += canyon_voronoi_function(m_fracdef[8], p) * .4;
+				else n += canyon_voronoi_function(m_fracdef[8], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon3_voronoi_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon3_voronoi_function(m_fracdef[9], p) * .4;
+				else n += canyon3_voronoi_function(m_fracdef[9], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon2_voronoi_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon2_voronoi_function(m_fracdef[9], p) * .4;
+				else n += canyon2_voronoi_function(m_fracdef[9], p) * (.4/n) * .4;
+
+				if (n < .2f) n += canyon_voronoi_function(m_fracdef[9], p) * n * 2;
+				else if (n < .4f) n += canyon_voronoi_function(m_fracdef[9], p) * .4;
+				else n += canyon_voronoi_function(m_fracdef[9], p) * (.4/n) * .4;
+
+			}
 
 			n += -1.0f;
 			n = (n > 0.0 ? n : 0.0); 
@@ -1134,13 +1240,13 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			
 			//n += 1.4*(continents - targ.continents.amplitude*targ.sealevel + (volcano_function(p)*1)) ;
 			//smooth canyon transitions and limit height of canyon placement
-			if (n < .01) n += n * 100.0f * canyon3_function(m_fracdef[8], p);
-			else if (n < .7) n += canyon3_function(m_fracdef[8], p);
-			else n += canyon3_function(m_fracdef[8], p);
+			if (n < .01) n += n * 100.0f * canyon3_ridged_function(m_fracdef[8], p);
+			else if (n < .7) n += canyon3_ridged_function(m_fracdef[8], p);
+			else n += canyon3_ridged_function(m_fracdef[8], p);
 
-			if (n < .01) n += n * 100.0f * canyon2_function(m_fracdef[8], p);
-			else if (n < .7) n += canyon2_function(m_fracdef[8], p);
-			else n += canyon2_function(m_fracdef[8], p);
+			if (n < .01) n += n * 100.0f * canyon2_ridged_function(m_fracdef[8], p);
+			else if (n < .7) n += canyon2_ridged_function(m_fracdef[8], p);
+			else n += canyon2_ridged_function(m_fracdef[8], p);
 			n = n*.3f;
 
 			n += hills ;
@@ -1174,15 +1280,15 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
 			
 			//canyons
-			n += canyon_function(m_fracdef[7], p);
-			n += canyon2_function(m_fracdef[7], p);
-			n += canyon3_function(m_fracdef[7], p);
-			n += canyon_function(m_fracdef[8], p);
-			n += canyon2_function(m_fracdef[8], p);
-			n += canyon3_function(m_fracdef[8], p);
-			n += canyon_function(m_fracdef[9], p);
-			n += canyon2_function(m_fracdef[9], p);
-			n += canyon3_function(m_fracdef[9], p);
+			n += canyon_ridged_function(m_fracdef[7], p);
+			n += canyon2_billow_function(m_fracdef[7], p);
+			n += canyon3_voronoi_function(m_fracdef[7], p);
+			n += canyon_normal_function(m_fracdef[8], p);
+			n += canyon2_voronoi_function(m_fracdef[8], p);
+			n += canyon3_ridged_function(m_fracdef[8], p);
+			n += canyon_normal_function(m_fracdef[9], p);
+			n += canyon2_ridged_function(m_fracdef[9], p);
+			n += canyon3_billow_function(m_fracdef[9], p);
 			n += -0.5;
 			n = n*0.1;
 			n = (n<0.0 ? 0.0 : n);
@@ -1218,27 +1324,27 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
 			
 			//canyons
-			n += canyon_function(m_fracdef[3], p);
-			n += canyon2_function(m_fracdef[3], p);
-			n += canyon3_function(m_fracdef[3], p);
-			n += canyon_function(m_fracdef[4], p);
-			n += canyon2_function(m_fracdef[4], p);
-			n += canyon3_function(m_fracdef[4], p);
-			n += canyon_function(m_fracdef[5], p);
-			n += canyon2_function(m_fracdef[5], p);
-			n += canyon3_function(m_fracdef[5], p);
-			n += canyon_function(m_fracdef[6], p);
-			n += canyon2_function(m_fracdef[6], p);
-			n += canyon3_function(m_fracdef[6], p);
-			n += canyon_function(m_fracdef[7], p);
-			n += canyon2_function(m_fracdef[7], p);
-			n += canyon3_function(m_fracdef[7], p);
-			n += canyon_function(m_fracdef[8], p);
-			n += canyon2_function(m_fracdef[8], p);
-			n += canyon3_function(m_fracdef[8], p);
-			n += canyon_function(m_fracdef[9], p);
-			n += canyon2_function(m_fracdef[9], p);
-			n += canyon3_function(m_fracdef[9], p);
+			n += canyon_normal_function(m_fracdef[3], p);
+			n += canyon2_ridged_function(m_fracdef[3], p);
+			n += canyon3_billow_function(m_fracdef[3], p);
+			n += canyon_ridged_function(m_fracdef[4], p);
+			n += canyon2_billow_function(m_fracdef[4], p);
+			n += canyon3_voronoi_function(m_fracdef[4], p);
+			n += canyon_normal_function(m_fracdef[5], p);
+			n += canyon2_voronoi_function(m_fracdef[5], p);
+			n += canyon3_ridged_function(m_fracdef[5], p);
+			n += canyon_normal_function(m_fracdef[6], p);
+			n += canyon2_ridged_function(m_fracdef[6], p);
+			n += canyon3_billow_function(m_fracdef[6], p);
+			n += canyon_ridged_function(m_fracdef[7], p);
+			n += canyon2_billow_function(m_fracdef[7], p);
+			n += canyon3_voronoi_function(m_fracdef[7], p);
+			n += canyon_normal_function(m_fracdef[8], p);
+			n += canyon2_voronoi_function(m_fracdef[8], p);
+			n += canyon3_ridged_function(m_fracdef[8], p);
+			n += canyon_normal_function(m_fracdef[9], p);
+			n += canyon2_ridged_function(m_fracdef[9], p);
+			n += canyon3_billow_function(m_fracdef[9], p);
 			n += -5.6;  //Each canyon function adds 0.4 height to the total planet height, making a reduction in height like this necessary
 			n = n*0.1;  //Better to scale by a low number than subract extra height.
 			n = (n<0.0 ? 0.0 : n);  // To ensure we have nothing below 0 height.
@@ -1276,16 +1382,16 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double dunes = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
 
 			double n = continents * m_fracdef[0].amplitude * 2;//+ (cliff_function(m_fracdef[7], p)*0.5);
-			n += canyon_function(m_fracdef[6], p);
-			n += canyon2_function(m_fracdef[6], p);
-			n += canyon3_function(m_fracdef[6], p);
+			n += canyon_normal_function(m_fracdef[6], p);
+			n += canyon2_normal_function(m_fracdef[6], p);
+			n += canyon3_ridged_function(m_fracdef[6], p);
 			n = (n<1 ? n : 1/n ); //sometimes creates some interesting features
-			n += canyon_function(m_fracdef[7], p);
-			n += canyon2_function(m_fracdef[7], p);
-			n += canyon3_function(m_fracdef[7], p);
-			n += canyon_function(m_fracdef[8], p);
-			n += canyon2_function(m_fracdef[8], p);
-			n += canyon3_function(m_fracdef[8], p);
+			n += canyon_billow_function(m_fracdef[7], p);
+			n += canyon2_ridged_function(m_fracdef[7], p);
+			n += canyon3_normal_function(m_fracdef[7], p);
+			n += canyon_normal_function(m_fracdef[8], p);
+			n += canyon2_ridged_function(m_fracdef[8], p);
+			n += canyon3_voronoi_function(m_fracdef[8], p);
 			n += -0.5;
 			n = n * 0.5;
 			n = (n<0.0 ? 0.0 : n);
@@ -1987,16 +2093,11 @@ static inline double river2_octavenoise(fracdef_t &def, double roughness, const 
 }
 
 // Creates small canyons.
-static double canyon_function(const fracdef_t &def, const vector3d &p)
+static double canyon_ridged_function(const fracdef_t &def, const vector3d &p)
 {
-	MTRand rand;  //Are this.... 
 	double h;
 	double n = 0;
-	if (rand.Int32(0,1)){  //...and this too expensive?
-		n = octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
-	} else {
-		n = ridged_octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
-	}
+	n = ridged_octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
 	const double outer = 0.71;
 	const double inner = 0.715;
 	const double inner2 = 0.715;
@@ -2016,16 +2117,11 @@ static double canyon_function(const fracdef_t &def, const vector3d &p)
 }
 
 // Larger canyon.
-double canyon2_function(const fracdef_t &def, const vector3d &p)
+double canyon2_ridged_function(const fracdef_t &def, const vector3d &p)
 {
-	MTRand rand;
 	double h;
 	double n = 0; //octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
-	if (rand.Int32(0,1)){
-		n = billow_octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
-	} else {
-		n = ridged_octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
-	}
+	n = ridged_octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
 	const double outer = 0.7;
 	const double inner = 0.71;
 	const double inner2 = 0.72;
@@ -2045,16 +2141,218 @@ double canyon2_function(const fracdef_t &def, const vector3d &p)
 }
 
 // Largest and best looking canyon, combine them together for best results.
-double canyon3_function(const fracdef_t &def, const vector3d &p)
+double canyon3_ridged_function(const fracdef_t &def, const vector3d &p)
 {
-	MTRand rand;
 	double h;
 	double n = 0; //octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
-	if (rand.Int32(0,1)){
-		n = river_octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	n = ridged_octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1.0;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0.0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
 	} else {
-		n = billow_octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+		h = 1.0;
 	}
+	return h * def.amplitude;
+}
+
+static double canyon_normal_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
+	const double outer = 0.71;
+	const double inner = 0.715;
+	const double inner2 = 0.715;
+	const double outer2 = 0.72;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+double canyon2_normal_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+double canyon3_normal_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1.0;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0.0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+static double canyon_voronoi_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
+	const double outer = 0.71;
+	const double inner = 0.715;
+	const double inner2 = 0.715;
+	const double outer2 = 0.72;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+double canyon2_voronoi_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+double canyon3_voronoi_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1.0;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0.0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+static double canyon_billow_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
+	const double outer = 0.71;
+	const double inner = 0.715;
+	const double inner2 = 0.715;
+	const double outer2 = 0.72;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+double canyon2_billow_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
+	const double outer = 0.7;
+	const double inner = 0.71;
+	const double inner2 = 0.72;
+	const double outer2 = 0.73;
+	if (n > outer2) {
+		h = 1;
+	} else if (n > inner2) {
+		h = 0.0+1.0*(n-inner2)*(1.0/(outer2-inner2));
+	} else if (n > inner) {
+		h = 0;
+	} else if (n > outer) {
+		h = 1.0-1.0*(n-outer)*(1.0/(inner-outer));
+	} else {
+		h = 1.0;
+	}
+	return h * def.amplitude;
+}
+
+double canyon3_billow_function(const fracdef_t &def, const vector3d &p)
+{
+	double h;
+	double n = 0;
+	n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
 	const double outer = 0.7;
 	const double inner = 0.71;
 	const double inner2 = 0.72;
