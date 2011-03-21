@@ -1,7 +1,5 @@
 #include "LuaShip.h"
 
-const char *LuaShip::s_type = "Ship";
-
 static int l_ship_get_label(lua_State *l)
 {
 	Ship *s = LuaShip::PullFromLua(l);
@@ -59,22 +57,14 @@ static int l_ship_get_stats(lua_State *l)
 	return 1;
 }
 
-static const luaL_reg s_methods[] = {
+const char *LuaShip::s_type = "Ship";
+
+const luaL_reg LuaShip::s_methods[] = {
 	{ "get_label", l_ship_get_label },
 	{ "get_stats", l_ship_get_stats },
 	{ 0, 0 }
 };
 
-static const luaL_reg s_meta[] = {
+const luaL_reg LuaShip::s_meta[] = {
 	{ 0, 0 }
 };
-
-void LuaShip::RegisterClass()
-{
-	CreateClass(s_type, s_methods, s_meta);
-}
-
-Ship *LuaShip::PullFromLua(lua_State *l)
-{
-	return dynamic_cast<Ship*>(LuaObject::PullFromLua(l, s_type));
-}
