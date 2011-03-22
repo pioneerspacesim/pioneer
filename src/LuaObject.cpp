@@ -2,6 +2,7 @@
 #include "LuaObject.h"
 
 #include <map>
+#include <utility>
 
 static lid next_id = 0;
 static std::map<lid, LuaObject*> registry;
@@ -11,7 +12,7 @@ void LuaObject::Register()
 	m_id = next_id++;
 	assert(m_id < (lid)-1);
 
-	registry.insert( std::pair<lid, LuaObject*>(m_id, this) );
+	registry.insert(std::make_pair(m_id, this));
 
 	m_deleteConnection = m_object->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
 }
