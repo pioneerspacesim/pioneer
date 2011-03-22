@@ -122,6 +122,12 @@ typedef LuaSubObject<Ship> LuaShip;
 class SpaceStation;
 typedef LuaSubObject<SpaceStation> LuaSpaceStation;
 
+class Planet;
+typedef LuaSubObject<Planet> LuaPlanet;
+
+class Star;
+typedef LuaSubObject<Star> LuaStar;
+
 class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 
