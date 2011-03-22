@@ -2,12 +2,12 @@ Module:new {
 	__name = 'BulkShips',
 
 	Init = function(self)
-		--self:EventListen("onEnterSystem")
+		self:EventListen("onEnterSystem")
 	end,
 
 	onEnterSystem = function(self)
 		local sys = Pi.GetCurrentSystem()
-		local population = sys:GetSystemPopulation()
+		local population = sys:get_population()
 
 		if population == 0 then
 			return
@@ -36,8 +36,8 @@ Module:new {
 		end
 
 		for i=1, num_bulk_ships do
-			local starport = sys:GetRandomStarport(Pi.rand)
-			local ship, e = Pi.SpawnRandomStaticShip(Pi.FindBodyForSBody(starport))
+			local starport = sys:get_random_starport()
+			local ship, e = Pi.SpawnRandomStaticShip(sys:get_body(starport))
 			if e then
 				print("BulkShips: "..e)
 			end
