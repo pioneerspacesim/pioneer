@@ -304,7 +304,8 @@ namespace LuaPi {
 		return 1;
 	}
 	static int GetGameTime(lua_State *l) {
-		OOLUA_C_FUNCTION_0(double, Pi::GetGameTime)
+		LuaFloat::PushToLua(Pi::GetGameTime());
+		return 1;
 	}
 	static int Message(lua_State *l) {
 		const char *from = LuaString::PullFromLua();
@@ -313,9 +314,8 @@ namespace LuaPi {
 		return 0;
 	}
 	static int ImportantMessage(lua_State *l) {
-		std::string from, msg;
-		OOLUA::pull2cpp(l, msg);
-		OOLUA::pull2cpp(l, from);
+		const char *from = LuaString::PullFromLua();
+		const char *msg = LuaString::PullFromLua();
 		Pi::cpan->MsgLog()->ImportantMessage(from, msg);
 		return 0;
 	}
@@ -324,10 +324,9 @@ namespace LuaPi {
 		return 1;
 	}
 	static int FormatDate(lua_State *l) {
-		double t;
-		OOLUA::pull2cpp(l, t);
+		double t = LuaFloat::PullFromLua();
 		std::string s = format_date(t);
-		OOLUA::push2lua(l, s.c_str());
+		LuaString::PushToLua(s.c_str());
 		return 1;
 	}
 	static int _spawn_ship_docked(lua_State *l, std::string type, double power, SpaceStation *station) {
@@ -526,10 +525,8 @@ namespace LuaPi {
 		return 1;
 	}
 	static int AddPlayerCrime(lua_State *l) {
-		Sint64 crimeBitset;
-		double fine;
-		OOLUA::pull2cpp(l, fine);
-		OOLUA::pull2cpp(l, crimeBitset);
+		Sint64 crimeBitset = LuaInt::PullFromLua();
+		double fine = LuaFloat::PullFromLua();
 		Sint64 _fine = (Sint64)(100.0*fine);
 		Polit::AddCrime(crimeBitset, _fine);
 		return 0;
