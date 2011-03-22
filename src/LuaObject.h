@@ -25,7 +25,7 @@ protected:
 
 	static void CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[]);
 
-	virtual void PushToLua() const;
+	static void PushToLua(LuaObject *lo);
 
 private:
 	LuaObject(const LuaObject &) {}
@@ -53,7 +53,7 @@ public:
 
 	static inline LuaObject *PushToLua(T *o) {
 		LuaSubObject *lo = new LuaSubObject(o);
-		lo->LuaObject::PushToLua();
+		LuaObject::PushToLua(lo);
 		return lo;
 	}
 

@@ -71,14 +71,14 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 	lua_pop(l, 2);
 }
 
-void LuaObject::PushToLua() const
+void LuaObject::PushToLua(LuaObject *lo)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
-	*idp = m_id;
+	*idp = lo->m_id;
 
-	luaL_getmetatable(l, this->GetType());
+	luaL_getmetatable(l, lo->GetType());
 	lua_setmetatable(l, -2);
 }
 
