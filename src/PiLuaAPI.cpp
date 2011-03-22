@@ -321,7 +321,7 @@ namespace LuaPi {
 		return 0;
 	}
 	static int GetCurrentSystem(lua_State *l) {
-		LuaStarSystem(Pi::currentSystem).PushToLua();
+		LuaStarSystem::PushToLua(Pi::currentSystem);
 		return 1;
 	}
 	static int FormatDate(lua_State *l) {
@@ -351,7 +351,7 @@ namespace LuaPi {
 				ship->SetFrame(station->GetFrame());
 				Space::AddBody(ship);
 				ship->SetDockedWith(station, port);
-				LuaShip(ship).PushToLua();
+				LuaShip::PushToLua(ship);
 				return 1;
 			}
 		}
@@ -382,7 +382,7 @@ namespace LuaPi {
 					ship->SetPosition(pos);
 					ship->SetVelocity(vector3d(0,0,0));
 					Space::AddBody(ship);
-					LuaShip(ship).PushToLua();
+					LuaShip::PushToLua(ship);
 					return 1;
 				} else {
 					// hypercloud still present
@@ -393,7 +393,7 @@ namespace LuaPi {
 					cloud->SetPosition(pos);
 					cloud->SetVelocity(vector3d(0,0,0));
 					Space::AddBody(cloud);
-					LuaShip(ship).PushToLua();
+					LuaShip::PushToLua(ship);
 					return 1;
 				}
 			} else {
@@ -405,7 +405,7 @@ namespace LuaPi {
 				cloud->SetPosition(pos);
 				cloud->SetVelocity(vector3d(0,0,0));
 				Space::AddBody(cloud);
-				LuaShip(ship).PushToLua();
+				LuaShip::PushToLua(ship);
 				return 1;
 			}
 		}
@@ -523,7 +523,7 @@ namespace LuaPi {
 
 		ship->AIHoldPosition(station);
 
-		LuaShip(ship).PushToLua();
+		LuaShip::PushToLua(ship);
 		return 1;
 	}
 	static int AddPlayerCrime(lua_State *l) {

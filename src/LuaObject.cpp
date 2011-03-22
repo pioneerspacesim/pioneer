@@ -1,37 +1,40 @@
 #include "libs.h"
 #include "LuaObject.h"
 
+#include <map>
+
 static lid next_id = 0;
-static std::map<lid, LuaObject> registry;
+static std::map<lid, LuaObject*> registry;
 
 void LuaObject::Register()
 {
 	m_id = next_id++;
 	assert(m_id < (lid)-1);
 
-	registry[m_id] = *this;
+	registry.insert( std::pair<lid, LuaObject*>(m_id, this) );
 
-	m_deleteConnection = m_object->onDelete.connect(sigc::mem_fun(registry[m_id], &LuaObject::Deregister));
+	m_deleteConnection = m_object->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
 }
 
 void LuaObject::Deregister()
 {
 	m_deleteConnection.disconnect();
-
 	registry.erase(m_id);
-	m_id = -1;
+	delete this;
 }
 
-LuaObject LuaObject::Lookup(lid id)
+LuaObject *LuaObject::Lookup(lid id)
 {
-	return registry[id];
+	std::map<lid, LuaObject*>::const_iterator i = registry.find(id);
+	if (i == registry.end()) return NULL;
+	return (*i).second;
 }
 
 int LuaObject::GC(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	LuaObject::Lookup(*idp).Deregister();
+	LuaObject::Lookup(*idp)->Deregister();
 	return 0;
 }
 
@@ -81,7 +84,11 @@ DeleteEmitter *LuaObject::PullFromLua(lua_State *l, const char *want_type)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	LuaObject lo = LuaObject::Lookup(*idp);
-	assert(strcmp(lo.GetType(), want_type) == 0);  // XXX handle gracefully
-	return lo.GetObject();
+	LuaObject *lo = LuaObject::Lookup(*idp);
+
+	// XXX handle gracefully
+	assert(lo);                                    
+	assert(strcmp(lo->GetType(), want_type) == 0);
+
+	return lo->GetObject();
 }

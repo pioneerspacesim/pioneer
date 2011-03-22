@@ -59,7 +59,7 @@ static int l_ship_get_docked_with(lua_State *l)
 	Ship *s = LuaShip::PullFromLua(l);
 	SpaceStation *station = s->GetDockedWith();
 	if (!station) return 0;
-	LuaSpaceStation(station).PushToLua();
+	LuaSpaceStation::PushToLua(station);
 	return 1;
 }
 
