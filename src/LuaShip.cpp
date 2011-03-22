@@ -5,14 +5,14 @@
 
 static int l_ship_get_label(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 } 
 
 static int l_ship_get_stats(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
 	const shipstats_t *stats = s->CalcStats();
 	
 	lua_newtable(l);
@@ -32,14 +32,14 @@ static int l_ship_get_stats(lua_State *l)
 
 static int l_ship_get_money(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
 	lua_pushnumber(l, s->GetMoney()*0.01);
 	return 1;
 } 
 
 static int l_ship_set_money(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
 	float m = luaL_checknumber(l, 1);
 	s->SetMoney((Sint64)(m*100.0));
 	return 0;
@@ -47,7 +47,7 @@ static int l_ship_set_money(lua_State *l)
 
 static int l_ship_add_money(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
 	float a = luaL_checknumber(l, 1);
 	Sint64 m = s->GetMoney() + (Sint64)(a*100.0);
 	lua_pushnumber(l, m*0.01);
@@ -56,7 +56,7 @@ static int l_ship_add_money(lua_State *l)
 
 static int l_ship_get_docked_with(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
 	SpaceStation *station = s->GetDockedWith();
 	if (!station) return 0;
 	LuaSpaceStation::PushToLua(station);
@@ -65,8 +65,8 @@ static int l_ship_get_docked_with(lua_State *l)
 
 static int l_ship_ai_do_kill(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
-	Ship *target = LuaShip::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	Ship *target = LuaShip::PullFromLua();
 	s->AIKill(target);
 	return 0;
 }
@@ -74,8 +74,8 @@ static int l_ship_ai_do_kill(lua_State *l)
 static int l_ship_ai_do_flyto(lua_State *l)
 {
 	/*
-	Ship *s = LuaShip::PullFromLua(l);
-	Body *target = LuaBody::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	Body *target = LuaBody::PullFromLua();
 	s->AIDoFlyTo(target);
 	*/
 	return 0;
@@ -83,8 +83,8 @@ static int l_ship_ai_do_flyto(lua_State *l)
 
 static int l_ship_ai_do_dock(lua_State *l)
 {
-	Ship *s = LuaShip::PullFromLua(l);
-	SpaceStation *target = LuaSpaceStation::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	SpaceStation *target = LuaSpaceStation::PullFromLua();
 	s->AIDock(target);
 	return 0;
 }
@@ -92,8 +92,8 @@ static int l_ship_ai_do_dock(lua_State *l)
 static int l_ship_ai_do_loworbit(lua_State *l)
 {
 	/*
-	Ship *s = LuaShip::PullFromLua(l);
-	Body *target = LuaBody::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	Body *target = LuaBody::PullFromLua();
 	s->AIOrbit(target, 1.1);
 	*/
 	return 0;
@@ -102,8 +102,8 @@ static int l_ship_ai_do_loworbit(lua_State *l)
 static int l_ship_ai_do_mediumorbit(lua_State *l)
 {
 	/*
-	Ship *s = LuaShip::PullFromLua(l);
-	Body *target = LuaBody::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	Body *target = LuaBody::PullFromLua();
 	s->AIOrbit(target, 2.0);
 	*/
 	return 0;
@@ -112,8 +112,8 @@ static int l_ship_ai_do_mediumorbit(lua_State *l)
 static int l_ship_ai_do_highorbit(lua_State *l)
 {
 	/*
-	Ship *s = LuaShip::PullFromLua(l);
-	Body *target = LuaBody::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	Body *target = LuaBody::PullFromLua();
 	s->AIOrbit(target, 5.0);
 	*/
 	return 0;
@@ -125,8 +125,8 @@ static int l_ship_ai_do_journey(lua_State *l)
 	
 	XXX is this even required anymore?
 
-	Ship *s = LuaShip::PullFromLua(l);
-	SBodyPath *dest = LuaSBodyPath::PullFromLua(l);
+	Ship *s = LuaShip::PullFromLua();
+	SBodyPath *dest = LuaSBodyPath::PullFromLua();
 	s->AIJourney(dest);
 	*/
 	return 0;

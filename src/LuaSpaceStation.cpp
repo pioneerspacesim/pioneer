@@ -4,14 +4,14 @@
 
 static int l_spacestation_get_label(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
+	SpaceStation *s = LuaSpaceStation::PullFromLua();
 	lua_pushstring(l, s->GetLabel().c_str());
 	return 1;
 } 
 
 static int l_spacestation_add_advert(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
+	SpaceStation *s = LuaSpaceStation::PullFromLua();
 	const char *module = luaL_checkstring(l, 1);
 	int ref = luaL_checkinteger(l, 1);
 	const char *desc = luaL_checkstring(l, 1);
@@ -22,7 +22,7 @@ static int l_spacestation_add_advert(lua_State *l)
 
 static int l_spacestation_remove_advert(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
+	SpaceStation *s = LuaSpaceStation::PullFromLua();
 	const char *module = luaL_checkstring(l, 1);
 	int ref = luaL_checkinteger(l, 1);
 
@@ -32,7 +32,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua(l);
+	SpaceStation *s = LuaSpaceStation::PullFromLua();
 	int equip_type = luaL_checkinteger(l, 1);
 
 	Sint64 cost = s->GetPrice(static_cast<Equip::Type>(equip_type));

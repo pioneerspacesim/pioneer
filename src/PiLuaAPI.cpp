@@ -452,7 +452,7 @@ namespace LuaPi {
 		OOLUA::pull2cpp(l, maxMass);
 		OOLUA::pull2cpp(l, minMass);
 		OOLUA::pull2cpp(l, power);
-		SpaceStation *station = LuaSpaceStation::PullFromLua(l);
+		SpaceStation *station = LuaSpaceStation::PullFromLua();
 		
 		//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
 		int ret;
@@ -468,7 +468,7 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomStaticShip(lua_State *l) {
-		SpaceStation *station = LuaSpaceStation::PullFromLua(l);
+		SpaceStation *station = LuaSpaceStation::PullFromLua();
 
 		int slot;
 		if (!station->AllocateStaticSlot(slot)) {

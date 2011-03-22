@@ -4,7 +4,7 @@
 
 static int l_starsystem_get_name(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua(l);
+	StarSystem *s = LuaStarSystem::PullFromLua();
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 } 

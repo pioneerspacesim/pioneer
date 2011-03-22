@@ -82,8 +82,10 @@ void LuaObject::PushToLua(LuaObject *lo)
 	lua_setmetatable(l, -2);
 }
 
-DeleteEmitter *LuaObject::PullFromLua(lua_State *l, const char *want_type)
+DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 {
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
 	LuaObject *lo = LuaObject::Lookup(*idp);

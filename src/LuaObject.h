@@ -21,7 +21,7 @@ public:
 protected:
 	LuaObject(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) { Register(this); }
 
-	static DeleteEmitter *PullFromLua(lua_State *l, const char *want_type);
+	static DeleteEmitter *PullFromLua(const char *want_type);
 
 	static void CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[]);
 
@@ -57,8 +57,8 @@ public:
 		return lo;
 	}
 
-	static inline T *PullFromLua(lua_State *l) {
-		return dynamic_cast<T *>(LuaObject::PullFromLua(l, s_type));
+	static inline T *PullFromLua() {
+		return dynamic_cast<T *>(LuaObject::PullFromLua(s_type));
 	}
 
 private:
