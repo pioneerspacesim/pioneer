@@ -12,9 +12,9 @@ static int l_spacestation_get_label(lua_State *l)
 static int l_spacestation_add_advert(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	const char *module = luaL_checkstring(l, 1);
-	int ref = luaL_checkinteger(l, 1);
-	const char *desc = luaL_checkstring(l, 1);
+	const char *module = LuaString::PullFromLua();
+	int ref = LuaInt::PullFromLua();
+	const char *desc = LuaString::PullFromLua();
 
 	s->BBAddAdvert(BBAdvert(module, ref, desc));
 	return 0;
@@ -23,8 +23,8 @@ static int l_spacestation_add_advert(lua_State *l)
 static int l_spacestation_remove_advert(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	const char *module = luaL_checkstring(l, 1);
-	int ref = luaL_checkinteger(l, 1);
+	const char *module = LuaString::PullFromLua();
+	int ref = LuaInt::PullFromLua();
 
 	s->BBRemoveAdvert(module, ref);
 	return 0;
@@ -33,7 +33,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	int equip_type = luaL_checkinteger(l, 1);
+	int equip_type = LuaInt::PullFromLua();
 
 	Sint64 cost = s->GetPrice(static_cast<Equip::Type>(equip_type));
 	lua_pushnumber(l, cost * 0.01);

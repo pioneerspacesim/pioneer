@@ -40,7 +40,7 @@ static int l_ship_get_money(lua_State *l)
 static int l_ship_set_money(lua_State *l)
 {
 	Ship *s = LuaShip::PullFromLua();
-	float m = luaL_checknumber(l, 1);
+	float m = LuaFloat::PullFromLua();
 	s->SetMoney((Sint64)(m*100.0));
 	return 0;
 } 
@@ -48,7 +48,7 @@ static int l_ship_set_money(lua_State *l)
 static int l_ship_add_money(lua_State *l)
 {
 	Ship *s = LuaShip::PullFromLua();
-	float a = luaL_checknumber(l, 1);
+	float a = LuaFloat::PullFromLua();
 	Sint64 m = s->GetMoney() + (Sint64)(a*100.0);
 	lua_pushnumber(l, m*0.01);
 	return 1;

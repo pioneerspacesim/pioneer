@@ -307,8 +307,8 @@ namespace LuaPi {
 		OOLUA_C_FUNCTION_0(double, Pi::GetGameTime)
 	}
 	static int Message(lua_State *l) {
-		const char *from = luaL_checkstring(l,1); lua_remove(l,1);
-		const char *msg = luaL_checkstring(l,1); lua_remove(l,1);
+		const char *from = LuaString::PullFromLua();
+		const char *msg = LuaString::PullFromLua();
 		Pi::cpan->MsgLog()->Message(from, msg);
 		return 0;
 	}
