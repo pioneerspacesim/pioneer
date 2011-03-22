@@ -19,7 +19,7 @@ public:
 	inline const char *GetType() const { return m_type; }
 
 protected:
-	LuaObject(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) { Register(this); }
+	LuaObject(DeleteEmitter *o, const char *type, bool wantdelete) : m_object(o), m_type(type), m_wantDelete(wantdelete) { Register(this); }
 
 	static DeleteEmitter *PullFromLua(const char *want_type);
 
@@ -39,20 +39,26 @@ private:
 	DeleteEmitter *m_object;
 	const char    *m_type;
 
+	bool           m_wantDelete;
+
 	sigc::connection m_deleteConnection;
 };
 
 template <typename T>
 class LuaSubObject : public LuaObject {
 public:
-	LuaSubObject(T *o) : LuaObject(o, s_type) {}
-
 	static inline void RegisterClass() {
 		CreateClass(s_type, s_methods, s_meta);
 	};
 
 	static inline LuaObject *PushToLua(T *o) {
-		LuaSubObject *lo = new LuaSubObject(o);
+		LuaSubObject *lo = new LuaSubObject(o, false);
+		LuaObject::PushToLua(lo);
+		return lo;
+	}
+
+	static inline LuaObject *PushToLuaGC(T *o) {
+		LuaSubObject *lo = new LuaSubObject(o, true);
 		LuaObject::PushToLua(lo);
 		return lo;
 	}
@@ -62,6 +68,8 @@ public:
 	}
 
 private:
+	LuaSubObject(T *o, bool wantdelete) : LuaObject(o, s_type, wantdelete) {}
+
 	static const char *s_type;
 	static const luaL_reg s_methods[];
 	static const luaL_reg s_meta[];

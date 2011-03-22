@@ -21,6 +21,7 @@ void LuaObject::Deregister(LuaObject *lo)
 {
 	lo->m_deleteConnection.disconnect();
 	registry.erase(lo->m_id);
+	if (lo->m_wantDelete) delete lo->m_object;
 	delete lo;
 }
 
