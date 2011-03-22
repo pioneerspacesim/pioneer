@@ -11,6 +11,8 @@ static inline double ridged_octavenoise(fracdef_t &def, double roughness, const 
 static inline double billow_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double voronoiscam_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double river2_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
+static inline double dunes_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
+//static inline double dunes_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 static double canyon_ridged_function(const fracdef_t &def, const vector3d &p);
 static double canyon2_ridged_function(const fracdef_t &def, const vector3d &p);
 static double canyon3_ridged_function(const fracdef_t &def, const vector3d &p);
@@ -162,14 +164,14 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 				} else {
 					if (sbody->m_life > fixed(1,2)) {
 						// oxygen
-						r = 1.0f - (r * 0.9);
-						g = 1.0f - (g * 0.75) ;
-						b = 0.9f + (b * 0.4);
+						r = 1.0f - (r * 0.8);
+						g = 1.0f - (g * 0.7) ;
+						b = 0.9f + (b * 0.3);
 						m_atmosColor = Color(r, g, b, 3.0f);
 					} else {
 						// co2
 						r = 1.0f - (r * 0.3);
-						g = 0.9f - (g * 0.2);
+						g = 0.9f - (g * 0.25);
 						b = 1.0f - (b * 0.3);
 						m_atmosColor = Color(r, g, b, 1.0f);
 					}
@@ -297,7 +299,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 			};
 			m_terrainType = choices[rand.Int32(6)];
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
+			m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_EARTHLIKE;
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
@@ -312,7 +314,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_RUGGED_DESERT,
 			};
 			m_terrainType = choices[rand.Int32(7)];
-			//m_terrainType = TERRAIN_MOUNTAINS_RIDGED;
+			m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_TFGOOD;
 		} else if ((body->m_volatileLiquid < fixed(1,10)) &&
 		           (body->m_volatileGas > fixed(1,5))) {
@@ -521,20 +523,14 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
-			double height = m_maxHeightInMeters*0.9;
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters, rand.Double(50.0, 100.0)*m_maxHeightInMeters, rand, 8);
-			SetFracDef(&m_fracdef[2], height, rand.Double(4.0, 200.0)*height, rand, 10);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters, rand.Double(120.0, 2000.0)*m_maxHeightInMeters, rand, 10);
-
-			height = m_maxHeightInMeters*0.4;
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters, rand.Double(100.0, 200.0)*m_maxHeightInMeters, rand);
-			SetFracDef(&m_fracdef[5], height*0.4, rand.Double(2.5,30.5)*height, rand);
-			SetFracDef(&m_fracdef[6], height*0.2, rand.Double(20.5,350.5)*height, rand, 1000);
-
-			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, rand.Double(100.0, 2000.0)*m_maxHeightInMeters, rand, 50);
-			SetFracDef(&m_fracdef[8], height*0.3, rand.Double(2.5,300.5)*height, rand, 20);
-			SetFracDef(&m_fracdef[9], height*0.2, rand.Double(2.5,300.5)*height, rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e8), rand, 10);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00000000001, 100.0, rand, 10);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 10);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 10);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 10);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 10);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,1e5), rand, 10);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIDGED:
@@ -872,41 +868,113 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5*octavenoise(m_fracdef[6], 0.5, p), p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
-			double mountains = octavenoise(m_fracdef[2], 0.5, p);
-			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
-
-			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
-			double hills = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
-			double hills2 = hill_distrib * m_fracdef[6].amplitude * octavenoise(m_fracdef[6], 0.5, p);
-
-			double hill2_distrib = octavenoise(m_fracdef[7], 0.5, p);
-			double hills3 = hill2_distrib * m_fracdef[8].amplitude * octavenoise(m_fracdef[8], 0.5, p);
-			double hills4 = hill2_distrib * m_fracdef[9].amplitude * octavenoise(m_fracdef[9], 0.5, p);
-
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
+			double h = n;
+		/*  Definitions here for easy referral
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e8), rand, 100);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00001, 20.0, rand, 100);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.00001, rand.Double(500, 2e3), rand, 10);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 10);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.3, 1e5, rand, 10);
+			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.8, 1e6, rand, 10);
+			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, 1e7, rand, 10);
+		*/
 
 			if (n > 0.0) {
 				// smooth in hills at shore edges
-				if (n < 0.1) n += hills * n * 10.0f;
-				else n += hills;
-				if (n < 0.05) n += hills2 * n * 20.0f;
-				else n += hills2 ;
+				//large mountainous shapes
+				n += h*0.2*ridged_octavenoise(m_fracdef[7], 0.5*octavenoise(m_fracdef[5], 0.5, p), p);
+				if (n < 0.4){
+					n += n*1.25*ridged_octavenoise(m_fracdef[6], Clamp(h*0.00002, 0.5, 0.5), p);
+				} else {
+					n += 0.5*ridged_octavenoise(m_fracdef[6], Clamp(h*0.00002, 0.5, 0.5), p);
+				}
 
-				if (n < 0.1) n += hills3 * n * 10.0f;
-				else n += hills3;
-				if (n < 0.05) n += hills4 * n * 20.0f;
-				else n += hills4 ;
+				if (n < 0.2){
+					n += n*15.0*river2_octavenoise(m_fracdef[6], Clamp(h*0.00002, 0.5, 0.5), p);
+				} else {
+					n += 3.0*river2_octavenoise(m_fracdef[6], Clamp(h*0.00002, 0.5, 0.5), p);
+				}
 
-				mountains  = octavenoise(m_fracdef[1], 0.5, p) *
-					m_fracdef[2].amplitude * mountains*mountains*mountains;
-				mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
-					m_fracdef[3].amplitude * mountains2*mountains2*mountains2*mountains2;
-				if (n > 0.2) n += mountains2 * (n - 0.2) ;
-				if (n < 0.2) n += mountains * n * 5.0f ;
-				else n += mountains  ; 
+				if (n < 0.4){
+					n += n*billow_octavenoise(m_fracdef[6], 0.5*octavenoise(m_fracdef[5], 0.5, p), p);
+				} else {
+					n += (0.16/n)*billow_octavenoise(m_fracdef[6], 0.5*octavenoise(m_fracdef[5], 0.5, p), p);
+				}
+
+				if (n < 0.2){
+					n += n*billow_octavenoise(m_fracdef[5], 0.5*octavenoise(m_fracdef[5], 0.5, p), p);
+				} else {
+					n += (0.04/n)*billow_octavenoise(m_fracdef[5], 0.5*octavenoise(m_fracdef[5], 0.5, p), p);
+				}
+				//smaller ridged mountains
+				n += n*0.7*ridged_octavenoise(m_fracdef[5], 0.5*octavenoise(m_fracdef[6], 0.5, p), p);
+
+				n = (n/2)+(n*n);
+				
+				//jagged surface for mountains
+				if (n > 0.25) {
+					n += (n-0.25)*0.1*octavenoise(m_fracdef[3], Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
+						 0.5*octavenoise(m_fracdef[3], 0.5, p), 0.5*octavenoise(m_fracdef[3], 0.5, p)), p);
+				} 
+				
+				if (n > 0.25) {
+					n = n;
+				} else if (n > 0.2) {
+					n += (0.25-n)*0.2*ridged_octavenoise(m_fracdef[3], Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
+						 0.5*octavenoise(m_fracdef[3], 0.5, p), 0.5*octavenoise(m_fracdef[3], 0.5, p)), p);
+				} else if (n > 0.05) {
+					n += ((n-0.05)/15)*ridged_octavenoise(m_fracdef[3], Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
+						 0.5*octavenoise(m_fracdef[3], 0.5, p), 0.5*octavenoise(m_fracdef[3], 0.5, p)), p);
+				}
+
+				if (n < 0.01){
+					n += n*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), p);
+				} else if (n <0.02){
+					n += 0.01*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), p);
+				} else {
+					n += (0.02/n)*0.01*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), p);
+				}
+
+				if (n < 0.001){
+					n += n*10*dunes_octavenoise(m_fracdef[2], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+				} else if (n <0.01){
+					n += 0.01*dunes_octavenoise(m_fracdef[2], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+				} else {
+					n += (0.01/n)*0.01*dunes_octavenoise(m_fracdef[2], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+				}
+
+				if (n < 0.001){
+					n += n*0.2*ridged_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+				} else if (n <0.01){
+					n += 0.0002*ridged_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+				} else {
+					n += (0.01/n)*0.0002*ridged_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+				}
+				n = n*0.35;
+				//octavenoise(12, 0.5, 2.0, (n*2.0)*p)
+				//ridged_octavenoise(3, 0.5, 2.0, p)
+
+				//high altitude detail/mountains
+				//n += n*0.3*ridged_octavenoise(m_fracdef[1], Clamp(h*0.0002, 0.5, 0.5), p);		
+				//low altitude detail/dunes
+				//if (n < 0.1){
+				//	n += 1.0*n*voronoiscam_octavenoise(m_fracdef[2], Clamp(h*0.00002, 0.5, 0.5), p);
+				//} else if (n <0.2){
+				//	n += 0.1*voronoiscam_octavenoise(m_fracdef[2], Clamp(h*0.00002, 0.5, 0.5), p);
+				//} else {
+				//	n += (0.2/n)*0.1*voronoiscam_octavenoise(m_fracdef[2], Clamp(h*0.00002, 0.5, 0.5), p);
+				//}
+				//ridges and bumps
+				//n += h*1.2*billow_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), p);
+				//n += n*1.2*river2_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), p);
+
+				//n += h*1.2*billow_octavenoise(m_fracdef[5], Clamp(h*0.0002, 0.5, 0.5), p);
+				//n += n*1.2*river2_octavenoise(m_fracdef[5], Clamp(h*0.0002, 0.5, 0.5), p);
+
 			}
 			
 			n = m_maxHeight*n;
@@ -1440,12 +1508,10 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		//SetFracDef(&m_fracdef[0], m_maxHeightInMeters*0.05, 1e6, rand, 50.0);
 		double n = octavenoise(24, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
 		n = (1.0 + n)*0.5;//*crater_function(m_fracdef[0], p)*octavenoise(m_fracdef[1], 0.5, p);
-		n += -volcano_function(m_fracdef[0], p);
-		n += -megavolcano_function(m_fracdef[0], p);
-		n += -volcano_function(m_fracdef[1], p)*
+		n += -volcano_function(m_fracdef[0], p)*
 			(billow_octavenoise(24, 0.5f*m_entropy[1] + 0.25f, 2.0,
 			noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p));
-		n += -megavolcano_function(m_fracdef[1], p)*
+		n += -megavolcano_function(m_fracdef[0], p)*
 			(river2_octavenoise(24, 0.5f*m_entropy[1] + 0.25f, 2.0,
 			noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p));
 		//return interpolate_color(n, m_darkatmoColor[0], m_atmoColor[0]);
@@ -2090,6 +2156,19 @@ static inline double river2_octavenoise(fracdef_t &def, double roughness, const 
 		jizm *= def.lacunarity;
 	}
 	return sqrt(fabs(n) * (fabs(n)/1));
+}
+
+static inline double dunes_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
+{
+	double n = 0;
+	double octaveAmplitude = roughness;
+	double jizm = def.frequency;
+	for (int i=0; i<3; i++) {
+		n += octaveAmplitude * noise(jizm*p);
+		octaveAmplitude *= roughness;
+		jizm *= def.lacunarity;
+	}
+	return 1.0 - fabs(n);
 }
 
 // Creates small canyons.
