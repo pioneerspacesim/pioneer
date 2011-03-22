@@ -304,6 +304,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
+		if (head.z > 0.9999) head.x = 1.0;
 		double head2dnorm = 1.0 / sqrt(head.x*head.x + head.y*head.y);		// NAN fix shouldn't be necessary if inputs are normalized
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
