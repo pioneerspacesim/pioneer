@@ -67,6 +67,47 @@ private:
 	static const luaL_reg s_meta[];
 };
 
+// fake push/pull stuff for primitive types, for consistency
+namespace LuaString {
+	inline void PushToLua(const char *s) {
+		assert(s);
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		lua_pushstring(l, s);
+	}
+	inline const char *PullFromLua() {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		const char *s = luaL_checkstring(l, 1);
+		lua_remove(l, 1);
+		return s;
+	}
+};
+
+namespace LuaFloat {
+	inline void PushToLua(float n) {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		lua_pushnumber(l, n);
+	}
+	inline float PullFromLua() {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		float n = luaL_checknumber(l, 1);
+		lua_remove(l, 1);
+		return n;
+	}
+};
+
+namespace LuaInt {
+	inline void PushToLua(int n) {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		lua_pushinteger(l, n);
+	}
+	inline int PullFromLua() {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		int n = luaL_checkinteger(l, 1);
+		lua_remove(l, 1);
+		return n;
+	}
+};
+
 class Ship;
 typedef LuaSubObject<Ship> LuaShip;
 
