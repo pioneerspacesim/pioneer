@@ -2,13 +2,13 @@ Module:new {
 	__name = 'TradeShips',
 
 	Init = function(self)
-		--self:EventListen("onEnterSystem")
+		self:EventListen("onEnterSystem")
 	end,
 
 	onEnterSystem = function(self)
 		local sys = Pi.GetCurrentSystem()
-		local lawlessness = sys:GetSystemLawlessness()
-		local population = sys:GetSystemPopulation()
+		local lawlessness = sys:get_lawlessness()
+		local population = sys:get_population()
 
 		--[[
 		traders will be attracted by:
@@ -32,7 +32,7 @@ Module:new {
 		-- reduce based on lawlessness
 		num_trade_ships = num_trade_ships * (1-lawlessness)
 
-		local base_price_alterations = sys:GetCommodityBasePriceAlterations()
+		local base_price_alterations = sys:get_commodity_base_price_alterations()
 
 		local imports = 0
 		local exports = 0
@@ -71,12 +71,12 @@ Module:new {
 					end
 				end
 
-				local starport = sys:GetRandomStarport(Pi.rand)
+				local starport = sys:get_random_starport()
 				if not starport then
 					-- not much for traders to do if there's no starports
 					return
 				end
-				local body = Pi.FindBodyForSBody(starport)
+				local body = sys:get_body(starport)
 
 				if spawn_in_starport then
 					local ship, e = Pi.SpawnRandomDockedShip(body, 10, 100, 10000000)
@@ -84,7 +84,7 @@ Module:new {
 					-- XXX random the due time a bit so that some aren't in system yet
 					ship, e = Pi.SpawnRandomShip(0, 10, 100, 10000000)
 					if ship then
-						ship:ShipAIDoDock(body)
+						ship:ai_do_dock(body)
 					end
 				end
 
