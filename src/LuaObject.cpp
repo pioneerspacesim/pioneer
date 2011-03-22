@@ -7,21 +7,21 @@
 static lid next_id = 0;
 static std::map<lid, LuaObject*> registry;
 
-void LuaObject::Register()
+void LuaObject::Register(LuaObject *lo)
 {
-	m_id = next_id++;
-	assert(m_id < (lid)-1);
+	lo->m_id = next_id++;
+	assert(lo->m_id < (lid)-1);
 
-	registry.insert(std::make_pair(m_id, this));
+	registry.insert(std::make_pair(lo->m_id, lo));
 
-	m_deleteConnection = m_object->onDelete.connect(sigc::mem_fun(this, &LuaObject::Deregister));
+	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObject::Deregister), lo));
 }
 
-void LuaObject::Deregister()
+void LuaObject::Deregister(LuaObject *lo)
 {
-	m_deleteConnection.disconnect();
-	registry.erase(m_id);
-	delete this;
+	lo->m_deleteConnection.disconnect();
+	registry.erase(lo->m_id);
+	delete lo;
 }
 
 LuaObject *LuaObject::Lookup(lid id)
@@ -35,7 +35,8 @@ int LuaObject::GC(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	LuaObject::Lookup(*idp)->Deregister();
+	LuaObject *lo = Lookup(*idp);
+	if (lo) Deregister(lo);
 	return 0;
 }
 

@@ -19,7 +19,7 @@ public:
 	inline const char *GetType() const { return m_type; }
 
 protected:
-	LuaObject(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) { Register(); }
+	LuaObject(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) { Register(this); }
 
 	static DeleteEmitter *PullFromLua(lua_State *l, const char *want_type);
 
@@ -30,8 +30,8 @@ protected:
 private:
 	LuaObject(const LuaObject &) {}
 
-	void Register();
-	void Deregister();
+	static void Register(LuaObject *lo);
+	static void Deregister(LuaObject *lo);
 
 	static int GC(lua_State *l);
 
