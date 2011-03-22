@@ -83,13 +83,13 @@ namespace LuaString {
 };
 
 namespace LuaFloat {
-	inline void PushToLua(float n) {
+	inline void PushToLua(double n) {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 		lua_pushnumber(l, n);
 	}
-	inline float PullFromLua() {
+	inline double PullFromLua() {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
-		float n = luaL_checknumber(l, 1);
+		double n = luaL_checknumber(l, 1);
 		lua_remove(l, 1);
 		return n;
 	}
