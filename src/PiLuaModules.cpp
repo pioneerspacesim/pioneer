@@ -306,7 +306,6 @@ void Init()
 
 		L = LuaManager::Instance()->GetLuaState();
 
-		luaL_openlibs(L);
 		lua_register(L, "PiModule", register_module);
 
 		RegisterPiLuaAPI(L);
@@ -325,7 +324,7 @@ void Uninit()
 {
 	if (s_isInitted) {
 		s_isInitted = false;
-		lua_close(L);
+		LuaManager::Destroy();
 		s_modules.clear();
 		s_eventListeners.clear();
 	}
