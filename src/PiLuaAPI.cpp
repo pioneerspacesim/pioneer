@@ -300,7 +300,7 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 
 namespace LuaPi {
 	static int GetPlayer(lua_State *l) {
-		OOLUA::push2lua(l, (Object*)Pi::player);
+		LuaShip::PushToLua(dynamic_cast<Ship*>(Pi::player));
 		return 1;
 	}
 	static int GetGameTime(lua_State *l) {
