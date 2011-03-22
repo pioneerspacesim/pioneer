@@ -523,7 +523,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e8), rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5e6, 1e8), rand, 10);
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00000000001, 100.0, rand, 10);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 10);
 			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10);
@@ -531,6 +531,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 10);
 			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 10);
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,1e5), rand, 10);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(3e6, 1e7), rand, 10);
 			break;
 		}
 		case TERRAIN_MOUNTAINS_RIDGED:
@@ -738,6 +739,8 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 				double height = m_maxHeightInMeters*0.1;
 				SetFracDef(&m_fracdef[0], height, 1e8, rand, 20.0);
 				SetFracDef(&m_fracdef[1], height, 8e7, rand, 20.0);
+				SetFracDef(&m_fracdef[2], height, 4e7, rand, 20.0);
+				SetFracDef(&m_fracdef[3], height, 1e7, rand, 20.0);
 				break;
 			}
 		case COLOR_GG_SATURN:
@@ -868,7 +871,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			double continents = octavenoise(m_fracdef[0], 0.5*octavenoise(m_fracdef[6], 0.5, p), p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.7*ridged_octavenoise(m_fracdef[8], 0.5, p), p) - m_sealevel;
 			if (continents < 0) return 0;
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
 			double h = n;
@@ -930,6 +933,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 					n += ((n-0.05)/15)*ridged_octavenoise(m_fracdef[3], Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
 						 0.5*octavenoise(m_fracdef[3], 0.5, p), 0.5*octavenoise(m_fracdef[3], 0.5, p)), p);
 				}
+				n = n*0.2;
 
 				if (n < 0.01){
 					n += n*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), p);
@@ -1504,7 +1508,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	switch (m_colorType) {
 	case COLOR_NONE:
 		return vector3d(1.0);
-	case COLOR_GG_JUPITER: {
+	/*case COLOR_GG_JUPITER: {
 		//SetFracDef(&m_fracdef[0], m_maxHeightInMeters*0.05, 1e6, rand, 50.0);
 		double n = octavenoise(24, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
 		n = (1.0 + n)*0.5;//*crater_function(m_fracdef[0], p)*octavenoise(m_fracdef[1], 0.5, p);
@@ -1516,6 +1520,26 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p));
 		//return interpolate_color(n, m_darkatmoColor[0], m_atmoColor[0]);
 		return interpolate_color(n, vector3d(.38,.12,.08), vector3d(.99,.76,.62));
+		}*/
+	case COLOR_GG_JUPITER: {
+		double n;
+		double rar = river_octavenoise(m_fracdef[0], 0.5*m_entropy[0] + 0.25f, noise(vector3d(p.x*8, p.y*32, p.z*8)))*.125;
+		//rar = river_octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x*8, p.y*32, p.z*8)) )*.125;
+		for(float i=-1 ; i < 1; i+=0.6){
+			double temp = p.y - i;
+			if ( temp < .1+rar && temp > -.1+rar ){
+				n = ridged_octavenoise(m_fracdef[1], 0.5*m_entropy[0] + 0.25f, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p)*.125;
+				//n = ridged_octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x*2, p.y*8, p.z*2)) );
+				n += 1.0;n *= n*.75;
+				return interpolate_color(n,vector3d(.99,.82,.80),vector3d(.35,.1,.05)  );
+			}
+		}//if is not a stripe.
+		n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0] + 0.25f,noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p)*.125;
+		//n = billow_octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+		n += 1.0;n *= .5;
+		
+		return interpolate_color(n, vector3d(.35,.1,.05),vector3d(.99,.82,.80)  );
+		//return vector3d(rar,rar,rar);
 		}
 	case COLOR_GG_SATURN: {
 		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
