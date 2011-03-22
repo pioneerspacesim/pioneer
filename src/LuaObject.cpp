@@ -84,14 +84,18 @@ void LuaObject::PushToLua(LuaObject *lo)
 
 DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 {
+	// XXX handle errors gracefully
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
-	LuaObject *lo = LuaObject::Lookup(*idp);
 
-	// XXX handle gracefully
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	assert(idp);
+	lua_remove(l, 1);
+
+	LuaObject *lo = LuaObject::Lookup(*idp);
 	assert(lo);                                    
+
 	assert(strcmp(lo->GetType(), want_type) == 0);
 
 	return lo->GetObject();
