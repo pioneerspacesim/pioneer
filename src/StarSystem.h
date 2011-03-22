@@ -38,7 +38,7 @@ struct Orbit {
 
 #define SBODYPATHLEN	8
 
-class SBodyPath: public SysLoc {
+class SBodyPath: public SysLoc, public DeleteEmitter {
 public:
 	SBodyPath();
 	SBodyPath(int sectorX, int sectorY, int systemNum);

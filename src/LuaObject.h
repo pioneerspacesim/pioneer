@@ -117,4 +117,7 @@ typedef LuaSubObject<SpaceStation> LuaSpaceStation;
 class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 
+class SBodyPath;
+typedef LuaSubObject<SBodyPath> LuaSBodyPath;
+
 #endif
