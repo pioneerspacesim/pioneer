@@ -409,10 +409,8 @@ namespace LuaPi {
 		}
 	}
 	static int SpawnShip(lua_State *l) {
-		double due;
-		std::string type;
-		OOLUA::pull2cpp(l, type);
-		OOLUA::pull2cpp(l, due);
+		double due = LuaFloat::PullFromLua();
+		const char *type = LuaString::PullFromLua();
 		int ret;
 		try {
 			ret = _spawn_ship(l, type, due, 0.0);
@@ -424,14 +422,12 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomShip(lua_State *l) {
-		double due, power;
-		int minMass, maxMass;
-		std::string type;
-		OOLUA::pull2cpp(l, maxMass);
-		OOLUA::pull2cpp(l, minMass);
-		OOLUA::pull2cpp(l, power);
-		OOLUA::pull2cpp(l, due);
+		double due = LuaFloat::PullFromLua();
+		double power = LuaFloat::PullFromLua();
+		int minMass = LuaInt::PullFromLua();
+		int maxMass = LuaInt::PullFromLua();
 		//printf("power %f, mass %d to %d\n", power, minMass, maxMass);
+		std::string type;
 		int ret;
 		try {
 			type = get_random_ship_type(power, minMass, maxMass);
@@ -444,15 +440,12 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomDockedShip(lua_State *l) {
-		double power;
-		int minMass, maxMass;
-		std::string type;
-		OOLUA::pull2cpp(l, maxMass);
-		OOLUA::pull2cpp(l, minMass);
-		OOLUA::pull2cpp(l, power);
 		SpaceStation *station = LuaSpaceStation::PullFromLua();
-		
+		double power = LuaFloat::PullFromLua();
+		int minMass = LuaInt::PullFromLua();
+		int maxMass = LuaInt::PullFromLua();
 		//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
+		std::string type;
 		int ret;
 		try {
 			type = get_random_ship_type(power, minMass, maxMass);
