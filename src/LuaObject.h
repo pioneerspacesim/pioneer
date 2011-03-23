@@ -53,7 +53,10 @@
 //  this kind of typedef instead to create a subclass
 //
 //      class SBodyPath;
-//      typedef LuaSubObjectUncopyable<SBodyPath,Uncopyable<SBodyPath> > LuaSBodyPath;
+//      typedef LuaSubObjectLuaUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
+//
+//  you probably don't want to do this unless you understand the entire
+//  LuaObject system. read on and ask for help :)
 //
 //  - arrange for the wrapper class RegisterClass() method to be called in
 //    LuaManager::Init in LuaManager.cpp
@@ -68,16 +71,6 @@
 //
 //  - implement your lua methods in that file
 // 
-//
-// if you can't add DeleteEmitter to your class for some reason (usually
-// because it needs to be copyable or its heavily used by the core and would
-// add significant overhead), 
-//
-// then you'll need to subclass your class and then
-// subclass LuaSubObject<T> instead of typedefing to add methods that can
-// convert while pushing/pullng objects of the original class. See
-// LuaSBodyPath for an example, and ask - this is tricky.
-//
 //
 // if you want to understand how this works, read on :)
 //
@@ -193,20 +186,24 @@ private:
 
 // this one is more complicated. if a class needs to be copyable it can't
 // inherit from DeleteEmitter as required to be wrapped by LuaSubObject. so we
-// create a new class and inherit from both
+// create a new class and inherit from both. it takes a full copy of the
+// original when instantiated, so is decoupled from the original
 template <typename T>
-class Uncopyable : public T, public DeleteEmitter {
+class LuaUncopyable : public T, public DeleteEmitter {
 public:
-	Uncopyable(const T &p) : T(p), DeleteEmitter() {}
+	LuaUncopyable(const T &p) : T(p), DeleteEmitter() {}
+private:
+	LuaUncopyable() {}
+	LuaUncopyable(const LuaUncopyable &) {}
 };
 
-// if we wanted we could just use Uncopyable<T> as-is, but that would mean
+// if we wanted we could just use LuaUncopyable<T> as-is, but that would mean
 // having to create a uncopyable of every object before passing it to
 // PushToLua() and always casting the return from PullFromLua(). instead we
 // subclass the subobject and implement some wrapper methods for the "real"
 // types.
 template <typename T, typename UT>
-class LuaSubObjectUncopyable : LuaSubObject<UT> {
+class LuaSubObjectLuaUncopyable : LuaSubObject<UT> {
 public:
 	static inline void RegisterClass() { LuaSubObject<UT>::RegisterClass(); }
 
@@ -292,6 +289,6 @@ class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 
 class SBodyPath;
-typedef LuaSubObjectUncopyable<SBodyPath,Uncopyable<SBodyPath> > LuaSBodyPath;
+typedef LuaSubObjectLuaUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 
 #endif
