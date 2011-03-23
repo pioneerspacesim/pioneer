@@ -45,11 +45,19 @@
 //  - have your class inherit from DeleteEmitter
 //
 //  - add a typedef for the wrapper class to the bottom of LuaObject.h:
+//
 //      class Ship;
 //      typedef LuaSubObject<Ship> LuaShip;
 //
+//  OR if your class can't inherit from DeleteEmitter for some reason, use
+//  this kind of typedef instead to create a subclass
+//
+//      class SBodyPath;
+//      typedef LuaSubObjectUncopyable<SBodyPath,Uncopyable<SBodyPath> > LuaSBodyPath;
+//
 //  - arrange for the wrapper class RegisterClass() method to be called in
 //    LuaManager::Init in LuaManager.cpp
+//
 //      LuaShip::RegisterClass();
 //
 //  - make a new file LuaShip.cpp with static data for the lua class name and
@@ -63,7 +71,9 @@
 //
 // if you can't add DeleteEmitter to your class for some reason (usually
 // because it needs to be copyable or its heavily used by the core and would
-// add significant overhead), then you'll need to subclass your class and then
+// add significant overhead), 
+//
+// then you'll need to subclass your class and then
 // subclass LuaSubObject<T> instead of typedefing to add methods that can
 // convert while pushing/pullng objects of the original class. See
 // LuaSBodyPath for an example, and ask - this is tricky.
@@ -181,6 +191,47 @@ private:
 };
 
 
+// this one is more complicated. if a class needs to be copyable it can't
+// inherit from DeleteEmitter as required to be wrapped by LuaSubObject. so we
+// create a new class and inherit from both
+template <typename T>
+class Uncopyable : public T, public DeleteEmitter {
+public:
+	Uncopyable(const T &p) : T(p), DeleteEmitter() {}
+};
+
+// if we wanted we could just use Uncopyable<T> as-is, but that would mean
+// having to create a uncopyable of every object before passing it to
+// PushToLua() and always casting the return from PullFromLua(). instead we
+// subclass the subobject and implement some wrapper methods for the "real"
+// types.
+template <typename T, typename UT>
+class LuaSubObjectUncopyable : LuaSubObject<UT> {
+public:
+	static inline void RegisterClass() { LuaSubObject<UT>::RegisterClass(); }
+
+	// create an uncopyable version and pass it in. we use PushToLuaGC because
+	// this is our object and we have to clean it up
+	static inline void PushToLua(T *p) {
+		UT *up = new UT(*p);
+		LuaSubObject<UT>::PushToLuaGC(up);
+	}
+
+	// same idea, but caller asked us to clean it up when we're done so we
+	// have to do that straight away
+	static inline void PushToLuaGC(T *p) {
+		UT *up = new UT(*p);
+		delete p;
+		LuaSubObject<UT>::PushToLuaGC(up);
+	}
+
+	// pull from lua, casting back to the original type
+	static inline T *PullFromLua() {
+		return dynamic_cast<T*>(LuaSubObject<UT>::PullFromLua());
+	}
+};
+
+
 // these are push/pull functions to provide a consistent interface for
 // primitive types
 namespace LuaString {
@@ -224,7 +275,7 @@ namespace LuaInt {
 };
 
 
-// define some types for things we need
+// define types for the interesting classes
 class Ship;
 typedef LuaSubObject<Ship> LuaShip;
 
@@ -240,46 +291,7 @@ typedef LuaSubObject<Star> LuaStar;
 class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 
-
-// this one is more complicated. SBodyPath needs to be copyable (its used
-// everywhere) which means it can't be a DeleteEmitter as required to be
-// wrapped by LuaSubObject. so we create a new class and inherit from both
-#include "StarSystem.h"
-
-class UncopyableSBodyPath : public SBodyPath, public DeleteEmitter {
-public:
-	UncopyableSBodyPath(const SBodyPath &p) : SBodyPath(p), DeleteEmitter() {}
-};
-
-// if we wanted we could just use the UncopyableSBodyPath as-is, but that
-// would mean having to create a copy of every SBodyPath before passing it to
-// PushToLua() and casting the return from PullFromLua(). instead we subclass
-// the subobject and implement some wrapper methods for the "real" types.
-//
-// XXX template this if we ever need it again
-class LuaSBodyPath : LuaSubObject<UncopyableSBodyPath> {
-public:
-	static inline void RegisterClass() { LuaSubObject<UncopyableSBodyPath>::RegisterClass(); }
-
-	// create an uncopyable version and pass it in. we use PushToLuaGC because
-	// this is our object and we have to clean it up
-	static inline void PushToLua(SBodyPath *p) {
-		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
-		LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
-	}
-
-	// same idea, but caller asked us to clean it up when we're done so we
-	// have to do that straight away
-	static inline void PushToLuaGC(SBodyPath *p) {
-		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
-		delete p;
-		LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
-	}
-
-	// pull from lua, casting back to the original type
-	static inline SBodyPath *PullFromLua() {
-		return dynamic_cast<SBodyPath*>(LuaSubObject<UncopyableSBodyPath>::PullFromLua());
-	}
-};
+class SBodyPath;
+typedef LuaSubObjectUncopyable<SBodyPath,Uncopyable<SBodyPath> > LuaSBodyPath;
 
 #endif
