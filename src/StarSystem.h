@@ -90,11 +90,6 @@ OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
 	OOLUA_MEM_FUNC_0_CONST(int, GetSuperType)
 OOLUA_CLASS_END
 
-class LockedSBodyPath : public SBodyPath, public DeleteEmitter {
-public:
-	LockedSBodyPath(const SBodyPath &p) : SBodyPath(p), DeleteEmitter() {}
-};
-
 class SBody {
 public:
 	SBody();

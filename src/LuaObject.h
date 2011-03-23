@@ -131,7 +131,30 @@ typedef LuaSubObject<Star> LuaStar;
 class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 
-class LockedSBodyPath;
-typedef LuaSubObject<LockedSBodyPath> LuaSBodyPath;
+
+#include "StarSystem.h"
+
+class UncopyableSBodyPath : public SBodyPath, public DeleteEmitter {
+public:
+	UncopyableSBodyPath(const SBodyPath &p) : SBodyPath(p), DeleteEmitter() {}
+};
+
+class LuaSBodyPath : LuaSubObject<UncopyableSBodyPath> {
+public:
+	static inline void RegisterClass() { LuaSubObject<UncopyableSBodyPath>::RegisterClass(); }
+	static inline LuaObject *PushToLua(SBodyPath *p) {
+		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
+		delete p;
+		return LuaSubObject<UncopyableSBodyPath>::PushToLua(up);
+	}
+	static inline LuaObject *PushToLuaGC(SBodyPath *p) {
+		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
+		delete p;
+		return LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
+	}
+	static inline SBodyPath *PullFromLua() {
+		return dynamic_cast<SBodyPath*>(LuaSubObject<UncopyableSBodyPath>::PullFromLua());
+	}
+};
 
 #endif

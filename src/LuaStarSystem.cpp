@@ -45,12 +45,13 @@ static int l_starsystem_get_random_starport(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::PullFromLua();
 
-	SBodyPath path;
-	if (s->GetRandomStarport(Pi::rng, &path)) {
-		LuaSBodyPath::PushToLuaGC(new LockedSBodyPath(path));
+	SBodyPath *path = new SBodyPath;
+	if (s->GetRandomStarport(Pi::rng, path)) {
+		LuaSBodyPath::PushToLuaGC(path);
 		return 1;
 	}
 
+	delete path;
 	return 0;
 }
 
