@@ -131,7 +131,7 @@ typedef LuaSubObject<Star> LuaStar;
 class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 
-class SBodyPath;
-typedef LuaSubObject<SBodyPath> LuaSBodyPath;
+class LockedSBodyPath;
+typedef LuaSubObject<LockedSBodyPath> LuaSBodyPath;
 
 #endif

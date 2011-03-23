@@ -5,10 +5,14 @@
 
 class DeleteEmitter {
 public:
+	DeleteEmitter() {}
 	virtual ~DeleteEmitter() {
 		onDelete.emit();
 	}
 	sigc::signal<void> onDelete;
+
+private:
+	DeleteEmitter(const DeleteEmitter &) {}
 };
 
 #endif
