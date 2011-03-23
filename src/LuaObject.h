@@ -94,28 +94,17 @@
 // type for internal object identifiers
 typedef uintptr_t lid;
 
+// the base class for wrapper classes. it has no public interface - that is
+// provided by the wrapper classes
 class LuaObject {
-public:
+protected:
 	virtual ~LuaObject() {}
 
-	// pull an LuaObject wrapper from the registry given an id. returns NULL
-	// if the object is not in the registry
-	static LuaObject *Lookup(lid id);
-
-	// accessors to get the object id, pointer to the c++ object and the lua
-	// type string
-	inline lid GetId() const { return m_id; }
-	inline DeleteEmitter *GetObject() const { return m_object; }
-	inline const char *GetType() const { return m_type; }
-
-protected:
-	// instantiate an object wrapper. it gets added to the registry in
-	// preparation for pushing it to the lua stack (which always happens).
+	// instantiate an object wrapper. it gets added to the registry then a new
+	// lua object is created for it and pushed onto the lua stack
 	// type is the lua type string. wantdelete indicates if LuaObject should
 	// delete the c++ object when it is removed from the registry
-	//
-	// XXX make this do PushToLua() immediately. there's no good reason not to
-	LuaObject(DeleteEmitter *o, const char *type, bool wantdelete) : m_object(o), m_type(type), m_wantDelete(wantdelete) { Register(this); }
+	LuaObject(DeleteEmitter *o, const char *type, bool wantdelete);
 
 	// creates a class in the lua vm with the given name and attaches the
 	// listed methods to it and the listed metamethods to its metaclass
@@ -126,17 +115,15 @@ protected:
 	// is triggered if the object on the stack is not of this type
 	static DeleteEmitter *PullFromLua(const char *want_type);
 
-	// creates a new lua object corresponding to the passed object wrapper
-	// (already in the registry)
-	static void PushToLua(LuaObject *lo);
-
 private:
 	LuaObject(const LuaObject &) {}
 
-	// add/remove an object from the registry. Deregister() will delete the
-	// LuaObject passed to it and the underlying c++ object if it ownership
-	// was earlier given to LuaObject
-	static void Register(LuaObject *lo);
+	// pull an LuaObject wrapper from the registry given an id. returns NULL
+	// if the object is not in the registry
+	static LuaObject *Lookup(lid id);
+
+	// remove an object from the registry. deletes lo and the underlying c++
+	// object if necessary
 	static void Deregister(LuaObject *lo);
 
 	// the lua object "destructor" that gets called by the garbage collector.
@@ -169,17 +156,13 @@ public:
 	};
 
 	// wrap the object and push it onto the lua stack
-	static inline LuaObject *PushToLua(T *o) {
-		LuaSubObject *lo = new LuaSubObject(o, false);
-		LuaObject::PushToLua(lo);
-		return lo;
+	static inline void PushToLua(T *o) {
+		new LuaSubObject(o, false);
 	}
 
 	// wrap the object and push it onto the lua stack, taking ownership of it
-	static inline LuaObject *PushToLuaGC(T *o) {
-		LuaSubObject *lo = new LuaSubObject(o, true);
-		LuaObject::PushToLua(lo);
-		return lo;
+	static inline void PushToLuaGC(T *o) {
+		new LuaSubObject(o, true);
 	}
 
 	// pull an object off the the stack, unwrap it and return it
@@ -280,17 +263,17 @@ public:
 
 	// create an uncopyable version and pass it in. we use PushToLuaGC because
 	// this is our object and we have to clean it up
-	static inline LuaObject *PushToLua(SBodyPath *p) {
+	static inline void PushToLua(SBodyPath *p) {
 		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
-		return LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
+		LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
 	}
 
 	// same idea, but caller asked us to clean it up when we're done so we
 	// have to do that straight away
-	static inline LuaObject *PushToLuaGC(SBodyPath *p) {
+	static inline void PushToLuaGC(SBodyPath *p) {
 		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
 		delete p;
-		return LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
+		LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
 	}
 
 	// pull from lua, casting back to the original type

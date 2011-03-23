@@ -7,14 +7,26 @@
 static lid next_id = 0;
 static std::map<lid, LuaObject*> registry;
 
-void LuaObject::Register(LuaObject *lo)
+LuaObject::LuaObject(DeleteEmitter *o, const char *type, bool wantdelete)
 {
-	lo->m_id = next_id++;
-	assert(lo->m_id < (lid)-1);
+	m_object = o;
+	m_type = type;
+	m_wantDelete = wantdelete;
 
-	registry.insert(std::make_pair(lo->m_id, lo));
+	m_id = ++next_id;
+	assert(m_id);
 
-	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObject::Deregister), lo));
+	registry.insert(std::make_pair(m_id, this));
+
+	m_deleteConnection = m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObject::Deregister), this));
+
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
+	*idp = m_id;
+
+	luaL_getmetatable(l, type);
+	lua_setmetatable(l, -2);
 }
 
 void LuaObject::Deregister(LuaObject *lo)
@@ -72,17 +84,6 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 	lua_pop(l, 2);
 }
 
-void LuaObject::PushToLua(LuaObject *lo)
-{
-	lua_State *l = LuaManager::Instance()->GetLuaState();
-
-	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
-	*idp = lo->m_id;
-
-	luaL_getmetatable(l, lo->GetType());
-	lua_setmetatable(l, -2);
-}
-
 DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 {
 	// XXX handle errors gracefully
@@ -97,7 +98,7 @@ DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 	LuaObject *lo = LuaObject::Lookup(*idp);
 	assert(lo);                                    
 
-	assert(strcmp(lo->GetType(), want_type) == 0);
+	assert(strcmp(lo->m_type, want_type) == 0);
 
-	return lo->GetObject();
+	return lo->m_object;
 }
