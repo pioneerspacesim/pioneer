@@ -392,7 +392,7 @@ void WorldView::DrawBgStars()
 		glColorPointer(3, GL_FLOAT, 6*sizeof(float), vtx+3);
 		glDrawArrays(GL_LINES, 0, 2*BG_STAR_MAX);
 
-		delete vtx;
+		delete[] vtx;
 	}
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
