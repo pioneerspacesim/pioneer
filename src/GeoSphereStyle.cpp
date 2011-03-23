@@ -958,6 +958,31 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				} else {
 					n += (0.01/n)*0.0002*ridged_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[2], 0.5, p), p);
 				}
+
+				//if (n < 0.01){
+				//	n += n*0.2*billow_octavenoise(m_fracdef[2], 0.5*octavenoise(m_fracdef[4], 0.5, p), p);
+				//} else if (n <0.02){
+				//	n += 0.002*billow_octavenoise(m_fracdef[2], 0.5*octavenoise(m_fracdef[4], 0.5, p), p);
+				//} else {
+				//	n += (0.02/n)*0.1*billow_octavenoise(m_fracdef[2], 0.5*octavenoise(m_fracdef[4], 0.5, p), p);
+				//}
+
+				//if (n < 0.01){
+				//	n += n*0.02*billow_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[4], 0.5, p), p);
+				//} else if (n <0.02){
+				//	n += 0.0002*billow_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[4], 0.5, p), p);
+				//} else {
+				//	n += (0.02/n)*0.01*billow_octavenoise(m_fracdef[1], 0.5*octavenoise(m_fracdef[4], 0.5, p), p);
+				//}
+
+				if (n < 0.1){
+					n += n*0.2*dunes_octavenoise(m_fracdef[2], n+0.2*river2_octavenoise(m_fracdef[2], 0.5, p), p);
+				} else if (n <0.2){
+					n += 0.02*dunes_octavenoise(m_fracdef[2], n+0.2*river2_octavenoise(m_fracdef[2], 0.5, p), p);
+				} else {
+					n += (0.2/n)*0.02*dunes_octavenoise(m_fracdef[2], n+0.2*river2_octavenoise(m_fracdef[2], 0.5, p), p);
+				}
+
 				n = n*0.35;
 				//octavenoise(12, 0.5, 2.0, (n*2.0)*p)
 				//ridged_octavenoise(3, 0.5, 2.0, p)
