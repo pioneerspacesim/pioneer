@@ -144,8 +144,7 @@ public:
 	static inline void RegisterClass() { LuaSubObject<UncopyableSBodyPath>::RegisterClass(); }
 	static inline LuaObject *PushToLua(SBodyPath *p) {
 		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
-		delete p;
-		return LuaSubObject<UncopyableSBodyPath>::PushToLua(up);
+		return LuaSubObject<UncopyableSBodyPath>::PushToLuaGC(up);
 	}
 	static inline LuaObject *PushToLuaGC(SBodyPath *p) {
 		UncopyableSBodyPath *up = new UncopyableSBodyPath(*p);
