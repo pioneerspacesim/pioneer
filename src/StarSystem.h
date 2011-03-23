@@ -52,7 +52,7 @@ public:
 	void Serialize(Serializer::Writer &wr) const;
 	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
 	
-	bool operator== (const SBodyPath b) const {
+	bool operator== (const SBodyPath &b) const {
 		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
 	}
 	/** These are for the Lua wrappers -- best not to use them from C++
