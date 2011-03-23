@@ -56,39 +56,7 @@ public:
 	bool operator== (const SBodyPath b) const {
 		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
 	}
-	/** These are for the Lua wrappers -- best not to use them from C++
-	 * since they acquire a StarSystem object in a rather sub-optimal way */
-	const char *GetBodyName() const;
-	Uint32 GetSeed() const;
-	int GetType() const;
-	int GetSuperType() const;
-	SysLoc GetSystem() const { return (SysLoc)*this; }
-	int GetNumChildren() const;
-	/** Caller owns the returned SBodyPath* */
-	SBodyPath *GetParent() const;
-	SBodyPath *GetNthChild(int n) const;
-private:
-	/** Returned SBody only valid pointer for duration described in
-	 * StarSystem::GetCached comment */
-	const SBody *GetSBody() const;
 };
-
-OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
-	OOLUA_BASIC
-	OOLUA_TYPEDEFS
-		OOLUA::Equal_op
-	OOLUA_END_TYPES
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-	OOLUA_BASES_START SysLoc OOLUA_BASES_END
-	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
-	OOLUA_MEM_FUNC_0_CONST(Uint32, GetSeed)
-	OOLUA_MEM_FUNC_0_CONST(SysLoc, GetSystem);
-	OOLUA_MEM_FUNC_0_CONST(lua_out_p<SBodyPath*>, GetParent);
-	OOLUA_MEM_FUNC_0_CONST(int, GetNumChildren)
-	OOLUA_MEM_FUNC_1_CONST(lua_out_p<SBodyPath*>, GetNthChild, int);
-	OOLUA_MEM_FUNC_0_CONST(int, GetType)
-	OOLUA_MEM_FUNC_0_CONST(int, GetSuperType)
-OOLUA_CLASS_END
 
 class SBody {
 public:

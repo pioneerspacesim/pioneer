@@ -88,8 +88,7 @@ void ship_randomly_equip(Ship *ship, double power)
 std::map<Object *, int> ObjectWrapper::objWrapLookup;
 
 EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_1_NON_CONST(ObjectWrapper,
-		GetSBody)
+EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(ObjectWrapper)
 EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
 		IsBody,
 		IsValid,
@@ -114,19 +113,6 @@ const char *ObjectWrapper::GetLabel() const {
 	} else {
 		return "";
 	}
-}
-SBodyPath *ObjectWrapper::GetSBody()
-{
-	const SBody *sbody = 0;
-	if (Is(Object::BODY)) {
-		sbody = static_cast<Body*>(m_obj)->GetSBody();
-		if (sbody) {
-			SBodyPath *path = new SBodyPath;
-			Pi::currentSystem->GetPathOf(sbody, path);
-			return path;
-		}
-	}
-	return 0;
 }
 
 void ObjectWrapper::Push(lua_State * const s, Object * const & o)
@@ -214,6 +200,7 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST(SoundEvent)
 
 ///////////////////////////////////////////////////////////////
 
+#if 0
 static int UserDataSerialize(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TUSERDATA);
@@ -272,6 +259,7 @@ static int UserDataUnserialize(lua_State *L)
 	}
 	return 0;
 }
+#endif
 
 
 struct UnknownShipType {};
@@ -524,13 +512,6 @@ namespace LuaPi {
 		Polit::AddCrime(crimeBitset, _fine);
 		return 0;
 	}
-	static int FindBodyForSBodyPath(lua_State *l) {
-		SBodyPath *path;
-		OOLUA::pull2cpp(l, path);
-		Body *b = Space::FindBodyForSBodyPath(path);
-		OOLUA::push2lua(l, static_cast<Object*>(b));
-		return 1;
-	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -547,15 +528,14 @@ void RegisterPiLuaAPI(lua_State *l)
 	OOLUA::register_class<Object>(l);
 	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);
-	OOLUA::register_class<SysLoc>(l);
-	OOLUA::register_class<SBodyPath>(l);
 	OOLUA::register_class<Rand>(l);
 	
+#if 0
 	lua_register(l, "UserDataSerialize", UserDataSerialize);
 	lua_register(l, "UserDataUnserialize", UserDataUnserialize);
+#endif
 
 	lua_newtable(l);
-	REG_FUNC("FindBodyForSBody", &LuaPi::FindBodyForSBodyPath);
 	REG_FUNC("AddPlayerCrime", &LuaPi::AddPlayerCrime);
 	REG_FUNC("GetCurrentSystem", &LuaPi::GetCurrentSystem);
 	REG_FUNC("GetPlayer", &LuaPi::GetPlayer);

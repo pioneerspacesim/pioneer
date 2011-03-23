@@ -58,7 +58,6 @@ OOLUA_CLASS_NO_BASES(ObjectWrapper)
 //		OOLUA_CONSTRUCTOR_1(const ObjectWrapper &)
 //	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_1(void, SetLabel, const char *)
-	OOLUA_MEM_FUNC_0(OOLUA::lua_out_p<SBodyPath*>, GetSBody);
 	OOLUA_MEM_FUNC_0_CONST(bool, IsBody)
 	OOLUA_MEM_FUNC_0_CONST(bool, IsValid)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetLabel)

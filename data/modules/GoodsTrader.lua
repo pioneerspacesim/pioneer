@@ -96,7 +96,7 @@ Module:new {
 	_WhenTradeHappens = function(self, dialog, comType)
 		if self.ads[dialog:GetAdRef()].ispolice == true then
 			local lawlessness = Pi:GetCurrentSystem():GetSystemLawlessness()
-			Pi.AddPlayerCrime(Pi.Crime.CRIME_TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
+			Pi.AddPlayerCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
 			dialog:GotoPolice()
 			return false
 		else

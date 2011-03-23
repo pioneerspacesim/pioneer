@@ -505,11 +505,6 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
-EXPORT_OOLUA_FUNCTIONS_8_CONST(SBodyPath,
-		GetBodyName, GetSeed, GetSystem, GetParent, GetType, GetSuperType,
-		GetNumChildren, GetNthChild)
-
 SBodyPath::SBodyPath(): SysLoc()
 {
 	sbodyId = 0;
@@ -529,56 +524,6 @@ void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
 {
 	SysLoc::Unserialize(rd, path);
 	path->sbodyId = rd.Int32();
-}
-
-const char *SBodyPath::GetBodyName() const
-{
-	return GetSBody()->name.c_str();
-}
-
-int SBodyPath::GetNumChildren() const
-{
-	return GetSBody()->children.size();
-}
-
-Uint32 SBodyPath::GetSeed() const
-{
-	return GetSBody()->seed;
-}
-
-int SBodyPath::GetType() const
-{
-	return (int)GetSBody()->type;
-}
-
-int SBodyPath::GetSuperType() const
-{
-	return (int)GetSBody()->GetSuperType();
-}
-
-const SBody *SBodyPath::GetSBody() const
-{
-	const StarSystem *s = Sys();
-	return s->GetBodyByPath(this);
-}
-	
-SBodyPath *SBodyPath::GetParent() const {
-	SBodyPath *p = new SBodyPath;
-	const StarSystem *sys = Sys();
-	sys->GetPathOf(sys->GetBodyByPath(this)->parent, p);
-	return p;
-}
-
-SBodyPath *SBodyPath::GetNthChild(int n) const
-{
-	const StarSystem *sys = Sys();
-	const SBody *sbody = GetSBody();
-	if ((n < 1) || (n > sbody->children.size())) {
-		return 0;
-	}
-	SBodyPath *p = new SBodyPath;
-	sys->GetPathOf(sbody->children[n-1], p);
-	return p;
 }
 
 template <class T>
