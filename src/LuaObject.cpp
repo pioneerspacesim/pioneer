@@ -95,20 +95,40 @@ void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_re
 
 DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 {
-	// XXX handle errors gracefully
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	assert(idp);
+	assert(idp); // XXX fail gracefully
 	lua_remove(l, 1);
 
 	LuaObject *lo = LuaObject::Lookup(*idp);
-	assert(lo);                                    
+	assert(lo); // XXX fail gracefully
 
-	// XXX inherited type checks
-	assert(strcmp(lo->m_type, want_type) == 0);
+	const char *current_type = lo->m_type;
 
+	// look for the type. we walk up the inheritance chain looking to see if
+	// the passed object is a subclass of the wanted type
+	while (strcmp(current_type, want_type) != 0) {
+		// no match, up we go
+
+		// get the method table for the current type
+		lua_getfield(l, LUA_GLOBALSINDEX, current_type);
+
+		// get its metatable
+		if (!lua_getmetatable(l, -1)) {
+			// not found, this is base type
+			assert(0 && "object inheritance chain does not contained the wanted type"); // XXX fail gracefully
+		}
+
+		// get the type this metatable belongs to 
+		lua_getfield(l, -1, "type");
+		current_type = lua_tostring(l, -1);
+
+		lua_pop(l, 3);
+	}
+
+	// found it
 	return lo->m_object;
 }
