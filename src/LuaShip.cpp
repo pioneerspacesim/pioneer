@@ -3,13 +3,6 @@
 #include "Ship.h"
 #include "SpaceStation.h"
 
-static int l_ship_get_label(lua_State *l)
-{
-	Ship *s = LuaShip::PullFromLua();
-	lua_pushstring(l, s->GetLabel().c_str());
-	return 1;
-} 
-
 static int l_ship_get_stats(lua_State *l)
 {
 	Ship *s = LuaShip::PullFromLua();
@@ -136,8 +129,6 @@ template <> const char *LuaSubObject<Ship>::s_type = "Ship";
 template <> const char *LuaSubObject<Ship>::s_inherit = "Body";
 
 template <> const luaL_reg LuaSubObject<Ship>::s_methods[] = {
-	{ "get_label", l_ship_get_label },
-
 	{ "get_stats", l_ship_get_stats },
 
 	{ "get_money", l_ship_get_money },
