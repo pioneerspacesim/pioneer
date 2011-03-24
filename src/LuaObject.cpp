@@ -58,12 +58,12 @@ void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_re
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	// create table, attach methods to it, leave it on the stack
-	luaL_openlib(l, type, methods, 0);
+	luaL_register(l, type, methods);
 
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
 	// attach metamethods to it
-	luaL_openlib(l, 0, meta, 0);
+	luaL_register(l, 0, meta);
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
@@ -75,12 +75,19 @@ void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_re
 	lua_pushvalue(l, -3);
 	lua_rawset(l, -3);
 
-	// XXX hook the inherited metatable to the method table if necessary
-
 	// add the type so we can walk the inheritance chain
 	lua_pushstring(l, "type");
 	lua_pushstring(l, type);
 	lua_rawset(l, -3);
+
+	// setup inheritance if wanted
+	if (inherit) {
+		// get the parent metatable
+		luaL_getmetatable(l, inherit); // XXX handle not found
+
+		// attach it to the method table
+		lua_setmetatable(l, -3);
+	}
 
 	// remove the metatable and the method table from the stack
 	lua_pop(l, 2);
