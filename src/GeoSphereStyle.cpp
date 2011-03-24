@@ -95,9 +95,9 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		v = (v<0 ? 0 : v);
 		double h = v;
 
-		//fracdef 0 and 1 are used for water colouring further down
+		
 		//large mountainous shapes
-		v += h*h*0.001*ridged_octavenoise(m_fracdef[5], Clamp(h*0.0002, 0.5, 0.5), pt);
+		v += h*h*0.001*ridged_octavenoise(m_fracdef[0], Clamp(h*0.0002, 0.5, 0.5), pt);
 		//smaller ridged mountains
 		v += h*h*0.0002*ridged_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
 		//high altitude detail/mountains
@@ -299,7 +299,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 			};
 			m_terrainType = choices[rand.Int32(6)];
-			m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
+			m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_EARTHLIKE;
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
@@ -465,13 +465,13 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 
 void GeoSphereStyle::InitFractalType(MTRand &rand)
 {
-	if (m_heightMap) {
-		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 500.0, rand, 100);
+	if (m_heightMap) {		
+		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 1e6, rand, 10);
 		SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 20.0, rand, 100);
 		SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.05, 20.0, rand, 10);
 		SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.01, 100.0, rand, 10);
 		SetFracDef(&m_fracdef[4], m_maxHeightInMeters, 1e4, rand, 10);
-		SetFracDef(&m_fracdef[5], m_maxHeightInMeters, 1e6, rand, 10);
+		SetFracDef(&m_fracdef[5], m_maxHeightInMeters, 500.0, rand, 100);
 		return;
 	}
 /*	
@@ -523,7 +523,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(5e6, 1e8), rand, 10);
+			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e7), rand, 10);
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00000000001, 100.0, rand, 10);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 10);
 			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 10);
@@ -867,9 +867,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
 		{
-			double continents = octavenoise(m_fracdef[0], 0.7*ridged_octavenoise(m_fracdef[8], 0.5, p), p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.7*ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.65;
 			if (continents < 0) return 0;
-			double n = continents - (m_fracdef[0].amplitude*m_sealevel*0.75);
+			double n = continents - (m_fracdef[0].amplitude*m_sealevel*0.5);
 			double h = n;
 		/*  Definitions here for easy referral
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e8), rand, 100);
@@ -1707,6 +1707,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
+		double continents = octavenoise(m_fracdef[0], 0.7*ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.6;
 
 		vector3d col;
 		//we don't want water on the poles if there are ice-caps
@@ -1717,18 +1718,22 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		}
 		// water
 		if (n <= 0) {
-			n += billow_octavenoise(m_fracdef[2], 0.5, p);
-			n += voronoiscam_octavenoise(m_fracdef[3], 0.5, p);
-			n += -0.5;
-			n = n*0.1;
+			// Oooh, pretty coastal regions with shading based on underwater depth.
+			n += continents - (m_fracdef[0].amplitude*m_sealevel*0.45);
+			n *= 8.0;
+			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
+			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
+			//n += -0.5;
+			//n = n*0.1;
 			//col = interpolate_color(n, vector3d(0,0,0.35), vector3d(0,0.09,0.375));
-			col = interpolate_color(equatorial_desert, vector3d(0,0,0.3), vector3d(0,0.0,0.4));
-			col = interpolate_color(n, col, vector3d(0,0.12,0.45));
+			col = interpolate_color(equatorial_desert, vector3d(0,0,0.15), vector3d(0,0,0.25));
+			col = interpolate_color(n, col, vector3d(0,0.98,0.6));
 			//adds icebergs... sort of.. ;)
-			if (fabs(m_icyness*p.y) + m_icyness*n > 0.78) {
-				return interpolate_color(flatness, col, vector3d(1,1,1));
-			} else return col;
+			//if (fabs(m_icyness*p.y) + m_icyness*n > 0.78) {
+			//	return interpolate_color(flatness, col, vector3d(1,1,1));
+			//} else return col;
 			//return vector3d(0,0,0.5);
+			return col;
 		}
 
 		// More sensitive height detection for application of colours
@@ -2756,7 +2761,7 @@ static double megavolcano_function(const fracdef_t &def, const vector3d &p)
 double river_function(const fracdef_t &def, const vector3d &p)
 {
 	double h;
-	double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p*0.5);
 	const double outer = 0.67;
 	const double inner = 0.715;
 	const double inner2 = 0.715;
@@ -2779,7 +2784,7 @@ double river_function(const fracdef_t &def, const vector3d &p)
 double river2_function(const fracdef_t &def, const vector3d &p)
 {
 	double h;
-	double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
+	double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency*p*0.5);
 	const double outer = 0.01;
 	const double inner = 0.49;
 	const double inner2 = 0.51;
