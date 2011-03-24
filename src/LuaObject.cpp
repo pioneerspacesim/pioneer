@@ -70,17 +70,12 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 	lua_pushcfunction(l, LuaObject::GC);
 	lua_rawset(l, -3);
 
-	// attach the metatable to __index
+	// attach the method table to __index
 	lua_pushstring(l, "__index");
 	lua_pushvalue(l, -3);
 	lua_rawset(l, -3);
 
-	// also attach it to __metatable
-	lua_pushstring(l, "__metatable");
-	lua_pushvalue(l, -3);
-	lua_rawset(l, -3);
-
-	// remove the metatable and the class table from the stack
+	// remove the metatable and the method table from the stack
 	lua_pop(l, 2);
 }
 
