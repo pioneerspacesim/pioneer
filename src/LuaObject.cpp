@@ -75,6 +75,11 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 	lua_pushvalue(l, -3);
 	lua_rawset(l, -3);
 
+	// add the type so we can walk the inheritance chain
+	lua_pushstring(l, "type");
+	lua_pushstring(l, type);
+	lua_rawset(l, -3);
+
 	// remove the metatable and the method table from the stack
 	lua_pop(l, 2);
 }
