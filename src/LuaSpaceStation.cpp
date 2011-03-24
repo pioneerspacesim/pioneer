@@ -41,6 +41,7 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 }
 
 template <> const char *LuaSubObject<SpaceStation>::s_type = "SpaceStation";
+template <> const char *LuaSubObject<SpaceStation>::s_inherit = "Body";
 
 template <> const luaL_reg LuaSubObject<SpaceStation>::s_methods[] = {
 	{ "get_label", l_spacestation_get_label },

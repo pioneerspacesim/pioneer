@@ -95,6 +95,7 @@ static int l_starsystem_get_body(lua_State *l)
 }
 
 template <> const char *LuaSubObject<StarSystem>::s_type = "StarSystem";
+template <> const char *LuaSubObject<StarSystem>::s_inherit = NULL;
 
 template <> const luaL_reg LuaSubObject<StarSystem>::s_methods[] = {
 	{ "get_name",                             l_starsystem_get_name },

@@ -16,6 +16,7 @@ LuaManager::LuaManager() : m_lua(NULL) {
 void LuaManager::Init()
 {
 	// initialise things that require the singleton
+	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
 	LuaStarSystem::RegisterClass();

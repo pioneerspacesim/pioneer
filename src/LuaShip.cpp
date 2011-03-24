@@ -133,6 +133,7 @@ static int l_ship_ai_do_journey(lua_State *l)
 }
 
 template <> const char *LuaSubObject<Ship>::s_type = "Ship";
+template <> const char *LuaSubObject<Ship>::s_inherit = "Body";
 
 template <> const luaL_reg LuaSubObject<Ship>::s_methods[] = {
 	{ "get_label", l_ship_get_label },

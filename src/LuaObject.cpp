@@ -53,7 +53,7 @@ int LuaObject::GC(lua_State *l)
 	return 0;
 }
 
-void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const luaL_reg meta[])
+void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[])
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -74,6 +74,8 @@ void LuaObject::CreateClass(const char *type, const luaL_reg methods[], const lu
 	lua_pushstring(l, "__index");
 	lua_pushvalue(l, -3);
 	lua_rawset(l, -3);
+
+	// XXX hook the inherited metatable to the method table if necessary
 
 	// add the type so we can walk the inheritance chain
 	lua_pushstring(l, "type");
@@ -98,6 +100,7 @@ DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 	LuaObject *lo = LuaObject::Lookup(*idp);
 	assert(lo);                                    
 
+	// XXX inherited type checks
 	assert(strcmp(lo->m_type, want_type) == 0);
 
 	return lo->m_object;
