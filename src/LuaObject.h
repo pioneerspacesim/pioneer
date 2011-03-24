@@ -289,6 +289,9 @@ typedef LuaSubObject<Planet> LuaPlanet;
 class Star;
 typedef LuaSubObject<Star> LuaStar;
 
+class Player;
+typedef LuaSubObject<Player> LuaPlayer;
+
 class StarSystem;
 typedef LuaSubObject<StarSystem> LuaStarSystem;
 

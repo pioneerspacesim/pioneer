@@ -19,10 +19,11 @@ void LuaManager::Init()
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
+	LuaPlanet::RegisterClass();
+	LuaStar::RegisterClass();
+	LuaPlayer::RegisterClass();
 	LuaStarSystem::RegisterClass();
-    LuaPlanet::RegisterClass();
-    LuaStar::RegisterClass();
-    LuaSBodyPath::RegisterClass();
+	LuaSBodyPath::RegisterClass();
 }
 
 LuaManager::~LuaManager() {
