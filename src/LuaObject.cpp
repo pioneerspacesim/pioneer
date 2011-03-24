@@ -83,7 +83,9 @@ void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_re
 	// setup inheritance if wanted
 	if (inherit) {
 		// get the parent metatable
-		luaL_getmetatable(l, inherit); // XXX handle not found
+		luaL_getmetatable(l, inherit);
+		if (lua_isnil(l, -1))
+			luaL_error(l, "'%s' can't inherit from unknown type '%s'", type, inherit);
 
 		// attach it to the method table
 		lua_setmetatable(l, -3);
@@ -100,11 +102,13 @@ DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	assert(idp); // XXX fail gracefully
+	if (!idp)
+		luaL_error(l, "value on stack is of type userdata but has no userdata associated with it");
 	lua_remove(l, 1);
 
 	LuaObject *lo = LuaObject::Lookup(*idp);
-	assert(lo); // XXX fail gracefully
+	if (!lo)
+		luaL_error(l, "object with id 0x%08x not found in registry", *idp);
 
 	const char *current_type = lo->m_type;
 
@@ -117,10 +121,9 @@ DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 		lua_getfield(l, LUA_GLOBALSINDEX, current_type);
 
 		// get its metatable
-		if (!lua_getmetatable(l, -1)) {
-			// not found, this is base type
-			assert(0 && "object inheritance chain does not contained the wanted type"); // XXX fail gracefully
-		}
+		if (!lua_getmetatable(l, -1))
+			// not found means we've reached the base and can go no further
+			luaL_error(l, "object on stack has type %s which can not be used as type %s\n", lo->m_type, want_type);
 
 		// get the type this metatable belongs to 
 		lua_getfield(l, -1, "type");
