@@ -5,9 +5,9 @@
 static int l_spacestation_add_advert(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	const char *module = LuaString::PullFromLua();
+	std::string module = LuaString::PullFromLua();
 	int ref = LuaInt::PullFromLua();
-	const char *desc = LuaString::PullFromLua();
+	std::string desc = LuaString::PullFromLua();
 
 	s->BBAddAdvert(BBAdvert(module, ref, desc));
 	return 0;
@@ -16,7 +16,7 @@ static int l_spacestation_add_advert(lua_State *l)
 static int l_spacestation_remove_advert(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	const char *module = LuaString::PullFromLua();
+	std::string module = LuaString::PullFromLua();
 	int ref = LuaInt::PullFromLua();
 
 	s->BBRemoveAdvert(module, ref);

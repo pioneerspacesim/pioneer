@@ -296,14 +296,14 @@ namespace LuaPi {
 		return 1;
 	}
 	static int Message(lua_State *l) {
-		const char *from = LuaString::PullFromLua();
-		const char *msg = LuaString::PullFromLua();
+		std::string from = LuaString::PullFromLua();
+		std::string msg = LuaString::PullFromLua();
 		Pi::cpan->MsgLog()->Message(from, msg);
 		return 0;
 	}
 	static int ImportantMessage(lua_State *l) {
-		const char *from = LuaString::PullFromLua();
-		const char *msg = LuaString::PullFromLua();
+		std::string from = LuaString::PullFromLua();
+		std::string msg = LuaString::PullFromLua();
 		Pi::cpan->MsgLog()->ImportantMessage(from, msg);
 		return 0;
 	}
@@ -398,7 +398,7 @@ namespace LuaPi {
 	}
 	static int SpawnShip(lua_State *l) {
 		double due = LuaFloat::PullFromLua();
-		const char *type = LuaString::PullFromLua();
+		std::string type = LuaString::PullFromLua();
 		int ret;
 		try {
 			ret = _spawn_ship(l, type, due, 0.0);

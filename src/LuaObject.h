@@ -238,9 +238,9 @@ namespace LuaString {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 		lua_pushstring(l, s);
 	}
-	inline const char *PullFromLua() {
+	inline std::string PullFromLua() {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
-		const char *s = luaL_checkstring(l, 1);
+		std::string s = luaL_checkstring(l, 1);
 		lua_remove(l, 1);
 		return s;
 	}
