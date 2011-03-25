@@ -51,6 +51,7 @@ sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
+LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];

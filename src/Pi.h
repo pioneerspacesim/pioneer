@@ -8,6 +8,7 @@
 #include "gameconsts.h"
 #include "Serializer.h"
 #include "IniConfig.h"
+#include "LuaEventQueue.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -95,6 +96,8 @@ public:
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 	static sigc::signal<void> onPlayerChangeEquipment;
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
+
+	static LuaEventQueue<StarSystem,Player> luaOnEnterSystem;
 
 	static MTRand rng;
 	static int statSceneTris;

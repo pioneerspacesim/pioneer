@@ -18,7 +18,6 @@
 #include "PiLuaModules.h"
 #include "Render.h"
 #include "WorldView.h"
-#include "LuaEventQueue.h"
 
 namespace Space {
 
@@ -37,12 +36,11 @@ static bool beingBuilt;
 
 
 
-static LuaEventQueue<StarSystem,Player> onEnterSystem("onEnterSystem");
 static void do_on_enter_system()
 {
 	beingBuilt = true;
-	onEnterSystem.Queue(Pi::currentSystem, Pi::player);
-	onEnterSystem.Emit();
+	Pi::luaOnEnterSystem.Queue(Pi::currentSystem, Pi::player);
+	Pi::luaOnEnterSystem.Emit();
 	beingBuilt = false;
 }
 
@@ -573,7 +571,7 @@ void TimeStep(float step)
 
 	Sfx::TimeStepAll(step, rootFrame);
 
-	PiLuaModules::EmitEvents();
+	Pi::luaOnEnterSystem.Emit();
 
 	PruneCorpses();
 }
