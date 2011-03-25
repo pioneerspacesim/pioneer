@@ -1,5 +1,6 @@
 #include "LuaManager.h"
 #include "LuaObject.h"
+#include "LuaEventQueue.h"
 #include "oolua/oolua.h"
 
 std::auto_ptr<LuaManager> LuaManager::s_instance;
@@ -16,6 +17,8 @@ LuaManager::LuaManager() : m_lua(NULL) {
 void LuaManager::Init()
 {
 	// initialise things that require the singleton
+	LuaSubObject<LuaEventQueueBase>::RegisterClass();
+
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
