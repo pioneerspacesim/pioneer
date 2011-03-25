@@ -25,6 +25,15 @@ LuaEventQueueBase::LuaEventQueueBase(const char *name) : m_name(name)
 	lua_rawset(l, -3);
 }
 
+LuaEventQueueBase::~LuaEventQueueBase()
+{
+	while (m_events.size()) {
+		LuaEventBase *e = m_events.front();
+		m_events.pop_front();
+		delete e;
+	}
+}
+
 void LuaEventQueueBase::Emit()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
@@ -43,6 +52,8 @@ void LuaEventQueueBase::Emit()
 		while (lua_next(l, -2) != 0)
 			InvokeLuaCallback(l, e, panic_idx);
 		lua_pop(l, 1);
+
+		delete e;
 	}
 
 	lua_pop(l, 3);

@@ -7,12 +7,16 @@
 
 #include <list>
 
-class LuaEventBase { };
+class LuaEventBase {
+public:
+	virtual ~LuaEventBase() {}
+};
 
 template <typename T0>
 class LuaEvent : public LuaEventBase {
 public:
 	LuaEvent(T0 *o) : m_arg0(o) { }
+	virtual ~LuaEvent() {}
 	
 	T0 *m_arg0;
 };
@@ -25,6 +29,7 @@ public:
 
 protected:
 	LuaEventQueueBase(const char *name);
+	virtual ~LuaEventQueueBase();
 
 	const char *m_name;
 
