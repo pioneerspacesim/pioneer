@@ -18,6 +18,7 @@
 #include "PiLuaModules.h"
 #include "Render.h"
 #include "WorldView.h"
+#include "LuaEventQueue.h"
 
 namespace Space {
 
@@ -34,11 +35,14 @@ static double hyperspaceEndTime;
 static std::list<HyperspaceCloud*> storedArrivalClouds;
 static bool beingBuilt;
 
+
+
+static LuaEventQueue<StarSystem,Player> onEnterSystem("onEnterSystem");
 static void do_on_enter_system()
 {
 	beingBuilt = true;
-	PiLuaModules::QueueEvent("onEnterSystem");
-	PiLuaModules::EmitEvents();
+	onEnterSystem.Queue(Pi::currentSystem, Pi::player);
+	onEnterSystem.Emit();
 	beingBuilt = false;
 }
 
