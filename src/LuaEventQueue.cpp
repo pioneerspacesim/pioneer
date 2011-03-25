@@ -49,8 +49,11 @@ void LuaEventQueueBase::Emit()
 		m_events.pop_front();
 
 		lua_pushnil(l);
-		while (lua_next(l, -2) != 0)
-			InvokeLuaCallback(l, e, panic_idx);
+		while (lua_next(l, -2) != 0) {
+			int top = lua_gettop(l);
+			PrepareLuaStack(l, e);
+			lua_pcall(l, lua_gettop(l) - top, 0, panic_idx);
+		}
 		lua_pop(l, 1);
 
 		delete e;
