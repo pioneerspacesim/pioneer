@@ -3,7 +3,7 @@
 #include "LuaObject.h"
 #include "mylua.h" // XXX for mylua_panic
 
-LuaEventQueueBase::LuaEventQueueBase(const char *name) : m_name(name)
+void LuaEventQueueBase::RegisterEventQueue()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -25,7 +25,7 @@ LuaEventQueueBase::LuaEventQueueBase(const char *name) : m_name(name)
 	lua_rawset(l, -3);
 }
 
-LuaEventQueueBase::~LuaEventQueueBase()
+void LuaEventQueueBase::ClearEvents()
 {
 	while (m_events.size()) {
 		LuaEventBase *e = m_events.front();

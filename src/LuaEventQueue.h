@@ -43,11 +43,13 @@ class LuaEventQueueBase : public DeleteEmitter {
 	friend class LuaSubObject<LuaEventQueueBase>;
 
 public:
+	void RegisterEventQueue();
+	void ClearEvents();
 	void Emit();
 
 protected:
-	LuaEventQueueBase(const char *name);
-	virtual ~LuaEventQueueBase();
+	LuaEventQueueBase(const char *name) : m_name(name) {}
+	virtual ~LuaEventQueueBase() { ClearEvents(); }
 
 	const char *m_name;
 
