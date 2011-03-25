@@ -307,6 +307,8 @@ void Init()
 		L = LuaManager::Instance()->GetLuaState();
 
 		Pi::luaOnEnterSystem.RegisterEventQueue();
+		Pi::luaOnShipKilled.RegisterEventQueue();
+		Pi::luaOnShipAttacked.RegisterEventQueue();
 
 		lua_register(L, "PiModule", register_module);
 
@@ -328,6 +330,8 @@ void Uninit()
 		s_isInitted = false;
 
 		Pi::luaOnEnterSystem.ClearEvents();
+		Pi::luaOnShipKilled.ClearEvents();
+		Pi::luaOnShipAttacked.ClearEvents();
 
 		LuaManager::Destroy();
 

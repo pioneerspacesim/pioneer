@@ -52,6 +52,8 @@ sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
+LuaEventQueue<Ship,Body> Pi::luaOnShipKilled("onShipKilled");
+LuaEventQueue<Ship,Body> Pi::luaOnShipAttacked("onShipAttacked");
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];

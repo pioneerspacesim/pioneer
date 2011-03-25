@@ -208,13 +208,13 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker && attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
-			PiLuaModules::QueueEvent("onShipKilled", static_cast<Object*>(this), static_cast<Object*>(attacker));
+			Pi::luaOnShipKilled.Queue(this, dynamic_cast<Body*>(attacker));
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);
 			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 		} else {
-			PiLuaModules::QueueEvent("onShipAttacked", static_cast<Object*>(this), static_cast<Object*>(attacker));
+			Pi::luaOnShipAttacked.Queue(this, dynamic_cast<Body*>(attacker));
 			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
 			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
 			

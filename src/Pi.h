@@ -98,6 +98,8 @@ public:
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
 	static LuaEventQueue<StarSystem,Player> luaOnEnterSystem;
+	static LuaEventQueue<Ship,Body> luaOnShipKilled;
+	static LuaEventQueue<Ship,Body> luaOnShipAttacked;
 
 	static MTRand rng;
 	static int statSceneTris;
