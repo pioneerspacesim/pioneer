@@ -6,8 +6,8 @@
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "PoliceChatForm.h"
-#include "PiLuaModules.h"
 #include "CommodityTradeWidget.h"
+#include "LuaObject.h"
 
 /*
 EXPORT_OOLUA_FUNCTIONS_10_NON_CONST(LuaChatForm,
@@ -175,3 +175,14 @@ void LuaChatForm::GotoPolice() {
 	Pi::spaceStationView->JumpTo(new PoliceChatForm());
 }
 */
+
+template <> const char *LuaSubObject<LuaChatForm>::s_type = "ChatForm";
+template <> const char *LuaSubObject<LuaChatForm>::s_inherit = NULL;
+
+template <> const luaL_reg LuaSubObject<LuaChatForm>::s_methods[] = {
+	{ 0, 0 }
+};
+
+template <> const luaL_reg LuaSubObject<LuaChatForm>::s_meta[] = {
+	{ 0, 0 }
+};

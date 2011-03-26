@@ -3,6 +3,8 @@
 #include "LuaEventQueue.h"
 #include "oolua/oolua.h"
 
+class LuaChatForm;
+
 std::auto_ptr<LuaManager> LuaManager::s_instance;
 
 LuaManager::LuaManager() : m_lua(NULL) {
@@ -27,6 +29,8 @@ void LuaManager::Init()
 	LuaPlayer::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSBodyPath::RegisterClass();
+
+	LuaSubObject<LuaChatForm>::RegisterClass();
 }
 
 LuaManager::~LuaManager() {

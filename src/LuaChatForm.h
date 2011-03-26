@@ -3,11 +3,12 @@
 
 #include "GenericChatForm.h"
 #include "MarketAgent.h"
+#include "DeleteEmitter.h"
 
 class BBAdvert;
 class CommodityTradeWidget;
 
-class LuaChatForm: public GenericChatForm, public MarketAgent {
+class LuaChatForm: public GenericChatForm, public MarketAgent, public DeleteEmitter {
 public:
 	virtual ~LuaChatForm();
 	void AddOption(const char *text, int val);
