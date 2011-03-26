@@ -86,7 +86,24 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		// advert has expired
 		Close();
 	} else {
-		//PiLuaModules::ModCall(m_modName.c_str(), "onChatBB", 0, this, optionClicked);
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+
+		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
+		assert(!lua_isnil(l, -1));
+
+		lua_pushinteger(l, m_modRef);
+		lua_gettable(l, -2);
+		assert(!lua_isnil(l, -1));
+
+		lua_getfield(l, -1, "onActivate");
+		assert(lua_isfunction(l, -1));
+
+		LuaSubObject<LuaChatForm>::PushToLua(this);
+		LuaInt::PushToLua(m_modRef);
+		LuaInt::PushToLua(optionClicked);
+		lua_call(l, 3, 0);
+
+		lua_pop(l, 2);
 	}
 }
 

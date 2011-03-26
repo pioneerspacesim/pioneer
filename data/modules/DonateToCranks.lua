@@ -16,7 +16,7 @@ local ads = {}
 local onActivate = function (dialog, ref, option)
 	local ad = ads[ref]
 
-	if not option then
+	if option == 0 then
 		dialog:clear();
 
 		dialog:set_title(ad.flavour.title)
@@ -42,12 +42,12 @@ local onActivate = function (dialog, ref, option)
 	if player:get_money() < option then
 		Pi.Message("", "You do not have enough money.")
 	else
-		if optionClicked >= 10000 then
+		if option >= 10000 then
 			Pi.Message("", "Wow! That was very generous.")
 		else
 			Pi.Message("", "Thank you. All donations are welcome.")
 		end
-		player:add_money(-optionClicked)
+		player:add_money(-option)
 		dialog:refresh()
 	end
 end
