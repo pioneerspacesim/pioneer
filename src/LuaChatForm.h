@@ -4,10 +4,6 @@
 #include "GenericChatForm.h"
 #include "MarketAgent.h"
 
-// only using for including lua headers...
-#include "oolua/oolua.h"
-#include "oolua/oolua_error.h"
-
 class BBAdvert;
 class CommodityTradeWidget;
 
@@ -47,6 +43,7 @@ private:
 	SpaceStation *m_station;
 };
 
+/*
 OOLUA_CLASS_NO_BASES(LuaChatForm)
 	OOLUA_NO_TYPEDEFS
 	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
@@ -63,5 +60,6 @@ OOLUA_CLASS_NO_BASES(LuaChatForm)
 	OOLUA_MEM_FUNC_0_CONST(const char *, GetStage)
 	OOLUA_MEM_FUNC_0_CONST(int, GetAdRef)
 OOLUA_CLASS_END
+*/
 
 #endif /* _LUACHATFORM_H */

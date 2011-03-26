@@ -526,7 +526,6 @@ void RegisterPiLuaAPI(lua_State *l)
 	LUA_DEBUG_START(l);
 	OOLUA::register_class<ObjectWrapper>(l);
 	OOLUA::register_class<Object>(l);
-	OOLUA::register_class<LuaChatForm>(l);
 	OOLUA::register_class<SoundEvent>(l);
 	OOLUA::register_class<Rand>(l);
 	

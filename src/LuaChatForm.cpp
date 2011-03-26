@@ -9,6 +9,7 @@
 #include "PiLuaModules.h"
 #include "CommodityTradeWidget.h"
 
+/*
 EXPORT_OOLUA_FUNCTIONS_10_NON_CONST(LuaChatForm,
 		UpdateBaseDisplay,
 		Close,
@@ -23,6 +24,7 @@ EXPORT_OOLUA_FUNCTIONS_10_NON_CONST(LuaChatForm,
 EXPORT_OOLUA_FUNCTIONS_2_CONST(LuaChatForm,
 		GetStage,
 		GetAdRef)
+*/
 
 LuaChatForm::~LuaChatForm()
 {
@@ -34,7 +36,7 @@ void LuaChatForm::OnAdvertDeleted()
 	m_advert = 0;
 	Clear();
 	SetMessage("Sorry, this advert has expired.");
-	AddOption("Hang up.", 0);
+	//AddOption("Hang up.", 0);
 }
 
 void LuaChatForm::StartChat(SpaceStation *s, const BBAdvert *a)
@@ -48,6 +50,7 @@ void LuaChatForm::StartChat(SpaceStation *s, const BBAdvert *a)
 	CallDialogHandler(0);
 }
 
+/*
 void LuaChatForm::AddTraderWidget()
 {
 	CommodityTradeWidget *w = new CommodityTradeWidget(this);
@@ -59,7 +62,9 @@ void LuaChatForm::AddTraderWidget()
 
 	m_commodityTradeWidget = w;
 }
+*/
 
+/*
 void LuaChatForm::AddOption(const char *text, int val)
 {
 	if (!hasOpts) {
@@ -75,6 +80,7 @@ void LuaChatForm::AddOption(const char *text, int val)
 	m_optregion->PackEnd(box);
 	ShowAll();
 }
+*/
 
 void LuaChatForm::CallDialogHandler(int optionClicked)
 {
@@ -82,16 +88,19 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		// advert has expired
 		Close();
 	} else {
-		PiLuaModules::ModCall(m_modName.c_str(), "onChatBB", 0, this, optionClicked);
+		//PiLuaModules::ModCall(m_modName.c_str(), "onChatBB", 0, this, optionClicked);
 	}
 }
 
 Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
+    /*
 	lua_State *l = PiLuaModules::GetLuaState();
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderGetPrice", 1, this, (int)t);
 	Sint64 price = (Sint64)(100.0*lua_tonumber(l, -1));
 	lua_pop(l, 1);
 	return price;
+    */
+    return 0;
 }
 
 bool LuaChatForm::CanBuy(Equip::Type t, bool verbose) const {
@@ -101,27 +110,34 @@ bool LuaChatForm::CanSell(Equip::Type t, bool verbose) const {
 	return (GetStock(t) > 0) && DoesSell(t);
 }
 bool LuaChatForm::DoesSell(Equip::Type t) const {
+    /*
 	lua_State *l = PiLuaModules::GetLuaState();
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderCanTrade", 1, this, (int)t);
 	bool can = lua_toboolean(l, -1) != 0;
 	lua_pop(l, 1);
 	return can;
+    */
+    return true;
 }
 int LuaChatForm::GetStock(Equip::Type t) const {
+    /*
 	lua_State *l = PiLuaModules::GetLuaState();
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderGetStock", 1, this, (int)t);
 	int stock = lua_tointeger(l, -1);
 	lua_pop(l, 1);
 	return stock;
+    */
+    return 0;
 }
 void LuaChatForm::Bought(Equip::Type t) {
-	PiLuaModules::ModCall(m_modName.c_str(), "TraderBought", 0, this, (int)t);
+	//PiLuaModules::ModCall(m_modName.c_str(), "TraderBought", 0, this, (int)t);
 }
 void LuaChatForm::Sold(Equip::Type t) {
-	PiLuaModules::ModCall(m_modName.c_str(), "TraderSold", 0, this, (int)t);
+	//PiLuaModules::ModCall(m_modName.c_str(), "TraderSold", 0, this, (int)t);
 }
 
 void LuaChatForm::OnClickBuy(int equipType) {
+    /*
 	lua_State *l = PiLuaModules::GetLuaState();
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderOnClickBuy", 1, this, equipType);
 
@@ -134,8 +150,10 @@ void LuaChatForm::OnClickBuy(int equipType) {
 		m_commodityTradeWidget->UpdateStock(equipType);
 		UpdateBaseDisplay();
 	}
+    */
 }
 void LuaChatForm::OnClickSell(int equipType) {
+    /*
 	lua_State *l = PiLuaModules::GetLuaState();
 
 	PiLuaModules::ModCall(m_modName.c_str(), "TraderOnClickSell", 1, this, equipType);
@@ -148,9 +166,12 @@ void LuaChatForm::OnClickSell(int equipType) {
 		m_commodityTradeWidget->UpdateStock(equipType);
 		UpdateBaseDisplay();
 	}
+    */
 }
 
+/*
 void LuaChatForm::GotoPolice() {
 	Close();
 	Pi::spaceStationView->JumpTo(new PoliceChatForm());
 }
+*/
