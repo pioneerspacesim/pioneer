@@ -64,8 +64,7 @@ void LuaChatForm::AddTraderWidget()
 }
 */
 
-/*
-void LuaChatForm::AddOption(const char *text, int val)
+void LuaChatForm::AddOption(std::string text, int val)
 {
 	if (!hasOpts) {
 		hasOpts = true;
@@ -80,7 +79,6 @@ void LuaChatForm::AddOption(const char *text, int val)
 	m_optregion->PackEnd(box);
 	ShowAll();
 }
-*/
 
 void LuaChatForm::CallDialogHandler(int optionClicked)
 {
@@ -176,10 +174,62 @@ void LuaChatForm::GotoPolice() {
 }
 */
 
+static int l_luachatform_clear(lua_State *s)
+{
+	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	dialog->Clear();
+	return 0;
+}
+
+static int l_luachatform_set_title(lua_State *s)
+{
+	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	std::string title = LuaString::PullFromLua();
+	dialog->SetTitle(title.c_str());
+	return 0;
+}
+
+static int l_luachatform_set_message(lua_State *s)
+{
+	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	std::string message = LuaString::PullFromLua();
+	dialog->SetMessage(message.c_str());
+	return 0;
+}
+
+static int l_luachatform_add_option(lua_State *s)
+{
+	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	std::string text = LuaString::PullFromLua();
+	int val = LuaInt::PullFromLua();
+	dialog->AddOption(text, val);
+	return 0;
+}
+
+static int l_luachatform_close(lua_State *s)
+{
+	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	dialog->Close();
+	return 0;
+}
+
+static int l_luachatform_refresh(lua_State *s)
+{
+	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	dialog->UpdateBaseDisplay();
+	return 0;
+}
+
 template <> const char *LuaSubObject<LuaChatForm>::s_type = "ChatForm";
 template <> const char *LuaSubObject<LuaChatForm>::s_inherit = NULL;
 
 template <> const luaL_reg LuaSubObject<LuaChatForm>::s_methods[] = {
+	{ "clear",       l_luachatform_clear       },
+	{ "set_title",   l_luachatform_set_title   },
+	{ "set_message", l_luachatform_set_message },
+	{ "add_option",  l_luachatform_add_option  },
+	{ "close",       l_luachatform_close       },
+	{ "refresh",     l_luachatform_refresh     },
 	{ 0, 0 }
 };
 

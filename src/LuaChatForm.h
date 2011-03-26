@@ -11,7 +11,7 @@ class CommodityTradeWidget;
 class LuaChatForm: public GenericChatForm, public MarketAgent, public DeleteEmitter {
 public:
 	virtual ~LuaChatForm();
-	void AddOption(const char *text, int val);
+	void AddOption(std::string text, int val);
 	void AddTraderWidget();
 	void StartChat(SpaceStation *s, const BBAdvert *);
 	void CallDialogHandler(int optionClicked);
