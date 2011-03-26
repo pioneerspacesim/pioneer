@@ -388,10 +388,10 @@ void SpaceStation::UpdateBB()
 {
 	if (m_bbadverts.size() == 0) {
 		if (Pi::player->GetDockedWith() == this) {
-			PiLuaModules::QueueEvent("onCreateBB", this);
+			Pi::luaOnCreateBB.Queue(this);
 		}
 	} else {
-		PiLuaModules::QueueEvent("onUpdateBB", this);
+		Pi::luaOnUpdateBB.Queue(this);
 	}
 }
 
@@ -458,7 +458,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 				// set docked
 				// XXX have a general onDock event instead
 				if (dt.ship == Pi::player)
-					PiLuaModules::QueueEvent("onPlayerDock", this);
+					Pi::luaOnPlayerDocked.Queue(this, Pi::player);
 				dt.ship->SetDockedWith(this, i);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -772,7 +772,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 				} else {
 					// XXX have a general onDock event instead
 					if (s == Pi::player)
-						PiLuaModules::QueueEvent("onPlayerDock", this);
+						Pi::luaOnPlayerDocked.Queue(this, Pi::player);
 					s->SetDockedWith(this, port);
 				}
 			}

@@ -309,6 +309,9 @@ void Init()
 		Pi::luaOnEnterSystem.RegisterEventQueue();
 		Pi::luaOnShipKilled.RegisterEventQueue();
 		Pi::luaOnShipAttacked.RegisterEventQueue();
+		Pi::luaOnPlayerDocked.RegisterEventQueue();
+		Pi::luaOnCreateBB.RegisterEventQueue();
+		Pi::luaOnUpdateBB.RegisterEventQueue();
 
 		lua_register(L, "PiModule", register_module);
 

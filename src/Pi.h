@@ -100,6 +100,9 @@ public:
 	static LuaEventQueue<StarSystem,Player> luaOnEnterSystem;
 	static LuaEventQueue<Ship,Body> luaOnShipKilled;
 	static LuaEventQueue<Ship,Body> luaOnShipAttacked;
+	static LuaEventQueue<SpaceStation,Player> luaOnPlayerDocked;
+	static LuaEventQueue<SpaceStation> luaOnCreateBB;
+	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
 
 	static MTRand rng;
 	static int statSceneTris;
