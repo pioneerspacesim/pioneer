@@ -1,31 +1,71 @@
 local crank_flavours = {
 	{
-		bbmsg = "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god.",
-		dlgmsg = "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster.\n",
+		title = "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god.",
+		message = "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster.\n",
 	},{
-		bbmsg = "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries.",
-		dlgmsg = "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit.\n",
+		title = "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries.",
+		message = "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit.\n",
 	},{
-		bbmsg = "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
-		dlgmsg = "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.\n"
+		title = "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
+		message = "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.\n"
 	}
 }
 
 local ads = {}
 
-local onCreateBB = function (station)
-	local t = Pi.rand:Int(1, #crank_flavours)
-	table.insert(ads, {id=#ads+1, bb=station, flavour=t})
-	station:add_advert("DonateToCranks", #ads, crank_flavours[t].bbmsg)
+local onActivate = function (dialog, ref, option)
+	local ad = ads[ref]
 
-	t = Pi.rand:Int(1, #crank_flavours)
-	table.insert(ads, {id=#ads+1, bb=station, flavour=t})
-	station:add_advert("DonateToCranks", #ads, crank_flavours[t].bbmsg)
+	if not option then
+		dialog:clear();
+
+		dialog:set_title(ad.flavour.title)
+		dialog:set_message(ad.flavour.message)
+
+		dialog:add_option("$1", 1);
+		dialog:add_option("$10", 10);
+		dialog:add_option("$100", 100);
+		dialog:add_option("$1000", 1000);
+		dialog:add_option("$10000", 10000);
+		dialog:add_option("$100000", 100000);
+		dialog:add_option("Hang up.", -1);
+
+		return
+	end
+
+	if option == -1 then
+		dialog:close()
+		return
+	end
+
+	local player = Pi.GetPlayer()
+	if player:get_money() < option then
+		Pi.Message("", "You do not have enough money.")
+	else
+		if optionClicked >= 10000 then
+			Pi.Message("", "Wow! That was very generous.")
+		else
+			Pi.Message("", "Thank you. All donations are welcome.")
+		end
+		player:add_money(-optionClicked)
+		dialog:refresh()
+	end
 end
 
-local onUpdateBB = function (station)
-	-- insert or delete new ads at random
-	--print("Updating bb adverts for " .. args[1]:GetLabel())
+local onDelete = function (ref)
+	ads[ref] = nil
+end
+
+local onCreateBB = function (station)
+	local n = Pi.rand:Int(1, #crank_flavours)
+	local ad = {
+		id      = #ads+1,
+		station = station,
+		flavour = crank_flavours[n],
+	}
+
+	local ref = station:add_advert(ad.flavour.title, onActivate, onDelete)
+	ads[ref] = ad;
 end
 
 Module:new {
@@ -33,41 +73,6 @@ Module:new {
 	
 	Init = function(self)
 		EventQueue.onCreateBB:connect(onCreateBB)
-		EventQueue.onUpdateBB:connect(onUpdateBB)
-	end,
-
-	onChatBB = function(self, dialog, optionClicked)
-		local ad_ref = dialog:GetAdRef()
-		local t = ads[ad_ref].flavour
-
-		if optionClicked == 0 then
-			dialog:Clear()
-			print("dialog stage is " .. dialog:GetStage())
-			--dialog:SetTitle(crank_flavours[t].bbmsg)
-			dialog:SetMessage(crank_flavours[t].dlgmsg)
-			dialog:AddOption("$1", 1);
-			dialog:AddOption("$10", 10);
-			dialog:AddOption("$100", 100);
-			dialog:AddOption("$1000", 1000);
-			dialog:AddOption("$10000", 10000);
-			dialog:AddOption("$100000", 100000);
-			dialog:AddOption("Hang up.", -1);
-		elseif optionClicked == -1 then
-			dialog:Close()
-		else
-			local player = Pi.GetPlayer()
-			if player:get_money() < optionClicked then
-				Pi.Message("", "You do not have enough money.")
-			else
-				if optionClicked > 10000 then
-					Pi.Message("", "Wow! That was very generous.")
-				else
-					Pi.Message("", "Thank you. All donations are welcome.")
-				end
-				player:add_money(-optionClicked)
-				dialog:UpdateBaseDisplay()
-			end
-		end
 	end,
 }
 
