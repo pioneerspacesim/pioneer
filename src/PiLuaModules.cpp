@@ -22,9 +22,7 @@ namespace PiLuaModules {
 
 static lua_State *L;
 static std::list<std::string> s_modules;
-static std::map<std::string, std::set<std::string> > s_eventListeners;
 static bool s_isInitted = false;
-static bool s_eventsPending = false;
 
 lua_State *GetLuaState() { return L; }
 
@@ -34,88 +32,6 @@ void UpdateOncePerRealtimeSecond()
 	lua_pushcfunction(L, mylua_panic);
 	lua_getglobal(L, "UpdateOncePerRealtimeSecond");
 	lua_pcall(L, 0, 0, -2);
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
-}
-
-void EmitEvents()
-{
-	if (s_eventsPending) {
-		LUA_DEBUG_START(L)
-		lua_pushcfunction(L, mylua_panic);
-		lua_getglobal(L, "EmitEvents");
-		lua_pcall(L, 0, 0, -2);
-		lua_pop(L, 1);
-		LUA_DEBUG_END(L, 0)
-		s_eventsPending = false;
-	}
-}
-
-void QueueEvent(const char *eventName)
-{
-	LUA_DEBUG_START(L)
-	s_eventsPending = true;
-	lua_getglobal(L, "__pendingEvents");
-	size_t len = lua_objlen (L, -1);
-	lua_pushinteger(L, len+1);
-	
-	// create event: { type=>eventName, 1=>o1,2=>o2 }
-	lua_createtable (L, 2, 1);
-	lua_pushstring(L, eventName);
-	lua_setfield(L, -2, "type");
-
-	// insert event into __pendingEvents
-	lua_settable(L, -3);
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
-}
-
-void QueueEvent(const char *eventName, Object *o1)
-{
-	LUA_DEBUG_START(L)
-	s_eventsPending = true;
-	lua_getglobal(L, "__pendingEvents");
-	size_t len = lua_objlen (L, -1);
-	lua_pushinteger(L, len+1);
-	
-	// create event: { type=>eventName, 1=>o1,2=>o2 }
-	lua_createtable (L, 2, 1);
-	lua_pushstring(L, eventName);
-	lua_setfield(L, -2, "type");
-
-	lua_pushinteger(L, 1);
-	OOLUA::push2lua(L, o1);
-	lua_settable(L, -3);
-	
-	// insert event into __pendingEvents
-	lua_settable(L, -3);
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
-}
-
-void QueueEvent(const char *eventName, Object *o1, Object *o2)
-{
-	LUA_DEBUG_START(L)
-	s_eventsPending = true;
-	lua_getglobal(L, "__pendingEvents");
-	size_t len = lua_objlen (L, -1);
-	lua_pushinteger(L, len+1);
-	
-	// create event: { type=>eventName, 1=>o1,2=>o2 }
-	lua_createtable (L, 2, 1);
-	lua_pushstring(L, eventName);
-	lua_setfield(L, -2, "type");
-
-	lua_pushinteger(L, 1);
-	OOLUA::push2lua(L, o1);
-	lua_settable(L, -3);
-	
-	lua_pushinteger(L, 2);
-	OOLUA::push2lua(L, o2);
-	lua_settable(L, -3);
-	
-	// insert event into __pendingEvents
-	lua_settable(L, -3);
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0)
 }
@@ -238,11 +154,6 @@ void Unserialize(Serializer::Reader &rd)
 	}
 }
 
-static void mods_event_dispatcher(const char *event)
-{
-	QueueEvent(event);
-}
-
 static int register_module(lua_State * const L)
 {
 	if (!lua_istable(L, 1)) {
@@ -323,7 +234,6 @@ void Init()
 		DoAllLuaModuleFiles(L);
 
 		ModsInitAll();
-		Pi::onPlayerChangeTarget.connect(sigc::bind(sigc::ptr_fun(&mods_event_dispatcher), "onPlayerChangeTarget"));
 	}
 }
 
@@ -339,7 +249,6 @@ void Uninit()
 		LuaManager::Destroy();
 
 		s_modules.clear();
-		s_eventListeners.clear();
 	}
 }
 

@@ -1,52 +1,3 @@
-
--- Rename some wrapped classes
-Object = ObjectWrapper
-StarSystem = SysLoc
-
--- A 'fake module' to dispatch object events to modules that only care
--- about the event for a particular object (like listening for ship X being attacked)
-ObjectEventDispatcher = {
-	__onShipAttackedListeners = {},
-	__onShipKilledListeners = {},
-	onShipAttacked = function(self, args)
-		local listeners = self.__onShipAttackedListeners[args[1]]
-		if listeners ~= nil then
-			for mod,j in pairs(listeners) do
-				local m = _G[mod]
-				m[j](m, args)
-			end
-		end
-	end,
-	onShipKilled = function(self, args)
-		local listeners = self.__onShipKilledListeners[args[1]]
-		if listeners ~= nil then
-			for mod,j in pairs(listeners) do
-				local m = _G[mod]
-				m[j](m, args)
-			end
-		end
-	end,
-}
-
-Object.OnShipAttacked = function(ship, mod, methodName)
-	if methodName == nil then
-		ObjectEventDispatcher.__onShipAttackedListeners[ship][mod.__name] = nil
-	else
-		ObjectEventDispatcher.__onShipAttackedListeners[ship] = 
-			ObjectEventDispatcher.__onShipAttackedListeners[ship] or {}
-		ObjectEventDispatcher.__onShipAttackedListeners[ship][mod.__name] = methodName
-	end
-end
-Object.OnShipKilled = function(ship, mod, methodName)
-	if methodName == nil then
-		ObjectEventDispatcher.__onShipKilledListeners[ship][mod.__name] = nil
-	else
-		ObjectEventDispatcher.__onShipKilledListeners[ship] = 
-			ObjectEventDispatcher.__onShipKilledListeners[ship] or {}
-		ObjectEventDispatcher.__onShipKilledListeners[ship][mod.__name] = methodName
-	end
-end
-
 -- other jizz
 
 Pi.rand = Rand:new(os.time())
@@ -71,26 +22,6 @@ Pi.RandomShipRegId = function()
 end
  
 -- Bits that make modules work ---------------------------
-
--- Start with the 'fake module' ObjectEventDispatcher listening for some events
-__pendingEvents = {}
-__eventListeners = {
-	onShipAttacked = {ObjectEventDispatcher=true},
-	onShipKilled = {ObjectEventDispatcher=true}
-}
-
-function EmitEvents()
-	for i,event in ipairs(__pendingEvents) do
-		local mods = __eventListeners[event.type]
-		if mods then
-			for mod,j in pairs(mods) do
-				local m = _G[mod]
-				m[event.type](m, event)
-			end
-		end
-	end
-	__pendingEvents = {}
-end
 
 __piTimers = {}
 
@@ -185,16 +116,6 @@ function Module:new(o)
 	self.__index = self
 	PiModule(o)
 	return o
-end
-function Module:EventListen(event)
-	if __eventListeners[event] == nil then
-		__eventListeners[event] = {}
-	end
-	__eventListeners[event][self.__name] = true
-end
-
-function Module:EventIgnore(event)
-	__eventListeners[event][self.__name] = nil
 end
 
 function Module:Serialize()
