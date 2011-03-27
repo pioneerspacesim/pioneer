@@ -1,7 +1,6 @@
 #include "LuaEventQueue.h"
 #include "LuaManager.h"
 #include "LuaObject.h"
-#include "mylua.h" // XXX for mylua_panic
 
 void LuaEventQueueBase::RegisterEventQueue()
 {
@@ -38,9 +37,6 @@ void LuaEventQueueBase::Emit()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	lua_pushcfunction(l, mylua_panic);
-	int panic_idx = lua_gettop(l);
-
 	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
 	lua_getfield(l, -1, stringf(256, "_%s_callbacks", m_name).c_str());
 
@@ -52,14 +48,14 @@ void LuaEventQueueBase::Emit()
 		while (lua_next(l, -2) != 0) {
 			int top = lua_gettop(l);
 			PrepareLuaStack(l, e);
-			lua_pcall(l, lua_gettop(l) - top, 0, panic_idx);
+			lua_call(l, lua_gettop(l) - top, 0);
 		}
 		lua_pop(l, 1);
 
 		delete e;
 	}
 
-	lua_pop(l, 3);
+	lua_pop(l, 2);
 }
 
 int LuaEventQueueBase::l_connect(lua_State *l)
