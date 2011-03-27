@@ -49,23 +49,4 @@ private:
 	static int l_luachatform_add_goods_trader(lua_State *l);
 };
 
-/*
-OOLUA_CLASS_NO_BASES(LuaChatForm)
-	OOLUA_NO_TYPEDEFS
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-	OOLUA_MEM_FUNC_0(void, UpdateBaseDisplay)
-	OOLUA_MEM_FUNC_0(void, Close)
-	OOLUA_MEM_FUNC_0(void, Clear)
-	OOLUA_MEM_FUNC_0(void, GotoPolice)
-	OOLUA_MEM_FUNC_0(void, RemoveAdvertOnClose)
-	OOLUA_MEM_FUNC_1(void, SetTitle, const char *)
-	OOLUA_MEM_FUNC_0(void, AddTraderWidget)
-	OOLUA_MEM_FUNC_1(void, SetMessage, const char *)
-	OOLUA_MEM_FUNC_2(void, AddOption, const char *, int)
-	OOLUA_MEM_FUNC_1(void, SetStage, const char *)
-	OOLUA_MEM_FUNC_0_CONST(const char *, GetStage)
-	OOLUA_MEM_FUNC_0_CONST(int, GetAdRef)
-OOLUA_CLASS_END
-*/
-
 #endif /* _LUACHATFORM_H */

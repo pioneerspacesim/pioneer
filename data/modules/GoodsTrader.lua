@@ -17,65 +17,73 @@ local onActivate = function (dialog, ref, option)
 		return
 	end
 
+    local sys = Pi.GetCurrentSystem()
+
 	ad.stock = {}
 	ad.price = {}
-	--[[
 	for e = Equip.FIRST_COMMODITY, Equip.LAST_COMMODITY do
-		if not Pi.GetCurrentSystem():IsCommodityLegal(e) then
+		if not sys:is_commodity_legal(e) then
 			ad.stock[e] = Pi.rand:Int(1,50)
 			-- going rate on the black market will be twice normal
-			ad.price[e] = 2*ad.bb:GetEquipmentPrice(e)
+			ad.price[e] = ad.station:get_equipment_price(e) * 2
 		end
 	end
-	]]
-	--	ad.stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
-	--	ad.price = {[Equip.WATER]=120, [Equip.HYDROGEN]=130, [Equip.NERVE_GAS]=1000}
+	--ad.stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
+	--ad.price = {[Equip.WATER]=120, [Equip.HYDROGEN]=130, [Equip.NERVE_GAS]=1000}
 
 	dialog:clear()
 	dialog:set_title(ad.flavour)
 	dialog:set_message("Welcome to "..ad.flavour)
 
+	local onClick = function (ref)
+		if not ads[ref].ispolice then
+			return true
+		end
+
+		local lawlessness = Pi:GetCurrentSystem():get_lawlessness()
+		Pi.AddPlayerCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
+		dialog:goto_police()
+		return false
+	end
+	
 	dialog:add_goods_trader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)
-			print("can trade "..commodity)
-			return true
+			if ads[ref].stock[commodity] ~= nil then
+				return true
+			end
 		end,
 
 		-- how much of this commodity do we have in stock?
 		getStock = function (ref, commodity)
-			print("get stock "..commodity)
-			return 0
+			return ads[ref].stock[commodity]
 		end,
 
 		-- what do we charge for this commodity?
 		getPrice = function (ref, commodity)
-			print("get price "..commodity)
-			return 0
+			return ads[ref].price[commodity]
 		end,
 
 		-- do something when a "buy" button is clicked
 		onClickBuy = function (ref, commodity)
-			print("buy "..commodity.." clicked")
 			-- allow purchase to proceed
-			return true
+			return onClick(ref)
 		end,
 
 		-- do something when a "buy" button is clicked
 		onClickSell = function (ref, commodity)
-			print("sell "..commodity.." clicked")
 			-- allow sale to proceed
-			return true
+			return onClick(ref)
 		end,
 
 		-- do something when we buy this commodity
 		bought = function (ref, commodity)
-			print("bought "..commodity)
+            ads[ref].stock[commodity] = ads[ref].stock[commodity] + 1
 		end,
 
 		-- do something when we sell this commodity
 		sold = function (ref, commodity)
-			print("sold "..commodity)
+            ads[ref].stock[commodity] = ads[ref].stock[commodity] - 1
 		end,
 	})
 
@@ -116,54 +124,3 @@ Module:new {
 		EventQueue.onCreateBB:connect(onCreateBB)
 	end,
 }
-
---[[
-	onCreateBB = function(self, args)
-	end,
-
-	onChatBB = function(self, dialog, optionClicked)
-	end,
-
-	TraderGetStock = function(self, dialog, comType)
-		return self.ads[ dialog:GetAdRef() ].stock[comType]
-	end,
-
-	TraderGetPrice = function(self, dialog, comType)
-		return self.ads[ dialog:GetAdRef() ].price[comType]
-	end,
-
-	TraderBought = function(self, dialog, comType)
-		local stock = self.ads[ dialog:GetAdRef() ].stock
-		stock[comType] = stock[comType] + 1
-	end,
-
-	TraderSold = function(self, dialog, comType)
-		local stock = self.ads[ dialog:GetAdRef() ].stock
-		stock[comType] = stock[comType] - 1
-	end,
-
-	TraderCanTrade = function(self, dialog, comType)
-		if self.ads[ dialog:GetAdRef() ].stock[comType] ~= nil then
-			return true
-		end
-	end,
-
-	_WhenTradeHappens = function(self, dialog, comType)
-		if self.ads[dialog:GetAdRef()].ispolice == true then
-			local lawlessness = Pi:GetCurrentSystem():GetSystemLawlessness()
-			Pi.AddPlayerCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
-			dialog:GotoPolice()
-			return false
-		else
-			return true
-		end
-	end,
-
-	TraderOnClickSell = function(self, dialog, comType)
-		return self:_WhenTradeHappens(dialog, comType)
-	end,
-	TraderOnClickBuy = function(self, dialog, comType)
-		return self:_WhenTradeHappens(dialog, comType)
-	end,
-}
-]]

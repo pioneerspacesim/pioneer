@@ -94,16 +94,25 @@ static int l_starsystem_get_body(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_is_commodity_legal(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::PullFromLua();
+	Equip::Type t = static_cast<Equip::Type>(LuaInt::PullFromLua());
+	LuaBool::PushToLua(Polit::IsCommodityLegal(s, t));
+	return 1;
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 template <> const char *LuaObject<StarSystem>::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<StarSystem>::s_methods[] = {
-	{ "get_name",                             l_starsystem_get_name },
-	{ "get_lawlessness",                      l_starsystem_get_lawlessness },
-	{ "get_population",                       l_starsystem_get_population },
+	{ "get_name",                             l_starsystem_get_name                             },
+	{ "get_lawlessness",                      l_starsystem_get_lawlessness                      },
+	{ "get_population",                       l_starsystem_get_population                       },
 	{ "get_commodity_base_price_alterations", l_starsystem_get_commodity_base_price_alterations },
-	{ "get_random_starport",                  l_starsystem_get_random_starport },
-	{ "get_body",                             l_starsystem_get_body },
+	{ "get_random_starport",                  l_starsystem_get_random_starport                  },
+	{ "get_body",                             l_starsystem_get_body                             },
+	{ "is_commodity_legal",                   l_starsystem_is_commodity_legal                   },
 	{ 0, 0 }
 };
 

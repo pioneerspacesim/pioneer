@@ -9,23 +9,6 @@
 #include "CommodityTradeWidget.h"
 #include "LuaObject.h"
 
-/*
-EXPORT_OOLUA_FUNCTIONS_10_NON_CONST(LuaChatForm,
-		UpdateBaseDisplay,
-		Close,
-		Clear,
-		GotoPolice,
-		SetTitle,
-		SetMessage,
-		AddOption,
-		AddTraderWidget,
-		RemoveAdvertOnClose,
-		SetStage)
-EXPORT_OOLUA_FUNCTIONS_2_CONST(LuaChatForm,
-		GetStage,
-		GetAdRef)
-*/
-
 LuaChatForm::~LuaChatForm()
 {
 	if (m_adTaken) m_station->BBRemoveAdvert(m_modName, m_modRef);
@@ -49,20 +32,6 @@ void LuaChatForm::StartChat(SpaceStation *s, const BBAdvert *a)
 	m_stage = "";
 	CallDialogHandler(0);
 }
-
-/*
-void LuaChatForm::AddTraderWidget()
-{
-	CommodityTradeWidget *w = new CommodityTradeWidget(this);
-	w->onClickBuy.connect(sigc::mem_fun(this, &LuaChatForm::OnClickBuy));
-	w->onClickSell.connect(sigc::mem_fun(this, &LuaChatForm::OnClickSell));
-	Gui::Fixed *f = new Gui::Fixed(400.0, 200.0);
-	f->Add(w, 0, 0);
-	m_msgregion->PackEnd(f);
-
-	m_commodityTradeWidget = w;
-}
-*/
 
 void LuaChatForm::AddOption(std::string text, int val)
 {
@@ -130,17 +99,6 @@ static inline void _get_trade_function(lua_State *l, int ref, const char *name)
 	LUA_DEBUG_END(l, 1)
 }
 
-Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
-    /*
-	lua_State *l = PiLuaModules::GetLuaState();
-	PiLuaModules::ModCall(m_modName.c_str(), "TraderGetPrice", 1, this, (int)t);
-	Sint64 price = (Sint64)(100.0*lua_tonumber(l, -1));
-	lua_pop(l, 1);
-	return price;
-    */
-    return 0;
-}
-
 bool LuaChatForm::CanBuy(Equip::Type t, bool verbose) const {
 	return DoesSell(t);
 }
@@ -165,71 +123,131 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 
 	return can_trade;
 }
+
 int LuaChatForm::GetStock(Equip::Type t) const {
-    /*
-	lua_State *l = PiLuaModules::GetLuaState();
-	PiLuaModules::ModCall(m_modName.c_str(), "TraderGetStock", 1, this, (int)t);
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	_get_trade_function(l, m_modRef, "getStock");
+
+	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(static_cast<int>(t));
+	lua_call(l, 2, 1);
+
 	int stock = lua_tointeger(l, -1);
 	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
 	return stock;
-    */
-    return 0;
 }
+
+Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	_get_trade_function(l, m_modRef, "getPrice");
+
+	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(static_cast<int>(t));
+	lua_call(l, 2, 1);
+
+	Sint64 price = (Sint64)(lua_tonumber(l, -1) * 100.0);
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
+	return price;
+}
+
+void LuaChatForm::OnClickBuy(int t) {
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	_get_trade_function(l, m_modRef, "onClickBuy");
+
+	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(t);
+	lua_call(l, 2, 1);
+
+	bool allow_buy = lua_toboolean(l, -1) != 0;
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
+	if (allow_buy) {
+		if (SellTo(Pi::player, static_cast<Equip::Type>(t), true)) {
+			Pi::Message(stringf(512, "You have bought 1t of %s.", EquipType::types[t].name));
+		}
+		m_commodityTradeWidget->UpdateStock(t);
+		UpdateBaseDisplay();
+	}
+}
+
+void LuaChatForm::OnClickSell(int t) {
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	_get_trade_function(l, m_modRef, "onClickSell");
+
+	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(t);
+	lua_call(l, 2, 1);
+
+	bool allow_sell = lua_toboolean(l, -1) != 0;
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
+	if (allow_sell) {
+		if (BuyFrom(Pi::player, static_cast<Equip::Type>(t), true)) {
+			Pi::Message(stringf(512, "You have sold 1t of %s.", EquipType::types[t].name));
+		}
+		m_commodityTradeWidget->UpdateStock(t);
+		UpdateBaseDisplay();
+	}
+}
+
 void LuaChatForm::Bought(Equip::Type t) {
-	//PiLuaModules::ModCall(m_modName.c_str(), "TraderBought", 0, this, (int)t);
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	_get_trade_function(l, m_modRef, "bought");
+
+	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(t);
+	lua_call(l, 2, 0);
+
+	LUA_DEBUG_END(l, 0);
 }
+
 void LuaChatForm::Sold(Equip::Type t) {
-	//PiLuaModules::ModCall(m_modName.c_str(), "TraderSold", 0, this, (int)t);
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	_get_trade_function(l, m_modRef, "sold");
+
+	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(t);
+	lua_call(l, 2, 0);
+
+	LUA_DEBUG_END(l, 0);
 }
 
-void LuaChatForm::OnClickBuy(int equipType) {
-    /*
-	lua_State *l = PiLuaModules::GetLuaState();
-	PiLuaModules::ModCall(m_modName.c_str(), "TraderOnClickBuy", 1, this, equipType);
-
-	bool doBuy = lua_toboolean(l, -1) != 0;
-	lua_pop(l, 1);
-	if (doBuy) {
-		if (SellTo(Pi::player, (Equip::Type)equipType, true)) {
-			Pi::Message(stringf(512, "You have bought 1t of %s.", EquipType::types[equipType].name));
-		}
-		m_commodityTradeWidget->UpdateStock(equipType);
-		UpdateBaseDisplay();
-	}
-    */
-}
-void LuaChatForm::OnClickSell(int equipType) {
-    /*
-	lua_State *l = PiLuaModules::GetLuaState();
-
-	PiLuaModules::ModCall(m_modName.c_str(), "TraderOnClickSell", 1, this, equipType);
-	bool doSell = lua_toboolean(l, -1) != 0;
-	lua_pop(l, 1);
-	if (doSell) {
-		if (BuyFrom(Pi::player, (Equip::Type)equipType, true)) {
-			Pi::Message(stringf(512, "You have sold 1t of %s.", EquipType::types[equipType].name));
-		}
-		m_commodityTradeWidget->UpdateStock(equipType);
-		UpdateBaseDisplay();
-	}
-    */
-}
-
-/*
-void LuaChatForm::GotoPolice() {
-	Close();
-	Pi::spaceStationView->JumpTo(new PoliceChatForm());
-}
-*/
-
-static int l_luachatform_clear(lua_State *s)
+static int l_luachatform_clear(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	dialog->Clear();
 	return 0;
 }
 
-static int l_luachatform_set_title(lua_State *s)
+static int l_luachatform_set_title(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	std::string title = LuaString::PullFromLua();
@@ -237,7 +255,7 @@ static int l_luachatform_set_title(lua_State *s)
 	return 0;
 }
 
-static int l_luachatform_set_message(lua_State *s)
+static int l_luachatform_set_message(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	std::string message = LuaString::PullFromLua();
@@ -245,7 +263,7 @@ static int l_luachatform_set_message(lua_State *s)
 	return 0;
 }
 
-static int l_luachatform_add_option(lua_State *s)
+static int l_luachatform_add_option(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	std::string text = LuaString::PullFromLua();
@@ -325,17 +343,25 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	return 0;
 }
 
-static int l_luachatform_close(lua_State *s)
+static int l_luachatform_close(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	dialog->Close();
 	return 0;
 }
 
-static int l_luachatform_refresh(lua_State *s)
+static int l_luachatform_refresh(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	dialog->UpdateBaseDisplay();
+	return 0;
+}
+
+static int l_luachatform_goto_police(lua_State *l)
+{
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
+	dialog->Close();
+	Pi::spaceStationView->JumpTo(new PoliceChatForm());
 	return 0;
 }
 
@@ -350,6 +376,7 @@ template <> const luaL_reg LuaObject<LuaChatForm>::s_methods[] = {
 	{ "add_goods_trader", LuaChatForm::l_luachatform_add_goods_trader },
 	{ "close",            l_luachatform_close                         },
 	{ "refresh",          l_luachatform_refresh                       },
+	{ "goto_police",      l_luachatform_goto_police                   },
 	{ 0, 0 }
 };
 
