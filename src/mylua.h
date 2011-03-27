@@ -11,7 +11,13 @@
 
 #ifdef DEBUG
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr);
-# define LUA_DEBUG_END(luaptr, expectedStackDiff) assert(__luaStartStackDepth == (lua_gettop(luaptr)-expectedStackDiff));
+# define LUA_DEBUG_END(luaptr, expectedStackDiff) \
+	const int __luaEndStackDepth = lua_gettop(luaptr); \
+	if ( __luaEndStackDepth-expectedStackDiff != __luaStartStackDepth) { \
+		fprintf(stderr, "%s:%d: lua stack difference is %d, expected %d\n", \
+			__FILE__, __LINE__, __luaEndStackDepth-__luaStartStackDepth, expectedStackDiff); \
+		abort(); \
+	}
 #else
 # define LUA_DEBUG_START(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff)
