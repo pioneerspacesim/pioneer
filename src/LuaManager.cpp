@@ -1,6 +1,7 @@
 #include "LuaManager.h"
 #include "LuaObject.h"
 #include "LuaEventQueue.h"
+#include "PiLuaConstants.h"
 #include "oolua/oolua.h"
 #include "mylua.h"
 
@@ -22,6 +23,8 @@ LuaManager::LuaManager() : m_lua(NULL) {
 void LuaManager::Init()
 {
 	// initialise things that require the singleton
+    PiLuaConstants::RegisterConstants(m_lua);
+
 	LuaObject<LuaEventQueueBase>::RegisterClass();
 
 	LuaBody::RegisterClass();
