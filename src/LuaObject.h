@@ -272,6 +272,20 @@ namespace LuaInt {
 	}
 };
 
+namespace LuaBool {
+	inline void PushToLua(bool b) {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+		lua_pushboolean(l, b);
+	}
+	inline int PullFromLua() {
+		lua_State *l = LuaManager::Instance()->GetLuaState();
+        if (!lua_isboolean(l, 1))
+            luaL_typerror(l, 1, lua_typename(l, LUA_TBOOLEAN));
+        bool b = lua_toboolean(l, 1);
+		lua_remove(l, 1);
+		return b;
+	}
+};
 
 // define types for the interesting classes
 class Body;
