@@ -946,18 +946,16 @@ void StationRootView::GotoPolis()
 
 /////////////////////////////////////////////////////////////////////
 
-SpaceStationView::SpaceStationView(): View()
+SpaceStationView::SpaceStationView(): View(), m_jumpToForm(0)
 {
 	Gui::Label *l = new Gui::Label("Comms Link");
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 }
 
-void SpaceStationView::JumpTo(GenericChatForm *form)
+void SpaceStationView::JumpToForm(GenericChatForm *form)
 {
-	OnSwitchTo();
-
-	m_baseSubView->OpenChildChatForm(form);
+	m_jumpToForm = form;
 }
 
 void SpaceStationView::OnSwitchTo()
@@ -976,4 +974,9 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::Update()
 {
+	if (m_jumpToForm) {
+		OnSwitchTo();
+		m_baseSubView->OpenChildChatForm(m_jumpToForm);
+		m_jumpToForm = 0;
+	}
 }

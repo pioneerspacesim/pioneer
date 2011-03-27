@@ -360,8 +360,7 @@ static int l_luachatform_refresh(lua_State *l)
 static int l_luachatform_goto_police(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
-	dialog->Close();
-	Pi::spaceStationView->JumpTo(new PoliceChatForm());
+	Pi::spaceStationView->JumpToForm(new PoliceChatForm());
 	return 0;
 }
 
