@@ -87,7 +87,7 @@ static inline void _get_trade_function(lua_State *l, int ref, const char *name)
 	lua_gettable(l, -2);
 	assert(!lua_isnil(l, -1));
 
-	lua_getfield(l, -1, "tradeWidgetCallbacks");
+	lua_getfield(l, -1, "tradeWidgetFunctions");
 	assert(lua_istable(l, -1));
 
 	lua_getfield(l, -1, name);
@@ -237,7 +237,7 @@ void LuaChatForm::Sold(Equip::Type t) {
 	LuaInt::PushToLua(t);
 	lua_call(l, 2, 0);
 
-	LUA_DEBUG_END(l, 0);
+	LUA_DEBUG_END(l, 0)
 }
 
 static int l_luachatform_clear(lua_State *l)
@@ -276,6 +276,26 @@ static inline void _bad_trade_function(lua_State *l, const char *name) {
 	luaL_where(l, 0);
 	std::string err = stringf(256, "%s bad argument '%s' to 'add_goods_trader' (function expected, got %s)", lua_tostring(l, -1), name, luaL_typename(l, -2));
 	luaL_error(l, err.c_str());
+}
+
+static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l, int ref)
+{
+	LUA_DEBUG_START(l)
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
+	assert(!lua_isnil(l, -1));
+
+	lua_pushinteger(l, ref);
+	lua_gettable(l, -2);
+	assert(!lua_isnil(l, -1));
+
+	lua_pushstring(l, "tradeWidgetFunctions");
+	lua_pushnil(l);
+	lua_settable(l, -3);
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0)
 }
 
 int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
@@ -323,7 +343,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	lua_gettable(l, -2);
 	assert(!lua_isnil(l, -1));
 
-	lua_pushstring(l, "tradeWidgetCallbacks");
+	lua_pushstring(l, "tradeWidgetFunctions");
 	lua_pushvalue(l, 1);
 	lua_settable(l, -3);
 
@@ -338,7 +358,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 
 	dialog->m_commodityTradeWidget = w;
 
-	//onClose.connect( XXX something to clean up the callback table )
+	dialog->onClose.connect(sigc::bind(sigc::ptr_fun(_cleanup_trade_functions), l, dialog->m_modRef));
 
 	return 0;
 }
