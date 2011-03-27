@@ -98,7 +98,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		lua_getfield(l, -1, "onActivate");
 		assert(lua_isfunction(l, -1));
 
-		LuaSubObject<LuaChatForm>::PushToLua(this);
+		LuaObject<LuaChatForm>::PushToLua(this);
 		LuaInt::PushToLua(m_modRef);
 		LuaInt::PushToLua(optionClicked);
 		lua_call(l, 3, 0);
@@ -193,14 +193,14 @@ void LuaChatForm::GotoPolice() {
 
 static int l_luachatform_clear(lua_State *s)
 {
-	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	dialog->Clear();
 	return 0;
 }
 
 static int l_luachatform_set_title(lua_State *s)
 {
-	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	std::string title = LuaString::PullFromLua();
 	dialog->SetTitle(title.c_str());
 	return 0;
@@ -208,7 +208,7 @@ static int l_luachatform_set_title(lua_State *s)
 
 static int l_luachatform_set_message(lua_State *s)
 {
-	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	std::string message = LuaString::PullFromLua();
 	dialog->SetMessage(message.c_str());
 	return 0;
@@ -216,7 +216,7 @@ static int l_luachatform_set_message(lua_State *s)
 
 static int l_luachatform_add_option(lua_State *s)
 {
-	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	std::string text = LuaString::PullFromLua();
 	int val = LuaInt::PullFromLua();
 	dialog->AddOption(text, val);
@@ -225,22 +225,22 @@ static int l_luachatform_add_option(lua_State *s)
 
 static int l_luachatform_close(lua_State *s)
 {
-	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	dialog->Close();
 	return 0;
 }
 
 static int l_luachatform_refresh(lua_State *s)
 {
-	LuaChatForm *dialog = LuaSubObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
 	dialog->UpdateBaseDisplay();
 	return 0;
 }
 
-template <> const char *LuaSubObject<LuaChatForm>::s_type = "ChatForm";
-template <> const char *LuaSubObject<LuaChatForm>::s_inherit = NULL;
+template <> const char *LuaObject<LuaChatForm>::s_type = "ChatForm";
+template <> const char *LuaObject<LuaChatForm>::s_inherit = NULL;
 
-template <> const luaL_reg LuaSubObject<LuaChatForm>::s_methods[] = {
+template <> const luaL_reg LuaObject<LuaChatForm>::s_methods[] = {
 	{ "clear",       l_luachatform_clear       },
 	{ "set_title",   l_luachatform_set_title   },
 	{ "set_message", l_luachatform_set_message },
@@ -250,6 +250,6 @@ template <> const luaL_reg LuaSubObject<LuaChatForm>::s_methods[] = {
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaSubObject<LuaChatForm>::s_meta[] = {
+template <> const luaL_reg LuaObject<LuaChatForm>::s_meta[] = {
 	{ 0, 0 }
 };

@@ -17,7 +17,7 @@ void LuaEventQueueBase::RegisterEventQueue()
 	}
 
 	lua_pushstring(l, m_name);
-	LuaSubObject<LuaEventQueueBase>::PushToLua(this);
+	LuaObject<LuaEventQueueBase>::PushToLua(this);
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, stringf(256, "_%s_callbacks", m_name).c_str());
@@ -64,7 +64,7 @@ void LuaEventQueueBase::Emit()
 
 int LuaEventQueueBase::l_connect(lua_State *l)
 {
-	LuaEventQueueBase *q = LuaSubObject<LuaEventQueueBase>::PullFromLua();
+	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::PullFromLua();
 
 	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
 	lua_getfield(l, -1, stringf(256, "_%s_callbacks", q->m_name).c_str());
@@ -78,7 +78,7 @@ int LuaEventQueueBase::l_connect(lua_State *l)
 
 int LuaEventQueueBase::l_disconnect(lua_State *l)
 {
-	LuaEventQueueBase *q = LuaSubObject<LuaEventQueueBase>::PullFromLua();
+	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::PullFromLua();
 
 	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
 	lua_getfield(l, -1, stringf(256, "_%s_callbacks", q->m_name).c_str());
@@ -90,15 +90,15 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 	return 0;
 }
 
-template <> const char *LuaSubObject<LuaEventQueueBase>::s_type = "EventQueue";
-template <> const char *LuaSubObject<LuaEventQueueBase>::s_inherit = NULL;
+template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
+template <> const char *LuaObject<LuaEventQueueBase>::s_inherit = NULL;
 
-template <> const luaL_reg LuaSubObject<LuaEventQueueBase>::s_methods[] = {
+template <> const luaL_reg LuaObject<LuaEventQueueBase>::s_methods[] = {
 	{ "connect",    LuaEventQueueBase::l_connect    },
 	{ "disconnect", LuaEventQueueBase::l_disconnect },
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaSubObject<LuaEventQueueBase>::s_meta[] = {
+template <> const luaL_reg LuaObject<LuaEventQueueBase>::s_meta[] = {
 	{ 0, 0 }
 };

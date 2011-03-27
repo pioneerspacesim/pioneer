@@ -126,10 +126,10 @@ static int l_ship_ai_do_journey(lua_State *l)
 	return 0;
 }
 
-template <> const char *LuaSubObject<Ship>::s_type = "Ship";
-template <> const char *LuaSubObject<Ship>::s_inherit = "Body";
+template <> const char *LuaObject<Ship>::s_type = "Ship";
+template <> const char *LuaObject<Ship>::s_inherit = "Body";
 
-template <> const luaL_reg LuaSubObject<Ship>::s_methods[] = {
+template <> const luaL_reg LuaObject<Ship>::s_methods[] = {
 	{ "get_stats", l_ship_get_stats },
 
 	{ "get_money", l_ship_get_money },
@@ -149,6 +149,6 @@ template <> const luaL_reg LuaSubObject<Ship>::s_methods[] = {
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaSubObject<Ship>::s_meta[] = {
+template <> const luaL_reg LuaObject<Ship>::s_meta[] = {
 	{ 0, 0 }
 };

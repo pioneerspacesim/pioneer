@@ -9,7 +9,7 @@
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
 // objects in and out of lua. the basic idea is that for every class you want
-// to expose to lua, you define LuaSubObject wrapper class that defines the
+// to expose to lua, you define LuaObject wrapper class that defines the
 // lua name lua name, methods and metamethods for that class. you then call
 // methods on this class to push and pull objects to and from the lua stack
 //
@@ -44,19 +44,19 @@
 //
 //  - have your class inherit from DeleteEmitter
 //
-//  - add a typedef for the wrapper class to the bottom of LuaObject.h:
+//  - add a typedef for the wrapper class to the bottom of LuaObjectBase.h:
 //
 //      class Ship;
-//      typedef LuaSubObject<Ship> LuaShip;
+//      typedef LuaObject<Ship> LuaShip;
 //
 //  OR if your class can't inherit from DeleteEmitter for some reason, use
 //  this kind of typedef instead to create a subclass
 //
 //      class SBodyPath;
-//      typedef LuaSubObjectLuaUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
+//      typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 //
 //  you probably don't want to do this unless you understand the entire
-//  LuaObject system. read on and ask for help :)
+//  LuaObjectBase system. read on and ask for help :)
 //
 //  - arrange for the wrapper class RegisterClass() method to be called in
 //    LuaManager::Init in LuaManager.cpp
@@ -99,15 +99,15 @@ typedef uintptr_t lid;
 
 // the base class for wrapper classes. it has no public interface - that is
 // provided by the wrapper classes
-class LuaObject {
+class LuaObjectBase {
 protected:
-	virtual ~LuaObject() {}
+	virtual ~LuaObjectBase() {}
 
 	// instantiate an object wrapper. it gets added to the registry then a new
 	// lua object is created for it and pushed onto the lua stack
-	// type is the lua type string. wantdelete indicates if LuaObject should
+	// type is the lua type string. wantdelete indicates if LuaObjectBase should
 	// delete the c++ object when it is removed from the registry
-	LuaObject(DeleteEmitter *o, const char *type, bool wantdelete);
+	LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete);
 
 	// creates a class in the lua vm with the given name and attaches the
 	// listed methods to it and the listed metamethods to its metaclass
@@ -119,15 +119,15 @@ protected:
 	static DeleteEmitter *PullFromLua(const char *want_type);
 
 private:
-	LuaObject(const LuaObject &) {}
+	LuaObjectBase(const LuaObjectBase &) {}
 
-	// pull an LuaObject wrapper from the registry given an id. returns NULL
+	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
 	// if the object is not in the registry
-	static LuaObject *Lookup(lid id);
+	static LuaObjectBase *Lookup(lid id);
 
 	// remove an object from the registry. deletes lo and the underlying c++
 	// object if necessary
-	static void Deregister(LuaObject *lo);
+	static void Deregister(LuaObjectBase *lo);
 
 	// the lua object "destructor" that gets called by the garbage collector.
 	// its only part of the class so that it can call Deregister()
@@ -150,7 +150,7 @@ private:
 
 // template for a wrapper class
 template <typename T>
-class LuaSubObject : public LuaObject {
+class LuaObject : public LuaObjectBase {
 public:
 
 	// registers the class with the lua vm
@@ -160,21 +160,21 @@ public:
 
 	// wrap the object and push it onto the lua stack
 	static inline void PushToLua(T *o) {
-		new LuaSubObject(o, false);
+		new LuaObject(o, false);
 	}
 
 	// wrap the object and push it onto the lua stack, taking ownership of it
 	static inline void PushToLuaGC(T *o) {
-		new LuaSubObject(o, true);
+		new LuaObject(o, true);
 	}
 
 	// pull an object off the the stack, unwrap it and return it
 	static inline T *PullFromLua() {
-		return dynamic_cast<T *>(LuaObject::PullFromLua(s_type));
+		return dynamic_cast<T *>(LuaObjectBase::PullFromLua(s_type));
 	}
 
 private:
-	LuaSubObject(T *o, bool wantdelete) : LuaObject(o, s_type, wantdelete) {}
+	LuaObject(T *o, bool wantdelete) : LuaObjectBase(o, s_type, wantdelete) {}
 
 	// lua type string, optional parent type, method table and metamethod
 	// table. these are defined per wrapper class in the appropriate .cpp file
@@ -186,7 +186,7 @@ private:
 
 
 // this one is more complicated. if a class needs to be copyable it can't
-// inherit from DeleteEmitter as required to be wrapped by LuaSubObject. so we
+// inherit from DeleteEmitter as required to be wrapped by LuaObject. so we
 // create a new class and inherit from both. it takes a full copy of the
 // original when instantiated, so is decoupled from the original
 template <typename T>
@@ -201,18 +201,18 @@ private:
 // if we wanted we could just use LuaUncopyable<T> as-is, but that would mean
 // having to create a uncopyable of every object before passing it to
 // PushToLua() and always casting the return from PullFromLua(). instead we
-// subclass the subobject and implement some wrapper methods for the "real"
+// subclass the object and implement some wrapper methods for the "real"
 // types.
 template <typename T, typename UT>
-class LuaSubObjectLuaUncopyable : LuaSubObject<UT> {
+class LuaObjectUncopyable : LuaObject<UT> {
 public:
-	static inline void RegisterClass() { LuaSubObject<UT>::RegisterClass(); }
+	static inline void RegisterClass() { LuaObject<UT>::RegisterClass(); }
 
 	// create an uncopyable version and pass it in. we use PushToLuaGC because
 	// this is our object and we have to clean it up
 	static inline void PushToLua(T *p) {
 		UT *up = new UT(*p);
-		LuaSubObject<UT>::PushToLuaGC(up);
+		LuaObject<UT>::PushToLuaGC(up);
 	}
 
 	// same idea, but caller asked us to clean it up when we're done so we
@@ -220,12 +220,12 @@ public:
 	static inline void PushToLuaGC(T *p) {
 		UT *up = new UT(*p);
 		delete p;
-		LuaSubObject<UT>::PushToLuaGC(up);
+		LuaObject<UT>::PushToLuaGC(up);
 	}
 
 	// pull from lua, casting back to the original type
 	static inline T *PullFromLua() {
-		return dynamic_cast<T*>(LuaSubObject<UT>::PullFromLua());
+		return dynamic_cast<T*>(LuaObject<UT>::PullFromLua());
 	}
 };
 
@@ -275,27 +275,27 @@ namespace LuaInt {
 
 // define types for the interesting classes
 class Body;
-typedef LuaSubObject<Body> LuaBody;
+typedef LuaObject<Body> LuaBody;
 
 class Ship;
-typedef LuaSubObject<Ship> LuaShip;
+typedef LuaObject<Ship> LuaShip;
 
 class SpaceStation;
-typedef LuaSubObject<SpaceStation> LuaSpaceStation;
+typedef LuaObject<SpaceStation> LuaSpaceStation;
 
 class Planet;
-typedef LuaSubObject<Planet> LuaPlanet;
+typedef LuaObject<Planet> LuaPlanet;
 
 class Star;
-typedef LuaSubObject<Star> LuaStar;
+typedef LuaObject<Star> LuaStar;
 
 class Player;
-typedef LuaSubObject<Player> LuaPlayer;
+typedef LuaObject<Player> LuaPlayer;
 
 class StarSystem;
-typedef LuaSubObject<StarSystem> LuaStarSystem;
+typedef LuaObject<StarSystem> LuaStarSystem;
 
 class SBodyPath;
-typedef LuaSubObjectLuaUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
+typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 
 #endif

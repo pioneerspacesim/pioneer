@@ -93,10 +93,10 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaSubObject<SpaceStation>::s_type = "SpaceStation";
-template <> const char *LuaSubObject<SpaceStation>::s_inherit = "Body";
+template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
+template <> const char *LuaObject<SpaceStation>::s_inherit = "Body";
 
-template <> const luaL_reg LuaSubObject<SpaceStation>::s_methods[] = {
+template <> const luaL_reg LuaObject<SpaceStation>::s_methods[] = {
 	{ "add_advert",    l_spacestation_add_advert    },
 	{ "remove_advert", l_spacestation_remove_advert },
 
@@ -104,6 +104,6 @@ template <> const luaL_reg LuaSubObject<SpaceStation>::s_methods[] = {
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaSubObject<SpaceStation>::s_meta[] = {
+template <> const luaL_reg LuaObject<SpaceStation>::s_meta[] = {
 	{ 0, 0 }
 };

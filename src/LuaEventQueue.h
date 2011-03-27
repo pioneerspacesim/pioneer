@@ -40,7 +40,7 @@ public:
 
 
 class LuaEventQueueBase : public DeleteEmitter {
-	friend class LuaSubObject<LuaEventQueueBase>;
+	friend class LuaObject<LuaEventQueueBase>;
 
 public:
 	void RegisterEventQueue();
@@ -74,8 +74,8 @@ public:
 protected:
 	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) {
 		const LuaEvent<T0,T1> *e = static_cast<const LuaEvent<T0,T1>*>(eb);
-		LuaSubObject<T0>::PushToLua(e->m_arg0);
-		LuaSubObject<T1>::PushToLua(e->m_arg1);
+		LuaObject<T0>::PushToLua(e->m_arg0);
+		LuaObject<T1>::PushToLua(e->m_arg1);
 	}
 };
 
@@ -91,7 +91,7 @@ public:
 protected:
 	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) {
 		const LuaEvent<T0,void> *e = static_cast<const LuaEvent<T0,void>*>(eb);
-		LuaSubObject<T0>::PushToLua(e->m_arg0);
+		LuaObject<T0>::PushToLua(e->m_arg0);
 	}
 };
 

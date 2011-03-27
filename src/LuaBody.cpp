@@ -9,14 +9,14 @@ static int l_body_get_label(lua_State *l)
 	return 1;
 } 
 
-template <> const char *LuaSubObject<Body>::s_type = "Body";
-template <> const char *LuaSubObject<Body>::s_inherit = NULL;
+template <> const char *LuaObject<Body>::s_type = "Body";
+template <> const char *LuaObject<Body>::s_inherit = NULL;
 
-template <> const luaL_reg LuaSubObject<Body>::s_methods[] = {
+template <> const luaL_reg LuaObject<Body>::s_methods[] = {
 	{ "get_label", l_body_get_label },
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaSubObject<Body>::s_meta[] = {
+template <> const luaL_reg LuaObject<Body>::s_meta[] = {
 	{ 0, 0 }
 };

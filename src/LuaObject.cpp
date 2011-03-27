@@ -5,9 +5,9 @@
 #include <utility>
 
 static lid next_id = 0;
-static std::map<lid, LuaObject*> registry;
+static std::map<lid, LuaObjectBase*> registry;
 
-LuaObject::LuaObject(DeleteEmitter *o, const char *type, bool wantdelete)
+LuaObjectBase::LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete)
 {
 	m_object = o;
 	m_type = type;
@@ -18,7 +18,7 @@ LuaObject::LuaObject(DeleteEmitter *o, const char *type, bool wantdelete)
 
 	registry.insert(std::make_pair(m_id, this));
 
-	m_deleteConnection = m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObject::Deregister), this));
+	m_deleteConnection = m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), this));
 
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -29,7 +29,7 @@ LuaObject::LuaObject(DeleteEmitter *o, const char *type, bool wantdelete)
 	lua_setmetatable(l, -2);
 }
 
-void LuaObject::Deregister(LuaObject *lo)
+void LuaObjectBase::Deregister(LuaObjectBase *lo)
 {
 	lo->m_deleteConnection.disconnect();
 	registry.erase(lo->m_id);
@@ -37,23 +37,23 @@ void LuaObject::Deregister(LuaObject *lo)
 	delete lo;
 }
 
-LuaObject *LuaObject::Lookup(lid id)
+LuaObjectBase *LuaObjectBase::Lookup(lid id)
 {
-	std::map<lid, LuaObject*>::const_iterator i = registry.find(id);
+	std::map<lid, LuaObjectBase*>::const_iterator i = registry.find(id);
 	if (i == registry.end()) return NULL;
 	return (*i).second;
 }
 
-int LuaObject::GC(lua_State *l)
+int LuaObjectBase::GC(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
-	LuaObject *lo = Lookup(*idp);
+	LuaObjectBase *lo = Lookup(*idp);
 	if (lo) Deregister(lo);
 	return 0;
 }
 
-void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[])
+void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[])
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -67,7 +67,7 @@ void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_re
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
-	lua_pushcfunction(l, LuaObject::GC);
+	lua_pushcfunction(l, LuaObjectBase::GC);
 	lua_rawset(l, -3);
 
 	// attach the method table to __index
@@ -95,7 +95,7 @@ void LuaObject::CreateClass(const char *type, const char *inherit, const luaL_re
 	lua_pop(l, 2);
 }
 
-DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
+DeleteEmitter *LuaObjectBase::PullFromLua(const char *want_type)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -106,7 +106,7 @@ DeleteEmitter *LuaObject::PullFromLua(const char *want_type)
 		luaL_error(l, "value on stack is of type userdata but has no userdata associated with it");
 	lua_remove(l, 1);
 
-	LuaObject *lo = LuaObject::Lookup(*idp);
+	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 	if (!lo)
 		luaL_error(l, "object with id 0x%08x not found in registry", *idp);
 

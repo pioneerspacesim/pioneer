@@ -19,7 +19,7 @@ LuaManager::LuaManager() : m_lua(NULL) {
 void LuaManager::Init()
 {
 	// initialise things that require the singleton
-	LuaSubObject<LuaEventQueueBase>::RegisterClass();
+	LuaObject<LuaEventQueueBase>::RegisterClass();
 
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
@@ -30,7 +30,7 @@ void LuaManager::Init()
 	LuaStarSystem::RegisterClass();
 	LuaSBodyPath::RegisterClass();
 
-	LuaSubObject<LuaChatForm>::RegisterClass();
+	LuaObject<LuaChatForm>::RegisterClass();
 }
 
 LuaManager::~LuaManager() {

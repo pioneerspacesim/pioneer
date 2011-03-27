@@ -94,10 +94,10 @@ static int l_starsystem_get_body(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaSubObject<StarSystem>::s_type = "StarSystem";
-template <> const char *LuaSubObject<StarSystem>::s_inherit = NULL;
+template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
+template <> const char *LuaObject<StarSystem>::s_inherit = NULL;
 
-template <> const luaL_reg LuaSubObject<StarSystem>::s_methods[] = {
+template <> const luaL_reg LuaObject<StarSystem>::s_methods[] = {
 	{ "get_name",                             l_starsystem_get_name },
 	{ "get_lawlessness",                      l_starsystem_get_lawlessness },
 	{ "get_population",                       l_starsystem_get_population },
@@ -107,6 +107,6 @@ template <> const luaL_reg LuaSubObject<StarSystem>::s_methods[] = {
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaSubObject<StarSystem>::s_meta[] = {
+template <> const luaL_reg LuaObject<StarSystem>::s_meta[] = {
 	{ 0, 0 }
 };
