@@ -56,7 +56,7 @@ local earth = CustomSBody:new('Earth', Body.Type.PLANET_TERRESTRIAL)
 	:atmos_density(f(1,1))
 	:atmos_oxidizing(f(8,10))
 	:ocean_cover(f(7,10))
-	:ice_cover(f(3,100))
+	:ice_cover(f(7,10))
 	:life(f(9,10))
 
 local earth_starports = {
