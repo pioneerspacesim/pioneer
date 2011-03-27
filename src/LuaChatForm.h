@@ -4,11 +4,14 @@
 #include "GenericChatForm.h"
 #include "MarketAgent.h"
 #include "DeleteEmitter.h"
+#include "LuaManager.h"
 
 class BBAdvert;
 class CommodityTradeWidget;
 
 class LuaChatForm: public GenericChatForm, public MarketAgent, public DeleteEmitter {
+	friend class LuaObject<LuaChatForm>;
+
 public:
 	virtual ~LuaChatForm();
 	void AddOption(std::string text, int val);
@@ -42,6 +45,8 @@ private:
 	bool m_adTaken;
 	const BBAdvert *m_advert;
 	SpaceStation *m_station;
+
+	static int l_luachatform_add_goods_trader(lua_State *l);
 };
 
 /*

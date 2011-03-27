@@ -34,8 +34,53 @@ local onActivate = function (dialog, ref, option)
 	dialog:clear()
 	dialog:set_title(ad.flavour)
 	dialog:set_message("Welcome to "..ad.flavour)
-	--dialog:add_trader_widget()
+
+	dialog:add_goods_trader({
+		-- can I trade this commodity?
+		canTrade = function (ref, commodity)
+			print("can trade "..commodity)
+			return true
+		end,
+
+		-- how much of this commodity do we have in stock?
+		getStock = function (ref, commodity)
+			print("get stock "..commodity)
+			return 0
+		end,
+
+		-- what do we charge for this commodity?
+		getPrice = function (ref, commodity)
+			print("get price "..commodity)
+			return 0
+		end,
+
+		-- do something when a "buy" button is clicked
+		onClickBuy = function (ref, commodity)
+			print("buy "..commodity.." clicked")
+			-- allow purchase to proceed
+			return true
+		end,
+
+		-- do something when a "buy" button is clicked
+		onClickSell = function (ref, commodity)
+			print("sell "..commodity.." clicked")
+			-- allow sale to proceed
+			return true
+		end,
+
+		-- do something when we buy this commodity
+		bought = function (ref, commodity)
+			print("bought "..commodity)
+		end,
+
+		-- do something when we sell this commodity
+		sold = function (ref, commodity)
+			print("sold "..commodity)
+		end,
+	})
+
 	dialog:add_option("Hang up.", -1);
+
 end
 
 local onDelete = function (ref)
