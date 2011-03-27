@@ -778,6 +778,7 @@ void StationBBView::OpenMissionDialog(int midx)
 	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseMissionDialog));
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
+	m_advertChatForm->SetMoney(1000000000);
 	BBAdvert *m = &station->GetBBAdverts()[midx];
 	m_advertChatForm->StartChat(station, m);
 	OpenChildChatForm(m_advertChatForm);

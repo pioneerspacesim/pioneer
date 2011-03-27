@@ -92,8 +92,8 @@ class VideoLink: public Gui::Widget {
 public:
 	
 	VideoLink(float w, float h) {
-		MTRand rand;
 		const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
+		MTRand rand(sbody->seed); //thanks for pointing this out Tom.
 		int eyes_seed  = sbody->seed ;
 
 		if (eyes_seed < 0) {
@@ -106,7 +106,7 @@ public:
 		int hair_seed  = eyes_seed %100 ;
 		int extr1_seed = eyes_seed %240 ;
 		int extr2_seed = eyes_seed %1500 ;
-		int sex_seed   = eyes_seed %1 ; // rand.Int32(0,1) ;
+		int sex_seed   = rand.Double(0,1);//eyes_seed %1 ; // rand.Int32(0,1) ;
 		int race_seed  = eyes_seed %3 ;
 		int cloth_seed = eyes_seed %40 ;
 		eyes_seed      = rand.Int32(0,eyes_seed);
@@ -128,30 +128,30 @@ public:
 		m_created = SDL_GetTicks();
 		m_message = new Gui::ToolTip("Video link established");
 		std::string str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/head/head_%d_%d.png", race_seed, sex_seed, face_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_face = new Gui::Image(("" + str).c_str());
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/eyes/eyes_%d_%d.png", race_seed, sex_seed, eyes_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_eyes = new Gui::Image(("" + str).c_str());
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/nose/nose_%d_%d.png", race_seed, sex_seed, nose_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_nose = new Gui::Image(("" + str).c_str());
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/mouth/mouth_%d_%d.png", race_seed, sex_seed, mouth_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_mouth = new Gui::Image(("" + str).c_str());
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/hair/hair_%d_%d.png", race_seed, sex_seed, hair_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_hair = new Gui::Image(("" + str).c_str());
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/clothes/cloth_%d.png", cloth_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_cloth = new Gui::Image(("" + str).c_str());
 		if (rand.Int32(0,1)) {
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/accessories/acc_%d.png", extr1_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_extr1 = new Gui::Image(("" + str).c_str());
 		}
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/backgrounds/background_%d.png", extr2_seed);
-		//printf("%s\n", str.c_str());
+		printf("%s\n", str.c_str());
 		m_extr2 = new Gui::Image(("" + str).c_str());
 
 	}
