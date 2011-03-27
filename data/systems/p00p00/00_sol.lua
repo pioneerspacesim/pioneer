@@ -186,7 +186,7 @@ local jupiter_moons = {
 		:rotation_period(f(177,100))
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1))
-		:atmos_density(f(0,1))
+		:atmos_density(f(1,10))
 		:atmos_oxidizing(f(8,10))
 		:ocean_cover(f(0,1))
 		:ice_cover(f(1,1000))
@@ -219,6 +219,7 @@ local jupiter_moons = {
 		:semi_major_axis(f(72,10000))
 		:eccentricity(f(13,10000))
 		:inclination(math.deg2rad(0.2))
+		:atmos_density(f(1,14))
 		:rotation_period(f(72,10)),
 	{
 		CustomSBody:new('Enki Catena', Body.Type.STARPORT_SURFACE)
@@ -256,6 +257,7 @@ local saturn_moons = {
 		:semi_major_axis(f(82,10000))
 		:eccentricity(f(288,10000))
 		:inclination(math.deg2rad(0.34854))
+		:atmos_density(f(10,1))
 		:rotation_period(f(15945,1000)),
 	{
 		CustomSBody:new('Oasis City', Body.Type.STARPORT_SURFACE)
@@ -276,7 +278,8 @@ local saturn_moons = {
 		:semi_major_axis(f(441,100000))
 		:eccentricity(f(126,100000))
 		:inclination(math.deg2rad(0.345))
-		:rotation_period(f(452,100)),
+		:rotation_period(f(452,100))
+		:atmos_density(f(1,10)),
 	CustomSBody:new('Iapetus', Body.Type.PLANET_TERRESTRIAL)
 		:radius(f(1155,10000))
 		:mass(f(3,10000))
@@ -313,7 +316,8 @@ local uranus_moons = {
 		:semi_major_axis(f(2913,1000000))
 		:eccentricity(f(11,10000))
 		:inclination(math.deg2rad(0.34))
-		:rotation_period(f(87,10)),
+		:rotation_period(f(87,10))
+		:atmos_density(f(1,10)),
 	CustomSBody:new('Oberon', Body.Type.PLANET_TERRESTRIAL)
 		:radius(f(1194,10000))
 		:mass(f(5046,10000000))
@@ -358,7 +362,8 @@ local neptune_moons = {
 		:semi_major_axis(f(2371,100000))
 		:eccentricity(f(16,1000000))
 		:inclination(math.deg2rad(156.885))
-		:rotation_period(f(141,24)),
+		:rotation_period(f(141,24))
+		:atmos_density(f(1,10)),
 	{
 		CustomSBody:new('Poseidon Station', Body.Type.STARPORT_ORBITAL)
 			:semi_major_axis(f(12,500000))
