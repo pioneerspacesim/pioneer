@@ -25,8 +25,8 @@ template <> const char *LuaObject<Body>::s_type = "Body";
 template <> const char *LuaObject<Body>::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<Body>::s_methods[] = {
-	{ "get_label", l_body_get_label },
-	{ "get_seed",  l_body_get_seed  },
+	{ "GetLabel", l_body_get_label },
+	{ "GetSeed",  l_body_get_seed  },
 	{ 0, 0 }
 };
 

@@ -130,21 +130,21 @@ template <> const char *LuaObject<Ship>::s_type = "Ship";
 template <> const char *LuaObject<Ship>::s_inherit = "Body";
 
 template <> const luaL_reg LuaObject<Ship>::s_methods[] = {
-	{ "get_stats", l_ship_get_stats },
+	{ "GetStats", l_ship_get_stats },
 
-	{ "get_money", l_ship_get_money },
-	{ "set_money", l_ship_set_money },
-	{ "add_money", l_ship_add_money },
+	{ "GetMoney", l_ship_get_money },
+	{ "SetMoney", l_ship_set_money },
+	{ "AddMoney", l_ship_add_money },
 
-	{ "get_docked_with", l_ship_get_docked_with },
+	{ "GetDockedWith", l_ship_get_docked_with },
 
-	{ "ai_do_kill",        l_ship_ai_do_kill        },
-	{ "ai_do_flyto",       l_ship_ai_do_flyto       },
-	{ "ai_do_dock",        l_ship_ai_do_dock        },
-	{ "ai_do_loworbit",    l_ship_ai_do_loworbit    },
-	{ "ai_do_mediumorbit", l_ship_ai_do_mediumorbit },
-	{ "ai_do_highorbit",   l_ship_ai_do_highorbit   },
-	{ "ai_do_journey",     l_ship_ai_do_journey     },
+	{ "AiDoKill",        l_ship_ai_do_kill        },
+	{ "AiDoFlyto",       l_ship_ai_do_flyto       },
+	{ "AiDoDock",        l_ship_ai_do_dock        },
+	{ "AiDoLoworbit",    l_ship_ai_do_loworbit    },
+	{ "AiDoMediumorbit", l_ship_ai_do_mediumorbit },
+	{ "AiDoHighorbit",   l_ship_ai_do_highorbit   },
+	{ "AiDoJourney",     l_ship_ai_do_journey     },
 
 	{ 0, 0 }
 };

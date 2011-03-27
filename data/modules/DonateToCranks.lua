@@ -17,29 +17,29 @@ local onActivate = function (dialog, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
-		dialog:clear();
+		dialog:Clear();
 
-		dialog:set_title(ad.flavour.title)
-		dialog:set_message(ad.flavour.message)
+		dialog:SetTitle(ad.flavour.title)
+		dialog:SetMessage(ad.flavour.message)
 
-		dialog:add_option("$1", 1);
-		dialog:add_option("$10", 10);
-		dialog:add_option("$100", 100);
-		dialog:add_option("$1000", 1000);
-		dialog:add_option("$10000", 10000);
-		dialog:add_option("$100000", 100000);
-		dialog:add_option("Hang up.", -1);
+		dialog:AddOption("$1", 1);
+		dialog:AddOption("$10", 10);
+		dialog:AddOption("$100", 100);
+		dialog:AddOption("$1000", 1000);
+		dialog:AddOption("$10000", 10000);
+		dialog:AddOption("$100000", 100000);
+		dialog:AddOption("Hang up.", -1);
 
 		return
 	end
 
 	if option == -1 then
-		dialog:close()
+		dialog:Close()
 		return
 	end
 
 	local player = Pi.GetPlayer()
-	if player:get_money() < option then
+	if player:GetMoney() < option then
 		Pi.Message("", "You do not have enough money.")
 	else
 		if option >= 10000 then
@@ -47,8 +47,8 @@ local onActivate = function (dialog, ref, option)
 		else
 			Pi.Message("", "Thank you. All donations are welcome.")
 		end
-		player:add_money(-option)
-		dialog:refresh()
+		player:AddMoney(-option)
+		dialog:Refresh()
 	end
 end
 
@@ -64,7 +64,7 @@ local onCreateBB = function (station)
 		flavour = crank_flavours[n],
 	}
 
-	local ref = station:add_advert(ad.flavour.title, onActivate, onDelete)
+	local ref = station:AddAdvert(ad.flavour.title, onActivate, onDelete)
 	ads[ref] = ad;
 end
 
@@ -72,7 +72,7 @@ Module:new {
 	__name='DonateToCranks', 
 	
 	Init = function(self)
-		EventQueue.onCreateBB:connect(onCreateBB)
+		EventQueue.onCreateBB:Connect(onCreateBB)
 	end,
 }
 

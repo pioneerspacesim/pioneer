@@ -1,6 +1,6 @@
 local onEnterSystem = function (sys, player)
 	--print("Pirate module onEnterSystem")
-	local plvl = sys:get_lawlessness()
+	local plvl = sys:GetLawlessness()
 	--print("Lawlessness " .. plvl)
 
 	local max_pirates = 6
@@ -12,8 +12,8 @@ local onEnterSystem = function (sys, player)
 		local maxMass = 50 + 150*plvl
 		ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), power, minMass, maxMass)
 		if not e then
-			--print("Pirates module spawned " .. ship:get_label() .. " with power " .. power)
-			ship:ai_do_kill(player)
+			--print("Pirates module spawned " .. ship:GetLabel() .. " with power " .. power)
+			ship:AiDoKill(player)
 		--else
 			--print("Pirate module: " .. e)
 		end
@@ -24,7 +24,7 @@ Module:new {
 	__name = 'Pirates',
 
 	Init = function(self)
-		EventQueue.onEnterSystem:connect(onEnterSystem)
+		EventQueue.onEnterSystem:Connect(onEnterSystem)
 	end,
 }
 

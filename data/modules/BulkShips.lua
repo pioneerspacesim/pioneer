@@ -1,5 +1,5 @@
 local onEnterSystem = function (sys, player)
-	local population = sys:get_population()
+	local population = sys:GetPopulation()
 
 	if population == 0 then
 		return
@@ -28,10 +28,10 @@ local onEnterSystem = function (sys, player)
 	end
 
 	for i=1, num_bulk_ships do
-		local starport = sys:get_random_starport()
+		local starport = sys:GetRandomStarport()
 		if not starport then return end
 
-		local ship, e = Pi.SpawnRandomStaticShip(sys:get_body(starport))
+		local ship, e = Pi.SpawnRandomStaticShip(sys:GetBody(starport))
 		if e then
 			print("BulkShips: "..e)
 		end
@@ -42,6 +42,6 @@ Module:new {
 	__name = 'BulkShips',
 
 	Init = function(self)
-		EventQueue.onEnterSystem:connect(onEnterSystem)
+		EventQueue.onEnterSystem:Connect(onEnterSystem)
 	end,
 }

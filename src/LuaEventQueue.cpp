@@ -90,8 +90,8 @@ template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
 template <> const char *LuaObject<LuaEventQueueBase>::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<LuaEventQueueBase>::s_methods[] = {
-	{ "connect",    LuaEventQueueBase::l_connect    },
-	{ "disconnect", LuaEventQueueBase::l_disconnect },
+	{ "Connect",    LuaEventQueueBase::l_connect    },
+	{ "Disconnect", LuaEventQueueBase::l_disconnect },
 	{ 0, 0 }
 };
 

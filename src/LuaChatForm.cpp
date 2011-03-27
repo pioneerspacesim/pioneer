@@ -388,14 +388,14 @@ template <> const char *LuaObject<LuaChatForm>::s_type = "ChatForm";
 template <> const char *LuaObject<LuaChatForm>::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<LuaChatForm>::s_methods[] = {
-	{ "clear",            l_luachatform_clear                         },
-	{ "set_title",        l_luachatform_set_title                     },
-	{ "set_message",      l_luachatform_set_message                   },
-	{ "add_option",       l_luachatform_add_option                    },
-	{ "add_goods_trader", LuaChatForm::l_luachatform_add_goods_trader },
-	{ "close",            l_luachatform_close                         },
-	{ "refresh",          l_luachatform_refresh                       },
-	{ "goto_police",      l_luachatform_goto_police                   },
+	{ "Clear",          l_luachatform_clear                         },
+	{ "SetTitle",       l_luachatform_set_title                     },
+	{ "SetMessage",     l_luachatform_set_message                   },
+	{ "AddOption",      l_luachatform_add_option                    },
+	{ "AddGoodsTrader", LuaChatForm::l_luachatform_add_goods_trader },
+	{ "Close",          l_luachatform_close                         },
+	{ "Refresh",        l_luachatform_refresh                       },
+	{ "GotoPolice",     l_luachatform_goto_police                   },
 	{ 0, 0 }
 };
 

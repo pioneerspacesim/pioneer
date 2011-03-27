@@ -13,7 +13,7 @@ local onActivate = function (dialog, ref, option)
 	local ad = ads[ref]
 
 	if option == -1 then
-		dialog:close()
+		dialog:Close()
 		return
 	end
 
@@ -22,31 +22,31 @@ local onActivate = function (dialog, ref, option)
 	ad.stock = {}
 	ad.price = {}
 	for e = Equip.FIRST_COMMODITY, Equip.LAST_COMMODITY do
-		if not sys:is_commodity_legal(e) then
+		if not sys:IsCommodityLegal(e) then
 			ad.stock[e] = Pi.rand:Int(1,50)
 			-- going rate on the black market will be twice normal
-			ad.price[e] = ad.station:get_equipment_price(e) * 2
+			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
 		end
 	end
 	--ad.stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
 	--ad.price = {[Equip.WATER]=120, [Equip.HYDROGEN]=130, [Equip.NERVE_GAS]=1000}
 
-	dialog:clear()
-	dialog:set_title(ad.flavour)
-	dialog:set_message("Welcome to "..ad.flavour)
+	dialog:Clear()
+	dialog:SetTitle(ad.flavour)
+	dialog:SetMessage("Welcome to "..ad.flavour)
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then
 			return true
 		end
 
-		local lawlessness = Pi:GetCurrentSystem():get_lawlessness()
+		local lawlessness = Pi:GetCurrentSystem():GetLawlessness()
 		Pi.AddPlayerCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
-		dialog:goto_police()
+		dialog:GotoPolice()
 		return false
 	end
 	
-	dialog:add_goods_trader({
+	dialog:AddGoodsTrader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)
 			if ads[ref].stock[commodity] ~= nil then
@@ -87,7 +87,7 @@ local onActivate = function (dialog, ref, option)
 		end,
 	})
 
-	dialog:add_option("Hang up.", -1);
+	dialog:AddOption("Hang up.", -1);
 
 end
 
@@ -96,8 +96,8 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
-	--print("Creating bb adverts for " .. station:get_label())
-	local rand = Rand:new(station:get_seed())
+	--print("Creating bb adverts for " .. station:GetLabel())
+	local rand = Rand:new(station:GetSeed())
 	local num = rand:Int(1,3)
 	for i = 1,num do
 		local isfemale = rand:Int(0, 1) == 1
@@ -112,7 +112,7 @@ local onCreateBB = function (station)
 			ispolice = ispolice,
 		}
 
-		local ref = station:add_advert(ad.flavour, onActivate, onDelete)
+		local ref = station:AddAdvert(ad.flavour, onActivate, onDelete)
 		ads[ref] = ad;
 	end
 end
@@ -121,6 +121,6 @@ Module:new {
 	__name='GoodsTrader', 
 	
 	Init = function(self)
-		EventQueue.onCreateBB:connect(onCreateBB)
+		EventQueue.onCreateBB:Connect(onCreateBB)
 	end,
 }
