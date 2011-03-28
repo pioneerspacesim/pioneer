@@ -571,7 +571,6 @@ void TimeStep(float step)
 
 	Sfx::TimeStepAll(step, rootFrame);
 
-	Pi::luaOnEnterSystem.Emit();
 	Pi::luaOnShipKilled.Emit();
 	Pi::luaOnShipAttacked.Emit();
 	Pi::luaOnPlayerDocked.Emit();
