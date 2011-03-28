@@ -51,6 +51,8 @@ sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
+LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
+LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
 LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
 LuaEventQueue<Ship,Body> Pi::luaOnShipKilled("onShipKilled");
 LuaEventQueue<Ship,Body> Pi::luaOnShipAttacked("onShipAttacked");
@@ -686,6 +688,8 @@ void Pi::InitGame()
 	infoView = new InfoView();
 	AmbientSounds::Init();
 	PiLuaModules::Init();
+
+	luaOnGameStart.Emit();
 }
 
 static void OnPlayerDockOrUndock()
@@ -712,6 +716,8 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
+	luaOnGameEnd.Emit();
+
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 	PiLuaModules::Uninit();
