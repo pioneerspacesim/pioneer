@@ -11,10 +11,8 @@ class LuaManager {
 public:
 	static LuaManager *Instance()
 	{
-		if (not s_instance.get()) {
+		if (not s_instance.get())
 			s_instance = std::auto_ptr<LuaManager>(new LuaManager);
-			s_instance.get()->Init();
-		}
 		return s_instance.get();
 	}
 

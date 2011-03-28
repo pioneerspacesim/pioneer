@@ -20,25 +20,6 @@ LuaManager::LuaManager() : m_lua(NULL) {
 	OOLUA::setup_user_lua_state(m_lua);
 }
 
-void LuaManager::Init()
-{
-	// initialise things that require the singleton
-    PiLuaConstants::RegisterConstants(m_lua);
-
-	LuaObject<LuaEventQueueBase>::RegisterClass();
-
-	LuaBody::RegisterClass();
-	LuaShip::RegisterClass();
-	LuaSpaceStation::RegisterClass();
-	LuaPlanet::RegisterClass();
-	LuaStar::RegisterClass();
-	LuaPlayer::RegisterClass();
-	LuaStarSystem::RegisterClass();
-	LuaSBodyPath::RegisterClass();
-
-	LuaObject<LuaChatForm>::RegisterClass();
-}
-
 LuaManager::~LuaManager() {
 	lua_close(m_lua);
 }

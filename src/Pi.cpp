@@ -33,6 +33,10 @@
 #include "PiLuaModules.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
+#include "LuaChatForm.h"
+#include "LuaManager.h"
+#include "PiLuaAPI.h"
+#include "PiLuaConstants.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -131,6 +135,62 @@ static void draw_progress(float progress)
 	Render::SwapBuffers();
 }
 
+static void LuaInit()
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	// XXX kill CurrentDirectory
+	lua_pushstring(l, PIONEER_DATA_DIR);
+	lua_setglobal(l, "CurrentDirectory");
+
+	LuaBody::RegisterClass();
+	LuaShip::RegisterClass();
+	LuaSpaceStation::RegisterClass();
+	LuaPlanet::RegisterClass();
+	LuaStar::RegisterClass();
+	LuaPlayer::RegisterClass();
+	LuaStarSystem::RegisterClass();
+	LuaSBodyPath::RegisterClass();
+
+	LuaObject<LuaChatForm>::RegisterClass();
+
+	LuaObject<LuaEventQueueBase>::RegisterClass();
+
+	Pi::luaOnGameStart.RegisterEventQueue();
+	Pi::luaOnGameEnd.RegisterEventQueue();
+	Pi::luaOnEnterSystem.RegisterEventQueue();
+	Pi::luaOnShipKilled.RegisterEventQueue();
+	Pi::luaOnShipAttacked.RegisterEventQueue();
+	Pi::luaOnPlayerDocked.RegisterEventQueue();
+	Pi::luaOnCreateBB.RegisterEventQueue();
+	Pi::luaOnUpdateBB.RegisterEventQueue();
+
+	RegisterPiLuaAPI(l);
+    PiLuaConstants::RegisterConstants(l);
+
+	// XXX load everything. for now, just modules
+	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pimodule.lua").c_str());
+	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/modules");
+}
+
+static void LuaInitGame() {
+	Pi::luaOnGameStart.ClearEvents();
+	Pi::luaOnGameEnd.ClearEvents();
+	Pi::luaOnShipKilled.ClearEvents();
+	Pi::luaOnShipAttacked.ClearEvents();
+	Pi::luaOnPlayerDocked.ClearEvents();
+	Pi::luaOnCreateBB.ClearEvents();
+	Pi::luaOnUpdateBB.ClearEvents();
+
+	Pi::luaOnGameStart.Queue();
+	Pi::luaOnGameStart.Emit();
+}
+
+static void LuaUninitGame() {
+	Pi::luaOnGameEnd.Queue();
+	Pi::luaOnGameEnd.Emit();
+}
+
 void Pi::Init()
 {
 	config.Load(GetPiUserDir() + "config.ini");
@@ -211,6 +271,9 @@ void Pi::Init()
 
 	InitOpenGL();
 	GLFTInit();
+
+	LuaInit();
+
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(scrWidth, scrHeight, 800, 600);
@@ -687,9 +750,8 @@ void Pi::InitGame()
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 	AmbientSounds::Init();
-	PiLuaModules::Init();
 
-	luaOnGameStart.Emit();
+	LuaInitGame();
 }
 
 static void OnPlayerDockOrUndock()
@@ -716,11 +778,10 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
-	luaOnGameEnd.Emit();
+	LuaUninitGame();
 
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-	PiLuaModules::Uninit();
 	Pi::isGameStarted = false;
 	delete infoView;
 	delete spaceStationView;
