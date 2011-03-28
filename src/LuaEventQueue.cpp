@@ -52,6 +52,8 @@ void LuaEventQueueBase::ClearEvents()
 
 void LuaEventQueueBase::Emit()
 {
+	if (!m_events.size()) return;
+
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	LUA_DEBUG_START(l)
