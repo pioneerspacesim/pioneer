@@ -75,10 +75,6 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
 			continue;
 		}
 
-		if (name == "ecm.lua") {
-			printf("ecm.lua\n");
-		}
-
 		if ( name.size() >= 4 && name.find(".lua") == name.size() - 4 ) {
 			// XXX panic stuff can be removed once the global lua is used everywhere
 			lua_pushcfunction(l, pi_lua_panic);
