@@ -4,6 +4,8 @@
 
 static int l_spacestation_add_advert(lua_State *l)
 {
+	LUA_DEBUG_START(l);
+
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
 	std::string title = LuaString::GetFromLua(2);
 
@@ -18,7 +20,7 @@ static int l_spacestation_add_advert(lua_State *l)
 		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	}
 
-	int ref = lua_objlen(l, -1);
+	int ref = lua_objlen(l, -1) + 1;
 	lua_pushinteger(l, ref);
 
 	lua_newtable(l);
@@ -37,6 +39,8 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	lua_settable(l, -3);
 	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l,0);
 
 	s->BBAddAdvert(BBAdvert("LuaAdvert", ref, title));
 
