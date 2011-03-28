@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "LuaObject.h"
+#include "mylua.h"
 
 #include <map>
 #include <utility>
@@ -22,11 +23,15 @@ LuaObjectBase::LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete
 
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
+	LUA_DEBUG_START(l)
+
 	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
 	*idp = m_id;
 
 	luaL_getmetatable(l, type);
 	lua_setmetatable(l, -2);
+
+	LUA_DEBUG_END(l, 1)
 }
 
 void LuaObjectBase::Deregister(LuaObjectBase *lo)
@@ -56,6 +61,8 @@ int LuaObjectBase::GC(lua_State *l)
 void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[])
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
 
 	// create table, attach methods to it, leave it on the stack
 	luaL_register(l, type, methods);
@@ -93,11 +100,15 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 
 	// remove the metatable and the method table from the stack
 	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0)
 }
 
 DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
 
 	luaL_checktype(l, index, LUA_TUSERDATA);
 
@@ -130,6 +141,8 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 
 		lua_pop(l, 3);
 	}
+
+	LUA_DEBUG_END(l, 0)
 
 	// found it
 	return lo->m_object;

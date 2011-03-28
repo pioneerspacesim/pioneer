@@ -50,6 +50,8 @@ static int l_spacestation_add_advert(lua_State *l)
 
 static int l_spacestation_remove_advert(lua_State *l)
 {
+	LUA_DEBUG_START(l);
+
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
 	int ref = LuaInt::GetFromLua(2);
 
@@ -83,6 +85,8 @@ static int l_spacestation_remove_advert(lua_State *l)
 	lua_settable(l, -3);
 
 	lua_pop(l, 0);
+
+	LUA_DEBUG_END(l,0);
 
 	return 0;
 } 

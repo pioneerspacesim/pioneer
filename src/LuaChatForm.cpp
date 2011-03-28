@@ -57,6 +57,8 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 	} else {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 
+		LUA_DEBUG_START(l)
+
 		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 		assert(!lua_isnil(l, -1));
 
@@ -73,6 +75,8 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		lua_call(l, 3, 0);
 
 		lua_pop(l, 2);
+
+		LUA_DEBUG_END(l, 0)
 	}
 }
 

@@ -31,12 +31,16 @@ static int l_starsystem_get_population(lua_State *l)
 
 static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
+	LUA_DEBUG_START(l)
+
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
 
 	for (int type = Equip::FIRST_COMMODITY; type <= Equip::LAST_COMMODITY; type++)
 		pi_lua_settable(l, static_cast<int>(type), s->GetCommodityBasePriceModPercent(type));
+	
+	LUA_DEBUG_END(l, 1)
 	
 	return 1;
 }
@@ -59,6 +63,8 @@ static int l_starsystem_get_random_starport(lua_State *l)
 // people think that way so might as well keep the lie alive
 static int l_starsystem_get_body(lua_State *l)
 {
+	LUA_DEBUG_START(l)
+
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	if (s != Pi::currentSystem) {
 		LuaString::PushToLua("get_body can only be called on the current system");
@@ -90,6 +96,8 @@ static int l_starsystem_get_body(lua_State *l)
 			lua_error(l);
 		}
 	}
+
+	LUA_DEBUG_END(l, 1)
 
 	return 1;
 }
