@@ -90,29 +90,3 @@ function unserialize(val, addtotable, start)
 		return last+len+1, UserDataUnserialize(val:sub(last+1, last+len))
 	end
 end
-
-Module = {}
-function Module:new(o)
-	o = o or {}
-	setmetatable(o, self)
-	self.__index = self
-	PiModule(o)
-	return o
-end
-
-function Module:Serialize()
-	return serialize(self)
-end
-
-function Module:Unserialize(data)
-	unserialize(data, self)
-end
--- default to performing transaction when clicked (can override to make other
--- nasty stuff happen
-function Module:TraderOnClickSell(self, dialog, comType)
-	return true
-end
-function Module:TraderOnClickBuy(self, dialog, comType)
-	return true
-end
-
