@@ -1,6 +1,8 @@
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
+#include <string>
+
 extern "C" {
 #include "lua/lua.h"
 #include "lua/lauxlib.h"
@@ -35,8 +37,9 @@ inline void pi_lua_settable(lua_State *l, int key, double value)
 	lua_settable(l, -3);
 }
 
-int pi_lua_panic(lua_State *l);
-int pi_load_lua(lua_State *l);
+int  pi_lua_panic(lua_State *l);
+void pi_lua_dofile_recursive(lua_State *l, std::string basepath);
+int  pi_load_lua(lua_State *l);
 	
 #ifdef DEBUG
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr);
