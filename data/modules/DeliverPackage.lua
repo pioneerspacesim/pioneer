@@ -1,4 +1,4 @@
-
+--[[
 -- Danger should be from 0 to 1. zero means nothing bad happens. greater than
 -- zero means spawn an enemy ship of that 'power' to kill you
 local delivery_flavours = {
@@ -41,20 +41,18 @@ local delivery_flavours = {
 	}
 }
 
---[[
-for i = 0,10 do
-	local sys = StarSystem:new(i,2,0)
-	print('Looking near ' .. sys:GetSectorX() .. '/' .. sys:GetSectorY() .. '/' .. sys:GetSystemNum())
-	print(sys:GetSystemName())
-	print(sys:GetSystemShortDescription())
-	local sport = sys:GetRandomStarportNearButNotIn()
-	if sport then
-		print(sport:GetBodyName() .. ' in the ' .. sport:GetSystemName() .. ' system')
-	else
-		print("No suitable nearby space station found.")
-	end
-end
---]]
+--for i = 0,10 do
+--	local sys = StarSystem:new(i,2,0)
+--	print('Looking near ' .. sys:GetSectorX() .. '/' .. sys:GetSectorY() .. '/' .. sys:GetSystemNum())
+--	print(sys:GetSystemName())
+--	print(sys:GetSystemShortDescription())
+--	local sport = sys:GetRandomStarportNearButNotIn()
+--	if sport then
+--		print(sport:GetBodyName() .. ' in the ' .. sport:GetSystemName() .. ' system')
+--	else
+--		print("No suitable nearby space station found.")
+--	end
+--end
 
 Module:new {
 	__name = 'DeliverPackage',
@@ -185,3 +183,4 @@ Module:new {
 		dialog:AddOption("Hang up.", -1);
 	end,
 }
+]]

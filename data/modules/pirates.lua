@@ -20,11 +20,5 @@ local onEnterSystem = function (sys, player)
 	end
 end
 
-Module:new {
-	__name = 'Pirates',
-
-	Init = function(self)
-		EventQueue.onEnterSystem:Connect(onEnterSystem)
-	end,
-}
+EventQueue.onEnterSystem:Connect(onEnterSystem)
 

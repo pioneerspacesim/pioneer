@@ -117,10 +117,4 @@ local onCreateBB = function (station)
 	end
 end
 
-Module:new {
-	__name='GoodsTrader', 
-	
-	Init = function(self)
-		EventQueue.onCreateBB:Connect(onCreateBB)
-	end,
-}
+EventQueue.onCreateBB:Connect(onCreateBB)

@@ -68,11 +68,5 @@ local onCreateBB = function (station)
 	ads[ref] = ad;
 end
 
-Module:new {
-	__name='DonateToCranks', 
-	
-	Init = function(self)
-		EventQueue.onCreateBB:Connect(onCreateBB)
-	end,
-}
+EventQueue.onCreateBB:Connect(onCreateBB)
 

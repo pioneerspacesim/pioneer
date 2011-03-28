@@ -84,10 +84,4 @@ local onEnterSystem = function (sys, player)
 	end
 end
 
-Module:new {
-	__name = 'TradeShips',
-
-	Init = function(self)
-		EventQueue.onEnterSystem:Connect(onEnterSystem)
-	end,
-}
+EventQueue.onEnterSystem:Connect(onEnterSystem)

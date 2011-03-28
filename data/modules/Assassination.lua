@@ -1,3 +1,4 @@
+--[[
 -- ass flavours indeed ;-)
 local ass_flavours = {
 	{
@@ -257,4 +258,4 @@ Module:new {
 		dialog:AddOption("Hang up.", -1);
 	end,
 }
---]]
+]]
