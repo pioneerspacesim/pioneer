@@ -23,22 +23,6 @@ end
  
 -- Bits that make modules work ---------------------------
 
-__piTimers = {}
-
-function UpdateOncePerRealtimeSecond()
-	local t = Pi.GetGameTime()
-	for i,timer in pairs(__piTimers) do
-		if (t >= timer.time) then
-			timer.func(timer.args)
-			__piTimers[i] = nil
-		end
-	end
-end
-
-Pi.AddTimer = function(time, fn, args)
-	table.insert(__piTimers, {time=time, func=fn, args=args})
-end
-
 function serialize(val)
 	local out
 	if type(val) == 'number' then

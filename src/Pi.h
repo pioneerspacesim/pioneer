@@ -97,6 +97,7 @@ public:
 	static sigc::signal<void> onPlayerChangeEquipment;
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
+	static LuaEventQueue<> luaOnTick;
 	static LuaEventQueue<> luaOnGameStart;
 	static LuaEventQueue<> luaOnGameEnd;
 	static LuaEventQueue<StarSystem,Player> luaOnEnterSystem;

@@ -10,7 +10,6 @@
 
 namespace PiLuaModules {
 	void GetPlayerMissions(std::list<Mission> &missions);
-	void UpdateOncePerRealtimeSecond();
 	lua_State *GetLuaState();
 
 	void Serialize(Serializer::Writer &wr);

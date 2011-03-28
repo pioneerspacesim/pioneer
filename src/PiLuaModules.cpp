@@ -24,16 +24,6 @@ static std::list<std::string> s_modules;
 
 lua_State *GetLuaState() { return L; }
 
-void UpdateOncePerRealtimeSecond()
-{
-	LUA_DEBUG_START(L);
-	lua_pushcfunction(L, pi_lua_panic);
-	lua_getglobal(L, "UpdateOncePerRealtimeSecond");
-	lua_pcall(L, 0, 0, -2);
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
-}
-
 static void GetMission(std::list<Mission> &missions)
 {
 	LUA_DEBUG_START(L)

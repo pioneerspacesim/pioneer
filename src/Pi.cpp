@@ -55,6 +55,7 @@ sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
+LuaEventQueue<> Pi::luaOnTick("onTick");
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
 LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
@@ -156,6 +157,7 @@ static void LuaInit()
 
 	LuaObject<LuaEventQueueBase>::RegisterClass();
 
+	Pi::luaOnTick.RegisterEventQueue();
 	Pi::luaOnGameStart.RegisterEventQueue();
 	Pi::luaOnGameEnd.RegisterEventQueue();
 	Pi::luaOnEnterSystem.RegisterEventQueue();
@@ -174,6 +176,7 @@ static void LuaInit()
 }
 
 static void LuaInitGame() {
+	Pi::luaOnTick.ClearEvents();
 	Pi::luaOnGameStart.ClearEvents();
 	Pi::luaOnGameEnd.ClearEvents();
 	Pi::luaOnShipKilled.ClearEvents();
@@ -1025,8 +1028,8 @@ void Pi::MainLoop()
 		}
 
 		if (frame_stat == 0) {
-			// called not more than once per second
-			PiLuaModules::UpdateOncePerRealtimeSecond();
+			luaOnTick.Queue();
+			luaOnTick.Emit();
 		}
 		frame_stat++;
 
