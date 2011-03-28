@@ -25,7 +25,7 @@ public:
 	static void Destroy() { return s_instance.reset(); }
 
 	lua_State *GetLuaState() { return m_lua; }
-	
+
 private:
 	static std::auto_ptr<LuaManager> s_instance;
 

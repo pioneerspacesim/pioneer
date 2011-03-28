@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "LuaObject.h"
+#include "LuaUtils.h"
 #include "mylua.h"
 
 #include <map>

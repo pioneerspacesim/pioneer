@@ -1,5 +1,6 @@
 #include "MyLuaMathTypes.h"
 #include "mylua.h"
+#include "LuaUtils.h"
 
 
 
@@ -164,20 +165,35 @@ namespace MyLuaMatrix {
 		} else {
 			m = checkMatrix(L, 1);
 			luaL_checktype(L, 2, LUA_TUSERDATA);
-			v = (vector3f*)mylua_checkudata(L, 2, MYLUA_VEC);
-			if (v) {
+
+			void *p = lua_touserdata(L, 2);
+			assert(p);
+
+			LUA_DEBUG_START(L)
+
+			lua_getmetatable(L, 2);
+			assert(lua_istable(L, -1));
+
+			lua_getfield(L, LUA_REGISTRYINDEX, MYLUA_VEC);
+			bool vector = lua_rawequal(L, -1, -2);
+			lua_pop(L, 2);
+
+			if (vector) {
+				v = (vector3f*)p;
 				// mat4x4 * vec
 				vector3f *out = MyLuaVec::pushVec(L);
 				*out = (*m) * (*v);
-				return 1;
 			} else {
 				// mat4x4 * mat4x4
 				matrix4x4f *m2 = (matrix4x4f*)luaL_checkudata(L, 2, MYLUA_MATRIX);
 				if (!m2) luaL_typerror(L, 2, MYLUA_MATRIX);
 				matrix4x4f *out = pushMatrix(L);
 				*out = (*m) * (*m2);
-				return 1;
 			}
+
+			LUA_DEBUG_END(L, 1)
+
+			return 1;
 		}
 	}
 

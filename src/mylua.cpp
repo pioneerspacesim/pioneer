@@ -1,4 +1,5 @@
 #include "mylua.h"
+#include "LuaUtils.h"
 #include "libs.h"
 #include <set>
 #ifdef _WIN32
@@ -10,24 +11,6 @@
 #include <sys/types.h>
 #endif
 
-int mylua_panic(lua_State *L)
-{
-	luaL_where(L, 0);
-	std::string errorMsg = lua_tostring(L, -1);
-	lua_pop(L, 1);
-
-	errorMsg += lua_tostring(L, -1);
-	lua_pop(L, 1);
-
-	lua_getglobal(L, "debug");
-	lua_getfield(L, -1, "traceback");
-	lua_call(L, 0, 1);
-	errorMsg += "\n";
-	errorMsg += lua_tostring(L, -1);
-	errorMsg += "\n";
-	Error("%s", errorMsg.c_str());
-	return 0;
-}
 
 
 static void lua_traverse(lua_State *L, const char *fn) {
@@ -67,9 +50,9 @@ static void lua_traverse(lua_State *L, const char *fn) {
 					lua_traverse(L, path);
 				else {
 					if ( name.size() >= strlen(".lua") && strcasecmp( name.c_str() + name.size()-4, ".lua") == 0) {
-						lua_pushcfunction(L, mylua_panic);
+						lua_pushcfunction(L, pi_lua_panic);
 						if (luaL_loadfile(L, path)) {
-							mylua_panic(L);
+							pi_lua_panic(L);
 						} else {
 							lua_pcall(L, 0, LUA_MULTRET, -2);
 						}

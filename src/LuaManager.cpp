@@ -2,8 +2,8 @@
 #include "LuaObject.h"
 #include "LuaEventQueue.h"
 #include "PiLuaConstants.h"
+#include "LuaUtils.h"
 #include "oolua/oolua.h"
-#include "mylua.h"
 
 class LuaChatForm;
 
@@ -14,7 +14,7 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	luaL_openlibs(m_lua);
 
-	lua_atpanic(m_lua, mylua_panic);
+	lua_atpanic(m_lua, pi_lua_panic);
 
 	// XXX remove once oolua is gone
 	OOLUA::setup_user_lua_state(m_lua);

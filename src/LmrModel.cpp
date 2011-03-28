@@ -6,6 +6,7 @@
 #include "perlin.h"
 #include "Render.h"
 #include "BufferObject.h"
+#include "LuaUtils.h"
 #include <set>
 #include <algorithm>
 
@@ -836,7 +837,7 @@ LmrModel::LmrModel(const char *model_name)
 	for (int i=0; i<m_numLods; i++) {
 		m_staticGeometry[i]->PreBuild();
 		s_curBuf = m_staticGeometry[i];
-		lua_pushcfunction(sLua, mylua_panic);
+		lua_pushcfunction(sLua, pi_lua_panic);
 		// call model static building function
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
 		// lod as first argument
@@ -981,7 +982,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		m_dynamicGeometry[lod]->PreBuild();
 		s_curBuf = m_dynamicGeometry[lod];
 		s_curParams = params;
-		lua_pushcfunction(sLua, mylua_panic);
+		lua_pushcfunction(sLua, pi_lua_panic);
 		// call model dynamic bits
 		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
 		// lod as first argument
@@ -2762,9 +2763,9 @@ void LmrModelCompilerInit()
 	lua_setglobal(L, "CurrentDirectory");
 	
 	// same as luaL_dofile, except we can pass an error handler
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str())) {
-		mylua_panic(L);
+		pi_lua_panic(L);
 	} else {
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}

@@ -3,6 +3,7 @@
 #include "Serializer.h"
 #include "MyLuaMathTypes.h"
 #include "Pi.h"
+#include "LuaUtils.h"
 #include "utils.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {

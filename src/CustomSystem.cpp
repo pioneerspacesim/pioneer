@@ -1,4 +1,5 @@
 #include "CustomSystem.h"
+#include "LuaUtils.h"
 #include "PiLuaClasses.h"
 #include "PiLuaConstants.h"
 #include "Polit.h"
@@ -22,9 +23,9 @@ void CustomSystem::Init()
 	lua_pushstring(L, PIONEER_DATA_DIR);
 	lua_setglobal(L, "CurrentDirectory");
 
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pisystems.lua").c_str())) {
-		mylua_panic(L);
+		pi_lua_panic(L);
 	} else {
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}

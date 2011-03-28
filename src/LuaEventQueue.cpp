@@ -1,6 +1,7 @@
 #include "LuaEventQueue.h"
 #include "LuaManager.h"
 #include "LuaObject.h"
+#include "LuaUtils.h"
 #include "mylua.h"
 
 void LuaEventQueueBase::RegisterEventQueue()

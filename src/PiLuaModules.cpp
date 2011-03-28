@@ -29,7 +29,7 @@ lua_State *GetLuaState() { return L; }
 void UpdateOncePerRealtimeSecond()
 {
 	LUA_DEBUG_START(L);
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	lua_getglobal(L, "UpdateOncePerRealtimeSecond");
 	lua_pcall(L, 0, 0, -2);
 	lua_pop(L, 1);
@@ -40,7 +40,7 @@ static void CallModFunction(const char *modname, const char *funcname)
 {
 	LUA_DEBUG_START(L)
 	//printf("Calling %s:%s()\n", modname, funcname);
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	lua_getglobal(L, modname);
 	lua_getfield(L, -1, funcname);
 	lua_pushvalue(L, -2); // push self
@@ -96,7 +96,7 @@ void GetPlayerMissions(std::list<Mission> &missions)
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
 		LUA_DEBUG_START(L)
 		lua_getglobal(L, (*i).c_str());
-		lua_pushcfunction(L, mylua_panic);
+		lua_pushcfunction(L, pi_lua_panic);
 		lua_getfield(L, -2, "GetPlayerMissions");
 		if (!lua_isnil(L, -1)) {
 			lua_pushvalue(L, -3); // push self

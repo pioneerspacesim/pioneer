@@ -4,6 +4,7 @@
 #include "Mission.h"
 #include "Serializer.h"
 #include "mylua.h"
+#include "LuaUtils.h"
 
 namespace PiLuaModules {
 	void GetPlayerMissions(std::list<Mission> &missions);
@@ -21,13 +22,13 @@ namespace PiLuaModules {
 	{
 		lua_State *l = GetLuaState();
 		LUA_DEBUG_START(l)
-		lua_pushcfunction(l, mylua_panic);
+		lua_pushcfunction(l, pi_lua_panic);
 		lua_getglobal(l, modname);
 		lua_getfield(l, -1, fnname);
 		lua_pushvalue(l, -2); // push self
 		lua_remove(l, -3); // get rid of module object
 		lua_pcall(l, 1, retvals, -3);
-		lua_remove(l, -1-retvals); // get rid of mylua_panic
+		lua_remove(l, -1-retvals); // get rid of pi_lua_panic
 		LUA_DEBUG_END(l, retvals);
 	}
 	template <typename T>
@@ -35,14 +36,14 @@ namespace PiLuaModules {
 	{
 		lua_State *l = PiLuaModules::GetLuaState();
 		LUA_DEBUG_START(l)
-		lua_pushcfunction(l, mylua_panic);
+		lua_pushcfunction(l, pi_lua_panic);
 		lua_getglobal(l, modname);
 		lua_getfield(l, -1, fnname);
 		lua_pushvalue(l, -2); // push self
 		lua_remove(l, -3); // get rid of module object
 		OOLUA::push2lua(l, arg1);
 		lua_pcall(l, 2, retvals, -4);
-		lua_remove(l, -1-retvals); // get rid of mylua_panic
+		lua_remove(l, -1-retvals); // get rid of pi_lua_panic
 		LUA_DEBUG_END(l, retvals);
 	}
 	template <typename T, typename U>
@@ -50,7 +51,7 @@ namespace PiLuaModules {
 	{
 		lua_State *l = PiLuaModules::GetLuaState();
 		LUA_DEBUG_START(l)
-		lua_pushcfunction(l, mylua_panic);
+		lua_pushcfunction(l, pi_lua_panic);
 		lua_getglobal(l, modname);
 		lua_getfield(l, -1, fnname);
 		lua_pushvalue(l, -2); // push self
@@ -58,7 +59,7 @@ namespace PiLuaModules {
 		OOLUA::push2lua(l, arg1);
 		OOLUA::push2lua(l, arg2);
 		lua_pcall(l, 3, retvals, -5);
-		lua_remove(l, -1-retvals); // get rid of mylua_panic
+		lua_remove(l, -1-retvals); // get rid of pi_lua_panic
 		LUA_DEBUG_END(l, retvals);
 	}
 	template <typename T, typename U, typename V>
@@ -66,7 +67,7 @@ namespace PiLuaModules {
 	{
 		lua_State *l = PiLuaModules::GetLuaState();
 		LUA_DEBUG_START(l)
-		lua_pushcfunction(l, mylua_panic);
+		lua_pushcfunction(l, pi_lua_panic);
 		lua_getglobal(l, modname);
 		lua_getfield(l, -1, fnname);
 		lua_pushvalue(l, -2); // push self
@@ -75,7 +76,7 @@ namespace PiLuaModules {
 		OOLUA::push2lua(l, arg2);
 		OOLUA::push2lua(l, arg3);
 		lua_pcall(l, 4, retvals, -6);
-		lua_remove(l, -1-retvals); // get rid of mylua_panic
+		lua_remove(l, -1-retvals); // get rid of pi_lua_panic
 		LUA_DEBUG_END(l, retvals);
 	}
 

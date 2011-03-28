@@ -1,6 +1,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "LuaChatForm.h"
+#include "LuaUtils.h"
 #include "libs.h"
 #include "Gui.h"
 #include "SpaceStation.h"

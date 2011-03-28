@@ -72,7 +72,7 @@ void SpaceStationType::ReadStageDurations() {
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
 	lua_State *L = LmrGetLuaState();
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	model->PushAttributeToLuaStack("ship_approach_waypoints");
 	if (!lua_isfunction(L, -1)) {
 		printf("no function\n");
@@ -115,7 +115,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
 	lua_State *L = LmrGetLuaState();
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	// It's a function of form function(stage, t, from)
 	model->PushAttributeToLuaStack("ship_dock_anim");
 	if (!lua_isfunction(L, -1)) {
