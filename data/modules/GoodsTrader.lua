@@ -21,7 +21,7 @@ local onActivate = function (dialog, ref, option)
 
 	ad.stock = {}
 	ad.price = {}
-	for e = Equip.FIRST_COMMODITY, Equip.LAST_COMMODITY do
+	for e = Equip.Type.FIRST_COMMODITY, Equip.Type.LAST_COMMODITY do
 		if not sys:IsCommodityLegal(e) then
 			ad.stock[e] = Pi.rand:Int(1,50)
 			-- going rate on the black market will be twice normal

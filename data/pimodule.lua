@@ -91,8 +91,6 @@ function unserialize(val, addtotable, start)
 	end
 end
 
-dofile "data/pienums.lua"
-
 Module = {}
 function Module:new(o)
 	o = o or {}
