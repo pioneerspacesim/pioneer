@@ -244,6 +244,9 @@ void Uninit()
 		Pi::luaOnEnterSystem.ClearEvents();
 		Pi::luaOnShipKilled.ClearEvents();
 		Pi::luaOnShipAttacked.ClearEvents();
+		Pi::luaOnPlayerDocked.ClearEvents();
+		Pi::luaOnCreateBB.ClearEvents();
+		Pi::luaOnUpdateBB.ClearEvents();
 
 		LuaManager::Destroy();
 
