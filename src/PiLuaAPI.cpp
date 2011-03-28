@@ -296,14 +296,14 @@ namespace LuaPi {
 		return 1;
 	}
 	static int Message(lua_State *l) {
-		std::string from = LuaString::PullFromLua();
-		std::string msg = LuaString::PullFromLua();
+		std::string from = LuaString::GetFromLua(1);
+		std::string msg = LuaString::GetFromLua(2);
 		Pi::cpan->MsgLog()->Message(from, msg);
 		return 0;
 	}
 	static int ImportantMessage(lua_State *l) {
-		std::string from = LuaString::PullFromLua();
-		std::string msg = LuaString::PullFromLua();
+		std::string from = LuaString::GetFromLua(1);
+		std::string msg = LuaString::GetFromLua(2);
 		Pi::cpan->MsgLog()->ImportantMessage(from, msg);
 		return 0;
 	}
@@ -312,7 +312,7 @@ namespace LuaPi {
 		return 1;
 	}
 	static int FormatDate(lua_State *l) {
-		double t = LuaFloat::PullFromLua();
+		double t = LuaFloat::GetFromLua(1);
 		std::string s = format_date(t);
 		LuaString::PushToLua(s.c_str());
 		return 1;
@@ -397,8 +397,8 @@ namespace LuaPi {
 		}
 	}
 	static int SpawnShip(lua_State *l) {
-		double due = LuaFloat::PullFromLua();
-		std::string type = LuaString::PullFromLua();
+		double due = LuaFloat::GetFromLua(1);
+		std::string type = LuaString::GetFromLua(2);
 		int ret;
 		try {
 			ret = _spawn_ship(l, type, due, 0.0);
@@ -410,10 +410,10 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomShip(lua_State *l) {
-		double due = LuaFloat::PullFromLua();
-		double power = LuaFloat::PullFromLua();
-		int minMass = LuaInt::PullFromLua();
-		int maxMass = LuaInt::PullFromLua();
+		double due = LuaFloat::GetFromLua(1);
+		double power = LuaFloat::GetFromLua(2);
+		int minMass = LuaInt::GetFromLua(3);
+		int maxMass = LuaInt::GetFromLua(4);
 		//printf("power %f, mass %d to %d\n", power, minMass, maxMass);
 		std::string type;
 		int ret;
@@ -428,10 +428,10 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomDockedShip(lua_State *l) {
-		SpaceStation *station = LuaSpaceStation::PullFromLua();
-		double power = LuaFloat::PullFromLua();
-		int minMass = LuaInt::PullFromLua();
-		int maxMass = LuaInt::PullFromLua();
+		SpaceStation *station = LuaSpaceStation::GetFromLua(1);
+		double power = LuaFloat::GetFromLua(2);
+		int minMass = LuaInt::GetFromLua(3);
+		int maxMass = LuaInt::GetFromLua(4);
 		//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
 		std::string type;
 		int ret;
@@ -447,7 +447,7 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomStaticShip(lua_State *l) {
-		SpaceStation *station = LuaSpaceStation::PullFromLua();
+		SpaceStation *station = LuaSpaceStation::GetFromLua(1);
 
 		int slot;
 		if (!station->AllocateStaticSlot(slot)) {
@@ -506,8 +506,8 @@ namespace LuaPi {
 		return 1;
 	}
 	static int AddPlayerCrime(lua_State *l) {
-		Sint64 crimeBitset = LuaInt::PullFromLua();
-		double fine = LuaFloat::PullFromLua();
+		Sint64 crimeBitset = LuaInt::GetFromLua(1);
+		double fine = LuaFloat::GetFromLua(2);
 		Sint64 _fine = (Sint64)(100.0*fine);
 		Polit::AddCrime(crimeBitset, _fine);
 		return 0;

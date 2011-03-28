@@ -4,10 +4,10 @@
 
 static int l_spacestation_add_advert(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	std::string title = LuaString::PullFromLua();
+	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	std::string title = LuaString::GetFromLua(2);
 
-	if (!lua_isfunction(l, 1))
+	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
@@ -24,14 +24,14 @@ static int l_spacestation_add_advert(lua_State *l)
 	lua_newtable(l);
 
 	lua_pushstring(l, "onActivate");
-	lua_pushvalue(l, 1);
+	lua_pushvalue(l, 3);
 	lua_settable(l, -3);
 
-	if (!lua_isnil(l, 2) && !lua_isfunction(l, 2))
+	if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
 		luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
 	else {
 		lua_pushstring(l, "onDelete");
-		lua_pushvalue(l, 2);
+		lua_pushvalue(l, 4);
 		lua_settable(l, -3);
 	}
 
@@ -46,8 +46,8 @@ static int l_spacestation_add_advert(lua_State *l)
 
 static int l_spacestation_remove_advert(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	int ref = LuaInt::PullFromLua();
+	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	int ref = LuaInt::GetFromLua(2);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	if (lua_isnil(l, -1)) {
@@ -85,8 +85,8 @@ static int l_spacestation_remove_advert(lua_State *l)
 
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::PullFromLua();
-	int equip_type = LuaInt::PullFromLua();
+	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	int equip_type = LuaInt::GetFromLua(2);
 
 	Sint64 cost = s->GetPrice(static_cast<Equip::Type>(equip_type));
 	lua_pushnumber(l, cost * 0.01);

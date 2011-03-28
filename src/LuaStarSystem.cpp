@@ -10,28 +10,28 @@
 
 static int l_starsystem_get_name(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 } 
 
 static int l_starsystem_get_lawlessness(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	LuaFloat::PushToLua(s->GetSysPolit().lawlessness.ToDouble());
 	return 1;
 }
 
 static int l_starsystem_get_population(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	LuaFloat::PushToLua(s->m_totalPop.ToDouble());
 	return 1;
 }
 
 static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
 
@@ -43,7 +43,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 
 static int l_starsystem_get_random_starport(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	SBodyPath *path = new SBodyPath;
 	if (s->GetRandomStarport(Pi::rng, path)) {
@@ -59,13 +59,13 @@ static int l_starsystem_get_random_starport(lua_State *l)
 // people think that way so might as well keep the lie alive
 static int l_starsystem_get_body(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	if (s != Pi::currentSystem) {
 		LuaString::PushToLua("get_body can only be called on the current system");
 		lua_error(l);
 	}
 
-	SBodyPath *path = LuaSBodyPath::PullFromLua();
+	SBodyPath *path = LuaSBodyPath::GetFromLua(2);
 	if (!s->IsSystem(path->sectorX, path->sectorY, path->systemNum)) {
 		LuaString::PushToLua("requested body is not in this system");
 		lua_error(l);
@@ -96,8 +96,8 @@ static int l_starsystem_get_body(lua_State *l)
 
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::PullFromLua();
-	Equip::Type t = static_cast<Equip::Type>(LuaInt::PullFromLua());
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	Equip::Type t = static_cast<Equip::Type>(LuaInt::GetFromLua(2));
 	LuaBool::PushToLua(Polit::IsCommodityLegal(s, t));
 	return 1;
 }

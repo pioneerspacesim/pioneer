@@ -95,16 +95,15 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_pop(l, 2);
 }
 
-DeleteEmitter *LuaObjectBase::PullFromLua(const char *want_type)
+DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	luaL_checktype(l, 1, LUA_TUSERDATA);
+	luaL_checktype(l, index, LUA_TUSERDATA);
 
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = (lid*)lua_touserdata(l, index);
 	if (!idp)
 		luaL_error(l, "value on stack is of type userdata but has no userdata associated with it");
-	lua_remove(l, 1);
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 	if (!lo)

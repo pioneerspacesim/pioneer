@@ -1,10 +1,13 @@
 #include "LuaEventQueue.h"
 #include "LuaManager.h"
 #include "LuaObject.h"
+#include "mylua.h"
 
 void LuaEventQueueBase::RegisterEventQueue()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
 
 	// get the eventqueue table, or create it if it doesn't exist
 	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
@@ -19,9 +22,23 @@ void LuaEventQueueBase::RegisterEventQueue()
 	LuaObject<LuaEventQueueBase>::PushToLua(this);
 	lua_rawset(l, -3);
 
-	lua_pushstring(l, stringf(256, "_%s_callbacks", m_name).c_str());
+	lua_pop(l, 1);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+		lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+	}
+
+	lua_pushstring(l, m_name);
 	lua_newtable(l);
 	lua_rawset(l, -3);
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0)
 }
 
 void LuaEventQueueBase::ClearEvents()
@@ -37,8 +54,12 @@ void LuaEventQueueBase::Emit()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
-	lua_getfield(l, -1, stringf(256, "_%s_callbacks", m_name).c_str());
+	LUA_DEBUG_START(l)
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+    assert(lua_istable(l, -1));
+	lua_getfield(l, -1, m_name);
+    assert(lua_istable(l, -1));
 
 	while (m_events.size()) {
 		LuaEventBase *e = m_events.front();
@@ -50,38 +71,57 @@ void LuaEventQueueBase::Emit()
 			PrepareLuaStack(l, e);
 			lua_call(l, lua_gettop(l) - top, 0);
 		}
-		lua_pop(l, 1);
 
 		delete e;
 	}
 
 	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0)
 }
 
 int LuaEventQueueBase::l_connect(lua_State *l)
 {
-	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::PullFromLua();
+	LUA_DEBUG_START(l)
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
-	lua_getfield(l, -1, stringf(256, "_%s_callbacks", q->m_name).c_str());
+	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
-	lua_pushvalue(l, 1);
-	lua_pushvalue(l, 1);
+	if (!lua_isfunction(l, 2))
+		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+	lua_getfield(l, -1, q->m_name);
+
+	lua_pushvalue(l, 2);
+	lua_pushvalue(l, 2);
 	lua_rawset(l, -3);
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0)
 
 	return 0;
 }
 
 int LuaEventQueueBase::l_disconnect(lua_State *l)
 {
-	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::PullFromLua();
+	LUA_DEBUG_START(l)
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
-	lua_getfield(l, -1, stringf(256, "_%s_callbacks", q->m_name).c_str());
+	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
-	lua_pushvalue(l, 1);
+	if (!lua_isfunction(l, 2))
+		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+	lua_getfield(l, -1, q->m_name);
+
+	lua_pushvalue(l, 2);
 	lua_pushnil(l);
 	lua_rawset(l, -3);
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0)
 
 	return 0;
 }

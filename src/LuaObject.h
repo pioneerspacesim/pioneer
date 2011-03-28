@@ -29,10 +29,10 @@
 //   Ship *s = new Ship("Eagle Long Range Fighter");
 //   LuaShip::PushToLuaGC(s);
 //
-// pull a value from lua the lua stack after method call (causes lua exception
-// the object doesn't exist or the types don't match):
+// get a value from the lua stack at index n (causes lua exception if the
+// object doesn't exist or the types don't match)
 //
-//   Ship *s = LuaShip::PullFromLua();
+//   Ship *s = LuaShip::GetFromLua(1);
 //
 // note that it uses the singleton lua state provided by LuaManager. there's
 // no facility to use a different lua state. if you think you need to you're
@@ -116,7 +116,7 @@ protected:
 	// pulls an object off the lua stack and returns its associated c++
 	// object. want_type is the lua type string of the object. a lua exception
 	// is triggered if the object on the stack is not of this type
-	static DeleteEmitter *PullFromLua(const char *want_type);
+	static DeleteEmitter *GetFromLua(int index, const char *want_type);
 
 private:
 	LuaObjectBase(const LuaObjectBase &) {}
@@ -169,8 +169,8 @@ public:
 	}
 
 	// pull an object off the the stack, unwrap it and return it
-	static inline T *PullFromLua() {
-		return dynamic_cast<T *>(LuaObjectBase::PullFromLua(s_type));
+	static inline T *GetFromLua(int index) {
+		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(index, s_type));
 	}
 
 private:
@@ -200,7 +200,7 @@ private:
 
 // if we wanted we could just use LuaUncopyable<T> as-is, but that would mean
 // having to create a uncopyable of every object before passing it to
-// PushToLua() and always casting the return from PullFromLua(). instead we
+// PushToLua() and always casting the return from GetFromLua(). instead we
 // subclass the object and implement some wrapper methods for the "real"
 // types.
 template <typename T, typename UT>
@@ -224,8 +224,8 @@ public:
 	}
 
 	// pull from lua, casting back to the original type
-	static inline T *PullFromLua() {
-		return dynamic_cast<T*>(LuaObject<UT>::PullFromLua());
+	static inline T *GetFromLua(int index) {
+		return dynamic_cast<T*>(LuaObject<UT>::GetFromLua(index));
 	}
 };
 
@@ -238,10 +238,9 @@ namespace LuaString {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 		lua_pushstring(l, s);
 	}
-	inline std::string PullFromLua() {
+	inline std::string GetFromLua(int index) {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
-		std::string s = luaL_checkstring(l, 1);
-		lua_remove(l, 1);
+		std::string s = luaL_checkstring(l, index);
 		return s;
 	}
 };
@@ -251,10 +250,9 @@ namespace LuaFloat {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 		lua_pushnumber(l, n);
 	}
-	inline double PullFromLua() {
+	inline double GetFromLua(int index) {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
-		double n = luaL_checknumber(l, 1);
-		lua_remove(l, 1);
+		double n = luaL_checknumber(l, index);
 		return n;
 	}
 };
@@ -264,10 +262,9 @@ namespace LuaInt {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 		lua_pushinteger(l, n);
 	}
-	inline int PullFromLua() {
+	inline int GetFromLua(int index) {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
-		int n = luaL_checkinteger(l, 1);
-		lua_remove(l, 1);
+		int n = luaL_checkinteger(l, index);
 		return n;
 	}
 };
@@ -277,12 +274,11 @@ namespace LuaBool {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 		lua_pushboolean(l, b);
 	}
-	inline int PullFromLua() {
+	inline int GetFromLua(int index) {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
-        if (!lua_isboolean(l, 1))
-            luaL_typerror(l, 1, lua_typename(l, LUA_TBOOLEAN));
-        bool b = lua_toboolean(l, 1);
-		lua_remove(l, 1);
+        if (!lua_isboolean(l, index))
+            luaL_typerror(l, index, lua_typename(l, LUA_TBOOLEAN));
+        bool b = lua_toboolean(l, index);
 		return b;
 	}
 };

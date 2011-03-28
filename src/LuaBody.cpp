@@ -5,14 +5,14 @@
 
 static int l_body_get_label(lua_State *l)
 {
-	Body *b = LuaBody::PullFromLua();
+	Body *b = LuaBody::GetFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
 } 
 
 static int l_body_get_seed(lua_State *l)
 {
-	Body *b = LuaBody::PullFromLua();
+	Body *b = LuaBody::GetFromLua(1);
 
 	const SBody *sbody = b->GetSBody();
 	assert(sbody);

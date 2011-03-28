@@ -242,32 +242,32 @@ void LuaChatForm::Sold(Equip::Type t) {
 
 static int l_luachatform_clear(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 	dialog->Clear();
 	return 0;
 }
 
 static int l_luachatform_set_title(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
-	std::string title = LuaString::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	std::string title = LuaString::GetFromLua(2);
 	dialog->SetTitle(title.c_str());
 	return 0;
 }
 
 static int l_luachatform_set_message(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
-	std::string message = LuaString::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	std::string message = LuaString::GetFromLua(2);
 	dialog->SetMessage(message.c_str());
 	return 0;
 }
 
 static int l_luachatform_add_option(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
-	std::string text = LuaString::PullFromLua();
-	int val = LuaInt::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	std::string text = LuaString::GetFromLua(2);
+	int val = LuaInt::GetFromLua(3);
 	dialog->AddOption(text, val);
 	return 0;
 }
@@ -300,37 +300,37 @@ static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l,
 
 int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 
-	if(!lua_istable(l, 1))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+	if(!lua_istable(l, 2))
+		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
 	
 	// XXX verbose but what can you do?
-	lua_getfield(l, 1, "canTrade");
+	lua_getfield(l, 2, "canTrade");
 	if (!lua_isfunction(l, -1))
 		_bad_trade_function(l, "canTrade");
 
-	lua_getfield(l, 1, "getStock");
+	lua_getfield(l, 2, "getStock");
 	if (!lua_isfunction(l, -1))
 		_bad_trade_function(l, "getStock");
 
-	lua_getfield(l, 1, "getPrice");
+	lua_getfield(l, 2, "getPrice");
 	if (!lua_isfunction(l, -1))
 		_bad_trade_function(l, "getPrice");
 
-	lua_getfield(l, 1, "onClickBuy");
+	lua_getfield(l, 2, "onClickBuy");
 	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
 		_bad_trade_function(l, "onClickBuy");
 
-	lua_getfield(l, 1, "onClickSell");
+	lua_getfield(l, 2, "onClickSell");
 	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
 		_bad_trade_function(l, "onClickSell");
 
-	lua_getfield(l, 1, "bought");
+	lua_getfield(l, 2, "bought");
 	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
 		_bad_trade_function(l, "bought");
 
-	lua_getfield(l, 1, "sold");
+	lua_getfield(l, 2, "sold");
 	if(!lua_isfunction(l, -1) && !lua_isnil(l, -1))
 		_bad_trade_function(l, "sold");
 
@@ -344,7 +344,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	assert(!lua_isnil(l, -1));
 
 	lua_pushstring(l, "tradeWidgetFunctions");
-	lua_pushvalue(l, 1);
+	lua_pushvalue(l, 2);
 	lua_settable(l, -3);
 
 	lua_pop(l, 2);
@@ -365,21 +365,21 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 
 static int l_luachatform_close(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 	dialog->Close();
 	return 0;
 }
 
 static int l_luachatform_refresh(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 	dialog->UpdateBaseDisplay();
 	return 0;
 }
 
 static int l_luachatform_goto_police(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::PullFromLua();
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 	Pi::spaceStationView->JumpToForm(new PoliceChatForm());
 	return 0;
 }
