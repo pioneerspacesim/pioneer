@@ -2,7 +2,6 @@
 #define _SYSLOC_H
 
 #include "Serializer.h"
-#include "mylua.h"
 
 class SBodyPath;
 

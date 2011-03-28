@@ -2752,7 +2752,7 @@ void LmrModelCompilerInit()
 	lua_register(L, "call_model", ModelFuncs::call_model);
 	lua_register(L, "noise", UtilFuncs::noise);
 	lua_register(L, "load_obj", ObjLoader::load_obj_file);
-	lua_register(L, "load_lua", mylua_load_lua);
+	lua_register(L, "load_lua", pi_load_lua);
 	lua_register(L, "set_insideout", ModelFuncs::insideout);
 	lua_register(L, "set_local_lighting", ModelFuncs::set_local_lighting);
 	lua_register(L, "set_light", ModelFuncs::set_light);

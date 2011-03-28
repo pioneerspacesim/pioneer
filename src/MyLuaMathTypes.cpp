@@ -1,7 +1,6 @@
+#include "libs.h"
 #include "MyLuaMathTypes.h"
-#include "mylua.h"
 #include "LuaUtils.h"
-
 
 
 namespace MyLuaMatrix {

@@ -18,7 +18,7 @@ void CustomSystem::Init()
 	OOLUA::register_class<CustomSystem>(L);
 	OOLUA::register_class<CustomSBody>(L);
 
-	lua_register(L, "load_lua", mylua_load_lua);
+	lua_register(L, "load_lua", pi_load_lua);
 
 	lua_pushstring(L, PIONEER_DATA_DIR);
 	lua_setglobal(L, "CurrentDirectory");

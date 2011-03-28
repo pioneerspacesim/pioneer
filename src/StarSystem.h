@@ -8,7 +8,6 @@
 #include "Serializer.h"
 #include <vector>
 #include <string>
-#include "mylua.h"
 #include "DeleteEmitter.h"
 
 struct CustomSBody;

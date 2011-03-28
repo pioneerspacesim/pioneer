@@ -1,13 +1,9 @@
 #ifndef _LUAMANAGER_H
 #define _LUAMANAGER_H
 
-#include <memory>
+#include "LuaUtils.h"
 
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
+#include <memory>
 
 class LuaManager {
 	friend class std::auto_ptr<LuaManager>;

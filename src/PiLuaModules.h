@@ -3,8 +3,10 @@
 
 #include "Mission.h"
 #include "Serializer.h"
-#include "mylua.h"
+#include "LuaManager.h"
 #include "LuaUtils.h"
+
+#include "oolua/oolua.h"
 
 namespace PiLuaModules {
 	void GetPlayerMissions(std::list<Mission> &missions);

@@ -5,7 +5,6 @@
 #include "Object.h"
 #include "Body.h"
 #include "PiLuaModules.h"
-#include "mylua.h"
 #include "PiLuaAPI.h"
 #include "LuaManager.h"
 #ifdef _WIN32

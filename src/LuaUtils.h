@@ -3,6 +3,8 @@
 
 extern "C" {
 #include "lua/lua.h"
+#include "lua/lauxlib.h"
+#include "lua/lualib.h"
 }
 
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
@@ -34,6 +36,7 @@ inline void pi_lua_settable(lua_State *l, int key, double value)
 }
 
 int pi_lua_panic(lua_State *l);
+int pi_load_lua(lua_State *l);
 	
 #ifdef DEBUG
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr);
