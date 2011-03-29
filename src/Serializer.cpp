@@ -7,7 +7,7 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	21
+#define SAVEFILE_VERSION	22
 
 namespace Serializer {
 

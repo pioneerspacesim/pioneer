@@ -55,6 +55,7 @@ sigc::signal<void> Pi::onPlayerHyperspaceToNewSystem;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
+LuaSerializer Pi::luaSerializer;
 LuaEventQueue<> Pi::luaOnTick("onTick");
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
@@ -155,7 +156,10 @@ static void LuaInit()
 
 	LuaObject<LuaChatForm>::RegisterClass();
 
+	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaEventQueueBase>::RegisterClass();
+
+	Pi::luaSerializer.RegisterSerializer();
 
 	Pi::luaOnTick.RegisterEventQueue();
 	Pi::luaOnGameStart.RegisterEventQueue();
@@ -1195,7 +1199,7 @@ void Pi::Serialize(Serializer::Writer &wr)
 	wr.WrSection("WorldView", section.GetData());
 
 	section = Serializer::Writer();
-	PiLuaModules::Serialize(section);
+	luaSerializer.Serialize(section);
 	wr.WrSection("LuaModules", section.GetData());
 }
 
@@ -1231,7 +1235,7 @@ void Pi::Unserialize(Serializer::Reader &rd)
 	worldView->Load(section);
 
 	section = rd.RdSection("LuaModules");
-	PiLuaModules::Unserialize(section);
+	luaSerializer.Unserialize(section);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
