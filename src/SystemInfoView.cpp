@@ -213,6 +213,20 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	if (!s) return;			// Does happen
 
 	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+
+	if (s->m_unexplored) {
+		Add(m_sbodyInfoTab, 0, 0);
+
+		std::string _info =
+			"Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available.";
+
+		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
+		m_sbodyInfoTab->Add(l, 35, 300);
+
+		ShowAll();
+		return;
+	}
+
 	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	

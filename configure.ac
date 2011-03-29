@@ -2,7 +2,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [0.alpha.2], [tomm@riseup.net])
+AC_INIT([pioneer], [0.alpha.9], [pioneer-dev@pioneerspacesim.net])
 #AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign])

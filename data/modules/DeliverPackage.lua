@@ -122,7 +122,7 @@ Module:new {
 
 	onPlayerDock = function(self)
 		local station = Pi.GetPlayer():GetDockedWith():GetSBody()
-		print('player docked with ' .. station:GetBodyName())
+		--print('player docked with ' .. station:GetBodyName())
 		for k,mission in pairs(self.missions) do
 			if mission.status == 'active' then
 				if mission.dest == station then

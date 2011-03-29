@@ -285,7 +285,7 @@ define_model('vipx_uc_all', {
 		end
 	end,
 	dynamic = function(lod)
-        if lod > 1 then
+        if lod > 2 then
             if get_arg(0) ~= 0 then
 				set_material('cv0',get_arg_material(0))
 
@@ -319,7 +319,7 @@ define_model('vipx_uc_all', {
 				zbias(4,v(0,0,0),v(0,0,0))
 				texture(nil)
             	use_material('null')
-            	load_obj('models/ships/viper_x/vipx_hole_f.obj')
+	           	load_obj('models/ships/viper_x/vipx_hole_f.obj')
             	
 				load_obj('models/ships/viper_x/vipx_flap_r.obj',Matrix.translate(v(0,-0.005,0)))
 				load_obj('models/ships/viper_x/vipx_flap_l.obj',Matrix.translate(v(0,-0.005,0)))
@@ -375,7 +375,7 @@ define_model('vipx_galmap', {
 
 define_model('viper_x', {
 	info = {
-			scale = .8,
+			scale = 1.0,
 			lod_pixels = { .1, 50, 100, 0 },
    			bounding_radius = 20,
 			materials = {'win', 'cv0', 'ncv', 'chrome', 'black', 'layer', 'glow1', 'glow2a',
@@ -386,11 +386,11 @@ define_model('viper_x', {
 					name='Viper X',
 					forward_thrust = -9e6,
 					reverse_thrust = 3e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e6,
+					up_thrust = 3e6,
+					down_thrust = -2e6,
+					left_thrust = -2e6,
+					right_thrust = 2e6,
+					angular_thrust = 20e6,
 					gun_mounts = 
 					{
 					{ v(0,-1.4,-28), v(0,0,-1) },
@@ -400,7 +400,7 @@ define_model('viper_x', {
 					max_laser = 1,
 					max_missile = 4,
 					capacity = 55,
-					hull_mass = 30,
+					hull_mass = 40,
 					price = 90000,
 					hyperdrive_class = 2,
 				}

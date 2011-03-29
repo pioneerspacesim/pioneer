@@ -143,7 +143,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	//const char *modelTagName;
 	std::vector<LmrModel*> models;
 	LmrGetModelsWithTag(list->modelTagName, models);
-	printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 

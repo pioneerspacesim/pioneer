@@ -1,6 +1,6 @@
 #include "Sector.h"
 #include "StarSystem.h"
-#include "custom_starsystems.h"
+#include "CustomSystem.h"
 #include "Galaxy.h"
 
 #define SYS_NAME_FRAGS	32
@@ -11,28 +11,23 @@ static const char *sys_names[SYS_NAME_FRAGS] =
 
 const float Sector::SIZE = 8;
 
-
 void Sector::GetCustomSystems()
 {
-	int n=0;
-	for (int i=0; ; i++) {
-		if (custom_systems[i].name == 0) break;
-		if ((custom_systems[i].sectorX == sx) &&
-		    (custom_systems[i].sectorY == sy)) {
-			n++;
-			const CustomSystem *sys = &custom_systems[i];
+	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy);
+	if (systems.size() == 0) return;
 
-			System s;
-			s.p = SIZE*sys->pos;
-			s.name = custom_systems[i].name;
-			for (s.numStars=0; s.numStars<4; s.numStars++) {
-				if (custom_systems[i].primaryType[s.numStars] == 0) break;
-				s.starType[s.numStars] = custom_systems[i].primaryType[s.numStars];
-			}
-			s.customSys = sys;
-			s.seed = sys->seed;
-			m_systems.push_back(s);
+	for (std::list<const CustomSystem*>::const_iterator i = systems.begin(); i != systems.end(); i++) {
+		const CustomSystem *cs = *i;
+		System s;
+		s.p = SIZE*cs->pos;
+		s.name = cs->name;
+		for (s.numStars=0; s.numStars<4; s.numStars++) {
+			if (cs->primaryType[s.numStars] == 0) break;
+			s.starType[s.numStars] = cs->primaryType[s.numStars];
 		}
+		s.customSys = cs;
+		s.seed = cs->seed;
+		m_systems.push_back(s);
 	}
 }
 

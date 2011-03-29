@@ -1,6 +1,5 @@
 #include "StarSystem.h"
 #include "Sector.h"
-#include "custom_starsystems.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
 
@@ -62,6 +61,20 @@ double StarSystem::starLuminosities[] = {
 	200000.0, // O5
 	200000.0, // red giant
 	0.1, // white dwarf
+};
+
+fixed StarSystem::starMetallicities[] = {
+	fixed(0,1),
+	fixed(9,10), // brown dwarf
+	fixed(7,10), // M0
+	fixed(6,10), // K0
+	fixed(5,10), // G0
+	fixed(4,10), // F0
+	fixed(3,10), // A0
+	fixed(2,10), // B0
+	fixed(1,10), // O5
+	fixed(8,10), // red giant
+	fixed(5,10), // white dwarf
 };
 
 static const struct StarTypeInfo {
@@ -233,17 +246,21 @@ std::string SBody::GetAstroDescription()
 		else if (mass < fixed(1,10)) s = "Tiny";
 		else if (mass < fixed(1,5)) s = "Small";
 
-		if (m_volcanicity > fixed(1,2)) {
+		if (m_volcanicity > fixed(7,10)) {
 			if (s.size()) s += ", highly volcanic";
 			else s = "Highly volcanic";
 		}
 
-		if (m_volatileIces + m_volatileLiquid > fixed(1,5)) {
+		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
 				s += " ice world";
 			} else {
-				s += " ocean world";
+				s += " oceanic world";
 			}
+		} else if (m_volatileLiquid > fixed(2,5)){
+			s += " planet containing liquid water";
+		} else if (m_volatileLiquid > fixed(1,5)){
+			s += " rocky planet containing some liquids,";
 		} else {
 			s += " rocky planet";
 		}
@@ -273,8 +290,10 @@ std::string SBody::GetAstroDescription()
 			}
 		}
 
-		if (m_life > fixed(1,7)) {
-			s += " and advanced indigenous life.";
+		if (m_life > fixed(1,2)) {
+			s += " and a highly complex ecosystem.";
+		} else if (m_life > fixed(1,10)) {
+			s += " and indigenous plant life.";
 		} else if (m_life > fixed(0)) {
 			s += " and indigenous microbial life.";
 		} else {
@@ -313,17 +332,32 @@ const char *SBody::GetIcon()
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
-		if (m_life > fixed(1,7)) return "icons/object_planet_life.png";
-		if (m_life > fixed(1,1)) return "icons/object_planet_life3.png";
+		if (m_volatileLiquid > fixed(7,10)) return "icons/object_planet_water_n1.png";
+		if ((m_life > fixed(1,2)) &&  
+		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life.png";
+		if ((m_life > fixed(1,10)) &&  
+		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life2.png";
+		if (m_life > fixed(1,10)) return "icons/object_planet_life3.png";
 		if (mass < fixed(1,100)) return "icons/object_planet_dwarf.png";
 		if (mass < fixed(1,10)) return "icons/object_planet_small.png";
-		if (m_volatileLiquid == 0) return "icons/object_planet_desert.png";
-		if (m_volatileLiquid > fixed(1,2)) return "icons/object_planet_water_n2.png";
+		if ((m_volatileLiquid < fixed(1,10)) &&  
+		   (m_volatileGas > fixed(1,5))) return "icons/object_planet_desert.png";
+		
+		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
+			if (m_volatileIces > m_volatileLiquid) {
+				return "icons/object_planet_water_n2.png";
+			} else { 
+				return "icons/object_planet_water_n1.png";
+			}
+		}
+
 		if (m_volatileGas > fixed(1,2)) {
 			if (m_atmosOxidizing < fixed(1,2)) return "icons/object_planet_methane.png";
 			else return "icons/object_planet_co2.png";
 		}
-		if (m_volcanicity > fixed(1,8)) return "icons/object_planet_volcanic.png";
+		if ((m_volatileLiquid > fixed(1,10)) &&  
+		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n2.png";
+		if (m_volcanicity > fixed(7,10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
 		"icons/object_planet_water_n1.png"
@@ -562,6 +596,15 @@ static void shuffle_array(MTRand &rand, T *array, int len)
 	}
 }
 
+bool StarSystem::GetRandomStarport(MTRand &rand, SBodyPath *outDest) const
+{
+	if (!m_spaceStations.size())
+		return false;
+	
+	GetPathOf(m_spaceStations[rand.Int32(m_spaceStations.size())], outDest);
+	return true;
+}
+
 /*
  * Doesn't try very hard
  */
@@ -583,10 +626,7 @@ bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest)
 
 		StarSystem *sys = new StarSystem(sx, sy, idxs[i]);
 
-		const int numStations = sys->m_spaceStations.size();
-		if (numStations) {
-			sys->GetPathOf(sys->m_spaceStations[rand.Int32(numStations)],
-					outDest);
+		if (sys->GetRandomStarport(rand, outDest)) {
 			delete sys;
 			return true;
 		}
@@ -626,82 +666,80 @@ struct CustomSBody {
 	fixed eccentricity;
 };
 */
-void StarSystem::CustomGetKidsOf(SBody *parent, const CustomSBody *customDef, const int primaryIdx, int *outHumanInfestedness, MTRand &rand)
+void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *children, int *outHumanInfestedness, MTRand &rand)
 {
-	const CustomSBody *c = customDef;
-	for (int i=0; c->name; c++, i++) {
-		if (c->primaryIdx != primaryIdx) continue;
-		
-		SBody *kid = NewBody();
-		SBody::BodyType type = c->type;
-		kid->seed = rand.Int32();
-		kid->type = type;
-		kid->parent = parent;
-		kid->radius = c->radius;
-		kid->mass = c->mass;
-		kid->averageTemp = c->averageTemp;
-		kid->name = c->name;
-		kid->rotationPeriod = c->rotationPeriod;
-		kid->eccentricity = c->eccentricity;
-		kid->axialTilt = c->axialTilt;
-		kid->semiMajorAxis = c->semiMajorAxis;
-		kid->orbit.eccentricity = c->eccentricity.ToDouble();
-		kid->orbit.semiMajorAxis = c->semiMajorAxis.ToDouble() * AU;
-		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
-		kid->heightMapFilename = c->heightMapFilename;
+	for (std::list<CustomSBody>::const_iterator i = children->begin(); i != children->end(); i++) {
+		const CustomSBody *csbody = &(*i);
 
-		kid->m_metallicity    = c->composition.metallicity;
-		kid->m_volatileGas    = c->composition.volatileGas;
-		kid->m_volatileLiquid = c->composition.volatileLiquid;
-		kid->m_volatileIces   = c->composition.volatileIces;
-		kid->m_volcanicity    = c->composition.volcanicity;
-		kid->m_atmosOxidizing = c->composition.atmosOxidizing;
-		kid->m_life           = c->composition.life;
+		SBody *kid = NewBody();
+		kid->type = csbody->type;
+		kid->parent = parent;
+		kid->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
+		kid->radius = csbody->radius;
+		kid->averageTemp = csbody->averageTemp;
+		kid->name = csbody->name;
+
+		kid->mass = csbody->mass;
+		if (kid->type == SBody::TYPE_PLANET_ASTEROID) kid->mass /= 100000;
+
+		kid->m_metallicity    = csbody->metallicity;
+		kid->m_volatileGas    = csbody->volatileGas;
+		kid->m_volatileLiquid = csbody->volatileLiquid;
+		kid->m_volatileIces   = csbody->volatileIces;
+		kid->m_volcanicity    = csbody->volcanicity;
+		kid->m_atmosOxidizing = csbody->atmosOxidizing;
+		kid->m_life           = csbody->life;
+
+		kid->rotationPeriod = csbody->rotationPeriod;
+		kid->eccentricity = csbody->eccentricity;
+		kid->axialTilt = csbody->axialTilt;
+		kid->semiMajorAxis = csbody->semiMajorAxis;
+		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
+		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
+		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		if (csbody->heightMapFilename.length() > 0) kid->heightMapFilename = csbody->heightMapFilename.c_str();
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(c->longitude) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
+				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		} else {
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
-				Error("%s's orbit is too close to its parent", c->name);
+				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + c->latitude);
+				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
+            m_spaceStations.push_back(kid);
 		}
 		parent->children.push_back(kid);
 
 		// perihelion and aphelion (in AUs)
-		kid->orbMin = c->semiMajorAxis - c->eccentricity*c->semiMajorAxis;
-		kid->orbMax = 2*c->semiMajorAxis - kid->orbMin;
+		kid->orbMin = csbody->semiMajorAxis - csbody->eccentricity*csbody->semiMajorAxis;
+		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
-		CustomGetKidsOf(kid, customDef, i, outHumanInfestedness, rand);
+		CustomGetKidsOf(kid, &csbody->children, outHumanInfestedness, rand);
 	}
+
 }
 
 void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 {
-	// find primary
-	const CustomSBody *csbody = customSys->sbodies;
-
-	int idx = 0;
-	while ((csbody->name) && (csbody->primaryIdx != -1)) { csbody++; idx++; }
-	assert(csbody->primaryIdx == -1);
+	const CustomSBody *csbody = &customSys->sBody;
 
 	rootBody = NewBody();
-	SBody::BodyType type = csbody->type;
-	rootBody->type = type;
+	rootBody->type = csbody->type;
 	rootBody->parent = NULL;
+	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
-	
+
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody, customSys->sbodies, idx, &humanInfestedness, rand);
+	CustomGetKidsOf(rootBody, &csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
 }
@@ -799,11 +837,19 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	MTRand rand;
 	rand.seed(_init, 5);
 
+	/*
+	 * 0 - ~500ly from sol: explored
+	 * ~500ly - ~700ly (65-90 sectors): gradual
+	 * ~700ly+: unexplored
+	 */
+	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
+	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
+
 	if (s.m_systems[system_idx].customSys) {
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
-		if (custom->shortDesc) m_shortDesc = custom->shortDesc;
-		if (custom->longDesc) m_longDesc = custom->longDesc;
-		if (custom->sbodies) {
+		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
+		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
+		if (!custom->IsRandom()) {
 			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
 			return;
 		}
@@ -905,6 +951,8 @@ try_that_again_guvnah:
 
 		}
 	}
+
+	m_metallicity = starMetallicities[rootBody->type];
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
@@ -1141,7 +1189,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		char buf[8];
 		if (superType <= SBody::SUPERTYPE_STAR) {
 			// planet naming scheme
-			snprintf(buf, sizeof(buf), " %c", 'b'+idx);
+			snprintf(buf, sizeof(buf), " %c", 'a'+idx);
 		} else {
 			// moon naming scheme
 			snprintf(buf, sizeof(buf), " %d", 1+idx);
@@ -1276,14 +1324,13 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 		m_econType = ECON_AGRICULTURE;
 	}
 
+	if (m_unexplored) {
+		m_shortDesc = "Unexplored system. No more data available.";
+	}
+
 	/* Total population is in billions */
-	if (m_totalPop == 0) {
-		int dist = isqrt(1 + m_loc.sectorX*m_loc.sectorX + m_loc.sectorY*m_loc.sectorY);
-		if (rand.Int32(dist) > 20) {
-			m_shortDesc = "Unexplored system.";
-		} else {
-			m_shortDesc = "Small-scale prospecting. No registered settlements.";
-		}
+	else if(m_totalPop == 0) {
+		m_shortDesc = "Small-scale prospecting. No registered settlements.";
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
 			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
@@ -1358,7 +1405,8 @@ void StarSystem::Populate(bool addSpaceStations)
 		rootBody->PopulateAddStations(this);
 	}
 
-	MakeShortDescription(rand);
+	if (!m_shortDesc.size())
+		MakeShortDescription(rand);
 }
 
 /*
@@ -1369,6 +1417,13 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateStage1(system, outTotalPop);
 	}
+
+	// unexplored systems have no population (that we know about)
+	if (system->m_unexplored) {
+		m_population = outTotalPop = fixed(0);
+		return;
+	}
+
 	unsigned long _init[5] = { system->m_loc.systemNum, system->m_loc.sectorX,
 			system->m_loc.sectorY, UNIVERSE_SEED, this->seed };
 	MTRand rand;

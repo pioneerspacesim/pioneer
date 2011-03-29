@@ -457,15 +457,14 @@ GameMenuView::GameMenuView(): View()
 	mainTab->Add(vbox, 600, 60);
 
 	vbox->PackEnd((new Gui::Label("Planet detail level:"))->Color(1.0f,1.0f,0.0f));
-	g = new Gui::RadioGroup();
+	m_planetDetailGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
-		m_planetDetail[i] = new Gui::RadioButton(g);
-		m_planetDetail[i]->onSelect.connect(sigc::bind(sigc::mem_fun(this,
-					&GameMenuView::OnChangePlanetDetail), i));
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_planetDetail[i], false);
+		hbox->PackEnd(rb, false);
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
 		vbox->PackEnd(hbox, false);
 	}
@@ -473,15 +472,14 @@ GameMenuView::GameMenuView(): View()
 	vbox->PackEnd(new Gui::Fixed(10,20));
 	
 	vbox->PackEnd((new Gui::Label("City detail level:"))->Color(1.0f,1.0f,0.0f));
-	g = new Gui::RadioGroup();
+	m_cityDetailGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
-		m_cityDetail[i] = new Gui::RadioButton(g);
-		m_cityDetail[i]->onSelect.connect(sigc::bind(sigc::mem_fun(this,
-					&GameMenuView::OnChangeCityDetail), i));
+		Gui::RadioButton *rb = new Gui::RadioButton(m_cityDetailGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeCityDetail), i));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_cityDetail[i], false);
+		hbox->PackEnd(rb, false);
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
 		vbox->PackEnd(hbox, false);
 	}
@@ -542,6 +540,14 @@ GameMenuView::GameMenuView(): View()
 				box = box2;
 			}
 		}
+
+		m_toggleJoystick = new Gui::ToggleButton();
+		m_toggleJoystick->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleJoystick));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(m_toggleJoystick, false);
+		hbox->PackEnd(new Gui::Label("Enable joystick control"), false);
+		box->PackEnd(hbox, false);
 	}
 }
 
@@ -568,6 +574,7 @@ void GameMenuView::OnChangeVolume()
 	
 void GameMenuView::OnChangePlanetDetail(int level)
 {
+	if (level == Pi::detail.planets) return;
 	m_changedDetailLevel = true;
 	Pi::detail.planets = level;
 	Pi::config.SetInt("DetailPlanets", level);
@@ -576,6 +583,7 @@ void GameMenuView::OnChangePlanetDetail(int level)
 
 void GameMenuView::OnChangeCityDetail(int level)
 {
+	if (level == Pi::detail.cities) return;
 	m_changedDetailLevel = true;
 	Pi::detail.cities = level;
 	Pi::config.SetInt("DetailCities", level);
@@ -614,6 +622,13 @@ void GameMenuView::OnToggleHDR(Gui::ToggleButton *b, bool state)
 	Render::ToggleHDR();
 }
 
+void GameMenuView::OnToggleJoystick(Gui::ToggleButton *b, bool state)
+{
+	Pi::config.SetInt("EnableJoystick", (state ? 1 : 0));
+	Pi::config.Save();
+	Pi::SetJoystickEnabled(state);
+}
+
 void GameMenuView::HideAll()
 {
 	if (m_changedDetailLevel) {
@@ -646,11 +661,12 @@ void GameMenuView::OnSwitchTo() {
 	if (!Pi::IsGameStarted()) {
 		Pi::SetView(Pi::worldView);
 	} else {
-		m_planetDetail[Pi::detail.planets]->OnActivate();
-		m_cityDetail[Pi::detail.cities]->OnActivate();
+		m_planetDetailGroup->SetSelected(Pi::detail.planets);
+		m_cityDetailGroup->SetSelected(Pi::detail.cities);
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());
 		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
+		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	}
 }
 

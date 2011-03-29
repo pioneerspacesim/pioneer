@@ -510,13 +510,13 @@ define_model('lanner_ub', {
 			ship_defs = {
 				{
 					name='Lanner',
-					forward_thrust = -3e6,
-					reverse_thrust = 2e6,
-					up_thrust = 2e6,
-					down_thrust = -2e5,
-					left_thrust = -2e5,
-					right_thrust = 2e5,
-					angular_thrust = 4e7,
+					forward_thrust = -30e6,
+					reverse_thrust = 10e6,
+					up_thrust = 10e6,
+					down_thrust = -5e6,
+					left_thrust = -5e6,
+					right_thrust = 5e6,
+					angular_thrust = 90e6,
 					gun_mounts = 
 					{
 					{v(0,-1.9,-38), v(0,0,-1)},

@@ -258,16 +258,17 @@ namespace OOLUA
 	template<typename T>
 	bool push2lua(lua_State* const s, OOLUA::lua_acquire_ptr<T>&  value)
 	{
-		//assert(s && value.m_ptr);
-		//return INTERNAL::ptr_push<T,LVD::is_const<T>::value >::push(s,value);
-		// -TM-
+#ifdef PIONEER_OOLUA
+		// we would rather that a NULL pushed onto the lua stack appears as a
+		// nil on the other side. upstream disagrees, so we do it ourselves
 		assert(s);
-		if (value.m_ptr) {
-			return INTERNAL::ptr_push<T,LVD::is_const<T>::value >::push(s,value);
-		} else {
+		if (!value.m_ptr) {
 			lua_pushnil(s);
 			return true;
 		}
+#endif
+		assert(s && value.m_ptr);
+		return INTERNAL::ptr_push<T,LVD::is_const<T>::value >::push(s,value);
 	}
 
 	template<typename T>

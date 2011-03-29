@@ -230,7 +230,10 @@ void SystemView::Draw3D()
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
 	m_objectLabels->Clear();
-	if (m_system->rootBody) PutBody(m_system->rootBody, pos);
+	if (m_system->m_unexplored)
+		m_infoLabel->SetText("Unexplored system. System view unavailable.");
+	else if (m_system->rootBody)
+		PutBody(m_system->rootBody, pos);
 	
 	glEnable(GL_LIGHTING);
 	glDisable(GL_FOG);

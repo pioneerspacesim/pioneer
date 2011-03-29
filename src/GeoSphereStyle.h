@@ -19,10 +19,18 @@ class GeoSphereStyle {
 		TERRAIN_HILLS_NORMAL,
 		TERRAIN_HILLS_RIDGED,
 		TERRAIN_HILLS_RIVERS,
+		TERRAIN_HILLS_CRATERS,
+		TERRAIN_HILLS_CRATERS2,
 		TERRAIN_MOUNTAINS_NORMAL,
 		TERRAIN_MOUNTAINS_RIDGED,
 		TERRAIN_MOUNTAINS_RIVERS,
+		TERRAIN_MOUNTAINS_CRATERS,
+		TERRAIN_MOUNTAINS_CRATERS2,
+		TERRAIN_MOUNTAINS_VOLCANO,
+		TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
+		TERRAIN_RUGGED_LAVA,
 		TERRAIN_H2O_SOLID,
+		TERRAIN_H2O_SOLID_CANYONS,
 		TERRAIN_RUGGED_DESERT,
 		TERRAIN_ASTEROID,
 		TERRAIN_GASGIANT,
@@ -82,6 +90,7 @@ class GeoSphereStyle {
 	double m_atmosDensity;
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
+	double m_volcanic;
 	
 	/** for sbodies with a heightMap we load this turd
 	 * and use it instead of perlin height function */
@@ -102,6 +111,7 @@ class GeoSphereStyle {
 	double m_entropy[12];
 
 	vector3d m_rockColor[8];
+	vector3d m_darkrockColor[8];
 	vector3d m_greyrockColor[8];
 
 	/* XXX you probably shouldn't increase this. If you are

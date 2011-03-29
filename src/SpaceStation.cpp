@@ -318,6 +318,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
+	for(int i=0; i<4; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
@@ -455,7 +456,9 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 		} else {
 			if (dt.stage >= 0) {
 				// set docked
-				PiLuaModules::QueueEvent("onPlayerDock", this);
+				// XXX have a general onDock event instead
+				if (dt.ship == Pi::player)
+					PiLuaModules::QueueEvent("onPlayerDock", this);
 				dt.ship->SetDockedWith(this, i);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -522,6 +525,7 @@ void SpaceStation::DoLawAndOrder()
 			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+			ship->UpdateMass();
 		}
 	}
 }
@@ -766,7 +770,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
-					PiLuaModules::QueueEvent("onPlayerDock", this);
+					// XXX have a general onDock event instead
+					if (s == Pi::player)
+						PiLuaModules::QueueEvent("onPlayerDock", this);
 					s->SetDockedWith(this, port);
 				}
 			}
@@ -838,4 +844,20 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			m_adjacentCity->Render(this, viewCoords, viewTransform);
 		}
 	}
+}
+
+// find an empty position for a static ship and mark it as used. these aren't
+// saved and are only needed to help modules place bulk ships. this isn't a
+// great place for this, but its gotta be tracked somewhere
+bool SpaceStation::AllocateStaticSlot(int& slot)
+{
+	for (int i=0; i<4; i++) {
+		if (!m_staticSlot[i]) {
+			m_staticSlot[i] = true;
+			slot = i;
+			return true;
+		}
+	}
+
+	return false;
 }

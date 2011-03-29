@@ -367,7 +367,6 @@ void Planet::DrawAtmosphere(vector3d &pos)
 
 void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	glPushMatrix();
 
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
@@ -397,6 +396,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	}
 	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
+	glPushMatrix();
 	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
 	glColor3f(1,1,1);
 

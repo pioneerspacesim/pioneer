@@ -88,7 +88,7 @@ define_model('tfrgear', {
 
 define_model('fi', {     
    	info = {
-			scale = 1.1,
+			scale = 1.5,
 			lod_pixels={.1,40,80,0},
 			bounding_radius = 18,
 			materials={'steel', 'darksteel', 'medsteel', 'glow', 'rand1', 'rand2', 'glass', 'inside','text1', 'text2'},
@@ -96,13 +96,13 @@ define_model('fi', {
                  ship_defs = {
                 	{
 					name='Talon Military Interceptor',
-					forward_thrust = -9e6,
-					reverse_thrust = 3e6,
-					up_thrust = 1e6,
-					down_thrust = -1e6,
-					left_thrust = -1e6,
-					right_thrust = 1e6,
-					angular_thrust = 1e6,
+					forward_thrust = -20e5,
+					reverse_thrust = 5e5,
+					up_thrust = 4e5,
+					down_thrust = -3e5,
+					left_thrust = -3e5,
+					right_thrust = 3e5,
+					angular_thrust = 15e5,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },
@@ -114,7 +114,7 @@ define_model('fi', {
 					capacity = 10,
 					hull_mass = 10,
 					price = 33000,
-					hyperdrive_class = 8,
+					hyperdrive_class = 1,
                     }
                   }
         	},

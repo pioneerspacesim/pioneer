@@ -32,6 +32,7 @@
 #include "Render.h"
 #include "PiLuaModules.h"
 #include "AmbientSounds.h"
+#include "CustomSystem.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -77,6 +78,7 @@ int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
 IniConfig Pi::config;
 struct DetailLevel Pi::detail = {};
+bool Pi::joystickEnabled;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
@@ -141,6 +143,7 @@ void Pi::Init()
 	}
 
 	InitJoysticks();
+	joystickEnabled = (config.Int("EnableJoystick")) ? true : false;
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
@@ -214,28 +217,29 @@ void Pi::Init()
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
 
+    CustomSystem::Init();
 	draw_progress(0.3f);
+
+	draw_progress(0.4f);
 	LmrModelCompilerInit();
 
 //unsigned int control_word;
 //_clearfp();
-//_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+//_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
-
 
 	draw_progress(0.4f);
 	ShipType::Init();
-
-
 	draw_progress(0.5f);
 	GeoSphere::Init();
 	draw_progress(0.6f);
-	Space::Init();
+	GeoSphere::Init();
 	draw_progress(0.7f);
-	Polit::Init();
+	Space::Init();
 	draw_progress(0.8f);
-	SpaceStation::Init();
+	Polit::Init();
 	draw_progress(0.9f);
+	SpaceStation::Init();
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
@@ -249,7 +253,7 @@ void Pi::Init()
 	FILE *pStatFile = fopen("shipstat.csv","wt");
 	if (pStatFile)
 	{
-		fprintf(pStatFile, "name,lmrname,hullmass,capacity,xsize,ysize,zsize,facc,racc,uacc,aacc\n");
+		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc\n");
 		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
 				i != ShipType::types.end(); ++i)
 		{
@@ -264,17 +268,20 @@ void Pi::Init()
 			double xsize = aabb.max.x-aabb.min.x;
 			double ysize = aabb.max.y-aabb.min.y;
 			double zsize = aabb.max.z-aabb.min.z;
+			double fakevol = xsize*ysize*zsize;
+			double rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
 			double brad = aabb.GetBoundingRadius();
 			double simass = (hullmass + capacity) * 1000.0;
 			double angInertia = (2/5.0)*simass*brad*brad;
 			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
 			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
 			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
+			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
 			double acca = shipdef->angThrust/angInertia;
 
-			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
+			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
 				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
-				xsize, ysize, zsize, acc1, acc2, acc3, acca);
+				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca);
 		}
 		fclose(pStatFile);
 	}
@@ -320,9 +327,7 @@ void Pi::SetTimeAccel(int s)
 	if ((s != timeAccelIdx) && (s > 2)) {
 		player->SetAngVelocity(vector3d(0,0,0));
 		player->SetTorque(vector3d(0,0,0));
-		player->SetAngThrusterState(0, 0.0f);
-		player->SetAngThrusterState(1, 0.0f);
-		player->SetAngThrusterState(2, 0.0f);
+		player->SetAngThrusterState(vector3d(0.0));
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
@@ -471,6 +476,7 @@ void Pi::HandleEvents()
 							ship->m_equipment.Add(Equip::SCANNER);
 							ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 							ship->m_equipment.Add(Equip::HYDROGEN, 10);
+							ship->UpdateMass();
 							Space::AddBody(ship);
 						}
 					}
@@ -651,17 +657,15 @@ void Pi::InitGame()
 
 	player = new Player("Eagle Long Range Fighter");
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_2MW);
-	player->m_equipment.Add(Equip::HYDROGEN, 10);
+	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+	player->m_equipment.Add(Equip::HYDROGEN, 1);
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
 	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_GUIDED);
-	player->m_equipment.Add(Equip::MISSILE_SMART);
-	player->m_equipment.Add(Equip::MISSILE_NAVAL);
+	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::AUTOPILOT);
 	player->m_equipment.Add(Equip::SCANNER);
+	player->UpdateMass();
 	player->SetMoney(10000);
 	Space::AddBody(player);
 	
@@ -796,35 +800,12 @@ void Pi::Start()
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
-		Space::DoHyperspaceTo(&path);
-		//Frame *pframe = *(++(++(Space::rootFrame->m_children.begin())));
-		//player->SetFrame(pframe);
-		// XXX there isn't a sensible way to find stations for a planet.
-		SpaceStation *station = 0;
-		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-			if ((*i)->IsType(Object::SPACESTATION)) { station = (SpaceStation*)*i; break; }
-		}
-		assert(station);
-		player->SetPosition(vector3d(0,0,0));
-		player->SetFrame(station->GetFrame());
-		player->SetDockedWith(station, 0);
+		Space::SetupSystemForGameStart(&path, 0, 0);
 		MainLoop();
 	} else if (choice == 2) {
 		/* Epsilon Eridani start point */
 		SBodyPath path(1,0,2);
-		Space::DoHyperspaceTo(&path);
-		// XXX there isn't a sensible way to find stations for a planet.
-		SpaceStation *station = 0;
-		for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
-			if ((*i)->IsType(Object::SPACESTATION)) {
-				station = (SpaceStation*)*i;
-				if (!station->IsGroundStation()) break;
-			}
-		}
-		assert(station);
-		player->SetPosition(vector3d(0,0,0));
-		player->SetFrame(station->GetFrame());
-		player->SetDockedWith(station, 0);
+		Space::SetupSystemForGameStart(&path, 0, 0);
 		MainLoop();
 	} else if (choice == 3) {
 		/* debug start point */
@@ -834,12 +815,19 @@ void Pi::Start()
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 		player->SetVelocity(vector3d(0,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
+		player->UpdateMass();
 
 		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 		enemy->SetFrame(player->GetFrame());
 		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
 		enemy->SetVelocity(vector3d(0,0,0));
-		enemy->m_equipment.Add(Equip::PULSECANNON_1MW);
+		enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+		enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+		enemy->m_equipment.Add(Equip::HYDROGEN, 2);
+		enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+		enemy->m_equipment.Add(Equip::AUTOPILOT);
+		enemy->m_equipment.Add(Equip::SCANNER);
+		enemy->UpdateMass();
 		enemy->AIKill(player);
 		Space::AddBody(enemy);
 
@@ -1013,7 +1001,7 @@ void Pi::MainLoop()
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
 			// check we aren't too near to objects for timeaccel //
-/*			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
 				if ((*i) == Pi::player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
 				
@@ -1033,7 +1021,7 @@ void Pi::MainLoop()
 					timeAccel = std::min(timeAccel, 5);
 				}
 			}
-*/
+
 		}
 		if (timeAccel != Pi::GetTimeAccelIdx()) {
 			Pi::SetTimeAccel(timeAccel);
@@ -1208,6 +1196,7 @@ void Pi::InitJoysticks() {
 }
 
 int Pi::JoystickButtonState(int joystick, int button) {
+	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= (int) joysticks.size())
 		return 0;
 
@@ -1218,6 +1207,7 @@ int Pi::JoystickButtonState(int joystick, int button) {
 }
 
 int Pi::JoystickHatState(int joystick, int hat) {
+	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= (int) joysticks.size())
 		return 0;
 
@@ -1228,6 +1218,7 @@ int Pi::JoystickHatState(int joystick, int hat) {
 }
 
 float Pi::JoystickAxisState(int joystick, int axis) {
+	if (!joystickEnabled) return 0;
 	if (joystick < 0 || joystick >= (int) joysticks.size())
 		return 0;
 

@@ -109,7 +109,7 @@ define_model('boa_frflap', {
 
 define_model('boa', {     
 		info = {
-                scale = 1.2,
+                scale = 1.34,
 				lod_pixels={.1,50,200,0},
 				bounding_radius = 70, -- "scale" for lod calculation, bounding box in preview and closest zoom limit
                 materials={'steel', 'body', 'glow', 'wing', 'darksteel', 'glass', 'inside', 'text1'},
@@ -119,11 +119,11 @@ define_model('boa', {
 					name='Boa Freighter',
 					forward_thrust = -12e7,
 					reverse_thrust = 4e7,
-					up_thrust = 2e7,
+					up_thrust = 4e7,
 					down_thrust = -2e7,
 					left_thrust = -2e7,
 					right_thrust = 2e7,
-					angular_thrust = 6e7,
+					angular_thrust = 50e7,
 					gun_mounts = 
 					{
 					{ v(0,-2,-46), v(0,0,-1) },

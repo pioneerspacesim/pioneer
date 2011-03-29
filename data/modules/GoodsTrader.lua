@@ -33,7 +33,7 @@ Module:new {
 	end,
 
 	onCreateBB = function(self, args)
-		print("Creating bb adverts for " .. args[1]:GetLabel())
+		--print("Creating bb adverts for " .. args[1]:GetLabel())
 		local station = args[1]
 		local seed = station:GetSBody():GetSeed()
 		local rand = Rand:new(seed)

@@ -45,6 +45,23 @@ WorldView::WorldView(): View()
 	m_commsOptions->SetTransparency(true);
 	Add(m_commsOptions, 10, 200);
 
+
+	m_commsNavOptionsContainer = new Gui::HBox();
+	m_commsNavOptionsContainer->SetSpacing(5);
+	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
+	Add(m_commsNavOptionsContainer, size[0]-230, 20);
+
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(220, size[1]-50);
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	m_commsNavOptionsContainer->PackStart(scroll);
+	m_commsNavOptionsContainer->PackStart(portal, true);
+
+	m_commsNavOptions = new Gui::VBox();
+	m_commsNavOptions->SetSpacing(5);
+	portal->Add(m_commsNavOptions);
+
+
 	m_wheelsButton = new Gui::MultiStateImageButton();
 	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
 	m_wheelsButton->AddState(0, PIONEER_DATA_DIR "/icons/wheels_up.png", "Wheels are up");
@@ -232,7 +249,7 @@ void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-//TEST CODE	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
+	if (b->GetState() == Player::CONTROL_AUTOPILOT) b->StateNext();
 	Pi::player->SetFlightControlState(static_cast<Player::FlightControlState>(b->GetState()));
 }
 
@@ -375,7 +392,7 @@ void WorldView::DrawBgStars()
 		glColorPointer(3, GL_FLOAT, 6*sizeof(float), vtx+3);
 		glDrawArrays(GL_LINES, 0, 2*BG_STAR_MAX);
 
-		delete vtx;
+		delete[] vtx;
 	}
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
@@ -515,6 +532,24 @@ void WorldView::Draw3D()
 
 	m_numLights = 0;
 	position_system_lights(&cam_frame, Space::rootFrame, m_numLights);
+
+	if (m_numLights == 0) {
+		// no lights means we're somewhere weird (eg hyperspace). fake one
+		// fake one up and give a little ambient light so that we can see and
+		// so that things that need lights don't explode
+		float lightPos[4] = { 0,0,0,0 };
+		float lightCol[4] = { 1.0, 1.0, 1.0, 0 };
+		float ambCol[4] = { 1.0,1.0,1.0,0 };
+
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
+		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
+		glEnable(GL_LIGHT0);
+
+		m_numLights++;
+	}
+
 	Render::State::SetNumLights(m_numLights);
 	{
 		float znear, zfar;
@@ -539,7 +574,6 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-extern int g_navbodycount;
 
 static Color get_color_for_warning_meter_bar(float v) {
 	Color c;
@@ -596,11 +630,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 	// Direction indicator
 	vector3d vel;
-	Body *velRelTo = (Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget());
+	Body *velRelTo = Pi::player->GetNavTarget();
 	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelativeTo(velRelTo);
+		vel = Pi::player->GetVelocityRelTo(velRelTo);
 	} else {
-		vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+		vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 	}
@@ -609,10 +643,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
 			m_showTargetActionsTimeout = 0;
 			m_commsOptions->DeleteAllChildren();
+			m_commsNavOptions->DeleteAllChildren();
 		}
 		m_commsOptions->ShowAll();
+		m_commsNavOptionsContainer->ShowAll();
 	} else {
 		m_commsOptions->Hide();
+		m_commsNavOptionsContainer->Hide();
 	}
 	if (Pi::showDebugInfo) {
 		char buf[1024];
@@ -622,20 +659,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n"
-			"Body navigation count = %i\n",
+			"Rel-to: %s (%.0f km), rotating: %s\n",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame,
-			g_navbodycount);
+			rel_to, pos.Length()/1000, rot_frame);
 
-/*		vector3d angvel = Pi::player->GetAngVelocity();
-		vector3d torque = Pi::player->GetAccumTorque();
-		vector3d impulse = torque / Pi::player->GetAngularInertia();
-		vector3d mdir = Pi::player->GetMouseDir();
-		snprintf(buf, 1024, "Mouse Dir = %5f,%5f,%5f\n" "Mouse accumulator = %.6f\n",
-			mdir.x, mdir.y, mdir.z, Pi::player->m_mouseAcc);
-*/
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
 	} else {
@@ -897,6 +925,56 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
+void WorldView::OnClickCommsNavOption(Body *target)
+{
+	Pi::player->SetNavTarget(target);
+	m_showTargetActionsTimeout = SDL_GetTicks();
+}
+
+void WorldView::AddCommsNavOption(std::string msg, Body *target)
+{
+	Gui::HBox *hbox = new Gui::HBox();
+	hbox->SetSpacing(5);
+
+	Gui::Label *l = new Gui::Label(msg);
+	hbox->PackStart(l, true);
+
+	Gui::Button *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
+	hbox->PackStart(b);
+
+	m_commsNavOptions->PackEnd(hbox);
+}
+
+void WorldView::BuildCommsNavOptions()
+{
+	std::map<Uint32, std::vector<SBody*> > groups;
+
+	m_commsNavOptions->PackEnd(new Gui::Label("#ff0Navigation targets in this system\n"));
+
+	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_spaceStations.begin();
+	      i != Pi::currentSystem->m_spaceStations.end(); i++) {
+
+		groups[(*i)->parent->id].push_back(*i);
+	}
+
+	for ( std::vector<SBody*>::const_iterator i = Pi::currentSystem->m_bodies.begin();
+	      i != Pi::currentSystem->m_bodies.end(); i++) {
+
+		std::vector<SBody*> group = groups[(*i)->id];
+		if ( group.size() == 0 ) continue;
+
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
+
+		for ( std::vector<SBody*>::const_iterator j = group.begin(); j != group.end(); j++) {
+			SBodyPath path;
+			Pi::currentSystem->GetPathOf(*j, &path);
+			Body *body = Space::FindBodyForSBodyPath(&path);
+			AddCommsNavOption((*j)->name, body);
+		}
+	}
+}
+
 static void PlayerRequestDockingClearance(SpaceStation *s)
 {
 	std::string msg;
@@ -977,8 +1055,14 @@ static void player_target_hypercloud(HyperspaceCloud *cloud)
 void WorldView::UpdateCommsOptions()
 {
 	m_commsOptions->DeleteAllChildren();
+	m_commsNavOptions->DeleteAllChildren();
 
 	if (m_showTargetActionsTimeout == 0) return;
+
+	if (Pi::currentSystem->m_spaceStations.size() > 0)
+	{
+		BuildCommsNavOptions();
+	}
 
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();
@@ -1058,15 +1142,18 @@ void WorldView::UpdateCommsOptions()
 		button = AddCommsOption("Autopilot: Fly to vicinity of "+comtarget->GetLabel(), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
+        /*
 		button = AddCommsOption("Autopilot: Attack "+comtarget->GetLabel(), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_attack), comtarget));
 		ypos += 32;
+        */
 	}
 }
 
 void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 {
 	if (!target || target == Pi::player) return;		// don't select self
+	if (target->IsType(Object::PROJECTILE)) return;
 
 	if (target->IsType(Object::SHIP)) {
 		if (Pi::player->GetCombatTarget() == target) {
@@ -1122,8 +1209,8 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	// Direction indicator
 	vector3d vel;
 	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) vel = Pi::player->GetVelocityRelativeTo(velRelTo);
-	else vel = Pi::player->GetVelocityRelativeTo(Pi::player->GetFrame());
+	if (velRelTo) vel = Pi::player->GetVelocityRelTo(velRelTo);
+	else vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 
@@ -1176,20 +1263,20 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	{
 		vector3d targpos = enemy->GetInterpolatedPositionRelTo(cam_frame);	// transforms to object space?
 		matrix4x4d prot = cam_frame->GetTransform(); prot[12] = prot[13] = prot[14] = 0.0;
-		vector3d targvel = enemy->GetVelocityRelativeTo(Pi::player) * prot;
+		vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * prot;
 
 		int laser = Equip::types[Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0)].tableIndex;
 		double projspeed = Equip::lasers[laser].speed;
 		vector3d leadpos = targpos + targvel*(targpos.Length()/projspeed);
 		leadpos = targpos + targvel*(leadpos.Length()/projspeed); 	// second order approx
+		double dist = targpos.Length();
 
-		if (leadpos.z < 0.0 && Gui::Screen::Project(leadpos, m_targLeadPos))
+		if (leadpos.z < 0.0 && dist < 100000 && Gui::Screen::Project(leadpos, m_targLeadPos))
 			m_targLeadOnscreen = true;
 
 		// now the text speed/distance
 		// want to calculate closing velocity that you couldn't counter with retros
 
-		double dist = targpos.Length();
 		double vel = targvel.z;				// position should be towards
 		double raccel = Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE]
 			/ Pi::player->GetMass();
@@ -1198,15 +1285,18 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
 		float r = (float)(0.2+(c+1.0)*0.4);
 		float b = (float)(0.2+(1.0-c)*0.4);
+		char buf[1024];
 			
 		m_combatDist->Color(r, 0.0f, b);
-		m_combatDist->SetText(stringf(40, "%.0fm", dist).c_str());
+		sprintf(buf, "%.0fm", dist);
+		m_combatDist->SetText(buf);
 		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
 		MoveChild(m_combatDist, (float)lpos.x, (float)lpos.y);
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
-		m_combatSpeed->SetText(stringf(40, "%0.fm/s", vel).c_str());
+		sprintf(buf, "%0.fm/s", vel);
+		m_combatSpeed->SetText(buf);
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
 		MoveChild(m_combatSpeed, (float)lpos.x, (float)lpos.y);
 		m_combatSpeed->Show();

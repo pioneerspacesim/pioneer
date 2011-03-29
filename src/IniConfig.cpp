@@ -18,6 +18,7 @@ void IniConfig::Load(const std::string &filename)
 	(*this)["DetailCities"] = "1";
 	(*this)["DetailPlanets"] = "1";
 	(*this)["SfxVolume"] = "0.8";
+	(*this)["EnableJoystick"] = "1";
 
 	KeyBindings::SetDefaults();
 	

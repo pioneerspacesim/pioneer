@@ -128,6 +128,19 @@ namespace OOLUA
 			OOLUA::push2lua(s,value,No_change);
 		}
 
+#ifdef PIONEER_OOLUA
+		// push/pull specialisations for lua_State. needed to pass the lua
+		// context to a c++ method invoked from lua
+		static void pull2cpp(lua_State* const s, lua_State *& l)
+		{
+			l = s;
+		}
+		static void push2lua(lua_State* const , lua_State *& )
+		{
+			assert(0 && "this function should never be called");
+		}
+#endif
+
 	};
 	template<typename Type>
 	struct Member_func_helper<Type,Cpp>

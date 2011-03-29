@@ -9,7 +9,7 @@
 #include "Aabb.h"
 #include "Body.h"
 #include "CargoBody.h"
-#include "custom_starsystems.h"
+#include "CustomSystem.h"
 #include "DynamicBody.h"
 #include "EquipType.h"
 #include "fixed.h"

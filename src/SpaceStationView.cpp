@@ -91,7 +91,7 @@ private:
 		if (m_doFit) {
 			// fit
 			Pi::player->m_equipment.Set(slot, mount, m_equipType);
-			Pi::player->CalcStats();
+			Pi::player->UpdateMass();
 			Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(m_equipType));
 			Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[m_equipType].name));
 			Gui::Container *p = GetParent();
@@ -101,7 +101,7 @@ private:
 			// remove 
 			const Sint64 value = station->GetPrice(m_equipType) * REMOVAL_VALUE_PERCENT / 100;
 			Pi::player->m_equipment.Set(slot, mount, Equip::NONE);
-			Pi::player->CalcStats();
+			Pi::player->UpdateMass();
 			Pi::player->SetMoney(Pi::player->GetMoney() + value);
 			station->AddEquipmentStock(m_equipType, 1);
 			Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[m_equipType].name));
@@ -157,7 +157,7 @@ private:
 				OpenChildChatForm(new StationLaserPickMount(t, false));
 			} else {
 				Pi::player->m_equipment.Remove(t, 1);
-				Pi::player->CalcStats();
+				Pi::player->UpdateMass();
 				Pi::player->SetMoney(Pi::player->GetMoney() + value);
 				station->AddEquipmentStock(t, 1);
 				Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[t].name));
@@ -182,7 +182,7 @@ private:
 				OpenChildChatForm(new StationLaserPickMount(t, true));
 			} else {
 				Pi::player->m_equipment.Add(t);
-				Pi::player->CalcStats();
+				Pi::player->UpdateMass();
 				Pi::player->SetMoney(Pi::player->GetMoney() - station->GetPrice(t));
 				Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
 				UpdateBaseDisplay();
@@ -309,6 +309,7 @@ private:
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 			Pi::player->ChangeFlavour(&f);
 			Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
+			Pi::player->UpdateMass();
 			
 			SpaceStation *station = Pi::player->GetDockedWith();
 			station->ReplaceShipOnSale(m_flavourIdx, &_old);
@@ -777,6 +778,7 @@ void StationBBView::OpenMissionDialog(int midx)
 	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseMissionDialog));
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
+	m_advertChatForm->SetMoney(1000000000);
 	BBAdvert *m = &station->GetBBAdverts()[midx];
 	m_advertChatForm->StartChat(station, m);
 	OpenChildChatForm(m_advertChatForm);

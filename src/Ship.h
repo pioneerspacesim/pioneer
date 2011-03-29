@@ -28,32 +28,7 @@ struct shipstats_t {
 	float shield_mass_left;
 };
 
-struct AIPath {
-	BezierCurve path;
-	double endTime;
-	double startTime;
-	Frame *frame;
 
-	void Save(Serializer::Writer &wr) {
-		wr.Double(endTime);
-		if (endTime == 0.0) return;
-		wr.Double(startTime);
-		wr.Int32(Serializer::LookupFrame(frame));
-		path.Save(wr);
-	}
-	void Load(Serializer::Reader &rd)
-	{
-		endTime = rd.Double();
-		if (endTime == 0.0) return;
-		startTime = rd.Double();
-		frame = (Frame *)rd.Int32();
-		path.Load(rd);
-	}
-	void PostLoadFixup() {
-		if (endTime == 0.0) return;
-		frame = (Frame *)Serializer::LookupFrame((size_t)frame);
-	}
-};
 
 class Ship: public DynamicBody, public MarketAgent {
 public:
@@ -124,25 +99,18 @@ public:
 
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
-	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, bool flip=false);
+	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, const vector3d &maxthrust);
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
 	void AIFaceDirectionImmediate(const vector3d &dir);
-	bool AIFaceOrient(const vector3d &dir, const vector3d &updir);
-	bool AIFaceDirection(const vector3d &dir, double av=0);
+	double AIFaceOrient(const vector3d &dir, const vector3d &updir);
+	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
 
 	// old stuff, deprecated
-	void AISlowOrient(const matrix4x4d &dir);
-	void AISlowFaceDirection(const vector3d &dir);
 	void AIAccelToModelRelativeVelocity(const vector3d v);
 	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
-	void AITrySetBodyRelativeThrust(const vector3d &force);
-
-	bool AIAddAvoidancePathOnWayTo(const Body *target, AIPath &);
-	bool AIArePlanetsInTheWayOfGettingTo(const vector3d &target, Body **obstructor, double &outDist);
-	bool AIFollowPath(AIPath &, bool pointShipAtVelocityVector = false);
 
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
@@ -153,6 +121,7 @@ public:
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
+    void AIHoldPosition(Body *target);
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
