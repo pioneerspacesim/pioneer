@@ -51,7 +51,7 @@ protected:
 	LuaEventQueueBase(const char *name) : m_name(name) {}
 	virtual ~LuaEventQueueBase() { ClearEvents(); }
 
-	const char *m_name;
+	void EmitSingleEvent(LuaEventBase *e);
 
 	std::list<LuaEventBase*> m_events;
 
@@ -60,6 +60,8 @@ private:
 	static int l_disconnect(lua_State *l);
 
 	virtual void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) = 0;
+
+	const char *m_name;
 };
 
 template <typename T0=void, typename T1=void>
@@ -69,6 +71,9 @@ public:
 
 	inline void Queue(T0 *arg0, T1 *arg1) {
 		m_events.push_back(new LuaEvent<T0,T1>(arg0, arg1));
+	}
+	inline void Signal(T0 *arg0, T1 *arg1) {
+		EmitSingleEvent(new LuaEvent<T0,T1>(arg0, arg1));
 	}
 
 protected:
@@ -87,6 +92,9 @@ public:
 	inline void Queue(T0 *arg0) {
 		m_events.push_back(new LuaEvent<T0,void>(arg0));
 	}
+	inline void Signal(T0 *arg0) {
+		EmitSingleEvent(new LuaEvent<T0,void>(arg0));
+	}
 
 protected:
 	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) {
@@ -102,6 +110,9 @@ public:
 
 	inline void Queue() {
 		m_events.push_back(new LuaEvent<void,void>());
+	}
+	inline void Signal() {
+		EmitSingleEvent(new LuaEvent<void,void>());
 	}
 
 protected:

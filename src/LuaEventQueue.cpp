@@ -50,6 +50,31 @@ void LuaEventQueueBase::ClearEvents()
 	}
 }
 
+void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l)
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
+	assert(lua_istable(l, -1));
+	lua_getfield(l, -1, m_name);
+	assert(lua_istable(l, -1));
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		int top = lua_gettop(l);
+		PrepareLuaStack(l, e);
+		lua_call(l, lua_gettop(l) - top, 0);
+	}
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0)
+
+	delete e;
+}
+
 void LuaEventQueueBase::Emit()
 {
 	if (!m_events.size()) return;
@@ -59,9 +84,9 @@ void LuaEventQueueBase::Emit()
 	LUA_DEBUG_START(l)
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
-    assert(lua_istable(l, -1));
+	assert(lua_istable(l, -1));
 	lua_getfield(l, -1, m_name);
-    assert(lua_istable(l, -1));
+	assert(lua_istable(l, -1));
 
 	while (m_events.size()) {
 		LuaEventBase *e = m_events.front();

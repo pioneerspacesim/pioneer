@@ -39,8 +39,7 @@ static bool beingBuilt;
 static void do_on_enter_system()
 {
 	beingBuilt = true;
-	Pi::luaOnEnterSystem.Queue(Pi::currentSystem, Pi::player);
-	Pi::luaOnEnterSystem.Emit();
+	Pi::luaOnEnterSystem.Signal(Pi::currentSystem, Pi::player);
 	beingBuilt = false;
 }
 

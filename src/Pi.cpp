@@ -185,13 +185,11 @@ static void LuaInitGame() {
 	Pi::luaOnCreateBB.ClearEvents();
 	Pi::luaOnUpdateBB.ClearEvents();
 
-	Pi::luaOnGameStart.Queue();
-	Pi::luaOnGameStart.Emit();
+	Pi::luaOnGameStart.Signal();
 }
 
 static void LuaUninitGame() {
-	Pi::luaOnGameEnd.Queue();
-	Pi::luaOnGameEnd.Emit();
+	Pi::luaOnGameEnd.Signal();
 }
 
 void Pi::Init()
@@ -1027,10 +1025,8 @@ void Pi::MainLoop()
 			// paused
 		}
 
-		if (frame_stat == 0) {
-			luaOnTick.Queue();
-			luaOnTick.Emit();
-		}
+		if (frame_stat == 0)
+			Pi::luaOnTick.Signal();
 		frame_stat++;
 
 		Render::PrepareFrame();
