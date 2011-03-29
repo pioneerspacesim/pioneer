@@ -16,8 +16,8 @@ static int l_spacestation_add_advert(lua_State *l)
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
+		lua_pushvalue(l, -1);
 		lua_setfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	}
 
 	int ref = lua_objlen(l, -1) + 1;

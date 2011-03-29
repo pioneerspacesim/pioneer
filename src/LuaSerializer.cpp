@@ -40,8 +40,8 @@ int LuaSerializer::l_connect(lua_State *l)
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
+		lua_pushvalue(l, -1);
 		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
-		lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializer");
 	}
 
 	lua_getfield(l, -1, ar.short_src);

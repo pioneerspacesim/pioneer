@@ -14,8 +14,8 @@ void LuaEventQueueBase::RegisterEventQueue()
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
+		lua_pushvalue(l, -1);
 		lua_setfield(l, LUA_GLOBALSINDEX, "EventQueue");
-		lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
 	}
 
 	lua_pushstring(l, m_name);
