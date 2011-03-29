@@ -49,7 +49,7 @@ local onActivate = function (dialog, ref, option)
 	dialog:AddGoodsTrader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)
-			if ads[ref].stock[commodity] ~= nil then
+			if ads[ref].stock[commodity] then
 				return true
 			end
 		end,
