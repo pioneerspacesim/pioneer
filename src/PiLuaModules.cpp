@@ -26,7 +26,7 @@ lua_State *GetLuaState() { return L; }
 
 static void GetMission(std::list<Mission> &missions)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	Mission m;
 	// mission table at -1
 	lua_getfield(L, -1, "description");
@@ -56,13 +56,13 @@ static void GetMission(std::list<Mission> &missions)
 	}
 	lua_pop(L, 1);
 	missions.push_back(m);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
 void GetPlayerMissions(std::list<Mission> &missions)
 {
 	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
-		LUA_DEBUG_START(L)
+		LUA_DEBUG_START(L);
 		lua_getglobal(L, (*i).c_str());
 		lua_pushcfunction(L, pi_lua_panic);
 		lua_getfield(L, -2, "GetPlayerMissions");
@@ -79,7 +79,7 @@ void GetPlayerMissions(std::list<Mission> &missions)
 			}
 		}
 		lua_pop(L, 3);
-		LUA_DEBUG_END(L, 0)
+		LUA_DEBUG_END(L, 0);
 	}
 }
 

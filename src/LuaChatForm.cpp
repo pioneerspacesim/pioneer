@@ -58,7 +58,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 	} else {
 		lua_State *l = LuaManager::Instance()->GetLuaState();
 
-		LUA_DEBUG_START(l)
+		LUA_DEBUG_START(l);
 
 		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 		assert(!lua_isnil(l, -1));
@@ -77,13 +77,13 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 
 		lua_pop(l, 2);
 
-		LUA_DEBUG_END(l, 0)
+		LUA_DEBUG_END(l, 0);
 	}
 }
 
 static inline void _get_trade_function(lua_State *l, int ref, const char *name)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(!lua_isnil(l, -1));
@@ -101,7 +101,7 @@ static inline void _get_trade_function(lua_State *l, int ref, const char *name)
 	lua_insert(l, -4);
 	lua_pop(l, 3);
 
-	LUA_DEBUG_END(l, 1)
+	LUA_DEBUG_END(l, 1);
 }
 
 bool LuaChatForm::CanBuy(Equip::Type t, bool verbose) const {
@@ -113,7 +113,7 @@ bool LuaChatForm::CanSell(Equip::Type t, bool verbose) const {
 bool LuaChatForm::DoesSell(Equip::Type t) const {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "canTrade");
 
@@ -132,7 +132,7 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 int LuaChatForm::GetStock(Equip::Type t) const {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "getStock");
 
@@ -151,7 +151,7 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "getPrice");
 
@@ -170,7 +170,7 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 void LuaChatForm::OnClickBuy(int t) {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "onClickBuy");
 
@@ -195,7 +195,7 @@ void LuaChatForm::OnClickBuy(int t) {
 void LuaChatForm::OnClickSell(int t) {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "onClickSell");
 
@@ -220,7 +220,7 @@ void LuaChatForm::OnClickSell(int t) {
 void LuaChatForm::Bought(Equip::Type t) {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "bought");
 
@@ -234,7 +234,7 @@ void LuaChatForm::Bought(Equip::Type t) {
 void LuaChatForm::Sold(Equip::Type t) {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	_get_trade_function(l, m_modRef, "sold");
 
@@ -242,7 +242,7 @@ void LuaChatForm::Sold(Equip::Type t) {
 	LuaInt::PushToLua(t);
 	lua_call(l, 2, 0);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 }
 
 static int l_luachatform_clear(lua_State *l)
@@ -285,7 +285,7 @@ static inline void _bad_trade_function(lua_State *l, const char *name) {
 
 static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l, int ref)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(!lua_isnil(l, -1));
@@ -300,7 +300,7 @@ static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l,
 
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 }
 
 int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)

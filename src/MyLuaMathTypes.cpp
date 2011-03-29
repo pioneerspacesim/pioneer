@@ -168,7 +168,7 @@ namespace MyLuaMatrix {
 			void *p = lua_touserdata(L, 2);
 			assert(p);
 
-			LUA_DEBUG_START(L)
+			LUA_DEBUG_START(L);
 
 			lua_getmetatable(L, 2);
 			assert(lua_istable(L, -1));
@@ -190,7 +190,7 @@ namespace MyLuaMatrix {
 				*out = (*m) * (*m2);
 			}
 
-			LUA_DEBUG_END(L, 1)
+			LUA_DEBUG_END(L, 1);
 
 			return 1;
 		}

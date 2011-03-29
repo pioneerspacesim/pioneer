@@ -42,14 +42,16 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath);
 int  pi_load_lua(lua_State *l);
 	
 #ifdef DEBUG
-# define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr);
+# define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff) \
-	const int __luaEndStackDepth = lua_gettop(luaptr); \
-	if ( __luaEndStackDepth-expectedStackDiff != __luaStartStackDepth) { \
-		fprintf(stderr, "%s:%d: lua stack difference is %d, expected %d\n", \
-			__FILE__, __LINE__, __luaEndStackDepth-__luaStartStackDepth, expectedStackDiff); \
-		abort(); \
-	}
+	do { \
+		const int __luaEndStackDepth = lua_gettop(luaptr); \
+		if ( __luaEndStackDepth-expectedStackDiff != __luaStartStackDepth) { \
+			fprintf(stderr, "%s:%d: lua stack difference is %d, expected %d\n", \
+				__FILE__, __LINE__, __luaEndStackDepth-__luaStartStackDepth, expectedStackDiff); \
+			abort(); \
+		} \
+	} while (0)
 #else
 # define LUA_DEBUG_START(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff)

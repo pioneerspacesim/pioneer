@@ -39,7 +39,7 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
 	// model definition is consistent
 	std::set<std::string> entries;
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	// XXX CurrentDirectory stuff has to go
 	lua_getglobal(l, "CurrentDirectory");
@@ -89,7 +89,7 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
 	lua_pushstring(l, save_dir.c_str());
 	lua_setglobal(l, "CurrentDirectory");
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 }
 
 // XXX compatibility

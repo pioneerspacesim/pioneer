@@ -7,7 +7,7 @@ void LuaEventQueueBase::RegisterEventQueue()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	// get the eventqueue table, or create it if it doesn't exist
 	lua_getfield(l, LUA_GLOBALSINDEX, "EventQueue");
@@ -38,7 +38,7 @@ void LuaEventQueueBase::RegisterEventQueue()
 
 	lua_pop(l, 1);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 }
 
 void LuaEventQueueBase::ClearEvents()
@@ -54,7 +54,7 @@ void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
 	assert(lua_istable(l, -1));
@@ -70,7 +70,7 @@ void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 
 	delete e;
 }
@@ -81,7 +81,7 @@ void LuaEventQueueBase::Emit()
 
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
 	assert(lua_istable(l, -1));
@@ -104,12 +104,12 @@ void LuaEventQueueBase::Emit()
 
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 }
 
 int LuaEventQueueBase::l_connect(lua_State *l)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
@@ -125,14 +125,14 @@ int LuaEventQueueBase::l_connect(lua_State *l)
 
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }
 
 int LuaEventQueueBase::l_disconnect(lua_State *l)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	LuaEventQueueBase *q = LuaObject<LuaEventQueueBase>::GetFromLua(1);
 
@@ -148,7 +148,7 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }

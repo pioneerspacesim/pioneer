@@ -5,7 +5,7 @@
 
 static int l_ship_get_stats(lua_State *l)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
 	const shipstats_t *stats = s->CalcStats();
@@ -22,7 +22,7 @@ static int l_ship_get_stats(lua_State *l)
 	pi_lua_settable(l, "shield_mass",          stats->shield_mass);
 	pi_lua_settable(l, "shield_mass_left",     stats->shield_mass_left);
 
-	LUA_DEBUG_END(l, 1)
+	LUA_DEBUG_END(l, 1);
 
 	return 1;
 }

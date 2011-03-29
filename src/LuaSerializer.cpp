@@ -38,12 +38,12 @@ void LuaSerializer::RegisterSerializer()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	LuaObject<LuaSerializer>::PushToLua(this);
 	lua_setfield(l, LUA_GLOBALSINDEX, "Serializer");
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 }
 
 void LuaSerializer::Serialize(Serializer::Writer &wr)
@@ -71,7 +71,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 	// outer save table is now on top of the stack. call each module in turn
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		LUA_DEBUG_START(l)
+		LUA_DEBUG_START(l);
 		lua_pushinteger(l, 1);
 		lua_gettable(l, -2);
 		lua_call(l, 0, 1);
@@ -79,7 +79,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 		lua_insert(l, -2);
 		lua_settable(l, -6);
 		lua_pop(l, 1);
-		LUA_DEBUG_END(l, 0)
+		LUA_DEBUG_END(l, 0);
 	}
 
 	lua_pop(l, 1);
@@ -97,7 +97,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 
 int LuaSerializer::l_connect(lua_State *l)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	if (!lua_isfunction(l, 2))
 		luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
@@ -136,14 +136,14 @@ int LuaSerializer::l_connect(lua_State *l)
 
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }
 
 int LuaSerializer::l_disconnect(lua_State *l)
 {
-	LUA_DEBUG_START(l)
+	LUA_DEBUG_START(l);
 
 	lua_Debug ar;
     lua_getstack(l, 0, &ar);
@@ -165,7 +165,7 @@ int LuaSerializer::l_disconnect(lua_State *l)
 
 	lua_pop(l, 1);
 
-	LUA_DEBUG_END(l, 0)
+	LUA_DEBUG_END(l, 0);
 
 	return 0;
 }
