@@ -118,12 +118,17 @@ protected:
 	// is triggered if the object on the stack is not of this type
 	static DeleteEmitter *GetFromLua(int index, const char *want_type);
 
-private:
-	LuaObjectBase(const LuaObjectBase &) {}
-
 	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
 	// if the object is not in the registry
 	static LuaObjectBase *Lookup(lid id);
+
+	// accessors for the wrapper data. only really used by the serializer
+	inline lid GetId() const { return m_id; }
+	inline DeleteEmitter *GetObject() const { return m_object; }
+	inline const char *GetType() const { return m_type; }
+
+private:
+	LuaObjectBase(const LuaObjectBase &) {}
 
 	// remove an object from the registry. deletes lo and the underlying c++
 	// object if necessary
