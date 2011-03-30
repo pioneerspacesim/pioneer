@@ -146,9 +146,12 @@ bool LuaObjectBase::Isa(const char *want_type) const
 		lua_getfield(l, LUA_GLOBALSINDEX, current_type);
 
 		// get its metatable
-		if (!lua_getmetatable(l, -1))
+		if (!lua_getmetatable(l, -1)) {
 			// not found means we've reached the base and can go no further
+			lua_pop(l, 1);
+			LUA_DEBUG_END(l, 0);
 			return false;
+		}
 
 		// get the type this metatable belongs to 
 		lua_getfield(l, -1, "type");
