@@ -18,6 +18,8 @@ public:
 private:
 	static int l_connect(lua_State *l);
 	static int l_disconnect(lua_State *l);
+
+	static void pickle(lua_State *l, int idx, std::string &out);
 };
 
 #endif
