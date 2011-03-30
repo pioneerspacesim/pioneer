@@ -120,8 +120,23 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 	if (!lo)
 		luaL_error(l, "object with id 0x%08x not found in registry", *idp);
 
-	const char *current_type = lo->m_type;
+	LUA_DEBUG_END(l, 0);
 
+	if (!lo->Isa(want_type))
+		luaL_error(l, "object on stack has type %s which can not be used as type %s\n", lo->m_type, want_type);
+
+	// found it
+	return lo->m_object;
+}
+
+bool LuaObjectBase::Isa(const char *want_type) const
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	const char *current_type = this->m_type;
+ 
 	// look for the type. we walk up the inheritance chain looking to see if
 	// the passed object is a subclass of the wanted type
 	while (strcmp(current_type, want_type) != 0) {
@@ -133,7 +148,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 		// get its metatable
 		if (!lua_getmetatable(l, -1))
 			// not found means we've reached the base and can go no further
-			luaL_error(l, "object on stack has type %s which can not be used as type %s\n", lo->m_type, want_type);
+			return false;
 
 		// get the type this metatable belongs to 
 		lua_getfield(l, -1, "type");
@@ -144,6 +159,6 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 
 	LUA_DEBUG_END(l, 0);
 
-	// found it
-	return lo->m_object;
+	return true;
 }
+
