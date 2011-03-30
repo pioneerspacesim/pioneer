@@ -7,6 +7,8 @@ AC_INIT([pioneer], [0.alpha.9], [pioneer-dev@pioneerspacesim.net])
 
 AM_INIT_AUTOMAKE([1.9 foreign])
 
+AC_CANONICAL_HOST
+
 AC_PROG_CC
 AC_PROG_CXX
 AC_C_CONST
@@ -22,9 +24,13 @@ PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
 LIBS="$LIBS $SIGC_LIBS"
 
-AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
-AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
-AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
+if test "x-$host" = "x-i686-pc-mingw32" ; then
+	LIBS="$LIBS -lglew32s -lglu32 -lopengl32"
+else
+	AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
+	AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
+	AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
+fi
 
 AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
 if test "$SDLCONFIG" = "no"; then
@@ -42,12 +48,20 @@ fi
 CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
 LIBS="$LIBS `$FTCONFIG --libs`"
 
-CFLAGS="$CFLAGS -DLUA_USE_POSIX"
+if test "x-$host" != "x-i686-pc-mingw32" ; then
+	CFLAGS="$CFLAGS -DLUA_USE_POSIX"
+fi
 
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
-CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
-LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
+
+if test "x-$host" = "x-i686-pc-mingw32" ; then
+	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
+	LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
+else
+	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
+	LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
+fi
 
 CXXFLAGS="$CFLAGS"
 
