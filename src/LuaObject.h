@@ -97,21 +97,10 @@
 // type for internal object identifiers
 typedef uintptr_t lid;
 
-// the base class for wrapper classes. the only public interface is for
-// lookup. creation is handled by the wrapper classes
+// the base class for wrapper classes. it has no public interface. everything
+// you need goes through the wrapper classes
 class LuaObjectBase {
-public:
-	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
-	// if the object is not in the registry
-	static LuaObjectBase *Lookup(lid id);
-
-	// accessors for the wrapper data. only really used by the serializer
-	inline lid GetId() const { return m_id; }
-	inline DeleteEmitter *GetObject() const { return m_object; }
-	inline const char *GetType() const { return m_type; }
-
-    // determine if the object has a class in its ancestry
-    bool Isa(const char *want_type) const;
+	friend class LuaSerializer;
 
 protected:
 	virtual ~LuaObjectBase() {}
@@ -131,7 +120,6 @@ protected:
 	// is triggered if the object on the stack is not of this type
 	static DeleteEmitter *GetFromLua(int index, const char *want_type);
 
-
 private:
 	LuaObjectBase(const LuaObjectBase &) {}
 
@@ -142,6 +130,13 @@ private:
 	// the lua object "destructor" that gets called by the garbage collector.
 	// its only part of the class so that it can call Deregister()
 	static int GC(lua_State *l);
+
+	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
+	// if the object is not in the registry
+	static LuaObjectBase *Lookup(lid id);
+
+    // determine if the object has a class in its ancestry
+    bool Isa(const char *want_type) const;
 
 	// object id, pointer to the c++ object and lua type string
 	lid            m_id;
