@@ -12,8 +12,8 @@
 // each serializer in turn and capture its return value we build a table like
 // so:
 // {
-//   'Assassination.lua' = { ... },
-//   'DeliverPackage.lua' = { ... },
+//   'Assassination' = { ... },
+//   'DeliverPackage' = { ... },
 //   ...
 // }
 // entire table then gets pickled and handed to the writer
@@ -154,14 +154,14 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 		case 'f': {
 			char *end;
 			double f = strtod(pos, &end);
-			assert(pos != end);
+			if (pos == end) throw SavedGameCorruptException();
 			lua_pushnumber(l, f);
 			pos = end+1; // skip newline
 			break;
 		}
 
 		case 'b': {
-			assert(*pos == '0' || *pos == '1');
+			if (*pos != '0' && *pos != '1') throw SavedGameCorruptException();
 			bool b = (*pos == '0') ? false : true;
 			lua_pushboolean(l, b);
 			pos++;
@@ -171,7 +171,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 		case 's': {
 			char *end;
 			int len = strtod(pos, &end);
-			assert(pos != end);
+			if (pos == end) throw SavedGameCorruptException();
 			end++; // skip newline
 			lua_pushlstring(l, end, len);
 			pos = end + len;
@@ -191,7 +191,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 		case 'u': {
 			const char *end = strchr(pos, '\n');
-			assert(end);
+			if (!end) throw SavedGameCorruptException();
 			int len = end - pos;
 			end++; // skip newline
 
@@ -199,19 +199,19 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				pos = end;
 
 				int sectorX = strtol(pos, (char**)&end, 0);
-				assert(pos != end);
+				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
 				int sectorY = strtol(pos, (char**)&end, 0);
-				assert(pos != end);
+				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
 				int systemNum = strtol(pos, (char**)&end, 0);
-				assert(pos != end);
+				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
 				int sbodyId = strtol(pos, (char**)&end, 0);
-				assert(pos != end);
+				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
 				SBodyPath *sbp = new SBodyPath(sectorX, sectorY, systemNum);
@@ -225,11 +225,11 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				pos = end;
 
 				int n = strtol(pos, (char**)&end, 0);
-				assert(pos != end);
+				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
 				Body *body = Serializer::LookupBody(n);
-				assert(body);
+				if (pos == end) throw SavedGameCorruptException();
 
 				switch (body->GetType()) {
 					case Object::BODY:
@@ -251,17 +251,17 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 						LuaPlayer::PushToLua(dynamic_cast<Player*>(body));
 						break;
 					default:
-						assert(0 && "unknown body type");
+						throw SavedGameCorruptException();
 				}
 
 				break;
 			}
 
-			assert(0 && "unknown userdata type");
+			throw SavedGameCorruptException();
 		}
 
 		default:
-			assert(0);
+			throw SavedGameCorruptException();
 	}
 
 	LUA_DEBUG_END(l, 1);
@@ -318,8 +318,8 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
-	assert((end - start) == pickled.length());
-	assert(lua_istable(l, -1));
+	if ((end - start) != pickled.length()) throw SavedGameCorruptException();
+	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
