@@ -44,4 +44,4 @@ end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 
-Serializer:Register("BulkShips", function () return ships end, function () end)
+Serializer:Register("BulkShips", function () return ships end, function (t) print("unserialize") dumper(t) end)

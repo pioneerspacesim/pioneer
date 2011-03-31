@@ -139,6 +139,10 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 	LUA_DEBUG_END(l, 0);
 }
 
+void LuaSerializer::unpickle(lua_State *l, std::string &in, int idx)
+{
+}
+
 void LuaSerializer::Serialize(Serializer::Writer &wr)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
@@ -185,9 +189,40 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
 	std::string pickled = rd.String();
 
-	printf("pickled:\n%s\n", pickled.c_str());
+	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	assert(0);
+	lua_newtable(l);
+	int savetable = lua_gettop(l);
+
+	unpickle(l, pickled, savetable);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, -1);
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		LUA_DEBUG_START(l);
+		lua_pushvalue(l, -2);
+		lua_pushinteger(l, 2);
+		lua_gettable(l, -3);
+		lua_getfield(l, savetable, lua_tostring(l, -2));
+		if (lua_isnil(l, -1)) {
+			lua_pop(l, 1);
+			lua_newtable(l);
+		}
+		lua_call(l, 1, 0);
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+	}
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
 }
 
 int LuaSerializer::l_register(lua_State *l)
