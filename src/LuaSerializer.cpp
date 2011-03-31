@@ -2,6 +2,11 @@
 #include "LuaObject.h"
 #include "StarSystem.h"
 #include "Body.h"
+#include "Ship.h"
+#include "SpaceStation.h"
+#include "Planet.h"
+#include "Star.h"
+#include "Player.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
@@ -140,6 +145,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 {
+	LUA_DEBUG_START(l);
+
 	char type = *pos++;
 
 	switch (type) {
@@ -148,7 +155,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			char *end;
 			double f = strtod(pos, &end);
 			assert(pos != end);
-			printf("float: %f\n", f);
+			lua_pushnumber(l, f);
 			pos = end+1; // skip newline
 			break;
 		}
@@ -156,7 +163,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 		case 'b': {
 			assert(*pos == '0' || *pos == '1');
 			bool b = (*pos == '0') ? false : true;
-			printf("bool: %s\n", b ? "true" : "false");
+			lua_pushboolean(l, b);
 			pos++;
 			break;
 		}
@@ -166,21 +173,18 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			int len = strtod(pos, &end);
 			assert(pos != end);
 			end++; // skip newline
-			printf("string: %.*s\n", len, end);
+			lua_pushlstring(l, end, len);
 			pos = end + len;
 			break;
 		}
 			
 		case 't': {
-			printf("table start\n");
+			lua_newtable(l);
 			while (*pos != 'n') {
-				printf("  key:\n    ");
 				pos = unpickle(l, pos);
-				printf("  value:\n    ");
 				pos = unpickle(l, pos);
-				// XXX setfield
+				lua_rawset(l, -3);
 			}
-			printf("table end\n");
 			pos++;
 			break;
 		}
@@ -189,7 +193,6 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			const char *end = strchr(pos, '\n');
 			assert(end);
 			int len = end - pos;
-			printf("userdata: %.*s\n", len, pos);
 			end++; // skip newline
 
 			if (len == 9 && strncmp(pos, "SBodyPath", 9) == 0) {
@@ -211,7 +214,9 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				assert(pos != end);
 				pos = end+1; // skip newline
 
-				printf("sbodypath: %d %d %d %d\n", sectorX, sectorY, systemNum, sbodyId);
+				SBodyPath *sbp = new SBodyPath(sectorX, sectorY, systemNum);
+				sbp->sbodyId = sbodyId;
+				LuaSBodyPath::PushToLuaGC(sbp);
 
 				break;
 			}
@@ -223,7 +228,31 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				assert(pos != end);
 				pos = end+1; // skip newline
 
-				printf("body: %d\n", n);
+				Body *body = Serializer::LookupBody(n);
+				assert(body);
+
+				switch (body->GetType()) {
+					case Object::BODY:
+						LuaBody::PushToLua(body);
+						break;
+					case Object::SHIP:
+						LuaShip::PushToLua(dynamic_cast<Ship*>(body));
+						break;
+					case Object::SPACESTATION:
+						LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(body));
+						break;
+					case Object::PLANET:
+						LuaPlanet::PushToLua(dynamic_cast<Planet*>(body));
+						break;
+					case Object::STAR:
+						LuaStar::PushToLua(dynamic_cast<Star*>(body));
+						break;
+					case Object::PLAYER:
+						LuaPlayer::PushToLua(dynamic_cast<Player*>(body));
+						break;
+					default:
+						assert(0 && "unknown body type");
+				}
 
 				break;
 			}
@@ -234,6 +263,8 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 		default:
 			assert(0);
 	}
+
+	LUA_DEBUG_END(l, 1);
 
 	return pos;
 }
