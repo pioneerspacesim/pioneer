@@ -41,12 +41,12 @@ void LuaSerializer::RegisterSerializer()
 //
 // pickle format is newline-seperated. each line begins with a type value,
 // followed by data for that type as follows
-//   f - number (float). stringified number on next line
-//   b - boolean. next line has 0 or 1 for false or true
-//   s - string. stringified length number on next line, then string bytes follow immediately after, then newline
-//   t - table. table contents are more pickled stuff (ie recursive)
-//   n - end of table
-//   u - userdata. type is on next line, followed by data
+//   fNNN.nnn - number (float)
+//   bN       - boolean. N is 0 or 1 for true/false
+//   sNNN     - string. number is length, followed by newline, then string of bytes
+//   t        - table. table contents are more pickled stuff (ie recursive)
+//   n        - end of table
+//   uXXXX    - userdata. XXXX is type, followed by newline, followed by data
 //     Body      - data is a single stringified number for Serializer::LookupBody
 //     SBodyPath - data is four stringified numbers, newline separated
 
@@ -61,13 +61,13 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			break;
 
 		case LUA_TNUMBER: {
-			snprintf(buf, sizeof(buf), "f\n%f\n", lua_tonumber(l, idx));
+			snprintf(buf, sizeof(buf), "f%f\n", lua_tonumber(l, idx));
 			out += buf;
 			break;
 		}
 
 		case LUA_TBOOLEAN: {
-			snprintf(buf, sizeof(buf), "b\n%d\n", lua_toboolean(l, idx) ? 1 : 0);
+			snprintf(buf, sizeof(buf), "b%d\n", lua_toboolean(l, idx) ? 1 : 0);
 			out += buf;
 			break;
 		}
@@ -75,16 +75,15 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		case LUA_TSTRING: {
 			lua_pushvalue(l, idx);
 			const char *str = lua_tostring(l, -1);
-			snprintf(buf, sizeof(buf), "s\n%d\n", strlen(str));
+			snprintf(buf, sizeof(buf), "s%d\n", strlen(str));
 			out += buf;
 			out += str;
-			out += "\n";
 			lua_pop(l, 1);
 			break;
 		}
 
 		case LUA_TTABLE: {
-			out += "t\n";
+			out += "t";
 			LUA_DEBUG_START(l);
 			lua_pushvalue(l, idx);
 			lua_pushnil(l);
@@ -104,12 +103,12 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			}
 			lua_pop(l, 1);
 			LUA_DEBUG_END(l, 0);
-			out += "n\n";
+			out += "n";
 			break;
 		}
 
 		case LUA_TUSERDATA: {
-			out += "u\n";
+			out += "u";
 			lid *idp = (lid*)lua_touserdata(l, idx);
 			LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 
