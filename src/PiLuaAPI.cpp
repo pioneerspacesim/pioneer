@@ -83,77 +83,6 @@ void ship_randomly_equip(Ship *ship, double power)
 	ship->UpdateMass();
 }
 
-////////////////////////////////////////////////////////////
-
-std::map<Object *, int> ObjectWrapper::objWrapLookup;
-
-EXPORT_OOLUA_NO_FUNCTIONS(Object)
-EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(ObjectWrapper)
-EXPORT_OOLUA_FUNCTIONS_3_CONST(ObjectWrapper,
-		IsBody,
-		IsValid,
-		GetLabel)
-
-ObjectWrapper::ObjectWrapper(Object *o): m_obj(o) {
-	if (o) {
-		m_delCon = o->onDelete.connect(sigc::mem_fun(this, &ObjectWrapper::OnDelete));
-	}
-}
-bool ObjectWrapper::IsBody() const {
-	return Is(Object::BODY);
-}
-void ObjectWrapper::SetLabel(const char *label) {
-	if (Is(Object::BODY)) {
-		static_cast<Body*>(m_obj)->SetLabel(label);
-	}
-}
-const char *ObjectWrapper::GetLabel() const {
-	if (Is(Object::BODY)) {
-		return static_cast<Body*>(m_obj)->GetLabel().c_str();
-	} else {
-		return "";
-	}
-}
-
-void ObjectWrapper::Push(lua_State * const s, Object * const & o)
-{
-	if (!o) {
-		lua_pushnil(s);
-		return;
-	}
-	std::map<Object *, int>::iterator i = objWrapLookup.find(o);
-	if (i == objWrapLookup.end()) {
-		ObjectWrapper *p = new ObjectWrapper(o);
-		OOLUA::push2lua(s, p, OOLUA::Lua);
-		lua_pushvalue(s, -1);
-		const int ref = luaL_ref(s, LUA_REGISTRYINDEX);
-		objWrapLookup[o] = ref;
-	} else {
-		lua_rawgeti(s, LUA_REGISTRYINDEX, (*i).second);
-	}
-}
-
-ObjectWrapper::~ObjectWrapper() {
-//	printf("ObjWrapper for %s is being deleted\n", GetLabel());
-	OnDelete();
-}
-bool ObjectWrapper::Is(Object::Type t) const {
-	return m_obj && m_obj->IsType(t);
-}
-void ObjectWrapper::OnDelete() {
-	// object got deleted out from under us
-//	printf("%p->OnDelete %p\n", this, m_obj);
-	if (m_obj) {
-		std::map<Object *, int>::iterator i = objWrapLookup.find(m_obj);
-		if (i != objWrapLookup.end()) {
-			lua_unref(PiLuaModules::GetLuaState(), (*i).second);
-			objWrapLookup.erase(i);
-		}
-	}
-	m_obj = 0;
-	m_delCon.disconnect();
-}
-
 /////////////////////////////////////////////////////////////
 class Rand: public MTRand {
 public:
@@ -199,67 +128,6 @@ EXPORT_OOLUA_FUNCTIONS_2_NON_CONST(SoundEvent,
 EXPORT_OOLUA_FUNCTIONS_0_CONST(SoundEvent)
 
 ///////////////////////////////////////////////////////////////
-
-#if 0
-static int UserDataSerialize(lua_State *L)
-{
-	luaL_checktype(L, 1, LUA_TUSERDATA);
-	if (mylua_checkudata(L, 1, "ObjectWrapper")) {
-		char buf[256];
-		ObjectWrapper *o;
-		OOLUA::pull2cpp(L, o);
-		snprintf(buf, sizeof(buf), "ObjectWrapper\n%d\n", Serializer::LookupBody((Body*)o->m_obj));
-		lua_pushstring(L, buf);
-		return 1;
-	} else if (mylua_checkudata(L, 1, "SBodyPath")) {
-		Serializer::Writer wr;
-		SBodyPath *path;
-		OOLUA::pull2cpp(L, path);
-		path->Serialize(wr);
-		std::string out = "SBodyPath\n";
-		out += wr.GetData();
-		OOLUA::push2lua(L, out);
-		return 1;
-	} else if (mylua_checkudata(L, 1, "SysLoc")) {
-		Serializer::Writer wr;
-		SysLoc *systemid;
-		OOLUA::pull2cpp(L, systemid);
-		systemid->Serialize(wr);
-		std::string out = "SysLoc\n";
-		out += wr.GetData();
-		OOLUA::push2lua(L, out);
-		return 1;
-	} else {
-		Error("Tried to serialize unknown userdata type.");
-		return 0;
-	}
-}
-
-static int UserDataUnserialize(lua_State *L)
-{
-	std::string str;
-	OOLUA::pull2cpp(L, str);
-	if (str.substr(0, 14) == "ObjectWrapper\n") {
-		int idx = atoi(str.substr(14).c_str());
-		Body *b = Serializer::LookupBody(idx);
-		OOLUA::push2lua(L, static_cast<Object*>(b));
-		return 1;
-	} else if (str.substr(0, 10) == "SBodyPath\n") {
-		Serializer::Reader r(str.substr(10));
-		SBodyPath *p = new SBodyPath;
-		SBodyPath::Unserialize(r, p);
-		push2luaWithGc(L, p);
-		return 1;
-	} else if (str.substr(0, 7) == "SysLoc\n") {
-		Serializer::Reader r(str.substr(7));
-		SysLoc *p = new SysLoc;
-		SysLoc::Unserialize(r, p);
-		push2luaWithGc(L, p);
-		return 1;
-	}
-	return 0;
-}
-#endif
 
 
 struct UnknownShipType {};
@@ -524,8 +392,6 @@ namespace LuaPi {
 void RegisterPiLuaAPI(lua_State *l)
 {
 	LUA_DEBUG_START(l);
-	OOLUA::register_class<ObjectWrapper>(l);
-	OOLUA::register_class<Object>(l);
 	OOLUA::register_class<SoundEvent>(l);
 	OOLUA::register_class<Rand>(l);
 	

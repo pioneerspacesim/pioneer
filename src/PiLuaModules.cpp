@@ -83,47 +83,4 @@ void GetPlayerMissions(std::list<Mission> &missions)
 	}
 }
 
-void Serialize(Serializer::Writer &wr)
-{
-    /*
-	for(std::list<std::string>::const_iterator i = s_modules.begin(); i!=s_modules.end(); ++i) {
-		ModCall((*i).c_str(), "Serialize", 1);
-		// string can have nulls in it so must get length
-		std::string str;
-		OOLUA::pull2cpp(L, str);
-		wr.String(*i);
-		wr.String(str);
-	}
-	wr.String("");
-    */
-}
-
-void Unserialize(Serializer::Reader &rd)
-{
-    /*
-	// XXX TODO XXX keep saved data for modules not enabled,
-	// so we can re-save it an not lose it
-	std::string modname;
-	std::string moddata;
-
-	for (;;) {
-		modname = rd.String();
-		if (modname == "") break;
-		moddata = rd.String();
-		bool found = false;
-		for (std::list<std::string>::const_iterator i = s_modules.begin(); i != s_modules.end(); ++i) {
-			if ((*i) == modname) {
-				ModCall(modname.c_str(), "Unserialize", 0, moddata);
-				found = true;
-				break;
-			}
-		}
-		if (!found) {
-			// XXX this isn't good. we should keep the data for re-saving in case the module is enabled again
-			Warning("Could not find the module '%s'. Continuing, but module data will be lost.", modname.c_str());
-		}
-	}
-    */
-}
-
 }
