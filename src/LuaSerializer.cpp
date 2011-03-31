@@ -138,8 +138,104 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 	LUA_DEBUG_END(l, 0);
 }
 
-void LuaSerializer::unpickle(lua_State *l, std::string &in, int idx)
+const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 {
+	char type = *pos++;
+
+	switch (type) {
+
+		case 'f': {
+			char *end;
+			double f = strtod(pos, &end);
+			assert(pos != end);
+			printf("float: %f\n", f);
+			pos = end+1; // skip newline
+			break;
+		}
+
+		case 'b': {
+			assert(*pos == '0' || *pos == '1');
+			bool b = (*pos == '0') ? false : true;
+			printf("bool: %s\n", b ? "true" : "false");
+			pos++;
+			break;
+		}
+
+		case 's': {
+			char *end;
+			int len = strtod(pos, &end);
+			assert(pos != end);
+			end++; // skip newline
+			printf("string: %.*s\n", len, end);
+			pos = end + len;
+			break;
+		}
+			
+		case 't': {
+			printf("table start\n");
+			while (*pos != 'n') {
+				printf("  key:\n    ");
+				pos = unpickle(l, pos);
+				printf("  value:\n    ");
+				pos = unpickle(l, pos);
+				// XXX setfield
+			}
+			printf("table end\n");
+			pos++;
+			break;
+		}
+
+		case 'u': {
+			const char *end = strchr(pos, '\n');
+			assert(end);
+			int len = end - pos;
+			printf("userdata: %.*s\n", len, pos);
+			end++; // skip newline
+
+			if (len == 9 && strncmp(pos, "SBodyPath", 9) == 0) {
+				pos = end;
+
+				int sectorX = strtol(pos, (char**)&end, 0);
+				assert(pos != end);
+				pos = end+1; // skip newline
+
+				int sectorY = strtol(pos, (char**)&end, 0);
+				assert(pos != end);
+				pos = end+1; // skip newline
+
+				int systemNum = strtol(pos, (char**)&end, 0);
+				assert(pos != end);
+				pos = end+1; // skip newline
+
+				int sbodyId = strtol(pos, (char**)&end, 0);
+				assert(pos != end);
+				pos = end+1; // skip newline
+
+				printf("sbodypath: %d %d %d %d\n", sectorX, sectorY, systemNum, sbodyId);
+
+				break;
+			}
+
+			if (len == 4 && strncmp(pos, "Body", 4) == 0) {
+				pos = end;
+
+				int n = strtol(pos, (char**)&end, 0);
+				assert(pos != end);
+				pos = end+1; // skip newline
+
+				printf("body: %d\n", n);
+
+				break;
+			}
+
+			assert(0 && "unknown userdata type");
+		}
+
+		default:
+			assert(0);
+	}
+
+	return pos;
 }
 
 void LuaSerializer::Serialize(Serializer::Writer &wr)
@@ -186,14 +282,14 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
-	std::string pickled = rd.String();
-
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
-	lua_newtable(l);
+	std::string pickled = rd.String();
+	const char *start = pickled.c_str();
+	const char *end = unpickle(l, start);
+	assert((end - start) == pickled.length());
+	assert(lua_istable(l, -1));
 	int savetable = lua_gettop(l);
-
-	unpickle(l, pickled, savetable);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
