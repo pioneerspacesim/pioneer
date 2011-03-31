@@ -116,6 +116,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			out += "u";
 			lid *idp = (lid*)lua_touserdata(l, idx);
 			LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
+			if (!lo)
+				Error("Serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
 
 			if (lo->Isa("SBodyPath")) {
 				SBodyPath *sbp = dynamic_cast<SBodyPath*>(lo->m_object);
