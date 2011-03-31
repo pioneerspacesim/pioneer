@@ -117,7 +117,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			lid *idp = (lid*)lua_touserdata(l, idx);
 			LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 			if (!lo)
-				Error("Serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
+				Error("Lua serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
 
 			if (lo->Isa("SBodyPath")) {
 				SBodyPath *sbp = dynamic_cast<SBodyPath*>(lo->m_object);
@@ -133,12 +133,12 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				break;
 			}
 
-			Error("Serializer '%s' tried to serialize unsupported userdata value", key);
+			Error("Lua serializer '%s' tried to serialize unsupported userdata value", key);
 			break;
 		}
 
 		default:
-			Error("Serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
+			Error("Lua serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
 			break;
 	}
 
@@ -374,7 +374,7 @@ int LuaSerializer::l_register(lua_State *l)
 
 	lua_getfield(l, -1, key.c_str());
 	if(!(lua_isnil(l, -1)))
-		luaL_error(l, "Serializer functions for '%s' are already registered\n", key.c_str());
+		luaL_error(l, "Lua serializer functions for '%s' are already registered\n", key.c_str());
 	lua_pop(l, 1);
 
 	lua_newtable(l);
