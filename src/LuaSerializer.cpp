@@ -171,19 +171,23 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 	lua_pop(l, 1);
 
-	std::string out;
-	pickle(l, savetable, out);
+	std::string pickled;
+	pickle(l, savetable, pickled);
 
-	printf("pickled:\n%s\n", out.c_str());
+	wr.String(pickled);
 
-	assert(0);
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
 
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
-    assert(0);
+	std::string pickled = rd.String();
+
+	printf("pickled:\n%s\n", pickled.c_str());
+
+	assert(0);
 }
 
 int LuaSerializer::l_register(lua_State *l)
