@@ -50,13 +50,16 @@ void LuaSerializer::RegisterSerializer()
 //     Body      - data is a single stringified number for Serializer::LookupBody
 //     SBodyPath - data is four stringified numbers, newline separated
 
-void LuaSerializer::pickle(lua_State *l, int idx, std::string &out)
+void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key = NULL)
 {
 	static char buf[256];
 
 	LUA_DEBUG_START(l);
 
 	switch (lua_type(l, idx)) {
+		case LUA_TNIL:
+			break;
+
 		case LUA_TNUMBER: {
 			snprintf(buf, sizeof(buf), "f\n%f\n", lua_tonumber(l, idx));
 			out += buf;
@@ -86,8 +89,17 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out)
 			lua_pushvalue(l, idx);
 			lua_pushnil(l);
 			while (lua_next(l, -2)) {
-				pickle(l, -2, out);
-				pickle(l, -1, out);
+				if (key) {
+					pickle(l, -2, out, key);
+					pickle(l, -1, out, key);
+				}
+				else {
+					lua_pushvalue(l, -2);
+					const char *k = lua_tostring(l, -1);
+					pickle(l, -3, out, k);
+					pickle(l, -2, out, k);
+					lua_pop(l, 1);
+				}
 				lua_pop(l, 1);
 			}
 			lua_pop(l, 1);
@@ -115,13 +127,13 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out)
 				break;
 			}
 
-			// fall through
+			luaL_error(l, "Serializer '%s' tried to serialize unsupported userdata value", key);
+			break;
 		}
 
-		default: {
-			// XXX report error
-			assert(0);
-		}
+		default:
+			luaL_error(l, "Serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
+			break;
 	}
 
 	LUA_DEBUG_END(l, 0);
@@ -133,23 +145,17 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSaveData");
+	lua_newtable(l);
+	int savetable = lua_gettop(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
 		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSaveData");
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	}
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializer");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
-	}
-
-	// outer save table is now on top of the stack. call each module in turn
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
 		LUA_DEBUG_START(l);
@@ -158,16 +164,15 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 		lua_call(l, 0, 1);
 		lua_pushvalue(l, -3);
 		lua_insert(l, -2);
-		lua_settable(l, -6);
+		lua_settable(l, savetable);
 		lua_pop(l, 1);
 		LUA_DEBUG_END(l, 0);
 	}
 
 	lua_pop(l, 1);
 
-	// we're left with PiSaveData on the stack, all up to date. pickle time
 	std::string out;
-	pickle(l, -1, out);
+	pickle(l, savetable, out);
 
 	printf("pickled:\n%s\n", out.c_str());
 
@@ -192,12 +197,12 @@ int LuaSerializer::l_connect(lua_State *l)
 	if (!lua_isfunction(l, 4))
 		luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
 	
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializer");
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
 		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	}
 
 	lua_getfield(l, -1, key.c_str());
@@ -231,7 +236,7 @@ int LuaSerializer::l_disconnect(lua_State *l)
 
 	std::string key = LuaString::GetFromLua(2);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializer");
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	lua_getfield(l, -1, key.c_str());
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 2);
