@@ -1,3 +1,5 @@
+local ships = {}
+
 local onEnterSystem = function (sys, player)
 	local population = sys:GetPopulation()
 
@@ -35,7 +37,11 @@ local onEnterSystem = function (sys, player)
 		if e then
 			print("BulkShips: "..e)
 		end
+
+		table.insert(ships, { ship, starport })
 	end
 end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+
+Serializer:Register("BulkShips", function () return ships end, function () end)

@@ -186,7 +186,7 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
     assert(0);
 }
 
-int LuaSerializer::l_connect(lua_State *l)
+int LuaSerializer::l_register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -230,39 +230,11 @@ int LuaSerializer::l_connect(lua_State *l)
 	return 0;
 }
 
-int LuaSerializer::l_disconnect(lua_State *l)
-{
-	LUA_DEBUG_START(l);
-
-	std::string key = LuaString::GetFromLua(2);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	lua_getfield(l, -1, key.c_str());
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 2);
-		LUA_DEBUG_END(l, 0);
-		return 0;
-	}
-
-	lua_pop(l, 1);
-
-	lua_pushstring(l, key.c_str());
-	lua_pushnil(l);
-	lua_rawset(l, -3);
-
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
-
-	return 0;
-}
-
 template <> const char *LuaObject<LuaSerializer>::s_type = "Serializer";
 template <> const char *LuaObject<LuaSerializer>::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<LuaSerializer>::s_methods[] = {
-	{ "Connect",    LuaSerializer::l_connect    },
-	{ "Disconnect", LuaSerializer::l_disconnect },
+	{ "Register", LuaSerializer::l_register },
 	{ 0, 0 }
 };
 
