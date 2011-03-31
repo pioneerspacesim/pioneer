@@ -110,6 +110,20 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_get_random_starport_near_but_not_in(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+
+	SBodyPath *path = new SBodyPath;
+	if (s->GetRandomStarport(Pi::rng, path)) {
+		LuaSBodyPath::PushToLuaGC(path);
+		return 1;
+	}
+
+	delete path;
+	return 0;
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 template <> const char *LuaObject<StarSystem>::s_inherit = NULL;
 
@@ -121,6 +135,7 @@ template <> const luaL_reg LuaObject<StarSystem>::s_methods[] = {
 	{ "GetRandomStarport",                l_starsystem_get_random_starport                  },
 	{ "GetBody",                          l_starsystem_get_body                             },
 	{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
+	{ "GetRandomStarportNearButNotIn",    l_starsystem_get_random_starport_near_but_not_in  },
 	{ 0, 0 }
 };
 
