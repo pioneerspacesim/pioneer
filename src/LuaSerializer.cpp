@@ -131,12 +131,12 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				break;
 			}
 
-			luaL_error(l, "Serializer '%s' tried to serialize unsupported userdata value", key);
+			Error("Serializer '%s' tried to serialize unsupported userdata value", key);
 			break;
 		}
 
 		default:
-			luaL_error(l, "Serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
+			Error("Serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
 			break;
 	}
 

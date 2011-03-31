@@ -92,7 +92,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 		// get the parent metatable
 		luaL_getmetatable(l, inherit);
 		if (lua_isnil(l, -1))
-			luaL_error(l, "'%s' can't inherit from unknown type '%s'", type, inherit);
+			Error("Lua type '%s' can't inherit from unknown type '%s'", type, inherit);
 
 		// attach it to the method table
 		lua_setmetatable(l, -3);
@@ -114,16 +114,16 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 
 	lid *idp = (lid*)lua_touserdata(l, index);
 	if (!idp)
-		luaL_error(l, "value on stack is of type userdata but has no userdata associated with it");
+		Error("Lua value on stack is of type userdata but has no userdata associated with it");
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 	if (!lo)
-		luaL_error(l, "object with id 0x%08x not found in registry", *idp);
+		Error("Lua object with id 0x%08x not found in registry", *idp);
 
 	LUA_DEBUG_END(l, 0);
 
 	if (!lo->Isa(want_type))
-		luaL_error(l, "object on stack has type %s which can not be used as type %s\n", lo->m_type, want_type);
+		Error("Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, want_type);
 
 	// found it
 	return lo->m_object;
