@@ -94,6 +94,15 @@ local onCreateBB = function (station)
 end
 
 local onUpdateBB = function (station)
+	for ref,ad in pairs(ads) do
+		if (ad.station == station) and (ad.due < Pi.GetGameTime() + 60*60*24*1) then
+			ads[ref] = nil
+			ad.station:RemoveAdvert(ref)
+		end	
+	end
+	if Pi.rand:Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
+		makeAdvert(station)
+	end
 end
 
 local onEnterSystem = function (sys, player)
@@ -157,16 +166,6 @@ EventQueue.onPlayerDocked:Connect(onPlayerDocked)
 	end,
 	
 	onUpdateBB = function(self, args)
-		local station = args[1]
-		for k,ad in pairs(self.ads) do
-			if (ad.bb == station) and (ad.due < Pi.GetGameTime() + 60*60*24*1) then
-				self.ads[k] = nil
-				ad.bb:SpaceStationRemoveAdvert(self.__name, ad.id)
-			end	
-		end
-		if Pi.rand:Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
-			self:_TryAddAdvert(station)
-		end
 	end,
 	
 	onChatBB = function(self, dialog, optionClicked)
