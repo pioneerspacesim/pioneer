@@ -56,10 +56,58 @@ local delivery_flavours = {
 local ads = {}
 local missions = {}
 
-local onActivate = function (ref)
+local onActivate = function (dialog, ref, option)
+	local ad = ads[ref]
+
+	dialog:Clear()
+
+	if option == -1 then
+		dialog:Close()
+		return
+	end
+
+	if option == 0 then
+		dialog:SetMessage(string.format(delivery_flavours[ad.flavour].introtext,
+			ad.client,
+			format_money(ad.reward), 
+			ad.dest:GetBodyName(),
+			ad.dest:GetSystemName(),
+			ad.dest:GetSectorX(),
+			ad.dest:GetSectorY()
+		))
+
+	elseif option == 1 then
+		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchdoshtext)
+	
+	elseif option == 2 then
+		dialog:SetMessage("It must be delivered by "..Date.Format(ad.due))
+	
+	elseif option == 3 then
+		dialog:RemoveAdvertOnClose()
+
+		ads[ref] = nil
+		
+		--[[
+		ad.description = _("Deliver a package to %1 in the %2 system (%3, %4).",
+					{ ad.dest:GetBodyName(), ad.dest:GetSystemName(), ad.dest:GetSectorX(), ad.dest:GetSectorY() })
+			ad.status = "active"
+			table.insert(self.missions, ad)
+		]]
+
+		dialog:SetMessage("Excellent.")
+		dialog:AddOption("Hang up.", -1)
+		return
+	end
+
+	dialog:AddOption("Why so much money?", 1);
+	dialog:AddOption("How soon must it be delivered?", 2);
+	dialog:AddOption("Could you repeat the original request?", 0);
+	dialog:AddOption("Ok, agreed.", 3);
+	dialog:AddOption("Hang up.", -1);
 end
 
 local onDelete = function (ref)
+	ads[ref] = nil
 end
 
 local makeAdvert = function (station)
@@ -81,7 +129,7 @@ local makeAdvert = function (station)
 		reward   = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
 	}
 
-	local desc = string.format(delivery_flavours[flavour].adtext, dest:GetName(), format_money(ad.reward))
+	local desc = string.format(delivery_flavours[flavour].adtext, dest:GetSystemName(), format_money(ad.reward))
 
 	local ref = station:AddAdvert(desc, onActivate, onDelete)
 	ads[ref] = ad
@@ -123,9 +171,6 @@ EventQueue.onPlayerDocked:Connect(onPlayerDocked)
 --]]
 
 --[[
-	onCreateBB = function(self, args)
-	end,
-
 	onEnterSystem = function(self)
 		for k,mission in pairs(self.missions) do
 			if mission.status == 'active' and
@@ -163,40 +208,6 @@ EventQueue.onPlayerDocked:Connect(onPlayerDocked)
 				end
 			end
 		end
-	end,
-	
-	onUpdateBB = function(self, args)
-	end,
-	
-	onChatBB = function(self, dialog, optionClicked)
-		local ad = self.ads[dialog:GetAdRef()]
-		dialog:Clear()
-		if optionClicked == -1 then
-			dialog:Close()
-			return
-		elseif optionClicked == 0 then
-			dialog:SetMessage(_(delivery_flavours[ad.flavour].introtext, {
-				ad.client, format_money(ad.reward), ad.dest:GetBodyName(), ad.dest:GetSystemName(), ad.dest:GetSectorX(), ad.dest:GetSectorY() }))
-		elseif optionClicked == 1 then
-			dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchdoshtext)
-		elseif optionClicked == 2 then
-			dialog:SetMessage(_('It must be delivered by %1', { Date.Format(ad.due) }))
-		elseif optionClicked == 3 then
-			dialog:RemoveAdvertOnClose()
-			self.ads[ad.id] = nil
-			ad.description = _("Deliver a package to %1 in the %2 system (%3, %4).",
-					{ ad.dest:GetBodyName(), ad.dest:GetSystemName(), ad.dest:GetSectorX(), ad.dest:GetSectorY() })
-			ad.status = "active"
-			table.insert(self.missions, ad)
-			dialog:SetMessage("Excellent.")
-			dialog:AddOption("Hang up.", -1)
-			return
-		end
-		dialog:AddOption("Why so much money?", 1);
-		dialog:AddOption("Could you repeat the original request?", 0);
-		dialog:AddOption("How soon must it be delivered?", 2);
-		dialog:AddOption("Ok, agreed.", 3);
-		dialog:AddOption("Hang up.", -1);
 	end,
 }
 --]]

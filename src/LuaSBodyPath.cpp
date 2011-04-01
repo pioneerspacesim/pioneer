@@ -2,7 +2,21 @@
 #include "LuaUtils.h"
 #include "StarSystem.h"
 
-static int l_sbodypath_get_name(lua_State *l)
+static int l_sbodypath_get_sector_x(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	LuaInt::PushToLua(path->sectorX);
+	return 1;
+}
+
+static int l_sbodypath_get_sector_y(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	LuaInt::PushToLua(path->sectorY);
+	return 1;
+}
+
+static int l_sbodypath_get_system_name(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
 	StarSystem *s = StarSystem::GetCached(*path);
@@ -10,11 +24,23 @@ static int l_sbodypath_get_name(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_get_body_name(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	StarSystem *s = StarSystem::GetCached(*path);
+	SBody *sbody = s->m_bodies[path->sbodyId];
+	LuaString::PushToLua(sbody->name.c_str());
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SBodyPath";
 template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<LuaUncopyable<SBodyPath> >::s_methods[] = {
-	{ "GetName", l_sbodypath_get_name },
+	{ "GetSectorX",    l_sbodypath_get_sector_x    },
+	{ "GetSectorY",    l_sbodypath_get_sector_y    },
+	{ "GetSystemName", l_sbodypath_get_system_name },
+	{ "GetBodyName",   l_sbodypath_get_body_name   },
 	{ 0, 0 }
 };
 
