@@ -86,16 +86,20 @@ local onActivate = function (dialog, ref, option)
 		dialog:RemoveAdvertOnClose()
 
 		ads[ref] = nil
-		
-		--[[
-		ad.description = _("Deliver a package to %1 in the %2 system (%3, %4).",
-					{ ad.dest:GetBodyName(), ad.dest:GetSystemName(), ad.dest:GetSectorX(), ad.dest:GetSectorY() })
-			ad.status = "active"
-			table.insert(self.missions, ad)
-		]]
+
+		local mission = {
+			type   = "Delivery",
+			client = ad.client,
+			reward = ad.reward,
+			due    = ad.due,
+		}
+
+		local mref = Pi.GetPlayer():AddMission(mission)
+		missions[mref] = mission
 
 		dialog:SetMessage("Excellent.")
 		dialog:AddOption("Hang up.", -1)
+
 		return
 	end
 
@@ -120,7 +124,6 @@ local makeAdvert = function (station)
 	local flavour = Pi.rand:Int(1, #delivery_flavours)
 
 	local ad = {
-		id       = #ads+1,
 		station  = station,
 		flavour  = flavour,
 		client   = client,
