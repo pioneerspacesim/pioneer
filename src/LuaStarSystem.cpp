@@ -115,7 +115,7 @@ static int l_starsystem_get_random_starport_near_but_not_in(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	SBodyPath *path = new SBodyPath;
-	if (s->GetRandomStarport(Pi::rng, path)) {
+	if (s->GetRandomStarportNearButNotIn(Pi::rng, path)) {
 		LuaSBodyPath::PushToLuaGC(path);
 		return 1;
 	}
