@@ -28,7 +28,7 @@ static int l_sbodypath_get_body_name(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
 	StarSystem *s = StarSystem::GetCached(*path);
-	SBody *sbody = s->m_bodies[path->sbodyId];
+	SBody *sbody = s->GetBodyByPath(path);
 	LuaString::PushToLua(sbody->name.c_str());
 	return 1;
 }
