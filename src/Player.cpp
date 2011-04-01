@@ -303,3 +303,11 @@ void Player::RemoveMission(int ref)
 		if ((*i).ref == ref)
 			m_missions.erase(i);
 }
+
+const Mission *Player::GetMission(int ref)
+{
+	for (std::list<Mission>::iterator i = m_missions.begin(); i != m_missions.end(); i++)
+		if ((*i).ref == ref)
+			return &(*i);
+	return NULL;
+}

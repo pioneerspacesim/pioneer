@@ -48,6 +48,7 @@ double m_mouseAcc;
 	int AddMission(Mission &m);
 	void UpdateMission(int ref, Mission &m);
 	void RemoveMission(int ref);
+	const Mission *GetMission(int ref);
 	const std::list<Mission> &GetMissions() { return m_missions; }
 	
 protected:
