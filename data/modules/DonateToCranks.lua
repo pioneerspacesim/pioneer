@@ -59,7 +59,6 @@ end
 local onCreateBB = function (station)
 	local n = Pi.rand:Int(1, #crank_flavours)
 	local ad = {
-		id      = #ads+1,
 		station = station,
 		flavour = crank_flavours[n],
 	}
