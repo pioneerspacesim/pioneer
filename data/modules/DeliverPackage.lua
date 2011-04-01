@@ -88,10 +88,11 @@ local onActivate = function (dialog, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type   = "Delivery",
-			client = ad.client,
-			reward = ad.reward,
-			due    = ad.due,
+			type     = "Delivery",
+			client   = ad.client,
+			location = ad.dest,
+			reward   = ad.reward,
+			due      = ad.due,
 		}
 
 		local mref = Pi.GetPlayer():AddMission(mission)
