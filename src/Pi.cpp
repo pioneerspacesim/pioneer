@@ -30,7 +30,6 @@
 #include "Missile.h"
 #include "LmrModel.h"
 #include "Render.h"
-#include "PiLuaModules.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
 #include "LuaChatForm.h"

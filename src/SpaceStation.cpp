@@ -6,14 +6,12 @@
 #include "Serializer.h"
 #include "Frame.h"
 #include "Pi.h"
-#include "Mission.h"
 #include "CityOnPlanet.h"
 #include "Player.h"
 #include "Polit.h"
 #include "LmrModel.h"
 #include "Polit.h"
 #include "Space.h"
-#include "PiLuaModules.h"
 #include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6

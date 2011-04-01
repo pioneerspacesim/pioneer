@@ -5,7 +5,6 @@
 #include "WorldView.h"
 #include "ShipFlavour.h"
 #include "ShipCpanel.h"
-#include "Mission.h"
 #include "CommodityTradeWidget.h"
 #include "GenericChatForm.h"
 #include "LuaChatForm.h"

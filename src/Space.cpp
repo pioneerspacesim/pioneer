@@ -15,7 +15,6 @@
 #include "Sfx.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
-#include "PiLuaModules.h"
 #include "Render.h"
 #include "WorldView.h"
 

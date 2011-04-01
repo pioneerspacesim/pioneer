@@ -4,10 +4,8 @@
 #include "WorldView.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
-#include "Mission.h"
 #include "LmrModel.h"
 #include "Render.h"
-#include "PiLuaModules.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -34,63 +32,62 @@ public:
 
 		Gui::Label *l = new Gui::Label("Missions:");
 		Add(l, 20, 20);
-		l->Show();
 
-		l = new Gui::Label("Status");
+		l = new Gui::Label("Type");
 		Add(l, 20, 20+YSEP*2);
-		l->Show();
-		
-		l = new Gui::Label("Due");
-		Add(l, 100, 20+YSEP*2);
-		l->Show();
-		
-		l = new Gui::Label("Reward");
-		Add(l, 230, 20+YSEP*2);
-		l->Show();
 		
 		l = new Gui::Label("Client");
-		Add(l, 300, 20+YSEP*2);
-		l->Show();
+		Add(l, 100, 20+YSEP*2);
 		
-		l = new Gui::Label("Description");
+		l = new Gui::Label("Location");
+		Add(l, 260, 20+YSEP*2);
+		
+		l = new Gui::Label("Due");
 		Add(l, 440, 20+YSEP*2);
-		l->Show();
+		
+		l = new Gui::Label("Reward");
+		Add(l, 560, 20+YSEP*2);
+
+		l = new Gui::Label("Status");
+		Add(l, 660, 20+YSEP*2);
+
+		ShowChildren();
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
-		std::list<Mission> missions;
-		PiLuaModules::GetPlayerMissions(missions);
+        const std::list<Mission> missions = Pi::player->GetMissions();
 		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
 
 		float ypos = 0;
-		for (std::list<Mission>::const_iterator i = missions.begin();
-				i != missions.end(); ++i) {
-			switch ((*i).GetStatus()) {
+		for (std::list<Mission>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
+			SBodyPath sbp = (*i).location;
+			StarSystem *s = StarSystem::GetCached(sbp);
+			SBody *sbody = s->GetBodyByPath(&sbp);
+
+			l = new Gui::Label((*i).type);
+			innerbox->Add(l, 0, ypos);
+			
+			l = new Gui::Label((*i).client);
+			innerbox->Add(l, 80, ypos);
+			
+			l = new Gui::Label(stringf(256, "%s,\n%s (%d, %d)", sbody->name.c_str(), s->GetName().c_str(), sbp.sectorX, sbp.sectorY));
+			innerbox->Add(l, 240, ypos);
+			
+			l = new Gui::Label(format_date((*i).due));
+			innerbox->Add(l, 420, ypos);
+
+			l = new Gui::Label(format_money((*i).reward));
+			innerbox->Add(l, 540, ypos);
+
+			switch ((*i).status) {
 				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
 				case Mission::COMPLETED: l = new Gui::Label("#ff0Completed"); break;
 				default:
 				case Mission::ACTIVE: l = new Gui::Label("#0f0Active"); break;
 			}
-			innerbox->Add(l, 0, ypos);
-			l->Show();
-			
-			l = new Gui::Label(format_date((*i).GetDueDate()));
-			innerbox->Add(l, 80, ypos);
-			l->Show();
-			
-			l = new Gui::Label(format_money((*i).GetPayoff()));
-			innerbox->Add(l, 210, ypos);
-			l->Show();
-			
-			l = new Gui::Label((*i).GetClientName());
-			innerbox->Add(l, 280, ypos);
-			l->Show();
-
-			l = new Gui::Label((*i).GetMissionText());
-			innerbox->Add(l, 420, ypos);
-			l->Show();
+			innerbox->Add(l, 640, ypos);
 
 			ypos += YSEP*3;
 		}

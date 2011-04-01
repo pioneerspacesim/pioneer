@@ -282,3 +282,24 @@ bool Player::SetWheelState(bool down)
 	return did;
 }
 
+static int next_mission_ref = 0;
+int Player::AddMission(Mission &m)
+{
+	m.ref = ++next_mission_ref;
+	m_missions.push_back(m);
+	return m.ref;
+}
+
+void Player::UpdateMission(int ref, Mission &m)
+{
+	for (std::list<Mission>::iterator i = m_missions.begin(); i != m_missions.end(); i++)
+		if ((*i).ref == ref)
+			*i = m;
+}
+
+void Player::RemoveMission(int ref)
+{
+	for (std::list<Mission>::iterator i = m_missions.begin(); i != m_missions.end(); i++)
+		if ((*i).ref == ref)
+			m_missions.erase(i);
+}

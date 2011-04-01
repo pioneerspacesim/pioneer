@@ -19,7 +19,6 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Polit.h"
-#include "PiLuaModules.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
