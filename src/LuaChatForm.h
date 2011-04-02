@@ -21,6 +21,7 @@ public:
 	const char *GetStage() const { return m_stage.c_str(); }
 	void SetStage(const char *s) { m_stage = s; }
 	int GetAdRef() const { return m_modRef; }
+	void RemoveAdvert();
 	/* MarketAgent stuff */
 	Sint64 GetPrice(Equip::Type t) const;
 	bool CanBuy(Equip::Type t, bool verbose) const;

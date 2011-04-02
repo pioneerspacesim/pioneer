@@ -12,7 +12,7 @@
 
 LuaChatForm::~LuaChatForm()
 {
-	if (m_adTaken) m_station->BBRemoveAdvert(m_modName, m_modRef);
+	if (m_adTaken) RemoveAdvert();
 }
 
 void LuaChatForm::OnAdvertDeleted()
@@ -79,6 +79,33 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 
 		LUA_DEBUG_END(l, 0);
 	}
+}
+
+void LuaChatForm::RemoveAdvert() {
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
+	assert(!lua_isnil(l, -1));
+
+	lua_pushinteger(l, m_modRef);
+	lua_gettable(l, -2);
+	assert(!lua_isnil(l, -1));
+
+	lua_getfield(l, -1, "onDelete");
+	if (!lua_isnil(l, -1)) {
+		LuaInt::PushToLua(m_modRef);
+		lua_call(l, 1, 0);
+	}
+	else
+		lua_pop(l, 1);
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
+
+	m_station->BBRemoveAdvert(m_modName, m_modRef);
 }
 
 static inline void _get_trade_function(lua_State *l, int ref, const char *name)
