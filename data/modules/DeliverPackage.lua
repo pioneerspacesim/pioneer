@@ -161,6 +161,22 @@ local onEnterSystem = function (sys, player)
 end
 
 local onPlayerDocked = function (station, player)
+	for ref,mission in pairs(missions) do
+		if mission.status == 'active' then
+			if mission.dest == station then
+				if Pi.GetGameTime() > mission.due then
+					Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
+					mission.status = 'failed'
+				else
+					Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
+					player:AddMoney(mission.reward)
+					mission.status = 'completed'
+				end
+			elseif Pi.GetGameTime() > mission.due then
+				mission.status = 'failed'
+			end
+		end
+	end
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
@@ -194,24 +210,6 @@ EventQueue.onPlayerDocked:Connect(onPlayerDocked)
 	end,
 
 	onPlayerDock = function(self)
-		local station = Pi.GetPlayer():GetDockedWith():GetSBody()
-		--print('player docked with ' .. station:GetBodyName())
-		for k,mission in pairs(self.missions) do
-			if mission.status == 'active' then
-				if mission.dest == station then
-					if Pi.GetGameTime() > mission.due then
-						Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
-						mission.status = 'failed'
-					else
-						Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
-						Pi.GetPlayer():AddMoney(mission.reward)
-						mission.status = 'completed'
-					end
-				elseif Pi.GetGameTime() > mission.due then
-					mission.status = 'failed'
-				end
-			end
-		end
 	end,
 }
 --]]
