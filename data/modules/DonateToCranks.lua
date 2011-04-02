@@ -13,7 +13,7 @@ local crank_flavours = {
 
 local ads = {}
 
-local onActivate = function (dialog, ref, option)
+local onChat = function (dialog, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
@@ -63,7 +63,7 @@ local onCreateBB = function (station)
 		flavour = crank_flavours[n],
 	}
 
-	local ref = station:AddAdvert(ad.flavour.title, onActivate, onDelete)
+	local ref = station:AddAdvert(ad.flavour.title, onChat, onDelete)
 	ads[ref] = ad;
 end
 

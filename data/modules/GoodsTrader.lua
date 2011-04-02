@@ -9,7 +9,7 @@ local goods_trader_flavour = {
 
 local ads = {}
 
-local onActivate = function (dialog, ref, option)
+local onChat = function (dialog, ref, option)
 	local ad = ads[ref]
 
 	if option == -1 then
@@ -112,7 +112,7 @@ local onCreateBB = function (station)
 			ispolice = ispolice,
 		}
 
-		local ref = station:AddAdvert(ad.flavour, onActivate, onDelete)
+		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)
 		ads[ref] = ad;
 	end
 end

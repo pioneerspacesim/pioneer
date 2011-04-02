@@ -67,7 +67,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		lua_gettable(l, -2);
 		assert(!lua_isnil(l, -1));
 
-		lua_getfield(l, -1, "onActivate");
+		lua_getfield(l, -1, "onChat");
 		assert(lua_isfunction(l, -1));
 
 		LuaObject<LuaChatForm>::PushToLua(this);

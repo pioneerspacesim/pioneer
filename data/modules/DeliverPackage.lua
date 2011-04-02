@@ -56,7 +56,7 @@ local delivery_flavours = {
 local ads = {}
 local missions = {}
 
-local onActivate = function (dialog, ref, option)
+local onChat = function (dialog, ref, option)
 	local ad = ads[ref]
 
 	dialog:Clear()
@@ -135,7 +135,7 @@ local makeAdvert = function (station)
 
 	local desc = string.format(delivery_flavours[flavour].adtext, dest:GetSystemName(), format_money(ad.reward))
 
-	local ref = station:AddAdvert(desc, onActivate, onDelete)
+	local ref = station:AddAdvert(desc, onChat, onDelete)
 	ads[ref] = ad
 end
 

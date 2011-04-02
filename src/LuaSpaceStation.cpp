@@ -25,7 +25,7 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	lua_newtable(l);
 
-	lua_pushstring(l, "onActivate");
+	lua_pushstring(l, "onChat");
 	lua_pushvalue(l, 3);
 	lua_settable(l, -3);
 
