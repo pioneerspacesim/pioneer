@@ -57,31 +57,31 @@ public:
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
-        const std::list<Mission> missions = Pi::player->GetMissions();
+        const std::list<const Mission*> missions = Pi::player->missions.GetAll();
 		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
 
 		float ypos = 0;
-		for (std::list<Mission>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
-			SBodyPath sbp = (*i).location;
+		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
+			SBodyPath sbp = (*i)->location;
 			StarSystem *s = StarSystem::GetCached(sbp);
 			SBody *sbody = s->GetBodyByPath(&sbp);
 
-			l = new Gui::Label((*i).type);
+			l = new Gui::Label((*i)->type);
 			innerbox->Add(l, 0, ypos);
 			
-			l = new Gui::Label((*i).client);
+			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
 			l = new Gui::Label(stringf(256, "%s,\n%s (%d, %d)", sbody->name.c_str(), s->GetName().c_str(), sbp.sectorX, sbp.sectorY));
 			innerbox->Add(l, 240, ypos);
 			
-			l = new Gui::Label(format_date((*i).due));
+			l = new Gui::Label(format_date((*i)->due));
 			innerbox->Add(l, 420, ypos);
 
-			l = new Gui::Label(format_money((*i).reward));
+			l = new Gui::Label(format_money((*i)->reward));
 			innerbox->Add(l, 540, ypos);
 
-			switch ((*i).status) {
+			switch ((*i)->status) {
 				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
 				case Mission::COMPLETED: l = new Gui::Label("#ff0Completed"); break;
 				default:

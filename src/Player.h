@@ -5,11 +5,11 @@
 #include "libs.h"
 #include "Ship.h"
 #include "StarSystem.h"
+#include "RefList.h"
 
-struct Mission {
+struct Mission : RefItem<Mission> {
 	enum MissionState { ACTIVE, COMPLETED, FAILED };
 
-	int          ref;
 	std::string  type;
 	std::string  client;
 	SBodyPath    location;
@@ -45,12 +45,8 @@ public:
 
 double m_mouseAcc;
 
-	int AddMission(Mission &m);
-	void UpdateMission(int ref, Mission &m);
-	void RemoveMission(int ref);
-	const Mission *GetMission(int ref);
-	const std::list<Mission> &GetMissions() { return m_missions; }
-	
+	RefList<Mission> missions;
+
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -63,7 +59,6 @@ private:
 	double m_setSpeed;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
-	std::list<Mission> m_missions;
 };
 
 #endif /* _PLAYER_H */

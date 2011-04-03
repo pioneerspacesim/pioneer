@@ -107,7 +107,7 @@ static int l_player_add_mission(lua_State *l)
 	Mission m;
 	_table_to_mission(l, m, true);
 
-	int ref = p->AddMission(m);
+	int ref = p->missions.Add(m);
 	lua_pushinteger(l, ref);
 
 	return 1;
@@ -118,14 +118,14 @@ static int l_player_update_mission(lua_State *l)
 	Player *p = LuaPlayer::GetFromLua(1);
 	int ref = LuaInt::GetFromLua(2);
 
-	const Mission *m = p->GetMission(ref);
+	const Mission *m = p->missions.Get(ref);
 	if (!m)
 		luaL_error(l, "mission with ref %d not found", ref);
 	
 	Mission upm = *m;
 	_table_to_mission(l, upm, false);
 
-	p->UpdateMission(ref, upm);
+	p->missions.Update(ref, upm);
 
 	return 0;
 }
@@ -134,7 +134,7 @@ static int l_player_remove_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
 	int ref = LuaInt::GetFromLua(2);
-	p->RemoveMission(ref);
+	p->missions.Remove(ref);
 	return 0;
 }
 
@@ -142,7 +142,7 @@ static int l_player_get_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
 	int ref = LuaInt::GetFromLua(2);
-	const Mission *m = p->GetMission(ref);
+	const Mission *m = p->missions.Get(ref);
 	if (!m)
 		lua_pushnil(l);
 	else
