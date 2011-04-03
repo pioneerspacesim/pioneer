@@ -95,7 +95,9 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
-local onCreateBB = function (station)
+local onUpdateBB = function (station)
+    if #ads ~= 0 then return end
+
 	--print("Creating bb adverts for " .. station:GetLabel())
 	local rand = Rand:new(station:GetSeed())
 	local num = rand:Int(1,3)
@@ -117,4 +119,4 @@ local onCreateBB = function (station)
 	end
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onUpdateBB:Connect(onUpdateBB)

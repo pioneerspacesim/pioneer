@@ -139,13 +139,14 @@ local makeAdvert = function (station)
 	ads[ref] = ad
 end
 
-local onCreateBB = function (station)
-	for i = 1,10 do --Pi.rand:Int(0, 5) do
-		makeAdvert(station)
-	end
-end
-
 local onUpdateBB = function (station)
+	if #ads == 0 then
+		for i = 1,10 do
+			makeAdvert(station)
+		end
+		return
+	end
+
 	for ref,ad in pairs(ads) do
 		if (ad.station == station) and (ad.due < Pi.GetGameTime() + 60*60*24*1) then
 			ads[ref] = nil
@@ -179,7 +180,6 @@ local onPlayerDocked = function (station, player)
 	end
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onPlayerDocked:Connect(onPlayerDocked)

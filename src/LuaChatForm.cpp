@@ -23,14 +23,11 @@ void LuaChatForm::OnAdvertDeleted()
 	//AddOption("Hang up.", 0);
 }
 
-void LuaChatForm::StartChat(SpaceStation *s, const BBAdvert *a)
+void LuaChatForm::StartChat(SpaceStation *s, const BBAdvert *ad)
 {
-	m_adTaken = false;
-	m_advert = a;
 	m_station = s;
-	m_modName = a->GetModule();
-	m_modRef = a->GetLuaRef();
-	m_stage = "";
+	m_advert = ad;
+	m_adTaken = false;
 	CallDialogHandler(0);
 }
 
@@ -63,7 +60,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 		assert(!lua_isnil(l, -1));
 
-		lua_pushinteger(l, m_modRef);
+		lua_pushinteger(l, m_advert->ref);
 		lua_gettable(l, -2);
 		assert(!lua_isnil(l, -1));
 
@@ -71,7 +68,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		assert(lua_isfunction(l, -1));
 
 		LuaObject<LuaChatForm>::PushToLua(this);
-		LuaInt::PushToLua(m_modRef);
+		LuaInt::PushToLua(m_advert->ref);
 		LuaInt::PushToLua(optionClicked);
 		lua_call(l, 3, 0);
 
@@ -84,28 +81,36 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 void LuaChatForm::RemoveAdvert() {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
+    int lua_ref = m_advert->luaRef;
+
 	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(!lua_isnil(l, -1));
 
-	lua_pushinteger(l, m_modRef);
+	lua_pushinteger(l, lua_ref);
 	lua_gettable(l, -2);
 	assert(!lua_isnil(l, -1));
 
 	lua_getfield(l, -1, "onDelete");
 	if (!lua_isnil(l, -1)) {
-		LuaInt::PushToLua(m_modRef);
+		LuaInt::PushToLua(lua_ref);
 		lua_call(l, 1, 0);
 	}
 	else
 		lua_pop(l, 1);
 
-	lua_pop(l, 2);
+	lua_pop(l, 1);
+
+    lua_pushinteger(l, lua_ref);
+    lua_pushnil(l);
+    lua_settable(l, -3);
+
+    lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 
-	m_station->BBRemoveAdvert(m_modName, m_modRef);
+    m_station->bbadverts.Remove(m_advert->ref);
 }
 
 static inline void _get_trade_function(lua_State *l, int ref, const char *name)
@@ -142,9 +147,9 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "canTrade");
+	_get_trade_function(l, m_advert->ref, "canTrade");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(static_cast<int>(t));
 	lua_call(l, 2, 1);
 
@@ -161,9 +166,9 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "getStock");
+	_get_trade_function(l, m_advert->ref, "getStock");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(static_cast<int>(t));
 	lua_call(l, 2, 1);
 
@@ -180,9 +185,9 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "getPrice");
+	_get_trade_function(l, m_advert->ref, "getPrice");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(static_cast<int>(t));
 	lua_call(l, 2, 1);
 
@@ -199,9 +204,9 @@ void LuaChatForm::OnClickBuy(int t) {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "onClickBuy");
+	_get_trade_function(l, m_advert->ref, "onClickBuy");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(t);
 	lua_call(l, 2, 1);
 
@@ -224,9 +229,9 @@ void LuaChatForm::OnClickSell(int t) {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "onClickSell");
+	_get_trade_function(l, m_advert->ref, "onClickSell");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(t);
 	lua_call(l, 2, 1);
 
@@ -249,9 +254,9 @@ void LuaChatForm::Bought(Equip::Type t) {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "bought");
+	_get_trade_function(l, m_advert->ref, "bought");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(t);
 	lua_call(l, 2, 0);
 
@@ -263,9 +268,9 @@ void LuaChatForm::Sold(Equip::Type t) {
 
 	LUA_DEBUG_START(l);
 
-	_get_trade_function(l, m_modRef, "sold");
+	_get_trade_function(l, m_advert->ref, "sold");
 
-	LuaInt::PushToLua(m_modRef);
+	LuaInt::PushToLua(m_advert->ref);
 	LuaInt::PushToLua(t);
 	lua_call(l, 2, 0);
 
@@ -371,7 +376,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(!lua_isnil(l, -1));
 
-	lua_pushinteger(l, dialog->m_modRef);
+	lua_pushinteger(l, dialog->m_advert->ref);
 	lua_gettable(l, -2);
 	assert(!lua_isnil(l, -1));
 
@@ -390,7 +395,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 
 	dialog->m_commodityTradeWidget = w;
 
-	dialog->onClose.connect(sigc::bind(sigc::ptr_fun(_cleanup_trade_functions), l, dialog->m_modRef));
+	dialog->onClose.connect(sigc::bind(sigc::ptr_fun(_cleanup_trade_functions), l, dialog->m_advert->ref));
 
 	return 0;
 }

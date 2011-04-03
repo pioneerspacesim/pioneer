@@ -20,8 +20,8 @@ static int l_spacestation_add_advert(lua_State *l)
 		lua_setfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	}
 
-	int ref = lua_objlen(l, -1) + 1;
-	lua_pushinteger(l, ref);
+	int lua_ref = lua_objlen(l, -1) + 1;
+	lua_pushinteger(l, lua_ref);
 
 	lua_newtable(l);
 
@@ -42,9 +42,12 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	LUA_DEBUG_END(l,0);
 
-	s->BBAddAdvert(BBAdvert("LuaAdvert", ref, title));
+	BBAdvert ad;
+	ad.luaRef = lua_ref;
+	ad.description = title;
+	s->bbadverts.Add(ad);
 
-	lua_pushinteger(l, ref);
+	lua_pushinteger(l, lua_ref);
 	return 1;
 } 
 
@@ -53,7 +56,16 @@ static int l_spacestation_remove_advert(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
-	int ref = LuaInt::GetFromLua(2);
+	int lua_ref = LuaInt::GetFromLua(2);
+
+	const BBAdvert *ad = NULL;
+	const std::list<const BBAdvert*> &adverts = s->bbadverts.GetAll();
+	for (std::list<const BBAdvert*>::const_iterator i = adverts.begin(); i != adverts.end(); i++) {
+		if ((*i)->luaRef == lua_ref)
+			ad = *i;
+	}
+	assert(ad);
+	s->bbadverts.Remove(ad->ref);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	if (lua_isnil(l, -1)) {
@@ -61,26 +73,24 @@ static int l_spacestation_remove_advert(lua_State *l)
 		return 0;
 	}
 	
-	lua_pushinteger(l, ref);
+	lua_pushinteger(l, lua_ref);
 	lua_gettable(l, -2);
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 2);
 		return 0;
 	}
 
-	s->BBRemoveAdvert("LuaAdvert", ref);
-
 	lua_getfield(l, -1, "onDelete");
 	if (lua_isnil(l, -1))
 		lua_pop(l, 1);
 	else {
-		lua_pushinteger(l, ref);
+		lua_pushinteger(l, lua_ref);
 		lua_call(l, 1, 0);
 	}
 
 	lua_pop(l, 1);
 
-	lua_pushinteger(l, ref);
+	lua_pushinteger(l, lua_ref);
 	lua_pushnil(l);
 	lua_settable(l, -3);
 

@@ -728,8 +728,8 @@ public:
 	}
 	virtual void ShowAll();
 private:
-	void OpenMissionDialog(int idx);
-	void OnCloseMissionDialog(GenericChatForm *missionDlg);
+	void OpenAdvertDialog(int ref);
+	void OnCloseAdvertDialog(GenericChatForm *advertDlg);
 	void OnAdvertDeleted(BBAdvert *);
 	void OnBBChanged();
 	sigc::connection m_onBBChangedConnection, m_onBBAdvertDeleted;
@@ -763,22 +763,22 @@ void StationBBView::OnAdvertDeleted(BBAdvert *ad)
 	}
 }
 
-void StationBBView::OnCloseMissionDialog(GenericChatForm *missionDlg)
+void StationBBView::OnCloseAdvertDialog(GenericChatForm *advertDlg)
 {
 	m_advertChatForm = 0;
 }
 
-void StationBBView::OpenMissionDialog(int midx)
+void StationBBView::OpenAdvertDialog(int ref)
 {
 	SpaceStation *station = Pi::player->GetDockedWith();
 	
 	if (m_advertChatForm) m_advertChatForm->Close(); // shouldn't happen...
 	m_advertChatForm = new LuaChatForm();
-	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseMissionDialog));
+	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseAdvertDialog));
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
 	m_advertChatForm->SetMoney(1000000000);
-	BBAdvert *m = &station->GetBBAdverts()[midx];
+	const BBAdvert *m = station->bbadverts.Get(ref);
 	m_advertChatForm->StartChat(station, m);
 	OpenChildChatForm(m_advertChatForm);
 }
@@ -805,18 +805,18 @@ void StationBBView::ShowAll()
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
-	std::vector<BBAdvert> &missions = station->GetBBAdverts();
-	int NUM_ITEMS = missions.size();
+	const std::list<const BBAdvert*> &adverts = station->bbadverts.GetAll();
+	int NUM_ITEMS = adverts.size();
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (std::vector<BBAdvert>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
+	for (std::list<const BBAdvert*>::const_iterator i = adverts.begin(); i != adverts.end(); i++) {
 		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMissionDialog), num));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
 		innerbox->Add(b, 10, num*YSEP);
 		
-		Gui::Label *l = new Gui::Label((*i).GetBulletinBoardText());
+		Gui::Label *l = new Gui::Label((*i)->description);
 		innerbox->Add(l,40,num*YSEP);
 		
 		num++;

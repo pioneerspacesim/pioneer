@@ -18,9 +18,6 @@ public:
 	void AddTraderWidget();
 	void StartChat(SpaceStation *s, const BBAdvert *);
 	void CallDialogHandler(int optionClicked);
-	const char *GetStage() const { return m_stage.c_str(); }
-	void SetStage(const char *s) { m_stage = s; }
-	int GetAdRef() const { return m_modRef; }
 	void RemoveAdvert();
 	/* MarketAgent stuff */
 	Sint64 GetPrice(Equip::Type t) const;
@@ -40,12 +37,9 @@ private:
 	CommodityTradeWidget *m_commodityTradeWidget;
 	void OnClickBuy(int equipType);
 	void OnClickSell(int equipType);
-	std::string m_stage;
-	std::string m_modName;
-	int m_modRef;
-	bool m_adTaken;
 	const BBAdvert *m_advert;
 	SpaceStation *m_station;
+	bool m_adTaken;
 
 	static int l_luachatform_add_goods_trader(lua_State *l);
 };

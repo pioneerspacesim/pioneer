@@ -17,27 +17,6 @@
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
-BBAdvert::BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc):
-		m_luaMod(luaMod), m_luaRef(luaRef), m_description(desc)
-{
-	m_sortOrder = Pi::GetGameTime() + Pi::rng.Double();
-}
-
-void BBAdvert::Save(Serializer::Writer &wr)
-{
-	wr.String(m_luaMod);
-	wr.Int32(m_luaRef);
-	wr.String(m_description);
-}
-
-BBAdvert BBAdvert::Load(Serializer::Reader &rd)
-{
-	std::string luaMod = rd.String();
-	int luaRef = rd.Int32();
-	std::string desc = rd.String();
-	return BBAdvert(luaMod, luaRef, desc);
-}	
-
 void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
 	lua_State *L = LmrGetLuaState();
 	model->PushAttributeToLuaStack(key);
@@ -216,12 +195,6 @@ void SpaceStation::Save(Serializer::Writer &wr)
 			i != m_shipsOnSale.end(); ++i) {
 		(*i).Save(wr);
 	}
-	// save bb adverts
-	wr.Int32(m_bbadverts.size());
-	for (std::vector<BBAdvert>::iterator i = m_bbadverts.begin();
-			i != m_bbadverts.end(); ++i) {
-		(*i).Save(wr);
-	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
@@ -255,11 +228,6 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		ShipFlavour s;
 		s.Load(rd);
 		m_shipsOnSale.push_back(s);
-	}
-	// load bulletin board adverts
-	int numBBAdverts = rd.Int32();
-	for (int i=0; i<numBBAdverts; i++) {
-		m_bbadverts.push_back(BBAdvert::Load(rd));
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = (Ship*)rd.Int32();
@@ -362,6 +330,7 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
+/*
 void SpaceStation::BBAddAdvert(const BBAdvert &a)
 {
 	m_bbadverts.insert(m_bbadverts.begin(), a);
@@ -381,16 +350,11 @@ bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
 	}
 	return false;
 }
+*/
 
 void SpaceStation::UpdateBB()
 {
-	if (m_bbadverts.size() == 0) {
-		if (Pi::player->GetDockedWith() == this) {
-			Pi::luaOnCreateBB.Queue(this);
-		}
-	} else {
-		Pi::luaOnUpdateBB.Queue(this);
-	}
+	Pi::luaOnUpdateBB.Queue(this);
 }
 
 

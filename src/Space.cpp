@@ -572,7 +572,6 @@ void TimeStep(float step)
 	Pi::luaOnShipKilled.Emit();
 	Pi::luaOnShipAttacked.Emit();
 	Pi::luaOnPlayerDocked.Emit();
-	Pi::luaOnCreateBB.Emit();
 	Pi::luaOnUpdateBB.Emit();
 
 	PruneCorpses();

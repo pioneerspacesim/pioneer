@@ -57,7 +57,7 @@ public:
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
-        const std::list<const Mission*> missions = Pi::player->missions.GetAll();
+		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();
 		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
 
 		float ypos = 0;

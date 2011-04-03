@@ -56,7 +56,9 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
-local onCreateBB = function (station)
+local onUpdateBB = function (station)
+	if #ads ~= 0 then return end
+
 	local n = Pi.rand:Int(1, #crank_flavours)
 	local ad = {
 		station = station,
@@ -67,5 +69,5 @@ local onCreateBB = function (station)
 	ads[ref] = ad;
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onUpdateBB:Connect(onUpdateBB)
 
