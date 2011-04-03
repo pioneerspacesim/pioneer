@@ -33,21 +33,10 @@ static double hyperspaceEndTime;
 static std::list<HyperspaceCloud*> storedArrivalClouds;
 static bool beingBuilt;
 
-
-
-static void do_on_enter_system()
-{
-	beingBuilt = true;
-	Pi::luaOnEnterSystem.Signal(Pi::currentSystem, Pi::player);
-	beingBuilt = false;
-}
-
 void Init()
 {
 	rootFrame = new Frame(NULL, "System");
 	rootFrame->SetRadius(FLT_MAX);
-
-	Pi::onPlayerHyperspaceToNewSystem.connect(sigc::ptr_fun(&do_on_enter_system));
 }
 
 void Clear()
@@ -747,7 +736,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	}
 	storedArrivalClouds.clear();
 
-	Pi::onPlayerHyperspaceToNewSystem.emit();
+	Pi::luaOnEnterSystem.Signal(Pi::currentSystem, Pi::player);
 	
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
@@ -776,9 +765,9 @@ void SetupSystemForGameStart(const SBodyPath *dest, int starport, int port)
 	Pi::player->SetVelocity(vector3d(0,0,0));
 
 	Pi::player->SetFrame(station->GetFrame()); 
-	Pi::player->SetDockedWith(station, port); 
 
-	Pi::onPlayerHyperspaceToNewSystem.emit();
+	Pi::luaOnCreateBB.Queue(station);
+	Pi::player->SetDockedWith(station, port); 
 }
 
 float GetHyperspaceAnim()

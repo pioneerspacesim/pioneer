@@ -37,6 +37,10 @@ static int l_spacestation_add_advert(lua_State *l)
 		lua_settable(l, -3);
 	}
 
+	lua_pushstring(l, "stationRef");
+	lua_pushvalue(l, 1);
+	lua_settable(l, -3);
+
 	lua_settable(l, -3);
 	lua_pop(l, 1);
 
@@ -84,8 +88,9 @@ static int l_spacestation_remove_advert(lua_State *l)
 	if (lua_isnil(l, -1))
 		lua_pop(l, 1);
 	else {
+		lua_getfield(l, -2, "stationRef");
 		lua_pushinteger(l, lua_ref);
-		lua_call(l, 1, 0);
+		lua_call(l, 2, 0);
 	}
 
 	lua_pop(l, 1);

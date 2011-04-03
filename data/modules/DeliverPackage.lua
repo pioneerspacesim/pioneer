@@ -56,8 +56,8 @@ local delivery_flavours = {
 local ads = {}
 local missions = {}
 
-local onChat = function (dialog, ref, option)
-	local ad = ads[ref]
+local onChat = function (dialog, station, ref, option)
+	local ad = ads[station][ref]
 
 	dialog:Clear()
 
@@ -85,7 +85,7 @@ local onChat = function (dialog, ref, option)
 	elseif option == 3 then
 		dialog:RemoveAdvertOnClose()
 
-		ads[ref] = nil
+		ads[station][ref] = nil
 
 		local mission = {
 			type     = "Delivery",
@@ -111,8 +111,8 @@ local onChat = function (dialog, ref, option)
 	dialog:AddOption("Hang up.", -1);
 end
 
-local onDelete = function (ref)
-	ads[ref] = nil
+local onDelete = function (station, ref)
+	ads[station][ref] = nil
 end
 
 local makeAdvert = function (station)
@@ -125,7 +125,6 @@ local makeAdvert = function (station)
 	local flavour = Pi.rand:Int(1, #delivery_flavours)
 
 	local ad = {
-		station  = station,
 		flavour  = flavour,
 		client   = client,
 		dest     = dest,
@@ -136,26 +135,35 @@ local makeAdvert = function (station)
 	local desc = string.format(delivery_flavours[flavour].adtext, dest:GetSystemName(), format_money(ad.reward))
 
 	local ref = station:AddAdvert(desc, onChat, onDelete)
-	ads[ref] = ad
+	ads[station][ref] = ad
+end
+
+local onCreateBB = function (station)
+	ads[station] = {}
+	for i = 1,10 do
+		makeAdvert(station)
+	end
 end
 
 local onUpdateBB = function (station)
-	if #ads == 0 then
-		for i = 1,10 do
-			makeAdvert(station)
-		end
-		return
-	end
-
-	for ref,ad in pairs(ads) do
-		if (ad.station == station) and (ad.due < Pi.GetGameTime() + 60*60*24*1) then
-			ads[ref] = nil
-			ad.station:RemoveAdvert(ref)
+	for ref,ad in pairs(ads[station]) do
+		if (ad.due < Pi.GetGameTime() + 60*60*24*1) then
+			ads[station][ref] = nil
+			station:RemoveAdvert(ref)
 		end	
 	end
 	if Pi.rand:Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
 		makeAdvert(station)
 	end
+end
+
+local onDestroyBB = function (station)
+	for station, ads in pairs(ads) do
+		for ref,ad in (ads) do
+			station:RemoveAdvert(ref)
+		end
+	end
+	ads[station] = nil
 end
 
 local onEnterSystem = function (sys, player)
@@ -180,7 +188,9 @@ local onPlayerDocked = function (station, player)
 	end
 end
 
+EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
+EventQueue.onDestroyBB:Connect(onDestroyBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onPlayerDocked:Connect(onPlayerDocked)
 

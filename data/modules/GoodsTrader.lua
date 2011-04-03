@@ -9,8 +9,8 @@ local goods_trader_flavour = {
 
 local ads = {}
 
-local onChat = function (dialog, ref, option)
-	local ad = ads[ref]
+local onChat = function (dialog, station, ref, option)
+	local ad = ads[station][ref]
 
 	if option == -1 then
 		dialog:Close()
@@ -25,7 +25,7 @@ local onChat = function (dialog, ref, option)
 		if not sys:IsCommodityLegal(e) then
 			ad.stock[e] = Pi.rand:Int(1,50)
 			-- going rate on the black market will be twice normal
-			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
+			ad.price[e] = station:GetEquipmentPrice(e) * 2
 		end
 	end
 	--ad.stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
@@ -35,8 +35,8 @@ local onChat = function (dialog, ref, option)
 	dialog:SetTitle(ad.flavour)
 	dialog:SetMessage("Welcome to "..ad.flavour)
 
-	local onClick = function (ref)
-		if not ads[ref].ispolice then
+	local onClick = function (station, ref)
+		if not ads[station][ref].ispolice then
 			return true
 		end
 
@@ -48,42 +48,40 @@ local onChat = function (dialog, ref, option)
 	
 	dialog:AddGoodsTrader({
 		-- can I trade this commodity?
-		canTrade = function (ref, commodity)
-			if ads[ref].stock[commodity] then
+		canTrade = function (station, ref, commodity)
+			if ads[station][ref].stock[commodity] then
 				return true
 			end
 		end,
 
 		-- how much of this commodity do we have in stock?
-		getStock = function (ref, commodity)
-			return ads[ref].stock[commodity]
+		getStock = function (station, ref, commodity)
+			return ads[station][ref].stock[commodity]
 		end,
 
 		-- what do we charge for this commodity?
-		getPrice = function (ref, commodity)
-			return ads[ref].price[commodity]
+		getPrice = function (station, ref, commodity)
+			return ads[station][ref].price[commodity]
 		end,
 
 		-- do something when a "buy" button is clicked
-		onClickBuy = function (ref, commodity)
-			-- allow purchase to proceed
-			return onClick(ref)
+		onClickBuy = function (station, ref, commodity)
+			return onClick(station, ref)
 		end,
 
 		-- do something when a "buy" button is clicked
-		onClickSell = function (ref, commodity)
-			-- allow sale to proceed
-			return onClick(ref)
+		onClickSell = function (station, ref, commodity)
+			return onClick(station, ref)
 		end,
 
 		-- do something when we buy this commodity
-		bought = function (ref, commodity)
-            ads[ref].stock[commodity] = ads[ref].stock[commodity] + 1
+		bought = function (station, ref, commodity)
+            ads[station][ref].stock[commodity] = ads[station][ref].stock[commodity] + 1
 		end,
 
 		-- do something when we sell this commodity
-		sold = function (ref, commodity)
-            ads[ref].stock[commodity] = ads[ref].stock[commodity] - 1
+		sold = function (station, ref, commodity)
+            ads[station][ref].stock[commodity] = ads[station][ref].stock[commodity] - 1
 		end,
 	})
 
@@ -91,14 +89,13 @@ local onChat = function (dialog, ref, option)
 
 end
 
-local onDelete = function (ref)
-	ads[ref] = nil
+local onDelete = function (station, ref)
+	ads[station][ref] = nil
 end
 
-local onUpdateBB = function (station)
-    if #ads ~= 0 then return end
+local onCreateBB = function (station)
+	ads[station] = {}
 
-	--print("Creating bb adverts for " .. station:GetLabel())
 	local rand = Rand:new(station:GetSeed())
 	local num = rand:Int(1,3)
 	for i = 1,num do
@@ -108,15 +105,23 @@ local onUpdateBB = function (station)
 		local flavour = string.format(goods_trader_flavour[rand:Int(1, #goods_trader_flavour)], rand:Surname(isfemale))
 
 		local ad = {
-			id       = #ads+1,
-			station  = station,
 			flavour  = flavour,
 			ispolice = ispolice,
 		}
 
 		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)
-		ads[ref] = ad;
+		ads[station][ref] = ad;
 	end
 end
 
-EventQueue.onUpdateBB:Connect(onUpdateBB)
+local onDestroyBB = function (station)
+	for station, ads in pairs(ads) do
+		for ref,ad in (ads) do
+			station:RemoveAdvert(ref)
+		end
+	end
+	ads[station] = nil
+end
+
+EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onDestroyBB:Connect(onDestroyBB)
