@@ -295,10 +295,12 @@ void SpaceStation::InitStation()
 	GetLmrObjParams().argFloats[ARG_STATION_BAY1_STAGE] = 1.0;
 	GetLmrObjParams().argFloats[ARG_STATION_BAY1_POS] = 1.0;
 	SetModel(m_type->modelName, true);
+	m_bbCreated = false;
 }
 
 SpaceStation::~SpaceStation()
 {
+	Pi::luaOnDestroyBB.Queue(this);
 	if (m_adjacentCity) delete m_adjacentCity;
 }
 
@@ -351,13 +353,6 @@ bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
 	return false;
 }
 */
-
-void SpaceStation::UpdateBB()
-{
-	Pi::luaOnUpdateBB.Queue(this);
-}
-
-
 
 void SpaceStation::DoDockingAnimation(const double timeStep)
 {
@@ -419,8 +414,13 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				// XXX have a general onDock event instead
-				if (dt.ship == Pi::player)
+				if (dt.ship == Pi::player) {
 					Pi::luaOnPlayerDocked.Queue(this, Pi::player);
+					if (!m_bbCreated) {
+						Pi::luaOnCreateBB.Queue(this);
+						m_bbCreated = true;
+					}
+				}
 				dt.ship->SetDockedWith(this, i);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -495,7 +495,7 @@ void SpaceStation::DoLawAndOrder()
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
-		UpdateBB();
+		Pi::luaOnUpdateBB.Queue(this);
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
@@ -733,8 +733,13 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					// XXX have a general onDock event instead
-					if (s == Pi::player)
+					if (s == Pi::player) {
 						Pi::luaOnPlayerDocked.Queue(this, Pi::player);
+						if (!m_bbCreated) {
+							Pi::luaOnCreateBB.Queue(this);
+							m_bbCreated = true;
+						}
+					}
 					s->SetDockedWith(this, port);
 				}
 			}

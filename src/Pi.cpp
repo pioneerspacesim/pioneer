@@ -62,7 +62,9 @@ LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
 LuaEventQueue<Ship,Body> Pi::luaOnShipKilled("onShipKilled");
 LuaEventQueue<Ship,Body> Pi::luaOnShipAttacked("onShipAttacked");
 LuaEventQueue<SpaceStation,Player> Pi::luaOnPlayerDocked("onPlayerDocked");
+LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
 LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
+LuaEventQueue<SpaceStation> Pi::luaOnDestroyBB("onDestroyBB");
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -166,7 +168,9 @@ static void LuaInit()
 	Pi::luaOnShipKilled.RegisterEventQueue();
 	Pi::luaOnShipAttacked.RegisterEventQueue();
 	Pi::luaOnPlayerDocked.RegisterEventQueue();
+	Pi::luaOnCreateBB.RegisterEventQueue();
 	Pi::luaOnUpdateBB.RegisterEventQueue();
+	Pi::luaOnDestroyBB.RegisterEventQueue();
 
 	RegisterPiLuaAPI(l);
     PiLuaConstants::RegisterConstants(l);
@@ -183,7 +187,9 @@ static void LuaInitGame() {
 	Pi::luaOnShipKilled.ClearEvents();
 	Pi::luaOnShipAttacked.ClearEvents();
 	Pi::luaOnPlayerDocked.ClearEvents();
+	Pi::luaOnCreateBB.ClearEvents();
 	Pi::luaOnUpdateBB.ClearEvents();
+	Pi::luaOnDestroyBB.ClearEvents();
 
 	Pi::luaOnGameStart.Signal();
 }

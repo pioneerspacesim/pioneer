@@ -142,6 +142,7 @@ private:
 	CityOnPlanet *m_adjacentCity;
 	int m_numPoliceDocked;
 	bool m_staticSlot[4];
+	bool m_bbCreated;
 };
 
 #endif /* _SPACESTATION_H */
