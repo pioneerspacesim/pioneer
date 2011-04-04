@@ -84,6 +84,13 @@
 // the stack via wrapper classes that handle the details of looking up the
 // real object in the registry
 //
+// a object pointer (lightuserdata) -> userdata mapping is held in the lua
+// registry. when a value is pushed this is consulted first. if lua already
+// knows about the object the userdata is reused. this ensures that objects
+// that only exist once outside lua also only exist once inside lua, and means
+// that object equality works as expected. these mapping holds weak references
+// so that the operation of the garbage collector is not affected
+//
 // objects are removed from the registry when either the c++ or the lua side
 // releases them. on the lua side this is handled by the __gc metamethod. on
 // the c++ side this is done via the DeleteEmitter class that all wrapped
@@ -105,15 +112,15 @@ class LuaObjectBase {
 protected:
 	virtual ~LuaObjectBase() {}
 
-	// instantiate an object wrapper. it gets added to the registry then a new
-	// lua object is created for it and pushed onto the lua stack
-	// type is the lua type string. wantdelete indicates if LuaObjectBase should
-	// delete the c++ object when it is removed from the registry
-	LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete);
-
 	// creates a class in the lua vm with the given name and attaches the
 	// listed methods to it and the listed metamethods to its metaclass
 	static void CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[]);
+
+	// create an object wrapper. it gets added to the registry then a new lua
+	// object is created for it and pushed onto the lua stack type is the lua
+	// type string. wantdelete indicates if LuaObjectBase should delete the
+	// c++ object when it is removed from the registry
+	static void PushToLua(DeleteEmitter *o, const char *type, bool wantdelete);
 
 	// pulls an object off the lua stack and returns its associated c++
 	// object. want_type is the lua type string of the object. a lua exception
@@ -121,6 +128,7 @@ protected:
 	static DeleteEmitter *GetFromLua(int index, const char *want_type);
 
 private:
+	LuaObjectBase() {}
 	LuaObjectBase(const LuaObjectBase &) {}
 
 	// remove an object from the registry. deletes lo and the underlying c++
@@ -165,12 +173,12 @@ public:
 
 	// wrap the object and push it onto the lua stack
 	static inline void PushToLua(T *o) {
-		new LuaObject(o, false);
+		LuaObjectBase::PushToLua(o, s_type, false);
 	}
 
 	// wrap the object and push it onto the lua stack, taking ownership of it
 	static inline void PushToLuaGC(T *o) {
-		new LuaObject(o, true);
+		LuaObjectBase::PushToLua(o, s_type, true);
 	}
 
 	// pull an object off the the stack, unwrap it and return it
@@ -179,8 +187,6 @@ public:
 	}
 
 private:
-	LuaObject(T *o, bool wantdelete) : LuaObjectBase(o, s_type, wantdelete) {}
-
 	// lua type string, optional parent type, method table and metamethod
 	// table. these are defined per wrapper class in the appropriate .cpp file
 	static const char *s_type;

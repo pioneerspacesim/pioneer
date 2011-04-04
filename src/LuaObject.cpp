@@ -8,36 +8,26 @@
 static lid next_id = 0;
 static std::map<lid, LuaObjectBase*> registry;
 
-LuaObjectBase::LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete)
+void LuaObjectBase::Deregister(LuaObjectBase *lo)
 {
-	m_object = o;
-	m_type = type;
-	m_wantDelete = wantdelete;
-
-	m_id = ++next_id;
-	assert(m_id);
-
-	registry.insert(std::make_pair(m_id, this));
-
-	m_deleteConnection = m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), this));
+	lo->m_deleteConnection.disconnect();
+	registry.erase(lo->m_id);
 
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
-	*idp = m_id;
+	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+	assert(lua_istable(l, -1));
 
-	luaL_getmetatable(l, type);
-	lua_setmetatable(l, -2);
+	lua_pushlightuserdata(l, lo->m_object);
+	lua_pushnil(l);
+	lua_settable(l, -3);
 
-	LUA_DEBUG_END(l, 1);
-}
+	lua_pop(l, 1);
 
-void LuaObjectBase::Deregister(LuaObjectBase *lo)
-{
-	lo->m_deleteConnection.disconnect();
-	registry.erase(lo->m_id);
+	LUA_DEBUG_END(l, 0);
+
 	if (lo->m_wantDelete) delete lo->m_object;
 	delete lo;
 }
@@ -63,6 +53,25 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	LUA_DEBUG_START(l);
+
+	// create the object registry if it doesn't already exist. this is the
+	// best place we have to do this since classes will always be registered
+	// before any objects actually turn up
+	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+	if (lua_isnil(l, -1)) {
+
+		// setup a metatable for weak values
+		lua_newtable(l);
+		lua_pushstring(l, "__mode");
+		lua_pushstring(l, "v");
+		lua_rawset(l, -3);
+
+		// and the table proper
+		lua_newtable(l);
+		lua_setmetatable(l, -2);
+		lua_setfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+	}
+	lua_pop(l, 1);
 
 	// create table, attach methods to it, leave it on the stack
 	luaL_register(l, type, methods);
@@ -102,6 +111,58 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_pop(l, 2);
 
 	LUA_DEBUG_END(l, 0);
+}
+
+void LuaObjectBase::PushToLua(DeleteEmitter *o, const char *type, bool wantdelete)
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+	assert(lua_istable(l, -1));
+
+	lua_pushlightuserdata(l, o);
+	lua_gettable(l, -2);
+
+	if (lua_isuserdata(l, -1)) {
+		lua_insert(l, -2);
+		lua_pop(l, 1);
+
+		LUA_DEBUG_END(l, 1);
+
+		return;
+	}
+	assert(lua_isnil(l, -1));
+
+	lua_pop(l, 1);
+
+	LuaObjectBase *lo = new LuaObjectBase;
+
+	lo->m_object = o;
+	lo->m_type = type;
+	lo->m_wantDelete = wantdelete;
+	lo->m_id = ++next_id;
+	assert(lo->m_id);
+
+	registry.insert(std::make_pair(lo->m_id, lo));
+
+	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
+	*idp = lo->m_id;
+
+	luaL_getmetatable(l, type);
+	lua_setmetatable(l, -2);
+
+	lua_pushlightuserdata(l, o);
+	lua_pushvalue(l, -2);
+	lua_settable(l, -4);
+
+	lua_insert(l, -2);
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 1);
+
+	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
 }
 
 DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
