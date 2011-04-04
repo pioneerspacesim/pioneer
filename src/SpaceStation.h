@@ -133,7 +133,6 @@ private:
 	void InitStation();
 	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
-	void UpdateBB();
 	const SpaceStationType *m_type;
 	const SBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
