@@ -318,6 +318,7 @@ SpaceStation::SpaceStation(const SBody *sbody): ModelBody()
 void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
+	for(int i=0; i<4; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
@@ -843,4 +844,20 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 			m_adjacentCity->Render(this, viewCoords, viewTransform);
 		}
 	}
+}
+
+// find an empty position for a static ship and mark it as used. these aren't
+// saved and are only needed to help modules place bulk ships. this isn't a
+// great place for this, but its gotta be tracked somewhere
+bool SpaceStation::AllocateStaticSlot(int& slot)
+{
+	for (int i=0; i<4; i++) {
+		if (!m_staticSlot[i]) {
+			m_staticSlot[i] = true;
+			slot = i;
+			return true;
+		}
+	}
+
+	return false;
 }

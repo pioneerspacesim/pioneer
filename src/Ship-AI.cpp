@@ -125,6 +125,12 @@ void Ship::AIOrbit(Body *target, double alt)
 	m_curAICmd = new AICmdFlyTo(this, target, alt);
 }
 
+void Ship::AIHoldPosition(Body *target)
+{
+	AIClearInstructions();
+	m_curAICmd = new AICmdHoldPosition(this, target);
+}
+
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
 // final frame has too high velocity to correct if timestep is reduced
 // fix is too slow in the terminal stages:
@@ -298,6 +304,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
 
 		// Normalize (head.x, head.y) to give desired angvel direction
+		if (head.z > 0.9999) head.x = 1.0;
 		double head2dnorm = 1.0 / sqrt(head.x*head.x + head.y*head.y);		// NAN fix shouldn't be necessary if inputs are normalized
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;

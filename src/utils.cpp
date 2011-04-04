@@ -1,3 +1,9 @@
+#ifdef __MINGW32__
+#define WINVER 0x0500
+#include <w32api.h>
+#define _WIN32_IE IE5
+#endif
+
 #include <stdlib.h>
 #include <math.h>
 #include "libs.h"
@@ -7,10 +13,20 @@
 #include <map>
 
 #ifdef _WIN32
+
+#ifdef __MINGW32__
+#include <dirent.h>
+#include <sys/stat.h>
+#include <stdexcept>
+#define WINSHLWAPI
+#else /* !__MINGW32__ */
 #include "win32-dirent.h"
+#endif
+
 #include <shlobj.h>
 #include <shlwapi.h>
-#else
+
+#else /* !_WIN32 */
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -19,8 +35,59 @@
 
 std::string GetPiUserDir(const std::string &subdir)
 {
-	// i think this test only works with glibc...
-#if _GNU_SOURCE
+#if defined(__MINGW32__)
+
+	/* XXX limiting this implementation to mingw32 for now, because the normal
+	 * win32 seems to work fine under msvc and I'm unable to test thoroughly */
+	std::string path = getenv("appdata");
+	path += "\\Pioneer";
+
+	struct stat st;
+	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
+		exit(-1);
+	}
+
+	if (subdir.length() > 0) {
+		path += "\\" + subdir;
+		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
+			exit(-1);
+		}
+	}
+
+	return path + "\\";
+
+#elif defined(_WIN32)
+	try {
+		TCHAR path[MAX_PATH];
+		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
+			throw std::runtime_error("SHGetFolderPath");
+
+		TCHAR temp[MAX_PATH];
+		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, (WCHAR*)temp, MAX_PATH);
+		if(!PathAppend(path, temp))
+			throw std::runtime_error("PathAppend");
+
+		if (subdir != "") {
+			MultiByteToWideChar(CP_ACP, 0, subdir.c_str(), subdir.size()+1, (WCHAR*)temp, MAX_PATH);
+			if(!PathAppend(path, temp))
+				throw std::runtime_error("PathAppend");
+		}
+
+		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
+			throw std::runtime_error("SHCreateDirectoryEx");
+
+		char temp2[MAX_PATH];
+		WideCharToMultiByte(CP_ACP, 0, (const WCHAR*)path, wcslen((const wchar_t*)path)+1, temp2, MAX_PATH, 0, 0);
+		return std::string(temp2)+"/";
+	}
+	catch(const std::exception&) {
+		Gui::Screen::ShowBadError("Can't get path to save directory");
+		return "";
+	}
+
+#else
 	const char *homedir = getenv("HOME");
 	std::string path = join_path(homedir, ".pioneer", 0);
 	DIR *dir = opendir(path.c_str());
@@ -41,36 +108,6 @@ std::string GetPiUserDir(const std::string &subdir)
 		closedir(dir);
 	}
 	return path+"/";
-#elif _WIN32
-	try {
-		TCHAR path[MAX_PATH];
-		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
-			throw std::runtime_error("SHGetFolderPath");
-
-		TCHAR temp[MAX_PATH];
-		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, temp, MAX_PATH);
-		if(!PathAppend(path, temp))
-			throw std::runtime_error("PathAppend");
-
-		if (subdir != "") {
-			MultiByteToWideChar(CP_ACP, 0, subdir.c_str(), subdir.size()+1, temp, MAX_PATH);
-			if(!PathAppend(path, temp))
-				throw std::runtime_error("PathAppend");
-		}
-
-		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
-			throw std::runtime_error("SHCreateDirectoryEx");
-
-		char temp2[MAX_PATH];
-		WideCharToMultiByte(CP_ACP, 0, path, wcslen(path)+1, temp2, MAX_PATH, 0, 0);
-		return std::string(temp2)+"/";
-	}
-	catch(const std::exception&) {
-		Gui::Screen::ShowBadError("Can't get path to save directory");
-		return "";
-	}
-#else
-# error Unsupported system
 #endif
 }
 

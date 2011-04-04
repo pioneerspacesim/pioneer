@@ -24,6 +24,7 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_KILL: return new AICmdKill(rd);
 		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
+		case CMD_HOLDPOSITION: return new AICmdHoldPosition(rd);
 	}
 }
 
@@ -325,7 +326,7 @@ bool AICmdKill::TimeStepUpdate()
 	const ShipType &stype = m_ship->GetShipType();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
 	vector3d targvel = m_target->GetVelocityRelTo(m_ship);		
-	vector3d targdir = targpos.Normalized();
+	vector3d targdir = targpos.NormalizedSafe();
 	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
 	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::GetTimeStep();
@@ -358,7 +359,7 @@ bool AICmdKill::TimeStepUpdate()
 		if (targpos.LengthSqr() > 4000*4000) m_ship->SetGunState(0,0);		// temp
 	}
 	m_leadOffset += m_leadDrift * Pi::GetTimeStep();
-	double leadAV = (leaddir-targdir).Dot((leaddir-heading).Normalized());	// leaddir angvel
+	double leadAV = (leaddir-targdir).Dot((leaddir-heading).NormalizedSafe());	// leaddir angvel
 	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized(), leadAV);
 
 
@@ -972,5 +973,12 @@ bool AICmdDock::TimeStepUpdate()
 		m_ship->AIMatchPosVel(relpos, relvel, 0.0, maxthrust);
 	}
 	else m_ship->AIMatchVel(vector3d(0.0));
+	return false;
+}
+
+bool AICmdHoldPosition::TimeStepUpdate()
+{
+	// XXX perhaps try harder to move back to the original position
+	m_ship->AIMatchVel(vector3d(0,0,0));
 	return false;
 }

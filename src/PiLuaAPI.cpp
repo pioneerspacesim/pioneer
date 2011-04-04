@@ -397,14 +397,14 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 	// find a ship that fits in the mass range
 	std::vector<ShipType::Type> candidates;
 
-	for (std::map<ShipType::Type, ShipType>::iterator i = ShipType::types.begin();
-			i != ShipType::types.end(); ++i) {
+	for (std::vector<ShipType::Type>::iterator i = ShipType::player_ships.begin();
+			i != ShipType::player_ships.end(); ++i) {
 
-		int hullMass = (*i).second.hullMass;
-		bool is_missile = (*i).second.name.find("MISSILE") == 0;
+        ShipType type = ShipType::types[*i];
 
-		if (!is_missile && hullMass >= minMass && hullMass <= maxMass)
-			candidates.push_back((*i).first);
+		int hullMass = type.hullMass;
+		if (hullMass >= minMass && hullMass <= maxMass)
+			candidates.push_back(*i);
 	}
 	//printf("%d candidates\n", candidates.size());
 	if (candidates.size() == 0) throw UnknownShipType();
@@ -591,6 +591,73 @@ namespace LuaPi {
 			return 2;
 		}
 	}
+	static int SpawnRandomStaticShip(lua_State *l) {
+		ObjectWrapper *o;
+		OOLUA::pull2cpp(l, o);
+		if (!o || !o->m_obj->IsType(Object::SPACESTATION)) {
+			lua_pushnil(l);
+			lua_pushstring(l, "argument must be a space station");
+			return 2;
+		}
+
+		SpaceStation *station = static_cast<SpaceStation*>(o->m_obj);
+
+		int slot;
+		if (!station->AllocateStaticSlot(slot)) {
+			lua_pushnil(l);
+			lua_pushstring(l, "no space near station to spawn static ship");
+			return 2;
+		}
+
+		Ship *ship = new Ship(ShipType::GetRandomStaticType().c_str());
+
+		vector3d pos, vel;
+		matrix4x4d rot = matrix4x4d::Identity();
+
+		const SBody *body = station->GetSBody();
+
+		if ( body->type == SBody::TYPE_STARPORT_SURFACE ) {
+			vel = vector3d(0.0);
+
+			pos = station->GetPosition() * 1.1;
+			station->GetRotMatrix(rot);
+
+			vector3d axis1, axis2;
+
+			axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
+			axis2 = pos.Cross(axis1);
+
+			double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
+			if (slot<2) ang = -ang;
+
+			vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
+
+			pos.ArbRotate(axis, ang);
+		}
+
+		else {
+			double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+			double xpos = (slot == 0 || slot == 3) ? -dist : dist;
+			double zpos = (slot == 0 || slot == 1) ? -dist : dist;
+
+			pos = vector3d(xpos,5000,zpos);
+			vel = vector3d(0.0);
+			rot.RotateX(M_PI/2);
+		}
+
+		ship->SetFrame(station->GetFrame());
+
+		ship->SetVelocity(vel);
+		ship->SetPosition(pos);
+		ship->SetRotMatrix(rot);
+
+		Space::AddBody(ship);
+
+		ship->AIHoldPosition(station);
+
+		OOLUA::push2lua(l, static_cast<Object*>(ship));
+		return 1;
+	}
 	static int AddPlayerCrime(lua_State *l) {
 		Sint64 crimeBitset;
 		double fine;
@@ -641,6 +708,7 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
 	REG_FUNC("SpawnRandomShip", &LuaPi::SpawnRandomShip);
 	REG_FUNC("SpawnRandomDockedShip", &LuaPi::SpawnRandomDockedShip);
+	REG_FUNC("SpawnRandomStaticShip", &LuaPi::SpawnRandomStaticShip);
 	lua_setglobal(l, "Pi");
 	
 	lua_newtable(l);
