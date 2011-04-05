@@ -113,4 +113,17 @@ local onCreateBB = function (station)
 	end
 end
 
+local serialize = function ()
+	return { ads = ads }
+end
+
+local unserialize = function (data)
+	for k,ad in pairs(data.ads) do
+		local ref = ad.station:AddAdvert(ad.flavour, onChat, onDelete)
+		ads[ref] = ad
+	end
+end
+
 EventQueue.onCreateBB:Connect(onCreateBB)
+
+Serializer:Register("GoodsTrader", serialize, unserialize)

@@ -58,10 +58,28 @@ end
 
 local onCreateBB = function (station)
 	local n = Pi.rand:Int(1, #crank_flavours)
-	local ad = crank_flavours[n]
+
+	local ad = {
+		title   = crank_flavours[n].title,
+		message = crank_flavours[n].message,
+		station = station,
+	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
 	ads[ref] = ad;
 end
 
+local serialize = function ()
+	return { ads = ads }
+end
+
+local unserialize = function (data)
+	for k,ad in pairs(data.ads) do
+		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		ads[ref] = ad
+	end
+end
+
 EventQueue.onCreateBB:Connect(onCreateBB)
+
+Serializer:Register("DonateToCranks", serialize, unserialize)

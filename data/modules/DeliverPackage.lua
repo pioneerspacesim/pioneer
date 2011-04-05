@@ -125,6 +125,7 @@ local makeAdvert = function (station)
 	local flavour = Pi.rand:Int(1, #delivery_flavours)
 
 	local ad = {
+		station  = station,
 		flavour  = flavour,
 		client   = client,
 		dest     = dest,
@@ -132,9 +133,9 @@ local makeAdvert = function (station)
 		reward   = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
 	}
 
-	local desc = string.format(delivery_flavours[flavour].adtext, dest:GetSystemName(), format_money(ad.reward))
+	ad.desc = string.format(delivery_flavours[flavour].adtext, dest:GetSystemName(), format_money(ad.reward))
 
-	local ref = station:AddAdvert(desc, onChat, onDelete)
+	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
 	ads[ref] = ad
 end
 
@@ -178,10 +179,27 @@ local onPlayerDocked = function (station, player)
 	end
 end
 
+local serialize = function ()
+	return { missions = missions, ads = ads }
+end
+
+local unserialize = function (data)
+	for k,mission in pairs(data.missions) do
+		local mref = Pi.GetPlayer():AddMission(mission)
+		mission[mref] = mission
+	end
+	for k,ad in pairs(data.ads) do
+		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
+		ads[ref] = ad
+	end
+end
+
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onPlayerDocked:Connect(onPlayerDocked)
+
+Serializer:Register("DeliverPackage", serialize, unserialize)
 
 --[[
 	GetPlayerMissions = function(self)
