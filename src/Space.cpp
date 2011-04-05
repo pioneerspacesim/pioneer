@@ -563,7 +563,6 @@ void TimeStep(float step)
 	Pi::luaOnPlayerDocked.Emit();
 	Pi::luaOnCreateBB.Emit();
 	Pi::luaOnUpdateBB.Emit();
-	Pi::luaOnDestroyBB.Emit();
 
 	PruneCorpses();
 }

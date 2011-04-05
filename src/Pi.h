@@ -108,7 +108,6 @@ public:
 	static LuaEventQueue<SpaceStation,Player> luaOnPlayerDocked;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
-	static LuaEventQueue<SpaceStation> luaOnDestroyBB;
 
 	static MTRand rng;
 	static int statSceneTris;

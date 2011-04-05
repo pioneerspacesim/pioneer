@@ -16,7 +16,7 @@ public:
 	virtual ~LuaChatForm();
 	void AddOption(std::string text, int val);
 	void AddTraderWidget();
-	void StartChat(SpaceStation *s, const BBAdvert *);
+	void StartChat(SpaceStation *s, const BBAdvert *ad);
 	void CallDialogHandler(int optionClicked);
 	void RemoveAdvert();
 	/* MarketAgent stuff */

@@ -46,8 +46,8 @@ struct SpaceStationType {
 	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 };
 
-struct BBAdvert : RefItem<BBAdvert> {
-	int         luaRef;
+struct BBAdvert {
+	int ref;
 	std::string description;
 };
 
@@ -97,10 +97,11 @@ public:
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
+	sigc::signal<void> onBulletinBoardDeleted;
 
 	bool AllocateStaticSlot(int& slot);
 
-	RefList<BBAdvert> bbadverts;
+	std::map<int,BBAdvert> bbadverts;
 
 protected:
 	virtual void Save(Serializer::Writer &wr);

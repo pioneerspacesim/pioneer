@@ -13,8 +13,8 @@ local crank_flavours = {
 
 local ads = {}
 
-local onChat = function (dialog, station, ref, option)
-	local ad = ads[station][ref]
+local onChat = function (dialog, ref, option)
+	local ad = ads[ref]
 
 	if option == 0 then
 		dialog:Clear();
@@ -52,28 +52,16 @@ local onChat = function (dialog, station, ref, option)
 	end
 end
 
-local onDelete = function (station, ref)
-	ads[station][ref] = nil
+local onDelete = function (ref)
+	ads[ref] = nil
 end
 
 local onCreateBB = function (station)
-	ads[station] = {}
-
 	local n = Pi.rand:Int(1, #crank_flavours)
 	local ad = crank_flavours[n]
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
-	ads[station][ref] = ad;
-end
-
-local onDestroyBB = function (station)
-	for station, ads in pairs(ads) do
-		for ref,ad in (ads) do
-			station:RemoveAdvert(ref)
-		end
-	end
-	ads[station] = nil
+	ads[ref] = ad;
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onDestroyBB:Connect(onDestroyBB)

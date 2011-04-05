@@ -10,6 +10,7 @@
 #include "LuaChatForm.h"
 #include "PoliceChatForm.h"
 #include "LmrModel.h"
+#include "utils.h"
 
 ////////////////////////////////////////////////////////////////////
 
@@ -778,8 +779,10 @@ void StationBBView::OpenAdvertDialog(int ref)
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
 	m_advertChatForm->SetMoney(1000000000);
-	const BBAdvert *m = station->bbadverts.Get(ref);
-	m_advertChatForm->StartChat(station, m);
+
+	const BBAdvert *ad = &station->bbadverts[ref];
+	m_advertChatForm->StartChat(station, ad);
+
 	OpenChildChatForm(m_advertChatForm);
 }
 
@@ -805,18 +808,19 @@ void StationBBView::ShowAll()
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
-	const std::list<const BBAdvert*> &adverts = station->bbadverts.GetAll();
-	int NUM_ITEMS = adverts.size();
+	int NUM_ITEMS = station->bbadverts.size();
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (std::list<const BBAdvert*>::const_iterator i = adverts.begin(); i != adverts.end(); i++) {
+	for (std::map<int,BBAdvert>::const_iterator i = station->bbadverts.begin(); i != station->bbadverts.end(); i++) {
+        const BBAdvert ad = (*i).second;
+
 		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), ad.ref));
 		innerbox->Add(b, 10, num*YSEP);
 		
-		Gui::Label *l = new Gui::Label((*i)->description);
+		Gui::Label *l = new Gui::Label(ad.description);
 		innerbox->Add(l,40,num*YSEP);
 		
 		num++;

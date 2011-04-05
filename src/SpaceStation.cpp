@@ -300,7 +300,7 @@ void SpaceStation::InitStation()
 
 SpaceStation::~SpaceStation()
 {
-	Pi::luaOnDestroyBB.Queue(this);
+	onBulletinBoardDeleted.emit();
 	if (m_adjacentCity) delete m_adjacentCity;
 }
 
