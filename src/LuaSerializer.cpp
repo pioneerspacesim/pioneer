@@ -72,7 +72,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		}
 
 		case LUA_TBOOLEAN: {
-			snprintf(buf, sizeof(buf), "b%d\n", lua_toboolean(l, idx) ? 1 : 0);
+			snprintf(buf, sizeof(buf), "b%d", lua_toboolean(l, idx) ? 1 : 0);
 			out += buf;
 			break;
 		}
