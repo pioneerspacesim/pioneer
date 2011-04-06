@@ -1569,7 +1569,9 @@ void SBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SBody *sp2 = system->NewBody();
+			Uint32 id = sp2->id;
 			*sp2 = *sp;
+			sp2->id = id;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
 			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
 			children.insert(children.begin(), sp2);
