@@ -13,6 +13,12 @@ ImageRadioButton::ImageRadioButton(RadioGroup *g, const char *img_normal, const 
 	SetSize(size[0], size[1]);
 }
 
+ImageRadioButton::~ImageRadioButton()
+{
+	delete m_imgNormal;
+	delete m_imgPressed;
+}
+
 void ImageRadioButton::GetSizeRequested(float size[2])
 {
 	m_imgNormal->GetSizeRequested(size);
