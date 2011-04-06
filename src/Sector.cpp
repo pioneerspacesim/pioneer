@@ -163,7 +163,31 @@ Sector::Sector(int x, int y)
 			if ((s.starType[0] <= SBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
 				// while 
-				s.starType[0] = SBody::TYPE_STAR_M_GIANT;
+				if (rng.Int32(0,100) >= 95) {
+					s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT;
+				} else if (rng.Int32(0,100) >= 92) {
+					s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT;
+				} else if (rng.Int32(0,100) >= 88) {
+					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT;
+				} else if (rng.Int32(0,100) >= 82) {
+					s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT;
+				} else if (rng.Int32(0,100) >= 78) {
+					s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT;
+				} else if (rng.Int32(0,100) >= 73) {
+					s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT;
+				} else if (rng.Int32(0,100) >= 69) {
+					s.starType[0] = SBody::TYPE_STAR_B_GIANT;
+				} else if (rng.Int32(0,100) >= 65) {
+					s.starType[0] = SBody::TYPE_STAR_O_GIANT;
+				} else if (rng.Int32(0,100) >= 60) {
+					s.starType[0] = SBody::TYPE_STAR_K_GIANT;
+				} else if (rng.Int32(0,100) >= 50) {
+					s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT;
+				} else if (rng.Int32(0,100) >= 35) {
+					s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT;
+				} else {
+					s.starType[0] = SBody::TYPE_STAR_M_GIANT;
+				}  
 			}
 
 			s.name = GenName(s, rng);
