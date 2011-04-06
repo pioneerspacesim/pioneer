@@ -1021,8 +1021,13 @@ void Pi::MainLoop()
 					timeAccel = std::min(timeAccel, 5);
 				}
 			}
-
 		}
+
+		// force down to timeaccel 1 during the docking sequence
+		else if (Pi::player->GetFlightState() == Ship::DOCKING) {
+			timeAccel = std::min(timeAccel, 1);
+		}
+
 		if (timeAccel != Pi::GetTimeAccelIdx()) {
 			Pi::SetTimeAccel(timeAccel);
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x
