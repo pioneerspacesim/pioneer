@@ -67,7 +67,7 @@ Sector::Sector(int x, int y)
 			
 			float spec = rng.Int32(1000000);
 			// frequencies from wikipedia
-			if (spec < 100) { // should be 1 but that is boring
+			/*if (spec < 100) { // should be 1 but that is boring
 				s.starType[0] = SBody::TYPE_STAR_O;
 			} else if (spec < 1300) {
 				s.starType[0] = SBody::TYPE_STAR_B;
@@ -82,6 +82,71 @@ Sector::Sector(int x, int y)
 			} else if (spec < 250000) {
 				s.starType[0] = SBody::TYPE_WHITE_DWARF;
 			} else if (spec < 900000) {
+				s.starType[0] = SBody::TYPE_STAR_M;
+			} else {
+				s.starType[0] = SBody::TYPE_BROWN_DWARF;
+			}*/
+			if (spec < 2) { 
+				s.starType[0] = SBody::TYPE_STAR_IM_BH;  // These frequencies are made up
+			} else if (spec < 10) {
+				s.starType[0] = SBody::TYPE_STAR_S_BH; 
+			} else if (spec < 45) {
+				s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT; 
+			} else if (spec < 80) {
+				s.starType[0] = SBody::TYPE_STAR_G_HYPER_GIANT;
+			} else if (spec < 120) {
+				s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT; 
+			} else if (spec < 200) {
+				s.starType[0] = SBody::TYPE_STAR_A_HYPER_GIANT;
+			} else if (spec < 300) {
+				s.starType[0] = SBody::TYPE_STAR_F_HYPER_GIANT;
+			} else if (spec < 500) {
+				s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT; 
+			} else if (spec < 1000) {
+				s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT; 
+			} else if (spec < 1100) {
+				s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT; 
+			} else if (spec < 1200) {
+				s.starType[0] = SBody::TYPE_STAR_G_SUPER_GIANT;
+			} else if (spec < 1300) {
+				s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT; 
+			} else if (spec < 1500) {
+				s.starType[0] = SBody::TYPE_STAR_A_SUPER_GIANT;
+			} else if (spec < 1700) {
+				s.starType[0] = SBody::TYPE_STAR_F_SUPER_GIANT;
+			} else if (spec < 2000) {
+				s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT; 
+			} else if (spec < 3000) {
+				s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT; 
+			} else if (spec < 3200) {
+				s.starType[0] = SBody::TYPE_STAR_K_GIANT; 
+			} else if (spec < 3400) {
+				s.starType[0] = SBody::TYPE_STAR_G_GIANT;
+			} else if (spec < 3600) {
+				s.starType[0] = SBody::TYPE_STAR_O_GIANT; 
+			} else if (spec < 3800) {
+				s.starType[0] = SBody::TYPE_STAR_A_GIANT;
+			} else if (spec < 4000) {
+				s.starType[0] = SBody::TYPE_STAR_F_GIANT;
+			} else if (spec < 4500) {
+				s.starType[0] = SBody::TYPE_STAR_B_GIANT; 
+			} else if (spec < 8000) {
+				s.starType[0] = SBody::TYPE_STAR_M_GIANT; 
+			} else if (spec < 9000) {
+				s.starType[0] = SBody::TYPE_STAR_O;  // should be 1 but that is boring
+			} else if (spec < 12500) { // spec < 1300 / 20500
+				s.starType[0] = SBody::TYPE_STAR_B;  
+			} else if (spec < 38000) { // spec < 7300
+				s.starType[0] = SBody::TYPE_STAR_A;  
+			} else if (spec < 64300) { // spec < 37300
+				s.starType[0] = SBody::TYPE_STAR_F;  
+			} else if (spec < 128300) { // spec < 113300
+				s.starType[0] = SBody::TYPE_STAR_G;  
+			} else if (spec < 247300) { // spec < 234300
+				s.starType[0] = SBody::TYPE_STAR_K;  
+			} else if (spec < 261000) { // spec < 250000
+				s.starType[0] = SBody::TYPE_WHITE_DWARF;
+			} else if (spec < 911000) {  //spec < 900000
 				s.starType[0] = SBody::TYPE_STAR_M;
 			} else {
 				s.starType[0] = SBody::TYPE_BROWN_DWARF;

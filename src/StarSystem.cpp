@@ -125,19 +125,19 @@ double StarSystem::starLuminosities[] = {
 	30000.0, // A0 Super Giant
 	50000.0, // B0 Super Giant
 	100000.0, // O5 Super Giant
-	125000.0, // M0 Super Giant
-	150000.0, // K0 Super Giant
-	175000.0, // G0 Super Giant
-	200000.0, // F0 Super Giant
-	200000.0, // A0 Super Giant
-	200000.0, // B0 Super Giant
-	200000.0, // O5 Super Giant
+	125000.0, // M0 Hyper Giant
+	150000.0, // K0 Hyper Giant
+	175000.0, // G0 Hyper Giant
+	200000.0, // F0 Hyper Giant
+	200000.0, // A0 Hyper Giant
+	200000.0, // B0 Hyper Giant
+	200000.0, // O5 Hyper Giant
 	50000.0, // M WF
 	100000.0, // B WF
 	200000.0, // O WF
-	0.0003f, // Stellar Black hole
-	0.00003f, // IM Black hole
-	0.000003f, // Supermassive Black hole
+	0.0003, // Stellar Black hole
+	0.00003, // IM Black hole
+	0.000003, // Supermassive Black hole
 	0.1, // white dwarf
 };
 
@@ -413,6 +413,32 @@ SBody::BodySuperType SBody::GetSuperType() const
 		case TYPE_STAR_B:
 		case TYPE_STAR_O:
 		case TYPE_STAR_M_GIANT:
+		case TYPE_STAR_K_GIANT:
+		case TYPE_STAR_G_GIANT:
+		case TYPE_STAR_F_GIANT:
+		case TYPE_STAR_A_GIANT:
+		case TYPE_STAR_B_GIANT:
+		case TYPE_STAR_O_GIANT:
+		case TYPE_STAR_M_SUPER_GIANT:
+		case TYPE_STAR_K_SUPER_GIANT:
+		case TYPE_STAR_G_SUPER_GIANT:
+		case TYPE_STAR_F_SUPER_GIANT:
+		case TYPE_STAR_A_SUPER_GIANT:
+		case TYPE_STAR_B_SUPER_GIANT:
+		case TYPE_STAR_O_SUPER_GIANT:
+		case TYPE_STAR_M_HYPER_GIANT:
+		case TYPE_STAR_K_HYPER_GIANT:
+		case TYPE_STAR_G_HYPER_GIANT:
+		case TYPE_STAR_F_HYPER_GIANT:
+		case TYPE_STAR_A_HYPER_GIANT:
+		case TYPE_STAR_B_HYPER_GIANT:
+		case TYPE_STAR_O_HYPER_GIANT:
+		case TYPE_STAR_M_WF:
+		case TYPE_STAR_B_WF:
+		case TYPE_STAR_O_WF:
+		case TYPE_STAR_S_BH:
+		case TYPE_STAR_IM_BH:
+		case TYPE_STAR_SM_BH:
 		case TYPE_WHITE_DWARF:
 		     return SUPERTYPE_STAR;
 		case TYPE_PLANET_GAS_GIANT:
