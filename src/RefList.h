@@ -24,6 +24,7 @@ public:
 	inline void Update(int ref, RefItem<T> &ro) {
 		assert(ref == ro.ref);
 		T *o = static_cast<T*>(&ro);
+		m_objects.erase(ref);
 		m_objects.insert( std::make_pair(ref, *o) );
 		m_dirty = true;
 	}
