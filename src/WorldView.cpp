@@ -1308,6 +1308,9 @@ void WorldView::Draw()
 {
 	View::Draw();
 
+	// don't draw crosshairs etc in hyperspace
+	if (Space::GetHyperspaceAnim() != 0) return;
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 	glEnable(GL_BLEND);

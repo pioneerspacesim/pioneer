@@ -21,6 +21,7 @@
 
 #ifdef _WIN32
 #include <malloc.h>
+#ifndef __MINGW32__
 #define alloca _alloca
 #define strncasecmp _strnicmp
 #define strcasecmp _stricmp
@@ -28,6 +29,7 @@
 #ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #endif
+#endif /* __MINGW32__ */
 
 #else
 #include <alloca.h>
@@ -35,7 +37,9 @@ inline int isfinite(double x) { return _finite(x); }
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
+#ifndef __MINGW32__
 #define NOMINMAX
+#endif
 #include <windows.h>
 #define snprintf _snprintf
 #endif
