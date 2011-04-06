@@ -30,7 +30,33 @@ float StarSystem::starColors[][3] = {
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.7, 0.7, 1.0 }, // B
 	{ 1.0, 0.7, 1.0 }, // O
-	{ 1.0, 0.2, 0.0 }, // red giant
+	{ 1.0, 0.2, 0.0 }, // M Giant
+	{ 1.0, 0.6, 0.1 }, // K Giant
+	{ 1.0, 1.0, 0.4 }, // G Giant
+	{ 1.0, 1.0, 0.8 }, // F Giant
+	{ 1.0, 1.0, 1.0 }, // A Giant
+	{ 0.7, 0.7, 1.0 }, // B Giant
+	{ 1.0, 0.7, 1.0 }, // O Giant
+	{ 1.0, 0.2, 0.0 }, // M Super Giant
+	{ 1.0, 0.6, 0.1 }, // K Super Giant
+	{ 1.0, 1.0, 0.4 }, // G Super Giant
+	{ 1.0, 1.0, 0.8 }, // F Super Giant
+	{ 1.0, 1.0, 1.0 }, // A Super Giant
+	{ 0.7, 0.7, 1.0 }, // B Super Giant
+	{ 1.0, 0.7, 1.0 }, // O Super Giant
+	{ 1.0, 0.2, 0.0 }, // M Hyper Giant
+	{ 1.0, 0.6, 0.1 }, // K Hyper Giant
+	{ 1.0, 1.0, 0.4 }, // G Hyper Giant
+	{ 1.0, 1.0, 0.8 }, // F Hyper Giant
+	{ 1.0, 1.0, 1.0 }, // A Hyper Giant
+	{ 0.7, 0.7, 1.0 }, // B Hyper Giant
+	{ 1.0, 0.7, 1.0 }, // O Hyper Giant
+	{ 1.0, 0.2, 0.0 }, // Red/M Wolf Rayet Star
+	{ 0.7, 0.7, 1.0 }, // Blue/B Wolf Rayet Star
+	{ 1.0, 0.7, 1.0 }, // Purple-Blue/O Wolf Rayet Star
+	{ 0.3, 0.7, 0.3 }, // Stellar Blackhole
+	{ 0.2, 0.9, 0.2 }, // Intermediate mass Black-hole
+	{ 0.0, 1.0, 0.0 }, // Super massive black hole
 	{ 0.4, 0.4, 0.8 }, // white dwarf
 };
 
@@ -45,7 +71,33 @@ float StarSystem::starRealColors[][3] = {
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.8, 0.8, 1.0 }, // B
 	{ 1.0, 0.8, 1.0 },  // O
-	{ 1.0, 0.5, 0.2 }, // red giant
+	{ 1.0, 0.5, 0.2 }, // M Giant
+	{ 1.0, 1.0, 0.4 }, // K Giant
+	{ 1.0, 1.0, 0.95 }, // G Giant
+	{ 1.0, 1.0, 1.0 }, // F Giant
+	{ 1.0, 1.0, 1.0 }, // A Giant
+	{ 0.8, 0.8, 1.0 }, // B Giant
+	{ 1.0, 0.8, 1.0 },  // O Giant
+	{ 1.0, 0.5, 0.2 }, // M Super Giant
+	{ 1.0, 1.0, 0.4 }, // K Super Giant
+	{ 1.0, 1.0, 0.95 }, // G Super Giant
+	{ 1.0, 1.0, 1.0 }, // F Super Giant
+	{ 1.0, 1.0, 1.0 }, // A Super Giant
+	{ 0.8, 0.8, 1.0 }, // B Super Giant
+	{ 1.0, 0.8, 1.0 },  // O Super Giant
+	{ 1.0, 0.5, 0.2 }, // M Hyper Giant
+	{ 1.0, 1.0, 0.4 }, // K Hyper Giant
+	{ 1.0, 1.0, 0.95 }, // G Hyper Giant
+	{ 1.0, 1.0, 1.0 }, // F Hyper Giant
+	{ 1.0, 1.0, 1.0 }, // A Hyper Giant
+	{ 0.8, 0.8, 1.0 }, // B Hyper Giant
+	{ 1.0, 0.8, 1.0 },  // O Hyper Giant
+	{ 1.0, 0.6, 0.6 }, // M WF
+	{ 0.8, 0.8, 1.0 }, // B WF
+	{ 1.0, 0.8, 1.0 },  // O WF
+	{ 1.0, 1.0, 1.0 },  // small Black hole
+	{ 0.06, 0.0, 0.08 }, // med BH
+	{ 0.04, 0.0, 0.06 }, // massive BH
 	{ 1.0, 1.0, 1.0 }, // white dwarf
 };
 
@@ -57,9 +109,35 @@ double StarSystem::starLuminosities[] = {
 	1.2, // G0
 	5.1, // F0
 	24.0, // A0
-	24000.0, // B0
-	200000.0, // O5
-	200000.0, // red giant
+	100.0, // B0
+	200.0, // O5
+	1000.0, // M0 Giant
+	2000.0, // K0 Giant
+	4000.0, // G0 Giant
+	6000.0, // F0 Giant
+	8000.0, // A0 Giant
+	9000.0, // B0 Giant
+	12000.0, // O5 Giant
+	12000.0, // M0 Super Giant
+	14000.0, // K0 Super Giant
+	18000.0, // G0 Super Giant
+	24000.0, // F0 Super Giant
+	30000.0, // A0 Super Giant
+	50000.0, // B0 Super Giant
+	100000.0, // O5 Super Giant
+	125000.0, // M0 Super Giant
+	150000.0, // K0 Super Giant
+	175000.0, // G0 Super Giant
+	200000.0, // F0 Super Giant
+	200000.0, // A0 Super Giant
+	200000.0, // B0 Super Giant
+	200000.0, // O5 Super Giant
+	50000.0, // M WF
+	100000.0, // B WF
+	200000.0, // O WF
+	0.0003f, // Stellar Black hole
+	0.00003f, // IM Black hole
+	0.000003f, // Supermassive Black hole
 	0.1, // white dwarf
 };
 
