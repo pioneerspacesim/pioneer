@@ -2,6 +2,7 @@
 #include "LuaUtils.h"
 #include "Body.h"
 #include "StarSystem.h"
+#include "Pi.h"
 
 static int l_body_get_label(lua_State *l)
 {
@@ -21,12 +22,31 @@ static int l_body_get_seed(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_path(lua_State *l)
+{
+	Body *b = LuaBody::GetFromLua(1);
+
+	const SBody *sbody = b->GetSBody();
+	if (!sbody) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	SBodyPath *sbp = new SBodyPath(Pi::currentSystem->SectorX(), Pi::currentSystem->SectorY(), Pi::currentSystem->SystemIdx());
+	sbp->sbodyId = sbody->id;
+
+	LuaSBodyPath::PushToLuaGC(sbp);
+
+	return 1;
+}
+
 template <> const char *LuaObject<Body>::s_type = "Body";
 template <> const char *LuaObject<Body>::s_inherit = NULL;
 
 template <> const luaL_reg LuaObject<Body>::s_methods[] = {
 	{ "GetLabel", l_body_get_label },
 	{ "GetSeed",  l_body_get_seed  },
+	{ "GetPath",  l_body_get_path  },
 	{ 0, 0 }
 };
 

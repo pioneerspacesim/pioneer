@@ -93,6 +93,7 @@ local onChat = function (dialog, ref, option)
 			location = ad.dest,
 			reward   = ad.reward,
 			due      = ad.due,
+			flavour  = ad.flavour
 		}
 
 		local mref = Pi.GetPlayer():AddMission(mission)
@@ -162,20 +163,24 @@ end
 
 local onPlayerDocked = function (station, player)
 	for ref,mission in pairs(missions) do
-		if mission.status == 'active' then
-			if mission.dest == station then
-				if Pi.GetGameTime() > mission.due then
-					Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
-					mission.status = 'failed'
-				else
-					Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
-					player:AddMoney(mission.reward)
-					mission.status = 'completed'
-				end
-			elseif Pi.GetGameTime() > mission.due then
-				mission.status = 'failed'
+
+		if mission.location == station:GetPath() then
+
+			if Pi.GetGameTime() > mission.due then
+				Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
+			else
+				Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
+				player:AddMoney(mission.reward)
 			end
+
+			Pi.GetPlayer():RemoveMission(ref)
+			missions[ref] = nil
+
+		elseif Pi.GetGameTime() > mission.due then
+			mission.status = 'failed'
+			Pi.GetPlayer():UpdateMission(ref, mission)
 		end
+
 	end
 end
 
@@ -186,7 +191,7 @@ end
 local unserialize = function (data)
 	for k,mission in pairs(data.missions) do
 		local mref = Pi.GetPlayer():AddMission(mission)
-		mission[mref] = mission
+		missions[mref] = mission
 	end
 	for k,ad in pairs(data.ads) do
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)

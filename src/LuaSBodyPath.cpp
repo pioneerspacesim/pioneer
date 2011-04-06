@@ -33,6 +33,15 @@ static int l_sbodypath_get_body_name(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_meta_eq(lua_State *l)
+{
+	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
+	SBodyPath *b = LuaSBodyPath::GetFromLua(2);
+
+	lua_pushboolean(l, *a == *b);
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SBodyPath";
 template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_inherit = NULL;
 
@@ -45,5 +54,6 @@ template <> const luaL_reg LuaObject<LuaUncopyable<SBodyPath> >::s_methods[] = {
 };
 
 template <> const luaL_reg LuaObject<LuaUncopyable<SBodyPath> >::s_meta[] = {
+	{ "__eq", l_sbodypath_meta_eq },
 	{ 0, 0 }
 };
