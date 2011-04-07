@@ -178,7 +178,7 @@ float StarSystem::starScale[] = {  // Used in sector view
 	1.0, // Black hole
 	2.5, // Intermediate-mass blackhole
 	4.0,  // Supermassive blackhole
-	0.2 // white dwarf --shouldn't this be here?  I couldn't find an accurate value
+	0.2 // white dwarf
 };
 
 fixed StarSystem::starMetallicities[] = {
@@ -215,7 +215,7 @@ fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // M WF
 	fixed(8,10), // B WF
 	fixed(6,10), // O WF
-	fixed(1,1), // Blackholes
+	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :) 
 	fixed(1,1), // "
 	fixed(1,1), // "
 	fixed(5,10), // white dwarf
