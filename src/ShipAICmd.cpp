@@ -704,6 +704,7 @@ printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 	double tanmul = 1.02;
 	if (m_targframe->GetBodyFor() != body) { tanmul = 1.2; targframe = targframe->m_parent; }
 	else if (body->IsType(Object::SPACESTATION)) targframe = targframe->m_parent;
+	if (!targframe) targframe = body->GetFrame();
 
 	// offset tangent by a bit
 	vector3d newpos = tanmul * GenerateTangent(m_ship, targframe, targpos);
