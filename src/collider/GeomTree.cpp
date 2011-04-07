@@ -133,6 +133,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 	}
 	t = SDL_GetTicks();
 	m_edgeTree = new BVHTree(m_numEdges, edgeIdxs, aabbs);
+	delete [] aabbs;
 	//printf("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 }
 
