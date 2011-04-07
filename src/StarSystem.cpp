@@ -141,6 +141,46 @@ double StarSystem::starLuminosities[] = {
 	0.1, // white dwarf
 };
 
+float StarSystem::starScale[] = {  // Used in sector view
+	0,
+	0.3, // brown dwarf
+	0.4, // M
+	0.5, // K
+	0.5, // G
+	0.7, // F
+	0.8, // A
+	0.9, // B
+	0.9, // O
+	1.3, // M Giant
+	1.2, // K G
+	1.2, // G G
+	1.2, // F G
+	1.1, // A G
+	1.1, // B G 
+	1.0, // O G
+	1.8, // M Super Giant
+	1.6, // K SG
+	1.5, // G SG
+	1.5, // F SG
+	1.4, // A SG
+	1.3, // B SG
+	1.3, // O SG
+	2.5, // M Hyper Giant
+	2.2, // K HG
+	2.2, // G HG
+	2.1, // F HG
+	2.1, // A HG
+	2.0, // B HG
+	1.9, // O HG
+	1.1, // M WF
+	1.3, // B WF
+	1.6, // O WF
+	1.0, // Black hole
+	2.5, // Intermediate-mass blackhole
+	4.0,  // Supermassive blackhole
+	0.2 // white dwarf --shouldn't this be here?  I couldn't find an accurate value
+};
+
 fixed StarSystem::starMetallicities[] = {
 	fixed(0,1),
 	fixed(9,10), // brown dwarf

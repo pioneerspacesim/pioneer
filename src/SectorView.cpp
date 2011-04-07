@@ -199,7 +199,9 @@ void SectorView::DrawSector(int sx, int sy)
 		glPushMatrix();
 		glRotatef(-m_rot_z, 0, 0, 1);
 		glRotatef(-m_rot_x, 1, 0, 0);
-		glScalef(.5,.5,.5);
+		glScalef((StarSystem::starScale[(*i).starType[0]]),
+			(StarSystem::starScale[(*i).starType[0]]),
+			(StarSystem::starScale[(*i).starType[0]]));
 		glCallList(m_gluDiskDlist);
 		glScalef(2,2,2);
 		// player location indicator
