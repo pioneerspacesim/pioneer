@@ -23,8 +23,6 @@ public:
 private:
 	static std::auto_ptr<LuaManager> s_instance;
 
-	void Init();
-
 	LuaManager();
 	~LuaManager();
 	LuaManager(const LuaManager &);
