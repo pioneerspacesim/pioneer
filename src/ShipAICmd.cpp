@@ -978,8 +978,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 	// limit forward acceleration when facing wrong way
 	if (decel > 0 && fabs(ang) > 0.02) ClampMainThruster(m_ship);
 
-printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
-	reldir.Dot(m_reldir), m_state);
+//printf("Autopilot dist = %f, speed = %f, term = %f, state = 0x%x\n", targdist, relvel.Length(),
+//	reldir.Dot(m_reldir), m_state);
 
 	if (m_state == 9) return true;
 	return false;

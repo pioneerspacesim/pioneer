@@ -143,8 +143,8 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 		case SBody::TYPE_PLANET_TERRESTRIAL:
 			double r,g,b;
 			r = sbody->m_atmosOxidizing.ToDouble();
-			g = sbody->m_atmosOxidizing.ToDouble();
-			b = sbody->m_atmosOxidizing.ToDouble();
+			g = r;
+			b = r;
 			if ((sbody->m_atmosOxidizing > fixed(1,100)) 
 			&& (sbody->m_volatileGas > fixed(1,10))) {
 				if (sbody->m_atmosOxidizing < fixed(1,2)) {
@@ -1718,9 +1718,14 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		}
 		// water
 		if (n <= 0) {
+			if (m_heightMap) {	
+				n += dunes_octavenoise(m_fracdef[2], 0.5, p);
+				n *= 0.1;
+			} else {
 			// Oooh, pretty coastal regions with shading based on underwater depth.
-			n += continents - (m_fracdef[0].amplitude*m_sealevel*0.45);
-			n *= 8.0;
+				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.45);
+				n *= 8.0;
+			}
 			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
 			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
 			//n += -0.5;

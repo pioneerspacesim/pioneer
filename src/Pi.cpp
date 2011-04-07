@@ -356,6 +356,7 @@ void Pi::Init()
 			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
 				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
 				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca);
+			delete collMesh;
 		}
 		fclose(pStatFile);
 	}

@@ -186,9 +186,9 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_orient[14] = pos.z;
 		TriMeshUpdateLastPos(m_orient);
 
-printf("vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
-	m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
-	m_externalForce.x, m_externalForce.y, m_externalForce.z);
+//printf("vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
+//	m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
+//	m_externalForce.x, m_externalForce.y, m_externalForce.z);
 
 		m_force = vector3d(0.0);
 		m_torque = vector3d(0.0);
