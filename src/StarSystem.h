@@ -102,21 +102,47 @@ public:
 	  * Hence the redundant numbers */
 	enum BodyType {
 		TYPE_GRAVPOINT = 0,
-		TYPE_BROWN_DWARF = 1,
-		TYPE_STAR_M = 2,
-		TYPE_STAR_K = 3,
-		TYPE_STAR_G = 4,
-		TYPE_STAR_F = 5,
-		TYPE_STAR_A = 6,
-		TYPE_STAR_B = 7,
-		TYPE_STAR_O = 8,
-		TYPE_STAR_M_GIANT = 9,
-		TYPE_WHITE_DWARF = 10,
-		TYPE_PLANET_GAS_GIANT = 11,
-		TYPE_PLANET_ASTEROID = 12,
-		TYPE_PLANET_TERRESTRIAL = 13,
-		TYPE_STARPORT_ORBITAL = 14,
-		TYPE_STARPORT_SURFACE = 15,
+		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
+		TYPE_STAR_M = 2, //red
+		TYPE_STAR_K = 3, //orange
+		TYPE_STAR_G = 4, //yellow
+		TYPE_STAR_F = 5, //white
+		TYPE_STAR_A = 6, //blue/white
+		TYPE_STAR_B = 7, //blue
+		TYPE_STAR_O = 8,  //blue/purple/white
+		TYPE_STAR_M_GIANT = 9, 
+		TYPE_STAR_K_GIANT = 10, 
+		TYPE_STAR_G_GIANT = 11, 
+		TYPE_STAR_F_GIANT = 12, 
+		TYPE_STAR_A_GIANT = 13, 
+		TYPE_STAR_B_GIANT = 14, 
+		TYPE_STAR_O_GIANT = 15,
+		TYPE_STAR_M_SUPER_GIANT = 16, 
+		TYPE_STAR_K_SUPER_GIANT = 17, 
+		TYPE_STAR_G_SUPER_GIANT = 18,
+		TYPE_STAR_F_SUPER_GIANT = 19,
+		TYPE_STAR_A_SUPER_GIANT = 20, 
+		TYPE_STAR_B_SUPER_GIANT = 21, 
+		TYPE_STAR_O_SUPER_GIANT = 22, 
+		TYPE_STAR_M_HYPER_GIANT = 23, 
+		TYPE_STAR_K_HYPER_GIANT = 24, 
+		TYPE_STAR_G_HYPER_GIANT = 25, 
+		TYPE_STAR_F_HYPER_GIANT = 26, 
+		TYPE_STAR_A_HYPER_GIANT = 27, 
+		TYPE_STAR_B_HYPER_GIANT = 28, 
+		TYPE_STAR_O_HYPER_GIANT = 29, // these various stars do exist, they are transitional states and are rare
+		TYPE_STAR_M_WF = 30,  //Wolf-Rayet star
+		TYPE_STAR_B_WF = 31,  // while you do not specifically get class M,B or O WF stars,
+		TYPE_STAR_O_WF = 32, //  you do get red, blue and purple from the colour of the gasses, so spectral class is an easy way to define them. 
+		TYPE_STAR_S_BH = 33, //stellar blackhole
+		TYPE_STAR_IM_BH = 34, //Intermediate-mass blackhole
+		TYPE_STAR_SM_BH = 35, //Supermassive blackhole
+		TYPE_WHITE_DWARF = 36,
+		TYPE_PLANET_GAS_GIANT = 37,
+		TYPE_PLANET_ASTEROID = 38,
+		TYPE_PLANET_TERRESTRIAL = 39,
+		TYPE_STARPORT_ORBITAL = 40,
+		TYPE_STARPORT_SURFACE = 41,
 		TYPE_MIN = TYPE_BROWN_DWARF,
 		TYPE_MAX = TYPE_STARPORT_SURFACE,
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF,
@@ -235,6 +261,7 @@ public:
 	static float starColors[][3];
 	static float starRealColors[][3];
 	static double starLuminosities[];
+	static float starScale[];
 	static fixed starMetallicities[];
 
 	struct BodyStats {

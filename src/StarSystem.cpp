@@ -30,7 +30,33 @@ float StarSystem::starColors[][3] = {
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.7, 0.7, 1.0 }, // B
 	{ 1.0, 0.7, 1.0 }, // O
-	{ 1.0, 0.2, 0.0 }, // red giant
+	{ 1.0, 0.2, 0.0 }, // M Giant
+	{ 1.0, 0.6, 0.1 }, // K Giant
+	{ 1.0, 1.0, 0.4 }, // G Giant
+	{ 1.0, 1.0, 0.8 }, // F Giant
+	{ 1.0, 1.0, 1.0 }, // A Giant
+	{ 0.7, 0.7, 1.0 }, // B Giant
+	{ 1.0, 0.7, 1.0 }, // O Giant
+	{ 1.0, 0.2, 0.0 }, // M Super Giant
+	{ 1.0, 0.6, 0.1 }, // K Super Giant
+	{ 1.0, 1.0, 0.4 }, // G Super Giant
+	{ 1.0, 1.0, 0.8 }, // F Super Giant
+	{ 1.0, 1.0, 1.0 }, // A Super Giant
+	{ 0.7, 0.7, 1.0 }, // B Super Giant
+	{ 1.0, 0.7, 1.0 }, // O Super Giant
+	{ 1.0, 0.2, 0.0 }, // M Hyper Giant
+	{ 1.0, 0.6, 0.1 }, // K Hyper Giant
+	{ 1.0, 1.0, 0.4 }, // G Hyper Giant
+	{ 1.0, 1.0, 0.8 }, // F Hyper Giant
+	{ 1.0, 1.0, 1.0 }, // A Hyper Giant
+	{ 0.7, 0.7, 1.0 }, // B Hyper Giant
+	{ 1.0, 0.7, 1.0 }, // O Hyper Giant
+	{ 1.0, 0.2, 0.0 }, // Red/M Wolf Rayet Star
+	{ 0.7, 0.7, 1.0 }, // Blue/B Wolf Rayet Star
+	{ 1.0, 0.7, 1.0 }, // Purple-Blue/O Wolf Rayet Star
+	{ 0.3, 0.7, 0.3 }, // Stellar Blackhole
+	{ 0.2, 0.9, 0.2 }, // Intermediate mass Black-hole
+	{ 0.0, 1.0, 0.0 }, // Super massive black hole
 	{ 0.4, 0.4, 0.8 }, // white dwarf
 };
 
@@ -45,7 +71,33 @@ float StarSystem::starRealColors[][3] = {
 	{ 1.0, 1.0, 1.0 }, // A
 	{ 0.8, 0.8, 1.0 }, // B
 	{ 1.0, 0.8, 1.0 },  // O
-	{ 1.0, 0.5, 0.2 }, // red giant
+	{ 1.0, 0.5, 0.2 }, // M Giant
+	{ 1.0, 1.0, 0.4 }, // K Giant
+	{ 1.0, 1.0, 0.95 }, // G Giant
+	{ 1.0, 1.0, 1.0 }, // F Giant
+	{ 1.0, 1.0, 1.0 }, // A Giant
+	{ 0.8, 0.8, 1.0 }, // B Giant
+	{ 1.0, 0.8, 1.0 },  // O Giant
+	{ 1.0, 0.5, 0.2 }, // M Super Giant
+	{ 1.0, 1.0, 0.4 }, // K Super Giant
+	{ 1.0, 1.0, 0.95 }, // G Super Giant
+	{ 1.0, 1.0, 1.0 }, // F Super Giant
+	{ 1.0, 1.0, 1.0 }, // A Super Giant
+	{ 0.8, 0.8, 1.0 }, // B Super Giant
+	{ 1.0, 0.8, 1.0 },  // O Super Giant
+	{ 1.0, 0.5, 0.2 }, // M Hyper Giant
+	{ 1.0, 1.0, 0.4 }, // K Hyper Giant
+	{ 1.0, 1.0, 0.95 }, // G Hyper Giant
+	{ 1.0, 1.0, 1.0 }, // F Hyper Giant
+	{ 1.0, 1.0, 1.0 }, // A Hyper Giant
+	{ 0.8, 0.8, 1.0 }, // B Hyper Giant
+	{ 1.0, 0.8, 1.0 },  // O Hyper Giant
+	{ 1.0, 0.6, 0.6 }, // M WF
+	{ 0.8, 0.8, 1.0 }, // B WF
+	{ 1.0, 0.8, 1.0 },  // O WF
+	{ 1.0, 1.0, 1.0 },  // small Black hole
+	{ 0.06, 0.0, 0.08 }, // med BH
+	{ 0.04, 0.0, 0.06 }, // massive BH
 	{ 1.0, 1.0, 1.0 }, // white dwarf
 };
 
@@ -57,10 +109,76 @@ double StarSystem::starLuminosities[] = {
 	1.2, // G0
 	5.1, // F0
 	24.0, // A0
-	24000.0, // B0
-	200000.0, // O5
-	200000.0, // red giant
+	100.0, // B0
+	200.0, // O5
+	1000.0, // M0 Giant
+	2000.0, // K0 Giant
+	4000.0, // G0 Giant
+	6000.0, // F0 Giant
+	8000.0, // A0 Giant
+	9000.0, // B0 Giant
+	12000.0, // O5 Giant
+	12000.0, // M0 Super Giant
+	14000.0, // K0 Super Giant
+	18000.0, // G0 Super Giant
+	24000.0, // F0 Super Giant
+	30000.0, // A0 Super Giant
+	50000.0, // B0 Super Giant
+	100000.0, // O5 Super Giant
+	125000.0, // M0 Hyper Giant
+	150000.0, // K0 Hyper Giant
+	175000.0, // G0 Hyper Giant
+	200000.0, // F0 Hyper Giant
+	200000.0, // A0 Hyper Giant
+	200000.0, // B0 Hyper Giant
+	200000.0, // O5 Hyper Giant
+	50000.0, // M WF
+	100000.0, // B WF
+	200000.0, // O WF
+	0.0003, // Stellar Black hole
+	0.00003, // IM Black hole
+	0.000003, // Supermassive Black hole
 	0.1, // white dwarf
+};
+
+float StarSystem::starScale[] = {  // Used in sector view
+	0,
+	0.3, // brown dwarf
+	0.4, // M
+	0.5, // K
+	0.5, // G
+	0.7, // F
+	0.8, // A
+	0.9, // B
+	0.9, // O
+	1.3, // M Giant
+	1.2, // K G
+	1.2, // G G
+	1.2, // F G
+	1.1, // A G
+	1.1, // B G 
+	1.0, // O G
+	1.8, // M Super Giant
+	1.6, // K SG
+	1.5, // G SG
+	1.5, // F SG
+	1.4, // A SG
+	1.3, // B SG
+	1.3, // O SG
+	2.5, // M Hyper Giant
+	2.2, // K HG
+	2.2, // G HG
+	2.1, // F HG
+	2.1, // A HG
+	2.0, // B HG
+	1.9, // O HG
+	1.1, // M WF
+	1.3, // B WF
+	1.6, // O WF
+	1.0, // Black hole
+	2.5, // Intermediate-mass blackhole
+	4.0,  // Supermassive blackhole
+	0.2 // white dwarf
 };
 
 fixed StarSystem::starMetallicities[] = {
@@ -73,7 +191,33 @@ fixed StarSystem::starMetallicities[] = {
 	fixed(3,10), // A0
 	fixed(2,10), // B0
 	fixed(1,10), // O5
-	fixed(8,10), // red giant
+	fixed(8,10), // M0 Giant
+	fixed(65,100), // K0 Giant
+	fixed(55,100), // G0 Giant
+	fixed(4,10), // F0 Giant
+	fixed(3,10), // A0 Giant
+	fixed(2,10), // B0 Giant
+	fixed(1,10), // O5 Giant
+	fixed(9,10), // M0 Super Giant
+	fixed(7,10), // K0 Super Giant
+	fixed(6,10), // G0 Super Giant
+	fixed(4,10), // F0 Super Giant
+	fixed(3,10), // A0 Super Giant
+	fixed(2,10), // B0 Super Giant
+	fixed(1,10), // O5 Super Giant
+	fixed(1,1), // M0 Hyper Giant
+	fixed(7,10), // K0 Hyper Giant
+	fixed(6,10), // G0 Hyper Giant
+	fixed(4,10), // F0 Hyper Giant
+	fixed(3,10), // A0 Hyper Giant
+	fixed(2,10), // B0 Hyper Giant
+	fixed(1,10), // O5 Hyper Giant
+	fixed(1,1), // M WF
+	fixed(8,10), // B WF
+	fixed(6,10), // O WF
+	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :) 
+	fixed(1,1), // "
+	fixed(1,1), // "
 	fixed(5,10), // white dwarf
 };
 
@@ -86,43 +230,147 @@ static const struct StarTypeInfo {
 	{
 		SBody::SUPERTYPE_NONE, {}, 0,
 	}, {
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //Dwarf
 		{2,8}, 30,
 		1000, 2000
 	}, {
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //M
 		{10,47}, 50,
 		2000, 3500
 	}, {
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //K
 		{50,78}, 90,
 		3500, 5000
 	}, { 
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //G
 		{80,110}, 110,
 		5000, 6000
 	}, {
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //F
 		{115,170}, 140,
 		6000, 7500
 	}, {
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //A
 		{180,320}, 210,
 		7500, 10000
 	}, {
-		SBody::SUPERTYPE_STAR,
-		{400,1800}, 700,
+		SBody::SUPERTYPE_STAR,  //B
+		{200,300}, 280,
 		10000, 30000
 	}, {
-		SBody::SUPERTYPE_STAR,
-		{2000,4000}, 1600,
+		SBody::SUPERTYPE_STAR, //O
+		{300,400}, 310,
 		30000, 60000
 	}, {
-		SBody::SUPERTYPE_STAR,
-		{60,1000}, 15000,
-		2000, 3500
+		SBody::SUPERTYPE_STAR, //M Giant
+		{60,357}, 5000,
+		2500, 3500
 	}, {
-		SBody::SUPERTYPE_STAR,
+		SBody::SUPERTYPE_STAR, //K Giant
+		{125,500}, 3000,
+		3500, 5000
+	}, { 
+		SBody::SUPERTYPE_STAR, //G Giant
+		{200,800}, 2000,
+		5000, 6000
+	}, {
+		SBody::SUPERTYPE_STAR, //F Giant
+		{250,900}, 1500,
+		6000, 7500
+	}, {
+		SBody::SUPERTYPE_STAR, //A Giant
+		{400,1000}, 1000,
+		7500, 10000
+	}, {
+		SBody::SUPERTYPE_STAR,  //B Giant
+		{500,1000}, 1000,
+		10000, 30000
+	}, {
+		SBody::SUPERTYPE_STAR, //O Giant
+		{600,1200}, 1000,
+		30000, 60000
+	}, {
+		SBody::SUPERTYPE_STAR, //M Super Giant
+		{1050,5000}, 15000,
+		2500, 3500
+	}, {
+		SBody::SUPERTYPE_STAR, //K Super Giant
+		{1100,5000}, 9000,
+		3500, 5000
+	}, { 
+		SBody::SUPERTYPE_STAR, //G Super Giant
+		{1200,5000}, 8000,
+		5000, 6000
+	}, {
+		SBody::SUPERTYPE_STAR, //F Super Giant
+		{1500,6000}, 7000,
+		6000, 7500
+	}, {
+		SBody::SUPERTYPE_STAR, //A Super Giant
+		{2000,8000}, 6000,
+		7500, 10000
+	}, {
+		SBody::SUPERTYPE_STAR,  //B Super Giant
+		{3000,9000}, 5000,
+		10000, 30000
+	}, {
+		SBody::SUPERTYPE_STAR, //O Super Giant
+		{5000,10000}, 4000,
+		30000, 60000
+	}, {
+		SBody::SUPERTYPE_STAR, //M Hyper Giant
+		{5000,15000}, 30000,
+		2500, 3500
+	}, {
+		SBody::SUPERTYPE_STAR, //K Hyper Giant
+		{5000,17000}, 25000,
+		3500, 5000
+	}, { 
+		SBody::SUPERTYPE_STAR, //G Hyper Giant
+		{5000,18000}, 20000,
+		5000, 6000
+	}, {
+		SBody::SUPERTYPE_STAR, //F Hyper Giant
+		{5000,19000}, 17500,
+		6000, 7500
+	}, {
+		SBody::SUPERTYPE_STAR, //A Hyper Giant
+		{5000,20000}, 15000,
+		7500, 10000
+	}, {
+		SBody::SUPERTYPE_STAR,  //B Hyper Giant
+		{5000,23000}, 10000,
+		10000, 30000
+	}, {
+		SBody::SUPERTYPE_STAR, //O Hyper Giant
+		{10000,30000}, 7000,
+		30000, 60000
+	}, {
+		SBody::SUPERTYPE_STAR,  // M WF
+		{2000,5000}, 5000,
+		25000, 35000
+	}, {
+		SBody::SUPERTYPE_STAR,  // B WF
+		{2000,7500}, 5000,
+		35000, 45000
+	}, {
+		SBody::SUPERTYPE_STAR,  // O WF
+		{2000,10000}, 5000,
+		45000, 60000
+	}, {
+		SBody::SUPERTYPE_STAR,  // S BH
+		{20,2000}, 0.00002,
+		10, 24
+	}, {
+		SBody::SUPERTYPE_STAR,  // IM BH
+		{1e5,2e6}, 200,
+		1, 10
+	}, {
+		SBody::SUPERTYPE_STAR,  // SM BH
+		{1e10,5e12}, 10000,
+		10, 24
+	}, {
+		SBody::SUPERTYPE_STAR,  //white dwarf
 		{20,100}, 1, 
 		4000, 40000
 	}
@@ -205,6 +453,32 @@ SBody::BodySuperType SBody::GetSuperType() const
 		case TYPE_STAR_B:
 		case TYPE_STAR_O:
 		case TYPE_STAR_M_GIANT:
+		case TYPE_STAR_K_GIANT:
+		case TYPE_STAR_G_GIANT:
+		case TYPE_STAR_F_GIANT:
+		case TYPE_STAR_A_GIANT:
+		case TYPE_STAR_B_GIANT:
+		case TYPE_STAR_O_GIANT:
+		case TYPE_STAR_M_SUPER_GIANT:
+		case TYPE_STAR_K_SUPER_GIANT:
+		case TYPE_STAR_G_SUPER_GIANT:
+		case TYPE_STAR_F_SUPER_GIANT:
+		case TYPE_STAR_A_SUPER_GIANT:
+		case TYPE_STAR_B_SUPER_GIANT:
+		case TYPE_STAR_O_SUPER_GIANT:
+		case TYPE_STAR_M_HYPER_GIANT:
+		case TYPE_STAR_K_HYPER_GIANT:
+		case TYPE_STAR_G_HYPER_GIANT:
+		case TYPE_STAR_F_HYPER_GIANT:
+		case TYPE_STAR_A_HYPER_GIANT:
+		case TYPE_STAR_B_HYPER_GIANT:
+		case TYPE_STAR_O_HYPER_GIANT:
+		case TYPE_STAR_M_WF:
+		case TYPE_STAR_B_WF:
+		case TYPE_STAR_O_WF:
+		case TYPE_STAR_S_BH:
+		case TYPE_STAR_IM_BH:
+		case TYPE_STAR_SM_BH:
 		case TYPE_WHITE_DWARF:
 		     return SUPERTYPE_STAR;
 		case TYPE_PLANET_GAS_GIANT:
@@ -232,6 +506,32 @@ std::string SBody::GetAstroDescription()
 	case TYPE_STAR_B: return "Bright type 'B' blue star";
 	case TYPE_STAR_O: return "Hot, massive type 'O' star";
 	case TYPE_STAR_M_GIANT: return "Red giant star";
+	case TYPE_STAR_K_GIANT: return "Orange giant star - Unstable";
+	case TYPE_STAR_G_GIANT: return "Yellow giant star - Unstable";
+	case TYPE_STAR_F_GIANT: return "White giant star";
+	case TYPE_STAR_A_GIANT: return "White giant star";
+	case TYPE_STAR_B_GIANT: return "Blue giant star";
+	case TYPE_STAR_O_GIANT: return "Hot Blue giant star";
+	case TYPE_STAR_M_SUPER_GIANT: return "Red super giant star";
+	case TYPE_STAR_K_SUPER_GIANT: return "Orange super giant star";
+	case TYPE_STAR_G_SUPER_GIANT: return "Yellow super giant star";
+	case TYPE_STAR_F_SUPER_GIANT: return "White super giant star";
+	case TYPE_STAR_A_SUPER_GIANT: return "White super giant star";
+	case TYPE_STAR_B_SUPER_GIANT: return "Blue super giant star";
+	case TYPE_STAR_O_SUPER_GIANT: return "Hot Blue super giant star";
+	case TYPE_STAR_M_HYPER_GIANT: return "Red hyper giant star";
+	case TYPE_STAR_K_HYPER_GIANT: return "Orange hyper giant star - Unstable";
+	case TYPE_STAR_G_HYPER_GIANT: return "Yellow hyper giant star - Unstable";
+	case TYPE_STAR_F_HYPER_GIANT: return "White hyper giant star";
+	case TYPE_STAR_A_HYPER_GIANT: return "White hyper giant star";
+	case TYPE_STAR_B_HYPER_GIANT: return "Blue hyper giant star";
+	case TYPE_STAR_O_HYPER_GIANT: return "Hot Blue hyper giant star";
+	case TYPE_STAR_M_WF: return "Wolf rayet star - Unstable";
+	case TYPE_STAR_B_WF: return "Wolf rayet star - Risk of collapse";
+	case TYPE_STAR_O_WF: return "Wolf rayet star - Imminent collapse";
+	case TYPE_STAR_S_BH: return "A stellar blackhole";
+	case TYPE_STAR_IM_BH: return "An intermediate-mass blackhole";
+	case TYPE_STAR_SM_BH: return "Our galactic anchor";
 	case TYPE_WHITE_DWARF: return "White dwarf stellar remnant";
 	case TYPE_PLANET_GAS_GIANT:
 		if (mass > 800) return "Very large gas giant";
@@ -321,8 +621,34 @@ const char *SBody::GetIcon()
 	case TYPE_STAR_F: return "icons/object_star_f.png";
 	case TYPE_STAR_A: return "icons/object_star_a.png";
 	case TYPE_STAR_B: return "icons/object_star_b.png";
-	case TYPE_STAR_O: return "icons/object_star_o.png";
+	case TYPE_STAR_O: return "icons/object_star_b.png"; //shares B graphic for now
 	case TYPE_STAR_M_GIANT: return "icons/object_star_m_giant.png";
+	case TYPE_STAR_K_GIANT: return "icons/object_star_g_giant.png"; //shares G graphic for now
+	case TYPE_STAR_G_GIANT: return "icons/object_star_g_giant.png";
+	case TYPE_STAR_F_GIANT: return "icons/object_star_g_giant.png"; //shares G graphic for now
+	case TYPE_STAR_A_GIANT: return "icons/object_star_a_giant.png";
+	case TYPE_STAR_B_GIANT: return "icons/object_star_b_giant.png";
+	case TYPE_STAR_O_GIANT: return "icons/object_star_o.png"; // uses old O type graphic
+	case TYPE_STAR_M_SUPER_GIANT: return "icons/object_star_m_super_giant.png";
+	case TYPE_STAR_K_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
+	case TYPE_STAR_G_SUPER_GIANT: return "icons/object_star_g_super_giant.png";
+	case TYPE_STAR_F_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
+	case TYPE_STAR_A_SUPER_GIANT: return "icons/object_star_a_super_giant.png";
+	case TYPE_STAR_B_SUPER_GIANT: return "icons/object_star_b_super_giant.png";
+	case TYPE_STAR_O_SUPER_GIANT: return "icons/object_star_b_super_giant.png";// uses B type graphic for now
+	case TYPE_STAR_M_HYPER_GIANT: return "icons/object_star_m_hyper_giant.png";
+	case TYPE_STAR_K_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png"; //shares G graphic for now
+	case TYPE_STAR_G_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png";
+	case TYPE_STAR_F_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png"; //shares G graphic for now
+	case TYPE_STAR_A_HYPER_GIANT: return "icons/object_star_a_hyper_giant.png";
+	case TYPE_STAR_B_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";
+	case TYPE_STAR_O_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";// uses B type graphic for now
+	case TYPE_STAR_M_WF: return "icons/object_star_m_wf.png"; 
+	case TYPE_STAR_B_WF: return "icons/object_star_b_wf.png";
+	case TYPE_STAR_O_WF: return "icons/object_star_o_wf.png";
+	case TYPE_STAR_S_BH: return "icons/object_star_bh.png";
+	case TYPE_STAR_IM_BH: return "icons/object_star_smbh.png";
+	case TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
 	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
 	case TYPE_PLANET_GAS_GIANT:
 		if (mass > 800) return "icons/object_planet_large_gas_giant.png";
