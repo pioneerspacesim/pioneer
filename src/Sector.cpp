@@ -37,6 +37,7 @@ Sector::Sector(int x, int y)
 	unsigned long _init[3] = { x, y, UNIVERSE_SEED };
 	sx = x; sy = y;
 	MTRand rng(_init, 3);
+	MTRand rand(UNIVERSE_SEED);
 
 	GetCustomSystems();
 
@@ -116,19 +117,19 @@ Sector::Sector(int x, int y)
 				s.starType[0] = SBody::TYPE_STAR_F_SUPER_GIANT;
 			} else if (spec < 620) {
 				s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT; 
-			} else if (spec < 800) {
+			} else if (spec < 700) {
 				s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT; 
-			} else if (spec < 900) {
+			} else if (spec < 800) {
 				s.starType[0] = SBody::TYPE_STAR_K_GIANT; 
-			} else if (spec < 1000) {
+			} else if (spec < 900) {
 				s.starType[0] = SBody::TYPE_STAR_G_GIANT;
-			} else if (spec < 1100) {
+			} else if (spec < 1000) {
 				s.starType[0] = SBody::TYPE_STAR_O_GIANT; 
-			} else if (spec < 1200) {
+			} else if (spec < 1100) {
 				s.starType[0] = SBody::TYPE_STAR_A_GIANT;
-			} else if (spec < 1300) {
+			} else if (spec < 1200) {
 				s.starType[0] = SBody::TYPE_STAR_F_GIANT;
-			} else if (spec < 1400) {
+			} else if (spec < 1300) {
 				s.starType[0] = SBody::TYPE_STAR_B_GIANT; 
 			} else if (spec < 2000) {
 				s.starType[0] = SBody::TYPE_STAR_M_GIANT; 
@@ -163,27 +164,27 @@ Sector::Sector(int x, int y)
 			if ((s.starType[0] <= SBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
 				// while 
-				if (rng.Int32(0,100) >= 95) {
+				if (rand.Int32(0,100) >= 99) {
 					s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT;
-				} else if (rng.Int32(0,100) >= 92) {
+				} else if (rand.Int32(0,100) >= 98) {
 					s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT;
-				} else if (rng.Int32(0,100) >= 88) {
+				} else if (rand.Int32(0,100) >= 97) {
 					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT;
-				} else if (rng.Int32(0,100) >= 82) {
+				} else if (rand.Int32(0,100) >= 96) {
 					s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT;
-				} else if (rng.Int32(0,100) >= 78) {
+				} else if (rand.Int32(0,100) >= 95) {
 					s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT;
-				} else if (rng.Int32(0,100) >= 73) {
+				} else if (rand.Int32(0,100) >= 94) {
 					s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT;
-				} else if (rng.Int32(0,100) >= 69) {
+				} else if (rand.Int32(0,100) >= 92) {
 					s.starType[0] = SBody::TYPE_STAR_B_GIANT;
-				} else if (rng.Int32(0,100) >= 65) {
+				} else if (rand.Int32(0,100) >= 90) {
 					s.starType[0] = SBody::TYPE_STAR_O_GIANT;
-				} else if (rng.Int32(0,100) >= 60) {
+				} else if (rand.Int32(0,100) >= 88) {
 					s.starType[0] = SBody::TYPE_STAR_K_GIANT;
-				} else if (rng.Int32(0,100) >= 50) {
+				} else if (rand.Int32(0,100) >= 80) {
 					s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT;
-				} else if (rng.Int32(0,100) >= 35) {
+				} else if (rand.Int32(0,100) >= 70) {
 					s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT;
 				} else {
 					s.starType[0] = SBody::TYPE_STAR_M_GIANT;
