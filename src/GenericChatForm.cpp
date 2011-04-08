@@ -122,7 +122,7 @@ public:
 		cloth_seed     = rand.Int32(0,cloth_seed);
 		cloth_seed     = cloth_seed %20 ;
 		race_seed      = 0 ;  //temp
-		extr1_seed     = extr1_seed %2 ;  //temp
+		extr1_seed     = extr1_seed %3 ;  //temp
 		extr2_seed     = rand.Int32(0,2) ; // temp
 		m_w = w; m_h = h;
 		m_created = SDL_GetTicks();
@@ -145,11 +145,9 @@ public:
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/clothes/cloth_%d.png", cloth_seed);
 		printf("%s\n", str.c_str());
 		m_cloth = new Gui::Image(("" + str).c_str());
-		if (rand.Int32(0,1)) {
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/accessories/acc_%d.png", extr1_seed);
 		printf("%s\n", str.c_str());
 		m_extr1 = new Gui::Image(("" + str).c_str());
-		}
 		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/backgrounds/background_%d.png", extr2_seed);
 		printf("%s\n", str.c_str());
 		m_extr2 = new Gui::Image(("" + str).c_str());
