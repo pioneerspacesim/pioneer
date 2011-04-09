@@ -204,7 +204,7 @@ void SystemView::Draw3D()
 	Pi::sectorView->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
 	if (m_system) {
 		if (!m_system->IsSystem(sector_x, sector_y, system_idx)) {
-			delete m_system;
+			m_system->Release();
 			m_system = 0;
 			ResetViewpoint();
 		}
@@ -213,7 +213,7 @@ void SystemView::Draw3D()
 	std::string t = "Time point: "+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = new StarSystem(sector_x, sector_y, system_idx);
+	if (!m_system) m_system = StarSystem::GetCached(sector_x, sector_y, system_idx);
 
 	glDisable(GL_LIGHTING);
 	glEnable(GL_FOG);

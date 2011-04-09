@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include "DeleteEmitter.h"
+#include "RefCounted.h"
 
 struct CustomSBody;
 struct CustomSystem;
@@ -193,17 +194,16 @@ public:
 private:
 };
 
-class StarSystem : public DeleteEmitter {
+class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
-	~StarSystem();
-	/** Holding pointers to StarSystem returned by this is not safe between
-	 * calls to ShrinkCache() (done at end of Pi main loop)
-	 */
-	static StarSystem *GetCached(const SysLoc &s);
+
+    static StarSystem *GetCached(int sectorX, int sectorY, int systemNum);
+	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
+
+    static inline StarSystem *GetCached(const SysLoc &loc) { return GetCached(loc.sectorX, loc.sectorY, loc.systemNum); }
+    static inline StarSystem *GetCached(const SysLoc *loc) { return GetCached(*loc); }
 
 	const std::string &GetName() const { return m_name; }
 	void GetPathOf(const SBody *body, SBodyPath *path) const;
@@ -259,6 +259,10 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
+	StarSystem() { rootBody = 0; }
+	StarSystem(int sector_x, int sector_y, int system_idx);
+	~StarSystem();
+
 	SBody *NewBody() {
 		SBody *body = new SBody;
 		body->id = m_bodies.size();

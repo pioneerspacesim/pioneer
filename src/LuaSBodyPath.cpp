@@ -19,7 +19,7 @@ static int l_sbodypath_get_sector_y(lua_State *l)
 static int l_sbodypath_get_system_name(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	StarSystem *s = StarSystem::GetCached(*path);
+	StarSystem *s = StarSystem::GetCached(path);
 	LuaString::PushToLua(s->GetName().c_str());
 	return 1;
 }
@@ -27,7 +27,7 @@ static int l_sbodypath_get_system_name(lua_State *l)
 static int l_sbodypath_get_body_name(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	StarSystem *s = StarSystem::GetCached(*path);
+	StarSystem *s = StarSystem::GetCached(path);
 	SBody *sbody = s->GetBodyByPath(path);
 	LuaString::PushToLua(sbody->name.c_str());
 	return 1;

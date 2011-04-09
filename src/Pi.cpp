@@ -1162,12 +1162,12 @@ StarSystem *Pi::GetSelectedSystem()
 	}
 	if (selectedSystem) {
 		if (!selectedSystem->IsSystem(sector_x, sector_y, system_idx)) {
-			delete selectedSystem;
+            selectedSystem->Release();
 			selectedSystem = 0;
 		}
 	}
 	if (!selectedSystem) {
-		selectedSystem = new StarSystem(sector_x, sector_y, system_idx);
+		selectedSystem = StarSystem::GetCached(sector_x, sector_y, system_idx);
 	}
 	return selectedSystem;
 }

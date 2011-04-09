@@ -1013,12 +1013,12 @@ static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
 void WorldView::OnChangeHyperspaceTarget()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	StarSystem *system = new StarSystem(path->sectorX, path->sectorY, path->systemNum);
+	StarSystem *system = StarSystem::GetCached(path);
 	SBody *b = system->GetBodyByPath(path);
 	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to ")+b->name);
 	std::string msg = "To: "+b->name;
 	m_hyperTargetLabel->SetText(msg);
-	delete system;
+	system->Release();
 
 	int fuelReqd;
 	double dur;

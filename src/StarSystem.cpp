@@ -2,6 +2,7 @@
 #include "Sector.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
+#include <map>
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -895,13 +896,13 @@ bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest)
 		    (sy == this->SectorY()) &&
 		    (idxs[i] == this->SystemIdx())) continue;
 
-		StarSystem *sys = new StarSystem(sx, sy, idxs[i]);
+		StarSystem *sys = StarSystem::GetCached(sx, sy, idxs[i]);
 
 		if (sys->GetRandomStarport(rand, outDest)) {
-			delete sys;
+            sys->Release();
 			return true;
 		}
-		delete sys;
+        sys->Release();
 	}
 	return false;
 }
@@ -1906,43 +1907,41 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 		int sec_x = rd.Int32();
 		int sec_y = rd.Int32();
 		int sys_idx = rd.Int32();
-		return new StarSystem(sec_x, sec_y, sys_idx);
+		return StarSystem::GetCached(sec_x, sec_y, sys_idx);
 	} else {
 		return 0;
 	}
 }
 
-#define STARSYS_MAX_CACHED 8
-static std::list<StarSystem*> s_cachedSystems;
+static std::map<SysLoc,StarSystem*> s_cachedSystems;
 
-StarSystem *StarSystem::GetCached(const SysLoc &loc)
+StarSystem *StarSystem::GetCached(int sectorX, int sectorY, int systemNum)
 {
-	for (std::list<StarSystem*>::iterator i = s_cachedSystems.begin();
-			i != s_cachedSystems.end(); ++i) {
-		if ((*i)->m_loc == loc) {
-			// move to front of cache to indicate it is hot
-			StarSystem *s = *i;
-			s_cachedSystems.erase(i);
-			s_cachedSystems.push_front(s);
-			return s;
-		}
+    SysLoc loc(sectorX, sectorY, systemNum);
+
+	StarSystem *s = 0;
+
+	for (std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
+		if ((*i).first == loc)
+			s = (*i).second;
 	}
-	StarSystem *s = new StarSystem(loc.sectorX, loc.sectorY, loc.systemNum);
-	s_cachedSystems.push_front(s);
+
+	if (!s) {
+		s = new StarSystem(sectorX, sectorY, systemNum);
+		s_cachedSystems.insert( std::pair<SysLoc,StarSystem*>(loc, s) );
+	}
+
+	s->IncRefCount();
 	return s;
 }
 
 void StarSystem::ShrinkCache()
 {
-	int n=0;
-	for (std::list<StarSystem*>::iterator i = s_cachedSystems.begin();
-			i != s_cachedSystems.end(); ++i, n++) {
-		if (n >= STARSYS_MAX_CACHED) {
-			while (i != s_cachedSystems.end()) {
-				delete *i;
-				i = s_cachedSystems.erase(i);
-			}
-			break;
+	for (std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
+		StarSystem *s = (*i).second;
+		if (s->GetRefCount() == 0) {
+			delete s;
+			s_cachedSystems.erase(i);
 		}
 	}
 }

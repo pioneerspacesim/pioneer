@@ -682,8 +682,8 @@ void DoHyperspaceTo(const SBodyPath *dest)
 		storedArrivalClouds.clear();
 	}
 	
-	if (Pi::currentSystem) delete Pi::currentSystem;
-	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemNum);
+	if (Pi::currentSystem) Pi::currentSystem->Release();
+	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 	SBody *targetBody = Pi::currentSystem->GetBodyByPath(dest);
@@ -745,8 +745,8 @@ void DoHyperspaceTo(const SBodyPath *dest)
 /* called at game start to load the system and put the player in a starport */
 void SetupSystemForGameStart(const SBodyPath *dest, int starport, int port)
 {
-	if (Pi::currentSystem) delete Pi::currentSystem;
-	Pi::currentSystem = new StarSystem(dest->sectorX, dest->sectorY, dest->systemNum);
+	if (Pi::currentSystem) Pi::currentSystem->Release();
+	Pi::currentSystem = StarSystem::GetCached(dest);
 	Space::Clear();
 	Space::BuildSystem();
 

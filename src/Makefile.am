@@ -16,7 +16,7 @@ include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEven
 		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h LmrModel.h MyLuaMathTypes.h BezierCurve.h \
 		LuaChatForm.h PiLuaAPI.h IniConfig.h GeoSphereStyle.h AmbientSounds.h KeyBindings.h \
 		BufferObject.h GuiMeterBar.h GuiLabelSet.h ShipAICmd.h PiLuaClasses.h PiLuaConstants.h CustomSystem.h \
-		DeleteEmitter.h LuaManager.h LuaUtils.h LuaObject.h LuaEventQueue.h RefList.h
+		DeleteEmitter.h LuaManager.h LuaUtils.h LuaObject.h LuaEventQueue.h RefList.h RefCounted.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
