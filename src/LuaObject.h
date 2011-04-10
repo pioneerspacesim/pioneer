@@ -111,7 +111,8 @@ class LuaObjectBase {
 	friend class LuaSerializer;
 
 protected:
-	LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete) : m_object(o), m_type(type), m_wantDelete(wantdelete) {};
+	// XXX DOC UPDATE
+	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};
 	virtual ~LuaObjectBase() {}
 
 	// creates a class in the lua vm with the given name and attaches the
@@ -122,13 +123,26 @@ protected:
 	// object is created for it and pushed onto the lua stack type is the lua
 	// type string. wantdelete indicates if LuaObjectBase should delete the
 	// c++ object when it is removed from the registry
+	// XXX DOC UPDATE
 	static bool PushRegistered(DeleteEmitter *o);
-	static void Push(LuaObjectBase *lo);
+	static void Push(LuaObjectBase *lo, bool wantdelete);
 
 	// pulls an object off the lua stack and returns its associated c++
 	// object. want_type is the lua type string of the object. a lua exception
 	// is triggered if the object on the stack is not of this type
 	static DeleteEmitter *GetFromLua(int index, const char *want_type);
+
+	// do something to record that fact that we are now holding this object.
+	// most of the time nothing has to happen. refcounted objects will deal
+	// with this in their wrapper
+	virtual void Acquire() {}
+
+	// do something to indicate we're no longer holder this object
+	virtual void Release() {}
+
+	inline DeleteEmitter *GetObject() const {
+		return m_object;
+	}
 
 private:
 	LuaObjectBase() {}
@@ -148,14 +162,6 @@ private:
 
     // determine if the object has a class in its ancestry
     bool Isa(const char *want_type) const;
-
-	// do something to record that fact that we are now holding this object.
-	// most of the time nothing has to happen. refcounted objects will deal
-	// with this in their wrapper
-	virtual void Acquire() {}
-
-	// do something to indicate we're no longer holder this object
-	virtual void Release() {}
 
 	// object id, pointer to the c++ object and lua type string
 	lid            m_id;
@@ -185,13 +191,13 @@ public:
 	// wrap the object and push it onto the lua stack
 	static inline void PushToLua(T *o) {
 		if (! LuaObjectBase::PushRegistered(o))
-			LuaObjectBase::Push(new LuaObject(o, false));
+			LuaObjectBase::Push(new LuaObject(o), false);
 	}
 
 	// wrap the object and push it onto the lua stack, taking ownership of it
 	static inline void PushToLuaGC(T *o) {
 		if (! LuaObjectBase::PushRegistered(o))
-			LuaObjectBase::Push(new LuaObject(o, true));
+			LuaObjectBase::Push(new LuaObject(o), true);
 	}
 
 	// pull an object off the the stack, unwrap it and return it
@@ -200,7 +206,7 @@ public:
 	}
 
 private:
-	LuaObject(T *o, bool wantdelete) : LuaObjectBase(o, s_type, wantdelete) {}
+	LuaObject(T *o) : LuaObjectBase(o, s_type) {}
 
 	// lua type string, optional parent type, method table and metamethod
 	// table. these are defined per wrapper class in the appropriate .cpp file
@@ -209,6 +215,59 @@ private:
 	static const luaL_reg s_methods[];
 	static const luaL_reg s_meta[];
 };
+
+
+// specialization for StarSystem, which has different acquire/release. this is
+// far more duplication than I'm happy with
+#include "StarSystem.h"
+
+template <>
+class LuaObject<StarSystem> : public LuaObjectBase {
+public:
+	// registers the class with the lua vm
+	static inline void RegisterClass() {
+		CreateClass(s_type, s_inherit, s_methods, s_meta);
+	};
+
+	// wrap the object and push it onto the lua stack
+	static inline void PushToLua(StarSystem *o) {
+		if (! LuaObjectBase::PushRegistered(o))
+			LuaObjectBase::Push(new LuaObject<StarSystem>(o), false);
+	}
+
+	// wrap the object and push it onto the lua stack, taking ownership of it
+	static inline void PushToLuaGC(StarSystem *o) {
+		if (! LuaObjectBase::PushRegistered(o))
+			LuaObjectBase::Push(new LuaObject<StarSystem>(o), true);
+	}
+
+	// pull an object off the the stack, unwrap it and return it
+	static inline StarSystem *GetFromLua(int index) {
+		return dynamic_cast<StarSystem *>(LuaObjectBase::GetFromLua(index, s_type));
+	}
+
+protected:
+	virtual void Acquire() {
+		printf("in LuaObject<StarSystem>::Acquire\n");
+		dynamic_cast<StarSystem*>(GetObject())->IncRefCount();
+	}
+	virtual void Release() {
+		printf("in LuaObject<StarSystem>::Release\n");
+		dynamic_cast<StarSystem*>(GetObject())->DecRefCount();
+	}
+
+private:
+	LuaObject<StarSystem>(StarSystem *o) : LuaObjectBase(o, s_type) {}
+
+	// lua type string, optional parent type, method table and metamethod
+	// table. these are defined per wrapper class in the appropriate .cpp file
+	static const char *s_type;
+	static const char *s_inherit;
+	static const luaL_reg s_methods[];
+	static const luaL_reg s_meta[];
+};
+
+
 
 
 // this one is more complicated. if a class needs to be copyable it can't
@@ -328,10 +387,13 @@ typedef LuaObject<Star> LuaStar;
 class Player;
 typedef LuaObject<Player> LuaPlayer;
 
-class StarSystem;
-typedef LuaObject<StarSystem> LuaStarSystem;
-
 class SBodyPath;
 typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
+
+
+typedef LuaObject<StarSystem> LuaStarSystem;
+
+
+
 
 #endif

@@ -124,10 +124,10 @@ static int l_starsystem_get_random_starport_near_but_not_in(lua_State *l)
 	return 0;
 }
 
-template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
-template <> const char *LuaObject<StarSystem>::s_inherit = NULL;
+const char *LuaStarSystem::s_type = "StarSystem";
+const char *LuaStarSystem::s_inherit = NULL;
 
-template <> const luaL_reg LuaObject<StarSystem>::s_methods[] = {
+const luaL_reg LuaStarSystem::s_methods[] = {
 	{ "GetName",                          l_starsystem_get_name                             },
 	{ "GetLawlessness",                   l_starsystem_get_lawlessness                      },
 	{ "GetPopulation",                    l_starsystem_get_population                       },
@@ -139,6 +139,6 @@ template <> const luaL_reg LuaObject<StarSystem>::s_methods[] = {
 	{ 0, 0 }
 };
 
-template <> const luaL_reg LuaObject<StarSystem>::s_meta[] = {
+const luaL_reg LuaStarSystem::s_meta[] = {
 	{ 0, 0 }
 };

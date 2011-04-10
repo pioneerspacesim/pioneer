@@ -144,19 +144,25 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 	return false;
 }
 
-void LuaObjectBase::Push(LuaObjectBase *lo)
+void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 {
+	lo->m_wantDelete = wantdelete;
+
+	lo->m_id = ++next_id;
+	assert(lo->m_id);
+
+	lo->Acquire();
+
+	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
+
+	registry.insert(std::make_pair(lo->m_id, lo));
+
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	assert(lua_istable(l, -1));
-
-	lo->m_id = ++next_id;
-	assert(lo->m_id);
-
-	registry.insert(std::make_pair(lo->m_id, lo));
 
 	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
 	*idp = lo->m_id;
@@ -172,10 +178,6 @@ void LuaObjectBase::Push(LuaObjectBase *lo)
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 1);
-
-	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
-
-	lo->Acquire();
 }
 
 DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
