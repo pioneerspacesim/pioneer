@@ -135,13 +135,14 @@ void DynamicBody::CalcExternalForce()
 		const double AREA = radius;
 		// ^^^ yes that is as stupid as it looks
 		const double DRAG_COEFF = 0.1; // 'smooth sphere'
-		vector3d fDrag = -0.5*density*speed*speed*AREA*DRAG_COEFF*m_vel.Normalized();
+		vector3d dragDir = -m_vel.Normalized();
+		vector3d fDrag = 0.5*density*speed*speed*AREA*DRAG_COEFF*dragDir;
 
 		// make this a bit less daft at high time accel
-		// better way? cap force to some percentage of velocity given current timestep...
-		m_atmosForce += 0.01 * (fDrag - m_atmosForce);
-//		else if (Pi::GetTimeAccel() > 100) m_atmosForce += 0.1 * (fDrag - m_atmosForce);
-//		else m_atmosForce = fDrag;
+		// only allow atmosForce to increase by .1g per frame
+		vector3d f1g = m_atmosForce + dragDir * GetMass();
+		if (fDrag.LengthSqr() > f1g.LengthSqr()) m_atmosForce = f1g;
+		else m_atmosForce = fDrag;
 
 		m_externalForce += m_atmosForce;
 	}
