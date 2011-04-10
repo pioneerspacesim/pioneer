@@ -8,3 +8,8 @@ ipch/
 *.suo
 *.sdf
 *.opensdf
+*.o
+*.a
+.deps
+Makefile
+Makefile.in
