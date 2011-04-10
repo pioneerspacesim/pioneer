@@ -1707,7 +1707,10 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
-		double continents = octavenoise(m_fracdef[0], 0.7*ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.6;
+		double continents = 0;
+			if (m_heightMap = 0) {
+				continents = octavenoise(m_fracdef[0], 0.7*ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.6;
+			}
 
 		vector3d col;
 		//we don't want water on the poles if there are ice-caps
