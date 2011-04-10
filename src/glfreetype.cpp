@@ -18,6 +18,10 @@
 #ifdef _WIN32
 typedef GLvoid (APIENTRY *_GLUfuncptr)();
 #endif
+#ifdef __APPLE__
+// So much for 'standards'
+typedef GLvoid (*_GLUfuncptr)();
+#endif
 
 FT_Library library;
 
