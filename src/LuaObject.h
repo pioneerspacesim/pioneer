@@ -5,6 +5,7 @@
 
 #include "LuaManager.h"
 #include "DeleteEmitter.h"
+#include "RefCounted.h"
 
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
@@ -110,6 +111,7 @@ class LuaObjectBase {
 	friend class LuaSerializer;
 
 protected:
+	LuaObjectBase(DeleteEmitter *o, const char *type, bool wantdelete) : m_object(o), m_type(type), m_wantDelete(wantdelete) {};
 	virtual ~LuaObjectBase() {}
 
 	// creates a class in the lua vm with the given name and attaches the
@@ -120,7 +122,8 @@ protected:
 	// object is created for it and pushed onto the lua stack type is the lua
 	// type string. wantdelete indicates if LuaObjectBase should delete the
 	// c++ object when it is removed from the registry
-	static void PushToLua(DeleteEmitter *o, const char *type, bool wantdelete);
+	static bool PushRegistered(DeleteEmitter *o);
+	static void Push(LuaObjectBase *lo);
 
 	// pulls an object off the lua stack and returns its associated c++
 	// object. want_type is the lua type string of the object. a lua exception
@@ -145,6 +148,14 @@ private:
 
     // determine if the object has a class in its ancestry
     bool Isa(const char *want_type) const;
+
+	// do something to record that fact that we are now holding this object.
+	// most of the time nothing has to happen. refcounted objects will deal
+	// with this in their wrapper
+	virtual void Acquire() {}
+
+	// do something to indicate we're no longer holder this object
+	virtual void Release() {}
 
 	// object id, pointer to the c++ object and lua type string
 	lid            m_id;
@@ -173,12 +184,14 @@ public:
 
 	// wrap the object and push it onto the lua stack
 	static inline void PushToLua(T *o) {
-		LuaObjectBase::PushToLua(o, s_type, false);
+		if (! LuaObjectBase::PushRegistered(o))
+			LuaObjectBase::Push(new LuaObject(o, false));
 	}
 
 	// wrap the object and push it onto the lua stack, taking ownership of it
 	static inline void PushToLuaGC(T *o) {
-		LuaObjectBase::PushToLua(o, s_type, true);
+		if (! LuaObjectBase::PushRegistered(o))
+			LuaObjectBase::Push(new LuaObject(o, true));
 	}
 
 	// pull an object off the the stack, unwrap it and return it
@@ -187,6 +200,8 @@ public:
 	}
 
 private:
+	LuaObject(T *o, bool wantdelete) : LuaObjectBase(o, s_type, wantdelete) {}
+
 	// lua type string, optional parent type, method table and metamethod
 	// table. these are defined per wrapper class in the appropriate .cpp file
 	static const char *s_type;
