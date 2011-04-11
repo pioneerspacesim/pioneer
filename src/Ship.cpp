@@ -383,7 +383,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		// fundamental physical unit in the same sense that the planck length
 		// is, and so it is very probable that future hyperspace
 		// technologies will involve travelling a week through time.
-		outDurationSecs = (dist / m_stats.hyperspace_range_max) * 60.0 * 60.0 * 24.0 * 7.0;
+		outDurationSecs = (dist / m_stats.hyperspace_range_max) * 60.0 * 60.0 * 24.0 * (m_stats.total_mass*0.25);
 		if (outFuelRequired <= fuel) {
 			if (outStatus) *outStatus = HYPERJUMP_OK;
 			return true;
