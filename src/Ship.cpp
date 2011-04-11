@@ -722,8 +722,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWith = s;
 		m_dockedWithPort = port;
 		m_wheelState = 1.0f;
-		if (s->IsGroundStation()) m_flightState = LANDED;
-		else m_flightState = DOCKING;
+		m_flightState = LANDED;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
