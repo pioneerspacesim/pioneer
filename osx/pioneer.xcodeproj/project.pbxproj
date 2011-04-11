@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A20B0E2135319770020F43E /* Cocoa.framework */; };
+		4A20B100135319FB0020F43E /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A20B0FF135319FB0020F43E /* SDL.framework */; };
+		4A20B10313531B430020F43E /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A20B10213531B430020F43E /* SDL.framework */; };
+		4A20B11013531C040020F43E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A20B10D13531C040020F43E /* main.cpp */; };
+		4A20B11113531C040020F43E /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A20B10F13531C040020F43E /* SDLMain.m */; };
+		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
+		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
+		4A20B12013531E950020F43E /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* SDLMain.nib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4A20B10113531B0F0020F43E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4A20B10313531B430020F43E /* SDL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4A20B0DE135319770020F43E /* pioneer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pioneer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A20B0E2135319770020F43E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		4A20B0E5135319770020F43E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4A20B0E6135319770020F43E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4A20B0E7135319770020F43E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4A20B0FF135319FB0020F43E /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL.framework; sourceTree = DEVELOPER_DIR; };
+		4A20B10213531B430020F43E /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../../../../Library/Frameworks/SDL.framework; sourceTree = "<group>"; };
+		4A20B10D13531C040020F43E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4A20B10E13531C040020F43E /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
+		4A20B10F13531C040020F43E /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
+		4A20B11313531CC40020F43E /* pioneer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "pioneer-Info.plist"; path = "pioneer/pioneer-Info.plist"; sourceTree = "<group>"; };
+		4A20B11413531CC40020F43E /* pioneer-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "pioneer-Prefix.pch"; path = "pioneer/pioneer-Prefix.pch"; sourceTree = "<group>"; };
+		4A20B11713531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = pioneer/en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4A20B0DB135319770020F43E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A20B100135319FB0020F43E /* SDL.framework in Frameworks */,
+				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4A20B0CE1353194B0020F43E = {
+			isa = PBXGroup;
+			children = (
+				4A20B11213531CAF0020F43E /* Cocoa Support Files */,
+				4A20B10213531B430020F43E /* SDL.framework */,
+				4A20B0E1135319770020F43E /* Frameworks */,
+				4A20B0DF135319770020F43E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4A20B0DF135319770020F43E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A20B0DE135319770020F43E /* pioneer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A20B0E1135319770020F43E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A20B0FF135319FB0020F43E /* SDL.framework */,
+				4A20B0E2135319770020F43E /* Cocoa.framework */,
+				4A20B0E4135319770020F43E /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4A20B0E4135319770020F43E /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A20B0E5135319770020F43E /* AppKit.framework */,
+				4A20B0E6135319770020F43E /* CoreData.framework */,
+				4A20B0E7135319770020F43E /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		4A20B11213531CAF0020F43E /* Cocoa Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				4A20B10D13531C040020F43E /* main.cpp */,
+				4A20B11F13531E950020F43E /* SDLMain.nib */,
+				4A20B10E13531C040020F43E /* SDLMain.h */,
+				4A20B10F13531C040020F43E /* SDLMain.m */,
+				4A20B11613531CD10020F43E /* Credits.rtf */,
+				4A20B11813531CD10020F43E /* InfoPlist.strings */,
+				4A20B11313531CC40020F43E /* pioneer-Info.plist */,
+				4A20B11413531CC40020F43E /* pioneer-Prefix.pch */,
+			);
+			name = "Cocoa Support Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4A20B0DD135319770020F43E /* pioneer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A20B0FA135319780020F43E /* Build configuration list for PBXNativeTarget "pioneer" */;
+			buildPhases = (
+				4A20B0DA135319770020F43E /* Sources */,
+				4A20B0DB135319770020F43E /* Frameworks */,
+				4A20B0DC135319770020F43E /* Resources */,
+				4A20B10113531B0F0020F43E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pioneer;
+			productName = pioneer;
+			productReference = 4A20B0DE135319770020F43E /* pioneer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4A20B0D01353194B0020F43E /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4A20B0CE1353194B0020F43E;
+			productRefGroup = 4A20B0DF135319770020F43E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4A20B0DD135319770020F43E /* pioneer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4A20B0DC135319770020F43E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A20B11C13531CD10020F43E /* Credits.rtf in Resources */,
+				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
+				4A20B12013531E950020F43E /* SDLMain.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4A20B0DA135319770020F43E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A20B11013531C040020F43E /* main.cpp in Sources */,
+				4A20B11113531C040020F43E /* SDLMain.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4A20B11613531CD10020F43E /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A20B11713531CD10020F43E /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		4A20B11813531CD10020F43E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4A20B11913531CD10020F43E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4A20B0D51353194B0020F43E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		4A20B0D61353194B0020F43E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		4A20B0FB135319780020F43E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4A20B0FC135319780020F43E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A20B0D51353194B0020F43E /* Debug */,
+				4A20B0D61353194B0020F43E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4A20B0FA135319780020F43E /* Build configuration list for PBXNativeTarget "pioneer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A20B0FB135319780020F43E /* Debug */,
+				4A20B0FC135319780020F43E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4A20B0D01353194B0020F43E /* Project object */;
+}
