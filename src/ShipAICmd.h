@@ -95,7 +95,10 @@ public:
 	AICmdFlyTo(Ship *ship, Frame *targframe, vector3d &posoff, double endvel, int headmode, bool coll);
 
 	virtual void Save(Serializer::Writer &wr) {
-		if(m_child) delete m_child;				// can regen children anyway
+		if(m_child) { 
+			delete m_child;				// can regen children anyway
+			m_child = 0;
+		}
 		AICommand::Save(wr);
 		wr.Int32(Serializer::LookupFrame(m_targframe));
 		wr.Vector3d(m_posoff);

@@ -379,11 +379,18 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
 		return false;
 	} else {
+		// Old comments:
 		// take at most a week. why a week? because a week is a
 		// fundamental physical unit in the same sense that the planck length
 		// is, and so it is very probable that future hyperspace
 		// technologies will involve travelling a week through time.
-		outDurationSecs = (dist / m_stats.hyperspace_range_max) * 60.0 * 60.0 * 24.0 * (m_stats.total_mass*0.25);
+
+		// Now mass has more of an effect on the time taken, this is mainly
+		// for gameplay considerations for courier missions and the like.
+		outDurationSecs = ((dist / m_stats.hyperspace_range_max * hyperclass * 0.5) * 
+			(60.0 * 60.0 * 24.0 * m_stats.total_mass * 0.5) /
+			(hyperclass * hyperclass * 0.5)) *
+			((dist * dist * dist)/2000);
 		if (outFuelRequired <= fuel) {
 			if (outStatus) *outStatus = HYPERJUMP_OK;
 			return true;
