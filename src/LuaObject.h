@@ -136,6 +136,9 @@ protected:
 	// triggered if the object on the stack is not of this type
 	static DeleteEmitter *GetFromLua(int index, const char *type);
 
+	// does exactly the same as GetFromLua without triggering exceptions
+	static DeleteEmitter *CheckFromLua(int index, const char *type);
+
 	// abstract functions for the object acquire/release functions. these are
 	// called to somehow record that the object is "in use". the wrapper class
 	// handles the hard details of this (most of the time it results in a noop)
@@ -212,6 +215,10 @@ public:
 		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(index, s_type));
 	}
 
+	static inline T *CheckFromLua(int index) {
+		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
+	}
+
 protected:
 	// hook up the appropriate acquirer for the wrapped object.
 	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::Acquire(dynamic_cast<T*>(o)); }
@@ -267,6 +274,10 @@ public:
 	// pull from lua, casting back to the original type
 	static inline T *GetFromLua(int index) {
 		return dynamic_cast<T*>(LuaObject<UT>::GetFromLua(index));
+	}
+
+	static inline T *CheckFromLua(int index) {
+		return dynamic_cast<T*>(LuaObject<UT>::CheckFromLua(index));
 	}
 };
 

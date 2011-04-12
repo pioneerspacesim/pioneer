@@ -186,6 +186,31 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	LUA_DEBUG_END(l, 1);
 }
 
+DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	luaL_checktype(l, index, LUA_TUSERDATA);
+
+	lid *idp = (lid*)lua_touserdata(l, index);
+	if (!idp)
+		return NULL;
+
+	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
+	if (!lo)
+		return NULL;
+
+	LUA_DEBUG_END(l, 0);
+
+	if (!lo->Isa(type))
+		return NULL;
+
+	// found it
+	return lo->m_object;
+}
+
 DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
