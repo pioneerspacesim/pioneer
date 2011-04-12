@@ -2,8 +2,8 @@
 -- zero means spawn an enemy ship of that 'power' to kill you
 local delivery_flavours = {
 	{
-		adtext = "GOING TO the %s system? Money paid for delivery of a small package.",
-		introtext = "Hi, I'm %s. I'll pay you %s if you will deliver a small package to %s in the %s (%s, %s) system.",
+		adtext = "GOING TO the {system} system? Money paid for delivery of a small package.",
+		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx, {sectory}) system.",
 		whysomuchdoshtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
 		successmsg = "Thank you for the delivery. You have been paid in full.",
 		failuremsg = "Jesus wept, you took forever over that delivery. I'm not willing to pay you.",
@@ -11,8 +11,8 @@ local delivery_flavours = {
 		time = 3,
 		money = .5,
 	}, {
-		adtext = "WANTED. Delivery of a package to the %s system.",
-		introtext = "Hello. I'm %s. I'm willing to pay %s for a ship to carry a package to %s in the %s (%s, %s) system.",
+		adtext = "WANTED. Delivery of a package to the {system} system.",
+		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchdoshtext = "It is nothing special.",
 		successmsg = "The package has been received and you have been paid in full.",
 		failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
@@ -20,8 +20,8 @@ local delivery_flavours = {
 		time = 1,
 		money = 1,
 	}, {
-		adtext = "URGENT. Fast ship needed to deliver a package to the %s system.",
-		introtext = "Hello. I'm %s. I'm willing to pay %s for a ship to carry a package to %s in the %s (%s, %s) system.",
+		adtext = "URGENT. Fast ship needed to deliver a package to the {system} system.",
+		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchdoshtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
@@ -29,8 +29,8 @@ local delivery_flavours = {
 		time = .75,
 		money = 1.1,
 	}, {
-		adtext = "DELIVERY. Documents to the %s system. %s to an experienced pilot.",
-		introtext = "Hello. I'm %s. I'm willing to pay %s for a ship to carry a package to %s in the %s (%s, %s) system.",
+		adtext = "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
+		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchdoshtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
@@ -67,14 +67,16 @@ local onChat = function (dialog, ref, option)
 	end
 
 	if option == 0 then
-		dialog:SetMessage(string.format(delivery_flavours[ad.flavour].introtext,
-			ad.client,
-			format_money(ad.reward), 
-			ad.location:GetBodyName(),
-			ad.location:GetSystemName(),
-			ad.location:GetSectorX(),
-			ad.location:GetSectorY()
-		))
+		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
+			name     = ad.client,
+			cash     = format_money(ad.reward),
+			starport = ad.location:GetBodyName(),
+			system   = ad.location:GetSystemName(),
+			sectorx  = ad.location:GetSectorX(),
+			sectory  = ad.location:GetSectorY(),
+		})
+
+		dialog:SetMessage(introtext)
 
 	elseif option == 1 then
 		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchdoshtext)
@@ -134,7 +136,10 @@ local makeAdvert = function (station)
 		reward   = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
 	}
 
-	ad.desc = string.format(delivery_flavours[flavour].adtext, location:GetSystemName(), format_money(ad.reward))
+	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
+		system = location:GetSystemName(),
+		cash   = format_money(ad.reward),
+	})
 
 	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
 	ads[ref] = ad
