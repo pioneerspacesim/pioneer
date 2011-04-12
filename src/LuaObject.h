@@ -372,8 +372,8 @@ typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 #include "matrix4x4.h"
 #include "fixed.h"
 
-typedef LuaObjectUncopyable<vector3f,   LuaUncopyable<vector3f> >   LuaVector;
-typedef LuaObjectUncopyable<matrix4x4f, LuaUncopyable<matrix4x4f> > LuaMatrix;
+typedef LuaObjectUncopyable<vector3d,   LuaUncopyable<vector3d> >   LuaVector;
+typedef LuaObjectUncopyable<matrix4x4d, LuaUncopyable<matrix4x4d> > LuaMatrix;
 typedef LuaObjectUncopyable<fixed,      LuaUncopyable<fixed> >      LuaFixed;
 
 #endif
