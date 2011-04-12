@@ -378,13 +378,4 @@ typedef LuaObject<StarSystem> LuaStarSystem;
 class SBodyPath;
 typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 
-
-#include "vector3.h"
-#include "matrix4x4.h"
-#include "fixed.h"
-
-typedef LuaObjectUncopyable<vector3d,   LuaUncopyable<vector3d> >   LuaVector;
-typedef LuaObjectUncopyable<matrix4x4d, LuaUncopyable<matrix4x4d> > LuaMatrix;
-typedef LuaObjectUncopyable<fixed,      LuaUncopyable<fixed> >      LuaFixed;
-
 #endif
