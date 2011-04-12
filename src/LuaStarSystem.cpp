@@ -124,9 +124,9 @@ static int l_starsystem_get_random_starport_near_but_not_in(lua_State *l)
 	return 0;
 }
 
-const char *LuaObject<StarSystem>::s_type = "StarSystem";
+template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
-void LuaObject<StarSystem>::RegisterClass()
+template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
 		{ "GetName",                          l_starsystem_get_name                             },

@@ -7,6 +7,8 @@
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
 
+#include "StarSystem.h"
+
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
 // objects in and out of lua. the basic idea is that for every class you want
@@ -132,17 +134,12 @@ protected:
 	// is triggered if the object on the stack is not of this type
 	static DeleteEmitter *GetFromLua(int index, const char *want_type);
 
-	// do something to record that fact that we are now holding this object.
-	// most of the time nothing has to happen. refcounted objects will deal
-	// with this in their wrapper
-	virtual void Acquire() {}
-
-	// do something to indicate we're no longer holder this object
-	virtual void Release() {}
-
 	inline DeleteEmitter *GetObject() const {
 		return m_object;
 	}
+
+	virtual void Acquire(DeleteEmitter *) = 0;
+	virtual void Release(DeleteEmitter *) = 0;
 
 private:
 	LuaObjectBase() {}
@@ -178,9 +175,28 @@ private:
 };
 
 
+template <typename T>
+class LuaAcquirer {
+public:
+	virtual void Acquire(T *) {}
+	virtual void Release(T *) {}
+};
+
+template <>
+class LuaAcquirer<StarSystem> {
+public:
+	virtual void Acquire(StarSystem *o) {
+		o->IncRefCount();
+	}
+	virtual void Release(StarSystem *o) {
+		o->DecRefCount();
+	}
+};
+
+
 // template for a wrapper class
 template <typename T>
-class LuaObject : public LuaObjectBase {
+class LuaObject : public LuaObjectBase, LuaAcquirer<T> {
 public:
 
 	// registers the class with the lua vm
@@ -203,6 +219,10 @@ public:
 		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(index, s_type));
 	}
 
+protected:
+	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::Acquire(dynamic_cast<T*>(o)); }
+	virtual void Release(DeleteEmitter *o) { this->LuaAcquirer<T>::Release(dynamic_cast<T*>(o)); }
+
 private:
 	LuaObject(T *o) : LuaObjectBase(o, s_type) {}
 
@@ -210,54 +230,6 @@ private:
     // .cpp file
 	static const char *s_type;
 };
-
-
-// specialization for StarSystem, which has different acquire/release. this is
-// far more duplication than I'm happy with
-#include "StarSystem.h"
-
-template <>
-class LuaObject<StarSystem> : public LuaObjectBase {
-public:
-	// registers the class with the lua vm
-	static void RegisterClass();
-
-	// wrap the object and push it onto the lua stack
-	static inline void PushToLua(StarSystem *o) {
-		if (! LuaObjectBase::PushRegistered(o))
-			LuaObjectBase::Push(new LuaObject<StarSystem>(o), false);
-	}
-
-	// wrap the object and push it onto the lua stack, taking ownership of it
-	static inline void PushToLuaGC(StarSystem *o) {
-		if (! LuaObjectBase::PushRegistered(o))
-			LuaObjectBase::Push(new LuaObject<StarSystem>(o), true);
-	}
-
-	// pull an object off the the stack, unwrap it and return it
-	static inline StarSystem *GetFromLua(int index) {
-		return dynamic_cast<StarSystem *>(LuaObjectBase::GetFromLua(index, s_type));
-	}
-
-protected:
-	virtual void Acquire() {
-		printf("in LuaObject<StarSystem>::Acquire\n");
-		dynamic_cast<StarSystem*>(GetObject())->IncRefCount();
-	}
-	virtual void Release() {
-		printf("in LuaObject<StarSystem>::Release\n");
-		dynamic_cast<StarSystem*>(GetObject())->DecRefCount();
-	}
-
-private:
-	LuaObject<StarSystem>(StarSystem *o) : LuaObjectBase(o, s_type) {}
-
-	// lua type string. this is defined per wrapper class in the appropriate
-    // .cpp file
-	static const char *s_type;
-};
-
-
 
 
 // this one is more complicated. if a class needs to be copyable it can't
@@ -381,6 +353,7 @@ class SBodyPath;
 typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 
 
+class StarSystem;
 typedef LuaObject<StarSystem> LuaStarSystem;
 
 

@@ -28,7 +28,7 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 
 	LUA_DEBUG_END(l, 0);
 
-	lo->Release();
+	lo->Release(lo->m_object);
 
 	if (lo->m_wantDelete) delete lo->m_object;
 	delete lo;
@@ -157,7 +157,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	lo->m_id = ++next_id;
 	assert(lo->m_id);
 
-	lo->Acquire();
+	lo->Acquire(lo->m_object);
 
 	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
 
