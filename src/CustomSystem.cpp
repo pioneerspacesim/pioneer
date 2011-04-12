@@ -1,7 +1,7 @@
 #include "CustomSystem.h"
 #include "LuaUtils.h"
 #include "PiLuaClasses.h"
-#include "PiLuaConstants.h"
+#include "LuaConstants.h"
 #include "Polit.h"
 
 static std::list<CustomSystem> custom_systems;
@@ -13,7 +13,7 @@ void CustomSystem::Init()
 	OOLUA::setup_user_lua_state(L);
 
 	PiLuaClasses::RegisterClasses(L);
-	PiLuaConstants::RegisterConstants(L);
+	LuaConstants::RegisterConstants(L);
 
 	OOLUA::register_class<CustomSystem>(L);
 	OOLUA::register_class<CustomSBody>(L);

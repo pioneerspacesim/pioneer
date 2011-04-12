@@ -1,11 +1,5 @@
 #include "LuaManager.h"
-#include "LuaObject.h"
-#include "LuaEventQueue.h"
-#include "PiLuaConstants.h"
-#include "LuaUtils.h"
 #include "oolua/oolua.h"
-
-class LuaChatForm;
 
 std::auto_ptr<LuaManager> LuaManager::s_instance;
 

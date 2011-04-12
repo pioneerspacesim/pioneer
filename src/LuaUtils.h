@@ -37,6 +37,20 @@ inline void pi_lua_settable(lua_State *l, int key, double value)
 	lua_settable(l, -3);
 }
 
+inline void pi_lua_settable(lua_State *l, int key, const char *value)
+{
+	lua_pushinteger(l, key);
+	lua_pushstring(l, value);
+	lua_settable(l, -3);
+}
+
+inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
+{
+	lua_pushstring(l, key);
+	lua_pushstring(l, value);
+	lua_settable(l, -3);
+}
+
 int  pi_lua_panic(lua_State *l);
 void pi_lua_dofile_recursive(lua_State *l, std::string basepath);
 int  pi_load_lua(lua_State *l);
