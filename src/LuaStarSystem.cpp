@@ -15,6 +15,22 @@ static int l_starsystem_get_name(lua_State *l)
 	return 1;
 } 
 
+static int l_starsystem_get_path(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	SysLoc loc = s->GetLocation();
+
+	SBodyPath *path = new SBodyPath;
+	path->sectorX = loc.sectorX;
+	path->sectorY = loc.sectorY;
+	path->systemNum = loc.systemNum;
+	path->sbodyId = 0;
+
+	LuaSBodyPath::PushToLuaGC(path);
+
+	return 1;
+}
+
 static int l_starsystem_get_lawlessness(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -130,6 +146,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
 		{ "GetName",                          l_starsystem_get_name                             },
+		{ "GetPath",                          l_starsystem_get_path                             },
 		{ "GetLawlessness",                   l_starsystem_get_lawlessness                      },
 		{ "GetPopulation",                    l_starsystem_get_population                       },
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },

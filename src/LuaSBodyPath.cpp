@@ -16,6 +16,13 @@ static int l_sbodypath_get_sector_y(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_get_system_index(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	LuaInt::PushToLua(path->systemNum);
+	return 1;
+}
+
 static int l_sbodypath_get_system_name(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -47,10 +54,11 @@ template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SBodyPat
 template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "GetSectorX",    l_sbodypath_get_sector_x    },
-		{ "GetSectorY",    l_sbodypath_get_sector_y    },
-		{ "GetSystemName", l_sbodypath_get_system_name },
-		{ "GetBodyName",   l_sbodypath_get_body_name   },
+		{ "GetSectorX",     l_sbodypath_get_sector_x     },
+		{ "GetSectorY",     l_sbodypath_get_sector_y     },
+		{ "GetSystemIndex", l_sbodypath_get_system_index },
+		{ "GetSystemName",  l_sbodypath_get_system_name  },
+		{ "GetBodyName",    l_sbodypath_get_body_name    },
 		{ 0, 0 }
 	};
 

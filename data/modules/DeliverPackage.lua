@@ -70,10 +70,10 @@ local onChat = function (dialog, ref, option)
 		dialog:SetMessage(string.format(delivery_flavours[ad.flavour].introtext,
 			ad.client,
 			format_money(ad.reward), 
-			ad.dest:GetBodyName(),
-			ad.dest:GetSystemName(),
-			ad.dest:GetSectorX(),
-			ad.dest:GetSectorY()
+			ad.location:GetBodyName(),
+			ad.location:GetSystemName(),
+			ad.location:GetSectorX(),
+			ad.location:GetSectorY()
 		))
 
 	elseif option == 1 then
@@ -90,7 +90,7 @@ local onChat = function (dialog, ref, option)
 		local mission = {
 			type     = "Delivery",
 			client   = ad.client,
-			location = ad.dest,
+			location = ad.location,
 			reward   = ad.reward,
 			due      = ad.due,
 			flavour  = ad.flavour
@@ -117,8 +117,8 @@ local onDelete = function (ref)
 end
 
 local makeAdvert = function (station)
-	local dest = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn()
-	if not dest then return end
+	local location = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn()
+	if not location then return end
 
 	local isfemale = Pi.rand:Int(0, 1) == 1
 	local client = Pi.rand:PersonName(isfemale)
@@ -129,12 +129,12 @@ local makeAdvert = function (station)
 		station  = station,
 		flavour  = flavour,
 		client   = client,
-		dest     = dest,
+		location = location,
 		due      = Pi.GetGameTime() + Pi.rand:Real(0, delivery_flavours[flavour].time * 60*60*24*31),
 		reward   = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
 	}
 
-	ad.desc = string.format(delivery_flavours[flavour].adtext, dest:GetSystemName(), format_money(ad.reward))
+	ad.desc = string.format(delivery_flavours[flavour].adtext, location:GetSystemName(), format_money(ad.reward))
 
 	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
 	ads[ref] = ad
@@ -159,6 +159,31 @@ local onUpdateBB = function (station)
 end
 
 local onEnterSystem = function (sys, player)
+	for ref,mission in pairs(missions) do
+
+		if not mission.status then
+			local here = sys:GetPath()
+
+			if here:GetSectorX() == mission.location:GetSectorX() and here:GetSectorY() == mission.location:GetSectorY() and here:GetSystemIndex()== mission.location:GetSystemIndex() then
+				print("oh you made it")
+			else
+				print("sucks")
+
+
+--[[
+				local danger = delivery_flavours[mission.flavour].danger
+				if danger > 0 then
+					--ship, e = Pi.SpawnShip(Pi.GetGameTime()+60, "Ladybird Starfighter")
+					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
+					if e == nil then
+						ship:ShipAIDoKill(Pi.GetPlayer());
+						Pi.ImportantMessage(ship:GetLabel(), _("You're going to regret dealing with %1!", {mission.client}))
+					end
+				end
+--]]
+			end
+		end
+	end
 end
 
 local onPlayerDocked = function (station, player)
@@ -205,33 +230,3 @@ EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onPlayerDocked:Connect(onPlayerDocked)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
-
---[[
-	GetPlayerMissions = function(self)
-		return self.missions
-	end,
---]]
-
---[[
-	onEnterSystem = function(self)
-		for k,mission in pairs(self.missions) do
-			if mission.status == 'active' and
-			   mission.dest:GetSystem() == Pi:GetCurrentSystem() then
-
-				local danger = delivery_flavours[mission.flavour].danger
-				if danger > 0 then
-					--ship, e = Pi.SpawnShip(Pi.GetGameTime()+60, "Ladybird Starfighter")
-					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
-					if e == nil then
-						ship:ShipAIDoKill(Pi.GetPlayer());
-						Pi.ImportantMessage(ship:GetLabel(), _("You're going to regret dealing with %1!", {mission.client}))
-					end
-				end
-			end
-		end
-	end,
-
-	onPlayerDock = function(self)
-	end,
-}
---]]
