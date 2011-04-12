@@ -13,7 +13,7 @@ local onEnterSystem = function (sys, player)
 		ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), power, minMass, maxMass)
 		if not e then
 			--print("Pirates module spawned " .. ship:GetLabel() .. " with power " .. power)
-			ship:AiDoKill(player)
+			ship:AIDoKill(player)
 		--else
 			--print("Pirate module: " .. e)
 		end

@@ -76,7 +76,7 @@ local onEnterSystem = function (sys, player)
 				-- XXX random the due time a bit so that some aren't in system yet
 				ship, e = Pi.SpawnRandomShip(0, 10, 100, 10000000)
 				if ship then
-					ship:AiDoDock(body)
+					ship:AIDoDock(body)
 				end
 			end
 

@@ -145,13 +145,13 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 
-		{ "AiDoKill",        l_ship_ai_do_kill        },
-		{ "AiDoFlyto",       l_ship_ai_do_flyto       },
-		{ "AiDoDock",        l_ship_ai_do_dock        },
-		{ "AiDoLoworbit",    l_ship_ai_do_loworbit    },
-		{ "AiDoMediumorbit", l_ship_ai_do_mediumorbit },
-		{ "AiDoHighorbit",   l_ship_ai_do_highorbit   },
-		{ "AiDoJourney",     l_ship_ai_do_journey     },
+		{ "AIDoKill",        l_ship_ai_do_kill        },
+		{ "AIDoFlyto",       l_ship_ai_do_flyto       },
+		{ "AIDoDock",        l_ship_ai_do_dock        },
+		{ "AIDoLoworbit",    l_ship_ai_do_loworbit    },
+		{ "AIDoMediumorbit", l_ship_ai_do_mediumorbit },
+		{ "AIDoHighorbit",   l_ship_ai_do_highorbit   },
+		{ "AIDoJourney",     l_ship_ai_do_journey     },
 
 		{ 0, 0 }
 	};
