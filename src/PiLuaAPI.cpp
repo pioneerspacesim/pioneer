@@ -188,11 +188,6 @@ namespace LuaPi {
 		if (ShipType::Get(type.c_str()) == 0) {
 			throw UnknownShipType();
 		} else {
-			if (!Space::IsSystemBeingBuilt()) {
-				lua_pushnil(l);
-				lua_pushstring(l, "Cannot spawn ships in starports except from onEnterSystem");
-				return 2;
-			}
 			int port = station->GetFreeDockingPort();
 			if (port == -1) {
 				lua_pushnil(l);
@@ -220,12 +215,6 @@ namespace LuaPi {
 			const vector3d pos(sin(longitude)*cos(latitude)*dist, sin(latitude)*dist, cos(longitude)*cos(latitude)*dist);
 
 			if (due <= Pi::GetGameTime()) {
-				// already entered
-				if (!Space::IsSystemBeingBuilt()) {
-					lua_pushnil(l);
-					lua_pushstring(l, "Insufficient time to generate ship entry");
-					return 2;
-				}
 				if ((due <= 0) || (due < Pi::GetGameTime()-HYPERCLOUD_DURATION)) {
 					// ship is supposed to have entered some time
 					// ago and the hyperspace cloud is gone

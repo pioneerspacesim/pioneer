@@ -31,7 +31,6 @@ static SBodyPath *hyperspacingTo;
 static float hyperspaceAnim;
 static double hyperspaceEndTime;
 static std::list<HyperspaceCloud*> storedArrivalClouds;
-static bool beingBuilt;
 
 void Init()
 {
@@ -54,11 +53,6 @@ void Clear()
 	rootFrame->m_children.clear();
 	rootFrame->m_astroBody = 0;
 	rootFrame->m_sbody = 0;
-}
-
-bool IsSystemBeingBuilt()
-{
-	return beingBuilt;
 }
 
 Body *FindNearestTo(const Body *b, Object::Type t)
