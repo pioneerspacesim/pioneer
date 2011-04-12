@@ -5,9 +5,6 @@
 
 #include "LuaManager.h"
 #include "DeleteEmitter.h"
-#include "RefCounted.h"
-
-#include "StarSystem.h"
 
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
@@ -113,7 +110,7 @@ class LuaObjectBase {
 	friend class LuaSerializer;
 
 protected:
-	// XXX DOC UPDATE
+	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};
 	virtual ~LuaObjectBase() {}
 
@@ -121,23 +118,27 @@ protected:
 	// listed methods to it and the listed metamethods to its metaclass
 	static void CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *meta);
 
-	// create an object wrapper. it gets added to the registry then a new lua
-	// object is created for it and pushed onto the lua stack type is the lua
-	// type string. wantdelete indicates if LuaObjectBase should delete the
-	// c++ object when it is removed from the registry
-	// XXX DOC UPDATE
+	// push an already-registered object onto the lua stack. the object is
+	// looked up in the lua registry, if it exists a copy of its userdata is
+	// placed on the lua stack. returns true if the object exist and was
+	// pushed, false otherwise
 	static bool PushRegistered(DeleteEmitter *o);
+
+	// pushes the raw object into lua. new userdata is create and stored in
+	// the lookup table in the lua registry for PushRegistered to user later,
+	// and then is added to the stack. if wantdelete is true, lua takes
+	// control of the object and will call delete on it when it is finished
+	// with it
 	static void Push(LuaObjectBase *lo, bool wantdelete);
 
 	// pulls an object off the lua stack and returns its associated c++
-	// object. want_type is the lua type string of the object. a lua exception
-	// is triggered if the object on the stack is not of this type
-	static DeleteEmitter *GetFromLua(int index, const char *want_type);
+	// object. type is the lua type string of the object. a lua exception is
+	// triggered if the object on the stack is not of this type
+	static DeleteEmitter *GetFromLua(int index, const char *type);
 
-	inline DeleteEmitter *GetObject() const {
-		return m_object;
-	}
-
+	// abstract functions for the object acquire/release functions. these are
+	// called to somehow record that the object is "in use". the wrapper class
+	// handles the hard details of this (most of the time it results in a noop)
 	virtual void Acquire(DeleteEmitter *) = 0;
 	virtual void Release(DeleteEmitter *) = 0;
 
@@ -175,22 +176,14 @@ private:
 };
 
 
+// basic acquirer template. used by the wrapper to implement
+// LuaObjectBase::Acquire and LuaObjectBase::Release. this is the general
+// case, which does nothing at all
 template <typename T>
 class LuaAcquirer {
 public:
 	virtual void Acquire(T *) {}
 	virtual void Release(T *) {}
-};
-
-template <>
-class LuaAcquirer<StarSystem> {
-public:
-	virtual void Acquire(StarSystem *o) {
-		o->IncRefCount();
-	}
-	virtual void Release(StarSystem *o) {
-		o->DecRefCount();
-	}
 };
 
 
@@ -220,6 +213,7 @@ public:
 	}
 
 protected:
+	// hook up the appropriate acquirer for the wrapped object.
 	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::Acquire(dynamic_cast<T*>(o)); }
 	virtual void Release(DeleteEmitter *o) { this->LuaAcquirer<T>::Release(dynamic_cast<T*>(o)); }
 
@@ -277,6 +271,24 @@ public:
 };
 
 
+// this is a specialisation for the starsystem acquirer. it modifies the
+// refcount so that it doesn't get removed from the system cache while we're
+// using it
+#include "StarSystem.h"
+
+template <>
+class LuaAcquirer<StarSystem> {
+public:
+	virtual void Acquire(StarSystem *o) {
+		o->IncRefCount();
+	}
+	virtual void Release(StarSystem *o) {
+		o->DecRefCount();
+	}
+};
+
+
+
 // these are push/pull functions to provide a consistent interface for
 // primitive types
 namespace LuaString {
@@ -330,6 +342,7 @@ namespace LuaBool {
 	}
 };
 
+
 // define types for the interesting classes
 class Body;
 typedef LuaObject<Body> LuaBody;
@@ -349,14 +362,9 @@ typedef LuaObject<Star> LuaStar;
 class Player;
 typedef LuaObject<Player> LuaPlayer;
 
-class SBodyPath;
-typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
-
-
-class StarSystem;
 typedef LuaObject<StarSystem> LuaStarSystem;
 
-
-
+class SBodyPath;
+typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
 
 #endif

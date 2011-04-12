@@ -186,7 +186,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	LUA_DEBUG_END(l, 1);
 }
 
-DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
+DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -204,14 +204,14 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *want_type)
 
 	LUA_DEBUG_END(l, 0);
 
-	if (!lo->Isa(want_type))
-		Error("Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, want_type);
+	if (!lo->Isa(type))
+		Error("Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
 
 	// found it
 	return lo->m_object;
 }
 
-bool LuaObjectBase::Isa(const char *want_type) const
+bool LuaObjectBase::Isa(const char *type) const
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
@@ -221,7 +221,7 @@ bool LuaObjectBase::Isa(const char *want_type) const
  
 	// look for the type. we walk up the inheritance chain looking to see if
 	// the passed object is a subclass of the wanted type
-	while (strcmp(current_type, want_type) != 0) {
+	while (strcmp(current_type, type) != 0) {
 		// no match, up we go
 
 		// get the method table for the current type
