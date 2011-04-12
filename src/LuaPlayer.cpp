@@ -151,16 +151,18 @@ static int l_player_get_mission(lua_State *l)
 }
 
 template <> const char *LuaObject<Player>::s_type = "Player";
-template <> const char *LuaObject<Player>::s_inherit = "Ship";
 
-template <> const luaL_reg LuaObject<Player>::s_methods[] = {
-	{ "AddMission",    l_player_add_mission    },
-	{ "UpdateMission", l_player_update_mission },
-	{ "RemoveMission", l_player_remove_mission },
-	{ "GetMission",    l_player_get_mission    },
-	{ 0, 0 }
-};
+template <> void LuaObject<Player>::RegisterClass()
+{
+	static const char *l_inherit = "Ship";
 
-template <> const luaL_reg LuaObject<Player>::s_meta[] = {
-	{ 0, 0 }
-};
+	static const luaL_reg l_methods[] = {
+		{ "AddMission",    l_player_add_mission    },
+		{ "UpdateMission", l_player_update_mission },
+		{ "RemoveMission", l_player_remove_mission },
+		{ "GetMission",    l_player_get_mission    },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
+}

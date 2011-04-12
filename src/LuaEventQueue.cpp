@@ -154,14 +154,14 @@ int LuaEventQueueBase::l_disconnect(lua_State *l)
 }
 
 template <> const char *LuaObject<LuaEventQueueBase>::s_type = "EventQueue";
-template <> const char *LuaObject<LuaEventQueueBase>::s_inherit = NULL;
 
-template <> const luaL_reg LuaObject<LuaEventQueueBase>::s_methods[] = {
-	{ "Connect",    LuaEventQueueBase::l_connect    },
-	{ "Disconnect", LuaEventQueueBase::l_disconnect },
-	{ 0, 0 }
-};
+template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
+{
+	static const luaL_reg l_methods[] = {
+		{ "Connect",    LuaEventQueueBase::l_connect    },
+		{ "Disconnect", LuaEventQueueBase::l_disconnect },
+		{ 0, 0 }
+	};
 
-template <> const luaL_reg LuaObject<LuaEventQueueBase>::s_meta[] = {
-	{ 0, 0 }
-};
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+}

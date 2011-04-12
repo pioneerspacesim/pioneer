@@ -117,7 +117,7 @@ protected:
 
 	// creates a class in the lua vm with the given name and attaches the
 	// listed methods to it and the listed metamethods to its metaclass
-	static void CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[]);
+	static void CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *meta);
 
 	// create an object wrapper. it gets added to the registry then a new lua
 	// object is created for it and pushed onto the lua stack type is the lua
@@ -184,9 +184,7 @@ class LuaObject : public LuaObjectBase {
 public:
 
 	// registers the class with the lua vm
-	static inline void RegisterClass() {
-		CreateClass(s_type, s_inherit, s_methods, s_meta);
-	};
+	static void RegisterClass();
 
 	// wrap the object and push it onto the lua stack
 	static inline void PushToLua(T *o) {
@@ -208,12 +206,9 @@ public:
 private:
 	LuaObject(T *o) : LuaObjectBase(o, s_type) {}
 
-	// lua type string, optional parent type, method table and metamethod
-	// table. these are defined per wrapper class in the appropriate .cpp file
+	// lua type string. this is defined per wrapper class in the appropriate
+    // .cpp file
 	static const char *s_type;
-	static const char *s_inherit;
-	static const luaL_reg s_methods[];
-	static const luaL_reg s_meta[];
 };
 
 
@@ -225,9 +220,7 @@ template <>
 class LuaObject<StarSystem> : public LuaObjectBase {
 public:
 	// registers the class with the lua vm
-	static inline void RegisterClass() {
-		CreateClass(s_type, s_inherit, s_methods, s_meta);
-	};
+	static void RegisterClass();
 
 	// wrap the object and push it onto the lua stack
 	static inline void PushToLua(StarSystem *o) {
@@ -259,12 +252,9 @@ protected:
 private:
 	LuaObject<StarSystem>(StarSystem *o) : LuaObjectBase(o, s_type) {}
 
-	// lua type string, optional parent type, method table and metamethod
-	// table. these are defined per wrapper class in the appropriate .cpp file
+	// lua type string. this is defined per wrapper class in the appropriate
+    // .cpp file
 	static const char *s_type;
-	static const char *s_inherit;
-	static const luaL_reg s_methods[];
-	static const luaL_reg s_meta[];
 };
 
 

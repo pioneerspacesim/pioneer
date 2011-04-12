@@ -124,21 +124,21 @@ static int l_starsystem_get_random_starport_near_but_not_in(lua_State *l)
 	return 0;
 }
 
-const char *LuaStarSystem::s_type = "StarSystem";
-const char *LuaStarSystem::s_inherit = NULL;
+const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
-const luaL_reg LuaStarSystem::s_methods[] = {
-	{ "GetName",                          l_starsystem_get_name                             },
-	{ "GetLawlessness",                   l_starsystem_get_lawlessness                      },
-	{ "GetPopulation",                    l_starsystem_get_population                       },
-	{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
-	{ "GetRandomStarport",                l_starsystem_get_random_starport                  },
-	{ "GetBody",                          l_starsystem_get_body                             },
-	{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
-	{ "GetRandomStarportNearButNotIn",    l_starsystem_get_random_starport_near_but_not_in  },
-	{ 0, 0 }
-};
+void LuaObject<StarSystem>::RegisterClass()
+{
+	static const luaL_reg l_methods[] = {
+		{ "GetName",                          l_starsystem_get_name                             },
+		{ "GetLawlessness",                   l_starsystem_get_lawlessness                      },
+		{ "GetPopulation",                    l_starsystem_get_population                       },
+		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
+		{ "GetRandomStarport",                l_starsystem_get_random_starport                  },
+		{ "GetBody",                          l_starsystem_get_body                             },
+		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
+		{ "GetRandomStarportNearButNotIn",    l_starsystem_get_random_starport_near_but_not_in  },
+		{ 0, 0 }
+	};
 
-const luaL_reg LuaStarSystem::s_meta[] = {
-	{ 0, 0 }
-};
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+}

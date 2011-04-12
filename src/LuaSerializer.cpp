@@ -398,13 +398,13 @@ int LuaSerializer::l_register(lua_State *l)
 }
 
 template <> const char *LuaObject<LuaSerializer>::s_type = "Serializer";
-template <> const char *LuaObject<LuaSerializer>::s_inherit = NULL;
 
-template <> const luaL_reg LuaObject<LuaSerializer>::s_methods[] = {
-	{ "Register", LuaSerializer::l_register },
-	{ 0, 0 }
-};
+template <> void LuaObject<LuaSerializer>::RegisterClass()
+{
+	static const luaL_reg l_methods[] = {
+		{ "Register", LuaSerializer::l_register },
+		{ 0, 0 }
+	};
 
-template <> const luaL_reg LuaObject<LuaSerializer>::s_meta[] = {
-	{ 0, 0 }
-};
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+}

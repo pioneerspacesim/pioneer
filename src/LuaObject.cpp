@@ -50,8 +50,14 @@ int LuaObjectBase::GC(lua_State *l)
 	return 0;
 }
 
-void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg methods[], const luaL_reg meta[])
+static const luaL_reg no_methods[] = {
+	{ 0, 0 }
+};
+
+void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *meta)
 {
+	assert(type);
+
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
 	LUA_DEBUG_START(l);
@@ -76,12 +82,12 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_pop(l, 1);
 
 	// create table, attach methods to it, leave it on the stack
-	luaL_register(l, type, methods);
+	luaL_register(l, type, methods ? methods : no_methods);
 
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
 	// attach metamethods to it
-	luaL_register(l, 0, meta);
+	if (meta) luaL_register(l, 0, meta);
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");

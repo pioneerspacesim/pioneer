@@ -131,28 +131,30 @@ static int l_ship_ai_do_journey(lua_State *l)
 }
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
-template <> const char *LuaObject<Ship>::s_inherit = "Body";
 
-template <> const luaL_reg LuaObject<Ship>::s_methods[] = {
-	{ "GetStats", l_ship_get_stats },
+template <> void LuaObject<Ship>::RegisterClass()
+{
+	static const char *l_inherit = "Body";
 
-	{ "GetMoney", l_ship_get_money },
-	{ "SetMoney", l_ship_set_money },
-	{ "AddMoney", l_ship_add_money },
+	static const luaL_reg l_methods[] = {
+		{ "GetStats", l_ship_get_stats },
 
-	{ "GetDockedWith", l_ship_get_docked_with },
+		{ "GetMoney", l_ship_get_money },
+		{ "SetMoney", l_ship_set_money },
+		{ "AddMoney", l_ship_add_money },
 
-	{ "AiDoKill",        l_ship_ai_do_kill        },
-	{ "AiDoFlyto",       l_ship_ai_do_flyto       },
-	{ "AiDoDock",        l_ship_ai_do_dock        },
-	{ "AiDoLoworbit",    l_ship_ai_do_loworbit    },
-	{ "AiDoMediumorbit", l_ship_ai_do_mediumorbit },
-	{ "AiDoHighorbit",   l_ship_ai_do_highorbit   },
-	{ "AiDoJourney",     l_ship_ai_do_journey     },
+		{ "GetDockedWith", l_ship_get_docked_with },
 
-	{ 0, 0 }
-};
+		{ "AiDoKill",        l_ship_ai_do_kill        },
+		{ "AiDoFlyto",       l_ship_ai_do_flyto       },
+		{ "AiDoDock",        l_ship_ai_do_dock        },
+		{ "AiDoLoworbit",    l_ship_ai_do_loworbit    },
+		{ "AiDoMediumorbit", l_ship_ai_do_mediumorbit },
+		{ "AiDoHighorbit",   l_ship_ai_do_highorbit   },
+		{ "AiDoJourney",     l_ship_ai_do_journey     },
 
-template <> const luaL_reg LuaObject<Ship>::s_meta[] = {
-	{ 0, 0 }
-};
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
+}

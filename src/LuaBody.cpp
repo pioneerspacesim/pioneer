@@ -41,15 +41,15 @@ static int l_body_get_path(lua_State *l)
 }
 
 template <> const char *LuaObject<Body>::s_type = "Body";
-template <> const char *LuaObject<Body>::s_inherit = NULL;
 
-template <> const luaL_reg LuaObject<Body>::s_methods[] = {
-	{ "GetLabel", l_body_get_label },
-	{ "GetSeed",  l_body_get_seed  },
-	{ "GetPath",  l_body_get_path  },
-	{ 0, 0 }
-};
+template <> void LuaObject<Body>::RegisterClass()
+{
+	static luaL_reg l_methods[] = {
+		{ "GetLabel", l_body_get_label },
+		{ "GetSeed",  l_body_get_seed  },
+		{ "GetPath",  l_body_get_path  },
+		{ 0, 0 }
+	};
 
-template <> const luaL_reg LuaObject<Body>::s_meta[] = {
-	{ 0, 0 }
-};
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+}

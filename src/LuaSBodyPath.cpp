@@ -43,17 +43,21 @@ static int l_sbodypath_meta_eq(lua_State *l)
 }
 
 template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SBodyPath";
-template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_inherit = NULL;
 
-template <> const luaL_reg LuaObject<LuaUncopyable<SBodyPath> >::s_methods[] = {
-	{ "GetSectorX",    l_sbodypath_get_sector_x    },
-	{ "GetSectorY",    l_sbodypath_get_sector_y    },
-	{ "GetSystemName", l_sbodypath_get_system_name },
-	{ "GetBodyName",   l_sbodypath_get_body_name   },
-	{ 0, 0 }
-};
+template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
+{
+	static const luaL_reg l_methods[] = {
+		{ "GetSectorX",    l_sbodypath_get_sector_x    },
+		{ "GetSectorY",    l_sbodypath_get_sector_y    },
+		{ "GetSystemName", l_sbodypath_get_system_name },
+		{ "GetBodyName",   l_sbodypath_get_body_name   },
+		{ 0, 0 }
+	};
 
-template <> const luaL_reg LuaObject<LuaUncopyable<SBodyPath> >::s_meta[] = {
-	{ "__eq", l_sbodypath_meta_eq },
-	{ 0, 0 }
-};
+	static const luaL_reg l_meta[] = {
+		{ "__eq", l_sbodypath_meta_eq },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_meta);
+}

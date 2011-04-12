@@ -429,21 +429,21 @@ static int l_luachatform_remove_advert_on_close(lua_State *l)
 }
 
 template <> const char *LuaObject<LuaChatForm>::s_type = "ChatForm";
-template <> const char *LuaObject<LuaChatForm>::s_inherit = NULL;
 
-template <> const luaL_reg LuaObject<LuaChatForm>::s_methods[] = {
-	{ "Clear",               l_luachatform_clear                         },
-	{ "SetTitle",            l_luachatform_set_title                     },
-	{ "SetMessage",          l_luachatform_set_message                   },
-	{ "AddOption",           l_luachatform_add_option                    },
-	{ "AddGoodsTrader",      LuaChatForm::l_luachatform_add_goods_trader },
-	{ "Close",               l_luachatform_close                         },
-	{ "Refresh",             l_luachatform_refresh                       },
-	{ "GotoPolice",          l_luachatform_goto_police                   },
-    { "RemoveAdvertOnClose", l_luachatform_remove_advert_on_close        },
-	{ 0, 0 }
-};
+template <> void LuaObject<LuaChatForm>::RegisterClass()
+{
+	static const luaL_reg l_methods[] = {
+		{ "Clear",               l_luachatform_clear                         },
+		{ "SetTitle",            l_luachatform_set_title                     },
+		{ "SetMessage",          l_luachatform_set_message                   },
+		{ "AddOption",           l_luachatform_add_option                    },
+		{ "AddGoodsTrader",      LuaChatForm::l_luachatform_add_goods_trader },
+		{ "Close",               l_luachatform_close                         },
+		{ "Refresh",             l_luachatform_refresh                       },
+		{ "GotoPolice",          l_luachatform_goto_police                   },
+		{ "RemoveAdvertOnClose", l_luachatform_remove_advert_on_close        },
+		{ 0, 0 }
+	};
 
-template <> const luaL_reg LuaObject<LuaChatForm>::s_meta[] = {
-	{ 0, 0 }
-};
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+}
