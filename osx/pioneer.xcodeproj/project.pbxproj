@@ -63,37 +63,6 @@
 		4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */; };
 		4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */; };
 		4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7313532FC300FDD53F /* LmrModel.cpp */; };
-		4A6C4E0913532FC300FDD53F /* lapi.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7713532FC300FDD53F /* lapi.Po */; };
-		4A6C4E0A13532FC300FDD53F /* lauxlib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7813532FC300FDD53F /* lauxlib.Po */; };
-		4A6C4E0B13532FC300FDD53F /* lbaselib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7913532FC300FDD53F /* lbaselib.Po */; };
-		4A6C4E0C13532FC300FDD53F /* lcode.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7A13532FC300FDD53F /* lcode.Po */; };
-		4A6C4E0D13532FC300FDD53F /* ldblib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7B13532FC300FDD53F /* ldblib.Po */; };
-		4A6C4E0E13532FC300FDD53F /* ldebug.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7C13532FC300FDD53F /* ldebug.Po */; };
-		4A6C4E0F13532FC300FDD53F /* ldo.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7D13532FC300FDD53F /* ldo.Po */; };
-		4A6C4E1013532FC300FDD53F /* ldump.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7E13532FC300FDD53F /* ldump.Po */; };
-		4A6C4E1113532FC300FDD53F /* lfunc.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7F13532FC300FDD53F /* lfunc.Po */; };
-		4A6C4E1213532FC300FDD53F /* lgc.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8013532FC300FDD53F /* lgc.Po */; };
-		4A6C4E1313532FC300FDD53F /* linit.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8113532FC300FDD53F /* linit.Po */; };
-		4A6C4E1413532FC300FDD53F /* liolib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8213532FC300FDD53F /* liolib.Po */; };
-		4A6C4E1513532FC300FDD53F /* llex.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8313532FC300FDD53F /* llex.Po */; };
-		4A6C4E1613532FC300FDD53F /* lmathlib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8413532FC300FDD53F /* lmathlib.Po */; };
-		4A6C4E1713532FC300FDD53F /* lmem.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8513532FC300FDD53F /* lmem.Po */; };
-		4A6C4E1813532FC300FDD53F /* loadlib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8613532FC300FDD53F /* loadlib.Po */; };
-		4A6C4E1913532FC300FDD53F /* lobject.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8713532FC300FDD53F /* lobject.Po */; };
-		4A6C4E1A13532FC300FDD53F /* lopcodes.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8813532FC300FDD53F /* lopcodes.Po */; };
-		4A6C4E1B13532FC300FDD53F /* loslib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8913532FC300FDD53F /* loslib.Po */; };
-		4A6C4E1C13532FC300FDD53F /* lparser.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8A13532FC300FDD53F /* lparser.Po */; };
-		4A6C4E1D13532FC300FDD53F /* lstate.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8B13532FC300FDD53F /* lstate.Po */; };
-		4A6C4E1E13532FC300FDD53F /* lstring.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8C13532FC300FDD53F /* lstring.Po */; };
-		4A6C4E1F13532FC300FDD53F /* lstrlib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8D13532FC300FDD53F /* lstrlib.Po */; };
-		4A6C4E2013532FC300FDD53F /* ltable.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8E13532FC300FDD53F /* ltable.Po */; };
-		4A6C4E2113532FC300FDD53F /* ltablib.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C8F13532FC300FDD53F /* ltablib.Po */; };
-		4A6C4E2213532FC300FDD53F /* ltm.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9013532FC300FDD53F /* ltm.Po */; };
-		4A6C4E2313532FC300FDD53F /* luac.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9113532FC300FDD53F /* luac.Po */; };
-		4A6C4E2413532FC300FDD53F /* lundump.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9213532FC300FDD53F /* lundump.Po */; };
-		4A6C4E2513532FC300FDD53F /* lvm.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9313532FC300FDD53F /* lvm.Po */; };
-		4A6C4E2613532FC300FDD53F /* lzio.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9413532FC300FDD53F /* lzio.Po */; };
-		4A6C4E2713532FC300FDD53F /* print.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9513532FC300FDD53F /* print.Po */; };
 		4A6C4E2813532FC300FDD53F /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9613532FC300FDD53F /* lapi.c */; };
 		4A6C4E2913532FC300FDD53F /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9813532FC300FDD53F /* lauxlib.c */; };
 		4A6C4E2A13532FC300FDD53F /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C9A13532FC300FDD53F /* lbaselib.c */; };
@@ -120,21 +89,12 @@
 		4A6C4E3F13532FC300FDD53F /* ltable.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CBC13532FC300FDD53F /* ltable.c */; };
 		4A6C4E4013532FC300FDD53F /* ltablib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CBE13532FC300FDD53F /* ltablib.c */; };
 		4A6C4E4113532FC300FDD53F /* ltm.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CBF13532FC300FDD53F /* ltm.c */; };
-		4A6C4E4213532FC300FDD53F /* lua.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CC113532FC300FDD53F /* lua.c */; };
-		4A6C4E4313532FC300FDD53F /* luac.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CC313532FC300FDD53F /* luac.c */; };
 		4A6C4E4413532FC300FDD53F /* lundump.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CC613532FC300FDD53F /* lundump.c */; };
 		4A6C4E4513532FC300FDD53F /* lvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CC813532FC300FDD53F /* lvm.c */; };
 		4A6C4E4613532FC300FDD53F /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CCA13532FC300FDD53F /* lzio.c */; };
-		4A6C4E4713532FC300FDD53F /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CCC13532FC300FDD53F /* Makefile */; };
-		4A6C4E4813532FC300FDD53F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CCD13532FC300FDD53F /* Makefile.am */; };
-		4A6C4E4913532FC300FDD53F /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CCE13532FC300FDD53F /* Makefile.in */; };
 		4A6C4E4A13532FC300FDD53F /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CCF13532FC300FDD53F /* print.c */; };
 		4A6C4E4B13532FC300FDD53F /* LuaChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD013532FC300FDD53F /* LuaChatForm.cpp */; };
-		4A6C4E4C13532FC300FDD53F /* LuaModelViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD213532FC300FDD53F /* LuaModelViewer.cpp */; };
 		4A6C4E4D13532FC300FDD53F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD313532FC300FDD53F /* main.cpp */; };
-		4A6C4E4E13532FC300FDD53F /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD413532FC300FDD53F /* Makefile */; };
-		4A6C4E4F13532FC300FDD53F /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD513532FC300FDD53F /* Makefile.am */; };
-		4A6C4E5013532FC300FDD53F /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD613532FC300FDD53F /* Makefile.in */; };
 		4A6C4E5113532FC300FDD53F /* MarketAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD713532FC300FDD53F /* MarketAgent.cpp */; };
 		4A6C4E5213532FC300FDD53F /* Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CDA13532FC300FDD53F /* Missile.cpp */; };
 		4A6C4E5313532FC300FDD53F /* Mission.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CDC13532FC300FDD53F /* Mission.cpp */; };
@@ -144,16 +104,6 @@
 		4A6C4E5713532FC300FDD53F /* MyLuaMathTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE413532FC300FDD53F /* MyLuaMathTypes.cpp */; };
 		4A6C4E5813532FC300FDD53F /* NameGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE613532FC300FDD53F /* NameGenerator.cpp */; };
 		4A6C4E5913532FC300FDD53F /* ObjectViewerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */; };
-		4A6C4E5A13532FC300FDD53F /* class_from_stack.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CED13532FC300FDD53F /* class_from_stack.Po */; };
-		4A6C4E5B13532FC300FDD53F /* lua_function.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CEE13532FC300FDD53F /* lua_function.Po */; };
-		4A6C4E5C13532FC300FDD53F /* lua_stack_dump.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CEF13532FC300FDD53F /* lua_stack_dump.Po */; };
-		4A6C4E5D13532FC300FDD53F /* lua_table.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF013532FC300FDD53F /* lua_table.Po */; };
-		4A6C4E5E13532FC300FDD53F /* oolua.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF113532FC300FDD53F /* oolua.Po */; };
-		4A6C4E5F13532FC300FDD53F /* oolua_check_result.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF213532FC300FDD53F /* oolua_check_result.Po */; };
-		4A6C4E6013532FC300FDD53F /* oolua_error.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF313532FC300FDD53F /* oolua_error.Po */; };
-		4A6C4E6113532FC300FDD53F /* oolua_push_pull.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF413532FC300FDD53F /* oolua_push_pull.Po */; };
-		4A6C4E6213532FC300FDD53F /* oolua_storage.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF513532FC300FDD53F /* oolua_storage.Po */; };
-		4A6C4E6313532FC300FDD53F /* push_pointer_internal.Po in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF613532FC300FDD53F /* push_pointer_internal.Po */; };
 		4A6C4E6413532FC300FDD53F /* class_from_stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CF813532FC300FDD53F /* class_from_stack.cpp */; };
 		4A6C4E6513532FC300FDD53F /* lua_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D0013532FC300FDD53F /* lua_function.cpp */; };
 		4A6C4E6613532FC300FDD53F /* lua_stack_dump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D0513532FC300FDD53F /* lua_stack_dump.cpp */; };
@@ -196,9 +146,21 @@
 		4A6C4E8E13532FC300FDD53F /* SysLoc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6713532FC300FDD53F /* SysLoc.cpp */; };
 		4A6C4E8F13532FC300FDD53F /* SystemInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */; };
 		4A6C4E9013532FC300FDD53F /* SystemView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6B13532FC300FDD53F /* SystemView.cpp */; };
-		4A6C4E9113532FC300FDD53F /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6D13532FC300FDD53F /* tests.cpp */; };
 		4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6E13532FC300FDD53F /* utils.cpp */; };
 		4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D7213532FC300FDD53F /* WorldView.cpp */; };
+		4A6C4EA01353A94700FDD53F /* SDL_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4E9F1353A94700FDD53F /* SDL_image.framework */; };
+		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
+		4A6C4EA41354532C00FDD53F /* libsigc-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */; };
+		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
+		4A6C4EAA1354542700FDD53F /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA91354542700FDD53F /* SDL_image.framework */; };
+		4A6C4EAC135454EE00FDD53F /* libGLEW.1.5.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */; };
+		4A6C4EAE1354550900FDD53F /* libGLEW.1.5.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */; };
+		4A6C4EB6135455BB00FDD53F /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */; };
+		4A6C55151354655000FDD53F /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
+		4A6C551713546D3C00FDD53F /* SDL_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C551613546D3C00FDD53F /* SDL_mixer.framework */; };
+		4A6C551B13546F0D00FDD53F /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C551A13546F0D00FDD53F /* libfreetype.a */; };
+		4A6C551F1354743A00FDD53F /* pioneer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C551E1354743A00FDD53F /* pioneer-logo.png */; };
+		4A6C55211354745D00FDD53F /* pioneer-logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C551E1354743A00FDD53F /* pioneer-logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -208,7 +170,31 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4A6C551713546D3C00FDD53F /* SDL_mixer.framework in CopyFiles */,
+				4A6C4EAE1354550900FDD53F /* libGLEW.1.5.8.dylib in CopyFiles */,
+				4A6C4EA41354532C00FDD53F /* libsigc-2.0.0.dylib in CopyFiles */,
+				4A6C4EA01353A94700FDD53F /* SDL_image.framework in CopyFiles */,
 				4A20B10313531B430020F43E /* SDL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A6C4EB71354649D00FDD53F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				4A6C55151354655000FDD53F /* data in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A6C55201354744300FDD53F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				4A6C55211354745D00FDD53F /* pioneer-logo.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,17 +411,11 @@
 		4A6C4CC913532FC300FDD53F /* lvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lvm.h; sourceTree = "<group>"; };
 		4A6C4CCA13532FC300FDD53F /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzio.c; sourceTree = "<group>"; };
 		4A6C4CCB13532FC300FDD53F /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzio.h; sourceTree = "<group>"; };
-		4A6C4CCC13532FC300FDD53F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		4A6C4CCD13532FC300FDD53F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		4A6C4CCE13532FC300FDD53F /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
 		4A6C4CCF13532FC300FDD53F /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
 		4A6C4CD013532FC300FDD53F /* LuaChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaChatForm.cpp; sourceTree = "<group>"; };
 		4A6C4CD113532FC300FDD53F /* LuaChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaChatForm.h; sourceTree = "<group>"; };
 		4A6C4CD213532FC300FDD53F /* LuaModelViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaModelViewer.cpp; sourceTree = "<group>"; };
 		4A6C4CD313532FC300FDD53F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		4A6C4CD413532FC300FDD53F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		4A6C4CD513532FC300FDD53F /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		4A6C4CD613532FC300FDD53F /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
 		4A6C4CD713532FC300FDD53F /* MarketAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MarketAgent.cpp; sourceTree = "<group>"; };
 		4A6C4CD813532FC300FDD53F /* MarketAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarketAgent.h; sourceTree = "<group>"; };
 		4A6C4CD913532FC300FDD53F /* matrix4x4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix4x4.h; sourceTree = "<group>"; };
@@ -588,6 +568,20 @@
 		4A6C4D7113532FC300FDD53F /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 		4A6C4D7213532FC300FDD53F /* WorldView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldView.cpp; sourceTree = "<group>"; };
 		4A6C4D7313532FC300FDD53F /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
+		4A6C4E9D1353A92A00FDD53F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_image.framework; sourceTree = DEVELOPER_DIR; };
+		4A6C4E9F1353A94700FDD53F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = ../../../../../Library/Frameworks/SDL_image.framework; sourceTree = "<group>"; };
+		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
+		4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "../../../../../opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<group>"; };
+		4A6C4EA7135453E400FDD53F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		4A6C4EA91354542700FDD53F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_image.framework; sourceTree = DEVELOPER_DIR; };
+		4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.5.8.dylib; path = /opt/local/lib/libGLEW.1.5.8.dylib; sourceTree = "<absolute>"; };
+		4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.5.8.dylib; path = ../../../../../opt/local/lib/libGLEW.1.5.8.dylib; sourceTree = "<group>"; };
+		4A6C4EB11354556500FDD53F /* libfreetype.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.dylib; path = SDKs/MacOSX10.6.sdk/usr/local/lib/libfreetype.dylib; sourceTree = DEVELOPER_DIR; };
+		4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_mixer.framework; sourceTree = DEVELOPER_DIR; };
+		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
+		4A6C551613546D3C00FDD53F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = ../../../../../Library/Frameworks/SDL_mixer.framework; sourceTree = "<group>"; };
+		4A6C551A13546F0D00FDD53F /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../opt/local/lib/libfreetype.a; sourceTree = "<group>"; };
+		4A6C551E1354743A00FDD53F /* pioneer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pioneer-logo.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -595,6 +589,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A6C551B13546F0D00FDD53F /* libfreetype.a in Frameworks */,
+				4A6C4EB6135455BB00FDD53F /* SDL_mixer.framework in Frameworks */,
+				4A6C4EAC135454EE00FDD53F /* libGLEW.1.5.8.dylib in Frameworks */,
+				4A6C4EAA1354542700FDD53F /* SDL_image.framework in Frameworks */,
+				4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */,
+				4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */,
 				4A20B100135319FB0020F43E /* SDL.framework in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
 			);
@@ -606,9 +606,16 @@
 		4A20B0CE1353194B0020F43E = {
 			isa = PBXGroup;
 			children = (
+				4A6C551A13546F0D00FDD53F /* libfreetype.a */,
+				4A6C55141354655000FDD53F /* data */,
+				4A6C4EB11354556500FDD53F /* libfreetype.dylib */,
+				4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */,
 				4A6C4B9F13532FC300FDD53F /* src */,
 				4A20B11213531CAF0020F43E /* Cocoa Support Files */,
+				4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */,
+				4A6C551613546D3C00FDD53F /* SDL_mixer.framework */,
 				4A20B10213531B430020F43E /* SDL.framework */,
+				4A6C4E9F1353A94700FDD53F /* SDL_image.framework */,
 				4A20B0E1135319770020F43E /* Frameworks */,
 				4A20B0DF135319770020F43E /* Products */,
 			);
@@ -625,6 +632,12 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */,
+				4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */,
+				4A6C4EA91354542700FDD53F /* SDL_image.framework */,
+				4A6C4EA7135453E400FDD53F /* OpenGL.framework */,
+				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
+				4A6C4E9D1353A92A00FDD53F /* SDL_image.framework */,
 				4A20B0FF135319FB0020F43E /* SDL.framework */,
 				4A20B0E2135319770020F43E /* Cocoa.framework */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
@@ -645,6 +658,7 @@
 		4A20B11213531CAF0020F43E /* Cocoa Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				4A6C551E1354743A00FDD53F /* pioneer-logo.png */,
 				4A20B10D13531C040020F43E /* main.cpp */,
 				4A20B11F13531E950020F43E /* SDLMain.nib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
@@ -766,9 +780,6 @@
 				4A6C4CD113532FC300FDD53F /* LuaChatForm.h */,
 				4A6C4CD213532FC300FDD53F /* LuaModelViewer.cpp */,
 				4A6C4CD313532FC300FDD53F /* main.cpp */,
-				4A6C4CD413532FC300FDD53F /* Makefile */,
-				4A6C4CD513532FC300FDD53F /* Makefile.am */,
-				4A6C4CD613532FC300FDD53F /* Makefile.in */,
 				4A6C4CD713532FC300FDD53F /* MarketAgent.cpp */,
 				4A6C4CD813532FC300FDD53F /* MarketAgent.h */,
 				4A6C4CD913532FC300FDD53F /* matrix4x4.h */,
@@ -942,9 +953,6 @@
 				4A6C4CC913532FC300FDD53F /* lvm.h */,
 				4A6C4CCA13532FC300FDD53F /* lzio.c */,
 				4A6C4CCB13532FC300FDD53F /* lzio.h */,
-				4A6C4CCC13532FC300FDD53F /* Makefile */,
-				4A6C4CCD13532FC300FDD53F /* Makefile.am */,
-				4A6C4CCE13532FC300FDD53F /* Makefile.in */,
 				4A6C4CCF13532FC300FDD53F /* print.c */,
 			);
 			path = lua;
@@ -1074,6 +1082,8 @@
 				4A20B0DB135319770020F43E /* Frameworks */,
 				4A20B0DC135319770020F43E /* Resources */,
 				4A20B10113531B0F0020F43E /* CopyFiles */,
+				4A6C4EB71354649D00FDD53F /* CopyFiles */,
+				4A6C55201354744300FDD53F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1114,51 +1124,7 @@
 				4A20B11C13531CD10020F43E /* Credits.rtf in Resources */,
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
 				4A20B12013531E950020F43E /* SDLMain.nib in Resources */,
-				4A6C4E0913532FC300FDD53F /* lapi.Po in Resources */,
-				4A6C4E0A13532FC300FDD53F /* lauxlib.Po in Resources */,
-				4A6C4E0B13532FC300FDD53F /* lbaselib.Po in Resources */,
-				4A6C4E0C13532FC300FDD53F /* lcode.Po in Resources */,
-				4A6C4E0D13532FC300FDD53F /* ldblib.Po in Resources */,
-				4A6C4E0E13532FC300FDD53F /* ldebug.Po in Resources */,
-				4A6C4E0F13532FC300FDD53F /* ldo.Po in Resources */,
-				4A6C4E1013532FC300FDD53F /* ldump.Po in Resources */,
-				4A6C4E1113532FC300FDD53F /* lfunc.Po in Resources */,
-				4A6C4E1213532FC300FDD53F /* lgc.Po in Resources */,
-				4A6C4E1313532FC300FDD53F /* linit.Po in Resources */,
-				4A6C4E1413532FC300FDD53F /* liolib.Po in Resources */,
-				4A6C4E1513532FC300FDD53F /* llex.Po in Resources */,
-				4A6C4E1613532FC300FDD53F /* lmathlib.Po in Resources */,
-				4A6C4E1713532FC300FDD53F /* lmem.Po in Resources */,
-				4A6C4E1813532FC300FDD53F /* loadlib.Po in Resources */,
-				4A6C4E1913532FC300FDD53F /* lobject.Po in Resources */,
-				4A6C4E1A13532FC300FDD53F /* lopcodes.Po in Resources */,
-				4A6C4E1B13532FC300FDD53F /* loslib.Po in Resources */,
-				4A6C4E1C13532FC300FDD53F /* lparser.Po in Resources */,
-				4A6C4E1D13532FC300FDD53F /* lstate.Po in Resources */,
-				4A6C4E1E13532FC300FDD53F /* lstring.Po in Resources */,
-				4A6C4E1F13532FC300FDD53F /* lstrlib.Po in Resources */,
-				4A6C4E2013532FC300FDD53F /* ltable.Po in Resources */,
-				4A6C4E2113532FC300FDD53F /* ltablib.Po in Resources */,
-				4A6C4E2213532FC300FDD53F /* ltm.Po in Resources */,
-				4A6C4E2313532FC300FDD53F /* luac.Po in Resources */,
-				4A6C4E2413532FC300FDD53F /* lundump.Po in Resources */,
-				4A6C4E2513532FC300FDD53F /* lvm.Po in Resources */,
-				4A6C4E2613532FC300FDD53F /* lzio.Po in Resources */,
-				4A6C4E2713532FC300FDD53F /* print.Po in Resources */,
-				4A6C4E4813532FC300FDD53F /* Makefile.am in Resources */,
-				4A6C4E4913532FC300FDD53F /* Makefile.in in Resources */,
-				4A6C4E4F13532FC300FDD53F /* Makefile.am in Resources */,
-				4A6C4E5013532FC300FDD53F /* Makefile.in in Resources */,
-				4A6C4E5A13532FC300FDD53F /* class_from_stack.Po in Resources */,
-				4A6C4E5B13532FC300FDD53F /* lua_function.Po in Resources */,
-				4A6C4E5C13532FC300FDD53F /* lua_stack_dump.Po in Resources */,
-				4A6C4E5D13532FC300FDD53F /* lua_table.Po in Resources */,
-				4A6C4E5E13532FC300FDD53F /* oolua.Po in Resources */,
-				4A6C4E5F13532FC300FDD53F /* oolua_check_result.Po in Resources */,
-				4A6C4E6013532FC300FDD53F /* oolua_error.Po in Resources */,
-				4A6C4E6113532FC300FDD53F /* oolua_push_pull.Po in Resources */,
-				4A6C4E6213532FC300FDD53F /* oolua_storage.Po in Resources */,
-				4A6C4E6313532FC300FDD53F /* push_pointer_internal.Po in Resources */,
+				4A6C551F1354743A00FDD53F /* pioneer-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1245,17 +1211,12 @@
 				4A6C4E3F13532FC300FDD53F /* ltable.c in Sources */,
 				4A6C4E4013532FC300FDD53F /* ltablib.c in Sources */,
 				4A6C4E4113532FC300FDD53F /* ltm.c in Sources */,
-				4A6C4E4213532FC300FDD53F /* lua.c in Sources */,
-				4A6C4E4313532FC300FDD53F /* luac.c in Sources */,
 				4A6C4E4413532FC300FDD53F /* lundump.c in Sources */,
 				4A6C4E4513532FC300FDD53F /* lvm.c in Sources */,
 				4A6C4E4613532FC300FDD53F /* lzio.c in Sources */,
-				4A6C4E4713532FC300FDD53F /* Makefile in Sources */,
 				4A6C4E4A13532FC300FDD53F /* print.c in Sources */,
 				4A6C4E4B13532FC300FDD53F /* LuaChatForm.cpp in Sources */,
-				4A6C4E4C13532FC300FDD53F /* LuaModelViewer.cpp in Sources */,
 				4A6C4E4D13532FC300FDD53F /* main.cpp in Sources */,
-				4A6C4E4E13532FC300FDD53F /* Makefile in Sources */,
 				4A6C4E5113532FC300FDD53F /* MarketAgent.cpp in Sources */,
 				4A6C4E5213532FC300FDD53F /* Missile.cpp in Sources */,
 				4A6C4E5313532FC300FDD53F /* Mission.cpp in Sources */,
@@ -1307,7 +1268,6 @@
 				4A6C4E8E13532FC300FDD53F /* SysLoc.cpp in Sources */,
 				4A6C4E8F13532FC300FDD53F /* SystemInfoView.cpp in Sources */,
 				4A6C4E9013532FC300FDD53F /* SystemView.cpp in Sources */,
-				4A6C4E9113532FC300FDD53F /* tests.cpp in Sources */,
 				4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */,
 				4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */,
 			);
@@ -1338,12 +1298,16 @@
 		4A20B0D51353194B0020F43E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
 		4A20B0D61353194B0020F43E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -1359,13 +1323,29 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					OSX_XCODE,
+					_GNU_SOURCE,
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/opt/local/include/sigc++-2.0",
+					"/opt/local/lib/sigc++-2.0/include",
+					/opt/local/include,
+					/opt/local/include/freetype2,
+					/Library/Frameworks/SDL.framework/Headers,
+					/Library/Frameworks/SDL_image.framework/Headers,
+				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1385,12 +1365,29 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					OSX_XCODE,
+					_GNU_SOURCE,
+				);
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/opt/local/include/sigc++-2.0",
+					"/opt/local/lib/sigc++-2.0/include",
+					/opt/local/include,
+					/opt/local/include/freetype2,
+					/Library/Frameworks/SDL.framework/Headers,
+					/Library/Frameworks/SDL_image.framework/Headers,
+				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;

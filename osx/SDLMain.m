@@ -96,6 +96,9 @@ static NSString *getApplicationName(void)
         CFRelease(url);
         CFRelease(url2);
     }
+    
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    [[NSFileManager defaultManager] changeCurrentDirectoryPath:resourcePath];
 }
 
 #if SDL_USE_NIB_FILE
