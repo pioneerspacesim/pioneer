@@ -152,6 +152,10 @@ static void LuaInit()
 	LuaStarSystem::RegisterClass();
 	LuaSBodyPath::RegisterClass();
 
+	LuaVector::RegisterClass();
+	LuaMatrix::RegisterClass();
+	LuaFixed::RegisterClass();
+
 	LuaObject<LuaChatForm>::RegisterClass();
 
 	LuaObject<LuaSerializer>::RegisterClass();
