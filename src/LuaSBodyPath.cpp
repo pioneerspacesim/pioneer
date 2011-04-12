@@ -40,6 +40,15 @@ static int l_sbodypath_get_body_name(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_is_same_system(lua_State *l)
+{
+	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
+	SBodyPath *b = LuaSBodyPath::GetFromLua(2);
+
+	lua_pushboolean(l, a->sectorX == b->sectorX && a->sectorY == b->sectorY && a->systemNum == b->systemNum);
+	return 1;
+}
+
 static int l_sbodypath_meta_eq(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -59,6 +68,7 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 		{ "GetSystemIndex", l_sbodypath_get_system_index },
 		{ "GetSystemName",  l_sbodypath_get_system_name  },
 		{ "GetBodyName",    l_sbodypath_get_body_name    },
+		{ "IsSameSystem",   l_sbodypath_is_same_system   },
 		{ 0, 0 }
 	};
 
