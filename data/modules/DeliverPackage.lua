@@ -27,8 +27,8 @@ local delivery_flavours = {
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
 		danger = 0,
-		time = .25,
-		money = 1.5,
+		time = 0.4,
+		money = 2.0,
 	}, {
 		adtext = "DELIVERY. Documents to the %1 system. %2 to an experienced pilot.",
 		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 (%5, %6) system.",
@@ -36,7 +36,7 @@ local delivery_flavours = {
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
 		danger = 0.75,
-		time = 0.1,
+		time = 0.3,
 		money = 3.5,
 	}, {
 		adtext = "POSTAL SERVICE. We require a ship for the delivery run to %1 system.",
@@ -45,7 +45,7 @@ local delivery_flavours = {
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Your ship registration has been noted, we will reject all further applications for work from you.",
 		danger = 0.1,
-		time = 1.5,
+		time = 2.5,
 		money = 1,
 	}, {
 		adtext = "MEETING. I have contacts in the %1 system. %2 for an enlightened pilot.",
@@ -54,7 +54,7 @@ local delivery_flavours = {
 		successmsg = "Payment has been received in full. Don't call us, we'll call you!",
 		failuremsg = "You are too late and have missed the meeting, better keep your money instead.",
 		danger = 1,
-		time = 0.1,
+		time = 0.22,
 		money = -5,
 	}
 }
