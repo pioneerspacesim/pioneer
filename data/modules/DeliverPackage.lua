@@ -159,28 +159,20 @@ local onUpdateBB = function (station)
 end
 
 local onEnterSystem = function (sys, player)
+	local syspath = sys:GetPath()
+
 	for ref,mission in pairs(missions) do
-
-		if not mission.status then
-			local here = sys:GetPath()
-
-			if here:GetSectorX() == mission.location:GetSectorX() and here:GetSectorY() == mission.location:GetSectorY() and here:GetSystemIndex()== mission.location:GetSystemIndex() then
-				print("oh you made it")
-			else
-				print("sucks")
-
-
---[[
-				local danger = delivery_flavours[mission.flavour].danger
-				if danger > 0 then
-					--ship, e = Pi.SpawnShip(Pi.GetGameTime()+60, "Ladybird Starfighter")
-					ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
-					if e == nil then
-						ship:ShipAIDoKill(Pi.GetPlayer());
-						Pi.ImportantMessage(ship:GetLabel(), _("You're going to regret dealing with %1!", {mission.client}))
-					end
+		if not mission.status and mission.location:IsSameSystem(syspath) then
+			local danger = delivery_flavours[mission.flavour].danger
+			if danger > 0 then
+				ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
+				if not e then
+					--print("DeliverPackage: spawned "..ship:GetLabel())
+					ship:AIDoKill(Pi.GetPlayer());
+					Pi.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
+				--else
+				--	print("DeliverPackage: "..e)
 				end
---]]
 			end
 		end
 	end
