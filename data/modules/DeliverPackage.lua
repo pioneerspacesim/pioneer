@@ -3,7 +3,7 @@
 local delivery_flavours = {
 	{
 		adtext = "GOING TO the {system} system? Money paid for delivery of a small package.",
-		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx, {sectory}) system.",
+		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchdoshtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
 		successmsg = "Thank you for the delivery. You have been paid in full.",
 		failuremsg = "Jesus wept, you took forever over that delivery. I'm not willing to pay you.",
