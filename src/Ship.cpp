@@ -315,7 +315,7 @@ const shipstats_t *Ship::CalcStats()
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
-			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
+			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, (m_stats.total_mass*0.6));
 			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 				(hyperclass * hyperclass));
 		}
@@ -379,11 +379,18 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		if (outStatus) *outStatus = HYPERJUMP_INSUFFICIENT_FUEL;
 		return false;
 	} else {
+		// Old comments:
 		// take at most a week. why a week? because a week is a
 		// fundamental physical unit in the same sense that the planck length
 		// is, and so it is very probable that future hyperspace
 		// technologies will involve travelling a week through time.
-		outDurationSecs = (dist / m_stats.hyperspace_range_max) * 60.0 * 60.0 * 24.0 * 7.0;
+
+		// Now mass has more of an effect on the time taken, this is mainly
+		// for gameplay considerations for courier missions and the like.
+		outDurationSecs = ((dist / m_stats.hyperspace_range_max * hyperclass) * 
+			(60.0 * 60.0 * 24.0 * m_stats.total_mass * 0.5) /
+			(hyperclass * hyperclass)) *
+			((dist * dist * dist)/2000);
 		if (outFuelRequired <= fuel) {
 			if (outStatus) *outStatus = HYPERJUMP_OK;
 			return true;
@@ -396,11 +403,15 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 void Ship::TryHyperspaceTo(const SBodyPath *dest)
 {
+	if (GetFlightState() != Ship::FLYING) return;
+
 	int fuelUsage;
 	double dur;
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	int hyperclass = EquipType::types[t].pval;
 	if (m_hyperspace.countdown) return;
 	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
-	m_hyperspace.countdown = 3.0;
+	m_hyperspace.countdown = 1 + hyperclass;
 	m_hyperspace.dest = *dest;
 }
 
@@ -722,8 +733,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWith = s;
 		m_dockedWithPort = port;
 		m_wheelState = 1.0f;
-		if (s->IsGroundStation()) m_flightState = LANDED;
-		else m_flightState = DOCKING;
+		m_flightState = LANDED;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();
