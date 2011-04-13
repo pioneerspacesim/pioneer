@@ -154,12 +154,6 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 }
 
 namespace LuaPi {
-	static int FormatDate(lua_State *l) {
-		double t = LuaFloat::GetFromLua(1);
-		std::string s = format_date(t);
-		LuaString::PushToLua(s.c_str());
-		return 1;
-	}
 	static int _spawn_ship_docked(lua_State *l, std::string type, double power, SpaceStation *station) {
 		if (ShipType::Get(type.c_str()) == 0) {
 			throw UnknownShipType();
@@ -372,8 +366,5 @@ void RegisterPiLuaAPI(lua_State *l)
 	REG_FUNC("SpawnRandomStaticShip", &LuaPi::SpawnRandomStaticShip);
 	lua_setglobal(l, "Pi");
 	
-	lua_newtable(l);
-	REG_FUNC("Format", &LuaPi::FormatDate);
-	lua_setglobal(l, "Date");
 	LUA_DEBUG_END(l, 0);
 }

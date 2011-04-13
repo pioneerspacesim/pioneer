@@ -173,6 +173,7 @@ static void LuaInit()
 	LuaGlobals::RegisterConstants(l);
 	LuaGlobals::RegisterGame();
 	LuaGlobals::RegisterUI();
+	LuaGlobals::RegisterDate();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 

@@ -12,6 +12,7 @@ namespace LuaGlobals {
 
 	void RegisterGame();
 	void RegisterUI();
+	void RegisterDate();
 }
 
 #endif
