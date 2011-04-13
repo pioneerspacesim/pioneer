@@ -9,7 +9,7 @@ local delivery_flavours = {
 		successmsg = "Thank you for the delivery. You have been paid in full.",
 		failuremsg = "Jesus wept, you took forever over that delivery. I'm not willing to pay you.",
 		danger = 0,
-		time = 3,
+		time = 1,
 		money = .5,
 	}, {
 		adtext = "WANTED. Delivery of a package to the %1 system.",
@@ -18,7 +18,7 @@ local delivery_flavours = {
 		successmsg = "The package has been received and you have been paid in full.",
 		failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
 		danger = 0,
-		time = 1,
+		time = 0.5,
 		money = 1,
 	}, {
 		adtext = "URGENT. Fast ship needed to deliver a package to the %1 system.",
@@ -27,17 +27,35 @@ local delivery_flavours = {
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
 		danger = 0,
-		time = .75,
-		money = 1.1,
+		time = 0.4,
+		money = 2.0,
 	}, {
 		adtext = "DELIVERY. Documents to the %1 system. %2 to an experienced pilot.",
 		introtext = "Hello. I'm %1. I'm willing to pay %2 for a ship to carry a package to %3 in the %4 (%5, %6) system.",
 		whysomuchdoshtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
-		danger = 0.5,
-		time = 0.75,
-		money = 2.5,
+		danger = 0.75,
+		time = 0.3,
+		money = 3.5,
+	}, {
+		adtext = "POSTAL SERVICE. We require a ship for the delivery run to %1 system.",
+		introtext = "Greetings. This is an automated message from Bedford and %1 Courier Services. We pay %2 for the run to %3 in the %4 (%5, %6) system.",
+		whysomuchdoshtext = "We would be happy to pay you less money.",
+		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
+		failuremsg = "Your ship registration has been noted, we will reject all further applications for work from you.",
+		danger = 0.1,
+		time = 2.5,
+		money = 1,
+	}, {
+		adtext = "MEETING. I have contacts in the %1 system. %2 for an enlightened pilot.",
+		introtext = "Hello. I'm %1 from the GAAM (Galactic Anti-Authoritarian Movement). For %2 I might be willing to put you in contact with some friends from %3 in the %4 system.",
+		whysomuchdoshtext = "We require payment as proof of your allegiance.",
+		successmsg = "Payment has been received in full. Don't call us, we'll call you!",
+		failuremsg = "You are too late and have missed the meeting, better keep your money instead.",
+		danger = 1,
+		time = 0.22,
+		money = -5,
 	}
 }
 
