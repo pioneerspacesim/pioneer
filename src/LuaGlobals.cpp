@@ -243,20 +243,17 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 
 static int l_game_meta_index(lua_State *l)
 {
+	if (!Pi::IsGameStarted())
+		luaL_error(l, "Can't query game state when game is not started");
+
 	const char *key = luaL_checkstring(l, 2);
 
 	if (strcmp(key, "player") == 0) {
-		if (!Pi::player)
-			luaL_error(l, "Game.player not currently available");
-
 		LuaPlayer::PushToLua(Pi::player);
 		return 1;
 	}
 
 	if (strcmp(key, "system") == 0) {
-		if (!Pi::currentSystem)
-			luaL_error(l, "Game.system not currently available");
-
 		LuaStarSystem::PushToLua(Pi::currentSystem);
 		return 1;
 	}
