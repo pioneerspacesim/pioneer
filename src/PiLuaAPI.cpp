@@ -331,13 +331,6 @@ namespace LuaPi {
 		LuaShip::PushToLua(ship);
 		return 1;
 	}
-	static int AddPlayerCrime(lua_State *l) {
-		Sint64 crimeBitset = LuaInt::GetFromLua(1);
-		double fine = LuaFloat::GetFromLua(2);
-		Sint64 _fine = (Sint64)(100.0*fine);
-		Polit::AddCrime(crimeBitset, _fine);
-		return 0;
-	}
 }
 
 #define REG_FUNC(fnname, fnptr) \
@@ -359,7 +352,6 @@ void RegisterPiLuaAPI(lua_State *l)
 #endif
 
 	lua_newtable(l);
-	REG_FUNC("AddPlayerCrime", &LuaPi::AddPlayerCrime);
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
 	REG_FUNC("SpawnRandomShip", &LuaPi::SpawnRandomShip);
 	REG_FUNC("SpawnRandomDockedShip", &LuaPi::SpawnRandomDockedShip);

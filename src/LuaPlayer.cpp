@@ -1,6 +1,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Player.h"
+#include "Polit.h"
 
 static void _mission_to_table(lua_State *l, const Mission &m)
 {
@@ -150,6 +151,16 @@ static int l_player_get_mission(lua_State *l)
 	return 1;
 }
 
+// XXX this most certainly does not belong here. it will be removed when the
+// entire polit/crime system is evicted to lua where it belongs
+static int l_player_add_crime(lua_State *l)
+{
+	Sint64 crimeBitset = luaL_checkinteger(l, 1);
+	double fine = (Sint64)(luaL_checknumber(l, 2) * 100.0);
+	Polit::AddCrime(crimeBitset, fine);
+	return 0;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -161,6 +172,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "UpdateMission", l_player_update_mission },
 		{ "RemoveMission", l_player_remove_mission },
 		{ "GetMission",    l_player_get_mission    },
+		{ "AddCrime",      l_player_add_crime      },
 		{ 0, 0 }
 	};
 

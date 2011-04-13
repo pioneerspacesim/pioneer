@@ -39,7 +39,7 @@ local onChat = function (dialog, ref, option)
 		end
 
 		local lawlessness = Game.system:GetLawlessness()
-		Pi.AddPlayerCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
+		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
 		dialog:GotoPolice()
 		return false
 	end
