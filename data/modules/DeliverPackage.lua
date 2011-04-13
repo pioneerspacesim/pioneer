@@ -174,7 +174,7 @@ local onEnterSystem = function (sys, player)
 				if not e then
 					--print("DeliverPackage: spawned "..ship:GetLabel())
 					ship:AIDoKill(Game.player)
-					Pi.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
+					UI.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
 				--else
 				--	print("DeliverPackage: "..e)
 				end
@@ -189,9 +189,9 @@ local onPlayerDocked = function (station, player)
 		if mission.location == station:GetPath() then
 
 			if Game.time > mission.due then
-				Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
+				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
 			else
-				Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
+				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
 				player:AddMoney(mission.reward)
 			end
 

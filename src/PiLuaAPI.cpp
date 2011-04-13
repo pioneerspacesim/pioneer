@@ -154,18 +154,6 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 }
 
 namespace LuaPi {
-	static int Message(lua_State *l) {
-		std::string from = LuaString::GetFromLua(1);
-		std::string msg = LuaString::GetFromLua(2);
-		Pi::cpan->MsgLog()->Message(from, msg);
-		return 0;
-	}
-	static int ImportantMessage(lua_State *l) {
-		std::string from = LuaString::GetFromLua(1);
-		std::string msg = LuaString::GetFromLua(2);
-		Pi::cpan->MsgLog()->ImportantMessage(from, msg);
-		return 0;
-	}
 	static int FormatDate(lua_State *l) {
 		double t = LuaFloat::GetFromLua(1);
 		std::string s = format_date(t);
@@ -378,8 +366,6 @@ void RegisterPiLuaAPI(lua_State *l)
 
 	lua_newtable(l);
 	REG_FUNC("AddPlayerCrime", &LuaPi::AddPlayerCrime);
-	REG_FUNC("Message", &LuaPi::Message);
-	REG_FUNC("ImportantMessage", &LuaPi::ImportantMessage);
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);
 	REG_FUNC("SpawnRandomShip", &LuaPi::SpawnRandomShip);
 	REG_FUNC("SpawnRandomDockedShip", &LuaPi::SpawnRandomDockedShip);

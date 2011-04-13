@@ -7,6 +7,7 @@
 #include "EquipType.h"
 #include "Pi.h"
 #include "Player.h"
+#include "ShipCpanel.h"
 
 static inline void _get_named_table(lua_State *l, int index, const char *name)
 {
@@ -285,5 +286,38 @@ void LuaGlobals::RegisterGame()
 
 	lua_setfield(l, LUA_GLOBALSINDEX, "Game");
 	
+	LUA_DEBUG_END(l, 0);
+}
+
+static int l_ui_message(lua_State *l)
+{
+	std::string from = luaL_checkstring(l, 1);
+	std::string msg = luaL_checkstring(l, 2);
+	Pi::cpan->MsgLog()->Message(from, msg);
+	return 0;
+}
+
+static int l_ui_important_message(lua_State *l)
+{
+	std::string from = luaL_checkstring(l, 1);
+	std::string msg = luaL_checkstring(l, 2);
+	Pi::cpan->MsgLog()->ImportantMessage(from, msg);
+	return 0;
+}
+
+void LuaGlobals::RegisterUI()
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	static const luaL_reg methods[] = {
+		{ "Message",          l_ui_message           },
+		{ "ImportantMessage", l_ui_important_message },
+		{ 0, 0 }
+	};
+
+	luaL_register(l, "UI", methods);
+
 	LUA_DEBUG_END(l, 0);
 }
