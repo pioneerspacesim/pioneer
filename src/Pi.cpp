@@ -35,7 +35,7 @@
 #include "LuaChatForm.h"
 #include "LuaManager.h"
 #include "PiLuaAPI.h"
-#include "LuaConstants.h"
+#include "LuaGlobals.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -170,7 +170,7 @@ static void LuaInit()
 	Pi::luaOnUpdateBB.RegisterEventQueue();
 
 	RegisterPiLuaAPI(l);
-	LuaConstants::RegisterConstants(l);
+	LuaGlobals::RegisterConstants(l);
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 

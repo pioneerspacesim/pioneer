@@ -1,9 +1,9 @@
-#ifndef _LUACONSTANTS_H
-#define _LUACONSTANTS_H
+#ifndef _LUAGLOBALS_H
+#define _LUAGLOBALS_H
 
 #include "LuaManager.h"
 
-namespace LuaConstants {
+namespace LuaGlobals {
 	void RegisterConstants(lua_State *l);
 
 	inline void RegisterConstants() {

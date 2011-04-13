@@ -1,4 +1,4 @@
-#include "LuaConstants.h"
+#include "LuaGlobals.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "StarSystem.h"
@@ -20,7 +20,7 @@ static inline void _get_named_table(lua_State *l, int index, const char *name)
 	assert(lua_istable(l, -1));
 }
 
-void LuaConstants::RegisterConstants(lua_State *l)
+void LuaGlobals::RegisterConstants(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
