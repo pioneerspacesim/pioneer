@@ -2,6 +2,7 @@
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "LuaObject.h"
+#include "LuaPlayer.h"
 #include "StarSystem.h"
 #include "Polit.h"
 #include "EquipType.h"

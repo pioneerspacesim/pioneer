@@ -1,4 +1,4 @@
-#include "LuaObject.h"
+#include "LuaBody.h"
 #include "LuaUtils.h"
 #include "Body.h"
 #include "StarSystem.h"

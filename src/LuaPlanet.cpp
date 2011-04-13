@@ -1,4 +1,4 @@
-#include "LuaObject.h"
+#include "LuaPlanet.h"
 #include "LuaUtils.h"
 
 template <> const char *LuaObject<Planet>::s_type = "Planet";

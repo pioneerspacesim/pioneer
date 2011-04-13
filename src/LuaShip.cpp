@@ -1,4 +1,5 @@
-#include "LuaObject.h"
+#include "LuaShip.h"
+#include "LuaSpaceStation.h"
 #include "LuaUtils.h"
 #include "Ship.h"
 #include "SpaceStation.h"

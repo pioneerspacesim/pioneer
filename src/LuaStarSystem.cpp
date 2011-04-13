@@ -1,4 +1,7 @@
 #include "LuaObject.h"
+#include "LuaStar.h"
+#include "LuaPlanet.h"
+#include "LuaSpaceStation.h"
 #include "LuaUtils.h"
 #include "StarSystem.h"
 #include "EquipType.h"

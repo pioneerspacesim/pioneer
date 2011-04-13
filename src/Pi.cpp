@@ -32,10 +32,16 @@
 #include "Render.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
-#include "LuaChatForm.h"
 #include "LuaManager.h"
-#include "PiLuaAPI.h"
+#include "LuaBody.h"
+#include "LuaShip.h"
+#include "LuaSpaceStation.h"
+#include "LuaPlanet.h"
+#include "LuaStar.h"
+#include "LuaPlayer.h"
+#include "LuaChatForm.h"
 #include "LuaGlobals.h"
+#include "PiLuaAPI.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;

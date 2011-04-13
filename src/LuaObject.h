@@ -298,26 +298,6 @@ public:
 	}
 };
 
-
-// define types for the interesting classes
-class Body;
-typedef LuaObject<Body> LuaBody;
-
-class Ship;
-typedef LuaObject<Ship> LuaShip;
-
-class SpaceStation;
-typedef LuaObject<SpaceStation> LuaSpaceStation;
-
-class Planet;
-typedef LuaObject<Planet> LuaPlanet;
-
-class Star;
-typedef LuaObject<Star> LuaStar;
-
-class Player;
-typedef LuaObject<Player> LuaPlayer;
-
 typedef LuaObject<StarSystem> LuaStarSystem;
 
 class SBodyPath;
