@@ -189,12 +189,6 @@ static void LuaInitGame() {
 	Pi::luaOnPlayerDocked.ClearEvents();
 	Pi::luaOnCreateBB.ClearEvents();
 	Pi::luaOnUpdateBB.ClearEvents();
-
-	Pi::luaOnGameStart.Signal();
-}
-
-static void LuaUninitGame() {
-	Pi::luaOnGameEnd.Signal();
 }
 
 void Pi::Init()
@@ -781,15 +775,16 @@ void Pi::StartGame()
 	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
+	Pi::luaOnGameStart.Signal();
 }
 
 void Pi::UninitGame()
 {
-	LuaUninitGame();
+	Pi::luaOnGameEnd.Signal();
+	Pi::isGameStarted = false;
 
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-	Pi::isGameStarted = false;
 	delete infoView;
 	delete spaceStationView;
 	delete objectViewerView;
