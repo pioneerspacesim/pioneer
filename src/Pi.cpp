@@ -171,6 +171,7 @@ static void LuaInit()
 
 	RegisterPiLuaAPI(l);
 	LuaGlobals::RegisterConstants(l);
+	LuaGlobals::RegisterGame();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 

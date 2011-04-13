@@ -1,9 +1,12 @@
 #include "LuaGlobals.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
+#include "LuaObject.h"
 #include "StarSystem.h"
 #include "Polit.h"
 #include "EquipType.h"
+#include "Pi.h"
+#include "Player.h"
 
 static inline void _get_named_table(lua_State *l, int index, const char *name)
 {
@@ -234,5 +237,56 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 
 	lua_pop(l, 1);
 
+	LUA_DEBUG_END(l, 0);
+}
+
+
+static int l_game_meta_index(lua_State *l)
+{
+	const char *key = luaL_checkstring(l, 2);
+
+	if (strcmp(key, "player") == 0) {
+		if (!Pi::player)
+			luaL_error(l, "Game.player not currently available");
+
+		LuaPlayer::PushToLua(Pi::player);
+		return 1;
+	}
+
+	if (strcmp(key, "system") == 0) {
+		if (!Pi::currentSystem)
+			luaL_error(l, "Game.system not currently available");
+
+		LuaStarSystem::PushToLua(Pi::currentSystem);
+		return 1;
+	}
+
+	if (strcmp(key, "time") == 0) {
+		lua_pushnumber(l, Pi::GetGameTime());
+		return 1;
+	}
+
+	lua_pushnil(l);
+	return 1;
+}
+
+void LuaGlobals::RegisterGame()
+{
+	lua_State *l = LuaManager::Instance()->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+
+	luaL_newmetatable(l, "Game");
+	
+	lua_pushstring(l, "__index");
+	lua_pushcfunction(l, l_game_meta_index);
+	lua_rawset(l, -3);
+
+	lua_setmetatable(l, -2);
+
+	lua_setfield(l, LUA_GLOBALSINDEX, "Game");
+	
 	LUA_DEBUG_END(l, 0);
 }

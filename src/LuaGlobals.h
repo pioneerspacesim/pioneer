@@ -9,6 +9,8 @@ namespace LuaGlobals {
 	inline void RegisterConstants() {
 		RegisterConstants(LuaManager::Instance()->GetLuaState());
 	}
+
+	void RegisterGame();
 }
 
 #endif
