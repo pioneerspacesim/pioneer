@@ -403,6 +403,8 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 void Ship::TryHyperspaceTo(const SBodyPath *dest)
 {
+	if (GetFlightState() != Ship::FLYING) return;
+
 	int fuelUsage;
 	double dur;
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
