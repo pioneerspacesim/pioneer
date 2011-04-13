@@ -38,8 +38,7 @@ local onChat = function (dialog, ref, option)
 		return
 	end
 
-	local player = Pi.GetPlayer()
-	if player:GetMoney() < option then
+	if Game.player:GetMoney() < option then
 		Pi.Message("", "You do not have enough money.")
 	else
 		if option >= 10000 then
@@ -47,7 +46,7 @@ local onChat = function (dialog, ref, option)
 		else
 			Pi.Message("", "Thank you. All donations are welcome.")
 		end
-		player:AddMoney(-option)
+		Game.player:AddMoney(-option)
 		dialog:Refresh()
 	end
 end

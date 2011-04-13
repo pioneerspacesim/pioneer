@@ -98,7 +98,7 @@ local onChat = function (dialog, ref, option)
 			flavour  = ad.flavour
 		}
 
-		local mref = Pi.GetPlayer():AddMission(mission)
+		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 
 		dialog:SetMessage("Excellent.")
@@ -119,7 +119,7 @@ local onDelete = function (ref)
 end
 
 local makeAdvert = function (station)
-	local location = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn()
+	local location = Game.system:GetRandomStarportNearButNotIn()
 	if not location then return end
 
 	local isfemale = Pi.rand:Int(0, 1) == 1
@@ -132,7 +132,7 @@ local makeAdvert = function (station)
 		flavour  = flavour,
 		client   = client,
 		location = location,
-		due      = Pi.GetGameTime() + Pi.rand:Real(0, delivery_flavours[flavour].time * 60*60*24*31),
+		due      = Game.time + Pi.rand:Real(0, delivery_flavours[flavour].time * 60*60*24*31),
 		reward   = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
 	}
 
@@ -153,7 +153,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.due < Pi.GetGameTime() + 60*60*24*1) then
+		if (ad.due < Game.time + 60*60*24*1) then
 			ads[ref] = nil
 			station:RemoveAdvert(ref)
 		end	
@@ -170,10 +170,10 @@ local onEnterSystem = function (sys, player)
 		if not mission.status and mission.location:IsSameSystem(syspath) then
 			local danger = delivery_flavours[mission.flavour].danger
 			if danger > 0 then
-				ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), danger, 20, 100)
+				ship, e = Pi.SpawnRandomShip(Game.time, danger, 20, 100)
 				if not e then
 					--print("DeliverPackage: spawned "..ship:GetLabel())
-					ship:AIDoKill(Pi.GetPlayer());
+					ship:AIDoKill(Game.player)
 					Pi.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
 				--else
 				--	print("DeliverPackage: "..e)
@@ -188,19 +188,19 @@ local onPlayerDocked = function (station, player)
 
 		if mission.location == station:GetPath() then
 
-			if Pi.GetGameTime() > mission.due then
+			if Game.time > mission.due then
 				Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
 			else
 				Pi.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
 				player:AddMoney(mission.reward)
 			end
 
-			Pi.GetPlayer():RemoveMission(ref)
+			Game.player:RemoveMission(ref)
 			missions[ref] = nil
 
-		elseif Pi.GetGameTime() > mission.due then
+		elseif Game.time > mission.due then
 			mission.status = 'failed'
-			Pi.GetPlayer():UpdateMission(ref, mission)
+			Game.player():UpdateMission(ref, mission)
 		end
 
 	end
@@ -212,7 +212,7 @@ end
 
 local unserialize = function (data)
 	for k,mission in pairs(data.missions) do
-		local mref = Pi.GetPlayer():AddMission(mission)
+		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 	end
 	for k,ad in pairs(data.ads) do

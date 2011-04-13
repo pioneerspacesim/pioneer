@@ -17,12 +17,10 @@ local onChat = function (dialog, ref, option)
 		return
 	end
 
-    local sys = Pi.GetCurrentSystem()
-
 	ad.stock = {}
 	ad.price = {}
 	for e = Equip.Type.FIRST_COMMODITY, Equip.Type.LAST_COMMODITY do
-		if not sys:IsCommodityLegal(e) then
+		if not Game.system:IsCommodityLegal(e) then
 			ad.stock[e] = Pi.rand:Int(1,50)
 			-- going rate on the black market will be twice normal
 			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
@@ -40,7 +38,7 @@ local onChat = function (dialog, ref, option)
 			return true
 		end
 
-		local lawlessness = Pi:GetCurrentSystem():GetLawlessness()
+		local lawlessness = Game.system:GetLawlessness()
 		Pi.AddPlayerCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
 		dialog:GotoPolice()
 		return false

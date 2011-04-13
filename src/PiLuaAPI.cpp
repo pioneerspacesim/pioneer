@@ -154,14 +154,6 @@ static std::string get_random_ship_type(double power, int minMass, int maxMass)
 }
 
 namespace LuaPi {
-	static int GetPlayer(lua_State *l) {
-		LuaPlayer::PushToLua(Pi::player);
-		return 1;
-	}
-	static int GetGameTime(lua_State *l) {
-		LuaFloat::PushToLua(Pi::GetGameTime());
-		return 1;
-	}
 	static int Message(lua_State *l) {
 		std::string from = LuaString::GetFromLua(1);
 		std::string msg = LuaString::GetFromLua(2);
@@ -173,10 +165,6 @@ namespace LuaPi {
 		std::string msg = LuaString::GetFromLua(2);
 		Pi::cpan->MsgLog()->ImportantMessage(from, msg);
 		return 0;
-	}
-	static int GetCurrentSystem(lua_State *l) {
-		LuaStarSystem::PushToLua(Pi::currentSystem);
-		return 1;
 	}
 	static int FormatDate(lua_State *l) {
 		double t = LuaFloat::GetFromLua(1);
@@ -390,9 +378,6 @@ void RegisterPiLuaAPI(lua_State *l)
 
 	lua_newtable(l);
 	REG_FUNC("AddPlayerCrime", &LuaPi::AddPlayerCrime);
-	REG_FUNC("GetCurrentSystem", &LuaPi::GetCurrentSystem);
-	REG_FUNC("GetPlayer", &LuaPi::GetPlayer);
-	REG_FUNC("GetGameTime", &LuaPi::GetGameTime);
 	REG_FUNC("Message", &LuaPi::Message);
 	REG_FUNC("ImportantMessage", &LuaPi::ImportantMessage);
 	REG_FUNC("SpawnShip", &LuaPi::SpawnShip);

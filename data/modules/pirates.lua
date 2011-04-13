@@ -10,7 +10,7 @@ local onEnterSystem = function (sys, player)
 		local power = Pi.rand:Real(0, plvl)
 		local minMass = 10
 		local maxMass = 50 + 150*plvl
-		ship, e = Pi.SpawnRandomShip(Pi.GetGameTime(), power, minMass, maxMass)
+		ship, e = Pi.SpawnRandomShip(Game.time, power, minMass, maxMass)
 		if not e then
 			--print("Pirates module spawned " .. ship:GetLabel() .. " with power " .. power)
 			ship:AIDoKill(player)
