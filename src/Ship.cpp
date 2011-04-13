@@ -386,9 +386,9 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 		// Now mass has more of an effect on the time taken, this is mainly
 		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist / m_stats.hyperspace_range_max * hyperclass * 0.5) * 
+		outDurationSecs = ((dist / m_stats.hyperspace_range_max * hyperclass) * 
 			(60.0 * 60.0 * 24.0 * m_stats.total_mass * 0.5) /
-			(hyperclass * hyperclass * 0.5)) *
+			(hyperclass * hyperclass)) *
 			((dist * dist * dist)/2000);
 		if (outFuelRequired <= fuel) {
 			if (outStatus) *outStatus = HYPERJUMP_OK;
@@ -402,11 +402,15 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 void Ship::TryHyperspaceTo(const SBodyPath *dest)
 {
+	if (GetFlightState() != Ship::FLYING) return;
+
 	int fuelUsage;
 	double dur;
+	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	int hyperclass = EquipType::types[t].pval;
 	if (m_hyperspace.countdown) return;
 	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
-	m_hyperspace.countdown = 3.0;
+	m_hyperspace.countdown = 1 + hyperclass;
 	m_hyperspace.dest = *dest;
 }
 
