@@ -14,11 +14,11 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	pi_lua_settable(l, "reward", (double)m.reward * 0.01);
 
 	lua_pushstring(l, "type");
-	LuaString::PushToLua(m.type.c_str());
+	lua_pushstring(l, m.type.c_str());
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "client");
-	LuaString::PushToLua(m.client.c_str());
+	lua_pushstring(l, m.client.c_str());
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "location");
@@ -63,12 +63,12 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 
 	lua_getfield(l, -1, "type");
 	if (create || !lua_isnil(l, -1))
-		m.type = LuaString::GetFromLua(-1);
+		m.type = luaL_checkstring(l, -1);
 	lua_pop(l, 1);
 
 	lua_getfield(l, -1, "client");
 	if (create || !lua_isnil(l, -1))
-		m.client = LuaString::GetFromLua(-1);
+		m.client = luaL_checkstring(l, -1);
 	lua_pop(l, 1);
 
 	lua_getfield(l, -1, "location");
@@ -84,7 +84,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 			m.status = Mission::ACTIVE;
 	}
 	else {
-		std::string status = LuaString::GetFromLua(-1);
+		std::string status = luaL_checkstring(l, -1);
 
 		if (status == "completed")
 			m.status = Mission::COMPLETED;
@@ -117,7 +117,7 @@ static int l_player_add_mission(lua_State *l)
 static int l_player_update_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
-	int ref = LuaInt::GetFromLua(2);
+	int ref = luaL_checkinteger(l, 2);
 
 	const Mission *m = p->missions.Get(ref);
 	if (!m)
@@ -134,7 +134,7 @@ static int l_player_update_mission(lua_State *l)
 static int l_player_remove_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
-	int ref = LuaInt::GetFromLua(2);
+	int ref = luaL_checkinteger(l, 2);
 	p->missions.Remove(ref);
 	return 0;
 }
@@ -142,7 +142,7 @@ static int l_player_remove_mission(lua_State *l)
 static int l_player_get_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
-	int ref = LuaInt::GetFromLua(2);
+	int ref = luaL_checkinteger(l, 2);
 	const Mission *m = p->missions.Get(ref);
 	if (!m)
 		lua_pushnil(l);

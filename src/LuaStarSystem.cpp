@@ -34,14 +34,14 @@ static int l_starsystem_get_path(lua_State *l)
 static int l_starsystem_get_lawlessness(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	LuaFloat::PushToLua(s->GetSysPolit().lawlessness.ToDouble());
+	lua_pushnumber(l, s->GetSysPolit().lawlessness.ToDouble());
 	return 1;
 }
 
 static int l_starsystem_get_population(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	LuaFloat::PushToLua(s->m_totalPop.ToDouble());
+	lua_pushnumber(l, s->m_totalPop.ToDouble());
 	return 1;
 }
 
@@ -83,13 +83,13 @@ static int l_starsystem_get_body(lua_State *l)
 
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	if (s != Pi::currentSystem) {
-		LuaString::PushToLua("get_body can only be called on the current system");
+		lua_pushstring(l, "get_body can only be called on the current system");
 		lua_error(l);
 	}
 
 	SBodyPath *path = LuaSBodyPath::GetFromLua(2);
 	if (!s->IsSystem(path->sectorX, path->sectorY, path->systemNum)) {
-		LuaString::PushToLua("requested body is not in this system");
+		lua_pushstring(l, "requested body is not in this system");
 		lua_error(l);
 	}
 
@@ -108,7 +108,7 @@ static int l_starsystem_get_body(lua_State *l)
 			break;
 		default: {
 			std::string s = stringf(256, "matched path to unknown body type %d", static_cast<int>(b->GetType()));
-			LuaString::PushToLua(s.c_str());
+			lua_pushstring(l, s.c_str());
 			lua_error(l);
 		}
 	}
@@ -121,8 +121,8 @@ static int l_starsystem_get_body(lua_State *l)
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	Equip::Type t = static_cast<Equip::Type>(LuaInt::GetFromLua(2));
-	LuaBool::PushToLua(Polit::IsCommodityLegal(s, t));
+	Equip::Type t = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
+	lua_pushboolean(l, Polit::IsCommodityLegal(s, t));
 	return 1;
 }
 

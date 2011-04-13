@@ -223,8 +223,8 @@ namespace LuaPi {
 		}
 	}
 	static int SpawnShip(lua_State *l) {
-		double due = LuaFloat::GetFromLua(1);
-		std::string type = LuaString::GetFromLua(2);
+		double due = luaL_checknumber(l, 1);
+		std::string type = luaL_checkstring(l, 2);
 		int ret;
 		try {
 			ret = _spawn_ship(l, type, due, 0.0);
@@ -236,10 +236,10 @@ namespace LuaPi {
 		return ret;
 	}
 	static int SpawnRandomShip(lua_State *l) {
-		double due = LuaFloat::GetFromLua(1);
-		double power = LuaFloat::GetFromLua(2);
-		int minMass = LuaInt::GetFromLua(3);
-		int maxMass = LuaInt::GetFromLua(4);
+		double due = luaL_checknumber(l, 1);
+		double power = luaL_checknumber(l, 2);
+		int minMass = luaL_checkinteger(l, 3);
+		int maxMass = luaL_checkinteger(l, 4);
 		//printf("power %f, mass %d to %d\n", power, minMass, maxMass);
 		std::string type;
 		int ret;
@@ -255,9 +255,9 @@ namespace LuaPi {
 	}
 	static int SpawnRandomDockedShip(lua_State *l) {
 		SpaceStation *station = LuaSpaceStation::GetFromLua(1);
-		double power = LuaFloat::GetFromLua(2);
-		int minMass = LuaInt::GetFromLua(3);
-		int maxMass = LuaInt::GetFromLua(4);
+		double power = luaL_checknumber(l, 2);
+		int minMass = luaL_checkinteger(l, 3);
+		int maxMass = luaL_checkinteger(l, 4);
 		//printf("power %f, mass %d to %d, docked with %s\n", power, minMass, maxMass, station->GetLabel().c_str());
 		std::string type;
 		int ret;

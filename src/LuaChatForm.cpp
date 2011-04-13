@@ -68,8 +68,8 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		assert(lua_isfunction(l, -1));
 
 		LuaObject<LuaChatForm>::PushToLua(this);
-		LuaInt::PushToLua(m_advert->ref);
-		LuaInt::PushToLua(optionClicked);
+		lua_pushinteger(l, m_advert->ref);
+		lua_pushinteger(l, optionClicked);
 		lua_call(l, 3, 0);
 
 		lua_pop(l, 2);
@@ -102,15 +102,15 @@ void LuaChatForm::RemoveAdvert() {
 
 	lua_pop(l, 1);
 
-    lua_pushinteger(l, ref);
-    lua_pushnil(l);
-    lua_settable(l, -3);
+	lua_pushinteger(l, ref);
+	lua_pushnil(l);
+	lua_settable(l, -3);
 
-    lua_pop(l, 1);
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 
-    m_station->bbadverts.erase(ref);
+	m_station->bbadverts.erase(ref);
 }
 
 static inline void _get_trade_function(lua_State *l, int ref, const char *name)
@@ -149,8 +149,8 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 
 	_get_trade_function(l, m_advert->ref, "canTrade");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(static_cast<int>(t));
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, static_cast<int>(t));
 	lua_call(l, 2, 1);
 
 	bool can_trade = lua_toboolean(l, -1) != 0;
@@ -168,8 +168,8 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 
 	_get_trade_function(l, m_advert->ref, "getStock");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(static_cast<int>(t));
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, static_cast<int>(t));
 	lua_call(l, 2, 1);
 
 	int stock = lua_tointeger(l, -1);
@@ -187,8 +187,8 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 
 	_get_trade_function(l, m_advert->ref, "getPrice");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(static_cast<int>(t));
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, static_cast<int>(t));
 	lua_call(l, 2, 1);
 
 	Sint64 price = (Sint64)(lua_tonumber(l, -1) * 100.0);
@@ -206,8 +206,8 @@ void LuaChatForm::OnClickBuy(int t) {
 
 	_get_trade_function(l, m_advert->ref, "onClickBuy");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(t);
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, t);
 	lua_call(l, 2, 1);
 
 	bool allow_buy = lua_toboolean(l, -1) != 0;
@@ -231,8 +231,8 @@ void LuaChatForm::OnClickSell(int t) {
 
 	_get_trade_function(l, m_advert->ref, "onClickSell");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(t);
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, t);
 	lua_call(l, 2, 1);
 
 	bool allow_sell = lua_toboolean(l, -1) != 0;
@@ -256,8 +256,8 @@ void LuaChatForm::Bought(Equip::Type t) {
 
 	_get_trade_function(l, m_advert->ref, "bought");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(t);
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, t);
 	lua_call(l, 2, 0);
 
 	LUA_DEBUG_END(l, 0);
@@ -270,8 +270,8 @@ void LuaChatForm::Sold(Equip::Type t) {
 
 	_get_trade_function(l, m_advert->ref, "sold");
 
-	LuaInt::PushToLua(m_advert->ref);
-	LuaInt::PushToLua(t);
+	lua_pushinteger(l, m_advert->ref);
+	lua_pushinteger(l, t);
 	lua_call(l, 2, 0);
 
 	LUA_DEBUG_END(l, 0);
@@ -287,7 +287,7 @@ static int l_luachatform_clear(lua_State *l)
 static int l_luachatform_set_title(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	std::string title = LuaString::GetFromLua(2);
+	std::string title = luaL_checkstring(l, 2);
 	dialog->SetTitle(title.c_str());
 	return 0;
 }
@@ -295,7 +295,7 @@ static int l_luachatform_set_title(lua_State *l)
 static int l_luachatform_set_message(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	std::string message = LuaString::GetFromLua(2);
+	std::string message = luaL_checkstring(l, 2);
 	dialog->SetMessage(message.c_str());
 	return 0;
 }
@@ -303,8 +303,8 @@ static int l_luachatform_set_message(lua_State *l)
 static int l_luachatform_add_option(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	std::string text = LuaString::GetFromLua(2);
-	int val = LuaInt::GetFromLua(3);
+	std::string text = luaL_checkstring(l, 2);
+	int val = luaL_checkinteger(l, 3);
 	dialog->AddOption(text, val);
 	return 0;
 }

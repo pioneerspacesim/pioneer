@@ -5,21 +5,21 @@
 static int l_sbodypath_get_sector_x(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	LuaInt::PushToLua(path->sectorX);
+	lua_pushinteger(l, path->sectorX);
 	return 1;
 }
 
 static int l_sbodypath_get_sector_y(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	LuaInt::PushToLua(path->sectorY);
+	lua_pushinteger(l, path->sectorY);
 	return 1;
 }
 
 static int l_sbodypath_get_system_index(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	LuaInt::PushToLua(path->systemNum);
+	lua_pushinteger(l, path->systemNum);
 	return 1;
 }
 
@@ -27,7 +27,7 @@ static int l_sbodypath_get_system_name(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
 	StarSystem *s = StarSystem::GetCached(path);
-	LuaString::PushToLua(s->GetName().c_str());
+	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 }
 
@@ -36,7 +36,7 @@ static int l_sbodypath_get_body_name(lua_State *l)
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
 	StarSystem *s = StarSystem::GetCached(path);
 	SBody *sbody = s->GetBodyByPath(path);
-	LuaString::PushToLua(sbody->name.c_str());
+	lua_pushstring(l, sbody->name.c_str());
 	return 1;
 }
 

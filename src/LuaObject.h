@@ -299,61 +299,6 @@ public:
 };
 
 
-
-// these are push/pull functions to provide a consistent interface for
-// primitive types
-namespace LuaString {
-	inline void PushToLua(const char *s) {
-		assert(s);
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		lua_pushstring(l, s);
-	}
-	inline std::string GetFromLua(int index) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		std::string s = luaL_checkstring(l, index);
-		return s;
-	}
-};
-
-namespace LuaFloat {
-	inline void PushToLua(double n) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		lua_pushnumber(l, n);
-	}
-	inline double GetFromLua(int index) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		double n = luaL_checknumber(l, index);
-		return n;
-	}
-};
-
-namespace LuaInt {
-	inline void PushToLua(int n) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		lua_pushinteger(l, n);
-	}
-	inline int GetFromLua(int index) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		int n = luaL_checkinteger(l, index);
-		return n;
-	}
-};
-
-namespace LuaBool {
-	inline void PushToLua(bool b) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-		lua_pushboolean(l, b);
-	}
-	inline int GetFromLua(int index) {
-		lua_State *l = LuaManager::Instance()->GetLuaState();
-        if (!lua_isboolean(l, index))
-            luaL_typerror(l, index, lua_typename(l, LUA_TBOOLEAN));
-        bool b = lua_toboolean(l, index);
-		return b;
-	}
-};
-
-
 // define types for the interesting classes
 class Body;
 typedef LuaObject<Body> LuaBody;

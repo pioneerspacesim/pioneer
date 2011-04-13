@@ -357,7 +357,7 @@ int LuaSerializer::l_register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	std::string key = LuaString::GetFromLua(2);
+	std::string key = luaL_checkstring(l, 2);
 
 	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
