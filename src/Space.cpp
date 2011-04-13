@@ -729,7 +729,10 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	}
 	storedArrivalClouds.clear();
 
-	Pi::luaOnEnterSystem.Signal(Pi::currentSystem, Pi::player);
+	// bit of a hack, this should be only false if DoHyperspaceTo is used at
+	// game startup (eg debug point)
+	if (Pi::IsGameStarted())
+		Pi::luaOnEnterSystem.Signal(Pi::currentSystem, Pi::player);
 	
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
