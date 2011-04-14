@@ -41,6 +41,7 @@
 #include "LuaPlayer.h"
 #include "LuaStarSystem.h"
 #include "LuaSBodyPath.h"
+#include "LuaShipType.h"
 #include "LuaChatForm.h"
 #include "LuaGlobals.h"
 #include "PiLuaAPI.h"
@@ -159,6 +160,7 @@ static void LuaInit()
 	LuaPlayer::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSBodyPath::RegisterClass();
+	LuaShipType::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 
