@@ -6,6 +6,7 @@
 #include "LuaPlanet.h"
 #include "LuaStar.h"
 #include "LuaPlayer.h"
+#include "LuaSBodyPath.h"
 #include "StarSystem.h"
 #include "Body.h"
 #include "Ship.h"

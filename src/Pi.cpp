@@ -39,6 +39,8 @@
 #include "LuaPlanet.h"
 #include "LuaStar.h"
 #include "LuaPlayer.h"
+#include "LuaStarSystem.h"
+#include "LuaSBodyPath.h"
 #include "LuaChatForm.h"
 #include "LuaGlobals.h"
 #include "PiLuaAPI.h"

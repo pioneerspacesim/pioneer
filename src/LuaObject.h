@@ -281,26 +281,4 @@ public:
 	}
 };
 
-
-// this is a specialisation for the starsystem acquirer. it modifies the
-// refcount so that it doesn't get removed from the system cache while we're
-// using it
-#include "StarSystem.h"
-
-template <>
-class LuaAcquirer<StarSystem> {
-public:
-	virtual void Acquire(StarSystem *o) {
-		o->IncRefCount();
-	}
-	virtual void Release(StarSystem *o) {
-		o->DecRefCount();
-	}
-};
-
-typedef LuaObject<StarSystem> LuaStarSystem;
-
-class SBodyPath;
-typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
-
 #endif

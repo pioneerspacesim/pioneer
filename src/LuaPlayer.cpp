@@ -1,4 +1,5 @@
 #include "LuaPlayer.h"
+#include "LuaSBodyPath.h"
 #include "LuaUtils.h"
 #include "Player.h"
 #include "Polit.h"
