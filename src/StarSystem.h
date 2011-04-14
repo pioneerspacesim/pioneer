@@ -312,6 +312,9 @@ private:
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
+
+	bool m_isCustom;
+	bool m_hasCustomBodies;
 };
 	
 #endif /* _STARSYSTEM_H */

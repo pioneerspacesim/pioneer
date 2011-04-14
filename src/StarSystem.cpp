@@ -1171,11 +1171,14 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
 	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
+	m_isCustom = m_hasCustomBodies = false;
 	if (s.m_systems[system_idx].customSys) {
+		m_isCustom = true;
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
+			m_hasCustomBodies = true;
 			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
 			return;
 		}
@@ -1823,7 +1826,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		}
 	}
 
-	if (m_population > fixed(1,10)) name = NameGenerator::PlanetName(rand);
+	if (!system->m_hasCustomBodies && m_population > fixed(1,10))
+		name = NameGenerator::PlanetName(rand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
