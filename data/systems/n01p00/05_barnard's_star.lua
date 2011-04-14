@@ -17,7 +17,8 @@ local barnard_starports = {
 		:semi_major_axis(f(32,10))
 		:rotation_period(f(1,24*60*3)),
    CustomSBody:new('High Security Prison Serenity', Body.Type.STARPORT_ORBITAL)
-		:semi_major_axis(f(33,10))
+		:semi_major_axis(f(32,10))
+		:orbital_offset(f(1,3))
 		:rotation_period(f(1,24*60*4)),
 }
 
