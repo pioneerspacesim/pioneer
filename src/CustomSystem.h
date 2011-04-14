@@ -21,6 +21,7 @@ public:
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
 	fixed                  orbitalOffset;
+	bool                   want_rand_offset;
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
 	fixed                  rotationPeriod; // in days
@@ -48,7 +49,7 @@ public:
 	inline CustomSBody* l_temp(int t) { averageTemp = t; return this; }
 	inline CustomSBody* l_semi_major_axis(pi_fixed& n) { semiMajorAxis = n; return this; }
 	inline CustomSBody* l_eccentricity(pi_fixed& e) { eccentricity = e; return this; }
-	inline CustomSBody* l_orbital_offset(pi_fixed& o) { orbitalOffset = o; return this; }
+	inline CustomSBody* l_orbital_offset(pi_fixed& o) { orbitalOffset = o; want_rand_offset = false; return this; }
 	inline CustomSBody* l_latitude(float l) { latitude = l; return this; }
 	inline CustomSBody* l_longitude(float l) { longitude = l; return this; }
 	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }

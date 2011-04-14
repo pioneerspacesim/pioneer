@@ -158,6 +158,7 @@ CustomSBody::CustomSBody(std::string s, int t)
 
 	seed = averageTemp = 0;
 	latitude = longitude = 0.0;
+	want_rand_offset = true;
 	want_rand_seed = true;
 }
 

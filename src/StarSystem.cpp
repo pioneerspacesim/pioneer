@@ -1024,7 +1024,6 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
-		kid->orbit.rotMatrix = matrix4x4d::RotateZMatrix(csbody->orbitalOffset.ToDouble() * M_PI);
 		if (csbody->heightMapFilename.length() > 0) kid->heightMapFilename = csbody->heightMapFilename.c_str();
 
 		if (kid->type == SBody::TYPE_STARPORT_SURFACE) {
@@ -1034,8 +1033,8 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(offset) * matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
