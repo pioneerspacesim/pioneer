@@ -10,6 +10,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipCpanel.h"
+#include "ShipType.h"
 
 static inline void _get_named_table(lua_State *l, int index, const char *name)
 {
@@ -237,6 +238,19 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 	pi_lua_settable(l, "FIRST_SHIPEQUIP", Equip::FIRST_SHIPEQUIP);
 	pi_lua_settable(l, "LAST_SHIPEQUIP",  Equip::LAST_SHIPEQUIP);
 	lua_pop(l, 1);
+
+
+	_get_named_table(l, LUA_GLOBALSINDEX, "ShipType");
+
+	_get_named_table(l, -1, "Thruster");
+	pi_lua_settable(l, "THRUSTER_REVERSE", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "THRUSTER_FORWARD", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "THRUSTER_UP", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "THRUSTER_DOWN", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "THRUSTER_LEFT", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "THRUSTER_RIGHT", ShipType::THRUSTER_REVERSE);
+	lua_pop(l, 1);
+
 
 	lua_pop(l, 1);
 
