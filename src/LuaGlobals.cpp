@@ -242,6 +242,13 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "ShipType");
 
+	_get_named_table(l, -1, "Tag");
+	pi_lua_settable(l, "TAG_NONE",        ShipType::TAG_NONE);
+	pi_lua_settable(l, "TAG_SHIP",        ShipType::TAG_SHIP);
+	pi_lua_settable(l, "TAG_STATIC_SHIP", ShipType::TAG_STATIC_SHIP);
+	pi_lua_settable(l, "TAG_MISSILE",     ShipType::TAG_MISSILE);
+	lua_pop(l, 1);
+
 	_get_named_table(l, -1, "Thruster");
 	pi_lua_settable(l, "THRUSTER_REVERSE", ShipType::THRUSTER_REVERSE);
 	pi_lua_settable(l, "THRUSTER_FORWARD", ShipType::THRUSTER_REVERSE);
