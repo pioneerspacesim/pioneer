@@ -20,6 +20,7 @@ public:
 	int                    averageTemp; // kelvin
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
+	fixed                  orbitalOffset;
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
 	fixed                  rotationPeriod; // in days
@@ -47,6 +48,7 @@ public:
 	inline CustomSBody* l_temp(int t) { averageTemp = t; return this; }
 	inline CustomSBody* l_semi_major_axis(pi_fixed& n) { semiMajorAxis = n; return this; }
 	inline CustomSBody* l_eccentricity(pi_fixed& e) { eccentricity = e; return this; }
+	inline CustomSBody* l_orbital_offset(pi_fixed& o) { orbitalOffset = o; return this; }
 	inline CustomSBody* l_latitude(float l) { latitude = l; return this; }
 	inline CustomSBody* l_longitude(float l) { longitude = l; return this; }
 	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }
@@ -83,6 +85,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(temp, CustomSBody*, l_temp, int)
 	OOLUA_MEM_FUNC_1_RENAME(semi_major_axis, CustomSBody*, l_semi_major_axis, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(eccentricity, CustomSBody*, l_eccentricity, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(orbital_offset, CustomSBody*, l_orbital_offset, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(latitude, CustomSBody*, l_latitude, float)
 	OOLUA_MEM_FUNC_1_RENAME(inclination, CustomSBody*, l_latitude, float)  // duplicate, latitude has different meaning for orbiting things
 	OOLUA_MEM_FUNC_1_RENAME(longitude, CustomSBody*, l_longitude, float)
