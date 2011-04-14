@@ -2,6 +2,7 @@
 #include "LuaShipType.h"
 #include "LuaUtils.h"
 #include "ShipType.h"
+#include "EquipType.h"
 
 int l_shiptype_get_name(lua_State *l)
 {
@@ -29,6 +30,12 @@ int l_shiptype_get_angular_thrust(lua_State *l)
 
 int l_shiptype_get_equip_slot_capacity(lua_State *l)
 {
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	Equip::Slot t = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	if (t < 0 || t >= Equip::SLOT_MAX)
+		luaL_error(l, "Unknown equipment type %d", t);
+	lua_pushnumber(l, st->equipSlotCapacity[t]);
+	return 1;
 }
 
 int l_shiptype_get_capacity(lua_State *l)
