@@ -109,6 +109,7 @@ public:
 	std::string            name;
     CustomSBody            sBody;
 	SBody::BodyType        primaryType[4];
+	int                    numStars;
 	int                    sectorX, sectorY;
 	vector3f               pos;
 	Uint32                 seed;

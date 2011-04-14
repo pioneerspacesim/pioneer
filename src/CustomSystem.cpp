@@ -75,6 +75,9 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
 	name = s;
 
+	numStars = 0;
+
+	bool done = false;
 	for (int i=0 ; i<4; i++) {
 		int type = SBody::TYPE_GRAVPOINT;
 		if (t.safe_at(i+1, type)) {
@@ -84,6 +87,9 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 			}
 		}
 		primaryType[i] = static_cast<SBody::BodyType>(type);
+
+		if (type == SBody::TYPE_GRAVPOINT) done = true;
+		if (!done) numStars++;
 	}
 
 	seed = 0;
