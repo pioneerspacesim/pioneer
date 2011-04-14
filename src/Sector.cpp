@@ -228,9 +228,17 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		}
 		name[0] = toupper(name[0]);
 		return name;
+	} else if (rng.Int32(chance) < 300) {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "MJBN %d%+d%+d", rng.Int32(10,999),sx,sy); // MJBN -> Morton Jordan Bennett Norris
+		return buf;
+	} else if (rng.Int32(chance) < 500) {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy); 
+		return buf;
 	} else {
 		char buf[128];
-		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy);
+		snprintf(buf, sizeof(buf), "DSC %d%+d%+d", rng.Int32(1000,9999),sx,sy); 
 		return buf;
 	}
 }

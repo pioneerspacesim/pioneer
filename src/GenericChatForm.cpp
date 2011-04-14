@@ -123,7 +123,7 @@ public:
 		cloth_seed     = cloth_seed %20 ;
 		race_seed      = 0 ;  //temp
 		extr1_seed     = extr1_seed %3 ;  //temp
-		extr2_seed     = rand.Int32(0,2) ; // temp
+		extr2_seed     = rand.Int32(0,12) ; // temp
 		m_w = w; m_h = h;
 		m_created = SDL_GetTicks();
 		m_message = new Gui::ToolTip("Video link established");
