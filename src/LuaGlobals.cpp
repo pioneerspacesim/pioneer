@@ -251,11 +251,11 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 
 	_get_named_table(l, -1, "Thruster");
 	pi_lua_settable(l, "THRUSTER_REVERSE", ShipType::THRUSTER_REVERSE);
-	pi_lua_settable(l, "THRUSTER_FORWARD", ShipType::THRUSTER_REVERSE);
-	pi_lua_settable(l, "THRUSTER_UP", ShipType::THRUSTER_REVERSE);
-	pi_lua_settable(l, "THRUSTER_DOWN", ShipType::THRUSTER_REVERSE);
-	pi_lua_settable(l, "THRUSTER_LEFT", ShipType::THRUSTER_REVERSE);
-	pi_lua_settable(l, "THRUSTER_RIGHT", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "THRUSTER_FORWARD", ShipType::THRUSTER_FORWARD);
+	pi_lua_settable(l, "THRUSTER_UP",      ShipType::THRUSTER_UP);
+	pi_lua_settable(l, "THRUSTER_DOWN",    ShipType::THRUSTER_DOWN);
+	pi_lua_settable(l, "THRUSTER_LEFT",    ShipType::THRUSTER_LEFT);
+	pi_lua_settable(l, "THRUSTER_RIGHT",   ShipType::THRUSTER_RIGHT);
 	lua_pop(l, 1);
 
 
