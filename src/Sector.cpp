@@ -21,7 +21,7 @@ void Sector::GetCustomSystems()
 		System s;
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
-		for (s.numStars=0; s.numStars<4; s.numStars++) {
+		for (s.numStars=0; s.numStars<cs->numStars; s.numStars++) {
 			if (cs->primaryType[s.numStars] == 0) break;
 			s.starType[s.numStars] = cs->primaryType[s.numStars];
 		}
