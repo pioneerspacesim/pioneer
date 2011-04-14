@@ -12,6 +12,12 @@ int l_shiptype_get_name(lua_State *l)
 
 int l_shiptype_get_linear_thrust(lua_State *l)
 {
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	ShipType::Thruster t = static_cast<ShipType::Thruster>(luaL_checkinteger(l, 2));
+	if (t < 0 || t >= ShipType::THRUSTER_MAX)
+		luaL_error(l, "Unknown thruster type %d", t);
+	lua_pushnumber(l, st->linThrust[t]);
+	return 1;
 }
 
 int l_shiptype_get_angular_thrust(lua_State *l)
