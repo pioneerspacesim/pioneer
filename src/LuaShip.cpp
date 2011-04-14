@@ -1,9 +1,11 @@
 #include "LuaShip.h"
 #include "LuaSpaceStation.h"
 #include "LuaSBodyPath.h"
+#include "LuaShipType.h"
 #include "LuaUtils.h"
 #include "Ship.h"
 #include "SpaceStation.h"
+#include "ShipType.h"
 
 static int l_ship_get_stats(lua_State *l)
 {
@@ -132,6 +134,27 @@ static int l_ship_ai_do_journey(lua_State *l)
 	return 0;
 }
 
+int l_ship_get_ship_types(lua_State *l)
+{
+	// remove this if there's a time when the ship list can change mid-game
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiShipTypeTable");
+	if (lua_istable(l, -1))
+		return 1;
+
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+
+	for (std::map<ShipType::Type,ShipType>::const_iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+	{
+
+	}
+
+	lua_pushvalue(l, -1);
+	lua_setfield(l, LUA_REGISTRYINDEX, "PiShipTypeTable");
+
+	return 1;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -154,6 +177,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIDoMediumorbit", l_ship_ai_do_mediumorbit },
 		{ "AIDoHighorbit",   l_ship_ai_do_highorbit   },
 		{ "AIDoJourney",     l_ship_ai_do_journey     },
+
+		{ "GetShipTypes",    l_ship_get_ship_types    },
 
 		{ 0, 0 }
 	};
