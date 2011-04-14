@@ -243,19 +243,19 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 	_get_named_table(l, LUA_GLOBALSINDEX, "ShipType");
 
 	_get_named_table(l, -1, "Tag");
-	pi_lua_settable(l, "TAG_NONE",        ShipType::TAG_NONE);
-	pi_lua_settable(l, "TAG_SHIP",        ShipType::TAG_SHIP);
-	pi_lua_settable(l, "TAG_STATIC_SHIP", ShipType::TAG_STATIC_SHIP);
-	pi_lua_settable(l, "TAG_MISSILE",     ShipType::TAG_MISSILE);
+	pi_lua_settable(l, "NONE",        ShipType::TAG_NONE);
+	pi_lua_settable(l, "SHIP",        ShipType::TAG_SHIP);
+	pi_lua_settable(l, "STATIC_SHIP", ShipType::TAG_STATIC_SHIP);
+	pi_lua_settable(l, "MISSILE",     ShipType::TAG_MISSILE);
 	lua_pop(l, 1);
 
 	_get_named_table(l, -1, "Thruster");
-	pi_lua_settable(l, "THRUSTER_REVERSE", ShipType::THRUSTER_REVERSE);
-	pi_lua_settable(l, "THRUSTER_FORWARD", ShipType::THRUSTER_FORWARD);
-	pi_lua_settable(l, "THRUSTER_UP",      ShipType::THRUSTER_UP);
-	pi_lua_settable(l, "THRUSTER_DOWN",    ShipType::THRUSTER_DOWN);
-	pi_lua_settable(l, "THRUSTER_LEFT",    ShipType::THRUSTER_LEFT);
-	pi_lua_settable(l, "THRUSTER_RIGHT",   ShipType::THRUSTER_RIGHT);
+	pi_lua_settable(l, "REVERSE", ShipType::THRUSTER_REVERSE);
+	pi_lua_settable(l, "FORWARD", ShipType::THRUSTER_FORWARD);
+	pi_lua_settable(l, "UP",      ShipType::THRUSTER_UP);
+	pi_lua_settable(l, "DOWN",    ShipType::THRUSTER_DOWN);
+	pi_lua_settable(l, "LEFT",    ShipType::THRUSTER_LEFT);
+	pi_lua_settable(l, "RIGHT",   ShipType::THRUSTER_RIGHT);
 	lua_pop(l, 1);
 
 
