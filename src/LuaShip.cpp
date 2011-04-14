@@ -144,9 +144,11 @@ int l_ship_get_ship_types(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	for (std::map<ShipType::Type,ShipType>::const_iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
 	{
-
+		lua_pushstring(l, (*i).first.c_str());
+		LuaShipType::PushToLua(&((*i).second));
+		lua_rawset(l, -3);
 	}
 
 	lua_pushvalue(l, -1);
