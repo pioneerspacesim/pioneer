@@ -203,6 +203,7 @@ public:
 	fixed humanActivity; // 0 - 1
 	fixed semiMajorAxis; // in AUs
 	fixed eccentricity;
+	fixed orbitalOffset;
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
