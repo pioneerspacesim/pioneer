@@ -1018,6 +1018,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->eccentricity = csbody->eccentricity;
+		kid->orbitalOffset = csbody->orbitalOffset;
 		kid->axialTilt = csbody->axialTilt;
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
@@ -1032,8 +1033,8 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(offset) * matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
@@ -1171,11 +1172,15 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
 	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
+	m_isCustom = m_hasCustomBodies = false;
 	if (s.m_systems[system_idx].customSys) {
+		m_isCustom = true;
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
+		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
+			m_hasCustomBodies = true;
 			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
 			return;
 		}
@@ -1823,7 +1828,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		}
 	}
 
-	if (m_population > fixed(1,10)) NameGenerator::PlanetName(rand);
+	if (!system->m_hasCustomBodies && m_population > fixed(1,10))
+		name = NameGenerator::PlanetName(rand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {

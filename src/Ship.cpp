@@ -403,6 +403,8 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 void Ship::TryHyperspaceTo(const SBodyPath *dest)
 {
+	if (GetFlightState() != Ship::FLYING) return;
+
 	int fuelUsage;
 	double dur;
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
@@ -731,8 +733,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWith = s;
 		m_dockedWithPort = port;
 		m_wheelState = 1.0f;
-		if (s->IsGroundStation()) m_flightState = LANDED;
-		else m_flightState = DOCKING;
+		m_flightState = LANDED;
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
 		Disable();

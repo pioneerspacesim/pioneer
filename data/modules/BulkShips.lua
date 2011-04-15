@@ -37,6 +37,7 @@ Module:new {
 
 		for i=1, num_bulk_ships do
 			local starport = sys:GetRandomStarport(Pi.rand)
+			if not starport then return end
 			local ship, e = Pi.SpawnRandomStaticShip(Pi.FindBodyForSBody(starport))
 			if e then
 				print("BulkShips: "..e)
