@@ -60,6 +60,23 @@ static inline std::string stringf(int maxlen, const char *format, ...)
 	return std::string(buf);
 }
 
+static inline Sint64 isqrt(Sint64 a)
+{
+	Sint64 ret=0;
+	Sint64 s;
+	Sint64 ret_sq=-a-1;
+	for(s=62; s>=0; s-=2){
+		Sint64 b;
+		ret+= ret;
+		b=ret_sq + ((2*ret+1)<<s);
+		if(b<0){
+			ret_sq=b;
+			ret++;
+		}
+	}
+	return ret;
+}
+
 struct Plane {
 	double a, b, c, d;
 	double DistanceToPoint(const vector3d &p) {

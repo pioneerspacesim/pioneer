@@ -2,6 +2,7 @@
 #include "StarSystem.h"
 #include "CustomSystem.h"
 #include "Galaxy.h"
+#include "utils.h"
 
 #define SYS_NAME_FRAGS	32
 static const char *sys_names[SYS_NAME_FRAGS] =
@@ -87,70 +88,73 @@ Sector::Sector(int x, int y)
 			} else {
 				s.starType[0] = SBody::TYPE_BROWN_DWARF;
 			}*/
-			if ((sx > 50) || (sx < -50) ||
-				(sy > 50) || (sy < -50))
+			//if ((sx > 50) || (sx < -50) ||
+			//	(sy > 50) || (sy < -50))
+
+			// Frequencies are low enough that we probably don't need this anymore.
+			if (isqrt(1+sx*sx+sy*sy) > 10) 
 			{
 				if (spec < 1) { 
 					s.starType[0] = SBody::TYPE_STAR_IM_BH;  // These frequencies are made up
-				} else if (spec < 5) {
+				} else if (spec < 3) {
 					s.starType[0] = SBody::TYPE_STAR_S_BH; 
-				} else if (spec < 25) {
+				} else if (spec < 6) {
 					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT; 
-				} else if (spec < 60) {
+				} else if (spec < 10) {
 					s.starType[0] = SBody::TYPE_STAR_G_HYPER_GIANT;
-				} else if (spec < 90) {
+				} else if (spec < 15) {
 					s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT; 
-				} else if (spec < 120) {
+				} else if (spec < 20) {
 					s.starType[0] = SBody::TYPE_STAR_A_HYPER_GIANT;
-				} else if (spec < 150) {
-				s.starType[0] = SBody::TYPE_STAR_F_HYPER_GIANT;
-				} else if (spec < 180) {
+				} else if (spec < 25) {
+					s.starType[0] = SBody::TYPE_STAR_F_HYPER_GIANT;
+				} else if (spec < 30) {
 					s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT; 
-				} else if (spec < 220) {
+				} else if (spec < 40) {
 					s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT; 
-				} else if (spec < 280) {
+				} else if (spec < 50) {
 					s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT; 
-				} else if (spec < 320) {
-				s.starType[0] = SBody::TYPE_STAR_G_SUPER_GIANT;
-				} else if (spec < 360) {
-				s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT; 
-				} else if (spec < 400) {
+				} else if (spec < 60) {
+					s.starType[0] = SBody::TYPE_STAR_G_SUPER_GIANT;
+				} else if (spec < 70) {
+					s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT; 
+				} else if (spec < 80) {
 					s.starType[0] = SBody::TYPE_STAR_A_SUPER_GIANT;
-				} else if (spec < 440) {
+				} else if (spec < 90) {
 					s.starType[0] = SBody::TYPE_STAR_F_SUPER_GIANT;
-				} else if (spec < 480) {
-				s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT; 
-				} else if (spec < 525) {
+				} else if (spec < 100) {
+					s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT; 
+				} else if (spec < 150) {
 					s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT; 
-				} else if (spec < 600) {
+				} else if (spec < 200) {
 					s.starType[0] = SBody::TYPE_STAR_K_GIANT; 
-				} else if (spec < 700) {
+				} else if (spec < 250) {
 					s.starType[0] = SBody::TYPE_STAR_G_GIANT;
-				} else if (spec < 800) {
+				} else if (spec < 300) {
 					s.starType[0] = SBody::TYPE_STAR_O_GIANT; 
-				} else if (spec < 900) {
+				} else if (spec < 350) {
 					s.starType[0] = SBody::TYPE_STAR_A_GIANT;
-				} else if (spec < 1000) {
+				} else if (spec < 400) {
 					s.starType[0] = SBody::TYPE_STAR_F_GIANT;
-				} else if (spec < 1100) {
+				} else if (spec < 500) {
 					s.starType[0] = SBody::TYPE_STAR_B_GIANT; 
-				} else if (spec < 1250) {
+				} else if (spec < 700) {
 					s.starType[0] = SBody::TYPE_STAR_M_GIANT; 
-				} else if (spec < 2000) {
+				} else if (spec < 800) {
 					s.starType[0] = SBody::TYPE_STAR_O;  // should be 1 but that is boring
-				} else if (spec < 3000) { // spec < 1300 / 20500
+				} else if (spec < 2000) { // spec < 1300 / 20500
 					s.starType[0] = SBody::TYPE_STAR_B;  
-				} else if (spec < 28000) { // spec < 7300
+				} else if (spec < 8000) { // spec < 7300
 					s.starType[0] = SBody::TYPE_STAR_A;  
-				} else if (spec < 57300) { // spec < 37300
+				} else if (spec < 37300) { // spec < 37300
 					s.starType[0] = SBody::TYPE_STAR_F;  
-				} else if (spec < 118300) { // spec < 113300
+				} else if (spec < 113300) { // spec < 113300
 					s.starType[0] = SBody::TYPE_STAR_G;  
-				} else if (spec < 239300) { // spec < 234300
+				} else if (spec < 234300) { // spec < 234300
 					s.starType[0] = SBody::TYPE_STAR_K;  
-				} else if (spec < 261000) { // spec < 250000
+				} else if (spec < 250000) { // spec < 250000
 					s.starType[0] = SBody::TYPE_WHITE_DWARF;
-				} else if (spec < 920000) {  //spec < 900000
+				} else if (spec < 900000) {  //spec < 900000
 					s.starType[0] = SBody::TYPE_STAR_M;
 				} else {
 					s.starType[0] = SBody::TYPE_BROWN_DWARF;
@@ -189,36 +193,41 @@ Sector::Sector(int x, int y)
 			if ((s.starType[0] <= SBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
 				// while 
-				/*if (rand.Int32(0,100) >= 99) {
-					s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT;
-				} else if (rand.Int32(0,100) >= 98) {
-					s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT;
-				} else if (rand.Int32(0,100) >= 97) {
-					s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT;
-				} else if (rand.Int32(0,100) >= 96) {
-					s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT;
-				} else if (rand.Int32(0,100) >= 95) {
-					s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT;
-				} else if (rand.Int32(0,100) >= 94) {
-					s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT;
-				} else if (rand.Int32(0,100) >= 92) {
-					s.starType[0] = SBody::TYPE_STAR_B_GIANT;
-				} else if (rand.Int32(0,100) >= 90) {
-					s.starType[0] = SBody::TYPE_STAR_O_GIANT;
-				} else if (rand.Int32(0,100) >= 88) {
-					s.starType[0] = SBody::TYPE_STAR_K_GIANT;
-				} else if (rand.Int32(0,100) >= 80) {
-					s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT;
-				} else if (rand.Int32(0,100) >= 70) {
-					s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT;
-				} else {
-					s.starType[0] = SBody::TYPE_STAR_M_GIANT;
-				} */ 
-				s.starType[0] = SBody::TYPE_STAR_M_GIANT;
-				printf("%d: %d%\n", sx, sy);
+				if (isqrt(1+sx*sx+sy*sy) > 10)
+				{			
+					if (rand.Int32(0,1000) >= 999) {
+						s.starType[0] = SBody::TYPE_STAR_B_HYPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 998) {
+						s.starType[0] = SBody::TYPE_STAR_O_HYPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 997) {
+						s.starType[0] = SBody::TYPE_STAR_K_HYPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 995) {
+						s.starType[0] = SBody::TYPE_STAR_B_SUPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 993) {
+						s.starType[0] = SBody::TYPE_STAR_O_SUPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 990) {
+						s.starType[0] = SBody::TYPE_STAR_K_SUPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 985) {
+						s.starType[0] = SBody::TYPE_STAR_B_GIANT;
+					} else if (rand.Int32(0,1000) >= 980) {
+						s.starType[0] = SBody::TYPE_STAR_O_GIANT;
+					} else if (rand.Int32(0,1000) >= 975) {
+						s.starType[0] = SBody::TYPE_STAR_K_GIANT;
+					} else if (rand.Int32(0,1000) >= 950) {
+						s.starType[0] = SBody::TYPE_STAR_M_HYPER_GIANT;
+					} else if (rand.Int32(0,1000) >= 875) {
+						s.starType[0] = SBody::TYPE_STAR_M_SUPER_GIANT;
+					} else {
+						s.starType[0] = SBody::TYPE_STAR_M_GIANT;
+					} 
+				} else if (isqrt(1+sx*sx+sy*sy) > 5) s.starType[0] = SBody::TYPE_STAR_M_GIANT;
+				else s.starType[0] = SBody::TYPE_STAR_M;
+
+				//printf("%d: %d%\n", sx, sy);
 			}
 
 			s.name = GenName(s, rng);
+			printf("%s: \n", s.name.c_str());
 
 			m_systems.push_back(s);
 		}
@@ -245,9 +254,30 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		case SBody::TYPE_STAR_F: chance += 2*dist; break;
 		case SBody::TYPE_STAR_G: chance += 4*dist; break;
 		case SBody::TYPE_STAR_K: chance += 8*dist; break;
+		case SBody::TYPE_STAR_O_GIANT:
+		case SBody::TYPE_STAR_B_GIANT: chance = 50; break;
+		case SBody::TYPE_STAR_A_GIANT: chance = 0.2*dist; break;
+		case SBody::TYPE_STAR_F_GIANT: chance = 0.4*dist; break;
+		case SBody::TYPE_STAR_G_GIANT: chance = 0.5*dist; break;
+		case SBody::TYPE_STAR_K_GIANT:
+		case SBody::TYPE_STAR_M_GIANT: chance = dist; break;
+		case SBody::TYPE_STAR_O_SUPER_GIANT:
+		case SBody::TYPE_STAR_B_SUPER_GIANT: chance = 10; break;
+		case SBody::TYPE_STAR_A_SUPER_GIANT:
+		case SBody::TYPE_STAR_F_SUPER_GIANT:
+		case SBody::TYPE_STAR_G_SUPER_GIANT:
+		case SBody::TYPE_STAR_K_SUPER_GIANT: chance = 15; break;
+		case SBody::TYPE_STAR_M_SUPER_GIANT: chance = 20; break;
+		case SBody::TYPE_STAR_O_HYPER_GIANT:
+		case SBody::TYPE_STAR_B_HYPER_GIANT:
+		case SBody::TYPE_STAR_A_HYPER_GIANT:
+		case SBody::TYPE_STAR_F_HYPER_GIANT:
+		case SBody::TYPE_STAR_G_HYPER_GIANT:
+		case SBody::TYPE_STAR_K_HYPER_GIANT:
+		case SBody::TYPE_STAR_M_HYPER_GIANT: chance = 1; break;  //Should give a nice name almost all the time
 		default: chance += 16*dist; break;
 	}
-	if (rng.Int32(chance) < 100) {
+	if (rng.Int32(chance) < 500) {
 		/* well done. you get a real name */
 		int len = rng.Int32(2,3);
 		for (int i=0; i<len; i++) {
@@ -255,11 +285,11 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		}
 		name[0] = toupper(name[0]);
 		return name;
-	} else if (rng.Int32(chance) < 300) {
+	} else if (rng.Int32(chance) < 800) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "MJBN %d%+d%+d", rng.Int32(10,999),sx,sy); // MJBN -> Morton Jordan Bennett Norris
 		return buf;
-	} else if (rng.Int32(chance) < 500) {
+	} else if (rng.Int32(chance) < 1200) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy); 
 		return buf;
