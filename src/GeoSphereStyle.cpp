@@ -562,7 +562,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.2, 1e5, rand, 10);
 			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.5, 1e6, rand, 10);
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.5, rand.Double(1e6,5e6), rand, 10);
-			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(3e6, 1e7), rand, 10);
+			SetFracDef(&m_fracdef[8], m_maxHeightInMeters, rand.Double(12e5, 22e5), rand, 10);
 			SetFracDef(&m_fracdef[9], m_maxHeightInMeters, 1e7, rand, 10.0);
 			break;
 		}
@@ -1048,11 +1048,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_MOUNTAINS_RIVERS:
 		{
-			double continents = octavenoise(m_fracdef[0], 0.6*
-				billow_octavenoise(m_fracdef[8], 0.56, p), p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.7*
+				ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.65;
 			if (continents < 0) return 0;
 			double n = (river_function(m_fracdef[9], p)*
-				river_function(m_fracdef[8], p)*
 				river_function(m_fracdef[7], p)*
 				river_function(m_fracdef[6], p)*
 				canyon3_normal_function(m_fracdef[1], p)*continents) -
@@ -1733,10 +1732,10 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			} else {
 			// Oooh, pretty coastal regions with shading based on underwater depth.
 				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.49);
-				n *= 100.0;
+				n *= 8.0;
 				// waves
-				n += dunes_octavenoise(m_fracdef[2], 0.5, p);
-				n *= 0.05;
+				//n += dunes_octavenoise(m_fracdef[2], 0.5, p);
+				//n *= 0.05;
 			}
 			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
 			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
@@ -2097,7 +2096,8 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 				1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
 		// This is for fake ocean depth by the coast.
-		double continents = octavenoise(m_fracdef[0], 0.6*billow_octavenoise(m_fracdef[8], 0.56, p), p) - m_sealevel;
+		double continents = octavenoise(m_fracdef[0], 0.7*
+					ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.6;
 
 		vector3d col;
 		//we don't want water on the poles if there are ice-caps
@@ -2114,11 +2114,11 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 				n *= 0.1;
 			} else {
 			// Oooh, pretty coastal regions with shading based on underwater depth.
-				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.09);
-				n *= 50.0;
+				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.49);
+				//n *= 8.0;
 				//waves
-				n += dunes_octavenoise(m_fracdef[2], 0.5, p);
-				n *= 0.05;
+				//n += dunes_octavenoise(m_fracdef[2], 0.5, p);
+				//n *= 0.05;
 			}
 			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
 			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
