@@ -2394,7 +2394,7 @@ static inline double river2_octavenoise(fracdef_t &def, double roughness, const 
 		octaveAmplitude *= roughness;
 		jizm *= def.lacunarity;
 	}
-	return sqrt(fabs(n) * (fabs(n)/1));
+	return sqrt(fabs(n) * (fabs(n)*3));
 }
 
 static inline double dunes_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
