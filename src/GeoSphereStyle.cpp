@@ -290,30 +290,30 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		   (body->m_volatileGas > fixed(2,10))){
 			   // There would be no life on the surface without atmosphere
 			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
-				TERRAIN_MOUNTAINS_RIDGED,
+				//TERRAIN_HILLS_RIDGED,
+				//TERRAIN_HILLS_RIVERS,
+				//TERRAIN_MOUNTAINS_RIDGED,
 				TERRAIN_MOUNTAINS_NORMAL,  // HQ terrain
 				TERRAIN_MOUNTAINS_RIVERS,  // HQ terrain
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
+				//TERRAIN_MOUNTAINS_VOLCANO,
+				//TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 			};
-			m_terrainType = choices[rand.Int32(6)];
+			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_EARTHLIKE;
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
 			const enum TerrainFractal choices[] = {
-				TERRAIN_HILLS_RIDGED,
-				TERRAIN_HILLS_RIVERS,
+				//TERRAIN_HILLS_RIDGED,
+				//TERRAIN_HILLS_RIVERS,
 				TERRAIN_MOUNTAINS_NORMAL,
-				TERRAIN_MOUNTAINS_RIDGED,
-				TERRAIN_MOUNTAINS_VOLCANO,
-				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
+				//TERRAIN_MOUNTAINS_RIDGED,
+				//TERRAIN_MOUNTAINS_VOLCANO,
+				//TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 				TERRAIN_MOUNTAINS_RIVERS,
-				TERRAIN_RUGGED_DESERT,
+				//TERRAIN_RUGGED_DESERT,
 			};
-			m_terrainType = choices[rand.Int32(7)];
+			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
 			m_colorType = COLOR_TFGOOD;
 		} else if ((body->m_volatileLiquid < fixed(1,10)) &&
