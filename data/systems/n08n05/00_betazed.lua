@@ -1,0 +1,1 @@
+CustomSystem:new("Betazed",{Body.Type.STAR_G}):add_to_sector(-8,-5,v(0.385,0.772,0.453))

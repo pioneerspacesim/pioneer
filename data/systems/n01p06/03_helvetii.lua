@@ -1,0 +1,1 @@
+CustomSystem:new("Helvetii",{Body.Type.STAR_K}):add_to_sector(-1,6,v(0.991,0.848,-0.531))

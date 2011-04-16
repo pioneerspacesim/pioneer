@@ -1,0 +1,1 @@
+CustomSystem:new("Latona",{Body.Type.STAR_M}):add_to_sector(0,-6,v(0.679,0.990,0.395))

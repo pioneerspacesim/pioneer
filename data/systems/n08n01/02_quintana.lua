@@ -1,0 +1,1 @@
+CustomSystem:new("Quintana",{Body.Type.STAR_M}):add_to_sector(-8,-1,v(0.496,0.445,-0.499))

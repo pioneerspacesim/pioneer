@@ -1,0 +1,1 @@
+CustomSystem:new("Sayshell",{Body.Type.STAR_F}):add_to_sector(-2,-5,v(0.829,0.697,0.405))

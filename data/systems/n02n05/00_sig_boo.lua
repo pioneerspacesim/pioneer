@@ -1,0 +1,1 @@
+CustomSystem:new("Sig Boo",{Body.Type.STAR_F}):add_to_sector(-2,-5,v(0.541,0.186,0.891))

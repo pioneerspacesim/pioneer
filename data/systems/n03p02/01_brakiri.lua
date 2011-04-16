@@ -1,0 +1,1 @@
+CustomSystem:new("Brakiri",{Body.Type.STAR_M}):add_to_sector(-3,2,v(0.139,0.887,-1.632))

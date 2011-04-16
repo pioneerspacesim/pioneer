@@ -1,0 +1,1 @@
+CustomSystem:new("Kalgan",{Body.Type.STAR_K}):add_to_sector(0,4,v(0.787,0.604,-0.222))

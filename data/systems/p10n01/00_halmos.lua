@@ -1,0 +1,1 @@
+CustomSystem:new("Halmos",{Body.Type.STAR_G}):add_to_sector(10,-1,v(0.237,0.618,0.995))

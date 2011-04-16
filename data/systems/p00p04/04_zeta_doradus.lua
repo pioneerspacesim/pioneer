@@ -1,0 +1,1 @@
+CustomSystem:new("Zeta Doradus",{Body.Type.STAR_F}):add_to_sector(0,4,v(0.803,0.951,-0.360))

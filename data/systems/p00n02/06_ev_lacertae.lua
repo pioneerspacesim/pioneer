@@ -1,0 +1,1 @@
+CustomSystem:new("EV Lacertae",{Body.Type.STAR_M}):add_to_sector(0,-2,v(0.867,0.840,0.195))

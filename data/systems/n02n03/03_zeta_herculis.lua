@@ -1,0 +1,1 @@
+CustomSystem:new("Zeta Herculis",{Body.Type.STAR_G, Body.Type.STAR_K}):add_to_sector(-2,-3,v(0.595,0.236,0.636))

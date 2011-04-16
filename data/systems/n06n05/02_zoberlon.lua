@@ -1,0 +1,1 @@
+CustomSystem:new("Zoberlon",{Body.Type.STAR_A}):add_to_sector(-6,-5,v(0.165,0.402,0.381))

@@ -1,0 +1,1 @@
+CustomSystem:new("Edison",{Body.Type.STAR_M}):add_to_sector(-8,-2,v(0.980,0.519,1.054))

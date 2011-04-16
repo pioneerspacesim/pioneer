@@ -1,0 +1,1 @@
+CustomSystem:new("Demerzal",{Body.Type.STAR_G}):add_to_sector(-9,4,v(0.324,0.209,-1.050))

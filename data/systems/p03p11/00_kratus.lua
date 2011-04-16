@@ -1,0 +1,1 @@
+CustomSystem:new("Kratus",{Body.Type.STAR_K}):add_to_sector(3,11,v(0.655,0.286,-0.997))

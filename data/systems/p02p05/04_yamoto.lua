@@ -1,0 +1,1 @@
+CustomSystem:new("Yamoto",{Body.Type.STAR_F, Body.Type.STAR_K}):add_to_sector(2,5,v(0.775,0.339,-0.339))

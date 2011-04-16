@@ -1,0 +1,1 @@
+CustomSystem:new("Cinna",{Body.Type.STAR_M}):add_to_sector(-5,2,v(0.409,0.692,-1.006))

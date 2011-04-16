@@ -1,0 +1,1 @@
+CustomSystem:new("Macon",{Body.Type.STAR_K}):add_to_sector(-9,4,v(0.295,0.359,-1.136))

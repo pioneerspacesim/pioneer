@@ -1,0 +1,1 @@
+CustomSystem:new("Hendrix",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(2,8,v(0.275,0.939,-0.459))

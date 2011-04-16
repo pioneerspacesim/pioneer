@@ -1,0 +1,1 @@
+CustomSystem:new("Zeta Reticuli",{Body.Type.STAR_G}):add_to_sector(-1,4,v(0.889,0.437,-0.419))

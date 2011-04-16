@@ -1,0 +1,1 @@
+CustomSystem:new("Gioia",{Body.Type.STAR_M}):add_to_sector(-11,-10,v(0.138,0.792,0.333))

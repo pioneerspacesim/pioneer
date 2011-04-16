@@ -1,0 +1,1 @@
+CustomSystem:new("Lisiform",{Body.Type.STAR_A}):add_to_sector(-8,5,v(0.773,0.051,-0.499))
