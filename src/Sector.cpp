@@ -227,7 +227,7 @@ Sector::Sector(int x, int y)
 			}
 
 			s.name = GenName(s, rng);
-			printf("%s: \n", s.name.c_str());
+			//printf("%s: \n", s.name.c_str());
 
 			m_systems.push_back(s);
 		}
