@@ -134,7 +134,7 @@ static int l_ship_ai_do_journey(lua_State *l)
 	return 0;
 }
 
-int l_ship_get_ship_types(lua_State *l)
+static int l_ship_get_ship_types(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -196,6 +196,56 @@ int l_ship_get_ship_types(lua_State *l)
 	return 1;
 }
 
+static int l_ship_spawn(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	const char *type = luaL_checkstring(l, 1);
+	if (! ShipType::Get(type))
+		luaL_error(l, "Unknown ship type '%s'", type);
+	
+	if (lua_isnil(l, 2)) {
+		// no attributes:
+		// - 0-10AU from star surface
+		// - basic fitout: 1mw laser, standard missiles, atmos shielding
+		assert(0);
+	}
+
+	if (!lua_istable(l, 2))
+		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE);
+
+	// attribute table
+	//
+	//  position: table of attributes defining a spawn location. first
+	//            element is a string that says how to interpret the rest of
+	//            the args:
+	//      { "system", x.x, y.y }
+	//          random position between x and y AU from primary star
+	//      { "near", body, x.x, y.y }
+	//          random position between x and y km from body
+	//      { "docked", starport }
+	//          docked with starport
+	//      { "parked", starport }
+	//          parked near starport (in orbit over starport or near station entrance
+	//      defaults to { "system", 0.0, 10.0 }
+	//  
+	//  power: single number from 0.0 to 1.0, where 0 is unarmed and 1.0 is armed to the teeth.
+	//         adds weaponry and other equipment to bring the ship up to the desired powered level
+	//         if not specified the ship receives no equipment automatically
+	//
+	//  due: single number N. spawns the ship N seconds from now. if N is 0,
+	//       spawns a hyperspace cloud remnant and has the ship emerge from
+	//       it. if N > 0, takes an additional SBodyPath argument and creates
+	//       an arrival cloud with that system as the source. the ship will
+	//       emerge at the specified time
+	//       if not specified the ship will simply "appear" with no hyperspace
+	//       cloud
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -220,6 +270,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIDoJourney",     l_ship_ai_do_journey     },
 
 		{ "GetShipTypes",    l_ship_get_ship_types    },
+
+		{ "Spawn",           l_ship_spawn             },
 
 		{ 0, 0 }
 	};
