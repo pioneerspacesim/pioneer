@@ -153,7 +153,6 @@
 		4A6C4EAC135454EE00FDD53F /* libGLEW.1.5.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */; };
 		4A6C4EB6135455BB00FDD53F /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */; };
 		4A6C55151354655000FDD53F /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
-		4A6C551F1354743A00FDD53F /* pioneer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C551E1354743A00FDD53F /* pioneer-logo.png */; };
 		4AD68C6B1359AFEE0048A93F /* FreeType.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD68C6A1359AFEE0048A93F /* FreeType.framework */; };
 		4AD68C711359B1D40048A93F /* FreeType.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C6D1359B1D40048A93F /* FreeType.framework */; };
 		4AD68C721359B1D40048A93F /* SDL_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C6E1359B1D40048A93F /* SDL_image.framework */; };
@@ -161,6 +160,7 @@
 		4AD68C741359B1D40048A93F /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C701359B1D40048A93F /* SDL.framework */; };
 		4AD68C751359B2380048A93F /* libGLEW.1.5.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */; };
 		4AD68C761359B2390048A93F /* libsigc-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */; };
+		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -570,12 +570,12 @@
 		4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_mixer.framework; sourceTree = DEVELOPER_DIR; };
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
 		4A6C551613546D3C00FDD53F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
-		4A6C551E1354743A00FDD53F /* pioneer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pioneer-logo.png"; sourceTree = "<group>"; };
 		4AD68C6A1359AFEE0048A93F /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/FreeType.framework; sourceTree = DEVELOPER_DIR; };
 		4AD68C6D1359B1D40048A93F /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = /Library/Frameworks/FreeType.framework; sourceTree = "<absolute>"; };
 		4AD68C6E1359B1D40048A93F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = /Library/Frameworks/SDL_image.framework; sourceTree = "<absolute>"; };
 		4AD68C6F1359B1D40048A93F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
 		4AD68C701359B1D40048A93F /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
+		4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -655,7 +655,7 @@
 		4A20B11213531CAF0020F43E /* Cocoa Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				4A6C551E1354743A00FDD53F /* pioneer-logo.png */,
+				4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */,
 				4A20B10D13531C040020F43E /* main.cpp */,
 				4A20B11F13531E950020F43E /* SDLMain.nib */,
 				4A20B10E13531C040020F43E /* SDLMain.h */,
@@ -1121,7 +1121,7 @@
 				4A20B11C13531CD10020F43E /* Credits.rtf in Resources */,
 				4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */,
 				4A20B12013531E950020F43E /* SDLMain.nib in Resources */,
-				4A6C551F1354743A00FDD53F /* pioneer-logo.png in Resources */,
+				4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

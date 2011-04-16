@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>pioneer-logo.png</string>
+	<string>pioneer-logo.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>net.pioneerspacesim.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
