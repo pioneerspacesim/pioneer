@@ -1,0 +1,1 @@
+CustomSystem:new("Arrakeen",{Body.Type.STAR_K}):add_to_sector(-3,5,v(0.981,0.760,-0.525))

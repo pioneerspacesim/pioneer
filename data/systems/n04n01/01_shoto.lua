@@ -1,0 +1,1 @@
+CustomSystem:new("Shoto",{Body.Type.WHITE_DWARF, Body.Type.STAR_M}):add_to_sector(-4,-1,v(0.649,0.112,0.512))

@@ -1,0 +1,1 @@
+CustomSystem:new("Runge",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(7,1,v(0.294,0.946,0.143))

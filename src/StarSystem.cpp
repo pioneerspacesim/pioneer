@@ -2,6 +2,7 @@
 #include "Sector.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
+#include "utils.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -143,21 +144,21 @@ double StarSystem::starLuminosities[] = {
 
 float StarSystem::starScale[] = {  // Used in sector view
 	0,
-	0.3, // brown dwarf
-	0.4, // M
-	0.5, // K
-	0.5, // G
-	0.7, // F
-	0.8, // A
-	0.9, // B
-	0.9, // O
+	0.6, // brown dwarf
+	0.7, // M
+	0.8, // K
+	0.8, // G
+	0.9, // F
+	1.0, // A
+	1.1, // B
+	1.1, // O
 	1.3, // M Giant
 	1.2, // K G
 	1.2, // G G
 	1.2, // F G
 	1.1, // A G
 	1.1, // B G 
-	1.0, // O G
+	1.2, // O G
 	1.8, // M Super Giant
 	1.6, // K SG
 	1.5, // G SG
@@ -178,7 +179,7 @@ float StarSystem::starScale[] = {  // Used in sector view
 	1.0, // Black hole
 	2.5, // Intermediate-mass blackhole
 	4.0,  // Supermassive blackhole
-	0.2 // white dwarf
+	0.5 // white dwarf
 };
 
 fixed StarSystem::starMetallicities[] = {
@@ -721,24 +722,6 @@ double SBody::GetMaxChildOrbitalDistance() const
 		}
 	}
 	return AU * max;
-}
-
-
-static inline Sint64 isqrt(Sint64 a)
-{
-	Sint64 ret=0;
-	Sint64 s;
-	Sint64 ret_sq=-a-1;
-	for(s=62; s>=0; s-=2){
-		Sint64 b;
-		ret+= ret;
-		b=ret_sq + ((2*ret+1)<<s);
-		if(b<0){
-			ret_sq=b;
-			ret++;
-		}
-	}
-	return ret;
 }
 
 

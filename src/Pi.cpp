@@ -79,6 +79,7 @@ bool Pi::isGameStarted = false;
 IniConfig Pi::config;
 struct DetailLevel Pi::detail = {};
 bool Pi::joystickEnabled;
+bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
@@ -144,6 +145,8 @@ void Pi::Init()
 
 	InitJoysticks();
 	joystickEnabled = (config.Int("EnableJoystick")) ? true : false;
+
+	mouseYInvert = (config.Int("InvertMouseY")) ? true : false;
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
@@ -801,16 +804,16 @@ void Pi::Start()
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
-		Space::SetupSystemForGameStart(&path, 0, 0);
+		Space::SetupSystemForGameStart(&path, 4, 0);
 		MainLoop();
 	} else if (choice == 2) {
 		/* Epsilon Eridani start point */
-		SBodyPath path(1,0,2);
+		SBodyPath path(1,0,1);
 		Space::SetupSystemForGameStart(&path, 0, 0);
 		MainLoop();
 	} else if (choice == 3) {
 		/* debug start point */
-		SBodyPath path(1,0,2);
+		SBodyPath path(1,0,1);
 		path.sbodyId = 6;
 		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));

@@ -1,0 +1,1 @@
+CustomSystem:new("Yoko",{Body.Type.STAR_M}):add_to_sector(-3,7,v(0.116,0.384,-0.452))

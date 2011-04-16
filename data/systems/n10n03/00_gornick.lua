@@ -1,0 +1,1 @@
+CustomSystem:new("Gornick",{Body.Type.STAR_F}):add_to_sector(-10,-3,v(0.570,0.717,0.833))

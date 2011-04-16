@@ -1,0 +1,1 @@
+CustomSystem:new("Orbus",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(2,-4,v(0.996,0.261,0.315))

@@ -1,0 +1,1 @@
+CustomSystem:new("Ross 206",{Body.Type.STAR_M}):add_to_sector(-13,-2,v(0.930,0.382,-0.107))

@@ -1,0 +1,1 @@
+CustomSystem:new("Arcana",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(-6,-5,v(0.889,0.439,0.208))

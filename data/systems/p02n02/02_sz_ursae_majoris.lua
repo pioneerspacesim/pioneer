@@ -1,0 +1,1 @@
+CustomSystem:new("SZ Ursae Majoris",{Body.Type.STAR_M}):add_to_sector(2,-2,v(0.465,0.088,1.782))

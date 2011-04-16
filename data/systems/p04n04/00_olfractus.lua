@@ -1,0 +1,1 @@
+CustomSystem:new("Olfractus",{Body.Type.STAR_M}):add_to_sector(4,-4,v(0.947,0.895,0.013))

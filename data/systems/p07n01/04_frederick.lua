@@ -1,0 +1,1 @@
+CustomSystem:new("Frederick",{Body.Type.STAR_K}):add_to_sector(7,-1,v(0.818,0.515,0.931))

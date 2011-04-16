@@ -1,0 +1,1 @@
+CustomSystem:new("Coala",{Body.Type.STAR_M}):add_to_sector(-8,-3,v(0.081,0.023,0.885))

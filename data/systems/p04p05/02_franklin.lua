@@ -1,0 +1,1 @@
+CustomSystem:new("Franklin",{Body.Type.STAR_F, Body.Type.STAR_G}):add_to_sector(4,5,v(0.356,0.293,-0.492))

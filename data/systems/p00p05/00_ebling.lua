@@ -1,0 +1,1 @@
+CustomSystem:new("Ebling",{Body.Type.STAR_M}):add_to_sector(0,5,v(0.700,0.684,-0.461))

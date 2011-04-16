@@ -1,0 +1,1 @@
+CustomSystem:new("Nevis",{Body.Type.STAR_K}):add_to_sector(10,4,v(0.604,0.583,-0.614))

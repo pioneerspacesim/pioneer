@@ -1,0 +1,1 @@
+CustomSystem:new("Bentine",{Body.Type.STAR_M, Body.Type.STAR_F}):add_to_sector(-1,4,v(0.574,0.579,-0.678))

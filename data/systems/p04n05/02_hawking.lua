@@ -1,0 +1,1 @@
+CustomSystem:new("Hawking",{Body.Type.STAR_M}):add_to_sector(4,-5,v(0.368,0.962,0.420))

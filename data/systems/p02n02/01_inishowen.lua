@@ -1,0 +1,1 @@
+CustomSystem:new("Inishowen",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(2,-2,v(0.002,1.000,0.542))

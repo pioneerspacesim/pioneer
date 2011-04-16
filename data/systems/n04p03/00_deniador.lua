@@ -1,0 +1,1 @@
+CustomSystem:new("Deniador",{Body.Type.STAR_G}):add_to_sector(-4,3,v(0.900,0.281,-0.956))

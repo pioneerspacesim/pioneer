@@ -1,0 +1,1 @@
+CustomSystem:new("Schweiz",{Body.Type.STAR_M}):add_to_sector(4,4,v(0.600,0.229,-1.127))

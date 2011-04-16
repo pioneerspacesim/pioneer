@@ -1,0 +1,1 @@
+CustomSystem:new("Enayand",{Body.Type.STAR_K}):add_to_sector(6,11,v(0.690,0.516,-1.155))

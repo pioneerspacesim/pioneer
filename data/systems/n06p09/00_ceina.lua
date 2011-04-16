@@ -1,0 +1,1 @@
+CustomSystem:new("Ceina",{Body.Type.STAR_G}):add_to_sector(-6,9,v(0.765,0.829,-0.731))

@@ -1,0 +1,1 @@
+CustomSystem:new("Denebola",{Body.Type.STAR_A}):add_to_sector(3,-3,v(0.894,0.439,0.450))

@@ -1,0 +1,1 @@
+CustomSystem:new("Theta Centauri",{Body.Type.STAR_K}):add_to_sector(-6,2,v(0.246,0.897,-0.942))

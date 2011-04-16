@@ -1,0 +1,1 @@
+CustomSystem:new("Luahell",{Body.Type.STAR_M}):add_to_sector(6,1,v(0.801,0.036,-0.263))
