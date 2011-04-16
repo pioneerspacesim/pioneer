@@ -232,25 +232,20 @@ static int l_ship_spawn(lua_State *l)
 	//         adds weaponry and other equipment to bring the ship up to the desired powered level
 	//         if not specified the ship receives no equipment automatically
 	//
-	//  due: single number N. spawns the ship N seconds from now. if N is 0,
-	//       spawns a hyperspace cloud remnant and has the ship emerge from
-	//       it. if N > 0, takes an additional SBodyPath argument and creates
-	//       an arrival cloud with that system as the source. the ship will
-	//       emerge at the specified time
-	//       if not specified the ship will simply "appear" with no hyperspace
-	//       cloud
+	//  hyperspace: table with two elements. first is a SBodyPath for the
+	//              system the ship left from. the second is single number
+	//              indicating the spawn time in secpnds from now
 	
 	enum { _SYSTEM, _NEAR, _DOCKED, _PARKED } location = _SYSTEM;
-	Frame *frame = Space::rootFrame;
 	Body *body = NULL;
 	SpaceStation *station = NULL;
 	double min_dist = 0.0, max_dist = 10.0;
-	double power = 0.5;
+	double power = -1;
+	SBodyPath *path = NULL;
 	double due = -1;
-	SBodyPath *jump_src = NULL;
 	
 	lua_getfield(l, -1, "location");
-	if (!lua_isnoneornil(l, -1)) {
+	if (!lua_isnil(l, -1)) {
 		if (!lua_istable(l, -1))
 			luaL_error(l, "bad value for 'location' (%s expected, got %s)", lua_typename(l, LUA_TTABLE), luaL_typename(l, -1));
 
@@ -302,14 +297,42 @@ static int l_ship_spawn(lua_State *l)
 
 		else
 			luaL_error(l, "unknown location type '%s'", locstr.c_str());
-			
 	}
+	lua_pop(l, 1);
 	
+	lua_getfield(l, -1, "power");
+	if (!lua_isnil(l, -1)) {
+		if (!lua_isnumber(l, -1))
+			luaL_error(l, "bad value for 'power' (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
+		power = lua_tonumber(l, -1);
+	}
+	lua_pop(l, 1);
 
+	lua_getfield(l, -1, "hyperspace");
+	if (!lua_isnil(l, -1)) {
+		if (!lua_istable(l, -1))
+			luaL_error(l, "bad value for 'hyperspace' (%s expected, got %s)", lua_typename(l, LUA_TTABLE), luaL_typename(l, -1));
 
-	LUA_DEBUG_END(l, 1);
+		lua_pushinteger(l, 1);
+		lua_gettable(l, -2);
+		if (!(path = LuaSBodyPath::CheckFromLua(-1)))
+			luaL_error(l, "bad value for hyperspace path at position 1 (SBodyPath expected, got %s)", luaL_typename(l, -1));
+		lua_pop(l, 1);
 
-	return 1;
+		lua_pushinteger(l, 2);
+		lua_gettable(l, -2);
+		if (!(lua_isnumber(l, -1)))
+			luaL_error(l, "bad value for hyperspace exit time at position 2 (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
+		due = lua_tonumber(l, -1);
+		lua_pop(l, 1);
+	}
+	lua_pop(l, 1);
+
+	// XXX spawn it
+
+	LUA_DEBUG_END(l, 0);
+
+	return 0;
 }
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
