@@ -804,16 +804,16 @@ void Pi::Start()
 	if (choice == 1) {
 		/* Earth start point */
 		SBodyPath path(0,0,0);
-		Space::SetupSystemForGameStart(&path, 0, 0);
+		Space::SetupSystemForGameStart(&path, 4, 0);
 		MainLoop();
 	} else if (choice == 2) {
 		/* Epsilon Eridani start point */
-		SBodyPath path(1,0,2);
+		SBodyPath path(1,0,1);
 		Space::SetupSystemForGameStart(&path, 0, 0);
 		MainLoop();
 	} else if (choice == 3) {
 		/* debug start point */
-		SBodyPath path(1,0,2);
+		SBodyPath path(1,0,1);
 		path.sbodyId = 6;
 		Space::DoHyperspaceTo(&path);
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
