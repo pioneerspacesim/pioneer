@@ -2,10 +2,12 @@
 #include "LuaSpaceStation.h"
 #include "LuaSBodyPath.h"
 #include "LuaShipType.h"
+#include "LuaBody.h"
 #include "LuaUtils.h"
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
+#include "Space.h"
 
 static int l_ship_get_stats(lua_State *l)
 {
@@ -204,29 +206,26 @@ static int l_ship_spawn(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 	
-	if (lua_isnil(l, 2)) {
-		// no attributes:
-		// - 0-10AU from star surface
-		// - basic fitout: 1mw laser, standard missiles, atmos shielding
-		assert(0);
-	}
-
-	if (!lua_istable(l, 2))
-		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE);
-
+	if (lua_isnoneornil(l, 2))
+		lua_newtable(l);
+	else if (!lua_istable(l, 2))
+		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
+	else
+		lua_pushvalue(l, 2);
+	
 	// attribute table
 	//
-	//  position: table of attributes defining a spawn location. first
+	//  location: table of attributes defining a spawn location. first
 	//            element is a string that says how to interpret the rest of
 	//            the args:
 	//      { "system", x.x, y.y }
-	//          random position between x and y AU from primary star
+	//          random location between x and y AU from primary star
 	//      { "near", body, x.x, y.y }
-	//          random position between x and y km from body
-	//      { "docked", starport }
-	//          docked with starport
-	//      { "parked", starport }
-	//          parked near starport (in orbit over starport or near station entrance
+	//          random location between x and y km from body
+	//      { "docked", station }
+	//          docked with station
+	//      { "parked", station }
+	//          parked near station (in orbit over ground station or near orbital station entrance)
 	//      defaults to { "system", 0.0, 10.0 }
 	//  
 	//  power: single number from 0.0 to 1.0, where 0 is unarmed and 1.0 is armed to the teeth.
@@ -240,6 +239,73 @@ static int l_ship_spawn(lua_State *l)
 	//       emerge at the specified time
 	//       if not specified the ship will simply "appear" with no hyperspace
 	//       cloud
+	
+	enum { _SYSTEM, _NEAR, _DOCKED, _PARKED } location = _SYSTEM;
+	Frame *frame = Space::rootFrame;
+	Body *body = NULL;
+	SpaceStation *station = NULL;
+	double min_dist = 0.0, max_dist = 10.0;
+	double power = 0.5;
+	double due = -1;
+	SBodyPath *jump_src = NULL;
+	
+	lua_getfield(l, -1, "location");
+	if (!lua_isnoneornil(l, -1)) {
+		if (!lua_istable(l, -1))
+			luaL_error(l, "bad value for 'location' (%s expected, got %s)", lua_typename(l, LUA_TTABLE), luaL_typename(l, -1));
+
+		int i = 0;
+		lua_pushinteger(l, ++i);
+		lua_gettable(l, -2);
+		if (!lua_isstring(l, -1))
+			luaL_error(l, "bad value for location type at position %d (%s expected, got %s)", i, lua_typename(l, LUA_TTABLE), luaL_typename(l, -1));
+		std::string locstr = lua_tostring(l, -1);
+		lua_pop(l, 1);
+
+		if (locstr == "system" || locstr == "near") {
+			if (locstr == "near") {
+				location = _NEAR;
+
+				lua_pushinteger(l, ++i);
+				lua_gettable(l, -2);
+				if (!(body = LuaBody::CheckFromLua(-1)))
+					luaL_error(l, "bad value for location 'near' system body at position %d (Body expected, got %s)", i, luaL_typename(l, -1));
+				lua_pop(l, 1);
+
+				// fall through
+			}
+
+			lua_pushinteger(l, ++i);
+			lua_gettable(l, -2);
+			if (!lua_isnumber(l, -1))
+				luaL_error(l, "bad value for location '%s' at position %d (%s expected, got %s)", locstr.c_str(), i, lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
+			min_dist = lua_tonumber(l, -1);
+			lua_pop(l, 1);
+
+			lua_pushinteger(l, ++i);
+			lua_gettable(l, -2);
+			if (!lua_isnumber(l, -1))
+				luaL_error(l, "bad value for location '%s' at position %d (%s expected, got %s)", locstr.c_str(), i, lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
+			max_dist = lua_tonumber(l, -1);
+			lua_pop(l, 1);
+		}
+
+		else if (locstr == "docked" || locstr == "parked") {
+			location = locstr == "docked" ? _DOCKED : _PARKED;
+
+			lua_pushinteger(l, ++i);
+			lua_gettable(l, -2);
+			if (!(station = LuaSpaceStation::CheckFromLua(-1)))
+				luaL_error(l, "bad value for location '%s' at position %d (SpaceStation expected, got %s)", locstr.c_str(), i, luaL_typename(l, -1));
+			lua_pop(l, 1);
+		}
+
+		else
+			luaL_error(l, "unknown location type '%s'", locstr.c_str());
+			
+	}
+	
+
 
 	LUA_DEBUG_END(l, 1);
 
