@@ -1,0 +1,1 @@
+CustomSystem:new("Signis Ayarlia",{Body.Type.STAR_F, Body.Type.STAR_G, Body.Type.STAR_M}):add_to_sector(-4,-7,v(0.767,0.207,0.143))

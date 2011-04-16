@@ -1,0 +1,1 @@
+CustomSystem:new("Kaleps",{Body.Type.STAR_M}):add_to_sector(4,0,v(0.418,0.293,0.759))

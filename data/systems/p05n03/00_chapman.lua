@@ -1,0 +1,1 @@
+CustomSystem:new("Chapman",{Body.Type.STAR_M}):add_to_sector(5,-3,v(0.189,0.666,0.887))

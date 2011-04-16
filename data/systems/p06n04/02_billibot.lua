@@ -1,0 +1,1 @@
+CustomSystem:new("Billibot",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(6,-4,v(0.242,0.059,0.055))

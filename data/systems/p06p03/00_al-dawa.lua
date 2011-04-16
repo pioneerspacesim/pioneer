@@ -1,0 +1,1 @@
+CustomSystem:new("Al-Dawa",{Body.Type.STAR_G}):add_to_sector(6,3,v(0.293,0.724,-0.938))

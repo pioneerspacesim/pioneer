@@ -1,0 +1,1 @@
+CustomSystem:new("Urlaay",{Body.Type.STAR_M}):add_to_sector(4,2,v(0.805,0.950,-0.641))

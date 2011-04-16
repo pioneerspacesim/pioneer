@@ -1,0 +1,1 @@
+CustomSystem:new("Kentarri",{Body.Type.STAR_G}):add_to_sector(7,-3,v(0.862,0.825,0.776))

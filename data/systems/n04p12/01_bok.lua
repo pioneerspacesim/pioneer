@@ -1,0 +1,1 @@
+CustomSystem:new("Bok",{Body.Type.STAR_F}):add_to_sector(-4,12,v(0.669,0.779,-0.918))

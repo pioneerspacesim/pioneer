@@ -1,0 +1,1 @@
+CustomSystem:new("Andar",{Body.Type.STAR_K}):add_to_sector(5,4,v(0.681,0.144,-0.235))

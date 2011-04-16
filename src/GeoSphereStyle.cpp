@@ -10,7 +10,6 @@ static inline double river_octavenoise(fracdef_t &def, double roughness, const v
 static inline double ridged_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double billow_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double voronoiscam_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
-static inline double river2_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 static inline double dunes_octavenoise(fracdef_t &def, double roughness, const vector3d &p);
 //static inline double dunes_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 static double canyon_ridged_function(const fracdef_t &def, const vector3d &p);
@@ -112,7 +111,7 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		}
 		//ridges and bumps
 		v += h*0.2*billow_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
-		v += v*0.2*river2_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
+		v += v*0.2*river_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
 
 		return (v<0 ? 0 : v);
 	}
@@ -900,10 +899,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				}
 
 				if (n < 0.2){
-					n += n*15.0*river2_octavenoise(m_fracdef[6], 
+					n += n*15.0*river_octavenoise(m_fracdef[6], 
 						Clamp(h*0.00002, 0.5, 0.7), p);
 				} else {
-					n += 3.0*river2_octavenoise(m_fracdef[6], 
+					n += 3.0*river_octavenoise(m_fracdef[6], 
 						Clamp(h*0.00002, 0.5, 0.7), p);
 				}
 
@@ -986,15 +985,15 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 
 				if (n < 0.1){
 					n += n*0.05*dunes_octavenoise(m_fracdef[2], 
-						n*river2_octavenoise(m_fracdef[2], 0.5, p), p);
+						n*river_octavenoise(m_fracdef[2], 0.5, p), p);
 				} else if (n <0.2){
 					n += 0.005*dunes_octavenoise(m_fracdef[2], 
 						((n*n*10.0)+(3*(n-0.1)))*
-						river2_octavenoise(m_fracdef[2], 0.5, p), p);
+						river_octavenoise(m_fracdef[2], 0.5, p), p);
 				} else {
 					n += (0.2/n)*0.005*dunes_octavenoise(m_fracdef[2], 
 						Clamp(0.7-(1-(5*n)), 0.0, 0.7)*
-						river2_octavenoise(m_fracdef[2], 0.5, p), p);
+						river_octavenoise(m_fracdef[2], 0.5, p), p);
 				}
  
 				n = n*0.6;
@@ -1086,11 +1085,11 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 
 			if (n > 0.0) {
 				if (n < 0.4){
-					n += n*2.5*river2_octavenoise(m_fracdef[6], 
+					n += n*2.5*river_octavenoise(m_fracdef[6], 
 						Clamp(h*0.00002, 0.3, 0.7)*
 						ridged_octavenoise(m_fracdef[5], 0.5, p), p);
 				} else {
-					n += 1.0*river2_octavenoise(m_fracdef[6], 
+					n += 1.0*river_octavenoise(m_fracdef[6], 
 						Clamp(h*0.00002, 0.3, 0.7)*
 						ridged_octavenoise(m_fracdef[5], 0.5, p), p);
 				}
@@ -1189,15 +1188,15 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 
 				if (n < 0.1){
 					n += n*0.05*dunes_octavenoise(m_fracdef[2], 
-						n*river2_octavenoise(m_fracdef[2], 0.5, p), p);
+						n*river_octavenoise(m_fracdef[2], 0.5, p), p);
 				} else if (n <0.2){
 					n += 0.005*dunes_octavenoise(m_fracdef[2], 
 						((n*n*10.0)+(3*(n-0.1)))*
-						river2_octavenoise(m_fracdef[2], 0.5, p), p);
+						river_octavenoise(m_fracdef[2], 0.5, p), p);
 				} else {
 					n += (0.2/n)*0.005*dunes_octavenoise(m_fracdef[2], 
 						Clamp(0.7-(1-(5*n)), 0.0, 0.7)*
-						river2_octavenoise(m_fracdef[2], 0.5, p), p);
+						river_octavenoise(m_fracdef[2], 0.5, p), p);
 				}
  
 				n *= 0.6;
@@ -1637,7 +1636,6 @@ static inline double river_octavenoise(int octaves, double roughness, double lac
 static inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 static inline double billow_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 static inline double voronoiscam_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
-static inline double river2_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p);
 
 /**
  * Height: 0.0 would be sea-level. 1.0 would be an extra elevation of 1 radius (huge)
@@ -1732,23 +1730,11 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			} else {
 			// Oooh, pretty coastal regions with shading based on underwater depth.
 				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.49);
-				n *= 8.0;
-				// waves
-				//n += dunes_octavenoise(m_fracdef[2], 0.5, p);
-				//n *= 0.05;
+				n *= 10.0;
+				n = (n>0.3 ? 0.3-(n*n*n-0.027) : n);
 			}
-			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
-			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
-			//n += -0.5;
-			//n = n*0.1;
-			//col = interpolate_color(n, vector3d(0,0,0.35), vector3d(0,0.09,0.375));
 			col = interpolate_color(equatorial_desert, vector3d(0,0,0.15), vector3d(0,0,0.25));
-			col = interpolate_color(n, col, vector3d(0,0.98,0.6));
-			//adds icebergs... sort of.. ;)
-			//if (fabs(m_icyness*p.y) + m_icyness*n > 0.78) {
-			//	return interpolate_color(flatness, col, vector3d(1,1,1));
-			//} else return col;
-			//return vector3d(0,0,0.5);
+			col = interpolate_color(n, col, vector3d(0,0.8,0.6));
 			return col;
 		}
 
@@ -2101,37 +2087,19 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 
 		vector3d col;
 		//we don't want water on the poles if there are ice-caps
-		if (fabs(m_icyness*p.y) > 0.67) {
+		if (fabs(m_icyness*p.y) > 0.75) {
 			col = interpolate_color(equatorial_desert, vector3d(0.42, 0.46, 0), vector3d(0.5, 0.3, 0));
 			col = interpolate_color(flatness, col, vector3d(1,1,1));
 			return col;
 		}
 		// water
 		if (n <= 0) {
-			if (m_heightMap) {	
-				// waves
-				n += dunes_octavenoise(m_fracdef[2], 0.5, p);
-				n *= 0.1;
-			} else {
-			// Oooh, pretty coastal regions with shading based on underwater depth.
-				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.49);
-				//n *= 8.0;
-				//waves
-				//n += dunes_octavenoise(m_fracdef[2], 0.5, p);
-				//n *= 0.05;
-			}
-			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
-			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
-			//n += -0.5;
-			//n = n*0.1;
-			//col = interpolate_color(n, vector3d(0,0,0.35), vector3d(0,0.09,0.375));
+				// Oooh, pretty coastal regions with shading based on underwater depth.
+			n += continents - (m_fracdef[0].amplitude*m_sealevel*0.49);
+			n *= 10.0;
+			n = (n>0.3 ? 0.3-(n*n*n-0.027) : n);
 			col = interpolate_color(equatorial_desert, vector3d(0,0,0.15), vector3d(0,0,0.25));
-			col = interpolate_color(n, col, vector3d(0,0.98,0.6));
-			//adds icebergs... sort of.. ;)
-			//if (fabs(m_icyness*p.y) + m_icyness*n > 0.78) {
-			//	return interpolate_color(flatness, col, vector3d(1,1,1));
-			//} else return col;
-			//return vector3d(0,0,0.5);
+			col = interpolate_color(n, col, vector3d(0,0.8,0.6));
 			return col;
 		}
 
@@ -2303,19 +2271,6 @@ static inline double voronoiscam_octavenoise(int octaves, double roughness, doub
 	return sqrt(10.0 * fabs(n));
 }
 
-static inline double river2_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = 1.0;
-	while (octaves--) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= lacunarity;
-	}
-	return sqrt(fabs(n) * (fabs(n)/1));
-}
-
 static inline double octavenoise(fracdef_t &def, double roughness, const vector3d &p)
 {
 	double n = 0;
@@ -2384,18 +2339,6 @@ static inline double voronoiscam_octavenoise(fracdef_t &def, double roughness, c
 	return sqrt(10.0 * fabs(n));
 }
 
-static inline double river2_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
-{
-	double n = 0;
-	double octaveAmplitude = roughness;
-	double jizm = def.frequency;
-	for (int i=0; i<def.octaves; i++) {
-		n += octaveAmplitude * noise(jizm*p);
-		octaveAmplitude *= roughness;
-		jizm *= def.lacunarity;
-	}
-	return sqrt(fabs(n) * (fabs(n)*3));
-}
 
 static inline double dunes_octavenoise(fracdef_t &def, double roughness, const vector3d &p)
 {

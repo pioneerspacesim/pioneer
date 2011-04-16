@@ -1,0 +1,1 @@
+CustomSystem:new("Yugo",{Body.Type.STAR_K}):add_to_sector(-5,7,v(0.323,0.092,-0.963))

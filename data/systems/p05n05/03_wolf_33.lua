@@ -1,0 +1,1 @@
+CustomSystem:new("Wolf 33",{Body.Type.STAR_M}):add_to_sector(5,-5,v(0.005,0.427,0.487))

@@ -1,0 +1,1 @@
+CustomSystem:new("Jacobi",{Body.Type.STAR_F, Body.Type.STAR_K}):add_to_sector(13,5,v(0.316,0.750,-0.401))

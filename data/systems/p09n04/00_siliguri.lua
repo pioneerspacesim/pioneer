@@ -1,0 +1,1 @@
+CustomSystem:new("Siliguri",{Body.Type.STAR_K}):add_to_sector(9,-4,v(0.153,0.848,0.479))

@@ -1,0 +1,1 @@
+CustomSystem:new("Fury 161",{Body.Type.STAR_F}):add_to_sector(9,-2,v(0.766,0.724,1.083))

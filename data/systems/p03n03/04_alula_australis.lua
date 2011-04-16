@@ -1,0 +1,1 @@
+CustomSystem:new("Alula Australis",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(3,-3,v(0.575,0.941,0.446))

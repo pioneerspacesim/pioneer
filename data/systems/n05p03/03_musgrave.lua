@@ -1,0 +1,1 @@
+CustomSystem:new("Musgrave",{Body.Type.STAR_K}):add_to_sector(-5,3,v(0.212,0.734,-0.525))

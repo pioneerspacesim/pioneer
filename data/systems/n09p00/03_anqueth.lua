@@ -1,0 +1,1 @@
+CustomSystem:new("Anqueth",{Body.Type.STAR_K}):add_to_sector(-9,0,v(0.927,0.482,-0.134))

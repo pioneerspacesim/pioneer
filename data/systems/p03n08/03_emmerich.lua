@@ -1,0 +1,1 @@
+CustomSystem:new("Emmerich",{Body.Type.STAR_M}):add_to_sector(3,-8,v(0.333,0.757,0.149))

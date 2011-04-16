@@ -1,0 +1,1 @@
+CustomSystem:new("Psi Serpentis",{Body.Type.STAR_G}):add_to_sector(-7,-4,v(0.670,0.801,0.175))
