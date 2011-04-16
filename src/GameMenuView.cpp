@@ -548,6 +548,17 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(m_toggleJoystick, false);
 		hbox->PackEnd(new Gui::Label("Enable joystick control"), false);
 		box->PackEnd(hbox, false);
+
+		// Invert Mouse
+		m_toggleMouseYInvert = new Gui::ToggleButton();
+		m_toggleMouseYInvert->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleMouseYInvert));
+		box->PackEnd((new Gui::Label("Mouse Input"))->Color(1.0f,1.0f,0.0f), false);
+
+		Gui::HBox *mybox = new Gui::HBox();
+		mybox->SetSpacing(5.0f);
+		mybox->PackEnd(m_toggleMouseYInvert, false);
+		mybox->PackEnd(new Gui::Label("Invert MouseY"), false);
+		box->PackEnd(mybox, false);
 	}
 }
 
@@ -629,6 +640,13 @@ void GameMenuView::OnToggleJoystick(Gui::ToggleButton *b, bool state)
 	Pi::SetJoystickEnabled(state);
 }
 
+void GameMenuView::OnToggleMouseYInvert(Gui::ToggleButton *b, bool state)
+{
+	Pi::config.SetInt("InvertMouseY", (state ? 1 : 0));
+	Pi::config.Save();
+	Pi::SetMouseYInvert(state);
+}
+
 void GameMenuView::HideAll()
 {
 	if (m_changedDetailLevel) {
@@ -667,6 +685,7 @@ void GameMenuView::OnSwitchTo() {
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());
 		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
 		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
+		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	}
 }
 
