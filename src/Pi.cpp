@@ -79,6 +79,7 @@ bool Pi::isGameStarted = false;
 IniConfig Pi::config;
 struct DetailLevel Pi::detail = {};
 bool Pi::joystickEnabled;
+bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
@@ -144,6 +145,8 @@ void Pi::Init()
 
 	InitJoysticks();
 	joystickEnabled = (config.Int("EnableJoystick")) ? true : false;
+
+	mouseYInvert = (config.Int("InvertMouseY")) ? true : false;
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {

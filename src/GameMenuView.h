@@ -28,6 +28,7 @@ private:
 	void OnToggleHDR(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
+	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
 	Gui::Adjustment *m_sfxVolume;
@@ -37,6 +38,7 @@ private:
 	Gui::ToggleButton *m_toggleHDR;
 	Gui::ToggleButton *m_toggleFullscreen;
 	Gui::ToggleButton *m_toggleJoystick;
+	Gui::ToggleButton *m_toggleMouseYInvert;
 };
 
 #endif /* _GAMEMENUVIEW_H */

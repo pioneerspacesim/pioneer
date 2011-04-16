@@ -19,6 +19,7 @@ void IniConfig::Load(const std::string &filename)
 	(*this)["DetailPlanets"] = "1";
 	(*this)["SfxVolume"] = "0.8";
 	(*this)["EnableJoystick"] = "1";
+	(*this)["InvertMouseY"] = "0";
 
 	KeyBindings::SetDefaults();
 	
