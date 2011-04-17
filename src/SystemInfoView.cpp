@@ -251,7 +251,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		psize = -1;
 		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, psize);
 
-		majorBodies = 0;
+		majorBodies = starports = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
 		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
