@@ -369,6 +369,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 	this->CalcStats();
 	outFuelRequired = (int)ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max);
+	double m_totalmass = m_stats.total_mass;
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
 	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {
@@ -387,10 +388,12 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 
 		// Now mass has more of an effect on the time taken, this is mainly
 		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist / m_stats.hyperspace_range_max * hyperclass) * 
-			(60.0 * 60.0 * 24.0 * m_stats.total_mass * 0.5) /
-			(hyperclass * hyperclass)) *
-			((dist * dist * dist)/2000);
+		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max *
+			hyperclass)) * 
+			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
+		float hours = outDurationSecs * 0.0002778;
+		printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
+		//printf("%d seconds\n", outDurationSecs);
 		if (outFuelRequired <= fuel) {
 			if (outStatus) *outStatus = HYPERJUMP_OK;
 			return true;
