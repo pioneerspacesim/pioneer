@@ -391,8 +391,8 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max *
 			hyperclass)) * 
 			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
-		float hours = outDurationSecs * 0.0002778;
-		printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
+		//float hours = outDurationSecs * 0.0002778;
+		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
 		//printf("%d seconds\n", outDurationSecs);
 		if (outFuelRequired <= fuel) {
 			if (outStatus) *outStatus = HYPERJUMP_OK;
