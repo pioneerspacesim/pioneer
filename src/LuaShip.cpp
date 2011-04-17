@@ -388,7 +388,7 @@ static int l_ship_spawn(lua_State *l)
 		}
 
 		ship->SetFrame(station->GetFrame());
-		Space::AddBody(thing);
+		Space::AddBody(ship);
 		ship->SetDockedWith(station, port);
 	}
 
