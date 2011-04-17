@@ -10,6 +10,7 @@
 #include "Space.h"
 #include "Pi.h"
 #include "Player.h"
+#include "HyperspaceCloud.h"
 
 static int l_ship_get_stats(lua_State *l)
 {
@@ -278,7 +279,7 @@ static int l_ship_spawn(lua_State *l)
 				luaL_error(l, "bad value for location '%s' at position %d (%s expected, got %s)", locstr.c_str(), i, lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
 			min_dist = lua_tonumber(l, -1);
 			if (min_dist < 0)
-				luaL_error(l, "bad value for location '%s' minimum distance at position %d", locstr.c_str(), i);
+				luaL_error(l, "bad value for location '%s' minimum distance at position %d (must be greater than zero)", locstr.c_str(), i);
 			lua_pop(l, 1);
 
 			lua_pushinteger(l, ++i);
@@ -286,8 +287,8 @@ static int l_ship_spawn(lua_State *l)
 			if (!lua_isnumber(l, -1))
 				luaL_error(l, "bad value for location '%s' at position %d (%s expected, got %s)", locstr.c_str(), i, lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
 			max_dist = lua_tonumber(l, -1);
-			if (max_dist <= min_dist)
-				luaL_error(l, "bad value for location '%s' maximum distance at position %d", locstr.c_str(), i);
+			if (max_dist < min_dist)
+				luaL_error(l, "bad value for location '%s' maximum distance at position %d (must be greater than minimum distance)", locstr.c_str(), i);
 			lua_pop(l, 1);
 		}
 
@@ -317,7 +318,7 @@ static int l_ship_spawn(lua_State *l)
 	}
 	lua_pop(l, 1);
 
-	if (location == _DOCKED || location == _PARKED) {
+	if (location != _DOCKED && location != _PARKED) {
 		lua_getfield(l, -1, "hyperspace");
 		if (!lua_isnil(l, -1)) {
 			if (!lua_istable(l, -1))
@@ -349,14 +350,16 @@ static int l_ship_spawn(lua_State *l)
 		// XXX fill it with stuff
 	}
 
-	Body *thing;
-	if (path) {
-		// XXX make a cloud, wrap it around the ship
-	}
-	else
-		thing = ship;
-
 	if (location == _SYSTEM || location == _NEAR) {
+
+		Body *thing;
+		if (path) {
+			ship->SetHyperspaceTarget(path);
+			thing = new HyperspaceCloud(ship, due, true);
+		}
+		else
+			thing = ship;
+
 		// XXX protect against spawning inside the body
 
 		float longitude = Pi::rng.Double(-M_PI,M_PI);
@@ -446,8 +449,6 @@ static int l_ship_spawn(lua_State *l)
 		// can't happen
 		assert(0);
 	
-	Pi::player->SetCombatTarget(ship);
-
 	LuaShip::PushToLua(ship);
 
 	LUA_DEBUG_END(l, 1);
