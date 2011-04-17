@@ -816,10 +816,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
 					"Ship mass: %dt\n"
-					"Destination: %s\n"
+					"%s: %s\n"
 					"Date due: %s\n",
 					cloud->IsArrival() ? "arrival" : "departure",
 					ship->CalcStats()->total_mass,
+                    cloud->IsArrival() ? "Source" : "Destination",
 					s.m_systems[dest->systemNum].name.c_str(),
 					format_date(cloud->GetDueDate()).c_str()
 				);
