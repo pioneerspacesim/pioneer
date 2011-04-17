@@ -8,6 +8,8 @@
 #include "SpaceStation.h"
 #include "ShipType.h"
 #include "Space.h"
+#include "Pi.h"
+#include "Player.h"
 
 static int l_ship_get_stats(lua_State *l)
 {
@@ -275,6 +277,8 @@ static int l_ship_spawn(lua_State *l)
 			if (!lua_isnumber(l, -1))
 				luaL_error(l, "bad value for location '%s' at position %d (%s expected, got %s)", locstr.c_str(), i, lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
 			min_dist = lua_tonumber(l, -1);
+			if (min_dist < 0)
+				luaL_error(l, "bad value for location '%s' minimum distance at position %d", locstr.c_str(), i);
 			lua_pop(l, 1);
 
 			lua_pushinteger(l, ++i);
@@ -282,6 +286,8 @@ static int l_ship_spawn(lua_State *l)
 			if (!lua_isnumber(l, -1))
 				luaL_error(l, "bad value for location '%s' at position %d (%s expected, got %s)", locstr.c_str(), i, lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
 			max_dist = lua_tonumber(l, -1);
+			if (max_dist <= min_dist)
+				luaL_error(l, "bad value for location '%s' maximum distance at position %d", locstr.c_str(), i);
 			lua_pop(l, 1);
 		}
 
@@ -305,34 +311,148 @@ static int l_ship_spawn(lua_State *l)
 		if (!lua_isnumber(l, -1))
 			luaL_error(l, "bad value for 'power' (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
 		power = lua_tonumber(l, -1);
-	}
-	lua_pop(l, 1);
-
-	lua_getfield(l, -1, "hyperspace");
-	if (!lua_isnil(l, -1)) {
-		if (!lua_istable(l, -1))
-			luaL_error(l, "bad value for 'hyperspace' (%s expected, got %s)", lua_typename(l, LUA_TTABLE), luaL_typename(l, -1));
-
-		lua_pushinteger(l, 1);
-		lua_gettable(l, -2);
-		if (!(path = LuaSBodyPath::CheckFromLua(-1)))
-			luaL_error(l, "bad value for hyperspace path at position 1 (SBodyPath expected, got %s)", luaL_typename(l, -1));
-		lua_pop(l, 1);
-
-		lua_pushinteger(l, 2);
-		lua_gettable(l, -2);
-		if (!(lua_isnumber(l, -1)))
-			luaL_error(l, "bad value for hyperspace exit time at position 2 (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
-		due = lua_tonumber(l, -1);
+		if (power < 0 || power > 1)
+			luaL_error(l, "bad value for 'power' (out of range, must 0.0 - 1.0)");
 		lua_pop(l, 1);
 	}
 	lua_pop(l, 1);
 
-	// XXX spawn it
+	if (location == _DOCKED || location == _PARKED) {
+		lua_getfield(l, -1, "hyperspace");
+		if (!lua_isnil(l, -1)) {
+			if (!lua_istable(l, -1))
+				luaL_error(l, "bad value for 'hyperspace' (%s expected, got %s)", lua_typename(l, LUA_TTABLE), luaL_typename(l, -1));
 
-	LUA_DEBUG_END(l, 0);
+			lua_pushinteger(l, 1);
+			lua_gettable(l, -2);
+			if (!(path = LuaSBodyPath::CheckFromLua(-1)))
+				luaL_error(l, "bad value for hyperspace path at position 1 (SBodyPath expected, got %s)", luaL_typename(l, -1));
+			lua_pop(l, 1);
 
-	return 0;
+			lua_pushinteger(l, 2);
+			lua_gettable(l, -2);
+			if (!(lua_isnumber(l, -1)))
+				luaL_error(l, "bad value for hyperspace exit time at position 2 (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
+			due = lua_tonumber(l, -1);
+			if (due < 0)
+				luaL_error(l, "bad value for hyperspace exit time at position 2 (must be >= 0)");
+			lua_pop(l, 1);
+		}
+		lua_pop(l, 1);
+	}
+
+	// spawn it!
+	Ship *ship = new Ship(type);
+	assert(ship);
+
+	if (power >= 0) {
+		// XXX fill it with stuff
+	}
+
+	Body *thing;
+	if (path) {
+		// XXX make a cloud, wrap it around the ship
+	}
+	else
+		thing = ship;
+
+	if (location == _SYSTEM || location == _NEAR) {
+		// XXX protect against spawning inside the body
+
+		float longitude = Pi::rng.Double(-M_PI,M_PI);
+		float latitude = Pi::rng.Double(-M_PI,M_PI);
+
+		float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
+		vector3d pos = vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude));
+
+		if (location == _SYSTEM) {
+			pos *= (dist*AU);
+			thing->SetFrame(Space::rootFrame);
+		}
+		else {
+			pos *= (dist*1000.0);
+			pos += body->GetPosition();
+			thing->SetFrame(body->GetFrame());
+		}
+
+		thing->SetPosition(pos);
+		thing->SetVelocity(vector3d(0,0,0));
+		Space::AddBody(thing);
+	}
+
+	else if (location == _DOCKED) {
+		int port = station->GetFreeDockingPort();
+		if (port < 0) {
+			delete ship;
+			luaL_error(l, "no free docking ports in station");
+		}
+
+		ship->SetFrame(station->GetFrame());
+		Space::AddBody(thing);
+		ship->SetDockedWith(station, port);
+	}
+
+	else if (location == _PARKED) {
+		int slot;
+		if (!station->AllocateStaticSlot(slot)) {
+			delete ship;
+			luaL_error(l, "no free parking slots near station");
+		}
+
+		vector3d pos, vel;
+		matrix4x4d rot = matrix4x4d::Identity();
+
+		if (station->GetSBody()->type == SBody::TYPE_STARPORT_SURFACE) {
+			vel = vector3d(0.0);
+
+			pos = station->GetPosition() * 1.1;
+			station->GetRotMatrix(rot);
+
+			vector3d axis1, axis2;
+
+			axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
+			axis2 = pos.Cross(axis1);
+
+			double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
+			if (slot<2) ang = -ang;
+
+			vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
+
+			pos.ArbRotate(axis, ang);
+		}
+
+		else {
+			double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+			double xpos = (slot == 0 || slot == 3) ? -dist : dist;
+			double zpos = (slot == 0 || slot == 1) ? -dist : dist;
+
+			pos = vector3d(xpos,5000,zpos);
+			vel = vector3d(0.0);
+			rot.RotateX(M_PI/2);
+		}
+
+		ship->SetFrame(station->GetFrame());
+
+		ship->SetVelocity(vel);
+		ship->SetPosition(pos);
+		ship->SetRotMatrix(rot);
+
+		Space::AddBody(ship);
+
+		ship->AIHoldPosition(station);
+	}
+
+	else
+		// can't happen
+		assert(0);
+	
+	Pi::player->SetCombatTarget(ship);
+
+	LuaShip::PushToLua(ship);
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
 }
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
