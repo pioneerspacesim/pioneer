@@ -3,6 +3,24 @@
 #include "LuaUtils.h"
 #include "StarSystem.h"
 
+static int l_sbodypath_new(lua_State *l)
+{
+	int sector_x = luaL_checkinteger(l, 1);
+	int sector_y = luaL_checkinteger(l, 2);
+	int system_idx = luaL_checkinteger(l, 3);
+
+	int sbody_id = 0;
+	if (!lua_isnone(l, 4))
+		sbody_id = luaL_checkinteger(l, 4);
+	
+	SBodyPath *path = new SBodyPath(sector_x, sector_y, system_idx);
+	path->sbodyId = sbody_id;
+
+	LuaSBodyPath::PushToLuaGC(path);
+
+	return 1;
+}
+
 static int l_sbodypath_get_sector_x(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -59,11 +77,12 @@ static int l_sbodypath_meta_eq(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SBodyPath";
+template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "BodyPath";
 
 template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
+		{ "New",            l_sbodypath_new              },
 		{ "GetSectorX",     l_sbodypath_get_sector_x     },
 		{ "GetSectorY",     l_sbodypath_get_sector_y     },
 		{ "GetSystemIndex", l_sbodypath_get_system_index },
