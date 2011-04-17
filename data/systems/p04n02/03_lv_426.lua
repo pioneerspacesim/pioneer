@@ -1,0 +1,1 @@
+CustomSystem:new("LV 426",{Body.Type.STAR_G}):add_to_sector(4,-2,v(0.339,0.788,0.352))

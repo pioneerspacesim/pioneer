@@ -323,7 +323,7 @@ void SectorView::Update()
 		Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired, dur, &jumpStatus);
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt)", dist, fuelRequired);
+				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
 				Pi::player->SetHyperspaceTarget(&sbody_path);
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:

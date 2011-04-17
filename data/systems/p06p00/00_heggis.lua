@@ -1,0 +1,1 @@
+CustomSystem:new("Heggis",{Body.Type.STAR_M}):add_to_sector(6,0,v(0.417,0.362,0.075))

@@ -1,0 +1,1 @@
+CustomSystem:new("Gamma Cetti",{Body.Type.STAR_A, Body.Type.STAR_F, Body.Type.STAR_K}):add_to_sector(8,3,v(0.398,0.930,-0.194))

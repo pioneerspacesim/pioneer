@@ -1,0 +1,1 @@
+CustomSystem:new("Alpha Corvi",{Body.Type.STAR_M}):add_to_sector(-7,-2,v(0.505,0.686,0.462))

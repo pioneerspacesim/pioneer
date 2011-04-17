@@ -1,0 +1,1 @@
+CustomSystem:new("Soikenn",{Body.Type.STAR_G}):add_to_sector(-2,9,v(0.972,0.129,-0.158))

@@ -1,0 +1,1 @@
+CustomSystem:new("Modin",{Body.Type.STAR_M}):add_to_sector(-11,-4,v(0.187,0.711,0.195))

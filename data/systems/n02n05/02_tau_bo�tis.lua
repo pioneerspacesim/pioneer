@@ -1,0 +1,1 @@
+CustomSystem:new("Tau Boötis",{Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(-2,-5,v(0.182,0.925,1.041))

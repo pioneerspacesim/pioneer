@@ -76,6 +76,9 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 {
 	name = s;
 
+	numStars = 0;
+
+	bool done = false;
 	for (int i=0 ; i<4; i++) {
 		int type = SBody::TYPE_GRAVPOINT;
 		if (t.safe_at(i+1, type)) {
@@ -85,6 +88,9 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 			}
 		}
 		primaryType[i] = static_cast<SBody::BodyType>(type);
+
+		if (type == SBody::TYPE_GRAVPOINT) done = true;
+		if (!done) numStars++;
 	}
 
 	seed = 0;
@@ -159,6 +165,7 @@ CustomSBody::CustomSBody(std::string s, int t)
 
 	seed = averageTemp = 0;
 	latitude = longitude = 0.0;
+	want_rand_offset = true;
 	want_rand_seed = true;
 }
 
@@ -168,7 +175,7 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
 // provide a macro for that many members, and the varargs version seems to
 // fail after 16 parameters
 CLASS_LIST_MEMBERS_START_OOLUA_NON_CONST(CustomSBody)
-LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, seed, radius, mass, temp, semi_major_axis, eccentricity, latitude, inclination, longitude)
-LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, rotation_period, axial_tilt, height_map, metallicity, volcanicity, atmos_density, atmos_oxidizing, ocean_cover, ice_cover)
-LUA_MEMBER_FUNC_1(OOLUA::Proxy_class<CustomSBody>, life)
+LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, seed, radius, mass, temp, semi_major_axis, eccentricity, orbital_offset, latitude, inclination)
+LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, longitude, rotation_period, axial_tilt, height_map, metallicity, volcanicity, atmos_density, atmos_oxidizing, ocean_cover)
+LUA_MEMBER_FUNC_2(OOLUA::Proxy_class<CustomSBody>, ice_cover, life)
 CLASS_LIST_MEMBERS_END

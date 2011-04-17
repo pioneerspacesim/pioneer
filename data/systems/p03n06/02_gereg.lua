@@ -1,0 +1,1 @@
+CustomSystem:new("Gereg",{Body.Type.STAR_M}):add_to_sector(3,-6,v(0.380,0.867,0.749))

@@ -1,0 +1,1 @@
+CustomSystem:new("Van Cleef",{Body.Type.STAR_K}):add_to_sector(6,7,v(0.002,0.709,-1.078))

@@ -1,0 +1,1 @@
+CustomSystem:new("Eta Crucis",{Body.Type.STAR_F}):add_to_sector(-4,6,v(0.626,0.275,-0.762))

@@ -816,10 +816,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
 					"Ship mass: %dt\n"
-					"Destination: %s\n"
+					"%s: %s\n"
 					"Date due: %s\n",
 					cloud->IsArrival() ? "arrival" : "departure",
 					ship->CalcStats()->total_mass,
+                    cloud->IsArrival() ? "Source" : "Destination",
 					s.m_systems[dest->systemNum].name.c_str(),
 					format_date(cloud->GetDueDate()).c_str()
 				);
@@ -1249,7 +1250,12 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 			if (pos.z < 0 && Gui::Screen::Project(pos, pos)) {
 				b->SetProjectedPos(pos);
 				b->SetOnscreen(true);
-				m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)pos.x, (float)pos.y);
+				// Ok here we are hiding the label of distant small objects.
+				// If you are not a planet, star, space station or remote city
+				// and you are > 100,000km away then bugger off. :)
+				if(b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || (Pi::player->GetPositionRelTo(b).Length() < 100000)) {
+					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)pos.x, (float)pos.y);
+				}
 			}
 		}
 	}

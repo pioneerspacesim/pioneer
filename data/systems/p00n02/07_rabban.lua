@@ -1,0 +1,1 @@
+CustomSystem:new("Rabban",{Body.Type.STAR_M}):add_to_sector(0,-2,v(0.929,0.241,0.351))

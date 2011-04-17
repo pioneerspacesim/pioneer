@@ -95,8 +95,9 @@ std::string GetPiUserDir(const std::string &subdir)
 		if (mkdir(path.c_str(), 0770) == -1) {
 			Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
 		}
+	} else {
+		closedir(dir);
 	}
-	closedir(dir);
 	if (subdir != "") {
 		path = join_path(homedir, ".pioneer", subdir.c_str(), 0);
 		dir = opendir(path.c_str());

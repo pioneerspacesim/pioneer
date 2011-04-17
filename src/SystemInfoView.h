@@ -20,7 +20,7 @@ private:
 	void UpdateEconomyTab();
 	void OnBodySelected(SBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);
-	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float &prevSize);
+	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize);
 	SBody *m_bodySelected;
 	Gui::VBox *m_infoBox;
 	Gui::Label *m_econInfo;

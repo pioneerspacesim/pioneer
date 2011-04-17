@@ -1,0 +1,1 @@
+CustomSystem:new("Mu Draconis",{Body.Type.STAR_F, Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(-1,-8,v(0.540,0.487,0.992))

@@ -5,6 +5,7 @@
 #include "Serializer.h"
 #include "Render.h"
 #include "Space.h"
+#include "Player.h"
 #include "perlin.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
@@ -90,7 +91,12 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship->SetFrame(GetFrame());
 		Space::AddBody(m_ship);
 		m_ship->Enable();
+
+		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
+			Pi::player->SetCombatTarget(m_ship);
+
 		m_ship = 0;
+
 	}
 }
 

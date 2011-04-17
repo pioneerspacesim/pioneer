@@ -163,12 +163,13 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econInfoTab->ResizeRequest();
 }
 
-void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, float &prevSize)
+void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize)
 {
 	float size[2];
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
+	if (body->GetSuperType() == SBody::SUPERTYPE_STARPORT) starports++;
 	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (body->type != SBody::TYPE_GRAVPOINT) {
 		Gui::ImageButton *ib = new Gui::ImageButton( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
@@ -179,7 +180,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
 
-		majorBodies++;
+		if (body->GetSuperType() != SBody::SUPERTYPE_STARPORT) majorBodies++;
 		pos[dir] += size[dir];
 		dir = !dir;
 		myPos[dir] += size[dir];
@@ -192,7 +193,7 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	float prevSizeForKids = size[!dir];
 	for (std::vector<SBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
-		PutBodies(*i, container, dir, myPos, majorBodies, prevSizeForKids);
+		PutBodies(*i, container, dir, myPos, majorBodies, starports, prevSizeForKids);
 	}
 }
 
@@ -238,26 +239,28 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 	
-	int majorBodies;
+	int majorBodies, starports;
 	{
 		float pos[2] = { 0, 0 };
 		float psize = -1;
-		majorBodies = 0;
-		PutBodies(s->rootBody, m_econInfoTab, 1, pos, majorBodies, psize);
+		majorBodies = starports = 0;
+		PutBodies(s->rootBody, m_econInfoTab, 1, pos, majorBodies, starports, psize);
 
-		majorBodies = 0;
+		majorBodies = starports = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, psize);
+		PutBodies(s->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, psize);
 
-		majorBodies = 0;
+		majorBodies = starports = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, psize);
+		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
 	}
 	
-	std::string _info = stringf(2048, "Stable system with %d major bodies.\n\n%s", majorBodies,
-			std::string(s->GetLongDescription()).c_str());
+	std::string _info = stringf(2048, "Stable system with %d major %s and %d starport%s.\n\n%s",
+		majorBodies, majorBodies == 1 ? "body" : "bodies",
+		starports, starports == 1 ? "" : "s",
+		std::string(s->GetLongDescription()).c_str());
 	
 	{
 		// astronomical body info tab

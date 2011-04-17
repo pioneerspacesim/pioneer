@@ -117,9 +117,9 @@ local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
 	:volcanicity(f(2,10))
 	:atmos_density(f(3,5))
 	:atmos_oxidizing(f(8,10))
-	:ocean_cover(f(3,10))
-	:ice_cover(f(9,10))
-	:life(f(45,100))
+	:ocean_cover(f(38,100))
+	:ice_cover(f(678,1000))
+	:life(f(15,100))
 
 local mars_starports = {
 	CustomSBody:new('Cydonia', Body.Type.STARPORT_SURFACE)

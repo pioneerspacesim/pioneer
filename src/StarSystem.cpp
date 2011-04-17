@@ -3,6 +3,7 @@
 #include "Serializer.h"
 #include "NameGenerator.h"
 #include <map>
+#include "utils.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -144,21 +145,21 @@ double StarSystem::starLuminosities[] = {
 
 float StarSystem::starScale[] = {  // Used in sector view
 	0,
-	0.3, // brown dwarf
-	0.4, // M
-	0.5, // K
-	0.5, // G
-	0.7, // F
-	0.8, // A
-	0.9, // B
-	0.9, // O
+	0.6, // brown dwarf
+	0.7, // M
+	0.8, // K
+	0.8, // G
+	0.9, // F
+	1.0, // A
+	1.1, // B
+	1.1, // O
 	1.3, // M Giant
 	1.2, // K G
 	1.2, // G G
 	1.2, // F G
 	1.1, // A G
 	1.1, // B G 
-	1.0, // O G
+	1.2, // O G
 	1.8, // M Super Giant
 	1.6, // K SG
 	1.5, // G SG
@@ -179,7 +180,7 @@ float StarSystem::starScale[] = {  // Used in sector view
 	1.0, // Black hole
 	2.5, // Intermediate-mass blackhole
 	4.0,  // Supermassive blackhole
-	0.2 // white dwarf
+	0.5 // white dwarf
 };
 
 fixed StarSystem::starMetallicities[] = {
@@ -725,24 +726,6 @@ double SBody::GetMaxChildOrbitalDistance() const
 }
 
 
-static inline Sint64 isqrt(Sint64 a)
-{
-	Sint64 ret=0;
-	Sint64 s;
-	Sint64 ret_sq=-a-1;
-	for(s=62; s>=0; s-=2){
-		Sint64 b;
-		ret+= ret;
-		b=ret_sq + ((2*ret+1)<<s);
-		if(b<0){
-			ret_sq=b;
-			ret++;
-		}
-	}
-	return ret;
-}
-
-
 /*
  * These are the nice floating point surface temp calculating turds.
  *
@@ -964,6 +947,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->eccentricity = csbody->eccentricity;
+		kid->orbitalOffset = csbody->orbitalOffset;
 		kid->axialTilt = csbody->axialTilt;
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
@@ -978,8 +962,8 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rand.Double(2*M_PI)) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
+			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(offset) * matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
@@ -1117,11 +1101,15 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	int dist = isqrt(1 + sector_x*sector_x + sector_y*sector_y);
 	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
+	m_isCustom = m_hasCustomBodies = false;
 	if (s.m_systems[system_idx].customSys) {
+		m_isCustom = true;
 		const CustomSystem *custom = s.m_systems[system_idx].customSys;
+		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
+			m_hasCustomBodies = true;
 			GenerateFromCustom(s.m_systems[system_idx].customSys, rand);
 			return;
 		}
@@ -1769,7 +1757,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		}
 	}
 
-	if (m_population > fixed(1,10)) name = NameGenerator::PlanetName(rand);
+	if (!system->m_hasCustomBodies && m_population > fixed(1,10))
+		name = NameGenerator::PlanetName(rand);
 	
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
