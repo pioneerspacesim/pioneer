@@ -192,7 +192,8 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 
 	LUA_DEBUG_START(l);
 
-	luaL_checktype(l, index, LUA_TUSERDATA);
+	if (lua_type(l, index) != LUA_TUSERDATA)
+		return NULL;
 
 	lid *idp = (lid*)lua_touserdata(l, index);
 	if (!idp)
