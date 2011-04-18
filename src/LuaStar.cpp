@@ -4,5 +4,7 @@
 template <> const char *LuaObject<Star>::s_type = "Star";
 
 template <> void LuaObject<Star>::RegisterClass() {
-	LuaObjectBase::CreateClass(s_type, NULL, NULL, NULL);
+	const char *l_inherit = "Body";
+
+	LuaObjectBase::CreateClass(s_type, l_inherit, NULL, NULL);
 }

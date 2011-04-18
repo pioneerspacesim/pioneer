@@ -5,5 +5,7 @@ template <> const char *LuaObject<Planet>::s_type = "Planet";
 
 template <> void LuaObject<Planet>::RegisterClass()
 {
-	LuaObjectBase::CreateClass(s_type, NULL, NULL, NULL);
+	const char *l_inherit = "Body";
+
+	LuaObjectBase::CreateClass(s_type, l_inherit, NULL, NULL);
 }
