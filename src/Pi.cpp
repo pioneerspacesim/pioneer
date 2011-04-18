@@ -43,6 +43,7 @@
 #include "LuaSBodyPath.h"
 #include "LuaShipType.h"
 #include "LuaChatForm.h"
+#include "LuaSpace.h"
 #include "LuaGlobals.h"
 #include "PiLuaAPI.h"
 
@@ -185,6 +186,7 @@ static void LuaInit()
 	LuaGlobals::RegisterGame();
 	LuaGlobals::RegisterUI();
 	LuaGlobals::RegisterDate();
+	LuaSpace::Register();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 
