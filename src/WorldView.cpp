@@ -137,8 +137,10 @@ WorldView::WorldView(): View()
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
 	Add(m_bodyLabels, 0, 0);
 
+	m_targetDist = new Gui::Label("");
 	m_combatDist = new Gui::Label("");
 	m_combatSpeed = new Gui::Label("");
+	Add(m_targetDist, 0, 0);			// text/color/position set dynamically
 	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
 	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
 
@@ -1246,6 +1248,23 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 			}
 		}
 	}
+
+	// update navtarget distance
+	Body *navtarget = Pi::player->GetNavTarget();
+	if (navtarget && navtarget->IsOnscreen())
+	{
+		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+		m_targetDist->SetText(format_distance(dist).c_str());
+
+		m_targetDist->Color(0.0f, 1.0f, 0.0f);
+
+		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
+		MoveChild(m_targetDist, (float)lpos.x, (float)lpos.y);
+
+		m_targetDist->Show();
+	}
+	else
+		m_targetDist->Hide();
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
