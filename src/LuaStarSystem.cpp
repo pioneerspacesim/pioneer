@@ -80,49 +80,6 @@ static int l_starsystem_get_random_starport(lua_State *l)
 	return 0;
 }
 
-// return a body for a sbodypath. not actually a function of starsystem, but
-// people think that way so might as well keep the lie alive
-static int l_starsystem_get_body(lua_State *l)
-{
-	LUA_DEBUG_START(l);
-
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	if (s != Pi::currentSystem) {
-		lua_pushstring(l, "get_body can only be called on the current system");
-		lua_error(l);
-	}
-
-	SBodyPath *path = LuaSBodyPath::GetFromLua(2);
-	if (!s->IsSystem(path->sectorX, path->sectorY, path->systemNum)) {
-		lua_pushstring(l, "requested body is not in this system");
-		lua_error(l);
-	}
-
-	Body *b = Space::FindBodyForSBodyPath(path);
-	if (!b) return 0;
-
-	switch (b->GetType()) {
-		case Object::STAR:
-			LuaStar::PushToLua(dynamic_cast<Star*>(b));
-			break;
-		case Object::PLANET:
-			LuaPlanet::PushToLua(dynamic_cast<Planet*>(b));
-			break;
-		case Object::SPACESTATION:
-			LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(b));
-			break;
-		default: {
-			std::string s = stringf(256, "matched path to unknown body type %d", static_cast<int>(b->GetType()));
-			lua_pushstring(l, s.c_str());
-			lua_error(l);
-		}
-	}
-
-	LUA_DEBUG_END(l, 1);
-
-	return 1;
-}
-
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -156,7 +113,6 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "GetPopulation",                    l_starsystem_get_population                       },
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "GetRandomStarport",                l_starsystem_get_random_starport                  },
-		{ "GetBody",                          l_starsystem_get_body                             },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
 		{ "GetRandomStarportNearButNotIn",    l_starsystem_get_random_starport_near_but_not_in  },
 		{ 0, 0 }

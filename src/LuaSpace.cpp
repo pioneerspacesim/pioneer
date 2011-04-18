@@ -5,6 +5,8 @@
 #include "LuaSBodyPath.h"
 #include "LuaBody.h"
 #include "LuaSpaceStation.h"
+#include "LuaStar.h"
+#include "LuaPlanet.h"
 #include "Space.h"
 #include "Ship.h"
 #include "HyperspaceCloud.h"
@@ -224,6 +226,91 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	return 1;
 }
 
+static int l_space_get_body(lua_State *l)
+{
+	int id = luaL_checkinteger(l, 1);
+
+	const SysLoc loc = Pi::currentSystem->GetLocation();
+	SBodyPath path(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum());
+	path.sbodyId = id;
+
+	Body *b = Space::FindBodyForSBodyPath(&path);
+	if (!b) return 0;
+
+	LUA_DEBUG_START(l);
+
+	switch (b->GetType()) {
+		case Object::STAR:
+			LuaStar::PushToLua(dynamic_cast<Star*>(b));
+			break;
+		case Object::PLANET:
+			LuaPlanet::PushToLua(dynamic_cast<Planet*>(b));
+			break;
+		case Object::SPACESTATION:
+			LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(b));
+			break;
+		default:
+			luaL_error(l, "Unable to expose body type %d to Lua", static_cast<int>(b->GetType()));
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+static int l_space_get_bodies(lua_State *l)
+{
+	const char *type = luaL_checkstring(l, 1);
+
+	Object::Type t;
+	if (strcmp(type, "ship") == 0)
+		t = Object::SHIP;
+	else if (strcmp(type, "spacestation") == 0)
+		t = Object::SPACESTATION;
+	else if (strcmp(type, "planet") == 0)
+		t = Object::PLANET;
+	else if (strcmp(type, "star") == 0)
+		t = Object::STAR;
+	else
+		luaL_error(l, "Unknown body type '%s'", type);
+	
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
+		if ((*i)->IsType(t)) {
+			lua_pushinteger(l, lua_objlen(l, -1) + 1);
+			switch (t) {
+				case Object::SHIP: {
+					LuaShip::PushToLua(dynamic_cast<Ship*>(*i));
+					break;
+				}
+				case Object::SPACESTATION: {
+					LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(*i));
+					break;
+				}
+				case Object::PLANET: {
+					LuaPlanet::PushToLua(dynamic_cast<Planet*>(*i));
+					break;
+				}
+				case Object::STAR: {
+					LuaStar::PushToLua(dynamic_cast<Star*>(*i));
+					break;
+				}
+				default:
+					// can't happen
+					assert(0);
+			}
+			lua_settable(l, -3);
+		}
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
 void LuaSpace::Register()
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
@@ -235,6 +322,9 @@ void LuaSpace::Register()
 		{ "SpawnShipNear",   l_space_spawn_ship_near   },
 		{ "SpawnShipDocked", l_space_spawn_ship_docked },
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
+
+		{ "GetBody",   l_space_get_body   },
+		{ "GetBodies", l_space_get_bodies },
 		{ 0, 0 }
 	};
 
