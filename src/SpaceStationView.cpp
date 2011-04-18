@@ -307,7 +307,7 @@ private:
 			Pi::cpan->MsgLog()->Message("", "You do not have enough money");
 		} else {
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
-			Pi::player->ChangeFlavour(&f);
+			Pi::player->UpdateFlavour(&f);
 			Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
 			Pi::player->UpdateMass();
 			

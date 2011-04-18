@@ -481,7 +481,7 @@ void SpaceStation::DoLawAndOrder()
 				m.shininess = 0.0f;
 				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
 				f.secondaryColor = m;
-				ship->ChangeFlavour(&f);
+				ship->ResetFlavour(&f);
 			}
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
 			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);

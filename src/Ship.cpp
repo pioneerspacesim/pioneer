@@ -917,10 +917,16 @@ bool Ship::Jettison(Equip::Type t)
 	}
 }
 
+void Ship::UpdateFlavour(const ShipFlavour *f)
+{
+	assert(f->type == m_shipFlavour.type);
+	m_shipFlavour = *f;
+}
+
 /*
  * Used when player buys a new ship.
  */
-void Ship::ChangeFlavour(const ShipFlavour *f)
+void Ship::ResetFlavour(const ShipFlavour *f)
 {
 	m_shipFlavour = *f;
 	m_equipment.InitSlotSizes(f->type);
