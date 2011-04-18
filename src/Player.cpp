@@ -100,7 +100,6 @@ void Player::TimeStepUpdate(const float timeStep)
 
 void Player::StaticUpdate(const float timeStep)
 {
-	Body *b;
 	vector3d v;
 	matrix4x4d m;
 
@@ -110,7 +109,6 @@ void Player::StaticUpdate(const float timeStep)
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
-			b = (GetCombatTarget() ? GetCombatTarget() : GetNavTarget());
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
 			AIMatchVel(v);
