@@ -2,6 +2,7 @@
 #include "LuaSBodyPath.h"
 #include "LuaUtils.h"
 #include "StarSystem.h"
+#include "Sector.h"
 
 static int l_sbodypath_new(lua_State *l)
 {
@@ -12,6 +13,12 @@ static int l_sbodypath_new(lua_State *l)
 	int sbody_id = 0;
 	if (!lua_isnone(l, 4))
 		sbody_id = luaL_checkinteger(l, 4);
+	
+	Sector s(sector_x, sector_y);
+	if (s.m_systems.size() >= (size_t)system_idx)
+		luaL_error(l, "System %d in sector [%d,%d] does not exist", system_idx, sector_x, sector_y);
+
+	// XXX explode if sbody_id doesn't exist in the target system?
 	
 	SBodyPath *path = new SBodyPath(sector_x, sector_y, system_idx);
 	path->sbodyId = sbody_id;
