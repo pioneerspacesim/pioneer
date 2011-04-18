@@ -231,10 +231,6 @@ static int l_ship_spawn(lua_State *l)
 	//          parked near station (in orbit over ground station or near orbital station entrance)
 	//      defaults to { "system", 0.0, 10.0 }
 	//  
-	//  power: single number from 0.0 to 1.0, where 0 is unarmed and 1.0 is armed to the teeth.
-	//         adds weaponry and other equipment to bring the ship up to the desired powered level
-	//         if not specified the ship receives no equipment automatically
-	//
 	//  hyperspace: table with two elements. first is a SBodyPath for the
 	//              system the ship left from. the second is single number
 	//              indicating the spawn time in secpnds from now
@@ -243,7 +239,6 @@ static int l_ship_spawn(lua_State *l)
 	Body *body = NULL;
 	SpaceStation *station = NULL;
 	double min_dist = 0.0, max_dist = 10.0;
-	double power = -1;
 	SBodyPath *path = NULL;
 	double due = -1;
 	
@@ -307,17 +302,6 @@ static int l_ship_spawn(lua_State *l)
 	}
 	lua_pop(l, 1);
 	
-	lua_getfield(l, -1, "power");
-	if (!lua_isnil(l, -1)) {
-		if (!lua_isnumber(l, -1))
-			luaL_error(l, "bad value for 'power' (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
-		power = lua_tonumber(l, -1);
-		if (power < 0 || power > 1)
-			luaL_error(l, "bad value for 'power' (out of range, must 0.0 - 1.0)");
-		lua_pop(l, 1);
-	}
-	lua_pop(l, 1);
-
 	if (location != _DOCKED && location != _PARKED) {
 		lua_getfield(l, -1, "hyperspace");
 		if (!lua_isnil(l, -1)) {
@@ -345,10 +329,6 @@ static int l_ship_spawn(lua_State *l)
 	// spawn it!
 	Ship *ship = new Ship(type);
 	assert(ship);
-
-	if (power >= 0) {
-		// XXX fill it with stuff
-	}
 
 	if (location == _SYSTEM || location == _NEAR) {
 
