@@ -629,15 +629,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		}
 	}
 	// Direction indicator
-	vector3d vel;
-	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelTo(velRelTo);
-	} else {
-		vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-		// XXX ^ not the same as GetVelocity(), because it considers
-		// the stasis velocity of a rotating frame
-	}
+	vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 
 	if (m_showTargetActionsTimeout) {
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
@@ -673,10 +665,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 	{
 		double _vel = vel.Length();
 		char buf[128];
-		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : Pi::player->GetFrame()->GetLabel());
-		vector3d pos;
-		if (velRelTo) pos = velRelTo->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
-		else pos = Pi::player->GetPosition();
+		const char *rel_to = Pi::player->GetFrame()->GetLabel();
+		vector3d pos = Pi::player->GetPosition();
 		if (_vel > 1000) {
 			snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s (%s)", _vel*0.001, rel_to, format_distance(pos.Length()).c_str());
 		} else {
@@ -1208,10 +1198,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 	Gui::Screen::EnterOrtho();		// To save matrices
 
 	// Direction indicator
-	vector3d vel;
-	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) vel = Pi::player->GetVelocityRelTo(velRelTo);
-	else vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
+	vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 		// XXX ^ not the same as GetVelocity(), because it considers
 		// the stasis velocity of a rotating frame
 
