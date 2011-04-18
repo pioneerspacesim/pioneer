@@ -1,15 +1,11 @@
-#include "LuaGlobals.h"
+#include "LuaConstants.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "LuaObject.h"
-#include "LuaPlayer.h"
-#include "LuaStarSystem.h"
 #include "StarSystem.h"
 #include "Polit.h"
 #include "EquipType.h"
-#include "Pi.h"
 #include "Player.h"
-#include "ShipCpanel.h"
 #include "ShipType.h"
 
 static inline void _get_named_table(lua_State *l, int index, const char *name)
@@ -27,7 +23,7 @@ static inline void _get_named_table(lua_State *l, int index, const char *name)
 	assert(lua_istable(l, -1));
 }
 
-void LuaGlobals::RegisterConstants(lua_State *l)
+void LuaConstants::Register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -260,110 +256,6 @@ void LuaGlobals::RegisterConstants(lua_State *l)
 
 
 	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
-}
-
-
-static int l_game_meta_index(lua_State *l)
-{
-	if (!Pi::IsGameStarted())
-		luaL_error(l, "Can't query game state when game is not started");
-
-	const char *key = luaL_checkstring(l, 2);
-
-	if (strcmp(key, "player") == 0) {
-		LuaPlayer::PushToLua(Pi::player);
-		return 1;
-	}
-
-	if (strcmp(key, "system") == 0) {
-		LuaStarSystem::PushToLua(Pi::currentSystem);
-		return 1;
-	}
-
-	if (strcmp(key, "time") == 0) {
-		lua_pushnumber(l, Pi::GetGameTime());
-		return 1;
-	}
-
-	lua_pushnil(l);
-	return 1;
-}
-
-void LuaGlobals::RegisterGame()
-{
-	lua_State *l = LuaManager::Instance()->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	lua_newtable(l);
-
-	luaL_newmetatable(l, "Game");
-	
-	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, l_game_meta_index);
-	lua_rawset(l, -3);
-
-	lua_setmetatable(l, -2);
-
-	lua_setfield(l, LUA_GLOBALSINDEX, "Game");
-	
-	LUA_DEBUG_END(l, 0);
-}
-
-static int l_ui_message(lua_State *l)
-{
-	std::string from = luaL_checkstring(l, 1);
-	std::string msg = luaL_checkstring(l, 2);
-	Pi::cpan->MsgLog()->Message(from, msg);
-	return 0;
-}
-
-static int l_ui_important_message(lua_State *l)
-{
-	std::string from = luaL_checkstring(l, 1);
-	std::string msg = luaL_checkstring(l, 2);
-	Pi::cpan->MsgLog()->ImportantMessage(from, msg);
-	return 0;
-}
-
-void LuaGlobals::RegisterUI()
-{
-	lua_State *l = LuaManager::Instance()->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	static const luaL_reg methods[] = {
-		{ "Message",          l_ui_message           },
-		{ "ImportantMessage", l_ui_important_message },
-		{ 0, 0 }
-	};
-
-	luaL_register(l, "UI", methods);
-
-	LUA_DEBUG_END(l, 0);
-}
-
-static int l_date_format(lua_State *l)
-{
-	double t = luaL_checknumber(l, 1);
-	lua_pushstring(l, format_date(t).c_str());
-	return 1;
-}
-
-void LuaGlobals::RegisterDate()
-{
-	lua_State *l = LuaManager::Instance()->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	static const luaL_reg methods[] = {
-		{ "Format", l_date_format },
-		{ 0, 0 }
-	};
-
-	luaL_register(l, "Date", methods);
 
 	LUA_DEBUG_END(l, 0);
 }

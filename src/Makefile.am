@@ -15,9 +15,10 @@ include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEven
 		CommodityTradeWidget.h GenericChatForm.h PoliceChatForm.h SysLoc.h PersistSystemData.h GalacticView.h \
 		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h LmrModel.h MyLuaMathTypes.h BezierCurve.h \
 		LuaChatForm.h PiLuaAPI.h IniConfig.h GeoSphereStyle.h AmbientSounds.h KeyBindings.h \
-		BufferObject.h GuiMeterBar.h GuiLabelSet.h ShipAICmd.h PiLuaClasses.h LuaGlobals.h CustomSystem.h \
+		BufferObject.h GuiMeterBar.h GuiLabelSet.h ShipAICmd.h PiLuaClasses.h LuaConstants.h CustomSystem.h \
 		DeleteEmitter.h LuaManager.h LuaUtils.h LuaObject.h LuaEventQueue.h RefList.h RefCounted.h \
-		LuaBody.h LuaPlanet.h LuaPlayer.h LuaShip.h LuaSpaceStation.h LuaStar.h LuaStarSystem.h LuaSBodyPath.h LuaShipType.h LuaSpace.h
+		LuaBody.h LuaPlanet.h LuaPlayer.h LuaShip.h LuaSpaceStation.h LuaStar.h LuaStarSystem.h LuaSBodyPath.h LuaShipType.h \
+		LuaSpace.h LuaGame.h LuaUI.h LuaDate.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -34,10 +35,10 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
 		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
 		LmrModel.cpp MyLuaMathTypes.cpp LuaChatForm.cpp PiLuaAPI.cpp IniConfig.cpp \
-		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp ShipAICmd.cpp PiLuaClasses.cpp LuaGlobals.cpp \
+		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp ShipAICmd.cpp PiLuaClasses.cpp LuaConstants.cpp \
 		CustomSystem.cpp LuaManager.cpp LuaObject.cpp LuaEventQueue.cpp LuaUtils.cpp LuaSerializer.cpp \
 		LuaBody.cpp LuaShip.cpp LuaSpaceStation.cpp LuaPlanet.cpp LuaStar.cpp LuaPlayer.cpp LuaStarSystem.cpp \
-		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp
+		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaDate.cpp
 pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp

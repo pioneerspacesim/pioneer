@@ -44,7 +44,11 @@
 #include "LuaShipType.h"
 #include "LuaChatForm.h"
 #include "LuaSpace.h"
-#include "LuaGlobals.h"
+#include "LuaConstants.h"
+#include "LuaGame.h"
+#include "LuaUI.h"
+#include "LuaDate.h"
+#include "LuaSpace.h"
 #include "PiLuaAPI.h"
 
 float Pi::gameTickAlpha;
@@ -182,10 +186,10 @@ static void LuaInit()
 	Pi::luaOnUpdateBB.RegisterEventQueue();
 
 	RegisterPiLuaAPI(l);
-	LuaGlobals::RegisterConstants(l);
-	LuaGlobals::RegisterGame();
-	LuaGlobals::RegisterUI();
-	LuaGlobals::RegisterDate();
+	LuaConstants::Register();
+	LuaGame::Register();
+	LuaUI::Register();
+	LuaDate::Register();
 	LuaSpace::Register();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
