@@ -135,7 +135,7 @@ void Pi::Init()
 	int height = config.Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
-#if defined _WIN32 && defined _DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 	sdlInitFlags |= SDL_INIT_NOPARACHUTE;
 #endif
 	if (SDL_Init(sdlInitFlags) < 0) {
