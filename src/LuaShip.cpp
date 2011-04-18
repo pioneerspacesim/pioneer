@@ -36,6 +36,19 @@ static int l_ship_get_stats(lua_State *l)
 	return 1;
 }
 
+static int l_ship_set_label(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	const char *label = luaL_checkstring(l, 2);
+
+	ShipFlavour f = *(s->GetFlavour());
+	strncpy(f.regid, label, 16);
+	s->UpdateFlavour(&f);
+
+	s->SetLabel(label);
+	return 0;
+}
+
 static int l_ship_get_money(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -209,6 +222,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_reg l_methods[] = {
 		{ "GetStats", l_ship_get_stats },
+
+		{ "SetLabel", l_ship_set_label },
 
 		{ "GetMoney", l_ship_get_money },
 		{ "SetMoney", l_ship_set_money },
