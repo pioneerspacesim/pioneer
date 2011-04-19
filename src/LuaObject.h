@@ -104,6 +104,9 @@
 // type for internal object identifiers
 typedef uintptr_t lid;
 
+// type for promotion test callbacks
+typedef bool (*PromotionTest)(DeleteEmitter *o);
+
 // the base class for wrapper classes. it has no public interface. everything
 // you need goes through the wrapper classes
 class LuaObjectBase {
@@ -138,6 +141,11 @@ protected:
 
 	// does exactly the same as GetFromLua without triggering exceptions
 	static DeleteEmitter *CheckFromLua(int index, const char *type);
+
+	// register a promotion test. when an object with lua type base_type is
+	// pushed, test_fn will be called. if it returns true then the created lua
+	// object will be of target_type
+	static void RegisterPromotionTest(const char *base_type, const char *target_type, PromotionTest test_fn);
 
 	// abstract functions for the object acquire/release functions. these are
 	// called to somehow record that the object is "in use". the wrapper class

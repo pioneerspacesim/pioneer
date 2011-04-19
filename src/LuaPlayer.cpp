@@ -162,6 +162,11 @@ static int l_player_add_crime(lua_State *l)
 	return 0;
 }
 
+static bool ship_promotion_test(DeleteEmitter *o)
+{
+	return dynamic_cast<Player*>(o);
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -178,4 +183,5 @@ template <> void LuaObject<Player>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
+	LuaObjectBase::RegisterPromotionTest("Ship", s_type, ship_promotion_test);
 }

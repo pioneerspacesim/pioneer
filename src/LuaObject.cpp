@@ -7,6 +7,7 @@
 
 static lid next_id = 0;
 static std::map<lid, LuaObjectBase*> registry;
+static std::map< const char *, std::map<const char *,PromotionTest> > promotions;
 
 void LuaObjectBase::Deregister(LuaObjectBase *lo)
 {
@@ -157,6 +158,32 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	lo->m_id = ++next_id;
 	assert(lo->m_id);
 
+	printf("push: initial type is %s\n", lo->m_type);
+
+	std::map< const char *, std::map<const char *,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
+	if (base_iter != promotions.end()) {
+		printf("push: promotions are available\n");
+
+		for (
+			std::map<const char *,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
+			target_iter != (*base_iter).second.end(); 
+			target_iter++)
+		{
+			printf("push: checking for promotion to %s\n", (*target_iter).first);
+			if ((*target_iter).second(lo->m_object)) {
+				printf("push: can promote\n");
+				lo->m_type = (*target_iter).first;
+			}
+		}
+
+		printf("push: final type is %s\n", lo->m_type);
+
+		assert(lo->Isa((*base_iter).first));
+	}
+	else
+		printf("push: no promotions available\n");
+
+
 	lo->Acquire(lo->m_object);
 
 	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
@@ -273,3 +300,7 @@ bool LuaObjectBase::Isa(const char *type) const
 	return true;
 }
 
+void LuaObjectBase::RegisterPromotionTest(const char *base_type, const char *target_type, PromotionTest test_fn)
+{
+	promotions[base_type][target_type] = test_fn;
+}
