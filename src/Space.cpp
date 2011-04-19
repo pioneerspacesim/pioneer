@@ -552,6 +552,7 @@ void TimeStep(float step)
 
 	Sfx::TimeStepAll(step, rootFrame);
 
+    Pi::luaOnEnterSystem.Emit();
 	Pi::luaOnShipKilled.Emit();
 	Pi::luaOnShipAttacked.Emit();
 	Pi::luaOnPlayerDocked.Emit();
@@ -732,7 +733,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 	// bit of a hack, this should be only false if DoHyperspaceTo is used at
 	// game startup (eg debug point)
 	if (Pi::IsGameStarted())
-		Pi::luaOnEnterSystem.Signal(Pi::player);
+		Pi::luaOnEnterSystem.Queue(Pi::player);
 	
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
