@@ -15,7 +15,7 @@ static int l_sbodypath_new(lua_State *l)
 		sbody_id = luaL_checkinteger(l, 4);
 	
 	Sector s(sector_x, sector_y);
-	if (s.m_systems.size() >= (size_t)system_idx)
+	if ((size_t)system_idx >= s.m_systems.size())
 		luaL_error(l, "System %d in sector [%d,%d] does not exist", system_idx, sector_x, sector_y);
 
 	// XXX explode if sbody_id doesn't exist in the target system?
