@@ -7,7 +7,7 @@
 
 static lid next_id = 0;
 static std::map<lid, LuaObjectBase*> registry;
-static std::map< const char *, std::map<const char *,PromotionTest> > promotions;
+static std::map< std::string, std::map<std::string,PromotionTest> > promotions;
 
 void LuaObjectBase::Deregister(LuaObjectBase *lo)
 {
@@ -160,25 +160,25 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	printf("push: initial type is %s\n", lo->m_type);
 
-	std::map< const char *, std::map<const char *,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
+	std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
 	if (base_iter != promotions.end()) {
 		printf("push: promotions are available\n");
 
 		for (
-			std::map<const char *,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
+			std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
 			target_iter != (*base_iter).second.end(); 
 			target_iter++)
 		{
-			printf("push: checking for promotion to %s\n", (*target_iter).first);
+			printf("push: checking for promotion to %s\n", (*target_iter).first.c_str());
 			if ((*target_iter).second(lo->m_object)) {
 				printf("push: can promote\n");
-				lo->m_type = (*target_iter).first;
+				lo->m_type = (*target_iter).first.c_str();
 			}
 		}
 
 		printf("push: final type is %s\n", lo->m_type);
 
-		assert(lo->Isa((*base_iter).first));
+		assert(lo->Isa((*base_iter).first.c_str()));
 	}
 	else
 		printf("push: no promotions available\n");
