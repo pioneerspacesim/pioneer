@@ -413,15 +413,12 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 		} else {
 			if (dt.stage >= 0) {
 				// set docked
-				// XXX have a general onDock event instead
-				if (dt.ship == Pi::player) {
-					Pi::luaOnPlayerDocked.Queue(this, Pi::player);
-					if (!m_bbCreated) {
-						Pi::luaOnCreateBB.Queue(this);
-						m_bbCreated = true;
-					}
-				}
 				dt.ship->SetDockedWith(this, i);
+				if (!m_bbCreated) {
+					Pi::luaOnCreateBB.Queue(this);
+					m_bbCreated = true;
+				}
+				Pi::luaOnShipDocked.Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
 					// launch ship
@@ -732,15 +729,12 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
-					// XXX have a general onDock event instead
-					if (s == Pi::player) {
-						Pi::luaOnPlayerDocked.Queue(this, Pi::player);
-						if (!m_bbCreated) {
-							Pi::luaOnCreateBB.Queue(this);
-							m_bbCreated = true;
-						}
-					}
 					s->SetDockedWith(this, port);
+					if (!m_bbCreated) {
+						Pi::luaOnCreateBB.Queue(this);
+						m_bbCreated = true;
+					}
+					Pi::luaOnShipDocked.Queue(s, this);
 				}
 			}
 		}
