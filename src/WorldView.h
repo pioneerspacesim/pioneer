@@ -92,7 +92,7 @@ private:
 	sigc::connection m_onMouseButtonDown;
 
 	Gui::LabelSet *m_bodyLabels;
-	Gui::Label *m_targetDist, *m_combatDist, *m_combatSpeed;
+	Gui::Label *m_targetDist, *m_targetSpeed, *m_combatDist, *m_combatSpeed;
 	bool m_velocityIndicatorOnscreen;
 	int m_velocityIndicatorPos[2];
 	bool m_targLeadOnscreen;

@@ -141,9 +141,11 @@ WorldView::WorldView(): View()
 	Add(m_bodyLabels, 0, 0);
 
 	m_targetDist = new Gui::Label("");
+	m_targetSpeed = new Gui::Label("");
 	m_combatDist = new Gui::Label("");
 	m_combatSpeed = new Gui::Label("");
 	Add(m_targetDist, 0, 0);			// text/color/position set dynamically
+	Add(m_targetSpeed, 0, 0);			// text/color/position set dynamically
 	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
 	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
 
@@ -1274,10 +1276,26 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
 		MoveChild(m_targetDist, (float)lpos.x, (float)lpos.y);
 
+		double vel = Pi::player->GetVelocityRelTo(navtarget).Length();
+		char buf[128];
+		if (vel > 1000)
+			snprintf(buf, sizeof(buf), "%.2f km/s", vel*0.001);
+		else
+			snprintf(buf, sizeof(buf), "%.0f m/s", vel);
+		m_targetSpeed->SetText(buf);
+
+		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
+
+		lpos += vector3d(0, Gui::Screen::GetFontHeight()+2.0f, 0);
+		MoveChild(m_targetSpeed, (float)lpos.x, (float)lpos.y);
+
 		m_targetDist->Show();
+		m_targetSpeed->Show();
 	}
-	else
+	else {
 		m_targetDist->Hide();
+		m_targetSpeed->Hide();
+	}
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
