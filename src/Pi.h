@@ -105,7 +105,7 @@ public:
 
 	static LuaEventQueue<> luaOnGameStart;
 	static LuaEventQueue<> luaOnGameEnd;
-	static LuaEventQueue<StarSystem,Player> luaOnEnterSystem;
+	static LuaEventQueue<Ship> luaOnEnterSystem;
 	static LuaEventQueue<Ship,Body> luaOnShipKilled;
 	static LuaEventQueue<Ship,Body> luaOnShipAttacked;
 	static LuaEventQueue<SpaceStation,Player> luaOnPlayerDocked;

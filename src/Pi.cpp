@@ -72,7 +72,7 @@ LuaSerializer Pi::luaSerializer;
 LuaTimer Pi::luaTimer;
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
-LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
+LuaEventQueue<Ship> Pi::luaOnEnterSystem("onEnterSystem");
 LuaEventQueue<Ship,Body> Pi::luaOnShipKilled("onShipKilled");
 LuaEventQueue<Ship,Body> Pi::luaOnShipAttacked("onShipAttacked");
 LuaEventQueue<SpaceStation,Player> Pi::luaOnPlayerDocked("onPlayerDocked");
