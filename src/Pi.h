@@ -103,7 +103,6 @@ public:
 	static LuaSerializer luaSerializer;
 	static LuaTimer luaTimer;
 
-	static LuaEventQueue<> luaOnTick;
 	static LuaEventQueue<> luaOnGameStart;
 	static LuaEventQueue<> luaOnGameEnd;
 	static LuaEventQueue<StarSystem,Player> luaOnEnterSystem;

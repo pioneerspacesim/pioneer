@@ -70,7 +70,6 @@ sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 LuaSerializer Pi::luaSerializer;
 LuaTimer Pi::luaTimer;
-LuaEventQueue<> Pi::luaOnTick("onTick");
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
 LuaEventQueue<StarSystem,Player> Pi::luaOnEnterSystem("onEnterSystem");
@@ -176,7 +175,6 @@ static void LuaInit()
 	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaTimer>::RegisterClass();
 
-	Pi::luaOnTick.RegisterEventQueue();
 	Pi::luaOnGameStart.RegisterEventQueue();
 	Pi::luaOnGameEnd.RegisterEventQueue();
 	Pi::luaOnEnterSystem.RegisterEventQueue();
@@ -201,7 +199,6 @@ static void LuaInit()
 }
 
 static void LuaInitGame() {
-	Pi::luaOnTick.ClearEvents();
 	Pi::luaOnGameStart.ClearEvents();
 	Pi::luaOnGameEnd.ClearEvents();
 	Pi::luaOnShipKilled.ClearEvents();
@@ -1048,10 +1045,8 @@ void Pi::MainLoop()
 			// paused
 		}
 
-		if (frame_stat == 0) {
-			Pi::luaOnTick.Signal();
+		if (frame_stat == 0)
             Pi::luaTimer.Tick();
-        }
 		frame_stat++;
 
 		Render::PrepareFrame();
