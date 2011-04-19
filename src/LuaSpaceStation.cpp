@@ -150,6 +150,11 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 	return 1;
 }
 
+static bool promotion_test(DeleteEmitter *o)
+{
+	return dynamic_cast<SpaceStation*>(o);
+}
+
 template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
@@ -165,4 +170,5 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
+	LuaObjectBase::RegisterPromotionTest(l_inherit, s_type, promotion_test);
 }

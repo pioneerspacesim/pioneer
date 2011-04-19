@@ -214,6 +214,11 @@ static int l_ship_get_ship_types(lua_State *l)
 	return 1;
 }
 
+static bool promotion_test(DeleteEmitter *o)
+{
+	return dynamic_cast<Ship*>(o);
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -245,4 +250,5 @@ template <> void LuaObject<Ship>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
+	LuaObjectBase::RegisterPromotionTest(l_inherit, s_type, promotion_test);
 }
