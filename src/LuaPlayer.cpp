@@ -4,6 +4,12 @@
 #include "Player.h"
 #include "Polit.h"
 
+static int l_player_is_player(lua_State *l)
+{
+    lua_pushboolean(l, true);
+    return 1;
+}
+
 static void _mission_to_table(lua_State *l, const Mission &m)
 {
 	LUA_DEBUG_START(l);
@@ -174,6 +180,8 @@ template <> void LuaObject<Player>::RegisterClass()
 	static const char *l_inherit = "Ship";
 
 	static const luaL_reg l_methods[] = {
+		{ "IsPlayer", l_player_is_player },
+
 		{ "AddMission",    l_player_add_mission    },
 		{ "UpdateMission", l_player_update_mission },
 		{ "RemoveMission", l_player_remove_mission },

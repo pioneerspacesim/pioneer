@@ -12,6 +12,12 @@
 #include "Player.h"
 #include "HyperspaceCloud.h"
 
+static int l_ship_is_player(lua_State *l)
+{
+    lua_pushboolean(l, false);
+    return 1;
+}
+
 static int l_ship_get_stats(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -226,6 +232,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 	static const char *l_inherit = "Body";
 
 	static const luaL_reg l_methods[] = {
+		{ "IsPlayer", l_ship_is_player },
+
 		{ "GetStats", l_ship_get_stats },
 
 		{ "SetLabel", l_ship_set_label },
