@@ -731,7 +731,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 
 	// bit of a hack, this should be only false if DoHyperspaceTo is used at
 	// game startup (eg debug point)
-	//if (Pi::IsGameStarted())
+	if (Pi::IsGameStarted())
 		Pi::luaOnEnterSystem.Signal(Pi::player);
 	
 	delete hyperspacingTo;
