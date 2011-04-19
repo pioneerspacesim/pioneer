@@ -158,31 +158,40 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	lo->m_id = ++next_id;
 	assert(lo->m_id);
 
-	printf("push: initial type is %s\n", lo->m_type);
+	bool have_promotions = true;
+	bool tried_promote = false;
+	
+	while (have_promotions && !tried_promote) {
+		printf("push: initial type is %s\n", lo->m_type);
 
-	std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
-	if (base_iter != promotions.end()) {
-		printf("push: promotions are available\n");
+		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
+		if (base_iter != promotions.end()) {
+			printf("push: promotions are available\n");
 
-		for (
-			std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
-			target_iter != (*base_iter).second.end(); 
-			target_iter++)
-		{
-			printf("push: checking for promotion to %s\n", (*target_iter).first.c_str());
-			if ((*target_iter).second(lo->m_object)) {
-				printf("push: can promote\n");
-				lo->m_type = (*target_iter).first.c_str();
+			tried_promote = true;
+
+			for (
+				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
+				target_iter != (*base_iter).second.end(); 
+				target_iter++)
+			{
+				printf("push: checking for promotion to %s\n", (*target_iter).first.c_str());
+				if ((*target_iter).second(lo->m_object)) {
+					printf("push: can promote\n");
+					lo->m_type = (*target_iter).first.c_str();
+					tried_promote = false;
+				}
 			}
+
+			printf("push: final type is %s\n", lo->m_type);
+
+			assert(lo->Isa((*base_iter).first.c_str()));
 		}
-
-		printf("push: final type is %s\n", lo->m_type);
-
-		assert(lo->Isa((*base_iter).first.c_str()));
+		else {
+			printf("push: no promotions available\n");
+			have_promotions = false;
+		}
 	}
-	else
-		printf("push: no promotions available\n");
-
 
 	lo->Acquire(lo->m_object);
 
