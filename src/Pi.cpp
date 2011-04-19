@@ -49,6 +49,7 @@
 #include "LuaUI.h"
 #include "LuaDate.h"
 #include "LuaSpace.h"
+#include "LuaTimer.h"
 #include "PiLuaAPI.h"
 
 float Pi::gameTickAlpha;
@@ -68,6 +69,7 @@ sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
 LuaSerializer Pi::luaSerializer;
+LuaTimer Pi::luaTimer;
 LuaEventQueue<> Pi::luaOnTick("onTick");
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
@@ -169,11 +171,10 @@ static void LuaInit()
 	LuaShipType::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
-
-	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaEventQueueBase>::RegisterClass();
 
-	Pi::luaSerializer.RegisterSerializer();
+	LuaObject<LuaSerializer>::RegisterClass();
+	LuaObject<LuaTimer>::RegisterClass();
 
 	Pi::luaOnTick.RegisterEventQueue();
 	Pi::luaOnGameStart.RegisterEventQueue();
@@ -1047,8 +1048,10 @@ void Pi::MainLoop()
 			// paused
 		}
 
-		if (frame_stat == 0)
+		if (frame_stat == 0) {
 			Pi::luaOnTick.Signal();
+            Pi::luaTimer.Tick();
+        }
 		frame_stat++;
 
 		Render::PrepareFrame();

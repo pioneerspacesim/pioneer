@@ -10,6 +10,7 @@
 #include "IniConfig.h"
 #include "LuaEventQueue.h"
 #include "LuaSerializer.h"
+#include "LuaTimer.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -100,6 +101,7 @@ public:
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
 	static LuaSerializer luaSerializer;
+	static LuaTimer luaTimer;
 
 	static LuaEventQueue<> luaOnTick;
 	static LuaEventQueue<> luaOnGameStart;
