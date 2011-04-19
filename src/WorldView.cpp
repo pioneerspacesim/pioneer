@@ -104,16 +104,19 @@ WorldView::WorldView(): View()
 
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudAltitude = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudPressure = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudVelocity->SetToolTip("Ship velocity by reference object");
+	m_hudTargetDist->SetToolTip("Distance from ship to navigation target");
 	m_hudAltitude->SetToolTip("Ship altitude above terrain");
 	m_hudPressure->SetToolTip("External atmospheric pressure");
 	Add(m_debugInfo, 10, 200);
 	Add(m_hudVelocity, 170.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
-	Add(m_hudAltitude, 560.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
-	Add(m_hudPressure, 480.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudTargetDist, 500.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudAltitude, 580.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
+	Add(m_hudPressure, 150.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
 	m_hudHullTemp = new Gui::MeterBar(100.0f, "Hull temp", Color(1.0f,0.0f,0.0f,0.8f));
@@ -670,12 +673,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 		const char *rel_to = Pi::player->GetFrame()->GetLabel();
 		vector3d pos = Pi::player->GetPosition();
 		if (_vel > 1000) {
-			snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s (%s)", _vel*0.001, rel_to, format_distance(pos.Length()).c_str());
+			snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s", _vel*0.001, rel_to);
 		} else {
-			snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s (%s)", _vel, rel_to, format_distance(pos.Length()).c_str());
+			snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s", _vel, rel_to);
 		}
 		m_hudVelocity->SetText(buf);
 	}
+
+	if (Body *navtarget = Pi::player->GetNavTarget()) {
+		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+		char buf[128];
+		snprintf(buf, sizeof(buf), "%s to target", format_distance(dist).c_str());
+		m_hudTargetDist->SetText(buf);
+		m_hudTargetDist->Show();
+	}
+	else
+		m_hudTargetDist->Hide();
 
 	// altitude
 	if (Pi::player->GetFrame()->m_astroBody) {
@@ -714,12 +727,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
 			m_hudHullTemp->Show();
 		} else {
-			m_hudPressure->SetText("P. 0.0 bar");
+			m_hudPressure->Hide();
 			m_hudHullTemp->Hide();
 		}
 	} else {
-		m_hudPressure->SetText("P. 0.0 bar");
 		m_hudAltitude->Hide();
+		m_hudPressure->Hide();
 		m_hudHullTemp->Hide();
 	}
 
