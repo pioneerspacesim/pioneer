@@ -162,12 +162,8 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	bool tried_promote = false;
 	
 	while (have_promotions && !tried_promote) {
-		printf("push: initial type is %s\n", lo->m_type);
-
 		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
 		if (base_iter != promotions.end()) {
-			printf("push: promotions are available\n");
-
 			tried_promote = true;
 
 			for (
@@ -175,22 +171,16 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 				target_iter != (*base_iter).second.end(); 
 				target_iter++)
 			{
-				printf("push: checking for promotion to %s\n", (*target_iter).first.c_str());
 				if ((*target_iter).second(lo->m_object)) {
-					printf("push: can promote\n");
 					lo->m_type = (*target_iter).first.c_str();
 					tried_promote = false;
 				}
 			}
 
-			printf("push: final type is %s\n", lo->m_type);
-
 			assert(lo->Isa((*base_iter).first.c_str()));
 		}
-		else {
-			printf("push: no promotions available\n");
+		else
 			have_promotions = false;
-		}
 	}
 
 	lo->Acquire(lo->m_object);
@@ -309,7 +299,7 @@ bool LuaObjectBase::Isa(const char *type) const
 	return true;
 }
 
-void LuaObjectBase::RegisterPromotionTest(const char *base_type, const char *target_type, PromotionTest test_fn)
+void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn)
 {
 	promotions[base_type][target_type] = test_fn;
 }

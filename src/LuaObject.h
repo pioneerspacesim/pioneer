@@ -145,7 +145,7 @@ protected:
 	// register a promotion test. when an object with lua type base_type is
 	// pushed, test_fn will be called. if it returns true then the created lua
 	// object will be of target_type
-	static void RegisterPromotionTest(const char *base_type, const char *target_type, PromotionTest test_fn);
+	static void RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn);
 
 	// abstract functions for the object acquire/release functions. these are
 	// called to somehow record that the object is "in use". the wrapper class

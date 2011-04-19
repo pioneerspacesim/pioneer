@@ -170,5 +170,5 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
-	LuaObjectBase::RegisterPromotionTest(l_inherit, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
 }
