@@ -108,6 +108,7 @@ public:
 	static LuaEventQueue<Ship> luaOnEnterSystem;
 	static LuaEventQueue<Ship,Body> luaOnShipKilled;
 	static LuaEventQueue<Ship,Body> luaOnShipAttacked;
+	static LuaEventQueue<Ship,Body> luaOnShipCollided;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipDocked;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
