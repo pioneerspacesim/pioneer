@@ -33,19 +33,6 @@
 // for a module that is not currently loaded, we don't lose its data in the
 // next save
 
-void LuaSerializer::RegisterSerializer()
-{
-	lua_State *l = LuaManager::Instance()->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	// XXX make this a true singleton
-
-	LuaObject<LuaSerializer>::PushToLua(this);
-	lua_setfield(l, LUA_GLOBALSINDEX, "Serializer");
-
-	LUA_DEBUG_END(l, 0);
-}
 
 // pickler can handle simple types (boolean, number, string) and will drill
 // down into tables. it can do userdata for a specific set of types - Body and

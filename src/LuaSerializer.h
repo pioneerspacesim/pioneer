@@ -10,8 +10,6 @@ class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;
 
 public:
-	void RegisterSerializer();
-
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);
 
