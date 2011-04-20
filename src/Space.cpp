@@ -776,6 +776,11 @@ float GetHyperspaceAnim()
 	return hyperspaceAnim;
 }
 
+const SBodyPath *GetHyperspaceDest()
+{
+	return hyperspacingTo;
+}
+
 void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
 {
 	glPushMatrix();

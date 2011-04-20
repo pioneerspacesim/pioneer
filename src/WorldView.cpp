@@ -669,73 +669,87 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_debugInfo->Hide();
 	}
 
-	{
-		double _vel = vel.Length();
+	if (const SBodyPath *dest = Space::GetHyperspaceDest()) {
+		StarSystem *s = StarSystem::GetCached(*dest);
 		char buf[128];
-		const char *rel_to = Pi::player->GetFrame()->GetLabel();
-		vector3d pos = Pi::player->GetPosition();
-		if (_vel > 1000) {
-			snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s", _vel*0.001, rel_to);
-		} else {
-			snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s", _vel, rel_to);
-		}
+		snprintf(buf, sizeof(buf), "In transit to %s [%d,%d]", s->GetName().c_str(), dest->GetSectorX(), dest->GetSectorY());
 		m_hudVelocity->SetText(buf);
-	}
+		m_hudVelocity->Show();
 
-	if (Body *navtarget = Pi::player->GetNavTarget()) {
-		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-		char buf[128];
-		snprintf(buf, sizeof(buf), "%s to target", format_distance(dist).c_str());
-		m_hudTargetDist->SetText(buf);
-		m_hudTargetDist->Show();
-	}
-	else
 		m_hudTargetDist->Hide();
+		m_hudAltitude->Hide();
+		m_hudPressure->Hide();
+	}
 
-	// altitude
-	if (Pi::player->GetFrame()->m_astroBody) {
-		Body *astro = Pi::player->GetFrame()->m_astroBody;
-		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
-		double radius;
-		vector3d surface_pos = Pi::player->GetPosition().Normalized();
-		if (astro->IsType(Object::PLANET)) {
-			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
-		} else {
-			// XXX this is an improper use of GetBoundingRadius
-			// since it is not a surface radius
-			radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+	else {
+		{
+			double _vel = vel.Length();
+			char buf[128];
+			const char *rel_to = Pi::player->GetFrame()->GetLabel();
+			vector3d pos = Pi::player->GetPosition();
+			if (_vel > 1000) {
+				snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s", _vel*0.001, rel_to);
+			} else {
+				snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s", _vel, rel_to);
+			}
+			m_hudVelocity->SetText(buf);
 		}
-		double altitude = Pi::player->GetPosition().Length() - radius;
-		if (altitude > 9999999.0) {
+
+		if (Body *navtarget = Pi::player->GetNavTarget()) {
+			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+			char buf[128];
+			snprintf(buf, sizeof(buf), "%s to target", format_distance(dist).c_str());
+			m_hudTargetDist->SetText(buf);
+			m_hudTargetDist->Show();
+		}
+		else
+			m_hudTargetDist->Hide();
+
+		// altitude
+		if (Pi::player->GetFrame()->m_astroBody) {
+			Body *astro = Pi::player->GetFrame()->m_astroBody;
+			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
+			double radius;
+			vector3d surface_pos = Pi::player->GetPosition().Normalized();
+			if (astro->IsType(Object::PLANET)) {
+				radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+			} else {
+				// XXX this is an improper use of GetBoundingRadius
+				// since it is not a surface radius
+				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+			}
+			double altitude = Pi::player->GetPosition().Length() - radius;
+			if (altitude > 9999999.0) {
+				m_hudAltitude->Hide();
+			} else {
+				if (altitude < 0) altitude = 0;
+				char buf[128];
+				snprintf(buf, sizeof(buf), "Alt: %.0fm", altitude);
+				m_hudAltitude->SetText(buf);
+				m_hudAltitude->Show();
+			}
+
+			if (astro->IsType(Object::PLANET)) {
+				double dist = Pi::player->GetPosition().Length();
+				double pressure, density;
+				((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
+				char buf[128];
+				snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
+
+				m_hudPressure->SetText(buf);
+				m_hudPressure->Show();
+
+				m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
+				m_hudHullTemp->Show();
+			} else {
+				m_hudPressure->Hide();
+				m_hudHullTemp->Hide();
+			}
+		} else {
 			m_hudAltitude->Hide();
-		} else {
-			if (altitude < 0) altitude = 0;
-			char buf[128];
-			snprintf(buf, sizeof(buf), "Alt: %.0fm", altitude);
-			m_hudAltitude->SetText(buf);
-			m_hudAltitude->Show();
-		}
-
-		if (astro->IsType(Object::PLANET)) {
-			double dist = Pi::player->GetPosition().Length();
-			double pressure, density;
-			((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
-			char buf[128];
-			snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
-
-			m_hudPressure->SetText(buf);
-			m_hudPressure->Show();
-
-			m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
-			m_hudHullTemp->Show();
-		} else {
 			m_hudPressure->Hide();
 			m_hudHullTemp->Hide();
 		}
-	} else {
-		m_hudAltitude->Hide();
-		m_hudPressure->Hide();
-		m_hudHullTemp->Hide();
 	}
 
 	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
