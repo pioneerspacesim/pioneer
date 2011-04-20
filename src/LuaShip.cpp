@@ -11,6 +11,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "HyperspaceCloud.h"
+#include "LmrModel.h"
 
 static int l_ship_is_player(lua_State *l)
 {
@@ -52,6 +53,54 @@ static int l_ship_set_label(lua_State *l)
 	s->UpdateFlavour(&f);
 
 	s->SetLabel(label);
+	return 0;
+}
+
+static void _prepare_colour(LmrMaterial &m, float r, float g, float b)
+{
+	float invmax = 1.0f / std::max(r, std::max(g, b));
+
+	r *= invmax;
+	g *= invmax;
+	b *= invmax;
+
+	m.diffuse[0] = 0.5f * r;
+	m.diffuse[1] = 0.5f * g;
+	m.diffuse[2] = 0.5f * b;
+	m.diffuse[3] = 1.0f;
+	m.specular[0] = r;
+	m.specular[1] = g;
+	m.specular[2] = b;
+	m.specular[3] = 0.0f;
+	m.emissive[0] = m.emissive[1] = m.emissive[2] = m.emissive[3] = 0.0f;
+	m.shininess = 50.0f + (float)Pi::rng.Double()*50.0f;
+}
+
+static int l_ship_set_primary_colour(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	float r = luaL_checknumber(l, 2);
+	float g = luaL_checknumber(l, 3);
+	float b = luaL_checknumber(l, 4);
+
+	ShipFlavour f = *(s->GetFlavour());
+	_prepare_colour(f.primaryColor, r, g, b);
+	s->UpdateFlavour(&f);
+
+	return 0;
+}
+
+static int l_ship_set_secondary_colour(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	float r = luaL_checknumber(l, 2);
+	float g = luaL_checknumber(l, 3);
+	float b = luaL_checknumber(l, 4);
+
+	ShipFlavour f = *(s->GetFlavour());
+	_prepare_colour(f.secondaryColor, r, g, b);
+	s->UpdateFlavour(&f);
+
 	return 0;
 }
 
@@ -236,7 +285,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetStats", l_ship_get_stats },
 
-		{ "SetLabel", l_ship_set_label },
+		{ "SetLabel",           l_ship_set_label            },
+		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
+		{ "SetSecondaryColour", l_ship_set_secondary_colour },
 
 		{ "GetMoney", l_ship_get_money },
 		{ "SetMoney", l_ship_set_money },
