@@ -1309,6 +1309,13 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
 		MoveChild(m_targetDist, (float)lpos.x, (float)lpos.y);
 
+		m_targetDist->Show();
+	}
+	else
+		m_targetDist->Hide();
+	
+	// update navtarget speed
+	if (m_navVelocityIndicatorOnscreen) {
 		double vel = Pi::player->GetVelocityRelTo(navtarget).Length();
 		char buf[128];
 		if (vel > 1000)
@@ -1319,16 +1326,12 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
 
-		lpos += vector3d(0, Gui::Screen::GetFontHeight()+2.0f, 0);
-		MoveChild(m_targetSpeed, (float)lpos.x, (float)lpos.y);
+		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26, m_navVelocityIndicatorPos[1]+26);
 
-		m_targetDist->Show();
 		m_targetSpeed->Show();
 	}
-	else {
-		m_targetDist->Hide();
+	else
 		m_targetSpeed->Hide();
-	}
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
