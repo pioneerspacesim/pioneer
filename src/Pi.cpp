@@ -73,8 +73,8 @@ LuaTimer Pi::luaTimer;
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
 LuaEventQueue<Ship> Pi::luaOnEnterSystem("onEnterSystem");
-LuaEventQueue<Ship,Body> Pi::luaOnShipKilled("onShipKilled");
-LuaEventQueue<Ship,Body> Pi::luaOnShipAttacked("onShipAttacked");
+LuaEventQueue<Ship,Body> Pi::luaOnShipDestroyed("onShipDestroyed");
+LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
@@ -179,8 +179,8 @@ static void LuaInit()
 	Pi::luaOnGameStart.RegisterEventQueue();
 	Pi::luaOnGameEnd.RegisterEventQueue();
 	Pi::luaOnEnterSystem.RegisterEventQueue();
-	Pi::luaOnShipKilled.RegisterEventQueue();
-	Pi::luaOnShipAttacked.RegisterEventQueue();
+	Pi::luaOnShipDestroyed.RegisterEventQueue();
+	Pi::luaOnShipHit.RegisterEventQueue();
 	Pi::luaOnShipCollided.RegisterEventQueue();
 	Pi::luaOnShipDocked.RegisterEventQueue();
 	Pi::luaOnCreateBB.RegisterEventQueue();
@@ -203,8 +203,8 @@ static void LuaInit()
 static void LuaInitGame() {
 	Pi::luaOnGameStart.ClearEvents();
 	Pi::luaOnGameEnd.ClearEvents();
-	Pi::luaOnShipKilled.ClearEvents();
-	Pi::luaOnShipAttacked.ClearEvents();
+	Pi::luaOnShipDestroyed.ClearEvents();
+	Pi::luaOnShipHit.ClearEvents();
 	Pi::luaOnShipCollided.ClearEvents();
 	Pi::luaOnShipDocked.ClearEvents();
 	Pi::luaOnCreateBB.ClearEvents();

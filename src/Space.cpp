@@ -95,7 +95,7 @@ void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, 
 			// linear damage decay with distance
 			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
 			if ((*i)->IsType(Object::SHIP))
-				Pi::luaOnShipAttacked.Queue(dynamic_cast<Ship*>(*i), attacker);
+				Pi::luaOnShipHit.Queue(dynamic_cast<Ship*>(*i), attacker);
 		}
 	}
 }
@@ -556,9 +556,9 @@ void TimeStep(float step)
 	Sfx::TimeStepAll(step, rootFrame);
 
 	Pi::luaOnEnterSystem.Emit();
-	Pi::luaOnShipAttacked.Emit();
+	Pi::luaOnShipHit.Emit();
 	Pi::luaOnShipCollided.Emit();
-	Pi::luaOnShipKilled.Emit();
+	Pi::luaOnShipDestroyed.Emit();
 	Pi::luaOnShipDocked.Emit();
 	Pi::luaOnCreateBB.Emit();
 	Pi::luaOnUpdateBB.Emit();
