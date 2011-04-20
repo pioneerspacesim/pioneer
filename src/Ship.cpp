@@ -225,13 +225,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		}
 		
 		else {
-			if (attacker) {
-				if (attacker->IsType(Object::BODY))
-					Pi::luaOnShipAttacked.Queue(this, dynamic_cast<Body*>(attacker));
-
-				if (attacker->IsType(Object::SHIP))
-					Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
-			}
+			if (attacker && attacker->IsType(Object::SHIP))
+				Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
 
 			if (Pi::rng.Double() < kgDamage)
 				Sfx::Add(this, Sfx::TYPE_DAMAGE);

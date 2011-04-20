@@ -85,6 +85,7 @@ Body *FindBodyForSBodyPath(const SBodyPath *path)
 	return 0;
 }
 
+// XXX this is only called by Missile::Explode. consider moving it there
 void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, double kgDamage)
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
@@ -93,6 +94,8 @@ void RadiusDamage(Body *attacker, Frame *f, const vector3d &pos, double radius, 
 		if (dist < radius) {
 			// linear damage decay with distance
 			(*i)->OnDamage(attacker, kgDamage * (radius - dist) / radius);
+			if ((*i)->IsType(Object::SHIP))
+				Pi::luaOnShipAttacked.Queue(dynamic_cast<Ship*>(*i), attacker);
 		}
 	}
 }
