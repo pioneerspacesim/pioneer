@@ -286,9 +286,14 @@ double Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
 	double timeStep = Pi::GetTimeStep();
-	matrix4x4d rot; GetRotMatrix(rot);
+
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	if (!maxAccel)
+		// happens if no angular thrust is set for the model eg MISSILE_UNGUIDED
+		return 0.0;
 	double frameAccel = maxAccel * timeStep;
+
+	matrix4x4d rot; GetRotMatrix(rot);
 
 	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
