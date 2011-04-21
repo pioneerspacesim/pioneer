@@ -85,8 +85,6 @@ static int l_space_spawn_ship(lua_State *l)
 
 	LuaShip::PushToLua(ship);
 
-	Pi::player->SetNavTarget(thing);
-
 	LUA_DEBUG_END(l, 1);
 
 	return 1;
