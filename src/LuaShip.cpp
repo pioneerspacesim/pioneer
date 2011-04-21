@@ -56,8 +56,30 @@ static int l_ship_set_label(lua_State *l)
 	return 0;
 }
 
-static void _prepare_colour(LmrMaterial &m, float r, float g, float b)
+static void _prepare_colour(lua_State *l, LmrMaterial &m)
 {
+	float r, g, b;
+
+	if (lua_type(l, 2) == LUA_TSTRING) {
+		const char *hexstr = lua_tostring(l, 2);
+		if (strlen(hexstr) != 7 || *hexstr != '#')
+			luaL_error(l, "Colour string should be a hex triple (#rrggbb)");
+		int n = strtol(&hexstr[1], NULL, 16);
+		r = (float)((n & 0xff0000) >> 16);
+		g = (float)((n & 0xff00) >> 8);
+		b = (float)(n & 0xff);
+	}
+
+	else {
+		r = luaL_checknumber(l, 2);
+		g = luaL_checknumber(l, 3);
+		b = luaL_checknumber(l, 4);
+	}
+
+	r /= 256;
+	g /= 256;
+	b /= 256;
+
 	float invmax = 1.0f / std::max(r, std::max(g, b));
 
 	r *= invmax;
@@ -79,12 +101,9 @@ static void _prepare_colour(LmrMaterial &m, float r, float g, float b)
 static int l_ship_set_primary_colour(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	float r = luaL_checknumber(l, 2);
-	float g = luaL_checknumber(l, 3);
-	float b = luaL_checknumber(l, 4);
 
 	ShipFlavour f = *(s->GetFlavour());
-	_prepare_colour(f.primaryColor, r, g, b);
+	_prepare_colour(l, f.primaryColor);
 	s->UpdateFlavour(&f);
 
 	return 0;
@@ -93,12 +112,9 @@ static int l_ship_set_primary_colour(lua_State *l)
 static int l_ship_set_secondary_colour(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	float r = luaL_checknumber(l, 2);
-	float g = luaL_checknumber(l, 3);
-	float b = luaL_checknumber(l, 4);
 
 	ShipFlavour f = *(s->GetFlavour());
-	_prepare_colour(f.secondaryColor, r, g, b);
+	_prepare_colour(l, f.secondaryColor);
 	s->UpdateFlavour(&f);
 
 	return 0;
