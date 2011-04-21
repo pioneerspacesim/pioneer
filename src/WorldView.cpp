@@ -1228,21 +1228,40 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 {
 	Gui::Screen::EnterOrtho();		// To save matrices
 
-	// Direction indicator
-	vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-		// XXX ^ not the same as GetVelocity(), because it considers
-		// the stasis velocity of a rotating frame
-
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
-	vector3d vdir = vel * cam_rot;			// transform to camera space
-	m_velocityIndicatorOnscreen = false;
-	if (vdir.z < -1.0) {					// increase this maybe
-		vector3d pos;
-		if (Gui::Screen::Project(vdir, pos)) {
-			m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
-			m_velocityIndicatorPos[1] = (int)pos.y;
-			m_velocityIndicatorOnscreen = true;
+	
+	{
+		// Direction indicator
+		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
+			// XXX ^ not the same as GetVelocity(), because it considers
+			// the stasis velocity of a rotating frame
+
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		m_velocityIndicatorOnscreen = false;
+		if (vdir.z < -1.0) {					// increase this maybe
+			vector3d pos;
+			if (Gui::Screen::Project(vdir, pos)) {
+				m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
+				m_velocityIndicatorPos[1] = (int)pos.y;
+				m_velocityIndicatorOnscreen = true;
+			}
+		}
+	}
+	
+	m_navVelocityIndicatorOnscreen = false;
+	if (Body *navtarget = Pi::player->GetNavTarget()) {
+		// nav target direction indicator
+		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
+
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		if (vdir.z < -1.0) {					// increase this maybe
+			vector3d pos;
+			if (Gui::Screen::Project(vdir, pos)) {
+				m_navVelocityIndicatorPos[0] = (int)pos.x;		// integers eh
+				m_navVelocityIndicatorPos[1] = (int)pos.y;
+				m_navVelocityIndicatorOnscreen = true;
+			}
 		}
 	}
 
@@ -1290,6 +1309,13 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
 		MoveChild(m_targetDist, (float)lpos.x, (float)lpos.y);
 
+		m_targetDist->Show();
+	}
+	else
+		m_targetDist->Hide();
+	
+	// update navtarget speed
+	if (m_navVelocityIndicatorOnscreen) {
 		double vel = Pi::player->GetVelocityRelTo(navtarget).Length();
 		char buf[128];
 		if (vel > 1000)
@@ -1300,16 +1326,12 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
 
-		lpos += vector3d(0, Gui::Screen::GetFontHeight()+2.0f, 0);
-		MoveChild(m_targetSpeed, (float)lpos.x, (float)lpos.y);
+		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26, m_navVelocityIndicatorPos[1]+26);
 
-		m_targetDist->Show();
 		m_targetSpeed->Show();
 	}
-	else {
-		m_targetDist->Hide();
+	else
 		m_targetSpeed->Hide();
-	}
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
@@ -1420,6 +1442,24 @@ void WorldView::Draw()
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
+
+	// nav target velocity indicator
+	if (m_navVelocityIndicatorOnscreen) {
+		const int *pos = m_navVelocityIndicatorPos;
+		glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
+		GLfloat vtx[16] = {
+			pos[0]-sz, pos[1]-sz,
+			pos[0]-0.5f*sz, pos[1]-0.5f*sz,
+			pos[0]+sz, pos[1]-sz,
+			pos[0]+0.5f*sz, pos[1]-0.5f*sz,
+			pos[0]+sz, pos[1]+sz,
+			pos[0]+0.5f*sz, pos[1]+0.5f*sz,
+			pos[0]-sz, pos[1]+sz,
+			pos[0]-0.5f*sz, pos[1]+0.5f*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+	}
+
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	DrawTargetSquares();

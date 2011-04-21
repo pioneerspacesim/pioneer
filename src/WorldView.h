@@ -97,6 +97,8 @@ private:
 	int m_velocityIndicatorPos[2];
 	bool m_targLeadOnscreen;
 	vector3d m_targLeadPos;
+	bool m_navVelocityIndicatorOnscreen;
+	int m_navVelocityIndicatorPos[2];
 };
 
 #endif /* _WORLDVIEW_H */
