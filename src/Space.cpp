@@ -627,6 +627,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		cloud->SetFrame(ship->GetFrame());
 		cloud->SetPosition(ship->GetPosition());
 		ship->SetFrame(0);
+		ship->SetHyperspaceTarget(dest);
 		// need to swap ship out of bodies list, replacing it with
 		// cloud
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
