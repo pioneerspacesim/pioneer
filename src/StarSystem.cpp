@@ -1414,6 +1414,8 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 		if (primary->type == SBody::TYPE_WHITE_DWARF) {
 			// white dwarfs will have started as stars < 8 solar
 			// masses or so, so pick discMax according to that
+			// We give it a larger discMin because it used to be a much larger star
+			discMin = 1000 * primary->radius * AU_SOL_RADIUS;
 			discMax = 100 * rand.NFixed(2);		// rand-splitting again
 			discMax *= fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
 		} else {
@@ -1436,8 +1438,10 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 	} else {
 		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
-		/* use hill radius to find max size of moon system. for stars botch it */
-		discMax = std::min(discMax, fixed(1,20)*primary->CalcHillRadius());
+		/* use hill radius to find max size of moon system. for stars botch it.
+		   And use planets orbit around its primary as a scaler to a moon's orbit*/
+		discMax = std::min(discMax, fixed(1,20)*
+			primary->CalcHillRadius()*primary->orbMin*fixed(1,10));
 		
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
 	}
