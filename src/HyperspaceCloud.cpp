@@ -98,8 +98,14 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		Pi::luaOnEnterSystem.Queue(m_ship);
 
 		m_ship = 0;
-
 	}
+}
+
+Ship *HyperspaceCloud::EvictShip()
+{
+	Ship *s = m_ship;
+	m_ship = 0;
+	return s;
 }
 
 static void make_circle_thing(float radius, const Color &colCenter, const Color &colEdge)

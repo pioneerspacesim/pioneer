@@ -909,6 +909,7 @@ void Pi::Start()
 		SBodyPath path(1,0,1);
 		path.sbodyId = 6;
 		Space::DoHyperspaceTo(&path);
+		player->SetFrame(Space::FindBodyForSBodyPath(&path)->GetFrame());
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 		player->SetVelocity(vector3d(0,0,0));
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
