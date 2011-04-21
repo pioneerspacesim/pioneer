@@ -81,7 +81,7 @@ private:
 	Uint32 m_showTargetActionsTimeout;
 	Render::Shader *m_bgStarShader;
 
-	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
+	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
@@ -92,11 +92,13 @@ private:
 	sigc::connection m_onMouseButtonDown;
 
 	Gui::LabelSet *m_bodyLabels;
-	Gui::Label *m_combatDist, *m_combatSpeed;
+	Gui::Label *m_targetDist, *m_targetSpeed, *m_combatDist, *m_combatSpeed;
 	bool m_velocityIndicatorOnscreen;
 	int m_velocityIndicatorPos[2];
 	bool m_targLeadOnscreen;
 	vector3d m_targLeadPos;
+	bool m_navVelocityIndicatorOnscreen;
+	int m_navVelocityIndicatorPos[2];
 };
 
 #endif /* _WORLDVIEW_H */

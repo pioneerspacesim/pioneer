@@ -104,16 +104,19 @@ WorldView::WorldView(): View()
 
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudAltitude = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudPressure = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudVelocity->SetToolTip("Ship velocity by reference object");
+	m_hudTargetDist->SetToolTip("Distance from ship to navigation target");
 	m_hudAltitude->SetToolTip("Ship altitude above terrain");
 	m_hudPressure->SetToolTip("External atmospheric pressure");
 	Add(m_debugInfo, 10, 200);
 	Add(m_hudVelocity, 170.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
-	Add(m_hudAltitude, 560.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
-	Add(m_hudPressure, 480.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudTargetDist, 500.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
+	Add(m_hudAltitude, 580.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
+	Add(m_hudPressure, 150.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
 	m_hudHullTemp = new Gui::MeterBar(100.0f, "Hull temp", Color(1.0f,0.0f,0.0f,0.8f));
@@ -137,8 +140,12 @@ WorldView::WorldView(): View()
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
 	Add(m_bodyLabels, 0, 0);
 
+	m_targetDist = new Gui::Label("");
+	m_targetSpeed = new Gui::Label("");
 	m_combatDist = new Gui::Label("");
 	m_combatSpeed = new Gui::Label("");
+	Add(m_targetDist, 0, 0);			// text/color/position set dynamically
+	Add(m_targetSpeed, 0, 0);			// text/color/position set dynamically
 	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
 	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
 
@@ -629,15 +636,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		}
 	}
 	// Direction indicator
-	vector3d vel;
-	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) {
-		vel = Pi::player->GetVelocityRelTo(velRelTo);
-	} else {
-		vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-		// XXX ^ not the same as GetVelocity(), because it considers
-		// the stasis velocity of a rotating frame
-	}
+	vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
 
 	if (m_showTargetActionsTimeout) {
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
@@ -670,65 +669,87 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_debugInfo->Hide();
 	}
 
-	{
-		double _vel = vel.Length();
+	if (const SBodyPath *dest = Space::GetHyperspaceDest()) {
+		StarSystem *s = StarSystem::GetCached(*dest);
 		char buf[128];
-		const char *rel_to = (velRelTo ? velRelTo->GetLabel().c_str() : Pi::player->GetFrame()->GetLabel());
-		vector3d pos;
-		if (velRelTo) pos = velRelTo->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
-		else pos = Pi::player->GetPosition();
-		if (_vel > 1000) {
-			snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s (%s)", _vel*0.001, rel_to, format_distance(pos.Length()).c_str());
-		} else {
-			snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s (%s)", _vel, rel_to, format_distance(pos.Length()).c_str());
-		}
+		snprintf(buf, sizeof(buf), "In transit to %s [%d,%d]", s->GetName().c_str(), dest->GetSectorX(), dest->GetSectorY());
 		m_hudVelocity->SetText(buf);
+		m_hudVelocity->Show();
+
+		m_hudTargetDist->Hide();
+		m_hudAltitude->Hide();
+		m_hudPressure->Hide();
 	}
 
-	// altitude
-	if (Pi::player->GetFrame()->m_astroBody) {
-		Body *astro = Pi::player->GetFrame()->m_astroBody;
-		//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
-		double radius;
-		vector3d surface_pos = Pi::player->GetPosition().Normalized();
-		if (astro->IsType(Object::PLANET)) {
-			radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
-		} else {
-			// XXX this is an improper use of GetBoundingRadius
-			// since it is not a surface radius
-			radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+	else {
+		{
+			double _vel = vel.Length();
+			char buf[128];
+			const char *rel_to = Pi::player->GetFrame()->GetLabel();
+			vector3d pos = Pi::player->GetPosition();
+			if (_vel > 1000) {
+				snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s", _vel*0.001, rel_to);
+			} else {
+				snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s", _vel, rel_to);
+			}
+			m_hudVelocity->SetText(buf);
 		}
-		double altitude = Pi::player->GetPosition().Length() - radius;
-		if (altitude > 9999999.0) {
+
+		if (Body *navtarget = Pi::player->GetNavTarget()) {
+			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+			char buf[128];
+			snprintf(buf, sizeof(buf), "%s to target", format_distance(dist).c_str());
+			m_hudTargetDist->SetText(buf);
+			m_hudTargetDist->Show();
+		}
+		else
+			m_hudTargetDist->Hide();
+
+		// altitude
+		if (Pi::player->GetFrame()->m_astroBody) {
+			Body *astro = Pi::player->GetFrame()->m_astroBody;
+			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
+			double radius;
+			vector3d surface_pos = Pi::player->GetPosition().Normalized();
+			if (astro->IsType(Object::PLANET)) {
+				radius = static_cast<Planet*>(astro)->GetTerrainHeight(surface_pos);
+			} else {
+				// XXX this is an improper use of GetBoundingRadius
+				// since it is not a surface radius
+				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+			}
+			double altitude = Pi::player->GetPosition().Length() - radius;
+			if (altitude > 9999999.0) {
+				m_hudAltitude->Hide();
+			} else {
+				if (altitude < 0) altitude = 0;
+				char buf[128];
+				snprintf(buf, sizeof(buf), "Alt: %.0fm", altitude);
+				m_hudAltitude->SetText(buf);
+				m_hudAltitude->Show();
+			}
+
+			if (astro->IsType(Object::PLANET)) {
+				double dist = Pi::player->GetPosition().Length();
+				double pressure, density;
+				((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
+				char buf[128];
+				snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
+
+				m_hudPressure->SetText(buf);
+				m_hudPressure->Show();
+
+				m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
+				m_hudHullTemp->Show();
+			} else {
+				m_hudPressure->Hide();
+				m_hudHullTemp->Hide();
+			}
+		} else {
 			m_hudAltitude->Hide();
-		} else {
-			if (altitude < 0) altitude = 0;
-			char buf[128];
-			snprintf(buf, sizeof(buf), "Alt: %.0fm", altitude);
-			m_hudAltitude->SetText(buf);
-			m_hudAltitude->Show();
-		}
-
-		if (astro->IsType(Object::PLANET)) {
-			double dist = Pi::player->GetPosition().Length();
-			double pressure, density;
-			((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
-			char buf[128];
-			snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
-
-			m_hudPressure->SetText(buf);
-			m_hudPressure->Show();
-
-			m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
-			m_hudHullTemp->Show();
-		} else {
-			m_hudPressure->SetText("P. 0.0 bar");
+			m_hudPressure->Hide();
 			m_hudHullTemp->Hide();
 		}
-	} else {
-		m_hudPressure->SetText("P. 0.0 bar");
-		m_hudAltitude->Hide();
-		m_hudHullTemp->Hide();
 	}
 
 	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
@@ -816,10 +837,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
 					"Ship mass: %dt\n"
-					"Destination: %s\n"
+					"%s: %s\n"
 					"Date due: %s\n",
 					cloud->IsArrival() ? "arrival" : "departure",
 					ship->CalcStats()->total_mass,
+                    cloud->IsArrival() ? "Source" : "Destination",
 					s.m_systems[dest->systemNum].name.c_str(),
 					format_date(cloud->GetDueDate()).c_str()
 				);
@@ -1206,24 +1228,40 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 {
 	Gui::Screen::EnterOrtho();		// To save matrices
 
-	// Direction indicator
-	vector3d vel;
-	Body *velRelTo = Pi::player->GetNavTarget();
-	if (velRelTo) vel = Pi::player->GetVelocityRelTo(velRelTo);
-	else vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
-		// XXX ^ not the same as GetVelocity(), because it considers
-		// the stasis velocity of a rotating frame
-
 	matrix4x4d cam_rot = cam_frame->GetTransform();
 	cam_rot.ClearToRotOnly();
-	vector3d vdir = vel * cam_rot;			// transform to camera space
-	m_velocityIndicatorOnscreen = false;
-	if (vdir.z < -1.0) {					// increase this maybe
-		vector3d pos;
-		if (Gui::Screen::Project(vdir, pos)) {
-			m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
-			m_velocityIndicatorPos[1] = (int)pos.y;
-			m_velocityIndicatorOnscreen = true;
+	
+	{
+		// Direction indicator
+		vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
+			// XXX ^ not the same as GetVelocity(), because it considers
+			// the stasis velocity of a rotating frame
+
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		m_velocityIndicatorOnscreen = false;
+		if (vdir.z < -1.0) {					// increase this maybe
+			vector3d pos;
+			if (Gui::Screen::Project(vdir, pos)) {
+				m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
+				m_velocityIndicatorPos[1] = (int)pos.y;
+				m_velocityIndicatorOnscreen = true;
+			}
+		}
+	}
+	
+	m_navVelocityIndicatorOnscreen = false;
+	if (Body *navtarget = Pi::player->GetNavTarget()) {
+		// nav target direction indicator
+		vector3d vel = Pi::player->GetVelocityRelTo(navtarget);
+
+		vector3d vdir = vel * cam_rot;			// transform to camera space
+		if (vdir.z < -1.0) {					// increase this maybe
+			vector3d pos;
+			if (Gui::Screen::Project(vdir, pos)) {
+				m_navVelocityIndicatorPos[0] = (int)pos.x;		// integers eh
+				m_navVelocityIndicatorPos[1] = (int)pos.y;
+				m_navVelocityIndicatorOnscreen = true;
+			}
 		}
 	}
 
@@ -1258,6 +1296,42 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 			}
 		}
 	}
+
+	// update navtarget distance
+	Body *navtarget = Pi::player->GetNavTarget();
+	if (navtarget && navtarget->IsOnscreen())
+	{
+		double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+		m_targetDist->SetText(format_distance(dist).c_str());
+
+		m_targetDist->Color(0.0f, 1.0f, 0.0f);
+
+		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
+		MoveChild(m_targetDist, (float)lpos.x, (float)lpos.y);
+
+		m_targetDist->Show();
+	}
+	else
+		m_targetDist->Hide();
+	
+	// update navtarget speed
+	if (m_navVelocityIndicatorOnscreen) {
+		double vel = Pi::player->GetVelocityRelTo(navtarget).Length();
+		char buf[128];
+		if (vel > 1000)
+			snprintf(buf, sizeof(buf), "%.2f km/s", vel*0.001);
+		else
+			snprintf(buf, sizeof(buf), "%.0f m/s", vel);
+		m_targetSpeed->SetText(buf);
+
+		m_targetSpeed->Color(0.0f, 1.0f, 0.0f);
+
+		MoveChild(m_targetSpeed, m_navVelocityIndicatorPos[0]-26, m_navVelocityIndicatorPos[1]+26);
+
+		m_targetSpeed->Show();
+	}
+	else
+		m_targetSpeed->Hide();
 
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
@@ -1368,6 +1442,24 @@ void WorldView::Draw()
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}
+
+	// nav target velocity indicator
+	if (m_navVelocityIndicatorOnscreen) {
+		const int *pos = m_navVelocityIndicatorPos;
+		glColor4f(0.0f, 1.0f, 0.0f, 0.8f);
+		GLfloat vtx[16] = {
+			pos[0]-sz, pos[1]-sz,
+			pos[0]-0.5f*sz, pos[1]-0.5f*sz,
+			pos[0]+sz, pos[1]-sz,
+			pos[0]+0.5f*sz, pos[1]-0.5f*sz,
+			pos[0]+sz, pos[1]+sz,
+			pos[0]+0.5f*sz, pos[1]+0.5f*sz,
+			pos[0]-sz, pos[1]+sz,
+			pos[0]-0.5f*sz, pos[1]+0.5f*sz };
+		glVertexPointer(2, GL_FLOAT, 0, vtx);
+		glDrawArrays(GL_LINES, 0, 8);
+	}
+
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	DrawTargetSquares();

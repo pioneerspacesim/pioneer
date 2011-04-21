@@ -26,7 +26,6 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	SBodyPath path;
 	m_system->GetPathOf(b, &path);
-	Pi::player->SetHyperspaceTarget(&path);
 
 	std::string desc, data;
 

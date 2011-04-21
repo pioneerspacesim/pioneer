@@ -135,7 +135,7 @@ void Pi::Init()
 	int height = config.Int("ScrHeight");
 	const SDL_VideoInfo *info = NULL;
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
-#if defined _WIN32 && defined _DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 	sdlInitFlags |= SDL_INIT_NOPARACHUTE;
 #endif
 	if (SDL_Init(sdlInitFlags) < 0) {
@@ -664,8 +664,8 @@ void Pi::InitGame()
 	player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 	player->m_equipment.Add(Equip::HYDROGEN, 1);
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
-	player->m_equipment.Add(Equip::MISSILE_UNGUIDED);
+	player->m_equipment.Add(Equip::MISSILE_GUIDED);
+	player->m_equipment.Add(Equip::MISSILE_GUIDED);
 	player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 	player->m_equipment.Add(Equip::AUTOPILOT);
 	player->m_equipment.Add(Equip::SCANNER);
