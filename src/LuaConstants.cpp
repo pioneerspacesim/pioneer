@@ -7,6 +7,7 @@
 #include "EquipType.h"
 #include "Player.h"
 #include "ShipType.h"
+#include "Ship.h"
 
 static inline void _get_named_table(lua_State *l, int index, const char *name)
 {
@@ -254,6 +255,18 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "RIGHT",   ShipType::THRUSTER_RIGHT);
 	lua_pop(l, 1);
 
+	lua_pop(l, 1);
+
+
+	_get_named_table(l, LUA_GLOBALSINDEX, "Ship");
+
+	_get_named_table(l, -1, "JumpStatus");
+	pi_lua_settable(l, "OK",                Ship::HYPERJUMP_OK);
+	pi_lua_settable(l, "CURRENT_SYSTEM",    Ship::HYPERJUMP_CURRENT_SYSTEM);
+	pi_lua_settable(l, "NO_DRIVE",          Ship::HYPERJUMP_NO_DRIVE);
+	pi_lua_settable(l, "OUT_OF_RANGE",      Ship::HYPERJUMP_OUT_OF_RANGE);
+	pi_lua_settable(l, "INSUFFICIENT_FUEL", Ship::HYPERJUMP_INSUFFICIENT_FUEL);
+	lua_pop(l, 1);
 
 	lua_pop(l, 1);
 
