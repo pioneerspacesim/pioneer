@@ -735,14 +735,14 @@ void DoHyperspaceTo(const SBodyPath *dest)
 				// naively assume full accel for half the distance, flip and
 				// full brake for the rest.
 				Body *target_body = FindBodyForSBodyPath(dest);
-				double half_dist_to_target = cloud->GetPositionRelTo(target_body).Length() / 2;
-				double accel = ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass();
+				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
+				double accel = -(ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
 				double travel_time = Pi::GetGameTime() - cloud->GetDueDate();
 
 				double speed = 0;
 				double dist = 0;
-				while (travel_time) {
-					if (dist < half_dist_to_target)
+				while (travel_time > 0 && dist < dist_to_target) {
+					if (dist < (dist_to_target / 2.0))
 						speed += accel;
 					else
 						speed -= accel;
@@ -750,8 +750,12 @@ void DoHyperspaceTo(const SBodyPath *dest)
 					travel_time--;
 				}
 
-				// XXX now place him
+				if (travel_time > 0) {
+					// ship made it with time to spare, crap.
+					assert(0);
+				}
 
+				// XXX now place him
 				assert(0);
 			}
 
