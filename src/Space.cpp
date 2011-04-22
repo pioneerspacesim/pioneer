@@ -30,6 +30,7 @@ static void ApplyGravity();
 static std::list<Body*> corpses;
 static SBodyPath *hyperspacingTo;
 static float hyperspaceAnim;
+static double hyperspaceDuration;
 static double hyperspaceEndTime;
 static std::list<HyperspaceCloud*> storedArrivalClouds;
 static bool beingBuilt;
@@ -154,6 +155,7 @@ void Serialize(Serializer::Writer &wr)
 		wr.Byte(1);
 		hyperspacingTo->Serialize(wr);
 		wr.Float(hyperspaceAnim);
+		wr.Double(hyperspaceDuration);
 		wr.Double(hyperspaceEndTime);
 	}
 }
@@ -184,6 +186,7 @@ void Unserialize(Serializer::Reader &rd)
 		hyperspacingTo = new SBodyPath;
 		SBodyPath::Unserialize(rd, hyperspacingTo);
 		hyperspaceAnim = rd.Float();
+		hyperspaceDuration = rd.Double();
 		hyperspaceEndTime = rd.Double();
 	}
 	// bodies with references to others must fix these up
@@ -625,6 +628,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
 		*hyperspacingTo = *dest;
 		hyperspaceAnim = 0.0f;
+		hyperspaceDuration = duration;
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
 		printf("Started hyperspacing...\n");
 	} else {
@@ -784,6 +788,11 @@ float GetHyperspaceAnim()
 const SBodyPath *GetHyperspaceDest()
 {
 	return hyperspacingTo;
+}
+
+double GetHyperspaceDuration()
+{
+	return hyperspaceDuration;
 }
 
 void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)

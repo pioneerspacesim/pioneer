@@ -373,6 +373,11 @@ void WorldView::DrawBgStars()
 		m = rot.InverseOf() * m;
 		vector3d pz(m[2], m[6], m[10]);
 
+		// roughly, the multiplier gets smaller as the duration gets larger.
+		// the time-looking bits in this are completely arbitrary - I figured
+		// it out by tweaking the numbers until it looked sort of right
+		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			vtx[i*12] = s_bgstar[i].x;
@@ -384,7 +389,7 @@ void WorldView::DrawBgStars()
 			vtx[i*12+5] = s_bgstar[i].b;
 
 			vector3f v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
-			v += pz*hyperspaceAnim*0.001;
+			v += pz*hyperspaceAnim*mult;
 
 			vtx[i*12+6] = v.x;
 			vtx[i*12+7] = v.y;
