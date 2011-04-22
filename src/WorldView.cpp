@@ -99,9 +99,6 @@ WorldView::WorldView(): View()
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
-	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
-	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
-
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -1036,11 +1033,7 @@ void WorldView::OnChangeHyperspaceTarget()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
 	StarSystem *system = StarSystem::GetCached(path);
-	SBody *b = system->GetBodyByPath(path);
-	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to ")+b->name);
-	std::string msg = "To: "+b->name;
-	m_hyperTargetLabel->SetText(msg);
-	system->Release();
+	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to "+system->GetName()));
 
 	int fuelReqd;
 	double dur;
