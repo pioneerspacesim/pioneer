@@ -636,6 +636,10 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 				break;
 			}
 		}
+
+		if (Pi::player->GetCombatTarget() == ship && !Pi::player->GetNavTarget())
+			Pi::player->SetNavTarget(cloud);
+
 		// Hyperspacing ship must drop references to all other bodies,
 		// and they must all drop references to it.
 		// make other objects drop their references to this dude
