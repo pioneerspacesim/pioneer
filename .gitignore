@@ -13,3 +13,5 @@ ipch/
 .deps
 Makefile
 Makefile.in
+.DS_Store
+
