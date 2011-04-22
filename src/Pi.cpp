@@ -223,7 +223,6 @@ void Pi::Init()
     CustomSystem::Init();
 	draw_progress(0.3f);
 
-	draw_progress(0.4f);
 	LmrModelCompilerInit();
 
 //unsigned int control_word;
