@@ -369,22 +369,25 @@ void Screendump(char *destFile)
 	const int H = Pi::GetScrHeight();
 	std::vector<char> pixel_data(3*W*H);
 	short TGAhead[] = {0, 2, 0, 0, 0, 0, W, H, 24};
-	FILE *out = fopen(destFile, "w");
-	if (!out) goto error;
+
+    std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+
+	FILE *out = fopen(fname.c_str(), "w");
+	if (!out) return;
 	glReadBuffer(GL_FRONT);
 	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, &pixel_data[0]);
 	if (fwrite(&TGAhead, sizeof(TGAhead), 1, out) != 1) {
 		fclose(out);
-		goto error;
+        printf("Failed to write screendump.\n");
+        return;
 	}
 	if (fwrite(&pixel_data[0], 3*W*H, 1, out) != 1) {
 		fclose(out);
-		goto error;
+        printf("Failed to write screendump.\n");
+        return;
 	}
 	fclose(out);
-	return;
-error:
-	printf("Failed to write screendump.\n");
+    fprintf(stderr, "Screendump to %s\n", fname.c_str());
 }
 
 void Pi::HandleEvents()
@@ -433,7 +436,6 @@ void Pi::HandleEvents()
 						struct tm *_tm = localtime(&t);
 						strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
 						Screendump(buf);
-						fprintf(stderr, "Screendump to %s\n", buf);
 					}
 #ifdef DEBUG
 					if (event.key.keysym.sym == SDLK_m) {
