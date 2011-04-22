@@ -792,8 +792,6 @@ void DoHyperspaceTo(const SBodyPath *dest)
 			Space::AddBody(ship);
 
 			Pi::luaOnEnterSystem.Queue(ship);
-
-			Pi::player->SetCombatTarget(ship);
 		}
 	}
 	storedArrivalClouds.clear();
