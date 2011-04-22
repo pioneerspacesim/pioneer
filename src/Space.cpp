@@ -590,6 +590,20 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 	ship->UseHyperspaceFuel(dest);
 		
 	if (Pi::player == ship) {
+		// if the hyperspace target is the same system as the selected cloud,
+		// make sure we're following it
+		Body *navtarget = Pi::player->GetNavTarget();
+		if (navtarget && navtarget->IsType(Object::HYPERSPACECLOUD)) {
+			HyperspaceCloud *cloud = dynamic_cast<HyperspaceCloud*>(navtarget);
+			if (Ship *hship = cloud->GetShip()) {
+				const SBodyPath *hdest = hship->GetHyperspaceTarget();
+				if (*(static_cast<const SysLoc*>(hdest)) == *(static_cast<const SysLoc*>(dest))) {
+					Pi::player->SetHyperspaceTarget(cloud);
+					dest = Pi::player->GetHyperspaceTarget();
+				}
+			}
+		}
+
 		// Departure clouds going to the same system as us are turned
 		// into arrival clouds and stored here
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end();) {
