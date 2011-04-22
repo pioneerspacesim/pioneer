@@ -430,7 +430,7 @@ void Pi::HandleEvents()
 						Polit::GetCrime(&crime, &fine);
 						printf("Criminal record now: %llx, $%lld\n", crime, fine);
 					}
-					if (event.key.keysym.sym == SDLK_PRINT || (KeyState(SDLK_LMETA) && (event.key.keysym.sym == SDLK_p))) {
+					if (event.key.keysym.sym == SDLK_PRINT || event.key.keysym.sym == SDLK_KP_MULTIPLY) {
 						char buf[256];
 						const time_t t = time(0);
 						struct tm *_tm = localtime(&t);
