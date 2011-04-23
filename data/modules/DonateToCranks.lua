@@ -56,7 +56,7 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
-	local n = Pi.rand:Int(1, #crank_flavours)
+	local n = Engine.rand:Integer(1, #crank_flavours)
 
 	local ad = {
 		title   = crank_flavours[n].title,
