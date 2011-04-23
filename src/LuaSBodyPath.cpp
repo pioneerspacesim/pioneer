@@ -84,7 +84,7 @@ static int l_sbodypath_meta_eq(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "BodyPath";
+template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SystemPath";
 
 template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 {
