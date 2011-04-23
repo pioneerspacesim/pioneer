@@ -18,7 +18,7 @@ include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEven
 		BufferObject.h GuiMeterBar.h GuiLabelSet.h ShipAICmd.h PiLuaClasses.h LuaConstants.h CustomSystem.h \
 		DeleteEmitter.h LuaManager.h LuaUtils.h LuaObject.h LuaEventQueue.h RefList.h RefCounted.h \
 		LuaBody.h LuaPlanet.h LuaPlayer.h LuaShip.h LuaSpaceStation.h LuaStar.h LuaStarSystem.h LuaSBodyPath.h LuaShipType.h \
-		LuaSpace.h LuaGame.h LuaUI.h LuaDate.h LuaTimer.h LuaRand.h LuaEngine.h
+		LuaSpace.h LuaGame.h LuaUI.h LuaDate.h LuaTimer.h LuaRand.h LuaEngine.h LuaNameGen.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -38,7 +38,8 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp ShipAICmd.cpp PiLuaClasses.cpp LuaConstants.cpp \
 		CustomSystem.cpp LuaManager.cpp LuaObject.cpp LuaEventQueue.cpp LuaUtils.cpp LuaSerializer.cpp \
 		LuaBody.cpp LuaShip.cpp LuaSpaceStation.cpp LuaPlanet.cpp LuaStar.cpp LuaPlayer.cpp LuaStarSystem.cpp \
-		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaDate.cpp LuaTimer.cpp LuaRand.cpp LuaEngine.cpp
+		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaDate.cpp LuaTimer.cpp LuaRand.cpp \
+		LuaEngine.cpp LuaNameGen.cpp
 pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp

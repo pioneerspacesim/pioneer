@@ -52,6 +52,7 @@
 #include "LuaSpace.h"
 #include "LuaTimer.h"
 #include "LuaRand.h"
+#include "LuaNameGen.h"
 #include "PiLuaAPI.h"
 
 float Pi::gameTickAlpha;
@@ -200,6 +201,7 @@ static void LuaInit()
 	LuaUI::Register();
 	LuaDate::Register();
 	LuaSpace::Register();
+    LuaNameGen::Register();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 
