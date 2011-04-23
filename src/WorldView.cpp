@@ -724,7 +724,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
 			}
 			double altitude = Pi::player->GetPosition().Length() - radius;
-			if (altitude > 9999999.0) {
+			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION)) {
 				m_hudAltitude->Hide();
 			} else {
 				if (altitude < 0) altitude = 0;
@@ -739,7 +739,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
 				char buf[128];
-				snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
+				snprintf(buf, sizeof(buf), "P: %.2f bar", pressure);
 
 				m_hudPressure->SetText(buf);
 				m_hudPressure->Show();
