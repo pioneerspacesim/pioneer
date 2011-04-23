@@ -36,6 +36,31 @@ static int l_starsystem_get_path(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_get_station_paths(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	SysLoc loc = s->GetLocation();
+
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+
+	for (std::vector<SBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
+	{
+		SBodyPath *path = new SBodyPath(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum());
+		path->sbodyId = (*i)->id;
+
+		lua_pushstring(l, (*i)->name.c_str());
+		LuaSBodyPath::PushToLuaGC(path);
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
 static int l_starsystem_get_lawlessness(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -66,20 +91,6 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	return 1;
 }
 
-static int l_starsystem_get_random_starport(lua_State *l)
-{
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-
-	SBodyPath *path = new SBodyPath;
-	if (s->GetRandomStarport(Pi::rng, path)) {
-		LuaSBodyPath::PushToLuaGC(path);
-		return 1;
-	}
-
-	delete path;
-	return 0;
-}
-
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -88,33 +99,20 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 	return 1;
 }
 
-static int l_starsystem_get_random_starport_near_but_not_in(lua_State *l)
-{
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-
-	SBodyPath *path = new SBodyPath;
-	if (s->GetRandomStarportNearButNotIn(Pi::rng, path)) {
-		LuaSBodyPath::PushToLuaGC(path);
-		return 1;
-	}
-
-	delete path;
-	return 0;
-}
-
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "GetName",                          l_starsystem_get_name                             },
-		{ "GetPath",                          l_starsystem_get_path                             },
+		{ "GetName", l_starsystem_get_name },
+		{ "GetPath", l_starsystem_get_path },
+
+		{ "GetStationPaths", l_starsystem_get_station_paths },
+
 		{ "GetLawlessness",                   l_starsystem_get_lawlessness                      },
 		{ "GetPopulation",                    l_starsystem_get_population                       },
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
-		{ "GetRandomStarport",                l_starsystem_get_random_starport                  },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
-		{ "GetRandomStarportNearButNotIn",    l_starsystem_get_random_starport_near_but_not_in  },
 		{ 0, 0 }
 	};
 
