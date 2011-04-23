@@ -1,3 +1,4 @@
+#include "libs.h"
 #include "LuaEventQueue.h"
 #include "LuaManager.h"
 #include "LuaObject.h"

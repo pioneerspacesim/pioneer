@@ -1,11 +1,12 @@
 #ifndef _DELETEEMITTER_H
 #define _DELETEEMITTER_H
 
-#include "libs.h"
-
 // inherit from this class to be able to get notifications when an object is
 // destroyed. the LuaObject tracking layer uses this to properly "forget"
 // about objects that are currently exposed to lua
+
+// including sigc++ directly so we don't get circular dependencies
+#include <sigc++/sigc++.h>
 
 class DeleteEmitter {
 public:

@@ -1,6 +1,7 @@
 #include "LuaDate.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "utils.h"
 
 static int l_date_format(lua_State *l)
 {

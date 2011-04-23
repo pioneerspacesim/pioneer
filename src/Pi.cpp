@@ -46,10 +46,12 @@
 #include "LuaSpace.h"
 #include "LuaConstants.h"
 #include "LuaGame.h"
+#include "LuaEngine.h"
 #include "LuaUI.h"
 #include "LuaDate.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
+#include "LuaRand.h"
 #include "PiLuaAPI.h"
 
 float Pi::gameTickAlpha;
@@ -171,6 +173,7 @@ static void LuaInit()
 	LuaStarSystem::RegisterClass();
 	LuaSBodyPath::RegisterClass();
 	LuaShipType::RegisterClass();
+	LuaRand::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 	LuaObject<LuaEventQueueBase>::RegisterClass();
@@ -192,6 +195,7 @@ static void LuaInit()
 
 	RegisterPiLuaAPI(l);
 	LuaConstants::Register();
+	LuaEngine::Register();
 	LuaGame::Register();
 	LuaUI::Register();
 	LuaDate::Register();
