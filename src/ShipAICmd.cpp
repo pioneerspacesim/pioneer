@@ -1020,12 +1020,14 @@ bool AICmdDock::TimeStepUpdate()
 
 	// state 0,2: Get docking data
 	if (m_state == 0 || m_state == 2) {
+		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		bool good = m_target->GetSpaceStationType()->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
+		bool good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();
 		m_dockupdir = (trot * dockpos.yaxis).Normalized();		// don't trust these enough
+		if (type->dockMethod == SpaceStationType::ORBITAL) m_dockupdir = -m_dockupdir;
 		m_state++;
 	}
 
