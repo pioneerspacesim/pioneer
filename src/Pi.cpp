@@ -318,7 +318,6 @@ void Pi::Init()
     CustomSystem::Init();
 	draw_progress(0.3f);
 
-	draw_progress(0.4f);
 	LmrModelCompilerInit();
 
 //unsigned int control_word;
@@ -464,22 +463,25 @@ void Screendump(char *destFile)
 	const int H = Pi::GetScrHeight();
 	std::vector<char> pixel_data(3*W*H);
 	short TGAhead[] = {0, 2, 0, 0, 0, 0, W, H, 24};
-	FILE *out = fopen(destFile, "w");
-	if (!out) goto error;
+
+    std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+
+	FILE *out = fopen(fname.c_str(), "w");
+	if (!out) return;
 	glReadBuffer(GL_FRONT);
 	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, &pixel_data[0]);
 	if (fwrite(&TGAhead, sizeof(TGAhead), 1, out) != 1) {
 		fclose(out);
-		goto error;
+        printf("Failed to write screendump.\n");
+        return;
 	}
 	if (fwrite(&pixel_data[0], 3*W*H, 1, out) != 1) {
 		fclose(out);
-		goto error;
+        printf("Failed to write screendump.\n");
+        return;
 	}
 	fclose(out);
-	return;
-error:
-	printf("Failed to write screendump.\n");
+    fprintf(stderr, "Screendump to %s\n", fname.c_str());
 }
 
 void Pi::HandleEvents()
@@ -506,88 +508,109 @@ void Pi::HandleEvents()
 				}
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
-					if (event.key.keysym.sym == SDLK_q) Pi::Quit();
-					if (event.key.keysym.sym == SDLK_s) {
-						Render::ToggleShaders();
-					}
-					if (event.key.keysym.sym == SDLK_h) {
-						Render::ToggleHDR();
-					}
-					if (event.key.keysym.sym == SDLK_i) Pi::showDebugInfo = !Pi::showDebugInfo;
-					if (event.key.keysym.sym == SDLK_p) {
-						Sint64 crime, fine;
-						Polit::GetCrime(&crime, &fine);
-						printf("Criminal record: %llx, $%lld\n", crime, fine);
-						Polit::AddCrime(0x1, 100);
-						Polit::GetCrime(&crime, &fine);
-						printf("Criminal record now: %llx, $%lld\n", crime, fine);
-					}
-					if (event.key.keysym.sym == SDLK_PRINT) {
-						char buf[256];
-						const time_t t = time(0);
-						struct tm *_tm = localtime(&t);
-						strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
-						Screendump(buf);
-						fprintf(stderr, "Screendump to %s\n", buf);
-					}
+                    switch (event.key.keysym.sym) {
+                        case SDLK_q: // Quit
+                            Pi::Quit();
+                            break;
+                        case SDLK_s: // Toggle Shaders
+                            Render::ToggleShaders();
+                            break;
+                        case SDLK_h: // Toggle HDR
+                            Render::ToggleHDR();
+                            break;
+                        case SDLK_i: // Toggle Debug info
+                            Pi::showDebugInfo = !Pi::showDebugInfo;
+                            break;
+                        case SDLK_p: // Increase Crime
+                        {
+                            Sint64 crime, fine;
+                            Polit::GetCrime(&crime, &fine);
+                            printf("Criminal record: %llx, $%lld\n", crime, fine);
+                            Polit::AddCrime(0x1, 100);
+                            Polit::GetCrime(&crime, &fine);
+                            printf("Criminal record now: %llx, $%lld\n", crime, fine);
+                            break;
+                        }
+                        case SDLK_PRINT:       // print
+                        case SDLK_KP_MULTIPLY: // screen
+                        {
+                            char buf[256];
+                            const time_t t = time(0);
+                            struct tm *_tm = localtime(&t);
+                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
+                            Screendump(buf);
+                            break;
+                        }
 #ifdef DEBUG
-					if (event.key.keysym.sym == SDLK_m) {
-						Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
-					}
-					if (event.key.keysym.sym == SDLK_F12) {
-						matrix4x4d m; Pi::player->GetRotMatrix(m);
-						vector3d dir = m*vector3d(0,0,-1);
-						/* add test object */
-						if (KeyState(SDLK_RSHIFT)) {
-							Missile *missile = new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
-							missile->SetRotMatrix(m);
-							missile->SetFrame(Pi::player->GetFrame());
-							missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
-							missile->SetVelocity(Pi::player->GetVelocity());
-							Space::AddBody(missile);
-						} else if (KeyState(SDLK_LSHIFT)) {
-							SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
-							if (s) {
-								int port = s->GetFreeDockingPort();
-								if (port != -1) {
-									printf("Putting ship into station\n");
-									// Make police ship intent on killing the player
-									Ship *ship = new Ship(ShipType::LADYBIRD);
-									ship->AIKill(Pi::player);
-									ship->SetFrame(Pi::player->GetFrame());
-									ship->SetDockedWith(s, port);
-									Space::AddBody(ship);
-								} else {
-									printf("No docking ports free dude\n");
-								}
-							} else {
-								printf("Select a space station...\n");
-							}
-						} else {
-							Ship *ship = new Ship(ShipType::LADYBIRD);
-							ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-							ship->AIKill(Pi::player);
-							ship->SetFrame(Pi::player->GetFrame());
-							ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
-							ship->SetVelocity(Pi::player->GetVelocity());
-							ship->m_equipment.Add(Equip::DRIVE_CLASS2);
-							ship->m_equipment.Add(Equip::RADAR_MAPPER);
-							ship->m_equipment.Add(Equip::SCANNER);
-							ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-							ship->m_equipment.Add(Equip::HYDROGEN, 10);
-							ship->UpdateMass();
-							Space::AddBody(ship);
-						}
-					}
+                        case SDLK_m:  // Gimme money!
+                            Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
+                            break;
+                        case SDLK_F12:
+                        {
+                            matrix4x4d m; Pi::player->GetRotMatrix(m);
+                            vector3d dir = m*vector3d(0,0,-1);
+                            /* add test object */
+                            if (KeyState(SDLK_RSHIFT)) {
+                                Missile *missile = new Missile(ShipType::MISSILE_GUIDED, Pi::player, 
+                                                               Pi::player->GetCombatTarget());
+                                missile->SetRotMatrix(m);
+                                missile->SetFrame(Pi::player->GetFrame());
+                                missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+                                missile->SetVelocity(Pi::player->GetVelocity());
+                                Space::AddBody(missile);
+                            } else if (KeyState(SDLK_LSHIFT)) {
+                                SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
+                                if (s) {
+                                    int port = s->GetFreeDockingPort();
+                                    if (port != -1) {
+                                        printf("Putting ship into station\n");
+                                        // Make police ship intent on killing the player
+                                        Ship *ship = new Ship(ShipType::LADYBIRD);
+                                        ship->AIKill(Pi::player);
+                                        ship->SetFrame(Pi::player->GetFrame());
+                                        ship->SetDockedWith(s, port);
+                                        Space::AddBody(ship);
+                                    } else {
+                                        printf("No docking ports free dude\n");
+                                    }
+                                } else {
+                                        printf("Select a space station...\n");
+                                }
+                            } else {
+                                Ship *ship = new Ship(ShipType::LADYBIRD);
+                                ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+                                ship->AIKill(Pi::player);
+                                ship->SetFrame(Pi::player->GetFrame());
+                                ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+                                ship->SetVelocity(Pi::player->GetVelocity());
+                                ship->m_equipment.Add(Equip::DRIVE_CLASS2);
+                                ship->m_equipment.Add(Equip::RADAR_MAPPER);
+                                ship->m_equipment.Add(Equip::SCANNER);
+                                ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
+                                ship->m_equipment.Add(Equip::HYDROGEN, 10);
+                                ship->UpdateMass();
+                                Space::AddBody(ship);
+                            }
+                            break;
+                        }
 #endif /* DEBUG */
-					// XXX only works on X11
-					//if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(Pi::scrSurface);
-					if (event.key.keysym.sym == SDLK_F10) Pi::SetView(Pi::objectViewerView);
-					if (event.key.keysym.sym == SDLK_F9) {
-						std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
-						Serializer::SaveGame(name.c_str());
-						Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
-					}
+                        case SDLK_F11:
+                            // XXX only works on X11
+                            //SDL_WM_ToggleFullScreen(Pi::scrSurface);
+                            //break;
+                        case SDLK_F10:
+                            Pi::SetView(Pi::objectViewerView);
+                            break;
+                        case SDLK_F9: // Quicksave
+                        {
+                            std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
+                            Serializer::SaveGame(name.c_str());
+                            Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+                            break;
+                        }
+                        default:
+                            break; // This does nothing but it stops the compiler warnings
+                    }
 				}
 				Pi::keyState[event.key.keysym.sym] = 1;
 				Pi::keyModState = event.key.keysym.mod;
