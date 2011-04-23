@@ -154,6 +154,16 @@ static int l_ship_get_docked_with(lua_State *l)
 	return 1;
 }
 
+static int l_ship_undock(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	if (!s->GetDockedWith())
+		luaL_error(l, "Can't undock if not already docked");
+	bool undocking = s->Undock();
+	lua_pushboolean(l, undocking);
+	return 1;
+}
+
 static int l_ship_ai_do_kill(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -331,6 +341,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AddMoney", l_ship_add_money },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
+		{ "Undock",        l_ship_undock          },
 
 		{ "AIDoKill",        l_ship_ai_do_kill        },
 		{ "AIDoFlyto",       l_ship_ai_do_flyto       },
