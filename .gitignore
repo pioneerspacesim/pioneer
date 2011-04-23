@@ -4,6 +4,8 @@ lib/
 Debug/
 Release/
 ipch/
+src/data
+autom4te.cache/
 *.vcxproj.user
 *.suo
 *.sdf
@@ -14,4 +16,15 @@ ipch/
 Makefile
 Makefile.in
 .DS_Store
-
+*.swp
+shipstat.csv
+pioneer
+pioneer.exe
+modelviewer
+modelviewer.exe
+aclocal.m4
+config.guess
+config.log
+config.status
+config.sub
+configure
