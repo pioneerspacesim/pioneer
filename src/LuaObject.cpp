@@ -128,6 +128,11 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 
 	LUA_DEBUG_START(l);
 
+	if (!o) {
+		lua_pushnil(l);
+		return true;
+	}
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	assert(lua_istable(l, -1));
 
