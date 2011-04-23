@@ -123,7 +123,6 @@ static NSString *getApplicationName(void)
         if ([menuItem hasSubmenu])
             [self fixMenu:[menuItem submenu] withAppName:appName];
     }
-    [ aMenu sizeToFit ];
 }
 
 #else

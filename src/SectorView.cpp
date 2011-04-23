@@ -262,6 +262,7 @@ void SectorView::Update()
 
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
+	if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
 	
 	if (Pi::KeyState(SDLK_LEFT)) m_pxMovingTo -= moveSpeed*frameTime;
 	if (Pi::KeyState(SDLK_RIGHT)) m_pxMovingTo += moveSpeed*frameTime;
