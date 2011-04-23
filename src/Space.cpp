@@ -559,6 +559,7 @@ void TimeStep(float step)
 	Sfx::TimeStepAll(step, rootFrame);
 
 	Pi::luaOnEnterSystem.Emit();
+	Pi::luaOnLeaveSystem.Emit();
 	Pi::luaOnShipHit.Emit();
 	Pi::luaOnShipCollided.Emit();
 	Pi::luaOnShipDestroyed.Emit();
@@ -592,6 +593,8 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 	if (!ship->CanHyperspaceTo(dest, fuelUsage, duration)) return;
 	ship->UseHyperspaceFuel(dest);
 		
+	Pi::luaOnLeaveSystem.Queue(ship);
+
 	if (Pi::player == ship) {
 		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);

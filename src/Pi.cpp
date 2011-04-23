@@ -73,6 +73,7 @@ LuaTimer Pi::luaTimer;
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
 LuaEventQueue<> Pi::luaOnGameEnd("onGameEnd");
 LuaEventQueue<Ship> Pi::luaOnEnterSystem("onEnterSystem");
+LuaEventQueue<Ship> Pi::luaOnLeaveSystem("onLeaveSystem");
 LuaEventQueue<Ship,Body> Pi::luaOnShipDestroyed("onShipDestroyed");
 LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
@@ -179,6 +180,7 @@ static void LuaInit()
 	Pi::luaOnGameStart.RegisterEventQueue();
 	Pi::luaOnGameEnd.RegisterEventQueue();
 	Pi::luaOnEnterSystem.RegisterEventQueue();
+	Pi::luaOnLeaveSystem.RegisterEventQueue();
 	Pi::luaOnShipDestroyed.RegisterEventQueue();
 	Pi::luaOnShipHit.RegisterEventQueue();
 	Pi::luaOnShipCollided.RegisterEventQueue();
@@ -912,9 +914,11 @@ void Pi::Start()
 		player->SetFrame(Space::FindBodyForSBodyPath(&path)->GetFrame());
 		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
 		player->SetVelocity(vector3d(0,0,0));
+		player->m_equipment.Add(Equip::RADAR_MAPPER);
 		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
 		player->UpdateMass();
 
+#if 0
 		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
 		enemy->SetFrame(player->GetFrame());
 		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
@@ -950,6 +954,7 @@ void Pi::Start()
 		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
 		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
 		printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+#endif
 
 	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
 		stationFrame->SetRadius(5000);
