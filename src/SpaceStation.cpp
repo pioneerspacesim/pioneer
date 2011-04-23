@@ -433,6 +433,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
+					Pi::luaOnShipUndocked.Queue(dt.ship, this);
 				}
 			}
 		}
@@ -608,7 +609,7 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 		sd.fromRot = Quaterniond::FromMatrix4x4(temp);
 	}
 	ship->SetFlightState(Ship::DOCKING);
-	
+
 	PositionDockedShip(ship, port);
 	return true;
 }
