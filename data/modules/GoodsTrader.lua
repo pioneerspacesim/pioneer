@@ -21,7 +21,7 @@ local onChat = function (dialog, ref, option)
 	ad.price = {}
 	for e = Equip.Type.FIRST_COMMODITY, Equip.Type.LAST_COMMODITY do
 		if not Game.system:IsCommodityLegal(e) then
-			ad.stock[e] = Pi.rand:Int(1,50)
+			ad.stock[e] = Engine.rand:Integer(1,50)
 			-- going rate on the black market will be twice normal
 			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
 		end
@@ -92,13 +92,12 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
-	local rand = Rand:new(station:GetSeed())
-	local num = rand:Int(1,3)
+	local rand = Rand.New(station:GetSeed())
+	local num = rand:Integer(1,3)
 	for i = 1,num do
-		local isfemale = rand:Int(0, 1) == 1
-		local ispolice = rand:Int(0, 1) == 1
+		local ispolice = rand:Integer(0, 1) == 1
 
-		local flavour = string.format(goods_trader_flavour[rand:Int(1, #goods_trader_flavour)], rand:Surname(isfemale))
+		local flavour = string.format(goods_trader_flavour[rand:Integer(1, #goods_trader_flavour)], NameGen.Surname(rand))
 
 		local ad = {
             station  = station,
