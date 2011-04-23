@@ -325,13 +325,13 @@ void Pi::Init()
 	draw_progress(0.3f);
 
 	LmrModelCompilerInit();
+	draw_progress(0.4f);
 
 //unsigned int control_word;
 //_clearfp();
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-	draw_progress(0.4f);
 	ShipType::Init();
 	draw_progress(0.5f);
 	GeoSphere::Init();
@@ -340,9 +340,8 @@ void Pi::Init()
 	draw_progress(0.7f);
 	Space::Init();
 	draw_progress(0.8f);
-	Polit::Init();
-	draw_progress(0.9f);
 	SpaceStation::Init();
+	draw_progress(0.9f);
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
@@ -782,6 +781,8 @@ void Pi::InitGame()
 	Pi::gameTime = 0;
 	Pi::currentView = 0;
 	Pi::isGameStarted = false;
+
+	Polit::Init();
 
 	player = new Player("Eagle Long Range Fighter");
 	player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
