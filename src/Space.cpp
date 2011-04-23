@@ -601,6 +601,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 	ship->UseHyperspaceFuel(dest);
 		
 	if (Pi::player == ship) {
+      Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 		// Departure clouds going to the same system as us are turned
 		// into arrival clouds and stored here
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end();) {
