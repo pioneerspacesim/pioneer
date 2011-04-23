@@ -164,7 +164,7 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
-static int l_ship_ai_do_kill(lua_State *l)
+static int l_ship_ai_kill(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Ship *target = LuaShip::GetFromLua(2);
@@ -172,17 +172,15 @@ static int l_ship_ai_do_kill(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_do_flyto(lua_State *l)
+static int l_ship_ai_fly_to(lua_State *l)
 {
-	/*
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
-	s->AIDoFlyTo(target);
-	*/
+	s->AIFlyTo(target);
 	return 0;
 }
 
-static int l_ship_ai_do_dock(lua_State *l)
+static int l_ship_ai_dock(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
@@ -190,46 +188,27 @@ static int l_ship_ai_do_dock(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_do_loworbit(lua_State *l)
+static int l_ship_ai_low_orbit(lua_State *l)
 {
-	/*
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	s->AIOrbit(target, 1.1);
-	*/
 	return 0;
 }
 
-static int l_ship_ai_do_mediumorbit(lua_State *l)
+static int l_ship_ai_medium_orbit(lua_State *l)
 {
-	/*
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	s->AIOrbit(target, 2.0);
-	*/
 	return 0;
 }
 
-static int l_ship_ai_do_highorbit(lua_State *l)
+static int l_ship_ai_high_orbit(lua_State *l)
 {
-	/*
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	s->AIOrbit(target, 5.0);
-	*/
-	return 0;
-}
-
-static int l_ship_ai_do_journey(lua_State *l)
-{
-	/*
-	
-	XXX is this even required anymore?
-
-	Ship *s = LuaShip::GetFromLua(1);
-	SBodyPath *dest = LuaSBodyPath::GetFromLua(2);
-	s->AIJourney(dest);
-	*/
 	return 0;
 }
 
@@ -343,13 +322,12 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
 
-		{ "AIDoKill",        l_ship_ai_do_kill        },
-		{ "AIDoFlyto",       l_ship_ai_do_flyto       },
-		{ "AIDoDock",        l_ship_ai_do_dock        },
-		{ "AIDoLoworbit",    l_ship_ai_do_loworbit    },
-		{ "AIDoMediumorbit", l_ship_ai_do_mediumorbit },
-		{ "AIDoHighorbit",   l_ship_ai_do_highorbit   },
-		{ "AIDoJourney",     l_ship_ai_do_journey     },
+		{ "AIKill",        l_ship_ai_kill         },
+		{ "AIFlyTo",       l_ship_ai_fly_to       },
+		{ "AIDock",        l_ship_ai_dock         },
+		{ "AILowOrbit",    l_ship_ai_low_orbit    },
+		{ "AIMediumOrbit", l_ship_ai_medium_orbit },
+		{ "AIHighOrbit",   l_ship_ai_high_orbit   },
 
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
 
