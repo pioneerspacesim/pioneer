@@ -212,6 +212,26 @@ static int l_ship_ai_high_orbit(lua_State *l)
 	return 0;
 }
 
+static int l_ship_can_hyperspace_to(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	SBodyPath *dest = LuaSBodyPath::GetFromLua(2);
+
+	int fuel;
+	double duration;
+	Ship::HyperjumpStatus status;
+
+	if (s->CanHyperspaceTo(dest, fuel, duration, &status)) {
+		lua_pushinteger(l, status);
+		lua_pushinteger(l, fuel);
+		lua_pushnumber(l, duration);
+		return 3;
+	}
+
+	lua_pushinteger(l, status);
+	return 1;
+}
+
 static int l_ship_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -329,9 +349,10 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIMediumOrbit", l_ship_ai_medium_orbit },
 		{ "AIHighOrbit",   l_ship_ai_high_orbit   },
 
+		{ "CanHyperspaceTo", l_ship_can_hyperspace_to },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
 
-		{ "GetShipTypes",    l_ship_get_ship_types    },
+		{ "GetShipTypes",    l_ship_get_ship_types },
 
 		{ 0, 0 }
 	};
