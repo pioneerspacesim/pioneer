@@ -165,6 +165,7 @@ static int l_ship_set_equip(lua_State *l)
 		luaL_error(l, "Invalid equipment type '%d'", e);
 	
 	s->m_equipment.Set(slot, idx, e);
+	s->UpdateMass();
 	return 0;
 }
 
@@ -180,6 +181,7 @@ static int l_ship_add_equip(lua_State *l)
 		num = lua_tointeger(l, 3);
 	
 	lua_pushboolean(l, s->m_equipment.Add(e, num));
+	s->UpdateMass();
 	return 1;
 }
 
@@ -192,6 +194,7 @@ static int l_ship_remove_equip(lua_State *l)
 		luaL_error(l, "Invalid equipment type '%d'", e);
 
 	lua_pushinteger(l, s->m_equipment.Remove(e, num));
+	s->UpdateMass();
 	return 1;
 }
 
