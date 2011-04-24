@@ -382,9 +382,9 @@ static int l_ship_get_ship_types(lua_State *l)
 	pi_lua_table_ro(l);
 	
 	if (tag == ShipType::TAG_NONE)
-		lua_pushinteger(l, tag);
-	else
 		lua_pushstring(l, "_all");
+	else
+		lua_pushinteger(l, tag);
 	lua_pushvalue(l, -2);
 	lua_settable(l, -4);
 
