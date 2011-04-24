@@ -39,6 +39,7 @@
 #include "LuaPlanet.h"
 #include "LuaStar.h"
 #include "LuaPlayer.h"
+#include "LuaCargoBody.h"
 #include "LuaStarSystem.h"
 #include "LuaSBodyPath.h"
 #include "LuaShipType.h"
@@ -82,7 +83,7 @@ LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
-LuaEventQueue<Ship> Pi::luaOnJettison("onJettison");
+LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
 LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
 int Pi::keyModState;
@@ -172,6 +173,7 @@ static void LuaInit()
 	LuaPlanet::RegisterClass();
 	LuaStar::RegisterClass();
 	LuaPlayer::RegisterClass();
+    LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSBodyPath::RegisterClass();
 	LuaShipType::RegisterClass();

@@ -11,6 +11,7 @@
 #include "LuaEventQueue.h"
 #include "LuaSerializer.h"
 #include "LuaTimer.h"
+#include "CargoBody.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -112,7 +113,7 @@ public:
 	static LuaEventQueue<Ship,Body> luaOnShipCollided;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipDocked;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipUndocked;
-	static LuaEventQueue<Ship> luaOnJettison;
+	static LuaEventQueue<Ship,CargoBody> luaOnJettison;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
 

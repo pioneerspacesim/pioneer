@@ -940,7 +940,7 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
 		Space::AddBody(cargo);
 
-		Pi::luaOnJettison.Queue(this);
+		Pi::luaOnJettison.Queue(this, cargo);
 
 		return true;
 	} else {
