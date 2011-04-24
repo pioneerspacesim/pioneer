@@ -256,53 +256,72 @@ static int l_space_get_body(lua_State *l)
 	return 1;
 }
 
-static int l_space_get_bodies(lua_State *l)
+static int l_space_get_ships(lua_State *l)
 {
-	const char *type = luaL_checkstring(l, 1);
-
-	Object::Type t;
-	if (strcmp(type, "ship") == 0)
-		t = Object::SHIP;
-	else if (strcmp(type, "spacestation") == 0)
-		t = Object::SPACESTATION;
-	else if (strcmp(type, "planet") == 0)
-		t = Object::PLANET;
-	else if (strcmp(type, "star") == 0)
-		t = Object::STAR;
-	else
-		luaL_error(l, "Unknown body type '%s'", type);
-	
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
 
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
-		if ((*i)->IsType(t)) {
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+		if ((*i)->IsType(Object::SHIP)) {
 			lua_pushinteger(l, lua_objlen(l, -1) + 1);
-			switch (t) {
-				case Object::SHIP: {
-					LuaShip::PushToLua(dynamic_cast<Ship*>(*i));
-					break;
-				}
-				case Object::SPACESTATION: {
-					LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(*i));
-					break;
-				}
-				case Object::PLANET: {
-					LuaPlanet::PushToLua(dynamic_cast<Planet*>(*i));
-					break;
-				}
-				case Object::STAR: {
-					LuaStar::PushToLua(dynamic_cast<Star*>(*i));
-					break;
-				}
-				default:
-					// can't happen
-					assert(0);
-			}
+			LuaShip::PushToLua(dynamic_cast<Ship*>(*i));
 			lua_settable(l, -3);
 		}
-	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+static int l_space_get_spacestations(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+		if ((*i)->IsType(Object::SPACESTATION)) {
+			lua_pushinteger(l, lua_objlen(l, -1) + 1);
+			LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(*i));
+			lua_settable(l, -3);
+		}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+static int l_space_get_planets(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+		if ((*i)->IsType(Object::PLANET)) {
+			lua_pushinteger(l, lua_objlen(l, -1) + 1);
+			LuaPlanet::PushToLua(dynamic_cast<Planet*>(*i));
+			lua_settable(l, -3);
+		}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+static int l_space_get_stars(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+
+	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+		if ((*i)->IsType(Object::STAR)) {
+			lua_pushinteger(l, lua_objlen(l, -1) + 1);
+			LuaStar::PushToLua(dynamic_cast<Star*>(*i));
+			lua_settable(l, -3);
+		}
 
 	LUA_DEBUG_END(l, 1);
 
@@ -322,7 +341,11 @@ void LuaSpace::Register()
 		{ "SpawnShipParked", l_space_spawn_ship_parked },
 
 		{ "GetBody",   l_space_get_body   },
-		{ "GetBodies", l_space_get_bodies },
+
+		{ "GetShips",         l_space_get_ships         },
+		{ "GetSpaceStations", l_space_get_spacestations },
+		{ "GetPlanets",       l_space_get_planets       },
+		{ "GetStars",         l_space_get_stars         },
 		{ 0, 0 }
 	};
 
