@@ -120,6 +120,107 @@ static int l_ship_set_secondary_colour(lua_State *l)
 	return 0;
 }
 
+static int l_ship_get_equip_slot_size(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	if (slot < 0 || slot >= Equip::SLOT_MAX)
+		luaL_error(l, "Invalid equipment slot '%d'", slot);
+	lua_pushinteger(l, s->m_equipment.GetSlotSize(slot));
+	return 1;
+}
+
+static int l_ship_get_equip(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	if (slot < 0 || slot >= Equip::SLOT_MAX)
+		luaL_error(l, "Invalid equipment slot '%d'", slot);
+
+	int size = s->m_equipment.GetSlotSize(slot);
+	if (size == 0)
+		return 0;
+	
+	if (lua_isnumber(l, 3)) {
+		int idx = lua_tonumber(l, 3);
+		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		return 1;
+	}
+
+	for (int idx = 0; idx < size; idx++)
+		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+	return size;
+}
+
+static int l_ship_set_equip(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	int idx = luaL_checkinteger(l, 3);
+	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 4));
+
+	if (slot < 0 || slot >= Equip::SLOT_MAX)
+		luaL_error(l, "Invalid equipment slot '%d'", slot);
+	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
+		luaL_error(l, "Invalid equipment type '%d'", e);
+	
+	s->m_equipment.Set(slot, idx, e);
+	return 0;
+}
+
+static int l_ship_add_equip(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
+	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
+		luaL_error(l, "Invalid equipment type '%d'", e);
+
+	int num = 1;
+	if (lua_isnumber(l, 3))
+		num = lua_tointeger(l, 3);
+	
+	lua_pushboolean(l, s->m_equipment.Add(e, num));
+	return 1;
+}
+
+static int l_ship_remove_equip(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
+	int num = luaL_checkinteger(l, 3);
+	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
+		luaL_error(l, "Invalid equipment type '%d'", e);
+
+	lua_pushinteger(l, s->m_equipment.Remove(e, num));
+	return 1;
+}
+
+static int l_ship_get_equip_count(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 3));
+
+	if (slot < 0 || slot >= Equip::SLOT_MAX)
+		luaL_error(l, "Invalid equipment slot '%d'", slot);
+	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
+		luaL_error(l, "Invalid equipment type '%d'", e);
+	
+	lua_pushinteger(l, s->m_equipment.Count(slot, e));
+	return 1;
+}
+
+static int l_ship_get_equip_free(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	if (slot < 0 || slot >= Equip::SLOT_MAX)
+		luaL_error(l, "Invalid equipment slot '%d'", slot);
+
+	lua_pushinteger(l, s->m_equipment.FreeSpace(slot));
+	return 1;
+}
+
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -309,6 +410,14 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
 		{ "SetSecondaryColour", l_ship_set_secondary_colour },
+
+		{ "GetEquipSlotSize", l_ship_get_equip_slot_size },
+		{ "GetEquip",         l_ship_get_equip           },
+		{ "SetEquip",         l_ship_set_equip           },
+		{ "AddEquip",         l_ship_add_equip           },
+		{ "RemoveEquip",      l_ship_remove_equip        },
+		{ "GetEquipCount",    l_ship_get_equip_count     },
+		{ "GetEquipFree",     l_ship_get_equip_free      },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
