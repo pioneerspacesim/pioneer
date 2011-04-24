@@ -221,6 +221,17 @@ static int l_ship_get_equip_free(lua_State *l)
 	return 1;
 }
 
+static int l_ship_jettison(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
+	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
+		luaL_error(l, "Invalid equipment type '%d'", e);
+
+	lua_pushboolean(l, s->Jettison(e));
+	return 1;
+}
+
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -418,6 +429,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "RemoveEquip",      l_ship_remove_equip        },
 		{ "GetEquipCount",    l_ship_get_equip_count     },
 		{ "GetEquipFree",     l_ship_get_equip_free      },
+
+		{ "Jettison", l_ship_jettison },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
