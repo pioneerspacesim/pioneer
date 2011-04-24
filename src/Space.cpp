@@ -565,6 +565,7 @@ void TimeStep(float step)
 	Pi::luaOnShipDestroyed.Emit();
 	Pi::luaOnShipDocked.Emit();
 	Pi::luaOnShipUndocked.Emit();
+	Pi::luaOnJettison.Emit();
 	Pi::luaOnCreateBB.Emit();
 	Pi::luaOnUpdateBB.Emit();
 
