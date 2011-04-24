@@ -120,31 +120,6 @@ static int l_ship_set_secondary_colour(lua_State *l)
 	return 0;
 }
 
-static int l_ship_get_money(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	lua_pushnumber(l, s->GetMoney()*0.01);
-	return 1;
-} 
-
-static int l_ship_set_money(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	float m = luaL_checknumber(l, 2);
-	s->SetMoney((Sint64)(m*100.0));
-	return 0;
-} 
-
-static int l_ship_add_money(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	float a = luaL_checknumber(l, 2);
-	Sint64 m = s->GetMoney() + (Sint64)(a*100.0);
-	s->SetMoney(m);
-	lua_pushnumber(l, m*0.01);
-	return 1;
-}
-
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -334,10 +309,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
 		{ "SetSecondaryColour", l_ship_set_secondary_colour },
-
-		{ "GetMoney", l_ship_get_money },
-		{ "SetMoney", l_ship_set_money },
-		{ "AddMoney", l_ship_add_money },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },

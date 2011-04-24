@@ -158,6 +158,31 @@ static int l_player_get_mission(lua_State *l)
 	return 1;
 }
 
+static int l_player_get_money(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	lua_pushnumber(l, p->GetMoney()*0.01);
+	return 1;
+} 
+
+static int l_player_set_money(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	float m = luaL_checknumber(l, 2);
+	p->SetMoney((Sint64)(m*100.0));
+	return 0;
+} 
+
+static int l_player_add_money(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	float a = luaL_checknumber(l, 2);
+	Sint64 m = p->GetMoney() + (Sint64)(a*100.0);
+	p->SetMoney(m);
+	lua_pushnumber(l, m*0.01);
+	return 1;
+}
+
 // XXX this most certainly does not belong here. it will be removed when the
 // entire polit/crime system is evicted to lua where it belongs
 static int l_player_add_crime(lua_State *l)
@@ -186,6 +211,11 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "UpdateMission", l_player_update_mission },
 		{ "RemoveMission", l_player_remove_mission },
 		{ "GetMission",    l_player_get_mission    },
+
+		{ "GetMoney", l_player_get_money },
+		{ "SetMoney", l_player_set_money },
+		{ "AddMoney", l_player_add_money },
+
 		{ "AddCrime",      l_player_add_crime      },
 		{ 0, 0 }
 	};
