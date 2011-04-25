@@ -11,15 +11,24 @@ static int l_rand_number(lua_State *l)
 {
 	MTRand *rand = LuaObject<MTRand>::GetFromLua(1);
 
-	double n;
-	if (lua_gettop(l) == 1)
-		n = rand->Double();
-	else if(lua_gettop(l) == 2)
-		n = rand->Double(luaL_checknumber(l, 2));
-	else
-		n = rand->Double(luaL_checknumber(l, 2), luaL_checknumber(l, 3));
+	double min, max;
+	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
+		min = lua_tonumber(l, 2);
+		max = lua_tonumber(l, 3);
+	}
+	else if (lua_isnumber(l, 2)) {
+		min = 0.0;
+		max = lua_tonumber(l, 2);
+	}
+	else {
+		min = 0.0;
+		max = 1.0;
+	}
 
-	lua_pushnumber(l, n);
+	if (min > max)
+		luaL_error(l, "Max must be bigger than min in random number range");
+
+	lua_pushnumber(l, rand->Double(min, max));
 	return 1;
 }
 
@@ -27,15 +36,24 @@ static int l_rand_integer(lua_State *l)
 {
 	MTRand *rand = LuaObject<MTRand>::GetFromLua(1);
 
-	int n;
-	if (lua_gettop(l) == 1)
-		n = rand->Int32();
-	else if(lua_gettop(l) == 2)
-		n = rand->Int32(luaL_checkinteger(l, 2));
-	else
-		n = rand->Int32(luaL_checkinteger(l, 2), luaL_checkinteger(l, 3));
+	int min, max;
+	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
+		min = lua_tointeger(l, 2);
+		max = lua_tointeger(l, 3);
+	}
+	else if (lua_isnumber(l, 2)) {
+		min = 0;
+		max = lua_tointeger(l, 2);
+	}
+	else {
+		min = 0;
+		max = 1;
+	}
 
-	lua_pushinteger(l, n);
+	if (min > max)
+		luaL_error(l, "Max must be bigger than min in random number range");
+
+	lua_pushnumber(l, rand->Int32(min, max));
 	return 1;
 }
 
