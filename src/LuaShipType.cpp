@@ -66,6 +66,36 @@ int l_shiptype_get_default_hyperdrive(lua_State *l)
 	return 1;
 }
 
+static int l_shiptype_get_ship_types(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	ShipType::Tag tag = ShipType::TAG_NONE;
+
+	if (lua_gettop(l) >= 1)
+		tag = static_cast<ShipType::Tag>(luaL_checkinteger(l, 1));
+	
+	if (tag < 0 || tag >= ShipType::TAG_MAX)
+		luaL_error(l, "Unknown ship tag %d", tag);
+
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+	
+	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+	{
+		ShipType *st = &((*i).second);
+		if (tag == ShipType::TAG_NONE || tag == st->tag) {
+			lua_pushstring(l, (*i).first.c_str());
+			LuaShipType::PushToLua(st);
+			lua_rawset(l, -3);
+		}
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<ShipType> >::s_type = "ShipType";
 
 template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
@@ -79,6 +109,8 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 		{ "GetHullMass",          l_shiptype_get_hull_mass           },
 		{ "GetBasePrice",         l_shiptype_get_base_price          },
 		{ "GetDefaultHyperdrive", l_shiptype_get_default_hyperdrive  },
+
+		{ "GetShipTypes", l_shiptype_get_ship_types },
 		{ 0, 0 }
 	};
 

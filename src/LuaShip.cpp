@@ -343,68 +343,6 @@ static int l_ship_hyperspace_to(lua_State *l)
 	return 1;
 }
 
-static int l_ship_get_ship_types(lua_State *l)
-{
-	LUA_DEBUG_START(l);
-
-	ShipType::Tag tag = ShipType::TAG_NONE;
-
-	if (lua_gettop(l) >= 1)
-		tag = static_cast<ShipType::Tag>(luaL_checkinteger(l, 1));
-	
-	if (tag < 0 || tag >= ShipType::TAG_MAX)
-		luaL_error(l, "Unknown ship tag %d", tag);
-
-	// remove this if there's a time when the ship list can change mid-game
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiShipTypeTable");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiShipTypeTable");
-	}
-
-	if (tag == ShipType::TAG_NONE)
-		lua_getfield(l, -1, "_all");
-	else {
-		lua_pushvalue(l, 1);
-		lua_gettable(l, -2);
-	}
-	
-	if (lua_istable(l, -1)) {
-		lua_remove(l, -2);
-		LUA_DEBUG_END(l, 1);
-		return 1;
-	}
-	lua_pop(l, 1);
-
-	lua_newtable(l);
-	pi_lua_table_ro(l);
-	
-	if (tag == ShipType::TAG_NONE)
-		lua_pushstring(l, "_all");
-	else
-		lua_pushinteger(l, tag);
-	lua_pushvalue(l, -2);
-	lua_settable(l, -4);
-
-	lua_remove(l, -2);
-		
-	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
-	{
-		ShipType *st = &((*i).second);
-		if (tag == ShipType::TAG_NONE || tag == st->tag) {
-			lua_pushstring(l, (*i).first.c_str());
-			LuaShipType::PushToLua(st);
-			lua_rawset(l, -3);
-		}
-	}
-
-	LUA_DEBUG_END(l, 1);
-
-	return 1;
-}
-
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<Ship*>(o);
@@ -447,8 +385,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "CanHyperspaceTo", l_ship_can_hyperspace_to },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
-
-		{ "GetShipTypes",    l_ship_get_ship_types },
 
 		{ 0, 0 }
 	};
