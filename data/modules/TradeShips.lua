@@ -1,5 +1,5 @@
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
+	if not player:IsPlayer() then return end
 
 	local stations = Space.GetSpaceStations()
 	if #stations == 0 then return end

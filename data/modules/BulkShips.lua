@@ -1,5 +1,5 @@
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
+	if not player:IsPlayer() then return end
 
 	local population = Game.system:GetPopulation()
 
