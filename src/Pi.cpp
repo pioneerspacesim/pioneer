@@ -212,7 +212,6 @@ static void LuaInit()
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 
 	// XXX load everything. for now, just modules
-	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pimodule.lua").c_str());
 	pi_lua_dofile_recursive(l, std::string(PIONEER_DATA_DIR) + "/modules");
 }
 
