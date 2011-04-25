@@ -1,6 +1,26 @@
-local onEnterSystem = function (sys, player)
-	local lawlessness = sys:GetLawlessness()
-	local population = sys:GetPopulation()
+local ships
+local candidate_ships
+
+local onGameStart = function ()
+	ships = ShipType.GetShipTypes(ShipType.Tag.SHIP)
+
+	candidate_ships = {}
+	for n,t in pairs(ships) do
+		local mass = t:GetHullMass()
+		if mass >= 100 then
+		    table.insert(candidate_ships, n)
+	    end
+	end
+end
+
+local onEnterSystem = function (player)
+	if (not player:IsPlayer()) then return end
+
+	local stations = Space.GetSpaceStations()
+	if #stations == 0 then return end
+
+	local lawlessness = Game.system:GetLawlessness()
+	local population = Game.system:GetPopulation()
 
 	--[[
 	traders will be attracted by:
@@ -24,7 +44,7 @@ local onEnterSystem = function (sys, player)
 	-- reduce based on lawlessness
 	num_trade_ships = num_trade_ships * (1-lawlessness)
 
-	local base_price_alterations = sys:GetCommodityBasePriceAlterations()
+	local base_price_alterations = Game.system:GetCommodityBasePriceAlterations()
 
 	local imports = 0
 	local exports = 0
@@ -45,43 +65,40 @@ local onEnterSystem = function (sys, player)
 		-- 80% chance of spawning this ship. this is somewhat arbitrary,
 		-- but it does mean the player can't assume that system x will
 		-- always have n trade ships
-		if Pi.rand:Real(0,1) <= 0.8 then
+		if Engine.rand:Number() <= 0.8 then
 
 			local spawn_in_starport = false
 			
 			if exports > imports then
-				if Pi.rand:Real(0,exports) > imports then
+				if Engine.rand:Number(exports) > imports then
 					spawn_in_starport = true
 				end
 			elseif exports < imports then
-				if Pi.rand:Real(0,imports) <= exports then
+				if Engine.rand:Number(imports) <= exports then
 					spawn_in_starport = true
 				end
 			else
-				if Pi.rand:Real(0,1) <= 0.5 then
+				if Engine.rand:Number() <= 0.5 then
 					spawn_in_starport = true
 				end
 			end
 
-			local starport = sys:GetRandomStarport()
-			if not starport then
-				-- not much for traders to do if there's no starports
-				return
-			end
-			local body = sys:GetBody(starport)
+			local shiptype = candidate_ships[Engine.rand:Integer(1,#candidate_ships)]
+			local station = stations[Engine.rand:Integer(1,#stations)]
 
 			if spawn_in_starport then
-				local ship, e = Pi.SpawnRandomDockedShip(body, 10, 100, 10000000)
+				local ship = Space.SpawnShipDocked(shiptype, station)
+				print(string.format("spawned %s (%s), docked with %s", ship:GetLabel(), shiptype, station:GetLabel()))
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
-				ship, e = Pi.SpawnRandomShip(0, 10, 100, 10000000)
-				if ship then
-					ship:AIDoDock(body)
-				end
+				local ship = Space.SpawnShip(shiptype, 3, 8)
+				ship:DockWith(station)
+				print(string.format("spawned %s (%s), travelling to %s", ship:GetLabel(), shiptype, station:GetLabel()))
 			end
 
 		end
 	end
 end
 
+EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
