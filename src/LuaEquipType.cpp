@@ -31,6 +31,16 @@ static int l_equiptype_get_mass(lua_State *l)
 	return 1;
 }
 
+static int l_equiptype_get_equip_type(lua_State *l)
+{
+	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 1));
+	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
+		luaL_error(l, "Invalid equipment type '%d'", e);
+	
+	LuaEquipType::PushToLua(const_cast<EquipType*>(&(Equip::types[e])));
+	return 1;
+}
+
 static int l_equiptype_get_equip_types(lua_State *l)
 {
 	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 1));
@@ -65,6 +75,7 @@ template <> void LuaObject<LuaUncopyable<EquipType> >::RegisterClass()
 		{ "GetBasePrice", l_equiptype_get_base_price },
 		{ "GetMass",      l_equiptype_get_mass       },
 
+        { "GetEquipType",  l_equiptype_get_equip_type  },
 		{ "GetEquipTypes", l_equiptype_get_equip_types },
 
 		{ 0, 0 }
