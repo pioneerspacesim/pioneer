@@ -4,7 +4,7 @@ local delivery_flavours = {
 	{
 		adtext = "GOING TO the {system} system? Money paid for delivery of a small package.",
 		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}) system.",
-		whysomuchdoshtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
+		whysomuchtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
 		successmsg = "Thank you for the delivery. You have been paid in full.",
 		failuremsg = "Jesus wept, you took forever over that delivery. I'm not willing to pay you.",
 		danger = 0,
@@ -13,7 +13,7 @@ local delivery_flavours = {
 	}, {
 		adtext = "WANTED. Delivery of a package to the {system} system.",
 		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
-		whysomuchdoshtext = "It is nothing special.",
+		whysomuchtext = "It is nothing special.",
 		successmsg = "The package has been received and you have been paid in full.",
 		failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
 		danger = 0,
@@ -22,7 +22,7 @@ local delivery_flavours = {
 	}, {
 		adtext = "URGENT. Fast ship needed to deliver a package to the {system} system.",
 		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
-		whysomuchdoshtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
+		whysomuchtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
 		danger = 0,
@@ -31,25 +31,25 @@ local delivery_flavours = {
 	}, {
 		adtext = "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
 		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
-		whysomuchdoshtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
+		whysomuchtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
 		danger = 0.75,
 		time = 0.3,
 		money = 3.5,
 	}, {
-		adtext = "POSTAL SERVICE. We require a ship for the delivery run to %1 system.",
-		introtext = "Greetings. This is an automated message from Bedford and %1 Courier Services. We pay %2 for the run to %3 in the %4 (%5, %6) system.",
-		whysomuchdoshtext = "We would be happy to pay you less money.",
+		adtext = "POSTAL SERVICE. We require a ship for the delivery run to {system} system.",
+		introtext = "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}) system.",
+		whysomuchtext = "We would be happy to pay you less money.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Your ship registration has been noted, we will reject all further applications for work from you.",
 		danger = 0.1,
 		time = 2.5,
 		money = 1,
 	}, {
-		adtext = "MEETING. I have contacts in the %1 system. %2 for an enlightened pilot.",
-		introtext = "Hello. I'm %1 from the GAAM (Galactic Anti-Authoritarian Movement). For %2 I might be willing to put you in contact with some friends from %3 in the %4 system.",
-		whysomuchdoshtext = "We require payment as proof of your allegiance.",
+		adtext = "MEETING. I have contacts in the {system} system. {cash} for an enlightened pilot.",
+		introtext = "Hello. I'm %1 from the GAAM (Galactic Anti-Authoritarian Movement). For {cash} I might be willing to put you in contact with some friends from {starport} in the {system} ({sectorx}, {sectory}) system.",
+		whysomuchtext = "We require payment as proof of your allegiance.",
 		successmsg = "Payment has been received in full. Don't call us, we'll call you!",
 		failuremsg = "You are too late and have missed the meeting, better keep your money instead.",
 		danger = 1,
@@ -57,19 +57,6 @@ local delivery_flavours = {
 		money = -5,
 	}
 }
-
---for i = 0,10 do
---	local sys = StarSystem:new(i,2,0)
---	print('Looking near ' .. sys:GetSectorX() .. '/' .. sys:GetSectorY() .. '/' .. sys:GetSystemNum())
---	print(sys:GetSystemName())
---	print(sys:GetSystemShortDescription())
---	local sport = sys:GetRandomStarportNearButNotIn()
---	if sport then
---		print(sport:GetBodyName() .. ' in the ' .. sport:GetSystemName() .. ' system')
---	else
---		print("No suitable nearby space station found.")
---	end
---end
 
 local ads = {}
 local missions = {}
@@ -87,7 +74,7 @@ local onChat = function (dialog, ref, option)
 	if option == 0 then
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
 			name     = ad.client,
-			cash     = format_money(ad.reward),
+			cash     = string.format("$%0.2f", ad.reward),
 			starport = ad.location:GetBodyName(),
 			system   = ad.location:GetSystemName(),
 			sectorx  = ad.location:GetSectorX(),
@@ -97,7 +84,7 @@ local onChat = function (dialog, ref, option)
 		dialog:SetMessage(introtext)
 
 	elseif option == 1 then
-		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchdoshtext)
+		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
 	
 	elseif option == 2 then
 		dialog:SetMessage("It must be delivered by "..Date.Format(ad.due))
@@ -137,26 +124,31 @@ local onDelete = function (ref)
 end
 
 local makeAdvert = function (station)
-	local location = Game.system:GetRandomStarportNearButNotIn()
-	if not location then return end
+	local nearbysystems = Game.system:GetNearbySystems(20, function (s) return #s:GetStationPaths() > 0 end)
+	if #nearbysystems == 0 then return end
 
-	local isfemale = Pi.rand:Int(0, 1) == 1
-	local client = Pi.rand:PersonName(isfemale)
+	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 
-	local flavour = Pi.rand:Int(1, #delivery_flavours)
+	local nearbystations = nearbysystem:GetStationPaths()
+	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+
+	local isfemale = Engine.rand:Integer() == 1
+	local client = NameGen.FullName(isfemale)
+
+	local flavour = Engine.rand:Integer(1,#delivery_flavours)
 
 	local ad = {
 		station  = station,
 		flavour  = flavour,
 		client   = client,
 		location = location,
-		due      = Game.time + Pi.rand:Real(0, delivery_flavours[flavour].time * 60*60*24*31),
-		reward   = Pi.rand:Real(200, 1000) * delivery_flavours[flavour].money,
+		due      = Game.time + Engine.rand:Number(0, delivery_flavours[flavour].time * 60*60*24*31),
+		reward   = Engine.rand:Number(200, 1000) * delivery_flavours[flavour].money,
 	}
 
 	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
-		system = location:GetSystemName(),
-		cash   = format_money(ad.reward),
+		system = nearbysystem:GetName(),
+		cash   = string.format("$%0.2f", ad.reward),
 	})
 
 	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
@@ -176,32 +168,51 @@ local onUpdateBB = function (station)
 			station:RemoveAdvert(ref)
 		end	
 	end
-	if Pi.rand:Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
+	if Engine.rand:Integer(0,12*60*60) < 60*60 then -- roughly once every twelve hours
 		makeAdvert(station)
 	end
 end
 
-local onEnterSystem = function (sys, player)
-	local syspath = sys:GetPath()
+local onEnterSystem = function (player)
+	if (not player:IsPlayer()) then return end
+
+	local syspath = Game.system:GetPath()
 
 	for ref,mission in pairs(missions) do
 		if not mission.status and mission.location:IsSameSystem(syspath) then
 			local danger = delivery_flavours[mission.flavour].danger
 			if danger > 0 then
-				ship, e = Pi.SpawnRandomShip(Game.time, danger, 20, 100)
-				if not e then
-					--print("DeliverPackage: spawned "..ship:GetLabel())
-					ship:AIDoKill(Game.player)
-					UI.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
-				--else
-				--	print("DeliverPackage: "..e)
-				end
+
+				local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t)
+					local mass = t:GetHullMass()
+					return mass >= 100 and mass <= 300
+				end)
+				if #shiptypes == 0 then return end
+
+				local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+				local shiptype = ShipType.GetShipType(shipname)
+				local default_drive = shiptype:GetDefaultHyperdrive()
+
+				local max_laser_size = shiptype:GetCapacity() - EquipType.GetEquipType(default_drive):GetMass()
+				local lasers = EquipType.GetEquipTypes(Equip.Slot.LASER, function (e,et)
+					return et:GetMass() <= max_laser_size and e >= Equip.Type.PULSECANNON_RAPID_2MW and e<= Equip.Type.PULSECANNON_20MW
+				end)
+				local laser = lasers[Engine.rand:Integer(1,#lasers)]
+
+				local ship = Space.SpawnShipNear(shipname, Game.player, 50, 200)
+				ship.AddEquip(default_drive)
+				ship.AddEquip(laser)
+				ship:Destroy(Game.player)
+				
+				UI.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
 			end
 		end
 	end
 end
 
-local onPlayerDocked = function (station, player)
+local onShipDocked = function (player, station)
+	if not player:IsPlayer() then return end
+
 	for ref,mission in pairs(missions) do
 
 		if mission.location == station:GetPath() then
@@ -213,12 +224,12 @@ local onPlayerDocked = function (station, player)
 				player:AddMoney(mission.reward)
 			end
 
-			Game.player:RemoveMission(ref)
+			player:RemoveMission(ref)
 			missions[ref] = nil
 
 		elseif Game.time > mission.due then
 			mission.status = 'failed'
-			Game.player():UpdateMission(ref, mission)
+			player:UpdateMission(ref, mission)
 		end
 
 	end
@@ -242,6 +253,6 @@ end
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onPlayerDocked:Connect(onPlayerDocked)
+EventQueue.onShipDocked:Connect(onShipDocked)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
