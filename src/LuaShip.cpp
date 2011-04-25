@@ -254,7 +254,7 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
-static int l_ship_ai_kill(lua_State *l)
+static int l_ship_destroy(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Ship *target = LuaShip::GetFromLua(2);
@@ -262,7 +262,7 @@ static int l_ship_ai_kill(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_fly_to(lua_State *l)
+static int l_ship_fly_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -270,7 +270,7 @@ static int l_ship_ai_fly_to(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_dock(lua_State *l)
+static int l_ship_dock_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
@@ -278,7 +278,7 @@ static int l_ship_ai_dock(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_low_orbit(lua_State *l)
+static int l_ship_enter_low_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -286,7 +286,7 @@ static int l_ship_ai_low_orbit(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_medium_orbit(lua_State *l)
+static int l_ship_enter_medium_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -294,7 +294,7 @@ static int l_ship_ai_medium_orbit(lua_State *l)
 	return 0;
 }
 
-static int l_ship_ai_high_orbit(lua_State *l)
+static int l_ship_enter_high_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -376,12 +376,12 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
 
-		{ "AIKill",        l_ship_ai_kill         },
-		{ "AIFlyTo",       l_ship_ai_fly_to       },
-		{ "AIDock",        l_ship_ai_dock         },
-		{ "AILowOrbit",    l_ship_ai_low_orbit    },
-		{ "AIMediumOrbit", l_ship_ai_medium_orbit },
-		{ "AIHighOrbit",   l_ship_ai_high_orbit   },
+		{ "Destroy",          l_ship_destroy            },
+		{ "FlyTo",            l_ship_fly_to             },
+		{ "DockWith",         l_ship_dock_with          },
+		{ "EnterLowOrbit",    l_ship_enter_low_orbit    },
+		{ "EnterMediumOrbit", l_ship_enter_medium_orbit },
+		{ "EnterHighOrbit",   l_ship_enter_high_orbit   },
 
 		{ "CanHyperspaceTo", l_ship_can_hyperspace_to },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
