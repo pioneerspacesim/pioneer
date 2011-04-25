@@ -1,19 +1,5 @@
-local ships
-local candidate_ships
-
-local onGameStart = function ()
-	ships = ShipType.GetShipTypes(ShipType.Tag.STATIC_SHIP)
-
-	candidate_ships = {}
-	for n,t in pairs(ships) do
-		table.insert(candidate_ships, n)
-	end
-end
-
 local onEnterSystem = function (player)
-	if #candidate_ships == 0 then
-		return
-	end
+	if (not player:IsPlayer()) then return end
 
 	local population = Game.system:GetPopulation()
 
@@ -25,6 +11,9 @@ local onEnterSystem = function (player)
 	if #stations == 0 then
 		return
 	end
+
+	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.STATIC_SHIP)
+	if #shiptypes == 0 then return end
 
 	--[[
 	assuming these are huge supply ships and not your run-of-the-mill
@@ -50,9 +39,8 @@ local onEnterSystem = function (player)
 
 	for i=1, num_bulk_ships do
         local station = stations[Engine.rand:Integer(1,#stations)]
-        local ship = Space.SpawnShipParked(candidate_ships[Engine.rand:Integer(1,#candidate_ships)], station)
+        pcall(function () return Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station) end)
 	end
 end
 
-EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onEnterSystem:Connect(onEnterSystem)

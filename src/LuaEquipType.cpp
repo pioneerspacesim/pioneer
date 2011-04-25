@@ -43,19 +43,39 @@ static int l_equiptype_get_equip_type(lua_State *l)
 
 static int l_equiptype_get_equip_types(lua_State *l)
 {
+	LUA_DEBUG_START(l);
+
 	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 1));
 	if (slot < 0 || slot >= Equip::SLOT_MAX)
 		luaL_error(l, "Invalid equipment slot '%d'", slot);
 	
-	LUA_DEBUG_START(l);
+	bool filter = false;
+	if (lua_gettop(l) >= 2) {
+		if (!lua_isfunction(l, 2))
+			luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+		filter = true;
+	}
 
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 	
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
+		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));
 		if (Equip::types[i].slot == slot) {
+			if (filter) {
+				lua_pushvalue(l, 2);
+				lua_pushinteger(l, i);
+				LuaEquipType::PushToLua(et);
+				lua_call(l, 2, 1);
+				if (!lua_toboolean(l, -1)) {
+					lua_pop(l, 1);
+					continue;
+				}
+				lua_pop(l, 1);
+			}
+
+			lua_pushinteger(l, lua_objlen(l, -1)+1);
 			lua_pushinteger(l, i);
-			LuaEquipType::PushToLua(const_cast<EquipType*>(&(Equip::types[i])));
 			lua_rawset(l, -3);
 		}
 	}

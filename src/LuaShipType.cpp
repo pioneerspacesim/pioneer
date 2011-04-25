@@ -66,6 +66,18 @@ int l_shiptype_get_default_hyperdrive(lua_State *l)
 	return 1;
 }
 
+static int l_shiptype_get_ship_type(lua_State *l)
+{
+	const char *type = luaL_checkstring(l, 1);
+
+	std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.find(type);
+	if (i == ShipType::types.end())
+		luaL_error(l, "Invalid ship name '%s'", type);
+	
+	LuaShipType::PushToLua(&((*i).second));
+	return 1;
+}
+
 static int l_shiptype_get_ship_types(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -78,6 +90,13 @@ static int l_shiptype_get_ship_types(lua_State *l)
 	if (tag < 0 || tag >= ShipType::TAG_MAX)
 		luaL_error(l, "Unknown ship tag %d", tag);
 
+	bool filter = false;
+	if (lua_gettop(l) >= 2) {
+		if (!lua_isfunction(l, 2))
+			luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+		filter = true;
+	}
+	
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 	
@@ -85,8 +104,19 @@ static int l_shiptype_get_ship_types(lua_State *l)
 	{
 		ShipType *st = &((*i).second);
 		if (tag == ShipType::TAG_NONE || tag == st->tag) {
+			if (filter) {
+				lua_pushvalue(l, 2);
+				LuaShipType::PushToLua(st);
+				lua_call(l, 1, 1);
+				if (!lua_toboolean(l, -1)) {
+					lua_pop(l, 1);
+					continue;
+				}
+				lua_pop(l, 1);
+			}
+
+			lua_pushinteger(l, lua_objlen(l, -1)+1);
 			lua_pushstring(l, (*i).first.c_str());
-			LuaShipType::PushToLua(st);
 			lua_rawset(l, -3);
 		}
 	}
@@ -110,6 +140,7 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 		{ "GetBasePrice",         l_shiptype_get_base_price          },
 		{ "GetDefaultHyperdrive", l_shiptype_get_default_hyperdrive  },
 
+		{ "GetShipType",  l_shiptype_get_ship_type  },
 		{ "GetShipTypes", l_shiptype_get_ship_types },
 		{ 0, 0 }
 	};

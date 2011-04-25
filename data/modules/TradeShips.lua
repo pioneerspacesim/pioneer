@@ -1,18 +1,3 @@
-local ships
-local candidate_ships
-
-local onGameStart = function ()
-	ships = ShipType.GetShipTypes(ShipType.Tag.SHIP)
-
-	candidate_ships = {}
-	for n,t in pairs(ships) do
-		local mass = t:GetHullMass()
-		if mass >= 100 then
-		    table.insert(candidate_ships, n)
-	    end
-	end
-end
-
 local onEnterSystem = function (player)
 	if (not player:IsPlayer()) then return end
 
@@ -61,6 +46,9 @@ local onEnterSystem = function (player)
 		end
 	end
 
+	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t) return t:GetHullMass() >= 100 end)
+	if #shiptypes == 0 then return end
+
 	for i = 0, num_trade_ships, 1 do
 		-- 80% chance of spawning this ship. this is somewhat arbitrary,
 		-- but it does mean the player can't assume that system x will
@@ -83,22 +71,20 @@ local onEnterSystem = function (player)
 				end
 			end
 
-			local shiptype = candidate_ships[Engine.rand:Integer(1,#candidate_ships)]
+			local shiptype = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+
 			local station = stations[Engine.rand:Integer(1,#stations)]
 
 			if spawn_in_starport then
-				local ship = Space.SpawnShipDocked(shiptype, station)
-				print(string.format("spawned %s (%s), docked with %s", ship:GetLabel(), shiptype, station:GetLabel()))
+				pcall(function () return Space.SpawnShipDocked(shiptype, station) end)
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
 				local ship = Space.SpawnShip(shiptype, 3, 8)
 				ship:DockWith(station)
-				print(string.format("spawned %s (%s), travelling to %s", ship:GetLabel(), shiptype, station:GetLabel()))
 			end
 
 		end
 	end
 end
 
-EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
