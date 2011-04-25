@@ -32,7 +32,7 @@ local onEnterSystem = function (player)
 		end)
 		local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-		ship = Space.SpawnShip(shipname, 8, 12)
+		local ship = Space.SpawnShip(shipname, 8, 12)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laser)
 		ship:Destroy(Game.player)
