@@ -1,6 +1,7 @@
 #include "LuaObject.h"
 #include "LuaSBodyPath.h"
 #include "LuaUtils.h"
+#include "LuaStarSystem.h"
 #include "StarSystem.h"
 #include "Sector.h"
 
@@ -75,6 +76,29 @@ static int l_sbodypath_is_same_system(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_distance_to(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	const SysLoc *loc1 = LuaSBodyPath::GetFromLua(1);
+
+	const SysLoc *loc2 = LuaSBodyPath::CheckFromLua(2);
+	if (!loc2) {
+		StarSystem *s2 = LuaStarSystem::GetFromLua(2);
+		loc2 = &(s2->GetLocation());
+	}
+
+	Sector sec1(loc1->GetSectorX(), loc1->GetSectorY());
+	Sector sec2(loc2->GetSectorX(), loc2->GetSectorY());
+	
+	double dist = Sector::DistanceBetween(&sec1, loc1->GetSystemNum(), &sec2, loc2->GetSystemNum());
+
+	lua_pushnumber(l, dist);
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
 static int l_sbodypath_meta_eq(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -96,6 +120,7 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 		{ "GetSystemName",  l_sbodypath_get_system_name  },
 		{ "GetBodyName",    l_sbodypath_get_body_name    },
 		{ "IsSameSystem",   l_sbodypath_is_same_system   },
+		{ "DistanceTo",     l_sbodypath_distance_to },
 		{ 0, 0 }
 	};
 

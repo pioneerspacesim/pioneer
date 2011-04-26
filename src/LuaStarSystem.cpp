@@ -162,6 +162,30 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_distance_to(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	const SysLoc *loc1 = &(s->GetLocation());
+
+	const SysLoc *loc2 = LuaSBodyPath::CheckFromLua(2);
+	if (!loc2) {
+		StarSystem *s2 = LuaStarSystem::GetFromLua(2);
+		loc2 = &(s2->GetLocation());
+	}
+
+	Sector sec1(loc1->GetSectorX(), loc1->GetSectorY());
+	Sector sec2(loc2->GetSectorX(), loc2->GetSectorY());
+	
+	double dist = Sector::DistanceBetween(&sec1, loc1->GetSystemNum(), &sec2, loc2->GetSystemNum());
+
+	lua_pushnumber(l, dist);
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
@@ -177,7 +201,10 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
 
-        { "GetNearbySystems", l_starsystem_get_nearby_systems },
+		{ "GetNearbySystems", l_starsystem_get_nearby_systems },
+
+		{ "DistanceTo", l_starsystem_distance_to },
+
 		{ 0, 0 }
 	};
 
