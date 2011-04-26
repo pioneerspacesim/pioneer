@@ -935,112 +935,121 @@ void Pi::Start()
 	
 	InitGame();
 
+    switch (choice) {
+        case 1: // Earth start point
+        {
+            SBodyPath path(0,0,0);
+            Space::SetupSystemForGameStart(&path, 4, 0);
+            MainLoop();
+            break;
+        }
+        case 2: // Epsilon Eridani start point
+        {
+            SBodyPath path(1,0,1);
+            Space::SetupSystemForGameStart(&path, 0, 0);
+            MainLoop();
+            break;
+        }
+        case 3: // Debug start point
+        {
+            SBodyPath path(1,0,1);
+            path.sbodyId = 6;
+            Space::DoHyperspaceTo(&path);
+            player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
+            player->SetVelocity(vector3d(0,0,0));
+            player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
+            player->UpdateMass();
 
-	if (choice == 1) {
-		/* Earth start point */
-		SBodyPath path(0,0,0);
-		Space::SetupSystemForGameStart(&path, 4, 0);
-		MainLoop();
-	} else if (choice == 2) {
-		/* Epsilon Eridani start point */
-		SBodyPath path(1,0,1);
-		Space::SetupSystemForGameStart(&path, 0, 0);
-		MainLoop();
-	} else if (choice == 3) {
-		/* debug start point */
-		SBodyPath path(1,0,1);
-		path.sbodyId = 6;
-		Space::DoHyperspaceTo(&path);
-		player->SetFrame(Space::FindBodyForSBodyPath(&path)->GetFrame());
-		player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
-		player->SetVelocity(vector3d(0,0,0));
-		player->m_equipment.Add(Equip::RADAR_MAPPER);
-		player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
-		player->UpdateMass();
+            Ship *enemy = new Ship(ShipType::EAGLE_LRF);
+            enemy->SetFrame(player->GetFrame());
+            enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
+            enemy->SetVelocity(vector3d(0,0,0));
+            enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
+            enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+            enemy->m_equipment.Add(Equip::HYDROGEN, 2);
+            enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+            enemy->m_equipment.Add(Equip::AUTOPILOT);
+            enemy->m_equipment.Add(Equip::SCANNER);
+            enemy->UpdateMass();
+            enemy->AIKill(player);
+            Space::AddBody(enemy);
 
-		Ship *enemy = new Ship(ShipType::EAGLE_LRF);
-		enemy->SetFrame(player->GetFrame());
-		enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
-		enemy->SetVelocity(vector3d(0,0,0));
-		enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-		enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-		enemy->m_equipment.Add(Equip::HYDROGEN, 2);
-		enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-		enemy->m_equipment.Add(Equip::AUTOPILOT);
-		enemy->m_equipment.Add(Equip::SCANNER);
-		enemy->UpdateMass();
-		enemy->AIKill(player);
-		Space::AddBody(enemy);
+            player->SetCombatTarget(enemy);
 
-		player->SetCombatTarget(enemy);
+            const ShipType *shipdef;
+            double mass, acc1, acc2, acc3;
+            printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
+                   player->GetMass(), enemy->GetMass());
 
+            shipdef = &player->GetShipType();
+            mass = player->GetMass();
+            acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+            acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+            acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+            printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
 
-		const ShipType *shipdef;
-		double mass, acc1, acc2, acc3;
-		printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
-			player->GetMass(), enemy->GetMass());
+            shipdef = &enemy->GetShipType();
+            mass = enemy->GetMass();
+            acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
+            acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
+            acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
+            printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
 
-		shipdef = &player->GetShipType();
-		mass = player->GetMass();
-		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-		printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+            /*	Frame *stationFrame = new Frame(pframe, "Station frame...");
+             stationFrame->SetRadius(5000);
+             stationFrame->m_sbody = 0;
+             stationFrame->SetPosition(vector3d(0,0,zpos));
+             stationFrame->SetAngVelocity(vector3d(0,0,0.5));
 
-		shipdef = &enemy->GetShipType();
-		mass = enemy->GetMass();
-		acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-		acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-		acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-		printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
+             for (int i=0; i<4; i++) {
+             Ship *body = new Ship(ShipType::LADYBIRD);
+             char buf[64];
+             snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
+             body->SetLabel(buf);
+             body->SetFrame(stationFrame);
+             body->SetPosition(vector3d(200*(i+1), 0, 2000));
+             Space::AddBody(body);
+             }
 
-	/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
-		stationFrame->SetRadius(5000);
-		stationFrame->m_sbody = 0;
-		stationFrame->SetPosition(vector3d(0,0,zpos));
-		stationFrame->SetAngVelocity(vector3d(0,0,0.5));
+             SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
+             station->SetLabel("Poemi-chan's Folly");
+             station->SetFrame(stationFrame);
+             station->SetPosition(vector3d(0,0,0));
+             Space::AddBody(station);
 
-		for (int i=0; i<4; i++) {
-			Ship *body = new Ship(ShipType::LADYBIRD);
-			char buf[64];
-			snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
-			body->SetLabel(buf);
-			body->SetFrame(stationFrame);
-			body->SetPosition(vector3d(200*(i+1), 0, 2000));
-			Space::AddBody(body);
-		}
-			
-		SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-		station->SetLabel("Poemi-chan's Folly");
-		station->SetFrame(stationFrame);
-		station->SetPosition(vector3d(0,0,0));
-		Space::AddBody(station);
+             SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
+             station2->SetLabel("Conor's End");
+             station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
+             station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
+             Space::AddBody(station2);
+             */
+            //	player->SetDockedWith(station2, 0);
 
-		SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
-		station2->SetLabel("Conor's End");
-		station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
-		station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
-		Space::AddBody(station2);
-	*/
-	//	player->SetDockedWith(station2, 0);
+            MainLoop();
+        }
+        case 4: // Load game
+        {
+            if (Pi::player) {
+                Pi::player->MarkDead();
+                Space::bodies.remove(Pi::player);
+                delete Pi::player;
+                Pi::player = 0;
+            }
+            Pi::gameMenuView->OpenLoadDialog();
+            do {
+                Gui::MainLoopIteration();
+            } while (Pi::currentView != Pi::worldView);
 
-		MainLoop();
-	} else if (choice == 4) {
-		if (Pi::player) {
-			Pi::player->MarkDead();
-			Space::bodies.remove(Pi::player);
-			delete Pi::player;
-			Pi::player = 0;
-		}
-		Pi::gameMenuView->OpenLoadDialog();
-		do {
-			Gui::MainLoopIteration();
-		} while (Pi::currentView != Pi::worldView);
-		
-		if (Pi::isGameStarted) MainLoop();
-	} else {
-		Pi::Quit();
-	}
+            if (Pi::isGameStarted) MainLoop();
+        }
+        case 5: // Quit
+            Pi::Quit();
+            break;
+        default:
+            fprintf(stderr, "Invalid Menu Option."); // should not get here!
+            break;
+    }
+
 	UninitGame();
 }
 

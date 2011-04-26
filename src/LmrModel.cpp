@@ -843,6 +843,7 @@ LmrModel::LmrModel(const char *model_name)
 		// lod as first argument
 		lua_pushnumber(sLua, i+1);
 		lua_pcall(sLua, 1, 0, -3);
+		lua_pop(sLua, 1);  // remove panic func
 		s_curBuf = 0;
 		m_staticGeometry[i]->PostBuild();
 	}
@@ -988,6 +989,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
 		lua_pcall(sLua, 1, 0, -3);
+		lua_pop(sLua, 1);  // remove panic func
 		s_curBuf = 0;
 		s_curParams = 0;
 		m_dynamicGeometry[lod]->PostBuild();
@@ -2769,6 +2771,7 @@ void LmrModelCompilerInit()
 	} else {
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}
+	lua_pop(sLua, 1);  // remove panic func
 	
 	s_buildDynamic = true;
 }
