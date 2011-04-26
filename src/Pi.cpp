@@ -953,8 +953,15 @@ void Pi::Start()
         case 3: // Debug start point
         {
             SBodyPath path(1,0,1);
-            path.sbodyId = 6;
             Space::DoHyperspaceTo(&path);
+            for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
+                const SBody *sbody = (*i)->GetSBody();
+                if (!sbody) continue;
+                if (sbody->id == 6) {
+                    player->SetFrame((*i)->GetFrame());
+                    break;
+                }
+            }
             player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
             player->SetVelocity(vector3d(0,0,0));
             player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
