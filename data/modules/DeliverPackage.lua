@@ -74,7 +74,7 @@ local onChat = function (dialog, ref, option)
 	if option == 0 then
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
 			name     = ad.client,
-			cash     = string.format("$%0.2f", ad.reward),
+			cash     = Format.Money(ad.reward);
 			starport = ad.location:GetBodyName(),
 			system   = ad.location:GetSystemName(),
 			sectorx  = ad.location:GetSectorX(),
@@ -87,7 +87,7 @@ local onChat = function (dialog, ref, option)
 		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
 	
 	elseif option == 2 then
-		dialog:SetMessage("It must be delivered by "..Date.Format(ad.due))
+		dialog:SetMessage("It must be delivered by "..Format.Date(ad.due))
 	
 	elseif option == 3 then
 		dialog:RemoveAdvertOnClose()
@@ -148,7 +148,7 @@ local makeAdvert = function (station)
 
 	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
 		system = nearbysystem:GetName(),
-		cash   = string.format("$%0.2f", ad.reward),
+		cash   = Format.Money(ad.reward),
 	})
 
 	local ref = station:AddAdvert(ad.desc, onChat, onDelete)

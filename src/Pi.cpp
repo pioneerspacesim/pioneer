@@ -50,7 +50,7 @@
 #include "LuaGame.h"
 #include "LuaEngine.h"
 #include "LuaUI.h"
-#include "LuaDate.h"
+#include "LuaFormat.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
 #include "LuaRand.h"
@@ -205,7 +205,7 @@ static void LuaInit()
 	LuaEngine::Register();
 	LuaGame::Register();
 	LuaUI::Register();
-	LuaDate::Register();
+	LuaFormat::Register();
 	LuaSpace::Register();
     LuaNameGen::Register();
 
