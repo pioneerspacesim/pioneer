@@ -917,6 +917,7 @@ void Pi::Start()
             //	player->SetDockedWith(station2, 0);
 
             MainLoop();
+            break;
         }
         case 4: // Load game
         {
@@ -932,6 +933,7 @@ void Pi::Start()
             } while (Pi::currentView != Pi::worldView);
 
             if (Pi::isGameStarted) MainLoop();
+            break;
         }
         case 5: // Quit
             Pi::Quit();
