@@ -189,9 +189,12 @@ static int l_ship_remove_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
-	int num = luaL_checkinteger(l, 3);
 	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
 		luaL_error(l, "Invalid equipment type '%d'", e);
+
+	int num = 1;
+	if (lua_isnumber(l, 3))
+		num = lua_tointeger(l, 3);
 
 	lua_pushinteger(l, s->m_equipment.Remove(e, num));
 	s->UpdateMass();
