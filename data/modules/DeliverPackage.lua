@@ -62,15 +62,7 @@ local delivery_flavours = {
 		failuremsg = "Your ship registration has been noted, we will reject all further applications for work from you.",
 		urgency = 0.1,
 		risk = 0.1,
-	}, {
-		adtext = "MEETING. I have contacts in the {system} system. {cash} for an enlightened pilot.",
-		introtext = "Hello. I'm {name} from the GAAM (Galactic Anti-Authoritarian Movement). For {cash} I might be willing to put you in contact with some friends from {starport} in the {system} ({sectorx}, {sectory}) system.",
-		whysomuchtext = "We require payment as proof of your allegiance.",
-		successmsg = "Payment has been received in full. Don't call us, we'll call you!",
-		failuremsg = "You are too late and have missed the meeting, better keep your money instead.",
-		urgency = 0.22,
-		risk = 1,
-	}
+	},
 }
 
 local ads = {}
