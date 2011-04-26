@@ -79,11 +79,14 @@ local onChat = function (dialog, ref, option)
 	end
 
 	if option == 0 then
+		local sys   = ad.location:GetStarSystem()
+		local sbody = ad.location:GetSystemBody()
+
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
 			name     = ad.client,
 			cash     = Format.Money(ad.reward);
-			starport = ad.location:GetBodyName(),
-			system   = ad.location:GetSystemName(),
+			starport = sbody:GetName(),
+			system   = sys:GetName(),
 			sectorx  = ad.location:GetSectorX(),
 			sectory  = ad.location:GetSectorY(),
 		})

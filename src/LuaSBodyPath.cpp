@@ -2,6 +2,7 @@
 #include "LuaSBodyPath.h"
 #include "LuaUtils.h"
 #include "LuaStarSystem.h"
+#include "LuaSBody.h"
 #include "StarSystem.h"
 #include "Sector.h"
 
@@ -50,20 +51,10 @@ static int l_sbodypath_get_system_index(lua_State *l)
 	return 1;
 }
 
-static int l_sbodypath_get_system_name(lua_State *l)
+static int l_sbodypath_get_body_id(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	StarSystem *s = StarSystem::GetCached(path);
-	lua_pushstring(l, s->GetName().c_str());
-	return 1;
-}
-
-static int l_sbodypath_get_body_name(lua_State *l)
-{
-	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	StarSystem *s = StarSystem::GetCached(path);
-	SBody *sbody = s->GetBodyByPath(path);
-	lua_pushstring(l, sbody->name.c_str());
+	lua_pushinteger(l, path->sbodyId);
 	return 1;
 }
 
@@ -99,6 +90,25 @@ static int l_sbodypath_distance_to(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_get_star_system(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	StarSystem *s = StarSystem::GetCached(path);
+	LuaStarSystem::PushToLua(s);
+	s->Release();
+	return 1;
+}
+
+static int l_sbodypath_get_system_body(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	StarSystem *s = StarSystem::GetCached(path);
+	SBody *sbody = s->GetBodyByPath(path);
+	s->Release();
+	LuaSBody::PushToLua(sbody);
+	return 1;
+}
+
 static int l_sbodypath_meta_eq(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -113,14 +123,20 @@ template <> const char *LuaObject<LuaUncopyable<SBodyPath> >::s_type = "SystemPa
 template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "New",            l_sbodypath_new              },
+		{ "New", l_sbodypath_new },
+
 		{ "GetSectorX",     l_sbodypath_get_sector_x     },
 		{ "GetSectorY",     l_sbodypath_get_sector_y     },
 		{ "GetSystemIndex", l_sbodypath_get_system_index },
-		{ "GetSystemName",  l_sbodypath_get_system_name  },
-		{ "GetBodyName",    l_sbodypath_get_body_name    },
-		{ "IsSameSystem",   l_sbodypath_is_same_system   },
-		{ "DistanceTo",     l_sbodypath_distance_to },
+		{ "GetBodyId",      l_sbodypath_get_body_id      },
+
+		{ "IsSameSystem", l_sbodypath_is_same_system },
+
+		{ "DistanceTo", l_sbodypath_distance_to },
+
+		{ "GetStarSystem", l_sbodypath_get_star_system },
+		{ "GetSystemBody", l_sbodypath_get_system_body },
+
 		{ 0, 0 }
 	};
 
