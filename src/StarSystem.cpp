@@ -851,45 +851,6 @@ static void shuffle_array(MTRand &rand, T *array, int len)
 	}
 }
 
-bool StarSystem::GetRandomStarport(MTRand &rand, SBodyPath *outDest) const
-{
-	if (!m_spaceStations.size())
-		return false;
-	
-	GetPathOf(m_spaceStations[rand.Int32(m_spaceStations.size())], outDest);
-	return true;
-}
-
-/*
- * Doesn't try very hard
- */
-bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const
-{
-	int sx = this->SectorX() + rand.Int32(3) - 1;
-	int sy = this->SectorY() + rand.Int32(3) - 1;
-	Sector sec(sx, sy);
-	const int numSys = sec.m_systems.size();
-	int *idxs = new int[numSys];
-	// examine the systems in random order
-	for (int i=0; i<numSys; i++) idxs[i] = i;
-	shuffle_array<int>(rand, idxs, numSys);
-
-	for (int i=0; i<numSys; i++) {
-		if ((sx == this->SectorX()) &&
-		    (sy == this->SectorY()) &&
-		    (idxs[i] == this->SystemIdx())) continue;
-
-		StarSystem *sys = StarSystem::GetCached(sx, sy, idxs[i]);
-
-		if (sys->GetRandomStarport(rand, outDest)) {
-            sys->Release();
-			return true;
-		}
-        sys->Release();
-	}
-	return false;
-}
-
 SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
 {
 	assert((m_loc.sectorX == path->sectorX) || (m_loc.sectorY == path->sectorY) ||

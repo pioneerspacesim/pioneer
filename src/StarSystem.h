@@ -67,8 +67,6 @@ public:
 	SBody *parent;
 	std::vector<SBody*> children;
 
-	/** XXX Keep in sync with data/pimodule.lua
-	  * Hence the redundant numbers */
 	enum BodyType {
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
@@ -119,8 +117,6 @@ public:
 		// XXX need larger atmosphereless thing
 	};
 	
-	/** XXX Keep in sync with data/pimodule.lua
-	  * Hence the redundant numbers */
 	enum BodySuperType {
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
@@ -223,8 +219,6 @@ public:
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
-	bool GetRandomStarport(MTRand &rand, SBodyPath *outDest) const;
-	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static float starColors[][3];
