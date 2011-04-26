@@ -55,7 +55,6 @@
 #include "LuaTimer.h"
 #include "LuaRand.h"
 #include "LuaNameGen.h"
-#include "PiLuaAPI.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -200,7 +199,6 @@ static void LuaInit()
 	Pi::luaOnCreateBB.RegisterEventQueue();
 	Pi::luaOnUpdateBB.RegisterEventQueue();
 
-	RegisterPiLuaAPI(l);
 	LuaConstants::Register();
 	LuaEngine::Register();
 	LuaGame::Register();

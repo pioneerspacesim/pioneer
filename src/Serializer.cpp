@@ -14,7 +14,6 @@ namespace Serializer {
 static std::vector<Frame*> g_frames;
 static std::vector<Body*> g_bodies;
 static std::vector<SBody*> g_sbodies;
-// why do we do this? so PiLuaAPI's use of Serializer::Reader has the correct stream version
 static int stream_version_context = SAVEFILE_VERSION;
 
 Frame *LookupFrame(uint32_t index) { return g_frames[index]; }
