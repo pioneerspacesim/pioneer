@@ -398,15 +398,17 @@ void Pi::HandleEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					// only accessible once game started
-					if (currentView != 0) {
-						if (currentView != gameMenuView) {
-							RequestTimeAccel(0);
-							SetTimeAccel(0);
-							SetView(gameMenuView);
+					if (isGameStarted) {
+						// only accessible once game started
+						if (currentView != 0) {
+							if (currentView != gameMenuView) {
+								RequestTimeAccel(0);
+								SetTimeAccel(0);
+								SetView(gameMenuView);
+							}
+							else
+								RequestTimeAccel(1);
 						}
-						else
-							RequestTimeAccel(1);
 					}
 					break;
 				}
@@ -1075,6 +1077,7 @@ void Pi::MainLoop()
 			if (time_player_died) {
 				if (Pi::GetGameTime() - time_player_died > 8.0) {
 					Sound::DestroyAllEvents();
+					isGameStarted = false;
 					Pi::TombStoneLoop();
 					break;
 				}
