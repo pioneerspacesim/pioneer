@@ -119,7 +119,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 
 	int here_x = s->SectorX();
 	int here_y = s->SectorY();
-	int here_idx = s->SystemIdx();
+	unsigned int here_idx = s->SystemIdx();
 	Sector here_sec(here_x, here_y);
 
 	int diff_sec = ceil(dist_ly/Sector::SIZE);
@@ -129,6 +129,9 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 			Sector sec(x, y);
 
 			for (unsigned int idx = 0; idx < sec.m_systems.size(); idx++) {
+				if (x == here_x && y == here_y && idx == here_idx)
+					continue;
+
 				if (Sector::DistanceBetween(&here_sec, here_idx, &sec, idx) > dist_ly)
 					continue;
 
