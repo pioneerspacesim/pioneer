@@ -22,7 +22,7 @@ void main(void)
 	Y = Y / (1.0 + Y); // compress luminance
 	// convert back to RGB
 	X = x*(Y/y);
-	Z = (1-x-y)*(Y/y);
+	Z = (1.0-x-y)*(Y/y);
 	col.r = 3.2405*X - 1.5371*Y - 0.4985*Z;
 	col.g = -0.9693*X + 1.8760*Y + 0.0416*Z;
 	col.b = 0.0556*X - 0.2040*Y + 1.0572*Z;
