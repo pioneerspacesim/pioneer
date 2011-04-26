@@ -82,7 +82,7 @@ local ayers_rocks = {
       :radius(f(185,1000))
       :semi_major_axis(f(314,100000))
       :rotation_period(f(19,10)),
-   CustomSBody:new('Charli', Body.Type.PLANET_TERRESTRIAL)
+   CustomSBody:new('Beth', Body.Type.PLANET_TERRESTRIAL)
       :mass(f(22,1000))
       :radius(f(225,1000))
       :semi_major_axis(f(481,100000))
