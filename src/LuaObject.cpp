@@ -42,6 +42,15 @@ LuaObjectBase *LuaObjectBase::Lookup(lid id)
 	return (*i).second;
 }
 
+int LuaObjectBase::Exists(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+	LuaObjectBase *lo = Lookup(*idp);
+	lua_pushboolean(l, lo != 0);
+	return 1;
+}
+
 int LuaObjectBase::GC(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
@@ -84,6 +93,11 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 
 	// create table, attach methods to it, leave it on the stack
 	luaL_register(l, type, methods ? methods : no_methods);
+
+	// add the exists method
+	lua_pushstring(l, "exists");
+	lua_pushcfunction(l, LuaObjectBase::Exists);
+	lua_rawset(l, -3);
 
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);

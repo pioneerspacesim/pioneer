@@ -161,6 +161,10 @@ private:
 	// object if necessary
 	static void Deregister(LuaObjectBase *lo);
 
+	// lua method to determine if the underlying object is still present in
+	// the registry (ie still exists)
+	static int Exists(lua_State *l);
+
 	// the lua object "destructor" that gets called by the garbage collector.
 	// its only part of the class so that it can call Deregister()
 	static int GC(lua_State *l);
