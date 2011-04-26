@@ -1,60 +1,75 @@
--- Danger should be from 0 to 1. zero means nothing bad happens. greater than
--- zero means spawn an enemy ship of that 'power' to kill you
+-- don't produce missions for further than this many light years away
+local max_delivery_dist = 20
+
+-- typical time for travel to a system max_delivery_dist away
+local typical_travel_time = 0.9*max_delivery_dist*24*60*60 
+
+-- typical reward for delivery to a system max_delivery_dist away
+local typical_reward = 25*max_delivery_dist
+
 local delivery_flavours = {
 	{
+		-- text shown in the bulletin board list
 		adtext = "GOING TO the {system} system? Money paid for delivery of a small package.",
+
+		-- introductory text when the advert is selected (and "Could you repeat request?")
 		introtext = "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}) system.",
+
+		-- response to "Why so much?"
 		whysomuchtext = "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her.",
+
+		-- message sent on successful delivery
 		successmsg = "Thank you for the delivery. You have been paid in full.",
+
+		-- message sent on failed delivery
 		failuremsg = "Jesus wept, you took forever over that delivery. I'm not willing to pay you.",
-		danger = 0,
-		time = 1,
-		money = .5,
+
+		-- how urgent the delivery is. 0 is surface mail. 1 is overnight
+		urgency = 0,
+
+		-- how risky the mission is. 0 is letters from mother. 1 is certain death
+		risk = 0,
+
 	}, {
 		adtext = "WANTED. Delivery of a package to the {system} system.",
 		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchtext = "It is nothing special.",
 		successmsg = "The package has been received and you have been paid in full.",
 		failuremsg = "I'm frustrated by the late delivery of my package, and I refuse to pay you.",
-		danger = 0,
-		time = 0.5,
-		money = 1,
+		urgency = 0.1,
+		risk = 0,
 	}, {
 		adtext = "URGENT. Fast ship needed to deliver a package to the {system} system.",
 		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchtext = "It is a research proposal and must be delivered by the deadline or we may not get funding.",
 		successmsg = "You have been paid in full for the delivery. Thank you.",
 		failuremsg = "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid.",
-		danger = 0,
-		time = 0.4,
-		money = 2.0,
+		urgency = 0.6,
+		risk = 0,
 	}, {
 		adtext = "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot.",
 		introtext = "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchtext = "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Useless! I will never depend on you again! Needless to say, you will not be paid for this.",
-		danger = 0.75,
-		time = 0.3,
-		money = 3.5,
+		urgency = 0.4,
+		risk = 0.75,
 	}, {
 		adtext = "POSTAL SERVICE. We require a ship for the delivery run to {system} system.",
 		introtext = "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchtext = "We would be happy to pay you less money.",
 		successmsg = "Your timely and discrete service is much appreciated. You have been paid in full.",
 		failuremsg = "Your ship registration has been noted, we will reject all further applications for work from you.",
-		danger = 0.1,
-		time = 2.5,
-		money = 1,
+		urgency = 0.1,
+		risk = 0.1,
 	}, {
 		adtext = "MEETING. I have contacts in the {system} system. {cash} for an enlightened pilot.",
-		introtext = "Hello. I'm %1 from the GAAM (Galactic Anti-Authoritarian Movement). For {cash} I might be willing to put you in contact with some friends from {starport} in the {system} ({sectorx}, {sectory}) system.",
+		introtext = "Hello. I'm {name} from the GAAM (Galactic Anti-Authoritarian Movement). For {cash} I might be willing to put you in contact with some friends from {starport} in the {system} ({sectorx}, {sectory}) system.",
 		whysomuchtext = "We require payment as proof of your allegiance.",
 		successmsg = "Payment has been received in full. Don't call us, we'll call you!",
 		failuremsg = "You are too late and have missed the meeting, better keep your money instead.",
-		danger = 1,
-		time = 0.22,
-		money = -5,
+		urgency = 0.22,
+		risk = 1,
 	}
 }
 
@@ -124,10 +139,11 @@ local onDelete = function (ref)
 end
 
 local makeAdvert = function (station)
-	local nearbysystems = Game.system:GetNearbySystems(20, function (s) return #s:GetStationPaths() > 0 end)
+	local nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 	if #nearbysystems == 0 then return end
 
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+	local dist = nearbysystem:DistanceTo(Game.system)
 
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
@@ -136,14 +152,20 @@ local makeAdvert = function (station)
 	local client = NameGen.FullName(isfemale)
 
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
+	local urgency = delivery_flavours[flavour].urgency
+	local risk = delivery_flavours[flavour].risk
+
+	local dist_norm = dist / max_delivery_dist
+	local due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
+	local reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5-urgency) * Engine.rand:Number(0.8,1.2))
 
 	local ad = {
 		station  = station,
 		flavour  = flavour,
 		client   = client,
 		location = location,
-		due      = Game.time + Engine.rand:Number(0, delivery_flavours[flavour].time * 60*60*24*31),
-		reward   = Engine.rand:Number(200, 1000) * delivery_flavours[flavour].money,
+		due      = due,
+		reward   = reward,
 	}
 
 	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
@@ -163,7 +185,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.due < Game.time + 60*60*24*1) then
+		if (ad.due < Game.time + 60*60*24) then
 			ads[ref] = nil
 			station:RemoveAdvert(ref)
 		end	
@@ -180,30 +202,42 @@ local onEnterSystem = function (player)
 
 	for ref,mission in pairs(missions) do
 		if not mission.status and mission.location:IsSameSystem(syspath) then
-			local danger = delivery_flavours[mission.flavour].danger
-			if danger > 0 then
+			local risk = delivery_flavours[mission.flavour].risk
 
-				local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t)
-					local mass = t:GetHullMass()
-					return mass >= 100 and mass <= 300
-				end)
-				if #shiptypes == 0 then return end
+			local ships = 1
+			if risk >= 0.8 then ships = 2 end
+			if risk == 1.0 then ships = 3 end
 
-				local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-				local shiptype = ShipType.GetShipType(shipname)
-				local default_drive = shiptype:GetDefaultHyperdrive()
+			local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t)
+				local mass = t:GetHullMass()
+				return mass >= 100 and mass <= 300
+			end)
+			if #shiptypes == 0 then return end
 
-				local max_laser_size = shiptype:GetCapacity() - EquipType.GetEquipType(default_drive):GetMass()
-				local lasers = EquipType.GetEquipTypes(Equip.Slot.LASER, function (e,et)
-					return et:GetMass() <= max_laser_size and e >= Equip.Type.PULSECANNON_RAPID_2MW and e<= Equip.Type.PULSECANNON_20MW
-				end)
-				local laser = lasers[Engine.rand:Integer(1,#lasers)]
+			local ship
 
-				local ship = Space.SpawnShipNear(shipname, Game.player, 50, 200)
-				ship.AddEquip(default_drive)
-				ship.AddEquip(laser)
-				ship:Destroy(Game.player)
-				
+			while ships > 0 do
+				ships = ships-1
+
+				if Engine.rand:Number() <= risk then
+					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+					local shiptype = ShipType.GetShipType(shipname)
+					local default_drive = shiptype:GetDefaultHyperdrive()
+
+					local max_laser_size = shiptype:GetCapacity() - EquipType.GetEquipType(default_drive):GetMass()
+					local lasers = EquipType.GetEquipTypes(Equip.Slot.LASER, function (e,et)
+						return et:GetMass() <= max_laser_size and e >= Equip.Type.PULSECANNON_RAPID_2MW and e<= Equip.Type.PULSECANNON_20MW
+					end)
+					local laser = lasers[Engine.rand:Integer(1,#lasers)]
+
+					ship = Space.SpawnShipNear(shipname, Game.player, 50, 200)
+					ship:AddEquip(default_drive)
+					ship:AddEquip(laser)
+					ship:Destroy(Game.player)
+				end
+			end
+
+			if ship then
 				UI.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
 			end
 		end
