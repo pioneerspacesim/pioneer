@@ -2,7 +2,9 @@
 
 static int l_rand_new(lua_State *l)
 {
-	int seed = lua_tonumber(l, 1);
+	int seed = time(NULL);
+	if (lua_isnumber(l, 1))
+		seed = lua_tonumber(l, 1);
 	LuaObject<MTRand>::PushToLuaGC(new MTRand(seed));
 	return 1;
 }
