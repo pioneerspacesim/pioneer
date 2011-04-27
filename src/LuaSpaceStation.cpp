@@ -36,6 +36,8 @@ static void _delete_station_ads(SpaceStation *s)
 		lua_pop(l, 1);
 	}
 
+	lua_pop(l, 1);
+
 	LUA_DEBUG_END(l, 0);
 
 	_station_delete_conns.erase(s);
