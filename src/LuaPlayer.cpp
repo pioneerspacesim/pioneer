@@ -105,7 +105,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 	
 	lua_pop(l, 2);
 
-	LUA_DEBUG_END(l, -1)
+	LUA_DEBUG_END(l, -1);
 }
 
 static int l_player_add_mission(lua_State *l)

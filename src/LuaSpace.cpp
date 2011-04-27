@@ -98,7 +98,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 	
-	Body *near = LuaBody::GetFromLua(2);
+	Body *nearbody = LuaBody::GetFromLua(2);
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
 
@@ -118,8 +118,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 	float dist = (min_dist + Pi::rng.Double(max_dist-min_dist));
 	vector3d pos = vector3d(sin(longitude)*cos(latitude), sin(latitude), cos(longitude)*cos(latitude));
 
-	thing->SetFrame(near->GetFrame());
-	thing->SetPosition((pos * dist * 1000.0) + near->GetPosition());
+	thing->SetFrame(nearbody->GetFrame());
+	thing->SetPosition((pos * dist * 1000.0) + nearbody->GetPosition());
 	thing->SetVelocity(vector3d(0,0,0));
 	Space::AddBody(thing);
 
