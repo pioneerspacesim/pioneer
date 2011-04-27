@@ -168,7 +168,7 @@ CityOnPlanet::~CityOnPlanet()
 	}
 }
 
-CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Uint32 seed)
+CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 {
 	m_buildings.clear();
 	m_planet = planet;

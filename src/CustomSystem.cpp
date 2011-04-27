@@ -1,6 +1,7 @@
 #include "CustomSystem.h"
+#include "LuaUtils.h"
 #include "PiLuaClasses.h"
-#include "PiLuaConstants.h"
+#include "LuaConstants.h"
 #include "Polit.h"
 
 static std::list<CustomSystem> custom_systems;
@@ -12,19 +13,19 @@ void CustomSystem::Init()
 	OOLUA::setup_user_lua_state(L);
 
 	PiLuaClasses::RegisterClasses(L);
-	PiLuaConstants::RegisterConstants(L);
+	LuaConstants::Register(L);
 
 	OOLUA::register_class<CustomSystem>(L);
 	OOLUA::register_class<CustomSBody>(L);
 
-	lua_register(L, "load_lua", mylua_load_lua);
+	lua_register(L, "load_lua", pi_load_lua);
 
 	lua_pushstring(L, PIONEER_DATA_DIR);
 	lua_setglobal(L, "CurrentDirectory");
 
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pisystems.lua").c_str())) {
-		mylua_panic(L);
+		pi_lua_panic(L);
 	} else {
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}

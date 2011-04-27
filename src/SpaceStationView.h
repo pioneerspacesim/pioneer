@@ -14,12 +14,13 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
-	virtual void JumpTo(GenericChatForm *f);
+	virtual void JumpToForm(GenericChatForm *f);
 	friend class StationViewShipView;
 private:
 	// hack so StationViewShipView can draw its 3d shit
 	sigc::signal<void> onDraw3D;
 	GenericChatForm *m_baseSubView;
+	GenericChatForm *m_jumpToForm;
 };
 
 #endif /* _SPACESTATIONVIEW_H */

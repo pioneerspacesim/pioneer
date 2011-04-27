@@ -1,17 +1,14 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
+#include "DeleteEmitter.h"
 #include "libs.h"
 
-class Object {
+class Object : public DeleteEmitter {
 	public:
 	enum Type { OBJECT, BODY, MODELBODY, DYNAMICBODY, SHIP, PLAYER, SPACESTATION, PLANET, STAR, CARGOBODY, CITYONPLANET, PROJECTILE, MISSILE, HYPERSPACECLOUD };
 	virtual Type GetType() const { return OBJECT; }
 	virtual bool IsType(Type c) const { return GetType() == c; }
-	virtual ~Object() {
-		onDelete.emit();
-	}
-	sigc::signal<void> onDelete;
 };
 #define OBJDEF(__thisClass,__parentClass,__TYPE) \
 	virtual Object::Type GetType() const { return Object::__TYPE; } \

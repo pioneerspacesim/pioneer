@@ -8,6 +8,8 @@
 #include "ShipFlavour.h"
 #include "Quaternion.h"
 #include "Serializer.h"
+#include "RefList.h"
+#include "BBAdvertChatForm.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -45,35 +47,18 @@ struct SpaceStationType {
 	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 };
 
-/**
- * Bulletin board advert
- */
-class BBAdvert {
-public:
-	const std::string &GetBulletinBoardText() const { return m_description; }
-	const std::string &GetModule() const { return m_luaMod; }
-	int GetLuaRef() const { return m_luaRef; }
-	BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc);
-	void Save(Serializer::Writer &wr);
-	static BBAdvert Load(Serializer::Reader &rd);
-	bool Is(const std::string &modName, int modRef) {
-		return (m_luaMod == modName) && (m_luaRef == modRef);
-	}
-	friend struct SortBB;
-	struct SortBB {
-		bool operator() (const BBAdvert &lhs, const BBAdvert &rhs) const {
-			return lhs.m_sortOrder > rhs.m_sortOrder;
-		}
-	};
-private:
-	double m_sortOrder;
-	std::string m_luaMod;
-	int m_luaRef;
-	/**
-	 * This text appears in the bulletin board listing
-	 */
-	std::string m_description;
+class BBAdvertChatForm;
+class SpaceStation;
+struct BBAdvert;
+
+typedef BBAdvertChatForm* (*ChatFormBuilder)(SpaceStation *station, const BBAdvert *ad);
+
+struct BBAdvert {
+	int             ref;
+	std::string     description;
+	ChatFormBuilder builder;
 };
+
 
 class SBody;
 
@@ -107,10 +92,6 @@ public:
 	virtual const SBody *GetSBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
-	std::vector<BBAdvert> &GetBBAdverts() { return m_bbadverts; }
-	// does not dealloc
-	bool BBRemoveAdvert(const std::string &modName, int modRef);
-	void BBAddAdvert(const BBAdvert &a);
 	virtual void PostLoadFixup();
 	virtual void NotifyDeleted(const Body* const deletedBody);
 	int GetFreeDockingPort(); // returns -1 if none free
@@ -125,9 +106,15 @@ public:
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
+	sigc::signal<void> onBulletinBoardDeleted;
 
 	bool AllocateStaticSlot(int& slot);
 
+	int AddBBAdvert(std::string description, ChatFormBuilder builder);
+	const BBAdvert *GetBBAdvert(int ref);
+	bool RemoveBBAdvert(int ref);
+	const std::list<const BBAdvert*> GetBBAdverts();
+	
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -159,16 +146,17 @@ private:
 	void InitStation();
 	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
-	void UpdateBB();
 	const SpaceStationType *m_type;
 	const SBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
-	std::vector<BBAdvert> m_bbadverts;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	int m_numPoliceDocked;
 	bool m_staticSlot[4];
+
+	std::vector<BBAdvert> m_bbAdverts;
+	bool m_bbCreated, m_bbShuffled;
 };
 
 #endif /* _SPACESTATION_H */

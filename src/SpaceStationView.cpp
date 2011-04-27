@@ -5,12 +5,12 @@
 #include "WorldView.h"
 #include "ShipFlavour.h"
 #include "ShipCpanel.h"
-#include "Mission.h"
 #include "CommodityTradeWidget.h"
 #include "GenericChatForm.h"
 #include "LuaChatForm.h"
 #include "PoliceChatForm.h"
 #include "LmrModel.h"
+#include "utils.h"
 
 ////////////////////////////////////////////////////////////////////
 
@@ -307,7 +307,7 @@ private:
 			Pi::cpan->MsgLog()->Message("", "You do not have enough money");
 		} else {
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
-			Pi::player->ChangeFlavour(&f);
+			Pi::player->UpdateFlavour(&f);
 			Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
 			Pi::player->UpdateMass();
 			
@@ -729,12 +729,12 @@ public:
 	}
 	virtual void ShowAll();
 private:
-	void OpenMissionDialog(int idx);
-	void OnCloseMissionDialog(GenericChatForm *missionDlg);
+	void OpenAdvertDialog(int ref);
+	void OnCloseAdvertDialog(GenericChatForm *advertDlg);
 	void OnAdvertDeleted(BBAdvert *);
 	void OnBBChanged();
 	sigc::connection m_onBBChangedConnection, m_onBBAdvertDeleted;
-	LuaChatForm *m_advertChatForm;
+	BBAdvertChatForm *m_advertChatForm;
 };
 
 StationBBView::StationBBView(): GenericChatForm()
@@ -764,23 +764,26 @@ void StationBBView::OnAdvertDeleted(BBAdvert *ad)
 	}
 }
 
-void StationBBView::OnCloseMissionDialog(GenericChatForm *missionDlg)
+void StationBBView::OnCloseAdvertDialog(GenericChatForm *advertDlg)
 {
 	m_advertChatForm = 0;
 }
 
-void StationBBView::OpenMissionDialog(int midx)
+void StationBBView::OpenAdvertDialog(int ref)
 {
-	SpaceStation *station = Pi::player->GetDockedWith();
-	
 	if (m_advertChatForm) m_advertChatForm->Close(); // shouldn't happen...
-	m_advertChatForm = new LuaChatForm();
-	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseMissionDialog));
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	const BBAdvert *ad = station->GetBBAdvert(ref);
+	
+	m_advertChatForm = ad->builder(station, ad);
+
+	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseAdvertDialog));
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
-	m_advertChatForm->SetMoney(1000000000);
-	BBAdvert *m = &station->GetBBAdverts()[midx];
-	m_advertChatForm->StartChat(station, m);
+
+    m_advertChatForm->CallDialogHandler(0);
+
 	OpenChildChatForm(m_advertChatForm);
 }
 
@@ -806,18 +809,19 @@ void StationBBView::ShowAll()
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
-	std::vector<BBAdvert> &missions = station->GetBBAdverts();
-	int NUM_ITEMS = missions.size();
+	const std::list<const BBAdvert*> bbadverts = station->GetBBAdverts();
+
+	int NUM_ITEMS = bbadverts.size();
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (std::vector<BBAdvert>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
 		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMissionDialog), num));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
 		innerbox->Add(b, 10, num*YSEP);
 		
-		Gui::Label *l = new Gui::Label((*i).GetBulletinBoardText());
+		Gui::Label *l = new Gui::Label((*i)->description);
 		innerbox->Add(l,40,num*YSEP);
 		
 		num++;
@@ -946,18 +950,16 @@ void StationRootView::GotoPolis()
 
 /////////////////////////////////////////////////////////////////////
 
-SpaceStationView::SpaceStationView(): View()
+SpaceStationView::SpaceStationView(): View(), m_jumpToForm(0)
 {
 	Gui::Label *l = new Gui::Label("Comms Link");
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 }
 
-void SpaceStationView::JumpTo(GenericChatForm *form)
+void SpaceStationView::JumpToForm(GenericChatForm *form)
 {
-	OnSwitchTo();
-
-	m_baseSubView->OpenChildChatForm(form);
+	m_jumpToForm = form;
 }
 
 void SpaceStationView::OnSwitchTo()
@@ -976,4 +978,9 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::Update()
 {
+	if (m_jumpToForm) {
+		OnSwitchTo();
+		m_baseSubView->OpenChildChatForm(m_jumpToForm);
+		m_jumpToForm = 0;
+	}
 }

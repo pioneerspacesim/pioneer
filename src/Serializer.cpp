@@ -7,14 +7,13 @@
 #include "Ship.h"
 #include "HyperspaceCloud.h"
 
-#define SAVEFILE_VERSION	21
+#define SAVEFILE_VERSION	22
 
 namespace Serializer {
 
 static std::vector<Frame*> g_frames;
 static std::vector<Body*> g_bodies;
 static std::vector<SBody*> g_sbodies;
-// why do we do this? so PiLuaAPI's use of Serializer::Reader has the correct stream version
 static int stream_version_context = SAVEFILE_VERSION;
 
 Frame *LookupFrame(uint32_t index) { return g_frames[index]; }

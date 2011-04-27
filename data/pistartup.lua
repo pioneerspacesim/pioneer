@@ -23,3 +23,8 @@ function math.deg2rad (n) return n * math.pi / 180 end
 --     named like this
 math.fixed = {}
 function math.fixed.deg2rad (n) return n * fixed:new(31416,1800000) end
+
+-- a nice string interpolator
+string.interp = function (s, t)
+	return (s:gsub('(%b{})', function(w) return t[w:sub(2,-2)] or w end))
+end

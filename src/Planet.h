@@ -27,9 +27,8 @@ public:
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
 	bool IsSuperType(SBody::BodySuperType t) const;
 	virtual const SBody *GetSBody() const { return sbody; }
-#ifdef DEBUG
+
 	friend class ObjectViewerView;
-#endif /* DEBUG */
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

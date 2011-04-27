@@ -348,7 +348,7 @@ local uranus_moons = {
 
 local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
 	:radius(f(38,10))
-	:mass(f(17147,100))
+	:mass(f(17147,1000))
 	:temp(72)
 	:semi_major_axis(f(30104,1000))
 	:eccentricity(f(112,10000))

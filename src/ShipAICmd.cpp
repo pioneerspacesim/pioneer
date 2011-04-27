@@ -375,10 +375,12 @@ bool AICmdKill::TimeStepUpdate()
 		vector3d targhead = vector3d(-trot[8], -trot[9], -trot[10]) * rot;		// obj space
 		vector3d targav = m_target->GetAngVelocity();
 
-		if (skillEvade < 1.0 && targhead.z < 0.0) {		// smart chase
+		if (skillEvade < 1.6 && targhead.z < 0.0) {		// smart chase
 			vector3d objvel = targvel * rot;		// obj space targvel
-			evadethrust.x = objvel.x > 0.0 ? 1.0 : -1.0;
-			evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
+			if ((objvel.x*objvel.x + objvel.y*objvel.y) < 10000) {
+				evadethrust.x = objvel.x > 0.0 ? 1.0 : -1.0;
+				evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
+			}
 		}			
 		else
 		{
@@ -414,9 +416,10 @@ bool AICmdKill::TimeStepUpdate()
 		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
 		double dist = targpos.Length(), ispeed;
 		double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / m_ship->GetMass();
+		rearaccel += targaccel.Dot(targdir);
 		// v = sqrt(2as), positive => towards
-		if (dist > reqdist) ispeed = sqrt(2.0 * rearaccel * (dist - reqdist));
-		else ispeed = -sqrt(2.0 * rearaccel * (reqdist - dist));
+		double as2 = 2.0 * rearaccel * (dist - reqdist);
+		if (as2 > 0) ispeed = sqrt(as2); else ispeed = -sqrt(-as2);
 		double vdiff = ispeed + targvel.Dot(targdir);
 
 		if (skillEvade + Pi::rng.Double() > 1.5) evadethrust.z = 0.0;
@@ -1020,12 +1023,14 @@ bool AICmdDock::TimeStepUpdate()
 
 	// state 0,2: Get docking data
 	if (m_state == 0 || m_state == 2) {
+		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		bool good = m_target->GetSpaceStationType()->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
+		bool good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();
 		m_dockupdir = (trot * dockpos.yaxis).Normalized();		// don't trust these enough
+		if (type->dockMethod == SpaceStationType::ORBITAL) m_dockupdir = -m_dockupdir;
 		m_state++;
 	}
 

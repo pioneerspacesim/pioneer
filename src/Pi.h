@@ -8,6 +8,10 @@
 #include "gameconsts.h"
 #include "Serializer.h"
 #include "IniConfig.h"
+#include "LuaEventQueue.h"
+#include "LuaSerializer.h"
+#include "LuaTimer.h"
+#include "CargoBody.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -93,10 +97,25 @@ public:
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
 	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
-	static sigc::signal<void> onPlayerHyperspaceToNewSystem;
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 	static sigc::signal<void> onPlayerChangeEquipment;
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
+
+	static LuaSerializer luaSerializer;
+	static LuaTimer luaTimer;
+
+	static LuaEventQueue<> luaOnGameStart;
+	static LuaEventQueue<> luaOnGameEnd;
+	static LuaEventQueue<Ship> luaOnEnterSystem;
+	static LuaEventQueue<Ship> luaOnLeaveSystem;
+	static LuaEventQueue<Ship,Body> luaOnShipDestroyed;
+	static LuaEventQueue<Ship,Body> luaOnShipHit;
+	static LuaEventQueue<Ship,Body> luaOnShipCollided;
+	static LuaEventQueue<Ship,SpaceStation> luaOnShipDocked;
+	static LuaEventQueue<Ship,SpaceStation> luaOnShipUndocked;
+	static LuaEventQueue<Ship,CargoBody> luaOnJettison;
+	static LuaEventQueue<SpaceStation> luaOnCreateBB;
+	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
 
 	static MTRand rng;
 	static int statSceneTris;

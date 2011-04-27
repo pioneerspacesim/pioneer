@@ -19,7 +19,7 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Polit.h"
-#include "PiLuaModules.h"
+#include "CityOnPlanet.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -205,26 +205,39 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 				m_stats.shield_mass_left = 0;
 			}
 		}
+
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
-			if (attacker && attacker->IsType(Object::BODY)) static_cast<Body*>(attacker)->OnHaveKilled(this);
-			PiLuaModules::QueueEvent("onShipKilled", static_cast<Object*>(this), static_cast<Object*>(attacker));
+			if (attacker) {
+				if (attacker->IsType(Object::BODY)) {
+					// XXX remove this call. kill stuff (including elite rating) should be in a script
+					static_cast<Body*>(attacker)->OnHaveKilled(this);
+					Pi::luaOnShipDestroyed.Queue(this, dynamic_cast<Body*>(attacker));
+				}
+
+				if (attacker->IsType(Object::SHIP))
+					Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);
+			}
+
 			Space::KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
-			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_MURDER);
 			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
-		} else {
-			PiLuaModules::QueueEvent("onShipAttacked", static_cast<Object*>(this), static_cast<Object*>(attacker));
-			if (Pi::rng.Double() < kgDamage) Sfx::Add(this, Sfx::TYPE_DAMAGE);
-			if (attacker->IsType(Object::SHIP)) Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
+		}
+		
+		else {
+			if (attacker && attacker->IsType(Object::SHIP))
+				Polit::NotifyOfCrime((Ship*)attacker, Polit::CRIME_PIRACY);
+
+			if (Pi::rng.Double() < kgDamage)
+				Sfx::Add(this, Sfx::TYPE_DAMAGE);
 			
-			if (dam < 0.01 * (float)GetShipType().hullMass) {
+			if (dam < 0.01 * (float)GetShipType().hullMass)
 				Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
-			} else {
+			else
 				Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
-			}
 		}
 	}
+
 	//printf("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
 	return true;
 }
@@ -247,6 +260,20 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 			}
 		}
 	}
+
+	if (
+		b->IsType(Object::CITYONPLANET) ||
+		b->IsType(Object::SHIP) ||
+		b->IsType(Object::PLAYER) ||
+		b->IsType(Object::SPACESTATION) ||
+		b->IsType(Object::PLANET) ||
+		b->IsType(Object::STAR) ||
+		b->IsType(Object::CARGOBODY))
+	{
+		Pi::luaOnShipCollided.Queue(this,
+			b->IsType(Object::CITYONPLANET) ? dynamic_cast<CityOnPlanet*>(b)->GetPlanet() : dynamic_cast<Body*>(b));
+	}
+
 	return DynamicBody::OnCollision(b, flags, relVel);
 }
 
@@ -912,16 +939,25 @@ bool Ship::Jettison(Equip::Type t)
 		cargo->SetPosition(GetPosition()+pos);
 		cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
 		Space::AddBody(cargo);
+
+		Pi::luaOnJettison.Queue(this, cargo);
+
 		return true;
 	} else {
 		return false;
 	}
 }
 
+void Ship::UpdateFlavour(const ShipFlavour *f)
+{
+	assert(f->type == m_shipFlavour.type);
+	m_shipFlavour = *f;
+}
+
 /*
  * Used when player buys a new ship.
  */
-void Ship::ChangeFlavour(const ShipFlavour *f)
+void Ship::ResetFlavour(const ShipFlavour *f)
 {
 	m_shipFlavour = *f;
 	m_equipment.InitSlotSizes(f->type);

@@ -28,12 +28,11 @@ namespace Space {
 	extern void DoECM(const Frame *f, const vector3d &pos, int power_val);
 	extern float GetHyperspaceAnim();
 	extern const SBodyPath *GetHyperspaceDest();
+	extern double GetHyperspaceDuration();
 	extern void Render(const Frame *cam_frame);
 	extern void StartHyperspaceTo(Ship *s, const SBodyPath *);
 	extern void DoHyperspaceTo(const SBodyPath *);
 	extern void SetupSystemForGameStart(const SBodyPath *, int, int);
-	/** Are we at the moment of hyperspacing into a system? */
-	extern bool IsSystemBeingBuilt();
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);
 	extern Body *FindNearestTo(const Body *b, Object::Type t);

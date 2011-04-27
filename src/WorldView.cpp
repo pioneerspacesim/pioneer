@@ -99,9 +99,6 @@ WorldView::WorldView(): View()
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
-	m_hyperTargetLabel = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
-	m_rightRegion1->Add(m_hyperTargetLabel, 10, 0);
-
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -373,6 +370,11 @@ void WorldView::DrawBgStars()
 		m = rot.InverseOf() * m;
 		vector3d pz(m[2], m[6], m[10]);
 
+		// roughly, the multiplier gets smaller as the duration gets larger.
+		// the time-looking bits in this are completely arbitrary - I figured
+		// it out by tweaking the numbers until it looked sort of right
+		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			vtx[i*12] = s_bgstar[i].x;
@@ -384,7 +386,7 @@ void WorldView::DrawBgStars()
 			vtx[i*12+5] = s_bgstar[i].b;
 
 			vector3f v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
-			v += pz*hyperspaceAnim*0.001;
+			v += pz*hyperspaceAnim*mult;
 
 			vtx[i*12+6] = v.x;
 			vtx[i*12+7] = v.y;
@@ -719,7 +721,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
 			}
 			double altitude = Pi::player->GetPosition().Length() - radius;
-			if (altitude > 9999999.0) {
+			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION)) {
 				m_hudAltitude->Hide();
 			} else {
 				if (altitude < 0) altitude = 0;
@@ -734,7 +736,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
 				char buf[128];
-				snprintf(buf, sizeof(buf), "P. %.2f bar", pressure);
+				snprintf(buf, sizeof(buf), "P: %.2f bar", pressure);
 
 				m_hudPressure->SetText(buf);
 				m_hudPressure->Show();
@@ -1035,12 +1037,8 @@ static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
 void WorldView::OnChangeHyperspaceTarget()
 {
 	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	StarSystem *system = new StarSystem(path->sectorX, path->sectorY, path->systemNum);
-	SBody *b = system->GetBodyByPath(path);
-	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to ")+b->name);
-	std::string msg = "To: "+b->name;
-	m_hyperTargetLabel->SetText(msg);
-	delete system;
+	StarSystem *system = StarSystem::GetCached(path);
+	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to "+system->GetName()));
 
 	int fuelReqd;
 	double dur;

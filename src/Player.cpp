@@ -283,4 +283,3 @@ bool Player::SetWheelState(bool down)
 	}
 	return did;
 }
-

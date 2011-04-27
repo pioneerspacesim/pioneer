@@ -7,7 +7,7 @@
  * don't). Instead use the OOLua classes from PiLuaClasses.h
  */
 
-#include "mylua.h"
+#include "LuaUtils.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 

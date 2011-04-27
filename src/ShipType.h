@@ -13,9 +13,11 @@ struct lua_State;
 struct ShipType {
 	enum Thruster { THRUSTER_REVERSE, THRUSTER_FORWARD, THRUSTER_UP, THRUSTER_DOWN, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
 	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
+	enum Tag { TAG_NONE, TAG_SHIP, TAG_STATIC_SHIP, TAG_MISSILE, TAG_MAX };
 	typedef std::string Type;
 
 	////////
+	Tag tag;
 	std::string name;
 	std::string lmrModelName;
 	float linThrust[THRUSTER_MAX];

@@ -10,12 +10,16 @@ include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEven
 		SystemView.h vector3.h View.h WorldView.h utils.h SpaceStation.h SpaceStationView.h ModelBody.h GuiISelectable.h \
 		ShipType.h Object.h InfoView.h ObjectViewerView.h Aabb.h Serializer.h \
 		Sfx.h GuiVScrollPortal.h GuiVScrollBar.h GuiAdjustment.h MarketAgent.h GuiTabbed.h EquipType.h CargoBody.h \
-		NameGenerator.h perlin.h GeoSphere.h GuiBox.h ShipFlavour.h GuiTextLayout.h Mission.h Polit.h \
+		NameGenerator.h perlin.h GeoSphere.h GuiBox.h ShipFlavour.h GuiTextLayout.h Polit.h \
 		CityOnPlanet.h ShipCpanelMultiFuncDisplays.h Projectile.h Render.h Sound.h GuiRepeaterButton.h \
 		CommodityTradeWidget.h GenericChatForm.h PoliceChatForm.h SysLoc.h PersistSystemData.h GalacticView.h \
 		Galaxy.h GameMenuView.h GuiTextEntry.h Missile.h HyperspaceCloud.h LmrModel.h MyLuaMathTypes.h BezierCurve.h \
-		PiLuaModules.h LuaChatForm.h mylua.h PiLuaAPI.h IniConfig.h GeoSphereStyle.h AmbientSounds.h KeyBindings.h \
-		BufferObject.h GuiMeterBar.h GuiLabelSet.h ShipAICmd.h PiLuaClasses.h PiLuaConstants.h CustomSystem.h
+		LuaChatForm.h IniConfig.h GeoSphereStyle.h AmbientSounds.h KeyBindings.h \
+		BufferObject.h GuiMeterBar.h GuiLabelSet.h ShipAICmd.h PiLuaClasses.h LuaConstants.h CustomSystem.h \
+		DeleteEmitter.h LuaManager.h LuaUtils.h LuaObject.h LuaEventQueue.h RefList.h RefCounted.h \
+		LuaBody.h LuaPlanet.h LuaPlayer.h LuaShip.h LuaSpaceStation.h LuaStar.h LuaStarSystem.h LuaSBodyPath.h LuaShipType.h \
+		LuaSpace.h LuaGame.h LuaUI.h LuaFormat.h LuaTimer.h LuaRand.h LuaEngine.h LuaNameGen.h LuaCargoBody.h LuaEquipType.h \
+		LuaSBody.h BBAdvertChatForm.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
@@ -28,16 +32,18 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
 		ObjectViewerView.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
 		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp ShipFlavour.cpp \
-		Mission.cpp Polit.cpp CityOnPlanet.cpp ShipCpanelMultiFuncDisplays.cpp \
+		Polit.cpp CityOnPlanet.cpp ShipCpanelMultiFuncDisplays.cpp \
 		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
 		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
-		LmrModel.cpp MyLuaMathTypes.cpp PiLuaModules.cpp LuaChatForm.cpp PiLuaAPI.cpp IniConfig.cpp \
-		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp mylua.cpp ShipAICmd.cpp PiLuaClasses.cpp PiLuaConstants.cpp \
-		CustomSystem.cpp
+		LmrModel.cpp MyLuaMathTypes.cpp LuaChatForm.cpp IniConfig.cpp \
+		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp ShipAICmd.cpp PiLuaClasses.cpp LuaConstants.cpp \
+		CustomSystem.cpp LuaManager.cpp LuaObject.cpp LuaEventQueue.cpp LuaUtils.cpp LuaSerializer.cpp \
+		LuaBody.cpp LuaShip.cpp LuaSpaceStation.cpp LuaPlanet.cpp LuaStar.cpp LuaPlayer.cpp LuaStarSystem.cpp \
+		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaFormat.cpp LuaTimer.cpp LuaRand.cpp \
+		LuaEngine.cpp LuaNameGen.cpp LuaCargoBody.cpp LuaEquipType.cpp LuaSBody.cpp BBAdvertChatForm.cpp
 pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
 
-modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp \
-		      mylua.cpp
+modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
 modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
 
 check_PROGRAMS = tests

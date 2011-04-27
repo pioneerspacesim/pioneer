@@ -2,6 +2,7 @@
 #include "Sector.h"
 #include "Serializer.h"
 #include "NameGenerator.h"
+#include <map>
 #include "utils.h"
 
 #define CELSIUS	273.15
@@ -818,11 +819,6 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-EXPORT_OOLUA_FUNCTIONS_0_NON_CONST(SBodyPath)
-EXPORT_OOLUA_FUNCTIONS_8_CONST(SBodyPath,
-		GetBodyName, GetSeed, GetSystem, GetParent, GetType, GetSuperType,
-		GetNumChildren, GetNthChild)
-
 SBodyPath::SBodyPath(): SysLoc()
 {
 	sbodyId = 0;
@@ -844,56 +840,6 @@ void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
 	path->sbodyId = rd.Int32();
 }
 
-const char *SBodyPath::GetBodyName() const
-{
-	return GetSBody()->name.c_str();
-}
-
-int SBodyPath::GetNumChildren() const
-{
-	return GetSBody()->children.size();
-}
-
-Uint32 SBodyPath::GetSeed() const
-{
-	return GetSBody()->seed;
-}
-
-int SBodyPath::GetType() const
-{
-	return (int)GetSBody()->type;
-}
-
-int SBodyPath::GetSuperType() const
-{
-	return (int)GetSBody()->GetSuperType();
-}
-
-const SBody *SBodyPath::GetSBody() const
-{
-	const StarSystem *s = Sys();
-	return s->GetBodyByPath(this);
-}
-	
-SBodyPath *SBodyPath::GetParent() const {
-	SBodyPath *p = new SBodyPath;
-	const StarSystem *sys = Sys();
-	sys->GetPathOf(sys->GetBodyByPath(this)->parent, p);
-	return p;
-}
-
-SBodyPath *SBodyPath::GetNthChild(int n) const
-{
-	const StarSystem *sys = Sys();
-	const SBody *sbody = GetSBody();
-	if ((n < 1) || (n > sbody->children.size())) {
-		return 0;
-	}
-	SBodyPath *p = new SBodyPath;
-	sys->GetPathOf(sbody->children[n-1], p);
-	return p;
-}
-
 template <class T>
 static void shuffle_array(MTRand &rand, T *array, int len)
 {
@@ -903,45 +849,6 @@ static void shuffle_array(MTRand &rand, T *array, int len)
 		array[i] = array[pos];
 		array[pos] = temp;
 	}
-}
-
-bool StarSystem::GetRandomStarport(MTRand &rand, SBodyPath *outDest) const
-{
-	if (!m_spaceStations.size())
-		return false;
-	
-	GetPathOf(m_spaceStations[rand.Int32(m_spaceStations.size())], outDest);
-	return true;
-}
-
-/*
- * Doesn't try very hard
- */
-bool StarSystem::GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const
-{
-	int sx = this->SectorX() + rand.Int32(3) - 1;
-	int sy = this->SectorY() + rand.Int32(3) - 1;
-	Sector sec(sx, sy);
-	const int numSys = sec.m_systems.size();
-	int *idxs = new int[numSys];
-	// examine the systems in random order
-	for (int i=0; i<numSys; i++) idxs[i] = i;
-	shuffle_array<int>(rand, idxs, numSys);
-
-	for (int i=0; i<numSys; i++) {
-		if ((sx == this->SectorX()) &&
-		    (sy == this->SectorY()) &&
-		    (idxs[i] == this->SystemIdx())) continue;
-
-		StarSystem *sys = new StarSystem(sx, sy, idxs[i]);
-
-		if (sys->GetRandomStarport(rand, outDest)) {
-			delete sys;
-			return true;
-		}
-		delete sys;
-	}
-	return false;
 }
 
 SBody *StarSystem::GetBodyByPath(const SBodyPath *path) const
@@ -1954,43 +1861,41 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 		int sec_x = rd.Int32();
 		int sec_y = rd.Int32();
 		int sys_idx = rd.Int32();
-		return new StarSystem(sec_x, sec_y, sys_idx);
+		return StarSystem::GetCached(sec_x, sec_y, sys_idx);
 	} else {
 		return 0;
 	}
 }
 
-#define STARSYS_MAX_CACHED 8
-static std::list<StarSystem*> s_cachedSystems;
+static std::map<SysLoc,StarSystem*> s_cachedSystems;
 
-StarSystem *StarSystem::GetCached(const SysLoc &loc)
+StarSystem *StarSystem::GetCached(int sectorX, int sectorY, int systemNum)
 {
-	for (std::list<StarSystem*>::iterator i = s_cachedSystems.begin();
-			i != s_cachedSystems.end(); ++i) {
-		if ((*i)->m_loc == loc) {
-			// move to front of cache to indicate it is hot
-			StarSystem *s = *i;
-			s_cachedSystems.erase(i);
-			s_cachedSystems.push_front(s);
-			return s;
-		}
+    SysLoc loc(sectorX, sectorY, systemNum);
+
+	StarSystem *s = 0;
+
+	for (std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
+		if ((*i).first == loc)
+			s = (*i).second;
 	}
-	StarSystem *s = new StarSystem(loc.sectorX, loc.sectorY, loc.systemNum);
-	s_cachedSystems.push_front(s);
+
+	if (!s) {
+		s = new StarSystem(sectorX, sectorY, systemNum);
+		s_cachedSystems.insert( std::pair<SysLoc,StarSystem*>(loc, s) );
+	}
+
+	s->IncRefCount();
 	return s;
 }
 
 void StarSystem::ShrinkCache()
 {
-	int n=0;
-	for (std::list<StarSystem*>::iterator i = s_cachedSystems.begin();
-			i != s_cachedSystems.end(); ++i, n++) {
-		if (n >= STARSYS_MAX_CACHED) {
-			while (i != s_cachedSystems.end()) {
-				delete *i;
-				i = s_cachedSystems.erase(i);
-			}
-			break;
+	for (std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
+		StarSystem *s = (*i).second;
+		if (s->GetRefCount() == 0) {
+			delete s;
+			s_cachedSystems.erase(i);
 		}
 	}
 }

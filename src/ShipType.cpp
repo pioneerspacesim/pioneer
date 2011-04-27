@@ -3,6 +3,7 @@
 #include "Serializer.h"
 #include "MyLuaMathTypes.h"
 #include "Pi.h"
+#include "LuaUtils.h"
 #include "utils.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
@@ -26,7 +27,7 @@ std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
 static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
 		const char *default_output)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	lua_pushstring(L, key);
 	lua_gettable(L, -2);
 	if (lua_isnil(L, -1)) {
@@ -35,13 +36,13 @@ static void _get_string_attrib(lua_State *L, const char *key, std::string &outpu
 		output = lua_tostring(L,-1);
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
 static void _get_float_attrib(lua_State *L, const char *key, float &output,
 		const float default_output)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	lua_pushstring(L, key);
 	lua_gettable(L, -2);
 	if (lua_isnil(L, -1)) {
@@ -50,13 +51,13 @@ static void _get_float_attrib(lua_State *L, const char *key, float &output,
 		output = lua_tonumber(L,-1);
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
 static void _get_int_attrib(lua_State *L, const char *key, int &output,
 		const int default_output)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	lua_pushstring(L, key);
 	lua_gettable(L, -2);
 	if (lua_isnil(L, -1)) {
@@ -65,15 +66,16 @@ static void _get_int_attrib(lua_State *L, const char *key, int &output,
 		output = lua_tointeger(L,-1);
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
-static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipType::Type> &list)
+static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipType::Type> &list, ShipType::Tag stag)
 {
 	ShipType s;
+	s.tag = stag;
 	s.lmrModelName = model_name;
 
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, model_name);
 	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
 	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
@@ -136,14 +138,14 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 		}
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 
 	ShipType::types[s.name] = s;
 	list.push_back(s.name);
 	return 0;
 }
 
-static void _define_ships(const char *tag, std::vector<ShipType::Type> &list)
+static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipType::Type> &list)
 {
 	std::vector<LmrModel*> ship_models;
 	LmrGetModelsWithTag(tag, ship_models);
@@ -162,7 +164,7 @@ static void _define_ships(const char *tag, std::vector<ShipType::Type> &list)
 			for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
 				lua_pushinteger(L, i+1);
 				lua_gettable(L, -2);
-				_define_ship(L, model->GetName(), list);
+				_define_ship(L, model->GetName(), list, stag);
 				num++;
 				lua_pop(L, 1);
 			}
@@ -180,9 +182,9 @@ void ShipType::Init()
 	if (isInitted) return;
 	isInitted = true;
 
-	_define_ships("ship", player_ships);
-	_define_ships("static_ship", static_ships);
-	_define_ships("missile", missile_ships);
+	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
+	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
+	_define_ships("missile", ShipType::TAG_MISSILE, missile_ships);
 }
 
 ShipType::Type ShipType::GetRandomType() {

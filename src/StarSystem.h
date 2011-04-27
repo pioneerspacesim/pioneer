@@ -8,7 +8,8 @@
 #include "Serializer.h"
 #include <vector>
 #include <string>
-#include "mylua.h"
+#include "DeleteEmitter.h"
+#include "RefCounted.h"
 
 struct CustomSBody;
 struct CustomSystem;
@@ -55,39 +56,7 @@ public:
 	bool operator== (const SBodyPath &b) const {
 		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
 	}
-	/** These are for the Lua wrappers -- best not to use them from C++
-	 * since they acquire a StarSystem object in a rather sub-optimal way */
-	const char *GetBodyName() const;
-	Uint32 GetSeed() const;
-	int GetType() const;
-	int GetSuperType() const;
-	SysLoc GetSystem() const { return (SysLoc)*this; }
-	int GetNumChildren() const;
-	/** Caller owns the returned SBodyPath* */
-	SBodyPath *GetParent() const;
-	SBodyPath *GetNthChild(int n) const;
-private:
-	/** Returned SBody only valid pointer for duration described in
-	 * StarSystem::GetCached comment */
-	const SBody *GetSBody() const;
 };
-
-OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
-	OOLUA_BASIC
-	OOLUA_TYPEDEFS
-		OOLUA::Equal_op
-	OOLUA_END_TYPES
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-	OOLUA_BASES_START SysLoc OOLUA_BASES_END
-	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
-	OOLUA_MEM_FUNC_0_CONST(Uint32, GetSeed)
-	OOLUA_MEM_FUNC_0_CONST(SysLoc, GetSystem);
-	OOLUA_MEM_FUNC_0_CONST(lua_out_p<SBodyPath*>, GetParent);
-	OOLUA_MEM_FUNC_0_CONST(int, GetNumChildren)
-	OOLUA_MEM_FUNC_1_CONST(lua_out_p<SBodyPath*>, GetNthChild, int);
-	OOLUA_MEM_FUNC_0_CONST(int, GetType)
-	OOLUA_MEM_FUNC_0_CONST(int, GetSuperType)
-OOLUA_CLASS_END
 
 class SBody {
 public:
@@ -98,8 +67,6 @@ public:
 	SBody *parent;
 	std::vector<SBody*> children;
 
-	/** XXX Keep in sync with data/pimodule.lua
-	  * Hence the redundant numbers */
 	enum BodyType {
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
@@ -150,8 +117,6 @@ public:
 		// XXX need larger atmosphereless thing
 	};
 	
-	/** XXX Keep in sync with data/pimodule.lua
-	  * Hence the redundant numbers */
 	enum BodySuperType {
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
@@ -226,17 +191,16 @@ public:
 private:
 };
 
-class StarSystem {
+class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
-	~StarSystem();
-	/** Holding pointers to StarSystem returned by this is not safe between
-	 * calls to ShrinkCache() (done at end of Pi main loop)
-	 */
-	static StarSystem *GetCached(const SysLoc &s);
+
+    static StarSystem *GetCached(int sectorX, int sectorY, int systemNum);
+	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
+
+    static inline StarSystem *GetCached(const SysLoc &loc) { return GetCached(loc.sectorX, loc.sectorY, loc.systemNum); }
+    static inline StarSystem *GetCached(const SysLoc *loc) { return GetCached(*loc); }
 
 	const std::string &GetName() const { return m_name; }
 	void GetPathOf(const SBody *body, SBodyPath *path) const;
@@ -255,8 +219,6 @@ public:
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
-	bool GetRandomStarport(MTRand &rand, SBodyPath *outDest) const;
-	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static float starColors[][3];
@@ -292,6 +254,10 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
+	StarSystem() { rootBody = 0; }
+	StarSystem(int sector_x, int sector_y, int system_idx);
+	~StarSystem();
+
 	SBody *NewBody() {
 		SBody *body = new SBody;
 		body->id = m_bodies.size();

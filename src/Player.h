@@ -5,6 +5,18 @@
 #include "libs.h"
 #include "Ship.h"
 #include "StarSystem.h"
+#include "RefList.h"
+
+struct Mission : RefItem<Mission> {
+	enum MissionState { ACTIVE, COMPLETED, FAILED };
+
+	std::string  type;
+	std::string  client;
+	SBodyPath    location;
+	double       due;
+	Sint64       reward;
+	MissionState status;
+};
 
 class Player: public Ship {
 public:
@@ -32,7 +44,9 @@ public:
 	vector3d GetMouseDir() { return m_mouseDir; }
 
 double m_mouseAcc;
-	
+
+	RefList<Mission> missions;
+
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
