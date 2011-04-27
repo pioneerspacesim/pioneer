@@ -72,7 +72,7 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
 
 	if ((dir = opendir(basepath.c_str())) == NULL) {
 		fprintf(stderr, "opendir: couldn't open directory '%s': %s\n", basepath.c_str(), strerror(errno));
-		abort();
+		return;
 	}
 
 	while ((entry = readdir(dir)) != NULL) {
