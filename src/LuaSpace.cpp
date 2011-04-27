@@ -274,7 +274,7 @@ static int l_space_get_ships(lua_State *l)
 	return 1;
 }
 
-static int l_space_get_spacestations(lua_State *l)
+static int l_space_get_space_stations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -342,10 +342,10 @@ void LuaSpace::Register()
 
 		{ "GetBody",   l_space_get_body   },
 
-		{ "GetShips",         l_space_get_ships         },
-		{ "GetSpaceStations", l_space_get_spacestations },
-		{ "GetPlanets",       l_space_get_planets       },
-		{ "GetStars",         l_space_get_stars         },
+		{ "GetShips",         l_space_get_ships          },
+		{ "GetSpaceStations", l_space_get_space_stations },
+		{ "GetPlanets",       l_space_get_planets        },
+		{ "GetStars",         l_space_get_stars          },
 		{ 0, 0 }
 	};
 
