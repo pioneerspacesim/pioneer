@@ -377,7 +377,7 @@ bool AICmdKill::TimeStepUpdate()
 
 		if (skillEvade < 1.6 && targhead.z < 0.0) {		// smart chase
 			vector3d objvel = targvel * rot;		// obj space targvel
-			if ((objvel.x*objvel.x + objvel.y*objvel.y) * 10000 > targpos.LengthSqr()) {
+			if ((objvel.x*objvel.x + objvel.y*objvel.y) < 10000) {
 				evadethrust.x = objvel.x > 0.0 ? 1.0 : -1.0;
 				evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
 			}
