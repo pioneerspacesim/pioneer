@@ -655,8 +655,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		}
 		if (m_type->dockOneAtATimePlease) {
 			for (int i=0; i<m_type->numDockingPorts; i++) {
-				if (i == (flags & 0xf)) continue;
-				if (m_shipDocking[i].ship && m_shipDocking[i].stage &&
+				if (m_shipDocking[i].ship && m_shipDocking[i].stage != 1 &&
 				    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
 					canDock = false;
 					break;
