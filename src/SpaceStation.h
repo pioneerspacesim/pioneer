@@ -9,6 +9,7 @@
 #include "Quaternion.h"
 #include "Serializer.h"
 #include "RefList.h"
+#include "BBAdvertChatForm.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -46,10 +47,18 @@ struct SpaceStationType {
 	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 };
 
+class BBAdvertChatForm;
+class SpaceStation;
+struct BBAdvert;
+
+typedef BBAdvertChatForm* (*ChatFormBuilder)(SpaceStation *station, const BBAdvert *ad);
+
 struct BBAdvert {
-	int ref;
-	std::string description;
+	int             ref;
+	std::string     description;
+	ChatFormBuilder builder;
 };
+
 
 class SBody;
 
@@ -101,8 +110,11 @@ public:
 
 	bool AllocateStaticSlot(int& slot);
 
-	std::map<int,BBAdvert> bbadverts;
-
+	int AddBBAdvert(std::string description, ChatFormBuilder builder);
+	const BBAdvert *GetBBAdvert(int ref);
+	bool RemoveBBAdvert(int ref);
+	const std::list<const BBAdvert*> GetBBAdverts();
+	
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -142,7 +154,9 @@ private:
 	CityOnPlanet *m_adjacentCity;
 	int m_numPoliceDocked;
 	bool m_staticSlot[4];
-	bool m_bbCreated;
+
+	std::vector<BBAdvert> m_bbAdverts;
+	bool m_bbCreated, m_bbShuffled;
 };
 
 #endif /* _SPACESTATION_H */

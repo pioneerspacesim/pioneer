@@ -332,28 +332,6 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
-/*
-void SpaceStation::BBAddAdvert(const BBAdvert &a)
-{
-	m_bbadverts.insert(m_bbadverts.begin(), a);
-	std::sort(m_bbadverts.begin(), m_bbadverts.end(), BBAdvert::SortBB());
-	onBulletinBoardChanged.emit();
-}
-
-bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
-{
-	for (int i=m_bbadverts.size()-1; i>=0; i--) {
-		if (m_bbadverts[i].Is(modName, modRef)) {
-			onBulletinBoardAdvertDeleted.emit(&m_bbadverts[i]);
-			m_bbadverts.erase(m_bbadverts.begin() + i);
-			onBulletinBoardChanged.emit();
-			return true;
-		}
-	}
-	return false;
-}
-*/
-
 void SpaceStation::DoDockingAnimation(const double timeStep)
 {
 	matrix4x4d rot, wantRot;
@@ -823,3 +801,46 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 
 	return false;
 }
+
+static int next_ref = 0;
+int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
+{
+	int ref = ++next_ref;
+	assert(ref);
+
+	BBAdvert ad;
+	ad.ref = ref;
+	ad.description = description;
+	ad.builder = builder;
+
+	m_bbAdverts.push_back(ad);
+
+	return ref;
+}
+
+const BBAdvert *SpaceStation::GetBBAdvert(int ref)
+{
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+		if (i->ref == ref)
+			return &(*i);
+	return NULL;
+}
+
+bool SpaceStation::RemoveBBAdvert(int ref)
+{
+	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+		if (i->ref == ref) {
+			m_bbAdverts.erase(i);
+			return true;
+		}
+	return false;
+}
+
+const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
+{
+	std::list<const BBAdvert*> ads;
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+		ads.push_back(&(*i));
+	return ads;
+}
+

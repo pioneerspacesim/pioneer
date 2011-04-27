@@ -1,6 +1,7 @@
 #include "LuaSpaceStation.h"
 #include "LuaUtils.h"
 #include "SpaceStation.h"
+#include "LuaChatForm.h"
 #include "libs.h"
 
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
@@ -14,18 +15,21 @@ static void _delete_station_ads(SpaceStation *s)
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(lua_istable(l, -1));
 
-	for (std::map<int,BBAdvert>::const_iterator i = s->bbadverts.begin(); i != s->bbadverts.end(); i++) {
-		const BBAdvert ad = (*i).second;
-
-		lua_pushinteger(l, ad.ref);
+	const std::list<const BBAdvert*> bbadverts = s->GetBBAdverts();
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
+		lua_pushinteger(l, (*i)->ref);
 		lua_gettable(l, -2);
+        if (lua_isnil(l, -1)) {
+            lua_pop(l, 1);
+            continue;
+        }
 		assert(lua_istable(l, -1));
 
 		lua_getfield(l, -1, "onDelete");
 		if (lua_isnil(l, -1))
 			lua_pop(l, 1);
 		else {
-			lua_pushinteger(l, ad.ref);
+			lua_pushinteger(l, (*i)->ref);
 			lua_call(l, 1, 0);
 		}
 
@@ -43,6 +47,11 @@ static void _register_for_station_delete(SpaceStation *s)
 	_station_delete_conns.insert( std::make_pair(s, s->onBulletinBoardDeleted.connect(sigc::bind(sigc::ptr_fun(&_delete_station_ads), s))) );
 }
 
+static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert *ad)
+{
+	return new LuaChatForm(station, ad);
+}
+
 static int l_spacestation_add_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -53,6 +62,8 @@ static int l_spacestation_add_advert(lua_State *l)
 	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
 
+	int ref = s->AddBBAdvert(description, _create_chat_form);
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
@@ -61,7 +72,6 @@ static int l_spacestation_add_advert(lua_State *l)
 		lua_setfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	}
 
-	int ref = lua_objlen(l, -1) + 1;
 	lua_pushinteger(l, ref);
 
 	lua_newtable(l);
@@ -83,11 +93,6 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	LUA_DEBUG_END(l,0);
 
-	BBAdvert ad;
-	ad.ref = ref;
-	ad.description = description;
-	s->bbadverts.insert( std::make_pair(ad.ref, ad) );
-
 	_register_for_station_delete(s);
 
 	lua_pushinteger(l, ref);
@@ -101,10 +106,8 @@ static int l_spacestation_remove_advert(lua_State *l)
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
 	int ref = luaL_checkinteger(l, 2);
 
-	std::map<int,BBAdvert>::iterator i = s->bbadverts.find(ref);
-	if (i == s->bbadverts.end())
+	if (!s->RemoveBBAdvert(ref))
 		return 0;
-	s->bbadverts.erase(i);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	if (lua_isnil(l, -1)) {

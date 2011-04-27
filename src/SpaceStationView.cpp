@@ -734,7 +734,7 @@ private:
 	void OnAdvertDeleted(BBAdvert *);
 	void OnBBChanged();
 	sigc::connection m_onBBChangedConnection, m_onBBAdvertDeleted;
-	LuaChatForm *m_advertChatForm;
+	BBAdvertChatForm *m_advertChatForm;
 };
 
 StationBBView::StationBBView(): GenericChatForm()
@@ -771,17 +771,18 @@ void StationBBView::OnCloseAdvertDialog(GenericChatForm *advertDlg)
 
 void StationBBView::OpenAdvertDialog(int ref)
 {
-	SpaceStation *station = Pi::player->GetDockedWith();
-	
 	if (m_advertChatForm) m_advertChatForm->Close(); // shouldn't happen...
-	m_advertChatForm = new LuaChatForm();
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	const BBAdvert *ad = station->GetBBAdvert(ref);
+	
+	m_advertChatForm = ad->builder(station, ad);
+
 	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseAdvertDialog));
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
-	m_advertChatForm->SetMoney(1000000000);
 
-	const BBAdvert *ad = &station->bbadverts[ref];
-	m_advertChatForm->StartChat(station, ad);
+    m_advertChatForm->CallDialogHandler(0);
 
 	OpenChildChatForm(m_advertChatForm);
 }
@@ -808,19 +809,19 @@ void StationBBView::ShowAll()
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
-	int NUM_ITEMS = station->bbadverts.size();
+	const std::list<const BBAdvert*> bbadverts = station->GetBBAdverts();
+
+	int NUM_ITEMS = bbadverts.size();
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (std::map<int,BBAdvert>::const_iterator i = station->bbadverts.begin(); i != station->bbadverts.end(); i++) {
-        const BBAdvert ad = (*i).second;
-
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
 		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), ad.ref));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
 		innerbox->Add(b, 10, num*YSEP);
 		
-		Gui::Label *l = new Gui::Label(ad.description);
+		Gui::Label *l = new Gui::Label((*i)->description);
 		innerbox->Add(l,40,num*YSEP);
 		
 		num++;
