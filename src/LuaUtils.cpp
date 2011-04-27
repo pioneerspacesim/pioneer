@@ -104,6 +104,7 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath)
 			} else {
 				lua_pcall(l, 0, 0, -2);
 			}
+			lua_pop(l, 1);
 		}
 	}
 

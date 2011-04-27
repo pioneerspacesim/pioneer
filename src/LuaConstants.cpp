@@ -236,6 +236,8 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "LAST_SHIPEQUIP",  Equip::LAST_SHIPEQUIP);
 	lua_pop(l, 1);
 
+	lua_pop(l, 1);
+
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "ShipType");
 
@@ -269,6 +271,7 @@ void LuaConstants::Register(lua_State *l)
 	lua_pop(l, 1);
 
 	lua_pop(l, 1);
+
 
 	LUA_DEBUG_END(l, 0);
 }
