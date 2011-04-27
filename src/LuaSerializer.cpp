@@ -311,6 +311,8 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
 	lua_State *l = LuaManager::Instance()->GetLuaState();
 
+	LUA_DEBUG_START(l);
+
 	std::string pickled = rd.String();
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);

@@ -38,6 +38,7 @@ void LuaFormat::Register()
 	};
 
 	luaL_register(l, "Format", methods);
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

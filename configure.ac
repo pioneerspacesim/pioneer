@@ -15,7 +15,7 @@ AC_C_CONST
 AC_PROG_RANLIB
 #AC_PROG_LIBTOOL
 
-CFLAGS="-g -Wall"
+CFLAGS="-g -Wall -DDEBUG"
 AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
 AC_ARG_WITH(fno-inline, [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CFLAGS -fno-inline")
 AC_ARG_WITH(gprof, [  --with-gprof            Compile with gprof profiler], CFLAGS="$CFLAGS -p")

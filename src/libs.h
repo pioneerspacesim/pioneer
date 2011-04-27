@@ -12,8 +12,6 @@
 #include <time.h>
 #include <stdarg.h>
 
-#define DEBUG
-
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
 #define PIONEER_DATA_DIR "data"

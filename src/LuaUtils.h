@@ -58,6 +58,7 @@ void pi_lua_dofile_recursive(lua_State *l, std::string basepath);
 int  pi_load_lua(lua_State *l);
 	
 #ifdef DEBUG
+#include <stdlib.h> // for abort()
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff) \
 	do { \

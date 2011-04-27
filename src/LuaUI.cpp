@@ -33,6 +33,7 @@ void LuaUI::Register()
 	};
 
 	luaL_register(l, "UI", methods);
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
