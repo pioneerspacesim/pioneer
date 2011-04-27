@@ -838,6 +838,11 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 
 const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 {
+	if (!m_bbShuffled) {
+		std::random_shuffle(m_bbAdverts.begin(), m_bbAdverts.end());
+		m_bbShuffled = true;
+	}
+
 	std::list<const BBAdvert*> ads;
 	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		ads.push_back(&(*i));
