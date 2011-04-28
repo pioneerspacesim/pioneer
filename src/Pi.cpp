@@ -94,7 +94,6 @@ int Pi::mouseMotion[2];
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
-ObjectViewerView *Pi::objectViewerView;
 SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
 SectorView *Pi::sectorView;
@@ -129,6 +128,10 @@ const char * const Pi::combatRating[] = {
 	"Deadly",
 	"ELITE"
 };
+
+#ifdef DEBUG
+ObjectViewerView *Pi::objectViewerView;
+#endif
 
 int Pi::CombatRating(int kills)
 {
@@ -607,14 +610,14 @@ void Pi::HandleEvents()
                             }
                             break;
                         }
+                        case SDLK_F10:
+                            Pi::SetView(Pi::objectViewerView);
+                            break;
 #endif /* DEBUG */
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
                             //break;
-                        case SDLK_F10:
-                            Pi::SetView(Pi::objectViewerView);
-                            break;
                         case SDLK_F9: // Quicksave
                         {
                             std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
@@ -813,9 +816,13 @@ void Pi::InitGame()
 	galacticView = new GalacticView();
 	systemView = new SystemView();
 	systemInfoView = new SystemInfoView();
-	objectViewerView = new ObjectViewerView();
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
+
+#ifdef DEBUG
+	objectViewerView = new ObjectViewerView();
+#endif
+
 	AmbientSounds::Init();
 
 	LuaInitGame();
@@ -851,9 +858,13 @@ void Pi::UninitGame()
 
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
+
+#ifdef DEBUG
+	delete objectViewerView;
+#endif
+
 	delete infoView;
 	delete spaceStationView;
-	delete objectViewerView;
 	delete worldView;
 	delete systemInfoView;
 	delete systemView;

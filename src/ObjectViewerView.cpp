@@ -8,6 +8,8 @@
 #include "GeoSphereStyle.h"
 #include "Planet.h"
 
+#ifdef DEBUG
+
 ObjectViewerView::ObjectViewerView(): View()
 {
 	SetTransparency(true);
@@ -169,3 +171,5 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 		gs->OnChangeDetailLevel();
 	}
 }
+
+#endif

@@ -20,7 +20,6 @@ class Player;
 class SectorView;
 class SystemView;
 class WorldView;
-class ObjectViewerView;
 class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
@@ -32,6 +31,10 @@ class Ship;
 class SBodyPath;
 class GameMenuView;
 struct lua_State;
+
+#ifdef DEBUG
+class ObjectViewerView;
+#endif
 
 struct DetailLevel {
 	int planets;
@@ -132,13 +135,16 @@ public:
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static WorldView *worldView;
-	static ObjectViewerView *objectViewerView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
 	static ShipCpanel *cpan;
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
 	static lua_State *luaPersistent;
+
+#ifdef DEBUG
+	static ObjectViewerView *objectViewerView;
+#endif
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];
