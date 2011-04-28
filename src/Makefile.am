@@ -19,7 +19,7 @@ include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEven
 		DeleteEmitter.h LuaManager.h LuaUtils.h LuaObject.h LuaEventQueue.h RefList.h RefCounted.h \
 		LuaBody.h LuaPlanet.h LuaPlayer.h LuaShip.h LuaSpaceStation.h LuaStar.h LuaStarSystem.h LuaSBodyPath.h LuaShipType.h \
 		LuaSpace.h LuaGame.h LuaUI.h LuaFormat.h LuaTimer.h LuaRand.h LuaEngine.h LuaNameGen.h LuaCargoBody.h LuaEquipType.h \
-		LuaSBody.h BBAdvertChatForm.h DeadVideoLink.h
+		LuaSBody.h BBAdvertChatForm.h VideoLink.h DeadVideoLink.h
 
 libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
 		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \

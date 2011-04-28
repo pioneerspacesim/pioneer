@@ -3,11 +3,12 @@
 #include "Player.h"
 #include "GenericChatForm.h"
 #include "SpaceStation.h"
+#include "VideoLink.h"
 
-class VideoLink: public Gui::Widget {
+class FaceVideoLink: public VideoLink {
 public:
 	
-	VideoLink(float w, float h) {
+	FaceVideoLink(float w, float h) : VideoLink(w, h) {
 		const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
 		MTRand rand(sbody->seed); //thanks for pointing this out Tom.
 		int eyes_seed  = sbody->seed ;
@@ -82,7 +83,7 @@ public:
 		m_extr2 = new Gui::Image(("" + str).c_str());
 
 	}
-	virtual ~VideoLink() {
+	virtual ~FaceVideoLink() {
 
 		delete m_message;
 		delete m_face;
@@ -203,7 +204,7 @@ private:
 
 void GenericChatForm::AddVideoWidget()
 {
-	Add(new VideoLink(295,285), 5, 40);
+	Add(new FaceVideoLink(295,285), 5, 40);
 	//Add(new DeadVideoLink(295,285), 5, 40);
 	//AddFaceWidget();
 }
