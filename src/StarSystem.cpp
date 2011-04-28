@@ -553,7 +553,7 @@ std::string SBody::GetAstroDescription()
 			else s = "Highly volcanic";
 		}
 
-		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
+		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
 				s += " ice world";
 			} else {
