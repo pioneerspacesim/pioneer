@@ -27,10 +27,10 @@ public:
 	}
 	// only called from fishy thread
 	void _UpdateLODs();
-
 	friend class GeoPatch;
+#ifdef DEBUG
 	friend class ObjectViewerView;
-
+#endif /* DEBUG */
 	static void Init();
 	static void OnChangeDetailLevel();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {

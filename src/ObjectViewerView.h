@@ -1,6 +1,8 @@
 #ifndef _OBJECTVIEWERVIEW_H
 #define _OBJECTVIEWERVIEW_H
 
+#ifdef DEBUG
+
 #include "libs.h"
 #include "Gui.h"
 #include "View.h"
@@ -30,5 +32,7 @@ private:
 	Gui::TextEntry *m_sbodyMetallicity;
 	void OnChangeGeoSphereStyle();
 };
+
+#endif
 
 #endif /* _OBJECTVIEWERVIEW_H */

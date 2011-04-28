@@ -83,7 +83,6 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 		case LUA_TTABLE: {
 			out += "t";
-			LUA_DEBUG_START(l);
 			lua_pushvalue(l, idx);
 			lua_pushnil(l);
 			while (lua_next(l, -2)) {
@@ -101,7 +100,6 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				lua_pop(l, 1);
 			}
 			lua_pop(l, 1);
-			LUA_DEBUG_END(l, 0);
 			out += "n";
 			break;
 		}
@@ -113,7 +111,9 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			if (!lo)
 				Error("Lua serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
 
-			if (lo->Isa("SBodyPath")) {
+			// XXX object wrappers should really have Serialize/Unserialize
+			// methods to deal with this
+			if (lo->Isa("SystemPath")) {
 				SBodyPath *sbp = dynamic_cast<SBodyPath*>(lo->m_object);
 				snprintf(buf, sizeof(buf), "SBodyPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemNum, sbp->sbodyId);
 				out += buf;
@@ -284,7 +284,6 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		LUA_DEBUG_START(l);
 		lua_pushinteger(l, 1);
 		lua_gettable(l, -2);
 		lua_call(l, 0, 1);
@@ -292,7 +291,6 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 		lua_insert(l, -2);
 		lua_settable(l, savetable);
 		lua_pop(l, 1);
-		LUA_DEBUG_END(l, 0);
 	}
 
 	lua_pop(l, 1);
@@ -330,7 +328,6 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		LUA_DEBUG_START(l);
 		lua_pushvalue(l, -2);
 		lua_pushinteger(l, 2);
 		lua_gettable(l, -3);
@@ -341,7 +338,6 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 		}
 		lua_call(l, 1, 0);
 		lua_pop(l, 2);
-		LUA_DEBUG_END(l, 0);
 	}
 
 	lua_pop(l, 2);
