@@ -1,6 +1,7 @@
 #include "LuaFormat.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
 #include "utils.h"
 
 static int l_format_date(lua_State *l)
@@ -26,7 +27,7 @@ static int l_format_money(lua_State *l)
 
 void LuaFormat::Register()
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 

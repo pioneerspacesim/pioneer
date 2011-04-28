@@ -73,6 +73,7 @@ sigc::signal<void> Pi::onPlayerChangeHyperspaceTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
+LuaManager Pi::luaManager;
 LuaSerializer Pi::luaSerializer;
 LuaTimer Pi::luaTimer;
 LuaEventQueue<> Pi::luaOnGameStart("onGameStart");
@@ -165,7 +166,7 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	// XXX kill CurrentDirectory
 	lua_pushstring(l, PIONEER_DATA_DIR);

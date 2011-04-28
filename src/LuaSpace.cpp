@@ -330,7 +330,7 @@ static int l_space_get_stars(lua_State *l)
 
 void LuaSpace::Register()
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 

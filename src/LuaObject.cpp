@@ -1,20 +1,50 @@
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
 
 #include <map>
 #include <utility>
 
+// since LuaManager is a singleton, these must be heap-allocated. If they're
+// stack-allocated, they will be torn down at program shutdown before the
+// singleton is. This will cause LuaObject to crash during garbage collection
+static bool instantiated = false;
 static lid next_id = 0;
-static std::map<lid, LuaObjectBase*> registry;
-static std::map< std::string, std::map<std::string,PromotionTest> > promotions;
+
+static std::map<lid, LuaObjectBase*> *registry;
+static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
+
+static void _teardown() {
+	printf("in teardown: registry %p promotions %p\n", registry, promotions);
+
+	delete registry;
+	delete promotions;
+}
+
+static inline void _instantiate() {
+	printf("in instantiate\n");
+
+	if (!instantiated) {
+		registry = new std::map<lid, LuaObjectBase*>;
+		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
+
+		// XXX I want to do this, because its good to clean up at end of
+		// program if you can. doing it reintroduces the crash though, as this
+		// gets called before all our objects are destroyed. I'm not sure what
+		// the solution is at this time
+		//atexit(_teardown);
+
+		instantiated = true;
+	}
+}
 
 void LuaObjectBase::Deregister(LuaObjectBase *lo)
 {
 	lo->m_deleteConnection.disconnect();
-	registry.erase(lo->m_id);
+	registry->erase(lo->m_id);
 
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -37,8 +67,8 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 
 LuaObjectBase *LuaObjectBase::Lookup(lid id)
 {
-	std::map<lid, LuaObjectBase*>::const_iterator i = registry.find(id);
-	if (i == registry.end()) return NULL;
+	std::map<lid, LuaObjectBase*>::const_iterator i = registry->find(id);
+	if (i == registry->end()) return NULL;
 	return (*i).second;
 }
 
@@ -68,7 +98,9 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 {
 	assert(type);
 
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
+
+	_instantiate();
 
 	LUA_DEBUG_START(l);
 
@@ -138,7 +170,9 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 
 bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	assert(instantiated);
+
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -172,6 +206,8 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 
 void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 {
+	assert(instantiated);
+
 	lo->m_wantDelete = wantdelete;
 
 	lo->m_id = ++next_id;
@@ -181,8 +217,8 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	bool tried_promote = false;
 	
 	while (have_promotions && !tried_promote) {
-		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions.find(lo->m_type);
-		if (base_iter != promotions.end()) {
+		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions->find(lo->m_type);
+		if (base_iter != promotions->end()) {
 			tried_promote = true;
 
 			for (
@@ -206,9 +242,9 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
 
-	registry.insert(std::make_pair(lo->m_id, lo));
+	registry->insert(std::make_pair(lo->m_id, lo));
 
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -233,7 +269,9 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	assert(instantiated);
+
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -259,7 +297,9 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 
 DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	assert(instantiated);
+
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -284,7 +324,9 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 bool LuaObjectBase::Isa(const char *type) const
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	assert(instantiated);
+
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -320,5 +362,5 @@ bool LuaObjectBase::Isa(const char *type) const
 
 void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn)
 {
-	promotions[base_type][target_type] = test_fn;
+	(*promotions)[base_type][target_type] = test_fn;
 }
