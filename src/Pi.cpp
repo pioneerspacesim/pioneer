@@ -555,7 +555,7 @@ void Pi::HandleEvents()
                             Screendump(buf);
                             break;
                         }
-#ifdef DEBUG
+//#ifdef DEBUG
                         case SDLK_m:  // Gimme money!
                             Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
                             break;
@@ -607,7 +607,7 @@ void Pi::HandleEvents()
                             }
                             break;
                         }
-#endif /* DEBUG */
+//#endif /* DEBUG */
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
