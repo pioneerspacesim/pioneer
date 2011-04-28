@@ -30,14 +30,31 @@ static void _blit_image(SDL_Surface *s, const char *filename, int yoff)
 	SDL_FreeSurface(is);
 }
 
-FaceVideoLink::FaceVideoLink(float w, float h, unsigned long seed) : VideoLink(w, h) {
+FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : VideoLink(w, h) {
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip("Video link established");
 
+	if (seed == (unsigned long)-1) seed = time(NULL);
 	MTRand rand(seed);
 
-	int race = rand.Int32(0,1);    // XXX should be 3?
-	int gender = rand.Int32(0,1);
+	//int race = rand.Int32(0,1);    // XXX should be 3?
+	// XXX forcing race to 0 for the moment. it stays this way until race 1
+	// has enough components for both genders
+	int race = 0;
+
+	int gender;
+	switch (flags & GENDER_MASK) {
+		case GENDER_MALE:
+			gender = 0;
+			break;
+		case GENDER_FEMALE:
+			gender = 1;
+			break;
+		case GENDER_RAND:
+		default:
+			gender = rand.Int32(0,1);
+			break;
+	}
 
 	int head  = rand.Int32(0,MAX_HEAD);
 	int eyes  = rand.Int32(0,MAX_EYES);
@@ -62,9 +79,11 @@ FaceVideoLink::FaceVideoLink(float w, float h, unsigned long seed) : VideoLink(w
 	printf("%s\n", filename);
 	_blit_image(s, filename, 0);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d.png", clothes);
-	printf("%s\n", filename);
-	_blit_image(s, filename, 135);
+	if (!(flags & ARMOUR)) {
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d.png", clothes);
+		printf("%s\n", filename);
+		_blit_image(s, filename, 135);
+	}
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
 	printf("%s\n", filename);
@@ -78,13 +97,17 @@ FaceVideoLink::FaceVideoLink(float w, float h, unsigned long seed) : VideoLink(w
 	printf("%s\n", filename);
 	_blit_image(s, filename, 155);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-	printf("%s\n", filename);
-	_blit_image(s, filename, 0);
+	if (!(flags & ARMOUR)) {
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
+		printf("%s\n", filename);
+		_blit_image(s, filename, 0);
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
-	printf("%s\n", filename);
-	_blit_image(s, filename, -10);
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
+		printf("%s\n", filename);
+		_blit_image(s, filename, -10);
+	}
+	else
+		_blit_image(s, PIONEER_DATA_DIR "/facegen/clothes/armour.png", 0);
 
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &m_tex);

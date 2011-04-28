@@ -7,7 +7,7 @@
 
 void GenericChatForm::AddVideoWidget()
 {
-	Add(new FaceVideoLink(295,285, Pi::player->GetDockedWith()->GetSBody()->seed), 5, 40);
+	Add(new FaceVideoLink(295,285, 0, Pi::player->GetDockedWith()->GetSBody()->seed), 5, 40);
 	//Add(new DeadVideoLink(295,285), 5, 40);
 	//AddFaceWidget();
 }
