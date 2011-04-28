@@ -111,7 +111,9 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			if (!lo)
 				Error("Lua serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
 
-			if (lo->Isa("SBodyPath")) {
+			// XXX object wrappers should really have Serialize/Unserialize
+			// methods to deal with this
+			if (lo->Isa("SystemPath")) {
 				SBodyPath *sbp = dynamic_cast<SBodyPath*>(lo->m_object);
 				snprintf(buf, sizeof(buf), "SBodyPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemNum, sbp->sbodyId);
 				out += buf;
