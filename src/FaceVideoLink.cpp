@@ -1,14 +1,10 @@
 #include "FaceVideoLink.h"
 #include "StarSystem.h"
-#include "Pi.h"
-#include "Player.h"
-#include "SpaceStation.h"
-#include "StarSystem.h"
 
-FaceVideoLink::FaceVideoLink(float w, float h) : VideoLink(w, h) {
-	const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
-	MTRand rand(sbody->seed); //thanks for pointing this out Tom.
-	int eyes_seed  = sbody->seed ;
+FaceVideoLink::FaceVideoLink(float w, float h, unsigned long seed) : VideoLink(w, h) {
+	MTRand rand(seed);
+
+	int eyes_seed  = seed ;
 	//if (StationBBView()) {
 	//	eyes_seed = 1;
 	//}
