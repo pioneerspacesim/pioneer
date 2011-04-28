@@ -100,55 +100,65 @@ public:
 			eyes_seed  = eyes_seed * -1.0f ;
 		}
 
-		int face_seed  = eyes_seed %20;
-		int mouth_seed = eyes_seed %80 ;
-		int nose_seed  = eyes_seed ;
-		int hair_seed  = eyes_seed %100 ;
-		int extr1_seed = eyes_seed %240 ;
-		int extr2_seed = eyes_seed %1500 ;
-		int sex_seed   = rand.Double(0,1);//eyes_seed %1 ; // rand.Int32(0,1) ;
-		int race_seed  = eyes_seed %3 ;
-		int cloth_seed = eyes_seed %40 ;
-		eyes_seed      = rand.Int32(0,eyes_seed);
-		eyes_seed      = eyes_seed %20 ;
-		mouth_seed     = rand.Int32(0,mouth_seed);
-		mouth_seed     = mouth_seed * 0.25f ;
-		nose_seed      = rand.Int32(0,nose_seed);
-		nose_seed      = nose_seed * rand.Int32(0,1);
-		nose_seed      = nose_seed %20 ;
-		hair_seed      = hair_seed * 0.2f ;
-		extr1_seed     = extr1_seed / 12.0f ;
-		extr2_seed     = extr2_seed / 75.0f ;
-		cloth_seed     = rand.Int32(0,cloth_seed);
-		cloth_seed     = cloth_seed %20 ;
-		race_seed      = 0 ;  //temp
-		extr1_seed     = extr1_seed %3 ;  //temp
-		extr2_seed     = rand.Int32(0,12) ; // temp
+		//int face_seed  = eyes_seed %20;
+		int face_seed  = (eyes_seed>>2)%21;
+		//int mouth_seed = eyes_seed %80 ;
+		int mouth_seed = (eyes_seed>>4)%21 ;
+		//int nose_seed  = eyes_seed ;
+		int nose_seed  = (eyes_seed>>6)%21 ;
+		//int hair_seed  = eyes_seed %100 ;
+		int hair_seed  = (eyes_seed>>8)%21 ;
+		//int extr1_seed = eyes_seed %240 ;
+		int extr1_seed = (eyes_seed>>10)%3 ;
+		//int extr2_seed = eyes_seed %1500 ;
+		int extr2_seed = (eyes_seed>>12)%21 ;
+		//int sex_seed   = rand.Double(0,1);
+		int sex_seed   = (eyes_seed>>14)%2;
+		//int race_seed  = eyes_seed %3 ;
+		int race_seed  = (eyes_seed>>16)%3 ;
+		//int cloth_seed = eyes_seed %40 ;
+		int cloth_seed = (eyes_seed>>18)%21 ;
+		//eyes_seed      = rand.Int32(0,eyes_seed);
+		//eyes_seed      = eyes_seed %20 ;
+		eyes_seed	   = (eyes_seed>>20)%21 ;
+		//mouth_seed     = rand.Int32(0,mouth_seed);
+		//mouth_seed     = mouth_seed * 0.25f ;
+		//nose_seed      = rand.Int32(0,nose_seed);
+		//nose_seed      = nose_seed * rand.Int32(0,1);
+		//nose_seed      = nose_seed %20 ;
+		//hair_seed      = hair_seed * 0.2f ;
+		//extr1_seed     = extr1_seed / 12.0f ;
+		//extr2_seed     = extr2_seed / 75.0f ;
+		//cloth_seed     = rand.Int32(0,cloth_seed);
+		//cloth_seed     = cloth_seed %20 ;
+		//race_seed      = 0 ;  //temp
+		//extr1_seed     = extr1_seed %3 ;  //temp
+		//extr2_seed     = rand.Int32(0,12) ; // temp
 		m_w = w; m_h = h;
 		m_created = SDL_GetTicks();
 		m_message = new Gui::ToolTip("Video link established");
-		std::string str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/head/head_%d_%d.png", race_seed, sex_seed, face_seed);
+		std::string str = stringf(64, PIONEER_DATA_DIR "/facegen/race_%d/head/head_%d_%d.png", race_seed, sex_seed, face_seed);
 		printf("%s\n", str.c_str());
 		m_face = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/eyes/eyes_%d_%d.png", race_seed, sex_seed, eyes_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race_seed, sex_seed, eyes_seed);
 		printf("%s\n", str.c_str());
 		m_eyes = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/nose/nose_%d_%d.png", race_seed, sex_seed, nose_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race_seed, sex_seed, nose_seed);
 		printf("%s\n", str.c_str());
 		m_nose = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/mouth/mouth_%d_%d.png", race_seed, sex_seed, mouth_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race_seed, sex_seed, mouth_seed);
 		printf("%s\n", str.c_str());
 		m_mouth = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/race_%d/hair/hair_%d_%d.png", race_seed, sex_seed, hair_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race_seed, sex_seed, hair_seed);
 		printf("%s\n", str.c_str());
 		m_hair = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/clothes/cloth_%d.png", cloth_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/clothes/cloth_%d.png", cloth_seed);
 		printf("%s\n", str.c_str());
 		m_cloth = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/accessories/acc_%d.png", extr1_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", extr1_seed);
 		printf("%s\n", str.c_str());
 		m_extr1 = new Gui::Image(("" + str).c_str());
-		str = stringf(64, PIONEER_DATA_DIR "/icons/facegen/backgrounds/background_%d.png", extr2_seed);
+		str = stringf(64, PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", extr2_seed);
 		printf("%s\n", str.c_str());
 		m_extr2 = new Gui::Image(("" + str).c_str());
 
