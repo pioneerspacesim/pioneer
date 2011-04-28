@@ -83,7 +83,6 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 		case LUA_TTABLE: {
 			out += "t";
-			LUA_DEBUG_START(l);
 			lua_pushvalue(l, idx);
 			lua_pushnil(l);
 			while (lua_next(l, -2)) {
@@ -101,7 +100,6 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				lua_pop(l, 1);
 			}
 			lua_pop(l, 1);
-			LUA_DEBUG_END(l, 0);
 			out += "n";
 			break;
 		}
@@ -284,7 +282,6 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		LUA_DEBUG_START(l);
 		lua_pushinteger(l, 1);
 		lua_gettable(l, -2);
 		lua_call(l, 0, 1);
@@ -292,7 +289,6 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 		lua_insert(l, -2);
 		lua_settable(l, savetable);
 		lua_pop(l, 1);
-		LUA_DEBUG_END(l, 0);
 	}
 
 	lua_pop(l, 1);
@@ -330,7 +326,6 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		LUA_DEBUG_START(l);
 		lua_pushvalue(l, -2);
 		lua_pushinteger(l, 2);
 		lua_gettable(l, -3);
@@ -341,7 +336,6 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 		}
 		lua_call(l, 1, 0);
 		lua_pop(l, 2);
-		LUA_DEBUG_END(l, 0);
 	}
 
 	lua_pop(l, 2);

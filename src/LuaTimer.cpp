@@ -22,8 +22,6 @@ void LuaTimer::Tick()
 	while (lua_next(l, -2)) {
 		assert(lua_istable(l, -1));
 
-		LUA_DEBUG_END(l, 1);
-
 		lua_getfield(l, -1, "at");
 		double at = lua_tonumber(l, -1);
 		lua_pop(l, 1);
@@ -49,8 +47,6 @@ void LuaTimer::Tick()
 				pi_lua_settable(l, "at", Pi::GetGameTime() + every);
 			}
 		}
-
-		LUA_DEBUG_END(l, 0);
 
 		lua_pop(l, 1);
 	}
