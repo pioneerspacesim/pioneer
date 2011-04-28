@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\BBAdvertChatForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Body.cpp"
 				>
 			</File>
@@ -407,7 +411,111 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaCargoBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaChatForm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaConstants.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEngine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEquipType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEventQueue.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFormat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaGame.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaNameGen.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaPlanet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaPlayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSBody.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSBodyPath.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSerializer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaShip.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaShipType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSpace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSpaceStation.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaStar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaStarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaTimer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaUtils.cpp"
 				>
 			</File>
 			<File
@@ -423,19 +531,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Mission.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\ModelBody.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\mtrand.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\mylua.cpp"
 				>
 			</File>
 			<File
@@ -499,19 +599,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PiLuaAPI.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\PiLuaClasses.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PiLuaConstants.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PiLuaModules.cpp"
 				>
 			</File>
 			<File
@@ -714,6 +802,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CustomSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\DeleteEmitter.h"
 				>
 			</File>
 			<File
@@ -1234,6 +1326,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\oolua\push_pointer_internal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\RefCounted.h"
 				>
 			</File>
 			<File
