@@ -111,11 +111,11 @@ public:
 		//int extr1_seed = eyes_seed %240 ;
 		int extr1_seed = (eyes_seed>>10)%3 ;
 		//int extr2_seed = eyes_seed %1500 ;
-		int extr2_seed = (eyes_seed>>12)%21 ;
+		int extr2_seed = (eyes_seed>>12)%14 ;
 		//int sex_seed   = rand.Double(0,1);
 		int sex_seed   = (eyes_seed>>14)%2;
 		//int race_seed  = eyes_seed %3 ;
-		int race_seed  = (eyes_seed>>16)%3 ;
+		int race_seed  = (eyes_seed>>16)%2 ;//should be %3
 		//int cloth_seed = eyes_seed %40 ;
 		int cloth_seed = (eyes_seed>>18)%21 ;
 		//eyes_seed      = rand.Int32(0,eyes_seed);
