@@ -1706,10 +1706,14 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		for(float i=-1 ; i < 1; i+=0.6){
 			double temp = p.y - i;
 			if ( temp < .15+h && temp > -.15+h ){
-				n = voronoiscam_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
+				n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
+					noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
+				n += 0.5*octavenoise(m_fracdef[1], 0.5*m_entropy[0],
+					noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+				n += ridged_octavenoise(m_fracdef[1], 0.5*m_entropy[0], 
 					noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
 				//n += 0.5;
-				//n *= n;
+				n *= n;
 				n = (n<0.0 ? -n : n);
 				n = (n>1.0 ? 2.0-n : n);
 				if (n >0.8) {
@@ -1718,15 +1722,15 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 					return col;
 				} else if (n>0.6) {
 					n -= 0.6; n*= 5.0;
-					col = interpolate_color(n, m_ggdarkColor[4], col );
+					col = interpolate_color(n, m_gglightColor[4], col );
 					return col;
 				} else if (n>0.4) {
 					n -= 0.4; n*= 5.0;
-					col = interpolate_color(n, col, m_ggdarkColor[4] );
+					col = interpolate_color(n, vector3d(.9, .89, .85), m_gglightColor[4] );
 					return col;
 				} else if (n>0.2) {
 					n -= 0.2; n*= 5.0;
-					col = interpolate_color(n, m_ggdarkColor[2], col );
+					col = interpolate_color(n, m_ggdarkColor[2], vector3d(.9, .89, .85) );
 					return col;
 				} else {
 					n *= 5.0;
@@ -1750,7 +1754,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			return col;
 		} else {
 			n *= 2.0;
-			col = interpolate_color(n, vector3d(.9, .9, .9), col );
+			col = interpolate_color(n, vector3d(.9, .89, .85), col );
 			return col;
 		}
 			//printf("%d", n);
