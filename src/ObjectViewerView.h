@@ -1,7 +1,7 @@
 #ifndef _OBJECTVIEWERVIEW_H
 #define _OBJECTVIEWERVIEW_H
 
-#ifdef DEBUG
+//#ifdef DEBUG
 
 #include "libs.h"
 #include "Gui.h"
@@ -33,6 +33,6 @@ private:
 	void OnChangeGeoSphereStyle();
 };
 
-#endif
+//#endif
 
 #endif /* _OBJECTVIEWERVIEW_H */

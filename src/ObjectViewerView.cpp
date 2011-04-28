@@ -8,7 +8,7 @@
 #include "GeoSphereStyle.h"
 #include "Planet.h"
 
-#ifdef DEBUG
+//#ifdef DEBUG
 
 ObjectViewerView::ObjectViewerView(): View()
 {
@@ -172,4 +172,4 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	}
 }
 
-#endif
+//#endif

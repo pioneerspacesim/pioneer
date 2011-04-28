@@ -32,9 +32,9 @@ class SBodyPath;
 class GameMenuView;
 struct lua_State;
 
-#ifdef DEBUG
+//#ifdef DEBUG
 class ObjectViewerView;
-#endif
+//#endif
 
 struct DetailLevel {
 	int planets;
@@ -142,9 +142,9 @@ public:
 	static StarSystem *currentSystem;
 	static lua_State *luaPersistent;
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	static ObjectViewerView *objectViewerView;
-#endif
+//#endif
 
 	static int CombatRating(int kills);
 	static const char * const combatRating[];

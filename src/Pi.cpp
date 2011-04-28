@@ -129,9 +129,9 @@ const char * const Pi::combatRating[] = {
 	"ELITE"
 };
 
-#ifdef DEBUG
+//#ifdef DEBUG
 ObjectViewerView *Pi::objectViewerView;
-#endif
+//#endif
 
 int Pi::CombatRating(int kills)
 {
@@ -558,10 +558,10 @@ void Pi::HandleEvents()
                             Screendump(buf);
                             break;
                         }
-#ifdef DEBUG
                         case SDLK_m:  // Gimme money!
                             Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
                             break;
+#ifdef DEBUG
                         case SDLK_F12:
                         {
                             matrix4x4d m; Pi::player->GetRotMatrix(m);
@@ -610,10 +610,10 @@ void Pi::HandleEvents()
                             }
                             break;
                         }
+#endif /* DEBUG */
                         case SDLK_F10:
                             Pi::SetView(Pi::objectViewerView);
                             break;
-#endif /* DEBUG */
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
@@ -819,9 +819,9 @@ void Pi::InitGame()
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	objectViewerView = new ObjectViewerView();
-#endif
+//#endif
 
 	AmbientSounds::Init();
 
@@ -859,9 +859,9 @@ void Pi::UninitGame()
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	delete objectViewerView;
-#endif
+//#endif
 
 	delete infoView;
 	delete spaceStationView;
