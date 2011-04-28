@@ -1703,6 +1703,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		vector3d col;
 		col = interpolate_color(equatorial_region_1, m_ggdarkColor[0], m_ggdarkColor[1]);
 		col = interpolate_color(equatorial_region_2, col, vector3d(.45, .3, .0));
+		//top stripe
 		if (p.y < 0.5 && p.y > 0.1) {
 			for(float i=-1 ; i < 1; i+=0.6){
 				double temp = p.y - i;
@@ -1739,7 +1740,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 						return col;
 					}
 				}
-			}
+			} // bottom stripe
 		} else if (p.y < -0.1 && p.y > -0.5) { 
 			for(float i=-1 ; i < 1; i+=0.6){
 				double temp = p.y - i;
@@ -1777,7 +1778,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 					}
 				}
 			}
-		} else { 
+		} else {  //small stripes
 			for(float i=-1 ; i < 1; i+=0.3){
 				double temp = p.y - i;
 				if ( temp < .1+h && temp > -.0+h ){
