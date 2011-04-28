@@ -13,6 +13,8 @@
 		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
 		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
 		4A20B12013531E950020F43E /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* SDLMain.nib */; };
+		4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF27136979E000919EBB /* DeadVideoLink.cpp */; };
+		4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF29136979E000919EBB /* FaceVideoLink.cpp */; };
 		4A6C4DD113532FC300FDD53F /* AmbientSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */; };
 		4A6C4DD213532FC300FDD53F /* Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C0213532FC300FDD53F /* Body.cpp */; };
 		4A6C4DD313532FC300FDD53F /* CargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C0513532FC300FDD53F /* CargoBody.cpp */; };
@@ -229,6 +231,11 @@
 		4A20B11713531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = pioneer/en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
+		4A62EF27136979E000919EBB /* DeadVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeadVideoLink.cpp; sourceTree = "<group>"; };
+		4A62EF28136979E000919EBB /* DeadVideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeadVideoLink.h; sourceTree = "<group>"; };
+		4A62EF29136979E000919EBB /* FaceVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceVideoLink.cpp; sourceTree = "<group>"; };
+		4A62EF2A136979E000919EBB /* FaceVideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceVideoLink.h; sourceTree = "<group>"; };
+		4A62EF2B136979E000919EBB /* VideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLink.h; sourceTree = "<group>"; };
 		4A6C4BFE13532FC300FDD53F /* Aabb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aabb.h; sourceTree = "<group>"; };
 		4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AmbientSounds.cpp; sourceTree = "<group>"; };
 		4A6C4C0013532FC300FDD53F /* AmbientSounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmbientSounds.h; sourceTree = "<group>"; };
@@ -739,6 +746,11 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4A62EF27136979E000919EBB /* DeadVideoLink.cpp */,
+				4A62EF28136979E000919EBB /* DeadVideoLink.h */,
+				4A62EF29136979E000919EBB /* FaceVideoLink.cpp */,
+				4A62EF2A136979E000919EBB /* FaceVideoLink.h */,
+				4A62EF2B136979E000919EBB /* VideoLink.h */,
 				4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */,
 				4A9937191368355400EA0EE5 /* BBAdvertChatForm.h */,
 				4A99371A1368355400EA0EE5 /* DeleteEmitter.h */,
@@ -1419,6 +1431,8 @@
 				4A9937681368355500EA0EE5 /* LuaTimer.cpp in Sources */,
 				4A9937691368355500EA0EE5 /* LuaUI.cpp in Sources */,
 				4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */,
+				4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */,
+				4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
