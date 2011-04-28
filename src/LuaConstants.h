@@ -1,13 +1,13 @@
 #ifndef _LUACONSTANTS_H
 #define _LUACONSTANTS_H
 
-#include "LuaManager.h"
+#include "Pi.h"
 
 namespace LuaConstants {
 	void Register(lua_State *l);
 
 	inline void Register() {
-		Register(LuaManager::Instance()->GetLuaState());
+		Register(Pi::luaManager.GetLuaState());
 	}
 }
 

@@ -33,7 +33,7 @@ static int l_game_meta_index(lua_State *l)
 
 void LuaGame::Register()
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 

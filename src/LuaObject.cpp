@@ -1,6 +1,7 @@
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
 
 #include <map>
 #include <utility>
@@ -14,7 +15,7 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lo->m_deleteConnection.disconnect();
 	registry.erase(lo->m_id);
 
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -68,7 +69,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 {
 	assert(type);
 
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -138,7 +139,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 
 bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -208,7 +209,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	registry.insert(std::make_pair(lo->m_id, lo));
 
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -233,7 +234,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -259,7 +260,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 
 DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -284,7 +285,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 bool LuaObjectBase::Isa(const char *type) const
 {
-	lua_State *l = LuaManager::Instance()->GetLuaState();
+	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
