@@ -1703,44 +1703,82 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		vector3d col;
 		col = interpolate_color(equatorial_region_1, m_ggdarkColor[0], m_ggdarkColor[1]);
 		col = interpolate_color(equatorial_region_2, col, vector3d(.45, .3, .0));
-		for(float i=-1 ; i < 1; i+=0.6){
-			double temp = p.y - i;
-			if ( temp < .15+h && temp > -.15+h ){
-				n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
-					noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
-				n += 0.5*octavenoise(m_fracdef[1], 0.5*m_entropy[0],
-					noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
-				n += ridged_octavenoise(m_fracdef[1], 0.5*m_entropy[0], 
-					noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
-				//n += 0.5;
-				n *= n;
-				n = (n<0.0 ? -n : n);
-				n = (n>1.0 ? 2.0-n : n);
-				if (n >0.8) {
-					n -= 0.8; n *= 5.0;
-					col = interpolate_color(n, col, m_ggdarkColor[7] );
-					return col;
-				} else if (n>0.6) {
-					n -= 0.6; n*= 5.0;
-					col = interpolate_color(n, m_gglightColor[4], col );
-					return col;
-				} else if (n>0.4) {
-					n -= 0.4; n*= 5.0;
-					col = interpolate_color(n, vector3d(.9, .89, .85), m_gglightColor[4] );
-					return col;
-				} else if (n>0.2) {
-					n -= 0.2; n*= 5.0;
-					col = interpolate_color(n, m_ggdarkColor[2], vector3d(.9, .89, .85) );
-					return col;
-				} else {
-					n *= 5.0;
-					col = interpolate_color(n, col, m_ggdarkColor[2] );
-					return col;
+		if (p.y < 0.5 && p.y > -0.5) {
+			for(float i=-1 ; i < 1; i+=0.6){
+				double temp = p.y - i;
+				if ( temp < .15+h && temp > -.15+h ){
+					n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
+						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
+					n += 0.5*octavenoise(m_fracdef[1], 0.5*m_entropy[0],
+						noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+					n += ridged_octavenoise(m_fracdef[1], 0.5*m_entropy[0], 
+						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
+					//n += 0.5;
+					n *= n;
+					n = (n<0.0 ? -n : n);
+					n = (n>1.0 ? 2.0-n : n);
+					if (n >0.8) {
+						n -= 0.8; n *= 5.0;
+						col = interpolate_color(n, col, m_ggdarkColor[7] );
+						return col;
+					} else if (n>0.6) {
+						n -= 0.6; n*= 5.0;
+						col = interpolate_color(n, m_gglightColor[4], col );
+						return col;
+					} else if (n>0.4) {
+						n -= 0.4; n*= 5.0;
+						col = interpolate_color(n, vector3d(.9, .89, .85), m_gglightColor[4] );
+						return col;
+					} else if (n>0.2) {
+						n -= 0.2; n*= 5.0;
+						col = interpolate_color(n, m_ggdarkColor[2], vector3d(.9, .89, .85) );
+						return col;
+					} else {
+						n *= 5.0;
+						col = interpolate_color(n, col, m_ggdarkColor[2] );
+						return col;
+					}
 				}
-				//col = interpolate_color(n, col, m_ggdarkColor[2] );
-				//return col;
 			}
-		}//if is not a stripe.
+		} else {
+			for(float i=-1 ; i < 1; i+=0.3){
+				double temp = p.y - i;
+				if ( temp < .05+h && temp > -.0+h ){
+					n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
+						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
+					n += 0.5*octavenoise(m_fracdef[1], 0.5*m_entropy[0],
+						noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
+					n += ridged_octavenoise(m_fracdef[1], 0.5*m_entropy[0], 
+						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
+					//n += 0.5;
+					n *= n;
+					n = (n<0.0 ? -n : n);
+					n = (n>1.0 ? 2.0-n : n);
+					if (n >0.8) {
+						n -= 0.8; n *= 5.0;
+						col = interpolate_color(n, col, m_ggdarkColor[7] );
+						return col;
+					} else if (n>0.6) {
+						n -= 0.6; n*= 5.0;
+						col = interpolate_color(n, m_gglightColor[4], col );
+						return col;
+					} else if (n>0.4) {
+						n -= 0.4; n*= 5.0;
+						col = interpolate_color(n, vector3d(.9, .89, .85), m_gglightColor[4] );
+						return col;
+					} else if (n>0.2) {
+						n -= 0.2; n*= 5.0;
+						col = interpolate_color(n, m_ggdarkColor[2], vector3d(.9, .89, .85) );
+						return col;
+					} else {
+						n *= 5.0;
+						col = interpolate_color(n, col, m_ggdarkColor[2] );
+						return col;
+					}
+				}
+			}
+		}
+		//if is not a stripe.
 		n = octavenoise(m_fracdef[1], 0.5*m_entropy[0] + 
 			0.25f,noise(vector3d(p.x, p.y*m_planetEarthRadii*2, p.z))*p);
 		//n += 0.5;

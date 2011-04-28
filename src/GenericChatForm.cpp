@@ -95,6 +95,9 @@ public:
 		const SBody *sbody = Pi::player->GetDockedWith()->GetSBody();
 		MTRand rand(sbody->seed); //thanks for pointing this out Tom.
 		int eyes_seed  = sbody->seed ;
+		//if (StationBBView()) {
+		//	eyes_seed = 1;
+		//}
 
 		if (eyes_seed < 0) {
 			eyes_seed  = eyes_seed * -1.0f ;
