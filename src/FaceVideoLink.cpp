@@ -1,5 +1,8 @@
 #include "FaceVideoLink.h"
 
+#define FACE_WIDTH  295
+#define FACE_HEIGHT 285
+
 // XXX these shouldn't really be hardcoded. it'd be much nicer to poke through
 // the facegen/ dir and figure out what we've got available. that or some
 // config file
@@ -13,6 +16,19 @@
 #define MAX_ACCESSORIES 3
 
 #define MAX_BACKGROUND 12
+
+static void _blit_image(SDL_Surface *s, const char *filename, int yoff)
+{
+	SDL_Surface *is = IMG_Load(filename);
+	if (!is) {
+		fprintf(stderr, "FaceVideoLink: couldn't load '%s'\n", filename);
+		return;
+	}
+
+	SDL_Rect destrec = { (FACE_WIDTH-is->w-1)/2, yoff, 0, 0 };
+	SDL_BlitSurface(is, NULL, s, &destrec);
+	SDL_FreeSurface(is);
+}
 
 FaceVideoLink::FaceVideoLink(float w, float h, unsigned long seed) : VideoLink(w, h) {
 	m_created = SDL_GetTicks();
@@ -36,52 +52,57 @@ FaceVideoLink::FaceVideoLink(float w, float h, unsigned long seed) : VideoLink(w
 
 	char filename[1024];
 
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/head/head_%d_%d.png", race, gender, head);
-	printf("%s\n", filename);
-	m_head = new Gui::Image(filename);
-
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
-	printf("%s\n", filename);
-	m_eyes = new Gui::Image(filename);
-
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
-	printf("%s\n", filename);
-	m_nose = new Gui::Image(filename);
-
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
-	printf("%s\n", filename);
-	m_mouth = new Gui::Image(filename);
-
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-	printf("%s\n", filename);
-	m_hair = new Gui::Image(filename);
-
-
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d.png", clothes);
-	printf("%s\n", filename);
-	m_clothes = new Gui::Image(filename);
-
-	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
-	printf("%s\n", filename);
-	m_accessories = new Gui::Image(filename);
-
+	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
 	printf("%s\n", filename);
-	m_background = new Gui::Image(filename);
+	_blit_image(s, filename, 0);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/head/head_%d_%d.png", race, gender, head);
+	printf("%s\n", filename);
+	_blit_image(s, filename, 0);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d.png", clothes);
+	printf("%s\n", filename);
+	_blit_image(s, filename, 135);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
+	printf("%s\n", filename);
+	_blit_image(s, filename, 42);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
+	printf("%s\n", filename);
+	_blit_image(s, filename, 89);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
+	printf("%s\n", filename);
+	_blit_image(s, filename, 155);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
+	printf("%s\n", filename);
+	_blit_image(s, filename, 0);
+
+	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
+	printf("%s\n", filename);
+	_blit_image(s, filename, -10);
+
+	glEnable(GL_TEXTURE_2D);
+	glGenTextures(1, &m_tex);
+	glBindTexture(GL_TEXTURE_2D, m_tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, FACE_WIDTH, FACE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glDisable(GL_TEXTURE_2D);
+
+	SDL_FreeSurface(s);
 }
 
 FaceVideoLink::~FaceVideoLink() {
 	delete m_message;
 
-	delete m_head;
-	delete m_eyes;
-	delete m_nose;
-	delete m_mouth;
-	delete m_hair;
-	delete m_clothes;
-	delete m_accessories;
-	delete m_background;
+	glDeleteTextures(1, &m_tex);
 }
 
 void FaceVideoLink::Draw() {
@@ -99,9 +120,9 @@ void FaceVideoLink::Draw() {
 	} else {
 		m_message->SetText("Video link established.");
 
-		glEnable (GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, m_tex);
-		glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glBegin(GL_QUADS);
 			glColor3f(0,0,0);
 			glTexCoord2f(0,0);
@@ -113,11 +134,10 @@ void FaceVideoLink::Draw() {
 			glTexCoord2f(1,0);
 			glVertex2f(size[0],0);
 		glEnd();
-		glDisable (GL_TEXTURE_2D);
-		DrawFace();
-		if (SDL_GetTicks() & 0x400) {
+		glDisable(GL_TEXTURE_2D);
+
+		if (SDL_GetTicks() & 0x400)
 			DrawMessage();
-		}
 	}
 }
 
@@ -136,49 +156,3 @@ void FaceVideoLink::DrawMessage() {
 	m_message->Draw();
 	glPopMatrix();
 }
-
-void FaceVideoLink::DrawFace() {
-	float size[2];
-
-	m_background->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
-	m_background->Draw();	
-	glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
-
-	m_head->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
-	m_head->Draw();	
-	glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
-
-	m_clothes->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
-	m_clothes->Draw();
-	glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
-
-	m_eyes->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 189 - size[1], 0);
-	m_eyes->Draw();
-	glTranslatef((size[0] - 295)*0.5f, size[1] -189, 0);
-
-	m_nose->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 221.5 - size[1], 0);
-	m_nose->Draw();
-	glTranslatef((size[0] - 295)*0.5f, size[1] -221.5, 0);
-
-	m_mouth->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 225 - size[1], 0);
-	m_mouth->Draw();
-	glTranslatef((size[0] - 295)*0.5f, size[1] -225, 0);
-
-	m_hair->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
-	m_hair->Draw();
-	glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
-
-	m_accessories->GetSize(size);
-	glTranslatef((295 - size[0])*0.5f, 285 - size[1], 0);
-	m_accessories->Draw();
-	glTranslatef((size[0] - 295)*0.5f, size[1] - 285, 0);
-}
-
-
