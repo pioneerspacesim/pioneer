@@ -36,6 +36,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_launchLockTimeout);
 	wr.Bool(m_testLanded);
 	wr.Int32((int)m_flightState);
+	wr.Int32((int)m_alertState);
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
@@ -71,6 +72,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
 	m_flightState = (FlightState) rd.Int32();
+	m_alertState = (AlertState) rd.Int32();
 	
 	SBodyPath::Unserialize(rd, &m_hyperspace.dest);
 	m_hyperspace.countdown = rd.Float();
@@ -115,6 +117,7 @@ void Ship::PostLoadFixup()
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
 	m_flightState = FLYING;
+	m_alertState = ALERT_NONE;
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
