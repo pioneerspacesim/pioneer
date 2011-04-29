@@ -1,5 +1,6 @@
 #include "LuaManager.h"
 #include "oolua/oolua.h"
+#include <stdlib.h> // for abort
 
 bool instantiated = false;
 
