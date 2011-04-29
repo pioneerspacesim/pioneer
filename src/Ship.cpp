@@ -559,7 +559,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	DynamicBody::TimeStepUpdate(timeStep);
 
-	bool ship_is_near = false;
+	bool ship_is_near = false, ship_is_firing = false;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
 	{
 		if ((*i) == this) continue;
@@ -567,15 +567,36 @@ void Ship::TimeStepUpdate(const float timeStep)
 		Ship *ship = dynamic_cast<Ship*>(*i);
 		if (!ship) continue;
 
-		if (GetPositionRelTo(ship).Length() < 100000.0)
+		if (GetPositionRelTo(ship).Length() < 100000.0) {
 			ship_is_near = true;
-			break;
+			for (int j = 0; j < ShipType::GUNMOUNT_MAX; j++)
+				if (ship->m_gunState[j]) {
+					ship_is_firing = true;
+					break;
+				}
+
+			if (ship_is_near && ship_is_firing)
+				break;
+		}
 	}
 
-	if (m_alertState && !ship_is_near)
-		SetAlertState(ALERT_NONE);
-	else if(!m_alertState && ship_is_near)
-		SetAlertState(ALERT_SHIP_NEARBY);
+	switch (m_alertState) {
+		case ALERT_NONE:
+			if (ship_is_near)   SetAlertState(ALERT_SHIP_NEARBY);
+			if (ship_is_firing) SetAlertState(ALERT_SHIP_FIRING);
+			break;
+
+		case ALERT_SHIP_NEARBY:
+			if (!ship_is_near)
+				SetAlertState(ALERT_NONE);
+			else if (ship_is_firing)
+				SetAlertState(ALERT_SHIP_FIRING);
+			break;
+
+		case ALERT_SHIP_FIRING:
+			if (!ship_is_near)
+				SetAlertState(ALERT_NONE);
+	}
 }
 
 void Ship::FireWeapon(int num)
