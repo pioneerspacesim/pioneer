@@ -5,6 +5,15 @@
 #include "StarSystem.h"
 #include "Pi.h"
 
+/*
+ * Class: LuaBody
+ *
+ * Lua class that represents a physics body.
+ */
+
+/*
+ * Function: Body.GetLabel
+ */
 static int l_body_get_label(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
@@ -12,6 +21,9 @@ static int l_body_get_label(lua_State *l)
 	return 1;
 } 
 
+/*
+ * Function: Body.GetSeed
+ */
 static int l_body_get_seed(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
@@ -23,6 +35,9 @@ static int l_body_get_seed(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Body.GetPath
+ */
 static int l_body_get_path(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
