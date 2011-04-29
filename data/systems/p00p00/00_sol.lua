@@ -209,6 +209,7 @@ local jupiter_moons = {
 		:ocean_cover(f(8,10))
 		:ice_cover(f(9,10))
 		:atmos_density(f(1,12))
+		:metallicity(f(4,5))
 		:volcanicity(f(0,1)),
 	{
 		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)

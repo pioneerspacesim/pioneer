@@ -723,15 +723,11 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[1], height, rand.Double(4.0, 20.0)*height, rand);
 			SetFracDef(&m_fracdef[2], m_maxHeightInMeters, rand.Double(200.0, 1000.0)*m_maxHeightInMeters, rand);
 
-			// canyon
+			// mountains with some canyons
 			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.4, 4e6, rand);
 			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.4, 5e6, rand);
 			//crater
-			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.4, 1.5e7, rand, 10000.0);
-			//SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.4, 6e6, rand, 1000.0);
-			//SetFracDef(&m_fracdef[7], m_maxHeightInMeters*0.4, 2e7, rand, 1000.0);
-			//SetFracDef(&m_fracdef[8], m_maxHeightInMeters*0.4, 9e6, rand, 1000.0);
-			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.4, 1e7, rand, 1000.0);
+			SetFracDef(&m_fracdef[5], m_maxHeightInMeters*0.4, 1.5e7, rand, 50000.0);
 			break;
 		}
 		case TERRAIN_RUGGED_DESERT:
@@ -1570,7 +1566,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				m_fracdef[1].amplitude * river_octavenoise(m_fracdef[1], 0.5, p);
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
 			// craters
-			n += crater_function(m_fracdef[5], p);
+			n += crater_function(m_fracdef[5], p);	
 			if (n > 0.0) {
 				// smooth in hills at shore edges 
 				if (n < 0.05) {
@@ -1580,7 +1576,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						river_octavenoise(m_fracdef[4], 0.5*
 						ridged_octavenoise(m_fracdef[3], 0.5, p), p) +
 						billow_octavenoise(m_fracdef[3], 0.6*
-						ridged_octavenoise(m_fracdef[2], 0.55, p), p));
+						ridged_octavenoise(m_fracdef[4], 0.55, p), p));
 				} else {
 					n += hills * .2f ;
 					n += billow_octavenoise(m_fracdef[3], 0.5*
@@ -1588,7 +1584,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						river_octavenoise(m_fracdef[4], 0.5*
 						ridged_octavenoise(m_fracdef[3], 0.5, p), p) +
 						billow_octavenoise(m_fracdef[3], 0.6*
-						ridged_octavenoise(m_fracdef[2], 0.55, p), p);
+						ridged_octavenoise(m_fracdef[4], 0.55, p), p);
 				}
 				// adds mountains hills craters 
 				mountains = octavenoise(m_fracdef[3], 0.5, p) *
