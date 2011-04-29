@@ -308,5 +308,7 @@ void Player::SetAlertState(Ship::AlertState as)
 			break;
 	}
 
+	Pi::cpan->SetAlertState(as);
+
 	Ship::SetAlertState(as);
 }

@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "Gui.h"
 #include "ShipCpanelMultiFuncDisplays.h"
+#include "Ship.h"
 
 class Body;
 class SpaceStation;
@@ -15,6 +16,7 @@ public:
 	virtual void Draw();
 	void Update();
 	MsgLogWidget *MsgLog() { return m_msglog; }
+	void SetAlertState(Ship::AlertState as);
 private:
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
@@ -44,6 +46,7 @@ private:
 	UseEquipWidget *m_useEquipWidget;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
+	Gui::Image *m_alertLights[3];
 };
 
 #endif /* _SHIP_CPANEL_H */

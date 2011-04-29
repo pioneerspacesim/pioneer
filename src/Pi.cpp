@@ -848,6 +848,7 @@ void Pi::StartGame()
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
