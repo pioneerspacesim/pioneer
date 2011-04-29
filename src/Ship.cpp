@@ -36,6 +36,8 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Float(m_launchLockTimeout);
 	wr.Bool(m_testLanded);
 	wr.Int32((int)m_flightState);
+	wr.Int32((int)m_alertState);
+	wr.Float(m_lastFiringAlert);
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
@@ -71,6 +73,8 @@ void Ship::Load(Serializer::Reader &rd)
 	m_launchLockTimeout = rd.Float();
 	m_testLanded = rd.Bool();
 	m_flightState = (FlightState) rd.Int32();
+	m_alertState = (AlertState) rd.Int32();
+	m_lastFiringAlert = rd.Float();
 	
 	SBodyPath::Unserialize(rd, &m_hyperspace.dest);
 	m_hyperspace.countdown = rd.Float();
@@ -115,6 +119,8 @@ void Ship::PostLoadFixup()
 Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
 	m_flightState = FLYING;
+	m_alertState = ALERT_NONE;
+	m_lastFiringAlert = 0.0;
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
@@ -610,6 +616,60 @@ double Ship::GetHullTemperature() const
 	}
 }
 
+void Ship::UpdateAlertState()
+{
+	bool ship_is_near = false, ship_is_firing = false;
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+	{
+		if ((*i) == this) continue;
+		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
+
+		Ship *ship = static_cast<Ship*>(*i);
+
+		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
+			ship_is_near = true;
+
+			Uint32 gunstate = 0;
+			for (int j = 0; j < ShipType::GUNMOUNT_MAX; j++)
+				gunstate |= ship->m_gunState[j];
+
+			if (gunstate) {
+				ship_is_firing = true;
+				break;
+			}
+		}
+	}
+
+	switch (m_alertState) {
+		case ALERT_NONE:
+			if (ship_is_near)
+                SetAlertState(ALERT_SHIP_NEARBY);
+			if (ship_is_firing) {
+				m_lastFiringAlert = Pi::GetGameTime();
+			 	SetAlertState(ALERT_SHIP_FIRING);
+			}
+			break;
+
+		case ALERT_SHIP_NEARBY:
+			if (!ship_is_near)
+				SetAlertState(ALERT_NONE);
+			else if (ship_is_firing) {
+				m_lastFiringAlert = Pi::GetGameTime();
+				SetAlertState(ALERT_SHIP_FIRING);
+			}
+			break;
+
+		case ALERT_SHIP_FIRING:
+			if (!ship_is_near)
+				SetAlertState(ALERT_NONE);
+			else if (ship_is_firing)
+				m_lastFiringAlert = Pi::GetGameTime();
+			else if (m_lastFiringAlert + 30.0 <= Pi::GetGameTime())
+				SetAlertState(ALERT_SHIP_NEARBY);
+			break;
+	}
+}
+
 void Ship::StaticUpdate(const float timeStep)
 {
 	AITimeStep(timeStep);		// moved to correct place, maybe
@@ -617,6 +677,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
 	}
+
+	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
 	if (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
