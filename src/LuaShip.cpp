@@ -23,11 +23,13 @@
  * Function: Ship.IsPlayer
  *
  * Determines if the ship is the player ship
+ * 
+ * > isplayer = ship:IsPlayer()
  *
  * Returns:
  *
- *   True if the ship is the player, false otherwise
- * 
+ *   isplayer - true if the ship is the player, false otherwise
+ *
  * Example:
  *
  * > if Game.player:IsPlayer() then
@@ -45,9 +47,11 @@ static int l_ship_is_player(lua_State *l)
  *
  * Returns statistics for the ship
  *
+ * > stats - ship:GetStats()
+ *
  * Returns:
  *
- *   A table with the following fields
+ *   stats - a table with the following fields
  *
  *     max_capacity - maximum space for cargo and equipment (t)
  *     used_capacity - amount of space used (t)
@@ -91,6 +95,22 @@ static int l_ship_get_stats(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.SetLabel
+ *
+ * Changes the ship's label text.
+ *
+ * > ship:SetLabel(newlabel)
+ *
+ * Parameters:
+ *
+ *   newlabel - the new label. Only the first 16 characters will be available
+ *              to the model. The full label will be shown in the HUD.
+ * 
+ * Example:
+ *
+ * > ship:SetLabel("AB-1234")
+ */
 static int l_ship_set_label(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -146,6 +166,36 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
 	m.shininess = 50.0f + (float)Pi::rng.Double()*50.0f;
 }
 
+/*
+ * Function: Ship.SetPrimaryColour
+ *
+ * Change the ship model's primary colour
+ *
+ * > ship:SetPrimaryColour(hex)
+ * > ship:SetPrimaryColour(red, green, blue)
+ *
+ * Parameters:
+ *
+ *   hex - a hex RGB triplet describing the colour, eg. "#99cc99"
+ *
+ *   red - a real number describing the red component of the colour. 0.0 is no
+ *         red component, 1.0 is full red
+ *
+ *   green - a real number describing the green component of the colour. 0.0
+ *           is no green component, 1.0 is full green
+ *
+ *   blue - a real number describing the blue component of the colour. 0.0 is
+ *          no blue component, 1.0 is full blue
+ * 
+ * Example:
+ *
+ * > ship:SetPrimaryColour("#002366")       -- royal blue
+ * > ship:SetPrimaryColour(1.0, 0.27, 0.0)  -- orange red
+ *
+ * See also:
+ *
+ *   <Ship.SetSecondaryColour>
+ */
 static int l_ship_set_primary_colour(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -157,6 +207,36 @@ static int l_ship_set_primary_colour(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.SetSecondaryColour
+ *
+ * Change the ship model's secondary colour
+ *
+ * > ship:SetSecondaryColour(hex)
+ * > ship:SetSecondaryColour(red, green, blue)
+ *
+ * Parameters:
+ *
+ *   hex - a hex RGB triplet describing the colour, eg. "#99cc99"
+ *
+ *   red - a real number describing the red component of the colour. 0.0 is no
+ *         red component, 1.0 is full red
+ *
+ *   green - a real number describing the green component of the colour. 0.0
+ *           is no green component, 1.0 is full green
+ *
+ *   blue - a real number describing the blue component of the colour. 0.0 is
+ *          no blue component, 1.0 is full blue
+ * 
+ * Example:
+ *
+ * > ship:SetSecondaryColour("#002366")       -- royal blue
+ * > ship:SetSecondaryColour(1.0, 0.27, 0.0)  -- orange red
+ *
+ * See also:
+ *
+ *   <Ship.SetPrimaryColour>
+ */
 static int l_ship_set_secondary_colour(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
