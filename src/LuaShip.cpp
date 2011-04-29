@@ -248,6 +248,9 @@ static int l_ship_set_secondary_colour(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.GetEquipSlotSize
+ */
 static int l_ship_get_equip_slot_size(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -258,6 +261,9 @@ static int l_ship_get_equip_slot_size(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.GetEquip
+ */
 static int l_ship_get_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -280,6 +286,9 @@ static int l_ship_get_equip(lua_State *l)
 	return size;
 }
 
+/*
+ * Function: Ship.SetEquip
+ */
 static int l_ship_set_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -297,6 +306,9 @@ static int l_ship_set_equip(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.AddEquip
+ */
 static int l_ship_add_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -313,6 +325,9 @@ static int l_ship_add_equip(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.RemoveEquip
+ */
 static int l_ship_remove_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -329,6 +344,9 @@ static int l_ship_remove_equip(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.GetEquipCount
+ */
 static int l_ship_get_equip_count(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -344,6 +362,9 @@ static int l_ship_get_equip_count(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.GetEquipFree
+ */
 static int l_ship_get_equip_free(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -355,6 +376,9 @@ static int l_ship_get_equip_free(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.Jettison
+ */
 static int l_ship_jettison(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -366,6 +390,9 @@ static int l_ship_jettison(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.GetDockedWith
+ */
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -375,6 +402,9 @@ static int l_ship_get_docked_with(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.Undock
+ */
 static int l_ship_undock(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -385,6 +415,9 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.Kill
+ */
 static int l_ship_kill(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -393,6 +426,9 @@ static int l_ship_kill(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.FlyTo
+ */
 static int l_ship_fly_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -401,6 +437,9 @@ static int l_ship_fly_to(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.DockWith
+ */
 static int l_ship_dock_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -409,6 +448,9 @@ static int l_ship_dock_with(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.EnterLowOrbit
+ */
 static int l_ship_enter_low_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -417,6 +459,9 @@ static int l_ship_enter_low_orbit(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.EnterMediumOrbit
+ */
 static int l_ship_enter_medium_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -425,6 +470,9 @@ static int l_ship_enter_medium_orbit(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.EnterHighOrbit
+ */
 static int l_ship_enter_high_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -433,6 +481,9 @@ static int l_ship_enter_high_orbit(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Ship.CanHyperspaceTo
+ */
 static int l_ship_can_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -453,6 +504,9 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Ship.HyperspaceTo
+ */
 static int l_ship_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
