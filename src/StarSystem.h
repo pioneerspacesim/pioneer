@@ -15,8 +15,8 @@ struct CustomSBody;
 struct CustomSystem;
 class SBody;
 
-// doubles: all masses in Kg, all lengths in meters
-// fixed: any mad scheme
+// doubles - all masses in Kg, all lengths in meters
+// fixed - any mad scheme
 
 enum {  ECON_MINING = (1<<0), 
 	ECON_AGRICULTURE = (1<<1), 
