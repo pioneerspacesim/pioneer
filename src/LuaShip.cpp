@@ -13,12 +13,60 @@
 #include "HyperspaceCloud.h"
 #include "LmrModel.h"
 
+/*
+ * Class: LuaShip
+ *
+ * Lua class that represents a ship. Inherits from <LuaBody>.
+ */
+
+/*
+ * Function: Ship.IsPlayer
+ *
+ * Determines if the ship is the player ship
+ *
+ * Returns:
+ *
+ *   True if the ship is the player, false otherwise
+ * 
+ * Example:
+ *
+ * > if Game.player:IsPlayer() then
+ * >     print("this is the player")
+ * > end
+ */
 static int l_ship_is_player(lua_State *l)
 {
     lua_pushboolean(l, false);
     return 1;
 }
 
+/*
+ * Function: Ship.GetStats
+ *
+ * Returns statistics for the ship
+ *
+ * Returns:
+ *
+ *   A table with the following fields
+ *
+ *     max_capacity - maximum space for cargo and equipment (t)
+ *     used_capacity - amount of space used (t)
+ *     used_cargo - amount of cargo space used (t)
+ *     free_capacity - total space remaining (t)
+ *     total_mass - total mass of the ship (cargo, equipment & hull) (t)
+ *     hull_mass_left - remaining hull mass. when this reaches 0, the ship is destroyed (t)
+ *     shield_mass - total mass equivalent of all shields (t)
+ *     shield_mass_left - remaining shield mass. when this reaches 0, the shields are depleted and the hull is exposed (t)
+ *     hyperspace_range - distance of furthest possible jump based on current contents (ly)
+ *     hyperspace_range_max - distance furthest possible jump under ideal conditions (ly)
+ *
+ * Example:
+ *
+ * > local stats = ship:GetStats()
+ * > if stats.shield_mass == stats.shield_mass_left then
+ * >     print("shields at full strength")
+ * > end
+ */
 static int l_ship_get_stats(lua_State *l)
 {
 	LUA_DEBUG_START(l);
