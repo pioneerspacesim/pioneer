@@ -283,3 +283,32 @@ bool Player::SetWheelState(bool down)
 	}
 	return did;
 }
+
+void Player::SetAlertState(Ship::AlertState as)
+{
+	Ship::AlertState prev = GetAlertState();
+
+	switch (as) {
+		case ALERT_NONE:
+			if (prev != ALERT_NONE)
+				Pi::cpan->MsgLog()->Message("", "Alert cancelled.");
+			break;
+
+		case ALERT_SHIP_NEARBY:
+			if (prev == ALERT_NONE)
+				Pi::cpan->MsgLog()->ImportantMessage("", "Ship detected nearby.");
+			else
+				Pi::cpan->MsgLog()->ImportantMessage("", "No fire detected for 30 seconds, downgrading alert status.");
+			Sound::PlaySfx("OK");
+			break;
+
+		case ALERT_SHIP_FIRING:
+			Pi::cpan->MsgLog()->ImportantMessage("", "Laser fire detected.");
+			Sound::PlaySfx("warning");
+			break;
+	}
+
+	Pi::cpan->SetAlertState(as);
+
+	Ship::SetAlertState(as);
+}

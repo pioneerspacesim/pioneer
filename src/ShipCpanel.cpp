@@ -144,7 +144,18 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
-
+	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_green.png");
+	img->SetToolTip("No alert");
+	Add(img, 780, 41);
+	m_alertLights[0] = img;
+	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_yellow.png");
+	img->SetToolTip("Ship nearby");
+	Add(img, 780, 41);
+	m_alertLights[1] = img;
+	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_red.png");
+	img->SetToolTip("Fire detected");
+	Add(img, 780, 41);
+	m_alertLights[2] = img;
 
 	m_connOnDockingClearanceExpired =
 		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
@@ -289,3 +300,23 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 	}
 }
 
+void ShipCpanel::SetAlertState(Ship::AlertState as)
+{
+	switch (as) {
+		case Ship::ALERT_NONE:
+			m_alertLights[0]->Show();
+			m_alertLights[1]->Hide();
+			m_alertLights[2]->Hide();
+			break;
+		case Ship::ALERT_SHIP_NEARBY:
+			m_alertLights[0]->Hide();
+			m_alertLights[1]->Show();
+			m_alertLights[2]->Hide();
+			break;
+		case Ship::ALERT_SHIP_FIRING:
+			m_alertLights[0]->Hide();
+			m_alertLights[1]->Hide();
+			m_alertLights[2]->Show();
+			break;
+	}
+}

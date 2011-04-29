@@ -130,9 +130,9 @@ const char * const Pi::combatRating[] = {
 	"ELITE"
 };
 
-//#ifdef DEBUG
+#if OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
-//#endif
+#endif
 
 int Pi::CombatRating(int kills)
 {
@@ -559,10 +559,10 @@ void Pi::HandleEvents()
                             Screendump(buf);
                             break;
                         }
+#ifdef DEBUG
                         case SDLK_m:  // Gimme money!
                             Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
                             break;
-#ifdef DEBUG
                         case SDLK_F12:
                         {
                             matrix4x4d m; Pi::player->GetRotMatrix(m);
@@ -612,13 +612,15 @@ void Pi::HandleEvents()
                             break;
                         }
 #endif /* DEBUG */
+#if OBJECTVIEWER
                         case SDLK_F10:
                             Pi::SetView(Pi::objectViewerView);
                             break;
+#endif
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
-                            //break;
+                            break;
                         case SDLK_F9: // Quicksave
                         {
                             std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
@@ -820,9 +822,9 @@ void Pi::InitGame()
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 
-//#ifdef DEBUG
+#if OBJECTVIEWER
 	objectViewerView = new ObjectViewerView();
-//#endif
+#endif
 
 	AmbientSounds::Init();
 
@@ -846,6 +848,7 @@ void Pi::StartGame()
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
@@ -860,9 +863,9 @@ void Pi::UninitGame()
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-//#ifdef DEBUG
+#if OBJECTVIEWER
 	delete objectViewerView;
-//#endif
+#endif
 
 	delete infoView;
 	delete spaceStationView;

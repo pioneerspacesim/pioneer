@@ -228,7 +228,7 @@ local onEnterSystem = function (player)
 					ship = Space.SpawnShipNear(shipname, Game.player, 50, 200)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
-					ship:Destroy(Game.player)
+					ship:Kill(Game.player)
 				end
 			end
 
