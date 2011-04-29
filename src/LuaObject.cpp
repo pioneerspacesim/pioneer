@@ -16,15 +16,11 @@ static std::map<lid, LuaObjectBase*> *registry;
 static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
 
 static void _teardown() {
-	printf("in teardown: registry %p promotions %p\n", registry, promotions);
-
 	delete registry;
 	delete promotions;
 }
 
 static inline void _instantiate() {
-	printf("in instantiate\n");
-
 	if (!instantiated) {
 		registry = new std::map<lid, LuaObjectBase*>;
 		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
