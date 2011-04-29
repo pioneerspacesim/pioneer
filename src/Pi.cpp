@@ -620,7 +620,7 @@ void Pi::HandleEvents()
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
-                            //break;
+                            break;
                         case SDLK_F9: // Quicksave
                         {
                             std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
