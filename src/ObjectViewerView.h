@@ -1,11 +1,11 @@
 #ifndef _OBJECTVIEWERVIEW_H
 #define _OBJECTVIEWERVIEW_H
 
-#ifdef DEBUG
-
 #include "libs.h"
 #include "Gui.h"
 #include "View.h"
+
+#if OBJECTVIEWER
 
 class Body;
 
