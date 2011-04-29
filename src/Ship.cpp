@@ -558,6 +558,24 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelTorque(GetShipType().angThrust * m_angThrusters);
 
 	DynamicBody::TimeStepUpdate(timeStep);
+
+	bool ship_is_near = false;
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+	{
+		if ((*i) == this) continue;
+
+		Ship *ship = dynamic_cast<Ship*>(*i);
+		if (!ship) continue;
+
+		if (GetPositionRelTo(ship).Length() < 100000.0)
+			ship_is_near = true;
+			break;
+	}
+
+	if (m_alertState && !ship_is_near)
+		SetAlertState(ALERT_NONE);
+	else if(!m_alertState && ship_is_near)
+		SetAlertState(ALERT_SHIP_NEARBY);
 }
 
 void Ship::FireWeapon(int num)
