@@ -206,8 +206,10 @@ local jupiter_moons = {
 		:semi_major_axis(f(441,100000))
 		:eccentricity(f(9,1000))
 		:rotation_period(f(355,100))
-		:ocean_cover(f(1,2))
+		:ocean_cover(f(8,10))
+		:ice_cover(f(9,10))
 		:atmos_density(f(1,12))
+		:metallicity(f(4,5))
 		:volcanicity(f(0,1)),
 	{
 		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)

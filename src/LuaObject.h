@@ -1,8 +1,6 @@
 #ifndef _LUAOBJECT_H
 #define _LUAOBJECT_H
 
-#include <stdint.h>
-
 // XXX win32 defines RegisterClass->RegisterClassA somewhere in its headers.
 // this causes things to break if the wrapper implementations include libs.h,
 // but we don't. until we have a better way to handle platform-specifics, this
@@ -110,7 +108,7 @@
 //
 
 // type for internal object identifiers
-typedef uintptr_t lid;
+typedef unsigned int lid;
 
 // type for promotion test callbacks
 typedef bool (*PromotionTest)(DeleteEmitter *o);

@@ -32,7 +32,7 @@ class SBodyPath;
 class GameMenuView;
 struct lua_State;
 
-#ifdef DEBUG
+#if OBJECTVIEWER
 class ObjectViewerView;
 #endif
 
@@ -144,7 +144,7 @@ public:
 	static StarSystem *currentSystem;
 	static lua_State *luaPersistent;
 
-#ifdef DEBUG
+#if OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
 #endif
 

@@ -130,7 +130,7 @@ const char * const Pi::combatRating[] = {
 	"ELITE"
 };
 
-#ifdef DEBUG
+#if OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
 #endif
 
@@ -611,10 +611,12 @@ void Pi::HandleEvents()
                             }
                             break;
                         }
+#endif /* DEBUG */
+#if OBJECTVIEWER
                         case SDLK_F10:
                             Pi::SetView(Pi::objectViewerView);
                             break;
-#endif /* DEBUG */
+#endif
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
@@ -820,7 +822,7 @@ void Pi::InitGame()
 	spaceStationView = new SpaceStationView();
 	infoView = new InfoView();
 
-#ifdef DEBUG
+#if OBJECTVIEWER
 	objectViewerView = new ObjectViewerView();
 #endif
 
@@ -860,7 +862,7 @@ void Pi::UninitGame()
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-#ifdef DEBUG
+#if OBJECTVIEWER
 	delete objectViewerView;
 #endif
 

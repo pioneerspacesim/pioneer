@@ -8,7 +8,7 @@
 #include "GeoSphereStyle.h"
 #include "Planet.h"
 
-#ifdef DEBUG
+#if OBJECTVIEWER
 
 ObjectViewerView::ObjectViewerView(): View()
 {
