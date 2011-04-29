@@ -184,6 +184,7 @@ private:
 	void Init();
 	bool IsFiringLasers();
 	void TestLanded();
+	void UpdateAlertState();
 
 	FlightState m_flightState;
 	bool m_testLanded;

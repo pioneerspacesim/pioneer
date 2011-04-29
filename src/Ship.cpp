@@ -558,45 +558,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	AddRelTorque(GetShipType().angThrust * m_angThrusters);
 
 	DynamicBody::TimeStepUpdate(timeStep);
-
-	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
-	{
-		if ((*i) == this) continue;
-
-		Ship *ship = dynamic_cast<Ship*>(*i);
-		if (!ship) continue;
-
-		if (GetPositionRelTo(ship).Length() < 100000.0) {
-			ship_is_near = true;
-			for (int j = 0; j < ShipType::GUNMOUNT_MAX; j++)
-				if (ship->m_gunState[j]) {
-					ship_is_firing = true;
-					break;
-				}
-
-			if (ship_is_near && ship_is_firing)
-				break;
-		}
-	}
-
-	switch (m_alertState) {
-		case ALERT_NONE:
-			if (ship_is_near)   SetAlertState(ALERT_SHIP_NEARBY);
-			if (ship_is_firing) SetAlertState(ALERT_SHIP_FIRING);
-			break;
-
-		case ALERT_SHIP_NEARBY:
-			if (!ship_is_near)
-				SetAlertState(ALERT_NONE);
-			else if (ship_is_firing)
-				SetAlertState(ALERT_SHIP_FIRING);
-			break;
-
-		case ALERT_SHIP_FIRING:
-			if (!ship_is_near)
-				SetAlertState(ALERT_NONE);
-	}
 }
 
 void Ship::FireWeapon(int num)
@@ -652,6 +613,48 @@ double Ship::GetHullTemperature() const
 	}
 }
 
+void Ship::UpdateAlertState() {
+	bool ship_is_near = false, ship_is_firing = false;
+	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
+	{
+		if ((*i) == this) continue;
+		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
+
+		Ship *ship = static_cast<Ship*>(*i);
+
+		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
+			ship_is_near = true;
+
+			Uint32 gunstate = 0;
+			for (int j = 0; j < ShipType::GUNMOUNT_MAX; j++)
+				gunstate |= ship->m_gunState[j];
+
+			if (gunstate) {
+				ship_is_firing = true;
+				break;
+			}
+		}
+	}
+
+	switch (m_alertState) {
+		case ALERT_NONE:
+			if (ship_is_near)   SetAlertState(ALERT_SHIP_NEARBY);
+			if (ship_is_firing) SetAlertState(ALERT_SHIP_FIRING);
+			break;
+
+		case ALERT_SHIP_NEARBY:
+			if (!ship_is_near)
+				SetAlertState(ALERT_NONE);
+			else if (ship_is_firing)
+				SetAlertState(ALERT_SHIP_FIRING);
+			break;
+
+		case ALERT_SHIP_FIRING:
+			if (!ship_is_near)
+				SetAlertState(ALERT_NONE);
+	}
+}
+
 void Ship::StaticUpdate(const float timeStep)
 {
 	AITimeStep(timeStep);		// moved to correct place, maybe
@@ -659,6 +662,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (GetHullTemperature() > 1.0) {
 		Space::KillBody(this);
 	}
+
+	UpdateAlertState();
 
 	/* FUEL SCOOPING!!!!!!!!! */
 	if (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE) {
