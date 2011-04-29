@@ -37,6 +37,7 @@ void Ship::Save(Serializer::Writer &wr)
 	wr.Bool(m_testLanded);
 	wr.Int32((int)m_flightState);
 	wr.Int32((int)m_alertState);
+	wr.Float(m_lastFiringAlert);
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
@@ -73,6 +74,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_testLanded = rd.Bool();
 	m_flightState = (FlightState) rd.Int32();
 	m_alertState = (AlertState) rd.Int32();
+	m_lastFiringAlert = rd.Float();
 	
 	SBodyPath::Unserialize(rd, &m_hyperspace.dest);
 	m_hyperspace.countdown = rd.Float();
@@ -118,6 +120,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
+	m_lastFiringAlert = 0.0;
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
@@ -613,7 +616,8 @@ double Ship::GetHullTemperature() const
 	}
 }
 
-void Ship::UpdateAlertState() {
+void Ship::UpdateAlertState()
+{
 	bool ship_is_near = false, ship_is_firing = false;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
 	{
@@ -638,20 +642,31 @@ void Ship::UpdateAlertState() {
 
 	switch (m_alertState) {
 		case ALERT_NONE:
-			if (ship_is_near)   SetAlertState(ALERT_SHIP_NEARBY);
-			if (ship_is_firing) SetAlertState(ALERT_SHIP_FIRING);
+			if (ship_is_near)
+                SetAlertState(ALERT_SHIP_NEARBY);
+			if (ship_is_firing) {
+				m_lastFiringAlert = Pi::GetGameTime();
+			 	SetAlertState(ALERT_SHIP_FIRING);
+			}
 			break;
 
 		case ALERT_SHIP_NEARBY:
 			if (!ship_is_near)
 				SetAlertState(ALERT_NONE);
-			else if (ship_is_firing)
+			else if (ship_is_firing) {
+				m_lastFiringAlert = Pi::GetGameTime();
 				SetAlertState(ALERT_SHIP_FIRING);
+			}
 			break;
 
 		case ALERT_SHIP_FIRING:
 			if (!ship_is_near)
 				SetAlertState(ALERT_NONE);
+			else if (ship_is_firing)
+				m_lastFiringAlert = Pi::GetGameTime();
+			else if (m_lastFiringAlert + 30.0 <= Pi::GetGameTime())
+				SetAlertState(ALERT_SHIP_NEARBY);
+			break;
 	}
 }
 

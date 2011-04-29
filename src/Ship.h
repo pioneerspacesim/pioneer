@@ -199,6 +199,7 @@ private:
 	shipstats_t m_stats;
 
 	AlertState m_alertState;
+	float m_lastFiringAlert;
 
 	struct HyperspacingOut {
 		int followHypercloudId;
