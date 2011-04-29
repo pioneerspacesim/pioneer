@@ -37,6 +37,8 @@ public:
 	int GetKillCount() const { return m_knownKillCount; }
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 
+	virtual void SetAlertState(Ship::AlertState as);
+
 	// test code
 	virtual void TimeStepUpdate(const float timeStep);
 	vector3d GetAccumTorque() { return m_accumTorque; }
