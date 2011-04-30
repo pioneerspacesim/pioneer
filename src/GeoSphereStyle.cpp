@@ -1658,7 +1658,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	/*case COLOR_GG_JUPITER: {
 		//SetFracDef(&m_fracdef[0], m_maxHeightInMeters*0.05, 1e6, rand, 50.0);
 		double n = octavenoise(24, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
-		n = (1.0 + n)*0.5;//*crater_function(m_fracdef[0], p)*octavenoise(m_fracdef[1], 0.5, p);
+		n = (1.0 + n)*0.5;// *crater_function(m_fracdef[0], p)*octavenoise(m_fracdef[1], 0.5, p);
 		n += -volcano_function(m_fracdef[0], p)*
 			(billow_octavenoise(24, 0.5f*m_entropy[1] + 0.25f, 2.0,
 			noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p));
