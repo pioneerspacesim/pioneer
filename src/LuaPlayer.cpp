@@ -4,6 +4,15 @@
 #include "Player.h"
 #include "Polit.h"
 
+/*
+ * Class: LuaPlayer
+ *
+ * Lua class that represents the player. Inherits from <LuaShip>
+ */
+
+/*
+ * Function: Player.IsPlayer
+ */
 static int l_player_is_player(lua_State *l)
 {
     lua_pushboolean(l, true);
@@ -108,6 +117,9 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 	LUA_DEBUG_END(l, -1);
 }
 
+/*
+ * Function: Player.AddMission
+ */
 static int l_player_add_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -121,6 +133,9 @@ static int l_player_add_mission(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Player.UpdateMission
+ */
 static int l_player_update_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -138,6 +153,9 @@ static int l_player_update_mission(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Player.RemoveMission
+ */
 static int l_player_remove_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -146,6 +164,9 @@ static int l_player_remove_mission(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: Player.GetMission
+ */
 static int l_player_get_mission(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -158,6 +179,9 @@ static int l_player_get_mission(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Player.GetMoney
+ */
 static int l_player_get_money(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -165,6 +189,9 @@ static int l_player_get_money(lua_State *l)
 	return 1;
 } 
 
+/*
+ * Function: Player.SetMoney
+ */
 static int l_player_set_money(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -173,6 +200,9 @@ static int l_player_set_money(lua_State *l)
 	return 0;
 } 
 
+/*
+ * Function: Player.AddMoney
+ */
 static int l_player_add_money(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
@@ -183,6 +213,9 @@ static int l_player_add_money(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Player.AddCrime
+ */
 // XXX this most certainly does not belong here. it will be removed when the
 // entire polit/crime system is evicted to lua where it belongs
 static int l_player_add_crime(lua_State *l)
