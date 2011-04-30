@@ -4,6 +4,25 @@
 #include "Pi.h"
 #include "utils.h"
 
+/*
+ * Interface: Format
+ *
+ * String formatting functions for various game values.
+ */
+
+/*
+ * Function: Date
+ *
+ * Create a string representation of the given date/time value.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_format_date(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
@@ -11,6 +30,19 @@ static int l_format_date(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Distance
+ *
+ * Create a string representation of the given distance value.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_format_distance(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
@@ -18,6 +50,19 @@ static int l_format_distance(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Money
+ *
+ * Create a string representation of the given money value.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_format_money(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
