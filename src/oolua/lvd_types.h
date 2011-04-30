@@ -17,7 +17,7 @@
 
 #	if ( defined (WINDOWS_BUILD) )
 #		ifdef __GNUC__
-    #		include <SDL_stdinc.h>
+    #		include <stdint.h>
 namespace LVD
 {
             typedef int8_t				int8;
@@ -56,7 +56,7 @@ namespace LVD
 #			error please inform me what compiler are you using and set the correct types
 #		endif
 #	elif (defined(UNIX_BUILD) || defined(MAC_BUILD))
-#		include <SDL_stdinc.h>
+#		include <stdint.h>
 namespace LVD
 {
 		typedef int8_t				int8;
