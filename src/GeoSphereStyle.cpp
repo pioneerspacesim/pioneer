@@ -41,7 +41,7 @@ int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
  * Bicubic interpolation!!!
  */
 double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
-{
+{     // This is all used for Earth and Earth alone
 	double latitude = -asin(pt.y);
 	if (pt.y < -1.0) latitude = -0.5*M_PI;
 	if (pt.y > 1.0) latitude = 0.5*M_PI;
@@ -95,10 +95,10 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 		v = (v<0 ? 0 : v);
 		double h = v;
 
-		
+		//Here's where we add some noise over the heightmap so it doesnt look so boring, we scale by height so values are greater high up
 		//large mountainous shapes
 		v += h*h*0.001*ridged_octavenoise(m_fracdef[0], Clamp(h*0.0002, 0.5, 0.5), pt);
-		//smaller ridged mountains
+		//smaller ridged mountains   Clamp(h*0.0002, 0.5, 0.5), pt) doesnt really do anything anymore, at one stage I altered the values and should probably do so again
 		v += h*h*0.0002*ridged_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
 		//high altitude detail/mountains
 		v += h*h*0.000003*ridged_octavenoise(m_fracdef[2], Clamp(h*0.0002, 0.5, 0.5), pt);		
@@ -129,6 +129,9 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 	/* Alpha value isn't real alpha. in the shader fog depth is determined
 	 * by density*alpha, so that we can have very dense atmospheres
 	 * without having them a big stinking solid color obscuring everything
+
+	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
+	  for some variation to atmosphere colours
 	 */
 	switch (sbody->type) {
 		case SBody::TYPE_PLANET_GAS_GIANT:
@@ -185,66 +188,6 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 			m_atmosDensity = sbody->m_volatileGas.ToDouble();
 			break;
 	}
-#if 0
-			/*
-		case SBody::TYPE_PLANET_DWARF2:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0.0f;
-			break;
-		case SBody::TYPE_PLANET_SMALL:
-			*outColor = Color(.2f, .2f, .3f, 1.0f);
-			*outDensity = 0.1f;
-			break;
-		case SBody::TYPE_PLANET_CO2:
-			*outColor = Color( .8f, .8f, .8f, 1.0f);
-			*outDensity = 2.0f;
-			break;
-		case SBody::TYPE_PLANET_METHANE:
-			*outColor = Color(.2f, .6f, .3f, 2.0f);
-			*outDensity = 3.4f;
-			break;
-		case SBody::TYPE_PLANET_WATER:
-			*outColor = Color(.6f, .6f, .7f, 0.8f);
-			*outDensity = 0.8f;
-			break;
-		case SBody::TYPE_PLANET_WATER_THICK_ATMOS:
-			*outColor = Color(.5f, .5f, .8f, 2.0f);
-			*outDensity = 3.0f;
-			break;
-		case SBody::TYPE_PLANET_DESERT:
-			*outColor = Color(.4f, .3f, .1f, 0.7f);
-			*outDensity = 1.0f;
-			break;
-		case SBody::TYPE_PLANET_CO2_THICK_ATMOS:
-			*outColor = Color(.8f, .8f, .8f, 2.0f);
-			*outDensity = 7.0f;
-			break;
-		case SBody::TYPE_PLANET_METHANE_THICK_ATMOS:
-			*outColor = Color(0.6f, 0.4f, 0.1f, 3.0f);
-			*outDensity = 8.0f;
-			break;
-		case SBody::TYPE_PLANET_HIGHLY_VOLCANIC:
-			*outColor = Color(0.5f, 0.1f, 0.1f, 1.6f);
-			*outDensity = 1.8f;
-			break;
-		case SBody::TYPE_PLANET_INDIGENOUS_LIFE:
-			*outColor = Color(.5f, .5f, 1.0f, 1.0f);
-			*outDensity = 1.2;
-			break;
-		case SBody::TYPE_PLANET_TERRAFORMED_POOR:
-			*outColor = Color(.7f, .4f, 0.9f, 0.8f);
-			*outDensity = 1.0;
-			break;
-		case SBody::TYPE_PLANET_TERRAFORMED_GOOD:
-			*outColor = Color(.5f, .45f, 0.95f, 0.9f);
-			*outDensity = 1.1;
-			break;
-		default:
-			*outColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			*outDensity = 0.0f;
-			break;*/
-	}
-#endif /* 0 */
 }
 
 void GeoSphereStyle::InitHeightMap(const SBody *body)
@@ -423,7 +366,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
 
-	// Pick some colors
+	// Pick some colors, mainly reds and greens
 	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
@@ -435,7 +378,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
-	// Pick some darker colours
+	// Pick some darker colours mainly reds and greens
 	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
@@ -449,7 +392,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 
 
 
-	// might not be needed now
+	// grey colours, in case you simply must have a grey colour on a world with high metallicity
 	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<8; i++) {
 		double g;
@@ -457,6 +400,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		m_greyrockColor[i] = vector3d(g, g, g);
 	}
 
+	// These are used for gas giant colours, they are more random and *should* really use volatileGasses
 	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
@@ -465,13 +409,13 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		b = rand.Double(0.05, 0.5);
 		m_gglightColor[i] = vector3d(r, g, b);
 	}
-
+	//darker gas giant colours, more reds and greens
 	for (int i=0; i<12; i++) m_entropy[i] = rand.Double();
 	for (int i=0; i<8; i++) {
 		double r,g,b;
 		r = rand.Double(0.05, 0.3);
-		g = rand.Double(0.05, b);
-		b = rand.Double(0.05, std::min(b, g));
+		g = rand.Double(0.05, r);
+		b = rand.Double(0.05, std::min(r, g));
 		m_ggdarkColor[i] = vector3d(r, g, b);
 	}
 
@@ -495,8 +439,10 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 	printf("%d octaves\n", def->octaves); //print
 }
 
+// Fracdef is used to define the fractals width/area, height and detail
 void GeoSphereStyle::InitFractalType(MTRand &rand)
 {
+	//Earth uses these fracdef settings
 	if (m_heightMap) {		
 		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 1e6, rand, 10);
 		SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 20.0, rand, 100);
@@ -523,6 +469,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case TERRAIN_HILLS_RIDGED:
 		case TERRAIN_HILLS_RIVERS:
 		{
+			//fractal definitions:  fracdef[], feature height, feature area/width, rand, detail up to XXX meters low number is higher detail, dont go below 10
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6,1e7), rand);
 			double height = m_maxHeightInMeters*0.7;
 			SetFracDef(&m_fracdef[1], height, rand.Double(40.0, 2000.0)*height, rand);
@@ -750,7 +697,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		}
 	}
 
-
+// We set some fracdefs here for colours if we need them:
 	switch (m_colorType) {
 		case COLOR_NONE:
 		case COLOR_GG_JUPITER: 
@@ -801,6 +748,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 
 /*
  * Must return >= 0.0
+  Here we create the noise used to generate the landscape, the noise should use the fracdef[] settings that were defined earlier.
  */
 double GeoSphereStyle::GetHeight(const vector3d &p)
 {
@@ -819,7 +767,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_HILLS_NORMAL:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
 			double out = 0.3 * continents;
 			double distrib = octavenoise(m_fracdef[2], 0.5, p);
@@ -831,7 +779,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_HILLS_RIDGED:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
 			// == TERRAIN_HILLS_NORMAL except ridged_octavenoise
 			double out = 0.3 * continents;
@@ -844,7 +792,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_HILLS_RIVERS:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
 			// == TERRAIN_HILLS_NORMAL except river_octavenoise
 			double out = 0.3 * continents;
@@ -857,7 +805,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_HILLS_CRATERS:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
 			// == TERRAIN_HILLS_NORMAL except river_octavenoise
 			double out = 0.3 * continents;
@@ -872,7 +820,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_HILLS_CRATERS2:
 		{
-			continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
 			// == TERRAIN_HILLS_NORMAL except river_octavenoise
 			double out = 0.3 * continents;
@@ -890,12 +838,18 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			return m_maxHeight * out;
 		}
 		case TERRAIN_MOUNTAINS_NORMAL:
+			//This is among the most complex of terrains, so I'll use this as an example:
 		{
+			//We need a continental pattern to place our noise onto, the 0.7*ridged_octavnoise..... is important here
+			// for making 'broken up' coast lines, as opposed to circular land masses, it will reduce the frequency of our
+			// continents depending on the ridged noise value, we subtract sealevel so that sea level will have an effect on the continents size
 			double continents = octavenoise(m_fracdef[0], 0.7*
 				ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel*0.65;
+			// if there are no continents on an area, we want it to be sea level
 			if (continents < 0) return 0;
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel*0.5);
-			double h = n;
+			// we save the height n now as a constant h
+			const double h = n;
 		/*  Definitions here for easy referral
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e8), rand, 100);
 			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00001, 20.0, rand, 100);
@@ -906,13 +860,13 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			SetFracDef(&m_fracdef[6], m_maxHeightInMeters*0.8, 1e6, rand, 10);
 			SetFracDef(&m_fracdef[7], m_maxHeightInMeters, 1e7, rand, 10);
 		*/
-
+			//We don't want to apply noise to sea level n=0
 			if (n > 0.0) {
-				// smooth in hills at shore edges
 				//large mountainous shapes
 				n += h*0.2*ridged_octavenoise(m_fracdef[7], 
 					0.5*octavenoise(m_fracdef[6], 0.5, p), p);
 
+				// This smoothes edges near the coast, we cant have vertical terrain its not handled correctly.
 				if (n < 0.4){
 					n += n*1.25*ridged_octavenoise(m_fracdef[6], 
 						Clamp(h*0.00002, 0.3, 0.7)*
@@ -953,11 +907,18 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 				n = (n/2)+(n*n);
 				
 				//jagged surface for mountains
+				//This is probably using far too much noise, some of it is just not needed
+				// More specifically this: Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
+				//		 0.5*octavenoise(m_fracdef[3], 0.5, p), 
+				//		 0.5*octavenoise(m_fracdef[3], 0.5, p))
+				//should probably be: Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
+				//		 0.1, 
+				//		 0.5)  But I have no time for testing
 				if (n > 0.25) {
 					n += (n-0.25)*0.1*octavenoise(m_fracdef[3], 
 						Clamp(h*0.0002*octavenoise(m_fracdef[5], 0.5, p),
 						 0.5*octavenoise(m_fracdef[3], 0.5, p), 
-						 0.5*octavenoise(m_fracdef[3], 0.5, p)), p);
+						 0.5*octavenoise(m_fracdef[3], 0.5, p)), p); //[4]?
 				} 
 				
 				if (n > 0.25) {
@@ -1021,6 +982,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 						river_octavenoise(m_fracdef[2], 0.5, p), p);
 				}
  
+				//terrain is too mountainous, so we reduce the height
 				n = n*0.3;
 
 			}
@@ -1655,19 +1617,6 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 	switch (m_colorType) {
 	case COLOR_NONE:
 		return vector3d(1.0);
-	/*case COLOR_GG_JUPITER: {
-		//SetFracDef(&m_fracdef[0], m_maxHeightInMeters*0.05, 1e6, rand, 50.0);
-		double n = octavenoise(24, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
-		n = (1.0 + n)*0.5;//*crater_function(m_fracdef[0], p)*octavenoise(m_fracdef[1], 0.5, p);
-		n += -volcano_function(m_fracdef[0], p)*
-			(billow_octavenoise(24, 0.5f*m_entropy[1] + 0.25f, 2.0,
-			noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p));
-		n += -megavolcano_function(m_fracdef[0], p)*
-			(river2_octavenoise(24, 0.5f*m_entropy[1] + 0.25f, 2.0,
-			noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p));
-		//return interpolate_color(n, m_darkatmoColor[0], m_atmoColor[0]);
-		return interpolate_color(n, vector3d(.38,.12,.08), vector3d(.99,.76,.62));
-		}*/
 	case COLOR_GG_JUPITER: {
 		double n;
 		double h = river_octavenoise(m_fracdef[0], 0.5*m_entropy[0] + 

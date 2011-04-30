@@ -243,6 +243,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FaceVideoLink.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.cpp"
 				>
 			</File>
@@ -822,6 +826,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\oolua\export_func_to_lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FaceVideoLink.h"
 				>
 			</File>
 			<File
