@@ -636,7 +636,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 				++i;
 			}
 		}
-		printf("%d clouds brought over\n", storedArrivalClouds.size());
+		printf("%lu clouds brought over\n", storedArrivalClouds.size());
 
 		Space::Clear();
 		if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
