@@ -73,7 +73,7 @@ struct galaclabel_t {
 	{ "Outer arm", vector3d(0.65,0.4,0.0) },
 	{ "Sagittarius arm", vector3d(-.3,0.2,0.0) },
 	{ "Scutum-Centaurus arm", vector3d(-.45,-0.45,0.0) },
-	{ 0 }
+	{ 0, vector3d(0.0, 0.0, 0.0) }
 };
 
 static void dummy() {}
