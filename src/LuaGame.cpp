@@ -5,6 +5,14 @@
 #include "LuaStarSystem.h"
 #include "Pi.h"
 
+/*
+ * Interface: Game
+ *
+ * A global table that exposes a number of essential values relevant to the
+ * current game.
+ *
+ */
+
 static int l_game_meta_index(lua_State *l)
 {
 	if (!Pi::IsGameStarted())
@@ -12,16 +20,55 @@ static int l_game_meta_index(lua_State *l)
 
 	const char *key = luaL_checkstring(l, 2);
 
+	/*
+	 * Property: player
+	 *
+	 * The <Player> object for the current player.
+	 *
+	 * Availability:
+	 *
+	 *  alpha 10
+	 *
+	 * Status:
+	 *
+	 *  stable
+	 */
 	if (strcmp(key, "player") == 0) {
 		LuaPlayer::PushToLua(Pi::player);
 		return 1;
 	}
 
+	/*
+	 * Property: system
+	 *
+	 * The <StarSystem> object for the system the player is currently in.
+	 *
+	 * Availability:
+	 *
+	 *  alpha 10
+	 *
+	 * Status:
+	 *
+	 *  stable
+	 */
 	if (strcmp(key, "system") == 0) {
 		LuaStarSystem::PushToLua(Pi::currentSystem);
 		return 1;
 	}
 
+	/*
+	 * Property: time
+	 *
+	 * The current game time, in seconds since 12:00 01-01-3200
+	 *
+	 * Availability:
+	 *
+	 *  alpha 10
+	 *
+	 * Status:
+	 *
+	 *  stable
+	 */
 	if (strcmp(key, "time") == 0) {
 		lua_pushnumber(l, Pi::GetGameTime());
 		return 1;
