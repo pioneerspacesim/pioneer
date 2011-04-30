@@ -583,8 +583,6 @@ void PruneCorpses()
 	corpses.clear();
 }
 
-static bool jumped_within_same_system;
-
 /*
  * Called during play to initiate hyperspace sequence.
  */

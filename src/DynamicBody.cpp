@@ -310,7 +310,6 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	if (o->IsType(Object::DYNAMICBODY)) {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	} else {
-		const double v = GetVelocity().Length();		// unused... copypaste bug?
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
 	if (kineticEnergy) OnDamage(o, (float)kineticEnergy);
