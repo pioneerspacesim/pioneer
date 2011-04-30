@@ -9,6 +9,12 @@
 #include "ShipType.h"
 #include "Ship.h"
 
+/*
+ * Title: Constants
+ *
+ * Various constants exported from the game engine to the Lua environment.
+ */
+
 static inline void _get_named_table(lua_State *l, int index, const char *name)
 {
 	if (index != LUA_GLOBALSINDEX) index = lua_gettop(l) + index + 1;
@@ -29,7 +35,53 @@ void LuaConstants::Register(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "Body");
-
+	
+	/*
+	 * Constants: Body.Type
+     *
+	 *   Body.Type.GRAVPOINT - .
+	 *   Body.Type.BROWN_DWARF - .
+	 *   Body.Type.STAR_M - .
+	 *   Body.Type.STAR_K - .
+	 *   Body.Type.STAR_G - .
+	 *   Body.Type.STAR_F - .
+	 *   Body.Type.STAR_A - .
+	 *   Body.Type.STAR_B - .
+	 *   Body.Type.STAR_O - .
+	 *   Body.Type.STAR_M_GIANT - .
+	 *   Body.Type.STAR_K_GIANT - .
+	 *   Body.Type.STAR_G_GIANT - .
+	 *   Body.Type.STAR_F_GIANT - .
+	 *   Body.Type.STAR_A_GIANT - .
+	 *   Body.Type.STAR_B_GIANT - .
+	 *   Body.Type.STAR_O_GIANT - .
+	 *   Body.Type.STAR_M_SUPER_GIANT - .
+	 *   Body.Type.STAR_K_SUPER_GIANT - .
+	 *   Body.Type.STAR_G_SUPER_GIANT - .
+	 *   Body.Type.STAR_F_SUPER_GIANT - .
+	 *   Body.Type.STAR_A_SUPER_GIANT - .
+	 *   Body.Type.STAR_B_SUPER_GIANT - .
+	 *   Body.Type.STAR_O_SUPER_GIANT - .
+	 *   Body.Type.STAR_M_HYPER_GIANT - .
+	 *   Body.Type.STAR_K_HYPER_GIANT - .
+	 *   Body.Type.STAR_G_HYPER_GIANT - .
+	 *   Body.Type.STAR_F_HYPER_GIANT - .
+	 *   Body.Type.STAR_A_HYPER_GIANT - .
+	 *   Body.Type.STAR_B_HYPER_GIANT - .
+	 *   Body.Type.STAR_O_HYPER_GIANT - .
+	 *   Body.Type.STAR_M_WF - .
+	 *   Body.Type.STAR_B_WF - .
+	 *   Body.Type.STAR_O_WF - .
+	 *   Body.Type.STAR_S_BH - .
+	 *   Body.Type.STAR_IM_BH - .
+	 *   Body.Type.STAR_SM_BH - .
+	 *   Body.Type.WHITE_DWARF - .
+	 *   Body.Type.PLANET_GAS_GIANT - .
+	 *   Body.Type.PLANET_ASTEROID - .
+	 *   Body.Type.PLANET_TERRESTRIAL - .
+	 *   Body.Type.STARPORT_ORBITAL - .
+	 *   Body.Type.STARPORT_SURFACE - .
+     */
 	_get_named_table(l, -1, "Type");
 	pi_lua_settable(l, "GRAVPOINT",          SBody::TYPE_GRAVPOINT);
 	pi_lua_settable(l, "BROWN_DWARF",        SBody::TYPE_BROWN_DWARF);
@@ -75,6 +127,15 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "STARPORT_SURFACE",   SBody::TYPE_STARPORT_SURFACE);
 	lua_pop(l, 1);
 
+    /*
+     * Constants: Body.SuperType
+     *
+	 *   Body.SuperType.NONE - .
+	 *   Body.SuperType.STAR - .
+	 *   Body.SuperType.ROCKY_PLANET - .
+	 *   Body.SuperType.GAS_GIANT - .
+	 *   Body.SuperType.STARPORT - .
+     */
 	_get_named_table(l, -1, "SuperType");
 	pi_lua_settable(l, "NONE",         SBody::SUPERTYPE_NONE);
 	pi_lua_settable(l, "STAR",         SBody::SUPERTYPE_STAR);
@@ -88,6 +149,14 @@ void LuaConstants::Register(lua_State *l)
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "Polit");
 
+    /*
+     * Constants: Polit.Crime
+     *
+	 *   Polit.Crime.TRADING_ILLEGAL_GOODS - .
+	 *   Polit.Crime.WEAPON_DISCHARGE - .
+	 *   Polit.Crime.PIRACY - .
+	 *   Polit.Crime.MURDER - .
+	 */
 	_get_named_table(l, -1, "Crime");
 	pi_lua_settable(l, "TRADING_ILLEGAL_GOODS", Polit::CRIME_TRADING_ILLEGAL_GOODS);
 	pi_lua_settable(l, "WEAPON_DISCHARGE",      Polit::CRIME_WEAPON_DISCHARGE);
@@ -95,6 +164,14 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "MURDER",                Polit::CRIME_MURDER);
 	lua_pop(l, 1);
 
+    /*
+     * Constants: Polit.Bloc
+     *
+	 *   Polit.Bloc.NONE - .
+	 *   Polit.Bloc.EARTHFED - .
+	 *   Polit.Bloc.CIS - .
+	 *   Polit.Bloc.EMPIRE - .
+	 */
 	_get_named_table(l, -1, "Bloc");
 	pi_lua_settable(l, "NONE",     Polit::BLOC_NONE);
 	pi_lua_settable(l, "EARTHFED", Polit::BLOC_EARTHFED);
@@ -102,6 +179,15 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "EMPIRE",   Polit::BLOC_EMPIRE);
 	lua_pop(l, 1);
 
+    /*
+     * Constants: Polit.Econ
+     *
+	 *   Polit.Econ.NONE - .
+	 *   Polit.Econ.VERY_CAPITALIST - .
+	 *   Polit.Econ.CAPITALIST - .
+	 *   Polit.Econ.MIXED - .
+	 *   Polit.Econ.PLANNED - .
+	 */
 	_get_named_table(l, -1, "Econ");
 	pi_lua_settable(l, "NONE",            Polit::ECON_NONE);
 	pi_lua_settable(l, "VERY_CAPITALIST", Polit::ECON_VERY_CAPITALIST);
@@ -110,6 +196,27 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "PLANNED",         Polit::ECON_PLANNED);
 	lua_pop(l, 1);
 
+    /*
+     * Constants: Polit.GovType
+     *
+	 *   Polit.GovType.INVALID - .
+	 *   Polit.GovType.NONE - .
+	 *   Polit.GovType.EARTHCOLONIAL - .
+	 *   Polit.GovType.EARTHDEMOC - .
+	 *   Polit.GovType.EMPIRERULE - .
+	 *   Polit.GovType.CISLIBDEM - .
+	 *   Polit.GovType.CISSOCDEM - .
+	 *   Polit.GovType.LIBDEM - .
+	 *   Polit.GovType.CORPORATE - .
+	 *   Polit.GovType.SOCDEM - .
+	 *   Polit.GovType.EARTHMILDICT - .
+	 *   Polit.GovType.MILDICT1 - .
+	 *   Polit.GovType.MILDICT2 - .
+	 *   Polit.GovType.EMPIREMILDICT - .
+	 *   Polit.GovType.COMMUNIST - .
+	 *   Polit.GovType.PLUTOCRATIC - .
+	 *   Polit.GovType.DISORDER - .
+	 */
 	_get_named_table(l, -1, "GovType");
 	pi_lua_settable(l, "INVALID",       Polit::GOV_INVALID);
 	pi_lua_settable(l, "NONE",          Polit::GOV_NONE);
@@ -135,6 +242,25 @@ void LuaConstants::Register(lua_State *l)
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "Equip");
 
+    /*
+     * Constants: Equip.Slot
+     *
+	 *   Equip.Slot.CARGO - .
+	 *   Equip.Slot.ENGINE - .
+	 *   Equip.Slot.LASER - .
+	 *   Equip.Slot.MISSILE - .
+	 *   Equip.Slot.ECM - .
+	 *   Equip.Slot.SCANNER - .
+	 *   Equip.Slot.RADARMAPPER - .
+	 *   Equip.Slot.HYPERCLOUD - .
+	 *   Equip.Slot.HULLAUTOREPAIR - .
+	 *   Equip.Slot.ENERGYBOOSTER - .
+	 *   Equip.Slot.ATMOSHIELD - .
+	 *   Equip.Slot.FUELSCOOP - .
+	 *   Equip.Slot.LASERCOOLER - .
+	 *   Equip.Slot.CARGOLIFESUPPORT - .
+	 *   Equip.Slot.AUTOPILOT - .
+	 */
 	_get_named_table(l, -1, "Slot");
 	pi_lua_settable(l, "CARGO",            Equip::SLOT_CARGO);
 	pi_lua_settable(l, "ENGINE",           Equip::SLOT_ENGINE);
@@ -153,6 +279,86 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "AUTOPILOT",        Equip::SLOT_AUTOPILOT);
 	lua_pop(l, 1);
 
+    /*
+     * Constants: Equip.Type
+     *
+	 *   Equip.Type.NONE - .
+	 *   Equip.Type.HYDROGEN - .
+	 *   Equip.Type.LIQUID_OXYGEN - .
+	 *   Equip.Type.METAL_ORE - .
+	 *   Equip.Type.CARBON_ORE - .
+	 *   Equip.Type.METAL_ALLOYS - .
+	 *   Equip.Type.PLASTICS - .
+	 *   Equip.Type.FRUIT_AND_VEG - .
+	 *   Equip.Type.ANIMAL_MEAT - .
+	 *   Equip.Type.LIVE_ANIMALS - .
+	 *   Equip.Type.LIQUOR - .
+	 *   Equip.Type.GRAIN - .
+	 *   Equip.Type.TEXTILES - .
+	 *   Equip.Type.FERTILIZER - .
+	 *   Equip.Type.WATER - .
+	 *   Equip.Type.MEDICINES - .
+	 *   Equip.Type.CONSUMER_GOODS - .
+	 *   Equip.Type.COMPUTERS - .
+	 *   Equip.Type.ROBOTS - .
+	 *   Equip.Type.PRECIOUS_METALS - .
+	 *   Equip.Type.INDUSTRIAL_MACHINERY - .
+	 *   Equip.Type.FARM_MACHINERY - .
+	 *   Equip.Type.MINING_MACHINERY - .
+	 *   Equip.Type.AIR_PROCESSORS - .
+	 *   Equip.Type.SLAVES - .
+	 *   Equip.Type.HAND_WEAPONS - .
+	 *   Equip.Type.BATTLE_WEAPONS - .
+	 *   Equip.Type.NERVE_GAS - .
+	 *   Equip.Type.NARCOTICS - .
+	 *   Equip.Type.MILITARY_FUEL - .
+	 *   Equip.Type.RUBBISH - .
+	 *   Equip.Type.RADIOACTIVES - .
+	 *   Equip.Type.MISSILE_UNGUIDED - .
+	 *   Equip.Type.MISSILE_GUIDED - .
+	 *   Equip.Type.MISSILE_SMART - .
+	 *   Equip.Type.MISSILE_NAVAL - .
+	 *   Equip.Type.ATMOSPHERIC_SHIELDING - .
+	 *   Equip.Type.ECM_BASIC - .
+	 *   Equip.Type.SCANNER - .
+	 *   Equip.Type.ECM_ADVANCED - .
+	 *   Equip.Type.SHIELD_GENERATOR - .
+	 *   Equip.Type.LASER_COOLING_BOOSTER - .
+	 *   Equip.Type.CARGO_LIFE_SUPPORT - .
+	 *   Equip.Type.AUTOPILOT - .
+	 *   Equip.Type.RADAR_MAPPER - .
+	 *   Equip.Type.FUEL_SCOOP - .
+	 *   Equip.Type.HYPERCLOUD_ANALYZER - .
+	 *   Equip.Type.HULL_AUTOREPAIR - .
+	 *   Equip.Type.SHIELD_ENERGY_BOOSTER - .
+	 *   Equip.Type.DRIVE_CLASS1 - .
+	 *   Equip.Type.DRIVE_CLASS2 - .
+	 *   Equip.Type.DRIVE_CLASS3 - .
+	 *   Equip.Type.DRIVE_CLASS4 - .
+	 *   Equip.Type.DRIVE_CLASS5 - .
+	 *   Equip.Type.DRIVE_CLASS6 - .
+	 *   Equip.Type.DRIVE_CLASS7 - .
+	 *   Equip.Type.DRIVE_CLASS8 - .
+	 *   Equip.Type.DRIVE_CLASS9 - .
+	 *   Equip.Type.DRIVE_MIL1 - .
+	 *   Equip.Type.DRIVE_MIL2 - .
+	 *   Equip.Type.DRIVE_MIL3 - .
+	 *   Equip.Type.DRIVE_MIL4 - .
+	 *   Equip.Type.PULSECANNON_1MW - .
+	 *   Equip.Type.PULSECANNON_DUAL_1MW - .
+	 *   Equip.Type.PULSECANNON_2MW - .
+	 *   Equip.Type.PULSECANNON_RAPID_2MW - .
+	 *   Equip.Type.PULSECANNON_4MW - .
+	 *   Equip.Type.PULSECANNON_10MW - .
+	 *   Equip.Type.PULSECANNON_20MW - .
+	 *   Equip.Type.MININGCANNON_17MW - .
+	 *   Equip.Type.SMALL_PLASMA_ACCEL - .
+	 *   Equip.Type.LARGE_PLASMA_ACCEL - .
+	 *   Equip.Type.FIRST_COMMODITY - .
+	 *   Equip.Type.LAST_COMMODITY - .
+	 *   Equip.Type.FIRST_SHIPEQUIP - .
+	 *   Equip.Type.LAST_SHIPEQUIP - .
+	 */
 	_get_named_table(l, -1, "Type");
 	pi_lua_settable(l, "NONE",                 Equip::NONE);
 	pi_lua_settable(l, "HYDROGEN",             Equip::HYDROGEN);
@@ -241,6 +447,14 @@ void LuaConstants::Register(lua_State *l)
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "ShipType");
 
+    /*
+     * Constants: ShipType.Tag
+     *
+	 *   ShipType.Tag.NONE - .
+	 *   ShipType.Tag.SHIP - .
+	 *   ShipType.Tag.STATIC_SHIP - .
+	 *   ShipType.Tag.MISSILE - .
+	 */
 	_get_named_table(l, -1, "Tag");
 	pi_lua_settable(l, "NONE",        ShipType::TAG_NONE);
 	pi_lua_settable(l, "SHIP",        ShipType::TAG_SHIP);
@@ -248,6 +462,16 @@ void LuaConstants::Register(lua_State *l)
 	pi_lua_settable(l, "MISSILE",     ShipType::TAG_MISSILE);
 	lua_pop(l, 1);
 
+    /*
+     * Constants: ShipType.Thruster
+     *
+	 *   ShipType.Thruster.REVERSE - .
+	 *   ShipType.Thruster.FORWARD - .
+	 *   ShipType.Thruster.UP - .
+	 *   ShipType.Thruster.DOWN - .
+	 *   ShipType.Thruster.LEFT - .
+	 *   ShipType.Thruster.RIGHT - .
+	 */
 	_get_named_table(l, -1, "Thruster");
 	pi_lua_settable(l, "REVERSE", ShipType::THRUSTER_REVERSE);
 	pi_lua_settable(l, "FORWARD", ShipType::THRUSTER_FORWARD);
@@ -262,6 +486,15 @@ void LuaConstants::Register(lua_State *l)
 
 	_get_named_table(l, LUA_GLOBALSINDEX, "Ship");
 
+    /*
+     * Constants: Ship.JumpStatus
+     *
+	 *   Ship.JumpStatus.OK - .
+	 *   Ship.JumpStatus.CURRENT_SYSTEM - .
+	 *   Ship.JumpStatus.NO_DRIVE - .
+	 *   Ship.JumpStatus.OUT_OF_RANGE - .
+	 *   Ship.JumpStatus.INSUFFICIENT_FUEL - .
+	 */
 	_get_named_table(l, -1, "JumpStatus");
 	pi_lua_settable(l, "OK",                Ship::HYPERJUMP_OK);
 	pi_lua_settable(l, "CURRENT_SYSTEM",    Ship::HYPERJUMP_CURRENT_SYSTEM);
