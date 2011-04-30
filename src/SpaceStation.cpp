@@ -816,6 +816,8 @@ int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
 
 	m_bbAdverts.push_back(ad);
 
+	onBulletinBoardChanged.emit();
+
 	return ref;
 }
 
@@ -831,6 +833,7 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 {
 	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		if (i->ref == ref) {
+			onBulletinBoardAdvertDeleted.emit(&(*i));
 			m_bbAdverts.erase(i);
 			return true;
 		}
