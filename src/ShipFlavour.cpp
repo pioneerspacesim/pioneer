@@ -6,7 +6,12 @@
 #include "Serializer.h"
 #include "LmrModel.h"
 
-static const LmrMaterial s_white = { { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, 0.0f, 0.0f };
+static const LmrMaterial s_white = {
+    { 1.0f, 1.0f, 1.0f, 1.0f }, //diffuse
+    { 1.0f, 1.0f, 1.0f, 1.0f }, //specular
+    { 1.0f, 1.0f, 1.0f, 1.0f }, //emissive
+    0.0f //shinyness
+};
 
 ShipFlavour::ShipFlavour()
 {
