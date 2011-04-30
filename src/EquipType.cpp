@@ -174,116 +174,95 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 	  "Shield Generator",
 	  "Provides additional hull defences with each unit fitted.",
 	  Equip::SLOT_CARGO, -1, {},
-	  250000, 4, 1,
-	  0, 4, 5.0
+	  250000, 4, 1, 0, 4, 5.0
 	},{
 	  "Laser Cooling Booster",
 	  "An improved cooling system for your weapons.",
 	  Equip::SLOT_LASERCOOLER, -1, {},
-	  38000, 1, 2,
-	  0, 2, 0
+	  38000, 1, 2, 0, 2, 0
 	},{
 	  "Cargo Bay Life Support",
 	  "Allows the transport of live cargo.",
 	  Equip::SLOT_CARGOLIFESUPPORT, -1, {},
-	  70000, 1, 1,
-	  0, 2, 0
+	  70000, 1, 1, 0, 2, 0
 	},{
 	  "Autopilot",
 	  "An onboard flight computer.",
 	  Equip::SLOT_AUTOPILOT, -1, {},
-	  140000, 1, 1,
-	  0, 2, 0
+	  140000, 1, 1, 0, 2, 0
 	},{
 	  "Radar Mapper",
 	  "Used to remotely inspect the equipment, cargo and state of other ships.",
 	  Equip::SLOT_RADARMAPPER, -1, {},
-	  90000, 1, 1,
-	  0, 3, 0
+	  90000, 1, 1, 0, 3, 0
 	},{
 	  "Fuel Scoop",
 	  "Permits scooping hydrogen fuel from gas giant planets.",
 	  Equip::SLOT_FUELSCOOP, -1, {},
-	  350000, 6, 1,
-	  0, 1, 0
+	  350000, 6, 1, 0, 1, 0
 	},{
 	  "Hypercloud Analyzer",
 	  "Analyze hyperspace clouds to determine destination and time of arrival or departure.",
 	  Equip::SLOT_HYPERCLOUD, -1, {},
-	  150000, 1, 1,
-	  0, 3, 0
+	  150000, 1, 1, 0, 3, 0
 	},{
 	  "Hull Auto-Repair System",
 	  "Automatically repairs the ship's hull in the event of damage.",
 	  Equip::SLOT_HULLAUTOREPAIR, -1, {},
-	  1600000, 40, 1,
-	  0, 4, 0
+	  1600000, 40, 1, 0, 4, 0
 	},{
 	  "Shield Energy Booster",
 	  "Increases the rate at which shields recharge.",
 	  Equip::SLOT_ENERGYBOOSTER, -1, {},
-	  1000000, 8, 2,
-	  0, 3, 0
+	  1000000, 8, 2, 0, 3, 0
 	},{
 	  "Class 1 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  70000, 4, 1,
-      0, 0, 0
+	  70000, 4, 1, 0, 0, 0
 	},{
 	  "Class 2 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  130000, 10, 2,
-      0, 0, 0
+	  130000, 10, 2, 0, 0, 0
 	},{
 	  "Class 3 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  250000, 20, 3,
-      0, 0, 0
+	  250000, 20, 3, 0, 0, 0
 	},{
 	  "Class 4 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  500000, 40, 4,
-      0, 0, 0
+	  500000, 40, 4, 0, 0, 0
 	},{
 	  "Class 5 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  1000000, 120, 5,
-      0, 0, 0
+	  1000000, 120, 5, 0, 0, 0
 	},{
 	  "Class 6 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  2000000, 225, 6,
-      0, 0, 0
+	  2000000, 225, 6, 0, 0, 0
 	},{
 	  "Class 7 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  3000000, 400, 7,
-      0, 0, 0
+	  3000000, 400, 7, 0, 0, 0
 	},{
 	  "Class 8 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  6000000, 580, 8,
-      0, 0, 0
+	  6000000, 580, 8, 0, 0, 0
 	},{
 	  "Class 9 Hyperdrive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::HYDROGEN},
-	  12000000, 740, 9,
-      0, 0, 0
+	  12000000, 740, 9, 0, 0, 0
 	},{
 	  "Class 1 Military drive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
-	  2300000, 3, 1,
-      0, 0, 0
+	  2300000, 3, 1, 0, 0, 0
 	},{
 	  "Class 2 Military drive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
-	  4700000, 8, 2,
-      0, 0, 0
+	  4700000, 8, 2, 0, 0, 0
 	},{
 	  "Class 3 Military drive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
-	  8500000, 16, 3,
-      0, 0, 0
+	  8500000, 16, 3, 0, 0, 0
 	},{
 	  "Class 4 Military drive",0,
 	  Equip::SLOT_ENGINE, -1, {Equip::MILITARY_FUEL},
