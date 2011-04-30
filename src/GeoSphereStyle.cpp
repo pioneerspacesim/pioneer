@@ -470,8 +470,8 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 	for (int i=0; i<8; i++) {
 		double r,g,b;
 		r = rand.Double(0.05, 0.3);
-		g = rand.Double(0.05, b);
-		b = rand.Double(0.05, std::min(b, g));
+		g = rand.Double(0.05, r);
+		b = rand.Double(0.05, std::min(r, g));
 		m_ggdarkColor[i] = vector3d(r, g, b);
 	}
 
