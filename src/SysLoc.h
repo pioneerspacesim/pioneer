@@ -25,12 +25,9 @@ public:
 		return !(a==b);
 	}
 	friend bool operator<(const SysLoc &a, const SysLoc &b) {
-		if (a.sectorX < b.sectorX) return true;
-		if (a.sectorY < b.sectorY) return true;
-		if ((a.sectorX == b.sectorX) && (a.sectorY == b.sectorY)) {
-			return (a.systemNum < b.systemNum);
-		}
-		return false;
+		if (a.sectorX != b.sectorX) return (a.sectorX < b.sectorX);
+		if (a.sectorY != b.sectorY) return (a.sectorY < b.sectorY);
+		return (a.systemNum < b.systemNum);
 	}
 };
 
