@@ -14,6 +14,12 @@
 #include "SpaceStation.h"
 #include "Player.h"
 
+/*
+ * Interface: Space
+ *
+ * Various methods to create and find objects in the current physics space.
+ */
+
 static void _unpack_hyperspace_args(lua_State *l, int index, SBodyPath* &path, double &due)
 {
 	if (lua_isnone(l, index)) return;
@@ -51,6 +57,19 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SBodyPath *path, double due
 	return cloud;
 }
 
+/*
+ * Function: SpawnShip
+ *
+ * Create a ship and place it somewhere in space.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_spawn_ship(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -90,6 +109,19 @@ static int l_space_spawn_ship(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: SpawnShipNear
+ *
+ * Create a ship and place it in space near the given <Body>.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_spawn_ship_near(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -130,6 +162,19 @@ static int l_space_spawn_ship_near(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: SpawnShipDocked
+ *
+ * Create a ship and place it inside the given <SpaceStation>.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_spawn_ship_docked(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -158,6 +203,19 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: SpawnShipParked
+ *
+ * Create a ship and place it in one of the given <SpaceStation's> parking spots.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_spawn_ship_parked(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -224,6 +282,19 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetBody
+ *
+ * Get the <Body> with the specificed body index.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_space_get_body(lua_State *l)
 {
 	int id = luaL_checkinteger(l, 1);
@@ -256,6 +327,19 @@ static int l_space_get_body(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetShips
+ *
+ * Get all the <Ship> objects.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_get_ships(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -274,6 +358,19 @@ static int l_space_get_ships(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetSpaceStations
+ *
+ * Get all the <SpaceStation> objects.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_get_space_stations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -292,6 +389,19 @@ static int l_space_get_space_stations(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetPlanets
+ *
+ * Get all the <Planet> objects.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_get_planets(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -310,6 +420,19 @@ static int l_space_get_planets(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetStars
+ *
+ * Get all the <Star> objects.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_space_get_stars(lua_State *l)
 {
 	LUA_DEBUG_START(l);
