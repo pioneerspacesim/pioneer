@@ -3,6 +3,9 @@
 
 /*
  * Class: CargoBody
+ *
+ * Class representing an item of cargo floating in space. Inherits from
+ * <Body>.
  */
 
 /*
