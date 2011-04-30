@@ -1,6 +1,23 @@
 #include "LuaCargoBody.h"
 #include "LuaUtils.h"
 
+/*
+ * Class: CargoBody
+ */
+
+/*
+ * Method: GetCargoType
+ *
+ * Get the type of cargo contained within this cargo body
+ *
+ * Availability:
+ *
+ *  alpha 10
+ * 
+ * Status:
+ *
+ *  experimental
+ */
 static int l_cargobody_get_cargo_type(lua_State *l)
 {
 	CargoBody *b = LuaCargoBody::GetFromLua(1);
