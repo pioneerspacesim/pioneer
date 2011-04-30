@@ -15,7 +15,7 @@
 #define MAX_CLOTHES     20
 #define MAX_ACCESSORIES 3
 
-#define MAX_BACKGROUND 12
+#define MAX_BACKGROUND 13
 
 static void _blit_image(SDL_Surface *s, const char *filename, int yoff)
 {
