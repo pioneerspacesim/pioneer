@@ -112,7 +112,21 @@ void AmbientSounds::Update()
 				planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 			}
 		}
-	} else {
+    } else if (planetSurfaceNoise.IsPlaying()) {
+        // planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
+        if (Pi::player->GetFrame()->m_astroBody) {
+            Body *astro = Pi::player->GetFrame()->m_astroBody;
+            if (astro->IsType(Object::PLANET)) {
+                double dist = Pi::player->GetPosition().Length();
+                double pressure, density;
+                ((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
+                if (pressure < 0.001) {
+                    // Stop playing surface noise once out of the atmosphere
+                    planetSurfaceNoise.Stop();
+                }
+            }
+        }
+    } else {
 		if (stationNoise.IsPlaying()) {
 			float target[2] = {0.0f,0.0f};
 			float dv_dt[2] = {1.0f,1.0f};

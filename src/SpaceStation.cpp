@@ -392,10 +392,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				dt.ship->SetDockedWith(this, i);
-				if (!m_bbCreated) {
-					Pi::luaOnCreateBB.Queue(this);
-					m_bbCreated = true;
-				}
+				CreateBB();
 				Pi::luaOnShipDocked.Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
@@ -708,10 +705,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
-					if (!m_bbCreated) {
-						Pi::luaOnCreateBB.Queue(this);
-						m_bbCreated = true;
-					}
+					CreateBB();
 					Pi::luaOnShipDocked.Queue(s, this);
 				}
 			}
@@ -801,6 +795,14 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 	return false;
 }
 
+void SpaceStation::CreateBB()
+{
+	if (m_bbCreated) return;
+	Pi::luaOnCreateBB.Queue(this);
+	m_bbCreated = true;
+}
+
+
 static int next_ref = 0;
 int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
 {
@@ -813,6 +815,8 @@ int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
 	ad.builder = builder;
 
 	m_bbAdverts.push_back(ad);
+
+	onBulletinBoardChanged.emit();
 
 	return ref;
 }
@@ -829,6 +833,7 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 {
 	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		if (i->ref == ref) {
+			onBulletinBoardAdvertDeleted.emit(&(*i));
 			m_bbAdverts.erase(i);
 			return true;
 		}

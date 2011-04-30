@@ -139,7 +139,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 	lua_pushnil(l);
 	lua_settable(l, -3);
 
-	lua_pop(l, 0);
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l,0);
 

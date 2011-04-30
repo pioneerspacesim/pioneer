@@ -81,8 +81,11 @@ private:
 	Uint32 m_showTargetActionsTimeout;
 	Render::Shader *m_bgStarShader;
 
-	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
+#if DEVKEYS
+	Gui::Label *m_debugInfo;
+#endif
 
+	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 

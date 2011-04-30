@@ -1,6 +1,8 @@
 #ifndef _LIBS_H
 #define _LIBS_H
 
+#include "buildopts.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <sigc++/sigc++.h>
@@ -12,10 +14,6 @@
 #include <time.h>
 #include <stdarg.h>
 
-// define to include the object viewer in the build
-#ifndef OBJECTVIEWER
-#define OBJECTVIEWER 1
-#endif
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR

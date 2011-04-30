@@ -97,6 +97,13 @@ public:
 	double GetHullTemperature() const;
 	void UseECM();
 
+	enum AlertState {
+		ALERT_NONE,
+		ALERT_SHIP_NEARBY,
+		ALERT_SHIP_FIRING,
+	};
+	AlertState GetAlertState() { return m_alertState; }
+
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
 	double AIMatchPosVel(const vector3d &targpos, const vector3d &curvel, double targvel, const vector3d &maxthrust);
@@ -158,6 +165,8 @@ protected:
 
 	bool AITimeStep(float timeStep);		// returns true if complete
 
+	virtual void SetAlertState(AlertState as) { m_alertState = as; }
+
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
 	ShipFlavour m_shipFlavour;
@@ -175,6 +184,7 @@ private:
 	void Init();
 	bool IsFiringLasers();
 	void TestLanded();
+	void UpdateAlertState();
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -187,6 +197,9 @@ private:
 	Body* m_navTarget;
 	Body* m_combatTarget;
 	shipstats_t m_stats;
+
+	AlertState m_alertState;
+	float m_lastFiringAlert;
 
 	struct HyperspacingOut {
 		int followHypercloudId;

@@ -109,7 +109,9 @@ MTRand Pi::rng;
 double Pi::gameTime;
 float Pi::frameTime;
 GLUquadric *Pi::gluQuadric;
+#if DEVKEYS
 bool Pi::showDebugInfo;
+#endif
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
 IniConfig Pi::config;
@@ -536,6 +538,17 @@ void Pi::HandleEvents()
                         case SDLK_h: // Toggle HDR
                             Render::ToggleHDR();
                             break;
+                        case SDLK_PRINT:       // print
+                        case SDLK_KP_MULTIPLY: // screen
+                        {
+                            char buf[256];
+                            const time_t t = time(0);
+                            struct tm *_tm = localtime(&t);
+                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
+                            Screendump(buf);
+                            break;
+                        }
+#if DEVKEYS
                         case SDLK_i: // Toggle Debug info
                             Pi::showDebugInfo = !Pi::showDebugInfo;
                             break;
@@ -549,17 +562,6 @@ void Pi::HandleEvents()
                             printf("Criminal record now: %llx, $%lld\n", crime, fine);
                             break;
                         }
-                        case SDLK_PRINT:       // print
-                        case SDLK_KP_MULTIPLY: // screen
-                        {
-                            char buf[256];
-                            const time_t t = time(0);
-                            struct tm *_tm = localtime(&t);
-                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
-                            Screendump(buf);
-                            break;
-                        }
-#ifdef DEBUG
                         case SDLK_m:  // Gimme money!
                             Pi::player->SetMoney(Pi::player->GetMoney() + 10000000);
                             break;
@@ -611,7 +613,7 @@ void Pi::HandleEvents()
                             }
                             break;
                         }
-#endif /* DEBUG */
+#endif /* DEVKEYS */
 #if OBJECTVIEWER
                         case SDLK_F10:
                             Pi::SetView(Pi::objectViewerView);
@@ -620,12 +622,14 @@ void Pi::HandleEvents()
                         case SDLK_F11:
                             // XXX only works on X11
                             //SDL_WM_ToggleFullScreen(Pi::scrSurface);
-                            //break;
+                            break;
                         case SDLK_F9: // Quicksave
                         {
-                            std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
-                            Serializer::SaveGame(name.c_str());
-                            Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+                            if(Pi::IsGameStarted()) {
+                                std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
+                                Serializer::SaveGame(name.c_str());
+                                Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+                            }
                             break;
                         }
                         default:
@@ -848,6 +852,7 @@ void Pi::StartGame()
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->m_equipment.onChange.connect(sigc::ptr_fun(&OnPlayerChangeEquipment));
 	cpan->ShowAll();
+	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment();
 	SetView(worldView);
 	Pi::isGameStarted = true;
@@ -1157,14 +1162,15 @@ void Pi::MainLoop()
 
 		Render::PostProcess();
 		Gui::Draw();
-//#ifdef DEBUG
+
+#if DEVKEYS
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
 			Gui::Screen::RenderString(fps_readout, 0, 0);
 			Gui::Screen::LeaveOrtho();
 		}
-//#endif /* DEBUG */
+#endif
 
 		glError();
 		Render::SwapBuffers();
