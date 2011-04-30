@@ -99,7 +99,11 @@ WorldView::WorldView(): View()
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
+#if DEVKEYS
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
+	Add(m_debugInfo, 10, 200);
+#endif
+
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudTargetDist = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_hudAltitude = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -109,7 +113,6 @@ WorldView::WorldView(): View()
 	m_hudTargetDist->SetToolTip("Distance from ship to navigation target");
 	m_hudAltitude->SetToolTip("Ship altitude above terrain");
 	m_hudPressure->SetToolTip("External atmospheric pressure");
-	Add(m_debugInfo, 10, 200);
 	Add(m_hudVelocity, 170.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
 	Add(m_hudTargetDist, 500.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66.0f);
 	Add(m_hudAltitude, 580.0f, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-4.0f);
@@ -674,6 +677,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_commsOptions->Hide();
 		m_commsNavOptionsContainer->Hide();
 	}
+#if DEVKEYS
 	if (Pi::showDebugInfo) {
 		char buf[1024];
 		vector3d pos = Pi::player->GetPosition();
@@ -692,6 +696,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	} else {
 		m_debugInfo->Hide();
 	}
+#endif
 
 	if (const SBodyPath *dest = Space::GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);

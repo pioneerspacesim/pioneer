@@ -129,7 +129,9 @@ public:
 	static View *GetView() { return currentView; }
 	static StarSystem *GetSelectedSystem();
 
+#if DEVKEYS
 	static bool showDebugInfo;
+#endif
 	static Player *player;
 	static SectorView *sectorView;
 	static GalacticView *galacticView;
