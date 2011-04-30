@@ -5,6 +5,25 @@
 #include "NameGenerator.h"
 #include "Pi.h"
 
+/*
+ * Interface: NameGen
+ *
+ * Functions for generating names.
+ */
+
+/*
+ * Function: FullName
+ *
+ * Create a full name (first + surname) string
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_namegen_full_name(lua_State *l)
 {
 	MTRand *rand;
@@ -20,6 +39,19 @@ static int l_namegen_full_name(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Surname
+ *
+ * Create a surname string
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_namegen_surname(lua_State *l)
 {
 	MTRand *rand;
@@ -30,6 +62,19 @@ static int l_namegen_surname(lua_State *l)
 	return 1;
 }
 	
+/*
+ * Function: PlanetName
+ *
+ * Create a planet name
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_namegen_planet_name(lua_State *l)
 {
 	MTRand *rand;

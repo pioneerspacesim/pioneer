@@ -17,7 +17,7 @@
 /*
  * Interface: Space
  *
- * Various methods to create and find objects in the current physics space.
+ * Various functions to create and find objects in the current physics space.
  */
 
 static void _unpack_hyperspace_args(lua_State *l, int index, SBodyPath* &path, double &due)
