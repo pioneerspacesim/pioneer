@@ -747,7 +747,12 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.1, 100, rand, 10.0);
 			// adds bumps to the landscape
 			SetFracDef(&m_fracdef[9], height*0.0025, rand.Double(1,100), rand, 10.0);
+            break;
 		}
+        case TERRAIN_GASGIANT:
+        case TERRAIN_NONE:
+            // Added in to prevent compiler warnings
+            break;
 	}
 
 
