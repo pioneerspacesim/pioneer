@@ -625,9 +625,11 @@ void Pi::HandleEvents()
                             break;
                         case SDLK_F9: // Quicksave
                         {
-                            std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
-                            Serializer::SaveGame(name.c_str());
-                            Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+                            if(Pi::IsGameStarted()) {
+                                std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
+                                Serializer::SaveGame(name.c_str());
+                                Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+                            }
                             break;
                         }
                         default:
