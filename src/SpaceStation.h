@@ -110,6 +110,8 @@ public:
 
 	bool AllocateStaticSlot(int& slot);
 
+	void CreateBB();
+
 	int AddBBAdvert(std::string description, ChatFormBuilder builder);
 	const BBAdvert *GetBBAdvert(int ref);
 	bool RemoveBBAdvert(int ref);

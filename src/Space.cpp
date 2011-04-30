@@ -858,9 +858,9 @@ void SetupSystemForGameStart(const SBodyPath *dest, int starport, int port)
 	Pi::player->SetVelocity(vector3d(0,0,0));
 
 	Pi::player->SetFrame(station->GetFrame()); 
-
-	Pi::luaOnCreateBB.Queue(station);
 	Pi::player->SetDockedWith(station, port); 
+
+	station->CreateBB();
 }
 
 float GetHyperspaceAnim()
