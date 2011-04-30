@@ -35,6 +35,14 @@
  * > if Game.player:IsPlayer() then
  * >     print("this is the player")
  * > end
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
  */
 static int l_ship_is_player(lua_State *l)
 {
@@ -70,6 +78,14 @@ static int l_ship_is_player(lua_State *l)
  * > if stats.shield_mass == stats.shield_mass_left then
  * >     print("shields at full strength")
  * > end
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_get_stats(lua_State *l)
 {
@@ -98,7 +114,8 @@ static int l_ship_get_stats(lua_State *l)
 /*
  * Function: Ship.SetLabel
  *
- * Changes the ship's label text.
+ * Changes the ship's label text. This is the text that appears beside the
+ * ship in the HUD.
  *
  * > ship:SetLabel(newlabel)
  *
@@ -110,6 +127,14 @@ static int l_ship_get_stats(lua_State *l)
  * Example:
  *
  * > ship:SetLabel("AB-1234")
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
  */
 static int l_ship_set_label(lua_State *l)
 {
@@ -195,6 +220,14 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
  * See also:
  *
  *   <Ship.SetSecondaryColour>
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
  */
 static int l_ship_set_primary_colour(lua_State *l)
 {
@@ -236,6 +269,14 @@ static int l_ship_set_primary_colour(lua_State *l)
  * See also:
  *
  *   <Ship.SetPrimaryColour>
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
  */
 static int l_ship_set_secondary_colour(lua_State *l)
 {
@@ -250,6 +291,16 @@ static int l_ship_set_secondary_colour(lua_State *l)
 
 /*
  * Function: Ship.GetEquipSlotSize
+ *
+ * Get the number of items that will fit in a given equipment slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_get_equip_slot_size(lua_State *l)
 {
@@ -263,6 +314,16 @@ static int l_ship_get_equip_slot_size(lua_State *l)
 
 /*
  * Function: Ship.GetEquip
+ *
+ * Get a list of equipment in a given equipment slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_get_equip(lua_State *l)
 {
@@ -288,6 +349,16 @@ static int l_ship_get_equip(lua_State *l)
 
 /*
  * Function: Ship.SetEquip
+ *
+ * Overwrite a single item of equipment in a given equipment slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_set_equip(lua_State *l)
 {
@@ -308,6 +379,16 @@ static int l_ship_set_equip(lua_State *l)
 
 /*
  * Function: Ship.AddEquip
+ *
+ * Add an equipment or cargo item to its appropriate equipment slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_add_equip(lua_State *l)
 {
@@ -327,6 +408,16 @@ static int l_ship_add_equip(lua_State *l)
 
 /*
  * Function: Ship.RemoveEquip
+ *
+ * Remove one or more of a given equipment type from its appropriate cargo slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_remove_equip(lua_State *l)
 {
@@ -346,6 +437,16 @@ static int l_ship_remove_equip(lua_State *l)
 
 /*
  * Function: Ship.GetEquipCount
+ *
+ * Get the number of a given equipment or cargo item in a given equipment slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_get_equip_count(lua_State *l)
 {
@@ -364,6 +465,16 @@ static int l_ship_get_equip_count(lua_State *l)
 
 /*
  * Function: Ship.GetEquipFree
+ *
+ * Get the amount of free space in a given equipment slot
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_get_equip_free(lua_State *l)
 {
@@ -378,6 +489,16 @@ static int l_ship_get_equip_free(lua_State *l)
 
 /*
  * Function: Ship.Jettison
+ *
+ * Jettison one unit of the given cargo type
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_jettison(lua_State *l)
 {
@@ -392,6 +513,16 @@ static int l_ship_jettison(lua_State *l)
 
 /*
  * Function: Ship.GetDockedWith
+ *
+ * Get the station that the ship is currently docked with
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_get_docked_with(lua_State *l)
 {
@@ -404,6 +535,16 @@ static int l_ship_get_docked_with(lua_State *l)
 
 /*
  * Function: Ship.Undock
+ *
+ * Undock from the station currently docked with
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_undock(lua_State *l)
 {
@@ -417,6 +558,16 @@ static int l_ship_undock(lua_State *l)
 
 /*
  * Function: Ship.Kill
+ *
+ * Attack a target ship and continue until it is destroyed
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_kill(lua_State *l)
 {
@@ -428,6 +579,16 @@ static int l_ship_kill(lua_State *l)
 
 /*
  * Function: Ship.FlyTo
+ *
+ * Fly to vicinity of a given physics body
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_fly_to(lua_State *l)
 {
@@ -439,6 +600,16 @@ static int l_ship_fly_to(lua_State *l)
 
 /*
  * Function: Ship.DockWith
+ *
+ * Fly to and dock with a given station
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_dock_with(lua_State *l)
 {
@@ -450,6 +621,16 @@ static int l_ship_dock_with(lua_State *l)
 
 /*
  * Function: Ship.EnterLowOrbit
+ *
+ * Fly to and enter a low orbit around a given physics body
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_enter_low_orbit(lua_State *l)
 {
@@ -461,6 +642,16 @@ static int l_ship_enter_low_orbit(lua_State *l)
 
 /*
  * Function: Ship.EnterMediumOrbit
+ *
+ * Fly to and enter a medium orbit around a given physics body
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_enter_medium_orbit(lua_State *l)
 {
@@ -472,6 +663,16 @@ static int l_ship_enter_medium_orbit(lua_State *l)
 
 /*
  * Function: Ship.EnterHighOrbit
+ *
+ * Fly to and enter a high orbit around a given physics body
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_enter_high_orbit(lua_State *l)
 {
@@ -483,6 +684,17 @@ static int l_ship_enter_high_orbit(lua_State *l)
 
 /*
  * Function: Ship.CanHyperspaceTo
+ *
+ * Determine is a ship is able to hyperspace to a given system. The result is
+ * based on distance, range, available fuel, etc.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_can_hyperspace_to(lua_State *l)
 {
@@ -506,6 +718,16 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 
 /*
  * Function: Ship.HyperspaceTo
+ *
+ * Initiate hyperspace jump to a given system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
  */
 static int l_ship_hyperspace_to(lua_State *l)
 {
