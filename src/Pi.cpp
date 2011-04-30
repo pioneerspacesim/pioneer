@@ -115,7 +115,7 @@ bool Pi::showDebugInfo;
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
 IniConfig Pi::config;
-struct DetailLevel Pi::detail = {};
+struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
