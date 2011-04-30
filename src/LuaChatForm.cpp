@@ -23,7 +23,7 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 		LUA_DEBUG_START(l);
 
 		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-		assert(!lua_isnil(l, -1));
+		assert(lua_istable(l, -1));
 
 		lua_pushinteger(l, GetAdvert()->ref);
 		lua_gettable(l, -2);
@@ -46,12 +46,12 @@ void LuaChatForm::CallDialogHandler(int optionClicked)
 void LuaChatForm::RemoveAdvert() {
 	lua_State *l = Pi::luaManager.GetLuaState();
 
-    int ref = GetAdvert()->ref;
+	int ref = GetAdvert()->ref;
 
 	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-	assert(!lua_isnil(l, -1));
+	assert(lua_istable(l, -1));
 
 	lua_pushinteger(l, ref);
 	lua_gettable(l, -2);
@@ -83,7 +83,7 @@ static inline void _get_trade_function(lua_State *l, int ref, const char *name)
 	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-	assert(!lua_isnil(l, -1));
+	assert(lua_istable(l, -1));
 
 	lua_pushinteger(l, ref);
 	lua_gettable(l, -2);
@@ -285,7 +285,7 @@ static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l,
 	LUA_DEBUG_START(l);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-	assert(!lua_isnil(l, -1));
+	assert(lua_istable(l, -1));
 
 	lua_pushinteger(l, ref);
 	lua_gettable(l, -2);
@@ -339,7 +339,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	lua_pop(l, 6);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-	assert(!lua_isnil(l, -1));
+	assert(lua_istable(l, -1));
 
 	lua_pushinteger(l, dialog->GetAdvert()->ref);
 	lua_gettable(l, -2);
