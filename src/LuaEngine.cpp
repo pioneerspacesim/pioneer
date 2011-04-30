@@ -4,10 +4,33 @@
 #include "LuaRand.h"
 #include "Pi.h"
 
+/*
+ * Interface: Engine
+ *
+ * A global table that exposes a number of non-game-specific values from the
+ * game engine.
+ *
+ */
+
 static int l_engine_meta_index(lua_State *l)
 {
 	const char *key = luaL_checkstring(l, 2);
 
+	/*
+	 * Property: rand
+	 *
+	 * The global <Rand> object. Its stream of values will be different across
+     * multiple Pioneer runs. Use this when you just need a random number and
+     * don't care about the seed.
+	 *
+	 * Availability:
+	 *
+	 *  alpha 10
+	 *
+	 * Status:
+	 *
+	 *  stable
+	 */
 	if (strcmp(key, "rand") == 0) {
 		LuaRand::PushToLua(&Pi::rng);
 		return 1;
