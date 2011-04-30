@@ -6,13 +6,13 @@
 #include "Pi.h"
 
 /*
- * Class: LuaBody
+ * Class: Body
  *
- * Lua class that represents a physics body.
+ * Class representing that represents a physics body.
  */
 
 /*
- * Function: Body.GetLabel
+ * Function: GetLabel
  */
 static int l_body_get_label(lua_State *l)
 {
@@ -22,7 +22,7 @@ static int l_body_get_label(lua_State *l)
 } 
 
 /*
- * Function: Body.GetSeed
+ * Function: GetSeed
  */
 static int l_body_get_seed(lua_State *l)
 {
@@ -36,7 +36,7 @@ static int l_body_get_seed(lua_State *l)
 }
 
 /*
- * Function: Body.GetPath
+ * Function: GetPath
  */
 static int l_body_get_path(lua_State *l)
 {
