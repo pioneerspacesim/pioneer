@@ -1,5 +1,24 @@
 #include "LuaRand.h"
 
+/*
+ * Class: Rand
+ *
+ * Class for a random number generator.
+ */
+
+/*
+ * Function: New
+ *
+ * Creates a new random number generator.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_rand_new(lua_State *l)
 {
 	int seed = time(NULL);
@@ -9,6 +28,19 @@ static int l_rand_new(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Number
+ *
+ * Generates a real (non-integer) number.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_rand_number(lua_State *l)
 {
 	MTRand *rand = LuaObject<MTRand>::GetFromLua(1);
@@ -34,6 +66,19 @@ static int l_rand_number(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: Integer
+ *
+ * Generates an integer number.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_rand_integer(lua_State *l)
 {
 	MTRand *rand = LuaObject<MTRand>::GetFromLua(1);
