@@ -181,7 +181,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.due < Game.time + 60*60*24) then
+		if (ad.due < Game.time + 5*60*60*24) then -- remove with five days left
 			ads[ref] = nil
 			station:RemoveAdvert(ref)
 		end	
