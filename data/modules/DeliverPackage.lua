@@ -173,7 +173,8 @@ local makeAdvert = function (station)
 end
 
 local onCreateBB = function (station)
-	for i = 1,10 do
+	local num = Engine.rand:Integer(1,Game.system:GetPopulation())
+	for i = 1,num do
 		makeAdvert(station)
 	end
 end
