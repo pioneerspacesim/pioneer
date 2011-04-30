@@ -44,4 +44,6 @@ EXTRA_DIST = icons/button_f10.png \
 	msvc/pioneer-msvc-9.0.sln msvc/pioneer-msvc-9.0.vcproj \
 	config.ini
 
-
+.PHONY: codedoc
+codedoc:
+	@naturaldocs -i src/ -o HTML codedoc/ -p . -do
