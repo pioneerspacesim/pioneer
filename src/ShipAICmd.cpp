@@ -1025,6 +1025,8 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_state == 0 || m_state == 2) {
 		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
+		bool good;
+        good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();
