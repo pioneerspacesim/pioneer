@@ -11,7 +11,7 @@
  */
 
 /*
- * Function: IsPlayer
+ * Method: IsPlayer
  */
 static int l_player_is_player(lua_State *l)
 {
@@ -118,7 +118,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 }
 
 /*
- * Function: AddMission
+ * Method: AddMission
  */
 static int l_player_add_mission(lua_State *l)
 {
@@ -134,7 +134,7 @@ static int l_player_add_mission(lua_State *l)
 }
 
 /*
- * Function: UpdateMission
+ * Method: UpdateMission
  */
 static int l_player_update_mission(lua_State *l)
 {
@@ -154,7 +154,7 @@ static int l_player_update_mission(lua_State *l)
 }
 
 /*
- * Function: RemoveMission
+ * Method: RemoveMission
  */
 static int l_player_remove_mission(lua_State *l)
 {
@@ -165,7 +165,7 @@ static int l_player_remove_mission(lua_State *l)
 }
 
 /*
- * Function: GetMission
+ * Method: GetMission
  */
 static int l_player_get_mission(lua_State *l)
 {
@@ -180,7 +180,7 @@ static int l_player_get_mission(lua_State *l)
 }
 
 /*
- * Function: GetMoney
+ * Method: GetMoney
  */
 static int l_player_get_money(lua_State *l)
 {
@@ -190,7 +190,7 @@ static int l_player_get_money(lua_State *l)
 } 
 
 /*
- * Function: SetMoney
+ * Method: SetMoney
  */
 static int l_player_set_money(lua_State *l)
 {
@@ -201,7 +201,7 @@ static int l_player_set_money(lua_State *l)
 } 
 
 /*
- * Function: AddMoney
+ * Method: AddMoney
  */
 static int l_player_add_money(lua_State *l)
 {
@@ -214,7 +214,7 @@ static int l_player_add_money(lua_State *l)
 }
 
 /*
- * Function: AddCrime
+ * Method: AddCrime
  */
 // XXX this most certainly does not belong here. it will be removed when the
 // entire polit/crime system is evicted to lua where it belongs

@@ -20,7 +20,7 @@
  */
 
 /*
- * Function: IsPlayer
+ * Method: IsPlayer
  *
  * Determines if the ship is the player ship
  * 
@@ -51,7 +51,7 @@ static int l_ship_is_player(lua_State *l)
 }
 
 /*
- * Function: GetStats
+ * Method: GetStats
  *
  * Returns statistics for the ship
  *
@@ -112,7 +112,7 @@ static int l_ship_get_stats(lua_State *l)
 }
 
 /*
- * Function: SetLabel
+ * Method: SetLabel
  *
  * Changes the ship's label text. This is the text that appears beside the
  * ship in the HUD.
@@ -192,7 +192,7 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
 }
 
 /*
- * Function: SetPrimaryColour
+ * Method: SetPrimaryColour
  *
  * Change the ship model's primary colour
  *
@@ -241,7 +241,7 @@ static int l_ship_set_primary_colour(lua_State *l)
 }
 
 /*
- * Function: SetSecondaryColour
+ * Method: SetSecondaryColour
  *
  * Change the ship model's secondary colour
  *
@@ -290,7 +290,7 @@ static int l_ship_set_secondary_colour(lua_State *l)
 }
 
 /*
- * Function: GetEquipSlotSize
+ * Method: GetEquipSlotSize
  *
  * Get the number of items that will fit in a given equipment slot
  *
@@ -313,7 +313,7 @@ static int l_ship_get_equip_slot_size(lua_State *l)
 }
 
 /*
- * Function: GetEquip
+ * Method: GetEquip
  *
  * Get a list of equipment in a given equipment slot
  *
@@ -348,7 +348,7 @@ static int l_ship_get_equip(lua_State *l)
 }
 
 /*
- * Function: SetEquip
+ * Method: SetEquip
  *
  * Overwrite a single item of equipment in a given equipment slot
  *
@@ -378,7 +378,7 @@ static int l_ship_set_equip(lua_State *l)
 }
 
 /*
- * Function: AddEquip
+ * Method: AddEquip
  *
  * Add an equipment or cargo item to its appropriate equipment slot
  *
@@ -407,7 +407,7 @@ static int l_ship_add_equip(lua_State *l)
 }
 
 /*
- * Function: RemoveEquip
+ * Method: RemoveEquip
  *
  * Remove one or more of a given equipment type from its appropriate cargo slot
  *
@@ -436,7 +436,7 @@ static int l_ship_remove_equip(lua_State *l)
 }
 
 /*
- * Function: GetEquipCount
+ * Method: GetEquipCount
  *
  * Get the number of a given equipment or cargo item in a given equipment slot
  *
@@ -464,7 +464,7 @@ static int l_ship_get_equip_count(lua_State *l)
 }
 
 /*
- * Function: GetEquipFree
+ * Method: GetEquipFree
  *
  * Get the amount of free space in a given equipment slot
  *
@@ -488,7 +488,7 @@ static int l_ship_get_equip_free(lua_State *l)
 }
 
 /*
- * Function: Jettison
+ * Method: Jettison
  *
  * Jettison one unit of the given cargo type
  *
@@ -512,7 +512,7 @@ static int l_ship_jettison(lua_State *l)
 }
 
 /*
- * Function: GetDockedWith
+ * Method: GetDockedWith
  *
  * Get the station that the ship is currently docked with
  *
@@ -534,7 +534,7 @@ static int l_ship_get_docked_with(lua_State *l)
 }
 
 /*
- * Function: Undock
+ * Method: Undock
  *
  * Undock from the station currently docked with
  *
@@ -557,7 +557,7 @@ static int l_ship_undock(lua_State *l)
 }
 
 /*
- * Function: Kill
+ * Method: Kill
  *
  * Attack a target ship and continue until it is destroyed
  *
@@ -578,7 +578,7 @@ static int l_ship_kill(lua_State *l)
 }
 
 /*
- * Function: FlyTo
+ * Method: FlyTo
  *
  * Fly to vicinity of a given physics body
  *
@@ -599,7 +599,7 @@ static int l_ship_fly_to(lua_State *l)
 }
 
 /*
- * Function: DockWith
+ * Method: DockWith
  *
  * Fly to and dock with a given station
  *
@@ -620,7 +620,7 @@ static int l_ship_dock_with(lua_State *l)
 }
 
 /*
- * Function: EnterLowOrbit
+ * Method: EnterLowOrbit
  *
  * Fly to and enter a low orbit around a given physics body
  *
@@ -641,7 +641,7 @@ static int l_ship_enter_low_orbit(lua_State *l)
 }
 
 /*
- * Function: EnterMediumOrbit
+ * Method: EnterMediumOrbit
  *
  * Fly to and enter a medium orbit around a given physics body
  *
@@ -662,7 +662,7 @@ static int l_ship_enter_medium_orbit(lua_State *l)
 }
 
 /*
- * Function: EnterHighOrbit
+ * Method: EnterHighOrbit
  *
  * Fly to and enter a high orbit around a given physics body
  *
@@ -683,7 +683,7 @@ static int l_ship_enter_high_orbit(lua_State *l)
 }
 
 /*
- * Function: CanHyperspaceTo
+ * Method: CanHyperspaceTo
  *
  * Determine is a ship is able to hyperspace to a given system. The result is
  * based on distance, range, available fuel, etc.
@@ -717,7 +717,7 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 }
 
 /*
- * Function: HyperspaceTo
+ * Method: HyperspaceTo
  *
  * Initiate hyperspace jump to a given system
  *

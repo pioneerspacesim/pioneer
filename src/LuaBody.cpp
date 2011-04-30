@@ -12,7 +12,7 @@
  */
 
 /*
- * Function: GetLabel
+ * Method: GetLabel
  */
 static int l_body_get_label(lua_State *l)
 {
@@ -22,7 +22,7 @@ static int l_body_get_label(lua_State *l)
 } 
 
 /*
- * Function: GetSeed
+ * Method: GetSeed
  */
 static int l_body_get_seed(lua_State *l)
 {
@@ -36,7 +36,7 @@ static int l_body_get_seed(lua_State *l)
 }
 
 /*
- * Function: GetPath
+ * Method: GetPath
  */
 static int l_body_get_path(lua_State *l)
 {
