@@ -1,6 +1,12 @@
 #include "LuaPlanet.h"
 #include "LuaUtils.h"
 
+/*
+ * Class: Planet
+ *
+ * Class representing a planet. Inherits from <Body>.
+ */
+
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<Planet*>(o);
