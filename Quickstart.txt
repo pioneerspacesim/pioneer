@@ -1,3 +1,10 @@
+					pioneer Quickstart Guide
+					~~~~~~~~~~~~~~~~~~~~~~~~
+				  http://pioneerspacesim.net/
+
+Note: pioneer is still considered alpha. If you find any bugs or have an idea
+feel free to log them at http://github.com/pioneerspacesim/pioneer/issues
+
 Game Controls
 ~~~~~~~~~~~~~
 
@@ -71,7 +78,7 @@ Special things:
 
 ctrl-q           - quit
 ctrl-i           - show some ugly debug info
-ctrl-printscreen - screenshot
+ctrl-printscreen - screenshot (ctrl-keypad-* on osx)
 ctrl-F9          - quicksave
 ctrl-F10         - view currently selected object
 ctrl-F11         - fullscreen
