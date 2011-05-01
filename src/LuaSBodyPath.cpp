@@ -6,6 +6,40 @@
 #include "StarSystem.h"
 #include "Sector.h"
 
+/*
+ * Class: SystemPath
+ *
+ * Describes the location of a system within the galaxy and optionally, a body
+ * within that system.
+ *
+ * A <SystemPath> consists of four components
+ *  - the X coordinate of the sector
+ *  - the Y coordinate of the sector
+ *  - the system number within that sector
+ *  - optionally, the index of a body within that system
+ *
+ * <SystemPath> objects are typically used to describe the location of a
+ * system, space station or other body when specifying hyperspace or other
+ * destinations.
+ *
+ * <SystemPath> objects will compare equal if and only if all four of their
+ * components are the same. If you want to see if two paths correspond to the
+ * same system without reference to their body indexes, use <IsSameSystem>.
+ */
+
+/*
+ * Function: New
+ *
+ * Creates a new <SystemPath> object
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_new(lua_State *l)
 {
 	int sector_x = luaL_checkinteger(l, 1);
@@ -30,6 +64,19 @@ static int l_sbodypath_new(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetSectorX
+ *
+ * Get the X component of the path
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_get_sector_x(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -37,6 +84,19 @@ static int l_sbodypath_get_sector_x(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetSectorY
+ *
+ * Get the Y component of the path
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_get_sector_y(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -44,6 +104,19 @@ static int l_sbodypath_get_sector_y(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetSystemIndex
+ *
+ * Get the system index component of the path
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_get_system_index(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -51,6 +124,19 @@ static int l_sbodypath_get_system_index(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetBodyId
+ *
+ * Get the body id component of the path
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_get_body_id(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -58,6 +144,20 @@ static int l_sbodypath_get_body_id(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: IsSameSystem
+ *
+ * Determine if two <SystemPath> objects point to the same system, ignoring
+ * the body index.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_is_same_system(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -67,6 +167,19 @@ static int l_sbodypath_is_same_system(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: DistanceTo
+ *
+ * Calculate the distance between this and another system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_distance_to(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -90,6 +203,19 @@ static int l_sbodypath_distance_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetStarSystem
+ *
+ * Get a <StarSystem> object for the system that this path points to
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_get_star_system(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -99,6 +225,19 @@ static int l_sbodypath_get_star_system(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetSystemBody
+ *
+ * Get a <SystemBody> object for the body that this path points to
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_sbodypath_get_system_body(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
