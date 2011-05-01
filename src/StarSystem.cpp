@@ -493,7 +493,10 @@ SBody::BodySuperType SBody::GetSuperType() const
 		case TYPE_STARPORT_SURFACE:
 		     return SUPERTYPE_STARPORT;
 		case TYPE_GRAVPOINT:
-		     return SUPERTYPE_NONE;
+             return SUPERTYPE_NONE;
+        default:
+             fprintf( stderr, "Warning: Invalid SuperBody Type found.\n");
+             return SUPERTYPE_NONE;
 	}
 }
 
@@ -610,7 +613,9 @@ std::string SBody::GetAstroDescription()
 	case TYPE_STARPORT_SURFACE:
 		return "Starport";
 	case TYPE_GRAVPOINT:
-		return "<unknown>";
+    default:
+        fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
+        return "<unknown>";
 	}
 }
 
@@ -697,6 +702,8 @@ const char *SBody::GetIcon()
 		return "icons/object_orbital_starport.png";
 	case TYPE_GRAVPOINT:
 	case TYPE_STARPORT_SURFACE:
+    default:
+        fprintf( stderr, "Warning: Invalid body icon.\n");
 		return 0;
 	}
 }
