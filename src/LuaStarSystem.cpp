@@ -14,6 +14,36 @@
 #include "SpaceStation.h"
 #include "Sector.h"
 
+/*
+ * Class: StarSystem
+ *
+ * Representation of a star system.
+ *
+ * <StarSystem> holds properties that are used to generate a system when a
+ * player enters it, as well as various non-physical attributes relating to
+ * the system, eg political and economical data. It typically contains a
+ * number of <SystemBody> objects. It does not have a direct relationship to
+ * the physics <Body> objects in the system and as such, its possible to acces
+ * <StarSystem> objects for systems the player is not currently in.
+ *
+ * The <StarSystem> for the system the player is currently in is always
+ * available via <Game.system>.
+ */
+
+/*
+ * Method: GetName
+ *
+ * Get the name of the system. This is usually the same as the name of the
+ * primary star.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_starsystem_get_name(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -21,6 +51,19 @@ static int l_starsystem_get_name(lua_State *l)
 	return 1;
 } 
 
+/*
+ * Method: GetPath
+ *
+ * Get the <SystemPath> to the system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_starsystem_get_path(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -37,6 +80,19 @@ static int l_starsystem_get_path(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetStationPaths
+ *
+ * Get the <SystemPaths> to stations in this system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_get_station_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -62,6 +118,19 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetLawlessness
+ *
+ * Get the lawlessness value for the system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_get_lawlessness(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -69,6 +138,19 @@ static int l_starsystem_get_lawlessness(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetPopulation
+ *
+ * Get the population of this system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_get_population(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -76,6 +158,19 @@ static int l_starsystem_get_population(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetCommodityBasePriceAlterations
+ *
+ * Get the price alterations for cargo items bought and sold in this system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -92,6 +187,19 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: IsCommodityLegal
+ *
+ * Determine if a given cargo item is legal for trade in this system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
@@ -100,6 +208,19 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetNearbySystems
+ *
+ * Get a list of nearby <StarSystems> that match some criteria
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_get_nearby_systems(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -162,6 +283,19 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: DistanceTo
+ *
+ * Calculate the distance between this and another system
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_starsystem_distance_to(lua_State *l)
 {
 	LUA_DEBUG_START(l);
