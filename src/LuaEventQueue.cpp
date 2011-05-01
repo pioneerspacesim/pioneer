@@ -128,32 +128,308 @@ void LuaEventQueueBase::Emit()
  * the details of the event. For example, the <onShipDocked> event has two
  * parameters, the <Ship> that docked, and the <SpaceStation> it docked with.
  *
+ * Many of these events are triggered as a result of something happening to a
+ * <Ship>. The same events are used when something happens to a <Player>
+ * (which is also a <Ship>). Call the <Ship.IsPlayer> method on the <Ship> if
+ * your module needs to know the difference.
+ *
  * The <EventQueue> objects are available under the global EventQueue
  * namespace.
  *
+ *
  * Event: onGameStart
+ *
+ * Triggered when the game is first initialised.
+ *
+ * > local onGameStart = function () ... end
+ * > EventQueue.onGameStart:Connect(onGameStart)
+ *
+ * onGameStart is triggered just after the physics <Body> objects (including
+ * the <Player>) are placed.
+ *
+ * This is a good place to add equipment to the Player ship or spawn objects
+ * in the space. You should also initialise your module data for the game
+ * here.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
  *
  * Event: onGameEnd
  *
+ * Triggered when game is finished.
+ *
+ * > local onGameEnd = function () ... end
+ * > EventQueue.onGameEnd:Connect(onGameEnd)
+ *
+ * Triggered just before the physics <Body> objects (include the <Player>) are
+ * destroyed and Pioneer returns to the main menu.
+ *
+ * You should clean up any game data here. Remember that your module will be
+ * re-used if the player begins another game. You probably don't want any data
+ * from a previous game to leak into a new one.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Event: onEnterSystem
+ *
+ * Triggered when a ship enters a system after hyperspace.
+ *
+ * > local onEnterSystem = function (ship) ... end
+ * > EventQueue.onEnterSystem:Connect(onEnterSystem)
+ *
+ * This is the place to spawn pirates and other attack ships to give the
+ * illusion that the ship was followed through hyperspace.
+ *
+ * Note that this event is *not* triggered at game start.
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that entered the system
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
  *
  * Event: onLeaveSystem
  *
+ * Triggered immediately before ship leaves a system and enters hyperspace.
+ *
+ * > local onLeaveSystem = function (ship) ... end
+ * > EventQueue.onLeaveSystem:Connect(onLeaveSystem)
+ *
+ * All physics <Body> objects are invalid after this function returns.
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that left the system
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Event: onShipDestroyed
+ *
+ * Triggered when a ship is destroyed.
+ *
+ * > local onShipDestroyed = function (ship, attacker) ... end
+ * > EventQueue.onShipDestroyed:Connect(onShipDestroyed)
+ *
+ * Parameters:
+ *
+ *   ship - the ship that was destroyed
+ *
+ *   attacker - the <Body> that was responsible for reducing the ship's hull
+ *   strength to 0. Usually a ship that fired lasers or missiles, but may be
+ *   another <Body> (eg <Planet> or <SpaceStation>) if the ship was destroyed
+ *   by a collision.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
  *
  * Event: onShipHit
  *
+ * Triggered when a ship is hit by laser fire or a missile.
+ *
+ * > local onShipHit = function (ship, attacker) ... end
+ * > EventQueue.onShipHit:Connect(onShipHit)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that was hit
+ *
+ *   attacker - the <Ship> that fired the laser or missile
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Event: onShipCollided
+ *
+ * Triggered when a ship collides with an object.
+ *
+ * > local onShipCollided = function (ship, other) ... end
+ * > EventQueue.onShipCollided:Connect(onShipCollided)
+ *
+ * If the ship collides with a city building on a planet it will register as
+ * as collision with the planet itself.
+ *
+ * If the ship "collides" with a missile, <onShipHit> will be triggered
+ * instead of <onShipCollided>.
+ *
+ * If the ship hit another <Ship>, this event will be triggered twice, once
+ * for each ship.
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that was hit
+ *
+ *   other - the <Body> that the ship collided with
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
  *
  * Event: onShipDocked
  *
+ * Triggered when a ship docks with a space station.
+ *
+ * > local onShipDocked = function (ship, station) ... end
+ * > EventQueue.onShipDocked:Connect(onShipDocked)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that docked
+ *
+ *   station - the <SpaceStation> the ship docked with
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Event: onShipUndocked
+ *
+ * Triggered when a ship undocks with a space station.
+ *
+ * > local onShipUndocked = function (ship, station) ... end
+ * > EventQueue.onShipUndocked:Connect(onShipUndocked)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that docked
+ *
+ *   station - the <SpaceStation> the ship undocked with
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
  *
  * Event: onJettison
  *
+ * Triggered when a ship jettisons a cargo item.
+ *
+ * > local onJettison = function (ship, cargo) ... end
+ * > EventQueue.onJettison:Connect(onJettison)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that jettisoned the cargo item
+ *
+ *   cargo - the <CargoBody> now drifting in space
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onCreateBB
  *
+ * Triggered when a space station bulletin board is created.
+ *
+ * > local onCreateBB = function (station) ... end
+ * > EventQueue.onCreateBB:Connect(onCreateBB)
+ *
+ * The usual function of a <onCreateBB> event handler is to call
+ * <SpaceStation.AddAdvert> to populate the bulletin board with ads.
+ *
+ * This event is triggered the first time a <Ship> docks with the station or
+ * is placed directly into the station (eg by <Space.SpawnShipDocked> or at
+ * game start)
+ *
+ * Parameters:
+ *
+ *   station - the <SpaceStation> the bulletin board is being created for
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Event: onUpdateBB
+ *
+ * Triggered every 1-2 hours of game time to update the bulletin board.
+ *
+ * > local onUpdateBB = function (station) ... end
+ * > EventQueue.onUpdateBB:Connect(onUpdateBB)
+ *
+ * The usual function of a <onUpdateBB> event handler is to call
+ * <SpaceStation.AddAdvert> and <SpaceStation.RemoveAdvert> to update the
+ * bulletin board.
+ *
+ * This event is triggered at a random game time 1-2 hours after it was
+ * previously called. This period is subject to change; script authors should
+ * not rely on it.
+ *
+ * <onUpdateBB> will never be triggered for a station that has not previously
+ * had <onCreateBB> triggered for it.
+ *
+ * Parameters:
+ *
+ *   station - the <SpaceStation> the bulletin board is being updated for
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
  */
 
 /*
@@ -178,11 +454,11 @@ void LuaEventQueueBase::Emit()
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 int LuaEventQueueBase::l_connect(lua_State *l)
 {
@@ -224,11 +500,11 @@ int LuaEventQueueBase::l_connect(lua_State *l)
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 int LuaEventQueueBase::l_disconnect(lua_State *l)
 {
