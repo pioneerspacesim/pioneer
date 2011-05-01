@@ -46,4 +46,4 @@ EXTRA_DIST = icons/button_f10.png \
 
 .PHONY: codedoc
 codedoc:
-	@naturaldocs -i src/ -o HTML codedoc/ -p . -do
+	@naturaldocs -i src/ -o HTML codedoc/ -p nd/ -do -s Default Local
