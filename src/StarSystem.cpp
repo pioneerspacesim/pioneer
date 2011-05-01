@@ -231,6 +231,7 @@ static const struct StarTypeInfo {
 } starTypeInfo[] = {
 	{
 		SBody::SUPERTYPE_NONE, {}, 0,
+        0, 0
 	}, {
 		SBody::SUPERTYPE_STAR, //Dwarf
 		{2,8}, 30,
