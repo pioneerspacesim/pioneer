@@ -73,5 +73,6 @@ Group: Index  {
    Function Index: Functions
    Interface Index: Interfaces
    Property Index: Properties
+   Event Index: Events
    }  # Group: Index
 

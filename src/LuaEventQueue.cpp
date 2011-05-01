@@ -112,7 +112,48 @@ void LuaEventQueueBase::Emit()
 /*
  * Class: EventQueue
  *
- * A class to manage an queue of events.
+ * A class to manage a queue of events.
+ *
+ * The majority of the work done by a Pioneer Lua module is in response to
+ * events. The typical structure of a module will be to define a number of
+ * event handler functions and then register them with the appropriate event
+ * queues.
+ *
+ * When particular events occur within the game, such as a ship docking or the
+ * player coming under attack, the appropriate <EventQueue> object is
+ * triggered. This causes all functions registered with the event queue to be
+ * called, in no particular order.
+ *
+ * An event usually has one or more parameters attached to it that describe
+ * the details of the event. For example, the <onShipDocked> event has two
+ * parameters, the <Ship> that docked, and the <SpaceStation> it docked with.
+ *
+ * The <EventQueue> objects are available under the global EventQueue
+ * namespace.
+ *
+ * Event: onGameStart
+ *
+ * Event: onGameEnd
+ *
+ * Event: onEnterSystem
+ *
+ * Event: onLeaveSystem
+ *
+ * Event: onShipDestroyed
+ *
+ * Event: onShipHit
+ *
+ * Event: onShipCollided
+ *
+ * Event: onShipDocked
+ *
+ * Event: onShipUndocked
+ *
+ * Event: onJettison
+ *
+ * Event: onCreateBB
+ *
+ * Event: onUpdateBB
  */
 
 /*
