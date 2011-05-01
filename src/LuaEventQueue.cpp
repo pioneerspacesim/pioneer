@@ -109,6 +109,40 @@ void LuaEventQueueBase::Emit()
 	LUA_DEBUG_END(l, 0);
 }
 
+/*
+ * Class: EventQueue
+ *
+ * A class to manage an queue of events.
+ */
+
+/*
+ * Method: Connect
+ *
+ * Connect a function to an event queue. When the queue emits an event, the
+ * function will be called.
+ *
+ * > onEvent:Connect(function)
+ *
+ * Parameters:
+ *
+ *   function - function to call when the queue emits an event. The function
+ *              will recieve a copy of the arguments attached to the event
+ *
+ *
+ * Example:
+ *
+ * > EventQueue.onEnterSystem:Connect(function (ship)
+ * >     print("welcome to "..Game.system:GetName()..", "..ship:GetLabel())
+ * > end)
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 int LuaEventQueueBase::l_connect(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -132,6 +166,29 @@ int LuaEventQueueBase::l_connect(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: Disconnect
+ *
+ * Disconnects a function from an event queue. The function will no long
+ * receive events emitted by the queue.
+ *
+ * If the function is not connected to the queue this method does nothihg.
+ *
+ * > onEvent:Disconnect(function)
+ *
+ * Parameters:
+ *
+ *   function - a function that was previously connected to this queue with
+ *              <Connect>
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 int LuaEventQueueBase::l_disconnect(lua_State *l)
 {
 	LUA_DEBUG_START(l);
