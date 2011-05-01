@@ -63,6 +63,7 @@ File: Star  (LuaStar.cpp)
 File: StarSystem  (LuaStarSystem.cpp)
 File: SystemBody  (LuaSBody.cpp)
 File: SystemPath  (LuaSBodyPath.cpp)
+File: Timer  (LuaTimer.cpp)
 File: UI  (LuaUI.cpp)
 
 Group: Index  {
