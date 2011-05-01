@@ -4,6 +4,9 @@
 This is some quick and dirty instructions on how to get pioneer working under
 OSX. 
 
+The GNU Way...:
+~~~~~~~~~~~~~~~
+
 1. You will need the following libraries installed. The best method I found
    was to install macports (http://www.macports.org/) and install the
    following:
@@ -29,5 +32,10 @@ OSX.
 		LDFLAGS="-L/System/Library/Frameworks/OpenGL.framework/Libraries -L/System/Library/Frameworks/GLUT.framework" ./configure
 
 5. Now you can run Make as per normal. :)
+
+Using XCode:
+~~~~~~~~~~~~
+There is an Xcode project located in the osx directory. This should already be 
+setup, provided that you have the above libraries installed.
 
 - Philbywhizz
