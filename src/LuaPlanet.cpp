@@ -12,6 +12,6 @@ template <> void LuaObject<Planet>::RegisterClass()
 {
 	const char *l_inherit = "Body";
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, l_inherit, NULL, NULL, NULL);
 	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
 }
