@@ -392,6 +392,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
+	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL, NULL);
 	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
 }

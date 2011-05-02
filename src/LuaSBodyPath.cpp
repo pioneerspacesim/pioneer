@@ -145,5 +145,5 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_meta);
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, l_meta);
 }

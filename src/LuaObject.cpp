@@ -88,37 +88,43 @@ int LuaObjectBase::GC(lua_State *l)
 
 static int _index_trampoline(lua_State *l)
 {
-	lua_getmetatable(l, 1);
+	lua_getmetatable(l, 1);             // object, key, metatable
 
 	lua_pushstring(l, "type");
-	lua_rawget(l, -2);
+	lua_rawget(l, -2);                  // object, key, metatable, type
 
-	lua_rawget(l, LUA_GLOBALSINDEX);
+	lua_rawget(l, LUA_GLOBALSINDEX);    // object, key, metatable, method table
 
 	lua_pushvalue(l, 2);
-	lua_rawget(l, -2);
-
+	lua_rawget(l, -2);                  // object, key, metatable, method table, method
+    
 	if (!lua_isnil(l, -1))
 		return 1;
-	lua_pop(l, 2);
+	lua_pop(l, 2);                      // object, key, metatable
 
-	lua_pushstring(l, "index");
-	lua_rawget(l, -2);
+	lua_pushstring(l, "attrs");
+	lua_rawget(l, -2);                  // object, key, metatable, attr table
 
-	int sp = lua_gettop(l);
+	lua_pushvalue(l, 2);
+	lua_rawget(l, -2);                  // object, key, metatable, attr table, attr handler
+
+	if (lua_isnil(l, -1)) {
+		lua_pushstring(l, "type");
+		lua_rawget(l, -3);
+		luaL_error(l, "%s has no method or attribute '%s'", lua_tostring(l, -1), lua_tostring(l, 2));
+	}
 
 	lua_pushvalue(l, 1);
-	lua_pushvalue(l, 2);
-	lua_call(l, 2, LUA_MULTRET);
+	lua_call(l, 1, 1);
 
-	return lua_gettop(l) - sp + 1;
+	return 1;
 }
 
 static const luaL_reg no_methods[] = {
 	{ 0, 0 }
 };
 
-void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *meta)
+void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *attrs, const luaL_reg *meta)
 {
 	assert(type);
 
@@ -165,18 +171,22 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_pushcfunction(l, LuaObjectBase::GC);
 	lua_rawset(l, -3);
 
-	// setup the index. if the caller provided an attribute index the we need
-	// to use our own trampoline to select the right method or metamethod.
-	// otherwise, we just add the method table directly as the index
-	lua_getfield(l, -1, "index");
-	if (!lua_isnil(l, -1)) {
-		lua_pop(l, 1);
+	// setup the index. if the caller provided an attributes we need to use
+	// our own trampoline that will select the method or attribute handler as
+	// required. if no attributes, then we just add the method table directly
+	if (attrs) {
+		lua_pushstring(l, "attrs");
+		
+		lua_newtable(l);
+		luaL_register(l, 0, attrs);
+
+		lua_rawset(l, -3);
+
 		lua_pushstring(l, "__index");
 		lua_pushcfunction(l, _index_trampoline);
 		lua_rawset(l, -3);
 	}
 	else {
-		lua_pop(l, 1);
 		lua_pushstring(l, "__index");
 		lua_pushvalue(l, -3);
 		lua_rawset(l, -3);
