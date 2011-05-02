@@ -87,8 +87,8 @@ local onChat = function (dialog, ref, option)
 			cash     = Format.Money(ad.reward);
 			starport = sbody:GetName(),
 			system   = sys:GetName(),
-			sectorx  = ad.location:GetSectorX(),
-			sectory  = ad.location:GetSectorY(),
+			sectorx  = ad.location.sectorX,
+			sectory  = ad.location.sectorY,
 		})
 
 		dialog:SetMessage(introtext)
