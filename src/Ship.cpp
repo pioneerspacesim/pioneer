@@ -664,7 +664,7 @@ void Ship::UpdateAlertState()
 				SetAlertState(ALERT_NONE);
 			else if (ship_is_firing)
 				m_lastFiringAlert = Pi::GetGameTime();
-			else if (m_lastFiringAlert + 30.0 <= Pi::GetGameTime())
+			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime())
 				SetAlertState(ALERT_SHIP_NEARBY);
 			break;
 	}

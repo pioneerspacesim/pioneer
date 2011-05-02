@@ -29,11 +29,11 @@ void LuaTimer::Tick()
 		if (at <= now) {
 			lua_getfield(l, -1, "callback");
 			lua_call(l, 0, 1);
-			bool again = lua_toboolean(l, -1);
+			bool cancel = lua_toboolean(l, -1);
 			lua_pop(l, 1);
 
 			lua_getfield(l, -1, "every");
-			if (lua_isnil(l, -1) || !again) {
+			if (lua_isnil(l, -1) || cancel) {
 				lua_pop(l, 1);
 
 				lua_pushvalue(l, -2);
