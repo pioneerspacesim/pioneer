@@ -81,33 +81,32 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	return 1;
 }
 
-static int l_sbodypath_meta_index(lua_State *l)
+static int l_sbodypath_attr_sector_x(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	const char *key = luaL_checkstring(l, 2);
+	lua_pushinteger(l, path->sectorX);
+	return 1;
+}
 
-	if (strcmp(key, "sectorX") == 0) {
-		lua_pushinteger(l, path->sectorX);
-		return 1;
-	}
+static int l_sbodypath_attr_sector_y(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->sectorY);
+	return 1;
+}
 
-	if (strcmp(key, "sectorY") == 0) {
-		lua_pushinteger(l, path->sectorY);
-		return 1;
-	}
+static int l_sbodypath_attr_system_index(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->systemNum);
+	return 1;
+}
 
-	if (strcmp(key, "systemIndex") == 0) {
-		lua_pushinteger(l, path->systemNum);
-		return 1;
-	}
-
-	if (strcmp(key, "bodyId") == 0) {
-		lua_pushinteger(l, path->sbodyId);
-		return 1;
-	}
-
-	luaL_error(l, "SystemPath has no attribute '%s'", key);
-	return 0;
+static int l_sbodypath_attr_body_id(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->sbodyId);
+	return 1;
 }
 
 static int l_sbodypath_meta_eq(lua_State *l)
@@ -136,11 +135,18 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_meta[] = {
-		{ "index", l_sbodypath_meta_index },
-		{ "__eq",  l_sbodypath_meta_eq    },
+	static const luaL_reg l_attrs[] = {
+		{ "sectorX",     l_sbodypath_attr_sector_x     },
+		{ "sectorY",     l_sbodypath_attr_sector_y     },
+		{ "systemIndex", l_sbodypath_attr_system_index },
+		{ "bodyId",      l_sbodypath_attr_body_id      },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, l_meta);
+	static const luaL_reg l_meta[] = {
+		{ "__eq",  l_sbodypath_meta_eq },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, l_meta);
 }
