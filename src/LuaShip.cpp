@@ -355,7 +355,7 @@ template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
 {
-	static const char *l_inherit = "Body";
+	static const char *l_parent = "Body";
 
 	static const luaL_reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
@@ -392,6 +392,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

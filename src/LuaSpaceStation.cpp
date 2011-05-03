@@ -165,7 +165,7 @@ template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
 {
-	const char *l_inherit = "Body";
+	const char *l_parent = "Body";
 
 	static const luaL_reg l_methods[] = {
 		{ "AddAdvert",    l_spacestation_add_advert    },
@@ -175,6 +175,6 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

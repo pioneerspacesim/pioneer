@@ -52,5 +52,10 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
+	static luaL_reg l_attrs[] = {
+		{ "label", l_body_get_label },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
 }
