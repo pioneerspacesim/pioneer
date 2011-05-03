@@ -234,7 +234,7 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				UI.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
+				UI.ImportantMessage(ship.label, "You're going to regret dealing with "..mission.client)
 			end
 		end
 	end
@@ -245,7 +245,7 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 
-		if mission.location == station:GetPath() then
+		if mission.location == station.path then
 
 			if Game.time > mission.due then
 				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
