@@ -1,7 +1,7 @@
 #include "LuaCargoBody.h"
 #include "LuaUtils.h"
 
-static int l_cargobody_get_cargo_type(lua_State *l)
+static int l_cargobody_attr_type(lua_State *l)
 {
 	CargoBody *b = LuaCargoBody::GetFromLua(1);
 	lua_pushinteger(l, b->GetCargoType());
@@ -19,11 +19,11 @@ template <> void LuaObject<CargoBody>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
-		{ "GetCargoType", l_cargobody_get_cargo_type },
+	static const luaL_reg l_attrs[] = {
+		{ "type", l_cargobody_attr_type },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	LuaObjectBase::CreateClass(s_type, l_parent, NULL, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

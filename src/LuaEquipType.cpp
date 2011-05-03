@@ -3,28 +3,28 @@
 #include "LuaUtils.h"
 #include "EquipType.h"
 
-static int l_equiptype_get_name(lua_State *l)
+static int l_equiptype_attr_name(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
 	lua_pushstring(l, et->name);
 	return 1;
 }
 
-static int l_equiptype_get_slot(lua_State *l)
+static int l_equiptype_attr_slot(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
 	lua_pushinteger(l, et->slot);
 	return 1;
 }
 
-static int l_equiptype_get_base_price(lua_State *l)
+static int l_equiptype_attr_base_price(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
 	lua_pushnumber(l, (double)(et->basePrice)*0.01);
 	return 1;
 }
 
-static int l_equiptype_get_mass(lua_State *l)
+static int l_equiptype_attr_mass(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
 	lua_pushinteger(l, et->mass);
@@ -90,16 +90,19 @@ template <> const char *LuaObject<LuaUncopyable<EquipType> >::s_type = "EquipTyp
 template <> void LuaObject<LuaUncopyable<EquipType> >::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "GetName",      l_equiptype_get_name       },
-		{ "GetSlot",      l_equiptype_get_slot       },
-		{ "GetBasePrice", l_equiptype_get_base_price },
-		{ "GetMass",      l_equiptype_get_mass       },
-
         { "GetEquipType",  l_equiptype_get_equip_type  },
 		{ "GetEquipTypes", l_equiptype_get_equip_types },
 
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
+	static const luaL_reg l_attrs[] = {
+		{ "name",      l_equiptype_attr_name       },
+		{ "slot",      l_equiptype_attr_slot       },
+		{ "basePrice", l_equiptype_attr_base_price },
+		{ "mass",      l_equiptype_attr_mass       },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
 }

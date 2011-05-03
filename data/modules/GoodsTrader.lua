@@ -38,7 +38,7 @@ local onChat = function (dialog, ref, option)
 			return true
 		end
 
-		local lawlessness = Game.system:GetLawlessness()
+		local lawlessness = Game.system.lawlessness
 		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
 		dialog:GotoPolice()
 		return false

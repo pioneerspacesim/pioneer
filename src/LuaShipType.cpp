@@ -4,10 +4,45 @@
 #include "ShipType.h"
 #include "EquipType.h"
 
-int l_shiptype_get_name(lua_State *l)
+int l_shiptype_attr_name(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
 	lua_pushstring(l, st->name.c_str());
+	return 1;
+}
+
+int l_shiptype_attr_angular_thrust(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	lua_pushnumber(l, st->angThrust);
+	return 1;
+}
+
+int l_shiptype_attr_capacity(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	lua_pushinteger(l, st->capacity);
+	return 1;
+}
+
+int l_shiptype_attr_hull_mass(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	lua_pushinteger(l, st->hullMass);
+	return 1;
+}
+
+int l_shiptype_attr_base_price(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	lua_pushnumber(l, (double)(st->baseprice) * 0.01);
+	return 1;
+}
+
+int l_shiptype_attr_default_hyperdrive(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	lua_pushinteger(l, st->hyperdrive);
 	return 1;
 }
 
@@ -21,13 +56,6 @@ int l_shiptype_get_linear_thrust(lua_State *l)
 	return 1;
 }
 
-int l_shiptype_get_angular_thrust(lua_State *l)
-{
-	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushnumber(l, st->angThrust);
-	return 1;
-}
-
 int l_shiptype_get_equip_slot_capacity(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -35,34 +63,6 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
 	if (t < 0 || t >= Equip::SLOT_MAX)
 		luaL_error(l, "Unknown equipment type %d", t);
 	lua_pushnumber(l, st->equipSlotCapacity[t]);
-	return 1;
-}
-
-int l_shiptype_get_capacity(lua_State *l)
-{
-	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushinteger(l, st->capacity);
-	return 1;
-}
-
-int l_shiptype_get_hull_mass(lua_State *l)
-{
-	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushinteger(l, st->hullMass);
-	return 1;
-}
-
-int l_shiptype_get_base_price(lua_State *l)
-{
-	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushnumber(l, (double)(st->baseprice) * 0.01);
-	return 1;
-}
-
-int l_shiptype_get_default_hyperdrive(lua_State *l)
-{
-	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushinteger(l, st->hyperdrive);
 	return 1;
 }
 
@@ -131,19 +131,23 @@ template <> const char *LuaObject<LuaUncopyable<ShipType> >::s_type = "ShipType"
 template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "GetName",              l_shiptype_get_name                },
 		{ "GetLinearThrust",      l_shiptype_get_linear_thrust       },
-		{ "GetAngularThrust",     l_shiptype_get_angular_thrust      },
 		{ "GetEquipSlotCapacity", l_shiptype_get_equip_slot_capacity },
-		{ "GetCapacity",          l_shiptype_get_capacity            },
-		{ "GetHullMass",          l_shiptype_get_hull_mass           },
-		{ "GetBasePrice",         l_shiptype_get_base_price          },
-		{ "GetDefaultHyperdrive", l_shiptype_get_default_hyperdrive  },
 
 		{ "GetShipType",  l_shiptype_get_ship_type  },
 		{ "GetShipTypes", l_shiptype_get_ship_types },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
+	static const luaL_reg l_attrs[] = {
+		{ "name",              l_shiptype_attr_name               },
+		{ "angularThrust",     l_shiptype_attr_angular_thrust     },
+		{ "capacity",          l_shiptype_attr_capacity           },
+		{ "hullMass",          l_shiptype_attr_hull_mass          },
+		{ "basePrice",         l_shiptype_attr_base_price         },
+		{ "defaultHyperdrive", l_shiptype_attr_default_hyperdrive },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
 }
