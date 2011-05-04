@@ -1626,11 +1626,12 @@ void StarSystem::Populate(bool addSpaceStations)
 		m_tradeLevel[i] += rand.Int32(-5, 5);
 	}
 	
-	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
-		Equip::Type t = (Equip::Type)i;
-		const EquipType &type = EquipType::types[t];
+// Unused?
+//	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+//		Equip::Type t = (Equip::Type)i;
+//		const EquipType &type = EquipType::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
-	}
+//	}
 //	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
