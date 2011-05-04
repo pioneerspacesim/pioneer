@@ -23,6 +23,8 @@ int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 	assert(lua_istable(l, -1));
 
 	lua_getfield(l, -1, name);
+	if (lua_isnil(l, -1))
+		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s'\n", name, ns);
 	assert(lua_isnumber(l, -1));
 
 	int value = lua_tointeger(l, -1);
@@ -41,7 +43,9 @@ const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int va
 	assert(lua_istable(l, -1));
 
 	lua_pushinteger(l, value);
-	lua_rawset(l, -2);
+	lua_rawget(l, -2);
+	if (lua_isnil(l, -1))
+		luaL_error(l, "couldn't find constant with value %d in namespace '%s'\n", value, ns);
 	assert(lua_isstring(l, -1));
 
 	const char *name = lua_tostring(l, -1);
