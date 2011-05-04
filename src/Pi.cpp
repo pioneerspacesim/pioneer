@@ -92,6 +92,7 @@ int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
 int Pi::mouseMotion[2];
+bool Pi::doingMouseGrab = false;
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
@@ -777,8 +778,7 @@ void Pi::TombStoneLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Pi::HandleEvents();
-		SDL_ShowCursor(1);
-		SDL_WM_GrabInput(SDL_GRAB_OFF);
+		Pi::SetMouseGrab(false);
 
 		draw_tombstone(_time);
 		Render::PostProcess();
@@ -933,8 +933,8 @@ void Pi::Start()
 		glLoadIdentity();
 		glClearColor(0,0,0,0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SDL_ShowCursor(1);
-		SDL_WM_GrabInput(SDL_GRAB_OFF);
+
+		Pi::SetMouseGrab(false);
 
 		draw_intro(view, _time);
 		Render::PostProcess();
@@ -1150,15 +1150,8 @@ void Pi::MainLoop()
 		// detected. Gui::Draw wipes memory of label positions.
 		Pi::HandleEvents();
 		// hide cursor for ship control.
-		if (Pi::MouseButtonState(3)) {
-			SDL_ShowCursor(0);
-			SDL_WM_GrabInput(SDL_GRAB_ON);
-//			SDL_SetRelativeMouseMode(true);
-		} else {
-			SDL_ShowCursor(1);
-			SDL_WM_GrabInput(SDL_GRAB_OFF);
-//			SDL_SetRelativeMouseMode(false);
-		}
+
+		SetMouseGrab(Pi::MouseButtonState(3));
 
 		Render::PostProcess();
 		Gui::Draw();
@@ -1410,4 +1403,20 @@ float Pi::JoystickAxisState(int joystick, int axis) {
 		return 0;
 
 	return joysticks[joystick].axes[axis];
+}
+
+void Pi::SetMouseGrab(bool on)
+{
+	if (!doingMouseGrab && on) {
+		SDL_ShowCursor(0);
+		SDL_WM_GrabInput(SDL_GRAB_ON);
+//		SDL_SetRelativeMouseMode(true);
+		doingMouseGrab = true;
+	}
+	else if(doingMouseGrab && !on) {
+		SDL_ShowCursor(1);
+		SDL_WM_GrabInput(SDL_GRAB_OFF);
+//		SDL_SetRelativeMouseMode(false);
+		doingMouseGrab = false;
+	}
 }

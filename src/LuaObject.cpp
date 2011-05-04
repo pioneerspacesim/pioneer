@@ -86,34 +86,6 @@ int LuaObjectBase::GC(lua_State *l)
 	return 0;
 }
 
-static int _index_trampoline(lua_State *l)
-{
-	lua_getmetatable(l, 1);
-
-	lua_pushstring(l, "type");
-	lua_rawget(l, -2);
-
-	lua_rawget(l, LUA_GLOBALSINDEX);
-
-	lua_pushvalue(l, 2);
-	lua_rawget(l, -2);
-
-	if (!lua_isnil(l, -1))
-		return 1;
-	lua_pop(l, 2);
-
-	lua_pushstring(l, "index");
-	lua_rawget(l, -2);
-
-	int sp = lua_gettop(l);
-
-	lua_pushvalue(l, 1);
-	lua_pushvalue(l, 2);
-	lua_call(l, 2, LUA_MULTRET);
-
-	return lua_gettop(l) - sp + 1;
-}
-
 static const luaL_reg no_methods[] = {
 	{ 0, 0 }
 };
@@ -165,22 +137,10 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_pushcfunction(l, LuaObjectBase::GC);
 	lua_rawset(l, -3);
 
-	// setup the index. if the caller provided an attribute index the we need
-	// to use our own trampoline to select the right method or metamethod.
-	// otherwise, we just add the method table directly as the index
-	lua_getfield(l, -1, "index");
-	if (!lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_pushstring(l, "__index");
-		lua_pushcfunction(l, _index_trampoline);
-		lua_rawset(l, -3);
-	}
-	else {
-		lua_pop(l, 1);
-		lua_pushstring(l, "__index");
-		lua_pushvalue(l, -3);
-		lua_rawset(l, -3);
-	}
+	// attach the method table to __index
+	lua_pushstring(l, "__index");
+	lua_pushvalue(l, -3);
+	lua_rawset(l, -3);
 
 	// add the type so we can walk the inheritance chain
 	lua_pushstring(l, "type");
