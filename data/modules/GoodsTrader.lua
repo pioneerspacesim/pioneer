@@ -19,7 +19,7 @@ local onChat = function (dialog, ref, option)
 
 	ad.stock = {}
 	ad.price = {}
-	for e = Equip.Type.FIRST_COMMODITY, Equip.Type.LAST_COMMODITY do
+	for e = 'FIRST_COMMODITY', 'LAST_COMMODITY' do
 		if not Game.system:IsCommodityLegal(e) then
 			ad.stock[e] = Engine.rand:Integer(1,50)
 			-- going rate on the black market will be twice normal

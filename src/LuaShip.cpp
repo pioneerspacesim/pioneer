@@ -4,6 +4,7 @@
 #include "LuaShipType.h"
 #include "LuaBody.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
@@ -124,9 +125,7 @@ static int l_ship_set_secondary_colour(lua_State *l)
 static int l_ship_get_equip_slot_size(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
-	if (slot < 0 || slot >= Equip::SLOT_MAX)
-		luaL_error(l, "Invalid equipment slot '%d'", slot);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
 	lua_pushinteger(l, s->m_equipment.GetSlotSize(slot));
 	return 1;
 }
@@ -134,9 +133,7 @@ static int l_ship_get_equip_slot_size(lua_State *l)
 static int l_ship_get_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
-	if (slot < 0 || slot >= Equip::SLOT_MAX)
-		luaL_error(l, "Invalid equipment slot '%d'", slot);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
 
 	int size = s->m_equipment.GetSlotSize(slot);
 	if (size == 0)
@@ -156,15 +153,10 @@ static int l_ship_get_equip(lua_State *l)
 static int l_ship_set_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
 	int idx = luaL_checkinteger(l, 3);
-	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 4));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 4)));
 
-	if (slot < 0 || slot >= Equip::SLOT_MAX)
-		luaL_error(l, "Invalid equipment slot '%d'", slot);
-	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
-		luaL_error(l, "Invalid equipment type '%d'", e);
-	
 	s->m_equipment.Set(slot, idx, e);
 	s->UpdateMass();
 	return 0;
@@ -173,9 +165,7 @@ static int l_ship_set_equip(lua_State *l)
 static int l_ship_add_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
-	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
-		luaL_error(l, "Invalid equipment type '%d'", e);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
 	int num = 1;
 	if (lua_isnumber(l, 3))
@@ -189,9 +179,7 @@ static int l_ship_add_equip(lua_State *l)
 static int l_ship_remove_equip(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
-	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
-		luaL_error(l, "Invalid equipment type '%d'", e);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
 	int num = 1;
 	if (lua_isnumber(l, 3))
@@ -205,14 +193,8 @@ static int l_ship_remove_equip(lua_State *l)
 static int l_ship_get_equip_count(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
-	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 3));
-
-	if (slot < 0 || slot >= Equip::SLOT_MAX)
-		luaL_error(l, "Invalid equipment slot '%d'", slot);
-	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
-		luaL_error(l, "Invalid equipment type '%d'", e);
-	
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 3)));
 	lua_pushinteger(l, s->m_equipment.Count(slot, e));
 	return 1;
 }
@@ -220,9 +202,7 @@ static int l_ship_get_equip_count(lua_State *l)
 static int l_ship_get_equip_free(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
-	if (slot < 0 || slot >= Equip::SLOT_MAX)
-		luaL_error(l, "Invalid equipment slot '%d'", slot);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
 
 	lua_pushinteger(l, s->m_equipment.FreeSpace(slot));
 	return 1;
@@ -231,9 +211,7 @@ static int l_ship_get_equip_free(lua_State *l)
 static int l_ship_jettison(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
-	if (e <= Equip::NONE || e >= Equip::TYPE_MAX)
-		luaL_error(l, "Invalid equipment type '%d'", e);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
 	lua_pushboolean(l, s->Jettison(e));
 	return 1;
@@ -322,7 +300,7 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 		return 3;
 	}
 
-	lua_pushinteger(l, status);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
 	return 1;
 }
 
@@ -337,13 +315,13 @@ static int l_ship_hyperspace_to(lua_State *l)
 
 	if (!s->CanHyperspaceTo(dest, fuel, duration, &status))
 	{
-		lua_pushinteger(l, status);
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 		return 1;
 	}
 
 	Space::StartHyperspaceTo(s, dest);
 
-	lua_pushinteger(l, Ship::HYPERJUMP_OK);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 	return 1;
 }
 

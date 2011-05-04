@@ -1,10 +1,11 @@
 #include "LuaCargoBody.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 
 static int l_cargobody_attr_type(lua_State *l)
 {
 	CargoBody *b = LuaCargoBody::GetFromLua(1);
-	lua_pushinteger(l, b->GetCargoType());
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", b->GetCargoType()));
 	return 1;
 }
 

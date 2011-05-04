@@ -1,6 +1,7 @@
 #include "LuaObject.h"
 #include "LuaShipType.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "ShipType.h"
 #include "EquipType.h"
 
@@ -42,16 +43,14 @@ int l_shiptype_attr_base_price(lua_State *l)
 int l_shiptype_attr_default_hyperdrive(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushinteger(l, st->hyperdrive);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", st->hyperdrive));
 	return 1;
 }
 
 int l_shiptype_get_linear_thrust(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
-	ShipType::Thruster t = static_cast<ShipType::Thruster>(luaL_checkinteger(l, 2));
-	if (t < 0 || t >= ShipType::THRUSTER_MAX)
-		luaL_error(l, "Unknown thruster type %d", t);
+	ShipType::Thruster t = static_cast<ShipType::Thruster>(LuaConstants::GetConstant(l, "ShipTypeThruster", luaL_checkstring(l, 2)));
 	lua_pushnumber(l, st->linThrust[t]);
 	return 1;
 }
@@ -59,10 +58,8 @@ int l_shiptype_get_linear_thrust(lua_State *l)
 int l_shiptype_get_equip_slot_capacity(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
-	Equip::Slot t = static_cast<Equip::Slot>(luaL_checkinteger(l, 2));
-	if (t < 0 || t >= Equip::SLOT_MAX)
-		luaL_error(l, "Unknown equipment type %d", t);
-	lua_pushnumber(l, st->equipSlotCapacity[t]);
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	lua_pushnumber(l, st->equipSlotCapacity[slot]);
 	return 1;
 }
 
@@ -85,10 +82,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 	ShipType::Tag tag = ShipType::TAG_NONE;
 
 	if (lua_gettop(l) >= 1)
-		tag = static_cast<ShipType::Tag>(luaL_checkinteger(l, 1));
-	
-	if (tag < 0 || tag >= ShipType::TAG_MAX)
-		luaL_error(l, "Unknown ship tag %d", tag);
+		tag = static_cast<ShipType::Tag>(LuaConstants::GetConstant(l, "ShipTypeTag", luaL_checkstring(l, 1)));
 
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {

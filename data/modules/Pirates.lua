@@ -1,7 +1,7 @@
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t)
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 		local mass = t.hullMass
 		return mass >= 50 and mass <= 150
 	end)
@@ -24,10 +24,9 @@ local onEnterSystem = function (player)
 		-- player's current weapon.
 		-- XXX this should use external factors (eg lawlessness) and not be
 		-- dependent on the player in any way
-		local max_laser = Game.player:GetEquip(Equip.Slot.LASER)+1
 		local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
-		local lasers = EquipType.GetEquipTypes(Equip.Slot.LASER, function (e,et)
-			return e <= max_laser and et.mass <= max_laser_size
+		local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
+			return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
 		end)
 		local laser = lasers[Engine.rand:Integer(1,#lasers)]
 

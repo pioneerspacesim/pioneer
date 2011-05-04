@@ -12,7 +12,7 @@ local onEnterSystem = function (player)
 		return
 	end
 
-	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.STATIC_SHIP)
+	local shiptypes = ShipType.GetShipTypes('STATIC_SHIP')
 	if #shiptypes == 0 then return end
 
 	--[[

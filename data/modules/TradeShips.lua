@@ -46,7 +46,7 @@ local onEnterSystem = function (player)
 		end
 	end
 
-	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t) return t.hullMass >= 100 end)
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
 	if #shiptypes == 0 then return end
 
 	for i = 0, num_trade_ships, 1 do

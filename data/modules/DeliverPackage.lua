@@ -204,7 +204,7 @@ local onEnterSystem = function (player)
 			if risk >= 0.8 then ships = 2 end
 			if risk == 1.0 then ships = 3 end
 
-			local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t)
+			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 				local mass = t.hullMass
 				return mass >= 100 and mass <= 300
 			end)
@@ -221,8 +221,8 @@ local onEnterSystem = function (player)
 					local default_drive = shiptype.defaultHyperdrive
 
 					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
-					local lasers = EquipType.GetEquipTypes(Equip.Slot.LASER, function (e,et)
-						return et.mass <= max_laser_size and e >= Equip.Type.PULSECANNON_RAPID_2MW and e<= Equip.Type.PULSECANNON_20MW
+					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
+						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 

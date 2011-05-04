@@ -48,8 +48,11 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	lua_newtable(l);
     pi_lua_table_ro(l);
 
-	for (int type = Equip::FIRST_COMMODITY; type <= Equip::LAST_COMMODITY; type++)
-		pi_lua_settable(l, static_cast<int>(type), s->GetCommodityBasePriceModPercent(type));
+	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
+		lua_rawset(l, -3);
+	}
 	
 	LUA_DEBUG_END(l, 1);
 	
@@ -59,8 +62,8 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	Equip::Type t = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
-	lua_pushboolean(l, Polit::IsCommodityLegal(s, t));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }
 

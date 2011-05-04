@@ -9,6 +9,7 @@
 #include "PoliceChatForm.h"
 #include "CommodityTradeWidget.h"
 #include "LuaObject.h"
+#include "LuaConstants.h"
 
 void LuaChatForm::CallDialogHandler(int optionClicked)
 {
@@ -115,7 +116,7 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 	_get_trade_function(l, GetAdvert()->ref, "canTrade");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, static_cast<int>(t));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 1);
 
 	bool can_trade = lua_toboolean(l, -1) != 0;
@@ -134,7 +135,7 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 	_get_trade_function(l, GetAdvert()->ref, "getStock");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, static_cast<int>(t));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 1);
 
 	int stock = lua_tointeger(l, -1);
@@ -153,7 +154,7 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 	_get_trade_function(l, GetAdvert()->ref, "getPrice");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, static_cast<int>(t));
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 1);
 
 	Sint64 price = (Sint64)(lua_tonumber(l, -1) * 100.0);
@@ -172,7 +173,7 @@ void LuaChatForm::OnClickBuy(int t) {
 	_get_trade_function(l, GetAdvert()->ref, "onClickBuy");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, t);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 1);
 
 	bool allow_buy = lua_toboolean(l, -1) != 0;
@@ -197,7 +198,7 @@ void LuaChatForm::OnClickSell(int t) {
 	_get_trade_function(l, GetAdvert()->ref, "onClickSell");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, t);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 1);
 
 	bool allow_sell = lua_toboolean(l, -1) != 0;
@@ -222,7 +223,7 @@ void LuaChatForm::Bought(Equip::Type t) {
 	_get_trade_function(l, GetAdvert()->ref, "bought");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, t);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 0);
 
 	LUA_DEBUG_END(l, 0);
@@ -236,7 +237,7 @@ void LuaChatForm::Sold(Equip::Type t) {
 	_get_trade_function(l, GetAdvert()->ref, "sold");
 
 	lua_pushinteger(l, GetAdvert()->ref);
-	lua_pushinteger(l, t);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 0);
 
 	LUA_DEBUG_END(l, 0);
