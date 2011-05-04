@@ -276,8 +276,7 @@ static int l_luachatform_add_option(lua_State *l)
 
 static inline void _bad_trade_function(lua_State *l, const char *name) {
 	luaL_where(l, 0);
-	std::string err = stringf(256, "%s bad argument '%s' to 'add_goods_trader' (function expected, got %s)", lua_tostring(l, -1), name, luaL_typename(l, -2));
-	luaL_error(l, err.c_str());
+	luaL_error(l, "%s bad argument '%s' to 'AddGoodsTrader' (function expected, got %s)", lua_tostring(l, -1), name, luaL_typename(l, -2));
 }
 
 static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l, int ref)
