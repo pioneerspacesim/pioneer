@@ -27,6 +27,7 @@ static int l_ship_get_stats(lua_State *l)
 	const shipstats_t *stats = s->CalcStats();
 	
 	lua_newtable(l);
+    pi_lua_table_ro(l);
 	pi_lua_settable(l, "maxCapacity",        stats->max_capacity);
 	pi_lua_settable(l, "usedCapacity",       stats->used_capacity);
 	pi_lua_settable(l, "usedCargo",          stats->used_cargo);

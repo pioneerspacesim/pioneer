@@ -46,6 +46,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
+    pi_lua_table_ro(l);
 
 	for (int type = Equip::FIRST_COMMODITY; type <= Equip::LAST_COMMODITY; type++)
 		pi_lua_settable(l, static_cast<int>(type), s->GetCommodityBasePriceModPercent(type));
