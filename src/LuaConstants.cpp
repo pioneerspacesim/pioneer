@@ -298,11 +298,6 @@ void LuaConstants::Register(lua_State *l)
 		{ "MININGCANNON_17MW",     Equip::MININGCANNON_17MW },
 		{ "SMALL_PLASMA_ACCEL",    Equip::SMALL_PLASMA_ACCEL },
 		{ "LARGE_PLASMA_ACCEL",    Equip::LARGE_PLASMA_ACCEL },
-
-		{ "FIRST_COMMODITY", Equip::FIRST_COMMODITY },
-		{ "LAST_COMMODITY",  Equip::LAST_COMMODITY },
-		{ "FIRST_SHIPEQUIP", Equip::FIRST_SHIPEQUIP },
-		{ "LAST_SHIPEQUIP",  Equip::LAST_SHIPEQUIP },
 		{ 0, 0 }
 	};
 	_create_constant_table(l, "EquipType", equip_type_constants);
