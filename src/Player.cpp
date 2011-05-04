@@ -298,7 +298,7 @@ void Player::SetAlertState(Ship::AlertState as)
 			if (prev == ALERT_NONE)
 				Pi::cpan->MsgLog()->ImportantMessage("", "Ship detected nearby.");
 			else
-				Pi::cpan->MsgLog()->ImportantMessage("", "No fire detected for 30 seconds, downgrading alert status.");
+				Pi::cpan->MsgLog()->ImportantMessage("", "No fire detected for 60 seconds, downgrading alert status.");
 			Sound::PlaySfx("OK");
 			break;
 
