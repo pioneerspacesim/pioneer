@@ -1,1 +1,1 @@
-CustomSystem:new("Almalexia",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(-8,0,v(0.553,0.944,-0.224))
+CustomSystem:new("Almalexia",{'STAR_M', 'STAR_M'}):add_to_sector(-8,0,v(0.553,0.944,-0.224))

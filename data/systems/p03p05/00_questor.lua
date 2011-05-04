@@ -1,1 +1,1 @@
-CustomSystem:new("Questor",{Body.Type.STAR_M}):add_to_sector(3,5,v(0.803,0.282,-0.701))
+CustomSystem:new("Questor",{'STAR_M'}):add_to_sector(3,5,v(0.803,0.282,-0.701))

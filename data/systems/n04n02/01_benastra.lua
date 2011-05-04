@@ -1,1 +1,1 @@
-CustomSystem:new("Benastra",{Body.Type.STAR_M}):add_to_sector(-4,-2,v(0.899,0.269,0.414))
+CustomSystem:new("Benastra",{'STAR_M'}):add_to_sector(-4,-2,v(0.899,0.269,0.414))

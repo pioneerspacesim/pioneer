@@ -1,1 +1,1 @@
-CustomSystem:new("Epsilon Pegasi",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(0,-2,v(0.901,0.167,0.269))
+CustomSystem:new("Epsilon Pegasi",{'STAR_M', 'STAR_M'}):add_to_sector(0,-2,v(0.901,0.167,0.269))

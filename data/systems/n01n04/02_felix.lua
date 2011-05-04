@@ -1,1 +1,1 @@
-CustomSystem:new("Felix",{Body.Type.STAR_M}):add_to_sector(-1,-4,v(0.780,0.309,0.175))
+CustomSystem:new("Felix",{'STAR_M'}):add_to_sector(-1,-4,v(0.780,0.309,0.175))

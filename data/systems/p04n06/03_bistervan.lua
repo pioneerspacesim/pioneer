@@ -1,1 +1,1 @@
-CustomSystem:new("Bistervan",{Body.Type.STAR_M}):add_to_sector(4,-6,v(0.582,0.606,1.042))
+CustomSystem:new("Bistervan",{'STAR_M'}):add_to_sector(4,-6,v(0.582,0.606,1.042))

@@ -1,1 +1,1 @@
-CustomSystem:new("GJ 1074",{Body.Type.STAR_M}):add_to_sector(7,-2,v(0.333,0.193,0.842))
+CustomSystem:new("GJ 1074",{'STAR_M'}):add_to_sector(7,-2,v(0.333,0.193,0.842))

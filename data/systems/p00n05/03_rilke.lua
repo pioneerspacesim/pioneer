@@ -1,1 +1,1 @@
-CustomSystem:new("Rilke",{Body.Type.STAR_M}):add_to_sector(0,-5,v(0.989,0.520,0.612))
+CustomSystem:new("Rilke",{'STAR_M'}):add_to_sector(0,-5,v(0.989,0.520,0.612))

@@ -1,1 +1,1 @@
-CustomSystem:new("Scorpius",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(-7,1,v(0.874,0.066,-0.879))
+CustomSystem:new("Scorpius",{'STAR_G', 'STAR_G'}):add_to_sector(-7,1,v(0.874,0.066,-0.879))

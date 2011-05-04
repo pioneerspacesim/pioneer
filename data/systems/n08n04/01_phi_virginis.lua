@@ -1,1 +1,1 @@
-CustomSystem:new("Phi Virginis",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(-8,-4,v(0.293,0.640,0.195))
+CustomSystem:new("Phi Virginis",{'STAR_G', 'STAR_G'}):add_to_sector(-8,-4,v(0.293,0.640,0.195))

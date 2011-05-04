@@ -1,1 +1,1 @@
-CustomSystem:new("Trantash",{Body.Type.STAR_M}):add_to_sector(4,-2,v(0.452,0.552,0.935))
+CustomSystem:new("Trantash",{'STAR_M'}):add_to_sector(4,-2,v(0.452,0.552,0.935))

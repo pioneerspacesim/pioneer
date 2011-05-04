@@ -1,1 +1,1 @@
-CustomSystem:new("Beta Crateris",{Body.Type.STAR_A}):add_to_sector(0,7,v(0.325,0.500,-0.462))
+CustomSystem:new("Beta Crateris",{'STAR_A'}):add_to_sector(0,7,v(0.325,0.500,-0.462))

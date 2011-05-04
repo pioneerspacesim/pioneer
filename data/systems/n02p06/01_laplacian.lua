@@ -1,1 +1,1 @@
-CustomSystem:new("Laplacian",{Body.Type.STAR_M}):add_to_sector(-2,6,v(0.420,0.713,-0.757))
+CustomSystem:new("Laplacian",{'STAR_M'}):add_to_sector(-2,6,v(0.420,0.713,-0.757))

@@ -1,1 +1,1 @@
-CustomSystem:new("Argus",{Body.Type.STAR_M}):add_to_sector(-2,7,v(0.143,0.495,-0.854))
+CustomSystem:new("Argus",{'STAR_M'}):add_to_sector(-2,7,v(0.143,0.495,-0.854))

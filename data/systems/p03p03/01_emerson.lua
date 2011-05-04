@@ -1,1 +1,1 @@
-CustomSystem:new("Emerson",{Body.Type.STAR_M}):add_to_sector(3,3,v(0.596,0.738,-1.150))
+CustomSystem:new("Emerson",{'STAR_M'}):add_to_sector(3,3,v(0.596,0.738,-1.150))

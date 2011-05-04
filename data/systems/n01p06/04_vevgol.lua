@@ -1,1 +1,1 @@
-CustomSystem:new("Vevgol",{Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(-1,6,v(0.604,0.672,-0.530))
+CustomSystem:new("Vevgol",{'STAR_F', 'STAR_M'}):add_to_sector(-1,6,v(0.604,0.672,-0.530))

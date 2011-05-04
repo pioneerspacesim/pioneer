@@ -1,1 +1,1 @@
-CustomSystem:new("Gisella",{Body.Type.STAR_A}):add_to_sector(-7,-5,v(0.961,0.691,0.106))
+CustomSystem:new("Gisella",{'STAR_A'}):add_to_sector(-7,-5,v(0.961,0.691,0.106))

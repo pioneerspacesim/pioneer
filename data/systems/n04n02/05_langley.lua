@@ -1,1 +1,1 @@
-CustomSystem:new("Langley",{Body.Type.STAR_M}):add_to_sector(-4,-2,v(0.960,0.934,0.522))
+CustomSystem:new("Langley",{'STAR_M'}):add_to_sector(-4,-2,v(0.960,0.934,0.522))

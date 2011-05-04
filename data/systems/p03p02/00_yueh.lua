@@ -1,1 +1,1 @@
-CustomSystem:new("Yueh",{Body.Type.STAR_M}):add_to_sector(3,2,v(0.671,0.038,-0.602))
+CustomSystem:new("Yueh",{'STAR_M'}):add_to_sector(3,2,v(0.671,0.038,-0.602))

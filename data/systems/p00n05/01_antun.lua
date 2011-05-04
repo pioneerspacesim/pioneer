@@ -1,1 +1,1 @@
-CustomSystem:new("Antun",{Body.Type.STAR_M, Body.Type.WHITE_DWARF}):add_to_sector(0,-5,v(0.282,0.567,0.268))
+CustomSystem:new("Antun",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(0,-5,v(0.282,0.567,0.268))

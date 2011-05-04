@@ -1,1 +1,1 @@
-CustomSystem:new("Ethliaess",{Body.Type.WHITE_DWARF}):add_to_sector(-7,6,v(0.002,0.520,-0.119))
+CustomSystem:new("Ethliaess",{'WHITE_DWARF'}):add_to_sector(-7,6,v(0.002,0.520,-0.119))

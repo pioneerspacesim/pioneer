@@ -1,1 +1,1 @@
-CustomSystem:new("Clowzia",{Body.Type.STAR_M}):add_to_sector(0,-8,v(0.213,0.736,0.267))
+CustomSystem:new("Clowzia",{'STAR_M'}):add_to_sector(0,-8,v(0.213,0.736,0.267))

@@ -1,1 +1,1 @@
-CustomSystem:new("Shrapnel",{Body.Type.STAR_M}):add_to_sector(-3,-8,v(0.584,0.064,0.921))
+CustomSystem:new("Shrapnel",{'STAR_M'}):add_to_sector(-3,-8,v(0.584,0.064,0.921))

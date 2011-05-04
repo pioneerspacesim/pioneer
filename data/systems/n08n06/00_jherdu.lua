@@ -1,1 +1,1 @@
-CustomSystem:new("Jherdu",{Body.Type.STAR_F}):add_to_sector(-8,-6,v(0.982,0.741,0.518))
+CustomSystem:new("Jherdu",{'STAR_F'}):add_to_sector(-8,-6,v(0.982,0.741,0.518))

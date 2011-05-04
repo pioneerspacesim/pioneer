@@ -1,1 +1,1 @@
-CustomSystem:new("Alchiba",{Body.Type.STAR_F}):add_to_sector(-3,4,v(0.408,0.863,-0.208))
+CustomSystem:new("Alchiba",{'STAR_F'}):add_to_sector(-3,4,v(0.408,0.863,-0.208))

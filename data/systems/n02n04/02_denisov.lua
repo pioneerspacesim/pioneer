@@ -1,1 +1,1 @@
-CustomSystem:new("Denisov",{Body.Type.WHITE_DWARF}):add_to_sector(-2,-4,v(0.148,0.431,1.034))
+CustomSystem:new("Denisov",{'WHITE_DWARF'}):add_to_sector(-2,-4,v(0.148,0.431,1.034))

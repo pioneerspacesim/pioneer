@@ -1,1 +1,1 @@
-CustomSystem:new("Pi 3 Orionis",{Body.Type.STAR_F}):add_to_sector(3,1,v(0.255,0.041,-0.221))
+CustomSystem:new("Pi 3 Orionis",{'STAR_F'}):add_to_sector(3,1,v(0.255,0.041,-0.221))

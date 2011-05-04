@@ -1,1 +1,1 @@
-CustomSystem:new("Cannon",{Body.Type.STAR_G, Body.Type.STAR_K}):add_to_sector(-7,3,v(0.150,0.223,-0.631))
+CustomSystem:new("Cannon",{'STAR_G', 'STAR_K'}):add_to_sector(-7,3,v(0.150,0.223,-0.631))

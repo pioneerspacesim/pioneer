@@ -1,1 +1,1 @@
-CustomSystem:new("Morpork",{Body.Type.STAR_K}):add_to_sector(-9,0,v(0.861,0.178,-0.819))
+CustomSystem:new("Morpork",{'STAR_K'}):add_to_sector(-9,0,v(0.861,0.178,-0.819))

@@ -1,1 +1,1 @@
-CustomSystem:new("Tarki",{Body.Type.STAR_K}):add_to_sector(-7,1,v(0.257,0.039,-0.524))
+CustomSystem:new("Tarki",{'STAR_K'}):add_to_sector(-7,1,v(0.257,0.039,-0.524))

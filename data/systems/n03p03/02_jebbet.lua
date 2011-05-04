@@ -1,1 +1,1 @@
-CustomSystem:new("Jebbet",{Body.Type.WHITE_DWARF}):add_to_sector(-3,3,v(0.940,0.953,-0.391))
+CustomSystem:new("Jebbet",{'WHITE_DWARF'}):add_to_sector(-3,3,v(0.940,0.953,-0.391))

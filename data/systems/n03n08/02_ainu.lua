@@ -1,1 +1,1 @@
-CustomSystem:new("Ainu",{Body.Type.STAR_F}):add_to_sector(-3,-8,v(0.138,0.181,0.779))
+CustomSystem:new("Ainu",{'STAR_F'}):add_to_sector(-3,-8,v(0.138,0.181,0.779))

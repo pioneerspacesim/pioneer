@@ -1,1 +1,1 @@
-CustomSystem:new("Minoa",{Body.Type.STAR_G}):add_to_sector(-5,0,v(0.306,0.726,-0.546))
+CustomSystem:new("Minoa",{'STAR_G'}):add_to_sector(-5,0,v(0.306,0.726,-0.546))

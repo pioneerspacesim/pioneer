@@ -1,1 +1,1 @@
-CustomSystem:new("Muscida",{Body.Type.STAR_G}):add_to_sector(4,-3,v(0.738,0.440,0.147))
+CustomSystem:new("Muscida",{'STAR_G'}):add_to_sector(4,-3,v(0.738,0.440,0.147))

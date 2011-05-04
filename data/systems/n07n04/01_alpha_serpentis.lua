@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Serpentis",{Body.Type.STAR_K}):add_to_sector(-7,-4,v(0.940,0.166,0.344))
+CustomSystem:new("Alpha Serpentis",{'STAR_K'}):add_to_sector(-7,-4,v(0.940,0.166,0.344))

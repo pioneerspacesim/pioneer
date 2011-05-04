@@ -1,1 +1,1 @@
-CustomSystem:new("Sander",{Body.Type.STAR_M}):add_to_sector(3,1,v(0.690,0.640,-0.693))
+CustomSystem:new("Sander",{'STAR_M'}):add_to_sector(3,1,v(0.690,0.640,-0.693))

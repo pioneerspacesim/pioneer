@@ -1,1 +1,1 @@
-CustomSystem:new("Psi Draconis",{Body.Type.STAR_F}):add_to_sector(0,-7,v(0.673,0.205,0.104))
+CustomSystem:new("Psi Draconis",{'STAR_F'}):add_to_sector(0,-7,v(0.673,0.205,0.104))

@@ -1,1 +1,1 @@
-CustomSystem:new("Rutherford",{Body.Type.STAR_K}):add_to_sector(0,4,v(0.767,0.514,-1.025))
+CustomSystem:new("Rutherford",{'STAR_K'}):add_to_sector(0,4,v(0.767,0.514,-1.025))

@@ -1,1 +1,1 @@
-CustomSystem:new("Edeneth",{Body.Type.STAR_M}):add_to_sector(8,2,v(0.274,0.131,-0.266))
+CustomSystem:new("Edeneth",{'STAR_M'}):add_to_sector(8,2,v(0.274,0.131,-0.266))

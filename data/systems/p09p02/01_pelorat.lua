@@ -1,1 +1,1 @@
-CustomSystem:new("Pelorat",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(9,2,v(0.108,0.546,-0.510))
+CustomSystem:new("Pelorat",{'STAR_M', 'STAR_M'}):add_to_sector(9,2,v(0.108,0.546,-0.510))
