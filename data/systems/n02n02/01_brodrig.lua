@@ -1,1 +1,1 @@
-CustomSystem:new("Brodrig",{Body.Type.STAR_M}):add_to_sector(-2,-2,v(0.095,0.415,0.352))
+CustomSystem:new("Brodrig",{'STAR_M'}):add_to_sector(-2,-2,v(0.095,0.415,0.352))

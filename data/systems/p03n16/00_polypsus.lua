@@ -1,1 +1,1 @@
-CustomSystem:new("Polypsus",{Body.Type.STAR_G}):add_to_sector(3,-16,v(0.629,0.828,0.390))
+CustomSystem:new("Polypsus",{'STAR_G'}):add_to_sector(3,-16,v(0.629,0.828,0.390))

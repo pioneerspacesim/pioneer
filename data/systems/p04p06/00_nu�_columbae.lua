@@ -1,1 +1,1 @@
-CustomSystem:new("Nu² Columbae",{Body.Type.STAR_F}):add_to_sector(4,6,v(0.947,0.327,-0.928))
+CustomSystem:new("Nu² Columbae",{'STAR_F'}):add_to_sector(4,6,v(0.947,0.327,-0.928))

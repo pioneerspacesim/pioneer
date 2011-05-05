@@ -1,1 +1,1 @@
-CustomSystem:new("Telmann",{Body.Type.STAR_M, Body.Type.WHITE_DWARF}):add_to_sector(5,-7,v(0.982,0.824,0.775))
+CustomSystem:new("Telmann",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(5,-7,v(0.982,0.824,0.775))

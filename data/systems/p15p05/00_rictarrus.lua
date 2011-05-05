@@ -1,1 +1,1 @@
-CustomSystem:new("Rictarrus",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(15,5,v(0.077,0.749,-0.412))
+CustomSystem:new("Rictarrus",{'STAR_K', 'STAR_M'}):add_to_sector(15,5,v(0.077,0.749,-0.412))

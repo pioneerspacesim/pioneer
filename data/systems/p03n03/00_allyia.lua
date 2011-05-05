@@ -1,1 +1,1 @@
-CustomSystem:new("Allyia",{Body.Type.STAR_M}):add_to_sector(3,-3,v(0.100,0.217,0.257))
+CustomSystem:new("Allyia",{'STAR_M'}):add_to_sector(3,-3,v(0.100,0.217,0.257))

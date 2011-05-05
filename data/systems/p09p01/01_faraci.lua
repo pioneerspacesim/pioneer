@@ -1,1 +1,1 @@
-CustomSystem:new("Faraci",{Body.Type.STAR_G}):add_to_sector(9,1,v(0.552,0.421,0.252))
+CustomSystem:new("Faraci",{'STAR_G'}):add_to_sector(9,1,v(0.552,0.421,0.252))

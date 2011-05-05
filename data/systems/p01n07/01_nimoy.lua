@@ -1,1 +1,1 @@
-CustomSystem:new("Nimoy",{Body.Type.WHITE_DWARF}):add_to_sector(1,-7,v(0.031,0.386,0.665))
+CustomSystem:new("Nimoy",{'WHITE_DWARF'}):add_to_sector(1,-7,v(0.031,0.386,0.665))

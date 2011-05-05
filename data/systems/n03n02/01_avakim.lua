@@ -1,1 +1,1 @@
-CustomSystem:new("Avakim",{Body.Type.STAR_M}):add_to_sector(-3,-2,v(0.026,0.510,0.883))
+CustomSystem:new("Avakim",{'STAR_M'}):add_to_sector(-3,-2,v(0.026,0.510,0.883))

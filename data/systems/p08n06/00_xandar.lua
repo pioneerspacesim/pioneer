@@ -1,1 +1,1 @@
-CustomSystem:new("Xandar",{Body.Type.STAR_K}):add_to_sector(8,-6,v(0.306,0.607,0.562))
+CustomSystem:new("Xandar",{'STAR_K'}):add_to_sector(8,-6,v(0.306,0.607,0.562))

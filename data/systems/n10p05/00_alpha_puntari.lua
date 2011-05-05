@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Puntari",{Body.Type.STAR_G}):add_to_sector(-10,5,v(0.969,0.443,-0.624))
+CustomSystem:new("Alpha Puntari",{'STAR_G'}):add_to_sector(-10,5,v(0.969,0.443,-0.624))

@@ -14,29 +14,6 @@
 #include "SpaceStation.h"
 #include "Sector.h"
 
-static int l_starsystem_get_name(lua_State *l)
-{
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	lua_pushstring(l, s->GetName().c_str());
-	return 1;
-} 
-
-static int l_starsystem_get_path(lua_State *l)
-{
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	SysLoc loc = s->GetLocation();
-
-	SBodyPath *path = new SBodyPath;
-	path->sectorX = loc.sectorX;
-	path->sectorY = loc.sectorY;
-	path->systemNum = loc.systemNum;
-	path->sbodyId = 0;
-
-	LuaSBodyPath::PushToLuaGC(path);
-
-	return 1;
-}
-
 static int l_starsystem_get_station_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -62,20 +39,6 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	return 1;
 }
 
-static int l_starsystem_get_lawlessness(lua_State *l)
-{
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	lua_pushnumber(l, s->GetSysPolit().lawlessness.ToDouble());
-	return 1;
-}
-
-static int l_starsystem_get_population(lua_State *l)
-{
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	lua_pushnumber(l, s->m_totalPop.ToDouble());
-	return 1;
-}
-
 static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -83,9 +46,13 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
+    pi_lua_table_ro(l);
 
-	for (int type = Equip::FIRST_COMMODITY; type <= Equip::LAST_COMMODITY; type++)
-		pi_lua_settable(l, static_cast<int>(type), s->GetCommodityBasePriceModPercent(type));
+	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
+		lua_rawset(l, -3);
+	}
 	
 	LUA_DEBUG_END(l, 1);
 	
@@ -95,8 +62,8 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	Equip::Type t = static_cast<Equip::Type>(luaL_checkinteger(l, 2));
-	lua_pushboolean(l, Polit::IsCommodityLegal(s, t));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }
 
@@ -186,18 +153,50 @@ static int l_starsystem_distance_to(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_attr_name(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	lua_pushstring(l, s->GetName().c_str());
+	return 1;
+} 
+
+static int l_starsystem_attr_path(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	SysLoc loc = s->GetLocation();
+
+	SBodyPath *path = new SBodyPath;
+	path->sectorX = loc.sectorX;
+	path->sectorY = loc.sectorY;
+	path->systemNum = loc.systemNum;
+	path->sbodyId = 0;
+
+	LuaSBodyPath::PushToLuaGC(path);
+
+	return 1;
+}
+
+static int l_starsystem_attr_lawlessness(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	lua_pushnumber(l, s->GetSysPolit().lawlessness.ToDouble());
+	return 1;
+}
+
+static int l_starsystem_attr_population(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	lua_pushnumber(l, s->m_totalPop.ToDouble());
+	return 1;
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "GetName", l_starsystem_get_name },
-		{ "GetPath", l_starsystem_get_path },
-
 		{ "GetStationPaths", l_starsystem_get_station_paths },
 
-		{ "GetLawlessness",                   l_starsystem_get_lawlessness                      },
-		{ "GetPopulation",                    l_starsystem_get_population                       },
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
 
@@ -208,5 +207,15 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+	static const luaL_reg l_attrs[] = {
+		{ "name", l_starsystem_attr_name },
+		{ "path", l_starsystem_attr_path },
+
+		{ "lawlessness", l_starsystem_attr_lawlessness },
+		{ "population",  l_starsystem_attr_population  },
+
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
 }

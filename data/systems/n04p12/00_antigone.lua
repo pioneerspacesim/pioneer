@@ -1,1 +1,1 @@
-CustomSystem:new("Antigone",{Body.Type.STAR_F}):add_to_sector(-4,12,v(0.878,0.430,-0.538))
+CustomSystem:new("Antigone",{'STAR_F'}):add_to_sector(-4,12,v(0.878,0.430,-0.538))

@@ -1,1 +1,1 @@
-CustomSystem:new("Zabrinski",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(7,-1,v(0.356,0.674,0.213))
+CustomSystem:new("Zabrinski",{'STAR_K', 'STAR_K'}):add_to_sector(7,-1,v(0.356,0.674,0.213))

@@ -1,1 +1,1 @@
-CustomSystem:new("Landau",{Body.Type.STAR_K}):add_to_sector(-3,8,v(0.918,0.887,-0.939))
+CustomSystem:new("Landau",{'STAR_K'}):add_to_sector(-3,8,v(0.918,0.887,-0.939))

@@ -1,1 +1,1 @@
-CustomSystem:new("Nymann",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(-2,-8,v(0.920,0.203,0.090))
+CustomSystem:new("Nymann",{'STAR_G', 'STAR_G'}):add_to_sector(-2,-8,v(0.920,0.203,0.090))

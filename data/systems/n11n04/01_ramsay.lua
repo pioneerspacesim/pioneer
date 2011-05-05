@@ -1,1 +1,1 @@
-CustomSystem:new("Ramsay",{Body.Type.STAR_G}):add_to_sector(-11,-4,v(0.042,0.264,0.833))
+CustomSystem:new("Ramsay",{'STAR_G'}):add_to_sector(-11,-4,v(0.042,0.264,0.833))

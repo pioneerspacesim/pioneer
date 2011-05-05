@@ -1,1 +1,1 @@
-CustomSystem:new("Ludwig",{Body.Type.STAR_K}):add_to_sector(-9,4,v(0.889,0.362,-0.495))
+CustomSystem:new("Ludwig",{'STAR_K'}):add_to_sector(-9,4,v(0.889,0.362,-0.495))

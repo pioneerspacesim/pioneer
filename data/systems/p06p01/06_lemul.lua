@@ -1,1 +1,1 @@
-CustomSystem:new("Lemul",{Body.Type.STAR_K}):add_to_sector(6,1,v(0.456,0.889,0.285))
+CustomSystem:new("Lemul",{'STAR_K'}):add_to_sector(6,1,v(0.456,0.889,0.285))

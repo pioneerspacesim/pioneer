@@ -1,1 +1,1 @@
-CustomSystem:new("Weinberg",{Body.Type.STAR_G, Body.Type.STAR_K}):add_to_sector(3,-7,v(0.244,0.091,0.564))
+CustomSystem:new("Weinberg",{'STAR_G', 'STAR_K'}):add_to_sector(3,-7,v(0.244,0.091,0.564))

@@ -1,1 +1,1 @@
-CustomSystem:new("Simak",{Body.Type.STAR_M}):add_to_sector(4,-2,v(0.728,0.099,0.619))
+CustomSystem:new("Simak",{'STAR_M'}):add_to_sector(4,-2,v(0.728,0.099,0.619))

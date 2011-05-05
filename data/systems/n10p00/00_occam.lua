@@ -1,1 +1,1 @@
-CustomSystem:new("Occam",{Body.Type.STAR_F}):add_to_sector(-10,0,v(0.086,0.080,-0.917))
+CustomSystem:new("Occam",{'STAR_F'}):add_to_sector(-10,0,v(0.086,0.080,-0.917))

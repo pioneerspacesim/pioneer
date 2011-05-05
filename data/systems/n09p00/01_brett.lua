@@ -1,1 +1,1 @@
-CustomSystem:new("Brett",{Body.Type.STAR_A}):add_to_sector(-9,0,v(0.378,0.475,-0.264))
+CustomSystem:new("Brett",{'STAR_A'}):add_to_sector(-9,0,v(0.378,0.475,-0.264))

@@ -1,1 +1,1 @@
-CustomSystem:new("Furlan",{Body.Type.STAR_F}):add_to_sector(2,-7,v(0.193,0.607,0.594))
+CustomSystem:new("Furlan",{'STAR_F'}):add_to_sector(2,-7,v(0.193,0.607,0.594))

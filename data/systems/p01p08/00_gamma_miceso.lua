@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Miceso",{Body.Type.STAR_F}):add_to_sector(1,8,v(0.516,0.495,-0.400))
+CustomSystem:new("Gamma Miceso",{'STAR_F'}):add_to_sector(1,8,v(0.516,0.495,-0.400))

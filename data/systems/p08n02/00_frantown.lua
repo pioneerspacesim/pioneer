@@ -1,1 +1,1 @@
-CustomSystem:new("Frantown",{Body.Type.STAR_F}):add_to_sector(8,-2,v(0.069,0.672,0.040))
+CustomSystem:new("Frantown",{'STAR_F'}):add_to_sector(8,-2,v(0.069,0.672,0.040))

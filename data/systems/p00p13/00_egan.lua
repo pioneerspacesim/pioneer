@@ -1,1 +1,1 @@
-CustomSystem:new("Egan",{Body.Type.STAR_M}):add_to_sector(0,13,v(0.207,0.429,-0.803))
+CustomSystem:new("Egan",{'STAR_M'}):add_to_sector(0,13,v(0.207,0.429,-0.803))

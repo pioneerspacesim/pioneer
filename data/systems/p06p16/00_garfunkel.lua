@@ -1,1 +1,1 @@
-CustomSystem:new("Garfunkel",{Body.Type.STAR_G}):add_to_sector(6,16,v(0.609,0.895,-0.418))
+CustomSystem:new("Garfunkel",{'STAR_G'}):add_to_sector(6,16,v(0.609,0.895,-0.418))

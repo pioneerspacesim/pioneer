@@ -1,1 +1,1 @@
-CustomSystem:new("Rimmer",{Body.Type.STAR_K}):add_to_sector(-1,8,v(0.514,0.058,-1.149))
+CustomSystem:new("Rimmer",{'STAR_K'}):add_to_sector(-1,8,v(0.514,0.058,-1.149))

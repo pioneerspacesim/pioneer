@@ -10,8 +10,8 @@ template <> const char *LuaObject<Planet>::s_type = "Planet";
 
 template <> void LuaObject<Planet>::RegisterClass()
 {
-	const char *l_inherit = "Body";
+	const char *l_parent = "Body";
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
+	LuaObjectBase::CreateClass(s_type, l_parent, NULL, NULL, NULL);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

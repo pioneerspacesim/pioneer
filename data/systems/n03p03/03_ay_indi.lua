@@ -1,1 +1,1 @@
-CustomSystem:new("Ay Indi",{Body.Type.STAR_M}):add_to_sector(-3,3,v(0.885,0.215,-0.765))
+CustomSystem:new("Ay Indi",{'STAR_M'}):add_to_sector(-3,3,v(0.885,0.215,-0.765))

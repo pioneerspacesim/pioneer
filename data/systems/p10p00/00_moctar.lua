@@ -1,1 +1,1 @@
-CustomSystem:new("Moctar",{Body.Type.STAR_K}):add_to_sector(10,0,v(0.911,0.967,0.380))
+CustomSystem:new("Moctar",{'STAR_K'}):add_to_sector(10,0,v(0.911,0.967,0.380))

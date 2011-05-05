@@ -1,1 +1,1 @@
-CustomSystem:new("Narihara",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(6,3,v(0.674,0.081,-0.507))
+CustomSystem:new("Narihara",{'STAR_K', 'STAR_K'}):add_to_sector(6,3,v(0.674,0.081,-0.507))

@@ -8,6 +8,7 @@
 
 #include "oolua/oolua.h"
 #include "PiLuaClasses.h"
+#include "LuaConstants.h"
 
 class CustomSBody {
 public:
@@ -42,7 +43,7 @@ public:
 	bool   want_rand_seed;
 
 	// lua interface
-	CustomSBody(std::string s, int type);
+	CustomSBody(std::string s, std::string stype);
 
 	inline CustomSBody* l_radius(pi_fixed& r) { radius = r; return this; }
 	inline CustomSBody* l_mass(pi_fixed& m) { mass = m; return this; }
@@ -77,7 +78,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 		No_default_constructor
 	OOLUA_END_TYPES
 	OOLUA_CONSTRUCTORS_BEGIN
-		OOLUA_CONSTRUCTOR_2(std::string, int)
+		OOLUA_CONSTRUCTOR_2(std::string, std::string)
 	OOLUA_CONSTRUCTORS_END
 
 	OOLUA_MEM_FUNC_1_RENAME(seed, CustomSBody*, l_seed, int)
@@ -127,9 +128,10 @@ public:
 	CustomSystem(std::string s, OOLUA::Lua_table t);
 
 	inline CustomSystem* l_seed(int s) { seed = s; return this; }
-	inline CustomSystem* l_govtype(int t) { govType = static_cast<Polit::GovType>(t); return this; }
 	inline CustomSystem* l_short_desc(std::string s) { shortDesc = s; return this; }
 	inline CustomSystem* l_long_desc(std::string s) { longDesc = s; return this; }
+
+	CustomSystem* l_govtype(std::string st);
 
 	void l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table t);
 
@@ -144,7 +146,7 @@ OOLUA_CLASS_NO_BASES(CustomSystem)
 		OOLUA_CONSTRUCTOR_2(std::string, OOLUA::Lua_table)
 	OOLUA_CONSTRUCTORS_END
 	OOLUA_MEM_FUNC_1_RENAME(seed, CustomSystem*, l_seed, int)
-	OOLUA_MEM_FUNC_1_RENAME(govtype, CustomSystem*, l_govtype, int)
+	OOLUA_MEM_FUNC_1_RENAME(govtype, CustomSystem*, l_govtype, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(short_desc, CustomSystem*, l_short_desc, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(long_desc, CustomSystem*, l_long_desc, std::string)
 	OOLUA_MEM_FUNC_3_RENAME(bodies, void, l_bodies, lua_State*, CustomSBody&, OOLUA::Lua_table)

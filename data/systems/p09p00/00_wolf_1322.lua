@@ -1,1 +1,1 @@
-CustomSystem:new("Wolf 1322",{Body.Type.STAR_M}):add_to_sector(9,0,v(0.766,0.915,0.923))
+CustomSystem:new("Wolf 1322",{'STAR_M'}):add_to_sector(9,0,v(0.766,0.915,0.923))

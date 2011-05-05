@@ -1,1 +1,1 @@
-CustomSystem:new("Faolgre",{Body.Type.STAR_K}):add_to_sector(0,8,v(0.155,0.626,-0.445))
+CustomSystem:new("Faolgre",{'STAR_K'}):add_to_sector(0,8,v(0.155,0.626,-0.445))

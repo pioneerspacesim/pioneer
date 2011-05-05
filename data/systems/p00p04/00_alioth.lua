@@ -1,7 +1,7 @@
-local s = CustomSystem:new('Alioth',{ Body.Type.STAR_K })
+local s = CustomSystem:new('Alioth',{ 'STAR_K' })
 
 s:seed(5)
-s:govtype(Polit.GovType.CISLIBDEM)
+s:govtype('CISLIBDEM')
 s:short_desc('Liberal democracy')
 s:long_desc([[Alioth comes from the ancient Arabic word alyat - fat tail of sheep.
 The two massive ark ships bound for Alioth were the first of many such sub-light vessels designed specifically for the kind of lengthy journeys required to spread to the stars.

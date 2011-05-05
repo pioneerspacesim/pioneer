@@ -1,1 +1,1 @@
-CustomSystem:new("Natura",{Body.Type.STAR_M}):add_to_sector(0,-5,v(0.567,0.682,0.109))
+CustomSystem:new("Natura",{'STAR_M'}):add_to_sector(0,-5,v(0.567,0.682,0.109))

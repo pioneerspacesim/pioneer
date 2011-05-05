@@ -1,1 +1,1 @@
-CustomSystem:new("Venabili",{Body.Type.STAR_K}):add_to_sector(3,-1,v(0.677,0.681,0.431))
+CustomSystem:new("Venabili",{'STAR_K'}):add_to_sector(3,-1,v(0.677,0.681,0.431))

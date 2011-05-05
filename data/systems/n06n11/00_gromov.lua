@@ -1,1 +1,1 @@
-CustomSystem:new("Gromov",{Body.Type.STAR_M}):add_to_sector(-6,-11,v(0.450,0.106,0.595))
+CustomSystem:new("Gromov",{'STAR_M'}):add_to_sector(-6,-11,v(0.450,0.106,0.595))

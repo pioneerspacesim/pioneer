@@ -1,1 +1,1 @@
-CustomSystem:new("Mycogen",{Body.Type.STAR_M}):add_to_sector(4,-5,v(0.356,0.195,0.646))
+CustomSystem:new("Mycogen",{'STAR_M'}):add_to_sector(4,-5,v(0.356,0.195,0.646))

@@ -1,1 +1,1 @@
-CustomSystem:new("Chinon",{Body.Type.WHITE_DWARF}):add_to_sector(-3,0,v(0.247,0.055,-0.055))
+CustomSystem:new("Chinon",{'WHITE_DWARF'}):add_to_sector(-3,0,v(0.247,0.055,-0.055))

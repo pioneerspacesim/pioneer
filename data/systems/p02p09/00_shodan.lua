@@ -1,1 +1,1 @@
-CustomSystem:new("Shodan",{Body.Type.STAR_F}):add_to_sector(2,9,v(0.455,0.572,-0.815))
+CustomSystem:new("Shodan",{'STAR_F'}):add_to_sector(2,9,v(0.455,0.572,-0.815))

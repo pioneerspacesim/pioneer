@@ -1,1 +1,1 @@
-CustomSystem:new("Arndancer",{Body.Type.STAR_M}):add_to_sector(8,-3,v(0.042,0.696,0.465))
+CustomSystem:new("Arndancer",{'STAR_M'}):add_to_sector(8,-3,v(0.042,0.696,0.465))

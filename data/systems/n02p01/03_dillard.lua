@@ -1,1 +1,1 @@
-CustomSystem:new("Dillard",{Body.Type.STAR_M}):add_to_sector(-2,1,v(0.155,0.226,-0.340))
+CustomSystem:new("Dillard",{'STAR_M'}):add_to_sector(-2,1,v(0.155,0.226,-0.340))

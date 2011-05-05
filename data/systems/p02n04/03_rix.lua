@@ -1,1 +1,1 @@
-CustomSystem:new("Rix",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(2,-4,v(0.836,0.900,0.908))
+CustomSystem:new("Rix",{'STAR_K', 'STAR_M'}):add_to_sector(2,-4,v(0.836,0.900,0.908))

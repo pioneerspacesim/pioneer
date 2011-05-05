@@ -1,1 +1,1 @@
-CustomSystem:new("Asaro",{Body.Type.STAR_M}):add_to_sector(-2,1,v(0.332,0.504,-0.605))
+CustomSystem:new("Asaro",{'STAR_M'}):add_to_sector(-2,1,v(0.332,0.504,-0.605))

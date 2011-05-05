@@ -5,14 +5,14 @@
 #include "StarSystem.h"
 #include "Pi.h"
 
-static int l_body_get_label(lua_State *l)
+static int l_body_attr_label(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
 } 
 
-static int l_body_get_seed(lua_State *l)
+static int l_body_attr_seed(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
@@ -23,7 +23,7 @@ static int l_body_get_seed(lua_State *l)
 	return 1;
 }
 
-static int l_body_get_path(lua_State *l)
+static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
@@ -45,12 +45,12 @@ template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
 {
-	static luaL_reg l_methods[] = {
-		{ "GetLabel", l_body_get_label },
-		{ "GetSeed",  l_body_get_seed  },
-		{ "GetPath",  l_body_get_path  },
+	static luaL_reg l_attrs[] = {
+		{ "label", l_body_attr_label },
+		{ "seed",  l_body_attr_seed  },
+		{ "path",  l_body_attr_path  },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+	LuaObjectBase::CreateClass(s_type, NULL, NULL, l_attrs, NULL);
 }

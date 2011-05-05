@@ -1,1 +1,1 @@
-CustomSystem:new("Alban",{Body.Type.STAR_M}):add_to_sector(-1,4,v(0.342,0.900,-0.061))
+CustomSystem:new("Alban",{'STAR_M'}):add_to_sector(-1,4,v(0.342,0.900,-0.061))
