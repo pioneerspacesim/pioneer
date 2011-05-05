@@ -640,34 +640,49 @@ void Ship::UpdateAlertState()
 		}
 	}
 
+	bool changed = false;
 	switch (m_alertState) {
 		case ALERT_NONE:
-			if (ship_is_near)
-                SetAlertState(ALERT_SHIP_NEARBY);
+			if (ship_is_near) {
+				SetAlertState(ALERT_SHIP_NEARBY);
+				changed = true;
+            }
 			if (ship_is_firing) {
 				m_lastFiringAlert = Pi::GetGameTime();
-			 	SetAlertState(ALERT_SHIP_FIRING);
+				SetAlertState(ALERT_SHIP_FIRING);
+				changed = true;
 			}
 			break;
 
 		case ALERT_SHIP_NEARBY:
-			if (!ship_is_near)
+			if (!ship_is_near) {
 				SetAlertState(ALERT_NONE);
+				changed = true;
+			}
 			else if (ship_is_firing) {
 				m_lastFiringAlert = Pi::GetGameTime();
 				SetAlertState(ALERT_SHIP_FIRING);
+				changed = true;
 			}
 			break;
 
 		case ALERT_SHIP_FIRING:
-			if (!ship_is_near)
+			if (!ship_is_near) {
 				SetAlertState(ALERT_NONE);
-			else if (ship_is_firing)
+				changed = true;
+			}
+			else if (ship_is_firing) {
 				m_lastFiringAlert = Pi::GetGameTime();
-			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime())
+			}
+			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime()) {
 				SetAlertState(ALERT_SHIP_NEARBY);
+				changed = true;
+			}
 			break;
 	}
+
+	if (changed)
+		Pi::luaOnShipAlertChanged.Queue(this);
 }
 
 void Ship::StaticUpdate(const float timeStep)

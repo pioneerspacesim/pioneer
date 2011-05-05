@@ -85,6 +85,7 @@ LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
+LuaEventQueue<Ship> Pi::luaOnShipAlertChanged("onShipAlertChanged");
 LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
 LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
@@ -205,6 +206,7 @@ static void LuaInit()
 	Pi::luaOnShipCollided.RegisterEventQueue();
 	Pi::luaOnShipDocked.RegisterEventQueue();
 	Pi::luaOnShipUndocked.RegisterEventQueue();
+	Pi::luaOnShipAlertChanged.RegisterEventQueue();
 	Pi::luaOnJettison.RegisterEventQueue();
 	Pi::luaOnAICompleted.RegisterEventQueue();
 	Pi::luaOnCreateBB.RegisterEventQueue();
@@ -233,6 +235,7 @@ static void LuaInitGame() {
 	Pi::luaOnShipCollided.ClearEvents();
 	Pi::luaOnShipDocked.ClearEvents();
 	Pi::luaOnShipUndocked.ClearEvents();
+	Pi::luaOnShipAlertChanged.ClearEvents();
 	Pi::luaOnJettison.ClearEvents();
 	Pi::luaOnAICompleted.ClearEvents();
 	Pi::luaOnCreateBB.ClearEvents();
