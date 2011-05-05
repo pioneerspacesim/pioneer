@@ -120,6 +120,7 @@ public:
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipDocked;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipUndocked;
 	static LuaEventQueue<Ship,CargoBody> luaOnJettison;
+	static LuaEventQueue<Ship> luaOnAICompleted;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
 
