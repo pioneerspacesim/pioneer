@@ -19,15 +19,13 @@ local onChat = function (dialog, ref, option)
 
 	ad.stock = {}
 	ad.price = {}
-	for e = 'FIRST_COMMODITY', 'LAST_COMMODITY' do
+	for i,e in pairs(Constants.EquipType) do
 		if not Game.system:IsCommodityLegal(e) then
 			ad.stock[e] = Engine.rand:Integer(1,50)
 			-- going rate on the black market will be twice normal
 			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
 		end
 	end
-	--ad.stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
-	--ad.price = {[Equip.WATER]=120, [Equip.HYDROGEN]=130, [Equip.NERVE_GAS]=1000}
 
 	dialog:Clear()
 	dialog:SetTitle(ad.flavour)

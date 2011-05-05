@@ -59,6 +59,23 @@ static inline void _create_constant_table(lua_State *l, const char *ns, const pi
 {
 	LUA_DEBUG_START(l);
 
+	lua_getfield(l, LUA_GLOBALSINDEX, "Constants");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+        pi_lua_table_ro(l);
+		lua_pushstring(l, "Constants");
+		lua_pushvalue(l, -2);
+		lua_rawset(l, LUA_GLOBALSINDEX);
+	}
+	assert(lua_istable(l, -1));
+
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+	lua_pushstring(l, ns);
+	lua_pushvalue(l, -2);
+	lua_rawset(l, -4);
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
@@ -69,22 +86,22 @@ static inline void _create_constant_table(lua_State *l, const char *ns, const pi
 	}
 	assert(lua_istable(l, -1));
 
-	lua_getfield(l, -1, ns);
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushstring(l, ns);
-		lua_pushvalue(l, -2);
-		lua_rawset(l, -4);
-	}
-	assert(lua_istable(l, -1));
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+	lua_pushstring(l, ns);
+	lua_pushvalue(l, -2);
+	lua_rawset(l, -4);
 
 	for (; c->name; c++) {
 		pi_lua_settable(l, c->name, c->value);
 		pi_lua_settable(l, c->value, c->name);
+
+		lua_pushinteger(l, lua_objlen(l, -3)+1);
+		lua_pushstring(l, c->name);
+		lua_rawset(l, -5);
 	}
 
-	lua_pop(l, 2);
+	lua_pop(l, 4);
 
 	LUA_DEBUG_END(l, 0);
 }
