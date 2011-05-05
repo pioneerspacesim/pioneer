@@ -21,7 +21,7 @@ static int l_game_meta_index(lua_State *l)
 	const char *key = luaL_checkstring(l, 2);
 
 	/*
-	 * Property: player
+	 * Attribute: player
 	 *
 	 * The <Player> object for the current player.
 	 *
@@ -39,7 +39,7 @@ static int l_game_meta_index(lua_State *l)
 	}
 
 	/*
-	 * Property: system
+	 * Attribute: system
 	 *
 	 * The <StarSystem> object for the system the player is currently in.
 	 *
@@ -57,7 +57,7 @@ static int l_game_meta_index(lua_State *l)
 	}
 
 	/*
-	 * Property: time
+	 * Attribute: time
 	 *
 	 * The current game time, in seconds since 12:00 01-01-3200
 	 *

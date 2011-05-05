@@ -29,7 +29,7 @@ static int l_rand_new(lua_State *l)
 }
 
 /*
- * Function: Number
+ * Method: Number
  *
  * Generates a real (non-integer) number.
  *
@@ -67,7 +67,7 @@ static int l_rand_number(lua_State *l)
 }
 
 /*
- * Function: Integer
+ * Method: Integer
  *
  * Generates an integer number.
  *

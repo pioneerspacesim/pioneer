@@ -65,7 +65,7 @@ static int l_sbodypath_new(lua_State *l)
 }
 
 /*
- * Function: IsSameSystem
+ * Method: IsSameSystem
  *
  * Determine if two <SystemPath> objects point to the same system, ignoring
  * the body index.

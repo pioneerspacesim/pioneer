@@ -72,7 +72,6 @@ Group: Index  {
    Class Index: Classes
    Function Index: Functions
    Interface Index: Interfaces
-   Property Index: Properties
    Event Index: Events
    Attribute Index: Attributes
    Method Index: Methods
