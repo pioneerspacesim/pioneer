@@ -205,23 +205,7 @@ private:
 class AICmdHoldPosition : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdHoldPosition(Ship *ship, Body *target) : AICommand (ship, CMD_HOLDPOSITION) {
-		m_target = target;
-	}
-
-	virtual void Save(Serializer::Writer &wr) {
-		AICommand::Save(wr);
-		wr.Int32(Serializer::LookupBody(m_target));
-	}
-	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) {
-		m_target = (Body*) rd.Int32();
-	}
-	virtual void PostLoadFixup() {
-		AICommand::PostLoadFixup();
-		m_target = Serializer::LookupBody((size_t)m_target);
-	}
-
-private:
-	Body *m_target;
+	AICmdHoldPosition(Ship *ship) : AICommand(ship, CMD_HOLDPOSITION) { }
+	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) { }
 };
 #endif /* _SHIPAICMD_H */

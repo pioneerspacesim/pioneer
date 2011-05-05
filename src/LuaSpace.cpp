@@ -217,7 +217,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 
 	Space::AddBody(ship);
 
-	ship->AIHoldPosition(station);
+	ship->AIHoldPosition();
 	
 	LuaShip::PushToLua(ship);
 
