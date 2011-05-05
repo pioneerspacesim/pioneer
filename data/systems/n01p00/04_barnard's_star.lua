@@ -1,9 +1,9 @@
 local s = CustomSystem:new('Barnard\'s star',{ 'STAR_M' })
    :govtype('EARTHCOLONIAL')
    :short_desc('Earth Federation Colonial Rule')
-   :long_desc([[Barnard's Star is a very low-mass red dwarf star.  Somewhere between 7 and 12 billion years old, it is probably one of the most ancient stars in the galaxy.  Despite that, it is still fairly active.  Pilots entering the system are warned that there might be consideral stellar activity, including flares and massive coronal ejections.
+   :long_desc([[Barnard's Star is a very low-mass red dwarf star.  Somewhere between 7 and 12 billion years old, it is probably one of the most ancient stars in the galaxy.  Despite that, it is still fairly active.  Pilots entering the system are warned that there might be considerable stellar activity, including flares and coronal mass ejections.
 
-One of the first stars to be visited after the introduction of interstellar travel, Barnard's Star was found to be solitary, with no planets.  Despite this, habitats were built here to serve as Federal prison colonies.
+One of the first stars to be visited after the introduction of interstellar travel, Barnard's Star was found to be solitary, with no planets.  Despite this, habitats were eventually built here to serve as Federal prison colonies.
    
 A permit is normally required in order to enter this system whilst carrying weapons.]])
 
