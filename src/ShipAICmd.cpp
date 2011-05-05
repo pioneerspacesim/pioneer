@@ -13,14 +13,6 @@
 static const double VICINITY_MIN = 5000.0;
 static const double VICINITY_MUL = 4.0;
 
-AICommand::~AICommand()
-{
-	if (m_child) delete m_child;
-	m_ship->ClearThrusterState();
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++)
-		m_ship->SetGunState(i,0);
-}
-
 AICommand *AICommand::Load(Serializer::Reader &rd)
 {
 	CmdName name = (CmdName)rd.Int32();

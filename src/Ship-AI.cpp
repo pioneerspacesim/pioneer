@@ -72,7 +72,16 @@ bool Ship::AITimeStep(float timeStep)
 	// allow the launch thruster thing to happen
 	if (m_launchLockTimeout != 0) return false;
 
-	if (!m_curAICmd) return true;
+	if (!m_curAICmd) {
+		if (this == Pi::player) return true;
+
+		// just in case the AI left it on
+		ClearThrusterState();
+		for (int i=0; i<ShipType::GUNMOUNT_MAX; i++)
+			SetGunState(i,0);
+		return true;
+	}
+
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
