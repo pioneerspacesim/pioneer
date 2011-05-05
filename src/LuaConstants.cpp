@@ -353,9 +353,9 @@ void LuaConstants::Register(lua_State *l)
 
 
 	static const pi_lua_constant_t ship_alert_status_constants[] = {
-		{ "NONE",             Ship::ALERT_NONE },
-		{ "ALERT_SHIP_NEARBY",Ship::ALERT_SHIP_NEARBY },
-		{ "ALERT_SHIP_FIRING",Ship::ALERT_SHIP_FIRING },
+		{ "NONE",        Ship::ALERT_NONE },
+		{ "SHIP_NEARBY", Ship::ALERT_SHIP_NEARBY },
+		{ "SHIP_FIRING", Ship::ALERT_SHIP_FIRING },
 		{ 0, 0 }
 	};
 	_create_constant_table(l, "ShipAlertStatus", ship_alert_status_constants);
