@@ -80,7 +80,7 @@ local onEnterSystem = function (player)
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
 				local ship = Space.SpawnShip(shiptype, 3, 8)
-				ship:DockWith(station)
+				ship:AIDockWith(station)
 			end
 
 		end
