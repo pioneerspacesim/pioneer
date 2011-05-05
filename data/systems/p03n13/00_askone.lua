@@ -1,1 +1,1 @@
-CustomSystem:new("Askone",{Body.Type.STAR_K}):add_to_sector(3,-13,v(0.180,0.782,0.694))
+CustomSystem:new("Askone",{'STAR_K'}):add_to_sector(3,-13,v(0.180,0.782,0.694))

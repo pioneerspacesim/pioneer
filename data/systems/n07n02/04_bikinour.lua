@@ -1,1 +1,1 @@
-CustomSystem:new("Bikinour",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(-7,-2,v(0.103,0.287,0.821))
+CustomSystem:new("Bikinour",{'STAR_K', 'STAR_K'}):add_to_sector(-7,-2,v(0.103,0.287,0.821))

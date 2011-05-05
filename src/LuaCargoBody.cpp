@@ -1,5 +1,6 @@
 #include "LuaCargoBody.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 
 /*
  * Class: CargoBody
@@ -9,9 +10,9 @@
  */
 
 /*
- * Method: GetCargoType
+ * Attribute: type
  *
- * Get the type of cargo contained within this cargo body
+ * The type of cargo contained within this cargo body
  *
  * Availability:
  *
@@ -21,10 +22,10 @@
  *
  *  experimental
  */
-static int l_cargobody_get_cargo_type(lua_State *l)
+static int l_cargobody_attr_type(lua_State *l)
 {
 	CargoBody *b = LuaCargoBody::GetFromLua(1);
-	lua_pushinteger(l, b->GetCargoType());
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", b->GetCargoType()));
 	return 1;
 }
 
@@ -37,13 +38,13 @@ template <> const char *LuaObject<CargoBody>::s_type = "CargoBody";
 
 template <> void LuaObject<CargoBody>::RegisterClass()
 {
-	const char *l_inherit = "Body";
+	const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
-		{ "GetCargoType", l_cargobody_get_cargo_type },
+	static const luaL_reg l_attrs[] = {
+		{ "type", l_cargobody_attr_type },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
-	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
+	LuaObjectBase::CreateClass(s_type, l_parent, NULL, l_attrs, NULL);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

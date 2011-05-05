@@ -1,1 +1,1 @@
-CustomSystem:new("Atreides",{Body.Type.STAR_G, Body.Type.STAR_A}):add_to_sector(-16,9,v(0.148,0.026,-1.100))
+CustomSystem:new("Atreides",{'STAR_G', 'STAR_A'}):add_to_sector(-16,9,v(0.148,0.026,-1.100))

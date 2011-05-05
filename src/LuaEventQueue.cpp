@@ -539,5 +539,5 @@ template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
 }

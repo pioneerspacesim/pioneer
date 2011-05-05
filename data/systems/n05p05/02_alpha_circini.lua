@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Circini",{Body.Type.STAR_F, Body.Type.STAR_K}):add_to_sector(-5,5,v(0.104,0.075,-0.592))
+CustomSystem:new("Alpha Circini",{'STAR_F', 'STAR_K'}):add_to_sector(-5,5,v(0.104,0.075,-0.592))

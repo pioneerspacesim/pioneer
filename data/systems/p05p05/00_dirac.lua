@@ -1,1 +1,1 @@
-CustomSystem:new("Dirac",{Body.Type.STAR_M, Body.Type.WHITE_DWARF}):add_to_sector(5,5,v(0.831,0.904,-0.975))
+CustomSystem:new("Dirac",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(5,5,v(0.831,0.904,-0.975))

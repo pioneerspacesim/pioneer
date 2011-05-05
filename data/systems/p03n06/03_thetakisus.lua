@@ -1,1 +1,1 @@
-CustomSystem:new("Thetakisus",{Body.Type.STAR_M, Body.Type.WHITE_DWARF}):add_to_sector(3,-6,v(0.207,0.632,0.472))
+CustomSystem:new("Thetakisus",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(3,-6,v(0.207,0.632,0.472))

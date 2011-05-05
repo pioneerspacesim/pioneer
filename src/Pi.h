@@ -89,6 +89,7 @@ public:
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
+	static void SetMouseGrab(bool on);
 	static void BoinkNoise();
 	static bool IsGameStarted() { return isGameStarted; }
 	static float CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes);
@@ -179,6 +180,7 @@ private:
 	static int keyModState;
 	static char mouseButton[6];
 	static int mouseMotion[2];
+	static bool doingMouseGrab;
 	static const float timeAccelRates[];
 	static bool isGameStarted;
 

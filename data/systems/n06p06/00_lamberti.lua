@@ -1,1 +1,1 @@
-CustomSystem:new("Lamberti",{Body.Type.STAR_A}):add_to_sector(-6,6,v(0.032,0.107,-0.163))
+CustomSystem:new("Lamberti",{'STAR_A'}):add_to_sector(-6,6,v(0.032,0.107,-0.163))

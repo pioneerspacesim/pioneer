@@ -1,1 +1,1 @@
-CustomSystem:new("Pujol",{Body.Type.STAR_K}):add_to_sector(-8,-5,v(0.197,0.935,0.095))
+CustomSystem:new("Pujol",{'STAR_K'}):add_to_sector(-8,-5,v(0.197,0.935,0.095))

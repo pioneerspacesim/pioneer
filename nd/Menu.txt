@@ -70,7 +70,6 @@ Group: Index  {
 
    Index: Everything
    Class Index: Classes
-   Constant Index: Constants
    Function Index: Functions
    Interface Index: Interfaces
    Property Index: Properties

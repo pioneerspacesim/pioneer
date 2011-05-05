@@ -1,1 +1,1 @@
-CustomSystem:new("Barberi",{Body.Type.STAR_M}):add_to_sector(-7,-2,v(0.268,0.293,0.815))
+CustomSystem:new("Barberi",{'STAR_M'}):add_to_sector(-7,-2,v(0.268,0.293,0.815))

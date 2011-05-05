@@ -1,1 +1,1 @@
-CustomSystem:new("Lupo",{Body.Type.STAR_G}):add_to_sector(-6,2,v(0.746,0.783,-0.866))
+CustomSystem:new("Lupo",{'STAR_G'}):add_to_sector(-6,2,v(0.746,0.783,-0.866))

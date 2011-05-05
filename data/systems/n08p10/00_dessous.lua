@@ -1,1 +1,1 @@
-CustomSystem:new("Dessous",{Body.Type.STAR_G}):add_to_sector(-8,10,v(0.287,0.407,-0.696))
+CustomSystem:new("Dessous",{'STAR_G'}):add_to_sector(-8,10,v(0.287,0.407,-0.696))

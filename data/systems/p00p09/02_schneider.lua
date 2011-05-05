@@ -1,1 +1,1 @@
-CustomSystem:new("Schneider",{Body.Type.STAR_G}):add_to_sector(0,9,v(0.567,0.630,-1.094))
+CustomSystem:new("Schneider",{'STAR_G'}):add_to_sector(0,9,v(0.567,0.630,-1.094))

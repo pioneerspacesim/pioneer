@@ -1,1 +1,1 @@
-CustomSystem:new("Marbie",{Body.Type.STAR_M}):add_to_sector(-5,-8,v(0.808,0.804,0.618))
+CustomSystem:new("Marbie",{'STAR_M'}):add_to_sector(-5,-8,v(0.808,0.804,0.618))

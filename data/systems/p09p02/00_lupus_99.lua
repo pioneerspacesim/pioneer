@@ -1,1 +1,1 @@
-CustomSystem:new("Lupus 99",{Body.Type.STAR_A}):add_to_sector(9,2,v(0.190,0.120,-0.702))
+CustomSystem:new("Lupus 99",{'STAR_A'}):add_to_sector(9,2,v(0.190,0.120,-0.702))

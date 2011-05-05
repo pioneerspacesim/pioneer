@@ -1,14 +1,14 @@
-local s = CustomSystem:new('Sol', { Body.Type.STAR_G })
-	:govtype(Polit.GovType.EARTHDEMOC)
+local s = CustomSystem:new('Sol', { 'STAR_G' })
+	:govtype('EARTHDEMOC')
 	:short_desc('The historical birthplace of humankind')
 	:long_desc([[Sol is a fine joint]])
 
-local sol = CustomSBody:new('Sol', Body.Type.STAR_G)
+local sol = CustomSBody:new('Sol', 'STAR_G')
 	:radius(f(1,1))
 	:mass(f(1,1))
 	:temp(5700)
 
-local mercury = CustomSBody:new('Mercury', Body.Type.PLANET_TERRESTRIAL)
+local mercury = CustomSBody:new('Mercury', 'PLANET_TERRESTRIAL')
 	:radius(f(38,100))
 	:mass(f(55,1000))
 	:temp(340)
@@ -25,7 +25,7 @@ local mercury = CustomSBody:new('Mercury', Body.Type.PLANET_TERRESTRIAL)
 	:ice_cover(f(2,100))
 	:life(f(0,1))
 
-local venus = CustomSBody:new('Venus', Body.Type.PLANET_TERRESTRIAL)
+local venus = CustomSBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:radius(f(95,100))
 	:mass(f(815,1000))
 	:temp(735)
@@ -42,7 +42,7 @@ local venus = CustomSBody:new('Venus', Body.Type.PLANET_TERRESTRIAL)
 	:ice_cover(f(0,1))
 	:life(f(0,1))
 
-local earth = CustomSBody:new('Earth', Body.Type.PLANET_TERRESTRIAL)
+local earth = CustomSBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:radius(f(1,1))
 	:mass(f(1,1))
 	:temp(288)
@@ -60,31 +60,31 @@ local earth = CustomSBody:new('Earth', Body.Type.PLANET_TERRESTRIAL)
 	:life(f(9,10))
 
 local earth_starports = {
-	CustomSBody:new('Shanghai', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Shanghai', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(31))
 		:longitude(math.deg2rad(-121)),
-	CustomSBody:new('Mexico City', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Mexico City', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(19))
 		:longitude(math.deg2rad(99)),
-	CustomSBody:new('London', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('London', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(51))
 		:longitude(0),
-	CustomSBody:new('Moscow', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Moscow', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(55))
 		:longitude(math.deg2rad(-37.5)),
-	CustomSBody:new('Brasilia', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Brasilia', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(-15.5))
 		:longitude(math.deg2rad(48)),
-	CustomSBody:new('Los Angeles', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Los Angeles', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(34))
 		:longitude(math.deg2rad(118)),
-	CustomSBody:new('Gates Spaceport', Body.Type.STARPORT_ORBITAL)
+	CustomSBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(100,100000))
 		:rotation_period(f(1,24*60*3)),
 }
 
 local moon = {
-	CustomSBody:new('Moon', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Moon', 'PLANET_TERRESTRIAL')
 		:seed(191080)
 		:radius(f(273,1000))
 		:mass(f(12,1000))
@@ -96,13 +96,13 @@ local moon = {
 		:axial_tilt(math.fixed.deg2rad(f(668,100)))
 		:volcanicity(f(0,1)),
 	{
-		CustomSBody:new('Lunar City', Body.Type.STARPORT_SURFACE)
+		CustomSBody:new('Lunar City', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(19))
 			:longitude(math.deg2rad(99)),
 	},
 }
 
-local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
+local mars = CustomSBody:new('Mars', 'PLANET_TERRESTRIAL')
 	:seed(3)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
@@ -122,19 +122,19 @@ local mars = CustomSBody:new('Mars', Body.Type.PLANET_TERRESTRIAL)
 	:life(f(15,100))
 
 local mars_starports = {
-	CustomSBody:new('Cydonia', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Cydonia', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(-29))
 		:longitude(math.deg2rad(124)),
-	CustomSBody:new('Olympus Mons', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Olympus Mons', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(30))
 		:longitude(math.deg2rad(-37)),
-	CustomSBody:new('Mars High', Body.Type.STARPORT_ORBITAL)
+	CustomSBody:new('Mars High', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5068,100000000))
 		:rotation_period(f(11,24)),
 }
 
 local mars_moons = {
-	CustomSBody:new('Phobos', Body.Type.PLANET_ASTEROID)
+	CustomSBody:new('Phobos', 'PLANET_ASTEROID')
 		:radius(f(21,10000))
 		:mass(f(18,100000))
 		:temp(233)
@@ -145,11 +145,11 @@ local mars_moons = {
 		:metallicity(f(4,5))
 		:volcanicity(f(3,4)),
 	{
-		CustomSBody:new('Phobos Base', Body.Type.STARPORT_SURFACE)
+		CustomSBody:new('Phobos Base', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(5))
 			:longitude(math.deg2rad(-5)),
 	},
-	CustomSBody:new('Deimos', Body.Type.PLANET_ASTEROID)
+	CustomSBody:new('Deimos', 'PLANET_ASTEROID')
 		:radius(f(12,10000))
 		:mass(f(25,1000000))
 		:temp(233)
@@ -160,11 +160,11 @@ local mars_moons = {
 		:metallicity(f(2,5))
 		:volcanicity(f(0,1)),
 	{
-		CustomSBody:new('Tomm\'s Sanctuary', Body.Type.STARPORT_SURFACE),
+		CustomSBody:new('Tomm\'s Sanctuary', 'STARPORT_SURFACE'),
 	},
 }
 
-local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
+local jupiter = CustomSBody:new('Jupiter', 'PLANET_GAS_GIANT')
 	:seed(3)
 	:radius(f(11,1))
 	:mass(f(3178,10))
@@ -178,7 +178,7 @@ local jupiter = CustomSBody:new('Jupiter', Body.Type.PLANET_GAS_GIANT)
 	:axial_tilt(math.fixed.deg2rad(f(313,100)))
 
 local jupiter_moons = {
-	CustomSBody:new('Io', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Io', 'PLANET_TERRESTRIAL')
 		:radius(f(286,1000))
 		:mass(f(15,1000))
 		:temp(130)
@@ -194,11 +194,11 @@ local jupiter_moons = {
 		:ice_cover(f(1,1000))
 		:life(f(0,1)),
 	{
-		CustomSBody:new('Dante\'s Base', Body.Type.STARPORT_SURFACE)
+		CustomSBody:new('Dante\'s Base', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-0.5))
 			:longitude(math.deg2rad(26.2)),
 	},
-	CustomSBody:new('Europa', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Europa', 'PLANET_TERRESTRIAL')
 		:seed(5)
 		:radius(f(245,1000))
 		:mass(f(8,1000))
@@ -212,11 +212,11 @@ local jupiter_moons = {
 		:metallicity(f(4,5))
 		:volcanicity(f(0,1)),
 	{
-		CustomSBody:new('Clarke\'s Station', Body.Type.STARPORT_ORBITAL)
+		CustomSBody:new('Clarke\'s Station', 'STARPORT_ORBITAL')
 			:semi_major_axis(f(12,500000))
 			:rotation_period(f(1,24*60*3)),
 	},
-	CustomSBody:new('Ganymede', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Ganymede', 'PLANET_TERRESTRIAL')
 		:radius(f(413,1000))
 		:mass(f(25,1000))
 		:temp(110)
@@ -226,11 +226,11 @@ local jupiter_moons = {
 		:atmos_density(f(1,14))
 		:rotation_period(f(72,10)),
 	{
-		CustomSBody:new('Enki Catena', Body.Type.STARPORT_SURFACE)
+		CustomSBody:new('Enki Catena', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(84))
 			:longitude(math.deg2rad(96)),
 	},
-	CustomSBody:new('Callisto', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Callisto', 'PLANET_TERRESTRIAL')
 		:radius(f(378,1000))
 		:mass(f(18,1000))
 		:temp(134)
@@ -238,12 +238,12 @@ local jupiter_moons = {
 		:eccentricity(f(74,10000))
 		:inclination(math.deg2rad(0.192))
 		:rotation_period(f(167,10)),
-	CustomSBody:new('Discovery Base', Body.Type.STARPORT_ORBITAL)
+	CustomSBody:new('Discovery Base', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(7,1000))
 		:rotation_period(f(11,1)),
 }
 
-local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
+local saturn = CustomSBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:radius(f(9,1))
 	:mass(f(95152,1000))
 	:temp(134)
@@ -254,7 +254,7 @@ local saturn = CustomSBody:new('Saturn', Body.Type.PLANET_GAS_GIANT)
 	:axial_tilt(math.fixed.deg2rad(f(2673,100)))
 
 local saturn_moons = {
-	CustomSBody:new('Titan', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Titan', 'PLANET_TERRESTRIAL')
 		:radius(f(400,1000))
 		:mass(f(225,10000))
 		:temp(94)
@@ -264,18 +264,18 @@ local saturn_moons = {
 		:atmos_density(f(10,1))
 		:rotation_period(f(15945,1000)),
 	{
-		CustomSBody:new('Oasis City', Body.Type.STARPORT_SURFACE)
+		CustomSBody:new('Oasis City', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(18.4))
 			:longitude(math.deg2rad(196)),
-		CustomSBody:new('Port Makenzie', Body.Type.STARPORT_SURFACE)
+		CustomSBody:new('Port Makenzie', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(1))
 			:longitude(math.deg2rad(14)),
-		CustomSBody:new('Daniel\'s Haven', Body.Type.STARPORT_ORBITAL)
+		CustomSBody:new('Daniel\'s Haven', 'STARPORT_ORBITAL')
 			:semi_major_axis(f(12,500000))
 			:eccentricity(f(50,1000))
 			:rotation_period(f(11,9)),
 	},
-	CustomSBody:new('Rhea', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Rhea', 'PLANET_TERRESTRIAL')
 		:radius(f(12,100))
 		:mass(f(39,10000))
 		:temp(81)
@@ -284,7 +284,7 @@ local saturn_moons = {
 		:inclination(math.deg2rad(0.345))
 		:rotation_period(f(452,100))
 		:atmos_density(f(1,10)),
-	CustomSBody:new('Iapetus', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Iapetus', 'PLANET_TERRESTRIAL')
 		:radius(f(1155,10000))
 		:mass(f(3,10000))
 		:temp(115)
@@ -292,7 +292,7 @@ local saturn_moons = {
 		:eccentricity(f(29,1000))
 		:inclination(math.deg2rad(15.47))
 		:rotation_period(f(7932,100)),
-	CustomSBody:new('Dione', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Dione', 'PLANET_TERRESTRIAL')
 		:radius(f(881,10000))
 		:mass(f(328,1000000))
 		:temp(87)
@@ -302,7 +302,7 @@ local saturn_moons = {
 		:rotation_period(f(2737,1000)),
 }
 
-local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
+local uranus = CustomSBody:new('Uranus', 'PLANET_GAS_GIANT')
 	:radius(f(4,1))
 	:mass(f(145,10))
 	:temp(76)
@@ -313,7 +313,7 @@ local uranus = CustomSBody:new('Uranus', Body.Type.PLANET_GAS_GIANT)
 	:axial_tilt(math.fixed.deg2rad(f(9777,100)))
 
 local uranus_moons = {
-	CustomSBody:new('Titania', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Titania', 'PLANET_TERRESTRIAL')
 		:radius(f(1235,10000))
 		:mass(f(5908,10000000))
 		:temp(70)
@@ -322,7 +322,7 @@ local uranus_moons = {
 		:inclination(math.deg2rad(0.34))
 		:rotation_period(f(87,10))
 		:atmos_density(f(1,10)),
-	CustomSBody:new('Oberon', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Oberon', 'PLANET_TERRESTRIAL')
 		:radius(f(1194,10000))
 		:mass(f(5046,10000000))
 		:temp(75)
@@ -330,7 +330,7 @@ local uranus_moons = {
 		:eccentricity(f(14,10000))
 		:inclination(math.deg2rad(0.058))
 		:rotation_period(f(135,10)),
-	CustomSBody:new('Umbriel', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Umbriel', 'PLANET_TERRESTRIAL')
 		:radius(f(92,1000))
 		:mass(f(2,10000))
 		:temp(75)
@@ -338,7 +338,7 @@ local uranus_moons = {
 		:eccentricity(f(39,10000))
 		:inclination(math.deg2rad(0.128))
 		:rotation_period(f(4144,1000)),
-	CustomSBody:new('Ariel', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Ariel', 'PLANET_TERRESTRIAL')
 		:radius(f(908,10000))
 		:mass(f(226,1000000))
 		:temp(60)
@@ -348,7 +348,7 @@ local uranus_moons = {
 		:rotation_period(f(252,100)),
 }
 
-local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
+local neptune = CustomSBody:new('Neptune', 'PLANET_GAS_GIANT')
 	:radius(f(38,10))
 	:mass(f(17147,1000))
 	:temp(72)
@@ -359,7 +359,7 @@ local neptune = CustomSBody:new('Neptune', Body.Type.PLANET_GAS_GIANT)
 	:axial_tilt(math.fixed.deg2rad(f(2832,100)))
 
 local neptune_moons = {
-	CustomSBody:new('Triton', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Triton', 'PLANET_TERRESTRIAL')
 		:radius(f(2122,10000))
 		:mass(f(359,100000))
 		:temp(38)
@@ -369,18 +369,18 @@ local neptune_moons = {
 		:rotation_period(f(141,24))
 		:atmos_density(f(1,10)),
 	{
-		CustomSBody:new('Poseidon Station', Body.Type.STARPORT_ORBITAL)
+		CustomSBody:new('Poseidon Station', 'STARPORT_ORBITAL')
 			:semi_major_axis(f(12,500000))
 			:rotation_period(f(11,7)),
 	},
-	CustomSBody:new('Nereid', Body.Type.PLANET_ASTEROID)
+	CustomSBody:new('Nereid', 'PLANET_ASTEROID')
 		:mass(f(519,1000))
 		:temp(50)
 		:semi_major_axis(f(3685,100000))
 		:eccentricity(f(75,100))
 		:inclination(math.deg2rad(32.55))
 		:rotation_period(f(115,240)),
-	CustomSBody:new('Proteus', Body.Type.PLANET_ASTEROID)
+	CustomSBody:new('Proteus', 'PLANET_ASTEROID')
 		:radius(f(310,10000))
 		:mass(f(710,1000))
 		:temp(51)
@@ -390,7 +390,7 @@ local neptune_moons = {
 		:rotation_period(f(1122,1000)),
 }
 
-local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
+local pluto = CustomSBody:new('Pluto', 'PLANET_TERRESTRIAL')
 	:radius(f(18,100))
 	:mass(f(21,10000))
 	:temp(44)
@@ -401,7 +401,7 @@ local pluto = CustomSBody:new('Pluto', Body.Type.PLANET_TERRESTRIAL)
 	:axial_tilt(math.fixed.deg2rad(f(296,10)))
 
 local pluto_starports = {
-	CustomSBody:new('Pluto Research Base', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Pluto Research Base', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(84))
 		:longitude(math.deg2rad(96)),
 }

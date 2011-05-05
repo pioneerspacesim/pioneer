@@ -1,1 +1,1 @@
-CustomSystem:new("Sigma² Ursae Majoris",{Body.Type.STAR_F, Body.Type.STAR_K}):add_to_sector(5,-4,v(0.816,0.159,0.170))
+CustomSystem:new("Sigma² Ursae Majoris",{'STAR_F', 'STAR_K'}):add_to_sector(5,-4,v(0.816,0.159,0.170))

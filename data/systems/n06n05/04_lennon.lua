@@ -1,1 +1,1 @@
-CustomSystem:new("Lennon",{Body.Type.WHITE_DWARF}):add_to_sector(-6,-5,v(0.774,0.614,0.742))
+CustomSystem:new("Lennon",{'WHITE_DWARF'}):add_to_sector(-6,-5,v(0.774,0.614,0.742))

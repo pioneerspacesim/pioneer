@@ -1,1 +1,1 @@
-CustomSystem:new("Iota Horologii",{Body.Type.STAR_G}):add_to_sector(0,5,v(0.360,0.633,-1.045))
+CustomSystem:new("Iota Horologii",{'STAR_G'}):add_to_sector(0,5,v(0.360,0.633,-1.045))

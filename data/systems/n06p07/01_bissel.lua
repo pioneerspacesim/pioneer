@@ -1,1 +1,1 @@
-CustomSystem:new("Bissel",{Body.Type.STAR_F}):add_to_sector(-6,7,v(0.658,0.540,-0.933))
+CustomSystem:new("Bissel",{'STAR_F'}):add_to_sector(-6,7,v(0.658,0.540,-0.933))

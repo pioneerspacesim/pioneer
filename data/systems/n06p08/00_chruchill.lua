@@ -1,1 +1,1 @@
-CustomSystem:new("Chruchill",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(-6,8,v(0.629,0.105,-0.132))
+CustomSystem:new("Chruchill",{'STAR_K', 'STAR_K'}):add_to_sector(-6,8,v(0.629,0.105,-0.132))

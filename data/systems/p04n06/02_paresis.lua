@@ -1,1 +1,1 @@
-CustomSystem:new("Paresis",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(4,-6,v(0.795,0.190,0.339))
+CustomSystem:new("Paresis",{'STAR_G', 'STAR_G'}):add_to_sector(4,-6,v(0.795,0.190,0.339))

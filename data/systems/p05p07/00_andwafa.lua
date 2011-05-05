@@ -1,1 +1,1 @@
-CustomSystem:new("Andwafa",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(5,7,v(0.761,0.772,-0.290))
+CustomSystem:new("Andwafa",{'STAR_K', 'STAR_M'}):add_to_sector(5,7,v(0.761,0.772,-0.290))

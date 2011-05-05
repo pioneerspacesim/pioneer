@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Comae Berenices",{Body.Type.STAR_F, Body.Type.STAR_F}):add_to_sector(-2,-7,v(0.714,0.721,0.611))
+CustomSystem:new("Alpha Comae Berenices",{'STAR_F', 'STAR_F'}):add_to_sector(-2,-7,v(0.714,0.721,0.611))

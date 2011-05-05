@@ -1,1 +1,1 @@
-CustomSystem:new("Chi Orionis",{Body.Type.STAR_G}):add_to_sector(4,1,v(0.408,0.061,-0.216))
+CustomSystem:new("Chi Orionis",{'STAR_G'}):add_to_sector(4,1,v(0.408,0.061,-0.216))

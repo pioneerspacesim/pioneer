@@ -1,1 +1,1 @@
-CustomSystem:new("Rashelle",{Body.Type.STAR_K}):add_to_sector(-6,2,v(0.537,0.302,-0.968))
+CustomSystem:new("Rashelle",{'STAR_K'}):add_to_sector(-6,2,v(0.537,0.302,-0.968))

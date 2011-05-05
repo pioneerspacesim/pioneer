@@ -13,42 +13,42 @@ inline void pi_lua_settable(lua_State *l, const char *key, int value)
 {
 	lua_pushstring(l, key);
 	lua_pushinteger(l, value);
-	lua_settable(l, -3);
+	lua_rawset(l, -3);
 }
 
 inline void pi_lua_settable(lua_State *l, int key, int value)
 {
 	lua_pushinteger(l, key);
 	lua_pushinteger(l, value);
-	lua_settable(l, -3);
+	lua_rawset(l, -3);
 }
 
 inline void pi_lua_settable(lua_State *l, const char *key, double value)
 {
 	lua_pushstring(l, key);
 	lua_pushnumber(l, value);
-	lua_settable(l, -3);
+	lua_rawset(l, -3);
 }
 
 inline void pi_lua_settable(lua_State *l, int key, double value)
 {
 	lua_pushinteger(l, key);
 	lua_pushnumber(l, value);
-	lua_settable(l, -3);
+	lua_rawset(l, -3);
 }
 
 inline void pi_lua_settable(lua_State *l, int key, const char *value)
 {
 	lua_pushinteger(l, key);
 	lua_pushstring(l, value);
-	lua_settable(l, -3);
+	lua_rawset(l, -3);
 }
 
 inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 {
 	lua_pushstring(l, key);
 	lua_pushstring(l, value);
-	lua_settable(l, -3);
+	lua_rawset(l, -3);
 }
 
 void pi_lua_table_ro(lua_State *l);

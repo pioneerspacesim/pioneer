@@ -1,1 +1,1 @@
-CustomSystem:new("Marakesh",{Body.Type.WHITE_DWARF}):add_to_sector(6,-6,v(0.285,0.730,0.932))
+CustomSystem:new("Marakesh",{'WHITE_DWARF'}):add_to_sector(6,-6,v(0.285,0.730,0.932))

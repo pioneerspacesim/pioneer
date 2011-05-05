@@ -1,1 +1,1 @@
-CustomSystem:new("Sennett",{Body.Type.STAR_K}):add_to_sector(0,7,v(0.106,0.382,-0.051))
+CustomSystem:new("Sennett",{'STAR_K'}):add_to_sector(0,7,v(0.106,0.382,-0.051))

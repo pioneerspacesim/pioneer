@@ -1,1 +1,1 @@
-CustomSystem:new("Enaness",{Body.Type.STAR_F}):add_to_sector(10,-16,v(0.334,0.289,1.066))
+CustomSystem:new("Enaness",{'STAR_F'}):add_to_sector(10,-16,v(0.334,0.289,1.066))

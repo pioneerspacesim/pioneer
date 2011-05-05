@@ -1,1 +1,1 @@
-CustomSystem:new("Kappa Fornacis",{Body.Type.STAR_G}):add_to_sector(2,4,v(0.410,0.648,-0.840))
+CustomSystem:new("Kappa Fornacis",{'STAR_G'}):add_to_sector(2,4,v(0.410,0.648,-0.840))

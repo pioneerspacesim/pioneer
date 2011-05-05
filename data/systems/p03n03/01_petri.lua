@@ -1,1 +1,1 @@
-CustomSystem:new("Petri",{Body.Type.STAR_M}):add_to_sector(3,-3,v(0.467,0.452,0.594))
+CustomSystem:new("Petri",{'STAR_M'}):add_to_sector(3,-3,v(0.467,0.452,0.594))

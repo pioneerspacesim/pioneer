@@ -1,1 +1,1 @@
-CustomSystem:new("Diehrenn",{Body.Type.STAR_G}):add_to_sector(-3,7,v(0.079,0.040,-0.849))
+CustomSystem:new("Diehrenn",{'STAR_G'}):add_to_sector(-3,7,v(0.079,0.040,-0.849))

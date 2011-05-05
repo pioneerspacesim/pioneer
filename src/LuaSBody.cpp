@@ -16,9 +16,9 @@
  */
 
 /*
- * Method: GetId
+ * Attribute: id
  *
- * Get the body index of the body.
+ * The body index of the body
  *
  * Availability:
  *
@@ -28,7 +28,7 @@
  *
  *  stable
  */
-static int l_sbody_get_id(lua_State *l)
+static int l_sbody_attr_id(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
 	lua_pushinteger(l, sbody->id);
@@ -36,9 +36,9 @@ static int l_sbody_get_id(lua_State *l)
 }
 
 /*
- * Method: GetName
+ * Attribute: name
  *
- * Get the name of the body.
+ * The name of the body
  *
  * Availability:
  *
@@ -48,7 +48,7 @@ static int l_sbody_get_id(lua_State *l)
  *
  *  stable
  */
-static int l_sbody_get_name(lua_State *l)
+static int l_sbody_attr_name(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
 	lua_pushstring(l, sbody->name.c_str());
@@ -59,11 +59,11 @@ template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
-        { "GetId",   l_sbody_get_id   },
-        { "GetName", l_sbody_get_name },
+	static const luaL_reg l_attrs[] = {
+        { "id",   l_sbody_attr_id   },
+        { "name", l_sbody_attr_name },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+	LuaObjectBase::CreateClass(s_type, NULL, NULL, l_attrs, NULL);
 }

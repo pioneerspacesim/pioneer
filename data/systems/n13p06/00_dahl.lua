@@ -1,1 +1,1 @@
-CustomSystem:new("Dahl",{Body.Type.STAR_G, Body.Type.STAR_F}):add_to_sector(-13,6,v(0.121,0.953,-1.067))
+CustomSystem:new("Dahl",{'STAR_G', 'STAR_F'}):add_to_sector(-13,6,v(0.121,0.953,-1.067))

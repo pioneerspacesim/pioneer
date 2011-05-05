@@ -1,1 +1,1 @@
-CustomSystem:new("Adkin",{Body.Type.STAR_M}):add_to_sector(-1,-6,v(0.110,0.988,0.988))
+CustomSystem:new("Adkin",{'STAR_M'}):add_to_sector(-1,-6,v(0.110,0.988,0.988))

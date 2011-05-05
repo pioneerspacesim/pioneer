@@ -1,1 +1,1 @@
-CustomSystem:new("Hource",{Body.Type.STAR_K}):add_to_sector(-5,-6,v(0.647,0.978,0.426))
+CustomSystem:new("Hource",{'STAR_K'}):add_to_sector(-5,-6,v(0.647,0.978,0.426))

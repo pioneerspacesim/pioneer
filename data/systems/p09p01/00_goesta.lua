@@ -1,1 +1,1 @@
-CustomSystem:new("Goesta",{Body.Type.STAR_K}):add_to_sector(9,1,v(0.902,0.734,0.223))
+CustomSystem:new("Goesta",{'STAR_K'}):add_to_sector(9,1,v(0.902,0.734,0.223))

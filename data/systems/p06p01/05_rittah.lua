@@ -1,1 +1,1 @@
-CustomSystem:new("Rittah",{Body.Type.STAR_M}):add_to_sector(6,1,v(0.216,0.403,-0.223))
+CustomSystem:new("Rittah",{'STAR_M'}):add_to_sector(6,1,v(0.216,0.403,-0.223))

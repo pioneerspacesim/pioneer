@@ -1,1 +1,1 @@
-CustomSystem:new("Andareth",{Body.Type.STAR_M}):add_to_sector(-4,4,v(0.176,0.489,-0.634))
+CustomSystem:new("Andareth",{'STAR_M'}):add_to_sector(-4,4,v(0.176,0.489,-0.634))

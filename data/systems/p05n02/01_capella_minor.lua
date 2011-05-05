@@ -1,1 +1,1 @@
-CustomSystem:new("Capella Minor",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(5,-2,v(0.583,0.900,0.400))
+CustomSystem:new("Capella Minor",{'STAR_M', 'STAR_M'}):add_to_sector(5,-2,v(0.583,0.900,0.400))

@@ -1,1 +1,1 @@
-CustomSystem:new("Sarton",{Body.Type.STAR_G}):add_to_sector(0,11,v(0.258,0.284,-1.025))
+CustomSystem:new("Sarton",{'STAR_G'}):add_to_sector(0,11,v(0.258,0.284,-1.025))

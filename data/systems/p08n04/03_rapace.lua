@@ -1,1 +1,1 @@
-CustomSystem:new("Rapace",{Body.Type.STAR_F}):add_to_sector(8,-4,v(0.993,0.385,0.316))
+CustomSystem:new("Rapace",{'STAR_F'}):add_to_sector(8,-4,v(0.993,0.385,0.316))

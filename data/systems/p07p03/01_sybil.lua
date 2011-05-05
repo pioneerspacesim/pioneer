@@ -1,1 +1,1 @@
-CustomSystem:new("Sybil",{Body.Type.STAR_K}):add_to_sector(7,3,v(0.290,0.771,-0.605))
+CustomSystem:new("Sybil",{'STAR_K'}):add_to_sector(7,3,v(0.290,0.771,-0.605))

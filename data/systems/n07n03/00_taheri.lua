@@ -1,1 +1,1 @@
-CustomSystem:new("Taheri",{Body.Type.STAR_M}):add_to_sector(-7,-3,v(0.163,0.410,0.329))
+CustomSystem:new("Taheri",{'STAR_M'}):add_to_sector(-7,-3,v(0.163,0.410,0.329))

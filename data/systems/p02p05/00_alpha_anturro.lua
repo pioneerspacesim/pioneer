@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Anturro",{Body.Type.STAR_F, Body.Type.STAR_G}):add_to_sector(2,5,v(0.754,0.110,-0.266))
+CustomSystem:new("Alpha Anturro",{'STAR_F', 'STAR_G'}):add_to_sector(2,5,v(0.754,0.110,-0.266))

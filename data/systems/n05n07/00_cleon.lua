@@ -1,1 +1,1 @@
-CustomSystem:new("Cleon",{Body.Type.STAR_M}):add_to_sector(-5,-7,v(0.791,0.712,0.916))
+CustomSystem:new("Cleon",{'STAR_M'}):add_to_sector(-5,-7,v(0.791,0.712,0.916))

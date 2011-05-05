@@ -1,1 +1,1 @@
-CustomSystem:new("Genovus",{Body.Type.STAR_M}):add_to_sector(9,-2,v(0.254,0.543,0.336))
+CustomSystem:new("Genovus",{'STAR_M'}):add_to_sector(9,-2,v(0.254,0.543,0.336))

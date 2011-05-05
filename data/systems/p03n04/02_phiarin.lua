@@ -1,1 +1,1 @@
-CustomSystem:new("Phiarin",{Body.Type.STAR_M}):add_to_sector(3,-4,v(0.376,0.179,1.025))
+CustomSystem:new("Phiarin",{'STAR_M'}):add_to_sector(3,-4,v(0.376,0.179,1.025))

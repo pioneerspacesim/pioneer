@@ -1,1 +1,1 @@
-CustomSystem:new("Lancaster",{Body.Type.STAR_M}):add_to_sector(1,-8,v(0.331,0.843,0.388))
+CustomSystem:new("Lancaster",{'STAR_M'}):add_to_sector(1,-8,v(0.331,0.843,0.388))

@@ -1,1 +1,1 @@
-CustomSystem:new("Eta Serpentis",{Body.Type.STAR_K}):add_to_sector(-7,-3,v(0.896,0.190,0.751))
+CustomSystem:new("Eta Serpentis",{'STAR_K'}):add_to_sector(-7,-3,v(0.896,0.190,0.751))

@@ -1,1 +1,1 @@
-CustomSystem:new("Paisley",{Body.Type.WHITE_DWARF}):add_to_sector(-4,-2,v(0.337,0.262,0.507))
+CustomSystem:new("Paisley",{'WHITE_DWARF'}):add_to_sector(-4,-2,v(0.337,0.262,0.507))

@@ -1,1 +1,1 @@
-CustomSystem:new("VY Ari",{Body.Type.STAR_G}):add_to_sector(5,-1,v(0.603,0.427,0.532))
+CustomSystem:new("VY Ari",{'STAR_G'}):add_to_sector(5,-1,v(0.603,0.427,0.532))

@@ -1,1 +1,1 @@
-CustomSystem:new("Tau Eridani",{Body.Type.STAR_F}):add_to_sector(4,5,v(0.516,0.779,-0.968))
+CustomSystem:new("Tau Eridani",{'STAR_F'}):add_to_sector(4,5,v(0.516,0.779,-0.968))

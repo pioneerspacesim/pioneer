@@ -1,1 +1,1 @@
-CustomSystem:new("Amity",{Body.Type.STAR_M}):add_to_sector(0,-3,v(0.575,0.514,0.542))
+CustomSystem:new("Amity",{'STAR_M'}):add_to_sector(0,-3,v(0.575,0.514,0.542))

@@ -1,1 +1,1 @@
-CustomSystem:new("Torquemada",{Body.Type.STAR_F}):add_to_sector(-5,5,v(0.543,0.614,-0.216))
+CustomSystem:new("Torquemada",{'STAR_F'}):add_to_sector(-5,5,v(0.543,0.614,-0.216))
