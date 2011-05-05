@@ -332,6 +332,13 @@ static int l_ship_hyperspace_to(lua_State *l)
 	return 1;
 }
 
+static int l_ship_attr_alert_status(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipAlertStatus", s->GetAlertState()));
+	return 1;
+}
+
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<Ship*>(o);
@@ -379,6 +386,11 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	static const luaL_reg l_attrs[] = {
+		{ "alertStatus", l_ship_attr_alert_status },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }
