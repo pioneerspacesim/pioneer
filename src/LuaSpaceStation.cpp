@@ -5,6 +5,12 @@
 #include "LuaConstants.h"
 #include "Pi.h"
 
+/*
+ * Class: SpaceStation
+ *
+ * Class representing a space station. Inherits from <Body>.
+ */
+
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
 static void _delete_station_ads(SpaceStation *s)
@@ -55,6 +61,19 @@ static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert
 	return new LuaChatForm(station, ad);
 }
 
+/*
+ * Method: AddAdvert
+ *
+ * Add an advertisement to the station's bulletin board
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_spacestation_add_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -102,6 +121,19 @@ static int l_spacestation_add_advert(lua_State *l)
 	return 1;
 } 
 
+/*
+ * Method: RemoveAdvert
+ *
+ * Remove an advertisement from the station's bulletin board
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_spacestation_remove_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -146,6 +178,19 @@ static int l_spacestation_remove_advert(lua_State *l)
 	return 0;
 } 
 
+/*
+ * Method: GetEquipmentPrice
+ *
+ * Get the price of an equipment or cargo item traded at this station
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
