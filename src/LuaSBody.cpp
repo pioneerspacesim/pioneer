@@ -3,7 +3,7 @@
 #include "LuaUtils.h"
 #include "StarSystem.h"
 
-static int l_sbody_attr_id(lua_State *l)
+static int l_sbody_attr_index(lua_State *l)
 {
 	SBody *sbody = LuaSBody::GetFromLua(1);
 	lua_pushinteger(l, sbody->id);
@@ -22,8 +22,8 @@ template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 {
 	static const luaL_reg l_attrs[] = {
-        { "id",   l_sbody_attr_id   },
-        { "name", l_sbody_attr_name },
+        { "index", l_sbody_attr_index },
+        { "name",  l_sbody_attr_name  },
 		{ 0, 0 }
 	};
 
