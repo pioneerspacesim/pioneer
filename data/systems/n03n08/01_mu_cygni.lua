@@ -1,1 +1,1 @@
-CustomSystem:new("Mu Cygni",{Body.Type.STAR_F, Body.Type.STAR_G}):add_to_sector(-3,-8,v(0.703,0.656,0.436))
+CustomSystem:new("Mu Cygni",{'STAR_F', 'STAR_G'}):add_to_sector(-3,-8,v(0.703,0.656,0.436))

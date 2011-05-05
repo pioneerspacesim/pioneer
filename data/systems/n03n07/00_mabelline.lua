@@ -1,1 +1,1 @@
-CustomSystem:new("Mabelline",{Body.Type.STAR_M, Body.Type.WHITE_DWARF}):add_to_sector(-3,-7,v(0.642,0.170,1.076))
+CustomSystem:new("Mabelline",{'STAR_M', 'WHITE_DWARF'}):add_to_sector(-3,-7,v(0.642,0.170,1.076))

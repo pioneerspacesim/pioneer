@@ -85,10 +85,10 @@ local onChat = function (dialog, ref, option)
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
 			name     = ad.client,
 			cash     = Format.Money(ad.reward);
-			starport = sbody:GetName(),
-			system   = sys:GetName(),
-			sectorx  = ad.location:GetSectorX(),
-			sectory  = ad.location:GetSectorY(),
+			starport = sbody.name,
+			system   = sys.name,
+			sectorx  = ad.location.sectorX,
+			sectory  = ad.location.sectorY,
 		})
 
 		dialog:SetMessage(introtext)
@@ -164,7 +164,7 @@ local makeAdvert = function (station)
 	}
 
 	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
-		system = nearbysystem:GetName(),
+		system = nearbysystem.name,
 		cash   = Format.Money(ad.reward),
 	})
 
@@ -173,7 +173,7 @@ local makeAdvert = function (station)
 end
 
 local onCreateBB = function (station)
-	local num = Engine.rand:Integer(1, math.ceil(Game.system:GetPopulation()))
+	local num = Engine.rand:Integer(1, math.ceil(Game.system.population))
 	for i = 1,num do
 		makeAdvert(station)
 	end
@@ -194,7 +194,7 @@ end
 local onEnterSystem = function (player)
 	if (not player:IsPlayer()) then return end
 
-	local syspath = Game.system:GetPath()
+	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
 		if not mission.status and mission.location:IsSameSystem(syspath) then
@@ -204,8 +204,8 @@ local onEnterSystem = function (player)
 			if risk >= 0.8 then ships = 2 end
 			if risk == 1.0 then ships = 3 end
 
-			local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t)
-				local mass = t:GetHullMass()
+			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
+				local mass = t.hullMass
 				return mass >= 100 and mass <= 300
 			end)
 			if #shiptypes == 0 then return end
@@ -218,11 +218,11 @@ local onEnterSystem = function (player)
 				if Engine.rand:Number() <= risk then
 					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 					local shiptype = ShipType.GetShipType(shipname)
-					local default_drive = shiptype:GetDefaultHyperdrive()
+					local default_drive = shiptype.defaultHyperdrive
 
-					local max_laser_size = shiptype:GetCapacity() - EquipType.GetEquipType(default_drive):GetMass()
-					local lasers = EquipType.GetEquipTypes(Equip.Slot.LASER, function (e,et)
-						return et:GetMass() <= max_laser_size and e >= Equip.Type.PULSECANNON_RAPID_2MW and e<= Equip.Type.PULSECANNON_20MW
+					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
+					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
+						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
@@ -234,7 +234,7 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				UI.ImportantMessage(ship:GetLabel(), "You're going to regret dealing with "..mission.client)
+				UI.ImportantMessage(ship.label, "You're going to regret dealing with "..mission.client)
 			end
 		end
 	end
@@ -245,7 +245,7 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 
-		if mission.location == station:GetPath() then
+		if mission.location == station.path then
 
 			if Game.time > mission.due then
 				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)

@@ -1,1 +1,1 @@
-CustomSystem:new("Forell",{Body.Type.WHITE_DWARF}):add_to_sector(9,-1,v(0.305,0.626,0.613))
+CustomSystem:new("Forell",{'WHITE_DWARF'}):add_to_sector(9,-1,v(0.305,0.626,0.613))

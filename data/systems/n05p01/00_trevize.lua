@@ -1,1 +1,1 @@
-CustomSystem:new("Trevize",{Body.Type.STAR_K}):add_to_sector(-5,1,v(0.177,0.939,-1.078))
+CustomSystem:new("Trevize",{'STAR_K'}):add_to_sector(-5,1,v(0.177,0.939,-1.078))

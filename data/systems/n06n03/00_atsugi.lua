@@ -1,1 +1,1 @@
-CustomSystem:new("Atsugi",{Body.Type.STAR_M}):add_to_sector(-6,-3,v(0.965,0.304,0.007))
+CustomSystem:new("Atsugi",{'STAR_M'}):add_to_sector(-6,-3,v(0.965,0.304,0.007))

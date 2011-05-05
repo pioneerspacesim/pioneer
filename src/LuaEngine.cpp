@@ -24,6 +24,7 @@ void LuaEngine::Register()
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
+    pi_lua_table_ro(l);
 
 	luaL_newmetatable(l, "Engine");
 	

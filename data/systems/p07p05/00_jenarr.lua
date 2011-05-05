@@ -1,1 +1,1 @@
-CustomSystem:new("Jenarr",{Body.Type.STAR_K}):add_to_sector(7,5,v(0.665,0.703,-0.959))
+CustomSystem:new("Jenarr",{'STAR_K'}):add_to_sector(7,5,v(0.665,0.703,-0.959))

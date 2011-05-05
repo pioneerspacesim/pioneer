@@ -1,1 +1,1 @@
-CustomSystem:new("Gibson",{Body.Type.STAR_M}):add_to_sector(4,-3,v(0.401,0.933,0.802))
+CustomSystem:new("Gibson",{'STAR_M'}):add_to_sector(4,-3,v(0.401,0.933,0.802))

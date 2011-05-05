@@ -1,1 +1,1 @@
-CustomSystem:new("Hawat",{Body.Type.STAR_K}):add_to_sector(-2,8,v(0.185,0.065,-0.420))
+CustomSystem:new("Hawat",{'STAR_K'}):add_to_sector(-2,8,v(0.185,0.065,-0.420))

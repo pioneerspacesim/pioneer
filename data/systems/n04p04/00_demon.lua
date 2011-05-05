@@ -1,1 +1,1 @@
-CustomSystem:new("Demon",{Body.Type.STAR_K}):add_to_sector(-4,4,v(0.183,0.505,-0.057))
+CustomSystem:new("Demon",{'STAR_K'}):add_to_sector(-4,4,v(0.183,0.505,-0.057))

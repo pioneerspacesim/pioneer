@@ -1,1 +1,1 @@
-CustomSystem:new("Tomonaga",{Body.Type.STAR_M}):add_to_sector(4,-3,v(0.067,0.130,0.512))
+CustomSystem:new("Tomonaga",{'STAR_M'}):add_to_sector(4,-3,v(0.067,0.130,0.512))

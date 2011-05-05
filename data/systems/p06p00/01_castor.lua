@@ -1,1 +1,1 @@
-CustomSystem:new("Castor",{Body.Type.STAR_A, Body.Type.STAR_A, Body.Type.STAR_M}):add_to_sector(6,0,v(0.408,0.439,0.984))
+CustomSystem:new("Castor",{'STAR_A', 'STAR_A', 'STAR_M'}):add_to_sector(6,0,v(0.408,0.439,0.984))

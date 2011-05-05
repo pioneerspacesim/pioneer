@@ -1,1 +1,1 @@
-CustomSystem:new("Delmarre",{Body.Type.STAR_K}):add_to_sector(-11,-7,v(0.165,0.794,0.339))
+CustomSystem:new("Delmarre",{'STAR_K'}):add_to_sector(-11,-7,v(0.165,0.794,0.339))

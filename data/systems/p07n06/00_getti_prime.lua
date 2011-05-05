@@ -1,1 +1,1 @@
-CustomSystem:new("Getti Prime",{Body.Type.STAR_G}):add_to_sector(7,-6,v(0.908,0.807,0.098))
+CustomSystem:new("Getti Prime",{'STAR_G'}):add_to_sector(7,-6,v(0.908,0.807,0.098))

@@ -86,11 +86,88 @@ int LuaObjectBase::GC(lua_State *l)
 	return 0;
 }
 
+static int dispatch_index(lua_State *l)
+{
+	// if its a table then they're peeking inside the method table directly
+	// (non-object call, curreying, etc) and we should just mimic the standard
+	// lookup behaviour
+	if (lua_istable(l, 1)) {
+		lua_rawget(l, 1);
+		return 1;
+	}
+
+	// sanity check. it should be a userdatum
+	assert(lua_isuserdata(l, 1));
+
+	// everything we need is in the metatable, so lets start with that
+	lua_getmetatable(l, 1);             // object, key, metatable
+
+	// loop until we find what we're looking for or we run out of metatables
+	while (!lua_isnil(l, -1)) {
+
+		// first is method lookup. we get the object type from the metatable and
+		// use it to look up the method table and from there, the method itself
+		lua_pushstring(l, "type");
+		lua_rawget(l, -2);                  // object, key, metatable, type
+
+		lua_rawget(l, LUA_GLOBALSINDEX);    // object, key, metatable, method table
+
+		lua_pushvalue(l, 2);
+		lua_rawget(l, -2);                  // object, key, metatable, method table, method
+    
+		// found something, return it
+		if (!lua_isnil(l, -1))
+			return 1;
+
+		lua_pop(l, 2);                      // object, key, metatable
+
+		// didn't find a method, so now we go looking for an attribute handler in
+		// the attribute table
+		lua_pushstring(l, "attrs");
+		lua_rawget(l, -2);                  // object, key, metatable, attr table
+
+		if (lua_istable(l, -1)) {
+			lua_pushvalue(l, 2);
+			lua_rawget(l, -2);              // object, key, metatable, attr table, attr handler
+
+			// found something. since its likely a regular attribute lookup and not a
+			// method call we have to do the call ourselves
+			if (lua_isfunction(l, -1)) {
+				lua_pushvalue(l, 1);
+				lua_call(l, 1, 1);
+				return 1;
+			}
+
+			lua_pop(l, 2);                  // object, key, metatable
+		}
+		else
+			lua_pop(l, 1);                  // object, key, metatable
+
+		// didn't find anything. if the object has a parent object then we look
+		// there instead
+		lua_pushstring(l, "parent");
+		lua_rawget(l, -2);                  // object, key, metatable, parent type
+
+		// not found means we have no parents and we can't search any further
+		if (lua_isnil(l, -1))
+			break;
+
+		// clean up the stack
+		lua_remove(l, -2);                  // object, key, parent type
+
+		// get the parent metatable
+		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, parent metatable
+	}
+
+	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
+	return 0;
+}
+
 static const luaL_reg no_methods[] = {
 	{ 0, 0 }
 };
 
-void LuaObjectBase::CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *meta)
+void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_reg *methods, const luaL_reg *attrs, const luaL_reg *meta)
 {
 	assert(type);
 
@@ -137,25 +214,35 @@ void LuaObjectBase::CreateClass(const char *type, const char *inherit, const lua
 	lua_pushcfunction(l, LuaObjectBase::GC);
 	lua_rawset(l, -3);
 
-	// attach the method table to __index
+	// setup a custom index function. this thing handles all the magic of
+	// finding the right function or attribute and walking the inheritance
+	// hierarchy as necessary
 	lua_pushstring(l, "__index");
-	lua_pushvalue(l, -3);
+	lua_pushcfunction(l, dispatch_index);
 	lua_rawset(l, -3);
 
-	// add the type so we can walk the inheritance chain
+	// record the type in the metatable so we know what we're looking at for
+	// the inheritance walk
 	lua_pushstring(l, "type");
 	lua_pushstring(l, type);
 	lua_rawset(l, -3);
 
-	// setup inheritance if wanted
-	if (inherit) {
-		// get the parent metatable
-		luaL_getmetatable(l, inherit);
-		if (lua_isnil(l, -1))
-			Error("Lua type '%s' can't inherit from unknown type '%s'", type, inherit);
+	// if we're inheriting, record the name of the base type
+	if (parent) {
+		lua_pushstring(l, "parent");
+		lua_pushstring(l, parent);
+		lua_rawset(l, -3);
+	}
 
-		// attach it to the method table
-		lua_setmetatable(l, -3);
+	// if they passed attributes hook them up too
+	if (attrs) {
+		lua_pushstring(l, "attrs");
+		
+		lua_newtable(l);
+		luaL_register(l, 0, attrs);
+
+		lua_rawset(l, -3);
+
 	}
 
 	// remove the metatable and the method table from the stack
@@ -320,36 +407,33 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 bool LuaObjectBase::Isa(const char *type) const
 {
+	// fast path
+	if (strcmp(this->m_type, type) == 0)
+		return true;
+
 	assert(instantiated);
 
 	lua_State *l = Pi::luaManager.GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	const char *current_type = this->m_type;
- 
-	// look for the type. we walk up the inheritance chain looking to see if
-	// the passed object is a subclass of the wanted type
-	while (strcmp(current_type, type) != 0) {
-		// no match, up we go
+	lua_pushstring(l, this->m_type);
+	while (strcmp(this->m_type, lua_tostring(l, -1)) != 0) {
+		// get the metatable for the current type
+		lua_rawget(l, LUA_REGISTRYINDEX);
 
-		// get the method table for the current type
-		lua_getfield(l, LUA_GLOBALSINDEX, current_type);
+		// get the name of the parent type
+		lua_pushstring(l, "parent");
+		lua_rawget(l, -2);
 
-		// get its metatable
-		if (!lua_getmetatable(l, -1)) {
-			// not found means we've reached the base and can go no further
-			lua_pop(l, 1);
+		// if it doesn't have a parent then we can go no further
+		if (lua_isnil(l, -1)) {
+			lua_pop(l, 2);
 			LUA_DEBUG_END(l, 0);
 			return false;
 		}
-
-		// get the type this metatable belongs to 
-		lua_getfield(l, -1, "type");
-		current_type = lua_tostring(l, -1);
-
-		lua_pop(l, 3);
 	}
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 

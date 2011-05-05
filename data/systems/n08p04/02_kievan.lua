@@ -1,1 +1,1 @@
-CustomSystem:new("Kievan",{Body.Type.STAR_M}):add_to_sector(-8,4,v(0.357,0.910,-0.929))
+CustomSystem:new("Kievan",{'STAR_M'}):add_to_sector(-8,4,v(0.357,0.910,-0.929))

@@ -1,1 +1,1 @@
-CustomSystem:new("Hudson",{Body.Type.WHITE_DWARF}):add_to_sector(0,-4,v(0.402,0.596,0.156))
+CustomSystem:new("Hudson",{'WHITE_DWARF'}):add_to_sector(0,-4,v(0.402,0.596,0.156))

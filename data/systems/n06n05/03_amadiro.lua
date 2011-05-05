@@ -1,1 +1,1 @@
-CustomSystem:new("Amadiro",{Body.Type.STAR_M}):add_to_sector(-6,-5,v(0.726,0.337,1.127))
+CustomSystem:new("Amadiro",{'STAR_M'}):add_to_sector(-6,-5,v(0.726,0.337,1.127))

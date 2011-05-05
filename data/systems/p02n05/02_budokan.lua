@@ -1,1 +1,1 @@
-CustomSystem:new("Budokan",{Body.Type.WHITE_DWARF}):add_to_sector(2,-5,v(0.948,0.233,0.201))
+CustomSystem:new("Budokan",{'WHITE_DWARF'}):add_to_sector(2,-5,v(0.948,0.233,0.201))

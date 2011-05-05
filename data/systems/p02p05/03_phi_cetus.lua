@@ -1,1 +1,1 @@
-CustomSystem:new("Phi Cetus",{Body.Type.STAR_F}):add_to_sector(2,5,v(0.558,0.757,-0.445))
+CustomSystem:new("Phi Cetus",{'STAR_F'}):add_to_sector(2,5,v(0.558,0.757,-0.445))

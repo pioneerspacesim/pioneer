@@ -30,34 +30,6 @@ static int l_sbodypath_new(lua_State *l)
 	return 1;
 }
 
-static int l_sbodypath_get_sector_x(lua_State *l)
-{
-	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	lua_pushinteger(l, path->sectorX);
-	return 1;
-}
-
-static int l_sbodypath_get_sector_y(lua_State *l)
-{
-	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	lua_pushinteger(l, path->sectorY);
-	return 1;
-}
-
-static int l_sbodypath_get_system_index(lua_State *l)
-{
-	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	lua_pushinteger(l, path->systemNum);
-	return 1;
-}
-
-static int l_sbodypath_get_body_id(lua_State *l)
-{
-	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
-	lua_pushinteger(l, path->sbodyId);
-	return 1;
-}
-
 static int l_sbodypath_is_same_system(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -109,6 +81,34 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	return 1;
 }
 
+static int l_sbodypath_attr_sector_x(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->sectorX);
+	return 1;
+}
+
+static int l_sbodypath_attr_sector_y(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->sectorY);
+	return 1;
+}
+
+static int l_sbodypath_attr_system_index(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->systemNum);
+	return 1;
+}
+
+static int l_sbodypath_attr_body_index(lua_State *l)
+{
+	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
+	lua_pushinteger(l, path->sbodyId);
+	return 1;
+}
+
 static int l_sbodypath_meta_eq(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -125,11 +125,6 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 	static const luaL_reg l_methods[] = {
 		{ "New", l_sbodypath_new },
 
-		{ "GetSectorX",     l_sbodypath_get_sector_x     },
-		{ "GetSectorY",     l_sbodypath_get_sector_y     },
-		{ "GetSystemIndex", l_sbodypath_get_system_index },
-		{ "GetBodyId",      l_sbodypath_get_body_id      },
-
 		{ "IsSameSystem", l_sbodypath_is_same_system },
 
 		{ "DistanceTo", l_sbodypath_distance_to },
@@ -140,10 +135,18 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_meta[] = {
-		{ "__eq", l_sbodypath_meta_eq },
+	static const luaL_reg l_attrs[] = {
+		{ "sectorX",     l_sbodypath_attr_sector_x     },
+		{ "sectorY",     l_sbodypath_attr_sector_y     },
+		{ "systemIndex", l_sbodypath_attr_system_index },
+		{ "bodyIndex",   l_sbodypath_attr_body_index   },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_meta);
+	static const luaL_reg l_meta[] = {
+		{ "__eq",  l_sbodypath_meta_eq },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, l_meta);
 }

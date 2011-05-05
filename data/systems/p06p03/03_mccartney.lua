@@ -1,1 +1,1 @@
-CustomSystem:new("McCartney",{Body.Type.STAR_M}):add_to_sector(6,3,v(0.463,0.077,-0.637))
+CustomSystem:new("McCartney",{'STAR_M'}):add_to_sector(6,3,v(0.463,0.077,-0.637))

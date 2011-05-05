@@ -1,1 +1,1 @@
-CustomSystem:new("Hayden",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(0,9,v(0.783,0.176,-0.353))
+CustomSystem:new("Hayden",{'STAR_G', 'STAR_G'}):add_to_sector(0,9,v(0.783,0.176,-0.353))

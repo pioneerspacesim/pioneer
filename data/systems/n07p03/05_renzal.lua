@@ -1,1 +1,1 @@
-CustomSystem:new("Renzal",{Body.Type.STAR_G}):add_to_sector(-7,3,v(0.063,0.440,-0.671))
+CustomSystem:new("Renzal",{'STAR_G'}):add_to_sector(-7,3,v(0.063,0.440,-0.671))

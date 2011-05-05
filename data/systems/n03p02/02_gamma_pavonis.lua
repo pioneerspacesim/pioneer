@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Pavonis",{Body.Type.STAR_F}):add_to_sector(-3,2,v(0.996,0.678,-1.219))
+CustomSystem:new("Gamma Pavonis",{'STAR_F'}):add_to_sector(-3,2,v(0.996,0.678,-1.219))

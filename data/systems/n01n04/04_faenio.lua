@@ -1,1 +1,1 @@
-CustomSystem:new("Faenio",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(-1,-4,v(0.113,0.366,0.132))
+CustomSystem:new("Faenio",{'STAR_K', 'STAR_M'}):add_to_sector(-1,-4,v(0.113,0.366,0.132))

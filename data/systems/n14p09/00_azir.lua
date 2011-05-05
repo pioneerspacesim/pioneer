@@ -1,1 +1,1 @@
-CustomSystem:new("Azir",{Body.Type.STAR_K}):add_to_sector(-14,9,v(0.777,0.544,-0.686))
+CustomSystem:new("Azir",{'STAR_K'}):add_to_sector(-14,9,v(0.777,0.544,-0.686))

@@ -1,1 +1,1 @@
-CustomSystem:new("Swan's Havan",{Body.Type.STAR_M}):add_to_sector(3,-3,v(0.127,0.657,0.143))
+CustomSystem:new("Swan's Havan",{'STAR_M'}):add_to_sector(3,-3,v(0.127,0.657,0.143))

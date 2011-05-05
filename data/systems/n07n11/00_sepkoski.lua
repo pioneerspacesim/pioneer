@@ -1,1 +1,1 @@
-CustomSystem:new("Sepkoski",{Body.Type.STAR_M}):add_to_sector(-7,-11,v(0.610,0.197,0.556))
+CustomSystem:new("Sepkoski",{'STAR_M'}):add_to_sector(-7,-11,v(0.610,0.197,0.556))

@@ -1,1 +1,1 @@
-CustomSystem:new("Dibbler",{Body.Type.STAR_M}):add_to_sector(5,3,v(0.964,0.096,-0.246))
+CustomSystem:new("Dibbler",{'STAR_M'}):add_to_sector(5,3,v(0.964,0.096,-0.246))

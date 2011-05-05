@@ -1,1 +1,1 @@
-CustomSystem:new("Ticino",{Body.Type.STAR_G}):add_to_sector(-7,-6,v(0.034,0.268,1.037))
+CustomSystem:new("Ticino",{'STAR_G'}):add_to_sector(-7,-6,v(0.034,0.268,1.037))

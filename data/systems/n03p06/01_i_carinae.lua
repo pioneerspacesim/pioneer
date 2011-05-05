@@ -1,1 +1,1 @@
-CustomSystem:new("I Carinae",{Body.Type.STAR_F}):add_to_sector(-3,6,v(0.849,0.194,-1.069))
+CustomSystem:new("I Carinae",{'STAR_F'}):add_to_sector(-3,6,v(0.849,0.194,-1.069))

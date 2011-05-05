@@ -1,1 +1,1 @@
-CustomSystem:new("Amaryl",{Body.Type.STAR_G}):add_to_sector(4,-6,v(0.774,0.972,0.132))
+CustomSystem:new("Amaryl",{'STAR_G'}):add_to_sector(4,-6,v(0.774,0.972,0.132))

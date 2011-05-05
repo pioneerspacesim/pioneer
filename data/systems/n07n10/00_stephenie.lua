@@ -1,1 +1,1 @@
-CustomSystem:new("Stephenie",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(-7,-10,v(0.757,0.021,0.413))
+CustomSystem:new("Stephenie",{'STAR_K', 'STAR_M'}):add_to_sector(-7,-10,v(0.757,0.021,0.413))

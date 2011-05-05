@@ -1,1 +1,1 @@
-CustomSystem:new("Beta Pictoris",{Body.Type.STAR_A}):add_to_sector(1,6,v(0.682,0.227,-0.504))
+CustomSystem:new("Beta Pictoris",{'STAR_A'}):add_to_sector(1,6,v(0.682,0.227,-0.504))

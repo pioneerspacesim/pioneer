@@ -1,1 +1,1 @@
-CustomSystem:new("Brehl",{Body.Type.STAR_G, Body.Type.STAR_G}):add_to_sector(-10,3,v(0.811,0.756,-0.633))
+CustomSystem:new("Brehl",{'STAR_G', 'STAR_G'}):add_to_sector(-10,3,v(0.811,0.756,-0.633))

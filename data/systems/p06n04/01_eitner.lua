@@ -1,1 +1,1 @@
-CustomSystem:new("Eitner",{Body.Type.WHITE_DWARF}):add_to_sector(6,-4,v(0.433,0.626,0.218))
+CustomSystem:new("Eitner",{'WHITE_DWARF'}):add_to_sector(6,-4,v(0.433,0.626,0.218))

@@ -1,1 +1,1 @@
-CustomSystem:new("Aldebaran",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(8,1,v(0.606,0.897,-0.824))
+CustomSystem:new("Aldebaran",{'STAR_K', 'STAR_M'}):add_to_sector(8,1,v(0.606,0.897,-0.824))

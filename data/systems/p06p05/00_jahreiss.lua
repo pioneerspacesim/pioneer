@@ -1,1 +1,1 @@
-CustomSystem:new("Jahreiss",{Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(6,5,v(0.419,0.626,-0.920))
+CustomSystem:new("Jahreiss",{'STAR_F', 'STAR_M'}):add_to_sector(6,5,v(0.419,0.626,-0.920))
