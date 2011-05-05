@@ -284,6 +284,13 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	return 0;
 }
 
+static int l_ship_cancel_ai(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	s->AIClearInstructions();
+	return 0;
+}
+
 static int l_ship_can_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -364,6 +371,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },
 		{ "AIEnterMediumOrbit", l_ship_ai_enter_medium_orbit },
 		{ "AIEnterHighOrbit",   l_ship_ai_enter_high_orbit   },
+		{ "CancelAI",           l_ship_cancel_ai             },
 
 		{ "CanHyperspaceTo", l_ship_can_hyperspace_to },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
