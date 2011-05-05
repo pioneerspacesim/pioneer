@@ -94,3 +94,13 @@ Topic Type: Attribute
 Alter Topic Type: Function
 
    Can Group With: Properties, Attributes
+
+
+Topic Type: Method
+
+   Plural: Methods
+   Break Lists: Yes
+   Can Group With: Properties, Attributes
+
+   Keywords:
+      method, methods

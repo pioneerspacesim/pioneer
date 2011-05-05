@@ -75,5 +75,6 @@ Group: Index  {
    Property Index: Properties
    Event Index: Events
    Attribute Index: Attributes
+   Method Index: Methods
    }  # Group: Index
 
