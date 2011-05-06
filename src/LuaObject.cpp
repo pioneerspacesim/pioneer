@@ -390,16 +390,16 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 	lid *idp = (lid*)lua_touserdata(l, index);
 	if (!idp)
-		Error("Lua value on stack is of type userdata but has no userdata associated with it");
+		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 	if (!lo)
-		Error("Lua object with id 0x%08x not found in registry", *idp);
+		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
 
 	LUA_DEBUG_END(l, 0);
 
 	if (!lo->Isa(type))
-		Error("Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
+		luaL_error(l, "Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
 
 	// found it
 	return lo->m_object;
