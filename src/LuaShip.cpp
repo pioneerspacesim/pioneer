@@ -217,6 +217,30 @@ static int l_ship_jettison(lua_State *l)
 	return 1;
 }
 
+static int l_ship_fire_missile_at(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Ship *target = LuaShip::GetFromLua(3);
+
+	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
+		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
+	
+	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
+	int idx;
+	for (idx = 0; idx < max_missiles; idx++)
+		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
+			break;
+	
+	if (idx == max_missiles) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+
+	lua_pushboolean(l, s->FireMissile(idx, target));
+	return 1;
+}
+
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
@@ -368,6 +392,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
 		{ "Jettison", l_ship_jettison },
+
+		{ "FireMissileAt", l_ship_fire_missile_at },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
