@@ -77,6 +77,19 @@ int LuaObjectBase::l_exists(lua_State *l)
 	return 1;
 }
 
+int LuaObjectBase::l_isa(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+
+	LuaObjectBase *lo = Lookup(*idp);
+	if (!lo)
+		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
+
+	lua_pushboolean(l, lo->Isa(luaL_checkstring(l, 2)));
+	return 1;
+}
+
 int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
@@ -202,6 +215,11 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	// add the exists method
 	lua_pushstring(l, "exists");
 	lua_pushcfunction(l, LuaObjectBase::l_exists);
+	lua_rawset(l, -3);
+
+	// add the isa method
+	lua_pushstring(l, "isa");
+	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
 	// create the metatable, leave it on the stack
