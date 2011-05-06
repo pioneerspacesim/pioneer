@@ -423,10 +423,10 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 	return lo->m_object;
 }
 
-bool LuaObjectBase::Isa(const char *type) const
+bool LuaObjectBase::Isa(const char *base) const
 {
 	// fast path
-	if (strcmp(this->m_type, type) == 0)
+	if (strcmp(m_type, base) == 0)
 		return true;
 
 	assert(instantiated);
@@ -435,8 +435,8 @@ bool LuaObjectBase::Isa(const char *type) const
 
 	LUA_DEBUG_START(l);
 
-	lua_pushstring(l, this->m_type);
-	while (strcmp(this->m_type, lua_tostring(l, -1)) != 0) {
+	lua_pushstring(l, m_type);
+	while (strcmp(lua_tostring(l, -1), base) != 0) {
 		// get the metatable for the current type
 		lua_rawget(l, LUA_REGISTRYINDEX);
 
@@ -450,6 +450,8 @@ bool LuaObjectBase::Isa(const char *type) const
 			LUA_DEBUG_END(l, 0);
 			return false;
 		}
+
+		lua_remove(l, -2);
 	}
 	lua_pop(l, 1);
 

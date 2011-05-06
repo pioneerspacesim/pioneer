@@ -186,7 +186,7 @@ private:
 	static LuaObjectBase *Lookup(lid id);
 
     // determine if the object has a class in its ancestry
-    bool Isa(const char *want_type) const;
+    bool Isa(const char *base) const;
 
 	// object id, pointer to the c++ object and lua type string
 	lid            m_id;
