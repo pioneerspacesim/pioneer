@@ -68,7 +68,7 @@ LuaObjectBase *LuaObjectBase::Lookup(lid id)
 	return (*i).second;
 }
 
-int LuaObjectBase::Exists(lua_State *l)
+int LuaObjectBase::l_exists(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
@@ -77,7 +77,7 @@ int LuaObjectBase::Exists(lua_State *l)
 	return 1;
 }
 
-int LuaObjectBase::GC(lua_State *l)
+int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
@@ -201,7 +201,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// add the exists method
 	lua_pushstring(l, "exists");
-	lua_pushcfunction(l, LuaObjectBase::Exists);
+	lua_pushcfunction(l, LuaObjectBase::l_exists);
 	lua_rawset(l, -3);
 
 	// create the metatable, leave it on the stack
@@ -211,7 +211,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
-	lua_pushcfunction(l, LuaObjectBase::GC);
+	lua_pushcfunction(l, LuaObjectBase::l_gc);
 	lua_rawset(l, -3);
 
 	// setup a custom index function. this thing handles all the magic of
