@@ -7,7 +7,7 @@ local onEnterSystem = function (player)
 		return
 	end
 
-	local stations = Space.GetSpaceStations()
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 	if #stations == 0 then
 		return
 	end

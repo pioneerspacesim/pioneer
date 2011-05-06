@@ -171,18 +171,22 @@ private:
 
 	// lua method to determine if the underlying object is still present in
 	// the registry (ie still exists)
-	static int Exists(lua_State *l);
+	static int l_exists(lua_State *l);
+
+	// lua method to determine if the object inherits from a type. wrapper
+	// around ::Isa()
+	static int l_isa(lua_State *l);
 
 	// the lua object "destructor" that gets called by the garbage collector.
 	// its only part of the class so that it can call Deregister()
-	static int GC(lua_State *l);
+	static int l_gc(lua_State *l);
 
 	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
 	// if the object is not in the registry
 	static LuaObjectBase *Lookup(lid id);
 
     // determine if the object has a class in its ancestry
-    bool Isa(const char *want_type) const;
+    bool Isa(const char *base) const;
 
 	// object id, pointer to the c++ object and lua type string
 	lid            m_id;

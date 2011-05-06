@@ -85,7 +85,9 @@ LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
+LuaEventQueue<Ship> Pi::luaOnShipAlertChanged("onShipAlertChanged");
 LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
+LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
 LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
 int Pi::keyModState;
@@ -204,7 +206,9 @@ static void LuaInit()
 	Pi::luaOnShipCollided.RegisterEventQueue();
 	Pi::luaOnShipDocked.RegisterEventQueue();
 	Pi::luaOnShipUndocked.RegisterEventQueue();
+	Pi::luaOnShipAlertChanged.RegisterEventQueue();
 	Pi::luaOnJettison.RegisterEventQueue();
+	Pi::luaOnAICompleted.RegisterEventQueue();
 	Pi::luaOnCreateBB.RegisterEventQueue();
 	Pi::luaOnUpdateBB.RegisterEventQueue();
 
@@ -231,7 +235,9 @@ static void LuaInitGame() {
 	Pi::luaOnShipCollided.ClearEvents();
 	Pi::luaOnShipDocked.ClearEvents();
 	Pi::luaOnShipUndocked.ClearEvents();
+	Pi::luaOnShipAlertChanged.ClearEvents();
 	Pi::luaOnJettison.ClearEvents();
+	Pi::luaOnAICompleted.ClearEvents();
 	Pi::luaOnCreateBB.ClearEvents();
 	Pi::luaOnUpdateBB.ClearEvents();
 }
@@ -1171,25 +1177,34 @@ void Pi::MainLoop()
 		
 		int timeAccel = Pi::requestedTimeAccelIdx;
 		if (Pi::player->GetFlightState() == Ship::FLYING) {
-			// check we aren't too near to objects for timeaccel //
-			for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-				if ((*i) == Pi::player) continue;
-				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
-				
-				vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
-				double dist = toBody.Length();
-				double rad = (*i)->GetBoundingRadius();
 
-				if (dist < 1000.0) {
-					timeAccel = std::min(timeAccel, 1);
-				} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
-					timeAccel = std::min(timeAccel, 2);
-				} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
-					timeAccel = std::min(timeAccel, 3);
-				} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
-					timeAccel = std::min(timeAccel, 4);
-				} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
-					timeAccel = std::min(timeAccel, 5);
+			// special timeaccel lock rules while in alert
+			if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
+				timeAccel = std::min(timeAccel, 2);
+			else if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
+				timeAccel = std::min(timeAccel, 1);
+
+			else {
+				// check we aren't too near to objects for timeaccel //
+				for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+					if ((*i) == Pi::player) continue;
+					if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
+				
+					vector3d toBody = Pi::player->GetPosition() - (*i)->GetPositionRelTo(Pi::player->GetFrame());
+					double dist = toBody.Length();
+					double rad = (*i)->GetBoundingRadius();
+
+					if (dist < 1000.0) {
+						timeAccel = std::min(timeAccel, 1);
+					} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+						timeAccel = std::min(timeAccel, 2);
+					} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
+						timeAccel = std::min(timeAccel, 3);
+					} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
+						timeAccel = std::min(timeAccel, 4);
+					} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+						timeAccel = std::min(timeAccel, 5);
+					}
 				}
 			}
 		}

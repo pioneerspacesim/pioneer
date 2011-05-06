@@ -20,6 +20,7 @@
 #include "LmrModel.h"
 #include "Polit.h"
 #include "CityOnPlanet.h"
+#include "Missile.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -472,6 +473,40 @@ void Ship::UseECM()
 	}
 }
 
+bool Ship::FireMissile(int idx, Ship *target)
+{
+	assert(target);
+
+	const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
+	if (t == Equip::NONE) {
+		return false;
+	}
+
+	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
+	CalcStats();
+
+	matrix4x4d m;
+	GetRotMatrix(m);
+	vector3d dir = m*vector3d(0,0,-1);
+	
+	ShipType::Type mtype;
+	switch (t) {
+		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
+		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
+		case Equip::MISSILE_UNGUIDED: mtype = ShipType::MISSILE_UNGUIDED; break;
+		default:
+		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
+	}
+	Missile *missile = new Missile(mtype, this, target);
+	missile->SetRotMatrix(m);
+	missile->SetFrame(GetFrame());
+	// XXX DODGY! need to put it in a sensible location
+	missile->SetPosition(GetPosition()+50.0*dir);
+	missile->SetVelocity(GetVelocity());
+	Space::AddBody(missile);
+	return true;
+}
+
 void Ship::Blastoff()
 {
 	if (m_flightState != LANDED) return;
@@ -618,6 +653,16 @@ double Ship::GetHullTemperature() const
 
 void Ship::UpdateAlertState()
 {
+	// no alerts if no scanner
+	if (m_equipment.Get(Equip::SLOT_SCANNER) == Equip::NONE) {
+		// clear existing alert state if there was one
+		if (GetAlertState() != ALERT_NONE) {
+			SetAlertState(ALERT_NONE);
+			Pi::luaOnShipAlertChanged.Queue(this);
+		}
+		return;
+	}
+
 	bool ship_is_near = false, ship_is_firing = false;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
 	{
@@ -640,34 +685,49 @@ void Ship::UpdateAlertState()
 		}
 	}
 
+	bool changed = false;
 	switch (m_alertState) {
 		case ALERT_NONE:
-			if (ship_is_near)
-                SetAlertState(ALERT_SHIP_NEARBY);
+			if (ship_is_near) {
+				SetAlertState(ALERT_SHIP_NEARBY);
+				changed = true;
+            }
 			if (ship_is_firing) {
 				m_lastFiringAlert = Pi::GetGameTime();
-			 	SetAlertState(ALERT_SHIP_FIRING);
+				SetAlertState(ALERT_SHIP_FIRING);
+				changed = true;
 			}
 			break;
 
 		case ALERT_SHIP_NEARBY:
-			if (!ship_is_near)
+			if (!ship_is_near) {
 				SetAlertState(ALERT_NONE);
+				changed = true;
+			}
 			else if (ship_is_firing) {
 				m_lastFiringAlert = Pi::GetGameTime();
 				SetAlertState(ALERT_SHIP_FIRING);
+				changed = true;
 			}
 			break;
 
 		case ALERT_SHIP_FIRING:
-			if (!ship_is_near)
+			if (!ship_is_near) {
 				SetAlertState(ALERT_NONE);
-			else if (ship_is_firing)
+				changed = true;
+			}
+			else if (ship_is_firing) {
 				m_lastFiringAlert = Pi::GetGameTime();
-			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime())
+			}
+			else if (m_lastFiringAlert + 60.0 <= Pi::GetGameTime()) {
 				SetAlertState(ALERT_SHIP_NEARBY);
+				changed = true;
+			}
 			break;
 	}
+
+	if (changed)
+		Pi::luaOnShipAlertChanged.Queue(this);
 }
 
 void Ship::StaticUpdate(const float timeStep)

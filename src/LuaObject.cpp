@@ -68,7 +68,7 @@ LuaObjectBase *LuaObjectBase::Lookup(lid id)
 	return (*i).second;
 }
 
-int LuaObjectBase::Exists(lua_State *l)
+int LuaObjectBase::l_exists(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
@@ -77,7 +77,20 @@ int LuaObjectBase::Exists(lua_State *l)
 	return 1;
 }
 
-int LuaObjectBase::GC(lua_State *l)
+int LuaObjectBase::l_isa(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lid *idp = (lid*)lua_touserdata(l, 1);
+
+	LuaObjectBase *lo = Lookup(*idp);
+	if (!lo)
+		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
+
+	lua_pushboolean(l, lo->Isa(luaL_checkstring(l, 2)));
+	return 1;
+}
+
+int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	lid *idp = (lid*)lua_touserdata(l, 1);
@@ -201,7 +214,12 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// add the exists method
 	lua_pushstring(l, "exists");
-	lua_pushcfunction(l, LuaObjectBase::Exists);
+	lua_pushcfunction(l, LuaObjectBase::l_exists);
+	lua_rawset(l, -3);
+
+	// add the isa method
+	lua_pushstring(l, "isa");
+	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
 	// create the metatable, leave it on the stack
@@ -211,7 +229,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// add a generic garbage collector
 	lua_pushstring(l, "__gc");
-	lua_pushcfunction(l, LuaObjectBase::GC);
+	lua_pushcfunction(l, LuaObjectBase::l_gc);
 	lua_rawset(l, -3);
 
 	// setup a custom index function. this thing handles all the magic of
@@ -390,25 +408,25 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 	lid *idp = (lid*)lua_touserdata(l, index);
 	if (!idp)
-		Error("Lua value on stack is of type userdata but has no userdata associated with it");
+		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 	if (!lo)
-		Error("Lua object with id 0x%08x not found in registry", *idp);
+		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
 
 	LUA_DEBUG_END(l, 0);
 
 	if (!lo->Isa(type))
-		Error("Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
+		luaL_error(l, "Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
 
 	// found it
 	return lo->m_object;
 }
 
-bool LuaObjectBase::Isa(const char *type) const
+bool LuaObjectBase::Isa(const char *base) const
 {
 	// fast path
-	if (strcmp(this->m_type, type) == 0)
+	if (strcmp(m_type, base) == 0)
 		return true;
 
 	assert(instantiated);
@@ -417,8 +435,8 @@ bool LuaObjectBase::Isa(const char *type) const
 
 	LUA_DEBUG_START(l);
 
-	lua_pushstring(l, this->m_type);
-	while (strcmp(this->m_type, lua_tostring(l, -1)) != 0) {
+	lua_pushstring(l, m_type);
+	while (strcmp(lua_tostring(l, -1), base) != 0) {
 		// get the metatable for the current type
 		lua_rawget(l, LUA_REGISTRYINDEX);
 
@@ -432,6 +450,8 @@ bool LuaObjectBase::Isa(const char *type) const
 			LUA_DEBUG_END(l, 0);
 			return false;
 		}
+
+		lua_remove(l, -2);
 	}
 	lua_pop(l, 1);
 
