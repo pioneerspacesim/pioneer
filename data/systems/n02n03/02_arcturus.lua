@@ -1,1 +1,1 @@
-CustomSystem:new("Arcturus",{Body.Type.STAR_K}):add_to_sector(-2,-3,v(0.356,0.262,0.261))
+CustomSystem:new("Arcturus",{'STAR_K'}):add_to_sector(-2,-3,v(0.356,0.262,0.261))

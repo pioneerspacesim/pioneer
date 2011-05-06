@@ -1,1 +1,1 @@
-CustomSystem:new("Vogus",{Body.Type.STAR_M}):add_to_sector(-10,-1,v(0.528,0.039,0.110))
+CustomSystem:new("Vogus",{'STAR_M'}):add_to_sector(-10,-1,v(0.528,0.039,0.110))

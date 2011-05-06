@@ -1,1 +1,1 @@
-CustomSystem:new("Tiurio",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(3,-3,v(0.654,0.651,0.796))
+CustomSystem:new("Tiurio",{'STAR_K', 'STAR_K'}):add_to_sector(3,-3,v(0.654,0.651,0.796))

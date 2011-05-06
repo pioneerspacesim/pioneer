@@ -1,1 +1,1 @@
-CustomSystem:new("Iota Pegasi",{Body.Type.STAR_F}):add_to_sector(-1,-4,v(0.022,0.239,0.384))
+CustomSystem:new("Iota Pegasi",{'STAR_F'}):add_to_sector(-1,-4,v(0.022,0.239,0.384))

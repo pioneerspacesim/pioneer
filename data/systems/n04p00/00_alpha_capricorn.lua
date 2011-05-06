@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Capricorn",{Body.Type.STAR_K}):add_to_sector(-4,0,v(0.760,0.558,-0.236))
+CustomSystem:new("Alpha Capricorn",{'STAR_K'}):add_to_sector(-4,0,v(0.760,0.558,-0.236))

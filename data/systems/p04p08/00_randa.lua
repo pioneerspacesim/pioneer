@@ -1,1 +1,1 @@
-CustomSystem:new("Randa",{Body.Type.STAR_G}):add_to_sector(4,8,v(0.221,0.448,-0.250))
+CustomSystem:new("Randa",{'STAR_G'}):add_to_sector(4,8,v(0.221,0.448,-0.250))

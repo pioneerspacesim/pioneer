@@ -1,1 +1,1 @@
-CustomSystem:new("Vetinari",{Body.Type.STAR_M}):add_to_sector(-5,-4,v(0.639,0.798,0.370))
+CustomSystem:new("Vetinari",{'STAR_M'}):add_to_sector(-5,-4,v(0.639,0.798,0.370))

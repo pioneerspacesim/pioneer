@@ -1,1 +1,1 @@
-CustomSystem:new("Zemansky",{Body.Type.STAR_M}):add_to_sector(-3,5,v(0.015,0.163,-0.385))
+CustomSystem:new("Zemansky",{'STAR_M'}):add_to_sector(-3,5,v(0.015,0.163,-0.385))

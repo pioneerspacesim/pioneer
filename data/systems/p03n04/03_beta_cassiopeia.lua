@@ -1,1 +1,1 @@
-CustomSystem:new("Beta Cassiopeia",{Body.Type.STAR_F}):add_to_sector(3,-4,v(0.425,0.266,0.883))
+CustomSystem:new("Beta Cassiopeia",{'STAR_F'}):add_to_sector(3,-4,v(0.425,0.266,0.883))

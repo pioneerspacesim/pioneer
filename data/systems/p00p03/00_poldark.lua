@@ -1,1 +1,1 @@
-CustomSystem:new("Poldark",{Body.Type.STAR_M}):add_to_sector(0,3,v(0.503,0.717,-0.922))
+CustomSystem:new("Poldark",{'STAR_M'}):add_to_sector(0,3,v(0.503,0.717,-0.922))

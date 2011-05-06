@@ -1,1 +1,1 @@
-CustomSystem:new("Ethgreeze",{Body.Type.STAR_F, Body.Type.STAR_G}):add_to_sector(5,4,v(0.110,0.820,-0.604))
+CustomSystem:new("Ethgreeze",{'STAR_F', 'STAR_G'}):add_to_sector(5,4,v(0.110,0.820,-0.604))

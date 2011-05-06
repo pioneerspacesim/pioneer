@@ -1,1 +1,1 @@
-CustomSystem:new("Solaris",{Body.Type.STAR_F, Body.Type.STAR_G}):add_to_sector(9,3,v(0.241,0.498,-0.276))
+CustomSystem:new("Solaris",{'STAR_F', 'STAR_G'}):add_to_sector(9,3,v(0.241,0.498,-0.276))

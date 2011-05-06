@@ -1,1 +1,1 @@
-CustomSystem:new("Fallom",{Body.Type.STAR_F}):add_to_sector(0,-8,v(1.000,0.655,0.002))
+CustomSystem:new("Fallom",{'STAR_F'}):add_to_sector(0,-8,v(1.000,0.655,0.002))

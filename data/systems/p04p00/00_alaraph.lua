@@ -1,1 +1,1 @@
-CustomSystem:new("Alaraph",{Body.Type.STAR_F}):add_to_sector(4,0,v(0.590,0.364,0.570))
+CustomSystem:new("Alaraph",{'STAR_F'}):add_to_sector(4,0,v(0.590,0.364,0.570))

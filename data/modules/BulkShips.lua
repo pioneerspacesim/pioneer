@@ -1,18 +1,18 @@
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local population = Game.system:GetPopulation()
+	local population = Game.system.population
 
 	if population == 0 then
 		return
 	end
 
-	local stations = Space.GetSpaceStations()
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 	if #stations == 0 then
 		return
 	end
 
-	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.STATIC_SHIP)
+	local shiptypes = ShipType.GetShipTypes('STATIC_SHIP')
 	if #shiptypes == 0 then return end
 
 	--[[

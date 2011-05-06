@@ -1,1 +1,1 @@
-CustomSystem:new("Malin",{Body.Type.STAR_M}):add_to_sector(4,-6,v(0.496,0.485,0.049))
+CustomSystem:new("Malin",{'STAR_M'}):add_to_sector(4,-6,v(0.496,0.485,0.049))

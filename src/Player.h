@@ -36,6 +36,7 @@ public:
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
+	virtual bool FireMissile(int idx, Ship *target);
 
 	virtual void SetAlertState(Ship::AlertState as);
 

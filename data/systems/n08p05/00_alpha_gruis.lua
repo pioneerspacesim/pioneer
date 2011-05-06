@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Gruis",{Body.Type.STAR_B}):add_to_sector(-8,5,v(0.344,0.538,-0.631))
+CustomSystem:new("Alpha Gruis",{'STAR_B'}):add_to_sector(-8,5,v(0.344,0.538,-0.631))

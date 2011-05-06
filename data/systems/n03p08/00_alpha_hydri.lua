@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Hydri",{Body.Type.STAR_F}):add_to_sector(-3,8,v(0.985,0.900,-0.413))
+CustomSystem:new("Alpha Hydri",{'STAR_F'}):add_to_sector(-3,8,v(0.985,0.900,-0.413))

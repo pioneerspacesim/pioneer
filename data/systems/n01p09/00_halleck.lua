@@ -1,1 +1,1 @@
-CustomSystem:new("Halleck",{Body.Type.STAR_G}):add_to_sector(-1,9,v(0.446,0.063,-0.565))
+CustomSystem:new("Halleck",{'STAR_G'}):add_to_sector(-1,9,v(0.446,0.063,-0.565))

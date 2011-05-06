@@ -1,1 +1,1 @@
-CustomSystem:new("Marinus",{Body.Type.STAR_M}):add_to_sector(2,3,v(0.993,0.777,-0.287))
+CustomSystem:new("Marinus",{'STAR_M'}):add_to_sector(2,3,v(0.993,0.777,-0.287))

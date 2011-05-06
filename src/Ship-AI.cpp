@@ -72,10 +72,20 @@ bool Ship::AITimeStep(float timeStep)
 	// allow the launch thruster thing to happen
 	if (m_launchLockTimeout != 0) return false;
 
-	if (!m_curAICmd) return true;
+	if (!m_curAICmd) {
+		if (this == Pi::player) return true;
+
+		// just in case the AI left it on
+		ClearThrusterState();
+		for (int i=0; i<ShipType::GUNMOUNT_MAX; i++)
+			SetGunState(i,0);
+		return true;
+	}
+
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
+		Pi::luaOnAICompleted.Queue(this);
 		return true;
 	}
 	else return false;
@@ -125,10 +135,10 @@ void Ship::AIOrbit(Body *target, double alt)
 	m_curAICmd = new AICmdFlyTo(this, target, alt);
 }
 
-void Ship::AIHoldPosition(Body *target)
+void Ship::AIHoldPosition()
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdHoldPosition(this, target);
+	m_curAICmd = new AICmdHoldPosition(this);
 }
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel

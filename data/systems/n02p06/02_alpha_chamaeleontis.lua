@@ -1,1 +1,1 @@
-CustomSystem:new("Alpha Chamaeleontis",{Body.Type.STAR_F}):add_to_sector(-2,6,v(0.266,0.708,-0.636))
+CustomSystem:new("Alpha Chamaeleontis",{'STAR_F'}):add_to_sector(-2,6,v(0.266,0.708,-0.636))

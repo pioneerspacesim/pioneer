@@ -1,1 +1,1 @@
-CustomSystem:new("Alvarez",{Body.Type.STAR_M}):add_to_sector(-5,-3,v(0.748,0.108,0.372))
+CustomSystem:new("Alvarez",{'STAR_M'}):add_to_sector(-5,-3,v(0.748,0.108,0.372))

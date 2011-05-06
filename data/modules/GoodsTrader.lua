@@ -19,15 +19,13 @@ local onChat = function (dialog, ref, option)
 
 	ad.stock = {}
 	ad.price = {}
-	for e = Equip.Type.FIRST_COMMODITY, Equip.Type.LAST_COMMODITY do
+	for i,e in pairs(Constants.EquipType) do
 		if not Game.system:IsCommodityLegal(e) then
 			ad.stock[e] = Engine.rand:Integer(1,50)
 			-- going rate on the black market will be twice normal
 			ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
 		end
 	end
-	--ad.stock = {[Equip.WATER]=20, [Equip.HYDROGEN]=15, [Equip.NERVE_GAS]=0}
-	--ad.price = {[Equip.WATER]=120, [Equip.HYDROGEN]=130, [Equip.NERVE_GAS]=1000}
 
 	dialog:Clear()
 	dialog:SetTitle(ad.flavour)
@@ -38,7 +36,7 @@ local onChat = function (dialog, ref, option)
 			return true
 		end
 
-		local lawlessness = Game.system:GetLawlessness()
+		local lawlessness = Game.system.lawlessness
 		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
 		dialog:GotoPolice()
 		return false
@@ -92,7 +90,7 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
-	local rand = Rand.New(station:GetSeed())
+	local rand = Rand.New(station.seed)
 	local num = rand:Integer(1,3)
 	for i = 1,num do
 		local ispolice = rand:Integer(0, 1) == 1

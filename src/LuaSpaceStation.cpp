@@ -2,8 +2,8 @@
 #include "LuaUtils.h"
 #include "SpaceStation.h"
 #include "LuaChatForm.h"
+#include "LuaConstants.h"
 #include "Pi.h"
-#include "libs.h"
 
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
@@ -149,9 +149,8 @@ static int l_spacestation_remove_advert(lua_State *l)
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
-	int equip_type = luaL_checkinteger(l, 2);
-
-	Sint64 cost = s->GetPrice(static_cast<Equip::Type>(equip_type));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Sint64 cost = s->GetPrice(e);
 	lua_pushnumber(l, cost * 0.01);
 	return 1;
 }
@@ -165,7 +164,7 @@ template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
 {
-	const char *l_inherit = "Body";
+	const char *l_parent = "Body";
 
 	static const luaL_reg l_methods[] = {
 		{ "AddAdvert",    l_spacestation_add_advert    },
@@ -175,6 +174,6 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_inherit, l_methods, NULL);
-	LuaObjectBase::RegisterPromotion(l_inherit, s_type, promotion_test);
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

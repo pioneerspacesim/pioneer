@@ -1,1 +1,1 @@
-CustomSystem:new("Simons",{Body.Type.STAR_K}):add_to_sector(-1,10,v(0.685,0.117,-0.318))
+CustomSystem:new("Simons",{'STAR_K'}):add_to_sector(-1,10,v(0.685,0.117,-0.318))

@@ -1,1 +1,1 @@
-CustomSystem:new("Nephi",{Body.Type.WHITE_DWARF}):add_to_sector(3,3,v(0.433,0.770,-1.199))
+CustomSystem:new("Nephi",{'WHITE_DWARF'}):add_to_sector(3,3,v(0.433,0.770,-1.199))

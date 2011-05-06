@@ -1,1 +1,1 @@
-CustomSystem:new("Laplace",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(4,6,v(0.531,0.978,-0.734))
+CustomSystem:new("Laplace",{'STAR_K', 'STAR_M'}):add_to_sector(4,6,v(0.531,0.978,-0.734))

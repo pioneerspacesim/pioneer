@@ -124,8 +124,10 @@ protected:
 	virtual ~LuaObjectBase() {}
 
 	// creates a class in the lua vm with the given name and attaches the
-	// listed methods to it and the listed metamethods to its metaclass
-	static void CreateClass(const char *type, const char *inherit, const luaL_reg *methods, const luaL_reg *meta);
+	// listed methods to it and the listed metamethods to its metaclass. if
+	// attributes extra magic is added to the metaclass to make them work as
+	// expected
+	static void CreateClass(const char *type, const char *parent, const luaL_reg *methods, const luaL_reg *attrs, const luaL_reg *meta);
 
 	// push an already-registered object onto the lua stack. the object is
 	// looked up in the lua registry, if it exists a copy of its userdata is
@@ -169,18 +171,22 @@ private:
 
 	// lua method to determine if the underlying object is still present in
 	// the registry (ie still exists)
-	static int Exists(lua_State *l);
+	static int l_exists(lua_State *l);
+
+	// lua method to determine if the object inherits from a type. wrapper
+	// around ::Isa()
+	static int l_isa(lua_State *l);
 
 	// the lua object "destructor" that gets called by the garbage collector.
 	// its only part of the class so that it can call Deregister()
-	static int GC(lua_State *l);
+	static int l_gc(lua_State *l);
 
 	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
 	// if the object is not in the registry
 	static LuaObjectBase *Lookup(lid id);
 
     // determine if the object has a class in its ancestry
-    bool Isa(const char *want_type) const;
+    bool Isa(const char *base) const;
 
 	// object id, pointer to the c++ object and lua type string
 	lid            m_id;

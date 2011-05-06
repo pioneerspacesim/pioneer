@@ -1,1 +1,1 @@
-CustomSystem:new("Spirine",{Body.Type.STAR_M}):add_to_sector(1,5,v(0.982,0.785,-0.833))
+CustomSystem:new("Spirine",{'STAR_M'}):add_to_sector(1,5,v(0.982,0.785,-0.833))

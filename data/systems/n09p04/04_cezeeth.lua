@@ -1,1 +1,1 @@
-CustomSystem:new("Cezeeth",{Body.Type.STAR_M}):add_to_sector(-9,4,v(0.241,0.851,-0.254))
+CustomSystem:new("Cezeeth",{'STAR_M'}):add_to_sector(-9,4,v(0.241,0.851,-0.254))

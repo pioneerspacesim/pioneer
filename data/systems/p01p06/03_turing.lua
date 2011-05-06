@@ -1,1 +1,1 @@
-CustomSystem:new("Turing",{Body.Type.WHITE_DWARF}):add_to_sector(1,6,v(0.398,0.872,-0.960))
+CustomSystem:new("Turing",{'WHITE_DWARF'}):add_to_sector(1,6,v(0.398,0.872,-0.960))

@@ -1,1 +1,1 @@
-CustomSystem:new("Sophilia",{Body.Type.STAR_M}):add_to_sector(-3,8,v(0.883,0.904,-0.642))
+CustomSystem:new("Sophilia",{'STAR_M'}):add_to_sector(-3,8,v(0.883,0.904,-0.642))

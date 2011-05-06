@@ -1,1 +1,1 @@
-CustomSystem:new("Ferris",{Body.Type.WHITE_DWARF, Body.Type.STAR_M}):add_to_sector(3,6,v(0.731,0.286,-0.528))
+CustomSystem:new("Ferris",{'WHITE_DWARF', 'STAR_M'}):add_to_sector(3,6,v(0.731,0.286,-0.528))

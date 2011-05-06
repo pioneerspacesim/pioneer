@@ -1,1 +1,1 @@
-CustomSystem:new("Xi Pegasi",{Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(-4,-6,v(0.655,0.346,0.733))
+CustomSystem:new("Xi Pegasi",{'STAR_F', 'STAR_M'}):add_to_sector(-4,-6,v(0.655,0.346,0.733))

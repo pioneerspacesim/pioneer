@@ -1,1 +1,1 @@
-CustomSystem:new("Mu For",{Body.Type.STAR_A}):add_to_sector(1,6,v(0.945,0.086,-0.931))
+CustomSystem:new("Mu For",{'STAR_A'}):add_to_sector(1,6,v(0.945,0.086,-0.931))

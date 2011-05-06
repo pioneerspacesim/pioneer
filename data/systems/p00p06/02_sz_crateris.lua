@@ -1,1 +1,1 @@
-CustomSystem:new("SZ Crateris",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(0,6,v(0.141,0.141,-1.051))
+CustomSystem:new("SZ Crateris",{'STAR_K', 'STAR_M'}):add_to_sector(0,6,v(0.141,0.141,-1.051))

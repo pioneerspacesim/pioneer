@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Gliese",{Body.Type.STAR_G}):add_to_sector(-8,-4,v(0.519,0.850,0.476))
+CustomSystem:new("Gamma Gliese",{'STAR_G'}):add_to_sector(-8,-4,v(0.519,0.850,0.476))

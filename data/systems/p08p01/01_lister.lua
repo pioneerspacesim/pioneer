@@ -1,1 +1,1 @@
-CustomSystem:new("Lister",{Body.Type.STAR_M}):add_to_sector(8,1,v(0.283,0.125,-0.182))
+CustomSystem:new("Lister",{'STAR_M'}):add_to_sector(8,1,v(0.283,0.125,-0.182))

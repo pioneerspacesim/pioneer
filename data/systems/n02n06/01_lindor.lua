@@ -1,1 +1,1 @@
-CustomSystem:new("Lindor",{Body.Type.STAR_M}):add_to_sector(-2,-6,v(0.054,0.001,0.440))
+CustomSystem:new("Lindor",{'STAR_M'}):add_to_sector(-2,-6,v(0.054,0.001,0.440))

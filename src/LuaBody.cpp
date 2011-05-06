@@ -5,14 +5,14 @@
 #include "StarSystem.h"
 #include "Pi.h"
 
-static int l_body_get_label(lua_State *l)
+static int l_body_attr_label(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
 } 
 
-static int l_body_get_seed(lua_State *l)
+static int l_body_attr_seed(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
@@ -23,7 +23,7 @@ static int l_body_get_seed(lua_State *l)
 	return 1;
 }
 
-static int l_body_get_path(lua_State *l)
+static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
@@ -41,16 +41,29 @@ static int l_body_get_path(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_distance_to(lua_State *l)
+{
+	Body *b1 = LuaBody::GetFromLua(1);
+	Body *b2 = LuaBody::GetFromLua(2);
+	lua_pushnumber(l, b1->GetPositionRelTo(b2).Length());
+	return 1;
+}
+
 template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
 {
 	static luaL_reg l_methods[] = {
-		{ "GetLabel", l_body_get_label },
-		{ "GetSeed",  l_body_get_seed  },
-		{ "GetPath",  l_body_get_path  },
+		{ "GetDistanceTo", l_body_get_distance_to },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL);
+	static luaL_reg l_attrs[] = {
+		{ "label", l_body_attr_label },
+		{ "seed",  l_body_attr_seed  },
+		{ "path",  l_body_attr_path  },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, NULL, l_methods, l_attrs, NULL);
 }

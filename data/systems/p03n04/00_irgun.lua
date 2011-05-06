@@ -1,1 +1,1 @@
-CustomSystem:new("Irgun",{Body.Type.STAR_M}):add_to_sector(3,-4,v(0.808,0.453,0.796))
+CustomSystem:new("Irgun",{'STAR_M'}):add_to_sector(3,-4,v(0.808,0.453,0.796))

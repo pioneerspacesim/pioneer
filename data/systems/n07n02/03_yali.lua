@@ -1,1 +1,1 @@
-CustomSystem:new("Yali",{Body.Type.WHITE_DWARF}):add_to_sector(-7,-2,v(0.191,0.178,0.616))
+CustomSystem:new("Yali",{'WHITE_DWARF'}):add_to_sector(-7,-2,v(0.191,0.178,0.616))

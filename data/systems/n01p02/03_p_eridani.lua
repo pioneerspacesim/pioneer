@@ -1,1 +1,1 @@
-CustomSystem:new("P Eridani",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(-1,2,v(0.872,0.652,-0.599))
+CustomSystem:new("P Eridani",{'STAR_K', 'STAR_K'}):add_to_sector(-1,2,v(0.872,0.652,-0.599))

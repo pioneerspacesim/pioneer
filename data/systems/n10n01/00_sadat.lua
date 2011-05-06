@@ -1,1 +1,1 @@
-CustomSystem:new("Sadat",{Body.Type.STAR_G}):add_to_sector(-10,-1,v(0.679,0.792,-0.209))
+CustomSystem:new("Sadat",{'STAR_G'}):add_to_sector(-10,-1,v(0.679,0.792,-0.209))

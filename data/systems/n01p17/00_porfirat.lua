@@ -1,1 +1,1 @@
-CustomSystem:new("Porfirat",{Body.Type.STAR_G}):add_to_sector(-1,17,v(0.281,0.105,-0.993))
+CustomSystem:new("Porfirat",{'STAR_G'}):add_to_sector(-1,17,v(0.281,0.105,-0.993))

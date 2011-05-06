@@ -1,1 +1,1 @@
-CustomSystem:new("Paros",{Body.Type.STAR_M}):add_to_sector(1,-6,v(0.577,0.206,0.042))
+CustomSystem:new("Paros",{'STAR_M'}):add_to_sector(1,-6,v(0.577,0.206,0.042))

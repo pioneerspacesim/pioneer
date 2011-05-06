@@ -1,11 +1,11 @@
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local stations = Space.GetSpaceStations()
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 	if #stations == 0 then return end
 
-	local lawlessness = Game.system:GetLawlessness()
-	local population = Game.system:GetPopulation()
+	local lawlessness = Game.system.lawlessness
+	local population = Game.system.population
 
 	--[[
 	traders will be attracted by:
@@ -46,7 +46,7 @@ local onEnterSystem = function (player)
 		end
 	end
 
-	local shiptypes = ShipType.GetShipTypes(ShipType.Tag.SHIP, function (t) return t:GetHullMass() >= 100 end)
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
 	if #shiptypes == 0 then return end
 
 	for i = 0, num_trade_ships, 1 do
@@ -80,7 +80,7 @@ local onEnterSystem = function (player)
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
 				local ship = Space.SpawnShip(shiptype, 3, 8)
-				ship:DockWith(station)
+				ship:AIDockWith(station)
 			end
 
 		end

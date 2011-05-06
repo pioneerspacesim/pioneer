@@ -1,1 +1,1 @@
-CustomSystem:new("Wolf 1516",{Body.Type.WHITE_DWARF}):add_to_sector(6,-1,v(0.754,0.268,0.640))
+CustomSystem:new("Wolf 1516",{'WHITE_DWARF'}):add_to_sector(6,-1,v(0.754,0.268,0.640))
