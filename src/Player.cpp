@@ -284,6 +284,15 @@ bool Player::SetWheelState(bool down)
 	return did;
 }
 
+bool Player::FireMissile(int idx, Ship *target)
+{
+	if (!Ship::FireMissile(idx, target))
+		return false;
+	
+	Sound::PlaySfx("Missile launch", 1.0f, 1.0f, 0);
+	return true;
+}
+
 void Player::SetAlertState(Ship::AlertState as)
 {
 	Ship::AlertState prev = GetAlertState();

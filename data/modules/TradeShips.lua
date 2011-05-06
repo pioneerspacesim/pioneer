@@ -1,7 +1,7 @@
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local stations = Space.GetSpaceStations()
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
 	if #stations == 0 then return end
 
 	local lawlessness = Game.system.lawlessness
@@ -80,7 +80,7 @@ local onEnterSystem = function (player)
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
 				local ship = Space.SpawnShip(shiptype, 3, 8)
-				ship:DockWith(station)
+				ship:AIDockWith(station)
 			end
 
 		end
