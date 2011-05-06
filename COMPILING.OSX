@@ -33,9 +33,13 @@ The GNU Way...:
 
 5. Now you can run Make as per normal. :)
 
-Using XCode:
+Using XCode: (using v4.x)
 ~~~~~~~~~~~~
-There is an Xcode project located in the osx directory. This should already be 
-setup, provided that you have the above libraries installed.
+There is currently an Xcode project located in the ./osx directory. This is
+the project setup that I currently use, and it has not been tested on a
+different system. I have already setup the paths and project settings based
+on the libraries and headers already setup the 'GNU way' as stated above. 
+This saves many #ifdef's that would have to be riddled through the code just
+because of Xcode.
 
 - Philbywhizz
