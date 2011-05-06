@@ -1315,7 +1315,9 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 				// Ok here we are hiding the label of distant small objects.
 				// If you are not a planet, star, space station or remote city
 				// and you are > 1000km away then bugger off. :)
-				if(b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || (Pi::player->GetPositionRelTo(b).Length() < 1000000.0)) {
+				if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) ||
+					Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0) {
+
 					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)pos.x, (float)pos.y);
 				}
 			}
