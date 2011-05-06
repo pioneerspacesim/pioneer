@@ -96,6 +96,7 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
+	virtual bool FireMissile(int idx, Ship *target);
 
 	enum AlertState {
 		ALERT_NONE,

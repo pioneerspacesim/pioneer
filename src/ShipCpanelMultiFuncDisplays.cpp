@@ -220,35 +220,8 @@ void UseEquipWidget::FireMissile(int idx)
 		Pi::cpan->MsgLog()->Message("", "Select a target");
 		return;
 	}
-	
-	const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, idx);
-	if (t == Equip::NONE) {
-		return;
-	}
 
-	Pi::player->m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	Pi::player->CalcStats();
-
-	matrix4x4d m;
-	Pi::player->GetRotMatrix(m);
-	vector3d dir = m*vector3d(0,0,-1);
-	
-	ShipType::Type mtype;
-	switch (t) {
-		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
-		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
-		case Equip::MISSILE_UNGUIDED: mtype = ShipType::MISSILE_UNGUIDED; break;
-		default:
-		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
-	}
-	Missile *missile = new Missile(mtype, Pi::player, Pi::player->GetCombatTarget());
-	missile->SetRotMatrix(m);
-	missile->SetFrame(Pi::player->GetFrame());
-// XXX DODGY! need to put it in a sensible location
-	missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
-	missile->SetVelocity(Pi::player->GetVelocity());
-	Space::AddBody(missile);
-	Sound::PlaySfx("Missile launch", 1.0f, 1.0f, 0);
+	Pi::player->FireMissile(idx, static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 void UseEquipWidget::UpdateEquip()
