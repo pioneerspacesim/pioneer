@@ -653,6 +653,16 @@ double Ship::GetHullTemperature() const
 
 void Ship::UpdateAlertState()
 {
+	// no alerts if no scanner
+	if (m_equipment.Get(Equip::SLOT_SCANNER) == Equip::NONE) {
+		// clear existing alert state if there was one
+		if (GetAlertState() != ALERT_NONE) {
+			SetAlertState(ALERT_NONE);
+			Pi::luaOnShipAlertChanged.Queue(this);
+		}
+		return;
+	}
+
 	bool ship_is_near = false, ship_is_firing = false;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); i++)
 	{
