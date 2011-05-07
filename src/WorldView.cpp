@@ -600,7 +600,7 @@ static Color get_color_for_warning_meter_bar(float v) {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
-	if ((!Pi::player) || Pi::player->IsDead()) {
+	if ((!Pi::player) || Pi::player->IsDead() || !Pi::IsGameStarted()) {
 		HideAll();
 		return;
 	}
