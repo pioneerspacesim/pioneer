@@ -13,10 +13,12 @@ class LuaChatForm: public BBAdvertChatForm, public MarketAgent, public DeleteEmi
 	friend class LuaObject<LuaChatForm>;
 
 public:
-    LuaChatForm(SpaceStation *station, const BBAdvert *ad) : BBAdvertChatForm(station, ad) {}
+    LuaChatForm(SpaceStation *station, const BBAdvert *ad) : BBAdvertChatForm(station, ad), m_adTaken(false) {}
+    virtual ~LuaChatForm();
 
 	virtual void CallDialogHandler(int optionClicked);
 	virtual void RemoveAdvert();
+	void RemoveAdvertOnClose() { m_adTaken = true; }
 
 	/* MarketAgent stuff */
 	Sint64 GetPrice(Equip::Type t) const;
@@ -36,6 +38,8 @@ private:
 	void OnClickSell(int equipType);
 
 	static int l_luachatform_add_goods_trader(lua_State *l);
+
+	bool m_adTaken;
 };
 
 #endif /* _LUACHATFORM_H */
