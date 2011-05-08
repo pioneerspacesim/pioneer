@@ -28,3 +28,9 @@ config.log
 config.status
 config.sub
 configure
+depcomp
+install-sh
+missing
+stamp-h1
+*~
+*.orig
