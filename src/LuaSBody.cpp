@@ -55,13 +55,40 @@ static int l_sbody_attr_name(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: seed
+ *
+ * The random seed used to generate this <SystemBody>. This is guaranteed to
+ * be the same for this body across runs of the same build of the game, and
+ * should be used to seed a <Rand> object when you want to ensure the same
+ * random numbers come out each time.
+ *
+ * This value is the same is the one available via <Body.seed> once you enter
+ * this system.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_sbody_attr_seed(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushinteger(l, sbody->seed);
+	return 1;
+}
+
 template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 {
 	static const luaL_reg l_attrs[] = {
-        { "index", l_sbody_attr_index },
-        { "name",  l_sbody_attr_name  },
+		{ "index", l_sbody_attr_index },
+		{ "name",  l_sbody_attr_name  },
+		{ "seed",  l_sbody_attr_seed  },
 		{ 0, 0 }
 	};
 
