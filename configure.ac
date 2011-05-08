@@ -5,7 +5,7 @@ AC_PREREQ(2.59)
 AC_INIT([pioneer], [0.alpha.9], [pioneer-dev@pioneerspacesim.net])
 #AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE([1.9 foreign])
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz])
 
 AC_CANONICAL_HOST
 
