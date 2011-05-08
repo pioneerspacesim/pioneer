@@ -4,6 +4,7 @@
 #include "NameGenerator.h"
 #include <map>
 #include "utils.h"
+#include <stdint.h>
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -225,7 +226,7 @@ fixed StarSystem::starMetallicities[] = {
 
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
-	int mass[2]; // min,max % sol for stars, unused for planets
+	int64_t mass[2]; // min,max % sol for stars, unused for planets
 	int radius; // % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
@@ -498,6 +499,7 @@ SBody::BodySuperType SBody::GetSuperType() const
              fprintf( stderr, "Warning: Invalid SuperBody Type found.\n");
              return SUPERTYPE_NONE;
 	}
+    return SUPERTYPE_NONE;
 }
 
 std::string SBody::GetAstroDescription()
@@ -617,6 +619,7 @@ std::string SBody::GetAstroDescription()
         fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
         return "<unknown>";
 	}
+    return "<unknown>";
 }
 
 const char *SBody::GetIcon()
@@ -706,6 +709,7 @@ const char *SBody::GetIcon()
         fprintf( stderr, "Warning: Invalid body icon.\n");
 		return 0;
 	}
+    return 0;
 }
 
 /*

@@ -1,3 +1,6 @@
+#define __STDC_FORMAT_MACROS 1
+#include <inttypes.h>
+
 #include "libs.h"
 #include "Pi.h"
 #include "Gui.h"
@@ -563,10 +566,10 @@ void Pi::HandleEvents()
                         {
                             Sint64 crime, fine;
                             Polit::GetCrime(&crime, &fine);
-                            printf("Criminal record: %llx, $%lld\n", crime, fine);
+                            printf("Criminal record: %"PRIx64", $%"PRIx64"\n", crime, fine);
                             Polit::AddCrime(0x1, 100);
                             Polit::GetCrime(&crime, &fine);
-                            printf("Criminal record now: %llx, $%lld\n", crime, fine);
+                            printf("Criminal record now: %"PRIx64", $%"PRIx64"\n", crime, fine);
                             break;
                         }
                         case SDLK_m:  // Gimme money!

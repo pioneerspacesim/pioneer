@@ -26,7 +26,7 @@ namespace Gui {
 		void ShuffleLabels();
 		typedef std::list< std::pair<Widget*,Widget*> > pagecontainer_t;
 		pagecontainer_t m_pages;
-		int m_page;
+		unsigned int m_page;
 	};
 }
 

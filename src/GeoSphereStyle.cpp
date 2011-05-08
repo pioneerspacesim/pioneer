@@ -1603,6 +1603,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			return n;
 		}
 	}
+    return 0;
 }
 
 /* These fuctions should not be used by GeoSphereStyle::GetHeight, so don't move these definitions
@@ -2321,7 +2322,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return interpolate_color(flatness, col, m_rockColor[2]);
 	}
 	}
-
+    return vector3d(1.0);
 }
 
 static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
