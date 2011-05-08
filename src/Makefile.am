@@ -165,7 +165,7 @@ pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
 modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
 
-check_PROGRAMS = tests
+#check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
 		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
 		StarSystem.cpp Sector.cpp SystemInfoView.cpp utils.cpp SpaceStation.cpp \
