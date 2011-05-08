@@ -6,6 +6,10 @@ Release/
 ipch/
 src/data
 debian/autoreconf*
+debian/files
+debian/*.debhelper.log
+debian/*.substvars
+debian/pioneer*/
 autom4te.cache/
 *.vcxproj.user
 *.suo
