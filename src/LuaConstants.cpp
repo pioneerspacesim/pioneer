@@ -61,7 +61,7 @@ const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int va
 	return name;
 }
 
-static inline void _create_constant_table(lua_State *l, const char *ns, const pi_lua_constant_t *c)
+static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_constant_t *c)
 {
 	LUA_DEBUG_START(l);
 
