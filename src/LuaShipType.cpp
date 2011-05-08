@@ -253,15 +253,15 @@ static int l_shiptype_get_ship_type(lua_State *l)
  *
  *   filter - an optional function. If specified the function will be called
  *            once for each ship type with the description object as the only
- *            paramater. If the filter function returns true then the
- *            description object will be included in the array return by
+ *            parameter. If the filter function returns true then the
+ *            ship name will be included in the array returned by
  *            <GetShipTypes>, otherwise it will be omitted. If no filter
- *            function is specified then all description objects are returned.
+ *            function is specified then all ships are returned.
  *
  * Returns:
  *
- *   shiptypes - an array containing zero or more description objects that
- *               match the filter
+ *   shiptypes - an array containing zero or more ship names for which the
+ *               relevant description object matched the filter
  *
  * Example:
  *

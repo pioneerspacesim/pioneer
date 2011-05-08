@@ -126,8 +126,7 @@ static int l_equiptype_get_equip_type(lua_State *l)
 /*
  * Function: GetEquipTypes
  *
- * Returns an array of equipment description objects that match the specified
- * filter
+ * Finds equipment types that match a criteria
  *
  * > equiptypes = EquipType.GetEquipTypes(filter)
  *
@@ -136,16 +135,17 @@ static int l_equiptype_get_equip_type(lua_State *l)
  *   filter - an optional function. If specified the function will be called
  *            once for each equipment or cargo type with two parameters:
  *            the <Constants.EquipType> string for the equipment type and
- *            the constant description object.If the filter function returns
- *            true then the description object will be included in the array
- *            return by <GetEquipTypes>, otherwise it will be omitted. If no
- *            filter function is specified then all description objects are
- *            returned.
+ *            the constant description object. If the filter function returns
+ *            true this equipment or cargo type will be included in the array
+ *            returned by <GetEquipTypes>, otherwise it will be omitted. If no
+ *            filter function is specified then all available equipment types
+ *            are returned.
  *
  * Returns:
  *
- *   equiptypes - an array containing zero or more description objects that
- *                match the filter
+ *   equiptypes - an array containing zero or more <Constants.EquipType>
+ *                strings for which the the relevant descripton object matched
+ *                the filter
  *
  * Example:
  *
