@@ -10,11 +10,6 @@
 #include "CommodityTradeWidget.h"
 #include "LuaObject.h"
 
-BBAdvertChatForm::~BBAdvertChatForm()
-{
-	if (m_adTaken) RemoveAdvert();
-}
-
 void BBAdvertChatForm::OnAdvertDeleted()
 {
 	m_advert = 0;

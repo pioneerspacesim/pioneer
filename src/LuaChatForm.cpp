@@ -11,6 +11,11 @@
 #include "LuaObject.h"
 #include "LuaConstants.h"
 
+LuaChatForm::~LuaChatForm()
+{
+	if (m_adTaken) RemoveAdvert();
+}
+
 void LuaChatForm::CallDialogHandler(int optionClicked)
 {
 	if (GetAdvert() == 0) {

@@ -315,11 +315,13 @@ private:
 			Gui::Screen::ShowBadError("This saved game cannot be loaded because it contains errors.");
 			Pi::UninitGame();
 			Pi::InitGame();
+			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
 			return;
 		} catch (CouldNotOpenFileException) {
 			Gui::Screen::ShowBadError("This saved game file could not be opened due to permissions or something...");
 			Pi::UninitGame();
 			Pi::InitGame();
+			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
 			return;
 		}
 		Pi::StartGame();

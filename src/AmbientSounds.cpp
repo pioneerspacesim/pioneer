@@ -148,6 +148,7 @@ void AmbientSounds::Update()
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();
+			if (!f) return; // When player has no frame (game abort) then get outta here!!
 			const SBody *sbody = f->GetSBodyFor();
 			const char *sample = 0;
 			for (; sbody && !sample; sbody = f->GetSBodyFor()) {
