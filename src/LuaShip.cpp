@@ -391,6 +391,12 @@ static int l_ship_add_equip(lua_State *l)
 	int num = 1;
 	if (lua_isnumber(l, 3))
 		num = lua_tointeger(l, 3);
+
+	const shipstats_t *stats = s->CalcStats();
+	if (stats->free_capacity < EquipType::types[e].mass) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
 	
 	lua_pushboolean(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
@@ -513,6 +519,43 @@ static int l_ship_get_docked_with(lua_State *l)
 }
 
 /*
+ * Method: FireMissileAt
+ *
+ * Fire a missile at the given target
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_fire_missile_at(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Ship *target = LuaShip::GetFromLua(3);
+
+	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
+		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
+	
+	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
+	int idx;
+	for (idx = 0; idx < max_missiles; idx++)
+		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
+			break;
+	
+	if (idx == max_missiles) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+
+	lua_pushboolean(l, s->FireMissile(idx, target));
+	return 1;
+}
+
+/*
  * Method: Undock
  *
  * Undock from the station currently docked with
@@ -536,7 +579,7 @@ static int l_ship_undock(lua_State *l)
 }
 
 /*
- * Method: Kill
+ * Method: AIKill
  *
  * Attack a target ship and continue until it is destroyed
  *
@@ -548,7 +591,7 @@ static int l_ship_undock(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_kill(lua_State *l)
+static int l_ship_ai_kill(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Ship *target = LuaShip::GetFromLua(2);
@@ -557,7 +600,7 @@ static int l_ship_kill(lua_State *l)
 }
 
 /*
- * Method: FlyTo
+ * Method: AIFlyTo
  *
  * Fly to vicinity of a given physics body
  *
@@ -569,7 +612,7 @@ static int l_ship_kill(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_fly_to(lua_State *l)
+static int l_ship_ai_fly_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -578,7 +621,7 @@ static int l_ship_fly_to(lua_State *l)
 }
 
 /*
- * Method: DockWith
+ * Method: AIDockWith
  *
  * Fly to and dock with a given station
  *
@@ -590,7 +633,7 @@ static int l_ship_fly_to(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_dock_with(lua_State *l)
+static int l_ship_ai_dock_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
@@ -599,7 +642,7 @@ static int l_ship_dock_with(lua_State *l)
 }
 
 /*
- * Method: EnterLowOrbit
+ * Method: AIEnterLowOrbit
  *
  * Fly to and enter a low orbit around a given physics body
  *
@@ -611,7 +654,7 @@ static int l_ship_dock_with(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_enter_low_orbit(lua_State *l)
+static int l_ship_ai_enter_low_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -620,7 +663,7 @@ static int l_ship_enter_low_orbit(lua_State *l)
 }
 
 /*
- * Method: EnterMediumOrbit
+ * Method: AIEnterMediumOrbit
  *
  * Fly to and enter a medium orbit around a given physics body
  *
@@ -632,7 +675,7 @@ static int l_ship_enter_low_orbit(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_enter_medium_orbit(lua_State *l)
+static int l_ship_ai_enter_medium_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
@@ -641,7 +684,7 @@ static int l_ship_enter_medium_orbit(lua_State *l)
 }
 
 /*
- * Method: EnterHighOrbit
+ * Method: AIEnterHighOrbit
  *
  * Fly to and enter a high orbit around a given physics body
  *
@@ -653,11 +696,31 @@ static int l_ship_enter_medium_orbit(lua_State *l)
  *
  *  experimental
  */
-static int l_ship_enter_high_orbit(lua_State *l)
+static int l_ship_ai_enter_high_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	Body *target = LuaBody::GetFromLua(2);
 	s->AIOrbit(target, 5.0);
+	return 0;
+}
+
+/*
+ * Method: CancelAI
+ *
+ * Cancel the current AI command
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_cancel_ai(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	s->AIClearInstructions();
 	return 0;
 }
 
@@ -729,6 +792,26 @@ static int l_ship_hyperspace_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: alertStatus
+ *
+ * A <Constants.ShipAlertStatus> string describing the current alert status.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_attr_alert_status(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipAlertStatus", s->GetAlertState()));
+	return 1;
+}
+
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<Ship*>(o);
@@ -759,15 +842,18 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "Jettison", l_ship_jettison },
 
+		{ "FireMissileAt", l_ship_fire_missile_at },
+
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
 
-		{ "Kill",             l_ship_kill               },
-		{ "FlyTo",            l_ship_fly_to             },
-		{ "DockWith",         l_ship_dock_with          },
-		{ "EnterLowOrbit",    l_ship_enter_low_orbit    },
-		{ "EnterMediumOrbit", l_ship_enter_medium_orbit },
-		{ "EnterHighOrbit",   l_ship_enter_high_orbit   },
+		{ "AIKill",             l_ship_ai_kill               },
+		{ "AIFlyTo",            l_ship_ai_fly_to             },
+		{ "AIDockWith",         l_ship_ai_dock_with          },
+		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },
+		{ "AIEnterMediumOrbit", l_ship_ai_enter_medium_orbit },
+		{ "AIEnterHighOrbit",   l_ship_ai_enter_high_orbit   },
+		{ "CancelAI",           l_ship_cancel_ai             },
 
 		{ "CanHyperspaceTo", l_ship_can_hyperspace_to },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
@@ -775,6 +861,11 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
+	static const luaL_reg l_attrs[] = {
+		{ "alertStatus", l_ship_attr_alert_status },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
 }

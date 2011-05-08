@@ -554,7 +554,7 @@ define_model('flowerfairy', {
 			tags = {'ship'},
 			ship_defs = {
 				{
-					name='Flowfairy Heavy Trader',
+					name='Flowerfairy Heavy Trader',
 					forward_thrust = -60e6,
 					reverse_thrust = 20e6,
 					up_thrust = 20e6,

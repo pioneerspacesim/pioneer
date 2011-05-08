@@ -231,7 +231,7 @@ static int l_sbodypath_attr_system_index(lua_State *l)
 }
 
 /*
- * Attribute: bodyId
+ * Attribute: bodyIndex
  *
  * The body index component of the path
  *
@@ -243,7 +243,7 @@ static int l_sbodypath_attr_system_index(lua_State *l)
  *
  *  stable
  */
-static int l_sbodypath_attr_body_id(lua_State *l)
+static int l_sbodypath_attr_body_index(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
 	lua_pushinteger(l, path->sbodyId);
@@ -280,7 +280,7 @@ template <> void LuaObject<LuaUncopyable<SBodyPath> >::RegisterClass()
 		{ "sectorX",     l_sbodypath_attr_sector_x     },
 		{ "sectorY",     l_sbodypath_attr_sector_y     },
 		{ "systemIndex", l_sbodypath_attr_system_index },
-		{ "bodyId",      l_sbodypath_attr_body_id      },
+		{ "bodyIndex",   l_sbodypath_attr_body_index   },
 		{ 0, 0 }
 	};
 

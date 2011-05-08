@@ -33,7 +33,7 @@ local onEnterSystem = function (player)
 		local ship = Space.SpawnShip(shipname, 8, 12)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laser)
-		ship:Kill(Game.player)
+		ship:AIKill(Game.player)
 	end
 end
 

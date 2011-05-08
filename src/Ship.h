@@ -96,6 +96,7 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
+	virtual bool FireMissile(int idx, Ship *target);
 
 	enum AlertState {
 		ALERT_NONE,
@@ -130,7 +131,7 @@ public:
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
-    void AIHoldPosition(Body *target);
+	void AIHoldPosition();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
