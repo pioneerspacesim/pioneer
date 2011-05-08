@@ -369,6 +369,10 @@ static int l_space_get_bodies(lua_State *l)
 			}
 			lua_pop(l, 1);
 		}
+
+		lua_pushinteger(l, lua_objlen(l, -1)+1);
+		LuaBody::PushToLua(b);
+		lua_rawset(l, -3);
     }
 
 	LUA_DEBUG_END(l, 1);
