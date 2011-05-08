@@ -999,7 +999,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
 			double mountains = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains2 = ridged_octavenoise(m_fracdef[3], 0.5, p);
 
@@ -1238,7 +1238,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
 			double mountains = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
@@ -1297,7 +1297,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
 			double mountains = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
