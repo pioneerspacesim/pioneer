@@ -80,7 +80,7 @@ void MultiStateImageButton::AddState(int state, const char *filename)
 
 void MultiStateImageButton::AddState(int state, const char *filename, std::string tooltip)
 {
-	AddState(state, filename, filename, "");
+	AddState(state, filename, filename, tooltip);
 }
 
 void MultiStateImageButton::AddState(int state, const char *inactiveImage, const char *activeImage, std::string tooltip)
