@@ -5,6 +5,7 @@ Debug/
 Release/
 ipch/
 src/data
+debian/autoreconf*
 autom4te.cache/
 *.vcxproj.user
 *.suo
@@ -34,3 +35,4 @@ missing
 stamp-h1
 *~
 *.orig
+pioneer-*.tar.*
