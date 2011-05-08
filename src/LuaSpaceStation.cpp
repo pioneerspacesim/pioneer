@@ -8,7 +8,7 @@
 /*
  * Class: SpaceStation
  *
- * Class representing a space station. Inherits from <Body>.
+ * Class representing a space station. Inherits from <Body>
  */
 
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
