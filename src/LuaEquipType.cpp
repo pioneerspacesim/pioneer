@@ -98,7 +98,7 @@ static int l_equiptype_attr_mass(lua_State *l)
  *
  * > equiptype = EquipType.GetEquipType(type)
  *
- * Get a description object for the given type constant
+ * Get a description object for the given equipment type constant
  *
  * Parameters:
  *
@@ -134,8 +134,8 @@ static int l_equiptype_get_equip_type(lua_State *l)
  * Parameters:
  *
  *   filter - an optional function. If specified the function will be called
- *            once for each equipment or cargo type with the two parameters:
- *            the <Constants.EquipType> constant for the equipment type and
+ *            once for each equipment or cargo type with two parameters:
+ *            the <Constants.EquipType> string for the equipment type and
  *            the constant description object.If the filter function returns
  *            true then the description object will be included in the array
  *            return by <GetEquipTypes>, otherwise it will be omitted. If no

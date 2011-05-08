@@ -5,6 +5,25 @@
 #include "ShipType.h"
 #include "EquipType.h"
 
+/*
+ * Class: ShipType
+ *
+ * Class for a description of a type of ship.
+ */
+
+/*
+ * Attribute: name
+ *
+ * The name of the ship type
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 int l_shiptype_attr_name(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -12,6 +31,20 @@ int l_shiptype_attr_name(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: angularThrust
+ *
+ * The amount of angular thrust this ship can achieve. This is the value
+ * responsible for the rate that the ship can turn at.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_attr_angular_thrust(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -19,6 +52,19 @@ int l_shiptype_attr_angular_thrust(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: capacity
+ *
+ * The maximum space available for cargo and equipment, in tonnes
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_attr_capacity(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -26,6 +72,21 @@ int l_shiptype_attr_capacity(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: hullMass
+ *
+ * The total mass of the ship's hull, independent of any equipment or cargo
+ * inside it, in tonnes. This is the value used when calculating hyperjump
+ * ranges and hull damage.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_attr_hull_mass(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -33,6 +94,20 @@ int l_shiptype_attr_hull_mass(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: basePrice
+ *
+ * The base price of the ship. This typically receives some adjustment before
+ * being used as a buy or sell price (eg based on supply or demand)
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_attr_base_price(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -40,6 +115,22 @@ int l_shiptype_attr_base_price(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: defaultHyperdrive
+ *
+ * The default hyperdrive this ship receives. This is a <Constants.EquipType>
+ * string corresponding to the appropriate drive. Not that this value is only
+ * used when the player purchases a ship. Scripts using <Space.SpawnShip> etc
+ * must manually add a hyperdrive to the ship; it does not get one by default.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_attr_default_hyperdrive(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -47,6 +138,29 @@ int l_shiptype_attr_default_hyperdrive(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetLinearThrust
+ *
+ * Gets the linear thrust of a given thruster.
+ *
+ * > thrust = shiptype:GetLinearThrust(thruster)
+ *
+ * Parameters:
+ *
+ *   thruster - a <Constants.ShipTypeThruster> string for the wanted thruster
+ *
+ * Returns:
+ *
+ *   thrust - maximum thrust, in newtons
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_get_linear_thrust(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -55,6 +169,32 @@ int l_shiptype_get_linear_thrust(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetEquipSlotCapacity
+ *
+ * Get the maximum number of a particular type of equipment this ship can
+ * hold. This is the number of items that can be held, not the mass.
+ * <Ship.AddEquip> will take care of ensuring the hull capacity is not
+ * exceeded.
+ *
+ * > capacity = shiptype:GetEquipSlotCapacity(slot)
+ *
+ * Parameters:
+ *
+ *   slot - a <Constants.EquipSlot> string for the wanted equipment type
+ *
+ * Returns:
+ *
+ *   capacity - the maximum capacity of the equipment slot
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int l_shiptype_get_equip_slot_capacity(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
@@ -63,6 +203,29 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetShipType
+ *
+ * > shiptype = ShipType.GetShipType(name)
+ *
+ * Get a description object for the given ship name
+ *
+ * Parameters:
+ *
+ *   name - the name of the ship to get the description object for
+ *
+ * Example:
+ *
+ * > local shiptype = ShipType.GetShipType("Eagle Long Range Fighter")
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_shiptype_get_ship_type(lua_State *l)
 {
 	const char *type = luaL_checkstring(l, 1);
@@ -75,6 +238,46 @@ static int l_shiptype_get_ship_type(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetShipType
+ *
+ * Returns an array of ship description objects that match the specified
+ * filter
+ *
+ * > shiptypes = ShipType.GetShipTypes(tag, filter)
+ *
+ * Parameters:
+ *
+ *   tag - a <Constants.ShipTypeTag> to select the ship group to search. Using
+ *         "NONE" will check all ships.
+ *
+ *   filter - an optional function. If specified the function will be called
+ *            once for each ship type with the description object as the only
+ *            paramater. If the filter function returns true then the
+ *            description object will be included in the array return by
+ *            <GetShipTypes>, otherwise it will be omitted. If no filter
+ *            function is specified then all description objects are returned.
+ *
+ * Returns:
+ *
+ *   shiptypes - an array containing zero or more description objects that
+ *               match the filter
+ *
+ * Example:
+ *
+ * > local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
+ * >     local mass = t.hullMass
+ * >     return mass >= 50 and mass <= 150
+ * > end)
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_shiptype_get_ship_types(lua_State *l)
 {
 	LUA_DEBUG_START(l);
