@@ -352,6 +352,9 @@ void LuaEventQueueBase::Emit()
  *   stable
  *
  *
+ * Event: onShipAlertChanged
+ *
+ *
  * Event: onJettison
  *
  * Triggered when a ship jettisons a cargo item.
@@ -372,6 +375,9 @@ void LuaEventQueueBase::Emit()
  * Status:
  *
  *   experimental
+ *
+ *
+ * Event: onAICompleted
  *
  *
  * Event: onCreateBB
