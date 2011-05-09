@@ -863,8 +863,8 @@ void Pi::StartGame()
 	cpan->ShowAll();
 	cpan->SetAlertState(Ship::ALERT_NONE);
 	OnPlayerChangeEquipment();
-	SetView(worldView);
 	Pi::isGameStarted = true;
+	SetView(worldView);
 	Pi::luaOnGameStart.Signal();
 }
 

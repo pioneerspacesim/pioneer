@@ -3,7 +3,7 @@ SUBDIRS = collider/ lua/ oolua/
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
-include_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEvents.h GuiFixed.h \
+noinst_HEADERS = Body.h Frame.h glfreetype.h GuiButton.h GuiContainer.h GuiEvents.h GuiFixed.h \
 		Gui.h GuiImageButton.h GuiImage.h GuiImageRadioButton.h GuiLabel.h GuiMultiStateImageButton.h GuiRadioButton.h \
 		GuiRadioGroup.h GuiScreen.h GuiToggleButton.h GuiWidget.h GuiToolTip.h libs.h matrix4x4.h mtrand.h Pi.h \
 		Planet.h Player.h DynamicBody.h Sector.h SectorView.h ShipCpanel.h Ship.h Space.h Star.h StarSystem.h SystemInfoView.h \
