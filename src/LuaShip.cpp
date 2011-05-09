@@ -170,6 +170,12 @@ static int l_ship_add_equip(lua_State *l)
 	int num = 1;
 	if (lua_isnumber(l, 3))
 		num = lua_tointeger(l, 3);
+
+	const shipstats_t *stats = s->CalcStats();
+	if (stats->free_capacity < EquipType::types[e].mass) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
 	
 	lua_pushboolean(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
