@@ -80,7 +80,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	_blit_image(s, filename, 0);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d.png", clothes);
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/clothes/cloth_%d_%d.png", race, gender, clothes);
 		//printf("%s\n", filename);
 		_blit_image(s, filename, 135);
 	}
@@ -107,7 +107,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 		_blit_image(s, filename, -10);
 	}
 	else
-		_blit_image(s, PIONEER_DATA_DIR "/facegen/clothes/armour.png", 0);
+		_blit_image(s, PIONEER_DATA_DIR "/facegen/armour.png", 0);
 
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &m_tex);
