@@ -62,21 +62,21 @@ static int l_ship_is_player(lua_State *l)
  *
  *   stats - a table with the following fields
  *
- *     max_capacity - maximum space for cargo and equipment (t)
- *     used_capacity - amount of space used (t)
- *     used_cargo - amount of cargo space used (t)
- *     free_capacity - total space remaining (t)
- *     total_mass - total mass of the ship (cargo, equipment & hull) (t)
- *     hull_mass_left - remaining hull mass. when this reaches 0, the ship is destroyed (t)
- *     shield_mass - total mass equivalent of all shields (t)
- *     shield_mass_left - remaining shield mass. when this reaches 0, the shields are depleted and the hull is exposed (t)
- *     hyperspace_range - distance of furthest possible jump based on current contents (ly)
- *     hyperspace_range_max - distance furthest possible jump under ideal conditions (ly)
+ *     maxCapacity - maximum space for cargo and equipment (t)
+ *     usedCapacity - amount of space used (t)
+ *     usedCargo - amount of cargo space used (t)
+ *     freeCapacity - total space remaining (t)
+ *     totalMass - total mass of the ship (cargo, equipment & hull) (t)
+ *     hullMassLeft - remaining hull mass. when this reaches 0, the ship is destroyed (t)
+ *     shieldMass - total mass equivalent of all shields (t)
+ *     shieldMassLeft - remaining shield mass. when this reaches 0, the shields are depleted and the hull is exposed (t)
+ *     hyperspaceRange - distance of furthest possible jump based on current contents (ly)
+ *     maxHyperspaceRange - distance furthest possible jump under ideal conditions (ly)
  *
  * Example:
  *
  * > local stats = ship:GetStats()
- * > if stats.shield_mass == stats.shield_mass_left then
+ * > if stats.shieldMass == stats.shieldMassLeft then
  * >     print("shields at full strength")
  * > end
  *
@@ -219,10 +219,6 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
  * > ship:SetPrimaryColour("#002366")       -- royal blue
  * > ship:SetPrimaryColour(1.0, 0.27, 0.0)  -- orange red
  *
- * See also:
- *
- *   <Ship.SetSecondaryColour>
- *
  * Availability:
  *
  *  alpha 10
@@ -267,10 +263,6 @@ static int l_ship_set_primary_colour(lua_State *l)
  *
  * > ship:SetSecondaryColour("#002366")       -- royal blue
  * > ship:SetSecondaryColour(1.0, 0.27, 0.0)  -- orange red
- *
- * See also:
- *
- *   <Ship.SetPrimaryColour>
  *
  * Availability:
  *
