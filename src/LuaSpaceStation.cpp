@@ -5,12 +5,6 @@
 #include "LuaConstants.h"
 #include "Pi.h"
 
-/*
- * Class: SpaceStation
- *
- * Class representing a space station. Inherits from <Body>
- */
-
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
 static void _delete_station_ads(SpaceStation *s)
@@ -60,6 +54,12 @@ static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert
 {
 	return new LuaChatForm(station, ad);
 }
+
+/*
+ * Class: SpaceStation
+ *
+ * Class representing a space station. Inherits from <Body>
+ */
 
 /*
  * Method: AddAdvert
