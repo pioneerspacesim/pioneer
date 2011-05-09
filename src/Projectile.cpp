@@ -154,7 +154,7 @@ void Projectile::StaticUpdate(const float timeStep)
 void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	static GLuint tex;
-	if (!tex) tex = util_load_tex_rgba("data/textures/laser.png");
+	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/laser.png");
 
 	vector3d from = viewTransform * GetInterpolatedPosition();
 	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
