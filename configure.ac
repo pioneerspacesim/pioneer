@@ -68,8 +68,8 @@ fi
 
 CXXFLAGS="$CFLAGS"
 
-PIONEER_DATA_DIR="${PIONEER_DATA_DIR:-\\\"data\\\"}"
-AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be ["./data"]])
+PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
+AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]])
 
 AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/lua/Makefile src/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT
