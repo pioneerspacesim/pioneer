@@ -12,7 +12,9 @@
  * Class represents a physical body.
  *
  * These objects only exist for the bodies of the system that the player is
- * currently in. If you need to refer
+ * currently in. If you need to retain a reference to a body outside of the
+ * current system, look at <SystemBody>, <SystemPath> and the discussion of
+ * <IsDynamic>.
  */
 
 /*
