@@ -102,7 +102,7 @@ static int l_equiptype_attr_mass(lua_State *l)
  *
  * Parameters:
  *
- *   type - the <Constant.EquipType> for the the wanted description
+ *   type - the <Constants.EquipType> string for the the wanted description
  *
  * Example:
  *

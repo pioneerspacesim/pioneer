@@ -79,5 +79,6 @@ Group: Index  {
    Event Index: Events
    Attribute Index: Attributes
    Method Index: Methods
+   Constant Index: Constants
    }  # Group: Index
 

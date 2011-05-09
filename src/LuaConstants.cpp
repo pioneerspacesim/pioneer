@@ -10,9 +10,25 @@
 #include "Ship.h"
 
 /*
- * Title: Constants
+ * Namespace: Constants
  *
  * Various constants exported from the game engine to the Lua environment.
+ *
+ * The Pioneer Lua environment makes use of "stringy" constants. That is, a
+ * constant value is always represented by a string, never by a number.
+ *
+ * Methods that take a constant will usually not require that the constant's
+ * namespace be supplied. The correct namespace will be inferred based on the
+ * purpose of the called method.
+ *
+ * If you ever need a list of all the constants in a namespace, you can look
+ * inside the global <Constants> table and pull out a table of constants for
+ * the wanted namespace. For example, to get a list of valid body types, you
+ * might try the following:
+ *
+ * > for (i,constant) in pairs(Constants.BodyType) do
+ * >     print(constant)
+ * > end
  */
 
 struct pi_lua_constant_t {
@@ -116,6 +132,53 @@ void LuaConstants::Register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
+
+	/*
+	 * Constants: BodyType
+	 *
+	 * GRAVPOINT - .
+	 * BROWN_DWARF - .
+	 * STAR_M - .
+	 * STAR_K - .
+	 * STAR_G - .
+	 * STAR_F - .
+	 * STAR_A - .
+	 * STAR_B - .
+	 * STAR_O - .
+	 * STAR_M_GIANT - .
+	 * STAR_K_GIANT - .
+	 * STAR_G_GIANT - .
+	 * STAR_F_GIANT - .
+	 * STAR_A_GIANT - .
+	 * STAR_B_GIANT - .
+	 * STAR_O_GIANT - .
+	 * STAR_M_SUPER_GIANT - .
+	 * STAR_K_SUPER_GIANT - .
+	 * STAR_G_SUPER_GIANT - .
+	 * STAR_F_SUPER_GIANT - .
+	 * STAR_A_SUPER_GIANT - .
+	 * STAR_B_SUPER_GIANT - .
+	 * STAR_O_SUPER_GIANT - .
+	 * STAR_M_HYPER_GIANT - .
+	 * STAR_K_HYPER_GIANT - .
+	 * STAR_G_HYPER_GIANT - .
+	 * STAR_F_HYPER_GIANT - .
+	 * STAR_A_HYPER_GIANT - .
+	 * STAR_B_HYPER_GIANT - .
+	 * STAR_O_HYPER_GIANT - .
+	 * STAR_M_WF - .
+	 * STAR_B_WF - .
+	 * STAR_O_WF - .
+	 * STAR_S_BH - .
+	 * STAR_IM_BH - .
+	 * STAR_SM_BH - .
+	 * WHITE_DWARF - .
+	 * PLANET_GAS_GIANT - .
+	 * PLANET_ASTEROID - .
+	 * PLANET_TERRESTRIAL - .
+	 * STARPORT_ORBITAL - .
+	 * STARPORT_SURFACE - .
+	 */
 	static const pi_lua_constant_t body_type_constants[] = {
 		{ "GRAVPOINT",          SBody::TYPE_GRAVPOINT },
 		{ "BROWN_DWARF",        SBody::TYPE_BROWN_DWARF },
@@ -163,6 +226,16 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "BodyType", body_type_constants);
 
+
+	/*
+	 * Constants: BodySuperType
+	 *
+	 * NONE - .
+	 * STAR - .
+	 * ROCKY_PLANET - .
+	 * GAS_GIANT - .
+	 * STARPORT - .
+	 */
 	static const pi_lua_constant_t body_super_type_constants[] = {
 		{ "NONE",         SBody::SUPERTYPE_NONE },
 		{ "STAR",         SBody::SUPERTYPE_STAR },
@@ -174,6 +247,14 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table(l, "BodySuperType", body_super_type_constants);
 
 
+	/*
+	 * Constants: PolitCrime
+	 *
+	 * TRADING_ILLEGAL_GOODS - .
+	 * WEAPON_DISCHARGE - .
+	 * PIRACY - .
+	 * MURDER - .
+	 */
 	static const pi_lua_constant_t polit_crime_constants[] = {
 		{ "TRADING_ILLEGAL_GOODS", Polit::CRIME_TRADING_ILLEGAL_GOODS },
 		{ "WEAPON_DISCHARGE",      Polit::CRIME_WEAPON_DISCHARGE },
@@ -183,6 +264,15 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "PolitCrime", polit_crime_constants);
 
+
+	/*
+	 * Constants: PolitBloc
+	 *
+	 * NONE - .
+	 * EARTHFED - .
+	 * CIS - .
+	 * EMPIRE - .
+	 */
 	static const pi_lua_constant_t polit_bloc_constants[] = {
 		{ "NONE",     Polit::BLOC_NONE },
 		{ "EARTHFED", Polit::BLOC_EARTHFED },
@@ -192,6 +282,15 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "PolitBloc", polit_bloc_constants);
 
+	/*
+	 * Constants: PolitEcon
+	 *
+	 * NONE - .
+	 * VERY_CAPITALIST - .
+	 * CAPITALIST - .
+	 * MIXED - .
+	 * PLANNED - .
+	 */
 	static const pi_lua_constant_t polit_econ_constants[] = {
 		{ "NONE",            Polit::ECON_NONE },
 		{ "VERY_CAPITALIST", Polit::ECON_VERY_CAPITALIST },
@@ -202,6 +301,27 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "PolitEcon", polit_econ_constants);
 
+	/*
+	 * Constants: PolitGovType
+	 *
+	 * INVALID - .
+	 * NONE - .
+	 * EARTHCOLONIAL - .
+	 * EARTHDEMOC - .
+	 * EMPIRERULE - .
+	 * CISLIBDEM - .
+	 * CISSOCDEM - .
+	 * LIBDEM - .
+	 * CORPORATE - .
+	 * SOCDEM - .
+	 * EARTHMILDICT - .
+	 * MILDICT1 - .
+	 * MILDICT2 - .
+	 * EMPIREMILDICT - .
+	 * COMMUNIST - .
+	 * PLUTOCRATIC - .
+	 * DISORDER - .
+	 */
 	static const pi_lua_constant_t polit_gov_type_constants[] = {
 		{ "INVALID",       Polit::GOV_INVALID },
 		{ "NONE",          Polit::GOV_NONE },
@@ -225,6 +345,25 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table(l, "PolitGovType", polit_gov_type_constants);
 
 
+	/*
+	 * Constants: EquipSlot
+	 *
+	 * CARGO - .
+	 * ENGINE - .
+	 * LASER - .
+	 * MISSILE - .
+	 * ECM - .
+	 * SCANNER - .
+	 * RADARMAPPER - .
+	 * HYPERCLOUD - .
+	 * HULLAUTOREPAIR - .
+	 * ENERGYBOOSTER - .
+	 * ATMOSHIELD - .
+	 * FUELSCOOP - .
+	 * LASERCOOLER - .
+	 * CARGOLIFESUPPORT - .
+	 * AUTOPILOT - .
+	 */
 	static const pi_lua_constant_t equip_slot_constants[] = {
 		{ "CARGO",            Equip::SLOT_CARGO },
 		{ "ENGINE",           Equip::SLOT_ENGINE },
@@ -245,6 +384,82 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "EquipSlot", equip_slot_constants);
 
+	/*
+	 * Constants: EquipType
+	 *
+	 * NONE - .
+	 * HYDROGEN - .
+	 * LIQUID_OXYGEN - .
+	 * METAL_ORE - .
+	 * CARBON_ORE - .
+	 * METAL_ALLOYS - .
+	 * PLASTICS - .
+	 * FRUIT_AND_VEG - .
+	 * ANIMAL_MEAT - .
+	 * LIVE_ANIMALS - .
+	 * LIQUOR - .
+	 * GRAIN - .
+	 * TEXTILES - .
+	 * FERTILIZER - .
+	 * WATER - .
+	 * MEDICINES - .
+	 * CONSUMER_GOODS - .
+	 * COMPUTERS - .
+	 * ROBOTS - .
+	 * PRECIOUS_METALS - .
+	 * INDUSTRIAL_MACHINERY - .
+	 * FARM_MACHINERY - .
+	 * MINING_MACHINERY - .
+	 * AIR_PROCESSORS - .
+	 * SLAVES - .
+	 * HAND_WEAPONS - .
+	 * BATTLE_WEAPONS - .
+	 * NERVE_GAS - .
+	 * NARCOTICS - .
+	 * MILITARY_FUEL - .
+	 * RUBBISH - .
+	 * RADIOACTIVES - .
+	 * MISSILE_UNGUIDED - .
+	 * MISSILE_GUIDED - .
+	 * MISSILE_SMART - .
+	 * MISSILE_NAVAL - .
+	 * ATMOSPHERIC_SHIELDING - .
+	 * ECM_BASIC - .
+	 * SCANNER - .
+	 * ECM_ADVANCED - .
+	 * SHIELD_GENERATOR - .
+	 * LASER_COOLING_BOOSTER - .
+	 * CARGO_LIFE_SUPPORT - .
+	 * AUTOPILOT - .
+	 * RADAR_MAPPER - .
+	 * FUEL_SCOOP - .
+	 * HYPERCLOUD_ANALYZER - .
+	 * HULL_AUTOREPAIR - .
+	 * SHIELD_ENERGY_BOOSTER - .
+	 * DRIVE_CLASS1 - .
+	 * DRIVE_CLASS2 - .
+	 * DRIVE_CLASS3 - .
+	 * DRIVE_CLASS4 - .
+	 * DRIVE_CLASS5 - .
+	 * DRIVE_CLASS6 - .
+	 * DRIVE_CLASS7 - .
+	 * DRIVE_CLASS8 - .
+	 * DRIVE_CLASS9 - .
+	 * DRIVE_MIL1 - .
+	 * DRIVE_MIL2 - .
+	 * DRIVE_MIL3 - .
+	 * DRIVE_MIL4 - .
+	 * PULSECANNON_1MW - .
+	 * PULSECANNON_DUAL_1MW - .
+	 * PULSECANNON_2MW - .
+	 * PULSECANNON_RAPID_2MW - .
+	 * PULSECANNON_4MW - .
+	 * PULSECANNON_10MW - .
+	 * PULSECANNON_20MW - .
+	 * MININGCANNON_17MW - .
+	 * SMALL_PLASMA_ACCEL - .
+	 * LARGE_PLASMA_ACCEL - .
+	 */
 	static const pi_lua_constant_t equip_type_constants[] = {
 		{ "NONE",                 Equip::NONE },
 		{ "HYDROGEN",             Equip::HYDROGEN },
@@ -326,6 +541,14 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table(l, "EquipType", equip_type_constants);
 
 
+	/*
+	 * Constants: ShipTypeTag
+	 *
+	 * NONE - .
+	 * SHIP - .
+	 * STATIC_SHIP - .
+	 * MISSILE - .
+	 */
 	static const pi_lua_constant_t ship_type_tag_constants[] = {
 		{ "NONE",        ShipType::TAG_NONE },
 		{ "SHIP",        ShipType::TAG_SHIP },
@@ -335,6 +558,16 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "ShipTypeTag", ship_type_tag_constants);
 
+	/*
+	 * Constants: ShipTypeThruster
+	 *
+	 * REVERSE - .
+	 * FORWARD - .
+	 * UP - .
+	 * DOWN - .
+	 * LEFT - .
+	 * RIGHT - .
+	 */
 	static const pi_lua_constant_t ship_type_thruster_constants[] = {
 		{ "REVERSE", ShipType::THRUSTER_REVERSE },
 		{ "FORWARD", ShipType::THRUSTER_FORWARD },
@@ -347,6 +580,15 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table(l, "ShipTypeThruster", ship_type_thruster_constants);
 
 
+	/*
+	 * Constants: ShipJumpStatus
+	 *
+	 * OK - .
+	 * CURRENT_SYSTEM - .
+	 * NO_DRIVE - .
+	 * OUT_OF_RANGE - .
+	 * INSUFFICIENT_FUEL - .
+	 */
 	static const pi_lua_constant_t ship_jump_status_constants[] = {
 		{ "OK",                Ship::HYPERJUMP_OK },
 		{ "CURRENT_SYSTEM",    Ship::HYPERJUMP_CURRENT_SYSTEM },
@@ -357,6 +599,13 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "ShipJumpStatus", ship_jump_status_constants);
 
+	/*
+	 * Constants: ShipAlertStatus
+	 *
+	 * NONE - .
+	 * SHIP_NEARBY - .
+	 * SHIP_FIRING - .
+	 */
 	static const pi_lua_constant_t ship_alert_status_constants[] = {
 		{ "NONE",        Ship::ALERT_NONE },
 		{ "SHIP_NEARBY", Ship::ALERT_SHIP_NEARBY },
