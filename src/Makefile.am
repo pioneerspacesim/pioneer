@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 SUBDIRS = collider/ lua/ oolua/
-AM_CPPFLAGS = -DPIONEER_DATA_DIR=@PIONEER_DATA_DIR@
+AM_CPPFLAGS = -DPIONEER_DATA_DIR=\"@PIONEER_DATA_DIR@\"
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
