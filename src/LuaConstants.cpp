@@ -136,48 +136,60 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: BodyType
 	 *
-	 * GRAVPOINT - .
-	 * BROWN_DWARF - .
-	 * STAR_M - .
-	 * STAR_K - .
-	 * STAR_G - .
-	 * STAR_F - .
-	 * STAR_A - .
-	 * STAR_B - .
-	 * STAR_O - .
-	 * STAR_M_GIANT - .
-	 * STAR_K_GIANT - .
-	 * STAR_G_GIANT - .
-	 * STAR_F_GIANT - .
-	 * STAR_A_GIANT - .
-	 * STAR_B_GIANT - .
-	 * STAR_O_GIANT - .
-	 * STAR_M_SUPER_GIANT - .
-	 * STAR_K_SUPER_GIANT - .
-	 * STAR_G_SUPER_GIANT - .
-	 * STAR_F_SUPER_GIANT - .
-	 * STAR_A_SUPER_GIANT - .
-	 * STAR_B_SUPER_GIANT - .
-	 * STAR_O_SUPER_GIANT - .
-	 * STAR_M_HYPER_GIANT - .
-	 * STAR_K_HYPER_GIANT - .
-	 * STAR_G_HYPER_GIANT - .
-	 * STAR_F_HYPER_GIANT - .
-	 * STAR_A_HYPER_GIANT - .
-	 * STAR_B_HYPER_GIANT - .
-	 * STAR_O_HYPER_GIANT - .
-	 * STAR_M_WF - .
-	 * STAR_B_WF - .
-	 * STAR_O_WF - .
-	 * STAR_S_BH - .
-	 * STAR_IM_BH - .
-	 * STAR_SM_BH - .
-	 * WHITE_DWARF - .
-	 * PLANET_GAS_GIANT - .
-	 * PLANET_ASTEROID - .
-	 * PLANET_TERRESTRIAL - .
-	 * STARPORT_ORBITAL - .
-	 * STARPORT_SURFACE - .
+	 * Describe different kinds of system bodies such as stars, planets and
+     * space stations.
+	 *
+	 * GRAVPOINT - a pseudo-type for a gravitational point that multiple
+     *             bodies may orbit
+	 * BROWN_DWARF - brown dwarf sub-stellar object
+	 * STAR_M - type 'M' red star
+	 * STAR_K - type 'K' orange star
+	 * STAR_G - type 'G' yellow star
+	 * STAR_F - type 'F' white star
+	 * STAR_A - type 'A' hot white star
+	 * STAR_B - type 'B' blue star
+	 * STAR_O - type 'O' hot blue star
+	 * STAR_M_GIANT - red giant star
+	 * STAR_K_GIANT - orange giant star
+	 * STAR_G_GIANT - yellow giant star
+	 * STAR_F_GIANT - white giant star
+	 * STAR_A_GIANT - hot white giant star
+	 * STAR_B_GIANT - blue giant star
+	 * STAR_O_GIANT - hot blue giant star
+	 * STAR_M_SUPER_GIANT - red supergiant star
+	 * STAR_K_SUPER_GIANT - orange supergiant star
+	 * STAR_G_SUPER_GIANT - yellow supergiant star
+	 * STAR_F_SUPER_GIANT - white supergiant star
+	 * STAR_A_SUPER_GIANT - hot white supergiant star
+	 * STAR_B_SUPER_GIANT - blue supergiant star
+	 * STAR_O_SUPER_GIANT - hot blue supergiant star
+	 * STAR_M_HYPER_GIANT - red hypergiant star
+	 * STAR_K_HYPER_GIANT - orange hypergiant star
+	 * STAR_G_HYPER_GIANT - yellow hypergiant star
+	 * STAR_F_HYPER_GIANT - white hypergiant star
+	 * STAR_A_HYPER_GIANT - hot white hypergiant star
+	 * STAR_B_HYPER_GIANT - blue hypergiant star
+	 * STAR_O_HYPER_GIANT - hot blue hypergiant star
+	 * STAR_M_WF - Wolf-Rayet star (unstable)
+	 * STAR_B_WF - Wolf-Rayet star (risk of collapse)
+	 * STAR_O_WF - Wolf-Rayet star (imminent collapse)
+	 * STAR_S_BH - stellar black hole
+	 * STAR_IM_BH - intermediate-mass black hole
+	 * STAR_SM_BH - supermassive black hole
+	 * WHITE_DWARF - white dwarf stellar remnant
+	 * PLANET_GAS_GIANT - gas giant
+	 * PLANET_ASTEROID - asteroid
+	 * PLANET_TERRESTRIAL - terrestrial planet
+	 * STARPORT_ORBITAL - orbital starport (space station)
+	 * STARPORT_SURFACE - surface starport
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   stable
 	 */
 	static const pi_lua_constant_t body_type_constants[] = {
 		{ "GRAVPOINT",          SBody::TYPE_GRAVPOINT },
@@ -229,12 +241,22 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: BodySuperType
+     *
+     * Describe general categories of system bodies.
 	 *
-	 * NONE - .
-	 * STAR - .
-	 * ROCKY_PLANET - .
-	 * GAS_GIANT - .
-	 * STARPORT - .
+	 * NONE - uncategorised
+	 * STAR - star
+	 * ROCKY_PLANET - a solid planet (terrestrial or asteroid)
+	 * GAS_GIANT - gas giant
+	 * STARPORT - surface or orbital starport
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   stable
 	 */
 	static const pi_lua_constant_t body_super_type_constants[] = {
 		{ "NONE",         SBody::SUPERTYPE_NONE },
@@ -249,11 +271,21 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitCrime
+     *
+     * Crimes
 	 *
 	 * TRADING_ILLEGAL_GOODS - .
 	 * WEAPON_DISCHARGE - .
 	 * PIRACY - .
 	 * MURDER - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   experimental
 	 */
 	static const pi_lua_constant_t polit_crime_constants[] = {
 		{ "TRADING_ILLEGAL_GOODS", Polit::CRIME_TRADING_ILLEGAL_GOODS },
@@ -267,11 +299,21 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitBloc
+     *
+     * Political alignment
 	 *
-	 * NONE - .
-	 * EARTHFED - .
-	 * CIS - .
-	 * EMPIRE - .
+	 * NONE - independent
+	 * EARTHFED - Federation
+	 * CIS - Confederation of Independent Systems
+	 * EMPIRE - Empire
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   experimental
 	 */
 	static const pi_lua_constant_t polit_bloc_constants[] = {
 		{ "NONE",     Polit::BLOC_NONE },
@@ -284,12 +326,22 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitEcon
+     *
+     * Economy type
 	 *
 	 * NONE - .
 	 * VERY_CAPITALIST - .
 	 * CAPITALIST - .
 	 * MIXED - .
 	 * PLANNED - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   experimental
 	 */
 	static const pi_lua_constant_t polit_econ_constants[] = {
 		{ "NONE",            Polit::ECON_NONE },
@@ -303,8 +355,9 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitGovType
+     *
+     * Government type
 	 *
-	 * INVALID - .
 	 * NONE - .
 	 * EARTHCOLONIAL - .
 	 * EARTHDEMOC - .
@@ -321,9 +374,16 @@ void LuaConstants::Register(lua_State *l)
 	 * COMMUNIST - .
 	 * PLUTOCRATIC - .
 	 * DISORDER - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   experimental
 	 */
 	static const pi_lua_constant_t polit_gov_type_constants[] = {
-		{ "INVALID",       Polit::GOV_INVALID },
 		{ "NONE",          Polit::GOV_NONE },
 		{ "EARTHCOLONIAL", Polit::GOV_EARTHCOLONIAL },
 		{ "EARTHDEMOC",    Polit::GOV_EARTHDEMOC },
@@ -347,22 +407,33 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: EquipSlot
+     *
+     * Equipment slots. Every equipment or cargo type has a corresponding
+     * "slot" that it fits in to. Each slot has an independent capacity.
 	 *
-	 * CARGO - .
-	 * ENGINE - .
-	 * LASER - .
-	 * MISSILE - .
-	 * ECM - .
-	 * SCANNER - .
-	 * RADARMAPPER - .
-	 * HYPERCLOUD - .
-	 * HULLAUTOREPAIR - .
-	 * ENERGYBOOSTER - .
-	 * ATMOSHIELD - .
-	 * FUELSCOOP - .
-	 * LASERCOOLER - .
-	 * CARGOLIFESUPPORT - .
-	 * AUTOPILOT - .
+	 * CARGO - any cargo (commodity) item
+	 * ENGINE - hyperdrives and military drives
+	 * LASER - lasers and plasma accelerators
+	 * MISSILE - missile
+	 * ECM - ECM system
+	 * SCANNER - scanner
+	 * RADARMAPPER - radar mapper
+	 * HYPERCLOUD - hyperspace cloud analyser
+	 * HULLAUTOREPAIR - hull auto-repair system
+	 * ENERGYBOOSTER - shield energy booster unit
+	 * ATMOSHIELD - atmospheric shielding
+	 * FUELSCOOP - fuel scoop
+	 * LASERCOOLER - laser cooling booster
+	 * CARGOLIFESUPPORT - cargo bay life support
+	 * AUTOPILOT - autopilot
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   experimental
 	 */
 	static const pi_lua_constant_t equip_slot_constants[] = {
 		{ "CARGO",            Equip::SLOT_CARGO },
@@ -386,79 +457,91 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: EquipType
+     *
+     * Equipment and cargo types. Because of the slot arrangement described
+     * under <EquipType> means that cargo is treated as a special type of
+     * equipment.
 	 *
-	 * NONE - .
-	 * HYDROGEN - .
-	 * LIQUID_OXYGEN - .
-	 * METAL_ORE - .
-	 * CARBON_ORE - .
-	 * METAL_ALLOYS - .
-	 * PLASTICS - .
-	 * FRUIT_AND_VEG - .
-	 * ANIMAL_MEAT - .
-	 * LIVE_ANIMALS - .
-	 * LIQUOR - .
-	 * GRAIN - .
-	 * TEXTILES - .
-	 * FERTILIZER - .
-	 * WATER - .
-	 * MEDICINES - .
-	 * CONSUMER_GOODS - .
-	 * COMPUTERS - .
-	 * ROBOTS - .
-	 * PRECIOUS_METALS - .
-	 * INDUSTRIAL_MACHINERY - .
-	 * FARM_MACHINERY - .
-	 * MINING_MACHINERY - .
-	 * AIR_PROCESSORS - .
-	 * SLAVES - .
-	 * HAND_WEAPONS - .
-	 * BATTLE_WEAPONS - .
-	 * NERVE_GAS - .
-	 * NARCOTICS - .
-	 * MILITARY_FUEL - .
-	 * RUBBISH - .
-	 * RADIOACTIVES - .
-	 * MISSILE_UNGUIDED - .
-	 * MISSILE_GUIDED - .
-	 * MISSILE_SMART - .
-	 * MISSILE_NAVAL - .
-	 * ATMOSPHERIC_SHIELDING - .
-	 * ECM_BASIC - .
-	 * SCANNER - .
-	 * ECM_ADVANCED - .
-	 * SHIELD_GENERATOR - .
-	 * LASER_COOLING_BOOSTER - .
-	 * CARGO_LIFE_SUPPORT - .
-	 * AUTOPILOT - .
-	 * RADAR_MAPPER - .
-	 * FUEL_SCOOP - .
-	 * HYPERCLOUD_ANALYZER - .
-	 * HULL_AUTOREPAIR - .
-	 * SHIELD_ENERGY_BOOSTER - .
-	 * DRIVE_CLASS1 - .
-	 * DRIVE_CLASS2 - .
-	 * DRIVE_CLASS3 - .
-	 * DRIVE_CLASS4 - .
-	 * DRIVE_CLASS5 - .
-	 * DRIVE_CLASS6 - .
-	 * DRIVE_CLASS7 - .
-	 * DRIVE_CLASS8 - .
-	 * DRIVE_CLASS9 - .
-	 * DRIVE_MIL1 - .
-	 * DRIVE_MIL2 - .
-	 * DRIVE_MIL3 - .
-	 * DRIVE_MIL4 - .
-	 * PULSECANNON_1MW - .
-	 * PULSECANNON_DUAL_1MW - .
-	 * PULSECANNON_2MW - .
-	 * PULSECANNON_RAPID_2MW - .
-	 * PULSECANNON_4MW - .
-	 * PULSECANNON_10MW - .
-	 * PULSECANNON_20MW - .
-	 * MININGCANNON_17MW - .
-	 * SMALL_PLASMA_ACCEL - .
-	 * LARGE_PLASMA_ACCEL - .
+	 * NONE - no equipment. Usually used to indicate the absence of equipment
+	 * HYDROGEN - hydrogen (CARGO)
+	 * LIQUID_OXYGEN - liquid oxygen (CARGO)
+	 * METAL_ORE - metal ore (CARGO)
+	 * CARBON_ORE - carbon ore (CARGO)
+	 * METAL_ALLOYS - metal alloys (CARGO)
+	 * PLASTICS - plastics (CARGO)
+	 * FRUIT_AND_VEG - fruit and vegetables (CARGO)
+	 * ANIMAL_MEAT - animal meat (CARGO)
+	 * LIVE_ANIMALS - live animals (CARGO)
+	 * LIQUOR - liquor (CARGO)
+	 * GRAIN - grain (CARGO)
+	 * TEXTILES - textiles (CARGO)
+	 * FERTILIZER - fertilizer (CARGO)
+	 * WATER - water (CARGO)
+	 * MEDICINES - medicines (CARGO)
+	 * CONSUMER_GOODS - consumer goods (CARGO)
+	 * COMPUTERS - computers (CARGO)
+	 * ROBOTS - robots (CARGO)
+	 * PRECIOUS_METALS - precious metals (CARGO)
+	 * INDUSTRIAL_MACHINERY - industrial machinery (CARGO)
+	 * FARM_MACHINERY - farm machinery (CARGO)
+	 * MINING_MACHINERY - mining machinery (CARGO
+	 * AIR_PROCESSORS - air processors (CARGO)
+	 * SLAVES - slaves (CARGO)
+	 * HAND_WEAPONS - hand weapons (CARGO)
+	 * BATTLE_WEAPONS - battle weapons (CARGO)
+	 * NERVE_GAS - nerve gas (CARGO)
+	 * NARCOTICS - narcotics (CARGO)
+	 * MILITARY_FUEL - military fuel (CARGO)
+	 * RUBBISH - rubbish (CARGO)
+	 * RADIOACTIVES - radioactives (CARGO)
+	 * MISSILE_UNGUIDED - unguided rocket (MISSILE)
+	 * MISSILE_GUIDED - guided missile (MISSILE)
+	 * MISSILE_SMART - smart missile (MISSILE)
+	 * MISSILE_NAVAL - naval missile (MISSILE)
+	 * ATMOSPHERIC_SHIELDING - atmospheric shielding (ATMOSHIELD)
+	 * ECM_BASIC - basic ECM system (ECM)
+	 * SCANNER - scanner (SCANNER)
+	 * ECM_ADVANCED - advanced ECM system (ECM)
+	 * SHIELD_GENERATOR - shield generator (CARGO)
+	 * LASER_COOLING_BOOSTER - laser cooling booster (LASERCOOLER)
+	 * CARGO_LIFE_SUPPORT - cargo bay life support (CARGOLIFESUPPORT)
+	 * AUTOPILOT - autopilot (AUTOPILOT)
+	 * RADAR_MAPPER - radar mapper (RADARMAPPER)
+	 * FUEL_SCOOP - fuel scoop (FUELSCOOP)
+	 * HYPERCLOUD_ANALYZER - hyperspace cloud analyser (HYPERCLOUD)
+	 * HULL_AUTOREPAIR - hull auto-repair system (HULLAUTOREPAIR)
+	 * SHIELD_ENERGY_BOOSTER - shield energy booster unit (ENERGYBOOSTER)
+	 * DRIVE_CLASS1 - class 1 hyperdrive (ENGINE)
+	 * DRIVE_CLASS2 - class 2 hyperdrive (ENGINE)
+	 * DRIVE_CLASS3 - class 3 hyperdrive (ENGINE)
+	 * DRIVE_CLASS4 - class 4 hyperdrive (ENGINE)
+	 * DRIVE_CLASS5 - class 5 hyperdrive (ENGINE)
+	 * DRIVE_CLASS6 - class 6 hyperdrive (ENGINE)
+	 * DRIVE_CLASS7 - class 7 hyperdrive (ENGINE)
+	 * DRIVE_CLASS8 - class 8 hyperdrive (ENGINE)
+	 * DRIVE_CLASS9 - class 9 hyperdrive (ENGINE)
+	 * DRIVE_MIL1 - class 1 military drive (ENGINE)
+	 * DRIVE_MIL2 - class 2 military drive (ENGINE)
+	 * DRIVE_MIL3 - class 3 military drive (ENGINE)
+	 * DRIVE_MIL4 - class 4 military drive (ENGINE)
+	 * PULSECANNON_1MW - 1MW pulse cannon (LASER)
+	 * PULSECANNON_DUAL_1MW - 1MW dual-fire pulse cannon (LASER)
+	 * PULSECANNON_2MW - 2MW pulse cannon (LASER)
+	 * PULSECANNON_RAPID_2MW - 2MW rapid-fire pulse cannon (LASER)
+	 * PULSECANNON_4MW - 4MW pulse cannon (LASER)
+	 * PULSECANNON_10MW - 10MW pulse cannon (LASER)
+	 * PULSECANNON_20MW - 20MW pulse cannon (LASER)
+	 * MININGCANNON_17MW - 17MW blast-mining cannon (LASER)
+	 * SMALL_PLASMA_ACCEL - small plasma accelerator (LASER)
+	 * LARGE_PLASMA_ACCEL - large plasma accelerator (LASER)
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   experimental
 	 */
 	static const pi_lua_constant_t equip_type_constants[] = {
 		{ "NONE",                 Equip::NONE },
@@ -548,6 +631,14 @@ void LuaConstants::Register(lua_State *l)
 	 * SHIP - .
 	 * STATIC_SHIP - .
 	 * MISSILE - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   stable
 	 */
 	static const pi_lua_constant_t ship_type_tag_constants[] = {
 		{ "NONE",        ShipType::TAG_NONE },
@@ -567,6 +658,14 @@ void LuaConstants::Register(lua_State *l)
 	 * DOWN - .
 	 * LEFT - .
 	 * RIGHT - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   stable
 	 */
 	static const pi_lua_constant_t ship_type_thruster_constants[] = {
 		{ "REVERSE", ShipType::THRUSTER_REVERSE },
@@ -588,6 +687,14 @@ void LuaConstants::Register(lua_State *l)
 	 * NO_DRIVE - .
 	 * OUT_OF_RANGE - .
 	 * INSUFFICIENT_FUEL - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   stable
 	 */
 	static const pi_lua_constant_t ship_jump_status_constants[] = {
 		{ "OK",                Ship::HYPERJUMP_OK },
@@ -605,6 +712,14 @@ void LuaConstants::Register(lua_State *l)
 	 * NONE - .
 	 * SHIP_NEARBY - .
 	 * SHIP_FIRING - .
+     *
+     * Availability:
+     *
+     *   alpha 10
+     *
+     * Status:
+     *
+     *   stable
 	 */
 	static const pi_lua_constant_t ship_alert_status_constants[] = {
 		{ "NONE",        Ship::ALERT_NONE },
