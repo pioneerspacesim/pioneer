@@ -1,6 +1,7 @@
 #include "LuaBody.h"
 #include "LuaSBodyPath.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "Body.h"
 #include "StarSystem.h"
 #include "Pi.h"
@@ -96,6 +97,62 @@ static int l_body_attr_path(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: type
+ *
+ * The type of the body, as a <Constants.BodyType> constant.
+ *
+ * Only valid for non-dynamic <Bodies>. For dynamic bodies <type> will be nil.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_body_attr_type(lua_State *l)
+{
+	Body *b = LuaBody::GetFromLua(1);
+	const SBody *sbody = b->GetSBody();
+	if (!sbody) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "BodyType", sbody->type));
+	return 1;
+}
+
+/*
+ * Attribute: superType
+ *
+ * The supertype of the body, as a <Constants.BodySuperType> constant
+ *
+ * Only valid for non-dynamic <Bodies>. For dynamic bodies <superType> will be nil.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_body_attr_super_type(lua_State *l)
+{
+	Body *b = LuaBody::GetFromLua(1);
+	const SBody *sbody = b->GetSBody();
+	if (!sbody) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "BodySuperType", sbody->GetSuperType()));
+	return 1;
+}
+
 /* 
  * Method: IsDynamic
  *
@@ -175,9 +232,11 @@ template <> void LuaObject<Body>::RegisterClass()
 	};
 
 	static luaL_reg l_attrs[] = {
-		{ "label", l_body_attr_label },
-		{ "seed",  l_body_attr_seed  },
-		{ "path",  l_body_attr_path  },
+		{ "label",     l_body_attr_label      },
+		{ "seed",      l_body_attr_seed       },
+		{ "path",      l_body_attr_path       },
+		{ "type",      l_body_attr_type       },
+		{ "superType", l_body_attr_super_type },
 		{ 0, 0 }
 	};
 

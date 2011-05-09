@@ -1,6 +1,7 @@
 #include "LuaObject.h"
 #include "LuaSBody.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "StarSystem.h"
 
 /*
@@ -56,6 +57,46 @@ static int l_sbody_attr_name(lua_State *l)
 }
 
 /*
+ * Attribute: type
+ *
+ * The type of the body, as a <Constants.BodyType> constant
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_sbody_attr_type(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "BodyType", sbody->type));
+	return 1;
+}
+
+/*
+ * Attribute: superType
+ *
+ * The supertype of the body, as a <Constants.BodySuperType> constant
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_sbody_attr_super_type(lua_State *l)
+{
+	SBody *sbody = LuaSBody::GetFromLua(1);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "BodySuperType", sbody->GetSuperType()));
+	return 1;
+}
+
+/*
  * Attribute: seed
  *
  * The random seed used to generate this <SystemBody>. This is guaranteed to
@@ -86,9 +127,11 @@ template <> const char *LuaObject<LuaUncopyable<SBody> >::s_type = "SystemBody";
 template <> void LuaObject<LuaUncopyable<SBody> >::RegisterClass()
 {
 	static const luaL_reg l_attrs[] = {
-		{ "index", l_sbody_attr_index },
-		{ "name",  l_sbody_attr_name  },
-		{ "seed",  l_sbody_attr_seed  },
+		{ "index",     l_sbody_attr_index      },
+		{ "name",      l_sbody_attr_name       },
+		{ "type",      l_sbody_attr_type       },
+		{ "superType", l_sbody_attr_super_type },
+		{ "seed",      l_sbody_attr_seed       },
 		{ 0, 0 }
 	};
 
