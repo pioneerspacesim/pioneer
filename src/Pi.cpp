@@ -370,6 +370,7 @@ void Pi::Init()
 	}
 	draw_progress(1.0f);
 
+#if 0
 	// test code to produce list of ship stats
 
 	FILE *pStatFile = fopen("shipstat.csv","wt");
@@ -408,6 +409,7 @@ void Pi::Init()
 		}
 		fclose(pStatFile);
 	}
+#endif
 
 	gameMenuView = new GameMenuView();
 	config.Save();
