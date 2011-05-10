@@ -1178,7 +1178,7 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		int timeAccel = Pi::requestedTimeAccelIdx;
-		if (Pi::player->GetFlightState() == Ship::FLYING) {
+		if (Pi::player->GetFlightState() == Ship::FLYING && !Space::GetHyperspaceAnim()) {
 
 			// special timeaccel lock rules while in alert
 			if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
