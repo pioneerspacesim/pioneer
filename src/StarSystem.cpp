@@ -225,7 +225,7 @@ fixed StarSystem::starMetallicities[] = {
 
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
-	int64_t mass[2]; // min,max % sol for stars, unused for planets
+	Sint64 mass[2]; // min,max % sol for stars, unused for planets
 	int radius; // % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
