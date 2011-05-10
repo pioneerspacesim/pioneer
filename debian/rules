@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export PIONEER_DATA_DIR=/usr/share/games/pioneer/data
+
+export CXXFLAGS=\
+-Wformat=2 -Wno-format-zero-length -Wformat-security -Wstrict-aliasing=2 \
+-Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization \
+-Werror-implicit-function-declaration
+
+%:
+	dh $@ --with autoreconf --parallel
+
+override_dh_auto_test:;

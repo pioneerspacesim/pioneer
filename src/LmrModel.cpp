@@ -578,7 +578,7 @@ public:
 	void PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points)
 	{
 		char buf[256];
-		snprintf(buf, sizeof(buf), "data/textures/%s", texname);
+		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
 		GLuint tex = util_load_tex_rgba(buf);
 
 		if (curOp.type) m_ops.push_back(curOp);

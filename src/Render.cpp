@@ -561,11 +561,11 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	static char *lib_fs = 0;
 	static char *lib_vs = 0;
 	static char *lib_all = 0;
-	if (!lib_fs) lib_fs = load_file("data/shaders/_library.frag.glsl");
-	if (!lib_vs) lib_vs = load_file("data/shaders/_library.vert.glsl");
-	if (!lib_all) lib_all = load_file("data/shaders/_library.all.glsl");
+	if (!lib_fs) lib_fs = load_file(PIONEER_DATA_DIR"/shaders/_library.frag.glsl");
+	if (!lib_vs) lib_vs = load_file(PIONEER_DATA_DIR"/shaders/_library.vert.glsl");
+	if (!lib_all) lib_all = load_file(PIONEER_DATA_DIR"/shaders/_library.all.glsl");
 
-	const std::string name = std::string("data/shaders/") + shader_name;
+	const std::string name = std::string(PIONEER_DATA_DIR"/shaders/") + shader_name;
 	char *vscode = load_file((name + ".vert.glsl").c_str());
 	char *pscode = load_file((name + ".frag.glsl").c_str());
 	char *allcode = load_file((name + ".all.glsl").c_str());

@@ -5,7 +5,7 @@ AC_PREREQ(2.59)
 AC_INIT([pioneer], [0.alpha.9], [pioneer-dev@pioneerspacesim.net])
 #AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE([1.9 foreign])
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz])
 
 AC_CANONICAL_HOST
 
@@ -68,5 +68,8 @@ fi
 
 CXXFLAGS="$CFLAGS"
 
-AC_CONFIG_FILES([Makefile src/Makefile src/collider/Makefile src/lua/Makefile src/oolua/Makefile])
+PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
+AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]])
+
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/lua/Makefile src/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT
