@@ -221,7 +221,7 @@ Module:new {
 	
 	onChatBB = function(self, dialog, optionClicked)
 		local ad = self.ads[dialog:GetAdRef()]
-		dialog:ClearOptions()
+		dialog:Clear()
 		if optionClicked == -1 then
 			dialog:Close()
 			return

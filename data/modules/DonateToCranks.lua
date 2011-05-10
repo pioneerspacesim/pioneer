@@ -17,7 +17,11 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
+<<<<<<< HEAD
 		form:ClearOptions();
+=======
+		form:Clear();
+>>>>>>> parent of 4e4bc87... rename Clear to ClearOptions to match AddOptions
 
 		form:SetTitle(ad.title)
 		form:SetMessage(ad.message)

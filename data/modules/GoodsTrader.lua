@@ -27,9 +27,15 @@ local onChat = function (form, ref, option)
 		end
 	end
 
+<<<<<<< HEAD
 	form:ClearOptions()
 	form:SetTitle(ad.flavour)
 	form:SetMessage("Welcome to "..ad.flavour)
+=======
+	form:Clear()
+	form:SetTitle(ad.flavour)
+	form:SetMessage("Welcome to "..ad.flavour)
+>>>>>>> parent of 4e4bc87... rename Clear to ClearOptions to match AddOptions
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then

@@ -318,6 +318,13 @@ void LuaChatForm::Sold(Equip::Type t) {
  * > end
  */
 
+static int l_luachatform_clear(lua_State *l)
+{
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	dialog->Clear();
+	return 0;
+}
+
 static int l_luachatform_set_title(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
@@ -340,13 +347,6 @@ static int l_luachatform_add_option(lua_State *l)
 	std::string text = luaL_checkstring(l, 2);
 	int val = luaL_checkinteger(l, 3);
 	dialog->AddOption(text, val);
-	return 0;
-}
-
-static int l_luachatform_clear_options(lua_State *l)
-{
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	dialog->Clear();
 	return 0;
 }
 
@@ -472,10 +472,10 @@ template <> const char *LuaObject<LuaChatForm>::s_type = "ChatForm";
 template <> void LuaObject<LuaChatForm>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
+		{ "Clear",               l_luachatform_clear                         },
 		{ "SetTitle",            l_luachatform_set_title                     },
 		{ "SetMessage",          l_luachatform_set_message                   },
 		{ "AddOption",           l_luachatform_add_option                    },
-		{ "ClearOptions",        l_luachatform_clear_options                 },
 		{ "AddGoodsTrader",      LuaChatForm::l_luachatform_add_goods_trader },
 		{ "Close",               l_luachatform_close                         },
 		{ "Refresh",             l_luachatform_refresh                       },

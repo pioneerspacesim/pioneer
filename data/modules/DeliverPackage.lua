@@ -71,7 +71,7 @@ local missions = {}
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	form:ClearOptions()
+	form:Clear()
 
 	if option == -1 then
 		form:Close()
