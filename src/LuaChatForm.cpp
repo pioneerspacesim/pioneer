@@ -476,6 +476,62 @@ static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l,
 /*
  * Method: AddGoodsTrader
  *
+ * Adds a goods trader widget to the form
+ *
+ * > form:AddGoodsTrader({
+ * >     canTrade    = function (ref, commodity) ... end,
+ * >     getStock    = function (ref, commodity) ... end,
+ * >     getPrice    = function (ref, commodity) ... end,
+ * >     onClickBuy  = function (ref, commodity) ... end,
+ * >     onClickSell = function (ref, commodity) ... end,
+ * >     bought      = function (ref, commodity) ... end,
+ * >     sold        = function (ref, commodity) ... end,
+ * > })
+ *
+ * The goods trader widget is the same interface you see in the "commodity
+ * market" area of the space station services menu. <AddGoodsTrader> adds a
+ * version of this widget to your chat form.
+ *
+ * Note that the trade widget can only handle the trade of commodity cargo
+ * items. Ship equipment can not be traded this way.
+ *
+ * Your script must provide seven functions to this method to make the widget
+ * work. Each one handles an aspect of the trade process.
+ *
+ * Parameters:
+ *
+ * Each function takes two parameters
+ *
+ *   ref - the ad reference returned by <SpaceStation.AddAdvert>
+ *
+ *   commodity - a <Constants.EquipType> string for a single commodity (cargo) item
+ *
+ * The functions themselves are passed to <AddGoodsTrader> in a table with the
+ * following keys
+ *
+ *   canTrade - returns true if this script is willing to trade in this
+ *              commodity, or false otherwise
+ *
+ *   getStock - returns the number of units of this commodity the script has
+ *              available for trade
+ *   
+ *   getPrice - returns the price for a single unit of this commodity
+ *
+ *   onClickBuy - called immediately when the player clicks the "buy" button.
+ *                returns true if the buy should be allowed, false otherwise.
+ *                If true is returned, a message will be shown to the player,
+ *                and the player's cargo and money will be updated.
+ *
+ *   onClickSell - called immediately when the player clicks the "sell"
+ *                 button. returns true if the sale should be allowed, false
+ *                 otherwise. If true is returned, a message will be shown to
+ *                 the player, and the player's cargo and money will be
+ *                 updated.
+ *
+ *   bought - called after a buy has been completed
+ *
+ *   sold - called after a sale has been completed
+ *
  * Availability:
  *
  *   alpha 10
