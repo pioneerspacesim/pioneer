@@ -354,6 +354,25 @@ void LuaEventQueueBase::Emit()
  *
  * Event: onShipAlertChanged
  *
+ * Triggered when a ship's alert status changes.
+ *
+ * > local onShipAlertChanged = function (ship, alert) ... end
+ * > EventQueue.onShipAlertChanged:Connect(onShipAlertChanged)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that changed status
+ *
+ *   alert - the new <Constants.ShipAlertStatus>
+ *
+ *  Availability:
+ *
+ *    alpha 10
+ *
+ *  Status:
+ *
+ *    stable
+ *
  *
  * Event: onJettison
  *
@@ -378,6 +397,23 @@ void LuaEventQueueBase::Emit()
  *
  *
  * Event: onAICompleted
+ *
+ * Triggered when a ship AI completes
+ *
+ * > local onAICompleted = function (ship) ... end
+ * > EventQueue.onAICompleted:Connect(onAICompleted)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship>
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
  *
  *
  * Event: onCreateBB
