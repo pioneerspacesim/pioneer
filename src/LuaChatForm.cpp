@@ -248,6 +248,76 @@ void LuaChatForm::Sold(Equip::Type t) {
 	LUA_DEBUG_END(l, 0);
 }
 
+/*
+ * Class: ChatForm
+ *
+ * Class representing a bulletin board chat form
+ *
+ * <ChatForm> handles all the details of a bulletin board conversation form.
+ * A <ChatForm> object is passed as the first parameter to the chat function
+ * supplied to <SpaceStation.AddAdvert> when the ad is created. The <ChatForm>
+ * object drives the user interface the player users to interact with the
+ * script.
+ *
+ * As described in <SpaceStation.AddAdvert>, the chat function receives the ad
+ * reference and an action value. This function is responsible for calling
+ * methods on the <ChatForm> object to modify the user interface in response
+ * to the player's selections.
+ *
+ * Here is a contrived example of a simple chat function.
+ *
+ * > local onChat = function (form, ref, option)
+ * >     form:Clear()
+ * >
+ * >     -- option 0 is called when the form is first activated from the
+ * >     -- bulletin board
+ * >     if option == 0 then
+ * >         
+ * >         form:SetTitle("Favourite colour")
+ * >         form:SetMessage("What's your favourite colour?")
+ * >
+ * >         form:AddOption("Red",       1)
+ * >         form:AddOption("Green",     2)
+ * >         form:AddOption("Yellow",    3)
+ * >         form:AddOption("Blue",      4)
+ * >         form:AddOption("Hang up.", -1)
+ * >
+ * >         return
+ * >     end
+ * >
+ * >     -- option 1 - red
+ * >     if option == 1 then
+ * >         form:SetMessage("Ahh red, the colour of raspberries.")
+ * >         form:AddOption("Hang up.", -1)
+ * >         return
+ * >     end
+ * >
+ * >     -- option 2 - green
+ * >     if option == 2 then
+ * >         form:SetMessage("Ahh green, the colour of trees.")
+ * >         form:AddOption("Hang up.", -1)
+ * >         return
+ * >     end
+ * >
+ * >     -- option 3 - yellow
+ * >     if option == 3 then
+ * >         form:SetMessage("Ahh yellow, the colour of the sun.")
+ * >         form:AddOption("Hang up.", -1)
+ * >         return
+ * >     end
+ * >
+ * >     -- option 4 - blue
+ * >     if option == 4 then
+ * >         form:SetMessage("Ahh blue, the colour of the ocean.")
+ * >         form:AddOption("Hang up.", -1)
+ * >         return
+ * >     end
+ * >
+ * >     -- only option left is -1, hang up
+ * >     form:Close()
+ * > end
+ */
+
 static int l_luachatform_clear(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);

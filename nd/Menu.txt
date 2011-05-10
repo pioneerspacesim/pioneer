@@ -48,6 +48,7 @@ Format: 1.51
 
 File: Body  (LuaBody.cpp)
 File: CargoBody  (LuaCargoBody.cpp)
+File: ChatForm  (LuaChatForm.cpp)
 File: Constants  (LuaConstants.cpp)
 File: Engine  (LuaEngine.cpp)
 File: EquipType  (LuaEquipType.cpp)
