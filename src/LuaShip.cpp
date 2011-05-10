@@ -288,9 +288,21 @@ static int l_ship_set_secondary_colour(lua_State *l)
 }
 
 /*
- * Method: GetEquipSlotSize
+ * Method: GetEquipSlotCapacity
  *
- * Get the number of items that will fit in a given equipment slot
+ * Get the maximum number of a particular type of equipment this ship can
+ * hold. This is the number of items that can be held, not the mass.
+ * <AddEquip> will take care of ensuring the hull capacity is not exceeded.
+ *
+ * > capacity = shiptype:GetEquipSlotCapacity(slot)
+ *
+ * Parameters:
+ *
+ *   slot - a <Constants.EquipSlot> string for the wanted equipment type
+ *
+ * Returns:
+ *
+ *   capacity - the maximum capacity of the equipment slot
  *
  * Availability:
  *
@@ -312,6 +324,26 @@ static int l_ship_get_equip_slot_size(lua_State *l)
  * Method: GetEquip
  *
  * Get a list of equipment in a given equipment slot
+ *
+ * > equip = ship:GetEquip(slot, index)
+ * > equiplist = ship:GetEquip(slot)
+ *
+ * Parameters:
+ *
+ *   slot - a <Constants.EquipSlot> string for the wanted equipment type
+ *
+ *   index - optional. The equipment position in the slot to fetch. If
+ *           specified the item at that position in the slot will be returned,
+ *           otherwise a table containing all items in the slot will be
+ *           returned instead.
+ *
+ * Return:
+ *
+ *   equip - when index is specified, a <Constants.EquipType> string for the
+ *           item
+ *
+ *   equiplist - when index is not specified, a table of zero or more
+ *           <Constants.EquipType> strings for all the items in the slot
  *
  * Availability:
  *
@@ -336,9 +368,16 @@ static int l_ship_get_equip(lua_State *l)
 		return 1;
 	}
 
-	for (int idx = 0; idx < size; idx++)
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+
+	for (int idx = 0; idx < size; idx++) {
+		lua_pushinteger(l, idx+1);
 		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
-	return size;
+		lua_rawset(l, -3);
+	}
+
+	return 1;
 }
 
 /*
