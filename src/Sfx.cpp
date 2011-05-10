@@ -83,7 +83,7 @@ void Sfx::Render(const matrix4x4d &ftransform)
 {
 	static GLuint tex;
 	float col[4];
-	if (!tex) tex = util_load_tex_rgba("data/textures/smoke.png");
+	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/smoke.png");
 
 	vector3d fpos = ftransform * GetPosition();
 

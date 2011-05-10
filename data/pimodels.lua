@@ -1,7 +1,7 @@
 --
 -- Don't add models to this! Put them in ./models/
 --
-dofile "data/pienums.lua"
+dofile(CurrentDirectory .. "/pienums.lua")
 
 -- get_arg() indices
 ARG_ALL_TIME_SECONDS = 1

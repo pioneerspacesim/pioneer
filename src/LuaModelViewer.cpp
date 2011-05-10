@@ -432,10 +432,10 @@ void Viewer::MainLoop()
 				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
 			}
 		}
-		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f);
-		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.0f);
-		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f);
-		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.0f);
+		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
 
 //		geom->MoveTo(modelRot, vector3d(0.0,0.0,0.0));
 

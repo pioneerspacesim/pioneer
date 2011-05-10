@@ -1028,7 +1028,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		if (totalRechargeTime) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
-		GLuint tex = util_load_tex_rgba("data/textures/ecm.png");
+		GLuint tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/ecm.png");
 
 		Render::PutPointSprites(100, v, 50.0f, c, tex);
 	}

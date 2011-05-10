@@ -54,6 +54,12 @@ void Clear()
 	rootFrame->m_children.clear();
 	rootFrame->m_astroBody = 0;
 	rootFrame->m_sbody = 0;
+
+	if (hyperspacingTo) delete hyperspacingTo;
+	hyperspacingTo = 0;
+	hyperspaceAnim = 0.0f;
+	hyperspaceDuration = 0.0f;
+	hyperspaceEndTime = 0.0f;
 }
 
 Body *FindNearestTo(const Body *b, Object::Type t)
@@ -639,11 +645,12 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		printf("%lu clouds brought over\n", storedArrivalClouds.size());
 
 		Space::Clear();
-		if (!hyperspacingTo) hyperspacingTo = new SBodyPath;
-		*hyperspacingTo = *dest;
+
+		hyperspacingTo = new SBodyPath(*dest);
 		hyperspaceAnim = 0.0f;
 		hyperspaceDuration = duration;
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
+
 		printf("Started hyperspacing...\n");
 	} else {
 		// XXX note that cloud now takes ownership of the ship object, and
