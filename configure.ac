@@ -40,13 +40,19 @@ PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
 LIBS="$LIBS $SIGC_LIBS"
 
-if test "x-$host" = "x-i686-pc-mingw32" ; then
+case "$host" in
+  i686-pc-mingw32)
 	LIBS="$LIBS -lglew32s -lglu32 -lopengl32"
-else
+	;;
+  x86_64-pc-mingw64)
+	AC_MSG_ERROR([x86-64 on MINGW is not yet supported])
+	;;
+  *)
 	AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
 	AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
 	AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
-fi
+	;;
+esac
 
 AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
 if test "$SDLCONFIG" = "no"; then
@@ -64,20 +70,26 @@ fi
 CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
 LIBS="$LIBS `$FTCONFIG --libs`"
 
-if test "x-$host" != "x-i686-pc-mingw32" ; then
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
+	;;
+  *)
 	CFLAGS="$CFLAGS -DLUA_USE_POSIX"
-fi
+esac
 
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
 
-if test "x-$host" = "x-i686-pc-mingw32" ; then
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
 	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
 	LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS -lshlwapi"
-else
+	;;
+  *)
 	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
 	LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
-fi
+	;;
+esac
 
 CXXFLAGS="$CFLAGS"
 
