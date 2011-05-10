@@ -10,7 +10,7 @@ namespace NameGenerator {
 
 	void Init()
 	{
-		FILE *f = fopen_or_die("data/forenames_male.txt", "r");
+		FILE *f = fopen_or_die(PIONEER_DATA_DIR"/forenames_male.txt", "r");
 		assert(f);
 		char buf[256];
 		while (fgets(buf, sizeof(buf), f)) {
@@ -23,7 +23,7 @@ namespace NameGenerator {
 			forenames_male.push_back(std::string(buf));
 		}
 		fclose(f);
-		f = fopen_or_die("data/forenames_female.txt", "r");
+		f = fopen_or_die(PIONEER_DATA_DIR"/forenames_female.txt", "r");
 		while (fgets(buf, sizeof(buf), f)) {
 			char *nl = strchr(buf, '\r');
 			if (nl) *nl = 0;
@@ -34,7 +34,7 @@ namespace NameGenerator {
 			forenames_female.push_back(std::string(buf));
 		}
 		fclose(f);
-		f = fopen_or_die("data/surnames.txt", "r");
+		f = fopen_or_die(PIONEER_DATA_DIR"/surnames.txt", "r");
 		while (fgets(buf, sizeof(buf), f)) {
 			char *nl = strchr(buf, '\r');
 			if (nl) *nl = 0;
@@ -45,7 +45,7 @@ namespace NameGenerator {
 			surnames.push_back(std::string(buf));
 		}
 		fclose(f);
-		f = fopen_or_die("data/planet_names.txt", "r");
+		f = fopen_or_die(PIONEER_DATA_DIR"/planet_names.txt", "r");
 		while (fgets(buf, sizeof(buf), f)) {
 			char *nl = strchr(buf, '\r');
 			if (nl) *nl = 0;
