@@ -85,7 +85,7 @@ static void _create_constant_table(lua_State *l, const char *ns, const pi_lua_co
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
-        pi_lua_table_ro(l);
+	    pi_lua_table_ro(l);
 		lua_pushstring(l, "Constants");
 		lua_pushvalue(l, -2);
 		lua_rawset(l, LUA_GLOBALSINDEX);
@@ -137,10 +137,10 @@ void LuaConstants::Register(lua_State *l)
 	 * Constants: BodyType
 	 *
 	 * Describe different kinds of system bodies such as stars, planets and
-     * space stations.
+	 * space stations.
 	 *
 	 * GRAVPOINT - a pseudo-type for a gravitational point that multiple
-     *             bodies may orbit
+	 *             bodies may orbit
 	 * BROWN_DWARF - brown dwarf sub-stellar object
 	 * STAR_M - type 'M' red star
 	 * STAR_K - type 'K' orange star
@@ -182,14 +182,14 @@ void LuaConstants::Register(lua_State *l)
 	 * PLANET_TERRESTRIAL - terrestrial planet
 	 * STARPORT_ORBITAL - orbital starport (space station)
 	 * STARPORT_SURFACE - surface starport
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   stable
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
 	 */
 	static const pi_lua_constant_t body_type_constants[] = {
 		{ "GRAVPOINT",          SBody::TYPE_GRAVPOINT },
@@ -241,22 +241,22 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: BodySuperType
-     *
-     * Describe general categories of system bodies.
+	 *
+	 * Describe general categories of system bodies.
 	 *
 	 * NONE - uncategorised
 	 * STAR - star
 	 * ROCKY_PLANET - a solid planet (terrestrial or asteroid)
 	 * GAS_GIANT - gas giant
 	 * STARPORT - surface or orbital starport
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   stable
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
 	 */
 	static const pi_lua_constant_t body_super_type_constants[] = {
 		{ "NONE",         SBody::SUPERTYPE_NONE },
@@ -271,21 +271,21 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitCrime
-     *
-     * Crimes
+	 *
+	 * Crimes
 	 *
 	 * TRADING_ILLEGAL_GOODS - .
 	 * WEAPON_DISCHARGE - .
 	 * PIRACY - .
 	 * MURDER - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   experimental
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_crime_constants[] = {
 		{ "TRADING_ILLEGAL_GOODS", Polit::CRIME_TRADING_ILLEGAL_GOODS },
@@ -299,21 +299,21 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitBloc
-     *
-     * Political alignment
+	 *
+	 * Political alignment
 	 *
 	 * NONE - independent
 	 * EARTHFED - Federation
 	 * CIS - Confederation of Independent Systems
 	 * EMPIRE - Empire
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   experimental
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_bloc_constants[] = {
 		{ "NONE",     Polit::BLOC_NONE },
@@ -326,22 +326,22 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitEcon
-     *
-     * Economy type
+	 *
+	 * Economy type
 	 *
 	 * NONE - .
 	 * VERY_CAPITALIST - .
 	 * CAPITALIST - .
 	 * MIXED - .
 	 * PLANNED - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   experimental
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_econ_constants[] = {
 		{ "NONE",            Polit::ECON_NONE },
@@ -355,8 +355,8 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: PolitGovType
-     *
-     * Government type
+	 *
+	 * Government type
 	 *
 	 * NONE - .
 	 * EARTHCOLONIAL - .
@@ -374,14 +374,14 @@ void LuaConstants::Register(lua_State *l)
 	 * COMMUNIST - .
 	 * PLUTOCRATIC - .
 	 * DISORDER - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   experimental
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t polit_gov_type_constants[] = {
 		{ "NONE",          Polit::GOV_NONE },
@@ -407,9 +407,9 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: EquipSlot
-     *
-     * Equipment slots. Every equipment or cargo type has a corresponding
-     * "slot" that it fits in to. Each slot has an independent capacity.
+	 *
+	 * Equipment slots. Every equipment or cargo type has a corresponding
+	 * "slot" that it fits in to. Each slot has an independent capacity.
 	 *
 	 * CARGO - any cargo (commodity) item
 	 * ENGINE - hyperdrives and military drives
@@ -426,14 +426,14 @@ void LuaConstants::Register(lua_State *l)
 	 * LASERCOOLER - laser cooling booster
 	 * CARGOLIFESUPPORT - cargo bay life support
 	 * AUTOPILOT - autopilot
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   experimental
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t equip_slot_constants[] = {
 		{ "CARGO",            Equip::SLOT_CARGO },
@@ -457,10 +457,10 @@ void LuaConstants::Register(lua_State *l)
 
 	/*
 	 * Constants: EquipType
-     *
-     * Equipment and cargo types. Because of the slot arrangement described
-     * under <EquipType> means that cargo is treated as a special type of
-     * equipment.
+	 *
+	 * Equipment and cargo types. Because of the slot arrangement described
+	 * under <EquipType> means that cargo is treated as a special type of
+	 * equipment.
 	 *
 	 * NONE - no equipment. Usually used to indicate the absence of equipment
 	 * HYDROGEN - hydrogen (CARGO)
@@ -534,14 +534,14 @@ void LuaConstants::Register(lua_State *l)
 	 * MININGCANNON_17MW - 17MW blast-mining cannon (LASER)
 	 * SMALL_PLASMA_ACCEL - small plasma accelerator (LASER)
 	 * LARGE_PLASMA_ACCEL - large plasma accelerator (LASER)
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   experimental
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t equip_type_constants[] = {
 		{ "NONE",                 Equip::NONE },
@@ -627,18 +627,25 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipTypeTag
 	 *
-	 * NONE - .
-	 * SHIP - .
-	 * STATIC_SHIP - .
-	 * MISSILE - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   stable
+	 * Ship tags mark whether a ship is suitable for a particular use. Used
+	 * with <ShipType.GetShipTypes> to select which set of ships to search.
+	 *
+	 * NONE - no tags
+	 * SHIP - standard ships. These are the ones available to the player and
+	 *        used for regular game functions (trade, combat, etc)
+	 * STATIC_SHIP - static ships. These are not available to the player and
+	 *               are used for mission specific functions (large supply
+	 *               ships, warships, etc)
+	 * MISSILE - missiles. Correspond directly to the <EquipType> constants of
+	 *           the same name.
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
 	 */
 	static const pi_lua_constant_t ship_type_tag_constants[] = {
 		{ "NONE",        ShipType::TAG_NONE },
@@ -652,20 +659,23 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipTypeThruster
 	 *
-	 * REVERSE - .
-	 * FORWARD - .
-	 * UP - .
-	 * DOWN - .
-	 * LEFT - .
-	 * RIGHT - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   stable
+	 * Thruster types. Used by <ShipType.GetLinearThrust>. The name
+	 * corresponds to the direction the ship moves when the thruster is fired.
+	 *
+	 * REVERSE - front (fore) thruster
+	 * FORWARD - main/rear (aft) thruster
+	 * UP - bottom/underbelly (dorsal) thruster
+	 * DOWN - top/back (ventral) thruster
+	 * LEFT - right-side (starboard) thruster
+	 * RIGHT -left-side (port) thruster
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
 	 */
 	static const pi_lua_constant_t ship_type_thruster_constants[] = {
 		{ "REVERSE", ShipType::THRUSTER_REVERSE },
@@ -682,19 +692,23 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipJumpStatus
 	 *
-	 * OK - .
-	 * CURRENT_SYSTEM - .
-	 * NO_DRIVE - .
-	 * OUT_OF_RANGE - .
-	 * INSUFFICIENT_FUEL - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   stable
+	 * Reasons that that a hyperspace jump might succeed or fail. Returned by
+	 * <Ship.HyperspaceTo> and <Ship.CanHyperspaceTo>.
+	 *
+	 * OK - jump successful
+	 * CURRENT_SYSTEM - ship is already in the target system
+	 * NO_DRIVE - ship has no drive
+	 * OUT_OF_RANGE - target system is out of range
+	 * INSUFFICIENT_FUEL - target system is in range but the ship doesn't have
+	 *                     enough fuel
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
 	 */
 	static const pi_lua_constant_t ship_jump_status_constants[] = {
 		{ "OK",                Ship::HYPERJUMP_OK },
@@ -709,17 +723,20 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipAlertStatus
 	 *
-	 * NONE - .
-	 * SHIP_NEARBY - .
-	 * SHIP_FIRING - .
-     *
-     * Availability:
-     *
-     *   alpha 10
-     *
-     * Status:
-     *
-     *   stable
+	 * Current alert status. Based on proximity and actions of nearby ships.
+	 *
+	 * NONE - no alert. All is well (green)
+	 * SHIP_NEARBY - ship within 100km (yellow)
+	 * SHIP_FIRING - ship within 100km is firing lasers (though not
+	 * necessarily at us) (red)
+	 *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   experimental
 	 */
 	static const pi_lua_constant_t ship_alert_status_constants[] = {
 		{ "NONE",        Ship::ALERT_NONE },
