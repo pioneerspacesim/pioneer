@@ -21,6 +21,10 @@
  */
 
 /*
+ * Group: Methods
+ */
+
+/*
  * Method: IsPlayer
  *
  * Determines if the ship is the player ship
@@ -569,153 +573,6 @@ static int l_ship_undock(lua_State *l)
 	lua_pushboolean(l, undocking);
 	return 1;
 }
-
-/*
- * Method: AIKill
- *
- * Attack a target ship and continue until it is destroyed
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_ai_kill(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	Ship *target = LuaShip::GetFromLua(2);
-	s->AIKill(target);
-	return 0;
-}
-
-/*
- * Method: AIFlyTo
- *
- * Fly to vicinity of a given physics body
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_ai_fly_to(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	Body *target = LuaBody::GetFromLua(2);
-	s->AIFlyTo(target);
-	return 0;
-}
-
-/*
- * Method: AIDockWith
- *
- * Fly to and dock with a given station
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_ai_dock_with(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
-	s->AIDock(target);
-	return 0;
-}
-
-/*
- * Method: AIEnterLowOrbit
- *
- * Fly to and enter a low orbit around a given physics body
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_ai_enter_low_orbit(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	Body *target = LuaBody::GetFromLua(2);
-	s->AIOrbit(target, 1.1);
-	return 0;
-}
-
-/*
- * Method: AIEnterMediumOrbit
- *
- * Fly to and enter a medium orbit around a given physics body
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_ai_enter_medium_orbit(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	Body *target = LuaBody::GetFromLua(2);
-	s->AIOrbit(target, 2.0);
-	return 0;
-}
-
-/*
- * Method: AIEnterHighOrbit
- *
- * Fly to and enter a high orbit around a given physics body
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_ai_enter_high_orbit(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	Body *target = LuaBody::GetFromLua(2);
-	s->AIOrbit(target, 5.0);
-	return 0;
-}
-
-/*
- * Method: CancelAI
- *
- * Cancel the current AI command
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_cancel_ai(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	s->AIClearInstructions();
-	return 0;
-}
-
 /*
  * Method: CanHyperspaceTo
  *
@@ -785,9 +642,13 @@ static int l_ship_hyperspace_to(lua_State *l)
 }
 
 /*
+ * Group: Attributes
+ */
+
+/*
  * Attribute: alertStatus
  *
- * A <Constants.ShipAlertStatus> string describing the current alert status.
+ * The current alert status of the ship. A <Constants.ShipAlertStatus> string.
  *
  * Availability:
  *
@@ -802,6 +663,220 @@ static int l_ship_attr_alert_status(lua_State *l)
 	Ship *s = LuaShip::GetFromLua(1);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipAlertStatus", s->GetAlertState()));
 	return 1;
+}
+
+/* 
+ * Group: AI methods
+ *
+ * The AI methods are the script's equivalent of the autopilot. They are
+ * high-level commands instruct the ship to fly somewhere and possibly take
+ * some action when it arrives (like dock or attack).
+ *
+ * When an AI completes the <EventQueue.onAICompleted> event is triggered, and
+ * the ship is left with engines off in whatever state the AI left it in. For
+ * some AI methods (eg <AIEnterLowOrbit>) this is useful. For others it will
+ * likely mean the ship will eventually succumb to gravity and crash
+ * somewhere. You should invoke another AI method or take some other action to
+ * prevent this.
+ */
+
+/*
+ * Method: AIKill
+ *
+ * Attack a target ship and continue until it is destroyed
+ *
+ * > ship:AIKill(target)
+ *
+ * Note the combat AI currently will fly the ship and fire the lasers as
+ * necessary, but it will not activate any other equipment (missiles, ECM,
+ * etc). It is the responsbility of the script to take those additional
+ * actions if desired.
+ *
+ * Parameters:
+ *
+ *   target - the <Ship> to destroy
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_kill(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Ship *target = LuaShip::GetFromLua(2);
+	s->AIKill(target);
+	return 0;
+}
+
+/*
+ * Method: AIFlyTo
+ *
+ * Fly to the vicinity of a given physics body
+ *
+ * > ship:AIFlyTo(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Body> to fly to
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_fly_to(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Body *target = LuaBody::GetFromLua(2);
+	s->AIFlyTo(target);
+	return 0;
+}
+
+/*
+ * Method: AIDockWith
+ *
+ * Fly to and dock with a given station
+ *
+ * > ship:AIDockWith(target)
+ *
+ * Parameters:
+ *
+ *   target - the <SpaceStation> to dock with
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_dock_with(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
+	s->AIDock(target);
+	return 0;
+}
+
+/*
+ * Method: AIEnterLowOrbit
+ *
+ * Fly to and enter a low orbit around a given planet or star
+ *
+ * > ship:AIEnterLowOrbit(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Star> or <Planet> to orbit
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_enter_low_orbit(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Body *target = LuaBody::GetFromLua(2);
+	s->AIOrbit(target, 1.1);
+	return 0;
+}
+
+/*
+ * Method: AIEnterMediumOrbit
+ *
+ * Fly to and enter a medium orbit around a given planet or star
+ *
+ * > ship:AIEnterMediumOrbit(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Star> or <Planet> to orbit
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_enter_medium_orbit(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Body *target = LuaBody::GetFromLua(2);
+	s->AIOrbit(target, 2.0);
+	return 0;
+}
+
+/*
+ * Method: AIEnterHighOrbit
+ *
+ * Fly to and enter a high orbit around a given planet or star
+ *
+ * > ship:AIEnterHighOrbit(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Star> or <Planet> to orbit
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_enter_high_orbit(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	Body *target = LuaBody::GetFromLua(2);
+	s->AIOrbit(target, 5.0);
+	return 0;
+}
+
+/*
+ * Method: CancelAI
+ *
+ * Cancel the current AI command
+ *
+ * > ship:CancelAI()
+ *
+ * This ship is left with the orientation and velocity it had when <CancelAI>
+ * was called. The engines are switched off.
+ *
+ * Note that <EventQueue.onAICompleted> will not be triggered by calling
+ * <CancelAI>, as the AI did not actually complete.
+ *
+ * You do not need to call this if you intend to immediately invoke another AI
+ * method. Calling an AI method will replace the previous command if one
+ * exists.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_cancel_ai(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	s->AIClearInstructions();
+	return 0;
 }
 
 static bool promotion_test(DeleteEmitter *o)
