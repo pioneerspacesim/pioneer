@@ -66,13 +66,48 @@ static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert
  *
  * Add an advertisement to the station's bulletin board
  *
+ * > ref = station:AddAdvert(description, chatfunc, deletefunc)
+ *
+ * Parameters:
+ *
+ *   description - text to display in the bulletin board
+ *
+ *   chatfunc - function to call when the ad is activated. The function is
+ *              passed two parameters, the ad reference returned by
+ *              <AddAdvert> when the ad is created, and an integer value
+ *              corresponding to the action that caused the activation. When
+ *              the ad is initially selected from the bulletin board, this
+ *              value is 0. Additional actions (and thus values) are defined
+ *              by the script via <ChatForm.AddAction>.
+ *
+ *   deletefunc - optional. function to call when the ad is removed from the
+ *                bulletin board. This happens when <RemoveAdvert> is called,
+ *                when the ad is cleaned up after
+ *                <ChatForm.RemoveAdvertOnClose> is called, and when the
+ *                <SpaceStation> itself is destroyed (eg the player leaves the
+ *                system).
+ *
+ * Return:
+ *
+ *   ref - an integer value for referring to the ad in the future. This value
+ *         will be passed to the ad's chat function and should be passed to
+ *         <RemoveAdvert> to remove the ad from the bulletin board.
+ *
+ * Example:
+ *
+ * > local ref = station:AddAdvert(
+ * >     "FAST SHIP to deliver a package to the Epsilon Eridani system.",
+ * >     function (ref, opt) ... end,
+ * >     function (ref) ... end
+ * > )
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_spacestation_add_advert(lua_State *l)
 {
