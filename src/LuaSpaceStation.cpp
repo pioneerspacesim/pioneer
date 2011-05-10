@@ -73,12 +73,13 @@ static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert
  *   description - text to display in the bulletin board
  *
  *   chatfunc - function to call when the ad is activated. The function is
- *              passed two parameters, the ad reference returned by
- *              <AddAdvert> when the ad is created, and an integer value
- *              corresponding to the action that caused the activation. When
- *              the ad is initially selected from the bulletin board, this
- *              value is 0. Additional actions (and thus values) are defined
- *              by the script via <ChatForm.AddAction>.
+ *              passed three parameters: a <ChatForm> object for the ad
+ *              conversation display, the ad reference returned by <AddAdvert>
+ *              when the ad was created, and an integer value corresponding to
+ *              the action that caused the activation. When the ad is initially
+ *              selected from the bulletin board, this value is 0. Additional
+ *              actions (and thus values) are defined by the script via
+ *              <ChatForm.AddAction>.
  *
  *   deletefunc - optional. function to call when the ad is removed from the
  *                bulletin board. This happens when <RemoveAdvert> is called,
