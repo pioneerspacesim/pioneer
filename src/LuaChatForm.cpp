@@ -318,13 +318,31 @@ void LuaChatForm::Sold(Equip::Type t) {
  * > end
  */
 
-static int l_luachatform_clear(lua_State *l)
-{
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	dialog->Clear();
-	return 0;
-}
-
+/*
+ * Method: SetTitle
+ *
+ * Set the chat form title
+ *
+ * > form:SetTitle(title)
+ *
+ * The form title is the text that appears just above the video link display.
+ *
+ * Parameters:
+ *
+ *   title - the title text
+ *
+ * Example:
+ *
+ * > form:SetTitle("Andrews Holding")
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_luachatform_set_title(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
@@ -333,6 +351,32 @@ static int l_luachatform_set_title(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: SetMessage
+ *
+ * Set the chat form message
+ *
+ * > form:SetMessage(message)
+ *
+ * The form message is the text that appears at the top of the form display,
+ * above the options.
+ *
+ * Parameters:
+ *
+ *   title - the message text
+ *
+ * Example:
+ *
+ * > form:SetMessage("I need a fast ship to take a package to Epsilon Eridani. I will pay $123.45")
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_luachatform_set_message(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
@@ -341,12 +385,66 @@ static int l_luachatform_set_message(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: AddOption
+ *
+ * Add a player-selectable chat option to the form
+ *
+ * > form:AddOption(text, opt)
+ *
+ * Parameters:
+ *
+ *   text - the option text
+ *
+ *   opt - an integer value. this will be passed as the third argument to the
+ *         chat function if this option is selected by the player
+ *
+ * Example:
+ *
+ * > form:AddOption("Why so much money?", 1)
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *   
+ *   stable
+ */
 static int l_luachatform_add_option(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string text = luaL_checkstring(l, 2);
 	int val = luaL_checkinteger(l, 3);
 	dialog->AddOption(text, val);
+	return 0;
+}
+
+/*
+ * Method: Clear
+ *
+ * Remove all UI elements from the form
+ *
+ * > form:Clear()
+ *
+ * <Clear> will remove all UI elements attached to the form. This includes the
+ * form message set with <SetMessage>, all options added with <AddOption> and
+ * a the goods trader component set with <AddGoodsTrader>.
+ *
+ * It will not remove the title set with <SetTitle>.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_luachatform_clear(lua_State *l)
+{
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	dialog->Clear();
 	return 0;
 }
 
@@ -375,6 +473,17 @@ static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l,
 	LUA_DEBUG_END(l, 0);
 }
 
+/*
+ * Method: AddGoodsTrader
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
@@ -440,6 +549,21 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: Close
+ *
+ * Closes the form and returns the player to the bulletin board
+ *
+ * > form:Close()
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_luachatform_close(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
@@ -447,6 +571,25 @@ static int l_luachatform_close(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: Refresh
+ *
+ * Recalculates and redraws the entire chat form display
+ *
+ * > form:Refresh()
+ *
+ * This recalulates ship capacity and money stats and redraws everything on
+ * the screen, including the form. Use this after your chat function changes
+ * the player equipment, cargo or money.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_luachatform_refresh(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
@@ -454,12 +597,46 @@ static int l_luachatform_refresh(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GotoPolice
+ *
+ * Aborts the chat form and takes the player to the station police screen
+ *
+ * > form:GotoPolice()
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_luachatform_goto_police(lua_State *l)
 {
 	Pi::spaceStationView->JumpToForm(new PoliceChatForm());
 	return 0;
 }
 
+/*
+ * Method: RemoveAdvertOnClose
+ *
+ * Flags that the advert attached the form should be removed from the bulletin
+ * board when the form closes
+ *
+ * > form:RemoveAdvertOnClose()
+ *
+ * This does not actually close the form, it simply sets an internal flag that
+ * will be acted upon at close.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_luachatform_remove_advert_on_close(lua_State *l)
 {
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
