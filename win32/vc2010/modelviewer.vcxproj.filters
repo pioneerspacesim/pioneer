@@ -114,9 +114,6 @@
     <ClCompile Include="..\..\src\LuaModelViewer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\mylua.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -127,6 +124,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,9 +248,6 @@
     <ClInclude Include="..\..\src\matrix4x4.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\mylua.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\MyLuaMathTypes.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -264,6 +261,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector3.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaUtils.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

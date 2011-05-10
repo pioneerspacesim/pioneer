@@ -55,7 +55,7 @@ struct politDesc_t {
 	fixed baseLawlessness;
 };
 const politDesc_t s_govDesc[GOV_MAX] = {
-	{ "<invalid turd>" },
+	{ "<invalid turd>", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
 	{ "No central governance", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
 	{ "Earth Federation Colonial Rule", 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
 	{ "Earth Federation Democracy", 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },

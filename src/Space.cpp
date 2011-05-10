@@ -591,8 +591,6 @@ void PruneCorpses()
 	corpses.clear();
 }
 
-static bool jumped_within_same_system;
-
 /*
  * Called during play to initiate hyperspace sequence.
  */
@@ -644,7 +642,7 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 				++i;
 			}
 		}
-		printf("%d clouds brought over\n", storedArrivalClouds.size());
+		printf("%lu clouds brought over\n", storedArrivalClouds.size());
 
 		Space::Clear();
 

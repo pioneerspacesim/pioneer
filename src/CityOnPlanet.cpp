@@ -26,9 +26,9 @@ struct citybuildinglist_t {
 };
 
 citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
-	{ "city_building", 800, 2000 },
-	{ "city_power", 100, 250 },
-	{ "city_starport_building", 300, 400 },
+	{ "city_building", 800, 2000, 0, NULL },
+	{ "city_power", 100, 250, 0, NULL },
+	{ "city_starport_building", 300, 400, 0, NULL },
 };
 
 #define CITYFLAVOURS 5

@@ -205,7 +205,6 @@ double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, doubl
 	vector3d objpos = relpos * rot;
 	vector3d reldir = objpos.NormalizedSafe();
 	vector3d endvel = targspeed * reldir;
-	double targdist = objpos.Length();
 	double invmass = 1.0 / GetMass();
 
 	// find ideal velocities at current time given reverse thrust level

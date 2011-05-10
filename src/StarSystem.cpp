@@ -225,12 +225,13 @@ fixed StarSystem::starMetallicities[] = {
 
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
-	int mass[2]; // min,max % sol for stars, unused for planets
+	Sint64 mass[2]; // min,max % sol for stars, unused for planets
 	int radius; // % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
 	{
 		SBody::SUPERTYPE_NONE, {}, 0,
+        0, 0
 	}, {
 		SBody::SUPERTYPE_STAR, //Dwarf
 		{2,8}, 30,
@@ -492,8 +493,12 @@ SBody::BodySuperType SBody::GetSuperType() const
 		case TYPE_STARPORT_SURFACE:
 		     return SUPERTYPE_STARPORT;
 		case TYPE_GRAVPOINT:
-		     return SUPERTYPE_NONE;
+             return SUPERTYPE_NONE;
+        default:
+             fprintf( stderr, "Warning: Invalid SuperBody Type found.\n");
+             return SUPERTYPE_NONE;
 	}
+    return SUPERTYPE_NONE;
 }
 
 std::string SBody::GetAstroDescription()
@@ -609,8 +614,11 @@ std::string SBody::GetAstroDescription()
 	case TYPE_STARPORT_SURFACE:
 		return "Starport";
 	case TYPE_GRAVPOINT:
-		return "<unknown>";
+    default:
+        fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
+        return "<unknown>";
 	}
+    return "<unknown>";
 }
 
 const char *SBody::GetIcon()
@@ -696,8 +704,11 @@ const char *SBody::GetIcon()
 		return "icons/object_orbital_starport.png";
 	case TYPE_GRAVPOINT:
 	case TYPE_STARPORT_SURFACE:
+    default:
+        fprintf( stderr, "Warning: Invalid body icon.\n");
 		return 0;
 	}
+    return 0;
 }
 
 /*
@@ -1618,11 +1629,12 @@ void StarSystem::Populate(bool addSpaceStations)
 		m_tradeLevel[i] += rand.Int32(-5, 5);
 	}
 	
-	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
-		Equip::Type t = (Equip::Type)i;
-		const EquipType &type = EquipType::types[t];
+// Unused?
+//	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+//		Equip::Type t = (Equip::Type)i;
+//		const EquipType &type = EquipType::types[t];
 //		printf("%s: %d%%\n", type.name, m_tradeLevel[t]);
-	}
+//	}
 //	printf("System total population %.3f billion, tech level %d\n", m_totalPop.ToFloat(), m_techlevel);
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
 
