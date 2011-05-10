@@ -343,7 +343,7 @@ static int l_ship_get_equip_slot_size(lua_State *l)
  *           item
  *
  *   equiplist - when index is not specified, a table of zero or more
- *           <Constants.EquipType> strings for all the items in the slot
+ *               <Constants.EquipType> strings for all the items in the slot
  *
  * Availability:
  *
@@ -385,6 +385,21 @@ static int l_ship_get_equip(lua_State *l)
  *
  * Overwrite a single item of equipment in a given equipment slot
  *
+ * > ship:SetEquip(slot, index, equip)
+ *
+ * Parameters:
+ *
+ *   slot - a <Constants.EquipSlot> string for the equipment slot
+ *
+ *   index - the position to store the item in
+ *
+ *   equip - a <Constants.EquipType> string for the item
+ *
+ * Example:
+ *
+ * > -- add a laser to the rear laser mount
+ * > ship:SetEquip("LASER", 1, "PULSECANNON_1MW")
+ *
  * Availability:
  *
  *  alpha 10
@@ -400,6 +415,9 @@ static int l_ship_set_equip(lua_State *l)
 	int idx = luaL_checkinteger(l, 3);
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 4)));
 
+	// XXX check that the slot is large enough
+	// XXX check that we have free mass
+
 	s->m_equipment.Set(slot, idx, e);
 	s->UpdateMass();
 	return 0;
@@ -409,6 +427,18 @@ static int l_ship_set_equip(lua_State *l)
  * Method: AddEquip
  *
  * Add an equipment or cargo item to its appropriate equipment slot
+ *
+ * > success = ship:AddEquip(item, count)
+ *
+ * Parameters:
+ *
+ *   item - a <Constants.EquipType> string for the item
+ *
+ *   count - optional. The number of this item to add. Defaults to 1.
+ *
+ * Return:
+ *
+ *   success - true if the item was added, false if there was not enough room.
  *
  * Availability:
  *
@@ -427,8 +457,9 @@ static int l_ship_add_equip(lua_State *l)
 	if (lua_isnumber(l, 3))
 		num = lua_tointeger(l, 3);
 
+	// XXX check slot capacity also
 	const shipstats_t *stats = s->CalcStats();
-	if (stats->free_capacity < EquipType::types[e].mass) {
+	if (stats->free_capacity < EquipType::types[e].mass*num) {
 		lua_pushboolean(l, false);
 		return 1;
 	}
