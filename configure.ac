@@ -25,16 +25,16 @@ AC_DEFUN([PIONEER_CFLAG],
 dnl Always add -Wall, where supported
 PIONEER_CFLAG([-Wall])
 
-AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging code (stack checks, debug tools features, etc)], CFLAGS="$CFLAGS -DDEBUG")
+AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [CFLAGS="$CFLAGS -DDEBUG"])
 
 dnl Add -O2 or -O0, but not if CFLAGS was set on the command line or the compiler doesn't handle it
 if test "$ac_test_CFLAGS" != set ; then
-  AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], [OPTIMISE=-O0], [OPTIMISE=-O2])
+  AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
   PIONEER_CFLAG([$OPTIMISE])
 fi
 
-AC_ARG_WITH(fno-inline,  [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], [PIONEER_CFLAG([-fno-inline])])
-AC_ARG_WITH(gprof,       [  --with-gprof            Compile with gprof profiler], [PIONEER_CFLAG([-p])])
+AC_ARG_WITH(fno-inline,  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_CFLAG([-fno-inline])])
+AC_ARG_WITH(gprof,       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_CFLAG([-p])])
 
 PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
