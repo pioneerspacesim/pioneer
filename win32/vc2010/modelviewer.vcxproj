@@ -121,7 +121,7 @@
     <ClCompile Include="..\..\src\GuiWidget.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaModelViewer.cpp" />
-    <ClCompile Include="..\..\src\mylua.cpp" />
+    <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Render.cpp" />
@@ -169,8 +169,8 @@
     <ClInclude Include="..\..\src\GuiWidget.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
+    <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
-    <ClInclude Include="..\..\src\mylua.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\Render.h" />
