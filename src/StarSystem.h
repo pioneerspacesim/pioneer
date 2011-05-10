@@ -42,7 +42,7 @@ class SBodyPath: public SysLoc {
 public:
 	SBodyPath();
 	SBodyPath(int sectorX, int sectorY, int systemNum);
-	SBodyPath(const SBodyPath &p) {
+	SBodyPath(const SBodyPath &p) : SysLoc() {
 		sectorX = p.sectorX;
 		sectorY = p.sectorY;
 		systemNum = p.systemNum;

@@ -694,7 +694,12 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			//SetFracDef(&m_fracdef[9], m_maxHeightInMeters*0.1, 100, rand, 10.0);
 			// adds bumps to the landscape
 			SetFracDef(&m_fracdef[9], height*0.0025, rand.Double(1,100), rand, 10.0);
+            break;
 		}
+        case TERRAIN_GASGIANT:
+        case TERRAIN_NONE:
+            // Added in to prevent compiler warnings
+            break;
 	}
 
 // We set some fracdefs here for colours if we need them:
@@ -994,7 +999,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
 			double mountains = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains2 = ridged_octavenoise(m_fracdef[3], 0.5, p);
 
@@ -1233,7 +1238,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
 			double mountains = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
@@ -1292,7 +1297,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		{
 			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+			// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
 			double mountains = octavenoise(m_fracdef[2], 0.5, p);
 			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
@@ -1598,6 +1603,7 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			return n;
 		}
 	}
+    return 0;
 }
 
 /* These fuctions should not be used by GeoSphereStyle::GetHeight, so don't move these definitions
@@ -2316,7 +2322,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return interpolate_color(flatness, col, m_rockColor[2]);
 	}
 	}
-
+    return vector3d(1.0);
 }
 
 static inline double octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p)
