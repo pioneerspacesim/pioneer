@@ -128,7 +128,7 @@ static void _finish_timer_create(lua_State *l)
  *   time - the absolute game time to call the function at. This will usually
  *          be created by adding some small amount to <Game.time>.
  *
- *   function - the function to call. Takes no arguments and returns nothing.
+ *   function - the function to call. Takes no parameters and returns nothing.
  *
  * Example:
  *

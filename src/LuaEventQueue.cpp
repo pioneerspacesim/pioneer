@@ -449,7 +449,7 @@ void LuaEventQueueBase::Emit()
  * Parameters:
  *
  *   function - function to call when the queue emits an event. The function
- *              will recieve a copy of the arguments attached to the event
+ *              will recieve a copy of the parameters attached to the event
  *
  *
  * Example:

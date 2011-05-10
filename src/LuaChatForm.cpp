@@ -396,7 +396,7 @@ static int l_luachatform_set_message(lua_State *l)
  *
  *   text - the option text
  *
- *   opt - an integer value. this will be passed as the third argument to the
+ *   opt - an integer value. this will be passed as the third parameter to the
  *         chat function if this option is selected by the player
  *
  * Example:
