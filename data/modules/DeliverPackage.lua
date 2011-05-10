@@ -68,13 +68,13 @@ local delivery_flavours = {
 local ads = {}
 local missions = {}
 
-local onChat = function (dialog, ref, option)
+local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	dialog:ClearOptions()
+	form:ClearOptions()
 
 	if option == -1 then
-		dialog:Close()
+		form:Close()
 		return
 	end
 
@@ -91,16 +91,16 @@ local onChat = function (dialog, ref, option)
 			sectory  = ad.location.sectorY,
 		})
 
-		dialog:SetMessage(introtext)
+		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
+		form:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
 	
 	elseif option == 2 then
-		dialog:SetMessage("It must be delivered by "..Format.Date(ad.due))
+		form:SetMessage("It must be delivered by "..Format.Date(ad.due))
 	
 	elseif option == 3 then
-		dialog:RemoveAdvertOnClose()
+		form:RemoveAdvertOnClose()
 
 		ads[ref] = nil
 
@@ -116,17 +116,17 @@ local onChat = function (dialog, ref, option)
 		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 
-		dialog:SetMessage("Excellent.")
-		dialog:AddOption("Hang up.", -1)
+		form:SetMessage("Excellent.")
+		form:AddOption("Hang up.", -1)
 
 		return
 	end
 
-	dialog:AddOption("Why so much money?", 1);
-	dialog:AddOption("How soon must it be delivered?", 2);
-	dialog:AddOption("Could you repeat the original request?", 0);
-	dialog:AddOption("Ok, agreed.", 3);
-	dialog:AddOption("Hang up.", -1);
+	form:AddOption("Why so much money?", 1);
+	form:AddOption("How soon must it be delivered?", 2);
+	form:AddOption("Could you repeat the original request?", 0);
+	form:AddOption("Ok, agreed.", 3);
+	form:AddOption("Hang up.", -1);
 end
 
 local onDelete = function (ref)

@@ -9,11 +9,11 @@ local goods_trader_flavour = {
 
 local ads = {}
 
-local onChat = function (dialog, ref, option)
+local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == -1 then
-		dialog:Close()
+		form:Close()
 		return
 	end
 
@@ -27,9 +27,9 @@ local onChat = function (dialog, ref, option)
 		end
 	end
 
-	dialog:ClearOptions()
-	dialog:SetTitle(ad.flavour)
-	dialog:SetMessage("Welcome to "..ad.flavour)
+	form:ClearOptions()
+	form:SetTitle(ad.flavour)
+	form:SetMessage("Welcome to "..ad.flavour)
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then
@@ -38,11 +38,11 @@ local onChat = function (dialog, ref, option)
 
 		local lawlessness = Game.system.lawlessness
 		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
-		dialog:GotoPolice()
+		form:GotoPolice()
 		return false
 	end
 	
-	dialog:AddGoodsTrader({
+	form:AddGoodsTrader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)
 			if ads[ref].stock[commodity] then
@@ -81,7 +81,7 @@ local onChat = function (dialog, ref, option)
 		end,
 	})
 
-	dialog:AddOption("Hang up.", -1);
+	form:AddOption("Hang up.", -1);
 
 end
 

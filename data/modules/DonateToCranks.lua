@@ -13,28 +13,28 @@ local crank_flavours = {
 
 local ads = {}
 
-local onChat = function (dialog, ref, option)
+local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
-		dialog:ClearOptions();
+		form:ClearOptions();
 
-		dialog:SetTitle(ad.title)
-		dialog:SetMessage(ad.message)
+		form:SetTitle(ad.title)
+		form:SetMessage(ad.message)
 
-		dialog:AddOption("$1", 1);
-		dialog:AddOption("$10", 10);
-		dialog:AddOption("$100", 100);
-		dialog:AddOption("$1000", 1000);
-		dialog:AddOption("$10000", 10000);
-		dialog:AddOption("$100000", 100000);
-		dialog:AddOption("Hang up.", -1);
+		form:AddOption("$1", 1);
+		form:AddOption("$10", 10);
+		form:AddOption("$100", 100);
+		form:AddOption("$1000", 1000);
+		form:AddOption("$10000", 10000);
+		form:AddOption("$100000", 100000);
+		form:AddOption("Hang up.", -1);
 
 		return
 	end
 
 	if option == -1 then
-		dialog:Close()
+		form:Close()
 		return
 	end
 
@@ -47,7 +47,7 @@ local onChat = function (dialog, ref, option)
 			UI.Message("", "Thank you. All donations are welcome.")
 		end
 		Game.player:AddMoney(-option)
-		dialog:Refresh()
+		form:Refresh()
 	end
 end
 
