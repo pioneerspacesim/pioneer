@@ -15,13 +15,26 @@ AC_C_CONST
 AC_PROG_RANLIB
 #AC_PROG_LIBTOOL
 
-CFLAGS="-g -Wall"
+dnl Add a flag to CFLAGS, if supported by the compiler
+AC_DEFUN([PIONEER_CFLAG],
+    [saved_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS $1"
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[exit (0);]])], [], [CFLAGS="$saved_CFLAGS"; AC_MSG_WARN([$CC does not support $1])])
+    ])
+
+dnl Always add -Wall, where supported
+PIONEER_CFLAG([-Wall])
 
 AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging code (stack checks, debug tools features, etc)], CFLAGS="$CFLAGS -DDEBUG")
 
-AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
-AC_ARG_WITH(fno-inline,  [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CFLAGS -fno-inline")
-AC_ARG_WITH(gprof,       [  --with-gprof            Compile with gprof profiler], CFLAGS="$CFLAGS -p")
+dnl Add -O2 or -O0, but not if CFLAGS was set on the command line or the compiler doesn't handle it
+if test "$ac_test_CFLAGS" != set ; then
+  AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], [OPTIMISE=-O0], [OPTIMISE=-O2])
+  PIONEER_CFLAG([$OPTIMISE])
+fi
+
+AC_ARG_WITH(fno-inline,  [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], [PIONEER_CFLAG([-fno-inline])])
+AC_ARG_WITH(gprof,       [  --with-gprof            Compile with gprof profiler], [PIONEER_CFLAG([-p])])
 
 PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
