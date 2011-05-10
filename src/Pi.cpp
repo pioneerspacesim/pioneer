@@ -370,6 +370,7 @@ void Pi::Init()
 	}
 	draw_progress(1.0f);
 
+#if 0
 	// test code to produce list of ship stats
 
 	FILE *pStatFile = fopen("shipstat.csv","wt");
@@ -408,6 +409,7 @@ void Pi::Init()
 		}
 		fclose(pStatFile);
 	}
+#endif
 
 	gameMenuView = new GameMenuView();
 	config.Save();
@@ -1176,7 +1178,7 @@ void Pi::MainLoop()
 		//if (glGetError()) printf ("GL: %s\n", gluErrorString (glGetError ()));
 		
 		int timeAccel = Pi::requestedTimeAccelIdx;
-		if (Pi::player->GetFlightState() == Ship::FLYING) {
+		if (Pi::player->GetFlightState() == Ship::FLYING && !Space::GetHyperspaceAnim()) {
 
 			// special timeaccel lock rules while in alert
 			if (Pi::player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)

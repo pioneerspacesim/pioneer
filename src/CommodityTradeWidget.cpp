@@ -43,7 +43,15 @@ void CommodityTradeWidget::ShowAll()
 
 		if (!m_seller->DoesSell((Equip::Type)i)) continue;
 		int stock = m_seller->GetStock(static_cast<Equip::Type>(i));
-		Gui::Image *img = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + std::string(EquipType::types[i].name) + ".png").c_str() );
+
+		// need to replace spaces in the item name
+		std::string imgname = std::string(EquipType::types[i].name);
+		size_t imgbad;
+		while ((imgbad = imgname.find(' ')) != std::string::npos) {
+			imgname.replace(imgbad, 1, "_");
+		}
+		Gui::Image *img = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + imgname + ".png").c_str() );
+
 		innerbox->Add(img,0, num*YSEP);
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
 		if (EquipType::types[i].description)
