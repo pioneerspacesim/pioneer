@@ -119,6 +119,13 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
+	
+	bool have_delete = false;
+	if (lua_gettop(l) >= 4) {
+		if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
+			luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
+		have_delete = true;
+	}
 
 	int ref = s->AddBBAdvert(description, _create_chat_form);
 
@@ -138,9 +145,7 @@ static int l_spacestation_add_advert(lua_State *l)
 	lua_pushvalue(l, 3);
 	lua_settable(l, -3);
 
-	if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
-		luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
-	else {
+	if (have_delete) {
 		lua_pushstring(l, "onDelete");
 		lua_pushvalue(l, 4);
 		lua_settable(l, -3);
