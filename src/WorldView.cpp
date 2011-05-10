@@ -272,7 +272,7 @@ void WorldView::OnClickHyperspace()
 	Pi::player->TryHyperspaceTo(path);
 }
 
-// XXX This is rather slow, need dynamic loading of star data, instead of once ever 100 frames.
+// This is the background starfield
 void WorldView::DrawBgStars() 
 {
 	double hyperspaceAnim = Space::GetHyperspaceAnim();
@@ -415,7 +415,7 @@ void WorldView::DrawBgStars()
 			vtx[i*12+1] = s_bgstar[i].y;
 			vtx[i*12+2] = s_bgstar[i].z;
 
-			vtx[i*12+3] = s_bgstar[i].r;
+			vtx[i*12+3] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
 			vtx[i*12+4] = s_bgstar[i].g;
 			vtx[i*12+5] = s_bgstar[i].b;
 
