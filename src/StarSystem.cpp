@@ -4,7 +4,6 @@
 #include "NameGenerator.h"
 #include <map>
 #include "utils.h"
-#include <stdint.h>
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
