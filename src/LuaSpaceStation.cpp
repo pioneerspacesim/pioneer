@@ -161,6 +161,15 @@ static int l_spacestation_add_advert(lua_State *l)
  *
  * Remove an advertisement from the station's bulletin board
  *
+ * > station:RemoveAdvert(ref)
+ *
+ * If the deletefunc parameter was supplied to <AddAdvert> when the ad was
+ * created, it will be called as part of this call.
+ *
+ * Parameters:
+ *
+ *   ref - the advert reference number returned by <AddAdvert>
+ *
  * Availability:
  *
  *  alpha 10
@@ -218,13 +227,23 @@ static int l_spacestation_remove_advert(lua_State *l)
  *
  * Get the price of an equipment or cargo item traded at this station
  *
+ * > price = station:GetEquipmentPrice(equip)
+ *
+ * Parameters:
+ *
+ *   equip - the <Constants.EquipType> string for the equipment or cargo item
+ *
+ * Returns:
+ *
+ *   price - the price of the equipment or cargo item
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   experimental
  */
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
