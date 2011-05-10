@@ -27,7 +27,7 @@ local onChat = function (dialog, ref, option)
 		end
 	end
 
-	dialog:Clear()
+	dialog:ClearOptions()
 	dialog:SetTitle(ad.flavour)
 	dialog:SetMessage("Welcome to "..ad.flavour)
 

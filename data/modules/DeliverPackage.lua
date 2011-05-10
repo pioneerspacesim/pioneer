@@ -71,7 +71,7 @@ local missions = {}
 local onChat = function (dialog, ref, option)
 	local ad = ads[ref]
 
-	dialog:Clear()
+	dialog:ClearOptions()
 
 	if option == -1 then
 		dialog:Close()

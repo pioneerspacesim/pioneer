@@ -17,7 +17,7 @@ local onChat = function (dialog, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
-		dialog:Clear();
+		dialog:ClearOptions();
 
 		dialog:SetTitle(ad.title)
 		dialog:SetMessage(ad.message)
