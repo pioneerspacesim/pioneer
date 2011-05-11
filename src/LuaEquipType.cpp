@@ -96,9 +96,9 @@ static int l_equiptype_attr_mass(lua_State *l)
 /*
  * Function: GetEquipType
  *
- * > equiptype = EquipType.GetEquipType(type)
- *
  * Get a description object for the given equipment type constant
+ *
+ * > equiptype = EquipType.GetEquipType(type)
  *
  * Parameters:
  *
