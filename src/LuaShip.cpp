@@ -743,7 +743,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 
 	if (!s->CanHyperspaceTo(dest, fuel, duration, &status))
 	{
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
 		return 1;
 	}
 
