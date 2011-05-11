@@ -258,7 +258,7 @@ local onShipDocked = function (player, station)
 			missions[ref] = nil
 
 		elseif Game.time > mission.due then
-			mission.status = 'failed'
+			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
 		end
 

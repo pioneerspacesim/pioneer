@@ -1,6 +1,7 @@
 #include "LuaPlayer.h"
 #include "LuaSBodyPath.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "Player.h"
 #include "Polit.h"
 
@@ -43,20 +44,7 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "status");
-	switch (m.status) {
-		case Mission::COMPLETED:
-			lua_pushstring(l, "completed");
-			break;
-
-		case Mission::FAILED:
-			lua_pushstring(l, "failed");
-			break;
-
-		case Mission::ACTIVE:
-		default:
-			lua_pushstring(l, "active");
-			break;
-	}
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "MissionStatus", m.status));
 	lua_rawset(l, -3);
 
 	LUA_DEBUG_END(l, 1);
@@ -100,18 +88,8 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 		if (create)
 			m.status = Mission::ACTIVE;
 	}
-	else {
-		std::string status = luaL_checkstring(l, -1);
-
-		if (status == "completed")
-			m.status = Mission::COMPLETED;
-		else if (status == "failed")
-			m.status = Mission::FAILED;
-		else if (status == "active")
-			m.status = Mission::ACTIVE;
-		else
-			luaL_error(l, "field 'status' has unknown value '%s'", status.c_str());
-	}
+	else
+		m.status = static_cast<Mission::MissionState>(LuaConstants::GetConstant(l, "MissionStatus", luaL_checkstring(l, -1)));
 	
 	lua_pop(l, 2);
 
