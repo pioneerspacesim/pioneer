@@ -441,13 +441,17 @@ static int l_ship_set_equip(lua_State *l)
  *   num_added - the number of items added. Can be less than count if there
  *               was not enough room.
  *
+ * Example:
+ *
+ * > ship:AddEquip("ANIMAL_MEAT", 10)
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   experimental
  */
 static int l_ship_add_equip(lua_State *l)
 {
@@ -473,6 +477,22 @@ static int l_ship_add_equip(lua_State *l)
  * Method: RemoveEquip
  *
  * Remove one or more of a given equipment type from its appropriate cargo slot
+ *
+ * > num_removed = ship:RemoveEquip(item, count)
+ *
+ * Parameters:
+ *
+ *   item - a <Constants.EquipType> string for the item
+ *
+ *   count - optional. The number of this item to remove. Defaults to 1.
+ *
+ * Return:
+ *
+ *   num_removed - the number of items removed
+ *
+ * Example:
+ *
+ * > ship:RemoveEquip("DRIVE_CLASS1")
  *
  * Availability:
  *
@@ -501,6 +521,18 @@ static int l_ship_remove_equip(lua_State *l)
  *
  * Get the number of a given equipment or cargo item in a given equipment slot
  *
+ * > count = ship:GetEquipCount(slot, item)
+ *
+ * Parameters:
+ *
+ *   slot - a <Constants.EquipSlot> string for the slot
+ *
+ *   item - a <Constants.EquipType> string for the item
+ *
+ * Return:
+ *
+ *   count - the number of the given item in the slot
+ *
  * Availability:
  *
  *  alpha 10
@@ -522,6 +554,16 @@ static int l_ship_get_equip_count(lua_State *l)
  * Method: GetEquipFree
  *
  * Get the amount of free space in a given equipment slot
+ *
+ * > free = ship:GetEquipFree(slot)
+ *
+ * Parameters:
+ *
+ *   slot - a <Constants.EquipSlot> string for the slot to check
+ *
+ * Return:
+ *
+ *   free - the number of item spaces left in this slot
  *
  * Availability:
  *
