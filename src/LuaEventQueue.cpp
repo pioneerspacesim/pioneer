@@ -215,7 +215,8 @@ void LuaEventQueueBase::Emit()
  * > local onLeaveSystem = function (ship) ... end
  * > EventQueue.onLeaveSystem:Connect(onLeaveSystem)
  *
- * All physics <Body> objects are invalid after this function returns.
+ * If the ship was the player then all physics <Body> objects are invalid after
+ * this method returns.
  *
  * Parameters:
  *
