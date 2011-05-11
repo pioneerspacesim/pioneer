@@ -746,6 +746,31 @@ void LuaConstants::Register(lua_State *l)
 	};
 	_create_constant_table(l, "ShipAlertStatus", ship_alert_status_constants);
 
+    /*
+     * Constants: MissionStatus
+     *
+     * Status of a mission.
+     *
+     * ACTIVE - mission in progress
+     * COMPLETED - mission completed
+     * FAILED - mission failed
+     *
+	 * Availability:
+	 *
+	 *   alpha 10
+	 *
+	 * Status:
+	 *
+	 *   stable
+	 */
+	static const pi_lua_constant_t mission_status_constants[] = {
+		{ "ACTIVE",    Mission::ACTIVE },
+		{ "COMPLETED", Mission::COMPLETED },
+		{ "FAILE",     Mission::FAILED },
+		{ 0, 0 }
+	};
+	_create_constant_table(l, "MissionStatus", mission_status_constants);
+
 
 	LUA_DEBUG_END(l, 0);
 }
