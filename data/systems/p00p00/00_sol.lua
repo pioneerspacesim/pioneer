@@ -365,6 +365,7 @@ local neptune_moons = {
 		:temp(38)
 		:semi_major_axis(f(2371,100000))
 		:eccentricity(f(16,1000000))
+		:volcanicity(f(3,10)) -- Cryovolcanos!
 		:inclination(math.deg2rad(156.885))
 		:rotation_period(f(141,24))
 		:atmos_density(f(1,10)),
