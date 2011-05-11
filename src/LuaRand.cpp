@@ -11,13 +11,24 @@
  *
  * Creates a new random number generator.
  *
+ * > rand = Rand:New(seed)
+ *
+ * Parameters:
+ *
+ *   seed - optional, the value to seed the generator with. If omitted it will
+ *          be set to the current system (not game) time
+ *
+ * Return:
+ *
+ *   rand - the newly-created generator
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_rand_new(lua_State *l)
 {
@@ -33,13 +44,29 @@ static int l_rand_new(lua_State *l)
  *
  * Generates a real (non-integer) number.
  *
+ * > number = rand:Number()
+ * > number = rand:Number(max)
+ * > number = rand:Number(min, max)
+ *
+ * Parameters:
+ *
+ *   min - optional, the minimum possible value for the generated number. If
+ *         omitted, defaults to 0
+ *
+ *   max - optional, the maximum possible value for the generated number. If
+ *         omitted, defaults to 1
+ *
+ * Return:
+ *
+ *   number - the random number
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_rand_number(lua_State *l)
 {
@@ -69,15 +96,31 @@ static int l_rand_number(lua_State *l)
 /*
  * Method: Integer
  *
- * Generates an integer number.
+ * Generates an integer number
+ *
+ * > number = rand:Integer()
+ * > number = rand:Integer(max)
+ * > number = rand:Integer(min, max)
+ *
+ * Parameters:
+ *
+ *   min - optional, the minimum possible value for the generated number. If
+ *         omitted, defaults to 0
+ *
+ *   max - optional, the maximum possible value for the generated number. If
+ *         omitted, defaults to 1
+ *
+ * Return:
+ *
+ *   number - the random number
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_rand_integer(lua_State *l)
 {
