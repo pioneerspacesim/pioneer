@@ -15,25 +15,44 @@ AC_C_CONST
 AC_PROG_RANLIB
 #AC_PROG_LIBTOOL
 
-CFLAGS="-g -Wall"
+dnl Add a flag to CFLAGS, if supported by the compiler
+AC_DEFUN([PIONEER_CFLAG],
+    [saved_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS $1"
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[exit (0);]])], [], [CFLAGS="$saved_CFLAGS"; AC_MSG_WARN([$CC does not support $1])])
+    ])
 
-AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging code (stack checks, debug tools features, etc)], CFLAGS="$CFLAGS -DDEBUG")
+dnl Always add -Wall, where supported
+PIONEER_CFLAG([-Wall])
 
-AC_ARG_WITH(no-optimise, [  --with-no-optimise      Compile without optimisation], CFLAGS="$CFLAGS -O0", CFLAGS="$CFLAGS -O2")
-AC_ARG_WITH(fno-inline,  [  --with-fno-inline       Compile without inlining. Helps debugging segaults that occur in STL code], CFLAGS="$CFLAGS -fno-inline")
-AC_ARG_WITH(gprof,       [  --with-gprof            Compile with gprof profiler], CFLAGS="$CFLAGS -p")
+AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [CFLAGS="$CFLAGS -DDEBUG"])
+
+dnl Add -O2 or -O0, but not if CFLAGS was set on the command line or the compiler doesn't handle it
+if test "$ac_test_CFLAGS" != set ; then
+  AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
+  PIONEER_CFLAG([$OPTIMISE])
+fi
+
+AC_ARG_WITH(fno-inline,  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_CFLAG([-fno-inline])])
+AC_ARG_WITH(gprof,       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_CFLAG([-p])])
 
 PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
 LIBS="$LIBS $SIGC_LIBS"
 
-if test "x-$host" = "x-i686-pc-mingw32" ; then
+case "$host" in
+  i686-pc-mingw32)
 	LIBS="$LIBS -lglew32s -lglu32 -lopengl32"
-else
+	;;
+  x86_64-pc-mingw64)
+	AC_MSG_ERROR([x86-64 on MINGW is not yet supported])
+	;;
+  *)
 	AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
 	AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
 	AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
-fi
+	;;
+esac
 
 AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
 if test "$SDLCONFIG" = "no"; then
@@ -51,20 +70,26 @@ fi
 CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
 LIBS="$LIBS `$FTCONFIG --libs`"
 
-if test "x-$host" != "x-i686-pc-mingw32" ; then
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
+	;;
+  *)
 	CFLAGS="$CFLAGS -DLUA_USE_POSIX"
-fi
+esac
 
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
 
-if test "x-$host" = "x-i686-pc-mingw32" ; then
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
 	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
 	LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS -lshlwapi"
-else
+	;;
+  *)
 	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
 	LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
-fi
+	;;
+esac
 
 CXXFLAGS="$CFLAGS"
 

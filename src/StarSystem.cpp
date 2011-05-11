@@ -633,21 +633,21 @@ const char *SBody::GetIcon()
 	case TYPE_STAR_B: return "icons/object_star_b.png";
 	case TYPE_STAR_O: return "icons/object_star_b.png"; //shares B graphic for now
 	case TYPE_STAR_M_GIANT: return "icons/object_star_m_giant.png";
-	case TYPE_STAR_K_GIANT: return "icons/object_star_g_giant.png"; //shares G graphic for now
+	case TYPE_STAR_K_GIANT: return "icons/object_star_k_giant.png";
 	case TYPE_STAR_G_GIANT: return "icons/object_star_g_giant.png";
 	case TYPE_STAR_F_GIANT: return "icons/object_star_g_giant.png"; //shares G graphic for now
 	case TYPE_STAR_A_GIANT: return "icons/object_star_a_giant.png";
 	case TYPE_STAR_B_GIANT: return "icons/object_star_b_giant.png";
 	case TYPE_STAR_O_GIANT: return "icons/object_star_o.png"; // uses old O type graphic
 	case TYPE_STAR_M_SUPER_GIANT: return "icons/object_star_m_super_giant.png";
-	case TYPE_STAR_K_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
+	case TYPE_STAR_K_SUPER_GIANT: return "icons/object_star_k_super_giant.png";
 	case TYPE_STAR_G_SUPER_GIANT: return "icons/object_star_g_super_giant.png";
 	case TYPE_STAR_F_SUPER_GIANT: return "icons/object_star_g_super_giant.png"; //shares G graphic for now
 	case TYPE_STAR_A_SUPER_GIANT: return "icons/object_star_a_super_giant.png";
 	case TYPE_STAR_B_SUPER_GIANT: return "icons/object_star_b_super_giant.png";
 	case TYPE_STAR_O_SUPER_GIANT: return "icons/object_star_b_super_giant.png";// uses B type graphic for now
 	case TYPE_STAR_M_HYPER_GIANT: return "icons/object_star_m_hyper_giant.png";
-	case TYPE_STAR_K_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png"; //shares G graphic for now
+	case TYPE_STAR_K_HYPER_GIANT: return "icons/object_star_k_hyper_giant.png";
 	case TYPE_STAR_G_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png";
 	case TYPE_STAR_F_HYPER_GIANT: return "icons/object_star_g_hyper_giant.png"; //shares G graphic for now
 	case TYPE_STAR_A_HYPER_GIANT: return "icons/object_star_a_hyper_giant.png";
