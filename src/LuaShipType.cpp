@@ -206,9 +206,9 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
 /*
  * Function: GetShipType
  *
- * > shiptype = ShipType.GetShipType(name)
- *
  * Get a description object for the given ship name
+ *
+ * > shiptype = ShipType.GetShipType(name)
  *
  * Parameters:
  *
@@ -239,7 +239,7 @@ static int l_shiptype_get_ship_type(lua_State *l)
 }
 
 /*
- * Function: GetShipType
+ * Function: GetShipTypes
  *
  * Returns an array of ship description objects that match the specified
  * filter
