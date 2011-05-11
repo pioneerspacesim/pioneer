@@ -402,7 +402,6 @@ void WorldView::DrawBgStars()
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
 		vector3d pz(m[2], m[6], m[10]);
-		m_haveStars = true;
 
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -428,7 +427,7 @@ void WorldView::DrawBgStars()
 
 			vtx[i*12+9] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
 			vtx[i*12+10] = rand.Double(s_bgstar[i].g-0.2,s_bgstar[i].g);
-			vtx[i*12+11] = rand.Double(s_bgstar[i].b,1);
+			vtx[i*12+11] = rand.Double(s_bgstar[i].b,0.7);
 		}
 
 		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
