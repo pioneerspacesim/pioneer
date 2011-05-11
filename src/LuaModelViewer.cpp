@@ -523,11 +523,15 @@ static void PollEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					g_viewer->PickModel();
+                    if (g_viewer->m_model) {
+                        g_viewer->PickModel();
+                    } else {
+                        SDL_Quit();
+                        exit(0);
+                    }
 				}
-				if (event.key.keysym.sym == SDLK_q) { SDL_Quit(); exit(0); }
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-				if (event.key.keysym.sym == SDLK_s) {
+				if (event.key.keysym.sym == SDLK_s && (g_viewer->m_model)) {
 					Render::ToggleShaders();
 				}
 				g_keyState[event.key.keysym.sym] = 1;
