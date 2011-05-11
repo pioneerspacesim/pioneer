@@ -26,6 +26,8 @@ private:
 	Gui::Label *m_scaleReadout;
 	Gui::LabelSet *m_labels;
 	float m_zoom;
+	float m_px, m_py;
+	float m_rot_x, m_rot_z;
 	GLuint m_texture;
 	sigc::connection m_onMouseButtonDown;
 };
