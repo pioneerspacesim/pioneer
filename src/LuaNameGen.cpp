@@ -16,13 +16,27 @@
  *
  * Create a full name (first + surname) string
  *
+ * > name = Namegen.FullName(isfemale, rand)
+ *
+ * Parameters:
+ *
+ *   isfemale - whether to generate a male or female name. true for female,
+ *              false for male
+ *
+ *   rand - optional, the <Rand> object to use to generate the name. if
+ *          omitted, <Engine.rand> will be used
+ *
+ * Return:
+ *
+ *   name - a string containing the name
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_namegen_full_name(lua_State *l)
 {
@@ -40,13 +54,24 @@ static int l_namegen_full_name(lua_State *l)
  *
  * Create a surname string
  *
+ * > name = Namegen.Surname(rand)
+ *
+ * Parameters:
+ *
+ *   rand - optional, the <Rand> object to use to generate the name. if
+ *          omitted, <Engine.rand> will be used
+ *
+ * Return:
+ *
+ *   name - a string containing the name
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_namegen_surname(lua_State *l)
 {
@@ -63,13 +88,24 @@ static int l_namegen_surname(lua_State *l)
  *
  * Create a planet name
  *
+ * > name = Namegen.PlanetName(rand)
+ *
+ * Parameters:
+ *
+ *   rand - optional, the <Rand> object to use to generate the name. if
+ *          omitted, <Engine.rand> will be used
+ *
+ * Return:
+ *
+ *   name - a string containing the name
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_namegen_planet_name(lua_State *l)
 {
