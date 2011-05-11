@@ -8,6 +8,10 @@
  * Interface: Format
  *
  * String formatting functions for various game values.
+ *
+ * While much of the time you can do value conversions yourself its
+ * recommended that you use these functions instead to ensure that the values
+ * have a consistent display throughout the interface.
  */
 
 /*
@@ -15,13 +19,23 @@
  *
  * Create a string representation of the given date/time value.
  *
+ * > string = Format.Date(date)
+ *
+ * Parameters:
+ *
+ *   date - a date/time value, as seconds since 12:00 01-01-3200
+ *
+ * Return:
+ *
+ *   string - the string representation
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_format_date(lua_State *l)
 {
@@ -35,13 +49,23 @@ static int l_format_date(lua_State *l)
  *
  * Create a string representation of the given distance value.
  *
+ * > string = Format.Distance(distance)
+ *
+ * Parameters:
+ *
+ *   distance - a distance in metres
+ *
+ * Return:
+ *
+ *   string - the string representation
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_format_distance(lua_State *l)
 {
@@ -55,13 +79,23 @@ static int l_format_distance(lua_State *l)
  *
  * Create a string representation of the given money value.
  *
+ * > string = Format.Money(money)
+ *
+ * Parameters:
+ *
+ *   money - a money value, in dollars
+ *
+ * Return:
+ *
+ *   string - the string representation
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_format_money(lua_State *l)
 {
