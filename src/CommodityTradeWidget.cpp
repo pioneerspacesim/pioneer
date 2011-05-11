@@ -27,10 +27,10 @@ void CommodityTradeWidget::ShowAll()
 
 	int NUM_ITEMS = 0;
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 2.5f);
-	for (int i=(int)Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
+	for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
 		assert(EquipType::types[i].slot == Equip::SLOT_CARGO);
 
-		if (m_seller->DoesSell((Equip::Type)i)) {
+		if (m_seller->DoesSell(Equip::Type(i))) {
 				NUM_ITEMS++;
 		}
 	}
@@ -38,10 +38,10 @@ void CommodityTradeWidget::ShowAll()
 	innerbox->SetTransparency(true);
 	
 	const float iconOffset = 8.0f;
-	for (int i=(int)Equip::FIRST_COMMODITY, num=0; i<=Equip::LAST_COMMODITY; i++) {
+	for (int i=Equip::FIRST_COMMODITY, num=0; i<=Equip::LAST_COMMODITY; i++) {
 		assert(EquipType::types[i].slot == Equip::SLOT_CARGO);
 
-		if (!m_seller->DoesSell((Equip::Type)i)) continue;
+		if (!m_seller->DoesSell(Equip::Type(i))) continue;
 		int stock = m_seller->GetStock(static_cast<Equip::Type>(i));
 
 		// need to replace spaces in the item name

@@ -289,8 +289,8 @@ void SectorView::Update()
 		m_rot_z += motion[0];
 	}
 	
-	m_secx = (int)floor(m_px);
-	m_secy = (int)floor(m_py);
+	m_secx = int(floor(m_px));
+	m_secy = int(floor(m_py));
 
 	Sector s = Sector(m_secx, m_secy);
 	float px = FFRAC(m_px)*Sector::SIZE;

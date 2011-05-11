@@ -241,7 +241,7 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 				}*/
 				if (i1 > 0) {
 					if (i1 < isect->dist) {
-						isect->dist = (float)i1;
+						isect->dist = float(i1);
 						isect->triIdx = 0;
 					}
 				}
@@ -262,7 +262,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 	for (;node;) {
 		// do we hit it?
 		isect_t isect;
-		isect.dist = (float)c->dist;
+		isect.dist = float(c->dist);
 		isect.triIdx = -1;
 		if (!node->CollideRay(start, invDir, &isect)) goto pop_jizz;
 
@@ -275,15 +275,15 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 				const matrix4x4d &invTrans = g->GetInvTransform();
 				vector3d ms = invTrans * start;
 				vector3d md = invTrans.ApplyRotationOnly(dir);
-				vector3f modelStart = vector3f((float)ms.x, (float)ms.y, (float)ms.z);
-				vector3f modelDir = vector3f((float)md.x, (float)md.y, (float)md.z);
+				vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
+				vector3f modelDir = vector3f(md.x, md.y, md.z);
 		
 				isect_t isect;
-				isect.dist = (float)c->dist;
+				isect.dist = float(c->dist);
 				isect.triIdx = -1;
 				g->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 				if (isect.triIdx != -1) {
-					c->pos = start + dir*(double)isect.dist;
+					c->pos = start + dir*double(isect.dist);
 					
 					vector3f n = g->GetGeomTree()->GetTriNormal(isect.triIdx);
 					c->normal = vector3d(n.x, n.y, n.z);
@@ -313,15 +313,15 @@ pop_jizz:
 			const matrix4x4d &invTrans = (*i)->GetInvTransform();
 			vector3d ms = invTrans * start;
 			vector3d md = invTrans.ApplyRotationOnly(dir);
-			vector3f modelStart = vector3f((float)ms.x, (float)ms.y, (float)ms.z);
-			vector3f modelDir = vector3f((float)md.x, (float)md.y, (float)md.z);
+			vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
+			vector3f modelDir = vector3f(md.x, md.y, md.z);
 	
 			isect_t isect;
-			isect.dist = (float)c->dist;
+			isect.dist = float(c->dist);
 			isect.triIdx = -1;
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 			if (isect.triIdx != -1) {
-				c->pos = start + dir*(double)isect.dist;
+				c->pos = start + dir*double(isect.dist);
 				
 				vector3f n = (*i)->GetGeomTree()->GetTriNormal(isect.triIdx);
 				c->normal = vector3d(n.x, n.y, n.z);
@@ -338,11 +338,11 @@ pop_jizz:
 	}
 	{
 		isect_t isect;
-		isect.dist = (float)c->dist;
+		isect.dist = float(c->dist);
 		isect.triIdx = -1;
 		CollideRaySphere(start, dir, &isect);
 		if (isect.triIdx != -1) {
-			c->pos = start + dir*(double)isect.dist;
+			c->pos = start + dir*double(isect.dist);
 			c->normal = vector3d(0.0);
 			c->depth = len - isect.dist;
 			c->triIdx = -1;

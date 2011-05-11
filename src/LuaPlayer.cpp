@@ -19,7 +19,7 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 
 	pi_lua_settable(l, "ref", m.ref);
 	pi_lua_settable(l, "due", m.due);
-	pi_lua_settable(l, "reward", (double)m.reward * 0.01);
+	pi_lua_settable(l, "reward", double(m.reward) * 0.01);
 
 	lua_pushstring(l, "type");
 	lua_pushstring(l, m.type.c_str());
@@ -66,7 +66,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 
 	lua_getfield(l, -1, "reward");
 	if (create || !lua_isnil(l, -1))
-		m.reward = (Sint64)(luaL_checknumber(l, -1) * 100.0);
+		m.reward = Sint64(luaL_checknumber(l, -1) * 100.0);
 	lua_pop(l, 1);
 
 	lua_getfield(l, -1, "type");
@@ -170,7 +170,7 @@ static int l_player_set_money(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
 	float m = luaL_checknumber(l, 2);
-	p->SetMoney((Sint64)(m*100.0));
+	p->SetMoney(Sint64(m*100.0));
 	return 0;
 } 
 
@@ -178,7 +178,7 @@ static int l_player_add_money(lua_State *l)
 {
 	Player *p = LuaPlayer::GetFromLua(1);
 	float a = luaL_checknumber(l, 2);
-	Sint64 m = p->GetMoney() + (Sint64)(a*100.0);
+	Sint64 m = p->GetMoney() + Sint64(a*100.0);
 	p->SetMoney(m);
 	lua_pushnumber(l, m*0.01);
 	return 1;
@@ -189,7 +189,7 @@ static int l_player_add_money(lua_State *l)
 static int l_player_add_crime(lua_State *l)
 {
 	Sint64 crimeBitset = luaL_checkinteger(l, 1);
-	double fine = (Sint64)(luaL_checknumber(l, 2) * 100.0);
+	double fine = Sint64(luaL_checknumber(l, 2) * 100.0);
 	Polit::AddCrime(crimeBitset, fine);
 	return 0;
 }

@@ -124,8 +124,8 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int
 		m_edges[pos].v1i = vtx.first;
 		m_edges[pos].v2i = vtx.second;
 		m_edges[pos].triFlag = triflag;
-		m_edges[pos].len = (float)len;
-		m_edges[pos].dir = vector3f((float)dir.x, (float)dir.y, (float)dir.z);
+		m_edges[pos].len = float(len);
+		m_edges[pos].dir = vector3f(float(dir.x), float(dir.y), float(dir.z));
 		
 		edgeIdxs[pos] = pos;
 		aabbs[pos].min = aabbs[pos].max = v1;
@@ -206,7 +206,7 @@ void GeomTree::TraceCoherentRays(const BVHNode *currnode, int numRays, const vec
 {
 	bvhstack stack[32];
 	int stackpos = -1;
-	vector3f *invDirs = (vector3f*)alloca(sizeof(vector3f)*numRays);
+	vector3f *invDirs = reinterpret_cast<vector3f*>(alloca(sizeof(vector3f)*numRays));
 	for (int i=0; i<numRays; i++) {
 		invDirs[i] = vector3f(1.0f/a_dirs[i].x, 1.0f/a_dirs[i].y, 1.0f/a_dirs[i].z);
 	}

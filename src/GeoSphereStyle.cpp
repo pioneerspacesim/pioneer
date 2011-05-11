@@ -434,7 +434,7 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 	// feature 
 	def->amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	def->frequency = m_planetRadius / featureWidthMeters;
-	def->octaves = std::max(1, (int)ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0)));
+	def->octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	def->lacunarity = 2.0;
 	printf("%d octaves\n", def->octaves); //print
 }

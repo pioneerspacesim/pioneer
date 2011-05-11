@@ -107,7 +107,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 		case LUA_TUSERDATA: {
 			out += "u";
-			lid *idp = (lid*)lua_touserdata(l, idx);
+			lid *idp = static_cast<lid*>(lua_touserdata(l, idx));
 			LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 			if (!lo)
 				Error("Lua serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
@@ -195,19 +195,19 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			if (len == 9 && strncmp(pos, "SBodyPath", 9) == 0) {
 				pos = end;
 
-				int sectorX = strtol(pos, (char**)&end, 0);
+				int sectorX = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int sectorY = strtol(pos, (char**)&end, 0);
+				int sectorY = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int systemNum = strtol(pos, (char**)&end, 0);
+				int systemNum = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				int sbodyId = strtol(pos, (char**)&end, 0);
+				int sbodyId = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
@@ -221,7 +221,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			if (len == 4 && strncmp(pos, "Body", 4) == 0) {
 				pos = end;
 
-				int n = strtol(pos, (char**)&end, 0);
+				int n = strtol(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 

@@ -89,45 +89,55 @@ void IndexBodies()
 
 const std::string &Writer::GetData() { return m_str; }
 void Writer::Byte(Uint8 x) {
-	m_str.push_back((char)x);
+	m_str.push_back(char(x));
 }
 void Writer::Bool(bool x) {
-	Byte((Uint8)x);
+	Byte(Uint8(x));
 }
 void Writer::Int16(Uint16 x) {
-	m_str.push_back((char)(x&0xff));
-	m_str.push_back((char)((x>>8)&0xff));
+	m_str.push_back(char(x&0xff));
+	m_str.push_back(char((x>>8)&0xff));
 }
 void Writer::Int32(Uint32 x) {
-	m_str.push_back((char)(x&0xff));
-	m_str.push_back((char)((x>>8)&0xff));
-	m_str.push_back((char)((x>>16)&0xff));
-	m_str.push_back((char)((x>>24)&0xff));
+	m_str.push_back(char(x&0xff));
+	m_str.push_back(char((x>>8)&0xff));
+	m_str.push_back(char((x>>16)&0xff));
+	m_str.push_back(char((x>>24)&0xff));
 }
 void Writer::Int64(Uint64 x) {
-	m_str.push_back((char)(x&0xff));
-	m_str.push_back((char)((x>>8)&0xff));
-	m_str.push_back((char)((x>>16)&0xff));
-	m_str.push_back((char)((x>>24)&0xff));
-	m_str.push_back((char)((x>>32)&0xff));
-	m_str.push_back((char)((x>>40)&0xff));
-	m_str.push_back((char)((x>>48)&0xff));
-	m_str.push_back((char)((x>>56)&0xff));
+	m_str.push_back(char(x&0xff));
+	m_str.push_back(char((x>>8)&0xff));
+	m_str.push_back(char((x>>16)&0xff));
+	m_str.push_back(char((x>>24)&0xff));
+	m_str.push_back(char((x>>32)&0xff));
+	m_str.push_back(char((x>>40)&0xff));
+	m_str.push_back(char((x>>48)&0xff));
+	m_str.push_back(char((x>>56)&0xff));
 }
 void Writer::Float(float f) {
+	// not portable across architectures?
 	unsigned int i;
-	unsigned char *p = (unsigned char*)&f;
+	union {
+		unsigned char c[sizeof (float)];
+		float f;
+	} p;
+	p.f = f;
 
-	for (i=0; i<sizeof (float); i++, p++) {
-		Byte (*p);
+	for (i=0; i<sizeof (float); i++) {
+		Byte (p.c[i]);
 	}
 }
 void Writer::Double(double f) {
+	// not portable across architectures
 	unsigned int i;
-	unsigned char *p = (unsigned char*)&f;
+	union {
+		unsigned char c[sizeof (double)];
+		double f;
+	} p;
+	p.f = f;
 
-	for (i=0; i<sizeof (double); i++, p++) {
-		Byte (*p);
+	for (i=0; i<sizeof (double); i++) {
+		Byte (p.c[i]);
 	}
 }
 /* First byte is string length, including null terminator */
@@ -195,7 +205,7 @@ Uint8 Reader::Byte() {
 #ifdef DEBUG
 	assert(m_pos < m_data.size());
 #endif /* DEBUG */
-	return (Uint8)m_data[m_pos++];
+	return Uint8(m_data[m_pos++]);
 }
 bool Reader::Bool() {
 	return Byte() != 0;
@@ -233,25 +243,29 @@ Uint64 Reader::Int64(void)
 float Reader::Float ()
 {
 	unsigned int i;
-	float f;
-	unsigned char *p = (unsigned char*)&f;
+	union {
+		unsigned char c[sizeof (float)];
+		float f;
+	} p;
 
 	for (i=0; i<sizeof (float); i++) {
-		p[i] = Byte ();
+		p.c[i] = Byte ();
 	}
-	return f;
+	return p.f;
 }
 
 double Reader::Double ()
 {
 	unsigned int i;
-	double f;
-	unsigned char *p = (unsigned char*)&f;
+	union {
+		unsigned char c[sizeof (double)];
+		double f;
+	} p;
 
 	for (i=0; i<sizeof (double); i++) {
-		p[i] = Byte ();
+		p.c[i] = Byte ();
 	}
-	return f;
+	return p.f;
 }
 
 std::string Reader::String()
@@ -263,7 +277,7 @@ std::string Reader::String()
 	buf.reserve(size-1);
 
 	for (int i=0; i<size-1; i++) {
-		buf.push_back((char)Byte());
+		buf.push_back(char(Byte()));
 	}
 	Byte();// discard null terminator
 	return buf;
@@ -283,7 +297,7 @@ char* Reader::Cstring()
 		return NULL;
 	}
 
-	buf = (char*) malloc (sizeof(char)*size);
+	buf = static_cast<char*>(malloc (sizeof(char)*size));
 
 	for (i=0; i<size; i++) {
 		buf[i] = Byte();

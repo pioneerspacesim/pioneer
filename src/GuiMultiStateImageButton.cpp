@@ -20,14 +20,14 @@ MultiStateImageButton::~MultiStateImageButton()
 void MultiStateImageButton::StateNext()
 {
 	m_curState++;
-	if (m_curState >= (signed)m_states.size()) m_curState = 0;
+	if (m_curState >= signed(m_states.size())) m_curState = 0;
 	UpdateOverriddenTooltip();
 }
 
 void MultiStateImageButton::StatePrev()
 {
 	m_curState--;
-	if (m_curState < 0) m_curState = (signed)m_states.size()-1;
+	if (m_curState < 0) m_curState = signed(m_states.size())-1;
 	UpdateOverriddenTooltip();
 }
 

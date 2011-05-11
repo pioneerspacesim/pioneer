@@ -162,8 +162,8 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_force += m_externalForce;
 
 		m_oldOrient = m_orient;
-		m_vel += (double)timeStep * m_force * (1.0 / m_mass);
-		m_angVel += (double)timeStep * m_torque * (1.0 / m_angInertia);
+		m_vel += double(timeStep) * m_force * (1.0 / m_mass);
+		m_angVel += double(timeStep) * m_torque * (1.0 / m_angInertia);
 		// angvel is always relative to non-rotating frame, so need to counter frame angvel
 		vector3d consideredAngVel = m_angVel - GetFrame()->GetAngVelocity();
 		
@@ -180,7 +180,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		}
 		m_oldAngDisplacement = consideredAngVel * timeStep;
 
-		pos += m_vel * (double)timeStep;
+		pos += m_vel * double(timeStep);
 		m_orient[12] = pos.x;
 		m_orient[13] = pos.y;
 		m_orient[14] = pos.z;
@@ -202,9 +202,9 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 // for timestep changes, to stop autopilot overshoot
 void DynamicBody::ApplyAccel(const float timeStep)
 {
-	vector3d newvel = m_vel + (double)timeStep * m_force * (1.0 / m_mass);
+	vector3d newvel = m_vel + double(timeStep) * m_force * (1.0 / m_mass);
 	if (newvel.LengthSqr() < m_vel.LengthSqr()) m_vel = newvel;
-	vector3d newav = m_angVel + (double)timeStep * m_torque * (1.0 / m_angInertia);
+	vector3d newav = m_angVel + double(timeStep) * m_torque * (1.0 / m_angInertia);
 	if (newav.LengthSqr() < m_angVel.LengthSqr()) m_angVel = newav;
 }
 
@@ -216,7 +216,7 @@ void DynamicBody::UpdateInterpolatedTransform(double alpha)
 
 	m_interpolatedTransform = m_oldOrient;
 	{
-		double len = m_oldAngDisplacement.Length() * (double)alpha;
+		double len = m_oldAngDisplacement.Length() * double(alpha);
 		if (len != 0) {
 			vector3d rotAxis = m_oldAngDisplacement.Normalized();
 			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
@@ -312,6 +312,6 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	} else {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
 	}
-	if (kineticEnergy) OnDamage(o, (float)kineticEnergy);
+	if (kineticEnergy) OnDamage(o, float(kineticEnergy));
 	return true;
 }

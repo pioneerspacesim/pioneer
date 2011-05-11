@@ -140,8 +140,8 @@ void Player::StaticUpdate(const float timeStep)
 	
 	float targetVol[2] = { volBoth, volBoth };
 	if (GetThrusterState().x > 0.0)
-		targetVol[0] += 0.5f*(float)GetThrusterState().x;
-	else targetVol[1] += -0.5f*(float)GetThrusterState().x;
+		targetVol[0] += 0.5f*float(GetThrusterState().x);
+	else targetVol[1] += -0.5f*float(GetThrusterState().x);
 
 	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
 	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
@@ -150,7 +150,7 @@ void Player::StaticUpdate(const float timeStep)
 		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
 		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
-	float angthrust = 0.1f * v_env * (float)Pi::player->GetAngThrusterState().Length();
+	float angthrust = 0.1f * v_env * float(Pi::player->GetAngThrusterState().Length());
 
 	static Sound::Event angThrustSnd;
 	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {

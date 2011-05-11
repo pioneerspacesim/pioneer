@@ -21,7 +21,7 @@ static int l_format_distance(lua_State *l)
 static int l_format_money(lua_State *l)
 {
 	double t = luaL_checknumber(l, 1);
-	lua_pushstring(l, format_money((Sint64)(t*100.0)).c_str());
+	lua_pushstring(l, format_money(Sint64(t*100.0)).c_str());
 	return 1;
 }
 

@@ -19,7 +19,7 @@ Image::Image(const char *filename): Widget()
 	m_imgw = is->w;
 	m_imgh = is->h;
 
-	SetSize((float)m_imgw, (float)m_imgh);
+	SetSize(float(m_imgw), float(m_imgh));
 
 	/* gl textures must be POT, dim > 64 */
 	int texw, texh;
@@ -69,8 +69,8 @@ Image::Image(const char *filename): Widget()
 
 void Image::GetSizeRequested(float size[2])
 {
-	size[0] = (float)m_imgw;
-	size[1] = (float)m_imgh;
+	size[0] = float(m_imgw);
+	size[1] = float(m_imgh);
 }
 
 void Image::SetModulateColor(float r, float g, float b, float a)

@@ -247,7 +247,7 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 
 	m_interpolatedTransform = m_oldOrient;
 	{
-		double len = m_oldAngDisplacement.Length() * (double)alpha;
+		double len = m_oldAngDisplacement.Length() * double(alpha);
 		if (len != 0) {
 			vector3d rotAxis = m_oldAngDisplacement.Normalized();
 			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,

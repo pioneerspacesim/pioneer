@@ -20,14 +20,14 @@ public:
 	virtual void ShowAll();
 private:
 	void OnClickBuy(int commodity_type) {
-		if (m_station->SellTo(Pi::player, (Equip::Type)commodity_type, true)) {
+		if (m_station->SellTo(Pi::player, Equip::Type(commodity_type), true)) {
 			Pi::cpan->MsgLog()->Message("", stringf(512, "You have bought 1t of %s.", EquipType::types[commodity_type].name));
 		}
 		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
-		if (m_station->BuyFrom(Pi::player, (Equip::Type)commodity_type, true)) {
+		if (m_station->BuyFrom(Pi::player, Equip::Type(commodity_type), true)) {
 			Pi::cpan->MsgLog()->Message("", stringf(512, "You have sold 1t of %s.", EquipType::types[commodity_type].name));
 		}
 		m_commodityTradeWidget->UpdateStock(commodity_type);
@@ -130,8 +130,8 @@ void StationLaserPickMount::ShowAll()
 		if ((!m_doFit) && (Pi::player->m_equipment.Get(slot, i) != m_equipType)) continue;
 		Gui::Button *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationLaserPickMount::SelectMount), i));
-		Add(b, (float)xpos, 250);
-		Add(new Gui::Label(ShipType::gunmountNames[i]), (float)xpos, 270);
+		Add(b, float(xpos), 250);
+		Add(new Gui::Label(ShipType::gunmountNames[i]), float(xpos), 270);
 
 		xpos += 50;
 	}
@@ -379,10 +379,10 @@ void StationViewShipView::Draw3D()
 	glEnable(GL_LIGHT0);
 //	sbreSetDirLight (lightCol, lightDir);
 	glViewport(
-		(GLint)(bx/guiscale[0]),
-		(GLint)((Gui::Screen::GetHeight() - by - 400)/guiscale[1]),
-		(GLsizei)(400/guiscale[0]),
-		(GLsizei)(400/guiscale[1]));
+		GLint(bx/guiscale[0]),
+		GLint((Gui::Screen::GetHeight() - by - 400)/guiscale[1]),
+		GLsizei(400/guiscale[0]),
+		GLsizei(400/guiscale[1]));
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
@@ -468,11 +468,11 @@ void StationViewShipView::ShowAll()
 				drivetype++, x+=52) {
 			int hyperclass = EquipType::types[drivetype].pval;
 			float range = Pi::CalcHyperspaceRange(hyperclass, t.hullMass + t.capacity);
-			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), (float)x, y);
+			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), float(x), y);
 			if (t.capacity < EquipType::types[drivetype].mass) {
-				Add(new Gui::Label("---"), (float)x, (float)(y+YSEP));
+				Add(new Gui::Label("---"), float(x), float(y+YSEP));
 			} else {
-				Add(new Gui::Label(stringf(128, "%.2f ly", range)), (float)x, y+YSEP);
+				Add(new Gui::Label(stringf(128, "%.2f ly", range)), float(x), float(y+YSEP));
 			}
 		}
 	}
@@ -494,7 +494,7 @@ public:
 	virtual void ShowAll();
 private:
 	int GetCostOfFixingHull(float percent) {
-		return (int)(Pi::player->GetFlavour()->price * 0.001 * percent);
+		return int(Pi::player->GetFlavour()->price * 0.001 * percent);
 	}
 
 	void RepairHull(float percent) {

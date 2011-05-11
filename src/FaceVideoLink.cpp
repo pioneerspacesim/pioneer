@@ -34,7 +34,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip("Video link established");
 
-	if (seed == (unsigned long)-1) seed = time(NULL);
+	if (seed == -1UL) seed = time(NULL);
 	MTRand rand(seed);
 
 	//int race = rand.Int32(0,1);    // XXX should be 3?

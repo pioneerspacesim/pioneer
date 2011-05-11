@@ -96,7 +96,7 @@ void GenericChatForm::OnCloseChildChatForm(GenericChatForm *form)
 	ShowAll();
 }
 
-GenericChatForm::GenericChatForm(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64))
+GenericChatForm::GenericChatForm(): Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-64))
 {
 	ReInit();
 }

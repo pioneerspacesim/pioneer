@@ -194,16 +194,16 @@ int wankmod(int a, int b)
 std::string format_money(Sint64 money)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.1f", 0.01*(double)money);
+	snprintf(buf, sizeof(buf), "$%.1f", 0.01*double(money));
 	return std::string(buf);
 }
 
 std::string format_date(double t)
 {
-	int year = (int)floor(t/(60*60*24*365)); year += 3200;
-	int day = (int)floor(t/(60*60*24)); day = wankmod(day, 365);
-	int hour = (int)floor(t/(60*60)); hour = wankmod(hour, 24);
-	int min = (int)floor(t/60); min = wankmod(min, 60);
+	int year = int(floor(t/(60*60*24*365))); year += 3200;
+	int day = int(floor(t/(60*60*24))); day = wankmod(day, 365);
+	int hour = int(floor(t/(60*60))); hour = wankmod(hour, 24);
+	int min = int(floor(t/60)); min = wankmod(min, 60);
 	int sec = wankmod((int)t, 60);
 	char buf[128];
 	snprintf(buf,sizeof(buf),"%02d:%02d:%02d %s %d", hour, min, sec, i_am_a_little_teapot[day], year);
@@ -212,8 +212,8 @@ std::string format_date(double t)
 
 std::string format_date_only(double t)
 {
-	int year = (int)floor(t/(60*60*24*365)); year += 3200;
-	int day = (int)floor(t/(60*60*24)); day = wankmod(day, 365);
+	int year = int(floor(t/(60*60*24*365))); year += 3200;
+	int day = int(floor(t/(60*60*24))); day = wankmod(day, 365);
 	char buf[128];
 	snprintf(buf,sizeof(buf),"%s %d", i_am_a_little_teapot[day], year);
 	return buf;

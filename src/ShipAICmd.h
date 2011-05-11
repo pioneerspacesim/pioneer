@@ -74,11 +74,11 @@ public:
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = (SpaceStation *)Serializer::LookupBody(m_targetIndex);
+		m_target = static_cast<SpaceStation *>(Serializer::LookupBody(m_targetIndex));
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
-		if ((Body *)m_target == body) m_target = 0;
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
 	}
 private:
 	SpaceStation *m_target;
@@ -162,13 +162,13 @@ public:
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = (Ship *)Serializer::LookupBody(m_targetIndex);
+		m_target = static_cast<Ship *>(Serializer::LookupBody(m_targetIndex));
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
 	}
 
 	virtual void OnDeleted(const Body *body) {
-		if ((Body *)m_target == body) m_target = 0;
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
 		AICommand::OnDeleted(body);
 	}
 
@@ -199,7 +199,7 @@ public:
 	}
 
 	virtual void OnDeleted(const Body *body) {
-		if ((Body *)m_target == body) m_target = 0;
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
 		AICommand::OnDeleted(body);
 	}
 

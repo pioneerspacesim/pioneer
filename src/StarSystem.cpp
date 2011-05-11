@@ -789,7 +789,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->radius, primary->averageTemp, distToPrimary);
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
-	return (int)isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
+	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
 vector3d Orbit::OrbitalPosAtTime(double t)
@@ -984,7 +984,7 @@ void StarSystem::MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand
 
 void StarSystem::MakeRandomStar(SBody *sbody, MTRand &rand)
 {
-	SBody::BodyType type = (SBody::BodyType)rand.Int32((int)SBody::TYPE_STAR_MIN, (int)SBody::TYPE_STAR_MAX);
+	SBody::BodyType type = SBody::BodyType(rand.Int32(SBody::TYPE_STAR_MIN, SBody::TYPE_STAR_MAX));
 	MakeStarOfType(sbody, type, rand);
 }
 
@@ -1020,7 +1020,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
 	
 	const float rotX = -0.5*M_PI;//(float)(rand.Double()*M_PI/2.0);
-	const float rotY = (float)rand.Double(M_PI);
+	const float rotY = float(rand.Double(M_PI));
 	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
 	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
 
@@ -1621,10 +1621,10 @@ void StarSystem::Populate(bool addSpaceStations)
 	// Lets use black magic to turn these into percentage base price
 	// alterations
 	int maximum = 0;
-	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+	for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
 		maximum = std::max(abs(m_tradeLevel[i]), maximum);
 	}
-	if (maximum) for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+	if (maximum) for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
 		m_tradeLevel[i] += rand.Int32(-5, 5);
 	}
@@ -1702,8 +1702,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	};
 
 	/* Commodities we produce (mining and agriculture) */
-	for (int i=(int)Equip::FIRST_COMMODITY; i<(int)Equip::LAST_COMMODITY; i++) {
-		Equip::Type t = (Equip::Type)i;
+	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
+		Equip::Type t = Equip::Type(i);
 		const EquipType &type = EquipType::types[t];
 		if (type.techLevel > system->m_techlevel) continue;
 

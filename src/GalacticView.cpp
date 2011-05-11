@@ -87,7 +87,7 @@ void GalacticView::PutLabels(vector3d offset)
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
 		if (Gui::Screen::Project(p, pos)) {
-			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), (float)pos.x, (float)pos.y);
+			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), float(pos.x), float(pos.y));
 		}
 	}
 
@@ -169,7 +169,7 @@ void GalacticView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 
-	m_scaleReadout->SetText(stringf(128, "%d ly", (int)(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
+	m_scaleReadout->SetText(stringf(128, "%d ly", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
 }
 
 void GalacticView::MouseButtonDown(int button, int x, int y)

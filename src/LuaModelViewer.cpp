@@ -56,10 +56,10 @@ public:
 
 	float GetAnimValue(int i) {
 		std::string val = m_animEntry[i]->GetText();
-		return (float)atof(val.c_str());
+		return float(atof(val.c_str()));
 	}
 
-	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
+	Viewer(): Gui::Fixed(float(g_width), float(g_height)) {
 		m_model = 0;
 		m_cmesh = 0;
 		m_geom = 0;
@@ -113,7 +113,7 @@ public:
 				m_linthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_linthrust[i]);
-				Add(v, (float)(i*25), Gui::Screen::GetHeight()-120.0f);
+				Add(v, float(i*25), Gui::Screen::GetHeight()-120.0f);
 			}
 			
 			Add(new Gui::Label("Angular thrust"), 100, Gui::Screen::GetHeight()-140.0f);
@@ -122,14 +122,14 @@ public:
 				m_angthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_angthrust[i]);
-				Add(v, (float)(100 + i*25), Gui::Screen::GetHeight()-120.0f);
+				Add(v, float(100 + i*25), Gui::Screen::GetHeight()-120.0f);
 			}
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
 				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
-				Add(box, (float)(200 + i*25), Gui::Screen::GetHeight()-120.0f);
+				Add(box, float(200 + i*25), Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -348,7 +348,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 		}
 	}
 	printf("%.3f million rays/sec, %.2f tri isect tests per ray\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)),
-				GeomTree::stats_rayTriIntersections/(float)(TEXSIZE*TEXSIZE));
+				GeomTree::stats_rayTriIntersections/float(TEXSIZE*TEXSIZE));
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, mytexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_FLOAT, wank);
@@ -441,7 +441,7 @@ void Viewer::MainLoop()
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		float fracH = g_height / (float)g_width;
+		float fracH = g_height / float(g_width);
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();

@@ -100,7 +100,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	}
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
-	lua_pushnumber(L, (double)t);
+	lua_pushnumber(L, double(t));
 	vector3f *_from = MyLuaVec::pushVec(L);
 	*_from = vector3f(from);
 	// push model aabb as lua table: { min: vec3, max: vec3 }
@@ -160,7 +160,7 @@ void SpaceStation::Init()
 			SpaceStationType t;
 			t.modelName = (*i)->GetName();
 			t.model = LmrLookupModelByName(t.modelName);
-			t.dockMethod = (SpaceStationType::DOCKMETHOD) is_orbital;
+			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
 			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
 			t.ReadStageDurations();
@@ -187,7 +187,7 @@ void SpaceStation::Save(Serializer::Writer &wr)
 	MarketAgent::Save(wr);
 	wr.Int32(Equip::TYPE_MAX);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
-		wr.Int32((int)m_equipmentStock[i]);
+		wr.Int32(int(m_equipmentStock[i]));
 	}
 	// save shipyard
 	wr.Int32(m_shipsOnSale.size());
@@ -198,12 +198,12 @@ void SpaceStation::Save(Serializer::Writer &wr)
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
-		wr.Float((float)m_shipDocking[i].stagePos);
+		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 
-		wr.Float((float)m_openAnimState[i]);
-		wr.Float((float)m_dockAnimState[i]);
+		wr.Float(float(m_openAnimState[i]));
+		wr.Float(float(m_dockAnimState[i]));
 	}
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(Serializer::LookupSystemBody(m_sbody));
@@ -356,7 +356,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			m_dockAnimState[i] -= 0.3*timeStep;
 
 			if (dt.stagePos >= 1.0) {
-				if (dt.ship == (Ship*)Pi::player) Pi::onDockingClearanceExpired.emit(this);
+				if (dt.ship == static_cast<Ship*>(Pi::player)) Pi::onDockingClearanceExpired.emit(this);
 				dt.ship = 0;
 				dt.stage = 0;
 			}
@@ -427,10 +427,10 @@ void SpaceStation::DoLawAndOrder()
 {
 	Sint64 fine, crimeBitset;
 	Polit::GetCrime(&crimeBitset, &fine);
-	bool isDocked = ((Ship*)Pi::player)->GetDockedWith() ? true : false;
+	bool isDocked = static_cast<Ship*>(Pi::player)->GetDockedWith() ? true : false;
 	if ((!isDocked) && m_numPoliceDocked
 			&& (fine > 1000)
-			&& (GetPositionRelTo((Body*)Pi::player).Length() < 100000.0)) {
+			&& (GetPositionRelTo(static_cast<Body*>(Pi::player)).Length() < 100000.0)) {
 		int port = GetFreeDockingPort();
 		if (port != -1) {
 			m_numPoliceDocked--;
@@ -614,16 +614,16 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 
 /* MarketAgent shite */
 void SpaceStation::Bought(Equip::Type t) {
-	m_equipmentStock[(int)t]++;
+	m_equipmentStock[int(t)]++;
 }
 void SpaceStation::Sold(Equip::Type t) {
-	m_equipmentStock[(int)t]--;
+	m_equipmentStock[int(t)]--;
 }
 bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
 	return true;
 }
 bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
-	bool result = (m_equipmentStock[(int)t] > 0);
+	bool result = (m_equipmentStock[int(t)] > 0);
 	if (verbose && !result) {
 		Pi::Message("This item is out of stock.");
 	}
@@ -635,7 +635,7 @@ bool SpaceStation::DoesSell(Equip::Type t) const {
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 	Sint64 mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
-	return (mul * (Sint64)EquipType::types[t].basePrice) / 100;
+	return (mul * Sint64(EquipType::types[t].basePrice)) / 100;
 }
 
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
@@ -753,8 +753,8 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.argFloats[ARG_STATION_BAY1_STAGE + i] = (float)m_shipDocking[i].stage;
-		params.argFloats[ARG_STATION_BAY1_POS + i] = (float)m_shipDocking[i].stagePos;
+		params.argFloats[ARG_STATION_BAY1_STAGE + i] = float(m_shipDocking[i].stage);
+		params.argFloats[ARG_STATION_BAY1_POS + i] = float(m_shipDocking[i].stagePos);
 	}
 
 	RenderLmrModel(viewCoords, viewTransform);
