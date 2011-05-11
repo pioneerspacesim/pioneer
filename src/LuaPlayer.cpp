@@ -11,9 +11,6 @@
  * Class representing the player. Inherits from <Ship>
  */
 
-/*
- * Method: IsPlayer
- */
 static int l_player_is_player(lua_State *l)
 {
     lua_pushboolean(l, true);
@@ -98,6 +95,65 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 
 /*
  * Method: AddMission
+ *
+ * Add a mission to the player's mission list
+ *
+ * > ref = player:AddMission({
+ * >     'type'     = type,
+ * >     'client'   = client,
+ * >     'due'      = due,
+ * >     'reward'   = reward,
+ * >     'location' = location,
+ * >     'status'   = status,
+ * > })
+ *
+ * The fields passed to this method are used to create a new entry in the
+ * player's mission info screen. Its important to note that the data provided
+ * here are only used for display. They are not used anywhere else in the
+ * engine for any reason whatsoever. It is the responsibility of the script to
+ * communicate with the player as the mission progresses, decide when the
+ * mission has been complete, make payment for completion, etc.
+ *
+ * Parameters:
+ *
+ * <AddMission> takes a table as its only parameter. The fields of that table
+ * are as follows
+ *
+ *   type - type of mission. This can be any string
+ *
+ *   client - the name of the person that offered the mission
+ *
+ *   due - due date/time, in seconds since 12:00 01-01-3200
+ *
+ *   reward - reward for mission completion, in dollars
+ *
+ *   location - a <SystemPath> for the destination space station
+ *
+ *   status - a <Constants.MissionStatus> string for the current mission
+ *            status
+ * 
+ * Return:
+ *
+ *   ref - an integer value for referring to the mission in the future
+ *
+ * Example:
+ *
+ * > local ref = player:AddMission({
+ * >     'type'     = 'Delivery',
+ * >     'client'   = 'Jefferson Ford',
+ * >     'due'      = Game.time + 3*24*60*60,    -- three days
+ * >     'reward'   = 123.45,
+ * >     'location' = SystemPath:New(0,0,0,16),  -- Mars High, Sol
+ * >     'status'   = 'ACTIVE',
+ * > })
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
  */
 static int l_player_add_mission(lua_State *l)
 {
@@ -113,7 +169,73 @@ static int l_player_add_mission(lua_State *l)
 }
 
 /*
+ * Method: GetMission
+ *
+ * Retrieve a mission from the player's mission list
+ *
+ * > mission = player:GetMission(ref)
+ *
+ * Parameters:
+ *
+ *   ref - the mission reference number returned by <AddMission>
+ *
+ * Return:
+ *
+ *   mission - a table containing the mission parameters. The fields of the
+ *             table are the same as described in <AddMission>.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_player_get_mission(lua_State *l)
+{
+	Player *p = LuaPlayer::GetFromLua(1);
+	int ref = luaL_checkinteger(l, 2);
+	const Mission *m = p->missions.Get(ref);
+	if (!m)
+		lua_pushnil(l);
+	else
+		_mission_to_table(l, *m);
+	return 1;
+}
+
+/*
  * Method: UpdateMission
+ *
+ * Update a mission on the player's mission list
+ *
+ * > player:UpdateMission(ref, mission)
+ *
+ * The mission data provided to this method is used to overwrite the existing
+ * mission data. The intention is that you will use <GetMission> to retrieve
+ * the mission table, make the modifications you need, and then call
+ * <UpdateMission> to update it.
+ *
+ * Parameters:
+ *
+ *   ref - the mission reference number returned by <AddMission>
+ *
+ *   mission - a table of mission fields. The fields are the same as those
+ *             described in <AddMission>.
+ *
+ * Example:
+ *
+ * > local mission = player:GetMission(ref)
+ * > mission.status = 'FAILED'
+ * > player:UpdateMission(ref, mission)
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
  */
 static int l_player_update_mission(lua_State *l)
 {
@@ -134,6 +256,22 @@ static int l_player_update_mission(lua_State *l)
 
 /*
  * Method: RemoveMission
+ *
+ * Remove a mission from the player's mission list
+ *
+ * > player:RemoveMission(ref)
+ *
+ * Parameters:
+ *
+ *   ref - the mission reference number returned by <AddMission>
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
  */
 static int l_player_remove_mission(lua_State *l)
 {
@@ -144,22 +282,23 @@ static int l_player_remove_mission(lua_State *l)
 }
 
 /*
- * Method: GetMission
- */
-static int l_player_get_mission(lua_State *l)
-{
-	Player *p = LuaPlayer::GetFromLua(1);
-	int ref = luaL_checkinteger(l, 2);
-	const Mission *m = p->missions.Get(ref);
-	if (!m)
-		lua_pushnil(l);
-	else
-		_mission_to_table(l, *m);
-	return 1;
-}
-
-/*
  * Method: GetMoney
+ *
+ * Get the player's current money
+ *
+ * > money = player:GetMoney()
+ *
+ * Return:
+ *
+ *   money - the player's money, in dollars
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
  */
 static int l_player_get_money(lua_State *l)
 {
@@ -170,6 +309,22 @@ static int l_player_get_money(lua_State *l)
 
 /*
  * Method: SetMoney
+ *
+ * Set the player's money
+ *
+ * > player:SetMoney(money)
+ *
+ * Parameters:
+ *
+ *   money - the new amount of money, in dollars
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
  */
 static int l_player_set_money(lua_State *l)
 {
@@ -181,6 +336,26 @@ static int l_player_set_money(lua_State *l)
 
 /*
  * Method: AddMoney
+ *
+ * Add an amount to the player's money
+ *
+ * > money = player:AddMoney(change)
+ *
+ * Parameters:
+ *
+ *   change - the amount of money to add to the player's money, in dollars
+ *
+ * Return:
+ *
+ *   money - the player's new money, in dollars
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
  */
 static int l_player_add_money(lua_State *l)
 {
@@ -194,9 +369,23 @@ static int l_player_add_money(lua_State *l)
 
 /*
  * Method: AddCrime
+ *
+ * Add a crime to the player's criminal record
+ *
+ * > player:AddCrime(crime)
+ *
+ * Parameters:
+ *
+ *   crime - a <Constants.PolitCrime> string describing the crime
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
  */
-// XXX this most certainly does not belong here. it will be removed when the
-// entire polit/crime system is evicted to lua where it belongs
 static int l_player_add_crime(lua_State *l)
 {
 	Sint64 crimeBitset = luaL_checkinteger(l, 1);
