@@ -428,7 +428,7 @@ static int l_ship_set_equip(lua_State *l)
  *
  * Add an equipment or cargo item to its appropriate equipment slot
  *
- * > success = ship:AddEquip(item, count)
+ * > num_added = ship:AddEquip(item, count)
  *
  * Parameters:
  *
@@ -438,7 +438,8 @@ static int l_ship_set_equip(lua_State *l)
  *
  * Return:
  *
- *   success - true if the item was added, false if there was not enough room.
+ *   num_added - the number of items added. Can be less than count if there
+ *               was not enough room.
  *
  * Availability:
  *
@@ -457,14 +458,13 @@ static int l_ship_add_equip(lua_State *l)
 	if (lua_isnumber(l, 3))
 		num = lua_tointeger(l, 3);
 
-	// XXX check slot capacity also
 	const shipstats_t *stats = s->CalcStats();
 	if (stats->free_capacity < EquipType::types[e].mass*num) {
-		lua_pushboolean(l, false);
+		lua_pushinteger(l, 0);
 		return 1;
 	}
 	
-	lua_pushboolean(l, s->m_equipment.Add(e, num));
+	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
 	return 1;
 }
