@@ -587,13 +587,28 @@ static int l_ship_get_equip_free(lua_State *l)
  *
  * Jettison one unit of the given cargo type
  *
+ * > success = ship:Jettison(item)
+ *
+ * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
+ *
+ * Calli
+ *
+ * Parameters:
+ *
+ *   item - the item to jettison
+ *
+ * Result:
+ *
+ *   success - true if the item was jettisoned, false if the ship has no items
+ *             of that type or the ship is not in open flight
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   experimental
  */
 static int l_ship_jettison(lua_State *l)
 {
@@ -609,13 +624,20 @@ static int l_ship_jettison(lua_State *l)
  *
  * Get the station that the ship is currently docked with
  *
+ * > station = ship:GetDockedWidth()
+ *
+ * Return:
+ *
+ *   station - a <SpaceStation> object for the station, or nil if the ship is
+ *             not docked
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_ship_get_docked_with(lua_State *l)
 {
@@ -627,9 +649,13 @@ static int l_ship_get_docked_with(lua_State *l)
 }
 
 /*
- * Method: FireMissileAt
+ * Method: Undock
  *
- * Fire a missile at the given target
+ * Undock from the station currently docked with
+ *
+ * > ship:Undock()
+ *
+ * <EventQueue.onShipUndocked> will be triggered once undocking is complete
  *
  * Availability:
  *
@@ -637,7 +663,44 @@ static int l_ship_get_docked_with(lua_State *l)
  *
  * Status:
  *
- *  experimental
+ *  stable
+ */
+static int l_ship_undock(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	if (!s->GetDockedWith())
+		luaL_error(l, "Can't undock if not already docked");
+	bool undocking = s->Undock();
+	lua_pushboolean(l, undocking);
+	return 1;
+}
+
+/*
+ * Method: FireMissileAt
+ *
+ * Fire a missile at the given target
+ *
+ * > fired = ship:FireMissileAt(type, target)
+ *
+ * Parameters:
+ *
+ *   type - a <Constants.EquipType> string for the missile type. specifying an
+ *          equipment that is not a missile will result in a Lua error
+ *
+ *   target - the <Ship> to fire the missile at
+ *
+ * Return:
+ *
+ *   fired - true if the missile was fired, false if the ship has no missile
+ *           of the requested type
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
  */
 static int l_ship_fire_missile_at(lua_State *l)
 {
@@ -664,40 +727,31 @@ static int l_ship_fire_missile_at(lua_State *l)
 }
 
 /*
- * Method: Undock
- *
- * Undock from the station currently docked with
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_undock(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	if (!s->GetDockedWith())
-		luaL_error(l, "Can't undock if not already docked");
-	bool undocking = s->Undock();
-	lua_pushboolean(l, undocking);
-	return 1;
-}
-/*
  * Method: CanHyperspaceTo
  *
- * Determine is a ship is able to hyperspace to a given system. The result is
- * based on distance, range, available fuel, etc.
+ * Determine is a ship is able to hyperspace to a given system
+ *
+ * > status = ship:CanHyperspaceTo(path)
+ *
+ * The result is based on distance, range, available fuel, ship mass and other
+ * factors.
+ *
+ * Parameters:
+ *
+ *   path - a <SystemPath> for the destination system
+ *
+ * Result:
+ *
+ *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
+ *            hyperspace and if not, describes the reason
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_ship_can_hyperspace_to(lua_State *l)
 {
@@ -724,13 +778,28 @@ static int l_ship_can_hyperspace_to(lua_State *l)
  *
  * Initiate hyperspace jump to a given system
  *
+ * > status = ship:HyperspaceTo(path)
+ *
+ * If the status returned is "OK", then a hyperspace departure cloud will be
+ * created where the ship was and the <EventQueue.onLeaveSystem> event will be
+ * triggered.
+ *
+ * Parameters:
+ *
+ *   path - a <SystemPath> for the destination system
+ *
+ * Result:
+ *
+ *   status - a <Constants.ShipJumpStatus> string for the result of the jump
+ *            attempt
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_ship_hyperspace_to(lua_State *l)
 {
