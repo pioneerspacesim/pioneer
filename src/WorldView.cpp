@@ -156,30 +156,10 @@ WorldView::WorldView(): View()
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
-
-	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = (float)Pi::rng.NDouble(4);
-		col = Clamp(col, 0.05f, 1.0f);
-		s_bgstar[i].r = col;
-		s_bgstar[i].g = col;
-		s_bgstar[i].b = col;
-		// this is proper random distribution on a sphere's surface
-		// XXX TODO
-		// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
-		const float theta = (float)Pi::rng.Double(0.0, 2.0*M_PI);
-		const float u = (float)Pi::rng.Double(-1.0, 1.0);
-		s_bgstar[i].x = 1000.0f * sqrt(1.0f - u*u) * cos(theta);
-		s_bgstar[i].y = 1000.0f * u;
-		s_bgstar[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
-	}
-	if (USE_VBO) {
-		glGenBuffersARB(1, &m_bgstarsVbo);
-		glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
-		glBindBufferARB(GL_ARRAY_BUFFER, 0);
-	}
-	m_bgStarShader = new Render::Shader("bgstars");
+		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));	
+	
+	m_bgStarShader = 0;
+	m_haveStars = false;
 }
 
 WorldView::~WorldView()
@@ -188,7 +168,7 @@ WorldView::~WorldView()
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
-	delete m_bgStarShader;
+	if (m_bgStarShader) delete m_bgStarShader;
 }
 
 void WorldView::Save(Serializer::Writer &wr)
@@ -292,12 +272,62 @@ void WorldView::OnClickHyperspace()
 	Pi::player->TryHyperspaceTo(path);
 }
 
-void WorldView::DrawBgStars()
+// XXX This is rather slow, need dynamic loading of star data, instead of once ever 100 frames.
+void WorldView::DrawBgStars() 
 {
 	double hyperspaceAnim = Space::GetHyperspaceAnim();
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
+
+
+	//This is needed because there is no system seed for the main menu
+	unsigned long seed = Pi::IsGameStarted() ? Pi::currentSystem->m_seed : UNIVERSE_SEED;
+	
+	// Slight colour variation to stars based on seed
+	MTRand rand(seed);
+
+	if (!m_haveStars) {
+		for (int i=0; i<BG_STAR_MAX; i++) {
+			float col = (float)rand.Double(0,1);
+
+			col *= col;
+			col = (col > 0.7 ? 1.4-col : col);
+			col = Clamp(col, 0.05f, 0.9f);
+
+			if (i<6) {
+				col = 1.0;
+			} else if (i<21) {
+				col = 0.95;
+			} else if (i<46) {
+				col = 0.9;
+			}
+
+			s_bgstar[i].r = rand.Double(col-0.05f,col+0.05f);
+			s_bgstar[i].g = rand.Double(col-0.1f,s_bgstar[i].r);
+			s_bgstar[i].b = rand.Double(col-0.05f,col+0.05f);
+
+			// this is proper random distribution on a sphere's surface
+			// XXX TODO
+			// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
+			const float theta = (float)rand.Double(0.0, 2.0*M_PI);
+			const float u = (float)rand.Double(-1.0, 1.0);
+
+			s_bgstar[i].x = 1000.0f * sqrt(1.0f - u*u) * cos(theta);
+			s_bgstar[i].y = 1000.0f * u;
+			s_bgstar[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
+		}	
+		if (USE_VBO) {
+			glGenBuffersARB(1, &m_bgstarsVbo);
+			glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
+			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(BgStar)*BG_STAR_MAX, s_bgstar, GL_STATIC_DRAW);
+			glBindBufferARB(GL_ARRAY_BUFFER, 0);
+		}
+
+		m_bgStarShader = new Render::Shader("bgstars");
+
+		m_haveStars = true;
+	}
 
 	// draw the milkyway
 	{
@@ -372,6 +402,7 @@ void WorldView::DrawBgStars()
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
 		vector3d pz(m[2], m[6], m[10]);
+		m_haveStars = true;
 
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -395,9 +426,9 @@ void WorldView::DrawBgStars()
 			vtx[i*12+7] = v.y;
 			vtx[i*12+8] = v.z;
 
-			vtx[i*12+9] = s_bgstar[i].r;
-			vtx[i*12+10] = s_bgstar[i].g;
-			vtx[i*12+11] = s_bgstar[i].b;
+			vtx[i*12+9] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
+			vtx[i*12+10] = rand.Double(s_bgstar[i].g-0.2,s_bgstar[i].g);
+			vtx[i*12+11] = rand.Double(s_bgstar[i].b,1);
 		}
 
 		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
