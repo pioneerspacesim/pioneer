@@ -26,14 +26,10 @@
  */
 static int l_namegen_full_name(lua_State *l)
 {
-	MTRand *rand;
-	bool female = false;
-	if ((rand = LuaRand::CheckFromLua(1)))
-		female = lua_toboolean(l, 2);
-	else {
-		rand = &Pi::rng;
-		female = lua_toboolean(l, 1);
-	}
+	bool female = lua_toboolean(l, 1);
+
+	MTRand *rand = LuaRand::CheckFromLua(2);
+	if (!rand) rand = &Pi::rng;
 
 	lua_pushstring(l, NameGenerator::FullName(*rand, female).c_str());
 	return 1;
