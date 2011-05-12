@@ -560,12 +560,22 @@ std::string SBody::GetAstroDescription()
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				s += " ice world";
+				if (averageTemp < fixed(250)) {
+					s += " ice world";
+				}
 			} else {
-				s += " oceanic world";
+				if (averageTemp < fixed(250)) {
+					s += " ice world";
+				} else {
+					s += " oceanic world";
+				}
 			}
 		} else if (m_volatileLiquid > fixed(2,5)){
-			s += " planet containing liquid water";
+			if (averageTemp > fixed(250)) {
+				s += " planet containing liquid water";
+			} else {
+				s += " planet with some ice";
+			}
 		} else if (m_volatileLiquid > fixed(1,5)){
 			s += " rocky planet containing some liquids,";
 		} else {
