@@ -80,6 +80,7 @@ private:
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
 	Render::Shader *m_bgStarShader;
+	bool m_haveStars;
 
 #if DEVKEYS
 	Gui::Label *m_debugInfo;

@@ -35,82 +35,65 @@
 
 std::string GetPiUserDir(const std::string &subdir)
 {
-#if defined(__MINGW32__)
 
-	/* XXX limiting this implementation to mingw32 for now, because the normal
-	 * win32 seems to work fine under msvc and I'm unable to test thoroughly */
-	std::string path = getenv("appdata");
-	path += "\\Pioneer";
+#if defined(_WIN32)
+
+	TCHAR appdata_path[MAX_PATH];
+	if (SHGetFolderPath(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
+		fprintf(stderr, "Couldn't get user documents folder path\n");
+		exit(-1);
+	}
+
+	std::string path(appdata_path);
+	path += "/Pioneer";
+
+	if (!PathFileExists(path.c_str())) {
+		if (SHCreateDirectoryEx(0, path.c_str(), 0) != ERROR_SUCCESS) {
+			fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
+			exit(-1);
+		}
+	}
+
+	if (subdir.length() > 0) {
+		path += "/" + subdir;
+		if (!PathFileExists(path.c_str())) {
+			if (SHCreateDirectoryEx(0, path.c_str(), 0) != ERROR_SUCCESS) {
+				fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
+				exit(-1);
+			}
+		}
+	}
+
+	return path + "/";
+
+#else
+
+	std::string path = getenv("HOME");
+
+#ifdef __APPLE__
+	path += "/Library/Application Support/Pioneer";
+#else
+	path += "/.pioneer";
+#endif
 
 	struct stat st;
-	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
 		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
 		exit(-1);
 	}
 
 	if (subdir.length() > 0) {
-		path += "\\" + subdir;
-		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+		path += "/" + subdir;
+		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
 			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
 			exit(-1);
 		}
 	}
 
-	return path + "\\";
+	return path + "/";
 
-#elif defined(_WIN32)
-	try {
-		TCHAR path[MAX_PATH];
-		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
-			throw std::runtime_error("SHGetFolderPath");
-
-		TCHAR temp[MAX_PATH];
-		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, (WCHAR*)temp, MAX_PATH);
-		if(!PathAppend(path, temp))
-			throw std::runtime_error("PathAppend");
-
-		if (subdir != "") {
-			MultiByteToWideChar(CP_ACP, 0, subdir.c_str(), subdir.size()+1, (WCHAR*)temp, MAX_PATH);
-			if(!PathAppend(path, temp))
-				throw std::runtime_error("PathAppend");
-		}
-
-		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
-			throw std::runtime_error("SHCreateDirectoryEx");
-
-		char temp2[MAX_PATH];
-		WideCharToMultiByte(CP_ACP, 0, (const WCHAR*)path, wcslen((const wchar_t*)path)+1, temp2, MAX_PATH, 0, 0);
-		return std::string(temp2)+"/";
-	}
-	catch(const std::exception&) {
-		Gui::Screen::ShowBadError("Can't get path to save directory");
-		return "";
-	}
-
-#else
-	const char *homedir = getenv("HOME");
-	std::string path = join_path(homedir, ".pioneer", 0);
-	DIR *dir = opendir(path.c_str());
-	if (!dir) {
-		if (mkdir(path.c_str(), 0770) == -1) {
-			Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
-		}
-	} else {
-		closedir(dir);
-	}
-	if (subdir != "") {
-		path = join_path(homedir, ".pioneer", subdir.c_str(), 0);
-		dir = opendir(path.c_str());
-		if (!dir) {
-			if (mkdir(path.c_str(), 0770) == -1) {
-				Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
-			}
-		} else {
-            closedir(dir);
-        }
-	}
-	return path+"/";
 #endif
+
 }
 
 std::string PiGetDataDir()
@@ -194,7 +177,7 @@ int wankmod(int a, int b)
 std::string format_money(Sint64 money)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.1f", 0.01*double(money));
+	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
 	return std::string(buf);
 }
 
