@@ -39,8 +39,8 @@ std::string GetPiUserDir(const std::string &subdir)
 #if defined(_WIN32)
 
 	TCHAR appdata_path[MAX_PATH];
-	if (SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
-		fprintf(stderr, "Couldn't get appdata folder path\n");
+	if (SHGetFolderPath(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
+		fprintf(stderr, "Couldn't get user documents folder path\n");
 		exit(-1);
 	}
 
