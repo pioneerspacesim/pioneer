@@ -32,13 +32,27 @@
  *
  * Creates a new <SystemPath> object
  *
+ * > path = SystemPath.New(sectorX, sectorY, systemIndex, bodyIndex)
+ *
+ * Parameters:
+ *
+ *   sectorX - galactic sector X coordinate
+ *
+ *   sectorY - galactic sector Y coordinate
+ *
+ *   systemIndex - the numeric index of the system within the sector
+ *
+ *   bodyIndex - optional, the numeric index of a specific body within the
+ *               system. Defaults to 0, which typically corresponds to the
+ *               primary star.
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_new(lua_State *l)
 {
@@ -70,13 +84,23 @@ static int l_sbodypath_new(lua_State *l)
  * Determine if two <SystemPath> objects point to the same system, ignoring
  * the body index.
  *
+ * > is_same = path:IsSameSystem(otherpath)
+ *
+ * Parameters:
+ *
+ *   otherpath - the <SystemPath> to compare with this path
+ *
+ * Return:
+ *
+ *   is_same - true if the path's point to the same system, false otherwise
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_is_same_system(lua_State *l)
 {
@@ -92,13 +116,23 @@ static int l_sbodypath_is_same_system(lua_State *l)
  *
  * Calculate the distance between this and another system
  *
+ * > dist = path:DistanceTo(system)
+ *
+ * Parameters:
+ *
+ *   system - a <SystemPath> or <StarSystem> to calculate the distance to
+ *
+ * Return:
+ *
+ *   dist - the distance, in light years
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_distance_to(lua_State *l)
 {
@@ -128,13 +162,19 @@ static int l_sbodypath_distance_to(lua_State *l)
  *
  * Get a <StarSystem> object for the system that this path points to
  *
+ * > system = path:GetStarSystem()
+ *
+ * Return:
+ *
+ *   system - the <StarSystem>
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_get_star_system(lua_State *l)
 {
@@ -150,13 +190,19 @@ static int l_sbodypath_get_star_system(lua_State *l)
  *
  * Get a <SystemBody> object for the body that this path points to
  *
+ * > body = path:GetSystemBody()
+ *
+ * Return:
+ *
+ *   body - the <SystemBody>
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_get_system_body(lua_State *l)
 {
@@ -176,11 +222,11 @@ static int l_sbodypath_get_system_body(lua_State *l)
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_attr_sector_x(lua_State *l)
 {
@@ -196,11 +242,11 @@ static int l_sbodypath_attr_sector_x(lua_State *l)
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 
 static int l_sbodypath_attr_sector_y(lua_State *l)
@@ -217,11 +263,11 @@ static int l_sbodypath_attr_sector_y(lua_State *l)
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
@@ -237,11 +283,11 @@ static int l_sbodypath_attr_system_index(lua_State *l)
  *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_sbodypath_attr_body_index(lua_State *l)
 {
