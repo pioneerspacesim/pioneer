@@ -62,13 +62,47 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SBodyPath *path, double due
  *
  * Create a ship and place it somewhere in space.
  *
+ * > ship = Space.SpawnShip(type, min, max, hyperspace)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   min - minimum distance from the system centre (usually the primary star)
+ *         to place the ship, in AU
+ *
+ *   max - maximum distance to place the ship
+ *
+ *   hyperspace - optional table containing hyperspace entry information. If
+ *                this is provided the ship will not spawn directly. Instead,
+ *                a hyperspace cloud will be created that the ship will exit
+ *                from. The table contains two elements, a <SystemPath> for
+ *                the system the ship is travelling from, and the due
+ *                date/time that the ship should emerge from the cloud.
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship
+ *
+ * Example:
+ *
+ * > -- spawn a ship 5-6AU from the system centre
+ * > local ship = Ship.Spawn("Eagle Long Range Fighter, 5, 6)
+ *
+ * > -- spawn a ship in the 9-11AU hyperspace area and make it appear that it
+ * > -- came from Sol and will arrive in ten minutes
+ * > local ship = Ship.Spawn(
+ * >     "Flowerfairy Heavy Trader", 9, 11,
+ * >     { SystemPath:New(0,0,0), Game.time + 600 }
+ * > )
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   experimental
  */
 static int l_space_spawn_ship(lua_State *l)
 {
