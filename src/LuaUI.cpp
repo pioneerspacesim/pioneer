@@ -25,8 +25,12 @@
  */
 static int l_ui_message(lua_State *l)
 {
-	std::string from = luaL_checkstring(l, 1);
-	std::string msg = luaL_checkstring(l, 2);
+	std::string msg = luaL_checkstring(l, 1);
+
+	std::string from;
+	if (lua_gettop(l) >= 2)
+		from = luaL_checkstring(l, 2);
+
 	Pi::cpan->MsgLog()->Message(from, msg);
 	return 0;
 }
@@ -48,8 +52,12 @@ static int l_ui_message(lua_State *l)
  */
 static int l_ui_important_message(lua_State *l)
 {
-	std::string from = luaL_checkstring(l, 1);
-	std::string msg = luaL_checkstring(l, 2);
+	std::string msg = luaL_checkstring(l, 1);
+
+	std::string from;
+	if (lua_gettop(l) >= 2)
+		from = luaL_checkstring(l, 2);
+
 	Pi::cpan->MsgLog()->ImportantMessage(from, msg);
 	return 0;
 }

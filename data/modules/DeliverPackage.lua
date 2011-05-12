@@ -234,7 +234,7 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				UI.ImportantMessage(ship.label, "You're going to regret dealing with "..mission.client)
+				UI.ImportantMessage("You're going to regret dealing with "..mission.client, ship.label)
 			end
 		end
 	end
@@ -248,9 +248,9 @@ local onShipDocked = function (player, station)
 		if mission.location == station.path then
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
+				UI.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
 			else
-				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
+				UI.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
 				player:AddMoney(mission.reward)
 			end
 
