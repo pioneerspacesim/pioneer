@@ -560,12 +560,22 @@ std::string SBody::GetAstroDescription()
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				s += " ice world";
+				if (averageTemp < fixed(250)) {
+					s += " ice world";
+				} else s += " rocky planet";
 			} else {
-				s += " oceanic world";
+				if (averageTemp < fixed(250)) {
+					s += " ice world";
+				} else {
+					s += " oceanic world";
+				}
 			}
 		} else if (m_volatileLiquid > fixed(2,5)){
-			s += " planet containing liquid water";
+			if (averageTemp > fixed(250)) {
+				s += " planet containing liquid water";
+			} else {
+				s += " planet with some ice";
+			}
 		} else if (m_volatileLiquid > fixed(1,5)){
 			s += " rocky planet containing some liquids,";
 		} else {
@@ -668,7 +678,10 @@ const char *SBody::GetIcon()
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
-		if (m_volatileLiquid > fixed(7,10)) return "icons/object_planet_water_n1.png";
+		if (m_volatileLiquid > fixed(7,10)) {
+			if (averageTemp > 250) return "icons/object_planet_water_n1.png";
+			else return "icons/object_planet_water_n2.png";
+		}
 		if ((m_life > fixed(1,2)) &&  
 		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life.png";
 		if ((m_life > fixed(1,10)) &&  
@@ -681,9 +694,11 @@ const char *SBody::GetIcon()
 		
 		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				return "icons/object_planet_water_n2.png";
+				if (averageTemp < 250)	return "icons/object_planet_water_n2.png";
 			} else { 
-				return "icons/object_planet_water_n1.png";
+				if (averageTemp > 250) {
+					return "icons/object_planet_water_n1.png";
+				} else return "icons/object_planet_water_n2.png";
 			}
 		}
 
