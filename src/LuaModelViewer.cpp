@@ -188,7 +188,7 @@ public:
 		if (g_renderType > 1) g_renderType = 0;
 	}
 
-	void MainLoop();
+	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);

@@ -50,7 +50,7 @@ private:
 	///////////////////////////
 	// threading rubbbbbish
 	// update thread can't do it since only 1 thread can molest opengl
-	static int UpdateLODThread(void *data);
+	static int UpdateLODThread(void *data) __attribute((noreturn));
 	std::list<GLuint> m_vbosToDestroy;
 	SDL_mutex *m_vbosToDestroyLock;
 	void AddVBOToDestroy(GLuint vbo);
