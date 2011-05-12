@@ -2578,7 +2578,12 @@ namespace ObjLoader {
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
-							s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
+                            if (texcoords.empty()) {
+                                // no UV coords
+                                s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]]);
+                            } else {
+                                s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
+                            }
 							vtxmap[std::pair<int,int>(vi[i], ni[i])] = vtxStart;
 							realVtxIdx[i] = vtxStart;
 						} else {
