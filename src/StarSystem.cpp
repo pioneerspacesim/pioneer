@@ -1073,7 +1073,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	if (system_idx == -1) return;
 
 	Sector s = Sector(sector_x, sector_y);
-	if (system_idx >= s.m_systems.size()) return;
+	if (unsigned(system_idx) >= s.m_systems.size()) return;
 	m_seed = s.m_systems[system_idx].seed;
 	m_name = s.m_systems[system_idx].name;
 	_init[4] = m_seed;

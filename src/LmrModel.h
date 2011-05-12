@@ -100,7 +100,7 @@ public:
 	float *pVertex;
 	int *pIndex;
 	int m_numTris; // ni/3
-	int *pFlag; // 1 per tri
+	unsigned int *pFlag; // 1 per tri
 	friend class LmrModel;
 	friend class LmrGeomBuffer;
 private:

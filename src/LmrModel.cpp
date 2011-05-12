@@ -424,7 +424,7 @@ public:
 				break;
 			case OP_USE_LIGHT:
 				{
-					if (m_model->m_lights.size() <= op.light.num) {
+					if (m_model->m_lights.size() <= unsigned(op.light.num)) {
 						m_model->m_lights.resize(op.light.num+1);
 					}
 					LmrLight &l = m_model->m_lights[op.light.num];
@@ -542,7 +542,7 @@ public:
 	}
 
 	void SetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
-		if (m_model->m_lights.size() <= num) {
+		if (m_model->m_lights.size() <= unsigned(num)) {
 			m_model->m_lights.resize(num+1);
 		}
 		LmrLight &l = m_model->m_lights[num];
