@@ -453,9 +453,9 @@ static int l_space_get_body(lua_State *l)
  *
  * Example:
  *
- * > -- get all the ships
- * > local ships = Space.GetBodies(function (body)
- * >     return body:isa('Ship')
+ * > -- get all the ground-based stations
+ * > local stations = Space.GetBodies(function (body)
+ * >     return body.type == "STARPORT_SURFACE"
  * > end)
  *
  * Availability:
