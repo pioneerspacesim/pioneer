@@ -291,21 +291,21 @@ void WorldView::DrawBgStars()
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			float col = (float)rand.Double(0,1);
 
-			col *= col;
-			col = (col > 0.7 ? 1.4-col : col);
-			col = Clamp(col, 0.05f, 0.9f);
+			col *= col * col * 3.0;
+			col = (col > 0.725 ? 1.45-col : col);
+			col = Clamp(col, 0.00f, 0.725f);
 
 			if (i<6) {
-				col = 1.0;
-			} else if (i<21) {
-				col = 0.95;
-			} else if (i<46) {
 				col = 0.9;
+			} else if (i<21) {
+				col = 0.85;
+			} else if (i<46) {
+				col = 0.8;
 			}
 
-			s_bgstar[i].r = rand.Double(col-0.05f,col+0.05f);
+			s_bgstar[i].r = rand.Double(col-0.05f,col);
 			s_bgstar[i].g = rand.Double(col-0.1f,s_bgstar[i].r);
-			s_bgstar[i].b = rand.Double(col-0.05f,col+0.05f);
+			s_bgstar[i].b = rand.Double(col-0.05f,col);
 
 			// this is proper random distribution on a sphere's surface
 			// XXX TODO
