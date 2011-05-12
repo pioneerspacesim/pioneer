@@ -243,10 +243,10 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			};
 			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
-			if (body->averageTemp > fixed(200)) {
+			if (body->averageTemp > fixed(240)) {
 				m_colorType = COLOR_EARTHLIKE;
 			} else {
-				m_colorType = COLOR_ICEWORLD;
+				m_colorType = COLOR_DESERT;
 			}
 
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
@@ -263,7 +263,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			};
 			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
-			if (body->averageTemp > fixed(200)) {
+			if (body->averageTemp > fixed(240)) {
 				m_colorType = COLOR_TFGOOD;;
 			} else {
 				m_colorType = COLOR_ICEWORLD;
@@ -282,7 +282,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			};
 			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
-			if (body->averageTemp > fixed(200)) {
+			if (body->averageTemp > fixed(240)) {
 				m_colorType = COLOR_TFPOOR;;
 			} else {
 				m_colorType = COLOR_ICEWORLD;
