@@ -19,7 +19,7 @@ struct BVHNode;
 
 class GeomTree {
 public:
-	GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags);
+	GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags);
 	~GeomTree();
 	const Aabb &GetAabb() const { return m_aabb; }
 	// dir should be unit length,
@@ -60,7 +60,7 @@ private:
 	Edge *m_edges;
 
 	const int *m_indices;
-	const int *m_triFlags;
+	const unsigned int *m_triFlags;
 };
 
 #endif /* _GEOMTREE_H */

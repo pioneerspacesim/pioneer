@@ -24,7 +24,7 @@ GeomTree::~GeomTree()
 
 #include <SDL.h>
 
-GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, int *triflags): m_numVertices(numVerts)
+GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, unsigned int *triflags): m_numVertices(numVerts)
 {
 	m_vertices = vertices;
 	m_indices = indices;

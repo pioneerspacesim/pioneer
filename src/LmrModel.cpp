@@ -664,7 +664,7 @@ public:
 		}
 		if (m_indices.size()) {
 			c->pIndex = static_cast<int*>(realloc(c->pIndex, sizeof(int)*c->ni));
-			c->pFlag = static_cast<int*>(realloc(c->pFlag, sizeof(int)*c->nf));
+			c->pFlag = static_cast<unsigned int*>(realloc(c->pFlag, sizeof(unsigned int)*c->nf));
 			for (unsigned int i=0; i<m_indices.size(); i++) {
 				c->pIndex[idxBase + i] = vtxBase + m_indices[i];
 			}
