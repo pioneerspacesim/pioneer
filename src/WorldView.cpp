@@ -414,9 +414,9 @@ void WorldView::DrawBgStars()
 			vtx[i*12+1] = s_bgstar[i].y;
 			vtx[i*12+2] = s_bgstar[i].z;
 
-			vtx[i*12+3] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
-			vtx[i*12+4] = s_bgstar[i].g;
-			vtx[i*12+5] = s_bgstar[i].b;
+			vtx[i*12+3] = s_bgstar[i].r * 0.5;
+			vtx[i*12+4] = s_bgstar[i].g * 0.5;
+			vtx[i*12+5] = s_bgstar[i].b * 0.5;
 
 			vector3f v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
 			v += pz*hyperspaceAnim*mult;
@@ -425,9 +425,9 @@ void WorldView::DrawBgStars()
 			vtx[i*12+7] = v.y;
 			vtx[i*12+8] = v.z;
 
-			vtx[i*12+9] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
-			vtx[i*12+10] = rand.Double(s_bgstar[i].g-0.2,s_bgstar[i].g);
-			vtx[i*12+11] = rand.Double(s_bgstar[i].b,0.7);
+			vtx[i*12+9] = s_bgstar[i].r * 0.5;
+			vtx[i*12+10] = s_bgstar[i].g * 0.5;
+			vtx[i*12+11] = s_bgstar[i].b * 0.5;
 		}
 
 		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
