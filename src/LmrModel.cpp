@@ -2565,9 +2565,16 @@ namespace ObjLoader {
 						vector3f &c = vertices[vi[i+2]];
 						vector3f n = (a-b).Cross(a-c).Normalized();
 						int vtxStart = s_curBuf->AllocVertices(3);
-						s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
-						s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
-						s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
+                        if (texcoords.empty()) {
+                            // no UV coords
+                            s_curBuf->SetVertex(vtxStart, a, n);
+                            s_curBuf->SetVertex(vtxStart+1, b, n);
+                            s_curBuf->SetVertex(vtxStart+2, c, n);
+                        } else {
+                            s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
+                            s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
+                            s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
+                        }
 						if (texture) s_curBuf->SetTexture(texture);
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
