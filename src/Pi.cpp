@@ -924,6 +924,11 @@ void Pi::Start()
 	splash->Add(opts[4], w, h+64);
 	splash->Add(new Gui::Label("Quit"), w+32, h+64);
 
+    std::string version("Pioneer " PIONEER_VERSION);
+    if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+
+    splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200, Gui::Screen::GetHeight()-32);
+
 	splash->ShowAll();
 
 	int choice = 0;
