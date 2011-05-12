@@ -230,7 +230,7 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		m_shipsOnSale.push_back(s);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = (Ship*)rd.Int32();
+		m_shipDocking[i].shipIndex = rd.Int32();
 		m_shipDocking[i].stage = rd.Int32();
 		m_shipDocking[i].stagePos = rd.Float();
 		m_shipDocking[i].fromPos = rd.Vector3d();
@@ -248,7 +248,7 @@ void SpaceStation::Load(Serializer::Reader &rd)
 void SpaceStation::PostLoadFixup()
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody((size_t)m_shipDocking[i].ship));
+		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody(m_shipDocking[i].shipIndex));
 	}
 }
 

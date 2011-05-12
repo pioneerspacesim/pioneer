@@ -52,7 +52,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 		f->m_orient.SetTranslate(pos);
 	}
 	f->m_sbody = Serializer::LookupSystemBody(rd.Int32());
-	f->m_astroBody = (Body*)rd.Int32();
+	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
 	for (int i=rd.Int32(); i>0; --i) {
 		f->m_children.push_back(Unserialize(rd, f));
@@ -67,7 +67,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 
 void Frame::PostUnserializeFixup(Frame *f)
 {
-	f->m_astroBody = Serializer::LookupBody((size_t)f->m_astroBody);
+	f->m_astroBody = Serializer::LookupBody(f->m_astroBodyIndex);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		PostUnserializeFixup(*i);

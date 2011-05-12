@@ -38,13 +38,13 @@ void AICommand::Save(Serializer::Writer &wr)
 AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 {
 	m_cmdName = name;
-	m_ship = (Ship*)rd.Int32();
+	m_shipIndex = rd.Int32();
 	m_child = Load(rd);
 }
 
 void AICommand::PostLoadFixup()
 {
-	m_ship = (Ship *)Serializer::LookupBody((size_t)m_ship);
+	m_ship = (Ship *)Serializer::LookupBody(m_shipIndex);
 	if (m_child) m_child->PostLoadFixup();
 }
 

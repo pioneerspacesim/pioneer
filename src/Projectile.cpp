@@ -40,12 +40,12 @@ void Projectile::Load(Serializer::Reader &rd)
 	m_dirVel = rd.Vector3d();
 	m_age = rd.Float();
 	m_type = rd.Int32();
-	m_parent = (Body*)rd.Int32();
+	m_parentIndex = rd.Int32();
 }
 
 void Projectile::PostLoadFixup()
 {
-	m_parent = Serializer::LookupBody((size_t)m_parent);
+	m_parent = Serializer::LookupBody(m_parentIndex);
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)

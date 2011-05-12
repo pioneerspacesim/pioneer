@@ -65,8 +65,8 @@ void Ship::Load(Serializer::Reader &rd)
 	DynamicBody::Load(rd);
 	MarketAgent::Load(rd);
 	// needs fixups
-	m_combatTarget = (Body*)rd.Int32();
-	m_navTarget = (Body*)rd.Int32();
+	m_combatTargetIndex = rd.Int32();
+	m_navTargetIndex = rd.Int32();
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Float();
@@ -89,7 +89,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_ecmRecharge = rd.Float();
 	m_shipFlavour.Load(rd);
 	m_dockedWithPort = rd.Int32();
-	m_dockedWith = (SpaceStation*)rd.Int32();
+	m_dockedWithIndex = rd.Int32();
 	m_equipment.InitSlotSizes(m_shipFlavour.type);
 	m_equipment.Load(rd);
 	Init();
@@ -111,9 +111,9 @@ void Ship::Init()
 
 void Ship::PostLoadFixup()
 {
-	m_combatTarget = Serializer::LookupBody((size_t)m_combatTarget);
-	m_navTarget = Serializer::LookupBody((size_t)m_navTarget);
-	m_dockedWith = (SpaceStation*)Serializer::LookupBody((size_t)m_dockedWith);
+	m_combatTarget = Serializer::LookupBody(m_combatTargetIndex);
+	m_navTarget = Serializer::LookupBody(m_navTargetIndex);
+	m_dockedWith = (SpaceStation*)Serializer::LookupBody(m_dockedWithIndex);
 	if (m_curAICmd) m_curAICmd->PostLoadFixup();
 }
 
