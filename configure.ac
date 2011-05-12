@@ -82,6 +82,12 @@ esac
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
 
+PKG_CHECK_MODULES([LUA], [lua5.1], [HAVE_LUA=yes], [HAVE_LUA=no])
+AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
+
+EXTRAFLAGS="$EXTRAFLAGS $LUA_CFLAGS"
+LIBS="$LIBS $LUA_LIBS"
+
 case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
