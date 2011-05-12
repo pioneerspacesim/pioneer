@@ -32,8 +32,8 @@ static GLUtesselator *tobj;
 static inline double fac(int n)
 {
 	double r = 1.0;
-	for (int i=2; i<=n; i++) {
-		r *= (double)i;
+	for (double i=2; i<=n; i++) {
+		r *= i;
 	}
 	return r;
 }
@@ -222,7 +222,7 @@ static Uint16 g_index[65536];
 
 void CALLBACK beginCallback(GLenum which, GLvoid *poly_data)
 {
-	TessData *pData = (TessData *)poly_data;
+	TessData *pData = static_cast<TessData *>(poly_data);
 	pData->lasttype = which;
 	pData->state = 0;
 }
@@ -241,8 +241,8 @@ void CALLBACK endCallback(void)
 
 void CALLBACK vertexCallback(GLvoid *vertex, GLvoid *poly_data)
 {
-	TessData *pData = (TessData *)poly_data;
-	Uint16 index = *(Uint16 *)vertex;
+	TessData *pData = static_cast<TessData *>(poly_data);
+	Uint16 index = *static_cast<Uint16 *>(vertex);
 	switch (pData->lasttype)
 	{
 		case GL_TRIANGLES:
@@ -283,11 +283,11 @@ void CALLBACK combineCallback(GLdouble coords[3],
                      GLdouble *vertex_data[4],
                      GLfloat weight[4], void **dataOut, void *poly_data)
 {
-	TessData *pData = (TessData *)poly_data;
+	TessData *pData = static_cast<TessData *>(poly_data);
 	pData->pts->push_back(coords[0]);
 	pData->pts->push_back(coords[1]);
 	pData->pts->push_back(coords[2]);
-	*dataOut = (void *)&g_index[pData->numvtx++];
+	*dataOut = static_cast<void *>(&g_index[pData->numvtx++]);
 }
 
 #define BEZIER_STEPS 2
@@ -433,15 +433,15 @@ FontFace::FontFace(const char *filename_ttf)
 
 			nv = tessdata.numvtx;
 			_face.numvtx = nv;
-			_face.varray = (float *) malloc (nv*3*sizeof(float));
-			for (int i=0; i<nv*3; i++) _face.varray[i] = (float) pts[i];
+			_face.varray = static_cast<float *>(malloc (nv*3*sizeof(float)));
+			for (int i=0; i<nv*3; i++) _face.varray[i] = float(pts[i]);
 
-			_face.numidx = (int) tessdata.index.size();
-			_face.iarray = (Uint16 *) malloc (_face.numidx*sizeof(Uint16));
+			_face.numidx = int(tessdata.index.size());
+			_face.iarray = static_cast<Uint16 *>(malloc (_face.numidx*sizeof(Uint16)));
 			for (int i=0; i<_face.numidx; i++) _face.iarray[i] = tessdata.index[i];
 
-			_face.advx = face->glyph->linearHoriAdvance/(float)(1<<16)/72.0f;
-			_face.advy = face->glyph->linearVertAdvance/(float)(1<<16)/72.0f;
+			_face.advx = face->glyph->linearHoriAdvance/float(1<<16)/72.0f;
+			_face.advy = face->glyph->linearVertAdvance/float(1<<16)/72.0f;
 			//printf("%f,%f\n", _face.advx, _face.advy);
 			m_glyphs[chr] = _face;
 		}
@@ -464,8 +464,8 @@ void TextureFontFace::RenderGlyph(int chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 	glBindTexture(GL_TEXTURE_2D, glyph->tex);
-	const float ox = x + (float)glyph->offx;
-	const float oy = y + (float)m_pixSize - glyph->offy;
+	const float ox = x + float(glyph->offx);
+	const float oy = y + float(m_pixSize - glyph->offy);
 	glBegin(GL_QUADS);
 		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
 		const float w = glyph->width;
@@ -596,20 +596,20 @@ TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_he
 			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glDisable (GL_TEXTURE_2D);
 
-			_face.width = face->glyph->bitmap.width / (float)sz;
-			_face.height = face->glyph->bitmap.rows / (float)sz;
+			_face.width = face->glyph->bitmap.width / float(sz);
+			_face.height = face->glyph->bitmap.rows / float(sz);
 			_face.offx = face->glyph->bitmap_left;
 			_face.offy = face->glyph->bitmap_top;
-			_face.advx = (float)(face->glyph->advance.x >> 6);
-			_face.advy = (float)(face->glyph->advance.y >> 6);
+			_face.advx = float(face->glyph->advance.x >> 6);
+			_face.advy = float(face->glyph->advance.y >> 6);
 			m_glyphs[chr] = _face;
 		}
 
 		delete [] pixBuf;
 		
-		m_height = (float)a_height;
-		m_width = (float)a_width;
-		m_descender = (float)-(face->descender >> 6);
+		m_height = float(a_height);
+		m_width = float(a_width);
+		m_descender = -float(face->descender >> 6);
 	}
 }
 
@@ -621,11 +621,11 @@ void GLFTInit()
 	}
 
 	tobj = gluNewTess ();
-	gluTessCallback(tobj, GLU_TESS_VERTEX_DATA, (_GLUfuncptr) vertexCallback);
-	gluTessCallback(tobj, GLU_TESS_BEGIN_DATA, (_GLUfuncptr) beginCallback);
-	gluTessCallback(tobj, GLU_TESS_END, (_GLUfuncptr) endCallback);
-	gluTessCallback(tobj, GLU_TESS_ERROR, (_GLUfuncptr) errorCallback);
-	gluTessCallback(tobj, GLU_TESS_COMBINE_DATA, (_GLUfuncptr) combineCallback);
+	gluTessCallback(tobj, GLU_TESS_VERTEX_DATA, reinterpret_cast<_GLUfuncptr>(vertexCallback));
+	gluTessCallback(tobj, GLU_TESS_BEGIN_DATA, reinterpret_cast<_GLUfuncptr>(beginCallback));
+	gluTessCallback(tobj, GLU_TESS_END, reinterpret_cast<_GLUfuncptr>(endCallback));
+	gluTessCallback(tobj, GLU_TESS_ERROR, reinterpret_cast<_GLUfuncptr>(errorCallback));
+	gluTessCallback(tobj, GLU_TESS_COMBINE_DATA, reinterpret_cast<_GLUfuncptr>(combineCallback));
 
 	for (Uint16 i=0; i<65535; i++) g_index[i] = i;
 }

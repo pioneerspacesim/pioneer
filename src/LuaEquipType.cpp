@@ -68,7 +68,7 @@ static int l_equiptype_attr_slot(lua_State *l)
 static int l_equiptype_attr_base_price(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
-	lua_pushnumber(l, (double)(et->basePrice)*0.01);
+	lua_pushnumber(l, double(et->basePrice)*0.01);
 	return 1;
 }
 

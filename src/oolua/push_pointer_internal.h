@@ -33,8 +33,8 @@ namespace OOLUA
 		inline void push_const_pointer(lua_State * /*const*/ l, T const* const ptr,Owner owner)
 		{
 			if_check_enabled_check_type_is_registered(l,Proxy_class<T>::class_name);
-			Lua_ud* ud( find_ud(l,(T* const)ptr,true ) );
-			if(! ud ) ud = add_ptr(l,(T* const)ptr,true);
+			Lua_ud* ud( find_ud(l,const_cast<T* const>(ptr),true ) );
+			if(! ud ) ud = add_ptr(l,const_cast<T* const>(ptr),true);
 
 			set_owner_if_change(owner,ud);
 		}

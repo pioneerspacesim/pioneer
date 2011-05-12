@@ -45,8 +45,9 @@ namespace OOLUA
 				//it is safe as the pointers are the same size
 				//yet we need to stop warnings
 				//NOTE: in 5.2 we can push a light c function here
+				//FIXME: func*->data*
 				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
-                                void** stopwarnings = (void**)&func;
+                                void** stopwarnings = reinterpret_cast<void**>(&func);
 				lua_pushlightuserdata(l,*stopwarnings);
 				lua_gettable(l, LUA_REGISTRYINDEX);
 			}
@@ -55,8 +56,9 @@ namespace OOLUA
 				//it is safe as the pointers are the same size
 				//yet we need to stop warnings
 				//NOTE: in 5.2 we can push a light c function here
+				//FIXME: func*->data*
 				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
-                void** stopwarnings =  (void**)&func ;
+				void** stopwarnings = reinterpret_cast<void**>(&func);
 				lua_pushlightuserdata(l,*stopwarnings);
 				lua_pushvalue(l, value_index);
 				lua_settable(l, LUA_REGISTRYINDEX);
@@ -185,8 +187,8 @@ namespace OOLUA
 		{
 			Lua_ud *ud = static_cast<Lua_ud *>( lua_touserdata(l, -1) );//ud
 			ud->void_class_ptr = ptr;
-			ud->name = (char*) (use_const_name? OOLUA::Proxy_class<T>::class_name_const :OOLUA::Proxy_class<T>::class_name);
-			ud->none_const_name = (char*) OOLUA::Proxy_class<T>::class_name;
+			ud->name = const_cast<char*>((use_const_name? OOLUA::Proxy_class<T>::class_name_const :OOLUA::Proxy_class<T>::class_name));
+			ud->none_const_name = const_cast<char*>(OOLUA::Proxy_class<T>::class_name);
 			ud->name_size = OOLUA::Proxy_class<T>::name_size;
 
 			//change the metatable associated with the ud
@@ -211,8 +213,8 @@ namespace OOLUA
 			Lua_ud* ud = static_cast<Lua_ud*>(lua_newuserdata(l, sizeof(Lua_ud)));
 			ud->void_class_ptr = ptr;
 			ud->gc = false;
-			ud->name = (char*) (isConst? OOLUA::Proxy_class<T>::class_name_const :OOLUA::Proxy_class<T>::class_name);
-			ud->none_const_name = (char*) OOLUA::Proxy_class<T>::class_name;
+			ud->name = const_cast<char*>((isConst? OOLUA::Proxy_class<T>::class_name_const :OOLUA::Proxy_class<T>::class_name));
+			ud->none_const_name = const_cast<char*>(OOLUA::Proxy_class<T>::class_name);
 			ud->name_size = OOLUA::Proxy_class<T>::name_size;
 
 			lua_getfield(l, LUA_REGISTRYINDEX,ud->name);
@@ -244,7 +246,7 @@ namespace OOLUA
 			void operator()(lua_State * const l,Type* ptr,int udIndex,int weakIndex)
 			{
 				//add this type if needed
-				add_ptr_if_required(l,(BaseType*)ptr,udIndex,weakIndex);
+				add_ptr_if_required(l,static_cast<BaseType*>(ptr),udIndex,weakIndex);
 				//add the next in the type list if needed
 				Add_ptr<
 						Type
@@ -269,7 +271,7 @@ namespace OOLUA
 			void operator()(lua_State * const l,Type* ptr,int weakIndex,bool& result)
 			{
 				if(result)return;
-				result = is_there_an_entry_for_this_void_pointer(l,(BaseType*)ptr,weakIndex);
+				result = is_there_an_entry_for_this_void_pointer(l,static_cast<BaseType*>(ptr),weakIndex);
 				if(result)return;
 				Has_a_root_entry<
 						Type

@@ -91,7 +91,7 @@ namespace OOLUA
 			}
 			static void push(lua_State* const s, T& value)
 			{
-				Internal_push<typename WT::raw_type,T,WT::is_by_value, WT::is_constant>::push((Owner)WT::owner,s,value);
+				Internal_push<typename WT::raw_type,T,WT::is_by_value, WT::is_constant>::push(Owner(WT::owner),s,value);
 			}
 		};
 	}

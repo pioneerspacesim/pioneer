@@ -27,7 +27,7 @@ class BezierCurve {
 		int n_points = p.size()-1;
 		BezierCurve out(n_points);
 		for (int i=0; i<n_points; i++) {
-			out.p[i] = (double)n_points * (p[i+1] - p[i]);
+			out.p[i] = double(n_points) * (p[i+1] - p[i]);
 		}
 		return out;
 	}

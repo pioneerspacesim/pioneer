@@ -273,7 +273,7 @@ void Pi::Init()
 		if (modes == 0) {
 			fprintf(stderr, "It seems no video modes are available...");
 		}
-		if (modes == (SDL_Rect **)-1) {
+		if (modes == reinterpret_cast<SDL_Rect **>(-1)) {
 			// hm. all modes available. odd. try 800x600
 			width = 800; height = 600;
 		} else {
@@ -318,7 +318,7 @@ void Pi::Init()
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 	Pi::scrWidth = width;
 	Pi::scrHeight = height;
-	Pi::scrAspect = width / (float)height;
+	Pi::scrAspect = width / float(height);
 
 	Pi::rng.seed(time(NULL));
 
@@ -456,7 +456,7 @@ void Pi::SetTimeAccel(int s)
 	}
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
-		if ((*i)->IsType(Object::SHIP)) ((DynamicBody *)(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
+		if ((*i)->IsType(Object::SHIP)) (static_cast<DynamicBody *>(*i))->ApplyAccel(0.5*Pi::GetTimeStep());
 	}
 
 	timeAccelIdx = s;
@@ -1116,14 +1116,14 @@ void Pi::MainLoop()
 	int dumpnum = 0;
 #endif /* MAKING_VIDEO */
 
-	double currentTime = 0.001 * (double)SDL_GetTicks();
+	double currentTime = 0.001 * double(SDL_GetTicks());
 	double accumulator = Pi::GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
 	memset(fps_readout, 0, sizeof(fps_readout));
 
 	while (isGameStarted) {
-		double newTime = 0.001 * (double)SDL_GetTicks();
+		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
@@ -1363,7 +1363,7 @@ void Pi::Unserialize(Serializer::Reader &rd)
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 {
-	return 200.0f * hyperclass * hyperclass / (float)total_mass_in_tonnes;
+	return 200.0f * hyperclass * hyperclass / float(total_mass_in_tonnes);
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)
@@ -1396,10 +1396,10 @@ void Pi::InitJoysticks() {
 
 int Pi::JoystickButtonState(int joystick, int button) {
 	if (!joystickEnabled) return 0;
-	if (joystick < 0 || joystick >= (int) joysticks.size())
+	if (joystick < 0 || joystick >= int(joysticks.size()))
 		return 0;
 
-	if (button < 0 || button >= (int) joysticks[joystick].buttons.size())
+	if (button < 0 || button >= int(joysticks[joystick].buttons.size()))
 		return 0;
 
 	return joysticks[joystick].buttons[button];
@@ -1407,10 +1407,10 @@ int Pi::JoystickButtonState(int joystick, int button) {
 
 int Pi::JoystickHatState(int joystick, int hat) {
 	if (!joystickEnabled) return 0;
-	if (joystick < 0 || joystick >= (int) joysticks.size())
+	if (joystick < 0 || joystick >= int(joysticks.size()))
 		return 0;
 
-	if (hat < 0 || hat >= (int) joysticks[joystick].hats.size())
+	if (hat < 0 || hat >= int(joysticks[joystick].hats.size()))
 		return 0;
 
 	return joysticks[joystick].hats[hat];
@@ -1418,10 +1418,10 @@ int Pi::JoystickHatState(int joystick, int hat) {
 
 float Pi::JoystickAxisState(int joystick, int axis) {
 	if (!joystickEnabled) return 0;
-	if (joystick < 0 || joystick >= (int) joysticks.size())
+	if (joystick < 0 || joystick >= int(joysticks.size()))
 		return 0;
 
-	if (axis < 0 || axis >= (int) joysticks[joystick].axes.size())
+	if (axis < 0 || axis >= int(joysticks[joystick].axes.size()))
 		return 0;
 
 	return joysticks[joystick].axes[axis];

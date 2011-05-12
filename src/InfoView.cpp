@@ -152,7 +152,7 @@ public:
 		ypos = 160.0f;
 		Add((new Gui::Label("CRIMINAL RECORD:"))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
-			if (!(crime & ((Uint64)1<<i))) continue;
+			if (!(crime & (Uint64(1)<<i))) continue;
 			if (!Polit::crimeNames[i]) continue;
 			ypos += YSEP;
 			Add(new Gui::Label(Polit::crimeNames[i]), 40, ypos);
@@ -216,8 +216,8 @@ public:
 		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
 		col2 += std::string(buf);
 
-		for (int i=(int)Equip::FIRST_SHIPEQUIP; i<=(int)Equip::LAST_SHIPEQUIP; i++) {
-			Equip::Type t = (Equip::Type)i;
+		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
+			Equip::Type t = Equip::Type(i) ;
 			Equip::Slot s = EquipType::types[t].slot;
 			if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
 			int num = Pi::player->m_equipment.Count(s, t);

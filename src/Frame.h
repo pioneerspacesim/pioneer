@@ -90,6 +90,8 @@ private:
 	double m_radius;
 	int m_flags;
 	CollisionSpace *m_collisionSpace;
+
+	int m_astroBodyIndex; // deserialisation
 };
 
 #endif /* _FRAME_H */

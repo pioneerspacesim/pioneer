@@ -33,11 +33,11 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// Why? because although our font textures get bigger with screen
 	// resolution, our Gui Ortho projection is still 800x600 so vertex
 	// coords must be scaled.
-	Screen::fontScale[0] = ui_width / (float)real_width;
-	Screen::fontScale[1] = ui_height / (float)real_height;
-	Screen::font = new TextureFontFace(PIONEER_DATA_DIR "/fonts/guifont.ttf", (int)(12/fontScale[0]), (int)(12/fontScale[1]));
+	Screen::fontScale[0] = ui_width / float(real_width);
+	Screen::fontScale[1] = ui_height / float(real_height);
+	Screen::font = new TextureFontFace(PIONEER_DATA_DIR "/fonts/guifont.ttf", int(12/fontScale[0]), int(12/fontScale[1]));
 	Screen::baseContainer = new Gui::Fixed();
-	Screen::baseContainer->SetSize((float)Screen::width, (float)Screen::height);
+	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
 }
 
@@ -138,7 +138,7 @@ bool Screen::IsBaseWidget(const Widget *w)
 
 void Screen::AddBaseWidget(Widget *w, int x, int y)
 {
-	baseContainer->Add(w, (float)x, (float)y);
+	baseContainer->Add(w, float(x), float(y));
 }
 
 void Screen::RemoveBaseWidget(Widget *w)

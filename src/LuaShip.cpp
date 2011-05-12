@@ -164,9 +164,9 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
 		if (strlen(hexstr) != 7 || *hexstr != '#')
 			luaL_error(l, "Colour string should be a hex triple (#rrggbb)");
 		int n = strtol(&hexstr[1], NULL, 16);
-		r = (float)((n & 0xff0000) >> 16);
-		g = (float)((n & 0xff00) >> 8);
-		b = (float)(n & 0xff);
+		r = float((n & 0xff0000) >> 16);
+		g = float((n & 0xff00) >> 8);
+		b = float(n & 0xff);
 	}
 
 	else {
@@ -194,7 +194,7 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
 	m.specular[2] = b;
 	m.specular[3] = 0.0f;
 	m.emissive[0] = m.emissive[1] = m.emissive[2] = m.emissive[3] = 0.0f;
-	m.shininess = 50.0f + (float)Pi::rng.Double()*50.0f;
+	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
 }
 
 /*

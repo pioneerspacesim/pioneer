@@ -54,7 +54,7 @@ namespace OOLUA
 				if(result) return;
 				//is this a base
 				if( INTERNAL::ids_equal(requested_ud->none_const_name,requested_ud->name_size,
-					(char*)OOLUA::Proxy_class<BaseType>::class_name,OOLUA::Proxy_class<BaseType>::name_size ) )
+					const_cast<char*>(OOLUA::Proxy_class<BaseType>::class_name),OOLUA::Proxy_class<BaseType>::name_size ) )
 				{
 					result = true;
 					CastToRequestedProxyType<ProxyStackType,BaseType,1>::cast(l,userdata_index);

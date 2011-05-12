@@ -6,7 +6,7 @@
 template <int FRAC_BITS>
 class fixedf {
 public:
-	enum { FRAC=FRAC_BITS, MASK=((1ULL<<FRAC_BITS)-1) };
+	enum { FRAC=FRAC_BITS, MASK=((1ULL<<FRAC_BITS)-1), DUMMY=-1 }; // -1 to ensure signed type (signedness warning otherwise)
 	fixedf(): v(0) {}
 //	template <int bits>
 //	fixedf(fixedf<bits> f) { *this = f; }
@@ -133,10 +133,10 @@ public:
 	friend bool operator<=(const fixedf a, const fixedf b) { return a.v <= b.v; }
 
 	/* implicit operator float() bad */
-	int ToInt32() const { return (int)(v>>FRAC); }
+	int ToInt32() const { return int(v>>FRAC); }
 	Sint64 ToInt64() const { return v>>FRAC; }
-	float ToFloat() const { return v/(float)(1LL<<FRAC); }
-	double ToDouble() const { return v/(double)(1LL<<FRAC); }
+	float ToFloat() const { return v/float(1LL<<FRAC); }
+	double ToDouble() const { return v/double(1LL<<FRAC); }
 	
 	template <int NEW_FRAC_BITS>
 	operator fixedf<NEW_FRAC_BITS>() const {

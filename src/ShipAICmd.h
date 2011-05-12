@@ -29,6 +29,8 @@ protected:
 	CmdName m_cmdName;	
 	Ship *m_ship;
 	AICommand *m_child;
+
+	int m_shipIndex; // deserialisation
 };
 
 /*
@@ -66,17 +68,17 @@ public:
 		wr.Vector3d(m_dockupdir); wr.Int32(m_state);
 	}
 	AICmdDock(Serializer::Reader &rd) : AICommand(rd, CMD_DOCK) {
-		m_target = (SpaceStation *)rd.Int32();
+		m_targetIndex = rd.Int32();
 		m_dockpos = rd.Vector3d(); m_dockdir = rd.Vector3d();
 		m_dockupdir = rd.Vector3d(); m_state = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = (SpaceStation *)Serializer::LookupBody((size_t)m_target);
+		m_target = static_cast<SpaceStation *>(Serializer::LookupBody(m_targetIndex));
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
-		if ((Body *)m_target == body) m_target = 0;
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
 	}
 private:
 	SpaceStation *m_target;
@@ -84,6 +86,7 @@ private:
 	vector3d m_dockdir;
 	vector3d m_dockupdir;
 	int m_state;		// see TimeStepUpdate()
+	int m_targetIndex;	// used during deserialisation
 };
 
 
@@ -106,14 +109,14 @@ public:
 		wr.Int32(m_state); wr.Bool(m_coll);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
-		m_targframe = (Frame *)rd.Int32();
+		m_targframeIndex = rd.Int32();
 		m_posoff = rd.Vector3d();
 		m_endvel = rd.Double();	m_orbitrad = rd.Double();
 		m_state = rd.Int32(); m_coll = rd.Bool();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup(); m_frame = 0;		// regen
-		m_targframe = Serializer::LookupFrame((size_t)m_targframe);
+		m_targframe = Serializer::LookupFrame(m_targframeIndex);
 	}
 
 protected:
@@ -130,6 +133,7 @@ private:
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	double m_orbitrad;	// orbital radius in metres
 	int m_state;		// see TimeStepUpdate()
+	int m_targframeIndex;	// used during deserialisation
 	bool m_coll;		// whether to bother checking for collisions
 
 	Frame *m_frame;		// current frame of ship, used to check for changes	
@@ -154,17 +158,17 @@ public:
 		wr.Int32(Serializer::LookupBody(m_target));
 	}
 	AICmdKill(Serializer::Reader &rd) : AICommand(rd, CMD_KILL) {
-		m_target = (Ship *)rd.Int32();
+		m_targetIndex = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = (Ship *)Serializer::LookupBody((size_t)m_target);
+		m_target = static_cast<Ship *>(Serializer::LookupBody(m_targetIndex));
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
 	}
 
 	virtual void OnDeleted(const Body *body) {
-		if ((Body *)m_target == body) m_target = 0;
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
 		AICommand::OnDeleted(body);
 	}
 
@@ -172,6 +176,7 @@ private:
 	Ship *m_target;
 	double m_leadTime, m_evadeTime, m_closeTime;
 	vector3d m_leadOffset, m_leadDrift, m_lastVel;
+	int m_targetIndex;	// used during deserialisation
 };
 
 class AICmdKamikaze : public AICommand {
@@ -186,20 +191,21 @@ public:
 		wr.Int32(Serializer::LookupBody(m_target));
 	}
 	AICmdKamikaze(Serializer::Reader &rd) : AICommand(rd, CMD_KAMIKAZE) {
-		m_target = (Body *)rd.Int32();
+		m_targetIndex = rd.Int32();
 	}
 	virtual void PostLoadFixup() {
 		AICommand::PostLoadFixup();
-		m_target = Serializer::LookupBody((size_t)m_target);
+		m_target = Serializer::LookupBody(m_targetIndex);
 	}
 
 	virtual void OnDeleted(const Body *body) {
-		if ((Body *)m_target == body) m_target = 0;
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
 		AICommand::OnDeleted(body);
 	}
 
 private:
 	Body *m_target;
+	int m_targetIndex;	// used during deserialisation
 };
 
 class AICmdHoldPosition : public AICommand {

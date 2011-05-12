@@ -43,7 +43,7 @@ void Clear()
 {
 	for (std::list<Body*>::iterator i = bodies.begin(); i != bodies.end(); ++i) {
 		(*i)->SetFrame(NULL);
-		if ((*i) != (Body*)Pi::player) {
+		if ((*i) != static_cast<Body*>(Pi::player)) {
 			KillBody(*i);
 		}
 	}
@@ -281,7 +281,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(1000.0);
 //		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
-		rotFrame->SetAngVelocity(vector3d(0.0,(double)static_cast<SpaceStation*>(b)->GetDesiredAngVel(),0.0));
+		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
 		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
 		return orbFrame;
@@ -489,7 +489,7 @@ void CollideFrame(Frame *f)
 		for (bodiesIter_t i = bodies.begin(); i!=bodies.end(); ++i) {
 			if ((*i)->GetFrame() != f) continue;
 			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
-			DynamicBody *dynBody = (DynamicBody*)(*i);
+			DynamicBody *dynBody = static_cast<DynamicBody*>(*i);
 
 			Aabb aabb;
 			dynBody->GetAabb(aabb);
@@ -628,8 +628,8 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 			if ((*i)->IsType(Object::HYPERSPACECLOUD) && (!cloud->IsArrival()) &&
 					(cloud->GetShip() != 0)) {
 				// only comparing system, not precise body target
-				SysLoc cloudDest = *((SysLoc*)cloud->GetShip()->GetHyperspaceTarget());
-				if (cloudDest == *(SysLoc*)dest) {
+				const SysLoc cloudDest = *reinterpret_cast<const SysLoc*>(cloud->GetShip()->GetHyperspaceTarget());
+				if (cloudDest == *reinterpret_cast<const SysLoc*>(dest)) {
 					Pi::player->NotifyDeleted(cloud);
 					cloud->SetIsArrival(true);
 					cloud->SetFrame(0);
@@ -854,7 +854,7 @@ void SetupSystemForGameStart(const SBodyPath *dest, int starport, int port)
 	SpaceStation *station = 0;
 	for (Space::bodiesIter_t i = Space::bodies.begin(); i!=Space::bodies.end(); i++) {
 		if ((*i)->IsType(Object::SPACESTATION) && !starport--) {
-			station = (SpaceStation*)*i;
+			station = static_cast<SpaceStation*>(*i);
 			break;
 		}
 	}
@@ -894,7 +894,7 @@ void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
 	double newdist = znear + 0.5f * (zfar - znear);
 	double scale = newdist / fpos.Length();
 
-	glTranslatef((float)(scale*fpos.x), (float)(scale*fpos.y), (float)(scale*fpos.z));
+	glTranslatef(float(scale*fpos.x), float(scale*fpos.y), float(scale*fpos.z));
 
 	Render::State::UseProgram(0);
 	// face the camera dammit
@@ -916,7 +916,7 @@ void DrawSpike(double rad, const vector3d &fpos, const matrix4x4d &ftran)
 	glVertex3f(0,0,0);
 	glColor4f(col[0], col[1], col[2], 0);
 
-	const float spikerad = (float)(scale*rad);
+	const float spikerad = float(scale*rad);
 
 	// bezier with (0,0,0) control points
 		{

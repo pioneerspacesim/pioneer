@@ -149,7 +149,7 @@ LuaObjectBase *LuaObjectBase::Lookup(lid id)
 int LuaObjectBase::l_exists(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 	LuaObjectBase *lo = Lookup(*idp);
 	lua_pushboolean(l, lo != 0);
 	return 1;
@@ -158,7 +158,7 @@ int LuaObjectBase::l_exists(lua_State *l)
 int LuaObjectBase::l_isa(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 
 	LuaObjectBase *lo = Lookup(*idp);
 	if (!lo)
@@ -171,7 +171,7 @@ int LuaObjectBase::l_isa(lua_State *l)
 int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 	LuaObjectBase *lo = Lookup(*idp);
 	if (lo) Deregister(lo);
 	return 0;
@@ -430,7 +430,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	assert(lua_istable(l, -1));
 
-	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
+	lid *idp = static_cast<lid*>(lua_newuserdata(l, sizeof(lid)));
 	*idp = lo->m_id;
 
 	luaL_getmetatable(l, lo->m_type);
@@ -457,7 +457,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 	if (lua_type(l, index) != LUA_TUSERDATA)
 		return NULL;
 
-	lid *idp = (lid*)lua_touserdata(l, index);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
 	if (!idp)
 		return NULL;
 
@@ -484,7 +484,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 	luaL_checktype(l, index, LUA_TUSERDATA);
 
-	lid *idp = (lid*)lua_touserdata(l, index);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
 	if (!idp)
 		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
 
