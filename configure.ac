@@ -18,20 +18,21 @@ AC_PROG_RANLIB
 dnl Add a flag to CFLAGS, if supported by the compiler
 AC_DEFUN([PIONEER_CFLAG],
     [saved_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS $1"
-    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[exit (0);]])], [], [CFLAGS="$saved_CFLAGS"; AC_MSG_WARN([$CC does not support $1])])
+     CFLAGS="$EXTRAFLAGS $1 $CFLAGS"
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[exit (0);]])], [EXTRAFLAGS="$EXTRAFLAGS $1"], [AC_MSG_WARN([$CC does not support $1])])
+     CFLAGS="$saved_CFLAGS"
     ])
+
+EXTRAFLAGS=
 
 dnl Always add -Wall, where supported
 PIONEER_CFLAG([-Wall])
 
-AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [CFLAGS="$CFLAGS -DDEBUG"])
+AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRAFLAGS="$EXTRAFLAGS -DDEBUG"])
 
-dnl Add -O2 or -O0, but not if CFLAGS was set on the command line or the compiler doesn't handle it
-if test "$ac_test_CFLAGS" != set ; then
-  AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
-  PIONEER_CFLAG([$OPTIMISE])
-fi
+dnl Add -O2 or -O0, where supported
+AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
+PIONEER_CFLAG([$OPTIMISE])
 
 AC_ARG_WITH(fno-inline,  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_CFLAG([-fno-inline])])
 AC_ARG_WITH(gprof,       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_CFLAG([-p])])
@@ -39,7 +40,7 @@ AC_ARG_WITH(gprof,       AS_HELP_STRING([--with-gprof], [Compile with gprof prof
 AC_ARG_WITH(extra-version, AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [PIONEER_CFLAG([-DPIONEER_EXTRAVERSION=\\\"$withval\\\"])])
 
 PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
-CFLAGS="$CFLAGS $SIGC_CFLAGS"
+EXTRAFLAGS="$EXTRAFLAGS $SIGC_CFLAGS"
 LIBS="$LIBS $SIGC_LIBS"
 
 case "$host" in
@@ -60,7 +61,7 @@ AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
 if test "$SDLCONFIG" = "no"; then
 	AC_MSG_ERROR("sdl-config is required.")
 fi
-CFLAGS="$CFLAGS `$SDLCONFIG --cflags`"
+EXTRAFLAGS="$EXTRAFLAGS `$SDLCONFIG --cflags`"
 LIBS="$LIBS `$SDLCONFIG --libs`"
 
 AC_CHECK_LIB(SDL_image, IMG_Load)
@@ -69,14 +70,14 @@ AC_PATH_PROG([FTCONFIG], [freetype-config], "no")
 if test "$FTCONFIG" = "no"; then
 	AC_MSG_ERROR("freetype-config is required.")
 fi
-CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
+EXTRAFLAGS="$EXTRAFLAGS `$FTCONFIG --cflags`"
 LIBS="$LIBS `$FTCONFIG --libs`"
 
 case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	;;
   *)
-	CFLAGS="$CFLAGS -DLUA_USE_POSIX"
+	EXTRAFLAGS="$EXTRAFLAGS -DLUA_USE_POSIX"
 esac
 
 # Not using vorbis yet
@@ -93,16 +94,17 @@ LIBS="$LIBS $LUA_LIBS"
 
 case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
-	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
+	EXTRAFLAGS="$EXTRAFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
 	LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS -lshlwapi"
 	;;
   *)
-	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
+	EXTRAFLAGS="$EXTRAFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
 	LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
 	;;
 esac
 
-CXXFLAGS="$CFLAGS"
+CFLAGS="$EXTRAFLAGS $CFLAGS"
+CXXFLAGS="$EXTRAFLAGS $CXXFLAGS"
 
 PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
 AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]])
