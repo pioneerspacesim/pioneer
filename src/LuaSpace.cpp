@@ -84,7 +84,7 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SBodyPath *path, double due
  *
  *   ship - a <Ship> object for the new ship
  *
- * Example:
+ * Examples:
  *
  * > -- spawn a ship 5-6AU from the system centre
  * > local ship = Ship.Spawn("Eagle Long Range Fighter, 5, 6)
@@ -148,13 +148,37 @@ static int l_space_spawn_ship(lua_State *l)
  *
  * Create a ship and place it in space near the given <Body>.
  *
+ * > ship = Space.SpawnShip(type, body, min, max, hyperspace)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   body - the <Body> near which the ship should be spawned
+ *
+ *   min - minimum distance from the body to place the ship, in Km
+ *
+ *   max - maximum distance to place the ship
+ *
+ *   hyperspace - option table containing hyperspace entry information. See
+ *                <SpawnShip> for a full description of this parameter.
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship
+ *
+ * Example:
+ *
+ * > -- spawn a ship 10km from the player
+ * > local ship = Ship.SpawnNear("Viper Police Craft", Game.player, 10, 10)
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   experimental
  */
 static int l_space_spawn_ship_near(lua_State *l)
 {
@@ -201,13 +225,26 @@ static int l_space_spawn_ship_near(lua_State *l)
  *
  * Create a ship and place it inside the given <SpaceStation>.
  *
+ * > ship = Space.SpawnShipDocked(type, station)
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   station - the <SpaceStation> to place the ship inside
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship, or nil if there was no space
+ *          inside the station
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   stable
  */
 static int l_space_spawn_ship_docked(lua_State *l)
 {
@@ -244,13 +281,30 @@ static int l_space_spawn_ship_docked(lua_State *l)
  *
  * Create a ship and place it in one of the given <SpaceStation's> parking spots.
  *
+ * > ship = Space.SpawnShipParked(type, station)
+ *
+ * For orbital stations the parking spots are some distance from the door, out
+ * of the path of ships entering and leaving the station. For group stations
+ * the parking spots are directly above the station, usually some distance
+ * away.
+ *
+ * Parameters:
+ *
+ *   type - the name of the ship
+ *
+ *   station - the <SpaceStation> to place the near
+ *
+ * Return:
+ *
+ *   ship - a <Ship> object for the new ship, or nil if there was no space
+ *          inside the station
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  experimental
+ *   experimental
  */
 static int l_space_spawn_ship_parked(lua_State *l)
 {
@@ -325,13 +379,24 @@ static int l_space_spawn_ship_parked(lua_State *l)
  *
  * Get the <Body> with the specificed body index.
  *
+ * > body = Space.GetBody(index)
+ *
+ * Parameters:
+ *
+ *   index - the body index
+ *
+ * Return:
+ *
+ *   body - the <Body> object for the requested body, or nil if no such body
+ *          exists
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_space_get_body(lua_State *l)
 {
@@ -370,13 +435,36 @@ static int l_space_get_body(lua_State *l)
  *
  * Get all the <Body> objects that match the specified filter
  *
+ * bodies = Space.GetBodies(filter)
+ *
+ * Parameters:
+ *
+ *   filter - an option function. If specificed the function will be called
+ *            once for each body with the <Body> object as the only parameter.
+ *            If the filter function returns true then the ship name will be
+ *            included in the array returned by <GetBodies>, otherwise it will
+ *            be omitted. If no filter function is specified then all bodies
+ *            are returned.
+ *
+ * Return:
+ *
+ *   bodies - an array containing zero or more <Body> objects that matched the
+ *            filter
+ *
+ * Example:
+ *
+ * > -- get all the ships
+ * > local ships = Space.GetBodies(function (body)
+ * >     return body:isa('Ship')
+ * > end)
+ *
  * Availability:
  *
- *  alpha 10
+ *   alpha 10
  *
  * Status:
  *
- *  stable
+ *   stable
  */
 static int l_space_get_bodies(lua_State *l)
 {
