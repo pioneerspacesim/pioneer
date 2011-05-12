@@ -409,24 +409,7 @@ static int l_space_get_body(lua_State *l)
 	Body *b = Space::FindBodyForSBodyPath(&path);
 	if (!b) return 0;
 
-	LUA_DEBUG_START(l);
-
-	switch (b->GetType()) {
-		case Object::STAR:
-			LuaStar::PushToLua(dynamic_cast<Star*>(b));
-			break;
-		case Object::PLANET:
-			LuaPlanet::PushToLua(dynamic_cast<Planet*>(b));
-			break;
-		case Object::SPACESTATION:
-			LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(b));
-			break;
-		default:
-			luaL_error(l, "Unable to expose body type %d to Lua", static_cast<int>(b->GetType()));
-	}
-
-	LUA_DEBUG_END(l, 1);
-
+	LuaBody::PushToLua(b);
 	return 1;
 }
 
