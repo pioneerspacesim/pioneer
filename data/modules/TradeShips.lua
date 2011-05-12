@@ -76,7 +76,7 @@ local onEnterSystem = function (player)
 			local station = stations[Engine.rand:Integer(1,#stations)]
 
 			if spawn_in_starport then
-				pcall(function () return Space.SpawnShipDocked(shiptype, station) end)
+				Space.SpawnShipDocked(shiptype, station)
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
 				local ship = Space.SpawnShip(shiptype, 3, 8)

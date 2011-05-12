@@ -221,7 +221,7 @@ static int l_space_spawn_ship_docked(lua_State *l)
 
 	int port = station->GetFreeDockingPort();
 	if (port < 0)
-		luaL_error(l, "No free docking ports in station");
+		return 0;
 	
 	Ship *ship = new Ship(type);
 	assert(ship);
@@ -264,7 +264,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 
 	int slot;
 	if (!station->AllocateStaticSlot(slot))
-		luaL_error(l, "No free parking slots near station");
+		return 0;
 
 	Ship *ship = new Ship(type);
 	assert(ship);
@@ -275,6 +275,8 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	if (station->GetSBody()->type == SBody::TYPE_STARPORT_SURFACE) {
 		vel = vector3d(0.0);
 
+		// XXX on tiny planets eg asteroids force this to be larger so the
+		// are out of the docking path
 		pos = station->GetPosition() * 1.1;
 		station->GetRotMatrix(rot);
 

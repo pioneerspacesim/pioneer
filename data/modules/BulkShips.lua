@@ -39,7 +39,7 @@ local onEnterSystem = function (player)
 
 	for i=1, num_bulk_ships do
         local station = stations[Engine.rand:Integer(1,#stations)]
-        pcall(function () return Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station) end)
+        Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station)
 	end
 end
 
