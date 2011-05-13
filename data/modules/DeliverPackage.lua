@@ -79,6 +79,8 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
+		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
@@ -143,7 +145,7 @@ local makeAdvert = function (station)
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 
-	local isfemale = Engine.rand:Integer() == 1
+	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
@@ -161,6 +163,8 @@ local makeAdvert = function (station)
 		location = location,
 		due      = due,
 		reward   = reward,
+		isfemale = isfemale,
+		faceseed = Engine.rand:Integer(),
 	}
 
 	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
@@ -186,7 +190,7 @@ local onUpdateBB = function (station)
 			station:RemoveAdvert(ref)
 		end	
 	end
-	if Engine.rand:Integer(0,12*60*60) < 60*60 then -- roughly once every twelve hours
+	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
 		makeAdvert(station)
 	end
 end
@@ -202,7 +206,7 @@ local onEnterSystem = function (player)
 
 			local ships = 1
 			if risk >= 0.8 then ships = 2 end
-			if risk == 1.0 then ships = 3 end
+			if risk >= 1.0 then ships = 3 end
 
 			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 				local mass = t.hullMass
@@ -215,7 +219,7 @@ local onEnterSystem = function (player)
 			while ships > 0 do
 				ships = ships-1
 
-				if Engine.rand:Number() <= risk then
+				if Engine.rand:Number(1) <= risk then
 					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 					local shiptype = ShipType.GetShipType(shipname)
 					local default_drive = shiptype.defaultHyperdrive
@@ -226,7 +230,7 @@ local onEnterSystem = function (player)
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-					ship = Space.SpawnShipNear(shipname, Game.player, 50, 200)
+					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
 					ship:AIKill(Game.player)

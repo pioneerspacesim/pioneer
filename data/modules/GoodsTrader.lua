@@ -29,6 +29,7 @@ local onChat = function (form, ref, option)
 
 	form:Clear()
 	form:SetTitle(ad.flavour)
+	form:SetFace({ seed = ad.faceseed })
 	form:SetMessage("Welcome to "..ad.flavour)
 
 	local onClick = function (ref)
@@ -93,14 +94,15 @@ local onCreateBB = function (station)
 	local rand = Rand.New(station.seed)
 	local num = rand:Integer(1,3)
 	for i = 1,num do
-		local ispolice = rand:Integer(0, 1) == 1
+		local ispolice = rand:Integer(1) == 1
 
 		local flavour = string.format(goods_trader_flavour[rand:Integer(1, #goods_trader_flavour)], NameGen.Surname(rand))
 
 		local ad = {
-            station  = station,
+			station  = station,
 			flavour  = flavour,
 			ispolice = ispolice,
+			faceseed = rand:Integer(),
 		}
 
 		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)

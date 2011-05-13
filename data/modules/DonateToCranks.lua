@@ -20,6 +20,7 @@ local onChat = function (form, ref, option)
 		form:Clear();
 
 		form:SetTitle(ad.title)
+		form:SetFace({ seed = ad.faceseed })
 		form:SetMessage(ad.message)
 
 		form:AddOption("$1", 1);
@@ -59,9 +60,10 @@ local onCreateBB = function (station)
 	local n = Engine.rand:Integer(1, #crank_flavours)
 
 	local ad = {
-		title   = crank_flavours[n].title,
-		message = crank_flavours[n].message,
-		station = station,
+		title    = crank_flavours[n].title,
+		message  = crank_flavours[n].message,
+		station  = station,
+		faceseed = Engine.rand:Integer()
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
