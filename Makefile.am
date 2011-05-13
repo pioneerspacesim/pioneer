@@ -15,6 +15,5 @@ EXTRA_DIST = \
 	README.txt \
 	bootstrap \
 	generic-exec \
-	shipstat.csv \
 	modelviewer \
 	pioneer
