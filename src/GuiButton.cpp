@@ -97,7 +97,7 @@ void TransparentButton::Draw()
 LabelButton::LabelButton(Label *label): Button()
 {
 	m_label = label;
-	m_padding = 5.0;
+	m_padding = 2.0;
 	onSetSize.connect(sigc::mem_fun(this, &LabelButton::OnSetSize));
 }
 
