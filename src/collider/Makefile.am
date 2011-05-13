@@ -1,5 +1,7 @@
 #  Process this file with automake to produce Makefile.in
 
+include $(top_srcdir)/Makefile.common
+
 noinst_LIBRARIES = libcollider.a
 libcollider_a_SOURCES = GeomTree.cpp Geom.cpp CollisionSpace.cpp BVHTree.cpp
 

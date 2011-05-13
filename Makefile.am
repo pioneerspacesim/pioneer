@@ -16,5 +16,6 @@ EXTRA_DIST = \
 	bootstrap \
 	generic-exec \
 	shipstat.csv \
+	Makefile.common \
 	modelviewer \
 	pioneer

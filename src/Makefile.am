@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 SUBDIRS = collider/ lua/ oolua/
-AM_CPPFLAGS = -DPIONEER_DATA_DIR=\"@PIONEER_DATA_DIR@\"
+
+include $(top_srcdir)/Makefile.common
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
@@ -160,13 +161,18 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaFormat.cpp LuaTimer.cpp LuaRand.cpp \
 		LuaEngine.cpp LuaNameGen.cpp LuaCargoBody.cpp LuaEquipType.cpp LuaSBody.cpp BBAdvertChatForm.cpp \
 		DeadVideoLink.cpp FaceVideoLink.cpp
-pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a
+pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a $(MINGW_LIBS) \
+		$(FREETYPE_LIBS) $(GL_LIBS) $(GLU_LIBS) $(GLEW_LIBS) \
+		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS)
 if !HAVE_LUA
 pioneer_LDADD += lua/liblua.a
 endif
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
-modelviewer_LDADD = collider/libcollider.a libgui.a
+modelviewer_LDADD = collider/libcollider.a libgui.a $(MINGW_LIBS) \
+		    $(FREETYPE_LIBS) $(GL_LIBS) $(GLU_LIBS) $(GLEW_LIBS) \
+		    $(SDL_LIBS) $(SIGC_LIBS)
+
 if !HAVE_LUA
 modelviewer_LDADD += lua/liblua.a
 endif
