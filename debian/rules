@@ -17,7 +17,7 @@ endif
 PIONEER_DATA_DIR = /usr/share/games/pioneer/data
 CFLAGS = $(OPTIMISE) -g -Wformat=2 -Wformat-security -Wstrict-aliasing=2 \
 	 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization
-CFLAGSMORE =
+CFLAGSMORE = -Wno-format-zero-length -Werror-implicit-function-declaration
 CXXFLAGSMORE = -Wstrict-null-sentinel -Wold-style-cast -Wsign-promo
 
 %:

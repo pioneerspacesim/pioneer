@@ -28,8 +28,8 @@ EXTRA_CPPFLAGS=
 dnl Add a flag to EXTRAFLAGS, if supported by the compiler
 AC_DEFUN([PIONEER_CFLAG],
     [saved_CFLAGS="$CFLAGS"
-     CFLAGS="$EXTRA_CFLAGS $1 $CFLAGS"
-     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[exit (0);]])], [EXTRA_CFLAGS="$EXTRA_CFLAGS $1"], [AC_MSG_WARN([$CC does not support $1])])
+     CFLAGS="$1 $CFLAGS"
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_CFLAGS="$EXTRA_CFLAGS $1"], [AC_MSG_WARN([$CC does not support $1])])
      CFLAGS="$saved_CFLAGS"
     ])
 
