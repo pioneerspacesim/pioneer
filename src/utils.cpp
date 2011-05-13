@@ -38,8 +38,8 @@ std::string GetPiUserDir(const std::string &subdir)
 
 #if defined(_WIN32)
 
-	TCHAR appdata_path[MAX_PATH];
-	if (SHGetFolderPath(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
+	char appdata_path[MAX_PATH];
+	if (SHGetFolderPathA(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
 		fprintf(stderr, "Couldn't get user documents folder path\n");
 		exit(-1);
 	}
@@ -47,8 +47,8 @@ std::string GetPiUserDir(const std::string &subdir)
 	std::string path(appdata_path);
 	path += "/Pioneer";
 
-	if (!PathFileExists(path.c_str())) {
-		if (SHCreateDirectoryEx(0, path.c_str(), 0) != ERROR_SUCCESS) {
+	if (!PathFileExistsA(path.c_str())) {
+		if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
 			fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
 			exit(-1);
 		}
@@ -56,8 +56,8 @@ std::string GetPiUserDir(const std::string &subdir)
 
 	if (subdir.length() > 0) {
 		path += "/" + subdir;
-		if (!PathFileExists(path.c_str())) {
-			if (SHCreateDirectoryEx(0, path.c_str(), 0) != ERROR_SUCCESS) {
+		if (!PathFileExistsA(path.c_str())) {
+			if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
 				fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
 				exit(-1);
 			}
