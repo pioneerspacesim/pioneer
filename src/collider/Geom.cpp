@@ -182,12 +182,12 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 		for (int i=0; i<edgeNode->numTris; i++) {
 			int vtxNum = edges[ edgeNode->triIndicesStart[i] ].v1i;
 			vector3d v1 = transToB * vector3d(&GetGeomTree()->m_vertices[vtxNum]);
-			vector3f _from((float)v1.x, (float)v1.y, (float)v1.z);
+			vector3f _from(float(v1.x), float(v1.y), float(v1.z));
 
 			vector3d _dir(
-					(double)edges[ edgeNode->triIndicesStart[i] ].dir.x,
-					(double)edges[ edgeNode->triIndicesStart[i] ].dir.y,
-					(double)edges[ edgeNode->triIndicesStart[i] ].dir.z);
+					double(edges[ edgeNode->triIndicesStart[i] ].dir.x),
+					double(edges[ edgeNode->triIndicesStart[i] ].dir.y),
+					double(edges[ edgeNode->triIndicesStart[i] ].dir.z));
 			_dir = transToB.ApplyRotationOnly(_dir);
 			dir = vector3f(&_dir.x);
 			isect.dist = edges[ edgeNode->triIndicesStart[i] ].len;
@@ -200,7 +200,7 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 			const double depth = edges[ edgeNode->triIndicesStart[i] ].len - isect.dist;
 			// in world coords
 			CollisionContact contact;
-			contact.pos = b->GetTransform() * (v1 + vector3d(&dir.x)*(double)isect.dist);
+			contact.pos = b->GetTransform() * (v1 + vector3d(&dir.x)*double(isect.dist));
 			vector3f n = b->m_geomtree->GetTriNormal(isect.triIdx);
 			contact.normal = vector3d(n.x, n.y, n.z);
 			contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);

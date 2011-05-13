@@ -62,7 +62,7 @@ void ModelBody::RebuildCollisionMesh()
 	m_collMesh = new LmrCollMesh(m_lmrModel, &m_params);
 	
 	m_geom = new Geom(m_collMesh->geomTree);
-	m_geom->SetUserData((void*)this);
+	m_geom->SetUserData(static_cast<void*>(this));
 		
 	if (GetFrame()) {
 		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
@@ -106,10 +106,10 @@ double ModelBody::GetBoundingRadius() const
 
 void ModelBody::SetLmrTimeParams()
 {
-	m_params.argFloats[1] = (float)Pi::GetGameTime();
-	m_params.argFloats[2] = (float)(Pi::GetGameTime() / 60.0);
-	m_params.argFloats[3] = (float)(Pi::GetGameTime() / 3600.0);
-	m_params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
+	m_params.argFloats[1] = float(Pi::GetGameTime());
+	m_params.argFloats[2] = float(Pi::GetGameTime() / 60.0);
+	m_params.argFloats[3] = float(Pi::GetGameTime() / 3600.0);
+	m_params.argFloats[4] = float(Pi::GetGameTime() / (24*3600.0));
 }
 
 void ModelBody::SetRotMatrix(const matrix4x4d &r)
@@ -179,7 +179,7 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 	} else {*/
 		matrix4x4d t = viewTransform * GetInterpolatedTransform();
 		matrix4x4f trans;
-		for (int i=0; i<12; i++) trans[i] = (float)t[i];
+		for (int i=0; i<12; i++) trans[i] = float(t[i]);
 		trans[12] = viewCoords.x;
 		trans[13] = viewCoords.y;
 		trans[14] = viewCoords.z;

@@ -10,8 +10,8 @@ Widget::Widget()
 	m_mouseOver = false;
 	m_eventMask = EVENT_MOUSEMOTION;
 	m_tooltipWidget = 0;
-	m_shortcut.sym = (SDLKey)0;
-	m_shortcut.mod = (SDLMod)0;
+	m_shortcut.sym = SDLK_UNKNOWN;
+	m_shortcut.mod = KMOD_NONE;
 }
 
 bool Widget::IsVisible() const
@@ -134,7 +134,7 @@ void Widget::OnToolTip()
 		if (m_tooltipWidget->m_size.h + pos[1] > Screen::GetHeight())
 			pos[1] = Screen::GetHeight() - m_tooltipWidget->m_size.h;
 
-		Screen::AddBaseWidget(m_tooltipWidget, (int)pos[0], (int)pos[1]);
+		Screen::AddBaseWidget(m_tooltipWidget, int(pos[0]), int(pos[1]));
 		m_tooltipWidget->Show();
 	}
 }

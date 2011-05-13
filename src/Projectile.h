@@ -34,6 +34,8 @@ private:
 	vector3d m_dirVel;
 	float m_age;
 	int m_type;
+
+	int m_parentIndex; // deserialisation
 };
 
 #endif /* _PROJECTILE_H */

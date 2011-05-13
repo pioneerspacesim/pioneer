@@ -26,6 +26,8 @@ private:
 	Body *m_target;
 	Body *m_owner;
 	double m_distToTarget;
+
+	int m_ownerIndex, m_targetIndex; // deserialisation
 };
 
 #endif /* _MISSILE_H */

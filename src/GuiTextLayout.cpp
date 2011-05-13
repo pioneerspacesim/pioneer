@@ -41,7 +41,7 @@ static bool line_clip_test(float topy, float bottomy)
 
 TextLayout::TextLayout(const char *_str)
 {
-	str = (char *)malloc(strlen(_str)+1);
+	str = reinterpret_cast<char *>(malloc(strlen(_str)+1));
 	strcpy(str, _str);
 
 	m_justify = true;
@@ -135,7 +135,7 @@ void TextLayout::_RenderRaw(float maxWidth) const
 		float _spaceWidth;
 		if ((m_justify) && (num>1) && overflow) {
 			float spaceleft = maxWidth - len;
-			_spaceWidth = spaceWidth + (spaceleft/(float)(num-1));
+			_spaceWidth = spaceWidth + (spaceleft/float(num-1));
 		} else {
 			_spaceWidth = spaceWidth;
 		}
@@ -192,7 +192,7 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 		float _spaceWidth;
 		if ((m_justify) && (num>1) && overflow) {
 			float spaceleft = layoutWidth - len;
-			_spaceWidth = spaceWidth + (spaceleft/(float)(num-1));
+			_spaceWidth = spaceWidth + (spaceleft/float(num-1));
 		} else {
 			_spaceWidth = spaceWidth;
 		}

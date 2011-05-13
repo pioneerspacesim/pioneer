@@ -35,11 +35,11 @@ Uint8 GetSectorDensity(int sx, int sy)
 	offset_x = Clamp((offset_x + 1.0)*0.5, 0.0, 1.0);
 	offset_y = Clamp((offset_y + 1.0)*0.5, 0.0, 1.0);
 
-	int x = (int)floor(offset_x * (s_galaxybmp->w - 1));
-	int y = (int)floor(offset_y * (s_galaxybmp->h - 1));
+	int x = int(floor(offset_x * (s_galaxybmp->w - 1)));
+	int y = int(floor(offset_y * (s_galaxybmp->h - 1)));
 
 	SDL_LockSurface(s_galaxybmp);
-	Uint8 val = ((char*)s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
+	Uint8 val = static_cast<char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
 	SDL_UnlockSurface(s_galaxybmp);
 	return val;
 }

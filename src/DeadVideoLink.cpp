@@ -71,7 +71,7 @@ void DeadVideoLink::DrawMessage() {
 }
 
 void DeadVideoLink::PutRandomCrapIntoTexture() {
-	int *randcrap = (int*)alloca(TEXSIZE*TEXSIZE);
+	int *randcrap = static_cast<int*>(alloca(TEXSIZE*TEXSIZE));
 	for (unsigned int i=0; i<TEXSIZE*TEXSIZE/sizeof(int); i++) randcrap[i] = (Pi::rng.Int32() & 0xfcfcfcfc) >> 2;
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, randcrap);
 }

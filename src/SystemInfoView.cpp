@@ -58,7 +58,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	_add_label_and_value("Surface temperature", stringf(64, "%d C", b->averageTemp-273));
 
 	if (b->parent) {
-		float days = (float)b->orbit.period / (60*60*24);
+		float days = float(b->orbit.period) / float(60*60*24);
 		if (days > 1000) {
 			data = stringf(64, "%.1f years", days/365);
 		} else {
@@ -69,7 +69,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		_add_label_and_value("Apoapsis distance", stringf(64, "%.3f AU", b->orbMax.ToDouble()));
 		_add_label_and_value("Eccentricity", stringf(64, "%.2f", b->orbit.eccentricity));
 		_add_label_and_value("Axial tilt", stringf(64, "%.1f degrees", b->axialTilt.ToDouble() * (180.0/M_PI) ));
-		const float dayLen = (float)b->GetRotationPeriod();
+		const float dayLen = float(b->GetRotationPeriod());
 		if (dayLen) {
 			_add_label_and_value("Day length", stringf(64, "%.1f earth days", dayLen/(60*60*24)));
 		}
@@ -152,7 +152,7 @@ void SystemInfoView::UpdateEconomyTab()
 	crud.clear();
 	data = "#ff0Illegal Goods:\n";
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (!Polit::IsCommodityLegal(s, (Equip::Type)i))
+		if (!Polit::IsCommodityLegal(s, Equip::Type(i)))
 			crud.push_back(std::string("#777")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
@@ -212,7 +212,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	m_system = s;
 	if (!s) return;			// Does happen
 
-	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 
 	if (s->m_unexplored) {
 		Add(m_sbodyInfoTab, 0, 0);
@@ -227,7 +227,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		return;
 	}
 
-	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+	m_econInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	
 	Gui::Tabbed *tabbed = new Gui::Tabbed();

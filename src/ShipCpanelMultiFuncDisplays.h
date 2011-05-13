@@ -82,7 +82,7 @@ public:
 	MultiFuncSelectorWidget();
 	sigc::signal<void, multifuncfunc_t> onSelect;
 	void SetSelected(multifuncfunc_t f) {
-		m_rg->SetSelected((int)f);
+		m_rg->SetSelected(int(f));
 	}
 private:
 	void UpdateButtons();

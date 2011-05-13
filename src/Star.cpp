@@ -59,7 +59,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		len *= 0.25;
 	}
 
-	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
+	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
 	
 	if (IsOnscreen()) {
 		const float *col = StarSystem::starRealColors[m_sbody->type];
@@ -71,7 +71,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		vector3d pp;
 		Gui::Screen::Project(fpos, pp);
 
-		const float glowrad = (float)(20.0f+20000.0f*radius/viewCoords.Length());
+		const float glowrad = float(20.0f+20000.0f*radius/viewCoords.Length());
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 		glEnable(GL_BLEND);
 		glBegin(GL_TRIANGLE_FAN);
@@ -92,7 +92,7 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glVertex3f(pp.x,pp.y,0);
 		glColor4f(0,0,0,0);
 		
-		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*(float)Gui::Screen::GetHeight());
+		const float spikerad = std::min<float>(10.0f+20000.0f*radius/viewCoords.Length(), 0.5f*float(Gui::Screen::GetHeight()));
 		{
 			/* cubic bezier with 2 (0,0,0) control points */
 			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
@@ -139,9 +139,9 @@ void Star::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glColor4f(b*col[0],b*col[1],b*col[2],1);
 		glVertex3f(0, 0, 0);
 		for (float ang=0; ang<2*M_PI; ang+=0.1) {
-			glVertex3f((float)(rad*sin(ang)), (float)(rad*cos(ang)), 0);
+			glVertex3f(float(rad*sin(ang)), float(rad*cos(ang)), 0);
 		}
-		glVertex3f(0, (float)rad, 0);
+		glVertex3f(0, float(rad), 0);
 		glEnd();
 		Render::State::UseProgram(0);
 	}

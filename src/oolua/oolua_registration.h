@@ -71,8 +71,8 @@ namespace OOLUA
 			luaL_getmetatable(l,Proxy_class<T>::class_name);//ud metatable
 			lua_setmetatable(l,-2);//ud
 			INTERNAL::Lua_ud* ud = static_cast<INTERNAL::Lua_ud*>(lua_touserdata(l,-1));
-			ud->name = (char*)Proxy_class<T>::class_name;
-			ud->none_const_name = (char*)Proxy_class<T>::class_name;
+			ud->name = const_cast<char*>(Proxy_class<T>::class_name);
+			ud->none_const_name = const_cast<char*>(Proxy_class<T>::class_name);
 			return 0;
 		}
 

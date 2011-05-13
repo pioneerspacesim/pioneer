@@ -12,7 +12,7 @@
 #include "SystemInfoView.h"
 #include "GalacticView.h"
 
-ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
+ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
 	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-80);
 	SetTransparency(true);
@@ -245,7 +245,7 @@ void ShipCpanel::Draw()
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	Pi::worldView->SetCamType((enum WorldView::CamType)b->GetState());
+	Pi::worldView->SetCamType(WorldView::CamType(b->GetState()));
 	Pi::SetView(Pi::worldView);
 }
 

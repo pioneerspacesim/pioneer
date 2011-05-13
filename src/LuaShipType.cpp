@@ -111,7 +111,7 @@ int l_shiptype_attr_hull_mass(lua_State *l)
 int l_shiptype_attr_base_price(lua_State *l)
 {
 	const ShipType *st = LuaShipType::GetFromLua(1);
-	lua_pushnumber(l, (double)(st->baseprice) * 0.01);
+	lua_pushnumber(l, double(st->baseprice) * 0.01);
 	return 1;
 }
 

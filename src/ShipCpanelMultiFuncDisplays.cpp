@@ -64,7 +64,7 @@ void MsgLogWidget::ShowNext()
 		} else {
 			msgLabel->SetText(stringf(1024, "#ca0Message from %s:\n#0f0%s", msg.sender.c_str(), msg.message.c_str()));
 		}
-		msgAge = (float)Pi::GetGameTime();
+		msgAge = float(Pi::GetGameTime());
 		curMsgType = msg.type;
 		onGrabFocus.emit();
 	}
@@ -160,12 +160,12 @@ void ScannerWidget::DrawBlobs(bool below)
 			if ((pos.y<0)&&(!below)) continue;
 
 			glBegin(GL_LINES);
-			glVertex2f(mx + (float)pos.x*SCANNER_SCALE, my + SCANNER_YSHRINK*(float)pos.z*SCANNER_SCALE);
-			glVertex2f(mx + (float)pos.x*SCANNER_SCALE, my + SCANNER_YSHRINK*(float)pos.z*SCANNER_SCALE - SCANNER_YSHRINK*(float)pos.y*SCANNER_SCALE);
+			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE);
+			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE - SCANNER_YSHRINK*float(pos.y)*SCANNER_SCALE);
 			glEnd();
 			
 			glBegin(GL_POINTS);
-			glVertex2f(mx + (float)pos.x*SCANNER_SCALE, my + SCANNER_YSHRINK*(float)pos.z*SCANNER_SCALE - SCANNER_YSHRINK*(float)pos.y*SCANNER_SCALE);
+			glVertex2f(mx + float(pos.x)*SCANNER_SCALE, my + SCANNER_YSHRINK*float(pos.z)*SCANNER_SCALE - SCANNER_YSHRINK*float(pos.y)*SCANNER_SCALE);
 			glEnd();
 		}
 	}
@@ -180,14 +180,14 @@ void ScannerWidget::DrawDistanceRings()
 	/* soicles */
 	for (float sz=1.0f; sz>0.1f; sz-=0.33f) {
 		glBegin(GL_LINE_LOOP);
-		for (float a=0; a<2*M_PI; a+=(float)(M_PI*0.02)) {
+		for (float a=0; a<2*M_PI; a+=float(M_PI*0.02)) {
 			glVertex2f(mx + sz*mx*sin(a), my + SCANNER_YSHRINK*sz*my*cos(a));
 		}
 		glEnd();
 	}
 	/* schpokes */
 	glBegin(GL_LINES);
-	for (float a=0; a<2*M_PI; a+=(float)(M_PI*0.25)) {
+	for (float a=0; a<2*M_PI; a+=float(M_PI*0.25)) {
 		glVertex2f(mx, my);
 		glVertex2f(mx + mx*sin(a), my + SCANNER_YSHRINK*my*cos(a));
 	}
@@ -304,7 +304,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 }
 void MultiFuncSelectorWidget::OnClickButton(multifuncfunc_t f)
 {
-	m_active = (int)f;
+	m_active = int(f);
 	UpdateButtons();
 	onSelect.emit(f);
 }
@@ -313,7 +313,7 @@ void MultiFuncSelectorWidget::UpdateButtons()
 	RemoveAllChildren();
 
 	for (int i=0; i<MFUNC_MAX; i++) {
-		Add(m_buttons[i], 36.0f+36.0f*(float)i, 0.0);
+		Add(m_buttons[i], 36.0f+36.0f*float(i), 0.0);
 	}
 }
 

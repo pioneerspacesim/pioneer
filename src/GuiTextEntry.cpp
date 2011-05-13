@@ -28,13 +28,13 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 		}
 	}
 	if (sym->sym == SDLK_DELETE) {
-		if (m_cursPos < (signed)m_text.size()) {
+		if (m_cursPos < signed(m_text.size())) {
 			m_text = m_text.substr(0, m_cursPos) + m_text.substr(m_cursPos+1);
 			changed = true;
 		}
 	}
 	if (isalnum(unicode) || (unicode == ' ') || (isgraph(unicode))) {
-		char buf[2] = { (char)unicode, 0 };
+		char buf[2] = { char(unicode), 0 };
 		m_text.insert(m_cursPos, std::string(buf));
 		SetCursorPos(m_cursPos+1);
 		changed = true;

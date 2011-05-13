@@ -52,7 +52,7 @@ static inline std::string stringf(int maxlen, const char *format, ...)
 
 static inline std::string stringf(int maxlen, const char *format, ...)
 {
-	char *buf = (char*)alloca(maxlen);
+	char *buf = reinterpret_cast<char*>(alloca(maxlen));
 	va_list argptr;
 	va_start(argptr, format);
 	vsnprintf(buf, maxlen, format, argptr);

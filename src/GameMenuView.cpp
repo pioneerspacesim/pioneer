@@ -62,7 +62,7 @@ private:
 		m_binding.type = KeyBindings::KEYBOARD_KEY;
 		m_binding.u.keyboard.key = e->keysym.sym;
 		// get rid of number lock, caps lock, etc
-		m_binding.u.keyboard.mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		m_binding.u.keyboard.mod = SDLMod(e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
 		Close();
 	}
 
@@ -424,7 +424,7 @@ GameMenuView::GameMenuView(): View()
 	Gui::RadioGroup *g = new Gui::RadioGroup();
 	SDL_Rect **modes;
 	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	if ((modes!=0) && (modes != (SDL_Rect**)-1)) {
+	if ((modes!=0) && (modes != reinterpret_cast<SDL_Rect**>(-1))) {
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);

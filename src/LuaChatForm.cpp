@@ -162,7 +162,7 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
 	lua_call(l, 2, 1);
 
-	Sint64 price = (Sint64)(lua_tonumber(l, -1) * 100.0);
+	Sint64 price = Sint64(lua_tonumber(l, -1) * 100.0);
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
