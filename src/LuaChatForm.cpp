@@ -2,14 +2,15 @@
 #include "Player.h"
 #include "LuaChatForm.h"
 #include "LuaUtils.h"
+#include "LuaObject.h"
+#include "LuaConstants.h"
 #include "libs.h"
 #include "Gui.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "PoliceChatForm.h"
 #include "CommodityTradeWidget.h"
-#include "LuaObject.h"
-#include "LuaConstants.h"
+#include "FaceVideoLink.h"
 
 LuaChatForm::~LuaChatForm()
 {
@@ -348,6 +349,81 @@ static int l_luachatform_set_title(lua_State *l)
 	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string title = luaL_checkstring(l, 2);
 	dialog->SetTitle(title.c_str());
+	return 0;
+}
+
+/*
+ * Method: SetFace
+ *
+ * Set the properties used to generate the face
+ *
+ * > form:SetTitle({
+ * >     female = female,
+ * >     armour = armour,
+ * >     seed   = seed,
+ * > })
+ *
+ * Parameters:
+ *
+ *   female - if true, the face will be female. If false, the face will be
+ *            male. If not specified, a gender will be chosen at random.
+ *
+ *   armour - if true, the face will wear armour, otherwise the face will have
+ *            clothes and accessories.
+ *
+ *   seed - the seed for the random number generator. if not specified, the
+ *          station seed will be used.
+ *
+ * Example:
+ *
+ * > form:SetFace({
+ * >     female = true,
+ * >     armour = false,
+ * >     seed   = 1234,
+ * > })
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_luachatform_set_face(lua_State *l)
+{
+	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+
+	if (!lua_istable(l, 2))
+		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
+	
+	LUA_DEBUG_START(l);
+
+	int flags = 0;
+	unsigned long seed = -1UL;
+
+	lua_getfield(l, 2, "female");
+	if (lua_isnil(l, -1))
+		flags = FaceVideoLink::GENDER_RAND;
+	else if (lua_toboolean(l, -1))
+		flags = FaceVideoLink::GENDER_FEMALE;
+	else
+		flags = FaceVideoLink::GENDER_MALE;
+	lua_pop(l, 1);
+
+	lua_getfield(l, 2, "armour");
+	if (lua_toboolean(l, -1))
+		flags |= FaceVideoLink::ARMOUR;
+	lua_pop(l, 1);
+
+	lua_getfield(l, 2, "seed");
+	if (!lua_isnil(l, -1))
+		seed = luaL_checkinteger(l, -1);
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
+	dialog->SetFace(flags, seed);
 	return 0;
 }
 
@@ -707,6 +783,7 @@ template <> void LuaObject<LuaChatForm>::RegisterClass()
 	static const luaL_reg l_methods[] = {
 		{ "Clear",               l_luachatform_clear                         },
 		{ "SetTitle",            l_luachatform_set_title                     },
+        { "SetFace",             l_luachatform_set_face                      },
 		{ "SetMessage",          l_luachatform_set_message                   },
 		{ "AddOption",           l_luachatform_add_option                    },
 		{ "AddGoodsTrader",      LuaChatForm::l_luachatform_add_goods_trader },

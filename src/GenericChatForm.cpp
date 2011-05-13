@@ -7,7 +7,8 @@
 
 void GenericChatForm::AddVideoWidget()
 {
-	Add(new FaceVideoLink(295,285, 0, Pi::player->GetDockedWith()->GetSBody()->seed), 5, 40);
+	if (!m_videoLink) SetFace(0, Pi::player->GetDockedWith()->GetSBody()->seed);
+	//Add(new FaceVideoLink(295,285, 0, Pi::player->GetDockedWith()->GetSBody()->seed), 5, 40);
 	//Add(new DeadVideoLink(295,285), 5, 40);
 	//AddFaceWidget();
 }
@@ -109,6 +110,8 @@ void GenericChatForm::ReInit()
 	m_cargoSpaceUsed = 0;
 	m_cargoSpaceFree = 0;
 	m_equipmentMass = 0;
+	m_videoLink = 0;
+
 	m_titleLabel = new Gui::Label("");
 	Add(m_titleLabel, 10, 10);
 
@@ -131,6 +134,16 @@ void GenericChatForm::ReInit()
 void GenericChatForm::SetTitle(const char *title)
 {
 	m_titleLabel->SetText(title);
+}
+
+void GenericChatForm::SetFace(int flags, unsigned long seed)
+{
+	if (m_videoLink) {
+		RemoveChild(m_videoLink);
+		delete m_videoLink;
+	}
+	m_videoLink = new FaceVideoLink(295, 285, flags, seed);
+	Add(m_videoLink, 5, 40);
 }
 
 void GenericChatForm::Clear()
