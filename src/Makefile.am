@@ -150,7 +150,7 @@ libgui_a_SOURCES = \
 	GuiImageButton.cpp \
 	GuiImageRadioButton.cpp \
 	GuiLabel.cpp \
-	GuiLabelSet.cpp
+	GuiLabelSet.cpp \
 	GuiMeterBar.cpp \
 	GuiMultiStateImageButton.cpp \
 	GuiRadioButton.cpp \
@@ -177,7 +177,7 @@ pioneer_SOURCES	= \
 	DeadVideoLink.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
-	FaceVideoLink.cpp
+	FaceVideoLink.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \
@@ -265,11 +265,18 @@ if !HAVE_LUA
 pioneer_LDADD += lua/liblua.a
 endif
 
-modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
+modelviewer_SOURCES = \
+	LmrModel.cpp \
+	LuaModelViewer.cpp \
+	LuaUtils.cpp \
+	MyLuaMathTypes.cpp \
+	Render.cpp \
+	glfreetype.cpp \
+	perlin.cpp \
+	utils.cpp
 modelviewer_LDADD = collider/libcollider.a libgui.a $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GL_LIBS) $(GLU_LIBS) $(GLEW_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS)
-
 if !HAVE_LUA
 modelviewer_LDADD += lua/liblua.a
 endif
@@ -287,7 +294,7 @@ tests_SOURCES = \
 	ModelBody.cpp \
 	NameGenerator.cpp \
 	ObjectViewerView.cpp \
-	Pi.cpp
+	Pi.cpp \
 	Planet.cpp \
 	Player.cpp \
 	Sector.cpp \
