@@ -166,7 +166,10 @@ pioneer_LDADD += lua/liblua.a
 endif
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
-modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
+modelviewer_LDADD = collider/libcollider.a libgui.a
+if !HAVE_LUA
+modelviewer_LDADD += lua/liblua.a
+endif
 
 #check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
