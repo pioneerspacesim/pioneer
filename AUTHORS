@@ -1,32 +1,61 @@
-Maintainer:
-~~~~~~~~~~~
-"Tom Morton" <tomm@riseup.net>
+The Pioneer team are (13 May 2011, alpha 10):
 
-Coding:
-~~~~~~~
-John Jordan
-Nic
-Paul Roberts
-Tom Morton
-Dan Bennett
-Robert Norris
-Phil Howlett
+Project lead: John Jordan
+
+Maintainer: Robert Norris
+
+Testing and bug triage: Brian Ronald
+
+Programming:
+  John Jordan
+  Tom Morton
+  Dan Bennett
+  Robert Norris
+  Phil Howlett
+  Darren Salt
 
 Art:
-~~~~
-Gernot
-John Jordan
-Peter Kurucz
-Fran Morton
-Tom Morton
-Dan Bennett
-Steve Tyler
-Marcel Tulloh
-Uncle Bob
-Brian Ronald
-Tim Jones
+  Gernot
+  John Jordan
+  Tom Morton
+  Dan Bennett
+  Brian Ronald
+  Tim Jones
 
-Fonts:
-~~~~~~
-from the liberation fonts: https://fedorahosted.org/liberation-fonts
 
+Thanks to those that have moved on (we hope to see you back!)
+
+Programming:
+  Nic
+  Paul Roberts
+
+Art:
+  Peter Kurucz
+  Fran Morton
+  Steve Tyler
+  Marcel Tulloh
+  Uncle Bob
+
+
+Thanks also to the ever-enthusiastic inhabitants of the SpaceSimCentral
+forums. You drive us crazy, but we still love you :)
+
+
+Pioneer includes the following third-party software:
+
+  Lua 5.1.4 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
+  Copyright (C) 1994-2008 Lua.org, PUC-Rio
+
+  OOLua by Liam Devine
+  Copyright (C) 2009-2010 Liam Devine
+
+  LIBERATION fonts
+  Copyright (C) 2007 Red Hat, Inc
+
+
+Pioneer also makes use of these fine projects. Thanks a lot!
+
+  SDL
+  FreeType
+  Ogg Vorbis
+  MinGW
