@@ -54,7 +54,7 @@ static int l_rand_new(lua_State *l)
  *         omitted, defaults to 0
  *
  *   max - optional, the maximum possible value for the generated number. If
- *         omitted, defaults to 1
+ *         omitted, defaults to a very large number (currently 2^32-1)
  *
  * Return:
  *
@@ -82,8 +82,8 @@ static int l_rand_number(lua_State *l)
 		max = lua_tonumber(l, 2);
 	}
 	else {
-		min = 0.0;
-		max = 1.0;
+        lua_pushnumber(l, rand->Double());
+        return 1;
 	}
 
 	if (min > max)
@@ -108,7 +108,7 @@ static int l_rand_number(lua_State *l)
  *         omitted, defaults to 0
  *
  *   max - optional, the maximum possible value for the generated number. If
- *         omitted, defaults to 1
+ *         omitted, defaults to a very large number (currently 2^32-1)
  *
  * Return:
  *
@@ -136,8 +136,8 @@ static int l_rand_integer(lua_State *l)
 		max = lua_tointeger(l, 2);
 	}
 	else {
-		min = 0;
-		max = 1;
+        lua_pushnumber(l, rand->Int32());
+        return 1;
 	}
 
 	if (min > max)
