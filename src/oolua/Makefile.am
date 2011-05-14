@@ -1,7 +1,6 @@
 #  Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = $(EXTRA_CPPFLAGS) $(LUA_CFLAGS)
-AM_CFLAGS = $(EXTRA_CFLAGS)
+include $(top_srcdir)/Makefile.common
 
 noinst_LIBRARIES = liboolua.a
 liboolua_a_SOURCES = class_from_stack.cpp  lua_stack_dump.cpp  oolua_check_result.cpp  oolua_error.cpp      oolua_storage.cpp \
