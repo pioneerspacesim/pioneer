@@ -23,30 +23,56 @@ dnl Flags and options
 dnl ###########################################################################
 
 EXTRA_CFLAGS=
+EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
 
-dnl Add a flag to EXTRAFLAGS, if supported by the compiler
-AC_DEFUN([PIONEER_CFLAG],
-    [saved_CFLAGS="$CFLAGS"
-     CFLAGS="$1 $CFLAGS"
-     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_CFLAGS="$EXTRA_CFLAGS $1"], [AC_MSG_WARN([$CC does not support $1])])
-     CFLAGS="$saved_CFLAGS"
+dnl Add a flag, if supported by the compiler or preprocessor
+AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar
+    [AC_LANG_PUSH([$1])
+     saved_flags="$][$2][FLAGS"
+     ][$2][FLAGS="$3 $][$2][FLAGS"
+     AC_MSG_CHECKING([to see if $4 supports $3])
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])], [AC_MSG_RESULT([no])])
+     ][$2][FLAGS="$saved_flags"
+     AC_LANG_POP([$1])
     ])
 
+AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC])])
+AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [CXX], [$1], [$CXX])])
+AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP])])
+
+AC_DEFUN([PIONEER_C_CXX_FLAG],
+	[PIONEER_CFLAG([$1])
+	 PIONEER_CXXFLAG([$1])])
+
 dnl Always add -Wall, where supported
-PIONEER_CFLAG([-Wall])
+PIONEER_C_CXX_FLAG([-Wall])
 
 dnl Add -O2 or -O0, where supported
 AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
-PIONEER_CFLAG([$OPTIMISE])
+PIONEER_C_CXX_FLAG([$OPTIMISE])
 
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
-AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_CFLAG([-fno-inline])])
-AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_CFLAG([-p])])
+AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
+AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-p])])
 
 dnl Dist versioning
 AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_EXTRAVERSION=\\\"$withval\\\""])
+
+dnl Compiler warning options
+AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disable lots of extra compiler warnings]), [], [with_extra_warnings=yes])
+if test "x$with_extra_warnings" != xno; then
+  for warn_opt in -Wformat=2 -Wformat-security -Wstrict-aliasing=2 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization; do
+    PIONEER_C_CXX_FLAG([$warn_opt])
+  done
+  for warn_opt in -Wno-format-zero-length -Werror-implicit-function-declaration; do
+    PIONEER_CFLAG([$warn_opt])
+  done
+  for warn_opt in -Wstrict-null-sentinel -Wold-style-cast -Wsign-promo; do
+    PIONEER_CXXFLAG([$warn_opt])
+  done
+fi
 
 dnl Data files directory
 PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
@@ -143,6 +169,7 @@ dnl Finished :-)
 dnl ###########################################################################
 
 AC_SUBST([EXTRA_CFLAGS])
+AC_SUBST([EXTRA_CXXFLAGS])
 AC_SUBST([EXTRA_CPPFLAGS])
 
 AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/lua/Makefile src/oolua/Makefile osx/Makefile win32/Makefile])
