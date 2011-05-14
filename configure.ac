@@ -75,8 +75,16 @@ if test "x$with_extra_warnings" != xno; then
 fi
 
 dnl Data files directory
+if test "$PIONEER_DATA_DIR" = ''; then
+  AC_MSG_WARN([Using the default value for PIONEER_DATA_DIR.])
+  AC_MSG_WARN([Installing is NOT recommended.])
+  AC_MSG_WARN([IF YOU ARE PACKAGING PIONEER, SET THIS VARIABLE!])
+  AC_MSG_WARN([To install: make install DESTDIR=/path/to/install/dir/])
+  AC_MSG_WARN([The trailing path separator is required.])
+  AC_MSG_WARN([The installed Pioneer is only runnable from that directory.])
+fi
 PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
-AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]])
+AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]. Packagers MUST set this!])
 
 dnl ###########################################################################
 dnl Library checks
