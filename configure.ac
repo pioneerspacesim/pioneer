@@ -2,10 +2,10 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [0.alpha.9], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-11-dev], [pioneer-dev@pioneerspacesim.net])
 #AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz])
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
 
 AC_CANONICAL_HOST
 
@@ -35,6 +35,8 @@ fi
 
 AC_ARG_WITH(fno-inline,  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_CFLAG([-fno-inline])])
 AC_ARG_WITH(gprof,       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_CFLAG([-p])])
+
+AC_ARG_WITH(extra-version, AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [PIONEER_CFLAG([-DPIONEER_EXTRAVERSION=\\\"$withval\\\"])])
 
 PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
 CFLAGS="$CFLAGS $SIGC_CFLAGS"
@@ -79,6 +81,15 @@ esac
 
 # Not using vorbis yet
 PKG_CHECK_MODULES(VORBIS, vorbisfile)
+
+AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
+if test "$with_external_liblua" = yes; then
+  PKG_CHECK_MODULES([LUA], [lua5.1], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
+fi
+AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
+
+EXTRAFLAGS="$EXTRAFLAGS $LUA_CFLAGS"
+LIBS="$LIBS $LUA_LIBS"
 
 case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)

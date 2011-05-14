@@ -4,6 +4,25 @@
 #include "LuaConstants.h"
 #include "EquipType.h"
 
+/*
+ * Class: EquipType
+ *
+ * Class for a description of a type of equipment or cargo.
+ */
+
+/*
+ * Attribute: name
+ *
+ * The name of the equipment or cargo
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_equiptype_attr_name(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
@@ -11,6 +30,19 @@ static int l_equiptype_attr_name(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: slot
+ *
+ * The slot that the equipment or cargo is attached to
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_equiptype_attr_slot(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
@@ -18,13 +50,42 @@ static int l_equiptype_attr_slot(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: basePrice
+ *
+ * The base price of the equipment or cargo. This typically receives some
+ * adjustment before being used as a buy or sell price (eg based on supply or
+ * demand)
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_equiptype_attr_base_price(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
-	lua_pushnumber(l, (double)(et->basePrice)*0.01);
+	lua_pushnumber(l, double(et->basePrice)*0.01);
 	return 1;
 }
 
+/*
+ * Attribute: mass
+ *
+ * Mass of the equipment or cargo in tonnes. This corresponds directly to
+ * amount of weight/space this will use when added to a ship.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_equiptype_attr_mass(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::GetFromLua(1);
@@ -32,6 +93,29 @@ static int l_equiptype_attr_mass(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetEquipType
+ *
+ * Get a description object for the given equipment type constant
+ *
+ * > equiptype = EquipType.GetEquipType(type)
+ *
+ * Parameters:
+ *
+ *   type - the <Constants.EquipType> string for the the wanted description
+ *
+ * Example:
+ *
+ * > local hydrogen_description = EquipType.GetEquipType("HYDROGEN")
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_equiptype_get_equip_type(lua_State *l)
 {
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 1)));
@@ -39,6 +123,44 @@ static int l_equiptype_get_equip_type(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetEquipTypes
+ *
+ * Finds equipment types that match a criteria
+ *
+ * > equiptypes = EquipType.GetEquipTypes(filter)
+ *
+ * Parameters:
+ *
+ *   filter - an optional function. If specified the function will be called
+ *            once for each equipment or cargo type with two parameters:
+ *            the <Constants.EquipType> string for the equipment type and
+ *            the constant description object. If the filter function returns
+ *            true this equipment or cargo type will be included in the array
+ *            returned by <GetEquipTypes>, otherwise it will be omitted. If no
+ *            filter function is specified then all available equipment types
+ *            are returned.
+ *
+ * Returns:
+ *
+ *   equiptypes - an array containing zero or more <Constants.EquipType>
+ *                strings for which the the relevant descripton object matched
+ *                the filter
+ *
+ * Example:
+ *
+ * > local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
+ * >     return et.slot == "LASER"
+ * > end)
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_equiptype_get_equip_types(lua_State *l)
 {
 	LUA_DEBUG_START(l);

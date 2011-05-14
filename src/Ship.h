@@ -211,6 +211,8 @@ private:
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+
+	int m_combatTargetIndex, m_navTargetIndex, m_dockedWithIndex; // deserialisation
 };
 
 

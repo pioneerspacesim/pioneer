@@ -6,6 +6,84 @@
 #include <map>
 #include <utility>
 
+/*
+ * Namespace: Object
+ *
+ * Provides core methods to all engine objects.
+ *
+ * <Object> is not a true class but does provide a few methods that are
+ * applied to every Pioneer engine object that gets exposed to the Lua
+ * environment.
+ *
+ *
+ * Method: exists
+ *
+ * Determines if the engine object underpinning the Lua object still exists in
+ * the engine.
+ *
+ * > exists = object:exists()
+ *
+ * It is possible for a Pioneer engine object to be deleted while a Lua script
+ * is holding a reference to it. In this case, the Lua object is simply a
+ * shell, with no internals, and any attempt to use it will result in a Lua
+ * error. Calling <exists> allows a script to determine if the object is still
+ * valid before it uses it.
+ *
+ * Modules that carry their own state or do things out of the normal event
+ * flow need to consider this. The documentation for <Timer> contains a more
+ * concrete example of this.
+ *
+ * Returns:
+ *
+ *   exists - true if the object is valid, false otherwise
+ *
+ * Example:
+ *
+ * > if not ship:exists() then return
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
+ * Method: isa
+ *
+ * Determines if a object is of or inherits from a given class.
+ *
+ * > isa = object:isa(classname)
+ *
+ * The object model used in Pioneer's Lua environment is a classical
+ * single-inheritance system. <isa> operates much like similarly-named methods
+ * in other languages; it tells you if the object has the named class
+ * somewhere in its inheritence hierarchy.
+ *
+ * Parameters:
+ *
+ *   classname - the name of the class to check against the object
+ *
+ * Returns:
+ *
+ *   isa - true if the object inherits from the named class, false otherwise
+ *
+ * Example:
+ *
+ * > if body:isa("Ship") then
+ * >     body:AIKill(Game.player)
+ * > end
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
+
 // since LuaManager is a singleton, these must be heap-allocated. If they're
 // stack-allocated, they will be torn down at program shutdown before the
 // singleton is. This will cause LuaObject to crash during garbage collection
@@ -71,7 +149,7 @@ LuaObjectBase *LuaObjectBase::Lookup(lid id)
 int LuaObjectBase::l_exists(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 	LuaObjectBase *lo = Lookup(*idp);
 	lua_pushboolean(l, lo != 0);
 	return 1;
@@ -80,7 +158,7 @@ int LuaObjectBase::l_exists(lua_State *l)
 int LuaObjectBase::l_isa(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 
 	LuaObjectBase *lo = Lookup(*idp);
 	if (!lo)
@@ -93,7 +171,7 @@ int LuaObjectBase::l_isa(lua_State *l)
 int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = (lid*)lua_touserdata(l, 1);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 	LuaObjectBase *lo = Lookup(*idp);
 	if (lo) Deregister(lo);
 	return 0;
@@ -352,7 +430,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	assert(lua_istable(l, -1));
 
-	lid *idp = (lid*)lua_newuserdata(l, sizeof(lid));
+	lid *idp = static_cast<lid*>(lua_newuserdata(l, sizeof(lid)));
 	*idp = lo->m_id;
 
 	luaL_getmetatable(l, lo->m_type);
@@ -379,7 +457,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 	if (lua_type(l, index) != LUA_TUSERDATA)
 		return NULL;
 
-	lid *idp = (lid*)lua_touserdata(l, index);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
 	if (!idp)
 		return NULL;
 
@@ -406,7 +484,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 	luaL_checktype(l, index, LUA_TUSERDATA);
 
-	lid *idp = (lid*)lua_touserdata(l, index);
+	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
 	if (!idp)
 		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
 

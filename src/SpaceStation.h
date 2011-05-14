@@ -135,6 +135,7 @@ private:
 	 */
 	struct shipDocking_t {
 		Ship *ship;
+		int shipIndex; // deserialisation
 		int stage;
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;

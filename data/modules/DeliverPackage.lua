@@ -68,17 +68,19 @@ local delivery_flavours = {
 local ads = {}
 local missions = {}
 
-local onChat = function (dialog, ref, option)
+local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	dialog:Clear()
+	form:Clear()
 
 	if option == -1 then
-		dialog:Close()
+		form:Close()
 		return
 	end
 
 	if option == 0 then
+		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
@@ -91,16 +93,16 @@ local onChat = function (dialog, ref, option)
 			sectory  = ad.location.sectorY,
 		})
 
-		dialog:SetMessage(introtext)
+		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		dialog:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
+		form:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
 	
 	elseif option == 2 then
-		dialog:SetMessage("It must be delivered by "..Format.Date(ad.due))
+		form:SetMessage("It must be delivered by "..Format.Date(ad.due))
 	
 	elseif option == 3 then
-		dialog:RemoveAdvertOnClose()
+		form:RemoveAdvertOnClose()
 
 		ads[ref] = nil
 
@@ -116,17 +118,17 @@ local onChat = function (dialog, ref, option)
 		local mref = Game.player:AddMission(mission)
 		missions[mref] = mission
 
-		dialog:SetMessage("Excellent.")
-		dialog:AddOption("Hang up.", -1)
+		form:SetMessage("Excellent.")
+		form:AddOption("Hang up.", -1)
 
 		return
 	end
 
-	dialog:AddOption("Why so much money?", 1);
-	dialog:AddOption("How soon must it be delivered?", 2);
-	dialog:AddOption("Could you repeat the original request?", 0);
-	dialog:AddOption("Ok, agreed.", 3);
-	dialog:AddOption("Hang up.", -1);
+	form:AddOption("Why so much money?", 1);
+	form:AddOption("How soon must it be delivered?", 2);
+	form:AddOption("Could you repeat the original request?", 0);
+	form:AddOption("Ok, agreed.", 3);
+	form:AddOption("Hang up.", -1);
 end
 
 local onDelete = function (ref)
@@ -143,7 +145,7 @@ local makeAdvert = function (station)
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 
-	local isfemale = Engine.rand:Integer() == 1
+	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
@@ -161,6 +163,8 @@ local makeAdvert = function (station)
 		location = location,
 		due      = due,
 		reward   = reward,
+		isfemale = isfemale,
+		faceseed = Engine.rand:Integer(),
 	}
 
 	ad.desc = string.interp(delivery_flavours[flavour].adtext, {
@@ -186,7 +190,7 @@ local onUpdateBB = function (station)
 			station:RemoveAdvert(ref)
 		end	
 	end
-	if Engine.rand:Integer(0,12*60*60) < 60*60 then -- roughly once every twelve hours
+	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
 		makeAdvert(station)
 	end
 end
@@ -202,7 +206,7 @@ local onEnterSystem = function (player)
 
 			local ships = 1
 			if risk >= 0.8 then ships = 2 end
-			if risk == 1.0 then ships = 3 end
+			if risk >= 1.0 then ships = 3 end
 
 			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 				local mass = t.hullMass
@@ -215,7 +219,7 @@ local onEnterSystem = function (player)
 			while ships > 0 do
 				ships = ships-1
 
-				if Engine.rand:Number() <= risk then
+				if Engine.rand:Number(1) <= risk then
 					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 					local shiptype = ShipType.GetShipType(shipname)
 					local default_drive = shiptype.defaultHyperdrive
@@ -226,7 +230,7 @@ local onEnterSystem = function (player)
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-					ship = Space.SpawnShipNear(shipname, Game.player, 50, 200)
+					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
 					ship:AIKill(Game.player)
@@ -234,7 +238,7 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				UI.ImportantMessage(ship.label, "You're going to regret dealing with "..mission.client)
+				UI.ImportantMessage("You're going to regret dealing with "..mission.client, ship.label)
 			end
 		end
 	end
@@ -248,9 +252,9 @@ local onShipDocked = function (player, station)
 		if mission.location == station.path then
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].failuremsg)
+				UI.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
 			else
-				UI.ImportantMessage(mission.client, delivery_flavours[mission.flavour].successmsg)
+				UI.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
 				player:AddMoney(mission.reward)
 			end
 
@@ -258,7 +262,7 @@ local onShipDocked = function (player, station)
 			missions[ref] = nil
 
 		elseif Game.time > mission.due then
-			mission.status = 'failed'
+			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
 		end
 

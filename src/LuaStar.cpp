@@ -1,6 +1,12 @@
 #include "LuaStar.h"
 #include "LuaUtils.h"
 
+/*
+ * Class: Star
+ *
+ * Class representing a star. Inherits from <Body>.
+ */
+
 static bool promotion_test(DeleteEmitter *o)
 {
 	return dynamic_cast<Star*>(o);

@@ -39,7 +39,7 @@ void ShipFlavour::MakeRandomColor(LmrMaterial &m)
 	m.specular[0] = r;
 	m.specular[1] = g;
 	m.specular[2] = b;
-	m.shininess = 50.0f + (float)Pi::rng.Double()*50.0f;
+	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
 }
 
 ShipFlavour::ShipFlavour(ShipType::Type type)

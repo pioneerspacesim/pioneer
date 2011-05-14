@@ -424,7 +424,7 @@ public:
 				break;
 			case OP_USE_LIGHT:
 				{
-					if (m_model->m_lights.size() <= op.light.num) {
+					if (m_model->m_lights.size() <= unsigned(op.light.num)) {
 						m_model->m_lights.resize(op.light.num+1);
 					}
 					LmrLight &l = m_model->m_lights[op.light.num];
@@ -457,7 +457,7 @@ public:
 
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		// depth sort thrusters so alpha doesn't look fucked up!!!
-		ShipThruster::CameraDistance *dists = (ShipThruster::CameraDistance*) alloca (m_thrusters.size() * sizeof(ShipThruster::CameraDistance));
+		ShipThruster::CameraDistance *dists = static_cast<ShipThruster::CameraDistance*>(alloca (m_thrusters.size() * sizeof(ShipThruster::CameraDistance)));
 
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			dists[i].thruster = &m_thrusters[i];
@@ -542,7 +542,7 @@ public:
 	}
 
 	void SetLight(int num, float quadratic_attenuation, const vector3f &pos, const vector3f &col) {
-		if (m_model->m_lights.size() <= num) {
+		if (m_model->m_lights.size() <= unsigned(num)) {
 			m_model->m_lights.resize(num+1);
 		}
 		LmrLight &l = m_model->m_lights[num];
@@ -652,7 +652,7 @@ public:
 		c->m_numTris += m_triflags.size();
 
 		if (m_vertices.size()) {
-			c->pVertex = (float*)realloc(c->pVertex, 3*sizeof(float)*c->nv);
+			c->pVertex = static_cast<float*>(realloc(c->pVertex, 3*sizeof(float)*c->nv));
 		
 			for (unsigned int i=0; i<m_vertices.size(); i++) {
 				const vector3f v = transform * m_vertices[i].v;
@@ -663,8 +663,8 @@ public:
 			}
 		}
 		if (m_indices.size()) {
-			c->pIndex = (int*)realloc(c->pIndex, sizeof(int)*c->ni);
-			c->pFlag = (int*)realloc(c->pFlag, sizeof(int)*c->nf);
+			c->pIndex = static_cast<int*>(realloc(c->pIndex, sizeof(int)*c->ni));
+			c->pFlag = static_cast<unsigned int*>(realloc(c->pFlag, sizeof(unsigned int)*c->nf));
 			for (unsigned int i=0; i<m_indices.size(); i++) {
 				c->pIndex[idxBase + i] = vtxBase + m_indices[i];
 			}
@@ -1020,7 +1020,7 @@ int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outV
 {
 	int found = 0;
 	for (int i=0; (i<m_numTris) && (found<num); i++) {
-		if (pFlag[i] == flags) {
+		if (pFlag[i] == int(flags)) {
 			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i]]);
 			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i+1]]);
 			*(outVtx++) = vector3d(&pVertex[3*pIndex[3*i+2]]);
@@ -1129,7 +1129,7 @@ namespace ModelFuncs {
 		if (num < 4) luaL_error(L, "lathe() passed list with insufficient distance, radius pairs");
 
 		// oh tom you fox
-		float *jizz = (float*)alloca(num*2*sizeof(float));
+		float *jizz = static_cast<float*>(alloca(num*2*sizeof(float)));
 
 		for (int i=1; i<=num; i++) {
 			lua_pushinteger(L, i);
@@ -1143,7 +1143,7 @@ namespace ModelFuncs {
 		const vector3f dir = (*end-*start).Normalized();
 		const vector3f axis1 = updir->Normalized();
 		const vector3f axis2 = updir->Cross(dir).Normalized();
-		const float inc = 2.0f*M_PI / (float)steps;
+		const float inc = 2.0f*M_PI / float(steps);
 
 		for (int i=0; i<num-3; i+=2) {
 			const float rad1 = jizz[i+1];
@@ -1339,7 +1339,7 @@ namespace ModelFuncs {
 				_p[0] = *prevSegEnd;
 				_p[1] = *segvtx[seg].v[0];
 				_p[2] = *segvtx[seg].v[1];
-				float inc = 1.0f / (float)divs;
+				float inc = 1.0f / float(divs);
 				float u = inc;
 				for (int i=1; i<=divs; i++, u+=inc) {
 					vector3f p = eval_quadric_bezier_u(_p, u);
@@ -1357,7 +1357,7 @@ namespace ModelFuncs {
 				_p[1] = *segvtx[seg].v[0];
 				_p[2] = *segvtx[seg].v[1];
 				_p[3] = *segvtx[seg].v[2];
-				float inc = 1.0f / (float)divs;
+				float inc = 1.0f / float(divs);
 				float u = inc;
 				for (int i=1; i<=divs; i++, u+=inc) {
 					vector3f p = eval_cubic_bezier_u(_p, u);
@@ -1423,12 +1423,12 @@ namespace ModelFuncs {
 		const int vtxStart = s_curBuf->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
 		int vtxPos = vtxStart;
 
-		float inc = 1.0f / (float)(divs-1);
+		float inc = 1.0f / float(divs-1);
 		float s,t,u;
 		s = t = u = 0;
 		for (int i=0; i<divs; i++, u += inc) {
 			float pos = 0;
-			float inc2 = 1.0f / (float)(divs-1-i);
+			float inc2 = 1.0f / float(divs-1-i);
 			for (int j=i; j<divs; j++, pos += inc2) {
 				s = (1.0f-u)*(1.0f-pos);
 				t = (1.0f-u)*pos;
@@ -1506,8 +1506,8 @@ namespace ModelFuncs {
 		const int numVertsInPatch = (divs_u+1)*(divs_v+1);
 		const int vtxStart = s_curBuf->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
 
-		float inc_u = 1.0f / (float)divs_u;
-		float inc_v = 1.0f / (float)divs_v;
+		float inc_u = 1.0f / float(divs_u);
+		float inc_v = 1.0f / float(divs_v);
 		float u,v;
 		u = v = 0;
 		for (int i=0; i<=divs_u; i++, u += inc_u) {
@@ -1589,8 +1589,8 @@ namespace ModelFuncs {
 		const int vtxStart = s_curBuf->AllocVertices(numVertsInPatch * (xref ? 2 : 1));
 
 
-		float inc_v = 1.0f / (float)divs_v;
-		float inc_u = 1.0f / (float)divs_u;
+		float inc_v = 1.0f / float(divs_v);
+		float inc_u = 1.0f / float(divs_u);
 		float u,v;
 		u = v = 0;
 		for (int i=0; i<=divs_u; i++, u += inc_u) {
@@ -1781,7 +1781,7 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = updir.Cross(normal).Normalized();
 
-		const float inc = 2.0f*M_PI / (float)steps;
+		const float inc = 2.0f*M_PI / float(steps);
 		float ang = 0.5f*inc;
 		radius /= cosf(ang);
 		for (int i=0; i<steps; i++, ang += inc) {
@@ -1828,7 +1828,7 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = updir.Cross(dir).Normalized();
 
-		const float inc = 2.0f*M_PI / (float)steps;
+		const float inc = 2.0f*M_PI / float(steps);
 		float ang = 0.5*inc;
 		const float radmod = 1.0f/cosf(ang);
 		inner_radius *= radmod;
@@ -1914,7 +1914,7 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = updir.Cross(dir).Normalized();
 
-		const float inc = 2.0f*M_PI / (float)steps;
+		const float inc = 2.0f*M_PI / float(steps);
 		float ang = 0.5*inc;
 		radius1 /= cosf(ang);
 		radius2 /= cosf(ang);
@@ -1981,7 +1981,7 @@ namespace ModelFuncs {
 		const vector3f axis1 = updir.Normalized();
 		const vector3f axis2 = updir.Cross(dir).Normalized();
 
-		const float inc = 2.0f*M_PI / (float)steps;
+		const float inc = 2.0f*M_PI / float(steps);
 		float ang = 0.5*inc;
 		radius /= cosf(ang);
 		for (int i=0; i<steps; i++, ang += inc) {
@@ -2044,7 +2044,7 @@ namespace ModelFuncs {
 
 		const int vtxStart = s_curBuf->AllocVertices(2*steps);
 
-		const float inc = 2.0f*M_PI / (float)steps;
+		const float inc = 2.0f*M_PI / float(steps);
 		float ang = 0.5*inc;
 		radius /= cosf(ang);
 		for (int i=0; i<steps; i++, ang += inc) {
@@ -2366,14 +2366,14 @@ namespace ModelFuncs {
 		matrix4x4f trans;
 		_get_orientation(l, 5, trans);
 		const vector3d yaxis(trans[4], trans[5], trans[6]);
-		float latDiff = (sliceAngle2-sliceAngle1) / (float)LAT_SEGS;
+		float latDiff = (sliceAngle2-sliceAngle1) / float(LAT_SEGS);
 
 		float rot = 0.0;
-		float *sinTable = (float*)alloca(sizeof(float)*(LONG_SEGS+1));
-		float *cosTable = (float*)alloca(sizeof(float)*(LONG_SEGS+1));
+		float *sinTable = static_cast<float*>(alloca(sizeof(float)*(LONG_SEGS+1)));
+		float *cosTable = static_cast<float*>(alloca(sizeof(float)*(LONG_SEGS+1)));
 		for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/(float)LONG_SEGS) {
-			sinTable[i] = (float)sin(rot);
-			cosTable[i] = (float)cos(rot);
+			sinTable[i] = float(sin(rot));
+			cosTable[i] = float(cos(rot));
 		}
 
 		int *idx = new int[LONG_SEGS+2];
@@ -2565,9 +2565,16 @@ namespace ObjLoader {
 						vector3f &c = vertices[vi[i+2]];
 						vector3f n = (a-b).Cross(a-c).Normalized();
 						int vtxStart = s_curBuf->AllocVertices(3);
-						s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
-						s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
-						s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
+						if (texcoords.empty()) {
+							// no UV coords
+							s_curBuf->SetVertex(vtxStart, a, n);
+							s_curBuf->SetVertex(vtxStart+1, b, n);
+							s_curBuf->SetVertex(vtxStart+2, c, n);
+						} else {
+							s_curBuf->SetVertex(vtxStart, a, n, texcoords[ti[i]].x, texcoords[ti[i]].y);
+							s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
+							s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
+						}
 						if (texture) s_curBuf->SetTexture(texture);
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
@@ -2578,7 +2585,12 @@ namespace ObjLoader {
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
-							s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
+							if (texcoords.empty()) {
+								// no UV coords
+								s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]]);
+							} else {
+								s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
+							}
 							vtxmap[std::pair<int,int>(vi[i], ni[i])] = vtxStart;
 							realVtxIdx[i] = vtxStart;
 						} else {

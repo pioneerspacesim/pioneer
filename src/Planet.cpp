@@ -13,8 +13,8 @@ struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
 
 	void GenCol(float col[4], MTRand &rng) const {
-		float ma = 1 + (float)(rng.Double(modAll*2)-modAll);
-		for (int i=0; i<4; i++) col[i] = baseCol[i] + (float)rng.Double(-modCol[i], modCol[i]);
+		float ma = 1 + float(rng.Double(modAll*2)-modAll);
+		for (int i=0; i<4; i++) col[i] = baseCol[i] + float(rng.Double(-modCol[i], modCol[i]));
 		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
 	}
 };
@@ -118,7 +118,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double GAS_CONSTANT = 8.314;
 	const double KPA_2_ATMOS = 1.0 / 101.325;
 	// atmospheres
-	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*(double)sbody->averageTemp;
+	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(sbody->averageTemp);
 }
 
 double Planet::GetTerrainHeight(const vector3d pos) const
@@ -225,11 +225,11 @@ static void DrawRing(double inner, double outer, const float color[4])
 	glBegin(GL_TRIANGLE_STRIP);
 	glNormal3f(0,1,0);
 	for (float ang=0; ang<2*M_PI; ang+=step) {
-		glVertex3f((float)inner*sin(ang), 0, (float)inner*cos(ang));
-		glVertex3f((float)outer*sin(ang), 0, (float)outer*cos(ang));
+		glVertex3f(float(inner)*sin(ang), 0, float(inner)*cos(ang));
+		glVertex3f(float(outer)*sin(ang), 0, float(outer)*cos(ang));
 	}
-	glVertex3f(0, 0, (float)inner);
-	glVertex3f(0, 0, (float)outer);
+	glVertex3f(0, 0, float(inner));
+	glVertex3f(0, 0, float(outer));
 	glEnd();
 }
 
@@ -255,15 +255,15 @@ void Planet::DrawGasGiantRings()
 	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
 	ggdef.ringCol.GenCol(baseCol, rng);
 	
-	const double maxRingWidth = 0.1 / (double)(2*(Pi::detail.planets + 1));
+	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
 
 	Render::State::UseProgram(Render::planetRingsShader[Pi::worldView->GetNumLights()-1]);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
-		float pos = (float)rng.Double(1.15,1.5);
-		float end = pos + (float)rng.Double(0.1, 1.0);
+		float pos = float(rng.Double(1.15,1.5));
+		float end = pos + float(rng.Double(0.1, 1.0));
 		end = std::min(end, 2.5f);
 		while (pos < end) {
-			float size = (float)rng.Double(maxRingWidth);
+			float size = float(rng.Double(maxRingWidth));
 			float n =
 				0.5 + 0.5*(
 					noise(10.0*pos, noiseOffset, 0.0) +
@@ -316,7 +316,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	const double angStep = M_PI/32;
 	// find angle player -> centre -> tangent point
 	// tangent is from player to surface of sphere
-	float tanAng = (float)acos(rad1 / pos.Length());
+	float tanAng = float(acos(rad1 / pos.Length()));
 
 	// then we can put the fucking atmosphere on the horizon
 	vector3d r1(0.0, 0.0, rad1);
@@ -332,7 +332,7 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glEnable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
 	glBegin(GL_TRIANGLE_STRIP);
-	for (float ang=0; ang<2*M_PI; ang+=(float)angStep) {
+	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		vector3d norm = r1.Normalized();
 		glNormal3dv(&norm.x);
 		float _col[4] = { 0,0,0,0 };
@@ -400,7 +400,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
 	glPushMatrix();
-	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
+	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
 	glColor3f(1,1,1);
 
 	if (apparent_size < 0.001) {
@@ -424,7 +424,7 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glVertex3f(0,0,0);
 		glColor4f(col[0],col[1],col[2],0);
 		
-		const float spikerad = (float)(0.005*len +  1e1*(1.0*sbody->GetRadius()*len)/origLen);
+		const float spikerad = float(0.005*len +  1e1*(1.0*sbody->GetRadius()*len)/origLen);
 		{
 			/* bezier with (0,0,0) control points */
 			vector3f p0(0,spikerad,0), p1(spikerad,0,0);

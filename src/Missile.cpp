@@ -29,8 +29,8 @@ void Missile::ECMAttack(int power_val)
 void Missile::PostLoadFixup()
 {
 	Ship::PostLoadFixup();
-	m_owner = Serializer::LookupBody((size_t)m_owner);
-	m_target = Serializer::LookupBody((size_t)m_target);
+	m_owner = Serializer::LookupBody(m_ownerIndex);
+	m_target = Serializer::LookupBody(m_targetIndex);
 }
 
 void Missile::Save(Serializer::Writer &wr)
@@ -45,8 +45,8 @@ void Missile::Save(Serializer::Writer &wr)
 void Missile::Load(Serializer::Reader &rd)
 {
 	Ship::Load(rd);
-	m_owner = (Body*)rd.Int32();
-	m_target = (Body*)rd.Int32();
+	m_ownerIndex = rd.Int32();
+	m_targetIndex = rd.Int32();
 	m_distToTarget = rd.Double();
 	m_power = rd.Int32();
 }

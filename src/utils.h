@@ -24,7 +24,7 @@
 #define __attribute(x)
 #endif /* __GNUC__ */
 
-void Error(const char *format, ...) __attribute((format(printf,1,2)));
+void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 
@@ -52,7 +52,7 @@ static inline std::string stringf(int maxlen, const char *format, ...)
 
 static inline std::string stringf(int maxlen, const char *format, ...)
 {
-	char *buf = (char*)alloca(maxlen);
+	char *buf = reinterpret_cast<char*>(alloca(maxlen));
 	va_list argptr;
 	va_start(argptr, format);
 	vsnprintf(buf, maxlen, format, argptr);

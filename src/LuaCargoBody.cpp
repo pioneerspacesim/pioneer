@@ -2,6 +2,26 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 
+/*
+ * Class: CargoBody
+ *
+ * Class representing an item of cargo floating in space. Inherits from
+ * <Body>.
+ */
+
+/*
+ * Attribute: type
+ *
+ * The type of cargo contained within this cargo body
+ *
+ * Availability:
+ *
+ *  alpha 10
+ * 
+ * Status:
+ *
+ *  experimental
+ */
 static int l_cargobody_attr_type(lua_State *l)
 {
 	CargoBody *b = LuaCargoBody::GetFromLua(1);

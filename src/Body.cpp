@@ -48,7 +48,7 @@ void Body::Load(Serializer::Reader &rd)
 void Body::Serialize(Serializer::Writer &_wr)
 {
 	Serializer::Writer wr;
-	wr.Int32((int)GetType());
+	wr.Int32(int(GetType()));
 	switch (GetType()) {
 		case Object::STAR:
 		case Object::PLANET:
@@ -75,7 +75,7 @@ Body *Body::Unserialize(Serializer::Reader &_rd)
 {
 	Serializer::Reader rd = _rd.RdSection("Body");
 	Body *b = 0;
-	Object::Type type = (Object::Type)rd.Int32();
+	Object::Type type = Object::Type(rd.Int32());
 	switch (type) {
 		case Object::STAR:
 			b = new Star(); break;

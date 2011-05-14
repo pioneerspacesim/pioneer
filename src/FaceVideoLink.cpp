@@ -34,7 +34,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip("Video link established");
 
-	if (seed == (unsigned long)-1) seed = time(NULL);
+	if (seed == -1UL) seed = time(NULL);
 	MTRand rand(seed);
 
 	//int race = rand.Int32(0,1);    // XXX should be 3?
@@ -63,6 +63,11 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	int hair  = rand.Int32(0,MAX_HAIR);
 
 	int clothes = rand.Int32(0,MAX_CLOTHES);
+
+	// XXX evil hack. right now we have no clothes #0 for race #0 gender #1.
+	// lets just make it 1 until we find it
+	if (race == 0 && gender == 1 && clothes == 0) clothes = 1;
+
 	int accessories = rand.Int32(0,MAX_ACCESSORIES);
 
 	int background = rand.Int32(0,MAX_BACKGROUND);

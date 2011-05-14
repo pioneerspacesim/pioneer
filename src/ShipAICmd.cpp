@@ -15,7 +15,7 @@ static const double VICINITY_MUL = 4.0;
 
 AICommand *AICommand::Load(Serializer::Reader &rd)
 {
-	CmdName name = (CmdName)rd.Int32();
+	CmdName name = CmdName(rd.Int32());
 	switch (name) {
 		case CMD_NONE: default: return 0;
 //		case CMD_JOURNEY: return new AICmdJourney(rd);
@@ -38,13 +38,13 @@ void AICommand::Save(Serializer::Writer &wr)
 AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 {
 	m_cmdName = name;
-	m_ship = (Ship*)rd.Int32();
+	m_shipIndex = rd.Int32();
 	m_child = Load(rd);
 }
 
 void AICommand::PostLoadFixup()
 {
-	m_ship = (Ship *)Serializer::LookupBody((size_t)m_ship);
+	m_ship = static_cast<Ship *>(Serializer::LookupBody(m_shipIndex));
 	if (m_child) m_child->PostLoadFixup();
 }
 
@@ -728,7 +728,7 @@ printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 	// ignore further collisions
 	int newmode = GetFlipMode(m_ship, targframe, newpos) ? 1 : 3;
 	m_child = new AICmdFlyTo(m_ship, targframe, newpos, endvel, newmode, false);
-	((AICmdFlyTo *)m_child)->SetOrigTarg(m_targframe, m_posoff);			// needed for tangent heading
+	static_cast<AICmdFlyTo *>(m_child)->SetOrigTarg(m_targframe, m_posoff);			// needed for tangent heading
 	m_frame = 0;		// trigger rebuild when child finishes
 }
 
@@ -813,7 +813,7 @@ void AICmdFlyTo::CheckSuicide()
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*target->GetBoundingRadius());
-	if (target->IsType(Object::SPACESTATION) && ((SpaceStation *)target)->IsGroundStation()) {
+	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
 		matrix4x4d rot; target->GetRotMatrix(rot);
 		m_posoff = target->GetPosition() + dist * vector3d(rot[4], rot[5], rot[6]);		// up vector for starport
 		m_targframe = target->GetFrame();

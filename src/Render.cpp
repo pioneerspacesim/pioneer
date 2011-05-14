@@ -87,7 +87,7 @@ static struct postprocessBuffers_t {
 	{
 		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
 		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", (int)status);
+			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", int(status));
 			return false;
 		} else {
 			return true;
@@ -240,7 +240,7 @@ static struct postprocessBuffers_t {
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
 		//printf("%f -> ", avgLum[0]);
-		avgLum[0] = std::max((float)exp(avgLum[0]), 0.03f);
+		avgLum[0] = std::max(float(exp(avgLum[0])), 0.03f);
 		//printf("%f\n", avgLum[0]);
 		// see reinhard algo
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
@@ -527,7 +527,7 @@ static char *load_file(const char *filename)
 	fseek(f, 0, SEEK_END);
 	size_t len = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	char *buf = (char*)malloc(sizeof(char) * (len+1));
+	char *buf = static_cast<char*>(malloc(sizeof(char) * (len+1)));
 	fread(buf, 1, len, f);
 	fclose(f);
 	buf[len] = 0;

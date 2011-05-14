@@ -65,12 +65,12 @@ namespace OOLUA
 		T* valid_base_ptr_or_null(lua_State* l,int userdata_index)
 		{
 			INTERNAL::Lua_ud requested_ud;
-			requested_ud.none_const_name = (char*) OOLUA::Proxy_class<T>::class_name;
+			requested_ud.none_const_name = const_cast<char*>(OOLUA::Proxy_class<T>::class_name);
 			requested_ud.name_size = OOLUA::Proxy_class<T>::name_size;
 			if(!is_requested_type_a_base(l,&requested_ud,userdata_index))
 			{
 				//ud ...
-				return (T*)0;
+				return 0;
 			}
 			else  
 			{
@@ -90,7 +90,7 @@ namespace OOLUA
 			INTERNAL::Lua_ud * ud = static_cast<INTERNAL::Lua_ud *>( lua_touserdata(l, narg) );
 
 			if(! INTERNAL::ids_equal(ud->none_const_name,ud->name_size
-								,(char*)Proxy_class<T>::class_name,Proxy_class<T>::name_size) )
+								, const_cast<char*>(Proxy_class<T>::class_name), Proxy_class<T>::name_size) )
 			{
 #if OOLUA_RUNTIME_CHECKS_ENABLED == 0
 				lua_getmetatable(l,narg);//userdata ... stackmt
@@ -117,10 +117,10 @@ namespace OOLUA
 					,OOLUA::Proxy_class<T>::class_name
 					,"pointer from a const pointer"
 					);
-				return (T*)0;
+				return 0;
 			}
 			if( ! INTERNAL::ids_equal(ud->none_const_name,ud->name_size
-									,(char*)Proxy_class<T>::class_name,Proxy_class<T>::name_size) )
+									, const_cast<char*>(Proxy_class<T>::class_name), Proxy_class<T>::name_size) )
 			{
 #if OOLUA_RUNTIME_CHECKS_ENABLED == 0
 				lua_getmetatable(l,narg);//userdata ... stackmt
@@ -144,10 +144,10 @@ namespace OOLUA
 							,OOLUA::Proxy_class<T>::class_name
 							,"pointer from a const pointer"
 							);
-				return (T*)0;
+				return 0;
 			}
 			if( ! INTERNAL::ids_equal(ud->none_const_name,ud->name_size
-									  ,(char*)Proxy_class<T>::class_name,Proxy_class<T>::name_size) )
+									  , const_cast<char*>(Proxy_class<T>::class_name), Proxy_class<T>::name_size) )
 			{
 				lua_getmetatable(l,narg);//userdata ... stackmt
 				return valid_base_ptr_or_null<T>(l,narg);
@@ -160,7 +160,7 @@ namespace OOLUA
 		{
 			INTERNAL::Lua_ud * ud = static_cast<INTERNAL::Lua_ud *>( lua_touserdata(l, narg) );
 			if(! INTERNAL::ids_equal(ud->none_const_name,ud->name_size
-									 ,(char*)Proxy_class<T>::class_name,Proxy_class<T>::name_size) )
+									 , const_cast<char*>(Proxy_class<T>::class_name), Proxy_class<T>::name_size) )
 			{
 				lua_getmetatable(l,narg);//userdata ... stackmt
 				return valid_base_ptr_or_null<T>(l,narg);

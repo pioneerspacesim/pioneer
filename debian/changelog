@@ -1,3 +1,9 @@
+pioneer (0.0~alpha10-1) unstable; urgency=low
+
+  * Nice fresh release.
+
+ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Fri, 13 May 2011 02:33:21 +0100
+
 pioneer (0.0~alpha9+git-1) unstable; urgency=low
 
   * Initial packaging. (Closes: #000000)

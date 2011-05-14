@@ -74,8 +74,8 @@ class matrix4x4 {
 	// (x,y,z) must be normalized
 	static matrix4x4 RotateMatrix (T ang, T x, T y, T z) {
 		matrix4x4 m;
-		T c = (T)cos(ang);
-		T s = (T)sin(ang);
+		T c = cos(ang);
+		T s = sin(ang);
 		m[0] = x*x*(1-c)+c;
 		m[1] = y*x*(1-c)+z*s;
 		m[2] = x*z*(1-c)-y*s;
@@ -99,8 +99,8 @@ class matrix4x4 {
 	void RotateX (T radians) { *this = (*this) * RotateXMatrix (radians); }
 	static matrix4x4 RotateXMatrix (T radians) {
 		matrix4x4 m;
-		T cos_r = cosf ((float)radians);
-		T sin_r = sinf ((float)radians);
+		T cos_r = cosf (float(radians));
+		T sin_r = sinf (float(radians));
 		m[0] = 1.0f;
 		m[1] = 0;
 		m[2] = 0;
@@ -124,8 +124,8 @@ class matrix4x4 {
 	}
 	static matrix4x4 RotateYMatrix (T radians) {
 		matrix4x4 m;
-		T cos_r = cosf ((float)radians);
-		T sin_r = sinf ((float)radians);
+		T cos_r = cosf (float(radians));
+		T sin_r = sinf (float(radians));
 		m[0] = cos_r;
 		m[1] = 0;
 		m[2] = sin_r;
@@ -149,8 +149,8 @@ class matrix4x4 {
 	}
 	static matrix4x4 RotateZMatrix (T radians) {
 		matrix4x4 m;
-		T cos_r = cosf((float)radians);
-		T sin_r = sinf((float)radians);
+		T cos_r = cosf(float(radians));
+		T sin_r = sinf(float(radians));
 		m[0] = cos_r;
 		m[1] = -sin_r;
 		m[2] = 0;

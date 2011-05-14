@@ -16,7 +16,8 @@ endif
 
 PIONEER_DATA_DIR = /usr/share/games/pioneer/data
 CFLAGS = $(OPTIMISE) -g -Wformat=2 -Wformat-security -Wstrict-aliasing=2 \
-	 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization
+	 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization \
+	 -Wstrict-null-sentinel -Wold-style-cast -Wsign-promo
 
 %:
 	dh $@ --with autoreconf --parallel

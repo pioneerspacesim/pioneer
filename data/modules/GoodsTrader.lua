@@ -9,11 +9,11 @@ local goods_trader_flavour = {
 
 local ads = {}
 
-local onChat = function (dialog, ref, option)
+local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == -1 then
-		dialog:Close()
+		form:Close()
 		return
 	end
 
@@ -27,9 +27,10 @@ local onChat = function (dialog, ref, option)
 		end
 	end
 
-	dialog:Clear()
-	dialog:SetTitle(ad.flavour)
-	dialog:SetMessage("Welcome to "..ad.flavour)
+	form:Clear()
+	form:SetTitle(ad.flavour)
+	form:SetFace({ seed = ad.faceseed })
+	form:SetMessage("Welcome to "..ad.flavour)
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then
@@ -38,11 +39,11 @@ local onChat = function (dialog, ref, option)
 
 		local lawlessness = Game.system.lawlessness
 		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
-		dialog:GotoPolice()
+		form:GotoPolice()
 		return false
 	end
 	
-	dialog:AddGoodsTrader({
+	form:AddGoodsTrader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)
 			if ads[ref].stock[commodity] then
@@ -81,7 +82,7 @@ local onChat = function (dialog, ref, option)
 		end,
 	})
 
-	dialog:AddOption("Hang up.", -1);
+	form:AddOption("Hang up.", -1);
 
 end
 
@@ -93,14 +94,15 @@ local onCreateBB = function (station)
 	local rand = Rand.New(station.seed)
 	local num = rand:Integer(1,3)
 	for i = 1,num do
-		local ispolice = rand:Integer(0, 1) == 1
+		local ispolice = rand:Integer(1) == 1
 
 		local flavour = string.format(goods_trader_flavour[rand:Integer(1, #goods_trader_flavour)], NameGen.Surname(rand))
 
 		local ad = {
-            station  = station,
+			station  = station,
 			flavour  = flavour,
 			ispolice = ispolice,
+			faceseed = rand:Integer(),
 		}
 
 		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)

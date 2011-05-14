@@ -14,7 +14,7 @@
  */
 class View: public Gui::Fixed {
 public:
-	View(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64)) {
+	View(): Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-64)) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		
 		m_rightButtonBar = new Gui::Fixed(128, 26);

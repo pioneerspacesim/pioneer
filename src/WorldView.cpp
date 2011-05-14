@@ -173,10 +173,10 @@ WorldView::~WorldView()
 
 void WorldView::Save(Serializer::Writer &wr)
 {
-	wr.Float((float)m_externalViewRotX);
-	wr.Float((float)m_externalViewRotY);
-	wr.Float((float)m_externalViewDist);
-	wr.Int32((int)m_camType);
+	wr.Float(float(m_externalViewRotX));
+	wr.Float(float(m_externalViewRotY));
+	wr.Float(float(m_externalViewDist));
+	wr.Int32(int(m_camType));
 }
 
 void WorldView::Load(Serializer::Reader &rd)
@@ -184,7 +184,7 @@ void WorldView::Load(Serializer::Reader &rd)
 	m_externalViewRotX = rd.Float();
 	m_externalViewRotY = rd.Float();
 	m_externalViewDist = rd.Float();
-	m_camType = (CamType)rd.Int32();
+	m_camType = CamType(rd.Int32());
 }
 
 void WorldView::GetNearFarClipPlane(float *outNear, float *outFar) const
@@ -291,21 +291,21 @@ void WorldView::DrawBgStars()
 		for (int i=0; i<BG_STAR_MAX; i++) {
 			float col = (float)rand.Double(0,1);
 
-			col *= col;
-			col = (col > 0.7 ? 1.4-col : col);
-			col = Clamp(col, 0.05f, 0.9f);
+			col *= col * col * 3.0;
+			col = (col > 0.725 ? 1.45-col : col);
+			col = Clamp(col, 0.00f, 0.725f);
 
 			if (i<6) {
-				col = 1.0;
-			} else if (i<21) {
-				col = 0.95;
-			} else if (i<46) {
 				col = 0.9;
+			} else if (i<21) {
+				col = 0.85;
+			} else if (i<46) {
+				col = 0.8;
 			}
 
-			s_bgstar[i].r = rand.Double(col-0.05f,col+0.05f);
+			s_bgstar[i].r = rand.Double(col-0.05f,col);
 			s_bgstar[i].g = rand.Double(col-0.1f,s_bgstar[i].r);
-			s_bgstar[i].b = rand.Double(col-0.05f,col+0.05f);
+			s_bgstar[i].b = rand.Double(col-0.05f,col);
 
 			// this is proper random distribution on a sphere's surface
 			// XXX TODO
@@ -340,29 +340,29 @@ void WorldView::DrawBgStars()
 		glBegin(GL_TRIANGLE_STRIP);
 		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
 			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100.0f*sin(theta), (float)(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
+			glVertex3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
 			glColor3f(0.05,0.05,0.05);
-			glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
+			glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 		}
 		theta = 2.0*M_PI;
 		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100.0f*sin(theta), (float)(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
+		glVertex3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
 		glColor3f(0.05,0.05,0.05);
-		glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
+		glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 
 		glEnd();
 		glBegin(GL_TRIANGLE_STRIP);
 		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
 			glColor3f(0.05,0.05,0.05);
-			glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
+			glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100.0f*sin(theta), (float)(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
+			glVertex3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
 		}
 		theta = 2.0*M_PI;
 		glColor3f(0.05,0.05,0.05);
-		glVertex3f(100.0f*sin(theta), (float)(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
+		glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
 		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100.0f*sin(theta), (float)(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
+		glVertex3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
 		glEnd();
 		glPopMatrix();
 	}
@@ -384,7 +384,7 @@ void WorldView::DrawBgStars()
 		if (USE_VBO) {
 			glBindBufferARB(GL_ARRAY_BUFFER, m_bgstarsVbo);
 			glVertexPointer(3, GL_FLOAT, sizeof(struct BgStar), 0);
-			glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), (void *)(3*sizeof(float)));
+			glColorPointer(3, GL_FLOAT, sizeof(struct BgStar), reinterpret_cast<void *>(3*sizeof(float)));
 			glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
 			glBindBufferARB(GL_ARRAY_BUFFER, 0);
 		} else {
@@ -414,9 +414,9 @@ void WorldView::DrawBgStars()
 			vtx[i*12+1] = s_bgstar[i].y;
 			vtx[i*12+2] = s_bgstar[i].z;
 
-			vtx[i*12+3] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
-			vtx[i*12+4] = s_bgstar[i].g;
-			vtx[i*12+5] = s_bgstar[i].b;
+			vtx[i*12+3] = s_bgstar[i].r * 0.5;
+			vtx[i*12+4] = s_bgstar[i].g * 0.5;
+			vtx[i*12+5] = s_bgstar[i].b * 0.5;
 
 			vector3f v(s_bgstar[i].x, s_bgstar[i].y, s_bgstar[i].z);
 			v += pz*hyperspaceAnim*mult;
@@ -425,9 +425,9 @@ void WorldView::DrawBgStars()
 			vtx[i*12+7] = v.y;
 			vtx[i*12+8] = v.z;
 
-			vtx[i*12+9] = rand.Double(s_bgstar[i].r-0.3,s_bgstar[i].r);
-			vtx[i*12+10] = rand.Double(s_bgstar[i].g-0.2,s_bgstar[i].g);
-			vtx[i*12+11] = rand.Double(s_bgstar[i].b,0.7);
+			vtx[i*12+9] = s_bgstar[i].r * 0.5;
+			vtx[i*12+10] = s_bgstar[i].g * 0.5;
+			vtx[i*12+11] = s_bgstar[i].b * 0.5;
 		}
 
 		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
@@ -471,9 +471,9 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 		float lightPos[4];
-		lightPos[0] = (float)lpos.x;
-		lightPos[1] = (float)lpos.y;
-		lightPos[2] = (float)lpos.z;
+		lightPos[0] = float(lpos.x);
+		lightPos[1] = float(lpos.y);
+		lightPos[2] = float(lpos.z);
 		lightPos[3] = 0;
 
 		const float *col = StarSystem::starRealColors[body->type];
@@ -482,7 +482,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		if (Render::IsHDREnabled()) {
 			for (int i=0; i<4; i++) {
 				// not too high or we overflow our float16 colorbuffer
-				lightCol[i] *= (float)std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0);
+				lightCol[i] *= float(std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0));
 			}
 		}
 
@@ -635,7 +635,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		return;
 	}
 	else {
-		m_wheelsButton->SetActiveState((int)Pi::player->GetWheelState());
+		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
 		// XXX also don't show hyperspace button if the current target is
 		// invalid. this is difficult to achieve efficiently as long as "no
@@ -791,14 +791,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			if (astro->IsType(Object::PLANET)) {
 				double dist = Pi::player->GetPosition().Length();
 				double pressure, density;
-				((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
+				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 				char buf[128];
 				snprintf(buf, sizeof(buf), "P: %.2f bar", pressure);
 
 				m_hudPressure->SetText(buf);
 				m_hudPressure->Show();
 
-				m_hudHullTemp->SetValue((float)Pi::player->GetHullTemperature());
+				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 				m_hudHullTemp->Show();
 			} else {
 				m_hudPressure->Hide();
@@ -870,7 +870,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 			text += stringf(256, "\nMass: %dt\n", stats->total_mass);
 			text += stringf(256, "Shield strength: %.2f\n",
-				(shields*0.01f) * (float)s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR));
+				(shields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR)));
 			text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
 
 			m_hudTargetInfo->SetText(text);
@@ -924,7 +924,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (Pi::player->GetHyperspaceCountdown() != 0) {
 		float val = Pi::player->GetHyperspaceCountdown();
 
-		if (!((int)ceil(val*2.0) % 2)) {
+		if (!(int(ceil(val*2.0)) % 2)) {
 			char buf[128];
 			snprintf(buf, sizeof(buf), "Hyperspacing in %.0f seconds", ceil(val));
 			m_hudHyperspaceInfo->SetText(buf);
@@ -973,7 +973,7 @@ void WorldView::Update()
 	}
 	if (KeyBindings::targetObject.IsActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
-		Body* const target = PickBody((double)Gui::Screen::GetWidth()/2, (double)Gui::Screen::GetHeight()/2);
+		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
 	}
 
@@ -994,15 +994,15 @@ void WorldView::ToggleTargetActions()
 Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 {
 	Gui::Label *l = new Gui::Label(msg);
-	m_commsOptions->Add(l, 50, (float)ypos);
+	m_commsOptions->Add(l, 50, float(ypos));
 
 	char buf[8];
 	snprintf(buf, sizeof(buf), "%d", optnum);
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(buf));
-	b->SetShortcut((SDLKey)(SDLK_0 + optnum), KMOD_NONE);
+	b->SetShortcut(SDLKey(SDLK_0 + optnum), KMOD_NONE);
 	// hide target actions when things get clicked on
 	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
-	m_commsOptions->Add(b, 16, (float)ypos);
+	m_commsOptions->Add(b, 16, float(ypos));
 	return b;
 }
 
@@ -1147,14 +1147,14 @@ void WorldView::UpdateCommsOptions()
 	int ypos = 0;
 	int optnum = 1;
 	if (!(navtarget || comtarget)) {
-		m_commsOptions->Add(new Gui::Label("#0f0Ship Computer: No target selected"), 16, (float)ypos);
+		m_commsOptions->Add(new Gui::Label("#0f0Ship Computer: No target selected"), 16, float(ypos));
 	}
 	if (navtarget) {
-		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, (float)ypos);
+		m_commsOptions->Add(new Gui::Label("#0f0"+navtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		if (navtarget->IsType(Object::SPACESTATION)) {
 			button = AddCommsOption("Request docking clearance", ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), (SpaceStation*)navtarget));
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), reinterpret_cast<SpaceStation*>(navtarget)));
 			ypos += 32;
 
 			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
@@ -1214,7 +1214,7 @@ void WorldView::UpdateCommsOptions()
 #endif
 	}
 	if (comtarget) {
-		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, (float)ypos);
+		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
 		button = AddCommsOption("Autopilot: Fly to vicinity of "+comtarget->GetLabel(), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
@@ -1297,8 +1297,8 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (vdir.z < -1.0) {					// increase this maybe
 			vector3d pos;
 			if (Gui::Screen::Project(vdir, pos)) {
-				m_velocityIndicatorPos[0] = (int)pos.x;		// integers eh
-				m_velocityIndicatorPos[1] = (int)pos.y;
+				m_velocityIndicatorPos[0] = int(pos.x);		// integers eh
+				m_velocityIndicatorPos[1] = int(pos.y);
 				m_velocityIndicatorOnscreen = true;
 			}
 		}
@@ -1313,8 +1313,8 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		if (vdir.z < -1.0) {					// increase this maybe
 			vector3d pos;
 			if (Gui::Screen::Project(vdir, pos)) {
-				m_navVelocityIndicatorPos[0] = (int)pos.x;		// integers eh
-				m_navVelocityIndicatorPos[1] = (int)pos.y;
+				m_navVelocityIndicatorPos[0] = int(pos.x);		// integers eh
+				m_navVelocityIndicatorPos[1] = int(pos.y);
 				m_navVelocityIndicatorOnscreen = true;
 			}
 		}
@@ -1348,7 +1348,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 				if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) ||
 					Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0) {
 
-					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), (float)pos.x, (float)pos.y);
+					m_bodyLabels->Add((*i)->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), *i, true), float(pos.x), float(pos.y));
 				}
 			}
 		}
@@ -1364,7 +1364,7 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 		m_targetDist->Color(0.0f, 1.0f, 0.0f);
 
 		vector3d lpos = navtarget->GetProjectedPos() + vector3d(-10,12,0);
-		MoveChild(m_targetDist, (float)lpos.x, (float)lpos.y);
+		MoveChild(m_targetDist, float(lpos.x), float(lpos.y));
 
 		m_targetDist->Show();
 	}
@@ -1419,22 +1419,22 @@ void WorldView::ProjectObjsToScreenPos(const Frame *cam_frame)
 
 		double c = vel / sqrt(2.0 * raccel * dist);
 		if (c > 1.0) c = 1.0; if (c < -1.0) c = -1.0;
-		float r = (float)(0.2+(c+1.0)*0.4);
-		float b = (float)(0.2+(1.0-c)*0.4);
+		float r = float(0.2+(c+1.0)*0.4);
+		float b = float(0.2+(1.0-c)*0.4);
 		char buf[1024];
 			
 		m_combatDist->Color(r, 0.0f, b);
 		sprintf(buf, "%.0fm", dist);
 		m_combatDist->SetText(buf);
 		vector3d lpos = enemy->GetProjectedPos() + vector3d(20,30,0);
-		MoveChild(m_combatDist, (float)lpos.x, (float)lpos.y);
+		MoveChild(m_combatDist, float(lpos.x), float(lpos.y));
 		m_combatDist->Show();
 
 		m_combatSpeed->Color(r, 0.0f, b);
 		sprintf(buf, "%0.fm/s", vel);
 		m_combatSpeed->SetText(buf);
 		lpos = enemy->GetProjectedPos() + vector3d(20,44,0);
-		MoveChild(m_combatSpeed, (float)lpos.x, (float)lpos.y);
+		MoveChild(m_combatSpeed, float(lpos.x), float(lpos.y));
 		m_combatSpeed->Show();
 	}
 	Gui::Screen::LeaveOrtho();		// To save matrices
@@ -1470,8 +1470,8 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == WorldView::CAM_FRONT) {
-		float px = (float)Gui::Screen::GetWidth()/2.0f;
-		float py = (float)Gui::Screen::GetHeight()/2.0f;
+		float px = float(Gui::Screen::GetWidth())/2.0f;
+		float py = float(Gui::Screen::GetHeight())/2.0f;
 		GLfloat vtx[16] = {
 			px-sz, py,
 			px-0.5f*sz, py,
@@ -1484,8 +1484,8 @@ void WorldView::Draw()
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	} else if (GetCamType() == WorldView::CAM_REAR) {
-		float px = (float)Gui::Screen::GetWidth()/2.0f;
-		float py = (float)Gui::Screen::GetHeight()/2.0f;
+		float px = float(Gui::Screen::GetWidth())/2.0f;
+		float py = float(Gui::Screen::GetHeight())/2.0f;
 		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
 		GLfloat vtx[16] = {
 			px-sz, py,
@@ -1556,9 +1556,9 @@ void WorldView::DrawCombatTargetIndicator(const Ship* const target)
 	if (dir.Length() == 0.0 || !m_targLeadOnscreen) dir = vector3d(1,0,0);
 	else dir = dir.Normalized();
 
-	float x1 = (float)pos1.x, y1 = (float)pos1.y;
-	float x2 = (float)pos2.x, y2 = (float)pos2.y;
-	float xd = (float)dir.x, yd = (float)dir.y;
+	float x1 = float(pos1.x), y1 = float(pos1.y);
+	float x2 = float(pos2.x), y2 = float(pos2.y);
+	float xd = float(dir.x), yd = float(dir.y);
 
 	glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
 	GLfloat vtx[28] = {
@@ -1584,10 +1584,10 @@ void WorldView::DrawTargetSquare(const Body* const target)
 {
 	if(target->IsOnscreen()) {
 		const vector3d& _pos = target->GetProjectedPos();
-		const float x1 = (float)(_pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-		const float x2 = (float)(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
-		const float y1 = (float)(_pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
-		const float y2 = (float)(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
+		const float x1 = float(_pos.x - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+		const float x2 = float(x1 + WorldView::PICK_OBJECT_RECT_SIZE);
+		const float y1 = float(_pos.y - WorldView::PICK_OBJECT_RECT_SIZE * 0.5);
+		const float y2 = float(y1 + WorldView::PICK_OBJECT_RECT_SIZE);
 
 		GLfloat vtx[8] = {
 			x1, y1,

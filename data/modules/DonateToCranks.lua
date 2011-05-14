@@ -13,41 +13,42 @@ local crank_flavours = {
 
 local ads = {}
 
-local onChat = function (dialog, ref, option)
+local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
-		dialog:Clear();
+		form:Clear();
 
-		dialog:SetTitle(ad.title)
-		dialog:SetMessage(ad.message)
+		form:SetTitle(ad.title)
+		form:SetFace({ seed = ad.faceseed })
+		form:SetMessage(ad.message)
 
-		dialog:AddOption("$1", 1);
-		dialog:AddOption("$10", 10);
-		dialog:AddOption("$100", 100);
-		dialog:AddOption("$1000", 1000);
-		dialog:AddOption("$10000", 10000);
-		dialog:AddOption("$100000", 100000);
-		dialog:AddOption("Hang up.", -1);
+		form:AddOption("$1", 1);
+		form:AddOption("$10", 10);
+		form:AddOption("$100", 100);
+		form:AddOption("$1000", 1000);
+		form:AddOption("$10000", 10000);
+		form:AddOption("$100000", 100000);
+		form:AddOption("Hang up.", -1);
 
 		return
 	end
 
 	if option == -1 then
-		dialog:Close()
+		form:Close()
 		return
 	end
 
 	if Game.player:GetMoney() < option then
-		UI.Message("", "You do not have enough money.")
+		UI.Message("You do not have enough money.")
 	else
 		if option >= 10000 then
-			UI.Message("", "Wow! That was very generous.")
+			UI.Message("Wow! That was very generous.")
 		else
-			UI.Message("", "Thank you. All donations are welcome.")
+			UI.Message("Thank you. All donations are welcome.")
 		end
 		Game.player:AddMoney(-option)
-		dialog:Refresh()
+		form:Refresh()
 	end
 end
 
@@ -59,9 +60,10 @@ local onCreateBB = function (station)
 	local n = Engine.rand:Integer(1, #crank_flavours)
 
 	local ad = {
-		title   = crank_flavours[n].title,
-		message = crank_flavours[n].message,
-		station = station,
+		title    = crank_flavours[n].title,
+		message  = crank_flavours[n].message,
+		station  = station,
+		faceseed = Engine.rand:Integer()
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)

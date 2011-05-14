@@ -55,6 +55,61 @@ static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert
 	return new LuaChatForm(station, ad);
 }
 
+/*
+ * Class: SpaceStation
+ *
+ * Class representing a space station. Inherits from <Body>
+ */
+
+/*
+ * Method: AddAdvert
+ *
+ * Add an advertisement to the station's bulletin board
+ *
+ * > ref = station:AddAdvert(description, chatfunc, deletefunc)
+ *
+ * Parameters:
+ *
+ *   description - text to display in the bulletin board
+ *
+ *   chatfunc - function to call when the ad is activated. The function is
+ *              passed three parameters: a <ChatForm> object for the ad
+ *              conversation display, the ad reference returned by <AddAdvert>
+ *              when the ad was created, and an integer value corresponding to
+ *              the action that caused the activation. When the ad is initially
+ *              selected from the bulletin board, this value is 0. Additional
+ *              actions (and thus values) are defined by the script via
+ *              <ChatForm.AddAction>.
+ *
+ *   deletefunc - optional. function to call when the ad is removed from the
+ *                bulletin board. This happens when <RemoveAdvert> is called,
+ *                when the ad is cleaned up after
+ *                <ChatForm.RemoveAdvertOnClose> is called, and when the
+ *                <SpaceStation> itself is destroyed (eg the player leaves the
+ *                system).
+ *
+ * Return:
+ *
+ *   ref - an integer value for referring to the ad in the future. This value
+ *         will be passed to the ad's chat function and should be passed to
+ *         <RemoveAdvert> to remove the ad from the bulletin board.
+ *
+ * Example:
+ *
+ * > local ref = station:AddAdvert(
+ * >     "FAST SHIP to deliver a package to the Epsilon Eridani system.",
+ * >     function (ref, opt) ... end,
+ * >     function (ref) ... end
+ * > )
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_spacestation_add_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -64,6 +119,13 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	if (!lua_isfunction(l, 3))
 		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
+	
+	bool have_delete = false;
+	if (lua_gettop(l) >= 4) {
+		if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
+			luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
+		have_delete = true;
+	}
 
 	int ref = s->AddBBAdvert(description, _create_chat_form);
 
@@ -83,9 +145,7 @@ static int l_spacestation_add_advert(lua_State *l)
 	lua_pushvalue(l, 3);
 	lua_settable(l, -3);
 
-	if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
-		luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
-	else {
+	if (have_delete) {
 		lua_pushstring(l, "onDelete");
 		lua_pushvalue(l, 4);
 		lua_settable(l, -3);
@@ -102,6 +162,28 @@ static int l_spacestation_add_advert(lua_State *l)
 	return 1;
 } 
 
+/*
+ * Method: RemoveAdvert
+ *
+ * Remove an advertisement from the station's bulletin board
+ *
+ * > station:RemoveAdvert(ref)
+ *
+ * If the deletefunc parameter was supplied to <AddAdvert> when the ad was
+ * created, it will be called as part of this call.
+ *
+ * Parameters:
+ *
+ *   ref - the advert reference number returned by <AddAdvert>
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
 static int l_spacestation_remove_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -146,6 +228,29 @@ static int l_spacestation_remove_advert(lua_State *l)
 	return 0;
 } 
 
+/*
+ * Method: GetEquipmentPrice
+ *
+ * Get the price of an equipment or cargo item traded at this station
+ *
+ * > price = station:GetEquipmentPrice(equip)
+ *
+ * Parameters:
+ *
+ *   equip - the <Constants.EquipType> string for the equipment or cargo item
+ *
+ * Returns:
+ *
+ *   price - the price of the equipment or cargo item
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);

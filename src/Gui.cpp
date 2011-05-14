@@ -134,23 +134,23 @@ namespace Theme {
 			// top left
 			// bottom left
 			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*0.5f*i/(float)STEPS;
+				float ang = M_PI*0.5f*i/float(STEPS);
 				glVertex2f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang));
 			}
 			// bottom right
 			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*0.5 + M_PI*0.5f*i/(float)STEPS;
+				float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
 				glVertex2f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang));
 			}
 			// top right
 			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI + M_PI*0.5f*i/(float)STEPS;
+				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
 				glVertex2f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang));
 			}
 			
 			// top right
 			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*1.5 + M_PI*0.5f*i/(float)STEPS;
+				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
 				glVertex2f(rad - rad*cos(ang), rad + rad*sin(ang));
 			}
 		glEnd();

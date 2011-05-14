@@ -76,14 +76,14 @@ public:
 		else return equip[s][0];
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
-		if ((signed)equip[s].size() <= idx) return Equip::NONE;
+		if (signed(equip[s].size()) <= idx) return Equip::NONE;
 		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
 		onChange.emit();
 	}
-	bool Add(Equip::Type e, int num) {
+	int Add(Equip::Type e, int num) {
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
@@ -94,9 +94,9 @@ public:
 			}
 		}
 		if (numDone) onChange.emit();
-		return (numDone == num);
+		return numDone;
 	}
-	bool Add(Equip::Type e) {
+	int Add(Equip::Type e) {
 		return Add(e, 1);
 	}
 	// returns number removed
@@ -111,7 +111,7 @@ public:
 				numDone++;
 			}
 		}
-		onChange.emit();
+		if (numDone) onChange.emit();
 		return numDone;
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {

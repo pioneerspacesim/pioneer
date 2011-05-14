@@ -184,7 +184,7 @@ template<> inline Quaternion<double>::Quaternion(double ang, vector3<double> axi
 }
 
 template<> inline Quaternion<float >::Quaternion(const Quaternion<float > &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
-template<> inline Quaternion<float >::Quaternion(const Quaternion<double> &o): w((float)o.w), x((float)o.x), y((float)o.y), z((float)o.z) {}
+template<> inline Quaternion<float >::Quaternion(const Quaternion<double> &o): w(float(o.w)), x(float(o.x)), y(float(o.y)), z(float(o.z)) {}
 template<> inline Quaternion<double>::Quaternion(const Quaternion<float > &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
 template<> inline Quaternion<double>::Quaternion(const Quaternion<double> &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
 

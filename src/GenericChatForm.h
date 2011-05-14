@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Gui.h"
+#include "FaceVideoLink.h"
 
 class GenericChatForm: public Gui::Fixed {
 public:
@@ -12,6 +13,7 @@ public:
 	void Clear();
 	void ReInit();
 	void SetTitle(const char *title);
+	void SetFace(int flags, unsigned long seed);
 	void AddBaseDisplay();
 	void AddVideoWidget();
 	void AddFaceWidget();
@@ -36,6 +38,7 @@ private:
 	Gui::Label *m_cargoSpaceFree;
 	Gui::Label *m_equipmentMass;
 	Gui::Label *m_titleLabel;
+	FaceVideoLink *m_videoLink;
 };	
 
 #endif /* _GENERICCHATFORM_H */

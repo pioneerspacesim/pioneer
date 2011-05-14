@@ -27,9 +27,9 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 	if (e->button == 1) {
 		m_isPressed = true;
 		if (m_isHoriz) {
-			m_adjustment->SetValue(e->x / (float)size[0]);
+			m_adjustment->SetValue(e->x / float(size[0]));
 		} else {
-			m_adjustment->SetValue(e->y / (float)size[1]);
+			m_adjustment->SetValue(e->y / float(size[1]));
 		}
 		_m_release = RawEvents::onMouseUp.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseUp));
 		_m_motion = RawEvents::onMouseMotion.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseMotion));
@@ -58,9 +58,9 @@ void ScrollBar::OnRawMouseMotion(MouseMotionEvent *e)
 		float size[2];
 		GetSize(size);
 		if (m_isHoriz) {
-			m_adjustment->SetValue((e->x-pos[0]) / (float)size[0]);
+			m_adjustment->SetValue((e->x-pos[0]) / float(size[0]));
 		} else {
-			m_adjustment->SetValue((e->y-pos[1]) / (float)size[1]);
+			m_adjustment->SetValue((e->y-pos[1]) / float(size[1]));
 		}
 	}
 }

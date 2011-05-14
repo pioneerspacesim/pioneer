@@ -118,7 +118,7 @@ void Tabbed::UpdateAllChildSizes()
 
 void Tabbed::Show()
 {
-	int index=0;
+	unsigned int index=0;
 	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); ++i, index++) {
 		(*i).first->Show();
 		if (index == m_page) (*i).second->Show();
@@ -149,7 +149,7 @@ void Tabbed::Draw()
 	float size[2];
 	GetSize(size);
 	float xpos = 0;
-	int index = 0;
+	unsigned int index = 0;
 
 	glColor3fv(Theme::Colors::bgShadow);
 	glBegin(GL_QUADS);

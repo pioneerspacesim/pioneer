@@ -160,10 +160,16 @@ pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp
 		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaFormat.cpp LuaTimer.cpp LuaRand.cpp \
 		LuaEngine.cpp LuaNameGen.cpp LuaCargoBody.cpp LuaEquipType.cpp LuaSBody.cpp BBAdvertChatForm.cpp \
 		DeadVideoLink.cpp FaceVideoLink.cpp
-pioneer_LDADD =  lua/liblua.a oolua/liboolua.a collider/libcollider.a libgui.a
+pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a
+if !HAVE_LUA
+pioneer_LDADD += lua/liblua.a
+endif
 
 modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
-modelviewer_LDADD = collider/libcollider.a lua/liblua.a libgui.a
+modelviewer_LDADD = collider/libcollider.a libgui.a
+if !HAVE_LUA
+modelviewer_LDADD += lua/liblua.a
+endif
 
 #check_PROGRAMS = tests
 tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \

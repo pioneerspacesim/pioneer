@@ -560,12 +560,22 @@ std::string SBody::GetAstroDescription()
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				s += " ice world";
+				if (averageTemp < fixed(250)) {
+					s += " ice world";
+				} else s += " rocky planet";
 			} else {
-				s += " oceanic world";
+				if (averageTemp < fixed(250)) {
+					s += " ice world";
+				} else {
+					s += " oceanic world";
+				}
 			}
 		} else if (m_volatileLiquid > fixed(2,5)){
-			s += " planet containing liquid water";
+			if (averageTemp > fixed(250)) {
+				s += " planet containing liquid water";
+			} else {
+				s += " planet with some ice";
+			}
 		} else if (m_volatileLiquid > fixed(1,5)){
 			s += " rocky planet containing some liquids,";
 		} else {
@@ -668,7 +678,10 @@ const char *SBody::GetIcon()
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
-		if (m_volatileLiquid > fixed(7,10)) return "icons/object_planet_water_n1.png";
+		if (m_volatileLiquid > fixed(7,10)) {
+			if (averageTemp > 250) return "icons/object_planet_water_n1.png";
+			else return "icons/object_planet_water_n2.png";
+		}
 		if ((m_life > fixed(1,2)) &&  
 		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life.png";
 		if ((m_life > fixed(1,10)) &&  
@@ -681,9 +694,11 @@ const char *SBody::GetIcon()
 		
 		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				return "icons/object_planet_water_n2.png";
+				if (averageTemp < 250)	return "icons/object_planet_water_n2.png";
 			} else { 
-				return "icons/object_planet_water_n1.png";
+				if (averageTemp > 250) {
+					return "icons/object_planet_water_n1.png";
+				} else return "icons/object_planet_water_n2.png";
 			}
 		}
 
@@ -789,7 +804,7 @@ static int CalcSurfaceTemp(const SBody *primary, fixed distToPrimary, fixed albe
 		energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->radius, primary->averageTemp, distToPrimary);
 	}
 	const fixed surface_temp_pow4 = energy_per_meter2*(1-albedo)/(1-greenhouse);
-	return (int)isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673));
+	return int(isqrt(isqrt((surface_temp_pow4.v>>fixed::FRAC)*4409673)));
 }
 
 vector3d Orbit::OrbitalPosAtTime(double t)
@@ -984,7 +999,7 @@ void StarSystem::MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand
 
 void StarSystem::MakeRandomStar(SBody *sbody, MTRand &rand)
 {
-	SBody::BodyType type = (SBody::BodyType)rand.Int32((int)SBody::TYPE_STAR_MIN, (int)SBody::TYPE_STAR_MAX);
+	SBody::BodyType type = SBody::BodyType(rand.Int32(SBody::TYPE_STAR_MIN, SBody::TYPE_STAR_MAX));
 	MakeStarOfType(sbody, type, rand);
 }
 
@@ -1020,7 +1035,7 @@ void StarSystem::MakeBinaryPair(SBody *a, SBody *b, fixed minDist, MTRand &rand)
 	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
 	
 	const float rotX = -0.5*M_PI;//(float)(rand.Double()*M_PI/2.0);
-	const float rotY = (float)rand.Double(M_PI);
+	const float rotY = float(rand.Double(M_PI));
 	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
 	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
 
@@ -1058,7 +1073,7 @@ StarSystem::StarSystem(int sector_x, int sector_y, int system_idx)
 	if (system_idx == -1) return;
 
 	Sector s = Sector(sector_x, sector_y);
-	if (system_idx >= s.m_systems.size()) return;
+	if (unsigned(system_idx) >= s.m_systems.size()) return;
 	m_seed = s.m_systems[system_idx].seed;
 	m_name = s.m_systems[system_idx].name;
 	_init[4] = m_seed;
@@ -1621,10 +1636,10 @@ void StarSystem::Populate(bool addSpaceStations)
 	// Lets use black magic to turn these into percentage base price
 	// alterations
 	int maximum = 0;
-	for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+	for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
 		maximum = std::max(abs(m_tradeLevel[i]), maximum);
 	}
-	if (maximum) for (int i=(int)Equip::FIRST_COMMODITY; i<=(int)Equip::LAST_COMMODITY; i++) {
+	if (maximum) for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
 		m_tradeLevel[i] += rand.Int32(-5, 5);
 	}
@@ -1702,8 +1717,8 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	};
 
 	/* Commodities we produce (mining and agriculture) */
-	for (int i=(int)Equip::FIRST_COMMODITY; i<(int)Equip::LAST_COMMODITY; i++) {
-		Equip::Type t = (Equip::Type)i;
+	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
+		Equip::Type t = Equip::Type(i);
 		const EquipType &type = EquipType::types[t];
 		if (type.techLevel > system->m_techlevel) continue;
 

@@ -86,7 +86,7 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
 	s.angThrust = s.angThrust / 2;		// fudge
 
-	for (int i=0; i<(int)Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
+	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
 	_get_int_attrib(L, "max_engine", s.equipSlotCapacity[Equip::SLOT_ENGINE], 1);
 	_get_int_attrib(L, "max_laser", s.equipSlotCapacity[Equip::SLOT_LASER], 1);
@@ -114,7 +114,7 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 		if (!hyperclass) {
 			s.hyperdrive = Equip::NONE;
 		} else {
-			s.hyperdrive = (Equip::Type)((int)Equip::DRIVE_CLASS1+hyperclass-1);
+			s.hyperdrive = Equip::Type(Equip::DRIVE_CLASS1+hyperclass-1);
 		}
 	}
 	
@@ -216,7 +216,7 @@ void EquipSet::Load(Serializer::Reader &rd)
 	for (int i=0; i<numSlots; i++) {
 		const int numItems = rd.Int32();
 		for (int j=0; j<numItems; j++) {
-			if (j < (signed)equip[i].size()) {
+			if (j < signed(equip[i].size())) {
 				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
 			} else {
 				// equipment slot sizes have changed. just

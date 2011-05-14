@@ -1,5 +1,7 @@
 #  Process this file with automake to produce Makefile.in
 
+if !HAVE_LUA
+
 noinst_LIBRARIES = liblua.a
 liblua_a_SOURCES = lapi.c lauxlib.c lbaselib.c lcode.c ldblib.c ldebug.c ldo.c ldump.c lfunc.c \
 		   lgc.c linit.c liolib.c llex.c lmathlib.c lmem.c loadlib.c lobject.c lopcodes.c \
@@ -9,3 +11,5 @@ liblua_a_SOURCES = lapi.c lauxlib.c lbaselib.c lcode.c ldblib.c ldebug.c ldo.c l
 noinst_HEADERS = lapi.h lauxlib.h lcode.h ldebug.h ldo.h lfunc.h lgc.h llex.h llimits.h lmem.h \
 		  lobject.h lopcodes.h lparser.h lstate.h lstring.h ltable.h ltm.h luaconf.h lua.h \
 		  lualib.h lundump.h lvm.h lzio.h
+
+endif

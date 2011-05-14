@@ -61,7 +61,7 @@ public:
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
-	static void Quit();
+	static void Quit() __attribute((noreturn));
 	static void Serialize(Serializer::Writer &wr);
 	static void Unserialize(Serializer::Reader &rd);
 	static float GetFrameTime() { return frameTime; }

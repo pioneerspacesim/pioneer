@@ -53,7 +53,7 @@ local onEnterSystem = function (player)
 		-- 80% chance of spawning this ship. this is somewhat arbitrary,
 		-- but it does mean the player can't assume that system x will
 		-- always have n trade ships
-		if Engine.rand:Number() <= 0.8 then
+		if Engine.rand:Number(1) <= 0.8 then
 
 			local spawn_in_starport = false
 			
@@ -66,7 +66,7 @@ local onEnterSystem = function (player)
 					spawn_in_starport = true
 				end
 			else
-				if Engine.rand:Number() <= 0.5 then
+				if Engine.rand:Number(1) <= 0.5 then
 					spawn_in_starport = true
 				end
 			end
@@ -76,7 +76,7 @@ local onEnterSystem = function (player)
 			local station = stations[Engine.rand:Integer(1,#stations)]
 
 			if spawn_in_starport then
-				pcall(function () return Space.SpawnShipDocked(shiptype, station) end)
+				Space.SpawnShipDocked(shiptype, station)
 			else
 				-- XXX random the due time a bit so that some aren't in system yet
 				local ship = Space.SpawnShip(shiptype, 3, 8)

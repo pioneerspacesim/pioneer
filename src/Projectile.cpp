@@ -40,12 +40,12 @@ void Projectile::Load(Serializer::Reader &rd)
 	m_dirVel = rd.Vector3d();
 	m_age = rd.Float();
 	m_type = rd.Int32();
-	m_parent = (Body*)rd.Int32();
+	m_parentIndex = rd.Int32();
 }
 
 void Projectile::PostLoadFixup()
 {
-	m_parent = Serializer::LookupBody((size_t)m_parent);
+	m_parent = Serializer::LookupBody(m_parentIndex);
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)
@@ -74,7 +74,7 @@ void Projectile::NotifyDeleted(const Body* const deletedBody)
 void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
-	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * (double)timeStep);
+	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * double(timeStep));
 	if (m_age > Equip::lasers[m_type].lifespan) Space::KillBody(this);
 }
 
@@ -116,7 +116,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
 	
 	if (c.userData1) {
-		Object *o = (Object*)c.userData1;
+		Object *o = static_cast<Object*>(c.userData1);
 
 		if (o->IsType(Object::CITYONPLANET)) {
 			Space::KillBody(this);

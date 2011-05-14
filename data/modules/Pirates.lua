@@ -12,7 +12,7 @@ local onEnterSystem = function (player)
 	-- XXX number should be some combination of population, lawlessness,
 	-- proximity to shipping lanes, etc
 	local max_pirates = 6
-	while max_pirates > 0 and Engine.rand:Number() < lawlessness do
+	while max_pirates > 0 and Engine.rand:Number(1) < lawlessness do
 		max_pirates = max_pirates-1
 
 		local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]

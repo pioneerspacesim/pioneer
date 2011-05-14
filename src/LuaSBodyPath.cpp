@@ -6,6 +6,54 @@
 #include "StarSystem.h"
 #include "Sector.h"
 
+/*
+ * Class: SystemPath
+ *
+ * Describes the location of a system within the galaxy and optionally, a body
+ * within that system.
+ *
+ * A <SystemPath> consists of four components
+ *  - the X coordinate of the sector
+ *  - the Y coordinate of the sector
+ *  - the system number within that sector
+ *  - optionally, the index of a body within that system
+ *
+ * <SystemPath> objects are typically used to describe the location of a
+ * system, space station or other body when specifying hyperspace or other
+ * destinations.
+ *
+ * <SystemPath> objects will compare equal if and only if all four of their
+ * components are the same. If you want to see if two paths correspond to the
+ * same system without reference to their body indexes, use <IsSameSystem>.
+ */
+
+/*
+ * Function: New
+ *
+ * Creates a new <SystemPath> object
+ *
+ * > path = SystemPath.New(sectorX, sectorY, systemIndex, bodyIndex)
+ *
+ * Parameters:
+ *
+ *   sectorX - galactic sector X coordinate
+ *
+ *   sectorY - galactic sector Y coordinate
+ *
+ *   systemIndex - the numeric index of the system within the sector
+ *
+ *   bodyIndex - optional, the numeric index of a specific body within the
+ *               system. Defaults to 0, which typically corresponds to the
+ *               primary star.
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_new(lua_State *l)
 {
 	int sector_x = luaL_checkinteger(l, 1);
@@ -17,7 +65,7 @@ static int l_sbodypath_new(lua_State *l)
 		sbody_id = luaL_checkinteger(l, 4);
 	
 	Sector s(sector_x, sector_y);
-	if ((size_t)system_idx >= s.m_systems.size())
+	if (size_t(system_idx) >= s.m_systems.size())
 		luaL_error(l, "System %d in sector [%d,%d] does not exist", system_idx, sector_x, sector_y);
 
 	// XXX explode if sbody_id doesn't exist in the target system?
@@ -30,6 +78,30 @@ static int l_sbodypath_new(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: IsSameSystem
+ *
+ * Determine if two <SystemPath> objects point to the same system, ignoring
+ * the body index.
+ *
+ * > is_same = path:IsSameSystem(otherpath)
+ *
+ * Parameters:
+ *
+ *   otherpath - the <SystemPath> to compare with this path
+ *
+ * Return:
+ *
+ *   is_same - true if the path's point to the same system, false otherwise
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_is_same_system(lua_State *l)
 {
 	SBodyPath *a = LuaSBodyPath::GetFromLua(1);
@@ -39,6 +111,29 @@ static int l_sbodypath_is_same_system(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: DistanceTo
+ *
+ * Calculate the distance between this and another system
+ *
+ * > dist = path:DistanceTo(system)
+ *
+ * Parameters:
+ *
+ *   system - a <SystemPath> or <StarSystem> to calculate the distance to
+ *
+ * Return:
+ *
+ *   dist - the distance, in light years
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_distance_to(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -62,6 +157,25 @@ static int l_sbodypath_distance_to(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetStarSystem
+ *
+ * Get a <StarSystem> object for the system that this path points to
+ *
+ * > system = path:GetStarSystem()
+ *
+ * Return:
+ *
+ *   system - the <StarSystem>
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_get_star_system(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -71,6 +185,25 @@ static int l_sbodypath_get_star_system(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetSystemBody
+ *
+ * Get a <SystemBody> object for the body that this path points to
+ *
+ * > body = path:GetSystemBody()
+ *
+ * Return:
+ *
+ *   body - the <SystemBody>
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_get_system_body(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -81,12 +214,40 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	return 1;
 }
 
+
+/*
+ * Attribute: sectorX
+ *
+ * The X component of the path
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_attr_sector_x(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
 	lua_pushinteger(l, path->sectorX);
 	return 1;
 }
+
+/*
+ * Attribute: sectorY
+ *
+ * The Y component of the path
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 
 static int l_sbodypath_attr_sector_y(lua_State *l)
 {
@@ -95,6 +256,19 @@ static int l_sbodypath_attr_sector_y(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: systemIndex
+ *
+ * The system index component of the path
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);
@@ -102,6 +276,19 @@ static int l_sbodypath_attr_system_index(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: bodyIndex
+ *
+ * The body index component of the path
+ *
+ * Availability:
+ *
+ *   alpha 10
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_sbodypath_attr_body_index(lua_State *l)
 {
 	SBodyPath *path = LuaSBodyPath::GetFromLua(1);

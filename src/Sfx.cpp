@@ -66,7 +66,7 @@ void Sfx::SetPosition(vector3d p)
 void Sfx::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
-	m_pos += m_vel * (double)timeStep;
+	m_pos += m_vel * double(timeStep);
 
 	switch (m_type) {
 		case TYPE_EXPLOSION:
