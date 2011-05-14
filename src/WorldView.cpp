@@ -630,11 +630,16 @@ static Color get_color_for_warning_meter_bar(float v) {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
+    if (!Pi::IsHUDEnabled()) {
+        HideAll();
+        return;
+    }
 	if ((!Pi::player) || Pi::player->IsDead() || !Pi::IsGameStarted()) {
 		HideAll();
 		return;
-	}
+	} 
 	else {
+        
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
 		// XXX also don't show hyperspace button if the current target is
@@ -941,6 +946,7 @@ void WorldView::Update()
 {
 	const double frameTime = Pi::GetFrameTime();
 	// show state-appropriate buttons
+
 	RefreshButtonStateAndVisibility();
 
 	if (Pi::MouseButtonState(3)) {

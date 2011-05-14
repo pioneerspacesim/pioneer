@@ -121,6 +121,7 @@ IniConfig Pi::config;
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
+bool Pi::HUDEnabled;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
@@ -535,6 +536,16 @@ void Pi::HandleEvents()
 					}
 					break;
 				}
+                if (event.key.keysym.sym == SDLK_TAB) {
+                    if (isGameStarted) {
+                        fprintf(stderr, "Switching HUD, now : %d\n", IsHUDEnabled());
+                        SetHUDEnabled(!IsHUDEnabled());
+                        if (currentView == worldView) {
+                            fprintf(stderr, "Updating worldView\n");
+                            currentView->Update();
+                        }
+                    }
+                }
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
                     switch (event.key.keysym.sym) {
@@ -841,6 +852,10 @@ void Pi::InitGame()
 	AmbientSounds::Init();
 
 	LuaInitGame();
+
+    // Enable the HUD on game start
+    SetHUDEnabled(true);
+
 }
 
 static void OnPlayerDockOrUndock()

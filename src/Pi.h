@@ -85,6 +85,8 @@ public:
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
     static void SetMouseYInvert(bool state) { mouseYInvert = state; }
     static bool IsMouseYInvert() { return mouseYInvert; }
+    static void SetHUDEnabled(bool state) { HUDEnabled = state; }
+    static bool IsHUDEnabled() { return HUDEnabled; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
@@ -158,6 +160,7 @@ public:
 
 	static struct DetailLevel detail;
 	static IniConfig config;
+
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
@@ -188,6 +191,8 @@ private:
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;
+    static bool HUDEnabled;
+
 	struct JoystickState {
 		SDL_Joystick *joystick;
 		std::vector<bool> buttons;
