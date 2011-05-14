@@ -276,7 +276,7 @@ modelviewer_SOURCES = \
 	utils.cpp
 modelviewer_LDADD = collider/libcollider.a libgui.a $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GL_LIBS) $(GLU_LIBS) $(GLEW_LIBS) \
-		    $(SDL_LIBS) $(SIGC_LIBS)
+		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += lua/liblua.a
 endif
