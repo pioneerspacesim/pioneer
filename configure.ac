@@ -18,6 +18,8 @@ AC_C_CONST
 AC_PROG_RANLIB
 #AC_PROG_LIBTOOL
 
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
+
 dnl ###########################################################################
 dnl Flags and options
 dnl ###########################################################################

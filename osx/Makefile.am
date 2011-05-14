@@ -12,3 +12,5 @@ EXTRA_DIST = \
 	pioneer/en.lproj/InfoPlist.strings \
 	pioneer/pioneer-Info.plist \
 	pioneer/pioneer-Prefix.pch
+
+include $(top_srcdir)/Makefile.common

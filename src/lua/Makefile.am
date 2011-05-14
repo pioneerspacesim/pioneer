@@ -2,8 +2,8 @@
 
 if !HAVE_LUA
 
-AM_CPPFLAGS = $(EXTRA_CPPFLAGS) $(LUA_CFLAGS)
-AM_CFLAGS = $(EXTRA_CFLAGS)
+include $(top_srcdir)/Makefile.common
+AM_CPPFLAGS += $(LUA_CFLAGS)
 
 noinst_LIBRARIES = liblua.a
 liblua_a_SOURCES = lapi.c lauxlib.c lbaselib.c lcode.c ldblib.c ldebug.c ldo.c ldump.c lfunc.c \
