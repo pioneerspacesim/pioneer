@@ -632,6 +632,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 {
     if (!Pi::IsHUDEnabled()) {
 		m_targetSpeed->Hide();
+        m_commsOptions->Hide();
+
+        m_bodyLabels->Hide();
+        m_hudVelocity->Hide();
+        m_hudTargetDist->Hide();
+        m_hudAltitude->Hide();
+        m_hudPressure->Hide();
 
         m_rightRegion1->Hide();
         m_rightRegion2->Hide();
@@ -641,6 +648,9 @@ void WorldView::RefreshButtonStateAndVisibility()
         m_rightRegion1->Show();
         m_rightRegion2->Show();
         m_rightButtonBar->Show();
+
+        m_bodyLabels->Show();
+        m_hudVelocity->Show();
     }
 
 	if ((!Pi::player) || Pi::player->IsDead() || !Pi::IsGameStarted()) {
@@ -966,7 +976,7 @@ void WorldView::Update()
 		m_bodyLabels->SetLabelsClickable(true);
 	}
 
-	m_bodyLabels->SetLabelsVisible(m_labelsOn);
+    m_bodyLabels->SetLabelsVisible(m_labelsOn);
 
 	if (Pi::player->IsDead()) {
 		m_camType = CAM_EXTERNAL;
