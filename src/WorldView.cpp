@@ -289,7 +289,7 @@ void WorldView::DrawBgStars()
 
 	if (!m_haveStars) {
 		for (int i=0; i<BG_STAR_MAX; i++) {
-			float col = (float)rand.Double(0,1);
+			float col = float(rand.Double(0,1));
 
 			col *= col * col * 3.0;
 			col = (col > 0.725 ? 1.45-col : col);
@@ -310,8 +310,8 @@ void WorldView::DrawBgStars()
 			// this is proper random distribution on a sphere's surface
 			// XXX TODO
 			// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
-			const float theta = (float)rand.Double(0.0, 2.0*M_PI);
-			const float u = (float)rand.Double(-1.0, 1.0);
+			const float theta = float(rand.Double(0.0, 2.0*M_PI));
+			const float u = float(rand.Double(-1.0, 1.0));
 
 			s_bgstar[i].x = 1000.0f * sqrt(1.0f - u*u) * cos(theta);
 			s_bgstar[i].y = 1000.0f * u;

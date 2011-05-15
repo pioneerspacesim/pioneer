@@ -114,7 +114,7 @@ FILE *fopen_or_die(const char *filename, const char *mode)
 std::string format_money(Sint64 money)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.2f", 0.01*(double)money);
+	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
 	return std::string(buf);
 }
 

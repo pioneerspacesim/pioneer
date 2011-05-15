@@ -2371,7 +2371,7 @@ namespace ModelFuncs {
 		float rot = 0.0;
 		float *sinTable = static_cast<float*>(alloca(sizeof(float)*(LONG_SEGS+1)));
 		float *cosTable = static_cast<float*>(alloca(sizeof(float)*(LONG_SEGS+1)));
-		for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/(float)LONG_SEGS) {
+		for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/float(LONG_SEGS)) {
 			sinTable[i] = float(sin(rot));
 			cosTable[i] = float(cos(rot));
 		}
