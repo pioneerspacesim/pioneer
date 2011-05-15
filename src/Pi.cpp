@@ -537,13 +537,9 @@ void Pi::HandleEvents()
 					break;
 				}
                 if (event.key.keysym.sym == SDLK_TAB) {
-                    if (isGameStarted) {
-                        fprintf(stderr, "Switching HUD, now : %d\n", IsHUDEnabled());
+                    if (currentView == worldView) {
+                        printf("Switching HUD, now : %d\n", IsHUDEnabled());
                         SetHUDEnabled(!IsHUDEnabled());
-                        if (currentView == worldView) {
-                            fprintf(stderr, "Updating worldView\n");
-                            currentView->Update();
-                        }
                     }
                 }
 				// special keys. LCTRL+turd
