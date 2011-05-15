@@ -85,7 +85,7 @@ public:
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
     static void SetMouseYInvert(bool state) { mouseYInvert = state; }
     static bool IsMouseYInvert() { return mouseYInvert; }
-    static void SetHUDEnabled(bool state) { HUDEnabled = state; }
+    static void SetHUDEnabled(bool state);
     static bool IsHUDEnabled() { return HUDEnabled; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	static void GetMouseMotion(int motion[2]) {

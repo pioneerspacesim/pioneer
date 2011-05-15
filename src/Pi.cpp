@@ -1457,3 +1457,11 @@ void Pi::SetMouseGrab(bool on)
 		doingMouseGrab = false;
 	}
 }
+
+void Pi::SetHUDEnabled(bool state) {
+    if (player->GetFlightState() == Ship::FLYING) {
+        HUDEnabled = state;
+    } else {
+        HUDEnabled = true; // always show hud when not flying
+    }
+}
