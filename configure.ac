@@ -29,23 +29,23 @@ EXTRA_CXXFLAGS=
 EXTRA_CPPFLAGS=
 
 dnl Add a flag, if supported by the compiler or preprocessor
-AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar
+dnl Assumes that -Werror works
+AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
     [AC_LANG_PUSH([$1])
      saved_flags="$][$2][FLAGS"
-     ][$2][FLAGS="$3 $][$2][FLAGS"
+     ][$2][FLAGS="$EXTRA_][$2][FLAGS $3 -Werror $][$2][FLAGS"
      AC_MSG_CHECKING([to see if $4 supports $3])
-     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])], [AC_MSG_RESULT([no])])
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])]m4_default([; $5], []), [AC_MSG_RESULT([no])]m4_default([; $6], []))
      ][$2][FLAGS="$saved_flags"
      AC_LANG_POP([$1])
     ])
 
-AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC])])
-AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [CXX], [$1], [$CXX])])
-AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP])])
+AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC], [$2], [$3])])
+AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [CXX], [$1], [$CXX], [$2], [$3])])
+AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP], [$2], [$3])])
 
 AC_DEFUN([PIONEER_C_CXX_FLAG],
-	[PIONEER_CFLAG([$1])
-	 PIONEER_CXXFLAG([$1])])
+	[_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
 
 dnl Always add -Wall, where supported
 PIONEER_C_CXX_FLAG([-Wall])
@@ -65,13 +65,27 @@ AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Add text to
 dnl Compiler warning options
 AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disable lots of extra compiler warnings]), [], [with_extra_warnings=yes])
 if test "x$with_extra_warnings" != xno; then
-  for warn_opt in -Wformat=2 -Wformat-security -Wstrict-aliasing=2 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization; do
+  for warn_opt in \
+-Wformat				\
+-Wformat-security			\
+-Wstrict-aliasing=2			\
+-Wmissing-format-attribute		\
+-Wmissing-noreturn			\
+-Wdisabled-optimization			\
+  ; do
     PIONEER_C_CXX_FLAG([$warn_opt])
   done
-  for warn_opt in -Wno-format-zero-length -Werror-implicit-function-declaration; do
+  for warn_opt in \
+-Wno-format-zero-length			\
+-Werror-implicit-function-declaration	\
+  ; do
     PIONEER_CFLAG([$warn_opt])
   done
-  for warn_opt in -Wstrict-null-sentinel -Wold-style-cast -Wsign-promo; do
+  for warn_opt in \
+-Wstrict-null-sentinel			\
+-Wold-style-cast			\
+-Wsign-promo				\
+  ; do
     PIONEER_CXXFLAG([$warn_opt])
   done
 fi
