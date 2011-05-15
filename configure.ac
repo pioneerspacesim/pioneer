@@ -72,6 +72,10 @@ if test "x$with_extra_warnings" != xno; then
 -Wmissing-format-attribute		\
 -Wmissing-noreturn			\
 -Wdisabled-optimization			\
+-Wfloat-equal				\
+-Wshadow				\
+-Wcast-qual				\
+-Wcast-align				\
   ; do
     PIONEER_C_CXX_FLAG([$warn_opt])
   done
