@@ -8,7 +8,7 @@ class SBodyPath;
 class SysLoc {
 public:
 	SysLoc(): sectorX(0), sectorY(0), systemNum(0) {}
-	SysLoc(int sectorX, int sectorY, int systemNum): sectorX(sectorX), sectorY(sectorY), systemNum(systemNum) {}
+	SysLoc(int sectorX_, int sectorY_, int systemNum_): sectorX(sectorX_), sectorY(sectorY_), systemNum(systemNum_) {}
 	int sectorX, sectorY, systemNum;
 	int GetSectorX() const { return sectorX; }
 	int GetSectorY() const { return sectorY; }

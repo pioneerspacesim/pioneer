@@ -161,8 +161,8 @@ static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipT
 					model->GetName());
 		} else if (lua_istable(L, -1)) {
 			// multiple ship-defs for 1 model
-			for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
-				lua_pushinteger(L, i+1);
+			for (unsigned int j=0; j<lua_objlen(L,-1); j++) {
+				lua_pushinteger(L, j+1);
 				lua_gettable(L, -2);
 				_define_ship(L, model->GetName(), list, stag);
 				num++;

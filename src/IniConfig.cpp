@@ -2,11 +2,11 @@
 #include "IniConfig.h"
 #include "KeyBindings.h"
 
-void IniConfig::Load(const std::string &filename)
+void IniConfig::Load(const std::string &filename_)
 {
 	this->clear();
-	this->filename = filename;
-	FILE *f = fopen(filename.c_str(), "r");
+	this->filename = filename_;
+	FILE *f = fopen(filename_.c_str(), "r");
 		
 	// set defaults
 	(*this)["EnableHDR"] = "0";

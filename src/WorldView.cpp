@@ -594,7 +594,6 @@ void WorldView::Draw3D()
 
 	Render::State::SetNumLights(m_numLights);
 	{
-		float znear, zfar;
 		GetNearFarClipPlane(&znear, &zfar);
 		Render::State::SetZnearZfar(znear, zfar);
 	}
@@ -845,17 +844,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 			const ShipFlavour *flavour = s->GetFlavour();
 			const shipstats_t *stats = s->CalcStats();
 
-			float hull = s->GetPercentHull();
-			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
-			m_hudTargetHullIntegrity->SetValue(hull*0.01f);
+			float sHull = s->GetPercentHull();
+			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
+			m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
 			m_hudTargetHullIntegrity->Show();
 
-			float shields = 0;
+			float sShields = 0;
 			if (s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR) > 0) {
-				shields = s->GetPercentShields();
+				sShields = s->GetPercentShields();
 			}
-			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
-			m_hudTargetShieldIntegrity->SetValue(shields*0.01f);
+			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
+			m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
 			m_hudTargetShieldIntegrity->Show();
 
 			std::string text;
@@ -870,7 +869,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 			text += stringf(256, "\nMass: %dt\n", stats->total_mass);
 			text += stringf(256, "Shield strength: %.2f\n",
-				(shields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR)));
+				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_CARGO, Equip::SHIELD_GENERATOR)));
 			text += stringf(256, "Cargo: %dt\n", stats->used_cargo);
 
 			m_hudTargetInfo->SetText(text);
@@ -1486,16 +1485,16 @@ void WorldView::Draw()
 	} else if (GetCamType() == WorldView::CAM_REAR) {
 		float px = float(Gui::Screen::GetWidth())/2.0f;
 		float py = float(Gui::Screen::GetHeight())/2.0f;
-		const float sz = 0.5*HUD_CROSSHAIR_SIZE;
+		const float szH = 0.5*HUD_CROSSHAIR_SIZE;
 		GLfloat vtx[16] = {
-			px-sz, py,
-			px-0.5f*sz, py,
+			px-szH, py,
+			px-0.5f*szH, py,
 			px+sz, py,
-			px+0.5f*sz, py,
-			px, py-sz,
-			px, py-0.5f*sz,
-			px, py+sz,
-			px, py+0.5f*sz };
+			px+0.5f*szH, py,
+			px, py-szH,
+			px, py-0.5f*szH,
+			px, py+szH,
+			px, py+0.5f*szH };
 		glVertexPointer(2, GL_FLOAT, 0, vtx);
 		glDrawArrays(GL_LINES, 0, 8);
 	}

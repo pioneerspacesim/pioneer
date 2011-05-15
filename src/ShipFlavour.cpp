@@ -42,9 +42,9 @@ void ShipFlavour::MakeRandomColor(LmrMaterial &m)
 	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
 }
 
-ShipFlavour::ShipFlavour(ShipType::Type type)
+ShipFlavour::ShipFlavour(ShipType::Type type_)
 {
-	this->type = type;
+	type = type_;
 	snprintf(regid, sizeof(regid), "%c%c-%04d",
 		'A' + Pi::rng.Int32(26),
 		'A' + Pi::rng.Int32(26),
