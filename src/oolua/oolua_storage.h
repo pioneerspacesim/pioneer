@@ -47,8 +47,8 @@ namespace OOLUA
 				//NOTE: in 5.2 we can push a light c function here
 				//FIXME: func*->data*
 				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
-                                void** stopwarnings = reinterpret_cast<void**>(&func);
-				lua_pushlightuserdata(l,*stopwarnings);
+                                void* stopwarnings = reinterpret_cast<void*>(func);
+				lua_pushlightuserdata(l,stopwarnings);
 				lua_gettable(l, LUA_REGISTRYINDEX);
 			}
 			static void setWeakTable(lua_State* l,int value_index)
@@ -58,8 +58,8 @@ namespace OOLUA
 				//NOTE: in 5.2 we can push a light c function here
 				//FIXME: func*->data*
 				is_const_func_sig func = OOLUA::INTERNAL::id_is_const;
-				void** stopwarnings = reinterpret_cast<void**>(&func);
-				lua_pushlightuserdata(l,*stopwarnings);
+				void* stopwarnings = reinterpret_cast<void*>(func);
+				lua_pushlightuserdata(l,stopwarnings);
 				lua_pushvalue(l, value_index);
 				lua_settable(l, LUA_REGISTRYINDEX);
 			}
