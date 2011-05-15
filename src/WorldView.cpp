@@ -631,9 +631,18 @@ static Color get_color_for_warning_meter_bar(float v) {
 void WorldView::RefreshButtonStateAndVisibility()
 {
     if (!Pi::IsHUDEnabled()) {
-        HideAll();
-        return;
+		m_targetSpeed->Hide();
+
+        m_rightRegion1->Hide();
+        m_rightRegion2->Hide();
+        m_rightButtonBar->Hide();
+        return; // Get outta here!
+    } else {
+        m_rightRegion1->Show();
+        m_rightRegion2->Show();
+        m_rightButtonBar->Show();
     }
+
 	if ((!Pi::player) || Pi::player->IsDead() || !Pi::IsGameStarted()) {
 		HideAll();
 		return;
@@ -675,7 +684,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 					Player::FlightControlState fstate = Pi::player->GetFlightControlState();
 					switch (fstate) {
 						case Player::CONTROL_MANUAL:
-							m_flightStatus->SetText("Manual Control"); break;
+							m_flightStatus->SetText("Manual Control"); 
+                            break;
 
 						case Player::CONTROL_FIXSPEED: {
 							std::string msg;
