@@ -536,12 +536,6 @@ void Pi::HandleEvents()
 					}
 					break;
 				}
-                if (event.key.keysym.sym == SDLK_TAB) {
-                    if (currentView == worldView) {
-                        printf("Switching HUD, now : %d\n", IsHUDEnabled());
-                        SetHUDEnabled(!IsHUDEnabled());
-                    }
-                }
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
                     switch (event.key.keysym.sym) {
@@ -553,6 +547,12 @@ void Pi::HandleEvents()
                             break;
                         case SDLK_h: // Toggle HDR
                             Render::ToggleHDR();
+                            break;
+                        case SDLK_TAB:
+                            if (currentView == worldView) {
+                                printf("Switching HUD, now : %d\n", IsHUDEnabled());
+                                SetHUDEnabled(!IsHUDEnabled());
+                            }
                             break;
                         case SDLK_PRINT:       // print
                         case SDLK_KP_MULTIPLY: // screen
