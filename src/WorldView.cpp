@@ -639,6 +639,7 @@ void WorldView::RefreshButtonStateAndVisibility()
         m_hudTargetDist->Hide();
         m_hudAltitude->Hide();
         m_hudPressure->Hide();
+        m_hudHullTemp->Hide();
 
         m_rightRegion1->Hide();
         m_rightRegion2->Hide();
