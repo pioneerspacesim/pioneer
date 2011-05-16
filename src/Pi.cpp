@@ -550,7 +550,6 @@ void Pi::HandleEvents()
                             break;
                         case SDLK_TAB:
                             if (currentView == worldView) {
-                                printf("Switching HUD, now : %d\n", IsHUDEnabled());
                                 SetHUDEnabled(!IsHUDEnabled());
                             }
                             break;
