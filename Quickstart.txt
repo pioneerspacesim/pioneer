@@ -79,6 +79,7 @@ Special things:
 ctrl-q           - quit
 ctrl-i           - show some ugly debug info
 ctrl-printscreen - screenshot (ctrl-keypad-* on osx)
+ctrl-tab		 - toggle hiding/showing the HUD (great for screenshots!!)
 ctrl-F9          - quicksave
 ctrl-F10         - view currently selected object
 ctrl-F11         - fullscreen
