@@ -149,7 +149,7 @@ void TextLayout::_RenderRaw(float maxWidth) const
 		} else {
 			for (int j=0; j<num; j++) wpos++;
 		}
-		py += floor(font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f));
+		py += font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 
 	}
 	glPopMatrix();
