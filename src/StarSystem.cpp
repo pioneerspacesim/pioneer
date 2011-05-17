@@ -849,7 +849,7 @@ SBodyPath::SBodyPath(): SysLoc()
 {
 	sbodyId = 0;
 }
-SBodyPath::SBodyPath(int sectorX, int sectorY, int systemNum): SysLoc(sectorX, sectorY, systemNum)
+SBodyPath::SBodyPath(int sectorX_, int sectorY_, int systemNum_): SysLoc(sectorX_, sectorY_, systemNum_)
 {
 	sbodyId = 0;
 }
@@ -1455,7 +1455,7 @@ void StarSystem::MakePlanetsAround(SBody *primary, MTRand &rand)
 /*
  * For moons distance from star is not orbMin, orbMax.
  */
-const SBody *SBody::FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax)
+const SBody *SBody::FindStarAndTrueOrbitalRange(fixed &orbMin_, fixed &orbMax_)
 {
 	const SBody *planet = this;
 	const SBody *star = this->parent;
@@ -1468,8 +1468,8 @@ const SBody *SBody::FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax)
 		star = star->parent;
 	}
 
-	orbMin = planet->orbMin;
-	orbMax = planet->orbMax;
+	orbMin_ = planet->orbMin;
+	orbMax_ = planet->orbMax;
 	return star;
 }
 
@@ -1719,16 +1719,16 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	/* Commodities we produce (mining and agriculture) */
 	for (int i=Equip::FIRST_COMMODITY; i<Equip::LAST_COMMODITY; i++) {
 		Equip::Type t = Equip::Type(i);
-		const EquipType &type = EquipType::types[t];
-		if (type.techLevel > system->m_techlevel) continue;
+		const EquipType &itype = EquipType::types[t];
+		if (itype.techLevel > system->m_techlevel) continue;
 
 		fixed affinity = fixed(1,1);
-		if (type.econType & ECON_AGRICULTURE) {
+		if (itype.econType & ECON_AGRICULTURE) {
 			affinity *= 2*m_agricultural;
 		}
-		if (type.econType & ECON_INDUSTRY) affinity *= system->m_industrial;
+		if (itype.econType & ECON_INDUSTRY) affinity *= system->m_industrial;
 		// make industry after we see if agriculture and mining are viable
-		if (type.econType & ECON_MINING) {
+		if (itype.econType & ECON_MINING) {
 			affinity *= m_metallicity;
 		}
 		affinity *= rand.Fixed();
@@ -1743,9 +1743,9 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		int howmuch = (affinity * 256).ToInt32();
 
 		system->m_tradeLevel[t] += -2*howmuch;
-		for (int i=0; i<EQUIP_INPUTS; i++) {
-			if (!type.inputs[i]) continue;
-			system->m_tradeLevel[type.inputs[i]] += howmuch;
+		for (int j=0; j<EQUIP_INPUTS; j++) {
+			if (!itype.inputs[j]) continue;
+			system->m_tradeLevel[itype.inputs[j]] += howmuch;
 		}
 	}
 
@@ -1789,13 +1789,13 @@ void SBody::PopulateAddStations(StarSystem *system)
 
 	fixed pop = m_population + rand.Fixed();
 
-	fixed orbMax = fixed(1,4)*this->CalcHillRadius();
-	fixed orbMin = 4 * this->radius * AU_EARTH_RADIUS;
-	if (children.size()) orbMax = std::min(orbMax, fixed(1,2) * children[0]->orbMin);
+	fixed orbMaxS = fixed(1,4)*this->CalcHillRadius();
+	fixed orbMinS = 4 * this->radius * AU_EARTH_RADIUS;
+	if (children.size()) orbMaxS = std::min(orbMaxS, fixed(1,2) * children[0]->orbMin);
 
 	// starports - orbital
 	pop -= rand.Fixed();
-	if ((orbMin < orbMax) && (pop >= 0)) {
+	if ((orbMinS < orbMaxS) && (pop >= 0)) {
 	
 		SBody *sp = system->NewBody();
 		sp->type = SBody::TYPE_STARPORT_ORBITAL;
@@ -1807,7 +1807,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->mass = 0;
 		sp->name = NameGenerator::Surname(rand) + " Spaceport";
 		/* just always plonk starports in near orbit */
-		sp->semiMajorAxis = orbMin;
+		sp->semiMajorAxis = orbMinS;
 		sp->eccentricity = fixed(0);
 		sp->axialTilt = fixed(0);
 		sp->orbit.eccentricity = 0;
@@ -1822,9 +1822,9 @@ void SBody::PopulateAddStations(StarSystem *system)
 		pop -= rand.Fixed();
 		if (pop > 0) {
 			SBody *sp2 = system->NewBody();
-			Uint32 id = sp2->id;
+			Uint32 id2 = sp2->id;
 			*sp2 = *sp;
-			sp2->id = id;
+			sp2->id = id2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
 			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
 			children.insert(children.begin(), sp2);

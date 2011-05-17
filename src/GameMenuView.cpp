@@ -228,7 +228,7 @@ public:
 
 		Gui::Box *vbox = new Gui::VBox();
 		for (std::list<std::string>::iterator i = files.begin(); i!=files.end(); ++i) {
-			Gui::Button *b = new SimpleLabelButton(new Gui::Label(*i));
+			b = new SimpleLabelButton(new Gui::Label(*i));
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileDialog::OnClickFile), *i));
 			vbox->PackEnd(b, false);
 		}

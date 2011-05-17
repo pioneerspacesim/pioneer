@@ -34,10 +34,10 @@ Planet::Planet(): Body()
 	this->m_geosphere = 0;
 }
 
-Planet::Planet(SBody *sbody): Body()
+Planet::Planet(SBody *sbody_): Body()
 {
 	pos = vector3d(0,0,0);
-	this->sbody = sbody;
+	this->sbody = sbody_;
 	this->m_geosphere = 0;
 	Init();
 	m_hasDoubleFrame = true;
@@ -121,11 +121,11 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(sbody->averageTemp);
 }
 
-double Planet::GetTerrainHeight(const vector3d pos) const
+double Planet::GetTerrainHeight(const vector3d pos_) const
 {
 	double radius = sbody->GetRadius();
 	if (m_geosphere) {
-		return radius * (1.0 + m_geosphere->GetHeight(pos));
+		return radius * (1.0 + m_geosphere->GetHeight(pos_));
 	} else {
 		assert(0);
 		return radius;
@@ -259,22 +259,22 @@ void Planet::DrawGasGiantRings()
 
 	Render::State::UseProgram(Render::planetRingsShader[Pi::worldView->GetNumLights()-1]);
 	if (rng.Double(1.0) < ggdef.ringProbability) {
-		float pos = float(rng.Double(1.15,1.5));
-		float end = pos + float(rng.Double(0.1, 1.0));
+		float rpos = float(rng.Double(1.15,1.5));
+		float end = rpos + float(rng.Double(0.1, 1.0));
 		end = std::min(end, 2.5f);
-		while (pos < end) {
+		while (rpos < end) {
 			float size = float(rng.Double(maxRingWidth));
 			float n =
 				0.5 + 0.5*(
-					noise(10.0*pos, noiseOffset, 0.0) +
-					0.5*noise(20.0*pos, noiseOffset, 0.0) +
-					0.25*noise(40.0*pos, noiseOffset, 0.0));
+					noise(10.0*rpos, noiseOffset, 0.0) +
+					0.5*noise(20.0*rpos, noiseOffset, 0.0) +
+					0.25*noise(40.0*rpos, noiseOffset, 0.0));
 			col[0] = baseCol[0] * n;
 			col[1] = baseCol[1] * n;
 			col[2] = baseCol[2] * n;
 			col[3] = baseCol[3] * n;
-			DrawRing(pos, pos+size, col);
-			pos += size;
+			DrawRing(rpos, rpos+size, col);
+			rpos += size;
 		}
 	}
 	Render::State::UseProgram(0);
@@ -359,13 +359,13 @@ static void _DrawAtmosphere(double rad1, double rad2, vector3d &pos, const float
 	glPopMatrix();
 }
 
-void Planet::DrawAtmosphere(vector3d &pos)
+void Planet::DrawAtmosphere(vector3d &apos)
 {
 	Color c;
 	double density;
 	m_geosphere->GetAtmosphereFlavor(&c, &density);
 	
-	_DrawAtmosphere(0.999, 1.05, pos, c);
+	_DrawAtmosphere(0.999, 1.05, apos, c);
 }
 
 void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)

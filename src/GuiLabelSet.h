@@ -13,11 +13,11 @@ class LabelSet: public Widget {
 public:
 	class LabelSetItem {
 	public:
-		LabelSetItem(std::string text, sigc::slot<void> onClick, float screenx, float screeny) {
-			this->text = text;
-			this->onClick = onClick;
-			this->screenx = screenx;
-			this->screeny = screeny;
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) {
+			this->text = text_;
+			this->onClick = onClick_;
+			this->screenx = screenx_;
+			this->screeny = screeny_;
 		}
 		std::string text;
 		sigc::slot<void> onClick;

@@ -609,7 +609,6 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		ps = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(ps, shader_src.size(), &shader_src[0], 0);
 		glCompileShader(ps);
-		GLint status;
 		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
 		if (!status) {
 			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);

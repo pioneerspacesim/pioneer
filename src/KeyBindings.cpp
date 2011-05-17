@@ -85,10 +85,10 @@ AxisBinding::AxisBinding() {
 	this->direction = POSITIVE;
 }
 
-AxisBinding::AxisBinding(Uint8 joystick, Uint8 axis, AxisDirection direction) {
-	this->joystick = joystick;
-	this->axis = axis;
-	this->direction = direction;
+AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) {
+	this->joystick = joystick_;
+	this->axis = axis_;
+	this->direction = direction_;
 }
 
 float AxisBinding::GetValue() {

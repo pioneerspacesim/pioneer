@@ -508,8 +508,8 @@ void CollideFrame(Frame *f)
 
 			CollisionContact c;
 
-			for (int i=0; i<8; i++) {
-				const vector3d &s = aabbCorners[i];
+			for (int j=0; j<8; j++) {
+				const vector3d &s = aabbCorners[j];
 				vector3d pos = trans * s;
 				double terrain_height = static_cast<Planet*>(f->m_astroBody)->GetTerrainHeight(pos.Normalized());
 				double altitude = pos.Length();
@@ -759,8 +759,8 @@ void DoHyperspaceTo(const SBodyPath *dest)
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
 
-			const SBodyPath *dest = ship->GetHyperspaceTarget();
-			if (dest->sbodyId == 0) {
+			const SBodyPath *sdest = ship->GetHyperspaceTarget();
+			if (sdest->sbodyId == 0) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
 				ship->SetPosition(cloud->GetPosition());
@@ -771,7 +771,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 				// want to simulate some travel to their destination. we
 				// naively assume full accel for half the distance, flip and
 				// full brake for the rest.
-				Body *target_body = FindBodyForSBodyPath(dest);
+				Body *target_body = FindBodyForSBodyPath(sdest);
 				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
 				double half_dist_to_target = dist_to_target / 2.0;
 				double accel = -(ship->GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
@@ -804,7 +804,7 @@ void DoHyperspaceTo(const SBodyPath *dest)
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
 					
-					SBody *sbody = Pi::currentSystem->GetBodyByPath(dest);
+					SBody *sbody = Pi::currentSystem->GetBodyByPath(sdest);
 					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(_get_random_pos(1000.0,1000.0)*1000.0); // somewhere 1000km out
@@ -818,10 +818,10 @@ void DoHyperspaceTo(const SBodyPath *dest)
 							target_body = FindBodyForSBodyPath(&path);
 						}
 
-						double dist = sbody->GetRadius()*2.0;
+						double sdist = sbody->GetRadius()*2.0;
 
 						ship->SetFrame(target_body->GetFrame());
-						ship->SetPosition(_get_random_pos(dist,dist));
+						ship->SetPosition(_get_random_pos(sdist,sdist));
 					}
 				}
 			}

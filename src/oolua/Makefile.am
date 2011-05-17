@@ -1,5 +1,7 @@
 #  Process this file with automake to produce Makefile.in
 
+include $(top_srcdir)/Makefile.common
+
 noinst_LIBRARIES = liboolua.a
 liboolua_a_SOURCES = class_from_stack.cpp  lua_stack_dump.cpp  oolua_check_result.cpp  oolua_error.cpp      oolua_storage.cpp \
 	lua_function.cpp      lua_table.cpp       oolua.cpp               oolua_push_pull.cpp  push_pointer_internal.cpp
