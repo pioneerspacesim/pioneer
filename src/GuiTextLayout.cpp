@@ -43,7 +43,7 @@ TextLayout::TextLayout(const char *_str)
 	str = reinterpret_cast<char *>(malloc(strlen(_str)+1));
 	strcpy(str, _str);
 
-	m_justify = true;
+	m_justify = false;
 	float wordWidth = 0;
 	char *wordstart = str;
 
