@@ -259,7 +259,7 @@ pioneer_SOURCES	= \
 	utils.cpp
 
 pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a $(MINGW_LIBS) \
-		$(FREETYPE_LIBS) $(GL_LIBS) $(GLU_LIBS) $(GLEW_LIBS) \
+		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS)
 if !HAVE_LUA
 pioneer_LDADD += lua/liblua.a
@@ -275,7 +275,7 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp
 modelviewer_LDADD = collider/libcollider.a libgui.a $(MINGW_LIBS) \
-		    $(FREETYPE_LIBS) $(GL_LIBS) $(GLU_LIBS) $(GLEW_LIBS) \
+		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += lua/liblua.a

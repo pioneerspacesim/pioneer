@@ -141,7 +141,7 @@ case "$host" in
 	AC_SUBST([GL_LIBS], [-lopengl32])
 	AC_SUBST([GLU_CFLAGS], [])
 	AC_SUBST([GLU_LIBS], [-lglu32])
-	AC_SUBST([GLEW_CFLAGS], [ -DGLEW_BUILD])
+	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
 	AC_SUBST([GLEW_LIBS], [-lglew32s])
 	;;
   x86_64-pc-mingw64)
@@ -185,6 +185,7 @@ dnl ###########################################################################
 case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	MINGW_LIBS="-lshlwapi"
+	SDL_LIBS="$SDL_LIBS -ltiff -lpng -ljpeg -lz"
 	;;
   *)
 	MINGW_LIBS=
