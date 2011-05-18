@@ -110,17 +110,30 @@ local onCreateBB = function (station)
 	end
 end
 
+local loaded_data
+
+local onGameStart = function ()
+	ads = {}
+
+	if not loaded_data then return end
+
+	for k,ad in pairs(loaded_data.ads) do
+		local ref = ad.station:AddAdvert(ad.flavour, onChat, onDelete)
+		ads[ref] = ad
+	end
+
+	loaded_data = nil
+end
+
 local serialize = function ()
 	return { ads = ads }
 end
 
 local unserialize = function (data)
-	for k,ad in pairs(data.ads) do
-		local ref = ad.station:AddAdvert(ad.flavour, onChat, onDelete)
-		ads[ref] = ad
-	end
+	loaded_data = data
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
 
 Serializer:Register("GoodsTrader", serialize, unserialize)
