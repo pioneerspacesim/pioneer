@@ -38,7 +38,7 @@ local onChat = function (form, ref, option)
 		end
 
 		local lawlessness = Game.system.lawlessness
-		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
+		Game.player.AddCrime("TRADING_ILLEGAL_GOODS", 400*(2-lawlessness))
 		form:GotoPolice()
 		return false
 	end
