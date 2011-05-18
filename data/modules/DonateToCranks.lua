@@ -17,19 +17,19 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
-		form:Clear();
+		form:Clear()
 
 		form:SetTitle(ad.title)
 		form:SetFace({ seed = ad.faceseed })
 		form:SetMessage(ad.message)
 
-		form:AddOption("$1", 1);
-		form:AddOption("$10", 10);
-		form:AddOption("$100", 100);
-		form:AddOption("$1000", 1000);
-		form:AddOption("$10000", 10000);
-		form:AddOption("$100000", 100000);
-		form:AddOption("Hang up.", -1);
+		form:AddOption("$1", 1)
+		form:AddOption("$10", 10)
+		form:AddOption("$100", 100)
+		form:AddOption("$1000", 1000)
+		form:AddOption("$10000", 10000)
+		form:AddOption("$100000", 100000)
+		form:AddOption("Hang up.", -1)
 
 		return
 	end
@@ -67,7 +67,7 @@ local onCreateBB = function (station)
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
-	ads[ref] = ad;
+	ads[ref] = ad
 end
 
 local serialize = function ()

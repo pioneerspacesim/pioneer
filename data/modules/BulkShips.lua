@@ -24,7 +24,7 @@ local onEnterSystem = function (player)
 	- one ship per 5 billion after that
 	]]
 
-	local num_bulk_ships = 1;
+	local num_bulk_ships = 1
 	while population > 1 do
 		if num_bulk_ships < 4 then
 			population = population-1

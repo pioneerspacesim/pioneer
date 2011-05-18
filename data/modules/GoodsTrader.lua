@@ -82,7 +82,7 @@ local onChat = function (form, ref, option)
 		end,
 	})
 
-	form:AddOption("Hang up.", -1);
+	form:AddOption("Hang up.", -1)
 
 end
 
@@ -106,7 +106,7 @@ local onCreateBB = function (station)
 		}
 
 		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)
-		ads[ref] = ad;
+		ads[ref] = ad
 	end
 end
 
