@@ -549,8 +549,10 @@ void Pi::HandleEvents()
                             Render::ToggleHDR();
                             break;
                         case SDLK_TAB:
-                            if (currentView == worldView) {
-                                SetHUDEnabled(!IsHUDEnabled());
+                            if (isGameStarted) {
+                                if (currentView == worldView) {
+                                    SetHUDEnabled(!IsHUDEnabled());
+                                }
                             }
                             break;
                         case SDLK_PRINT:       // print
