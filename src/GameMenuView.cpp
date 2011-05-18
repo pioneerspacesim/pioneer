@@ -305,10 +305,25 @@ public:
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo() {}
 private:
+    
+    // XXX this is an insane mess. what we want to do is load the game up into
+    // a brand new Space object, and once we're sure the load is completed
+    // successfully, throw away the old Space object and swap in the new one.
+    // unfortunately we don't have a Space object right now, and its going to
+    // take a lot of work elsewhere to get us one
+    //
+    // until then, we really can't guarantee that the game is in a consistent
+    // state after a load fails, so we just throw them back to the menu
+    
 	void OnClickLoad(std::string filename) {
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
+
+        if (Pi::IsGameStarted())
+			Pi::EndGame();
+
 		Pi::UninitGame();
 		Pi::InitGame();
+
 		try {
 			Serializer::LoadGame(fullname.c_str());
 		} catch (SavedGameCorruptException) {
@@ -324,7 +339,9 @@ private:
 			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
 			return;
 		}
+
 		Pi::StartGame();
+
 		// Pi::currentView is unset, but this view is still shown, so
 		// must un-show it
 		Pi::SetView(Pi::gameMenuView);

@@ -38,7 +38,7 @@ local onChat = function (form, ref, option)
 		end
 
 		local lawlessness = Game.system.lawlessness
-		Game.player.AddCrime(Polit.Crime.TRADING_ILLEGAL_GOODS, 400*(2-lawlessness))
+		Game.player.AddCrime("TRADING_ILLEGAL_GOODS", 400*(2-lawlessness))
 		form:GotoPolice()
 		return false
 	end
@@ -82,7 +82,7 @@ local onChat = function (form, ref, option)
 		end,
 	})
 
-	form:AddOption("Hang up.", -1);
+	form:AddOption("Hang up.", -1)
 
 end
 
@@ -106,8 +106,23 @@ local onCreateBB = function (station)
 		}
 
 		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)
-		ads[ref] = ad;
+		ads[ref] = ad
 	end
+end
+
+local loaded_data
+
+local onGameStart = function ()
+	ads = {}
+
+	if not loaded_data then return end
+
+	for k,ad in pairs(loaded_data.ads) do
+		local ref = ad.station:AddAdvert(ad.flavour, onChat, onDelete)
+		ads[ref] = ad
+	end
+
+	loaded_data = nil
 end
 
 local serialize = function ()
@@ -115,12 +130,10 @@ local serialize = function ()
 end
 
 local unserialize = function (data)
-	for k,ad in pairs(data.ads) do
-		local ref = ad.station:AddAdvert(ad.flavour, onChat, onDelete)
-		ads[ref] = ad
-	end
+	loaded_data = data
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
 
 Serializer:Register("GoodsTrader", serialize, unserialize)
