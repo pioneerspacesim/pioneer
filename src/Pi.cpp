@@ -869,9 +869,6 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
-	Pi::luaOnGameEnd.Signal();
-	Pi::isGameStarted = false;
-
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
@@ -974,6 +971,7 @@ void Pi::Start()
         {
             SBodyPath path(0,0,0);
             Space::SetupSystemForGameStart(&path, 4, 0);
+            StartGame();
             MainLoop();
             break;
         }
@@ -981,6 +979,7 @@ void Pi::Start()
         {
             SBodyPath path(1,0,1);
             Space::SetupSystemForGameStart(&path, 0, 0);
+            StartGame();
             MainLoop();
             break;
         }
@@ -1066,6 +1065,7 @@ void Pi::Start()
              */
             //	player->SetDockedWith(station2, 0);
 
+            StartGame();
             MainLoop();
             break;
         }
@@ -1098,14 +1098,13 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
+	Pi::luaOnGameEnd.Signal();
 	Pi::isGameStarted = false;
 }
 
 
 void Pi::MainLoop()
 {
-	StartGame();
-	
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
 	int phys_stat = 0;
