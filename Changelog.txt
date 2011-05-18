@@ -6,10 +6,10 @@ Alpha 11
     * Terrain colour changes based on temperature now works properly (makes
       Earth look correct again)
     * Crash when using an illegal goods trader that is a police front (#88)
-    *
+    * Crash when restoring bulleting board ads after loading a game (#86)
 
   * Internal changes
-    * Lots of code cleanups
+    * Lots of code cleanups, warnings silenced, etc
 
 Alpha 10
 
