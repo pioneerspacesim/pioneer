@@ -86,7 +86,7 @@ local onChat = function (form, ref, option)
 
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
 			name     = ad.client,
-			cash     = Format.Money(ad.reward);
+			cash     = Format.Money(ad.reward),
 			starport = sbody.name,
 			system   = sys.name,
 			sectorx  = ad.location.sectorX,
@@ -124,11 +124,11 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	form:AddOption("Why so much money?", 1);
-	form:AddOption("How soon must it be delivered?", 2);
-	form:AddOption("Could you repeat the original request?", 0);
-	form:AddOption("Ok, agreed.", 3);
-	form:AddOption("Hang up.", -1);
+	form:AddOption("Why so much money?", 1)
+	form:AddOption("How soon must it be delivered?", 2)
+	form:AddOption("Could you repeat the original request?", 0)
+	form:AddOption("Ok, agreed.", 3)
+	form:AddOption("Hang up.", -1)
 end
 
 local onDelete = function (ref)
