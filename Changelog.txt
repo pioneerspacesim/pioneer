@@ -1,5 +1,8 @@
 Alpha 11
 
+  * New stuff
+    * Disable/Enable the HUD by CTRL-Tab (great for screenshots!)
+
   * Fixes
     * Crash in DeliverPackage when creating ads in a system with nos
       population (#85)
