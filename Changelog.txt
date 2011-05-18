@@ -1,3 +1,16 @@
+Alpha 11
+
+  * Fixes
+    * Crash in DeliverPackage when creating ads in a system with nos
+      population (#85)
+    * Terrain colour changes based on temperature now works properly (makes
+      Earth look correct again)
+    * Crash when using an illegal goods trader that is a police front (#88)
+    *
+
+  * Internal changes
+    * Lots of code cleanups
+
 Alpha 10
 
   * New stuff
