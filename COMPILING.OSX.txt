@@ -11,9 +11,11 @@ The GNU Way...:
    was to install macports (http://www.macports.org/) and install the
    following:
 
+	pkgbuild
 	freetype
 	libsdl
-	libsdlimage
+	libsdl_image
+	libsdl_sound
 	glew
 	sigcxx2
 
