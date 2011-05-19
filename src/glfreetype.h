@@ -9,6 +9,7 @@ class FontFace
 {
 	public:
 	FontFace(const char *filename_ttf);
+	~FontFace();
 	void RenderGlyph(int chr);
 	void RenderString(const char *str);
 	void RenderMarkup(const char *str);

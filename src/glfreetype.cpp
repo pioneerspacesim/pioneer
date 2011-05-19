@@ -451,6 +451,14 @@ FontFace::FontFace(const char *filename_ttf)
 	}
 }
 
+FontFace::~FontFace()
+{
+	for (int chr=32; chr<127; chr++) {
+		free(m_glyphs[chr].varray);
+		free(m_glyphs[chr].iarray);
+	}
+}
+
 #define TEXTURE_FONT_ENTER \
 	glEnable(GL_BLEND); \
 	glEnable(GL_TEXTURE_2D); \
