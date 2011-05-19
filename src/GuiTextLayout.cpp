@@ -54,7 +54,7 @@ TextLayout::TextLayout(const char *_str)
 		while (str[i] && !isspace(str[i])) {
 			/* skip color control code things! */
 			if (str[i] == '#') {
-				int hexcol;
+				unsigned int hexcol;
 				if (sscanf(str+i, "#%3x", &hexcol)==1) {
 					i+=4;
 					continue;
