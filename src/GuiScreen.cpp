@@ -20,6 +20,7 @@ GLdouble Screen::modelMatrix[16];
 GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
+FontManager Screen::s_fontManager;
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -35,7 +36,7 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// coords must be scaled.
 	Screen::fontScale[0] = ui_width / float(real_width);
 	Screen::fontScale[1] = ui_height / float(real_height);
-	Screen::font = new TextureFontFace(PIONEER_DATA_DIR "/fonts/guifont.ttf", int(12/fontScale[0]), int(12/fontScale[1]));
+	Screen::font = s_fontManager.GetFont("guifont");
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();

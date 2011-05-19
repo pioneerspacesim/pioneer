@@ -268,6 +268,7 @@ pioneer_LDADD += lua/liblua.a
 endif
 
 modelviewer_SOURCES = \
+	FontManager.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
@@ -289,7 +290,6 @@ tests_SOURCES = \
 	CargoBody.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
-	FontManager.cpp \
 	Frame.cpp \
 	GeoSphere.cpp \
 	InfoView.cpp \
