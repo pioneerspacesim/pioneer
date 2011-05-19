@@ -230,7 +230,7 @@ static const struct StarTypeInfo {
 	int tempMin, tempMax;
 } starTypeInfo[] = {
 	{
-		SBody::SUPERTYPE_NONE, {}, 0,
+		SBody::SUPERTYPE_NONE, {}, {},
         0, 0
 	}, {
 		SBody::SUPERTYPE_STAR, //Brown Dwarf
