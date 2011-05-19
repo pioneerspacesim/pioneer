@@ -62,6 +62,7 @@ noinst_HEADERS = \
 	InfoView.h \
 	IniConfig.h \
 	GameConfig.h \
+	FontConfig.h \
 	KeyBindings.h \
 	LmrModel.h \
 	LuaBody.h \
@@ -195,6 +196,7 @@ pioneer_SOURCES	= \
 	InfoView.cpp \
 	IniConfig.cpp \
 	GameConfig.cpp \
+	FontConfig.cpp \
 	KeyBindings.cpp \
 	LmrModel.cpp \
 	LuaBody.cpp \
@@ -274,7 +276,9 @@ pioneer_LDADD += lua/liblua.a
 endif
 
 modelviewer_SOURCES = \
-    Font.cpp \
+	Font.cpp \
+	IniConfig.cpp \
+	FontConfig.cpp \
 	FontManager.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
