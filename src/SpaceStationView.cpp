@@ -545,17 +545,17 @@ void StationShipRepairsView::ShowAll()
 			fbox->Add(new Gui::Label("Repair 1.0% of hull damage"), 0, ypos);
 			fbox->Add(new Gui::Label(format_money(cost1)), 350, ypos);
 			
-			Gui::SolidButton *b = new Gui::SolidButton();
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 1.0f));
-			fbox->Add(b, 430, ypos);
+			Gui::SolidButton *sb = new Gui::SolidButton();
+			sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 1.0f));
+			fbox->Add(sb, 430, ypos);
 			ypos += YSEP;
 		}
 		fbox->Add(new Gui::Label(stringf(128, "Repair all hull damage (%.1f%%)", 100.0f-hullPercent)), 0, ypos);
 		fbox->Add(new Gui::Label(format_money(costAll)), 350, ypos);
 		
-		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 100.0f-hullPercent));
-		fbox->Add(b, 430, ypos);
+		Gui::SolidButton *sb = new Gui::SolidButton();
+		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 100.0f-hullPercent));
+		fbox->Add(sb, 430, ypos);
 	}
 
 	const float *col = Gui::Theme::Colors::tableHeading;
@@ -629,9 +629,9 @@ void StationBuyShipsView::ShowAll()
 		innerbox->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, num*YSEP);
 		innerbox->Add(new Gui::Label(stringf(16, "%dt", ShipType::types[(*i).type].capacity)), 370, num*YSEP);
 		
-		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBuyShipsView::ViewShip), num));
-		innerbox->Add(b, 430, num*YSEP);
+		Gui::SolidButton *sb = new Gui::SolidButton();
+		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBuyShipsView::ViewShip), num));
+		innerbox->Add(sb, 430, num*YSEP);
 		num++;
 	}
 	innerbox->ShowAll();
@@ -817,9 +817,9 @@ void StationBBView::ShowAll()
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
-		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
-		innerbox->Add(b, 10, num*YSEP);
+		Gui::SolidButton *sb = new Gui::SolidButton();
+		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
+		innerbox->Add(sb, 10, num*YSEP);
 		
 		Gui::Label *l = new Gui::Label((*i)->description);
 		innerbox->Add(l,40,num*YSEP);

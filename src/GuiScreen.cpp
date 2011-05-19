@@ -211,11 +211,11 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff)
 {
-	GLdouble modelMatrix[16];
+	GLdouble modelMatrix_[16];
 	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12] + xoff;
-	float y = modelMatrix[13] + yoff;
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
+	float x = modelMatrix_[12] + xoff;
+	float y = modelMatrix_[13] + yoff;
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
@@ -226,11 +226,11 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff)
 
 void Screen::RenderMarkup(const std::string &s)
 {
-	GLdouble modelMatrix[16];
+	GLdouble modelMatrix_[16];
 	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12];
-	float y = modelMatrix[13];
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
+	float x = modelMatrix_[12];
+	float y = modelMatrix_[13];
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);

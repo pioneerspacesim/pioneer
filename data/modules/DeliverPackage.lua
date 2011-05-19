@@ -86,7 +86,7 @@ local onChat = function (form, ref, option)
 
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
 			name     = ad.client,
-			cash     = Format.Money(ad.reward);
+			cash     = Format.Money(ad.reward),
 			starport = sbody.name,
 			system   = sys.name,
 			sectorx  = ad.location.sectorX,
@@ -124,11 +124,11 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	form:AddOption("Why so much money?", 1);
-	form:AddOption("How soon must it be delivered?", 2);
-	form:AddOption("Could you repeat the original request?", 0);
-	form:AddOption("Ok, agreed.", 3);
-	form:AddOption("Hang up.", -1);
+	form:AddOption("Why so much money?", 1)
+	form:AddOption("How soon must it be delivered?", 2)
+	form:AddOption("Could you repeat the original request?", 0)
+	form:AddOption("Ok, agreed.", 3)
+	form:AddOption("Hang up.", -1)
 end
 
 local onDelete = function (ref)
@@ -272,24 +272,38 @@ local onShipDocked = function (player, station)
 	end
 end
 
-local serialize = function ()
-	return { missions = missions, ads = ads }
-end
+local loaded_data
 
-local unserialize = function (data)
-	for k,mission in pairs(data.missions) do
-		local mref = Game.player:AddMission(mission)
-		missions[mref] = mission
-	end
-	for k,ad in pairs(data.ads) do
+local onGameStart = function ()
+	ads = {}
+	missions = {}
+
+	if not loaded_data then return end
+
+	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
 		ads[ref] = ad
 	end
+	for k,mission in pairs(loaded_data.missions) do
+		local mref = Game.player:AddMission(mission)
+		missions[mref] = mission
+	end
+
+	loaded_data = nil
+end
+
+local serialize = function ()
+	return { ads = ads, missions = missions }
+end
+
+local unserialize = function (data)
+	loaded_data = data
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
 EventQueue.onShipDocked:Connect(onShipDocked)
+EventQueue.onGameStart:Connect(onGameStart)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

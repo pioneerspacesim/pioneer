@@ -261,10 +261,12 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, float 
 
 	for (;node;) {
 		// do we hit it?
-		isect_t isect;
-		isect.dist = float(c->dist);
-		isect.triIdx = -1;
-		if (!node->CollideRay(start, invDir, &isect)) goto pop_jizz;
+		{
+			isect_t isect;
+			isect.dist = float(c->dist);
+			isect.triIdx = -1;
+			if (!node->CollideRay(start, invDir, &isect)) goto pop_jizz;
+		}
 
 		if (node->geomStart) {
 			// it is a leaf node

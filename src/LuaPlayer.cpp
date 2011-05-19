@@ -388,7 +388,7 @@ static int l_player_add_money(lua_State *l)
  */
 static int l_player_add_crime(lua_State *l)
 {
-	Sint64 crimeBitset = luaL_checkinteger(l, 1);
+	Sint64 crimeBitset = LuaConstants::GetConstant(l, "PolitCrime", luaL_checkstring(l, 1));
 	double fine = Sint64(luaL_checknumber(l, 2) * 100.0);
 	Polit::AddCrime(crimeBitset, fine);
 	return 0;

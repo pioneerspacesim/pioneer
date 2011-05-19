@@ -17,19 +17,19 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	if option == 0 then
-		form:Clear();
+		form:Clear()
 
 		form:SetTitle(ad.title)
 		form:SetFace({ seed = ad.faceseed })
 		form:SetMessage(ad.message)
 
-		form:AddOption("$1", 1);
-		form:AddOption("$10", 10);
-		form:AddOption("$100", 100);
-		form:AddOption("$1000", 1000);
-		form:AddOption("$10000", 10000);
-		form:AddOption("$100000", 100000);
-		form:AddOption("Hang up.", -1);
+		form:AddOption("$1", 1)
+		form:AddOption("$10", 10)
+		form:AddOption("$100", 100)
+		form:AddOption("$1000", 1000)
+		form:AddOption("$10000", 10000)
+		form:AddOption("$100000", 100000)
+		form:AddOption("Hang up.", -1)
 
 		return
 	end
@@ -67,7 +67,22 @@ local onCreateBB = function (station)
 	}
 
 	local ref = station:AddAdvert(ad.title, onChat, onDelete)
-	ads[ref] = ad;
+	ads[ref] = ad
+end
+
+local loaded_data
+
+local onGameStart = function ()
+	ads = {}
+
+	if not loaded_data then return end
+
+	for k,ad in pairs(loaded_data.ads) do
+		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		ads[ref] = ad
+	end
+
+	loaded_data = nil
 end
 
 local serialize = function ()
@@ -75,12 +90,10 @@ local serialize = function ()
 end
 
 local unserialize = function (data)
-	for k,ad in pairs(data.ads) do
-		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
-		ads[ref] = ad
-	end
+	loaded_data = data
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
 
 Serializer:Register("DonateToCranks", serialize, unserialize)

@@ -5,7 +5,7 @@ class Color {
 public:
 	float r,g,b,a;
 	Color() {}
-	Color(float r, float g, float b, float a): r(r), g(g), b(b), a(a) {}
+	Color(float r_, float g_, float b_, float a_): r(r_), g(g_), b(b_), a(a_) {}
 	operator float *() { return &r; }
 	operator const float *() const { return &r; }
 };

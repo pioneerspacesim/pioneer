@@ -15,14 +15,16 @@ else
 endif
 
 PIONEER_DATA_DIR = /usr/share/games/pioneer/data
-CFLAGS = $(OPTIMISE) -g -Wformat=2 -Wformat-security -Wstrict-aliasing=2 \
-	 -Wmissing-format-attribute -Wmissing-noreturn -Wdisabled-optimization \
-	 -Wstrict-null-sentinel -Wold-style-cast -Wsign-promo
+CFLAGS = $(OPTIMISE) -g
+CFLAGSMORE =
+CXXFLAGSMORE =
 
 %:
 	dh $@ --with autoreconf --parallel
 
 override_dh_auto_configure:
-	dh_auto_configure -- PIONEER_DATA_DIR="$(PIONEER_DATA_DIR)" CFLAGS="$(CFLAGS)"
+	dh_auto_configure -- PIONEER_DATA_DIR="$(PIONEER_DATA_DIR)" \
+			     CFLAGS="$(CFLAGS) $(CFLAGSMORE)" \
+			     CXXFLAGS="$(CFLAGS) $(CXXFLAGSMORE)"
 
 override_dh_auto_test:;

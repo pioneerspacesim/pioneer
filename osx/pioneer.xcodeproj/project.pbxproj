@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A20B0E2135319770020F43E /* Cocoa.framework */; };
-		4A20B100135319FB0020F43E /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A20B0FF135319FB0020F43E /* SDL.framework */; };
 		4A20B11113531C040020F43E /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A20B10F13531C040020F43E /* SDLMain.m */; };
 		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
 		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
 		4A20B12013531E950020F43E /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* SDLMain.nib */; };
+		4A3385211382A6FE00F645FA /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3385201382A6FE00F645FA /* libfreetype.6.dylib */; };
 		4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF27136979E000919EBB /* DeadVideoLink.cpp */; };
 		4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF29136979E000919EBB /* FaceVideoLink.cpp */; };
 		4A6C4DD113532FC300FDD53F /* AmbientSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */; };
@@ -146,9 +146,6 @@
 		4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D7213532FC300FDD53F /* WorldView.cpp */; };
 		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
-		4A6C4EAA1354542700FDD53F /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA91354542700FDD53F /* SDL_image.framework */; };
-		4A6C4EAC135454EE00FDD53F /* libGLEW.1.5.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */; };
-		4A6C4EB6135455BB00FDD53F /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */; };
 		4A6C55151354655000FDD53F /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
 		4A9937501368355500EA0EE5 /* BBAdvertChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
@@ -177,14 +174,19 @@
 		4A9937681368355500EA0EE5 /* LuaTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937481368355500EA0EE5 /* LuaTimer.cpp */; };
 		4A9937691368355500EA0EE5 /* LuaUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374A1368355500EA0EE5 /* LuaUI.cpp */; };
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
-		4AD68C6B1359AFEE0048A93F /* FreeType.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD68C6A1359AFEE0048A93F /* FreeType.framework */; };
-		4AD68C711359B1D40048A93F /* FreeType.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C6D1359B1D40048A93F /* FreeType.framework */; };
-		4AD68C721359B1D40048A93F /* SDL_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C6E1359B1D40048A93F /* SDL_image.framework */; };
-		4AD68C731359B1D40048A93F /* SDL_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C6F1359B1D40048A93F /* SDL_mixer.framework */; };
-		4AD68C741359B1D40048A93F /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AD68C701359B1D40048A93F /* SDL.framework */; };
-		4AD68C751359B2380048A93F /* libGLEW.1.5.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */; };
-		4AD68C761359B2390048A93F /* libsigc-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */; };
 		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
+		4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
+		4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
+		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
+		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
+		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
+		4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
+		4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
+		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
+		4AE5CA431383E6AA00B55DEB /* libfreetype.6.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A3385201382A6FE00F645FA /* libfreetype.6.dylib */; };
+		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
+		4AE5CA481383EA7D00B55DEB /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */; };
+		4AE5CA491383EB5E00B55DEB /* libvorbisfile.3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -204,12 +206,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4AD68C751359B2380048A93F /* libGLEW.1.5.8.dylib in CopyFiles */,
-				4AD68C761359B2390048A93F /* libsigc-2.0.0.dylib in CopyFiles */,
-				4AD68C711359B1D40048A93F /* FreeType.framework in CopyFiles */,
-				4AD68C721359B1D40048A93F /* SDL_image.framework in CopyFiles */,
-				4AD68C731359B1D40048A93F /* SDL_mixer.framework in CopyFiles */,
-				4AD68C741359B1D40048A93F /* SDL.framework in CopyFiles */,
+				4AE5CA491383EB5E00B55DEB /* libvorbisfile.3.dylib in CopyFiles */,
+				4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in CopyFiles */,
+				4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in CopyFiles */,
+				4AE5CA431383E6AA00B55DEB /* libfreetype.6.dylib in CopyFiles */,
+				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in CopyFiles */,
+				4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in CopyFiles */,
+				4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,8 +224,6 @@
 		4A20B0E5135319770020F43E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4A20B0E6135319770020F43E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4A20B0E7135319770020F43E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		4A20B0FF135319FB0020F43E /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL.framework; sourceTree = DEVELOPER_DIR; };
-		4A20B10213531B430020F43E /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		4A20B10D13531C040020F43E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4A20B10E13531C040020F43E /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
 		4A20B10F13531C040020F43E /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 		4A20B11713531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = pioneer/en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
+		4A3385201382A6FE00F645FA /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = SDKs/MacOSX10.6.sdk/usr/local/lib/libfreetype.6.dylib; sourceTree = DEVELOPER_DIR; };
 		4A62EF27136979E000919EBB /* DeadVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeadVideoLink.cpp; sourceTree = "<group>"; };
 		4A62EF28136979E000919EBB /* DeadVideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeadVideoLink.h; sourceTree = "<group>"; };
 		4A62EF29136979E000919EBB /* FaceVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceVideoLink.cpp; sourceTree = "<group>"; };
@@ -579,17 +581,9 @@
 		4A6C4D7113532FC300FDD53F /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 		4A6C4D7213532FC300FDD53F /* WorldView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldView.cpp; sourceTree = "<group>"; };
 		4A6C4D7313532FC300FDD53F /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
-		4A6C4E9D1353A92A00FDD53F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_image.framework; sourceTree = DEVELOPER_DIR; };
-		4A6C4E9F1353A94700FDD53F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = /Library/Frameworks/SDL_image.framework; sourceTree = "<absolute>"; };
 		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
-		4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
 		4A6C4EA7135453E400FDD53F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
-		4A6C4EA91354542700FDD53F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_image.framework; sourceTree = DEVELOPER_DIR; };
-		4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.5.8.dylib; path = /opt/local/lib/libGLEW.1.5.8.dylib; sourceTree = "<absolute>"; };
-		4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.5.8.dylib; path = /opt/local/lib/libGLEW.1.5.8.dylib; sourceTree = "<absolute>"; };
-		4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/SDL_mixer.framework; sourceTree = DEVELOPER_DIR; };
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
-		4A6C551613546D3C00FDD53F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
 		4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BBAdvertChatForm.cpp; sourceTree = "<group>"; };
 		4A9937191368355400EA0EE5 /* BBAdvertChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAdvertChatForm.h; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
@@ -646,12 +640,12 @@
 		4A99374D1368355500EA0EE5 /* LuaUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaUtils.h; sourceTree = "<group>"; };
 		4A99374E1368355500EA0EE5 /* RefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefCounted.h; sourceTree = "<group>"; };
 		4A99374F1368355500EA0EE5 /* RefList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefList.h; sourceTree = "<group>"; };
-		4AD68C6A1359AFEE0048A93F /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = SDKs/MacOSX10.6.sdk/Library/Frameworks/FreeType.framework; sourceTree = DEVELOPER_DIR; };
-		4AD68C6D1359B1D40048A93F /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = /Library/Frameworks/FreeType.framework; sourceTree = "<absolute>"; };
-		4AD68C6E1359B1D40048A93F /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = /Library/Frameworks/SDL_image.framework; sourceTree = "<absolute>"; };
-		4AD68C6F1359B1D40048A93F /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
-		4AD68C701359B1D40048A93F /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "pioneer-logo.icns"; sourceTree = "<group>"; };
+		4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.6.0.dylib; path = /opt/local/lib/libGLEW.1.6.0.dylib; sourceTree = "<absolute>"; };
+		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
+		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
+		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
+		4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -659,13 +653,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AD68C6B1359AFEE0048A93F /* FreeType.framework in Frameworks */,
-				4A6C4EB6135455BB00FDD53F /* SDL_mixer.framework in Frameworks */,
-				4A6C4EAC135454EE00FDD53F /* libGLEW.1.5.8.dylib in Frameworks */,
-				4A6C4EAA1354542700FDD53F /* SDL_image.framework in Frameworks */,
+				4AE5CA481383EA7D00B55DEB /* libvorbisfile.3.dylib in Frameworks */,
+				4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */,
+				4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */,
+				4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */,
+				4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */,
+				4A3385211382A6FE00F645FA /* libfreetype.6.dylib in Frameworks */,
 				4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */,
 				4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */,
-				4A20B100135319FB0020F43E /* SDL.framework in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,24 +690,13 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4AD68C6D1359B1D40048A93F /* FreeType.framework */,
-				4AD68C6E1359B1D40048A93F /* SDL_image.framework */,
-				4AD68C6F1359B1D40048A93F /* SDL_mixer.framework */,
-				4AD68C701359B1D40048A93F /* SDL.framework */,
-				4AD68C6A1359AFEE0048A93F /* FreeType.framework */,
-				4A6C4EAD1354550900FDD53F /* libGLEW.1.5.8.dylib */,
-				4A6C4EA31354532C00FDD53F /* libsigc-2.0.0.dylib */,
-				4A6C551613546D3C00FDD53F /* SDL_mixer.framework */,
-				4A20B10213531B430020F43E /* SDL.framework */,
-				4A6C4E9F1353A94700FDD53F /* SDL_image.framework */,
-				4A6C4EB5135455BB00FDD53F /* SDL_mixer.framework */,
-				4A6C4EAB135454EE00FDD53F /* libGLEW.1.5.8.dylib */,
-				4A6C4EA91354542700FDD53F /* SDL_image.framework */,
-				4A6C4EA7135453E400FDD53F /* OpenGL.framework */,
+				4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */,
+				4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */,
+				4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */,
+				4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */,
+				4A3385201382A6FE00F645FA /* libfreetype.6.dylib */,
+				4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
-				4A6C4E9D1353A92A00FDD53F /* SDL_image.framework */,
-				4A20B0FF135319FB0020F43E /* SDL.framework */,
-				4A20B0E2135319770020F43E /* Cocoa.framework */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -721,6 +705,8 @@
 		4A20B0E4135319770020F43E /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A6C4EA7135453E400FDD53F /* OpenGL.framework */,
+				4A20B0E2135319770020F43E /* Cocoa.framework */,
 				4A20B0E5135319770020F43E /* AppKit.framework */,
 				4A20B0E6135319770020F43E /* CoreData.framework */,
 				4A20B0E7135319770020F43E /* Foundation.framework */,
@@ -1267,7 +1253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "function relocateLibraryInCurrentApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n}\n\nrelocateLibraryInCurrentApp /Library/Frameworks/ FreeType.framework/Versions/2.4/FreeType\nrelocateLibraryInCurrentApp /opt/local/lib/ libGLEW.1.5.8.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libsigc-2.0.0.dylib\n";
+			shellScript = "function relocateLibraryInCurrentApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n}\n\nrelocateLibraryInCurrentApp /opt/local/lib/ libfreetype.6.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libGLEW.1.6.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libsigc-2.0.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libSDL-1.2.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libvorbisfile.3.dylib\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1485,6 +1471,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
@@ -1492,7 +1479,7 @@
 					_GNU_SOURCE,
 					DEBUG,
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1501,17 +1488,16 @@
 					"/opt/local/include/sigc++-2.0",
 					"/opt/local/lib/sigc++-2.0/include",
 					/opt/local/include,
-					/Library/Frameworks/FreeType.framework/Headers,
-					/Library/Frameworks/SDL.framework/Headers,
-					/Library/Frameworks/SDL_image.framework/Headers,
+					/opt/local/include/freetype2,
+					/opt/local/include/SDL,
 				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1530,10 +1516,12 @@
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = _GNU_SOURCE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1542,9 +1530,8 @@
 					"/opt/local/include/sigc++-2.0",
 					"/opt/local/lib/sigc++-2.0/include",
 					/opt/local/include,
-					/Library/Frameworks/FreeType.framework/Headers,
-					/Library/Frameworks/SDL.framework/Headers,
-					/Library/Frameworks/SDL_image.framework/Headers,
+					/opt/local/include/freetype2,
+					/opt/local/include/SDL,
 				);
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -1552,8 +1539,8 @@
 					/opt/local/lib,
 				);
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

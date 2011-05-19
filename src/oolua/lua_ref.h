@@ -64,8 +64,8 @@ namespace OOLUA
 	
 
 	template<int ID>
-	Lua_ref<ID>::Lua_ref(lua_State* const lua,int const& ref)
-		:m_lua(lua),m_ref(ref)
+	Lua_ref<ID>::Lua_ref(lua_State* const lua,int const& ref_)
+		:m_lua(lua),m_ref(ref_)
 	{}
 	template<int ID>
 	Lua_ref<ID>::Lua_ref(lua_State* const lua)
@@ -104,10 +104,10 @@ namespace OOLUA
 		return m_ref;
 	}
 	template<int ID>
-	inline void Lua_ref<ID>::set_ref(lua_State* const lua,int const& ref)
+	inline void Lua_ref<ID>::set_ref(lua_State* const lua,int const& ref_)
 	{
 		release();
-		m_ref = ref;
+		m_ref = ref_;
 		m_lua = lua;
 	}
 	template<int ID>

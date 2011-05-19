@@ -142,13 +142,13 @@ void TextLayout::_RenderRaw(float maxWidth) const
 
 		if (line_clip_test(py, py+font->GetHeight()*2.0)) {
 			float px = 0;
-			for (int i=0; i<num; i++) {
+			for (int j=0; j<num; j++) {
 				if ((*wpos).word) font->RenderMarkup((*wpos).word, floor(px), py);
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;
 			}
 		} else {
-			for (int i=0; i<num; i++) wpos++;
+			for (int j=0; j<num; j++) wpos++;
 		}
 		py += floor(font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f));
 
@@ -198,10 +198,10 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 		}
 
 		float lineLen = 0;
-		for (int i=0; i<num; i++) {
+		for (int j=0; j<num; j++) {
 			word_t word = (*wpos);
 			lineLen += word.advx;
-			if (i < num-1) lineLen += _spaceWidth;
+			if (j < num-1) lineLen += _spaceWidth;
 			wpos++;
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;

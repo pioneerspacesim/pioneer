@@ -227,3 +227,5 @@ EXTRA_DIST = \
 	vc2010/pioneer.sln \
 	vc2010/pioneer.vcxproj \
 	vc2010/pioneer.vcxproj.filters
+
+include $(top_srcdir)/Makefile.common
