@@ -2379,30 +2379,24 @@ namespace ModelFuncs {
 		int *idx = new int[LONG_SEGS+2];
 		int *idx2 = new int[LONG_SEGS+2];
 		// cap the top
-		float cosLat2, sinLat2;
+		float cosLat2 = cos(sliceAngle1);
+		float sinLat2 = sin(sliceAngle1);
 		vector3f cap_norm = yaxis.Normalized();
 		for (int i=0; i<=LONG_SEGS; i++) {
-			cosLat2 = cos(sliceAngle1);
-			sinLat2 = sin(sliceAngle1);
-			vector3f v1(sinLat2*sinTable[i], cosLat2, -sinLat2*cosTable[i]);
-			idx[i] = s_curBuf->PushVertex(trans * v1, cap_norm);
+			vector3f v0(sinLat2*sinTable[i], cosLat2, -sinLat2*cosTable[i]);
+			idx[i] = s_curBuf->PushVertex(trans * v0, cap_norm);
+			idx2[i] = s_curBuf->PushVertex(trans * v0, trans.ApplyRotationOnly(v0)); // for later
 		}
 		for (int i=0; i<LONG_SEGS-1; i++) {
 			s_curBuf->PushTri(idx[0], idx[i+2], idx[i+1]);
 		}
 
-		float lat = sliceAngle1;
-		for (int j=1; j<=LAT_SEGS; j++, lat += latDiff) {
-			float cosLat = cos(lat);
-			float sinLat = sin(lat);
-			cosLat2 = cos(lat+latDiff);
-			sinLat2 = sin(lat+latDiff);
-			// TODO could be made more efficient. vertices are not
-			// shared between strips...
+		for (int j=1; j<=LAT_SEGS; j++) {
+			cosLat2 = cos(sliceAngle1+latDiff*j);
+			sinLat2 = sin(sliceAngle1+latDiff*j);
 			for (int i=0; i<=LONG_SEGS; i++) {
-				vector3f v0(sinLat*sinTable[i], cosLat, -sinLat*cosTable[i]);
 				vector3f v1(sinLat2*sinTable[i], cosLat2, -sinLat2*cosTable[i]);
-				idx[i] = s_curBuf->PushVertex(trans * v0, trans.ApplyRotationOnly(v0));
+				idx[i] = idx2[i];
 				idx2[i] = s_curBuf->PushVertex(trans * v1, trans.ApplyRotationOnly(v1));
 			}
 			for (int i=0; i<LONG_SEGS; i++) {
