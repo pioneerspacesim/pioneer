@@ -22,6 +22,7 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	FontManager.h \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
@@ -178,6 +179,7 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	FontManager.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \
@@ -287,6 +289,7 @@ tests_SOURCES = \
 	CargoBody.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
+	FontManager.cpp \
 	Frame.cpp \
 	GeoSphere.cpp \
 	InfoView.cpp \
