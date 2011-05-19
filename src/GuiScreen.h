@@ -2,6 +2,7 @@
 #define _GUISCREEN_H
 
 #include "Gui.h"
+#include "FontManager.h"
 #include <list>
 
 class TextureFontFace;
@@ -42,6 +43,9 @@ namespace Gui {
 		static bool IsFocused(Widget *w) {
 			return w == focusedWidget;
 		}
+
+		static FontManager *GetFontManager() { return &s_fontManager; }
+
 	private:
 		static void AddShortcutWidget(Widget *w);
 		static void RemoveShortcutWidget(Widget *w);
@@ -61,6 +65,8 @@ namespace Gui {
 		static GLdouble modelMatrix[16];
 		static GLdouble projMatrix[16];
 		static GLint viewport[4];
+
+		static FontManager s_fontManager;
 	};
 }
 
