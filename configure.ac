@@ -50,9 +50,10 @@ AC_DEFUN([PIONEER_C_CXX_FLAG],
 dnl Always add -Wall, where supported
 PIONEER_C_CXX_FLAG([-Wall])
 
-dnl Add -O2 or -O0, where supported
-AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
-PIONEER_C_CXX_FLAG([$OPTIMISE])
+dnl Add -O0 if requested
+OPTIMISE=
+AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [test "$withval" != no && OPTIMISE=-O0], [])
+AC_SUBST([OPTIMISE])
 
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
