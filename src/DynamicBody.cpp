@@ -171,7 +171,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		// applying angular velocity :-/
 		{
 			double len = consideredAngVel.Length();
-			if (len != 0) {
+			if (len > 1e-16) {
 				vector3d rotAxis = consideredAngVel * (1.0 / len);
 				matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len * timeStep,
 						rotAxis.x, rotAxis.y, rotAxis.z);
