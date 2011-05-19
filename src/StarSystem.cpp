@@ -1508,6 +1508,10 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
 		mass = std::min(mass, fixed(317*65, 1)) / 332998;
+		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
+		// So tell it to use the star data instead:
+		radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
+				starTypeInfo[type].radius[1]), 100);
 	} else if (mass > 6) {
 		type = SBody::TYPE_PLANET_GAS_GIANT;
 	} else if (mass > fixed(1, 15000)) {
