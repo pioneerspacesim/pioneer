@@ -664,4 +664,4 @@ bool State::UseProgram(Shader *shader)
 	}
 }
 
-}; /* namespace Render */
+} /* namespace Render */

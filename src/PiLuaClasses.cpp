@@ -25,7 +25,7 @@ namespace static_matrix {
 	static int orient(lua_State *l) {
 		OOLUA_C_FUNCTION_3(pi_matrix, pi_matrix::orient, const pi_vector&, const pi_vector&, const pi_vector&) 
 	}
-};
+}
 
 void PiLuaClasses::RegisterClasses(lua_State *l)
 {
