@@ -238,8 +238,9 @@ void ShipCpanel::Draw()
 	    (cur != Pi::systemInfoView) && (cur != Pi::galacticView)) {
 		HideMapviewButtons();
 	}
-
-	Gui::Fixed::Draw();
+    if (Pi::IsHUDEnabled()) {
+        Gui::Fixed::Draw();
+    }
 }
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)

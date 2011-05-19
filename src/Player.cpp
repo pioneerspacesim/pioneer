@@ -89,6 +89,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 		}
 		m_knownKillCount = m_killCount;
 
+        Pi::SetHUDEnabled(true); // re-enable the HUD if disabled
 		Pi::SetView(Pi::spaceStationView);
 	}
 }

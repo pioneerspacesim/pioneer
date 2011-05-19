@@ -121,6 +121,7 @@ IniConfig Pi::config;
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
+bool Pi::HUDEnabled;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
@@ -547,6 +548,13 @@ void Pi::HandleEvents()
                         case SDLK_h: // Toggle HDR
                             Render::ToggleHDR();
                             break;
+                        case SDLK_TAB:
+                            if (isGameStarted) {
+                                if (currentView == worldView) {
+                                    SetHUDEnabled(!IsHUDEnabled());
+                                }
+                            }
+                            break;
                         case SDLK_PRINT:       // print
                         case SDLK_KP_MULTIPLY: // screen
                         {
@@ -841,6 +849,10 @@ void Pi::InitGame()
 	AmbientSounds::Init();
 
 	LuaInitGame();
+
+    // Enable the HUD on game start
+    SetHUDEnabled(true);
+
 }
 
 static void OnPlayerDockOrUndock()
@@ -1440,4 +1452,12 @@ void Pi::SetMouseGrab(bool on)
 //		SDL_SetRelativeMouseMode(false);
 		doingMouseGrab = false;
 	}
+}
+
+void Pi::SetHUDEnabled(bool state) {
+    if (player->GetFlightState() == Ship::FLYING) {
+        HUDEnabled = state;
+    } else {
+        HUDEnabled = true; // always show hud when not flying
+    }
 }
