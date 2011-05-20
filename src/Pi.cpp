@@ -117,7 +117,7 @@ bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
-IniConfig Pi::config;
+GameConfig Pi::config(GetPiUserDir() + "config.ini");
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -244,8 +244,6 @@ static void LuaInitGame() {
 
 void Pi::Init()
 {
-	config.Load(GetPiUserDir() + "config.ini");
-
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.cities = config.Int("DetailCities");
 
