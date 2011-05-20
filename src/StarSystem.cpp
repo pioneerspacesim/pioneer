@@ -226,155 +226,155 @@ fixed StarSystem::starMetallicities[] = {
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
 	Sint64 mass[2]; // min,max % sol for stars, unused for planets
-	int radius; // % sol radii for stars, % earth radii for planets
+	Sint64 radius[2]; // min,max % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
 	{
-		SBody::SUPERTYPE_NONE, {}, 0,
+		SBody::SUPERTYPE_NONE, {}, {},
         0, 0
 	}, {
-		SBody::SUPERTYPE_STAR, //Dwarf
-		{2,8}, 30,
+		SBody::SUPERTYPE_STAR, //Brown Dwarf
+		{2,8}, {10,30},
 		1000, 2000
 	}, {
 		SBody::SUPERTYPE_STAR, //M
-		{10,47}, 50,
+		{10,47}, {30,60},
 		2000, 3500
 	}, {
 		SBody::SUPERTYPE_STAR, //K
-		{50,78}, 90,
+		{50,78}, {60,100},
 		3500, 5000
 	}, { 
 		SBody::SUPERTYPE_STAR, //G
-		{80,110}, 110,
+		{80,110}, {80,120},
 		5000, 6000
 	}, {
 		SBody::SUPERTYPE_STAR, //F
-		{115,170}, 140,
+		{115,170}, {110,150},
 		6000, 7500
 	}, {
 		SBody::SUPERTYPE_STAR, //A
-		{180,320}, 210,
+		{180,320}, {120,220},
 		7500, 10000
 	}, {
 		SBody::SUPERTYPE_STAR,  //B
-		{200,300}, 280,
+		{200,300}, {120,290},
 		10000, 30000
 	}, {
 		SBody::SUPERTYPE_STAR, //O
-		{300,400}, 310,
+		{300,400}, {200,310},
 		30000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR, //M Giant
-		{60,357}, 5000,
+		{60,357}, {2000,5000},
 		2500, 3500
 	}, {
 		SBody::SUPERTYPE_STAR, //K Giant
-		{125,500}, 3000,
+		{125,500}, {1500,3000},
 		3500, 5000
 	}, { 
 		SBody::SUPERTYPE_STAR, //G Giant
-		{200,800}, 2000,
+		{200,800}, {1000,2000},
 		5000, 6000
 	}, {
 		SBody::SUPERTYPE_STAR, //F Giant
-		{250,900}, 1500,
+		{250,900}, {800,1500},
 		6000, 7500
 	}, {
 		SBody::SUPERTYPE_STAR, //A Giant
-		{400,1000}, 1000,
+		{400,1000}, {600,1000},
 		7500, 10000
 	}, {
 		SBody::SUPERTYPE_STAR,  //B Giant
-		{500,1000}, 1000,
+		{500,1000}, {600,1000},
 		10000, 30000
 	}, {
 		SBody::SUPERTYPE_STAR, //O Giant
-		{600,1200}, 1000,
+		{600,1200}, {600,1000},
 		30000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR, //M Super Giant
-		{1050,5000}, 15000,
+		{1050,5000}, {7000,15000},
 		2500, 3500
 	}, {
 		SBody::SUPERTYPE_STAR, //K Super Giant
-		{1100,5000}, 9000,
+		{1100,5000}, {5000,9000},
 		3500, 5000
 	}, { 
 		SBody::SUPERTYPE_STAR, //G Super Giant
-		{1200,5000}, 8000,
+		{1200,5000}, {4000,8000},
 		5000, 6000
 	}, {
 		SBody::SUPERTYPE_STAR, //F Super Giant
-		{1500,6000}, 7000,
+		{1500,6000}, {3500,7000},
 		6000, 7500
 	}, {
 		SBody::SUPERTYPE_STAR, //A Super Giant
-		{2000,8000}, 6000,
+		{2000,8000}, {3000,6000},
 		7500, 10000
 	}, {
 		SBody::SUPERTYPE_STAR,  //B Super Giant
-		{3000,9000}, 5000,
+		{3000,9000}, {2500,5000},
 		10000, 30000
 	}, {
 		SBody::SUPERTYPE_STAR, //O Super Giant
-		{5000,10000}, 4000,
+		{5000,10000}, {2000,4000},
 		30000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR, //M Hyper Giant
-		{5000,15000}, 30000,
+		{5000,15000}, {20000,40000},
 		2500, 3500
 	}, {
 		SBody::SUPERTYPE_STAR, //K Hyper Giant
-		{5000,17000}, 25000,
+		{5000,17000}, {17000,25000},
 		3500, 5000
 	}, { 
 		SBody::SUPERTYPE_STAR, //G Hyper Giant
-		{5000,18000}, 20000,
+		{5000,18000}, {14000,20000},
 		5000, 6000
 	}, {
 		SBody::SUPERTYPE_STAR, //F Hyper Giant
-		{5000,19000}, 17500,
+		{5000,19000}, {12000,17500},
 		6000, 7500
 	}, {
 		SBody::SUPERTYPE_STAR, //A Hyper Giant
-		{5000,20000}, 15000,
+		{5000,20000}, {10000,15000},
 		7500, 10000
 	}, {
 		SBody::SUPERTYPE_STAR,  //B Hyper Giant
-		{5000,23000}, 10000,
+		{5000,23000}, {6000,10000},
 		10000, 30000
 	}, {
 		SBody::SUPERTYPE_STAR, //O Hyper Giant
-		{10000,30000}, 7000,
+		{10000,30000}, {4000,7000},
 		30000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR,  // M WF
-		{2000,5000}, 5000,
+		{2000,5000}, {2500,5000},
 		25000, 35000
 	}, {
 		SBody::SUPERTYPE_STAR,  // B WF
-		{2000,7500}, 5000,
+		{2000,7500}, {2500,5000},
 		35000, 45000
 	}, {
 		SBody::SUPERTYPE_STAR,  // O WF
-		{2000,10000}, 5000,
+		{2000,10000}, {2500,5000},
 		45000, 60000
 	}, {
 		SBody::SUPERTYPE_STAR,  // S BH
-		{20,2000}, 0.00002,
+		{20,2000}, {0.00002,0.00004},
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
-		{1e5,2e6}, 200,
+		{1e5,2e6}, {200,1000},
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{1e10,5e12}, 10000,
+		{1e10,5e12}, {10000,20000},
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  //white dwarf
-		{20,100}, 1, 
+		{20,100}, {1,2}, 
 		4000, 40000
 	}
 /*	}, {
@@ -990,7 +990,8 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 void StarSystem::MakeStarOfType(SBody *sbody, SBody::BodyType type, MTRand &rand)
 {
 	sbody->type = type;
-	sbody->radius = fixed(starTypeInfo[type].radius, 100);
+	sbody->radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
+				starTypeInfo[type].radius[1]), 100);
 	sbody->mass = fixed(rand.Int32(starTypeInfo[type].mass[0],
 				starTypeInfo[type].mass[1]), 100);
 	sbody->averageTemp = rand.Int32(starTypeInfo[type].tempMin,
@@ -1507,6 +1508,10 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
 		mass = std::min(mass, fixed(317*65, 1)) / 332998;
+		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
+		// So tell it to use the star data instead:
+		radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
+				starTypeInfo[type].radius[1]), 100);
 	} else if (mass > 6) {
 		type = SBody::TYPE_PLANET_GAS_GIANT;
 	} else if (mass > fixed(1, 15000)) {
