@@ -1,12 +1,15 @@
-#ifndef INICONFIG_H
-#define INICONFIG_H
+#ifndef _INICONFIG_H
+#define _INICONFIG_H
 
+#include "libs.h"
 #include <map>
 #include <string>
 
-class IniConfig: private std::map<std::string, std::string> {
-	public:
-	void Load(const std::string &filename);
+class IniConfig: protected std::map<std::string, std::string> {
+public:
+	void Load();
+	bool Save();
+
 	void SetInt(const char *key, int val) {
 		(*this)[key] = stringf(64, "%d", val);
 	}
@@ -27,9 +30,12 @@ class IniConfig: private std::map<std::string, std::string> {
 	std::string String(const char *key) {
 		return (*this)[key];
 	}
-	bool Save();
-	private:
-	std::string filename;
+
+protected:
+	IniConfig(const std::string &filename) : m_filename(filename) {}
+
+private:
+	std::string m_filename;
 };
 
-#endif /* INICONFIG_H */
+#endif /* _INICONFIG_H */

@@ -59,6 +59,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
+	GameConfig.h \
 	KeyBindings.h \
 	LmrModel.h \
 	LuaBody.h \
@@ -188,6 +189,7 @@ pioneer_SOURCES	= \
 	HyperspaceCloud.cpp \
 	InfoView.cpp \
 	IniConfig.cpp \
+	GameConfig.cpp \
 	KeyBindings.cpp \
 	LmrModel.cpp \
 	LuaBody.cpp \

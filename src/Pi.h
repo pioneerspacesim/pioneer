@@ -7,7 +7,7 @@
 #include "mtrand.h"
 #include "gameconsts.h"
 #include "Serializer.h"
-#include "IniConfig.h"
+#include "GameConfig.h"
 #include "LuaEventQueue.h"
 #include "LuaSerializer.h"
 #include "LuaTimer.h"
@@ -157,7 +157,7 @@ public:
 	static const char * const combatRating[];
 
 	static struct DetailLevel detail;
-	static IniConfig config;
+	static GameConfig config;
 private:
 	static void InitOpenGL();
 	static void HandleEvents();
