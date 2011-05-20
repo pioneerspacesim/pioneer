@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Gui.h"
-#include "glfreetype.h"
 #include "Player.h"
 #include "Space.h"
 #include "Planet.h"
@@ -117,7 +116,7 @@ bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
-IniConfig Pi::config;
+GameConfig Pi::config(GetPiUserDir() + "config.ini");
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -244,8 +243,6 @@ static void LuaInitGame() {
 
 void Pi::Init()
 {
-	config.Load(GetPiUserDir() + "config.ini");
-
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.cities = config.Int("DetailCities");
 
@@ -323,7 +320,6 @@ void Pi::Init()
 	Pi::rng.seed(time(NULL));
 
 	InitOpenGL();
-	GLFTInit();
 
 	LuaInit();
 

@@ -349,7 +349,7 @@ std::string string_subst(const char *format, const unsigned int num_args, std::s
 				out.push_back('%');
 				i++;
 			}
-			else if (1 == sscanf(&pos[i], "%d", &argnum)) {
+			else if (1 == sscanf(&pos[i], "%u", &argnum)) {
 				if (argnum >= num_args) out.append("(INVALID ARG)");
 				else {
 					out.append(args[argnum]);

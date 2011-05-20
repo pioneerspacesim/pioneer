@@ -517,7 +517,7 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 // -------------- class Shader ----------------
 
 
-static char *load_file(const char *filename)
+static __attribute((malloc)) char *load_file(const char *filename)
 {
 	FILE *f = fopen(filename, "rb");
 	if (!f) {
@@ -554,6 +554,9 @@ static void PrintGLSLCompileError(const char *filename, GLuint obj)
 	
 bool Shader::Compile(const char *shader_name, const char *additional_defines)
 {
+	GLuint vs, ps = 0;
+	std::vector<const char*> shader_src;
+
 	if (!shadersAvailable) {
 		m_program = 0;
 		return false;
@@ -572,12 +575,10 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	
 	if (vscode == 0) {
 		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
-		m_program = 0;
-		return false;
+		goto fail;
 	}
 		
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	std::vector<const char*> shader_src;
+	vs = glCreateShader(GL_VERTEX_SHADER);
 
 	if (additional_defines) shader_src.push_back(additional_defines);
 	shader_src.push_back("#define ZHACK 1\n");
@@ -592,11 +593,9 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
 	if (!status) {
 		PrintGLSLCompileError((name + ".vert.glsl").c_str(), vs);
-		m_program = 0;
-		return false;
+		goto fail;
 	}
 
-	GLuint ps = 0;
 	if (pscode) {
 		shader_src.clear();
 		if (additional_defines) shader_src.push_back(additional_defines);
@@ -612,8 +611,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
 		if (!status) {
 			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);
-			m_program = 0;
-			return false;
+			goto fail;
 		}
 	}
 
@@ -624,15 +622,22 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
 	if (!status) {
 		PrintGLSLCompileError(name.c_str(), m_program);
-		m_program = 0;
-		return false;
+		goto fail;
 	}
 
 	free(vscode);
-	if (pscode) free(pscode);
-	if (allcode) free(allcode);
+	free(pscode);
+	free(allcode);
 	
 	return true;
+
+fail:
+	free(vscode);
+	free(pscode);
+	free(allcode);
+
+	m_program = 0;
+	return false;
 }
 
 // --------------- class Shader ------------------
@@ -659,4 +664,4 @@ bool State::UseProgram(Shader *shader)
 	}
 }
 
-}; /* namespace Render */
+} /* namespace Render */
