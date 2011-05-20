@@ -37,7 +37,6 @@
 		4A6C4DE813532FC300FDD53F /* GenericChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2F13532FC300FDD53F /* GenericChatForm.cpp */; };
 		4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */; };
 		4A6C4DEA13532FC300FDD53F /* GeoSphereStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */; };
-		4A6C4DEB13532FC300FDD53F /* glfreetype.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3513532FC300FDD53F /* glfreetype.cpp */; };
 		4A6C4DEC13532FC300FDD53F /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3713532FC300FDD53F /* Gui.cpp */; };
 		4A6C4DED13532FC300FDD53F /* GuiBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3A13532FC300FDD53F /* GuiBox.cpp */; };
 		4A6C4DEE13532FC300FDD53F /* GuiButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3C13532FC300FDD53F /* GuiButton.cpp */; };
@@ -150,6 +149,11 @@
 		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
 		4A6C55151354655000FDD53F /* data in Copy Data folder */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
+		4A82AA841386969B0028CCED /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA791386969B0028CCED /* Font.cpp */; };
+		4A82AA851386969B0028CCED /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7B1386969B0028CCED /* FontManager.cpp */; };
+		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
+		4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA801386969B0028CCED /* TextureFont.cpp */; };
+		4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA821386969B0028CCED /* VectorFont.cpp */; };
 		4A9937501368355500EA0EE5 /* BBAdvertChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
@@ -288,8 +292,6 @@
 		4A6C4C3213532FC300FDD53F /* GeoSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphere.h; sourceTree = "<group>"; };
 		4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereStyle.cpp; sourceTree = "<group>"; };
 		4A6C4C3413532FC300FDD53F /* GeoSphereStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereStyle.h; sourceTree = "<group>"; };
-		4A6C4C3513532FC300FDD53F /* glfreetype.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfreetype.cpp; sourceTree = "<group>"; };
-		4A6C4C3613532FC300FDD53F /* glfreetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfreetype.h; sourceTree = "<group>"; };
 		4A6C4C3713532FC300FDD53F /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
 		4A6C4C3813532FC300FDD53F /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		4A6C4C3913532FC300FDD53F /* GuiAdjustment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiAdjustment.h; sourceTree = "<group>"; };
@@ -587,6 +589,17 @@
 		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
 		4A6C4EA7135453E400FDD53F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
+		4A82AA791386969B0028CCED /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
+		4A82AA7A1386969B0028CCED /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		4A82AA7B1386969B0028CCED /* FontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
+		4A82AA7C1386969B0028CCED /* FontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
+		4A82AA7D1386969B0028CCED /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
+		4A82AA7E1386969B0028CCED /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		4A82AA7F1386969B0028CCED /* LuaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaObject.h; sourceTree = "<group>"; };
+		4A82AA801386969B0028CCED /* TextureFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureFont.cpp; sourceTree = "<group>"; };
+		4A82AA811386969B0028CCED /* TextureFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureFont.h; sourceTree = "<group>"; };
+		4A82AA821386969B0028CCED /* VectorFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorFont.cpp; sourceTree = "<group>"; };
+		4A82AA831386969B0028CCED /* VectorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorFont.h; sourceTree = "<group>"; };
 		4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BBAdvertChatForm.cpp; sourceTree = "<group>"; };
 		4A9937191368355400EA0EE5 /* BBAdvertChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAdvertChatForm.h; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
@@ -735,6 +748,17 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4A82AA791386969B0028CCED /* Font.cpp */,
+				4A82AA7A1386969B0028CCED /* Font.h */,
+				4A82AA7B1386969B0028CCED /* FontManager.cpp */,
+				4A82AA7C1386969B0028CCED /* FontManager.h */,
+				4A82AA7D1386969B0028CCED /* GameConfig.cpp */,
+				4A82AA7E1386969B0028CCED /* GameConfig.h */,
+				4A82AA7F1386969B0028CCED /* LuaObject.h */,
+				4A82AA801386969B0028CCED /* TextureFont.cpp */,
+				4A82AA811386969B0028CCED /* TextureFont.h */,
+				4A82AA821386969B0028CCED /* VectorFont.cpp */,
+				4A82AA831386969B0028CCED /* VectorFont.h */,
 				4A6392C4136BD51E008352F1 /* buildopts.h */,
 				4A62EF27136979E000919EBB /* DeadVideoLink.cpp */,
 				4A62EF28136979E000919EBB /* DeadVideoLink.h */,
@@ -834,8 +858,6 @@
 				4A6C4C3213532FC300FDD53F /* GeoSphere.h */,
 				4A6C4C3313532FC300FDD53F /* GeoSphereStyle.cpp */,
 				4A6C4C3413532FC300FDD53F /* GeoSphereStyle.h */,
-				4A6C4C3513532FC300FDD53F /* glfreetype.cpp */,
-				4A6C4C3613532FC300FDD53F /* glfreetype.h */,
 				4A6C4C3713532FC300FDD53F /* Gui.cpp */,
 				4A6C4C3813532FC300FDD53F /* Gui.h */,
 				4A6C4C3913532FC300FDD53F /* GuiAdjustment.h */,
@@ -1285,7 +1307,6 @@
 				4A6C4DE813532FC300FDD53F /* GenericChatForm.cpp in Sources */,
 				4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */,
 				4A6C4DEA13532FC300FDD53F /* GeoSphereStyle.cpp in Sources */,
-				4A6C4DEB13532FC300FDD53F /* glfreetype.cpp in Sources */,
 				4A6C4DEC13532FC300FDD53F /* Gui.cpp in Sources */,
 				4A6C4DED13532FC300FDD53F /* GuiBox.cpp in Sources */,
 				4A6C4DEE13532FC300FDD53F /* GuiButton.cpp in Sources */,
@@ -1424,6 +1445,11 @@
 				4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */,
 				4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */,
 				4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */,
+				4A82AA841386969B0028CCED /* Font.cpp in Sources */,
+				4A82AA851386969B0028CCED /* FontManager.cpp in Sources */,
+				4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */,
+				4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */,
+				4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1500,7 +1526,7 @@
 					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1544,7 +1570,7 @@
 				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
