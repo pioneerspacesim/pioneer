@@ -1,17 +1,5 @@
-#include <stdlib.h>
-#include <math.h>
-#include <stdio.h>
-#include <assert.h>
-#include <map>
-#include <list>
-#include <GL/glew.h>
-#include <ft2build.h>
-#include "glfreetype.h"
+#include "VectorFont.h"
 #include "libs.h"
-
-#include FT_FREETYPE_H
-#include FT_GLYPH_H
-#include FT_OUTLINE_H
 
 #define PARAGRAPH_SPACING 1.5f
 
@@ -23,11 +11,7 @@ typedef GLvoid (APIENTRY *_GLUfuncptr)();
 typedef GLvoid (*_GLUfuncptr)();
 #endif
 
-FT_Library library;
-
-#include <vector>
-
-static GLUtesselator *tobj;
+static GLUtesselator *tobj = 0;
 
 static inline double fac(int n)
 {
@@ -292,7 +276,7 @@ void CALLBACK combineCallback(GLdouble coords[3],
 
 #define BEZIER_STEPS 2
 
-void FontFace::RenderGlyph(int chr)
+void VectorFont::RenderGlyph(int chr)
 {
 	glEnableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_NORMAL_ARRAY);
@@ -302,7 +286,7 @@ void FontFace::RenderGlyph(int chr)
 	glDrawElements (GL_TRIANGLES, glyph->numidx, GL_UNSIGNED_SHORT, glyph->iarray);
 }
 
-void FontFace::MeasureString(const char *str, float &w, float &h)
+void VectorFont::MeasureString(const char *str, float &w, float &h)
 {
 	w = 0;
 	h = GetHeight();
@@ -319,7 +303,7 @@ void FontFace::MeasureString(const char *str, float &w, float &h)
 	if (line_width > w) w = line_width;
 }
 
-void FontFace::RenderString(const char *str)
+void VectorFont::RenderString(const char *str)
 {
 	glPushMatrix();
 	for (unsigned int i=0; i<strlen(str); i++) {
@@ -336,7 +320,7 @@ void FontFace::RenderString(const char *str)
 	glPopMatrix();
 }
 
-void FontFace::GetStringGeometry(const char *str,
+void VectorFont::GetStringGeometry(const char *str,
 		void (*index_callback)(int num, Uint16 *vals),
 		void (*vertex_callback)(int num, float offsetX, float offsetY, float *vals))
 {
@@ -358,7 +342,7 @@ void FontFace::GetStringGeometry(const char *str,
 }
 
 // 'Markup' indeed. #rgb hex is change color, no sensible escape
-void FontFace::RenderMarkup(const char *str)
+void VectorFont::RenderMarkup(const char *str)
 {
 	glPushMatrix();
 	int len = strlen(str);
@@ -388,22 +372,33 @@ void FontFace::RenderMarkup(const char *str)
 	glPopMatrix();
 }
 
-FontFace::FontFace(const char *filename_ttf)
+VectorFont::VectorFont(FontManager &fm, const char *filename_ttf) : Font(fm)
 {
-	FT_Face face;
+	// first time setup
+	if (!tobj) {
+		tobj = gluNewTess ();
+		gluTessCallback(tobj, GLU_TESS_VERTEX_DATA, reinterpret_cast<_GLUfuncptr>(vertexCallback));
+		gluTessCallback(tobj, GLU_TESS_BEGIN_DATA, reinterpret_cast<_GLUfuncptr>(beginCallback));
+		gluTessCallback(tobj, GLU_TESS_END, reinterpret_cast<_GLUfuncptr>(endCallback));
+		gluTessCallback(tobj, GLU_TESS_ERROR, reinterpret_cast<_GLUfuncptr>(errorCallback));
+		gluTessCallback(tobj, GLU_TESS_COMBINE_DATA, reinterpret_cast<_GLUfuncptr>(combineCallback));
+
+		for (Uint16 i=0; i<65535; i++) g_index[i] = i;
+	}
+
 	int err;
-	if (0 != (err = FT_New_Face(library, filename_ttf, 0, &face))) {
+	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), filename_ttf, 0, &m_face))) {
 		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf, err);
 	} else {
-		FT_Set_Char_Size(face, 50*64, 0, 100, 0);
+		FT_Set_Char_Size(m_face, 50*64, 0, 100, 0);
 		for (int chr=32; chr<127; chr++) {
-			if (0 != FT_Load_Char(face, chr, FT_LOAD_NO_SCALE)) {
+			if (0 != FT_Load_Char(m_face, chr, FT_LOAD_NO_SCALE)) {
 				printf("Couldn't load glyph\n");
 				continue;
 			}
 			
-			assert(face->glyph->format == FT_GLYPH_FORMAT_OUTLINE);
-			FT_Outline *outline = &face->glyph->outline;
+			assert(m_face->glyph->format == FT_GLYPH_FORMAT_OUTLINE);
+			FT_Outline *outline = &m_face->glyph->outline;
 
 			std::vector<double> temppts;
 			std::vector<Uint16> indices;
@@ -429,211 +424,24 @@ FontFace::FontFace(const char *filename_ttf)
 			tessdata.numvtx = nv;
 			gluTessEndPolygon(tobj);
 
-			glfglyph_t _face;
+			glfglyph_t glyph;
 
 			nv = tessdata.numvtx;
-			_face.numvtx = nv;
-			_face.varray = static_cast<float *>(malloc (nv*3*sizeof(float)));
-			for (int i=0; i<nv*3; i++) _face.varray[i] = float(pts[i]);
+			glyph.numvtx = nv;
+			glyph.varray = static_cast<float *>(malloc (nv*3*sizeof(float)));
+			for (int i=0; i<nv*3; i++) glyph.varray[i] = float(pts[i]);
 
-			_face.numidx = int(tessdata.index.size());
-			_face.iarray = static_cast<Uint16 *>(malloc (_face.numidx*sizeof(Uint16)));
-			for (int i=0; i<_face.numidx; i++) _face.iarray[i] = tessdata.index[i];
+			glyph.numidx = int(tessdata.index.size());
+			glyph.iarray = static_cast<Uint16 *>(malloc (glyph.numidx*sizeof(Uint16)));
+			for (int i=0; i<glyph.numidx; i++) glyph.iarray[i] = tessdata.index[i];
 
-			_face.advx = face->glyph->linearHoriAdvance/float(1<<16)/72.0f;
-			_face.advy = face->glyph->linearVertAdvance/float(1<<16)/72.0f;
-			//printf("%f,%f\n", _face.advx, _face.advy);
-			m_glyphs[chr] = _face;
+			glyph.advx = m_face->glyph->linearHoriAdvance/float(1<<16)/72.0f;
+			glyph.advy = m_face->glyph->linearVertAdvance/float(1<<16)/72.0f;
+			//printf("%f,%f\n", glyph.advx, glyph.advy);
+			m_glyphs[chr] = glyph;
 		}
 		
 		m_height = m_glyphs['M'].advy;
 		m_width = m_glyphs['M'].advx;
 	}
-}
-
-FontFace::~FontFace()
-{
-	for (int chr=32; chr<127; chr++) {
-		free(m_glyphs[chr].varray);
-		free(m_glyphs[chr].iarray);
-	}
-}
-
-#define TEXTURE_FONT_ENTER \
-	glEnable(GL_BLEND); \
-	glEnable(GL_TEXTURE_2D); \
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-#define TEXTURE_FONT_LEAVE \
-	glDisable(GL_TEXTURE_2D); \
-	glDisable(GL_BLEND);
-
-void TextureFontFace::RenderGlyph(int chr, float x, float y)
-{
-	glfglyph_t *glyph = &m_glyphs[chr];
-	glBindTexture(GL_TEXTURE_2D, glyph->tex);
-	const float ox = x + float(glyph->offx);
-	const float oy = y + float(m_pixSize - glyph->offy);
-	glBegin(GL_QUADS);
-		float allocSize[2] = { m_texSize*glyph->width, m_texSize*glyph->height };
-		const float w = glyph->width;
-		const float h = glyph->height;
-		glTexCoord2f(0,h);
-		glVertex2f(ox,oy+allocSize[1]);
-		glTexCoord2f(w,h);
-		glVertex2f(ox+allocSize[0],oy+allocSize[1]);
-		glTexCoord2f(w,0);
-		glVertex2f(ox+allocSize[0],oy);
-		glTexCoord2f(0,0);
-		glVertex2f(ox,oy);
-	glEnd();
-}
-
-void TextureFontFace::MeasureString(const char *str, float &w, float &h)
-{
-	w = 0;
-	h = GetHeight();
-	float line_width = 0;
-	for (unsigned int i=0; i<strlen(str); i++) {
-		if (str[i] == '\n') {
-			if (line_width > w) w = line_width;
-			line_width = 0;
-			h += GetHeight()*PARAGRAPH_SPACING;
-		} else {
-			line_width += m_glyphs[str[i]].advx;
-		}
-	}
-	if (line_width > w) w = line_width;
-	h += m_descender;
-}
-
-void TextureFontFace::RenderString(const char *str, float x, float y)
-{
-	TEXTURE_FONT_ENTER;
-	float px = x;
-	float py = y;
-	for (unsigned int i=0; i<strlen(str); i++) {
-		if (str[i] == '\n') {
-			px = x;
-			py += floor(GetHeight()*PARAGRAPH_SPACING);
-		} else {
-			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i], px, py);
-			px += floor(glyph->advx);
-		}
-	}
-	TEXTURE_FONT_LEAVE;
-}
-
-void TextureFontFace::RenderMarkup(const char *str, float x, float y)
-{
-	TEXTURE_FONT_ENTER;
-	float px = x;
-	float py = y;
-	int len = strlen(str);
-	for (int i=0; i<len; i++) {
-		if (str[i] == '#') {
-			unsigned int hexcol;
-			if (sscanf(str+i, "#%3x", &hexcol)==1) {
-				Uint8 col[3];
-				col[0] = (hexcol&0xf00)>>4;
-				col[1] = (hexcol&0xf0);
-				col[2] = (hexcol&0xf)<<4;
-				glColor3ubv(col);
-				i+=3;
-				continue;
-			}
-		}
-		if (str[i] == '\n') {
-			px = x;
-			py += floor(GetHeight()*PARAGRAPH_SPACING);
-		} else {
-			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i], px, py);
-			px += floor(glyph->advx);
-		}
-	}
-	TEXTURE_FONT_LEAVE;
-}
-
-TextureFontFace::TextureFontFace(const char *filename_ttf, int a_width, int a_height)
-{
-	FT_Face face;
-	int err;
-	m_pixSize = a_height;
-	if (0 != (err = FT_New_Face(library, filename_ttf, 0, &face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf, err);
-	} else {
-		FT_Set_Pixel_Sizes(face, a_width, a_height);
-		int nbit = 0;
-		int sz = a_height;
-		while (sz) { sz >>= 1; nbit++; }
-		sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
-		m_texSize = sz;
-
-		unsigned char *pixBuf = new unsigned char[2*sz*sz];
-
-		for (int chr=32; chr<127; chr++) {
-			memset(pixBuf, 0, 2*sz*sz);
-
-			if (0 != FT_Load_Char(face, chr, FT_LOAD_RENDER)) {
-				printf("Couldn't load glyph\n");
-				continue;
-			}
-
-			// face->glyph->bitmap
-			// copy to square buffer GL can stomach
-			const int pitch = face->glyph->bitmap.pitch;
-	//		const int xs = face->glyph->bitmap_left;
-	//		const int ys = face->glyph->bitmap_top;
-			for (int row=0; row<face->glyph->bitmap.rows; row++) {
-				for (int col=0; col<face->glyph->bitmap.width; col++) {
-					pixBuf[2*sz*row + 2*col] = face->glyph->bitmap.buffer[pitch*row + col];
-					pixBuf[2*sz*row + 2*col+1] = face->glyph->bitmap.buffer[pitch*row + col];
-				}
-			}
-
-			glfglyph_t _face;
-			glEnable (GL_TEXTURE_2D);
-			glGenTextures (1, &_face.tex);
-			glBindTexture (GL_TEXTURE_2D, _face.tex);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glDisable (GL_TEXTURE_2D);
-
-			_face.width = face->glyph->bitmap.width / float(sz);
-			_face.height = face->glyph->bitmap.rows / float(sz);
-			_face.offx = face->glyph->bitmap_left;
-			_face.offy = face->glyph->bitmap_top;
-			_face.advx = float(face->glyph->advance.x >> 6);
-			_face.advy = float(face->glyph->advance.y >> 6);
-			m_glyphs[chr] = _face;
-		}
-
-		delete [] pixBuf;
-		
-		m_height = float(a_height);
-		m_width = float(a_width);
-		m_descender = -float(face->descender >> 6);
-	}
-}
-
-void GLFTInit()
-{
-	if (0 != FT_Init_FreeType(&library)) {
-		printf("Couldn't init freetype library.\n");
-		exit(0);
-	}
-
-	tobj = gluNewTess ();
-	gluTessCallback(tobj, GLU_TESS_VERTEX_DATA, reinterpret_cast<_GLUfuncptr>(vertexCallback));
-	gluTessCallback(tobj, GLU_TESS_BEGIN_DATA, reinterpret_cast<_GLUfuncptr>(beginCallback));
-	gluTessCallback(tobj, GLU_TESS_END, reinterpret_cast<_GLUfuncptr>(endCallback));
-	gluTessCallback(tobj, GLU_TESS_ERROR, reinterpret_cast<_GLUfuncptr>(errorCallback));
-	gluTessCallback(tobj, GLU_TESS_COMBINE_DATA, reinterpret_cast<_GLUfuncptr>(combineCallback));
-
-	for (Uint16 i=0; i<65535; i++) g_index[i] = i;
 }

@@ -7,6 +7,7 @@ Alpha 11
       Earth look correct again)
     * Crash when using an illegal goods trader that is a police front (#88)
     * Crash when restoring bulleting board ads after loading a game (#86)
+    * Crash AI collision detection in ternary systems
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc

@@ -1,5 +1,4 @@
 #include "Gui.h"
-#include "glfreetype.h"
 
 #define PARAGRAPH_SPACING 1.5f
 
@@ -60,7 +59,7 @@ TextLayout::TextLayout(const char *_str)
 					continue;
 				}
 			}
-			const TextureFontFace::glfglyph_t &glyph = Gui::Screen::GetFont()->GetGlyph(str[i]);
+			const TextureFont::glfglyph_t &glyph = Gui::Screen::GetFont()->GetGlyph(str[i]);
 			wordWidth += glyph.advx;
 			i++;
 		}
@@ -98,7 +97,7 @@ void TextLayout::Render(const float width) const
 
 void TextLayout::_RenderRaw(float maxWidth) const
 {
-	TextureFontFace *font = Gui::Screen::GetFont();
+	TextureFont *font = Gui::Screen::GetFont();
 	float py = 0;
 	init_clip_test();
 
@@ -158,7 +157,7 @@ void TextLayout::_RenderRaw(float maxWidth) const
 
 void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) const
 {
-	TextureFontFace *font = Gui::Screen::GetFont();
+	TextureFont *font = Gui::Screen::GetFont();
 	outSize[0] = 0;
 	outSize[1] = 0;
 

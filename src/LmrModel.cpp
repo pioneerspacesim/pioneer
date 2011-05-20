@@ -1,6 +1,7 @@
 #include "libs.h"
 #include <map>
-#include "glfreetype.h"
+#include "FontManager.h"
+#include "VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
@@ -229,7 +230,8 @@ static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
-static FontFace *s_font;
+static FontManager s_fontManager;
+static VectorFont *s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
 static const LmrObjParams *s_curParams;
@@ -2703,7 +2705,8 @@ void LmrModelCompilerInit()
 	s_pointlightShader[1] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 2\n");
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
-	PiVerify(s_font = new FontFace (PIONEER_DATA_DIR "/fonts/font.ttf"));
+
+	PiVerify(s_font = s_fontManager.GetVectorFont("font"));
 
 	lua_State *L = lua_open();
 	sLua = L;

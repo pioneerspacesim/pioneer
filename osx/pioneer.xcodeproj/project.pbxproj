@@ -12,7 +12,10 @@
 		4A20B11C13531CD10020F43E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11613531CD10020F43E /* Credits.rtf */; };
 		4A20B11D13531CD10020F43E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11813531CD10020F43E /* InfoPlist.strings */; };
 		4A20B12013531E950020F43E /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4A20B11F13531E950020F43E /* SDLMain.nib */; };
-		4A3385211382A6FE00F645FA /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3385201382A6FE00F645FA /* libfreetype.6.dylib */; };
+		4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
+		4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
+		4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
+		4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
 		4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF27136979E000919EBB /* DeadVideoLink.cpp */; };
 		4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF29136979E000919EBB /* FaceVideoLink.cpp */; };
 		4A6C4DD113532FC300FDD53F /* AmbientSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */; };
@@ -146,7 +149,7 @@
 		4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D7213532FC300FDD53F /* WorldView.cpp */; };
 		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
-		4A6C55151354655000FDD53F /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
+		4A6C55151354655000FDD53F /* data in Copy Data folder */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
 		4A9937501368355500EA0EE5 /* BBAdvertChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
@@ -176,44 +179,43 @@
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
 		4AD68C8D1359C3CE0048A93F /* pioneer-logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4AD68C8C1359C3CE0048A93F /* pioneer-logo.icns */; };
 		4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
-		4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
+		4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */; };
 		4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
-		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
+		4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */; };
 		4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
 		4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
-		4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
-		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
-		4AE5CA431383E6AA00B55DEB /* libfreetype.6.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A3385201382A6FE00F645FA /* libfreetype.6.dylib */; };
-		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
-		4AE5CA481383EA7D00B55DEB /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */; };
-		4AE5CA491383EB5E00B55DEB /* libvorbisfile.3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */; };
+		4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */; };
+		4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */; };
+		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4A6C4EB71354649D00FDD53F /* CopyFiles */ = {
+		4A6C4EB71354649D00FDD53F /* Copy Data folder */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				4A6C55151354655000FDD53F /* data in CopyFiles */,
+				4A6C55151354655000FDD53F /* data in Copy Data folder */,
 			);
+			name = "Copy Data folder";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4AD68C6C1359B19E0048A93F /* CopyFiles */ = {
+		4AD68C6C1359B19E0048A93F /* Copy Libraries */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4AE5CA491383EB5E00B55DEB /* libvorbisfile.3.dylib in CopyFiles */,
-				4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in CopyFiles */,
-				4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in CopyFiles */,
-				4AE5CA431383E6AA00B55DEB /* libfreetype.6.dylib in CopyFiles */,
-				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in CopyFiles */,
-				4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in CopyFiles */,
-				4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in CopyFiles */,
+				4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */,
+				4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */,
+				4AE5CA411383E6AA00B55DEB /* libSDL_image-1.2.0.dylib in Copy Libraries */,
+				4AE5CA421383E6AA00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Copy Libraries */,
+				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */,
+				4AE5CA3C1383E2EC00B55DEB /* libSDL-1.2.0.dylib in Copy Libraries */,
+				4AE5CA391383223700B55DEB /* libGLEW.1.6.0.dylib in Copy Libraries */,
 			);
+			name = "Copy Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -232,7 +234,8 @@
 		4A20B11713531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = pioneer/en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
-		4A3385201382A6FE00F645FA /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = SDKs/MacOSX10.6.sdk/usr/local/lib/libfreetype.6.dylib; sourceTree = DEVELOPER_DIR; };
+		4A5619CE13866622002A904C /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
+		4A5619D413867033002A904C /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
 		4A62EF27136979E000919EBB /* DeadVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeadVideoLink.cpp; sourceTree = "<group>"; };
 		4A62EF28136979E000919EBB /* DeadVideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeadVideoLink.h; sourceTree = "<group>"; };
 		4A62EF29136979E000919EBB /* FaceVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceVideoLink.cpp; sourceTree = "<group>"; };
@@ -645,7 +648,6 @@
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
-		4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -653,12 +655,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AE5CA481383EA7D00B55DEB /* libvorbisfile.3.dylib in Frameworks */,
+				4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */,
+				4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */,
 				4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */,
 				4AE5CA3E1383E63C00B55DEB /* libSDL_image-1.2.0.dylib in Frameworks */,
 				4AE5CA3B1383E2D000B55DEB /* libSDL-1.2.0.dylib in Frameworks */,
 				4AE5CA381383220E00B55DEB /* libGLEW.1.6.0.dylib in Frameworks */,
-				4A3385211382A6FE00F645FA /* libfreetype.6.dylib in Frameworks */,
 				4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */,
 				4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
@@ -691,11 +693,11 @@
 			isa = PBXGroup;
 			children = (
 				4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */,
+				4A5619D413867033002A904C /* libvorbisfile.3.dylib */,
+				4A5619CE13866622002A904C /* libfreetype.6.dylib */,
 				4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */,
 				4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */,
 				4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */,
-				4A3385201382A6FE00F645FA /* libfreetype.6.dylib */,
-				4AE5CA471383EA7D00B55DEB /* libvorbisfile.3.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
 			);
@@ -1192,9 +1194,9 @@
 				4A20B0DA135319770020F43E /* Sources */,
 				4A20B0DB135319770020F43E /* Frameworks */,
 				4A20B0DC135319770020F43E /* Resources */,
-				4A6C4EB71354649D00FDD53F /* CopyFiles */,
-				4AD68C6C1359B19E0048A93F /* CopyFiles */,
-				4AD68C7F1359B5D40048A93F /* ShellScript */,
+				4A6C4EB71354649D00FDD53F /* Copy Data folder */,
+				4AD68C6C1359B19E0048A93F /* Copy Libraries */,
+				4AD68C7F1359B5D40048A93F /* Do Dynamic Linking install names */,
 			);
 			buildRules = (
 			);
@@ -1242,18 +1244,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4AD68C7F1359B5D40048A93F /* ShellScript */ = {
+		4AD68C7F1359B5D40048A93F /* Do Dynamic Linking install names */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Do Dynamic Linking install names";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "function relocateLibraryInCurrentApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n}\n\nrelocateLibraryInCurrentApp /opt/local/lib/ libfreetype.6.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libGLEW.1.6.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libsigc-2.0.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libSDL-1.2.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib\nrelocateLibraryInCurrentApp /opt/local/lib/ libvorbisfile.3.dylib\n";
+			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.6.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1450,7 +1453,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
 			};
 			name = Debug;
 		};
@@ -1458,7 +1460,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = "";
 			};
 			name = Release;
 		};
@@ -1467,10 +1468,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1496,11 +1499,12 @@
 					"$(inherited)",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1539,11 +1543,12 @@
 					/opt/local/lib,
 				);
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
