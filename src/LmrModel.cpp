@@ -2636,7 +2636,7 @@ namespace ObjLoader {
 		fclose(f);
 		return 0;
 	}
-};
+}
 
 namespace UtilFuncs {
 	

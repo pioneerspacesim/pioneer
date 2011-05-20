@@ -94,6 +94,6 @@ namespace KeyBindings {
 	extern AxisBinding thrustRightAxis;
 	extern AxisBinding thrustUpAxis;
 	extern AxisBinding thrustForwardAxis;
-};
+}
 
 #endif /* KEYBINDINGS_H */

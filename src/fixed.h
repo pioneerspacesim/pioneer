@@ -6,7 +6,7 @@
 template <int FRAC_BITS>
 class fixedf {
 public:
-	enum { FRAC=FRAC_BITS, MASK=((1ULL<<FRAC_BITS)-1), DUMMY=-1 }; // -1 to ensure signed type (signedness warning otherwise)
+	enum { FRAC=FRAC_BITS, MASK=((Uint64(1)<<FRAC_BITS)-1), DUMMY=-1 }; // -1 to ensure signed type (signedness warning otherwise)
 	fixedf(): v(0) {}
 //	template <int bits>
 //	fixedf(fixedf<bits> f) { *this = f; }
@@ -109,13 +109,13 @@ public:
 		}
 
 		for (int i=0; i<128; i++) {
-			Uint64 sbit = (1ULL<<63) & quotient_hi;
+			Uint64 sbit = (Uint64(1)<<63) & quotient_hi;
 			remainder <<= 1;
 			if (sbit) remainder |= 1;
 			// shift quotient left 1
 			{
 				quotient_hi <<= 1;
-				if (quotient_lo & (1ULL<<63)) quotient_hi |= 1;
+				if (quotient_lo & (Uint64(1)<<63)) quotient_hi |= 1;
 				quotient_lo <<= 1;
 			}
 			if (remainder >= d) {
@@ -135,8 +135,8 @@ public:
 	/* implicit operator float() bad */
 	int ToInt32() const { return int(v>>FRAC); }
 	Sint64 ToInt64() const { return v>>FRAC; }
-	float ToFloat() const { return v/float(1LL<<FRAC); }
-	double ToDouble() const { return v/double(1LL<<FRAC); }
+	float ToFloat() const { return v/float(Sint64(1)<<FRAC); }
+	double ToDouble() const { return v/double(Sint64(1)<<FRAC); }
 	
 	template <int NEW_FRAC_BITS>
 	operator fixedf<NEW_FRAC_BITS>() const {
@@ -148,7 +148,7 @@ public:
 	static fixedf SqrtOf(fixedf a) {
 		/* only works on even-numbered fractional bits */
 		assert(!(FRAC & 1));
-		unsigned long long root, remHi, remLo, testDiv, count;
+		Uint64 root, remHi, remLo, testDiv, count;
 		root = 0;
 		remHi = 0;
 		remLo = a.v;

@@ -359,4 +359,4 @@ void SetDefaults()
 	OnKeyBindingsChanged();
 }
 
-};
+}
