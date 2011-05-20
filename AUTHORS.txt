@@ -45,9 +45,11 @@ Pioneer includes the following third-party software:
 
   Lua 5.1.4 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
   Copyright (C) 1994-2008 Lua.org, PUC-Rio
+  Licensed under the Expat licence (see lua.COPYING.txt)
 
   OOLua by Liam Devine
   Copyright (C) 2009-2010 Liam Devine
+  Licensed under the Expat licence (see lua.COPYING.txt)
 
   LIBERATION fonts
   Copyright (C) 2007 Red Hat, Inc
