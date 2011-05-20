@@ -50,10 +50,9 @@ public:
 	T LengthSqr() const { return x*x + y*y + z*z; }
 	vector3 Normalized() const { const T l = 1.0f / sqrt(x*x + y*y + z*z); return vector3(x*l, y*l, z*l); }
 	vector3 NormalizedSafe() const {
-		T l = x*x + y*y + z*z;
+		T l = sqrt(x*x + y*y + z*z);
 		if (l==0.0) return vector3(1,0,0);
-		l = 1.0f / sqrt(l);
-		return vector3(x*l, y*l, z*l);
+		return vector3(x/l, y/l, z/l);
 	}
 
 	void Print() const { printf("v(%f,%f,%f)\n", x, y, z); }

@@ -384,7 +384,6 @@ public:
 
 
 	void FixEdgeNormals(const int edge, const vector3d *ev) {
-		vector3d x1, x2, y1, y2;
 		int x, y;
 		switch (edge) {
 		case 0:
@@ -693,10 +692,10 @@ public:
 				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
 				// color
 				vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
-				vector3d &col = colors[x + y*GEOPATCH_EDGELEN];
-				const double height = col.x;
+				vector3d &col_r = colors[x + y*GEOPATCH_EDGELEN];
+				const double height = col_r.x;
 				const vector3d &norm = normals[x + y*GEOPATCH_EDGELEN];
-				col = geosphere->GetColor(p, height, norm);
+				col_r = geosphere->GetColor(p, height, norm);
 			}
 		}
 	}

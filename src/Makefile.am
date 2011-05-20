@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 SUBDIRS = collider/ lua/ oolua/
-AM_CPPFLAGS = -DPIONEER_DATA_DIR=\"@PIONEER_DATA_DIR@\"
+
+include $(top_srcdir)/Makefile.common
 
 bin_PROGRAMS = pioneer modelviewer
 noinst_LIBRARIES = libgui.a
@@ -21,6 +22,8 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	Font.h \
+	FontManager.h \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
@@ -58,6 +61,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
+	GameConfig.h \
 	KeyBindings.h \
 	LmrModel.h \
 	LuaBody.h \
@@ -125,13 +129,14 @@ noinst_HEADERS = \
 	SysLoc.h \
 	SystemInfoView.h \
 	SystemView.h \
+	TextureFont.h \
+	VectorFont.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
 	buildopts.h \
 	fixed.h \
 	gameconsts.h \
-	glfreetype.h \
 	libs.h \
 	matrix4x4.h \
 	mtrand.h \
@@ -139,45 +144,192 @@ noinst_HEADERS = \
 	utils.h \
 	vector3.h
 
-libgui_a_SOURCES = GuiButton.cpp Gui.cpp GuiFixed.cpp GuiScreen.cpp GuiLabel.cpp GuiToolTip.cpp GuiToggleButton.cpp GuiRadioButton.cpp \
-		GuiRadioGroup.cpp GuiImageButton.cpp GuiImage.cpp GuiImageRadioButton.cpp GuiMultiStateImageButton.cpp GuiWidget.cpp \
-		GuiContainer.cpp GuiVScrollPortal.cpp GuiVScrollBar.cpp GuiTabbed.cpp GuiBox.cpp GuiTextLayout.cpp GuiRepeaterButton.cpp \
-		GuiTextEntry.cpp GuiMeterBar.cpp GuiLabelSet.cpp
+libgui_a_SOURCES = \
+	Gui.cpp \
+	GuiBox.cpp \
+	GuiButton.cpp \
+	GuiContainer.cpp \
+	GuiFixed.cpp \
+	GuiImage.cpp \
+	GuiImageButton.cpp \
+	GuiImageRadioButton.cpp \
+	GuiLabel.cpp \
+	GuiLabelSet.cpp \
+	GuiMeterBar.cpp \
+	GuiMultiStateImageButton.cpp \
+	GuiRadioButton.cpp \
+	GuiRadioGroup.cpp \
+	GuiRepeaterButton.cpp \
+	GuiScreen.cpp \
+	GuiTabbed.cpp \
+	GuiTextEntry.cpp \
+	GuiTextLayout.cpp \
+	GuiToggleButton.cpp \
+	GuiToolTip.cpp \
+	GuiVScrollBar.cpp \
+	GuiVScrollPortal.cpp \
+	GuiWidget.cpp
 
-pioneer_SOURCES	= main.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
-		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
-		StarSystem.cpp Sector.cpp SystemInfoView.cpp utils.cpp SpaceStation.cpp \
-		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
-		ObjectViewerView.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
-		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp ShipFlavour.cpp \
-		Polit.cpp CityOnPlanet.cpp ShipCpanelMultiFuncDisplays.cpp \
-		Projectile.cpp Render.cpp Sound.cpp CommodityTradeWidget.cpp GenericChatForm.cpp PoliceChatForm.cpp \
-		SysLoc.cpp GalacticView.cpp Galaxy.cpp GameMenuView.cpp Missile.cpp HyperspaceCloud.cpp \
-		LmrModel.cpp MyLuaMathTypes.cpp LuaChatForm.cpp IniConfig.cpp \
-		GeoSphereStyle.cpp AmbientSounds.cpp KeyBindings.cpp ShipAICmd.cpp PiLuaClasses.cpp LuaConstants.cpp \
-		CustomSystem.cpp LuaManager.cpp LuaObject.cpp LuaEventQueue.cpp LuaUtils.cpp LuaSerializer.cpp \
-		LuaBody.cpp LuaShip.cpp LuaSpaceStation.cpp LuaPlanet.cpp LuaStar.cpp LuaPlayer.cpp LuaStarSystem.cpp \
-		LuaSBodyPath.cpp LuaShipType.cpp LuaSpace.cpp LuaGame.cpp LuaUI.cpp LuaFormat.cpp LuaTimer.cpp LuaRand.cpp \
-		LuaEngine.cpp LuaNameGen.cpp LuaCargoBody.cpp LuaEquipType.cpp LuaSBody.cpp BBAdvertChatForm.cpp \
-		DeadVideoLink.cpp FaceVideoLink.cpp
-pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a
+pioneer_SOURCES	= \
+	AmbientSounds.cpp \
+	BBAdvertChatForm.cpp \
+	Body.cpp \
+	CargoBody.cpp \
+	CityOnPlanet.cpp \
+	CommodityTradeWidget.cpp \
+	CustomSystem.cpp \
+	DeadVideoLink.cpp \
+	DynamicBody.cpp \
+	EquipType.cpp \
+	FaceVideoLink.cpp \
+	Font.cpp \
+	FontManager.cpp \
+	Frame.cpp \
+	GalacticView.cpp \
+	Galaxy.cpp \
+	GameMenuView.cpp \
+	GenericChatForm.cpp \
+	GeoSphere.cpp \
+	GeoSphereStyle.cpp \
+	HyperspaceCloud.cpp \
+	InfoView.cpp \
+	IniConfig.cpp \
+	GameConfig.cpp \
+	KeyBindings.cpp \
+	LmrModel.cpp \
+	LuaBody.cpp \
+	LuaCargoBody.cpp \
+	LuaChatForm.cpp \
+	LuaConstants.cpp \
+	LuaEngine.cpp \
+	LuaEquipType.cpp \
+	LuaEventQueue.cpp \
+	LuaFormat.cpp \
+	LuaGame.cpp \
+	LuaManager.cpp \
+	LuaNameGen.cpp \
+	LuaObject.cpp \
+	LuaPlanet.cpp \
+	LuaPlayer.cpp \
+	LuaRand.cpp \
+	LuaSBody.cpp \
+	LuaSBodyPath.cpp \
+	LuaSerializer.cpp \
+	LuaShip.cpp \
+	LuaShipType.cpp \
+	LuaSpace.cpp \
+	LuaSpaceStation.cpp \
+	LuaStar.cpp \
+	LuaStarSystem.cpp \
+	LuaTimer.cpp \
+	LuaUI.cpp \
+	LuaUtils.cpp \
+	MarketAgent.cpp \
+	Missile.cpp \
+	ModelBody.cpp \
+	MyLuaMathTypes.cpp \
+	NameGenerator.cpp \
+	ObjectViewerView.cpp \
+	Pi.cpp \
+	PiLuaClasses.cpp \
+	Planet.cpp \
+	Player.cpp \
+	PoliceChatForm.cpp \
+	Polit.cpp \
+	Projectile.cpp \
+	Render.cpp \
+	Sector.cpp \
+	SectorView.cpp \
+	Serializer.cpp \
+	Sfx.cpp \
+	Ship-AI.cpp \
+	Ship.cpp \
+	ShipAICmd.cpp \
+	ShipCpanel.cpp \
+	ShipCpanelMultiFuncDisplays.cpp \
+	ShipFlavour.cpp \
+	ShipType.cpp \
+	Sound.cpp \
+	Space.cpp \
+	SpaceStation.cpp \
+	SpaceStationView.cpp \
+	Star.cpp \
+	StarSystem.cpp \
+	SysLoc.cpp \
+	SystemInfoView.cpp \
+	SystemView.cpp \
+	TextureFont.cpp \
+	VectorFont.cpp \
+	WorldView.cpp \
+	main.cpp \
+	mtrand.cpp \
+	perlin.cpp \
+	utils.cpp
+
+pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a $(MINGW_LIBS) \
+		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS)
 if !HAVE_LUA
 pioneer_LDADD += lua/liblua.a
 endif
 
-modelviewer_SOURCES = LuaModelViewer.cpp glfreetype.cpp LmrModel.cpp perlin.cpp Render.cpp utils.cpp MyLuaMathTypes.cpp LuaUtils.cpp
-modelviewer_LDADD = collider/libcollider.a libgui.a
+modelviewer_SOURCES = \
+    Font.cpp \
+	FontManager.cpp \
+	LmrModel.cpp \
+	LuaModelViewer.cpp \
+	LuaUtils.cpp \
+	MyLuaMathTypes.cpp \
+	Render.cpp \
+	TextureFont.cpp \
+	VectorFont.cpp \
+	perlin.cpp \
+	utils.cpp
+modelviewer_LDADD = collider/libcollider.a libgui.a $(MINGW_LIBS) \
+		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += lua/liblua.a
 endif
 
 #check_PROGRAMS = tests
-tests_SOURCES = tests.cpp glfreetype.cpp Body.cpp Space.cpp Ship.cpp Player.cpp DynamicBody.cpp Planet.cpp \
-		Star.cpp Frame.cpp ShipCpanel.cpp SectorView.cpp mtrand.cpp WorldView.cpp SystemView.cpp \
-		StarSystem.cpp Sector.cpp SystemInfoView.cpp utils.cpp SpaceStation.cpp \
-		SpaceStationView.cpp ModelBody.cpp ShipType.cpp InfoView.cpp \
-		ObjectViewerView.cpp Serializer.cpp Sfx.cpp Ship-AI.cpp MarketAgent.cpp \
-		EquipType.cpp CargoBody.cpp NameGenerator.cpp perlin.cpp GeoSphere.cpp Pi.cpp 
+tests_SOURCES = \
+	Body.cpp \
+	CargoBody.cpp \
+	DynamicBody.cpp \
+	EquipType.cpp \
+	Frame.cpp \
+	GeoSphere.cpp \
+	InfoView.cpp \
+	MarketAgent.cpp \
+	ModelBody.cpp \
+	NameGenerator.cpp \
+	ObjectViewerView.cpp \
+	Pi.cpp \
+	Planet.cpp \
+	Player.cpp \
+	Sector.cpp \
+	SectorView.cpp \
+	Serializer.cpp \
+	Sfx.cpp \
+	Ship-AI.cpp \
+	Ship.cpp \
+	ShipCpanel.cpp \
+	ShipType.cpp \
+	Space.cpp \
+	SpaceStation.cpp \
+	SpaceStationView.cpp \
+	Star.cpp \
+	StarSystem.cpp \
+	SystemInfoView.cpp \
+	SystemView.cpp \
+	WorldView.cpp \
+	glfreetype.cpp \
+	mtrand.cpp \
+	perlin.cpp \
+	tests.cpp \
+	utils.cpp
+ 
 tests_LDADD = collider/libcollider.a libgui.a
 
 INCLUDES = -I@top_srcdir@/src/lua

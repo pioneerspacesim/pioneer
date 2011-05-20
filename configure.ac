@@ -1,9 +1,12 @@
-# Process this file with autoconf to create configure.
+dnl Process this file with autoconf to create configure.
 
+dnl ###########################################################################
+dnl Setup
+dnl ###########################################################################
 AC_PREREQ(2.59)
 
 AC_INIT([pioneer], [alpha-11-dev], [pioneer-dev@pioneerspacesim.net])
-#AC_CONFIG_HEADERS([config.h])
+dnl AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
 
@@ -15,97 +18,189 @@ AC_C_CONST
 AC_PROG_RANLIB
 #AC_PROG_LIBTOOL
 
-dnl Add a flag to CFLAGS, if supported by the compiler
-AC_DEFUN([PIONEER_CFLAG],
-    [saved_CFLAGS="$CFLAGS"
-    CFLAGS="$CFLAGS $1"
-    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[exit (0);]])], [], [CFLAGS="$saved_CFLAGS"; AC_MSG_WARN([$CC does not support $1])])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
+
+dnl ###########################################################################
+dnl Flags and options
+dnl ###########################################################################
+
+EXTRA_CFLAGS=
+EXTRA_CXXFLAGS=
+EXTRA_CPPFLAGS=
+
+dnl Add a flag, if supported by the compiler or preprocessor
+dnl Assumes that -Werror works
+AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
+    [AC_LANG_PUSH([$1])
+     saved_flags="$][$2][FLAGS"
+     ][$2][FLAGS="$EXTRA_][$2][FLAGS $3 -Werror $][$2][FLAGS"
+     AC_MSG_CHECKING([to see if $4 supports $3])
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [EXTRA_][$2][FLAGS="$EXTRA_][$2][FLAGS $3"; AC_MSG_RESULT([yes])]m4_default([; $5], []), [AC_MSG_RESULT([no])]m4_default([; $6], []))
+     ][$2][FLAGS="$saved_flags"
+     AC_LANG_POP([$1])
     ])
 
+AC_DEFUN([PIONEER_CFLAG], [_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC], [$2], [$3])])
+AC_DEFUN([PIONEER_CXXFLAG], [_PIONEER_COMPILER_FLAG([C++], [CXX], [$1], [$CXX], [$2], [$3])])
+AC_DEFUN([PIONEER_CPPFLAG], [_PIONEER_COMPILER_FLAG([CPP], [CPP], [$1], [$CPP], [$2], [$3])])
+
+AC_DEFUN([PIONEER_C_CXX_FLAG],
+	[_PIONEER_COMPILER_FLAG([C], [C], [$1], [$CC/$CXX], [EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $1"])])
+
 dnl Always add -Wall, where supported
-PIONEER_CFLAG([-Wall])
+PIONEER_C_CXX_FLAG([-Wall])
 
-AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [CFLAGS="$CFLAGS -DDEBUG"])
+dnl Add -O0 if requested
+OPTIMISE=
+AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [test "$withval" != no && OPTIMISE=-O0], [])
+AC_SUBST([OPTIMISE])
 
-dnl Add -O2 or -O0, but not if CFLAGS was set on the command line or the compiler doesn't handle it
-if test "$ac_test_CFLAGS" != set ; then
-  AC_ARG_WITH([no-optimise], AS_HELP_STRING([--with-no-optimise], [Compile without optimisation]), [OPTIMISE=-O0], [OPTIMISE=-O2])
-  PIONEER_CFLAG([$OPTIMISE])
+dnl Debug stuff
+AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
+AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
+AC_ARG_WITH([gprof],       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_C_CXX_FLAG([-p])])
+
+dnl Dist versioning
+AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_EXTRAVERSION=\\\"$withval\\\""])
+
+dnl Compiler warning options
+AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disable lots of extra compiler warnings]), [], [with_extra_warnings=yes])
+if test "x$with_extra_warnings" != xno; then
+  for warn_opt in \
+-Wformat				\
+-Wformat-security			\
+-Wstrict-aliasing=2			\
+-Wmissing-format-attribute		\
+-Wmissing-noreturn			\
+-Wdisabled-optimization			\
+-Wfloat-equal				\
+-Wshadow				\
+-Wcast-qual				\
+-Wcast-align				\
+  ; do
+    PIONEER_C_CXX_FLAG([$warn_opt])
+  done
+  for warn_opt in \
+-Wno-format-zero-length			\
+-Werror-implicit-function-declaration	\
+  ; do
+    PIONEER_CFLAG([$warn_opt])
+  done
+  for warn_opt in \
+-Wstrict-null-sentinel			\
+-Wold-style-cast			\
+-Wsign-promo				\
+  ; do
+    PIONEER_CXXFLAG([$warn_opt])
+  done
 fi
 
-AC_ARG_WITH(fno-inline,  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_CFLAG([-fno-inline])])
-AC_ARG_WITH(gprof,       AS_HELP_STRING([--with-gprof], [Compile with gprof profiler]), [PIONEER_CFLAG([-p])])
+dnl Data files directory
+if test "$PIONEER_DATA_DIR" = ''; then
+  AC_MSG_WARN([Using the default value for PIONEER_DATA_DIR.])
+  AC_MSG_WARN([Installing is NOT recommended.])
+  AC_MSG_WARN([IF YOU ARE PACKAGING PIONEER, SET THIS VARIABLE!])
+  AC_MSG_WARN([To install: make install DESTDIR=/path/to/install/dir/])
+  AC_MSG_WARN([The trailing path separator is required.])
+  AC_MSG_WARN([The installed Pioneer is only runnable from that directory.])
+fi
+PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
+AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]. Packagers MUST set this!])
 
-AC_ARG_WITH(extra-version, AS_HELP_STRING([--with-extra-version], [Add text to game version shown on splash screen]), [PIONEER_CFLAG([-DPIONEER_EXTRAVERSION=\\\"$withval\\\"])])
+dnl ###########################################################################
+dnl Library checks
+dnl ###########################################################################
 
-PKG_CHECK_MODULES(SIGC, "sigc++-2.0")
-CFLAGS="$CFLAGS $SIGC_CFLAGS"
-LIBS="$LIBS $SIGC_LIBS"
+AC_DEFUN([PIONEER_CHECK_CONFIG],
+    [PKG_CHECK_MODULES([$1], [$2], [], [
+	AC_PATH_PROG([$3], [$4], [AC_MSG_ERROR([$4 is required])])
+	][$1][_CFLAGS="`$][$3][ --cflags`"
+	][$1][_LIBS="`$][$3][ --libs`"
+	AC_SUBST([$1][_CFLAGS])
+	AC_SUBST([$1][_LIBS])
+	])
+    ])
 
+dnl FIXME: should really check for headers (if no pkgconfig)
+AC_DEFUN([PIONEER_CHECK_LIB],
+    [PKG_CHECK_MODULES([$1], [$2], [],
+	[AC_CHECK_LIB([$3], [$4], [], [AC_MSG_ERROR([$1 is required])])
+	 ][$1][_CFLAGS=
+	 ][$1][_LIBS="-l$3"
+	 AC_SUBST([$1][_CFLAGS])
+	 AC_SUBST([$1][_LIBS])
+	])
+    ])
+
+dnl Check for sigc++
+PKG_CHECK_MODULES([SIGC], [sigc++-2.0])
+
+dnl Check for OpenGL libs
 case "$host" in
   i686-pc-mingw32)
-	LIBS="$LIBS -lglew32s -lglu32 -lopengl32"
+	AC_SUBST([GL_CFLAGS], [])
+	AC_SUBST([GL_LIBS], [-lopengl32])
+	AC_SUBST([GLU_CFLAGS], [])
+	AC_SUBST([GLU_LIBS], [-lglu32])
+	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
+	AC_SUBST([GLEW_LIBS], [-lglew32s])
 	;;
   x86_64-pc-mingw64)
 	AC_MSG_ERROR([x86-64 on MINGW is not yet supported])
 	;;
   *)
-	AC_CHECK_LIB(GL, glBegin, [], [AC_MSG_ERROR([GL required])])
-	AC_CHECK_LIB(GLU, gluSphere, [], [AC_MSG_ERROR([GLU required])])
-	AC_CHECK_LIB(GLEW, glewInit, [], [AC_MSG_ERROR([GLEW required])])
+	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
+	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
+	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
 	;;
 esac
 
-AC_PATH_PROG([SDLCONFIG], [sdl-config], "no")
-if test "$SDLCONFIG" = "no"; then
-	AC_MSG_ERROR("sdl-config is required.")
-fi
-CFLAGS="$CFLAGS `$SDLCONFIG --cflags`"
-LIBS="$LIBS `$SDLCONFIG --libs`"
+dnl Check for SDL
+PIONEER_CHECK_CONFIG([SDL], [sdl], [SDLCONFIG], [sdl-config])
+AC_CHECK_LIB([SDL_image], [IMG_Load])
+SDL_LIBS="$SDL_LIBS -lSDL_image"
 
-AC_CHECK_LIB(SDL_image, IMG_Load)
+dnl Check for Freetype
+PIONEER_CHECK_CONFIG([FREETYPE], [freetype2], [FTCONFIG], [freetype-config])
 
-AC_PATH_PROG([FTCONFIG], [freetype-config], "no")
-if test "$FTCONFIG" = "no"; then
-	AC_MSG_ERROR("freetype-config is required.")
-fi
-CFLAGS="$CFLAGS `$FTCONFIG --cflags`"
-LIBS="$LIBS `$FTCONFIG --libs`"
+dnl Not using vorbis yet
+PKG_CHECK_MODULES([VORBIS], [vorbisfile])
 
-case "$host" in
-  i686-pc-mingw32|x86_64-pc-mingw64)
-	;;
-  *)
-	CFLAGS="$CFLAGS -DLUA_USE_POSIX"
-esac
-
-# Not using vorbis yet
-PKG_CHECK_MODULES(VORBIS, vorbisfile)
-
+dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
   PKG_CHECK_MODULES([LUA], [lua5.1], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
 fi
 AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
+case "$host" in
+  i686-pc-mingw32|x86_64-pc-mingw64)
+	;;
+  *)
+	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX"
+esac
 
-EXTRAFLAGS="$EXTRAFLAGS $LUA_CFLAGS"
-LIBS="$LIBS $LUA_LIBS"
+dnl ###########################################################################
+dnl System-specific stuff not covered above
+dnl ###########################################################################
 
 case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
-	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS -DGLEW_BUILD"
-	LIBS="$LIBS $SDL_LIBS -lSDL_image -ltiff -lpng -ljpeg -lz $OGG_LIBS $VORBIS_LIBS -lshlwapi"
+	MINGW_LIBS="-lshlwapi"
+	SDL_LIBS="$SDL_LIBS -ltiff -lpng -ljpeg -lz"
 	;;
   *)
-	CFLAGS="$CFLAGS $SDL_CFLAGS $OGG_FLAGS $VORBIS_FLAGS"
-	LIBS="$LIBS $SDL_LIBS -lSDL_image $OGG_LIBS $VORBIS_LIBS"
+	MINGW_LIBS=
 	;;
 esac
+AC_SUBST([MINGW_LIBS])
 
-CXXFLAGS="$CFLAGS"
+dnl ###########################################################################
+dnl Finished :-)
+dnl ###########################################################################
 
-PIONEER_DATA_DIR=${PIONEER_DATA_DIR:-data}
-AC_ARG_VAR([PIONEER_DATA_DIR], [where Pioneer expects its data files to be [data]])
+AC_SUBST([EXTRA_CFLAGS])
+AC_SUBST([EXTRA_CXXFLAGS])
+AC_SUBST([EXTRA_CPPFLAGS])
 
 AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/lua/Makefile src/oolua/Makefile osx/Makefile win32/Makefile])
 AC_OUTPUT

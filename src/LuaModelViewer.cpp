@@ -1,5 +1,4 @@
 #include "libs.h"
-#include "glfreetype.h"
 #include "Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
@@ -623,7 +622,6 @@ int main(int argc, char **argv)
 
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
-	GLFTInit();
 	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();

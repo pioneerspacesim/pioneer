@@ -1,6 +1,7 @@
 #include "libs.h"
 #include <map>
-#include "glfreetype.h"
+#include "FontManager.h"
+#include "VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
@@ -86,7 +87,7 @@ namespace ShipThruster {
 				pCur++;
 
 				float angstep = 2.0f * 3.141592f / n, ang = angstep;
-				int i; for (i=1; i<n; i++, ang+=angstep, pCur++)
+				for (int k=1; k<n; k++, ang+=angstep, pCur++)
 				{
 					pCur->x = sin(ang) * pos->y;
 					pCur->y = cos(ang) * pos->y;
@@ -229,7 +230,8 @@ static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
-static FontFace *s_font;
+static FontManager s_fontManager;
+static VectorFont *s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
 static const LmrObjParams *s_curParams;
@@ -239,7 +241,7 @@ static int s_numTrisRendered;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
-	Vertex(const vector3f &v, const vector3f &n, const GLfloat tex_u, const GLfloat tex_v): v(v), n(n), tex_u(tex_u), tex_v(tex_v) {}
+	Vertex(const vector3f &v_, const vector3f &n_, const GLfloat tex_u_, const GLfloat tex_v_): v(v_), n(n_), tex_u(tex_u_), tex_v(tex_v_) {}
 	vector3f v, n;
 	GLfloat tex_u, tex_v;
 };
@@ -405,20 +407,20 @@ public:
 					glDisable(GL_LIGHT2);
 					glDisable(GL_LIGHT3);
 					float zilch[4] = { 0.0f,0.0f,0.0f,0.0f };
-					for (int i=4; i<8; i++) {
+					for (int j=4; j<8; j++) {
 						// so why are these set each
 						// time? because the shader
 						// path does not know if
 						// lightsources are active and
 						// uses them all (4-8)
-						glLightfv(GL_LIGHT0+i, GL_DIFFUSE, zilch);
-						glLightfv(GL_LIGHT0+i, GL_SPECULAR, zilch);
+						glLightfv(GL_LIGHT0+j, GL_DIFFUSE, zilch);
+						glLightfv(GL_LIGHT0+j, GL_SPECULAR, zilch);
 					}
 					activeLights = 0;
 				} else {
 					int numLights = Render::State::GetNumLights();
-					for (int i=0; i<numLights; i++) glEnable(GL_LIGHT0 + i);
-					for (int i=4; i<8; i++) glDisable(GL_LIGHT0 + i);
+					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
+					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
 					curShader = s_sunlightShader[Render::State::GetNumLights()-1];
 				}
 				break;
@@ -869,8 +871,8 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 		lua_getglobal(sLua, buf);
 		lua_getfield(sLua, -1, "tags");
 		if (lua_istable(sLua, -1)) {
-			for(int i=1;; i++) {
-				lua_pushinteger(sLua, i);
+			for(int j=1;; j++) {
+				lua_pushinteger(sLua, j);
 				lua_gettable(sLua, -2);
 				if (lua_isstring(sLua, -1)) {
 					const char *s = luaL_checkstring(sLua, -1);
@@ -2371,7 +2373,7 @@ namespace ModelFuncs {
 		float rot = 0.0;
 		float *sinTable = static_cast<float*>(alloca(sizeof(float)*(LONG_SEGS+1)));
 		float *cosTable = static_cast<float*>(alloca(sizeof(float)*(LONG_SEGS+1)));
-		for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/(float)LONG_SEGS) {
+		for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/float(LONG_SEGS)) {
 			sinTable[i] = float(sin(rot));
 			cosTable[i] = float(cos(rot));
 		}
@@ -2634,7 +2636,7 @@ namespace ObjLoader {
 		fclose(f);
 		return 0;
 	}
-};
+}
 
 namespace UtilFuncs {
 	
@@ -2703,7 +2705,8 @@ void LmrModelCompilerInit()
 	s_pointlightShader[1] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 2\n");
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
-	PiVerify(s_font = new FontFace (PIONEER_DATA_DIR "/fonts/font.ttf"));
+
+	PiVerify(s_font = s_fontManager.GetVectorFont("font"));
 
 	lua_State *L = lua_open();
 	sLua = L;

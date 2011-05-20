@@ -1,5 +1,4 @@
 #include "Gui.h"
-#include "glfreetype.h"
 
 #define PARAGRAPH_SPACING 1.5f
 
@@ -54,13 +53,13 @@ TextLayout::TextLayout(const char *_str)
 		while (str[i] && !isspace(str[i])) {
 			/* skip color control code things! */
 			if (str[i] == '#') {
-				int hexcol;
+				unsigned int hexcol;
 				if (sscanf(str+i, "#%3x", &hexcol)==1) {
 					i+=4;
 					continue;
 				}
 			}
-			const TextureFontFace::glfglyph_t &glyph = Gui::Screen::GetFont()->GetGlyph(str[i]);
+			const TextureFont::glfglyph_t &glyph = Gui::Screen::GetFont()->GetGlyph(str[i]);
 			wordWidth += glyph.advx;
 			i++;
 		}
@@ -98,7 +97,7 @@ void TextLayout::Render(const float width) const
 
 void TextLayout::_RenderRaw(float maxWidth) const
 {
-	TextureFontFace *font = Gui::Screen::GetFont();
+	TextureFont *font = Gui::Screen::GetFont();
 	float py = 0;
 	init_clip_test();
 
@@ -142,13 +141,13 @@ void TextLayout::_RenderRaw(float maxWidth) const
 
 		if (line_clip_test(py, py+font->GetHeight()*2.0)) {
 			float px = 0;
-			for (int i=0; i<num; i++) {
+			for (int j=0; j<num; j++) {
 				if ((*wpos).word) font->RenderMarkup((*wpos).word, floor(px), py);
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;
 			}
 		} else {
-			for (int i=0; i<num; i++) wpos++;
+			for (int j=0; j<num; j++) wpos++;
 		}
 		py += floor(font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f));
 
@@ -158,7 +157,7 @@ void TextLayout::_RenderRaw(float maxWidth) const
 
 void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) const
 {
-	TextureFontFace *font = Gui::Screen::GetFont();
+	TextureFont *font = Gui::Screen::GetFont();
 	outSize[0] = 0;
 	outSize[1] = 0;
 
@@ -198,10 +197,10 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 		}
 
 		float lineLen = 0;
-		for (int i=0; i<num; i++) {
+		for (int j=0; j<num; j++) {
 			word_t word = (*wpos);
 			lineLen += word.advx;
-			if (i < num-1) lineLen += _spaceWidth;
+			if (j < num-1) lineLen += _spaceWidth;
 			wpos++;
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;

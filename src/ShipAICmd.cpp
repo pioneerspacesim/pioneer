@@ -681,6 +681,7 @@ static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg
 // obj1 is ship, obj2 is target body, targpos is destination in obj1's frame
 static Body *FindNearestObstructor(Ship *obj1, Body *obj2, vector3d &targpos)
 {
+	if (!obj2) return 0;
 	Body *body = obj2->GetFrame()->GetBodyFor();
 	if (body && CheckCollision(obj1, body, targpos)) return body;
 	Frame *parent = obj2->GetFrame()->m_parent;

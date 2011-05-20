@@ -55,7 +55,7 @@ OOLUA_CLASS_END
 class pi_vector {
 public:
 	pi_vector(): v(0,0,0) { }
-	pi_vector(float x, float y, float z): v(x,y,z) { }
+	pi_vector(float x_, float y_, float z_): v(x_,y_,z_) { }
 	pi_vector(const pi_vector &a) { v = a.to_vector3f(); }
 	pi_vector(const vector3f &a) { v = a; }
 
@@ -175,6 +175,6 @@ OOLUA_CLASS_END
 namespace PiLuaClasses
 {
 	void RegisterClasses(lua_State *l);
-};
+}
 
 #endif

@@ -15,7 +15,7 @@ For more information, see:
   http://pioneerspacesim.net/
 
 Bugs? Ideas? Log an issue:
-  https://github.com/pioneerspacesim/issues
+  https://github.com/pioneerspacesim/pioneer/issues
 
 Join the community:
   http://www.spacesimcentral.com/forum/viewforum.php?f=35

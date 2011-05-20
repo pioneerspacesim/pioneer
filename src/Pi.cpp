@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Gui.h"
-#include "glfreetype.h"
 #include "Player.h"
 #include "Space.h"
 #include "Planet.h"
@@ -117,7 +116,7 @@ bool Pi::showDebugInfo;
 #endif
 int Pi::statSceneTris;
 bool Pi::isGameStarted = false;
-IniConfig Pi::config;
+GameConfig Pi::config(GetPiUserDir() + "config.ini");
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
@@ -244,8 +243,6 @@ static void LuaInitGame() {
 
 void Pi::Init()
 {
-	config.Load(GetPiUserDir() + "config.ini");
-
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.cities = config.Int("DetailCities");
 
@@ -323,7 +320,6 @@ void Pi::Init()
 	Pi::rng.seed(time(NULL));
 
 	InitOpenGL();
-	GLFTInit();
 
 	LuaInit();
 
@@ -869,9 +865,6 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
-	Pi::luaOnGameEnd.Signal();
-	Pi::isGameStarted = false;
-
 	AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
@@ -974,6 +967,7 @@ void Pi::Start()
         {
             SBodyPath path(0,0,0);
             Space::SetupSystemForGameStart(&path, 4, 0);
+            StartGame();
             MainLoop();
             break;
         }
@@ -981,6 +975,7 @@ void Pi::Start()
         {
             SBodyPath path(1,0,1);
             Space::SetupSystemForGameStart(&path, 0, 0);
+            StartGame();
             MainLoop();
             break;
         }
@@ -1066,6 +1061,7 @@ void Pi::Start()
              */
             //	player->SetDockedWith(station2, 0);
 
+            StartGame();
             MainLoop();
             break;
         }
@@ -1098,14 +1094,13 @@ void Pi::Start()
 
 void Pi::EndGame()
 {
+	Pi::luaOnGameEnd.Signal();
 	Pi::isGameStarted = false;
 }
 
 
 void Pi::MainLoop()
 {
-	StartGame();
-	
 	Uint32 last_stats = SDL_GetTicks();
 	int frame_stat = 0;
 	int phys_stat = 0;

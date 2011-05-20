@@ -98,12 +98,12 @@ inline unsigned long MTRand_int32::rand_int32() { // generate 32 bit random int
 class MTRand : public MTRand_int32, public DeleteEmitter {
 public:
   MTRand() : MTRand_int32() {}
-  MTRand(unsigned long seed) : MTRand_int32(seed) {}
-  MTRand(const unsigned long* seed, int size) : MTRand_int32(seed, size) {}
+  MTRand(unsigned long seed_) : MTRand_int32(seed_) {}
+  MTRand(const unsigned long* seed_, int size) : MTRand_int32(seed_, size) {}
   ~MTRand() {}
-  double NDouble(int p) {
+  double NDouble(int p_) {
     double o = Double(1.0);
-    while (--p > 0) o *= Double(1.0);
+    while (--p_ > 0) o *= Double(1.0);
     return o;
   }
 
@@ -132,9 +132,9 @@ public:
 	  assert(fixed::FRAC == 32);
 	  return fixed(rand_int32());
   }
-  fixed NFixed(int p) {
+  fixed NFixed(int p_) {
 	  fixed o = Fixed();
-	  while (--p > 0) o *= Fixed();
+	  while (--p_ > 0) o *= Fixed();
 	  return o;
   }
   // [min,max]

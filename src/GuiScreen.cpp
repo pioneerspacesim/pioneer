@@ -1,10 +1,9 @@
 #include "Gui.h"
 #include "vector3.h"		// for projection
-#include "glfreetype.h"
 
 namespace Gui {
 
-TextureFontFace *Screen::font;
+TextureFont *Screen::font;
 bool Screen::initted = false;
 int Screen::width;
 int Screen::height;
@@ -20,6 +19,7 @@ GLdouble Screen::modelMatrix[16];
 GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
+FontManager Screen::s_fontManager;
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -35,7 +35,7 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// coords must be scaled.
 	Screen::fontScale[0] = ui_width / float(real_width);
 	Screen::fontScale[1] = ui_height / float(real_height);
-	Screen::font = new TextureFontFace(PIONEER_DATA_DIR "/fonts/guifont.ttf", int(12/fontScale[0]), int(12/fontScale[1]));
+	Screen::font = s_fontManager.GetTextureFont("guifont");
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
@@ -211,11 +211,11 @@ void Screen::MeasureString(const std::string &s, float &w, float &h)
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff)
 {
-	GLdouble modelMatrix[16];
+	GLdouble modelMatrix_[16];
 	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12] + xoff;
-	float y = modelMatrix[13] + yoff;
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
+	float x = modelMatrix_[12] + xoff;
+	float y = modelMatrix_[13] + yoff;
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
@@ -226,11 +226,11 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff)
 
 void Screen::RenderMarkup(const std::string &s)
 {
-	GLdouble modelMatrix[16];
+	GLdouble modelMatrix_[16];
 	glPushMatrix();
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix);
-	float x = modelMatrix[12];
-	float y = modelMatrix[13];
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelMatrix_);
+	float x = modelMatrix_[12];
+	float y = modelMatrix_[13];
 	glLoadIdentity();
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
