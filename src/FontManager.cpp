@@ -1,4 +1,6 @@
 #include "FontManager.h"
+#include "TextureFont.h"
+#include "VectorFont.h"
 #include "GuiScreen.h"
 
 FontManager::FontManager()
@@ -15,18 +17,30 @@ FontManager::~FontManager()
 	FT_Done_FreeType(m_library);
 }
 
-TextureFontFace *FontManager::GetFont(const std::string &name)
+TextureFont *FontManager::GetTextureFont(const std::string &name)
 {
-	std::map<std::string, TextureFontFace*>::iterator i = m_faces.find(name);
-	if (i != m_faces.end())
+	std::map<std::string, TextureFont*>::iterator i = m_textureFonts.find(name);
+	if (i != m_textureFonts.end())
 		return (*i).second;
 
 	// XXX temporary until the config stuff gets merged into this
     float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	TextureFontFace *font = new TextureFontFace((PIONEER_DATA_DIR "/fonts/" + name + ".ttf").c_str(), int(12/scale[0]), int(12/scale[1]));
-	m_faces.insert( std::make_pair(name, font) );
+	TextureFont *font = new TextureFont(*this, (PIONEER_DATA_DIR "/fonts/" + name + ".ttf").c_str(), int(12/scale[0]), int(12/scale[1]));
+	m_textureFonts.insert( std::make_pair(name, font) );
+
+	return font;
+}
+
+VectorFont *FontManager::GetVectorFont(const std::string &name)
+{
+	std::map<std::string, VectorFont*>::iterator i = m_vectorFonts.find(name);
+	if (i != m_vectorFonts.end())
+		return (*i).second;
+
+	VectorFont *font = new VectorFont(*this, (PIONEER_DATA_DIR "/fonts/" + name + ".ttf").c_str());
+	m_vectorFonts.insert( std::make_pair(name, font) );
 
 	return font;
 }

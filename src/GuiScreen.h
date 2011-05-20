@@ -3,9 +3,8 @@
 
 #include "Gui.h"
 #include "FontManager.h"
+#include "TextureFont.h"
 #include <list>
-
-class TextureFontFace;
 
 namespace Gui {
 	class Screen {
@@ -38,7 +37,7 @@ namespace Gui {
 			scale[1] = fontScale[1];
 		}
 		static const float* GetCoords2Pixels() { return fontScale; }
-		static TextureFontFace *GetFont() { return font; }
+		static TextureFont *GetFont() { return font; }
 		static void SetFocused(Widget *w);
 		static bool IsFocused(Widget *w) {
 			return w == focusedWidget;
@@ -57,7 +56,7 @@ namespace Gui {
 		static float invRealWidth, invRealHeight;
 		static std::list<Widget*> kbshortcut_widgets;
 		static std::list<Widget*> mouseHoveredWidgets;
-		static TextureFontFace *font;
+		static TextureFont *font;
 		static float fontScale[2];
 		static Gui::Fixed *baseContainer;
 		static Gui::Widget *focusedWidget;

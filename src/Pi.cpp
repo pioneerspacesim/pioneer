@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Gui.h"
-#include "glfreetype.h"
 #include "Player.h"
 #include "Space.h"
 #include "Planet.h"
@@ -323,7 +322,6 @@ void Pi::Init()
 	Pi::rng.seed(time(NULL));
 
 	InitOpenGL();
-	GLFTInit();
 
 	LuaInit();
 
