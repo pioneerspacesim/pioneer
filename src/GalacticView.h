@@ -2,7 +2,7 @@
 #define _GALACTICVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include <vector>
 #include <string>

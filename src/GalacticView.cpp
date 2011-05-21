@@ -1,5 +1,5 @@
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "Pi.h"
 #include "GalacticView.h"
 #include "SystemInfoView.h"

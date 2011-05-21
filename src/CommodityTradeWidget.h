@@ -1,7 +1,7 @@
 #ifndef _COMMODITYTRADEWIDGET_H
 #define _COMMODITYTRADEWIDGET_H
 
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "MarketAgent.h"
 #include <map>
 

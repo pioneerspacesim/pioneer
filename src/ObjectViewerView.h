@@ -2,7 +2,7 @@
 #define _OBJECTVIEWERVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 
 #if OBJECTVIEWER

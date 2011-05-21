@@ -2,7 +2,7 @@
 #define _SPACESTATIONVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include "GenericChatForm.h"
 

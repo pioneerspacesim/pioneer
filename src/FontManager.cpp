@@ -1,7 +1,7 @@
 #include "FontManager.h"
 #include "TextureFont.h"
 #include "VectorFont.h"
-#include "GuiScreen.h"
+#include "gui/GuiScreen.h"
 
 FontManager::FontManager()
 {

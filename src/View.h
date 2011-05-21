@@ -3,7 +3,7 @@
 
 #include "libs.h"
 #include "Serializer.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 
 /*
  * For whatever draws crap into the main area of the screen.

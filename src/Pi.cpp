@@ -1,6 +1,6 @@
 #include "libs.h"
 #include "Pi.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "Player.h"
 #include "Space.h"
 #include "Planet.h"

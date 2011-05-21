@@ -1,7 +1,7 @@
 #ifndef _SHIPCPANELMULTIFUNCDISPLAYS_H
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "EquipType.h"
 
 enum multifuncfunc_t {

@@ -5,7 +5,7 @@
 #include "LuaObject.h"
 #include "LuaConstants.h"
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "PoliceChatForm.h"
