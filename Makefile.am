@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = src data osx win32
+SUBDIRS = contrib src data osx win32
 
 include $(top_srcdir)/Makefile.common
 

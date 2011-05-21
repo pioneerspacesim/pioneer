@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider/ lua/ oolua/
+SUBDIRS = collider
 
 include $(top_srcdir)/Makefile.common
 
@@ -268,11 +268,12 @@ pioneer_SOURCES	= \
 	perlin.cpp \
 	utils.cpp
 
-pioneer_LDADD = oolua/liboolua.a collider/libcollider.a libgui.a $(MINGW_LIBS) \
+pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a libgui.a \
+		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS)
 if !HAVE_LUA
-pioneer_LDADD += lua/liblua.a
+pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
 modelviewer_SOURCES = \
@@ -293,7 +294,7 @@ modelviewer_LDADD = collider/libcollider.a libgui.a $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS)
 if !HAVE_LUA
-modelviewer_LDADD += lua/liblua.a
+modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
 #check_PROGRAMS = tests
@@ -336,4 +337,7 @@ tests_SOURCES = \
  
 tests_LDADD = collider/libcollider.a libgui.a
 
-INCLUDES = -I@top_srcdir@/src/lua
+INCLUDES = -I@top_srcdir@/contrib
+if !HAVE_LUA
+INCLUDES += -I@top_srcdir@/contrib/lua
+endif
