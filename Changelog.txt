@@ -1,5 +1,8 @@
 Alpha 11
 
+  * New features
+    * New UI font, Titillium Text
+
   * Fixes
     * Crash in DeliverPackage when creating ads in a system with nos
       population (#85)
@@ -11,6 +14,7 @@ Alpha 11
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
+	* Fonts rendering controlled by per-font config files
 
 Alpha 10
 
