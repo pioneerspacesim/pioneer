@@ -1,4 +1,5 @@
 #include "TextureFont.h"
+#include "GuiScreen.h"
 #include "libs.h"
 
 #include FT_GLYPH_H
@@ -102,12 +103,24 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 	TEXTURE_FONT_LEAVE;
 }
 
-TextureFont::TextureFont(FontManager &fm, const char *filename_ttf, int a_width, int a_height) : Font(fm)
+TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm), m_config(config_filename)
 {
+	std::string filename_ttf = m_config.String("FontFile");
+	if (filename_ttf.length() == 0) {
+		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_filename.c_str());
+		abort();
+	}
+
+	float scale[2];
+	Gui::Screen::GetCoords2Pixels(scale);
+
+	int a_width = m_config.Int("PixelWidth") / scale[0];
+	int a_height = m_config.Int("PixelHeight") / scale[1];
+
 	int err;
 	m_pixSize = a_height;
-	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), filename_ttf, 0, &m_face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf, err);
+	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
+		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
 	} else {
 		FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 		int nbit = 0;
@@ -129,8 +142,6 @@ TextureFont::TextureFont(FontManager &fm, const char *filename_ttf, int a_width,
 			// face->glyph->bitmap
 			// copy to square buffer GL can stomach
 			const int pitch = m_face->glyph->bitmap.pitch;
-	//		const int xs = m_face->glyph->bitmap_left;
-	//		const int ys = m_face->glyph->bitmap_top;
 			for (int row=0; row<m_face->glyph->bitmap.rows; row++) {
 				for (int col=0; col<m_face->glyph->bitmap.width; col++) {
 					pixBuf[2*sz*row + 2*col] = m_face->glyph->bitmap.buffer[pitch*row + col];
