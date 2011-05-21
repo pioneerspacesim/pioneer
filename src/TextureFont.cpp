@@ -127,9 +127,9 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 	TEXTURE_FONT_LEAVE;
 }
 
-TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm), m_config(config_filename)
+TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
 {
-	std::string filename_ttf = m_config.String("FontFile");
+	std::string filename_ttf = GetConfig().String("FontFile");
 	if (filename_ttf.length() == 0) {
 		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_filename.c_str());
 		abort();
@@ -138,10 +138,10 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
-	int a_width = m_config.Int("PixelWidth") / scale[0];
-	int a_height = m_config.Int("PixelHeight") / scale[1];
+	int a_width = GetConfig().Int("PixelWidth") / scale[0];
+	int a_height = GetConfig().Int("PixelHeight") / scale[1];
 
-	float advx_adjust = m_config.Float("AdvanceXAdjustment");
+	float advx_adjust = GetConfig().Float("AdvanceXAdjustment");
 
 	int err;
 	m_pixSize = a_height;

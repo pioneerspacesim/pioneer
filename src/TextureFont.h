@@ -25,7 +25,6 @@ public:
 	const glfglyph_t &GetGlyph(int ch) { return m_glyphs[ch]; }
 
 private:
-	FontConfig m_config;
 	void RenderGlyph(int chr, float x, float y);
 	float m_height;
 	float m_width;

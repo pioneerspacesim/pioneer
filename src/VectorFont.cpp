@@ -372,7 +372,7 @@ void VectorFont::RenderMarkup(const char *str)
 	glPopMatrix();
 }
 
-VectorFont::VectorFont(FontManager &fm, const char *filename_ttf) : Font(fm)
+VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Font(fm, config_filename)
 {
 	// first time setup
 	if (!tobj) {
@@ -386,11 +386,20 @@ VectorFont::VectorFont(FontManager &fm, const char *filename_ttf) : Font(fm)
 		for (Uint16 i=0; i<65535; i++) g_index[i] = i;
 	}
 
+	std::string filename_ttf = GetConfig().String("FontFile");
+	if (filename_ttf.length() == 0) {
+		fprintf(stderr, "'%s' does not name a FontFile to use\n", config_filename.c_str());
+		abort();
+	}
+
+	FT_F26Dot6 width = FT_F26Dot6(GetConfig().Float("PointWidth") * 64.0);
+	FT_F26Dot6 height = FT_F26Dot6(GetConfig().Float("PointHeight") * 64.0);
+
 	int err;
-	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), filename_ttf, 0, &m_face))) {
-		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf, err);
+	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
+		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
 	} else {
-		FT_Set_Char_Size(m_face, 50*64, 0, 100, 0);
+		FT_Set_Char_Size(m_face, width, height, 100, 100);
 		for (int chr=32; chr<127; chr++) {
 			if (0 != FT_Load_Char(m_face, chr, FT_LOAD_NO_SCALE)) {
 				printf("Couldn't load glyph\n");

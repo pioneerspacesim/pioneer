@@ -35,7 +35,7 @@ VectorFont *FontManager::GetVectorFont(const std::string &name)
 	if (i != m_vectorFonts.end())
 		return (*i).second;
 
-	VectorFont *font = new VectorFont(*this, (PIONEER_DATA_DIR "/fonts/" + name + ".ttf").c_str());
+	VectorFont *font = new VectorFont(*this, PIONEER_DATA_DIR "/fonts/" + name + ".ini");
 	m_vectorFonts.insert( std::make_pair(name, font) );
 
 	return font;
