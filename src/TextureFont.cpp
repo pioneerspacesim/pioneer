@@ -136,10 +136,12 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	for (int chr=32; chr<127; chr++) {
 		memset(pixBuf, 0, 2*sz*sz);
 
-		if (0 != FT_Load_Char(m_face, chr, FT_LOAD_RENDER)) {
-			printf("Couldn't load glyph\n");
+		unsigned int glyph_index = FT_Get_Char_Index(m_face, chr);
+		if (FT_Load_Glyph(m_face, glyph_index, FT_LOAD_FORCE_AUTOHINT) != 0) {
+			fprintf(stderr, "couldn't load glyph for '%c'\n", chr);
 			continue;
 		}
+		FT_Render_Glyph(m_face->glyph, FT_RENDER_MODE_NORMAL);
 
 		// face->glyph->bitmap
 		// copy to square buffer GL can stomach
