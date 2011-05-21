@@ -62,11 +62,11 @@ void TextureFont::RenderString(const char *str, float x, float y)
 	for (unsigned int i=0; i<strlen(str); i++) {
 		if (str[i] == '\n') {
 			px = x;
-			py += floor(GetHeight()*PARAGRAPH_SPACING);
+			py += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->tex) RenderGlyph(str[i], px, py);
-			px += floor(glyph->advx);
+			px += glyph->advx;
 		}
 	}
 	TEXTURE_FONT_LEAVE;
@@ -93,11 +93,11 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 		}
 		if (str[i] == '\n') {
 			px = x;
-			py += floor(GetHeight()*PARAGRAPH_SPACING);
+			py += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->tex) RenderGlyph(str[i], px, py);
-			px += floor(glyph->advx);
+			px += glyph->advx;
 		}
 	}
 	TEXTURE_FONT_LEAVE;
@@ -168,8 +168,8 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 		glyph.height = m_face->glyph->bitmap.rows / float(sz);
 		glyph.offx = m_face->glyph->bitmap_left;
 		glyph.offy = m_face->glyph->bitmap_top;
-		glyph.advx = float(m_face->glyph->advance.x >> 6);
-		glyph.advy = float(m_face->glyph->advance.y >> 6);
+		glyph.advx = float(m_face->glyph->advance.x) / 64.0;
+		glyph.advy = float(m_face->glyph->advance.y) / 64.0;
 		m_glyphs[chr] = glyph;
 	}
 
@@ -177,6 +177,6 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	
 	m_height = float(a_height);
 	m_width = float(a_width);
-	m_descender = -float(m_face->descender >> 6);
+	m_descender = -float(m_face->descender) / 64.0;
 }
 
