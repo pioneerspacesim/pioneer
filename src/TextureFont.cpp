@@ -65,7 +65,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 			py += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i], px, py);
+			if (glyph->tex) RenderGlyph(str[i], roundf(px), py);
 			px += glyph->advx;
 		}
 	}
@@ -96,7 +96,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 			py += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i], px, py);
+			if (glyph->tex) RenderGlyph(str[i], roundf(px), py);
 			px += glyph->advx;
 		}
 	}
