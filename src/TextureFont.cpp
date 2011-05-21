@@ -121,59 +121,60 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	m_pixSize = a_height;
 	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
 		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
-	} else {
-		FT_Set_Pixel_Sizes(m_face, a_width, a_height);
-		int nbit = 0;
-		int sz = a_height;
-		while (sz) { sz >>= 1; nbit++; }
-		sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
-		m_texSize = sz;
+		abort();
+	}
 
-		unsigned char *pixBuf = new unsigned char[2*sz*sz];
+	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
+	int nbit = 0;
+	int sz = a_height;
+	while (sz) { sz >>= 1; nbit++; }
+	sz = (64 > (1<<nbit) ? 64 : (1<<nbit));
+	m_texSize = sz;
 
-		for (int chr=32; chr<127; chr++) {
-			memset(pixBuf, 0, 2*sz*sz);
+	unsigned char *pixBuf = new unsigned char[2*sz*sz];
 
-			if (0 != FT_Load_Char(m_face, chr, FT_LOAD_RENDER)) {
-				printf("Couldn't load glyph\n");
-				continue;
-			}
+	for (int chr=32; chr<127; chr++) {
+		memset(pixBuf, 0, 2*sz*sz);
 
-			// face->glyph->bitmap
-			// copy to square buffer GL can stomach
-			const int pitch = m_face->glyph->bitmap.pitch;
-			for (int row=0; row<m_face->glyph->bitmap.rows; row++) {
-				for (int col=0; col<m_face->glyph->bitmap.width; col++) {
-					pixBuf[2*sz*row + 2*col] = m_face->glyph->bitmap.buffer[pitch*row + col];
-					pixBuf[2*sz*row + 2*col+1] = m_face->glyph->bitmap.buffer[pitch*row + col];
-				}
-			}
-
-			glfglyph_t glyph;
-			glEnable (GL_TEXTURE_2D);
-			glGenTextures (1, &glyph.tex);
-			glBindTexture (GL_TEXTURE_2D, glyph.tex);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glDisable (GL_TEXTURE_2D);
-
-			glyph.width = m_face->glyph->bitmap.width / float(sz);
-			glyph.height = m_face->glyph->bitmap.rows / float(sz);
-			glyph.offx = m_face->glyph->bitmap_left;
-			glyph.offy = m_face->glyph->bitmap_top;
-			glyph.advx = float(m_face->glyph->advance.x >> 6);
-			glyph.advy = float(m_face->glyph->advance.y >> 6);
-			m_glyphs[chr] = glyph;
+		if (0 != FT_Load_Char(m_face, chr, FT_LOAD_RENDER)) {
+			printf("Couldn't load glyph\n");
+			continue;
 		}
 
-		delete [] pixBuf;
-		
-		m_height = float(a_height);
-		m_width = float(a_width);
-		m_descender = -float(m_face->descender >> 6);
+		// face->glyph->bitmap
+		// copy to square buffer GL can stomach
+		const int pitch = m_face->glyph->bitmap.pitch;
+		for (int row=0; row<m_face->glyph->bitmap.rows; row++) {
+			for (int col=0; col<m_face->glyph->bitmap.width; col++) {
+				pixBuf[2*sz*row + 2*col] = m_face->glyph->bitmap.buffer[pitch*row + col];
+				pixBuf[2*sz*row + 2*col+1] = m_face->glyph->bitmap.buffer[pitch*row + col];
+			}
+		}
+
+		glfglyph_t glyph;
+		glEnable (GL_TEXTURE_2D);
+		glGenTextures (1, &glyph.tex);
+		glBindTexture (GL_TEXTURE_2D, glyph.tex);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glDisable (GL_TEXTURE_2D);
+
+		glyph.width = m_face->glyph->bitmap.width / float(sz);
+		glyph.height = m_face->glyph->bitmap.rows / float(sz);
+		glyph.offx = m_face->glyph->bitmap_left;
+		glyph.offy = m_face->glyph->bitmap_top;
+		glyph.advx = float(m_face->glyph->advance.x >> 6);
+		glyph.advy = float(m_face->glyph->advance.y >> 6);
+		m_glyphs[chr] = glyph;
 	}
+
+	delete [] pixBuf;
+	
+	m_height = float(a_height);
+	m_width = float(a_width);
+	m_descender = -float(m_face->descender >> 6);
 }
 
