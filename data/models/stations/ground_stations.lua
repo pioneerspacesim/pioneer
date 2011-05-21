@@ -2,7 +2,7 @@
 -- ground_stations.lua
 --
 
-define_model('control_tower', {
+define_model('airport_control_tower', {
 	info = {
 		lod_pixels = {0},
 		bounding_radius = 250.0,
@@ -26,30 +26,42 @@ define_model('control_tower', {
 	end
 })
 
-function createLandingPad(padNum, position)
+function createRunway(num, position)
 	-- padNum: The landing pad number (zero based)
 	-- position: vector of the landing pad v(0,0,0) is where the ship lands
 
-	local stage = get_arg(ARG_STATION_BAY1_STAGE + padNum) -- used to determine landing lights
+	local stage = get_arg(ARG_STATION_BAY1_STAGE + num) -- used to determine landing lights
 
-	-- draw landing pad
-	set_material('pad', .7, .7, .7, 1)
-	use_material('pad')
-	geomflag(0x10 + padNum)
-	cylinder(10, position + v(0,0,0), position + v(0,-10,0), v(0,0,1), 50)
+	-- draw runway
+	set_material('runway', .7, .7, .7, 1)
+	use_material('runway')
+	geomflag(0x10 + num)
+	quad(position + v(-500,0,30), position + v(500,0,30), position + v(500,0,-30), position + v(-500,0,-30)  )
 	geomflag(0)
+	--quad(position + v(-500,-1,-30), position + v(500,-1,-30), position + v(500,-1,-30), position + v(-500,-1,-30)   )
 
-	-- draw out the pad number
+	-- draw the apron where we rest our aircraft
+	quad(position + v(-500,0,-30), position + v(-400,0,-30), position + v(-400,0,-130), position + v(-500,0,-130)    )
+	
+	-- draw out the runway numbers at each end
 	set_material('text', 1, 1, 1, 1)
 	use_material('text')
 	zbias(1, position + v(0,0,0), v(0,1,0))
-	text(padNum+1, position + v(0,0,0), v(0,1,0), v(1,0,0), 20.0, {center=true})
+	text(num+1, position + v(475,0,0), v(0,1,0), v(0,0,-1), 20.0, {center=true})
+	text(num+1, position + v(-475,0,0), v(0,1,0), v(0,0,1), 20.0, {center=true})
+	text(num+1, position + v(-450,0,-80), v(0,1,0), v(1,0,0), 50.0, {center=true})
 	zbias(0)
 
-	-- draw the pad body
+	-- draw the runway pylons
 	set_material('body', .3, .3, .3, 1)
 	use_material('body')
-	tapered_cylinder(10, position + v(0,-10,0), position + v(0,-100,0), v(0,0,1), 10, 20)
+	cylinder(10, position + v(0,-1,0), position + v(0,-100,0), v(0,0,1), 10)
+	cylinder(10, position + v(150,-1,0), position + v(150,-100,0), v(0,0,1), 10)
+	cylinder(10, position + v(300,-1,0), position + v(300,-100,0), v(0,0,1), 10)
+	cylinder(10, position + v(450,-1,0), position + v(450,-100,0), v(0,0,1), 10)
+	cylinder(10, position + v(-150,-1,0), position + v(-150,-100,0), v(0,0,1), 10)
+	cylinder(10, position + v(-300,-1,0), position + v(-300,-100,0), v(0,0,1), 10)
+	cylinder(10, position + v(-450,-1,0), position + v(-450,-100,0), v(0,0,1), 10)
 
 	if (math.fmod(get_arg(1), 2) > 1) then
 		local color
@@ -58,28 +70,35 @@ function createLandingPad(padNum, position)
 		else
 			color = v(0,1,0) -- green
 		end
-		billboard('smoke.png', 50, color, { position + v(-30,1,30), position + v(30,1,30), position + v(-30,1,-30), position + v(30,1,-30) })
+		billboard('smoke.png', 50, color, { 
+			position + v(0,1,30), position + v(0,1,-30),
+			position + v(100,1,30), position + v(100,1,-30), position + v(-100,1,30), position + v(-100,1,-30),
+			position + v(200,1,30), position + v(200,1,-30), position + v(-200,1,30), position + v(-200,1,-30),
+			position + v(300,1,30), position + v(300,1,-30), position + v(-300,1,30), position + v(-300,1,-30),
+			position + v(400,1,30), position + v(400,1,-30), position + v(-400,1,30), position + v(-400,1,-30),
+			position + v(500,1,30), position + v(500,1,-30), position + v(-500,1,30), position + v(-500,1,-30)
+			})
 	end
 end
 
-define_model('ground_station_1', {
+define_model('airport_1', {
 	info = {
-		bounding_radius=300.0,
-		materials = {'text', 'pad', 'body'},
+		bounding_radius=1000.0,
+		materials = {'text', 'runway', 'body'},
 		tags = {'surface_station'},
 		num_docking_ports = 1,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(-150,50,0) }
+			local port_pos = { v(-450,50,-80) }
 			if stage == 2 then
 				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
-			local port_pos = { v(-150,50,0) }
+			local port_pos = { v(-450,50,-80) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()+1000), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
 			end
@@ -87,114 +106,10 @@ define_model('ground_station_1', {
 	},
 	static = function(lod)
 		-- Control Tower
-		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
+		call_model('airport_control_tower', v(0,0,-100), v(1,0,0), v(0,1,0), 1.0)
 	end,
 	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0))
-	end,
-})
-
-define_model('ground_station_2', {
-	info = {
-		bounding_radius=300.0,
-		materials = {'text', 'pad', 'body'},
-		tags = {'surface_station'},
-		num_docking_ports = 2,
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
-		undock_anim_stage_duration = { 0 },
-		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(-150,50,0), v(150,50,0) }
-			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
-			end
-		end,
-		ship_approach_waypoints = function(port, stage)
-			local port_pos = { v(-150,50,0), v(150,50,0) }
-			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
-			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
-			end
-		end,	
-	},
-	static = function(lod)
-		-- Control Tower
-		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
-	end,
-	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0))
-		createLandingPad(1, v(150,50,0))
-	end,
-})
-
-define_model('ground_station_3', {
-	info = {
-		bounding_radius=300.0,
-		materials = {'text', 'pad', 'body'},
-		tags = {'surface_station'},
-		num_docking_ports = 3,
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
-		undock_anim_stage_duration = { 0 },
-		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150) }
-			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
-			end
-		end,
-		ship_approach_waypoints = function(port, stage)
-			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150) }
-			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
-			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
-			end
-		end,	
-	},
-	static = function(lod)
-		-- Control Tower
-		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
-	end,
-	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0))
-		createLandingPad(1, v(150,50,0))
-		createLandingPad(2, v(0,50,-150))
-	end,
-})
-define_model('ground_station_4', {
-	info = {
-		bounding_radius=300.0,
-		materials = {'text', 'pad', 'body'},
-		tags = {'surface_station'},
-		num_docking_ports = 4,
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
-		undock_anim_stage_duration = { 0 },
-		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150), v(0,50,150) }
-			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
-			end
-		end,
-		ship_approach_waypoints = function(port, stage)
-			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150), v(0,50,150) }
-			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
-			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
-			end
-		end,	
-	},
-	static = function(lod)
-		-- Control Tower
-		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
-	end,
-	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0))
-		createLandingPad(1, v(150,50,0))
-		createLandingPad(2, v(0,50,-150))
-		createLandingPad(3, v(0,50,150))
+		-- Runways (these are dynamic due to the landing lights)
+		createRunway(0, v(0,50,0))
 	end,
 })
