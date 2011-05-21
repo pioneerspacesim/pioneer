@@ -41,13 +41,21 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	w = 0;
 	h = GetHeight();
 	float line_width = 0;
-	for (unsigned int i=0; i<strlen(str); i++) {
+	unsigned int len = strlen(str);
+	for (unsigned int i=0; i<len; i++) {
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
 			line_width = 0;
 			h += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			line_width += m_glyphs[str[i]].advx;
+			if (i+1 < len) {
+				FT_UInt a = FT_Get_Char_Index(m_face, str[i]);
+		        FT_UInt b = FT_Get_Char_Index(m_face, str[i+1]);
+				FT_Vector kern;
+				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				line_width += float(kern.x) / 64.0;
+			}
 		}
 	}
 	if (line_width > w) w = line_width;
@@ -59,13 +67,21 @@ void TextureFont::RenderString(const char *str, float x, float y)
 	TEXTURE_FONT_ENTER;
 	float px = x;
 	float py = y;
-	for (unsigned int i=0; i<strlen(str); i++) {
+	unsigned int len = strlen(str);
+	for (unsigned int i=0; i<len; i++) {
 		if (str[i] == '\n') {
 			px = x;
 			py += GetHeight()*PARAGRAPH_SPACING;
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->tex) RenderGlyph(str[i], roundf(px), py);
+			if (i+1 < len) {
+				FT_UInt a = FT_Get_Char_Index(m_face, str[i]);
+		        FT_UInt b = FT_Get_Char_Index(m_face, str[i+1]);
+				FT_Vector kern;
+				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				px += float(kern.x) / 64.0;
+			}
 			px += glyph->advx;
 		}
 	}
@@ -97,6 +113,14 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 		} else {
 			glfglyph_t *glyph = &m_glyphs[str[i]];
 			if (glyph->tex) RenderGlyph(str[i], roundf(px), py);
+			// XXX kerning doesn't skip markup
+			if (i+1 < len) {
+				FT_UInt a = FT_Get_Char_Index(m_face, str[i]);
+		        FT_UInt b = FT_Get_Char_Index(m_face, str[i+1]);
+				FT_Vector kern;
+				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				px += float(kern.x) / 64.0;
+			}
 			px += glyph->advx;
 		}
 	}
