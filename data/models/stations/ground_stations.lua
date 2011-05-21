@@ -1,6 +1,7 @@
 --
 -- ground_stations.lua
 --
+DOCKING_TIMEOUT_SECONDS = 300
 
 define_model('airport_control_tower', {
 	info = {
@@ -37,11 +38,11 @@ function createRunway(num, position)
 	use_material('runway')
 	geomflag(0x10 + num)
 	quad(position + v(-500,0,30), position + v(500,0,30), position + v(500,0,-30), position + v(-500,0,-30)  )
+	-- draw the apron where we rest our aircraft
+	quad(position + v(-500,0,-30), position + v(-400,0,-30), position + v(-400,0,-130), position + v(-500,0,-130)    )
 	geomflag(0)
 	--quad(position + v(-500,-1,-30), position + v(500,-1,-30), position + v(500,-1,-30), position + v(-500,-1,-30)   )
 
-	-- draw the apron where we rest our aircraft
-	quad(position + v(-500,0,-30), position + v(-400,0,-30), position + v(-400,0,-130), position + v(-500,0,-130)    )
 	
 	-- draw out the runway numbers at each end
 	set_material('text', 1, 1, 1, 1)
@@ -83,11 +84,12 @@ end
 
 define_model('airport_1', {
 	info = {
-		bounding_radius=1000.0,
+		bounding_radius=1500.0,
 		materials = {'text', 'runway', 'body'},
 		tags = {'surface_station'},
+		angular_velocity = 1.0,
 		num_docking_ports = 1,
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
+		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2 },
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-450,50,-80) }
@@ -98,7 +100,7 @@ define_model('airport_1', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-450,50,-80) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+1000, port_pos[port]:z()+1000), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port]:x(), port_pos[port]:y()+2000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
 			end
