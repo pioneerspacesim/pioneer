@@ -348,7 +348,7 @@ void VectorFont::RenderMarkup(const char *str)
 	int len = strlen(str);
 	for (int i=0; i<len; i++) {
 		if (str[i] == '#') {
-			int hexcol;
+			unsigned int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
 				Uint8 col[3];
 				col[0] = (hexcol&0xf00)>>4;

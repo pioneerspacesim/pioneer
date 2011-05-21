@@ -20,13 +20,13 @@ namespace MyLuaVec {
 	vector3f *checkVec (lua_State *L, int index);
 	vector3f *pushVec(lua_State *L);
 	int Vec_register (lua_State *L);
-}; /* namespace MyLuaVec */
+} /* namespace MyLuaVec */
 
 namespace MyLuaMatrix {
 	matrix4x4f *checkMatrix (lua_State *L, int index);
 	matrix4x4f *pushMatrix(lua_State *L);
 	int Matrix_register (lua_State *L);
-}; /* namespace MyLuaMatrix */
+} /* namespace MyLuaMatrix */
 
 // i'll just throw them in here...
 static inline const char *luaPi_gettable_checkstring(lua_State *L, int table, int idx)

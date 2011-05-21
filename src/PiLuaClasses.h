@@ -175,6 +175,6 @@ OOLUA_CLASS_END
 namespace PiLuaClasses
 {
 	void RegisterClasses(lua_State *l);
-};
+}
 
 #endif
