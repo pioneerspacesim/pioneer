@@ -392,16 +392,15 @@ VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Fo
 		abort();
 	}
 
-	FT_F26Dot6 width = FT_F26Dot6(GetConfig().Float("PointWidth") * 64.0);
-	FT_F26Dot6 height = FT_F26Dot6(GetConfig().Float("PointHeight") * 64.0);
+	FT_F26Dot6 points = FT_F26Dot6(GetConfig().Float("PointSize") * 64.0);
 
 	int err;
 	if (0 != (err = FT_New_Face(GetFontManager().GetFreeTypeLibrary(), std::string(PIONEER_DATA_DIR "/fonts/" + filename_ttf).c_str(), 0, &m_face))) {
 		fprintf(stderr, "Terrible error! Couldn't load '%s'; error %d.\n", filename_ttf.c_str(), err);
 	} else {
-		FT_Set_Char_Size(m_face, width, height, 100, 100);
+		FT_Set_Char_Size(m_face, points, 0, 72, 0);
 		for (int chr=32; chr<127; chr++) {
-			if (0 != FT_Load_Char(m_face, chr, FT_LOAD_NO_SCALE)) {
+			if (0 != FT_Load_Char(m_face, chr, FT_LOAD_DEFAULT)) {
 				printf("Couldn't load glyph\n");
 				continue;
 			}
@@ -444,9 +443,9 @@ VectorFont::VectorFont(FontManager &fm, const std::string &config_filename) : Fo
 			glyph.iarray = static_cast<Uint16 *>(malloc (glyph.numidx*sizeof(Uint16)));
 			for (int i=0; i<glyph.numidx; i++) glyph.iarray[i] = tessdata.index[i];
 
-			glyph.advx = m_face->glyph->linearHoriAdvance/float(1<<16)/72.0f;
-			glyph.advy = m_face->glyph->linearVertAdvance/float(1<<16)/72.0f;
-			//printf("%f,%f\n", glyph.advx, glyph.advy);
+			glyph.advx = float(m_face->glyph->linearHoriAdvance) / 65536.0f / 36.0f;
+			glyph.advy = float(m_face->glyph->linearVertAdvance) / 65536.0f / 36.0f;
+
 			m_glyphs[chr] = glyph;
 		}
 		
