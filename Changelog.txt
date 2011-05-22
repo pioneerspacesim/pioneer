@@ -12,6 +12,7 @@ Alpha 11
     * Crash when using an illegal goods trader that is a police front (#88)
     * Crash when restoring bulleting board ads after loading a game (#86)
     * Crash in AI collision detection in ternary systems
+    * Discovery Base (Sol) orbit too close to its parent (#116)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
