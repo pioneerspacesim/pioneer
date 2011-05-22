@@ -33,6 +33,9 @@
 #include <sys/types.h>
 #endif
 
+#define PNG_SKIP_SETJMP_CHECK
+#include <png.h>
+
 std::string GetPiUserDir(const std::string &subdir)
 {
 
@@ -451,4 +454,60 @@ Uint32 ceil_pow2(Uint32 v) {
 	v |= v >> 16;
 	v++;
 	return v;
+}
+
+void Screendump(const char* destFile, const int W, const int H)
+{
+	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+
+	std::vector<char> pixel_data(3*W*H);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, W, H, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
+	glFinish();
+
+	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+	if (!png_ptr) {
+		fprintf(stderr, "Couldn't create png_write_struct\n");
+		return;
+	}
+
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr) {
+		png_destroy_write_struct(&png_ptr, 0);
+		fprintf(stderr, "Couldn't create png_info_struct\n");
+		return;
+	}
+
+	//http://www.libpng.org/pub/png/libpng-1.2.5-manual.html#section-3.1
+	if (setjmp(png_jmpbuf(png_ptr))) {
+		png_destroy_write_struct(&png_ptr, &info_ptr);
+		fprintf(stderr, "Couldn't set png jump buffer\n");
+		return;
+	}
+
+	FILE *out = fopen(fname.c_str(), "w");
+	if (!out) {
+		png_destroy_write_struct(&png_ptr, &info_ptr);
+		fprintf(stderr, "Couldn't open %s for writing\n", fname.c_str());
+		return;
+	}
+
+	png_init_io(png_ptr, out);
+	png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
+	png_set_IHDR(png_ptr, info_ptr, W, H, 8, PNG_COLOR_TYPE_RGB,
+		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT);
+
+	png_bytep rows[H];
+
+	for (unsigned int i = 0; i < H; ++i) {
+		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
+	}
+	png_set_rows(png_ptr, info_ptr, rows);
+	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);
+
+	png_destroy_write_struct(&png_ptr, &info_ptr);
+	fclose(out);
+	printf("Screenshot %s saved\n", fname.c_str());
 }

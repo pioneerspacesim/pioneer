@@ -179,6 +179,9 @@ case "$host" in
 	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX"
 esac
 
+dnl Check for libpng
+PKG_CHECK_MODULES([libpng], [libpng12])
+
 dnl ###########################################################################
 dnl System-specific stuff not covered above
 dnl ###########################################################################
