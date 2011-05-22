@@ -286,8 +286,10 @@ public:
 		m_flavourIdx = flavour_idx;
 		m_flavour = station->GetShipsOnSale()[flavour_idx];
 		m_lmrModel = LmrLookupModelByName(ShipType::types[m_flavour.type].lmrModelName.c_str());
+        /*
 		m_ondraw3dcon = Pi::spaceStationView->onDraw3D.connect(
 				sigc::mem_fun(this, &StationViewShipView::Draw3D));
+        */
 	}
 	virtual ~StationViewShipView() {
 		m_ondraw3dcon.disconnect();
@@ -970,25 +972,11 @@ void StationRootView::GotoPolis()
 
 /////////////////////////////////////////////////////////////////////
 
-SpaceStationView::SpaceStationView(): View(), m_jumpToForm(0)
+SpaceStationView::SpaceStationView(): View()
 {
 	Gui::Label *l = new Gui::Label("Comms Link");
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
-}
-
-void SpaceStationView::JumpToForm(GenericChatForm *form)
-{
-	m_jumpToForm = form;
-}
-
-void SpaceStationView::OnSwitchTo()
-{
-	DeleteAllChildren();
-	SetTransparency(true);
-	m_baseSubView = new StationRootView();
-	Add(m_baseSubView, 0, 0);
-	m_baseSubView->ShowAll();
 }
 
 void SpaceStationView::Draw3D()
@@ -996,11 +984,42 @@ void SpaceStationView::Draw3D()
 	onDraw3D.emit();
 }
 
-void SpaceStationView::Update()
+void SpaceStationView::OnSwitchTo()
 {
-	if (m_jumpToForm) {
-		OnSwitchTo();
-		m_baseSubView->OpenChildChatForm(m_jumpToForm);
-		m_jumpToForm = 0;
-	}
+	SetTransparency(true);
+	JumpToForm(new StationRootView());
 }
+
+void SpaceStationView::ActivateForm(GenericChatForm *form)
+{
+	HideChildren();
+	m_activeForms.push(form);
+	Add(form, 0, 0);
+	form->ShowAll();
+}
+
+void SpaceStationView::CloseForm()
+{
+	HideChildren();
+
+	GenericChatForm *form = m_activeForms.top();
+	assert(form);
+	m_activeForms.pop();
+
+	Remove(form);
+
+	form = m_activeForms.top();
+	form->ShowAll();
+}
+
+void SpaceStationView::JumpToForm(GenericChatForm *form)
+{
+	while (!m_activeForms.empty())
+		m_activeForms.pop();
+	DeleteAllChildren();
+
+	m_activeForms.push(form);
+	Add(form, 0, 0);
+	form->ShowAll();
+}
+
