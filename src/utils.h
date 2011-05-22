@@ -92,4 +92,6 @@ bool is_dir(const std::string &filename);
 /** args to callback are basename, full path */
 void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
 
+Uint32 ceil_pow2(Uint32 v);
+
 #endif /* _UTILS_H */

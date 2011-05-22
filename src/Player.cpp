@@ -109,6 +109,7 @@ void Player::StaticUpdate(const float timeStep)
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (IsAnyThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
 			AIMatchVel(v);
@@ -320,4 +321,16 @@ void Player::SetAlertState(Ship::AlertState as)
 	Pi::cpan->SetAlertState(as);
 
 	Ship::SetAlertState(as);
+}
+
+bool Player::IsAnyThrusterKeyDown()
+{
+	return (
+		KeyBindings::thrustForward.IsActive()	||
+		KeyBindings::thrustBackwards.IsActive()	||
+		KeyBindings::thrustUp.IsActive()		||
+		KeyBindings::thrustDown.IsActive()		||
+		KeyBindings::thrustLeft.IsActive()		||
+		KeyBindings::thrustRight.IsActive()
+	);
 }

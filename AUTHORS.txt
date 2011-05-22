@@ -13,6 +13,7 @@ Programming:
   Robert Norris
   Phil Howlett
   Darren Salt
+  Kimmo Kotajärvi
 
 Art:
   Gernot
@@ -51,9 +52,13 @@ Pioneer includes the following third-party software:
   Copyright (C) 2009-2010 Liam Devine
   Licensed under the Expat licence (see lua.COPYING.txt)
 
-  LIBERATION fonts
-  Copyright (C) 2007 Red Hat, Inc
-  Licensed under the GNU GPL version 2 (see ttf-liberation.COPYING.txt)
+  Cousine font
+  Copyright (C) 2010 Google, Inc
+  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+
+  Titillium Text font
+  Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
+  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
 
 
 Pioneer also makes use of these fine projects. Thanks a lot!

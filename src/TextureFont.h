@@ -2,11 +2,12 @@
 #define _TEXTUREFONT_H
 
 #include "Font.h"
+#include "FontConfig.h"
 
 class TextureFont : public Font
 {
 public:
-	TextureFont(FontManager &fm, const char *filename_ttf, int width, int height);
+	TextureFont(FontManager &fm, const std::string &config_filename);
 
 	void RenderString(const char *str, float x, float y);
 	void RenderMarkup(const char *str, float x, float y);
