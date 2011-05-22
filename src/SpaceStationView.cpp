@@ -12,6 +12,7 @@
 #include "LmrModel.h"
 #include "utils.h"
 
+#if 0
 ////////////////////////////////////////////////////////////////////
 
 class StationCommoditiesView: public GenericChatForm {
@@ -971,6 +972,9 @@ void StationRootView::GotoPolis()
 }
 
 /////////////////////////////////////////////////////////////////////
+#endif
+
+#include "ChatForm.h"
 
 SpaceStationView::SpaceStationView(): View()
 {
@@ -987,14 +991,18 @@ void SpaceStationView::Draw3D()
 void SpaceStationView::OnSwitchTo()
 {
 	SetTransparency(true);
-	JumpToForm(new StationRootView());
+	//JumpToForm(new StationRootView());
+	JumpToForm(new ChatForm());
 }
 
-void SpaceStationView::ActivateForm(GenericChatForm *form)
+void SpaceStationView::ActivateForm(ChatForm *form)
 {
-	HideChildren();
+	if (!m_activeForms.empty())
+		m_activeForms.top()->Hide();
+
 	m_activeForms.push(form);
-	Add(form, 0, 0);
+	Add(form, 320, 40);
+
 	form->ShowAll();
 }
 
@@ -1002,7 +1010,7 @@ void SpaceStationView::CloseForm()
 {
 	HideChildren();
 
-	GenericChatForm *form = m_activeForms.top();
+	ChatForm *form = m_activeForms.top();
 	assert(form);
 	m_activeForms.pop();
 
@@ -1012,14 +1020,11 @@ void SpaceStationView::CloseForm()
 	form->ShowAll();
 }
 
-void SpaceStationView::JumpToForm(GenericChatForm *form)
+void SpaceStationView::JumpToForm(ChatForm *form)
 {
 	while (!m_activeForms.empty())
 		m_activeForms.pop();
 	DeleteAllChildren();
 
-	m_activeForms.push(form);
-	Add(form, 0, 0);
-	form->ShowAll();
+	ActivateForm(form);
 }
-

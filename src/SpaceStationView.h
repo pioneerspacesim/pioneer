@@ -5,6 +5,7 @@
 #include "gui/Gui.h"
 #include "View.h"
 #include "GenericChatForm.h"
+#include "ChatForm.h"
 #include <stack>
 
 class StationViewShipView;
@@ -16,12 +17,12 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
 
-	void ActivateForm(GenericChatForm *form);
+	void ActivateForm(ChatForm *form);
 	void CloseForm();
-	void JumpToForm(GenericChatForm *form);
+	void JumpToForm(ChatForm *form);
 
 private:
-	std::stack<GenericChatForm*> m_activeForms;
+	std::stack<ChatForm*> m_activeForms;
 
 	// hack so StationViewShipView can draw its 3d shit
 	sigc::signal<void> onDraw3D;
