@@ -414,7 +414,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label("Buy this ship"), 500, 470);
 
 
-	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.25f);
 	float y = 40;
 	Add(new Gui::Label("Ship type"), 420, y);
 	Add(new Gui::Label(t.name), 600, y);
@@ -460,7 +460,7 @@ void StationViewShipView::ShowAll()
 	y+=YSEP;
 	y+=YSEP;
 	Add(new Gui::Label("Hyperspace range (fully laden):"), 420, y);
-	y+=YSEP;
+	y+=YSEP*1.5;
 
 	{
 		int row_size = 5, pos = 0;
@@ -482,7 +482,7 @@ void StationViewShipView::ShowAll()
 			if (++pos == row_size) {
 				pos = 0;
 				x = 420-52;
-				y += YSEP*3;
+				y += YSEP*2.5;
 			}
 		}
 	}
