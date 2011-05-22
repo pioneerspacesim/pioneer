@@ -1,5 +1,9 @@
 Alpha 11
 
+  * New features
+    * New UI font, Titillium Text
+    * New world (model) font, Cousine Bold
+
   * Fixes
     * Crash in DeliverPackage when creating ads in a system with nos
       population (#85)
@@ -7,10 +11,11 @@ Alpha 11
       Earth look correct again)
     * Crash when using an illegal goods trader that is a police front (#88)
     * Crash when restoring bulleting board ads after loading a game (#86)
-    * Crash AI collision detection in ternary systems
+    * Crash in AI collision detection in ternary systems
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
+	* Fonts rendering controlled by per-font config files
 
 Alpha 10
 
