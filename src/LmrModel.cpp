@@ -2706,7 +2706,7 @@ void LmrModelCompilerInit()
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 
-	PiVerify(s_font = s_fontManager.GetVectorFont("font"));
+	PiVerify(s_font = s_fontManager.GetVectorFont("WorldFont"));
 
 	lua_State *L = lua_open();
 	sLua = L;
