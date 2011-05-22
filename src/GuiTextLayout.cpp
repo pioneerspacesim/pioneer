@@ -143,7 +143,7 @@ void TextLayout::_RenderRaw(float maxWidth) const
 		if (line_clip_test(py, py+font->GetHeight()*2.0)) {
 			float px = 0;
 			for (int j=0; j<num; j++) {
-				if ((*wpos).word) font->RenderMarkup((*wpos).word, floor(px), py);
+				if ((*wpos).word) font->RenderMarkup((*wpos).word, round(px), round(py));
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;
 			}
