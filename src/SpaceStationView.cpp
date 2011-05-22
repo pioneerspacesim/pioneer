@@ -463,16 +463,26 @@ void StationViewShipView::ShowAll()
 	y+=YSEP;
 
 	{
-		int drivetype = Equip::DRIVE_CLASS1;
-		for (int x = 420; (drivetype < Equip::TYPE_MAX) && (EquipType::types[drivetype].slot == Equip::SLOT_ENGINE);
-				drivetype++, x+=52) {
+		int row_size = 5, pos = 0;
+		for (int x = 420, drivetype = Equip::DRIVE_CLASS1; drivetype <= Equip::DRIVE_CLASS9; x += 52, drivetype++) {
+			if (t.capacity < EquipType::types[drivetype].mass)
+				break;
+
 			int hyperclass = EquipType::types[drivetype].pval;
 			float range = Pi::CalcHyperspaceRange(hyperclass, t.hullMass + t.capacity);
+
+
 			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), float(x), y);
 			if (t.capacity < EquipType::types[drivetype].mass) {
 				Add(new Gui::Label("---"), float(x), float(y+YSEP));
 			} else {
 				Add(new Gui::Label(stringf(128, "%.2f ly", range)), float(x), float(y+YSEP));
+			}
+
+			if (++pos == row_size) {
+				pos = 0;
+				x = 420-52;
+				y += YSEP*3;
 			}
 		}
 	}
