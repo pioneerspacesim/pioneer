@@ -74,7 +74,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 
 	char filename[1024];
 
-	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 32, 0xff, 0xff00, 0xff0000, 0xff000000);
+	SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, ceil_pow2(FACE_WIDTH), ceil_pow2(FACE_HEIGHT), 32, 0xff, 0xff00, 0xff0000, 0xff000000);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
 	//printf("%s\n", filename);
@@ -117,7 +117,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &m_tex);
 	glBindTexture(GL_TEXTURE_2D, m_tex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, FACE_WIDTH, FACE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s->w, s->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -152,15 +152,18 @@ void FaceVideoLink::Draw() {
 		glBindTexture(GL_TEXTURE_2D, m_tex);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glBegin(GL_QUADS);
+			float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
+			float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
+			printf("%f %f\n", w, h);
 			glColor3f(0,0,0);
+			glTexCoord2f(0,h);
+			glVertex2f(0,size[1]);
+			glTexCoord2f(w,h);
+			glVertex2f(size[0],size[1]);
+			glTexCoord2f(w,0);
+			glVertex2f(size[0],0);
 			glTexCoord2f(0,0);
 			glVertex2f(0,0);
-			glTexCoord2f(0,1);
-			glVertex2f(0,size[1]);
-			glTexCoord2f(1,1);
-			glVertex2f(size[0],size[1]);
-			glTexCoord2f(1,0);
-			glVertex2f(size[0],0);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 
