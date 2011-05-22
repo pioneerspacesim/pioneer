@@ -91,6 +91,14 @@ local onDelete = function (ref)
 end
 
 local onCreateBB = function (station)
+	local has_illegal_goods = false
+	for i,e in pairs(Constants.EquipType) do
+		if not Game.system:IsCommodityLegal(e) then
+			has_illegal_goods = true
+		end
+	end
+	if not has_illegal_goods then return end
+
 	local rand = Rand.New(station.seed)
 	local num = rand:Integer(1,3)
 	for i = 1,num do
