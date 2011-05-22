@@ -4,6 +4,8 @@ Alpha 11
     * New UI font, Titillium Text
     * New world (model) font, Cousine Bold
     * Manual thruster adjustments can now be made in set-speed mode
+    * 5 new ground based starports (1, 2, 3, 4 landing pad configs. 
+      1 Airport config)
 
   * Fixes
     * Crash in DeliverPackage when creating ads in a system with nos
