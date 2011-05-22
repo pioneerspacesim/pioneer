@@ -154,7 +154,6 @@ void FaceVideoLink::Draw() {
 		glBegin(GL_QUADS);
 			float w = float(FACE_WIDTH) / ceil_pow2(FACE_WIDTH);
 			float h = float(FACE_HEIGHT) / ceil_pow2(FACE_HEIGHT);
-			printf("%f %f\n", w, h);
 			glColor3f(0,0,0);
 			glTexCoord2f(0,h);
 			glVertex2f(0,size[1]);
