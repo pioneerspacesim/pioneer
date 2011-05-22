@@ -3,6 +3,7 @@ Alpha 11
   * New features
     * New UI font, Titillium Text
     * New world (model) font, Cousine Bold
+    * Manual thruster adjustments can now be made in set-speed mode
 
   * Fixes
     * Crash in DeliverPackage when creating ads in a system with nos

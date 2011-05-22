@@ -13,6 +13,7 @@ Programming:
   Robert Norris
   Phil Howlett
   Darren Salt
+  Kimmo Kotajärvi
 
 Art:
   Gernot
