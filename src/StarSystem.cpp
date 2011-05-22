@@ -1691,6 +1691,13 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	/* Bad type of planet for settlement */
 	if ((averageTemp > CELSIUS+100) || (averageTemp < 100) ||
 	    (type != SBody::TYPE_PLANET_TERRESTRIAL)) {
+        
+        // orbital starports should carry a small amount of population
+        if (type == SBody::TYPE_STARPORT_ORBITAL) {
+			m_population = fixed(1,10);
+			outTotalPop += m_population;
+        }
+
 		return;
 	}
 

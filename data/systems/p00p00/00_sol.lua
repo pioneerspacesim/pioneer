@@ -239,8 +239,8 @@ local jupiter_moons = {
 		:inclination(math.deg2rad(0.192))
 		:rotation_period(f(167,10)),
 	CustomSBody:new('Discovery Base', 'STARPORT_ORBITAL')
-		:semi_major_axis(f(7,1000))
-		:rotation_period(f(11,1)),
+		:semi_major_axis(f(14,1000))
+		:rotation_period(f(204,10)),
 }
 
 local saturn = CustomSBody:new('Saturn', 'PLANET_GAS_GIANT')
