@@ -441,3 +441,14 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 		}
 	}
 }
+
+Uint32 ceil_pow2(Uint32 v) {
+	v--;
+	v |= v >> 1;
+	v |= v >> 2;
+	v |= v >> 4;
+	v |= v >> 8;
+	v |= v >> 16;
+	v++;
+	return v;
+}
