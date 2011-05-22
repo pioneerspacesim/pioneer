@@ -7,7 +7,7 @@
 class VectorFont : public Font
 {
 public:
-	VectorFont(FontManager &fm, const char *filename_ttf);
+	VectorFont(FontManager &fm, const std::string &config_file);
 
 	void RenderGlyph(int chr);
 	void RenderString(const char *str);

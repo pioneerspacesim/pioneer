@@ -23,11 +23,7 @@ TextureFont *FontManager::GetTextureFont(const std::string &name)
 	if (i != m_textureFonts.end())
 		return (*i).second;
 
-	// XXX temporary until the config stuff gets merged into this
-    float scale[2];
-	Gui::Screen::GetCoords2Pixels(scale);
-
-	TextureFont *font = new TextureFont(*this, (PIONEER_DATA_DIR "/fonts/" + name + ".ttf").c_str(), int(12/scale[0]), int(12/scale[1]));
+	TextureFont *font = new TextureFont(*this, PIONEER_DATA_DIR "/fonts/" + name + ".ini");
 	m_textureFonts.insert( std::make_pair(name, font) );
 
 	return font;
@@ -39,7 +35,7 @@ VectorFont *FontManager::GetVectorFont(const std::string &name)
 	if (i != m_vectorFonts.end())
 		return (*i).second;
 
-	VectorFont *font = new VectorFont(*this, (PIONEER_DATA_DIR "/fonts/" + name + ".ttf").c_str());
+	VectorFont *font = new VectorFont(*this, PIONEER_DATA_DIR "/fonts/" + name + ".ini");
 	m_vectorFonts.insert( std::make_pair(name, font) );
 
 	return font;
