@@ -2,7 +2,7 @@
 #define _WORLDVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include "Render.h"
 #include "Serializer.h"

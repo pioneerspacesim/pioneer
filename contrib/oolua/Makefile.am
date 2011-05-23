@@ -15,4 +15,4 @@ noinst_HEADERS = base_checker.h         fwd_push_pull.h   lvd_types.h           
 	export_func_to_lua.h   lua_table.h       oolua_error.h         oolua_registration.h      platform_check.h
 
 
-INCLUDES = -I@top_srcdir@/src -I@top_srcdir@/src/lua
+INCLUDES = -I$(srcdir)/../lua
