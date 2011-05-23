@@ -16,7 +16,7 @@
 #include "Frame.h"
 #include "gameconsts.h"
 #include "GeoSphere.h"
-#include "glfreetype.h"
+//#include "glfreetype.h" 
 #include "Gui.h"
 #include "GuiAdjustment.h"
 #include "GuiButton.h"

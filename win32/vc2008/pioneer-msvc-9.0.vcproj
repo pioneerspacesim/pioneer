@@ -917,10 +917,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\glfreetype.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Gui.h"
 				>
 			</File>
