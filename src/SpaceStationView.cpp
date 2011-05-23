@@ -1064,8 +1064,13 @@ void SpaceStationView::CloseForm()
 
 void SpaceStationView::JumpToForm(ChatForm *form)
 {
-	while (!m_activeForms.empty())
+	while (!m_activeForms.empty()) {
+		ChatForm *oldform = m_activeForms.top();
 		m_activeForms.pop();
+
+		Remove(oldform);
+		delete oldform;
+	}
 
 	ActivateForm(form);
 }
