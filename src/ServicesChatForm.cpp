@@ -1,6 +1,6 @@
-#include "ChatForm.h"
+#include "ServicesChatForm.h"
 
-ChatForm::ChatForm() : Gui::Fixed(470, 400)
+ServicesChatForm::ServicesChatForm() : FaceChatForm()
 {
 	SetBgColor(0.19, 0.39, 0.19, 1.0);
 	SetTransparency(false);

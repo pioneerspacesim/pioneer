@@ -974,7 +974,7 @@ void StationRootView::GotoPolis()
 /////////////////////////////////////////////////////////////////////
 #endif
 
-#include "ChatForm.h"
+#include "ServicesChatForm.h"
 
 SpaceStationView::SpaceStationView(): View()
 {
@@ -1034,7 +1034,7 @@ void SpaceStationView::Draw3D()
 void SpaceStationView::OnSwitchTo()
 {
 	//JumpToForm(new StationRootView());
-	JumpToForm(new ChatForm());
+	JumpToForm(new ServicesChatForm());
 }
 
 void SpaceStationView::ActivateForm(ChatForm *form)

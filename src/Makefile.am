@@ -90,6 +90,7 @@ noinst_HEADERS = \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
+	ServicesChatForm.h \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
@@ -129,7 +130,6 @@ pioneer_SOURCES	= \
 	BBAdvertChatForm.cpp \
 	Body.cpp \
 	CargoBody.cpp \
-	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
 	CustomSystem.cpp \
@@ -199,6 +199,7 @@ pioneer_SOURCES	= \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
+	ServicesChatForm.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \
 	Ship.cpp \
