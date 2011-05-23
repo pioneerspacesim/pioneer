@@ -6,6 +6,13 @@
 class ServicesChatForm : public FaceChatForm {
 public:
 	ServicesChatForm();
+
+private:
+	void RequestLaunch();
+	void Shipyard();
+	void CommodityMarket();
+	void BulletinBoard();
+	void Police();
 };
 
 #endif
