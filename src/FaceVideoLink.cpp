@@ -31,7 +31,7 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 	SDL_FreeSurface(is);
 }
 
-FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : VideoLink(w, h) {
+FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : VideoLink(w, h) {
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip("Video link established");
 

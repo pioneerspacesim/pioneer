@@ -5,7 +5,7 @@
 
 class FaceVideoLink : public VideoLink {
 public:
-	FaceVideoLink(float w, float h, int flags = 0, unsigned long seed = -1);
+	FaceVideoLink(float w, float h, Uint32 flags = 0, Uint32 seed = -1);
 	virtual ~FaceVideoLink();
 
 	virtual void Draw();

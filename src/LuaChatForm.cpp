@@ -399,8 +399,8 @@ static int l_luachatform_set_face(lua_State *l)
 	
 	LUA_DEBUG_START(l);
 
-	int flags = 0;
-	unsigned long seed = -1UL;
+	Uint32 flags = 0;
+	Uint32 seed = -1UL;
 
 	lua_getfield(l, 2, "female");
 	if (lua_isnil(l, -1))

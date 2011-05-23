@@ -13,7 +13,7 @@ public:
 	void Clear();
 	void ReInit();
 	void SetTitle(const char *title);
-	void SetFace(int flags, unsigned long seed);
+	void SetFace(Uint32 flags, Uint32 seed);
 	void AddBaseDisplay();
 	void AddVideoWidget();
 	void AddFaceWidget();

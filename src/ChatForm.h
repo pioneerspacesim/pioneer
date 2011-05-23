@@ -19,8 +19,8 @@ class FaceChatForm : public ChatForm {
 public:
 	virtual ChatForm::ChatFormType GetType() const { return ChatForm::FACE; }
 
-	virtual int GetFaceFlags() const { return m_faceFlags; }
-	virtual unsigned long GetFaceSeed() const { return m_faceSeed; }
+	virtual Uint32 GetFaceFlags() const { return m_faceFlags; }
+	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
 	
 	void SetFaceFlags(int flags) { m_faceFlags = flags; }
 	void SetFaceSeed(unsigned int seed) { m_faceSeed = seed; }
@@ -29,8 +29,8 @@ protected:
 	FaceChatForm() : ChatForm(470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
 
 private:
-	int m_faceFlags;
-	unsigned int m_faceSeed;
+	Uint32 m_faceFlags;
+	Uint32 m_faceSeed;
 };
 
 

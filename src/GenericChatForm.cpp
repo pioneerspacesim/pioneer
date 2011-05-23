@@ -136,7 +136,7 @@ void GenericChatForm::SetTitle(const char *title)
 	m_titleLabel->SetText(title);
 }
 
-void GenericChatForm::SetFace(int flags, unsigned long seed)
+void GenericChatForm::SetFace(Uint32 flags, Uint32 seed)
 {
 	if (m_videoLink) {
 		RemoveChild(m_videoLink);
