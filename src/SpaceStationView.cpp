@@ -983,6 +983,13 @@ SpaceStationView::SpaceStationView(): View()
 	m_rightRegion2->Add(l, 10, 0);
 
 	SetTransparency(false);
+
+	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(this, &SpaceStationView::CloseAllForms));
+}
+
+SpaceStationView::~SpaceStationView()
+{
+	m_undockConnection.disconnect();
 }
 
 void SpaceStationView::SetupForFaceForm(FaceChatForm *form)

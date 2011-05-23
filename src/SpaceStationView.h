@@ -13,6 +13,7 @@ class StationViewShipView;
 class SpaceStationView: public View {
 public:
 	SpaceStationView();
+	virtual ~SpaceStationView();
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
@@ -24,6 +25,8 @@ public:
 
 private:
 	void SetupForFaceForm(FaceChatForm *form);
+
+	sigc::connection m_undockConnection;
 
 	std::stack<ChatForm*> m_activeForms;
 
