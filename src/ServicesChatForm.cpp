@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SpaceStation.h"
+#include "WorldView.h"
 
 ServicesChatForm::ServicesChatForm() : FaceChatForm()
 {
@@ -58,6 +59,8 @@ ServicesChatForm::ServicesChatForm() : FaceChatForm()
 
 void ServicesChatForm::RequestLaunch()
 {
+	Pi::worldView->OnClickBlastoff();
+	Pi::SetView(Pi::worldView);
 }
 
 void ServicesChatForm::Shipyard()
