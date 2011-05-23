@@ -1,11 +1,11 @@
 #ifndef _SERVICESCHATFORM_H
 #define _SERVICESCHATFORM_H
 
-#include "ChatForm.h"
+#include "Form.h"
 
-class ServicesChatForm : public FaceChatForm {
+class ServicesForm : public FaceForm {
 public:
-	ServicesChatForm();
+	ServicesForm();
 
 private:
 	void RequestLaunch();

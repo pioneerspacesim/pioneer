@@ -974,7 +974,7 @@ void StationRootView::GotoPolis()
 /////////////////////////////////////////////////////////////////////
 #endif
 
-#include "ServicesChatForm.h"
+#include "StationServicesForm.h"
 
 SpaceStationView::SpaceStationView(): View()
 {
@@ -992,7 +992,7 @@ SpaceStationView::~SpaceStationView()
 	m_undockConnection.disconnect();
 }
 
-void SpaceStationView::SetupForFaceForm(FaceChatForm *form)
+void SpaceStationView::SetupForFaceForm(FaceForm *form)
 {
 	m_title = new Gui::Label(form->GetTitle());
 	Add(m_title, 10, 10);
@@ -1052,10 +1052,10 @@ void SpaceStationView::Draw3D()
 void SpaceStationView::OnSwitchTo()
 {
 	//JumpToForm(new StationRootView());
-	JumpToForm(new ServicesChatForm());
+	JumpToForm(new ServicesForm());
 }
 
-void SpaceStationView::ActivateForm(ChatForm *form)
+void SpaceStationView::ActivateForm(Form *form)
 {
 	if (!m_activeForms.empty())
 		m_activeForms.top()->Hide();
@@ -1065,8 +1065,8 @@ void SpaceStationView::ActivateForm(ChatForm *form)
 	m_activeForms.push(form);
 
 	switch (form->GetType()) {
-		case ChatForm::FACE:
-			SetupForFaceForm(static_cast<FaceChatForm*>(form));
+		case Form::FACE:
+			SetupForFaceForm(static_cast<FaceForm*>(form));
 			Add(form, 320, 40);
 			break;
 
@@ -1081,7 +1081,7 @@ void SpaceStationView::CloseForm()
 {
 	if (m_activeForms.empty()) return;
 
-	ChatForm *form = m_activeForms.top();
+	Form *form = m_activeForms.top();
 	m_activeForms.pop();
 
 	Remove(form);
@@ -1096,7 +1096,7 @@ void SpaceStationView::CloseForm()
 void SpaceStationView::CloseAllForms()
 {
 	while (!m_activeForms.empty()) {
-		ChatForm *oldform = m_activeForms.top();
+		Form *oldform = m_activeForms.top();
 		m_activeForms.pop();
 
 		Remove(oldform);
@@ -1104,7 +1104,7 @@ void SpaceStationView::CloseAllForms()
 	}
 }
 
-void SpaceStationView::JumpToForm(ChatForm *form)
+void SpaceStationView::JumpToForm(Form *form)
 {
 	CloseAllForms();
 	ActivateForm(form);

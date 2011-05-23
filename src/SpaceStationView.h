@@ -4,11 +4,9 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
-#include "GenericChatForm.h"
-#include "ChatForm.h"
+#include "Form.h"
+#include "FaceVideoLink.h"
 #include <stack>
-
-class StationViewShipView;
 
 class SpaceStationView: public View {
 public:
@@ -18,17 +16,17 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
 
-	void ActivateForm(ChatForm *form);
+	void ActivateForm(Form *form);
 	void CloseForm();
 	void CloseAllForms();
-	void JumpToForm(ChatForm *form);
+	void JumpToForm(Form *form);
 
 private:
-	void SetupForFaceForm(FaceChatForm *form);
+	void SetupForFaceForm(FaceForm *form);
 
 	sigc::connection m_undockConnection;
 
-	std::stack<ChatForm*> m_activeForms;
+	std::stack<Form*> m_activeForms;
 
 	Gui::Label *m_title;
 

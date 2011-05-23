@@ -13,7 +13,6 @@ noinst_HEADERS = \
 	Body.h \
 	BufferObject.h \
 	CargoBody.h \
-	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
@@ -25,6 +24,7 @@ noinst_HEADERS = \
 	FaceVideoLink.h \
 	Font.h \
 	FontManager.h \
+	Form.h \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
@@ -90,7 +90,7 @@ noinst_HEADERS = \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
-	ServicesChatForm.h \
+	StationServicesForm.h \
 	Sfx.h \
 	Ship.h \
 	ShipAICmd.h \
@@ -199,7 +199,7 @@ pioneer_SOURCES	= \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
-	ServicesChatForm.cpp \
+	StationServicesForm.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \
 	Ship.cpp \

@@ -1,10 +1,10 @@
-#include "ServicesChatForm.h"
+#include "StationServicesForm.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SpaceStation.h"
 #include "WorldView.h"
 
-ServicesChatForm::ServicesChatForm() : FaceChatForm()
+ServicesForm::ServicesForm() : FaceForm()
 {
 	SetBgColor(0.19, 0.39, 0.19, 1.0);
 
@@ -23,58 +23,58 @@ ServicesChatForm::ServicesChatForm() : FaceChatForm()
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesChatForm::RequestLaunch));
+	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::RequestLaunch));
 	Add(b, 30, 140);
 	l = new Gui::Label("Request Launch");
 	Add(l, 55, 140);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesChatForm::Shipyard));
+	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::Shipyard));
 	Add(b, 30, 200);
 	l = new Gui::Label("Shipyard");
 	Add(l, 55, 200);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_3, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesChatForm::CommodityMarket));
+	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::CommodityMarket));
 	Add(b, 30, 260);
 	l = new Gui::Label("Commodity market");
 	Add(l, 55, 260);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_4, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesChatForm::BulletinBoard));
+	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::BulletinBoard));
 	Add(b, 30, 320);
 	l = new Gui::Label("Bulletin board");
 	Add(l, 55, 320);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_5, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesChatForm::Police));
+	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::Police));
 	Add(b, 30, 380);
 	l = new Gui::Label("Contact local police");
 	Add(l, 55, 380);
 }
 
-void ServicesChatForm::RequestLaunch()
+void ServicesForm::RequestLaunch()
 {
 	Pi::worldView->OnClickBlastoff();
 	Pi::SetView(Pi::worldView);
 }
 
-void ServicesChatForm::Shipyard()
+void ServicesForm::Shipyard()
 {
 }
 
-void ServicesChatForm::CommodityMarket()
+void ServicesForm::CommodityMarket()
 {
 }
 
-void ServicesChatForm::BulletinBoard()
+void ServicesForm::BulletinBoard()
 {
 }
 
-void ServicesChatForm::Police()
+void ServicesForm::Police()
 {
 }

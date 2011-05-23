@@ -4,20 +4,20 @@
 #include "gui/Gui.h"
 
 
-class ChatForm : public Gui::Fixed {
+class Form : public Gui::Fixed {
 public:
-	enum ChatFormType { BLANK, FACE };
+	enum FormType { BLANK, FACE };
 
-	virtual ChatFormType GetType() const = 0;
+	virtual FormType GetType() const = 0;
 
 protected:
-	ChatForm(float w, float h) : Gui::Fixed(w, h) {}
+	Form(float w, float h) : Gui::Fixed(w, h) {}
 };
 
 
-class FaceChatForm : public ChatForm {
+class FaceForm : public Form {
 public:
-	virtual ChatForm::ChatFormType GetType() const { return ChatForm::FACE; }
+	virtual Form::FormType GetType() const { return Form::FACE; }
 
 	virtual const std::string &GetTitle() const { return m_title; }
 	void SetTitle(const std::string &title) { m_title = title; }
@@ -29,7 +29,7 @@ public:
 	void SetFaceSeed(unsigned int seed) { m_faceSeed = seed; }
 
 protected:
-	FaceChatForm() : ChatForm(470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
+	FaceForm() : Form(470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
 
 private:
 	std::string m_title;
