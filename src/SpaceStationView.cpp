@@ -1012,6 +1012,8 @@ void SpaceStationView::SetupForFaceForm(FaceChatForm *form)
 	m_legalstatus = new Gui::Label("Clean");
 	Add(m_legalstatus, 220, ystart + 2*YSEP);
 
+	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
+
 	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
 	Add(m_videoLink, 5, 40);
 }
