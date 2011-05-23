@@ -30,6 +30,8 @@ private:
 
 	std::stack<ChatForm*> m_activeForms;
 
+	Gui::Label *m_title;
+
 	Gui::Label *m_money;
 	Gui::Label *m_cargoSpaceUsed;
 	Gui::Label *m_cargoSpaceFree;

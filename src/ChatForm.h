@@ -19,6 +19,9 @@ class FaceChatForm : public ChatForm {
 public:
 	virtual ChatForm::ChatFormType GetType() const { return ChatForm::FACE; }
 
+	virtual const std::string &GetTitle() const { return m_title; }
+	void SetTitle(const std::string &title) { m_title = title; }
+
 	virtual Uint32 GetFaceFlags() const { return m_faceFlags; }
 	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
 	
@@ -29,6 +32,8 @@ protected:
 	FaceChatForm() : ChatForm(470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
 
 private:
+	std::string m_title;
+
 	Uint32 m_faceFlags;
 	Uint32 m_faceSeed;
 };

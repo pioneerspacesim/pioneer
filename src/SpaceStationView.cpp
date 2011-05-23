@@ -994,6 +994,9 @@ SpaceStationView::~SpaceStationView()
 
 void SpaceStationView::SetupForFaceForm(FaceChatForm *form)
 {
+	m_title = new Gui::Label(form->GetTitle());
+	Add(m_title, 10, 10);
+
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	const float ystart = 350.0f;
 
@@ -1019,8 +1022,8 @@ void SpaceStationView::SetupForFaceForm(FaceChatForm *form)
 	m_legalstatus = new Gui::Label("Clean");
 	Add(m_legalstatus, 220, ystart + 2*YSEP);
 
-	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
 
+	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
 	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
 	Add(m_videoLink, 5, 40);
 }
