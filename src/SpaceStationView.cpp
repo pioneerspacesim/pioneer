@@ -981,6 +981,49 @@ SpaceStationView::SpaceStationView(): View()
 	Gui::Label *l = new Gui::Label("Comms Link");
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
+
+	SetTransparency(false);
+
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+	const float ystart = 350.0f;
+
+	Add(new Gui::Label("#007Cash"), 10, ystart);
+	Add(new Gui::Label("#007Legal status"), 10, ystart + 2*YSEP);
+	Add(new Gui::Label("#007Used"), 140, ystart+4*YSEP);
+	Add(new Gui::Label("#007Free"), 220, ystart+4*YSEP);
+	Add(new Gui::Label("#007Cargo space"), 10, ystart+5*YSEP);
+	Add(new Gui::Label("#007Equipment"), 10, ystart+6*YSEP);
+
+	m_money = new Gui::Label("");
+	Add(m_money, 220, ystart);
+
+	m_cargoSpaceUsed = new Gui::Label("");
+	Add(m_cargoSpaceUsed, 140, ystart + 5*YSEP);
+	
+	m_cargoSpaceFree = new Gui::Label("");
+	Add(m_cargoSpaceFree, 220, ystart + 5*YSEP);
+	
+	m_equipmentMass = new Gui::Label("");
+	Add(m_equipmentMass, 140, ystart + 6*YSEP);
+	
+	m_legalstatus = new Gui::Label("Clean");
+	Add(m_legalstatus, 220, ystart + 2*YSEP);
+}
+
+void SpaceStationView::Update()
+{
+	char buf[64];
+	m_money->SetText(format_money(Pi::player->GetMoney()));
+
+	const shipstats_t *stats = Pi::player->CalcStats();
+	snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
+	m_equipmentMass->SetText(buf);
+	
+	snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
+	m_cargoSpaceUsed->SetText(buf);
+		
+	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
+	m_cargoSpaceFree->SetText(buf);
 }
 
 void SpaceStationView::Draw3D()
@@ -990,7 +1033,6 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::OnSwitchTo()
 {
-	SetTransparency(true);
 	//JumpToForm(new StationRootView());
 	JumpToForm(new ChatForm());
 }
@@ -1024,7 +1066,6 @@ void SpaceStationView::JumpToForm(ChatForm *form)
 {
 	while (!m_activeForms.empty())
 		m_activeForms.pop();
-	DeleteAllChildren();
 
 	ActivateForm(form);
 }

@@ -13,7 +13,7 @@ class StationViewShipView;
 class SpaceStationView: public View {
 public:
 	SpaceStationView();
-	virtual void Update() {}
+	virtual void Update();
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
 
@@ -23,6 +23,15 @@ public:
 
 private:
 	std::stack<ChatForm*> m_activeForms;
+
+	Gui::Label *m_money;
+	Gui::Label *m_cargoSpaceUsed;
+	Gui::Label *m_cargoSpaceFree;
+	Gui::Label *m_equipmentMass;
+	Gui::Label *m_titleLabel;
+	Gui::Label *m_legalstatus;
+
+	FaceVideoLink *m_videoLink;
 
 	// hack so StationViewShipView can draw its 3d shit
 	sigc::signal<void> onDraw3D;
