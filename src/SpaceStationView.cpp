@@ -1064,24 +1064,26 @@ void SpaceStationView::ActivateForm(ChatForm *form)
 			assert(0);
 	}
 
-	form->ShowAll();
+	form->Show();
 }
 
 void SpaceStationView::CloseForm()
 {
-	HideChildren();
+	if (m_activeForms.empty()) return;
 
 	ChatForm *form = m_activeForms.top();
-	assert(form);
 	m_activeForms.pop();
 
 	Remove(form);
+	delete form;
+
+	if (m_activeForms.empty()) return;
 
 	form = m_activeForms.top();
-	form->ShowAll();
+	form->Show();
 }
 
-void SpaceStationView::JumpToForm(ChatForm *form)
+void SpaceStationView::CloseAllForms()
 {
 	while (!m_activeForms.empty()) {
 		ChatForm *oldform = m_activeForms.top();
@@ -1090,6 +1092,10 @@ void SpaceStationView::JumpToForm(ChatForm *form)
 		Remove(oldform);
 		delete oldform;
 	}
+}
 
+void SpaceStationView::JumpToForm(ChatForm *form)
+{
+	CloseAllForms();
 	ActivateForm(form);
 }

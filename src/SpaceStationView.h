@@ -19,6 +19,7 @@ public:
 
 	void ActivateForm(ChatForm *form);
 	void CloseForm();
+	void CloseAllForms();
 	void JumpToForm(ChatForm *form);
 
 private:
