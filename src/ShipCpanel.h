@@ -2,7 +2,7 @@
 #define _SHIPCPANEL_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "ShipCpanelMultiFuncDisplays.h"
 #include "Ship.h"
 

@@ -1,5 +1,5 @@
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
 #include "Render.h"

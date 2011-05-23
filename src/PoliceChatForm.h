@@ -1,7 +1,7 @@
 #ifndef _POLICECHATFORM_H
 #define _POLICECHATFORM_H
 
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "GenericChatForm.h"
 
 class PoliceChatForm: public GenericChatForm {

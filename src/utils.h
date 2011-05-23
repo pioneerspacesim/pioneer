@@ -94,4 +94,19 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 
 Uint32 ceil_pow2(Uint32 v);
 
+// add a few things that MSVC is missing
+#ifdef _MSC_VER
+
+// round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
+static double round(double x)
+{
+   return x >= 0.0 ? floor(x + 0.5) : ceil(x - 0.5);
+}
+
+static inline float roundf(float x)
+{
+   return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
+}
+#endif /* _MSC_VER */
+
 #endif /* _UTILS_H */

@@ -1,7 +1,7 @@
 #ifndef _VIDEOLINK_H
 #define _VIDEOLINK_H
 
-#include "Gui.h"
+#include "gui/Gui.h"
 
 class VideoLink : public Gui::Widget {
 public:
