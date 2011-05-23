@@ -22,6 +22,8 @@ public:
 	void JumpToForm(ChatForm *form);
 
 private:
+	void SetupForFaceForm(FaceChatForm *form);
+
 	std::stack<ChatForm*> m_activeForms;
 
 	Gui::Label *m_money;

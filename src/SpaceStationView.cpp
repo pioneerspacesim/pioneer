@@ -983,7 +983,10 @@ SpaceStationView::SpaceStationView(): View()
 	m_rightRegion2->Add(l, 10, 0);
 
 	SetTransparency(false);
+}
 
+void SpaceStationView::SetupForFaceForm(FaceChatForm *form)
+{
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 	const float ystart = 350.0f;
 
@@ -1008,6 +1011,9 @@ SpaceStationView::SpaceStationView(): View()
 	
 	m_legalstatus = new Gui::Label("Clean");
 	Add(m_legalstatus, 220, ystart + 2*YSEP);
+
+	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
+	Add(m_videoLink, 5, 40);
 }
 
 void SpaceStationView::Update()
@@ -1041,9 +1047,20 @@ void SpaceStationView::ActivateForm(ChatForm *form)
 {
 	if (!m_activeForms.empty())
 		m_activeForms.top()->Hide();
-
+	
+	DeleteAllChildren();
+	
 	m_activeForms.push(form);
-	Add(form, 320, 40);
+
+	switch (form->GetType()) {
+		case ChatForm::FACE:
+			SetupForFaceForm(static_cast<FaceChatForm*>(form));
+			Add(form, 320, 40);
+			break;
+
+		default:
+			assert(0);
+	}
 
 	form->ShowAll();
 }
