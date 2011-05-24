@@ -23,6 +23,7 @@ noinst_HEADERS = \
 	GuiRadioGroup.h \
 	GuiRepeaterButton.h \
 	GuiScreen.h \
+	GuiStack.h \
 	GuiTabbed.h \
 	GuiTextEntry.h \
 	GuiTextLayout.h \
@@ -49,6 +50,7 @@ libgui_a_SOURCES = \
 	GuiRadioGroup.cpp \
 	GuiRepeaterButton.cpp \
 	GuiScreen.cpp \
+	GuiStack.cpp \
 	GuiTabbed.cpp \
 	GuiTextEntry.cpp \
 	GuiTextLayout.cpp \
