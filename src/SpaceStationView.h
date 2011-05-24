@@ -15,6 +15,9 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
 
+	void ActivateForm(FaceForm *form);
+	void JumpToForm(FaceForm *form);
+
 private:
 	void UpdateForFaceForm(FaceForm *);
 

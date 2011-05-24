@@ -1048,7 +1048,17 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::OnSwitchTo()
 {
-	FaceForm *form = new StationServicesForm();
+	JumpToForm(new StationServicesForm());
+}
+
+void SpaceStationView::ActivateForm(FaceForm *form)
+{
+	m_formStack->PushWidget(form);
+	UpdateForFaceForm(form);
+}
+
+void SpaceStationView::JumpToForm(FaceForm *form)
+{
 	m_formStack->JumpToWidget(form);
 	UpdateForFaceForm(form);
 }
@@ -1065,4 +1075,5 @@ void SpaceStationView::UpdateForFaceForm(FaceForm *form)
 
 	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
 	Add(m_videoLink, 5, 40);
+	m_videoLink->Show();
 }
