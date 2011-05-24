@@ -984,17 +984,7 @@ SpaceStationView::SpaceStationView(): View()
 
 	SetTransparency(false);
 
-	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(this, &SpaceStationView::CloseAllForms));
-}
-
-SpaceStationView::~SpaceStationView()
-{
-	m_undockConnection.disconnect();
-}
-
-void SpaceStationView::SetupForFaceForm(FaceForm *form)
-{
-	m_title = new Gui::Label(form->GetTitle());
+	m_title = new Gui::Label("");
 	Add(m_title, 10, 10);
 
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
@@ -1022,10 +1012,17 @@ void SpaceStationView::SetupForFaceForm(FaceForm *form)
 	m_legalstatus = new Gui::Label("Clean");
 	Add(m_legalstatus, 220, ystart + 2*YSEP);
 
+	m_formStack = new Gui::Stack();
+	Add(m_formStack, 320, 40);
 
-	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
-	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
-	Add(m_videoLink, 5, 40);
+	m_videoLink = 0;
+
+	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(m_formStack, &Gui::Stack::ClearWidgets));
+}
+
+SpaceStationView::~SpaceStationView()
+{
+	m_undockConnection.disconnect();
 }
 
 void SpaceStationView::Update()
@@ -1051,61 +1048,21 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::OnSwitchTo()
 {
-	//JumpToForm(new StationRootView());
-	JumpToForm(new ServicesForm());
+	FaceForm *form = new ServicesForm();
+	m_formStack->JumpToWidget(form);
+	UpdateForFaceForm(form);
 }
 
-void SpaceStationView::ActivateForm(Form *form)
+void SpaceStationView::UpdateForFaceForm(FaceForm *form)
 {
-	if (!m_activeForms.empty())
-		m_activeForms.top()->Hide();
-	
-	DeleteAllChildren();
-	
-	m_activeForms.push(form);
+	m_title->SetText(form->GetTitle());
 
-	switch (form->GetType()) {
-		case Form::FACE:
-			SetupForFaceForm(static_cast<FaceForm*>(form));
-			Add(form, 320, 40);
-			break;
-
-		default:
-			assert(0);
+	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
+	if (m_videoLink) {
+		Remove(m_videoLink);
+		delete m_videoLink;
 	}
 
-	form->Show();
-}
-
-void SpaceStationView::CloseForm()
-{
-	if (m_activeForms.empty()) return;
-
-	Form *form = m_activeForms.top();
-	m_activeForms.pop();
-
-	Remove(form);
-	delete form;
-
-	if (m_activeForms.empty()) return;
-
-	form = m_activeForms.top();
-	form->Show();
-}
-
-void SpaceStationView::CloseAllForms()
-{
-	while (!m_activeForms.empty()) {
-		Form *oldform = m_activeForms.top();
-		m_activeForms.pop();
-
-		Remove(oldform);
-		delete oldform;
-	}
-}
-
-void SpaceStationView::JumpToForm(Form *form)
-{
-	CloseAllForms();
-	ActivateForm(form);
+	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
+	Add(m_videoLink, 5, 40);
 }

@@ -6,7 +6,6 @@
 #include "View.h"
 #include "Form.h"
 #include "FaceVideoLink.h"
-#include <stack>
 
 class SpaceStationView: public View {
 public:
@@ -16,17 +15,10 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
 
-	void ActivateForm(Form *form);
-	void CloseForm();
-	void CloseAllForms();
-	void JumpToForm(Form *form);
-
 private:
-	void SetupForFaceForm(FaceForm *form);
+	void UpdateForFaceForm(FaceForm *);
 
 	sigc::connection m_undockConnection;
-
-	std::stack<Form*> m_activeForms;
 
 	Gui::Label *m_title;
 
@@ -36,6 +28,8 @@ private:
 	Gui::Label *m_equipmentMass;
 	Gui::Label *m_titleLabel;
 	Gui::Label *m_legalstatus;
+
+	Gui::Stack *m_formStack;
 
 	FaceVideoLink *m_videoLink;
 
