@@ -6,8 +6,6 @@
 
 StationServicesForm::StationServicesForm() : FaceForm()
 {
-	SetBgColor(0.19, 0.39, 0.19, 1.0);
-
 	SetTitle(stringf(256, "%s services", Pi::player->GetDockedWith()->GetLabel().c_str()));
 
 	Gui::Label *l = new Gui::Label(
