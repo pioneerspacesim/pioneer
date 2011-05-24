@@ -1048,7 +1048,7 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::OnSwitchTo()
 {
-	FaceForm *form = new ServicesForm();
+	FaceForm *form = new StationServicesForm();
 	m_formStack->JumpToWidget(form);
 	UpdateForFaceForm(form);
 }

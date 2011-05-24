@@ -4,7 +4,7 @@
 #include "SpaceStation.h"
 #include "WorldView.h"
 
-ServicesForm::ServicesForm() : FaceForm()
+StationServicesForm::StationServicesForm() : FaceForm()
 {
 	SetBgColor(0.19, 0.39, 0.19, 1.0);
 
@@ -23,58 +23,58 @@ ServicesForm::ServicesForm() : FaceForm()
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::RequestLaunch));
+	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::RequestLaunch));
 	Add(b, 30, 140);
 	l = new Gui::Label("Request Launch");
 	Add(l, 55, 140);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::Shipyard));
+	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::Shipyard));
 	Add(b, 30, 200);
 	l = new Gui::Label("Shipyard");
 	Add(l, 55, 200);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_3, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::CommodityMarket));
+	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::CommodityMarket));
 	Add(b, 30, 260);
 	l = new Gui::Label("Commodity market");
 	Add(l, 55, 260);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_4, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::BulletinBoard));
+	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::BulletinBoard));
 	Add(b, 30, 320);
 	l = new Gui::Label("Bulletin board");
 	Add(l, 55, 320);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_5, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &ServicesForm::Police));
+	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::Police));
 	Add(b, 30, 380);
 	l = new Gui::Label("Contact local police");
 	Add(l, 55, 380);
 }
 
-void ServicesForm::RequestLaunch()
+void StationServicesForm::RequestLaunch()
 {
 	Pi::worldView->OnClickBlastoff();
 	Pi::SetView(Pi::worldView);
 }
 
-void ServicesForm::Shipyard()
+void StationServicesForm::Shipyard()
 {
 }
 
-void ServicesForm::CommodityMarket()
+void StationServicesForm::CommodityMarket()
 {
 }
 
-void ServicesForm::BulletinBoard()
+void StationServicesForm::BulletinBoard()
 {
 }
 
-void ServicesForm::Police()
+void StationServicesForm::Police()
 {
 }
