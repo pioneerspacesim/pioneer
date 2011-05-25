@@ -235,6 +235,7 @@ modelviewer_SOURCES = \
 	MyLuaMathTypes.cpp \
 	Render.cpp \
 	TextureFont.cpp \
+	Textures.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
 	utils.cpp

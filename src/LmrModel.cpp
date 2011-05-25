@@ -10,6 +10,7 @@
 #include "LuaUtils.h"
 #include <set>
 #include <algorithm>
+#include "Textures.h"
 
 #define MODEL "Model"
 struct RenderState {
@@ -581,7 +582,7 @@ public:
 	{
 		char buf[256];
 		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
-		GLuint tex = util_load_tex_rgba(buf);
+		GLuint tex = Textures::Load(buf);
 
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_DRAW_BILLBOARDS;
@@ -1678,7 +1679,7 @@ namespace ModelFuncs {
 
 			const char *texfile = luaL_checkstring(L, 1);
 			std::string t = dir + std::string("/") + texfile;
-			GLuint texture = util_load_tex_rgba(t.c_str());
+			GLuint texture = Textures::Load(t);
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
 				vector3f pos = *MyLuaVec::checkVec(L, 2);
@@ -2617,7 +2618,7 @@ namespace ObjLoader {
 						try {
 							char texfile[256];
 							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
-							texture = util_load_tex_rgba(texfile);
+							texture = Textures::Load(texfile);
 						} catch (LmrUnknownMaterial) {
 							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
 						}
