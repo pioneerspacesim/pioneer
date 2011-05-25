@@ -21,6 +21,7 @@
 #include "Polit.h"
 #include "CityOnPlanet.h"
 #include "Missile.h"
+#include "Textures.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -1028,7 +1029,7 @@ void Ship::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		if (totalRechargeTime) {
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
-		GLuint tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/ecm.png");
+		GLuint tex = Textures::Load(PIONEER_DATA_DIR"/textures/ecm.png");
 
 		Render::PutPointSprites(100, v, 50.0f, c, tex);
 	}

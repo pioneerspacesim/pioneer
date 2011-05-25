@@ -55,6 +55,7 @@
 #include "LuaTimer.h"
 #include "LuaRand.h"
 #include "LuaNameGen.h"
+#include "Textures.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -433,6 +434,7 @@ void Pi::InitOpenGL()
 
 void Pi::Quit()
 {
+	Textures::FreeAll();
 	SDL_Quit();
 	exit(0);
 }
