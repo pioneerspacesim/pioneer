@@ -8,7 +8,7 @@
 #include <math.h>
 #include "libs.h"
 #include "utils.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include <string>
 #include <map>
 

@@ -2,7 +2,7 @@
 #define _INFOVIEW
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 
 class InfoViewPage;

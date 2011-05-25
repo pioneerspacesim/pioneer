@@ -2,7 +2,7 @@
 #define _SYSTEMINFOVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include "View.h"
 

@@ -2,7 +2,7 @@
 #define _GENERICCHATFORM_H
 
 #include <string>
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "FaceVideoLink.h"
 
 class GenericChatForm: public Gui::Fixed {

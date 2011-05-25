@@ -247,6 +247,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FontConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.cpp"
 				>
 			</File>
@@ -256,6 +264,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Galaxy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameConfig.cpp"
 				>
 			</File>
 			<File
@@ -280,10 +292,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GeoSphereStyle.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\glfreetype.cpp"
 				>
 			</File>
 			<File
@@ -715,7 +723,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TextureFont.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\VectorFont.cpp"
 				>
 			</File>
 			<File
@@ -837,6 +853,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FontConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.h"
 				>
 			</File>
@@ -850,6 +874,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Galaxy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameConfig.h"
 				>
 			</File>
 			<File
@@ -886,10 +914,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GeoSphereStyle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\glfreetype.h"
 				>
 			</File>
 			<File
@@ -1421,6 +1445,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TextureFont.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\oolua\type_list.h"
 				>
 			</File>
@@ -1434,6 +1462,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\vector3.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\VectorFont.h"
 				>
 			</File>
 			<File

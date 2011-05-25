@@ -2,7 +2,7 @@
 #define _GAMEMENUVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include "KeyBindings.h"
 
