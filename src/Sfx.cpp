@@ -5,6 +5,7 @@
 #include "StarSystem.h"
 #include "Space.h"
 #include "Render.h"
+#include "Textures.h"
 
 #define MAX_SFX_PER_FRAME 1024
 
@@ -83,7 +84,7 @@ void Sfx::Render(const matrix4x4d &ftransform)
 {
 	static GLuint tex;
 	float col[4];
-	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/smoke.png");
+	if (!tex) tex = Textures::Load(PIONEER_DATA_DIR"/textures/smoke.png");
 
 	vector3d fpos = ftransform * GetPosition();
 
@@ -177,4 +178,3 @@ void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
 		RenderAll(*i, camFrame);
 	}
 }
-

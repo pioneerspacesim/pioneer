@@ -43,8 +43,6 @@ std::string format_distance(double dist);
 std::string format_money(Sint64 money);
 void strip_cr_lf(char *string);
 
-GLuint util_load_tex_rgba(const char *filename);
-
 FILE *fopen_or_die(const char *filename, const char *mode);
 
 static inline std::string stringf(int maxlen, const char *format, ...)
