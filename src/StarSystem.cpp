@@ -1694,7 +1694,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
         
         // orbital starports should carry a small amount of population
         if (type == SBody::TYPE_STARPORT_ORBITAL) {
-			m_population = fixed(1,10);
+			m_population = fixed(1,100000);
 			outTotalPop += m_population;
         }
 
