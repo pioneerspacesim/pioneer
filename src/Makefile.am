@@ -83,6 +83,7 @@ noinst_HEADERS = \
 	RefCounted.h \
 	RefList.h \
 	Render.h \
+	RenderShader.h \
 	Sector.h \
 	SectorView.h \
 	Serializer.h \
@@ -186,6 +187,7 @@ pioneer_SOURCES	= \
 	Polit.cpp \
 	Projectile.cpp \
 	Render.cpp \
+	RenderShader.cpp \
 	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
@@ -232,6 +234,7 @@ modelviewer_SOURCES = \
 	LuaUtils.cpp \
 	MyLuaMathTypes.cpp \
 	Render.cpp \
+	RenderShader.cpp \
 	TextureFont.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
