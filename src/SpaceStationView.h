@@ -17,6 +17,7 @@ public:
 
 	void ActivateForm(FaceForm *form);
 	void JumpToForm(FaceForm *form);
+	void CloseForm();
 
 private:
 	void UpdateForFaceForm(FaceForm *);
@@ -33,6 +34,9 @@ private:
 	Gui::Label *m_legalstatus;
 
 	Gui::Stack *m_formStack;
+
+	Gui::Button *m_backButton;
+	Gui::Label *m_backLabel;
 
 	FaceVideoLink *m_videoLink;
 

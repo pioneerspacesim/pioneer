@@ -1015,6 +1015,12 @@ SpaceStationView::SpaceStationView(): View()
 	m_formStack = new Gui::Stack();
 	Add(m_formStack, 320, 40);
 
+	m_backButton = new Gui::SolidButton();
+	m_backButton->onClick.connect(sigc::mem_fun(this, &SpaceStationView::CloseForm));
+	Add(m_backButton, 680, 470);
+	m_backLabel = new Gui::Label("Go back");
+	Add(m_backLabel, 700, 470);
+
 	m_videoLink = 0;
 
 	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(m_formStack, &Gui::Stack::Clear));
@@ -1039,6 +1045,15 @@ void SpaceStationView::Update()
 		
 	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
 	m_cargoSpaceFree->SetText(buf);
+
+	if (m_formStack->Size() > 1) {
+		m_backButton->Show();
+		m_backLabel->Show();
+	}
+	else {
+		m_backButton->Hide();
+		m_backLabel->Hide();
+	}
 }
 
 void SpaceStationView::Draw3D()
@@ -1062,6 +1077,12 @@ void SpaceStationView::JumpToForm(FaceForm *form)
 {
 	m_formStack->JumpTo(form);
 	UpdateForFaceForm(form);
+	ShowAll();
+}
+
+void SpaceStationView::CloseForm()
+{
+	m_formStack->Pop();
 	ShowAll();
 }
 
