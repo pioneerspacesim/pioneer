@@ -146,15 +146,15 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_green.png");
 	img->SetToolTip("No alert");
-	Add(img, 780, 41);
+	Add(img, 780, 37);
 	m_alertLights[0] = img;
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_yellow.png");
 	img->SetToolTip("Ship nearby");
-	Add(img, 780, 41);
+	Add(img, 780, 37);
 	m_alertLights[1] = img;
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_red.png");
 	img->SetToolTip("Fire detected");
-	Add(img, 780, 41);
+	Add(img, 780, 37);
 	m_alertLights[2] = img;
 
 	m_connOnDockingClearanceExpired =
