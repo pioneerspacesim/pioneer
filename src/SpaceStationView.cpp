@@ -1063,6 +1063,11 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::OnSwitchTo()
 {
+	if (m_videoLink) {
+		Remove(m_videoLink);
+		delete m_videoLink;
+		m_videoLink = 0;
+	}
 	JumpToForm(new StationServicesForm());
 }
 
@@ -1092,7 +1097,11 @@ void SpaceStationView::UpdateForFaceForm(FaceForm *form)
 	m_title->SetText(form->GetTitle());
 
 	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
+
 	if (m_videoLink) {
+		if (form->GetFaceFlags() == m_videoLink->GetFlags() && form->GetFaceSeed() == m_videoLink->GetSeed())
+			return;
+
 		Remove(m_videoLink);
 		delete m_videoLink;
 	}
