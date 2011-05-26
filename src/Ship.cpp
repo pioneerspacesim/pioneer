@@ -175,6 +175,11 @@ void Ship::ClearHyperspaceTarget()
 	m_hyperspace.countdown = 0;
 }
 
+void Ship::ResetHyperspaceCountdown()
+{
+    m_hyperspace.countdown = 0;
+}
+
 float Ship::GetPercentHull() const
 {
 	const ShipType &stype = GetShipType();

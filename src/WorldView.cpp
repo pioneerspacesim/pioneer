@@ -270,8 +270,9 @@ void WorldView::OnClickHyperspace()
 {
     if (Pi::player->GetHyperspaceCountdown() > 0.0) {
         // Hyperspace countdown in effect.. abort!
-        Pi::player->ClearHyperspaceTarget();
-        Pi::cpan->MsgLog()->Message("", "Hyperspace Target Canceled");
+        //Pi::player->ClearHyperspaceTarget();
+        Pi::player->ResetHyperspaceCountdown();
+        Pi::cpan->MsgLog()->Message("", "Hyperspace Aborted");
     } else {
         // Initiate hyperspace drive
         const SBodyPath *path = Pi::player->GetHyperspaceTarget();
