@@ -38,7 +38,10 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : Vide
 	if (seed == -1UL) seed = time(NULL);
 	MTRand rand(seed);
 
-	int race = rand.Int32(0,2);;
+	m_flags = flags;
+	m_seed = seed;
+
+	int race = rand.Int32(0,2);
 
 	int gender;
 	switch (flags & GENDER_MASK) {

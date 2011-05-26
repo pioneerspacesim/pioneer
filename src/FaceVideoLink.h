@@ -19,8 +19,14 @@ public:
 		ARMOUR        = (1<<2),
 	};
 
+    Uint32 GetFlags() const { return m_flags; }
+    Uint32 GetSeed() const { return m_seed; }
+
 private:
 	void DrawMessage();
+
+	Uint32 m_flags;
+	Uint32 m_seed;
 
 	Uint32 m_created;
 	GLuint m_tex;
