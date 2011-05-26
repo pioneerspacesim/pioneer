@@ -3,12 +3,17 @@
 
 #include "Form.h"
 #include "CommodityTradeWidget.h"
+#include "SpaceStation.h"
 
 class StationCommodityMarketForm : public FaceForm {
 public:
 	StationCommodityMarketForm();
 
 private:
+	void OnClickBuy(int commodity);
+	void OnClickSell(int commodity);
+
+	SpaceStation *m_station;
 	CommodityTradeWidget *m_trader;
 };
 
