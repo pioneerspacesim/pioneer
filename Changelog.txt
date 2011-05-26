@@ -19,6 +19,8 @@ Alpha 11
     * Better layout for hyperdrive ranges in ship purchase screen (#94)
     * Use power-of-two texture for facegen to support more graphics cards (#83)
     * Remove duplicate system 'EI Cancri' [2,0]
+    * Clicking on the hyperspace icon a second time after a hyperspace is
+      initiated cancels the jump (#25)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
