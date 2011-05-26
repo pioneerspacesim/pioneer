@@ -1055,12 +1055,14 @@ void SpaceStationView::ActivateForm(FaceForm *form)
 {
 	m_formStack->PushWidget(form);
 	UpdateForFaceForm(form);
+	ShowAll();
 }
 
 void SpaceStationView::JumpToForm(FaceForm *form)
 {
 	m_formStack->JumpToWidget(form);
 	UpdateForFaceForm(form);
+	ShowAll();
 }
 
 void SpaceStationView::UpdateForFaceForm(FaceForm *form)
