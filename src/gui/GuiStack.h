@@ -14,6 +14,7 @@ namespace Gui {
 		virtual void GetSizeRequested(float size[2]);
 		virtual void OnChildResizeRequest(Widget *w);
 		virtual void UpdateAllChildSizes();
+		virtual void ShowAll();
 
 		virtual Widget *GetTopWidget();
 		virtual void PushWidget(Widget *w);

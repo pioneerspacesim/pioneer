@@ -42,6 +42,13 @@ void Stack::UpdateAllChildSizes()
 	OnChildResizeRequest(m_widgets.top());
 }
 
+void Stack::ShowAll()
+{
+	if (!m_widgets.empty())
+		m_widgets.top()->ShowAll();
+	Show();
+}
+
 Widget *Stack::GetTopWidget()
 {
 	return m_widgets.empty() ? 0 : m_widgets.top();
