@@ -91,6 +91,7 @@ noinst_HEADERS = \
 	SectorView.h \
 	Serializer.h \
 	StationCommodityMarketForm.h \
+	StationPoliceForm.h \
 	StationServicesForm.h \
 	Sfx.h \
 	Ship.h \
@@ -201,6 +202,7 @@ pioneer_SOURCES	= \
 	SectorView.cpp \
 	Serializer.cpp \
 	StationCommodityMarketForm.cpp \
+	StationPoliceForm.cpp \
 	StationServicesForm.cpp \
 	Sfx.cpp \
 	Ship-AI.cpp \

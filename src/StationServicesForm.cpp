@@ -5,6 +5,7 @@
 #include "WorldView.h"
 #include "SpaceStationView.h"
 #include "StationCommodityMarketForm.h"
+#include "StationPoliceForm.h"
 
 StationServicesForm::StationServicesForm() : FaceForm()
 {
@@ -78,4 +79,5 @@ void StationServicesForm::BulletinBoard()
 
 void StationServicesForm::Police()
 {
+	Pi::spaceStationView->ActivateForm(new StationPoliceForm());
 }
