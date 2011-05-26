@@ -1017,7 +1017,7 @@ SpaceStationView::SpaceStationView(): View()
 
 	m_videoLink = 0;
 
-	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(m_formStack, &Gui::Stack::ClearWidgets));
+	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(m_formStack, &Gui::Stack::Clear));
 }
 
 SpaceStationView::~SpaceStationView()
@@ -1053,14 +1053,14 @@ void SpaceStationView::OnSwitchTo()
 
 void SpaceStationView::ActivateForm(FaceForm *form)
 {
-	m_formStack->PushWidget(form);
+	m_formStack->Push(form);
 	UpdateForFaceForm(form);
 	ShowAll();
 }
 
 void SpaceStationView::JumpToForm(FaceForm *form)
 {
-	m_formStack->JumpToWidget(form);
+	m_formStack->JumpTo(form);
 	UpdateForFaceForm(form);
 	ShowAll();
 }

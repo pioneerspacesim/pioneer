@@ -16,11 +16,12 @@ namespace Gui {
 		virtual void UpdateAllChildSizes();
 		virtual void ShowAll();
 
-		virtual Widget *GetTopWidget();
-		virtual void PushWidget(Widget *w);
-		virtual void PopWidget();
-		virtual void ClearWidgets();
-		virtual void JumpToWidget(Widget *w);
+		virtual Widget *Top();
+		virtual int Size();
+		virtual void Push(Widget *w);
+		virtual void Pop();
+		virtual void Clear();
+		virtual void JumpTo(Widget *w);
 
 	private:
 		std::stack<Widget*> m_widgets;

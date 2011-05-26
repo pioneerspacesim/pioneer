@@ -10,7 +10,7 @@ Stack::Stack(): Container()
 
 Stack::~Stack()
 {
-	ClearWidgets();
+	Clear();
 }
 
 void Stack::GetSizeRequested(float size[2])
@@ -49,12 +49,17 @@ void Stack::ShowAll()
 	Show();
 }
 
-Widget *Stack::GetTopWidget()
+Widget *Stack::Top()
 {
 	return m_widgets.empty() ? 0 : m_widgets.top();
 }
 
-void Stack::PushWidget(Widget *w)
+int Stack::Size()
+{
+	return m_widgets.size();
+}
+
+void Stack::Push(Widget *w)
 {
 	if (!m_widgets.empty())
 		m_widgets.top()->Hide();
@@ -65,7 +70,7 @@ void Stack::PushWidget(Widget *w)
 	ResizeRequest();
 }
 
-void Stack::PopWidget()
+void Stack::Pop()
 {
 	if (m_widgets.empty()) return;
 
@@ -78,7 +83,7 @@ void Stack::PopWidget()
 	ResizeRequest();
 }
 
-void Stack::ClearWidgets()
+void Stack::Clear()
 {
 	DeleteAllChildren();
 	while (!m_widgets.empty()) m_widgets.pop();
@@ -86,10 +91,10 @@ void Stack::ClearWidgets()
 	ResizeRequest();
 }
 
-void Stack::JumpToWidget(Widget *w)
+void Stack::JumpTo(Widget *w)
 {
-	ClearWidgets();
-	PushWidget(w);
+	Clear();
+	Push(w);
 }
 
 }
