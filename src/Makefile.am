@@ -87,6 +87,7 @@ noinst_HEADERS = \
 	SectorView.h \
 	Serializer.h \
 	Sfx.h \
+	Shader.h \
 	Ship.h \
 	ShipAICmd.h \
 	ShipCpanel.h \
@@ -195,6 +196,7 @@ pioneer_SOURCES	= \
 	ShipAICmd.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
+	Shader.cpp \
 	ShipFlavour.cpp \
 	ShipType.cpp \
 	Sound.cpp \
@@ -232,6 +234,7 @@ modelviewer_SOURCES = \
 	LuaUtils.cpp \
 	MyLuaMathTypes.cpp \
 	Render.cpp \
+	Shader.cpp \
 	TextureFont.cpp \
 	VectorFont.cpp \
 	perlin.cpp \
