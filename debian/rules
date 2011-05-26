@@ -23,7 +23,9 @@ CXXFLAGSMORE =
 	dh $@ --with autoreconf --parallel
 
 override_dh_auto_configure:
-	dh_auto_configure -- PIONEER_DATA_DIR="$(PIONEER_DATA_DIR)" \
+	dh_auto_configure -- \
+			     --with-external-liblua \
+			     PIONEER_DATA_DIR="$(PIONEER_DATA_DIR)" \
 			     CFLAGS="$(CFLAGS) $(CFLAGSMORE)" \
 			     CXXFLAGS="$(CFLAGS) $(CXXFLAGSMORE)"
 
