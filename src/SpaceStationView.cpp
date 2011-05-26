@@ -1083,6 +1083,7 @@ void SpaceStationView::JumpToForm(FaceForm *form)
 void SpaceStationView::CloseForm()
 {
 	m_formStack->Pop();
+	UpdateForFaceForm(static_cast<FaceForm*>(m_formStack->Top()));
 	ShowAll();
 }
 
