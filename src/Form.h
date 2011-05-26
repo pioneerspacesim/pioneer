@@ -1,5 +1,5 @@
-#ifndef _CHATFORM_H
-#define _CHATFORM_H
+#ifndef _FORM_H
+#define _FORM_H
 
 #include "gui/Gui.h"
 
