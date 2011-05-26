@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "SpaceStation.h"
 #include "WorldView.h"
+#include "SpaceStationView.h"
+#include "StationCommodityMarketForm.h"
 
 StationServicesForm::StationServicesForm() : FaceForm()
 {
@@ -67,6 +69,7 @@ void StationServicesForm::Shipyard()
 
 void StationServicesForm::CommodityMarket()
 {
+	Pi::spaceStationView->ActivateForm(new StationCommodityMarketForm());
 }
 
 void StationServicesForm::BulletinBoard()
