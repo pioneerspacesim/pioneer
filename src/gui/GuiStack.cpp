@@ -58,10 +58,11 @@ void Stack::PushWidget(Widget *w)
 {
 	if (!m_widgets.empty())
 		m_widgets.top()->Hide();
-	m_widgets.push(w);
 
+	m_widgets.push(w);
 	AppendChild(w,0,0);
-	w->Show();
+
+	ResizeRequest();
 }
 
 void Stack::PopWidget()
@@ -74,16 +75,15 @@ void Stack::PopWidget()
 	RemoveChild(w);
 	delete w;
 
-	if (m_widgets.empty()) return;
-
-	w = m_widgets.top();
-	w->Show();
+	ResizeRequest();
 }
 
 void Stack::ClearWidgets()
 {
 	DeleteAllChildren();
 	while (!m_widgets.empty()) m_widgets.pop();
+
+	ResizeRequest();
 }
 
 void Stack::JumpToWidget(Widget *w)
