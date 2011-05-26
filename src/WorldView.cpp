@@ -268,8 +268,15 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace()
 {
-	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
-	Pi::player->TryHyperspaceTo(path);
+    if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+        // Hyperspace countdown in effect.. abort!
+        Pi::player->ClearHyperspaceTarget();
+        Pi::cpan->MsgLog()->Message("", "Hyperspace Target Canceled");
+    } else {
+        // Initiate hyperspace drive
+        const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+        Pi::player->TryHyperspaceTo(path);
+    }
 }
 
 // This is the background starfield
