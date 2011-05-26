@@ -12,10 +12,6 @@ extern "C"
 #	include "lua/lua.h"
 #	include "lua/lauxlib.h"
 #	include "lua/lualib.h"
-#elif defined __MINGW32__ //you may need to change this
-#	include "lua/lua.h"
-#	include "lua/lauxlib.h"
-#	include "lua/lualib.h"
 #elif defined __GNUC__
 #	include "lua.h"
 #	include "lauxlib.h"
