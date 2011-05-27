@@ -6,6 +6,8 @@ Alpha 11
     * Manual thruster adjustments can now be made in set-speed mode
     * 5 new ground based starports (1, 2, 3, 4 landing pad configs. 
       1 Airport config)
+    * Clicking on the hyperspace icon a second time after a hyperspace is
+      initiated cancels the jump (#25)
 
   * Fixes
     * Orbital stations create a small amount of population (#85, #96)
@@ -19,8 +21,8 @@ Alpha 11
     * Better layout for hyperdrive ranges in ship purchase screen (#94)
     * Use power-of-two texture for facegen to support more graphics cards (#83)
     * Remove duplicate system 'EI Cancri' [2,0]
-    * Clicking on the hyperspace icon a second time after a hyperspace is
-      initiated cancels the jump (#25)
+	* Crash on call to Lua method Player.AddCrime
+	* Crash on any mission failure (#144)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
