@@ -20,7 +20,7 @@ StationServicesForm::StationServicesForm() : FaceForm()
 		"FM. Also, there's a containment leak on deck 12, so remember to wear "
 		"a hat."
 	);
-	Add(l, 10, 10);
+	Add(l,0,0);
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);

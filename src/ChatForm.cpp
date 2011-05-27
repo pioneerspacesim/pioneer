@@ -3,7 +3,7 @@
 ChatForm::ChatForm() : FaceForm()
 {
 	m_message = new Gui::Label("");
-	Add(m_message, 10, 10);
+	Add(m_message, 0, 0);
 
 	m_options = new Gui::VBox();
 	m_options->SetSpacing(5.0f);
