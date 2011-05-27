@@ -219,7 +219,8 @@ pioneer_SOURCES	= \
 pioneer_LDADD = ../contrib/oolua/liboolua.a collider/libcollider.a gui/libgui.a \
 		$(MINGW_LIBS) \
 		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS)
+		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
+		$(libpng_LIBS)
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
@@ -242,7 +243,7 @@ modelviewer_SOURCES = \
 modelviewer_LDADD = collider/libcollider.a gui/libgui.a \
 		    $(MINGW_LIBS) \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS)
+		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(libpng_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif

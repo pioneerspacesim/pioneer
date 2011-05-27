@@ -94,6 +94,8 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 
 Uint32 ceil_pow2(Uint32 v);
 
+void Screendump(const char* destFile, const int w, const int h);
+
 // add a few things that MSVC is missing
 #ifdef _MSC_VER
 
