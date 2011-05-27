@@ -769,7 +769,7 @@ void LuaConstants::Register(lua_State *l)
 	static const pi_lua_constant_t mission_status_constants[] = {
 		{ "ACTIVE",    Mission::ACTIVE },
 		{ "COMPLETED", Mission::COMPLETED },
-		{ "FAILE",     Mission::FAILED },
+		{ "FAILED",    Mission::FAILED },
 		{ 0, 0 }
 	};
 	_create_constant_table(l, "MissionStatus", mission_status_constants);
