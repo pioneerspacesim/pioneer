@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	Body.h \
 	BufferObject.h \
 	CargoBody.h \
+	ChatForm.h \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
@@ -132,6 +133,7 @@ pioneer_SOURCES	= \
 	BBAdvertChatForm.cpp \
 	Body.cpp \
 	CargoBody.cpp \
+	ChatForm.cpp \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
 	CustomSystem.cpp \
