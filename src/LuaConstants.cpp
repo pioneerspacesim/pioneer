@@ -41,10 +41,12 @@ int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
 	assert(lua_istable(l, -1));
 
-	lua_getfield(l, -1, ns);
+	lua_pushstring(l, ns);
+	lua_rawget(l, -2);
 	assert(lua_istable(l, -1));
 
-	lua_getfield(l, -1, name);
+	lua_pushstring(l, name);
+	lua_rawget(l, -2);
 	if (lua_isnil(l, -1))
 		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s'\n", name, ns);
 	assert(lua_isnumber(l, -1));
@@ -61,7 +63,8 @@ const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int va
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
 	assert(lua_istable(l, -1));
 
-	lua_getfield(l, -1, ns);
+	lua_pushstring(l, ns);
+	lua_rawget(l, -2);
 	assert(lua_istable(l, -1));
 
 	lua_pushinteger(l, value);
