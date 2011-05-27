@@ -1496,7 +1496,7 @@ void WorldView::Draw()
 		GLfloat vtx[16] = {
 			px-szH, py,
 			px-0.5f*szH, py,
-			px+sz, py,
+			px+szH, py,
 			px+0.5f*szH, py,
 			px, py-szH,
 			px, py-0.5f*szH,
