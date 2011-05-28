@@ -1081,7 +1081,8 @@ void SpaceStationView::RefreshForForm(Form *f)
 
 	m_title->SetText(form->GetTitle());
 
-	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
+	if (form->GetFaceSeed() == -1UL)
+		form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
 
 	if (!m_videoLink || form->GetFaceFlags() != m_videoLink->GetFlags() || form->GetFaceSeed() != m_videoLink->GetSeed()) {
 		if (m_videoLink) {
