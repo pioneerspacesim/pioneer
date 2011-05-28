@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A006D61138FB6ED000C6DFC /* RenderShader.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
 		4A19038E138AA33300E0229C /* GuiBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190329138AA33300E0229C /* GuiBox.cpp */; };
 		4A190390138AA33300E0229C /* GuiButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A19032C138AA33300E0229C /* GuiButton.cpp */; };
@@ -256,6 +257,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4A006D61138FB6ED000C6DFC /* RenderShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderShader.cpp; sourceTree = "<group>"; };
+		4A006D62138FB6ED000C6DFC /* RenderShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderShader.h; sourceTree = "<group>"; };
 		4A190325138AA33300E0229C /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
 		4A190326138AA33300E0229C /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
 		4A190328138AA33300E0229C /* GuiAdjustment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiAdjustment.h; sourceTree = "<group>"; };
@@ -957,6 +960,8 @@
 			children = (
 				4A1903C1138AA39C00E0229C /* contrib */,
 				4A19030B138AA33300E0229C /* gui */,
+				4A006D62138FB6ED000C6DFC /* RenderShader.h */,
+				4A006D61138FB6ED000C6DFC /* RenderShader.cpp */,
 				4A99893C1388BCD900647BA9 /* FontConfig.cpp */,
 				4A99893D1388BCD900647BA9 /* FontConfig.h */,
 				4A82AA791386969B0028CCED /* Font.cpp */,
@@ -1434,6 +1439,7 @@
 				4A190509138AA39C00E0229C /* oolua_push_pull.cpp in Sources */,
 				4A19050B138AA39C00E0229C /* oolua_storage.cpp in Sources */,
 				4A19050D138AA39C00E0229C /* push_pointer_internal.cpp in Sources */,
+				4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
