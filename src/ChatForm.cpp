@@ -57,6 +57,9 @@ void ChatForm::Clear()
 
 void ChatForm::OnOptionClickedTrampoline(int option)
 {
+	// if OnOptionClicked calls m_formController->Close, we will be deleted.
+	// we must keep a stack copy of m_formController so we can refresh it
+	FormController *formController = m_formController;
 	OnOptionClicked(option);
-	m_formController->Refresh();
+	formController->Refresh();
 }
