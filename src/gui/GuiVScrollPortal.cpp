@@ -12,7 +12,10 @@ VScrollPortal::VScrollPortal(float w, float h): Container()
 
 void VScrollPortal::GetSizeRequested(float size[2])
 {
-	GetSize(size);
+	if (m_child)
+		m_child->GetSizeRequested(size);
+	else
+		size[0] = size[1] = 0;
 }
 
 void VScrollPortal::OnChildResizeRequest(Widget *child)
