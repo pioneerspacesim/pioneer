@@ -838,7 +838,7 @@ void StationBBView::ShowAll()
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
-	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
+	Gui::Fixed *innerbox = new Gui::Fixed(460, NUM_ITEMS*YSEP);
 	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
