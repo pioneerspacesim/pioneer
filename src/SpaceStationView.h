@@ -5,6 +5,7 @@
 #include "gui/Gui.h"
 #include "View.h"
 #include "Form.h"
+#include "FormController.h"
 #include "FaceVideoLink.h"
 
 class SpaceStationView: public View {
@@ -15,12 +16,8 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
 
-	void ActivateForm(FaceForm *form);
-	void JumpToForm(FaceForm *form);
-	void CloseForm();
-
 private:
-	void UpdateForFaceForm(FaceForm *);
+	void RefreshForForm(Form *);
 
 	sigc::connection m_undockConnection;
 
@@ -34,6 +31,7 @@ private:
 	Gui::Label *m_legalstatus;
 
 	Gui::Stack *m_formStack;
+    FormController *m_formController;
 
 	Gui::Button *m_backButton;
 	Gui::Label *m_backLabel;

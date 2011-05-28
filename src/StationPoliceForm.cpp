@@ -6,7 +6,7 @@
 #include "ShipCpanel.h"
 #include "SpaceStationView.h"
 
-StationPoliceForm::StationPoliceForm() : ChatForm()
+StationPoliceForm::StationPoliceForm(FormController *controller) : ChatForm(controller)
 {
 	SetTitle(stringf(256, "%s Police", Pi::player->GetDockedWith()->GetLabel().c_str()).c_str());
 
@@ -41,12 +41,12 @@ void StationPoliceForm::OnOptionClicked(int option)
 			Pi::player->SetMoney(Pi::player->GetMoney() - fine);
 			Polit::AddCrime(0, -fine);
 
-			Pi::spaceStationView->CloseForm();
+            m_formController->CloseForm();
 			break;
 		}
 
 		default:
-			Pi::spaceStationView->CloseForm();
+            m_formController->CloseForm();
 			break;
 	}
 }

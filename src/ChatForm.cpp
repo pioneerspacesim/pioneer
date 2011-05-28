@@ -1,6 +1,6 @@
 #include "ChatForm.h"
 
-ChatForm::ChatForm() : FaceForm()
+ChatForm::ChatForm(FormController *controller) : FaceForm(controller)
 {
 	m_message = new Gui::Label("");
 	Add(m_message, 0, 0);

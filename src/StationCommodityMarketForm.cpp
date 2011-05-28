@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "ShipCpanel.h"
 
-StationCommodityMarketForm::StationCommodityMarketForm() : FaceForm()
+StationCommodityMarketForm::StationCommodityMarketForm(FormController *controller) : FaceForm(controller)
 {
 	m_station = Pi::player->GetDockedWith();
 

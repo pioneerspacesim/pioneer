@@ -1015,8 +1015,11 @@ SpaceStationView::SpaceStationView(): View()
 	m_formStack = new Gui::Stack();
 	Add(m_formStack, 320, 40);
 
+	m_formController = new FormController(m_formStack);
+	m_formController->onRefresh.connect(sigc::mem_fun(this, &SpaceStationView::RefreshForForm));
+
 	m_backButton = new Gui::SolidButton();
-	m_backButton->onClick.connect(sigc::mem_fun(this, &SpaceStationView::CloseForm));
+	m_backButton->onClick.connect(sigc::mem_fun(m_formController, &FormController::CloseForm));
 	Add(m_backButton, 680, 470);
 	m_backLabel = new Gui::Label("Go back");
 	Add(m_backLabel, 700, 470);
@@ -1028,6 +1031,7 @@ SpaceStationView::SpaceStationView(): View()
 
 SpaceStationView::~SpaceStationView()
 {
+	delete m_formController;
 	m_undockConnection.disconnect();
 }
 
@@ -1068,45 +1072,26 @@ void SpaceStationView::OnSwitchTo()
 		delete m_videoLink;
 		m_videoLink = 0;
 	}
-	JumpToForm(new StationServicesForm());
+	m_formController->JumpToForm(new StationServicesForm(m_formController));
 }
 
-void SpaceStationView::ActivateForm(FaceForm *form)
+void SpaceStationView::RefreshForForm(Form *f)
 {
-	m_formStack->Push(form);
-	UpdateForFaceForm(form);
-	ShowAll();
-}
+	FaceForm *form = static_cast<FaceForm*>(f);
 
-void SpaceStationView::JumpToForm(FaceForm *form)
-{
-	m_formStack->JumpTo(form);
-	UpdateForFaceForm(form);
-	ShowAll();
-}
-
-void SpaceStationView::CloseForm()
-{
-	m_formStack->Pop();
-	UpdateForFaceForm(static_cast<FaceForm*>(m_formStack->Top()));
-	ShowAll();
-}
-
-void SpaceStationView::UpdateForFaceForm(FaceForm *form)
-{
 	m_title->SetText(form->GetTitle());
 
 	form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
 
-	if (m_videoLink) {
-		if (form->GetFaceFlags() == m_videoLink->GetFlags() && form->GetFaceSeed() == m_videoLink->GetSeed())
-			return;
+	if (!m_videoLink || form->GetFaceFlags() != m_videoLink->GetFlags() || form->GetFaceSeed() != m_videoLink->GetSeed()) {
+		if (m_videoLink) {
+			Remove(m_videoLink);
+			delete m_videoLink;
+		}
 
-		Remove(m_videoLink);
-		delete m_videoLink;
+		m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
+		Add(m_videoLink, 5, 40);
 	}
 
-	m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
-	Add(m_videoLink, 5, 40);
-	m_videoLink->Show();
+    ShowAll();
 }

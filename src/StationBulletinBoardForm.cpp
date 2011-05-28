@@ -3,7 +3,7 @@
 #include "Pi.h"
 #include "Player.h"
 
-StationBulletinBoardForm::StationBulletinBoardForm() : FaceForm()
+StationBulletinBoardForm::StationBulletinBoardForm(FormController *controller) : FaceForm(controller)
 {
 	m_station = Pi::player->GetDockedWith();
 

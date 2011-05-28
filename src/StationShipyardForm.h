@@ -5,7 +5,7 @@
 
 class StationShipyardForm : public FaceForm {
 public:
-	StationShipyardForm();
+	StationShipyardForm(FormController *controller);
 
 private:
     void EquipmentMarket();

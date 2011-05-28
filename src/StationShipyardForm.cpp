@@ -4,7 +4,7 @@
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 
-StationShipyardForm::StationShipyardForm() : FaceForm()
+StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(controller)
 {
 	SetTitle(stringf(256, "%s shipyard", Pi::player->GetDockedWith()->GetLabel().c_str()));
 

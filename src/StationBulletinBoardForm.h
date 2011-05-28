@@ -6,7 +6,7 @@
 
 class StationBulletinBoardForm : public FaceForm {
 public:
-	StationBulletinBoardForm();
+	StationBulletinBoardForm(FormController *controller);
 	~StationBulletinBoardForm();
 
 private:

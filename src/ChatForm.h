@@ -5,7 +5,7 @@
 
 class ChatForm : public FaceForm {
 public:
-	ChatForm();
+	ChatForm(FormController *controller);
 
 	void SetMessage(std::string msg);
 	void AddOption(std::string text, int val);

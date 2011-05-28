@@ -7,7 +7,7 @@
 
 class StationCommodityMarketForm : public FaceForm {
 public:
-	StationCommodityMarketForm();
+	StationCommodityMarketForm(FormController *controller);
 
 private:
 	void OnClickBuy(int commodity);

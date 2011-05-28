@@ -5,7 +5,7 @@
 
 class StationServicesForm : public FaceForm {
 public:
-	StationServicesForm();
+	StationServicesForm(FormController *controller);
 
 private:
 	void RequestLaunch();

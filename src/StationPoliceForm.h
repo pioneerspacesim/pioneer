@@ -5,7 +5,7 @@
 
 class StationPoliceForm : public ChatForm {
 public:
-	StationPoliceForm();
+	StationPoliceForm(FormController *controller);
 	virtual void OnOptionClicked(int option);
 };
 

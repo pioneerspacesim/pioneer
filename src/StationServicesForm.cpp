@@ -9,7 +9,7 @@
 #include "StationBulletinBoardForm.h"
 #include "StationPoliceForm.h"
 
-StationServicesForm::StationServicesForm() : FaceForm()
+StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(controller)
 {
 	SetTitle(stringf(256, "%s services", Pi::player->GetDockedWith()->GetLabel().c_str()));
 
@@ -68,20 +68,20 @@ void StationServicesForm::RequestLaunch()
 
 void StationServicesForm::Shipyard()
 {
-	Pi::spaceStationView->ActivateForm(new StationShipyardForm());
+	m_formController->ActivateForm(new StationShipyardForm(m_formController));
 }
 
 void StationServicesForm::CommodityMarket()
 {
-	Pi::spaceStationView->ActivateForm(new StationCommodityMarketForm());
+	m_formController->ActivateForm(new StationCommodityMarketForm(m_formController));
 }
 
 void StationServicesForm::BulletinBoard()
 {
-	Pi::spaceStationView->ActivateForm(new StationBulletinBoardForm());
+	m_formController->ActivateForm(new StationBulletinBoardForm(m_formController));
 }
 
 void StationServicesForm::Police()
 {
-	Pi::spaceStationView->ActivateForm(new StationPoliceForm());
+	m_formController->ActivateForm(new StationPoliceForm(m_formController));
 }

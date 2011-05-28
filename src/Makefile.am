@@ -26,6 +26,7 @@ noinst_HEADERS = \
 	Font.h \
 	FontManager.h \
 	Form.h \
+	FormController.h \
 	Frame.h \
 	GalacticView.h \
 	Galaxy.h \
@@ -145,6 +146,7 @@ pioneer_SOURCES	= \
 	FaceVideoLink.cpp \
 	Font.cpp \
 	FontManager.cpp \
+	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Galaxy.cpp \

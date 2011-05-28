@@ -3,6 +3,7 @@
 
 #include "gui/Gui.h"
 
+class FormController;
 
 class Form : public Gui::Fixed {
 public:
@@ -11,8 +12,10 @@ public:
 	virtual FormType GetType() const = 0;
 
 protected:
-	Form(float w, float h) : Gui::Fixed(w, h) {}
+	Form(FormController *controller, float w, float h) : Gui::Fixed(w, h), m_formController(controller) {}
 	virtual ~Form() {}
+
+	FormController *m_formController;
 };
 
 
@@ -30,7 +33,7 @@ public:
 	void SetFaceSeed(unsigned int seed) { m_faceSeed = seed; }
 
 protected:
-	FaceForm() : Form(470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
+	FaceForm(FormController *controller) : Form(controller, 470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
 
 private:
 	std::string m_title;
