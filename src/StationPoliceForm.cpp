@@ -10,9 +10,12 @@ void StationPoliceForm::OnOptionClicked(int option)
 {
 	switch (option) {
 		case 0: {
-			SetTitle(stringf(256, "%s Police", Pi::player->GetDockedWith()->GetLabel().c_str()).c_str());
+			SpaceStation *station = Pi::player->GetDockedWith();
+
+			SetTitle(stringf(256, "%s Police", station->GetLabel().c_str()).c_str());
 
 			SetFaceFlags(FaceVideoLink::ARMOUR);
+			SetFaceSeed(MTRand(station->GetSBody()->seed).Int32());
 
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);
