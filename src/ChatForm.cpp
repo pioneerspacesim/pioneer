@@ -1,6 +1,7 @@
 #include "ChatForm.h"
+#include "FormController.h"
 
-ChatForm::ChatForm(FormController *controller) : FaceForm(controller)
+ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_hasOptions(false), m_doSetup(true)
 {
 	m_message = new Gui::Label("");
 	Add(m_message, 0, 0);
@@ -8,8 +9,15 @@ ChatForm::ChatForm(FormController *controller) : FaceForm(controller)
 	m_options = new Gui::VBox();
 	m_options->SetSpacing(5.0f);
 	Add(m_options, 0, 160);
+}
 
-	Clear();
+void ChatForm::ShowAll()
+{
+	if (m_doSetup) {
+		m_doSetup = false;
+		OnOptionClickedTrampoline(0);
+	}
+	FaceForm::ShowAll();
 }
 
 void ChatForm::SetMessage(std::string msg)
@@ -35,7 +43,7 @@ void ChatForm::AddOption(std::string text, int val)
 
 	m_options->PackEnd(box);
 
-	ShowAll();
+	m_options->ShowAll();
 }
 
 void ChatForm::Clear()
@@ -45,4 +53,10 @@ void ChatForm::Clear()
 	m_options->DeleteAllChildren();
 
 	m_hasOptions = false;
+}
+
+void ChatForm::OnOptionClickedTrampoline(int option)
+{
+	OnOptionClicked(option);
+	m_formController->Refresh();
 }
