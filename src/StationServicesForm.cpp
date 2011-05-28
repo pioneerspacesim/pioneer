@@ -4,6 +4,7 @@
 #include "SpaceStation.h"
 #include "WorldView.h"
 #include "SpaceStationView.h"
+#include "StationShipyardForm.h"
 #include "StationCommodityMarketForm.h"
 #include "StationBulletinBoardForm.h"
 #include "StationPoliceForm.h"
@@ -67,6 +68,7 @@ void StationServicesForm::RequestLaunch()
 
 void StationServicesForm::Shipyard()
 {
+	Pi::spaceStationView->ActivateForm(new StationShipyardForm());
 }
 
 void StationServicesForm::CommodityMarket()
