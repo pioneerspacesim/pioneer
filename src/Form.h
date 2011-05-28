@@ -12,6 +12,7 @@ public:
 
 protected:
 	Form(float w, float h) : Gui::Fixed(w, h) {}
+	virtual ~Form() {}
 };
 
 
