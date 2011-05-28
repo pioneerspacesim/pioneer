@@ -479,34 +479,6 @@ void Pi::OnChangeDetailLevel()
 	GeoSphere::OnChangeDetailLevel();
 }
 
-void Screendump(char *destFile)
-{
-	/* XXX TODO XXX not endian-safe */
-	const int W = Pi::GetScrWidth();
-	const int H = Pi::GetScrHeight();
-	std::vector<char> pixel_data(3*W*H);
-	short TGAhead[] = {0, 2, 0, 0, 0, 0, W, H, 24};
-
-    std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
-
-	FILE *out = fopen(fname.c_str(), "w");
-	if (!out) return;
-	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, W, H, GL_BGR, GL_UNSIGNED_BYTE, &pixel_data[0]);
-	if (fwrite(&TGAhead, sizeof(TGAhead), 1, out) != 1) {
-		fclose(out);
-        printf("Failed to write screendump.\n");
-        return;
-	}
-	if (fwrite(&pixel_data[0], 3*W*H, 1, out) != 1) {
-		fclose(out);
-        printf("Failed to write screendump.\n");
-        return;
-	}
-	fclose(out);
-    fprintf(stderr, "Screendump to %s\n", fname.c_str());
-}
-
 void Pi::HandleEvents()
 {
 	SDL_Event event;
@@ -549,8 +521,8 @@ void Pi::HandleEvents()
                             char buf[256];
                             const time_t t = time(0);
                             struct tm *_tm = localtime(&t);
-                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.tga", _tm);
-                            Screendump(buf);
+                            strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
+                            Screendump(buf, GetScrWidth(), GetScrHeight());
                             break;
                         }
 #if DEVKEYS
@@ -1259,8 +1231,8 @@ void Pi::MainLoop()
 		if (SDL_GetTicks() - last_screendump > 50) {
 			last_screendump = SDL_GetTicks();
 			char buf[256];
-			snprintf(buf, sizeof(buf), "screenshot%08d.tga", dumpnum++);
-			Screendump(buf);
+			snprintf(buf, sizeof(buf), "screenshot%08d.png", dumpnum++);
+			Screendump(buf, GetScrWidth(), GetScrHeight());
 		}
 #endif /* MAKING_VIDEO */
 	}
