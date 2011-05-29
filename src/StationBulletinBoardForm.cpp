@@ -2,6 +2,8 @@
 #include "SpaceStation.h"
 #include "Pi.h"
 #include "Player.h"
+#include "StationAdvertForm.h"
+#include "FormController.h"
 
 StationBulletinBoardForm::StationBulletinBoardForm(FormController *controller) : FaceForm(controller)
 {
@@ -60,6 +62,7 @@ void StationBulletinBoardForm::UpdateAdverts()
 	int y = 0;
 	for (std::list<const BBAdvert*>::const_iterator i = adverts.begin(); i != adverts.end(); i++) {
 		Gui::SolidButton *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBulletinBoardForm::ActivateAdvertForm), (*i)));
 		m_advertbox->Add(b, 0, y);
 
 		Gui::Label *l = new Gui::Label((*i)->description);
@@ -67,4 +70,9 @@ void StationBulletinBoardForm::UpdateAdverts()
 
 		y += YSEP;
 	}
+}
+
+void StationBulletinBoardForm::ActivateAdvertForm(const BBAdvert *ad)
+{
+	m_formController->ActivateForm(ad->builder(m_formController, m_station, ad));
 }

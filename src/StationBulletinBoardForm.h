@@ -13,6 +13,7 @@ private:
 	void OnBulletinBoardChanged();
 	void OnBulletinBoardAdvertDeleted(BBAdvert *ad);
 	void UpdateAdverts();
+	void ActivateAdvertForm(const BBAdvert *ad);
 
 	SpaceStation *m_station;
 	Gui::Fixed *m_advertbox;

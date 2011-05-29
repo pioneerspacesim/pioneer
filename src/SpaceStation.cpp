@@ -805,7 +805,7 @@ void SpaceStation::CreateBB()
 
 
 static int next_ref = 0;
-int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
+int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder)
 {
 	int ref = ++next_ref;
 	assert(ref);

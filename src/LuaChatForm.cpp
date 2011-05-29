@@ -12,50 +12,67 @@
 #include "CommodityTradeWidget.h"
 #include "FaceVideoLink.h"
 
+LuaChatForm::LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert *ad) :
+	StationAdvertForm(controller, station, ad), m_commodityTradeWidget(0)
+{
+	m_formClosedConnection = m_formController->onClose.connect(sigc::mem_fun(this, &LuaChatForm::OnClose));
+}
+
 LuaChatForm::~LuaChatForm()
 {
-	if (m_adTaken) RemoveAdvert();
+	m_formClosedConnection.disconnect();
 }
 
-void LuaChatForm::CallDialogHandler(int optionClicked)
+void LuaChatForm::OnOptionClicked(int option)
 {
-	if (GetAdvert() == 0) {
-		// advert has expired
-		Close();
-	} else {
-	    SetMoney(1000000000);
+    SetMoney(1000000000);
 
-		lua_State *l = Pi::luaManager.GetLuaState();
-
-		LUA_DEBUG_START(l);
-
-		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-		assert(lua_istable(l, -1));
-
-		lua_pushinteger(l, GetAdvert()->ref);
-		lua_gettable(l, -2);
-		assert(!lua_isnil(l, -1));
-
-		lua_getfield(l, -1, "onChat");
-		assert(lua_isfunction(l, -1));
-
-		LuaObject<LuaChatForm>::PushToLua(this);
-		lua_pushinteger(l, GetAdvert()->ref);
-		lua_pushinteger(l, optionClicked);
-		lua_call(l, 3, 0);
-
-		lua_pop(l, 2);
-
-		LUA_DEBUG_END(l, 0);
-	}
-}
-
-void LuaChatForm::RemoveAdvert() {
 	lua_State *l = Pi::luaManager.GetLuaState();
 
+	LUA_DEBUG_START(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
+	assert(lua_istable(l, -1));
+
+	lua_pushinteger(l, GetAdvert()->ref);
+	lua_gettable(l, -2);
+	assert(!lua_isnil(l, -1));
+
+	lua_getfield(l, -1, "onChat");
+	assert(lua_isfunction(l, -1));
+
+	LuaObject<LuaChatForm>::PushToLua(this);
+	lua_pushinteger(l, GetAdvert()->ref);
+	lua_pushinteger(l, option);
+	lua_call(l, 3, 0);
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
+}
+
+void LuaChatForm::OnClose(Form *form) {
+	lua_State *l = Pi::luaManager.GetLuaState();
 	int ref = GetAdvert()->ref;
 
 	LUA_DEBUG_START(l);
+
+	if (m_commodityTradeWidget) {
+		lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
+		assert(lua_istable(l, -1));
+
+		lua_pushinteger(l, ref);
+		lua_gettable(l, -2);
+		assert(!lua_isnil(l, -1));
+
+		lua_pushstring(l, "tradeWidgetFunctions");
+		lua_pushnil(l);
+		lua_settable(l, -3);
+
+		lua_pop(l, 2);
+	}
+
+	if (!AdTaken()) return;
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(lua_istable(l, -1));
@@ -192,7 +209,6 @@ void LuaChatForm::OnClickBuy(int t) {
 			Pi::Message(stringf(512, "You have bought 1t of %s.", EquipType::types[t].name));
 		}
 		m_commodityTradeWidget->UpdateStock(t);
-		UpdateBaseDisplay();
 	}
 }
 
@@ -217,7 +233,6 @@ void LuaChatForm::OnClickSell(int t) {
 			Pi::Message(stringf(512, "You have sold 1t of %s.", EquipType::types[t].name));
 		}
 		m_commodityTradeWidget->UpdateStock(t);
-		UpdateBaseDisplay();
 	}
 }
 
@@ -346,9 +361,9 @@ void LuaChatForm::Sold(Equip::Type t) {
  */
 static int l_luachatform_set_title(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string title = luaL_checkstring(l, 2);
-	dialog->SetTitle(title.c_str());
+	form->SetTitle(title);
 	return 0;
 }
 
@@ -392,7 +407,7 @@ static int l_luachatform_set_title(lua_State *l)
  */
 static int l_luachatform_set_face(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 
 	if (!lua_istable(l, 2))
 		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
@@ -423,7 +438,8 @@ static int l_luachatform_set_face(lua_State *l)
 
 	LUA_DEBUG_END(l, 0);
 
-	dialog->SetFace(flags, seed);
+	form->SetFaceFlags(flags);
+	form->SetFaceSeed(seed);
 	return 0;
 }
 
@@ -455,9 +471,9 @@ static int l_luachatform_set_face(lua_State *l)
  */
 static int l_luachatform_set_message(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string message = luaL_checkstring(l, 2);
-	dialog->SetMessage(message.c_str());
+	form->SetMessage(message);
 	return 0;
 }
 
@@ -489,10 +505,10 @@ static int l_luachatform_set_message(lua_State *l)
  */
 static int l_luachatform_add_option(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string text = luaL_checkstring(l, 2);
 	int val = luaL_checkinteger(l, 3);
-	dialog->AddOption(text, val);
+	form->AddOption(text, val);
 	return 0;
 }
 
@@ -505,7 +521,7 @@ static int l_luachatform_add_option(lua_State *l)
  *
  * <Clear> will remove all UI elements attached to the form. This includes the
  * form message set with <SetMessage>, all options added with <AddOption> and
- * a the goods trader component set with <AddGoodsTrader>.
+ * the goods trader component set with <AddGoodsTrader>.
  *
  * It will not remove the title set with <SetTitle>.
  *
@@ -519,34 +535,14 @@ static int l_luachatform_add_option(lua_State *l)
  */
 static int l_luachatform_clear(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	dialog->Clear();
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	form->Clear();
 	return 0;
 }
 
 static inline void _bad_trade_function(lua_State *l, const char *name) {
 	luaL_where(l, 0);
 	luaL_error(l, "%s bad argument '%s' to 'AddGoodsTrader' (function expected, got %s)", lua_tostring(l, -1), name, luaL_typename(l, -2));
-}
-
-static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l, int ref)
-{
-	LUA_DEBUG_START(l);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
-	assert(lua_istable(l, -1));
-
-	lua_pushinteger(l, ref);
-	lua_gettable(l, -2);
-	assert(!lua_isnil(l, -1));
-
-	lua_pushstring(l, "tradeWidgetFunctions");
-	lua_pushnil(l);
-	lua_settable(l, -3);
-
-	lua_pop(l, 2);
-
-	LUA_DEBUG_END(l, 0);
 }
 
 /*
@@ -618,7 +614,7 @@ static inline void _cleanup_trade_functions(GenericChatForm *form, lua_State *l,
  */
 int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 
 	if(!lua_istable(l, 2))
 		luaL_typerror(l, 2, lua_typename(l, LUA_TTABLE));
@@ -657,7 +653,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiAdverts");
 	assert(lua_istable(l, -1));
 
-	lua_pushinteger(l, dialog->GetAdvert()->ref);
+	lua_pushinteger(l, form->GetAdvert()->ref);
 	lua_gettable(l, -2);
 	assert(!lua_isnil(l, -1));
 
@@ -667,16 +663,16 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 
 	lua_pop(l, 2);
 
-	CommodityTradeWidget *w = new CommodityTradeWidget(dialog);
-	w->onClickBuy.connect(sigc::mem_fun(dialog, &LuaChatForm::OnClickBuy));
-	w->onClickSell.connect(sigc::mem_fun(dialog, &LuaChatForm::OnClickSell));
+/*
+	CommodityTradeWidget *w = new CommodityTradeWidget(form);
+	w->onClickBuy.connect(sigc::mem_fun(form, &LuaChatForm::OnClickBuy));
+	w->onClickSell.connect(sigc::mem_fun(form, &LuaChatForm::OnClickSell));
 	Gui::Fixed *f = new Gui::Fixed(400.0, 200.0);
 	f->Add(w, 0, 0);
-	dialog->m_msgregion->PackEnd(f);
+	form->m_msgregion->PackEnd(f);
 
-	dialog->m_commodityTradeWidget = w;
-
-	dialog->onClose.connect(sigc::bind(sigc::ptr_fun(_cleanup_trade_functions), l, dialog->GetAdvert()->ref));
+	form->m_commodityTradeWidget = w;
+*/
 
 	return 0;
 }
@@ -698,34 +694,29 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
  */
 static int l_luachatform_close(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	dialog->Close();
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	form->Close();
 	return 0;
 }
 
 /*
  * Method: Refresh
  *
- * Recalculates and redraws the entire chat form display
- *
  * > form:Refresh()
  *
- * This recalulates ship capacity and money stats and redraws everything on
- * the screen, including the form. Use this after your chat function changes
- * the player equipment, cargo or money.
+ * Since alpha 12 it is no longer necessary to request that the form be
+ * updated - it is handled automatically.
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 10 (stable), alpha 12 (deprecated)
  *
  * Status:
  *
- *   stable
+ *   deprecated
  */
 static int l_luachatform_refresh(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	dialog->UpdateBaseDisplay();
 	return 0;
 }
 
@@ -771,8 +762,8 @@ static int l_luachatform_goto_police(lua_State *l)
  */
 static int l_luachatform_remove_advert_on_close(lua_State *l)
 {
-	LuaChatForm *dialog = LuaObject<LuaChatForm>::GetFromLua(1);
-	dialog->RemoveAdvertOnClose();
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	form->RemoveAdvertOnClose();
 	return 0;
 }
 
