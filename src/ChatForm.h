@@ -9,6 +9,7 @@ public:
 
 	virtual void ShowAll();
 
+protected:
 	void SetMessage(std::string msg);
 	void AddOption(std::string text, int val);
 	void Clear();

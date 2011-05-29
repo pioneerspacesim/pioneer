@@ -35,6 +35,10 @@ private:
 	void OnClickBuy(int equipType);
 	void OnClickSell(int equipType);
 
+	static int l_luachatform_set_message(lua_State *l);
+	static int l_luachatform_add_option(lua_State *l);
+	static int l_luachatform_clear(lua_State *l);
+	static int l_luachatform_close(lua_State *l);
 	static int l_luachatform_add_goods_trader(lua_State *l);
 	static int l_luachatform_goto_police(lua_State *l);
 

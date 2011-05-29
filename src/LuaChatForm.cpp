@@ -469,7 +469,7 @@ static int l_luachatform_set_face(lua_State *l)
  *
  *   stable
  */
-static int l_luachatform_set_message(lua_State *l)
+int LuaChatForm::l_luachatform_set_message(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string message = luaL_checkstring(l, 2);
@@ -503,7 +503,7 @@ static int l_luachatform_set_message(lua_State *l)
  *   
  *   stable
  */
-static int l_luachatform_add_option(lua_State *l)
+int LuaChatForm::l_luachatform_add_option(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	std::string text = luaL_checkstring(l, 2);
@@ -533,7 +533,7 @@ static int l_luachatform_add_option(lua_State *l)
  *
  *   stable
  */
-static int l_luachatform_clear(lua_State *l)
+int LuaChatForm::l_luachatform_clear(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	form->Clear();
@@ -692,7 +692,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
  *
  *   stable
  */
-static int l_luachatform_close(lua_State *l)
+int LuaChatForm::l_luachatform_close(lua_State *l)
 {
 	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
 	form->Close();
@@ -773,16 +773,17 @@ template <> const char *LuaObject<LuaChatForm>::s_type = "ChatForm";
 template <> void LuaObject<LuaChatForm>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
-		{ "Clear",               l_luachatform_clear                         },
 		{ "SetTitle",            l_luachatform_set_title                     },
-        { "SetFace",             l_luachatform_set_face                      },
-		{ "SetMessage",          l_luachatform_set_message                   },
-		{ "AddOption",           l_luachatform_add_option                    },
+		{ "SetFace",             l_luachatform_set_face                      },
+		{ "SetMessage",          LuaChatForm::l_luachatform_set_message      },
+		{ "AddOption",           LuaChatForm::l_luachatform_add_option       },
+		{ "Clear",               LuaChatForm::l_luachatform_clear            },
+		{ "Close",               LuaChatForm::l_luachatform_close            },
 		{ "AddGoodsTrader",      LuaChatForm::l_luachatform_add_goods_trader },
-		{ "Close",               l_luachatform_close                         },
-		{ "Refresh",             l_luachatform_refresh                       },
 		{ "GotoPolice",          LuaChatForm::l_luachatform_goto_police      },
 		{ "RemoveAdvertOnClose", l_luachatform_remove_advert_on_close        },
+
+		{ "Refresh",             l_luachatform_refresh                       },
 		{ 0, 0 }
 	};
 
