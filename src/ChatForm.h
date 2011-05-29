@@ -12,6 +12,7 @@ public:
 	void SetMessage(std::string msg);
 	void AddOption(std::string text, int val);
 	void Clear();
+	void Close();
 
 	virtual void OnOptionClicked(int option) = 0;
 
@@ -23,6 +24,7 @@ private:
 
 	bool m_hasOptions;
 	bool m_doSetup;
+	bool m_close;
 };
 
 #endif

@@ -45,12 +45,12 @@ void StationPoliceForm::OnOptionClicked(int option)
 			Pi::player->SetMoney(Pi::player->GetMoney() - fine);
 			Polit::AddCrime(0, -fine);
 
-            m_formController->CloseForm();
+			Close();
 			break;
 		}
 
 		default:
-            m_formController->CloseForm();
+			Close();
 			break;
 	}
 }

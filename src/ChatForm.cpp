@@ -1,7 +1,7 @@
 #include "ChatForm.h"
 #include "FormController.h"
 
-ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_hasOptions(false), m_doSetup(true)
+ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_hasOptions(false), m_doSetup(true), m_close(false)
 {
 	m_message = new Gui::Label("");
 	Add(m_message, 0, 0);
@@ -55,11 +55,16 @@ void ChatForm::Clear()
 	m_hasOptions = false;
 }
 
+void ChatForm::Close()
+{
+	m_close = true;
+}
+
 void ChatForm::OnOptionClickedTrampoline(int option)
 {
-	// if OnOptionClicked calls m_formController->Close, we will be deleted.
-	// we must keep a stack copy of m_formController so we can refresh it
-	FormController *formController = m_formController;
 	OnOptionClicked(option);
-	formController->Refresh();
+	if (m_close)
+		m_formController->CloseForm();
+	else
+		m_formController->Refresh();
 }
