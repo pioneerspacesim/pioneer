@@ -180,7 +180,7 @@ case "$host" in
 esac
 
 dnl Check for libpng
-PKG_CHECK_MODULES([libpng], [libpng12])
+PKG_CHECK_MODULES([PNG], [libpng])
 
 dnl ###########################################################################
 dnl System-specific stuff not covered above
