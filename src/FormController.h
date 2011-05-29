@@ -14,6 +14,7 @@ public:
 	void Refresh();
 
 	sigc::signal<void,Form*> onRefresh;
+	sigc::signal<void,Form*> onClose;
 
 private:
 	Gui::Stack *m_formStack;
