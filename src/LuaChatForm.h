@@ -36,6 +36,7 @@ private:
 	void OnClickSell(int equipType);
 
 	static int l_luachatform_add_goods_trader(lua_State *l);
+	static int l_luachatform_goto_police(lua_State *l);
 
 	void OnClose(Form *form);
 	sigc::connection m_formClosedConnection;

@@ -8,9 +8,9 @@
 #include "gui/Gui.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
-#include "PoliceChatForm.h"
 #include "CommodityTradeWidget.h"
 #include "FaceVideoLink.h"
+#include "StationPoliceForm.h"
 
 LuaChatForm::LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert *ad) :
 	StationAdvertForm(controller, station, ad), m_commodityTradeWidget(0)
@@ -735,9 +735,10 @@ static int l_luachatform_refresh(lua_State *l)
  *
  *   experimental
  */
-static int l_luachatform_goto_police(lua_State *l)
+int LuaChatForm::l_luachatform_goto_police(lua_State *l)
 {
-	//Pi::spaceStationView->JumpToForm(new PoliceChatForm());
+	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	form->m_formController->ActivateForm(new StationPoliceForm(form->m_formController));
 	return 0;
 }
 
@@ -780,7 +781,7 @@ template <> void LuaObject<LuaChatForm>::RegisterClass()
 		{ "AddGoodsTrader",      LuaChatForm::l_luachatform_add_goods_trader },
 		{ "Close",               l_luachatform_close                         },
 		{ "Refresh",             l_luachatform_refresh                       },
-		{ "GotoPolice",          l_luachatform_goto_police                   },
+		{ "GotoPolice",          LuaChatForm::l_luachatform_goto_police      },
 		{ "RemoveAdvertOnClose", l_luachatform_remove_advert_on_close        },
 		{ 0, 0 }
 	};
