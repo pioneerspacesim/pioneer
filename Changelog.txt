@@ -8,6 +8,7 @@ Alpha 11
       1 Airport config)
     * Clicking on the hyperspace icon a second time after a hyperspace is
       initiated cancels the jump (#25)
+	* Screenshots are now in PNG format
 
   * Fixes
     * Orbital stations create a small amount of population (#85, #96)
