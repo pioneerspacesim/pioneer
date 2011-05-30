@@ -8,7 +8,7 @@ Alpha 11
       1 Airport config) (#120)
     * Clicking on the hyperspace icon a second time after a hyperspace is
       initiated cancels the jump (#25)
-	* Screenshots are now in PNG format (#91, #140)
+    * Screenshots are now in PNG format (#91, #140)
 
   * Fixes
     * Orbital stations create a small amount of population (#85, #96)
@@ -22,12 +22,12 @@ Alpha 11
     * Better layout for hyperdrive ranges in ship purchase screen (#94)
     * Use power-of-two texture for facegen to support more graphics cards (#83)
     * Remove duplicate system 'EI Cancri' [2,0]
-	* Crash on call to Lua method Player.AddCrime
-	* Crash on any mission failure (#144)
+    * Crash on call to Lua method Player.AddCrime
+    * Crash on any mission failure (#144)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
-	* Fonts rendering controlled by per-font config files (#106, #113)
+    * Fonts rendering controlled by per-font config files (#106, #113)
 
 Alpha 10
 
