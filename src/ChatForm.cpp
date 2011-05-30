@@ -1,14 +1,15 @@
 #include "ChatForm.h"
 #include "FormController.h"
 
-ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_hasOptions(false), m_doSetup(true), m_close(false)
+ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_message(0), m_hasOptions(false), m_doSetup(true), m_close(false)
 {
-	m_message = new Gui::Label("");
-	Add(m_message, 0, 0);
+	m_topRegion = new Gui::VBox();
+	m_topRegion->SetSpacing(5.0f);
+	Add(m_topRegion, 0, 0);
 
-	m_options = new Gui::VBox();
-	m_options->SetSpacing(5.0f);
-	Add(m_options, 0, 160);
+	m_bottomRegion = new Gui::VBox();
+	m_bottomRegion->SetSpacing(5.0f);
+	Add(m_bottomRegion, 0, 0);
 }
 
 void ChatForm::ShowAll()
@@ -18,17 +19,38 @@ void ChatForm::ShowAll()
 		OnOptionClickedTrampoline(0);
 	}
 	FaceForm::ShowAll();
+
+	float form_size[2], region_size[2];
+	GetSize(form_size);
+	region_size[0] = form_size[0];
+	region_size[1] = form_size[1];
+	m_bottomRegion->GetSizeRequested(region_size);
+	MoveChild(m_bottomRegion, 0, form_size[1]-region_size[1]);
 }
 
 void ChatForm::SetMessage(std::string msg)
 {
+	if (msg.length() == 0) {
+		if (!m_message) return;
+		RemoveChild(m_message);
+		delete m_message;
+		m_message = 0;
+		return;
+	}
+
+	if (!m_message) {
+		m_message = new Gui::Label(msg);
+		AddTopWidget(m_message);
+		return;
+	}
+
 	m_message->SetText(msg);
 }
 
 void ChatForm::AddOption(std::string text, int val)
 {
 	if (!m_hasOptions) {
-		m_options->PackStart(new Gui::Label("Suggested responses:"));
+		AddBottomWidget(new Gui::Label("Suggested responses:"));
 		m_hasOptions = true;
 	}
 
@@ -41,23 +63,33 @@ void ChatForm::AddOption(std::string text, int val)
 	box->PackEnd(b);
 	box->PackEnd(new Gui::Label(text));
 
-	m_options->PackEnd(box);
-
-	m_options->ShowAll();
+	AddBottomWidget(box);
 }
 
 void ChatForm::Clear()
 {
-	m_message->SetText("");
+	m_topRegion->DeleteAllChildren();
+	m_bottomRegion->DeleteAllChildren();
 
-	m_options->DeleteAllChildren();
-
+	m_message = 0;
 	m_hasOptions = false;
 }
 
 void ChatForm::Close()
 {
 	m_close = true;
+}
+
+void ChatForm::AddTopWidget(Gui::Widget *w)
+{
+	m_topRegion->PackEnd(w);
+	m_topRegion->ShowAll();
+}
+
+void ChatForm::AddBottomWidget(Gui::Widget *w)
+{
+	m_bottomRegion->PackEnd(w);
+	m_bottomRegion->ShowAll();
 }
 
 void ChatForm::OnOptionClickedTrampoline(int option)
