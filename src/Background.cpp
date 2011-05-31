@@ -160,12 +160,54 @@ void Starfield::Draw()
 
 MilkyWay::MilkyWay()
 {
+	//build milky way model in two strips
+	//bottom
+	float theta;
+	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
+		m_dataBottom.push_back(Vertex(
+				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
+				vector3f(0.0,0.0,0.0)));
+		m_dataBottom.push_back(Vertex(
+			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(0.05,0.05,0.05)));
+	}
+	theta = 2.0*M_PI;
+	m_dataBottom.push_back(Vertex(
+		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(0.0,0.0,0.0)));
+	m_dataBottom.push_back(Vertex(
+		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(0.05,0.05,0.05)));
+	//top
+	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
+		m_dataTop.push_back(Vertex(
+			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(0.05,0.05,0.05)));
+		m_dataTop.push_back(Vertex(
+			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(0.0,0.0,0.0)));
+	}
+	theta = 2.0*M_PI;
+	m_dataTop.push_back(Vertex(
+		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(0.05,0.05,0.05)));
+	m_dataTop.push_back(Vertex(
+		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(0.0,0.0,0.0)));
 
+	if (USE_VBO) {
+		glGenBuffersARB(1, &m_vbo);
+		Render::BindArrayBuffer(m_vbo);
+		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Background::Vertex) * m_dataBottom.size(),
+			&m_dataBottom.front(), GL_STATIC_DRAW);
+		Render::BindArrayBuffer(0);
+	}
 }
 
 MilkyWay::~MilkyWay()
 {
-	glDeleteBuffersARB(1, &m_vbo);
+	if (USE_VBO)
+		glDeleteBuffersARB(1, &m_vbo);
 }
 
 void MilkyWay::Draw()
@@ -179,37 +221,14 @@ void MilkyWay::Draw()
 	if (0 /*USE_VBO*/) {
 
 	} else {
-		// might be nice to shove this crap in a vbo.
-		float theta;
 		// make it rotated a bit so star systems are not in the same
 		// plane (could make it different per system...
-		glBegin(GL_TRIANGLE_STRIP);
-		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
-			glColor3f(0.05,0.05,0.05);
-			glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
-		}
-		theta = 2.0*M_PI;
-		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta));
-		glColor3f(0.05,0.05,0.05);
-		glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
-
-		glEnd();
-		glBegin(GL_TRIANGLE_STRIP);
-		for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-			glColor3f(0.05,0.05,0.05);
-			glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
-			glColor3f(0.0,0.0,0.0);
-			glVertex3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
-		}
-		theta = 2.0*M_PI;
-		glColor3f(0.05,0.05,0.05);
-		glVertex3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta));
-		glColor3f(0.0,0.0,0.0);
-		glVertex3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta));
-		glEnd();
+		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataBottom.front().x);
+		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataBottom.front().r);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
+		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataTop.front().x);
+		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataTop.front().r);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataTop.size());
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);

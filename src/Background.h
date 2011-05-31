@@ -26,6 +26,12 @@ namespace Background
 			g(1.f),
 			b(1.f)
 		{ }
+
+		//we really need a Color class
+		Vertex(const vector3f v, const vector3f c) :
+			x(v.x),	y(v.y),	z(v.z),
+			r(c.x), g(c.y), b(c.z)
+		{ }
 		float x, y, z;
 		float r, g, b;
 	};
@@ -52,6 +58,8 @@ namespace Background
 		void Draw();
 	private:
 		GLuint m_vbo;
+		std::vector<Background::Vertex> m_dataBottom;
+		std::vector<Background::Vertex> m_dataTop;
 	};
 
 }; //namespace Background
