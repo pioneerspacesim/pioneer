@@ -691,8 +691,8 @@ const char *SBody::GetIcon()
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
 		if (m_volatileLiquid > fixed(7,10)) {
-			if (averageTemp > 250) return "icons/object_planet_water_n1.png";
-			else return "icons/object_planet_water_n2.png";
+			if (averageTemp > 250) return "icons/object_planet_water.png";
+			else return "icons/object_planet_ice.png";
 		}
 		if ((m_life > fixed(9,10)) &&  
 		   (m_volatileGas > fixed(6,10))) return "icons/object_planet_life.png";
@@ -710,11 +710,11 @@ const char *SBody::GetIcon()
 		
 		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				if (averageTemp < 250)	return "icons/object_planet_water_n2.png";
+				if (averageTemp < 250)	return "icons/object_planet_ice.png";
 			} else { 
 				if (averageTemp > 250) {
-					return "icons/object_planet_water_n1.png";
-				} else return "icons/object_planet_water_n2.png";
+					return "icons/object_planet_water.png";
+				} else return "icons/object_planet_ice.png";
 			}
 		}
 
@@ -734,7 +734,7 @@ const char *SBody::GetIcon()
 			}
 		}
 		if ((m_volatileLiquid > fixed(1,10)) &&  
-		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n2.png";
+		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_ice.png";
 		if (m_volcanicity > fixed(7,10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
