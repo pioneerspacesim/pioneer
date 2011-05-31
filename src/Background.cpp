@@ -157,7 +157,6 @@ void Starfield::Draw()
 }
 
 
-
 MilkyWay::MilkyWay()
 {
 	//build milky way model in two strips
@@ -196,10 +195,18 @@ MilkyWay::MilkyWay()
 		vector3f(0.0,0.0,0.0)));
 
 	if (USE_VBO) {
+		//both strips in one vbo
 		glGenBuffersARB(1, &m_vbo);
 		Render::BindArrayBuffer(m_vbo);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Background::Vertex) * m_dataBottom.size(),
-			&m_dataBottom.front(), GL_STATIC_DRAW);
+		glBufferDataARB(GL_ARRAY_BUFFER,
+			sizeof(Vertex) * (m_dataBottom.size() + m_dataTop.size()),
+			NULL, GL_STATIC_DRAW);
+		glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
+			sizeof(Vertex) * m_dataBottom.size(),
+			&m_dataBottom.front());
+		glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * m_dataBottom.size(),
+			sizeof(Vertex) * m_dataTop.size(),
+			&m_dataTop.front());
 		Render::BindArrayBuffer(0);
 	}
 }
@@ -214,15 +221,22 @@ void MilkyWay::Draw()
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	if (0 /*USE_VBO*/) {
+	// make it rotated a bit so star systems are not in the same
+	// plane (could make it different per system...
+	glPushMatrix();
+	glRotatef(40.0, 1.0,2.0,3.0);
 
+	if (USE_VBO) {
+		Render::BindArrayBuffer(m_vbo);
+		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
+		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
+		glDrawArrays(GL_TRIANGLE_STRIP, m_dataBottom.size(), m_dataTop.size());
+		Render::BindArrayBuffer(0);
 	} else {
-		// make it rotated a bit so star systems are not in the same
-		// plane (could make it different per system...
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataBottom.front().x);
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataBottom.front().r);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
@@ -230,6 +244,8 @@ void MilkyWay::Draw()
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataTop.front().r);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataTop.size());
 	}
+
+	glPopMatrix();
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
