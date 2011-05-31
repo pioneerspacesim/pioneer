@@ -295,99 +295,99 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Gui.cpp"
+				RelativePath="..\..\src\gui\Gui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiBox.cpp"
+				RelativePath="..\..\src\gui\GuiBox.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiButton.cpp"
+				RelativePath="..\..\src\gui\GuiButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiContainer.cpp"
+				RelativePath="..\..\src\gui\GuiContainer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiFixed.cpp"
+				RelativePath="..\..\src\gui\GuiFixed.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImage.cpp"
+				RelativePath="..\..\src\gui\GuiImage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageButton.cpp"
+				RelativePath="..\..\src\gui\GuiImageButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageRadioButton.cpp"
+				RelativePath="..\..\src\gui\GuiImageRadioButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiLabel.cpp"
+				RelativePath="..\..\src\gui\GuiLabel.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiLabelSet.cpp"
+				RelativePath="..\..\src\gui\GuiLabelSet.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiMeterBar.cpp"
+				RelativePath="..\..\src\gui\GuiMeterBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiMultiStateImageButton.cpp"
+				RelativePath="..\..\src\gui\GuiMultiStateImageButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioButton.cpp"
+				RelativePath="..\..\src\gui\GuiRadioButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioGroup.cpp"
+				RelativePath="..\..\src\gui\GuiRadioGroup.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRepeaterButton.cpp"
+				RelativePath="..\..\src\gui\GuiRepeaterButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiScreen.cpp"
+				RelativePath="..\..\src\gui\GuiScreen.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTabbed.cpp"
+				RelativePath="..\..\src\gui\GuiTabbed.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextEntry.cpp"
+				RelativePath="..\..\src\gui\GuiTextEntry.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextLayout.cpp"
+				RelativePath="..\..\src\gui\GuiTextLayout.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToggleButton.cpp"
+				RelativePath="..\..\src\gui\GuiToggleButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToolTip.cpp"
+				RelativePath="..\..\src\gui\GuiToolTip.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollBar.cpp"
+				RelativePath="..\..\src\gui\GuiVScrollBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollPortal.cpp"
+				RelativePath="..\..\src\gui\GuiVScrollPortal.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiWidget.cpp"
+				RelativePath="..\..\src\gui\GuiWidget.cpp"
 				>
 			</File>
 			<File
@@ -917,111 +917,111 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Gui.h"
+				RelativePath="..\..\src\gui\Gui.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiAdjustment.h"
+				RelativePath="..\..\src\gui\GuiAdjustment.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiBox.h"
+				RelativePath="..\..\src\gui\GuiBox.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiButton.h"
+				RelativePath="..\..\src\gui\GuiButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiContainer.h"
+				RelativePath="..\..\src\gui\GuiContainer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiEvents.h"
+				RelativePath="..\..\src\gui\GuiEvents.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiFixed.h"
+				RelativePath="..\..\src\gui\GuiFixed.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImage.h"
+				RelativePath="..\..\src\gui\GuiImage.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageButton.h"
+				RelativePath="..\..\src\gui\GuiImageButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageRadioButton.h"
+				RelativePath="..\..\src\gui\GuiImageRadioButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiISelectable.h"
+				RelativePath="..\..\src\gui\GuiISelectable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiLabel.h"
+				RelativePath="..\..\src\gui\GuiLabel.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiLabelSet.h"
+				RelativePath="..\..\src\gui\GuiLabelSet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiMeterBar.h"
+				RelativePath="..\..\src\gui\GuiMeterBar.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiMultiStateImageButton.h"
+				RelativePath="..\..\src\gui\GuiMultiStateImageButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioButton.h"
+				RelativePath="..\..\src\gui\GuiRadioButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioGroup.h"
+				RelativePath="..\..\src\gui\GuiRadioGroup.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRepeaterButton.h"
+				RelativePath="..\..\src\gui\GuiRepeaterButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiScreen.h"
+				RelativePath="..\..\src\gui\GuiScreen.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTabbed.h"
+				RelativePath="..\..\src\gui\GuiTabbed.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextEntry.h"
+				RelativePath="..\..\src\gui\GuiTextEntry.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextLayout.h"
+				RelativePath="..\..\src\gui\GuiTextLayout.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToggleButton.h"
+				RelativePath="..\..\src\gui\GuiToggleButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToolTip.h"
+				RelativePath="..\..\src\gui\GuiToolTip.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollBar.h"
+				RelativePath="..\..\src\gui\GuiVScrollBar.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollPortal.h"
+				RelativePath="..\..\src\gui\GuiVScrollPortal.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiWidget.h"
+				RelativePath="..\..\src\gui\GuiWidget.h"
 				>
 			</File>
 			<File
