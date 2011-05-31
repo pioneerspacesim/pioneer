@@ -224,11 +224,6 @@ void MilkyWay::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	// make it rotated a bit so star systems are not in the same
-	// plane (could make it different per system...
-	glPushMatrix();
-	glRotatef(40.0, 1.0,2.0,3.0);
-
 	if (USE_VBO) {
 		Render::BindArrayBuffer(m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
@@ -244,8 +239,6 @@ void MilkyWay::Draw()
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataTop.front().r);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataTop.size());
 	}
-
-	glPopMatrix();
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);

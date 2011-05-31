@@ -19,12 +19,8 @@ namespace Background
 		{ }
 
 		Vertex(const float& _x, const float& _y, const float& _z) :
-			x(_x),
-			y(_y),
-			z(_z),
-			r(1.f),
-			g(1.f),
-			b(1.f)
+			x(_x), y(_y), z(_z),
+			r(1.f), g(1.f), b(1.f)
 		{ }
 
 		//we really need a Color class
