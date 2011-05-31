@@ -7,6 +7,7 @@ bin_PROGRAMS = pioneer modelviewer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
+	Background.h \
 	BBAdvertChatForm.h \
 	BezierCurve.h \
 	Body.h \
@@ -120,6 +121,7 @@ noinst_HEADERS = \
 
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
+	Background.cpp \
 	BBAdvertChatForm.cpp \
 	Body.cpp \
 	CargoBody.cpp \

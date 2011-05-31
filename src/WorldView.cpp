@@ -16,17 +16,7 @@
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
-#define BG_STAR_MAX	65536
 #define HUD_CROSSHAIR_SIZE	24.0f
-
-#pragma pack(4)
-struct BgStar {
-	float x,y,z;
-	float r,g,b;
-};
-#pragma pack()
-
-static BgStar s_bgstar[BG_STAR_MAX];
 
 WorldView::WorldView(): View()
 {
@@ -156,10 +146,7 @@ WorldView::WorldView(): View()
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
-		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));	
-	
-	m_bgStarShader = 0;
-	m_haveStars = false;
+		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 }
 
 WorldView::~WorldView()
@@ -168,7 +155,6 @@ WorldView::~WorldView()
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
-	if (m_bgStarShader) delete m_bgStarShader;
 }
 
 void WorldView::Save(Serializer::Writer &wr)
@@ -282,6 +268,9 @@ void WorldView::OnClickHyperspace()
 // This is the background starfield
 void WorldView::DrawBgStars() 
 {
+	m_milkyWay.Draw();
+	m_starfield.Draw();
+#if 0
 	double hyperspaceAnim = Space::GetHyperspaceAnim();
 
 	glDisable(GL_DEPTH_TEST);
@@ -454,6 +443,7 @@ void WorldView::DrawBgStars()
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
+#endif
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
