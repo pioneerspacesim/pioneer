@@ -3,6 +3,7 @@ Alpha 11
   * New features
     * Visual refresh: new panel graphics, UI font (Titillium Text) and model
       font (Cousine Bold) (#105, #114, #115, #138)
+    * New star images in system info view (#159)
     * Manual thruster adjustments can now be made in set-speed mode (#118)
     * 5 new ground based starports (1, 2, 3, 4 landing pad configs. 
       1 Airport config) (#120)
