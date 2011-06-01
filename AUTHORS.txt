@@ -24,6 +24,7 @@ Art:
   Tim Jones
   Ulf Pettersson
   Konrad Mruk
+  Marcel Tulloh
 
 
 Thanks to those that have moved on (we hope to see you back!)
@@ -36,7 +37,6 @@ Art:
   Peter Kurucz
   Fran Morton
   Steve Tyler
-  Marcel Tulloh
   Uncle Bob
 
 
