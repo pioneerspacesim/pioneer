@@ -6,6 +6,7 @@
 #include "View.h"
 #include "Render.h"
 #include "Serializer.h"
+#include "Background.h"
 
 class Body;
 class Frame;
@@ -67,7 +68,6 @@ private:
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
 	Gui::ImageButton *m_hyperspaceButton;
-	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
@@ -79,8 +79,8 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
-	Render::Shader *m_bgStarShader;
-	bool m_haveStars;
+	Background::Starfield m_starfield;
+	Background::MilkyWay m_milkyWay;
 
 #if DEVKEYS
 	Gui::Label *m_debugInfo;
