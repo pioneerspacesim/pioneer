@@ -30,7 +30,8 @@ Alpha 11
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
     * Fonts rendering controlled by per-font config files (#106, #113)
-	* Background stars & Milky Way use a VBO (#164)
+    * Background stars & Milky Way use a VBO (#164)
+    * Remove non-VBO code paths in the terrain renderer
 
 Alpha 10
 

@@ -60,9 +60,6 @@ inline int isfinite(double x) { return _finite(x); }
 #define PiVerify(x) assert(x)
 #endif
 
-#define USE_VBO	GLEW_ARB_vertex_buffer_object
-//#define USE_VBO 0
-
 #define UNIVERSE_SEED	0xabcd1234
 
 #define EARTH_RADIUS	6378135.0
