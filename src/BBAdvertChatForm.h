@@ -3,7 +3,7 @@
 
 #include "GenericChatForm.h"
 
-class BBAdvert;
+struct BBAdvert;
 class SpaceStation;
 class CommodityTradeWidget;
 

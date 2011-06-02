@@ -6,7 +6,7 @@
 #include "DeleteEmitter.h"
 #include "LuaManager.h"
 
-class BBAdvert;
+struct BBAdvert;
 class CommodityTradeWidget;
 
 class LuaChatForm: public BBAdvertChatForm, public MarketAgent, public DeleteEmitter {
