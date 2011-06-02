@@ -81,6 +81,8 @@
 		4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
 		4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
 		4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A5619D413867033002A904C /* libvorbisfile.3.dylib */; };
+		4A61E15E13978F1000193E43 /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A61E15C13978F1000193E43 /* Background.cpp */; };
+		4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A61E16013978FA900193E43 /* libpng14.14.dylib */; };
 		4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF27136979E000919EBB /* DeadVideoLink.cpp */; };
 		4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A62EF29136979E000919EBB /* FaceVideoLink.cpp */; };
 		4A671B8A1388C08500657F38 /* libogg.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A671B861388C07700657F38 /* libogg.0.dylib */; };
@@ -430,6 +432,9 @@
 		4A20B11F13531E950020F43E /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
 		4A5619CE13866622002A904C /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		4A5619D413867033002A904C /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = /opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<absolute>"; };
+		4A61E15C13978F1000193E43 /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
+		4A61E15D13978F1000193E43 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
+		4A61E16013978FA900193E43 /* libpng14.14.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng14.14.dylib; path = /opt/local/lib/libpng14.14.dylib; sourceTree = "<absolute>"; };
 		4A62EF27136979E000919EBB /* DeadVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeadVideoLink.cpp; sourceTree = "<group>"; };
 		4A62EF28136979E000919EBB /* DeadVideoLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeadVideoLink.h; sourceTree = "<group>"; };
 		4A62EF29136979E000919EBB /* FaceVideoLink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceVideoLink.cpp; sourceTree = "<group>"; };
@@ -673,6 +678,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */,
 				4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */,
 				4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */,
 				4AE5CA401383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib in Frameworks */,
@@ -901,6 +907,7 @@
 				4A5619D413867033002A904C /* libvorbisfile.3.dylib */,
 				4A5619CE13866622002A904C /* libfreetype.6.dylib */,
 				4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */,
+				4A61E16013978FA900193E43 /* libpng14.14.dylib */,
 				4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */,
 				4AE5CA371383220E00B55DEB /* libGLEW.1.6.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
@@ -960,6 +967,8 @@
 			children = (
 				4A1903C1138AA39C00E0229C /* contrib */,
 				4A19030B138AA33300E0229C /* gui */,
+				4A61E15D13978F1000193E43 /* Background.h */,
+				4A61E15C13978F1000193E43 /* Background.cpp */,
 				4A006D62138FB6ED000C6DFC /* RenderShader.h */,
 				4A006D61138FB6ED000C6DFC /* RenderShader.cpp */,
 				4A99893C1388BCD900647BA9 /* FontConfig.cpp */,
@@ -1440,6 +1449,7 @@
 				4A19050B138AA39C00E0229C /* oolua_storage.cpp in Sources */,
 				4A19050D138AA39C00E0229C /* push_pointer_internal.cpp in Sources */,
 				4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */,
+				4A61E15E13978F1000193E43 /* Background.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
