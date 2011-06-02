@@ -30,6 +30,7 @@ Alpha 11
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc
     * Fonts rendering controlled by per-font config files (#106, #113)
+	* Background stars & Milky Way use a VBO (#164)
 
 Alpha 10
 
