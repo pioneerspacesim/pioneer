@@ -267,28 +267,26 @@ public:
 				//printf("%d:\nLo %d:%d\nHi: %d:%d\n", i, s_loMinIdx[i], s_loMaxIdx[i], s_hiMinIdx[i], s_hiMaxIdx[i]);
 			}
 
-			if (USE_VBO) {
-				glGenBuffersARB(1, &indices_vbo);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET + sizeof(unsigned short)*VBO_COUNT_MID_IDX, 0, GL_STATIC_DRAW);
-				for (int i=0; i<4; i++) {
-					glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER, 
-						IDX_VBO_LO_OFFSET(i),
-						sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
-						loEdgeIndices[i]);
-				}
-				for (int i=0; i<4; i++) {
-					glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-						IDX_VBO_HI_OFFSET(i),
-						sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
-						hiEdgeIndices[i]);
-				}
-				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-						IDX_VBO_MAIN_OFFSET,
-						sizeof(unsigned short)*VBO_COUNT_MID_IDX,
-						midIndices);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glGenBuffersARB(1, &indices_vbo);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET + sizeof(unsigned short)*VBO_COUNT_MID_IDX, 0, GL_STATIC_DRAW);
+			for (int i=0; i<4; i++) {
+				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER, 
+					IDX_VBO_LO_OFFSET(i),
+					sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
+					loEdgeIndices[i]);
 			}
+			for (int i=0; i<4; i++) {
+				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
+					IDX_VBO_HI_OFFSET(i),
+					sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
+					hiEdgeIndices[i]);
+			}
+			glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
+					IDX_VBO_MAIN_OFFSET,
+					sizeof(unsigned short)*VBO_COUNT_MID_IDX,
+					midIndices);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
 
@@ -301,14 +299,14 @@ public:
 		delete vertices;
 		delete normals;
 		delete colors;
-		if (USE_VBO) geosphere->AddVBOToDestroy(m_vbo);
+		geosphere->AddVBOToDestroy(m_vbo);
 	}
 	void UpdateVBOs() {
 		m_needUpdateVBOs = true;
 	}
 
 	void _UpdateVBOs() {
-		if (USE_VBO && m_needUpdateVBOs) {
+		if (m_needUpdateVBOs) {
 			if (!m_vbo) glGenBuffersARB(1, &m_vbo);
 			m_needUpdateVBOs = false;
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
@@ -828,35 +826,23 @@ public:
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
-			if (USE_VBO) {
-				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-				glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
-				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
-				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES-1, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_MAIN_OFFSET));
-				for (int i=0; i<4; i++) {
-					if (edgeFriend[i]) {
-						glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_HI_OFFSET(i)));
-					} else {
-						glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_LO_OFFSET(i)));
-					}
-				}
-				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-			} else {
-				glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
-				glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
-				glColorPointer(3, GL_DOUBLE, 0, &colors[0].x);
-				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, midIndices);
-				for (int i=0; i<4; i++) {
-					if (edgeFriend[i]) {
-						glDrawElements(GL_TRIANGLES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, hiEdgeIndices[i]);
-					} else {
-						glDrawElements(GL_TRIANGLES, (GEOPATCH_EDGELEN/2)*3, GL_UNSIGNED_SHORT, loEdgeIndices[i]);
-					}
+
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+			glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
+			glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
+			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+			glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES-1, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_MAIN_OFFSET));
+			for (int i=0; i<4; i++) {
+				if (edgeFriend[i]) {
+					glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_HI_OFFSET(i)));
+				} else {
+					glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_LO_OFFSET(i)));
 				}
 			}
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_COLOR_ARRAY);

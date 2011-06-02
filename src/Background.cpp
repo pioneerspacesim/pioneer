@@ -50,20 +50,18 @@ Starfield::Starfield() :
 		m_stars[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
 	}
 
-	if (USE_VBO) {
-		glGenBuffersARB(1, &m_vbo);
-		Render::BindArrayBuffer(m_vbo);
-		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*BG_STAR_MAX, m_stars, GL_STATIC_DRAW);
-		Render::BindArrayBuffer(0);
-	}
+	glGenBuffersARB(1, &m_vbo);
+	Render::BindArrayBuffer(m_vbo);
+	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*BG_STAR_MAX, m_stars, GL_STATIC_DRAW);
+	Render::BindArrayBuffer(0);
+
 	m_shader = new Render::Shader("bgstars");
 }
 
 Starfield::~Starfield()
 {
 	if (m_shader) delete m_shader;
-	if (USE_VBO)
-		glDeleteBuffersARB(1, &m_vbo);
+	glDeleteBuffersARB(1, &m_vbo);
 }
 
 void Starfield::Draw()
@@ -87,17 +85,11 @@ void Starfield::Draw()
 	glEnableClientState(GL_COLOR_ARRAY);
 
 	if (hyperspaceAnim == 0) {
-		if (USE_VBO) {
-			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-			glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
-			glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-			glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
-			glBindBufferARB(GL_ARRAY_BUFFER, 0);
-		} else {
-			glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_stars[0].x);
-			glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_stars[0].r);
-			glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
-		}
+		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
+		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
+		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
+		glBindBufferARB(GL_ARRAY_BUFFER, 0);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
@@ -194,27 +186,24 @@ MilkyWay::MilkyWay()
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		vector3f(0.0,0.0,0.0)));
 
-	if (USE_VBO) {
-		//both strips in one vbo
-		glGenBuffersARB(1, &m_vbo);
-		Render::BindArrayBuffer(m_vbo);
-		glBufferDataARB(GL_ARRAY_BUFFER,
-			sizeof(Vertex) * (m_dataBottom.size() + m_dataTop.size()),
-			NULL, GL_STATIC_DRAW);
-		glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
-			sizeof(Vertex) * m_dataBottom.size(),
-			&m_dataBottom.front());
-		glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * m_dataBottom.size(),
-			sizeof(Vertex) * m_dataTop.size(),
-			&m_dataTop.front());
-		Render::BindArrayBuffer(0);
-	}
+	//both strips in one vbo
+	glGenBuffersARB(1, &m_vbo);
+	Render::BindArrayBuffer(m_vbo);
+	glBufferDataARB(GL_ARRAY_BUFFER,
+		sizeof(Vertex) * (m_dataBottom.size() + m_dataTop.size()),
+		NULL, GL_STATIC_DRAW);
+	glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
+		sizeof(Vertex) * m_dataBottom.size(),
+		&m_dataBottom.front());
+	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * m_dataBottom.size(),
+		sizeof(Vertex) * m_dataTop.size(),
+		&m_dataTop.front());
+	Render::BindArrayBuffer(0);
 }
 
 MilkyWay::~MilkyWay()
 {
-	if (USE_VBO)
-		glDeleteBuffersARB(1, &m_vbo);
+	glDeleteBuffersARB(1, &m_vbo);
 }
 
 void MilkyWay::Draw()
@@ -224,21 +213,12 @@ void MilkyWay::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	if (USE_VBO) {
-		Render::BindArrayBuffer(m_vbo);
-		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
-		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
-		glDrawArrays(GL_TRIANGLE_STRIP, m_dataBottom.size(), m_dataTop.size());
-		Render::BindArrayBuffer(0);
-	} else {
-		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataBottom.front().x);
-		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataBottom.front().r);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
-		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataTop.front().x);
-		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), &m_dataTop.front().r);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataTop.size());
-	}
+	Render::BindArrayBuffer(m_vbo);
+	glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
+	glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
+	glDrawArrays(GL_TRIANGLE_STRIP, m_dataBottom.size(), m_dataTop.size());
+	Render::BindArrayBuffer(0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
