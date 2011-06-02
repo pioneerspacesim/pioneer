@@ -909,7 +909,7 @@ int LmrModel::GetIntAttribute(const char *attr_name) const
 	snprintf(buf, sizeof(buf), "%s_info", m_name.c_str());
 	lua_getglobal(sLua, buf);
 	lua_getfield(sLua, -1, attr_name);
-	int result = luaL_checkint(sLua, -1);
+	int result = luaL_checkinteger(sLua, -1);
 	lua_pop(sLua, 2);
 	return result;
 }
@@ -1083,7 +1083,7 @@ namespace ModelFuncs {
 
 	static int set_light(lua_State *L)
 	{
-		int num = luaL_checkint(L, 1)-1;
+		int num = luaL_checkinteger(L, 1)-1;
 		if ((num < 0) || (num > 3)) {
 			luaL_error(L, "set_light should have light number from 1 to 4.");
 		}
@@ -1096,7 +1096,7 @@ namespace ModelFuncs {
 
 	static int use_light(lua_State *L)
 	{
-		int num = luaL_checkint(L, 1)-1;
+		int num = luaL_checkinteger(L, 1)-1;
 		s_curBuf->PushUseLight(num);
 		return 0;
 	}
@@ -1409,7 +1409,7 @@ namespace ModelFuncs {
 	static void _bezier_triangle(lua_State *L, bool xref)
 	{
 		vector3f pts[10];
-		const int divs = luaL_checkint(L, 1) + 1;
+		const int divs = luaL_checkinteger(L, 1) + 1;
 		assert(divs > 0);
 		if (BEZIER_ORDER == 2) {
 			for (int i=0; i<6; i++) {
@@ -1499,8 +1499,8 @@ namespace ModelFuncs {
 	static void _quadric_bezier_quad(lua_State *L, bool xref)
 	{
 		vector3f pts[9];
-		const int divs_u = luaL_checkint(L, 1);
-		const int divs_v = luaL_checkint(L, 2);
+		const int divs_u = luaL_checkinteger(L, 1);
+		const int divs_v = luaL_checkinteger(L, 2);
 		for (int i=0; i<9; i++) {
 			pts[i] = *MyLuaVec::checkVec(L, i+3);
 		}
@@ -1572,8 +1572,8 @@ namespace ModelFuncs {
 	static void _cubic_bezier_quad(lua_State *L, bool xref)
 	{
 		vector3f pts[16];
-		const int divs_v = luaL_checkint(L, 1);
-		const int divs_u = luaL_checkint(L, 2);
+		const int divs_v = luaL_checkinteger(L, 1);
+		const int divs_u = luaL_checkinteger(L, 2);
 		if (lua_istable(L, 3)) {
 			for (int i=0; i<16; i++) {
 				lua_pushinteger(L, i+1);
@@ -1759,7 +1759,7 @@ namespace ModelFuncs {
 	
 	static int geomflag(lua_State *L)
 	{
-		Uint16 flag = luaL_checkint(L, 1);
+		Uint16 flag = luaL_checkinteger(L, 1);
 		s_curBuf->SetGeomFlag(flag);
 		return 0;
 	}
@@ -1799,7 +1799,7 @@ namespace ModelFuncs {
 
 	static int circle(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		const vector3f *center = MyLuaVec::checkVec(L, 2);
 		const vector3f *normal = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
@@ -1810,7 +1810,7 @@ namespace ModelFuncs {
 
 	static int xref_circle(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		vector3f center = *MyLuaVec::checkVec(L, 2);
 		vector3f normal = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
@@ -1883,7 +1883,7 @@ namespace ModelFuncs {
 	
 	static int tube(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		const vector3f *start = MyLuaVec::checkVec(L, 2);
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
@@ -1895,7 +1895,7 @@ namespace ModelFuncs {
 
 	static int xref_tube(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		vector3f start = *MyLuaVec::checkVec(L, 2);
 		vector3f end = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
@@ -1949,7 +1949,7 @@ namespace ModelFuncs {
 	
 	static int tapered_cylinder(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		const vector3f *start = MyLuaVec::checkVec(L, 2);
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
@@ -1962,7 +1962,7 @@ namespace ModelFuncs {
 	static int xref_tapered_cylinder(lua_State *L)
 	{
 		/* could optimise for x-reflection but fuck it */
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		vector3f start = *MyLuaVec::checkVec(L, 2);
 		vector3f end = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
@@ -2013,7 +2013,7 @@ namespace ModelFuncs {
 	
 	static int cylinder(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		const vector3f *start = MyLuaVec::checkVec(L, 2);
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
@@ -2025,7 +2025,7 @@ namespace ModelFuncs {
 	static int xref_cylinder(lua_State *L)
 	{
 		/* could optimise for x-reflection but fuck it */
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		vector3f start = *MyLuaVec::checkVec(L, 2);
 		vector3f end = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
@@ -2068,7 +2068,7 @@ namespace ModelFuncs {
 	/* Cylinder with no top or bottom caps */
 	static int ring(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		const vector3f *start = MyLuaVec::checkVec(L, 2);
 		const vector3f *end = MyLuaVec::checkVec(L, 3);
 		const vector3f *updir = MyLuaVec::checkVec(L, 4);
@@ -2079,7 +2079,7 @@ namespace ModelFuncs {
 
 	static int xref_ring(lua_State *L)
 	{
-		int steps = luaL_checkint(L, 1);
+		int steps = luaL_checkinteger(L, 1);
 		vector3f start = *MyLuaVec::checkVec(L, 2);
 		vector3f end = *MyLuaVec::checkVec(L, 3);
 		vector3f updir = *MyLuaVec::checkVec(L, 4);
@@ -2211,7 +2211,7 @@ namespace ModelFuncs {
 	static int get_arg(lua_State *L)
 	{
 		assert(s_curParams != 0);
-		int i = luaL_checkint(L, 1);
+		int i = luaL_checkinteger(L, 1);
 		lua_pushnumber(L, s_curParams->argFloats[i]);
 		return 1;
 	}
@@ -2219,7 +2219,7 @@ namespace ModelFuncs {
 	static int get_arg_string(lua_State *L)
 	{
 		assert(s_curParams != 0);
-		int i = luaL_checkint(L, 1);
+		int i = luaL_checkinteger(L, 1);
 		if (s_curParams->argStrings[i])
 			lua_pushstring(L, s_curParams->argStrings[i]);
 		else
@@ -2230,7 +2230,7 @@ namespace ModelFuncs {
 	static int get_arg_material(lua_State *L)
 	{
 		assert(s_curParams != 0);
-		int n = luaL_checkint(L, 1);
+		int n = luaL_checkinteger(L, 1);
 		lua_createtable (L, 11, 0);
 
 		const LmrMaterial &mat = s_curParams->pMat[n];
@@ -2330,7 +2330,7 @@ namespace ModelFuncs {
 	{
 		int i, subdivs;
 		matrix4x4f trans;
-		subdivs = luaL_checkint(l, 1);
+		subdivs = luaL_checkinteger(l, 1);
 		if ((subdivs < 0) || (subdivs > 4)) {
 			luaL_error(l, "sphere(subdivs, transform): subdivs must be in range [0,4]");
 		}
@@ -2360,8 +2360,8 @@ namespace ModelFuncs {
 		int LAT_SEGS;
 		int LONG_SEGS;
 		float sliceAngle1, sliceAngle2;
-		LONG_SEGS = luaL_checkint(l, 1);
-		LAT_SEGS = luaL_checkint(l, 2);
+		LONG_SEGS = luaL_checkinteger(l, 1);
+		LAT_SEGS = luaL_checkinteger(l, 2);
 		sliceAngle1 = luaL_checknumber(l, 3);
 		sliceAngle2 = luaL_checknumber(l, 4);
 			//luaL_error(l, "sphere(subdivs, transform): subdivs must be in range [0,4]");
