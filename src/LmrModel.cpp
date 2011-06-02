@@ -266,7 +266,7 @@ void UseProgram(LmrShader *shader, bool Textured = false) {
 	}
 }
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#define BUFFER_OFFSET(i) (reinterpret_cast<const GLvoid *>(i))
 	
 class LmrGeomBuffer {
 public:
