@@ -11,114 +11,114 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\lua\lapi.c" />
-    <ClCompile Include="..\..\src\lua\lauxlib.c" />
-    <ClCompile Include="..\..\src\lua\lbaselib.c" />
-    <ClCompile Include="..\..\src\lua\lcode.c" />
-    <ClCompile Include="..\..\src\lua\ldblib.c" />
-    <ClCompile Include="..\..\src\lua\ldebug.c" />
-    <ClCompile Include="..\..\src\lua\ldo.c" />
-    <ClCompile Include="..\..\src\lua\ldump.c" />
-    <ClCompile Include="..\..\src\lua\lfunc.c" />
-    <ClCompile Include="..\..\src\lua\lgc.c" />
-    <ClCompile Include="..\..\src\lua\linit.c" />
-    <ClCompile Include="..\..\src\lua\liolib.c" />
-    <ClCompile Include="..\..\src\lua\llex.c" />
-    <ClCompile Include="..\..\src\lua\lmathlib.c" />
-    <ClCompile Include="..\..\src\lua\lmem.c" />
-    <ClCompile Include="..\..\src\lua\loadlib.c" />
-    <ClCompile Include="..\..\src\lua\lobject.c" />
-    <ClCompile Include="..\..\src\lua\lopcodes.c" />
-    <ClCompile Include="..\..\src\lua\loslib.c" />
-    <ClCompile Include="..\..\src\lua\lparser.c" />
-    <ClCompile Include="..\..\src\lua\lstate.c" />
-    <ClCompile Include="..\..\src\lua\lstring.c" />
-    <ClCompile Include="..\..\src\lua\lstrlib.c" />
-    <ClCompile Include="..\..\src\lua\ltable.c" />
-    <ClCompile Include="..\..\src\lua\ltablib.c" />
-    <ClCompile Include="..\..\src\lua\ltm.c" />
-    <ClCompile Include="..\..\src\lua\lundump.c" />
-    <ClCompile Include="..\..\src\lua\lvm.c" />
-    <ClCompile Include="..\..\src\lua\lzio.c" />
-    <ClCompile Include="..\..\src\lua\print.c" />
-    <ClCompile Include="..\..\src\oolua\class_from_stack.cpp" />
-    <ClCompile Include="..\..\src\oolua\lua_function.cpp" />
-    <ClCompile Include="..\..\src\oolua\lua_stack_dump.cpp" />
-    <ClCompile Include="..\..\src\oolua\lua_table.cpp" />
-    <ClCompile Include="..\..\src\oolua\oolua.cpp" />
-    <ClCompile Include="..\..\src\oolua\oolua_check_result.cpp" />
-    <ClCompile Include="..\..\src\oolua\oolua_error.cpp" />
-    <ClCompile Include="..\..\src\oolua\oolua_push_pull.cpp" />
-    <ClCompile Include="..\..\src\oolua\oolua_storage.cpp" />
-    <ClCompile Include="..\..\src\oolua\push_pointer_internal.cpp" />
+    <ClCompile Include="..\..\contrib\lua\lapi.c" />
+    <ClCompile Include="..\..\contrib\lua\lauxlib.c" />
+    <ClCompile Include="..\..\contrib\lua\lbaselib.c" />
+    <ClCompile Include="..\..\contrib\lua\lcode.c" />
+    <ClCompile Include="..\..\contrib\lua\ldblib.c" />
+    <ClCompile Include="..\..\contrib\lua\ldebug.c" />
+    <ClCompile Include="..\..\contrib\lua\ldo.c" />
+    <ClCompile Include="..\..\contrib\lua\ldump.c" />
+    <ClCompile Include="..\..\contrib\lua\lfunc.c" />
+    <ClCompile Include="..\..\contrib\lua\lgc.c" />
+    <ClCompile Include="..\..\contrib\lua\linit.c" />
+    <ClCompile Include="..\..\contrib\lua\liolib.c" />
+    <ClCompile Include="..\..\contrib\lua\llex.c" />
+    <ClCompile Include="..\..\contrib\lua\lmathlib.c" />
+    <ClCompile Include="..\..\contrib\lua\lmem.c" />
+    <ClCompile Include="..\..\contrib\lua\loadlib.c" />
+    <ClCompile Include="..\..\contrib\lua\lobject.c" />
+    <ClCompile Include="..\..\contrib\lua\lopcodes.c" />
+    <ClCompile Include="..\..\contrib\lua\loslib.c" />
+    <ClCompile Include="..\..\contrib\lua\lparser.c" />
+    <ClCompile Include="..\..\contrib\lua\lstate.c" />
+    <ClCompile Include="..\..\contrib\lua\lstring.c" />
+    <ClCompile Include="..\..\contrib\lua\lstrlib.c" />
+    <ClCompile Include="..\..\contrib\lua\ltable.c" />
+    <ClCompile Include="..\..\contrib\lua\ltablib.c" />
+    <ClCompile Include="..\..\contrib\lua\ltm.c" />
+    <ClCompile Include="..\..\contrib\lua\lundump.c" />
+    <ClCompile Include="..\..\contrib\lua\lvm.c" />
+    <ClCompile Include="..\..\contrib\lua\lzio.c" />
+    <ClCompile Include="..\..\contrib\lua\print.c" />
+    <ClCompile Include="..\..\contrib\oolua\class_from_stack.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\lua_function.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\lua_stack_dump.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\lua_table.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\oolua.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\oolua_check_result.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\oolua_error.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\oolua_push_pull.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\oolua_storage.cpp" />
+    <ClCompile Include="..\..\contrib\oolua\push_pointer_internal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\lua\lapi.h" />
-    <ClInclude Include="..\..\src\lua\lauxlib.h" />
-    <ClInclude Include="..\..\src\lua\lcode.h" />
-    <ClInclude Include="..\..\src\lua\ldebug.h" />
-    <ClInclude Include="..\..\src\lua\ldo.h" />
-    <ClInclude Include="..\..\src\lua\lfunc.h" />
-    <ClInclude Include="..\..\src\lua\lgc.h" />
-    <ClInclude Include="..\..\src\lua\llex.h" />
-    <ClInclude Include="..\..\src\lua\llimits.h" />
-    <ClInclude Include="..\..\src\lua\lmem.h" />
-    <ClInclude Include="..\..\src\lua\lobject.h" />
-    <ClInclude Include="..\..\src\lua\lopcodes.h" />
-    <ClInclude Include="..\..\src\lua\lparser.h" />
-    <ClInclude Include="..\..\src\lua\lstate.h" />
-    <ClInclude Include="..\..\src\lua\lstring.h" />
-    <ClInclude Include="..\..\src\lua\ltable.h" />
-    <ClInclude Include="..\..\src\lua\ltm.h" />
-    <ClInclude Include="..\..\src\lua\lua.h" />
-    <ClInclude Include="..\..\src\lua\luaconf.h" />
-    <ClInclude Include="..\..\src\lua\lualib.h" />
-    <ClInclude Include="..\..\src\lua\lundump.h" />
-    <ClInclude Include="..\..\src\lua\lvm.h" />
-    <ClInclude Include="..\..\src\lua\lzio.h" />
-    <ClInclude Include="..\..\src\oolua\base_checker.h" />
-    <ClInclude Include="..\..\src\oolua\class_from_stack.h" />
-    <ClInclude Include="..\..\src\oolua\class_public_member.h" />
-    <ClInclude Include="..\..\src\oolua\cpp_constructor.h" />
-    <ClInclude Include="..\..\src\oolua\cpp_member_func.h" />
-    <ClInclude Include="..\..\src\oolua\determin_qualifier.h" />
-    <ClInclude Include="..\..\src\oolua\export_func_to_lua.h" />
-    <ClInclude Include="..\..\src\oolua\fwd_push_pull.h" />
-    <ClInclude Include="..\..\src\oolua\lua_function.h" />
-    <ClInclude Include="..\..\src\oolua\lua_includes.h" />
-    <ClInclude Include="..\..\src\oolua\lua_operator.h" />
-    <ClInclude Include="..\..\src\oolua\lua_ref.h" />
-    <ClInclude Include="..\..\src\oolua\lua_stack_dump.h" />
-    <ClInclude Include="..\..\src\oolua\lua_table.h" />
-    <ClInclude Include="..\..\src\oolua\lvd_types.h" />
-    <ClInclude Include="..\..\src\oolua\member_func_helper.h" />
-    <ClInclude Include="..\..\src\oolua\oolua.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_char_arrays.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_check_result.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_config.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_c_func.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_error.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_exception.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_member_function.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_paramater_macros.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_parameter_helper.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_push_pull.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_registration.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_storage.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_typedefs.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_userdata.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_va_args.h" />
-    <ClInclude Include="..\..\src\oolua\oolua_version.h" />
-    <ClInclude Include="..\..\src\oolua\param_traits.h" />
-    <ClInclude Include="..\..\src\oolua\platform_check.h" />
-    <ClInclude Include="..\..\src\oolua\proxy_caller.h" />
-    <ClInclude Include="..\..\src\oolua\proxy_class.h" />
-    <ClInclude Include="..\..\src\oolua\push_pointer_internal.h" />
-    <ClInclude Include="..\..\src\oolua\typelist_structs.h" />
-    <ClInclude Include="..\..\src\oolua\type_list.h" />
+    <ClInclude Include="..\..\contrib\lua\lapi.h" />
+    <ClInclude Include="..\..\contrib\lua\lauxlib.h" />
+    <ClInclude Include="..\..\contrib\lua\lcode.h" />
+    <ClInclude Include="..\..\contrib\lua\ldebug.h" />
+    <ClInclude Include="..\..\contrib\lua\ldo.h" />
+    <ClInclude Include="..\..\contrib\lua\lfunc.h" />
+    <ClInclude Include="..\..\contrib\lua\lgc.h" />
+    <ClInclude Include="..\..\contrib\lua\llex.h" />
+    <ClInclude Include="..\..\contrib\lua\llimits.h" />
+    <ClInclude Include="..\..\contrib\lua\lmem.h" />
+    <ClInclude Include="..\..\contrib\lua\lobject.h" />
+    <ClInclude Include="..\..\contrib\lua\lopcodes.h" />
+    <ClInclude Include="..\..\contrib\lua\lparser.h" />
+    <ClInclude Include="..\..\contrib\lua\lstate.h" />
+    <ClInclude Include="..\..\contrib\lua\lstring.h" />
+    <ClInclude Include="..\..\contrib\lua\ltable.h" />
+    <ClInclude Include="..\..\contrib\lua\ltm.h" />
+    <ClInclude Include="..\..\contrib\lua\lua.h" />
+    <ClInclude Include="..\..\contrib\lua\luaconf.h" />
+    <ClInclude Include="..\..\contrib\lua\lualib.h" />
+    <ClInclude Include="..\..\contrib\lua\lundump.h" />
+    <ClInclude Include="..\..\contrib\lua\lvm.h" />
+    <ClInclude Include="..\..\contrib\lua\lzio.h" />
+    <ClInclude Include="..\..\contrib\oolua\base_checker.h" />
+    <ClInclude Include="..\..\contrib\oolua\class_from_stack.h" />
+    <ClInclude Include="..\..\contrib\oolua\class_public_member.h" />
+    <ClInclude Include="..\..\contrib\oolua\cpp_constructor.h" />
+    <ClInclude Include="..\..\contrib\oolua\cpp_member_func.h" />
+    <ClInclude Include="..\..\contrib\oolua\determin_qualifier.h" />
+    <ClInclude Include="..\..\contrib\oolua\export_func_to_lua.h" />
+    <ClInclude Include="..\..\contrib\oolua\fwd_push_pull.h" />
+    <ClInclude Include="..\..\contrib\oolua\lua_function.h" />
+    <ClInclude Include="..\..\contrib\oolua\lua_includes.h" />
+    <ClInclude Include="..\..\contrib\oolua\lua_operator.h" />
+    <ClInclude Include="..\..\contrib\oolua\lua_ref.h" />
+    <ClInclude Include="..\..\contrib\oolua\lua_stack_dump.h" />
+    <ClInclude Include="..\..\contrib\oolua\lua_table.h" />
+    <ClInclude Include="..\..\contrib\oolua\lvd_types.h" />
+    <ClInclude Include="..\..\contrib\oolua\member_func_helper.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_char_arrays.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_check_result.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_config.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_c_func.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_error.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_exception.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_member_function.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_paramater_macros.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_parameter_helper.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_push_pull.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_registration.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_storage.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_typedefs.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_userdata.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_va_args.h" />
+    <ClInclude Include="..\..\contrib\oolua\oolua_version.h" />
+    <ClInclude Include="..\..\contrib\oolua\param_traits.h" />
+    <ClInclude Include="..\..\contrib\oolua\platform_check.h" />
+    <ClInclude Include="..\..\contrib\oolua\proxy_caller.h" />
+    <ClInclude Include="..\..\contrib\oolua\proxy_class.h" />
+    <ClInclude Include="..\..\contrib\oolua\push_pointer_internal.h" />
+    <ClInclude Include="..\..\contrib\oolua\typelist_structs.h" />
+    <ClInclude Include="..\..\contrib\oolua\type_list.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\oolua\Makefile.am" />
+    <None Include="..\..\contrib\oolua\Makefile.am" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}</ProjectGuid>
@@ -161,7 +161,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalIncludeDirectories>../../src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
@@ -180,7 +180,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalIncludeDirectories>../../src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <StructMemberAlignment>4Bytes</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
