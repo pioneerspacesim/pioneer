@@ -43,13 +43,13 @@ public:
 		Add(l, 260, 20+YSEP*2);
 		
 		l = new Gui::Label("Due");
-		Add(l, 440, 20+YSEP*2);
+		Add(l, 420, 20+YSEP*2);
 		
 		l = new Gui::Label("Reward");
-		Add(l, 560, 20+YSEP*2);
+		Add(l, 580, 20+YSEP*2);
 
 		l = new Gui::Label("Status");
-		Add(l, 660, 20+YSEP*2);
+		Add(l, 680, 20+YSEP*2);
 
 		ShowChildren();
 
@@ -76,10 +76,10 @@ public:
 			innerbox->Add(l, 240, ypos);
 			
 			l = new Gui::Label(format_date((*i)->due));
-			innerbox->Add(l, 420, ypos);
+			innerbox->Add(l, 400, ypos);
 
 			l = new Gui::Label(format_money((*i)->reward));
-			innerbox->Add(l, 540, ypos);
+			innerbox->Add(l, 560, ypos);
 
 			switch ((*i)->status) {
 				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
@@ -87,7 +87,7 @@ public:
 				default:
 				case Mission::ACTIVE: l = new Gui::Label("#0f0Active"); break;
 			}
-			innerbox->Add(l, 640, ypos);
+			innerbox->Add(l, 660, ypos);
 
 			ypos += YSEP*3;
 		}
