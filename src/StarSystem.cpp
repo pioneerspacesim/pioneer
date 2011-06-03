@@ -671,43 +671,75 @@ const char *SBody::GetIcon()
 	case TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
 	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
 	case TYPE_PLANET_GAS_GIANT:
-		if (mass > 800) return "icons/object_planet_large_gas_giant.png";
-		if (mass > 300) return "icons/object_planet_large_gas_giant.png";
-		if (mass > 80) return "icons/object_planet_medium_gas_giant.png";
-		else return "icons/object_planet_small_gas_giant.png";
+		if (mass > 800) {
+			if (averageTemp > 1000) return "icons/object_planet_large_gas_giant_hot.png";
+			else return "icons/object_planet_large_gas_giant.png";
+		}
+		if (mass > 300) {
+			if (averageTemp > 1000) return "icons/object_planet_large_gas_giant_hot.png";
+			else return "icons/object_planet_large_gas_giant.png";
+		}
+		if (mass > 80) {
+			if (averageTemp > 1000) return "icons/object_planet_medium_gas_giant_hot.png";
+			else return "icons/object_planet_medium_gas_giant.png";
+		}
+		else {
+			if (averageTemp > 1000) return "icons/object_planet_small_gas_giant_hot.png";
+			else return "icons/object_planet_small_gas_giant.png";
+		}
 	case TYPE_PLANET_ASTEROID:
 		return "icons/object_planet_asteroid.png";
 	case TYPE_PLANET_TERRESTRIAL:
 		if (m_volatileLiquid > fixed(7,10)) {
-			if (averageTemp > 250) return "icons/object_planet_water_n1.png";
-			else return "icons/object_planet_water_n2.png";
+			if (averageTemp > 250) return "icons/object_planet_water.png";
+			else return "icons/object_planet_ice.png";
 		}
-		if ((m_life > fixed(1,2)) &&  
-		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life.png";
-		if ((m_life > fixed(1,10)) &&  
-		   (m_volatileGas > fixed(2,10))) return "icons/object_planet_life2.png";
+		if ((m_life > fixed(9,10)) &&
+			(m_volatileGas > fixed(6,10))) return "icons/object_planet_life.png";
+		if ((m_life > fixed(8,10)) &&
+			(m_volatileGas > fixed(5,10))) return "icons/object_planet_life6.png";
+		if ((m_life > fixed(7,10)) &&
+			(m_volatileGas > fixed(45,100))) return "icons/object_planet_life7.png";
+		if ((m_life > fixed(6,10)) &&
+			(m_volatileGas > fixed(4,10))) return "icons/object_planet_life8.png";
+		if ((m_life > fixed(5,10)) &&
+			(m_volatileGas > fixed(3,10))) return "icons/object_planet_life4.png";
+		if ((m_life > fixed(4,10)) &&
+			(m_volatileGas > fixed(2,10))) return "icons/object_planet_life5.png";
+		if ((m_life > fixed(1,10)) &&
+			(m_volatileGas > fixed(2,10))) return "icons/object_planet_life2.png";
 		if (m_life > fixed(1,10)) return "icons/object_planet_life3.png";
 		if (mass < fixed(1,100)) return "icons/object_planet_dwarf.png";
 		if (mass < fixed(1,10)) return "icons/object_planet_small.png";
-		if ((m_volatileLiquid < fixed(1,10)) &&  
-		   (m_volatileGas > fixed(1,5))) return "icons/object_planet_desert.png";
+		if ((m_volatileLiquid < fixed(1,10)) &&
+			(m_volatileGas > fixed(1,5))) return "icons/object_planet_desert.png";
 		
 		if (m_volatileIces + m_volatileLiquid > fixed(3,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				if (averageTemp < 250)	return "icons/object_planet_water_n2.png";
+				if (averageTemp < 250)	return "icons/object_planet_ice.png";
 			} else { 
 				if (averageTemp > 250) {
-					return "icons/object_planet_water_n1.png";
-				} else return "icons/object_planet_water_n2.png";
+					return "icons/object_planet_water.png";
+				} else return "icons/object_planet_ice.png";
 			}
 		}
 
 		if (m_volatileGas > fixed(1,2)) {
-			if (m_atmosOxidizing < fixed(1,2)) return "icons/object_planet_methane.png";
-			else return "icons/object_planet_co2.png";
+			if (m_atmosOxidizing < fixed(1,2)) {
+				if (averageTemp > 300) return "icons/object_planet_methane3.png";
+				else if (averageTemp > 250) return "icons/object_planet_methane2.png";
+				else return "icons/object_planet_methane.png";
+			} else {
+				if (averageTemp > 300) return "icons/object_planet_co2_2.png";
+				else if (averageTemp > 250) {
+					if ((m_volatileLiquid > 0.3) && (m_volatileGas > fixed(2,10))) return "icons/object_planet_co2_4.png";
+					else return "icons/object_planet_co2_3.png";
+				} else return "icons/object_planet_co2.png";
+			}
 		}
+
 		if ((m_volatileLiquid > fixed(1,10)) &&  
-		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_water_n2.png";
+		   (m_volatileGas < fixed(1,10))) return "icons/object_planet_ice.png";
 		if (m_volcanicity > fixed(7,10)) return "icons/object_planet_volcanic.png";
 		return "icons/object_planet_small.png";
 		/*
