@@ -1,6 +1,7 @@
 Alpha 12
 
-  *
+  * New features
+    * New star and planet images in system info view (#167)
 
 Alpha 11
 
