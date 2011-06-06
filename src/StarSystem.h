@@ -11,8 +11,8 @@
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
 
-struct CustomSBody;
-struct CustomSystem;
+class CustomSBody;
+class CustomSystem;
 class SBody;
 
 // doubles - all masses in Kg, all lengths in meters
