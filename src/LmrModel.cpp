@@ -2212,7 +2212,7 @@ namespace ModelFuncs {
 	{
 		assert(s_curParams != 0);
 		int i = luaL_checkint(L, 1);
-		lua_pushnumber(L, s_curParams->argFloats[i]);
+		lua_pushnumber(L, s_curParams->argDoubles[i]);
 		return 1;
 	}
 	
