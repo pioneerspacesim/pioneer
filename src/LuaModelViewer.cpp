@@ -260,13 +260,13 @@ void Viewer::SetSbreParams()
 	float gameTime = SDL_GetTicks() * 0.001f;
 
 	for (int i=0; i<LMR_ARG_MAX; i++) {
-		params.argFloats[i] = GetAnimValue(i);
+		params.argDoubles[i] = GetAnimValue(i);
 	}
 
-	params.argFloats[1] = gameTime;
-	params.argFloats[2] = gameTime / 60;
-	params.argFloats[3] = gameTime / 3600.0f;
-	params.argFloats[4] = gameTime / (24*3600.0f);
+	params.argDoubles[1] = gameTime;
+	params.argDoubles[2] = gameTime / 60;
+	params.argDoubles[3] = gameTime / 3600.0f;
+	params.argDoubles[4] = gameTime / (24*3600.0f);
 	
 	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
 	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);

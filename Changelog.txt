@@ -3,6 +3,9 @@ Alpha 12
   * New features
     * New star and planet images in system info view (#167)
 
+  * Fixes
+    * Lua model args passed as doubles to avoid loss of precision (eg time)
+
 Alpha 11
 
   * New features
