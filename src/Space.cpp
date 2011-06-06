@@ -323,6 +323,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 	} else {
 		assert(0);
 	}
+	return NULL;
 }
 
 void GenBody(SBody *sbody, Frame *f)

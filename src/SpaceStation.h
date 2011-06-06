@@ -15,7 +15,7 @@
 
 class CollMeshSet;
 class Ship;
-class Mission;
+struct Mission;
 class CityOnPlanet;
 
 struct SpaceStationType {
