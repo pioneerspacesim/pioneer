@@ -3,7 +3,7 @@ Section: games
 Priority: extra
 Maintainer: Darren Salt <linux@youmustbejoking.demon.co.uk>
 Build-Depends: debhelper (>= 7.0.50~), dh-autoreconf,
-	libsigc++-2.0-dev, libglut3-dev, libglew1.5-dev,
+	libsigc++-2.0-dev, libglew1.5-dev,
 	libsdl1.2-dev, libvorbis-dev, libsdl-image1.2-dev,
 	liblua5.1-dev, libfreetype6-dev
 Standards-Version: 3.9.1
