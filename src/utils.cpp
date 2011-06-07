@@ -33,10 +33,10 @@
 #include <sys/types.h>
 #endif
 
-#ifndef _MSC_VER
+//#ifndef _MSC_VER
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
-#endif
+//#endif
 
 std::string GetPiUserDir(const std::string &subdir)
 {
