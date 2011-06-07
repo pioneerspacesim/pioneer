@@ -144,7 +144,7 @@ define_model('stardust', {
         end
 	end,
 	dynamic = function(lod)
-	    set_material('e_glow', lerp_materials(os.clock()*.2,   {0,0,0,1,0,0,0,0,3,2,.7},
+	    set_material('e_glow', lerp_materials(get_arg(1)*.2,   {0,0,0,1,0,0,0,0,3,2,.7},
 																{0,0,0,1,0,0,0,0,2,1.5,.7}))
  	end
 })

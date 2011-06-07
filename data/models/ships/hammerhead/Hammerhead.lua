@@ -430,7 +430,7 @@ define_model('hh', {
 		call_model('hhmaingear',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		 
 		
-		set_material('glow', lerp_materials(os.clock()*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
+		set_material('glow', lerp_materials(get_arg(1)*0.4,	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .5 },
 															{0, 0, 0, 1, 0, 0, 0, 0, 0, 0, .1 }))
 		
 		if get_arg(8) > 0 then

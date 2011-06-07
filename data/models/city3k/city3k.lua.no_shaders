@@ -620,7 +620,7 @@ define_model('f3k_thing', {
 		end,
 		dynamic = function(lod)
 	        if lod > 3 then
-				local trans = os.clock()*.1
+				local trans = get_arg(1)*.1
 	            texture('models/city3k/wtr.png',v(trans,.5,0), v(.2,0,0),v(0,1,0))
 	            sphere_slice(4*lod,2*lod,0,.5*math.pi, Matrix.rotate(.5*math.pi,v(1,0,0)))
 			end
@@ -656,13 +656,13 @@ define_model('f3k_thang', {
  	end,
 	dynamic = function(lod)
         if lod > 3 then
-			local trans = (os.clock()*.05)
+			local trans = (get_arg(1)*.05)
             texture('models/city3k/wtr.png',v(math.sin(trans),math.cos(trans),0), v(.2,0,0),v(0,.2,0))
             ring(3*lod,v(-7.5,-.5,4.5), v(-7.5,3.5,4.5),v(0,0,1), .9)
 		end
 
         if lod > 3 then
-			local trans = (os.clock()*.05)
+			local trans = (get_arg(1)*.05)
             texture('models/city3k/wtr.png',v(math.cos(trans),math.sin(trans),0), v(.2,0,0),v(0,.2,0))
             ring(3*lod,v(-6,-.5,5.5), v(-6,3.5,5.5),v(0,0,1), .9)
 		end
@@ -1071,12 +1071,12 @@ define_model('green_bubble', {
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(os.clock()*0.3, {0,0,0,1,0,0,0,0,1.6,1.9,0},
+			set_material('glow2',lerp_materials(get_arg(1)*0.3, {0,0,0,1,0,0,0,0,1.6,1.9,0},
 																 {0,0,0,1,0,0,0,0,1,2.5,0}))
 		end
 	    --[[
 	    if lod > 2 then
-	    	local trans = os.clock()*.1
+	    	local trans = get_arg(1)*.1
 			if lod > 3 then
 				texture('models/city3k/wtr_x.png',v(math.sin(trans),math.cos(trans),0),v(.05,0,0),v(0,0,1))
 			else
@@ -1163,7 +1163,7 @@ define_model('blue_bubble', {
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(os.clock()*0.3, {0,0,0,1,0,0,0,0,2.5,1,1.5},
+			set_material('glow2',lerp_materials(get_arg(1)*0.3, {0,0,0,1,0,0,0,0,2.5,1,1.5},
 																 {0,0,0,1,0,0,0,0,1,1.5,2.5}))
 		end
 
@@ -1206,7 +1206,7 @@ define_model('advert_0', {
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(os.clock()*2, {0,0,0,1,0,0,0,0,1.6,1.9,0},
+			set_material('glow2',lerp_materials(get_arg(1)*2, {0,0,0,1,0,0,0,0,1.6,1.9,0},
 																 {0,0,0,1,0,0,0,0,1.4,1,1.8}))
 		end
 
@@ -1293,7 +1293,7 @@ define_model('pink_obelisk', {
 
 	dynamic = function(lod)
 		if lod > 1 then
-			set_material('glow2',lerp_materials(os.clock()*0.1, {0,0,0,1,1,1,1,100,2.2,1,1.5},
+			set_material('glow2',lerp_materials(get_arg(1)*0.1, {0,0,0,1,1,1,1,100,2.2,1,1.5},
 																 {0,0,0,1,1,1,1,100,1.5,1,2.2}))
 		end
 
@@ -1366,7 +1366,7 @@ define_model('church_3k_0', {
 		call_model('church_3k_clockhd', v(0,35,0),v(math.cos(hourPos),0,math.sin(hourPos)),v(math.cos(hourPos+math.pi*0.5),0, math.sin(hourPos+math.pi*0.5)), 1.5)
 	    zbias(0)
 		--[[
-     	local move = .02*os.clock()
+     	local move = .02*get_arg(1)
 
 		if lod > 2 then
 			texture('models/church_new_0/glow.png',v(move,-move,0), v(.02,0,0),v(0,0,-1))
@@ -1398,7 +1398,7 @@ function arco_lift_1(lod)
 		--if math.fmod(get_arg(1)/2,1) ~= 0 then
 		    --math.randomseed(os.clock*100)
 			--local floor = math.random(1,20)*10
-			--local anim = math.fmod(os.clock()*4,1)*floor
+			--local anim = math.fmod(get_arg(1)*4,1)*floor
 
 			call_model('arco_lift_0',v(55,100,55),v(1,0,-1),v(0,1,0),20)
 	    --end

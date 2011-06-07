@@ -23,7 +23,7 @@ define_model('nazzle_s', {
 		circle(6, v(0,.001,0), v(0,1,0), v(0,0,1), .9)
 	end,
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(os.clock()*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
+		set_material('e_glow', lerp_materials(get_arg(1)*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
 																{.3, .3, .3, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 	end
 })
@@ -53,7 +53,7 @@ define_model('nazzle_l', {
 		circle(6, v(0,.001,0), v(0,1,0), v(0,0,1), .85)
 	end,
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(os.clock()*0.5,  {.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
+		set_material('e_glow', lerp_materials(get_arg(1)*0.5,  {.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
 																{.3, .3, .3, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 	end
 })
@@ -142,7 +142,7 @@ define_model('nazzle2_s', {
 		circle(6, v(0,.001,0), v(0,1,0), v(0,0,1), .9)
 	end,
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(os.clock()*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
+		set_material('e_glow', lerp_materials(get_arg(1)*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
 																{.3, .3, .3, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 	end
 })
@@ -170,7 +170,7 @@ define_model('nazzle2_l', {
 		circle(6, v(0,.001,0), v(0,1,0), v(0,0,1), .85)
 	end,
 	dynamic = function(lod)
-		set_material('e_glow', lerp_materials(os.clock()*0.5,  {.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
+		set_material('e_glow', lerp_materials(get_arg(1)*0.5,  {.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
 																{.3, .3, .3, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
 	end
 })
