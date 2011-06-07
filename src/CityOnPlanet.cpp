@@ -159,6 +159,18 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	}
 }
 
+//static 
+void CityOnPlanet::s_Init()
+{
+	/* Resolve city model numbers since it is a bit expensive */
+	if (!s_cityBuildingsInitted) {
+		s_cityBuildingsInitted = true;
+		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+			lookupBuildingListModels(&s_buildingLists[i]);
+		}
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from 
