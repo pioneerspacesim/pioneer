@@ -259,11 +259,11 @@ dynamic = function(lod)
     end
 
     if lod > 2 then
-		factor = 1.5*math.pi*os.clock()
+		factor = 1.5*math.pi*get_arg(1)
 		call_model('rotor', v(11,22.02,12), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
 		call_model('rotor', v(-11,22.02,12), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1)
 	end
-	local lightphase = math.fmod((os.clock()*0.5), 1)
+	local lightphase = math.fmod((get_arg(1)*0.5), 1)
 		if lightphase < .5 then
 			billboard('smoke.png', 2, v(1,0,0), { v(13.5,50.5,-10), v(10.5,50.5,-10), v(-13.5,50.5,-10), v(-10.5,50.5,-10), v(1.5,50.5,-10), v(-1.5,50.5,-10) })
 		else

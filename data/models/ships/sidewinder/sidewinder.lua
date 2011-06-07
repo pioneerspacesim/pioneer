@@ -678,7 +678,7 @@ define_model('rattle_dash', {
 			local v1 = v(-5,2.999,0)
 			local v2 = v(5,2.001,2)
 			local v3 = v(-5,2.001,2)
-	        local timer = math.fmod((os.clock()*0.2),1)
+	        local timer = math.fmod((get_arg(1)*0.2),1)
 			use_material('dashlite')
 			if timer < .17 then
 				texture('models/ships/sidewinder/dash_lit_01.png', v(.5,.02,0), v(.11,0,0), v(0,0,-4.5))
@@ -1027,9 +1027,9 @@ define_model('rattlesnake', {
 
 	dynamic = function(lod)
 
-		set_material('e_glow', lerp_materials(os.clock()*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
+		set_material('e_glow', lerp_materials(get_arg(1)*0.5, 	{.3, .3, .3, 1, 0, 0, 0, 0, .7, 1, 1.5 },
 																{.3, .3, .3, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-        set_material('v_glow', lerp_materials(os.clock()*0.5, 	{0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 0 },
+        set_material('v_glow', lerp_materials(get_arg(1)*0.5, 	{0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 0 },
 																{0, 0, 0, 1, 0, 0, 0, 0, 1, 2, .5 }))
         
         -- scoop
