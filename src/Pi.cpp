@@ -357,7 +357,7 @@ void Pi::Init()
 	GeoSphere::Init();
 	draw_progress(0.6f);
 
-	CityOnPlanet::s_Init();
+	CityOnPlanet::Init();
 	draw_progress(0.7f);
 
 	Space::Init();

@@ -159,8 +159,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	}
 }
 
-//static 
-void CityOnPlanet::s_Init()
+void CityOnPlanet::Init()
 {
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
@@ -283,10 +282,10 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	// this fucking rubbish needs to be moved into a function
-	cityobj_params.argDoubles[1] = float(Pi::GetGameTime());
-	cityobj_params.argDoubles[2] = float(Pi::GetGameTime() / 60.0);
-	cityobj_params.argDoubles[3] = float(Pi::GetGameTime() / 3600.0);
-	cityobj_params.argDoubles[4] = float(Pi::GetGameTime() / (24*3600.0));
+	cityobj_params.argDoubles[1] = Pi::GetGameTime();
+	cityobj_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
+	cityobj_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
+	cityobj_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
 
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
