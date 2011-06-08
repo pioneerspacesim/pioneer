@@ -38,7 +38,7 @@ define_model('church_new_clock', {
 		call_model('church_new_clockhd', v(0,35,0),v(math.cos(hourPos),0,math.sin(hourPos)),v(math.cos(hourPos+math.pi*0.5),0, math.sin(hourPos+math.pi*0.5)), 1.5)
 	    zbias(0)
 		--[[
-     	local move = .02*os.clock()
+     	local move = .02*get_arg(1)
 
 		if lod > 2 then
 			texture('sub_models/church_new_0/glow.png',v(move,-move,0), v(.02,0,0),v(0,0,-1))

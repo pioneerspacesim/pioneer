@@ -224,7 +224,7 @@ define_model('arco01_rot', {
 				end
 
 				--[[
-				local move = .02*os.clock()
+				local move = .02*get_arg(1)
                 texture('models/city/arco_01/wtr.png',v(0.5,-move,0), v(.02,0,0),v(0,0,-1))
 				use_material('lake')
 				zbias(1,v(0,515,0),v(0,1,0))

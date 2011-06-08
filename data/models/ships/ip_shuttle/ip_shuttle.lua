@@ -79,7 +79,7 @@ define_model('ips_dash', {
 	dynamic = function(lod)
 		local v14 = v(3.2,0.8,-6.7)
 		local v15 = v(-3.2,0.8,-6.7)
-		local timer = math.fmod ((os.clock()*0.2),1)
+		local timer = math.fmod ((get_arg(1)*0.2),1)
 		use_material('dash_lit')	
 		if timer < .17 then
 			texture('models/ships/ip_shuttle/dash_lit_01.png', v(0.5,0.4,0), v(-.14,0,0), v(0,1.8,0))	
@@ -410,7 +410,7 @@ define_model('ip_shuttle', {
         
 	    
 	    set_material('matvar0', get_arg_material(0))
-        set_material('projector', lerp_materials(os.clock()*0.5,	{.5,.51,.65,.7,1.7,1.75,2,100,.08,.081,.1},       -- shield projectors
+        set_material('projector', lerp_materials(get_arg(1)*0.5,	{.5,.51,.65,.7,1.7,1.75,2,100,.08,.081,.1},       -- shield projectors
 																		{.5,.51,.65,.7,1.7,1.75,2,100,.3,.31,.5})) 
 		if lod > 2 then
 			set_material('grey', 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 10)
