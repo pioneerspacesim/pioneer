@@ -31,6 +31,7 @@
 #include "Render.h"
 #include "AmbientSounds.h"
 #include "CustomSystem.h"
+#include "CityOnPlanet.h"
 #include "LuaManager.h"
 #include "LuaBody.h"
 #include "LuaShip.h"
@@ -331,8 +332,10 @@ void Pi::Init()
 	}
 	Render::Init(width, height);
 	draw_progress(0.1f);
+
 	Galaxy::Init();
 	draw_progress(0.2f);
+
 	NameGenerator::Init();
 	if (config.Int("DisableShaders")) Render::ToggleShaders();
 	if (config.Int("EnableHDR")) Render::ToggleHDR();
@@ -350,12 +353,16 @@ void Pi::Init()
 
 	ShipType::Init();
 	draw_progress(0.5f);
+
 	GeoSphere::Init();
 	draw_progress(0.6f);
-	GeoSphere::Init();
+
+	CityOnPlanet::Init();
 	draw_progress(0.7f);
+
 	Space::Init();
 	draw_progress(0.8f);
+
 	SpaceStation::Init();
 	draw_progress(0.9f);
 
