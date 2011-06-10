@@ -204,10 +204,43 @@ void SectorView::DrawSector(int sx, int sy)
 			(StarSystem::starScale[(*i).starType[0]]));
 		glCallList(m_gluDiskDlist);
 		glScalef(2,2,2);
+
+		// DO NOT COMMIT
+		StarSystem* pSS = StarSystem::GetCached(sx, sy, num);
+		if( NULL!=pSS )
+		{
+			const SysLoc& sloc = pSS->GetLocation();
+			if( !pSS->m_unexplored ) 
+			{
+				if( pSS->m_spaceStations.size()>0 )
+				{
+					pSS->m_totalPop;
+					pSS->m_bodies;
+					// precise to the rendered frame (better than PHYSICS_HZ granularity)
+					double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
+					float radius = 1.5f+(0.5*sin(5.0*(preciseTime+(double)num)));
+
+					// I-IS-ALIVE indicator
+					glPushMatrix();
+					{
+						glDepthRange(0.3,1.0);
+						glColor3f(0.8,0,0);
+						glScalef(radius,radius,radius);
+						glCallList(m_gluDiskDlist);
+					}
+					glPopMatrix();
+				}
+			}
+			if( pSS->GetRefCount()>1 ) {
+				pSS->DecRefCount();
+			}
+		}
+
 		// player location indicator
 		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
 			const shipstats_t *stats = Pi::player->CalcStats();
 			glColor3f(0,0,1);
+			glScalef(2,2,2);
 			glBegin(GL_LINE_LOOP);
 			// draw a lovely circle around our beloved player
 			for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
@@ -224,10 +257,12 @@ void SectorView::DrawSector(int sx, int sy)
 		}
 		// selected indicator
 		if ((sx == m_secx) && (sy == m_secy) && (num == m_selected)) {
+			glPushMatrix();
 			glDepthRange(0.1,1.0);
 			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
 			glCallList(m_gluDiskDlist);
+			glPopMatrix();
 		}
 		glDepthRange(0,1);
 		glPopMatrix();

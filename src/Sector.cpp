@@ -66,6 +66,7 @@ Sector::Sector(int x, int y)
 			s.p.z = rng.Double(2*SIZE)-SIZE;
 			s.seed = 0;
 			s.customSys = 0;
+			s.pStarSystem = NULL;
 			
 			float spec = rng.Int32(1000000);
 			// frequencies from wikipedia

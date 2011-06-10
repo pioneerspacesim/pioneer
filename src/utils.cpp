@@ -33,8 +33,10 @@
 #include <sys/types.h>
 #endif
 
+#ifndef _MSC_VER
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
+#endif
 
 std::string GetPiUserDir(const std::string &subdir)
 {
@@ -458,6 +460,7 @@ Uint32 ceil_pow2(Uint32 v) {
 
 void Screendump(const char* destFile, const int W, const int H)
 {
+#ifndef _MSC_VER
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
 
 	std::vector<char> pixel_data(3*W*H);
@@ -513,4 +516,5 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
+#endif
 }

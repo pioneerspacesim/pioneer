@@ -15,13 +15,22 @@ public:
 	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
 	static void Init();
 	
-	struct System {
+	class System {
+	public:
+		System() : customSys(0), pStarSystem(0) {};
+		~System() {
+			if( NULL!=pStarSystem ) {
+				pStarSystem->Release();
+			}
+		}
+	
 		std::string name;
 		vector3f p;
 		int numStars;
 		SBody::BodyType starType[4];
 		Uint32 seed;
 		const CustomSystem *customSys;
+		StarSystem* pStarSystem;
 	};
 	std::vector<System> m_systems;
 private:
