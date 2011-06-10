@@ -753,8 +753,8 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.argDoubles[ARG_STATION_BAY1_STAGE + i] = float(m_shipDocking[i].stage);
-		params.argDoubles[ARG_STATION_BAY1_POS + i] = float(m_shipDocking[i].stagePos);
+		params.argDoubles[ARG_STATION_BAY1_STAGE + i] = double(m_shipDocking[i].stage);
+		params.argDoubles[ARG_STATION_BAY1_POS + i] = m_shipDocking[i].stagePos;
 	}
 
 	RenderLmrModel(viewCoords, viewTransform);

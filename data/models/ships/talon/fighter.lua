@@ -365,7 +365,7 @@ define_model('fi', {
 			
 			
 			if get_arg(6) > 0 then
-			set_material('glow', lerp_materials(os.clock()*0.25,	{0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 },
+			set_material('glow', lerp_materials(get_arg(1)*0.25,	{0, 0, 0, 1, 0, 0, 0, 0, 1.7, 2.2, 2.5 },
 															{0, 0, 0, 1, 0, 0, 0, 0, .1, .2, 0.5 }))
 			else
 

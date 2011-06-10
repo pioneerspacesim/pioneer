@@ -424,11 +424,11 @@ define_model('asp_sparks', {
 		local rot = .5*math.pi*math.clamp(get_arg(0),.3,1)-.46
 		
   		if lod > 1 then
-            set_material('e_glow', lerp_materials(os.clock()*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+            set_material('e_glow', lerp_materials(get_arg(1)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 																{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 												
             if get_arg(5) == 45 then
-			    set_material('scoop', lerp_materials(os.clock()*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
+			    set_material('scoop', lerp_materials(get_arg(1)*.4,{0, 0, 0, 1, 0, 0, 0, 1, .5, 2, 2.5 },
 																{0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 2.5 }))
 			else
 			    set_material('scoop', .15,.16,.18,1,.22,.25,.25,10)
