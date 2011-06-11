@@ -56,6 +56,7 @@
 #include "LuaTimer.h"
 #include "LuaRand.h"
 #include "LuaNameGen.h"
+#include "SoundMusic.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -138,6 +139,8 @@ const char * const Pi::combatRating[] = {
 #if OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
 #endif
+
+Sound::MusicPlayer musicPlayer;
 
 int Pi::CombatRating(int kills)
 {

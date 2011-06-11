@@ -203,6 +203,7 @@
     <ClCompile Include="..\..\src\ShipFlavour.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
+    <ClCompile Include="..\..\src\SoundMusic.cpp" />
     <ClCompile Include="..\..\src\Space.cpp" />
     <ClCompile Include="..\..\src\SpaceStation.cpp" />
     <ClCompile Include="..\..\src\SpaceStationView.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="..\..\src\ShipFlavour.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\Sound.h" />
+    <ClInclude Include="..\..\src\SoundMusic.h" />
     <ClInclude Include="..\..\src\Space.h" />
     <ClInclude Include="..\..\src\SpaceStation.h" />
     <ClInclude Include="..\..\src\SpaceStationView.h" />

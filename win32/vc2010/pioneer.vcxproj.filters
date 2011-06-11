@@ -399,6 +399,9 @@
     <ClCompile Include="..\..\src\Background.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\SoundMusic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -843,6 +846,9 @@
       <Filter>src\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Background.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SoundMusic.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
