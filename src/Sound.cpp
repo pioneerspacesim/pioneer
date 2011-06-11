@@ -411,6 +411,7 @@ bool Init ()
 		// load all the wretched effects
 		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
 		//musics, too
+		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
 		foreach_file_in(PIONEER_DATA_DIR "/music", &load_sound);
 	}
 

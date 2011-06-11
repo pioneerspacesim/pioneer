@@ -1,7 +1,9 @@
 #ifndef _MUSIC_H
 #define _MUSIC_H
 
+#include <SDL.h>
 #include "Sound.h"
+#include <string>
 
 namespace Sound
 {

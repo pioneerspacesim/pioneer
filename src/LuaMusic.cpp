@@ -1,18 +1,22 @@
 #include "LuaMusic.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
+#include "SoundMusic.h"
 
 //events: onSongFinished
 
 //should be attr?
 static int l_get_volume(lua_State *l)
 {
-	lua_pushnumber(l, 1.0);
+	lua_pushnumber(l, Pi::GetMusicPlayer().GetVolume());
 	return 1;
 }
 
 static int l_set_volume(lua_State *l)
 {
+	const float volume = luaL_checknumber(l, 1);
+	Pi::GetMusicPlayer().SetVolume(volume);
 	return 0;
 }
 
@@ -33,6 +37,7 @@ static int l_play(lua_State *l)
 //immediately stops the current song
 static int l_stop(lua_State *l)
 {
+	Pi::GetMusicPlayer().Stop();
 	return 0;
 }
 
@@ -66,7 +71,7 @@ void LuaMusic::Register()
 	};
 
 	luaL_register(l, "Music", methods);
-	lua_pop(1, l);
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
