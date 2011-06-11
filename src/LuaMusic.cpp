@@ -33,6 +33,7 @@ static int l_play(lua_State *l)
 {
 	std::string song(luaL_checkstring(l, 1));
 	Pi::GetMusicPlayer().Play(song, true);
+	printf("LuaMusic: playing %s\n", song.c_str());
 	return 0;
 }
 
