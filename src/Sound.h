@@ -16,7 +16,7 @@ class Event {
 public:
 	Event(): eid(0) {}
 	Event(Uint32 id): eid(id) {}
-	void Play(const char *fx, float volume_left, float volume_right, Op op);
+	virtual void Play(const char *fx, float volume_left, float volume_right, Op op);
 	void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
 	bool Stop();
 	bool IsPlaying() const;
@@ -31,7 +31,7 @@ public:
 	bool SetVolume(float vol) {
 		return SetVolume(vol, vol);
 	}
-private:
+protected:
 	Uint32 eid;
 };
 typedef Uint32 eventid;
@@ -43,8 +43,8 @@ bool Init ();
 void DestroyAllEvents();
 void Close ();
 void Pause (int on);
-int PlayOgg (const char *filename);
 eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op);
+eventid PlayMusic (const char *fx, const float volume_left, const float volume_right, Op op);
 inline static eventid PlaySfx (const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 0); }
 eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
 void SetGlobalVolume(float vol);

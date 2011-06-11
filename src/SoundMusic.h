@@ -7,6 +7,15 @@
 
 namespace Sound
 {
+	class MusicEvent : public Event
+	{
+	public:
+		MusicEvent();
+		MusicEvent(Uint32 id);
+		~MusicEvent();
+		virtual void Play(const char *fx, float volume_left, float volume_right, Op op);
+	};
+
 	class MusicPlayer
 	{
 	public:
@@ -19,8 +28,8 @@ namespace Sound
 	private:
 		float m_volume;
 		//two streams for crossfade
-		Event m_eventOne;
-		Event m_eventTwo;
+		MusicEvent m_eventOne;
+		MusicEvent m_eventTwo;
 	};
 }
 

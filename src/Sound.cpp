@@ -18,7 +18,7 @@ static float m_globalVol = 1.0f;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	8
+#define MAX_WAVSTREAMS	10 //first two are for music
 #define STREAM_IF_LONGER_THAN 10.0
 
 void SetGlobalVolume(float vol)
@@ -134,14 +134,14 @@ static void DestroyEvent(SoundEvent *ev)
 /*
  * Volume should be 0-65535
  */
+static Uint32 identifier = 1;
 eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 {
 	SDL_LockAudio();
-	static Uint32 identifier = 1;
 	int idx;
 	Uint32 age;
-	/* find free wavstream */
-	for (idx=0; idx<MAX_WAVSTREAMS; idx++) {
+	/* find free wavstream (first two reserved for music) */
+	for (idx=2; idx<MAX_WAVSTREAMS; idx++) {
 		if (wavstream[idx].sample == NULL) break;
 	}
 	if (idx == MAX_WAVSTREAMS) {
@@ -155,6 +155,26 @@ eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 		}
 		DestroyEvent(&wavstream[idx]);
 	}
+	wavstream[idx].sample = GetSample(fx);
+	wavstream[idx].oggv = 0;
+	wavstream[idx].volume[0] = volume_left;
+	wavstream[idx].volume[1] = volume_right;
+	wavstream[idx].op = op;
+	wavstream[idx].identifier = identifier;
+	wavstream[idx].targetVolume[0] = volume_left;
+	wavstream[idx].targetVolume[1] = volume_right;
+	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
+	SDL_UnlockAudio();
+	return identifier++;
+}
+
+//unlike PlaySfx, we want uninterrupted play and do not care about age
+eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, Op op)
+{
+	int idx = 0;
+	SDL_LockAudio();
+	if (wavstream[idx].sample != NULL)
+		DestroyEvent(&wavstream[idx]);
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
 	wavstream[idx].volume[0] = volume_left;
