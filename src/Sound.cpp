@@ -410,6 +410,8 @@ bool Init ()
 
 		// load all the wretched effects
 		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
+		//musics, too
+		foreach_file_in(PIONEER_DATA_DIR "/music", &load_sound);
 	}
 
 	/* silence any sound events */

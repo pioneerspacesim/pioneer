@@ -140,7 +140,7 @@ const char * const Pi::combatRating[] = {
 ObjectViewerView *Pi::objectViewerView;
 #endif
 
-Sound::MusicPlayer musicPlayer;
+Sound::MusicPlayer Pi::musicPlayer;
 
 int Pi::CombatRating(int kills)
 {
@@ -909,6 +909,7 @@ void Pi::Start()
 	int choice = 0;
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
+	musicPlayer.Play("scj.ogg", true);
 	do {
 		Pi::HandleEvents();
 
