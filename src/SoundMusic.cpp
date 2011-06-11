@@ -37,7 +37,7 @@ void MusicPlayer::SetVolume(const float vol)
 
 void MusicPlayer::Play(const std::string& name, bool repeat /* = false */ )
 {
-	m_eventOne.Play("scj", m_volume, m_volume, Sound::OP_REPEAT);
+	m_eventOne.Play(name.c_str(), m_volume, m_volume, Sound::OP_REPEAT);
 }
 
 void MusicPlayer::Stop()

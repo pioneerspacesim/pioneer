@@ -56,6 +56,7 @@
 #include "LuaTimer.h"
 #include "LuaRand.h"
 #include "LuaNameGen.h"
+#include "LuaMusic.h"
 #include "SoundMusic.h"
 
 float Pi::gameTickAlpha;
@@ -221,7 +222,8 @@ static void LuaInit()
 	LuaUI::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
-    LuaNameGen::Register();
+	LuaNameGen::Register();
+	LuaMusic::Register();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 
@@ -909,7 +911,6 @@ void Pi::Start()
 	int choice = 0;
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
-	musicPlayer.Play("scj.ogg", true);
 	do {
 		Pi::HandleEvents();
 

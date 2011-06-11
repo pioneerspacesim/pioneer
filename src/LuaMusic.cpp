@@ -31,6 +31,8 @@ static int l_get_song(lua_State *l)
 //plays a song n times (-1 = forever)
 static int l_play(lua_State *l)
 {
+	std::string song(luaL_checkstring(l, 1));
+	Pi::GetMusicPlayer().Play(song, true);
 	return 0;
 }
 
