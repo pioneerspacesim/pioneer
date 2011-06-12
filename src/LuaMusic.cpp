@@ -4,17 +4,65 @@
 #include "Pi.h"
 #include "SoundMusic.h"
 
-//events: onSongFinished
+/*
+ * Class: Music
+ *
+ * A class to control music playback
+ *
+ * Event: onSongFinished
+ *
+ * Triggered when a non-repeating song has played all the way to the end.
+ *
+ * Besides songs on repeat, this event does not trigger when a song finishes
+ * prematurely (sound system stopped, another song starts playing).
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 
-//get the currently (or last active) song name w/path
-//should be attr?
+/*
+ * Function: GetSongName
+ *
+ * Get the currently playing, or last song's name.
+ *
+ * > name = Music.GetSongName()
+ *
+ * The name does not include any paths or the .ogg suffix.
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_get_song(lua_State *l)
 {
 	lua_pushstring(l, Pi::GetMusicPlayer().GetCurrentSongName().c_str());
 	return 1;
 }
 
-//plays a song immediately, repeating
+/*
+ * Method: Play
+ *
+ * Starts playing a song instantly, on repeat by default.
+ *
+ * > Music.Play("songName")
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_play(lua_State *l)
 {
 	std::string song(luaL_checkstring(l, 1));
@@ -22,14 +70,45 @@ static int l_play(lua_State *l)
 	return 0;
 }
 
-//immediately stops the current song
+/*
+ * Method: Stop
+ *
+ * Immediately stops the currently playing song.
+ *
+ * > Music.Stop()
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_stop(lua_State *l)
 {
 	Pi::GetMusicPlayer().Stop();
 	return 0;
 }
 
-//fades in a song using fade factor and fades out the currently playing song (aka crossfade)
+/*
+ * Method: FadeIn
+ *
+ * Fades in a song and fades out any currently playing song (crossfade).
+ *
+ * > Music.FadeIn("songName", 0.5)
+ *
+ * The fade factor of our sound system does not represent any natural unit.
+ * Sorry. 0.1 = slow fade, 1.0 = instant.
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_fade_in(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
@@ -38,7 +117,21 @@ static int l_fade_in(lua_State *l)
 	return 0;
 }
 
-//fades the current song out and then stops
+/*
+ * Method: FadeOut
+ *
+ * Fades the currently playing song to silence and then stops it.
+ *
+ * > Music.FadeOut(0.8)
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_fade_out(lua_State *l)
 {
 	const float fadedelta = luaL_checknumber(l, 1);
