@@ -8,7 +8,6 @@
 #include <string>
 #include "View.h"
 #include "SysLoc.h"
-#include "Sector.h"
 
 class SectorView: public View {
 public:

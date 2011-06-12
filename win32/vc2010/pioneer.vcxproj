@@ -188,6 +188,7 @@
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\PoliceChatForm.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
+    <ClCompile Include="..\..\src\profiler\Profiler.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\Render.cpp" />
     <ClCompile Include="..\..\src\RenderShader.cpp" />
@@ -336,6 +337,7 @@
     <ClInclude Include="..\..\src\Player.h" />
     <ClInclude Include="..\..\src\PoliceChatForm.h" />
     <ClInclude Include="..\..\src\Polit.h" />
+    <ClInclude Include="..\..\src\profiler\Profiler.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />

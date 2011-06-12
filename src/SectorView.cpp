@@ -419,7 +419,7 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 
 Sector* SectorView::GetCached(int sectorX, int sectorY)
 {
-    const SysLoc loc(sectorX, sectorY, -1);
+    const SysLoc loc(sectorX, sectorY, 0);
 
 	Sector *s = 0;
 
@@ -450,19 +450,13 @@ void SectorView::ShrinkCache()
 	// If so, a copy of the iterator is made and the iterator is advanced to the next step (to avoid iterator invalidation), 
 	// then the copied iterator is removed from the container. Otherwise, the iterator is advanced as usual.
 	std::map<SysLoc,Sector*>::iterator iter = m_sectorCache.begin();
-	while (iter != m_sectorCache.end())
-	{
+	while (iter != m_sectorCache.end())	{
 		Sector *s = (*iter).second;
 		//check_point_in_box
-		if ((NULL!=s) && !s->WithinBox( xmin, xmax, ymin, ymax))
-		{
-			std::map<SysLoc,Sector*>::iterator iterTemp = iter;
-			++iter;
+		if (s && !s->WithinBox( xmin, xmax, ymin, ymax )) {
 			delete s;
-			m_sectorCache.erase( iterTemp ); 
-		}
-		else
-		{
+			iter = m_sectorCache.erase( iter ); 
+		} else {
 			++iter;
 		}
 	}

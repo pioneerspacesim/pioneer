@@ -637,6 +637,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\profiler\Profiler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\profiler\Profiler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Projectile.cpp"
 				>
 			</File>

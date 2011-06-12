@@ -16,6 +16,9 @@
     <Filter Include="src\gui">
       <UniqueIdentifier>{5f9ae661-2520-48e2-b510-4db78c61e4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\profiler">
+      <UniqueIdentifier>{1c581b3e-face-4223-9f76-1ae7f7c59e45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -398,6 +401,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Background.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\profiler\Profiler.cpp">
+      <Filter>src\profiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -844,6 +850,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Background.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\profiler\Profiler.h">
+      <Filter>src\profiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
