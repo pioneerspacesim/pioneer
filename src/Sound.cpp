@@ -21,7 +21,7 @@ static float m_globalVol = 1.0f;
 #define MAX_WAVSTREAMS	10 //first two are for music
 #define STREAM_IF_LONGER_THAN 10.0
 
-void SetGlobalVolume(float vol)
+void SetGlobalVolume(const float vol)
 {
 	m_globalVol = vol;
 }
@@ -135,7 +135,7 @@ static void DestroyEvent(SoundEvent *ev)
  * Volume should be 0-65535
  */
 static Uint32 identifier = 1;
-eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
+eventid PlaySfx (const char *fx, const float volume_left, const float volume_right, const Op op)
 {
 	SDL_LockAudio();
 	int idx;
@@ -171,7 +171,7 @@ eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 //unlike PlaySfx, we want uninterrupted play and do not care about age
 //alternate between two streams for crossfade
 static int nextMusicStream = 0;
-eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, Op op)
+eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op)
 {
 	int idx = nextMusicStream;
 	nextMusicStream ^= 1;
@@ -494,7 +494,7 @@ bool Event::SetOp(Op op) {
 	return ret;
 }
 
-bool Event::VolumeAnimate(float targetVol1, float targetVol2, float dv_dt1, float dv_dt2)
+bool Event::VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2)
 {
 	SDL_LockAudio();
 	SoundEvent *ev = GetEvent(eid);
@@ -508,7 +508,7 @@ bool Event::VolumeAnimate(float targetVol1, float targetVol2, float dv_dt1, floa
 	return (ev != 0);
 }
 
-bool Event::SetVolume(float vol_left, float vol_right)
+bool Event::SetVolume(const float vol_left, const float vol_right)
 {
 	SDL_LockAudio();
 	bool status = false;
