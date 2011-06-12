@@ -28,7 +28,7 @@ static int l_get_song(lua_State *l)
 	return 1;
 }
 
-//plays a song n times (-1 = forever)
+//plays a song immediately, repeating
 static int l_play(lua_State *l)
 {
 	std::string song(luaL_checkstring(l, 1));
@@ -44,15 +44,20 @@ static int l_stop(lua_State *l)
 	return 0;
 }
 
-//fades a song in during n ms, + repeat like l_play
+//fades in a song using fade factor and fades out the currently playing song (aka crossfade)
 static int l_fade_in(lua_State *l)
 {
+	const std::string song(luaL_checkstring(l, 1));
+	const float fadedelta = luaL_checknumber(l, 2);
+	Pi::GetMusicPlayer().Play(song, true, fadedelta);
 	return 0;
 }
 
-//fades the song out in n ms and then stops
+//fades the current song out and then stops
 static int l_fade_out(lua_State *l)
 {
+	const float fadedelta = luaL_checknumber(l, 1);
+	Pi::GetMusicPlayer().FadeOut(fadedelta);
 	return 0;
 }
 

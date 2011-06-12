@@ -23,8 +23,9 @@ namespace Sound
 		~MusicPlayer();
 		float GetVolume() const;
 		void SetVolume(const float);
-		void Play(const std::string&, bool repeat = false);
+		void Play(const std::string&, const bool repeat = false, const float fadeDelta = 1.f);
 		void Stop();
+		void FadeOut(const float fadeDelta);
 		void Update();
 	private:
 		float m_volume;

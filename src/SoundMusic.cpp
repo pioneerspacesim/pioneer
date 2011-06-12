@@ -37,24 +37,22 @@ void MusicPlayer::SetVolume(const float vol)
 	m_volume = vol;
 }
 
-void MusicPlayer::Play(const std::string& name, bool repeat /* = false */ )
+void MusicPlayer::Play(const std::string& name, const bool repeat /* = false */ , const float fadeDelta /* = 1.f */ )
 {
-	Sound::Op op;
+	Sound::Op op = 0;
 	if (repeat)
 		op |= Sound::OP_REPEAT;
 	if (m_eventOnePlaying) {
-		float target[2] = {0.0f,0.0f};
-		float dv_dt[2] = {1.0f,1.0f};
-		m_eventOne.VolumeAnimate(target, dv_dt);
+		m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
 		m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-		m_eventTwo.Play(name.c_str(), m_volume, m_volume, op);
+		m_eventTwo.Play(name.c_str(), 0.f, 0.f, op);
+		m_eventTwo.VolumeAnimate(1.f, 1.f, fadeDelta, fadeDelta);
 		m_eventOnePlaying = false;
 	} else {
-		float target[2] = {0.0f,0.0f};
-		float dv_dt[2] = {1.0f,1.0f};
-		m_eventTwo.VolumeAnimate(target, dv_dt);
+		m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
 		m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-		m_eventOne.Play(name.c_str(), m_volume, m_volume, op);
+		m_eventOne.Play(name.c_str(), 0.f, 0.f, op);
+		m_eventOne.VolumeAnimate(1.f, 1.f, fadeDelta, fadeDelta);
 		m_eventOnePlaying = true;
 	}
 	m_playing = true;
@@ -63,6 +61,18 @@ void MusicPlayer::Play(const std::string& name, bool repeat /* = false */ )
 void MusicPlayer::Stop()
 {
 	m_eventOne.Stop();
+	m_eventTwo.Stop();
+}
+
+void MusicPlayer::FadeOut(const float fadeDelta)
+{
+	if (m_eventOnePlaying) {//2 might be already fading out
+		m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+		m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
+	} else { // 1 might be already fading out
+		m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+		m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
+	}
 }
 
 void MusicPlayer::Update()
@@ -70,11 +80,10 @@ void MusicPlayer::Update()
 	//finish should trigger if:
 	// - song plays all the way to the end
 	// - song is not repeating
-	if(m_playing && !m_eventOne.IsPlaying()) {
+	/*if(m_playing && !m_eventOne.IsPlaying()) {
 		Pi::luaOnSongFinished.Signal();
 		m_playing = false;
-	}
-
+	}*/
 }
 
 } /* namespace sound */
