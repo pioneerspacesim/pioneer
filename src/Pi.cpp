@@ -92,6 +92,7 @@ LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
 LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
 LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
+LuaEventQueue<> Pi::luaOnSongFinished("onSongFinished");
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -215,6 +216,7 @@ static void LuaInit()
 	Pi::luaOnAICompleted.RegisterEventQueue();
 	Pi::luaOnCreateBB.RegisterEventQueue();
 	Pi::luaOnUpdateBB.RegisterEventQueue();
+	Pi::luaOnSongFinished.RegisterEventQueue();
 
 	LuaConstants::Register();
 	LuaEngine::Register();
@@ -245,6 +247,7 @@ static void LuaInitGame() {
 	Pi::luaOnAICompleted.ClearEvents();
 	Pi::luaOnCreateBB.ClearEvents();
 	Pi::luaOnUpdateBB.ClearEvents();
+	Pi::luaOnSongFinished.ClearEvents();
 }
 
 void Pi::Init()
@@ -1228,6 +1231,7 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		currentView->Update();
+		musicPlayer.Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
 			Pi::statSceneTris += LmrModelGetStatsTris();

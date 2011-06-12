@@ -125,6 +125,7 @@ public:
 	static LuaEventQueue<Ship> luaOnAICompleted;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
+	static LuaEventQueue<> luaOnSongFinished;
 
 	static MTRand rng;
 	static int statSceneTris;

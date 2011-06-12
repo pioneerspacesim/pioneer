@@ -25,11 +25,13 @@ namespace Sound
 		void SetVolume(const float);
 		void Play(const std::string&, bool repeat = false);
 		void Stop();
+		void Update();
 	private:
 		float m_volume;
 		//two streams for crossfade
 		MusicEvent m_eventOne;
 		MusicEvent m_eventTwo;
+		bool m_playing;
 	};
 }
 
