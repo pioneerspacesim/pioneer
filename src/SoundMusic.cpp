@@ -16,7 +16,8 @@ void MusicEvent::Play(const char *fx, float volume_left, float volume_right, Op 
 
 MusicPlayer::MusicPlayer() :
 	m_volume(0.8),
-	m_playing(false)
+	m_playing(false),
+	m_eventOnePlaying(false)
 {
 
 }
@@ -39,9 +40,23 @@ void MusicPlayer::SetVolume(const float vol)
 void MusicPlayer::Play(const std::string& name, bool repeat /* = false */ )
 {
 	Sound::Op op;
-	if(repeat)
+	if (repeat)
 		op |= Sound::OP_REPEAT;
-	m_eventOne.Play(name.c_str(), m_volume, m_volume, op);
+	if (m_eventOnePlaying) {
+		float target[2] = {0.0f,0.0f};
+		float dv_dt[2] = {1.0f,1.0f};
+		m_eventOne.VolumeAnimate(target, dv_dt);
+		m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+		m_eventTwo.Play(name.c_str(), m_volume, m_volume, op);
+		m_eventOnePlaying = false;
+	} else {
+		float target[2] = {0.0f,0.0f};
+		float dv_dt[2] = {1.0f,1.0f};
+		m_eventTwo.VolumeAnimate(target, dv_dt);
+		m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+		m_eventOne.Play(name.c_str(), m_volume, m_volume, op);
+		m_eventOnePlaying = true;
+	}
 	m_playing = true;
 }
 

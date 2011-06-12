@@ -169,9 +169,12 @@ eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 }
 
 //unlike PlaySfx, we want uninterrupted play and do not care about age
+//alternate between two streams for crossfade
+static int nextMusicStream = 0;
 eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, Op op)
 {
-	int idx = 0;
+	int idx = nextMusicStream;
+	nextMusicStream ^= 1;
 	SDL_LockAudio();
 	if (wavstream[idx].sample != NULL)
 		DestroyEvent(&wavstream[idx]);

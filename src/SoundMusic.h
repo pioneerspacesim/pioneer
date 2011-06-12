@@ -32,6 +32,7 @@ namespace Sound
 		MusicEvent m_eventOne;
 		MusicEvent m_eventTwo;
 		bool m_playing;
+		bool m_eventOnePlaying;
 	};
 }
 
