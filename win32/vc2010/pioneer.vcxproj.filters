@@ -402,6 +402,9 @@
     <ClCompile Include="..\..\src\SoundMusic.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaMusic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -849,6 +852,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\SoundMusic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaMusic.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
