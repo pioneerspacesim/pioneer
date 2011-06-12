@@ -18,7 +18,7 @@ static float m_globalVol = 1.0f;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	10 //first two are for music
+#define MAX_WAVSTREAMS	8 //first two are for music
 #define STREAM_IF_LONGER_THAN 10.0
 
 void SetGlobalVolume(const float vol)
@@ -173,7 +173,7 @@ eventid PlaySfx (const char *fx, const float volume_left, const float volume_rig
 static int nextMusicStream = 0;
 eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op)
 {
-	int idx = nextMusicStream;
+	const int idx = nextMusicStream;
 	nextMusicStream ^= 1;
 	SDL_LockAudio();
 	if (wavstream[idx].sample != NULL)
