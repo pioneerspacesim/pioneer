@@ -27,6 +27,7 @@ namespace Sound
 		void Stop();
 		void FadeOut(const float fadeDelta);
 		void Update();
+		const std::string GetCurrentSongName();
 	private:
 		float m_volume;
 		//two streams for crossfade
@@ -34,6 +35,7 @@ namespace Sound
 		MusicEvent m_eventTwo;
 		bool m_playing;
 		bool m_eventOnePlaying;
+		std::string m_currentSongName;
 	};
 }
 

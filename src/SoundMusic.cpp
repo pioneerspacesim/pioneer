@@ -17,7 +17,8 @@ void MusicEvent::Play(const char *fx, float volume_left, float volume_right, Op 
 MusicPlayer::MusicPlayer() :
 	m_volume(0.8),
 	m_playing(false),
-	m_eventOnePlaying(false)
+	m_eventOnePlaying(false),
+	m_currentSongName("")
 {
 
 }
@@ -56,6 +57,7 @@ void MusicPlayer::Play(const std::string& name, const bool repeat /* = false */ 
 		m_eventOnePlaying = true;
 	}
 	m_playing = true;
+	m_currentSongName = name;
 }
 
 void MusicPlayer::Stop()
@@ -84,6 +86,11 @@ void MusicPlayer::Update()
 		Pi::luaOnSongFinished.Signal();
 		m_playing = false;
 	}*/
+}
+
+const std::string MusicPlayer::GetCurrentSongName()
+{
+	return m_currentSongName;
 }
 
 } /* namespace sound */

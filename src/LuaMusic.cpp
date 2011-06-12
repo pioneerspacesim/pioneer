@@ -6,25 +6,11 @@
 
 //events: onSongFinished
 
-//should be attr?
-static int l_get_volume(lua_State *l)
-{
-	lua_pushnumber(l, Pi::GetMusicPlayer().GetVolume());
-	return 1;
-}
-
-static int l_set_volume(lua_State *l)
-{
-	const float volume = luaL_checknumber(l, 1);
-	Pi::GetMusicPlayer().SetVolume(volume);
-	return 0;
-}
-
 //get the currently (or last active) song name w/path
 //should be attr?
 static int l_get_song(lua_State *l)
 {
-	lua_pushstring(l, "lol.ogg");
+	lua_pushstring(l, Pi::GetMusicPlayer().GetCurrentSongName().c_str());
 	return 1;
 }
 
@@ -33,7 +19,6 @@ static int l_play(lua_State *l)
 {
 	std::string song(luaL_checkstring(l, 1));
 	Pi::GetMusicPlayer().Play(song, true);
-	printf("LuaMusic: playing %s\n", song.c_str());
 	return 0;
 }
 
@@ -68,9 +53,7 @@ void LuaMusic::Register()
 	LUA_DEBUG_START();
 
 	static const luaL_reg methods[]= {
-		{ "GetVolume", l_get_volume },
-		{ "SetVolume", l_set_volume },
-		{ "SongName", l_get_song },
+		{ "GetSongName", l_get_song },
 		{ "Play", l_play },
 		{ "Stop", l_stop},
 		{ "FadeIn", l_fade_in },
