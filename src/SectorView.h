@@ -50,7 +50,7 @@ private:
 	Gui::LabelSet *m_clickableLabels;
 	sigc::connection m_onMouseButtonDown;
 
-	std::map<SectorLoc,Sector*> m_sectorCache;
+	std::map<SysLoc,Sector*> m_sectorCache;
 };
 
 #endif /* _SECTORVIEW_H */

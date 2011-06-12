@@ -208,34 +208,35 @@ void SectorView::DrawSector(int sx, int sy)
 		// only do this once we've pretty much stopped moving.
 		float diffx = fabs(m_pxMovingTo - m_px);
 		float diffy = fabs(m_pyMovingTo - m_py);
-		if( diffx < 0.001f && diffy < 0.001f )
-		{
-			// Cache this StarSystem within our Sector (itself also cached).
-			// Ideally since this takes so f'ing long it wants to be done as a threaded job but haven't written that yet.
-			if( NULL==(*i).pStarSystem ) {
-				(*i).pStarSystem = StarSystem::GetCached(sx, sy, num);
-			}
-			// Pulse populated stars
-			const StarSystem* pSS = (*i).pStarSystem;
-			if( NULL!=pSS )
+		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
+		if( !(*i).IsSetInhabited() && diffx < 0.001f && diffy < 0.001f ) {
+			StarSystem* pSS = StarSystem::GetCached(sx, sy, num);
+			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
 			{
-				if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
-				{
-					// precise to the rendered frame (better than PHYSICS_HZ granularity)
-					double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
-					float radius = 1.5f+(0.5*sin(5.0*(preciseTime+(double)num)));
-
-					// I-IS-ALIVE indicator
-					glPushMatrix();
-					{
-						glDepthRange(0.3,1.0);
-						glColor3f(0.8f,0.0f,0.0f);
-						glScalef(radius,radius,radius);
-						glCallList(m_gluDiskDlist);
-					}
-					glPopMatrix();
-				}
+				(*i).SetInhabited(true);
 			}
+			else
+			{
+				(*i).SetInhabited(false);
+			}
+			pSS->DecRefCount();
+		}
+		// Pulse populated stars
+		if( (*i).IsSetInhabited() && (*i).IsInhabited() )
+		{
+			// precise to the rendered frame (better than PHYSICS_HZ granularity)
+			double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
+			float radius = 1.5f+(0.5*sin(5.0*(preciseTime+(double)num)));
+
+			// I-IS-ALIVE indicator
+			glPushMatrix();
+			{
+				glDepthRange(0.3,1.0);
+				glColor3f(0.8f,0.0f,0.0f);
+				glScalef(radius,radius,radius);
+				glCallList(m_gluDiskDlist);
+			}
+			glPopMatrix();
 		}
 
 		// player location indicator
@@ -418,18 +419,18 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 
 Sector* SectorView::GetCached(int sectorX, int sectorY)
 {
-    const SectorLoc loc(sectorX, sectorY);
+    const SysLoc loc(sectorX, sectorY, -1);
 
 	Sector *s = 0;
 
-	for (std::map<SectorLoc,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
+	for (std::map<SysLoc,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
 		if ((*i).first == loc)
 			s = (*i).second;
 	}
 
 	if (!s) {
 		s = new Sector(sectorX, sectorY);
-		m_sectorCache.insert( std::pair<SectorLoc,Sector*>(loc, s) );
+		m_sectorCache.insert( std::pair<SysLoc,Sector*>(loc, s) );
 	}
 
 	return s;
@@ -448,14 +449,14 @@ void SectorView::ShrinkCache()
 	// checking at each step whether the current key/value pair should be deleted. 
 	// If so, a copy of the iterator is made and the iterator is advanced to the next step (to avoid iterator invalidation), 
 	// then the copied iterator is removed from the container. Otherwise, the iterator is advanced as usual.
-	std::map<SectorLoc,Sector*>::iterator iter = m_sectorCache.begin();
+	std::map<SysLoc,Sector*>::iterator iter = m_sectorCache.begin();
 	while (iter != m_sectorCache.end())
 	{
 		Sector *s = (*iter).second;
 		//check_point_in_box
 		if ((NULL!=s) && !s->WithinBox( xmin, xmax, ymin, ymax))
 		{
-			std::map<SectorLoc,Sector*>::iterator iterTemp = iter;
+			std::map<SysLoc,Sector*>::iterator iterTemp = iter;
 			++iter;
 			delete s;
 			m_sectorCache.erase( iterTemp ); 
