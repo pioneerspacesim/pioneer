@@ -16,6 +16,9 @@
     <Filter Include="src\gui">
       <UniqueIdentifier>{de900c24-ff02-4a99-a7fc-10d9ce21daf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\profiler">
+      <UniqueIdentifier>{811eb28e-1577-4c73-b236-998d8aaaef00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\pch.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\gui\GuiWidget.cpp">
       <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\profiler\Profiler.cpp">
+      <Filter>src\profiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h">
       <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\profiler\Profiler.h">
+      <Filter>src\profiler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
