@@ -135,6 +135,11 @@ void ObjectViewerView::Update()
 
 void ObjectViewerView::OnChangeGeoSphereStyle()
 {
+	// early out sanity check, can't edit what we don't have.
+	Body *body = Pi::player->GetNavTarget();
+	if( !body )
+		return;
+
 	SBody sbody;
 
 	const fixed volatileGas = fixed(65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
@@ -162,8 +167,8 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	sbody.m_life = life;
 	sbody.heightMapFilename = 0;
 
-	Body *body = Pi::player->GetNavTarget();
-	if (body->IsType(Object::PLANET)) {
+	// assign the new style and update the body.
+	if (body && body->IsType(Object::PLANET)) {
 		Planet *planet = static_cast<Planet*>(body);
 		GeoSphere *gs = planet->m_geosphere;
 		gs->m_style = GeoSphereStyle(&sbody);

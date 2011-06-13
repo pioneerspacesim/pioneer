@@ -225,6 +225,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 
 			float s0, s1;
 
+			assert(inbuf_pos < len);
 			if (T_channels == 1) {
 				s0 = float(inbuf[inbuf_pos++]);
 				s1 = ev.volume[1] * s0;
@@ -235,6 +236,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				s1 = ev.volume[1] * float(inbuf[inbuf_pos++]);
 				ev.buf_pos += 2;
 			}
+			assert(inbuf_pos < len);
 
 			if (T_upsample == 1) {
 				buffer[pos] += s0;
