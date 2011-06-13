@@ -5,6 +5,7 @@ Alpha 12
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg time)
+    * Avoid loss of precision when calculating radius of very tiny bodies (#189)
 
   * Internal changes
     * All model timing now based of game time
