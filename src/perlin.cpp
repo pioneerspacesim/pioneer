@@ -1,4 +1,5 @@
 #include <math.h>
+#include "profiler/Profiler.h"
 
 /* Simplex.cpp
  *
@@ -78,6 +79,7 @@ static const unsigned char mod12[] = {
 
 // 3D raw Simplex noise
 double noise( const double x, const double y, const double z ) {
+	PROFILE_SCOPED()
 	double n0, n1, n2, n3; // Noise contributions from the four corners
 
 	// Skew the input space to determine which simplex cell we're in

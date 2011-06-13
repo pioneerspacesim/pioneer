@@ -38,9 +38,77 @@
 #include <png.h>
 #endif
 
+#include "squish/squish.h"
+
+double GetColourError( uint8_t const* a, uint8_t const* b )
+{
+	double error = 0.0;
+	for( int i = 0; i < 16; ++i )
+	{
+		for( int j = 0; j < 3; ++j )
+		{
+			int index = 4*i + j;
+			int diff = ( int )a[index] - ( int )b[index];
+			error += ( double )( diff*diff );
+		}
+	}
+	return error / 16.0;
+}
+
+void TestTwoColour( int flags )
+{
+	uint8_t input[4*16];
+	uint8_t output[4*16];
+	uint8_t block[16];
+	
+	double avg = 0.0, min = DBL_MAX, max = -DBL_MAX;
+	int counter = 0;
+	
+	// test all single-channel colours
+	for( int i = 0; i < 16*4; ++i )
+		input[i] = ( ( i % 4 ) == 3 ) ? 255 : 0;
+	for( int channel = 0; channel < 3; ++channel )
+	{
+		for( int value1 = 0; value1 < 255; ++value1 )
+		{
+			for( int value2 = value1 + 1; value2 < 255; ++value2 )
+			{
+				// set the channnel value
+				for( int i = 0; i < 16; ++i )
+					input[4*i + channel] = ( uint8_t )( ( i < 8 ) ? value1 : value2 );
+				
+				// compress and decompress
+				squish::Compress( input, block, flags );
+				squish::Decompress( output, block, flags );
+				
+				// test the results
+				double rm = GetColourError( input, output );
+				double rms = std::sqrt( rm );
+				
+				// accumulate stats
+				min = std::min( min, rms );
+				max = std::max( max, rms );
+				avg += rm;
+				++counter;
+			}
+		}
+				
+		// reset the channel value
+		for( int i = 0; i < 16; ++i )
+			input[4*i + channel] = 0;
+	}
+	
+	// finish stats
+	avg = std::sqrt( avg/counter );
+	
+	// show stats
+	//std::cout << "two colour error (min, max, avg): " 
+	//	<< min << ", " << max << ", " << avg << std::endl;
+}
+
 std::string GetPiUserDir(const std::string &subdir)
 {
-
+	TestTwoColour( squish::kDxt1 );
 #if defined(_WIN32)
 
 	char appdata_path[MAX_PATH];
