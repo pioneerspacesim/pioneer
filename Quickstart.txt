@@ -65,6 +65,12 @@ External view:
 
 Cursor keys - Rotate view, pitch and yaw
 - and =     - Zoom in and out
+Home	    - Reset distance
+
+Time acceleration:
+~~~~~~~~~~~~~~~~~~
+
+alt-(F1-F5)     - controls time acceleration
 
 Other things:
 ~~~~~~~~~~~~~

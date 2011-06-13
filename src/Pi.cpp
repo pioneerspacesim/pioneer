@@ -510,8 +510,31 @@ void Pi::HandleEvents()
 					}
 					break;
 				}
-				// special keys. LCTRL+turd
-				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
+
+		if ((KeyState(SDLK_LALT) || (KeyState(SDLK_RALT)))) {
+			switch (event.key.keysym.sym) {
+			case SDLK_F1:
+				Pi::RequestTimeAccel(1);
+				break;
+			case SDLK_F2:
+				Pi::RequestTimeAccel(2);
+				break;
+			case SDLK_F3:
+				Pi::RequestTimeAccel(3);
+				break;
+			case SDLK_F4:
+				Pi::RequestTimeAccel(4);
+				break;
+			case SDLK_F5:
+				Pi::RequestTimeAccel(5);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// special keys. LCTRL+turd
+		if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
                     switch (event.key.keysym.sym) {
                         case SDLK_q: // Quit
                             Pi::Quit();
@@ -1118,7 +1141,7 @@ void Pi::MainLoop()
 		}
 
 		if (frame_stat == 0)
-            Pi::luaTimer.Tick();
+			Pi::luaTimer.Tick();
 		frame_stat++;
 
 		Render::PrepareFrame();
