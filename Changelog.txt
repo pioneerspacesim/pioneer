@@ -7,6 +7,7 @@ Alpha 12
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg time)
     * Removed misleading F7/F8 text from zoom icons
+    * Pass alert state to Lua onShipAlertChanged event as documented
 
   * Internal changes
     * All model timing now based of game time
