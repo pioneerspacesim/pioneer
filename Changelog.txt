@@ -8,6 +8,7 @@ Alpha 12
     * Lua model args passed as doubles to avoid loss of precision (eg time)
     * Removed misleading F7/F8 text from zoom icons
     * Pass alert state to Lua onShipAlertChanged event as documented
+    * Avoid loss of precision when calculating radius of very tiny bodies (#189)
 
   * Internal changes
     * All model timing now based of game time
