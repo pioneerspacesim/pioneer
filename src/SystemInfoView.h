@@ -15,6 +15,7 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void OnSwitchTo();
+	void NextPage();
 private:
 	void SystemChanged(StarSystem *s);
 	void UpdateEconomyTab();
@@ -28,6 +29,7 @@ private:
 	Gui::Label *m_econMajExport, *m_econMinExport;
 	Gui::Label *m_econIllegal;
 	Gui::Fixed *m_sbodyInfoTab, *m_econInfoTab;
+	Gui::Tabbed *m_tabs;
 	StarSystem *m_system;
 	bool m_refresh;
 };
