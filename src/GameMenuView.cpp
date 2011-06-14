@@ -434,6 +434,18 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(sfxVol, false);
 		hbox->PackEnd(new Gui::Label("(max)"));
 		vbox->PackEnd(hbox, false);
+
+		vbox->PackEnd((new Gui::Label("FOV"))->Color(1.0f,1.0f,0.0f), false);
+		m_fov = new Gui::Adjustment();
+		m_fov->SetValue(WorldView::GetFOV());
+		m_fov->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeFOV));
+		Gui::HScale *fov = new Gui::HScale();
+		fov->SetAdjustment(m_fov);
+		hbox = new Gui::HBox();
+		hbox->PackEnd(new Gui::Label("FOV size: (min)"));
+		hbox->PackEnd(fov, false);
+		hbox->PackEnd(new Gui::Label("(max)"));
+		vbox->PackEnd(hbox, false);
 	}
 
 	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
@@ -602,6 +614,14 @@ void GameMenuView::OnChangeVolume()
 	Pi::config.Save();
 }
 	
+void GameMenuView::OnChangeFOV()
+{
+	float fov = m_fov->GetValue();
+	WorldView::SetFOV(fov);
+	Pi::config.SetFloat("FOV", fov);
+	Pi::config.Save();
+}
+
 void GameMenuView::OnChangePlanetDetail(int level)
 {
 	if (level == Pi::detail.planets) return;

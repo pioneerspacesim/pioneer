@@ -15,6 +15,7 @@
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
+static float m_fov = 0.9f;
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
@@ -345,6 +346,16 @@ WorldView::CamType WorldView::GetCamType() const
 	}
 }
 
+void WorldView::SetFOV(float fov)
+{
+	m_fov = fov * 1.2 + 0.05;
+}
+
+float WorldView::GetFOV()
+{
+	return ((m_fov - 0.5) / 1.2);
+}
+
 void WorldView::Draw3D()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -352,7 +363,7 @@ void WorldView::Draw3D()
 	float znear, zfar;
 	GetNearFarClipPlane(&znear, &zfar);
 	// why the hell do i give these functions such big names..
-	const float zoom = 0.9f; // angle of viewing = 2.0*atan(zoom);
+	const float zoom = m_fov; // angle of viewing = 2.0*atan(zoom);
 	const float left = zoom * znear;
 	const float fracH = left / Pi::GetScrAspect();
 	glFrustum(-left, left, -fracH, fracH, znear, zfar);

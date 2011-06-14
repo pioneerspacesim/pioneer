@@ -20,6 +20,7 @@ public:
 private:
 	void OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName);
 	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
+	void OnChangeFOV();
 	void OnChangeVolume();
 	void OnChangePlanetDetail(int level);
 	void OnChangeCityDetail(int level);
@@ -31,6 +32,7 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
+	Gui::Adjustment *m_fov;
 	Gui::Adjustment *m_sfxVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
