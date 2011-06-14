@@ -57,10 +57,6 @@ void GalacticView::Load(Serializer::Reader &rd)
 {
 }
 
-/*void GalacticView::OnClickSystemInfo()
-{
-	Pi::SetView(Pi::systemInfoView);
-}*/
 
 struct galaclabel_t {
 	const char *label;

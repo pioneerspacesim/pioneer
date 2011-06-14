@@ -10,15 +10,12 @@ SystemInfoView::SystemInfoView()
 {
 	SetTransparency(true);
 	m_system = 0;
-	m_bodySelected = 0;
 	m_refresh = false;
 //	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
 void SystemInfoView::OnBodySelected(SBody *b)
 {
-	m_bodySelected = b;
-
 	{
 		printf("\n");
 		printf("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
