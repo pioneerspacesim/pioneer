@@ -663,7 +663,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			Pi::luaOnShipAlertChanged.Queue(this);
+			Pi::luaOnShipAlertChanged.Queue(this, LuaConstants::GetConstantString(Pi::luaManager.GetLuaState(), "ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -732,7 +732,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		Pi::luaOnShipAlertChanged.Queue(this);
+		Pi::luaOnShipAlertChanged.Queue(this, LuaConstants::GetConstantString(Pi::luaManager.GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::StaticUpdate(const float timeStep)

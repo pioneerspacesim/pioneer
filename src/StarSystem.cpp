@@ -1519,8 +1519,15 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	int bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
 	
 	averageTemp = bbody_temp;
-	radius = fixed::CubeRootOf(mass);
-	
+
+	// radius is just the cube root of the mass. we get some more fractional
+	// bits for small bodies otherwise we can easily end up with 0 radius
+	// which breaks stuff elsewhere
+	if (mass <= fixed(1,1))
+		radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(mass)));
+	else
+		radius = fixed::CubeRootOf(mass);
+
 	m_metallicity = system->m_metallicity * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)
 	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
