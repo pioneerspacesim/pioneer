@@ -345,8 +345,6 @@ void StationViewShipView::Draw3D()
 		Pi::GetMouseMotion(m);
 		rot1 += -0.002*m[1];
 		rot2 += -0.002*m[0];
-		//m_camRot = matrix4x4d::RotateXMatrix() *
-		//		matrix4x4d::RotateYMatrix(-0.002*m[0]) * m_camRot;
 	}
 	else
 	{
