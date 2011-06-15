@@ -11,6 +11,7 @@
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "GalacticView.h"
+#include "GameMenuView.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
@@ -292,8 +293,13 @@ void ShipCpanel::HideMapviewButtons()
 void ShipCpanel::OnClickTimeaccel(int val)
 {
 	Pi::BoinkNoise();
-	/* May not happen, as time accel is limited by proximity to stuff */
-	Pi::RequestTimeAccel(val);
+	if ((Pi::GetTimeAccelIdx() == val) && (val == 0)) {
+		if (Pi::GetView() != Pi::gameMenuView)
+			Pi::SetView(Pi::gameMenuView);
+		else
+			Pi::SetView(Pi::worldView);
+	} else
+		Pi::RequestTimeAccel(val);
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
