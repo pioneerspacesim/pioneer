@@ -11,7 +11,6 @@ SystemInfoView::SystemInfoView()
 	SetTransparency(true);
 	m_system = 0;
 	m_refresh = false;
-//	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
 void SystemInfoView::OnBodySelected(SBody *b)
@@ -26,7 +25,6 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	std::string desc, data;
 
-//	char buf[1024];
 	m_infoBox->DeleteAllChildren();
 	
 	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
@@ -369,7 +367,8 @@ void SystemInfoView::Update()
 
 void SystemInfoView::OnSwitchTo()
 {
-	m_refresh = true;
+	if (Pi::GetSelectedSystem() != m_system)
+		m_refresh = true;
 }
 
 void SystemInfoView::NextPage()
