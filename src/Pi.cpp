@@ -85,7 +85,7 @@ LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
-LuaEventQueue<Ship> Pi::luaOnShipAlertChanged("onShipAlertChanged");
+LuaEventQueue<Ship,const char *> Pi::luaOnShipAlertChanged("onShipAlertChanged");
 LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
 LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");

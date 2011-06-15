@@ -272,7 +272,13 @@ void ShipCpanel::OnChangeMapView(enum MapView view)
 	switch (m_currentMapView) {
 		case MAP_SECTOR: Pi::SetView(Pi::sectorView); break;
 		case MAP_SYSTEM: Pi::SetView(Pi::systemView); break;
-		case MAP_INFO: Pi::SetView(Pi::systemInfoView); break;
+		case MAP_INFO:
+			if (Pi::GetView() == Pi::systemInfoView) {
+				Pi::systemInfoView->NextPage();
+			} else {
+				Pi::SetView(Pi::systemInfoView);
+			}
+			break;
 		case MAP_GALACTIC: Pi::SetView(Pi::galacticView); break;
 	}
 	for (int i=0; i<4; i++) m_mapViewButtons[i]->Show();

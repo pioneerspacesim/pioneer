@@ -793,6 +793,7 @@ void WorldView::Update()
 		if (Pi::KeyState(SDLK_RIGHT)) m_externalViewRotY += 45*frameTime;
 		if (Pi::KeyState(SDLK_EQUALS)) m_externalViewDist -= 400*frameTime;
 		if (Pi::KeyState(SDLK_MINUS)) m_externalViewDist += 400*frameTime;
+		if (Pi::KeyState(SDLK_HOME)) m_externalViewDist = 200;
 		m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
 
 		// when landed don't let external view look from below
