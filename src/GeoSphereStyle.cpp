@@ -97,22 +97,32 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 
 		//Here's where we add some noise over the heightmap so it doesnt look so boring, we scale by height so values are greater high up
 		//large mountainous shapes
-		v += h*h*0.001*ridged_octavenoise(m_fracdef[0], Clamp(h*0.0002, 0.5, 0.5), pt);
-		//smaller ridged mountains   Clamp(h*0.0002, 0.5, 0.5), pt) doesnt really do anything anymore, at one stage I altered the values and should probably do so again
-		v += h*h*0.0002*ridged_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
+		v += h*h*0.0005*m_fracdef[5].amplitude*ridged_octavenoise(m_fracdef[0], 0.5, pt);
+		//smaller ridged mountains
+		v += h*h*0.0002*m_fracdef[5].amplitude*m_fracdef[0].amplitude*octavenoise(m_fracdef[4], 0.5, pt);
 		//high altitude detail/mountains
-		v += h*h*0.000003*ridged_octavenoise(m_fracdef[2], Clamp(h*0.0002, 0.5, 0.5), pt);		
+		v += Clamp(h, 0.0, 0.5)*octavenoise(m_fracdef[2], 0.5, pt);		
 		//low altitude detail/dunes
-		if (v < 8.0){
-			v += 0.2*v*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), pt);
-		} else if (v <16.0){
-			v += 1.6*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), pt);
+		v += h*0.000003*ridged_octavenoise(m_fracdef[2], Clamp(1.0-h*0.002, 0.0, 0.5), pt);		
+		if (v < 2.0){
+			v += 10.0*v*dunes_octavenoise(m_fracdef[3], 0.5, pt);
+		} else if (v <10.0){
+			v += 20.0*dunes_octavenoise(m_fracdef[3], 0.5, pt);
 		} else {
-			v += (16.0/v)*1.6*voronoiscam_octavenoise(m_fracdef[3], Clamp(h*0.00002, 0.5, 0.5), pt);
+			v += (10.0/v)*(10.0/v)*(10.0/v)*(10.0/v)*(10.0/v)*
+				20.0*dunes_octavenoise(m_fracdef[3], 0.5, pt);
+		}
+		if (v<40.0) {
+			//v = v;
+		} else if (v <60.0){
+			v += (v-40.0)*billow_octavenoise(m_fracdef[4], 0.5, pt);
+			printf("V/height: %f\n", Clamp(v-20.0, 0.0, 1.0));
+		} else {
+			v += (30.0/v)*(30.0/v)*(30.0/v)*20.0*billow_octavenoise(m_fracdef[4], 0.5, pt);
 		}
 		//ridges and bumps
-		v += h*0.2*billow_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
-		v += v*0.2*river_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
+		v += h*0.2*ridged_octavenoise(m_fracdef[4], Clamp(h*0.0002, 0.5, 0.5), pt);
+		v += h*0.2*voronoiscam_octavenoise(m_fracdef[4], Clamp(1.0-h*0.0002, 0.0, 0.5), pt);
 
 		return (v<0 ? 0 : v);
 	}
@@ -170,7 +180,7 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 						r = 1.0f - (r * 0.8);
 						g = 1.0f - (g * 0.7) ;
 						b = 0.9f + (b * 0.3);
-						m_atmosColor = Color(r, g, b, 3.0f);
+						m_atmosColor = Color(r, g, b, 1.0f);
 					} else {
 						// co2
 						r = 1.0f - (r * 0.3);
@@ -467,12 +477,12 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 {
 	//Earth uses these fracdef settings
 	if (m_heightMap) {		
-		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 1e6, rand, 100);
-		SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 20.0, rand, 100);
+		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 1e6, rand, 200);
+		SetFracDef(&m_fracdef[1], m_maxHeightInMeters, 20.0, rand, 200);
 		SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.05, 20.0, rand, 10);
-		SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.01, 100.0, rand, 100);
+		SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.2, 500.0, rand, 100);
 		SetFracDef(&m_fracdef[4], m_maxHeightInMeters, 1e4, rand, 100);
-		SetFracDef(&m_fracdef[5], m_maxHeightInMeters, 500.0, rand, 1000);
+		SetFracDef(&m_fracdef[5], m_maxHeightInMeters, 1500.0, rand, 500);
 		return;
 	}
 
