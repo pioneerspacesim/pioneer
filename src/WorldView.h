@@ -39,6 +39,9 @@ public:
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
+	static void SetFOV(float fov);
+	static float GetFOV();
+
 	sigc::signal<void> onChangeCamType;
 
 	double m_externalViewRotX, m_externalViewRotY;
