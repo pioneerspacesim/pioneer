@@ -60,11 +60,18 @@ You can rotate your craft either with the cursor keys or by holding down the
 right mouse button and moving the mouse. Only mouse rotation is available
 in the external view.
 
+Time Acceleration:
+~~~~~~~~~~~~~~~~~~
+
+shift-F1..F5   - controls time acceleration
+
+
 External view:
 ~~~~~~~~~~~~~~
 
 Cursor keys - Rotate view, pitch and yaw
 - and =     - Zoom in and out
+Home        - reset distance from ship
 
 Other things:
 ~~~~~~~~~~~~~

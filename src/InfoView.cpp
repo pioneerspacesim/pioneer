@@ -259,7 +259,6 @@ InfoView::InfoView(): View()
 	m_tabs->AddPage(new Gui::Label("Missions"), page);
 	
 	Add(m_tabs, 0, 0);
-//	m_tabs->SetShortcut(SDLK_F3, KMOD_NONE);
 	m_doUpdate = true;
 }
 
