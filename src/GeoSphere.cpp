@@ -7,6 +7,12 @@
 
 #include "profiler/Profiler.h"
 
+//#define ANDY_HORRIFIC_TIMING
+#ifdef ANDY_HORRIFIC_TIMING
+#include "Timer.h"
+#endif //ANDY_HORRIFIC_TIMING
+#define GEOPATCH_USE_THREADING
+
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH	15
@@ -75,6 +81,32 @@ public:
 	int m_depth;
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
+
+	static GeoPatch** s_geoPatches[4];
+	static SDL_mutex *s_geoPatchLock[4];
+	static SDL_sem* s_geoPatchSem[4];
+	static SDL_sem* s_geoSphereSem[4];
+
+	/* Thread(s) that generate the mesh data for a geopatch */
+	static int UpdateGeoPatchThread(void *data)
+	{
+		PROFILE_THREAD_SCOPED()
+		uint8_t idx = (*(uint8_t*)data);
+		PiAssert( idx>=0 && idx<4 );
+		PiAssert(s_geoPatchLock[idx]);
+		PiAssert(s_geoPatchSem[idx]);
+		for(;;) {
+			SDL_SemWait(s_geoPatchSem[idx]);
+			SDL_mutexP(s_geoPatchLock[idx]);
+			if (s_geoPatches[idx]) { 
+				(*s_geoPatches[idx])->GenerateMesh();
+			}
+			s_geoPatches[idx] = NULL;
+			SDL_mutexV(s_geoPatchLock[idx]);
+			SDL_SemPost(s_geoSphereSem[idx]);
+		}
+		return 0;
+	}
 	
 	GeoPatch(vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
 		PROFILE_SCOPED()
@@ -291,6 +323,25 @@ public:
 					sizeof(unsigned short)*VBO_COUNT_MID_IDX,
 					midIndices);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+#ifdef GEOPATCH_USE_THREADING
+				static const int indexes[4] = {0,1,2,3};
+				for( int i = 0; i<4; ++i ) {
+					assert(NULL==s_geoPatches[i]);
+					s_geoPatches[i] = NULL;
+
+					assert(NULL==s_geoPatchLock[i]);
+					s_geoPatchLock[i] = SDL_CreateMutex();
+
+					assert(!s_geoPatchSem[i]);
+					s_geoPatchSem[i] = SDL_CreateSemaphore(0);
+
+					assert(!s_geoSphereSem[i]);
+					s_geoSphereSem[i] = SDL_CreateSemaphore(0);
+
+					SDL_CreateThread(&GeoPatch::UpdateGeoPatchThread, (void*)&indexes[i]);
+				}
+#endif /* GEOPATCH_USE_THREADING */
 		}
 	}
 
@@ -871,6 +922,15 @@ public:
 		}
 	}
 
+#ifdef ANDY_HORRIFIC_TIMING
+	static float s_generateMeshTime;
+	static float s_postGenerateMeshTime;
+	static float s_totalTime;
+	static float s_totalNumCalls;
+	static double s_rollingAverage;
+	static double s_rollingGenMeshAverage;
+	static double s_rollingPostGenMeshAverage;
+#endif
 	void LODUpdate(vector3d &campos) {
 		PROFILE_SCOPED()
 				
@@ -926,21 +986,66 @@ public:
 				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
 				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
-				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
+
+#ifdef ANDY_HORRIFIC_TIMING
+				CTimer cTimer;
+				cTimer.Reset();
+				cTimer.Update();
+#endif
+#ifdef GEOPATCH_USE_THREADING
+				for (int i=0; i<4; ++i) {
+					PiAssert(GeoPatch::s_geoPatches[i]==0);
+					GeoPatch::s_geoPatches[i] = &_kids[i];
+				}
+				for (int i=0; i<4; ++i) {
+					PiAssert(SDL_SemValue(GeoPatch::s_geoPatchSem[i])==0);
+					SDL_SemPost(GeoPatch::s_geoPatchSem[i]);
+				}
+
+				// not a good enough waiting method
+				SDL_SemWait(s_geoSphereSem[0]);
+				SDL_SemWait(s_geoSphereSem[1]);
+				SDL_SemWait(s_geoSphereSem[2]);
+				SDL_SemWait(s_geoSphereSem[3]);
+#ifdef _DEBUG
+				for (int i=0; i<4; ++i) {
+					PiAssert(GeoPatch::s_geoPatches[i]==0);
+					PiAssert(SDL_SemValue(GeoPatch::s_geoPatchSem[i])==0);
+				}
+#endif
+#else
+				for (int i=0; i<4; ++i) _kids[i]->GenerateMesh();
+#endif
+#ifdef ANDY_HORRIFIC_TIMING
+				cTimer.Update();
+				s_generateMeshTime += cTimer.GetElapsedTimeInSec();
+				cTimer.Reset();
+#endif // ANDY_HORRIFIC_TIMING
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
-				for (int i=0; i<4; i++) kids[i] = _kids[i];
-				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
-				for (int i=0; i<4; i++) {
+				for (int i=0; i<4; ++i) kids[i] = _kids[i];
+				for (int i=0; i<4; ++i) edgeFriend[i]->NotifyEdgeFriendSplit(this);
+				for (int i=0; i<4; ++i) {
 					kids[i]->GenerateEdgeNormalsAndColors();
 					kids[i]->UpdateVBOs();
 				}
 				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
+#ifdef ANDY_HORRIFIC_TIMING
+				cTimer.Update();
+				s_postGenerateMeshTime += cTimer.GetElapsedTimeInSec();
+
+				// what's the sum of the time taken - we'll output this later (maybe?)
+				s_totalTime = s_generateMeshTime + s_postGenerateMeshTime;
+				s_totalNumCalls += 1.0f;
+				s_rollingAverage = s_totalTime / s_totalNumCalls;
+				s_rollingGenMeshAverage = s_generateMeshTime / s_totalNumCalls;
+				s_rollingPostGenMeshAverage = s_postGenerateMeshTime / s_totalNumCalls;
+#endif // ANDY_HORRIFIC_TIMING
 			}
-			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
+			for (int i=0; i<4; ++i) kids[i]->LODUpdate(campos);
 		} else {
 			if (canMerge && kids[0]) {
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
-				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
+				for (int i=0; i<4; ++i) { delete kids[i]; kids[i] = 0; }
 				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			}
 		}
@@ -952,6 +1057,24 @@ unsigned short *GeoPatch::loEdgeIndices[4];
 unsigned short *GeoPatch::hiEdgeIndices[4];
 GLuint GeoPatch::indices_vbo;
 VBOVertex *GeoPatch::vbotemp;
+
+#ifdef GEOPATCH_USE_THREADING
+GeoPatch**	GeoPatch::s_geoPatches[4]	= {0};
+SDL_mutex*	GeoPatch::s_geoPatchLock[4] = {0};
+SDL_sem*	GeoPatch::s_geoPatchSem[4]	= {0};
+SDL_sem*	GeoPatch::s_geoSphereSem[4]	= {0};
+
+#ifdef ANDY_HORRIFIC_TIMING
+float		GeoPatch::s_generateMeshTime = 0.0f;
+float		GeoPatch::s_postGenerateMeshTime = 0.0f;
+float		GeoPatch::s_totalTime = 0.0f;
+float		GeoPatch::s_totalNumCalls = 0.0f;
+
+double		GeoPatch::s_rollingGenMeshAverage = 0.0f;
+double		GeoPatch::s_rollingPostGenMeshAverage = 0.0f;
+double		GeoPatch::s_rollingAverage = 0.0f;
+#endif // ANDY_HORRIFIC_TIMING
+#endif // GEOPATCH_USE_THREADING
 
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },

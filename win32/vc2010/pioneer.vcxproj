@@ -364,6 +364,7 @@
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
+    <ClInclude Include="..\..\src\Timer.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VectorFont.h" />

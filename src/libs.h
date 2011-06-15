@@ -56,8 +56,10 @@ inline int isfinite(double x) { return _finite(x); }
 
 #ifdef NDEBUG 
 #define	PiVerify(x) x
+#define PiAssert(x)
 #else
 #define PiVerify(x) assert(x)
+#define PiAssert(x) assert(x)
 #endif
 
 #define UNIVERSE_SEED	0xabcd1234

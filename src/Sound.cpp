@@ -236,7 +236,6 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 				s1 = ev.volume[1] * float(inbuf[inbuf_pos++]);
 				ev.buf_pos += 2;
 			}
-			assert(inbuf_pos < len);
 
 			if (T_upsample == 1) {
 				buffer[pos] += s0;
@@ -251,7 +250,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			}
 
 			/* Repeat or end? */
-			if (ev.buf_pos >= ev.sample->buf_len) {
+			if (ev.buf_pos >= ev.sample->buf_len || inbuf_pos >= len) {
 				ev.buf_pos = 0;
 				inbuf_pos = 0;
 				if (!(ev.op & OP_REPEAT)) {
