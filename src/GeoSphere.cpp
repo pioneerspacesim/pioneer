@@ -7,11 +7,14 @@
 
 #include "profiler/Profiler.h"
 
-//#define ANDY_HORRIFIC_TIMING
-#ifdef ANDY_HORRIFIC_TIMING
-#include "Timer.h"
-#endif //ANDY_HORRIFIC_TIMING
 #define GEOPATCH_USE_THREADING
+#ifdef GEOPATCH_USE_THREADING
+	//#define ANDYC_HORRIFIC_TIMING
+	#ifdef ANDYC_HORRIFIC_TIMING
+		#include "Timer.h"
+	#endif //ANDYC_HORRIFIC_TIMING
+#endif GEOPATCH_USE_THREADING
+
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -922,7 +925,7 @@ public:
 		}
 	}
 
-#ifdef ANDY_HORRIFIC_TIMING
+#ifdef ANDYC_HORRIFIC_TIMING
 	static float s_generateMeshTime;
 	static float s_postGenerateMeshTime;
 	static float s_totalTime;
@@ -987,7 +990,7 @@ public:
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
 				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
 
-#ifdef ANDY_HORRIFIC_TIMING
+#ifdef ANDYC_HORRIFIC_TIMING
 				CTimer cTimer;
 				cTimer.Reset();
 				cTimer.Update();
@@ -1016,11 +1019,11 @@ public:
 #else
 				for (int i=0; i<4; ++i) _kids[i]->GenerateMesh();
 #endif
-#ifdef ANDY_HORRIFIC_TIMING
+#ifdef ANDYC_HORRIFIC_TIMING
 				cTimer.Update();
 				s_generateMeshTime += cTimer.GetElapsedTimeInSec();
 				cTimer.Reset();
-#endif // ANDY_HORRIFIC_TIMING
+#endif // ANDYC_HORRIFIC_TIMING
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; ++i) kids[i] = _kids[i];
 				for (int i=0; i<4; ++i) edgeFriend[i]->NotifyEdgeFriendSplit(this);
@@ -1029,7 +1032,7 @@ public:
 					kids[i]->UpdateVBOs();
 				}
 				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
-#ifdef ANDY_HORRIFIC_TIMING
+#ifdef ANDYC_HORRIFIC_TIMING
 				cTimer.Update();
 				s_postGenerateMeshTime += cTimer.GetElapsedTimeInSec();
 
@@ -1039,7 +1042,7 @@ public:
 				s_rollingAverage = s_totalTime / s_totalNumCalls;
 				s_rollingGenMeshAverage = s_generateMeshTime / s_totalNumCalls;
 				s_rollingPostGenMeshAverage = s_postGenerateMeshTime / s_totalNumCalls;
-#endif // ANDY_HORRIFIC_TIMING
+#endif // ANDYC_HORRIFIC_TIMING
 			}
 			for (int i=0; i<4; ++i) kids[i]->LODUpdate(campos);
 		} else {
@@ -1064,7 +1067,7 @@ SDL_mutex*	GeoPatch::s_geoPatchLock[4] = {0};
 SDL_sem*	GeoPatch::s_geoPatchSem[4]	= {0};
 SDL_sem*	GeoPatch::s_geoSphereSem[4]	= {0};
 
-#ifdef ANDY_HORRIFIC_TIMING
+#ifdef ANDYC_HORRIFIC_TIMING
 float		GeoPatch::s_generateMeshTime = 0.0f;
 float		GeoPatch::s_postGenerateMeshTime = 0.0f;
 float		GeoPatch::s_totalTime = 0.0f;
@@ -1073,7 +1076,7 @@ float		GeoPatch::s_totalNumCalls = 0.0f;
 double		GeoPatch::s_rollingGenMeshAverage = 0.0f;
 double		GeoPatch::s_rollingPostGenMeshAverage = 0.0f;
 double		GeoPatch::s_rollingAverage = 0.0f;
-#endif // ANDY_HORRIFIC_TIMING
+#endif // ANDYC_HORRIFIC_TIMING
 #endif // GEOPATCH_USE_THREADING
 
 static const int geo_sphere_edge_friends[6][4] = {

@@ -857,6 +857,9 @@
     <ClInclude Include="..\..\src\Timer.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\PicoDDS.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">
