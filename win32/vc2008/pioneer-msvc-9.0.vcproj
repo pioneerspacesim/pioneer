@@ -1327,6 +1327,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\PicoDDS.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\PiLuaAPI.h"
 				>
 			</File>
@@ -1468,6 +1472,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TextureFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Timer.h"
 				>
 			</File>
 			<File

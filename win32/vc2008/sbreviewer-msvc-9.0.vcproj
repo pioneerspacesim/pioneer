@@ -699,6 +699,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\src\PicoDDS.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\contrib\lua\print.c"
 			>
 		</File>
@@ -720,6 +724,10 @@
 		</File>
 		<File
 			RelativePath="..\..\src\TextureFont.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\Timer.h"
 			>
 		</File>
 		<File
