@@ -19,6 +19,7 @@ public:
 private:
 	void SystemChanged(StarSystem *s);
 	void UpdateEconomyTab();
+	void OnBodyViewed(SBody *b);
 	void OnBodySelected(SBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);
 	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize);

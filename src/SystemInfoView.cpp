@@ -5,6 +5,7 @@
 #include "ShipCpanel.h"
 #include "Player.h"
 #include "Polit.h"
+#include "Space.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -22,7 +23,17 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	SBodyPath path;
 	m_system->GetPathOf(b, &path);
+	if(Pi::currentSystem->SystemIdx() != m_system->SystemIdx()) {
+		Pi::player->SetHyperspaceTarget(&path);
+	} else  {
+		Body* body = Space::FindBodyForSBodyPath(&path);
+		if(body != 0)
+			Pi::player->SetNavTarget(body);
+	}
+}
 
+void SystemInfoView::OnBodyViewed(SBody *b)
+{
 	std::string desc, data;
 
 	m_infoBox->DeleteAllChildren();
@@ -170,6 +181,8 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
+		ib->onMouseEnter.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodyViewed), body));
+		ib->onMouseLeave.connect(sigc::mem_fun(this, &SystemInfoView::OnSwitchTo));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
