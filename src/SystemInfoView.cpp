@@ -23,9 +23,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	SBodyPath path;
 	m_system->GetPathOf(b, &path);
-	if(Pi::currentSystem->SystemIdx() != m_system->SystemIdx()) {
-		Pi::player->SetHyperspaceTarget(&path);
-	} else  {
+	if (Pi::currentSystem->GetLocation() == m_system->GetLocation()) {
 		Body* body = Space::FindBodyForSBodyPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
