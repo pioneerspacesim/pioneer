@@ -15,6 +15,7 @@ Programming:
   Darren Salt
   Kimmo Kotajärvi
   Andrew Copland
+  Paul Mahol
 
 Art:
   Gernot
