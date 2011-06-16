@@ -469,6 +469,7 @@ void StationViewShipView::ShowAll()
 				break;
 
 			int hyperclass = EquipType::types[drivetype].pval;
+			// for the sake of hyperspace range, we count ships mass as 60% of original.
 			float range = Pi::CalcHyperspaceRange(hyperclass, t.hullMass + t.capacity);
 
 
