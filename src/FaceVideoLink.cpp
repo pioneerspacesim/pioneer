@@ -18,7 +18,7 @@
 
 #define MAX_BACKGROUND 18
 
-static void _blit_image(SDL_Surface *s, const char *filename, int yoff, int xoff)
+static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {
 	SDL_Surface *is = IMG_Load(filename);
 	if (!is) {
@@ -83,20 +83,20 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d_%d.png", gender, clothes);
 		//printf("%s\n", filename);
-		_blit_image(s, filename, 135, 0);
+		_blit_image(s, filename, 0, 135);
 	}
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 41, 0);
+	_blit_image(s, filename, 0, 41);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 89, 1);
+	_blit_image(s, filename, 1, 89);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 155, 0);
+	_blit_image(s, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
