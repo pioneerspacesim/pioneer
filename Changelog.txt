@@ -10,6 +10,8 @@ Alpha 12
       height (#211)
     * System information (F7) button cycles through info tabs in system info
       view (#212)
+    * Escape key now always toggles game settings regardless of
+      pause/timeaccel setting (#217, #221)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
