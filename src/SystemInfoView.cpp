@@ -5,20 +5,17 @@
 #include "ShipCpanel.h"
 #include "Player.h"
 #include "Polit.h"
+#include "Space.h"
 
 SystemInfoView::SystemInfoView()
 {
 	SetTransparency(true);
 	m_system = 0;
-	m_bodySelected = 0;
 	m_refresh = false;
-//	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
 void SystemInfoView::OnBodySelected(SBody *b)
 {
-	m_bodySelected = b;
-
 	{
 		printf("\n");
 		printf("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
@@ -26,10 +23,17 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	SBodyPath path;
 	m_system->GetPathOf(b, &path);
+	if (Pi::currentSystem->GetLocation() == m_system->GetLocation()) {
+		Body* body = Space::FindBodyForSBodyPath(&path);
+		if(body != 0)
+			Pi::player->SetNavTarget(body);
+	}
+}
 
+void SystemInfoView::OnBodyViewed(SBody *b)
+{
 	std::string desc, data;
 
-//	char buf[1024];
 	m_infoBox->DeleteAllChildren();
 	
 	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
@@ -175,6 +179,8 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
 		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
+		ib->onMouseEnter.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodyViewed), body));
+		ib->onMouseLeave.connect(sigc::mem_fun(this, &SystemInfoView::OnSwitchTo));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
@@ -230,11 +236,11 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	m_econInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	
-	Gui::Tabbed *tabbed = new Gui::Tabbed();
-	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
-	tabbed->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
-	tabbed->AddPage(new Gui::Label("Demographics"), demographicsTab);
-	Add(tabbed, 0, 0);
+	m_tabs = new Gui::Tabbed();
+	m_tabs->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
+	m_tabs->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
+	m_tabs->AddPage(new Gui::Label("Demographics"), demographicsTab);
+	Add(m_tabs, 0, 0);
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 	
@@ -372,6 +378,11 @@ void SystemInfoView::Update()
 
 void SystemInfoView::OnSwitchTo()
 {
-	m_refresh = true;
+	if (Pi::GetSelectedSystem() != m_system)
+		m_refresh = true;
 }
 
+void SystemInfoView::NextPage()
+{
+	m_tabs->OnActivate();
+}
