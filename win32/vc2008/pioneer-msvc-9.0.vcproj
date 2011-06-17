@@ -637,6 +637,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\profiler\Profiler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\profiler\Profiler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Projectile.cpp"
 				>
 			</File>
@@ -1319,6 +1327,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\PicoDDS.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\PiLuaAPI.h"
 				>
 			</File>
@@ -1460,6 +1472,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TextureFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Timer.h"
 				>
 			</File>
 			<File

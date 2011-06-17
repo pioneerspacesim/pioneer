@@ -74,12 +74,14 @@ noinst_HEADERS = \
 	ObjectViewerView.h \
 	PersistSystemData.h \
 	Pi.h \
+	PicoDDS \
 	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
 	PoliceChatForm.h \
 	Polit.h \
 	Projectile.h \
+	Profiler/Profiler.h \
 	Quaternion.h \
 	RefCounted.h \
 	RefList.h \
@@ -105,6 +107,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemView.h \
 	TextureFont.h \
+	Timer.h \
 	VectorFont.h \
 	VideoLink.h \
 	View.h \
@@ -188,6 +191,7 @@ pioneer_SOURCES	= \
 	PoliceChatForm.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	Profiler/Profiler.cpp \
 	Render.cpp \
 	RenderShader.cpp \
 	Sector.cpp \

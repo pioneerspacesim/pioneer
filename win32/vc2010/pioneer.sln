@@ -1,9 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj", "{65A1BBFB-7A42-497C-BF65-A0A06664A204}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
+		{6A8518C3-D81A-4428-BD7F-C37933088AC1} = {6A8518C3-D81A-4428-BD7F-C37933088AC1}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "lua.vcxproj", "{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}"
@@ -12,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modelviewer", "modelviewer.
 	ProjectSection(ProjectDependencies) = postProject
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "squish", "..\..\contrib\squish\vs2010\squish\squish.vcxproj", "{6A8518C3-D81A-4428-BD7F-C37933088AC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +34,10 @@ Global
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Debug|Win32.Build.0 = Debug|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Release|Win32.ActiveCfg = Release|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Release|Win32.Build.0 = Release|Win32
+		{6A8518C3-D81A-4428-BD7F-C37933088AC1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A8518C3-D81A-4428-BD7F-C37933088AC1}.Debug|Win32.Build.0 = Debug|Win32
+		{6A8518C3-D81A-4428-BD7F-C37933088AC1}.Release|Win32.ActiveCfg = Release|Win32
+		{6A8518C3-D81A-4428-BD7F-C37933088AC1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

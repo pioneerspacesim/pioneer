@@ -249,7 +249,11 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			}
 
 			/* Repeat or end? */
+#if 1
+			if (ev.buf_pos >= ev.sample->buf_len || inbuf_pos >= len) {
+#else
 			if (ev.buf_pos >= ev.sample->buf_len) {
+#endif
 				ev.buf_pos = 0;
 				inbuf_pos = 0;
 				if (!(ev.op & OP_REPEAT)) {

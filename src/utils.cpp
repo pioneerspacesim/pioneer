@@ -33,14 +33,14 @@
 #include <sys/types.h>
 #endif
 
-#ifndef _MSC_VER
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
-#endif
+
+#include "squish/squish.h"
+#include "PicoDDS.h"
 
 std::string GetPiUserDir(const std::string &subdir)
 {
-
 #if defined(_WIN32)
 
 	char appdata_path[MAX_PATH];
@@ -369,8 +369,166 @@ std::string string_subst(const char *format, const unsigned int num_args, std::s
 	return out;
 }
 
-static std::map<std::string, GLuint> s_textures;
+#if 0
+#define GET(o) ((int)*(data + (o)))
 
+static int HalfSize(GLint components, GLint width, GLint height, const unsigned char *data, unsigned char *d, int filter) {
+	int x, y, c;
+	int line = width*components;
+
+	if (width > 1 && height > 1) {
+		if (filter)
+			for (y = 0; y < height; y += 2) {
+				for (x = 0; x < width; x += 2) {
+					for (c = 0; c < components; c++) {
+						*d++ = (GET(0)+GET(components)+GET(line)+GET(line+components)) / 4;
+						++data;
+					}
+					data += components;
+				}
+				data += line;
+			}
+		else
+			for (y = 0; y < height; y += 2) {
+				for (x = 0; x < width; x += 2) {
+					for (c = 0; c < components; c++) {
+						*d++ = GET(0);
+						++data;
+					}
+					data += components;
+				}
+				data += line;
+			}
+	}
+	else if (width > 1 && height == 1) {
+		if (filter)
+			for (y = 0; y < height; y += 1) {
+				for (x = 0; x < width; x += 2) {
+					for (c = 0; c < components; c++) {
+						*d++ = (GET(0)+GET(components)) / 2;
+						++data;
+					}
+					data += components;
+				}
+			}
+		else
+			for (y = 0; y < height; y += 1) {
+				for (x = 0; x < width; x += 2) {
+					for (c = 0; c < components; c++) {
+						*d++ = GET(0);
+						++data;
+					}
+					data += components;
+				}
+			}
+	}
+	else if (width == 1 && height > 1) {
+		if (filter)
+			for (y = 0; y < height; y += 2) {
+				for (x = 0; x < width; x += 1) {
+					for (c = 0; c < components; c++) {
+						*d++ = (GET(0)+GET(line)) / 2;
+						++data;
+					}
+				}
+				data += line;
+			}
+		else
+			for (y = 0; y < height; y += 2) {
+				for (x = 0; x < width; x += 1) {
+					for (c = 0; c < components; c++) {
+						*d++ = GET(0);
+						++data;
+					}
+				}
+				data += line;
+			}
+	}
+	else {
+		return 0;
+	}
+
+	return 1;
+}
+
+#undef GET
+
+/* Replacement for gluBuild2DMipmaps so GLU isn't needed */
+static int Build2DMipmaps(GLint components, GLuint width, GLuint height, GLenum format, const unsigned char *data, int filter) 
+{
+	int level = 0;
+	unsigned char *d = (unsigned char *) malloc((width*height*components)>>1);
+	const unsigned char *last = data;
+	const int dxtn = (components==4) ? squish::kDxt5 : squish::kDxt1;
+	GLenum GLCompFormat = (components==4) ? GL_COMPRESSED_RGBA_S3TC_DXT5_EXT : GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+	
+	// determine storage required, allocate space, compress image into it, assign the texture, then free the space.
+	int bufSize = squish::GetStorageRequirements(width, height, dxtn);
+	unsigned char *blocks = (unsigned char *) malloc(bufSize);
+	squish::CompressImage( data, width, height, blocks, dxtn);
+	glCompressedTexImage2D(GL_TEXTURE_2D, level, GLCompFormat, width, height, 0, bufSize, (void*)blocks);
+	++level;
+
+	while (HalfSize(components, width, height, last, d, filter)) {
+		if (width  > 1) width  = width>>1;
+		if (height > 1) height = height>>1;
+
+		// determine storage required, allocate space, compress image into it, assign the texture, then free the space.
+		bufSize = squish::GetStorageRequirements(width, height, dxtn);
+		squish::CompressImage(d, width, height, blocks, dxtn);
+		glCompressedTexImage2D(GL_TEXTURE_2D, level, GLCompFormat, width, height, 0, bufSize, (void*)blocks);
+		++level;
+		last = d;
+	}
+
+	free(d);
+	free(blocks);
+
+	return level;
+}
+#endif 
+
+// from - http://www.codeguru.com/cpp/cpp/string/article.php/c5641
+char *stristr(char* szStringToBeSearched, const char* szSubstringToSearchFor)
+{
+	char* pPos = NULL;
+	char* szCopy1 = NULL;
+	char* szCopy2 = NULL;
+
+	// verify parameters
+	if ( szStringToBeSearched == NULL || szSubstringToSearchFor == NULL ) {
+		return szStringToBeSearched;
+	}
+
+	// empty substring - return input (consistent with strstr)
+	if ( strlen(szSubstringToSearchFor) == 0 ) {
+		return szStringToBeSearched;
+	}
+
+	szCopy1 = _strlwr(_strdup(szStringToBeSearched));
+	szCopy2 = _strlwr(_strdup(szSubstringToSearchFor));
+
+	if ( szCopy1 == NULL || szCopy2 == NULL  ) {
+		// another option is to raise an exception here
+		free((void*)szCopy1);
+		free((void*)szCopy2);
+		return NULL;
+	}
+
+	pPos = strstr(szCopy1, szCopy2);
+
+	if ( pPos != NULL ) {
+		// map to the original string
+		pPos = szStringToBeSearched + (pPos - szCopy1);
+	}
+
+	free((void*)szCopy1);
+	free((void*)szCopy2);
+
+	return pPos;
+} // stristr(...)
+
+static std::map<std::string, GLuint> s_textures;
 GLuint util_load_tex_rgba(const char *filename)
 {
 	GLuint tex = -1;
@@ -378,32 +536,39 @@ GLuint util_load_tex_rgba(const char *filename)
 
 	if (t != s_textures.end()) return (*t).second;
 
-	SDL_Surface *s = IMG_Load(filename);
-
-	if (s)
-	{
-		glGenTextures (1, &tex);
-		glBindTexture (GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-		switch ( s->format->BitsPerPixel )
-		{
-		case 32:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		case 24:
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
-			break;
-		default:
-			printf("Texture '%s' needs to be 24 or 32 bit.\n", filename);
-			exit(0);
-		}
-	
-		SDL_FreeSurface(s);
-
+	if(stristr(const_cast<char*>(filename),".dds")) {
+		// load me my dds!
+		tex = PicoDDS::createOglTexFromDDS(filename);
 		s_textures[filename] = tex;
 	} else {
-		Error("IMG_Load: %s\n", IMG_GetError());
+		SDL_Surface *s = IMG_Load(filename);
+
+		if (s)
+		{
+			glGenTextures (1, &tex);
+			glBindTexture (GL_TEXTURE_2D, tex);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+		
+			switch ( s->format->BitsPerPixel )
+			{
+			case 32:
+				gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGBA, GL_UNSIGNED_BYTE, s->pixels);
+				break;
+			case 24:
+				gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, s->w, s->h, GL_RGB, GL_UNSIGNED_BYTE, s->pixels);
+				break;
+			default:
+				printf("Texture '%s' needs to be 24 or 32 bit.\n", filename);
+				exit(0);
+			}
+	
+			SDL_FreeSurface(s);
+
+			s_textures[filename] = tex;
+		} else {
+			Error("IMG_Load: %s\n", IMG_GetError());
+		}
 	}
 
 	return tex;
@@ -460,7 +625,6 @@ Uint32 ceil_pow2(Uint32 v) {
 
 void Screendump(const char* destFile, const int W, const int H)
 {
-#ifndef _MSC_VER
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
 
 	std::vector<char> pixel_data(3*W*H);
@@ -516,5 +680,4 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
-#endif
 }
