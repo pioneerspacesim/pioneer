@@ -14,6 +14,7 @@ Alpha 12
       paused (#217, #221)
     * Can now set navigation target by clicking on bodies in the system info
       view. Body info is displayed on mouse hover (#220)
+    * Lots of new parts for facegen (#213)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
