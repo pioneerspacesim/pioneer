@@ -13,11 +13,12 @@
 #define MAX_HAIR  20
 
 #define MAX_CLOTHES     20
-#define MAX_ACCESSORIES 3
+#define MAX_ARMOUR      3
+#define MAX_ACCESSORIES 16
 
-#define MAX_BACKGROUND 13
+#define MAX_BACKGROUND 18
 
-static void _blit_image(SDL_Surface *s, const char *filename, int yoff)
+static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {
 	SDL_Surface *is = IMG_Load(filename);
 	if (!is) {
@@ -25,7 +26,7 @@ static void _blit_image(SDL_Surface *s, const char *filename, int yoff)
 		return;
 	}
 
-	SDL_Rect destrec = { (FACE_WIDTH-is->w-1)/2, yoff, 0, 0 };
+	SDL_Rect destrec = { ((FACE_WIDTH-is->w-1)/2)+xoff, yoff, 0, 0 };
 	SDL_BlitSurface(is, NULL, s, &destrec);
 	SDL_FreeSurface(is);
 }
@@ -37,10 +38,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 	if (seed == -1UL) seed = time(NULL);
 	MTRand rand(seed);
 
-	//int race = rand.Int32(0,1);    // XXX should be 3?
-	// XXX forcing race to 0 for the moment. it stays this way until race 1
-	// has enough components for both genders
-	int race = 0;
+	int race = rand.Int32(0,2);;
 
 	int gender;
 	switch (flags & GENDER_MASK) {
@@ -64,9 +62,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 
 	int clothes = rand.Int32(0,MAX_CLOTHES);
 
-	// XXX evil hack. right now we have no clothes #0 for race #0 gender #1.
-	// lets just make it 1 until we find it
-	if (race == 0 && gender == 1 && clothes == 0) clothes = 1;
+	int armour = rand.Int32(0,MAX_ARMOUR);
 
 	int accessories = rand.Int32(0,MAX_ACCESSORIES);
 
@@ -78,41 +74,43 @@ FaceVideoLink::FaceVideoLink(float w, float h, int flags, unsigned long seed) : 
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/backgrounds/background_%d.png", background);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 0);
+	_blit_image(s, filename, 0, 0);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/head/head_%d_%d.png", race, gender, head);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 0);
+	_blit_image(s, filename, 0, 0);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/clothes/cloth_%d_%d.png", race, gender, clothes);
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/cloth_%d_%d.png", gender, clothes);
 		//printf("%s\n", filename);
-		_blit_image(s, filename, 135);
+		_blit_image(s, filename, 0, 135);
 	}
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/eyes/eyes_%d_%d.png", race, gender, eyes);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 42);
+	_blit_image(s, filename, 0, 41);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/nose/nose_%d_%d.png", race, gender, nose);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 89);
+	_blit_image(s, filename, 1, 89);
 
 	snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/mouth/mouth_%d_%d.png", race, gender, mouth);
 	//printf("%s\n", filename);
-	_blit_image(s, filename, 155);
+	_blit_image(s, filename, 0, 155);
 
 	if (!(flags & ARMOUR)) {
-		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
-		//printf("%s\n", filename);
-		_blit_image(s, filename, 0);
-
 		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/accessories/acc_%d.png", accessories);
 		//printf("%s\n", filename);
-		_blit_image(s, filename, -10);
+		if (rand.Int32(0,1)>0)	_blit_image(s, filename, 0, 0);
+
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
+		//printf("%s\n", filename);
+		_blit_image(s, filename, 0, 0);
 	}
-	else
-		_blit_image(s, PIONEER_DATA_DIR "/facegen/armour.png", 0);
+	else {
+		snprintf(filename, sizeof(filename), PIONEER_DATA_DIR "/facegen/clothes/armour_%d.png", armour);
+		_blit_image(s, filename, 0, 0);
+	}
 
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &m_tex);

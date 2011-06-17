@@ -14,6 +14,7 @@ Alpha 12
       paused (#217, #221)
     * Can now set navigation target by clicking on bodies in the system info
       view. Body info is displayed on mouse hover (#220)
+    * Lots of new parts for facegen (#213)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
@@ -21,6 +22,7 @@ Alpha 12
     * Removed misleading F7/F8 text from zoom icons (#201)
     * Pass alert state to Lua onShipAlertChanged event (#191, #195)
     * Avoid loss of precision when calculating radius of very tiny bodies (#189)
+    * Hyperspace range is displayed correctly again (#222)
 
   * Internal changes
     * All model timing now based of game time (#175, #178)
