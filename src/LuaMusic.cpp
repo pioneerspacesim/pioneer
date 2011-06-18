@@ -30,6 +30,8 @@
  *
  * Get the currently playing, or last song's name.
  *
+ * Example:
+ *
  * > name = Music.GetSongName()
  *
  * The name does not include any paths or the .ogg suffix.
@@ -52,6 +54,8 @@ static int l_get_song(lua_State *l)
  * Method: Play
  *
  * Starts playing a song instantly, on repeat by default.
+ *
+ * Example:
  *
  * > Music.Play("songName")
  *
@@ -83,6 +87,8 @@ static int l_play(lua_State *l)
  *
  * Immediately stops the currently playing song.
  *
+ * Example:
+ *
  * > Music.Stop()
  *
  * Availability:
@@ -103,6 +109,8 @@ static int l_stop(lua_State *l)
  * Method: FadeIn
  *
  * Fades in a song and fades out any currently playing song (crossfade).
+ *
+ * Example:
  *
  * > Music.FadeIn("songName", 0.5)
  *
@@ -136,6 +144,8 @@ static int l_fade_in(lua_State *l)
  *
  * Fades the currently playing song to silence and then stops it.
  *
+ * Example:
+ *
  * > Music.FadeOut(0.8)
  *
  * Parameters:
@@ -157,6 +167,26 @@ static int l_fade_out(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetSongList
+ *
+ * Returns an array of the available song names.
+ *
+ * Example:
+ *
+ * > songs = Music.GetSongList()
+ * > for key,value in pairs(songs) do
+ * >     print(value)
+ * > end
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_get_song_list(lua_State *l)
 {
 	using std::vector;
