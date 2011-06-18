@@ -2,6 +2,9 @@
 #ifndef __OGGMIX_H
 #define __OGGMIX_H
 
+#include <string>
+#include <map>
+
 class Body;
 
 namespace Sound {
@@ -11,6 +14,15 @@ enum {
 	OP_STOP_AT_TARGET_VOLUME = (1<<1)
 };
 typedef Uint32 Op;
+
+struct Sample {
+	Uint16 *buf;
+	Uint32 buf_len;
+	Uint32 channels;
+	int upsample; // 1 = 44100, 2=22050
+	/* if buf is null, this will be path to an ogg we must stream */
+	std::string path;
+};
 
 class Event {
 public:
@@ -49,6 +61,7 @@ inline static eventid PlaySfx (const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 
 eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
 void SetGlobalVolume(const float vol);
 float GetGlobalVolume();
+const std::map<std::string, Sample> & GetSamples();
 
 } /* namespace Sound */
 

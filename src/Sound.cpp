@@ -4,9 +4,10 @@
 
 #include <SDL.h>
 #include <stdio.h>
-#include <string.h>
 #include <assert.h>
 #include <vorbis/vorbisfile.h>
+#include <vector>
+#include <string>
 #include "Sound.h"
 #include "Body.h"
 #include "Pi.h"
@@ -60,15 +61,6 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 
 	return Sound::PlaySfx(sfx, v[0], v[1], false);
 }
-
-struct Sample {
-	Uint16 *buf;
-	Uint32 buf_len;
-	Uint32 channels;
-	int upsample; // 1 = 44100, 2=22050
-	/* if buf is null, this will be path to an ogg we must stream */
-	std::string path;
-};
 
 struct SoundEvent {
 	const Sample *sample;
@@ -524,6 +516,11 @@ bool Event::SetVolume(const float vol_left, const float vol_right)
 	}
 	SDL_UnlockAudio();
 	return status;
+}
+
+const std::map<std::string, Sample> & GetSamples()
+{
+	return sfx_samples;
 }
 
 } /* namespace Sound */

@@ -1,14 +1,15 @@
 --~ If you really need to have these :) http://paahdin.com/projects/pioneer/lol.zip
 local test = function()
 	Music.Play("under");
-end
-
-local test2 = function(ship, alert)
-	if not ship:IsPlayer() then return end
+	print("Available songs:\n--------------")
 	songs = Music.GetSongList()
 	for key,value in pairs(songs) do
 		print(value)
 	end
+end
+
+local test2 = function(ship, alert)
+	if not ship:IsPlayer() then return end
 	if alert == 'SHIP_NEARBY' then
 		Music.Play("knighty");
 	end
