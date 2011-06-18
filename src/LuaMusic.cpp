@@ -3,7 +3,6 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "SoundMusic.h"
-#pragma warning(disable: 4244) //conversion from 'lua_Number' to 'const float', possible loss of data
 
 /*
  * Class: Music
@@ -195,5 +194,3 @@ void LuaMusic::Register()
 
 	LUA_DEBUG_END(l, 0);
 }
-
-#pragma warning(default: 4244)
