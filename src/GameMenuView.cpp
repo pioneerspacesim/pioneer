@@ -4,6 +4,7 @@
 #include "WorldView.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
+#include "SoundMusic.h"
 #include "KeyBindings.h"
 
 #if _GNU_SOURCE
@@ -434,6 +435,17 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(sfxVol, false);
 		hbox->PackEnd(new Gui::Label("(max)"));
 		vbox->PackEnd(hbox, false);
+
+		m_musicVolume = new Gui::Adjustment();
+		m_musicVolume->SetValue(Sound::GetGlobalVolume());
+		m_musicVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		Gui::HScale *musVol = new Gui::HScale();
+		musVol->SetAdjustment(m_musicVolume);
+		hbox = new Gui::HBox();
+		hbox->PackEnd(new Gui::Label("Music volume: (min)"));
+		hbox->PackEnd(musVol, false);
+		hbox->PackEnd(new Gui::Label("(max)"));
+		vbox->PackEnd(hbox, false);
 	}
 
 	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
@@ -598,7 +610,10 @@ void GameMenuView::OnChangeVolume()
 {
 	float sfxVol = m_sfxVolume->GetValue();
 	Sound::SetGlobalVolume(sfxVol);
+	const float musVol = m_musicVolume->GetValue();
+	Pi::GetMusicPlayer().SetVolume(musVol);
 	Pi::config.SetFloat("SfxVolume", sfxVol);
+	Pi::config.SetFloat("MusicVolume", musVol);
 	Pi::config.Save();
 }
 	

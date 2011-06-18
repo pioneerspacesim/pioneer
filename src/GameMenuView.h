@@ -32,6 +32,7 @@ private:
 	bool m_changedDetailLevel;
 	View *m_subview;
 	Gui::Adjustment *m_sfxVolume;
+	Gui::Adjustment *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::ToggleButton *m_toggleShaders;

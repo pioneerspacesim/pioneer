@@ -35,7 +35,11 @@ float MusicPlayer::GetVolume() const
 
 void MusicPlayer::SetVolume(const float vol)
 {
-	m_volume = vol;
+	m_volume = Clamp(vol, 0.f, 1.f);
+	if (m_eventOnePlaying && m_eventOne.IsPlaying())
+		m_eventOne.SetVolume(m_volume);
+	else if (m_eventTwo.IsPlaying())
+		m_eventTwo.SetVolume(m_volume);
 }
 
 void MusicPlayer::Play(const std::string& name, const bool repeat /* = false */ , const float fadeDelta /* = 1.f */ )
@@ -47,13 +51,13 @@ void MusicPlayer::Play(const std::string& name, const bool repeat /* = false */ 
 		m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
 		m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
 		m_eventTwo.Play(name.c_str(), 0.f, 0.f, op);
-		m_eventTwo.VolumeAnimate(1.f, 1.f, fadeDelta, fadeDelta);
+		m_eventTwo.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 		m_eventOnePlaying = false;
 	} else {
 		m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
 		m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
 		m_eventOne.Play(name.c_str(), 0.f, 0.f, op);
-		m_eventOne.VolumeAnimate(1.f, 1.f, fadeDelta, fadeDelta);
+		m_eventOne.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 		m_eventOnePlaying = true;
 	}
 	m_playing = true;
