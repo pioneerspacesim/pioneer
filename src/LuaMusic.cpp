@@ -3,6 +3,7 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "SoundMusic.h"
+#pragma warning(disable: 4244) //conversion from 'lua_Number' to 'const float', possible loss of data
 
 /*
  * Class: Music
@@ -55,6 +56,11 @@ static int l_get_song(lua_State *l)
  *
  * > Music.Play("songName")
  *
+ * Parameters:
+ *
+ *   name - song file name, without paths or file extension
+ *   repeat - true or false, default true
+ *
  * Availability:
  *
  *   alpha 12
@@ -65,8 +71,11 @@ static int l_get_song(lua_State *l)
  */
 static int l_play(lua_State *l)
 {
-	std::string song(luaL_checkstring(l, 1));
-	Pi::GetMusicPlayer().Play(song, true);
+	const std::string song(luaL_checkstring(l, 1));
+	bool repeat = true;
+	if (!lua_isnil(l, 2))
+		repeat = lua_toboolean(l, 2) != 0;
+	Pi::GetMusicPlayer().Play(song, repeat);
 	return 0;
 }
 
@@ -98,8 +107,11 @@ static int l_stop(lua_State *l)
  *
  * > Music.FadeIn("songName", 0.5)
  *
- * The fade factor of our sound system does not represent any natural unit.
- * Sorry. 0.1 = slow fade, 1.0 = instant.
+ * Parameters:
+ *
+ *   name - song file name, without paths or file extension
+ *   fade factor - 0.1 = slow fade, 1.0 = instant. The fade factor of our sound system does not represent any natural unit. Sorry.
+ *   repeat - true or false, default true
  *
  * Availability:
  *
@@ -113,7 +125,10 @@ static int l_fade_in(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
 	const float fadedelta = luaL_checknumber(l, 2);
-	Pi::GetMusicPlayer().Play(song, true, fadedelta);
+	bool repeat = true;
+	if (!lua_isnil(l, 3))
+		repeat = lua_toboolean(l, 3) != 0;
+	Pi::GetMusicPlayer().Play(song, repeat, fadedelta);
 	return 0;
 }
 
@@ -123,6 +138,10 @@ static int l_fade_in(lua_State *l)
  * Fades the currently playing song to silence and then stops it.
  *
  * > Music.FadeOut(0.8)
+ *
+ * Parameters:
+ *
+ *   fade factor - 0.1 = slow fade, 1.0 = instant.
  *
  * Availability:
  *
@@ -143,7 +162,7 @@ void LuaMusic::Register()
 {
 	lua_State *l = Pi::luaManager.GetLuaState();
 
-	LUA_DEBUG_START();
+	LUA_DEBUG_START(l);
 
 	static const luaL_reg methods[]= {
 		{ "GetSongName", l_get_song },
@@ -159,3 +178,5 @@ void LuaMusic::Register()
 
 	LUA_DEBUG_END(l, 0);
 }
+
+#pragma warning(default: 4244)

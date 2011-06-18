@@ -8,7 +8,7 @@ MusicEvent::MusicEvent(Uint32 id) : Event(id) { }
 
 MusicEvent::~MusicEvent() { }
 
-void MusicEvent::Play(const char *fx, float volume_left, float volume_right, Op op)
+void MusicEvent::Play(const char *fx, const float volume_left, const float volume_right, Op op)
 {
 	Stop();
 	eid = PlayMusic(fx, volume_left, volume_right, op);

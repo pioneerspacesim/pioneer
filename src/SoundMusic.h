@@ -13,7 +13,7 @@ namespace Sound
 		MusicEvent();
 		MusicEvent(Uint32 id);
 		~MusicEvent();
-		virtual void Play(const char *fx, float volume_left, float volume_right, Op op);
+		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 	};
 
 	class MusicPlayer
