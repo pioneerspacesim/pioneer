@@ -73,7 +73,7 @@ static int l_play(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
 	bool repeat = true;
-	if (!lua_isnil(l, 2))
+	if (lua_isboolean(l, 2))
 		repeat = lua_toboolean(l, 2) != 0;
 	Pi::GetMusicPlayer().Play(song, repeat);
 	return 0;
@@ -126,7 +126,7 @@ static int l_fade_in(lua_State *l)
 	const std::string song(luaL_checkstring(l, 1));
 	const float fadedelta = luaL_checknumber(l, 2);
 	bool repeat = true;
-	if (!lua_isnil(l, 3))
+	if (lua_isboolean(l, 3))
 		repeat = lua_toboolean(l, 3) != 0;
 	Pi::GetMusicPlayer().Play(song, repeat, fadedelta);
 	return 0;
