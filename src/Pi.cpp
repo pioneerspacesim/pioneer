@@ -87,7 +87,7 @@ LuaEventQueue<Ship,Body> Pi::luaOnShipHit("onShipHit");
 LuaEventQueue<Ship,Body> Pi::luaOnShipCollided("onShipCollided");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipDocked("onShipDocked");
 LuaEventQueue<Ship,SpaceStation> Pi::luaOnShipUndocked("onShipUndocked");
-LuaEventQueue<Ship> Pi::luaOnShipAlertChanged("onShipAlertChanged");
+LuaEventQueue<Ship,const char *> Pi::luaOnShipAlertChanged("onShipAlertChanged");
 LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
 LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
@@ -1346,7 +1346,11 @@ void Pi::Unserialize(Serializer::Reader &rd)
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 {
-	return 200.0f * hyperclass * hyperclass / float(total_mass_in_tonnes);
+	// for the sake of hyperspace range, we count ships mass as 60% of original.
+	// Brian: "The 60% value was arrived at through trial and error, 
+	// to scale the entire jump range calculation after things like ship mass,
+	// cargo mass, hyperdrive class, fuel use and fun were factored in."
+	return 200.0f * hyperclass * hyperclass / (float(total_mass_in_tonnes)*0.6);
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)

@@ -2,11 +2,33 @@ Alpha 12
 
   * New features
     * New star and planet images in system info view (#167)
+    * 'Home' key resets camera in external view (#199)
+    * Re-implemented and re-enabled old hill, mountain, volcano, desert and
+      river terrains for Earth and Mars-like worlds (#211)
+    * New "dunes" terrain for Mars-like worlds (#211)
+    * Earth terrain tweaks: more noise variations and reduced mountain
+      height (#211)
+    * System information (F7) button cycles through info tabs in system info
+      view (#212)
+    * Pause buttons now toggles game settings if game is already
+      paused (#217, #221)
+    * Can now set navigation target by clicking on bodies in the system info
+      view. Body info is displayed on mouse hover (#220)
+    * Lots of new parts for facegen (#213)
+    * User configurable FOV support in the config file (#219)
 
   * Fixes
-    * Lua model args passed as doubles to avoid loss of precision (eg time)
-    * All model timing now based of game time
-    * City models are now loaded at startup
+    * Lua model args passed as doubles to avoid loss of precision (eg
+      time) (#174, #176)
+    * Removed misleading F7/F8 text from zoom icons (#201)
+    * Pass alert state to Lua onShipAlertChanged event (#191, #195)
+    * Avoid loss of precision when calculating radius of very tiny bodies (#189)
+    * Hyperspace range is displayed correctly again (#222)
+
+  * Internal changes
+    * All model timing now based of game time (#175, #178)
+    * City models are now loaded at startup (#71)
+    * All terrains optimised (octave count reduced) (#211)
 
 Alpha 11
 

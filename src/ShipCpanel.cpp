@@ -11,6 +11,7 @@
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "GalacticView.h"
+#include "GameMenuView.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
@@ -272,7 +273,13 @@ void ShipCpanel::OnChangeMapView(enum MapView view)
 	switch (m_currentMapView) {
 		case MAP_SECTOR: Pi::SetView(Pi::sectorView); break;
 		case MAP_SYSTEM: Pi::SetView(Pi::systemView); break;
-		case MAP_INFO: Pi::SetView(Pi::systemInfoView); break;
+		case MAP_INFO:
+			if (Pi::GetView() == Pi::systemInfoView) {
+				Pi::systemInfoView->NextPage();
+			} else {
+				Pi::SetView(Pi::systemInfoView);
+			}
+			break;
 		case MAP_GALACTIC: Pi::SetView(Pi::galacticView); break;
 	}
 	for (int i=0; i<4; i++) m_mapViewButtons[i]->Show();
@@ -286,8 +293,13 @@ void ShipCpanel::HideMapviewButtons()
 void ShipCpanel::OnClickTimeaccel(int val)
 {
 	Pi::BoinkNoise();
-	/* May not happen, as time accel is limited by proximity to stuff */
-	Pi::RequestTimeAccel(val);
+	if ((Pi::GetTimeAccelIdx() == val) && (val == 0)) {
+		if (Pi::GetView() != Pi::gameMenuView)
+			Pi::SetView(Pi::gameMenuView);
+		else
+			Pi::SetView(Pi::worldView);
+	} else
+		Pi::RequestTimeAccel(val);
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
