@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "Sound.h"
 #include <string>
+#include <vector>
 
 namespace Sound
 {
