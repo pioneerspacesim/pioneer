@@ -19,7 +19,7 @@ static float m_globalVol = 1.0f;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	8 //first two are for music
+#define MAX_WAVSTREAMS	10 //first two are for music
 #define STREAM_IF_LONGER_THAN 10.0
 
 void SetGlobalVolume(const float vol)
@@ -139,7 +139,7 @@ eventid PlaySfx (const char *fx, const float volume_left, const float volume_rig
 	if (idx == MAX_WAVSTREAMS) {
 		/* otherwise overwrite oldest one */
 		age = 0; idx = 0;
-		for (int i=0; i<MAX_WAVSTREAMS; i++) {
+		for (int i=2; i<MAX_WAVSTREAMS; i++) {
 			if ((i==0) || (wavstream[i].buf_pos > age)) {
 				idx = i;
 				age = wavstream[i].buf_pos;
