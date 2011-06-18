@@ -4,15 +4,19 @@ local test = function()
 end
 
 local test2 = function(ship, alert)
-	--todo: check alert level so this does not play so often
-	Music.Play("knighty");
+	if not ship:IsPlayer() then return end
+	if alert == 'SHIP_NEARBY' then
+		Music.Play("knighty");
+	end
 end
 
 local test3 = function(ship, station)
+	if not ship:IsPlayer() then return end
 	Music.FadeIn("love", 0.5)
 end
 
 local test4 = function(ship, station)
+	if not ship:IsPlayer() then return end
 	Music.FadeIn("biisi", 0.5)
 	--~ Music.FadeOut(0.5)
 end
