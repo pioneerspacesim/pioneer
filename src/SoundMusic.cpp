@@ -97,4 +97,12 @@ const std::string MusicPlayer::GetCurrentSongName()
 	return m_currentSongName;
 }
 
+const std::vector<std::string> MusicPlayer::GetSongList()
+{
+	std::vector<std::string> foo;
+	foo.push_back("Durr");
+	foo.push_back("Hur");
+	return foo;
+}
+
 } /* namespace sound */

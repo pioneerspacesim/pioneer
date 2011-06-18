@@ -5,6 +5,10 @@ end
 
 local test2 = function(ship, alert)
 	if not ship:IsPlayer() then return end
+	songs = Music.GetSongList()
+	for key,value in pairs(songs) do
+		print(value)
+	end
 	if alert == 'SHIP_NEARBY' then
 		Music.Play("knighty");
 	end
