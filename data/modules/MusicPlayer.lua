@@ -4,7 +4,7 @@ local test = function()
 	print("Available songs:\n--------------")
 	songs = Music.GetSongList()
 	for key,value in pairs(songs) do
-		print(value)
+		print(key, value)
 	end
 end
 
@@ -27,12 +27,12 @@ local test4 = function(ship, station)
 end
 
 local test5 = function()
-	Music.Play("tingle")
+	Music.Play("gameover")
 end
 
 local test6 = function(ship, body)
 	if not ship:IsPlayer() then return end
-	Music.Play("gameover", false)
+	Music.Play("gameover")
 	--Music.FadeOut(0.5)
 end
 
@@ -40,6 +40,6 @@ EventQueue.onGameStart:Connect(test)
 EventQueue.onShipAlertChanged:Connect(test2)
 EventQueue.onShipDocked:Connect(test3)
 EventQueue.onShipUndocked:Connect(test4)
---~ EventQueue.onSongFinished:Connect(test5)
+EventQueue.onSongFinished:Connect(test5)
 EventQueue.onShipDestroyed:Connect(test6)
 
