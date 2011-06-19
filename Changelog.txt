@@ -16,6 +16,8 @@ Alpha 12
       view. Body info is displayed on mouse hover (#220)
     * Lots of new parts for facegen (#213)
     * User configurable FOV support in the config file (#219)
+    * Distance and fuel required text in sector view now colourised to
+      indicate if jump is possible (#227)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
