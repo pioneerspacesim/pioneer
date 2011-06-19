@@ -27,12 +27,15 @@ local test4 = function(ship, station)
 end
 
 local test5 = function()
-	Music.Play("gameover")
+	Music.Play("biisi")
 end
 
 local test6 = function(ship, body)
-	if not ship:IsPlayer() then return end
-	Music.Play("gameover")
+	if ship:IsPlayer() then
+		Music.Play("gameover") --boo
+	else
+		Music.Play("tingle", false) --hooray
+	end
 	--Music.FadeOut(0.5)
 end
 
