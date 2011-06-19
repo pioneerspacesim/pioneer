@@ -1,5 +1,6 @@
 #include "SoundMusic.h"
 #include "libs.h" //for clamp
+#include "Pi.h"
 #include <map>
 
 namespace Sound {
@@ -100,12 +101,12 @@ const std::string MusicPlayer::GetCurrentSongName()
 	return m_currentSongName;
 }
 
-const std::vector<std::pair<std::string, std::string>> MusicPlayer::GetSongList()
+const std::vector<std::pair<std::string, std::string> > MusicPlayer::GetSongList()
 {
 	//simple and not foolproof way of separating music from sfx
 	using std::string;
 	using std::pair;
-	std::vector<pair<string, string>> songs;
+	std::vector<pair<string, string> > songs;
 	const std::map<string, Sample> samples = Sound::GetSamples();
 	const string music("music");
 	for (std::map<string, Sample>::const_iterator it = samples.begin();

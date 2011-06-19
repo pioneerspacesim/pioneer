@@ -196,10 +196,10 @@ static int l_get_song_list(lua_State *l)
 	using std::vector;
 	using std::string;
 	using std::pair;
-	const vector<pair<string, string>> vec = Pi::GetMusicPlayer().GetSongList();
+	const vector<pair<string, string> > vec = Pi::GetMusicPlayer().GetSongList();
 	lua_newtable(l);
 	int idx = 1;
-	for (vector<pair<string, string>>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
+	for (vector<pair<string, string> >::const_iterator it = vec.begin(); it != vec.end(); ++it) {
 		lua_pushstring(l, it->first.c_str());
 		lua_pushstring(l, it->second.c_str());
 		lua_settable(l, -3);
