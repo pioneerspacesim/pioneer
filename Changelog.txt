@@ -31,6 +31,7 @@ Alpha 12
     * All model timing now based of game time (#175, #178)
     * City models are now loaded at startup (#71)
     * All terrains optimised (octave count reduced) (#211)
+    * Optionally use ccache to speed up builds (#235)
 
 Alpha 11
 
