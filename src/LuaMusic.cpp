@@ -13,7 +13,7 @@
  *
  * Triggered when a non-repeating song has played all the way to the end.
  *
- * Besides songs on repeat, this event does not trigger when a song finishes
+ * This event does not not trigger when a song finishes
  * prematurely (sound system stopped, another song starts playing).
  *
  * Availability:
@@ -170,14 +170,18 @@ static int l_fade_out(lua_State *l)
 /*
  * Method: GetSongList
  *
- * Returns an array of the available song names.
+ * Returns an table of the available song names and their paths.
+ * The paths can be useful if you want to categorize the music.
  *
  * Example:
  *
  * > songs = Music.GetSongList()
  * > for key,value in pairs(songs) do
- * >     print(value)
+ * >     print(key, value)
  * > end
+ * > -- prints:
+ * > -- tingle    data/music/tingle.ogg
+ * > -- knighty   data/music/knighty.ogg
  *
  * Availability:
  *
@@ -191,12 +195,13 @@ static int l_get_song_list(lua_State *l)
 {
 	using std::vector;
 	using std::string;
-	const vector<string> vec = Pi::GetMusicPlayer().GetSongList();
+	using std::pair;
+	const vector<pair<string, string>> vec = Pi::GetMusicPlayer().GetSongList();
 	lua_newtable(l);
 	int idx = 1;
-	for (vector<string>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
-		lua_pushinteger(l, idx);
-		lua_pushstring(l, it->c_str());
+	for (vector<pair<string, string>>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
+		lua_pushstring(l, it->first.c_str());
+		lua_pushstring(l, it->second.c_str());
 		lua_settable(l, -3);
 		++idx;
 	}

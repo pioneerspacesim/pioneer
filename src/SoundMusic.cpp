@@ -38,6 +38,7 @@ float MusicPlayer::GetVolume() const
 void MusicPlayer::SetVolume(const float vol)
 {
 	m_volume = Clamp(vol, 0.f, 1.f);
+	//the other song might be fading out so don't set its volume
 	if (m_eventOnePlaying && m_eventOne.IsPlaying())
 		m_eventOne.SetVolume(m_volume);
 	else if (m_eventTwo.IsPlaying())
@@ -70,6 +71,7 @@ void MusicPlayer::Stop()
 {
 	m_eventOne.Stop();
 	m_eventTwo.Stop();
+	m_playing = false;
 }
 
 void MusicPlayer::FadeOut(const float fadeDelta)
@@ -85,13 +87,12 @@ void MusicPlayer::FadeOut(const float fadeDelta)
 
 void MusicPlayer::Update()
 {
-	//finish should trigger if:
-	// - song plays all the way to the end
-	// - song is not repeating
-	/*if(m_playing && !m_eventOne.IsPlaying()) {
-		Pi::luaOnSongFinished.Signal();
-		m_playing = false;
-	}*/
+	if (m_playing) { //expecting report
+		if ((m_eventOnePlaying && !m_eventOne.IsPlaying()) || (!m_eventOnePlaying && !m_eventTwo.IsPlaying())) {
+			Pi::luaOnSongFinished.Signal();
+			m_playing = false;
+		}
+	}
 }
 
 const std::string MusicPlayer::GetCurrentSongName()
@@ -99,11 +100,12 @@ const std::string MusicPlayer::GetCurrentSongName()
 	return m_currentSongName;
 }
 
-const std::vector<std::string> MusicPlayer::GetSongList()
+const std::vector<std::pair<std::string, std::string>> MusicPlayer::GetSongList()
 {
 	//simple and not foolproof way of separating music from sfx
 	using std::string;
-	std::vector<string> songs;
+	using std::pair;
+	std::vector<pair<string, string>> songs;
 	const std::map<string, Sample> samples = Sound::GetSamples();
 	const string music("music");
 	for (std::map<string, Sample>::const_iterator it = samples.begin();
@@ -111,7 +113,7 @@ const std::vector<std::string> MusicPlayer::GetSongList()
 		const string path = it->second.path;
 		const size_t found = path.find(music);
 		if (found != string::npos)
-			songs.push_back(it->first.c_str());
+			songs.push_back(pair<string, string>(it->first.c_str(), path));
 	}
 
 	return songs;

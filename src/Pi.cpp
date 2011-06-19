@@ -378,6 +378,8 @@ void Pi::Init()
 		Sound::Init();
 		Sound::SetGlobalVolume(config.Float("SfxVolume"));
 		Sound::Pause(0);
+
+		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
 	}
 	draw_progress(1.0f);
 

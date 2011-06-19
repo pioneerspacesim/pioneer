@@ -5,6 +5,7 @@
 #include "Sound.h"
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace Sound
 {
@@ -29,7 +30,7 @@ namespace Sound
 		void FadeOut(const float fadeDelta);
 		void Update();
 		const std::string GetCurrentSongName();
-		const std::vector<std::string> GetSongList();
+		const std::vector<std::pair<std::string, std::string>> GetSongList();
 	private:
 		float m_volume;
 		//two streams for crossfade
