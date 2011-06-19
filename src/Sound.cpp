@@ -15,21 +15,32 @@
 
 namespace Sound {
 
-static float m_globalVol = 1.0f;
+static float m_masterVol = 1.0f;
+static float m_sfxVol = 1.0f;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
 #define MAX_WAVSTREAMS	10 //first two are for music
 #define STREAM_IF_LONGER_THAN 10.0
 
-void SetGlobalVolume(const float vol)
+void SetMasterVolume(const float vol)
 {
-	m_globalVol = vol;
+	m_masterVol = vol;
 }
 
-float GetGlobalVolume()
+float GetMasterVolume()
 {
-	return m_globalVol;
+	return m_masterVol;
+}
+
+void SetSfxVolume(const float vol)
+{
+	m_sfxVol = vol;
+}
+
+float GetSfxVolume()
+{
+	return m_sfxVol;
 }
 
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
@@ -149,12 +160,12 @@ eventid PlaySfx (const char *fx, const float volume_left, const float volume_rig
 	}
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
-	wavstream[idx].volume[0] = volume_left;
-	wavstream[idx].volume[1] = volume_right;
+	wavstream[idx].volume[0] = volume_left * GetSfxVolume();
+	wavstream[idx].volume[1] = volume_right * GetSfxVolume();
 	wavstream[idx].op = op;
 	wavstream[idx].identifier = identifier;
-	wavstream[idx].targetVolume[0] = volume_left;
-	wavstream[idx].targetVolume[1] = volume_right;
+	wavstream[idx].targetVolume[0] = volume_left * GetSfxVolume();
+	wavstream[idx].targetVolume[1] = volume_right * GetSfxVolume();
 	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
 	SDL_UnlockAudio();
 	return identifier++;
@@ -176,7 +187,7 @@ eventid PlayMusic(const char *fx, const float volume_left, const float volume_ri
 	wavstream[idx].volume[1] = volume_right;
 	wavstream[idx].op = op;
 	wavstream[idx].identifier = identifier;
-	wavstream[idx].targetVolume[0] = volume_left;
+	wavstream[idx].targetVolume[0] = volume_left; //already scaled in MusicPlayer
 	wavstream[idx].targetVolume[1] = volume_right;
 	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
 	SDL_UnlockAudio();
@@ -323,7 +334,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 	
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
 	for (int pos=0; pos<len_in_floats; pos++) {
-		const float val = m_globalVol * tmpbuf[pos];
+		const float val = m_masterVol * tmpbuf[pos];
 		(reinterpret_cast<Sint16*>(dsp_buf))[pos] = Sint16(Clamp(val, -32768.0f, 32767.0f));
 	}
 }

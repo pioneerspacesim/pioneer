@@ -376,10 +376,10 @@ void Pi::Init()
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
-		Sound::SetGlobalVolume(config.Float("SfxVolume"));
-		Sound::Pause(0);
-
+		Sound::SetMasterVolume(config.Float("MasterVolume"));
+		Sound::SetSfxVolume(config.Float("SfxVolume"));
 		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
+		Sound::Pause(0);
 	}
 	draw_progress(1.0f);
 

@@ -31,6 +31,7 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
+	Gui::Adjustment *m_masterVolume;
 	Gui::Adjustment *m_sfxVolume;
 	Gui::Adjustment *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;

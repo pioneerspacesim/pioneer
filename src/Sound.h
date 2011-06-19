@@ -59,8 +59,10 @@ eventid PlaySfx (const char *fx, const float volume_left, const float volume_rig
 eventid PlayMusic (const char *fx, const float volume_left, const float volume_right, const Op op);
 inline static eventid PlaySfx (const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 0); }
 eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
-void SetGlobalVolume(const float vol);
-float GetGlobalVolume();
+void SetMasterVolume(const float vol);
+float GetMasterVolume();
+void SetSfxVolume(const float vol);
+float GetSfxVolume();
 const std::map<std::string, Sample> & GetSamples();
 
 } /* namespace Sound */
