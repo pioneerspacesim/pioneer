@@ -1969,11 +1969,14 @@ StarSystem *StarSystem::GetCached(int sectorX, int sectorY, int systemNum)
 
 void StarSystem::ShrinkCache()
 {
-	for (std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin(); i != s_cachedSystems.end(); i++) {
+	std::map<SysLoc,StarSystem*>::iterator i = s_cachedSystems.begin();
+	while (i != s_cachedSystems.end()) {
 		StarSystem *s = (*i).second;
 		if (s->GetRefCount() == 0) {
 			delete s;
-			s_cachedSystems.erase(i);
+			s_cachedSystems.erase(i++);
 		}
+		else
+			i++;
 	}
 }
