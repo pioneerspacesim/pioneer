@@ -286,8 +286,17 @@ void InfoView::Draw3D()
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
 	static float rot1, rot2;
-	rot1 += .5*Pi::GetFrameTime();
-	rot2 += Pi::GetFrameTime();
+	if (Pi::MouseButtonState(3)) {
+		int m[2];
+		Pi::GetMouseMotion(m);
+		rot1 += -0.002*m[1];
+		rot2 += -0.002*m[0];
+	}
+	else
+	{
+		rot1 += .5*Pi::GetFrameTime();
+		rot2 += Pi::GetFrameTime();
+	}
 	glClearColor(0,.2,.4,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
