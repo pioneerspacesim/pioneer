@@ -352,7 +352,9 @@ void WorldView::Draw3D()
 	float znear, zfar;
 	GetNearFarClipPlane(&znear, &zfar);
 	// why the hell do i give these functions such big names..
-	const float zoom = 0.9f; // angle of viewing = 2.0*atan(zoom);
+   const float FOV_MAX = 170.0f; // Maximum FOV in degrees
+   const float FOV_MIN = 20.0f;  // Minimum FOV in degrees
+	const float zoom = tan(DEG2RAD(Clamp(Pi::config.Float("FOV"), FOV_MIN, FOV_MAX)/2.0f)); // angle of viewing = 2.0*atan(zoom);
 	const float left = zoom * znear;
 	const float fracH = left / Pi::GetScrAspect();
 	glFrustum(-left, left, -fracH, fracH, znear, zfar);
