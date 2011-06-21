@@ -8,6 +8,7 @@
 #include <string>
 #include "View.h"
 #include "SysLoc.h"
+#include "Sector.h"
 
 class SectorView: public View {
 public:
@@ -26,6 +27,8 @@ private:
 	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
 	void OnClickSystem(int sx, int sy, int sys_idx);
 	void MouseButtonDown(int button, int x, int y);
+	Sector* GetCached(int sectorX, int sectorY);
+	void ShrinkCache();
 
 	float m_zoom;
 	int m_secx, m_secy;
@@ -46,6 +49,8 @@ private:
 	Gui::Label *m_shortDesc;
 	Gui::LabelSet *m_clickableLabels;
 	sigc::connection m_onMouseButtonDown;
+
+	std::map<SysLoc,Sector*> m_sectorCache;
 };
 
 #endif /* _SECTORVIEW_H */

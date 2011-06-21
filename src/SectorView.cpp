@@ -148,8 +148,8 @@ void SectorView::Draw3D()
 	
 void SectorView::GotoSystem(int sector_x, int sector_y, int system_idx)
 {
-	Sector s = Sector(sector_x, sector_y);
-	const vector3f &p = s.m_systems[system_idx].p;
+	Sector* ps = GetCached(sector_x, sector_y);
+	const vector3f &p = ps->m_systems[system_idx].p;
 	m_pxMovingTo = sector_x + p.x/Sector::SIZE;
 	m_pyMovingTo = sector_y + p.y/Sector::SIZE;
 }
@@ -173,7 +173,7 @@ void SectorView::DrawSector(int sx, int sy)
 {
 	int playerLocSecX, playerLocSecY, playerLocSysIdx;
 	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
-	Sector s = Sector(sx, sy);
+	Sector* ps = GetCached(sx, sy);
 	glColor3f(0,.8,0);
 	glBegin(GL_LINE_LOOP);
 		glVertex3f(0, 0, 0);
@@ -184,7 +184,7 @@ void SectorView::DrawSector(int sx, int sy)
 	
 	if (!(sx || sy)) glColor3f(1,1,0);
 	int num=0;
-	for (std::vector<Sector::System>::iterator i = s.m_systems.begin(); i != s.m_systems.end(); ++i) {
+	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
 		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, 0);
@@ -202,6 +202,41 @@ void SectorView::DrawSector(int sx, int sy)
 			(StarSystem::starScale[(*i).starType[0]]));
 		glCallList(m_gluDiskDlist);
 		glScalef(2,2,2);
+
+		// only do this once we've pretty much stopped moving.
+		float diffx = fabs(m_pxMovingTo - m_px);
+		float diffy = fabs(m_pyMovingTo - m_py);
+		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
+		if( !(*i).IsSetInhabited() && diffx < 0.001f && diffy < 0.001f ) {
+			StarSystem* pSS = StarSystem::GetCached(sx, sy, num);
+			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
+			{
+				(*i).SetInhabited(true);
+			}
+			else
+			{
+				(*i).SetInhabited(false);
+			}
+			pSS->DecRefCount();
+		}
+		// Pulse populated stars
+		if( (*i).IsSetInhabited() && (*i).IsInhabited() )
+		{
+			// precise to the rendered frame (better than PHYSICS_HZ granularity)
+			double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
+			float radius = 1.5f+(0.5*sin(5.0*(preciseTime+double(num))));
+
+			// I-IS-ALIVE indicator
+			glPushMatrix();
+			{
+				glDepthRange(0.3,1.0);
+				glColor3f(0.8f,0.0f,0.0f);
+				glScalef(radius,radius,radius);
+				glCallList(m_gluDiskDlist);
+			}
+			glPopMatrix();
+		}
+
 		// player location indicator
 		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
 			const shipstats_t *stats = Pi::player->CalcStats();
@@ -290,14 +325,14 @@ void SectorView::Update()
 	m_secx = int(floor(m_px));
 	m_secy = int(floor(m_py));
 
-	Sector s = Sector(m_secx, m_secy);
+	Sector* ps = GetCached(m_secx, m_secy);
 	float px = FFRAC(m_px)*Sector::SIZE;
 	float py = FFRAC(m_py)*Sector::SIZE;
 
 	m_selected = -1;
 	float min_dist = FLT_MAX;
-	for (unsigned int i=0; i<s.m_systems.size(); i++) {
-		Sector::System *ss = &s.m_systems[i];
+	for (unsigned int i=0; i<ps->m_systems.size(); i++) {
+		Sector::System *ss = &ps->m_systems[i];
 		float dx = px - ss->p.x;
 		float dy = py - ss->p.y;
 		float dist = sqrtf(dx*dx + dy*dy);
@@ -365,6 +400,9 @@ void SectorView::Update()
 		m_shortDesc->SetText(sys->GetShortDescription());
 
 		m_lastShownLoc = sys->GetLocation();
+
+		// Think we'll only need to do this when our location has changed.
+		ShrinkCache();
 	}
 }
 
@@ -377,3 +415,42 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 			m_zoom *= pow(0.5f, ft);
 }
 
+Sector* SectorView::GetCached(int sectorX, int sectorY)
+{
+    const SysLoc loc(sectorX, sectorY, 0);
+
+	Sector *s = 0;
+
+	for (std::map<SysLoc,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
+		if ((*i).first == loc)
+			s = (*i).second;
+	}
+
+	if (!s) {
+		s = new Sector(sectorX, sectorY);
+		m_sectorCache.insert( std::pair<SysLoc,Sector*>(loc, s) );
+	}
+
+	return s;
+}
+
+void SectorView::ShrinkCache()
+{
+	// we're going to use these to determine if our sectors are within the range that we'll ever render
+	const int xmin = m_secx-DRAW_RAD;	// xmin
+	const int xmax = m_secx+DRAW_RAD;	// xmax
+	const int ymin = m_secy-DRAW_RAD;	// ymin
+	const int ymax = m_secy+DRAW_RAD;	// ymax
+
+	std::map<SysLoc,Sector*>::iterator iter = m_sectorCache.begin();
+	while (iter != m_sectorCache.end())	{
+		Sector *s = (*iter).second;
+		//check_point_in_box
+		if (s && !s->WithinBox( xmin, xmax, ymin, ymax )) {
+			delete s;
+			m_sectorCache.erase( iter++ ); 
+		} else {
+			iter++;
+		}
+	}
+}
