@@ -44,7 +44,7 @@
  *
  *   experimental
  */
-static int l_get_song(lua_State *l)
+static int l_music_get_song(lua_State *l)
 {
 	lua_pushstring(l, Pi::GetMusicPlayer().GetCurrentSongName().c_str());
 	return 1;
@@ -72,7 +72,7 @@ static int l_get_song(lua_State *l)
  *
  *   experimental
  */
-static int l_play(lua_State *l)
+static int l_music_play(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
 	bool repeat = true;
@@ -99,7 +99,7 @@ static int l_play(lua_State *l)
  *
  *   experimental
  */
-static int l_stop(lua_State *l)
+static int l_music_stop(lua_State *l)
 {
 	Pi::GetMusicPlayer().Stop();
 	return 0;
@@ -128,7 +128,7 @@ static int l_stop(lua_State *l)
  *
  *   experimental
  */
-static int l_fade_in(lua_State *l)
+static int l_music_fade_in(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
 	const float fadedelta = luaL_checknumber(l, 2);
@@ -160,7 +160,7 @@ static int l_fade_in(lua_State *l)
  *
  *   experimental
  */
-static int l_fade_out(lua_State *l)
+static int l_music_fade_out(lua_State *l)
 {
 	const float fadedelta = luaL_checknumber(l, 1);
 	Pi::GetMusicPlayer().FadeOut(fadedelta);
@@ -191,7 +191,7 @@ static int l_fade_out(lua_State *l)
  *
  *   experimental
  */
-static int l_get_song_list(lua_State *l)
+static int l_music_get_song_list(lua_State *l)
 {
 	using std::vector;
 	using std::string;
@@ -215,12 +215,12 @@ void LuaMusic::Register()
 	LUA_DEBUG_START(l);
 
 	static const luaL_reg methods[]= {
-		{ "GetSongName", l_get_song },
-		{ "GetSongList", l_get_song_list },
-		{ "Play", l_play },
-		{ "Stop", l_stop},
-		{ "FadeIn", l_fade_in },
-		{ "FadeOut", l_fade_out },
+		{ "GetSongName", l_music_get_song },
+		{ "GetSongList", l_music_get_song_list },
+		{ "Play", l_music_play },
+		{ "Stop", l_music_stop},
+		{ "FadeIn", l_music_fade_in },
+		{ "FadeOut", l_music_fade_out },
 		{0, 0}
 	};
 
