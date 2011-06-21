@@ -120,4 +120,9 @@ const std::vector<std::pair<std::string, std::string> > MusicPlayer::GetSongList
 	return songs;
 }
 
+bool MusicPlayer::IsPlaying()
+{
+	return (m_eventOne.IsPlaying() || m_eventTwo.IsPlaying());
+}
+
 } /* namespace sound */

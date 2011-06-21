@@ -208,6 +208,30 @@ static int l_music_get_song_list(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: IsPlaying
+ *
+ * Check if music is currently playing.
+ *
+ * Returns:
+ *
+ *   true or false
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_music_is_playing(lua_State *l)
+{
+	const bool playing = Pi::GetMusicPlayer().IsPlaying();
+	lua_pushboolean(l, playing);
+	return 1;
+}
+
 void LuaMusic::Register()
 {
 	lua_State *l = Pi::luaManager.GetLuaState();
@@ -221,6 +245,7 @@ void LuaMusic::Register()
 		{ "Stop", l_music_stop},
 		{ "FadeIn", l_music_fade_in },
 		{ "FadeOut", l_music_fade_out },
+		{ "IsPlaying", l_music_is_playing },
 		{0, 0}
 	};
 

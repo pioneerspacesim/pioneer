@@ -31,6 +31,7 @@ namespace Sound
 		void Update();
 		const std::string GetCurrentSongName();
 		const std::vector<std::pair<std::string, std::string> > GetSongList();
+		bool IsPlaying();
 	private:
 		float m_volume;
 		//two streams for crossfade
