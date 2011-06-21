@@ -400,6 +400,9 @@ void SectorView::Update()
 		m_shortDesc->SetText(sys->GetShortDescription());
 
 		m_lastShownLoc = sys->GetLocation();
+
+		// Think we'll only need to do this when our location has changed.
+		ShrinkCache();
 	}
 }
 
