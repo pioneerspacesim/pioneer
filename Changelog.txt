@@ -18,6 +18,7 @@ Alpha 12
     * User configurable FOV support in the config file (#219)
     * Distance and fuel required text in sector view now colourised to
       indicate if jump is possible (#227)
+    * Highlight populated systems in sector view (#242)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
