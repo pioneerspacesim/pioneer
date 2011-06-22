@@ -101,20 +101,16 @@ const std::string MusicPlayer::GetCurrentSongName()
 	return m_currentSongName;
 }
 
-const std::vector<std::pair<std::string, std::string> > MusicPlayer::GetSongList()
+const std::vector<std::string> MusicPlayer::GetSongList()
 {
-	//simple and not foolproof way of separating music from sfx
 	using std::string;
 	using std::pair;
-	std::vector<pair<string, string> > songs;
+	std::vector<string> songs;
 	const std::map<string, Sample> samples = Sound::GetSamples();
-	const string music("music");
 	for (std::map<string, Sample>::const_iterator it = samples.begin();
-		 it != samples.end(); ++it) {
-		const string path = it->second.path;
-		const size_t found = path.find(music);
-		if (found != string::npos)
-			songs.push_back(pair<string, string>(it->first.c_str(), path));
+		it != samples.end(); ++it) {
+			if (it->second.isMusic)
+				songs.push_back(it->first.c_str());
 	}
 
 	return songs;

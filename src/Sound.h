@@ -22,6 +22,7 @@ struct Sample {
 	int upsample; // 1 = 44100, 2=22050
 	/* if buf is null, this will be path to an ogg we must stream */
 	std::string path;
+	bool isMusic;
 };
 
 class Event {

@@ -34,7 +34,7 @@
  *
  * > name = Music.GetSongName()
  *
- * The name does not include any paths or the .ogg suffix.
+ * The name does not include the data/music/ prefix or .ogg suffix.
  *
  * Availability:
  *
@@ -57,11 +57,11 @@ static int l_music_get_song(lua_State *l)
  *
  * Example:
  *
- * > Music.Play("songName")
+ * > Music.Play("action/track01")
  *
  * Parameters:
  *
- *   name - song file name, without paths or file extension
+ *   name - song file name, without data/music/ or file extension
  *   repeat - true or false, default true
  *
  * Availability:
@@ -116,7 +116,7 @@ static int l_music_stop(lua_State *l)
  *
  * Parameters:
  *
- *   name - song file name, without paths or file extension
+ *   name - song file name, without data/music/ or file extension
  *   fade factor - 0.1 = slow fade, 1.0 = instant. The fade factor of our sound system does not represent any natural unit. Sorry.
  *   repeat - true or false, default true
  *
@@ -170,8 +170,7 @@ static int l_music_fade_out(lua_State *l)
 /*
  * Method: GetSongList
  *
- * Returns an table of the available song names and their paths.
- * The paths can be useful if you want to categorize the music.
+ * Returns an table of the available song names.
  *
  * Example:
  *
@@ -180,8 +179,8 @@ static int l_music_fade_out(lua_State *l)
  * >     print(key, value)
  * > end
  * > -- prints:
- * > -- tingle    data/music/tingle.ogg
- * > -- knighty   data/music/knighty.ogg
+ * > -- 1   tingle
+ * > -- 2   action/knighty
  *
  * Availability:
  *
@@ -195,13 +194,12 @@ static int l_music_get_song_list(lua_State *l)
 {
 	using std::vector;
 	using std::string;
-	using std::pair;
-	const vector<pair<string, string> > vec = Pi::GetMusicPlayer().GetSongList();
+	const vector<string> vec = Pi::GetMusicPlayer().GetSongList();
 	lua_newtable(l);
 	int idx = 1;
-	for (vector<pair<string, string> >::const_iterator it = vec.begin(); it != vec.end(); ++it) {
-		lua_pushstring(l, it->first.c_str());
-		lua_pushstring(l, it->second.c_str());
+	for (vector<string>::const_iterator it = vec.begin(); it != vec.end(); ++it) {
+		lua_pushnumber(l, idx);
+		lua_pushstring(l, it->c_str());
 		lua_settable(l, -3);
 		++idx;
 	}

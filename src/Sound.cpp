@@ -17,6 +17,7 @@ namespace Sound {
 
 static float m_masterVol = 1.0f;
 static float m_sfxVol = 1.0f;
+static bool m_loadingMusic = false;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
@@ -399,8 +400,17 @@ static void load_sound(const std::string &basename, const std::string &path)
 			}
 		}
 
-		// sample keyed by basename minus the .ogg
-		sfx_samples[basename.substr(0, basename.size()-4)] = sample;
+		//music keyed by pathname minus data/music/ minus ogg
+		if (m_loadingMusic) {
+			sample.isMusic = true;
+			const std::string prefix = "data/music/";
+			const std::string key = path.substr(prefix.size(), path.size()-prefix.size()-4);
+			sfx_samples[key] = sample;
+		} else {
+			// sfx keyed by basename minus the .ogg
+			sample.isMusic = false;
+			sfx_samples[basename.substr(0, basename.size()-4)] = sample;
+		}
 
 		ov_clear(&oggv);
 
@@ -438,7 +448,9 @@ bool Init ()
 		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
 		//musics, too
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
+		m_loadingMusic = true;
 		foreach_file_in(PIONEER_DATA_DIR "/music", &load_sound);
+		m_loadingMusic = false;
 	}
 
 	/* silence any sound events */
