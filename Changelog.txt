@@ -16,6 +16,11 @@ Alpha 12
       view. Body info is displayed on mouse hover (#220)
     * Lots of new parts for facegen (#213)
     * User configurable FOV support in the config file (#219)
+    * Distance and fuel required text in sector view now colourised to
+      indicate if jump is possible (#227)
+    * Highlight populated systems in sector view (#242)
+    * Mouse can now control ship rotation in ship info and shipyard (#243)
+    * Music engine with Lua interface (#233)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
@@ -24,11 +29,13 @@ Alpha 12
     * Pass alert state to Lua onShipAlertChanged event (#191, #195)
     * Avoid loss of precision when calculating radius of very tiny bodies (#189)
     * Hyperspace range is displayed correctly again (#222)
+    * Occasional crash in system cache pruning (#230, #237)
 
   * Internal changes
     * All model timing now based of game time (#175, #178)
     * City models are now loaded at startup (#71)
     * All terrains optimised (octave count reduced) (#211)
+    * Optionally use ccache to speed up builds (#235)
 
 Alpha 11
 

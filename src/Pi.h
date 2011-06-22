@@ -31,6 +31,7 @@ class Ship;
 class SBodyPath;
 class GameMenuView;
 struct lua_State;
+namespace Sound { class MusicPlayer; }
 
 #if OBJECTVIEWER
 class ObjectViewerView;
@@ -124,6 +125,7 @@ public:
 	static LuaEventQueue<Ship> luaOnAICompleted;
 	static LuaEventQueue<SpaceStation> luaOnCreateBB;
 	static LuaEventQueue<SpaceStation> luaOnUpdateBB;
+	static LuaEventQueue<> luaOnSongFinished;
 
 	static MTRand rng;
 	static int statSceneTris;
@@ -148,6 +150,7 @@ public:
 	static GLUquadric *gluQuadric;
 	static StarSystem *currentSystem;
 	static lua_State *luaPersistent;
+	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 
 #if OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
@@ -195,6 +198,7 @@ private:
 		std::vector<float> axes;
 	};
 	static std::vector<JoystickState> joysticks;
+	static Sound::MusicPlayer musicPlayer;
 };
 
 #endif /* _PI_H */

@@ -300,3 +300,11 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 	}
 }
 
+bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax) const {
+	if(sx >= Xmin && sx <= Xmax) {
+		if(sy >= Ymin && sy <= Ymax) {
+			return true;
+		}
+	}
+	return false;
+}
