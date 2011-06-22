@@ -56,6 +56,8 @@
 #include "LuaTimer.h"
 #include "LuaRand.h"
 #include "LuaNameGen.h"
+#include "LuaMusic.h"
+#include "SoundMusic.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -90,6 +92,7 @@ LuaEventQueue<Ship,CargoBody> Pi::luaOnJettison("onJettison");
 LuaEventQueue<Ship> Pi::luaOnAICompleted("onAICompleted");
 LuaEventQueue<SpaceStation> Pi::luaOnCreateBB("onCreateBB");
 LuaEventQueue<SpaceStation> Pi::luaOnUpdateBB("onUpdateBB");
+LuaEventQueue<> Pi::luaOnSongFinished("onSongFinished");
 int Pi::keyModState;
 char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
@@ -138,6 +141,8 @@ const char * const Pi::combatRating[] = {
 #if OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
 #endif
+
+Sound::MusicPlayer Pi::musicPlayer;
 
 int Pi::CombatRating(int kills)
 {
@@ -211,6 +216,7 @@ static void LuaInit()
 	Pi::luaOnAICompleted.RegisterEventQueue();
 	Pi::luaOnCreateBB.RegisterEventQueue();
 	Pi::luaOnUpdateBB.RegisterEventQueue();
+	Pi::luaOnSongFinished.RegisterEventQueue();
 
 	LuaConstants::Register();
 	LuaEngine::Register();
@@ -218,7 +224,8 @@ static void LuaInit()
 	LuaUI::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
-    LuaNameGen::Register();
+	LuaNameGen::Register();
+	LuaMusic::Register();
 
 	luaL_dofile(l, (std::string(PIONEER_DATA_DIR) + "/pistartup.lua").c_str());
 
@@ -240,6 +247,7 @@ static void LuaInitGame() {
 	Pi::luaOnAICompleted.ClearEvents();
 	Pi::luaOnCreateBB.ClearEvents();
 	Pi::luaOnUpdateBB.ClearEvents();
+	Pi::luaOnSongFinished.ClearEvents();
 }
 
 void Pi::Init()
@@ -368,7 +376,9 @@ void Pi::Init()
 
 	if (!config.Int("DisableSound")) {
 		Sound::Init();
-		Sound::SetGlobalVolume(config.Float("SfxVolume"));
+		Sound::SetMasterVolume(config.Float("MasterVolume"));
+		Sound::SetSfxVolume(config.Float("SfxVolume"));
+		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
 		Sound::Pause(0);
 	}
 	draw_progress(1.0f);
@@ -1223,6 +1233,7 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		currentView->Update();
+		musicPlayer.Update();
 
 		if (SDL_GetTicks() - last_stats > 1000) {
 			Pi::statSceneTris += LmrModelGetStatsTris();

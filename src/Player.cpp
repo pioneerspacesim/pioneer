@@ -314,7 +314,7 @@ void Player::SetAlertState(Ship::AlertState as)
 
 		case ALERT_SHIP_FIRING:
 			Pi::cpan->MsgLog()->ImportantMessage("", "Laser fire detected.");
-			Sound::PlaySfx("warning");
+			Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
 			break;
 	}
 
