@@ -1,3 +1,27 @@
+local music = {}
+
+local onGameStart = function () 
+	music = {}
+	songs = Music.GetSongList()
+	for n,key in pairs(songs) do
+		local _, _, category = string.find(key, "^core/([%l-]+)/")
+		if category then
+			if not music[category] then music[category] = {} end
+			table.insert(music[category], key)
+		end
+	end
+
+	for category,list in pairs(music) do
+		print(category)
+		for n,key in pairs(list) do
+			print("  "..key)
+		end
+	end
+end
+
+EventQueue.onGameStart:Connect(onGameStart)
+
+--[[
 --~ If you really need to have these :) http://paahdin.com/projects/pioneer/lol.zip
 local test = function()
 	Music.Play("under");
@@ -45,4 +69,4 @@ EventQueue.onShipDocked:Connect(test3)
 EventQueue.onShipUndocked:Connect(test4)
 EventQueue.onSongFinished:Connect(test5)
 EventQueue.onShipDestroyed:Connect(test6)
-
+--]]
