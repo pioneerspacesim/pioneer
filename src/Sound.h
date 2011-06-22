@@ -2,6 +2,9 @@
 #ifndef __OGGMIX_H
 #define __OGGMIX_H
 
+#include <string>
+#include <map>
+
 class Body;
 
 namespace Sound {
@@ -12,26 +15,36 @@ enum {
 };
 typedef Uint32 Op;
 
+struct Sample {
+	Uint16 *buf;
+	Uint32 buf_len;
+	Uint32 channels;
+	int upsample; // 1 = 44100, 2=22050
+	/* if buf is null, this will be path to an ogg we must stream */
+	std::string path;
+	bool isMusic;
+};
+
 class Event {
 public:
 	Event(): eid(0) {}
 	Event(Uint32 id): eid(id) {}
-	void Play(const char *fx, float volume_left, float volume_right, Op op);
+	virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 	void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
 	bool Stop();
 	bool IsPlaying() const;
 	Uint32 EventId() { return eid; }
 	bool SetOp(Op op);
-	bool VolumeAnimate(float targetVol1, float targetVol2, float dv_dt1, float dv_dt2);
-	bool VolumeAnimate(float targetVols[2], float dv_dt[2]) {
+	bool VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2);
+	bool VolumeAnimate(const float targetVols[2], const float dv_dt[2]) {
 		return VolumeAnimate(targetVols[0], targetVols[1],
 				dv_dt[0], dv_dt[1]);
 	}
-	bool SetVolume(float vol_left, float vol_right);
-	bool SetVolume(float vol) {
+	bool SetVolume(const float vol_left, const float vol_right);
+	bool SetVolume(const float vol) {
 		return SetVolume(vol, vol);
 	}
-private:
+protected:
 	Uint32 eid;
 };
 typedef Uint32 eventid;
@@ -43,12 +56,15 @@ bool Init ();
 void DestroyAllEvents();
 void Close ();
 void Pause (int on);
-int PlayOgg (const char *filename);
-eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op);
+eventid PlaySfx (const char *fx, const float volume_left, const float volume_right, const Op op);
+eventid PlayMusic (const char *fx, const float volume_left, const float volume_right, const Op op);
 inline static eventid PlaySfx (const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 0); }
 eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
-void SetGlobalVolume(float vol);
-float GetGlobalVolume();
+void SetMasterVolume(const float vol);
+float GetMasterVolume();
+void SetSfxVolume(const float vol);
+float GetSfxVolume();
+const std::map<std::string, Sample> & GetSamples();
 
 } /* namespace Sound */
 

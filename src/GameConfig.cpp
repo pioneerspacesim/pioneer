@@ -16,6 +16,8 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	(*this)["EnableJoystick"] = "1";
 	(*this)["InvertMouseY"] = "0";
 	(*this)["FOV"] = "83";
+	(*this)["MasterVolume"] = "0.8";
+	(*this)["MusicVolume"] = "0.8";
 
 	KeyBindings::SetDefaults();
 
