@@ -58,17 +58,17 @@ EventQueue.onGameStart:Connect(function ()
 		end
 	end
 
-	playRandomSongFromCategory("ambient")
+	playRandomSongFromCategory("space")
 end)
 
--- if a song finishes fall back to ambient
+-- if a song finishes fall back to ambient music
 EventQueue.onSongFinished:Connect(function ()
-	playRandomSongFromCategory("ambient")
+	playRandomSongFromCategory("space")
 end)
 
 -- start some ambient music when first arriving in system
 EventQueue.onEnterSystem:Connect(function ()
-	playRandomSongFromCategory("ambient")
+	playRandomSongFromCategory("space")
 end)
 
 -- ship or player destruction (aka game over)
