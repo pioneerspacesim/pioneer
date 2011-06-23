@@ -231,6 +231,29 @@ void LuaEventQueueBase::Emit()
  *   stable
  *
  *
+ * Event: onFrameChanged
+ *
+ * Triggered as a dynamic <Body> moves between frames of reference.
+ *
+ * > local onFrameChanged = function (body) ... end
+ * > EventQueue.onFrameChanged:Connect(onFrameChanged)
+ *
+ * Details of the new frame itself can be obtained from the body's
+ * <Body.frameBody> and <Body.frameRotating> attributes.
+ *
+ * Parameters:
+ *
+ *   body - the dynamic <Body> that changed frames
+ *
+ * Availability:
+ *
+ *   alpha 12
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onShipDestroyed
  *
  * Triggered when a ship is destroyed.
