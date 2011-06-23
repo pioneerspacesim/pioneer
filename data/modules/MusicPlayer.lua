@@ -45,6 +45,36 @@ local playRandomSongFromCategory = function (category)
 	end
 end
 
+-- handle separate planet/station-specific ambient music
+local PlayAmbient = function ()
+	local category
+
+	-- if we're near a planet or spacestation then choose something specific
+	-- player can usually be in a planet's frame but still be so far away that
+	-- they'd say they're not near it, so only use its rotating frame (which
+	-- only extends to about the radius of the atmosphere). orbital stations
+	-- however are tiny so use their whole frame
+	local near = Game.player.frameBody
+	if near:isa("Planet") and Game.player.frameRotating then
+		category = "near-planet"
+	elseif near:isa("SpaceStation") then
+		category = "near-spacestation"
+	end
+
+	-- not near anything interesting so just use the normal space music
+	if not category then
+		playRandomSongFromCategory("space")
+		return
+	end
+
+	-- switch to the specific music. if the music doesn't start (ie we don't
+	-- have any specific music) then fall back to normal space music
+	playRandomSongFromCategory(category)
+	if not Music.IsPlaying() then
+		playRandomSongFromCategory("space")
+	end
+end
+
 EventQueue.onGameStart:Connect(function () 
 	music = {}
 
@@ -58,17 +88,17 @@ EventQueue.onGameStart:Connect(function ()
 		end
 	end
 
-	playRandomSongFromCategory("space")
+	PlayAmbient()
 end)
 
 -- if a song finishes fall back to ambient music
 EventQueue.onSongFinished:Connect(function ()
-	playRandomSongFromCategory("space")
+	PlayAmbient()
 end)
 
 -- start some ambient music when first arriving in system
 EventQueue.onEnterSystem:Connect(function ()
-	playRandomSongFromCategory("space")
+	PlayAmbient()
 end)
 
 -- ship or player destruction (aka game over)
@@ -102,16 +132,10 @@ EventQueue.onShipAlertChanged:Connect(function (ship, alert)
 	end
 end)
 
--- player near a planet surface or orbital station
+-- player changed frame and might be near a planet or orbital station
 EventQueue.onFrameChanged:Connect(function (body)
 	if not body:isa("Ship") then return end
 	if not body:IsPlayer() then return end
-	if not body.frameRotating then return end
 
-	local near = body.frameBody
-	if near:isa("Planet") then
-		playRandomSongFromCategory("near-planet")
-	elseif near:isa("SpaceStation") then
-		playRandomSongFromCategory("near-spacestation")
-	end
+	PlayAmbient()
 end)
