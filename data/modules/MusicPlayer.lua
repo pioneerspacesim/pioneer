@@ -102,8 +102,16 @@ EventQueue.onShipAlertChanged:Connect(function (ship, alert)
 	end
 end)
 
---[[
-	XXX new events needed:
-	 - onFrameChanged - needed to notice that we're near something
-	 - onDockingStarted - for classical music :)
---]]
+-- player near a planet surface or orbital station
+EventQueue.onFrameChanged:Connect(function (body)
+	if not body:isa("Ship") then return end
+	if not body:IsPlayer() then return end
+	if not body.frameRotating then return end
+
+	local near = body.frameBody
+	if near:isa("Planet") then
+		playRandomSongFromCategory("near-planet")
+	elseif near:isa("SpaceStation") then
+		playRandomSongFromCategory("near-spacestation")
+	end
+end)
