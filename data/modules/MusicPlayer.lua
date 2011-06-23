@@ -72,10 +72,10 @@ EventQueue.onEnterSystem:Connect(function ()
 end)
 
 -- ship or player destruction (aka game over)
-EventQueue.onShipDestroyed:Connect(function (ship)
+EventQueue.onShipDestroyed:Connect(function (ship, attacker)
 	if ship:IsPlayer() then
 		playRandomSongFromCategory("player-destroyed")
-	else
+	elseif attacker:isa("Ship") and attacker:IsPlayer() then
 		playRandomSongFromCategory("ship-destroyed")
 	end
 end)
