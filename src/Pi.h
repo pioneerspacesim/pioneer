@@ -115,6 +115,7 @@ public:
 	static LuaEventQueue<> luaOnGameEnd;
 	static LuaEventQueue<Ship> luaOnEnterSystem;
 	static LuaEventQueue<Ship> luaOnLeaveSystem;
+	static LuaEventQueue<Body> luaOnFrameChanged;
 	static LuaEventQueue<Ship,Body> luaOnShipDestroyed;
 	static LuaEventQueue<Ship,Body> luaOnShipHit;
 	static LuaEventQueue<Ship,Body> luaOnShipCollided;
