@@ -39,9 +39,9 @@ local playRandomSongFromCategory = function (category)
 	end
 
 	if Music.IsPlaying() then
-		Music.FadeIn(song, 0.5)
+		Music.FadeIn(song, 0.5, false)
 	else
-		Music.Play(song)
+		Music.Play(song, false)
 	end
 end
 
