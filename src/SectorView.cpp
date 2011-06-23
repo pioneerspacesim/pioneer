@@ -194,15 +194,6 @@ void SectorView::DrawSector(int sx, int sy)
 		glEnd();
 		glTranslatef(0, 0, (*i).p.z);
 		
-		glPushMatrix();
-		glRotatef(-m_rot_z, 0, 0, 1);
-		glRotatef(-m_rot_x, 1, 0, 0);
-		glScalef((StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]));
-		glCallList(m_gluDiskDlist);
-		glScalef(2,2,2);
-
 		// only do this once we've pretty much stopped moving.
 		float diffx = fabs(m_pxMovingTo - m_px);
 		float diffy = fabs(m_pyMovingTo - m_py);
@@ -219,12 +210,22 @@ void SectorView::DrawSector(int sx, int sy)
 			}
 			pSS->DecRefCount();
 		}
+#if 0 // original populated star pulsing effect
+		// Render the star system with appropriate size
+		glPushMatrix();
+		glRotatef(-m_rot_z, 0, 0, 1);
+		glRotatef(-m_rot_x, 1, 0, 0);
+		glScalef((StarSystem::starScale[(*i).starType[0]]),
+			(StarSystem::starScale[(*i).starType[0]]),
+			(StarSystem::starScale[(*i).starType[0]]));
+		glCallList(m_gluDiskDlist);
+		glScalef(2,2,2);
 		// Pulse populated stars
 		if( (*i).IsSetInhabited() && (*i).IsInhabited() )
 		{
 			// precise to the rendered frame (better than PHYSICS_HZ granularity)
 			double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
-			float radius = 1.5f+(0.5*sin(5.0*(preciseTime+(double)num)));
+			float radius = 1.5f+fabs(0.25*(1.0+sin(5.0*(preciseTime+(double)num))));
 
 			// I-IS-ALIVE indicator
 			glPushMatrix();
@@ -236,6 +237,38 @@ void SectorView::DrawSector(int sx, int sy)
 			}
 			glPopMatrix();
 		}
+#else
+		glPushMatrix();
+		if( (*i).IsSetInhabited() && (*i).IsInhabited() )
+		{
+			// precise to the rendered frame (better than PHYSICS_HZ granularity)
+			double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
+			float radius = fabs(0.25*(1.0+sin(5.0*(preciseTime+(double)num))));
+
+			// Render the star system with appropriate size
+			glRotatef(-m_rot_z, 0, 0, 1);
+			glRotatef(-m_rot_x, 1, 0, 0);
+			glPushMatrix(); {
+			glScalef(	(StarSystem::starScale[(*i).starType[0]])+radius,
+						(StarSystem::starScale[(*i).starType[0]])+radius,
+						(StarSystem::starScale[(*i).starType[0]])+radius);
+			glCallList(m_gluDiskDlist);
+			} glPopMatrix();
+		}
+		else
+		{
+			// Render the star system with appropriate size
+			glRotatef(-m_rot_z, 0, 0, 1);
+			glRotatef(-m_rot_x, 1, 0, 0);
+			glPushMatrix(); {
+			glScalef((StarSystem::starScale[(*i).starType[0]]),
+				(StarSystem::starScale[(*i).starType[0]]),
+				(StarSystem::starScale[(*i).starType[0]]));
+			glCallList(m_gluDiskDlist);
+			} glPopMatrix();
+		}
+		glScalef(2,2,2);
+#endif
 
 		// player location indicator
 		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
