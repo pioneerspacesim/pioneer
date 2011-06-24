@@ -331,11 +331,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 WorldView::CamType WorldView::GetCamType() const
 {
 	if (m_camType == CAM_EXTERNAL) {
-		/* Don't allow external view while doing docking animation or
-		 * when docked with an orbital starport */
-		if (//(Pi::player->GetFlightState() == Ship::DOCKING) ||
-			(Pi::player->GetDockedWith() &&
-			 !Pi::player->GetDockedWith()->IsGroundStation())) {
+		// don't allow external view when docked with an orbital starport
+		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
 			return CAM_FRONT;
 		} else {
 			return CAM_EXTERNAL;
