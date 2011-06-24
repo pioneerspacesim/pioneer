@@ -474,51 +474,57 @@ void WorldView::RefreshButtonStateAndVisibility()
 		else
 			m_hyperspaceButton->Hide();
 
-		if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
-			m_flightStatus->SetText("Hyperspace");
-			m_launchButton->Hide();
-			m_flightControlButton->Hide();
-		}
-		
-		else
-			switch(Pi::player->GetFlightState()) {
-				case Ship::LANDED:
-					m_flightStatus->SetText("Landed");
-					m_launchButton->Show();
-					m_flightControlButton->Hide();
-					break;
+		switch(Pi::player->GetFlightState()) {
+			case Ship::LANDED:
+				m_flightStatus->SetText("Landed");
+				m_launchButton->Show();
+				m_flightControlButton->Hide();
+				break;
 				
-				case Ship::DOCKING:
-					m_flightStatus->SetText("Docking");
-					m_launchButton->Hide();
-					m_flightControlButton->Hide();
-					break;
+			case Ship::DOCKING:
+				m_flightStatus->SetText("Docking");
+				m_launchButton->Hide();
+				m_flightControlButton->Hide();
+				break;
 
-				case Ship::FLYING:
-				default:
-					Player::FlightControlState fstate = Pi::player->GetFlightControlState();
-					switch (fstate) {
-						case Player::CONTROL_MANUAL:
-							m_flightStatus->SetText("Manual Control"); break;
+			case Ship::DOCKED:
+				m_flightStatus->SetText("Docked");
+				m_launchButton->Show();
+				m_flightControlButton->Hide();
+				break;
 
-						case Player::CONTROL_FIXSPEED: {
-							std::string msg;
-							if (Pi::player->GetSetSpeed() > 1000) {
-								msg = stringf(256, "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
-							} else {
-								msg = stringf(256, "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
-							}
-							m_flightStatus->SetText(msg);
-							break;
+			case Ship::HYPERSPACE:
+				m_flightStatus->SetText("Hyperspace");
+				m_launchButton->Hide();
+				m_flightControlButton->Hide();
+				break;
+
+			case Ship::FLYING:
+			default:
+				Player::FlightControlState fstate = Pi::player->GetFlightControlState();
+				switch (fstate) {
+					case Player::CONTROL_MANUAL:
+						m_flightStatus->SetText("Manual Control"); break;
+
+					case Player::CONTROL_FIXSPEED: {
+						std::string msg;
+						if (Pi::player->GetSetSpeed() > 1000) {
+							msg = stringf(256, "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
+						} else {
+							msg = stringf(256, "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
 						}
-
-						case Player::CONTROL_AUTOPILOT:
-							m_flightStatus->SetText("Autopilot");
-							break;
+						m_flightStatus->SetText(msg);
+						break;
 					}
-					m_launchButton->Hide();
-					m_flightControlButton->Show();
-			}
+
+					case Player::CONTROL_AUTOPILOT:
+						m_flightStatus->SetText("Autopilot");
+						break;
+				}
+
+				m_launchButton->Hide();
+				m_flightControlButton->Show();
+		}
 	}
 
 	// Direction indicator
