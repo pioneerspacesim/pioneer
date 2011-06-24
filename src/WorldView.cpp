@@ -469,12 +469,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 		// XXX also don't show hyperspace button if the current target is
 		// invalid. this is difficult to achieve efficiently as long as "no
 		// target" is the same as (0,0,0,0)
-		if (Pi::player->GetFlightState() == Ship::FLYING && !Space::GetHyperspaceAnim())
+		if (Pi::player->GetFlightState() == Ship::FLYING)
 			m_hyperspaceButton->Show();
 		else
 			m_hyperspaceButton->Hide();
 
-		if (Space::GetHyperspaceAnim()) {
+		if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 			m_flightStatus->SetText("Hyperspace");
 			m_launchButton->Hide();
 			m_flightControlButton->Hide();
@@ -1275,7 +1275,7 @@ void WorldView::Draw()
 	View::Draw();
 
 	// don't draw crosshairs etc in hyperspace
-	if (Space::GetHyperspaceAnim() != 0) return;
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);

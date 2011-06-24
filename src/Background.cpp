@@ -69,8 +69,6 @@ void Starfield::Draw()
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 
-	double hyperspaceAnim = Space::GetHyperspaceAnim();
-
 	if (Render::AreShadersEnabled()) {
 		glError();
 		Render::State::UseProgram(m_shader);
@@ -84,7 +82,7 @@ void Starfield::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	if (hyperspaceAnim == 0) {
+	if (!Pi::IsGameStarted() || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
 		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
@@ -105,6 +103,8 @@ void Starfield::Draw()
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
 		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+
+		double hyperspaceAnim = Space::GetHyperspaceAnim();
 
 		float *vtx = new float[BG_STAR_MAX*12];
 		for (int i=0; i<BG_STAR_MAX; i++) {
