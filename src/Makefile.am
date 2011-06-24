@@ -105,6 +105,7 @@ noinst_HEADERS = \
 	StarSystem.h \
 	SysLoc.h \
 	SystemInfoView.h \
+	SystemPath.h \
 	SystemView.h \
 	TextureFont.h \
 	VectorFont.h \
