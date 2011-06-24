@@ -42,6 +42,13 @@ public:
 		return (a.bodyIndex < b.bodyIndex);
 	}
 
+	bool IsSameSystem(const SystemPath &b) const {
+		if (sectorX != b.sectorX) return false;
+		if (sectorY != b.sectorY) return false;
+		if (systemIndex != b.systemIndex) return false;
+		return true;
+	}
+
 	void Serialize(Serializer::Writer &wr) const {
 		wr.Int32(sectorX);
 		wr.Int32(sectorY);
