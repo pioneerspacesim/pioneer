@@ -241,7 +241,7 @@ void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnClickBlastoff()
 {
 	Pi::BoinkNoise();
-	if (Pi::player->GetDockedWith()) {
+	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (!Pi::player->Undock()) {
 			Pi::cpan->MsgLog()->ImportantMessage(Pi::player->GetDockedWith()->GetLabel(),
 					"Permission to launch denied: docking bay busy.");
