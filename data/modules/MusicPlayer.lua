@@ -33,9 +33,9 @@ local playRandomSongFromCategory = function (category)
 	-- XXX base on system seed so you get the starting point for the system
 	else
 		-- don't choose the song currently playing (or last played)
-		while song ~= current_song do
+		repeat
 			song = music[category][Engine.rand:Integer(1,#music[category])]
-		end
+		until song ~= current_song
 	end
 
 	if Music.IsPlaying() then
