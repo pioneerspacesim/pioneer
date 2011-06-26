@@ -20,7 +20,7 @@ Alpha 12
       indicate if jump is possible (#227)
     * Highlight populated systems in sector view (#242)
     * Mouse can now control ship rotation in ship info and shipyard (#243)
-    * Music engine with Lua interface (#233)
+    * Scriptable music engine and control script (#233, #250, #171)
     * New Lua event onFrameChanged and dynamic body frame attributes to help
       determine which planet/station/etc a ship is near (#249)
 
