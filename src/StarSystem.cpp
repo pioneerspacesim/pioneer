@@ -877,27 +877,6 @@ double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-SBodyPath::SBodyPath(): SysLoc()
-{
-	sbodyId = 0;
-}
-SBodyPath::SBodyPath(int sectorX_, int sectorY_, int systemNum_): SysLoc(sectorX_, sectorY_, systemNum_)
-{
-	sbodyId = 0;
-}
-
-void SBodyPath::Serialize(Serializer::Writer &wr) const
-{
-	SysLoc::Serialize(wr);
-	wr.Int32(sbodyId);
-}
-
-void SBodyPath::Unserialize(Serializer::Reader &rd, SBodyPath *path)
-{
-	SysLoc::Unserialize(rd, path);
-	path->sbodyId = rd.Int32();
-}
-
 template <class T>
 static void shuffle_array(MTRand &rand, T *array, int len)
 {

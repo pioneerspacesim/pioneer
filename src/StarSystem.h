@@ -36,28 +36,6 @@ struct Orbit {
 	matrix4x4d rotMatrix;
 };
 
-#define SBODYPATHLEN	8
-
-class SBodyPath: public SysLoc {
-public:
-	SBodyPath();
-	SBodyPath(int sectorX, int sectorY, int systemNum);
-	SBodyPath(const SBodyPath &p) : SysLoc() {
-		sectorX = p.sectorX;
-		sectorY = p.sectorY;
-		systemNum = p.systemNum;
-		sbodyId = p.sbodyId;
-	}
-	Uint32 sbodyId;
-	
-	void Serialize(Serializer::Writer &wr) const;
-	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
-	
-	bool operator== (const SBodyPath &b) const {
-		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
-	}
-};
-
 class SBody {
 public:
 	SBody();
