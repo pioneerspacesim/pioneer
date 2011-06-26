@@ -68,7 +68,14 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState { FLYING, LANDED, DOCKING };
+	enum FlightState {
+		FLYING,     // open flight (includes autopilot)
+		DOCKING,    // in docking animation
+		DOCKED,     // docked with station
+		LANDED,     // rough landed (not docked)
+		HYPERSPACE  // in hyperspace
+	};
+
        	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
