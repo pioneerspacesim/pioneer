@@ -28,6 +28,8 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
 	}
+
+	UpdateIconSelections();
 }
 
 void SystemInfoView::OnBodyViewed(SBody *b)
@@ -175,10 +177,11 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	if (body->GetSuperType() == SBody::SUPERTYPE_STARPORT) starports++;
 	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (body->type != SBody::TYPE_GRAVPOINT) {
-		Gui::ImageButton *ib = new Gui::ImageButton( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
+		BodyIcon *ib = new BodyIcon( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
+		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
-		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
+		ib->onSelect.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
 		ib->onMouseEnter.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodyViewed), body));
 		ib->onMouseLeave.connect(sigc::mem_fun(this, &SystemInfoView::OnSwitchTo));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
@@ -243,7 +246,8 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	Add(m_tabs, 0, 0);
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
-	
+
+	m_bodyIcons.clear();
 	int majorBodies, starports;
 	{
 		float pos[2] = { 0, 0 };
@@ -357,6 +361,8 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		col2->Add(new Gui::Label(stringf(128, "%d", m_system->SystemIdx())), 0, 6*YSEP);
 	}
 
+	UpdateIconSelections();
+
 	ShowAll();
 }
 
@@ -385,4 +391,44 @@ void SystemInfoView::OnSwitchTo()
 void SystemInfoView::NextPage()
 {
 	m_tabs->OnActivate();
+}
+
+void SystemInfoView::UpdateIconSelections()
+{
+	//navtarget can be only set in current system
+	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
+		 it != m_bodyIcons.end(); ++it) {
+			 (*it).second->SetSelected(false);
+		if (Pi::currentSystem->GetLocation() == m_system->GetLocation() &&
+			Pi::player->GetNavTarget() &&
+			(*it).first == Pi::player->GetNavTarget()->GetLabel())
+			(*it).second->SetSelected(true);
+	}
+}
+
+SystemInfoView::BodyIcon::BodyIcon(const char *img) :
+	Gui::ImageRadioButton(0, img, img)
+{
+
+}
+
+void SystemInfoView::BodyIcon::Draw()
+{
+	Gui::ImageRadioButton::Draw();
+	if (!GetSelected()) return;
+	float size[2];
+	GetSize(size);
+	glColor3f(0.f, 1.f, 0.f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(0.f, 0.f);
+	glVertex2f(size[0], 0.f);
+	glVertex2f(size[0], size[1]);
+	glVertex2f(0.f, size[1]);
+	glEnd();
+}
+
+void SystemInfoView::BodyIcon::OnActivate()
+{
+	//don't set pressed state here
+	onSelect.emit();
 }
