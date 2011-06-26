@@ -21,6 +21,8 @@ Alpha 12
     * Highlight populated systems in sector view (#242)
     * Mouse can now control ship rotation in ship info and shipyard (#243)
     * Music engine with Lua interface (#233)
+    * New Lua event onFrameChanged and dynamic body frame attributes to help
+      determine which planet/station/etc a ship is near (#249)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
