@@ -39,6 +39,8 @@ Alpha 12
     * City models are now loaded at startup (#71)
     * All terrains optimised (octave count reduced) (#211)
     * Optionally use ccache to speed up builds (#235)
+    * New HYPERSPACE and DOCKED flight states to explicitly describe some
+      conditions instead of having to infer from other data (#89, #252)
 
 Alpha 11
 

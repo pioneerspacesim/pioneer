@@ -241,7 +241,7 @@ void WorldView::OnChangeLabelsState(Gui::MultiStateImageButton *b)
 void WorldView::OnClickBlastoff()
 {
 	Pi::BoinkNoise();
-	if (Pi::player->GetDockedWith()) {
+	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (!Pi::player->Undock()) {
 			Pi::cpan->MsgLog()->ImportantMessage(Pi::player->GetDockedWith()->GetLabel(),
 					"Permission to launch denied: docking bay busy.");
@@ -331,11 +331,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 WorldView::CamType WorldView::GetCamType() const
 {
 	if (m_camType == CAM_EXTERNAL) {
-		/* Don't allow external view while doing docking animation or
-		 * when docked with an orbital starport */
-		if (//(Pi::player->GetFlightState() == Ship::DOCKING) ||
-			(Pi::player->GetDockedWith() &&
-			 !Pi::player->GetDockedWith()->IsGroundStation())) {
+		// don't allow external view when docked with an orbital starport
+		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
 			return CAM_FRONT;
 		} else {
 			return CAM_EXTERNAL;
@@ -469,56 +466,62 @@ void WorldView::RefreshButtonStateAndVisibility()
 		// XXX also don't show hyperspace button if the current target is
 		// invalid. this is difficult to achieve efficiently as long as "no
 		// target" is the same as (0,0,0,0)
-		if (Pi::player->GetFlightState() == Ship::FLYING && !Space::GetHyperspaceAnim())
+		if (Pi::player->GetFlightState() == Ship::FLYING)
 			m_hyperspaceButton->Show();
 		else
 			m_hyperspaceButton->Hide();
 
-		if (Space::GetHyperspaceAnim()) {
-			m_flightStatus->SetText("Hyperspace");
-			m_launchButton->Hide();
-			m_flightControlButton->Hide();
-		}
-		
-		else
-			switch(Pi::player->GetFlightState()) {
-				case Ship::LANDED:
-					m_flightStatus->SetText("Landed");
-					m_launchButton->Show();
-					m_flightControlButton->Hide();
-					break;
+		switch(Pi::player->GetFlightState()) {
+			case Ship::LANDED:
+				m_flightStatus->SetText("Landed");
+				m_launchButton->Show();
+				m_flightControlButton->Hide();
+				break;
 				
-				case Ship::DOCKING:
-					m_flightStatus->SetText("Docking");
-					m_launchButton->Hide();
-					m_flightControlButton->Hide();
-					break;
+			case Ship::DOCKING:
+				m_flightStatus->SetText("Docking");
+				m_launchButton->Hide();
+				m_flightControlButton->Hide();
+				break;
 
-				case Ship::FLYING:
-				default:
-					Player::FlightControlState fstate = Pi::player->GetFlightControlState();
-					switch (fstate) {
-						case Player::CONTROL_MANUAL:
-							m_flightStatus->SetText("Manual Control"); break;
+			case Ship::DOCKED:
+				m_flightStatus->SetText("Docked");
+				m_launchButton->Show();
+				m_flightControlButton->Hide();
+				break;
 
-						case Player::CONTROL_FIXSPEED: {
-							std::string msg;
-							if (Pi::player->GetSetSpeed() > 1000) {
-								msg = stringf(256, "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
-							} else {
-								msg = stringf(256, "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
-							}
-							m_flightStatus->SetText(msg);
-							break;
+			case Ship::HYPERSPACE:
+				m_flightStatus->SetText("Hyperspace");
+				m_launchButton->Hide();
+				m_flightControlButton->Hide();
+				break;
+
+			case Ship::FLYING:
+			default:
+				Player::FlightControlState fstate = Pi::player->GetFlightControlState();
+				switch (fstate) {
+					case Player::CONTROL_MANUAL:
+						m_flightStatus->SetText("Manual Control"); break;
+
+					case Player::CONTROL_FIXSPEED: {
+						std::string msg;
+						if (Pi::player->GetSetSpeed() > 1000) {
+							msg = stringf(256, "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
+						} else {
+							msg = stringf(256, "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
 						}
-
-						case Player::CONTROL_AUTOPILOT:
-							m_flightStatus->SetText("Autopilot");
-							break;
+						m_flightStatus->SetText(msg);
+						break;
 					}
-					m_launchButton->Hide();
-					m_flightControlButton->Show();
-			}
+
+					case Player::CONTROL_AUTOPILOT:
+						m_flightStatus->SetText("Autopilot");
+						break;
+				}
+
+				m_launchButton->Hide();
+				m_flightControlButton->Show();
+		}
 	}
 
 	// Direction indicator
@@ -799,7 +802,8 @@ void WorldView::Update()
 		m_externalViewDist = std::max(Pi::player->GetBoundingRadius(), m_externalViewDist);
 
 		// when landed don't let external view look from below
-		if (Pi::player->GetFlightState() == Ship::LANDED) m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
+		if (Pi::player->GetFlightState() == Ship::LANDED || Pi::player->GetFlightState() == Ship::DOCKED)
+			m_externalViewRotX = Clamp(m_externalViewRotX, -170.0, -10.0);
 	}
 	if (KeyBindings::targetObject.IsActive()) {
 		/* Hitting tab causes objects in the crosshairs to be selected */
@@ -1275,7 +1279,7 @@ void WorldView::Draw()
 	View::Draw();
 
 	// don't draw crosshairs etc in hyperspace
-	if (Space::GetHyperspaceAnim() != 0) return;
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
