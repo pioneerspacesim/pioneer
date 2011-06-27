@@ -49,6 +49,10 @@ public:
 		return true;
 	}
 
+	SystemPath SystemOnly() const {
+		return SystemPath(sectorX, sectorY, systemIndex);
+	}
+
 	void Serialize(Serializer::Writer &wr) const {
 		wr.Int32(sectorX);
 		wr.Int32(sectorY);
