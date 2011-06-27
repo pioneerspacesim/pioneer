@@ -765,7 +765,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 			ship->SetFlightState(Ship::FLYING);
 
 			const SystemPath *sdest = ship->GetHyperspaceTarget();
-			if (sdest->sbodyId == 0) {
+			if (sdest->bodyIndex == 0) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
 				ship->SetPosition(cloud->GetPosition());

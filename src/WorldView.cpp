@@ -563,7 +563,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);
 		char buf[128];
-		snprintf(buf, sizeof(buf), "In transit to %s [%d,%d]", s->GetName().c_str(), dest->GetSectorX(), dest->GetSectorY());
+		snprintf(buf, sizeof(buf), "In transit to %s [%d,%d]", s->GetName().c_str(), dest->sectorX, dest->sectorY);
 		m_hudVelocity->SetText(buf);
 		m_hudVelocity->Show();
 
@@ -733,7 +733,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					cloud->IsArrival() ? "arrival" : "departure",
 					ship->CalcStats()->total_mass,
                     cloud->IsArrival() ? "Source" : "Destination",
-					s.m_systems[dest->systemNum].name.c_str(),
+					s.m_systems[dest->systemIndex].name.c_str(),
 					format_date(cloud->GetDueDate()).c_str()
 				);
 			}

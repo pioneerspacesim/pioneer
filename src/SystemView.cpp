@@ -198,10 +198,10 @@ void SystemView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	int sector_x, sector_y, system_idx;
-	Pi::sectorView->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
+	SystemPath path;
+	Pi::sectorView->GetSelectedSystem(&path);
 	if (m_system) {
-		if (!m_system->IsSystem(sector_x, sector_y, system_idx)) {
+		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system->Release();
 			m_system = 0;
 			ResetViewpoint();
@@ -211,7 +211,7 @@ void SystemView::Draw3D()
 	std::string t = "Time point: "+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = StarSystem::GetCached(sector_x, sector_y, system_idx);
+	if (!m_system) m_system = StarSystem::GetCached(path);
 
 	glDisable(GL_LIGHTING);
 	glEnable(GL_FOG);

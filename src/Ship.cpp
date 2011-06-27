@@ -367,12 +367,12 @@ const shipstats_t *Ship::CalcStats()
 
 static float distance_to_system(const SystemPath *dest)
 {
-	int locSecX, locSecY, locSysIdx;
-	Pi::currentSystem->GetPos(&locSecX, &locSecY, &locSysIdx);
+	SystemPath here = Pi::currentSystem->GetPath();
 	
-	Sector from_sec(locSecX, locSecY);
-	Sector to_sec(dest->sectorX, dest->sectorY);
-	return Sector::DistanceBetween(&from_sec, locSysIdx, &to_sec, dest->systemNum);
+	Sector sec1(here.sectorX, here.sectorY);
+	Sector sec2(dest->sectorX, dest->sectorY);
+
+	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest->systemIndex);
 }
 
 void Ship::UseHyperspaceFuel(const SystemPath *dest)
@@ -400,7 +400,7 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 		return false;
 	}
 
-	if (Pi::currentSystem && Pi::currentSystem->IsSystem(dest->sectorX, dest->sectorY, dest->systemNum)) {
+	if (Pi::currentSystem && Pi::currentSystem->GetPath().IsSameSystem(*dest)) {
 		if (outStatus) *outStatus = HYPERJUMP_CURRENT_SYSTEM;
 		return false;
 	}

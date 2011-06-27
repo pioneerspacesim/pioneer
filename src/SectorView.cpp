@@ -90,11 +90,9 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_rot_z = rd.Float();
 }
 
-bool SectorView::GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx)
+bool SectorView::GetSelectedSystem(SystemPath *path)
 {
-	*sector_x = m_secx;
-	*sector_y = m_secy;
-	*system_idx = m_selected;
+	*path = SystemPath(m_secx, m_secy, m_selected);
 	return m_selected != -1;
 }
 

@@ -116,7 +116,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
 				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemNum, sbp->sbodyId);
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
 				break;
 			}

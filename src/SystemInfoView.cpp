@@ -23,7 +23,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	if (Pi::currentSystem->GetLocation() == m_system->GetLocation()) {
+	if (Pi::currentSystem->GetPath() == m_system->GetPath()) {
 		Body* body = Space::FindBodyForPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
@@ -351,10 +351,11 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		else { popmsg = "No registered inhabitants"; }
 		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
 
+		SystemPath path = m_system->GetPath();
 		col1->Add((new Gui::Label("Sector coordinates:"))->Color(1,1,0), 0, 5*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d, %d", m_system->SectorX(), m_system->SectorY())), 0, 5*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d, %d", path.sectorX, path.sectorY)), 0, 5*YSEP);
 		col1->Add((new Gui::Label("System number:"))->Color(1,1,0), 0, 6*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d", m_system->SystemIdx())), 0, 6*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d", path.systemIndex)), 0, 6*YSEP);
 	}
 
 	ShowAll();

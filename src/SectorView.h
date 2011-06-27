@@ -16,7 +16,7 @@ public:
 	virtual ~SectorView();
 	virtual void Update();
 	virtual void Draw3D();
-	bool GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx);
+	bool GetSelectedSystem(SystemPath *path);
 	void GotoSystem(int sector_x, int sector_y, int system_idx);
 	void GetSector(int *outSecX, int *outSecY) const { *outSecX = m_secx; *outSecY = m_secy; }
 	virtual void Save(Serializer::Writer &wr);

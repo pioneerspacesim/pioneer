@@ -92,8 +92,9 @@ static int l_body_attr_path(lua_State *l)
 		return 1;
 	}
 
-	SystemPath *path = new SystemPath(Pi::currentSystem->SectorX(), Pi::currentSystem->SectorY(), Pi::currentSystem->SystemIdx(), sbody->id);
-	LuaSystemPath::PushToLuaGC(path);
+	SystemPath path = Pi::currentSystem->GetPath();
+	path.bodyIndex = sbody->id;
+	LuaSystemPath::PushToLua(&path);
 
 	return 1;
 }
