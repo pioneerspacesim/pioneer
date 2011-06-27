@@ -3,7 +3,7 @@
 #include "LuaPlanet.h"
 #include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "StarSystem.h"
 #include "EquipType.h"
@@ -61,11 +61,10 @@ static int l_starsystem_get_station_paths(lua_State *l)
 
 	for (std::vector<SBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
 	{
-		SBodyPath *path = new SBodyPath(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum());
-		path->sbodyId = (*i)->id;
+		SystemPath *path = new SystemPath(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum(), (*i)->id);
 
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
-		LuaSBodyPath::PushToLuaGC(path);
+		LuaSystemPath::PushToLuaGC(path);
 		lua_rawset(l, -3);
 	}
 
@@ -271,7 +270,7 @@ static int l_starsystem_distance_to(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	const SysLoc *loc1 = &(s->GetLocation());
 
-	const SysLoc *loc2 = LuaSBodyPath::CheckFromLua(2);
+	const SysLoc *loc2 = LuaSystemPath::CheckFromLua(2);
 	if (!loc2) {
 		StarSystem *s2 = LuaStarSystem::GetFromLua(2);
 		loc2 = &(s2->GetLocation());
@@ -327,13 +326,8 @@ static int l_starsystem_attr_path(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	SysLoc loc = s->GetLocation();
 
-	SBodyPath *path = new SBodyPath;
-	path->sectorX = loc.sectorX;
-	path->sectorY = loc.sectorY;
-	path->systemNum = loc.systemNum;
-	path->sbodyId = 0;
-
-	LuaSBodyPath::PushToLuaGC(path);
+	SystemPath *path = new SystemPath(loc.sectorX, loc.sectorY, loc.systemNum, 0);
+	LuaSystemPath::PushToLuaGC(path);
 
 	return 1;
 }
