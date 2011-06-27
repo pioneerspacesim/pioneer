@@ -36,7 +36,7 @@ namespace Space {
 	// make sure SBody* is in Pi::currentSystem
 	extern Frame *GetFrameWithSBody(const SBody *b);
 	extern Body *FindNearestTo(const Body *b, Object::Type t);
-	extern Body *FindBodyForSystemPath(const SystemPath *path);
+	extern Body *FindBodyForPath(const SystemPath *path);
 
 	extern std::list<Body*> bodies;
 	typedef std::list<Body*>::iterator bodiesIter_t;

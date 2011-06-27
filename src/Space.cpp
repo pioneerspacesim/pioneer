@@ -615,7 +615,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 			HyperspaceCloud *cloud = dynamic_cast<HyperspaceCloud*>(navtarget);
 			if (Ship *hship = cloud->GetShip()) {
 				const SystemPath *hdest = hship->GetHyperspaceTarget();
-				if (*(static_cast<const SysLoc*>(hdest)) == *(static_cast<const SysLoc*>(dest))) {
+				if (hdest->IsSameSystem(*dest)) {
 					Pi::player->SetHyperspaceTarget(cloud);
 					dest = Pi::player->GetHyperspaceTarget();
 				}
@@ -629,8 +629,8 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 			if ((*i)->IsType(Object::HYPERSPACECLOUD) && (!cloud->IsArrival()) &&
 					(cloud->GetShip() != 0)) {
 				// only comparing system, not precise body target
-				const SysLoc cloudDest = *reinterpret_cast<const SysLoc*>(cloud->GetShip()->GetHyperspaceTarget());
-				if (cloudDest == *reinterpret_cast<const SysLoc*>(dest)) {
+				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceTarget();
+				if (cloudDest.IsSameSystem(*dest)) {
 					Pi::player->NotifyDeleted(cloud);
 					cloud->SetIsArrival(true);
 					cloud->SetFrame(0);

@@ -402,8 +402,8 @@ static int l_space_get_body(lua_State *l)
 {
 	int id = luaL_checkinteger(l, 1);
 
-	const SysLoc loc = Pi::currentSystem->GetLocation();
-	SystemPath path(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum(), id);
+	SystemPath path = Pi::currentSystem->GetPath();
+	path.bodyIndex = id;
 
 	Body *b = Space::FindBodyForPath(&path);
 	if (!b) return 0;

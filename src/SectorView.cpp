@@ -12,7 +12,7 @@
 SectorView::SectorView()
 {
 	SetTransparency(true);
-	m_lastShownLoc = SysLoc(9999,9999,9999);
+	m_lastShown = SystemPath(9999,9999,9999);
 	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
 	m_rot_x = m_rot_z = 0;
 	m_secx = m_secy = 0;
@@ -171,8 +171,7 @@ void SectorView::PutClickableLabel(std::string &text, int sx, int sy, int sys_id
 
 void SectorView::DrawSector(int sx, int sy)
 {
-	int playerLocSecX, playerLocSecY, playerLocSysIdx;
-	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
 	Sector* ps = GetCached(sx, sy);
 	glColor3f(0,.8,0);
 	glBegin(GL_LINE_LOOP);
@@ -183,7 +182,7 @@ void SectorView::DrawSector(int sx, int sy)
 	glEnd();
 	
 	if (!(sx || sy)) glColor3f(1,1,0);
-	int num=0;
+	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
 		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
@@ -208,7 +207,7 @@ void SectorView::DrawSector(int sx, int sy)
 		float diffy = fabs(m_pyMovingTo - m_py);
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 		if( !(*i).IsSetInhabited() && diffx < 0.001f && diffy < 0.001f ) {
-			StarSystem* pSS = StarSystem::GetCached(sx, sy, num);
+			StarSystem* pSS = StarSystem::GetCached(SystemPath(sx, sy, num));
 			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
 			{
 				(*i).SetInhabited(true);
@@ -238,7 +237,7 @@ void SectorView::DrawSector(int sx, int sy)
 		}
 
 		// player location indicator
-		if ((sx == playerLocSecX) && (sy == playerLocSecY) && (num == playerLocSysIdx)) {
+		if ((sx == playerLoc.sectorX) && (sy == playerLoc.sectorY) && (num == playerLoc.systemIndex)) {
 			const shipstats_t *stats = Pi::player->CalcStats();
 			glColor3f(0,0,1);
 			glBegin(GL_LINE_LOOP);
@@ -274,7 +273,7 @@ void SectorView::DrawSector(int sx, int sy)
 }
 
 void SectorView::OnSwitchTo() {
-	m_lastShownLoc = SysLoc(9999,9999,9999);
+	m_lastShown = SystemPath(9999,9999,9999);
 	Update();
 }
 
@@ -282,11 +281,10 @@ void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
 
-	int playerLocSecX, playerLocSecY, playerLocSysIdx;
-	Pi::currentSystem->GetPos(&playerLocSecX, &playerLocSecY, &playerLocSysIdx);
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
 
 	if (Pi::KeyState(SDLK_c)) {
-		GotoSystem(playerLocSecX, playerLocSecY, playerLocSysIdx);
+		GotoSystem(playerLoc.sectorX, playerLoc.sectorY, playerLoc.systemIndex);
 		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 			m_rot_x = m_rot_z = 0;
 			m_zoom = 1.2;
@@ -345,10 +343,10 @@ void SectorView::Update()
 	StarSystem *sys = Pi::GetSelectedSystem();
 	if (!sys) return;
 
-	if (sys->GetLocation() != m_lastShownLoc) {
+	if (sys->GetPath() != m_lastShown) {
 		Sector sec(m_secx, m_secy);
-		Sector psec(playerLocSecX, playerLocSecY);
-		const float dist = Sector::DistanceBetween(&sec, m_selected, &psec, playerLocSysIdx);
+		Sector psec(playerLoc.sectorX, playerLoc.sectorY);
+		const float dist = Sector::DistanceBetween(&sec, m_selected, &psec, playerLoc.systemIndex);
 		char buf[256];
 		SystemPath path(m_secx, m_secy, m_selected);
 		int fuelRequired;
@@ -399,7 +397,7 @@ void SectorView::Update()
 		m_starType->SetText(desc);
 		m_shortDesc->SetText(sys->GetShortDescription());
 
-		m_lastShownLoc = sys->GetLocation();
+		m_lastShown = sys->GetPath();
 
 		// Think we'll only need to do this when our location has changed.
 		ShrinkCache();
@@ -417,18 +415,18 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 
 Sector* SectorView::GetCached(int sectorX, int sectorY)
 {
-    const SysLoc loc(sectorX, sectorY, 0);
+	const SystemPath loc(sectorX, sectorY, 0);
 
 	Sector *s = 0;
 
-	for (std::map<SysLoc,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
+	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
 		if ((*i).first == loc)
 			s = (*i).second;
 	}
 
 	if (!s) {
 		s = new Sector(sectorX, sectorY);
-		m_sectorCache.insert( std::pair<SysLoc,Sector*>(loc, s) );
+		m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
 	}
 
 	return s;
@@ -442,7 +440,7 @@ void SectorView::ShrinkCache()
 	const int ymin = m_secy-DRAW_RAD;	// ymin
 	const int ymax = m_secy+DRAW_RAD;	// ymax
 
-	std::map<SysLoc,Sector*>::iterator iter = m_sectorCache.begin();
+	std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
 	while (iter != m_sectorCache.end())	{
 		Sector *s = (*iter).second;
 		//check_point_in_box

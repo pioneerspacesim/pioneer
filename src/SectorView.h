@@ -7,8 +7,8 @@
 #include <vector>
 #include <string>
 #include "View.h"
-#include "SysLoc.h"
 #include "Sector.h"
+#include "SystemPath.h"
 
 class SectorView: public View {
 public:
@@ -42,7 +42,7 @@ private:
 	Gui::ImageButton *m_galaxyButton;
 	GLuint m_gluDiskDlist;
 	
-	SysLoc m_lastShownLoc;
+	SystemPath m_lastShown;
 	Gui::Label *m_systemName;
 	Gui::Label *m_distance;
 	Gui::Label *m_starType;
@@ -50,7 +50,7 @@ private:
 	Gui::LabelSet *m_clickableLabels;
 	sigc::connection m_onMouseButtonDown;
 
-	std::map<SysLoc,Sector*> m_sectorCache;
+	std::map<SystemPath,Sector*> m_sectorCache;
 };
 
 #endif /* _SECTORVIEW_H */
