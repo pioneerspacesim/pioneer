@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
     <ClCompile Include="..\..\src\LuaGame.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
+    <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
     <ClCompile Include="..\..\src\LuaObject.cpp" />
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\..\src\ShipFlavour.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
+    <ClCompile Include="..\..\src\SoundMusic.cpp" />
     <ClCompile Include="..\..\src\Space.cpp" />
     <ClCompile Include="..\..\src\SpaceStation.cpp" />
     <ClCompile Include="..\..\src\SpaceStationView.cpp" />
@@ -302,6 +304,7 @@
     <ClInclude Include="..\..\src\LuaFormat.h" />
     <ClInclude Include="..\..\src\LuaGame.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
+    <ClInclude Include="..\..\src\LuaMusic.h" />
     <ClInclude Include="..\..\src\LuaNameGen.h" />
     <ClInclude Include="..\..\src\LuaObject.h" />
     <ClInclude Include="..\..\src\LuaPlanet.h" />
@@ -353,6 +356,7 @@
     <ClInclude Include="..\..\src\ShipFlavour.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\Sound.h" />
+    <ClInclude Include="..\..\src\SoundMusic.h" />
     <ClInclude Include="..\..\src\Space.h" />
     <ClInclude Include="..\..\src\SpaceStation.h" />
     <ClInclude Include="..\..\src\SpaceStationView.h" />
