@@ -20,7 +20,9 @@ Alpha 12
       indicate if jump is possible (#227)
     * Highlight populated systems in sector view (#242)
     * Mouse can now control ship rotation in ship info and shipyard (#243)
-    * Music engine with Lua interface (#233)
+    * Scriptable music engine and control script (#233, #250, #171)
+    * New Lua event onFrameChanged and dynamic body frame attributes to help
+      determine which planet/station/etc a ship is near (#249)
 
   * Fixes
     * Lua model args passed as doubles to avoid loss of precision (eg
@@ -30,12 +32,15 @@ Alpha 12
     * Avoid loss of precision when calculating radius of very tiny bodies (#189)
     * Hyperspace range is displayed correctly again (#222)
     * Occasional crash in system cache pruning (#230, #237)
+    * Crash due to buffer overrun in sound player (#253)
 
   * Internal changes
     * All model timing now based of game time (#175, #178)
     * City models are now loaded at startup (#71)
     * All terrains optimised (octave count reduced) (#211)
     * Optionally use ccache to speed up builds (#235)
+    * New HYPERSPACE and DOCKED flight states to explicitly describe some
+      conditions instead of having to infer from other data (#89, #252)
 
 Alpha 11
 

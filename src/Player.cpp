@@ -175,10 +175,8 @@ void Player::PollControls(const float timeStep)
 	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
 
-	if ((time_accel == 0) || GetDockedWith() || Pi::player->IsDead() ||
-	    (GetFlightState() != FLYING)) {
+	if (time_accel == 0 || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
-	}
 
 	// if flying 
 	{

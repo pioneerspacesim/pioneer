@@ -280,10 +280,10 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 static void LaunchShip(Ship *ship)
 {
-	if (ship->GetFlightState() == Ship::LANDED) {
-		if (ship->GetDockedWith()) ship->Undock();
-		else ship->Blastoff();
-	}
+	if (ship->GetFlightState() == Ship::LANDED)
+		ship->Blastoff();
+	else if (ship->GetFlightState() == Ship::DOCKED)
+		ship->Undock();
 }
 
 bool AICmdKamikaze::TimeStepUpdate()

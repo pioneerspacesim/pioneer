@@ -642,9 +642,8 @@ static int l_ship_jettison(lua_State *l)
 static int l_ship_get_docked_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
-	SpaceStation *station = s->GetDockedWith();
-	if (!station) return 0;
-	LuaSpaceStation::PushToLua(station);
+	if (s->GetFlightState() != Ship::DOCKED) return 0;
+	LuaSpaceStation::PushToLua(s->GetDockedWith());
 	return 1;
 }
 

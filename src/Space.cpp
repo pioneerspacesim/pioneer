@@ -567,6 +567,7 @@ void TimeStep(float step)
 
 	Pi::luaOnEnterSystem.Emit();
 	Pi::luaOnLeaveSystem.Emit();
+	Pi::luaOnFrameChanged.Emit();
 	Pi::luaOnShipHit.Emit();
 	Pi::luaOnShipCollided.Emit();
 	Pi::luaOnShipDestroyed.Emit();
@@ -652,6 +653,8 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 		hyperspaceDuration = duration;
 		hyperspaceEndTime = Pi::GetGameTime() + duration;
 
+		Pi::player->SetFlightState(Ship::HYPERSPACE);
+
 		printf("Started hyperspacing...\n");
 	} else {
 		// XXX note that cloud now takes ownership of the ship object, and
@@ -683,6 +686,8 @@ void StartHyperspaceTo(Ship *ship, const SBodyPath *dest)
 				ship->NotifyDeleted(*i);
 			}
 		}
+
+		ship->SetFlightState(Ship::HYPERSPACE);
 	}
 }
 

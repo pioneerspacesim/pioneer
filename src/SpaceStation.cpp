@@ -428,7 +428,8 @@ void SpaceStation::DoLawAndOrder()
 	Sint64 fine, crimeBitset;
 	Polit::GetCrime(&crimeBitset, &fine);
 	bool isDocked = static_cast<Ship*>(Pi::player)->GetDockedWith() ? true : false;
-	if ((!isDocked) && m_numPoliceDocked
+	if (Pi::player->GetFlightState() != Ship::DOCKED
+			&& m_numPoliceDocked
 			&& (fine > 1000)
 			&& (GetPositionRelTo(static_cast<Body*>(Pi::player)).Length() < 100000.0)) {
 		int port = GetFreeDockingPort();

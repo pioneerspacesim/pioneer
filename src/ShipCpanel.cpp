@@ -305,7 +305,7 @@ void ShipCpanel::OnClickTimeaccel(int val)
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (Pi::player->GetDockedWith()) Pi::SetView(Pi::spaceStationView);
+	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::SetView(Pi::spaceStationView);
 	else {
 		Pi::SetView(Pi::worldView);
 		Pi::worldView->ToggleTargetActions();
