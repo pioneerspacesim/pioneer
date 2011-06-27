@@ -350,15 +350,15 @@ void SectorView::Update()
 		Sector psec(playerLocSecX, playerLocSecY);
 		const float dist = Sector::DistanceBetween(&sec, m_selected, &psec, playerLocSysIdx);
 		char buf[256];
-		SBodyPath sbody_path(m_secx, m_secy, m_selected);
+		SystemPath path(m_secx, m_secy, m_selected);
 		int fuelRequired;
 		double dur;
 		enum Ship::HyperjumpStatus jumpStatus;
-		Pi::player->CanHyperspaceTo(&sbody_path, fuelRequired, dur, &jumpStatus);
+		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
-				Pi::player->SetHyperspaceTarget(&sbody_path);
+				Pi::player->SetHyperspaceTarget(&path);
 				m_distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:

@@ -260,7 +260,7 @@ void WorldView::OnClickHyperspace()
         Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
     } else {
         // Initiate hyperspace drive
-        const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+        const SystemPath *path = Pi::player->GetHyperspaceTarget();
         Pi::player->TryHyperspaceTo(path);
     }
 }
@@ -560,7 +560,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 #endif
 
-	if (const SBodyPath *dest = Space::GetHyperspaceDest()) {
+	if (const SystemPath *dest = Space::GetHyperspaceDest()) {
 		StarSystem *s = StarSystem::GetCached(*dest);
 		char buf[128];
 		snprintf(buf, sizeof(buf), "In transit to %s [%d,%d]", s->GetName().c_str(), dest->GetSectorX(), dest->GetSectorY());
@@ -723,7 +723,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += "Hyperspace arrival cloud remnant";
 			}
 			else {
-				const SBodyPath *dest = ship->GetHyperspaceTarget();
+				const SystemPath *dest = ship->GetHyperspaceTarget();
 				Sector s(dest->sectorX, dest->sectorY);
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
@@ -882,9 +882,8 @@ void WorldView::BuildCommsNavOptions()
 		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + (*i)->name));
 
 		for ( std::vector<SBody*>::const_iterator j = group.begin(); j != group.end(); j++) {
-			SBodyPath path;
-			Pi::currentSystem->GetPathOf(*j, &path);
-			Body *body = Space::FindBodyForSBodyPath(&path);
+			SystemPath path = Pi::currentSystem->GetPathOf(*j);
+			Body *body = Space::FindBodyForPath(&path);
 			AddCommsNavOption((*j)->name, body);
 		}
 	}
@@ -927,7 +926,7 @@ static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
 
 void WorldView::OnChangeHyperspaceTarget()
 {
-	const SBodyPath *path = Pi::player->GetHyperspaceTarget();
+	const SystemPath *path = Pi::player->GetHyperspaceTarget();
 	StarSystem *system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to "+system->GetName()));
 

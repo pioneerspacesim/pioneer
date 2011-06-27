@@ -173,27 +173,17 @@ class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
 
-    static StarSystem *GetCached(int sectorX, int sectorY, int systemIndex);
+	static StarSystem *GetCached(const SystemPath &path);
 	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
 
-    static inline StarSystem *GetCached(const SystemPath &path) { return GetCached(path.sectorX, path.sectorY, path.systemIndex); }
-    static inline StarSystem *GetCached(const SystemPath *path) { return GetCached(*path); }
-
 	const std::string &GetName() const { return m_name; }
-	void GetPathOf(const SBody *body, SystemPath *path) const;
-	SBody *GetBodyByPath(const SystemPath *path) const;
+	SystemPath GetPathOf(const SBody *sbody) const;
+	SBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static StarSystem *Unserialize(Serializer::Reader &rd);
 	void Dump();
-	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	int SectorX() const { return m_path.sectorX; }
-	int SectorY() const { return m_path.sectorY; }
-	int SystemIdx() const { return m_path.systemIndex; }
 	const SystemPath &GetPath() const { return m_path; }
-	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
-		*sec_x = m_path.sectorX; *sec_y = m_path.sectorY; *sys_idx = m_path.systemIndex;
-	}
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
@@ -232,8 +222,7 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
+	StarSystem(const SystemPath &path);
 	~StarSystem();
 
 	SBody *NewBody() {

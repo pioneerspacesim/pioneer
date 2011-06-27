@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Polit.h"
 #include "Space.h"
+#include "SystemPath.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -21,10 +22,9 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		printf("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
 	}
 
-	SBodyPath path;
-	m_system->GetPathOf(b, &path);
+	SystemPath path = m_system->GetPathOf(b);
 	if (Pi::currentSystem->GetLocation() == m_system->GetLocation()) {
-		Body* body = Space::FindBodyForSBodyPath(&path);
+		Body* body = Space::FindBodyForPath(&path);
 		if(body != 0)
 			Pi::player->SetNavTarget(body);
 	}

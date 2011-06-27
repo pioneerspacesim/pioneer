@@ -55,7 +55,7 @@ noinst_HEADERS = \
 	LuaPlayer.h \
 	LuaRand.h \
 	LuaSBody.h \
-	LuaSBodyPath.h \
+	LuaSystemPath.h \
 	LuaSerializer.h \
 	LuaShip.h \
 	LuaShipType.h \
@@ -103,7 +103,6 @@ noinst_HEADERS = \
 	SpaceStationView.h \
 	Star.h \
 	StarSystem.h \
-	SysLoc.h \
 	SystemInfoView.h \
 	SystemPath.h \
 	SystemView.h \
@@ -168,7 +167,7 @@ pioneer_SOURCES	= \
 	LuaPlayer.cpp \
 	LuaRand.cpp \
 	LuaSBody.cpp \
-	LuaSBodyPath.cpp \
+	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
 	LuaShipType.cpp \
@@ -212,7 +211,6 @@ pioneer_SOURCES	= \
 	SpaceStationView.cpp \
 	Star.cpp \
 	StarSystem.cpp \
-	SysLoc.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TextureFont.cpp \

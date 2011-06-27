@@ -77,7 +77,7 @@ void Ship::Load(Serializer::Reader &rd)
 	m_alertState = AlertState(rd.Int32());
 	m_lastFiringAlert = rd.Float();
 	
-	SBodyPath::Unserialize(rd, &m_hyperspace.dest);
+	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
 	m_hyperspace.followHypercloudId = rd.Int32();
 
@@ -148,11 +148,11 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	Init();	
 }
 
-void Ship::SetHyperspaceTarget(const SBodyPath *path)
+void Ship::SetHyperspaceTarget(const SystemPath *path)
 {
 	if (path == 0) {
 		// need to properly handle unsetting target
-		SBodyPath p(0,0,0);
+		SystemPath p(0,0,0);
 		SetHyperspaceTarget(&p);
 	} else {
 		m_hyperspace.followHypercloudId = 0;
@@ -171,7 +171,7 @@ void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
 void Ship::ClearHyperspaceTarget()
 {
 	m_hyperspace.followHypercloudId = 0;
-	m_hyperspace.dest = SBodyPath();
+	m_hyperspace.dest = SystemPath();
 	m_hyperspace.countdown = 0;
 }
 
@@ -365,7 +365,7 @@ const shipstats_t *Ship::CalcStats()
 	return &m_stats;
 }
 
-static float distance_to_system(const SBodyPath *dest)
+static float distance_to_system(const SystemPath *dest)
 {
 	int locSecX, locSecY, locSysIdx;
 	Pi::currentSystem->GetPos(&locSecX, &locSecY, &locSysIdx);
@@ -375,7 +375,7 @@ static float distance_to_system(const SBodyPath *dest)
 	return Sector::DistanceBetween(&from_sec, locSysIdx, &to_sec, dest->systemNum);
 }
 
-void Ship::UseHyperspaceFuel(const SBodyPath *dest)
+void Ship::UseHyperspaceFuel(const SystemPath *dest)
 {
 	int fuel_cost;
 	Equip::Type fuelType = GetHyperdriveFuelType();
@@ -388,7 +388,7 @@ void Ship::UseHyperspaceFuel(const SBodyPath *dest)
 	}
 }
 
-bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus) 
+bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus) 
 {
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
 	Equip::Type fuelType = GetHyperdriveFuelType();
@@ -444,7 +444,7 @@ bool Ship::CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &
 	}
 }
 
-void Ship::TryHyperspaceTo(const SBodyPath *dest)
+void Ship::TryHyperspaceTo(const SystemPath *dest)
 {
 	if (GetFlightState() != Ship::FLYING) return;
 
