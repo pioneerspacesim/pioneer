@@ -126,6 +126,7 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
+    <ClCompile Include="..\..\src\png\lodepng.cpp" />
     <ClCompile Include="..\..\src\Render.cpp" />
     <ClCompile Include="..\..\src\RenderShader.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
     <ClInclude Include="..\..\src\perlin.h" />
+    <ClInclude Include="..\..\src\png\lodepng.h" />
     <ClInclude Include="..\..\src\Render.h" />
     <ClInclude Include="..\..\src\RenderShader.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />

@@ -33,8 +33,12 @@
 #include <sys/types.h>
 #endif
 
+#if 1
+#include "png/lodepng.h"
+#else
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
+#endif
 
 std::string GetPiUserDir(const std::string &subdir)
 {
@@ -456,6 +460,63 @@ Uint32 ceil_pow2(Uint32 v) {
 	return v;
 }
 
+#if 1
+/* These describe the color_type field in png_info. */
+/* color type masks */
+#define PNG_COLOR_MASK_PALETTE    1
+#define PNG_COLOR_MASK_COLOR      2
+#define PNG_COLOR_MASK_ALPHA      4
+
+/* color types.  Note that not all combinations are legal */
+#define PNG_COLOR_TYPE_GRAY 0
+#define PNG_COLOR_TYPE_PALETTE  (PNG_COLOR_MASK_COLOR | PNG_COLOR_MASK_PALETTE)
+#define PNG_COLOR_TYPE_RGB        (PNG_COLOR_MASK_COLOR)
+#define PNG_COLOR_TYPE_RGB_ALPHA  (PNG_COLOR_MASK_COLOR | PNG_COLOR_MASK_ALPHA)
+#define PNG_COLOR_TYPE_GRAY_ALPHA (PNG_COLOR_MASK_ALPHA)
+/* aliases */
+#define PNG_COLOR_TYPE_RGBA  PNG_COLOR_TYPE_RGB_ALPHA
+#define PNG_COLOR_TYPE_GA  PNG_COLOR_TYPE_GRAY_ALPHA
+
+void Screendump(const char* destFile, const int W, const int H)
+{
+	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+
+	std::vector<unsigned char> pixel_data(3*W*H);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, W, H, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
+	glFinish();
+
+	// flip the image
+	std::vector<unsigned char> out_pixel_data(3*W*H);
+	unsigned char* image = &pixel_data[0];
+	unsigned char* out_image = &out_pixel_data[0];
+	const int rows = H;
+	const int cols = W*3;
+	for(int i=0; i<rows; ++i) {
+		for(int j=0; j<cols; ++j) {
+			*(out_image + ((rows-i-1)*cols) + j) = *(image + (i*cols) + j);
+		}
+	}
+
+	//create encoder and set settings and info (optional)
+	LodePNG::Encoder encoder;
+	encoder.addText("Comment", "Created with LodePNG");
+	encoder.getSettings().zlibsettings.windowSize = 2048;
+	LodePNG_InfoRaw raw;
+	memset(&raw,0,sizeof(LodePNG_InfoRaw));
+	raw.color.colorType = PNG_COLOR_TYPE_RGB;
+	raw.color.bitDepth = 8;
+	encoder.setInfoRaw(raw);
+
+	//encode and save
+	std::vector<unsigned char> buffer;
+	encoder.encode(buffer, out_pixel_data.empty() ? 0 : &out_pixel_data[0], W, H);
+	LodePNG::saveFile(buffer, fname);
+
+	printf("Screenshot %s saved\n", fname.c_str());
+}
+#else
 void Screendump(const char* destFile, const int W, const int H)
 {
 	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
@@ -514,3 +575,4 @@ void Screendump(const char* destFile, const int W, const int H)
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
 }
+#endif
