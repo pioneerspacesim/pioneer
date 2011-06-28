@@ -157,7 +157,6 @@ void Ship::SetHyperspaceTarget(const SystemPath *path)
 	} else {
 		m_hyperspace.followHypercloudId = 0;
 		m_hyperspace.dest = *path;
-		if (this == reinterpret_cast<Ship*>(Pi::player)) Pi::onPlayerChangeHyperspaceTarget.emit();
 	}
 }
 
@@ -165,7 +164,6 @@ void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
 {
 	m_hyperspace.followHypercloudId = cloud->GetId();
 	m_hyperspace.dest = *cloud->GetShip()->GetHyperspaceTarget();
-	if (this == reinterpret_cast<Ship*>(Pi::player)) Pi::onPlayerChangeHyperspaceTarget.emit();
 }
 
 void Ship::ClearHyperspaceTarget()

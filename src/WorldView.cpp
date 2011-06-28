@@ -12,6 +12,7 @@
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
+#include "SectorView.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -139,8 +140,9 @@ WorldView::WorldView(): View()
 	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
 	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
 
-	m_onPlayerChangeHyperspaceTargetCon =
-		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
+	m_onHyperspaceTargetChangedCon =
+		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
 	m_onChangeFlightControlStateCon =
@@ -151,7 +153,8 @@ WorldView::WorldView(): View()
 
 WorldView::~WorldView()
 {
-	m_onPlayerChangeHyperspaceTargetCon.disconnect();
+	m_onHyperspaceTargetChangedCon.disconnect();
+
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
@@ -917,22 +920,15 @@ static void PlayerPayFine()
 	}
 }
 
-#if 0
-static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
+void WorldView::OnHyperspaceTargetChanged()
 {
-	Pi::player->SetHyperspaceTarget(&path);
-}
-#endif /* 0 */
-
-void WorldView::OnChangeHyperspaceTarget()
-{
-	const SystemPath *path = Pi::player->GetHyperspaceTarget();
+	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 	StarSystem *system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to "+system->GetName()));
 
 	int fuelReqd;
 	double dur;
-	if (Pi::player->CanHyperspaceTo(path, fuelReqd, dur)) m_hyperspaceButton->Show();
+	if (Pi::player->CanHyperspaceTo(&path, fuelReqd, dur)) m_hyperspaceButton->Show();
 	else m_hyperspaceButton->Hide();
 }
 
