@@ -16,23 +16,25 @@ public:
 	virtual ~SectorView();
 	virtual void Update();
 	virtual void Draw3D();
-	bool GetSelectedSystem(SystemPath *path);
-	void GotoSystem(int sector_x, int sector_y, int system_idx);
-	void GetSector(int *outSecX, int *outSecY) const { *outSecX = m_secx; *outSecY = m_secy; }
+	SystemPath GetSelectedSystem() const { return m_selected; }
+	void GotoSystem(const SystemPath &path);
+	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo();
 private:
 	void DrawSector(int x, int y);
-	void PutClickableLabel(std::string &text, int sx, int sy, int sys_idx);
-	void OnClickSystem(int sx, int sy, int sys_idx);
+	void PutClickableLabel(std::string &text, const SystemPath &path);
+	void OnClickSystem(const SystemPath &path);
 	void MouseButtonDown(int button, int x, int y);
 	Sector* GetCached(int sectorX, int sectorY);
 	void ShrinkCache();
 
 	float m_zoom;
-	int m_secx, m_secy;
-	int m_selected;
+
+	bool m_firstTime;
+	SystemPath m_selected;
+
 	float m_px, m_py;
 	float m_rot_x, m_rot_z;
 	float m_pxMovingTo, m_pyMovingTo;
@@ -42,7 +44,6 @@ private:
 	Gui::ImageButton *m_galaxyButton;
 	GLuint m_gluDiskDlist;
 	
-	SystemPath m_lastShown;
 	Gui::Label *m_systemName;
 	Gui::Label *m_distance;
 	Gui::Label *m_starType;
