@@ -184,6 +184,8 @@ void SectorView::DrawSector(int sx, int sy)
 	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
+		SystemPath current = SystemPath(sx, sy, num);
+
 		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, 0);
@@ -207,7 +209,7 @@ void SectorView::DrawSector(int sx, int sy)
 		float diffy = fabs(m_pyMovingTo - m_py);
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 		if( !(*i).IsSetInhabited() && diffx < 0.001f && diffy < 0.001f ) {
-			StarSystem* pSS = StarSystem::GetCached(SystemPath(sx, sy, num));
+			StarSystem* pSS = StarSystem::GetCached(current);
 			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
 			{
 				(*i).SetInhabited(true);
@@ -237,7 +239,7 @@ void SectorView::DrawSector(int sx, int sy)
 		}
 
 		// player location indicator
-		if ((sx == playerLoc.sectorX) && (sy == playerLoc.sectorY) && (num == playerLoc.systemIndex)) {
+		if (current == playerLoc) {
 			const shipstats_t *stats = Pi::player->CalcStats();
 			glColor3f(0,0,1);
 			glBegin(GL_LINE_LOOP);
@@ -255,11 +257,22 @@ void SectorView::DrawSector(int sx, int sy)
 			glPopMatrix();
 		}
 		// selected indicator
-		if ((sx == m_selected.sectorX) && (sy == m_selected.sectorY) && (num == m_selected.systemIndex)) {
+		if (current == m_selected) {
+			glPushMatrix();
 			glDepthRange(0.1,1.0);
 			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
 			glCallList(m_gluDiskDlist);
+			glPopMatrix();
+		}
+		// hyperspace target indicator (if different from selection)
+		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && m_hyperspaceTarget != playerLoc) {
+			glPushMatrix();
+			glDepthRange(0.1,1.0);
+			glColor3f(0.3,0.3,0.3);
+			glScalef(2,2,2);
+			glCallList(m_gluDiskDlist);
+			glPopMatrix();
 		}
 		glDepthRange(0,1);
 		glPopMatrix();
