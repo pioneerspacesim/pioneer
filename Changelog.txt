@@ -13,7 +13,8 @@ Alpha 12
     * Pause buttons now toggles game settings if game is already
       paused (#217, #221)
     * Can now set navigation target by clicking on bodies in the system info
-      view. Body info is displayed on mouse hover (#220)
+      view. Navigation target will be highlighted in the info view. Body info
+      is displayed on mouse hover (#220, #255)
     * Lots of new parts for facegen (#213)
     * User configurable FOV support in the config file (#219)
     * Distance and fuel required text in sector view now colourised to
