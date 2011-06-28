@@ -58,6 +58,7 @@
 #include "LuaNameGen.h"
 #include "LuaMusic.h"
 #include "SoundMusic.h"
+#include "Background.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -683,7 +684,7 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_intro(WorldView *view, float _time)
+static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *milkyway, float _time)
 {
 	float lightCol[4] = { 1,1,1,0 };
 	float lightDir[4] = { 0,1,1,0 };
@@ -700,9 +701,14 @@ static void draw_intro(WorldView *view, float _time)
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
+
 	glPushMatrix();
 	glRotatef(_time*10, 1, 0, 0);
-	view->DrawBgStars();
+	glPushMatrix();
+	glRotatef(40.0, 1.0, 2.0, 3.0);
+	milkyway->Draw();
+	glPopMatrix();
+	starfield->Draw();
 	glPopMatrix();
 	
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -883,7 +889,8 @@ void Pi::UninitGame()
 
 void Pi::Start()
 {
-	WorldView *view = new WorldView();
+	Background::Starfield *starfield = new Background::Starfield();
+	Background::MilkyWay *milkyway = new Background::MilkyWay();
 	
 	Gui::Fixed *splash = new Gui::Fixed(Gui::Screen::GetWidth(), Gui::Screen::GetHeight());
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
@@ -934,7 +941,7 @@ void Pi::Start()
 
 		Pi::SetMouseGrab(false);
 
-		draw_intro(view, _time);
+		draw_intro(starfield, milkyway, _time);
 		Render::PostProcess();
 		Gui::Draw();
 		Render::SwapBuffers();
@@ -950,7 +957,8 @@ void Pi::Start()
 	
 	Gui::Screen::RemoveBaseWidget(splash);
 	delete splash;
-	delete view;
+	delete starfield;
+	delete milkyway;
 	
 	InitGame();
 
