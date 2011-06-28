@@ -19,7 +19,8 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
-WorldView::WorldView(): View()
+WorldView::WorldView(): View(),
+	m_showHyperspaceButton(false)
 {
 	float size[2];
 	GetSize(size);
@@ -466,10 +467,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else {
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
-		// XXX also don't show hyperspace button if the current target is
-		// invalid. this is difficult to achieve efficiently as long as "no
-		// target" is the same as (0,0,0,0)
-		if (Pi::player->GetFlightState() == Ship::FLYING)
+		if (m_showHyperspaceButton)
 			m_hyperspaceButton->Show();
 		else
 			m_hyperspaceButton->Hide();
@@ -928,8 +926,7 @@ void WorldView::OnHyperspaceTargetChanged()
 
 	int fuelReqd;
 	double dur;
-	if (Pi::player->CanHyperspaceTo(&path, fuelReqd, dur)) m_hyperspaceButton->Show();
-	else m_hyperspaceButton->Hide();
+	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
 }
 
 static void autopilot_flyto(Body *b)
