@@ -24,6 +24,8 @@ public:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo();
+
+	sigc::signal<void> onHyperspaceTargetChanged;
 private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, const SystemPath &path);

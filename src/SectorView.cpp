@@ -137,6 +137,7 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 {
 	m_hyperspaceTarget = path;
 	m_matchTargetToSelection = false;
+	onHyperspaceTargetChanged.emit();
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -357,10 +358,12 @@ void SectorView::Update()
 		}
 	}
 
-	if (m_matchTargetToSelection)
-		m_hyperspaceTarget = m_selected;
-	
 	if (last_selected != m_selected) {
+		if (m_matchTargetToSelection) {
+			m_hyperspaceTarget = m_selected;
+			onHyperspaceTargetChanged.emit();
+		}
+	
 		Sector sec(m_selected.sectorX, m_selected.sectorY);
 		Sector psec(playerLoc.sectorX, playerLoc.sectorY);
 		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
