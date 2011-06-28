@@ -400,7 +400,7 @@ void SystemInfoView::UpdateIconSelections()
 	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
 		 it != m_bodyIcons.end(); ++it) {
 			 (*it).second->SetSelected(false);
-		if (Pi::currentSystem->GetLocation() == m_system->GetLocation() &&
+		if (Pi::currentSystem->GetPath() == m_system->GetPath() &&
 			Pi::player->GetNavTarget() &&
 			(*it).first == Pi::player->GetNavTarget()->GetLabel())
 			(*it).second->SetSelected(true);
