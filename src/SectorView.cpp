@@ -10,7 +10,8 @@
 #include "GalacticView.h"
 		
 SectorView::SectorView() :
-	m_firstTime(true)
+	m_firstTime(true),
+	m_matchTargetToSelection(true)
 {
 	SetTransparency(true);
 	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
@@ -130,6 +131,12 @@ void SectorView::Draw3D()
 
 	glDisable(GL_FOG);
 	glEnable(GL_LIGHTING);
+}
+
+void SectorView::SetHyperspaceTarget(const SystemPath &path)
+{
+	m_hyperspaceTarget = path;
+	m_matchTargetToSelection = false;
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -336,6 +343,9 @@ void SectorView::Update()
 			m_selected.systemIndex = i;
 		}
 	}
+
+	if (m_matchTargetToSelection)
+		m_hyperspaceTarget = m_selected;
 	
 	if (last_selected != m_selected) {
 		Sector sec(m_selected.sectorX, m_selected.sectorY);
