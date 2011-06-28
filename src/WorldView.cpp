@@ -921,8 +921,10 @@ static void PlayerPayFine()
 void WorldView::OnHyperspaceTargetChanged()
 {
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+
 	StarSystem *system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to "+system->GetName()));
+	system->Release();
 
 	int fuelReqd;
 	double dur;
