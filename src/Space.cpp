@@ -608,6 +608,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 
+#if 0
 		// if the hyperspace target is the same system as the selected cloud,
 		// make sure we're following it
 		Body *navtarget = Pi::player->GetNavTarget();
@@ -644,6 +645,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 			}
 		}
 		printf("%lu clouds brought over\n", storedArrivalClouds.size());
+#endif
 
 		Space::Clear();
 
@@ -663,7 +665,9 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		cloud->SetFrame(ship->GetFrame());
 		cloud->SetPosition(ship->GetPosition());
 		ship->SetFrame(0);
+#if 0
 		ship->SetHyperspaceTarget(dest);
+#endif
 		// need to swap ship out of bodies list, replacing it with
 		// cloud
 		for (bodiesIter_t i = bodies.begin(); i != bodies.end(); ++i) {
@@ -764,11 +768,14 @@ void DoHyperspaceTo(const SystemPath *dest)
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
 
+#if 0
 			const SystemPath *sdest = ship->GetHyperspaceTarget();
 			if (sdest->bodyIndex == 0) {
 				// travelling to the system as a whole, so just dump them on
 				// the cloud - we can't do any better in this case
+#endif
 				ship->SetPosition(cloud->GetPosition());
+#if 0
 			}
 
 			else {
@@ -829,6 +836,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 					}
 				}
 			}
+#endif
 
 			Space::AddBody(ship);
 

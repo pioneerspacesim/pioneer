@@ -258,15 +258,15 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace()
 {
-    if (Pi::player->GetHyperspaceCountdown() > 0.0) {
-        // Hyperspace countdown in effect.. abort!
-        Pi::player->ResetHyperspaceCountdown();
-        Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
-    } else {
-        // Initiate hyperspace drive
-        const SystemPath *path = Pi::player->GetHyperspaceTarget();
-        Pi::player->TryHyperspaceTo(path);
-    }
+	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+		// Hyperspace countdown in effect.. abort!
+		Pi::player->ResetHyperspaceCountdown();
+		Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
+	} else {
+		// Initiate hyperspace drive
+		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+		Pi::player->StartHyperspaceCountdown(path);
+	}
 }
 
 // This is the background starfield
@@ -467,7 +467,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else {
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
-		if (m_showHyperspaceButton)
+		if (m_showHyperspaceButton && Pi::player->GetFlightState() == Ship::FLYING)
 			m_hyperspaceButton->Show();
 		else
 			m_hyperspaceButton->Hide();
@@ -920,6 +920,11 @@ static void PlayerPayFine()
 
 void WorldView::OnHyperspaceTargetChanged()
 {
+	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+		Pi::player->ResetHyperspaceCountdown();
+		Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
+	}
+
 	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
 
 	StarSystem *system = StarSystem::GetCached(path);

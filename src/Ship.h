@@ -83,11 +83,7 @@ public:
 	int GetHyperspaceCloudTargetId() { return m_hyperspace.followHypercloudId; }
 	// follow departure cloud
 	void SetHyperspaceTarget(HyperspaceCloud *cloud);
-	// just jump to near an SBody
-	void SetHyperspaceTarget(const SystemPath *path);
-	void ClearHyperspaceTarget();
-    void ResetHyperspaceCountdown();
-	void TryHyperspaceTo(const SystemPath *dest);
+
 	enum HyperjumpStatus {
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
@@ -97,7 +93,11 @@ public:
 	};
 	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
 	void UseHyperspaceFuel(const SystemPath *dest);
+
+	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
+	void ResetHyperspaceCountdown();
+
 	Equip::Type GetHyperdriveFuelType() const;
 	float GetWeakestThrustersForce() const;
 	// 0 to 1.0 is alive, > 1.0 = death

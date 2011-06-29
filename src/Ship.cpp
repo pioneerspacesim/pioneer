@@ -148,34 +148,10 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	Init();	
 }
 
-void Ship::SetHyperspaceTarget(const SystemPath *path)
-{
-	if (path == 0) {
-		// need to properly handle unsetting target
-		SystemPath p(0,0,0);
-		SetHyperspaceTarget(&p);
-	} else {
-		m_hyperspace.followHypercloudId = 0;
-		m_hyperspace.dest = *path;
-	}
-}
-
 void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
 {
 	m_hyperspace.followHypercloudId = cloud->GetId();
 	m_hyperspace.dest = *cloud->GetShip()->GetHyperspaceTarget();
-}
-
-void Ship::ClearHyperspaceTarget()
-{
-	m_hyperspace.followHypercloudId = 0;
-	m_hyperspace.dest = SystemPath();
-	m_hyperspace.countdown = 0;
-}
-
-void Ship::ResetHyperspaceCountdown()
-{
-    m_hyperspace.countdown = 0;
 }
 
 float Ship::GetPercentHull() const
@@ -442,18 +418,25 @@ bool Ship::CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double 
 	}
 }
 
-void Ship::TryHyperspaceTo(const SystemPath *dest)
+Ship::HyperjumpStatus Ship::StartHyperspaceCountdown(const SystemPath &dest)
 {
-	if (GetFlightState() != Ship::FLYING) return;
-
 	int fuelUsage;
-	double dur;
+	double duration;
+
+	HyperjumpStatus status;
+	if (!CanHyperspaceTo(&dest, fuelUsage, duration, &status))
+		return status;
+
 	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	int hyperclass = EquipType::types[t].pval;
-	if (m_hyperspace.countdown) return;
-	if (!CanHyperspaceTo(dest, fuelUsage, dur)) return;
-	m_hyperspace.countdown = 1 + hyperclass;
-	m_hyperspace.dest = *dest;
+	m_hyperspace.countdown = 1 + EquipType::types[t].pval;
+	m_hyperspace.dest = dest;
+
+	return Ship::HYPERJUMP_OK;
+}
+
+void Ship::ResetHyperspaceCountdown()
+{
+    m_hyperspace.countdown = 0;
 }
 
 float Ship::GetECMRechargeTime()
