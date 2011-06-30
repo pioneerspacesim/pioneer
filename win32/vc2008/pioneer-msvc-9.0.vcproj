@@ -469,6 +469,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaMusic.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaNameGen.cpp"
 				>
 			</File>
@@ -698,6 +702,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Sound.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SoundMusic.cpp"
 				>
 			</File>
 			<File
@@ -1167,6 +1175,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaMusic.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\contrib\lua\lundump.h"
 				>
 			</File>
@@ -1424,6 +1436,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Sound.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SoundMusic.h"
 				>
 			</File>
 			<File
