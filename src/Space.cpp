@@ -608,17 +608,15 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 		if (Pi::player->GetFlightControlState() == Player::CONTROL_AUTOPILOT)
 			Pi::player->SetFlightControlState(Player::CONTROL_MANUAL);
 
-#if 0
 		// if the hyperspace target is the same system as the selected cloud,
 		// make sure we're following it
 		Body *navtarget = Pi::player->GetNavTarget();
 		if (navtarget && navtarget->IsType(Object::HYPERSPACECLOUD)) {
 			HyperspaceCloud *cloud = dynamic_cast<HyperspaceCloud*>(navtarget);
 			if (Ship *hship = cloud->GetShip()) {
-				const SystemPath *hdest = hship->GetHyperspaceTarget();
-				if (hdest->IsSameSystem(*dest)) {
-					Pi::player->SetHyperspaceTarget(cloud);
-					dest = Pi::player->GetHyperspaceTarget();
+				const SystemPath hdest = hship->GetHyperspaceDest();
+				if (hdest.IsSameSystem(*dest)) {
+					Pi::player->SetFollowCloud(cloud);
 				}
 			}
 		}
@@ -630,7 +628,7 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 			if ((*i)->IsType(Object::HYPERSPACECLOUD) && (!cloud->IsArrival()) &&
 					(cloud->GetShip() != 0)) {
 				// only comparing system, not precise body target
-				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceTarget();
+				const SystemPath cloudDest = cloud->GetShip()->GetHyperspaceDest();
 				if (cloudDest.IsSameSystem(*dest)) {
 					Pi::player->NotifyDeleted(cloud);
 					cloud->SetIsArrival(true);
@@ -645,7 +643,6 @@ void StartHyperspaceTo(Ship *ship, const SystemPath *dest)
 			}
 		}
 		printf("%lu clouds brought over\n", storedArrivalClouds.size());
-#endif
 
 		Space::Clear();
 
@@ -749,7 +746,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 		cloud->SetFrame(Space::rootFrame);
 		cloud->SetVelocity(vector3d(0,0,0));
 
-		if (cloud->GetId() == Pi::player->GetHyperspaceCloudTargetId())
+		if (cloud == Pi::player->GetFollowCloud())
 			// player is following it, so put it somewhere near the player
 			cloud->SetPosition(Pi::player->GetPosition() + _get_random_pos(5.0,20.0)*1000.0); // 5-20km
 		else
@@ -853,6 +850,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
 	
+	Pi::player->ClearFollowCloud();
 }
 
 /* called at game start to load the system and put the player in a starport */

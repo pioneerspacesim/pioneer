@@ -42,7 +42,6 @@ void Ship::Save(Serializer::Writer &wr)
 
 	m_hyperspace.dest.Serialize(wr);
 	wr.Float(m_hyperspace.countdown);
-	wr.Int32(m_hyperspace.followHypercloudId);
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		wr.Int32(m_gunState[i]);
@@ -79,7 +78,6 @@ void Ship::Load(Serializer::Reader &rd)
 	
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
-	m_hyperspace.followHypercloudId = rd.Int32();
 
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = rd.Int32();
@@ -135,7 +133,6 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipType);
 	m_hyperspace.countdown = 0;
-	m_hyperspace.followHypercloudId = 0;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
@@ -146,12 +143,6 @@ Ship::Ship(ShipType::Type shipType): DynamicBody()
 	m_curAICmd = 0;
 
 	Init();	
-}
-
-void Ship::SetHyperspaceTarget(HyperspaceCloud *cloud)
-{
-	m_hyperspace.followHypercloudId = cloud->GetId();
-	m_hyperspace.dest = *cloud->GetShip()->GetHyperspaceTarget();
 }
 
 float Ship::GetPercentHull() const

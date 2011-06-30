@@ -724,8 +724,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += "Hyperspace arrival cloud remnant";
 			}
 			else {
-				const SystemPath *dest = ship->GetHyperspaceTarget();
-				Sector s(dest->sectorX, dest->sectorY);
+				const SystemPath dest = ship->GetHyperspaceDest();
+				Sector s(dest.sectorX, dest.sectorY);
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
 					"Ship mass: %dt\n"
@@ -734,7 +734,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					cloud->IsArrival() ? "arrival" : "departure",
 					ship->CalcStats()->total_mass,
                     cloud->IsArrival() ? "Source" : "Destination",
-					s.m_systems[dest->systemIndex].name.c_str(),
+					s.m_systems[dest.systemIndex].name.c_str(),
 					format_date(cloud->GetDueDate()).c_str()
 				);
 			}
@@ -959,7 +959,8 @@ static void autopilot_orbit(Body *b, double alt)
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
-	Pi::player->SetHyperspaceTarget(cloud);
+	Pi::player->SetFollowCloud(cloud);
+	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
 void WorldView::UpdateCommsOptions()

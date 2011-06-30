@@ -79,10 +79,8 @@ public:
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
-	const SystemPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
-	int GetHyperspaceCloudTargetId() { return m_hyperspace.followHypercloudId; }
-	// follow departure cloud
-	void SetHyperspaceTarget(HyperspaceCloud *cloud);
+
+	SystemPath GetHyperspaceDest() const { return &m_hyperspace.dest; }
 
 	enum HyperjumpStatus {
 		HYPERJUMP_OK,
@@ -210,7 +208,6 @@ private:
 	float m_lastFiringAlert;
 
 	struct HyperspacingOut {
-		int followHypercloudId;
 		SystemPath dest;
 		// > 0 means active
 		float countdown;
