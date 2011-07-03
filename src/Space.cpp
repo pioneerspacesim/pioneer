@@ -17,6 +17,7 @@
 #include "HyperspaceCloud.h"
 #include "Render.h"
 #include "WorldView.h"
+#include "SectorView.h"
 
 namespace Space {
 
@@ -850,6 +851,7 @@ void DoHyperspaceTo(const SystemPath *dest)
 	delete hyperspacingTo;
 	hyperspacingTo = 0;
 	
+	Pi::sectorView->ResetHyperspaceTarget();
 	Pi::player->ClearFollowCloud();
 }
 

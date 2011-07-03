@@ -140,6 +140,21 @@ void SectorView::SetHyperspaceTarget(const SystemPath &path)
 	onHyperspaceTargetChanged.emit();
 }
 
+void SectorView::FloatHyperspaceTarget()
+{
+	m_matchTargetToSelection = true;
+}
+
+void SectorView::ResetHyperspaceTarget()
+{
+	SystemPath old = m_hyperspaceTarget;
+	m_hyperspaceTarget = m_selected;
+	m_matchTargetToSelection = true;
+
+	if (old != m_hyperspaceTarget)
+		onHyperspaceTargetChanged.emit();
+}
+
 void SectorView::GotoSystem(const SystemPath &path)
 {
 	Sector* ps = GetCached(path.sectorX, path.sectorY);

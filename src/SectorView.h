@@ -19,6 +19,8 @@ public:
 	SystemPath GetSelectedSystem() const { return m_selected; }
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SystemPath &path);
+	void FloatHyperspaceTarget();
+	void ResetHyperspaceTarget();
 	void GotoSystem(const SystemPath &path);
 	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);

@@ -145,7 +145,7 @@ WorldView::WorldView(): View(),
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 
 	m_onPlayerChangeTargetCon =
-		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
+		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
@@ -934,6 +934,16 @@ void WorldView::OnHyperspaceTargetChanged()
 	int fuelReqd;
 	double dur;
 	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
+}
+
+void WorldView::OnPlayerChangeTarget()
+{
+	Body *b = Pi::player->GetNavTarget();
+	if (b &&
+		(!b->IsType(Object::HYPERSPACECLOUD) ||
+		 Pi::sectorView->GetHyperspaceTarget() != static_cast<HyperspaceCloud*>(b)->GetShip()->GetHyperspaceDest()))
+		Pi::sectorView->FloatHyperspaceTarget();
+	UpdateCommsOptions();
 }
 
 static void autopilot_flyto(Body *b)
