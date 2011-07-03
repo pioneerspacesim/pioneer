@@ -315,8 +315,12 @@ void SectorView::Update()
 
 	SystemPath playerLoc = Pi::currentSystem->GetPath();
 
-	if (Pi::KeyState(SDLK_c)) {
-		GotoSystem(playerLoc);
+	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
+		if (Pi::KeyState(SDLK_c))
+			GotoSystem(playerLoc);
+		else
+			GotoSystem(m_hyperspaceTarget);
+
 		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 			m_rot_x = m_rot_z = 0;
 			m_zoom = 1.2;
