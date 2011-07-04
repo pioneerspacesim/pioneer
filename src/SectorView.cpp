@@ -306,7 +306,29 @@ void SectorView::OnSwitchTo() {
 		WarpToSystem(Pi::currentSystem->GetPath());
 		m_firstTime = false;
 	}
+	
+	if (!m_onKeyPressConnection.connected())
+		m_onKeyPressConnection =
+			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPress));
+
 	Update();
+}
+
+void SectorView::OnKeyPress(SDL_keysym *keysym)
+{
+	if (Pi::GetView() != this) {
+		m_onKeyPressConnection.disconnect();
+		return;
+	}
+
+	// space "locks" (or unlocks) the hyperspace target to the selected system
+	if (keysym->sym == SDLK_SPACE) {
+		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(Pi::currentSystem->GetPath()))
+			SetHyperspaceTarget(m_selected);
+		else
+			ResetHyperspaceTarget();
+	}
+
 }
 
 void SectorView::Update()

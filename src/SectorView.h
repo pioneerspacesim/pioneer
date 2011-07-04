@@ -32,7 +32,10 @@ private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
+
 	void MouseButtonDown(int button, int x, int y);
+	void OnKeyPress(SDL_keysym *keysym);
+
 	Sector* GetCached(int sectorX, int sectorY);
 	void ShrinkCache();
 
@@ -58,7 +61,9 @@ private:
 	Gui::Label *m_starType;
 	Gui::Label *m_shortDesc;
 	Gui::LabelSet *m_clickableLabels;
+
 	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;
 };
