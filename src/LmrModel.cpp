@@ -238,6 +238,8 @@ static const LmrObjParams *s_curParams;
 static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
+static std::string s_cacheDir;
+static std::map<GLuint, std::string> s_texFilenameLookup; // only used for saving model caches
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -510,7 +512,15 @@ public:
 			m_vertices[idx] = Vertex(pos, normal, tex_u, tex_v);
 		}
 	}
-	void SetTexture(GLuint tex) { curTexture = tex; }
+	void SetTexture(const char *tex) {
+		if (tex) {
+			GLuint texture = util_load_tex_rgba(tex);
+			s_texFilenameLookup[texture] = tex; // only used for saving model caches
+			curTexture = texture;
+		} else {
+			curTexture = 0;
+		}
+	}
 	void SetTexMatrix(const matrix4x4f &texMatrix) { curTexMatrix = texMatrix; } 
 	void PushTri(int i1, int i2, int i3) {
 		OpDrawElements(3);
@@ -582,6 +592,7 @@ public:
 		char buf[256];
 		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
 		GLuint tex = util_load_tex_rgba(buf);
+		s_texFilenameLookup[tex] = buf; // only used for saving model caches
 
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_DRAW_BILLBOARDS;
@@ -756,6 +767,104 @@ private:
 	BufferObject<sizeof(Vertex)> *m_bo;
 	bool m_isStatic;
 	bool m_putGeomInsideout;
+
+public:
+	void SaveToCache(FILE *f) {
+		int numVertices = m_vertices.size();
+		int numIndices = m_indices.size();
+		int numTriflags = m_triflags.size();
+		int numThrusters = m_thrusters.size();
+		int numOps = m_ops.size();
+		fwrite((void*)&numVertices, 1, 4, f);
+		fwrite((void*)&numIndices, 1, 4, f);
+		fwrite((void*)&numTriflags, 1, 4, f);
+		fwrite((void*)&numThrusters, 1, 4, f);
+		fwrite((void*)&numOps, 1, 4, f);
+		if (numVertices) fwrite(&m_vertices[0], sizeof(Vertex), numVertices, f);
+		if (numIndices) fwrite(&m_indices[0], sizeof(Uint16), numIndices, f);
+		if (numTriflags) fwrite(&m_triflags[0], sizeof(Uint16), numTriflags, f);
+		if (numThrusters) fwrite(&m_thrusters[0], sizeof(ShipThruster::Thruster), numThrusters, f);
+		if (numOps) {
+			for (int i=0; i<numOps; i++) {
+				fwrite(&m_ops[i], sizeof(Op), 1, f);
+				if (m_ops[i].type == OP_CALL_MODEL) {
+					int len = strlen(m_ops[i].callmodel.model->GetName())+1;
+					fwrite((void*)&len, 1, 4, f);
+					fwrite((void*)m_ops[i].callmodel.model->GetName(), 1, len, f);
+				}
+				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
+					const char *texfile = s_texFilenameLookup[m_ops[i].elems.texture].c_str();
+					int len = strlen(texfile)+1;
+					fwrite((void*)&len, 1, 4, f);
+					fwrite((void*)texfile, 1, len, f);
+				}
+				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.tex)) {
+					const char *texfile = s_texFilenameLookup[m_ops[i].billboards.tex].c_str();
+					int len = strlen(texfile)+1;
+					fwrite((void*)&len, 1, 4, f);
+					fwrite((void*)texfile, 1, len, f);
+				}
+			}
+		}
+	}
+	void LoadFromCache(FILE *f) {
+		int numVertices, numIndices, numTriflags, numOps, numThrusters;
+		fread((void*)&numVertices, 1, 4, f);
+		fread((void*)&numIndices, 1, 4, f);
+		fread((void*)&numTriflags, 1, 4, f);
+		fread((void*)&numThrusters, 1, 4, f);
+		fread((void*)&numOps, 1, 4, f);
+		assert(numVertices <= 65536);
+		assert(numIndices < 1000000);
+		assert(numTriflags < 1000000);
+		assert(numThrusters < 1000);
+		assert(numOps < 1000);
+		if (numVertices) {
+			m_vertices.resize(numVertices);
+			fread(&m_vertices[0], sizeof(Vertex), numVertices, f);
+		}
+		if (numIndices) {
+			m_indices.resize(numIndices);
+			fread(&m_indices[0], sizeof(Uint16), numIndices, f);
+		}
+		if (numTriflags) {
+			m_triflags.resize(numTriflags);
+			fread(&m_triflags[0], sizeof(Uint16), numTriflags, f);
+		}
+		if (numThrusters) {
+			m_thrusters.resize(numThrusters);
+			fread(&m_thrusters[0], sizeof(ShipThruster::Thruster), numThrusters, f);
+		}
+		m_ops.resize(numOps);
+		for (int i=0; i<numOps; i++) {
+			fread(&m_ops[i], sizeof(Op), 1, f);
+			if (m_ops[i].type == OP_CALL_MODEL) {
+				int len = 0;
+				char *model_name;
+				fread((void*)&len, 1, 4, f);
+				model_name = new char[len];
+				fread((void*)model_name, 1, len, f);
+				m_ops[i].callmodel.model = s_models[model_name];
+				delete model_name;
+			}
+			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
+				int len = 0;
+				fread((void*)&len, 1, 4, f);
+				char *texfile = new char[len];
+				fread((void*)texfile, 1, len, f);
+				m_ops[i].elems.texture = util_load_tex_rgba(texfile);
+				delete texfile;
+			}
+			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.tex)) {
+				int len = 0;
+				fread((void*)&len, 1, 4, f);
+				char *texfile = new char[len];
+				fread((void*)texfile, 1, len, f);
+				m_ops[i].billboards.tex = util_load_tex_rgba(texfile);
+				delete texfile;
+			}
+		}
+	}
 };
 
 LmrModel::LmrModel(const char *model_name)
@@ -836,18 +945,62 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	for (int i=0; i<m_numLods; i++) {
-		m_staticGeometry[i]->PreBuild();
-		s_curBuf = m_staticGeometry[i];
-		lua_pushcfunction(sLua, pi_lua_panic);
-		// call model static building function
-		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
-		// lod as first argument
-		lua_pushnumber(sLua, i+1);
-		lua_pcall(sLua, 1, 0, -3);
-		lua_pop(sLua, 1);  // remove panic func
-		s_curBuf = 0;
-		m_staticGeometry[i]->PostBuild();
+	if (is_file(join_path(s_cacheDir.c_str(), model_name, 0))) {
+		// load cached model
+		printf("Loading cached model %s\n", model_name);
+		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "r");
+
+		for (int i=0; i<m_numLods; i++) {
+			m_staticGeometry[i]->PreBuild();
+			m_staticGeometry[i]->LoadFromCache(f);
+			m_staticGeometry[i]->PostBuild();
+		}
+		int numMaterials;
+		fread((void*)&numMaterials, 1, 4, f);
+		if (numMaterials != m_materials.size()) {
+			fclose(f);
+			goto rebuild_model;
+		}
+		fread((void*)&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
+
+		int numLights;
+		fread((void*)&numLights, 1, 4, f);
+		if (numLights != m_lights.size()) {
+			fclose(f);
+			goto rebuild_model;
+		}
+		fread((void*)&m_lights[0], sizeof(LmrLight), numLights, f);
+
+		fclose(f);
+	} else {
+rebuild_model:
+		// run static build for each LOD level
+		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "w");
+		printf("Caching model %s\n", model_name);
+		
+		for (int i=0; i<m_numLods; i++) {
+			m_staticGeometry[i]->PreBuild();
+			s_curBuf = m_staticGeometry[i];
+			lua_pushcfunction(sLua, pi_lua_panic);
+			// call model static building function
+			lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
+			// lod as first argument
+			lua_pushnumber(sLua, i+1);
+			lua_pcall(sLua, 1, 0, -3);
+			lua_pop(sLua, 1);  // remove panic func
+			s_curBuf = 0;
+			m_staticGeometry[i]->PostBuild();
+			m_staticGeometry[i]->SaveToCache(f);
+		}
+		
+		const int numMaterials = m_materials.size();
+		fwrite((void*)&numMaterials, 1, 4, f);
+		fwrite((void*)&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
+		const int numLights = m_lights.size();
+		fwrite((void*)&numLights, 1, 4, f);
+		fwrite((void*)&m_lights[0], sizeof(LmrLight), numLights, f);
+		
+		fclose(f);
 	}
 }
 
@@ -1678,7 +1831,6 @@ namespace ModelFuncs {
 
 			const char *texfile = luaL_checkstring(L, 1);
 			std::string t = dir + std::string("/") + texfile;
-			GLuint texture = util_load_tex_rgba(t.c_str());
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
 				vector3f pos = *MyLuaVec::checkVec(L, 2);
@@ -1692,7 +1844,7 @@ namespace ModelFuncs {
 				s_curBuf->SetTexMatrix(trans);
 			}
 
-			s_curBuf->SetTexture(texture);
+			s_curBuf->SetTexture(t.c_str());
 		}
 		return 0;
 	}
@@ -2495,7 +2647,7 @@ namespace ObjLoader {
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
 		std::map<std::string, std::string> mtl_map;
-		GLuint texture = 0;
+		std::string texture;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
 		std::map< std::pair<int,int>, int> vtxmap;
@@ -2571,7 +2723,7 @@ namespace ObjLoader {
 							s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 							s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
 						}
-						if (texture) s_curBuf->SetTexture(texture);
+						if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
@@ -2593,7 +2745,7 @@ namespace ObjLoader {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
-					if (texture) s_curBuf->SetTexture(texture);
+					if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 					if (numBits == 3) {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
@@ -2617,7 +2769,7 @@ namespace ObjLoader {
 						try {
 							char texfile[256];
 							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
-							texture = util_load_tex_rgba(texfile);
+							texture = texfile;
 						} catch (LmrUnknownMaterial) {
 							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
 						}
@@ -2664,6 +2816,11 @@ static int define_model(lua_State *L)
 		return 0;
 	}
 
+	if (s_models.find(model_name) != s_models.end()) {
+		fprintf(stderr, "attempt to redefine model %s\n", model_name);
+		return 0;
+	}
+
 	// table is passed containing info, static and dynamic, which are
 	// functions. we then stuff them into the globals, named
 	// modelName_info, _static, etc.
@@ -2690,6 +2847,7 @@ static int define_model(lua_State *L)
 
 void LmrModelCompilerInit()
 {
+	s_cacheDir = GetPiUserDir("model_cache");
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
 	s_sunlightShader[0] = new LmrShader("model", "#define NUM_LIGHTS 1\n");
 	s_sunlightShader[1] = new LmrShader("model", "#define NUM_LIGHTS 2\n");
