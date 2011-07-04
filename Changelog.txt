@@ -1,6 +1,8 @@
 Alpha 12
 
   * New features
+    * Music! 16 songs and scriptable music engine and control script
+      (#233, #250, #171)
     * New star and planet images in system info view (#167)
     * 'Home' key resets camera in external view (#199)
     * Re-implemented and re-enabled old hill, mountain, volcano, desert and
@@ -15,13 +17,12 @@ Alpha 12
     * Can now set navigation target by clicking on bodies in the system info
       view. Navigation target will be highlighted in the info view. Body info
       is displayed on mouse hover (#220, #255)
-    * Lots of new parts for facegen (#213)
+    * Lots of new and updated parts for facegen (#213)
     * User configurable FOV support in the config file (#219)
     * Distance and fuel required text in sector view now colourised to
       indicate if jump is possible (#227)
     * Highlight populated systems in sector view (#242)
     * Mouse can now control ship rotation in ship info and shipyard (#243)
-    * Scriptable music engine and control script (#233, #250, #171)
     * New Lua event onFrameChanged and dynamic body frame attributes to help
       determine which planet/station/etc a ship is near (#249)
 
