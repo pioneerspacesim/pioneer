@@ -145,11 +145,11 @@ void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 		s_playerPerBlocCrimeRecord[b].record |= crimeBitset;
 		s_playerPerBlocCrimeRecord[b].fine += addFine;
 	} else {
-		SysLoc loc = Pi::currentSystem->GetLocation();
-		Sint64 record = s_criminalRecord.Get(loc, 0);
+		SystemPath path = Pi::currentSystem->GetPath();
+		Sint64 record = s_criminalRecord.Get(path, 0);
 		record |= crimeBitset;
-		s_criminalRecord.Set(loc, crimeBitset);
-		s_outstandingFine.Set(loc, s_outstandingFine.Get(loc, 0) + addFine);
+		s_criminalRecord.Set(path, crimeBitset);
+		s_outstandingFine.Set(path, s_outstandingFine.Get(path, 0) + addFine);
 	}
 }
 
@@ -162,9 +162,9 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 		*crimeBitset = s_playerPerBlocCrimeRecord[b].record;
 		*fine = s_playerPerBlocCrimeRecord[b].fine;
 	} else {
-		SysLoc loc = Pi::currentSystem->GetLocation();
-		*crimeBitset = s_criminalRecord.Get(loc, 0);
-		*fine = s_outstandingFine.Get(loc, 0);
+		SystemPath path = Pi::currentSystem->GetPath();
+		*crimeBitset = s_criminalRecord.Get(path, 0);
+		*fine = s_outstandingFine.Get(path, 0);
 	}
 }
 
@@ -185,22 +185,21 @@ const char *GetAllegianceDesc(StarSystem *s)
 
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
-	int sx, sy, sys_idx;
-	s->GetPos(&sx, &sy, &sys_idx);
-	const unsigned long _init[4] = { sx, sy, sys_idx, POLIT_SEED };
+	SystemPath path = s->GetPath();
+	const unsigned long _init[4] = { path.sectorX, path.sectorY, path.systemIndex, POLIT_SEED };
 	MTRand rand(_init, 4);
 
-	Sector sec(sx, sy);
+	Sector sec(path.sectorX, path.sectorY);
 
 	GovType a = GOV_INVALID;
 	
 	/* from custom system definition */
-	if (sec.m_systems[sys_idx].customSys) {
-		Polit::GovType t = sec.m_systems[sys_idx].customSys->govType;
+	if (sec.m_systems[path.systemIndex].customSys) {
+		Polit::GovType t = sec.m_systems[path.systemIndex].customSys->govType;
 		a = t;
 	}
 	if (a == GOV_INVALID) {
-		if ((sx == 0) && (sy == 0) && (sys_idx == 0)) {
+		if (path == SystemPath(0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
 			for (int tries=10; tries--; ) {
@@ -220,9 +219,8 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 
 bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 {
-	int sx, sy, sys_idx;
-	s->GetPos(&sx, &sy, &sys_idx);
-	const unsigned long _init[4] = { sx, sy, sys_idx, POLIT_SALT };
+	SystemPath path = s->GetPath();
+	const unsigned long _init[4] = { path.sectorX, path.sectorY, path.systemIndex, POLIT_SALT };
 	MTRand rand(_init, 4);
 
 	Polit::GovType a = s->GetSysPolit().govType;

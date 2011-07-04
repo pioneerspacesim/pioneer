@@ -111,11 +111,13 @@ void Ship::AIKill(Ship *target)
 	m_curAICmd = new AICmdKill(this, target);
 }
 
+/*
 void Ship::AIJourney(SBodyPath &dest)
 {
 	AIClearInstructions();
 //	m_curAICmd = new AICmdJourney(this, dest);
 }
+*/
 
 void Ship::AIFlyTo(Body *target)
 {

@@ -1,5 +1,5 @@
 #include "LuaPlayer.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Player.h"
@@ -37,7 +37,7 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "location");
-	LuaSBodyPath::PushToLuaGC(new SBodyPath(m.location));
+	LuaSystemPath::PushToLuaGC(new SystemPath(m.location));
 	lua_rawset(l, -3);
 
 	lua_pushstring(l, "status");
@@ -75,7 +75,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 
 	lua_getfield(l, -1, "location");
 	if (create || !lua_isnil(l, -1)) {
-		SBodyPath *sbody = LuaSBodyPath::GetFromLua(-1);
+		SystemPath *sbody = LuaSystemPath::GetFromLua(-1);
 		m.location = *sbody;
 	}
 	lua_pop(l, 1);
