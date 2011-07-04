@@ -10,6 +10,7 @@
 #include "LuaUtils.h"
 #include <set>
 #include <algorithm>
+#include "TextureManager.h"
 
 #define MODEL "Model"
 struct RenderState {
@@ -334,7 +335,7 @@ public:
 				if (op.elems.texture != 0 ) {
 					UseProgram(curShader, true);
 					glEnable(GL_TEXTURE_2D);
-					glBindTexture(GL_TEXTURE_2D, op.elems.texture);
+					op.elems.texture->BindTexture();
 				} else {
 					UseProgram(curShader, false);
 				}
@@ -360,7 +361,7 @@ public:
 				// XXX not using vbo yet
 				Render::UnbindAllBuffers();
 				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
-						op.billboards.col, op.billboards.tex, sizeof(Vertex));
+						op.billboards.col, op.billboards.texture->GetGLTextureName(), sizeof(Vertex));
 				BindBuffers();
 				break;
 			case OP_SET_MATERIAL:
@@ -514,9 +515,7 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			GLuint texture = util_load_tex_rgba(tex);
-			s_texFilenameLookup[texture] = tex; // only used for saving model caches
-			curTexture = texture;
+			curTexture = TextureManager::GetTexture(tex);
 		} else {
 			curTexture = 0;
 		}
@@ -591,14 +590,12 @@ public:
 	{
 		char buf[256];
 		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
-		GLuint tex = util_load_tex_rgba(buf);
-		s_texFilenameLookup[tex] = buf; // only used for saving model caches
 
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.tex = tex;
+		curOp.billboards.texture = TextureManager::GetTexture(buf, true);
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -742,11 +739,11 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { int start, count, elemMin, elemMax; GLuint texture; } elems;
+			struct { Texture *texture; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { int start, count; GLuint tex; float size; float col[4]; } billboards;
+			struct { Texture *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -754,7 +751,7 @@ private:
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
-	GLuint curTexture;
+	Texture *curTexture;
 	matrix4x4f curTexMatrix;
 	// 
 	std::vector<Vertex> m_vertices;
@@ -793,13 +790,13 @@ public:
 					fwrite((void*)m_ops[i].callmodel.model->GetName(), 1, len, f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-					const char *texfile = s_texFilenameLookup[m_ops[i].elems.texture].c_str();
+					const char *texfile = m_ops[i].elems.texture->GetFilename().c_str();
 					int len = strlen(texfile)+1;
 					fwrite((void*)&len, 1, 4, f);
 					fwrite((void*)texfile, 1, len, f);
 				}
-				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.tex)) {
-					const char *texfile = s_texFilenameLookup[m_ops[i].billboards.tex].c_str();
+				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
+					const char *texfile = m_ops[i].billboards.texture->GetFilename().c_str();
 					int len = strlen(texfile)+1;
 					fwrite((void*)&len, 1, 4, f);
 					fwrite((void*)texfile, 1, len, f);
@@ -852,15 +849,15 @@ public:
 				fread((void*)&len, 1, 4, f);
 				char *texfile = new char[len];
 				fread((void*)texfile, 1, len, f);
-				m_ops[i].elems.texture = util_load_tex_rgba(texfile);
+				m_ops[i].elems.texture = TextureManager::GetTexture(texfile);
 				delete texfile;
 			}
-			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.tex)) {
+			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
 				int len = 0;
 				fread((void*)&len, 1, 4, f);
 				char *texfile = new char[len];
 				fread((void*)texfile, 1, len, f);
-				m_ops[i].billboards.tex = util_load_tex_rgba(texfile);
+				m_ops[i].billboards.texture = TextureManager::GetTexture(texfile);
 				delete texfile;
 			}
 		}
