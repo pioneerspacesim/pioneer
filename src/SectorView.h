@@ -7,8 +7,8 @@
 #include <vector>
 #include <string>
 #include "View.h"
-#include "SysLoc.h"
 #include "Sector.h"
+#include "SystemPath.h"
 
 class SectorView: public View {
 public:
@@ -16,7 +16,7 @@ public:
 	virtual ~SectorView();
 	virtual void Update();
 	virtual void Draw3D();
-	bool GetSelectedSystem(int *sector_x, int *sector_y, int *system_idx);
+	bool GetSelectedSystem(SystemPath *path);
 	void GotoSystem(int sector_x, int sector_y, int system_idx);
 	void GetSector(int *outSecX, int *outSecY) const { *outSecX = m_secx; *outSecY = m_secy; }
 	virtual void Save(Serializer::Writer &wr);
@@ -42,7 +42,7 @@ private:
 	Gui::ImageButton *m_galaxyButton;
 	GLuint m_gluDiskDlist;
 	
-	SysLoc m_lastShownLoc;
+	SystemPath m_lastShown;
 	Gui::Label *m_systemName;
 	Gui::Label *m_distance;
 	Gui::Label *m_starType;
@@ -50,7 +50,7 @@ private:
 	Gui::LabelSet *m_clickableLabels;
 	sigc::connection m_onMouseButtonDown;
 
-	std::map<SysLoc,Sector*> m_sectorCache;
+	std::map<SystemPath,Sector*> m_sectorCache;
 };
 
 #endif /* _SECTORVIEW_H */

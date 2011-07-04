@@ -6,7 +6,7 @@
 #include "LuaPlanet.h"
 #include "LuaStar.h"
 #include "LuaPlayer.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "StarSystem.h"
 #include "Body.h"
 #include "Ship.h"
@@ -37,7 +37,7 @@
 
 // pickler can handle simple types (boolean, number, string) and will drill
 // down into tables. it can do userdata for a specific set of types - Body and
-// its kids and SBodyPath. anything else will cause a lua error
+// its kids and SystemPath. anything else will cause a lua error
 //
 // pickle format is newline-seperated. each line begins with a type value,
 // followed by data for that type as follows
@@ -47,8 +47,8 @@
 //   t        - table. table contents are more pickled stuff (ie recursive)
 //   n        - end of table
 //   uXXXX    - userdata. XXXX is type, followed by newline, followed by data
-//     Body      - data is a single stringified number for Serializer::LookupBody
-//     SBodyPath - data is four stringified numbers, newline separated
+//     Body       - data is a single stringified number for Serializer::LookupBody
+//     SystemPath - data is four stringified numbers, newline separated
 
 void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key = NULL)
 {
@@ -115,8 +115,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			// XXX object wrappers should really have Serialize/Unserialize
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
-				SBodyPath *sbp = dynamic_cast<SBodyPath*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "SBodyPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemNum, sbp->sbodyId);
+				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n", sbp->sectorX, sbp->sectorY, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
 				break;
 			}
@@ -192,7 +192,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			int len = end - pos;
 			end++; // skip newline
 
-			if (len == 9 && strncmp(pos, "SBodyPath", 9) == 0) {
+			if (len == 10 && strncmp(pos, "SystemPath", 10) == 0) {
 				pos = end;
 
 				int sectorX = strtol(pos, const_cast<char**>(&end), 0);
@@ -211,9 +211,8 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				SBodyPath *sbp = new SBodyPath(sectorX, sectorY, systemNum);
-				sbp->sbodyId = sbodyId;
-				LuaSBodyPath::PushToLuaGC(sbp);
+				SystemPath *sbp = new SystemPath(sectorX, sectorY, systemNum, sbodyId);
+				LuaSystemPath::PushToLuaGC(sbp);
 
 				break;
 			}

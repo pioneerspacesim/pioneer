@@ -12,7 +12,7 @@ struct Mission : RefItem<Mission> {
 
 	std::string  type;
 	std::string  client;
-	SBodyPath    location;
+	SystemPath   location;
 	double       due;
 	Sint64       reward;
 	MissionState status;

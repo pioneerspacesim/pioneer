@@ -62,9 +62,9 @@ public:
 
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
-			SBodyPath sbp = (*i)->location;
-			StarSystem *s = StarSystem::GetCached(sbp);
-			SBody *sbody = s->GetBodyByPath(&sbp);
+			SystemPath path = (*i)->location;
+			StarSystem *s = StarSystem::GetCached(path);
+			SBody *sbody = s->GetBodyByPath(&path);
 
 			l = new Gui::Label((*i)->type);
 			innerbox->Add(l, 0, ypos);
@@ -72,7 +72,7 @@ public:
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
 			
-			l = new Gui::Label(stringf(256, "%s,\n%s (%d, %d)", sbody->name.c_str(), s->GetName().c_str(), sbp.sectorX, sbp.sectorY));
+			l = new Gui::Label(stringf(256, "%s,\n%s (%d, %d)", sbody->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY));
 			innerbox->Add(l, 240, ypos);
 			
 			l = new Gui::Label(format_date((*i)->due));

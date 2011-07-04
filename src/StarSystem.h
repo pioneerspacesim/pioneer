@@ -4,12 +4,12 @@
 #include "libs.h"
 #include "EquipType.h"
 #include "Polit.h"
-#include "SysLoc.h"
 #include "Serializer.h"
 #include <vector>
 #include <string>
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
+#include "SystemPath.h"
 
 class CustomSBody;
 class CustomSystem;
@@ -34,28 +34,6 @@ struct Orbit {
 	/* dup " " --------------------------------------- */
 	double period; // seconds
 	matrix4x4d rotMatrix;
-};
-
-#define SBODYPATHLEN	8
-
-class SBodyPath: public SysLoc {
-public:
-	SBodyPath();
-	SBodyPath(int sectorX, int sectorY, int systemNum);
-	SBodyPath(const SBodyPath &p) : SysLoc() {
-		sectorX = p.sectorX;
-		sectorY = p.sectorY;
-		systemNum = p.systemNum;
-		sbodyId = p.sbodyId;
-	}
-	Uint32 sbodyId;
-	
-	void Serialize(Serializer::Writer &wr) const;
-	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
-	
-	bool operator== (const SBodyPath &b) const {
-		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
-	}
 };
 
 class SBody {
@@ -195,27 +173,17 @@ class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
 
-    static StarSystem *GetCached(int sectorX, int sectorY, int systemNum);
+	static StarSystem *GetCached(const SystemPath &path);
 	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
 
-    static inline StarSystem *GetCached(const SysLoc &loc) { return GetCached(loc.sectorX, loc.sectorY, loc.systemNum); }
-    static inline StarSystem *GetCached(const SysLoc *loc) { return GetCached(*loc); }
-
 	const std::string &GetName() const { return m_name; }
-	void GetPathOf(const SBody *body, SBodyPath *path) const;
-	SBody *GetBodyByPath(const SBodyPath *path) const;
+	SystemPath GetPathOf(const SBody *sbody) const;
+	SBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static StarSystem *Unserialize(Serializer::Reader &rd);
 	void Dump();
-	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	int SectorX() const { return m_loc.sectorX; }
-	int SectorY() const { return m_loc.sectorY; }
-	int SystemIdx() const { return m_loc.systemNum; }
-	const SysLoc &GetLocation() const { return m_loc; }
-	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
-		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemNum;
-	}
+	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
@@ -233,7 +201,7 @@ public:
 
 	SBody *rootBody;
 	std::vector<SBody*> m_spaceStations;
-	// index into this will be the SBody ID used by SBodyPath
+	// index into this will be the SBody ID used by SystemPath
 	std::vector<SBody*> m_bodies;
 	
 	fixed m_metallicity;
@@ -254,8 +222,7 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
+	StarSystem(const SystemPath &path);
 	~StarSystem();
 
 	SBody *NewBody() {
@@ -274,7 +241,7 @@ private:
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 
-	SysLoc m_loc;
+	SystemPath m_path;
 	int m_numStars;
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
