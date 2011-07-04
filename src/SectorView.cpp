@@ -321,22 +321,17 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 		return;
 	}
 
+	SystemPath playerLoc = Pi::currentSystem->GetPath();
+
 	// space "locks" (or unlocks) the hyperspace target to the selected system
 	if (keysym->sym == SDLK_SPACE) {
-		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(Pi::currentSystem->GetPath()))
+		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(playerLoc))
 			SetHyperspaceTarget(m_selected);
 		else
 			ResetHyperspaceTarget();
 	}
 
-}
-
-void SectorView::Update()
-{
-	const float frameTime = Pi::GetFrameTime();
-
-	SystemPath playerLoc = Pi::currentSystem->GetPath();
-
+	// fast move selection to current player system or hyperspace target
 	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
 		if (Pi::KeyState(SDLK_c))
 			GotoSystem(playerLoc);
@@ -348,6 +343,12 @@ void SectorView::Update()
 			m_zoom = 1.2;
 		}
 	}
+
+}
+
+void SectorView::Update()
+{
+	const float frameTime = Pi::GetFrameTime();
 
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
@@ -405,6 +406,8 @@ void SectorView::Update()
 			onHyperspaceTargetChanged.emit();
 		}
 	
+		SystemPath playerLoc = Pi::currentSystem->GetPath();
+
 		Sector sec(m_selected.sectorX, m_selected.sectorY);
 		Sector psec(playerLoc.sectorX, playerLoc.sectorY);
 		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
