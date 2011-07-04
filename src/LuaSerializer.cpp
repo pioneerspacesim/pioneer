@@ -192,7 +192,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			int len = end - pos;
 			end++; // skip newline
 
-			if (len == 9 && strncmp(pos, "SystemPath", 9) == 0) {
+			if (len == 10 && strncmp(pos, "SystemPath", 10) == 0) {
 				pos = end;
 
 				int sectorX = strtol(pos, const_cast<char**>(&end), 0);
