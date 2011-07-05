@@ -15,6 +15,7 @@ namespace Gui {
 		virtual bool OnMouseMotion(MouseMotionEvent *e);
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
+		virtual void GetMinimumSize(float size[2]);
 		virtual void OnChildResizeRequest(Widget *);
 		virtual void UpdateAllChildSizes();
 		void SetBgColor(float rgb[3]);
