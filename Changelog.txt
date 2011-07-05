@@ -44,6 +44,7 @@ Alpha 12
     * Hyperspace range is displayed correctly again (#222)
     * Occasional crash in system cache pruning (#230, #237)
     * Crash due to buffer overrun in sound player (#253)
+    * Fixed HDR lighting on Radeon (#87, #263)
 
   * Internal changes
     * All model timing now based of game time (#175, #178)
