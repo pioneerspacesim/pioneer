@@ -28,7 +28,7 @@ void Box::SetSizeRequest(float size[2])
 	SetSizeRequest(size[0], size[1]);
 }
 
-void Box::GetSizeRequested(float size[2])
+void Box::GetSizeRequestedOrMinimum(float size[2], bool minimum)
 {
 	if (m_wantedSize[0] && m_wantedSize[1]) {
 		size[0] = m_wantedSize[0];
@@ -44,7 +44,10 @@ void Box::GetSizeRequested(float size[2])
 			float rsize[2];
 			rsize[0] = size[0];
 			rsize[1] = size[1];
-			(*i).w->GetSizeRequested(rsize);
+			if (!minimum)
+				(*i).w->GetSizeRequested(rsize);
+			else
+				(*i).w->GetMinimumSize(rsize);
 			if (m_orient == BOX_VERTICAL) {
 				want[0] = std::max(want[0], rsize[0]);
 				want[1] += rsize[1];
