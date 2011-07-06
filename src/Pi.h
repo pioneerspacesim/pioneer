@@ -28,7 +28,6 @@ class InfoView;
 class SpaceStation;
 class GalacticView;
 class Ship;
-class SBodyPath;
 class GameMenuView;
 struct lua_State;
 namespace Sound { class MusicPlayer; }

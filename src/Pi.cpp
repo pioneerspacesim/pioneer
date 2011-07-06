@@ -41,7 +41,7 @@
 #include "LuaPlayer.h"
 #include "LuaCargoBody.h"
 #include "LuaStarSystem.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaSBody.h"
 #include "LuaShipType.h"
 #include "LuaEquipType.h"
@@ -189,10 +189,10 @@ static void LuaInit()
 	LuaPlanet::RegisterClass();
 	LuaStar::RegisterClass();
 	LuaPlayer::RegisterClass();
-    LuaCargoBody::RegisterClass();
+	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
-	LuaSBodyPath::RegisterClass();
-    LuaSBody::RegisterClass();
+	LuaSystemPath::RegisterClass();
+	LuaSBody::RegisterClass();
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
@@ -957,7 +957,7 @@ void Pi::Start()
     switch (choice) {
         case 1: // Earth start point
         {
-            SBodyPath path(0,0,0);
+            SystemPath path(0,0,0);
             Space::SetupSystemForGameStart(&path, 4, 0);
             StartGame();
             MainLoop();
@@ -965,7 +965,7 @@ void Pi::Start()
         }
         case 2: // Epsilon Eridani start point
         {
-            SBodyPath path(1,0,1);
+            SystemPath path(1,0,1);
             Space::SetupSystemForGameStart(&path, 0, 0);
             StartGame();
             MainLoop();
@@ -973,7 +973,7 @@ void Pi::Start()
         }
         case 3: // Debug start point
         {
-            SBodyPath path(1,0,1);
+            SystemPath path(1,0,1);
             Space::DoHyperspaceTo(&path);
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
@@ -1261,21 +1261,20 @@ void Pi::MainLoop()
 
 StarSystem *Pi::GetSelectedSystem()
 {
-	int sector_x, sector_y, system_idx;
-	Pi::sectorView->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
-	if (system_idx == -1) {
+	SystemPath selectedPath;
+	if (!Pi::sectorView->GetSelectedSystem(&selectedPath)) {
+		if (selectedSystem) selectedSystem->Release();
 		selectedSystem = 0;
-		return NULL;
+		return 0;
 	}
+
 	if (selectedSystem) {
-		if (!selectedSystem->IsSystem(sector_x, sector_y, system_idx)) {
-            selectedSystem->Release();
-			selectedSystem = 0;
-		}
+		if (selectedSystem->GetPath().IsSameSystem(selectedPath))
+			return selectedSystem;
+		selectedSystem->Release();
 	}
-	if (!selectedSystem) {
-		selectedSystem = StarSystem::GetCached(sector_x, sector_y, system_idx);
-	}
+
+	selectedSystem = StarSystem::GetCached(selectedPath);
 	return selectedSystem;
 }
 

@@ -10,7 +10,6 @@
 
 class Body;
 class Frame;
-class SBodyPath;
 class LabelSet;
 class Ship;
 

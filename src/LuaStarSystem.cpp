@@ -3,7 +3,7 @@
 #include "LuaPlanet.h"
 #include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "StarSystem.h"
 #include "EquipType.h"
@@ -54,18 +54,17 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	SysLoc loc = s->GetLocation();
+	SystemPath path = s->GetPath();
 
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
 	for (std::vector<SBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
 	{
-		SBodyPath *path = new SBodyPath(loc.GetSectorX(), loc.GetSectorY(), loc.GetSystemNum());
-		path->sbodyId = (*i)->id;
+		SystemPath *station_path = new SystemPath(path.sectorX, path.sectorY, path.systemIndex, (*i)->id);
 
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
-		LuaSBodyPath::PushToLuaGC(path);
+		LuaSystemPath::PushToLuaGC(station_path);
 		lua_rawset(l, -3);
 	}
 
@@ -196,9 +195,11 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	lua_newtable(l);
 	pi_lua_table_ro(l);
 
-	int here_x = s->SectorX();
-	int here_y = s->SectorY();
-	unsigned int here_idx = s->SystemIdx();
+	SystemPath here = s->GetPath();
+
+	int here_x = here.sectorX;
+	int here_y = here.sectorY;
+	Uint32 here_idx = here.systemIndex;
 	Sector here_sec(here_x, here_y);
 
 	int diff_sec = ceil(dist_ly/Sector::SIZE);
@@ -214,7 +215,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 				if (Sector::DistanceBetween(&here_sec, here_idx, &sec, idx) > dist_ly)
 					continue;
 
-				StarSystem *sys = StarSystem::GetCached(x, y, idx);
+				StarSystem *sys = StarSystem::GetCached(SystemPath(x, y, idx));
 				if (filter) {
 					lua_pushvalue(l, 3);
 					LuaStarSystem::PushToLua(sys);
@@ -269,18 +270,18 @@ static int l_starsystem_distance_to(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	const SysLoc *loc1 = &(s->GetLocation());
+	const SystemPath *loc1 = &(s->GetPath());
 
-	const SysLoc *loc2 = LuaSBodyPath::CheckFromLua(2);
+	const SystemPath *loc2 = LuaSystemPath::CheckFromLua(2);
 	if (!loc2) {
 		StarSystem *s2 = LuaStarSystem::GetFromLua(2);
-		loc2 = &(s2->GetLocation());
+		loc2 = &(s2->GetPath());
 	}
 
-	Sector sec1(loc1->GetSectorX(), loc1->GetSectorY());
-	Sector sec2(loc2->GetSectorX(), loc2->GetSectorY());
+	Sector sec1(loc1->sectorX, loc1->sectorY);
+	Sector sec2(loc2->sectorX, loc2->sectorY);
 	
-	double dist = Sector::DistanceBetween(&sec1, loc1->GetSystemNum(), &sec2, loc2->GetSystemNum());
+	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
 
@@ -325,16 +326,8 @@ static int l_starsystem_attr_name(lua_State *l)
 static int l_starsystem_attr_path(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	SysLoc loc = s->GetLocation();
-
-	SBodyPath *path = new SBodyPath;
-	path->sectorX = loc.sectorX;
-	path->sectorY = loc.sectorY;
-	path->systemNum = loc.systemNum;
-	path->sbodyId = 0;
-
-	LuaSBodyPath::PushToLuaGC(path);
-
+	SystemPath path = s->GetPath();
+	LuaSystemPath::PushToLua(&path);
 	return 1;
 }
 

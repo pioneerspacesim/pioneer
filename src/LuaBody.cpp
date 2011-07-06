@@ -1,5 +1,5 @@
 #include "LuaBody.h"
-#include "LuaSBodyPath.h"
+#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Body.h"
@@ -92,10 +92,9 @@ static int l_body_attr_path(lua_State *l)
 		return 1;
 	}
 
-	SBodyPath *sbp = new SBodyPath(Pi::currentSystem->SectorX(), Pi::currentSystem->SectorY(), Pi::currentSystem->SystemIdx());
-	sbp->sbodyId = sbody->id;
-
-	LuaSBodyPath::PushToLuaGC(sbp);
+	SystemPath path = Pi::currentSystem->GetPath();
+	path.bodyIndex = sbody->id;
+	LuaSystemPath::PushToLua(&path);
 
 	return 1;
 }
