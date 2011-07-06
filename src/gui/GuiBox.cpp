@@ -100,7 +100,7 @@ void Box::UpdateAllChildSizes()
 		if (m_orient == BOX_VERTICAL) {
 			rsize[0] = size[0];
 			rsize[1] = space;
-			(*i).w->GetSizeRequested(rsize);
+			(*i).w->GetMinimumSize(rsize);
 			if (rsize[0] > size[0]) rsize[0] = size[0];
 			if (rsize[1] > space) rsize[1] = space;
 			(*i).w->SetSize(size[0], rsize[1]);
@@ -111,7 +111,7 @@ void Box::UpdateAllChildSizes()
 		} else {
 			rsize[0] = space;
 			rsize[1] = size[1];
-			(*i).w->GetSizeRequested(rsize);
+			(*i).w->GetMinimumSize(rsize);
 			if (rsize[0] > space) rsize[0] = space;
 			if (rsize[1] > size[1]) rsize[1] = size[1];
 			(*i).w->SetSize(rsize[0], size[1]);
