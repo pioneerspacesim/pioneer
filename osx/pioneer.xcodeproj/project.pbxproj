@@ -154,7 +154,6 @@
 		4A6C4E8B13532FC300FDD53F /* SpaceStationView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6113532FC300FDD53F /* SpaceStationView.cpp */; };
 		4A6C4E8C13532FC300FDD53F /* Star.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6313532FC300FDD53F /* Star.cpp */; };
 		4A6C4E8D13532FC300FDD53F /* StarSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6513532FC300FDD53F /* StarSystem.cpp */; };
-		4A6C4E8E13532FC300FDD53F /* SysLoc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6713532FC300FDD53F /* SysLoc.cpp */; };
 		4A6C4E8F13532FC300FDD53F /* SystemInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */; };
 		4A6C4E9013532FC300FDD53F /* SystemView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6B13532FC300FDD53F /* SystemView.cpp */; };
 		4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6E13532FC300FDD53F /* utils.cpp */; };
@@ -167,6 +166,9 @@
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
 		4A82AA871386969B0028CCED /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA801386969B0028CCED /* TextureFont.cpp */; };
 		4A82AA881386969B0028CCED /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA821386969B0028CCED /* VectorFont.cpp */; };
+		4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86313C4631D00C2B986 /* LuaMusic.cpp */; };
+		4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */; };
+		4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A85A86713C4631D00C2B986 /* SoundMusic.cpp */; };
 		4A9937501368355500EA0EE5 /* BBAdvertChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
@@ -183,7 +185,6 @@
 		4A99375D1368355500EA0EE5 /* LuaPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937321368355500EA0EE5 /* LuaPlayer.cpp */; };
 		4A99375E1368355500EA0EE5 /* LuaRand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937341368355500EA0EE5 /* LuaRand.cpp */; };
 		4A99375F1368355500EA0EE5 /* LuaSBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937361368355500EA0EE5 /* LuaSBody.cpp */; };
-		4A9937601368355500EA0EE5 /* LuaSBodyPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937381368355500EA0EE5 /* LuaSBodyPath.cpp */; };
 		4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */; };
 		4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373C1368355500EA0EE5 /* LuaShip.cpp */; };
 		4A9937631368355500EA0EE5 /* LuaShipType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373E1368355500EA0EE5 /* LuaShipType.cpp */; };
@@ -581,8 +582,6 @@
 		4A6C4D6413532FC300FDD53F /* Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Star.h; sourceTree = "<group>"; };
 		4A6C4D6513532FC300FDD53F /* StarSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StarSystem.cpp; sourceTree = "<group>"; };
 		4A6C4D6613532FC300FDD53F /* StarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarSystem.h; sourceTree = "<group>"; };
-		4A6C4D6713532FC300FDD53F /* SysLoc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SysLoc.cpp; sourceTree = "<group>"; };
-		4A6C4D6813532FC300FDD53F /* SysLoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysLoc.h; sourceTree = "<group>"; };
 		4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemInfoView.cpp; sourceTree = "<group>"; };
 		4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfoView.h; sourceTree = "<group>"; };
 		4A6C4D6B13532FC300FDD53F /* SystemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemView.cpp; sourceTree = "<group>"; };
@@ -608,6 +607,13 @@
 		4A82AA811386969B0028CCED /* TextureFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureFont.h; sourceTree = "<group>"; };
 		4A82AA821386969B0028CCED /* VectorFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorFont.cpp; sourceTree = "<group>"; };
 		4A82AA831386969B0028CCED /* VectorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorFont.h; sourceTree = "<group>"; };
+		4A85A86313C4631D00C2B986 /* LuaMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMusic.cpp; sourceTree = "<group>"; };
+		4A85A86413C4631D00C2B986 /* LuaMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMusic.h; sourceTree = "<group>"; };
+		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
+		4A85A86613C4631D00C2B986 /* LuaSystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSystemPath.h; sourceTree = "<group>"; };
+		4A85A86713C4631D00C2B986 /* SoundMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundMusic.cpp; sourceTree = "<group>"; };
+		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
+		4A85A86913C4631D00C2B986 /* SystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemPath.h; sourceTree = "<group>"; };
 		4A9937181368355400EA0EE5 /* BBAdvertChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BBAdvertChatForm.cpp; sourceTree = "<group>"; };
 		4A9937191368355400EA0EE5 /* BBAdvertChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAdvertChatForm.h; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
@@ -640,8 +646,6 @@
 		4A9937351368355500EA0EE5 /* LuaRand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaRand.h; sourceTree = "<group>"; };
 		4A9937361368355500EA0EE5 /* LuaSBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSBody.cpp; sourceTree = "<group>"; };
 		4A9937371368355500EA0EE5 /* LuaSBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSBody.h; sourceTree = "<group>"; };
-		4A9937381368355500EA0EE5 /* LuaSBodyPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSBodyPath.cpp; sourceTree = "<group>"; };
-		4A9937391368355500EA0EE5 /* LuaSBodyPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSBodyPath.h; sourceTree = "<group>"; };
 		4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSerializer.cpp; sourceTree = "<group>"; };
 		4A99373B1368355500EA0EE5 /* LuaSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSerializer.h; sourceTree = "<group>"; };
 		4A99373C1368355500EA0EE5 /* LuaShip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShip.cpp; sourceTree = "<group>"; };
@@ -965,8 +969,15 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				4A1903C1138AA39C00E0229C /* contrib */,
 				4A19030B138AA33300E0229C /* gui */,
+				4A1903C1138AA39C00E0229C /* contrib */,
+				4A85A86313C4631D00C2B986 /* LuaMusic.cpp */,
+				4A85A86413C4631D00C2B986 /* LuaMusic.h */,
+				4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */,
+				4A85A86613C4631D00C2B986 /* LuaSystemPath.h */,
+				4A85A86713C4631D00C2B986 /* SoundMusic.cpp */,
+				4A85A86813C4631D00C2B986 /* SoundMusic.h */,
+				4A85A86913C4631D00C2B986 /* SystemPath.h */,
 				4A61E15D13978F1000193E43 /* Background.h */,
 				4A61E15C13978F1000193E43 /* Background.cpp */,
 				4A006D62138FB6ED000C6DFC /* RenderShader.h */,
@@ -1022,8 +1033,6 @@
 				4A9937351368355500EA0EE5 /* LuaRand.h */,
 				4A9937361368355500EA0EE5 /* LuaSBody.cpp */,
 				4A9937371368355500EA0EE5 /* LuaSBody.h */,
-				4A9937381368355500EA0EE5 /* LuaSBodyPath.cpp */,
-				4A9937391368355500EA0EE5 /* LuaSBodyPath.h */,
 				4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */,
 				4A99373B1368355500EA0EE5 /* LuaSerializer.h */,
 				4A99373C1368355500EA0EE5 /* LuaShip.cpp */,
@@ -1167,8 +1176,6 @@
 				4A6C4D6413532FC300FDD53F /* Star.h */,
 				4A6C4D6513532FC300FDD53F /* StarSystem.cpp */,
 				4A6C4D6613532FC300FDD53F /* StarSystem.h */,
-				4A6C4D6713532FC300FDD53F /* SysLoc.cpp */,
-				4A6C4D6813532FC300FDD53F /* SysLoc.h */,
 				4A6C4D6913532FC300FDD53F /* SystemInfoView.cpp */,
 				4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */,
 				4A6C4D6B13532FC300FDD53F /* SystemView.cpp */,
@@ -1275,7 +1282,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.6.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libpng14.14.dylib libz.1.dylib\n\n# zlib\nidLib libz.1.2.5.dylib\nlnk libz.1.2.5.dylib libz.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# FLAC\nidLib libFLAC.8.2.0.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.2.0.dylib libogg.0.dylib\nlnk libFLAC.8.2.0.dylib libFLAC.8.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n";
+			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.6.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng14.14.dylib\nrelocateSubLib /opt/local/lib/ libpng14.14.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng14.14.dylib\n\n# zlib\nidLib libz.1.2.5.dylib\nlnk libz.1.2.5.dylib libz.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# FLAC\nidLib libFLAC.8.2.0.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.2.0.dylib libogg.0.dylib\nlnk libFLAC.8.2.0.dylib libFLAC.8.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1344,7 +1351,6 @@
 				4A6C4E8B13532FC300FDD53F /* SpaceStationView.cpp in Sources */,
 				4A6C4E8C13532FC300FDD53F /* Star.cpp in Sources */,
 				4A6C4E8D13532FC300FDD53F /* StarSystem.cpp in Sources */,
-				4A6C4E8E13532FC300FDD53F /* SysLoc.cpp in Sources */,
 				4A6C4E8F13532FC300FDD53F /* SystemInfoView.cpp in Sources */,
 				4A6C4E9013532FC300FDD53F /* SystemView.cpp in Sources */,
 				4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */,
@@ -1365,7 +1371,6 @@
 				4A99375D1368355500EA0EE5 /* LuaPlayer.cpp in Sources */,
 				4A99375E1368355500EA0EE5 /* LuaRand.cpp in Sources */,
 				4A99375F1368355500EA0EE5 /* LuaSBody.cpp in Sources */,
-				4A9937601368355500EA0EE5 /* LuaSBodyPath.cpp in Sources */,
 				4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */,
 				4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */,
 				4A9937631368355500EA0EE5 /* LuaShipType.cpp in Sources */,
@@ -1450,6 +1455,9 @@
 				4A19050D138AA39C00E0229C /* push_pointer_internal.cpp in Sources */,
 				4A006D63138FB6ED000C6DFC /* RenderShader.cpp in Sources */,
 				4A61E15E13978F1000193E43 /* Background.cpp in Sources */,
+				4A85A86A13C4631D00C2B986 /* LuaMusic.cpp in Sources */,
+				4A85A86B13C4631D00C2B986 /* LuaSystemPath.cpp in Sources */,
+				4A85A86C13C4631D00C2B986 /* SoundMusic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1530,7 +1538,7 @@
 					"\"$(SRCROOT)/../contrib/oolua\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1578,7 +1586,7 @@
 				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
