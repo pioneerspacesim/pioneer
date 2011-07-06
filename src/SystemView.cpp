@@ -198,8 +198,7 @@ void SystemView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	SystemPath path;
-	Pi::sectorView->GetSelectedSystem(&path);
+	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system->Release();

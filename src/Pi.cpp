@@ -1261,12 +1261,7 @@ void Pi::MainLoop()
 
 StarSystem *Pi::GetSelectedSystem()
 {
-	SystemPath selectedPath;
-	if (!Pi::sectorView->GetSelectedSystem(&selectedPath)) {
-		if (selectedSystem) selectedSystem->Release();
-		selectedSystem = 0;
-		return 0;
-	}
+	SystemPath selectedPath = Pi::sectorView->GetSelectedSystem();
 
 	if (selectedSystem) {
 		if (selectedSystem->GetPath().IsSameSystem(selectedPath))

@@ -3,9 +3,11 @@ Alpha 13
   * New features
 
   * Fixes
+    * Move sector view to current system on first open (#262)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
+    * Refactored SectorView to use SystemPath internally (#262)
 
 Alpha 12
 
