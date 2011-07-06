@@ -497,10 +497,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LuaSBodyPath.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\LuaSerializer.cpp"
 				>
 			</File>
@@ -526,6 +522,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaStarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSystemPath.cpp"
 				>
 			</File>
 			<File
@@ -726,10 +726,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SysLoc.cpp"
 				>
 			</File>
 			<File
@@ -1179,6 +1175,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaSBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSystemPath.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\contrib\lua\lundump.h"
 				>
 			</File>
@@ -1460,10 +1464,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SysLoc.h"
 				>
 			</File>
 			<File
