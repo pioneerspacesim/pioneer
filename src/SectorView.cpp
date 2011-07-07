@@ -10,7 +10,8 @@
 #include "GalacticView.h"
 		
 SectorView::SectorView() :
-	m_firstTime(true)
+	m_firstTime(true),
+	m_matchTargetToSelection(true)
 {
 	SetTransparency(true);
 	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
@@ -132,6 +133,28 @@ void SectorView::Draw3D()
 	glEnable(GL_LIGHTING);
 }
 
+void SectorView::SetHyperspaceTarget(const SystemPath &path)
+{
+	m_hyperspaceTarget = path;
+	m_matchTargetToSelection = false;
+	onHyperspaceTargetChanged.emit();
+}
+
+void SectorView::FloatHyperspaceTarget()
+{
+	m_matchTargetToSelection = true;
+}
+
+void SectorView::ResetHyperspaceTarget()
+{
+	SystemPath old = m_hyperspaceTarget;
+	m_hyperspaceTarget = m_selected;
+	m_matchTargetToSelection = true;
+
+	if (old != m_hyperspaceTarget)
+		onHyperspaceTargetChanged.emit();
+}
+
 void SectorView::GotoSystem(const SystemPath &path)
 {
 	Sector* ps = GetCached(path.sectorX, path.sectorY);
@@ -177,6 +200,8 @@ void SectorView::DrawSector(int sx, int sy)
 	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
+		SystemPath current = SystemPath(sx, sy, num);
+
 		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
 		glPushMatrix();
 		glTranslatef((*i).p.x, (*i).p.y, 0);
@@ -200,7 +225,7 @@ void SectorView::DrawSector(int sx, int sy)
 		float diffy = fabs(m_pyMovingTo - m_py);
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 		if( !(*i).IsSetInhabited() && diffx < 0.001f && diffy < 0.001f ) {
-			StarSystem* pSS = StarSystem::GetCached(SystemPath(sx, sy, num));
+			StarSystem* pSS = StarSystem::GetCached(current);
 			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
 			{
 				(*i).SetInhabited(true);
@@ -230,7 +255,7 @@ void SectorView::DrawSector(int sx, int sy)
 		}
 
 		// player location indicator
-		if ((sx == playerLoc.sectorX) && (sy == playerLoc.sectorY) && (num == playerLoc.systemIndex)) {
+		if (current == playerLoc) {
 			const shipstats_t *stats = Pi::player->CalcStats();
 			glColor3f(0,0,1);
 			glBegin(GL_LINE_LOOP);
@@ -248,11 +273,22 @@ void SectorView::DrawSector(int sx, int sy)
 			glPopMatrix();
 		}
 		// selected indicator
-		if ((sx == m_selected.sectorX) && (sy == m_selected.sectorY) && (num == m_selected.systemIndex)) {
+		if (current == m_selected) {
+			glPushMatrix();
 			glDepthRange(0.1,1.0);
 			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
 			glCallList(m_gluDiskDlist);
+			glPopMatrix();
+		}
+		// hyperspace target indicator (if different from selection)
+		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && m_hyperspaceTarget != playerLoc) {
+			glPushMatrix();
+			glDepthRange(0.1,1.0);
+			glColor3f(0.3,0.3,0.3);
+			glScalef(2,2,2);
+			glCallList(m_gluDiskDlist);
+			glPopMatrix();
 		}
 		glDepthRange(0,1);
 		glPopMatrix();
@@ -270,22 +306,49 @@ void SectorView::OnSwitchTo() {
 		WarpToSystem(Pi::currentSystem->GetPath());
 		m_firstTime = false;
 	}
+	
+	if (!m_onKeyPressConnection.connected())
+		m_onKeyPressConnection =
+			Pi::onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPress));
+
 	Update();
 }
 
-void SectorView::Update()
+void SectorView::OnKeyPress(SDL_keysym *keysym)
 {
-	const float frameTime = Pi::GetFrameTime();
+	if (Pi::GetView() != this) {
+		m_onKeyPressConnection.disconnect();
+		return;
+	}
 
 	SystemPath playerLoc = Pi::currentSystem->GetPath();
 
-	if (Pi::KeyState(SDLK_c)) {
-		GotoSystem(playerLoc);
+	// space "locks" (or unlocks) the hyperspace target to the selected system
+	if (keysym->sym == SDLK_SPACE) {
+		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(playerLoc))
+			SetHyperspaceTarget(m_selected);
+		else
+			ResetHyperspaceTarget();
+	}
+
+	// fast move selection to current player system or hyperspace target
+	if (Pi::KeyState(SDLK_c) || Pi::KeyState(SDLK_h)) {
+		if (Pi::KeyState(SDLK_c))
+			GotoSystem(playerLoc);
+		else
+			GotoSystem(m_hyperspaceTarget);
+
 		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
 			m_rot_x = m_rot_z = 0;
 			m_zoom = 1.2;
 		}
 	}
+
+}
+
+void SectorView::Update()
+{
+	const float frameTime = Pi::GetFrameTime();
 
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
@@ -336,8 +399,15 @@ void SectorView::Update()
 			m_selected.systemIndex = i;
 		}
 	}
-	
+
 	if (last_selected != m_selected) {
+		if (m_matchTargetToSelection) {
+			m_hyperspaceTarget = m_selected;
+			onHyperspaceTargetChanged.emit();
+		}
+	
+		SystemPath playerLoc = Pi::currentSystem->GetPath();
+
 		Sector sec(m_selected.sectorX, m_selected.sectorY);
 		Sector psec(playerLoc.sectorX, playerLoc.sectorY);
 		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
@@ -350,27 +420,22 @@ void SectorView::Update()
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
-				Pi::player->SetHyperspaceTarget(&m_selected);
 				m_distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:
 				snprintf(buf, sizeof(buf), "Current system");
-				Pi::player->ClearHyperspaceTarget();
 				m_distance->Color(0.0f, 1.0f, 1.0f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
-				Pi::player->ClearHyperspaceTarget();
 				m_distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
-				Pi::player->ClearHyperspaceTarget();
 				m_distance->Color(1.0f, 0.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_NO_DRIVE:
 				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
-				Pi::player->ClearHyperspaceTarget();
 				m_distance->Color(1.0f, 0.6f, 1.0f);
 				break;
 		}

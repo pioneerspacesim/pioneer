@@ -100,7 +100,6 @@ public:
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
-	static sigc::signal<void> onPlayerChangeHyperspaceTarget;
 	static sigc::signal<void> onPlayerChangeFlightControlState;
 	static sigc::signal<void> onPlayerChangeEquipment;
 	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
