@@ -420,6 +420,19 @@ local pluto_starports = {
 		:longitude(math.deg2rad(96)),
 }
 
+local charon = {
+   CustomSBody:new('Charon', 'PLANET_TERRESTRIAL')
+      :radius(f(9,100))
+      :mass(f(2,10000))
+      :temp(44)
+      :semi_major_axis(f(217,1000000))
+      :eccentricity(f(220,10000))
+      :inclination(math.deg2rad(119.5))
+      :rotation_period(f(6,10))
+      :axial_tilt(math.fixed.deg2rad(f(668,100)))
+      :volcanicity(f(0,1)),
+}
+
 s:bodies(sol, {
 	mercury,
 	venus,
@@ -439,6 +452,7 @@ s:bodies(sol, {
 		neptune_moons,
 	pluto,
 		pluto_starports,
+		charon,
 })
 
 s:add_to_sector(0,0,v(0.5,0.5,0))
