@@ -11,7 +11,6 @@
 #include "TextureManager.h"
 #include <set>
 #include <algorithm>
-#include <sys/stat.h>
 
 #define MODEL "Model"
 struct RenderState {
