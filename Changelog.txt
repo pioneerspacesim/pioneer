@@ -1,6 +1,7 @@
 Alpha 13
 
   * New features
+    Two new songs (#267)
 
   * Fixes
     * Move sector view to current system on first open (#262)
