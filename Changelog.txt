@@ -53,6 +53,7 @@ Alpha 12
     * Crash due to buffer overrun in sound player (#253)
     * Fixed HDR lighting on Radeon (#87, #263)
     * Replace broken hill/dune terrain with something that works
+    * Adjust Saturn, Uranus and Neptune so they have rings as appropriate
 
   * Internal changes
     * All model timing now based of game time (#175, #178)
