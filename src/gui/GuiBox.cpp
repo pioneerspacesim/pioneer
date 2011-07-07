@@ -95,31 +95,41 @@ void Box::UpdateAllChildSizes()
 	int num_expand_children = 0;
 	// look at all children...
 	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		float rsize[2];
-		if ((*i).flags) num_expand_children++;
+		float msize[2], bsize[2];
+
 		if (m_orient == BOX_VERTICAL) {
-			rsize[0] = size[0];
-			rsize[1] = space;
-			(*i).w->GetMinimumSize(rsize);
-			if (rsize[0] > size[0]) rsize[0] = size[0];
-			if (rsize[1] > space) rsize[1] = space;
-			(*i).w->SetSize(size[0], rsize[1]);
+			msize[0] = bsize[0] = size[0];
+			msize[1] = bsize[1] = space;
+			(*i).w->GetMinimumSize(msize);
+			(*i).w->GetSizeRequested(bsize);
+
+			(*i).flags = (msize[1] != bsize[1]) ? 1 : 0;
+
+			if (msize[0] > size[0]) msize[0] = size[0];
+			if (msize[1] > space) msize[1] = space;
+			(*i).w->SetSize(size[0], msize[1]);
 			(*i).pos[0] = 0;
 			(*i).pos[1] = pos;
-			pos += rsize[1] + m_spacing;
-			space -= rsize[1] + m_spacing;
+			pos += msize[1] + m_spacing;
+			space -= msize[1] + m_spacing;
 		} else {
-			rsize[0] = space;
-			rsize[1] = size[1];
-			(*i).w->GetMinimumSize(rsize);
-			if (rsize[0] > space) rsize[0] = space;
-			if (rsize[1] > size[1]) rsize[1] = size[1];
-			(*i).w->SetSize(rsize[0], size[1]);
+			msize[0] = bsize[0] = size[0];
+			msize[1] = bsize[1] = space;
+			(*i).w->GetMinimumSize(msize);
+			(*i).w->GetSizeRequested(bsize);
+
+			(*i).flags = (msize[0] != bsize[0]) ? 1 : 0;
+
+			if (msize[0] > space) msize[0] = space;
+			if (msize[1] > size[1]) msize[1] = size[1];
+			(*i).w->SetSize(msize[0], size[1]);
 			(*i).pos[0] = pos;
 			(*i).pos[1] = 0;
-			pos += rsize[0] + m_spacing;
-			space -= rsize[0] + m_spacing;
+			pos += msize[0] + m_spacing;
+			space -= msize[0] + m_spacing;
 		}
+
+		if ((*i).flags) num_expand_children++;
 	}
 	// last item does not need spacing after it...
 	space += m_spacing;
