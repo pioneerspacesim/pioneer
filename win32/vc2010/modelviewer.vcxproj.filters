@@ -153,6 +153,9 @@
     <ClCompile Include="..\..\src\png\lodepng.cpp">
       <Filter>src\png</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\TextureManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -307,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\png\lodepng.h">
       <Filter>src\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextureManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SystemPath.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

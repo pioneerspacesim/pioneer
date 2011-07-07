@@ -161,6 +161,7 @@ eventid PlaySfx (const char *fx, const float volume_left, const float volume_rig
 	}
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
+	wavstream[idx].buf_pos = 0;
 	wavstream[idx].volume[0] = volume_left * GetSfxVolume();
 	wavstream[idx].volume[1] = volume_right * GetSfxVolume();
 	wavstream[idx].op = op;
@@ -184,6 +185,7 @@ eventid PlayMusic(const char *fx, const float volume_left, const float volume_ri
 		DestroyEvent(&wavstream[idx]);
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
+	wavstream[idx].buf_pos = 0;
 	wavstream[idx].volume[0] = volume_left;
 	wavstream[idx].volume[1] = volume_right;
 	wavstream[idx].op = op;

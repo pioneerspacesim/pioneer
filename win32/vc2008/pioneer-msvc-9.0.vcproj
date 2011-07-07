@@ -469,6 +469,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaMusic.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaNameGen.cpp"
 				>
 			</File>
@@ -490,10 +494,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaSBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSBodyPath.cpp"
 				>
 			</File>
 			<File
@@ -522,6 +522,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaStarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSystemPath.cpp"
 				>
 			</File>
 			<File
@@ -701,6 +705,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SoundMusic.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Space.cpp"
 				>
 			</File>
@@ -721,10 +729,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\SysLoc.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\SystemInfoView.cpp"
 				>
 			</File>
@@ -734,6 +738,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TextureFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TextureManager.cpp"
 				>
 			</File>
 			<File
@@ -1167,6 +1175,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaMusic.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSystemPath.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\contrib\lua\lundump.h"
 				>
 			</File>
@@ -1427,6 +1447,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SoundMusic.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Space.h"
 				>
 			</File>
@@ -1447,10 +1471,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\SysLoc.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\SystemInfoView.h"
 				>
 			</File>
@@ -1460,6 +1480,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TextureFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TextureManager.h"
 				>
 			</File>
 			<File

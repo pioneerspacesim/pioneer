@@ -6,8 +6,7 @@
 #include "ShipType.h"
 #include "MarketAgent.h"
 #include "ShipFlavour.h"
-// only for SBodyPath
-#include "StarSystem.h"
+#include "SystemPath.h"
 #include "BezierCurve.h"
 #include <list>
 
@@ -68,20 +67,27 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState { FLYING, LANDED, DOCKING };
+	enum FlightState {
+		FLYING,     // open flight (includes autopilot)
+		DOCKING,    // in docking animation
+		DOCKED,     // docked with station
+		LANDED,     // rough landed (not docked)
+		HYPERSPACE  // in hyperspace
+	};
+
        	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
-	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
+	const SystemPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
 	int GetHyperspaceCloudTargetId() { return m_hyperspace.followHypercloudId; }
 	// follow departure cloud
 	void SetHyperspaceTarget(HyperspaceCloud *cloud);
 	// just jump to near an SBody
-	void SetHyperspaceTarget(const SBodyPath *path);
+	void SetHyperspaceTarget(const SystemPath *path);
 	void ClearHyperspaceTarget();
     void ResetHyperspaceCountdown();
-	void TryHyperspaceTo(const SBodyPath *dest);
+	void TryHyperspaceTo(const SystemPath *dest);
 	enum HyperjumpStatus {
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
@@ -89,8 +95,8 @@ public:
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL
 	};
-	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
-	void UseHyperspaceFuel(const SBodyPath *dest);
+	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
+	void UseHyperspaceFuel(const SystemPath *dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	Equip::Type GetHyperdriveFuelType() const;
 	float GetWeakestThrustersForce() const;
@@ -128,7 +134,7 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
-	void AIJourney(SBodyPath &dest);
+	//void AIJourney(SBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
@@ -205,7 +211,7 @@ private:
 
 	struct HyperspacingOut {
 		int followHypercloudId;
-		SBodyPath dest;
+		SystemPath dest;
 		// > 0 means active
 		float countdown;
 	} m_hyperspace;

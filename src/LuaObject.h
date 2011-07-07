@@ -58,8 +58,8 @@
 //  OR if your class can't inherit from DeleteEmitter for some reason, use
 //  this kind of typedef instead to create a subclass
 //
-//      class SBodyPath;
-//      typedef LuaObjectUncopyable<SBodyPath,LuaUncopyable<SBodyPath> > LuaSBodyPath;
+//      class SystemPath;
+//      typedef LuaObjectUncopyable<SystemPath,LuaUncopyable<SystemPath> > LuaSystemPath;
 //
 //  you probably don't want to do this unless you understand the entire
 //  LuaObjectBase system. read on and ask for help :)
