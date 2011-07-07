@@ -953,7 +953,7 @@ LmrModel::LmrModel(const char *model_name)
 			fclose(f);
 			goto rebuild_model;
 		}
-		fread((void*)&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
+		if (numMaterials) fread((void*)&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
 
 		int numLights;
 		fread((void*)&numLights, 1, 4, f);
@@ -961,7 +961,7 @@ LmrModel::LmrModel(const char *model_name)
 			fclose(f);
 			goto rebuild_model;
 		}
-		fread((void*)&m_lights[0], sizeof(LmrLight), numLights, f);
+		if (numLights) fread((void*)&m_lights[0], sizeof(LmrLight), numLights, f);
 
 		fclose(f);
 	} else {
@@ -986,10 +986,10 @@ rebuild_model:
 		
 		const int numMaterials = m_materials.size();
 		fwrite((void*)&numMaterials, 1, 4, f);
-		fwrite((void*)&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
+		if (numMaterials) fwrite((void*)&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
 		const int numLights = m_lights.size();
 		fwrite((void*)&numLights, 1, 4, f);
-		fwrite((void*)&m_lights[0], sizeof(LmrLight), numLights, f);
+		if (numLights) fwrite((void*)&m_lights[0], sizeof(LmrLight), numLights, f);
 		
 		fclose(f);
 	}
