@@ -6,6 +6,7 @@
 #include "Ship.h"
 #include "StarSystem.h"
 #include "RefList.h"
+#include "HyperspaceCloud.h"
 
 struct Mission : RefItem<Mission> {
 	enum MissionState { ACTIVE, COMPLETED, FAILED };
@@ -50,6 +51,12 @@ double m_mouseAcc;
 
 	RefList<Mission> missions;
 
+	void SetFollowCloud(HyperspaceCloud *cloud) { m_followCloud = cloud; }
+	void ClearFollowCloud() { m_followCloud = 0; }
+	HyperspaceCloud *GetFollowCloud() { return m_followCloud; }
+
+	virtual void PostLoadFixup();
+
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
@@ -62,6 +69,10 @@ private:
 	double m_setSpeed;
 	int m_killCount;
 	int m_knownKillCount; // updated on docking
+
+	HyperspaceCloud *m_followCloud;
+
+	int m_followCloudIndex; // deserialisation
 };
 
 #endif /* _PLAYER_H */

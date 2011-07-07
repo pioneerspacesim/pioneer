@@ -2,10 +2,13 @@ Alpha 13
 
   * New features
     * New song 'spacegroove' (#267)
-	* Caching of models and textures on startup, reduces loading times. (#271)
+    * Caching of models and textures on startup, reduces loading times (#271)
+    * Separate hyperspace target from selected system in sector view (#269)
 
   * Fixes
     * Move sector view to current system on first open (#262)
+    * Check hyperspace validity at hyperspace time, fixes erroneous jumps to
+      Sol (#269)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
