@@ -425,7 +425,7 @@ local charon = {
       :radius(f(9,100))
       :mass(f(2,10000))
       :temp(44)
-      :semi_major_axis(f(217,1000000))
+      :semi_major_axis(f(1172,10000000))
       :eccentricity(f(220,10000))
       :inclination(math.deg2rad(119.5))
       :rotation_period(f(6,10))
