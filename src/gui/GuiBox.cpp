@@ -72,17 +72,15 @@ void Box::OnChildResizeRequest(Widget *child)
 	UpdateAllChildSizes();
 }
 
-void Box::PackStart(Widget *child, bool expand)
+void Box::PackStart(Widget *child)
 {
 	PrependChild(child, 0, 0);
-	m_children.front().flags = expand;
 	ResizeRequest();
 }
 
-void Box::PackEnd(Widget *child, bool expand)
+void Box::PackEnd(Widget *child)
 {
 	AppendChild(child, 0, 0);
-	m_children.back().flags = expand;
 	ResizeRequest();
 }
 

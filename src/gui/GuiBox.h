@@ -16,8 +16,8 @@ namespace Gui {
 	class Box: public Container {
 	public:
 		Box(BoxOrientation orient);
-		void PackStart(Widget *child, bool expand=false);
-		void PackEnd(Widget *child, bool expand=false);
+		void PackStart(Widget *child);
+		void PackEnd(Widget *child);
 		void Remove(Widget *child);
 		virtual ~Box();
 		virtual void GetSizeRequested(float size[2]) { GetSizeRequestedOrMinimum(size, false); }

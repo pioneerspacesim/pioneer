@@ -39,7 +39,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 	m_infoBox->DeleteAllChildren();
 	
 	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
-	m_infoBox->PackStart(fixed, true);
+	m_infoBox->PackStart(fixed);
 	Gui::VBox *col1 = new Gui::VBox();
 	Gui::VBox *col2 = new Gui::VBox();
 	fixed->Add(col1, 0, 0);
@@ -288,7 +288,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		m_infoBox->PackStart(l);
 		portal->Add(m_infoBox);
 		scrollBox->PackStart(scroll);
-		scrollBox->PackStart(portal, true);
+		scrollBox->PackStart(portal);
 	}
 
 	{
@@ -300,7 +300,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(0,0);
 		scroll2->SetAdjustment(&portal2->vscrollAdjust);
 		scrollBox2->PackStart(scroll2);
-		scrollBox2->PackStart(portal2, true);
+		scrollBox2->PackStart(portal2);
 
 		m_econInfo = new Gui::Label("");
 		m_econInfoTab->Add(m_econInfo, 35, 250);
