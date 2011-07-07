@@ -351,7 +351,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_RUGGED_LAVA,
 				TERRAIN_RUGGED_DESERT,
 			};
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
+			//m_terrainType = TERRAIN_HILLS_DUNES;
 			m_terrainType = choices[rand.Int32(11)];
 			m_colorType = COLOR_TFPOOR;
 		} else if (body->m_volatileGas > fixed(1,10)) {
@@ -508,10 +508,10 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case TERRAIN_HILLS_DUNES:
 		{
 			SetFracDef(&m_fracdef[0], m_maxHeightInMeters, rand.Double(1e6, 1e7), rand, 10000);
-			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00000000001, 100.0, rand, 10000);
-			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.0000001, rand.Double(500, 2e3), rand, 1000);
-			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.00002, rand.Double(1500, 1e4), rand, 100);
-			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.08, 1e4, rand, 50);
+			SetFracDef(&m_fracdef[1], m_maxHeightInMeters*0.00001, 1e5, rand, 1000);
+			SetFracDef(&m_fracdef[2], m_maxHeightInMeters*0.000001, rand.Double(1e5, 1e6), rand, 100);
+			SetFracDef(&m_fracdef[3], m_maxHeightInMeters*0.0000002, rand.Double(500, 2e4), rand, 50);
+			SetFracDef(&m_fracdef[4], m_maxHeightInMeters*0.000000008, rand.Double(5, 70), rand, 10);
 			break;
 		}
 		case TERRAIN_HILLS_RIDGED:
@@ -852,14 +852,21 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			double continents = ridged_octavenoise(m_fracdef[0], 0.585, p) - m_sealevel;
 			if (continents < 0) return 0;
 			double n = continents;
-			double distrib = dunes_octavenoise(m_fracdef[2], 0.5, p);
-			double m = m_fracdef[3].amplitude * dunes_octavenoise(m_fracdef[4], 0.5*distrib, p);
-			m += ridged_octavenoise(m_fracdef[2], 0.5*distrib, p);
+			double distrib = dunes_octavenoise(m_fracdef[1], 0.5*m_fracdef[2].amplitude, p);
+			double m = 0.1 * m_fracdef[1].amplitude * dunes_octavenoise(m_fracdef[2], 0.5*distrib, p);
+			double mountains = ridged_octavenoise(m_fracdef[2], 0.5*distrib, p) * octavenoise(m_fracdef[2], 0.5, p) *
+				octavenoise(m_fracdef[1], 0.5*distrib, p) * distrib;
+			m += mountains;
+			//detail for mountains, stops them looking smooth, m_fracdef[4] is a very small scale fractal for close-up
+			//for this terrain m_fracdef[0-4] gradually decrease in size with 0 being large.
+			m += mountains*mountains*0.02*octavenoise(m_fracdef[4], 0.6*mountains*mountains*distrib, p);
+			m *= m*m*m*10.0;
 			// cliffs at shore
-			if (continents < 0.001) n += m * continents * 1000.0f;
+			if (continents < 0.01) n += m * continents * 100.0f;
 			else n += m;
-			n += continents*continents*continents*dunes_octavenoise(m_fracdef[1], 0.4*distrib, p);
-			return m_maxHeight * n;
+			n += continents*Clamp(0.5-m, 0.0, 0.5)*0.2*dunes_octavenoise(m_fracdef[3], 0.6*distrib, p);
+			n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(m_fracdef[4], Clamp(0.5-n, 0.0, 0.5), p);
+			return n*m_maxHeight; 
 		}
 		case TERRAIN_HILLS_RIDGED:
 		{

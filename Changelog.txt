@@ -36,6 +36,7 @@ Alpha 12
     * Occasional crash in system cache pruning (#230, #237)
     * Crash due to buffer overrun in sound player (#253)
     * Fixed HDR lighting on Radeon (#87, #263)
+    * Replace broken hill/dune terrain with something that works
 
   * Internal changes
     * All model timing now based of game time (#175, #178)
