@@ -147,6 +147,9 @@
     <ClCompile Include="..\..\src\gui\GuiWidget.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\TextureManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h">
       <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextureManager.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
