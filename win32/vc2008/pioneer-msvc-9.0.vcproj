@@ -741,6 +741,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TextureManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp"
 				>
 			</File>
@@ -1476,6 +1480,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TextureFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TextureManager.h"
 				>
 			</File>
 			<File
