@@ -8,9 +8,10 @@
 #include "Render.h"
 #include "BufferObject.h"
 #include "LuaUtils.h"
+#include "TextureManager.h"
 #include <set>
 #include <algorithm>
-#include "TextureManager.h"
+#include <sys/stat.h>
 
 #define MODEL "Model"
 struct RenderState {
@@ -240,7 +241,7 @@ static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
-static std::map<GLuint, std::string> s_texFilenameLookup; // only used for saving model caches
+static bool s_recompileAllModels = true;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -270,6 +271,24 @@ void UseProgram(LmrShader *shader, bool Textured = false) {
 }
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
+
+static void _fwrite_string(const std::string &str, FILE *f)
+{
+	int len = str.size()+1;
+	fwrite((void*)&len, 1, 4, f);
+	fwrite((void*)str.c_str(), 1, len, f);
+}
+
+static std::string _fread_string(FILE *f)
+{
+	int len = 0;
+	fread((void*)&len, 1, 4, f);
+	char *buf = new char[len];
+	fread((void*)buf, 1, len, f);
+	std::string str = std::string(buf);
+	delete buf;
+	return str;
+}
 	
 class LmrGeomBuffer {
 public:
@@ -785,21 +804,13 @@ public:
 			for (int i=0; i<numOps; i++) {
 				fwrite(&m_ops[i], sizeof(Op), 1, f);
 				if (m_ops[i].type == OP_CALL_MODEL) {
-					int len = strlen(m_ops[i].callmodel.model->GetName())+1;
-					fwrite((void*)&len, 1, 4, f);
-					fwrite((void*)m_ops[i].callmodel.model->GetName(), 1, len, f);
+					_fwrite_string(m_ops[i].callmodel.model->GetName(), f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-					const char *texfile = m_ops[i].elems.texture->GetFilename().c_str();
-					int len = strlen(texfile)+1;
-					fwrite((void*)&len, 1, 4, f);
-					fwrite((void*)texfile, 1, len, f);
+					_fwrite_string(m_ops[i].elems.texture->GetFilename(), f);
 				}
 				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-					const char *texfile = m_ops[i].billboards.texture->GetFilename().c_str();
-					int len = strlen(texfile)+1;
-					fwrite((void*)&len, 1, 4, f);
-					fwrite((void*)texfile, 1, len, f);
+					_fwrite_string(m_ops[i].billboards.texture->GetFilename(), f);
 				}
 			}
 		}
@@ -836,29 +847,13 @@ public:
 		for (int i=0; i<numOps; i++) {
 			fread(&m_ops[i], sizeof(Op), 1, f);
 			if (m_ops[i].type == OP_CALL_MODEL) {
-				int len = 0;
-				char *model_name;
-				fread((void*)&len, 1, 4, f);
-				model_name = new char[len];
-				fread((void*)model_name, 1, len, f);
-				m_ops[i].callmodel.model = s_models[model_name];
-				delete model_name;
+				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
 			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				int len = 0;
-				fread((void*)&len, 1, 4, f);
-				char *texfile = new char[len];
-				fread((void*)texfile, 1, len, f);
-				m_ops[i].elems.texture = TextureManager::GetTexture(texfile);
-				delete texfile;
+				m_ops[i].elems.texture = TextureManager::GetTexture(_fread_string(f));
 			}
 			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				int len = 0;
-				fread((void*)&len, 1, 4, f);
-				char *texfile = new char[len];
-				fread((void*)texfile, 1, len, f);
-				m_ops[i].billboards.texture = TextureManager::GetTexture(texfile);
-				delete texfile;
+				m_ops[i].billboards.texture = TextureManager::GetTexture(_fread_string(f));
 			}
 		}
 	}
@@ -942,10 +937,10 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	if (is_file(join_path(s_cacheDir.c_str(), model_name, 0))) {
+	if (!s_recompileAllModels) {
 		// load cached model
-		printf("Loading cached model %s\n", model_name);
-		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "r");
+		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "rb");
+		if (!f) goto rebuild_model;
 
 		for (int i=0; i<m_numLods; i++) {
 			m_staticGeometry[i]->PreBuild();
@@ -972,8 +967,7 @@ LmrModel::LmrModel(const char *model_name)
 	} else {
 rebuild_model:
 		// run static build for each LOD level
-		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "w");
-		printf("Caching model %s\n", model_name);
+		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "wb");
 		
 		for (int i=0; i<m_numLods; i++) {
 			m_staticGeometry[i]->PreBuild();
@@ -2842,9 +2836,62 @@ static int define_model(lua_State *L)
 	return 0;
 }
 
+static Uint32 s_allModelFilesCRC = 0;
+static void _makeModelFilesCRC(const std::string &dir, const std::string &filename)
+{
+	struct stat info;
+	if (stat(filename.c_str(), &info)) return;
+
+	if (S_ISDIR(info.st_mode)) {
+		foreach_file_in(filename, &_makeModelFilesCRC);
+	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
+		FILE *f = fopen(filename.c_str(), "rb");
+		if (f) {
+			for (int c = 0;;) {
+				c = fgetc(f);
+				if (c != EOF) s_allModelFilesCRC += c;
+				else break;
+			}
+			fclose(f);
+		}
+	}
+}
+
+static void _detect_model_changes()
+{
+
+	// do we need to rebuild the model cache?
+	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
+
+	FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "rb");
+	if (cache_sum_file) {
+		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
+		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
+			int crc;
+			fread((void*)&crc, 1, 4, cache_sum_file);
+			if (crc == s_allModelFilesCRC) {
+				s_recompileAllModels = false;
+			}
+		}
+		fclose(cache_sum_file);
+	}
+	if (s_recompileAllModels) {
+		printf("Rebuilding model cache...\n");
+		cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
+		if (cache_sum_file) {
+			_fwrite_string(PIONEER_VERSION, cache_sum_file);
+			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
+			fwrite((void*)&s_allModelFilesCRC, 1, 4, cache_sum_file);
+			fclose(cache_sum_file);
+		}
+	}
+}
+
 void LmrModelCompilerInit()
 {
 	s_cacheDir = GetPiUserDir("model_cache");
+	_detect_model_changes();
+
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
 	s_sunlightShader[0] = new LmrShader("model", "#define NUM_LIGHTS 1\n");
 	s_sunlightShader[1] = new LmrShader("model", "#define NUM_LIGHTS 2\n");

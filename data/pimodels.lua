@@ -97,7 +97,6 @@ function lerp_materials(a, m1, m2)
 end
 
 --dofile "data/models/adverts.lua"
-load_lua(CurrentDirectory .. "/model_functions")
 load_lua(CurrentDirectory .. "/sub_models")
 load_lua(CurrentDirectory .. "/models")
 
