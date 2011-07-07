@@ -1,7 +1,7 @@
 Alpha 13
 
   * New features
-    Two new songs (#267)
+    New song 'spacegroove' (#267)
 
   * Fixes
     * Move sector view to current system on first open (#262)
@@ -13,8 +13,8 @@ Alpha 13
 Alpha 12
 
   * New features
-    * Music! 16 songs and scriptable music engine and control script
-      (#233, #250, #171)
+    * Music! 17 songs and scriptable music engine and control script
+      (#233, #250, #171, #267)
     * New star and planet images in system info view (#167)
     * 'Home' key resets camera in external view (#199)
     * Re-implemented and re-enabled old hill, mountain, volcano, desert and
