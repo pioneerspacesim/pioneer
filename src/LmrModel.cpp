@@ -937,9 +937,11 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
+	const std::string cache_file = join_path(s_cacheDir.c_str(), model_name, 0) + ".bin";
+
 	if (!s_recompileAllModels) {
 		// load cached model
-		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "rb");
+		FILE *f = fopen(cache_file.c_str(), "rb");
 		if (!f) goto rebuild_model;
 
 		for (int i=0; i<m_numLods; i++) {
@@ -967,7 +969,7 @@ LmrModel::LmrModel(const char *model_name)
 	} else {
 rebuild_model:
 		// run static build for each LOD level
-		FILE *f = fopen(join_path(s_cacheDir.c_str(), model_name, 0).c_str(), "wb");
+		FILE *f = fopen(cache_file.c_str(), "wb");
 		
 		for (int i=0; i<m_numLods; i++) {
 			m_staticGeometry[i]->PreBuild();
