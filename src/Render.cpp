@@ -417,10 +417,11 @@ void ToggleHDR()
 	printf("HDR lighting %s.\n", isHDREnabled ? "enabled" : "disabled");
 }
 
-/*
+/**
  * So if we are using the z-hack VPROG_POINTSPRITE then this still works.
+ * Desired texture should already be bound on calling PutPointSprites()
  */
-void PutPointSprites(int num, vector3f *v, float size, const float modulationCol[4], GLuint tex, int stride)
+void PutPointSprites(int num, vector3f *v, float size, const float modulationCol[4], int stride)
 {
 	glEnable(GL_BLEND);
 	glDisable(GL_LIGHTING);
@@ -432,7 +433,6 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 //	glPointParameterf(GL_POINT_SIZE_MAX, 10000.0 );
 		
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

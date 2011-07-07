@@ -379,8 +379,9 @@ public:
 			case OP_DRAW_BILLBOARDS:
 				// XXX not using vbo yet
 				Render::UnbindAllBuffers();
+				op.billboards.texture->BindTexture();
 				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
-						op.billboards.col, op.billboards.texture->GetGLTextureName(), sizeof(Vertex));
+						op.billboards.col, sizeof(Vertex));
 				BindBuffers();
 				break;
 			case OP_SET_MATERIAL:

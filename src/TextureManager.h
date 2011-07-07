@@ -14,11 +14,6 @@ public:
 		if (!IsLoaded()) Load();
 		glBindTexture(GL_TEXTURE_2D, tex);
 	}
-	GLuint GetGLTextureName() {
-		if (!IsLoaded()) Load();
-		return tex;
-	}
-
 private:
 	void Load();
 
