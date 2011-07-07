@@ -129,6 +129,7 @@
     <ClCompile Include="..\..\src\Render.cpp" />
     <ClCompile Include="..\..\src\RenderShader.cpp" />
     <ClCompile Include="..\..\src\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\TextureManager.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\VectorFont.cpp" />
     <ClCompile Include="..\src\pch.cpp">
@@ -183,6 +184,7 @@
     <ClInclude Include="..\..\src\Render.h" />
     <ClInclude Include="..\..\src\RenderShader.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
+    <ClInclude Include="..\..\src\TextureManager.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VectorFont.h" />
