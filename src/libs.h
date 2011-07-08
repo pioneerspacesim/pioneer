@@ -32,6 +32,8 @@ inline int isfinite(double x) { return _finite(x); }
 #endif
 #endif /* __MINGW32__ */
 
+#elif __FreeBSD__
+#include <stdlib.h>
 #else
 #include <alloca.h>
 #endif
