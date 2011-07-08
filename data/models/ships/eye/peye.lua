@@ -61,7 +61,7 @@ define_model('eye_0', {
 
 	end,
 	dynamic = function(lod)
-        set_material('e_glow', lerp_materials(os.clock()*0.5,   {.5,.5,.5,1,0,0,0,0,.5,1,1},
+        set_material('e_glow', lerp_materials(get_arg(1)*0.5,   {.5,.5,.5,1,0,0,0,0,.5,1,1},
 																{.5,.5,.5,1,0,0,0,0,2.5,.5,1}))
         set_material('matvar0', get_arg_material(0))
 

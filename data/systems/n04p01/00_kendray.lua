@@ -1,1 +1,1 @@
-CustomSystem:new("Kendray",{Body.Type.STAR_M}):add_to_sector(-4,1,v(0.875,0.932,0.040))
+CustomSystem:new("Kendray",{'STAR_M'}):add_to_sector(-4,1,v(0.875,0.932,0.040))

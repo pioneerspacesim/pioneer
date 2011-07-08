@@ -1,116 +1,70 @@
-#ifdef __MINGW32__
-#define WINVER 0x0500
-#include <w32api.h>
-#define _WIN32_IE IE5
-#endif
-
-#include <stdlib.h>
-#include <math.h>
 #include "libs.h"
-#include "utils.h"
-#include "Gui.h"
-#include <string>
-#include <map>
+#include "gui/Gui.h"
 
-#ifdef _WIN32
-
-#ifdef __MINGW32__
-#include <dirent.h>
-#include <sys/stat.h>
-#include <stdexcept>
-#define WINSHLWAPI
-#else /* !__MINGW32__ */
-#include "win32-dirent.h"
-#endif
-
-#include <shlobj.h>
-#include <shlwapi.h>
-
-#else /* !_WIN32 */
-#include <dirent.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#endif
+#define PNG_SKIP_SETJMP_CHECK
+#include <png.h>
 
 std::string GetPiUserDir(const std::string &subdir)
 {
-#if defined(__MINGW32__)
 
-	/* XXX limiting this implementation to mingw32 for now, because the normal
-	 * win32 seems to work fine under msvc and I'm unable to test thoroughly */
-	std::string path = getenv("appdata");
-	path += "\\Pioneer";
+#if defined(_WIN32)
+
+	char appdata_path[MAX_PATH];
+	if (SHGetFolderPathA(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
+		fprintf(stderr, "Couldn't get user documents folder path\n");
+		exit(-1);
+	}
+
+	std::string path(appdata_path);
+	path += "/Pioneer";
+
+	if (!PathFileExistsA(path.c_str())) {
+		if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
+			fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
+			exit(-1);
+		}
+	}
+
+	if (subdir.length() > 0) {
+		path += "/" + subdir;
+		if (!PathFileExistsA(path.c_str())) {
+			if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
+				fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
+				exit(-1);
+			}
+		}
+	}
+
+	return path + "/";
+
+#else
+
+	std::string path = getenv("HOME");
+
+#ifdef __APPLE__
+	path += "/Library/Application Support/Pioneer";
+#else
+	path += "/.pioneer";
+#endif
 
 	struct stat st;
-	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
 		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
 		exit(-1);
 	}
 
 	if (subdir.length() > 0) {
-		path += "\\" + subdir;
-		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str()) < 0) {
+		path += "/" + subdir;
+		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
 			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
 			exit(-1);
 		}
 	}
 
-	return path + "\\";
+	return path + "/";
 
-#elif defined(_WIN32)
-	try {
-		TCHAR path[MAX_PATH];
-		if(S_OK != SHGetFolderPath(0, CSIDL_LOCAL_APPDATA, 0, SHGFP_TYPE_CURRENT, path))
-			throw std::runtime_error("SHGetFolderPath");
-
-		TCHAR temp[MAX_PATH];
-		MultiByteToWideChar(CP_ACP, 0, "Pioneer", strlen("Pioneer")+1, (WCHAR*)temp, MAX_PATH);
-		if(!PathAppend(path, temp))
-			throw std::runtime_error("PathAppend");
-
-		if (subdir != "") {
-			MultiByteToWideChar(CP_ACP, 0, subdir.c_str(), subdir.size()+1, (WCHAR*)temp, MAX_PATH);
-			if(!PathAppend(path, temp))
-				throw std::runtime_error("PathAppend");
-		}
-
-		if(!PathFileExists(path) && ERROR_SUCCESS != SHCreateDirectoryEx(0, path, 0))
-			throw std::runtime_error("SHCreateDirectoryEx");
-
-		char temp2[MAX_PATH];
-		WideCharToMultiByte(CP_ACP, 0, (const WCHAR*)path, wcslen((const wchar_t*)path)+1, temp2, MAX_PATH, 0, 0);
-		return std::string(temp2)+"/";
-	}
-	catch(const std::exception&) {
-		Gui::Screen::ShowBadError("Can't get path to save directory");
-		return "";
-	}
-
-#else
-	const char *homedir = getenv("HOME");
-	std::string path = join_path(homedir, ".pioneer", 0);
-	DIR *dir = opendir(path.c_str());
-	if (!dir) {
-		if (mkdir(path.c_str(), 0770) == -1) {
-			Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
-		}
-	} else {
-		closedir(dir);
-	}
-	if (subdir != "") {
-		path = join_path(homedir, ".pioneer", subdir.c_str(), 0);
-		dir = opendir(path.c_str());
-		if (!dir) {
-			if (mkdir(path.c_str(), 0770) == -1) {
-				Gui::Screen::ShowBadError(stringf(128, "Error: Could not create or open '%s'.", path.c_str()).c_str());
-			}
-		} else {
-            closedir(dir);
-        }
-	}
-	return path+"/";
 #endif
+
 }
 
 std::string PiGetDataDir()
@@ -128,95 +82,86 @@ FILE *fopen_or_die(const char *filename, const char *mode)
 	return f;
 }
 
-/*
- * jesus wept
- */
-static const char *i_am_a_little_teapot[365] =
-{ "Jan 1","Jan 2","Jan 3","Jan 4","Jan 5","Jan 6","Jan 7",
-  "Jan 8","Jan 9","Jan 10","Jan 11","Jan 12","Jan 13","Jan 14",
-  "Jan 15","Jan 16","Jan 17","Jan 18","Jan 19","Jan 20","Jan 21",
-  "Jan 22","Jan 23","Jan 24","Jan 25","Jan 26","Jan 27","Jan 28",
-  "Jan 29","Jan 30","Jan 31","Feb 1","Feb 2","Feb 3","Feb 4",
-  "Feb 5","Feb 6","Feb 7","Feb 8","Feb 9","Feb 10","Feb 11","Feb 12",
-  "Feb 13","Feb 14","Feb 15","Feb 16","Feb 17","Feb 18","Feb 19",
-  "Feb 20","Feb 21","Feb 22","Feb 23","Feb 24","Feb 25","Feb 26",
-  "Feb 27","Feb 28","Mar 1","Mar 2","Mar 3","Mar 4","Mar 5","Mar 6",
-  "Mar 7","Mar 8","Mar 9","Mar 10","Mar 11","Mar 12","Mar 13",
-  "Mar 14","Mar 15","Mar 16","Mar 17","Mar 18","Mar 19","Mar 20",
-  "Mar 21","Mar 22","Mar 23","Mar 24","Mar 25","Mar 26","Mar 27",
-  "Mar 28","Mar 29","Mar 30","Mar 31","Apr 1","Apr 2","Apr 3",
-  "Apr 4","Apr 5","Apr 6","Apr 7","Apr 8","Apr 9","Apr 10","Apr 11",
-  "Apr 12","Apr 13","Apr 14","Apr 15","Apr 16","Apr 17","Apr 18",
-  "Apr 19","Apr 20","Apr 21","Apr 22","Apr 23","Apr 24","Apr 25",
-  "Apr 26","Apr 27","Apr 28","Apr 29","Apr 30","May 1","May 2",
-  "May 3","May 4","May 5","May 6","May 7","May 8","May 9","May 10",
-  "May 11","May 12","May 13","May 14","May 15","May 16","May 17",
-  "May 18","May 19","May 20","May 21","May 22","May 23","May 24",
-  "May 25","May 26","May 27","May 28","May 29","May 30","May 31",
-  "Jun 1","Jun 2","Jun 3","Jun 4","Jun 5","Jun 6","Jun 7","Jun 8",
-  "Jun 9","Jun 10","Jun 11","Jun 12","Jun 13","Jun 14","Jun 15",
-  "Jun 16","Jun 17","Jun 18","Jun 19","Jun 20","Jun 21","Jun 22",
-  "Jun 23","Jun 24","Jun 25","Jun 26","Jun 27","Jun 28","Jun 29",
-  "Jun 30","Jul 1","Jul 2","Jul 3","Jul 4","Jul 5","Jul 6","Jul 7",
-  "Jul 8","Jul 9","Jul 10","Jul 11","Jul 12","Jul 13","Jul 14",
-  "Jul 15","Jul 16","Jul 17","Jul 18","Jul 19","Jul 20","Jul 21",
-  "Jul 22","Jul 23","Jul 24","Jul 25","Jul 26","Jul 27","Jul 28",
-  "Jul 29","Jul 30","Jul 31","Aug 1","Aug 2","Aug 3","Aug 4","Aug 5",
-  "Aug 6","Aug 7","Aug 8","Aug 9","Aug 10","Aug 11","Aug 12",
-  "Aug 13","Aug 14","Aug 15","Aug 16","Aug 17","Aug 18","Aug 19",
-  "Aug 20","Aug 21","Aug 22","Aug 23","Aug 24","Aug 25","Aug 26",
-  "Aug 27","Aug 28","Aug 29","Aug 30","Aug 31","Sep 1","Sep 2",
-  "Sep 3","Sep 4","Sep 5","Sep 6","Sep 7","Sep 8","Sep 9","Sep 10",
-  "Sep 11","Sep 12","Sep 13","Sep 14","Sep 15","Sep 16","Sep 17",
-  "Sep 18","Sep 19","Sep 20","Sep 21","Sep 22","Sep 23","Sep 24",
-  "Sep 25","Sep 26","Sep 27","Sep 28","Sep 29","Sep 30","Oct 1",
-  "Oct 2","Oct 3","Oct 4","Oct 5","Oct 6","Oct 7","Oct 8","Oct 9",
-  "Oct 10","Oct 11","Oct 12","Oct 13","Oct 14","Oct 15","Oct 16",
-  "Oct 17","Oct 18","Oct 19","Oct 20","Oct 21","Oct 22","Oct 23",
-  "Oct 24","Oct 25","Oct 26","Oct 27","Oct 28","Oct 29","Oct 30",
-  "Oct 31","Nov 1","Nov 2","Nov 3","Nov 4","Nov 5","Nov 6","Nov 7",
-  "Nov 8","Nov 9","Nov 10","Nov 11","Nov 12","Nov 13","Nov 14",
-  "Nov 15","Nov 16","Nov 17","Nov 18","Nov 19","Nov 20","Nov 21",
-  "Nov 22","Nov 23","Nov 24","Nov 25","Nov 26","Nov 27","Nov 28",
-  "Nov 29","Nov 30","Dec 1","Dec 2","Dec 3","Dec 4","Dec 5","Dec 6",
-  "Dec 7","Dec 8","Dec 9","Dec 10","Dec 11","Dec 12","Dec 13",
-  "Dec 14","Dec 15","Dec 16","Dec 17","Dec 18","Dec 19","Dec 20",
-  "Dec 21","Dec 22","Dec 23","Dec 24","Dec 25","Dec 26","Dec 27",
-  "Dec 28","Dec 29","Dec 30","Dec 31"
-};
-
-int wankmod(int a, int b)
-{
-	int r = a%b;
-	return r>=0 ? r : r+b;
-}
-
 std::string format_money(Sint64 money)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.1f", 0.01*(double)money);
+	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
 	return std::string(buf);
 }
 
+class timedate {
+public:
+	timedate() : hour(0), minute(0), second(0), day(0), month(0), year(3200) {}
+	timedate(int stamp) { *this = stamp; }
+	timedate &operator=(int stamp);
+	std::string fmt_time_date();
+	std::string fmt_date();
+private:
+	int hour, minute, second, day, month, year;
+
+	static const char months[37];
+	static const unsigned char days[2][12];
+};
+
+const char timedate::months[37] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+const unsigned char timedate::days[2][12] = {
+	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+	{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+};
+
+timedate &timedate::operator=(int stamp)
+{
+	int i = int(stamp) % 86400;
+
+	hour   = i / 3600; i %= 3600;
+	minute = i /   60; i %=   60;
+	second = i;
+
+	i = int(stamp) / 86400 + 1168410; // days since "year 0"
+
+	int n400 = i / 146097; i %= 146097;
+	int n100 = i /  36524; i %=  36524;
+	int n4   = i /   1461; i %=   1461;
+	int n1   = i /    365;
+
+	year = n1 + n4 * 4 + n100 * 100 + n400 * 400 + !(n100 == 4 || n1 == 4);
+	day = i % 365 + (n100 == 4 || n1 == 4) * 365;
+	int leap = (year % 4 == 0 && year % 100) || (year % 400 == 0);
+
+	month = 0;
+	while (day >= days[leap][month])
+		day -= days[leap][month++];
+
+	return *this;
+}
+
+std::string timedate::fmt_time_date()
+{
+	char buf[32];
+	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %.3s %d",
+	         hour, minute, second, day + 1, months + month * 3, year);
+	return buf;
+}
+
+std::string timedate::fmt_date()
+{
+	char buf[16];
+	snprintf(buf, sizeof (buf), "%d %.3s %d",
+	         day + 1, months + month * 3, year);
+	return buf;
+}
+
+
 std::string format_date(double t)
 {
-	int year = (int)floor(t/(60*60*24*365)); year += 3200;
-	int day = (int)floor(t/(60*60*24)); day = wankmod(day, 365);
-	int hour = (int)floor(t/(60*60)); hour = wankmod(hour, 24);
-	int min = (int)floor(t/60); min = wankmod(min, 60);
-	int sec = wankmod((int)t, 60);
-	char buf[128];
-	snprintf(buf,sizeof(buf),"%02d:%02d:%02d %s %d", hour, min, sec, i_am_a_little_teapot[day], year);
-	return buf;
+	timedate stamp = int(t);
+	return stamp.fmt_time_date();
 }
 
 std::string format_date_only(double t)
 {
-	int year = (int)floor(t/(60*60*24*365)); year += 3200;
-	int day = (int)floor(t/(60*60*24)); day = wankmod(day, 365);
-	char buf[128];
-	snprintf(buf,sizeof(buf),"%s %d", i_am_a_little_teapot[day], year);
-	return buf;
+	timedate stamp = int(t);
+	return stamp.fmt_date();
 }
 
 std::string string_join(std::vector<std::string> &v, std::string sep)
@@ -375,7 +320,7 @@ std::string string_subst(const char *format, const unsigned int num_args, std::s
 				out.push_back('%');
 				i++;
 			}
-			else if (1 == sscanf(&pos[i], "%d", &argnum)) {
+			else if (1 == sscanf(&pos[i], "%u", &argnum)) {
 				if (argnum >= num_args) out.append("(INVALID ARG)");
 				else {
 					out.append(args[argnum]);
@@ -466,4 +411,74 @@ void foreach_file_in(const std::string &directory, void (*callback)(const std::s
 			(*callback)(entry->d_name, filename);
 		}
 	}
+}
+
+Uint32 ceil_pow2(Uint32 v) {
+	v--;
+	v |= v >> 1;
+	v |= v >> 2;
+	v |= v >> 4;
+	v |= v >> 8;
+	v |= v >> 16;
+	v++;
+	return v;
+}
+
+void Screendump(const char* destFile, const int W, const int H)
+{
+	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+
+	std::vector<char> pixel_data(3*W*H);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, W, H, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
+	glFinish();
+
+	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+	if (!png_ptr) {
+		fprintf(stderr, "Couldn't create png_write_struct\n");
+		return;
+	}
+
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr) {
+		png_destroy_write_struct(&png_ptr, 0);
+		fprintf(stderr, "Couldn't create png_info_struct\n");
+		return;
+	}
+
+	//http://www.libpng.org/pub/png/libpng-1.2.5-manual.html#section-3.1
+	if (setjmp(png_jmpbuf(png_ptr))) {
+		png_destroy_write_struct(&png_ptr, &info_ptr);
+		fprintf(stderr, "Couldn't set png jump buffer\n");
+		return;
+	}
+
+	FILE *out = fopen(fname.c_str(), "wb");
+	if (!out) {
+		png_destroy_write_struct(&png_ptr, &info_ptr);
+		fprintf(stderr, "Couldn't open %s for writing\n", fname.c_str());
+		return;
+	}
+
+	png_init_io(png_ptr, out);
+	png_set_filter(png_ptr, 0, PNG_FILTER_NONE);
+	png_set_IHDR(png_ptr, info_ptr, W, H, 8, PNG_COLOR_TYPE_RGB,
+		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT);
+
+	png_bytepp rows = new png_bytep[H];
+
+	for (unsigned int i = 0; i < H; ++i) {
+		rows[i] = reinterpret_cast<png_bytep>(&pixel_data[(H-i-1) * W * 3]);
+	}
+	png_set_rows(png_ptr, info_ptr, rows);
+	png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, 0);
+
+	png_destroy_write_struct(&png_ptr, &info_ptr);
+
+	delete[] rows;
+
+	fclose(out);
+	printf("Screenshot %s saved\n", fname.c_str());
 }

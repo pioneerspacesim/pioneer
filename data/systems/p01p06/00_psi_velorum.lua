@@ -1,1 +1,1 @@
-CustomSystem:new("Psi Velorum",{Body.Type.STAR_F, Body.Type.STAR_F}):add_to_sector(1,6,v(0.262,0.025,-0.036))
+CustomSystem:new("Psi Velorum",{'STAR_F', 'STAR_F'}):add_to_sector(1,6,v(0.262,0.025,-0.036))

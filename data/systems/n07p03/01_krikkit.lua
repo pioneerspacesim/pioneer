@@ -1,1 +1,1 @@
-CustomSystem:new("Krikkit",{Body.Type.STAR_M}):add_to_sector(-7,3,v(0.950,0.982,-0.940))
+CustomSystem:new("Krikkit",{'STAR_M'}):add_to_sector(-7,3,v(0.950,0.982,-0.940))

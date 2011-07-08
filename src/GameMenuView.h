@@ -2,7 +2,7 @@
 #define _GAMEMENUVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include "KeyBindings.h"
 
@@ -31,7 +31,9 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
+	Gui::Adjustment *m_masterVolume;
 	Gui::Adjustment *m_sfxVolume;
+	Gui::Adjustment *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::ToggleButton *m_toggleShaders;

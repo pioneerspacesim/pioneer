@@ -2,14 +2,14 @@
 #define _WORLDVIEW_H
 
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "View.h"
 #include "Render.h"
 #include "Serializer.h"
+#include "Background.h"
 
 class Body;
 class Frame;
-class SBodyPath;
 class LabelSet;
 class Ship;
 
@@ -67,11 +67,10 @@ private:
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
 	Gui::ImageButton *m_hyperspaceButton;
-	GLuint m_bgstarsVbo;
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
-	Gui::Label *m_flightStatus, *m_hyperTargetLabel, *m_debugText;
+	Gui::Label *m_flightStatus, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
@@ -79,10 +78,14 @@ private:
 	enum CamType m_camType;
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
-	Render::Shader *m_bgStarShader;
+	Background::Starfield m_starfield;
+	Background::MilkyWay m_milkyWay;
 
-	Gui::Label *m_debugInfo, *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
+#if DEVKEYS
+	Gui::Label *m_debugInfo;
+#endif
 
+	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 

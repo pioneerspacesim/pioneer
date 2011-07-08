@@ -1,1 +1,1 @@
-CustomSystem:new("Eta Corvi",{Body.Type.STAR_F}):add_to_sector(-6,4,v(0.526,0.424,-0.127))
+CustomSystem:new("Eta Corvi",{'STAR_F'}):add_to_sector(-6,4,v(0.526,0.424,-0.127))

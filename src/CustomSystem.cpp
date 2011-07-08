@@ -1,30 +1,34 @@
 #include "CustomSystem.h"
+#include "LuaUtils.h"
 #include "PiLuaClasses.h"
-#include "PiLuaConstants.h"
+#include "LuaConstants.h"
 #include "Polit.h"
+#include "SystemPath.h"
+
+static lua_State *csLua;
 
 static std::list<CustomSystem> custom_systems;
 
 void CustomSystem::Init()
 {
-	lua_State *L = lua_open();
+	lua_State *L = csLua = lua_open();
 	luaL_openlibs(L);
 	OOLUA::setup_user_lua_state(L);
 
 	PiLuaClasses::RegisterClasses(L);
-	PiLuaConstants::RegisterConstants(L);
+	LuaConstants::Register(L);
 
 	OOLUA::register_class<CustomSystem>(L);
 	OOLUA::register_class<CustomSBody>(L);
 
-	lua_register(L, "load_lua", mylua_load_lua);
+	lua_register(L, "load_lua", pi_load_lua);
 
 	lua_pushstring(L, PIONEER_DATA_DIR);
 	lua_setglobal(L, "CurrentDirectory");
 
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pisystems.lua").c_str())) {
-		mylua_panic(L);
+		pi_lua_panic(L);
 	} else {
 		lua_pcall(L, 0, LUA_MULTRET, -2);
 	}
@@ -54,7 +58,7 @@ const CustomSystem* CustomSystem::GetCustomSystem(const char *name)
 	return NULL;
 }
 
-const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const CustomSystem* cs)
+const SystemPath CustomSystem::GetPathForCustomSystem(const CustomSystem* cs)
 {
 	const std::list<const CustomSystem*> cslist = GetCustomSystemsForSector(cs->sectorX, cs->sectorY);
 	int idx = 0;
@@ -63,12 +67,12 @@ const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const CustomSystem* cs
 		idx++;
 	}
 	assert(idx < static_cast<int>(cslist.size()));
-	return SBodyPath(cs->sectorX, cs->sectorY, idx);
+	return SystemPath(cs->sectorX, cs->sectorY, idx);
 }
 
-const SBodyPath CustomSystem::GetSBodyPathForCustomSystem(const char* name)
+const SystemPath CustomSystem::GetPathForCustomSystem(const char* name)
 {
-	return GetSBodyPathForCustomSystem(GetCustomSystem(name));
+	return GetPathForCustomSystem(GetCustomSystem(name));
 }
 
 CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
@@ -77,10 +81,12 @@ CustomSystem::CustomSystem(std::string s, OOLUA::Lua_table t)
 
 	numStars = 0;
 
+	std::string stype;
 	bool done = false;
 	for (int i=0 ; i<4; i++) {
 		int type = SBody::TYPE_GRAVPOINT;
-		if (t.safe_at(i+1, type)) {
+		if (t.safe_at(i+1, stype)) {
+			type = LuaConstants::GetConstant(csLua, "BodyType", stype.c_str());
 			if ( type < SBody::TYPE_STAR_MIN || type > SBody::TYPE_STAR_MAX ) {
 				printf("system star %d does not have a valid star type\n", i+1);
 				assert(0);
@@ -129,6 +135,12 @@ static void _add_children_to_sbody(lua_State* L, CustomSBody* sbody, OOLUA::Lua_
 	}
 }
 
+CustomSystem *CustomSystem::l_govtype(std::string st)
+{
+	govType = static_cast<Polit::GovType>(LuaConstants::GetConstant(csLua, "PolitGovType", st.c_str()));
+	return this;
+}
+
 void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table children)
 {
 	if ( primary_star.type < SBody::TYPE_BROWN_DWARF || primary_star.type > SBody::TYPE_WHITE_DWARF )
@@ -152,10 +164,10 @@ void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
 EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSystem)
 EXPORT_OOLUA_FUNCTIONS_6_NON_CONST(CustomSystem, seed, govtype, short_desc, long_desc, bodies, add_to_sector)
 
-CustomSBody::CustomSBody(std::string s, int t)
+CustomSBody::CustomSBody(std::string s, std::string stype)
 {
 	name = s;
-	type = static_cast<SBody::BodyType>(t);
+	type = static_cast<SBody::BodyType>(LuaConstants::GetConstant(csLua, "BodyType", stype.c_str()));
 
 	if ( type < SBody::TYPE_MIN || type > SBody::TYPE_MAX ) {
 		printf("body '%s' does not have a valid type\n", s.c_str());

@@ -1,0 +1,1 @@
+CustomSystem:new("Tolostoi's Hope",{'STAR_K', 'WHITE_DWARF'}):add_to_sector(4,-12,v(0.369,0.803,0.782))

@@ -1,0 +1,1 @@
+CustomSystem:new("Dan's Folly",{'STAR_K', 'STAR_M'}):add_to_sector(-5,-5,v(0.131,0.233,0.698))

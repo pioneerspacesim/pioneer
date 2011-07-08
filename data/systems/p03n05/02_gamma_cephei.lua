@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Cephei",{Body.Type.STAR_K}):add_to_sector(3,-5,v(0.370,0.663,0.482))
+CustomSystem:new("Gamma Cephei",{'STAR_K'}):add_to_sector(3,-5,v(0.370,0.663,0.482))

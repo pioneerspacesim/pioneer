@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Aquarii",{Body.Type.STAR_A}):add_to_sector(-8,-3,v(0.157,0.088,0.893))
+CustomSystem:new("Gamma Aquarii",{'STAR_A'}):add_to_sector(-8,-3,v(0.157,0.088,0.893))

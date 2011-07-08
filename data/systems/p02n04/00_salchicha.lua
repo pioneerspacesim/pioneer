@@ -1,1 +1,1 @@
-CustomSystem:new("Salchicha",{Body.Type.STAR_M}):add_to_sector(2,-4,v(0.714,0.111,0.885))
+CustomSystem:new("Salchicha",{'STAR_M'}):add_to_sector(2,-4,v(0.714,0.111,0.885))

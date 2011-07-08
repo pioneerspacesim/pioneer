@@ -1,1 +1,0 @@
-CustomSystem:new("Holdstock's Hope",{Body.Type.STAR_G}):add_to_sector(-3,5,v(0.838,0.037,-0.997))

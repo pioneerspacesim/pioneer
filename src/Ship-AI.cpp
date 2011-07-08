@@ -72,10 +72,20 @@ bool Ship::AITimeStep(float timeStep)
 	// allow the launch thruster thing to happen
 	if (m_launchLockTimeout != 0) return false;
 
-	if (!m_curAICmd) return true;
+	if (!m_curAICmd) {
+		if (this == Pi::player) return true;
+
+		// just in case the AI left it on
+		ClearThrusterState();
+		for (int i=0; i<ShipType::GUNMOUNT_MAX; i++)
+			SetGunState(i,0);
+		return true;
+	}
+
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
+		Pi::luaOnAICompleted.Queue(this);
 		return true;
 	}
 	else return false;
@@ -101,11 +111,13 @@ void Ship::AIKill(Ship *target)
 	m_curAICmd = new AICmdKill(this, target);
 }
 
+/*
 void Ship::AIJourney(SBodyPath &dest)
 {
 	AIClearInstructions();
 //	m_curAICmd = new AICmdJourney(this, dest);
 }
+*/
 
 void Ship::AIFlyTo(Body *target)
 {
@@ -125,10 +137,10 @@ void Ship::AIOrbit(Body *target, double alt)
 	m_curAICmd = new AICmdFlyTo(this, target, alt);
 }
 
-void Ship::AIHoldPosition(Body *target)
+void Ship::AIHoldPosition()
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdHoldPosition(this, target);
+	m_curAICmd = new AICmdHoldPosition(this);
 }
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
@@ -195,7 +207,6 @@ double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, doubl
 	vector3d objpos = relpos * rot;
 	vector3d reldir = objpos.NormalizedSafe();
 	vector3d endvel = targspeed * reldir;
-	double targdist = objpos.Length();
 	double invmass = 1.0 / GetMass();
 
 	// find ideal velocities at current time given reverse thrust level

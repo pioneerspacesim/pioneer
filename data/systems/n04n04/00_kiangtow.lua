@@ -1,1 +1,1 @@
-CustomSystem:new("Kiangtow",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(-4,-4,v(0.856,0.378,0.865))
+CustomSystem:new("Kiangtow",{'STAR_M', 'STAR_M'}):add_to_sector(-4,-4,v(0.856,0.378,0.865))

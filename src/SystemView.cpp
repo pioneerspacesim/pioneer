@@ -20,13 +20,11 @@ SystemView::SystemView()
 	m_infoText = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_infoText, 200, 0);
 	
-	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in_f7.png");
-	//m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
 	m_zoomInButton->SetToolTip("Zoom in");
 	Add(m_zoomInButton, 700, 5);
 	
-	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out_f8.png");
-	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
+	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip("Zoom out");
 	Add(m_zoomOutButton, 732, 5);
 
@@ -92,7 +90,7 @@ void SystemView::PutOrbit(SBody *b, vector3d offset)
 	glBegin(GL_LINE_LOOP);
 	for (double t=0.0; t<1.0; t += 0.01) {
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
-		pos = offset + pos * (double)m_zoom;
+		pos = offset + pos * double(m_zoom);
 		glVertex3dv(&pos[0]);
 	}
 	glEnd();
@@ -153,7 +151,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 
 		glColor3f(1,1,1);
 		glBegin(GL_TRIANGLE_FAN);
-		float radius = (float)b->GetRadius() * m_zoom;
+		float radius = float(b->GetRadius()) * m_zoom;
 		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
 			vector3f p = offset + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
 			glVertex3fv(&p.x);
@@ -172,7 +170,7 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		
 		// not using current time yet
 		vector3d pos = (*kid)->orbit.OrbitalPosAtTime(m_time);
-		pos = pos * (double)m_zoom;
+		pos *= double(m_zoom);
 		//glTranslatef(pos.x, pos.y, pos.z);
 		
 		PutBody(*kid, offset + pos);
@@ -186,7 +184,7 @@ void SystemView::GetTransformTo(SBody *b, vector3d &pos)
 {
 	if (b->parent) {
 		GetTransformTo(b->parent, pos);
-		pos -= (double)m_zoom * b->orbit.OrbitalPosAtTime(m_time);
+		pos -= double(m_zoom) * b->orbit.OrbitalPosAtTime(m_time);
 	}
 }
 
@@ -200,11 +198,10 @@ void SystemView::Draw3D()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	int sector_x, sector_y, system_idx;
-	Pi::sectorView->GetSelectedSystem(&sector_x, &sector_y, &system_idx);
+	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {
-		if (!m_system->IsSystem(sector_x, sector_y, system_idx)) {
-			delete m_system;
+		if (!m_system->GetPath().IsSameSystem(path)) {
+			m_system->Release();
 			m_system = 0;
 			ResetViewpoint();
 		}
@@ -213,7 +210,7 @@ void SystemView::Draw3D()
 	std::string t = "Time point: "+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = new StarSystem(sector_x, sector_y, system_idx);
+	if (!m_system) m_system = StarSystem::GetCached(path);
 
 	glDisable(GL_LIGHTING);
 	glEnable(GL_FOG);

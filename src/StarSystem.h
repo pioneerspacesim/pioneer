@@ -4,18 +4,19 @@
 #include "libs.h"
 #include "EquipType.h"
 #include "Polit.h"
-#include "SysLoc.h"
 #include "Serializer.h"
 #include <vector>
 #include <string>
-#include "mylua.h"
+#include "DeleteEmitter.h"
+#include "RefCounted.h"
+#include "SystemPath.h"
 
-struct CustomSBody;
-struct CustomSystem;
+class CustomSBody;
+class CustomSystem;
 class SBody;
 
-// doubles: all masses in Kg, all lengths in meters
-// fixed: any mad scheme
+// doubles - all masses in Kg, all lengths in meters
+// fixed - any mad scheme
 
 enum {  ECON_MINING = (1<<0), 
 	ECON_AGRICULTURE = (1<<1), 
@@ -35,60 +36,6 @@ struct Orbit {
 	matrix4x4d rotMatrix;
 };
 
-#define SBODYPATHLEN	8
-
-class SBodyPath: public SysLoc {
-public:
-	SBodyPath();
-	SBodyPath(int sectorX, int sectorY, int systemNum);
-	SBodyPath(const SBodyPath &p) {
-		sectorX = p.sectorX;
-		sectorY = p.sectorY;
-		systemNum = p.systemNum;
-		sbodyId = p.sbodyId;
-	}
-	Uint32 sbodyId;
-	
-	void Serialize(Serializer::Writer &wr) const;
-	static void Unserialize(Serializer::Reader &rd, SBodyPath *path);
-	
-	bool operator== (const SBodyPath &b) const {
-		return (sbodyId == b.sbodyId) && (sectorX == b.sectorX) && (sectorY == b.sectorY) && (systemNum == b.systemNum);
-	}
-	/** These are for the Lua wrappers -- best not to use them from C++
-	 * since they acquire a StarSystem object in a rather sub-optimal way */
-	const char *GetBodyName() const;
-	Uint32 GetSeed() const;
-	int GetType() const;
-	int GetSuperType() const;
-	SysLoc GetSystem() const { return (SysLoc)*this; }
-	int GetNumChildren() const;
-	/** Caller owns the returned SBodyPath* */
-	SBodyPath *GetParent() const;
-	SBodyPath *GetNthChild(int n) const;
-private:
-	/** Returned SBody only valid pointer for duration described in
-	 * StarSystem::GetCached comment */
-	const SBody *GetSBody() const;
-};
-
-OOLUA_CLASS(SBodyPath): public Proxy_class<SysLoc>
-	OOLUA_BASIC
-	OOLUA_TYPEDEFS
-		OOLUA::Equal_op
-	OOLUA_END_TYPES
-	OOLUA_ONLY_DEFAULT_CONSTRUCTOR
-	OOLUA_BASES_START SysLoc OOLUA_BASES_END
-	OOLUA_MEM_FUNC_0_CONST(const char *, GetBodyName)
-	OOLUA_MEM_FUNC_0_CONST(Uint32, GetSeed)
-	OOLUA_MEM_FUNC_0_CONST(SysLoc, GetSystem);
-	OOLUA_MEM_FUNC_0_CONST(lua_out_p<SBodyPath*>, GetParent);
-	OOLUA_MEM_FUNC_0_CONST(int, GetNumChildren)
-	OOLUA_MEM_FUNC_1_CONST(lua_out_p<SBodyPath*>, GetNthChild, int);
-	OOLUA_MEM_FUNC_0_CONST(int, GetType)
-	OOLUA_MEM_FUNC_0_CONST(int, GetSuperType)
-OOLUA_CLASS_END
-
 class SBody {
 public:
 	SBody();
@@ -98,8 +45,6 @@ public:
 	SBody *parent;
 	std::vector<SBody*> children;
 
-	/** XXX Keep in sync with data/pimodule.lua
-	  * Hence the redundant numbers */
 	enum BodyType {
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
@@ -150,8 +95,6 @@ public:
 		// XXX need larger atmosphereless thing
 	};
 	
-	/** XXX Keep in sync with data/pimodule.lua
-	  * Hence the redundant numbers */
 	enum BodySuperType {
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
@@ -226,37 +169,24 @@ public:
 private:
 };
 
-class StarSystem {
+class StarSystem : public DeleteEmitter, public RefCounted {
 public:
 	friend class SBody;
-	StarSystem() { rootBody = 0; }
-	StarSystem(int sector_x, int sector_y, int system_idx);
-	~StarSystem();
-	/** Holding pointers to StarSystem returned by this is not safe between
-	 * calls to ShrinkCache() (done at end of Pi main loop)
-	 */
-	static StarSystem *GetCached(const SysLoc &s);
+
+	static StarSystem *GetCached(const SystemPath &path);
+	inline void Release() { DecRefCount(); }
 	static void ShrinkCache();
 
 	const std::string &GetName() const { return m_name; }
-	void GetPathOf(const SBody *body, SBodyPath *path) const;
-	SBody *GetBodyByPath(const SBodyPath *path) const;
+	SystemPath GetPathOf(const SBody *sbody) const;
+	SBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static StarSystem *Unserialize(Serializer::Reader &rd);
 	void Dump();
-	bool IsSystem(int sector_x, int sector_y, int system_idx);
-	int SectorX() const { return m_loc.sectorX; }
-	int SectorY() const { return m_loc.sectorY; }
-	int SystemIdx() const { return m_loc.systemNum; }
-	const SysLoc &GetLocation() const { return m_loc; }
-	void GetPos(int *sec_x, int *sec_y, int *sys_idx) const {
-		*sec_x = m_loc.sectorX; *sec_y = m_loc.sectorY; *sys_idx = m_loc.systemNum;
-	}
+	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
-	bool GetRandomStarport(MTRand &rand, SBodyPath *outDest) const;
-	bool GetRandomStarportNearButNotIn(MTRand &rand, SBodyPath *outDest) const;
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
 	static float starColors[][3];
@@ -271,7 +201,7 @@ public:
 
 	SBody *rootBody;
 	std::vector<SBody*> m_spaceStations;
-	// index into this will be the SBody ID used by SBodyPath
+	// index into this will be the SBody ID used by SystemPath
 	std::vector<SBody*> m_bodies;
 	
 	fixed m_metallicity;
@@ -292,6 +222,9 @@ public:
 		return m_tradeLevel[t];
 	}
 private:
+	StarSystem(const SystemPath &path);
+	~StarSystem();
+
 	SBody *NewBody() {
 		SBody *body = new SBody;
 		body->id = m_bodies.size();
@@ -308,7 +241,7 @@ private:
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
 
-	SysLoc m_loc;
+	SystemPath m_path;
 	int m_numStars;
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;

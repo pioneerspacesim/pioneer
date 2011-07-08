@@ -1,1 +1,1 @@
-CustomSystem:new("Lambda Aurigae",{Body.Type.STAR_G}):add_to_sector(6,-1,v(0.224,0.220,0.126))
+CustomSystem:new("Lambda Aurigae",{'STAR_G'}):add_to_sector(6,-1,v(0.224,0.220,0.126))

@@ -1,1 +1,1 @@
-CustomSystem:new("Nee",{Body.Type.STAR_G}):add_to_sector(-18,0,v(0.820,0.403,-0.325))
+CustomSystem:new("Nee",{'STAR_G'}):add_to_sector(-18,0,v(0.820,0.403,-0.325))

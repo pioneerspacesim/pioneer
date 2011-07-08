@@ -5,6 +5,18 @@
 #include "libs.h"
 #include "Ship.h"
 #include "StarSystem.h"
+#include "RefList.h"
+
+struct Mission : RefItem<Mission> {
+	enum MissionState { ACTIVE, COMPLETED, FAILED };
+
+	std::string  type;
+	std::string  client;
+	SystemPath   location;
+	double       due;
+	Sint64       reward;
+	MissionState status;
+};
 
 class Player: public Ship {
 public:
@@ -24,6 +36,9 @@ public:
 	virtual void OnHaveKilled(Body *guyWeKilled);
 	int GetKillCount() const { return m_knownKillCount; }
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
+	virtual bool FireMissile(int idx, Ship *target);
+	virtual void SetAlertState(Ship::AlertState as);
+	bool IsAnyThrusterKeyDown();
 
 	// test code
 	virtual void TimeStepUpdate(const float timeStep);
@@ -32,7 +47,9 @@ public:
 	vector3d GetMouseDir() { return m_mouseDir; }
 
 double m_mouseAcc;
-	
+
+	RefList<Mission> missions;
+
 protected:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);

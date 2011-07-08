@@ -1,0 +1,234 @@
+Alpha 13
+
+  * New features
+    * New song 'spacegroove' (#267)
+	* Caching of models and textures on startup, reduces loading times. (#271)
+
+  * Fixes
+    * Move sector view to current system on first open (#262)
+
+  * Internal changes
+    * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
+    * Refactored SectorView to use SystemPath internally (#262)
+
+Alpha 12
+
+  * New features
+    * Music! 17 songs and scriptable music engine and control script
+      (#233, #250, #171, #267)
+    * New star and planet images in system info view (#167)
+    * 'Home' key resets camera in external view (#199)
+    * Re-implemented and re-enabled old hill, mountain, volcano, desert and
+      river terrains for Earth and Mars-like worlds (#211)
+    * New "dunes" terrain for Mars-like worlds (#211)
+    * Earth terrain tweaks: more noise variations and reduced mountain
+      height (#211)
+    * System information (F7) button cycles through info tabs in system info
+      view (#212)
+    * Pause buttons now toggles game settings if game is already
+      paused (#217, #221)
+    * Can now set navigation target by clicking on bodies in the system info
+      view. Navigation target will be highlighted in the info view. Body info
+      is displayed on mouse hover (#220, #255)
+    * Lots of new and updated parts for facegen (#213)
+    * User configurable FOV support in the config file (#219)
+    * Distance and fuel required text in sector view now colourised to
+      indicate if jump is possible (#227)
+    * Highlight populated systems in sector view (#242)
+    * Mouse can now control ship rotation in ship info and shipyard (#243)
+    * New Lua event onFrameChanged and dynamic body frame attributes to help
+      determine which planet/station/etc a ship is near (#249)
+
+  * Fixes
+    * Lua model args passed as doubles to avoid loss of precision (eg
+      time) (#174, #176)
+    * Removed misleading F7/F8 text from zoom icons (#201)
+    * Pass alert state to Lua onShipAlertChanged event (#191, #195)
+    * Avoid loss of precision when calculating radius of very tiny bodies (#189)
+    * Hyperspace range is displayed correctly again (#222)
+    * Occasional crash in system cache pruning (#230, #237)
+    * Crash due to buffer overrun in sound player (#253)
+    * Fixed HDR lighting on Radeon (#87, #263)
+
+  * Internal changes
+    * All model timing now based of game time (#175, #178)
+    * City models are now loaded at startup (#71)
+    * All terrains optimised (octave count reduced) (#211)
+    * Optionally use ccache to speed up builds (#235)
+    * New HYPERSPACE and DOCKED flight states to explicitly describe some
+      conditions instead of having to infer from other data (#89, #252)
+
+Alpha 11
+
+  * New features
+    * Visual refresh: new panel graphics, UI font (Titillium Text) and model
+      font (Cousine Bold) (#105, #114, #115, #138)
+    * New star images in system info view (#159)
+    * Manual thruster adjustments can now be made in set-speed mode (#118)
+    * 5 new ground based starports (1, 2, 3, 4 landing pad configs. 
+      1 Airport config) (#120)
+    * Major upgrade to coriolis station model (#158)
+    * Clicking on the hyperspace icon a second time after a hyperspace is
+      initiated cancels the jump (#25)
+    * Screenshots are now in PNG format (#91, #140)
+
+  * Fixes
+    * Orbital stations create a small amount of population (#85, #96)
+    * Terrain colour changes based on temperature now works properly (makes
+      Earth look correct again)
+    * Crash when using an illegal goods trader that is a police front (#88)
+    * Crash when restoring bulleting board ads after loading a game (#86)
+    * Crash in AI collision detection in ternary systems
+    * Discovery Base (Sol) orbit too close to its parent (#116)
+    * Don't create illegal goods traders in systems with no illegal goods (#109)
+    * Better layout for hyperdrive ranges in ship purchase screen (#94)
+    * Use power-of-two texture for facegen to support more graphics cards (#83)
+    * Remove duplicate system 'EI Cancri' [2,0]
+    * Crash on call to Lua method Player.AddCrime
+    * Crash on any mission failure (#144)
+	* Mission status screen layout tweaks (#145)
+
+  * Internal changes
+    * Lots of code cleanups, warnings silenced, etc
+    * Fonts rendering controlled by per-font config files (#106, #113)
+    * Background stars & Milky Way use a VBO (#164)
+    * Remove non-VBO code paths in the terrain renderer
+
+Alpha 10
+
+  * New stuff
+    * Over 1200 real stars
+    * Supergiant stars
+    * Many new and more complex terrains
+    * Nearby ship and firing alerts
+    * Bulk freight ships outside starports
+    * More station backgrounds
+    * Mac OS X port
+
+  * Little things
+    * Prettier background stars and hyperspace effects
+    * Reworked hyperspace ranges and durations
+    * Wide variation of faces in bulletin board ads
+    * Combat AI will give chase if the target tries to escape
+    * Velocity measured relative to the frame rather than the target
+    * Improved targetting squares and velocity indicators
+    * Ships and other small objects not shown beyond a certain range
+    * Unguided missiles work again
+    * Option to invert mouse look
+ 
+  * Under the hood
+    * Rewritten Lua module API (with documentation!)
+    * Hundreds of bugfixes and code cleanups
+
+Alpha 9
+
+  * New stuff
+    * Completely rewritten autopilot. Its now far more likely to get you
+      where you're going without flying into things on the way.
+    * Rewritten combat AI.
+    * Rewritten mouse control.
+    * New combat target HUD with lead indicator and colour-coded closing
+      rate.
+    * New planetary terrains.
+    * Identikit faces in starport screens.
+    * New HUD for radar mapper and hyperspace cloud analyser.
+    * Navigation computer to help you find your way around.
+    * Trade ships (ie large non-combat ships) spawned when you enter a
+      system.
+    * Unexplored systems beyond about 500 light years from Sol.
+
+  * Under the hood
+    * All ships checked and cleaned up for consistency and speed.
+    * Custom systems now defined in Lua scripts.
+    * Number of planet types reduced. Planets now have composition
+      attributes that define atmosphere, ground metal content, water
+      coverage, etc.
+
+  * Little things
+    * Start ship is now sane.
+    * Ambient light when close to a planet to make the dark side visible.
+    * Mouse wheel support in scroll views.
+    * Press 'C' to return the sector view to the current system.
+    * Setting to enable/disable joystick support.
+    * Support for building with MSVC2010.
+    * Loads of bugfixes, optimisations and other bits.
+
+Alpha 8
+
+    * Temporal aliasing fixed so framerates above 60fps do look smoother.
+    * Joystick support
+    * New adverts and textures on space stations
+    * Some system generation fixes
+    * Red giant stars
+    * New ships
+    * Model viewer lets you change model by hitting escape
+    * New ship definition syntax
+
+Alpha 7
+
+    * Planets now have Axial tilt.
+    * Planetary descriptions now show the axial tilt.
+    * Many planets, even habitable ones, now have some volcanoes.
+    * Some planets will contain a super-volcano or two, like Mars.
+    * Standard rock worlds have been reworked somewhat, terrain was
+      modified as well as many new colours added.
+    * Asteroid terrain and colour has been tinkered with slightly, there
+      is more height variation but less jagged areas too and the colours
+      should consist mainly of grey and brown with some variation
+      occasionally.
+
+Alpha 6
+
+    * More AI work (the AI can complete a full journey, taking off,
+      hyperspacing, flying to destination and landing -- although the
+      player can't access this since it would make the game dull, but
+      NPCs will use it)
+    * space stations with multiple docking ports but only one door (I
+      have made one very ugly example station of this type, and welcome
+      modellers to have a bash at making stations)
+    * local lights for station models
+
+Alpha 5
+
+    * Autopilot will now fly around planets instead of plowing into them
+    * Some more new ships
+    * Improved error reporting for model and shader development.
+    * Faster framerate in cities, particularly when shaders are enabled.
+    * Fixed annoying disappearing terrain glitch
+    * Reduced field of view from 90 to 83 degrees
+    * Fixed random in-game crashes caused when ambient sounds are started
+
+Alpha 4
+
+    * Fix terrible bug (after you had looked at the bulletin board, there
+      was a chance of a crash at almost any time until you leave the
+      system)
+    * Milkyway background in space. looks nice
+    * Autopilot can now dock with space stations
+    * Some new ship models
+    * Various other wee fixes
+
+Alpha 3
+
+    * ogg vorbis sound effects supported
+    * A few improvements to missing scripting
+    * Some lovely new space ship models curtesy of Gernot
+    * Screen resolution, shaders, sound volume and keyboard bindings are
+      configurable from the game
+    * Better terrain colouring (colour function gets surface normal now)
+    * More sound effects from Staniol
+    * Saved game file format should be forward-compatible now (but
+      pre-alpha3 savefiles will not load).
+
+Alpha 2
+
+    * Lua missions system. The documentation on the wiki
+      (http://pioneerspacesim.net/wiki) isn't 100% up-to-date and
+      this needs to be worked on.
+    * Much improved docking animation support.
+    * Some UI improvements and mouse wheel support.
+    * Ground-based starport docking sequences
+    * Minor rework of shader support
+    * Interface improvements and mouse wheel support
+    * Wavefront obj file loader, and support for textured models
+    * Police!

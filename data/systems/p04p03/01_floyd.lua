@@ -1,1 +1,1 @@
-CustomSystem:new("Floyd",{Body.Type.WHITE_DWARF}):add_to_sector(4,3,v(0.236,0.444,-0.565))
+CustomSystem:new("Floyd",{'WHITE_DWARF'}):add_to_sector(4,3,v(0.236,0.444,-0.565))

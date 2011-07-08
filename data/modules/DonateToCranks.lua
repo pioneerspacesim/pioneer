@@ -1,75 +1,99 @@
-
 local crank_flavours = {
 	{
-		bbmsg = "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god.",
-		dlgmsg = "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster.\n",
+		title = "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god.",
+		message = "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster.\n",
 	},{
-		bbmsg = "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries.",
-		dlgmsg = "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit.\n",
+		title = "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries.",
+		message = "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit.\n",
 	},{
-		bbmsg = "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
-		dlgmsg = "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.\n"
+		title = "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work.",
+		message = "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy.\n"
 	}
 }
 
-Module:new {
-	__name='DonateToCranks', 
-	
-	Init = function(self)
-		self:EventListen("onCreateBB")
-		self:EventListen("onUpdateBB")
-		self.ads = {}
-	end,
+local ads = {}
 
-	onCreateBB = function(self, args)
-		local station = args[1]
-		
-		local t = Pi.rand:Int(1, #crank_flavours)
-		table.insert(self.ads, {id=#self.ads+1, bb=station, flavour=t})
-		station:SpaceStationAddAdvert(self.__name, #self.ads, crank_flavours[t].bbmsg)
+local onChat = function (form, ref, option)
+	local ad = ads[ref]
 
-		t = Pi.rand:Int(1, #crank_flavours)
-		table.insert(self.ads, {id=#self.ads+1, bb=station, flavour=t})
-		station:SpaceStationAddAdvert(self.__name, #self.ads, crank_flavours[t].bbmsg)
-	end,
+	if option == 0 then
+		form:Clear()
 
-	onUpdateBB = function(self, args)
-		-- insert or delete new ads at random
-		--print("Updating bb adverts for " .. args[1]:GetLabel())
-	end,
+		form:SetTitle(ad.title)
+		form:SetFace({ seed = ad.faceseed })
+		form:SetMessage(ad.message)
 
-	onChatBB = function(self, dialog, optionClicked)
-		local ad_ref = dialog:GetAdRef()
-		local t = self.ads[ad_ref].flavour
+		form:AddOption("$1", 1)
+		form:AddOption("$10", 10)
+		form:AddOption("$100", 100)
+		form:AddOption("$1000", 1000)
+		form:AddOption("$10000", 10000)
+		form:AddOption("$100000", 100000)
+		form:AddOption("Hang up.", -1)
 
-		if optionClicked == 0 then
-			dialog:Clear()
-			print("dialog stage is " .. dialog:GetStage())
-			--dialog:SetTitle(crank_flavours[t].bbmsg)
-			dialog:SetMessage(crank_flavours[t].dlgmsg)
-			dialog:AddOption("$1", 1);
-			dialog:AddOption("$10", 10);
-			dialog:AddOption("$100", 100);
-			dialog:AddOption("$1000", 1000);
-			dialog:AddOption("$10000", 10000);
-			dialog:AddOption("$100000", 100000);
-			dialog:AddOption("Hang up.", -1);
-		elseif optionClicked == -1 then
-			dialog:Close()
+		return
+	end
+
+	if option == -1 then
+		form:Close()
+		return
+	end
+
+	if Game.player:GetMoney() < option then
+		UI.Message("You do not have enough money.")
+	else
+		if option >= 10000 then
+			UI.Message("Wow! That was very generous.")
 		else
-			local player = Pi.GetPlayer()
-			if player:GetMoney() < optionClicked then
-				Pi.Message("", "You do not have enough money.")
-			else
-				if optionClicked > 10000 then
-					Pi.Message("", "Wow! That was very generous.")
-				else
-					Pi.Message("", "Thank you. All donations are welcome.")
-				end
-				player:SetMoney( player:GetMoney() - optionClicked )
-				dialog:UpdateBaseDisplay()
-			end
+			UI.Message("Thank you. All donations are welcome.")
 		end
-	end,
-}
+		Game.player:AddMoney(-option)
+		form:Refresh()
+	end
+end
 
+local onDelete = function (ref)
+	ads[ref] = nil
+end
+
+local onCreateBB = function (station)
+	local n = Engine.rand:Integer(1, #crank_flavours)
+
+	local ad = {
+		title    = crank_flavours[n].title,
+		message  = crank_flavours[n].message,
+		station  = station,
+		faceseed = Engine.rand:Integer()
+	}
+
+	local ref = station:AddAdvert(ad.title, onChat, onDelete)
+	ads[ref] = ad
+end
+
+local loaded_data
+
+local onGameStart = function ()
+	ads = {}
+
+	if not loaded_data then return end
+
+	for k,ad in pairs(loaded_data.ads) do
+		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		ads[ref] = ad
+	end
+
+	loaded_data = nil
+end
+
+local serialize = function ()
+	return { ads = ads }
+end
+
+local unserialize = function (data)
+	loaded_data = data
+end
+
+EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
+
+Serializer:Register("DonateToCranks", serialize, unserialize)

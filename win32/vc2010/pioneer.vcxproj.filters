@@ -13,9 +13,33 @@
     <Filter Include="win32\src">
       <UniqueIdentifier>{145bffe2-bca9-4615-88b1-195d2578d4d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\gui">
+      <UniqueIdentifier>{5f9ae661-2520-48e2-b510-4db78c61e4e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\collider\BVHTree.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\CollisionSpace.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\Geom.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\collider\GeomTree.cpp">
+      <Filter>src\collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\pch.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32-dirent.cpp">
+      <Filter>win32\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BBAdvertChatForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Body.cpp">
@@ -30,13 +54,28 @@
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\custom_starsystems.cpp">
+    <ClCompile Include="..\..\src\CustomSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DeadVideoLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\DynamicBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\EquipType.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FaceVideoLink.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Font.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FontConfig.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FontManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Frame.cpp">
@@ -46,6 +85,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Galaxy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GameMenuView.cpp">
@@ -58,81 +100,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\GeoSphereStyle.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\glfreetype.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Gui.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiContainer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiFixed.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiImage.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiImageButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiImageRadioButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiLabel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiLabelSet.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiMeterBar.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiMultiStateImageButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiRadioButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiRadioGroup.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiRepeaterButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiScreen.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiTabbed.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiTextEntry.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiTextLayout.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiToggleButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiToolTip.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiVScrollBar.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiVScrollPortal.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GuiWidget.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp">
@@ -150,7 +117,85 @@
     <ClCompile Include="..\..\src\LmrModel.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaBody.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaCargoBody.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\LuaChatForm.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaConstants.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaEngine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaEquipType.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaEventQueue.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaFormat.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaGame.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaNameGen.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaPlanet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaPlayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaRand.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaSBody.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaSBodyPath.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaSerializer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaShip.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaShipType.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaSpace.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaSpaceStation.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaStar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaStarSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaTimer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
@@ -162,16 +207,10 @@
     <ClCompile Include="..\..\src\Missile.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Mission.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ModelBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\mtrand.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\mylua.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\MyLuaMathTypes.cpp">
@@ -189,10 +228,7 @@
     <ClCompile Include="..\..\src\Pi.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\PiLuaAPI.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\PiLuaModules.cpp">
+    <ClCompile Include="..\..\src\PiLuaClasses.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Planet.cpp">
@@ -213,6 +249,9 @@
     <ClCompile Include="..\..\src\Render.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\RenderShader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\Sector.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -225,10 +264,10 @@
     <ClCompile Include="..\..\src\Sfx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Ship.cpp">
+    <ClCompile Include="..\..\src\Ship-AI.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Ship-AI.cpp">
+    <ClCompile Include="..\..\src\Ship.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ShipAICmd.cpp">
@@ -273,36 +312,135 @@
     <ClCompile Include="..\..\src\SystemView.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\TextureFont.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VectorFont.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\WorldView.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\collider\BVHTree.cpp">
-      <Filter>src\collider</Filter>
+    <ClCompile Include="..\..\src\gui\Gui.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\collider\CollisionSpace.cpp">
-      <Filter>src\collider</Filter>
+    <ClCompile Include="..\..\src\gui\GuiBox.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\collider\Geom.cpp">
-      <Filter>src\collider</Filter>
+    <ClCompile Include="..\..\src\gui\GuiButton.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\collider\GeomTree.cpp">
-      <Filter>src\collider</Filter>
+    <ClCompile Include="..\..\src\gui\GuiContainer.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\pch.cpp">
-      <Filter>win32\src</Filter>
+    <ClCompile Include="..\..\src\gui\GuiFixed.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp">
-      <Filter>win32\src</Filter>
+    <ClCompile Include="..\..\src\gui\GuiImage.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiImageButton.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiImageRadioButton.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiLabel.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiLabelSet.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiMeterBar.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiMultiStateImageButton.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiRadioButton.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiRadioGroup.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiRepeaterButton.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiScreen.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiTabbed.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiToolTip.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiVScrollPortal.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiWidget.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Background.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SoundMusic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaMusic.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\collider\BVHTree.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\collider.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\CollisionContact.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\CollisionSpace.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\Geom.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\collider\GeomTree.h">
+      <Filter>src\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\pch.h">
+      <Filter>win32\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\win32-dirent.h">
+      <Filter>win32\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Aabb.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\WorldView.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\AmbientSounds.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BBAdvertChatForm.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\BezierCurve.h">
@@ -312,6 +450,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\BufferObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\buildopts.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CargoBody.h">
@@ -326,7 +467,13 @@
     <ClInclude Include="..\..\src\CommodityTradeWidget.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\custom_starsystems.h">
+    <ClInclude Include="..\..\src\CustomSystem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DeadVideoLink.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DeleteEmitter.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DynamicBody.h">
@@ -335,7 +482,19 @@
     <ClInclude Include="..\..\src\EquipType.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\FaceVideoLink.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\fixed.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Font.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FontConfig.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FontManager.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Frame.h">
@@ -345,6 +504,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Galaxy.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameConfig.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\gameconsts.h">
@@ -360,90 +522,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GeoSphereStyle.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\glfreetype.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Gui.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiAdjustment.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiBox.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiContainer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiEvents.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiFixed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiImage.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiImageButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiImageRadioButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiISelectable.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiLabel.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiLabelSet.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiMeterBar.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiMultiStateImageButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiRadioButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiRadioGroup.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiRepeaterButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiScreen.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiTabbed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiTextEntry.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiTextLayout.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiToggleButton.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiToolTip.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiVScrollBar.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiVScrollPortal.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GuiWidget.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HyperspaceCloud.h">
@@ -464,7 +542,85 @@
     <ClInclude Include="..\..\src\LmrModel.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LuaBody.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaCargoBody.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\LuaChatForm.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaConstants.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaEngine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaEquipType.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaEventQueue.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaFormat.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaGame.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaNameGen.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaPlanet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaPlayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaRand.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaSBody.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaSBodyPath.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaSerializer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaShip.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaShipType.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaSpace.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaSpaceStation.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaStar.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaStarSystem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaTimer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaUtils.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\MarketAgent.h">
@@ -476,16 +632,10 @@
     <ClInclude Include="..\..\src\Missile.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Mission.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ModelBody.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\mtrand.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\mylua.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\MyLuaMathTypes.h">
@@ -509,10 +659,7 @@
     <ClInclude Include="..\..\src\Pi.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\PiLuaAPI.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\PiLuaModules.h">
+    <ClInclude Include="..\..\src\PiLuaClasses.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Planet.h">
@@ -533,7 +680,16 @@
     <ClInclude Include="..\..\src\Quaternion.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\RefCounted.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\RefList.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Render.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\RenderShader.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Sector.h">
@@ -593,41 +749,118 @@
     <ClInclude Include="..\..\src\SystemView.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\TextureFont.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\utils.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector3.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\VectorFont.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\VideoLink.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\View.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\WorldView.h">
+    <ClInclude Include="..\..\src\gui\GuiWidget.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\Gui.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiAdjustment.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiBox.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiContainer.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiEvents.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiFixed.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiImage.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiImageButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiImageRadioButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiISelectable.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiLabel.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiLabelSet.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiMeterBar.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiMultiStateImageButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiRadioButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiRadioGroup.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiRepeaterButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiScreen.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiTabbed.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiTextEntry.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiTextLayout.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiToggleButton.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiToolTip.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiVScrollBar.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h">
+      <Filter>src\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Background.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\collider\BVHTree.h">
-      <Filter>src\collider</Filter>
+    <ClInclude Include="..\..\src\SoundMusic.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\collider\collider.h">
-      <Filter>src\collider</Filter>
+    <ClInclude Include="..\..\src\LuaMusic.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\collider\CollisionContact.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\CollisionSpace.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\Geom.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\GeomTree.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32-dirent.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\Makefile.am">
+      <Filter>src</Filter>
+    </None>
   </ItemGroup>
 </Project>

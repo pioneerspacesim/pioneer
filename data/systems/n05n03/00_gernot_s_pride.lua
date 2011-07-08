@@ -1,0 +1,1 @@
+CustomSystem:new("Gernot's Pride",{'STAR_M'}):add_to_sector(-5,-3,v(0.481,0.910,0.651))

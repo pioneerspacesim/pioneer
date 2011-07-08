@@ -39,7 +39,7 @@ namespace Equip {
 
 	extern const LaserType lasers[];
 	extern const EquipType types[];
-};
+}
 
 struct EquipType {
 	const char *name;

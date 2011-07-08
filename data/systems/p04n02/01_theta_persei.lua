@@ -1,1 +1,1 @@
-CustomSystem:new("Theta Persei",{Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(4,-2,v(0.845,0.454,0.878))
+CustomSystem:new("Theta Persei",{'STAR_F', 'STAR_M'}):add_to_sector(4,-2,v(0.845,0.454,0.878))

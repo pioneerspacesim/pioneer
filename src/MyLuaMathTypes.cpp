@@ -1,6 +1,6 @@
+#include "libs.h"
 #include "MyLuaMathTypes.h"
-#include "mylua.h"
-
+#include "LuaUtils.h"
 
 
 namespace MyLuaMatrix {
@@ -8,7 +8,7 @@ namespace MyLuaMatrix {
 	{
 		matrix4x4f *v;
 		luaL_checktype(L, index, LUA_TUSERDATA);
-		v = (matrix4x4f *)luaL_checkudata(L, index, MYLUA_MATRIX);
+		v = static_cast<matrix4x4f *>(luaL_checkudata(L, index, MYLUA_MATRIX));
 		if (v == NULL) luaL_typerror(L, index, MYLUA_MATRIX);
 		return v;
 	}
@@ -16,7 +16,7 @@ namespace MyLuaMatrix {
 
 	matrix4x4f *pushMatrix(lua_State *L)
 	{
-		matrix4x4f *v = (matrix4x4f *)lua_newuserdata(L, sizeof(matrix4x4f));
+		matrix4x4f *v = static_cast<matrix4x4f *>(lua_newuserdata(L, sizeof(matrix4x4f)));
 		luaL_getmetatable(L, MYLUA_MATRIX);
 		lua_setmetatable(L, -2);
 		return v;
@@ -164,20 +164,35 @@ namespace MyLuaMatrix {
 		} else {
 			m = checkMatrix(L, 1);
 			luaL_checktype(L, 2, LUA_TUSERDATA);
-			v = (vector3f*)mylua_checkudata(L, 2, MYLUA_VEC);
-			if (v) {
+
+			void *p = lua_touserdata(L, 2);
+			assert(p);
+
+			LUA_DEBUG_START(L);
+
+			lua_getmetatable(L, 2);
+			assert(lua_istable(L, -1));
+
+			lua_getfield(L, LUA_REGISTRYINDEX, MYLUA_VEC);
+			bool vector = lua_rawequal(L, -1, -2);
+			lua_pop(L, 2);
+
+			if (vector) {
+				v = static_cast<vector3f*>(p);
 				// mat4x4 * vec
 				vector3f *out = MyLuaVec::pushVec(L);
 				*out = (*m) * (*v);
-				return 1;
 			} else {
 				// mat4x4 * mat4x4
-				matrix4x4f *m2 = (matrix4x4f*)luaL_checkudata(L, 2, MYLUA_MATRIX);
+				matrix4x4f *m2 = static_cast<matrix4x4f*>(luaL_checkudata(L, 2, MYLUA_MATRIX));
 				if (!m2) luaL_typerror(L, 2, MYLUA_MATRIX);
 				matrix4x4f *out = pushMatrix(L);
 				*out = (*m) * (*m2);
-				return 1;
 			}
+
+			LUA_DEBUG_END(L, 1);
+
+			return 1;
 		}
 	}
 
@@ -226,7 +241,7 @@ namespace MyLuaVec {
 	{
 		vector3f *v;
 		luaL_checktype(L, index, LUA_TUSERDATA);
-		v = (vector3f *)luaL_checkudata(L, index, MYLUA_VEC);
+		v = static_cast<vector3f *>(luaL_checkudata(L, index, MYLUA_VEC));
 		if (v == NULL) luaL_typerror(L, index, MYLUA_VEC);
 		return v;
 	}
@@ -234,7 +249,7 @@ namespace MyLuaVec {
 
 	vector3f *pushVec(lua_State *L)
 	{
-		vector3f *v = (vector3f *)lua_newuserdata(L, sizeof(vector3f));
+		vector3f *v = static_cast<vector3f *>(lua_newuserdata(L, sizeof(vector3f)));
 		luaL_getmetatable(L, MYLUA_VEC);
 		lua_setmetatable(L, -2);
 		return v;

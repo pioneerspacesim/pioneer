@@ -1,5 +1,5 @@
-local s = CustomSystem:new('Epsilon Eridani', { Body.Type.STAR_K })
-	:govtype(Polit.GovType.CISLIBDEM)
+local s = CustomSystem:new('Epsilon Eridani', { 'STAR_K' })
+	:govtype('CISLIBDEM')
 	:short_desc('First off-earth colony. Industrial world with indigenous life.')
 	:long_desc([[Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. The New Hope colony on the life-bearing planet of the same name was founded in 2279. Its 1520 initial inhabitants completed their pre-hyperspace voyage of 10.7 lightyears from Sol in just under 25 years.
 Mass emigration from Earth in the 27th century drove a population explosion and today Epsilon Eridani counts itself among the most populous of inhabited systems.
@@ -10,12 +10,12 @@ Epsilon Eridani is today a thriving centre of industry, cutting-edge technology 
 Reproduced with the kind permission of Enrique Watson, New Hope University, 2992]])
 
 
-local epserid = CustomSBody:new('Epsilon Eridani', Body.Type.STAR_K)
+local epserid = CustomSBody:new('Epsilon Eridani', 'STAR_K')
 	:radius(f(7,10))
 	:mass(f(61,110))
 	:temp(4584)
 
-local icarus = CustomSBody:new('Icarus', Body.Type.PLANET_TERRESTRIAL)
+local icarus = CustomSBody:new('Icarus', 'PLANET_TERRESTRIAL')
 	:seed(13)
 	:radius(f(42,100))
 	:mass(f(41,100))
@@ -33,7 +33,7 @@ local icarus = CustomSBody:new('Icarus', Body.Type.PLANET_TERRESTRIAL)
 	:ice_cover(f(0,100))
 	:life(f(0,1))
 
-local atlantica = CustomSBody:new('Atlantica', Body.Type.PLANET_TERRESTRIAL)
+local atlantica = CustomSBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 	:seed(8)
 	:radius(f(245,100))
 	:mass(f(315,100))
@@ -52,7 +52,7 @@ local atlantica = CustomSBody:new('Atlantica', Body.Type.PLANET_TERRESTRIAL)
 	:life(f(11,100))
 
 
-local newhope = CustomSBody:new('New Hope', Body.Type.PLANET_TERRESTRIAL)
+local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	:seed(142)
 	:radius(f(4,3))
 	:mass(f(5,4))
@@ -70,22 +70,22 @@ local newhope = CustomSBody:new('New Hope', Body.Type.PLANET_TERRESTRIAL)
 	:life(f(9,10))
 	
 	local newhope_starports = {
-	CustomSBody:new('New Hope', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('New Hope', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(31))
 		:longitude(math.deg2rad(-121)),
-	CustomSBody:new('Ghandis Revenge', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Ghandis Revenge', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(19))
 		:longitude(math.deg2rad(99)),
-	CustomSBody:new('Epsilon Cove', Body.Type.STARPORT_SURFACE)
+	CustomSBody:new('Epsilon Cove', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(51))
 		:longitude(0),
-	CustomSBody:new('Eridani Commercial Center', Body.Type.STARPORT_ORBITAL)
+	CustomSBody:new('Eridani Commercial Center', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(9068,100000000))
 		:rotation_period(f(11,24)),
 	}
 	
 	local hades = {
-	CustomSBody:new('Hades', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Hades', 'PLANET_TERRESTRIAL')
 		:seed(191082)
 		:radius(f(484,1000))
 		:mass(f(121,1000))
@@ -98,13 +98,13 @@ local newhope = CustomSBody:new('New Hope', Body.Type.PLANET_TERRESTRIAL)
 		:volcanicity(f(9,10))
 		:atmos_density(f(1,10)),
 	{
-		CustomSBody:new('Eagles Nest', Body.Type.STARPORT_ORBITAL)
+		CustomSBody:new('Eagles Nest', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5068,100000000))
 		:rotation_period(f(11,24)),
 	},
 	}
 	
-local hercules = CustomSBody:new('Hercules', Body.Type.PLANET_GAS_GIANT)
+local hercules = CustomSBody:new('Hercules', 'PLANET_GAS_GIANT')
 	:radius(f(14,1))
 	:mass(f(8115,10))
 	:temp(134)
@@ -115,7 +115,7 @@ local hercules = CustomSBody:new('Hercules', Body.Type.PLANET_GAS_GIANT)
 	:axial_tilt(math.fixed.deg2rad(f(313,100)))
 	
 	local hale = {
-	CustomSBody:new('Halee', Body.Type.PLANET_TERRESTRIAL)
+	CustomSBody:new('Halee', 'PLANET_TERRESTRIAL')
 		:seed(14782)
 		:radius(f(317,1000))
 		:mass(f(117,1000))

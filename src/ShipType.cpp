@@ -3,6 +3,7 @@
 #include "Serializer.h"
 #include "MyLuaMathTypes.h"
 #include "Pi.h"
+#include "LuaUtils.h"
 #include "utils.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
@@ -26,7 +27,7 @@ std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
 static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
 		const char *default_output)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	lua_pushstring(L, key);
 	lua_gettable(L, -2);
 	if (lua_isnil(L, -1)) {
@@ -35,13 +36,13 @@ static void _get_string_attrib(lua_State *L, const char *key, std::string &outpu
 		output = lua_tostring(L,-1);
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
 static void _get_float_attrib(lua_State *L, const char *key, float &output,
 		const float default_output)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	lua_pushstring(L, key);
 	lua_gettable(L, -2);
 	if (lua_isnil(L, -1)) {
@@ -50,13 +51,13 @@ static void _get_float_attrib(lua_State *L, const char *key, float &output,
 		output = lua_tonumber(L,-1);
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
 static void _get_int_attrib(lua_State *L, const char *key, int &output,
 		const int default_output)
 {
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	lua_pushstring(L, key);
 	lua_gettable(L, -2);
 	if (lua_isnil(L, -1)) {
@@ -65,15 +66,16 @@ static void _get_int_attrib(lua_State *L, const char *key, int &output,
 		output = lua_tointeger(L,-1);
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 }
 
-static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipType::Type> &list)
+static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipType::Type> &list, ShipType::Tag stag)
 {
 	ShipType s;
+	s.tag = stag;
 	s.lmrModelName = model_name;
 
-	LUA_DEBUG_START(L)
+	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, model_name);
 	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
 	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
@@ -84,7 +86,7 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
 	s.angThrust = s.angThrust / 2;		// fudge
 
-	for (int i=0; i<(int)Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
+	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
 	_get_int_attrib(L, "max_engine", s.equipSlotCapacity[Equip::SLOT_ENGINE], 1);
 	_get_int_attrib(L, "max_laser", s.equipSlotCapacity[Equip::SLOT_LASER], 1);
@@ -112,7 +114,7 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 		if (!hyperclass) {
 			s.hyperdrive = Equip::NONE;
 		} else {
-			s.hyperdrive = (Equip::Type)((int)Equip::DRIVE_CLASS1+hyperclass-1);
+			s.hyperdrive = Equip::Type(Equip::DRIVE_CLASS1+hyperclass-1);
 		}
 	}
 	
@@ -136,14 +138,14 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 		}
 	}
 	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0)
+	LUA_DEBUG_END(L, 0);
 
 	ShipType::types[s.name] = s;
 	list.push_back(s.name);
 	return 0;
 }
 
-static void _define_ships(const char *tag, std::vector<ShipType::Type> &list)
+static void _define_ships(const char *tag, ShipType::Tag stag, std::vector<ShipType::Type> &list)
 {
 	std::vector<LmrModel*> ship_models;
 	LmrGetModelsWithTag(tag, ship_models);
@@ -159,10 +161,10 @@ static void _define_ships(const char *tag, std::vector<ShipType::Type> &list)
 					model->GetName());
 		} else if (lua_istable(L, -1)) {
 			// multiple ship-defs for 1 model
-			for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
-				lua_pushinteger(L, i+1);
+			for (unsigned int j=0; j<lua_objlen(L,-1); j++) {
+				lua_pushinteger(L, j+1);
 				lua_gettable(L, -2);
-				_define_ship(L, model->GetName(), list);
+				_define_ship(L, model->GetName(), list, stag);
 				num++;
 				lua_pop(L, 1);
 			}
@@ -180,9 +182,9 @@ void ShipType::Init()
 	if (isInitted) return;
 	isInitted = true;
 
-	_define_ships("ship", player_ships);
-	_define_ships("static_ship", static_ships);
-	_define_ships("missile", missile_ships);
+	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
+	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
+	_define_ships("missile", ShipType::TAG_MISSILE, missile_ships);
 }
 
 ShipType::Type ShipType::GetRandomType() {
@@ -214,7 +216,7 @@ void EquipSet::Load(Serializer::Reader &rd)
 	for (int i=0; i<numSlots; i++) {
 		const int numItems = rd.Int32();
 		for (int j=0; j<numItems; j++) {
-			if (j < (signed)equip[i].size()) {
+			if (j < signed(equip[i].size())) {
 				equip[i][j] = static_cast<Equip::Type>(rd.Int32());
 			} else {
 				// equipment slot sizes have changed. just

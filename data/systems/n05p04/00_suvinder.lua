@@ -1,1 +1,1 @@
-CustomSystem:new("Suvinder",{Body.Type.STAR_M}):add_to_sector(-5,4,v(0.543,0.623,-0.192))
+CustomSystem:new("Suvinder",{'STAR_M'}):add_to_sector(-5,4,v(0.543,0.623,-0.192))

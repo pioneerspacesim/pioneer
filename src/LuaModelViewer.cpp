@@ -1,6 +1,5 @@
 #include "libs.h"
-#include "glfreetype.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "collider/collider.h"
 #include "LmrModel.h"
 #include "Render.h"
@@ -56,10 +55,10 @@ public:
 
 	float GetAnimValue(int i) {
 		std::string val = m_animEntry[i]->GetText();
-		return (float)atof(val.c_str());
+		return float(atof(val.c_str()));
 	}
 
-	Viewer(): Gui::Fixed((float)g_width, (float)g_height) {
+	Viewer(): Gui::Fixed(float(g_width), float(g_height)) {
 		m_model = 0;
 		m_cmesh = 0;
 		m_geom = 0;
@@ -113,7 +112,7 @@ public:
 				m_linthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_linthrust[i]);
-				Add(v, (float)(i*25), Gui::Screen::GetHeight()-120.0f);
+				Add(v, float(i*25), Gui::Screen::GetHeight()-120.0f);
 			}
 			
 			Add(new Gui::Label("Angular thrust"), 100, Gui::Screen::GetHeight()-140.0f);
@@ -122,14 +121,14 @@ public:
 				m_angthrust[i]->SetValue(0.5);
 				Gui::VScrollBar *v = new Gui::VScrollBar();
 				v->SetAdjustment(m_angthrust[i]);
-				Add(v, (float)(100 + i*25), Gui::Screen::GetHeight()-120.0f);
+				Add(v, float(100 + i*25), Gui::Screen::GetHeight()-120.0f);
 			}
 			
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<LMR_ARG_MAX; i++) {
 				Gui::Fixed *box = new Gui::Fixed(32.0f, 120.0f);
-				Add(box, (float)(200 + i*25), Gui::Screen::GetHeight()-120.0f);
+				Add(box, float(200 + i*25), Gui::Screen::GetHeight()-120.0f);
 
 				m_anim[i] = new Gui::Adjustment();
 				m_anim[i]->SetValue(0);
@@ -188,7 +187,7 @@ public:
 		if (g_renderType > 1) g_renderType = 0;
 	}
 
-	void MainLoop();
+	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
 private:
 	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
@@ -261,13 +260,13 @@ void Viewer::SetSbreParams()
 	float gameTime = SDL_GetTicks() * 0.001f;
 
 	for (int i=0; i<LMR_ARG_MAX; i++) {
-		params.argFloats[i] = GetAnimValue(i);
+		params.argDoubles[i] = GetAnimValue(i);
 	}
 
-	params.argFloats[1] = gameTime;
-	params.argFloats[2] = gameTime / 60;
-	params.argFloats[3] = gameTime / 3600.0f;
-	params.argFloats[4] = gameTime / (24*3600.0f);
+	params.argDoubles[1] = gameTime;
+	params.argDoubles[2] = gameTime / 60;
+	params.argDoubles[3] = gameTime / 3600.0f;
+	params.argDoubles[4] = gameTime / (24*3600.0f);
 	
 	params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
 	params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
@@ -348,7 +347,7 @@ static void raytraceCollMesh(vector3d camPos, vector3d camera_up, vector3d camer
 		}
 	}
 	printf("%.3f million rays/sec, %.2f tri isect tests per ray\n", (TEXSIZE*TEXSIZE)/(1000.0*(SDL_GetTicks()-t)),
-				GeomTree::stats_rayTriIntersections/(float)(TEXSIZE*TEXSIZE));
+				GeomTree::stats_rayTriIntersections/float(TEXSIZE*TEXSIZE));
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, mytexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXSIZE, TEXSIZE, 0, GL_LUMINANCE, GL_FLOAT, wank);
@@ -432,16 +431,16 @@ void Viewer::MainLoop()
 				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
 			}
 		}
-		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f);
-		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.0f);
-		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f);
-		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.0f);
+		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
 
 //		geom->MoveTo(modelRot, vector3d(0.0,0.0,0.0));
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		float fracH = g_height / (float)g_width;
+		float fracH = g_height / float(g_width);
 		glFrustum(-1, 1, -fracH, fracH, 1.0f, 10000.0f);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -523,11 +522,15 @@ static void PollEvents()
 		switch (event.type) {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					g_viewer->PickModel();
+                    if (g_viewer->m_model) {
+                        g_viewer->PickModel();
+                    } else {
+                        SDL_Quit();
+                        exit(0);
+                    }
 				}
-				if (event.key.keysym.sym == SDLK_q) { SDL_Quit(); exit(0); }
 				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-				if (event.key.keysym.sym == SDLK_s) {
+				if (event.key.keysym.sym == SDLK_s && (g_viewer->m_model)) {
 					Render::ToggleShaders();
 				}
 				g_keyState[event.key.keysym.sym] = 1;
@@ -619,7 +622,6 @@ int main(int argc, char **argv)
 
 	glClearColor(0,0,0,0);
 	glViewport(0, 0, g_width, g_height);
-	GLFTInit();
 	Render::Init(g_width, g_height);
 	Gui::Init(g_width, g_height, g_width, g_height);
 	LmrModelCompilerInit();

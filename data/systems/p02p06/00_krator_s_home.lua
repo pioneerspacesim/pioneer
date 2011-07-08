@@ -1,0 +1,1 @@
+CustomSystem:new("Krator's home",{'STAR_M'}):add_to_sector(2,6,v(0.052,0.455,-0.643))

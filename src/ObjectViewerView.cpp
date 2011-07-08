@@ -8,6 +8,8 @@
 #include "GeoSphereStyle.h"
 #include "Planet.h"
 
+#if OBJECTVIEWER
+
 ObjectViewerView::ObjectViewerView(): View()
 {
 	SetTransparency(true);
@@ -135,14 +137,14 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 {
 	SBody sbody;
 
-	const fixed volatileGas = fixed((int)65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
-	const fixed volatileLiquid = fixed((int)65536.0*atof(m_sbodyVolatileLiquid->GetText().c_str()), 65536);
-	const fixed volatileIces = fixed((int)65536.0*atof(m_sbodyVolatileIces->GetText().c_str()), 65536);
-	const fixed life = fixed((int)65536.0*atof(m_sbodyLife->GetText().c_str()), 65536);
-	const fixed volcanicity = fixed((int)65536.0*atof(m_sbodyVolcanicity->GetText().c_str()), 65536);
-	const fixed metallicity = fixed((int)65536.0*atof(m_sbodyMetallicity->GetText().c_str()), 65536);
-	const fixed mass = fixed((int)65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
-	const fixed radius = fixed((int)65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
+	const fixed volatileGas = fixed(65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
+	const fixed volatileLiquid = fixed(65536.0*atof(m_sbodyVolatileLiquid->GetText().c_str()), 65536);
+	const fixed volatileIces = fixed(65536.0*atof(m_sbodyVolatileIces->GetText().c_str()), 65536);
+	const fixed life = fixed(65536.0*atof(m_sbodyLife->GetText().c_str()), 65536);
+	const fixed volcanicity = fixed(65536.0*atof(m_sbodyVolcanicity->GetText().c_str()), 65536);
+	const fixed metallicity = fixed(65536.0*atof(m_sbodyMetallicity->GetText().c_str()), 65536);
+	const fixed mass = fixed(65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
+	const fixed radius = fixed(65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
 
 	sbody.parent = 0;
 	sbody.name = "Test";
@@ -169,3 +171,5 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 		gs->OnChangeDetailLevel();
 	}
 }
+
+#endif

@@ -1,0 +1,76 @@
+The Pioneer team are (8 July 2011, alpha 12):
+
+Project lead: John Jordan
+
+Maintainer: Robert Norris
+
+Testing and bug triage: Brian Ronald
+
+Programming:
+  John Jordan
+  Tom Morton
+  Dan Bennett
+  Robert Norris
+  Phil Howlett
+  Darren Salt
+  Kimmo Kotajärvi
+  Andrew Copland
+  Paul Mahol
+
+Art:
+  Gernot
+  John Jordan
+  Tom Morton
+  Dan Bennett
+  Brian Ronald
+  Tim Jones
+  Ulf Pettersson
+  Konrad Mruk
+  Marcel Tulloh
+
+Music:
+  Dan Bennett
+  Aaron Lewis
+
+Thanks to those that have moved on (we hope to see you back!)
+
+Programming:
+  Nic
+  Paul Roberts
+
+Art:
+  Peter Kurucz
+  Fran Morton
+  Steve Tyler
+  Uncle Bob
+
+
+Thanks also to the ever-enthusiastic inhabitants of the SpaceSimCentral
+forums. You drive us crazy, but we still love you :)
+
+
+Pioneer includes the following third-party software:
+
+  Lua 5.1.4 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
+  Copyright (C) 1994-2008 Lua.org, PUC-Rio
+  Licensed under the Expat licence (see lua.COPYING.txt)
+
+  OOLua by Liam Devine
+  Copyright (C) 2009-2010 Liam Devine
+  Licensed under the Expat licence (see lua.COPYING.txt)
+
+  Cousine font
+  Copyright (C) 2010 Google, Inc
+  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+
+  Titillium Text font
+  Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
+  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+
+
+Pioneer also makes use of these fine projects. Thanks a lot!
+
+  SDL
+  FreeType
+  Ogg Vorbis
+  MinGW

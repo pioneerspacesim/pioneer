@@ -1,0 +1,1 @@
+CustomSystem:new("Van Maanen's Star",{'WHITE_DWARF'}):add_to_sector(2,0,v(0.233,0.883,0.369))

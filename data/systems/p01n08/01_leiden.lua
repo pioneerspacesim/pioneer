@@ -1,1 +1,1 @@
-CustomSystem:new("Leiden",{Body.Type.STAR_M}):add_to_sector(1,-8,v(0.704,0.003,0.692))
+CustomSystem:new("Leiden",{'STAR_M'}):add_to_sector(1,-8,v(0.704,0.003,0.692))

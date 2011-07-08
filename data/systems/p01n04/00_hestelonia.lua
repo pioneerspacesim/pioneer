@@ -1,1 +1,1 @@
-CustomSystem:new("Hestelonia",{Body.Type.STAR_M}):add_to_sector(1,-4,v(0.372,0.936,0.559))
+CustomSystem:new("Hestelonia",{'STAR_M'}):add_to_sector(1,-4,v(0.372,0.936,0.559))

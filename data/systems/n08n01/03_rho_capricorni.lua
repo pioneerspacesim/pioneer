@@ -1,1 +1,1 @@
-CustomSystem:new("Rho Capricorni",{Body.Type.STAR_F}):add_to_sector(-8,-1,v(0.732,0.567,0.274))
+CustomSystem:new("Rho Capricorni",{'STAR_F'}):add_to_sector(-8,-1,v(0.732,0.567,0.274))

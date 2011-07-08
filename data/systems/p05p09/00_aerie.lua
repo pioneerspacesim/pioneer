@@ -1,1 +1,1 @@
-CustomSystem:new("Aerie",{Body.Type.STAR_G}):add_to_sector(5,9,v(0.764,0.986,-1.098))
+CustomSystem:new("Aerie",{'STAR_G'}):add_to_sector(5,9,v(0.764,0.986,-1.098))

@@ -1,1 +1,1 @@
-CustomSystem:new("Beta Caeli",{Body.Type.STAR_F}):add_to_sector(3,6,v(0.168,0.494,-0.891))
+CustomSystem:new("Beta Caeli",{'STAR_F'}):add_to_sector(3,6,v(0.168,0.494,-0.891))

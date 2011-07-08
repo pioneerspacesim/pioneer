@@ -1,1 +1,0 @@
-CustomSystem:new("Daniel's Landing",{Body.Type.STAR_M}):add_to_sector(-2,-1,v(0.051,0.807,0.482))

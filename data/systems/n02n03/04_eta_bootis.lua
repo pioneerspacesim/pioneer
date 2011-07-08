@@ -1,0 +1,1 @@
+CustomSystem:new("Eta Boötis",{'STAR_G'}):add_to_sector(-2,-3,v(0.856,0.212,0.336))

@@ -4,9 +4,10 @@
 
 #include <SDL.h>
 #include <stdio.h>
-#include <string.h>
 #include <assert.h>
 #include <vorbis/vorbisfile.h>
+#include <vector>
+#include <string>
 #include "Sound.h"
 #include "Body.h"
 #include "Pi.h"
@@ -14,21 +15,33 @@
 
 namespace Sound {
 
-static float m_globalVol = 1.0f;
+static float m_masterVol = 1.0f;
+static float m_sfxVol = 1.0f;
+static bool m_loadingMusic = false;
 
 #define FREQ            44100
 #define BUF_SIZE	4096
-#define MAX_WAVSTREAMS	8
+#define MAX_WAVSTREAMS	10 //first two are for music
 #define STREAM_IF_LONGER_THAN 10.0
 
-void SetGlobalVolume(float vol)
+void SetMasterVolume(const float vol)
 {
-	m_globalVol = vol;
+	m_masterVol = vol;
 }
 
-float GetGlobalVolume()
+float GetMasterVolume()
 {
-	return m_globalVol;
+	return m_masterVol;
+}
+
+void SetSfxVolume(const float vol)
+{
+	m_sfxVol = vol;
+}
+
+float GetSfxVolume()
+{
+	return m_sfxVol;
 }
 
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
@@ -60,15 +73,6 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 
 	return Sound::PlaySfx(sfx, v[0], v[1], false);
 }
-
-struct Sample {
-	Uint16 *buf;
-	Uint32 buf_len;
-	Uint32 channels;
-	int upsample; // 1 = 44100, 2=22050
-	/* if buf is null, this will be path to an ogg we must stream */
-	std::string path;
-};
 
 struct SoundEvent {
 	const Sample *sample;
@@ -134,20 +138,20 @@ static void DestroyEvent(SoundEvent *ev)
 /*
  * Volume should be 0-65535
  */
-eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
+static Uint32 identifier = 1;
+eventid PlaySfx (const char *fx, const float volume_left, const float volume_right, const Op op)
 {
 	SDL_LockAudio();
-	static Uint32 identifier = 1;
 	int idx;
 	Uint32 age;
-	/* find free wavstream */
-	for (idx=0; idx<MAX_WAVSTREAMS; idx++) {
+	/* find free wavstream (first two reserved for music) */
+	for (idx=2; idx<MAX_WAVSTREAMS; idx++) {
 		if (wavstream[idx].sample == NULL) break;
 	}
 	if (idx == MAX_WAVSTREAMS) {
 		/* otherwise overwrite oldest one */
 		age = 0; idx = 0;
-		for (int i=0; i<MAX_WAVSTREAMS; i++) {
+		for (int i=2; i<MAX_WAVSTREAMS; i++) {
 			if ((i==0) || (wavstream[i].buf_pos > age)) {
 				idx = i;
 				age = wavstream[i].buf_pos;
@@ -157,11 +161,36 @@ eventid PlaySfx (const char *fx, float volume_left, float volume_right, Op op)
 	}
 	wavstream[idx].sample = GetSample(fx);
 	wavstream[idx].oggv = 0;
+	wavstream[idx].buf_pos = 0;
+	wavstream[idx].volume[0] = volume_left * GetSfxVolume();
+	wavstream[idx].volume[1] = volume_right * GetSfxVolume();
+	wavstream[idx].op = op;
+	wavstream[idx].identifier = identifier;
+	wavstream[idx].targetVolume[0] = volume_left * GetSfxVolume();
+	wavstream[idx].targetVolume[1] = volume_right * GetSfxVolume();
+	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
+	SDL_UnlockAudio();
+	return identifier++;
+}
+
+//unlike PlaySfx, we want uninterrupted play and do not care about age
+//alternate between two streams for crossfade
+static int nextMusicStream = 0;
+eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op)
+{
+	const int idx = nextMusicStream;
+	nextMusicStream ^= 1;
+	SDL_LockAudio();
+	if (wavstream[idx].sample != NULL)
+		DestroyEvent(&wavstream[idx]);
+	wavstream[idx].sample = GetSample(fx);
+	wavstream[idx].oggv = 0;
+	wavstream[idx].buf_pos = 0;
 	wavstream[idx].volume[0] = volume_left;
 	wavstream[idx].volume[1] = volume_right;
 	wavstream[idx].op = op;
 	wavstream[idx].identifier = identifier;
-	wavstream[idx].targetVolume[0] = volume_left;
+	wavstream[idx].targetVolume[0] = volume_left; //already scaled in MusicPlayer
 	wavstream[idx].targetVolume[1] = volume_right;
 	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
 	SDL_UnlockAudio();
@@ -175,7 +204,7 @@ template <int T_channels, int T_upsample>
 static void fill_audio_1stream(float *buffer, int len, int stream_num)
 {
 	// inbuf will be smaller for mono and for 22050hz samples
-	Sint16 *inbuf = (Sint16*)alloca(len*T_channels / T_upsample);
+	Sint16 *inbuf = static_cast<Sint16*>(alloca(len*T_channels / T_upsample));
 	// hm pity to put this here ^^ since not used by ev.sample->buf case
 	SoundEvent &ev = wavstream[stream_num];
 	int inbuf_pos = 0;
@@ -183,7 +212,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 	while ((pos < len) && ev.sample) {
 		if (ev.sample->buf) {
 			// already decoded
-			inbuf = (Sint16*)ev.sample->buf;
+			inbuf = reinterpret_cast<Sint16 *>(ev.sample->buf);
 			inbuf_pos = ev.buf_pos;
 		} else {
 			// stream ogg vorbis
@@ -191,7 +220,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			if (!ev.oggv) {
 				// open file to start streaming
 				ev.oggv = new OggVorbis_File;
-				if (ov_fopen((char*)ev.sample->path.c_str(), ev.oggv) < 0) {
+				if (ov_fopen(const_cast<char*>(ev.sample->path.c_str()), ev.oggv) < 0) {
 					fprintf(stderr, "Vorbis could not open %s", ev.sample->path.c_str());
 					ev.sample = 0;
 					return;
@@ -205,7 +234,7 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			for (;;) {
 				int music_section;
 				if (wanted_bytes == 0) break;
-				int amt = ov_read(ev.oggv, &((char*)inbuf)[i],
+				int amt = ov_read(ev.oggv, reinterpret_cast<char*>(inbuf) + i,
 						wanted_bytes, 0, 2, 1, &music_section);
 				i += amt;
 				wanted_bytes -= amt;
@@ -226,13 +255,13 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 			float s0, s1;
 
 			if (T_channels == 1) {
-				s0 = (float) ((Sint16*)inbuf)[inbuf_pos++];
+				s0 = float(inbuf[inbuf_pos++]);
 				s1 = ev.volume[1] * s0;
 				s0 = ev.volume[0] * s0;
 				ev.buf_pos += 1;
 			} else /* stereo */ {
-				s0 = ev.volume[0] * (float) ((Sint16*)inbuf)[inbuf_pos++];
-				s1 = ev.volume[1] * (float) ((Sint16*)inbuf)[inbuf_pos++];
+				s0 = ev.volume[0] * float(inbuf[inbuf_pos++]);
+				s1 = ev.volume[1] * float(inbuf[inbuf_pos++]);
 				ev.buf_pos += 2;
 			}
 
@@ -271,8 +300,8 @@ static void fill_audio_1stream(float *buffer, int len, int stream_num)
 static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 {
 	const int len_in_floats = len>>1;
-	float *tmpbuf = (float*)alloca(sizeof(float)*len_in_floats); // len is in chars not samples
-	memset((void*)tmpbuf, 0, sizeof(float)*len_in_floats);
+	float *tmpbuf = static_cast<float*>(alloca(sizeof(float)*len_in_floats)); // len is in chars not samples
+	memset(static_cast<void*>(tmpbuf), 0, sizeof(float)*len_in_floats);
 
 	for (int i=0; i<MAX_WAVSTREAMS; i++) {
 		if (wavstream[i].sample == NULL) continue;
@@ -308,8 +337,8 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 	
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
 	for (int pos=0; pos<len_in_floats; pos++) {
-		const float val = m_globalVol * tmpbuf[pos];
-		((Sint16*)dsp_buf)[pos] = (Sint16) Clamp(val, -32768.0f, 32767.0f);
+		const float val = m_masterVol * tmpbuf[pos];
+		(reinterpret_cast<Sint16*>(dsp_buf))[pos] = Sint16(Clamp(val, -32768.0f, 32767.0f));
 	}
 }
 
@@ -333,7 +362,7 @@ static void load_sound(const std::string &basename, const std::string &path)
 		Sample sample;
 		OggVorbis_File oggv;
 
-		if (ov_fopen((char*)path.c_str(), &oggv) < 0) {
+		if (ov_fopen(const_cast<char*>(path.c_str()), &oggv) < 0) {
 			Error("Vorbis could not open %s", path.c_str());
 		}
 		struct vorbis_info *info;
@@ -356,7 +385,7 @@ static void load_sound(const std::string &basename, const std::string &path)
 		sample.upsample = resample_multiplier;
 		sample.path = path;
 		
-		const float seconds = num_samples/(float)info->rate;
+		const float seconds = num_samples/float(info->rate);
 		//printf("%f seconds\n", seconds);
 
 		// immediately decode and store as raw sample if short enough
@@ -366,15 +395,24 @@ static void load_sound(const std::string &basename, const std::string &path)
 			int i=0;
 			for (;;) {
 				int music_section;
-				int amt = ov_read(&oggv, ((char*)sample.buf) + i,
+				int amt = ov_read(&oggv, reinterpret_cast<char*>(sample.buf) + i,
 						2*sample.buf_len - i, 0, 2, 1, &music_section);
 				i += amt;
 				if (amt == 0) break;
 			}
 		}
 
-		// sample keyed by basename minus the .ogg
-		sfx_samples[basename.substr(0, basename.size()-4)] = sample;
+		//music keyed by pathname minus data/music/ minus ogg
+		if (m_loadingMusic) {
+			sample.isMusic = true;
+			const std::string prefix = "data/music/";
+			const std::string key = path.substr(prefix.size(), path.size()-prefix.size()-4);
+			sfx_samples[key] = sample;
+		} else {
+			// sfx keyed by basename minus the .ogg
+			sample.isMusic = false;
+			sfx_samples[basename.substr(0, basename.size()-4)] = sample;
+		}
 
 		ov_clear(&oggv);
 
@@ -410,6 +448,11 @@ bool Init ()
 
 		// load all the wretched effects
 		foreach_file_in(PIONEER_DATA_DIR "/sounds", &load_sound);
+		//musics, too
+		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
+		m_loadingMusic = true;
+		foreach_file_in(PIONEER_DATA_DIR "/music", &load_sound);
+		m_loadingMusic = false;
 	}
 
 	/* silence any sound events */
@@ -468,21 +511,21 @@ bool Event::SetOp(Op op) {
 	return ret;
 }
 
-bool Event::VolumeAnimate(float targetVol1, float targetVol2, float dv_dt1, float dv_dt2)
+bool Event::VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2)
 {
 	SDL_LockAudio();
 	SoundEvent *ev = GetEvent(eid);
 	if (ev) {
 		ev->targetVolume[0] = targetVol1;
 		ev->targetVolume[1] = targetVol2;
-		ev->rateOfChange[0] = dv_dt1 / (float)FREQ;
-		ev->rateOfChange[1] = dv_dt2 / (float)FREQ;
+		ev->rateOfChange[0] = dv_dt1 / float(FREQ);
+		ev->rateOfChange[1] = dv_dt2 / float(FREQ);
 	}
 	SDL_UnlockAudio();
 	return (ev != 0);
 }
 
-bool Event::SetVolume(float vol_left, float vol_right)
+bool Event::SetVolume(const float vol_left, const float vol_right)
 {
 	SDL_LockAudio();
 	bool status = false;
@@ -498,6 +541,11 @@ bool Event::SetVolume(float vol_left, float vol_right)
 	}
 	SDL_UnlockAudio();
 	return status;
+}
+
+const std::map<std::string, Sample> & GetSamples()
+{
+	return sfx_samples;
 }
 
 } /* namespace Sound */

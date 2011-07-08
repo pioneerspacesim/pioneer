@@ -1,1 +1,1 @@
-CustomSystem:new("Enderby",{Body.Type.WHITE_DWARF}):add_to_sector(3,-7,v(0.153,0.681,1.037))
+CustomSystem:new("Enderby",{'WHITE_DWARF'}):add_to_sector(3,-7,v(0.153,0.681,1.037))

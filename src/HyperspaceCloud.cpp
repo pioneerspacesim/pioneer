@@ -70,7 +70,7 @@ void HyperspaceCloud::Load(Serializer::Reader &rd)
 	m_due = rd.Double();
 	m_isArrival = rd.Bool();
 	if (rd.Bool()) {
-		m_ship = (Ship*)Body::Unserialize(rd);
+		m_ship = reinterpret_cast<Ship*>(Body::Unserialize(rd));
 	}
 	m_id = rd.Int32();
 }
@@ -95,9 +95,17 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
 			Pi::player->SetCombatTarget(m_ship);
 
-		m_ship = 0;
+		Pi::luaOnEnterSystem.Queue(m_ship);
 
+		m_ship = 0;
 	}
+}
+
+Ship *HyperspaceCloud::EvictShip()
+{
+	Ship *s = m_ship;
+	m_ship = 0;
+	return s;
 }
 
 static void make_circle_thing(float radius, const Color &colCenter, const Color &colEdge)
@@ -130,7 +138,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	glDisable(GL_LIGHTING);
 	glEnable(GL_BLEND);
 	glPushMatrix();
-	glTranslatef((float)viewCoords.x, (float)viewCoords.y, (float)viewCoords.z);
+	glTranslatef(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
 	
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
@@ -141,7 +149,7 @@ void HyperspaceCloud::Render(const vector3d &viewCoords, const matrix4x4d &viewT
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
 	double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
 
-	float radius = 1000.0f + 200.0f*noise(10.0*preciseTime, (double)(m_id&0xff), 0);
+	float radius = 1000.0f + 200.0f*noise(10.0*preciseTime, double(m_id&0xff), 0);
 	if (m_isArrival) {
 		make_circle_thing(radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
 	} else {

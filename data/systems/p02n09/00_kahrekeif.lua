@@ -1,1 +1,1 @@
-CustomSystem:new("Kahrekeif",{Body.Type.STAR_G}):add_to_sector(2,-9,v(0.391,0.571,0.890))
+CustomSystem:new("Kahrekeif",{'STAR_G'}):add_to_sector(2,-9,v(0.391,0.571,0.890))

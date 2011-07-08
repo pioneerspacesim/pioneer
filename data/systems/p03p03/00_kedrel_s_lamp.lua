@@ -1,0 +1,1 @@
+CustomSystem:new("Kedrel's Lamp",{'STAR_M'}):add_to_sector(3,3,v(0.578,0.581,-0.081))

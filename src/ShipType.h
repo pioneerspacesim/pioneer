@@ -13,9 +13,11 @@ struct lua_State;
 struct ShipType {
 	enum Thruster { THRUSTER_REVERSE, THRUSTER_FORWARD, THRUSTER_UP, THRUSTER_DOWN, THRUSTER_LEFT, THRUSTER_RIGHT, THRUSTER_MAX };
 	enum { GUN_FRONT, GUN_REAR, GUNMOUNT_MAX = 2 };
+	enum Tag { TAG_NONE, TAG_SHIP, TAG_STATIC_SHIP, TAG_MISSILE, TAG_MAX };
 	typedef std::string Type;
 
 	////////
+	Tag tag;
 	std::string name;
 	std::string lmrModelName;
 	float linThrust[THRUSTER_MAX];
@@ -74,14 +76,14 @@ public:
 		else return equip[s][0];
 	}
 	Equip::Type Get(Equip::Slot s, int idx) const {
-		if ((signed)equip[s].size() <= idx) return Equip::NONE;
+		if (signed(equip[s].size()) <= idx) return Equip::NONE;
 		else return equip[s][idx];
 	}
 	void Set(Equip::Slot s, int idx, Equip::Type e) {
 		equip[s][idx] = e;
 		onChange.emit();
 	}
-	bool Add(Equip::Type e, int num) {
+	int Add(Equip::Type e, int num) {
 		Equip::Slot s = Equip::types[e].slot;
 		int numDone = 0;
 		for (unsigned int i=0; i<equip[s].size(); i++) {
@@ -92,9 +94,9 @@ public:
 			}
 		}
 		if (numDone) onChange.emit();
-		return (numDone == num);
+		return numDone;
 	}
-	bool Add(Equip::Type e) {
+	int Add(Equip::Type e) {
 		return Add(e, 1);
 	}
 	// returns number removed
@@ -109,7 +111,7 @@ public:
 				numDone++;
 			}
 		}
-		onChange.emit();
+		if (numDone) onChange.emit();
 		return numDone;
 	}
 	int Count(Equip::Slot s, Equip::Type e) const {

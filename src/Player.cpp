@@ -109,6 +109,7 @@ void Player::StaticUpdate(const float timeStep)
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			if (Pi::GetView() == Pi::worldView) PollControls(timeStep);
+			if (IsAnyThrusterKeyDown()) break;
 			GetRotMatrix(m);
 			v = m * vector3d(0, 0, -m_setSpeed);
 			AIMatchVel(v);
@@ -140,8 +141,8 @@ void Player::StaticUpdate(const float timeStep)
 	
 	float targetVol[2] = { volBoth, volBoth };
 	if (GetThrusterState().x > 0.0)
-		targetVol[0] += 0.5f*(float)GetThrusterState().x;
-	else targetVol[1] += -0.5f*(float)GetThrusterState().x;
+		targetVol[0] += 0.5f*float(GetThrusterState().x);
+	else targetVol[1] += -0.5f*float(GetThrusterState().x);
 
 	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
 	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
@@ -150,7 +151,7 @@ void Player::StaticUpdate(const float timeStep)
 		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
 		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
-	float angthrust = 0.1f * v_env * (float)Pi::player->GetAngThrusterState().Length();
+	float angthrust = 0.1f * v_env * float(Pi::player->GetAngThrusterState().Length());
 
 	static Sound::Event angThrustSnd;
 	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
@@ -174,10 +175,8 @@ void Player::PollControls(const float timeStep)
 	double invTimeAccel = 1.0 / time_accel;
 	static bool stickySpeedKey = false;
 
-	if ((time_accel == 0) || GetDockedWith() || Pi::player->IsDead() ||
-	    (GetFlightState() != FLYING)) {
+	if (time_accel == 0 || Pi::player->IsDead() || GetFlightState() != FLYING)
 		return;
-	}
 
 	// if flying 
 	{
@@ -284,3 +283,52 @@ bool Player::SetWheelState(bool down)
 	return did;
 }
 
+bool Player::FireMissile(int idx, Ship *target)
+{
+	if (!Ship::FireMissile(idx, target))
+		return false;
+	
+	Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
+	return true;
+}
+
+void Player::SetAlertState(Ship::AlertState as)
+{
+	Ship::AlertState prev = GetAlertState();
+
+	switch (as) {
+		case ALERT_NONE:
+			if (prev != ALERT_NONE)
+				Pi::cpan->MsgLog()->Message("", "Alert cancelled.");
+			break;
+
+		case ALERT_SHIP_NEARBY:
+			if (prev == ALERT_NONE)
+				Pi::cpan->MsgLog()->ImportantMessage("", "Ship detected nearby.");
+			else
+				Pi::cpan->MsgLog()->ImportantMessage("", "No fire detected for 60 seconds, downgrading alert status.");
+			Sound::PlaySfx("OK");
+			break;
+
+		case ALERT_SHIP_FIRING:
+			Pi::cpan->MsgLog()->ImportantMessage("", "Laser fire detected.");
+			Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
+			break;
+	}
+
+	Pi::cpan->SetAlertState(as);
+
+	Ship::SetAlertState(as);
+}
+
+bool Player::IsAnyThrusterKeyDown()
+{
+	return (
+		KeyBindings::thrustForward.IsActive()	||
+		KeyBindings::thrustBackwards.IsActive()	||
+		KeyBindings::thrustUp.IsActive()		||
+		KeyBindings::thrustDown.IsActive()		||
+		KeyBindings::thrustLeft.IsActive()		||
+		KeyBindings::thrustRight.IsActive()
+	);
+}

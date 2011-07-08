@@ -1,1 +1,1 @@
-CustomSystem:new("Wallach",{Body.Type.STAR_K, Body.Type.STAR_K}):add_to_sector(4,7,v(0.687,0.688,-1.079))
+CustomSystem:new("Wallach",{'STAR_K', 'STAR_K'}):add_to_sector(4,7,v(0.687,0.688,-1.079))

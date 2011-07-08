@@ -1,0 +1,1 @@
+CustomSystem:new("Lambda² Fornacis",{'STAR_G'}):add_to_sector(2,7,v(0.135,0.010,-0.109))

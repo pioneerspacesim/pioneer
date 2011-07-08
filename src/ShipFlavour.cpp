@@ -6,7 +6,12 @@
 #include "Serializer.h"
 #include "LmrModel.h"
 
-static const LmrMaterial s_white = { { 1.0f, 1.0f, 1.0f, 1.0f } };
+static const LmrMaterial s_white = {
+    { 1.0f, 1.0f, 1.0f, 1.0f }, //diffuse
+    { 1.0f, 1.0f, 1.0f, 1.0f }, //specular
+    { 1.0f, 1.0f, 1.0f, 1.0f }, //emissive
+    0.0f //shinyness
+};
 
 ShipFlavour::ShipFlavour()
 {
@@ -34,12 +39,12 @@ void ShipFlavour::MakeRandomColor(LmrMaterial &m)
 	m.specular[0] = r;
 	m.specular[1] = g;
 	m.specular[2] = b;
-	m.shininess = 50.0f + (float)Pi::rng.Double()*50.0f;
+	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
 }
 
-ShipFlavour::ShipFlavour(ShipType::Type type)
+ShipFlavour::ShipFlavour(ShipType::Type type_)
 {
-	this->type = type;
+	type = type_;
 	snprintf(regid, sizeof(regid), "%c%c-%04d",
 		'A' + Pi::rng.Int32(26),
 		'A' + Pi::rng.Int32(26),

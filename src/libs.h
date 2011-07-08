@@ -1,6 +1,8 @@
 #ifndef _LIBS_H
 #define _LIBS_H
 
+#include "buildopts.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <sigc++/sigc++.h>
@@ -12,7 +14,6 @@
 #include <time.h>
 #include <stdarg.h>
 
-#define DEBUG
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
@@ -44,6 +45,33 @@ inline int isfinite(double x) { return _finite(x); }
 #define snprintf _snprintf
 #endif
 
+#ifdef __MINGW32__
+#define WINVER 0x0500
+#include <w32api.h>
+#define _WIN32_IE IE5
+#endif
+
+#ifdef _WIN32
+
+#ifdef __MINGW32__
+#include <dirent.h>
+#include <sys/stat.h>
+#include <stdexcept>
+#define WINSHLWAPI
+#else /* !__MINGW32__ */
+#include "win32-dirent.h"
+#endif
+
+#include <shlobj.h>
+#include <shlwapi.h>
+
+#else /* !_WIN32 */
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif
+
 #include "fixed.h"
 #include "vector3.h"
 #include "Aabb.h"
@@ -58,9 +86,6 @@ inline int isfinite(double x) { return _finite(x); }
 #else
 #define PiVerify(x) assert(x)
 #endif
-
-#define USE_VBO	GLEW_ARB_vertex_buffer_object
-//#define USE_VBO 0
 
 #define UNIVERSE_SEED	0xabcd1234
 

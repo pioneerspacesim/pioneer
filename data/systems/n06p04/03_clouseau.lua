@@ -1,1 +1,1 @@
-CustomSystem:new("Clouseau",{Body.Type.STAR_M}):add_to_sector(-6,4,v(0.273,0.397,-1.066))
+CustomSystem:new("Clouseau",{'STAR_M'}):add_to_sector(-6,4,v(0.273,0.397,-1.066))

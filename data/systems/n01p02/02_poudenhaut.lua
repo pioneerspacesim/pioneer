@@ -1,1 +1,1 @@
-CustomSystem:new("Poudenhaut",{Body.Type.STAR_M}):add_to_sector(-1,2,v(0.771,0.867,-0.531))
+CustomSystem:new("Poudenhaut",{'STAR_M'}):add_to_sector(-1,2,v(0.771,0.867,-0.531))

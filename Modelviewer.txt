@@ -1,15 +1,53 @@
-Model viewer
-~~~~~~~~~~~~
+		Model Viewer
+		~~~~~~~~~~~~
 
-Call with the lua model name as the first argument:
+This is a simple tool to view a game model using the game's rendering engine.
+It's main purpose is to test and debug models, and generally isn't for 
+end-user use.
 
-./modelviewer interdictor
+Usage:
+~~~~~~
+modelviewer <width> <height> <model>
 
-Rotate the model with the cursor keys
+<width> 	- screen width (default 800)
+<height>	- screen height (default 600)
+<model>		- name of the model defined in lua
 
-Rotate the camera with shift + cursor keys
+	Example:
+	./modelviewer 1024 768 interdictor
+		- will load the model interdictor with screen resolution 1024x768
 
-Move forward and backwards in the scene with - and =, or Page Up and Page
-Down.
+	./modelviewer
+		- will launch modelviewer, prompting for a model name.
+
+Keyboard commands:
+~~~~~~~~~~~~~~~~~~
+
+<cursor>			- Rotate the model
+<shift> + <cursor>	- Rotate the camera
+<=> or <PgUp>		- Zoom In
+<-> or <PgDown>		- Zoom Out
+<c>					- Toggle view between normal mesh and collision mesh
+<r>					- Reset thruster and anim sliders
+<m>					- Rebuild collision mesh
+<p>					- Toggle performance test - CAUTION: this WILL cause 
+					  slowness
+<ESC>				- Exit model viewer, prompt for new name or ESC to Quit.
+
+Sliders:
+~~~~~~~~
+There are 3 groups of sliders
+
+Linear thrust:
+	Left/Right
+	Up/Down
+	Forward/Backward
+Angular thrust:
+	Pitch Up/Pitch Down
+	Yaw Left/Yaw Right
+	Roll Left/Roll Right
+Animations:
+	0 - Landing gear animation
+	(remaining unused)
 
 

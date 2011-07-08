@@ -1,1 +1,1 @@
-CustomSystem:new("Epsilon Reticuli",{Body.Type.STAR_K}):add_to_sector(0,5,v(0.418,0.537,-1.446))
+CustomSystem:new("Epsilon Reticuli",{'STAR_K'}):add_to_sector(0,5,v(0.418,0.537,-1.446))

@@ -1,1 +1,1 @@
-CustomSystem:new("Olshavsky",{Body.Type.STAR_K}):add_to_sector(-7,-1,v(0.605,0.458,-0.370))
+CustomSystem:new("Olshavsky",{'STAR_K'}):add_to_sector(-7,-1,v(0.605,0.458,-0.370))

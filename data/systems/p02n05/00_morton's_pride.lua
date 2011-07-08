@@ -1,1 +1,0 @@
-CustomSystem:new("Morton's Pride",{Body.Type.STAR_G}):add_to_sector(2,-5,v(0.603,0.294,0.438))

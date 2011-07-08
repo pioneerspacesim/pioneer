@@ -1,1 +1,1 @@
-CustomSystem:new("Xiao",{Body.Type.STAR_M}):add_to_sector(1,-6,v(0.164,0.960,0.384))
+CustomSystem:new("Xiao",{'STAR_M'}):add_to_sector(1,-6,v(0.164,0.960,0.384))

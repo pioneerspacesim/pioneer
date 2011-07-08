@@ -1,1 +1,1 @@
-CustomSystem:new("Tidan",{Body.Type.STAR_F, Body.Type.STAR_M}):add_to_sector(6,-2,v(0.988,0.921,0.795))
+CustomSystem:new("Tidan",{'STAR_F', 'STAR_M'}):add_to_sector(6,-2,v(0.988,0.921,0.795))

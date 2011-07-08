@@ -1,1 +1,1 @@
-CustomSystem:new("Mojave",{Body.Type.STAR_M}):add_to_sector(6,3,v(0.697,0.186,-1.213))
+CustomSystem:new("Mojave",{'STAR_M'}):add_to_sector(6,3,v(0.697,0.186,-1.213))

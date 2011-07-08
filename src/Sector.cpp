@@ -183,10 +183,10 @@ Sector::Sector(int x, int y)
 			//printf("%d: %d%\n", sx, sy);
 
 			if (s.numStars > 1) {
-				s.starType[1] = (SBody::BodyType)rng.Int32(SBody::TYPE_STAR_MIN, s.starType[0]);
+				s.starType[1] = SBody::BodyType(rng.Int32(SBody::TYPE_STAR_MIN, s.starType[0]));
 				if (s.numStars > 2) {
-					s.starType[2] = (SBody::BodyType)rng.Int32(SBody::TYPE_STAR_MIN, s.starType[0]);
-					s.starType[3] = (SBody::BodyType)rng.Int32(SBody::TYPE_STAR_MIN, s.starType[2]);
+					s.starType[2] = SBody::BodyType(rng.Int32(SBody::TYPE_STAR_MIN, s.starType[0]));
+					s.starType[3] = SBody::BodyType(rng.Int32(SBody::TYPE_STAR_MIN, s.starType[2]));
 				}
 			}
 
@@ -300,3 +300,11 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 	}
 }
 
+bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax) const {
+	if(sx >= Xmin && sx <= Xmax) {
+		if(sy >= Ymin && sy <= Ymax) {
+			return true;
+		}
+	}
+	return false;
+}

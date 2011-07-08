@@ -4,6 +4,7 @@
 #include "WorldView.h"
 #include "ShipCpanel.h"
 #include "Sound.h"
+#include "SoundMusic.h"
 #include "KeyBindings.h"
 
 #if _GNU_SOURCE
@@ -62,7 +63,7 @@ private:
 		m_binding.type = KeyBindings::KEYBOARD_KEY;
 		m_binding.u.keyboard.key = e->keysym.sym;
 		// get rid of number lock, caps lock, etc
-		m_binding.u.keyboard.mod = (SDLMod) (e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		m_binding.u.keyboard.mod = SDLMod(e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
 		Close();
 	}
 
@@ -228,7 +229,7 @@ public:
 
 		Gui::Box *vbox = new Gui::VBox();
 		for (std::list<std::string>::iterator i = files.begin(); i!=files.end(); ++i) {
-			Gui::Button *b = new SimpleLabelButton(new Gui::Label(*i));
+			b = new SimpleLabelButton(new Gui::Label(*i));
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileDialog::OnClickFile), *i));
 			vbox->PackEnd(b, false);
 		}
@@ -305,24 +306,43 @@ public:
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo() {}
 private:
+    
+    // XXX this is an insane mess. what we want to do is load the game up into
+    // a brand new Space object, and once we're sure the load is completed
+    // successfully, throw away the old Space object and swap in the new one.
+    // unfortunately we don't have a Space object right now, and its going to
+    // take a lot of work elsewhere to get us one
+    //
+    // until then, we really can't guarantee that the game is in a consistent
+    // state after a load fails, so we just throw them back to the menu
+    
 	void OnClickLoad(std::string filename) {
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
+
+        if (Pi::IsGameStarted())
+			Pi::EndGame();
+
 		Pi::UninitGame();
 		Pi::InitGame();
+
 		try {
 			Serializer::LoadGame(fullname.c_str());
 		} catch (SavedGameCorruptException) {
 			Gui::Screen::ShowBadError("This saved game cannot be loaded because it contains errors.");
 			Pi::UninitGame();
 			Pi::InitGame();
+			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
 			return;
 		} catch (CouldNotOpenFileException) {
 			Gui::Screen::ShowBadError("This saved game file could not be opened due to permissions or something...");
 			Pi::UninitGame();
 			Pi::InitGame();
+			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
 			return;
 		}
+
 		Pi::StartGame();
+
 		// Pi::currentView is unset, but this view is still shown, so
 		// must un-show it
 		Pi::SetView(Pi::gameMenuView);
@@ -405,14 +425,36 @@ GameMenuView::GameMenuView(): View()
 		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
 		
 		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
+		m_masterVolume = new Gui::Adjustment();
+		m_masterVolume->SetValue(Sound::GetMasterVolume());
+		m_masterVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		Gui::HScale *masterVol = new Gui::HScale();
+		masterVol->SetAdjustment(m_masterVolume);
+		hbox = new Gui::HBox();
+		hbox->PackEnd(new Gui::Label("Master volume: (min)"));
+		hbox->PackEnd(masterVol, false);
+		hbox->PackEnd(new Gui::Label("(max)"));
+		vbox->PackEnd(hbox, false);
+
 		m_sfxVolume = new Gui::Adjustment();
-		m_sfxVolume->SetValue(Sound::GetGlobalVolume());
+		m_sfxVolume->SetValue(Sound::GetSfxVolume());
 		m_sfxVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 		Gui::HScale *sfxVol = new Gui::HScale();
 		sfxVol->SetAdjustment(m_sfxVolume);
 		hbox = new Gui::HBox();
 		hbox->PackEnd(new Gui::Label("Sound effects volume: (min)"));
 		hbox->PackEnd(sfxVol, false);
+		hbox->PackEnd(new Gui::Label("(max)"));
+		vbox->PackEnd(hbox, false);
+
+		m_musicVolume = new Gui::Adjustment();
+		m_musicVolume->SetValue(Pi::GetMusicPlayer().GetVolume());
+		m_musicVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		Gui::HScale *musVol = new Gui::HScale();
+		musVol->SetAdjustment(m_musicVolume);
+		hbox = new Gui::HBox();
+		hbox->PackEnd(new Gui::Label("Music volume: (min)"));
+		hbox->PackEnd(musVol, false);
 		hbox->PackEnd(new Gui::Label("(max)"));
 		vbox->PackEnd(hbox, false);
 	}
@@ -422,7 +464,7 @@ GameMenuView::GameMenuView(): View()
 	Gui::RadioGroup *g = new Gui::RadioGroup();
 	SDL_Rect **modes;
 	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	if ((modes!=0) && (modes != (SDL_Rect**)-1)) {
+	if ((modes!=0) && (modes != reinterpret_cast<SDL_Rect**>(-1))) {
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);
@@ -577,9 +619,15 @@ void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const
 
 void GameMenuView::OnChangeVolume()
 {
-	float sfxVol = m_sfxVolume->GetValue();
-	Sound::SetGlobalVolume(sfxVol);
+	const float masterVol = m_masterVolume->GetValue();
+	Sound::SetMasterVolume(masterVol);
+	const float sfxVol = m_sfxVolume->GetValue();
+	Sound::SetSfxVolume(sfxVol);
+	const float musVol = m_musicVolume->GetValue();
+	Pi::GetMusicPlayer().SetVolume(musVol);
+	Pi::config.SetFloat("MasterVolume", masterVol);
 	Pi::config.SetFloat("SfxVolume", sfxVol);
+	Pi::config.SetFloat("MusicVolume", musVol);
 	Pi::config.Save();
 }
 	

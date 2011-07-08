@@ -1,1 +1,1 @@
-CustomSystem:new("Hoanbe",{Body.Type.STAR_K}):add_to_sector(4,-5,v(0.948,0.103,0.822))
+CustomSystem:new("Hoanbe",{'STAR_K'}):add_to_sector(4,-5,v(0.948,0.103,0.822))

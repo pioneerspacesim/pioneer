@@ -1,1 +1,1 @@
-CustomSystem:new("Upsilon Andromedae",{Body.Type.STAR_F}):add_to_sector(6,-3,v(0.190,0.065,0.520))
+CustomSystem:new("Upsilon Andromedae",{'STAR_F'}):add_to_sector(6,-3,v(0.190,0.065,0.520))

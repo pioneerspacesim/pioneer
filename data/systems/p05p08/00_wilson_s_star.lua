@@ -1,0 +1,1 @@
+CustomSystem:new("Wilson's Star",{'STAR_F'}):add_to_sector(5,8,v(0.292,0.132,-0.196))

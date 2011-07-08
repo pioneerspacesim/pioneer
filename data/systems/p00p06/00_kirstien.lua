@@ -1,1 +1,1 @@
-CustomSystem:new("Kirstien",{Body.Type.STAR_K}):add_to_sector(0,6,v(0.418,0.629,-0.203))
+CustomSystem:new("Kirstien",{'STAR_K'}):add_to_sector(0,6,v(0.418,0.629,-0.203))

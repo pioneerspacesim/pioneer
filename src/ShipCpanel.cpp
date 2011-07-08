@@ -11,8 +11,9 @@
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "GalacticView.h"
+#include "GameMenuView.h"
 
-ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
+ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
 	Gui::Screen::AddBaseWidget(this, 0, Gui::Screen::GetHeight()-80);
 	SetTransparency(true);
@@ -144,7 +145,18 @@ ShipCpanel::ShipCpanel(): Gui::Fixed((float)Gui::Screen::GetWidth(), 80)
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
-
+	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_green.png");
+	img->SetToolTip("No alert");
+	Add(img, 780, 37);
+	m_alertLights[0] = img;
+	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_yellow.png");
+	img->SetToolTip("Ship nearby");
+	Add(img, 780, 37);
+	m_alertLights[1] = img;
+	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_red.png");
+	img->SetToolTip("Fire detected");
+	Add(img, 780, 37);
+	m_alertLights[2] = img;
 
 	m_connOnDockingClearanceExpired =
 		Pi::onDockingClearanceExpired.connect(sigc::mem_fun(this, &ShipCpanel::OnDockingClearanceExpired));
@@ -234,7 +246,7 @@ void ShipCpanel::Draw()
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	Pi::worldView->SetCamType((enum WorldView::CamType)b->GetState());
+	Pi::worldView->SetCamType(WorldView::CamType(b->GetState()));
 	Pi::SetView(Pi::worldView);
 }
 
@@ -261,7 +273,13 @@ void ShipCpanel::OnChangeMapView(enum MapView view)
 	switch (m_currentMapView) {
 		case MAP_SECTOR: Pi::SetView(Pi::sectorView); break;
 		case MAP_SYSTEM: Pi::SetView(Pi::systemView); break;
-		case MAP_INFO: Pi::SetView(Pi::systemInfoView); break;
+		case MAP_INFO:
+			if (Pi::GetView() == Pi::systemInfoView) {
+				Pi::systemInfoView->NextPage();
+			} else {
+				Pi::SetView(Pi::systemInfoView);
+			}
+			break;
 		case MAP_GALACTIC: Pi::SetView(Pi::galacticView); break;
 	}
 	for (int i=0; i<4; i++) m_mapViewButtons[i]->Show();
@@ -275,17 +293,42 @@ void ShipCpanel::HideMapviewButtons()
 void ShipCpanel::OnClickTimeaccel(int val)
 {
 	Pi::BoinkNoise();
-	/* May not happen, as time accel is limited by proximity to stuff */
-	Pi::RequestTimeAccel(val);
+	if ((Pi::GetTimeAccelIdx() == val) && (val == 0)) {
+		if (Pi::GetView() != Pi::gameMenuView)
+			Pi::SetView(Pi::gameMenuView);
+		else
+			Pi::SetView(Pi::worldView);
+	} else
+		Pi::RequestTimeAccel(val);
 }
 
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (Pi::player->GetDockedWith()) Pi::SetView(Pi::spaceStationView);
+	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::SetView(Pi::spaceStationView);
 	else {
 		Pi::SetView(Pi::worldView);
 		Pi::worldView->ToggleTargetActions();
 	}
 }
 
+void ShipCpanel::SetAlertState(Ship::AlertState as)
+{
+	switch (as) {
+		case Ship::ALERT_NONE:
+			m_alertLights[0]->Show();
+			m_alertLights[1]->Hide();
+			m_alertLights[2]->Hide();
+			break;
+		case Ship::ALERT_SHIP_NEARBY:
+			m_alertLights[0]->Hide();
+			m_alertLights[1]->Show();
+			m_alertLights[2]->Hide();
+			break;
+		case Ship::ALERT_SHIP_FIRING:
+			m_alertLights[0]->Hide();
+			m_alertLights[1]->Hide();
+			m_alertLights[2]->Show();
+			break;
+	}
+}

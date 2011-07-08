@@ -13,10 +13,9 @@
 static const double VICINITY_MIN = 5000.0;
 static const double VICINITY_MUL = 4.0;
 
-
 AICommand *AICommand::Load(Serializer::Reader &rd)
 {
-	CmdName name = (CmdName)rd.Int32();
+	CmdName name = CmdName(rd.Int32());
 	switch (name) {
 		case CMD_NONE: default: return 0;
 //		case CMD_JOURNEY: return new AICmdJourney(rd);
@@ -39,13 +38,13 @@ void AICommand::Save(Serializer::Writer &wr)
 AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 {
 	m_cmdName = name;
-	m_ship = (Ship*)rd.Int32();
+	m_shipIndex = rd.Int32();
 	m_child = Load(rd);
 }
 
 void AICommand::PostLoadFixup()
 {
-	m_ship = (Ship *)Serializer::LookupBody((size_t)m_ship);
+	m_ship = static_cast<Ship *>(Serializer::LookupBody(m_shipIndex));
 	if (m_child) m_child->PostLoadFixup();
 }
 
@@ -281,10 +280,10 @@ double AICmdKill::MaintainDistance(double curdist, double curspeed, double reqdi
 
 static void LaunchShip(Ship *ship)
 {
-	if (ship->GetFlightState() == Ship::LANDED) {
-		if (ship->GetDockedWith()) ship->Undock();
-		else ship->Blastoff();
-	}
+	if (ship->GetFlightState() == Ship::LANDED)
+		ship->Blastoff();
+	else if (ship->GetFlightState() == Ship::DOCKED)
+		ship->Undock();
 }
 
 bool AICmdKamikaze::TimeStepUpdate()
@@ -682,6 +681,7 @@ static vector3d GenerateTangent(Ship *ship, Frame *targframe, vector3d &shiptarg
 // obj1 is ship, obj2 is target body, targpos is destination in obj1's frame
 static Body *FindNearestObstructor(Ship *obj1, Body *obj2, vector3d &targpos)
 {
+	if (!obj2) return 0;
 	Body *body = obj2->GetFrame()->GetBodyFor();
 	if (body && CheckCollision(obj1, body, targpos)) return body;
 	Frame *parent = obj2->GetFrame()->m_parent;
@@ -729,7 +729,7 @@ printf("Flying to tangent of body: %s\n", body->GetLabel().c_str());
 	// ignore further collisions
 	int newmode = GetFlipMode(m_ship, targframe, newpos) ? 1 : 3;
 	m_child = new AICmdFlyTo(m_ship, targframe, newpos, endvel, newmode, false);
-	((AICmdFlyTo *)m_child)->SetOrigTarg(m_targframe, m_posoff);			// needed for tangent heading
+	static_cast<AICmdFlyTo *>(m_child)->SetOrigTarg(m_targframe, m_posoff);			// needed for tangent heading
 	m_frame = 0;		// trigger rebuild when child finishes
 }
 
@@ -814,7 +814,7 @@ void AICmdFlyTo::CheckSuicide()
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*target->GetBoundingRadius());
-	if (target->IsType(Object::SPACESTATION) && ((SpaceStation *)target)->IsGroundStation()) {
+	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
 		matrix4x4d rot; target->GetRotMatrix(rot);
 		m_posoff = target->GetPosition() + dist * vector3d(rot[4], rot[5], rot[6]);		// up vector for starport
 		m_targframe = target->GetFrame();
@@ -1025,7 +1025,8 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_state == 0 || m_state == 2) {
 		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		bool good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
+		bool good;
+        good = type->GetShipApproachWaypoints(port, (m_state>>1)+1, dockpos);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();

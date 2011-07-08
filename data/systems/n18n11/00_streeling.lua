@@ -1,1 +1,1 @@
-CustomSystem:new("Streeling",{Body.Type.STAR_G}):add_to_sector(-18,-11,v(0.926,0.374,0.241))
+CustomSystem:new("Streeling",{'STAR_G'}):add_to_sector(-18,-11,v(0.926,0.374,0.241))

@@ -1,0 +1,1 @@
+CustomSystem:new("Milligan's Rest",{'STAR_K'}):add_to_sector(8,0,v(0.000,0.525,0.971))

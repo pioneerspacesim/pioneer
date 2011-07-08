@@ -1,1 +1,1 @@
-CustomSystem:new("Ross 249",{Body.Type.STAR_M}):add_to_sector(3,-5,v(0.211,0.641,0.779))
+CustomSystem:new("Ross 249",{'STAR_M'}):add_to_sector(3,-5,v(0.211,0.641,0.779))

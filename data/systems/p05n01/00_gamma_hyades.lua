@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Hyades",{Body.Type.STAR_K}):add_to_sector(5,-1,v(0.615,0.683,0.974))
+CustomSystem:new("Gamma Hyades",{'STAR_K'}):add_to_sector(5,-1,v(0.615,0.683,0.974))

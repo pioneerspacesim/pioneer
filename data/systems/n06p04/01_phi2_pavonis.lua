@@ -1,0 +1,1 @@
+CustomSystem:new("Phi² Pavonis",{'STAR_F'}):add_to_sector(-6,4,v(0.653,0.005,-0.962))

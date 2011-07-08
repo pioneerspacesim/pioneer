@@ -26,9 +26,9 @@ struct citybuildinglist_t {
 };
 
 citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
-	{ "city_building", 800, 2000 },
-	{ "city_power", 100, 250 },
-	{ "city_starport_building", 300, 400 },
+	{ "city_building", 800, 2000, 0, NULL },
+	{ "city_power", 100, 250, 0, NULL },
+	{ "city_starport_building", 300, 400, 0, NULL },
 };
 
 #define CITYFLAVOURS 5
@@ -98,7 +98,7 @@ always_divide:
 
 		Geom *geom = new Geom(cmesh->geomTree);
 		int rotTimes90 = rand.Int32(4);
-		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)rotTimes90);
+		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*double(rotTimes90));
 		geom->MoveTo(grot, cent);
 		geom->SetUserData(this);
 //		f->AddStaticGeom(geom);
@@ -159,6 +159,17 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	}
 }
 
+void CityOnPlanet::Init()
+{
+	/* Resolve city model numbers since it is a bit expensive */
+	if (!s_cityBuildingsInitted) {
+		s_cityBuildingsInitted = true;
+		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+			lookupBuildingListModels(&s_buildingLists[i]);
+		}
+	}
+}
+
 CityOnPlanet::~CityOnPlanet()
 {
 	// frame may be null (already removed from 
@@ -168,7 +179,7 @@ CityOnPlanet::~CityOnPlanet()
 	}
 }
 
-CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Uint32 seed)
+CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 {
 	m_buildings.clear();
 	m_planet = planet;
@@ -212,7 +223,7 @@ CityOnPlanet::CityOnPlanet(const Planet *planet, const SpaceStation *station, Ui
 		double a = rand.Int32(-1000,1000);
 		double b = rand.Int32(-1000,1000);
 		cityflavour[i].center = p + a*mx + b*mz;
-		cityflavour[i].size = rand.Int32((int)blist->minRadius, (int)blist->maxRadius);
+		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
 	
 	for (int side=0; side<4; side++) {
@@ -264,17 +275,17 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 	
 	rot[0] = viewTransform * rot[0];
 	for (int i=1; i<4; i++) {
-		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*(double)i);
+		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
 	GetFrustum(planes);
 	
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	// this fucking rubbish needs to be moved into a function
-	cityobj_params.argFloats[1] = (float)Pi::GetGameTime();
-	cityobj_params.argFloats[2] = (float)(Pi::GetGameTime() / 60.0);
-	cityobj_params.argFloats[3] = (float)(Pi::GetGameTime() / 3600.0);
-	cityobj_params.argFloats[4] = (float)(Pi::GetGameTime() / (24*3600.0));
+	cityobj_params.argDoubles[1] = Pi::GetGameTime();
+	cityobj_params.argDoubles[2] = Pi::GetGameTime() / 60.0;
+	cityobj_params.argDoubles[3] = Pi::GetGameTime() / 3600.0;
+	cityobj_params.argDoubles[4] = Pi::GetGameTime() / (24*3600.0);
 
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
@@ -293,10 +304,10 @@ void CityOnPlanet::Render(const SpaceStation *station, const vector3d &viewCoord
 		}
 		if (cull) continue;
 		matrix4x4f _rot;
-		for (int e=0; e<16; e++) _rot[e] = (float)rot[(*i).rotation][e];
-		_rot[12] = (float)pos.x;
-		_rot[13] = (float)pos.y;
-		_rot[14] = (float)pos.z;
+		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
+		_rot[12] = float(pos.x);
+		_rot[13] = float(pos.y);
+		_rot[14] = float(pos.z);
 		(*i).model->Render(_rot, &cityobj_params);
 	}
 }

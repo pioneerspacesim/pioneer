@@ -46,7 +46,7 @@ define_model('spacestation_entry1_stage3', {
 	info = {
 			lod_pixels = { 50, 0 },
 			bounding_radius = 300,
-			materials = {'wall1','wall2','text'}
+			materials = {'wall1','wall2','text','red_glow','green_glow'}
 		},
 	static = function(lod)
 		-- mark as non-colliding (all >= 0x8000 is)
@@ -59,33 +59,117 @@ define_model('spacestation_entry1_stage3', {
 		local b2 = v(100,0,50)
 		local c2 = v(100,0,-50)
 		local d2 = v(-100,0,-50)
-		set_material('text', 1,1,1,1)
-		set_material('wall1', .8,.8,.8,1)
-		use_material('wall1')
 		
-		if lod>1 then
-		texture('ships/4_eagles/tex7.png', v(.5,.5,0), v(.01,0,0), v(0,.02,0)) --bottom
-		end
-		quad(a,b,b2,a2)
+		set_material('wall1', .2,.2,.2,1)
 		set_material('wall2', .8,0,.8,1)
-		use_material('wall2')
-		if lod>1 then
-		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0)) --top
-		end
-		quad(c,d,d2,c2)
-		if lod>1 then
-		texture('ships/4_eagles/tex1.png', v(.5,.55,0), v(.01,0,0), v(0,0,-.9)) --back
-		end
-		quad(d,c,b,a)
-		if lod>1 then
-		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,.6), v(0,.005,0)) --l/r
-		end
-		xref_quad(b,c,c2,b2)
+		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
+		set_material('red_glow', 1,0,0,.8,1,0,0,5,1,.4,0)
+		set_material('green_glow', 0,1,0,.8,0,1,0,5,0,1,0)
+		--set interior lighting
+		set_local_lighting(true)
+		--define light
+		set_light(1, 0.000009, v(0,50,0), v(1,0,0))
+		set_light(2, 0.0000000001, v(-99,100,49), v(0,.1,.1))
 		
+		if lod>1 then
+		use_light(1)
+		use_material('wall2')
+		texture('ships/4_eagles/tex1e.png', v(.5,1,0), v(-.005,0,0), v(0,-.005,0)) --floor
+		quad(a,b,b2,a2)
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0)) --top
+		quad(c,d,d2,c2)
+		texture('ships/4_eagles/tex1.png', v(.5,.55,0), v(.01,0,0), v(0,0,-.9)) --back
+		quad(d,c,b,a)
+		texture('ships/4_eagles/tex1.png', v(.5,.55,0), v(0,0,.9), v(0.01,0,0)) --l/r
+		xref_quad(b,c,c2,b2)
 		geomflag(0x8020)
 		invisible_tri(v(0,100,0), v(0,0,0), v(0,0,0))
 		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
 		geomflag(0)
+		--struts and girders---------------
+			--use_material('wall1')
+			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
+			tube(8, v(0,4,0), v(0,0.1,0), v(0,0,1), 96, 102)
+			tube(8, v(0,23,0), v(0,27,0), v(0,0,1), 96, 102)
+			tube(8, v(0,48,0), v(0,52,0), v(0,0,1), 96, 102)
+			tube(8, v(0,73,0), v(0,77,0), v(0,0,1), 96, 102)
+			tube(8, v(0,98,0), v(0,102,0), v(0,0,1), 96, 102)
+			tube(8, v(0,123,0), v(0,127,0), v(0,0,1), 96, 102)
+			tube(8, v(0,148,0), v(0,152,0), v(0,0,1), 96, 102)
+			tube(8, v(0,173,0), v(0,177,0), v(0,0,1), 96, 102)
+			tube(8, v(0,198,0), v(0,202,0), v(0,0,1), 96, 102)
+			cuboid(v(-90,0.1,-50),v(180,4,4))
+			cuboid(v(-90,23,-50),v(180,4,4))
+			cuboid(v(-90,48,-50),v(180,4,4))
+			cuboid(v(-90,73,-50),v(180,4,4))
+			cuboid(v(-90,98,-50),v(180,4,4))
+			cuboid(v(-90,123,-50),v(180,4,4))
+			cuboid(v(-90,148,-50),v(180,4,4))
+			cuboid(v(-90,173,-50),v(180,4,4))
+			cuboid(v(-90,198,-50),v(180,4,4))
+			texture(nil)
+			--ceiling lights-----------
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,25,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,25,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,50,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,50,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,75,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,75,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,100,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,100,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,125,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,125,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,150,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,150,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(-50,175,-45)})
+			billboard('smoke.png', 10.0, v(1,0,0), {v(50,175,-45)})
+			--lamp housings
+			use_material('text')
+			cylinder(8,v(-50,25,-46),v(-50,25,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,25,-46),v(50,25,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,50,-46),v(-50,50,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,50,-46),v(50,50,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,75,-46),v(-50,75,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,75,-46),v(50,75,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,100,-46),v(-50,100,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,100,-46),v(50,100,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,125,-46),v(-50,125,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,125,-46),v(50,125,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,150,-46),v(-50,150,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,150,-46),v(50,150,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,175,-46),v(-50,175,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,175,-46),v(50,175,-45.5),v(0,1,0),1)
+			--lamp lens
+			use_material('red_glow')
+			cylinder(8,v(-50,25,-45.5),v(-50,25,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,25,-45.5),v(50,25,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,50,-45.5),v(-50,50,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,50,-45.5),v(50,50,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,75,-45.5),v(-50,75,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,75,-45.5),v(50,75,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,100,-45.5),v(-50,100,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,100,-45.5),v(50,100,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,125,-45.5),v(-50,125,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,125,-45.5),v(50,125,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,150,-45.5),v(-50,150,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,150,-45.5),v(50,150,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,175,-45.5),v(-50,175,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,175,-45.5),v(50,175,-44.5),v(0,1,0),.75)
+			--TVs
+			--power leds
+			use_material('green_glow')
+			cuboid(v(37,197.85,22),v(1,1,.5))--rear
+			cuboid(v(94.85,63,22),v(.5,1,.5))--left
+			cuboid(v(-94.85,137,22),v(.5,1,.5))--right
+			--screens
+			use_material('wall1')
+			texture('city3k/grav.png', v(.5,.5,0), v(.01,0,0), v(0,0,-1.25))
+			cuboid(v(-42.5,198,-22.75),v(85,2,47))--rear
+			texture('city3k/grav.png', v(.5,.5,0), v(0,0,1.25), v(.01,0,0))
+			cuboid(v(95,57.5,-22.75),v(2,85,47))--left
+			cuboid(v(-97,57.5,-22.75),v(2,85,47))--right
+			end
+
 	end,
 	dynamic = function(lod)
 		if lod > 1 then
@@ -96,10 +180,59 @@ define_model('spacestation_entry1_stage3', {
 			-- docking bay number
 			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 			zbias(0)
+			--cargo back wall
+			call_model('cargo', v(21,195,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(65,195,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(95,193,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-12,197,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-32,195,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-72,197,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-95,190,49), v(-1,0,0), v(0,0,-1), 1)
+			--cargo left wall
+			call_model('cargo', v(96,183,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(98,180,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(97,178,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(98,173,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(97,170,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(95,168,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(97,148,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(97,118,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(96,116,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(98,110,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(95,104,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(95,97,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(97,95,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(94,90,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(96,85,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(96,70,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(98,68,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(95,22,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(97,19,49), v(-1,0,0), v(0,0,-1), 1)
+			--cargo right wall
+			call_model('cargo', v(-90,196,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-92,182,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-95,171,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-98,168,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-97,147,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-91,121,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-95,119,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-96,115,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-94,112,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-90,107,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-95,97,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-93,94,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-97,90,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-92,87,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-90,79,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-96,72,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-98,69,49), v(-1,0,0), v(0,0,-1), 1)
+			call_model('cargo', v(-94,21,49), v(-1,0,0), v(0,0,-1), 1)
+
 			-- adverts
-			call_model(get_arg_string(4), v(0,200,0), v(-1,0,0), v(0,0,-1), 40.0)
-			call_model(get_arg_string(5), v(-100,100,0), v(0,-1,0), v(0,0,-1), 40.0)
-			call_model(get_arg_string(6), v(100,100,0), v(0,1,0), v(0,0,-1), 40.0)
+			call_model('station_splash',v(0,197.85,0),v(-1,0,0),v(0,0,-1),40)
+			call_model('ad_sirius_0', v(-94.85,100,20), v(0,-1,0), v(0,0,-1), 40.0)
+			call_model('ad_sirius_0', v(94.85,100,20), v(0,1,0), v(0,0,-1), 40.0)
+			set_local_lighting(false)
 		end
 	end
 })
@@ -107,7 +240,7 @@ define_model('spacestation_entry1_stage3', {
 define_model('spacestation_entry1_stage2', {
 	info = {
 			bounding_radius = 300,
-			materials = {'wall1', 'wall2'}
+			materials = {'wall1', 'wall2','text','orange_glow'}
 		},
 	static = function(lod)
 		local a = v(-100,0,50)
@@ -119,16 +252,104 @@ define_model('spacestation_entry1_stage2', {
 		local c2 = v(100,-200,-50)
 		local d2 = v(-100,-200,-50)
 		set_material('wall1', .8,.8,.8,1)
+		set_material('wall2', .8,.8,.5,1.0)
+		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
+		set_material('orange_glow', 1,.5,0,.8,1,.5,0,5,1,.5,0)
 		use_material('wall1')
-		--if lod > 1 then			
-		texture('ships/4_eagles/tex7.png', v(.5,.5,0), v(.01,0,0), v(0,.02,0))
-		--end
+		--set interior lighting
+		set_local_lighting(true)
+		set_light(1, 0.00001, v(0,-100,0), v(.5,.25,0))
+		use_light(1)
+		texture('ships/4_eagles/tex7.png', v(.5,.5,0), v(.01,0,0), v(0,.02,0)) --t/b
+		--if lod > 1 then
 		quad(a,b,b2,a2)
 		quad(c,d,d2,c2)
+		texture('ships/4_eagles/tex7.png', v(.5,.5,0), v(0,0,.033), v(1,0,0)) --back
 		quad(a2,b2,c2,d2)
-		set_material('wall2', .8,.8,.5,1.0)
 		use_material('wall2')
+		texture('ships/4_eagles/tex7.png', v(.5,.5,0), v(.01,0,0), v(0,.02,0)) --sides
 		xref_quad(b,c,c2,b2)
+		--struts and girders---------------
+			--use_material('wall1')
+			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
+			tube(8, v(0,-.1,0), v(0,-4,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-23,0), v(0,-27,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-48,0), v(0,-52,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-73,0), v(0,-77,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-98,0), v(0,-102,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-123,0), v(0,-127,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-148,0), v(0,-152,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-173,0), v(0,-177,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-198,0), v(0,-202,0), v(0,0,1), 96, 102)
+			--top
+			cuboid(v(-90,-4.1,-50),v(180,4,4))
+			cuboid(v(-90,-27,-50),v(180,4,4))
+			cuboid(v(-90,-52,-50),v(180,4,4))
+			cuboid(v(-90,-77,-50),v(180,4,4))
+			cuboid(v(-90,-102,-50),v(180,4,4))
+			cuboid(v(-90,-127,-50),v(180,4,4))
+			cuboid(v(-90,-152,-50),v(180,4,4))
+			cuboid(v(-90,-177,-50),v(180,4,4))
+			cuboid(v(-90,-202,-50),v(180,4,4))
+			--bottom
+			cuboid(v(-90,-4.1,46),v(180,4,4))
+			cuboid(v(-90,-27,46),v(180,4,4))
+			cuboid(v(-90,-52,46),v(180,4,4))
+			cuboid(v(-90,-77,46),v(180,4,4))
+			cuboid(v(-90,-102,46),v(180,4,4))
+			cuboid(v(-90,-127,46),v(180,4,4))
+			cuboid(v(-90,-152,46),v(180,4,4))
+			cuboid(v(-90,-177,46),v(180,4,4))
+			cuboid(v(-90,-202,46),v(180,4,4))
+			texture(nil)
+			--ceiling lights-----------
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-25,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-25,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-50,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-50,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-75,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-75,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-100,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-100,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-125,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-125,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-150,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-150,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(-50,-175,-45)})
+			billboard('smoke.png', 10.0, v(1,.5,0), {v(50,-175,-45)})
+			--lamp housings
+			use_material('text')
+			cylinder(8,v(-50,-25,-46),v(-50,-25,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-25,-46),v(50,-25,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,-50,-46),v(-50,-50,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-50,-46),v(50,-50,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,-75,-46),v(-50,-75,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-75,-46),v(50,-75,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,-100,-46),v(-50,-100,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-100,-46),v(50,-100,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,-125,-46),v(-50,-125,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-125,-46),v(50,-125,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,-150,-46),v(-50,-150,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-150,-46),v(50,-150,-45.5),v(0,1,0),1)
+			cylinder(8,v(-50,-175,-46),v(-50,-175,-45.5),v(0,1,0),1)
+			cylinder(8,v(50,-175,-46),v(50,-175,-45.5),v(0,1,0),1)
+			--lamp lens
+			use_material('orange_glow')
+			cylinder(8,v(-50,-25,-45.5),v(-50,-25,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-25,-45.5),v(50,-25,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,-50,-45.5),v(-50,-50,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-50,-45.5),v(50,-50,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,-75,-45.5),v(-50,-75,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-75,-45.5),v(50,-75,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,-100,-45.5),v(-50,-100,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-100,-45.5),v(50,-100,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,-125,-45.5),v(-50,-125,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-125,-45.5),v(50,-125,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,-150,-45.5),v(-50,-150,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-150,-45.5),v(50,-150,-44.5),v(0,1,0),.75)
+			cylinder(8,v(-50,-175,-45.5),v(-50,-175,-44.5),v(0,1,0),.75)
+			cylinder(8,v(50,-175,-45.5),v(50,-175,-44.5),v(0,1,0),.75)
+			--end
 		geomflag(0x8010)
 		invisible_tri(v(0,-100,0), v(0,0,0), v(0,0,0))
 		invisible_tri(v(0,0,0), v(-1,0,0), v(0,0,-1))
@@ -159,7 +380,7 @@ define_model('spacestation_entry1_stage1', {
 	info = {
 			lod_pixels = { 20, 0 },
 			bounding_radius = 400,
-			materials = {'wall1'}
+			materials = {'wall1', 'green_glow', 'text'}
 		},
 	static = function(lod)
 		local a = v(-100,0,50)
@@ -170,11 +391,12 @@ define_model('spacestation_entry1_stage1', {
 		local b2 = v(100,-300,50)
 		local c2 = v(100,-300,-50)
 		local d2 = v(-100,-300,-50)
-		
+		set_material('green_glow', 0,1,0,.8,0,1,0,5,0,1,0)
 		set_material('wall1', .5,.5,.5,1)
+		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
 		use_material('wall1')
 		if lod>1 then
-		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,.6), v(0,.005,0)) --l/r
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,.005,0)) --l/rv(.5,.5,0), v(0,0,.6), v(0,.005,0))
 		else texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(0,0,.6), v(0,.005,0))
 		end
 		xref_quad(b,c,c2,b2)
@@ -188,12 +410,69 @@ define_model('spacestation_entry1_stage1', {
 		else texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
 		end
 		quad(c,d,d2,c2)
+		--struts and girders---------------
+			texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,.005,0))
+			tube(8, v(0,-20.5,0), v(0,-24.5,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-48,0), v(0,-52,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-73,0), v(0,-77,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-98,0), v(0,-102,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-123,0), v(0,-127,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-148,0), v(0,-152,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-173,0), v(0,-177,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-198,0), v(0,-202,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-223,0), v(0,-227,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-248,0), v(0,-252,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-273,0), v(0,-277,0), v(0,0,1), 96, 102)
+			tube(8, v(0,-298,0), v(0,-300,0), v(0,0,1), 96, 102)
+			--top
+			cuboid(v(-90,-24.5,-50),v(180,4,4))
+			cuboid(v(-90,-52,-50),v(180,4,4))
+			cuboid(v(-90,-77,-50),v(180,4,4))
+			cuboid(v(-90,-102,-50),v(180,4,4))
+			cuboid(v(-90,-127,-50),v(180,4,4))
+			cuboid(v(-90,-152,-50),v(180,4,4))
+			cuboid(v(-90,-177,-50),v(180,4,4))
+			cuboid(v(-90,-202,-50),v(180,4,4))
+			cuboid(v(-90,-227,-50),v(180,4,4))
+			cuboid(v(-90,-252,-50),v(180,4,4))
+			cuboid(v(-90,-277,-50),v(180,4,4))
+			cuboid(v(-90,-300,-50),v(180,2,4))
+			--bottom
+			cuboid(v(-90,-24.5,46),v(180,4,4))
+			cuboid(v(-90,-52,46),v(180,4,4))
+			cuboid(v(-90,-77,46),v(180,4,4))
+			cuboid(v(-90,-102,46),v(180,4,4))
+			cuboid(v(-90,-127,46),v(180,4,4))
+			cuboid(v(-90,-152,46),v(180,4,4))
+			cuboid(v(-90,-177,46),v(180,4,4))
+			cuboid(v(-90,-202,46),v(180,4,4))
+			cuboid(v(-90,-227,46),v(180,4,4))
+			cuboid(v(-90,-252,46),v(180,4,4))
+			cuboid(v(-90,-277,46),v(180,4,4))
+			cuboid(v(-90,-300,46),v(180,2,4))
+			--TVs
+			--power leds
+			use_material('green_glow')
+			cuboid(v(94.8,-138.25,22),v(.5,1,.5))--left
+			--cuboid(v(94.85,63,22),v(.5,1,.5))--left
+			cuboid(v(-94.8,-63.25,22),v(.5,1,.5))--right
+			--cuboid(v(-94.85,137,22),v(.5,1,.5))--right
+			--screens
+			use_material('text')--wall1
+			texture('city3k/grav.png', v(.5,.5,0), v(0,0,1.25), v(.01,0,0))
+			cuboid(v(94.85,-142.5,-22.75),v(2,85,47))--left
+			--cuboid(v(95,57.5,-22.75),v(2,85,47))--left
+			use_material('text')
+			cuboid(v(-96.85,-142.5,-22.75),v(2,85,47))--right
+			texture(nil)
+		
 	end,
 	dynamic = function(lod)
 		-- adverts
 		if lod > 1 then
-			call_model(get_arg_string(4), v(-100,-100,0), v(0,-1,0), v(0,0,-1), 40.0)
-			call_model(get_arg_string(4), v(100,-100,0), v(0,1,0), v(0,0,-1), 40.0)
+			call_model('ad_cola_1', v(94.7,-100,20), v(0,1,0), v(0,0,-1), 40.0)--'ad_sirius_2'
+			call_model('ad_pioneer_0', v(-94.7,-100,20), v(0,-1,0), v(0,0,-1), 40.0)
+			
 		end
 	end
 })
@@ -471,8 +750,6 @@ define_model('big_crappy_spacestation', {
 		texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.03,0,0), v(0,0,1))
 		end
 		lathe(16, v(0,501,0), v(0,-501,0), v(1,0,0), {0,100, 0,150, 0.1,199, 0.2,149, 0.4,149, 0.45,299,0.55,299, 0.6,149, 0.7,149, 0.75,299, 0.95,299, 1.0,150, 1.0,0.0})		
-		--tube(16, v(0,500,0), v(0,501,0), v(1,0,0), 101, 144)
-		--tube(16, v(0,500,0), v(0,501,0), v(0,1,0), 101, 150)
 		-- struts to outer ring
 		if lod<2 then
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,0,.33))
@@ -516,7 +793,10 @@ define_model('big_crappy_spacestation', {
 		set_local_lighting(false)
 		billboard('smoke.png', 50.0, v(0,0,1), {v(0,200,0)})
 		billboard('smoke.png', 50.0, v(1,1,0), {v(0,-300,0)})
-
+		-- nav lights
+		billboard('smoke.png', 350.0, v(1,0,0), {v(-1620,0,0)})
+		billboard('smoke.png', 350.0, v(0,1,0), {v(1620,0,0)})
+		billboard('smoke.png', 350.0, v(1,1,1), {v(0,-515,0)})
 		-- docking trigger surface (only need to indicate surface for
 		-- port zero since this is a 'dock_one_at_a_time_please' station
 		geomflag(0x10)
@@ -553,7 +833,7 @@ define_model('big_crappy_spacestation', {
 define_model('nice_spacestation', {
 	info = {
 			bounding_radius=500.0,
-			materials = {'text', 'body'},
+			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.15,
 			lod_pixels = { 50, 0 },
@@ -653,23 +933,61 @@ define_model('nice_spacestation', {
 		local f3b = v(0,-400,400)
 		local f4b = v(-400,-400,0)
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
+		set_material('green_lens',0,1,0,.9,0,0,1,1)
 		set_material('body', .5,.5,.5,1)
 		use_material('body')
 		--front face
+		--door frame outside
 		if lod>1 then
-		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
-		else 	texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
+		else 	texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
 		end
+		cuboid(v(-110,380.1,-59.5),v(220,25,10))--top
+		cuboid(v(-110,380.1,49.5),v(220,25,10))--bottom
+		cuboid(v(-110,380.1,-50),v(10.5,25,100))--left
+		cuboid(v(99.5,380.1,-50),v(10.5,25,100))--right
+		--door frame inside
+		if lod>1 then
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
+		else 	texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.005,0,0), v(0,.005,0))
+		end
+		cuboid(v(-100,380.1,-49.5),v(200,24,.5))--top
+		cuboid(v(-100,380.1,49),v(200,24,.5))--bottom
+		if lod>1 then
+		texture('ships/4_eagles/tex2.png', v(.5,.5,0), v(0,0,1), v(0,0.005,0))
+		else 	texture('ships/4_eagles/tex2_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))
+		end
+		cuboid(v(-99.5,380.1,-50),v(.5,24,100))--left
+		cuboid(v(99.4,380.1,-50),v(.5,24,100))--right
+		texture(nil)
+		--lights
+		--lamp housings
+		use_material('text')
+		cylinder(8,v(-150,401,0),v(-150,401.5,0),v(0,0,1),5)
+		cylinder(8,v(-175,401,0),v(-175,401.5,0),v(0,0,1),5)
+		cylinder(8,v(-200,401,0),v(-200,401.5,0),v(0,0,1),5)
+		cylinder(8,v(150,401,0),v(150,401.5,0),v(0,0,1),5)
+		cylinder(8,v(175,401,0),v(175,401.5,0),v(0,0,1),5)
+		cylinder(8,v(200,401,0),v(200,401.5,0),v(0,0,1),5)
+		--lamp lens
+		use_material('green_lens')
+		cylinder(8,v(-150,401.5,0),v(-150,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(-175,401.5,0),v(-175,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(-200,401.5,0),v(-200,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(150,401.5,0),v(150,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(175,401.5,0),v(175,402.5,0),v(0,0,1),4.5)
+		cylinder(8,v(200,401.5,0),v(200,402.5,0),v(0,0,1),4.5)
+		if lod>1 then
+		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))--tex12.png
+		else 	texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,0,.9))--tex12_s
+		end
+		use_material('body')
 		tri(f1,d,c)
 		xref_tri(f1,c,f2)
 		xref_tri(f2,c,b)
 		xref_tri(f2,b,f3)
 		tri(f3,b,a)
 		--pyramid sides
-		if lod>1 then
-		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		else texture('ships/4_eagles/tex12_s.png', v(.5,.5,0), v(.01,0,0), v(0,.01,0))
-		end
 		xref_tri(f2,f3,f6)
 		xref_tri(f5,f1,f2)
 		xref_tri(f6,f3b,f2b)
@@ -699,11 +1017,12 @@ define_model('nice_spacestation', {
 			zbias(1, textpos, v(0,1,0))
 			text(get_arg_string(0), textpos, v(0,1,0), v(1,0,0), 11, {center=true})
 			zbias(0)
+			call_model('ad_acme_2', v(0,-400.1,20), v(-1,0,0), v(0,0,-1), 40.0)
 		end
 		if (math.fmod(get_arg(1), 2) > 1) then
-			billboard('smoke.png', 50, v(0,1,0), { v(-150,401,0), v(-175,401,0), v(-200,401,0) })
+			billboard('smoke.png', 50, v(0,1,0), { v(-150,405.5,0), v(-175,405.5,0), v(-200,405.5,0) })
 		else
-			billboard('smoke.png', 50, v(0,1,0), { v(150,401,0), v(175,401,0), v(200,401,0) })
+			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
 		end
 	end
 })

@@ -1,1 +1,1 @@
-CustomSystem:new("Gamma Apodis",{Body.Type.STAR_K}):add_to_sector(-5,5,v(0.718,0.701,-0.631))
+CustomSystem:new("Gamma Apodis",{'STAR_K'}):add_to_sector(-5,5,v(0.718,0.701,-0.631))

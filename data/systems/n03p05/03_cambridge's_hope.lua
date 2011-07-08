@@ -1,1 +1,0 @@
-CustomSystem:new("Cambridge's Hope",{Body.Type.STAR_G}):add_to_sector(-3,5,v(0.663,0.948,-0.764))

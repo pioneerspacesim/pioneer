@@ -1,1 +1,1 @@
-CustomSystem:new("Fryus",{Body.Type.STAR_M}):add_to_sector(5,-5,v(0.087,0.651,0.826))
+CustomSystem:new("Fryus",{'STAR_M'}):add_to_sector(5,-5,v(0.087,0.651,0.826))

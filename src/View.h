@@ -3,7 +3,7 @@
 
 #include "libs.h"
 #include "Serializer.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 
 /*
  * For whatever draws crap into the main area of the screen.
@@ -14,7 +14,7 @@
  */
 class View: public Gui::Fixed {
 public:
-	View(): Gui::Fixed((float)Gui::Screen::GetWidth(), (float)(Gui::Screen::GetHeight()-64)) {
+	View(): Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-64)) {
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		
 		m_rightButtonBar = new Gui::Fixed(128, 26);
@@ -23,7 +23,7 @@ public:
 
 		m_rightRegion2 = new Gui::Fixed(126, 17);
 		m_rightRegion2->SetTransparency(true);
-		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-127, Gui::Screen::GetHeight()-43);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-127, Gui::Screen::GetHeight()-45);
 		
 		m_rightRegion1 = new Gui::Fixed(122, 17);
 		m_rightRegion1->SetTransparency(true);

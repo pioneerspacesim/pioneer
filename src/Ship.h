@@ -6,8 +6,7 @@
 #include "ShipType.h"
 #include "MarketAgent.h"
 #include "ShipFlavour.h"
-// only for SBodyPath
-#include "StarSystem.h"
+#include "SystemPath.h"
 #include "BezierCurve.h"
 #include <list>
 
@@ -68,19 +67,27 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	enum FlightState { FLYING, LANDED, DOCKING };
+	enum FlightState {
+		FLYING,     // open flight (includes autopilot)
+		DOCKING,    // in docking animation
+		DOCKED,     // docked with station
+		LANDED,     // rough landed (not docked)
+		HYPERSPACE  // in hyperspace
+	};
+
        	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s) { m_flightState = s; }
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
-	const SBodyPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
+	const SystemPath *GetHyperspaceTarget() const { return &m_hyperspace.dest; }
 	int GetHyperspaceCloudTargetId() { return m_hyperspace.followHypercloudId; }
 	// follow departure cloud
 	void SetHyperspaceTarget(HyperspaceCloud *cloud);
 	// just jump to near an SBody
-	void SetHyperspaceTarget(const SBodyPath *path);
+	void SetHyperspaceTarget(const SystemPath *path);
 	void ClearHyperspaceTarget();
-	void TryHyperspaceTo(const SBodyPath *dest);
+    void ResetHyperspaceCountdown();
+	void TryHyperspaceTo(const SystemPath *dest);
 	enum HyperjumpStatus {
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
@@ -88,14 +95,22 @@ public:
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL
 	};
-	bool CanHyperspaceTo(const SBodyPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
-	void UseHyperspaceFuel(const SBodyPath *dest);
+	bool CanHyperspaceTo(const SystemPath *dest, int &outFuelRequired, double &outDurationSecs, enum HyperjumpStatus *outStatus = 0);
+	void UseHyperspaceFuel(const SystemPath *dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	Equip::Type GetHyperdriveFuelType() const;
 	float GetWeakestThrustersForce() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
+	virtual bool FireMissile(int idx, Ship *target);
+
+	enum AlertState {
+		ALERT_NONE,
+		ALERT_SHIP_NEARBY,
+		ALERT_SHIP_FIRING,
+	};
+	AlertState GetAlertState() { return m_alertState; }
 
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
@@ -119,11 +134,11 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
-	void AIJourney(SBodyPath &dest);
+	//void AIJourney(SBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
-    void AIHoldPosition(Body *target);
+	void AIHoldPosition();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
@@ -137,8 +152,13 @@ public:
 	bool DoesSell(Equip::Type t) const { return true; }
 	Sint64 GetPrice(Equip::Type t) const;
 
-	void ChangeFlavour(const ShipFlavour *f);
 	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
+	// used to change ship label or colour. asserts if you try to change type
+	void UpdateFlavour(const ShipFlavour *f);
+	// used when buying a new ship. changes the flavour and resets cargo,
+	// equipment, etc
+	void ResetFlavour(const ShipFlavour *f);
+
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
@@ -152,6 +172,8 @@ protected:
 	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep);		// returns true if complete
+
+	virtual void SetAlertState(AlertState as) { m_alertState = as; }
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
@@ -170,6 +192,7 @@ private:
 	void Init();
 	bool IsFiringLasers();
 	void TestLanded();
+	void UpdateAlertState();
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -183,15 +206,20 @@ private:
 	Body* m_combatTarget;
 	shipstats_t m_stats;
 
+	AlertState m_alertState;
+	float m_lastFiringAlert;
+
 	struct HyperspacingOut {
 		int followHypercloudId;
-		SBodyPath dest;
+		SystemPath dest;
 		// > 0 means active
 		float countdown;
 	} m_hyperspace;
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+
+	int m_combatTargetIndex, m_navTargetIndex, m_dockedWithIndex; // deserialisation
 };
 
 

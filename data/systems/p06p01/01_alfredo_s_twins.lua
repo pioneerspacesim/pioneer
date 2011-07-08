@@ -1,0 +1,1 @@
+CustomSystem:new("Alfredo's Twins",{'STAR_M', 'STAR_M'}):add_to_sector(6,1,v(0.375,0.914,-0.975))

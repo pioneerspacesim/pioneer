@@ -1,7 +1,7 @@
 #ifndef _SHIPCPANELMULTIFUNCDISPLAYS_H
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "EquipType.h"
 
 enum multifuncfunc_t {
@@ -82,7 +82,7 @@ public:
 	MultiFuncSelectorWidget();
 	sigc::signal<void, multifuncfunc_t> onSelect;
 	void SetSelected(multifuncfunc_t f) {
-		m_rg->SetSelected((int)f);
+		m_rg->SetSelected(int(f));
 	}
 private:
 	void UpdateButtons();

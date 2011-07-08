@@ -17,6 +17,7 @@ class GeoSphereStyle {
 	enum TerrainFractal {
 		TERRAIN_NONE,
 		TERRAIN_HILLS_NORMAL,
+		TERRAIN_HILLS_DUNES,
 		TERRAIN_HILLS_RIDGED,
 		TERRAIN_HILLS_RIVERS,
 		TERRAIN_HILLS_CRATERS,
@@ -113,6 +114,8 @@ class GeoSphereStyle {
 	vector3d m_rockColor[8];
 	vector3d m_darkrockColor[8];
 	vector3d m_greyrockColor[8];
+	vector3d m_gglightColor[8];
+	vector3d m_ggdarkColor[8];
 
 	/* XXX you probably shouldn't increase this. If you are
 	   using more than 10 then things will be slow as hell */

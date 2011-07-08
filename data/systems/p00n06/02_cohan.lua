@@ -1,1 +1,1 @@
-CustomSystem:new("Cohan",{Body.Type.STAR_M}):add_to_sector(0,-6,v(0.810,0.926,0.876))
+CustomSystem:new("Cohan",{'STAR_M'}):add_to_sector(0,-6,v(0.810,0.926,0.876))

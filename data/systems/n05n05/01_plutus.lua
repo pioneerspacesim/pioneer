@@ -1,1 +1,1 @@
-CustomSystem:new("Plutus",{Body.Type.STAR_M}):add_to_sector(-5,-5,v(0.890,0.653,0.705))
+CustomSystem:new("Plutus",{'STAR_M'}):add_to_sector(-5,-5,v(0.890,0.653,0.705))

@@ -1,1 +1,1 @@
-CustomSystem:new("Yosser",{Body.Type.STAR_M}):add_to_sector(-5,-1,v(0.442,0.367,-0.215))
+CustomSystem:new("Yosser",{'STAR_M'}):add_to_sector(-5,-1,v(0.442,0.367,-0.215))

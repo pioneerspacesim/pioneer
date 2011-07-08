@@ -6,8 +6,6 @@ static GLuint boundElementArrayBufferObject = 0;
 namespace Render {
 
 static bool initted = false;
-static bool shadersEnabled;
-static bool shadersAvailable;
 static bool isHDREnabled = false;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
@@ -87,7 +85,7 @@ static struct postprocessBuffers_t {
 	{
 		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
 		if (status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", (int)status);
+			fprintf(stderr, "Hm. Framebuffer status 0x%x. No HDR for you pal.\n", int(status));
 			return false;
 		} else {
 			return true;
@@ -240,7 +238,7 @@ static struct postprocessBuffers_t {
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
 		//printf("%f -> ", avgLum[0]);
-		avgLum[0] = std::max((float)exp(avgLum[0]), 0.03f);
+		avgLum[0] = std::max(float(exp(avgLum[0])), 0.03f);
 		//printf("%f\n", avgLum[0]);
 		// see reinhard algo
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
@@ -419,10 +417,11 @@ void ToggleHDR()
 	printf("HDR lighting %s.\n", isHDREnabled ? "enabled" : "disabled");
 }
 
-/*
+/**
  * So if we are using the z-hack VPROG_POINTSPRITE then this still works.
+ * Desired texture should already be bound on calling PutPointSprites()
  */
-void PutPointSprites(int num, vector3f *v, float size, const float modulationCol[4], GLuint tex, int stride)
+void PutPointSprites(int num, vector3f *v, float size, const float modulationCol[4], int stride)
 {
 	glEnable(GL_BLEND);
 	glDisable(GL_LIGHTING);
@@ -434,7 +433,6 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 //	glPointParameterf(GL_POINT_SIZE_MAX, 10000.0 );
 		
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -514,130 +512,6 @@ void PutPointSprites(int num, vector3f *v, float size, const float modulationCol
 	glDisable(GL_BLEND);
 }
 
-// -------------- class Shader ----------------
-
-
-static char *load_file(const char *filename)
-{
-	FILE *f = fopen(filename, "rb");
-	if (!f) {
-		//printf("Could not open %s.\n", filename);
-		return 0;
-	}
-	fseek(f, 0, SEEK_END);
-	size_t len = ftell(f);
-	fseek(f, 0, SEEK_SET);
-	char *buf = (char*)malloc(sizeof(char) * (len+1));
-	fread(buf, 1, len, f);
-	fclose(f);
-	buf[len] = 0;
-	return buf;
-}
-
-static void PrintGLSLCompileError(const char *filename, GLuint obj)
-{
-	int infologLength = 0;
-	char infoLog[1024];
-
-	if (glIsShader(obj))
-		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
-	else
-		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
-
-	if (infologLength > 0) {
-		Warning("Error compiling shader: %s: %s\nOpenGL vendor: %s\nOpenGL renderer string: %s\n\nPioneer will run with shaders disabled.",
-				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
-		shadersAvailable = false;
-		shadersEnabled = false;
-	}
-}
-	
-bool Shader::Compile(const char *shader_name, const char *additional_defines)
-{
-	if (!shadersAvailable) {
-		m_program = 0;
-		return false;
-	}
-	static char *lib_fs = 0;
-	static char *lib_vs = 0;
-	static char *lib_all = 0;
-	if (!lib_fs) lib_fs = load_file("data/shaders/_library.frag.glsl");
-	if (!lib_vs) lib_vs = load_file("data/shaders/_library.vert.glsl");
-	if (!lib_all) lib_all = load_file("data/shaders/_library.all.glsl");
-
-	const std::string name = std::string("data/shaders/") + shader_name;
-	char *vscode = load_file((name + ".vert.glsl").c_str());
-	char *pscode = load_file((name + ".frag.glsl").c_str());
-	char *allcode = load_file((name + ".all.glsl").c_str());
-	
-	if (vscode == 0) {
-		Warning("Could not find shader %s.", (name + ".vert.glsl").c_str());
-		m_program = 0;
-		return false;
-	}
-		
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	std::vector<const char*> shader_src;
-
-	if (additional_defines) shader_src.push_back(additional_defines);
-	shader_src.push_back("#define ZHACK 1\n");
-	shader_src.push_back(lib_all);
-	shader_src.push_back(lib_vs);
-	if (allcode) shader_src.push_back(allcode);
-	shader_src.push_back(vscode);
-
-	glShaderSource(vs, shader_src.size(), &shader_src[0], 0);
-	glCompileShader(vs);
-	GLint status;
-	glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
-	if (!status) {
-		PrintGLSLCompileError((name + ".vert.glsl").c_str(), vs);
-		m_program = 0;
-		return false;
-	}
-
-	GLuint ps = 0;
-	if (pscode) {
-		shader_src.clear();
-		if (additional_defines) shader_src.push_back(additional_defines);
-		shader_src.push_back("#define ZHACK 1\n");
-		shader_src.push_back(lib_all);
-		shader_src.push_back(lib_fs);
-		if (allcode) shader_src.push_back(allcode);
-		shader_src.push_back(pscode);
-		
-		ps = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(ps, shader_src.size(), &shader_src[0], 0);
-		glCompileShader(ps);
-		GLint status;
-		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
-		if (!status) {
-			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);
-			m_program = 0;
-			return false;
-		}
-	}
-
-	m_program = glCreateProgram();
-	glAttachShader(m_program, vs);
-	if (pscode) glAttachShader(m_program, ps);
-	glLinkProgram(m_program);
-	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
-	if (!status) {
-		PrintGLSLCompileError(name.c_str(), m_program);
-		m_program = 0;
-		return false;
-	}
-
-	free(vscode);
-	if (pscode) free(pscode);
-	if (allcode) free(allcode);
-	
-	return true;
-}
-
-// --------------- class Shader ------------------
-
 bool State::UseProgram(Shader *shader)
 {
 	if (shadersEnabled) {
@@ -660,4 +534,4 @@ bool State::UseProgram(Shader *shader)
 	}
 }
 
-}; /* namespace Render */
+} /* namespace Render */

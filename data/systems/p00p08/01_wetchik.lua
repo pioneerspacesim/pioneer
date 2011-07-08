@@ -1,1 +1,1 @@
-CustomSystem:new("Wetchik",{Body.Type.STAR_G, Body.Type.WHITE_DWARF}):add_to_sector(0,8,v(0.767,0.698,-0.310))
+CustomSystem:new("Wetchik",{'STAR_G', 'WHITE_DWARF'}):add_to_sector(0,8,v(0.767,0.698,-0.310))

@@ -1,1 +1,0 @@
-CustomSystem:new("Kolstoi's twin",{Body.Type.STAR_K, Body.Type.STAR_M}):add_to_sector(4,1,v(0.567,0.906,-0.882))

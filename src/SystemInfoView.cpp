@@ -5,31 +5,37 @@
 #include "ShipCpanel.h"
 #include "Player.h"
 #include "Polit.h"
+#include "Space.h"
+#include "SystemPath.h"
 
 SystemInfoView::SystemInfoView()
 {
 	SetTransparency(true);
 	m_system = 0;
-	m_bodySelected = 0;
 	m_refresh = false;
-//	onSelectedSystemChanged.connect(sigc::mem_fun(this, &SystemInfoView::SystemChanged));
 }
 
 void SystemInfoView::OnBodySelected(SBody *b)
 {
-	m_bodySelected = b;
-
 	{
 		printf("\n");
 		printf("Gas, liquid, ice: %f, %f, %f\n", b->m_volatileGas.ToFloat(), b->m_volatileLiquid.ToFloat(), b->m_volatileIces.ToFloat());
 	}
 
-	SBodyPath path;
-	m_system->GetPathOf(b, &path);
+	SystemPath path = m_system->GetPathOf(b);
+	if (Pi::currentSystem->GetPath() == m_system->GetPath()) {
+		Body* body = Space::FindBodyForPath(&path);
+		if(body != 0)
+			Pi::player->SetNavTarget(body);
+	}
 
+	UpdateIconSelections();
+}
+
+void SystemInfoView::OnBodyViewed(SBody *b)
+{
 	std::string desc, data;
 
-//	char buf[1024];
 	m_infoBox->DeleteAllChildren();
 	
 	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
@@ -58,7 +64,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 	_add_label_and_value("Surface temperature", stringf(64, "%d C", b->averageTemp-273));
 
 	if (b->parent) {
-		float days = (float)b->orbit.period / (60*60*24);
+		float days = float(b->orbit.period) / float(60*60*24);
 		if (days > 1000) {
 			data = stringf(64, "%.1f years", days/365);
 		} else {
@@ -69,7 +75,7 @@ void SystemInfoView::OnBodySelected(SBody *b)
 		_add_label_and_value("Apoapsis distance", stringf(64, "%.3f AU", b->orbMax.ToDouble()));
 		_add_label_and_value("Eccentricity", stringf(64, "%.2f", b->orbit.eccentricity));
 		_add_label_and_value("Axial tilt", stringf(64, "%.1f degrees", b->axialTilt.ToDouble() * (180.0/M_PI) ));
-		const float dayLen = (float)b->GetRotationPeriod();
+		const float dayLen = float(b->GetRotationPeriod());
 		if (dayLen) {
 			_add_label_and_value("Day length", stringf(64, "%.1f earth days", dayLen/(60*60*24)));
 		}
@@ -152,7 +158,7 @@ void SystemInfoView::UpdateEconomyTab()
 	crud.clear();
 	data = "#ff0Illegal Goods:\n";
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (!Polit::IsCommodityLegal(s, (Equip::Type)i))
+		if (!Polit::IsCommodityLegal(s, Equip::Type(i)))
 			crud.push_back(std::string("#777")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
@@ -171,10 +177,13 @@ void SystemInfoView::PutBodies(SBody *body, Gui::Fixed *container, int dir, floa
 	if (body->GetSuperType() == SBody::SUPERTYPE_STARPORT) starports++;
 	if (body->type == SBody::TYPE_STARPORT_SURFACE) return;
 	if (body->type != SBody::TYPE_GRAVPOINT) {
-		Gui::ImageButton *ib = new Gui::ImageButton( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
+		BodyIcon *ib = new BodyIcon( (PIONEER_DATA_DIR "/" + std::string(body->GetIcon())).c_str() );
+		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
-		ib->onClick.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
+		ib->onSelect.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodySelected), body));
+		ib->onMouseEnter.connect(sigc::bind(sigc::mem_fun(this, &SystemInfoView::OnBodyViewed), body));
+		ib->onMouseLeave.connect(sigc::mem_fun(this, &SystemInfoView::OnSwitchTo));
 		myPos[0] += (dir ? prevSize*0.5 - size[0]*0.5 : 0);
 		myPos[1] += (!dir ? prevSize*0.5 - size[1]*0.5 : 0);
 		container->Add(ib, myPos[0], myPos[1]);
@@ -212,7 +221,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	m_system = s;
 	if (!s) return;			// Does happen
 
-	m_sbodyInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 
 	if (s->m_unexplored) {
 		Add(m_sbodyInfoTab, 0, 0);
@@ -227,17 +236,18 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		return;
 	}
 
-	m_econInfoTab = new Gui::Fixed((float)Gui::Screen::GetWidth(), (float)Gui::Screen::GetHeight());
+	m_econInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	
-	Gui::Tabbed *tabbed = new Gui::Tabbed();
-	tabbed->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
-	tabbed->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
-	tabbed->AddPage(new Gui::Label("Demographics"), demographicsTab);
-	Add(tabbed, 0, 0);
+	m_tabs = new Gui::Tabbed();
+	m_tabs->AddPage(new Gui::Label("Planetary info"), m_sbodyInfoTab);
+	m_tabs->AddPage(new Gui::Label("Economic info"), m_econInfoTab);
+	m_tabs->AddPage(new Gui::Label("Demographics"), demographicsTab);
+	Add(m_tabs, 0, 0);
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
-	
+
+	m_bodyIcons.clear();
 	int majorBodies, starports;
 	{
 		float pos[2] = { 0, 0 };
@@ -345,11 +355,14 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		else { popmsg = "No registered inhabitants"; }
 		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
 
+		SystemPath path = m_system->GetPath();
 		col1->Add((new Gui::Label("Sector coordinates:"))->Color(1,1,0), 0, 5*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d, %d", m_system->SectorX(), m_system->SectorY())), 0, 5*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d, %d", path.sectorX, path.sectorY)), 0, 5*YSEP);
 		col1->Add((new Gui::Label("System number:"))->Color(1,1,0), 0, 6*YSEP);
-		col2->Add(new Gui::Label(stringf(128, "%d", m_system->SystemIdx())), 0, 6*YSEP);
+		col2->Add(new Gui::Label(stringf(128, "%d", path.systemIndex)), 0, 6*YSEP);
 	}
+
+	UpdateIconSelections();
 
 	ShowAll();
 }
@@ -372,6 +385,51 @@ void SystemInfoView::Update()
 
 void SystemInfoView::OnSwitchTo()
 {
-	m_refresh = true;
+	if (Pi::GetSelectedSystem() != m_system)
+		m_refresh = true;
 }
 
+void SystemInfoView::NextPage()
+{
+	m_tabs->OnActivate();
+}
+
+void SystemInfoView::UpdateIconSelections()
+{
+	//navtarget can be only set in current system
+	for (std::vector<std::pair<std::string, BodyIcon*> >::iterator it = m_bodyIcons.begin();
+		 it != m_bodyIcons.end(); ++it) {
+			 (*it).second->SetSelected(false);
+		if (Pi::currentSystem->GetPath() == m_system->GetPath() &&
+			Pi::player->GetNavTarget() &&
+			(*it).first == Pi::player->GetNavTarget()->GetLabel())
+			(*it).second->SetSelected(true);
+	}
+}
+
+SystemInfoView::BodyIcon::BodyIcon(const char *img) :
+	Gui::ImageRadioButton(0, img, img)
+{
+
+}
+
+void SystemInfoView::BodyIcon::Draw()
+{
+	Gui::ImageRadioButton::Draw();
+	if (!GetSelected()) return;
+	float size[2];
+	GetSize(size);
+	glColor3f(0.f, 1.f, 0.f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2f(0.f, 0.f);
+	glVertex2f(size[0], 0.f);
+	glVertex2f(size[0], size[1]);
+	glVertex2f(0.f, size[1]);
+	glEnd();
+}
+
+void SystemInfoView::BodyIcon::OnActivate()
+{
+	//don't set pressed state here
+	onSelect.emit();
+}

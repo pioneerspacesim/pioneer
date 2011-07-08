@@ -1,5 +1,5 @@
 #include "libs.h"
-#include "Gui.h"
+#include "gui/Gui.h"
 #include "Pi.h"
 #include "GalacticView.h"
 #include "SystemInfoView.h"
@@ -28,13 +28,11 @@ GalacticView::GalacticView()
 	m_zoom = 1.0f;
 	m_rot_x = m_rot_z = 0.0f;
 
-	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in_f7.png");
-	//m_zoomInButton->SetShortcut(SDLK_F6, KMOD_NONE);
+	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
 	m_zoomInButton->SetToolTip("Zoom in");
 	Add(m_zoomInButton, 700, 5);
 	
-	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out_f8.png");
-	//m_zoomOutButton->SetShortcut(SDLK_F7, KMOD_NONE);
+	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip("Zoom out");
 	Add(m_zoomOutButton, 732, 5);
 	
@@ -62,10 +60,6 @@ void GalacticView::Load(Serializer::Reader &rd)
 {
 }
 
-/*void GalacticView::OnClickSystemInfo()
-{
-	Pi::SetView(Pi::systemInfoView);
-}*/
 
 struct galaclabel_t {
 	const char *label;
@@ -76,7 +70,7 @@ struct galaclabel_t {
 	{ "Outer arm", vector3d(0.65,0.4,0.0) },
 	{ "Sagittarius arm", vector3d(-.3,0.2,0.0) },
 	{ "Scutum-Centaurus arm", vector3d(-.45,-0.45,0.0) },
-	{ 0 }
+	{ 0, vector3d(0.0, 0.0, 0.0) }
 };
 
 static void dummy() {}
@@ -90,7 +84,7 @@ void GalacticView::PutLabels(vector3d offset)
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
 		if (Gui::Screen::Project(p, pos)) {
-			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), (float)pos.x, (float)pos.y);
+			m_labels->Add(s_labels[i].label, sigc::ptr_fun(&dummy), float(pos.x), float(pos.y));
 		}
 	}
 
@@ -132,10 +126,9 @@ bool findSphereEyeRayEntryDistance(vector3d sphereCenter, vector3d eyeDir, float
 
 void GalacticView::Draw3D()
 {
-	int secx, secy;
-	Pi::sectorView->GetSector(&secx, &secy);
-	float offset_x = (secx*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
-	float offset_y = (-secy*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
+	SystemPath path = Pi::sectorView->GetSelectedSystem();
+	float offset_x = (path.sectorX*Sector::SIZE + Galaxy::SOL_OFFSET_X)/Galaxy::GALAXY_RADIUS;
+	float offset_y = (-path.sectorY*Sector::SIZE + Galaxy::SOL_OFFSET_Y)/Galaxy::GALAXY_RADIUS;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -331,7 +324,7 @@ void GalacticView::Update()
 		m_rot_z += motion[0];
 	}
 
-	m_scaleReadout->SetText(stringf(128, "%d ly", (int)(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
+	m_scaleReadout->SetText(stringf(128, "%d ly", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
 }
 
 void GalacticView::MouseButtonDown(int button, int x, int y)

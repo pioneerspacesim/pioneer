@@ -31,7 +31,7 @@ struct LmrLight {
 
 struct LmrObjParams
 {
-	float argFloats[LMR_ARG_MAX];
+	double argDoubles[LMR_ARG_MAX];
 	const char *argStrings[LMR_ARG_MAX];
 
 	float linthrust[3];		// 1.0 to -1.0
@@ -100,7 +100,7 @@ public:
 	float *pVertex;
 	int *pIndex;
 	int m_numTris; // ni/3
-	int *pFlag; // 1 per tri
+	unsigned int *pFlag; // 1 per tri
 	friend class LmrModel;
 	friend class LmrGeomBuffer;
 private:

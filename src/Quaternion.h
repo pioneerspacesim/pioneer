@@ -163,8 +163,8 @@ public:
 
 template<> inline Quaternion<float >::Quaternion() {}
 template<> inline Quaternion<double>::Quaternion() {}
-template<> inline Quaternion<float >::Quaternion(float  w, float  x, float  y, float  z): w(w), x(x), y(y), z(z) {}
-template<> inline Quaternion<double>::Quaternion(double w, double x, double y, double z): w(w), x(x), y(y), z(z) {}
+template<> inline Quaternion<float >::Quaternion(float  w_, float  x_, float  y_, float  z_): w(w_), x(x_), y(y_), z(z_) {}
+template<> inline Quaternion<double>::Quaternion(double w_, double x_, double y_, double z_): w(w_), x(x_), y(y_), z(z_) {}
 
 template<> inline Quaternion<float >::Quaternion(float  ang, vector3<float > axis) {
 	const float halfAng = ang*0.5f;
@@ -184,7 +184,7 @@ template<> inline Quaternion<double>::Quaternion(double ang, vector3<double> axi
 }
 
 template<> inline Quaternion<float >::Quaternion(const Quaternion<float > &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
-template<> inline Quaternion<float >::Quaternion(const Quaternion<double> &o): w((float)o.w), x((float)o.x), y((float)o.y), z((float)o.z) {}
+template<> inline Quaternion<float >::Quaternion(const Quaternion<double> &o): w(float(o.w)), x(float(o.x)), y(float(o.y)), z(float(o.z)) {}
 template<> inline Quaternion<double>::Quaternion(const Quaternion<float > &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
 template<> inline Quaternion<double>::Quaternion(const Quaternion<double> &o): w(o.w), x(o.x), y(o.y), z(o.z) {}
 

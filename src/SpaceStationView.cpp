@@ -5,12 +5,12 @@
 #include "WorldView.h"
 #include "ShipFlavour.h"
 #include "ShipCpanel.h"
-#include "Mission.h"
 #include "CommodityTradeWidget.h"
 #include "GenericChatForm.h"
 #include "LuaChatForm.h"
 #include "PoliceChatForm.h"
 #include "LmrModel.h"
+#include "utils.h"
 
 ////////////////////////////////////////////////////////////////////
 
@@ -20,14 +20,14 @@ public:
 	virtual void ShowAll();
 private:
 	void OnClickBuy(int commodity_type) {
-		if (m_station->SellTo(Pi::player, (Equip::Type)commodity_type, true)) {
+		if (m_station->SellTo(Pi::player, Equip::Type(commodity_type), true)) {
 			Pi::cpan->MsgLog()->Message("", stringf(512, "You have bought 1t of %s.", EquipType::types[commodity_type].name));
 		}
 		m_commodityTradeWidget->UpdateStock(commodity_type);
 		UpdateBaseDisplay();
 	}
 	void OnClickSell(int commodity_type) {
-		if (m_station->BuyFrom(Pi::player, (Equip::Type)commodity_type, true)) {
+		if (m_station->BuyFrom(Pi::player, Equip::Type(commodity_type), true)) {
 			Pi::cpan->MsgLog()->Message("", stringf(512, "You have sold 1t of %s.", EquipType::types[commodity_type].name));
 		}
 		m_commodityTradeWidget->UpdateStock(commodity_type);
@@ -130,8 +130,8 @@ void StationLaserPickMount::ShowAll()
 		if ((!m_doFit) && (Pi::player->m_equipment.Get(slot, i) != m_equipType)) continue;
 		Gui::Button *b = new Gui::SolidButton();
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationLaserPickMount::SelectMount), i));
-		Add(b, (float)xpos, 250);
-		Add(new Gui::Label(ShipType::gunmountNames[i]), (float)xpos, 270);
+		Add(b, float(xpos), 250);
+		Add(new Gui::Label(ShipType::gunmountNames[i]), float(xpos), 270);
 
 		xpos += 50;
 	}
@@ -307,7 +307,7 @@ private:
 			Pi::cpan->MsgLog()->Message("", "You do not have enough money");
 		} else {
 			Pi::player->SetMoney(Pi::player->GetMoney() - cost);
-			Pi::player->ChangeFlavour(&f);
+			Pi::player->ResetFlavour(&f);
 			Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
 			Pi::player->UpdateMass();
 			
@@ -340,8 +340,17 @@ void StationViewShipView::Draw3D()
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);
 	static float rot1, rot2;
-	rot1 += .5f*Pi::GetFrameTime();
-	rot2 += Pi::GetFrameTime();
+	if (Pi::MouseButtonState(3)) {
+		int m[2];
+		Pi::GetMouseMotion(m);
+		rot1 += -0.002*m[1];
+		rot2 += -0.002*m[0];
+	}
+	else
+	{
+		rot1 += .5*Pi::GetFrameTime();
+		rot2 += Pi::GetFrameTime();
+	}
 	glClearColor(0.25,.37,.63,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
@@ -379,10 +388,10 @@ void StationViewShipView::Draw3D()
 	glEnable(GL_LIGHT0);
 //	sbreSetDirLight (lightCol, lightDir);
 	glViewport(
-		(GLint)(bx/guiscale[0]),
-		(GLint)((Gui::Screen::GetHeight() - by - 400)/guiscale[1]),
-		(GLsizei)(400/guiscale[0]),
-		(GLsizei)(400/guiscale[1]));
+		GLint(bx/guiscale[0]),
+		GLint((Gui::Screen::GetHeight() - by - 400)/guiscale[1]),
+		GLsizei(400/guiscale[0]),
+		GLsizei(400/guiscale[1]));
 	
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
@@ -414,7 +423,7 @@ void StationViewShipView::ShowAll()
 	Add(new Gui::Label("Buy this ship"), 500, 470);
 
 
-	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.25f);
 	float y = 40;
 	Add(new Gui::Label("Ship type"), 420, y);
 	Add(new Gui::Label(t.name), 600, y);
@@ -460,19 +469,30 @@ void StationViewShipView::ShowAll()
 	y+=YSEP;
 	y+=YSEP;
 	Add(new Gui::Label("Hyperspace range (fully laden):"), 420, y);
-	y+=YSEP;
+	y+=YSEP*1.5;
 
 	{
-		int drivetype = Equip::DRIVE_CLASS1;
-		for (int x = 420; (drivetype < Equip::TYPE_MAX) && (EquipType::types[drivetype].slot == Equip::SLOT_ENGINE);
-				drivetype++, x+=52) {
+		int row_size = 5, pos = 0;
+		for (int x = 420, drivetype = Equip::DRIVE_CLASS1; drivetype <= Equip::DRIVE_CLASS9; x += 52, drivetype++) {
+			if (t.capacity < EquipType::types[drivetype].mass)
+				break;
+
 			int hyperclass = EquipType::types[drivetype].pval;
+			// for the sake of hyperspace range, we count ships mass as 60% of original.
 			float range = Pi::CalcHyperspaceRange(hyperclass, t.hullMass + t.capacity);
-			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), (float)x, y);
+
+
+			Add(new Gui::Label(stringf(128, "Class %d", hyperclass)), float(x), y);
 			if (t.capacity < EquipType::types[drivetype].mass) {
-				Add(new Gui::Label("---"), (float)x, (float)(y+YSEP));
+				Add(new Gui::Label("---"), float(x), float(y+YSEP));
 			} else {
-				Add(new Gui::Label(stringf(128, "%.2f ly", range)), (float)x, y+YSEP);
+				Add(new Gui::Label(stringf(128, "%.2f ly", range)), float(x), float(y+YSEP));
+			}
+
+			if (++pos == row_size) {
+				pos = 0;
+				x = 420-52;
+				y += YSEP*2.5;
 			}
 		}
 	}
@@ -494,7 +514,7 @@ public:
 	virtual void ShowAll();
 private:
 	int GetCostOfFixingHull(float percent) {
-		return (int)(Pi::player->GetFlavour()->price * 0.001 * percent);
+		return int(Pi::player->GetFlavour()->price * 0.001 * percent);
 	}
 
 	void RepairHull(float percent) {
@@ -545,17 +565,17 @@ void StationShipRepairsView::ShowAll()
 			fbox->Add(new Gui::Label("Repair 1.0% of hull damage"), 0, ypos);
 			fbox->Add(new Gui::Label(format_money(cost1)), 350, ypos);
 			
-			Gui::SolidButton *b = new Gui::SolidButton();
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 1.0f));
-			fbox->Add(b, 430, ypos);
+			Gui::SolidButton *sb = new Gui::SolidButton();
+			sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 1.0f));
+			fbox->Add(sb, 430, ypos);
 			ypos += YSEP;
 		}
 		fbox->Add(new Gui::Label(stringf(128, "Repair all hull damage (%.1f%%)", 100.0f-hullPercent)), 0, ypos);
 		fbox->Add(new Gui::Label(format_money(costAll)), 350, ypos);
 		
-		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 100.0f-hullPercent));
-		fbox->Add(b, 430, ypos);
+		Gui::SolidButton *sb = new Gui::SolidButton();
+		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairsView::RepairHull), 100.0f-hullPercent));
+		fbox->Add(sb, 430, ypos);
 	}
 
 	const float *col = Gui::Theme::Colors::tableHeading;
@@ -629,9 +649,9 @@ void StationBuyShipsView::ShowAll()
 		innerbox->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, num*YSEP);
 		innerbox->Add(new Gui::Label(stringf(16, "%dt", ShipType::types[(*i).type].capacity)), 370, num*YSEP);
 		
-		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBuyShipsView::ViewShip), num));
-		innerbox->Add(b, 430, num*YSEP);
+		Gui::SolidButton *sb = new Gui::SolidButton();
+		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBuyShipsView::ViewShip), num));
+		innerbox->Add(sb, 430, num*YSEP);
 		num++;
 	}
 	innerbox->ShowAll();
@@ -729,12 +749,12 @@ public:
 	}
 	virtual void ShowAll();
 private:
-	void OpenMissionDialog(int idx);
-	void OnCloseMissionDialog(GenericChatForm *missionDlg);
+	void OpenAdvertDialog(int ref);
+	void OnCloseAdvertDialog(GenericChatForm *advertDlg);
 	void OnAdvertDeleted(BBAdvert *);
 	void OnBBChanged();
 	sigc::connection m_onBBChangedConnection, m_onBBAdvertDeleted;
-	LuaChatForm *m_advertChatForm;
+	BBAdvertChatForm *m_advertChatForm;
 };
 
 StationBBView::StationBBView(): GenericChatForm()
@@ -764,23 +784,26 @@ void StationBBView::OnAdvertDeleted(BBAdvert *ad)
 	}
 }
 
-void StationBBView::OnCloseMissionDialog(GenericChatForm *missionDlg)
+void StationBBView::OnCloseAdvertDialog(GenericChatForm *advertDlg)
 {
 	m_advertChatForm = 0;
 }
 
-void StationBBView::OpenMissionDialog(int midx)
+void StationBBView::OpenAdvertDialog(int ref)
 {
-	SpaceStation *station = Pi::player->GetDockedWith();
-	
 	if (m_advertChatForm) m_advertChatForm->Close(); // shouldn't happen...
-	m_advertChatForm = new LuaChatForm();
-	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseMissionDialog));
+
+	SpaceStation *station = Pi::player->GetDockedWith();
+	const BBAdvert *ad = station->GetBBAdvert(ref);
+	
+	m_advertChatForm = ad->builder(station, ad);
+
+	m_advertChatForm->onClose.connect(sigc::mem_fun(this, &StationBBView::OnCloseAdvertDialog));
 	m_advertChatForm->AddBaseDisplay();
 	m_advertChatForm->AddVideoWidget();
-	m_advertChatForm->SetMoney(1000000000);
-	BBAdvert *m = &station->GetBBAdverts()[midx];
-	m_advertChatForm->StartChat(station, m);
+
+    m_advertChatForm->CallDialogHandler(0);
+
 	OpenChildChatForm(m_advertChatForm);
 }
 
@@ -806,18 +829,19 @@ void StationBBView::ShowAll()
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
-	std::vector<BBAdvert> &missions = station->GetBBAdverts();
-	int NUM_ITEMS = missions.size();
+	const std::list<const BBAdvert*> bbadverts = station->GetBBAdverts();
+
+	int NUM_ITEMS = bbadverts.size();
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 5);
 
 	int num = 0;
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
-	for (std::vector<BBAdvert>::const_iterator i = missions.begin(); i!=missions.end(); ++i) {
-		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenMissionDialog), num));
-		innerbox->Add(b, 10, num*YSEP);
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
+		Gui::SolidButton *sb = new Gui::SolidButton();
+		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBBView::OpenAdvertDialog), (*i)->ref));
+		innerbox->Add(sb, 10, num*YSEP);
 		
-		Gui::Label *l = new Gui::Label((*i).GetBulletinBoardText());
+		Gui::Label *l = new Gui::Label((*i)->description);
 		innerbox->Add(l,40,num*YSEP);
 		
 		num++;
@@ -946,18 +970,16 @@ void StationRootView::GotoPolis()
 
 /////////////////////////////////////////////////////////////////////
 
-SpaceStationView::SpaceStationView(): View()
+SpaceStationView::SpaceStationView(): View(), m_jumpToForm(0)
 {
 	Gui::Label *l = new Gui::Label("Comms Link");
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 }
 
-void SpaceStationView::JumpTo(GenericChatForm *form)
+void SpaceStationView::JumpToForm(GenericChatForm *form)
 {
-	OnSwitchTo();
-
-	m_baseSubView->OpenChildChatForm(form);
+	m_jumpToForm = form;
 }
 
 void SpaceStationView::OnSwitchTo()
@@ -976,4 +998,9 @@ void SpaceStationView::Draw3D()
 
 void SpaceStationView::Update()
 {
+	if (m_jumpToForm) {
+		OnSwitchTo();
+		m_baseSubView->OpenChildChatForm(m_jumpToForm);
+		m_jumpToForm = 0;
+	}
 }

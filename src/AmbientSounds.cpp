@@ -30,7 +30,7 @@ void AmbientSounds::Update()
 	WorldView::CamType cam = Pi::worldView->GetCamType();
 	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
 
-	if (Pi::player->GetDockedWith()) {
+	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (starNoise.IsPlaying()) {
 			float target[2] = {0.0f,0.0f};
 			float dv_dt[2] = {1.0f,1.0f};
@@ -112,7 +112,21 @@ void AmbientSounds::Update()
 				planetSurfaceNoise.Play(sample, 0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 			}
 		}
-	} else {
+    } else if (planetSurfaceNoise.IsPlaying()) {
+        // planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
+        if (Pi::player->GetFrame()->m_astroBody) {
+            Body *astro = Pi::player->GetFrame()->m_astroBody;
+            if (astro->IsType(Object::PLANET)) {
+                double dist = Pi::player->GetPosition().Length();
+                double pressure, density;
+                static_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
+                if (pressure < 0.001) {
+                    // Stop playing surface noise once out of the atmosphere
+                    planetSurfaceNoise.Stop();
+                }
+            }
+        }
+    } else {
 		if (stationNoise.IsPlaying()) {
 			float target[2] = {0.0f,0.0f};
 			float dv_dt[2] = {1.0f,1.0f};
@@ -134,6 +148,7 @@ void AmbientSounds::Update()
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();
+			if (!f) return; // When player has no frame (game abort) then get outta here!!
 			const SBody *sbody = f->GetSBodyFor();
 			const char *sample = 0;
 			for (; sbody && !sample; sbody = f->GetSBodyFor()) {
@@ -176,7 +191,7 @@ void AmbientSounds::Update()
 		if ((astro = Pi::player->GetFrame()->m_astroBody) && (astro->IsType(Object::PLANET))) {
 			double dist = Pi::player->GetPosition().Length();
 			double pressure, density;
-			((Planet*)astro)->GetAtmosphericState(dist, &pressure, &density);
+			static_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 			// maximum volume at around 2km/sec at earth density, pressure
 			double volume = density * Pi::player->GetVelocity().Length() * 0.0005;
 			volume = Clamp(volume, 0.0, 1.0) * v_env;

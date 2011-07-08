@@ -1,1 +1,1 @@
-CustomSystem:new("Rensom",{Body.Type.STAR_M}):add_to_sector(4,-3,v(0.980,0.581,0.505))
+CustomSystem:new("Rensom",{'STAR_M'}):add_to_sector(4,-3,v(0.980,0.581,0.505))

@@ -1,1 +1,1 @@
-CustomSystem:new("Tiandess",{Body.Type.STAR_K}):add_to_sector(2,-9,v(0.669,0.162,0.437))
+CustomSystem:new("Tiandess",{'STAR_K'}):add_to_sector(2,-9,v(0.669,0.162,0.437))

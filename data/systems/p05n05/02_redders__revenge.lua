@@ -1,0 +1,1 @@
+CustomSystem:new("Redders' Revenge",{'STAR_K'}):add_to_sector(5,-5,v(0.940,0.069,0.371))

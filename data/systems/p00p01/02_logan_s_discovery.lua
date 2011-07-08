@@ -1,0 +1,1 @@
+CustomSystem:new("Logan's Discovery",{'STAR_M'}):add_to_sector(0,1,v(0.822,0.495,-0.402))

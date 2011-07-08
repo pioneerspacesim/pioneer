@@ -1,1 +1,1 @@
-CustomSystem:new("Caladan",{Body.Type.STAR_A}):add_to_sector(5,-6,v(0.994,0.865,0.974))
+CustomSystem:new("Caladan",{'STAR_A'}):add_to_sector(5,-6,v(0.994,0.865,0.974))

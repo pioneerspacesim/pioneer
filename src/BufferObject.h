@@ -49,9 +49,9 @@ public:
 		if ( (!Render::IsArrayBufferBound(m_vertexArrayBufferObject)) ||
 		     (!Render::IsElementArrayBufferBound(m_elementArrayBufferObject)) ) {
 			Render::BindArrayBuffer(m_vertexArrayBufferObject);
-			glNormalPointer(GL_FLOAT, VERTEX_SIZE, (void *)(3*sizeof(float)));
+			glNormalPointer(GL_FLOAT, VERTEX_SIZE, reinterpret_cast<void *>(3*sizeof(float)));
 			glVertexPointer(3, GL_FLOAT, VERTEX_SIZE, 0);
-			glTexCoordPointer(2, GL_FLOAT, VERTEX_SIZE, (void *)(2*3*sizeof(float)));
+			glTexCoordPointer(2, GL_FLOAT, VERTEX_SIZE, reinterpret_cast<void *>(2*3*sizeof(float)));
 			Render::BindElementArrayBuffer(m_elementArrayBufferObject);
 		}
 	}

@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
+#include "Pi.h"
 
 Body::Body()
 {
@@ -48,7 +49,7 @@ void Body::Load(Serializer::Reader &rd)
 void Body::Serialize(Serializer::Writer &_wr)
 {
 	Serializer::Writer wr;
-	wr.Int32((int)GetType());
+	wr.Int32(int(GetType()));
 	switch (GetType()) {
 		case Object::STAR:
 		case Object::PLANET:
@@ -75,7 +76,7 @@ Body *Body::Unserialize(Serializer::Reader &_rd)
 {
 	Serializer::Reader rd = _rd.RdSection("Body");
 	Body *b = 0;
-	Object::Type type = (Object::Type)rd.Int32();
+	Object::Type type = Object::Type(rd.Int32());
 	switch (type) {
 		case Object::STAR:
 			b = new Star(); break;
@@ -174,7 +175,7 @@ void Body::UpdateFrame()
 	// falling out of frames
 	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
 		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
-			
+
 		Frame *new_frame = GetFrame()->m_parent;
 		if (new_frame) { // don't let fall out of root frame
 			matrix4x4d m = matrix4x4d::Identity();
@@ -192,6 +193,9 @@ void Body::UpdateFrame()
 
 			SetFrame(new_frame);
 			SetPosition(new_pos);
+
+			Pi::luaOnFrameChanged.Queue(this);
+			
 			return;
 		}
 	}
@@ -217,6 +221,8 @@ void Body::UpdateFrame()
 		m.ClearToRotOnly();
 		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
 			+ kid->GetStasisVelocityAtPosition(pos));
+
+		Pi::luaOnFrameChanged.Queue(this);
 
 		break;
 	}

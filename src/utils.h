@@ -24,7 +24,7 @@
 #define __attribute(x)
 #endif /* __GNUC__ */
 
-void Error(const char *format, ...) __attribute((format(printf,1,2)));
+void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...) __attribute((format(printf,1,2)));
 void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 
@@ -52,7 +52,7 @@ static inline std::string stringf(int maxlen, const char *format, ...)
 
 static inline std::string stringf(int maxlen, const char *format, ...)
 {
-	char *buf = (char*)alloca(maxlen);
+	char *buf = reinterpret_cast<char*>(alloca(maxlen));
 	va_list argptr;
 	va_start(argptr, format);
 	vsnprintf(buf, maxlen, format, argptr);
@@ -91,5 +91,24 @@ bool is_file(const std::string &filename);
 bool is_dir(const std::string &filename);
 /** args to callback are basename, full path */
 void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &));
+
+Uint32 ceil_pow2(Uint32 v);
+
+void Screendump(const char* destFile, const int w, const int h);
+
+// add a few things that MSVC is missing
+#ifdef _MSC_VER
+
+// round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
+static double round(double x)
+{
+   return x >= 0.0 ? floor(x + 0.5) : ceil(x - 0.5);
+}
+
+static inline float roundf(float x)
+{
+   return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
+}
+#endif /* _MSC_VER */
 
 #endif /* _UTILS_H */

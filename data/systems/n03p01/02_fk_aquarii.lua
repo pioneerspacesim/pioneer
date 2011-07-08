@@ -1,1 +1,1 @@
-CustomSystem:new("FK Aquarii",{Body.Type.STAR_M, Body.Type.STAR_M}):add_to_sector(-3,1,v(0.118,0.551,-0.346))
+CustomSystem:new("FK Aquarii",{'STAR_M', 'STAR_M'}):add_to_sector(-3,1,v(0.118,0.551,-0.346))

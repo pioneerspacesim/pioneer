@@ -6,39 +6,16 @@
 #include "Serializer.h"
 #include "Frame.h"
 #include "Pi.h"
-#include "Mission.h"
 #include "CityOnPlanet.h"
 #include "Player.h"
 #include "Polit.h"
 #include "LmrModel.h"
 #include "Polit.h"
 #include "Space.h"
-#include "PiLuaModules.h"
 #include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
-
-BBAdvert::BBAdvert(const std::string &luaMod, int luaRef, const std::string &desc):
-		m_luaMod(luaMod), m_luaRef(luaRef), m_description(desc)
-{
-	m_sortOrder = Pi::GetGameTime() + Pi::rng.Double();
-}
-
-void BBAdvert::Save(Serializer::Writer &wr)
-{
-	wr.String(m_luaMod);
-	wr.Int32(m_luaRef);
-	wr.String(m_description);
-}
-
-BBAdvert BBAdvert::Load(Serializer::Reader &rd)
-{
-	std::string luaMod = rd.String();
-	int luaRef = rd.Int32();
-	std::string desc = rd.String();
-	return BBAdvert(luaMod, luaRef, desc);
-}	
 
 void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
 	lua_State *L = LmrGetLuaState();
@@ -72,7 +49,7 @@ void SpaceStationType::ReadStageDurations() {
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
 	lua_State *L = LmrGetLuaState();
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	model->PushAttributeToLuaStack("ship_approach_waypoints");
 	if (!lua_isfunction(L, -1)) {
 		printf("no function\n");
@@ -115,7 +92,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
 	if ((stage > 0) && (stage > numDockingStages)) return false;
 	lua_State *L = LmrGetLuaState();
-	lua_pushcfunction(L, mylua_panic);
+	lua_pushcfunction(L, pi_lua_panic);
 	// It's a function of form function(stage, t, from)
 	model->PushAttributeToLuaStack("ship_dock_anim");
 	if (!lua_isfunction(L, -1)) {
@@ -123,7 +100,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	}
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
-	lua_pushnumber(L, (double)t);
+	lua_pushnumber(L, double(t));
 	vector3f *_from = MyLuaVec::pushVec(L);
 	*_from = vector3f(from);
 	// push model aabb as lua table: { min: vec3, max: vec3 }
@@ -183,7 +160,7 @@ void SpaceStation::Init()
 			SpaceStationType t;
 			t.modelName = (*i)->GetName();
 			t.model = LmrLookupModelByName(t.modelName);
-			t.dockMethod = (SpaceStationType::DOCKMETHOD) is_orbital;
+			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
 			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
 			t.ReadStageDurations();
@@ -196,7 +173,7 @@ void SpaceStation::Init()
 			else surfaceStationTypes.push_back(t);
 		}
 	}
-	printf("%d orbital station types and %d surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+	printf("%lu orbital station types and %lu surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
 }
 
 float SpaceStation::GetDesiredAngVel() const
@@ -210,7 +187,7 @@ void SpaceStation::Save(Serializer::Writer &wr)
 	MarketAgent::Save(wr);
 	wr.Int32(Equip::TYPE_MAX);
 	for (int i=0; i<Equip::TYPE_MAX; i++) {
-		wr.Int32((int)m_equipmentStock[i]);
+		wr.Int32(int(m_equipmentStock[i]));
 	}
 	// save shipyard
 	wr.Int32(m_shipsOnSale.size());
@@ -218,21 +195,15 @@ void SpaceStation::Save(Serializer::Writer &wr)
 			i != m_shipsOnSale.end(); ++i) {
 		(*i).Save(wr);
 	}
-	// save bb adverts
-	wr.Int32(m_bbadverts.size());
-	for (std::vector<BBAdvert>::iterator i = m_bbadverts.begin();
-			i != m_bbadverts.end(); ++i) {
-		(*i).Save(wr);
-	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr.Int32(Serializer::LookupBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
-		wr.Float((float)m_shipDocking[i].stagePos);
+		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 
-		wr.Float((float)m_openAnimState[i]);
-		wr.Float((float)m_dockAnimState[i]);
+		wr.Float(float(m_openAnimState[i]));
+		wr.Float(float(m_dockAnimState[i]));
 	}
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(Serializer::LookupSystemBody(m_sbody));
@@ -258,13 +229,8 @@ void SpaceStation::Load(Serializer::Reader &rd)
 		s.Load(rd);
 		m_shipsOnSale.push_back(s);
 	}
-	// load bulletin board adverts
-	int numBBAdverts = rd.Int32();
-	for (int i=0; i<numBBAdverts; i++) {
-		m_bbadverts.push_back(BBAdvert::Load(rd));
-	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = (Ship*)rd.Int32();
+		m_shipDocking[i].shipIndex = rd.Int32();
 		m_shipDocking[i].stage = rd.Int32();
 		m_shipDocking[i].stagePos = rd.Float();
 		m_shipDocking[i].fromPos = rd.Vector3d();
@@ -282,7 +248,7 @@ void SpaceStation::Load(Serializer::Reader &rd)
 void SpaceStation::PostLoadFixup()
 {
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody((size_t)m_shipDocking[i].ship));
+		m_shipDocking[i].ship = static_cast<Ship*>(Serializer::LookupBody(m_shipDocking[i].shipIndex));
 	}
 }
 
@@ -326,13 +292,15 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
-	GetLmrObjParams().argFloats[ARG_STATION_BAY1_STAGE] = 1.0;
-	GetLmrObjParams().argFloats[ARG_STATION_BAY1_POS] = 1.0;
+	GetLmrObjParams().argDoubles[ARG_STATION_BAY1_STAGE] = 1.0;
+	GetLmrObjParams().argDoubles[ARG_STATION_BAY1_POS] = 1.0;
 	SetModel(m_type->modelName, true);
+	m_bbCreated = false;
 }
 
 SpaceStation::~SpaceStation()
 {
+	onBulletinBoardDeleted.emit();
 	if (m_adjacentCity) delete m_adjacentCity;
 }
 
@@ -364,39 +332,6 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
-void SpaceStation::BBAddAdvert(const BBAdvert &a)
-{
-	m_bbadverts.insert(m_bbadverts.begin(), a);
-	std::sort(m_bbadverts.begin(), m_bbadverts.end(), BBAdvert::SortBB());
-	onBulletinBoardChanged.emit();
-}
-
-bool SpaceStation::BBRemoveAdvert(const std::string &modName, int modRef)
-{
-	for (int i=m_bbadverts.size()-1; i>=0; i--) {
-		if (m_bbadverts[i].Is(modName, modRef)) {
-			onBulletinBoardAdvertDeleted.emit(&m_bbadverts[i]);
-			m_bbadverts.erase(m_bbadverts.begin() + i);
-			onBulletinBoardChanged.emit();
-			return true;
-		}
-	}
-	return false;
-}
-
-void SpaceStation::UpdateBB()
-{
-	if (m_bbadverts.size() == 0) {
-		if (Pi::player->GetDockedWith() == this) {
-			PiLuaModules::QueueEvent("onCreateBB", this);
-		}
-	} else {
-		PiLuaModules::QueueEvent("onUpdateBB", this);
-	}
-}
-
-
-
 void SpaceStation::DoDockingAnimation(const double timeStep)
 {
 	matrix4x4d rot, wantRot;
@@ -421,7 +356,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			m_dockAnimState[i] -= 0.3*timeStep;
 
 			if (dt.stagePos >= 1.0) {
-				if (dt.ship == (Ship*)Pi::player) Pi::onDockingClearanceExpired.emit(this);
+				if (dt.ship == static_cast<Ship*>(Pi::player)) Pi::onDockingClearanceExpired.emit(this);
 				dt.ship = 0;
 				dt.stage = 0;
 			}
@@ -456,10 +391,9 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 		} else {
 			if (dt.stage >= 0) {
 				// set docked
-				// XXX have a general onDock event instead
-				if (dt.ship == Pi::player)
-					PiLuaModules::QueueEvent("onPlayerDock", this);
 				dt.ship->SetDockedWith(this, i);
+				CreateBB();
+				Pi::luaOnShipDocked.Queue(dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
 					// launch ship
@@ -474,6 +408,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
+					Pi::luaOnShipUndocked.Queue(dt.ship, this);
 				}
 			}
 		}
@@ -492,10 +427,11 @@ void SpaceStation::DoLawAndOrder()
 {
 	Sint64 fine, crimeBitset;
 	Polit::GetCrime(&crimeBitset, &fine);
-	bool isDocked = ((Ship*)Pi::player)->GetDockedWith() ? true : false;
-	if ((!isDocked) && m_numPoliceDocked
+	bool isDocked = static_cast<Ship*>(Pi::player)->GetDockedWith() ? true : false;
+	if (Pi::player->GetFlightState() != Ship::DOCKED
+			&& m_numPoliceDocked
 			&& (fine > 1000)
-			&& (GetPositionRelTo((Body*)Pi::player).Length() < 100000.0)) {
+			&& (GetPositionRelTo(static_cast<Body*>(Pi::player)).Length() < 100000.0)) {
 		int port = GetFreeDockingPort();
 		if (port != -1) {
 			m_numPoliceDocked--;
@@ -519,7 +455,7 @@ void SpaceStation::DoLawAndOrder()
 				m.shininess = 0.0f;
 				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
 				f.secondaryColor = m;
-				ship->ChangeFlavour(&f);
+				ship->ResetFlavour(&f);
 			}
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
 			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
@@ -533,7 +469,7 @@ void SpaceStation::DoLawAndOrder()
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	if (Pi::GetGameTime() > m_lastUpdatedShipyard) {
-		UpdateBB();
+        if (m_bbCreated) Pi::luaOnUpdateBB.Queue(this);
 		UpdateShipyard();
 		// update again in an hour or two
 		m_lastUpdatedShipyard = Pi::GetGameTime() + 3600.0 + 3600.0*Pi::rng.Double();
@@ -649,7 +585,7 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 		sd.fromRot = Quaterniond::FromMatrix4x4(temp);
 	}
 	ship->SetFlightState(Ship::DOCKING);
-	
+
 	PositionDockedShip(ship, port);
 	return true;
 }
@@ -679,16 +615,16 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 
 /* MarketAgent shite */
 void SpaceStation::Bought(Equip::Type t) {
-	m_equipmentStock[(int)t]++;
+	m_equipmentStock[int(t)]++;
 }
 void SpaceStation::Sold(Equip::Type t) {
-	m_equipmentStock[(int)t]--;
+	m_equipmentStock[int(t)]--;
 }
 bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
 	return true;
 }
 bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
-	bool result = (m_equipmentStock[(int)t] > 0);
+	bool result = (m_equipmentStock[int(t)] > 0);
 	if (verbose && !result) {
 		Pi::Message("This item is out of stock.");
 	}
@@ -700,7 +636,7 @@ bool SpaceStation::DoesSell(Equip::Type t) const {
 
 Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 	Sint64 mul = 100 + Pi::currentSystem->GetCommodityBasePriceModPercent(t);
-	return (mul * (Sint64)EquipType::types[t].basePrice) / 100;
+	return (mul * Sint64(EquipType::types[t].basePrice)) / 100;
 }
 
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
@@ -717,8 +653,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		}
 		if (m_type->dockOneAtATimePlease) {
 			for (int i=0; i<m_type->numDockingPorts; i++) {
-				if (i == (flags & 0xf)) continue;
-				if (m_shipDocking[i].ship && m_shipDocking[i].stage &&
+				if (m_shipDocking[i].ship && m_shipDocking[i].stage != 1 &&
 				    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
 					canDock = false;
 					break;
@@ -770,10 +705,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->Disable();
 					s->SetFlightState(Ship::DOCKING);
 				} else {
-					// XXX have a general onDock event instead
-					if (s == Pi::player)
-						PiLuaModules::QueueEvent("onPlayerDock", this);
 					s->SetDockedWith(this, port);
+					CreateBB();
+					Pi::luaOnShipDocked.Queue(s, this);
 				}
 			}
 		}
@@ -820,8 +754,8 @@ void SpaceStation::Render(const vector3d &viewCoords, const matrix4x4d &viewTran
 	SetLmrTimeParams();
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.argFloats[ARG_STATION_BAY1_STAGE + i] = (float)m_shipDocking[i].stage;
-		params.argFloats[ARG_STATION_BAY1_POS + i] = (float)m_shipDocking[i].stagePos;
+		params.argDoubles[ARG_STATION_BAY1_STAGE + i] = double(m_shipDocking[i].stage);
+		params.argDoubles[ARG_STATION_BAY1_POS + i] = m_shipDocking[i].stagePos;
 	}
 
 	RenderLmrModel(viewCoords, viewTransform);
@@ -861,3 +795,62 @@ bool SpaceStation::AllocateStaticSlot(int& slot)
 
 	return false;
 }
+
+void SpaceStation::CreateBB()
+{
+	if (m_bbCreated) return;
+	Pi::luaOnCreateBB.Queue(this);
+	m_bbCreated = true;
+}
+
+
+static int next_ref = 0;
+int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
+{
+	int ref = ++next_ref;
+	assert(ref);
+
+	BBAdvert ad;
+	ad.ref = ref;
+	ad.description = description;
+	ad.builder = builder;
+
+	m_bbAdverts.push_back(ad);
+
+	onBulletinBoardChanged.emit();
+
+	return ref;
+}
+
+const BBAdvert *SpaceStation::GetBBAdvert(int ref)
+{
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+		if (i->ref == ref)
+			return &(*i);
+	return NULL;
+}
+
+bool SpaceStation::RemoveBBAdvert(int ref)
+{
+	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+		if (i->ref == ref) {
+			onBulletinBoardAdvertDeleted.emit(&(*i));
+			m_bbAdverts.erase(i);
+			return true;
+		}
+	return false;
+}
+
+const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
+{
+	if (!m_bbShuffled) {
+		std::random_shuffle(m_bbAdverts.begin(), m_bbAdverts.end());
+		m_bbShuffled = true;
+	}
+
+	std::list<const BBAdvert*> ads;
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+		ads.push_back(&(*i));
+	return ads;
+}
+

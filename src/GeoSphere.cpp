@@ -92,7 +92,7 @@ public:
 	}
 
 	static void Init() {
-		GEOPATCH_FRAC = 1.0 / (double)(GEOPATCH_EDGELEN-1);
+		GEOPATCH_FRAC = 1.0 / double(GEOPATCH_EDGELEN-1);
 
 		if (midIndices) {
 			delete [] midIndices;
@@ -267,28 +267,26 @@ public:
 				//printf("%d:\nLo %d:%d\nHi: %d:%d\n", i, s_loMinIdx[i], s_loMaxIdx[i], s_hiMinIdx[i], s_hiMaxIdx[i]);
 			}
 
-			if (USE_VBO) {
-				glGenBuffersARB(1, &indices_vbo);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET + sizeof(unsigned short)*VBO_COUNT_MID_IDX, 0, GL_STATIC_DRAW);
-				for (int i=0; i<4; i++) {
-					glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER, 
-						IDX_VBO_LO_OFFSET(i),
-						sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
-						loEdgeIndices[i]);
-				}
-				for (int i=0; i<4; i++) {
-					glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-						IDX_VBO_HI_OFFSET(i),
-						sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
-						hiEdgeIndices[i]);
-				}
-				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-						IDX_VBO_MAIN_OFFSET,
-						sizeof(unsigned short)*VBO_COUNT_MID_IDX,
-						midIndices);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glGenBuffersARB(1, &indices_vbo);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET + sizeof(unsigned short)*VBO_COUNT_MID_IDX, 0, GL_STATIC_DRAW);
+			for (int i=0; i<4; i++) {
+				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER, 
+					IDX_VBO_LO_OFFSET(i),
+					sizeof(unsigned short)*3*(GEOPATCH_EDGELEN/2),
+					loEdgeIndices[i]);
 			}
+			for (int i=0; i<4; i++) {
+				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
+					IDX_VBO_HI_OFFSET(i),
+					sizeof(unsigned short)*VBO_COUNT_HI_EDGE,
+					hiEdgeIndices[i]);
+			}
+			glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
+					IDX_VBO_MAIN_OFFSET,
+					sizeof(unsigned short)*VBO_COUNT_MID_IDX,
+					midIndices);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
 
@@ -301,14 +299,14 @@ public:
 		delete vertices;
 		delete normals;
 		delete colors;
-		if (USE_VBO) geosphere->AddVBOToDestroy(m_vbo);
+		geosphere->AddVBOToDestroy(m_vbo);
 	}
 	void UpdateVBOs() {
 		m_needUpdateVBOs = true;
 	}
 
 	void _UpdateVBOs() {
-		if (USE_VBO && m_needUpdateVBOs) {
+		if (m_needUpdateVBOs) {
 			if (!m_vbo) glGenBuffersARB(1, &m_vbo);
 			m_needUpdateVBOs = false;
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
@@ -317,15 +315,15 @@ public:
 			{
 				clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
 				VBOVertex *pData = vbotemp + i;
-				pData->x = (float)vertices[i].x;
-				pData->y = (float)vertices[i].y;
-				pData->z = (float)vertices[i].z;
-				pData->nx = (float)normals[i].x;
-				pData->ny = (float)normals[i].y;
-				pData->nz = (float)normals[i].z;
-				pData->col[0] = (unsigned char)Clamp(colors[i].x*255.0, 0.0, 255.0);
-				pData->col[1] = (unsigned char)Clamp(colors[i].y*255.0, 0.0, 255.0);
-				pData->col[2] = (unsigned char)Clamp(colors[i].z*255.0, 0.0, 255.0);
+				pData->x = float(vertices[i].x);
+				pData->y = float(vertices[i].y);
+				pData->z = float(vertices[i].z);
+				pData->nx = float(normals[i].x);
+				pData->ny = float(normals[i].y);
+				pData->nz = float(normals[i].z);
+				pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
+				pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
+				pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
 				pData->col[3] = 1.0;
 			}
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_DYNAMIC_DRAW);
@@ -384,7 +382,6 @@ public:
 
 
 	void FixEdgeNormals(const int edge, const vector3d *ev) {
-		vector3d x1, x2, y1, y2;
 		int x, y;
 		switch (edge) {
 		case 0:
@@ -693,10 +690,10 @@ public:
 				normals[x + y*GEOPATCH_EDGELEN] = n.Normalized();
 				// color
 				vector3d p = GetSpherePoint(x*GEOPATCH_FRAC, y*GEOPATCH_FRAC);
-				vector3d &col = colors[x + y*GEOPATCH_EDGELEN];
-				const double height = col.x;
+				vector3d &col_r = colors[x + y*GEOPATCH_EDGELEN];
+				const double height = col_r.x;
 				const vector3d &norm = normals[x + y*GEOPATCH_EDGELEN];
-				col = geosphere->GetColor(p, height, norm);
+				col_r = geosphere->GetColor(p, height, norm);
 			}
 		}
 	}
@@ -829,35 +826,23 @@ public:
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
-			if (USE_VBO) {
-				glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-				glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
-				glNormalPointer(GL_FLOAT, sizeof(VBOVertex), (void *)(3*sizeof(float)));
-				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), (void *)(6*sizeof(float)));
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-				glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES-1, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, (void*)IDX_VBO_MAIN_OFFSET);
-				for (int i=0; i<4; i++) {
-					if (edgeFriend[i]) {
-						glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, (void*)IDX_VBO_HI_OFFSET(i));
-					} else {
-						glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, (void*)IDX_VBO_LO_OFFSET(i));
-					}
-				}
-				glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-			} else {
-				glVertexPointer(3, GL_DOUBLE, 0, &vertices[0].x);
-				glNormalPointer(GL_DOUBLE, 0, &normals[0].x);
-				glColorPointer(3, GL_DOUBLE, 0, &colors[0].x);
-				glDrawElements(GL_TRIANGLES, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, midIndices);
-				for (int i=0; i<4; i++) {
-					if (edgeFriend[i]) {
-						glDrawElements(GL_TRIANGLES, VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, hiEdgeIndices[i]);
-					} else {
-						glDrawElements(GL_TRIANGLES, (GEOPATCH_EDGELEN/2)*3, GL_UNSIGNED_SHORT, loEdgeIndices[i]);
-					}
+
+			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
+			glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
+			glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
+			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
+			glDrawRangeElements(GL_TRIANGLES, 0, GEOPATCH_NUMVERTICES-1, VBO_COUNT_MID_IDX, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_MAIN_OFFSET));
+			for (int i=0; i<4; i++) {
+				if (edgeFriend[i]) {
+					glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], VBO_COUNT_HI_EDGE, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_HI_OFFSET(i)));
+				} else {
+					glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], VBO_COUNT_LO_EDGE, GL_UNSIGNED_SHORT, reinterpret_cast<void*>(IDX_VBO_LO_OFFSET(i)));
 				}
 			}
+			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_COLOR_ARRAY);
@@ -1132,13 +1117,13 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 	// and angle from this tangent on to atmosphere is:
 	// acos(planetRadius/atmosphereRadius) ie acos(1.0/1.01244blah)
 	double endAng = acos(1.0/campos.Length())+acos(1.0/rad);
-	double latDiff = endAng / (double)LAT_SEGS;
+	double latDiff = endAng / double(LAT_SEGS);
 
 	double rot = 0.0;
 	float sinCosTable[LONG_SEGS+1][2];
-	for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/(double)LONG_SEGS) {
-		sinCosTable[i][0] = (float)sin(rot);
-		sinCosTable[i][1] = (float)cos(rot);
+	for (int i=0; i<=LONG_SEGS; i++, rot += 2.0*M_PI/double(LONG_SEGS)) {
+		sinCosTable[i][0] = float(sin(rot));
+		sinCosTable[i][1] = float(cos(rot));
 	}
 
 	/* Tri-fan above viewer */
@@ -1227,7 +1212,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		camdist = 0.1 / (camdist*camdist);
 		// why the fuck is this returning 0.1 when we are sat on the planet??
 		// XXX oh well, it is the value we want anyway...
-		ambient[0] = ambient[1] = ambient[2] = (float)camdist;
+		ambient[0] = ambient[1] = ambient[2] = float(camdist);
 		ambient[3] = 1.0f;
 	}
 	

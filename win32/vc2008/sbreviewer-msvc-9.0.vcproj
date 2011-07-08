@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)\"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\src;..\..\win32\src;..\..\win32\include"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -50,6 +50,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
 				PrecompiledHeaderFile="C:\temp\modelviewer.pch"
+				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 				ForcedIncludeFiles=""
@@ -67,7 +68,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib"
-				OutputFile="..\..\$(ProjectName)_debug.exe"
+				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib"
 				IgnoreAllDefaultLibraries="false"
@@ -100,7 +101,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)\"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
@@ -124,12 +125,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\src;..\..\win32\src;..\..\win32\include"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(IntDir)\$(ProjectName).pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -145,7 +147,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib"
-				OutputFile="..\..\$(ProjectName)_release.exe"
+				OutputFile="$(OutDir)\$(ProjectName)_release.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib"
 				GenerateDebugInformation="true"
@@ -228,183 +230,183 @@
 			Name="gui"
 			>
 			<File
-				RelativePath="..\..\src\Gui.cpp"
+				RelativePath="..\..\src\gui\Gui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Gui.h"
+				RelativePath="..\..\src\gui\Gui.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiAdjustment.h"
+				RelativePath="..\..\src\gui\GuiAdjustment.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiBox.cpp"
+				RelativePath="..\..\src\gui\GuiBox.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiBox.h"
+				RelativePath="..\..\src\gui\GuiBox.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiButton.cpp"
+				RelativePath="..\..\src\gui\GuiButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiButton.h"
+				RelativePath="..\..\src\gui\GuiButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiContainer.cpp"
+				RelativePath="..\..\src\gui\GuiContainer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiContainer.h"
+				RelativePath="..\..\src\gui\GuiContainer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiEvents.h"
+				RelativePath="..\..\src\gui\GuiEvents.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiFixed.cpp"
+				RelativePath="..\..\src\gui\GuiFixed.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiFixed.h"
+				RelativePath="..\..\src\gui\GuiFixed.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImage.cpp"
+				RelativePath="..\..\src\gui\GuiImage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImage.h"
+				RelativePath="..\..\src\gui\GuiImage.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageButton.cpp"
+				RelativePath="..\..\src\gui\GuiImageButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageButton.h"
+				RelativePath="..\..\src\gui\GuiImageButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageRadioButton.cpp"
+				RelativePath="..\..\src\gui\GuiImageRadioButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiImageRadioButton.h"
+				RelativePath="..\..\src\gui\GuiImageRadioButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiISelectable.h"
+				RelativePath="..\..\src\gui\GuiISelectable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiLabel.cpp"
+				RelativePath="..\..\src\gui\GuiLabel.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiLabel.h"
+				RelativePath="..\..\src\gui\GuiLabel.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiMultiStateImageButton.cpp"
+				RelativePath="..\..\src\gui\GuiMultiStateImageButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiMultiStateImageButton.h"
+				RelativePath="..\..\src\gui\GuiMultiStateImageButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioButton.cpp"
+				RelativePath="..\..\src\gui\GuiRadioButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioButton.h"
+				RelativePath="..\..\src\gui\GuiRadioButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioGroup.cpp"
+				RelativePath="..\..\src\gui\GuiRadioGroup.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiRadioGroup.h"
+				RelativePath="..\..\src\gui\GuiRadioGroup.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiScreen.cpp"
+				RelativePath="..\..\src\gui\GuiScreen.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiScreen.h"
+				RelativePath="..\..\src\gui\GuiScreen.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTabbed.cpp"
+				RelativePath="..\..\src\gui\GuiTabbed.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTabbed.h"
+				RelativePath="..\..\src\gui\GuiTabbed.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextEntry.cpp"
+				RelativePath="..\..\src\gui\GuiTextEntry.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextEntry.h"
+				RelativePath="..\..\src\gui\GuiTextEntry.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextLayout.cpp"
+				RelativePath="..\..\src\gui\GuiTextLayout.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiTextLayout.h"
+				RelativePath="..\..\src\gui\GuiTextLayout.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToggleButton.cpp"
+				RelativePath="..\..\src\gui\GuiToggleButton.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToggleButton.h"
+				RelativePath="..\..\src\gui\GuiToggleButton.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToolTip.cpp"
+				RelativePath="..\..\src\gui\GuiToolTip.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiToolTip.h"
+				RelativePath="..\..\src\gui\GuiToolTip.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollBar.cpp"
+				RelativePath="..\..\src\gui\GuiVScrollBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollBar.h"
+				RelativePath="..\..\src\gui\GuiVScrollBar.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollPortal.cpp"
+				RelativePath="..\..\src\gui\GuiVScrollPortal.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiVScrollPortal.h"
+				RelativePath="..\..\src\gui\GuiVScrollPortal.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiWidget.cpp"
+				RelativePath="..\..\src\gui\GuiWidget.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GuiWidget.h"
+				RelativePath="..\..\src\gui\GuiWidget.h"
 				>
 			</File>
 		</Filter>
@@ -413,79 +415,95 @@
 			>
 		</Filter>
 		<File
-			RelativePath="..\..\src\glfreetype.cpp"
+			RelativePath="..\..\src\FontConfig.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\glfreetype.h"
+			RelativePath="..\..\src\FontConfig.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lapi.c"
+			RelativePath="..\..\src\FontManager.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lapi.h"
+			RelativePath="..\..\src\FontManager.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lauxlib.c"
+			RelativePath="..\..\src\IniConfig.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lauxlib.h"
+			RelativePath="..\..\src\IniConfig.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lbaselib.c"
+			RelativePath="..\..\contrib\lua\lapi.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lcode.c"
+			RelativePath="..\..\contrib\lua\lapi.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lcode.h"
+			RelativePath="..\..\contrib\lua\lauxlib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ldblib.c"
+			RelativePath="..\..\contrib\lua\lauxlib.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ldebug.c"
+			RelativePath="..\..\contrib\lua\lbaselib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ldebug.h"
+			RelativePath="..\..\contrib\lua\lcode.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ldo.c"
+			RelativePath="..\..\contrib\lua\lcode.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ldo.h"
+			RelativePath="..\..\contrib\lua\ldblib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ldump.c"
+			RelativePath="..\..\contrib\lua\ldebug.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lfunc.c"
+			RelativePath="..\..\contrib\lua\ldebug.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lfunc.h"
+			RelativePath="..\..\contrib\lua\ldo.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lgc.c"
+			RelativePath="..\..\contrib\lua\ldo.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lgc.h"
+			RelativePath="..\..\contrib\lua\ldump.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\contrib\lua\lfunc.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\contrib\lua\lfunc.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\contrib\lua\lgc.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\contrib\lua\lgc.h"
 			>
 		</File>
 		<File
@@ -493,35 +511,35 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\linit.c"
+			RelativePath="..\..\contrib\lua\linit.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\liolib.c"
+			RelativePath="..\..\contrib\lua\liolib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\llex.c"
+			RelativePath="..\..\contrib\lua\llex.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\llex.h"
+			RelativePath="..\..\contrib\lua\llex.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\llimits.h"
+			RelativePath="..\..\contrib\lua\llimits.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lmathlib.c"
+			RelativePath="..\..\contrib\lua\lmathlib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lmem.c"
+			RelativePath="..\..\contrib\lua\lmem.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lmem.h"
+			RelativePath="..\..\contrib\lua\lmem.h"
 			>
 		</File>
 		<File
@@ -533,87 +551,87 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\loadlib.c"
+			RelativePath="..\..\contrib\lua\loadlib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lobject.c"
+			RelativePath="..\..\contrib\lua\lobject.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lobject.h"
+			RelativePath="..\..\contrib\lua\lobject.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lopcodes.c"
+			RelativePath="..\..\contrib\lua\lopcodes.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lopcodes.h"
+			RelativePath="..\..\contrib\lua\lopcodes.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\loslib.c"
+			RelativePath="..\..\contrib\lua\loslib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lparser.c"
+			RelativePath="..\..\contrib\lua\lparser.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lparser.h"
+			RelativePath="..\..\contrib\lua\lparser.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lstate.c"
+			RelativePath="..\..\contrib\lua\lstate.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lstate.h"
+			RelativePath="..\..\contrib\lua\lstate.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lstring.c"
+			RelativePath="..\..\contrib\lua\lstring.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lstring.h"
+			RelativePath="..\..\contrib\lua\lstring.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lstrlib.c"
+			RelativePath="..\..\contrib\lua\lstrlib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ltable.c"
+			RelativePath="..\..\contrib\lua\ltable.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ltable.h"
+			RelativePath="..\..\contrib\lua\ltable.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ltablib.c"
+			RelativePath="..\..\contrib\lua\ltablib.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ltm.c"
+			RelativePath="..\..\contrib\lua\ltm.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\ltm.h"
+			RelativePath="..\..\contrib\lua\ltm.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lua.h"
+			RelativePath="..\..\contrib\lua\lua.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\luaconf.h"
+			RelativePath="..\..\contrib\lua\luaconf.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lualib.h"
+			RelativePath="..\..\contrib\lua\lualib.h"
 			>
 		</File>
 		<File
@@ -621,39 +639,39 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lundump.c"
+			RelativePath="..\..\src\LuaUtils.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lundump.h"
+			RelativePath="..\..\src\LuaUtils.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lvm.c"
+			RelativePath="..\..\contrib\lua\lundump.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lvm.h"
+			RelativePath="..\..\contrib\lua\lundump.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lzio.c"
+			RelativePath="..\..\contrib\lua\lvm.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\lzio.h"
+			RelativePath="..\..\contrib\lua\lvm.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\contrib\lua\lzio.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\contrib\lua\lzio.h"
 			>
 		</File>
 		<File
 			RelativePath="..\..\src\matrix4x4.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\mylua.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\mylua.h"
 			>
 		</File>
 		<File
@@ -681,11 +699,27 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\lua\print.c"
+			RelativePath="..\..\contrib\lua\print.c"
 			>
 		</File>
 		<File
 			RelativePath="..\..\src\Render.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\RenderShader.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\RenderShader.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\TextureFont.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\TextureFont.h"
 			>
 		</File>
 		<File
@@ -698,6 +732,14 @@
 		</File>
 		<File
 			RelativePath="..\..\src\vector3.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\VectorFont.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\VectorFont.h"
 			>
 		</File>
 		<File

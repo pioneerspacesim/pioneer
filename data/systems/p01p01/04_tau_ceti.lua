@@ -1,4 +1,4 @@
-local s = CustomSystem:new('Tau Ceti',{ Body.Type.STAR_G })
+local s = CustomSystem:new('Tau Ceti',{ 'STAR_G' })
 
 s:seed(2)
 

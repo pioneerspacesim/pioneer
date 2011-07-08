@@ -1,1 +1,1 @@
-CustomSystem:new("Tiber",{Body.Type.STAR_F}):add_to_sector(-5,6,v(0.422,0.715,-0.773))
+CustomSystem:new("Tiber",{'STAR_F'}):add_to_sector(-5,6,v(0.422,0.715,-0.773))

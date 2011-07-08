@@ -10,6 +10,7 @@
 #include "CargoBody.h"
 #include "Planet.h"
 #include "Sfx.h"
+#include "Ship.h"
 
 Projectile::Projectile(): Body()
 {
@@ -39,12 +40,12 @@ void Projectile::Load(Serializer::Reader &rd)
 	m_dirVel = rd.Vector3d();
 	m_age = rd.Float();
 	m_type = rd.Int32();
-	m_parent = (Body*)rd.Int32();
+	m_parentIndex = rd.Int32();
 }
 
 void Projectile::PostLoadFixup()
 {
-	m_parent = Serializer::LookupBody((size_t)m_parent);
+	m_parent = Serializer::LookupBody(m_parentIndex);
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)
@@ -73,7 +74,7 @@ void Projectile::NotifyDeleted(const Body* const deletedBody)
 void Projectile::TimeStepUpdate(const float timeStep)
 {
 	m_age += timeStep;
-	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * (double)timeStep);
+	SetPosition(GetPosition() + (m_baseVel+m_dirVel) * double(timeStep));
 	if (m_age > Equip::lasers[m_type].lifespan) Space::KillBody(this);
 }
 
@@ -115,7 +116,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
 	
 	if (c.userData1) {
-		Object *o = (Object*)c.userData1;
+		Object *o = static_cast<Object*>(c.userData1);
 
 		if (o->IsType(Object::CITYONPLANET)) {
 			Space::KillBody(this);
@@ -125,6 +126,8 @@ void Projectile::StaticUpdate(const float timeStep)
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage());
 				Space::KillBody(this);
+				if (hit->IsType(Object::SHIP))
+					Pi::luaOnShipHit.Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
 		}
 	}
@@ -151,7 +154,7 @@ void Projectile::StaticUpdate(const float timeStep)
 void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	static GLuint tex;
-	if (!tex) tex = util_load_tex_rgba("data/textures/laser.png");
+	if (!tex) tex = util_load_tex_rgba(PIONEER_DATA_DIR"/textures/laser.png");
 
 	vector3d from = viewTransform * GetInterpolatedPosition();
 	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
@@ -166,7 +169,8 @@ void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransf
 	}
 	Color col = Equip::lasers[m_type].color;
 	col.a = 1.0f - m_age/Equip::lasers[m_type].lifespan;
-	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col, tex);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col);
 }
 
 void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)

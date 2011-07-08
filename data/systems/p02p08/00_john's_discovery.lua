@@ -1,1 +1,0 @@
-CustomSystem:new("John's Discovery",{Body.Type.STAR_K, Body.Type.STAR_G}):add_to_sector(2,8,v(0.944,0.123,-0.238))

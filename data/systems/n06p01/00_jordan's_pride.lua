@@ -1,1 +1,0 @@
-CustomSystem:new("Jordan's Pride",{Body.Type.STAR_G}):add_to_sector(-6,1,v(0.089,0.701,-0.510))

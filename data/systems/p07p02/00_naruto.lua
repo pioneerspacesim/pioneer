@@ -1,1 +1,1 @@
-CustomSystem:new("Naruto",{Body.Type.WHITE_DWARF}):add_to_sector(7,2,v(0.210,0.556,-0.448))
+CustomSystem:new("Naruto",{'WHITE_DWARF'}):add_to_sector(7,2,v(0.210,0.556,-0.448))

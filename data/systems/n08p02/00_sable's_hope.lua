@@ -1,1 +1,0 @@
-CustomSystem:new("Sable's Hope",{Body.Type.STAR_K}):add_to_sector(-8,2,v(0.350,0.638,-0.181))

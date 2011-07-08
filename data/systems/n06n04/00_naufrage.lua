@@ -1,1 +1,1 @@
-CustomSystem:new("Naufrage",{Body.Type.STAR_M}):add_to_sector(-6,-4,v(0.129,0.498,0.850))
+CustomSystem:new("Naufrage",{'STAR_M'}):add_to_sector(-6,-4,v(0.129,0.498,0.850))

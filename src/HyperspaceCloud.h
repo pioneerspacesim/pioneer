@@ -24,6 +24,7 @@ public:
 	virtual void PostLoadFixup();
 	virtual void TimeStepUpdate(const float timeStep);
 	Ship *GetShip() { return m_ship; }
+	Ship *EvictShip();
 	double GetDueDate() const { return m_due; }
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
