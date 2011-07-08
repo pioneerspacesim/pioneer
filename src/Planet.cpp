@@ -158,18 +158,18 @@ static GasGiantDef_t ggdefs[] = {
     { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
 }, {
 	/* saturnish */
-	10, 15, 0.0,
+	10, 25, 0.05f,
 	8, 20, // blob range
 	0.2f, 0.2f, // pole size
 	0.5,
 	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2}, 0.3f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,0,0 }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,0,0 }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,0,0 }, 0.1f },
-	{ { .77f, .58f, .29f, 1 }, { 0,0,0,0 }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { .2,0,0,.3 }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { 0,0,.2,.1 }, 0.1f },
+	{ { .87f, .68f, .39f, 1 }, { .1,0,0,.1 }, 0.1f },
+	{ { .77f, .58f, .29f, 1 }, { .1,.1,0,.2 }, 0.2f },
 }, {
 	/* neptunish */
-	3, 6, 0.0,
+	3, 6, 0.2f,
 	2, 6,
 	0, 0,
 	0.5,
@@ -180,8 +180,8 @@ static GasGiantDef_t ggdefs[] = {
     { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
 }, {
 	/* uranus-like *wink* */
-	0, 0, 0.0,
-	0, 0,
+	2, 3, 0.1,
+	1, 2,
 	0, 0,
 	0.5,
 	{ { .61f,.48f,.384f,.4f }, {0,0,0,.3f}, 0.3f },
@@ -193,7 +193,7 @@ static GasGiantDef_t ggdefs[] = {
 	/* brown dwarf-like */
 	0, 0, 0.05f,
 	10, 20,
-	0, 0,
+	0.2f, 0.2f,
 	0.5,
 	{ { .81f,.48f,.384f,.5f }, {0,0,0,.3f}, 0.3f },
 	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
@@ -252,7 +252,7 @@ void Planet::DrawGasGiantRings()
 	float baseCol[4];
 	
 	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,3)];
+	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,4)];
 	ggdef.ringCol.GenCol(baseCol, rng);
 	
 	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
