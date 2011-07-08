@@ -1,6 +1,6 @@
 The Pioneer team are (8 July 2011, alpha 12):
 
-Project lead: John Jordan
+Project leads: Tom Morton, John Jordan
 
 Maintainer: Robert Norris
 
