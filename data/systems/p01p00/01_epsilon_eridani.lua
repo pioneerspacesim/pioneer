@@ -53,7 +53,7 @@ local atlantica = CustomSBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 
 
 local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
-	:seed(142)
+	:seed(43)
 	:radius(f(4,3))
 	:mass(f(5,4))
 	:temp(287)
@@ -65,8 +65,8 @@ local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	:volcanicity(f(68,100))
 	:atmos_density(f(15,10))
 	:atmos_oxidizing(f(7,10))
-	:ocean_cover(f(3,10))
-	:ice_cover(f(3,10))
+	:ocean_cover(f(45,100))
+	:ice_cover(f(6,10))
 	:life(f(9,10))
 	
 	local newhope_starports = {

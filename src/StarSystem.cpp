@@ -592,18 +592,24 @@ std::string SBody::GetAstroDescription()
 			else if (m_volatileGas < fixed(4,1)) thickness = "thick";
 			else thickness = "very dense";
 
-			if (m_atmosOxidizing < fixed(1,2)) {
-				if (mass > fixed(3,1)) {
-					s += " with a "+thickness+" Hydrogen atmosphere";
-				} else {
-					s += " with a "+thickness+" Methane atmosphere";
-				}
+			if (m_atmosOxidizing > fixed(95,100)) {
+				s += " with a "+thickness+" Oxygen atmosphere";
+			} else if (m_atmosOxidizing > fixed(7,10)) {
+				s += " with a "+thickness+" Carbon Dioxide atmosphere";
+			} else if (m_atmosOxidizing > fixed(65,100)) {
+				s += " with a "+thickness+" Carbon Monoxide atmosphere";
+			} else if (m_atmosOxidizing > fixed(55,100)) {
+				s += " with a "+thickness+" Methane atmosphere";
+			} else if (m_atmosOxidizing > fixed(3,10)) {
+				s += " with a "+thickness+" Hydrogen atmosphere";
+			} else if (m_atmosOxidizing > fixed(2,10)) {
+				s += " with a "+thickness+" Helium atmosphere";
+			} else if (m_atmosOxidizing > fixed(15,100)) {
+				s += " with a "+thickness+" Argon atmosphere";
+			} else if (m_atmosOxidizing > fixed(1,10)) {
+				s += " with a "+thickness+" Sulfuric atmosphere";
 			} else {
-				if (m_life > fixed(1,2)) {
-					s += " with a "+thickness+" Oxygen atmosphere";
-				} else {
-					s += " with a "+thickness+" Carbon Dioxide atmosphere";
-				}
+				s += " with a "+thickness+" Nitrogen atmosphere";
 			}
 		}
 
