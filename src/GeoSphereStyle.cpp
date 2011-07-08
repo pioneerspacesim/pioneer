@@ -154,52 +154,53 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 			break;
 		default:
 		case SBody::TYPE_PLANET_TERRESTRIAL:
-			double r,g,b;
+			double r,g,b = 0;
 			double atmo = sbody->m_atmosOxidizing.ToDouble();
 			if (sbody->m_volatileGas.ToDouble() > 0.001) {
-				if (atmo > fixed(95,100)) {
+				if (atmo > 0.95) {
 					// o2
-					r = 0.8f;
-					g = 1.0f - (0.95f-atmo);
+					r = 0.7f;
+					g = (1.0f + ((0.95f-atmo)*5.0f));
 					b = atmo;
-					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(7,10)) {
+					m_atmosColor = Color(r, g, b, 1.0);
+					printf("r %f g %f b %f \n", r, g, b);
+				} else if (atmo > 0.7) {
 					// co2
 					r = atmo+0.05f;
-					g = 1.0f - (0.7f-atmo);
+					g = 1.0f + (0.7f-atmo);
 					b = 0.8f;
 					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(65,100)) {
+				} else if (atmo > 0.65) {
 					// co
-					r = 1.0f - (0.65f-atmo);
+					r = 1.0f + (0.65f-atmo);
 					g = 0.8f;
-					b = atmo+0.25f;
+					b = atmo + 0.25f;
 					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(55,100)) {
+				} else if (atmo > 0.55) {
 					// ch4
-					r = 1.0f - (0.55f-atmo);
+					r = 1.0f + (0.55f-atmo);
 					g = 0.35f + atmo;
 					b = 0.4f;
 					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(3,10)) {
+				} else if (atmo > 0.3) {
 					// h
 					r = 1.0f;
 					g = 1.0f;
 					b = 1.0f;
 					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(2,10)) {
+				} else if (atmo > 0.2) {
 					// he
 					r = 1.0f;
 					g = 1.0f;
 					b = 1.0f;
 					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(15,100)) {
+				} else if (atmo > 0.15) {
 					// ar
 					r = 1.0f;
 					g = 1.0f;
 					b = 1.0f;
 					m_atmosColor = Color(r, g, b, 1.0f);
-				} else if (atmo > fixed(1,10)) {
+				} else if (atmo > 0.1) {
 					// s
 					r = 1.0f;
 					g = 1.0f;
@@ -800,13 +801,23 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 		case COLOR_GG_URANUS: 
 			{
 				double height = m_maxHeightInMeters*0.1;
-				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10000000.0);
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 1000.0);
 				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
 				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0);
-				SetFracDef(&m_fracdef[3], height, 1e8, rand, 100.0);
 				break;
 			}
 		case COLOR_GG_NEPTUNE:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				//spot boundary
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10000000.0);
+				//spot
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 100.0);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0);
+				SetFracDef(&m_fracdef[3], height, 1e8, rand, 1000.0);
+				break;
+			}
+		case COLOR_GG_NEPTUNE2:
 			{
 				// spots
 				double height = m_maxHeightInMeters*0.1;
@@ -1760,11 +1771,11 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			for(float i=-1 ; i < 1; i+=0.6){
 				double temp = p.y - i;
 				if ( temp < .15+h && temp > -.15+h ){
-					n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
+					n = billow_octavenoise(m_fracdef[2], 0.7*m_entropy[0], 
 						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
-					n += 0.5*octavenoise(m_fracdef[1], 0.5*m_entropy[0],
+					n += 0.5*octavenoise(m_fracdef[1], 0.6*m_entropy[0],
 						noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
-					n += ridged_octavenoise(m_fracdef[1], 0.5*m_entropy[0], 
+					n += ridged_octavenoise(m_fracdef[1], 0.7*m_entropy[0], 
 						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
 					//n += 0.5;
 					n *= n;
@@ -1797,7 +1808,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			for(float i=-1 ; i < 1; i+=0.6){
 				double temp = p.y - i;
 				if ( temp < .15+h && temp > -.15+h ){
-					n = billow_octavenoise(m_fracdef[2], 0.5*m_entropy[0], 
+					n = billow_octavenoise(m_fracdef[2], 0.8*m_entropy[0], 
 						noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
 					n += 0.5*octavenoise(m_fracdef[1], 0.5*m_entropy[0],
 						noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
@@ -1892,18 +1903,18 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62));
 		}
 	case COLOR_GG_URANUS: {
-		double n = 0.25*ridged_octavenoise(m_fracdef[2], 0.6, 3.142*p.y*p.y);
-		n += 0.2*octavenoise(m_fracdef[4], 0.55, 3.142*p.y*p.y);
-		n += 0.1*octavenoise(m_fracdef[3], 0.5, 3.142*p.y*p.y);
+		double n = 0.5*ridged_octavenoise(m_fracdef[0], 0.7, 3.142*p.y*p.y);
+		n += 0.5*octavenoise(m_fracdef[1], 0.6, 3.142*p.y*p.y);
+		n += 0.2*octavenoise(m_fracdef[2], 0.5, 3.142*p.y*p.y);
 		n /= 2.0;
 		n *= n*n;
 		return interpolate_color(n, vector3d(.4, .5, .55), vector3d(.85,.95,.96));
 		}
 	case COLOR_GG_NEPTUNE: {
-		double n = octavenoise(m_fracdef[2], 0.6, 3.142*p.y*p.y);
-		n += 0.25*octavenoise(m_fracdef[4], 0.55, 3.142*p.y*p.y);
+		double n = 0.8*octavenoise(m_fracdef[2], 0.6, 3.142*p.y*p.y);
+		n += 0.25*ridged_octavenoise(m_fracdef[3], 0.55, 3.142*p.y*p.y);
 		n += 0.2*octavenoise(m_fracdef[3], 0.5, 3.142*p.y*p.y);
-		n += billow_octavenoise(m_fracdef[1], 0.85, noise(p*3.142)*p)*
+		n += 0.8*billow_octavenoise(m_fracdef[1], 0.8, noise(p*3.142)*p)*
 			 megavolcano_function(m_fracdef[0], p);
 		n /= 2.0;
 		n *= n*n;
