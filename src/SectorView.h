@@ -17,16 +17,25 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	SystemPath GetSelectedSystem() const { return m_selected; }
+	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
+	void SetHyperspaceTarget(const SystemPath &path);
+	void FloatHyperspaceTarget();
+	void ResetHyperspaceTarget();
 	void GotoSystem(const SystemPath &path);
 	void WarpToSystem(const SystemPath &path);
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo();
+
+	sigc::signal<void> onHyperspaceTargetChanged;
 private:
 	void DrawSector(int x, int y);
 	void PutClickableLabel(std::string &text, const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
+
 	void MouseButtonDown(int button, int x, int y);
+	void OnKeyPress(SDL_keysym *keysym);
+
 	Sector* GetCached(int sectorX, int sectorY);
 	void ShrinkCache();
 
@@ -34,6 +43,9 @@ private:
 
 	bool m_firstTime;
 	SystemPath m_selected;
+
+	SystemPath m_hyperspaceTarget;
+	bool m_matchTargetToSelection;
 
 	float m_px, m_py;
 	float m_rot_x, m_rot_z;
@@ -49,7 +61,9 @@ private:
 	Gui::Label *m_starType;
 	Gui::Label *m_shortDesc;
 	Gui::LabelSet *m_clickableLabels;
+
 	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;
 };

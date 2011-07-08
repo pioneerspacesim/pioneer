@@ -1,10 +1,14 @@
 Alpha 13
 
   * New features
-    New song 'spacegroove' (#267)
+    * New song 'spacegroove' (#267)
+    * Caching of models and textures on startup, reduces loading times (#271)
+    * Separate hyperspace target from selected system in sector view (#269)
 
   * Fixes
     * Move sector view to current system on first open (#262)
+    * Check hyperspace validity at hyperspace time, fixes erroneous jumps to
+      Sol (#269)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
@@ -48,6 +52,8 @@ Alpha 12
     * Occasional crash in system cache pruning (#230, #237)
     * Crash due to buffer overrun in sound player (#253)
     * Fixed HDR lighting on Radeon (#87, #263)
+    * Replace broken hill/dune terrain with something that works
+    * Adjust Saturn, Uranus and Neptune so they have rings as appropriate
 
   * Internal changes
     * All model timing now based of game time (#175, #178)

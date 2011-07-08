@@ -165,9 +165,6 @@
     <ClCompile Include="..\..\src\LuaSBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaSBodyPath.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaSerializer.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -303,9 +300,6 @@
     <ClCompile Include="..\..\src\StarSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\SysLoc.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\SystemInfoView.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -403,6 +397,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaMusic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextureManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaSystemPath.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -590,9 +590,6 @@
     <ClInclude Include="..\..\src\LuaSBody.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaSBodyPath.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaSerializer.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -740,9 +737,6 @@
     <ClInclude Include="..\..\src\StarSystem.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\SysLoc.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\SystemInfoView.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -855,6 +849,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMusic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TextureManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaSystemPath.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

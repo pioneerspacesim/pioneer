@@ -1,37 +1,5 @@
-#ifdef __MINGW32__
-#define WINVER 0x0500
-#include <w32api.h>
-#define _WIN32_IE IE5
-#endif
-
-#include <stdlib.h>
-#include <math.h>
 #include "libs.h"
-#include "utils.h"
 #include "gui/Gui.h"
-#include <string>
-#include <map>
-
-#ifdef _WIN32
-
-#ifdef __MINGW32__
-#include <dirent.h>
-#include <sys/stat.h>
-#include <stdexcept>
-#define WINSHLWAPI
-#else /* !__MINGW32__ */
-#include "win32-dirent.h"
-#endif
-
-#include <shlobj.h>
-#include <shlwapi.h>
-
-#else /* !_WIN32 */
-#include <dirent.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#endif
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
