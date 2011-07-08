@@ -165,7 +165,7 @@ local mars_moons = {
 }
 
 local jupiter = CustomSBody:new('Jupiter', 'PLANET_GAS_GIANT')
-	:seed(15)
+	:seed(21)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
@@ -312,7 +312,7 @@ local saturn_moons = {
 }
 
 local uranus = CustomSBody:new('Uranus', 'PLANET_GAS_GIANT')
-	:seed(85)
+	:seed(28)
 	:radius(f(4,1))
 	:mass(f(145,10))
 	:temp(76)
@@ -359,7 +359,7 @@ local uranus_moons = {
 }
 
 local neptune = CustomSBody:new('Neptune', 'PLANET_GAS_GIANT')
-	:seed(48)
+	:seed(24) --22, 17
 	:radius(f(38,10))
 	:mass(f(17147,1000))
 	:temp(72)
