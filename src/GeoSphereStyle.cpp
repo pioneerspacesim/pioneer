@@ -255,9 +255,10 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 		m_terrainType = TERRAIN_GASGIANT;
 		switch (rand.Int32(5)) {
 			case 0: m_colorType = COLOR_GG_SATURN; break;
-			case 1: m_colorType = COLOR_GG_URANUS; break;
-			case 2: m_colorType = COLOR_GG_JUPITER; break;
-			case 3: m_colorType = COLOR_GG_NEPTUNE; break;
+			case 1: m_colorType = COLOR_GG_SATURN2; break;
+			case 2: m_colorType = COLOR_GG_URANUS; break;
+			case 3: m_colorType = COLOR_GG_JUPITER; break;
+			case 4: m_colorType = COLOR_GG_NEPTUNE; break;
 			default: m_colorType = COLOR_GG_NEPTUNE2; break;
 		}
 	} else if (body->type == SBody::TYPE_PLANET_ASTEROID) {
@@ -342,7 +343,8 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			m_terrainType = choices[rand.Int32(6)];
 			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_DESERT;
-		} else if ((body->m_volatileIces > fixed(8,10)) &&  
+		} // Frozen world
+		else if ((body->m_volatileIces > fixed(8,10)) &&  
 		           (body->averageTemp < 250)) {
 			const enum TerrainFractal choices[] = {
 				TERRAIN_HILLS_DUNES,
@@ -714,7 +716,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 			SetFracDef(&m_fracdef[5], height, rand.Double(2.5,3.5)*height, rand);
 
 			// volcanoes
-			SetFracDef(&m_fracdef[6], height, 5e6, rand, 100000.0);
+			SetFracDef(&m_fracdef[6], height, 6e6, rand, 100000.0);
 			SetFracDef(&m_fracdef[7], height, 3e6, rand, 1000.0);
 
 			// canyon
@@ -798,6 +800,27 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 				break;
 			}
 		case COLOR_GG_SATURN:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				//spot + clouds
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10.0);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 100.0);
+				//spot boundary
+				SetFracDef(&m_fracdef[3], height, 3e7, rand, 10000000.0);
+				break;
+			}
+		case COLOR_GG_SATURN2:
+			{
+				double height = m_maxHeightInMeters*0.1;
+				//spot + clouds
+				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10.0);
+				SetFracDef(&m_fracdef[1], height, 9e7, rand, 1000.0);
+				SetFracDef(&m_fracdef[2], height, 8e7, rand, 100.0);
+				//spot boundary
+				SetFracDef(&m_fracdef[3], height, 3e7, rand, 10000000.0);
+				break;
+			}
 		case COLOR_GG_URANUS: 
 			{
 				double height = m_maxHeightInMeters*0.1;
@@ -813,6 +836,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
 				SetFracDef(&m_fracdef[0], height, 3e7, rand, 10000000.0);
 				//spot
 				SetFracDef(&m_fracdef[1], height, 9e7, rand, 100.0);
+				//bands
 				SetFracDef(&m_fracdef[2], height, 8e7, rand, 1000.0);
 				SetFracDef(&m_fracdef[3], height, 1e8, rand, 1000.0);
 				break;
@@ -1558,10 +1582,10 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 		}
 		case TERRAIN_RUGGED_LAVA:
 		{
-			double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
+			double continents = octavenoise(m_fracdef[0], Clamp(0.725-(m_sealevel/2), 0.1, 0.725), p) - m_sealevel;
 			if (continents < 0) return 0;
-			double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
-			double mountains = octavenoise(m_fracdef[2], 0.5, p);
+			double mountain_distrib = octavenoise(m_fracdef[1], 0.55, p);
+			double mountains = octavenoise(m_fracdef[2], 0.5, p) * ridged_octavenoise(m_fracdef[2], 0.575, p);
 			double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
 			double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
 			double hills = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
@@ -1570,11 +1594,15 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			
 			double n = continents - (m_fracdef[0].amplitude*m_sealevel);
 			//double n = (megavolcano_function(p) + volcano_function(p) + smlvolcano_function(p));
-			n += megavolcano_function(m_fracdef[6], p);
-			n += volcano_function(m_fracdef[6], p);
+			n += mountains*mountains2*5.0*megavolcano_function(m_fracdef[6], p);
+			n += 2.5*megavolcano_function(m_fracdef[6], p);
+			n += mountains*mountains2*5.0*volcano_function(m_fracdef[6], p)*volcano_function(m_fracdef[6], p);
+			n += 2.5*volcano_function(m_fracdef[6], p);
 			
-			n += megavolcano_function(m_fracdef[7], p);
-			n += volcano_function(m_fracdef[7], p);
+			n += mountains*mountains2*7.5*megavolcano_function(m_fracdef[7], p);
+			n += 2.5*megavolcano_function(m_fracdef[7], p);
+			n += mountains*mountains2*7.5*volcano_function(m_fracdef[7], p)*volcano_function(m_fracdef[7], p);
+			n += 2.5*volcano_function(m_fracdef[7], p);
 
 			
 			//n += 1.4*(continents - targ.continents.amplitude*targ.sealevel + (volcano_function(p)*1)) ;
@@ -1586,9 +1614,9 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			if (n < .01) n += n * 100.0f * canyon2_ridged_function(m_fracdef[8], p);
 			else if (n < .7) n += canyon2_ridged_function(m_fracdef[8], p);
 			else n += canyon2_ridged_function(m_fracdef[8], p);
-			n = n*.3f;
+			n *= 0.5;
 
-			n += hills ;
+			n += continents*hills*hill_distrib*mountain_distrib;
 
 			mountains  = octavenoise(m_fracdef[1], 0.5, p) *
 					m_fracdef[2].amplitude * mountains*mountains*mountains;
@@ -1599,12 +1627,14 @@ double GeoSphereStyle::GetHeight(const vector3d &p)
 			mountains2 = fractal(24, targ.mountainDistrib, (m_seed>>2)&3, p) *
 				targ.mountains.amplitude * mountains*mountains*mountains;*/
 				
-			n += mountains ;
-			if (n < 0.01) n += mountains2 * n * 40.0f ;
-			else n += mountains2*.4f ;
+			n += continents*mountains*hill_distrib ;
+			if (n < 0.01) n += continents*mountains2 * n * 40.0f ;
+			else n += continents*mountains2*.4f ;
+			n *= 0.2;
+			n += mountains*mountains2*mountains2*hills*hills*hill_distrib*mountain_distrib*20.0;
 
-			rocks = mountain_distrib * m_fracdef[9].amplitude * rocks*rocks*rocks;
-			n += rocks ;
+			rocks = continents * mountain_distrib * m_fracdef[9].amplitude * rocks*rocks*rocks * 2.0;
+			n += rocks;
 		
 			n = (n<0.0 ? 0.0 : m_maxHeight*n);
 			return n;
@@ -1898,9 +1928,51 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		}
 		}
 	case COLOR_GG_SATURN: {
-		double n = octavenoise(12, 0.5f*m_entropy[0] + 0.25f, 2.0, noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
-		n = (1.0 + n)*0.5;
+		double n = 0.4*ridged_octavenoise(m_fracdef[0], 0.7, 3.142*p.y*p.y);
+		n += 0.4*octavenoise(m_fracdef[1], 0.6, 3.142*p.y*p.y);
+		n += 0.3*octavenoise(m_fracdef[2], 0.5, 3.142*p.y*p.y);
+		n += 0.8*octavenoise(m_fracdef[0], 0.7, p*p.y*p.y);
+		n += 0.5*ridged_octavenoise(m_fracdef[1], 0.7, p*p.y*p.y);
+		n /= 2.0;
+		n *= n*n;
+		n += billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p)*
+			 megavolcano_function(m_fracdef[3], p);
 		return interpolate_color(n, vector3d(.69, .53, .43), vector3d(.99, .76, .62));
+		}
+	case COLOR_GG_SATURN2: {
+		double n = 0.2*billow_octavenoise(m_fracdef[0], 0.8, p*p.y*p.y);
+		n += 0.5*ridged_octavenoise(m_fracdef[1], 0.7, p*p.y*p.y);
+		n += 0.25*octavenoise(m_fracdef[2], 0.7, p*p.y*p.y);
+		//spot
+		n *= n*n*0.5;
+		n += billow_octavenoise(m_fracdef[0], 0.8, noise(p*3.142)*p)*
+			 megavolcano_function(m_fracdef[3], p);
+		vector3d col;
+		//col = interpolate_color(octavenoise(m_fracdef[2], 0.7, noise(p*3.142)*p), vector3d(.05, .0, .0), vector3d(.4,.0,.35));
+		if (n > 1.0) {
+			n -= 1.0;// n *= 5.0;
+			col = interpolate_color(n, vector3d(.25, .3, .4), vector3d(.0, .2, .0) );
+		} else if (n >0.8) {
+			n -= 0.8; n *= 5.0;
+			col = interpolate_color(n, vector3d(.0, .0, .15), vector3d(.25, .3, .4) );
+			return col;
+		} else if (n>0.6) {
+			n -= 0.6; n*= 5.0;
+			col = interpolate_color(n, vector3d(.0, .0, .1), vector3d(.0, .0, .15) );
+			return col;
+		} else if (n>0.4) {
+			n -= 0.4; n*= 5.0;
+			col = interpolate_color(n, vector3d(.05, .0, .05), vector3d(.0, .0, .1) );
+			return col;
+		} else if (n>0.2) {
+			n -= 0.2; n*= 5.0;
+			col = interpolate_color(n, vector3d(.0, .0, .1), vector3d(.05, .0, .05) );
+			return col;
+		} else {
+			n *= 5.0;
+			col = interpolate_color(n, vector3d(.0, .0, .0), vector3d(.0, .0, .1) );
+			return col;
+		}
 		}
 	case COLOR_GG_URANUS: {
 		double n = 0.5*ridged_octavenoise(m_fracdef[0], 0.7, 3.142*p.y*p.y);
@@ -1914,6 +1986,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		double n = 0.8*octavenoise(m_fracdef[2], 0.6, 3.142*p.y*p.y);
 		n += 0.25*ridged_octavenoise(m_fracdef[3], 0.55, 3.142*p.y*p.y);
 		n += 0.2*octavenoise(m_fracdef[3], 0.5, 3.142*p.y*p.y);
+		//spot
 		n += 0.8*billow_octavenoise(m_fracdef[1], 0.8, noise(p*3.142)*p)*
 			 megavolcano_function(m_fracdef[0], p);
 		n /= 2.0;
