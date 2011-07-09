@@ -5,14 +5,16 @@ Alpha 13
     * Caching of models and textures on startup, reduces loading times (#271)
     * Separate hyperspace target from selected system in sector view (#269)
     * Charon a moon of pluto (#276)
-    * Gas giants overhaul, 5 new gas giant colours/terrains implimented (#276)
-    * Atmosphere selection changed, planets can have a more varied atmospheric composition (#276)
+    * Gas giants overhaul, 5 new gas giant colours/terrains implemented (#276)
+    * Atmosphere selection changed, planets can have a more varied atmospheric
+      composition (#276)
     * Planetary rings are more varied and come in various colours (#276)
 
   * Fixes
     * Move sector view to current system on first open (#262)
     * Check hyperspace validity at hyperspace time, fixes erroneous jumps to
       Sol (#269)
+    * All sounds effects now honour the sound effects volume slider (#256, #280)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
