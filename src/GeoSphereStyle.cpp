@@ -159,9 +159,9 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 			if (sbody->m_volatileGas.ToDouble() > 0.001) {
 				if (atmo > 0.95) {
 					// o2
-					r = 0.7f;
-					g = (1.0f + ((0.95f-atmo)*5.0f));
-					b = atmo;
+					r = 1.0f + ((0.95f-atmo)*15.0f);
+					g = 0.95f + ((0.95f-atmo)*10.0f);
+					b = atmo*atmo*atmo*atmo*atmo;
 					m_atmosColor = Color(r, g, b, 1.0);
 					printf("r %f g %f b %f \n", r, g, b);
 				} else if (atmo > 0.7) {
@@ -178,8 +178,8 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.55) {
 					// ch4
-					r = 1.0f + (0.55f-atmo);
-					g = 0.35f + atmo;
+					r = 1.0f + ((0.55f-atmo)*5.0);
+					g = 0.35f - ((0.55f-atmo)*5.0);
 					b = 0.4f;
 					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.3) {
@@ -196,15 +196,15 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.15) {
 					// ar
-					r = 1.0f;
-					g = 1.0f;
-					b = 1.0f;
+					r = 0.5f - ((0.15f-atmo)*5.0);
+					g = 0.0f;
+					b = 0.5f + ((0.15f-atmo)*5.0);
 					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.1) {
 					// s
-					r = 1.0f;
+					r = 0.8f - ((0.1f-atmo)*4.0);
 					g = 1.0f;
-					b = 1.0f;
+					b = 0.5f - ((0.1f-atmo)*10.0);
 					m_atmosColor = Color(r, g, b, 1.0f);
 				} else {
 					// n
