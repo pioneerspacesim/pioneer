@@ -432,43 +432,14 @@ GameMenuView::GameMenuView(): View()
 		m_musicVolume = new VolumeControl("Music:");
 		vbox->PackEnd(m_musicVolume, false);
 
+		//initial values already loaded from config
+		m_masterVolume->SetValue(Sound::GetMasterVolume());
+		m_sfxVolume->SetValue(Sound::GetSfxVolume());
+		m_musicVolume->SetValue(Pi::GetMusicPlayer().GetVolume());
+
 		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 		m_sfxVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-/*
-		m_masterVolume = new Gui::Adjustment();
-		m_masterVolume->SetValue(Sound::GetMasterVolume());
-		m_masterVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-		Gui::HScale *masterVol = new Gui::HScale();
-		masterVol->SetAdjustment(m_masterVolume);
-		hbox = new Gui::HBox();
-		hbox->PackEnd(new Gui::Label("Master volume: (min)"));
-		hbox->PackEnd(masterVol, false);
-		hbox->PackEnd(new Gui::Label("(max)"));
-		vbox->PackEnd(hbox, false);
-
-		m_sfxVolume = new Gui::Adjustment();
-		m_sfxVolume->SetValue(Sound::GetSfxVolume());
-		m_sfxVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-		Gui::HScale *sfxVol = new Gui::HScale();
-		sfxVol->SetAdjustment(m_sfxVolume);
-		hbox = new Gui::HBox();
-		hbox->PackEnd(new Gui::Label("Sound effects volume: (min)"));
-		hbox->PackEnd(sfxVol, false);
-		hbox->PackEnd(new Gui::Label("(max)"));
-		vbox->PackEnd(hbox, false);
-
-		m_musicVolume = new Gui::Adjustment();
-		m_musicVolume->SetValue(Pi::GetMusicPlayer().GetVolume());
-		m_musicVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-		Gui::HScale *musVol = new Gui::HScale();
-		musVol->SetAdjustment(m_musicVolume);
-		hbox = new Gui::HBox();
-		hbox->PackEnd(new Gui::Label("Music volume: (min)"));
-		hbox->PackEnd(musVol, false);
-		hbox->PackEnd(new Gui::Label("(max)"));
-		vbox->PackEnd(hbox, false);
-*/
 	}
 
 	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);

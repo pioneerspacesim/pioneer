@@ -31,6 +31,9 @@ class VolumeControl : public Gui::HBox
 		float GetValue() const {
 			return m_adjustment->GetValue();
 		}
+		void SetValue(float v) {
+			m_adjustment->SetValue(v);
+		}
 		bool IsMuted() const {
 			return m_muteButton->GetState() > 0 ? false : true;
 		}
