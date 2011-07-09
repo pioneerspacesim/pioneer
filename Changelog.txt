@@ -7,6 +7,7 @@ Alpha 13
     * Charon a moon of pluto (#276)
     * Gas giants overhaul, 5 new gas giant colours/terrains implimented (#276)
     * Atmosphere selection changed, planets can have a more varied atmospheric composition (#276)
+    * Planetary rings are more varied and come in various colours (#276)
 
   * Fixes
     * Move sector view to current system on first open (#262)
