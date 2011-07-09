@@ -175,6 +175,7 @@ CustomSBody::CustomSBody(std::string s, std::string stype)
 	}
 
 	seed = averageTemp = 0;
+	rings = false;
 	latitude = longitude = 0.0;
 	want_rand_offset = true;
 	want_rand_seed = true;
@@ -188,5 +189,5 @@ EXPORT_OOLUA_FUNCTIONS_0_CONST(CustomSBody)
 CLASS_LIST_MEMBERS_START_OOLUA_NON_CONST(CustomSBody)
 LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, seed, radius, mass, temp, semi_major_axis, eccentricity, orbital_offset, latitude, inclination)
 LUA_MEMBER_FUNC_9(OOLUA::Proxy_class<CustomSBody>, longitude, rotation_period, axial_tilt, height_map, metallicity, volcanicity, atmos_density, atmos_oxidizing, ocean_cover)
-LUA_MEMBER_FUNC_2(OOLUA::Proxy_class<CustomSBody>, ice_cover, life)
+LUA_MEMBER_FUNC_3(OOLUA::Proxy_class<CustomSBody>, ice_cover, life, rings)
 CLASS_LIST_MEMBERS_END

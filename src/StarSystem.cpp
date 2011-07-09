@@ -943,6 +943,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		kid->eccentricity = csbody->eccentricity;
 		kid->orbitalOffset = csbody->orbitalOffset;
 		kid->axialTilt = csbody->axialTilt;
+		kid->rings = csbody->rings;
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
