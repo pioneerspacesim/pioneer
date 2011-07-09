@@ -4,6 +4,9 @@ Alpha 13
     * New song 'spacegroove' (#267)
     * Caching of models and textures on startup, reduces loading times (#271)
     * Separate hyperspace target from selected system in sector view (#269)
+    * Charon a moon of pluto (#276)
+    * Gas giants overhaul, 5 new gas giant colours/terrains implimented (#276)
+    * Atmosphere selection changed, planets can have a more varied atmospheric composition (#276)
 
   * Fixes
     * Move sector view to current system on first open (#262)
@@ -13,6 +16,7 @@ Alpha 13
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
     * Refactored SectorView to use SystemPath internally (#262)
+    * Tweaks and improvements to several terrains (#276)
 
 Alpha 12
 
