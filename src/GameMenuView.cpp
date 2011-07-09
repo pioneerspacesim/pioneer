@@ -431,6 +431,10 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(m_sfxVolume, false);
 		m_musicVolume = new VolumeControl("Music:");
 		vbox->PackEnd(m_musicVolume, false);
+
+		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		m_sfxVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 /*
 		m_masterVolume = new Gui::Adjustment();
 		m_masterVolume->SetValue(Sound::GetMasterVolume());
@@ -627,6 +631,7 @@ void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const
 
 void GameMenuView::OnChangeVolume()
 {
+	fprintf(stdout, "Changing some volume!!");
 	const float masterVol = m_masterVolume->GetValue();
 	Sound::SetMasterVolume(masterVol);
 	const float sfxVol = m_sfxVolume->GetValue();
@@ -744,4 +749,3 @@ void GameMenuView::OnSwitchTo() {
 		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	}
 }
-
