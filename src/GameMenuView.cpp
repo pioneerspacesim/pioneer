@@ -425,6 +425,13 @@ GameMenuView::GameMenuView(): View()
 		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
 		
 		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
+		m_masterVolume = new VolumeControl("Master:");
+		vbox->PackEnd(m_masterVolume, false);
+		m_sfxVolume = new VolumeControl("Effects:");
+		vbox->PackEnd(m_sfxVolume, false);
+		m_musicVolume = new VolumeControl("Music:");
+		vbox->PackEnd(m_musicVolume, false);
+/*
 		m_masterVolume = new Gui::Adjustment();
 		m_masterVolume->SetValue(Sound::GetMasterVolume());
 		m_masterVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
@@ -457,6 +464,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(musVol, false);
 		hbox->PackEnd(new Gui::Label("(max)"));
 		vbox->PackEnd(hbox, false);
+*/
 	}
 
 	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);

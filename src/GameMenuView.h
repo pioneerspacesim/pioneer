@@ -8,6 +8,29 @@
 
 extern std::string GetFullSavefileDirPath();
 
+//contains sliders, mute button and the necessary layout fluff
+class VolumeControl : public Gui::HBox
+{
+	public:
+		VolumeControl(const std::string& label) :
+			HBox() {
+			PackEnd(new Gui::Label(label.c_str()), false);
+			Gui::MultiStateImageButton *muteButton = new Gui::MultiStateImageButton();
+			muteButton->AddState(1, PIONEER_DATA_DIR "/icons/labels_on.png", "Mute");
+			muteButton->AddState(0, PIONEER_DATA_DIR "/icons/labels_off.png", "Unmute");
+			PackEnd(muteButton);
+			Gui::Adjustment *adjustment = new Gui::Adjustment();
+			Gui::HScale *slider = new Gui::HScale();
+			slider->SetAdjustment(adjustment);
+			PackEnd(slider);
+		}
+		float GetValue() const {
+			return 0.5f;
+		}
+		sigc::signal<void> onMuteToggled;
+		sigc::signal<void> onValueChanged;
+};
+
 class GameMenuView: public View {
 public:
 	GameMenuView();
@@ -31,9 +54,9 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
-	Gui::Adjustment *m_masterVolume;
-	Gui::Adjustment *m_sfxVolume;
-	Gui::Adjustment *m_musicVolume;
+	VolumeControl *m_masterVolume;
+	VolumeControl *m_sfxVolume;
+	VolumeControl *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::ToggleButton *m_toggleShaders;
