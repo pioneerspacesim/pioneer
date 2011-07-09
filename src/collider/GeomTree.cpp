@@ -1,16 +1,7 @@
-
-#include <float.h>
-#include <stdio.h>
-#include <assert.h>
-#include <map>
-#ifdef _WIN32
-#include <malloc.h>
-#else
-#include <alloca.h>
-#endif
-#include "../Aabb.h"
+#include "../libs.h"
 #include "GeomTree.h"
 #include "BVHTree.h"
+#include <map>
 
 int GeomTree::stats_rayTriIntersections;
 
