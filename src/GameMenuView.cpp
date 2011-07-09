@@ -221,7 +221,7 @@ public:
 
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(350,100);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(350);
 		portal->SetTransparency(false);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 		hbox->PackEnd(portal);
@@ -448,7 +448,7 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(scrollHBox);
 		
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 		scrollHBox->PackEnd(portal);
 		scrollHBox->PackEnd(scroll);

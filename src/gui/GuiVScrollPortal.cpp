@@ -5,11 +5,20 @@
 
 namespace Gui {
 
-VScrollPortal::VScrollPortal(float w, float h): Container()
+VScrollPortal::VScrollPortal(float forceWidth):
+	Container(),
+	m_forceWidth(forceWidth),
+	m_child(0)
 {
-	m_child = 0;
 	m_eventMask = EVENT_ALL;
-	SetSize(w, h);
+}
+
+VScrollPortal::VScrollPortal():
+	Container(),
+	m_forceWidth(0),
+	m_child(0)
+{
+	m_eventMask = EVENT_ALL;
 }
 
 void VScrollPortal::GetSizeRequested(float size[2])
@@ -18,6 +27,8 @@ void VScrollPortal::GetSizeRequested(float size[2])
 		m_child->GetSizeRequested(size);
 	else
 		size[0] = size[1] = 0;
+
+	if (m_forceWidth) size[0] = m_forceWidth;
 }
 
 void VScrollPortal::GetMinimumSize(float size[2])
@@ -28,6 +39,8 @@ void VScrollPortal::GetMinimumSize(float size[2])
 	}
 	else
 		size[0] = size[1] = 0;
+	
+	if (m_forceWidth) size[0] = m_forceWidth;
 }
 
 void VScrollPortal::OnChildResizeRequest(Widget *child)

@@ -281,7 +281,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		m_sbodyInfoTab->Add(scrollBox, 35, 300);
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal();
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 		
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
@@ -297,7 +297,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		scrollBox2->SetSizeRequest(730, 200);
 		m_econInfoTab->Add(scrollBox2, 35, 300);
 		Gui::VScrollBar *scroll2 = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(0,0);
+		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal();
 		scroll2->SetAdjustment(&portal2->vscrollAdjust);
 		scrollBox2->PackStart(scroll2);
 		scrollBox2->PackStart(portal2);
