@@ -631,7 +631,10 @@ void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const
 
 void GameMenuView::OnChangeVolume()
 {
-	fprintf(stdout, "Changing some volume!!");
+	if (m_masterVolume->IsMuted())
+		Sound::Pause(1);
+	else
+		Sound::Pause(0);
 	const float masterVol = m_masterVolume->GetValue();
 	Sound::SetMasterVolume(masterVol);
 	const float sfxVol = m_sfxVolume->GetValue();

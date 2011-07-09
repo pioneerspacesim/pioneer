@@ -15,25 +15,29 @@ class VolumeControl : public Gui::HBox
 		VolumeControl(const std::string& label) :
 			HBox() {
 			PackEnd(new Gui::Label(label.c_str()), false);
-			Gui::MultiStateImageButton *muteButton = new Gui::MultiStateImageButton();
-			muteButton->AddState(1, PIONEER_DATA_DIR "/icons/labels_on.png", "Mute");
-			muteButton->AddState(0, PIONEER_DATA_DIR "/icons/labels_off.png", "Unmute");
-			PackEnd(muteButton);
+			m_muteButton = new Gui::MultiStateImageButton();
+			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/labels_on.png", "Mute");
+			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/labels_off.png", "Unmute");
+			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();
 			Gui::HScale *slider = new Gui::HScale();
 			slider->SetAdjustment(m_adjustment);
 			PackEnd(slider);
 
 			//signals
-			muteButton->onClick.connect(sigc::mem_fun(this, &VolumeControl::propagateMute));
+			m_muteButton->onClick.connect(sigc::mem_fun(this, &VolumeControl::propagateMute));
 			m_adjustment->onValueChanged.connect(sigc::mem_fun(this, &VolumeControl::propagateSlider));
 		}
 		float GetValue() const {
 			return m_adjustment->GetValue();
 		}
+		bool IsMuted() const {
+			return m_muteButton->GetState() > 0 ? false : true;
+		}
 		sigc::signal<void> onChanged;
 private:
-		Gui::Adjustment* m_adjustment;
+		Gui::MultiStateImageButton *m_muteButton;
+		Gui::Adjustment *m_adjustment;
 		//is there a better way?
 		void propagateSlider() { onChanged.emit(); }
 		void propagateMute(Gui::Widget *) { onChanged.emit(); }
