@@ -5,13 +5,14 @@
 #include "MarketAgent.h"
 #include <map>
 
-class CommodityTradeWidget : public Gui::Fixed {
+class CommodityTradeWidget : public Gui::VBox {
 public:
 	CommodityTradeWidget(MarketAgent *seller);
 	void ShowAll();
 	void UpdateStock(int commodity_type);
 	sigc::signal<void,int> onClickSell;
 	sigc::signal<void,int> onClickBuy;
+
 private:
 	void OnClickBuy(int commodity_type) {
 		onClickBuy.emit(commodity_type);

@@ -6,7 +6,7 @@
 #define RBUTTON_DELAY 500
 #define RBUTTON_REPEAT 50
 
-CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::Fixed()
+CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::VBox()
 {
 	SetTransparency(false);
 	m_seller = seller;
@@ -81,19 +81,27 @@ void CommodityTradeWidget::ShowAll()
 	}
 	innerbox->ShowAll();
 
-	const float *col = Gui::Theme::Colors::tableHeading;
-	Add((new Gui::Label("Item"))->Color(col), 0, 0);
-	Add((new Gui::Label("Price"))->Color(col), 200, 0);
-	Add((new Gui::Label("Buy"))->Color(col), 380, 0);
-	Add((new Gui::Label("Sell"))->Color(col), 415, 0);
-	Add((new Gui::Label("Stock"))->Color(col), 275, 0);
-	Add((new Gui::Label("Cargo"))->Color(col), 325, 0);
-	Add(portal, 0, YSEP);
-	Add(scroll, 455, YSEP);
 	portal->Add(innerbox);
 	portal->ShowAll();
 
-	Gui::Fixed::ShowAll();
+	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
+	const float *col = Gui::Theme::Colors::tableHeading;
+	heading->Add((new Gui::Label("Item"))->Color(col), 0, 0);
+	heading->Add((new Gui::Label("Price"))->Color(col), 200, 0);
+	heading->Add((new Gui::Label("Buy"))->Color(col), 380, 0);
+	heading->Add((new Gui::Label("Sell"))->Color(col), 415, 0);
+	heading->Add((new Gui::Label("Stock"))->Color(col), 275, 0);
+	heading->Add((new Gui::Label("Cargo"))->Color(col), 325, 0);
+	PackEnd(heading);
+
+	Gui::HBox *body = new Gui::HBox();
+	body->PackEnd(portal);
+	body->PackEnd(scroll);
+	PackEnd(body);
+
+	SetSpacing(YSEP-Gui::Screen::GetFontHeight());
+
+	Gui::VBox::ShowAll();
 }
 
 void CommodityTradeWidget::UpdateStock(int commodity_type)
