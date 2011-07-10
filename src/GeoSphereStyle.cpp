@@ -175,7 +175,6 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 					g = 0.95f + ((0.95f-atmo)*10.0f);
 					b = atmo*atmo*atmo*atmo*atmo;
 					m_atmosColor = Color(r, g, b, 1.0);
-					printf("r %f g %f b %f \n", r, g, b);
 				} else if (atmo > 0.7) {
 					// co2
 					r = atmo+0.05f;
@@ -229,6 +228,8 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
 			}
 			m_atmosDensity = sbody->m_volatileGas.ToDouble();
+			printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
+			printf("-------------------------------\n");
 			break;
 		/*default:
 			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
@@ -298,7 +299,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			} else {
 				m_colorType = COLOR_DESERT;
 			}
-			printf("earthlike temp: %d\n", body->averageTemp);
+			printf("| earthlike temp: %d\n", body->averageTemp);
 		}//Harsh, habitable world 
 		else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(4,10)) ) {
@@ -319,7 +320,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			} else {
 				m_colorType = COLOR_ICEWORLD;
 			}
-			printf("earth/mars-like temp: %d\n", body->averageTemp);
+			printf("| earth/mars-like temp: %d\n", body->averageTemp);
 		}// Marginally habitable world/ verging on mars like :) 
 		else if ((body->m_volatileGas > fixed(1,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
@@ -340,7 +341,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			} else {
 				m_colorType = COLOR_ICEWORLD;
 			}
-			printf("marslike temp: %d\n", body->averageTemp);
+			printf("| marslike temp: %d\n", body->averageTemp);
 		} // Desert-like world, Mars -like.
 		else if ((body->m_volatileLiquid < fixed(1,10)) &&
 		           (body->m_volatileGas > fixed(1,5))) {
@@ -423,6 +424,9 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 
 	//m_terrainType = TERRAIN_RUGGED_DESERT;
 	//m_colorType = COLOR_DESERT;
+	printf("%s: \n", body->name.c_str());
+	printf("|   Terrain: [%d]\n", m_terrainType);
+	printf("|    Colour: [%d]\n", m_colorType);
 
 	m_sealevel = Clamp(body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
 	m_icyness = Clamp(body->m_volatileIces.ToDouble(), 0.0, 1.0);
