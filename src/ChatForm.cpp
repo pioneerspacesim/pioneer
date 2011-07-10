@@ -3,13 +3,17 @@
 
 ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_message(0), m_hasOptions(false), m_doSetup(true), m_close(false)
 {
+	Gui::VBox *outer = new Gui::VBox();
+	outer->SetSpacing(10.0f);
+	Add(outer, 0, 0);
+
 	m_topRegion = new Gui::VBox();
 	m_topRegion->SetSpacing(5.0f);
-	Add(m_topRegion, 0, 0);
+	outer->PackEnd(m_topRegion);
 
 	m_bottomRegion = new Gui::VBox();
 	m_bottomRegion->SetSpacing(5.0f);
-	Add(m_bottomRegion, 0, 0);
+	outer->PackEnd(m_bottomRegion);
 }
 
 void ChatForm::ShowAll()
@@ -19,13 +23,6 @@ void ChatForm::ShowAll()
 		OnOptionClickedTrampoline(0);
 	}
 	FaceForm::ShowAll();
-
-	float form_size[2], region_size[2];
-	GetSize(form_size);
-	region_size[0] = form_size[0];
-	region_size[1] = form_size[1];
-	m_bottomRegion->GetSizeRequested(region_size);
-	MoveChild(m_bottomRegion, 0, form_size[1]-region_size[1]);
 }
 
 void ChatForm::SetMessage(std::string msg)
