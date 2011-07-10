@@ -425,17 +425,12 @@ GameMenuView::GameMenuView(): View()
 		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
 		
 		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
-		m_masterVolume = new VolumeControl("Master:");
+		m_masterVolume = new VolumeControl("Master:", Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
 		vbox->PackEnd(m_masterVolume, false);
-		m_sfxVolume = new VolumeControl("Effects:");
+		m_sfxVolume = new VolumeControl("Effects:", Pi::config.Float("SfxVolume"), Pi::config.Int("SfxMuted"));
 		vbox->PackEnd(m_sfxVolume, false);
-		m_musicVolume = new VolumeControl("Music:");
+		m_musicVolume = new VolumeControl("Music:", Pi::config.Float("MusicVolume"), Pi::config.Int("MusicMuted"));
 		vbox->PackEnd(m_musicVolume, false);
-
-		//initial values already loaded from config
-		m_masterVolume->SetValue(Sound::GetMasterVolume());
-		m_sfxVolume->SetValue(Sound::GetSfxVolume());
-		m_musicVolume->SetValue(Pi::GetMusicPlayer().GetVolume());
 
 		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 		m_sfxVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
@@ -602,19 +597,35 @@ void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const
 
 void GameMenuView::OnChangeVolume()
 {
+	const float masterVol = m_masterVolume->GetValue();
+	const float sfxVol = m_sfxVolume->GetValue();
+	const float musVol = m_musicVolume->GetValue();
+
 	if (m_masterVolume->IsMuted())
 		Sound::Pause(1);
 	else
 		Sound::Pause(0);
-	const float masterVol = m_masterVolume->GetValue();
+
 	Sound::SetMasterVolume(masterVol);
-	const float sfxVol = m_sfxVolume->GetValue();
-	Sound::SetSfxVolume(sfxVol);
-	const float musVol = m_musicVolume->GetValue();
+
+	if (m_sfxVolume->IsMuted())
+		Sound::SetSfxVolume(0.f);
+	else
+		Sound::SetSfxVolume(sfxVol); //can't "pause" sfx separately
+
+	if (m_musicVolume->IsMuted())
+		Pi::GetMusicPlayer().SetEnabled(false);
+	else
+		Pi::GetMusicPlayer().SetEnabled(true);
+
 	Pi::GetMusicPlayer().SetVolume(musVol);
+
 	Pi::config.SetFloat("MasterVolume", masterVol);
 	Pi::config.SetFloat("SfxVolume", sfxVol);
 	Pi::config.SetFloat("MusicVolume", musVol);
+	Pi::config.SetFloat("MasterMuted", m_masterVolume->IsMuted());
+	Pi::config.SetFloat("SfxMuted", m_sfxVolume->IsMuted());
+	Pi::config.SetFloat("MusicMuted", m_musicVolume->IsMuted());
 	Pi::config.Save();
 }
 	

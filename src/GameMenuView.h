@@ -12,14 +12,16 @@ extern std::string GetFullSavefileDirPath();
 class VolumeControl : public Gui::HBox
 {
 	public:
-		VolumeControl(const std::string& label) :
+		VolumeControl(const std::string& label, float volume, bool muted) :
 			HBox() {
 			PackEnd(new Gui::Label(label.c_str()), false);
 			m_muteButton = new Gui::MultiStateImageButton();
-			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/volume_unmuted.png", "Mute");
-			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/volume_muted.png", "Unmute");
+			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/volume_unmuted.png", "Mute");
+			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/volume_muted.png", "Unmute");
+			m_muteButton->SetActiveState(muted ? 1 : 0);
 			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();
+			m_adjustment->SetValue(volume);
 			Gui::HScale *slider = new Gui::HScale();
 			slider->SetAdjustment(m_adjustment);
 			PackEnd(slider);
@@ -35,7 +37,7 @@ class VolumeControl : public Gui::HBox
 			m_adjustment->SetValue(v);
 		}
 		bool IsMuted() const {
-			return m_muteButton->GetState() > 0 ? false : true;
+			return m_muteButton->GetState() == 1 ? true : false;
 		}
 		sigc::signal<void> onChanged;
 private:
