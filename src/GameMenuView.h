@@ -16,8 +16,8 @@ class VolumeControl : public Gui::HBox
 			HBox() {
 			PackEnd(new Gui::Label(label.c_str()), false);
 			m_muteButton = new Gui::MultiStateImageButton();
-			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/labels_on.png", "Mute");
-			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/labels_off.png", "Unmute");
+			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/volume_unmuted.png", "Mute");
+			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/volume_muted.png", "Unmute");
 			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();
 			Gui::HScale *slider = new Gui::HScale();
