@@ -1,261 +1,352 @@
---[[
+-- don't produce missions for further than this many light years away
+local max_ass_dist = 20
+
 -- ass flavours indeed ;-)
 local ass_flavours = {
 	{
-		adtext = "WANTED: Removal of %1 from the %2 system.",
-		introtext = "Hi, I'm %1. I'll pay you %2 to get rid of %3.",
-		wheretext = "%1 will be leaving %2 at %3.",
-		successmsg = "News of %1's long vacation gratefully received. Well done, I have initiated your full payment.",
-		failuremsg = "I am most displeased to find that %1 is still alive. Needless to say you will receive no payment.",
+		adtext = "WANTED: Removal of {target} from the {system} system.",
+		introtext = "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
+		successmsg = "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
+		failuremsg = "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
 		danger = 0,
-		time = 2,
+		time = 2.3,
+		money = 0.8,
+	},
+	{
+		adtext = "WANTED: Someone to kill {target} from the {system} system.",
+		introtext = "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
+		successmsg = "I am most sad to hear of {target}'s demise. You have been paid in full.",
+		failuremsg = "I hear that {target} is in good health. This pains me.",
+		danger = 0,
+		time = 2.1,
 		money = 1.0,
 	},
 	{
-		adtext = "WANTED: Someone to kill %1 from the %2 system.",
-		introtext = "I need %3 taken out of the picture. I'll pay you %2 to do this.",
-		wheretext = "%1 will be leaving %2 at %3.",
-		successmsg = "I am most sad to hear of %1's demise. You have been paid in full.",
-		failuremsg = "I hear that %1 is in good health. This pains me.",
-		danger = 0,
-		time = 2,
-		money = 1.0,
-	},
-	{
-		adtext = "REMOVALS: %1 is no longer wanted in the %2 system.",
-		introtext = "I am %1, and I will pay you %2 to terminate %3",
-		wheretext = "%1 will be leaving %2 at %3.",
+		adtext = "REMOVAL: {target} is no longer wanted in the {system} system.",
+		introtext = "I am {name}, and I will pay you {cash} to terminate {target}",
 		successmsg = "You have been paid in full for the completion of that important contract.",
-		failuremsg = "It is most regrettable that %1 is still live and well. You will receive no payment as you did not complete your contract.",
-		danger = 0,
+		failuremsg = "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
+		danger = 1,
+		time = 1.9,
+		money = 1.2,
+	},
+	{
+		adtext = "TERMINATION: Someone to eliminate {target}.",
+		introtext = "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
+		successmsg = "{target} is dead. Here is your award.",
+		failuremsg = "You will pay for not eliminating {target}!",
+		danger = 2,
 		time = 2,
-		money = 1.0,
+		money = 1.4,
 	}
 }
 
-Module:new {
-	__name = 'Assassination',
+local ads = {}
+local missions = {}
 
-	Init = function(self)
-		--self:EventListen("onCreateBB")
-		--self:EventListen("onUpdateBB")
-		--self:EventListen("onEnterSystem")
-		--self:EventListen("onPlayerDock")
-		self.ads = {}
-		self.missions = {}
-	end,
+local onDelete = function (ref)
+	ads[ref] = nil
+end
 
-	Unserialize = function(self, data)
-		Module.Unserialize(self, data)
-		for i,mission in pairs(self.missions) do
-			self:_setupHooksForMission(mission)
-		end
-	end,
+local onChat = function (form, ref, option)
+	local ad = ads[ref]
 
-	GetPlayerMissions = function(self)
-		return self.missions
-	end,
+	form:Clear()
 
-	_TryAddAdvert = function(self, station)
-		local gender = Pi.rand:Int(0,1) == 1
-		local targetGender = Pi.rand:Int(0,1) == 1
-		local flavour = Pi.rand:Int(1, #ass_flavours)
-		local title = { "Senator", "General", "Colonel", "Comandante",
-"Cardinal", "Professor", "Ambassador", "Judge" }
-		ad = {
-			flavour = flavour,
-			targetGender = targetGender,
-			target = title[Pi.rand:Int(1, #title)] .. " " .. Pi.rand:PersonName(gender),
-			target_shipregid = Pi.RandomShipRegId(),
-			clientGender = gender,
-			client = Pi.rand:PersonName(gender),
-			reward = Pi.rand:Real(2000, 15000) * ass_flavours[flavour].money,
-			due = Pi.GetGameTime() + Pi.rand:Real(0, ass_flavours[flavour].time * 60*60*24*31),
-			bb = station,
-			location = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn(),
-			base = station:GetSBody(),
-			id = #self.ads+1
+	if option == -1 then
+		form:Close()
+		return
+	elseif option == 0 then
+		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+
+		local introtext = string.interp(ass_flavours[ad.flavour].introtext, {
+			name	= ad.client,
+			cash	= Format.Money(ad.reward),
+			target	= ad.target,
+		})
+		form:SetMessage(introtext)
+
+	elseif option == 1 then
+		local sys = ad.location:GetStarSystem()
+		local sbody = ad.location:GetSystemBody()
+
+		form:SetMessage(string.format("%s will be leaving %s in the %s system (%s, %s) at %s. The ship is %s and has registration id %s.", ad.target, sbody.name, sys.name, ad.location.sectorX, ad.location.sectorY, Format.Date(ad.due), ad.shipname, ad.shipregid) )
+
+	elseif option == 2 then
+		local sbody = ad.location:GetSystemBody()
+
+		form:SetMessage(string.format('It must be done after %s leaves %s. Do not miss this opportunity.', ad.target, sbody.name) )
+
+	elseif option == 3 then
+		local backstation = Game.player:GetDockedWith().path
+
+		form:RemoveAdvertOnClose()
+
+		ads[ref] = nil
+
+		local mission = {
+			type		= "Assassination",
+			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
+			boss		= ad.client,
+			location	= ad.location,
+			reward		= ad.reward,
+			due		= ad.due,
+			flavour		= ad.flavour,
+			target		= ad.target,
+			backstation	= backstation,
+			shipregid	= ad.shipregid,
+			shipname	= ad.shipname,
+			status		= 'ACTIVE',
 		}
-		-- if we found a location
-		if ad.location ~= nil then
-			table.insert(self.ads, ad)
-			local addescription = _(ass_flavours[ad.flavour].adtext, {
-					ad.target, ad.location:GetSystemName() } )
-			station:SpaceStationAddAdvert(self.__name, #self.ads, addescription)
+
+		local mref = Game.player:AddMission(mission)
+		missions[mref] = mission
+
+		form:SetMessage("Excellent.")
+		form:AddOption("Hang up.", -1)
+
+		return
+	elseif option == 4 then
+		form:SetMessage("Return here on the completion of the contract and you will be paid.")
+	end
+	form:AddOption(string.format("Where can I find %s?", ad.target), 1);
+	form:AddOption("Could you repeat the original request?", 0);
+	form:AddOption("How soon must it be done?", 2);
+	form:AddOption("How will I be paid?", 4);
+	form:AddOption("Ok, agreed.", 3);
+	form:AddOption("Hang up.", -1);
+end
+
+local RandomShipRegId = function ()
+	local letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	local a = Engine.rand:Integer(1, #letters)
+	local b = Engine.rand:Integer(1, #letters)
+	return string.format("%s%s-%04d", letters:sub(a,a), letters:sub(b,b), Engine.rand:Integer(0, 9999))
+end
+
+local makeAdvert = function (station)
+	local isfemale = Engine.rand:Integer(1) == 1
+	local client = NameGen.FullName(isfemale)
+	local targetIsfemale = Engine.rand:Integer(1) == 1
+	local title = { "Admiral", "Senator", "General", "Colonel", "Comandante", "Cardinal", "Professor", "Ambassador", "Judge", "Captain" }
+	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
+	local flavour = Engine.rand:Integer(1, #ass_flavours)
+	local nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
+	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+	local nearbystations = nearbysystem:GetStationPaths()
+	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+	local due = Game.time + Engine.rand:Number(7*60*60*24, ass_flavours[flavour].time * 31*60*60*24)
+	local reward = Engine.rand:Number(2000, 15000) * ass_flavours[flavour].money
+	local shiptypes = ShipType.GetShipTypes('SHIP')
+	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+
+	local ad = {
+		station = station,
+		flavour = flavour,
+		client = client,
+		location = location,
+		due = due,
+		reward = reward,
+		isfemale = isfemale,
+		faceseed = Engine.rand:Integer(),
+		target = target,
+		shipregid = RandomShipRegId(),
+		shipname = shipname,
+	}
+
+	ad.desc = string.interp(ass_flavours[ad.flavour].adtext, {
+		target	= ad.target,
+		system	= nearbysystem.name,
+	})
+	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
+	ads[ref] = ad
+end
+
+local onCreateBB = function (station)
+	local num = Engine.rand:Integer(0, math.ceil(Game.system.population) / 2 + 1)
+	for i = 1,num do
+		makeAdvert(station)
+	end
+end
+
+local onShipHit = function (ship, attacker)
+	if not attacker:IsPlayer() then return end
+
+	-- When the player attacks the target, make it fight back
+	for k,mission in pairs(missions) do
+		if mission.status == 'ACTIVE' and
+		   mission.ship == ship then
+			ship:AIKill(attacker)
+			return
 		end
-	end,
+	end
+end
 
-	onCreateBB = function(self, args)
-		local station = args[1]
-		for i = 1,10 do --Pi.rand:Int(0, 5) do
-			self:_TryAddAdvert(station)
-		end
-	end,
-
-	onShipAttacked = function(self, args)
-		-- When the player attacks the target, make it fight back
-		local s = args[1]
-		for k,mission in pairs(self.missions) do
-			if mission.status == 'active' and
-			   mission.target_ship == s then
-				s:ShipAIDoKill(Pi.GetPlayer())
-				-- stop listening for the event (our work is done)
-				s:OnShipAttacked(self, nil)
-			end
-		end
-	end,
-
-	onShipKilled = function(self, args)
-		local s = args[1]
-		for k, mission in pairs(self.missions) do
-			if mission.status == 'active' and
-			   mission.target_ship == s and
-			   mission.due < Pi.GetGameTime()
-			then
-				-- well done, comrade
-				mission.status = 'completed'
-				-- stop listening for event
-				s:OnShipKilled(self, nil)
-			end
-		end	   
-	end,
-
-	_launchTargetShip = function(args)
-		local self = args[1]
-		local mission = args[2]
-		print("Hm. should launch ship now: " .. mission.target_ship:GetLabel())
-		-- send the target on a wee journey
-		local destination = Pi.GetCurrentSystem():GetRandomStarportNearButNotIn()
-		-- GetRandomStarportNearButNotIn can fail and return nil
-		if destination ~= nil then
-			print("Gave it a journey")
-			mission.target_ship:ShipAIDoJourney(destination)
-		else
-			print("Fuck. just sending it off do fly around a turd")
-			-- this should always work. the SBody parent of a
-			-- ground or space station will be a planet. orbit it
-			destination = mission.target_ship:GetDockedWith():GetSBody():GetParent()
-			mission.target_ship:ShipAIDoMediumOrbit(Pi.FindBodyForSBody(destination))
-			print("Orbiting " .. destination:GetBodyName())
-		end
-		-- Set up event hooks (onShipAttacked, onShipKilled, etc)
-		self:_setupHooksForMission(mission)
-	end,
-
-	_setupHooksForMission = function(self, mission)
-		if mission.status == 'active' and
-		   mission.target_ship ~= nil then
-			if mission.due > Pi.GetGameTime() then
-				-- Target hasn't launched yet. set up a timer to do this
-				print("Adding timer for " .. Date.Format(mission.due))
-				Pi.AddTimer(mission.due, self._launchTargetShip, {self, mission})
+local onShipDestroyed = function (ship, body)
+	for ref, mission in pairs(missions) do
+		if mission.status == 'ACTIVE' and
+		   mission.ship == ship and
+		   mission.due < Game.time then
+			if not body:isa("Ship") or
+			   not body:IsPlayer() then
+				mission.status = 'FAILED'
+				Game.player:UpdateMission(ref, mission)
+				return
 			else
-				-- Target has launched. set up event hooks
-				mission.target_ship:OnShipAttacked(self, "onShipAttacked")
-				mission.target_ship:OnShipKilled(self, "onShipKilled")
+				-- well done, comrade
+				mission.status = 'COMPLETED'
+				mission.client = mission.boss
+				mission.location = mission.backstation
+				body:UpdateMission(ref, mission)
+				return
 			end
 		end
-	end,
+	end
+end
 
-	onEnterSystem = function(self)
-		for k,mission in pairs(self.missions) do
-			if mission.status == 'active' then
-				if mission.location:GetSystem() == Pi:GetCurrentSystem() then
-					if mission.due > Pi.GetGameTime() then
-						-- spawn our target ship
-						ship, e = Pi.SpawnRandomDockedShip(Pi.FindBodyForSBody(mission.location), 10, 50, 500)
-						ship:SetLabel(mission.target_shipregid)
-						mission.target_ship = ship
-						self:_setupHooksForMission(mission)
-					else
-						-- too late
-						mission.status = 'failed'
-					end
-				elseif mission.target_ship then
-					-- if we are in the wrong system, but target_ship is set indicating the 
-					-- target has been spawned. This means we are probably leaving the target system
-					if not mission.target_ship:IsValid() then
-						-- The above condition is true if we are too late for the mission,
-						-- or have hyperspaced away from our target and lost it (if we had
-						-- followed it through hyperspace then IsValid() would be true
-						mission.status = 'failed'
-					else
-						-- can still do mission (followed target through hyperspace)
-						self:_setupHooksForMission(mission)
-					end
-				end
-			end
-		end
-	end,
+local _setupHooksForMission = function (mission)
+	if mission.ship ~= nil and
+	   mission.due > Game.time then
+		-- Target hasn't launched yet. set up a timer to do this
+		Timer:CallAt(mission.due, function () mission.ship:Undock()
+			mission.timer = nil end)
+		mission.timer = 'SET'
+	end
+end
 
-	onPlayerDock = function(self)
-		local station = Pi.GetPlayer():GetDockedWith():GetSBody()
-		for k,mission in pairs(self.missions) do
-			if mission.base == station then
-				if mission.status == 'completed' then
-					Pi.ImportantMessage(mission.client, _(ass_flavours[mission.flavour].successmsg, {mission.target}))
-					Pi.GetPlayer():AddMoney(mission.reward)
-					-- erase the mission
-					self.missions[k] = nil
-				elseif mission.status == 'failed' then
-					Pi.ImportantMessage(mission.client, _(ass_flavours[mission.flavour].failuremsg, {mission.target}))
-					-- erase the mission
-					self.missions[k] = nil
+local onEnterSystem = function (ship)
+	if not ship:IsPlayer() then return end
+
+	local syspath = Game.system.path
+
+	for ref,mission in pairs(missions) do
+		if mission.status == 'ACTIVE' and
+			mission.ship == nil then
+			if mission.location:IsSameSystem(syspath) then
+				if mission.due > Game.time then -- spawn our target ship
+					local danger = ass_flavours[mission.flavour].danger + 1
+					local station = Space.GetBody(mission.location.bodyIndex)
+					local shiptype = ShipType.GetShipType(mission.shipname)
+					local default_drive = shiptype.defaultHyperdrive
+					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
+						return et.slot == "LASER"
+					end)
+					local laser = lasers[danger]
+					ship = Space.SpawnShipDocked(mission.shipname, station)
+					mission.ship = ship
+					ship:SetLabel(mission.shipregid)
+					ship:AddEquip(default_drive)
+					ship:AddEquip('SHIELD_GENERATOR', danger)
+					ship:AddEquip(laser)
+					ship:AddEquip('HYDROGEN', danger * 3)
+					_setupHooksForMission(mission)
+				else	-- too late
+					mission.status = 'FAILED'
+					ship:UpdateMission(ref, mission)
 				end
+			elseif mission.ship then
+				local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
+				local planet = planets[Engine.rand:Integer(1,#planets)]
+				mission.ship:AIFlyTo(planet)
+			elseif mission.due < Game.time then
+				mission.status = 'FAILED'
+				ship:UpdateMission(ref, mission)
 			end
 		end
-	end,
+	end
+end
+
+local onShipDocked = function (ship, station)
+	if not ship:IsPlayer() then return end
+
+	for ref,mission in pairs(missions) do
+		if mission.status == 'COMPLETED' and
+		   mission.backstation == station.path then
+			local text = string.interp(ass_flavours[mission.flavour].successmsg, {
+				target	= mission.target,
+			})
+			UI.ImportantMessage(text, mission.boss)
+			ship:AddMoney(mission.reward)
+			ship:RemoveMission(ref)
+			missions[ref] = nil
+		elseif mission.status == 'FAILED' then
+			local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
+				target	= mission.target,
+			})
+			UI.ImportantMessage(text, mission.boss)
+			ship:RemoveMission(ref)
+			missions[ref] = nil
+		end
+	end
+end
 	
-	onUpdateBB = function(self, args)
-		local station = args[1]
-		for k,ad in pairs(self.ads) do
-			if (ad.bb == station) and (ad.due < Pi.GetGameTime() + 60*60*24*1) then
-				self.ads[k] = nil
-				ad.bb:SpaceStationRemoveAdvert(self.__name, ad.id)
-			end	
+local onShipUndocked = function (ship, station)
+	if ship:IsPlayer() then return end -- not interested in player, yet
+
+	for ref,mission in pairs(missions) do
+		if mission.status == 'ACTIVE' and
+		   mission.ship == ship then
+			local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
+			local planet = planets[Engine.rand:Integer(1,#planets)]
+			mission.ship:AIFlyTo(planet)
 		end
-		if Pi.rand:Int(0,12*60*60) < 60*60 then -- roughly once every twelve hours
-			self:_TryAddAdvert(station)
+	end
+end
+
+local onUpdateBB = function (station)
+	for ref,ad in pairs(ads) do
+		if (ad.due < Game.time + 5*60*60*24) then
+			ads[ref] = nil
+			station:RemoveAdvert(ref)
 		end
-	end,
+	end
+	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
+		makeAdvert(station)
+	end
+end
 	
-	onChatBB = function(self, dialog, optionClicked)
-		local ad = self.ads[dialog:GetAdRef()]
-		dialog:Clear()
-		if optionClicked == -1 then
-			dialog:Close()
-			return
-		elseif optionClicked == 0 then
-			dialog:SetMessage(_(ass_flavours[ad.flavour].introtext, {
-				ad.client, format_money(ad.reward), ad.target }))
-		elseif optionClicked == 1 then
-			dialog:SetMessage(_("%1 will be leaving %2 in the %3 system at %4. The ship has registration id %5.",
-					{ ad.target, ad.location:GetBodyName(),
-					ad.location:GetSystemName(), Date.Format(ad.due), ad.target_shipregid }
-			))
-		elseif optionClicked == 2 then
-			dialog:SetMessage(_('It must be done after %1 leaves %2. Do not miss this opportunity.',
-					{ ad.target, ad.location:GetBodyName() }))
-		elseif optionClicked == 3 then
-			dialog:RemoveAdvertOnClose()
-			self.ads[ad.id] = nil
-			ad.description = _("Kill %1 (on the ship %6) at %2 in the %3 system. Return to %4 in the %5 system for payment.",
-					{ ad.target, ad.location:GetBodyName(), ad.location:GetSystemName(),
-				          ad.base:GetBodyName(), ad.base:GetSystemName(), ad.target_shipregid })
-			ad.status = "active"
-			table.insert(self.missions, ad)
-			dialog:SetMessage("Excellent.")
-			dialog:AddOption("Hang up.", -1)
-			return
-		elseif optionClicked == 4 then
-			dialog:SetMessage("Return here on the completion of the contract and you will be paid.")
+local loaded_data
+
+local onGameStart = function ()
+	ads = {}
+	missions = {}
+
+	if not loaded_data then return end
+
+	for k,ad in pairs(loaded_data.ads) do
+		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
+		ads[ref] = ad
+	end
+	for k,mission in pairs(loaded_data.missions) do
+		local mref = Game.player:AddMission(mission)
+		missions[mref] = mission
+	end
+
+	loaded_data = nil
+end
+
+local serialize = function ()
+	return { ads = ads, missions = missions }
+end
+
+local unserialize = function (data)
+	loaded_data = data
+	for k,mission in pairs(loaded_data.missions) do
+		if mission.ship and
+		   mission.timer == 'SET' then
+			Timer:CallAt(mission.due, function () mission.ship:Undock()
+				mission.timer = nil end)
 		end
-		dialog:AddOption(_("Where can I find %1?", {ad.target}), 1);
-		dialog:AddOption("Could you repeat the original request?", 0);
-		dialog:AddOption("How soon must it be done?", 2);
-		dialog:AddOption("How will I be paid?", 4);
-		dialog:AddOption("Ok, agreed.", 3);
-		dialog:AddOption("Hang up.", -1);
-	end,
-}
-]]
+	end
+end
+
+EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
+EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onShipDestroyed:Connect(onShipDestroyed)
+EventQueue.onShipUndocked:Connect(onShipUndocked)
+EventQueue.onShipDocked:Connect(onShipDocked)
+EventQueue.onShipHit:Connect(onShipHit)
+EventQueue.onUpdateBB:Connect(onUpdateBB)
+
+Serializer:Register("Assassination", serialize, unserialize)
