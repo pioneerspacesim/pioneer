@@ -11,20 +11,29 @@ public:
 
 	virtual FormType GetType() const = 0;
 
+	virtual const std::string &GetTitle() const { return m_title; }
+	void SetTitle(const std::string &title) { m_title = title; }
+
 protected:
 	Form(FormController *controller, float w, float h) : Gui::Fixed(w, h), m_formController(controller) {}
 	virtual ~Form() {}
 
 	FormController *m_formController;
+
+private:
+	std::string m_title;
+};
+
+
+class BlankForm : public Form {
+public:
+	virtual Form::FormType GetType() const { return Form::BLANK; }
 };
 
 
 class FaceForm : public Form {
 public:
 	virtual Form::FormType GetType() const { return Form::FACE; }
-
-	virtual const std::string &GetTitle() const { return m_title; }
-	void SetTitle(const std::string &title) { m_title = title; }
 
 	virtual Uint32 GetFaceFlags() const { return m_faceFlags; }
 	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
@@ -36,8 +45,6 @@ protected:
 	FaceForm(FormController *controller) : Form(controller, 470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
 
 private:
-	std::string m_title;
-
 	Uint32 m_faceFlags;
 	Uint32 m_faceSeed;
 };
