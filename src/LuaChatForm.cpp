@@ -663,16 +663,12 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 
 	lua_pop(l, 2);
 
-/*
 	CommodityTradeWidget *w = new CommodityTradeWidget(form);
 	w->onClickBuy.connect(sigc::mem_fun(form, &LuaChatForm::OnClickBuy));
 	w->onClickSell.connect(sigc::mem_fun(form, &LuaChatForm::OnClickSell));
-	Gui::Fixed *f = new Gui::Fixed(400.0, 200.0);
-	f->Add(w, 0, 0);
-	form->m_msgregion->PackEnd(f);
+	form->AddTopWidget(w);
 
 	form->m_commodityTradeWidget = w;
-*/
 
 	return 0;
 }
