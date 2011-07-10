@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
+#include "StationShipMarketForm.h"
 
 StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(controller)
 {
@@ -40,4 +41,5 @@ void StationShipyardForm::Servicing()
 
 void StationShipyardForm::ShipMarket()
 {
+    m_formController->ActivateForm(new StationShipMarketForm(m_formController));
 }
