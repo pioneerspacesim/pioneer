@@ -23,6 +23,8 @@ private:
 
 	Gui::Label *m_title;
 
+	Gui::Fixed *m_statusBox;
+
 	Gui::Label *m_money;
 	Gui::Label *m_cargoSpaceUsed;
 	Gui::Label *m_cargoSpaceFree;
@@ -33,8 +35,7 @@ private:
 	Gui::Stack *m_formStack;
     FormController *m_formController;
 
-	Gui::Button *m_backButton;
-	Gui::Label *m_backLabel;
+	Gui::HBox *m_backButtonBox;
 
 	FaceVideoLink *m_videoLink;
 

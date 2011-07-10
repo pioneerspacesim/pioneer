@@ -546,30 +546,34 @@ SpaceStationView::SpaceStationView(): View()
 	m_title = new Gui::Label("");
 	Add(m_title, 10, 10);
 
-	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
-	const float ystart = 350.0f;
 
-	Add(new Gui::Label("#007Cash"), 10, ystart);
-	Add(new Gui::Label("#007Legal status"), 10, ystart + 2*YSEP);
-	Add(new Gui::Label("#007Used"), 140, ystart+4*YSEP);
-	Add(new Gui::Label("#007Free"), 220, ystart+4*YSEP);
-	Add(new Gui::Label("#007Cargo space"), 10, ystart+5*YSEP);
-	Add(new Gui::Label("#007Equipment"), 10, ystart+6*YSEP);
+	m_statusBox = new Gui::Fixed(300, 300);
+	Add(m_statusBox, 10, 350);
+
+	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+
+	m_statusBox->Add(new Gui::Label("#007Cash"), 0, 0);
+	m_statusBox->Add(new Gui::Label("#007Legal status"), 0, 2*YSEP);
+	m_statusBox->Add(new Gui::Label("#007Used"), 130, 4*YSEP);
+	m_statusBox->Add(new Gui::Label("#007Free"), 210, 4*YSEP);
+	m_statusBox->Add(new Gui::Label("#007Cargo space"), 0, 5*YSEP);
+	m_statusBox->Add(new Gui::Label("#007Equipment"), 0, 6*YSEP);
 
 	m_money = new Gui::Label("");
-	Add(m_money, 220, ystart);
+	m_statusBox->Add(m_money, 210, 0);
 
 	m_cargoSpaceUsed = new Gui::Label("");
-	Add(m_cargoSpaceUsed, 140, ystart + 5*YSEP);
+	m_statusBox->Add(m_cargoSpaceUsed, 130, 5*YSEP);
 	
 	m_cargoSpaceFree = new Gui::Label("");
-	Add(m_cargoSpaceFree, 220, ystart + 5*YSEP);
+	m_statusBox->Add(m_cargoSpaceFree, 210, 5*YSEP);
 	
 	m_equipmentMass = new Gui::Label("");
-	Add(m_equipmentMass, 140, ystart + 6*YSEP);
+	m_statusBox->Add(m_equipmentMass, 130, 6*YSEP);
 	
 	m_legalstatus = new Gui::Label("Clean");
-	Add(m_legalstatus, 220, ystart + 2*YSEP);
+	m_statusBox->Add(m_legalstatus, 210, 2*YSEP);
+
 
 	m_formStack = new Gui::Stack();
 	Add(m_formStack, 320, 40);
@@ -577,11 +581,16 @@ SpaceStationView::SpaceStationView(): View()
 	m_formController = new FormController(m_formStack);
 	m_formController->onRefresh.connect(sigc::mem_fun(this, &SpaceStationView::RefreshForForm));
 
-	m_backButton = new Gui::SolidButton();
-	m_backButton->onClick.connect(sigc::mem_fun(m_formController, &FormController::CloseForm));
-	Add(m_backButton, 680, 470);
-	m_backLabel = new Gui::Label("Go back");
-	Add(m_backLabel, 700, 470);
+	
+	m_backButtonBox = new Gui::HBox();
+	m_backButtonBox->SetSpacing(4.0f);
+	Add(m_backButtonBox, 680, 470);
+
+	Gui::SolidButton *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(m_formController, &FormController::CloseForm));
+	m_backButtonBox->PackEnd(b);
+	m_backButtonBox->PackEnd(new Gui::Label("Go back"));
+
 
 	m_videoLink = 0;
 
@@ -609,14 +618,10 @@ void SpaceStationView::Update()
 	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
 	m_cargoSpaceFree->SetText(buf);
 
-	if (m_formStack->Size() > 1) {
-		m_backButton->Show();
-		m_backLabel->Show();
-	}
-	else {
-		m_backButton->Hide();
-		m_backLabel->Hide();
-	}
+	if (m_formStack->Size() > 1)
+		m_backButtonBox->Show();
+	else
+		m_backButtonBox->Hide();
 }
 
 void SpaceStationView::Draw3D()
