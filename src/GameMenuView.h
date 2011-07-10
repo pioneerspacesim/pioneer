@@ -14,7 +14,10 @@ class VolumeControl : public Gui::HBox
 	public:
 		VolumeControl(const std::string& label, float volume, bool muted) :
 			HBox() {
-			PackEnd(new Gui::Label(label.c_str()), false);
+			Gui::Label *lab = new Gui::Label(label.c_str());
+			Gui::Fixed *fix = new Gui::Fixed(50, 32);
+			fix->Add(lab, 0, 0);
+			PackEnd(fix, false);
 			m_muteButton = new Gui::MultiStateImageButton();
 			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/volume_unmuted.png", "Mute");
 			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/volume_muted.png", "Unmute");
