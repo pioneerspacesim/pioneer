@@ -72,8 +72,8 @@ void ShipSpinnerWidget::Draw()
 	glEnable(GL_LIGHT0);
 
 	glViewport(
-		GLint(pos[0]/guiscale[0]),
-		GLint((Gui::Screen::GetHeight() - pos[1] - m_width)/guiscale[1]),
+		GLint(roundf(pos[0]/guiscale[0])),
+		GLint(roundf((Gui::Screen::GetHeight() - pos[1] - m_width)/guiscale[1])),
 		GLsizei(m_width/guiscale[0]),
 		GLsizei(m_height/guiscale[1]));
 	
