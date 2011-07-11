@@ -382,7 +382,11 @@ void Pi::Init()
 		Sound::SetMasterVolume(config.Float("MasterVolume"));
 		Sound::SetSfxVolume(config.Float("SfxVolume"));
 		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
+
 		Sound::Pause(0);
+		if (config.Int("MasterMuted")) Sound::Pause(1);
+		if (config.Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+		if (config.Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
 

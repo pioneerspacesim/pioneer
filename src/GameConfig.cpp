@@ -18,6 +18,9 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	(*this)["FOV"] = "83";
 	(*this)["MasterVolume"] = "0.8";
 	(*this)["MusicVolume"] = "0.8";
+	(*this)["MasterMuted"] = "0";
+	(*this)["SfxMuted"] = "0";
+	(*this)["MusicMuted"] = "0";
 
 	KeyBindings::SetDefaults();
 
