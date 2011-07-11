@@ -9,6 +9,8 @@ Alpha 13
     * Atmosphere selection changed, planets can have a more varied atmospheric
       composition (#276)
     * Planetary rings are more varied and come in various colours (#276)
+    * Mute buttons for each volume setting that actually stop the sounds
+      instead of just playing them quietly (#284, #270)
 
   * Fixes
     * Move sector view to current system on first open (#262)

@@ -425,38 +425,16 @@ GameMenuView::GameMenuView(): View()
 		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
 		
 		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
-		m_masterVolume = new Gui::Adjustment();
-		m_masterVolume->SetValue(Sound::GetMasterVolume());
-		m_masterVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-		Gui::HScale *masterVol = new Gui::HScale();
-		masterVol->SetAdjustment(m_masterVolume);
-		hbox = new Gui::HBox();
-		hbox->PackEnd(new Gui::Label("Master volume: (min)"));
-		hbox->PackEnd(masterVol, false);
-		hbox->PackEnd(new Gui::Label("(max)"));
-		vbox->PackEnd(hbox, false);
+		m_masterVolume = new VolumeControl("Master:", Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
+		vbox->PackEnd(m_masterVolume, false);
+		m_sfxVolume = new VolumeControl("Effects:", Pi::config.Float("SfxVolume"), Pi::config.Int("SfxMuted"));
+		vbox->PackEnd(m_sfxVolume, false);
+		m_musicVolume = new VolumeControl("Music:", Pi::config.Float("MusicVolume"), Pi::config.Int("MusicMuted"));
+		vbox->PackEnd(m_musicVolume, false);
 
-		m_sfxVolume = new Gui::Adjustment();
-		m_sfxVolume->SetValue(Sound::GetSfxVolume());
-		m_sfxVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-		Gui::HScale *sfxVol = new Gui::HScale();
-		sfxVol->SetAdjustment(m_sfxVolume);
-		hbox = new Gui::HBox();
-		hbox->PackEnd(new Gui::Label("Sound effects volume: (min)"));
-		hbox->PackEnd(sfxVol, false);
-		hbox->PackEnd(new Gui::Label("(max)"));
-		vbox->PackEnd(hbox, false);
-
-		m_musicVolume = new Gui::Adjustment();
-		m_musicVolume->SetValue(Pi::GetMusicPlayer().GetVolume());
-		m_musicVolume->onValueChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
-		Gui::HScale *musVol = new Gui::HScale();
-		musVol->SetAdjustment(m_musicVolume);
-		hbox = new Gui::HBox();
-		hbox->PackEnd(new Gui::Label("Music volume: (min)"));
-		hbox->PackEnd(musVol, false);
-		hbox->PackEnd(new Gui::Label("(max)"));
-		vbox->PackEnd(hbox, false);
+		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		m_sfxVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
+		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 	}
 
 	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
@@ -620,14 +598,34 @@ void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const
 void GameMenuView::OnChangeVolume()
 {
 	const float masterVol = m_masterVolume->GetValue();
-	Sound::SetMasterVolume(masterVol);
 	const float sfxVol = m_sfxVolume->GetValue();
-	Sound::SetSfxVolume(sfxVol);
 	const float musVol = m_musicVolume->GetValue();
+
+	if (m_masterVolume->IsMuted())
+		Sound::Pause(1);
+	else
+		Sound::Pause(0);
+
+	Sound::SetMasterVolume(masterVol);
+
+	if (m_sfxVolume->IsMuted())
+		Sound::SetSfxVolume(0.f);
+	else
+		Sound::SetSfxVolume(sfxVol); //can't "pause" sfx separately
+
+	if (m_musicVolume->IsMuted())
+		Pi::GetMusicPlayer().SetEnabled(false);
+	else
+		Pi::GetMusicPlayer().SetEnabled(true);
+
 	Pi::GetMusicPlayer().SetVolume(musVol);
+
 	Pi::config.SetFloat("MasterVolume", masterVol);
 	Pi::config.SetFloat("SfxVolume", sfxVol);
 	Pi::config.SetFloat("MusicVolume", musVol);
+	Pi::config.SetFloat("MasterMuted", m_masterVolume->IsMuted());
+	Pi::config.SetFloat("SfxMuted", m_sfxVolume->IsMuted());
+	Pi::config.SetFloat("MusicMuted", m_musicVolume->IsMuted());
 	Pi::config.Save();
 }
 	
@@ -736,4 +734,3 @@ void GameMenuView::OnSwitchTo() {
 		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	}
 }
-
