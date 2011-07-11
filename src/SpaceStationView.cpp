@@ -664,6 +664,7 @@ void SpaceStationView::RefreshForForm(Form *f)
 				m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
 				Add(m_videoLink, 10, 40);
 			}
+			m_videoLink->ShowAll();
 
 			Remove(m_formStack);
 			Add(m_formStack, 320, 40);
@@ -673,10 +674,8 @@ void SpaceStationView::RefreshForForm(Form *f)
 
 		case Form::BLANK:
 		default: {
-			if (m_videoLink) {
-				Remove(m_videoLink);
-				delete m_videoLink;
-			}
+			if (m_videoLink)
+				m_videoLink->Hide();
 
 			Remove(m_formStack);
 			Add(m_formStack, 10, 40);
