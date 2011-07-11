@@ -1,6 +1,9 @@
 #include "StationShipMarketForm.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SpaceStation.h"
+#include "SpaceStationView.h"
+#include "StationShipViewForm.h"
 
 StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceForm(controller)
 {
@@ -86,4 +89,6 @@ void StationShipMarketForm::UpdateShipList()
 
 void StationShipMarketForm::ViewShip(int num)
 {
+	std::vector<ShipFlavour> &ships = m_station->GetShipsOnSale();
+	m_formController->ActivateForm(new StationShipViewForm(m_formController, ships[num]));
 }
