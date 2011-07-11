@@ -198,40 +198,39 @@ public:
 
 	void ShowAll() {
 		DeleteAllChildren();
-		PackEnd(new Gui::Label(m_title), false);
+		PackEnd(new Gui::Label(m_title));
 		m_tentry = new Gui::TextEntry();
-		PackEnd(m_tentry, false);
+		PackEnd(m_tentry);
 
 		std::list<std::string> files;
 		GetDirectoryContents(GetFullSavefileDirPath().c_str(), files);
 
 		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSizeRequest(1,1);
-		PackEnd(hbox, true);
+		PackEnd(hbox);
 
 		Gui::HBox *buttonBox = new Gui::HBox();
 		buttonBox->SetSpacing(5.0f);
 		Gui::Button *b = new Gui::LabelButton(new Gui::Label(m_type == SAVE ? "Save" : "Load"));
 		b->onClick.connect(sigc::mem_fun(this, &FileDialog::OnClickAction));
-		buttonBox->PackEnd(b, false);
+		buttonBox->PackEnd(b);
 		b = new Gui::LabelButton(new Gui::Label("Cancel"));
 		b->onClick.connect(sigc::mem_fun(this, &FileDialog::OnClickCancel));
-		buttonBox->PackEnd(b, false);
-		PackEnd(buttonBox, false);
+		buttonBox->PackEnd(b);
+		PackEnd(buttonBox);
 
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(350,100);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(390);
 		portal->SetTransparency(false);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
-		hbox->PackEnd(portal, true);
-		hbox->PackEnd(scroll, false);
+		hbox->PackEnd(portal);
+		hbox->PackEnd(scroll);
 
 		Gui::Box *vbox = new Gui::VBox();
 		for (std::list<std::string>::iterator i = files.begin(); i!=files.end(); ++i) {
 			b = new SimpleLabelButton(new Gui::Label(*i));
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileDialog::OnClickFile), *i));
-			vbox->PackEnd(b, false);
+			vbox->PackEnd(b);
 		}
 		portal->Add(vbox);
 		
@@ -380,15 +379,15 @@ GameMenuView::GameMenuView(): View()
 		b = new Gui::LabelButton(new Gui::Label("[S] Save the game"));
 		b->SetShortcut(SDLK_s, KMOD_NONE);
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
-		hbox->PackEnd(b, false);
+		hbox->PackEnd(b);
 		b = new Gui::LabelButton(new Gui::Label("[L] Load a game"));
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
 		b->SetShortcut(SDLK_l, KMOD_NONE);
-		hbox->PackEnd(b, false);
+		hbox->PackEnd(b);
 		b = new Gui::LabelButton(new Gui::Label("Exit this game"));
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
 		b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
-		hbox->PackEnd(b, false);
+		hbox->PackEnd(b);
 	}
 
 	Gui::Box *vbox = new Gui::VBox();
@@ -397,47 +396,47 @@ GameMenuView::GameMenuView(): View()
 	mainTab->Add(vbox, 20, 60);
 
 	{
-		vbox->PackEnd((new Gui::Label("Windowed or fullscreen (restart to apply)"))->Color(1.0f,1.0f,0.0f), false);
+		vbox->PackEnd((new Gui::Label("Windowed or fullscreen (restart to apply)"))->Color(1.0f,1.0f,0.0f));
 		m_toggleFullscreen = new Gui::ToggleButton();
 		m_toggleFullscreen->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleFullscreen));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_toggleFullscreen, false);
-		hbox->PackEnd(new Gui::Label("Full screen"), false);
-		vbox->PackEnd(hbox, false);
+		hbox->PackEnd(m_toggleFullscreen);
+		hbox->PackEnd(new Gui::Label("Full screen"));
+		vbox->PackEnd(hbox);
 		
-		vbox->PackEnd((new Gui::Label("Other graphics settings"))->Color(1.0f,1.0f,0.0f), false);
+		vbox->PackEnd((new Gui::Label("Other graphics settings"))->Color(1.0f,1.0f,0.0f));
 		m_toggleShaders = new Gui::ToggleButton();
 		m_toggleShaders->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleShaders));
 		hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_toggleShaders, false);
-		hbox->PackEnd(new Gui::Label("Use shaders"), false);
-		vbox->PackEnd(hbox, false);
+		hbox->PackEnd(m_toggleShaders);
+		hbox->PackEnd(new Gui::Label("Use shaders"));
+		vbox->PackEnd(hbox);
 		
 		m_toggleHDR = new Gui::ToggleButton();
 		m_toggleHDR->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleHDR));
 		hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_toggleHDR, false);
-		hbox->PackEnd(new Gui::Label("Use HDR Lighting (looks cool)"), false);
-		vbox->PackEnd(hbox, false);
+		hbox->PackEnd(m_toggleHDR);
+		hbox->PackEnd(new Gui::Label("Use HDR Lighting (looks cool)"));
+		vbox->PackEnd(hbox);
 		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
 		
-		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f), false);
+		vbox->PackEnd((new Gui::Label("Sound settings"))->Color(1.0f,1.0f,0.0f));
 		m_masterVolume = new VolumeControl("Master:", Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
-		vbox->PackEnd(m_masterVolume, false);
+		vbox->PackEnd(m_masterVolume);
 		m_sfxVolume = new VolumeControl("Effects:", Pi::config.Float("SfxVolume"), Pi::config.Int("SfxMuted"));
-		vbox->PackEnd(m_sfxVolume, false);
+		vbox->PackEnd(m_sfxVolume);
 		m_musicVolume = new VolumeControl("Music:", Pi::config.Float("MusicVolume"), Pi::config.Int("MusicMuted"));
-		vbox->PackEnd(m_musicVolume, false);
+		vbox->PackEnd(m_musicVolume);
 
 		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 		m_sfxVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 	}
 
-	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f), false);
+	vbox->PackEnd((new Gui::Label("Video resolution (restart game to apply)"))->Color(1.0f,1.0f,0.0f));
 
 	Gui::RadioGroup *g = new Gui::RadioGroup();
 	SDL_Rect **modes;
@@ -448,10 +447,10 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(scrollHBox);
 		
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
-		scrollHBox->PackEnd(portal, true);
-		scrollHBox->PackEnd(scroll, false);
+		scrollHBox->PackEnd(portal);
+		scrollHBox->PackEnd(scroll);
 
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
@@ -462,9 +461,9 @@ GameMenuView::GameMenuView(): View()
 					&GameMenuView::OnChangeVideoResolution), i));
 			Gui::HBox *hbox = new Gui::HBox();
 			hbox->SetSpacing(5.0f);
-			hbox->PackEnd(temp, false);
-			hbox->PackEnd(new Gui::Label(stringf(256, "%dx%d", modes[i]->w, modes[i]->h)), false);
-			vbox2->PackEnd(hbox, false);
+			hbox->PackEnd(temp);
+			hbox->PackEnd(new Gui::Label(stringf(256, "%dx%d", modes[i]->w, modes[i]->h)));
+			vbox2->PackEnd(hbox);
 			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
 				temp->SetSelected(true);
 			}
@@ -484,9 +483,9 @@ GameMenuView::GameMenuView(): View()
 		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb, false);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
-		vbox->PackEnd(hbox, false);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+		vbox->PackEnd(hbox);
 	}
 	// just a spacer
 	vbox->PackEnd(new Gui::Fixed(10,20));
@@ -499,9 +498,9 @@ GameMenuView::GameMenuView(): View()
 		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeCityDetail), i));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb, false);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]), false);
-		vbox->PackEnd(hbox, false);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+		vbox->PackEnd(hbox);
 	}
 	
 	// key binding tab
@@ -565,20 +564,20 @@ GameMenuView::GameMenuView(): View()
 		m_toggleJoystick->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleJoystick));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_toggleJoystick, false);
-		hbox->PackEnd(new Gui::Label("Enable joystick control"), false);
-		box->PackEnd(hbox, false);
+		hbox->PackEnd(m_toggleJoystick);
+		hbox->PackEnd(new Gui::Label("Enable joystick control"));
+		box->PackEnd(hbox);
 
 		// Invert Mouse
 		m_toggleMouseYInvert = new Gui::ToggleButton();
 		m_toggleMouseYInvert->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleMouseYInvert));
-		box->PackEnd((new Gui::Label("Mouse Input"))->Color(1.0f,1.0f,0.0f), false);
+		box->PackEnd((new Gui::Label("Mouse Input"))->Color(1.0f,1.0f,0.0f));
 
 		Gui::HBox *mybox = new Gui::HBox();
 		mybox->SetSpacing(5.0f);
-		mybox->PackEnd(m_toggleMouseYInvert, false);
-		mybox->PackEnd(new Gui::Label("Invert MouseY"), false);
-		box->PackEnd(mybox, false);
+		mybox->PackEnd(m_toggleMouseYInvert);
+		mybox->PackEnd(new Gui::Label("Invert MouseY"));
+		box->PackEnd(mybox);
 	}
 }
 
