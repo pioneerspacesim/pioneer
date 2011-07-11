@@ -28,6 +28,9 @@ private:
 class BlankForm : public Form {
 public:
 	virtual Form::FormType GetType() const { return Form::BLANK; }
+
+protected:
+	BlankForm(FormController *controller) : Form(controller, 780,400) {}
 };
 
 
