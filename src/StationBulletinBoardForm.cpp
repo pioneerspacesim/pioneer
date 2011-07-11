@@ -40,13 +40,13 @@ StationBulletinBoardForm::~StationBulletinBoardForm()
 void StationBulletinBoardForm::OnBulletinBoardChanged()
 {
 	UpdateAdverts();
-	ShowAll();
+	m_advertbox->ShowAll();
 }
 
 void StationBulletinBoardForm::OnBulletinBoardAdvertDeleted(BBAdvert *ad)
 {
 	UpdateAdverts();
-	ShowAll();
+	m_advertbox->ShowAll();
 }
 
 void StationBulletinBoardForm::UpdateAdverts()

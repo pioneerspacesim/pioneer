@@ -56,7 +56,7 @@ StationShipMarketForm::~StationShipMarketForm()
 void StationShipMarketForm::OnShipsForSaleChanged()
 {
 	UpdateShipList();
-	ShowAll();
+	m_shiplistBox->ShowAll();
 }
 
 void StationShipMarketForm::UpdateShipList()
