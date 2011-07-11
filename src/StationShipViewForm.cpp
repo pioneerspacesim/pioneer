@@ -1,6 +1,7 @@
 #include "StationShipViewForm.h"
 #include "Pi.h"
 #include "Player.h"
+#include "ShipSpinnerWidget.h"
 
 StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour flavour) :
 	BlankForm(controller),
@@ -8,9 +9,11 @@ StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour
 {
 	m_station = Pi::player->GetDockedWith();
 
+	const ShipType &type = ShipType::types[m_flavour.type];
+
 	SetTitle(stringf(256, "%s ship market", m_station->GetLabel().c_str()));
 
-	const ShipType &type = ShipType::types[m_flavour.type];
+	Add(new ShipSpinnerWidget(m_flavour, 400, 400), 0, 0);
 
 	Gui::VBox *labelBox = new Gui::VBox();
 	labelBox->PackEnd(new Gui::Label("Ship type"));
