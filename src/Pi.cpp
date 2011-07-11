@@ -831,7 +831,7 @@ void Pi::InitGame()
 	objectViewerView = new ObjectViewerView();
 #endif
 
-	AmbientSounds::Init();
+	if (!config.Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
 }
@@ -862,7 +862,7 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
-	AmbientSounds::Uninit();
+	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
 #if OBJECTVIEWER
@@ -1238,7 +1238,7 @@ void Pi::MainLoop()
 			}
 		} else {
 			// this is something we need not do every turn...
-			AmbientSounds::Update();
+			if (!config.Int("DisableSound")) AmbientSounds::Update();
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();
