@@ -206,7 +206,6 @@ public:
 		GetDirectoryContents(GetFullSavefileDirPath().c_str(), files);
 
 		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSizeRequest(1,1);
 		PackEnd(hbox);
 
 		Gui::HBox *buttonBox = new Gui::HBox();
@@ -221,7 +220,7 @@ public:
 
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(350);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(390);
 		portal->SetTransparency(false);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 		hbox->PackEnd(portal);

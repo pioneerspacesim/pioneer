@@ -43,7 +43,7 @@ WorldView::WorldView(): View(),
 	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
 	Add(m_commsNavOptionsContainer, size[0]-230, 20);
 
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(220);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(200);
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 	m_commsNavOptionsContainer->PackStart(scroll);
