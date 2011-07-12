@@ -27,6 +27,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour
 	Gui::VBox *labelBox = new Gui::VBox();
 	labelBox->PackEnd(new Gui::Label("Ship type"));
 	labelBox->PackEnd(new Gui::Label("Price"));
+	labelBox->PackEnd(new Gui::Label("Part exchange"));
 	labelBox->PackEnd(new Gui::Label("Registration id"));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label("Weight empty"));
@@ -49,6 +50,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
 	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price)));
+	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price - Pi::player->GetFlavour()->price)));
 	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(64, "%d t", type.hullMass)));
@@ -65,7 +67,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour
 
 
 	Gui::HBox *row = new Gui::HBox();
-	row->SetSpacing(15.0f);
+	row->SetSpacing(10.0f);
 
 	int row_size = 5, pos = 0;
 	for (int drivetype = Equip::DRIVE_CLASS1; drivetype <= Equip::DRIVE_CLASS9; drivetype++) {
@@ -97,4 +99,15 @@ StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour
 
 	if (pos > 0)
 		layoutBox->PackEnd(row);
+
+
+	Gui::HBox *buttonBox = new Gui::HBox();
+	buttonBox->SetSpacing(5.0f);
+
+	Gui::SolidButton *b = new Gui::SolidButton();
+	buttonBox->PackEnd(b);
+
+	buttonBox->PackEnd(new Gui::Label("Buy this ship"));
+
+	Add(buttonBox, 650, 30);
 }
