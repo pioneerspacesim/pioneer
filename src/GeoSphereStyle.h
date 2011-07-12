@@ -116,6 +116,12 @@ class GeoSphereStyle {
 	vector3d m_rockColor[8];
 	vector3d m_darkrockColor[8];
 	vector3d m_greyrockColor[8];
+	vector3d m_plantColor[8];
+	vector3d m_darkplantColor[8];
+	vector3d m_sandColor[8];
+	vector3d m_darksandColor[8];
+	vector3d m_dirtColor[8];
+	vector3d m_darkdirtColor[8];
 	vector3d m_gglightColor[8];
 	vector3d m_ggdarkColor[8];
 
