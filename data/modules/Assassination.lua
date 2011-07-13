@@ -8,6 +8,7 @@ local ass_flavours = {
 		introtext = "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}.",
 		successmsg = "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
 		failuremsg = "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
+		failuremsg2 = "{target}'s removal was not done by you. No payment this time.",
 		danger = 0,
 		time = 2.3,
 		money = 0.8,
@@ -17,6 +18,7 @@ local ass_flavours = {
 		introtext = "I need {target} taken out of the picture. I'll pay you {cash} to do this.",
 		successmsg = "I am most sad to hear of {target}'s demise. You have been paid in full.",
 		failuremsg = "I hear that {target} is in good health. This pains me.",
+		failuremsg2 = "{target}'s demise was not caused by you, so do not ask for payement.",
 		danger = 0,
 		time = 2.1,
 		money = 1.0,
@@ -26,6 +28,7 @@ local ass_flavours = {
 		introtext = "I am {name}, and I will pay you {cash} to terminate {target}",
 		successmsg = "You have been paid in full for the completion of that important contract.",
 		failuremsg = "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
+		failuremsg2 = "Contract was completed by someone else. Be faster next time!",
 		danger = 1,
 		time = 1.9,
 		money = 1.2,
@@ -35,6 +38,7 @@ local ass_flavours = {
 		introtext = "The {target} must be reduced to space dust. I'll award you {cash} to do this.",
 		successmsg = "{target} is dead. Here is your award.",
 		failuremsg = "You will pay for not eliminating {target}!",
+		failuremsg2 = "Are you asking money for job done by someone else? Get lost.",
 		danger = 2,
 		time = 2,
 		money = 1.4,
@@ -190,6 +194,7 @@ local onShipDestroyed = function (ship, body)
 			if not body:isa("Ship") or
 			   not body:IsPlayer() then
 				mission.status = 'FAILED'
+				mission.notplayer = 'TRUE'
 				Game.player:UpdateMission(ref, mission)
 				return
 			else
@@ -197,6 +202,7 @@ local onShipDestroyed = function (ship, body)
 				mission.status = 'COMPLETED'
 				mission.client = mission.boss
 				mission.location = mission.backstation
+				mission.notplayer = 'FALSE'
 				body:UpdateMission(ref, mission)
 				return
 			end
@@ -270,9 +276,15 @@ local onShipDocked = function (ship, station)
 			ship:RemoveMission(ref)
 			missions[ref] = nil
 		elseif mission.status == 'FAILED' then
-			local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
-				target	= mission.target,
-			})
+			if mission.notplayer == 'TRUE' then
+				local text = string.interp(ass_flavours[mission.flavour].failuremsg2, {
+					target	= mission.target,
+				})
+			else
+				local text = string.interp(ass_flavours[mission.flavour].failuremsg, {
+					target	= mission.target,
+				})
+			end
 			UI.ImportantMessage(text, mission.boss)
 			ship:RemoveMission(ref)
 			missions[ref] = nil
