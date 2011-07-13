@@ -66,7 +66,7 @@ local onChat = function (form, ref, option)
 			return onClick(ref)
 		end,
 
-		-- do something when a "buy" button is clicked
+		-- do something when a "sell" button is clicked
 		onClickSell = function (ref, commodity)
 			return onClick(ref)
 		end,
