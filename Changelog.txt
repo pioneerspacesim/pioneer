@@ -9,6 +9,8 @@ Alpha 13
     * Atmosphere selection changed, planets can have a more varied atmospheric
       composition (#276)
     * Planetary rings are more varied and come in various colours (#276)
+    * Fractal texture to increase terrain detail and simulate planet surface
+      materials (#291)
     * Mute buttons for each volume setting that actually stop the sounds
       instead of just playing them quietly (#284, #270)
     * New Lua event onLanded to inform scripts when a ship rough lands (#295)
@@ -23,7 +25,7 @@ Alpha 13
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
     * Refactored SectorView to use SystemPath internally (#262)
-    * Tweaks and improvements to several terrains (#276)
+    * Tweaks and improvements to several terrains (#276, #291)
 
 Alpha 12
 
