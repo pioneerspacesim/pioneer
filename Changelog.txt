@@ -26,6 +26,8 @@ Alpha 13
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
     * Refactored SectorView to use SystemPath internally (#262)
     * Tweaks and improvements to several terrains (#276, #291)
+    * GUI widgets now have a minimum size, used for better dynamic layout with
+      variable-size containers and widgets (#279)
 
 Alpha 12
 

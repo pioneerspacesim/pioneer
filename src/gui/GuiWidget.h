@@ -15,6 +15,8 @@ namespace Gui {
 		/** containers call this on children. input: size[] will contain max permissible size
 		 *  output: size[] will contain what space the widget desires */
 		virtual void GetSizeRequested(float size[2]) = 0;
+		// the minimum size the widget requires to operate effectively
+		virtual void GetMinimumSize(float size[2]) { GetSizeRequested(size); }
 		void GetAbsolutePosition(float pos[2]) const;
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }

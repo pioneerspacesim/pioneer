@@ -54,7 +54,7 @@ public:
 		ShowChildren();
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760, 500);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(760);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
 		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();

@@ -10,6 +10,7 @@ namespace Gui {
 		virtual ~ScrollBar();
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual void GetSizeRequested(float size[2]);
+		virtual void GetMinimumSize(float size[2]);
 		virtual void Draw();
 		void SetAdjustment(Adjustment *adj) {
 			m_adjustment = adj;
