@@ -141,7 +141,7 @@ void Player::StaticUpdate(const float timeStep)
 	
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
+	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);

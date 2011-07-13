@@ -382,7 +382,11 @@ void Pi::Init()
 		Sound::SetMasterVolume(config.Float("MasterVolume"));
 		Sound::SetSfxVolume(config.Float("SfxVolume"));
 		GetMusicPlayer().SetVolume(config.Float("MusicVolume"));
+
 		Sound::Pause(0);
+		if (config.Int("MasterMuted")) Sound::Pause(1);
+		if (config.Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+		if (config.Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
 
@@ -831,7 +835,7 @@ void Pi::InitGame()
 	objectViewerView = new ObjectViewerView();
 #endif
 
-	AmbientSounds::Init();
+	if (!config.Int("DisableSound")) AmbientSounds::Init();
 
 	LuaInitGame();
 }
@@ -862,7 +866,7 @@ void Pi::StartGame()
 
 void Pi::UninitGame()
 {
-	AmbientSounds::Uninit();
+	if (!config.Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
 #if OBJECTVIEWER
@@ -1238,7 +1242,7 @@ void Pi::MainLoop()
 			}
 		} else {
 			// this is something we need not do every turn...
-			AmbientSounds::Update();
+			if (!config.Int("DisableSound")) AmbientSounds::Update();
 			StarSystem::ShrinkCache();
 		}
 		cpan->Update();
