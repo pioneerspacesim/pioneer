@@ -119,6 +119,7 @@ public:
 	static LuaEventQueue<Ship,Body> luaOnShipCollided;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipDocked;
 	static LuaEventQueue<Ship,SpaceStation> luaOnShipUndocked;
+	static LuaEventQueue<Ship,Body> luaOnShipLanded;
 	static LuaEventQueue<Ship,const char *> luaOnShipAlertChanged;
 	static LuaEventQueue<Ship,CargoBody> luaOnJettison;
 	static LuaEventQueue<Ship> luaOnAICompleted;

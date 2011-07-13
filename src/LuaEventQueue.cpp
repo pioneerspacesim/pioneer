@@ -376,6 +376,29 @@ void LuaEventQueueBase::Emit()
  *   stable
  *
  *
+ * Event: onShipLanded
+ *
+ * Triggered when a ship performs a surface landing
+ * (not on a spaceport).
+ *
+ * > local onShipLanded = function (ship, body) ... end
+ * > EventQueue.onShipLanded:Connect(onShipLanded)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that landed
+ *
+ *   body - the <Body> the ship landed on
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onShipAlertChanged
  *
  * Triggered when a ship's alert status changes.

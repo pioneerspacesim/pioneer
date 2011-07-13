@@ -11,6 +11,7 @@ Alpha 13
     * Planetary rings are more varied and come in various colours (#276)
     * Mute buttons for each volume setting that actually stop the sounds
       instead of just playing them quietly (#284, #270)
+    * New Lua event onLanded to inform scripts when a ship rough lands (#295)
 
   * Fixes
     * Move sector view to current system on first open (#262)
