@@ -9,9 +9,6 @@ local ass_flavours = {
 		successmsg = "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment.",
 		failuremsg = "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment.",
 		failuremsg2 = "{target}'s removal was not done by you. No payment this time.",
-		danger = 0,
-		time = 2.3,
-		money = 0.8,
 	},
 	{
 		adtext = "WANTED: Someone to kill {target} from the {system} system.",
@@ -19,9 +16,6 @@ local ass_flavours = {
 		successmsg = "I am most sad to hear of {target}'s demise. You have been paid in full.",
 		failuremsg = "I hear that {target} is in good health. This pains me.",
 		failuremsg2 = "{target}'s demise was not caused by you, so do not ask for payement.",
-		danger = 0,
-		time = 2.1,
-		money = 1.0,
 	},
 	{
 		adtext = "REMOVAL: {target} is no longer wanted in the {system} system.",
@@ -29,9 +23,6 @@ local ass_flavours = {
 		successmsg = "You have been paid in full for the completion of that important contract.",
 		failuremsg = "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract.",
 		failuremsg2 = "Contract was completed by someone else. Be faster next time!",
-		danger = 1,
-		time = 1.9,
-		money = 1.2,
 	},
 	{
 		adtext = "TERMINATION: Someone to eliminate {target}.",
@@ -39,9 +30,6 @@ local ass_flavours = {
 		successmsg = "{target} is dead. Here is your award.",
 		failuremsg = "You will pay for not eliminating {target}!",
 		failuremsg2 = "Are you asking money for job done by someone else? Get lost.",
-		danger = 2,
-		time = 2,
-		money = 1.4,
 	}
 }
 
@@ -90,17 +78,18 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type		= "Assassination",
-			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
+			backstation	= backstation,
 			boss		= ad.client,
-			location	= ad.location,
-			reward		= ad.reward,
+			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
+			danger		= ad.danger,
 			due		= ad.due,
 			flavour		= ad.flavour,
-			target		= ad.target,
-			backstation	= backstation,
-			shipregid	= ad.shipregid,
+			location	= ad.location,
+			reward		= ad.reward,
 			shipname	= ad.shipname,
+			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
+			target		= ad.target,
 		}
 
 		local mref = Game.player:AddMission(mission)
@@ -140,23 +129,26 @@ local makeAdvert = function (station)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-	local due = Game.time + Engine.rand:Number(7*60*60*24, ass_flavours[flavour].time * 31*60*60*24)
-	local reward = Engine.rand:Number(2000, 15000) * ass_flavours[flavour].money
+	local time = Engine.rand.Number(0.3, 3)
+	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
+	local danger = Engine.rand:Integer(1,4)
+	local reward = Engine.rand:Number(2100, 7000) * danger
 	local shiptypes = ShipType.GetShipTypes('SHIP')
 	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 
 	local ad = {
-		station = station,
-		flavour = flavour,
 		client = client,
-		location = location,
+		danger = danger,
 		due = due,
-		reward = reward,
-		isfemale = isfemale,
 		faceseed = Engine.rand:Integer(),
-		target = target,
-		shipregid = RandomShipRegId(),
+		flavour = flavour,
+		isfemale = isfemale,
+		location = location,
+		reward = reward,
 		shipname = shipname,
+		shipregid = RandomShipRegId(),
+		station = station,
+		target = target,
 	}
 
 	ad.desc = string.interp(ass_flavours[ad.flavour].adtext, {
@@ -229,19 +221,18 @@ local onEnterSystem = function (ship)
 		if mission.status == 'ACTIVE' then
 			if not mission.ship and mission.location:IsSameSystem(syspath) then
 				if mission.due > Game.time then -- spawn our target ship
-					local danger = ass_flavours[mission.flavour].danger + 1
 					local station = Space.GetBody(mission.location.bodyIndex)
 					local shiptype = ShipType.GetShipType(mission.shipname)
 					local default_drive = shiptype.defaultHyperdrive
 					local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
-					local laser = lasers[danger]
+					local laser = lasers[mission.danger]
 
 					mission.ship = Space.SpawnShipDocked(mission.shipname, station)
 					mission.ship:SetLabel(mission.shipregid)
 					mission.ship:AddEquip(default_drive)
-					mission.ship:AddEquip('SHIELD_GENERATOR', danger)
+					mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
 					mission.ship:AddEquip(laser)
-					mission.ship:AddEquip('HYDROGEN', danger * 3)
+					mission.ship:AddEquip('HYDROGEN', mission.danger * 3)
 					_setupHooksForMission(mission)
 				else	-- too late
 					mission.status = 'FAILED'
