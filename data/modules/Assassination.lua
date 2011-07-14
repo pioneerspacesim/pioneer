@@ -196,17 +196,16 @@ local onShipDestroyed = function (ship, body)
 			   not body:IsPlayer() then
 				mission.status = 'FAILED'
 				mission.notplayer = 'TRUE'
-				Game.player:UpdateMission(ref, mission)
-				return
 			else
 				-- well done, comrade
 				mission.status = 'COMPLETED'
 				mission.client = mission.boss
 				mission.location = mission.backstation
 				mission.notplayer = 'FALSE'
-				body:UpdateMission(ref, mission)
-				return
 			end
+			mission.ship = nil
+			Game.player:UpdateMission(ref, mission)
+			return
 		end
 	end
 end
@@ -248,13 +247,20 @@ local onEnterSystem = function (ship)
 					mission.status = 'FAILED'
 					ship:UpdateMission(ref, mission)
 				end
-			elseif mission.ship:exists() then
-				local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
-				local planet = planets[Engine.rand:Integer(1,#planets)]
-				mission.ship:AIFlyTo(planet)
-			elseif mission.due < Game.time then
-				mission.status = 'FAILED'
-				ship:UpdateMission(ref, mission)
+			end
+			if mission.ship then
+				if mission.ship:exists() then
+					local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
+					local planet = planets[Engine.rand:Integer(1,#planets)]
+					mission.ship:AIFlyTo(planet)
+				else
+					mission.ship = nil
+				end
+				if mission.due < Game.time then
+					mission.ship = nil
+					mission.status = 'FAILED'
+					ship:UpdateMission(ref, mission)
+				end
 			end
 		end
 	end
