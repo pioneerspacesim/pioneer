@@ -129,13 +129,14 @@ local RandomShipRegId = function ()
 end
 
 local makeAdvert = function (station)
+	local nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
+	if #nearbysystems == 0 then return end
 	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 	local targetIsfemale = Engine.rand:Integer(1) == 1
 	local title = { "Admiral", "Senator", "General", "Colonel", "Comandante", "Cardinal", "Professor", "Ambassador", "Judge", "Captain" }
 	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
-	local nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
