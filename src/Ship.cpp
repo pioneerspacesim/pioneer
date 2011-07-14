@@ -556,6 +556,7 @@ void Ship::TestLanded()
 				ClearThrusterState();
 				m_flightState = LANDED;
 				Sound::PlaySfx("Rough_Landing", 1.0f, 1.0f, 0);
+				Pi::luaOnShipLanded.Queue(this, GetFrame()->GetBodyFor());
 			}
 		}
 	}

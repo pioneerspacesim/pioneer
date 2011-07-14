@@ -43,11 +43,11 @@ WorldView::WorldView(): View(),
 	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
 	Add(m_commsNavOptionsContainer, size[0]-230, 20);
 
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(220, size[1]-50);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(200);
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 	m_commsNavOptionsContainer->PackStart(scroll);
-	m_commsNavOptionsContainer->PackStart(portal, true);
+	m_commsNavOptionsContainer->PackStart(portal);
 
 	m_commsNavOptions = new Gui::VBox();
 	m_commsNavOptions->SetSpacing(5);
@@ -853,7 +853,7 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 	hbox->SetSpacing(5);
 
 	Gui::Label *l = new Gui::Label(msg);
-	hbox->PackStart(l, true);
+	hbox->PackStart(l);
 
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
