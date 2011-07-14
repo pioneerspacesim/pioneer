@@ -219,38 +219,38 @@ local onEnterSystem = function (ship)
 
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' then
-			if not mission.ship and mission.location:IsSameSystem(syspath) then
-				if mission.due > Game.time then -- spawn our target ship
-					local station = Space.GetBody(mission.location.bodyIndex)
-					local shiptype = ShipType.GetShipType(mission.shipname)
-					local default_drive = shiptype.defaultHyperdrive
-					local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
-					local laser = lasers[mission.danger]
+			if not mission.ship then
+				if mission.due > Game.time then
+					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
+						local station = Space.GetBody(mission.location.bodyIndex)
+						local shiptype = ShipType.GetShipType(mission.shipname)
+						local default_drive = shiptype.defaultHyperdrive
+						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
+						local laser = lasers[mission.danger]
 
-					mission.ship = Space.SpawnShipDocked(mission.shipname, station)
-					mission.ship:SetLabel(mission.shipregid)
-					mission.ship:AddEquip(default_drive)
-					mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
-					mission.ship:AddEquip(laser)
-					mission.ship:AddEquip('HYDROGEN', mission.danger * 3)
-					_setupHooksForMission(mission)
+						mission.ship = Space.SpawnShipDocked(mission.shipname, station)
+						mission.ship:SetLabel(mission.shipregid)
+						mission.ship:AddEquip(default_drive)
+						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
+						mission.ship:AddEquip(laser)
+						mission.ship:AddEquip('HYDROGEN', mission.danger * 3)
+						_setupHooksForMission(mission)
+					end
 				else	-- too late
 					mission.status = 'FAILED'
 					ship:UpdateMission(ref, mission)
 				end
-			end
-			if mission.ship then
+			else
 				if mission.ship:exists() then
 					local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
 					local planet = planets[Engine.rand:Integer(1,#planets)]
-					mission.ship:AIFlyTo(planet)
+					mission.ship:AIEnterHighOrbit(planet)
 				else
 					mission.ship = nil
-				end
-				if mission.due < Game.time then
-					mission.ship = nil
-					mission.status = 'FAILED'
-					ship:UpdateMission(ref, mission)
+					if mission.due < Game.time then
+						mission.status = 'FAILED'
+						ship:UpdateMission(ref, mission)
+					end
 				end
 			end
 		end
@@ -295,7 +295,8 @@ local onShipUndocked = function (ship, station)
 		   mission.ship == ship then
 			local planets = Space.GetBodies(function (body) return body:isa("Planet") end)
 			local planet = planets[Engine.rand:Integer(1,#planets)]
-			mission.ship:AIFlyTo(planet)
+
+			mission.ship:AIEnterHighOrbit(planet)
 		end
 	end
 end
