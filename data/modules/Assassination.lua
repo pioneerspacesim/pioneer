@@ -1,5 +1,5 @@
 -- don't produce missions for further than this many light years away
-local max_ass_dist = 20
+local max_ass_dist = 30
 
 -- ass flavours indeed ;-)
 local ass_flavours = {
@@ -129,7 +129,7 @@ local makeAdvert = function (station)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-	local time = Engine.rand.Number(0.3, 3)
+	local time = Engine.rand:Number(0.3, 3)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
