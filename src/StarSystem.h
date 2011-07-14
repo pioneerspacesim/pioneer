@@ -149,6 +149,7 @@ public:
 	fixed orbitalOffset;
 	fixed axialTilt; // in radians
 	int averageTemp;
+	bool rings;
 	BodyType type;
 
 	/* composition */

@@ -23,6 +23,7 @@ public:
 	fixed                  eccentricity;
 	fixed                  orbitalOffset;
 	bool                   want_rand_offset;
+	bool                   rings; // rings are always shown
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
 	fixed                  rotationPeriod; // in days
@@ -54,6 +55,7 @@ public:
 	inline CustomSBody* l_latitude(float l) { latitude = l; return this; }
 	inline CustomSBody* l_longitude(float l) { longitude = l; return this; }
 	inline CustomSBody* l_rotation_period(pi_fixed &p) { rotationPeriod = p; return this; }
+	inline CustomSBody* l_rings(bool r) { rings = r; return this; }
 	inline CustomSBody* l_axial_tilt(pi_fixed &t) { axialTilt = t; return this; }
 
 	inline CustomSBody* l_height_map(std::string f) {
@@ -91,6 +93,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(latitude, CustomSBody*, l_latitude, float)
 	OOLUA_MEM_FUNC_1_RENAME(inclination, CustomSBody*, l_latitude, float)  // duplicate, latitude has different meaning for orbiting things
 	OOLUA_MEM_FUNC_1_RENAME(longitude, CustomSBody*, l_longitude, float)
+	OOLUA_MEM_FUNC_1_RENAME(rings, CustomSBody*, l_rings, bool)
 	OOLUA_MEM_FUNC_1_RENAME(rotation_period, CustomSBody*, l_rotation_period, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, CustomSBody*, l_axial_tilt, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(height_map, CustomSBody*, l_height_map, std::string)

@@ -258,7 +258,7 @@ void Planet::DrawGasGiantRings()
 	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
 
 	Render::State::UseProgram(Render::planetRingsShader[Pi::worldView->GetNumLights()-1]);
-	if (rng.Double(1.0) < ggdef.ringProbability) {
+	if ((rng.Double(1.0) < ggdef.ringProbability) || sbody->rings) {
 		float rpos = float(rng.Double(1.15,1.5));
 		float end = rpos + float(rng.Double(0.1, 1.0));
 		end = std::min(end, 2.5f);
