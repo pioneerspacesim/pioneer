@@ -509,6 +509,8 @@ void Ship::Blastoff()
 	// XXX hm. we need to be able to get sbre aabb
 	SetPosition(up*planetRadius - aabb.min.y*up);
 	SetThrusterState(1, 1.0);		// thrust upwards
+
+	Pi::luaOnShipTakeOff.Queue(this, GetFrame()->m_astroBody);
 }
 
 void Ship::TestLanded()
