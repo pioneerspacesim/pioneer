@@ -399,6 +399,29 @@ void LuaEventQueueBase::Emit()
  *   experimental
  *
  *
+ * Event: onShipTakeOff
+ *
+ * Triggered when a ship takes off from a surface
+ * (not from a spaceport).
+ *
+ * > local onBlastOff = function (ship, body) ... end
+ * > EventQueue.onShipTakeOff:Connect(onBlastOff)
+ *
+ * Parameters:
+ *
+ *   ship - the <Ship> that took off
+ *
+ *   body - the <Body> the ship took off from
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   experimental
+ *
+ *
  * Event: onShipAlertChanged
  *
  * Triggered when a ship's alert status changes.
