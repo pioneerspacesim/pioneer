@@ -370,7 +370,7 @@ static const struct StarTypeInfo {
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{2e6,5e6}, {1000,2000},
+		{2e6,5e6}, {10000,20000},
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  //white dwarf
