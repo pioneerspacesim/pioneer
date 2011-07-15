@@ -123,7 +123,33 @@ local makeAdvert = function (station)
 	local isfemale = Engine.rand:Integer(1) == 1
 	local client = NameGen.FullName(isfemale)
 	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local title = { "Admiral", "Senator", "General", "Colonel", "Comandante", "Cardinal", "Professor", "Ambassador", "Judge", "Captain" }
+	local title = { -- just for fun
+		"Admiral",
+		"Ambassador",
+		"Brigadier",
+		"Cadet",
+		"Captain",
+		"Cardinal",
+		"Colonel",
+		"Corporal",
+		"Commandant",
+		"Commodore",
+		"Corporal",
+		"Ensign",
+		"General",
+		"Judge",
+		"Lawyer",
+		"Lieutenant",
+		"Marshal",
+		"Officer",
+		"Private",
+		"Professor",
+		"Provost",
+		"Seaman",
+		"Senator",
+		"Sergeant",
+		"Prosecutor",
+	}
 	local target = title[Engine.rand:Integer(1, #title)] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #ass_flavours)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
@@ -188,8 +214,7 @@ local onShipDestroyed = function (ship, body)
 			   not body:IsPlayer() then
 				mission.status = 'FAILED'
 				mission.notplayer = 'TRUE'
-			else
-				-- well done, comrade
+			else -- well done, comrade
 				mission.status = 'COMPLETED'
 				mission.client = mission.boss
 				mission.location = mission.backstation
