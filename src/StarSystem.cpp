@@ -217,7 +217,7 @@ fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // M WF
 	fixed(8,10), // B WF
 	fixed(6,10), // O WF
-	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :) 
+	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :)
 	fixed(1,1), // "
 	fixed(1,1), // "
 	fixed(5,10), // white dwarf
@@ -225,8 +225,8 @@ fixed StarSystem::starMetallicities[] = {
 
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
-	Sint64 mass[2]; // min,max % sol for stars, unused for planets
-	Sint64 radius[2]; // min,max % sol radii for stars, % earth radii for planets
+	int mass[2]; // min,max % sol for stars, unused for planets
+	int radius[2]; // min,max % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
 	{
@@ -366,11 +366,11 @@ static const struct StarTypeInfo {
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
-		{1e5,2e6}, {200,1000},
+		{9e5,1e6}, {100,500},
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{1e10,5e12}, {10000,20000},
+		{2e6,5e6}, {1000,2000},
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  //white dwarf
