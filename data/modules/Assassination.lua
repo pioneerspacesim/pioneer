@@ -206,8 +206,8 @@ local _setupHooksForMission = function (mission)
 	if mission.ship:exists() and
 	   mission.due > Game.time then
 		-- Target hasn't launched yet. set up a timer to do this
-		Timer:CallAt(mission.due, function () mission.ship:Undock()
-			mission.timer = nil end)
+		Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
+			mission.timer = nil end end)
 		mission.timer = 'SET'
 	end
 end
@@ -229,6 +229,9 @@ local onEnterSystem = function (ship)
 						local laser = lasers[mission.danger]
 
 						mission.ship = Space.SpawnShipDocked(mission.shipname, station)
+						if mission.ship == nil then
+							return -- TODO
+						end
 						mission.ship:SetLabel(mission.shipregid)
 						mission.ship:AddEquip(default_drive)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
@@ -343,8 +346,8 @@ local unserialize = function (data)
 		if mission.ship and
 		   mission.ship:exists() and
 		   mission.timer == 'SET' then
-			Timer:CallAt(mission.due, function () mission.ship:Undock()
-				mission.timer = nil end)
+			Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
+				mission.timer = nil end end)
 		end
 	end
 end
