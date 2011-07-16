@@ -9,6 +9,9 @@ public:
 	StationShipEquipmentForm(FormController *controller);
 
 private:
+	void FitItem(Equip::Type t);
+	void RemoveItem(Equip::Type t);
+
 	SpaceStation *m_station;
 };
 
