@@ -89,6 +89,5 @@ void StationShipMarketForm::UpdateShipList()
 
 void StationShipMarketForm::ViewShip(int num)
 {
-	std::vector<ShipFlavour> &ships = m_station->GetShipsOnSale();
-	m_formController->ActivateForm(new StationShipViewForm(m_formController, ships[num]));
+	m_formController->ActivateForm(new StationShipViewForm(m_formController, num));
 }

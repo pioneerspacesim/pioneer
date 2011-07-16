@@ -2,12 +2,16 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipSpinnerWidget.h"
+#include "ShipCpanel.h"
+#include "FormController.h"
 
-StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour flavour) :
+StationShipViewForm::StationShipViewForm(FormController *controller, int marketIndex) :
 	BlankForm(controller),
-	m_flavour(flavour)
+	m_marketIndex(marketIndex)
 {
 	m_station = Pi::player->GetDockedWith();
+
+	m_flavour = m_station->GetShipsOnSale()[marketIndex];
 
 	const ShipType &type = ShipType::types[m_flavour.type];
 
@@ -105,9 +109,30 @@ StationShipViewForm::StationShipViewForm(FormController *controller, ShipFlavour
 	buttonBox->SetSpacing(5.0f);
 
 	Gui::SolidButton *b = new Gui::SolidButton();
+	b->onClick.connect(sigc::mem_fun(this, &StationShipViewForm::BuyShip));
 	buttonBox->PackEnd(b);
-
 	buttonBox->PackEnd(new Gui::Label("Buy this ship"));
-
 	Add(buttonBox, 650, 30);
+}
+
+void StationShipViewForm::BuyShip()
+{
+	Sint64 cost = m_flavour.price - Pi::player->GetFlavour()->price;
+	if (Pi::player->GetMoney() < cost) {
+		Pi::cpan->MsgLog()->Message("", "You do not have enough money");
+		return;
+	}
+
+	ShipFlavour old = *(Pi::player->GetFlavour());
+
+	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
+	Pi::player->ResetFlavour(&m_flavour);
+	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.type].hyperdrive);
+	Pi::player->UpdateMass();
+
+	m_station->ReplaceShipOnSale(m_marketIndex, &old);
+
+    Pi::cpan->MsgLog()->Message("", "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.");
+
+    m_formController->CloseForm();
 }

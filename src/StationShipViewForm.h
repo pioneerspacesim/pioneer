@@ -8,10 +8,14 @@
 
 class StationShipViewForm : public BlankForm {
 public:
-	StationShipViewForm(FormController *controller, ShipFlavour ship);
+	StationShipViewForm(FormController *controller, int marketIndex);
 
 private:
+	void BuyShip();
+
 	SpaceStation *m_station;
+
+	int m_marketIndex;
 	ShipFlavour m_flavour;
 };
 
