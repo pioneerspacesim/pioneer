@@ -46,23 +46,24 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 				275, num*YSEP);
 		
 		innerbox->Add(new Gui::Label(stringf(64, "%dt", EquipType::types[i].mass)), 360, num*YSEP);
+
+		ButtonPair pair;
+		pair.type = type;
 		
-		Gui::Button *b;
-		b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipEquipmentForm::FitItem), type));
-		innerbox->Add(b, 400, num*YSEP);
-		// only have remove button if we have this item installed
-		if (Pi::player->m_equipment.Count(EquipType::types[i].slot, type )) {
-			b = new Gui::SolidButton();
-			innerbox->Add(b, 420, num*YSEP);
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipEquipmentForm::RemoveItem), type));
-		}
+		pair.add = new Gui::SolidButton();
+		pair.add->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipEquipmentForm::FitItem), type));
+		innerbox->Add(pair.add, 400, num*YSEP);
+
+		pair.remove = new Gui::SolidButton();
+		pair.remove->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipEquipmentForm::RemoveItem), type));
+		innerbox->Add(pair.remove, 420, num*YSEP);
+
+		m_buttons.push_back(pair);
+
 		num++;
 	}
-	innerbox->ShowAll();
 
 	portal->Add(innerbox);
-	portal->ShowAll();
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
 	const float *col = Gui::Theme::Colors::tableHeading;
@@ -80,10 +81,31 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 	outerbox->PackEnd(body);
 
 	outerbox->SetSpacing(YSEP-Gui::Screen::GetFontHeight());
-	outerbox->ShowAll();
-
 	Add(outerbox, 0, 0);
-	ShowAll();
+
+}
+
+void StationShipEquipmentForm::ShowAll()
+{
+	FaceForm::ShowAll();
+	RecalcButtonVisibility();
+}
+
+void StationShipEquipmentForm::RecalcButtonVisibility()
+{
+	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); i++) {
+		Equip::Slot slot = EquipType::types[(*i).type].slot;
+
+		if (Pi::player->m_equipment.FreeSpace(slot))
+			(*i).add->Show();
+		else
+			(*i).add->Hide();
+
+		if (Pi::player->m_equipment.Count(slot, (*i).type))
+			(*i).remove->Show();
+		else
+			(*i).remove->Hide();
+	}
 }
 
 void StationShipEquipmentForm::FitItem(Equip::Type t) {
@@ -112,6 +134,8 @@ void StationShipEquipmentForm::FitItem(Equip::Type t) {
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
 	Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
+
+	RecalcButtonVisibility();
 }
 
 void StationShipEquipmentForm::RemoveItem(Equip::Type t) {
@@ -133,4 +157,6 @@ void StationShipEquipmentForm::RemoveItem(Equip::Type t) {
 	Pi::player->SetMoney(Pi::player->GetMoney() + value);
 	m_station->AddEquipmentStock(t, 1);
 	Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[t].name));
+
+	RecalcButtonVisibility();
 }
