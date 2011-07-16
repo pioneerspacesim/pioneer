@@ -22,6 +22,7 @@ Alpha 13
       Sol (#269)
     * All sounds effects now honour the sound effects volume slider (#256, #280)
     * Don't play ambient sounds if sound is disabled (#286)
+    * Fix supermassive black hole mass & radius (#303, #112)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
