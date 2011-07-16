@@ -23,6 +23,8 @@ Alpha 13
     * All sounds effects now honour the sound effects volume slider (#256, #280)
     * Don't play ambient sounds if sound is disabled (#286)
     * Fix supermassive black hole mass & radius (#303, #112)
+    * Reorder the star type list such that white dwarf stars will only ever be
+      paired with white and brown dwarfs (#304)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
