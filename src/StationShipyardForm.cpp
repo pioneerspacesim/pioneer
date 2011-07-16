@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
+#include "StationShipEquipmentForm.h"
 #include "StationShipMarketForm.h"
 
 StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(controller)
@@ -33,6 +34,7 @@ StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(
 
 void StationShipyardForm::EquipmentMarket()
 {
+    m_formController->ActivateForm(new StationShipEquipmentForm(m_formController));
 }
 
 void StationShipyardForm::Servicing()

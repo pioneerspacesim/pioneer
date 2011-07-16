@@ -97,6 +97,7 @@ noinst_HEADERS = \
 	StationCommodityMarketForm.h \
 	StationPoliceForm.h \
 	StationServicesForm.h \
+	StationShipEquipmentForm.h \
 	StationShipMarketForm.h \
 	StationShipViewForm.h \
 	StationShipyardForm.h \
@@ -216,6 +217,7 @@ pioneer_SOURCES	= \
 	StationCommodityMarketForm.cpp \
 	StationPoliceForm.cpp \
 	StationServicesForm.cpp \
+	StationShipEquipmentForm.cpp \
 	StationShipMarketForm.cpp \
 	StationShipViewForm.cpp \
 	StationShipyardForm.cpp \
