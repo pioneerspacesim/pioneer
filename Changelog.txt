@@ -25,6 +25,8 @@ Alpha 13
     * Fix supermassive black hole mass & radius (#303, #112)
     * Reorder the star type list such that white dwarf stars will only ever be
       paired with white and brown dwarfs (#304)
+    * Lua methods Ship.GetEquip and Ship.CanHyperspaceTo now return string
+      constants as documented (#305)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
