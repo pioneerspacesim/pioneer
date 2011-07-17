@@ -730,7 +730,7 @@ static int l_ship_fire_missile_at(lua_State *l)
  *
  * Determine is a ship is able to hyperspace to a given system
  *
- * > status = ship:CanHyperspaceTo(path)
+ * > status, fuel, duration = ship:CanHyperspaceTo(path)
  *
  * The result is based on distance, range, available fuel, ship mass and other
  * factors.
@@ -743,6 +743,12 @@ static int l_ship_fire_missile_at(lua_State *l)
  *
  *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
  *            hyperspace and if not, describes the reason
+ *
+ *   fuel - if status is 'OK', contains the amount of fuel required to make
+ *          the jump (tonnes)
+ *
+ *   duration - if status is 'OK', contains the time that the jump will take
+ *				(seconds)
  *
  * Availability:
  *
@@ -762,7 +768,7 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 	Ship::HyperjumpStatus status;
 
 	if (s->CanHyperspaceTo(dest, fuel, duration, &status)) {
-		lua_pushinteger(l, status);
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
