@@ -99,11 +99,6 @@ void SpaceStationView::Update()
 		m_statusBox->Show();
 }
 
-void SpaceStationView::Draw3D()
-{
-	onDraw3D.emit();
-}
-
 void SpaceStationView::OnSwitchTo()
 {
 	if (m_videoLink) {

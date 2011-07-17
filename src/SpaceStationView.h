@@ -13,7 +13,7 @@ public:
 	SpaceStationView();
 	virtual ~SpaceStationView();
 	virtual void Update();
-	virtual void Draw3D();
+	virtual void Draw3D() {}
 	virtual void OnSwitchTo();
 
 private:
@@ -38,9 +38,6 @@ private:
 	Gui::HBox *m_backButtonBox;
 
 	FaceVideoLink *m_videoLink;
-
-	// hack so StationViewShipView can draw its 3d shit
-	sigc::signal<void> onDraw3D;
 };
 
 #endif /* _SPACESTATIONVIEW_H */
