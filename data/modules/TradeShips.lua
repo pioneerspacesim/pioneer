@@ -3,7 +3,7 @@
 
 local max_trader_dist = 20 -- don't produce clouds for further than this many light years away
 local max_trader_pick_dist = 12 -- max distance in light years that trader can pick
-local min_trader_hull_mass = 50
+local min_trader_hull_mass = 55
 
 local min_wait = 2*60*60
 local max_wait = 21*60*60
@@ -11,6 +11,37 @@ local max_wait = 21*60*60
 local traders = {}
 
 local traders_count = 0
+
+-- poor trader never get any money
+local _add_items = function (trader, factor)
+	local capacity = trader.ship:GetEquipFree('CARGO')
+	if capacity == 0 then print(trader.ship.label .. " CARGO full") return end
+	local base_price_alterations = Game.system:GetCommodityBasePriceAlterations()
+
+	for k,v in pairs(base_price_alterations) do
+		if (v * factor) > 5 then
+			if Game.system:IsCommodityLegal(k) then
+				local count = trader.ship:AddEquip(k, Engine.rand:Integer(v, v*v))
+
+				capacity = capacity - count
+				print(trader.ship.label .. " got " .. count .. "t of " .. k)
+			end
+		end
+		if capacity < 1 then
+			print(trader.ship.label .. " CARGO full")
+			return
+		end
+	end
+
+end
+
+local _remove_items = function (trader)
+	local equiplist = trader.ship:GetEquip('CARGO')
+
+	for i = 1,#equiplist do
+		trader.ship:RemoveEquip(equiplist[i], 100)
+	end
+end
 
 local _random_station = function ()
 	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
@@ -59,14 +90,47 @@ local _equip_trader = function (trader)
 	local default_drive = shiptype.defaultHyperdrive
 
 	trader.ship:AddEquip(default_drive)
+	trader.ship:AddEquip('CARGO_LIFE_SUPPORT')
 	trader.ship:AddEquip('SHIELD_GENERATOR', Engine.rand:Integer(1, 2))
+end
+
+local _set_timer = function (trader)
+	if trader.state == 'DOCKED' then
+		Timer:CallAt(trader.due, function ()
+			if trader.ship and trader.ship:exists() then
+				trader.state = 'INBOUND'
+				trader.ship:Undock()
+			end
+		end)
+	elseif trader.state == 'PARKED' then
+		local station = _random_station()
+		if station == nil then return end
+
+		Timer:CallAt(trader.due, function ()
+			if trader.ship and trader.ship:exists() then
+				trader.ship:AIDockWith(station)
+			end
+		end)
+	elseif trader.state == 'CLOUD' then
+		local station = _random_station()
+		if station == nil then return end
+
+		Timer:CallAt(trader.due, function ()
+			if trader.ship and trader.ship:exists() then
+				_equip_trader(trader)
+				_add_items(trader, 1)
+				trader.state = 'INBOUND'
+				trader.ship:AIDockWith(station)
+			end
+		end)
+	end
 end
 
 local _insert_trader = function (ship, shipname, state, due)
 	local trader = {
 		ship		= ship,
 		shipname	= shipname,
-		state		= state, -- 'INBOUND', 'DOCKED', 'HYPERSPACE', 'FLEEING', 'COWERING', 'CLOUD'
+		state		= state, -- 'INBOUND', 'DOCKED', 'HYPERSPACE', 'FLEEING', 'COWERING', 'CLOUD', 'PARKED'
 		due		= due,
 		dest		= nil,
 	}
@@ -92,7 +156,7 @@ local _add_trader = function (state)
 		local ship = Space.SpawnShipDocked(shipname, station)
 		if ship == nil then
 			ship = Space.SpawnShipParked(shipname, station)
-			state = 'INBOUND'
+			state = 'PARKED'
 		end
 		if ship == nil then
 			return
@@ -101,16 +165,8 @@ local _add_trader = function (state)
 		local trader = _insert_trader(ship, shipname, state, due)
 		_equip_trader(trader)
 		_pick_dest(trader)
-
-		Timer:CallAt(due, function ()
-			if ship and ship:exists() then
-				if ship:GetDockedWith() then
-					ship:Undock()
-				else
-					ship:AIDockWith(station)
-				end
-			end
-		end)
+		_add_items(trader, -1)
+		_set_timer(trader)
 	elseif state == 'CLOUD' then
 		local nearbysystems = Game.system:GetNearbySystems(max_trader_dist,
 			function (s)
@@ -122,18 +178,13 @@ local _add_trader = function (state)
 		local ship = Space.SpawnShip(shipname, 8, 14, {nearbysystem.path, due})
 		local trader = _insert_trader(ship, shipname, state, due)
 
-		Timer:CallAt(due, function ()
-			if ship and ship:exists() then
-				_equip_trader(trader)
-				trader.state = 'INBOUND'
-				ship:AIDockWith(station)
-			end
-		end)
+		_set_timer(trader)
 	elseif state == 'INBOUND' then
 		local ship = Space.SpawnShip(shipname, 3, 10)
 		local trader = _insert_trader(ship, shipname, state, due)
 
 		_equip_trader(trader)
+		_add_items(trader, 1)
 		ship:AIDockWith(station)
 	end
 end
@@ -196,13 +247,10 @@ local onShipDocked = function (ship, station)
 				trader.due = due
 				trader.state = 'DOCKED'
 				print(ship.label .. " docked")
+				_remove_items(trader)
 				_pick_dest(trader)
-				Timer:CallAt(trader.due, function ()
-					if ship and ship:exists() then
-						trader.state = 'INBOUND'
-						ship:Undock()
-					end
-				end)
+				_add_items(trader, -1)
+				_set_timer(trader)
 			end
 			return
 		end
@@ -216,11 +264,14 @@ local onShipUndocked = function (ship, station)
 		if trader.ship == ship then
 			if trader.dest then
 				if ship:HyperspaceTo(trader.dest) == 'OK' then
-					print(ship.label .. " hyperspacing...")
+					print(ship.label .. " hyperspace")
 					trader.state = 'HYPERSPACE'
 					return
 				end
+				print(ship.label .. " failed to hyperspace")
+				return
 			end
+			print(ship.label .. " no hyperspace destination")
 			ship:AIFlyTo(_random_station())
 			return
 		end
@@ -339,21 +390,7 @@ local unserialize = function (data)
 	loaded_data = data
 
 	for k,trader in pairs(loaded_data.traders) do
-		local ship = trader.ship
-
-		if trader.state == 'DOCKED' then
-			Timer:CallAt(trader.due, function ()
-				if ship and ship:exists() then
-					ship:Undock()
-				end
-			end)
-		elseif trader.state == 'CLOUD' then
-			Timer:CallAt(trader.due, function ()
-				if ship and ship:exists() then
-					ship:AIDockWith(_random_station())
-				end
-			end)
-		end
+		_set_timer(trader)
 	end
 end
 
