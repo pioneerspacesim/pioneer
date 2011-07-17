@@ -9,7 +9,7 @@ public:
 
 private:
     void EquipmentMarket();
-    void Servicing();
+    void Repairs();
     void ShipMarket();
 };
 

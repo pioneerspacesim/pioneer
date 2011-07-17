@@ -5,6 +5,7 @@
 #include "SpaceStationView.h"
 #include "StationShipEquipmentForm.h"
 #include "StationShipMarketForm.h"
+#include "StationShipRepairForm.h"
 
 StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(controller)
 {
@@ -19,7 +20,7 @@ StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
-	b->onClick.connect(sigc::mem_fun(this, &StationShipyardForm::Servicing));
+	b->onClick.connect(sigc::mem_fun(this, &StationShipyardForm::Repairs));
 	Add(b, 30, 200);
 	l = new Gui::Label("Repairs and servicing");
 	Add(l, 55, 200);
@@ -37,8 +38,9 @@ void StationShipyardForm::EquipmentMarket()
     m_formController->ActivateForm(new StationShipEquipmentForm(m_formController));
 }
 
-void StationShipyardForm::Servicing()
+void StationShipyardForm::Repairs()
 {
+    m_formController->ActivateForm(new StationShipRepairForm(m_formController));
 }
 
 void StationShipyardForm::ShipMarket()
