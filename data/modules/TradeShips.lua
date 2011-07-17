@@ -1,8 +1,8 @@
 -- TODO: Add event for clouds that are gone
 --	 saving while hyperspacing is not going to work
 
--- don't produce clouds for further than this many light years away
-local max_trader_dist = 20
+local max_trader_dist = 20 -- don't produce clouds for further than this many light years away
+local max_trader_pick_dist = 12 -- max distance in light years that trader can pick
 local min_trader_hull_mass = 50
 
 local min_wait = 2*60*60
@@ -12,32 +12,35 @@ local traders = {}
 
 local traders_count = 0
 
+local _random_station = function ()
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+	if #stations == 0 then return nil end
+
+	return stations[Engine.rand:Integer(1,#stations)]
+end
+
 local _pick_dest = function (trader)
 	local ship = trader.ship
 	local stats = ship:GetStats()
 	local engine = ship:GetEquip('ENGINE', 0)
-	local hyperclass = 1
-	if engine == 'DRIVE_CLASS2' then
-		hyperclass = 2
-	elseif engine == 'DRIVE_CLASS3' then
-		hyperclass = 3
-	elseif engine == 'DRIVE_CLASS4' then
-		hyperclass = 4
-	elseif engine == 'DRIVE_CLASS5' then
-		hyperclass = 5
-	elseif engine == 'DRIVE_CLASS6' then
-		hyperclass = 6
-	elseif engine == 'DRIVE_CLASS7' then
-		hyperclass = 7
-	elseif engine == 'DRIVE_CLASS8' then
-		hyperclass = 8
-	elseif engine == 'DRIVE_CLASS9' then
-		hyperclass = 9
-	end
-	local fuel = math.ceil(hyperclass*hyperclass * 12 / stats.maxHyperspaceRange)
+	local hyperclass = 0
+	if engine == 'DRIVE_CLASS1' then hyperclass = 1
+	elseif engine == 'DRIVE_CLASS2' then hyperclass = 2
+	elseif engine == 'DRIVE_CLASS3' then hyperclass = 3
+	elseif engine == 'DRIVE_CLASS4' then hyperclass = 4
+	elseif engine == 'DRIVE_CLASS5' then hyperclass = 5
+	elseif engine == 'DRIVE_CLASS6' then hyperclass = 6
+	elseif engine == 'DRIVE_CLASS7' then hyperclass = 7
+	elseif engine == 'DRIVE_CLASS8' then hyperclass = 8
+	elseif engine == 'DRIVE_CLASS9' then hyperclass = 9
+	elseif engine == 'DRIVE_MIL1' then hyperclass = 1
+	elseif engine == 'DRIVE_MIL2' then hyperclass = 2
+	elseif engine == 'DRIVE_MIL3' then hyperclass = 3
+	elseif engine == 'DRIVE_MIL4' then hyperclass = 4 end
+	local fuel = math.ceil(hyperclass*hyperclass * max_trader_pick_dist / stats.maxHyperspaceRange)
 	ship:AddEquip('HYDROGEN', fuel)
 
-	local nearbysystems = Game.system:GetNearbySystems(12,
+	local nearbysystems = Game.system:GetNearbySystems(max_trader_pick_dist,
 		function (s)
 			return ((#s:GetStationPaths() > 0) and ship:CanHyperspaceTo(s.path) == 'OK')
 		end)
@@ -78,10 +81,7 @@ end
 local _add_trader = function (state)
 	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= min_trader_hull_mass end)
 	if #shiptypes == 0 then return end
-	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
-	if #stations == 0 then return end
-
-	local station = stations[Engine.rand:Integer(1,#stations)]
+	local station = _random_station()
 	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 	local due = Game.time + Engine.rand:Integer(min_wait, max_wait)
 
@@ -215,22 +215,22 @@ local onShipUndocked = function (ship, station)
 	for ref, trader in pairs(traders) do
 		if trader.ship == ship then
 			if trader.dest then
-				trader.state = 'HYPERSPACE'
 				if ship:HyperspaceTo(trader.dest) == 'OK' then
 					print(ship.label .. " hyperspacing...")
 					trader.state = 'HYPERSPACE'
 					return
 				end
 			end
-			ship:AIFlyTo(station)
+			ship:AIFlyTo(_random_station())
 			return
 		end
 	end
 end
 
 local _populate_system = function ()
-	local lawlessness = Game.system.lawlessness
 	local population = Game.system.population
+	if population == 0 then return end -- no point trading with an empty system
+	local lawlessness = Game.system.lawlessness
 
 	--[[
 	traders will be attracted by:
@@ -242,9 +242,6 @@ local _populate_system = function ()
 	 - high lawlessness (getting all shot up is bad for business)
 	 - small populations (less people to buy stuff)
 	]]
-
-	-- no point trading with an empty system
-	if population == 0 then return end
 
 	-- start with one ship per half-billion population
 	local num_trade_ships = population*2
@@ -353,7 +350,7 @@ local unserialize = function (data)
 		elseif trader.state == 'CLOUD' then
 			Timer:CallAt(trader.due, function ()
 				if ship and ship:exists() then
-					ship:AIDockWith(station)
+					ship:AIDockWith(_random_station())
 				end
 			end)
 		end
