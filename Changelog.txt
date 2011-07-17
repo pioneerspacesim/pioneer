@@ -13,7 +13,8 @@ Alpha 13
       materials (#291)
     * Mute buttons for each volume setting that actually stop the sounds
       instead of just playing them quietly (#284, #270)
-    * New Lua event onLanded to inform scripts when a ship rough lands (#295)
+    * New Lua events onShipLanded and onShipTakeOff to inform scripts when a
+      ship lands and takes off from a planet's surface (rough landing) (#295, #297)
 
   * Fixes
     * Move sector view to current system on first open (#262)
@@ -21,6 +22,11 @@ Alpha 13
       Sol (#269)
     * All sounds effects now honour the sound effects volume slider (#256, #280)
     * Don't play ambient sounds if sound is disabled (#286)
+    * Fix supermassive black hole mass & radius (#303, #112)
+    * Reorder the star type list such that white dwarf stars will only ever be
+      paired with white and brown dwarfs (#304)
+    * Lua methods Ship.GetEquip and Ship.CanHyperspaceTo now return string
+      constants as documented (#305)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
