@@ -8,6 +8,20 @@
 
 #define REMOVAL_VALUE_PERCENT 90
 
+
+class PickLaserMountForm : public FaceForm {
+public:
+	PickLaserMountForm(FormController *controller, StationShipEquipmentForm *equipForm, Equip::Type equipType, bool doFit);
+
+private:
+	void PickMount(int i);
+
+	StationShipEquipmentForm *m_equipForm;
+	Equip::Type m_equipType;
+	bool m_doFit;
+};
+
+
 StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) : FaceForm(controller)
 {
 	m_station = Pi::player->GetDockedWith();
@@ -108,7 +122,8 @@ void StationShipEquipmentForm::RecalcButtonVisibility()
 	}
 }
 
-void StationShipEquipmentForm::FitItem(Equip::Type t) {
+void StationShipEquipmentForm::FitItem(Equip::Type t)
+{
 	Equip::Slot slot = EquipType::types[t].slot;
 
 	const shipstats_t *stats = Pi::player->CalcStats();
@@ -124,20 +139,15 @@ void StationShipEquipmentForm::FitItem(Equip::Type t) {
 		return;
 	}
 
-	if (slot == Equip::SLOT_LASER) {
+	if (freespace > 1 && slot == Equip::SLOT_LASER) {
 		/* you have a choice of mount points for lasers */
-		//OpenChildChatForm(new StationLaserPickMount(t, true));
+		m_formController->ActivateForm(new PickLaserMountForm(m_formController, this, t, true));
 		return;
 	}
-	
-	Pi::player->m_equipment.Add(t);
-	Pi::player->UpdateMass();
-	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
-	Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
 
-	RecalcButtonVisibility();
+	FitItemForce(t);
 }
-
+	
 void StationShipEquipmentForm::RemoveItem(Equip::Type t) {
 	Equip::Slot slot = EquipType::types[t].slot;
 
@@ -145,18 +155,84 @@ void StationShipEquipmentForm::RemoveItem(Equip::Type t) {
 	if (!num)
 		return;
 
-	Sint64 value = m_station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100;
 	if (num > 1 && slot == Equip::SLOT_LASER) {
 		/* you have a choice of mount points for lasers */
-		//OpenChildChatForm(new StationLaserPickMount(t, false));
+		m_formController->ActivateForm(new PickLaserMountForm(m_formController, this, t, false));
 		return;
 	}
 
-	Pi::player->m_equipment.Remove(t, 1);
+	RemoveItemForce(t);
+}
+
+void StationShipEquipmentForm::FitItemForce(Equip::Type t, int pos) {
+	if (pos < 0)
+		Pi::player->m_equipment.Add(t);
+	else
+		Pi::player->m_equipment.Set(EquipType::types[t].slot, pos, t);
+
 	Pi::player->UpdateMass();
-	Pi::player->SetMoney(Pi::player->GetMoney() + value);
+	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
+	Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
+
+	RecalcButtonVisibility();
+}
+
+void StationShipEquipmentForm::RemoveItemForce(Equip::Type t, int pos) {
+	if (pos < 0)
+		Pi::player->m_equipment.Remove(t, 1);
+	else
+		Pi::player->m_equipment.Set(EquipType::types[t].slot, pos, Equip::NONE);
+
+	Pi::player->UpdateMass();
+	Pi::player->SetMoney(Pi::player->GetMoney() + m_station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100);
 	m_station->AddEquipmentStock(t, 1);
 	Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[t].name));
 
 	RecalcButtonVisibility();
+}
+
+
+
+PickLaserMountForm::PickLaserMountForm(FormController *controller, StationShipEquipmentForm *equipForm, Equip::Type equipType, bool doFit) :
+	FaceForm(controller),
+	m_equipForm(equipForm),
+	m_equipType(equipType),
+	m_doFit(doFit)
+{
+	Gui::VBox *layoutBox = new Gui::VBox();
+	layoutBox->SetSpacing(10.0f);
+
+	if (m_doFit)
+		layoutBox->PackEnd(new Gui::Label("Fit laser to which gun mount?"));
+	else
+		layoutBox->PackEnd(new Gui::Label("Remove laser from which gun mount?"));
+
+	Equip::Slot slot = EquipType::types[m_equipType].slot;
+
+	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
+		if (m_doFit && (Pi::player->m_equipment.Get(slot, i) != Equip::NONE)) continue;
+		if ((!m_doFit) && (Pi::player->m_equipment.Get(slot, i) != m_equipType)) continue;
+
+		Gui::HBox *buttonBox = new Gui::HBox();
+		buttonBox->SetSpacing(5.0f);
+
+		Gui::Button *b = new Gui::SolidButton();
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &PickLaserMountForm::PickMount), i));
+		buttonBox->PackEnd(b);
+		buttonBox->PackEnd(new Gui::Label(ShipType::gunmountNames[i]));
+
+		layoutBox->PackEnd(buttonBox);
+	}
+
+	Add(layoutBox, 0, 100);
+}
+
+void PickLaserMountForm::PickMount(int i)
+{
+	if (m_doFit)
+		m_equipForm->FitItemForce(m_equipType, i);
+	else
+		m_equipForm->RemoveItemForce(m_equipType, i);
+
+	m_formController->CloseForm();
 }

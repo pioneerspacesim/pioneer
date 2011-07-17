@@ -4,7 +4,11 @@
 #include "Form.h"
 #include "SpaceStation.h"
 
+class PickLaserMountForm;
+
 class StationShipEquipmentForm : public FaceForm {
+	friend class PickLaserMountForm;
+
 public:
 	StationShipEquipmentForm(FormController *controller);
 
@@ -13,6 +17,9 @@ public:
 private:
 	void FitItem(Equip::Type t);
 	void RemoveItem(Equip::Type t);
+
+	void FitItemForce(Equip::Type t, int pos = -1);
+	void RemoveItemForce(Equip::Type t, int pos = -1);
 
 	void RecalcButtonVisibility();
 
