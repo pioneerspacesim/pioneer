@@ -364,7 +364,7 @@ static int l_ship_get_equip(lua_State *l)
 	
 	if (lua_isnumber(l, 3)) {
 		int idx = lua_tonumber(l, 3);
-		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
 		return 1;
 	}
 
@@ -373,7 +373,7 @@ static int l_ship_get_equip(lua_State *l)
 
 	for (int idx = 0; idx < size; idx++) {
 		lua_pushinteger(l, idx+1);
-		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
 		lua_rawset(l, -3);
 	}
 
