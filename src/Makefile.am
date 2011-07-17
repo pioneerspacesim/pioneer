@@ -8,7 +8,6 @@ noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
 	Background.h \
-	BBAdvertChatForm.h \
 	BezierCurve.h \
 	Body.h \
 	BufferObject.h \
@@ -31,7 +30,6 @@ noinst_HEADERS = \
 	GalacticView.h \
 	Galaxy.h \
 	GameMenuView.h \
-	GenericChatForm.h \
 	GeoSphere.h \
 	GeoSphereStyle.h \
 	HyperspaceCloud.h \
@@ -81,7 +79,6 @@ noinst_HEADERS = \
 	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
-	PoliceChatForm.h \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
@@ -139,7 +136,6 @@ noinst_HEADERS = \
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
 	Background.cpp \
-	BBAdvertChatForm.cpp \
 	Body.cpp \
 	CargoBody.cpp \
 	ChatForm.cpp \
@@ -157,7 +153,6 @@ pioneer_SOURCES	= \
 	GalacticView.cpp \
 	Galaxy.cpp \
 	GameMenuView.cpp \
-	GenericChatForm.cpp \
 	GeoSphere.cpp \
 	GeoSphereStyle.cpp \
 	HyperspaceCloud.cpp \
@@ -205,7 +200,6 @@ pioneer_SOURCES	= \
 	PiLuaClasses.cpp \
 	Planet.cpp \
 	Player.cpp \
-	PoliceChatForm.cpp \
 	Polit.cpp \
 	Projectile.cpp \
 	Render.cpp \
