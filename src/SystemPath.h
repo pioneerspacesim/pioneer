@@ -20,6 +20,7 @@ public:
 
 	Sint32 sectorX;
 	Sint32 sectorY;
+	Sint32 sectorZ;
 	Uint32 systemIndex;
 	Uint32 bodyIndex;
 

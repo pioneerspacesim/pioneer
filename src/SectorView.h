@@ -23,11 +23,11 @@ public:
 	virtual void Load(Serializer::Reader &rd);
 	virtual void OnSwitchTo();
 private:
-	void DrawSector(int x, int y);
+	void DrawSector(int x, int y, int z);
 	void PutClickableLabel(std::string &text, const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
 	void MouseButtonDown(int button, int x, int y);
-	Sector* GetCached(int sectorX, int sectorY);
+	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
 	void ShrinkCache();
 
 	float m_zoom;
@@ -35,9 +35,9 @@ private:
 	bool m_firstTime;
 	SystemPath m_selected;
 
-	float m_px, m_py;
+	vector3f m_pos;
+	vector3f m_posMovingTo;
 	float m_rot_x, m_rot_z;
-	float m_pxMovingTo, m_pyMovingTo;
 	Gui::Label *m_infoLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;

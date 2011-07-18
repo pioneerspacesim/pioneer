@@ -13,7 +13,7 @@ SectorView::SectorView() :
 	m_firstTime(true)
 {
 	SetTransparency(true);
-	m_px = m_py = m_pxMovingTo = m_pyMovingTo = 0.5;
+	m_pos = m_posMovingTo = vector3f(0.5f);
 	m_rot_x = m_rot_z = 0;
 	m_zoom = 1.2;
 
@@ -68,8 +68,9 @@ void SectorView::Save(Serializer::Writer &wr)
 {
 	wr.Float(m_zoom);
 	m_selected.Serialize(wr);
-	wr.Float(m_px);
-	wr.Float(m_py);
+	wr.Float(m_pos.x);
+	wr.Float(m_pos.y);
+	wr.Float(m_pos.z);
 	wr.Float(m_rot_x);
 	wr.Float(m_rot_z);
 }
@@ -78,8 +79,9 @@ void SectorView::Load(Serializer::Reader &rd)
 {
 	m_zoom = rd.Float();
 	m_selected = SystemPath::Unserialize(rd);
-	m_px = m_pxMovingTo = rd.Float();
-	m_py = m_pyMovingTo = rd.Float();
+	m_pos.x = m_posMovingTo.x = rd.Float();
+	m_pos.y = m_posMovingTo.y = rd.Float();
+	m_pos.z = m_posMovingTo.z = rd.Float();
 	m_rot_x = rd.Float();
 	m_rot_z = rd.Float();
 }
@@ -111,20 +113,22 @@ void SectorView::Draw3D()
 	glTranslatef(0, 0, -10-10*m_zoom);
 	glRotatef(m_rot_x, 1, 0, 0);
 	glRotatef(m_rot_z, 0, 0, 1);
-	glTranslatef(-FFRAC(m_px)*Sector::SIZE, -FFRAC(m_py)*Sector::SIZE, 0);
+	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	glDisable(GL_LIGHTING);
-	glEnable(GL_FOG);
+	/*glEnable(GL_FOG);
 	glFogi(GL_FOG_MODE, GL_EXP2);
 	glFogfv(GL_FOG_COLOR, fogColor);
 	glFogf(GL_FOG_DENSITY, fogDensity);
 	glHint(GL_FOG_HINT, GL_NICEST);
-
+*/
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
-			glPushMatrix();
-			glTranslatef(sx*Sector::SIZE, sy*Sector::SIZE, 0);
-			DrawSector(m_selected.sectorX+sx, m_selected.sectorY+sy);
-			glPopMatrix();
+			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
+				glPushMatrix();
+				glTranslatef(sx*Sector::SIZE, sy*Sector::SIZE, sz*Sector::SIZE);
+				DrawSector(m_selected.sectorX+sx, m_selected.sectorY+sy, m_selected.sectorZ+sz);
+				glPopMatrix();
+			}
 		}
 	}
 
@@ -134,17 +138,16 @@ void SectorView::Draw3D()
 
 void SectorView::GotoSystem(const SystemPath &path)
 {
-	Sector* ps = GetCached(path.sectorX, path.sectorY);
+	Sector* ps = GetCached(path.sectorX, path.sectorY, path.sectorZ);
 	const vector3f &p = ps->m_systems[path.systemIndex].p;
-	m_pxMovingTo = path.sectorX + p.x/Sector::SIZE;
-	m_pyMovingTo = path.sectorY + p.y/Sector::SIZE;
+	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
+	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 }
 
 void SectorView::WarpToSystem(const SystemPath &path)
 {
 	GotoSystem(path);
-	m_px = m_pxMovingTo;
-	m_py = m_pyMovingTo;
+	m_pos = m_posMovingTo;
 }
 
 void SectorView::OnClickSystem(const SystemPath &path)
@@ -162,16 +165,35 @@ void SectorView::PutClickableLabel(std::string &text, const SystemPath &path)
 	Gui::Screen::LeaveOrtho();
 }
 
-void SectorView::DrawSector(int sx, int sy)
+void SectorView::DrawSector(int sx, int sy, int sz)
 {
 	SystemPath playerLoc = Pi::currentSystem->GetPath();
-	Sector* ps = GetCached(sx, sy);
+	Sector* ps = GetCached(sx, sy, sz);
 	glColor3f(0,.8,0);
 	glBegin(GL_LINE_LOOP);
 		glVertex3f(0, 0, 0);
 		glVertex3f(0, Sector::SIZE, 0);
 		glVertex3f(Sector::SIZE, Sector::SIZE, 0);
 		glVertex3f(Sector::SIZE, 0, 0);
+	glEnd();
+	glBegin(GL_LINE_LOOP);
+		glVertex3f(0, 0, Sector::SIZE);
+		glVertex3f(0, Sector::SIZE, Sector::SIZE);
+		glVertex3f(Sector::SIZE, Sector::SIZE, Sector::SIZE);
+		glVertex3f(Sector::SIZE, 0, Sector::SIZE);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 0, Sector::SIZE);
+
+		glVertex3f(0, Sector::SIZE, 0);
+		glVertex3f(0, Sector::SIZE, Sector::SIZE);
+
+		glVertex3f(Sector::SIZE, Sector::SIZE, 0);
+		glVertex3f(Sector::SIZE, Sector::SIZE, Sector::SIZE);
+
+		glVertex3f(Sector::SIZE, 0, 0);
+		glVertex3f(Sector::SIZE, 0, Sector::SIZE);
 	glEnd();
 	
 	if (!(sx || sy)) glColor3f(1,1,0);
@@ -196,10 +218,12 @@ void SectorView::DrawSector(int sx, int sy)
 		glScalef(2,2,2);
 
 		// only do this once we've pretty much stopped moving.
-		float diffx = fabs(m_pxMovingTo - m_px);
-		float diffy = fabs(m_pyMovingTo - m_py);
+		vector3f diff = vector3f(
+				fabs(m_posMovingTo.x - m_pos.x),
+				fabs(m_posMovingTo.y - m_pos.y),
+				fabs(m_posMovingTo.z - m_pos.z));
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-		if( !(*i).IsSetInhabited() && diffx < 0.001f && diffy < 0.001f ) {
+		if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f ) {
 			StarSystem* pSS = StarSystem::GetCached(SystemPath(sx, sy, num));
 			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
 			{
@@ -248,7 +272,8 @@ void SectorView::DrawSector(int sx, int sy)
 			glPopMatrix();
 		}
 		// selected indicator
-		if ((sx == m_selected.sectorX) && (sy == m_selected.sectorY) && (num == m_selected.systemIndex)) {
+		if ((sx == m_selected.sectorX) && (sy == m_selected.sectorY) && (sz == m_selected.sectorZ) &&
+		    (num == m_selected.systemIndex)) {
 			glDepthRange(0.1,1.0);
 			glColor3f(0,0.8,0);
 			glScalef(2,2,2);
@@ -291,10 +316,10 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 	if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
 	
-	if (Pi::KeyState(SDLK_LEFT)) m_pxMovingTo -= moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_RIGHT)) m_pxMovingTo += moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_UP)) m_pyMovingTo += moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_DOWN)) m_pyMovingTo -= moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_LEFT)) m_posMovingTo.x -= moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_RIGHT)) m_posMovingTo.x += moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_UP)) m_posMovingTo.y += moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_DOWN)) m_posMovingTo.y -= moveSpeed*frameTime;
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
@@ -303,10 +328,8 @@ void SectorView::Update()
 	
 	// when zooming to a clicked on spot
 	{
-		float diffx = m_pxMovingTo - m_px;
-		float diffy = m_pyMovingTo - m_py;
-		m_px += diffx * 10.0*frameTime;
-		m_py += diffy * 10.0*frameTime;
+		vector3f diff = m_posMovingTo - m_pos;
+		m_pos += diff * 10.0f*frameTime;
 	}
 	
 	if (Pi::MouseButtonState(3)) {
@@ -318,12 +341,13 @@ void SectorView::Update()
 
 	SystemPath last_selected = m_selected;
 	
-	m_selected.sectorX = int(floor(m_px));
-	m_selected.sectorY = int(floor(m_py));
+	m_selected.sectorX = int(floor(m_pos.x));
+	m_selected.sectorY = int(floor(m_pos.y));
+	m_selected.sectorZ = int(floor(m_pos.z));
 
-	Sector* ps = GetCached(m_selected.sectorX, m_selected.sectorY);
-	float px = FFRAC(m_px)*Sector::SIZE;
-	float py = FFRAC(m_py)*Sector::SIZE;
+	Sector* ps = GetCached(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
+	float px = FFRAC(m_pos.x)*Sector::SIZE;
+	float py = FFRAC(m_pos.y)*Sector::SIZE;
 
 	float min_dist = FLT_MAX;
 	for (unsigned int i=0; i<ps->m_systems.size(); i++) {
@@ -409,7 +433,7 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 			m_zoom *= pow(0.5f, ft);
 }
 
-Sector* SectorView::GetCached(int sectorX, int sectorY)
+Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 {
 	const SystemPath loc(sectorX, sectorY, 0);
 

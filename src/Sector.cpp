@@ -63,7 +63,7 @@ Sector::Sector(int x, int y)
 
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
-			s.p.z = rng.Double(2*SIZE)-SIZE;
+			s.p.z = rng.Double(SIZE);
 			s.seed = 0;
 			s.customSys = 0;
 			
