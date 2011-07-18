@@ -724,7 +724,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath *dest = ship->GetHyperspaceTarget();
-				Sector s(dest->sectorX, dest->sectorY);
+				Sector s(dest->sectorX, dest->sectorY, dest->sectorZ);
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
 					"Ship mass: %dt\n"

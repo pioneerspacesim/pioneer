@@ -152,7 +152,7 @@ void Ship::SetHyperspaceTarget(const SystemPath *path)
 {
 	if (path == 0) {
 		// need to properly handle unsetting target
-		SystemPath p(0,0,0);
+		SystemPath p(0,0,0,0);
 		SetHyperspaceTarget(&p);
 	} else {
 		m_hyperspace.followHypercloudId = 0;
@@ -369,8 +369,8 @@ static float distance_to_system(const SystemPath *dest)
 {
 	SystemPath here = Pi::currentSystem->GetPath();
 	
-	Sector sec1(here.sectorX, here.sectorY);
-	Sector sec2(dest->sectorX, dest->sectorY);
+	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
+	Sector sec2(dest->sectorX, dest->sectorY, dest->sectorZ);
 
 	return Sector::DistanceBetween(&sec1, here.systemIndex, &sec2, dest->systemIndex);
 }

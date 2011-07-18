@@ -106,7 +106,7 @@ OOLUA_CLASS_END
 class CustomSystem {
 public:
 	static void Init();
-	static const std::list<const CustomSystem*> GetCustomSystemsForSector(int sectorX, int sectorY);
+	static const std::list<const CustomSystem*> GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ);
 	static const CustomSystem* GetCustomSystem(const char* name);
 	static const SystemPath GetPathForCustomSystem(const CustomSystem* cs);
 	static const SystemPath GetPathForCustomSystem(const char* name);
@@ -115,7 +115,7 @@ public:
     CustomSBody            sBody;
 	SBody::BodyType        primaryType[4];
 	int                    numStars;
-	int                    sectorX, sectorY;
+	int                    sectorX, sectorY, sectorZ;
 	vector3f               pos;
 	Uint32                 seed;
 	Polit::GovType         govType;

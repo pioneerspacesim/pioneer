@@ -41,6 +41,8 @@
  *
  *   sectorY - galactic sector Y coordinate
  *
+ *   sectorZ - galactic sector Z coordinate
+ *
  *   systemIndex - the numeric index of the system within the sector
  *
  *   bodyIndex - optional, the numeric index of a specific body within the
@@ -59,19 +61,20 @@ static int l_sbodypath_new(lua_State *l)
 {
 	int sector_x = luaL_checkinteger(l, 1);
 	int sector_y = luaL_checkinteger(l, 2);
-	int system_idx = luaL_checkinteger(l, 3);
+	int sector_z = luaL_checkinteger(l, 3);
+	int system_idx = luaL_checkinteger(l, 4);
 
 	int sbody_id = 0;
-	if (!lua_isnone(l, 4))
-		sbody_id = luaL_checkinteger(l, 4);
+	if (!lua_isnone(l, 5))
+		sbody_id = luaL_checkinteger(l, 5);
 	
-	Sector s(sector_x, sector_y);
+	Sector s(sector_x, sector_y, sector_z);
 	if (size_t(system_idx) >= s.m_systems.size())
-		luaL_error(l, "System %d in sector [%d,%d] does not exist", system_idx, sector_x, sector_y);
+		luaL_error(l, "System %d in sector [%d,%d,%d] does not exist", system_idx, sector_x, sector_y, sector_z);
 
 	// XXX explode if sbody_id doesn't exist in the target system?
 	
-	SystemPath *path = new SystemPath(sector_x, sector_y, system_idx, sbody_id);
+	SystemPath *path = new SystemPath(sector_x, sector_y, sector_z, system_idx, sbody_id);
 
 	LuaSystemPath::PushToLuaGC(path);
 
@@ -146,8 +149,8 @@ static int l_sbodypath_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	Sector sec1(loc1->sectorX, loc1->sectorY);
-	Sector sec2(loc2->sectorX, loc2->sectorY);
+	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
+	Sector sec2(loc2->sectorX, loc2->sectorY, loc1->sectorZ);
 	
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 

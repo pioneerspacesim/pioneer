@@ -86,7 +86,7 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_rot_z = rd.Float();
 }
 
-#define DRAW_RAD	2
+#define DRAW_RAD	1
 
 #define FFRAC(_x)	((_x)-floor(_x))
 static const GLfloat fogDensity = 0.03;
@@ -106,7 +106,7 @@ void SectorView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	char buf[80];
-	snprintf(buf, sizeof(buf), "Sector: %d,%d", m_selected.sectorX, m_selected.sectorY);
+	snprintf(buf, sizeof(buf), "Sector: %d,%d,%d", m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
 	m_infoLabel->SetText(buf);
 
 	// units are lightyears, my friend
@@ -142,6 +142,7 @@ void SectorView::GotoSystem(const SystemPath &path)
 	const vector3f &p = ps->m_systems[path.systemIndex].p;
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
+	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
 }
 
 void SectorView::WarpToSystem(const SystemPath &path)
@@ -224,7 +225,7 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 				fabs(m_posMovingTo.z - m_pos.z));
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 		if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f ) {
-			StarSystem* pSS = StarSystem::GetCached(SystemPath(sx, sy, num));
+			StarSystem* pSS = StarSystem::GetCached(SystemPath(sx, sy, sz, num));
 			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
 			{
 				(*i).SetInhabited(true);
@@ -282,7 +283,7 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		glDepthRange(0,1);
 		glPopMatrix();
 		glColor3f(.7,.7,.7);
-		PutClickableLabel((*i).name, SystemPath(sx, sy, num));
+		PutClickableLabel((*i).name, SystemPath(sx, sy, sz, num));
 		glDisable(GL_LIGHTING);
 
 		glPopMatrix();
@@ -320,6 +321,8 @@ void SectorView::Update()
 	if (Pi::KeyState(SDLK_RIGHT)) m_posMovingTo.x += moveSpeed*frameTime;
 	if (Pi::KeyState(SDLK_UP)) m_posMovingTo.y += moveSpeed*frameTime;
 	if (Pi::KeyState(SDLK_DOWN)) m_posMovingTo.y -= moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_PAGEUP)) m_posMovingTo.z += moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_PAGEDOWN)) m_posMovingTo.z -= moveSpeed*frameTime;
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
@@ -341,20 +344,20 @@ void SectorView::Update()
 
 	SystemPath last_selected = m_selected;
 	
-	m_selected.sectorX = int(floor(m_pos.x));
-	m_selected.sectorY = int(floor(m_pos.y));
-	m_selected.sectorZ = int(floor(m_pos.z));
+	m_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
 	Sector* ps = GetCached(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
 	float px = FFRAC(m_pos.x)*Sector::SIZE;
 	float py = FFRAC(m_pos.y)*Sector::SIZE;
+	float pz = FFRAC(m_pos.z)*Sector::SIZE;
 
 	float min_dist = FLT_MAX;
 	for (unsigned int i=0; i<ps->m_systems.size(); i++) {
 		Sector::System *ss = &ps->m_systems[i];
 		float dx = px - ss->p.x;
 		float dy = py - ss->p.y;
-		float dist = sqrtf(dx*dx + dy*dy);
+		float dz = pz - ss->p.z;
+		float dist = sqrtf(dx*dx + dy*dy + dz*dz);
 		if (dist < min_dist) {
 			min_dist = dist;
 			m_selected.systemIndex = i;
@@ -362,8 +365,8 @@ void SectorView::Update()
 	}
 	
 	if (last_selected != m_selected) {
-		Sector sec(m_selected.sectorX, m_selected.sectorY);
-		Sector psec(playerLoc.sectorX, playerLoc.sectorY);
+		Sector sec(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
+		Sector psec(playerLoc.sectorX, playerLoc.sectorY, m_selected.sectorZ);
 		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
 
 		char buf[256];
@@ -435,7 +438,7 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 
 Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 {
-	const SystemPath loc(sectorX, sectorY, 0);
+	const SystemPath loc(sectorX, sectorY, sectorZ, 0);
 
 	Sector *s = 0;
 
@@ -445,7 +448,7 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 	}
 
 	if (!s) {
-		s = new Sector(sectorX, sectorY);
+		s = new Sector(sectorX, sectorY, sectorZ);
 		m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
 	}
 

@@ -14,7 +14,7 @@ const float Sector::SIZE = 8;
 
 void Sector::GetCustomSystems()
 {
-	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy);
+	const std::list<const CustomSystem*> systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
 	for (std::list<const CustomSystem*>::const_iterator i = systems.begin(); i != systems.end(); i++) {
@@ -33,11 +33,11 @@ void Sector::GetCustomSystems()
 }
 
 //////////////////////// Sector
-Sector::Sector(int x, int y)
+Sector::Sector(int x, int y, int z)
 {
-	unsigned long _init[3] = { x, y, UNIVERSE_SEED };
-	sx = x; sy = y;
-	MTRand rng(_init, 3);
+	unsigned long _init[4] = { x, y, z, UNIVERSE_SEED };
+	sx = x; sy = y; sz = z;
+	MTRand rng(_init, 4);
 	MTRand rand(UNIVERSE_SEED);
 
 	GetCustomSystems();
@@ -46,7 +46,7 @@ Sector::Sector(int x, int y)
 		// custom sector
 
 	} else {
-		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y)) >> 8;
+		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
 			System s;
@@ -237,7 +237,7 @@ Sector::Sector(int x, int y)
 float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB)
 {
 	vector3f dv = a->m_systems[sysIdxA].p - b->m_systems[sysIdxB].p;
-	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, 0);
+	dv += Sector::SIZE*vector3f(a->sx - b->sx, a->sy - b->sy, a->sz - b->sz);
 	return dv.Length();
 }
 
@@ -301,6 +301,7 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 }
 
 bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax) const {
+#warning fix for 3d galaxy
 	if(sx >= Xmin && sx <= Xmax) {
 		if(sy >= Ymin && sy <= Ymax) {
 			return true;
