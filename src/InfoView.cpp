@@ -6,7 +6,6 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Render.h"
-#include "ShipSpinnerWidget.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -22,6 +21,7 @@ public:
 	virtual void Show() {
 		UpdateInfo();
 		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->HideSpinner();
 	}
 
 	virtual ~MissionPage() {
@@ -105,6 +105,11 @@ public:
 	CargoPage() {
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
@@ -140,6 +145,11 @@ public:
 	PersonalPage() {
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
@@ -171,6 +181,11 @@ public:
 		Add(info2, 250, 40);
 		ShowAll();
 	};
+
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
 
 	virtual void UpdateInfo() {
 		char buf[512];
@@ -261,8 +276,8 @@ InfoView::InfoView(): View()
 	
 	Add(m_tabs, 0, 0);
 
-	ShipSpinnerWidget *spinner = new ShipSpinnerWidget(*Pi::player->GetFlavour(), 320, 320);
-	Add(spinner, 450, 50);
+	m_spinner = new ShipSpinnerWidget(*Pi::player->GetFlavour(), 320, 320);
+	Add(m_spinner, 450, 50);
 
 	m_doUpdate = true;
 }
@@ -288,6 +303,11 @@ void InfoView::Update()
 		}
 		m_doUpdate = false;
 	}
+
+	if (m_showSpinner)
+		m_spinner->Show();
+	else
+		m_spinner->Hide();
 }
 
 void InfoView::NextPage()
