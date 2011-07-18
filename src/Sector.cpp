@@ -300,11 +300,12 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 	}
 }
 
-bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax) const {
-#warning fix for 3d galaxy
+bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const {
 	if(sx >= Xmin && sx <= Xmax) {
 		if(sy >= Ymin && sy <= Ymax) {
-			return true;
+			if(sz >= Zmin && sz <= Zmax) {
+				return true;
+			}
 		}
 	}
 	return false;

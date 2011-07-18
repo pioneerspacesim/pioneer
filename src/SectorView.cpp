@@ -528,12 +528,14 @@ void SectorView::ShrinkCache()
 	const int xmax = m_selected.sectorX+DRAW_RAD;
 	const int ymin = m_selected.sectorY-DRAW_RAD;
 	const int ymax = m_selected.sectorY+DRAW_RAD;
+	const int zmin = m_selected.sectorZ-DRAW_RAD;
+	const int zmax = m_selected.sectorZ+DRAW_RAD;
 
 	std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
 	while (iter != m_sectorCache.end())	{
 		Sector *s = (*iter).second;
 		//check_point_in_box
-		if (s && !s->WithinBox( xmin, xmax, ymin, ymax )) {
+		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
 			delete s;
 			m_sectorCache.erase( iter++ ); 
 		} else {
