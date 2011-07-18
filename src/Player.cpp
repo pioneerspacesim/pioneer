@@ -8,7 +8,8 @@
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
 
-Player::Player(ShipType::Type shipType): Ship(shipType)
+Player::Player(ShipType::Type shipType): Ship(shipType),
+	m_followCloud(0)
 {
 	m_mouseActive = false;
 	m_flightControlState = CONTROL_MANUAL;
@@ -32,6 +33,7 @@ void Player::Save(Serializer::Writer &wr)
 	wr.Double(m_setSpeed);
 	wr.Int32(m_killCount);
 	wr.Int32(m_knownKillCount);
+	wr.Int32(Serializer::LookupBody(m_followCloud));
 }
 
 void Player::Load(Serializer::Reader &rd)
@@ -42,6 +44,12 @@ void Player::Load(Serializer::Reader &rd)
 	m_setSpeed = rd.Double();
 	m_killCount = rd.Int32();
 	m_knownKillCount = rd.Int32();
+	m_followCloudIndex = rd.Int32();
+}
+
+void Player::PostLoadFixup()
+{
+	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 }
 
 void Player::OnHaveKilled(Body *guyWeKilled)
@@ -133,7 +141,7 @@ void Player::StaticUpdate(const float timeStep)
 	
 	/* This wank probably shouldn't be in Player... */
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f);
+	float v_env = (Pi::worldView->GetCamType() == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);

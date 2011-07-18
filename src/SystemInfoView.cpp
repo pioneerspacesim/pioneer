@@ -39,7 +39,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 	m_infoBox->DeleteAllChildren();
 	
 	Gui::Fixed *fixed = new Gui::Fixed(600, 200);
-	m_infoBox->PackStart(fixed, true);
+	m_infoBox->PackStart(fixed);
 	Gui::VBox *col1 = new Gui::VBox();
 	Gui::VBox *col2 = new Gui::VBox();
 	fixed->Add(col1, 0, 0);
@@ -221,7 +221,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	m_system = s;
 	if (!s) return;			// Does happen
 
-	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 
 	if (s->m_unexplored) {
 		Add(m_sbodyInfoTab, 0, 0);
@@ -236,7 +236,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		return;
 	}
 
-	m_econInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	m_econInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	
 	m_tabs = new Gui::Tabbed();
@@ -277,30 +277,29 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 
 		Gui::HBox *scrollBox = new Gui::HBox();
 		scrollBox->SetSpacing(5);
-		scrollBox->SetSizeRequest(730, 200);
 		m_sbodyInfoTab->Add(scrollBox, 35, 300);
 
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(0,0);
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(730);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 		
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_infoBox->PackStart(l);
 		portal->Add(m_infoBox);
 		scrollBox->PackStart(scroll);
-		scrollBox->PackStart(portal, true);
+		scrollBox->PackStart(portal);
 	}
 
 	{
 		// economy tab
 		Gui::HBox *scrollBox2 = new Gui::HBox();
-		scrollBox2->SetSizeRequest(730, 200);
+		scrollBox2->SetSpacing(5);
 		m_econInfoTab->Add(scrollBox2, 35, 300);
 		Gui::VScrollBar *scroll2 = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(0,0);
+		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(730);
 		scroll2->SetAdjustment(&portal2->vscrollAdjust);
 		scrollBox2->PackStart(scroll2);
-		scrollBox2->PackStart(portal2, true);
+		scrollBox2->PackStart(portal2);
 
 		m_econInfo = new Gui::Label("");
 		m_econInfoTab->Add(m_econInfo, 35, 250);

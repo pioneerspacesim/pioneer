@@ -217,7 +217,7 @@ void StationShipUpgradesView::ShowAll()
 	Add(fbox, 320, 40);
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 	//int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
 
@@ -633,7 +633,7 @@ void StationBuyShipsView::ShowAll()
 	Add(fbox, 320, 40);
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
 	std::vector<ShipFlavour> &ships = station->GetShipsOnSale();
@@ -826,7 +826,7 @@ void StationBBView::ShowAll()
 	Add(fbox, 320, 40);
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450,400);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 
 	const std::list<const BBAdvert*> bbadverts = station->GetBBAdverts();

@@ -2,14 +2,40 @@ Alpha 13
 
   * New features
     * New song 'spacegroove' (#267)
-	* Caching of models and textures on startup, reduces loading times. (#271)
+    * Caching of models and textures on startup, reduces loading times (#271)
+    * Separate hyperspace target from selected system in sector view (#269)
+    * Charon a moon of pluto (#276)
+    * Gas giants overhaul, 5 new gas giant colours/terrains implemented (#276)
+    * Atmosphere selection changed, planets can have a more varied atmospheric
+      composition (#276)
+    * Planetary rings are more varied and come in various colours (#276)
+    * Fractal texture to increase terrain detail and simulate planet surface
+      materials (#291)
+    * Mute buttons for each volume setting that actually stop the sounds
+      instead of just playing them quietly (#284, #270)
+    * New Lua events onShipLanded and onShipTakeOff to inform scripts when a
+      ship lands and takes off from a planet's surface (rough landing) (#295, #297)
 
   * Fixes
     * Move sector view to current system on first open (#262)
+    * Check hyperspace validity at hyperspace time, fixes erroneous jumps to
+      Sol (#269)
+    * All sounds effects now honour the sound effects volume slider (#256, #280)
+    * Don't play ambient sounds if sound is disabled (#286)
+    * Fix supermassive black hole mass & radius (#303, #112)
+    * Reorder the star type list such that white dwarf stars will only ever be
+      paired with white and brown dwarfs (#304)
+    * Lua methods Ship.GetEquip and Ship.CanHyperspaceTo now return string
+      constants as documented (#305)
+    * Lua method Ship.AddEquip now adds as many items as possible if there is
+      not enough room for the requested amount, as documented (#309)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
     * Refactored SectorView to use SystemPath internally (#262)
+    * Tweaks and improvements to several terrains (#276, #291)
+    * GUI widgets now have a minimum size, used for better dynamic layout with
+      variable-size containers and widgets (#279)
 
 Alpha 12
 
@@ -49,6 +75,8 @@ Alpha 12
     * Occasional crash in system cache pruning (#230, #237)
     * Crash due to buffer overrun in sound player (#253)
     * Fixed HDR lighting on Radeon (#87, #263)
+    * Replace broken hill/dune terrain with something that works
+    * Adjust Saturn, Uranus and Neptune so they have rings as appropriate
 
   * Internal changes
     * All model timing now based of game time (#175, #178)

@@ -1,8 +1,8 @@
-					pioneer Quickstart Guide
+					Pioneer Quickstart Guide
 					~~~~~~~~~~~~~~~~~~~~~~~~
-				  http://pioneerspacesim.net/
+				   http://pioneerspacesim.net/
 
-Note: pioneer is still considered alpha. If you find any bugs or have an idea
+Note: Pioneer is still considered alpha. If you find any bugs or have an idea
 feel free to log them at http://github.com/pioneerspacesim/pioneer/issues
 
 Game Controls

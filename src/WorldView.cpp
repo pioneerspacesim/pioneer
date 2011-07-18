@@ -12,13 +12,15 @@
 #include "HyperspaceCloud.h"
 #include "KeyBindings.h"
 #include "perlin.h"
+#include "SectorView.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
-WorldView::WorldView(): View()
+WorldView::WorldView(): View(),
+	m_showHyperspaceButton(false)
 {
 	float size[2];
 	GetSize(size);
@@ -41,11 +43,11 @@ WorldView::WorldView(): View()
 	m_commsNavOptionsContainer->SetSizeRequest(220, size[1]-50);
 	Add(m_commsNavOptionsContainer, size[0]-230, 20);
 
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(220, size[1]-50);
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(200);
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	scroll->SetAdjustment(&portal->vscrollAdjust);
 	m_commsNavOptionsContainer->PackStart(scroll);
-	m_commsNavOptionsContainer->PackStart(portal, true);
+	m_commsNavOptionsContainer->PackStart(portal);
 
 	m_commsNavOptions = new Gui::VBox();
 	m_commsNavOptions->SetSpacing(5);
@@ -139,10 +141,11 @@ WorldView::WorldView(): View()
 	Add(m_combatDist, 0, 0);			// text/color/position set dynamically
 	Add(m_combatSpeed, 0, 0);			// text/color/position set dynamically
 
-	m_onPlayerChangeHyperspaceTargetCon =
-		Pi::onPlayerChangeHyperspaceTarget.connect(sigc::mem_fun(this, &WorldView::OnChangeHyperspaceTarget));
+	m_onHyperspaceTargetChangedCon =
+		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+
 	m_onPlayerChangeTargetCon =
-		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::UpdateCommsOptions));
+		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
 	m_onChangeFlightControlStateCon =
 		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseButtonDown =
@@ -151,7 +154,8 @@ WorldView::WorldView(): View()
 
 WorldView::~WorldView()
 {
-	m_onPlayerChangeHyperspaceTargetCon.disconnect();
+	m_onHyperspaceTargetChangedCon.disconnect();
+
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
@@ -254,15 +258,15 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace()
 {
-    if (Pi::player->GetHyperspaceCountdown() > 0.0) {
-        // Hyperspace countdown in effect.. abort!
-        Pi::player->ResetHyperspaceCountdown();
-        Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
-    } else {
-        // Initiate hyperspace drive
-        const SystemPath *path = Pi::player->GetHyperspaceTarget();
-        Pi::player->TryHyperspaceTo(path);
-    }
+	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+		// Hyperspace countdown in effect.. abort!
+		Pi::player->ResetHyperspaceCountdown();
+		Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
+	} else {
+		// Initiate hyperspace drive
+		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+		Pi::player->StartHyperspaceCountdown(path);
+	}
 }
 
 // This is the background starfield
@@ -463,10 +467,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	else {
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
-		// XXX also don't show hyperspace button if the current target is
-		// invalid. this is difficult to achieve efficiently as long as "no
-		// target" is the same as (0,0,0,0)
-		if (Pi::player->GetFlightState() == Ship::FLYING)
+		if (m_showHyperspaceButton && Pi::player->GetFlightState() == Ship::FLYING)
 			m_hyperspaceButton->Show();
 		else
 			m_hyperspaceButton->Hide();
@@ -723,8 +724,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += "Hyperspace arrival cloud remnant";
 			}
 			else {
-				const SystemPath *dest = ship->GetHyperspaceTarget();
-				Sector s(dest->sectorX, dest->sectorY, dest->sectorZ);
+				const SystemPath dest = ship->GetHyperspaceDest();
+				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += stringf(512,
 					"Hyperspace %s cloud\n"
 					"Ship mass: %dt\n"
@@ -733,7 +734,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					cloud->IsArrival() ? "arrival" : "departure",
 					ship->CalcStats()->total_mass,
                     cloud->IsArrival() ? "Source" : "Destination",
-					s.m_systems[dest->systemIndex].name.c_str(),
+					s.m_systems[dest.systemIndex].name.c_str(),
 					format_date(cloud->GetDueDate()).c_str()
 				);
 			}
@@ -852,7 +853,7 @@ void WorldView::AddCommsNavOption(std::string msg, Body *target)
 	hbox->SetSpacing(5);
 
 	Gui::Label *l = new Gui::Label(msg);
-	hbox->PackStart(l, true);
+	hbox->PackStart(l);
 
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnClickCommsNavOption), target));
@@ -917,23 +918,32 @@ static void PlayerPayFine()
 	}
 }
 
-#if 0
-static void OnPlayerSetHyperspaceTargetTo(SBodyPath path)
+void WorldView::OnHyperspaceTargetChanged()
 {
-	Pi::player->SetHyperspaceTarget(&path);
-}
-#endif /* 0 */
+	if (Pi::player->GetHyperspaceCountdown() > 0.0) {
+		Pi::player->ResetHyperspaceCountdown();
+		Pi::cpan->MsgLog()->Message("", "Hyperspace jump aborted.");
+	}
 
-void WorldView::OnChangeHyperspaceTarget()
-{
-	const SystemPath *path = Pi::player->GetHyperspaceTarget();
+	const SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+
 	StarSystem *system = StarSystem::GetCached(path);
 	Pi::cpan->MsgLog()->Message("", std::string("Set hyperspace destination to "+system->GetName()));
+	system->Release();
 
 	int fuelReqd;
 	double dur;
-	if (Pi::player->CanHyperspaceTo(path, fuelReqd, dur)) m_hyperspaceButton->Show();
-	else m_hyperspaceButton->Hide();
+	m_showHyperspaceButton = Pi::player->CanHyperspaceTo(&path, fuelReqd, dur);
+}
+
+void WorldView::OnPlayerChangeTarget()
+{
+	Body *b = Pi::player->GetNavTarget();
+	if (b &&
+		(!b->IsType(Object::HYPERSPACECLOUD) ||
+		 Pi::sectorView->GetHyperspaceTarget() != static_cast<HyperspaceCloud*>(b)->GetShip()->GetHyperspaceDest()))
+		Pi::sectorView->FloatHyperspaceTarget();
+	UpdateCommsOptions();
 }
 
 static void autopilot_flyto(Body *b)
@@ -959,7 +969,8 @@ static void autopilot_orbit(Body *b, double alt)
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
-	Pi::player->SetHyperspaceTarget(cloud);
+	Pi::player->SetFollowCloud(cloud);
+	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
 void WorldView::UpdateCommsOptions()

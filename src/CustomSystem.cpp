@@ -143,7 +143,7 @@ CustomSystem *CustomSystem::l_govtype(std::string st)
 
 void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_table children)
 {
-	if ( primary_star.type < SBody::TYPE_BROWN_DWARF || primary_star.type > SBody::TYPE_WHITE_DWARF )
+	if ( primary_star.type < SBody::TYPE_STAR_MIN || primary_star.type > SBody::TYPE_STAR_MAX )
 		luaL_error(L, "first body does not have a valid star type");
 	if ( primary_star.type != primaryType[0] )
 		luaL_error(L, "first body is not of same type as system primary star");

@@ -364,7 +364,7 @@ static int l_ship_get_equip(lua_State *l)
 	
 	if (lua_isnumber(l, 3)) {
 		int idx = lua_tonumber(l, 3);
-		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
 		return 1;
 	}
 
@@ -373,7 +373,7 @@ static int l_ship_get_equip(lua_State *l)
 
 	for (int idx = 0; idx < size; idx++) {
 		lua_pushinteger(l, idx+1);
-		lua_pushinteger(l, s->m_equipment.Get(slot, idx));
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
 		lua_rawset(l, -3);
 	}
 
@@ -462,12 +462,6 @@ static int l_ship_add_equip(lua_State *l)
 	if (lua_isnumber(l, 3))
 		num = lua_tointeger(l, 3);
 
-	const shipstats_t *stats = s->CalcStats();
-	if (stats->free_capacity < EquipType::types[e].mass*num) {
-		lua_pushinteger(l, 0);
-		return 1;
-	}
-	
 	lua_pushinteger(l, s->m_equipment.Add(e, num));
 	s->UpdateMass();
 	return 1;
@@ -730,7 +724,7 @@ static int l_ship_fire_missile_at(lua_State *l)
  *
  * Determine is a ship is able to hyperspace to a given system
  *
- * > status = ship:CanHyperspaceTo(path)
+ * > status, fuel, duration = ship:CanHyperspaceTo(path)
  *
  * The result is based on distance, range, available fuel, ship mass and other
  * factors.
@@ -743,6 +737,12 @@ static int l_ship_fire_missile_at(lua_State *l)
  *
  *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
  *            hyperspace and if not, describes the reason
+ *
+ *   fuel - if status is 'OK', contains the amount of fuel required to make
+ *          the jump (tonnes)
+ *
+ *   duration - if status is 'OK', contains the time that the jump will take
+ *				(seconds)
  *
  * Availability:
  *
@@ -762,7 +762,7 @@ static int l_ship_can_hyperspace_to(lua_State *l)
 	Ship::HyperjumpStatus status;
 
 	if (s->CanHyperspaceTo(dest, fuel, duration, &status)) {
-		lua_pushinteger(l, status);
+		lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", Ship::HYPERJUMP_OK));
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
 		return 3;
