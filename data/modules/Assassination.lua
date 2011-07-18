@@ -193,7 +193,7 @@ local onCreateBB = function (station)
 end
 
 local onShipHit = function (ship, attacker)
-	if not attacker:IsPlayer() then return end
+	if attacker and not attacker:IsPlayer() then return end -- XX
 
 	-- When the player attacks the target, make it fight back
 	for k,mission in pairs(missions) do
