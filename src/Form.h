@@ -45,7 +45,7 @@ public:
 	void SetFaceSeed(Uint32 seed) { m_faceSeed = seed; }
 
 protected:
-	FaceForm(FormController *controller) : Form(controller, 470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
+	FaceForm(FormController *controller) : Form(controller, 470,400), m_faceFlags(0), m_faceSeed(0) {}
 
 private:
 	Uint32 m_faceFlags;

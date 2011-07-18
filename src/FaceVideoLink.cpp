@@ -35,7 +35,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : Vide
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip("Video link established");
 
-	if (seed == -1UL) seed = time(NULL);
+	if (!seed) seed = time(NULL);
 	MTRand rand(seed);
 
 	m_flags = flags;
