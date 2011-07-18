@@ -1547,7 +1547,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.5;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1595,7 +1595,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.5;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
 			};
