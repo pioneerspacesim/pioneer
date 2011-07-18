@@ -41,8 +41,8 @@ public:
 	virtual Uint32 GetFaceFlags() const { return m_faceFlags; }
 	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
 	
-	void SetFaceFlags(int flags) { m_faceFlags = flags; }
-	void SetFaceSeed(unsigned int seed) { m_faceSeed = seed; }
+	void SetFaceFlags(Uint32 flags) { m_faceFlags = flags; }
+	void SetFaceSeed(Uint32 seed) { m_faceSeed = seed; }
 
 protected:
 	FaceForm(FormController *controller) : Form(controller, 470,400), m_faceFlags(0), m_faceSeed(-1UL) {}
