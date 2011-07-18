@@ -363,67 +363,69 @@ void SectorView::Update()
 			m_selected.systemIndex = i;
 		}
 	}
-	
+
 	if (last_selected != m_selected) {
 		Sector sec(m_selected.sectorX, m_selected.sectorY, m_selected.sectorZ);
 		Sector psec(playerLoc.sectorX, playerLoc.sectorY, m_selected.sectorZ);
-		const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
+		if (m_selected.systemIndex < sec.m_systems.size()) {
+			const float dist = Sector::DistanceBetween(&sec, m_selected.systemIndex, &psec, playerLoc.systemIndex);
 
-		char buf[256];
-		int fuelRequired;
-		double dur;
-		enum Ship::HyperjumpStatus jumpStatus;
-		Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
-		switch (jumpStatus) {
-			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
-				Pi::player->SetHyperspaceTarget(&m_selected);
-				m_distance->Color(0.0f, 1.0f, 0.2f);
-				break;
-			case Ship::HYPERJUMP_CURRENT_SYSTEM:
-				snprintf(buf, sizeof(buf), "Current system");
-				Pi::player->ClearHyperspaceTarget();
-				m_distance->Color(0.0f, 1.0f, 1.0f);
-				break;
-			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
-				Pi::player->ClearHyperspaceTarget();
-				m_distance->Color(1.0f, 1.0f, 0.0f);
-				break;
-			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
-				Pi::player->ClearHyperspaceTarget();
-				m_distance->Color(1.0f, 0.0f, 0.0f);
-				break;
-			case Ship::HYPERJUMP_NO_DRIVE:
-				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
-				Pi::player->ClearHyperspaceTarget();
-				m_distance->Color(1.0f, 0.6f, 1.0f);
-				break;
+			char buf[256];
+			int fuelRequired;
+			double dur;
+			enum Ship::HyperjumpStatus jumpStatus;
+			Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
+			switch (jumpStatus) {
+				case Ship::HYPERJUMP_OK:
+					snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
+					Pi::player->SetHyperspaceTarget(&m_selected);
+					m_distance->Color(0.0f, 1.0f, 0.2f);
+					break;
+				case Ship::HYPERJUMP_CURRENT_SYSTEM:
+					snprintf(buf, sizeof(buf), "Current system");
+					Pi::player->ClearHyperspaceTarget();
+					m_distance->Color(0.0f, 1.0f, 1.0f);
+					break;
+				case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
+					snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+					Pi::player->ClearHyperspaceTarget();
+					m_distance->Color(1.0f, 1.0f, 0.0f);
+					break;
+				case Ship::HYPERJUMP_OUT_OF_RANGE:
+					snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+					Pi::player->ClearHyperspaceTarget();
+					m_distance->Color(1.0f, 0.0f, 0.0f);
+					break;
+				case Ship::HYPERJUMP_NO_DRIVE:
+					snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+					Pi::player->ClearHyperspaceTarget();
+					m_distance->Color(1.0f, 0.6f, 1.0f);
+					break;
+			}
+
+			StarSystem *sys = StarSystem::GetCached(m_selected);
+
+			std::string desc;
+			if (sys->GetNumStars() == 4) {
+				desc = "Quadruple system. ";
+			} else if (sys->GetNumStars() == 3) {
+				desc = "Triple system. ";
+			} else if (sys->GetNumStars() == 2) {
+				desc = "Binary system. ";
+			} else {
+				desc = sys->rootBody->GetAstroDescription();
+			}
+
+			m_systemName->SetText(sys->GetName());
+			m_distance->SetText(buf);
+			m_starType->SetText(desc);
+			m_shortDesc->SetText(sys->GetShortDescription());
+
+			sys->Release();
+
+			// Think we'll only need to do this when our location has changed.
+			ShrinkCache();
 		}
-
-		StarSystem *sys = StarSystem::GetCached(m_selected);
-
-		std::string desc;
-		if (sys->GetNumStars() == 4) {
-			desc = "Quadruple system. ";
-		} else if (sys->GetNumStars() == 3) {
-			desc = "Triple system. ";
-		} else if (sys->GetNumStars() == 2) {
-			desc = "Binary system. ";
-		} else {
-			desc = sys->rootBody->GetAstroDescription();
-		}
-
-		m_systemName->SetText(sys->GetName());
-		m_distance->SetText(buf);
-		m_starType->SetText(desc);
-		m_shortDesc->SetText(sys->GetShortDescription());
-
-		sys->Release();
-
-		// Think we'll only need to do this when our location has changed.
-		ShrinkCache();
 	}
 }
 
