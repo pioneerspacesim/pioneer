@@ -27,6 +27,8 @@ Alpha 13
       paired with white and brown dwarfs (#304)
     * Lua methods Ship.GetEquip and Ship.CanHyperspaceTo now return string
       constants as documented (#305)
+    * Lua method Ship.AddEquip now adds as many items as possible if there is
+      not enough room for the requested amount, as documented (#309)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
