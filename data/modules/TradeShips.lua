@@ -8,6 +8,8 @@ local min_trader_hull_mass = 55
 local min_wait = 2*60*60
 local max_wait = 21*60*60
 
+local disable_periodic = 0
+
 local traders = {}
 
 local traders_count = 0
@@ -205,7 +207,7 @@ _periodic_call = function ()
 	local due = Game.time + Engine.rand:Integer(min_wait, max_wait) * (lawlessness*Engine.rand:Integer(1, 20) + 1) / population
 
 	Timer:CallAt(due, function ()
-		if Game.system == system then
+		if disable_periodic == 0 then
 			_add_trader('CLOUD')
 			_periodic_call()
 		end
@@ -350,6 +352,17 @@ local _populate_system = function ()
 
 end
 
+local onLeaveSystem = function (ship)
+	if not ship:IsPlayer() then return end
+
+	disable_periodic = 1
+	for ref, trader in pairs(traders) do
+		if not trader.state == 'HYPERSPACE' then
+			_remove_trader(ref)
+		end
+	end
+end
+
 local onEnterSystem = function (ship)
 	if not ship:IsPlayer() then return end
 
@@ -363,6 +376,7 @@ local onEnterSystem = function (ship)
 		end
 	end
 
+	disable_periodic = 0
 	_populate_system()
 	_periodic_call()
 end
@@ -383,7 +397,7 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-	return { traders = traders, traders_count = traders_count }
+	return { traders = traders, traders_count = traders_count, disable_periodic = disable_periodic }
 end
 
 local unserialize = function (data)
@@ -395,6 +409,7 @@ local unserialize = function (data)
 end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onGameStart:Connect(onGameStart)
 EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 EventQueue.onShipHit:Connect(onShipHit)
