@@ -23,10 +23,14 @@ local _add_items = function (trader, factor)
 	for k,v in pairs(base_price_alterations) do
 		if (v * factor) > 5 then
 			if Game.system:IsCommodityLegal(k) then
-				local count = trader.ship:AddEquip(k, Engine.rand:Integer(v, v*v))
+				local chance = math.min(math.abs(v), 100)
 
-				capacity = capacity - count
-				print(trader.ship.label .. " got " .. count .. "t of " .. k)
+				if Engine.rand:Integer(1, 100) <= chance then
+					local count = trader.ship:AddEquip(k, Engine.rand:Integer(math.abs(v), v*v))
+
+					capacity = capacity - count
+					print(trader.ship.label .. " got " .. count .. "t of " .. k)
+				end
 			end
 		end
 		if capacity < 1 then
@@ -41,7 +45,7 @@ local _remove_items = function (trader)
 	local equiplist = trader.ship:GetEquip('CARGO')
 
 	for i = 1,#equiplist do
-		trader.ship:RemoveEquip(equiplist[i], 100)
+		trader.ship:RemoveEquip(equiplist[i], 9999)
 	end
 end
 
