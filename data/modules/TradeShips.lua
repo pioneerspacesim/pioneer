@@ -4,6 +4,7 @@
 local max_trader_dist = 20 -- don't produce clouds for further than this many light years away
 local max_trader_pick_dist = 12 -- max distance in light years that trader can pick
 local min_trader_hull_mass = 55
+local traders_per_population = 3 -- how many traders will be added per billion population
 
 local min_wait = 2*60*60
 local max_wait = 21*60*60
@@ -301,7 +302,7 @@ local _populate_system = function ()
 	]]
 
 	-- start with one ship per half-billion population
-	local num_trade_ships = population*2
+	local num_trade_ships = population * traders_per_population
 
 	-- reduce based on lawlessness
 	num_trade_ships = num_trade_ships * (1-lawlessness)
