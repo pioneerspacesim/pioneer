@@ -5,6 +5,7 @@
 #include "FontManager.h"
 #include "TextureFont.h"
 #include <list>
+#include <stack>
 
 namespace Gui {
 	class Screen {
@@ -37,13 +38,16 @@ namespace Gui {
 			scale[1] = fontScale[1];
 		}
 		static const float* GetCoords2Pixels() { return fontScale; }
-		static TextureFont *GetFont() { return font; }
 		static void SetFocused(Widget *w);
 		static bool IsFocused(Widget *w) {
 			return w == focusedWidget;
 		}
 
 		static FontManager *GetFontManager() { return &s_fontManager; }
+
+		static void PushFont(TextureFont* f) { s_fontStack.push(f); }
+		static void PopFont() { s_fontStack.pop(); };
+		static TextureFont *GetFont() { return s_fontStack.top(); }
 
 	private:
 		static void AddShortcutWidget(Widget *w);
@@ -56,7 +60,6 @@ namespace Gui {
 		static float invRealWidth, invRealHeight;
 		static std::list<Widget*> kbshortcut_widgets;
 		static std::list<Widget*> mouseHoveredWidgets;
-		static TextureFont *font;
 		static float fontScale[2];
 		static Gui::Fixed *baseContainer;
 		static Gui::Widget *focusedWidget;
@@ -66,6 +69,7 @@ namespace Gui {
 		static GLint viewport[4];
 
 		static FontManager s_fontManager;
+		static std::stack<TextureFont*> s_fontStack;
 	};
 }
 

@@ -3,7 +3,6 @@
 
 namespace Gui {
 
-TextureFont *Screen::font;
 bool Screen::initted = false;
 int Screen::width;
 int Screen::height;
@@ -20,6 +19,8 @@ GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
 FontManager Screen::s_fontManager;
+std::stack<TextureFont*> Screen::s_fontStack;
+
 
 void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -35,7 +36,7 @@ void Screen::Init(int real_width, int real_height, int ui_width, int ui_height)
 	// coords must be scaled.
 	Screen::fontScale[0] = ui_width / float(real_width);
 	Screen::fontScale[1] = ui_height / float(real_height);
-	Screen::font = s_fontManager.GetTextureFont("GuiFont");
+	PushFont(s_fontManager.GetTextureFont("GuiFont"));
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
@@ -199,12 +200,12 @@ void Screen::OnKeyUp(const SDL_keysym *sym)
 
 float Screen::GetFontHeight()
 {
-	return font->GetHeight() * fontScale[1];
+	return GetFont()->GetHeight() * fontScale[1];
 }
 
 void Screen::MeasureString(const std::string &s, float &w, float &h)
 {
-	font->MeasureString(s.c_str(), w, h);
+	GetFont()->MeasureString(s.c_str(), w, h);
 	w *= fontScale[0];
 	h *= fontScale[1];
 }
@@ -220,7 +221,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff)
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s.c_str(), 0, 0);
+	GetFont()->RenderString(s.c_str(), 0, 0);
 	glPopMatrix();
 }
 
@@ -235,7 +236,7 @@ void Screen::RenderMarkup(const std::string &s)
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s.c_str(), 0, 0);
+	GetFont()->RenderMarkup(s.c_str(), 0, 0);
 	glPopMatrix();
 }
 
