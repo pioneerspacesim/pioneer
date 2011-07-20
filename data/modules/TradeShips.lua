@@ -1,5 +1,6 @@
 -- TODO: Add event for clouds that are gone
 --	 saving while hyperspacing is not going to work
+--	 call for help when attacked
 
 local max_trader_dist = 20 -- don't produce clouds for further than this many light years away
 local max_trader_pick_dist = 12 -- max distance in light years that trader can pick
@@ -24,7 +25,7 @@ local _add_items = function (trader, factor)
 	for k,v in pairs(base_price_alterations) do
 		if (v * factor) > 5 then
 			if Game.system:IsCommodityLegal(k) then
-				local chance = math.min(math.abs(v), 100)
+				local chance = math.min(math.abs(v) * 2, 100)
 
 				if Engine.rand:Integer(1, 100) <= chance then
 					local count = trader.ship:AddEquip(k, Engine.rand:Integer(math.abs(v), v*v))
@@ -42,6 +43,17 @@ local _add_items = function (trader, factor)
 
 end
 
+local _hyperspace = function (trader)
+	local ret = trader.ship:HyperspaceTo(trader.dest)
+
+	if ret == 'OK' then
+		print(trader.ship.label .. " hyperspace")
+		trader.state = 'HYPERSPACE'
+		return 0
+	end
+	return 1
+end
+
 local _remove_items = function (trader)
 	local equiplist = trader.ship:GetEquip('CARGO')
 
@@ -57,7 +69,7 @@ local _random_station = function ()
 	return stations[Engine.rand:Integer(1,#stations)]
 end
 
-local _pick_dest = function (trader)
+local _refuel = function (trader)
 	local ship = trader.ship
 	local stats = ship:GetStats()
 	local engine = ship:GetEquip('ENGINE', 0)
@@ -76,14 +88,17 @@ local _pick_dest = function (trader)
 	elseif engine == 'DRIVE_MIL3' then hyperclass = 3
 	elseif engine == 'DRIVE_MIL4' then hyperclass = 4 end
 	local fuel = math.ceil(hyperclass*hyperclass * max_trader_pick_dist / stats.maxHyperspaceRange)
-	ship:AddEquip('HYDROGEN', fuel)
 
+	ship:AddEquip('HYDROGEN', fuel)
+end
+
+local _pick_dest = function (trader)
 	local nearbysystems = Game.system:GetNearbySystems(max_trader_pick_dist,
 		function (s)
-			return ((#s:GetStationPaths() > 0) and ship:CanHyperspaceTo(s.path) == 'OK')
+			return ((#s:GetStationPaths() > 0) and trader.ship:CanHyperspaceTo(s.path) == 'OK')
 		end)
 	if #nearbysystems == 0 then
-		print(trader.shipname .. " h:" .. hyperclass .. " f:" .. fuel .. " nowhere to jump")
+		print(trader.shipname .. " nowhere to jump")
 		trader.dest = nil
 		return
 	end
@@ -171,8 +186,9 @@ local _add_trader = function (state)
 
 		local trader = _insert_trader(ship, shipname, state, due)
 		_equip_trader(trader)
-		_pick_dest(trader)
+		_refuel(trader)
 		_add_items(trader, -1)
+		_pick_dest(trader)
 		_set_timer(trader)
 	elseif state == 'CLOUD' then
 		local nearbysystems = Game.system:GetNearbySystems(max_trader_dist,
@@ -225,7 +241,21 @@ local onShipHit = function (ship, attacker)
 
 	for ref, trader in pairs(traders) do
 		if ship == trader.ship then
+			local int = Engine.rand:Integer(1, 3)
+
 			trader.state = 'FLEEING'
+			if int == 1 then
+				local equiplist = ship:GetEquip('CARGO')
+
+				if #equiplist == 0 then return end
+
+				ship:Jettison(equiplist[Engine.rand:Integer(1, #equiplist)])
+			elseif int == 2 then
+				_pick_dest(trader)
+				_hyperspace(trader)
+			elseif int == 3 then
+				ship:AIDockWith(_random_station())
+			end
 			return
 		end
 	end
@@ -246,8 +276,8 @@ local onShipDocked = function (ship, station)
 	for ref, trader in pairs(traders) do
 		if ship == trader.ship then
 			if trader.state == 'FLEEING' then
-				trader.state = 'COWERING'
-				-- just wait forever
+				trader.state = 'COWERING' -- just waits forever
+				print(ship.label .. " cowering")
 			else
 				local due = Game.time + Engine.rand:Integer(min_wait, max_wait)
 
@@ -255,8 +285,9 @@ local onShipDocked = function (ship, station)
 				trader.state = 'DOCKED'
 				print(ship.label .. " docked")
 				_remove_items(trader)
-				_pick_dest(trader)
+				_refuel(trader)
 				_add_items(trader, -1)
+				_pick_dest(trader)
 				_set_timer(trader)
 			end
 			return
@@ -270,15 +301,14 @@ local onShipUndocked = function (ship, station)
 	for ref, trader in pairs(traders) do
 		if trader.ship == ship then
 			if trader.dest then
-				if ship:HyperspaceTo(trader.dest) == 'OK' then
-					print(ship.label .. " hyperspace")
-					trader.state = 'HYPERSPACE'
+				if _hyperspace(trader) then
+					print(ship.label .. " failed to hyperspace")
+				else
 					return
 				end
-				print(ship.label .. " failed to hyperspace")
-				return
+			else
+				print(ship.label .. " no hyperspace destination")
 			end
-			print(ship.label .. " no hyperspace destination")
 			ship:AIFlyTo(_random_station())
 			return
 		end
