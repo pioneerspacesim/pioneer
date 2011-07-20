@@ -1,22 +1,5 @@
 
-define_model('lathed_tower', {
-	info = {
-		bounding_radius = 120,
-		materials = {'mat'},
-		scale = 2,
-		tags = {'city_building'},
-	},
-	static = function(lod)
-		set_material("mat", .5,.7,.7,1)
-		use_material("mat")
-		for i = 0,10 do
-			tapered_cylinder(8, v(0,i*10,0), v(0,(i+1)*10,0),
-				v(0,0,1), math.abs(noise(5*i,0,0))*3+5,
-				math.abs(noise(5*(i+1),0,0))*3+5)
-		end
-		billboard('smoke.png', 8, v(1,1,1), { v(0, 111, 0) })
-	end,
-})
+
 
 --[[
 define_model('building1', {
