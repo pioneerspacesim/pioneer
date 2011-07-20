@@ -431,8 +431,8 @@ void Viewer::MainLoop()
 				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
 			}
 		}
-		if (g_keyState[SDLK_EQUALS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
-		if (g_keyState[SDLK_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_EQUALS] || g_keyState[SDLK_KP_PLUS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.f);
+		if (g_keyState[SDLK_MINUS] || g_keyState[SDLK_KP_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.f);
 		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
 		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
 
@@ -501,7 +501,7 @@ void Viewer::MainLoop()
 		if (SDL_GetTicks() - lastFpsReadout > 1000) {
 			int numTris = LmrModelGetStatsTris();
 			LmrModelClearStatsTris();
-			printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
+			//printf("%d fps, %.3f Million tris/sec\n", numFrames, numTris/1000000.0f);
 			fps = numFrames;
 			numFrames = 0;
 			lastFpsReadout = SDL_GetTicks();
