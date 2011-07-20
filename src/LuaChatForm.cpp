@@ -370,7 +370,7 @@ static int l_luachatform_set_title(lua_State *l)
  *
  * Set the properties used to generate the face
  *
- * > form:SetTitle({
+ * > form:SetFace({
  * >     female = female,
  * >     armour = armour,
  * >     seed   = seed,
@@ -385,7 +385,7 @@ static int l_luachatform_set_title(lua_State *l)
  *            clothes and accessories.
  *
  *   seed - the seed for the random number generator. if not specified, the
- *          station seed will be used.
+ *          station seed will be used. if 0, a random seed will be generated
  *
  * Example:
  *
