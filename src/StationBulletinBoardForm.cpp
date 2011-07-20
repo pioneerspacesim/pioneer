@@ -43,7 +43,7 @@ void StationBulletinBoardForm::OnBulletinBoardChanged()
 	m_advertbox->ShowAll();
 }
 
-void StationBulletinBoardForm::OnBulletinBoardAdvertDeleted(BBAdvert *ad)
+void StationBulletinBoardForm::OnBulletinBoardAdvertDeleted(const BBAdvert &ad)
 {
 	UpdateAdverts();
 	m_advertbox->ShowAll();
@@ -62,7 +62,7 @@ void StationBulletinBoardForm::UpdateAdverts()
 	int y = 0;
 	for (std::list<const BBAdvert*>::const_iterator i = adverts.begin(); i != adverts.end(); i++) {
 		Gui::SolidButton *b = new Gui::SolidButton();
-		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBulletinBoardForm::ActivateAdvertForm), (*i)));
+		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationBulletinBoardForm::ActivateAdvertForm), *(*i)));
 		m_advertbox->Add(b, 0, y);
 
 		Gui::Label *l = new Gui::Label((*i)->description);
@@ -72,7 +72,7 @@ void StationBulletinBoardForm::UpdateAdverts()
 	}
 }
 
-void StationBulletinBoardForm::ActivateAdvertForm(const BBAdvert *ad)
+void StationBulletinBoardForm::ActivateAdvertForm(const BBAdvert &ad)
 {
-	m_formController->ActivateForm(ad->builder(m_formController, m_station, ad));
+	m_formController->ActivateForm(ad.builder(m_formController, m_station, ad));
 }

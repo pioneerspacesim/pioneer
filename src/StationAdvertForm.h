@@ -7,7 +7,7 @@
 
 class StationAdvertForm : public ChatForm {
 public:
-	StationAdvertForm(FormController *controller, SpaceStation *station, const BBAdvert *ad);
+	StationAdvertForm(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 	~StationAdvertForm();
 	
 	virtual void OnOptionClicked(int option) = 0;
@@ -16,7 +16,7 @@ public:
 	void RemoveAdvertOnClose() { m_adTaken = true; }
 
 	SpaceStation *GetStation() const { return m_station; }
-	const BBAdvert *GetAdvert() const { return m_advert; }
+	const BBAdvert *GetAdvert() const { return &m_advert; }
 
 private:
 	void OnClose(Form *form);
@@ -25,7 +25,7 @@ private:
 	sigc::connection m_formClosedConnection;
 
 	SpaceStation *m_station;
-	const BBAdvert *m_advert;
+	BBAdvert m_advert;
 };
 
 #endif

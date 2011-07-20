@@ -11,9 +11,9 @@ public:
 
 private:
 	void OnBulletinBoardChanged();
-	void OnBulletinBoardAdvertDeleted(BBAdvert *ad);
+	void OnBulletinBoardAdvertDeleted(const BBAdvert &ad);
 	void UpdateAdverts();
-	void ActivateAdvertForm(const BBAdvert *ad);
+	void ActivateAdvertForm(const BBAdvert &ad);
 
 	SpaceStation *m_station;
 	Gui::Fixed *m_advertbox;

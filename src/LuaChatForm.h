@@ -13,7 +13,7 @@ class LuaChatForm: public StationAdvertForm, public MarketAgent, public DeleteEm
 	friend class LuaObject<LuaChatForm>;
 
 public:
-    LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert *ad);
+    LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 	~LuaChatForm();
 
 	virtual void OnOptionClicked(int option);

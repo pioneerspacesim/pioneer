@@ -51,7 +51,7 @@ class FormController;
 class SpaceStation;
 struct BBAdvert;
 
-typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert *ad);
+typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 
 struct BBAdvert {
 	int               ref;
@@ -104,7 +104,7 @@ public:
 	void SetDocked(Ship *ship, int port);
 	const SpaceStationType *GetSpaceStationType() const { return m_type; }
 	sigc::signal<void> onShipsForSaleChanged;
-	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
+	sigc::signal<void, BBAdvert&> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
 	sigc::signal<void> onBulletinBoardDeleted;
 
