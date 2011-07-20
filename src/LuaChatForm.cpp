@@ -12,7 +12,7 @@
 #include "FaceVideoLink.h"
 #include "StationPoliceForm.h"
 
-LuaChatForm::LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert *ad) :
+LuaChatForm::LuaChatForm(FormController *controller, SpaceStation *station, const BBAdvert &ad) :
 	StationAdvertForm(controller, station, ad), m_commodityTradeWidget(0)
 {
 	m_formClosedConnection = m_formController->onClose.connect(sigc::mem_fun(this, &LuaChatForm::OnClose));
@@ -98,8 +98,6 @@ void LuaChatForm::OnClose(Form *form) {
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
-
-    GetStation()->RemoveBBAdvert(ref);
 }
 
 static inline void _get_trade_function(lua_State *l, int ref, const char *name)
