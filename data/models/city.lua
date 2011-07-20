@@ -247,47 +247,6 @@ define_model('towerOfShit', {
 	end
 })
 
-define_model('boringHighRise', {
-	info = {
-		bounding_radius=200,
-		materials={'mat1','windows'},
-		tags = {'city_building'},
-	},
-	static = function(lod)
-		set_material("mat1", 0.5,0.5,0.5,1)
-		use_material("mat1")
-		extrusion(v(0,0,20), v(0,0,-20), v(0,1,0), 1.0,
-				v(-20,0,0), v(20,0,0), v(20,200,0), v(-20,200,0))
-		set_material("windows", 0,0,0,1, 1,1,1,50, .5,.5,0)
-		use_material("windows")
-		zbias(1, v(0,0,20), v(0,0,1))
-		for y = 4,198,5 do
-			for x = -17,16,4 do
-				quad(v(x,y,20), v(x+2,y,20), v(x+2,y+3,20), v(x,y+3,20))
-			end
-		end
-		zbias(1, v(-20,0,0), v(-1,0,0))
-		for y = 4,198,5 do
-			for x = -17,16,4 do
-				quad(v(-20,y,x), v(-20,y,x+2), v(-20,y+3,x+2), v(-20,y+3,x))
-			end
-		end
-		zbias(1, v(20,0,0), v(1,0,0))
-		for y = 4,198,5 do
-			for x = -17,16,4 do
-				quad(v(20,y+3,x), v(20,y+3,x+2), v(20,y,x+2), v(20,y,x))
-			end
-		end
-		zbias(1, v(0,0,-20), v(0,0,-1))
-		for y = 4,198,5 do
-			for x = -15,17,4 do
-				quad(v(-x,y+3,-20), v(-x+2,y+3,-20), v(-x+2,y,-20), v(-x,y,-20))
-			end
-		end
-		zbias(0)
-	end
-})
-
 function biodome(lod, trans)
 	local d = 1/math.sqrt(2)
 	local height = 40
