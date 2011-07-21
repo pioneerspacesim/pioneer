@@ -7,8 +7,9 @@ Label::Label(const char *text)
 	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
-	SetText(text);
+	m_font = Gui::Screen::GetFont();
 	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	SetText(text);
 }
 
 Label::Label(const std::string &text)
@@ -16,8 +17,9 @@ Label::Label(const std::string &text)
 	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
-	SetText(text);
+	m_font = Gui::Screen::GetFont();
 	m_color = ::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	SetText(text);
 }
 
 Label::~Label()
@@ -28,7 +30,7 @@ Label::~Label()
 void Label::UpdateLayout()
 {
 	if (m_layout) delete m_layout;
-	m_layout = new TextLayout(m_text.c_str());
+	m_layout = new TextLayout(m_text.c_str(), m_font);
 }
 
 void Label::RecalcSize()
