@@ -4,8 +4,10 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
+#include "ShipSpinnerWidget.h"
 
 class InfoViewPage;
+class ShipSpinnerWidget;
 
 class InfoView: public View {
 public:
@@ -15,9 +17,13 @@ public:
 	virtual void Draw3D();
 	virtual void OnSwitchTo() {}
 	void NextPage();
+	void ShowSpinner() { m_showSpinner = true; }
+	void HideSpinner() { m_showSpinner = false; }
 private:
 	std::list<InfoViewPage*> m_pages;
 	Gui::Tabbed *m_tabs;
+	bool m_showSpinner;
+	ShipSpinnerWidget *m_spinner;
 	bool m_doUpdate;
 };
 

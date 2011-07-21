@@ -9,7 +9,6 @@
 #include "Quaternion.h"
 #include "Serializer.h"
 #include "RefList.h"
-#include "BBAdvertChatForm.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -47,16 +46,17 @@ struct SpaceStationType {
 	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 };
 
-class BBAdvertChatForm;
+class StationAdvertForm;
+class FormController;
 class SpaceStation;
 struct BBAdvert;
 
-typedef BBAdvertChatForm* (*ChatFormBuilder)(SpaceStation *station, const BBAdvert *ad);
+typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 
 struct BBAdvert {
-	int             ref;
-	std::string     description;
-	ChatFormBuilder builder;
+	int               ref;
+	std::string       description;
+	AdvertFormBuilder builder;
 };
 
 
@@ -104,7 +104,7 @@ public:
 	void SetDocked(Ship *ship, int port);
 	const SpaceStationType *GetSpaceStationType() const { return m_type; }
 	sigc::signal<void> onShipsForSaleChanged;
-	sigc::signal<void, BBAdvert*> onBulletinBoardAdvertDeleted;
+	sigc::signal<void, BBAdvert&> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
 	sigc::signal<void> onBulletinBoardDeleted;
 
@@ -112,7 +112,7 @@ public:
 
 	void CreateBB();
 
-	int AddBBAdvert(std::string description, ChatFormBuilder builder);
+	int AddBBAdvert(std::string description, AdvertFormBuilder builder);
 	const BBAdvert *GetBBAdvert(int ref);
 	bool RemoveBBAdvert(int ref);
 	const std::list<const BBAdvert*> GetBBAdverts();
