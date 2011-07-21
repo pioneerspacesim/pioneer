@@ -29,6 +29,8 @@ Alpha 13
       constants as documented (#305)
     * Lua method Ship.AddEquip now adds as many items as possible if there is
       not enough room for the requested amount, as documented (#309)
+    * Use of Lua method SystemPath.GetSystemBody would result in a crash on
+      exit (#311, #312)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
