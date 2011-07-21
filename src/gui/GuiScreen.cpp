@@ -202,14 +202,14 @@ void Screen::OnKeyUp(const SDL_keysym *sym)
 
 float Screen::GetFontHeight(TextureFont *font)
 {
-    if (!font) font = s_defaultFont;
+    if (!font) font = GetFont();
 
 	return font->GetHeight() * fontScale[1];
 }
 
 void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont *font)
 {
-    if (!font) font = s_defaultFont;
+    if (!font) font = GetFont();
 
 	font->MeasureString(s.c_str(), w, h);
 	w *= fontScale[0];
@@ -218,7 +218,7 @@ void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont
 
 void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureFont *font)
 {
-    if (!font) font = s_defaultFont;
+    if (!font) font = GetFont();
 
 	GLdouble modelMatrix_[16];
 	glPushMatrix();
@@ -235,7 +235,7 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, TextureF
 
 void Screen::RenderMarkup(const std::string &s, TextureFont *font)
 {
-    if (!font) font = s_defaultFont;
+    if (!font) font = GetFont();
 
 	GLdouble modelMatrix_[16];
 	glPushMatrix();

@@ -43,8 +43,8 @@ namespace Gui {
 		static void PushFont(TextureFont* f) { s_fontStack.push(f); }
 		static void PushFont(std::string name) { PushFont(s_fontManager.GetTextureFont(name)); }
 		static void PopFont() { s_fontStack.pop(); };
-		static TextureFont *GetFont() { return s_fontStack.top(); }
-        static TextureFont *GetDefaultFont() { return s_defaultFont; }
+		static TextureFont *GetFont() { return s_fontStack.size() ? s_fontStack.top() : s_defaultFont; }
+		static TextureFont *GetDefaultFont() { return s_defaultFont; }
 
 		static float GetFontHeight(TextureFont *font = 0);
 		static void RenderString(const std::string &s, float xoff, float yoff, TextureFont *font = 0);

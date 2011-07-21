@@ -41,7 +41,7 @@ static bool line_clip_test(float topy, float bottomy)
 
 TextLayout::TextLayout(const char *_str, TextureFont *font)
 {
-	m_font = font ? font : Gui::Screen::GetDefaultFont();
+	m_font = font ? font : Gui::Screen::GetFont();
 
 	str = reinterpret_cast<char *>(malloc(strlen(_str)+1));
 	strcpy(str, _str);
