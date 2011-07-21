@@ -41,6 +41,7 @@ namespace Gui {
 		static FontManager *GetFontManager() { return &s_fontManager; }
 
 		static void PushFont(TextureFont* f) { s_fontStack.push(f); }
+		static void PushFont(std::string name) { PushFont(s_fontManager.GetTextureFont(name)); }
 		static void PopFont() { s_fontStack.pop(); };
 		static TextureFont *GetFont() { return s_fontStack.top(); }
         static TextureFont *GetDefaultFont() { return s_defaultFont; }
