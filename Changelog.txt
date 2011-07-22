@@ -15,6 +15,8 @@ Alpha 13
       instead of just playing them quietly (#284, #270)
     * New Lua events onShipLanded and onShipTakeOff to inform scripts when a
       ship lands and takes off from a planet's surface (rough landing) (#295, #297)
+    * New Lua method StarSystem.GetBodyPaths to get paths to all bodies in a
+      system (#313)
 
   * Fixes
     * Move sector view to current system on first open (#262)
@@ -29,6 +31,8 @@ Alpha 13
       constants as documented (#305)
     * Lua method Ship.AddEquip now adds as many items as possible if there is
       not enough room for the requested amount, as documented (#309)
+    * Use of Lua method SystemPath.GetSystemBody would result in a crash on
+      exit (#311, #312)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)

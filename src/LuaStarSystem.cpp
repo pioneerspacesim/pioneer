@@ -74,6 +74,49 @@ static int l_starsystem_get_station_paths(lua_State *l)
 }
 
 /*
+ * Method: GetBodyPaths
+ *
+ * Get the <SystemPaths> to bodies (planets, stations, starports) in this system
+ *
+ * > paths = system:GetBodyPaths()
+ *
+ * Return:
+ *
+ *   paths - an array of <SystemPath> objects, one for each <SystemBody>
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_get_body_paths(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	SystemPath path = s->GetPath();
+
+	lua_newtable(l);
+	pi_lua_table_ro(l);
+
+	for (std::vector<SBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
+	{
+		SystemPath *body_path = new SystemPath(path.sectorX, path.sectorY, path.systemIndex, (*i)->id);
+
+		lua_pushinteger(l, lua_objlen(l, -1)+1);
+		LuaSystemPath::PushToLuaGC(body_path);
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
  * Method: GetCommodityBasePriceAlterations
  *
  * Get the price alterations for cargo items bought and sold in this system
@@ -380,6 +423,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
+		{ "GetBodyPaths", l_starsystem_get_body_paths },
 
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
