@@ -6,6 +6,7 @@
 #include "StationShipEquipmentForm.h"
 #include "StationShipMarketForm.h"
 #include "StationShipRepairForm.h"
+#include "PiLang.h"
 
 StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(controller)
 {
@@ -15,21 +16,21 @@ StationShipyardForm::StationShipyardForm(FormController *controller) : FaceForm(
 	b->SetShortcut(SDLK_1, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationShipyardForm::EquipmentMarket));
 	Add(b, 30, 140);
-	Gui::Label *l = new Gui::Label("Ship equipment");
+	Gui::Label *l = new Gui::Label(PiLang::SHIP_EQUIPMENT);
 	Add(l, 55, 140);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationShipyardForm::Repairs));
 	Add(b, 30, 200);
-	l = new Gui::Label("Repairs and servicing");
+	l = new Gui::Label(PiLang::REPAIRS_AND_SERVICING);
 	Add(l, 55, 200);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_3, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationShipyardForm::ShipMarket));
 	Add(b, 30, 260);
-	l = new Gui::Label("New and reconditioned ships");
+	l = new Gui::Label(PiLang::NEW_AND_RECONDITIONED_SHIPS);
 	Add(l, 55, 260);
 }
 

@@ -4,6 +4,7 @@
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "StationShipViewForm.h"
+#include "PiLang.h"
 
 StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceForm(controller)
 {
@@ -30,11 +31,11 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
 	const float *col = Gui::Theme::Colors::tableHeading;
-	heading->Add((new Gui::Label("Ship"))->Color(col), 0, 0);
-	heading->Add((new Gui::Label("Price"))->Color(col), 200, 0);
-	heading->Add((new Gui::Label("Part exchange"))->Color(col), 275, 0);
-	heading->Add((new Gui::Label("Capacity"))->Color(col), 370, 0);
-	heading->Add((new Gui::Label("View"))->Color(col), 430, 0);
+	heading->Add((new Gui::Label(PiLang::SHIP))->Color(col), 0, 0);
+	heading->Add((new Gui::Label(PiLang::PRICE))->Color(col), 200, 0);
+	heading->Add((new Gui::Label(PiLang::PART_EX))->Color(col), 275, 0);
+	heading->Add((new Gui::Label(PiLang::CAPACITY))->Color(col), 370, 0);
+	heading->Add((new Gui::Label(PiLang::VIEW))->Color(col), 430, 0);
 	outerbox->PackEnd(heading);
 
 	Gui::HBox *body = new Gui::HBox();

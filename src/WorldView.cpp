@@ -13,6 +13,7 @@
 #include "KeyBindings.h"
 #include "perlin.h"
 #include "SectorView.h"
+#include "PiLang.h"
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
@@ -516,7 +517,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					}
 
 					case Player::CONTROL_AUTOPILOT:
-						m_flightStatus->SetText("Autopilot");
+						m_flightStatus->SetText(PiLang::AUTOPILOT);
 						break;
 				}
 

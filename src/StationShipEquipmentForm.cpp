@@ -5,6 +5,7 @@
 #include "SpaceStationView.h"
 #include "StationShipViewForm.h"
 #include "ShipCpanel.h"
+#include "PiLang.h"
 
 #define REMOVAL_VALUE_PERCENT 90
 
@@ -81,12 +82,12 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
 	const float *col = Gui::Theme::Colors::tableHeading;
-	heading->Add((new Gui::Label("Item"))->Color(col), 0, 0);
-	heading->Add((new Gui::Label("$ to fit"))->Color(col), 200, 0);
-	heading->Add((new Gui::Label("$ for removal"))->Color(col), 275, 0);
-	heading->Add((new Gui::Label("Wt"))->Color(col), 360, 0);
-	heading->Add((new Gui::Label("Fit"))->Color(col), 400, 0);
-	heading->Add((new Gui::Label("Remove"))->Color(col), 420, 0);
+	heading->Add((new Gui::Label(PiLang::ITEM))->Color(col), 0, 0);
+	heading->Add((new Gui::Label(PiLang::PRICE_TO_FIT))->Color(col), 200, 0);
+	heading->Add((new Gui::Label(PiLang::PRICE_TO_REMOVE))->Color(col), 275, 0);
+	heading->Add((new Gui::Label(PiLang::WT))->Color(col), 360, 0);
+	heading->Add((new Gui::Label(PiLang::FIT))->Color(col), 400, 0);
+	heading->Add((new Gui::Label(PiLang::REMOVE))->Color(col), 420, 0);
 	outerbox->PackEnd(heading);
 
 	Gui::HBox *body = new Gui::HBox();
@@ -130,12 +131,12 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 	int freespace = Pi::player->m_equipment.FreeSpace(slot);
 	
 	if (Pi::player->GetMoney() < m_station->GetPrice(t)) {
-		Pi::cpan->MsgLog()->Message("", "You do not have enough money");
+		Pi::cpan->MsgLog()->Message("", PiLang::YOU_NOT_ENOUGH_MONEY);
 		return;
 	}
 
 	if (!freespace || stats->free_capacity < EquipType::types[t].mass) {
-		Pi::cpan->MsgLog()->Message("", "There is no space on your ship");
+		Pi::cpan->MsgLog()->Message("", PiLang::NO_SPACE_ON_SHIP);
 		return;
 	}
 
@@ -172,7 +173,7 @@ void StationShipEquipmentForm::FitItemForce(Equip::Type t, int pos) {
 
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
-	Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
+	Pi::cpan->MsgLog()->Message("", PiLang::FITTING+std::string(EquipType::types[t].name));
 
 	RecalcButtonVisibility();
 }
@@ -186,7 +187,7 @@ void StationShipEquipmentForm::RemoveItemForce(Equip::Type t, int pos) {
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() + m_station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100);
 	m_station->AddEquipmentStock(t, 1);
-	Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[t].name));
+	Pi::cpan->MsgLog()->Message("", PiLang::REMOVING+std::string(EquipType::types[t].name));
 
 	RecalcButtonVisibility();
 }
@@ -203,9 +204,9 @@ PickLaserMountForm::PickLaserMountForm(FormController *controller, StationShipEq
 	layoutBox->SetSpacing(10.0f);
 
 	if (m_doFit)
-		layoutBox->PackEnd(new Gui::Label("Fit laser to which gun mount?"));
+		layoutBox->PackEnd(new Gui::Label(PiLang::FIT_TO_WHICH_MOUNT));
 	else
-		layoutBox->PackEnd(new Gui::Label("Remove laser from which gun mount?"));
+		layoutBox->PackEnd(new Gui::Label(PiLang::REMOVE_FROM_WHICH_MOUNT));
 
 	Equip::Slot slot = EquipType::types[m_equipType].slot;
 

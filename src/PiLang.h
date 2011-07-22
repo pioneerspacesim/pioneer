@@ -21,8 +21,6 @@
 namespace PiLanguages {
     namespace en {
         // General
-        PL(SORRY_ADVERT_EXPIRED,
-                "Sorry, this advert has expired.");
         PL(SUGGESTED_RESPONSES,
                 "Suggested responses:");
         PL(ITEM,
@@ -132,7 +130,7 @@ namespace PiLanguages {
         PL(WELCOME_TO_SOMEWHERE,
                 "Welcome to %s");
         PL(SPACESTATION_LONG_WELCOME_MESSAGE,
-                "Hello, traveller.  Welcome to this soace station.  We have reports of vandalism and graffiti on board.  If you see that any of our signage is misleading, mis-spelled or just missing, please inform a member of staff.\n\nOxygen is currently free of charge.");
+                "Hello, traveller.  Welcome to this space station.  We have reports of vandalism and graffiti on board.  If you see that any of our signage is misleading, mis-spelled or just missing, please inform a member of staff.\n\nOxygen is currently free of charge.");
         PL(REQUEST_LAUNCH,
                 "Request Launch");
         PL(SHIPYARD,

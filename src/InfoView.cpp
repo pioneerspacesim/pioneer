@@ -6,6 +6,7 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Render.h"
+#include "PiLang.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -268,7 +269,7 @@ InfoView::InfoView(): View()
 	
 	page = new CargoPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label("Cargo"), page);
+	m_tabs->AddPage(new Gui::Label(PiLang::CARGO), page);
 	
 	page = new MissionPage();
 	m_pages.push_back(page);
