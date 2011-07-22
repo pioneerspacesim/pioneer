@@ -1,36 +1,4 @@
 
-
-
---[[
-define_model('building1', {
-	info = {
-		bounding_radius = 10,
-		materials={'mat'},
-		tags = {'city_building', 'city_power', 'city_starport_building'},
-	},
-	static = function(lod)
-		set_material("mat", .5, .5, .5, 1)
-		use_material("mat")
-		extrusion(v(0,0,-7.5), v(0,0,7.5), v(0,1,0), 6.0,
-			v(-1,0,0), v(1,0,0), v(1,1,0), v(-1,1,0))
-	end
-})
-
-define_model('building2', {
-	info = {
-		bounding_radius = 25,
-		materials={'mat'},
-		tags = {'city_building'},
-	},
-	static = function(lod)
-		set_material("mat", .5, .5, .5, 1)
-		use_material("mat")
-		extrusion(v(0,0,-16), v(0,0,16), v(0,1,0), 1.0,
-			v(-16,0,0), v(16,0,0), v(16,20,0), v(-16,20,0))
-	end
-})
---]]
-
 define_model('clockhand', {
 	info = {
 		bounding_radius = 1,
@@ -85,40 +53,6 @@ define_model('clock', {
 	end
 })
 
---[[
-define_model('church', {
-	info = {
-		bounding_radius=45,
-		materials={'body','spire'},
-		tags = {'city_building'},
-	},
-	static = function(lod)
-		set_material("body", .5, .5, .3,1)
-		use_material("body")
-		extrusion(v(0,0,-18), v(0,0,12), v(0,1,0), 1.0,
-			v(-7,0,0), v(7,0,0), v(7,10,0), v(-7,10,0))
-		extrusion(v(0,0,-18), v(0,0,-4), v(0,1,0), 1.0,
-			v(-7,10,0), v(7,10,0), v(7,25,0), v(-7,25,0))
-		local roof1 = v(0,20,12)
-		local roof2 = v(0,20,-4)
-		local spire = v(0,45,-11)
-		tri(v(-7,10,12), v(7,10,12), roof1)
-		
-		set_material("spire", .8, .3, .0,1)
-		use_material("spire")
-		xref_quad(roof2, roof1, v(7,10,12), v(7,10,-4))
-		xref_tri(spire, v(7,25,-4), v(7,25,-18))
-		tri(spire, v(-7,25,-4), v(7,25,-4))
-		tri(spire, v(7,25,-18), v(-7,25,-18))
-
-		local clockpos1 = v(-7,18,-11)
-		local clockpos2 = v(7,18,-11)
-		
-		call_model("clock", clockpos1, v(0,0,1), v(0,1,0), 2.5)
-		call_model("clock", clockpos2, v(0,0,-1), v(0,1,0), 2.5)
-	end
-})
---]]
 
 function biodome(lod, trans)
 	local d = 1/math.sqrt(2)
