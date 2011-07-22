@@ -805,7 +805,7 @@ void SpaceStation::CreateBB()
 
 
 static int next_ref = 0;
-int SpaceStation::AddBBAdvert(std::string description, ChatFormBuilder builder)
+int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder)
 {
 	int ref = ++next_ref;
 	assert(ref);
@@ -834,8 +834,8 @@ bool SpaceStation::RemoveBBAdvert(int ref)
 {
 	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
 		if (i->ref == ref) {
-			onBulletinBoardAdvertDeleted.emit(&(*i));
 			m_bbAdverts.erase(i);
+			onBulletinBoardAdvertDeleted.emit(*i);
 			return true;
 		}
 	return false;

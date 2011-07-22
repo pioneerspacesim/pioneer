@@ -33,6 +33,8 @@ Alpha 13
       not enough room for the requested amount, as documented (#309)
     * Use of Lua method SystemPath.GetSystemBody would result in a crash on
       exit (#311, #312)
+    * Fix occasional crash when station menus are still live in memory after
+      launch (#259)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
@@ -40,6 +42,8 @@ Alpha 13
     * Tweaks and improvements to several terrains (#276, #291)
     * GUI widgets now have a minimum size, used for better dynamic layout with
       variable-size containers and widgets (#279)
+    * Rewrote station menus and refactored several GUI elements to have better
+      abstraction and consistency (306)
 
 Alpha 12
 

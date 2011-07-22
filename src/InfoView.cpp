@@ -21,6 +21,7 @@ public:
 	virtual void Show() {
 		UpdateInfo();
 		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->HideSpinner();
 	}
 
 	virtual ~MissionPage() {
@@ -104,6 +105,11 @@ public:
 	CargoPage() {
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
@@ -139,6 +145,11 @@ public:
 	PersonalPage() {
 	};
 
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
+
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
@@ -170,6 +181,11 @@ public:
 		Add(info2, 250, 40);
 		ShowAll();
 	};
+
+	virtual void Show() {
+		InfoViewPage::Show();
+		if (Pi::infoView) Pi::infoView->ShowSpinner();
+	}
 
 	virtual void UpdateInfo() {
 		char buf[512];
@@ -259,6 +275,10 @@ InfoView::InfoView(): View()
 	m_tabs->AddPage(new Gui::Label("Missions"), page);
 	
 	Add(m_tabs, 0, 0);
+
+	m_spinner = new ShipSpinnerWidget(*Pi::player->GetFlavour(), 320, 320);
+	Add(m_spinner, 450, 50);
+
 	m_doUpdate = true;
 }
 
@@ -269,83 +289,10 @@ void InfoView::UpdateInfo()
 
 void InfoView::Draw3D()
 {
-	/* XXX duplicated code in SpaceStationView.cpp */
-	LmrObjParams params = {
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{},
-		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-
-		{	// pColor[3]
-		{ { 1.0f, 0.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-
-	Pi::player->GetFlavour()->ApplyTo(&params);
-
-	float guiscale[2];
-	Gui::Screen::GetCoords2Pixels(guiscale);
-	static float rot1, rot2;
-	if (Pi::MouseButtonState(3)) {
-		int m[2];
-		Pi::GetMouseMotion(m);
-		rot1 += -0.002*m[1];
-		rot2 += -0.002*m[0];
-	}
-	else
-	{
-		rot1 += .5*Pi::GetFrameTime();
-		rot2 += Pi::GetFrameTime();
-	}
-	glClearColor(0,.2,.4,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	if (m_tabs->GetCurrentPage() != 0) return;
-	
-	const float bx = 450;
-	const float by = 50;
-	Gui::Screen::EnterOrtho();
-	glColor3f(0,0,0);
-	glBegin(GL_QUADS); {
-		glVertex2f(bx,by);
-		glVertex2f(bx,by+320);
-		glVertex2f(bx+320,by+320);
-		glVertex2f(bx+320,by);
-	} glEnd();
-	Gui::Screen::LeaveOrtho();
-	
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glFrustum(-.5, .5, -.5, .5, 1.0f, 10000.0f);
-	glDepthRange (0.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
-	Render::State::SetZnearZfar(1.0f, 10000.0f);
-	
-	float lightCol[] = { .5,.5,.5,0 };
-	float lightDir[] = { 1,1,0,0 };
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightDir);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightCol);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-	glEnable(GL_LIGHT0);
-	glViewport(bx/guiscale[0], (Gui::Screen::GetHeight() - by - 320)/guiscale[1],
-			320/guiscale[0], 320/guiscale[1]);
-	
-	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
-	rot.RotateY(rot2);
-	LmrModel *lmr_model = Pi::player->GetLmrModel();
-	rot[14] = -1.5f * lmr_model->GetDrawClipRadius();
-
-	lmr_model->Render(rot, &params);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
-	glPopAttrib();
+	glClearColor(0.0f,0.2f,0.4f,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void InfoView::Update()
@@ -356,6 +303,11 @@ void InfoView::Update()
 		}
 		m_doUpdate = false;
 	}
+
+	if (m_showSpinner)
+		m_spinner->Show();
+	else
+		m_spinner->Hide();
 }
 
 void InfoView::NextPage()

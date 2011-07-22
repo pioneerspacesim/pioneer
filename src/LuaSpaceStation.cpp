@@ -50,9 +50,9 @@ static void _register_for_station_delete(SpaceStation *s)
 	_station_delete_conns.insert( std::make_pair(s, s->onBulletinBoardDeleted.connect(sigc::bind(sigc::ptr_fun(&_delete_station_ads), s))) );
 }
 
-static BBAdvertChatForm *_create_chat_form(SpaceStation *station, const BBAdvert *ad)
+static StationAdvertForm *_create_chat_form(FormController *controller, SpaceStation *station, const BBAdvert &ad)
 {
-	return new LuaChatForm(station, ad);
+	return new LuaChatForm(controller, station, ad);
 }
 
 /*
