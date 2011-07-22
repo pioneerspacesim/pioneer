@@ -12,7 +12,7 @@
 
 StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(controller)
 {
-	SetTitle(stringf(256, "%s services", Pi::player->GetDockedWith()->GetLabel().c_str()));
+	SetTitle(stringf(256, PiLang::SOMEWHERE_SERVICES, Pi::player->GetDockedWith()->GetLabel().c_str()));
 
 	Gui::Label *l = new Gui::Label(PiLang::SPACESTATION_LONG_WELCOME_MESSAGE);
 	Add(l,0,0);
@@ -35,14 +35,14 @@ StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(
 	b->SetShortcut(SDLK_3, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::CommodityMarket));
 	Add(b, 30, 260);
-	l = new Gui::Label("Commodity market");
+	l = new Gui::Label(PiLang::COMMODITIES_MARKET);
 	Add(l, 55, 260);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_4, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::BulletinBoard));
 	Add(b, 30, 320);
-	l = new Gui::Label("Bulletin board");
+	l = new Gui::Label(PiLang::BULLETIN_BOARD);
 	Add(l, 55, 320);
 
 	b = new Gui::SolidButton();

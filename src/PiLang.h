@@ -63,6 +63,8 @@ namespace PiLanguages {
                 "Trader does not have enough money");
         PL(NO_SPACE_ON_SHIP,
                 "There is no space on your ship");
+        PL(SOMEWHERE_SERVICES,
+                "%s services");
         PL(SOMEWHERE_SHIPYARD,
                 "%s Shipyard");
         PL(PRICE_TO_FIT,
