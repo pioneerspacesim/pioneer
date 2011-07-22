@@ -433,7 +433,9 @@ void SectorView::Update()
 	// when zooming to a clicked on spot
 	{
 		vector3f diff = m_posMovingTo - m_pos;
-		m_pos += diff * 10.0f*frameTime;
+		vector3f travel = diff * 10.0f*frameTime;
+		if (travel.Length() > diff.Length()) m_pos = m_posMovingTo;
+		else m_pos = m_pos + travel;
 	}
 	
 	if (Pi::MouseButtonState(3)) {
