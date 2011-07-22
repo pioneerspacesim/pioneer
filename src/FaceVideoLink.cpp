@@ -1,4 +1,5 @@
 #include "FaceVideoLink.h"
+#include "PiLang.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -137,7 +138,7 @@ FaceVideoLink::~FaceVideoLink() {
 void FaceVideoLink::Draw() {
 	float size[2]; GetSize(size);
 	if (SDL_GetTicks() - m_created < 1500) {
-		m_message->SetText("Connecting...");
+		m_message->SetText(PiLang::VID_CONNECTING);
 		glBegin(GL_QUADS);
 			glColor3f(0,0,0);
 			glVertex2f(0,0);

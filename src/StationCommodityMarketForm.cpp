@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipCpanel.h"
+#include "PiLang.h"
 
 StationCommodityMarketForm::StationCommodityMarketForm(FormController *controller) : FaceForm(controller)
 {
@@ -20,7 +21,7 @@ StationCommodityMarketForm::StationCommodityMarketForm(FormController *controlle
 void StationCommodityMarketForm::OnClickBuy(int commodity)
 {
 	if (m_station->SellTo(Pi::player, Equip::Type(commodity), true)) {
-		Pi::cpan->MsgLog()->Message("", stringf(512, "You have bought 1t of %s.", EquipType::types[commodity].name));
+		Pi::cpan->MsgLog()->Message("", stringf(512, PiLang::BOUGHT_1T_OF, EquipType::types[commodity].name));
 	}
 	m_trader->UpdateStock(commodity);
 }
@@ -28,7 +29,7 @@ void StationCommodityMarketForm::OnClickBuy(int commodity)
 void StationCommodityMarketForm::OnClickSell(int commodity)
 {
 	if (m_station->BuyFrom(Pi::player, Equip::Type(commodity), true)) {
-		Pi::cpan->MsgLog()->Message("", stringf(512, "You have sold 1t of %s.", EquipType::types[commodity].name));
+		Pi::cpan->MsgLog()->Message("", stringf(512, PiLang::SOLD_1T_OF, EquipType::types[commodity].name));
 	}
 	m_trader->UpdateStock(commodity);
 }

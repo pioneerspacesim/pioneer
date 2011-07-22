@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipCpanel.h"
+#include "PiLang.h"
 
 StationShipRepairForm::StationShipRepairForm(FormController *controller) : FaceForm(controller)
 {
@@ -9,7 +10,7 @@ StationShipRepairForm::StationShipRepairForm(FormController *controller) : FaceF
 
 	SetTitle(stringf(256, "%s ship repairs", m_station->GetLabel().c_str()));
 
-	m_working = new Gui::Label("Your ship is in perfect working condition.");
+	m_working = new Gui::Label(PiLang::SHIP_IS_ALREADY_FULLY_REPAIRED);
 	Add(m_working, 0, 0);
 
 	m_tableBox = new Gui::HBox();
@@ -24,7 +25,7 @@ StationShipRepairForm::StationShipRepairForm(FormController *controller) : FaceF
 	Gui::Button *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairForm::RepairHull), 1.0f));
 	buttonBox->PackEnd(b);
-	buttonBox->PackEnd(new Gui::Label("Repair 1.0% of hull damage"));
+	buttonBox->PackEnd(new Gui::Label(PiLang::REPAIR_1_PERCENT_HULL));
 	columnBox->PackEnd(buttonBox);
 
 	buttonBox = new Gui::HBox();
@@ -62,7 +63,7 @@ void StationShipRepairForm::RepairHull(float percent)
 {
 	int cost = GetRepairCost(percent);
 	if (Pi::player->GetMoney() < cost) {
-		Pi::cpan->MsgLog()->Message("", "You do not have enough money");
+		Pi::cpan->MsgLog()->Message("", PiLang::YOU_NOT_ENOUGH_MONEY);
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 		Pi::player->SetPercentHull(Pi::player->GetPercentHull() + percent);
@@ -81,7 +82,7 @@ void StationShipRepairForm::UpdateLabels()
 	}
 
 	else {
-		m_repairAllDesc->SetText(stringf(128, "Repair all hull damage (%.1f%%)", 100.0f - hullPercent));
+		m_repairAllDesc->SetText(stringf(128, PiLang::REPAIR_ENTIRE_HULL, 100.0f - hullPercent));
 		m_repairOneCost->SetText(format_money(GetRepairCost(1.0f)));
 		m_repairAllCost->SetText(format_money(GetRepairCost(100.f - hullPercent)));
 

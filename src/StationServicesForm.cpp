@@ -8,34 +8,27 @@
 #include "StationCommodityMarketForm.h"
 #include "StationBulletinBoardForm.h"
 #include "StationPoliceForm.h"
+#include "PiLang.h"
 
 StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(controller)
 {
 	SetTitle(stringf(256, "%s services", Pi::player->GetDockedWith()->GetLabel().c_str()));
 
-	Gui::Label *l = new Gui::Label(
-		"Hello friend! Thank you for docking with this space station!\n"
-		"After a recent accident involving a lemur and an onion we've had to "
-		"do some extensive renovations. You'll find the smell much more "
-		"pleasant since we got that stain out of the rug, but you'll notice "
-		"the lights flicker and the comms system sometimes get stuck on Jazz "
-		"FM. Also, there's a containment leak on deck 12, so remember to wear "
-		"a hat."
-	);
+	Gui::Label *l = new Gui::Label(PiLang::SPACESTATION_LONG_WELCOME_MESSAGE);
 	Add(l,0,0);
 
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_1, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::RequestLaunch));
 	Add(b, 30, 140);
-	l = new Gui::Label("Request Launch");
+	l = new Gui::Label(PiLang::REQUEST_LAUNCH);
 	Add(l, 55, 140);
 
 	b = new Gui::SolidButton();
 	b->SetShortcut(SDLK_2, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::Shipyard));
 	Add(b, 30, 200);
-	l = new Gui::Label("Shipyard");
+	l = new Gui::Label(PiLang::SHIPYARD);
 	Add(l, 55, 200);
 
 	b = new Gui::SolidButton();
@@ -56,7 +49,7 @@ StationServicesForm::StationServicesForm(FormController *controller) : FaceForm(
 	b->SetShortcut(SDLK_5, KMOD_NONE);
 	b->onClick.connect(sigc::mem_fun(this, &StationServicesForm::Police));
 	Add(b, 30, 380);
-	l = new Gui::Label("Contact local police");
+	l = new Gui::Label(PiLang::CONTACT_LOCAL_POLICE);
 	Add(l, 55, 380);
 }
 

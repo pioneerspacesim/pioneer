@@ -3,6 +3,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "utils.h"
+#include "PiLang.h"
 
 #include "StationServicesForm.h"
 
@@ -59,7 +60,7 @@ SpaceStationView::SpaceStationView(): View()
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(m_formController, &FormController::CloseForm));
 	m_backButtonBox->PackEnd(b);
-	m_backButtonBox->PackEnd(new Gui::Label("Go back"));
+	m_backButtonBox->PackEnd(new Gui::Label(PiLang::GO_BACK));
 
 
 	m_videoLink = 0;
