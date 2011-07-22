@@ -1,1 +1,0 @@
-CustomSystem:new("Hendrix",{'STAR_K', 'STAR_M'}):add_to_sector(2,8,v(0.275,0.939,-0.459))

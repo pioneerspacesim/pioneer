@@ -1,1 +1,0 @@
-CustomSystem:new("Randu",{'STAR_M'}):add_to_sector(-1,-5,v(0.290,0.080,0.698))

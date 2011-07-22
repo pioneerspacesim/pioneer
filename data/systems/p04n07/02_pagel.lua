@@ -1,1 +1,0 @@
-CustomSystem:new("Pagel",{'STAR_K'}):add_to_sector(4,-7,v(0.277,0.159,0.220))

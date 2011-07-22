@@ -1,1 +1,0 @@
-CustomSystem:new("Denton",{'STAR_M'}):add_to_sector(2,5,v(0.831,0.924,-0.987))

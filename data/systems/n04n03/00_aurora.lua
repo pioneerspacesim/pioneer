@@ -1,1 +1,0 @@
-CustomSystem:new("Aurora",{'STAR_K'}):add_to_sector(-4,-3,v(0.295,0.924,0.572))

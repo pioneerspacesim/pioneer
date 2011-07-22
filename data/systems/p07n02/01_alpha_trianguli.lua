@@ -1,1 +1,0 @@
-CustomSystem:new("Alpha Trianguli",{'STAR_F'}):add_to_sector(7,-2,v(0.581,0.341,0.889))

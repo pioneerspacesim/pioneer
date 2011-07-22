@@ -152,11 +152,11 @@ void CustomSystem::l_bodies(lua_State* L, CustomSBody& primary_star, OOLUA::Lua_
 	sBody = primary_star;
 }
 
-void CustomSystem::l_add_to_sector(int x, int y, pi_vector& v)
+void CustomSystem::l_add_to_sector(int x, int y, int z, pi_vector& v)
 {
 	sectorX = x;
 	sectorY = y;
-	sectorZ = 0;
+	sectorZ = z;
 	pos = v;
 
 	custom_systems.push_back(*this);

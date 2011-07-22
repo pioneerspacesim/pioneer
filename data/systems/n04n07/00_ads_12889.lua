@@ -1,1 +1,0 @@
-CustomSystem:new("ADS 12889",{'STAR_K', 'STAR_K'}):add_to_sector(-4,-7,v(0.606,0.262,0.333))

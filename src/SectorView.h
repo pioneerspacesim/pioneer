@@ -29,13 +29,14 @@ public:
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 private:
-	void DrawSector(int x, int y, int z);
-	void PutClickableLabel(std::string &text, const SystemPath &path);
+	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos);
+	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
 
 	void MouseButtonDown(int button, int x, int y);
 	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
 	void OnKeyPress(SDL_keysym *keysym);
+	void OnSearchBoxValueChanged();
 	void ShrinkCache();
 
 	float m_zoom;
@@ -53,6 +54,7 @@ private:
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
+	Gui::TextEntry *m_searchBox;
 	GLuint m_gluDiskDlist;
 	
 	Gui::Label *m_systemName;

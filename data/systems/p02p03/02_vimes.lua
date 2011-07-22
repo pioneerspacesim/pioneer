@@ -1,1 +1,0 @@
-CustomSystem:new("Vimes",{'WHITE_DWARF', 'STAR_M'}):add_to_sector(2,3,v(0.919,0.076,-0.930))

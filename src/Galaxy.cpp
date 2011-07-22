@@ -43,6 +43,8 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	SDL_UnlockSurface(s_galaxybmp);
 	// crappy unrealistic but currently adequate density dropoff with sector z
 	val = val * (256 - std::min(abs(sz),256)) >> 8;
+	// reduce density somewhat to match real (gliese) density
+	val >>= 1;
 	return (Uint8)val;
 }
 

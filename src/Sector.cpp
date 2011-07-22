@@ -32,6 +32,8 @@ void Sector::GetCustomSystems()
 	}
 }
 
+#define CUSTOM_ONLY_RADIUS	4
+
 //////////////////////// Sector
 Sector::Sector(int x, int y, int z)
 {
@@ -42,10 +44,10 @@ Sector::Sector(int x, int y, int z)
 
 	GetCustomSystems();
 
-	if (m_systems.size() != 0) {
-		// custom sector
-
-	} else {
+	/* Always place random systems outside the core custom-only region */
+	if ((x < -CUSTOM_ONLY_RADIUS) || (x > CUSTOM_ONLY_RADIUS-1) ||
+	    (y < -CUSTOM_ONLY_RADIUS) || (y > CUSTOM_ONLY_RADIUS-1) ||
+	    (z < -CUSTOM_ONLY_RADIUS) || (z > CUSTOM_ONLY_RADIUS-1)) {
 		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {

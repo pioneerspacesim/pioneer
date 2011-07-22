@@ -1,1 +1,0 @@
-CustomSystem:new("Exlagre",{'STAR_F'}):add_to_sector(2,-7,v(0.913,0.096,0.701))

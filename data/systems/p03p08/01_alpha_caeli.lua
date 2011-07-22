@@ -1,1 +1,0 @@
-CustomSystem:new("Alpha Caeli",{'STAR_F'}):add_to_sector(3,8,v(0.198,0.065,-1.275))

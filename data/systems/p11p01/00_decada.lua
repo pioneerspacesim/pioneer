@@ -1,1 +1,0 @@
-CustomSystem:new("Decada",{'STAR_F'}):add_to_sector(11,1,v(0.187,0.412,0.271))

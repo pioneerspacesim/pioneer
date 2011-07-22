@@ -1,1 +1,0 @@
-CustomSystem:new("Alexis",{'STAR_M'}):add_to_sector(-5,3,v(0.367,0.773,-0.908))

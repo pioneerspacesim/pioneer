@@ -8,18 +8,22 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "GalacticView.h"
+
+#define INNER_RADIUS (Sector::SIZE*1.5f)
+#define OUTER_RADIUS (Sector::SIZE*3.0f)
 		
 SectorView::SectorView() :
 	m_firstTime(true),
 	m_matchTargetToSelection(true)
 {
 	SetTransparency(true);
-	m_pos = m_posMovingTo = vector3f(0.5f);
-	m_rot_x = m_rot_z = 0;
-	m_zoom = 1.2;
+	m_pos = m_posMovingTo = vector3f(0.0f);
+	m_rot_x = -45.0f;
+	m_rot_z = 0;
+	m_zoom = 2.0f;
 
 	m_clickableLabels = new Gui::LabelSet();
-	m_clickableLabels->SetLabelColor(Color(.7f,.7f,.7f,1.0f));
+	m_clickableLabels->SetLabelColor(Color(.7f,.7f,.7f,0.75f));
 	Add(m_clickableLabels, 0, 0);
 
 	m_infoLabel = new Gui::Label("");
@@ -32,6 +36,11 @@ SectorView::SectorView() :
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip("Zoom out");
 	Add(m_zoomOutButton, 732, 5);
+
+	Add(new Gui::Label("Search:"), 650, 500);
+	m_searchBox = new Gui::TextEntry();
+	m_searchBox->onValueChanged.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxValueChanged));
+	Add(m_searchBox, 700, 500);
 
 	m_gluDiskDlist = glGenLists(1);
 	glNewList(m_gluDiskDlist, GL_COMPILE);
@@ -87,11 +96,28 @@ void SectorView::Load(Serializer::Reader &rd)
 	m_rot_z = rd.Float();
 }
 
-#define DRAW_RAD	1
+void SectorView::OnSearchBoxValueChanged()
+{
+	const std::string search = m_searchBox->GetText();
+	
+	int results = 0;
+	const SystemPath *lastResult = 0;
+
+	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
+		
+	       for (std::vector<Sector::System>::iterator j = (*i).second->m_systems.begin(); j != (*i).second->m_systems.end(); j++) {
+			if ((*j).name.find(search) != std::string::npos) {
+				results++;
+				lastResult = &(*i).first;
+			}
+	       }
+	}
+	if (results == 1) GotoSystem(lastResult);
+}
+
+#define DRAW_RAD	3
 
 #define FFRAC(_x)	((_x)-floor(_x))
-static const GLfloat fogDensity = 0.03;
-static const GLfloat fogColor[4] = { 0,0,0,1.0 };
 
 void SectorView::Draw3D()
 {
@@ -112,28 +138,44 @@ void SectorView::Draw3D()
 
 	// units are lightyears, my friend
 	glTranslatef(0, 0, -10-10*m_zoom);
+	glDisable(GL_LIGHTING);
+	{
+		// draw a circle around the outer view radius	
+		glColor3f(0,0,1);
+		glBegin(GL_LINE_LOOP);
+		for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
+			glVertex3f(OUTER_RADIUS*sin(theta), OUTER_RADIUS*cos(theta), 0);
+		}
+		glEnd();
+	}
 	glRotatef(m_rot_x, 1, 0, 0);
 	glRotatef(m_rot_z, 0, 0, 1);
 	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
-	glDisable(GL_LIGHTING);
-	/*glEnable(GL_FOG);
-	glFogi(GL_FOG_MODE, GL_EXP2);
-	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, fogDensity);
-	glHint(GL_FOG_HINT, GL_NICEST);
-*/
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	
+	SystemPath playerLoc = m_selected;
+	Sector* playerSec = GetCached(playerLoc.sectorX, playerLoc.sectorY, playerLoc.sectorZ);
+	vector3f playerPos(0.0f);
+	if (m_selected.systemIndex < playerSec->m_systems.size())
+	{
+		playerPos = Sector::SIZE * vector3f((float)playerLoc.sectorX, (float)playerLoc.sectorY, (float)playerLoc.sectorZ)
+			+ playerSec->m_systems[playerLoc.systemIndex].p;
+	}
+	
+
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
 				glPushMatrix();
-				glTranslatef(sx*Sector::SIZE, sy*Sector::SIZE, sz*Sector::SIZE);
-				DrawSector(m_selected.sectorX+sx, m_selected.sectorY+sy, m_selected.sectorZ+sz);
+				glTranslatef(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz);
+				DrawSector(m_selected.sectorX+sx, m_selected.sectorY+sy, m_selected.sectorZ+sz, playerPos);
 				glPopMatrix();
 			}
 		}
 	}
 
-	glDisable(GL_FOG);
+	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 }
 
@@ -179,20 +221,21 @@ void SectorView::OnClickSystem(const SystemPath &path)
 	GotoSystem(path);
 }
 
-void SectorView::PutClickableLabel(std::string &text, const SystemPath &path)
+void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
 {
 	Gui::Screen::EnterOrtho();
 	vector3d pos;
 	if (Gui::Screen::Project(vector3d(0.0), pos)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y);
+		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
 	}
 	Gui::Screen::LeaveOrtho();
 }
 
-void SectorView::DrawSector(int sx, int sy, int sz)
+void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos)
 {
 	SystemPath playerLoc = Pi::currentSystem->GetPath();
 	Sector* ps = GetCached(sx, sy, sz);
+#if 0
 	glColor3f(0,.8,0);
 	glBegin(GL_LINE_LOOP);
 		glVertex3f(0, 0, 0);
@@ -219,20 +262,38 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		glVertex3f(Sector::SIZE, 0, 0);
 		glVertex3f(Sector::SIZE, 0, Sector::SIZE);
 	glEnd();
-	
+#endif	
 	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
 
-		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
+		const vector3f sysAbsPos = Sector::SIZE*vector3f((float)sx, (float)sy, (float)sz) + (*i).p;
+		const vector3f toPlayer = playerAbsPos - sysAbsPos;
+		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
+		const float distanceFade = (OUTER_RADIUS - Clamp(toCentreOfView.Length()-0.5f*INNER_RADIUS, 0.0f, OUTER_RADIUS)) / OUTER_RADIUS;
+
+		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
+		
 		glPushMatrix();
-		glTranslatef((*i).p.x, (*i).p.y, 0);
-		glBegin(GL_LINES);
-			glVertex3f(0, 0, 0);
-			glVertex3f(0, 0, (*i).p.z);
-		glEnd();
-		glTranslatef(0, 0, (*i).p.z);
+		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
+
+		const float* col = StarSystem::starColors[(*i).starType[0]];
+		if (toPlayer.Length() <= INNER_RADIUS) {
+			glColor4f(col[0], col[1], col[2], 0.5f);
+			glBegin(GL_LINE_STRIP);
+				glVertex3f(toPlayer.x, toPlayer.y, toPlayer.z);
+				glVertex3f(0, 0, toPlayer.z);
+				glVertex3f(0, 0, 0);
+			glEnd();
+		} else {
+			glColor4f(distanceFade, distanceFade, distanceFade, 0.2f);
+			glBegin(GL_LINE_STRIP);
+				glVertex3f(0, 0, toPlayer.z);
+				glVertex3f(0, 0, 0);
+			glEnd();
+		}
+		glColor4f(col[0], col[1], col[2], 1.0f);
 		
 		glPushMatrix();
 		glRotatef(-m_rot_z, 0, 0, 1);
@@ -261,35 +322,8 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 			}
 			pSS->DecRefCount();
 		}
-		// Pulse populated stars
-		if( (*i).IsSetInhabited() && (*i).IsInhabited() )
-		{
-			// precise to the rendered frame (better than PHYSICS_HZ granularity)
-			double preciseTime = Pi::GetGameTime() + Pi::GetGameTickAlpha()*Pi::GetTimeStep();
-			float radius = 1.5f+(0.5*sin(5.0*(preciseTime+double(num))));
-
-			// I-IS-ALIVE indicator
-			glPushMatrix();
-			{
-				glDepthRange(0.3,1.0);
-				glColor3f(0.8f,0.0f,0.0f);
-				glScalef(radius,radius,radius);
-				glCallList(m_gluDiskDlist);
-			}
-			glPopMatrix();
-		}
-
 		// player location indicator
 		if (current == playerLoc) {
-			const shipstats_t *stats = Pi::player->CalcStats();
-			glColor3f(0,0,1);
-			glBegin(GL_LINE_LOOP);
-			// draw a lovely circle around our beloved player
-			for (float theta=0; theta < 2*M_PI; theta += 0.05*M_PI) {
-				glVertex3f(stats->hyperspace_range*sin(theta), stats->hyperspace_range*cos(theta), 0);
-			}
-			glEnd();
-
 			glPushMatrix();
 			glDepthRange(0.2,1.0);
 			glColor3f(0,0,0.8);
@@ -317,8 +351,13 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		}
 		glDepthRange(0,1);
 		glPopMatrix();
-		glColor3f(.7,.7,.7);
-		PutClickableLabel((*i).name, SystemPath(sx, sy, sz, num));
+		Color labelColor(0.5f,0.5f,0.5f,0.75f);
+		if( ! ((*i).IsSetInhabited() && (*i).IsInhabited()) ) {
+			labelColor.b = labelColor.g = 1.0f;
+		}
+		labelColor *= distanceFade;
+
+		PutClickableLabel((*i).name, labelColor, SystemPath(sx, sy, sz, num));
 		glDisable(GL_LIGHTING);
 
 		glPopMatrix();
@@ -403,6 +442,8 @@ void SectorView::Update()
 		m_rot_x += motion[1];
 		m_rot_z += motion[0];
 	}
+	// clamp x rotation because without it, getting lost is easier
+	m_rot_x = Clamp(m_rot_x, -170.0f, -10.0f);
 
 	SystemPath last_selected = m_selected;
 	

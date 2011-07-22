@@ -1,1 +1,0 @@
-CustomSystem:new("Beliati",{'WHITE_DWARF'}):add_to_sector(-5,-5,v(0.204,0.667,0.962))

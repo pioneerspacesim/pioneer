@@ -1,1 +1,0 @@
-CustomSystem:new("Nu Canis Majoris",{'STAR_K'}):add_to_sector(5,5,v(0.442,0.465,-0.537))

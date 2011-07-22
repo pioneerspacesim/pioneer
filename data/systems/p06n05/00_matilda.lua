@@ -1,1 +1,0 @@
-CustomSystem:new("Matilda",{'STAR_M'}):add_to_sector(6,-5,v(0.370,0.081,0.301))
