@@ -73,7 +73,7 @@ local newhope = CustomSBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	CustomSBody:new('New Hope', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(31))
 		:longitude(math.deg2rad(-121)),
-	CustomSBody:new('Ghandis Revenge', 'STARPORT_SURFACE')
+	CustomSBody:new("Gandhi's Revenge", 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(19))
 		:longitude(math.deg2rad(99)),
 	CustomSBody:new('Epsilon Cove', 'STARPORT_SURFACE')
