@@ -11,8 +11,8 @@ define_model('combo', {
 			use_material('default')
 			call_model('combo0', v(0,0,0),v(1,0,0),v(0,1,0),1)
 	end
-})	
-		
+})
+
 define_model('combo_1', {
 	info = {
 			lod_pixels = {1,10,50,0},
@@ -24,7 +24,7 @@ define_model('combo_1', {
 			use_material('default')
 			call_model('combo0', v(0,-1,0),v(1,0,0),v(0,1,0),1)
 	end
-})	
+})
 
 define_model('combo_2', {
 	info = {
@@ -37,7 +37,7 @@ define_model('combo_2', {
 			use_material('default')
 			call_model('combo0', v(0,-1,0),v(1,0,0),v(0,1,0),1)
 	end
-})		
+})
 
 define_model('combo_3', {
 	info = {
@@ -63,7 +63,7 @@ define_model('combo_1_1', {
 			call_model('combo_1', v(-14,-1,0),v(1,0,0),v(0,1,0),1)
 			call_model('combo_2', v(0,-1,0),v(1,0,0),v(0,1,0),1)
 	end
-})	
+})
 
 define_model('combo_1_2', {
 	info = {
