@@ -61,6 +61,8 @@ int StationShipRepairForm::GetRepairCost(float percent)
 
 void StationShipRepairForm::RepairHull(float percent)
 {
+	float hullDamage = 100.0f - Pi::player->GetPercentHull();
+	if (percent > hullDamage) percent = hullDamage;
 	int cost = GetRepairCost(percent);
 	if (Pi::player->GetMoney() < cost) {
 		Pi::cpan->MsgLog()->Message("", PiLang::YOU_NOT_ENOUGH_MONEY);
