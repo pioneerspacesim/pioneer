@@ -35,6 +35,8 @@ Alpha 13
       exit (#311, #312)
     * Fix occasional crash when station menus are still live in memory after
       launch (#259)
+    * Enable GL extensions earlier in shader compilation to conform to shader
+      spec (#329, #330)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
