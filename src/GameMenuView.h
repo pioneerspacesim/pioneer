@@ -8,6 +8,49 @@
 
 extern std::string GetFullSavefileDirPath();
 
+//contains a slider, mute button and the necessary layout fluff
+class VolumeControl : public Gui::HBox
+{
+	public:
+		VolumeControl(const std::string& label, float volume, bool muted) :
+			HBox() {
+			Gui::Label *lab = new Gui::Label(label.c_str());
+			Gui::Fixed *fix = new Gui::Fixed(50, 32);
+			fix->Add(lab, 0, 0);
+			PackEnd(fix);
+			m_muteButton = new Gui::MultiStateImageButton();
+			m_muteButton->AddState(0, PIONEER_DATA_DIR "/icons/volume_unmuted.png", "Mute");
+			m_muteButton->AddState(1, PIONEER_DATA_DIR "/icons/volume_muted.png", "Unmute");
+			m_muteButton->SetActiveState(muted ? 1 : 0);
+			PackEnd(m_muteButton);
+			m_adjustment = new Gui::Adjustment();
+			m_adjustment->SetValue(volume);
+			Gui::HScale *slider = new Gui::HScale();
+			slider->SetAdjustment(m_adjustment);
+			PackEnd(slider);
+
+			//signals
+			m_muteButton->onClick.connect(sigc::mem_fun(this, &VolumeControl::propagateMute));
+			m_adjustment->onValueChanged.connect(sigc::mem_fun(this, &VolumeControl::propagateSlider));
+		}
+		float GetValue() const {
+			return m_adjustment->GetValue();
+		}
+		void SetValue(float v) {
+			m_adjustment->SetValue(v);
+		}
+		bool IsMuted() const {
+			return m_muteButton->GetState() == 1 ? true : false;
+		}
+		sigc::signal<void> onChanged;
+private:
+		Gui::MultiStateImageButton *m_muteButton;
+		Gui::Adjustment *m_adjustment;
+		//is there a better way?
+		void propagateSlider() { onChanged.emit(); }
+		void propagateMute(Gui::Widget *) { onChanged.emit(); }
+};
+
 class GameMenuView: public View {
 public:
 	GameMenuView();
@@ -31,9 +74,9 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
-	Gui::Adjustment *m_masterVolume;
-	Gui::Adjustment *m_sfxVolume;
-	Gui::Adjustment *m_musicVolume;
+	VolumeControl *m_masterVolume;
+	VolumeControl *m_sfxVolume;
+	VolumeControl *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::ToggleButton *m_toggleShaders;

@@ -25,6 +25,7 @@ static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
+	{ 0.4, 0.4, 0.8 }, // white dwarf
 	{ 1.0, 0.2, 0.0 }, // M
 	{ 1.0, 0.6, 0.1 }, // K
 	{ 1.0, 1.0, 0.4 }, // G
@@ -59,13 +60,13 @@ float StarSystem::starColors[][3] = {
 	{ 0.3, 0.7, 0.3 }, // Stellar Blackhole
 	{ 0.2, 0.9, 0.2 }, // Intermediate mass Black-hole
 	{ 0.0, 1.0, 0.0 }, // Super massive black hole
-	{ 0.4, 0.4, 0.8 }, // white dwarf
 };
 
 // indexed by enum type turd  
 float StarSystem::starRealColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 0.5, 0.0, 0.0 }, // brown dwarf
+	{ 1.0, 1.0, 1.0 }, // white dwarf
 	{ 1.0, 0.5, 0.2 }, // M
 	{ 1.0, 1.0, 0.4 }, // K
 	{ 1.0, 1.0, 0.95 }, // G
@@ -100,12 +101,12 @@ float StarSystem::starRealColors[][3] = {
 	{ 1.0, 1.0, 1.0 },  // small Black hole
 	{ 0.06, 0.0, 0.08 }, // med BH
 	{ 0.04, 0.0, 0.06 }, // massive BH
-	{ 1.0, 1.0, 1.0 }, // white dwarf
 };
 
 double StarSystem::starLuminosities[] = {
 	0,
 	0.0003, // brown dwarf
+	0.1, // white dwarf
 	0.08, // M0
 	0.38, // K0
 	1.2, // G0
@@ -140,12 +141,12 @@ double StarSystem::starLuminosities[] = {
 	0.0003, // Stellar Black hole
 	0.00003, // IM Black hole
 	0.000003, // Supermassive Black hole
-	0.1, // white dwarf
 };
 
 float StarSystem::starScale[] = {  // Used in sector view
 	0,
 	0.6, // brown dwarf
+	0.5, // white dwarf
 	0.7, // M
 	0.8, // K
 	0.8, // G
@@ -179,13 +180,13 @@ float StarSystem::starScale[] = {  // Used in sector view
 	1.6, // O WF
 	1.0, // Black hole
 	2.5, // Intermediate-mass blackhole
-	4.0,  // Supermassive blackhole
-	0.5 // white dwarf
+	4.0  // Supermassive blackhole
 };
 
 fixed StarSystem::starMetallicities[] = {
 	fixed(0,1),
 	fixed(9,10), // brown dwarf
+	fixed(5,10), // white dwarf
 	fixed(7,10), // M0
 	fixed(6,10), // K0
 	fixed(5,10), // G0
@@ -217,16 +218,15 @@ fixed StarSystem::starMetallicities[] = {
 	fixed(1,1), // M WF
 	fixed(8,10), // B WF
 	fixed(6,10), // O WF
-	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :) 
+	fixed(1,1), // Blackholes  /give them high metallicity, so any rocks that happen to be there will be mining hotspots. FUN :)
 	fixed(1,1), // "
-	fixed(1,1), // "
-	fixed(5,10), // white dwarf
+	fixed(1,1)  // "
 };
 
 static const struct StarTypeInfo {
 	SBody::BodySuperType supertype;
-	Sint64 mass[2]; // min,max % sol for stars, unused for planets
-	Sint64 radius[2]; // min,max % sol radii for stars, % earth radii for planets
+	int mass[2]; // min,max % sol for stars, unused for planets
+	int radius[2]; // min,max % sol radii for stars, % earth radii for planets
 	int tempMin, tempMax;
 } starTypeInfo[] = {
 	{
@@ -236,6 +236,10 @@ static const struct StarTypeInfo {
 		SBody::SUPERTYPE_STAR, //Brown Dwarf
 		{2,8}, {10,30},
 		1000, 2000
+	}, {
+		SBody::SUPERTYPE_STAR,  //white dwarf
+		{20,100}, {1,2}, 
+		4000, 40000
 	}, {
 		SBody::SUPERTYPE_STAR, //M
 		{10,47}, {30,60},
@@ -366,16 +370,12 @@ static const struct StarTypeInfo {
 		10, 24
 	}, {
 		SBody::SUPERTYPE_STAR,  // IM BH
-		{1e5,2e6}, {200,1000},
+		{9e5,1e6}, {100,500},
 		1, 10
 	}, {
 		SBody::SUPERTYPE_STAR,  // SM BH
-		{1e10,5e12}, {10000,20000},
+		{2e6,5e6}, {10000,20000},
 		10, 24
-	}, {
-		SBody::SUPERTYPE_STAR,  //white dwarf
-		{20,100}, {1,2}, 
-		4000, 40000
 	}
 /*	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
@@ -448,6 +448,7 @@ SBody::BodySuperType SBody::GetSuperType() const
 {
 	switch (type) {
 		case TYPE_BROWN_DWARF:
+		case TYPE_WHITE_DWARF:
 		case TYPE_STAR_M:
 		case TYPE_STAR_K:
 		case TYPE_STAR_G:
@@ -482,7 +483,6 @@ SBody::BodySuperType SBody::GetSuperType() const
 		case TYPE_STAR_S_BH:
 		case TYPE_STAR_IM_BH:
 		case TYPE_STAR_SM_BH:
-		case TYPE_WHITE_DWARF:
 		     return SUPERTYPE_STAR;
 		case TYPE_PLANET_GAS_GIANT:
 		     return SUPERTYPE_GAS_GIANT;
@@ -505,6 +505,7 @@ std::string SBody::GetAstroDescription()
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return "Brown dwarf sub-stellar object";
+	case TYPE_WHITE_DWARF: return "White dwarf stellar remnant";
 	case TYPE_STAR_M: return "Type 'M' red star";
 	case TYPE_STAR_K: return "Type 'K' orange star";
 	case TYPE_STAR_G: return "Type 'G' yellow star";
@@ -539,7 +540,6 @@ std::string SBody::GetAstroDescription()
 	case TYPE_STAR_S_BH: return "A stellar blackhole";
 	case TYPE_STAR_IM_BH: return "An intermediate-mass blackhole";
 	case TYPE_STAR_SM_BH: return "Our galactic anchor";
-	case TYPE_WHITE_DWARF: return "White dwarf stellar remnant";
 	case TYPE_PLANET_GAS_GIANT:
 		if (mass > 800) return "Very large gas giant";
 		if (mass > 300) return "Large gas giant";
@@ -592,18 +592,24 @@ std::string SBody::GetAstroDescription()
 			else if (m_volatileGas < fixed(4,1)) thickness = "thick";
 			else thickness = "very dense";
 
-			if (m_atmosOxidizing < fixed(1,2)) {
-				if (mass > fixed(3,1)) {
-					s += " with a "+thickness+" Hydrogen atmosphere";
-				} else {
-					s += " with a "+thickness+" Methane atmosphere";
-				}
+			if (m_atmosOxidizing > fixed(95,100)) {
+				s += " with a "+thickness+" Oxygen atmosphere";
+			} else if (m_atmosOxidizing > fixed(7,10)) {
+				s += " with a "+thickness+" Carbon Dioxide atmosphere";
+			} else if (m_atmosOxidizing > fixed(65,100)) {
+				s += " with a "+thickness+" Carbon Monoxide atmosphere";
+			} else if (m_atmosOxidizing > fixed(55,100)) {
+				s += " with a "+thickness+" Methane atmosphere";
+			} else if (m_atmosOxidizing > fixed(3,10)) {
+				s += " with a "+thickness+" Hydrogen atmosphere";
+			} else if (m_atmosOxidizing > fixed(2,10)) {
+				s += " with a "+thickness+" Helium atmosphere";
+			} else if (m_atmosOxidizing > fixed(15,100)) {
+				s += " with a "+thickness+" Argon atmosphere";
+			} else if (m_atmosOxidizing > fixed(1,10)) {
+				s += " with a "+thickness+" Sulfuric atmosphere";
 			} else {
-				if (m_life > fixed(1,2)) {
-					s += " with a "+thickness+" Oxygen atmosphere";
-				} else {
-					s += " with a "+thickness+" Carbon Dioxide atmosphere";
-				}
+				s += " with a "+thickness+" Nitrogen atmosphere";
 			}
 		}
 
@@ -635,6 +641,7 @@ const char *SBody::GetIcon()
 {
 	switch (type) {
 	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
+	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
 	case TYPE_STAR_M: return "icons/object_star_m.png";
 	case TYPE_STAR_K: return "icons/object_star_k.png";
 	case TYPE_STAR_G: return "icons/object_star_g.png";
@@ -669,7 +676,6 @@ const char *SBody::GetIcon()
 	case TYPE_STAR_S_BH: return "icons/object_star_bh.png";
 	case TYPE_STAR_IM_BH: return "icons/object_star_smbh.png";
 	case TYPE_STAR_SM_BH: return "icons/object_star_smbh.png";
-	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
 	case TYPE_PLANET_GAS_GIANT:
 		if (mass > 800) {
 			if (averageTemp > 1000) return "icons/object_planet_large_gas_giant_hot.png";

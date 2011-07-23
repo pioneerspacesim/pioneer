@@ -18,10 +18,11 @@ void MusicEvent::Play(const char *fx, const float volume_left, const float volum
 }
 
 MusicPlayer::MusicPlayer() :
-	m_volume(0.8),
+	m_volume(0.8f),
 	m_playing(false),
 	m_eventOnePlaying(false),
-	m_currentSongName("")
+	m_currentSongName(""),
+	m_enabled(true)
 {
 
 }
@@ -48,6 +49,7 @@ void MusicPlayer::SetVolume(const float vol)
 
 void MusicPlayer::Play(const std::string& name, const bool repeat /* = false */ , const float fadeDelta /* = 1.f */ )
 {
+	if (!m_enabled) return;
 	Sound::Op op = 0;
 	if (repeat)
 		op |= Sound::OP_REPEAT;
@@ -119,6 +121,12 @@ const std::vector<std::string> MusicPlayer::GetSongList()
 bool MusicPlayer::IsPlaying()
 {
 	return (m_eventOne.IsPlaying() || m_eventTwo.IsPlaying());
+}
+
+void MusicPlayer::SetEnabled(const bool en)
+{
+	m_enabled = en;
+	if (!en && IsPlaying()) Stop();
 }
 
 } /* namespace sound */

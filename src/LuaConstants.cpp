@@ -152,6 +152,7 @@ void LuaConstants::Register(lua_State *l)
 	 * STAR_A - type 'A' hot white star
 	 * STAR_B - type 'B' blue star
 	 * STAR_O - type 'O' hot blue star
+	 * WHITE_DWARF - white dwarf stellar remnant
 	 * STAR_M_GIANT - red giant star
 	 * STAR_K_GIANT - orange giant star
 	 * STAR_G_GIANT - yellow giant star
@@ -179,7 +180,6 @@ void LuaConstants::Register(lua_State *l)
 	 * STAR_S_BH - stellar black hole
 	 * STAR_IM_BH - intermediate-mass black hole
 	 * STAR_SM_BH - supermassive black hole
-	 * WHITE_DWARF - white dwarf stellar remnant
 	 * PLANET_GAS_GIANT - gas giant
 	 * PLANET_ASTEROID - asteroid
 	 * PLANET_TERRESTRIAL - terrestrial planet
@@ -204,6 +204,7 @@ void LuaConstants::Register(lua_State *l)
 		{ "STAR_A",             SBody::TYPE_STAR_A },
 		{ "STAR_B",             SBody::TYPE_STAR_B },
 		{ "STAR_O",             SBody::TYPE_STAR_O },
+		{ "WHITE_DWARF",        SBody::TYPE_WHITE_DWARF },
 		{ "STAR_M_GIANT",       SBody::TYPE_STAR_M_GIANT },
 		{ "STAR_K_GIANT",       SBody::TYPE_STAR_K_GIANT },
 		{ "STAR_G_GIANT",       SBody::TYPE_STAR_G_GIANT },
@@ -231,7 +232,6 @@ void LuaConstants::Register(lua_State *l)
 		{ "STAR_S_BH",          SBody::TYPE_STAR_S_BH },
 		{ "STAR_IM_BH",         SBody::TYPE_STAR_IM_BH },
 		{ "STAR_SM_BH",         SBody::TYPE_STAR_SM_BH },
-		{ "WHITE_DWARF",        SBody::TYPE_WHITE_DWARF },
 		{ "PLANET_GAS_GIANT",   SBody::TYPE_PLANET_GAS_GIANT },
 		{ "PLANET_ASTEROID",    SBody::TYPE_PLANET_ASTEROID },
 		{ "PLANET_TERRESTRIAL", SBody::TYPE_PLANET_TERRESTRIAL },
