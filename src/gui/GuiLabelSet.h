@@ -24,13 +24,7 @@ public:
 		float screenx, screeny;
 	};
 
-	LabelSet() {
-		m_eventMask = EVENT_MOUSEDOWN;
-		m_labelsVisible = true;
-		m_labelsClickable = true;
-		m_labelColor = Color(1.0f,1.0f,1.0f,1.0f);
-	}
-
+	LabelSet();
 	bool OnMouseDown(MouseButtonEvent *e);
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]);
@@ -46,6 +40,8 @@ private:
 	bool m_labelsVisible;
 	bool m_labelsClickable;
 	Color m_labelColor;
+
+	TextureFont *m_font;
 };
 }
 
