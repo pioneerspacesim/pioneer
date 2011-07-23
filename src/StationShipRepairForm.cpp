@@ -30,7 +30,7 @@ StationShipRepairForm::StationShipRepairForm(FormController *controller) : FaceF
 	buttonBox = new Gui::HBox();
 	buttonBox->SetSpacing(5.0f);
 	b = new Gui::SolidButton();
-	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairForm::RepairHull), 100.0f));
+	b->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipRepairForm::RepairHull), 100.0f - Pi::player -> GetPercentHull()));
 	buttonBox->PackEnd(b);
 	m_repairAllDesc = new Gui::Label("");
 	buttonBox->PackEnd(m_repairAllDesc);
