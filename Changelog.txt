@@ -39,6 +39,7 @@ Alpha 13
       launch (#259)
     * Enable GL extensions earlier in shader compilation to conform to shader
       spec (#329, #330)
+    * Fix occasional crash on game load (#331)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
