@@ -411,8 +411,10 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glScaled(rad, rad, rad);			// rad = real_rad / scale
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
-		glTranslated(campos.x, campos.y, campos.z);
+		// geosphere->Render translates by campos internally to avoid jitter
+//		glTranslated(campos.x, campos.y, campos.z);
 		m_geosphere->Render(-campos, sbody->GetRadius(), scale);
+		glTranslated(campos.x, campos.y, campos.z);
 
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		
