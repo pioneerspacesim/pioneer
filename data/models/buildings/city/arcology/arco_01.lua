@@ -1,4 +1,19 @@
+--baseless combo
+define_model('combo_nobase', {
+	info = {
+		bounding_radius = 10,
+		materials={'default', 'windows'},
+	},
+	static = function(lod)
+		set_material('windows', .2,.33,.35,1.0,1.5,1.8,2,100)
+		load_obj('../combo/combo1_1.obj')
+		use_material('windows')
+		texture('alu.png')
+		--call_model('combo1_wins', v(0,0,0),v(1,0,0),v(0,1,0),1)
+	end
+})
 
+--some colour & amount variations follow
 define_model('combo_2_0', {
 	info = {
 			lod_pixels = {1,10,50,0},
@@ -62,6 +77,7 @@ define_model('combo_2_4', {
 	end
 })
 
+--top part & insides of the arcology, except dome
 define_model('arco01_inside', {
 	info = {
 			scale = 1,
@@ -165,6 +181,7 @@ define_model('arco01_inside', {
 	end,
 })
 
+--base and dome at top
 define_model('arco01_base', {
 	info = {
 		scale = .8,

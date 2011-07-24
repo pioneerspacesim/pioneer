@@ -97,18 +97,3 @@ define_model('combo0', {
 		end
 	end
 })
-
---for arcologies and such
-define_model('combo_nobase', {
-	info = {
-		bounding_radius = 10,
-		materials={'default', 'windows'},
-	},
-	static = function(lod)
-		set_material('windows', .2,.33,.35,1.0,1.5,1.8,2,100)
-		load_obj('combo1_1.obj')
-		use_material('windows')
-		texture('alu.png')
-		call_model('combo1_wins', v(0,0,0),v(1,0,0),v(0,1,0),1)
-	end
-})
