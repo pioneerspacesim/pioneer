@@ -5,6 +5,7 @@
 #include "FaceVideoLink.h"
 #include "ShipCpanel.h"
 #include "SpaceStationView.h"
+#include "PiLang.h"
 
 void StationPoliceForm::OnOptionClicked(int option)
 {
@@ -12,7 +13,7 @@ void StationPoliceForm::OnOptionClicked(int option)
 		case 0: {
 			SpaceStation *station = Pi::player->GetDockedWith();
 
-			SetTitle(stringf(256, "%s Police", station->GetLabel().c_str()).c_str());
+			SetTitle(stringf(256, PiLang::SOMEWHERE_POLICE, station->GetLabel().c_str()).c_str());
 
 			SetFaceFlags(FaceVideoLink::ARMOUR);
 			SetFaceSeed(MTRand(station->GetSBody()->seed).Int32());
@@ -21,14 +22,14 @@ void StationPoliceForm::OnOptionClicked(int option)
 			Polit::GetCrime(&crime, &fine);
 
 			if (fine == 0) {
-				SetMessage("We have no business with you at the moment.");
+				SetMessage(PiLang::WE_HAVE_NO_BUSINESS_WITH_YOU);
 			}
 			else {
-				SetMessage(stringf(256, "We do not tolerate crime. You must pay a fine of %s.", format_money(fine).c_str()).c_str());
-				AddOption("Pay the fine now.", 1);
+				SetMessage(stringf(256, PiLang::YOU_MUST_PAY_FINE_OF_N_CREDITS, format_money(fine).c_str()).c_str());
+				AddOption(PiLang::PAY_THE_FINE_NOW, 1);
 			}
 
-			AddOption("Hang up.", -1);
+			AddOption(PiLang::HANG_UP, -1);
 
 			break;
 		}

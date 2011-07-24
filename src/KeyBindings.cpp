@@ -1,5 +1,6 @@
 #include "KeyBindings.h"
 #include "Pi.h"
+#include "PiLang.h"
 
 #include <sstream>
 
@@ -60,18 +61,18 @@ std::string KeyBinding::Description() const {
 	std::ostringstream oss;
 
 	if (type == KEYBOARD_KEY) {
-		if (u.keyboard.mod & KMOD_SHIFT) oss << "shift ";
-		if (u.keyboard.mod & KMOD_CTRL) oss << "ctrl ";
-		if (u.keyboard.mod & KMOD_ALT) oss << "alt ";
-		if (u.keyboard.mod & KMOD_META) oss << "meta ";
+		if (u.keyboard.mod & KMOD_SHIFT) oss << PiLang::SHIFT;
+		if (u.keyboard.mod & KMOD_CTRL) oss << PiLang::CTRL;
+		if (u.keyboard.mod & KMOD_ALT) oss << PiLang::ALT;
+		if (u.keyboard.mod & KMOD_META) oss << PiLang::META;
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(u.joystickButton.joystick);
-		oss << " Button " << int(u.joystickButton.button);
+		oss << PiLang::JOY << int(u.joystickButton.joystick);
+		oss << PiLang::BUTTON << int(u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
-		oss << "Joy" << int(u.joystickHat.joystick);
-		oss << " Hat" << int(u.joystickHat.hat);
-		oss << " Dir " << int(u.joystickHat.direction);
+		oss << PiLang::JOY << int(u.joystickHat.joystick);
+		oss << PiLang::HAT << int(u.joystickHat.hat);
+		oss << PiLang::DIRECTION << int(u.joystickHat.direction);
 	} else
 		abort();
 
@@ -101,54 +102,54 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
-	const char *axis_names[] = {"X", "Y", "Z"};
+	const char *axis_names[] = {PiLang::X, PiLang::Y, PiLang::Z};
 	std::ostringstream oss;
 
 	if (direction == KeyBindings::NEGATIVE)
 		oss << '-';
 
-	oss << "Joy" << int(joystick) << ' ';
+	oss << PiLang::JOY << int(joystick) << ' ';
 
 	if (0 <= axis && axis < 3)
 		oss << axis_names[axis];
 	else
 		oss << int(axis);
 
-	oss << " Axis";
+	oss << PiLang::AXIS;
 
 	return oss.str();
 }
 
 const BindingPrototype bindingProtos[] = {
-	{ "Weapons", 0 },
-	{ "Target object in crosshairs", "BindTargetObject" },
-	{ "Fire laser", "BindFireLaser" },
-	{ "Ship orientation", 0 },
-	{ "Fast rotational control", "BindFastRotate" },
-	{ "Pitch up", "BindPitchUp" },
-	{ "Pitch down", "BindPitchDown" },
-	{ "Yaw left", "BindYawLeft" },
-	{ "Yaw right", "BindYawRight" },
-	{ "Roll left", "BindRollLeft" },
-	{ "Roll right", "BindRollRight" },
-	{ "Manual control mode", 0 },
-	{ "Thrust forward", "BindThrustForward" },
-	{ "Thrust backwards", "BindThrustBackwards" },
-	{ "Thrust up", "BindThrustUp" },
-	{ "Thrust down", "BindThrustDown" },
-	{ "Thrust left", "BindThrustLeft" },
-	{ "Thrust right", "BindThrustRight" },
-	{ "Speed control mode", 0 },
-	{ "Increase set speed", "BindIncreaseSpeed" },
-	{ "Decrease set speed", "BindDecreaseSpeed" },
+	{ PiLang::WEAPONS, 0 },
+	{ PiLang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject" },
+	{ PiLang::FIRE_LASER, "BindFireLaser" },
+	{ PiLang::SHIP_ORIENTATION, 0 },
+	{ PiLang::FAST_ROTATION_CONTROL, "BindFastRotate" },
+	{ PiLang::PITCH_UP, "BindPitchUp" },
+	{ PiLang::PITCH_DOWN, "BindPitchDown" },
+	{ PiLang::YAW_LEFT, "BindYawLeft" },
+	{ PiLang::YAW_RIGHT, "BindYawRight" },
+	{ PiLang::ROLL_LEFT, "BindRollLeft" },
+	{ PiLang::ROLL_RIGHT, "BindRollRight" },
+	{ PiLang::MANUAL_CONTROL_MODE, 0 },
+	{ PiLang::THRUSTER_MAIN, "BindThrustForward" },
+	{ PiLang::THRUSTER_RETRO, "BindThrustBackwards" },
+	{ PiLang::THRUSTER_VENTRAL, "BindThrustUp" },
+	{ PiLang::THRUSTER_DORSAL, "BindThrustDown" },
+	{ PiLang::THRUSTER_PORT, "BindThrustLeft" },
+	{ PiLang::THRUSTER_STARBOARD, "BindThrustRight" },
+	{ PiLang::SPEED_CONTROL_MODE, 0 },
+	{ PiLang::INCREASE_SET_SPEED, "BindIncreaseSpeed" },
+	{ PiLang::DECREASE_SET_SPEED, "BindDecreaseSpeed" },
 	{ 0, 0 },
 };
 
 const BindingPrototype axisBindingProtos[] = {
-	{ "Joystick input", 0 },
-	{ "Pitch", "BindAxisPitch" },
-	{ "Roll", "BindAxisRoll" },
-	{ "Yaw", "BindAxisYaw" },
+	{ PiLang::JOYSTICK_INPUT, 0 },
+	{ PiLang::PITCH, "BindAxisPitch" },
+	{ PiLang::ROLL, "BindAxisRoll" },
+	{ PiLang::YAW, "BindAxisYaw" },
 	{ 0, 0 },
 };
 
@@ -178,7 +179,7 @@ bool KeyBindingFromString(const std::string &str, KeyBinding *kb)
 
 		return true;
 
-	} else if (strncmp(p, "Joy", 3) == 0) {
+	} else if (strncmp(p, PiLang::JOY, 3) == 0) {
 		p += 3;
 
 		int joy = atoi(p);
@@ -228,10 +229,10 @@ std::string KeyBindingToString(const KeyBinding &kb) {
 		if (kb.u.keyboard.mod != 0)
 			oss << "Mod" << int(kb.u.keyboard.mod);
 	} else if (kb.type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(kb.u.joystickButton.joystick);
+		oss << PiLang::JOY << int(kb.u.joystickButton.joystick);
 		oss << "Button" << int(kb.u.joystickButton.button);
 	} else if (kb.type == JOYSTICK_HAT) {
-		oss << "Joy" << int(kb.u.joystickHat.joystick);
+		oss << PiLang::JOY << int(kb.u.joystickHat.joystick);
 		oss << "Hat" << int(kb.u.joystickHat.hat);
 		oss << "Dir" << int(kb.u.joystickHat.direction);
 	} else
@@ -251,7 +252,7 @@ bool AxisBindingFromString(const std::string &str, AxisBinding *ab) {
 	else
 		ab->direction = POSITIVE;
 
-	if (strncmp(p, "Joy", 3) != 0)
+	if (strncmp(p, PiLang::JOY, 3) != 0)
 		return false;
 
 	p += 3;
@@ -282,7 +283,7 @@ std::string AxisBindingToString(const AxisBinding &ab) {
 	if (ab.direction == NEGATIVE)
 		oss << '-';
 
-	oss << "Joy";
+	oss << PiLang::JOY;
 	oss << int(ab.joystick);
 	oss << "Axis";
 	oss << int(ab.axis);

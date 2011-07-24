@@ -4,6 +4,7 @@
 #include "NameGenerator.h"
 #include <map>
 #include "utils.h"
+#include "PiLang.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -379,16 +380,16 @@ static const struct StarTypeInfo {
 	}
 /*	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 950, "Medium gas giant",
+		{}, 950, PiLang::MEDIUM_GAS_GIANT,
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 1110, "Large gas giant",
+		{}, 1110, PiLang::LARGE_GAS_GIANT,
 	}, {
 		SBody::SUPERTYPE_GAS_GIANT,
-		{}, 1500, "Very large gas giant",
+		{}, 1500, PiLang::VERY_LARGE_GAS_GIANT,
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
-		{}, 1, "Asteroid",
+		{}, 1, PiLang::ASTEROID,
 		"icons/object_planet_asteroid.png"
 	}, {
 		SBody::SUPERTYPE_ROCKY_PLANET,
@@ -437,10 +438,10 @@ static const struct StarTypeInfo {
 		{}, 90, "Fully terraformed world with introduced species from numerous successful colonies",
 	}, {
 		SBody::SUPERTYPE_STARPORT,
-		{}, 0, "Orbital starport",
+		{}, 0, PiLang::ORBITAL_STARPORT,
 	}, {
 		SBody::SUPERTYPE_STARPORT,
-		{}, 0, "Starport",
+		{}, 0, PiLang::STARPORT,
 	}*/
 };
 
@@ -504,121 +505,121 @@ SBody::BodySuperType SBody::GetSuperType() const
 std::string SBody::GetAstroDescription()
 {
 	switch (type) {
-	case TYPE_BROWN_DWARF: return "Brown dwarf sub-stellar object";
-	case TYPE_WHITE_DWARF: return "White dwarf stellar remnant";
-	case TYPE_STAR_M: return "Type 'M' red star";
-	case TYPE_STAR_K: return "Type 'K' orange star";
-	case TYPE_STAR_G: return "Type 'G' yellow star";
-	case TYPE_STAR_F: return "Type 'F' white star";
-	case TYPE_STAR_A: return "Type 'A' hot white star";
-	case TYPE_STAR_B: return "Bright type 'B' blue star";
-	case TYPE_STAR_O: return "Hot, massive type 'O' star";
-	case TYPE_STAR_M_GIANT: return "Red giant star";
-	case TYPE_STAR_K_GIANT: return "Orange giant star - Unstable";
-	case TYPE_STAR_G_GIANT: return "Yellow giant star - Unstable";
-	case TYPE_STAR_F_GIANT: return "White giant star";
-	case TYPE_STAR_A_GIANT: return "White giant star";
-	case TYPE_STAR_B_GIANT: return "Blue giant star";
-	case TYPE_STAR_O_GIANT: return "Hot Blue giant star";
-	case TYPE_STAR_M_SUPER_GIANT: return "Red super giant star";
-	case TYPE_STAR_K_SUPER_GIANT: return "Orange super giant star";
-	case TYPE_STAR_G_SUPER_GIANT: return "Yellow super giant star";
-	case TYPE_STAR_F_SUPER_GIANT: return "White super giant star";
-	case TYPE_STAR_A_SUPER_GIANT: return "White super giant star";
-	case TYPE_STAR_B_SUPER_GIANT: return "Blue super giant star";
-	case TYPE_STAR_O_SUPER_GIANT: return "Hot Blue super giant star";
-	case TYPE_STAR_M_HYPER_GIANT: return "Red hyper giant star";
-	case TYPE_STAR_K_HYPER_GIANT: return "Orange hyper giant star - Unstable";
-	case TYPE_STAR_G_HYPER_GIANT: return "Yellow hyper giant star - Unstable";
-	case TYPE_STAR_F_HYPER_GIANT: return "White hyper giant star";
-	case TYPE_STAR_A_HYPER_GIANT: return "White hyper giant star";
-	case TYPE_STAR_B_HYPER_GIANT: return "Blue hyper giant star";
-	case TYPE_STAR_O_HYPER_GIANT: return "Hot Blue hyper giant star";
-	case TYPE_STAR_M_WF: return "Wolf rayet star - Unstable";
-	case TYPE_STAR_B_WF: return "Wolf rayet star - Risk of collapse";
-	case TYPE_STAR_O_WF: return "Wolf rayet star - Imminent collapse";
-	case TYPE_STAR_S_BH: return "A stellar blackhole";
-	case TYPE_STAR_IM_BH: return "An intermediate-mass blackhole";
-	case TYPE_STAR_SM_BH: return "Our galactic anchor";
+	case TYPE_BROWN_DWARF: return PiLang::BROWN_DWARF;
+	case TYPE_WHITE_DWARF: return PiLang::WHITE_DWARF;
+	case TYPE_STAR_M: return PiLang::STAR_M;
+	case TYPE_STAR_K: return PiLang::STAR_K;
+	case TYPE_STAR_G: return PiLang::STAR_G;
+	case TYPE_STAR_F: return PiLang::STAR_F;
+	case TYPE_STAR_A: return PiLang::STAR_A;
+	case TYPE_STAR_B: return PiLang::STAR_B;
+	case TYPE_STAR_O: return PiLang::STAR_O;
+	case TYPE_STAR_M_GIANT: return PiLang::STAR_M_GIANT;
+	case TYPE_STAR_K_GIANT: return PiLang::STAR_K_GIANT;
+	case TYPE_STAR_G_GIANT: return PiLang::STAR_G_GIANT;
+	case TYPE_STAR_F_GIANT: return PiLang::STAR_AF_GIANT;
+	case TYPE_STAR_A_GIANT: return PiLang::STAR_AF_GIANT;
+	case TYPE_STAR_B_GIANT: return PiLang::STAR_B_GIANT;
+	case TYPE_STAR_O_GIANT: return PiLang::STAR_O_GIANT;
+	case TYPE_STAR_M_SUPER_GIANT: return PiLang::STAR_M_SUPER_GIANT;
+	case TYPE_STAR_K_SUPER_GIANT: return PiLang::STAR_K_SUPER_GIANT;
+	case TYPE_STAR_G_SUPER_GIANT: return PiLang::STAR_G_SUPER_GIANT;
+	case TYPE_STAR_F_SUPER_GIANT: return PiLang::STAR_AF_SUPER_GIANT;
+	case TYPE_STAR_A_SUPER_GIANT: return PiLang::STAR_AF_SUPER_GIANT;
+	case TYPE_STAR_B_SUPER_GIANT: return PiLang::STAR_B_SUPER_GIANT;
+	case TYPE_STAR_O_SUPER_GIANT: return PiLang::STAR_O_SUPER_GIANT;
+	case TYPE_STAR_M_HYPER_GIANT: return PiLang::STAR_M_HYPER_GIANT;
+	case TYPE_STAR_K_HYPER_GIANT: return PiLang::STAR_K_HYPER_GIANT;
+	case TYPE_STAR_G_HYPER_GIANT: return PiLang::STAR_G_HYPER_GIANT;
+	case TYPE_STAR_F_HYPER_GIANT: return PiLang::STAR_AF_HYPER_GIANT;
+	case TYPE_STAR_A_HYPER_GIANT: return PiLang::STAR_AF_HYPER_GIANT;
+	case TYPE_STAR_B_HYPER_GIANT: return PiLang::STAR_B_HYPER_GIANT;
+	case TYPE_STAR_O_HYPER_GIANT: return PiLang::STAR_O_HYPER_GIANT;
+	case TYPE_STAR_M_WF: return PiLang::STAR_M_WF;
+	case TYPE_STAR_B_WF: return PiLang::STAR_B_WF;
+	case TYPE_STAR_O_WF: return PiLang::STAR_O_WF;
+	case TYPE_STAR_S_BH: return PiLang::STAR_S_BH;
+	case TYPE_STAR_IM_BH: return PiLang::STAR_IM_BH;
+	case TYPE_STAR_SM_BH: return PiLang::STAR_SM_BH;
 	case TYPE_PLANET_GAS_GIANT:
-		if (mass > 800) return "Very large gas giant";
-		if (mass > 300) return "Large gas giant";
-		if (mass > 80) return "Medium gas giant";
-		else return "Small gas giant";
-	case TYPE_PLANET_ASTEROID: return "Asteroid";
+		if (mass > 800) return PiLang::VERY_LARGE_GAS_GIANT;
+		if (mass > 300) return PiLang::LARGE_GAS_GIANT;
+		if (mass > 80) return PiLang::MEDIUM_GAS_GIANT;
+		else return PiLang::SMALL_GAS_GIANT;
+	case TYPE_PLANET_ASTEROID: return PiLang::ASTEROID;
 	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
-		if (mass > fixed(2,1)) s = "Massive";
-		else if (mass > fixed(3,2)) s = "Large";
-		else if (mass < fixed(1,10)) s = "Tiny";
-		else if (mass < fixed(1,5)) s = "Small";
+		if (mass > fixed(2,1)) s = PiLang::MASSIVE;
+		else if (mass > fixed(3,2)) s = PiLang::LARGE;
+		else if (mass < fixed(1,10)) s = PiLang::TINY;
+		else if (mass < fixed(1,5)) s = PiLang::SMALL;
 
 		if (m_volcanicity > fixed(7,10)) {
-			if (s.size()) s += ", highly volcanic";
-			else s = "Highly volcanic";
+			if (s.size()) s += PiLang::COMMA_HIGHLY_VOLCANIC;
+			else s = PiLang::HIGHLY_VOLCANIC;
 		}
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4,5)) {
 			if (m_volatileIces > m_volatileLiquid) {
 				if (averageTemp < fixed(250)) {
-					s += " ice world";
-				} else s += " rocky planet";
+					s += PiLang::ICE_WORLD;
+				} else s += PiLang::ROCKY_PLANET;
 			} else {
 				if (averageTemp < fixed(250)) {
-					s += " ice world";
+					s += PiLang::ICE_WORLD;
 				} else {
-					s += " oceanic world";
+					s += PiLang::OCEANICWORLD;
 				}
 			}
 		} else if (m_volatileLiquid > fixed(2,5)){
 			if (averageTemp > fixed(250)) {
-				s += " planet containing liquid water";
+				s += PiLang::PLANET_CONTAINING_LIQUID_WATER;
 			} else {
-				s += " planet with some ice";
+				s += PiLang::PLANET_WITH_SOME_ICE;
 			}
 		} else if (m_volatileLiquid > fixed(1,5)){
-			s += " rocky planet containing some liquids,";
+			s += PiLang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS;
 		} else {
-			s += " rocky planet";
+			s += PiLang::ROCKY_PLANET;
 		}
 
 		if (m_volatileGas < fixed(1,100)) {
-			s += " with no significant atmosphere";
+			s += PiLang::WITH_NO_SIGNIFICANT_ATMOSPHERE;
 		} else {
 			std::string thickness;
-			if (m_volatileGas < fixed(1,10)) thickness = "tenuous";
-			else if (m_volatileGas < fixed(1,5)) thickness = "thin";
+			if (m_volatileGas < fixed(1,10)) thickness = PiLang::TENUOUS;
+			else if (m_volatileGas < fixed(1,5)) thickness = PiLang::THIN;
 			else if (m_volatileGas < fixed(2,1)) {}
-			else if (m_volatileGas < fixed(4,1)) thickness = "thick";
-			else thickness = "very dense";
+			else if (m_volatileGas < fixed(4,1)) thickness = PiLang::THICK;
+			else thickness = PiLang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95,100)) {
-				s += " with a "+thickness+" Oxygen atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::O2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(7,10)) {
-				s += " with a "+thickness+" Carbon Dioxide atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::CO2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(65,100)) {
-				s += " with a "+thickness+" Carbon Monoxide atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::CO_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(55,100)) {
-				s += " with a "+thickness+" Methane atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3,10)) {
-				s += " with a "+thickness+" Hydrogen atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::H_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(2,10)) {
-				s += " with a "+thickness+" Helium atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15,100)) {
-				s += " with a "+thickness+" Argon atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::AR_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(1,10)) {
-				s += " with a "+thickness+" Sulfuric atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::S_ATMOSPHERE;
 			} else {
-				s += " with a "+thickness+" Nitrogen atmosphere";
+				s += PiLang::WITH_A+thickness+PiLang::N_ATMOSPHERE;
 			}
 		}
 
 		if (m_life > fixed(1,2)) {
-			s += " and a highly complex ecosystem.";
+			s += PiLang::AND_HIGHLY_COMPLEX_ECOSYSTEM;
 		} else if (m_life > fixed(1,10)) {
-			s += " and indigenous plant life.";
+			s += PiLang::AND_INDIGENOUS_PLANT_LIFE;
 		} else if (m_life > fixed(0)) {
-			s += " and indigenous microbial life.";
+			s += PiLang::AND_INDIGENOUS_MICROBIAL_LIFE;
 		} else {
 			s += ".";
 		}
@@ -626,15 +627,15 @@ std::string SBody::GetAstroDescription()
 		return s;
 	}
 	case TYPE_STARPORT_ORBITAL:
-		return "Orbital starport";
+		return PiLang::ORBITAL_STARPORT;
 	case TYPE_STARPORT_SURFACE:
-		return "Starport";
+		return PiLang::STARPORT;
 	case TYPE_GRAVPOINT:
     default:
         fprintf( stderr, "Warning: Invalid Astro Body Description found.\n");
-        return "<unknown>";
+        return PiLang::UNKNOWN;
 	}
-    return "<unknown>";
+    return PiLang::UNKNOWN;
 }
 
 const char *SBody::GetIcon()
@@ -1597,35 +1598,35 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 
 	if (m_unexplored) {
-		m_shortDesc = "Unexplored system. No more data available.";
+		m_shortDesc = PiLang::UNEXPLORED_SYSTEM_NO_DATA;
 	}
 
 	/* Total population is in billions */
 	else if(m_totalPop == 0) {
-		m_shortDesc = "Small-scale prospecting. No registered settlements.";
+		m_shortDesc = PiLang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS;
 	} else if (m_totalPop < fixed(1,10)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Small industrial outpost."; break;
-			case ECON_MINING: m_shortDesc = "Some established mining."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "Young farming colony."; break;
+			case ECON_INDUSTRY: m_shortDesc = PiLang::SMALL_INDUSTRIAL_OUTPOST; break;
+			case ECON_MINING: m_shortDesc = PiLang::SOME_ESTABLISHED_MINING; break;
+			case ECON_AGRICULTURE: m_shortDesc = PiLang::YOUNG_FARMING_COLONY; break;
 		}
 	} else if (m_totalPop < fixed(1,2)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Industrial colony."; break;
-			case ECON_MINING: m_shortDesc = "Mining colony."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "Outdoor agricultural world."; break;
+			case ECON_INDUSTRY: m_shortDesc = PiLang::INDUSTRIAL_COLONY; break;
+			case ECON_MINING: m_shortDesc = PiLang::MINING_COLONY; break;
+			case ECON_AGRICULTURE: m_shortDesc = PiLang::OUTDOOR_AGRICULTURAL_WORLD; break;
 		}
 	} else if (m_totalPop < fixed(5,1)) {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Heavy industry."; break;
-			case ECON_MINING: m_shortDesc = "Extensive mining operations."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "Thriving outdoor world."; break;
+			case ECON_INDUSTRY: m_shortDesc = PiLang::HEAVY_INDUSTRY; break;
+			case ECON_MINING: m_shortDesc = PiLang::EXTENSIVE_MINING; break;
+			case ECON_AGRICULTURE: m_shortDesc = PiLang::THRIVING_OUTDOOR_WORLD; break;
 		}
 	} else {
 		switch (m_econType) {
-			case ECON_INDUSTRY: m_shortDesc = "Industrial hub system."; break;
-			case ECON_MINING: m_shortDesc = "Vast strip-mining colony."; break;
-			case ECON_AGRICULTURE: m_shortDesc = "High population outdoor world."; break;
+			case ECON_INDUSTRY: m_shortDesc = PiLang::INDUSTRIAL_HUB_SYSTEM; break;
+			case ECON_MINING: m_shortDesc = PiLang::VAST_STRIP_MINE; break;
+			case ECON_AGRICULTURE: m_shortDesc = PiLang::HIGH_POPULATION_OUTDOOR_WORLD; break;
 		}
 	}
 }
@@ -1833,7 +1834,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->rotationPeriod = fixed(1,3600);
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = NameGenerator::Surname(rand) + " Spaceport";
+		sp->name = NameGenerator::Surname(rand) + PiLang::SOMEWHERE_SPACEPORT;
 		/* just always plonk starports in near orbit */
 		sp->semiMajorAxis = orbMinS;
 		sp->eccentricity = fixed(0);
@@ -1854,7 +1855,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 			*sp2 = *sp;
 			sp2->id = id2;
 			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
-			sp2->name = NameGenerator::Surname(rand) + " Spaceport";
+			sp2->name = NameGenerator::Surname(rand) + PiLang::SOMEWHERE_SPACEPORT;
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
 		}
@@ -1873,7 +1874,7 @@ void SBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = NameGenerator::Surname(rand) + " Starport";
+		sp->name = NameGenerator::Surname(rand) + PiLang::SOMEWHERE_STARPORT;
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);

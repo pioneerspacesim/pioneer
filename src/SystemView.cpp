@@ -103,21 +103,27 @@ void SystemView::OnClickObject(SBody *b)
 	std::string desc;
 	std::string data;
 
-	desc += "Name:\n";
+	desc += std::string(PiLang::NAME);
+    desc += ":\n";
 	data += b->name+"\n";
 	
-	desc += "Day length (rotational period):\n";
-	data += stringf(128, "%.2f days\n", b->rotationPeriod.ToFloat());
+	desc += std::string(PiLang::DAY_LENGTH);
+	desc += std::string(PiLang::ROTATIONAL_PERIOD);
+    desc += ":\n";
+	data += stringf(128, std::string(std::string(PiLang::N_DAYS)+std::string("\n")).c_str(), b->rotationPeriod.ToFloat());
 	
-	desc += "Radius:\n";
+	desc += std::string(PiLang::RADIUS);
+    desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
 
 	if (b->parent) {
-		desc += "Semi-major axis:\n";
+		desc += std::string(PiLang::SEMI_MAJOR_AXIS);
+        desc += ":\n";
 		data += format_distance(b->orbit.semiMajorAxis)+"\n";
 
-		desc += "Orbital period:\n";
-		data += stringf(128, "%.2f days\n", b->orbit.period / (24*60*60));
+		desc += std::string(PiLang::ORBITAL_PERIOD);
+        desc += ":\n";
+		data += stringf(128, std::string(std::string(PiLang::N_DAYS)+std::string("\n")).c_str(), b->orbit.period / (24*60*60));
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
@@ -208,7 +214,7 @@ void SystemView::Draw3D()
 		}
 	}
 	m_time += m_timeStep*Pi::GetFrameTime();
-	std::string t = "Time point: "+format_date(m_time);
+	std::string t = PiLang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
@@ -229,7 +235,7 @@ void SystemView::Draw3D()
 
 	m_objectLabels->Clear();
 	if (m_system->m_unexplored)
-		m_infoLabel->SetText("Unexplored system. System view unavailable.");
+		m_infoLabel->SetText(PiLang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody)
 		PutBody(m_system->rootBody, pos);
 	

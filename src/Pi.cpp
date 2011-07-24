@@ -131,15 +131,15 @@ bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 const float Pi::timeAccelRates[] = { 0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0 };
 const char * const Pi::combatRating[] = {
-	"Harmless",
-	"Mostly harmless",
-	"Poor",
-	"Average",
-	"Above Average",
-	"Competent",
-	"Dangerous",
-	"Deadly",
-	"ELITE"
+	PiLang::HARMLESS,
+	PiLang::MOSTLY_HARMLESS,
+	PiLang::POOR,
+	PiLang::AVERAGE,
+	PiLang::ABOVE_AVERAGE,
+	PiLang::COMPETENT,
+	PiLang::DANGEROUS,
+	PiLang::DEADLY,
+	PiLang::ELITE
 };
 
 #if OBJECTVIEWER
@@ -170,7 +170,7 @@ static void draw_progress(float progress)
 	Gui::Screen::EnterOrtho();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	std::string msg = stringf(256, "Simulating evolution of the universe: %.1f billion years ;-)", progress * 15.0f);
+	std::string msg = stringf(256, PiLang::SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, progress * 15.0f);
 	Gui::Screen::MeasureString(msg, w, h);
 	glColor3f(1.0f,1.0f,1.0f);
 	Gui::Screen::RenderString(msg, 0.5f*(Gui::Screen::GetWidth()-w), 0.5f*(Gui::Screen::GetHeight()-h));
@@ -747,7 +747,7 @@ static void draw_tombstone(float _time)
 
 	LmrObjParams params = {
 		{ 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ "RIP OLD BEAN" },
+		{ PiLang::TOMBSTONE_EPITAPH },
 		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
@@ -916,15 +916,15 @@ void Pi::Start()
 	opts[3] = new Gui::ToggleButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
 	opts[4] = new Gui::ToggleButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
 	splash->Add(opts[0], w, h-64);
-	splash->Add(new Gui::Label("New game starting on Earth"), w+32, h-64);
+	splash->Add(new Gui::Label(PiLang::MM_START_NEW_GAME_EARTH), w+32, h-64);
 	splash->Add(opts[1], w, h-32);
-	splash->Add(new Gui::Label("New game starting on Epsilon Eridani"), w+32, h-32);
+	splash->Add(new Gui::Label(PiLang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-32);
 	splash->Add(opts[2], w, h);
-	splash->Add(new Gui::Label("New game starting on debug point"), w+32, h);
+	splash->Add(new Gui::Label(PiLang::MM_START_NEW_GAME_DEBUG), w+32, h);
 	splash->Add(opts[3], w, h+32);
-	splash->Add(new Gui::Label("Load a saved game"), w+32, h+32);
+	splash->Add(new Gui::Label(PiLang::MM_LOAD_SAVED_GAME), w+32, h+32);
 	splash->Add(opts[4], w, h+64);
-	splash->Add(new Gui::Label("Quit"), w+32, h+64);
+	splash->Add(new Gui::Label(PiLang::MM_QUIT), w+32, h+64);
 
     std::string version("Pioneer " PIONEER_VERSION);
     if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
@@ -1270,7 +1270,7 @@ void Pi::MainLoop()
 		if (SDL_GetTicks() - last_screendump > 50) {
 			last_screendump = SDL_GetTicks();
 			char buf[256];
-			snprintf(buf, sizeof(buf), "screenshot%08d.png", dumpnum++);
+			snprintf(buf, sizeof(buf), PiLang::SCREENSHOT_FILENAME_TEMPLATE, dumpnum++);
 			Screendump(buf, GetScrWidth(), GetScrHeight());
 		}
 #endif /* MAKING_VIDEO */

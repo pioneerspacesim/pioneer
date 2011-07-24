@@ -103,6 +103,10 @@ private:
 	static const unsigned char days[2][12];
 };
 
+// This string of months needs to be made translatable.
+// It can always be an array of char with 37 elements,
+// as all languages can use just the first three letters
+// of the name of each month.
 const char timedate::months[37] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 const unsigned char timedate::days[2][12] = {
 	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},

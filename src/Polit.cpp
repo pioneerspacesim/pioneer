@@ -9,6 +9,7 @@
 #include "SpaceStation.h"
 #include "EquipType.h"
 #include "PersistSystemData.h"
+#include "PiLang.h"
 
 namespace Polit {
 
@@ -20,10 +21,10 @@ struct crime_t {
 } s_playerPerBlocCrimeRecord[BLOC_MAX];
 
 const char *crimeNames[64] = {
-	"Trading illegal goods",
-	"Unlawful weapons discharge",
-	"Piracy",
-	"Murder",
+	PiLang::TRADING_ILLEGAL_GOODS,
+	PiLang::UNLAWFUL_WEAPONS_DISCHARGE,
+	PiLang::PIRACY,
+	PiLang::MURDER,
 };
 // in 1/100th credits, as all money is
 static const Sint64 crimeBaseFine[64] = {
@@ -33,17 +34,17 @@ static const Sint64 crimeBaseFine[64] = {
 	1500000,
 };
 const char *s_blocDesc[BLOC_MAX] = {
-	"Independent",
-	"Earth Federation",
-	"Confederation of Independent Systems",
-	"The Empire"
+	PiLang::INDEPENDENT,
+	PiLang::EARTH_FEDERATION,
+	PiLang::INDEPENDENT_CONFEDERATION,
+	PiLang::EMPIRE
 };
 const char *s_econDesc[ECON_MAX] = {
-	"No established order",
-	"Entirely Capitalist - no government welfare provision",
-	"Capitalist",
-	"Mixed economy",
-	"Centrally planned economy"
+	PiLang::NO_ESTABLISHED_ORDER,
+	PiLang::HARD_CAPITALIST,
+	PiLang::CAPITALIST,
+	PiLang::MIXED_ECONOMY,
+	PiLang::PLANNED_ECONOMY
 };
 
 struct politDesc_t {
@@ -56,22 +57,22 @@ struct politDesc_t {
 };
 const politDesc_t s_govDesc[GOV_MAX] = {
 	{ "<invalid turd>", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ "No central governance", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ "Earth Federation Colonial Rule", 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
-	{ "Earth Federation Democracy", 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
-	{ "Imperial Rule", 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
-	{ "Liberal democracy", 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
-	{ "Social democracy", 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
-	{ "Liberal democracy", 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ "Corporate system", 1, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
-	{ "Social democracy", 3, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ "Military dictatorship", 1, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
-	{ "Military dictatorship", 1, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ "Military dictatorship", 1, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ "Military dictatorship", 1, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
-	{ "Communist", 1, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
-	{ "Plutocratic dictatorship", 1, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
-	{ "Disorder - Overall governance contested by armed factions", 0, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
+	{ PiLang::NO_CENTRAL_GOVERNANCE, 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
+	{ PiLang::EARTH_FEDERATION_COLONIAL_RULE, 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
+	{ PiLang::EARTH_FEDERATION_DEMOCRACY, 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
+	{ PiLang::IMPERIAL_RULE, 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
+	{ PiLang::LIBERAL_DEMOCRACY, 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
+	{ PiLang::SOCIAL_DEMOCRACY, 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
+	{ PiLang::LIBERAL_DEMOCRACY, 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ PiLang::CORPORATE_SYSTEM, 1, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
+	{ PiLang::SOCIAL_DEMOCRACY, 3, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ PiLang::MILITARY_DICTATORSHIP, 1, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
+	{ PiLang::MILITARY_DICTATORSHIP, 1, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ PiLang::MILITARY_DICTATORSHIP, 1, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ PiLang::MILITARY_DICTATORSHIP, 1, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
+	{ PiLang::COMMUNIST, 1, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
+	{ PiLang::PLUTOCRATIC_DICTATORSHIP, 1, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
+	{ PiLang::VIOLENT_ANARCHY, 0, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
 };
 
 void Init()
@@ -124,7 +125,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 		if (dist > 100000.0) return;
 		const int crimeIdx = GetCrimeIdxFromEnum(crime);
 		Pi::cpan->MsgLog()->ImportantMessage(station->GetLabel(),
-				stringf(512, "%s cannot be tolerated here.", crimeNames[crimeIdx]));
+				stringf(512, PiLang::X_CANNOT_BE_TOLERATED_HERE, crimeNames[crimeIdx]));
 
 		float lawlessness = Pi::currentSystem->GetSysPolit().lawlessness.ToFloat();
 		Sint64 oldCrimes, oldFine;

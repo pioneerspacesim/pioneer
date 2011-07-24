@@ -8,6 +8,7 @@
 #include "GeoSphere.h"
 #include "Render.h"
 #include "perlin.h"
+#include "PiLang.h"
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;

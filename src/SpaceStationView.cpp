@@ -43,7 +43,7 @@ SpaceStationView::SpaceStationView(): View()
 	m_equipmentMass = new Gui::Label("");
 	m_statusBox->Add(m_equipmentMass, 130, 6*YSEP);
 	
-	m_legalstatus = new Gui::Label("Clean");
+	m_legalstatus = new Gui::Label(PiLang::CLEAN);
 	m_statusBox->Add(m_legalstatus, 210, 2*YSEP);
 
 
