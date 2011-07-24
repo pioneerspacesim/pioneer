@@ -23,7 +23,7 @@ private:
 	char *str;
 	bool m_justify;
 
-    TextureFont *m_font;
+	TextureFont *m_font;
 };
 }
 
