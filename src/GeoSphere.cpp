@@ -324,7 +324,7 @@ public:
 				pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
 				pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
 				pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
-				pData->col[3] = 1.0;
+				pData->col[3] = 255;
 			}
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_DYNAMIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, 0);
