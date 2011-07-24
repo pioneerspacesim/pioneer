@@ -231,6 +231,30 @@ void SectorView::PutClickableLabel(const std::string &text, const Color &labelCo
 	Gui::Screen::LeaveOrtho();
 }
 
+static void _draw_arrow(const vector3f &direction)
+{
+	// ^^^^ !sol
+	const float headRadius = 0.25f;
+	glBegin(GL_LINE_STRIP);
+		glVertex3f(direction.x, direction.y, direction.z);
+		glVertex3f(0, 0, 0);
+	glEnd();
+	glDisable(GL_CULL_FACE);
+	const vector3f axis1 = direction.Cross(vector3f(0,1.0f,0)).Normalized();
+	const vector3f axis2 = direction.Cross(axis1).Normalized();
+	vector3f p;
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex3f(direction.x, direction.y, direction.z);
+		for (float f=2*M_PI; f>0; f-=0.6) {
+			p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;
+			glVertex3fv(&p.x);
+		}
+		p = 0.8f*direction + headRadius*axis2;
+		glVertex3fv(&p.x);
+	glEnd();
+	glEnable(GL_CULL_FACE);
+}
+
 void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos)
 {
 	SystemPath playerLoc = Pi::currentSystem->GetPath();
@@ -265,7 +289,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 #endif	
 	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
-	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
+	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
 
 		const vector3f sysAbsPos = Sector::SIZE*vector3f((float)sx, (float)sy, (float)sz) + (*i).p;
@@ -275,35 +299,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 		
-		glPushMatrix();
-		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
-
-		const float* col = StarSystem::starColors[(*i).starType[0]];
-		if (toPlayer.Length() <= INNER_RADIUS) {
-			glColor4f(col[0], col[1], col[2], 0.5f);
-			glBegin(GL_LINE_STRIP);
-				glVertex3f(toPlayer.x, toPlayer.y, toPlayer.z);
-				glVertex3f(0, 0, toPlayer.z);
-				glVertex3f(0, 0, 0);
-			glEnd();
-		} else {
-			glColor4f(distanceFade, distanceFade, distanceFade, 0.2f);
-			glBegin(GL_LINE_STRIP);
-				glVertex3f(0, 0, toPlayer.z);
-				glVertex3f(0, 0, 0);
-			glEnd();
-		}
-		glColor4f(col[0], col[1], col[2], 1.0f);
-		
-		glPushMatrix();
-		glRotatef(-m_rot_z, 0, 0, 1);
-		glRotatef(-m_rot_x, 1, 0, 0);
-		glScalef((StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]));
-		glCallList(m_gluDiskDlist);
-		glScalef(2,2,2);
-
 		// only do this once we've pretty much stopped moving.
 		vector3f diff = vector3f(
 				fabs(m_posMovingTo.x - m_pos.x),
@@ -312,7 +307,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 		if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f ) {
 			StarSystem* pSS = StarSystem::GetCached(current);
-			if( !pSS->m_unexplored && pSS->m_spaceStations.size()>0 ) 
+			if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
 			{
 				(*i).SetInhabited(true);
 			}
@@ -322,6 +317,50 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			}
 			pSS->DecRefCount();
 		}
+		
+		glPushMatrix();
+		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
+
+		const float* col = StarSystem::starColors[(*i).starType[0]];
+		/* only do coloured depth indicator lines linked to current system
+		   if inhabited, and quite near */
+		if ((toPlayer.Length() <= INNER_RADIUS) &&
+		    ((*i).IsSetInhabited() && (*i).IsInhabited()) ) {
+			glColor4f(col[0], col[1], col[2], 0.5f);
+			glBegin(GL_LINE_STRIP);
+				glVertex3f(toPlayer.x, toPlayer.y, toPlayer.z);
+				glVertex3f(0, 0, toPlayer.z);
+				glVertex3f(0, 0, 0);
+			glEnd();
+		} else {
+			glColor4f(distanceFade, distanceFade, distanceFade, 0.2f);
+			glBegin(GL_LINE_STRIP);
+				glVertex3f(0, 0, toCentreOfView.z);
+				glVertex3f(0, 0, 0);
+			glEnd();
+		}
+		if (current == m_selected) {
+			// draw an arrow down axis towards galactic centre, to keep bearings
+			// XXX note it doesn't track the galactic centre, just points down axis
+			glColor4f(0, 0, 0.8f, 1.0f);
+			_draw_arrow(vector3f(-3.0f, 0, 0));
+			// on selected system, give arrow towards sol to keep bearings
+			if (!(current.sectorX==0 && current.sectorY==0 && current.sectorZ==0 && current.systemIndex==0)) {
+				glColor4f(0, 0.8f, 0, 1.0f);
+				_draw_arrow(-3.0f*sysAbsPos.Normalized());
+			}
+		}
+		// draw star blob itself
+		glColor4f(col[0], col[1], col[2], 1.0f);
+		glPushMatrix();
+		glRotatef(-m_rot_z, 0, 0, 1);
+		glRotatef(-m_rot_x, 1, 0, 0);
+		glScalef((StarSystem::starScale[(*i).starType[0]]),
+			(StarSystem::starScale[(*i).starType[0]]),
+			(StarSystem::starScale[(*i).starType[0]]));
+		glCallList(m_gluDiskDlist);
+		glScalef(2,2,2);
+
 		// player location indicator
 		if (current == playerLoc) {
 			glPushMatrix();
@@ -352,7 +391,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glDepthRange(0,1);
 		glPopMatrix();
 		Color labelColor(0.5f,0.5f,0.5f,0.75f);
-		if( ! ((*i).IsSetInhabited() && (*i).IsInhabited()) ) {
+		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
 			labelColor.b = labelColor.g = 1.0f;
 		}
 		labelColor *= distanceFade;
@@ -361,7 +400,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glDisable(GL_LIGHTING);
 
 		glPopMatrix();
-		num++;
 	}
 }
 
