@@ -16,6 +16,9 @@
     <Filter Include="src\gui">
       <UniqueIdentifier>{5f9ae661-2520-48e2-b510-4db78c61e4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\png">
+      <UniqueIdentifier>{537f9838-4a99-4ccf-8da7-0bbe7f138b55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\collider\BVHTree.cpp">
@@ -389,6 +392,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LuaMusic.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\png\lodepng.cpp">
+      <Filter>src\png</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\TextureManager.cpp">
       <Filter>src</Filter>
@@ -875,10 +881,16 @@
     <ClInclude Include="..\..\src\LuaMusic.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\png\lodepng.h">
+      <Filter>src\png</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\TextureManager.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaSystemPath.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SystemPath.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipSpinnerWidget.h">

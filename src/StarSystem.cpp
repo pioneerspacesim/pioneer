@@ -1939,14 +1939,20 @@ StarSystem *StarSystem::GetCached(const SystemPath &path)
 
 void StarSystem::ShrinkCache()
 {
-	std::map<SystemPath,StarSystem*>::iterator i = s_cachedSystems.begin();
-	while (i != s_cachedSystems.end()) {
-		StarSystem *s = (*i).second;
-		if (s->GetRefCount() == 0) {
+	// from http://stackoverflow.com/questions/4600567/c-deleting-elements-with-iterator
+	// The idea is to walk the iterator forward from the start of the container to the end, 
+	// checking at each step whether the current key/value pair should be deleted. 
+	// If so, a copy of the iterator is made and the iterator is advanced to the next step (to avoid iterator invalidation), 
+	// then the copied iterator is removed from the container. Otherwise, the iterator is advanced as usual.
+	std::map<SystemPath,StarSystem*>::iterator iter = s_cachedSystems.begin();
+	while (iter != s_cachedSystems.end())
+	{
+		StarSystem *s = (*iter).second;
+		if ((NULL!=s) && s->GetRefCount() == 0)	{
 			delete s;
-			s_cachedSystems.erase(i++);
+			iter = s_cachedSystems.erase( iter ); 
+		} else {
+			++iter;
 		}
-		else
-			i++;
 	}
 }

@@ -188,6 +188,7 @@
     <ClCompile Include="..\..\src\PiLuaClasses.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\src\png\lodepng.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\Render.cpp" />
@@ -349,6 +350,7 @@
     <ClInclude Include="..\..\src\PiLuaClasses.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
+    <ClInclude Include="..\..\src\png\lodepng.h" />
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
@@ -385,6 +387,7 @@
     <ClInclude Include="..\..\src\StationShipViewForm.h" />
     <ClInclude Include="..\..\src\StationShipyardForm.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
+    <ClInclude Include="..\..\src\SystemPath.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TextureFont.h" />
     <ClInclude Include="..\..\src\TextureManager.h" />
