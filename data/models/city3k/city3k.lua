@@ -1008,96 +1008,62 @@ define_model('factory_3k_4', {
 
 define_model('green_bubble', {
 	info = {
-			scale = 1.5,
-			lod_pixels = {.1,10,50,0},
-			bounding_radius = 5,
-			materials={'default', 'concrete', 'cutout', 'fce_glow', 'glow2'},
-			tags = {'city_starport_building'},
-			},
+		scale = 1.5,
+		lod_pixels = {1,10},
+		bounding_radius = 5,
+		materials={'default', 'concrete', 'cutout', 'fce_glow', 'glow2'},
+		tags = {'city_starport_building'},
+	},
 	static = function(lod)
-			--set_material('glow1',0,0,0,.9,0,0,0,0,1,1.6,1.8)
-			set_material('concrete',.6,.6,.5,1,.3,.3,.3,5)
-			set_material('default', .43,.5,.63,1,1.26,1.4,1.66,30)
-			set_material('fce_glow',0,0,0,1,0,0,0,0,1.5,2,.7)
-			set_material('cutout',0,0,0,.999,.6,.6,.6,30)
+		--set_material('glow1',0,0,0,.9,0,0,0,0,1,1.6,1.8)
+		set_material('concrete',.6,.6,.5,1,.3,.3,.3,5)
+		set_material('default', .43,.5,.63,1,1.26,1.4,1.66,30)
+		set_material('fce_glow',0,0,0,1,0,0,0,0,1.5,2,.7)
+		set_material('cutout',0,0,0,.999,.6,.6,.6,30)
 
+		local  v0 = v(4.359,0,6)
+		local  v1 = v(-4.359,0,6)
+		local  v2 = v(7.053,0,-2.292)
+		local  v3 = v(-7.053,0,-2.292)
+		local  v4 = v(0,0,-7.416)
+		local v10 = v(2.18,3,3)
+		local v11 = v(-2.18,3,3)
+		local v12 = v(3.527,3,-1.146)
+		local v13 = v(-3.527,3,-1.146)
+		local v14 = v(0,3,-3.708)
 
-			local  v0 = v(4.359,0,6)
-			local  v1 = v(-4.359,0,6)
-			local  v2 = v(7.053,0,-2.292)
-			local  v3 = v(-7.053,0,-2.292)
-			local  v4 = v(0,0,-7.416)
-			local v10 = v(2.18,3,3)
-			local v11 = v(-2.18,3,3)
-			local v12 = v(3.527,3,-1.146)
-			local v13 = v(-3.527,3,-1.146)
-			local v14 = v(0,3,-3.708)
+		texture('alu.png',v(.5,.5,0),v(.2,0,0),v(0,0,1))
+		use_material('default')
 
-			if lod > 3 then
-				texture('alu.png',v(.5,.5,0),v(.2,0,0),v(0,0,1))
-			elseif lod > 1 then
-				texture('alu_s.png',v(.5,.5,0),v(.2,0,0),v(0,0,1))
-			end
-			use_material('default')
+		quad(v12,v13,v11,v10)
+		tri(v12,v14,v13)
+		quad(v0,v2,v12,v10)
+		quad(v2,v4,v14,v12)
+		quad(v4,v3,v13,v14)
+		quad(v3,v1,v11,v13)
+		quad(v1,v0,v10,v11)
 
-			quad(v12,v13,v11,v10)
-			tri(v12,v14,v13)
-			quad(v0,v2,v12,v10)
-			quad(v2,v4,v14,v12)
-			quad(v4,v3,v13,v14)
-			quad(v3,v1,v11,v13)
-			quad(v1,v0,v10,v11)
+		if lod > 1 then
 
-			if lod > 1 then
-				if lod < 3 then
-					texture('wtr_x_s.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
-				else
-					texture('wtr_x_s.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
-				end
-				use_material('glow2')
-				sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(2.99,2.99,2.99)))
+			use_material('glow2')
+			texture('wtr_x.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
+			sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(2.99,2.99,2.99)))
 
-				if lod < 3 then
-					texture('bubbles_s.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
-				else
-					texture('bubbles.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
-				end
-				use_material('cutout')
-				sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(3,3,3)))
-			end
-
+			use_material('cutout')
+			texture('bubbles.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
+			sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(3,3,3)))
 			bld_base_2(lod,1.2,0)
+		end
 	end,
 	dynamic = function(lod)
+		--pulsating glow
 		if lod > 1 then
 			set_material('glow2',lerp_materials(get_arg(1)*0.3, {0,0,0,1,0,0,0,0,1.6,1.9,0},
 																 {0,0,0,1,0,0,0,0,1,2.5,0}))
 		end
-		--[[
-		if lod > 2 then
-			local trans = get_arg(1)*.1
-			if lod > 3 then
-				texture('models/city3k/wtr_x.png',v(math.sin(trans),math.cos(trans),0),v(.05,0,0),v(0,0,1))
-			else
-				texture('models/city3k/wtr_x_s.png',v(.5,.5,.5),v(.05,0,0),v(0,0,1))
-			end
-			use_material('glow2')
-			sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(2.99,2.99,2.99)))
-
-			if lod > 3 then
-				texture(models/city3k/bubbles.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
-			else
-				texture('models/city3k/bubbles_s.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
-			end
-			use_material('cutout')
-			sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(3,3,3)))
-
-		end
-		--]]
-
-
 	end
 })
+
 --[[
 define_model('blue_bubble', {
 	info = {
