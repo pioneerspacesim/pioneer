@@ -315,20 +315,16 @@ public:
 			{
 				clipRadius = std::max(clipRadius, (vertices[i]-clipCentroid).Length());
 				VBOVertex *pData = vbotemp + i;
-				// make position relative to patch centre
-				pData->x = float(vertices[i].x - clipCentroid.x);
-				pData->y = float(vertices[i].y - clipCentroid.y);
-				pData->z = float(vertices[i].z - clipCentroid.z);
-//				pData->x = float(vertices[i].x);
-//				pData->y = float(vertices[i].y);
-//				pData->z = float(vertices[i].z);
+				pData->x = float(vertices[i].x);
+				pData->y = float(vertices[i].y);
+				pData->z = float(vertices[i].z);
 				pData->nx = float(normals[i].x);
 				pData->ny = float(normals[i].y);
 				pData->nz = float(normals[i].z);
 				pData->col[0] = static_cast<unsigned char>(Clamp(colors[i].x*255.0, 0.0, 255.0));
 				pData->col[1] = static_cast<unsigned char>(Clamp(colors[i].y*255.0, 0.0, 255.0));
 				pData->col[2] = static_cast<unsigned char>(Clamp(colors[i].z*255.0, 0.0, 255.0));
-				pData->col[3] = 1.0;		// TODO: change to 255
+				pData->col[3] = 1.0;
 			}
 			glBufferDataARB(GL_ARRAY_BUFFER, sizeof(VBOVertex)*GEOPATCH_NUMVERTICES, vbotemp, GL_DYNAMIC_DRAW);
 			glBindBufferARB(GL_ARRAY_BUFFER, 0);
@@ -826,11 +822,6 @@ public:
 					return;
 				}
 			}
-			// translate by patch centre
-			vector3d relpos = clipCentroid - campos;
-			glPushMatrix();
-			glTranslated(relpos.x, relpos.y, relpos.z);
-
 			Pi::statSceneTris += 2*(GEOPATCH_EDGELEN-1)*(GEOPATCH_EDGELEN-1);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
@@ -855,7 +846,6 @@ public:
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_COLOR_ARRAY);
-			glPopMatrix();
 		}
 	}
 
@@ -1164,10 +1154,7 @@ static void DrawAtmosphereSurface(const vector3d &campos, float rad)
 
 void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	Plane planes[6];
-	glPushMatrix();
-	glTranslated(-campos.x, -campos.y, -campos.z);
 	GetFrustum(planes);
-	glPopMatrix();
 	const float atmosRadius = ATMOSPHERE_RADIUS;
 	
 	// no frustum test of entire geosphere, since Space::Render does this
@@ -1176,8 +1163,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	if (Render::AreShadersEnabled()) {
 		Color atmosCol;
 		double atmosDensity;
-		glPushMatrix();
-		glTranslated(-campos.x, -campos.y, -campos.z);
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
@@ -1210,7 +1195,6 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		shader->set_geosphereAtmosFogDensity(atmosDensity);
 		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 		shader->set_geosphereCenter(center.x, center.y, center.z);
-		glPopMatrix();
 	}
 
 	if (!m_patches[0]) BuildFirstPatches();
@@ -1242,10 +1226,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 //	glLineWidth(1.0);
 //	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
-//	glPushMatrix();
-//	glTranslated(-campos.x, -campos.y, -campos.z);
 		m_patches[i]->Render(campos, planes);
-//	glPopMatrix();
 	}
 	Render::State::UseProgram(0);
 
