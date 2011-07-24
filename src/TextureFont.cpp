@@ -3,6 +3,7 @@
 #include "libs.h"
 
 #include FT_GLYPH_H
+#include FT_STROKER_H
 
 #define PARAGRAPH_SPACING 1.5f
 
@@ -158,31 +159,132 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 	m_texSize = sz;
 
 	unsigned char *pixBuf = new unsigned char[2*sz*sz];
+	
+	bool outline = GetConfig().Int("Outline");
+
+	FT_Stroker stroker;
+	if (outline) {
+		if (FT_Stroker_New(GetFontManager().GetFreeTypeLibrary(), &stroker)) {
+			fprintf(stderr, "Freetype stroker init error\n");
+			abort();
+		}
+
+		//1*64 = stroke width
+		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
+	}
 
 	for (int chr=32; chr<127; chr++) {
 		memset(pixBuf, 0, 2*sz*sz);
+	
+		glfglyph_t glfglyph;
 
-		unsigned int glyph_index = FT_Get_Char_Index(m_face, chr);
-		if (FT_Load_Glyph(m_face, glyph_index, FT_LOAD_FORCE_AUTOHINT) != 0) {
-			fprintf(stderr, "couldn't load glyph for '%c'\n", chr);
+		FT_Glyph glyph;
+
+		err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
+		if (err) {
+			fprintf(stderr, "Error %d loading glyph\n", err);
 			continue;
 		}
-		FT_Render_Glyph(m_face->glyph, FT_RENDER_MODE_NORMAL);
 
-		// face->glyph->bitmap
-		// copy to square buffer GL can stomach
-		const int pitch = m_face->glyph->bitmap.pitch;
-		for (int row=0; row<m_face->glyph->bitmap.rows; row++) {
-			for (int col=0; col<m_face->glyph->bitmap.width; col++) {
-				pixBuf[2*sz*row + 2*col] = m_face->glyph->bitmap.buffer[pitch*row + col];
-				pixBuf[2*sz*row + 2*col+1] = m_face->glyph->bitmap.buffer[pitch*row + col];
+		//get base glyph again
+		err = FT_Get_Glyph(m_face->glyph, &glyph);
+		if (err) {
+			fprintf(stderr, "Glyph get error %d\n", err);
+			continue;
+		}
+
+		//convert to bitmap
+		if (glyph->format != FT_GLYPH_FORMAT_BITMAP) {
+			err = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, 0, 1);
+			if (err) {
+				fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+				continue;
 			}
 		}
 
-		glfglyph_t glyph;
+		FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
+
+		if (outline) {
+			FT_Glyph strokeGlyph;
+
+			err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
+			if (err) {
+				fprintf(stderr, "Glyph get error %d\n", err);
+				continue;
+			}
+	
+			err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
+			if (err) {
+				fprintf(stderr, "Glyph stroke error %d\n", err);
+				continue;
+			}
+	
+			//convert to bitmap
+			if (strokeGlyph->format != FT_GLYPH_FORMAT_BITMAP) {
+				err = FT_Glyph_To_Bitmap(&strokeGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
+				if (err) {
+					fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+					continue;
+				}
+			}
+	
+			FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+	
+			//copy to a square luminance+alpha buffer
+			//stroke first
+			int pitch = bmStrokeGlyph->bitmap.pitch;
+			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
+				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
+					//assume black outline
+					pixBuf[2*sz*row + 2*col] = 0; //lum
+					pixBuf[2*sz*row + 2*col+1] = bmStrokeGlyph->bitmap.buffer[pitch*row + col]; //alpha
+				}
+			}
+	
+			//overlay normal glyph (luminance only)
+			int xoff = (bmStrokeGlyph->bitmap.width - bmGlyph->bitmap.width) / 2;
+			int yoff = (bmStrokeGlyph->bitmap.rows - bmGlyph->bitmap.rows) / 2;
+			pitch = bmGlyph->bitmap.pitch;
+			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
+				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
+					bool over = (row >= bmGlyph->bitmap.rows || col >= bmGlyph->bitmap.width);
+					unsigned char value = (over) ? 0 : bmGlyph->bitmap.buffer[pitch*row + col];
+					unsigned int idx = 2*sz*(row+yoff) + 2*(col+xoff);
+					pixBuf[idx] += value;
+					assert(pixBuf[idx] < 256);
+				}
+			}
+	
+			glfglyph.width = bmStrokeGlyph->bitmap.width / float(sz);
+			glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
+			glfglyph.offx = bmStrokeGlyph->left;
+			glfglyph.offy = bmStrokeGlyph->top;
+
+			FT_Done_Glyph(strokeGlyph);
+		}
+
+		else {
+			// face->glyph->bitmap
+			// copy to square buffer GL can stomach
+			const int pitch = bmGlyph->bitmap.pitch;
+			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
+				for (int col=0; col < bmGlyph->bitmap.width; col++) {
+					pixBuf[2*sz*row + 2*col] = bmGlyph->bitmap.buffer[pitch*row + col];
+					pixBuf[2*sz*row + 2*col+1] = bmGlyph->bitmap.buffer[pitch*row + col];
+				}
+			}
+	
+			glfglyph.width = bmGlyph->bitmap.width / float(sz);
+			glfglyph.height = bmGlyph->bitmap.rows / float(sz);
+			glfglyph.offx = bmGlyph->left;
+			glfglyph.offy = bmGlyph->top;
+		}
+
+		FT_Done_Glyph(glyph);
+
 		glEnable (GL_TEXTURE_2D);
-		glGenTextures (1, &glyph.tex);
-		glBindTexture (GL_TEXTURE_2D, glyph.tex);
+		glGenTextures (1, &glfglyph.tex);
+		glBindTexture (GL_TEXTURE_2D, glfglyph.tex);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, sz, sz, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixBuf);
 		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -190,17 +292,16 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glDisable (GL_TEXTURE_2D);
 
-		glyph.width = m_face->glyph->bitmap.width / float(sz);
-		glyph.height = m_face->glyph->bitmap.rows / float(sz);
-		glyph.offx = m_face->glyph->bitmap_left;
-		glyph.offy = m_face->glyph->bitmap_top;
-		glyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
-		glyph.advy = float(m_face->glyph->advance.y) / 64.0;
-		m_glyphs[chr] = glyph;
+		glfglyph.advx = float(m_face->glyph->advance.x) / 64.0 + advx_adjust;
+		glfglyph.advy = float(m_face->glyph->advance.y) / 64.0;
+		m_glyphs[chr] = glfglyph;
 	}
 
 	delete [] pixBuf;
-	
+
+	if (outline)
+		FT_Stroker_Done(stroker);
+
 	m_height = float(a_height);
 	m_width = float(a_width);
 	m_descender = -float(m_face->descender) / 64.0;

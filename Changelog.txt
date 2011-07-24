@@ -17,6 +17,8 @@ Alpha 13
       ship lands and takes off from a planet's surface (rough landing) (#295, #297)
     * New Lua method StarSystem.GetBodyPaths to get paths to all bodies in a
       system (#313)
+    * Outline overlay text (eg world labels) for improved visibility (#325,
+      #314, #258, #39)
 
   * Fixes
     * Move sector view to current system on first open (#262)
