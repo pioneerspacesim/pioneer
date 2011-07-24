@@ -9,8 +9,10 @@ SystemView::SystemView()
 	m_system = 0;
 	SetTransparency(true);
 
+	Gui::Screen::PushFont("OverlayFont");
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
+	Gui::Screen::PopFont();
 
 	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);

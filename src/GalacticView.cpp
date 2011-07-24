@@ -37,8 +37,10 @@ GalacticView::GalacticView()
 	m_scaleReadout = new Gui::Label("");
 	Add(m_scaleReadout, 500.0f, 10.0f);
 
+	Gui::Screen::PushFont("OverlayFont");
 	m_labels = new Gui::LabelSet();
 	Add(m_labels, 0, 0);
+	Gui::Screen::PopFont();
 
 	m_onMouseButtonDown = 
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));

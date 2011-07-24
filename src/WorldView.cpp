@@ -129,9 +129,11 @@ WorldView::WorldView(): View(),
 	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudTargetInfo, 0, 85.0f);
 
+	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(1.0f, 1.0f, 1.0f, 0.5f));
 	Add(m_bodyLabels, 0, 0);
+	Gui::Screen::PopFont();
 
 	m_targetDist = new Gui::Label("");
 	m_targetSpeed = new Gui::Label("");

@@ -1,10 +1,12 @@
 #ifndef _GUITEXTLAYOUT_H
 #define _GUITEXTLAYOUT_H
 
+#include "TextureFont.h"
+
 namespace Gui {
 class TextLayout {
 public:
-	TextLayout(const char *_str);
+	TextLayout(const char *_str, TextureFont *font = 0);
 	void Render(float layoutWidth) const;
 	void MeasureSize(const float layoutWidth, float outSize[2]) const;
 	void _RenderRaw(float layoutWidth) const;
@@ -20,6 +22,8 @@ private:
 	std::list<word_t> words;
 	char *str;
 	bool m_justify;
+
+	TextureFont *m_font;
 };
 }
 
