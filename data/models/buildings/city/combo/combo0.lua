@@ -54,7 +54,7 @@ define_model('combo1_wins', {
 
 define_model('combo0', {
 	info = {
-			lod_pixels = {5,20,50},
+			lod_pixels = {5,20,30,40},
 			bounding_radius = 10,
 			materials={'win', 'cutout', 'trees', 'concrete'},
 	},
@@ -74,7 +74,7 @@ define_model('combo0', {
 			load_obj('combo1_1.obj')
 			use_material('concrete')
 			call_model('bld_base_1', v(0,0,0),v(1,0,0),v(0,1,0),1)
-			if lod > 2 then
+			if lod > 3 then
 				--upper door
 				texture('door.png')
 				use_material('cutout')
@@ -89,11 +89,11 @@ define_model('combo0', {
 				use_material('trees')
 				texture('tree.png')
 				load_obj('bush_1.obj')
-				--windows
-				use_material('win')
-				texture('alu.png')
-				call_model('combo1_wins', v(0,0,0),v(1,0,0),v(0,1,0),1)
 			end
+			--windows
+			use_material('win')
+			texture('alu.png')
+			call_model('combo1_wins', v(0,0,0),v(1,0,0),v(0,1,0),1)
 		end
 	end
 })
