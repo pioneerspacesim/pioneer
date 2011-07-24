@@ -175,7 +175,7 @@ void FaceVideoLink::Draw() {
 	glDisable(GL_TEXTURE_2D);
 
 	if (now - m_created < 4500) {
-		m_message->SetText("Video link established.");
+		m_message->SetText(PiLang::VID_LINK_ESTABLISHED);
 		DrawMessage();
 	}
 }
