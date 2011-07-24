@@ -8,6 +8,7 @@
 #include "SectorView.h"
 #include "Sector.h"
 #include "Galaxy.h"
+#include "PiLang.h"
 		
 GalacticView::GalacticView()
 {
@@ -26,11 +27,11 @@ GalacticView::GalacticView()
 	m_zoom = 1.0f;
 
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
-	m_zoomInButton->SetToolTip("Zoom in");
+	m_zoomInButton->SetToolTip(PiLang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip("Zoom out");
+	m_zoomOutButton->SetToolTip(PiLang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 	
 	m_scaleReadout = new Gui::Label("");
@@ -62,11 +63,11 @@ struct galaclabel_t {
 	const char *label;
 	vector3d pos;
 } s_labels[] = {
-	{ "Norma arm", vector3d(0.0,-0.3,0.0) },
-	{ "Persius arm", vector3d(0.57,0.0,0.0) },
-	{ "Outer arm", vector3d(0.65,0.4,0.0) },
-	{ "Sagittarius arm", vector3d(-.3,0.2,0.0) },
-	{ "Scutum-Centaurus arm", vector3d(-.45,-0.45,0.0) },
+	{ PiLang::NORMA_ARM, vector3d(0.0,-0.3,0.0) },
+	{ PiLang::PERSEUS_ARM, vector3d(0.57,0.0,0.0) },
+	{ PiLang::OUTER_ARM, vector3d(0.65,0.4,0.0) },
+	{ PiLang::SAGITTARIUS_ARM, vector3d(-.3,0.2,0.0) },
+	{ PiLang::SCUTUM_CENTAURUS_ARM, vector3d(-.45,-0.45,0.0) },
 	{ 0, vector3d(0.0, 0.0, 0.0) }
 };
 
@@ -162,7 +163,7 @@ void GalacticView::Update()
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 
-	m_scaleReadout->SetText(stringf(128, "%d ly", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
+	m_scaleReadout->SetText(stringf(128, PiLang::INT_LY, int(0.5*Galaxy::GALAXY_RADIUS/m_zoom)));
 }
 
 void GalacticView::MouseButtonDown(int button, int x, int y)

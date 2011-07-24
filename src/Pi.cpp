@@ -59,6 +59,7 @@
 #include "LuaMusic.h"
 #include "SoundMusic.h"
 #include "Background.h"
+#include "PiLang.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -635,7 +636,7 @@ void Pi::HandleEvents()
                             if(Pi::IsGameStarted()) {
                                 std::string name = join_path(GetFullSavefileDirPath().c_str(), "_quicksave", 0);
                                 Serializer::SaveGame(name.c_str());
-                                Pi::cpan->MsgLog()->Message("", "Game saved to "+name);
+                                Pi::cpan->MsgLog()->Message("", PiLang::GAME_SAVED_TO+name);
                             }
                             break;
                         }
@@ -703,7 +704,7 @@ static void draw_intro(Background::Starfield *starfield, Background::MilkyWay *m
 	Render::State::SetZnearZfar(1.0f, 10000.0f);
 	LmrObjParams params = {
 		{ },
-		{ "PIONEER" },
+		{ PiLang::PIONEER },
 		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },

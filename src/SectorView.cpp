@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "GalacticView.h"
+#include "PiLang.h"
 		
 SectorView::SectorView() :
 	m_firstTime(true),
@@ -26,11 +27,11 @@ SectorView::SectorView() :
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
-	m_zoomInButton->SetToolTip("Zoom in");
+	m_zoomInButton->SetToolTip(PiLang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip("Zoom out");
+	m_zoomOutButton->SetToolTip(PiLang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
 	m_gluDiskDlist = glGenLists(1);

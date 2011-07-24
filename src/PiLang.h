@@ -39,6 +39,8 @@ namespace PiLanguages {
                 "Cargo");
         PL(VID_LINK_DOWN,
                 "Video link down");
+        PL(VID_LINK_ESTABLISHED,
+                "Video link established");
         PL(VID_CONNECTING,
                 "Connecting...");
         PL(BOUGHT_1T_OF,
@@ -143,6 +145,100 @@ namespace PiLanguages {
                 "Contact local police");
         PL(COMMS_LINK,
                 "Comms link");
+        PL(ZOOM_IN,
+                "Zoom in");
+        PL(ZOOM_OUT,
+                "Zoom out");
+        PL(NORMA_ARM,
+                "Norma arm");
+        PL(PERSEUS_ARM,
+                "Perseus arm");
+        PL(OUTER_ARM,
+                "Outer arm");
+        PL(SAGITTARIUS_ARM,
+                "Sagittarius arm");
+        PL(SCUTUM_CENTAURUS_ARM,
+                "Scutum-Centaurus arm");
+        PL(INT_LY,
+                "%d ly");
+
+        // Config / game control
+        PL(PRESS_BUTTON_WANTED_FOR,
+                "Press the button you want for "); // Preserve trailing space
+        PL(MOVE_AXIS_WANTED_FOR,
+                "Move the joystick axis you want for "); // Preserve trailing space
+        PL(SAVE,
+                "Save");
+        PL(LOAD,
+                "Load");
+        PL(CANCEL,
+                "Cancel");
+        PL(SELECT_FILENAME_TO_SAVE,
+                "Select a file to save to or enter a new filename");
+        PL(GAME_SAVED_TO,
+                "Game saved to "); // Preserve trailing space
+        PL(SELECT_FILENAME_TO_LOAD,
+                "Select a file to load");
+        PL(COULD_NOT_OPEN_FILENAME,
+                "Could not open %s\n");
+        PL(GAME_LOAD_CORRUPT,
+                "This saved game cannot be loaded because it contains errors.");
+        PL(GAME_LOAD_CANNOT_OPEN,
+                "This saved game file could not be opened due to permissions or something...");
+        PL(LOW,
+                "Low");
+        PL(MEDIUM,
+                "Medium");
+        PL(HIGH,
+                "High");
+        PL(VERY_HIGH,
+                "Very high");
+        PL(VERY_VERY_HIGH,
+                "Very very high");
+        PL(SIGHTS_SOUNDS_SAVES,
+                "Sights, sounds & saving games");
+        PL(PIONEER,
+                "PIONEER");
+        PL(SAVE_THE_GAME,
+                "[S] Save the game");
+        PL(LOAD_A_GAME,
+                "[L] Load a game");
+        PL(EXIT_THIS_GAME,
+                "Exit this game");
+        PL(WINDOW_OR_FULLSCREEN,
+                "Windowed or fullscreen (restart to apply)");
+        PL(FULL_SCREEN,
+                "Full screen");
+        PL(OTHER_GRAPHICS_SETTINGS,
+                "Other graphics settings");
+        PL(USE_SHADERS,
+                "Use shaders");
+        PL(USE_HDR,
+                "Use HDR Lighting (looks cool)");
+        PL(SOUND_SETTINGS,
+                "Sound settings");
+        PL(VOL_MASTER,
+                "Master:");
+        PL(VOL_EFFECTS,
+                "Effects:");
+        PL(VOL_MUSIC,
+                "Music:");
+        PL(VIDEO_RESOLUTION,
+                "Video resolution (restart game to apply)");
+        PL(X_BY_X,
+                "%dx%d");
+        PL(PLANET_DETAIL_LEVEL,
+                "Planet detail level:");
+        PL(CITY_DETAIL_LEVEL,
+                "City detail level:");
+        PL(CONTROLS,
+                "Controls");
+        PL(ENABLE_JOYSTICK,
+                "Enable joystick control");
+        PL(MOUSE_INPUT,
+                "Mouse Input");
+        PL(INVERT_MOUSE_Y,
+                "Invert MouseY");
  
         // Wares
         PL(NONE,
