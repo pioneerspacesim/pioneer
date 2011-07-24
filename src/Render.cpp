@@ -183,12 +183,12 @@ static struct postprocessBuffers_t {
 			return;
 		}
 
-		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample");
-		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample");
+		postprocessBloom1Downsample = new PostprocessDownsampleShader("postprocessBloom1Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
+		postprocessBloom2Downsample = new PostprocessShader("postprocessBloom2Downsample", "#extension GL_ARB_texture_rectangle : enable\n");
 		postprocessBloom3VBlur = new PostprocessShader("postprocessBloom3VBlur");
 		postprocessBloom4HBlur = new PostprocessShader("postprocessBloom4HBlur");
-		postprocessCompose = new PostprocessComposeShader("postprocessCompose");
-		postprocessLuminance = new PostprocessShader("postprocessLuminance");
+		postprocessCompose = new PostprocessComposeShader("postprocessCompose", "#extension GL_ARB_texture_rectangle : enable\n");
+		postprocessLuminance = new PostprocessShader("postprocessLuminance", "#extension GL_ARB_texture_rectangle : enable\n");
 
 		glError();
 	}
