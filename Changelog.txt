@@ -42,6 +42,7 @@ Alpha 13
     * Enable GL extensions earlier in shader compilation to conform to shader
       spec (#329, #330)
     * Fix occasional crash on game load (#331)
+    * Fix terrain jitter
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
