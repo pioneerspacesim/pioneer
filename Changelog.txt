@@ -19,6 +19,8 @@ Alpha 13
       system (#313)
     * Outline overlay text (eg world labels) for improved visibility (#325,
       #314, #258, #39)
+    * Make the "video link established" text disappear after a few seconds
+      instead of flashing constantly (#319, #326)
 
   * Fixes
     * Move sector view to current system on first open (#262)
