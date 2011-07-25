@@ -15,7 +15,7 @@ public:
 	void UpdateInfo();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo() {}
+	virtual void OnSwitchTo();
 	void NextPage();
 	void ShowSpinner() { m_showSpinner = true; }
 	void HideSpinner() { m_showSpinner = false; }
