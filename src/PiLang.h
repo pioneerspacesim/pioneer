@@ -1154,7 +1154,7 @@ namespace PiLanguages {
         PL(WELCOME_TO_MARKET,
                 "Willkommen auf dem Rohstoffmarkt von %s");
         PL(GO_BACK,
-                "Zur√ºckgehen");
+                "Zur¸ckgehen");
         PL(FITTING,
                 "Installieren: ");  // Preserve trailing space
         PL(REMOVING,
@@ -1166,7 +1166,7 @@ namespace PiLanguages {
         PL(YOU_NOT_ENOUGH_MONEY,
                 "Sie haben nicht genug Geld");
         PL(TRADER_NOT_ENOUGH_MONEY,
-                "Der H√§ndler hat nicht genug Geld");
+                "Der H‰ndler hat nicht genug Geld");
         PL(NO_SPACE_ON_SHIP,
                 "Es gibt keinen Raum in Ihrem Schiff");
         PL(SOMEWHERE_SERVICES,
@@ -1198,15 +1198,15 @@ namespace PiLanguages {
         PL(CAPACITY,
                 "Hubraum");
         PL(FORWARD_ACCEL_EMPTY,
-                "Vorw√§rts-Beschleunigung (unbeladen)");
+                "Vorw‰rts-Beschleunigung (unbeladen)");
         PL(NUMBER_G,
                 "%.1f G");
         PL(FORWARD_ACCEL_LADEN,
-                "Vorw√§rts-Beschleunigung (beladen)");
+                "Vorw‰rts-Beschleunigung (beladen)");
         PL(REVERSE_ACCEL_EMPTY,
-                "R√ºckw√§rts-Beschleunigung (unbeladen)");
+                "R¸ckw‰rts-Beschleunigung (unbeladen)");
         PL(REVERSE_ACCEL_LADEN,
-                "R√ºckw√§rts-Beschleunigung (beladen)");
+                "R¸ckw‰rts-Beschleunigung (beladen)");
         PL(HYPERDRIVE_FITTED,
                 "Hyperlaufwerk installiert:");
         PL(HYPERSPACE_RANGE_LADEN,
@@ -1224,15 +1224,15 @@ namespace PiLanguages {
         PL(REPAIR,
                 "Reparieren");
         PL(PART_EX,
-                "Teil B√∂rsenpreis");
+                "Teil Bˆrsenpreis");
         PL(VIEW,
                 "Ansehen");
         PL(SHIP_EQUIPMENT,
-                "Schiffsausr√ºstung");
+                "Schiffsausr¸stung");
         PL(REPAIRS_AND_SERVICING,
                 "Reparaturen und Service");
         PL(NEW_AND_RECONDITIONED_SHIPS,
-                "Neue und √ºberholte Raumschiffe");
+                "Neue und ¸berholte Raumschiffe");
         PL(BULLETIN_BOARD,
                 "Nachrichten und Missionen");
         PL(WELCOME_TO_SOMEWHERE,
@@ -1246,11 +1246,11 @@ namespace PiLanguages {
         PL(COMMODITIES_MARKET,
                 "Rohstoffmarkt");
         PL(CONTACT_LOCAL_POLICE,
-                "Um den √∂rtliche Polizei");
+                "Um den ˆrtliche Polizei");
         PL(COMMS_LINK,
                 "Kommunikationsverbindung");
         PL(ZOOM_IN,
-                "Vergr√∂√üern");
+                "Vergrˆﬂern");
         PL(ZOOM_OUT,
                 "Verkleinern");
         PL(NORMA_ARM,
@@ -1268,7 +1268,7 @@ namespace PiLanguages {
 
         // Config / game control
         PL(PRESS_BUTTON_WANTED_FOR,
-                "Tastedr√ºcken, die Sie wollen um zuweisen nach "); // Preserve trailing space
+                "Tastedr¸cken, die Sie wollen um zuweisen nach "); // Preserve trailing space
         PL(MOVE_AXIS_WANTED_FOR,
                 "Joystick Achsebewegen, die Sie wollen um zuweisen nach "); // Preserve trailing space
         PL(SAVE,
@@ -1278,17 +1278,17 @@ namespace PiLanguages {
         PL(CANCEL,
                 "Abbrechen");
         PL(SELECT_FILENAME_TO_SAVE,
-                "W√§hlen Sie den Namen der Datei");
+                "W‰hlen Sie den Namen der Datei");
         PL(GAME_SAVED_TO,
                 "Spiel gespeichert im "); // Preserve trailing space
         PL(SELECT_FILENAME_TO_LOAD,
-                "W√§hlen Sie eine Datei zu laden");
+                "W‰hlen Sie eine Datei zu laden");
         PL(COULD_NOT_OPEN_FILENAME,
-                "%s konnte nicht ge√∂ffnet");
+                "%s konnte nicht geˆffnet");
         PL(GAME_LOAD_CORRUPT,
-                "Konnte nicht Spiel geladen werden, weil die Datei besch√§digt wurde.");
+                "Konnte nicht Spiel geladen werden, weil die Datei besch‰digt wurde.");
         PL(GAME_LOAD_CANNOT_OPEN,
-                "Die Spieldatei konnte nicht ge√∂ffnet werden.");
+                "Die Spieldatei konnte nicht geˆffnet werden.");
         PL(LOW,
                 "Niedrig");
         PL(MEDIUM,
@@ -1300,7 +1300,7 @@ namespace PiLanguages {
         PL(VERY_VERY_HIGH,
                 "Extrem hohe");
         PL(SIGHTS_SOUNDS_SAVES,
-                "Anblicke, Ger√§usche, Speichern von Spielen");
+                "Anblicke, Ger‰usche, Speichern von Spielen");
         PL(PIONEER,
                 "PIONEER");
         PL(SAVE_THE_GAME,
@@ -1328,7 +1328,7 @@ namespace PiLanguages {
         PL(VOL_MUSIC,
                 "Musik:");
         PL(VIDEO_RESOLUTION,
-                "Video-Aufl√∂sung (Programm muss neu gestartet werden)");
+                "Video-Auflˆsung (Programm muss neu gestartet werden)");
         PL(X_BY_X,
                 "%dx%d");
         PL(PLANET_DETAIL_LEVEL,
@@ -1338,7 +1338,7 @@ namespace PiLanguages {
         PL(CONTROLS,
                 "Steuerung");
         PL(ENABLE_JOYSTICK,
-                "Joystick-Steuerung erm√∂glichen");
+                "Joystick-Steuerung ermˆglichen");
         PL(MOUSE_INPUT,
                 "Mauseingabe");
         PL(INVERT_MOUSE_Y,
@@ -1352,33 +1352,33 @@ namespace PiLanguages {
         PL(HYDROGEN_DESCRIPTION,
                 "Wasserstoff ist meistens als eine Fusion Brennstoff verwendet");
         PL(LIQUID_OXYGEN,
-                "Fl√ºssigen Sauerstoff");
+                "Fl¸ssigen Sauerstoff");
         PL(LIQUID_OXYGEN_DESCRIPTION,
-                "Sauerstoff ist f√ºr die lebenserhaltenden Systeme und einige industrielle Prozesse ben√∂tigt");
+                "Sauerstoff ist f¸r die lebenserhaltenden Systeme und einige industrielle Prozesse benˆtigt");
         PL(METAL_ORE,
                 "Metallerz");
         PL(CARBON_ORE,
                 "Carbon-Erz");
         PL(CARBON_ORE_DESCRIPTION,
-                "Carbon-Erze (Kohle und √ñl) sind f√ºr die Synthese von vielen n√ºtzlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Arzneimittel und Textilien erforderlich");
+                "Carbon-Erze (Kohle und ÷l) sind f¸r die Synthese von vielen n¸tzlichen Chemikalien, darunter Kunststoffe, synthetische Lebensmittel, Arzneimittel und Textilien erforderlich");
         PL(METAL_ALLOYS,
                 "Legierungen");
         PL(PLASTICS,
                 "Kunststoffe");
         PL(FRUIT_AND_VEG,
-                "Obst und Gem√ºse");
+                "Obst und Gem¸se");
         PL(ANIMAL_MEAT,
                 "Tierfleisch");
         PL(LIVE_ANIMALS,
                 "Lebenden Tieren");
         PL(LIQUOR,
-                "Alkoholische Getr√§nke");
+                "Alkoholische Getr‰nke");
         PL(GRAIN,
                 "Getreide");
         PL(TEXTILES,
                 "Textilien");
         PL(FERTILIZER,
-                "D√ºngemittel");
+                "D¸ngemittel");
         PL(WATER,
                 "Wasser");
         PL(MEDICINES,
@@ -1410,49 +1410,49 @@ namespace PiLanguages {
         PL(NARCOTICS,
                 "Narkotika");
         PL(MILITARY_FUEL,
-                "Milit√§r Kraftstoff");
+                "Milit‰r Kraftstoff");
         PL(RUBBISH,
                 "Abfallstoffe");
         PL(RADIOACTIVES,
-                "Radioaktiver Abf√§lle");
+                "Radioaktiver Abf‰lle");
  
         // Hardware
         PL(MISSILE_UNGUIDED,
                 "R40 Ungelenkte Rakete");
         PL(MISSILE_GUIDED,
-                "Gef√ºhrte Rakete");
+                "Gef¸hrte Rakete");
         PL(MISSILE_SMART,
                 "Smart-Rakete");
         PL(MISSILE_NAVAL,
                 "Marine-Rakete");
         PL(ATMOSPHERIC_SHIELDING,
-                "Atmosph√§rischen Hitzeshild");
+                "Atmosph‰rischen Hitzeshild");
         PL(ATMOSPHERIC_SHIELDING_DESCRIPTION,
-                "Sch√ºtzt Ihr Raumschiff von der Hitze der Eintritt in die Atmosph√§re.");
+                "Sch¸tzt Ihr Raumschiff von der Hitze der Eintritt in die Atmosph‰re.");
         PL(ECM_BASIC,
                 "EloGM-System");
         PL(ECM_BASIC_DESCRIPTION,
-                "Eine elektronische Gegenma√ünahme Raketenabwehrsystem, zerst√∂ren k√∂nnen einige gef√ºhrte Raketen.");
+                "Eine elektronische Gegenmaﬂnahme Raketenabwehrsystem, zerstˆren kˆnnen einige gef¸hrte Raketen.");
         PL(SCANNER,
                 "Scanner");
         PL(SCANNER_DESCRIPTION,
-                "Bietet eine 3D-Karte von Schiffen in der N√§he.");
+                "Bietet eine 3D-Karte von Schiffen in der N‰he.");
         PL(ECM_ADVANCED,
                 "Fortgeschritten EloGM-System");
         PL(ECM_ADVANCED_DESCRIPTION,
-                "Eine elektronische Gegenma√ünahme Raketenabwehrsystem, zerst√∂ren k√∂nnen fortgeschrittene Arten von gef√ºhrte Raketen.");
+                "Eine elektronische Gegenmaﬂnahme Raketenabwehrsystem, zerstˆren kˆnnen fortgeschrittene Arten von gef¸hrte Raketen.");
         PL(SHIELD_GENERATOR,
                 "Schild-Generator");
         PL(SHIELD_GENERATOR_DESCRIPTION,
-                "Bietet zus√§tzlichen Schutz Rumpf mit jedem Ger√§t eingebaut.");
+                "Bietet zus‰tzlichen Schutz Rumpf mit jedem Ger‰t eingebaut.");
         PL(LASER_COOLING_BOOSTER,
-                "Laserk√ºhlung Booster");
+                "Laserk¸hlung Booster");
         PL(LASER_COOLING_BOOSTER_DESCRIPTION,
-                "Eine verbesserte Waffen K√ºhlsystem.");
+                "Eine verbesserte Waffen K¸hlsystem.");
         PL(CARGO_LIFE_SUPPORT,
-                "Leben Unterst√ºtzung f√ºr Frachtraum");
+                "Leben Unterst¸tzung f¸r Frachtraum");
         PL(CARGO_LIFE_SUPPORT_DESCRIPTION,
-                "Erm√∂glicht den Transport von lebenden Fracht.");
+                "Ermˆglicht den Transport von lebenden Fracht.");
         PL(AUTOPILOT,
                 "Autopilot");
         PL(AUTOPILOT_DESCRIPTION,
@@ -1460,11 +1460,11 @@ namespace PiLanguages {
         PL(RADAR_MAPPER,
                 "Radar Kartierungsmaschine");
         PL(RADAR_MAPPER_DESCRIPTION,
-                "Aus der Ferne √ºberpr√ºfen die Ausr√ºstung, Fracht und den Zustand der anderen Schiffe.");
+                "Aus der Ferne ¸berpr¸fen die Ausr¸stung, Fracht und den Zustand der anderen Schiffe.");
         PL(FUEL_SCOOP,
                 "Kraftstoffschaufel");
         PL(FUEL_SCOOP_DESCRIPTION,
-                "Erlaubt Sch√∂pfen Wasserstoff aus Gasriesen..");
+                "Erlaubt Schˆpfen Wasserstoff aus Gasriesen..");
         PL(HYPERCLOUD_ANALYZER,
                 "Hyperraumwolke Analysator");
         PL(HYPERCLOUD_ANALYZER_DESCRIPTION,
@@ -1476,7 +1476,7 @@ namespace PiLanguages {
         PL(SHIELD_ENERGY_BOOSTER,
                 "Schild Energie Booster");
         PL(SHIELD_ENERGY_BOOSTER_DESCRIPTION,
-                "Erh√∂ht die Wiederaufladerrate der Schilde.");
+                "Erhˆht die Wiederaufladerrate der Schilde.");
         PL(DRIVE_CLASS1,
                 "Klasse 1 Hyperlaufwerk");
         PL(DRIVE_CLASS2,
@@ -1496,21 +1496,21 @@ namespace PiLanguages {
         PL(DRIVE_CLASS9,
                 "Klasse 9 Hyperlaufwerk");
         PL(DRIVE_MIL1,
-                "Klasse 1 Milit√§rlaufwerk");
+                "Klasse 1 Milit‰rlaufwerk");
         PL(DRIVE_MIL2,
-                "Klasse 2 Milit√§rlaufwerk");
+                "Klasse 2 Milit‰rlaufwerk");
         PL(DRIVE_MIL3,
-                "Klasse 3 Milit√§rlaufwerk");
+                "Klasse 3 Milit‰rlaufwerk");
         PL(DRIVE_MIL4,
-                "Klasse 4 Milit√§rlaufwerk");
+                "Klasse 4 Milit‰rlaufwerk");
         PL(PULSECANNON_1MW,
                 "1MW Pulskanone");
         PL(PULSECANNON_DUAL_1MW,
-                "1MW doppell√§ufigen Pulskanone");
+                "1MW doppell‰ufigen Pulskanone");
         PL(PULSECANNON_2MW,
                 "2MW Pulskanone");
         PL(PULSECANNON_RAPID_2MW,
-                "2MW doppell√§ufigen Pulskanone");
+                "2MW doppell‰ufigen Pulskanone");
         PL(PULSECANNON_4MW,
                 "4MW Pulskanone");
         PL(PULSECANNON_10MW,
@@ -1524,7 +1524,7 @@ namespace PiLanguages {
         PL(SMALL_PLASMA_ACCEL,
                 "Kleines Plasmawerfer");
         PL(LARGE_PLASMA_ACCEL,
-                "Gro√ües Plasmawerfer");
+                "Groﬂes Plasmawerfer");
         PL(CLEAN,
                 "Sauber");
         PL(HYPERSPACE_ARRIVAL_CLOUD,
@@ -1538,7 +1538,7 @@ namespace PiLanguages {
         PL(LOCATION,
                 "Ansiedlung");
         PL(DUE,
-                "F√§lligkeit");
+                "F‰lligkeit");
         PL(REWARD,
                 "Entgelt");
         PL(STATUS,
@@ -1606,7 +1606,7 @@ namespace PiLanguages {
         PL(TARGET_OBJECT_IN_SIGHTS,
                 "Ziel des Objekts in ein Fadenkreuz");
         PL(FIRE_LASER,
-                "Laserkanone schie√üen");
+                "Laserkanone schieﬂen");
         PL(SHIP_ORIENTATION,
                 "Schiff Orientierung");
         PL(FAST_ROTATION_CONTROL,
@@ -1662,13 +1662,13 @@ namespace PiLanguages {
         PL(AVERAGE,
                 "Durchschnittlich");
         PL(ABOVE_AVERAGE ,
-                "√úberdurchschnittlich");
+                "‹berdurchschnittlich");
         PL(COMPETENT,
                 "Kompetent");
         PL(DANGEROUS,
-                "Gef√§hrlich");
+                "Gef‰hrlich");
         PL(DEADLY,
-                "T√∂dlich");
+                "Tˆdlich");
         PL(ELITE,
                 "ELITE");
         PL(SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS,
@@ -1690,45 +1690,45 @@ namespace PiLanguages {
         PL(PIONEERING_PILOTS_GUILD,
                 "Pionierarbeit Piloten Gilde");
         PL(RIGHT_ON_COMMANDER,
-                "Well done Kommandant! Ihre Bek√§mpfung Bewertung hat sich verbessert!");
+                "Well done Kommandant! Ihre Bek‰mpfung Bewertung hat sich verbessert!");
         PL(ALERT_CANCELLED,
                 "Alarm aufgehoben.");
         PL(SHIP_DETECTED_NEARBY,
-                "Schiff entdeckt in der N√§he.");
+                "Schiff entdeckt in der N‰he.");
         PL(DOWNGRADING_ALERT_STATUS,
-                "Keine schie√üen f√ºr 60 Sekunden erkannt; herabstufung die Alarmbereitschaft.");
+                "Keine schieﬂen f¸r 60 Sekunden erkannt; herabstufung die Alarmbereitschaft.");
         PL(LASER_FIRE_DETECTED,
-                "Waffenschie√üen entdeckt.");
+                "Waffenschieﬂen entdeckt.");
         PL(SOMEWHERE_POLICE,
                 "%s Polizei");
         PL(WE_HAVE_NO_BUSINESS_WITH_YOU,
-                "Wir haben keine Gesch√§fte mit Ihnen jetzt.");
+                "Wir haben keine Gesch‰fte mit Ihnen jetzt.");
         PL(YOU_MUST_PAY_FINE_OF_N_CREDITS,
-                "Wir tolerieren keine Verbrechen. Sie m√ºssen eine Geldbu√üe von %s zahlen.");
+                "Wir tolerieren keine Verbrechen. Sie m¸ssen eine Geldbuﬂe von %s zahlen.");
         PL(PAY_THE_FINE_NOW,
-                "Die Geldbu√üe zahlen jetzt.");
+                "Die Geldbuﬂe zahlen jetzt.");
         PL(HANG_UP,
                 "Auflegen.");
         PL(TRADING_ILLEGAL_GOODS,
                 "Der Handel mit illegalen Waren");
         PL(UNLAWFUL_WEAPONS_DISCHARGE,
-                "Rechtswidrige Waffen schie√üen");
+                "Rechtswidrige Waffen schieﬂen");
         PL(PIRACY,
                 "Piraterei");
         PL(MURDER,
                 "Mord");
         PL(INDEPENDENT,
-                "Unabh√§ngig");
+                "Unabh‰ngig");
         PL(EARTH_FEDERATION,
-                "Erde F√∂deration");
+                "Erde Fˆderation");
         PL(INDEPENDENT_CONFEDERATION,
-                "Gemeinschaft Unabh√§ngiger Sternensystemen");
+                "Gemeinschaft Unabh‰ngiger Sternensystemen");
         PL(EMPIRE,
                 "Das Imperium");
         PL(NO_ESTABLISHED_ORDER,
-                "Z√ºgellosigkeit");
+                "Z¸gellosigkeit");
         PL(HARD_CAPITALIST,
-                "V√∂llig Kapitalist - keine Regierung Sozialleistungen");
+                "Vˆllig Kapitalist - keine Regierung Sozialleistungen");
         PL(CAPITALIST,
                 "Kapitalist");
         PL(MIXED_ECONOMY,
@@ -1738,9 +1738,9 @@ namespace PiLanguages {
         PL(NO_CENTRAL_GOVERNANCE,
                 "Ohne zentrale Verwaltung");
         PL(EARTH_FEDERATION_COLONIAL_RULE,
-                "Erde F√∂deration Kolonialherrschaft");
+                "Erde Fˆderation Kolonialherrschaft");
         PL(EARTH_FEDERATION_DEMOCRACY,
-                "Erde F√∂deration Demokratie");
+                "Erde Fˆderation Demokratie");
         PL(IMPERIAL_RULE,
                 "Imperialer Herrschaft");
         PL(LIBERAL_DEMOCRACY,
@@ -1750,27 +1750,27 @@ namespace PiLanguages {
         PL(CORPORATE_SYSTEM,
                 "Herrschaft der Konzerne");
         PL(MILITARY_DICTATORSHIP,
-                "Milit√§rdiktatur");
+                "Milit‰rdiktatur");
         PL(COMMUNIST,
                 "Kommunist");
         PL(PLUTOCRATIC_DICTATORSHIP,
                 "Plutokratischen Diktatur");
         PL(VIOLENT_ANARCHY,
-                "St√∂rung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten");
+                "Stˆrung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten");
         PL(X_CANNOT_BE_TOLERATED_HERE,
                 "%s kann hier nicht geduldet werden.");
         PL(SECTOR_X_Y,
                 "Sektor: %d,%d");
         PL(DISTANCE_FUEL_TIME,
-                "Abst. %.2f Lichtjahre (Kraftstoff ben√∂tigt: %dt | Zeitverlust: %.1fst.)");
+                "Abst. %.2f Lichtjahre (Kraftstoff benˆtigt: %dt | Zeitverlust: %.1fst.)");
         PL(CURRENT_SYSTEM,
                 "Current system");
         PL(DISTANCE_FUEL_REQUIRED,
-                "Abst. %.2f Lichtjahre (unzureichende Kraftstoff; ben√∂tigt: %dt)");
+                "Abst. %.2f Lichtjahre (unzureichende Kraftstoff; benˆtigt: %dt)");
         PL(DISTANCE_OUT_OF_RANGE,
                 "Abst. %.2f Lichtjahre (out of range)");
         PL(CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE,
-                "Sie k√∂nnen nicht durchf√ºhren Hypersprung weil Sie nicht ein funktionierende Hyperlaufwerk haben");
+                "Sie kˆnnen nicht durchf¸hren Hypersprung weil Sie nicht ein funktionierende Hyperlaufwerk haben");
         PL(QUADRUPLE_SYSTEM,
                 "VierfachSternsystem. "); // preserve trailing space
         PL(TRIPLE_SYSTEM,
@@ -1780,17 +1780,17 @@ namespace PiLanguages {
         PL(FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
                 "Kraftstoffschaufel aktiv. Sie haben nun %d Tonnen Wasserstoff.");
         PL(CARGO_BAY_LIFE_SUPPORT_LOST,
-                "Problem entdeckt: Leben Unterst√ºtzung den Frachtraum funktioniert nicht.");
+                "Problem entdeckt: Leben Unterst¸tzung den Frachtraum funktioniert nicht.");
         PL(NO_FREE_SPACE_FOR_ITEM,
-                "Sie haben keinen freien Raum f√ºr diesen Artikel.");
+                "Sie haben keinen freien Raum f¸r diesen Artikel.");
         PL(SHIP_IS_FULLY_LADEN,
                 "Ihr Schiff voll beladen ist.");
         PL(YOU_DO_NOT_HAVE_ANY_X,
                 "Sie haben keine %s.");
         PL(REAR_VIEW,
-                "R√ºckansicht");
+                "R¸ckansicht");
         PL(EXTERNAL_VIEW,
-                "Au√üenansicht");
+                "Auﬂenansicht");
         PL(NAVIGATION_STAR_MAPS,
                 "Navigation und Sternkarten");
         PL(COMMS,
@@ -1802,17 +1802,17 @@ namespace PiLanguages {
         PL(STAR_SYSTEM_INFORMATION,
                 "Sternsystem Information");
         PL(GALACTIC_VIEW,
-                "Milchstra√üe Blick");
+                "Milchstraﬂe Blick");
         PL(NO_ALERT,
                 "kein Alarm");
         PL(SHIP_NEARBY,
-                "Raumschiff in der N√§he");
+                "Raumschiff in der N‰he");
         PL(DOCKING_CLEARANCE_EXPIRED,
-                "Andocken Erlaubnis ist abgelaufen. Wenn Sie andocken m√∂chten, m√ºssen Sie wiederholen Sie Ihre Anfrage.");
+                "Andocken Erlaubnis ist abgelaufen. Wenn Sie andocken mˆchten, m¸ssen Sie wiederholen Sie Ihre Anfrage.");
         PL(MESSAGE_FROM_X,
                 "Nachricht von %s:");
         PL(SELECT_A_TARGET,
-                "W√§hlen Sie ein Ziel");
+                "W‰hlen Sie ein Ziel");
         PL(FRONT,
                 "Front");
         PL(REAR,
@@ -1820,9 +1820,9 @@ namespace PiLanguages {
         PL(POLICE_SHIP_REGISTRATION,
                 "POLIZEI");
         PL(CLEARANCE_ALREADY_GRANTED_BAY_N,
-                "Andocken Erlaubnis bereits gew√§hrt. Fliegen zur Andockbuchten %d.");
+                "Andocken Erlaubnis bereits gew‰hrt. Fliegen zur Andockbuchten %d.");
         PL(CLEARANCE_GRANTED_BAY_N,
-                "Andocken Erlaubnis gew√§hrt. Fliegen zur Andockbuchten %d.");
+                "Andocken Erlaubnis gew‰hrt. Fliegen zur Andockbuchten %d.");
         PL(CLEARANCE_DENIED_NO_BAYS,
                 "Andocken Erlaubnis verweigert. iEs gibt keine freien Andockbuchten.");
         PL(ITEM_IS_OUT_OF_STOCK,
@@ -1830,7 +1830,7 @@ namespace PiLanguages {
         PL(BROWN_DWARF,
                 "Brauner Zwerg substellares Objekt");
         PL(WHITE_DWARF,
-                "Wei√üer Zwerg Sternrest");
+                "Weiﬂer Zwerg Sternrest");
         PL(STAR_M,
                 "Klasse 'M' roter Stern");
         PL(STAR_K,
@@ -1838,13 +1838,13 @@ namespace PiLanguages {
         PL(STAR_G,
                 "Klasse 'G' gelbe Stern");
         PL(STAR_F,
-                "Klasse 'F' wei√üe Stern");
+                "Klasse 'F' weiﬂe Stern");
         PL(STAR_A,
-                "Klasse 'A' hei√üe wei√üe Stern");
+                "Klasse 'A' heiﬂe weiﬂe Stern");
         PL(STAR_B,
                 "Hellen Klasse 'B' blaue Stern");
         PL(STAR_O,
-                "Hei√üe, massive Klasse 'O' Stern");
+                "Heiﬂe, massive Klasse 'O' Stern");
         PL(STAR_M_GIANT,
                 "Roter Riesenstern");
         PL(STAR_K_GIANT,
@@ -1852,23 +1852,23 @@ namespace PiLanguages {
         PL(STAR_G_GIANT,
                 "Gelbe Riesenstern - Instabil");
         PL(STAR_AF_GIANT,
-                "Wei√üe Riesenstern");
+                "Weiﬂe Riesenstern");
         PL(STAR_B_GIANT,
                 "Blaue Riesenstern");
         PL(STAR_O_GIANT,
-                "Hei√üe blaue Riesenstern");
+                "Heiﬂe blaue Riesenstern");
         PL(STAR_M_SUPER_GIANT,
-                "Roter √úberriesen");
+                "Roter ‹berriesen");
         PL(STAR_K_SUPER_GIANT,
-                "Oranger √úberriesen");
+                "Oranger ‹berriesen");
         PL(STAR_G_SUPER_GIANT,
-                "Gelbe √úberriesen");
+                "Gelbe ‹berriesen");
         PL(STAR_AF_SUPER_GIANT,
-                "Wei√üe √úberriesen");
+                "Weiﬂe ‹berriesen");
         PL(STAR_B_SUPER_GIANT,
-                "Blaue √úberriesen");
+                "Blaue ‹berriesen");
         PL(STAR_O_SUPER_GIANT,
-                "Hei√üe blaue √úberriesen");
+                "Heiﬂe blaue ‹berriesen");
         PL(STAR_M_HYPER_GIANT,
                 "Roter Hyperriesen");
         PL(STAR_K_HYPER_GIANT,
@@ -1876,11 +1876,11 @@ namespace PiLanguages {
         PL(STAR_G_HYPER_GIANT,
                 "Gelbe Hyperriesen - Instabil");
         PL(STAR_AF_HYPER_GIANT,
-                "Wei√üe Hyperriesen");
+                "Weiﬂe Hyperriesen");
         PL(STAR_B_HYPER_GIANT,
                 "Blaue Hyperriesen");
         PL(STAR_O_HYPER_GIANT,
-                "Hei√üe blaue Hyperriesen");
+                "Heiﬂe blaue Hyperriesen");
         PL(STAR_M_WF,
                 "Wolf-Rayet-Stern - Instabil");
         PL(STAR_B_WF,
@@ -1894,9 +1894,9 @@ namespace PiLanguages {
         PL(STAR_SM_BH,
                 "Supermassereiches Schwarzes Loch");
         PL(VERY_LARGE_GAS_GIANT,
-                "Sehr gro√üer Gasriese");
+                "Sehr groﬂer Gasriese");
         PL(LARGE_GAS_GIANT,
-                "Gro√üer Gasriese");
+                "Groﬂer Gasriese");
         PL(MEDIUM_GAS_GIANT,
                 "Mittelschwere Gasriese");
         PL(SMALL_GAS_GIANT,
@@ -1906,7 +1906,7 @@ namespace PiLanguages {
         PL(MASSIVE,
                 "Massiver");
         PL(LARGE,
-                "Gro√üer");
+                "Groﬂer");
         PL(TINY,
                 "Weniger");
         PL(SMALL,
@@ -1922,17 +1922,17 @@ namespace PiLanguages {
         PL(OCEANICWORLD,
                 " ozeanischer Planet"); // preserve leading space
         PL(PLANET_CONTAINING_LIQUID_WATER,
-                " Planet mit fl√ºssigem Wasser"); // preserve leading space
+                " Planet mit fl¸ssigem Wasser"); // preserve leading space
         PL(PLANET_WITH_SOME_ICE,
                 " Planet mit ein wenig Eis"); // preserve leading space
         PL(ROCKY_PLANET_CONTAINING_COME_LIQUIDS,
-                " felsiger Planet mit einigen Fl√ºssigkeiten"); // preserve leading space
+                " felsiger Planet mit einigen Fl¸ssigkeiten"); // preserve leading space
         PL(WITH_NO_SIGNIFICANT_ATMOSPHERE,
-                " mit keinen signifikanten Atmosph√§re"); // preserve leading space
+                " mit keinen signifikanten Atmosph‰re"); // preserve leading space
         PL(TENUOUS,
-                "sehr d√ºnner");
+                "sehr d¸nner");
         PL(THIN,
-                "d√ºnner");
+                "d¸nner");
         PL(THICK,
                 "dicker");
         PL(VERY_DENSE,
@@ -1940,25 +1940,25 @@ namespace PiLanguages {
         PL(WITH_A,
                 " mit einer "); // preserve leading and trailing space
         PL(O2_ATMOSPHERE,
-                " Sauerstoffatmosph√§re"); // preserve leading space
+                " Sauerstoffatmosph‰re"); // preserve leading space
         PL(CO2_ATMOSPHERE,
-                " Kohlendioxid-Atmosph√§re"); // preserve leading space
+                " Kohlendioxid-Atmosph‰re"); // preserve leading space
         PL(CO_ATMOSPHERE,
-                " Kohlenmonoxid-Atmosph√§re"); // preserve leading space
+                " Kohlenmonoxid-Atmosph‰re"); // preserve leading space
         PL(CH4_ATMOSPHERE,
-                " Methan-Atmosph√§re"); // preserve leading space
+                " Methan-Atmosph‰re"); // preserve leading space
         PL(H_ATMOSPHERE,
-                " Wasserstoff-Atmosph√§re"); // preserve leading space
+                " Wasserstoff-Atmosph‰re"); // preserve leading space
         PL(HE_ATMOSPHERE,
-                " Helium-Atmosph√§re"); // preserve leading space
+                " Helium-Atmosph‰re"); // preserve leading space
         PL(AR_ATMOSPHERE,
-                " Argon-Atmosph√§re"); // preserve leading space
+                " Argon-Atmosph‰re"); // preserve leading space
         PL(S_ATMOSPHERE,
-                " Schwefel-Atmosph√§re"); // preserve leading space
+                " Schwefel-Atmosph‰re"); // preserve leading space
         PL(N_ATMOSPHERE,
-                " Stickstoff-Atmosph√§re"); // preserve leading space
+                " Stickstoff-Atmosph‰re"); // preserve leading space
         PL(AND_HIGHLY_COMPLEX_ECOSYSTEM,
-                " und ein sehr komplexes √ñkosystem."); // preserve leading space
+                " und ein sehr komplexes ÷kosystem."); // preserve leading space
         PL(AND_INDIGENOUS_PLANT_LIFE,
                 " und einheimischen Pflanzen."); // preserve leading space
         PL(AND_INDIGENOUS_MICROBIAL_LIFE,
@@ -1970,15 +1970,15 @@ namespace PiLanguages {
         PL(UNKNOWN,
                 "<unknown>");
         PL(UNEXPLORED_SYSTEM_NO_DATA,
-                "Unerforschtes Sternsystem. Keine weiteren Daten verf√ºgbar.");
+                "Unerforschtes Sternsystem. Keine weiteren Daten verf¸gbar.");
         PL(SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS,
                 "Kleine Prospektion. Keine registrierten Siedlungen.");
         PL(SMALL_INDUSTRIAL_OUTPOST,
-                "Kleiner Industrie-Au√üenpost.");
+                "Kleiner Industrie-Auﬂenpost.");
         PL(SOME_ESTABLISHED_MINING,
                 "Einige etablierte Bergbau.");
         PL(YOUNG_FARMING_COLONY,
-                "Neu gegr√ºndeter landwirtschaftlicher Kolonie.");
+                "Neu gegr¸ndeter landwirtschaftlicher Kolonie.");
         PL(INDUSTRIAL_COLONY,
                 "Industrieller Kolonie.");
         PL(MINING_COLONY,
@@ -1996,7 +1996,7 @@ namespace PiLanguages {
         PL(VAST_STRIP_MINE,
                 "Riesigen Tagebau-Kolonie.");
         PL(HIGH_POPULATION_OUTDOOR_WORLD,
-                "Hohe Bev√∂lkerung Planet mit St√§dte im Freien.");
+                "Hohe Bevˆlkerung Planet mit St‰dte im Freien.");
         PL(SOMEWHERE_SPACEPORT,
                 " Raumhafen"); // preserve leading space
         PL(SOMEWHERE_STARPORT,
@@ -2010,7 +2010,7 @@ namespace PiLanguages {
         PL(EARTH,
                 "Erd");
         PL(SURFACE_TEMPERATURE,
-                "Oberfl√§chentemperatur");
+                "Oberfl‰chentemperatur");
         PL(N_CELSIUS,
                 "%d C");
         PL(N_YEARS,
@@ -2024,17 +2024,17 @@ namespace PiLanguages {
         PL(APOAPSIS_DISTANCE,
                 "Apoapsisdistanz");
         PL(ECCENTRICITY,
-                "Bahnexzentrizit√§t");
+                "Bahnexzentrizit‰t");
         PL(AXIAL_TILE,
                 "Neigung der Rotationsachse");
         PL(N_DEGREES,
                 "%.1f grad");
         PL(DAY_LENGTH,
-                "Tagesl√§nge");
+                "Tagesl‰nge");
         PL(N_EARTH_DAYS,
                 "%.1f Erdentage");
         PL(STARPORTS,
-                "Raumschiffh√§fen");
+                "Raumschiffh‰fen");
         PL(MAJOR_IMPORTS,
                 "Bedeutende Einfuhren:");
         PL(MINOR_IMPORTS,
@@ -2046,7 +2046,7 @@ namespace PiLanguages {
         PL(ILLEGAL_GOODS,
                 "Illegale Waren:");
         PL(UNEXPLORED_SYSTEM_STAR_INFO_ONLY,
-                "Unerforschtes Sternsystem. Stern-information war per Fernbedienung Teleskop gesammelt worden, aber keine Information auf Planeten ist Verf√ºgbar.");
+                "Unerforschtes Sternsystem. Stern-information war per Fernbedienung Teleskop gesammelt worden, aber keine Information auf Planeten ist Verf¸gbar.");
         PL(PLANETARY_INFO,
                 "Planeten-information");
         PL(ECONOMIC_INFO,
@@ -2054,11 +2054,11 @@ namespace PiLanguages {
         PL(DEMOGRAPHICS,
                 "Demografie");
         PL(STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
-                "Stabiles System mit %d gro√üen %s and %d Raumschiffha%fen.\n\n%s"); // WHAT A MESS!
+                "Stabiles System mit %d groﬂen %s and %d Raumschiffha%fen.\n\n%s"); // WHAT A MESS!
         PL(BODY,
-                "K√∂rpern");
+                "Kˆrpern");
         PL(BODIES,
-                "K√∂rper");
+                "Kˆrper");
         PL(PLURAL_SUFFIX,
                 "e"); // THIS IS A HUGE ASSUMPTION BASED ON ENGLISH.
         PL(SYSTEM_TYPE,
@@ -2090,11 +2090,11 @@ namespace PiLanguages {
         PL(RADIUS,
                 "Radius");
         PL(SEMI_MAJOR_AXIS,
-                "Gro√üe Halbachse");
+                "Groﬂe Halbachse");
         PL(TIME_POINT,
                 "Zeitpunkt: ");
         PL(UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW,
-                "Unerforschtes Sternsystem. Sternsystem Blick unverf√ºgbar.");
+                "Unerforschtes Sternsystem. Sternsystem Blick unverf¸gbar.");
         PL(WHEELS_ARE_UP,
                 "Fahrwerk angehoben");
         PL(WHEELS_ARE_DOWN,
@@ -2118,19 +2118,19 @@ namespace PiLanguages {
         PL(DISTANCE_FROM_SHIP_TO_NAV_TARGET,
                 "Entfernung vom Schiff auf die Navigationsziel");
         PL(SHIP_ALTITUDE_ABOVE_TERRAIN,
-                "Schiff H√∂he √ºber Gel√§nde");
+                "Schiff Hˆhe ¸ber Gel‰nde");
         PL(EXTERNAL_ATMOSPHERIC_PRESSURE,
-                "Externe Atmosph√§rendruck");
+                "Externe Atmosph‰rendruck");
         PL(HULL_TEMP,
                 "Rumpftemperatur");
         PL(WEAPON_TEMP,
                 "Waffentemperatur");
         PL(HULL_INTEGRITY,
-                "Rumpfintegrit√§t");
+                "Rumpfintegrit‰t");
         PL(SHIELD_INTEGRITY,
-                "Schildintegrit√§t");
+                "Schildintegrit‰t");
         PL(LAUNCH_PERMISSION_DENIED_BUSY,
-                "Startberechtigung verweigert: Andockbucht besch√§ftigt.");
+                "Startberechtigung verweigert: Andockbucht besch‰ftigt.");
         PL(HYPERSPACE_JUMP_ABORTED,
                 "Hyperraumsprung abgebrochen.");
         PL(CAMERA,
@@ -2154,7 +2154,7 @@ namespace PiLanguages {
         PL(N_DISTANCE_TO_TARGET,
                 "%s nach Ziel");
         PL(ALT_IN_METRES,
-                "H√∂he: %.0fm");
+                "Hˆhe: %.0fm");
         PL(PRESSURE_N_BAR,
                 "Druck: %.2f bar");
         PL(NO_HYPERDRIVE,
@@ -2162,7 +2162,7 @@ namespace PiLanguages {
         PL(MASS_N_TONNES,
                 "Masse: %dt");
         PL(SHIELD_STRENGTH_N,
-                "Schild-St√§rke: %.2f");
+                "Schild-St‰rke: %.2f");
         PL(CARGO_N,
                 "Ladung: %dt");
         PL(HYPERSPACE_ARRIVAL_CLOUD_REMNANT,
@@ -2172,7 +2172,7 @@ namespace PiLanguages {
         PL(SHIP_MASS_N_TONNES,
                 "Schiff Masse: %dt");
         PL(DATE_DUE_N,
-                "F√§lligkeitsdatum: %s");
+                "F‰lligkeitsdatum: %s");
         PL(ARRIVAL,
                 "Anflug");
         PL(DEPARTURE,
@@ -2188,21 +2188,21 @@ namespace PiLanguages {
         PL(YOU_NO_MONEY,
                 "Sie haben kein Geld.");
         PL(FINE_PAID_N_BUT_N_REMAINING,
-                "Sie haben %s bezahlt, aber Sie m√ºssen noch eine herausragende Geldstrafe von %s zu bezahlen.");
+                "Sie haben %s bezahlt, aber Sie m¸ssen noch eine herausragende Geldstrafe von %s zu bezahlen.");
         PL(FINE_PAID_N,
                 "Sie haben die Geldstrafe von %s bezahlt.");
         PL(SET_HYPERSPACE_DESTINATION_TO,
                 "Set Hyperraum Ziel nach "); // preserve trailing space
         PL(NO_TARGET_SELECTED,
-                "Schiffsrechner: Kein Ziel ausgew√§hlt");
+                "Schiffsrechner: Kein Ziel ausgew‰hlt");
         PL(REQUEST_DOCKING_CLEARANCE,
                 "Erlaubnis Ansuchen um zu andocken");
         PL(AUTOPILOT_DOCK_WITH_STATION,
                 "Autopilot: mit Raumstation andocken");
         PL(PAY_FINE_REMOTELY,
-                "Geldstrafe bezahlen durch Fern√ºbertragung (%s)");
+                "Geldstrafe bezahlen durch Fern¸bertragung (%s)");
         PL(AUTOPILOT_FLY_TO_VICINITY_OF,
-                "Autopilot: Fliegen nach der N√§he von "); // preserve trailing space
+                "Autopilot: Fliegen nach der N‰he von "); // preserve trailing space
         PL(AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
                 "Autopilot: Flieg nach niedriger Umlaufbahn um "); // preserve trailing space
         PL(AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
