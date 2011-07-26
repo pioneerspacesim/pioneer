@@ -73,7 +73,7 @@ void ShipSpinnerWidget::Draw()
 
 	glViewport(
 		GLint(roundf(pos[0]/guiscale[0])),
-		GLint(roundf((Gui::Screen::GetHeight() - pos[1] - m_width)/guiscale[1])),
+		GLint(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
 		GLsizei(m_width/guiscale[0]),
 		GLsizei(m_height/guiscale[1]));
 	

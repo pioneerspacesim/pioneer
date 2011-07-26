@@ -264,7 +264,8 @@ private:
 	Gui::Label *info1, *info2;
 };
 
-InfoView::InfoView(): View()
+InfoView::InfoView(): View(),
+	m_spinner(0)
 {
 	SetTransparency(true);
 
@@ -287,9 +288,6 @@ InfoView::InfoView(): View()
 	m_tabs->AddPage(new Gui::Label(std::string(PiLang::MISSIONS)+std::string(":")), page);
 	
 	Add(m_tabs, 0, 0);
-
-	m_spinner = new ShipSpinnerWidget(*Pi::player->GetFlavour(), 320, 320);
-	Add(m_spinner, 450, 50);
 
 	m_doUpdate = true;
 }
@@ -316,13 +314,24 @@ void InfoView::Update()
 		m_doUpdate = false;
 	}
 
-	if (m_showSpinner)
-		m_spinner->Show();
-	else
-		m_spinner->Hide();
+	if (m_spinner) {
+		if (m_showSpinner)
+			m_spinner->Show();
+		else
+			m_spinner->Hide();
+	}
 }
 
 void InfoView::NextPage()
 {
 	m_tabs->OnActivate();
+}
+
+void InfoView::OnSwitchTo()
+{
+	if (m_spinner)
+		Remove(m_spinner);
+
+	m_spinner = new ShipSpinnerWidget(*Pi::player->GetFlavour(), 320, 320);
+	Add(m_spinner, 450, 50);
 }
