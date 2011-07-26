@@ -1646,25 +1646,25 @@ namespace PiLanguages {
         PL(MANUAL_CONTROL_MODE,
                 "Handbetrieb");
         PL(THRUSTER_MAIN,
-                "Thrust forward");
+                "Haupt-Raketenschub");
         PL(THRUSTER_RETRO,
-                "Thrust backwards");
+                "Brems-Raketenschub");
         PL(THRUSTER_VENTRAL,
-                "Thrust up");
+                "Unten-Raketenschub");
         PL(THRUSTER_DORSAL,
-                "Thrust down");
+                "Oben-Raketenschub");
         PL(THRUSTER_PORT,
-                "Thrust left");
+                "Backbord-Raketenschub");
         PL(THRUSTER_STARBOARD,
-                "Thrust right");
+                "Steuerbord-Raketenschub");
         PL(SPEED_CONTROL_MODE,
-                "Speed control mode");
+                "Geschwindigkeitsregelung Betrieb");
         PL(INCREASE_SET_SPEED,
-                "Increase set speed");
+                "Steigern eingestellten Geschwindigkeit");
         PL(DECREASE_SET_SPEED,
-                "Decrease set speed");
+                "Abnahme eingestellten Geschwindigkeit");
         PL(JOYSTICK_INPUT,
-                "Joystick input");
+                "Joystickeingabe");
         PL(PITCH,
                 "Kippen");
         PL(ROLL,
