@@ -8,7 +8,7 @@ StationCommodityMarketForm::StationCommodityMarketForm(FormController *controlle
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, "%s commodity market", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, PiLang::SOMEWHERE_COMMODITIES_MARKET, m_station->GetLabel().c_str()));
 
 	m_trader = new CommodityTradeWidget(m_station);
 	m_trader->onClickBuy.connect(sigc::mem_fun(this, &StationCommodityMarketForm::OnClickBuy));

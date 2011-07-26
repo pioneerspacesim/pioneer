@@ -39,7 +39,7 @@ void StationPoliceForm::OnOptionClicked(int option)
 			Polit::GetCrime(&crime, &fine);
 
 			if (fine > Pi::player->GetMoney()) {
-				Pi::cpan->MsgLog()->Message("", "You do not have enough money.");
+				Pi::cpan->MsgLog()->Message("", PiLang::YOU_NOT_ENOUGH_MONEY);
 				return;
 			}
 

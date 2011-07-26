@@ -505,14 +505,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 				Player::FlightControlState fstate = Pi::player->GetFlightControlState();
 				switch (fstate) {
 					case Player::CONTROL_MANUAL:
-						m_flightStatus->SetText("Manual Control"); break;
+						m_flightStatus->SetText(PiLang::MANUAL_CONTROL); break;
 
 					case Player::CONTROL_FIXSPEED: {
 						std::string msg;
 						if (Pi::player->GetSetSpeed() > 1000) {
-							msg = stringf(256, "Set speed: %.2f km/s", Pi::player->GetSetSpeed()*0.001);
+							msg = stringf(256, PiLang::SET_SPEED_KM_S, Pi::player->GetSetSpeed()*0.001);
 						} else {
-							msg = stringf(256, "Set speed: %.0f m/s", Pi::player->GetSetSpeed());
+							msg = stringf(256, PiLang::SET_SPEED_M_S, Pi::player->GetSetSpeed());
 						}
 						m_flightStatus->SetText(msg);
 						break;
@@ -583,9 +583,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 			const char *rel_to = Pi::player->GetFrame()->GetLabel();
 			vector3d pos = Pi::player->GetPosition();
 			if (_vel > 1000) {
-				snprintf(buf,sizeof(buf), "%.2f km/s rel-to %s", _vel*0.001, rel_to);
+				snprintf(buf,sizeof(buf), PiLang::KM_S_RELATIVE_TO, _vel*0.001, rel_to);
 			} else {
-				snprintf(buf,sizeof(buf), "%.0f m/s rel-to %s", _vel, rel_to);
+				snprintf(buf,sizeof(buf), PiLang::M_S_RELATIVE_TO, _vel, rel_to);
 			}
 			m_hudVelocity->SetText(buf);
 		}

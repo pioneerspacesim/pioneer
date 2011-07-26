@@ -10,7 +10,7 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, "%s ship market", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, PiLang::SOMEWHERE_SHIP_MARKET, m_station->GetLabel().c_str()));
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
@@ -76,7 +76,7 @@ void StationShipMarketForm::UpdateShipList()
 		f->Add(l,0,0);
 		f->Add(new Gui::Label(format_money((*i).price)), 200, 0);
 		f->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, 0);
-		f->Add(new Gui::Label(stringf(16, "%dt", ShipType::types[(*i).type].capacity)), 370, 0);
+		f->Add(new Gui::Label(stringf(16, PiLang::NUMBER_TONNES, ShipType::types[(*i).type].capacity)), 370, 0);
 		
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipMarketForm::ViewShip), num));

@@ -16,7 +16,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	const ShipType &type = ShipType::types[m_flavour.type];
 
-	SetTitle(stringf(256, "%s ship market", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, PiLang::SOMEWHERE_SHIP_MARKET, m_station->GetLabel().c_str()));
 
 	Add(new ShipSpinnerWidget(m_flavour, 400, 400), 0, 0);
 
@@ -44,7 +44,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	labelBox->PackEnd(new Gui::Label(PiLang::REVERSE_ACCEL_EMPTY));
 	labelBox->PackEnd(new Gui::Label(PiLang::REVERSE_ACCEL_LADEN));
 	labelBox->PackEnd(new Gui::Label(" "));
-	labelBox->PackEnd(new Gui::Label("Hyperdrive fitted"));
+	labelBox->PackEnd(new Gui::Label(PiLang::HYPERDRIVE_FITTED));
 	statsBox->PackEnd(labelBox);
 
 	float forward_accel_empty = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass));
@@ -133,7 +133,7 @@ void StationShipViewForm::BuyShip()
 
 	m_station->ReplaceShipOnSale(m_marketIndex, &old);
 
-    Pi::cpan->MsgLog()->Message("", "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.");
+    Pi::cpan->MsgLog()->Message("", PiLang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 
     m_formController->CloseForm();
 }

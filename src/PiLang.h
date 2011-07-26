@@ -73,7 +73,9 @@ namespace PiLanguages {
         PL(SOMEWHERE_SERVICES,
                 "%s services");
         PL(SOMEWHERE_SHIPYARD,
-                "%s Shipyard");
+                "%s shipyard");
+        PL(SOMEWHERE_SHIP_REPAIRS,
+                "%s ship repairs");
         PL(PRICE_TO_FIT,
                 "$ to fit");
         PL(PRICE_TO_REMOVE,
@@ -112,6 +114,8 @@ namespace PiLanguages {
                 "Hyperdrive fitted:");
         PL(HYPERSPACE_RANGE_LADEN,
                 "Hyperspace range (fully laden):");
+        PL(THANKS_AND_REMEMBER_TO_BUY_FUEL,
+                "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.");
         PL(CLASS_NUMBER,
                 "Class %d");
         PL(NUMBER_LY,
@@ -130,6 +134,8 @@ namespace PiLanguages {
                 "View");
         PL(SHIP_EQUIPMENT,
                 "Ship equipment");
+        PL(SOMEWHERE_SHIP_EQUIPMENT,
+                "%s ship equipment");
         PL(REPAIRS_AND_SERVICING,
                 "Repairs and servicing");
         PL(NEW_AND_RECONDITIONED_SHIPS,
@@ -146,6 +152,10 @@ namespace PiLanguages {
                 "Shipyard");
         PL(COMMODITIES_MARKET,
                 "Commodities market");
+        PL(SOMEWHERE_COMMODITIES_MARKET,
+                "%s commodities market");
+        PL(SOMEWHERE_SHIP_MARKET,
+                "%s ship market");
         PL(CONTACT_LOCAL_POLICE,
                 "Contact local police");
         PL(COMMS_LINK,
@@ -1173,6 +1183,8 @@ namespace PiLanguages {
                 "%s Dienst");
         PL(SOMEWHERE_SHIPYARD,
                 "%s Werft");
+        PL(SOMEWHERE_SHIP_REPAIRS,
+                "%s Reparaturdienst");
         PL(PRICE_TO_FIT,
                 "$ zu installieren");
         PL(PRICE_TO_REMOVE,
@@ -1211,6 +1223,8 @@ namespace PiLanguages {
                 "Hyperlaufwerk installiert:");
         PL(HYPERSPACE_RANGE_LADEN,
                 "Fahrbereich im Hyperraum (voll beladen):");
+        PL(THANKS_AND_REMEMBER_TO_BUY_FUEL,
+                "Vielen Dank für Ihren Einkauf. Denken Sie daran, Schiffsausrüstung und Kraftstoff zu kaufen, bevor Sie abdocken.");
         PL(CLASS_NUMBER,
                 "Klasse %d");
         PL(NUMBER_LY,
@@ -1229,6 +1243,8 @@ namespace PiLanguages {
                 "Ansehen");
         PL(SHIP_EQUIPMENT,
                 "Schiffsausrüstung");
+        PL(SOMEWHERE_SHIP_EQUIPMENT,
+                "%s Schiffsausrüstung");
         PL(REPAIRS_AND_SERVICING,
                 "Reparaturen und Service");
         PL(NEW_AND_RECONDITIONED_SHIPS,
@@ -1245,6 +1261,10 @@ namespace PiLanguages {
                 "Werft");
         PL(COMMODITIES_MARKET,
                 "Rohstoffmarkt");
+        PL(SOMEWHERE_COMMODITIES_MARKET,
+                "%s Rohstoffmarkt");
+        PL(SOMEWHERE_SHIP_MARKET,
+                "%s Raumschiffmarkt");
         PL(CONTACT_LOCAL_POLICE,
                 "Um den örtliche Polizei");
         PL(COMMS_LINK,

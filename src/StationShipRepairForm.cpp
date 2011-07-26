@@ -8,7 +8,7 @@ StationShipRepairForm::StationShipRepairForm(FormController *controller) : FaceF
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, "%s ship repairs", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, PiLang::SOMEWHERE_SHIP_REPAIRS, m_station->GetLabel().c_str()));
 
 	m_working = new Gui::Label(PiLang::SHIP_IS_ALREADY_FULLY_REPAIRED);
 	Add(m_working, 0, 0);
