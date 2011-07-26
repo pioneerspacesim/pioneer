@@ -50,6 +50,7 @@ void Player::Load(Serializer::Reader &rd)
 
 void Player::PostLoadFixup()
 {
+	Ship::PostLoadFixup();
 	m_followCloud = dynamic_cast<HyperspaceCloud*>(Serializer::LookupBody(m_followCloudIndex));
 }
 

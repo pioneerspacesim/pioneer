@@ -371,7 +371,6 @@ void Planet::DrawAtmosphere(vector3d &apos)
 
 void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
 	double rad = sbody->GetRadius();
@@ -400,84 +399,27 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 	}
 	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
-	glPushMatrix();
-	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
+	glPushMatrix();		// initial matrix is actually identity after a long chain of wtf
+//	glTranslatef(float(fpos.x), float(fpos.y), float(fpos.z));
 	glColor3f(1,1,1);
 
-	if (apparent_size < 0.001) {
-		Render::State::UseProgram(0);
-		/* XXX WRONG. need to pick light from appropriate turd. */
-		GLfloat col[4];
-		glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-		// face the camera dammit
-		vector3d zaxis = fpos.Normalized();
-		vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
-		vector3d yaxis = zaxis.Cross(xaxis);
-		matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-		glMultMatrixd(&rot[0]);
-
-		glDisable(GL_LIGHTING);
-		glDisable(GL_DEPTH_TEST);
-		
-		glEnable(GL_BLEND);
-		glColor4f(col[0], col[1], col[2], 1);
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(0,0,0);
-		glColor4f(col[0],col[1],col[2],0);
-		
-		const float spikerad = float(0.005*len +  1e1*(1.0*sbody->GetRadius()*len)/origLen);
-		{
-			/* bezier with (0,0,0) control points */
-			vector3f p0(0,spikerad,0), p1(spikerad,0,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		{
-			vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
-			float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-				vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-				glVertex3fv(&p[0]);
-			}
-		}
-		glEnd();
-		glDisable(GL_BLEND);
-
-		glEnable(GL_LIGHTING);
-		glEnable(GL_DEPTH_TEST);
-	} else {
-		vector3d campos = -fpos;
+	{
+		vector3d campos = fpos;
 		ftran.ClearToRotOnly();
 		campos = ftran.InverseOf() * campos;
 		glMultMatrixd(&ftran[0]);
 		glEnable(GL_NORMALIZE);
-		glPushMatrix();
-		glScaled(rad, rad, rad);
-		campos = campos * (1.0/rad);
-		m_geosphere->Render(campos, sbody->GetRadius(), scale);
-		
+		glScaled(rad, rad, rad);			// rad = real_rad / scale
+		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
+
+		// translation not applied until patch render to fix jitter
+		m_geosphere->Render(-campos, sbody->GetRadius(), scale);
+		glTranslated(campos.x, campos.y, campos.z);
+
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		
-		fpos = ftran.InverseOf() * fpos;
-		fpos *= (1.0/rad);
-		if (!Render::AreShadersEnabled()) DrawAtmosphere(fpos);
+		if (!Render::AreShadersEnabled()) DrawAtmosphere(campos);
 		
-		glPopMatrix();
 		glDisable(GL_NORMALIZE);
 		
 		// if not using shader then z-buffer precision is hopeless and
