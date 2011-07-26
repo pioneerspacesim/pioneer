@@ -1,3 +1,4 @@
+#define PI_LANGUAGE de 
 #ifndef PI_LANGUAGE
     #define PI_LANGUAGE en
 #endif
@@ -583,7 +584,7 @@ namespace PiLanguages {
         PL(SCREENSHOT_FILENAME_TEMPLATE,
                 "screenshot%08d.png");
         PL(PIONEERING_PILOTS_GUILD,
-                "Pioneering Pilot's Guild");
+                "Pioneering Pilots' Guild");
         PL(RIGHT_ON_COMMANDER,
                 "Well done commander! Your combat rating has improved!");
         PL(ALERT_CANCELLED,
@@ -950,7 +951,7 @@ namespace PiLanguages {
                 "Economic info");
         PL(DEMOGRAPHICS,
                 "Demographics");
-        PL(STABLE_SYSTEM_WITH_N_MAJOR_MINOR_STARPORTS,
+        PL(STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
                 "Stable system with %d major %s and %d starport%s.\n\n%s");
         PL(BODY,
                 "body");
@@ -1075,7 +1076,7 @@ namespace PiLanguages {
         PL(DEPARTURE,
                 "departure");
         PL(SOURCE,
-                "Source");
+                "Origin");
         PL(DESTINATION,
                 "Destination");
         PL(HYPERSPACING_IN_N_SECONDS,
@@ -1161,7 +1162,7 @@ namespace PiLanguages {
                 "%s Dienst");
         PL(SOMEWHERE_SHIPYARD,
                 "%s Werft");
-        Pf(PRICE_TO_FIT,
+        PL(PRICE_TO_FIT,
                 "€ zu installieren");
         PL(PRICE_TO_REMOVE,
                 "€ zu entfernen");
@@ -1198,7 +1199,7 @@ namespace PiLanguages {
         PL(HYPERDRIVE_FITTED,
                 "Hyperlaufwerk installiert:");
         PL(HYPERSPACE_RANGE_LADEN,
-                "Fahrbereich im Hyperraum (beladen):");
+                "Fahrbereich im Hyperraum (voll beladen):");
         PL(CLASS_NUMBER,
                 "Klasse %d");
         PL(NUMBER_LY,
@@ -1228,7 +1229,7 @@ namespace PiLanguages {
         PL(SPACESTATION_LONG_WELCOME_MESSAGE,
                 "Wilkommen am bord.  Heute ist das Luft ganz kostenlos.  Bitte nutzen Sie unsere zahlreichen Dienstleistungen.");
         PL(REQUEST_LAUNCH,
-                "Startberechtigung erhalten");
+                "Ansuchen Erlaubnis um zu abdocken");
         PL(SHIPYARD,
                 "Werft");
         PL(COMMODITIES_MARKET,
@@ -1634,582 +1635,572 @@ namespace PiLanguages {
         PL(JOYSTICK_INPUT,
                 "Joystick input");
         PL(PITCH,
-                "Pitch");
+                "Kippen");
         PL(ROLL,
-                "Roll");
+                "Rollen");
         PL(YAW,
-                "Yaw");
+                "Gieren");
         PL(MISSILE,
-                "missile");
+                "Rakete");
         PL(HARMLESS,
-                "Harmless");
+                "Harmlos");
         PL(MOSTLY_HARMLESS,
-                "Mostly harmless");
+                "Meistens harmlos");
         PL(POOR,
-                "Poor");
+                "Mies");
         PL(AVERAGE,
-                "Average");
+                "Durchschnittlich");
         PL(ABOVE_AVERAGE ,
-                "Above Average");
+                "Überdurchschnittlich");
         PL(COMPETENT,
-                "Competent");
+                "Kompetent");
         PL(DANGEROUS,
-                "Dangerous");
+                "Gefährlich");
         PL(DEADLY,
-                "Deadly");
+                "Tödlich");
         PL(ELITE,
                 "ELITE");
         PL(SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS,
-                "Simulating evolution of the universe: %.1f billion years ;-)");
+                "Simulation Evolution des Universums: %.1f Milliarde Jahre ;-)");
         PL(TOMBSTONE_EPITAPH,
-                "RIP OLD BEAN");
+                "Ruhe in Frieden, Kumpel");
         PL(MM_START_NEW_GAME_EARTH,
-                "New game starting on Earth");
+                "Neues Spiel, beginnt auf Erde");
         PL(MM_START_NEW_GAME_E_ERIDANI,
-                "New game starting on Epsilon Eridani");
+                "Neues Spiel, beginnt auf Epsilon Eridani");
         PL(MM_START_NEW_GAME_DEBUG,
-                "New game starting on debug point");
+                "Neues Spiel zu Debugging Punkt");
         PL(MM_LOAD_SAVED_GAME,
-                "Load a saved game");
+                "Laden von gespeicherten Spiel");
         PL(MM_QUIT,
-                "Quit");
+                "Pioneer beenden");
         PL(SCREENSHOT_FILENAME_TEMPLATE,
-                "screenshot%08d.png");
+                "Spielbild%08d.png");
         PL(PIONEERING_PILOTS_GUILD,
-                "Pioneering Pilot's Guild");
+                "Pionierarbeit Piloten Gilde");
         PL(RIGHT_ON_COMMANDER,
-                "Well done commander! Your combat rating has improved!");
+                "Well done Kommandant! Ihre Bekämpfung Bewertung hat sich verbessert!");
         PL(ALERT_CANCELLED,
-                "Alert cancelled.");
+                "Alarm aufgehoben.");
         PL(SHIP_DETECTED_NEARBY,
-                "Ship detected nearby.");
+                "Schiff entdeckt in der Nähe.");
         PL(DOWNGRADING_ALERT_STATUS,
-                "No fire detected for 60 seconds, downgrading alert status.");
+                "Keine schießen für 60 Sekunden erkannt; herabstufung die Alarmbereitschaft.");
         PL(LASER_FIRE_DETECTED,
-                "Laser fire detected.");
+                "Waffenschießen entdeckt.");
         PL(SOMEWHERE_POLICE,
-                "%s Police");
+                "%s Polizei");
         PL(WE_HAVE_NO_BUSINESS_WITH_YOU,
-                "We have no business with you at the moment.");
+                "Wir haben keine Geschäfte mit Ihnen jetzt.");
         PL(YOU_MUST_PAY_FINE_OF_N_CREDITS,
-                "We do not tolerate crime. You must pay a fine of %s.");
+                "Wir tolerieren keine Verbrechen. Sie müssen eine Geldbuße von %s zahlen.");
         PL(PAY_THE_FINE_NOW,
-                "Pay the fine now.");
+                "Die Geldbuße zahlen jetzt.");
         PL(HANG_UP,
-                "Hang up.");
+                "Auflegen.");
         PL(TRADING_ILLEGAL_GOODS,
-                "Trading illegal goods");
+                "Der Handel mit illegalen Waren");
         PL(UNLAWFUL_WEAPONS_DISCHARGE,
-                "Unlawful weapons discharge");
+                "Rechtswidrige Waffen schießen");
         PL(PIRACY,
-                "Piracy");
+                "Piraterei");
         PL(MURDER,
-                "Murder");
+                "Mord");
         PL(INDEPENDENT,
-                "Independent");
+                "Unabhängig");
         PL(EARTH_FEDERATION,
-                "Earth Federation");
+                "Erde Föderation");
         PL(INDEPENDENT_CONFEDERATION,
-                "Confederation of Independent Systems");
+                "Gemeinschaft Unabhängiger Sternensystemen");
         PL(EMPIRE,
-                "The Empire");
+                "Das Imperium");
         PL(NO_ESTABLISHED_ORDER,
-                "No established order");
+                "Zügellosigkeit");
         PL(HARD_CAPITALIST,
-                "Entirely Capitalist - no government welfare provision");
+                "Völlig Kapitalist - keine Regierung Sozialleistungen");
         PL(CAPITALIST,
-                "Capitalist");
+                "Kapitalist");
         PL(MIXED_ECONOMY,
-                "Mixed economy");
+                "Gemischte Wirtschaftsform");
         PL(PLANNED_ECONOMY,
-                "Centrally planned economy");
+                "Planwirtschaft");
         PL(NO_CENTRAL_GOVERNANCE,
-                "No central governance");
+                "Ohne zentrale Verwaltung");
         PL(EARTH_FEDERATION_COLONIAL_RULE,
-                "Earth Federation Colonial Rule");
+                "Erde Föderation Kolonialherrschaft");
         PL(EARTH_FEDERATION_DEMOCRACY,
-                "Earth Federation Democracy");
+                "Erde Föderation Demokratie");
         PL(IMPERIAL_RULE,
-                "Imperial Rule");
+                "Imperialer Herrschaft");
         PL(LIBERAL_DEMOCRACY,
-                "Liberal democracy");
+                "Liberale Demokratie");
         PL(SOCIAL_DEMOCRACY,
-                "Social democracy");
+                "Sozialdemokratie");
         PL(CORPORATE_SYSTEM,
-                "Corporate system");
+                "Herrschaft der Konzerne");
         PL(MILITARY_DICTATORSHIP,
-                "Military dictatorship");
+                "Militärdiktatur");
         PL(COMMUNIST,
-                "Communist");
+                "Kommunist");
         PL(PLUTOCRATIC_DICTATORSHIP,
-                "Plutocratic dictatorship");
+                "Plutokratischen Diktatur");
         PL(VIOLENT_ANARCHY,
-                "Disorder - Overall governance contested by armed factions");
+                "Störung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten");
         PL(X_CANNOT_BE_TOLERATED_HERE,
-                "%s cannot be tolerated here.");
+                "%s kann hier nicht geduldet werden.");
         PL(SECTOR_X_Y,
-                "Sector: %d,%d");
+                "Sektor: %d,%d");
         PL(DISTANCE_FUEL_TIME,
-                "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)");
+                "Abst. %.2f Lichtjahre (Kraftstoff benötigt: %dt | Zeitverlust: %.1fst.)");
         PL(CURRENT_SYSTEM,
                 "Current system");
         PL(DISTANCE_FUEL_REQUIRED,
-                "Dist. %.2f light years (insufficient fuel, required: %dt)");
+                "Abst. %.2f Lichtjahre (unzureichende Kraftstoff; benötigt: %dt)");
         PL(DISTANCE_OUT_OF_RANGE,
-                "Dist. %.2f light years (out of range)");
+                "Abst. %.2f Lichtjahre (out of range)");
         PL(CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE,
-                "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+                "Sie können nicht durchführen Hypersprung weil Sie nicht ein funktionierende Hyperlaufwerk haben");
         PL(QUADRUPLE_SYSTEM,
-                "Quadruple system. "); // preserve trailing space
+                "VierfachSternsystem. "); // preserve trailing space
         PL(TRIPLE_SYSTEM,
-                "Triple system. "); // preserve trailing space
+                "DreifachSternsystem. "); // preserve trailing space
         PL(BINARY_SYSTEM,
-                "Binary system. "); // preserve trailing space
+                "DoppelSternsystem. "); // preserve trailing space
         PL(FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
-                "Fuel scoop active. You now have %d tonnes of hydrogen.");
+                "Kraftstoffschaufel aktiv. Sie haben nun %d Tonnen Wasserstoff.");
         PL(CARGO_BAY_LIFE_SUPPORT_LOST,
-                "Sensors report critical cargo bay life-support conditions.");
+                "Problem entdeckt: Leben Unterstützung den Frachtraum funktioniert nicht.");
         PL(NO_FREE_SPACE_FOR_ITEM,
-                "You have no free space for this item.");
+                "Sie haben keinen freien Raum für diesen Artikel.");
         PL(SHIP_IS_FULLY_LADEN,
-                "Your ship is fully laden.");
+                "Ihr Schiff voll beladen ist.");
         PL(YOU_DO_NOT_HAVE_ANY_X,
-                "You do not have any %s.");
+                "Sie haben keine %s.");
         PL(REAR_VIEW,
-                "Rear view");
+                "Rückansicht");
         PL(EXTERNAL_VIEW,
-                "External view");
+                "Außenansicht");
         PL(NAVIGATION_STAR_MAPS,
-                "Navigation and star maps");
+                "Navigation und Sternkarten");
         PL(COMMS,
-                "Comms");
+                "Kommunication");
         PL(GALAXY_SECTOR_VIEW,
-                "Galaxy sector view");
+                "Galaktische Sektor Blick");
         PL(SYSTEM_ORBIT_VIEW,
-                "System orbit view");
+                "System Umkreisung Blick");
         PL(STAR_SYSTEM_INFORMATION,
-                "Star system information");
+                "Sternsystem Information");
         PL(GALACTIC_VIEW,
-                "Galactic view");
+                "Milchstraße Blick");
         PL(NO_ALERT,
-                "No alert");
+                "kein Alarm");
         PL(SHIP_NEARBY,
-                "Ship nearby");
-        PL(FIRE_DETECTED,
-                "Fire detected");
+                "Raumschiff in der Nähe");
         PL(DOCKING_CLEARANCE_EXPIRED,
-                "Docking clearance expired. If you wish to dock you must repeat your request.");
+                "Andocken Erlaubnis ist abgelaufen. Wenn Sie andocken möchten, müssen Sie wiederholen Sie Ihre Anfrage.");
         PL(MESSAGE_FROM_X,
-                "Message from %s:");
+                "Nachricht von %s:");
         PL(SELECT_A_TARGET,
-                "Select a target");
+                "Wählen Sie ein Ziel");
         PL(FRONT,
                 "Front");
         PL(REAR,
-                "Rear");
+                "Heck");
         PL(POLICE_SHIP_REGISTRATION,
-                "POLICE");
+                "POLIZEI");
         PL(CLEARANCE_ALREADY_GRANTED_BAY_N,
-                "Clearance already granted. Proceed to docking bay %d.");
+                "Andocken Erlaubnis bereits gewährt. Fliegen zur Andockbuchten %d.");
         PL(CLEARANCE_GRANTED_BAY_N,
-                "Clearance granted. Proceed to docking bay %d.");
+                "Andocken Erlaubnis gewährt. Fliegen zur Andockbuchten %d.");
         PL(CLEARANCE_DENIED_NO_BAYS,
-                "Clearance denied. There are no free docking bays.");
+                "Andocken Erlaubnis verweigert. iEs gibt keine freien Andockbuchten.");
         PL(ITEM_IS_OUT_OF_STOCK,
-                "This item is out of stock.");
+                "Dieser Artikel ist ausverkauft.");
         PL(BROWN_DWARF,
-                "Brown dwarf sub-stellar object");
+                "Brauner Zwerg substellares Objekt");
         PL(WHITE_DWARF,
-                "White dwarf stellar remnant");
+                "Weißer Zwerg Sternrest");
         PL(STAR_M,
-                "Type 'M' red star");
+                "Klasse 'M' roter Stern");
         PL(STAR_K,
-                "Type 'K' orange star");
+                "Klasse 'K' oranger Stern");
         PL(STAR_G,
-                "Type 'G' yellow star");
+                "Klasse 'G' gelbe Stern");
         PL(STAR_F,
-                "Type 'F' white star");
+                "Klasse 'F' weiße Stern");
         PL(STAR_A,
-                "Type 'A' hot white star");
+                "Klasse 'A' heiße weiße Stern");
         PL(STAR_B,
-                "Bright type 'B' blue star");
+                "Hellen Klasse 'B' blaue Stern");
         PL(STAR_O,
-                "Hot, massive type 'O' star");
+                "Heiße, massive Klasse 'O' Stern");
         PL(STAR_M_GIANT,
-                "Red giant star");
+                "Roter Riesenstern");
         PL(STAR_K_GIANT,
-                "Orange giant star - Unstable");
+                "Oranger Riesenstern - Instabil");
         PL(STAR_G_GIANT,
-                "Yellow giant star - Unstable");
+                "Gelbe Riesenstern - Instabil");
         PL(STAR_AF_GIANT,
-                "White giant star");
+                "Weiße Riesenstern");
         PL(STAR_B_GIANT,
-                "Blue giant star");
+                "Blaue Riesenstern");
         PL(STAR_O_GIANT,
-                "Hot Blue giant star");
+                "Heiße blaue Riesenstern");
         PL(STAR_M_SUPER_GIANT,
-                "Red super giant star");
+                "Roter Überriesen");
         PL(STAR_K_SUPER_GIANT,
-                "Orange super giant star");
+                "Oranger Überriesen");
         PL(STAR_G_SUPER_GIANT,
-                "Yellow super giant star");
+                "Gelbe Überriesen");
         PL(STAR_AF_SUPER_GIANT,
-                "White super giant star");
+                "Weiße Überriesen");
         PL(STAR_B_SUPER_GIANT,
-                "Blue super giant star");
+                "Blaue Überriesen");
         PL(STAR_O_SUPER_GIANT,
-                "Hot Blue super giant star");
+                "Heiße blaue Überriesen");
         PL(STAR_M_HYPER_GIANT,
-                "Red hyper giant star");
+                "Roter Hyperriesen");
         PL(STAR_K_HYPER_GIANT,
-                "Orange hyper giant star - Unstable");
+                "Oranger Hyperriesen - Instabil");
         PL(STAR_G_HYPER_GIANT,
-                "Yellow hyper giant star - Unstable");
+                "Gelbe Hyperriesen - Instabil");
         PL(STAR_AF_HYPER_GIANT,
-                "White hyper giant star");
+                "Weiße Hyperriesen");
         PL(STAR_B_HYPER_GIANT,
-                "Blue hyper giant star");
+                "Blaue Hyperriesen");
         PL(STAR_O_HYPER_GIANT,
-                "Hot Blue hyper giant star");
+                "Heiße blaue Hyperriesen");
         PL(STAR_M_WF,
-                "Wolf-Rayet star - Unstable");
+                "Wolf-Rayet-Stern - Instabil");
         PL(STAR_B_WF,
-                "Wolf-Rayet star - Risk of collapse");
+                "Wolf-Rayet-Stern - bei Gefahr des Zusammenbruchs");
         PL(STAR_O_WF,
-                "Wolf-Rayet star - Imminent collapse");
+                "Wolf-Rayet-Stern - Zusammenbruch bevorstand");
         PL(STAR_S_BH,
-                "A stellar black hole");
+                "Stellares Schwarzes Loch");
         PL(STAR_IM_BH,
-                "An intermediate-mass black hole");
+                "Mittelschweres Schwarzes Loch");
         PL(STAR_SM_BH,
-                "Our galactic anchor");
+                "Supermassereiches Schwarzes Loch");
         PL(VERY_LARGE_GAS_GIANT,
-                "Very large gas giant");
+                "Sehr großer Gasriese");
         PL(LARGE_GAS_GIANT,
-                "Large gas giant");
+                "Großer Gasriese");
         PL(MEDIUM_GAS_GIANT,
-                "Medium gas giant");
+                "Mittelschwere Gasriese");
         PL(SMALL_GAS_GIANT,
-                "Small gas giant");
+                "Kleiner Gasriese");
         PL(ASTEROID,
                 "Asteroid");
         PL(MASSIVE,
-                "Massive");
+                "Massiver");
         PL(LARGE,
-                "Large");
+                "Großer");
         PL(TINY,
-                "Tiny");
+                "Weniger");
         PL(SMALL,
-                "Small");
+                "Kleiner");
         PL(COMMA_HIGHLY_VOLCANIC,
-                ", highly volcanic");
+                ", hoch vulkanischer");
         PL(HIGHLY_VOLCANIC,
-                "Highly volcanic");
+                "Hoch vulkanischer");
         PL(ICE_WORLD,
-                " ice world"); // preserve leading space
+                " Eisplanet"); // preserve leading space
         PL(ROCKY_PLANET,
-                " rocky planet"); // preserve leading space
+                " felsiger Planet"); // preserve leading space
         PL(OCEANICWORLD,
-                " oceanic world"); // preserve leading space
+                " ozeanischer Planet"); // preserve leading space
         PL(PLANET_CONTAINING_LIQUID_WATER,
-                " planet containing liquid water"); // preserve leading space
+                " Planet mit flüssigem Wasser"); // preserve leading space
         PL(PLANET_WITH_SOME_ICE,
-                " planet with some ice"); // preserve leading space
+                " Planet mit ein wenig Eis"); // preserve leading space
         PL(ROCKY_PLANET_CONTAINING_COME_LIQUIDS,
-                " rocky planet containing some liquids,"); // preserve leading space
+                " felsiger Planet mit einigen Flüssigkeiten"); // preserve leading space
         PL(WITH_NO_SIGNIFICANT_ATMOSPHERE,
-                " with no significant atmosphere"); // preserve leading space
+                " mit keinen signifikanten Atmosphäre"); // preserve leading space
         PL(TENUOUS,
-                "tenuous");
+                "sehr dünner");
         PL(THIN,
-                "thin");
+                "dünner");
         PL(THICK,
-                "thick");
+                "dicker");
         PL(VERY_DENSE,
-                "very dense");
+                "sehr dichter");
         PL(WITH_A,
-                " with a "); // preserve leading and trailing space
+                " mit einer "); // preserve leading and trailing space
         PL(O2_ATMOSPHERE,
-                " Oxygen atmosphere"); // preserve leading space
+                " Sauerstoffatmosphäre"); // preserve leading space
         PL(CO2_ATMOSPHERE,
-                " Carbon Dioxide atmosphere"); // preserve leading space
+                " Kohlendioxid-Atmosphäre"); // preserve leading space
         PL(CO_ATMOSPHERE,
-                " Carbon Monoxide atmosphere"); // preserve leading space
+                " Kohlenmonoxid-Atmosphäre"); // preserve leading space
         PL(CH4_ATMOSPHERE,
-                " Methane atmosphere"); // preserve leading space
+                " Methan-Atmosphäre"); // preserve leading space
         PL(H_ATMOSPHERE,
-                " Hydrogen atmosphere"); // preserve leading space
+                " Wasserstoff-Atmosphäre"); // preserve leading space
         PL(HE_ATMOSPHERE,
-                " Helium atmosphere"); // preserve leading space
+                " Helium-Atmosphäre"); // preserve leading space
         PL(AR_ATMOSPHERE,
-                " Argon atmosphere"); // preserve leading space
+                " Argon-Atmosphäre"); // preserve leading space
         PL(S_ATMOSPHERE,
-                " Sulfuric atmosphere"); // preserve leading space
+                " Schwefel-Atmosphäre"); // preserve leading space
         PL(N_ATMOSPHERE,
-                " Nitrogen atmosphere"); // preserve leading space
+                " Stickstoff-Atmosphäre"); // preserve leading space
         PL(AND_HIGHLY_COMPLEX_ECOSYSTEM,
-                " and a highly complex ecosystem."); // preserve leading space
+                " und ein sehr komplexes Ökosystem."); // preserve leading space
         PL(AND_INDIGENOUS_PLANT_LIFE,
-                " and indigenous plant life."); // preserve leading space
+                " und einheimischen Pflanzen."); // preserve leading space
         PL(AND_INDIGENOUS_MICROBIAL_LIFE,
-                " and indigenous microbial life."); // preserve leading space
+                " und einheimischen mikrobiellen Lebens."); // preserve leading space
         PL(ORBITAL_STARPORT,
-                "Orbital starport");
+                "Umkreisiger Raumschiff Hafen");
         PL(STARPORT,
-                "Starport");
+                "Raumschiff Hafen");
         PL(UNKNOWN,
                 "<unknown>");
         PL(UNEXPLORED_SYSTEM_NO_DATA,
-                "Unexplored system. No more data available.");
+                "Unerforschtes Sternsystem. Keine weiteren Daten verfügbar.");
         PL(SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS,
-                "Small-scale prospecting. No registered settlements.");
+                "Kleine Prospektion. Keine registrierten Siedlungen.");
         PL(SMALL_INDUSTRIAL_OUTPOST,
-                "Small industrial outpost.");
+                "Kleiner Industrie-Außenpost.");
         PL(SOME_ESTABLISHED_MINING,
-                "Some established mining.");
+                "Einige etablierte Bergbau.");
         PL(YOUNG_FARMING_COLONY,
-                "Young farming colony.");
+                "Neu gegründeter landwirtschaftlicher Kolonie.");
         PL(INDUSTRIAL_COLONY,
-                "Industrial colony.");
+                "Industrieller Kolonie.");
         PL(MINING_COLONY,
-                "Mining colony.");
+                "Bergbauer Kolonie.");
         PL(OUTDOOR_AGRICULTURAL_WORLD,
-                "Outdoor agricultural world.");
+                "Im Freien landwirtschaftlicher Planet.");
         PL(HEAVY_INDUSTRY,
-                "Heavy industry.");
+                "Schwerindustrie.");
         PL(EXTENSIVE_MINING,
-                "Extensive mining operations.");
+                "Schwere Bergbau.");
         PL(THRIVING_OUTDOOR_WORLD,
-                "Thriving outdoor world.");
+                "Gut gehendlicher Planet mit Kolonien im Freien.");
         PL(INDUSTRIAL_HUB_SYSTEM,
-                "Industrial hub system.");
+                "Industrielles Knotenpunktsystem.");
         PL(VAST_STRIP_MINE,
-                "Vast strip-mining colony.");
+                "Riesigen Tagebau-Kolonie.");
         PL(HIGH_POPULATION_OUTDOOR_WORLD,
-                "High population outdoor world.");
+                "Hohe Bevölkerung Planet mit Städte im Freien.");
         PL(SOMEWHERE_SPACEPORT,
-                " Spaceport"); // preserve leading space
+                " Raumhafen"); // preserve leading space
         PL(SOMEWHERE_STARPORT,
-                " Starport"); // preserve leading space
+                " Sternhafen"); // preserve leading space
         PL(MASS,
-                "Mass");
+                "Masse");
         PL(N_WHATEVER_MASSES,
-                "%.3f %s masses");
+                "%.3f %smassen");
         PL(SOLAR,
-                "Solar");
+                "Sonnen");
         PL(EARTH,
-                "Earth");
+                "Erd");
         PL(SURFACE_TEMPERATURE,
-                "Surface temperature");
+                "Oberflächentemperatur");
         PL(N_CELSIUS,
                 "%d C");
         PL(N_YEARS,
-                "%.1f years");
+                "%.1f Jahre");
         PL(N_DAYS,
-                "%.1f days");
+                "%.1f Tage");
         PL(ORBITAL_PERIOD,
-                "Orbital period");
+                "Umlaufzeit");
         PL(PERIAPSIS_DISTANCE,
-                "Periapsis distance");
+                "Periapsisdistanz");
         PL(APOAPSIS_DISTANCE,
-                "Apoapsis distance");
+                "Apoapsisdistanz");
         PL(ECCENTRICITY,
-                "Eccentricity");
+                "Bahnexzentrizität");
         PL(AXIAL_TILE,
-                "Axial tilt");
+                "Neigung der Rotationsachse");
         PL(N_DEGREES,
-                "%.1f degrees");
+                "%.1f grad");
         PL(DAY_LENGTH,
-                "Day length");
+                "Tageslänge");
         PL(N_EARTH_DAYS,
-                "%.1f earth days");
+                "%.1f Erdentage");
         PL(STARPORTS,
-                "Starports");
+                "Raumschiffhäfen");
         PL(MAJOR_IMPORTS,
-                "Major Imports:");
+                "Bedeutende Einfuhren:");
         PL(MINOR_IMPORTS,
-                "Minor Imports:");
+                "Andere Einfuhren:");
         PL(MAJOR_EXPORTS,
-                "Major Exports:");
+                "Bedeutende Ausfuhren:");
         PL(MINOR_EXPORTS,
-                "Minor Exports:");
+                "Andere Ausfuhren:");
         PL(ILLEGAL_GOODS,
-                "Illegal Goods:");
+                "Illegale Waren:");
         PL(UNEXPLORED_SYSTEM_STAR_INFO_ONLY,
-                "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available.");
+                "Unerforschtes Sternsystem. Stern-information war per Fernbedienung Teleskop gesammelt worden, aber keine Information auf Planeten ist Verfügbar.");
         PL(PLANETARY_INFO,
-                "Planetary info");
+                "Planeten-information");
         PL(ECONOMIC_INFO,
-                "Economic info");
+                "Wirtschaft-information");
         PL(DEMOGRAPHICS,
-                "Demographics");
-        PL(STABLE_SYSTEM_WITH_N_MAJOR_MINOR_STARPORTS,
-                "Stable system with %d major %s and %d starport%s.\n\n%s");
+                "Demografie");
+        PL(STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
+                "Stabiles System mit %d großen %s and %d Raumschiffha%fen.\n\n%s"); // WHAT A MESS!
         PL(BODY,
-                "body");
+                "Körpern");
         PL(BODIES,
-                "bodies");
+                "Körper");
         PL(PLURAL_SUFFIX,
-                "s");
+                "e"); // THIS IS A HUGE ASSUMPTION BASED ON ENGLISH.
         PL(SYSTEM_TYPE,
-                "System type:");
+                "Systemtyp:");
         PL(GOVERNMENT_TYPE,
-                "Government type:");
+                "Regierung Typ:");
         PL(ECONOMY_TYPE,
-                "Economy type:");
+                "Wirtschaft Typ:");
         PL(ALLEGIANCE,
-                "Allegiance:");
+                "Gefolgschaft:");
         PL(POPULATION,
-                "Population:");
+                "Einwohnerzahl:");
         PL(OVER_N_BILLION,
-                "Over %d billion");
+                "Mehr als %d Milliarden");
         PL(OVER_N_MILLION,
-                "Over %d million");
+                "Mehr als %d Millionen");
         PL(A_FEW_THOUSAND,
-                "Only a few thousand");
+                "Nur einige Tausend");
         PL(NO_REGISTERED_INHABITANTS,
-                "No registered inhabitants");
+                "Keine registrierten Einwohner");
         PL(SECTOR_COORDINATES,
-                "Sector coordinates:");
+                "Koordinaten des Sektors:");
         PL(SYSTEM_NUMBER,
-                "System number:");
+                "System-Nummer:");
         PL(NAME,
                 "Name");
         PL(ROTATIONAL_PERIOD,
-                " (rotational period)"); // preserve leading space
+                " (Rotationsperiode)"); // preserve leading space
         PL(RADIUS,
                 "Radius");
         PL(SEMI_MAJOR_AXIS,
-                "Semi-major axis");
+                "Große Halbachse");
         PL(TIME_POINT,
-                "Time point: ");
+                "Zeitpunkt: ");
         PL(UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW,
-                "Unexplored system. System view unavailable.");
+                "Unerforschtes Sternsystem. Sternsystem Blick unverfügbar.");
         PL(WHEELS_ARE_UP,
-                "Wheels are up");
+                "Fahrwerk angehoben");
         PL(WHEELS_ARE_DOWN,
-                "Wheels are down");
+                "Fahrwerk abgesenkt");
         PL(OBJECT_LABELS_ARE_ON,
-                "Object labels are on");
+                "Bezeichnungsschilder sichtbar");
         PL(OBJECT_LABELS_ARE_OFF,
-                "Object labels are off");
+                "Bezeichnungsschilder unsichtbar");
         PL(HYPERSPACE_JUMP,
-                "Hyperspace Jump");
+                "Hyperraumsprung");
         PL(TAKEOFF,
-                "Takeoff");
+                "Abflug");
         PL(MANUAL_CONTROL,
-                "Manual control");
+                "Manuelle Steuerung");
         PL(COMPUTER_SPEED_CONTROL,
-                "Computer speed control");
+                "Rechner Geschwindigkeitsregelung");
         PL(AUTOPILOT_ON,
-                "Autopilot on");
+                "Autopilot aktiviert");
         PL(SHIP_VELOCITY_BY_REFERENCE_OBJECT,
-                "Ship velocity by reference object");
+                "Schiff Geschwindigkeit von Referenzobjekt");
         PL(DISTANCE_FROM_SHIP_TO_NAV_TARGET,
-                "Distance from ship to navigation target");
+                "Entfernung vom Schiff auf die Navigationsziel");
         PL(SHIP_ALTITUDE_ABOVE_TERRAIN,
-                "Ship altitude above terrain");
+                "Schiff Höhe über Gelände");
         PL(EXTERNAL_ATMOSPHERIC_PRESSURE,
-                "External atmospheric pressure");
+                "Externe Atmosphärendruck");
         PL(HULL_TEMP,
-                "Hull temp");
+                "Rumpftemperatur");
         PL(WEAPON_TEMP,
-                "Weapon temp");
+                "Waffentemperatur");
         PL(HULL_INTEGRITY,
-                "Hull integrity");
+                "Rumpfintegrität");
         PL(SHIELD_INTEGRITY,
-                "Shield integrity");
+                "Schildintegrität");
         PL(LAUNCH_PERMISSION_DENIED_BUSY,
-                "Permission to launch denied: docking bay busy.");
+                "Startberechtigung verweigert: Andockbucht beschäftigt.");
         PL(HYPERSPACE_JUMP_ABORTED,
-                "Hyperspace jump aborted.");
+                "Hyperraumsprung abgebrochen.");
         PL(CAMERA,
-                "camera");
+                "Fotoaparat");
         PL(LANDED,
-                "Landed");
+                "Gelandet");
         PL(DOCKING,
-                "Docking");
+                "Andocken");
         PL(DOCKED,
-                "Docked");
+                "Angedockt");
         PL(HYPERSPACE,
-                "Hyperspace");
+                "Hyperraum");
         PL(SET_SPEED_KM_S,
-                "Set speed: %.2f km/s");
+                "Geschwindigkeit angesetzt: %.2f km/s");
         PL(SET_SPEED_M_S,
-                "Set speed: %.0f m/s");
+                "Geschwindigkeit angesetzt: %.0f m/s");
         PL(KM_S_RELATIVE_TO,
-                "%.2f km/s rel-to %s");
+                "%.2f km/s bez-auf %s");
         PL(M_S_RELATIVE_TO,
-                "%.0f m/s rel-to %s");
+                "%.0f m/s bez-auf %s");
         PL(N_DISTANCE_TO_TARGET,
-                "%s to target");
+                "%s nach Ziel");
         PL(ALT_IN_METRES,
-                "Alt: %.0fm");
+                "Höhe: %.0fm");
         PL(PRESSURE_N_BAR,
-                "P: %.2f bar");
+                "Druck: %.2f bar");
         PL(NO_HYPERDRIVE,
-                "No hyperdrive");
+                "Kein Hyperlaufwerk");
         PL(MASS_N_TONNES,
-                "Mass: %dt");
+                "Masse: %dt");
         PL(SHIELD_STRENGTH_N,
-                "Shield strength: %.2f");
+                "Schild-Stärke: %.2f");
         PL(CARGO_N,
-                "Cargo: %dt");
+                "Ladung: %dt");
         PL(HYPERSPACE_ARRIVAL_CLOUD_REMNANT,
-                "Hyperspace arrival cloud remnant");
+                "Hyperraum Anflug Wolke Rest");
         PL(HYPERSPACE_X_CLOUD,
-                "Hyperspace %s cloud");
+                "Hyperraum %s Wolke");
         PL(SHIP_MASS_N_TONNES,
-                "Ship mass: %dt");
+                "Schiff Masse: %dt");
         PL(DATE_DUE_N,
-                "Date due: %s");
+                "Fälligkeitsdatum: %s");
         PL(ARRIVAL,
-                "arrival");
+                "Anflug");
         PL(DEPARTURE,
-                "departure");
+                "Abflug");
         PL(SOURCE,
-                "Source");
+                "Ursprung");
         PL(DESTINATION,
-                "Destination");
+                "Reiseziel");
         PL(HYPERSPACING_IN_N_SECONDS,
-                "Hyperspacing in %.0f seconds");
+                "Hyperraumsprung in %.0f Sekunden");
         PL(NAVIGATION_TARGETS_IN_THIS_SYSTEM,
-                "Navigation targets in this system");
+                "Navigation Ziele innerhalb dieses Systems");
         PL(YOU_NO_MONEY,
-                "You do not have any money.");
+                "Sie haben kein Geld.");
         PL(FINE_PAID_N_BUT_N_REMAINING,
-                "You have paid %s but still have an outstanding fine of %s.");
+                "Sie haben %s bezahlt, aber Sie müssen noch eine herausragende Geldstrafe von %s zu bezahlen.");
         PL(FINE_PAID_N,
-                "You have paid the fine of %s.");
+                "Sie haben die Geldstrafe von %s bezahlt.");
         PL(SET_HYPERSPACE_DESTINATION_TO,
-                "Set hyperspace destination to "); // preserve trailing space
+                "Set Hyperraum Ziel nach "); // preserve trailing space
         PL(NO_TARGET_SELECTED,
-                "Ship Computer: No target selected");
+                "Schiffsrechner: Kein Ziel ausgewählt");
         PL(REQUEST_DOCKING_CLEARANCE,
-                "Request docking clearance");
+                "Erlaubnis Ansuchen um zu andocken");
         PL(AUTOPILOT_DOCK_WITH_STATION,
-                "Autopilot: Dock with space station");
+                "Autopilot: mit Raumstation andocken");
         PL(PAY_FINE_REMOTELY,
-                "Pay fine by remote transfer (%s)");
+                "Geldstrafe bezahlen durch Fernübertragung (%s)");
         PL(AUTOPILOT_FLY_TO_VICINITY_OF,
-                "Autopilot: Fly to vicinity of "); // preserve trailing space
+                "Autopilot: Fliegen nach der Nähe von "); // preserve trailing space
         PL(AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
-                "Autopilot: Enter low orbit around "); // preserve trailing space
+                "Autopilot: Flieg nach niedriger Umlaufbahn um "); // preserve trailing space
         PL(AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
-                "Autopilot: Enter medium orbit around "); // preserve trailing space
+                "Autopilot: Flieg nach mittlerer Umlaufbahn um "); // preserve trailing space
         PL(AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
-                "Autopilot: Enter high orbit around "); // preserve trailing space
+                "Autopilot: Flieg nach hoher Umlaufbahn um "); // preserve trailing space
         PL(SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE,
-                "Hyperspace cloud analyzer: Set hyperspace target to follow this departure");
+                "Hyperraumwolke Analysator: Set Hyperraum Ziel um dieser Abfahrt zu folgen");
         PL(SET_HYPERSPACE_TARGET_TO,
-                "Set hyperspace target to "); // preserve trailing space
-    }
-    namespace test {
-        // An example additional language.  It inherits all strings from
-        // the English namespace, and then overloads them.  This way,
-        // untranslated strings fall back to English.
-        using namespace en;
-        PL(SUGGESTED_RESPONSES,
-                "Tested responses:");
+                "Set Hyperraum Ziel um "); // preserve trailing space
     }
 }
