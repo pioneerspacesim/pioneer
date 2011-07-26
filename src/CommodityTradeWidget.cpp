@@ -6,10 +6,56 @@
 #define RBUTTON_DELAY 500
 #define RBUTTON_REPEAT 50
 
+struct icon_map_t {
+	Equip::Type type;
+	std::string icon;
+};
+
+static const icon_map_t icon_names[] = {
+	{ Equip::HYDROGEN,              "Hydrogen"              },
+	{ Equip::LIQUID_OXYGEN,         "Liquid_Oxygen"         },
+	{ Equip::METAL_ORE,             "Metal_ore"             },
+	{ Equip::CARBON_ORE,            "Carbon_ore"            },
+	{ Equip::METAL_ALLOYS,          "Metal_alloys"          },
+	{ Equip::PLASTICS,              "Plastics"              },
+	{ Equip::FRUIT_AND_VEG,         "Fruit_and_Veg"         },
+	{ Equip::ANIMAL_MEAT,           "Animal_Meat"           },
+	{ Equip::LIVE_ANIMALS,          "Live_Animals"          },
+	{ Equip::LIQUOR,                "Liquor"                },
+	{ Equip::GRAIN,                 "Grain"                 },
+	{ Equip::TEXTILES,              "Textiles"              },
+	{ Equip::FERTILIZER,            "Fertilizer"            },
+	{ Equip::WATER,                 "Water"                 },
+	{ Equip::MEDICINES,             "Medicines"             },
+	{ Equip::CONSUMER_GOODS,        "Consumer_goods"        },
+	{ Equip::COMPUTERS,             "Computers"             },
+	{ Equip::ROBOTS,                "Robots"                },
+	{ Equip::PRECIOUS_METALS,       "Precious_metals"       },
+	{ Equip::INDUSTRIAL_MACHINERY,  "Industrial_machinery"  },
+	{ Equip::FARM_MACHINERY,        "Farm_machinery"        },
+	{ Equip::MINING_MACHINERY,      "Mining_machinery"      },
+	{ Equip::AIR_PROCESSORS,        "Air_processors"        },
+	{ Equip::SLAVES,                "Slaves"                },
+	{ Equip::HAND_WEAPONS,          "Hand_weapons"          },
+	{ Equip::BATTLE_WEAPONS,        "Battle_weapons"        },
+	{ Equip::NERVE_GAS,             "Nerve_Gas"             },
+	{ Equip::NARCOTICS,             "Narcotics"             },
+	{ Equip::MILITARY_FUEL,         "Military_fuel"         },
+	{ Equip::RUBBISH,               "Rubbish"               },
+	{ Equip::RADIOACTIVES,          "Radioactive_waste"     },
+    { Equip::NONE, "" }
+};
+
+static std::map<Equip::Type,std::string> s_iconMap;
+
 CommodityTradeWidget::CommodityTradeWidget(MarketAgent *seller): Gui::VBox()
 {
 	SetTransparency(false);
 	m_seller = seller;
+
+	if (!s_iconMap.size())
+		for (const icon_map_t *scan = icon_names; scan->type != Equip::NONE; scan++)
+			s_iconMap.insert(std::make_pair(scan->type, scan->icon));
 }
 
 void CommodityTradeWidget::ShowAll()
@@ -44,15 +90,12 @@ void CommodityTradeWidget::ShowAll()
 		if (!m_seller->DoesSell(Equip::Type(i))) continue;
 		int stock = m_seller->GetStock(static_cast<Equip::Type>(i));
 
-		// need to replace spaces in the item name
-		std::string imgname = std::string(EquipType::types[i].name);
-		size_t imgbad;
-		while ((imgbad = imgname.find(' ')) != std::string::npos) {
-			imgname.replace(imgbad, 1, "_");
+        std::map<Equip::Type,std::string>::iterator icon_iter = s_iconMap.find(Equip::Type(i));
+		if (icon_iter != s_iconMap.end()) {
+			Gui::Image *icon = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + (*icon_iter).second + ".png").c_str());
+			innerbox->Add(icon, 0, num*YSEP);
 		}
-		Gui::Image *img = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + imgname + ".png").c_str() );
 
-		innerbox->Add(img,0, num*YSEP);
 		Gui::Label *l = new Gui::Label(EquipType::types[i].name);
 		if (EquipType::types[i].description)
 			l->SetToolTip(EquipType::types[i].description);
