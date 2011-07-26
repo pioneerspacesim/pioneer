@@ -23,6 +23,12 @@ namespace PiLanguages {
         // General
         PL(SUGGESTED_RESPONSES,
                 "Suggested responses:");
+        PL(CASH,
+                "Cash");
+        PL(LEGAL_STATUS,
+                "Legal status");
+        PL(CARGO_SPACE,
+                "Cargo space");
         PL(ITEM,
                 "Item");
         PL(SHIP,
@@ -1116,6 +1122,12 @@ namespace PiLanguages {
         // General
         PL(SUGGESTED_RESPONSES,
                 "vorgeschlagen Antworten:");
+        PL(CASH,
+                "Geld");
+        PL(LEGAL_STATUS,
+                "Rechtlichen Status");
+        PL(CARGO_SPACE,
+                "Laderaum");
         PL(ITEM,
                 "Artikel");
         PL(SHIP,
