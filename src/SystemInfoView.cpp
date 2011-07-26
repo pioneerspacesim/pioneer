@@ -267,7 +267,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
 	}
 	
-	std::string _info = stringf(2048, PiLang::STABLE_SYSTEM_WITH_N_MAJOR_MINOR_STARPORTS,
+	std::string _info = stringf(2048, PiLang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
 		majorBodies, majorBodies == 1 ? PiLang::BODY : PiLang::BODIES,
 		starports, starports == 1 ? "" : PiLang::PLURAL_SUFFIX,
 		std::string(s->GetLongDescription()).c_str());

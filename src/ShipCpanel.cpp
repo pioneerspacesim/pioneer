@@ -155,7 +155,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	Add(img, 780, 37);
 	m_alertLights[1] = img;
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_red.png");
-	img->SetToolTip(PiLang::FIRE_DETECTED);
+	img->SetToolTip(PiLang::LASER_FIRE_DETECTED);
 	Add(img, 780, 37);
 	m_alertLights[2] = img;
 
