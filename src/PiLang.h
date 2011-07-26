@@ -1,4 +1,3 @@
-#define PI_LANGUAGE de 
 #ifndef PI_LANGUAGE
     #define PI_LANGUAGE en
 #endif
@@ -1175,9 +1174,9 @@ namespace PiLanguages {
         PL(SOMEWHERE_SHIPYARD,
                 "%s Werft");
         PL(PRICE_TO_FIT,
-                "€ zu installieren");
+                "$ zu installieren");
         PL(PRICE_TO_REMOVE,
-                "€ zu entfernen");
+                "$ zu entfernen");
         PL(WT,
                 "Gw");
         PL(FIT,
