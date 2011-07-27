@@ -241,7 +241,7 @@ public:
             col2 += std::string(Lang::NO_MOUNTING);
 		}
 
-		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
+		snprintf(buf, sizeof(buf), std::string(std::string("\n\n")+std::string(Lang::N_LIGHT_YEARS_N_MAX)).c_str(), stats->hyperspace_range, stats->hyperspace_range_max);
 		col2 += std::string(buf);
 
 		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {

@@ -461,6 +461,8 @@ HYPERSPACE_RANGE
     Hyperspace range
 NO_MOUNTING
     no mounting
+N_LIGHT_YEARS_N_MAX
+    %.1f light years (%.1f max)
 SHIP_INFORMATION
     Ship information
 REPUTATION

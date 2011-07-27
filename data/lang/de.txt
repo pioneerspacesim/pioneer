@@ -461,6 +461,8 @@ HYPERSPACE_RANGE
     Fahrbereich im Hyperraum
 NO_MOUNTING
     Kein Mountpunkt
+N_LIGHT_YEARS_N_MAX
+    %.1f Lichtjahre (%.1f Max)
 SHIP_INFORMATION
     Raumschiff Information
 REPUTATION
