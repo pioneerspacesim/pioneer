@@ -1025,8 +1025,6 @@ LAUNCH_PERMISSION_DENIED_BUSY
     Permission to launch denied: docking bay busy.
 HYPERSPACE_JUMP_ABORTED
     Hyperspace jump aborted.
-CAMERA
-    camera
 LANDED
     Landed
 DOCKING

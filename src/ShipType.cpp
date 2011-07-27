@@ -185,7 +185,7 @@ void ShipType::Init()
 
 	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
 	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
-	_define_ships(Lang::MISSILE, ShipType::TAG_MISSILE, missile_ships);
+	_define_ships("missile", ShipType::TAG_MISSILE, missile_ships);
 }
 
 ShipType::Type ShipType::GetRandomType() {

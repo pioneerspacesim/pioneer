@@ -373,7 +373,7 @@ void WorldView::Draw3D()
 	const vector3d ppos(pposOrient[12], pposOrient[13], pposOrient[14]);
 
 	// make temporary camera frame at player
-	Frame cam_frame(Pi::player->GetFrame(), Lang::CAMERA, Frame::TEMP_VIEWING);
+	Frame cam_frame(Pi::player->GetFrame(), "camera", Frame::TEMP_VIEWING);
 
 	matrix4x4d camRot = matrix4x4d::Identity();
 

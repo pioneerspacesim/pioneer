@@ -1025,8 +1025,6 @@ LAUNCH_PERMISSION_DENIED_BUSY
     Startberechtigung verweigert: Andockbucht beschäftigt.
 HYPERSPACE_JUMP_ABORTED
     Hyperraumsprung abgebrochen.
-CAMERA
-    Fotoaparat
 LANDED
     Gelandet
 DOCKING
