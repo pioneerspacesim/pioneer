@@ -2,7 +2,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "CommodityTradeWidget.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 #define RBUTTON_DELAY 500
 #define RBUTTON_REPEAT 50
@@ -130,12 +130,12 @@ void CommodityTradeWidget::ShowAll()
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
 	const float *col = Gui::Theme::Colors::tableHeading;
-	heading->Add((new Gui::Label(PiLang::ITEM))->Color(col), 0, 0);
-	heading->Add((new Gui::Label(PiLang::PRICE))->Color(col), 200, 0);
-	heading->Add((new Gui::Label(PiLang::BUY))->Color(col), 380, 0);
-	heading->Add((new Gui::Label(PiLang::SELL))->Color(col), 415, 0);
-	heading->Add((new Gui::Label(PiLang::STOCK))->Color(col), 275, 0);
-	heading->Add((new Gui::Label(PiLang::CARGO))->Color(col), 325, 0);
+	heading->Add((new Gui::Label(Lang::ITEM))->Color(col), 0, 0);
+	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
+	heading->Add((new Gui::Label(Lang::BUY))->Color(col), 380, 0);
+	heading->Add((new Gui::Label(Lang::SELL))->Color(col), 415, 0);
+	heading->Add((new Gui::Label(Lang::STOCK))->Color(col), 275, 0);
+	heading->Add((new Gui::Label(Lang::CARGO))->Color(col), 325, 0);
 	PackEnd(heading);
 
 	Gui::HBox *body = new Gui::HBox();

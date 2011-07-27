@@ -7,7 +7,7 @@
 #include "Polit.h"
 #include "Space.h"
 #include "SystemPath.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -59,26 +59,26 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		m_infoBox->PackStart(l);
 	}
 
-	_add_label_and_value(PiLang::MASS, stringf(64, PiLang::N_WHATEVER_MASSES, b->mass.ToDouble(), 
-		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? PiLang::SOLAR : PiLang::EARTH)));
+	_add_label_and_value(Lang::MASS, stringf(64, Lang::N_WHATEVER_MASSES, b->mass.ToDouble(), 
+		(b->GetSuperType() == SBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH)));
 
-	_add_label_and_value(PiLang::SURFACE_TEMPERATURE, stringf(64, PiLang::N_CELSIUS, b->averageTemp-273));
+	_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(64, Lang::N_CELSIUS, b->averageTemp-273));
 
 	if (b->parent) {
 		float days = float(b->orbit.period) / float(60*60*24);
 		if (days > 1000) {
-			data = stringf(64, PiLang::N_YEARS, days/365);
+			data = stringf(64, Lang::N_YEARS, days/365);
 		} else {
-			data = stringf(64, PiLang::N_DAYS, b->orbit.period / (60*60*24));
+			data = stringf(64, Lang::N_DAYS, b->orbit.period / (60*60*24));
 		}
-		_add_label_and_value(PiLang::ORBITAL_PERIOD, data);
-		_add_label_and_value(PiLang::PERIAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMin.ToDouble()));
-		_add_label_and_value(PiLang::APOAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMax.ToDouble()));
-		_add_label_and_value(PiLang::ECCENTRICITY, stringf(64, "%.2f", b->orbit.eccentricity));
-		_add_label_and_value(PiLang::AXIAL_TILE, stringf(64, PiLang::N_DEGREES, b->axialTilt.ToDouble() * (180.0/M_PI) ));
+		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
+		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMin.ToDouble()));
+		_add_label_and_value(Lang::APOAPSIS_DISTANCE, stringf(64, "%.3f AU", b->orbMax.ToDouble()));
+		_add_label_and_value(Lang::ECCENTRICITY, stringf(64, "%.2f", b->orbit.eccentricity));
+		_add_label_and_value(Lang::AXIAL_TILE, stringf(64, Lang::N_DEGREES, b->axialTilt.ToDouble() * (180.0/M_PI) ));
 		const float dayLen = float(b->GetRotationPeriod());
 		if (dayLen) {
-			_add_label_and_value(std::string(PiLang::DAY_LENGTH)+std::string(PiLang::ROTATIONAL_PERIOD), stringf(64, PiLang::N_EARTH_DAYS, dayLen/(60*60*24)));
+			_add_label_and_value(std::string(Lang::DAY_LENGTH)+std::string(Lang::ROTATIONAL_PERIOD), stringf(64, Lang::N_EARTH_DAYS, dayLen/(60*60*24)));
 		}
 		int numSurfaceStarports = 0;
 		std::string nameList;
@@ -89,7 +89,7 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 			}
 		}
 		if (numSurfaceStarports) {
-			_add_label_and_value(PiLang::STARPORTS, nameList);
+			_add_label_and_value(Lang::STARPORTS, nameList);
 		}
 	}
 
@@ -117,53 +117,53 @@ void SystemInfoView::UpdateEconomyTab()
 */
 	/* imports and exports */
 	std::vector<std::string> crud;
-	data = std::string("#ff0")+std::string(PiLang::MAJOR_IMPORTS)+std::string("\n");
+	data = std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (s->GetCommodityBasePriceModPercent(i) > 10)
 			crud.push_back(std::string("#fff")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(PiLang::NONE)+std::string("\n");
+	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
 	m_econMajImport->SetText(data);
 
 	crud.clear();
-	data = std::string("#ff0")+std::string(PiLang::MINOR_IMPORTS)+std::string("\n");
+	data = std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((s->GetCommodityBasePriceModPercent(i) > 2) && (s->GetCommodityBasePriceModPercent(i) <= 10))
 			crud.push_back(std::string("#777")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(PiLang::NONE)+std::string("\n");
+	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
 	m_econMinImport->SetText(data);
 
 	crud.clear();
-	data = std::string("#ff0")+std::string(PiLang::MAJOR_EXPORTS)+std::string("\n");
+	data = std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (s->GetCommodityBasePriceModPercent(i) < -10)
 			crud.push_back(std::string("#fff")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(PiLang::NONE)+std::string("\n");
+	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
 	m_econMajExport->SetText(data);
 
 	crud.clear();
-	data = std::string("#ff0")+std::string(PiLang::MINOR_EXPORTS)+std::string("\n");
+	data = std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if ((s->GetCommodityBasePriceModPercent(i) < -2) && (s->GetCommodityBasePriceModPercent(i) >= -10))
 			crud.push_back(std::string("#777")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(PiLang::NONE)+std::string("\n");
+	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
 	m_econMinExport->SetText(data);
 
 	crud.clear();
-	data = std::string("#ff0")+std::string(PiLang::ILLEGAL_GOODS)+std::string("\n");
+	data = std::string("#ff0")+std::string(Lang::ILLEGAL_GOODS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
 		if (!Polit::IsCommodityLegal(s, Equip::Type(i)))
 			crud.push_back(std::string("#777")+EquipType::types[i].name);
 	}
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(PiLang::NONE)+std::string("\n");
+	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
 	m_econIllegal->SetText(data);
 
 	m_econInfoTab->ResizeRequest();
@@ -228,7 +228,7 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		Add(m_sbodyInfoTab, 0, 0);
 
 		std::string _info =
-			PiLang::UNEXPLORED_SYSTEM_STAR_INFO_ONLY;
+			Lang::UNEXPLORED_SYSTEM_STAR_INFO_ONLY;
 
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_sbodyInfoTab->Add(l, 35, 300);
@@ -241,9 +241,9 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
 	
 	m_tabs = new Gui::Tabbed();
-	m_tabs->AddPage(new Gui::Label(PiLang::PLANETARY_INFO), m_sbodyInfoTab);
-	m_tabs->AddPage(new Gui::Label(PiLang::ECONOMIC_INFO), m_econInfoTab);
-	m_tabs->AddPage(new Gui::Label(PiLang::DEMOGRAPHICS), demographicsTab);
+	m_tabs->AddPage(new Gui::Label(Lang::PLANETARY_INFO), m_sbodyInfoTab);
+	m_tabs->AddPage(new Gui::Label(Lang::ECONOMIC_INFO), m_econInfoTab);
+	m_tabs->AddPage(new Gui::Label(Lang::DEMOGRAPHICS), demographicsTab);
 	Add(m_tabs, 0, 0);
 
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
@@ -267,9 +267,9 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 		PutBodies(s->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
 	}
 	
-	std::string _info = stringf(2048, PiLang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
-		majorBodies, majorBodies == 1 ? PiLang::BODY : PiLang::BODIES,
-		starports, starports == 1 ? "" : PiLang::PLURAL_SUFFIX,
+	std::string _info = stringf(2048, Lang::STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS,
+		majorBodies, majorBodies == 1 ? Lang::BODY : Lang::BODIES,
+		starports, starports == 1 ? "" : Lang::PLURAL_SUFFIX,
 		std::string(s->GetLongDescription()).c_str());
 	
 	{
@@ -334,31 +334,31 @@ void SystemInfoView::SystemChanged(StarSystem *s)
 	
 		const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 
-		col1->Add((new Gui::Label(PiLang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
+		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
 		
-		col1->Add((new Gui::Label(PiLang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
+		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
 		col2->Add(new Gui::Label(Polit::GetGovernmentDesc(m_system)), 0, YSEP);
 		
-		col1->Add((new Gui::Label(PiLang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
+		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
 		col2->Add(new Gui::Label(Polit::GetEconomicDesc(m_system)), 0, 2*YSEP);
 		
-		col1->Add((new Gui::Label(PiLang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
+		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
 		col2->Add(new Gui::Label(Polit::GetAllegianceDesc(m_system)), 0, 3*YSEP);
 		
-		col1->Add((new Gui::Label(PiLang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
+		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->m_totalPop;
-		if (pop >= fixed(1,1)) { popmsg = stringf(256, PiLang::OVER_N_BILLION, pop.ToInt32()); }
-		else if (pop >= fixed(1,1000)) { popmsg = stringf(256, PiLang::OVER_N_MILLION, (pop*1000).ToInt32()); }
-		else if (pop != fixed(0)) { popmsg = PiLang::A_FEW_THOUSAND; }
-		else { popmsg = PiLang::NO_REGISTERED_INHABITANTS; }
+		if (pop >= fixed(1,1)) { popmsg = stringf(256, Lang::OVER_N_BILLION, pop.ToInt32()); }
+		else if (pop >= fixed(1,1000)) { popmsg = stringf(256, Lang::OVER_N_MILLION, (pop*1000).ToInt32()); }
+		else if (pop != fixed(0)) { popmsg = Lang::A_FEW_THOUSAND; }
+		else { popmsg = Lang::NO_REGISTERED_INHABITANTS; }
 		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
 
 		SystemPath path = m_system->GetPath();
-		col1->Add((new Gui::Label(PiLang::SECTOR_COORDINATES))->Color(1,1,0), 0, 5*YSEP);
+		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 5*YSEP);
 		col2->Add(new Gui::Label(stringf(128, "%d, %d", path.sectorX, path.sectorY)), 0, 5*YSEP);
-		col1->Add((new Gui::Label(PiLang::SYSTEM_NUMBER))->Color(1,1,0), 0, 6*YSEP);
+		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 6*YSEP);
 		col2->Add(new Gui::Label(stringf(128, "%d", path.systemIndex)), 0, 6*YSEP);
 	}
 

@@ -7,7 +7,7 @@
 #include "Sound.h"
 #include "ShipCpanel.h"
 #include "KeyBindings.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 Player::Player(ShipType::Type shipType): Ship(shipType),
 	m_followCloud(0)
@@ -95,7 +95,7 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 	Ship::SetDockedWith(s, port);
 	if (s) {
 		if (Pi::CombatRating(m_killCount) > Pi::CombatRating(m_knownKillCount)) {
-			Pi::cpan->MsgLog()->ImportantMessage(PiLang::PIONEERING_PILOTS_GUILD, PiLang::RIGHT_ON_COMMANDER);
+			Pi::cpan->MsgLog()->ImportantMessage(Lang::PIONEERING_PILOTS_GUILD, Lang::RIGHT_ON_COMMANDER);
 		}
 		m_knownKillCount = m_killCount;
 
@@ -309,19 +309,19 @@ void Player::SetAlertState(Ship::AlertState as)
 	switch (as) {
 		case ALERT_NONE:
 			if (prev != ALERT_NONE)
-				Pi::cpan->MsgLog()->Message("", PiLang::ALERT_CANCELLED);
+				Pi::cpan->MsgLog()->Message("", Lang::ALERT_CANCELLED);
 			break;
 
 		case ALERT_SHIP_NEARBY:
 			if (prev == ALERT_NONE)
-				Pi::cpan->MsgLog()->ImportantMessage("", PiLang::SHIP_DETECTED_NEARBY);
+				Pi::cpan->MsgLog()->ImportantMessage("", Lang::SHIP_DETECTED_NEARBY);
 			else
-				Pi::cpan->MsgLog()->ImportantMessage("", PiLang::DOWNGRADING_ALERT_STATUS);
+				Pi::cpan->MsgLog()->ImportantMessage("", Lang::DOWNGRADING_ALERT_STATUS);
 			Sound::PlaySfx("OK");
 			break;
 
 		case ALERT_SHIP_FIRING:
-			Pi::cpan->MsgLog()->ImportantMessage("", PiLang::LASER_FIRE_DETECTED);
+			Pi::cpan->MsgLog()->ImportantMessage("", Lang::LASER_FIRE_DETECTED);
 			Sound::PlaySfx("warning", 0.2f, 0.2f, 0);
 			break;
 	}

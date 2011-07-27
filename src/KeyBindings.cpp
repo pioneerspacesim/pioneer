@@ -1,6 +1,6 @@
 #include "KeyBindings.h"
 #include "Pi.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 #include <sstream>
 
@@ -61,18 +61,18 @@ std::string KeyBinding::Description() const {
 	std::ostringstream oss;
 
 	if (type == KEYBOARD_KEY) {
-		if (u.keyboard.mod & KMOD_SHIFT) oss << PiLang::SHIFT;
-		if (u.keyboard.mod & KMOD_CTRL) oss << PiLang::CTRL;
-		if (u.keyboard.mod & KMOD_ALT) oss << PiLang::ALT;
-		if (u.keyboard.mod & KMOD_META) oss << PiLang::META;
+		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
+		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
+		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
+		if (u.keyboard.mod & KMOD_META) oss << Lang::META;
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(u.joystickButton.joystick);
-		oss << PiLang::BUTTON << int(u.joystickButton.button);
+		oss << Lang::JOY << int(u.joystickButton.joystick);
+		oss << Lang::BUTTON << int(u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
-		oss << "Joy" << int(u.joystickHat.joystick);
-		oss << PiLang::HAT << int(u.joystickHat.hat);
-		oss << PiLang::DIRECTION << int(u.joystickHat.direction);
+		oss << Lang::JOY << int(u.joystickHat.joystick);
+		oss << Lang::HAT << int(u.joystickHat.hat);
+		oss << Lang::DIRECTION << int(u.joystickHat.direction);
 	} else
 		abort();
 
@@ -102,54 +102,54 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
-	const char *axis_names[] = {"X", "Y", "Z"};
+	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
 	std::ostringstream oss;
 
 	if (direction == KeyBindings::NEGATIVE)
 		oss << '-';
 
-	oss << "Joy" << int(joystick) << ' ';
+	oss << Lang::JOY << int(joystick) << ' ';
 
 	if (0 <= axis && axis < 3)
 		oss << axis_names[axis];
 	else
 		oss << int(axis);
 
-	oss << PiLang::AXIS;
+	oss << Lang::AXIS;
 
 	return oss.str();
 }
 
 const BindingPrototype bindingProtos[] = {
-	{ PiLang::WEAPONS, 0 },
-	{ PiLang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject" },
-	{ PiLang::FIRE_LASER, "BindFireLaser" },
-	{ PiLang::SHIP_ORIENTATION, 0 },
-	{ PiLang::FAST_ROTATION_CONTROL, "BindFastRotate" },
-	{ PiLang::PITCH_UP, "BindPitchUp" },
-	{ PiLang::PITCH_DOWN, "BindPitchDown" },
-	{ PiLang::YAW_LEFT, "BindYawLeft" },
-	{ PiLang::YAW_RIGHT, "BindYawRight" },
-	{ PiLang::ROLL_LEFT, "BindRollLeft" },
-	{ PiLang::ROLL_RIGHT, "BindRollRight" },
-	{ PiLang::MANUAL_CONTROL_MODE, 0 },
-	{ PiLang::THRUSTER_MAIN, "BindThrustForward" },
-	{ PiLang::THRUSTER_RETRO, "BindThrustBackwards" },
-	{ PiLang::THRUSTER_VENTRAL, "BindThrustUp" },
-	{ PiLang::THRUSTER_DORSAL, "BindThrustDown" },
-	{ PiLang::THRUSTER_PORT, "BindThrustLeft" },
-	{ PiLang::THRUSTER_STARBOARD, "BindThrustRight" },
-	{ PiLang::SPEED_CONTROL_MODE, 0 },
-	{ PiLang::INCREASE_SET_SPEED, "BindIncreaseSpeed" },
-	{ PiLang::DECREASE_SET_SPEED, "BindDecreaseSpeed" },
+	{ Lang::WEAPONS, 0 },
+	{ Lang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject" },
+	{ Lang::FIRE_LASER, "BindFireLaser" },
+	{ Lang::SHIP_ORIENTATION, 0 },
+	{ Lang::FAST_ROTATION_CONTROL, "BindFastRotate" },
+	{ Lang::PITCH_UP, "BindPitchUp" },
+	{ Lang::PITCH_DOWN, "BindPitchDown" },
+	{ Lang::YAW_LEFT, "BindYawLeft" },
+	{ Lang::YAW_RIGHT, "BindYawRight" },
+	{ Lang::ROLL_LEFT, "BindRollLeft" },
+	{ Lang::ROLL_RIGHT, "BindRollRight" },
+	{ Lang::MANUAL_CONTROL_MODE, 0 },
+	{ Lang::THRUSTER_MAIN, "BindThrustForward" },
+	{ Lang::THRUSTER_RETRO, "BindThrustBackwards" },
+	{ Lang::THRUSTER_VENTRAL, "BindThrustUp" },
+	{ Lang::THRUSTER_DORSAL, "BindThrustDown" },
+	{ Lang::THRUSTER_PORT, "BindThrustLeft" },
+	{ Lang::THRUSTER_STARBOARD, "BindThrustRight" },
+	{ Lang::SPEED_CONTROL_MODE, 0 },
+	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed" },
+	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed" },
 	{ 0, 0 },
 };
 
 const BindingPrototype axisBindingProtos[] = {
-	{ PiLang::JOYSTICK_INPUT, 0 },
-	{ PiLang::PITCH, "BindAxisPitch" },
-	{ PiLang::ROLL, "BindAxisRoll" },
-	{ PiLang::YAW, "BindAxisYaw" },
+	{ Lang::JOYSTICK_INPUT, 0 },
+	{ Lang::PITCH, "BindAxisPitch" },
+	{ Lang::ROLL, "BindAxisRoll" },
+	{ Lang::YAW, "BindAxisYaw" },
 	{ 0, 0 },
 };
 

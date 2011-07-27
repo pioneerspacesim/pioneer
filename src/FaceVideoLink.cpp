@@ -1,5 +1,5 @@
 #include "FaceVideoLink.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -34,7 +34,7 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 
 FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : VideoLink(w, h) {
 	m_created = SDL_GetTicks();
-	m_message = new Gui::ToolTip(PiLang::VID_LINK_ESTABLISHED);
+	m_message = new Gui::ToolTip(Lang::VID_LINK_ESTABLISHED);
 
 	if (!seed) seed = time(NULL);
 	MTRand rand(seed);
@@ -150,7 +150,7 @@ void FaceVideoLink::Draw() {
 			glVertex2f(size[0],0);
 		glEnd();
 
-		m_message->SetText(PiLang::VID_CONNECTING);
+		m_message->SetText(Lang::VID_CONNECTING);
 		DrawMessage();
 
 		return;
@@ -175,7 +175,7 @@ void FaceVideoLink::Draw() {
 	glDisable(GL_TEXTURE_2D);
 
 	if (now - m_created < 4500) {
-		m_message->SetText(PiLang::VID_LINK_ESTABLISHED);
+		m_message->SetText(Lang::VID_LINK_ESTABLISHED);
 		DrawMessage();
 	}
 }

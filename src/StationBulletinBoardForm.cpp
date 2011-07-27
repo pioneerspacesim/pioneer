@@ -4,13 +4,13 @@
 #include "Player.h"
 #include "StationAdvertForm.h"
 #include "FormController.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 StationBulletinBoardForm::StationBulletinBoardForm(FormController *controller) : FaceForm(controller)
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(m_station->GetLabel() + " " + PiLang::BULLETIN_BOARD);
+	SetTitle(m_station->GetLabel() + " " + Lang::BULLETIN_BOARD);
 
 	Gui::VScrollPortal *scrollbox = new Gui::VScrollPortal(460);
 	Gui::VScrollBar *scrollbar = new Gui::VScrollBar();

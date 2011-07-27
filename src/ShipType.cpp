@@ -5,10 +5,10 @@
 #include "Pi.h"
 #include "LuaUtils.h"
 #include "utils.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
-	PiLang::FRONT, PiLang::REAR };
+	Lang::FRONT, Lang::REAR };
 
 std::map<ShipType::Type, ShipType> ShipType::types;
 
@@ -185,7 +185,7 @@ void ShipType::Init()
 
 	_define_ships("ship", ShipType::TAG_SHIP, player_ships);
 	_define_ships("static_ship", ShipType::TAG_STATIC_SHIP, static_ships);
-	_define_ships(PiLang::MISSILE, ShipType::TAG_MISSILE, missile_ships);
+	_define_ships(Lang::MISSILE, ShipType::TAG_MISSILE, missile_ships);
 }
 
 ShipType::Type ShipType::GetRandomType() {

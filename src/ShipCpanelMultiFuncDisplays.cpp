@@ -8,7 +8,7 @@
 #include "HyperspaceCloud.h"
 #include "Sector.h"
 #include "Sound.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 #define SCANNER_SCALE	0.01f
 #define SCANNER_YSHRINK 0.75f
@@ -63,7 +63,7 @@ void MsgLogWidget::ShowNext()
 		if (msg.sender == "") {
 			msgLabel->SetText("#0f0"+msg.message);
 		} else {
-			msgLabel->SetText(stringf(1024, std::string(std::string("#ca0")+std::string(PiLang::MESSAGE_FROM_X)+std::string("\n#0f0%s")).c_str(), msg.sender.c_str(), msg.message.c_str()));
+			msgLabel->SetText(stringf(1024, std::string(std::string("#ca0")+std::string(Lang::MESSAGE_FROM_X)+std::string("\n#0f0%s")).c_str(), msg.sender.c_str(), msg.message.c_str()));
 		}
 		msgAge = float(Pi::GetGameTime());
 		curMsgType = msg.type;
@@ -218,7 +218,7 @@ void UseEquipWidget::GetSizeRequested(float size[2])
 void UseEquipWidget::FireMissile(int idx)
 {
 	if (!Pi::player->GetCombatTarget()) {
-		Pi::cpan->MsgLog()->Message("", PiLang::SELECT_A_TARGET);
+		Pi::cpan->MsgLog()->Message("", Lang::SELECT_A_TARGET);
 		return;
 	}
 

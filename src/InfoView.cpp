@@ -6,7 +6,7 @@
 #include "ShipCpanel.h"
 #include "LmrModel.h"
 #include "Render.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -32,25 +32,25 @@ public:
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
 
-		Gui::Label *l = new Gui::Label(PiLang::MISSIONS);
+		Gui::Label *l = new Gui::Label(Lang::MISSIONS);
 		Add(l, 20, 20);
 
-		l = new Gui::Label(PiLang::TYPE);
+		l = new Gui::Label(Lang::TYPE);
 		Add(l, 20, 20+YSEP*2);
 		
-		l = new Gui::Label(PiLang::CLIENT);
+		l = new Gui::Label(Lang::CLIENT);
 		Add(l, 100, 20+YSEP*2);
 		
-		l = new Gui::Label(PiLang::LOCATION);
+		l = new Gui::Label(Lang::LOCATION);
 		Add(l, 260, 20+YSEP*2);
 		
-		l = new Gui::Label(PiLang::DUE);
+		l = new Gui::Label(Lang::DUE);
 		Add(l, 420, 20+YSEP*2);
 		
-		l = new Gui::Label(PiLang::REWARD);
+		l = new Gui::Label(Lang::REWARD);
 		Add(l, 580, 20+YSEP*2);
 
-		l = new Gui::Label(PiLang::STATUS);
+		l = new Gui::Label(Lang::STATUS);
 		Add(l, 680, 20+YSEP*2);
 
 		ShowChildren();
@@ -114,8 +114,8 @@ public:
 	virtual void UpdateInfo() {
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.5;
 		DeleteAllChildren();
-		Add(new Gui::Label(PiLang::CARGO_INVENTORY), 40, 40);
-		Add(new Gui::Label(PiLang::JETTISON), 40, 40+YSEP*2);
+		Add(new Gui::Label(Lang::CARGO_INVENTORY), 40, 40);
+		Add(new Gui::Label(Lang::JETTISON), 40, 40+YSEP*2);
 		float ypos = 40 + 3*YSEP;
 		for (int i=1; i<Equip::TYPE_MAX; i++) {
 			if (EquipType::types[i].slot != Equip::SLOT_CARGO) continue;
@@ -135,7 +135,7 @@ public:
 private:
 	void JettisonCargo(Equip::Type t) {
 		if (Pi::player->Jettison(t)) {
-			Pi::cpan->MsgLog()->Message("", std::string(PiLang::JETTISONED)+EquipType::types[t].name);
+			Pi::cpan->MsgLog()->Message("", std::string(Lang::JETTISONED)+EquipType::types[t].name);
 			Pi::infoView->UpdateInfo();
 		}
 	}
@@ -158,11 +158,11 @@ public:
 		DeleteAllChildren();
 
 		float ypos = 40.0f;
-		Add((new Gui::Label(PiLang::COMBAT_RATING))->Shadow(true), 40, ypos);
+		Add((new Gui::Label(Lang::COMBAT_RATING))->Shadow(true), 40, ypos);
 		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
 
 		ypos = 160.0f;
-		Add((new Gui::Label(PiLang::CRIMINAL_RECORD))->Shadow(true), 40, ypos);
+		Add((new Gui::Label(Lang::CRIMINAL_RECORD))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
 			if (!(crime & (Uint64(1)<<i))) continue;
 			if (!Polit::crimeNames[i]) continue;
@@ -192,23 +192,23 @@ public:
 		char buf[512];
 		std::string col1, col2;
 		const ShipType &stype = Pi::player->GetShipType();
-		col1 = std::string(PiLang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
+		col1 = std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
 		col1 += "\n\n";
-        col1 += std::string(PiLang::HYPERDRIVE);
+        col1 += std::string(Lang::HYPERDRIVE);
 		col1 += ":\n\n";
-        col1 += std::string(PiLang::CAPACITY);
+        col1 += std::string(Lang::CAPACITY);
 		col1 += ":\n";
-        col1 += std::string(PiLang::FREE);
+        col1 += std::string(Lang::FREE);
 		col1 += ":\n";
-        col1 += std::string(PiLang::USED);
+        col1 += std::string(Lang::USED);
 		col1 += ":\n";
-        col1 += std::string(PiLang::TOTAL_WEIGHT);
+        col1 += std::string(Lang::TOTAL_WEIGHT);
 		col1 += ":\n\n";
-        col1 += std::string(PiLang::FRONT_WEAPON);
+        col1 += std::string(Lang::FRONT_WEAPON);
 		col1 += ":\n";
-        col1 += std::string(PiLang::REAR_WEAPON);
+        col1 += std::string(Lang::REAR_WEAPON);
 		col1 += ":\n\n";
-        col1 += std::string(PiLang::HYPERSPACE_RANGE);
+        col1 += std::string(Lang::HYPERSPACE_RANGE);
         col1 += ":\n\n";
 		
 		col2 = "\n\n";
@@ -231,14 +231,14 @@ public:
 			col2 += std::string("\n\n")+EquipType::types[e].name;
 		} else {
 			col2 += "\n\n";
-            col2 += std::string(PiLang::NO_MOUNTING);
+            col2 += std::string(Lang::NO_MOUNTING);
 		}
 		if (numLasers >= 2) {
 			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 1);
 			col2 += std::string("\n")+EquipType::types[e].name;
 		} else {
 			col2 += "\n";
-            col2 += std::string(PiLang::NO_MOUNTING);
+            col2 += std::string(Lang::NO_MOUNTING);
 		}
 
 		snprintf(buf, sizeof(buf), "\n\n%.1f light years (%.1f max)", stats->hyperspace_range, stats->hyperspace_range_max);
@@ -273,19 +273,19 @@ InfoView::InfoView(): View(),
 
 	InfoViewPage *page = new ShipInfoPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(PiLang::SHIP_INFORMATION), page);
+	m_tabs->AddPage(new Gui::Label(Lang::SHIP_INFORMATION), page);
 
 	page = new PersonalPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(PiLang::REPUTATION), page);
+	m_tabs->AddPage(new Gui::Label(Lang::REPUTATION), page);
 	
 	page = new CargoPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(PiLang::CARGO), page);
+	m_tabs->AddPage(new Gui::Label(Lang::CARGO), page);
 	
 	page = new MissionPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(std::string(PiLang::MISSIONS)+std::string(":")), page);
+	m_tabs->AddPage(new Gui::Label(std::string(Lang::MISSIONS)+std::string(":")), page);
 	
 	Add(m_tabs, 0, 0);
 

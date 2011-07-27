@@ -6,7 +6,7 @@
 #include "Sound.h"
 #include "SoundMusic.h"
 #include "KeyBindings.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 #if _GNU_SOURCE
 #include <sys/types.h>
@@ -33,7 +33,7 @@ public:
 private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
-		std::string msg = PiLang::PRESS_BUTTON_WANTED_FOR + m_function;
+		std::string msg = Lang::PRESS_BUTTON_WANTED_FOR + m_function;
 		Gui::ToolTip *t = new Gui::ToolTip(msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
@@ -110,7 +110,7 @@ public:
 private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
-		std::string msg = PiLang::MOVE_AXIS_WANTED_FOR + m_function;
+		std::string msg = Lang::MOVE_AXIS_WANTED_FOR + m_function;
 		Gui::ToolTip *t = new Gui::ToolTip(msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
@@ -159,7 +159,7 @@ static void GetDirectoryContents(const char *name, std::list<std::string> &files
 	DIR *dir = opendir(name);
 	if (!dir) {
 		//if (-1 == mkdir(name, 0770)
-		Gui::Screen::ShowBadError(stringf(128, PiLang::COULD_NOT_OPEN_FILENAME, name).c_str());
+		Gui::Screen::ShowBadError(stringf(128, Lang::COULD_NOT_OPEN_FILENAME, name).c_str());
 		return;
 	}
 	struct dirent *entry;
@@ -211,10 +211,10 @@ public:
 
 		Gui::HBox *buttonBox = new Gui::HBox();
 		buttonBox->SetSpacing(5.0f);
-		Gui::Button *b = new Gui::LabelButton(new Gui::Label(m_type == SAVE ? PiLang::SAVE : PiLang::LOAD));
+		Gui::Button *b = new Gui::LabelButton(new Gui::Label(m_type == SAVE ? Lang::SAVE : Lang::LOAD));
 		b->onClick.connect(sigc::mem_fun(this, &FileDialog::OnClickAction));
 		buttonBox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(PiLang::CANCEL));
+		b = new Gui::LabelButton(new Gui::Label(Lang::CANCEL));
 		b->onClick.connect(sigc::mem_fun(this, &FileDialog::OnClickCancel));
 		buttonBox->PackEnd(b);
 		PackEnd(buttonBox);
@@ -265,7 +265,7 @@ public:
 		Add(f2, 195, 45);
 		Gui::Fixed *f = new Gui::Fixed(400, 400);
 		f2->Add(f, 5, 5);
-		m_fileDialog = new FileDialog(FileDialog::SAVE, PiLang::SELECT_FILENAME_TO_SAVE);
+		m_fileDialog = new FileDialog(FileDialog::SAVE, Lang::SELECT_FILENAME_TO_SAVE);
 		f->Add(m_fileDialog, 0, 0);
 
 		m_fileDialog->onClickCancel.connect(sigc::mem_fun(this, &SaveDialogView::OnClickBack));
@@ -278,7 +278,7 @@ private:
 	void OnClickSave(std::string filename) {
 		std::string fullname = join_path(GetFullSavefileDirPath().c_str(), filename.c_str(), 0);
 		Serializer::SaveGame(fullname.c_str());
-		Pi::cpan->MsgLog()->Message("", PiLang::GAME_SAVED_TO+fullname);
+		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+fullname);
 		m_fileDialog->ShowAll();
 	}
 	void OnClickBack() { Pi::SetView(Pi::gameMenuView); }
@@ -296,7 +296,7 @@ public:
 		Add(f2, 195, 45);
 		Gui::Fixed *f = new Gui::Fixed(400, 400);
 		f2->Add(f, 5, 5);
-		m_fileDialog = new FileDialog(FileDialog::LOAD, PiLang::SELECT_FILENAME_TO_LOAD);
+		m_fileDialog = new FileDialog(FileDialog::LOAD, Lang::SELECT_FILENAME_TO_LOAD);
 		f->Add(m_fileDialog, 0, 0);
 
 		m_fileDialog->onClickCancel.connect(sigc::mem_fun(this, &LoadDialogView::OnClickBack));
@@ -328,13 +328,13 @@ private:
 		try {
 			Serializer::LoadGame(fullname.c_str());
 		} catch (SavedGameCorruptException) {
-			Gui::Screen::ShowBadError(PiLang::GAME_LOAD_CORRUPT);
+			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
 			Pi::UninitGame();
 			Pi::InitGame();
 			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
 			return;
 		} catch (CouldNotOpenFileException) {
-			Gui::Screen::ShowBadError(PiLang::GAME_LOAD_CANNOT_OPEN);
+			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
 			Pi::UninitGame();
 			Pi::InitGame();
 			Pi::SetView(Pi::gameMenuView); // Pi::currentView is unset, set it back to the gameMenuView
@@ -353,7 +353,7 @@ private:
 };
 
 static const char *planet_detail_desc[5] = {
-	PiLang::LOW, PiLang::MEDIUM, PiLang::HIGH, PiLang::VERY_HIGH, PiLang::VERY_VERY_HIGH
+	Lang::LOW, Lang::MEDIUM, Lang::HIGH, Lang::VERY_HIGH, Lang::VERY_VERY_HIGH
 };
 
 GameMenuView::GameMenuView(): View()
@@ -364,11 +364,11 @@ GameMenuView::GameMenuView(): View()
 	Add(tabs, 0, 0);
 
 	Gui::Fixed *mainTab = new Gui::Fixed(800, 600);
-	tabs->AddPage(new Gui::Label(PiLang::SIGHTS_SOUNDS_SAVES), mainTab);
+	tabs->AddPage(new Gui::Label(Lang::SIGHTS_SOUNDS_SAVES), mainTab);
 
-	mainTab->Add((new Gui::Label(PiLang::PIONEER))->Shadow(true), 350, 10);
+	mainTab->Add((new Gui::Label(Lang::PIONEER))->Shadow(true), 350, 10);
 	SetTransparency(false);
-	Gui::Label *l = new Gui::Label(PiLang::PIONEER);
+	Gui::Label *l = new Gui::Label(Lang::PIONEER);
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 	
@@ -385,7 +385,7 @@ GameMenuView::GameMenuView(): View()
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
 		b->SetShortcut(SDLK_l, KMOD_NONE);
 		hbox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(PiLang::EXIT_THIS_GAME));
+		b = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
 		b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
 		hbox->PackEnd(b);
@@ -397,22 +397,22 @@ GameMenuView::GameMenuView(): View()
 	mainTab->Add(vbox, 20, 60);
 
 	{
-		vbox->PackEnd((new Gui::Label(PiLang::WINDOW_OR_FULLSCREEN))->Color(1.0f,1.0f,0.0f));
+		vbox->PackEnd((new Gui::Label(Lang::WINDOW_OR_FULLSCREEN))->Color(1.0f,1.0f,0.0f));
 		m_toggleFullscreen = new Gui::ToggleButton();
 		m_toggleFullscreen->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleFullscreen));
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleFullscreen);
-		hbox->PackEnd(new Gui::Label(PiLang::FULL_SCREEN));
+		hbox->PackEnd(new Gui::Label(Lang::FULL_SCREEN));
 		vbox->PackEnd(hbox);
 		
-		vbox->PackEnd((new Gui::Label(PiLang::OTHER_GRAPHICS_SETTINGS))->Color(1.0f,1.0f,0.0f));
+		vbox->PackEnd((new Gui::Label(Lang::OTHER_GRAPHICS_SETTINGS))->Color(1.0f,1.0f,0.0f));
 		m_toggleShaders = new Gui::ToggleButton();
 		m_toggleShaders->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleShaders));
 		hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleShaders);
-		hbox->PackEnd(new Gui::Label(PiLang::USE_SHADERS));
+		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
 		vbox->PackEnd(hbox);
 		
 		m_toggleHDR = new Gui::ToggleButton();
@@ -420,16 +420,16 @@ GameMenuView::GameMenuView(): View()
 		hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleHDR);
-		hbox->PackEnd(new Gui::Label(PiLang::USE_HDR));
+		hbox->PackEnd(new Gui::Label(Lang::USE_HDR));
 		vbox->PackEnd(hbox);
 		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
 		
-		vbox->PackEnd((new Gui::Label(PiLang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
-		m_masterVolume = new VolumeControl(PiLang::VOL_MASTER, Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
+		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
+		m_masterVolume = new VolumeControl(Lang::VOL_MASTER, Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
 		vbox->PackEnd(m_masterVolume);
-		m_sfxVolume = new VolumeControl(PiLang::VOL_EFFECTS, Pi::config.Float("SfxVolume"), Pi::config.Int("SfxMuted"));
+		m_sfxVolume = new VolumeControl(Lang::VOL_EFFECTS, Pi::config.Float("SfxVolume"), Pi::config.Int("SfxMuted"));
 		vbox->PackEnd(m_sfxVolume);
-		m_musicVolume = new VolumeControl(PiLang::VOL_MUSIC, Pi::config.Float("MusicVolume"), Pi::config.Int("MusicMuted"));
+		m_musicVolume = new VolumeControl(Lang::VOL_MUSIC, Pi::config.Float("MusicVolume"), Pi::config.Int("MusicMuted"));
 		vbox->PackEnd(m_musicVolume);
 
 		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
@@ -437,7 +437,7 @@ GameMenuView::GameMenuView(): View()
 		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 	}
 
-	vbox->PackEnd((new Gui::Label(PiLang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
 
 	Gui::RadioGroup *g = new Gui::RadioGroup();
 	SDL_Rect **modes;
@@ -463,7 +463,7 @@ GameMenuView::GameMenuView(): View()
 			Gui::HBox *hbox = new Gui::HBox();
 			hbox->SetSpacing(5.0f);
 			hbox->PackEnd(temp);
-			hbox->PackEnd(new Gui::Label(stringf(256, PiLang::X_BY_X, modes[i]->w, modes[i]->h)));
+			hbox->PackEnd(new Gui::Label(stringf(256, Lang::X_BY_X, modes[i]->w, modes[i]->h)));
 			vbox2->PackEnd(hbox);
 			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
 				temp->SetSelected(true);
@@ -476,7 +476,7 @@ GameMenuView::GameMenuView(): View()
 	vbox->SetSpacing(5.0f);
 	mainTab->Add(vbox, 600, 60);
 
-	vbox->PackEnd((new Gui::Label(PiLang::PLANET_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
 	m_planetDetailGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
@@ -491,7 +491,7 @@ GameMenuView::GameMenuView(): View()
 	// just a spacer
 	vbox->PackEnd(new Gui::Fixed(10,20));
 	
-	vbox->PackEnd((new Gui::Label(PiLang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
+	vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
 	m_cityDetailGroup = new Gui::RadioGroup();
 
 	for (int i=0; i<5; i++) {
@@ -507,7 +507,7 @@ GameMenuView::GameMenuView(): View()
 	// key binding tab
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
-		tabs->AddPage(new Gui::Label(PiLang::CONTROLS), keybindingTab);
+		tabs->AddPage(new Gui::Label(Lang::CONTROLS), keybindingTab);
 
 		Gui::VBox *box1 = new Gui::VBox();
 		box1->SetSpacing(5.0f);
@@ -566,18 +566,18 @@ GameMenuView::GameMenuView(): View()
 		Gui::HBox *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleJoystick);
-		hbox->PackEnd(new Gui::Label(PiLang::ENABLE_JOYSTICK));
+		hbox->PackEnd(new Gui::Label(Lang::ENABLE_JOYSTICK));
 		box->PackEnd(hbox);
 
 		// Invert Mouse
 		m_toggleMouseYInvert = new Gui::ToggleButton();
 		m_toggleMouseYInvert->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleMouseYInvert));
-		box->PackEnd((new Gui::Label(PiLang::MOUSE_INPUT))->Color(1.0f,1.0f,0.0f));
+		box->PackEnd((new Gui::Label(Lang::MOUSE_INPUT))->Color(1.0f,1.0f,0.0f));
 
 		Gui::HBox *mybox = new Gui::HBox();
 		mybox->SetSpacing(5.0f);
 		mybox->PackEnd(m_toggleMouseYInvert);
-		mybox->PackEnd(new Gui::Label(PiLang::INVERT_MOUSE_Y));
+		mybox->PackEnd(new Gui::Label(Lang::INVERT_MOUSE_Y));
 		box->PackEnd(mybox);
 	}
 }

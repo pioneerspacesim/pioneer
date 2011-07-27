@@ -21,7 +21,7 @@
 #include "Polit.h"
 #include "CityOnPlanet.h"
 #include "Missile.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
 
@@ -742,7 +742,7 @@ void Ship::StaticUpdate(const float timeStep)
 					double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
-						Pi::Message(stringf(512, PiLang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
+						Pi::Message(stringf(512, Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 									m_equipment.Count(Equip::SLOT_CARGO, Equip::HYDROGEN)));
 						UpdateMass();
 					}
@@ -762,7 +762,7 @@ void Ship::StaticUpdate(const float timeStep)
 			
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
-				Pi::Message(PiLang::CARGO_BAY_LIFE_SUPPORT_LOST);
+				Pi::Message(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
 			}
 		}
 	}
@@ -1095,10 +1095,10 @@ bool Ship::CanBuy(Equip::Type t, bool verbose) const {
 	bool freecapacity = (m_stats.free_capacity >= EquipType::types[int(t)].mass);
 	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
 		if (!freespace) {
-			Pi::Message(PiLang::NO_FREE_SPACE_FOR_ITEM);
+			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
 		}
 		else if (!freecapacity) {
-			Pi::Message(PiLang::SHIP_IS_FULLY_LADEN);
+			Pi::Message(Lang::SHIP_IS_FULLY_LADEN);
 		}
 	}
 	return (freespace && freecapacity);
@@ -1108,7 +1108,7 @@ bool Ship::CanSell(Equip::Type t, bool verbose) const {
 	bool cansell = (m_equipment.Count(slot, t) > 0);
 	if (verbose && (this == reinterpret_cast<Ship*>(Pi::player))) {
 		if (!cansell) {
-			Pi::Message(stringf(512, PiLang::YOU_DO_NOT_HAVE_ANY_X, EquipType::types[int(t)].name));
+			Pi::Message(stringf(512, Lang::YOU_DO_NOT_HAVE_ANY_X, EquipType::types[int(t)].name));
 		}
 	}
 	return cansell;

@@ -12,7 +12,7 @@
 #include "SystemInfoView.h"
 #include "GalacticView.h"
 #include "GameMenuView.h"
-#include "PiLang.h"
+#include "Lang.h"
 
 ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
@@ -86,8 +86,8 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	g->Add(cam_button);
 	cam_button->SetSelected(true);
 	cam_button->AddState(WorldView::CAM_FRONT, PIONEER_DATA_DIR "/icons/cam_front.png", PIONEER_DATA_DIR "/icons/cam_front_on.png", "Front view");
-	cam_button->AddState(WorldView::CAM_REAR, PIONEER_DATA_DIR "/icons/cam_rear.png", PIONEER_DATA_DIR "/icons/cam_rear_on.png", PiLang::REAR_VIEW);
-	cam_button->AddState(WorldView::CAM_EXTERNAL, PIONEER_DATA_DIR "/icons/cam_external.png", PIONEER_DATA_DIR "/icons/cam_external_on.png", PiLang::EXTERNAL_VIEW);
+	cam_button->AddState(WorldView::CAM_REAR, PIONEER_DATA_DIR "/icons/cam_rear.png", PIONEER_DATA_DIR "/icons/cam_rear_on.png", Lang::REAR_VIEW);
+	cam_button->AddState(WorldView::CAM_EXTERNAL, PIONEER_DATA_DIR "/icons/cam_external.png", PIONEER_DATA_DIR "/icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
 	cam_button->SetShortcut(SDLK_F1, KMOD_NONE);
 	cam_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
 	Add(cam_button, 2, 56);
@@ -96,7 +96,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	g->Add(map_button);
 	map_button->SetSelected(false);
 	map_button->SetShortcut(SDLK_F2, KMOD_NONE);
-	map_button->AddState(0, PIONEER_DATA_DIR "/icons/cpan_f2_map.png", PIONEER_DATA_DIR "/icons/cpan_f2_map_on.png", PiLang::NAVIGATION_STAR_MAPS);
+	map_button->AddState(0, PIONEER_DATA_DIR "/icons/cpan_f2_map.png", PIONEER_DATA_DIR "/icons/cpan_f2_map_on.png", Lang::NAVIGATION_STAR_MAPS);
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeToMapView));
 	Add(map_button, 34, 56);
 
@@ -104,7 +104,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	g->Add(info_button);
 	info_button->SetSelected(false);
 	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
-	info_button->AddState(0, PIONEER_DATA_DIR "/icons/cpan_f3_shipinfo.png", PIONEER_DATA_DIR "/icons/cpan_f3_shipinfo_on.png", PiLang::SHIP_INFORMATION);
+	info_button->AddState(0, PIONEER_DATA_DIR "/icons/cpan_f3_shipinfo.png", PIONEER_DATA_DIR "/icons/cpan_f3_shipinfo_on.png", Lang::SHIP_INFORMATION);
 	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
 	Add(info_button, 66, 56);
 
@@ -112,7 +112,7 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	g->Add(comms_button);
 	comms_button->SetSelected(false);
 	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
-	comms_button->AddState(0, PIONEER_DATA_DIR "/icons/comms_f4.png", PIONEER_DATA_DIR "/icons/comms_f4_on.png", PiLang::COMMS);
+	comms_button->AddState(0, PIONEER_DATA_DIR "/icons/comms_f4.png", PIONEER_DATA_DIR "/icons/comms_f4_on.png", Lang::COMMS);
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
 	Add(comms_button, 98, 56);
 
@@ -124,38 +124,38 @@ ShipCpanel::ShipCpanel(): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 	g->SetSelected(0);
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SECTOR));
 	b->SetShortcut(SDLK_F5, KMOD_NONE);
-	b->SetToolTip(PiLang::GALAXY_SECTOR_VIEW);
+	b->SetToolTip(Lang::GALAXY_SECTOR_VIEW);
 	Add(b, 674, 56);
 	m_mapViewButtons[0] = b;
 	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_system_view.png", PIONEER_DATA_DIR "/icons/map_system_view_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SYSTEM));
 	b->SetShortcut(SDLK_F6, KMOD_NONE);
-	b->SetToolTip(PiLang::SYSTEM_ORBIT_VIEW);
+	b->SetToolTip(Lang::SYSTEM_ORBIT_VIEW);
 	Add(b, 706, 56);
 	m_mapViewButtons[1] = b;
 	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_sysinfo_view.png", PIONEER_DATA_DIR "/icons/map_sysinfo_view_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_INFO));
 	b->SetShortcut(SDLK_F7, KMOD_NONE);
-	b->SetToolTip(PiLang::STAR_SYSTEM_INFORMATION);
+	b->SetToolTip(Lang::STAR_SYSTEM_INFORMATION);
 	Add(b, 738, 56);
 	m_mapViewButtons[2] = b;
 	b = new Gui::ImageRadioButton(g, PIONEER_DATA_DIR "/icons/map_galactic_view.png", PIONEER_DATA_DIR "/icons/map_galactic_view_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_GALACTIC));
 	b->SetShortcut(SDLK_F8, KMOD_NONE);
-	b->SetToolTip(PiLang::GALACTIC_VIEW);
+	b->SetToolTip(Lang::GALACTIC_VIEW);
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_green.png");
-	img->SetToolTip(PiLang::NO_ALERT);
+	img->SetToolTip(Lang::NO_ALERT);
 	Add(img, 780, 37);
 	m_alertLights[0] = img;
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_yellow.png");
-	img->SetToolTip(PiLang::SHIP_NEARBY);
+	img->SetToolTip(Lang::SHIP_NEARBY);
 	Add(img, 780, 37);
 	m_alertLights[1] = img;
 	img = new Gui::Image(PIONEER_DATA_DIR "/icons/alert_red.png");
-	img->SetToolTip(PiLang::LASER_FIRE_DETECTED);
+	img->SetToolTip(Lang::LASER_FIRE_DETECTED);
 	Add(img, 780, 37);
 	m_alertLights[2] = img;
 
@@ -209,7 +209,7 @@ void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
 
 void ShipCpanel::OnDockingClearanceExpired(const SpaceStation *s)
 {
-	MsgLog()->ImportantMessage(s->GetLabel(), PiLang::DOCKING_CLEARANCE_EXPIRED);
+	MsgLog()->ImportantMessage(s->GetLabel(), Lang::DOCKING_CLEARANCE_EXPIRED);
 }
 
 void ShipCpanel::Update()

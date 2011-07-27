@@ -8,7 +8,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "GalacticView.h"
-#include "PiLang.h"
+#include "Lang.h"
 		
 SectorView::SectorView() :
 	m_firstTime(true),
@@ -29,11 +29,11 @@ SectorView::SectorView() :
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
-	m_zoomInButton->SetToolTip(PiLang::ZOOM_IN);
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip(PiLang::ZOOM_OUT);
+	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
 	m_gluDiskDlist = glGenLists(1);
@@ -108,7 +108,7 @@ void SectorView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	char buf[80];
-	snprintf(buf, sizeof(buf), PiLang::SECTOR_X_Y, m_selected.sectorX, m_selected.sectorY);
+	snprintf(buf, sizeof(buf), Lang::SECTOR_X_Y, m_selected.sectorX, m_selected.sectorY);
 	m_infoLabel->SetText(buf);
 
 	// units are lightyears, my friend
@@ -422,23 +422,23 @@ void SectorView::Update()
 		Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), PiLang::DISTANCE_FUEL_TIME, dist, fuelRequired, dur*0.0002778);
+				snprintf(buf, sizeof(buf), Lang::DISTANCE_FUEL_TIME, dist, fuelRequired, dur*0.0002778);
 				m_distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:
-				snprintf(buf, sizeof(buf), PiLang::CURRENT_SYSTEM);
+				snprintf(buf, sizeof(buf), Lang::CURRENT_SYSTEM);
 				m_distance->Color(0.0f, 1.0f, 1.0f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				snprintf(buf, sizeof(buf), PiLang::DISTANCE_FUEL_REQUIRED, dist, fuelRequired);
+				snprintf(buf, sizeof(buf), Lang::DISTANCE_FUEL_REQUIRED, dist, fuelRequired);
 				m_distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				snprintf(buf, sizeof(buf), PiLang::DISTANCE_OUT_OF_RANGE, dist);
+				snprintf(buf, sizeof(buf), Lang::DISTANCE_OUT_OF_RANGE, dist);
 				m_distance->Color(1.0f, 0.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_NO_DRIVE:
-				snprintf(buf, sizeof(buf), PiLang::CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE);
+				snprintf(buf, sizeof(buf), Lang::CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE);
 				m_distance->Color(1.0f, 0.6f, 1.0f);
 				break;
 		}
@@ -447,11 +447,11 @@ void SectorView::Update()
 
 		std::string desc;
 		if (sys->GetNumStars() == 4) {
-			desc = PiLang::QUADRUPLE_SYSTEM;
+			desc = Lang::QUADRUPLE_SYSTEM;
 		} else if (sys->GetNumStars() == 3) {
-			desc = PiLang::TRIPLE_SYSTEM;
+			desc = Lang::TRIPLE_SYSTEM;
 		} else if (sys->GetNumStars() == 2) {
-			desc = PiLang::BINARY_SYSTEM;
+			desc = Lang::BINARY_SYSTEM;
 		} else {
 			desc = sys->rootBody->GetAstroDescription();
 		}
