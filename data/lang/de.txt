@@ -716,7 +716,7 @@ CLEARANCE_ALREADY_GRANTED_BAY_N
 CLEARANCE_GRANTED_BAY_N
     Andocken Erlaubnis gewährt. Fliegen zur Andockbuchten %d.
 CLEARANCE_DENIED_NO_BAYS
-    Andocken Erlaubnis verweigert. iEs gibt keine freien Andockbuchten.
+    Andocken Erlaubnis verweigert. Es gibt keine freien Andockbuchten.
 ITEM_IS_OUT_OF_STOCK
     Dieser Artikel ist ausverkauft.
 BROWN_DWARF
