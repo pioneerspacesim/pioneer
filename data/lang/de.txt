@@ -12,7 +12,7 @@ ITEM
 SHIP
     Shiff
 PRICE
-    Pries
+    Preis
 BUY
     Kaufen
 SELL
