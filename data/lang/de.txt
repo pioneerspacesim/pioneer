@@ -200,7 +200,7 @@ LOAD_A_GAME
 EXIT_THIS_GAME
     Spiel beenden
 WINDOW_OR_FULLSCREEN
-    Fenstermodus oder im Vollbildmodus  (Programm neu gestartet werden)
+    Fenstermodus oder im Vollbildmodus  (Programm muss neu gestartet werden)
 FULL_SCREEN
     Vollbildmodus
 OTHER_GRAPHICS_SETTINGS
