@@ -7,7 +7,7 @@ namespace Lang {
 #define DECLARE_STRING(x) extern const char *x
 #endif
 
-void LoadStrings(std::string lang);
+bool LoadStrings(char *lang);
 
 DECLARE_STRING(SUGGESTED_RESPONSES);
 DECLARE_STRING(CASH);

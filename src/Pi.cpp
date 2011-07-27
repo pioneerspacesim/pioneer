@@ -60,6 +60,7 @@
 #include "SoundMusic.h"
 #include "Background.h"
 #include "PiLang.h"
+#include "Lang.h"
 
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
@@ -262,6 +263,8 @@ static void LuaInitGame() {
 
 void Pi::Init()
 {
+	Lang::LoadStrings("en");
+
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.cities = config.Int("DetailCities");
 
