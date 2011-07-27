@@ -84,6 +84,7 @@ bool LoadStrings(char *lang)
 			}
 		}
 
+		// string line
 		else {
 			// eat quotes
 			if (*line == '"' && *(end-1) == '"') {
@@ -95,8 +96,23 @@ bool LoadStrings(char *lang)
 			// skip empty lines
 			if (line == end) continue;
 
+			// target buffer
 			char *str = (*token_iter).second;
-			strncpy(str, line, MAX_STRING);
+
+			// copy in one char at a time
+			int s = 0, d = 0;
+			while (line[s] != '\0' && d < MAX_STRING) {
+
+				// turn \n into a real newline
+				if (line[s] == '\\' && line[s+1] == 'n') {
+					str[d++] = '\n';
+					s += 2;
+					continue;
+				}
+
+				str[d++] = line[s++];
+			}
+
 			str[MAX_STRING-1] = '\0';
 		}
 
