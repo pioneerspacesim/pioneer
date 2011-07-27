@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
+#include "libs.h"
 #include <map>
-#include <string>
 
 #define MAX_STRING (1024)
 
@@ -28,12 +25,12 @@ static token_map s_tokens;
 
 namespace Lang {
 
-bool LoadStrings(char *lang)
+bool LoadStrings(const std::string &lang)
 {
 	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
 		*((*i).second) = '\0';
 
-	std::string filename(PIONEER_DATA_DIR "/lang/" + std::string(lang) + ".txt");
+	std::string filename(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
 
 	FILE *f = fopen(filename.c_str(), "r");
 	if (!f) {
@@ -121,11 +118,29 @@ bool LoadStrings(char *lang)
 	}
 
 	if (errno) {
-		fprintf(stderr, "error reading string file for language '%s': %s", lang, strerror(errno));
+		fprintf(stderr, "error reading string file '%s': %s", filename.c_str(), strerror(errno));
 		return false;
 	}
 
 	return true;
+}
+
+std::list<std::string> s_availableLanguages;
+
+void _found_language_file_callback(const std::string &name, const std::string &fullname) {
+	size_t pos = name.find(".txt");
+	if (pos == name.npos) return;
+	if (name.length() - pos != 4) return;
+	s_availableLanguages.push_back(name.substr(0, pos));
+}
+
+const std::list<std::string> &GetAvailableLanguages()
+{
+	s_availableLanguages.clear();
+
+	foreach_file_in(PIONEER_DATA_DIR "/lang/", _found_language_file_callback);
+
+	return s_availableLanguages;
 }
 
 }

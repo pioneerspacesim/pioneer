@@ -1,13 +1,17 @@
 #ifndef _LANG_H
 #define _LANG_H
 
+#include <list>
+#include <string>
+
 namespace Lang {
 
 #ifndef DECLARE_STRING
 #define DECLARE_STRING(x) extern char x[]
 #endif
 
-bool LoadStrings(char *lang);
+bool LoadStrings(const std::string &lang);
+const std::list<std::string> &GetAvailableLanguages();
 
 DECLARE_STRING(SUGGESTED_RESPONSES);
 DECLARE_STRING(CASH);
