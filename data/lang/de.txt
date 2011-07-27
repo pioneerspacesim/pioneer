@@ -316,7 +316,7 @@ MISSILE_SMART
 MISSILE_NAVAL
     Marine-Rakete
 ATMOSPHERIC_SHIELDING
-    Atmosphärischen Hitzeshild
+    Atmosphärischen Hitzeschild
 ATMOSPHERIC_SHIELDING_DESCRIPTION
     Schützt Ihr Raumschiff von der Hitze der Eintritt in die Atmosphäre.
 ECM_BASIC
