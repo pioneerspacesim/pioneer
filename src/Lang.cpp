@@ -34,7 +34,7 @@ bool LoadStrings(const std::string &lang)
 
 	FILE *f = fopen(filename.c_str(), "r");
 	if (!f) {
-		fprintf(stderr, "couldn't open string file '%s': %s", filename.c_str(), strerror(errno));
+		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
 		return false;
 	}
 

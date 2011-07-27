@@ -263,7 +263,8 @@ static void LuaInitGame() {
 
 void Pi::Init()
 {
-	Lang::LoadStrings("en");
+	if (!Lang::LoadStrings(config.String("Lang")))
+        abort();
 
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.cities = config.Int("DetailCities");
