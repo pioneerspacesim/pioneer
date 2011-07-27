@@ -4,38 +4,24 @@
 #include <map>
 #include <string>
 
+#define MAX_STRING (1024)
+
 namespace Lang {
 
-class token_data {
-public:
-	token_data(const char **target) : m_target(target) {
-		*m_target = m_string.c_str();
-	}
-	void set_string(const char *str) {
-		m_string = std::string(str);
-		*m_target = m_string.c_str();
-	}
-private:
-	std::string  m_string;
-	const char **m_target;
-};
-
-typedef std::map<std::string,token_data> token_map;
+typedef std::map<std::string,char*> token_map;
 
 static token_map s_tokens;
 
 }
 
-#define DECLARE_STRING(x)                       \
-	const char *x;                              \
-	static class _init_class_##x {              \
-	public:                                     \
-		_init_class_##x() {                     \
-			s_tokens.insert(                    \
-				std::make_pair(                 \
-					std::string(#x),            \
-					token_data(&x)));           \
-		}                                       \
+#define DECLARE_STRING(x)                           \
+	char x[MAX_STRING];                             \
+	static class _init_class_##x {                  \
+	public:                                         \
+		_init_class_##x() {                         \
+			s_tokens.insert(std::make_pair(#x,x)); \
+			*x = '\0';                              \
+		}                                           \
 	} _init_##x
 
 #include "Lang.h"
@@ -45,7 +31,7 @@ namespace Lang {
 bool LoadStrings(char *lang)
 {
 	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
-		(*i).second.set_string("");
+		*((*i).second) = '\0';
 
 	std::string filename(PIONEER_DATA_DIR "/lang/" + std::string(lang) + ".txt");
 
@@ -108,8 +94,10 @@ bool LoadStrings(char *lang)
 
 			// skip empty lines
 			if (line == end) continue;
-			
-			(*token_iter).second.set_string(line);
+
+			char *str = (*token_iter).second;
+			strncpy(str, line, MAX_STRING);
+			str[MAX_STRING-1] = '\0';
 		}
 
 		doing_token = !doing_token;

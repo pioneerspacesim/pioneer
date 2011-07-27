@@ -4,7 +4,7 @@
 namespace Lang {
 
 #ifndef DECLARE_STRING
-#define DECLARE_STRING(x) extern const char *x
+#define DECLARE_STRING(x) extern char x[]
 #endif
 
 bool LoadStrings(char *lang);
