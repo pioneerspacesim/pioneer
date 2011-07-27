@@ -67,10 +67,10 @@ std::string KeyBinding::Description() const {
 		if (u.keyboard.mod & KMOD_META) oss << PiLang::META;
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << PiLang::JOY << int(u.joystickButton.joystick);
+		oss << "Joy" << int(u.joystickButton.joystick);
 		oss << PiLang::BUTTON << int(u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
-		oss << PiLang::JOY << int(u.joystickHat.joystick);
+		oss << "Joy" << int(u.joystickHat.joystick);
 		oss << PiLang::HAT << int(u.joystickHat.hat);
 		oss << PiLang::DIRECTION << int(u.joystickHat.direction);
 	} else
@@ -102,13 +102,13 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
-	const char *axis_names[] = {PiLang::X, PiLang::Y, PiLang::Z};
+	const char *axis_names[] = {"X", "Y", "Z"};
 	std::ostringstream oss;
 
 	if (direction == KeyBindings::NEGATIVE)
 		oss << '-';
 
-	oss << PiLang::JOY << int(joystick) << ' ';
+	oss << "Joy" << int(joystick) << ' ';
 
 	if (0 <= axis && axis < 3)
 		oss << axis_names[axis];
@@ -179,7 +179,7 @@ bool KeyBindingFromString(const std::string &str, KeyBinding *kb)
 
 		return true;
 
-	} else if (strncmp(p, PiLang::JOY, 3) == 0) {
+	} else if (strncmp(p, "Joy", 3) == 0) {
 		p += 3;
 
 		int joy = atoi(p);
@@ -229,10 +229,10 @@ std::string KeyBindingToString(const KeyBinding &kb) {
 		if (kb.u.keyboard.mod != 0)
 			oss << "Mod" << int(kb.u.keyboard.mod);
 	} else if (kb.type == JOYSTICK_BUTTON) {
-		oss << PiLang::JOY << int(kb.u.joystickButton.joystick);
+		oss << "Joy" << int(kb.u.joystickButton.joystick);
 		oss << "Button" << int(kb.u.joystickButton.button);
 	} else if (kb.type == JOYSTICK_HAT) {
-		oss << PiLang::JOY << int(kb.u.joystickHat.joystick);
+		oss << "Joy" << int(kb.u.joystickHat.joystick);
 		oss << "Hat" << int(kb.u.joystickHat.hat);
 		oss << "Dir" << int(kb.u.joystickHat.direction);
 	} else
@@ -252,7 +252,7 @@ bool AxisBindingFromString(const std::string &str, AxisBinding *ab) {
 	else
 		ab->direction = POSITIVE;
 
-	if (strncmp(p, PiLang::JOY, 3) != 0)
+	if (strncmp(p, "Joy", 3) != 0)
 		return false;
 
 	p += 3;
@@ -283,7 +283,7 @@ std::string AxisBindingToString(const AxisBinding &ab) {
 	if (ab.direction == NEGATIVE)
 		oss << '-';
 
-	oss << PiLang::JOY;
+	oss << "Joy";
 	oss << int(ab.joystick);
 	oss << "Axis";
 	oss << int(ab.axis);
