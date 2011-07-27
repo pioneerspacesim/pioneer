@@ -496,6 +496,20 @@ namespace PiLanguages {
                 "alt "); // preserve trailing space
         PL(META,
                 "meta "); // preserve trailing space
+        PL(JOY,
+                "Joy");
+        PL(BUTTON,
+                " Button "); // preserve leading and trailing space
+        PL(HAT,
+                " Hat"); // preserve leading space
+        PL(DIRECTION,
+                " Dir "); // preserve leading and trailing space
+        PL(X,
+                "X");
+        PL(Y,
+                "Y");
+        PL(Z,
+                "Z");
         PL(AXIS,
                 " Axis"); // preserve leading space
         PL(WEAPONS,
@@ -1591,6 +1605,20 @@ namespace PiLanguages {
                 "alt "); // preserve trailing space
         PL(META,
                 "meta "); // preserve trailing space
+        PL(JOY,
+                "Joy");
+        PL(BUTTON,
+                "-Taste "); // preserve leading and trailing space
+        PL(HAT,
+                "-Hut"); // preserve leading space
+        PL(DIRECTION,
+                "-Richtung "); // preserve leading and trailing space
+        PL(X,
+                "X");
+        PL(Y,
+                "Y");
+        PL(Z,
+                "Z");
         PL(AXIS,
                 " Achse"); // preserve leading space
         PL(WEAPONS,

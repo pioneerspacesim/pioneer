@@ -67,10 +67,10 @@ std::string KeyBinding::Description() const {
 		if (u.keyboard.mod & KMOD_META) oss << PiLang::META;
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(u.joystickButton.joystick);
+		oss << PiLang::JOY << int(u.joystickButton.joystick);
 		oss << PiLang::BUTTON << int(u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
-		oss << "Joy" << int(u.joystickHat.joystick);
+		oss << PiLang::JOY << int(u.joystickHat.joystick);
 		oss << PiLang::HAT << int(u.joystickHat.hat);
 		oss << PiLang::DIRECTION << int(u.joystickHat.direction);
 	} else
@@ -102,13 +102,13 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
-	const char *axis_names[] = {"X", "Y", "Z"};
+	const char *axis_names[] = {PiLang::X, PiLang::Y, PiLang::Z};
 	std::ostringstream oss;
 
 	if (direction == KeyBindings::NEGATIVE)
 		oss << '-';
 
-	oss << "Joy" << int(joystick) << ' ';
+	oss << PiLang::JOY << int(joystick) << ' ';
 
 	if (0 <= axis && axis < 3)
 		oss << axis_names[axis];
