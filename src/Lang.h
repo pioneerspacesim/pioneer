@@ -1,6 +1,9 @@
 #ifndef _LANG_H
 #define _LANG_H
 
+#include <list>
+#include <string>
+
 namespace Lang {
 
 #ifndef DECLARE_STRING
@@ -8,6 +11,7 @@ namespace Lang {
 #endif
 
 bool LoadStrings(char *lang);
+const std::list<std::string> &GetAvailableLanguages();
 
 DECLARE_STRING(SUGGESTED_RESPONSES);
 DECLARE_STRING(CASH);

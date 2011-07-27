@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
+#include "libs.h"
 #include <map>
-#include <string>
 
 #define MAX_STRING (1024)
 
@@ -126,6 +123,24 @@ bool LoadStrings(char *lang)
 	}
 
 	return true;
+}
+
+std::list<std::string> s_availableLanguages;
+
+void _found_language_file_callback(const std::string &name, const std::string &fullname) {
+	size_t pos = name.find(".txt");
+	if (pos == name.npos) return;
+	if (name.length() - pos != 4) return;
+	s_availableLanguages.push_back(name.substr(0, pos));
+}
+
+const std::list<std::string> &GetAvailableLanguages()
+{
+	s_availableLanguages.clear();
+
+	foreach_file_in(PIONEER_DATA_DIR "/lang/", _found_language_file_callback);
+
+	return s_availableLanguages;
 }
 
 }
