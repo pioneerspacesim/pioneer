@@ -25,12 +25,12 @@ static token_map s_tokens;
 
 namespace Lang {
 
-bool LoadStrings(char *lang)
+bool LoadStrings(const std::string &lang)
 {
 	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
 		*((*i).second) = '\0';
 
-	std::string filename(PIONEER_DATA_DIR "/lang/" + std::string(lang) + ".txt");
+	std::string filename(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
 
 	FILE *f = fopen(filename.c_str(), "r");
 	if (!f) {
@@ -118,7 +118,7 @@ bool LoadStrings(char *lang)
 	}
 
 	if (errno) {
-		fprintf(stderr, "error reading string file for language '%s': %s", lang, strerror(errno));
+		fprintf(stderr, "error reading string file '%s': %s", filename.c_str(), strerror(errno));
 		return false;
 	}
 

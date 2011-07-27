@@ -10,7 +10,7 @@ namespace Lang {
 #define DECLARE_STRING(x) extern char x[]
 #endif
 
-bool LoadStrings(char *lang);
+bool LoadStrings(const std::string &lang);
 const std::list<std::string> &GetAvailableLanguages();
 
 DECLARE_STRING(SUGGESTED_RESPONSES);
