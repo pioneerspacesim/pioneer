@@ -233,6 +233,8 @@ MOUSE_INPUT
     Mouse Input
 INVERT_MOUSE_Y
     Invert MouseY
+LANGUAGE_SELECTION
+    Language (restart game to apply)
  
 # Wares
 NONE

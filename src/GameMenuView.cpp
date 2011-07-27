@@ -472,9 +472,13 @@ GameMenuView::GameMenuView(): View()
 	}
 
 
+	Gui::HBox *detailBox = new Gui::HBox();
+	detailBox->SetSpacing(60.0f);
+	mainTab->Add(detailBox, 400, 60);
+
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
-	mainTab->Add(vbox, 600, 60);
+	detailBox->PackEnd(vbox);
 
 	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
 	m_planetDetailGroup = new Gui::RadioGroup();
@@ -488,9 +492,11 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
 		vbox->PackEnd(hbox);
 	}
-	// just a spacer
-	vbox->PackEnd(new Gui::Fixed(10,20));
 	
+	vbox = new Gui::VBox();
+	vbox->SetSpacing(5.0f);
+	detailBox->PackEnd(vbox);
+
 	vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
 	m_cityDetailGroup = new Gui::RadioGroup();
 
@@ -503,7 +509,47 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
 		vbox->PackEnd(hbox);
 	}
+
+
+	// language
 	
+	vbox = new Gui::VBox();
+	vbox->SetSizeRequest(300, 200);
+	mainTab->Add(vbox, 400, 250);
+
+	vbox->PackEnd((new Gui::Label(Lang::LANGUAGE_SELECTION))->Color(1.0f,1.0f,0.0f));
+
+	g = new Gui::RadioGroup();
+	const std::list<std::string> availableLanguages = Lang::GetAvailableLanguages();
+
+	{
+		// box to put the scroll portal and its scroll bar into
+		Gui::HBox *scrollHBox = new Gui::HBox();
+		vbox->PackEnd(scrollHBox);
+		
+		Gui::VScrollBar *scroll = new Gui::VScrollBar();
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
+		scroll->SetAdjustment(&portal->vscrollAdjust);
+		scrollHBox->PackEnd(portal);
+		scrollHBox->PackEnd(scroll);
+
+		Gui::VBox *vbox2 = new Gui::VBox();
+		portal->Add(vbox2);
+		
+		for (std::list<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
+			Gui::RadioButton *temp = new Gui::RadioButton(g);
+			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeLanguage), *i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(temp);
+			hbox->PackEnd(new Gui::Label(*i));
+			vbox2->PackEnd(hbox);
+			if ((*i) == Pi::config.String("Lang"))
+				temp->SetSelected(true);
+		}
+	}
+
+
 	// key binding tab
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
@@ -644,6 +690,12 @@ void GameMenuView::OnChangeCityDetail(int level)
 	m_changedDetailLevel = true;
 	Pi::detail.cities = level;
 	Pi::config.SetInt("DetailCities", level);
+	Pi::config.Save();
+}
+
+void GameMenuView::OnChangeLanguage(std::string &lang)
+{
+	Pi::config.SetString("Lang", lang.c_str());
 	Pi::config.Save();
 }
 
