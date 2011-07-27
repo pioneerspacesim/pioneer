@@ -10,7 +10,7 @@ CARGO_SPACE
 ITEM
     Artikel
 SHIP
-    Shiff
+    Schiff
 PRICE
     Preis
 BUY
