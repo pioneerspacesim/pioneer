@@ -1,7 +1,6 @@
 #include "libs.h"
 #include "Pi.h"
-#define PI_LANG_ONCE
-    #include "Lang.h"
+#include "Lang.h"
 #include <signal.h>
 
 void sigsegv_handler(int signum)
