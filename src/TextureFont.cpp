@@ -16,7 +16,7 @@
 	glDisable(GL_TEXTURE_2D); \
 	glDisable(GL_BLEND);
 
-void TextureFont::RenderGlyph(int chr, float x, float y)
+void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
 	glBindTexture(GL_TEXTURE_2D, glyph->tex);
@@ -41,24 +41,38 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 {
 	w = 0;
 	h = GetHeight();
+
 	float line_width = 0;
-	unsigned int len = strlen(str);
-	for (unsigned int i=0; i<len; i++) {
+
+	int i = 0;
+	while (str[i]) {
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
 			line_width = 0;
 			h += GetHeight()*PARAGRAPH_SPACING;
-		} else {
-			line_width += m_glyphs[str[i]].advx;
-			if (i+1 < len) {
-				FT_UInt a = FT_Get_Char_Index(m_face, str[i]);
-		        FT_UInt b = FT_Get_Char_Index(m_face, str[i+1]);
+			i++;
+		}
+		
+		else {
+			Uint32 chr;
+			i += conv_mb_to_wc(&chr, &str[i]);
+
+			line_width += m_glyphs[chr].advx;
+
+			if (str[i]) {
+				Uint32 chr2;
+				conv_mb_to_wc(&chr2, &str[i]);
+
+				FT_UInt a = FT_Get_Char_Index(m_face, chr);
+		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
 				line_width += float(kern.x) / 64.0;
 			}
 		}
 	}
+
 	if (line_width > w) w = line_width;
 	h += m_descender;
 }
@@ -66,23 +80,37 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 void TextureFont::RenderString(const char *str, float x, float y)
 {
 	TEXTURE_FONT_ENTER;
+
 	float px = x;
 	float py = y;
-	unsigned int len = strlen(str);
-	for (unsigned int i=0; i<len; i++) {
+
+	int i = 0;
+	while (str[i]) {
 		if (str[i] == '\n') {
 			px = x;
 			py += GetHeight()*PARAGRAPH_SPACING;
-		} else {
-			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i], roundf(px), py);
-			if (i+1 < len) {
-				FT_UInt a = FT_Get_Char_Index(m_face, str[i]);
-		        FT_UInt b = FT_Get_Char_Index(m_face, str[i+1]);
+			i++;
+		}
+		
+		else {
+			Uint32 chr;
+			i += conv_mb_to_wc(&chr, &str[i]);
+
+			glfglyph_t *glyph = &m_glyphs[chr];
+			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
+
+			if (str[i]) {
+				Uint32 chr2;
+				conv_mb_to_wc(&chr2, &str[i]);
+
+				FT_UInt a = FT_Get_Char_Index(m_face, chr);
+		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
 				px += float(kern.x) / 64.0;
 			}
+
 			px += glyph->advx;
 		}
 	}
@@ -92,10 +120,12 @@ void TextureFont::RenderString(const char *str, float x, float y)
 void TextureFont::RenderMarkup(const char *str, float x, float y)
 {
 	TEXTURE_FONT_ENTER;
+
 	float px = x;
 	float py = y;
-	int len = strlen(str);
-	for (int i=0; i<len; i++) {
+
+	int i = 0;
+	while (str[i]) {
 		if (str[i] == '#') {
 			int hexcol;
 			if (sscanf(str+i, "#%3x", &hexcol)==1) {
@@ -104,27 +134,41 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 				col[1] = (hexcol&0xf0);
 				col[2] = (hexcol&0xf)<<4;
 				glColor3ubv(col);
-				i+=3;
+				i+=4;
 				continue;
 			}
 		}
+
 		if (str[i] == '\n') {
 			px = x;
 			py += GetHeight()*PARAGRAPH_SPACING;
-		} else {
-			glfglyph_t *glyph = &m_glyphs[str[i]];
-			if (glyph->tex) RenderGlyph(str[i], roundf(px), py);
+			i++;
+		}
+		
+		else {
+			Uint32 chr;
+			i += conv_mb_to_wc(&chr, &str[i]);
+
+			glfglyph_t *glyph = &m_glyphs[chr];
+			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
+
 			// XXX kerning doesn't skip markup
-			if (i+1 < len) {
-				FT_UInt a = FT_Get_Char_Index(m_face, str[i]);
-		        FT_UInt b = FT_Get_Char_Index(m_face, str[i+1]);
+			if (str[i]) {
+				Uint32 chr2;
+				conv_mb_to_wc(&chr2, &str[i]);
+
+				FT_UInt a = FT_Get_Char_Index(m_face, chr);
+		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
 				px += float(kern.x) / 64.0;
 			}
+
 			px += glyph->advx;
 		}
 	}
+
 	TEXTURE_FONT_LEAVE;
 }
 
@@ -173,7 +217,7 @@ TextureFont::TextureFont(FontManager &fm, const std::string &config_filename) : 
 		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	for (unsigned char chr=32; chr<255; chr++) {
+	for (Uint32 chr=32; chr<255; chr++) {
 		memset(pixBuf, 0, 2*sz*sz);
 	
 		glfglyph_t glfglyph;
