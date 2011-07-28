@@ -234,7 +234,7 @@ MOUSE_INPUT
 INVERT_MOUSE_Y
     Maus Y-Achse invertieren
 LANGUAGE_SELECTION
-    Language (restart game to apply)
+    Sprache (Programm muss neu gestartet werden)
  
 # Wares
 NONE
