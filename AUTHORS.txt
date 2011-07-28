@@ -67,6 +67,10 @@ Pioneer includes the following third-party software:
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
   Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
 
+  Inconsolata font
+  Copyright (C) 2006, Raph Levien
+  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+
 
 Pioneer also makes use of these fine projects. Thanks a lot!
 

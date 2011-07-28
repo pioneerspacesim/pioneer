@@ -1177,7 +1177,9 @@ void Pi::MainLoop()
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			glColor3f(1,1,1);
+			Gui::Screen::PushFont("ConsoleFont");
 			Gui::Screen::RenderString(fps_readout, 0, 0);
+			Gui::Screen::PopFont();
 			Gui::Screen::LeaveOrtho();
 		}
 #endif
