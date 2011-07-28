@@ -65,6 +65,7 @@ SectorView::~SectorView()
 {
 	glDeleteLists(m_gluDiskDlist, 1);
 	m_onMouseButtonDown.disconnect();
+	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
 void SectorView::Save(Serializer::Writer &wr)
