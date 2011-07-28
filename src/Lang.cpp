@@ -123,17 +123,19 @@ bool LoadStrings(const std::string &lang)
 {
 	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
 		*((*i).second) = '\0';
+	
+	std::map<std::string,bool> seen, missing;
 
-	std::string filename(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
+	token_map::iterator token_iter;
+	char *value;
+
+	std::string filename(PIONEER_DATA_DIR "/lang/English.txt");
 
 	FILE *f = fopen(filename.c_str(), "r");
 	if (!f) {
 		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
 		return false;
 	}
-
-	token_map::iterator token_iter;
-	char *value;
 
 	int lineno = 1;
 	while (!feof(f)) {
@@ -142,9 +144,64 @@ bool LoadStrings(const std::string &lang)
 			return false;
 
 		_copy_string(value, (*token_iter).second);
+		seen.insert(std::make_pair((*token_iter).first, true));
 	}
 
 	fclose(f);
+
+	if (seen.size() != s_tokens.size()) {
+		fprintf(stderr, "string file '%s' has missing tokens:\n", filename.c_str());
+		for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++) {
+			if (seen.find((*i).first) == seen.end()) {
+				fprintf(stderr, "  %s\n", (*i).first.c_str());
+				missing.insert(std::make_pair((*i).first, false));
+			}
+		}
+	}
+
+	if (lang == "English")
+		return seen.size() == s_tokens.size();
+	
+	seen.clear();
+	
+	filename = std::string(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
+
+	f = fopen(filename.c_str(), "r");
+	if (!f) {
+		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
+		return false;
+	}
+
+	lineno = 1;
+	while (!feof(f)) {
+		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
+		if (!success)
+			return false;
+
+		_copy_string(value, (*token_iter).second);
+		seen.insert(std::make_pair((*token_iter).first, true));
+		
+		std::map<std::string,bool>::iterator i = missing.find((*token_iter).first);
+		if (i != missing.end())
+			missing.erase(i);
+	}
+
+	fclose(f);
+
+	if (seen.size() != s_tokens.size()) {
+		fprintf(stderr, "string file '%s' has missing tokens:\n", filename.c_str());
+		for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++) {
+			if (seen.find((*i).first) == seen.end())
+				fprintf(stderr, "  %s\n", (*i).first.c_str());
+		}
+	}
+
+	if (missing.size() > 0) {
+		fprintf(stderr, "no strings found for the following tokens:\n");
+		for (std::map<std::string,bool>::iterator i = missing.begin(); i != missing.end(); i++)
+			fprintf(stderr, "  %s\n", (*i).first.c_str());
+		return false;
+	}
 
 	return true;
 }
