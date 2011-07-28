@@ -104,7 +104,7 @@ static void _copy_string(const char *src, char *dest)
 {
 	// copy in one char at a time
 	int s = 0, d = 0;
-	while (src[s] != '\0' && d < MAX_STRING) {
+	while (src[s] != '\0' && d < MAX_STRING-1) {
 
 		// turn \n into a real newline
 		if (src[s] == '\\' && src[s+1] == 'n') {
@@ -116,7 +116,7 @@ static void _copy_string(const char *src, char *dest)
 		dest[d++] = src[s++];
 	}
 
-	dest[MAX_STRING-1] = '\0';
+	dest[d] = '\0';
 }
 
 bool LoadStrings(const std::string &lang)
