@@ -25,24 +25,12 @@ static token_map s_tokens;
 
 namespace Lang {
 
-bool LoadStrings(const std::string &lang)
+static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_map::iterator *outIter, char **outValue)
 {
-	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
-		*((*i).second) = '\0';
-
-	std::string filename(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
-
-	FILE *f = fopen(filename.c_str(), "r");
-	if (!f) {
-		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
-		return false;
-	}
-
-	token_map::iterator token_iter;
+	static char buf[1024];
+	*outValue = buf;
 
 	bool doing_token = true;
-	int lineno = 1;
-	char buf[1024];
 
 	while (fgets(buf, sizeof(buf), f)) {
 		char *line = buf;
@@ -69,14 +57,14 @@ bool LoadStrings(const std::string &lang)
 			for (char *c = line; c < end; c++) {
 				// valid token chars are A-Z0-9_
 				if (!((*c >= 'A' && *c <= 'Z') || (*c >= '0' && *c <= '9') || (*c == '_'))) {
-					fprintf(stderr, "unexpected token character '%c' in line %d of '%s'", *c, lineno, filename.c_str());
+					fprintf(stderr, "unexpected token character '%c' in line %d of '%s'", *c, *lineno, filename.c_str());
 					return false;
 				}
 			}
 
-			token_iter = s_tokens.find(std::string(line));
-            if (token_iter == s_tokens.end()) {
-                fprintf(stderr, "unknown token '%s' at line %d of '%s'", line, lineno, filename.c_str());
+			*outIter = s_tokens.find(std::string(line));
+            if ((*outIter) == s_tokens.end()) {
+                fprintf(stderr, "unknown token '%s' at line %d of '%s'", line, *lineno, filename.c_str());
                 return false;
 			}
 		}
@@ -93,34 +81,70 @@ bool LoadStrings(const std::string &lang)
 			// skip empty lines
 			if (line == end) continue;
 
-			// target buffer
-			char *str = (*token_iter).second;
-
-			// copy in one char at a time
-			int s = 0, d = 0;
-			while (line[s] != '\0' && d < MAX_STRING) {
-
-				// turn \n into a real newline
-				if (line[s] == '\\' && line[s+1] == 'n') {
-					str[d++] = '\n';
-					s += 2;
-					continue;
-				}
-
-				str[d++] = line[s++];
-			}
-
-			str[MAX_STRING-1] = '\0';
+			*outValue = line;
 		}
 
-		doing_token = !doing_token;
-		lineno++;
+		(*lineno)++;
+
+		if (doing_token)
+			doing_token = false;
+		else
+			break;
 	}
 
 	if (errno) {
 		fprintf(stderr, "error reading string file '%s': %s", filename.c_str(), strerror(errno));
 		return false;
 	}
+
+	return true;
+}
+
+static void _copy_string(const char *src, char *dest)
+{
+	// copy in one char at a time
+	int s = 0, d = 0;
+	while (src[s] != '\0' && d < MAX_STRING) {
+
+		// turn \n into a real newline
+		if (src[s] == '\\' && src[s+1] == 'n') {
+			dest[d++] = '\n';
+			s += 2;
+			continue;
+		}
+
+		dest[d++] = src[s++];
+	}
+
+	dest[MAX_STRING-1] = '\0';
+}
+
+bool LoadStrings(const std::string &lang)
+{
+	for (token_map::iterator i = s_tokens.begin(); i != s_tokens.end(); i++)
+		*((*i).second) = '\0';
+
+	std::string filename(PIONEER_DATA_DIR "/lang/" + lang + ".txt");
+
+	FILE *f = fopen(filename.c_str(), "r");
+	if (!f) {
+		fprintf(stderr, "couldn't open string file '%s': %s\n", filename.c_str(), strerror(errno));
+		return false;
+	}
+
+	token_map::iterator token_iter;
+	char *value;
+
+	int lineno = 1;
+	while (!feof(f)) {
+		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
+		if (!success)
+			return false;
+
+		_copy_string(value, (*token_iter).second);
+	}
+
+	fclose(f);
 
 	return true;
 }
