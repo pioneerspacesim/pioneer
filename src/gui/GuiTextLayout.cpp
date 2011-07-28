@@ -50,25 +50,35 @@ TextLayout::TextLayout(const char *_str, TextureFont *font)
 	float wordWidth = 0;
 	char *wordstart = str;
 
-	for (unsigned int i=0; i<strlen(_str);) {
+	int i = 0;
+	while (str[i]) {
 		wordWidth = 0;
-		wordstart = str+i;
+		wordstart = &str[i];
+
 		while (str[i] && !isspace(str[i])) {
 			/* skip color control code things! */
 			if (str[i] == '#') {
 				unsigned int hexcol;
-				if (sscanf(str+i, "#%3x", &hexcol)==1) {
+				if (sscanf(&str[i], "#%3x", &hexcol)==1) {
 					i+=4;
 					continue;
 				}
 			}
-			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(str[i]);
+
+			Uint32 chr;
+			i += conv_mb_to_wc(&chr, &str[i]);
+			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
 			wordWidth += glyph.advx;
-			i++;
+
+			// XXX this should do kerning
 		}
+
 		words.push_back(word_t(wordstart, wordWidth));
-		if (str[i] == '\n') words.push_back(word_t(0,0));
-		str[i++] = 0;
+
+		if (str[i]) {
+			if (str[i] == '\n') words.push_back(word_t(0,0));
+			str[i++] = 0;
+		}
 	}
 }
 
