@@ -70,7 +70,7 @@ public:
 	GeoPatch *edgeFriend[4]; // [0]=v01, [1]=v12, [2]=v20
 	GeoSphere *geosphere;
 	double m_roughLength;
-	vector3d clipCentroid;
+	vector3d clipCentroid, centroid;
 	double clipRadius;
 	int m_depth;
 	SDL_mutex *m_kidsLock;
@@ -662,6 +662,8 @@ public:
 	/** Generates full-detail vertices, and also non-edge normals and
 	 * colors */
 	void GenerateMesh() {
+		centroid = clipCentroid.Normalized();
+		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
 		vector3d *vts = vertices;
 		vector3d *col = colors;
 		double xfrac;
@@ -860,9 +862,6 @@ public:
 
 	void LODUpdate(vector3d &campos) {
 				
-		vector3d centroid = (v[0]+v[1]+v[2]+v[3]).Normalized();
-		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
-
 		bool canSplit = true;
 		for (int i=0; i<4; i++) {
 			if (!edgeFriend[i]) { canSplit = false; break; }
