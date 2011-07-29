@@ -66,7 +66,10 @@ TextLayout::TextLayout(const char *_str, TextureFont *font)
 			}
 
 			Uint32 chr;
-			i += conv_mb_to_wc(&chr, &str[i]);
+			int n = conv_mb_to_wc(&chr, &str[i]);
+			assert(n);
+			i += n;
+
 			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
 			wordWidth += glyph.advx;
 

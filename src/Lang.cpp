@@ -33,7 +33,21 @@ static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_
 	bool doing_token = true;
 
 	while (fgets(buf, sizeof(buf), f)) {
+		(*lineno)++;
+
 		char *line = buf;
+
+		int i = 0;
+		while (buf[i]) {
+			Uint32 chr;
+			int n = conv_mb_to_wc(&chr, &buf[i]);
+			if (!n) {
+				fprintf(stderr, "invalid utf-8 character in line %d of '%s'\n", *lineno, filename.c_str());
+				return false;
+			}
+
+			i += n;
+		}
 
 		// eat leading whitespace
 		while (*line == ' ' || *line == '\t' || *line == '\r' || *line == '\n') line++;
@@ -57,14 +71,14 @@ static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_
 			for (char *c = line; c < end; c++) {
 				// valid token chars are A-Z0-9_
 				if (!((*c >= 'A' && *c <= 'Z') || (*c >= '0' && *c <= '9') || (*c == '_'))) {
-					fprintf(stderr, "unexpected token character '%c' in line %d of '%s'", *c, *lineno, filename.c_str());
+					fprintf(stderr, "unexpected token character '%c' in line %d of '%s'\n", *c, *lineno, filename.c_str());
 					return false;
 				}
 			}
 
 			*outIter = s_tokens.find(std::string(line));
             if ((*outIter) == s_tokens.end()) {
-                fprintf(stderr, "unknown token '%s' at line %d of '%s'", line, *lineno, filename.c_str());
+                fprintf(stderr, "unknown token '%s' at line %d of '%s'\n", line, *lineno, filename.c_str());
                 return false;
 			}
 		}
@@ -84,8 +98,6 @@ static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_
 			*outValue = line;
 		}
 
-		(*lineno)++;
-
 		if (doing_token)
 			doing_token = false;
 		else
@@ -93,7 +105,7 @@ static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_
 	}
 
 	if (errno) {
-		fprintf(stderr, "error reading string file '%s': %s", filename.c_str(), strerror(errno));
+		fprintf(stderr, "error reading string file '%s': %s\n", filename.c_str(), strerror(errno));
 		return false;
 	}
 
@@ -137,7 +149,7 @@ bool LoadStrings(const std::string &lang)
 		return false;
 	}
 
-	int lineno = 1;
+	int lineno = 0;
 	while (!feof(f)) {
 		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
 		if (!success)
@@ -172,7 +184,7 @@ bool LoadStrings(const std::string &lang)
 		return false;
 	}
 
-	lineno = 1;
+	lineno = 0;
 	while (!feof(f)) {
 		bool success = _read_pair(f, filename, &lineno, &token_iter, &value);
 		if (!success)
