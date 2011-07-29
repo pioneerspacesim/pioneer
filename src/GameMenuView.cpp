@@ -377,11 +377,11 @@ GameMenuView::GameMenuView(): View()
 		Gui::Box *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		mainTab->Add(hbox, 20, 30);
-		b = new Gui::LabelButton(new Gui::Label("[S] Save the game"));
+		b = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
 		b->SetShortcut(SDLK_s, KMOD_NONE);
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
 		hbox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label("[L] Load a game"));
+		b = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
 		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
 		b->SetShortcut(SDLK_l, KMOD_NONE);
 		hbox->PackEnd(b);
