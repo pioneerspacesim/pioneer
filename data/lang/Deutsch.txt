@@ -658,11 +658,11 @@ SECTOR_X_Y
 DISTANCE_FUEL_TIME
     Abst. %.2f Lichtjahre (Kraftstoff benötigt: %dt | Zeitverlust: %.1fst.)
 CURRENT_SYSTEM
-    Current system
+    Aktuelle System
 DISTANCE_FUEL_REQUIRED
     Abst. %.2f Lichtjahre (unzureichende Kraftstoff; benötigt: %dt)
 DISTANCE_OUT_OF_RANGE
-    Abst. %.2f Lichtjahre (out of range)
+    Abst. %.2f Lichtjahre (Außerhalb der Reichweite)
 CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE
     Sie können nicht durchführen Hypersprung weil Sie nicht ein funktionierende Hyperlaufwerk haben
 QUADRUPLE_SYSTEM
@@ -1047,6 +1047,8 @@ M_S_RELATIVE_TO
     %.0f m/s bez-auf %s
 N_DISTANCE_TO_TARGET
     %s nach Ziel
+IN_TRANSIT_TO_N_X_X
+    Auf dem Weg nach %s [%d,%d]
 ALT_IN_METRES
     Höhe: %.0fm
 PRESSURE_N_BAR
