@@ -285,7 +285,7 @@ InfoView::InfoView(): View(),
 	
 	page = new MissionPage();
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(std::string(Lang::MISSIONS)+std::string(":")), page);
+	m_tabs->AddPage(new Gui::Label(Lang::MISSIONS), page);
 	
 	Add(m_tabs, 0, 0);
 

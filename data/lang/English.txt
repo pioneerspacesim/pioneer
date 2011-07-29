@@ -1096,15 +1096,12 @@ AUTOPILOT_DOCK_WITH_STATION
 PAY_FINE_REMOTELY
     Pay fine by remote transfer (%s)
 AUTOPILOT_FLY_TO_VICINITY_OF
-    "Autopilot: Fly to vicinity of "
+    Autopilot: Fly to vicinity of %s
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    "Autopilot: Enter low orbit around "
+    Autopilot: Enter low orbit around %s
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    "Autopilot: Enter medium orbit around "
+    Autopilot: Enter medium orbit around %s
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    "Autopilot: Enter high orbit around "
+    Autopilot: Enter high orbit around %s
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperspace cloud analyzer: Set hyperspace target to follow this departure
-SET_HYPERSPACE_TARGET_TO
-    "Set hyperspace target to "
-

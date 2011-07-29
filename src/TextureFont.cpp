@@ -55,16 +55,19 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 		
 		else {
 			Uint32 chr;
-			i += conv_mb_to_wc(&chr, &str[i]);
+			int n = conv_mb_to_wc(&chr, &str[i]);
+			assert(n);
+			i += n;
 
 			line_width += m_glyphs[chr].advx;
 
 			if (str[i]) {
 				Uint32 chr2;
-				conv_mb_to_wc(&chr2, &str[i]);
+				n = conv_mb_to_wc(&chr2, &str[i]);
+				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
@@ -94,17 +97,20 @@ void TextureFont::RenderString(const char *str, float x, float y)
 		
 		else {
 			Uint32 chr;
-			i += conv_mb_to_wc(&chr, &str[i]);
+			int n = conv_mb_to_wc(&chr, &str[i]);
+			assert(n);
+			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
 			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
 
 			if (str[i]) {
 				Uint32 chr2;
-				conv_mb_to_wc(&chr2, &str[i]);
+				n = conv_mb_to_wc(&chr2, &str[i]);
+				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
@@ -147,7 +153,9 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 		
 		else {
 			Uint32 chr;
-			i += conv_mb_to_wc(&chr, &str[i]);
+			int n = conv_mb_to_wc(&chr, &str[i]);
+			assert(n);
+			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
 			if (glyph->tex) RenderGlyph(chr, roundf(px), py);
@@ -155,10 +163,11 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
 				Uint32 chr2;
-				conv_mb_to_wc(&chr2, &str[i]);
+				n = conv_mb_to_wc(&chr2, &str[i]);
+				assert(n);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
