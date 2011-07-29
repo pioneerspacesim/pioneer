@@ -16,6 +16,8 @@
 int GEOPATCH_EDGELEN = 15;
 static const int GEOPATCH_MAX_EDGELEN = 55;
 static double GEOPATCH_FRAC;
+int GeoSphere::s_vtxGenCount = 0;
+
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
@@ -696,6 +698,7 @@ public:
 				col_r = geosphere->GetColor(p, height, norm);
 			}
 		}
+		
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;

@@ -53,6 +53,7 @@ Alpha 13
       variable-size containers and widgets (#279)
     * Rewrote station menus and refactored several GUI elements to have better
       abstraction and consistency (306)
+    * Debug output now shows terrain vertices and font glyphs per second
 
 Alpha 12
 

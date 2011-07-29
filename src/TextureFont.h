@@ -24,6 +24,9 @@ public:
 	};
 	const glfglyph_t &GetGlyph(char ch) { return m_glyphs[ch]; }
 
+	static int GetGlyphCount() { return s_glyphCount; }
+	static void ClearGlyphCount() { s_glyphCount = 0; }
+
 private:
 	void RenderGlyph(int chr, float x, float y);
 	float m_height;
@@ -31,6 +34,8 @@ private:
 	float m_descender;
 	int m_texSize, m_pixSize;
 	std::map<char,glfglyph_t> m_glyphs;
+
+	static int s_glyphCount;
 };
 
 #endif
