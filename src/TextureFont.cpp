@@ -16,6 +16,8 @@
 	glDisable(GL_TEXTURE_2D); \
 	glDisable(GL_BLEND);
 
+int TextureFont::s_glyphCount = 0;
+
 void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 {
 	glfglyph_t *glyph = &m_glyphs[chr];
@@ -35,6 +37,8 @@ void TextureFont::RenderGlyph(Uint32 chr, float x, float y)
 		glTexCoord2f(0,0);
 		glVertex2f(ox,oy);
 	glEnd();
+
+	s_glyphCount++;
 }
 
 void TextureFont::MeasureString(const char *str, float &w, float &h)
