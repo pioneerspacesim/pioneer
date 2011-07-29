@@ -32,6 +32,7 @@ static bool _read_pair(FILE *f, const std::string &filename, int *lineno, token_
 
 	bool doing_token = true;
 
+	errno = 0;
 	while (fgets(buf, sizeof(buf), f)) {
 		(*lineno)++;
 
