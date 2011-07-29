@@ -79,7 +79,7 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed })
+		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
