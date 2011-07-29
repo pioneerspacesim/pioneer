@@ -1258,12 +1258,17 @@ void Pi::MainLoop()
 		if (SDL_GetTicks() - last_stats > 1000) {
 			Pi::statSceneTris += LmrModelGetStatsTris();
 			int vtxGenPerSec = GeoSphere::GetVtxGenCount();
-			snprintf(fps_readout, sizeof(fps_readout), "%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec",
-				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6, vtxGenPerSec);
+			snprintf(
+				fps_readout, sizeof(fps_readout),
+				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec",
+				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
+				GeoSphere::GetVtxGenCount(), TextureFont::GetGlyphCount()
+			);
 			frame_stat = 0;
 			phys_stat = 0;
-			last_stats += 1000;
+			TextureFont::ClearGlyphCount();
 			GeoSphere::ClearVtxGenCount();
+			last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
 		LmrModelClearStatsTris();
