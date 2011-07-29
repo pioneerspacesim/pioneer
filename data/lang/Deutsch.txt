@@ -1096,14 +1096,12 @@ AUTOPILOT_DOCK_WITH_STATION
 PAY_FINE_REMOTELY
     Geldstrafe bezahlen durch Fernübertragung (%s)
 AUTOPILOT_FLY_TO_VICINITY_OF
-    "Autopilot: Fliegen nach der Nähe von "
+    Autopilot: Fliegen nach der Nähe von %s
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    "Autopilot: Flieg nach niedriger Umlaufbahn um "
+    Autopilot: Flieg nach niedriger Umlaufbahn um %s
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    "Autopilot: Flieg nach mittlerer Umlaufbahn um "
+    Autopilot: Flieg nach mittlerer Umlaufbahn um %s
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    "Autopilot: Flieg nach hoher Umlaufbahn um "
+    Autopilot: Flieg nach hoher Umlaufbahn um %s
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperraumwolke Analysator: Set Hyperraum Ziel um dieser Abfahrt zu folgen
-SET_HYPERSPACE_TARGET_TO
-    "Set Hyperraum Ziel um "

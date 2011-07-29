@@ -1022,20 +1022,20 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 		if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-			button = AddCommsOption(Lang::AUTOPILOT_FLY_TO_VICINITY_OF + navtarget->GetLabel(), ypos, optnum++);
+			button = AddCommsOption(stringf(256, Lang::AUTOPILOT_FLY_TO_VICINITY_OF, navtarget->GetLabel().c_str()), ypos, optnum++);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
 			ypos += 32;
 
 			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
-				button = AddCommsOption(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND + navtarget->GetLabel(), ypos, optnum++);
+				button = AddCommsOption(stringf(256, Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, navtarget->GetLabel().c_str()), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1));
 				ypos += 32;
 
-				button = AddCommsOption(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND + navtarget->GetLabel(), ypos, optnum++);
+				button = AddCommsOption(stringf(256, Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, navtarget->GetLabel().c_str()), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0));
 				ypos += 32;
 
-				button = AddCommsOption(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND + navtarget->GetLabel(), ypos, optnum++);
+				button = AddCommsOption(stringf(256, Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, navtarget->GetLabel().c_str()), ypos, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0));
 				ypos += 32;
 			}
@@ -1049,23 +1049,11 @@ void WorldView::UpdateCommsOptions()
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_target_hypercloud), cloud));
 			}
 		}
-#if 0
-		Frame *f = navtarget->GetFrame();
-		SBody *b = f->GetSBodyFor();
-		if (b) {
-			SBodyPath path;
-			Pi::currentSystem->GetPathOf(b, &path);
-			std::string msg = Lang::SET_HYPERSPACE_TARGET_TO + navtarget->GetLabel();
-			button = AddCommsOption(msg, ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&OnPlayerSetHyperspaceTargetTo), path));
-			ypos += 32;
-		}
-#endif
 	}
 	if (comtarget) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
-		button = AddCommsOption(Lang::AUTOPILOT_FLY_TO_VICINITY_OF+comtarget->GetLabel(), ypos, optnum++);
+		button = AddCommsOption(stringf(256, Lang::AUTOPILOT_FLY_TO_VICINITY_OF, comtarget->GetLabel().c_str()), ypos, optnum++);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
 		ypos += 32;
         /*
