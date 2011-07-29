@@ -64,7 +64,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 				conv_mb_to_wc(&chr2, &str[i]);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
@@ -104,7 +104,7 @@ void TextureFont::RenderString(const char *str, float x, float y)
 				conv_mb_to_wc(&chr2, &str[i]);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
@@ -158,7 +158,7 @@ void TextureFont::RenderMarkup(const char *str, float x, float y)
 				conv_mb_to_wc(&chr2, &str[i]);
 
 				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-		        FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 
 				FT_Vector kern;
 				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
