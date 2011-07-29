@@ -46,7 +46,7 @@ local playRandomSongFromCategory = function (category)
 end
 
 -- handle separate planet/station-specific ambient music
-local PlayAmbient = function ()
+local playAmbient = function ()
 	local category
 
 	-- if we're near a planet or spacestation then choose something specific
@@ -55,10 +55,12 @@ local PlayAmbient = function ()
 	-- only extends to about the radius of the atmosphere). orbital stations
 	-- however are tiny so use their whole frame
 	local near = Game.player.frameBody
-	if near:isa("Planet") and Game.player.frameRotating then
-		category = "near-planet"
-	elseif near:isa("SpaceStation") then
-		category = "near-spacestation"
+	if near then
+		if near:isa("Planet") and Game.player.frameRotating then
+			category = "near-planet"
+		elseif near:isa("SpaceStation") then
+			category = "near-spacestation"
+		end
 	end
 
 	-- not near anything interesting so just use the normal space music
@@ -88,17 +90,17 @@ EventQueue.onGameStart:Connect(function ()
 		end
 	end
 
-	PlayAmbient()
+	playAmbient()
 end)
 
 -- if a song finishes fall back to ambient music
 EventQueue.onSongFinished:Connect(function ()
-	PlayAmbient()
+	playAmbient()
 end)
 
 -- start some ambient music when first arriving in system
 EventQueue.onEnterSystem:Connect(function ()
-	PlayAmbient()
+	playAmbient()
 end)
 
 -- ship or player destruction (aka game over)
@@ -137,5 +139,5 @@ EventQueue.onFrameChanged:Connect(function (body)
 	if not body:isa("Ship") then return end
 	if not body:IsPlayer() then return end
 
-	PlayAmbient()
+	playAmbient()
 end)
