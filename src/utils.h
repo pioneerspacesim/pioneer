@@ -96,6 +96,12 @@ Uint32 ceil_pow2(Uint32 v);
 
 void Screendump(const char* destFile, const int w, const int h);
 
+// convert one multibyte (utf8) char to a widechar (utf32/ucs4)
+//  chr: pointer to output storage
+//  src: multibyte string
+//  returns: number of bytes swallowed, or 0 if end of string
+int conv_mb_to_wc(Uint32 *chr, const char *src);
+
 // add a few things that MSVC is missing
 #ifdef _MSC_VER
 

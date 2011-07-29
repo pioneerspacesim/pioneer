@@ -38,6 +38,7 @@ noinst_HEADERS = \
 	GameConfig.h \
 	FontConfig.h \
 	KeyBindings.h \
+	Lang.h \
 	LmrModel.h \
 	LuaBody.h \
 	LuaCargoBody.h \
@@ -161,6 +162,7 @@ pioneer_SOURCES	= \
 	GameConfig.cpp \
 	FontConfig.cpp \
 	KeyBindings.cpp \
+	Lang.cpp \
 	LmrModel.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \

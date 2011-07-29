@@ -22,20 +22,20 @@ public:
 		float width, height;
 		int offx, offy;
 	};
-	const glfglyph_t &GetGlyph(char ch) { return m_glyphs[ch]; }
+	const glfglyph_t &GetGlyph(Uint32 ch) { return m_glyphs[ch]; }
 
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
 private:
-	void RenderGlyph(int chr, float x, float y);
+	void RenderGlyph(Uint32 chr, float x, float y);
 	float m_height;
 	float m_width;
 	float m_descender;
 	int m_texSize, m_pixSize;
-	std::map<char,glfglyph_t> m_glyphs;
 
 	static int s_glyphCount;
+	std::map<Uint32,glfglyph_t> m_glyphs;
 };
 
 #endif

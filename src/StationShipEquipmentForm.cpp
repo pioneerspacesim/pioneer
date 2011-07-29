@@ -5,6 +5,7 @@
 #include "SpaceStationView.h"
 #include "StationShipViewForm.h"
 #include "ShipCpanel.h"
+#include "Lang.h"
 
 #define REMOVAL_VALUE_PERCENT 90
 
@@ -26,7 +27,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, "%s ship equipment", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, Lang::SOMEWHERE_SHIP_EQUIPMENT, m_station->GetLabel().c_str()));
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
@@ -59,7 +60,7 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 		innerbox->Add(new Gui::Label(format_money(REMOVAL_VALUE_PERCENT * m_station->GetPrice(type) / 100)),
 				275, num*YSEP);
 		
-		innerbox->Add(new Gui::Label(stringf(64, "%dt", EquipType::types[i].mass)), 360, num*YSEP);
+		innerbox->Add(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, EquipType::types[i].mass)), 360, num*YSEP);
 
 		ButtonPair pair;
 		pair.type = type;
@@ -81,12 +82,12 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
 	const float *col = Gui::Theme::Colors::tableHeading;
-	heading->Add((new Gui::Label("Item"))->Color(col), 0, 0);
-	heading->Add((new Gui::Label("$ to fit"))->Color(col), 200, 0);
-	heading->Add((new Gui::Label("$ for removal"))->Color(col), 275, 0);
-	heading->Add((new Gui::Label("Wt"))->Color(col), 360, 0);
-	heading->Add((new Gui::Label("Fit"))->Color(col), 400, 0);
-	heading->Add((new Gui::Label("Remove"))->Color(col), 420, 0);
+	heading->Add((new Gui::Label(Lang::ITEM))->Color(col), 0, 0);
+	heading->Add((new Gui::Label(Lang::PRICE_TO_FIT))->Color(col), 200, 0);
+	heading->Add((new Gui::Label(Lang::PRICE_TO_REMOVE))->Color(col), 275, 0);
+	heading->Add((new Gui::Label(Lang::WT))->Color(col), 360, 0);
+	heading->Add((new Gui::Label(Lang::FIT))->Color(col), 400, 0);
+	heading->Add((new Gui::Label(Lang::REMOVE))->Color(col), 420, 0);
 	outerbox->PackEnd(heading);
 
 	Gui::HBox *body = new Gui::HBox();
@@ -130,12 +131,12 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 	int freespace = Pi::player->m_equipment.FreeSpace(slot);
 	
 	if (Pi::player->GetMoney() < m_station->GetPrice(t)) {
-		Pi::cpan->MsgLog()->Message("", "You do not have enough money");
+		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;
 	}
 
 	if (!freespace || stats->free_capacity < EquipType::types[t].mass) {
-		Pi::cpan->MsgLog()->Message("", "There is no space on your ship");
+		Pi::cpan->MsgLog()->Message("", Lang::NO_SPACE_ON_SHIP);
 		return;
 	}
 
@@ -172,7 +173,7 @@ void StationShipEquipmentForm::FitItemForce(Equip::Type t, int pos) {
 
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() - m_station->GetPrice(t));
-	Pi::cpan->MsgLog()->Message("", "Fitting "+std::string(EquipType::types[t].name));
+	Pi::cpan->MsgLog()->Message("", Lang::FITTING+std::string(EquipType::types[t].name));
 
 	RecalcButtonVisibility();
 }
@@ -186,7 +187,7 @@ void StationShipEquipmentForm::RemoveItemForce(Equip::Type t, int pos) {
 	Pi::player->UpdateMass();
 	Pi::player->SetMoney(Pi::player->GetMoney() + m_station->GetPrice(t) * REMOVAL_VALUE_PERCENT / 100);
 	m_station->AddEquipmentStock(t, 1);
-	Pi::cpan->MsgLog()->Message("", "Removing "+std::string(EquipType::types[t].name));
+	Pi::cpan->MsgLog()->Message("", Lang::REMOVING+std::string(EquipType::types[t].name));
 
 	RecalcButtonVisibility();
 }
@@ -203,9 +204,9 @@ PickLaserMountForm::PickLaserMountForm(FormController *controller, StationShipEq
 	layoutBox->SetSpacing(10.0f);
 
 	if (m_doFit)
-		layoutBox->PackEnd(new Gui::Label("Fit laser to which gun mount?"));
+		layoutBox->PackEnd(new Gui::Label(Lang::FIT_TO_WHICH_MOUNT));
 	else
-		layoutBox->PackEnd(new Gui::Label("Remove laser from which gun mount?"));
+		layoutBox->PackEnd(new Gui::Label(Lang::REMOVE_FROM_WHICH_MOUNT));
 
 	Equip::Slot slot = EquipType::types[m_equipType].slot;
 

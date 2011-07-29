@@ -2,6 +2,7 @@
 #include "Pi.h"
 #include "SectorView.h"
 #include "StarSystem.h"
+#include "Lang.h"
 
 SystemView::SystemView()
 {
@@ -23,11 +24,11 @@ SystemView::SystemView()
 	Add(m_infoText, 200, 0);
 	
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
-	m_zoomInButton->SetToolTip("Zoom in");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip("Zoom out");
+	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
 	Gui::ImageButton *b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/sysview_accel_r3.png", PIONEER_DATA_DIR "/icons/sysview_accel_r3_on.png");
@@ -104,21 +105,27 @@ void SystemView::OnClickObject(SBody *b)
 	std::string desc;
 	std::string data;
 
-	desc += "Name:\n";
+	desc += std::string(Lang::NAME);
+    desc += ":\n";
 	data += b->name+"\n";
 	
-	desc += "Day length (rotational period):\n";
-	data += stringf(128, "%.2f days\n", b->rotationPeriod.ToFloat());
+	desc += std::string(Lang::DAY_LENGTH);
+	desc += std::string(Lang::ROTATIONAL_PERIOD);
+    desc += ":\n";
+	data += stringf(128, std::string(std::string(Lang::N_DAYS)+std::string("\n")).c_str(), b->rotationPeriod.ToFloat());
 	
-	desc += "Radius:\n";
+	desc += std::string(Lang::RADIUS);
+    desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
 
 	if (b->parent) {
-		desc += "Semi-major axis:\n";
+		desc += std::string(Lang::SEMI_MAJOR_AXIS);
+        desc += ":\n";
 		data += format_distance(b->orbit.semiMajorAxis)+"\n";
 
-		desc += "Orbital period:\n";
-		data += stringf(128, "%.2f days\n", b->orbit.period / (24*60*60));
+		desc += std::string(Lang::ORBITAL_PERIOD);
+        desc += ":\n";
+		data += stringf(128, std::string(std::string(Lang::N_DAYS)+std::string("\n")).c_str(), b->orbit.period / (24*60*60));
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
@@ -209,7 +216,7 @@ void SystemView::Draw3D()
 		}
 	}
 	m_time += m_timeStep*Pi::GetFrameTime();
-	std::string t = "Time point: "+format_date(m_time);
+	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
 	if (!m_system) m_system = StarSystem::GetCached(path);
@@ -230,7 +237,7 @@ void SystemView::Draw3D()
 
 	m_objectLabels->Clear();
 	if (m_system->m_unexplored)
-		m_infoLabel->SetText("Unexplored system. System view unavailable.");
+		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody)
 		PutBody(m_system->rootBody, pos);
 	

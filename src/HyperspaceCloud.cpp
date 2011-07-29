@@ -7,6 +7,7 @@
 #include "Space.h"
 #include "Player.h"
 #include "perlin.h"
+#include "Lang.h"
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 {
@@ -34,7 +35,7 @@ HyperspaceCloud::~HyperspaceCloud()
 void HyperspaceCloud::SetIsArrival(bool isArrival)
 {
 	m_isArrival = isArrival;
-	SetLabel(isArrival ? "Hyperspace arrival cloud" : "Hyperspace departure cloud");
+	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
 vector3d HyperspaceCloud::GetPosition() const

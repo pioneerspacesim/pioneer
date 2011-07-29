@@ -4,6 +4,7 @@
 #include "ShipSpinnerWidget.h"
 #include "ShipCpanel.h"
 #include "FormController.h"
+#include "Lang.h"
 
 StationShipViewForm::StationShipViewForm(FormController *controller, int marketIndex) :
 	BlankForm(controller),
@@ -15,7 +16,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	const ShipType &type = ShipType::types[m_flavour.type];
 
-	SetTitle(stringf(256, "%s ship market", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, Lang::SOMEWHERE_SHIP_MARKET, m_station->GetLabel().c_str()));
 
 	Add(new ShipSpinnerWidget(m_flavour, 400, 400), 0, 0);
 
@@ -29,21 +30,21 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	layoutBox->PackEnd(statsBox);
 
 	Gui::VBox *labelBox = new Gui::VBox();
-	labelBox->PackEnd(new Gui::Label("Ship type"));
-	labelBox->PackEnd(new Gui::Label("Price"));
-	labelBox->PackEnd(new Gui::Label("Part exchange"));
-	labelBox->PackEnd(new Gui::Label("Registration id"));
+	labelBox->PackEnd(new Gui::Label(Lang::SHIP_TYPE));
+	labelBox->PackEnd(new Gui::Label(Lang::PRICE));
+	labelBox->PackEnd(new Gui::Label(Lang::PART_EX));
+	labelBox->PackEnd(new Gui::Label(Lang::REGISTRATION_ID));
 	labelBox->PackEnd(new Gui::Label(" "));
-	labelBox->PackEnd(new Gui::Label("Weight empty"));
-	labelBox->PackEnd(new Gui::Label("Weight fully loaded"));
-	labelBox->PackEnd(new Gui::Label("Capacity"));
+	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_EMPTY));
+	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_FULLY_LADEN));
+	labelBox->PackEnd(new Gui::Label(Lang::CAPACITY));
 	labelBox->PackEnd(new Gui::Label(" "));
-	labelBox->PackEnd(new Gui::Label("Forward accel (empty)"));
-	labelBox->PackEnd(new Gui::Label("Forward accel (laden)"));
-	labelBox->PackEnd(new Gui::Label("Reverse accel (empty)"));
-	labelBox->PackEnd(new Gui::Label("Reverse accel (laden)"));
+	labelBox->PackEnd(new Gui::Label(Lang::FORWARD_ACCEL_EMPTY));
+	labelBox->PackEnd(new Gui::Label(Lang::FORWARD_ACCEL_LADEN));
+	labelBox->PackEnd(new Gui::Label(Lang::REVERSE_ACCEL_EMPTY));
+	labelBox->PackEnd(new Gui::Label(Lang::REVERSE_ACCEL_LADEN));
 	labelBox->PackEnd(new Gui::Label(" "));
-	labelBox->PackEnd(new Gui::Label("Hyperdrive fitted"));
+	labelBox->PackEnd(new Gui::Label(Lang::HYPERDRIVE_FITTED));
 	statsBox->PackEnd(labelBox);
 
 	float forward_accel_empty = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass));
@@ -57,14 +58,14 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price - Pi::player->GetFlavour()->price)));
 	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
 	dataBox->PackEnd(new Gui::Label(" "));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%d t", type.hullMass)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%d t", type.hullMass + type.capacity)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%d t", type.capacity)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, type.hullMass)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, type.hullMass + type.capacity)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_TONNES, type.capacity)));
 	dataBox->PackEnd(new Gui::Label(" "));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%.1f G", forward_accel_empty)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%.1f G", forward_accel_laden)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%.1f G", reverse_accel_empty)));
-	dataBox->PackEnd(new Gui::Label(stringf(64, "%.1f G", reverse_accel_laden)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, forward_accel_empty)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, forward_accel_laden)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, reverse_accel_empty)));
+	dataBox->PackEnd(new Gui::Label(stringf(64, Lang::NUMBER_G, reverse_accel_laden)));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(EquipType::types[type.hyperdrive].name));
 	statsBox->PackEnd(dataBox);
@@ -85,11 +86,11 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 		Gui::VBox *cell = new Gui::VBox();
 		row->PackEnd(cell);
 
-		cell->PackEnd(new Gui::Label(stringf(128, "Class %d", hyperclass)));
+		cell->PackEnd(new Gui::Label(stringf(128, Lang::CLASS_NUMBER, hyperclass)));
 		if (type.capacity < EquipType::types[drivetype].mass)
 			cell->PackEnd(new Gui::Label("---"));
 		else
-			cell->PackEnd(new Gui::Label(stringf(128, "%.2f ly", range)));
+			cell->PackEnd(new Gui::Label(stringf(128, Lang::NUMBER_LY, range)));
 
 		if (++pos == row_size) {
 			layoutBox->PackEnd(row);
@@ -111,7 +112,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(this, &StationShipViewForm::BuyShip));
 	buttonBox->PackEnd(b);
-	buttonBox->PackEnd(new Gui::Label("Buy this ship"));
+	buttonBox->PackEnd(new Gui::Label(Lang::BUY_THIS_SHIP));
 	Add(buttonBox, 650, 30);
 }
 
@@ -119,7 +120,7 @@ void StationShipViewForm::BuyShip()
 {
 	Sint64 cost = m_flavour.price - Pi::player->GetFlavour()->price;
 	if (Pi::player->GetMoney() < cost) {
-		Pi::cpan->MsgLog()->Message("", "You do not have enough money");
+		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;
 	}
 
@@ -132,7 +133,7 @@ void StationShipViewForm::BuyShip()
 
 	m_station->ReplaceShipOnSale(m_marketIndex, &old);
 
-    Pi::cpan->MsgLog()->Message("", "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart.");
+    Pi::cpan->MsgLog()->Message("", Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 
     m_formController->CloseForm();
 }

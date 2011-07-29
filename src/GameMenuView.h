@@ -66,6 +66,7 @@ private:
 	void OnChangeVolume();
 	void OnChangePlanetDetail(int level);
 	void OnChangeCityDetail(int level);
+	void OnChangeLanguage(std::string &lang);
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
 	void OnToggleHDR(Gui::ToggleButton *b, bool state);

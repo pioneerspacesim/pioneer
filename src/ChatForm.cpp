@@ -1,5 +1,6 @@
 #include "ChatForm.h"
 #include "FormController.h"
+#include "Lang.h"
 
 ChatForm::ChatForm(FormController *controller) : FaceForm(controller), m_message(0), m_hasOptions(false), m_doSetup(true), m_close(false)
 {
@@ -47,7 +48,7 @@ void ChatForm::SetMessage(std::string msg)
 void ChatForm::AddOption(std::string text, int val)
 {
 	if (!m_hasOptions) {
-		AddBottomWidget(new Gui::Label("Suggested responses:"));
+		AddBottomWidget(new Gui::Label(Lang::SUGGESTED_RESPONSES));
 		m_hasOptions = true;
 	}
 

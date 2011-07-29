@@ -5,9 +5,10 @@
 #include "Pi.h"
 #include "LuaUtils.h"
 #include "utils.h"
+#include "Lang.h"
 
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
-	"Front", "Rear" };
+	Lang::FRONT, Lang::REAR };
 
 std::map<ShipType::Type, ShipType> ShipType::types;
 
