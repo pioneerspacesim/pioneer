@@ -1,4 +1,5 @@
 #include "FaceVideoLink.h"
+#include "NameGenerator.h"
 
 #define FACE_WIDTH  295
 #define FACE_HEIGHT 285
@@ -31,7 +32,9 @@ static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff
 	SDL_FreeSurface(is);
 }
 
-FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : VideoLink(w, h) {
+FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
+	const std::string &name, const std::string &title) : VideoLink(w, h)
+{
 	m_created = SDL_GetTicks();
 	m_message = new Gui::ToolTip("Video link established");
 
@@ -56,6 +59,12 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : Vide
 			gender = rand.Int32(0,1);
 			break;
 	}
+
+	std::string charname = name;
+	if (charname.empty())
+		charname = NameGenerator::FullName(rand, (gender != 0));
+
+	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 
 	int head  = rand.Int32(0,MAX_HEAD);
 	int eyes  = rand.Int32(0,MAX_EYES);
@@ -130,6 +139,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed) : Vide
 
 FaceVideoLink::~FaceVideoLink() {
 	delete m_message;
+	delete m_characterInfo;
 
 	glDeleteTextures(1, &m_tex);
 }
@@ -173,10 +183,10 @@ void FaceVideoLink::Draw() {
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
-	if (now - m_created < 4500) {
-		m_message->SetText("Video link established.");
-		DrawMessage();
-	}
+	glPushMatrix();
+	glTranslatef(0.f, size[1]- size[1] * 0.16f, 0.f);
+	m_characterInfo->Draw();
+	glPopMatrix();
 }
 
 void FaceVideoLink::DrawMessage() {
@@ -190,4 +200,63 @@ void FaceVideoLink::DrawMessage() {
 	glTranslatef(size[0]*0.5f-msgSize[0]*0.5f, size[1]-msgSize[1]*1.5f, 0);
 	m_message->Draw();
 	glPopMatrix();
+}
+
+CharacterInfoText::CharacterInfoText(float w, float h,
+	const std::string &name, const std::string &title) :
+	Gui::Fixed(w, h),
+	m_width(w),
+	m_height(h),
+	m_characterName(name),
+	m_characterTitle(title)
+{
+	if (m_characterTitle.empty())
+		h = h/1.5f;
+	SetSize(w, h);
+	m_background = new Gui::Gradient(w, h, Color(0.1f, 0.1f, 0.1f, 0.8f),
+		Color(0.f, 0.f, 0.1f, 0.f), Gui::Gradient::HORIZONTAL);
+	Gui::Screen::PushFont("OverlayFont");
+	m_nameLabel = new Gui::Label(m_characterName);
+	m_titleLabel = new Gui::Label(m_characterTitle);
+	Gui::Screen::PopFont();
+	Add(m_background, 0.f, 0.f);
+	Add(m_nameLabel, 25.f, 5.f);
+	Add(m_titleLabel, 25.f, m_height/2);
+}
+
+CharacterInfoText::~CharacterInfoText()
+{
+
+}
+
+void CharacterInfoText::SetCharacterName(const std::string &name)
+{
+	m_characterName = name;
+	m_nameLabel->SetText(name);
+	UpdateAllChildSizes();
+}
+
+void CharacterInfoText::SetCharacterTitle(const std::string &title)
+{
+	m_characterTitle = title;
+	m_titleLabel->SetText(title);
+	UpdateAllChildSizes();
+}
+
+void CharacterInfoText::GetSizeRequested(float size[2])
+{
+	size[0] = m_width;
+	size[1] = m_height;
+}
+
+void CharacterInfoText::Draw()
+{
+	if (m_characterName.empty() && m_characterTitle.empty()) return;
+
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+		glPushMatrix();
+		glTranslatef((*i).pos[0], (*i).pos[1], 0);
+		(*i).w->Draw();
+		glPopMatrix();
+	}
 }
