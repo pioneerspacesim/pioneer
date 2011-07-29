@@ -701,8 +701,6 @@ NO_ALERT
     No alert
 SHIP_NEARBY
     Ship nearby
-FIRE_DETECTED
-    Fire detected
 DOCKING_CLEARANCE_EXPIRED
     Docking clearance expired. If you wish to dock you must repeat your request.
 MESSAGE_FROM_X
