@@ -438,6 +438,9 @@
     <ClCompile Include="..\..\src\StationShipyardForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\gui\GuiGradient.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -922,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\StationShipyardForm.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\GuiGradient.h">
+      <Filter>src\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ noinst_HEADERS = \
 	GuiContainer.h \
 	GuiEvents.h \
 	GuiFixed.h \
+	GuiGradient.h \
 	GuiISelectable.h \
 	GuiImage.h \
 	GuiImageButton.h \
@@ -39,6 +40,7 @@ libgui_a_SOURCES = \
 	GuiButton.cpp \
 	GuiContainer.cpp \
 	GuiFixed.cpp \
+	GuiGradient.cpp \
 	GuiImage.cpp \
 	GuiImageButton.cpp \
 	GuiImageRadioButton.cpp \
