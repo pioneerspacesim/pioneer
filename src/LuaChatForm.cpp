@@ -703,7 +703,7 @@ int LuaChatForm::l_luachatform_close(lua_State *l)
  *
  * Availability:
  *
- *   alpha 10 (stable), alpha 12 (deprecated)
+ *   alpha 10 (stable), alpha 13 (deprecated)
  *
  * Status:
  *
