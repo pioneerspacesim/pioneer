@@ -32,6 +32,9 @@ Music:
   Dan Bennett
   Aaron Lewis
 
+Translations:
+  Brian Ronald
+
 Thanks to those that have moved on (we hope to see you back!)
 
 Programming:
