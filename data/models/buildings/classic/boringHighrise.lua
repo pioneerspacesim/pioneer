@@ -3,7 +3,7 @@ define_model('boringHighrise', {
 		bounding_radius=200,
 		materials={'mat1','windows'},
 		tags = {'city_building'},
-		lod_pixels = {10,30,100},
+		lod_pixels = {5,30,100},
 	},
 	static = function(lod)
 		set_material("mat1", 0.5,0.5,0.5,1)
