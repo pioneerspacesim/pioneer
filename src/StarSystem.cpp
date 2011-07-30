@@ -1505,6 +1505,8 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 		radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(mass)));
 	else
 		radius = fixed::CubeRootOf(mass);
+	// enforce minimum size of 10km
+	radius = std::max(radius, fixed(1,630000));
 
 	m_metallicity = system->m_metallicity * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)

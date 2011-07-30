@@ -46,6 +46,7 @@ Alpha 13
     * Fix occasional crash on game load (#331)
     * Fix terrain jitter (#179)
     * Support extended ASCII characters in texture fonts (#338)
+	* Make sure all bodies have a minimum radius of at least 10km (#321, #301)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
