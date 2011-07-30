@@ -101,7 +101,7 @@ define_model('arco01_inside', {
 
 		--ground
 		use_material('grass')
-		texture('rgh.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
+		texture('../rgh.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
 		circle(16,v(0,515,0),v(0,1,0),v(1,0,0),245)
 
 		--hill
@@ -120,7 +120,7 @@ define_model('arco01_inside', {
 		zbias(0)
 
 		--lake
-		texture('wtr.png',v(0.5,.5,0), v(.02,0,0),v(0,0,-1))
+		texture('../wtr.png',v(0.5,.5,0), v(.02,0,0),v(0,0,-1))
 		use_material('lake')
 		zbias(1,v(0,515,0),v(0,1,0))
 			flat(3*lod,v(0,1,0),{v(-40,515,80), v(-50,515,40)}, {v(-60,515,-10),v(-100,515,60),v(-120,515,50)},{v(-140,515,50), v(-140,515,70)}, {v(-140,515,80),v(-120,515,80)})
@@ -135,7 +135,7 @@ define_model('arco01_inside', {
 		set_material('win7', .2,.33,.35,.9,1.5,1.8,2,100,1.4,1.6,1.8)
 		set_material('win8', .2,.33,.35,.9,1.5,1.8,2,100,1.4,1.6,1.8)
 		zbias(1,v(0,500,0), v(0,1,0))
-		texture('win0.png')
+		texture('../win0.png')
 		use_material('win1')
 		load_obj('win1.obj',Matrix.scale(v(10.02,10,10.02)))
 		use_material('win2')
@@ -211,11 +211,11 @@ define_model('arco01_base', {
 			tapered_cylinder(8,v(0,400,0),v(0,480,0),v(1,0,0),50,250)
 			--leg
 			use_material('concrete')
-			texture('conc.png',v(.5,.5,0),v(.002,0,0),v(0,0,1))
+			texture('../conc.png',v(.5,.5,0),v(.002,0,0),v(0,0,1))
 			tapered_cylinder(8,v(0,-200,0),v(0,400,0),v(1,0,0),100,50)
 		else
 			use_material('concrete')
-			texture('conc.png',v(.5,.5,0),v(.002,0,0),v(0,0,1))
+			texture('../conc.png',v(.5,.5,0),v(.002,0,0),v(0,0,1))
 			tapered_cylinder(16*lod,v(0,-200,0),v(0,400,0),v(1,0,0),100,50)
 
 			use_material('steel')
@@ -223,11 +223,11 @@ define_model('arco01_base', {
 			tapered_cylinder(16*lod,v(0,400,0),v(0,480,0),v(1,0,0),50,250)
 
 			use_material('steel')
-			texture('pan0.png',v(.5,.5,0),v(.01,0,0),v(0,.01,0))
+			texture('../pan0.png',v(.5,.5,0),v(.01,0,0),v(0,.01,0))
 			xref_flat(8*lod,v(0,0,1), {v(49,400,10)}, {v(65,200,10)}, {v(50,400,10), v(250,480,10)})
 			xref_flat(8*lod,v(0,0,-1), {v(-49,400,-10)}, {v(-65,200,-10)}, {v(-50,400,-10), v(-250,480,-10)})
 
-			texture('pan0.png',v(.5,.5,0),v(-.01,0,0),v(0,.01,0))
+			texture('../pan0.png',v(.5,.5,0),v(-.01,0,0),v(0,.01,0))
 			quadric_bezier_quad(8*lod,1,v(10,200,65), v(10,400,50), v(10,480,250),
 										v(0,200,65), v(0,400,50), v(0,480,250),
 										v(-10,200,65), v(-10,400,50), v(-10,480,250))
@@ -236,11 +236,11 @@ define_model('arco01_base', {
 										v(0,200,-65), v(0,400,-50), v(0,480,-250),
 										v(10,200,-65), v(10,400,-50), v(10,480,-250))
 
-			texture('pan0.png',v(.5,.5,0),v(0,0,1),v(0,.01,0))
+			texture('../pan0.png',v(.5,.5,0),v(0,0,1),v(0,.01,0))
 			xref_flat(8*lod,v(-1,0,0), {v(-10,400,49)}, {v(-10,200,65)}, {v(-10,400,50), v(-10,480,250)})
 			xref_flat(8*lod,v(1,0,0), {v(10,400,-49)}, {v(10,200,-65)}, {v(10,400,-50), v(10,480,-250)})
 
-			texture('pan0.png',v(.5,.5,0),v(0,0,-1),v(0,.01,0))
+			texture('../pan0.png',v(.5,.5,0),v(0,0,-1),v(0,.01,0))
 			xref_quadric_bezier_quad(8*lod,1,	v(65,200,-10), v(50,400,-10), v(250,480,-10),
 												v(65,200,0), v(50,400,0), v(250,480,0),
 												v(65,200,10), v(50,400,10), v(250,480,10))
