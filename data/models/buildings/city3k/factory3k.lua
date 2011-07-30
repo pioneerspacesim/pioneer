@@ -241,7 +241,7 @@ define_model('f3k_thang', {
 define_model('factory_3k_1', {
 	info = {
 			scale = 4,
-			lod_pixels = {.1,50,100,0},
+			lod_pixels = {2,100},
 			bounding_radius = 10,
 			materials={'cutout', 'default', 'concrete', 'glow1', 'glow2', 'win0', 'win_on', 'win_off', 'fce_glow'},
 			tags = {'city_building',},
@@ -254,7 +254,6 @@ define_model('factory_3k_1', {
 		--set_material('trees', .8,.7,.6,.9,.3,.5,.3,30)
 		set_material('concrete',.6,.6,.5,1,.3,.3,.3,10)
 		set_material('win0', .2,.33,.35,1,1.5,1.8,2,100) -- .2,.33,.35,.4,1.5,1.8,2,100)
-
 
 		local v0 = v(4.5,4.5,7)
 		local v1 = v(-4.5,4.5,7)
@@ -269,12 +268,17 @@ define_model('factory_3k_1', {
 		local v12 = v(4.5,7.5,-3)
 		local v13 = v(-4.5,7.5,-3)
 
-		if lod > 1 then
+		if lod == 1 then
+			local w = 8
+			local h = 8
+			texture('pan0.png')
+			extrusion(v(0,0,w), v(0,0,-w), v(0,1,0), 1.0,
+				v(-w,-5,0), v(w,-5,0), v(w,h,0), v(-w,h,0))
+		else
 			set_material('glow1', .3,.3,.3,1,1,1.5,2,100,1.2,1.4,.6)
 			set_material('fce_glow', .3,.3,.3,.9,0,0.0,0,0,1,.8,1.4)
 
 			texture('pan0.png', v(.27,.3,0),v(.112,0,0),v(0,0,.87))   -- from top
-		end
 			use_material('default')
 			quad(v0,v10,v11,v1) -- optional
 			call_model('f3k_body',v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -282,7 +286,6 @@ define_model('factory_3k_1', {
 			call_model('f3k_top_1',v(0,0,0),v(1,0,0),v(0,1,0),1)
 			zbias(0)
 
-  		if lod > 1 then
 			use_material('default')
 			cylinder(3*lod,v(-7.5,3.5,4.5), v(-7.5,4,4.5),v(0,0,1), .9)
 			cylinder(3*lod,v(-6,3.5,5.5), v(-6,4,5.5),v(0,0,1), .9)
@@ -302,12 +305,10 @@ define_model('factory_3k_1', {
 			call_model('ad_acme_2', v(0,6,-3.001), v(-1,0,0),v(0,1,0),1.5)
 			zbias(0)
 			-- advert end
-		end
 
-  		bld_base_1(lod,1.4,0)
+			bld_base_1(lod,1.4,0)
 
-		if lod > 1 then
-	  texture('win0.png')
+			texture('win0.png')
 			use_material('win_on')
 			load_obj('f3k_win_on.obj',Matrix.scale(v(1.011,1,.995)))
 			use_material('win_off')
