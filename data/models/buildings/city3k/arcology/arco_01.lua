@@ -185,7 +185,7 @@ define_model('arco01_inside', {
 define_model('arco01_base', {
 	info = {
 		scale = .8,
-		lod_pixels = {50,200,300},
+		lod_pixels = {30,200,300},
 		bounding_radius = 500,
 		materials = {'grass', 'concrete', 'gravel', 'steel', 'text', 'metal', 'chrome', 'win', 'dome','dome_trans'},
 		tags = {'city_building'},
