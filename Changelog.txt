@@ -22,6 +22,7 @@ Alpha 13
     * Make the "video link established" text disappear after a few seconds
       instead of flashing constantly (#319, #326)
     * Support for translated strings; first language is German (#332)
+    * Name & title/occupation overlaid on station faces (#346)
 
   * Fixes
     * Move sector view to current system on first open (#262)

@@ -40,16 +40,24 @@ public:
 
 	virtual Uint32 GetFaceFlags() const { return m_faceFlags; }
 	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
+	virtual std::string const& GetCharacterName() const { return m_characterName; }
+	virtual std::string const& GetCharacterTitle() const { return m_characterTitle; }
 	
 	void SetFaceFlags(Uint32 flags) { m_faceFlags = flags; }
 	void SetFaceSeed(Uint32 seed) { m_faceSeed = seed; }
+	void SetCharacterName(const std::string& name) { m_characterName = name; }
+	void SetCharacterTitle(const std::string& title) { m_characterTitle = title; }
 
 protected:
-	FaceForm(FormController *controller) : Form(controller, 470,400), m_faceFlags(0), m_faceSeed(0) {}
+	FaceForm(FormController *controller) :
+		 Form(controller, 470,400), m_faceFlags(0), m_faceSeed(0),
+		 m_characterName(""), m_characterTitle("") {}
 
 private:
 	Uint32 m_faceFlags;
 	Uint32 m_faceSeed;
+	std::string m_characterName;
+	std::string m_characterTitle;
 };
 
 

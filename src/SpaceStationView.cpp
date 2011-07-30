@@ -122,13 +122,15 @@ void SpaceStationView::RefreshForForm(Form *f)
 			if (!form->GetFaceSeed())
 				form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
 
-			if (!m_videoLink || form->GetFaceFlags() != m_videoLink->GetFlags() || form->GetFaceSeed() != m_videoLink->GetSeed()) {
+			if (!m_videoLink || form->GetFaceFlags() != m_videoLink->GetFlags() ||
+				form->GetFaceSeed() != m_videoLink->GetSeed()) {
 				if (m_videoLink) {
 					Remove(m_videoLink);
 					delete m_videoLink;
 				}
 
-				m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed());
+				m_videoLink = new FaceVideoLink(295, 285, form->GetFaceFlags(), form->GetFaceSeed(),
+					form->GetCharacterName(), form->GetCharacterTitle());
 				Add(m_videoLink, 10, 40);
 			}
 			m_videoLink->ShowAll();

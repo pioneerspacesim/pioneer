@@ -374,6 +374,8 @@ static int l_luachatform_set_title(lua_State *l)
  * >     female = female,
  * >     armour = armour,
  * >     seed   = seed,
+ * >     name   = name,
+ * >     title  = title,
  * > })
  *
  * Parameters:
@@ -387,12 +389,19 @@ static int l_luachatform_set_title(lua_State *l)
  *   seed - the seed for the random number generator. if not specified, the
  *          station seed will be used. if 0, a random seed will be generated
  *
+ *   name - name of the person. If not specified, a random one will be generated.
+ *
+ *   title - the person's job or other suitable title. If not specified, nothing
+ *           will be shown.
+ *
  * Example:
  *
  * > form:SetFace({
  * >     female = true,
  * >     armour = false,
  * >     seed   = 1234,
+ * >     name   = "Steve",
+ * >     title  = "Station manager",
  * > })
  *
  * Availability:
@@ -414,6 +423,8 @@ static int l_luachatform_set_face(lua_State *l)
 
 	Uint32 flags = 0;
 	Uint32 seed = 0;
+	std::string name = "";
+	std::string title = "";
 
 	lua_getfield(l, 2, "female");
 	if (lua_isnil(l, -1))
@@ -434,10 +445,22 @@ static int l_luachatform_set_face(lua_State *l)
 		seed = luaL_checkinteger(l, -1);
 	lua_pop(l, 1);
 
+	lua_getfield(l, 2, "name");
+	if (!lua_isnil(l, -1))
+		name = luaL_checkstring(l, -1);
+	lua_pop(l, 1);
+
+	lua_getfield(l, 2, "title");
+	if (!lua_isnil(l, -1))
+		title = luaL_checkstring(l, -1);
+	lua_pop(l, 1);
+
 	LUA_DEBUG_END(l, 0);
 
 	form->SetFaceFlags(flags);
 	form->SetFaceSeed(seed);
+	form->SetCharacterName(name);
+	form->SetCharacterTitle(title);
 	return 0;
 }
 
