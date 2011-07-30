@@ -3,12 +3,13 @@
 #include "Pi.h"
 #include "Player.h"
 #include "utils.h"
+#include "Lang.h"
 
 #include "StationServicesForm.h"
 
 SpaceStationView::SpaceStationView(): View()
 {
-	Gui::Label *l = new Gui::Label("Comms Link");
+	Gui::Label *l = new Gui::Label(Lang::COMMS_LINK);
 	l->Color(1,.7,0);
 	m_rightRegion2->Add(l, 10, 0);
 
@@ -23,12 +24,12 @@ SpaceStationView::SpaceStationView(): View()
 
 	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
 
-	m_statusBox->Add(new Gui::Label("#007Cash"), 0, 0);
-	m_statusBox->Add(new Gui::Label("#007Legal status"), 0, 2*YSEP);
-	m_statusBox->Add(new Gui::Label("#007Used"), 130, 4*YSEP);
-	m_statusBox->Add(new Gui::Label("#007Free"), 210, 4*YSEP);
-	m_statusBox->Add(new Gui::Label("#007Cargo space"), 0, 5*YSEP);
-	m_statusBox->Add(new Gui::Label("#007Equipment"), 0, 6*YSEP);
+	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::CASH)), 0, 0);
+	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::LEGAL_STATUS)), 0, 2*YSEP);
+	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::USED)), 130, 4*YSEP);
+	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::FREE)), 210, 4*YSEP);
+	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::CARGO_SPACE)), 0, 5*YSEP);
+	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::SHIP_EQUIPMENT)), 0, 6*YSEP);
 
 	m_money = new Gui::Label("");
 	m_statusBox->Add(m_money, 210, 0);
@@ -42,7 +43,7 @@ SpaceStationView::SpaceStationView(): View()
 	m_equipmentMass = new Gui::Label("");
 	m_statusBox->Add(m_equipmentMass, 130, 6*YSEP);
 	
-	m_legalstatus = new Gui::Label("Clean");
+	m_legalstatus = new Gui::Label(Lang::CLEAN);
 	m_statusBox->Add(m_legalstatus, 210, 2*YSEP);
 
 
@@ -59,7 +60,7 @@ SpaceStationView::SpaceStationView(): View()
 	Gui::SolidButton *b = new Gui::SolidButton();
 	b->onClick.connect(sigc::mem_fun(m_formController, &FormController::CloseForm));
 	m_backButtonBox->PackEnd(b);
-	m_backButtonBox->PackEnd(new Gui::Label("Go back"));
+	m_backButtonBox->PackEnd(new Gui::Label(Lang::GO_BACK));
 
 
 	m_videoLink = 0;

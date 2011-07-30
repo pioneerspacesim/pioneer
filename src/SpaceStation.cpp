@@ -13,6 +13,7 @@
 #include "Polit.h"
 #include "Space.h"
 #include <algorithm>
+#include "Lang.h"
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
@@ -444,7 +445,7 @@ void SpaceStation::DoLawAndOrder()
 			{ // blue and white thang
 				ShipFlavour f;
 				f.type = ShipType::LADYBIRD;
-				strncpy(f.regid, "POLICE", 16);
+				strncpy(f.regid, Lang::POLICE_SHIP_REGISTRATION, 16);
 				f.price = ship->GetFlavour()->price;
 				LmrMaterial m;
 				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
@@ -595,7 +596,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
-			outMsg = stringf(256, "Clearance already granted. Proceed to docking bay %d.", i+1);
+			outMsg = stringf(256, Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, i+1);
 			return true;
 		}
 	}
@@ -606,10 +607,10 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		sd.ship = s;
 		sd.stage = 1;
 		sd.stagePos = 0;
-		outMsg = stringf(256, "Clearance granted. Proceed to docking bay %d.", i+1);
+		outMsg = stringf(256, Lang::CLEARANCE_GRANTED_BAY_N, i+1);
 		return true;
 	}
-	outMsg = "Clearance denied. There are no free docking bays.";
+	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;
 	return false;
 }
 
@@ -626,7 +627,7 @@ bool SpaceStation::CanBuy(Equip::Type t, bool verbose) const {
 bool SpaceStation::CanSell(Equip::Type t, bool verbose) const {
 	bool result = (m_equipmentStock[int(t)] > 0);
 	if (verbose && !result) {
-		Pi::Message("This item is out of stock.");
+		Pi::Message(Lang::ITEM_IS_OUT_OF_STOCK);
 	}
 	return result;
 }

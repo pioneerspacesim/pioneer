@@ -4,12 +4,13 @@
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "StationShipViewForm.h"
+#include "Lang.h"
 
 StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceForm(controller)
 {
 	m_station = Pi::player->GetDockedWith();
 
-	SetTitle(stringf(256, "%s ship market", m_station->GetLabel().c_str()));
+	SetTitle(stringf(256, Lang::SOMEWHERE_SHIP_MARKET, m_station->GetLabel().c_str()));
 
 	Gui::VScrollBar *scroll = new Gui::VScrollBar();
 	Gui::VScrollPortal *portal = new Gui::VScrollPortal(450);
@@ -30,11 +31,11 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
 	const float *col = Gui::Theme::Colors::tableHeading;
-	heading->Add((new Gui::Label("Ship"))->Color(col), 0, 0);
-	heading->Add((new Gui::Label("Price"))->Color(col), 200, 0);
-	heading->Add((new Gui::Label("Part exchange"))->Color(col), 275, 0);
-	heading->Add((new Gui::Label("Capacity"))->Color(col), 370, 0);
-	heading->Add((new Gui::Label("View"))->Color(col), 430, 0);
+	heading->Add((new Gui::Label(Lang::SHIP))->Color(col), 0, 0);
+	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
+	heading->Add((new Gui::Label(Lang::PART_EX))->Color(col), 275, 0);
+	heading->Add((new Gui::Label(Lang::CAPACITY))->Color(col), 370, 0);
+	heading->Add((new Gui::Label(Lang::VIEW))->Color(col), 430, 0);
 	outerbox->PackEnd(heading);
 
 	Gui::HBox *body = new Gui::HBox();
@@ -75,7 +76,7 @@ void StationShipMarketForm::UpdateShipList()
 		f->Add(l,0,0);
 		f->Add(new Gui::Label(format_money((*i).price)), 200, 0);
 		f->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, 0);
-		f->Add(new Gui::Label(stringf(16, "%dt", ShipType::types[(*i).type].capacity)), 370, 0);
+		f->Add(new Gui::Label(stringf(16, Lang::NUMBER_TONNES, ShipType::types[(*i).type].capacity)), 370, 0);
 		
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipMarketForm::ViewShip), num));

@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "StarSystem.h"
 #include "GalacticView.h"
+#include "Lang.h"
 		
 SectorView::SectorView() :
 	m_firstTime(true),
@@ -28,11 +29,11 @@ SectorView::SectorView() :
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 	
 	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
-	m_zoomInButton->SetToolTip("Zoom in");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
 	
 	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip("Zoom out");
+	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
 	m_gluDiskDlist = glGenLists(1);
@@ -108,7 +109,7 @@ void SectorView::Draw3D()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	char buf[80];
-	snprintf(buf, sizeof(buf), "Sector: %d,%d", m_selected.sectorX, m_selected.sectorY);
+	snprintf(buf, sizeof(buf), Lang::SECTOR_X_Y, m_selected.sectorX, m_selected.sectorY);
 	m_infoLabel->SetText(buf);
 
 	// units are lightyears, my friend
@@ -422,23 +423,23 @@ void SectorView::Update()
 		Pi::player->CanHyperspaceTo(&m_selected, fuelRequired, dur, &jumpStatus);
 		switch (jumpStatus) {
 			case Ship::HYPERJUMP_OK:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)", dist, fuelRequired, dur*0.0002778);
+				snprintf(buf, sizeof(buf), Lang::DISTANCE_FUEL_TIME, dist, fuelRequired, dur*0.0002778);
 				m_distance->Color(0.0f, 1.0f, 0.2f);
 				break;
 			case Ship::HYPERJUMP_CURRENT_SYSTEM:
-				snprintf(buf, sizeof(buf), "Current system");
+				snprintf(buf, sizeof(buf), Lang::CURRENT_SYSTEM);
 				m_distance->Color(0.0f, 1.0f, 1.0f);
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (insufficient fuel, required: %dt)", dist, fuelRequired);
+				snprintf(buf, sizeof(buf), Lang::DISTANCE_FUEL_REQUIRED, dist, fuelRequired);
 				m_distance->Color(1.0f, 1.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
-				snprintf(buf, sizeof(buf), "Dist. %.2f light years (out of range)", dist);
+				snprintf(buf, sizeof(buf), Lang::DISTANCE_OUT_OF_RANGE, dist);
 				m_distance->Color(1.0f, 0.0f, 0.0f);
 				break;
 			case Ship::HYPERJUMP_NO_DRIVE:
-				snprintf(buf, sizeof(buf), "You cannot perform a hyperjump because you do not have a functioning hyperdrive");
+				snprintf(buf, sizeof(buf), Lang::CANNOT_HYPERJUMP_WITHOUT_WORKING_DRIVE);
 				m_distance->Color(1.0f, 0.6f, 1.0f);
 				break;
 		}
@@ -447,11 +448,11 @@ void SectorView::Update()
 
 		std::string desc;
 		if (sys->GetNumStars() == 4) {
-			desc = "Quadruple system. ";
+			desc = Lang::QUADRUPLE_SYSTEM;
 		} else if (sys->GetNumStars() == 3) {
-			desc = "Triple system. ";
+			desc = Lang::TRIPLE_SYSTEM;
 		} else if (sys->GetNumStars() == 2) {
-			desc = "Binary system. ";
+			desc = Lang::BINARY_SYSTEM;
 		} else {
 			desc = sys->rootBody->GetAstroDescription();
 		}

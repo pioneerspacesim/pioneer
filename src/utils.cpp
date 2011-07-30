@@ -103,6 +103,10 @@ private:
 	static const unsigned char days[2][12];
 };
 
+// This string of months needs to be made translatable.
+// It can always be an array of char with 37 elements,
+// as all languages can use just the first three letters
+// of the name of each month.
 const char timedate::months[37] = "JanFebMarAprMayJunJulAugSepOctNovDec";
 const unsigned char timedate::days[2][12] = {
 	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
@@ -481,4 +485,33 @@ void Screendump(const char* destFile, const int W, const int H)
 
 	fclose(out);
 	printf("Screenshot %s saved\n", fname.c_str());
+}
+
+// returns num bytes consumed, or 0 for end/bogus
+int conv_mb_to_wc(Uint32 *chr, const char *src)
+{
+	unsigned int c = *(reinterpret_cast<const unsigned char*>(src));
+	if (!c) { *chr = c; return 0; }
+	if (!(c & 0x80)) { *chr = c; return 1; }
+	else if (c >= 0xf0) {
+		if (!src[1] || !src[2] || !src[3]) return 0;
+		c = (c & 0x7) << 18;
+		c |= (src[1] & 0x3f) << 12;
+		c |= (src[2] & 0x3f) << 6;
+		c |= src[3] & 0x3f;
+		*chr = c; return 4;
+	}
+	else if (c >= 0xe0) {
+		if (!src[1] || !src[2]) return 0;
+		c = (c & 0xf) << 12;
+		c |= (src[1] & 0x3f) << 6;
+		c |= src[2] & 0x3f;
+		*chr = c; return 3;
+	}
+	else {
+		if (!src[1]) return 0;
+		c = (c & 0x1f) << 6;
+		c |= src[1] & 0x3f;
+		*chr = c; return 2;
+	}
 }
