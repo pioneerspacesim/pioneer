@@ -175,79 +175,57 @@ define_model('advert_0', {
 
 define_model('pink_obelisk', {
 	info = {
-			scale = .7,
-			lod_pixels = {.1,10,50,0},
-			bounding_radius = 5,
-			materials={'default', 'concrete', 'cutout', 'fce_glow', 'glow2'},
-			tags = {'city_power'},
-			},
+		scale = .7,
+		lod_pixels = {1,10},
+		bounding_radius = 5,
+		materials={'default', 'concrete', 'cutout', 'fce_glow', 'glow2'},
+		tags = {'city_power'},
+	},
 	static = function(lod)
+		local  v0 = v(0,62,0)
+		local  v1 = v(-3.886,60,1.665)
+		local  v2 = v(1.665,60,3.886)
+		local  v3 = v(-9.191,10,3.939)
+		local  v4 = v(3.939,10,9.191)
+		local  v5 = v(-4.6,5,1.972)
+		local  v6 = v(1.972,5,4.6)
+		local  v7 = v(-1.665,60,-3.886)
+		local  v8 = v(3.886,60,-1.665)
+		local  v9 = v(-3.939,10,-9.191)
+		local v10 = v(9.191,10,-3.939)
+		local v11 = v(-1.972,5,-4.6)
+		local v12 = v(4.6,5,-1.972)
 
-			local  v0 = v(0,62,0)
-			local  v1 = v(-3.886,60,1.665)
-			local  v2 = v(1.665,60,3.886)
-			local  v3 = v(-9.191,10,3.939)
-			local  v4 = v(3.939,10,9.191)
-			local  v5 = v(-4.6,5,1.972)
-			local  v6 = v(1.972,5,4.6)
-			local  v7 = v(-1.665,60,-3.886)
-			local  v8 = v(3.886,60,-1.665)
-			local  v9 = v(-3.939,10,-9.191)
-			local v10 = v(9.191,10,-3.939)
-			local v11 = v(-1.972,5,-4.6)
-			local v12 = v(4.6,5,-1.972)
+		--set_material('glow1',0,0,0,.9,0,0,0,0,1,1.6,1.8)
+		set_material('concrete',.6,.6,.5,1,.3,.3,.3,5)
+		set_material('default', .2,.2,.2,1,.3,.3,.3,30)
+		set_material('fce_glow',0,0,0,1,0,0,0,0,2,1,2.5)
+		set_material('cutout',0,0,0,.999,.6,.6,.6,30)
 
-			if lod > 1 then
-				--set_material('glow1',0,0,0,.9,0,0,0,0,1,1.6,1.8)
-				set_material('concrete',.6,.6,.5,1,.3,.3,.3,5)
-				set_material('default', .2,.2,.2,1,.3,.3,.3,30)
-				set_material('fce_glow',0,0,0,1,0,0,0,0,2,1,2.5)
-				set_material('cutout',0,0,0,.999,.6,.6,.6,30)
+		use_material('default')
+		texture('alu.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
 
-				use_material('default')
-				if lod > 3 then
-					texture('alu_s.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
-				else
-					texture('alu.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
-				end
-			end
-			--cylinder(6*lod, v(0,0,0), v(0,5,0), v(0,0,1), 10)
+		--cylinder(6*lod, v(0,0,0), v(0,5,0), v(0,0,1), 10)
 
-			if lod > 1 then
-				use_material('glow2')
+		use_material('glow2')
+		texture('wtr.png',v(.5,.5,0),v(.1,0,0),v(0,.03,0))
 
-				if lod < 3 then
-					texture('wtr_s.png',v(.5,.5,0),v(.1,0,0),v(0,.03,0))
-				else
-					texture('wtr.png',v(.5,.5,0),v(.1,0,0),v(0,.03,0))
-				end
+		tri(v0,v1,v2)
+		tri(v0,v8,v7)
+		quad(v1,v3,v4,v2)
+		quad(v8,v10,v9,v7)
+		quad(v3,v5,v6,v4)
+		quad(v10,v12,v11,v9)
 
-			end
- 			tri(v0,v1,v2)
-			tri(v0,v8,v7)
-			quad(v1,v3,v4,v2)
-			quad(v8,v10,v9,v7)
-			quad(v3,v5,v6,v4)
-			quad(v10,v12,v11,v9)
+		texture('wtr.png',v(.5,.5,0),v(0,0,-2),v(0,.03,0))
+		tri(v0,v2,v8)
+		tri(v0,v7,v1)
+		quad(v2,v4,v10,v8)
+		quad(v7,v9,v3,v1)
+		quad(v4,v6,v12,v10)
+		quad(v9,v11,v5,v3)
 
-			if lod > 1 then
-
-				if lod < 3 then
-					texture('wtr_s.png',v(.5,.5,0),v(0,0,-2),v(0,.03,0))
-				else
-					texture('wtr.png',v(.5,.5,0),v(0,0,-2),v(0,.03,0))
-				end
-
-			end
-			tri(v0,v2,v8)
-			tri(v0,v7,v1)
-			quad(v2,v4,v10,v8)
-			quad(v7,v9,v3,v1)
-			quad(v4,v6,v12,v10)
-			quad(v9,v11,v5,v3)
-
-
-			bld_base_2(lod,1.8,0)
+		bld_base_2(lod,1.8,0)
 	end,
 
 	dynamic = function(lod)
@@ -255,6 +233,5 @@ define_model('pink_obelisk', {
 			set_material('glow2',lerp_materials(get_arg(1)*0.1, {0,0,0,1,1,1,1,100,2.2,1,1.5},
 																 {0,0,0,1,1,1,1,100,1.5,1,2.2}))
 		end
-
 	end
 })
