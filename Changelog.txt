@@ -43,8 +43,8 @@ Alpha 13
     * Enable GL extensions earlier in shader compilation to conform to shader
       spec (#329, #330)
     * Fix occasional crash on game load (#331)
-    * Fix terrain jitter
-	* Support extended ASCII characters in texture fonts (#338)
+    * Fix terrain jitter (#179)
+    * Support extended ASCII characters in texture fonts (#338)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
