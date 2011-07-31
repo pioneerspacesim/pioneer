@@ -910,6 +910,8 @@ void Pi::Start()
 	Gui::Screen::AddBaseWidget(splash, 0, 0);
 	splash->SetTransparency(true);
 
+	Gui::Screen::PushFont("OverlayFont");
+
 	const float w = Gui::Screen::GetWidth() / 2;
 	const float h = Gui::Screen::GetHeight() / 2;
 	const int OPTS = 5;
@@ -934,6 +936,8 @@ void Pi::Start()
     if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 
     splash->Add(new Gui::Label(version), Gui::Screen::GetWidth()-200, Gui::Screen::GetHeight()-32);
+
+	Gui::Screen::PopFont();
 
 	splash->ShowAll();
 

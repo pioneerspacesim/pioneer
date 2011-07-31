@@ -18,7 +18,7 @@ Alpha 13
     * New Lua method StarSystem.GetBodyPaths to get paths to all bodies in a
       system (#313)
     * Outline overlay text (eg world labels) for improved visibility (#325,
-      #314, #258, #39)
+      #314, #258, #39, #349)
     * Make the "video link established" text disappear after a few seconds
       instead of flashing constantly (#319, #326)
     * Support for translated strings; first language is German (#332)
