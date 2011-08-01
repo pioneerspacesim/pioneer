@@ -47,6 +47,8 @@ Alpha 13
     * Fix terrain jitter (#179)
     * Support extended ASCII characters in texture fonts (#338)
 	* Make sure all bodies have a minimum radius of at least 10km (#321, #301)
+    * All city models checked and proper collision meshes added, drastically
+      improving city rendering performance (#348)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
