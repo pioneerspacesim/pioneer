@@ -991,7 +991,7 @@ void Pi::Start()
         }
         case 2: // Epsilon Eridani start point
         {
-            SystemPath path(1,0,0, 1);
+            SystemPath path(1,0,-1, 0);
             Space::SetupSystemForGameStart(&path, 0, 0);
             StartGame();
             MainLoop();
@@ -999,7 +999,7 @@ void Pi::Start()
         }
         case 3: // Debug start point
         {
-            SystemPath path(1,0,0, 1);
+            SystemPath path(1,0,-1, 0);
             Space::DoHyperspaceTo(&path);
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();
@@ -1009,7 +1009,7 @@ void Pi::Start()
                     break;
                 }
             }
-            player->SetPosition(vector3d(2*EARTH_RADIUS,0,0));
+            player->SetPosition(vector3d(0,2*EARTH_RADIUS,0));
             player->SetVelocity(vector3d(0,0,0));
             player->m_equipment.Add(Equip::HYPERCLOUD_ANALYZER);
             player->UpdateMass();
