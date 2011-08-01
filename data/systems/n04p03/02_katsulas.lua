@@ -1,1 +1,0 @@
-CustomSystem:new("Katsulas",{'STAR_M'}):add_to_sector(-4,3,v(0.149,0.077,-1.331))

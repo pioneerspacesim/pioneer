@@ -26,7 +26,7 @@ const SDL_Surface *GetGalaxyBitmap()
 	return s_galaxybmp;
 }
 
-Uint8 GetSectorDensity(int sx, int sy)
+Uint8 GetSectorDensity(int sx, int sy, int sz)
 {
 	// -1.0 to 1.0
 	float offset_x = (sx*Sector::SIZE + SOL_OFFSET_X)/GALAXY_RADIUS;
@@ -39,9 +39,13 @@ Uint8 GetSectorDensity(int sx, int sy)
 	int y = int(floor(offset_y * (s_galaxybmp->h - 1)));
 
 	SDL_LockSurface(s_galaxybmp);
-	Uint8 val = static_cast<char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
+	int val = static_cast<char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
 	SDL_UnlockSurface(s_galaxybmp);
-	return val;
+	// crappy unrealistic but currently adequate density dropoff with sector z
+	val = val * (256 - std::min(abs(sz),256)) >> 8;
+	// reduce density somewhat to match real (gliese) density
+	val >>= 1;
+	return (Uint8)val;
 }
 
 } /* namespace Galaxy */

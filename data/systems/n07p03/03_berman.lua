@@ -1,1 +1,0 @@
-CustomSystem:new("Berman",{'STAR_K'}):add_to_sector(-7,3,v(0.826,0.646,-1.688))

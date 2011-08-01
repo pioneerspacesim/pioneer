@@ -1,1 +1,0 @@
-CustomSystem:new("Trillian",{'STAR_K'}):add_to_sector(-8,0,v(0.240,0.357,-0.063))

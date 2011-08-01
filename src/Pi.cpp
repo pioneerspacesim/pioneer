@@ -983,7 +983,7 @@ void Pi::Start()
     switch (choice) {
         case 1: // Earth start point
         {
-            SystemPath path(0,0,0);
+            SystemPath path(0,0,0, 0);
             Space::SetupSystemForGameStart(&path, 4, 0);
             StartGame();
             MainLoop();
@@ -991,7 +991,7 @@ void Pi::Start()
         }
         case 2: // Epsilon Eridani start point
         {
-            SystemPath path(1,0,1);
+            SystemPath path(1,0,0, 1);
             Space::SetupSystemForGameStart(&path, 0, 0);
             StartGame();
             MainLoop();
@@ -999,7 +999,7 @@ void Pi::Start()
         }
         case 3: // Debug start point
         {
-            SystemPath path(1,0,1);
+            SystemPath path(1,0,0, 1);
             Space::DoHyperspaceTo(&path);
             for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); i++) {
                 const SBody *sbody = (*i)->GetSBody();

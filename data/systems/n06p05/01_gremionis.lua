@@ -1,1 +1,0 @@
-CustomSystem:new("Gremionis",{'STAR_K'}):add_to_sector(-6,5,v(0.696,0.231,-0.672))

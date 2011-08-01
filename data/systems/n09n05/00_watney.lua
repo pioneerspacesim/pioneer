@@ -1,1 +1,0 @@
-CustomSystem:new("Watney",{'STAR_M'}):add_to_sector(-9,-5,v(0.570,0.429,0.678))

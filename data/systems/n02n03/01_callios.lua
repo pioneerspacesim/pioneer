@@ -1,1 +1,0 @@
-CustomSystem:new("Callios",{'STAR_M'}):add_to_sector(-2,-3,v(0.202,0.338,0.991))

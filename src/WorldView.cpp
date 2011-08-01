@@ -728,7 +728,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 			else {
 				const SystemPath dest = ship->GetHyperspaceDest();
-				Sector s(dest.sectorX, dest.sectorY);
+				Sector s(dest.sectorX, dest.sectorY, dest.sectorZ);
 				text += stringf(512,
 					std::string(
                         std::string(Lang::HYPERSPACE_X_CLOUD)+std::string("\n")+

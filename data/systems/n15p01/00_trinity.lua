@@ -1,1 +1,0 @@
-CustomSystem:new("Trinity",{'STAR_G', 'STAR_G', 'STAR_K'}):add_to_sector(-15,1,v(0.451,0.004,-0.171))

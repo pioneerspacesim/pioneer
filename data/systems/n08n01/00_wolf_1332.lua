@@ -1,1 +1,0 @@
-CustomSystem:new("Wolf 1332",{'STAR_K'}):add_to_sector(-8,-1,v(0.693,0.006,0.104))

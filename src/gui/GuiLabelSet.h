@@ -18,8 +18,19 @@ public:
 			this->onClick = onClick_;
 			this->screenx = screenx_;
 			this->screeny = screeny_;
+			this->hasOwnColor = false;
+		}
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) {
+			this->text = text_;
+			this->onClick = onClick_;
+			this->screenx = screenx_;
+			this->screeny = screeny_;
+			this->color = c;
+			this->hasOwnColor = true;
 		}
 		std::string text;
+		Color color;
+		bool hasOwnColor;
 		sigc::slot<void> onClick;
 		float screenx, screeny;
 	};
@@ -30,6 +41,8 @@ public:
 	virtual void GetSizeRequested(float size[2]);
 	void Clear();
 	void Add(std::string text, sigc::slot<void> onClick, float screenx, float screeny);
+	/** Overrides color set by SetLabelColor */
+	void Add(std::string text, sigc::slot<void> onClick, float screenx, float screeny, const Color &col);
 	void SetLabelsClickable(bool v) { m_labelsClickable = v; }
 	void SetLabelsVisible(bool v) { m_labelsVisible = v; }
 	void SetLabelColor(const Color &c) { m_labelColor = c; }

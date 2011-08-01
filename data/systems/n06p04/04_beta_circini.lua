@@ -1,1 +1,0 @@
-CustomSystem:new("Beta Circini",{'STAR_A'}):add_to_sector(-6,4,v(0.146,0.506,-0.474))

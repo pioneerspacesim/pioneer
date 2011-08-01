@@ -1,1 +1,0 @@
-CustomSystem:new("Stilgar",{'STAR_M'}):add_to_sector(6,3,v(0.623,0.355,-0.802))

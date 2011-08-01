@@ -1,1 +1,0 @@
-CustomSystem:new("Bendarra",{'STAR_G', 'STAR_K'}):add_to_sector(18,5,v(0.183,0.566,-0.272))

@@ -1,1 +1,0 @@
-CustomSystem:new("Szabo",{'STAR_M'}):add_to_sector(-3,3,v(0.700,0.503,-0.920))

@@ -1,1 +1,0 @@
-CustomSystem:new("Alvarez",{'STAR_G'}):add_to_sector(-1,14,v(0.099,0.040,-0.788))

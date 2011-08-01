@@ -1,1 +1,0 @@
-CustomSystem:new("Ankh",{'STAR_M'}):add_to_sector(-5,-4,v(0.567,0.338,0.636))

@@ -1,1 +1,0 @@
-CustomSystem:new("Gamma Corona Australis",{'STAR_F', 'STAR_F'}):add_to_sector(-6,0,v(0.611,0.997,-1.074))

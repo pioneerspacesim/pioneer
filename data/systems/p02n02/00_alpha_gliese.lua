@@ -1,1 +1,0 @@
-CustomSystem:new("Alpha Gliese",{'STAR_G'}):add_to_sector(2,-2,v(0.609,0.050,0.391))

@@ -1,1 +1,0 @@
-CustomSystem:new("Kuhn",{'STAR_G'}):add_to_sector(4,-7,v(0.448,0.052,0.876))

@@ -1,1 +1,0 @@
-CustomSystem:new("Arcana",{'STAR_G', 'STAR_G'}):add_to_sector(-6,-5,v(0.889,0.439,0.208))

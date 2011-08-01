@@ -1,1 +1,0 @@
-CustomSystem:new("Tokovinin",{'STAR_K'}):add_to_sector(3,-7,v(0.599,0.786,0.857))

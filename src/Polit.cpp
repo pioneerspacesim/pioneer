@@ -187,10 +187,10 @@ const char *GetAllegianceDesc(StarSystem *s)
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[4] = { path.sectorX, path.sectorY, path.systemIndex, POLIT_SEED };
-	MTRand rand(_init, 4);
+	const unsigned long _init[5] = { path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, POLIT_SEED };
+	MTRand rand(_init, 5);
 
-	Sector sec(path.sectorX, path.sectorY);
+	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
 
 	GovType a = GOV_INVALID;
 	
@@ -200,7 +200,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		a = t;
 	}
 	if (a == GOV_INVALID) {
-		if (path == SystemPath(0,0,0)) {
+		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
 			for (int tries=10; tries--; ) {

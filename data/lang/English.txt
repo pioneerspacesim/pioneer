@@ -653,8 +653,8 @@ VIOLENT_ANARCHY
     Disorder - Overall governance contested by armed factions
 X_CANNOT_BE_TOLERATED_HERE
     %s cannot be tolerated here.
-SECTOR_X_Y
-    Sector: %d,%d
+SECTOR_X_Y_Z
+    Sector: %d,%d,%d
 DISTANCE_FUEL_TIME
     Dist. %.2f light years (fuel required: %dt | time loss: %.1fhrs)
 CURRENT_SYSTEM

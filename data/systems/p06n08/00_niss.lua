@@ -1,1 +1,0 @@
-CustomSystem:new("Niss",{'STAR_K'}):add_to_sector(6,-8,v(0.828,0.459,0.600))

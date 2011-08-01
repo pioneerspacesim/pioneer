@@ -1,1 +1,0 @@
-CustomSystem:new("Boxleitner",{'STAR_K'}):add_to_sector(-6,-7,v(0.494,0.641,1.044))

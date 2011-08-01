@@ -1,1 +1,0 @@
-CustomSystem:new("Capella Minor",{'STAR_M', 'STAR_M'}):add_to_sector(5,-2,v(0.583,0.900,0.400))

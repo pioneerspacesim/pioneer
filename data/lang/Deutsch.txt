@@ -653,8 +653,8 @@ VIOLENT_ANARCHY
     Störung - Insgesamt Governance durch bewaffnete Gruppierungen bestritten
 X_CANNOT_BE_TOLERATED_HERE
     %s kann hier nicht geduldet werden.
-SECTOR_X_Y
-    Sektor: %d,%d
+SECTOR_X_Y_Z
+    Sektor: %d,%d,%d
 DISTANCE_FUEL_TIME
     Abst. %.2f Lichtjahre (Kraftstoff benötigt: %dt | Zeitverlust: %.1fst.)
 CURRENT_SYSTEM

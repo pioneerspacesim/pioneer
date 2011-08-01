@@ -1,1 +1,0 @@
-CustomSystem:new("Abacus",{'STAR_G'}):add_to_sector(15,5,v(0.070,0.832,-0.249))

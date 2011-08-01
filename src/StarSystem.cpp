@@ -1082,21 +1082,21 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 	rootBody = 0;
 
-	Sector s = Sector(m_path.sectorX, m_path.sectorY);
+	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
 
 	m_seed = s.m_systems[m_path.systemIndex].seed;
 	m_name = s.m_systems[m_path.systemIndex].name;
 
-	unsigned long _init[5] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, UNIVERSE_SEED, m_seed };
-	MTRand rand(_init, 5);
+	unsigned long _init[6] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED, m_seed };
+	MTRand rand(_init, 6);
 
 	/*
 	 * 0 - ~500ly from sol: explored
 	 * ~500ly - ~700ly (65-90 sectors): gradual
 	 * ~700ly+: unexplored
 	 */
-	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY);
+	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
 	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
 
 	m_isCustom = m_hasCustomBodies = false;
@@ -1638,12 +1638,12 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, UNIVERSE_SEED };
+	unsigned long _init[5] = { m_path.systemIndex, m_path.sectorX, m_path.sectorY, m_path.sectorZ, UNIVERSE_SEED };
 	MTRand rand;
-	rand.seed(_init, 4);
+	rand.seed(_init, 5);
 
 	/* Various system-wide characteristics */
-	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY));
+	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_techlevel = (m_humanProx*5).ToInt32() + rand.Int32(-2,2);
 	m_techlevel = Clamp(m_techlevel, 1, 5);
 	m_econType = ECON_INDUSTRY;
@@ -1700,10 +1700,10 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
-	unsigned long _init[5] = { system->m_path.systemIndex, system->m_path.sectorX,
-			system->m_path.sectorY, UNIVERSE_SEED, this->seed };
+	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
+			system->m_path.sectorY, system->m_path.sectorZ, UNIVERSE_SEED, this->seed };
 	MTRand rand;
-	rand.seed(_init, 5);
+	rand.seed(_init, 6);
 
 	m_population = fixed(0);
 
@@ -1811,10 +1811,10 @@ void SBody::PopulateAddStations(StarSystem *system)
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateAddStations(system);
 	}
-	unsigned long _init[5] = { system->m_path.systemIndex, system->m_path.sectorX,
-			system->m_path.sectorY, this->seed, UNIVERSE_SEED };
+	unsigned long _init[6] = { system->m_path.systemIndex, system->m_path.sectorX,
+			system->m_path.sectorY, system->m_path.sectorZ, this->seed, UNIVERSE_SEED };
 	MTRand rand;
-	rand.seed(_init, 5);
+	rand.seed(_init, 6);
 
 	if (m_population < fixed(1,1000)) return;
 
@@ -1902,6 +1902,7 @@ void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 		wr.Byte(1);
 		wr.Int32(s->m_path.sectorX);
 		wr.Int32(s->m_path.sectorY);
+		wr.Int32(s->m_path.sectorZ);
 		wr.Int32(s->m_path.systemIndex);
 	} else {
 		wr.Byte(0);
@@ -1913,8 +1914,9 @@ StarSystem *StarSystem::Unserialize(Serializer::Reader &rd)
 	if (rd.Byte()) {
 		int sec_x = rd.Int32();
 		int sec_y = rd.Int32();
+		int sec_z = rd.Int32();
 		int sys_idx = rd.Int32();
-		return StarSystem::GetCached(SystemPath(sec_x, sec_y, sys_idx));
+		return StarSystem::GetCached(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
 		return 0;
 	}

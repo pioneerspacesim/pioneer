@@ -1,1 +1,0 @@
-CustomSystem:new("Kui 79",{'STAR_M', 'STAR_M'}):add_to_sector(-1,-2,v(0.842,0.549,0.514))

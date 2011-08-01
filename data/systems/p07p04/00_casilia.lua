@@ -1,1 +1,0 @@
-CustomSystem:new("Casilia",{'STAR_A'}):add_to_sector(7,4,v(0.279,0.600,-0.126))

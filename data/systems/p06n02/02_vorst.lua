@@ -1,1 +1,0 @@
-CustomSystem:new("Vorst",{'STAR_M'}):add_to_sector(6,-2,v(0.305,0.984,0.757))

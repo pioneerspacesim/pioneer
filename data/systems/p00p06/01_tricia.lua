@@ -1,1 +1,0 @@
-CustomSystem:new("Tricia",{'STAR_G', 'STAR_K'}):add_to_sector(0,6,v(0.207,0.302,-0.880))

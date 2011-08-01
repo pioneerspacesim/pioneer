@@ -1,1 +1,0 @@
-CustomSystem:new("Idle",{'STAR_M', 'STAR_M'}):add_to_sector(-3,1,v(0.236,0.014,-0.356))

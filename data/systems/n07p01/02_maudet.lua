@@ -1,1 +1,0 @@
-CustomSystem:new("Maudet",{'STAR_M'}):add_to_sector(-7,1,v(0.746,0.359,-0.709))
