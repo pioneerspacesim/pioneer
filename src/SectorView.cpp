@@ -479,8 +479,8 @@ void SectorView::Update()
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
-		m_rot_x += motion[1];
-		m_rot_z += motion[0];
+		m_rot_x += 0.2f*(float)motion[1];
+		m_rot_z += 0.2f*(float)motion[0];
 	}
 	// clamp x rotation because without it, getting lost is easier
 	m_rot_x = Clamp(m_rot_x, -170.0f, -10.0f);
