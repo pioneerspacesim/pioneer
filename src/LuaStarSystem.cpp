@@ -61,7 +61,7 @@ static int l_starsystem_get_station_paths(lua_State *l)
 
 	for (std::vector<SBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
 	{
-		SystemPath *station_path = new SystemPath(path.sectorX, path.sectorY, path.systemIndex, (*i)->id);
+		SystemPath *station_path = new SystemPath(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, (*i)->id);
 
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
 		LuaSystemPath::PushToLuaGC(station_path);
@@ -104,7 +104,7 @@ static int l_starsystem_get_body_paths(lua_State *l)
 
 	for (std::vector<SBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
 	{
-		SystemPath *body_path = new SystemPath(path.sectorX, path.sectorY, path.systemIndex, (*i)->id);
+		SystemPath *body_path = new SystemPath(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, (*i)->id);
 
 		lua_pushinteger(l, lua_objlen(l, -1)+1);
 		LuaSystemPath::PushToLuaGC(body_path);

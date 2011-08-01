@@ -16,6 +16,7 @@
  * A <SystemPath> consists of four components
  *  - the X coordinate of the sector
  *  - the Y coordinate of the sector
+ *  - the Z coordinate of the sector
  *  - the system number within that sector
  *  - optionally, the index of a body within that system
  *
@@ -33,7 +34,7 @@
  *
  * Creates a new <SystemPath> object
  *
- * > path = SystemPath.New(sectorX, sectorY, systemIndex, bodyIndex)
+ * > path = SystemPath.New(sectorX, sectorY, sectorZ, systemIndex, bodyIndex)
  *
  * Parameters:
  *
@@ -51,7 +52,7 @@
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 10, alpha 13 (updated)
  *
  * Status:
  *
@@ -260,6 +261,27 @@ static int l_sbodypath_attr_sector_y(lua_State *l)
 }
 
 /*
+ * Attribute: sectorZ
+ *
+ * The Z component of the path
+ *
+ * Availability:
+ *
+ *   alpha 13
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_sbodypath_attr_sector_z(lua_State *l)
+{
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	lua_pushinteger(l, path->sectorZ);
+	return 1;
+}
+
+/*
  * Attribute: systemIndex
  *
  * The system index component of the path
@@ -328,6 +350,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 	static const luaL_reg l_attrs[] = {
 		{ "sectorX",     l_sbodypath_attr_sector_x     },
 		{ "sectorY",     l_sbodypath_attr_sector_y     },
+		{ "sectorZ",     l_sbodypath_attr_sector_z     },
 		{ "systemIndex", l_sbodypath_attr_system_index },
 		{ "bodyIndex",   l_sbodypath_attr_body_index   },
 		{ 0, 0 }
