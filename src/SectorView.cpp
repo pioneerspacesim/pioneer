@@ -442,8 +442,9 @@ void SectorView::OnKeyPress(SDL_keysym *keysym)
 			GotoSystem(m_hyperspaceTarget);
 
 		if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-			m_rot_x = m_rot_z = 0;
-			m_zoom = 1.2;
+			m_rot_x = -45.0f;
+			m_rot_z = 0;
+			m_zoom = 2.0f;
 		}
 	}
 
