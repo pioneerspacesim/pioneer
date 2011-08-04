@@ -565,11 +565,10 @@ void SectorView::Update()
 			m_shortDesc->SetText(sys->GetShortDescription());
 
 			sys->Release();
-
-			// Think we'll only need to do this when our location has changed.
-			ShrinkCache();
 		}
 	}
+
+	ShrinkCache();
 }
 
 void SectorView::MouseButtonDown(int button, int x, int y)
@@ -587,15 +586,12 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 
 	Sector *s = 0;
 
-	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++) {
-		if ((*i).first == loc)
-			s = (*i).second;
-	}
+	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
+	if (i != m_sectorCache.end())
+		return (*i).second;
 
-	if (!s) {
-		s = new Sector(sectorX, sectorY, sectorZ);
-		m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
-	}
+	s = new Sector(sectorX, sectorY, sectorZ);
+	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
 
 	return s;
 }
@@ -603,12 +599,12 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	const int xmin = m_selected.sectorX-DRAW_RAD;
-	const int xmax = m_selected.sectorX+DRAW_RAD;
-	const int ymin = m_selected.sectorY-DRAW_RAD;
-	const int ymax = m_selected.sectorY+DRAW_RAD;
-	const int zmin = m_selected.sectorZ-DRAW_RAD;
-	const int zmax = m_selected.sectorZ+DRAW_RAD;
+	const int xmin = floorf(m_pos.x)-DRAW_RAD;
+	const int xmax = ceilf(m_pos.x)+DRAW_RAD;
+	const int ymin = floorf(m_pos.y)-DRAW_RAD;
+	const int ymax = ceilf(m_pos.y)+DRAW_RAD;
+	const int zmin = floorf(m_pos.z)-DRAW_RAD;
+	const int zmax = ceilf(m_pos.z)+DRAW_RAD;
 
 	std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
 	while (iter != m_sectorCache.end())	{
