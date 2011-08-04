@@ -163,7 +163,7 @@ void SectorView::Draw3D()
 	vector3f playerPos(0.0f);
 	if (m_selected.systemIndex < playerSec->m_systems.size())
 	{
-		playerPos = Sector::SIZE * vector3f((float)playerLoc.sectorX, (float)playerLoc.sectorY, (float)playerLoc.sectorZ)
+		playerPos = Sector::SIZE * vector3f(float(playerLoc.sectorX), float(playerLoc.sectorY), float(playerLoc.sectorZ))
 			+ playerSec->m_systems[playerLoc.systemIndex].p;
 	}
 	
@@ -281,7 +281,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
 
-		const vector3f sysAbsPos = Sector::SIZE*vector3f((float)sx, (float)sy, (float)sz) + (*i).p;
+		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toPlayer = playerAbsPos - sysAbsPos;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 		const float distanceFade = (OUTER_RADIUS - Clamp(toCentreOfView.Length()-0.5f*INNER_RADIUS, 0.0f, OUTER_RADIUS)) / OUTER_RADIUS;
@@ -477,8 +477,8 @@ void SectorView::Update()
 	if (Pi::MouseButtonState(3)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
-		m_rot_x += 0.2f*(float)motion[1];
-		m_rot_z += 0.2f*(float)motion[0];
+		m_rot_x += 0.2f*float(motion[1]);
+		m_rot_z += 0.2f*float(motion[0]);
 	}
 	// clamp x rotation because without it, getting lost is easier
 	m_rot_x = Clamp(m_rot_x, -170.0f, -10.0f);
