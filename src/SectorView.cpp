@@ -287,24 +287,26 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		const float distanceFade = (OUTER_RADIUS - Clamp(toCentreOfView.Length()-0.5f*INNER_RADIUS, 0.0f, OUTER_RADIUS)) / OUTER_RADIUS;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
-		
-		// only do this once we've pretty much stopped moving.
-		vector3f diff = vector3f(
-				fabs(m_posMovingTo.x - m_pos.x),
-				fabs(m_posMovingTo.y - m_pos.y),
-				fabs(m_posMovingTo.z - m_pos.z));
-		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-		if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
-			StarSystem* pSS = StarSystem::GetCached(current);
-			if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
-			{
-				(*i).SetInhabited(true);
+
+		if (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
+			// only do this once we've pretty much stopped moving.
+			vector3f diff = vector3f(
+					fabs(m_posMovingTo.x - m_pos.x),
+					fabs(m_posMovingTo.y - m_pos.y),
+					fabs(m_posMovingTo.z - m_pos.z));
+			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
+			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
+				StarSystem* pSS = StarSystem::GetCached(current);
+				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
+				{
+					(*i).SetInhabited(true);
+				}
+				else
+				{
+					(*i).SetInhabited(false);
+				}
+				pSS->Release();
 			}
-			else
-			{
-				(*i).SetInhabited(false);
-			}
-			pSS->DecRefCount();
 		}
 		
 		glPushMatrix();
