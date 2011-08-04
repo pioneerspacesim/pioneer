@@ -340,17 +340,11 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			glEnd();
 		}
 
-		if (current == m_selected) {
-			// draw an arrow down axis towards galactic centre, to keep bearings
-			// XXX note it doesn't track the galactic centre, just points down axis
-			glColor4f(0, 0, 0.8f, 1.0f);
-			_draw_arrow(vector3f(-3.0f, 0, 0));
-			// on selected system, give arrow towards sol to keep bearings
-			if (!(current.sectorX==0 && current.sectorY==0 && current.sectorZ==0 && current.systemIndex==0)) {
-				glColor4f(0, 0.8f, 0, 1.0f);
-				_draw_arrow(-3.0f*sysAbsPos.Normalized());
-			}
+		if (current == m_selected && current != SystemPath(0,0,0,0)) {
+			glColor4f(0, 0.8f, 0, 1.0f);
+			_draw_arrow(-3.0f*sysAbsPos.Normalized());
 		}
+
 		// draw star blob itself
 		glColor4f(col[0], col[1], col[2], 1.0f);
 		glPushMatrix();
