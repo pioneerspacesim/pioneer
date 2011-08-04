@@ -263,34 +263,19 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 {
 	SystemPath playerLoc = Pi::currentSystem->GetPath();
 	Sector* ps = GetCached(sx, sy, sz);
-#if 0
-	glColor3f(0,.8,0);
-	glBegin(GL_LINE_LOOP);
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, Sector::SIZE, 0);
-		glVertex3f(Sector::SIZE, Sector::SIZE, 0);
-		glVertex3f(Sector::SIZE, 0, 0);
-	glEnd();
-	glBegin(GL_LINE_LOOP);
-		glVertex3f(0, 0, Sector::SIZE);
-		glVertex3f(0, Sector::SIZE, Sector::SIZE);
-		glVertex3f(Sector::SIZE, Sector::SIZE, Sector::SIZE);
-		glVertex3f(Sector::SIZE, 0, Sector::SIZE);
-	glEnd();
-	glBegin(GL_LINES);
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, 0, Sector::SIZE);
 
-		glVertex3f(0, Sector::SIZE, 0);
-		glVertex3f(0, Sector::SIZE, Sector::SIZE);
+	int cz = floor(m_pos.z+0.5f);
 
-		glVertex3f(Sector::SIZE, Sector::SIZE, 0);
-		glVertex3f(Sector::SIZE, Sector::SIZE, Sector::SIZE);
+	if (cz == sz) {
+		glColor3f(0,0.2f,0);
+		glBegin(GL_LINE_LOOP);
+			glVertex3f(0, 0, 0);
+			glVertex3f(0, Sector::SIZE, 0);
+			glVertex3f(Sector::SIZE, Sector::SIZE, 0);
+			glVertex3f(Sector::SIZE, 0, 0);
+		glEnd();
+	}
 
-		glVertex3f(Sector::SIZE, 0, 0);
-		glVertex3f(Sector::SIZE, 0, Sector::SIZE);
-	glEnd();
-#endif	
 	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
@@ -338,11 +323,23 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			glEnd();
 		} else {
 			glColor4f(distanceFade, distanceFade, distanceFade, 0.2f);
-			glBegin(GL_LINE_STRIP);
-				glVertex3f(0, 0, toCentreOfView.z);
+			glBegin(GL_LINES);
+				float z = -(*i).p.z;
+				if (sz <= cz)
+					z = z+abs(cz-sz)*Sector::SIZE;
+				else
+					z = z-abs(cz-sz)*Sector::SIZE;
+
+				glVertex3f(0, 0, z);
 				glVertex3f(0, 0, 0);
+
+				glVertex3f(-0.1f, -0.1f, z);
+				glVertex3f(0.1f, 0.1f, z);
+				glVertex3f(-0.1f, 0.1f, z);
+				glVertex3f(0.1f, -0.1f, z);
 			glEnd();
 		}
+
 		if (current == m_selected) {
 			// draw an arrow down axis towards galactic centre, to keep bearings
 			// XXX note it doesn't track the galactic centre, just points down axis
