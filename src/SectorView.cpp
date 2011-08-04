@@ -294,7 +294,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				fabs(m_posMovingTo.y - m_pos.y),
 				fabs(m_posMovingTo.z - m_pos.z));
 		// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-		if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f ) {
+		if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
 			StarSystem* pSS = StarSystem::GetCached(current);
 			if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
 			{
