@@ -25,9 +25,15 @@ namespace Gui {
 		sigc::signal<void> onValueChanged;
 	private:
 
+		void OnRawMouseDown(MouseButtonEvent *e);
+		void Unfocus();
+
 		std::string m_text;
 		int m_cursPos;
 		int m_scroll;
+
+		bool m_justFocused;
+		sigc::connection m_clickout;
 	};
 }
 

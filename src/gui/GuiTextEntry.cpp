@@ -12,6 +12,7 @@ TextEntry::TextEntry()
 
 TextEntry::~TextEntry()
 {
+	m_clickout.disconnect();
 }
 
 void TextEntry::OnKeyPress(const SDL_keysym *sym)
@@ -39,6 +40,10 @@ void TextEntry::OnKeyPress(const SDL_keysym *sym)
 		SetCursorPos(m_cursPos+1);
 		changed = true;
 	}
+
+	if (sym->sym == SDLK_RETURN)
+		Unfocus();
+
 	onKeyPress.emit(sym);
 	if (changed) onValueChanged.emit();
 }
@@ -53,7 +58,9 @@ bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 	unsigned int len = m_text.size();
 	unsigned int i = 0;
 
+	m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
 	GrabFocus();
+	m_justFocused = true;
 
 	for (; i<len; i++) {
 		float x,y;
@@ -68,8 +75,25 @@ bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 	return false;
 }
 
+void TextEntry::OnRawMouseDown(MouseButtonEvent *e)
+{
+	if (!m_justFocused)
+		Unfocus();
+}
+
+void TextEntry::Unfocus()
+{
+	if (!Screen::IsFocused(this))
+		return;
+	Screen::ClearFocus();
+	m_clickout.disconnect();
+	SetCursorPos(0);
+}
+
 void TextEntry::Draw()
 {
+	m_justFocused = false;
+
 	float size[2];
 	GetSize(size);
 
