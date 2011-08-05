@@ -23,6 +23,7 @@ Alpha 13
       instead of flashing constantly (#319, #326)
     * Support for translated strings; first language is German (#332)
     * Name & title/occupation overlaid on station faces (#346)
+    * Added 'Inconsolata' font for debug and (later) console text (#343)
 
   * Fixes
     * Move sector view to current system on first open (#262)
@@ -46,9 +47,10 @@ Alpha 13
     * Fix occasional crash on game load (#331)
     * Fix terrain jitter (#179)
     * Support extended ASCII characters in texture fonts (#338)
-	* Make sure all bodies have a minimum radius of at least 10km (#321, #301)
+    * Make sure all bodies have a minimum radius of at least 10km (#321, #301)
     * All city models checked and proper collision meshes added, drastically
       improving city rendering performance (#348)
+    * Fix crash when music changes while in hyperspace (#345)
 
   * Internal changes
     * Merged SysLoc and SBodyPath into a single SystemPath class (#261)
@@ -137,7 +139,7 @@ Alpha 11
     * Remove duplicate system 'EI Cancri' [2,0]
     * Crash on call to Lua method Player.AddCrime
     * Crash on any mission failure (#144)
-	* Mission status screen layout tweaks (#145)
+    * Mission status screen layout tweaks (#145)
 
   * Internal changes
     * Lots of code cleanups, warnings silenced, etc

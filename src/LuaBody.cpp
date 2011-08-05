@@ -163,6 +163,10 @@ static int l_body_attr_super_type(lua_State *l)
  * Only valid for dynamic <Bodies>. For non-dynamic bodies <frameBody> will be
  * nil.
  *
+ * <frameBody> can also be nil if this dynamic body is in a frame with no
+ * non-dynamic body. This most commonly occurs when the player is in
+ * hyperspace.
+ *
  * Availability:
  *
  *   alpha 12

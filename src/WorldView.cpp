@@ -93,8 +93,10 @@ WorldView::WorldView(): View(),
 	m_rightRegion2->Add(m_flightStatus, 2, 0);
 
 #if DEVKEYS
+	Gui::Screen::PushFont("ConsoleFont");
 	m_debugInfo = (new Gui::Label(""))->Color(0.8f, 0.8f, 0.8f);
 	Add(m_debugInfo, 10, 200);
+	Gui::Screen::PopFont();
 #endif
 
 	m_hudVelocity = (new Gui::Label(""))->Color(s_hudTextColor);

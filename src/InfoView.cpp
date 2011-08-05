@@ -84,10 +84,10 @@ public:
 			innerbox->Add(l, 560, ypos);
 
 			switch ((*i)->status) {
-				case Mission::FAILED: l = new Gui::Label("#f00Failed"); break;
-				case Mission::COMPLETED: l = new Gui::Label("#ff0Completed"); break;
+                case Mission::FAILED: l = new Gui::Label(std::string("#f00")+std::string(Lang::FAILED)); break;
+                case Mission::COMPLETED: l = new Gui::Label(std::string("#ff0")+std::string(Lang::COMPLETED)); break;
 				default:
-				case Mission::ACTIVE: l = new Gui::Label("#0f0Active"); break;
+                case Mission::ACTIVE: l = new Gui::Label(std::string("#0f0")+std::string(Lang::ACTIVE)); break;
 			}
 			innerbox->Add(l, 660, ypos);
 

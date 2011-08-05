@@ -1107,3 +1107,9 @@ AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Autopilot: Flieg nach hoher Umlaufbahn um %s
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Hyperraumwolke Analysator: Set Hyperraum Ziel um dieser Abfahrt zu folgen
+FAILED
+    Durchgefallen
+COMPLETED
+    Fertig
+ACTIVE
+    Aktuell
