@@ -860,7 +860,7 @@ AND_INDIGENOUS_MICROBIAL_LIFE
 ORBITAL_STARPORT
     Umkreisiger Raumschiff Hafen
 STARPORT
-    Raumschiff Hafen
+    Raumschiffhafen
 UNKNOWN
     <unknown>
 UNEXPLORED_SYSTEM_NO_DATA
@@ -948,15 +948,11 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demografie
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    # WHAT A MESS!
-    Stabiles System mit %d großen %s and %d Raumschiffha%fen.\n\n%s
+    Stabiles System mit %d großen %s and %d %s.\n\n%s
 BODY
     Körpern
 BODIES
     Körper
-PLURAL_SUFFIX
-    # THIS IS A HUGE ASSUMPTION BASED ON ENGLISH.
-    e
 SYSTEM_TYPE
     Systemtyp:
 GOVERNMENT_TYPE
