@@ -948,13 +948,11 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %d major %s and %d starport%s.\n\n%s
+    Stable system with %d major %s and %d %s.\n\n%s
 BODY
     body
 BODIES
     bodies
-PLURAL_SUFFIX
-    s
 SYSTEM_TYPE
     System type:
 GOVERNMENT_TYPE
