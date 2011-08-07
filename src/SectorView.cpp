@@ -450,16 +450,22 @@ void SectorView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
 
+	matrix4x4f rot = matrix4x4f::Identity();
+	rot.RotateX(DEG2RAD(-m_rot_x));
+	rot.RotateZ(DEG2RAD(-m_rot_z));
+
 	float moveSpeed = 1.0;
 	if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 	if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
 	
-	if (Pi::KeyState(SDLK_LEFT)) m_posMovingTo.x -= moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_RIGHT)) m_posMovingTo.x += moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_UP)) m_posMovingTo.y += moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_DOWN)) m_posMovingTo.y -= moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_PAGEUP)) m_posMovingTo.z += moveSpeed*frameTime;
-	if (Pi::KeyState(SDLK_PAGEDOWN)) m_posMovingTo.z -= moveSpeed*frameTime;
+	float move = moveSpeed*frameTime;
+	if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
+		m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
+	if (Pi::KeyState(SDLK_UP) || Pi::KeyState(SDLK_DOWN))
+		m_posMovingTo += vector3f(0, Pi::KeyState(SDLK_DOWN) ? -move : move, 0) * rot;
+	if (Pi::KeyState(SDLK_PAGEUP) || Pi::KeyState(SDLK_PAGEDOWN))
+		m_posMovingTo += vector3f(0,0, Pi::KeyState(SDLK_PAGEUP) ? -move : move) * rot;
+
 	if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(0.5f, frameTime);
 	if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(2.0f, frameTime);
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(0.5f, frameTime);
